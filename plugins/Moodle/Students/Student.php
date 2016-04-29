@@ -321,7 +321,7 @@ filecontent = base64_encode
 	$filename = $_POST['userId'].'.jpg';
 
 	function base64_encode_file ($file) {
-		if(!file_exists($file))
+		if ( !file_exists($file))
 			return false;
 		else
 			$filename = htmlentities($file);
@@ -335,7 +335,7 @@ filecontent = base64_encode
 	global $RosarioPath;
 	$filecontent = base64_encode_file ($RosarioPath.$_POST['photoPath'].$_POST['sYear'].'/'.$_POST['userId'].'.jpg');
 	
-	if(!$filecontent)
+	if ( ! $filecontent)
 	{
 		global $error;
 
@@ -375,7 +375,3 @@ function core_files_upload_response($response)
 */
 	return null;
 }
-
-
-
-?>

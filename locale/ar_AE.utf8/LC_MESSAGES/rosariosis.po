@@ -3813,8 +3813,8 @@ msgstr "هل أنت متأكد من أنك تريد تعيين هذا الرمز
 #: modules/Food_Service/Students/Accounts.php:16
 #: modules/Food_Service/Users/Accounts.php:34
 #, php-format
-msgid "That barcode is already assigned to Student <B>%s</B>."
-msgstr "هذا الرمز الشريطي تم تعيينه مسبقاً للطالب <B>% s</B>."
+msgid "That barcode is already assigned to Student <b>%s</b>."
+msgstr "هذا الرمز الشريطي تم تعيينه مسبقاً للطالب <b>% s</b>."
 
 #: modules/Food_Service/Students/Accounts.php:16
 #: modules/Food_Service/Students/Accounts.php:25
@@ -3827,8 +3827,8 @@ msgstr ""
 #: modules/Food_Service/Students/Accounts.php:25
 #: modules/Food_Service/Users/Accounts.php:25
 #, php-format
-msgid "That barcode is already assigned to User <B>%s</B>."
-msgstr "هذا الرمز الشريطي تم تعيينه مسبقاً للمستخدم <B>% s</B>."
+msgid "That barcode is already assigned to User <b>%s</b>."
+msgstr "هذا الرمز الشريطي تم تعيينه مسبقاً للمستخدم <b>% s</b>."
 
 #: modules/Food_Service/Students/Accounts.php:89
 msgid "Include Inactive Students in Shared Account"
@@ -3860,10 +3860,10 @@ msgstr ""
 
 #: modules/Food_Service/Students/Reminders.php:19
 msgid ""
-"%N now has a <B>negative balance</B> in %h lunch account. Please send in the "
+"%N now has a <b>negative balance</b> in %h lunch account. Please send in the "
 "negative balance plus %T.  THANK YOU!"
 msgstr ""
-"% N أصبح <B>الرصيد السلبي</B> في حساب الغداء % h. الرجاء إرسال في الرصيد "
+"% N أصبح <b>الرصيد السلبي</b> في حساب الغداء % h. الرجاء إرسال في الرصيد "
 "السلبي بالإضافة إلى ت %.  شكرا!"
 
 #: modules/Food_Service/Students/Reminders.php:21
@@ -4039,10 +4039,10 @@ msgstr ""
 
 #: modules/Food_Service/Users/Reminders.php:7
 msgid ""
-"You now have a <B>negative balance</B> in your lunch account. Please send in "
+"You now have a <b>negative balance</b> in your lunch account. Please send in "
 "the negative balance plus %T.  THANK YOU!"
 msgstr ""
-"الآن لديك <B>الرصيد السلبي</B> في حساب الغداء الخاصة بك. الرجاء إرسال في "
+"الآن لديك <b>الرصيد السلبي</b> في حساب الغداء الخاصة بك. الرجاء إرسال في "
 "الرصيد السلبي بالإضافة إلى ت %.  شكرا!"
 
 #: modules/Food_Service/Users/Reminders.php:9
@@ -4521,8 +4521,8 @@ msgid "Final Grade"
 msgstr "الصف النهائي"
 
 #: modules/Grades/FinalGrades.php:106
-msgid "Abs<BR />YTD / MP"
-msgstr "القيمة المطلقة<BR>منذ بداية العام/MP"
+msgid "Abs<br />YTD / MP"
+msgstr "القيمة المطلقة<br>منذ بداية العام/MP"
 
 #: modules/Grades/FinalGrades.php:174 modules/Grades/InputFinalGrades.php:573
 #: modules/Grades/Menu.php:20 modules/Grades/Menu.php:50
@@ -6994,12 +6994,12 @@ msgid "Add an <b>Existing</b> Address"
 msgstr "إضافة عنوان <b>موجود</b>"
 
 #: modules/Students/includes/Address.inc.php:446
-msgid "Add a <b>New</b> Contact<BR />without an Address"
-msgstr "إضافة جهة اتصال <b>جديدة</b><BR>دون عنوان"
+msgid "Add a <b>New</b> Contact<br />without an Address"
+msgstr "إضافة جهة اتصال <b>جديدة</b><br>دون عنوان"
 
 #: modules/Students/includes/Address.inc.php:455
-msgid "Add an <b>Existing</b> Contact<BR />without an Address"
-msgstr "إضافة جهة اتصال <b>موجودة</b><BR>دون عنوان"
+msgid "Add an <b>Existing</b> Contact<br />without an Address"
+msgstr "إضافة جهة اتصال <b>موجودة</b><br>دون عنوان"
 
 #: modules/Students/includes/Address.inc.php:473
 msgid "Contacts without an Address"
@@ -8157,8 +8157,8 @@ msgstr "المادية"
 #~ msgid "We hereby recognize"
 #~ msgstr "ونحن نعترف بموجب هذا"
 
-#~ msgid "Who has completed all the academic<BR />requirements for"
-#~ msgstr "الذي أكمل جميع الأكاديمية<BR>متطلبات"
+#~ msgid "Who has completed all the academic<br />requirements for"
+#~ msgstr "الذي أكمل جميع الأكاديمية<br>متطلبات"
 
 #~ msgid "Academic Excellence in"
 #~ msgstr "التفوق الأكاديمي في"

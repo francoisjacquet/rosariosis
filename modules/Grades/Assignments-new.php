@@ -1,36 +1,28 @@
 <?php
-include 'modules/Grades/DeletePromptX.fnc.php';
-//echo '<pre>'; var_dump($_REQUEST); echo '</pre>';
-DrawHeader(ProgramTitle());
-$_ROSARIO['allow_edit'] = ($_REQUEST['allow_edit']=='Y');
 
-if($_REQUEST['day_values'] && $_POST['day_values'])
+DrawHeader( ProgramTitle() );
+
+$_ROSARIO['allow_edit'] = ( $_REQUEST['allow_edit'] === 'Y' );
+
+if ( isset( $_POST['day_values'], $_POST['month_values'], $_POST['year_values'] ) )
 {
-	foreach($_REQUEST['day_values'] as $id=>$values)
-	{
-		if($_REQUEST['day_values'][$id]['ASSIGNED_DATE'] && $_REQUEST['month_values'][$id]['ASSIGNED_DATE'] && $_REQUEST['year_values'][$id]['ASSIGNED_DATE'])
-		{
-			while(!VerifyDate($_REQUEST['day_values'][$id]['ASSIGNED_DATE'].'-'.$_REQUEST['month_values'][$id]['ASSIGNED_DATE'].'-'.$_REQUEST['year_values'][$id]['ASSIGNED_DATE']))
-				$_REQUEST['day_values'][$id]['ASSIGNED_DATE']--;
-			$_REQUEST['values'][$id]['ASSIGNED_DATE'] = $_REQUEST['day_values'][$id]['ASSIGNED_DATE'].'-'.$_REQUEST['month_values'][$id]['ASSIGNED_DATE'].'-'.$_REQUEST['year_values'][$id]['ASSIGNED_DATE'];
-		}
-		if($_REQUEST['day_values'][$id]['DUE_DATE'] && $_REQUEST['month_values'][$id]['DUE_DATE'] && $_REQUEST['year_values'][$id]['DUE_DATE'])
-		{
-			while(!VerifyDate($_REQUEST['day_values'][$id]['DUE_DATE'].'-'.$_REQUEST['month_values'][$id]['DUE_DATE'].'-'.$_REQUEST['year_values'][$id]['DUE_DATE']))
-				$_REQUEST['day_values'][$id]['DUE_DATE']--;
-			$_REQUEST['values'][$id]['DUE_DATE'] = $_REQUEST['day_values'][$id]['DUE_DATE'].'-'.$_REQUEST['month_values'][$id]['DUE_DATE'].'-'.$_REQUEST['year_values'][$id]['DUE_DATE'];
-		}
-	}
-	$_POST['values'] = $_REQUEST['values'];
-	unset($_REQUEST['day_values']); unset($_REQUEST['month_values']); unset($_REQUEST['year_values']);
-	unset($_SESSION['_REQUEST_vars']['day_values']); unset($_SESSION['_REQUEST_vars']['month_values']); unset($_SESSION['_REQUEST_vars']['year_values']);
+	$requested_dates = RequestedDates(
+		$_REQUEST['year_values'],
+		$_REQUEST['month_values'],
+		$_REQUEST['day_values']
+	);
+
+	$_REQUEST['values'] = array_replace_recursive( (array) $_REQUEST['values'], $requested_dates );
+
+	$_POST['values'] = array_replace_recursive( (array) $_POST['values'], $requested_dates );
 }
 
-if($_REQUEST['modfunc']=='update')
+if ( $_REQUEST['modfunc']=='update')
 {
-	if($_REQUEST['values'] && $_POST['values'])
+	if ( isset( $_POST['values'] )
+		&& count( $_POST['values'] ) )
 	{
-		foreach($_REQUEST['values'] as $id=>$columns)
+		foreach ( (array) $_REQUEST['values'] as $id => $columns)
 		{
 			//FJ added SQL constraint TITLE & POINTS are not null
 			if ((!isset($columns['TITLE']) || !empty($columns['TITLE'])) && (!isset($columns['POINTS']) || !empty($columns['POINTS'])))
@@ -39,26 +31,26 @@ if($_REQUEST['modfunc']=='update')
 				//FJ default points
 				if ((empty($columns['POINTS']) || (is_numeric($columns['POINTS']) && intval($columns['POINTS'])>=0)) && (empty($columns['DEFAULT_POINTS']) || $columns['DEFAULT_POINTS']=='*' || (is_numeric($columns['DEFAULT_POINTS']) && intval($columns['DEFAULT_POINTS'])>=0)))
 				{
-					if($id!='new')
+					if ( $id!='new')
 					{
-						if($_REQUEST['tab_id']!='new')
+						if ( $_REQUEST['tab_id']!='new')
 						{
 							$sql = "UPDATE GRADEBOOK_ASSIGNMENTS SET ";
-							//if(!$columns['COURSE_ID'])
+							//if ( ! $columns['COURSE_ID'])
 							//	$columns['COURSE_ID'] = 'N';
 						}
 						else
 							$sql = "UPDATE GRADEBOOK_ASSIGNMENT_TYPES SET ";
 
-						foreach($columns as $column=>$value)
+						foreach ( (array) $columns as $column => $value)
 						{
-							if($column=='POINTS')
+							if ( $column=='POINTS')
 								$value += 0;
-							elseif($column=='FINAL_GRADE_PERCENT' && $value!='')
+							elseif ( $column=='FINAL_GRADE_PERCENT' && $value!='')
 								$value /= 100;
-							elseif($column=='COURSE_ID')
+							elseif ( $column=='COURSE_ID')
 							{
-								if($value=='Y')
+								if ( $value=='Y')
 								{
 									$column = 'COURSE_PERIOD_ID';
 									$value = '';
@@ -71,12 +63,12 @@ if($_REQUEST['modfunc']=='update')
 								}
 							}
 							//FJ default points
-							elseif($column=='DEFAULT_POINTS' && $value=='*')
+							elseif ( $column=='DEFAULT_POINTS' && $value=='*')
 								$value = '-1';
 							$sql .= $column."='".$value."',";
 						}
 
-						if($_REQUEST['tab_id']!='new')
+						if ( $_REQUEST['tab_id']!='new')
 							$sql = mb_substr($sql,0,-1) . " WHERE ASSIGNMENT_ID='".$id."'";
 						else
 							$sql = mb_substr($sql,0,-1) . " WHERE ASSIGNMENT_TYPE_ID='".$id."'";
@@ -84,17 +76,17 @@ if($_REQUEST['modfunc']=='update')
 					}
 					else
 					{
-						if($_REQUEST['tab_id']!='new')
+						if ( $_REQUEST['tab_id']!='new')
 						{
 							$sql = 'INSERT INTO GRADEBOOK_ASSIGNMENTS ';
 							$fields = "ASSIGNMENT_ID,STAFF_ID,MARKING_PERIOD_ID,";
 							$values = db_seq_nextval('GRADEBOOK_ASSIGNMENTS_SEQ').",'".User('STAFF_ID')."','".UserMP()."',";
-							if($_REQUEST['tab_id'])
+							if ( $_REQUEST['tab_id'])
 							{
 								$fields .= "ASSIGNMENT_TYPE_ID,";
 								$values .= "'".$_REQUEST['tab_id']."',";
 							}
-							if(!$columns['COURSE_ID'])
+							if ( ! $columns['COURSE_ID'])
 								$columns['COURSE_ID'] = 'N';
 						}
 						else
@@ -105,15 +97,15 @@ if($_REQUEST['modfunc']=='update')
 						}
 
 						$go = false;
-						foreach($columns as $column=>$value)
+						foreach ( (array) $columns as $column => $value)
 						{
-							if($column=='POINTS' && $value!='')
+							if ( $column=='POINTS' && $value!='')
 								$value = ($value+0).'';
-							elseif($column=='FINAL_GRADE_PERCENT' && $value!='')
+							elseif ( $column=='FINAL_GRADE_PERCENT' && $value!='')
 								$value = ($value/100).'';
-							elseif($column=='COURSE_ID')
+							elseif ( $column=='COURSE_ID')
 							{
-								if($value=='Y')
+								if ( $value=='Y')
 								{
 									$column = 'COURSE_PERIOD_ID';
 									$value = '';
@@ -128,19 +120,19 @@ if($_REQUEST['modfunc']=='update')
 								}
 							}
 							//FJ default points
-							elseif($column=='DEFAULT_POINTS' && $value=='*')
+							elseif ( $column=='DEFAULT_POINTS' && $value=='*')
 								$value = '-1';
-							if($value!='')
+							if ( $value!='')
 							{
 								$fields .= $column.',';
 								$values .= "'".$value."',";
-								if($column!='ASSIGNMENT_TYPE_ID' && $column!='ASSIGNED_DATE' && $column!='DUE_DATE' && $column!='DEFAULT_POINTS' && $column!='DESCRIPTION')
+								if ( $column!='ASSIGNMENT_TYPE_ID' && $column!='ASSIGNED_DATE' && $column!='DUE_DATE' && $column!='DEFAULT_POINTS' && $column!='DESCRIPTION')
 									$go = true;
 							}
 						}
 						$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 
-						if($go)
+						if ( $go)
 							DBQuery($sql);
 					}
 				}
@@ -151,14 +143,16 @@ if($_REQUEST['modfunc']=='update')
 				echo ErrorMessage(array(_('Please fill in the required fields')));
 		}
 	}
-	unset($_REQUEST['modfunc']);
+
+	unset( $_REQUEST['modfunc'] );
+	unset( $_SESSION['_REQUEST_vars']['modfunc'] );
 }
 
-if($_REQUEST['modfunc']=='remove')
+if ( $_REQUEST['modfunc']=='remove')
 {
-	if(DeletePromptX($_REQUEST['tab_id']!='new'?'assignment':'assignment type'))
-        {
-		if($_REQUEST['tab_id']!='new')
+	if ( DeletePrompt( $_REQUEST['tab_id'] != 'new' ? _( 'Assignment' ) : _( 'Assignment Type' ) ) )
+	{
+		if ( $_REQUEST['tab_id'] != 'new' )
 		{
 			DBQuery("DELETE FROM GRADEBOOK_GRADES WHERE ASSIGNMENT_ID='".$_REQUEST['id']."'");
 			DBQuery("DELETE FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_ID='".$_REQUEST['id']."'");
@@ -166,44 +160,46 @@ if($_REQUEST['modfunc']=='remove')
 		else
 		{
 			$assignments_RET = DBGet(DBQuery("SELECT ASSIGNMENT_ID FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_TYPE_ID='".$_REQUEST['id']."'"));
-			if(count($assignments_RET))
+
+			if (count($assignments_RET))
 			{
-				foreach($assignments_RET as $assignment_id)
+				foreach ( (array) $assignments_RET as $assignment_id)
 					DBQuery("DELETE FROM GRADEBOOK_GRADES WHERE ASSIGNMENT_ID='".$assignment_id['ASSIGNMENT_ID']."'");
 			}
 			DBQuery("DELETE FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_TYPE_ID='".$_REQUEST['id']."'");
 			DBQuery("DELETE FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE ASSIGNMENT_TYPE_ID='".$_REQUEST['id']."'");
 		}
-		unset($_REQUEST['id']);
-		unset($_REQUEST['modfunc']);
+
+		unset( $_REQUEST['id'] );
+
+		$_REQUEST['modfunc'] = false;
 	}
 }
 
-if(empty($_REQUEST['modfunc']))
-
+if (empty($_REQUEST['modfunc']))
 {
 	$types_RET = DBGet(DBQuery("SELECT ASSIGNMENT_TYPE_ID,TITLE,SORT_ORDER,COLOR FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE STAFF_ID='".User('STAFF_ID')."' AND COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."') ORDER BY SORT_ORDER,TITLE"),array(),array('ASSIGNMENT_TYPE_ID'));
-	if($_REQUEST['tab_id'])
+	if ( $_REQUEST['tab_id'])
 	{
-		if($_REQUEST['tab_id']!='new' && !$types_RET[$_REQUEST['tab_id']])
-			if(count($types_RET))
+		if ( $_REQUEST['tab_id']!='new' && ! $types_RET[$_REQUEST['tab_id']])
+			if (count($types_RET))
 				$_REQUEST['tab_id'] = key($types_RET).'';
 			else
 				$_REQUEST['tab_id'] = 'new';
 	}
 	else
-		if(!count($types_RET))
+		if ( !count($types_RET))
 			$_REQUEST['tab_id'] = 'new';
 
-	if(count($types_RET))
-		$tabs = array(array('title'=>_('All'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=&allow_edit='.$_REQUEST['allow_edit']));
-	foreach($types_RET as $id=>$type)
+	if (count($types_RET))
+		$tabs = array(array('title' => _('All'),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=&allow_edit='.$_REQUEST['allow_edit']));
+	foreach ( (array) $types_RET as $id => $type)
 	{
-		$tabs[] = array('title'=>$type[1]['TITLE'],'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$id.'&allow_edit='.$_REQUEST['allow_edit'],'color'=>$type[1]['COLOR']);
-		$type_options[$id] = !$_REQUEST['tab_id']&&$type[1]['COLOR']?array($type[1]['TITLE'],'<span style="color:'.$type[1]['COLOR'].'">'.$type[1]['TITLE'].'</span>'):$type[1]['TITLE'];
+		$tabs[] = array('title' => $type[1]['TITLE'],'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$id.'&allow_edit='.$_REQUEST['allow_edit'],'color' => $type[1]['COLOR']);
+		$type_options[ $id ] = ! $_REQUEST['tab_id']&&$type[1]['COLOR']?array($type[1]['TITLE'],'<span style="color:'.$type[1]['COLOR'].'">'.$type[1]['TITLE'].'</span>'):$type[1]['TITLE'];
 	}
 
-	if($_REQUEST['tab_id']!='new')
+	if ( $_REQUEST['tab_id']!='new')
 	{
 		//FJ default points
 		$sql = "SELECT ASSIGNMENT_ID,TITLE,ASSIGNED_DATE,DUE_DATE,POINTS,COURSE_ID,DESCRIPTION,ASSIGNMENT_TYPE_ID,DEFAULT_POINTS,".
@@ -213,127 +209,189 @@ if(empty($_REQUEST['modfunc']))
 			"FROM GRADEBOOK_ASSIGNMENTS ".
 			"WHERE STAFF_ID='".User('STAFF_ID')."' AND (COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."') OR COURSE_PERIOD_ID='".UserCoursePeriod()."')".($_REQUEST['tab_id']?" AND ASSIGNMENT_TYPE_ID='".$_REQUEST['tab_id']."'":'').
 			" AND MARKING_PERIOD_ID='".UserMP()."' ORDER BY ".Preferences('ASSIGNMENT_SORTING','Gradebook')." DESC,ASSIGNMENT_ID DESC,TITLE";
-		$functions = array('TITLE'=>'_makeAssnInput','POINTS'=>'_makeAssnInput','ASSIGNED_DATE'=>'_makeAssnInput','DUE_DATE'=>'_makeAssnInput','COURSE_ID'=>'_makeAssnInput','DESCRIPTION'=>'_makeAssnInput','DEFAULT_POINTS'=>'_makeAssnInput');
-		if($_REQUEST['allow_edit']=='Y' || !$_REQUEST['tab_id'])
+		$functions = array('TITLE' => '_makeAssnInput','POINTS' => '_makeAssnInput','ASSIGNED_DATE' => '_makeAssnInput','DUE_DATE' => '_makeAssnInput','COURSE_ID' => '_makeAssnInput','DESCRIPTION' => '_makeAssnInput','DEFAULT_POINTS' => '_makeAssnInput');
+		if ( $_REQUEST['allow_edit']=='Y' || ! $_REQUEST['tab_id'])
 			$functions['ASSIGNMENT_TYPE_ID'] = '_makeAssnInput';
 		$LO_ret = DBGet(DBQuery($sql),$functions);
 
-		$LO_columns = array('TITLE'=>_('Title'),'POINTS'=>_('Points'),'DEFAULT_POINTS'=>'<span title="'._('Enter an asterisk (*) to excuse student').'" style="cursor:help">'._('Default Points').'*</span>','ASSIGNED_DATE'=>_('Assigned Date'),'DUE_DATE'=>_('Due Date'),'COURSE_ID'=>_('All'),'DESCRIPTION'=>_('Description'));
+		$LO_columns = array(
+			'TITLE' => _( 'Title' ),
+			'POINTS' => _( 'Points' ),
+			'DEFAULT_POINTS' => _( 'Default Points' ) .
+				'<div class="tooltip"><i>' . _( 'Enter an asterisk (*) to excuse student' ) . '</i></div>',
+			'ASSIGNED_DATE' => _( 'Assigned Date' ),
+			'DUE_DATE' => _( 'Due Date' ),
+			'COURSE_ID' => _( 'All' ),
+			'DESCRIPTION' => _( 'Description' )
+		);
 
-		if($_REQUEST['allow_edit']=='Y' || !$_REQUEST['tab_id'])
-			$LO_columns += array('ASSIGNMENT_TYPE_ID'=>_('Type'));
+		if ( $_REQUEST['allow_edit']=='Y' || ! $_REQUEST['tab_id'])
+			$LO_columns += array('ASSIGNMENT_TYPE_ID' => _('Type'));
 
 		$link['add']['html'] = array('TITLE'=>_makeAssnInput('','TITLE'),'POINTS'=>_makeAssnInput('','POINTS'),'DEFAULT_POINTS'=>_makeAssnInput('','DEFAULT_POINTS'),'ASSIGNED_DATE'=>_makeAssnInput('','ASSIGNED_DATE'),'DUE_DATE'=>_makeAssnInput('','DUE_DATE'),'COURSE_ID'=>_makeAssnInput('','COURSE_ID'),'DESCRIPTION'=>_makeAssnInput('','DESCRIPTION'));
 
-		if(!$_REQUEST['tab_id'])
+		if ( ! $_REQUEST['tab_id'])
 			$link['add']['html'] += array('ASSIGNMENT_TYPE_ID'=>_makeAssnInput('','ASSIGNMENT_TYPE_ID'));
 
 		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&tab_id='.$_REQUEST['tab_id'].'&allow_edit='.$_REQUEST['allow_edit'];
-		$link['remove']['variables'] = array('id'=>'ASSIGNMENT_ID');
+		$link['remove']['variables'] = array('id' => 'ASSIGNMENT_ID');
 		$link['add']['html']['remove'] = button('add');
 		$link['add']['first'] = 1; // number before add link moves to top
 
-		$tabs[] = array('title'=>button('add', '', '', 'smaller'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=new&allow_edit='.$_REQUEST['allow_edit']);
+		$tabs[] = array('title'=>button('add', '', '', 'smaller'),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=new&allow_edit='.$_REQUEST['allow_edit']);
 
 		$subject = 'Assignments';
 	}
 	else
 	{
 		$sql = "SELECT ASSIGNMENT_TYPE_ID,TITLE,FINAL_GRADE_PERCENT,SORT_ORDER,COLOR FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE STAFF_ID='".User('STAFF_ID')."' AND COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."') ORDER BY SORT_ORDER,TITLE";
-		$functions = array('TITLE'=>'_makeTypeInput','SORT_ORDER'=>'_makeTypeInput','COLOR'=>'_makeColorInput');
-		if(Preferences('WEIGHT','Gradebook')=='Y')
+		$functions = array('TITLE' => '_makeTypeInput','SORT_ORDER' => '_makeTypeInput','COLOR' => '_makeColorInput');
+		if (Preferences('WEIGHT','Gradebook')=='Y')
 			$functions['FINAL_GRADE_PERCENT'] = '_makeTypeInput';
 		$LO_ret = DBGet(DBQuery($sql),$functions);
 
-		$LO_columns = array('TITLE'=>_('Type'));
+		$LO_columns = array('TITLE' => _('Type'));
 
-		if(Preferences('WEIGHT','Gradebook')=='Y')
-			$LO_columns += array('FINAL_GRADE_PERCENT'=>_('Percent'));
+		if (Preferences('WEIGHT','Gradebook')=='Y')
+			$LO_columns += array('FINAL_GRADE_PERCENT' => _('Percent'));
 
-		$LO_columns += array('SORT_ORDER'=>_('Sort Order'),'COLOR'=>_('Color'));
-		$link['add']['html'] = array('TITLE'=>_makeTypeInput('','TITLE'),'SORT_ORDER'=>_makeTypeInput('','SORT_ORDER'),'COLOR'=>_makeColorInput('','COLOR'));
+		$LO_columns += array(
+			'SORT_ORDER' => _( 'Sort Order' ),
+			'COLOR' => _( 'Color' )
+		);
 
-		if(Preferences('WEIGHT','Gradebook')=='Y')
+		$link['add']['html'] = array(
+			'TITLE' => _makeTypeInput( '', 'TITLE' ),
+			'SORT_ORDER' => _makeTypeInput( '', 'SORT_ORDER' ),
+			'COLOR' => _makeColorInput( '', 'COLOR' )
+		);
+
+		if (Preferences('WEIGHT','Gradebook')=='Y')
 			$link['add']['html']['FINAL_GRADE_PERCENT'] = _makeTypeInput('','FINAL_GRADE_PERCENT');
 
 		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&tab_id=new&allow_edit='.$_REQUEST['allow_edit'];
-		$link['remove']['variables'] = array('id'=>'ASSIGNMENT_TYPE_ID');
+		$link['remove']['variables'] = array('id' => 'ASSIGNMENT_TYPE_ID');
 		$link['add']['html']['remove'] = button('add');
 
-		$tabs[] = array('title'=>button('add', '', '', 'smaller'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=new&allow_edit='.$_REQUEST['allow_edit']);
+		$tabs[] = array('title'=>button('add', '', '', 'smaller'),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=new&allow_edit='.$_REQUEST['allow_edit']);
 
 		$subject = 'Assignmemt Types';
 	}
 
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&tab_id='.$_REQUEST['tab_id'].'" method="POST">';
-	DrawHeader('<label>'.CheckBoxOnclick('allow_edit').' '._('Edit').'</label>',SubmitButton(_('Save')));
-	echo '<BR />';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&tab_id='.$_REQUEST['tab_id'].'" method="POST">';
 
-	$LO_options = array('save'=>false,'search'=>false,'header_color'=>$types_RET[$_REQUEST['tab_id']][1]['COLOR'],
+	DrawHeader( CheckBoxOnclick( 'allow_edit', _( 'Edit' ) ), SubmitButton( _( 'Save' ) ) );
+
+	echo '<br />';
+
+	$LO_options = array('save'=>false,'search'=>false,'header_color' => $types_RET[$_REQUEST['tab_id']][1]['COLOR'],
 		'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$_REQUEST['tab_id'].'&allow_edit='.$_REQUEST['allow_edit']));
-    if ($subject == 'Assignments')
+    if ( $subject == 'Assignments')
 	    ListOutput($LO_ret,$LO_columns,'Assignment','Assignments',$link,array(),$LO_options);
     else
         ListOutput($LO_ret,$LO_columns,'Assignment Type','Assignment Types',$link,array(),$LO_options);
 
-	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
-	echo '</FORM>';
+	echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+	echo '</form>';
 }
 
 function _makeAssnInput($value,$name)
 {	global $THIS_RET,$type_options;
 
-	if($THIS_RET['ASSIGNMENT_ID'])
+	if ( $THIS_RET['ASSIGNMENT_ID'])
 		$id = $THIS_RET['ASSIGNMENT_ID'];
 	else
 		$id = 'new';
 
-	if($name=='TITLE')
+	if ( $name=='TITLE')
 	{
-		/*if($id!='new' && !$value)
+		/*if ( $id!='new' && ! $value)
 			$title = '<span style="color:red">'._('Title').'</span>';*/
 		$extra = 'size=20 maxlength=100';
 	}
-	elseif($name=='POINTS')
+	elseif ( $name=='POINTS')
 	{
-		/*if($id!='new' && $value=='')
+		/*if ( $id!='new' && $value=='')
 			$title = '<span style="color:red">'._('Points').'</span>';*/
 		$extra = 'size=5 maxlength=5';
 	}
 	//FJ default points
-	elseif($name=='DEFAULT_POINTS')
+	elseif ( $name=='DEFAULT_POINTS')
 	{
-		if ($value=='-1')
+		if ( $value=='-1')
 			$value = '*';
 		$extra = 'size=5 maxlength=5';
 	}
-	elseif($name=='ASSIGNED_DATE')
-		return DateInput($id=='new' && Preferences('DEFAULT_ASSIGNED','Gradebook')=='Y'?DBDate():$value,"values[$id][ASSIGNED_DATE]",($THIS_RET['ASSIGNED_ERROR']=='Y'?'<span style="color:red">'._('Assigned date is after end of quarter!').'</span>':($THIS_RET['DATE_ERROR']=='Y'?'<span style="color:red">'._('Assigned date is after due date!').'</span>':'')),$id!='new');
-	elseif($name=='DUE_DATE')
-		return DateInput($id=='new' && Preferences('DEFAULT_DUE','Gradebook')=='Y'?DBDate():$value,"values[$id][DUE_DATE]",($THIS_RET['DUE_ERROR']=='Y'?'<span style="color:red">'._('Due date is after end of quarter!').'</span>':($THIS_RET['DATE_ERROR']=='Y'?'<span style="color:red">'._('Due date is before assigned date!').'</span>':'')),$id!='new');
-	elseif($name=='COURSE_ID')
-		return CheckboxInput($value,"values[$id][COURSE_ID]",'','',$id=='new');
-	elseif($name=='DESCRIPTION')
+	elseif ( $name=='ASSIGNED_DATE')
+	{
+		return DateInput(
+			$id == 'new' && Preferences( 'DEFAULT_ASSIGNED', 'Gradebook' ) == 'Y' ? DBDate() : $value,
+			'values[' . $id . '][ASSIGNED_DATE]',
+			( $THIS_RET['ASSIGNED_ERROR'] == 'Y' ?
+				'<span class="legend-red">' . _( 'Assigned date is after end of quarter!' ) . '</span>' :
+				( $THIS_RET['DATE_ERROR'] == 'Y' ? '<span class="legend-red">' . _( 'Assigned date is after due date!' ) . '</span>' : '' )
+			),
+			$id != 'new'
+		);
+	}
+	elseif ( $name=='DUE_DATE')
+	{
+		return DateInput(
+			$id == 'new' && Preferences( 'DEFAULT_DUE', 'Gradebook' ) == 'Y' ? DBDate() : $value,
+			'values[' . $id . '][DUE_DATE]',
+			( $THIS_RET['DUE_ERROR'] == 'Y' ?
+				'<span class="legend-red">' . _( 'Due date is after end of quarter!' ) . '</span>' :
+				( $THIS_RET['DATE_ERROR'] == 'Y' ? '<span class="legend-red">' . _( 'Due date is before assigned date!' ) . '</span>' : '' )
+			),
+			$id != 'new'
+		);
+	}
+	elseif ( $name=='COURSE_ID')
+	{
+		return CheckboxInput(
+			$value,
+			'values[' . $id . '][COURSE_ID]',
+			'',
+			'',
+			$id == 'new'
+		);
+	}
+	elseif ( $name=='DESCRIPTION')
+	{
 		$extra = 'size=20 maxlength=1000';
-	elseif($name=='ASSIGNMENT_TYPE_ID')
-		return SelectInput($value,"values[$id][ASSIGNMENT_TYPE_ID]",'',$type_options,false);
+	}
+	elseif ( $name=='ASSIGNMENT_TYPE_ID')
+	{
+		return SelectInput(
+			$value,
+			'values[' . $id . '][ASSIGNMENT_TYPE_ID]',
+			'',
+			$type_options,
+			false
+		);
+	}
 
-	return TextInput($value,"values[$id][$name]",$title,$extra);
+	return TextInput(
+		$value,
+		'values[' . $id . '][' . $name . ']',
+		$title,
+		$extra
+	);
 }
 
 function _makeTypeInput($value,$name)
 {	global $THIS_RET,$total_percent;
 
-	if($THIS_RET['ASSIGNMENT_TYPE_ID'])
+	if ( $THIS_RET['ASSIGNMENT_TYPE_ID'])
 		$id = $THIS_RET['ASSIGNMENT_TYPE_ID'];
 	else
 		$id = 'new';
 
-	if($name=='TITLE')
+	if ( $name=='TITLE')
 		$extra = 'size=20 maxlength=100';
-	elseif($name=='FINAL_GRADE_PERCENT')
+	elseif ( $name=='FINAL_GRADE_PERCENT')
 	{
-		if($id=='new')
+		if ( $id=='new')
 		{
 			$title = ($total_percent!=1?'<span style="color:red">':'')._('Total').' = '.($total_percent*100).'%'.($total_percent!=1?'</span>':'');
 		}
@@ -344,28 +402,57 @@ function _makeTypeInput($value,$name)
 		}
 		$extra = 'size=5 maxlength=10';
 	}
-	elseif($name=='SORT_ORDER')
+	elseif ( $name=='SORT_ORDER')
 		$extra = 'size=5 maxlength=10';
 
-	return TextInput($value,"values[$id][$name]",$title,$extra);
+	return TextInput(
+		$value,
+		'values[' . $id . '][' . $name . ']',
+		$title,
+		$extra
+	);
 }
 
-function _makeColorInput($value,$name)
-{	global $THIS_RET,$color_select;
 
-	if($THIS_RET['ASSIGNMENT_TYPE_ID'])
+/**
+ * Make Color Input
+ * Local function
+ * DBGet callback
+ *
+ * @uses ColorInput()
+ *
+ * @global $THIS_RET
+ *
+ * @param  string $value  Value
+ * @param  string $column 'COLOR'
+ *
+ * @return string Color Input
+ */
+function _makeColorInput( $value, $column )
+{
+	global $THIS_RET;
+
+	if ( $THIS_RET['ASSIGNMENT_TYPE_ID'] )
+	{
 		$id = $THIS_RET['ASSIGNMENT_TYPE_ID'];
+	}
 	else
 		$id = 'new';
 
-	if(!$color_select)
+	/*if ( ! $color_select )
 	{
 		$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666','#333366','#336633','purple','teal','firebrick','tan');
-		foreach($colors as $color)
+		foreach ( (array) $colors as $color)
 		{
-			$color_select[$color] = array('<TABLE class="cellspacing-0"><TR><TD style="width:100%; background-color:'.$color.'">&nbsp;</TD></TR></TABLE>','<TABLE class="cellspacing-0"><TR><TD style="background-color:'.$color.'; width:30px">&nbsp;</TD></TR></TABLE>');
+			$color_select[ $color ] = array('<table class="cellspacing-0"><tr><td style="width:100%; background-color:'.$color.'">&nbsp;</td></tr></table>','<table class="cellspacing-0"><tr><td style="background-color:'.$color.'; width:30px">&nbsp;</td></tr></table>');
 		}
 	}
-	return RadioInput($value,"values[$id][COLOR]",'',$color_select);
+	return RadioInput($value,"values[ $id ][COLOR]",'',$color_select);*/
+
+	return ColorInput(
+		$value,
+		'values[' . $id . '][' . $column . ']',
+		'',
+		'hidden'
+	);
 }
-?>

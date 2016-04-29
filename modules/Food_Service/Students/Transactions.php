@@ -1,21 +1,23 @@
 <?php
 
-if($_REQUEST['values'] && $_POST['values'] && $_REQUEST['save'])
+if ( $_REQUEST['values'] && $_POST['values'] && $_REQUEST['save'])
 {
-	if(UserStudentID() && AllowEdit())
+	if (UserStudentID() && AllowEdit())
 	{
 		$account_id = DBGet(DBQuery("SELECT ACCOUNT_ID FROM FOOD_SERVICE_STUDENT_ACCOUNTS WHERE STUDENT_ID='".UserStudentID()."'"));
 		$account_id = $account_id[1]['ACCOUNT_ID'];
 
 
-		if(($_REQUEST['values']['TYPE']=='Deposit' || $_REQUEST['values']['TYPE']=='Credit' || $_REQUEST['values']['TYPE']=='Debit') && ($amount = is_money($_REQUEST['values']['AMOUNT'])))
+		if (($_REQUEST['values']['TYPE']=='Deposit' || $_REQUEST['values']['TYPE']=='Credit' || $_REQUEST['values']['TYPE']=='Debit') && ($amount = is_money($_REQUEST['values']['AMOUNT'])))
 		{
 			// get next transaction id
-			$id = DBGet(DBQuery("SELECT ".db_seq_nextval('FOOD_SERVICE_TRANSACTIONS_SEQ')." AS SEQ_ID ".FROM_DUAL));
+			$id = DBGet(DBQuery("SELECT ".db_seq_nextval('FOOD_SERVICE_TRANSACTIONS_SEQ')." AS SEQ_ID "));
 			$id = $id[1]['SEQ_ID'];
 
+			$full_description = DBEscapeString( _( $_REQUEST['values']['OPTION'] ) ) . ' ' . $_REQUEST['values']['DESCRIPTION'];
+
 			$fields = 'ITEM_ID,TRANSACTION_ID,AMOUNT,DISCOUNT,SHORT_NAME,DESCRIPTION';
-			$values = "'0','".$id."','".($_REQUEST['values']['TYPE']=='Debit' ? -$amount : $amount)."',NULL,'".mb_strtoupper($_REQUEST['values']['OPTION'])."','".$_REQUEST['values']['OPTION'].' '.$_REQUEST['values']['DESCRIPTION']."'";
+			$values = "'0','".$id."','".($_REQUEST['values']['TYPE']=='Debit' ? -$amount : $amount)."',NULL,'".mb_strtoupper($_REQUEST['values']['OPTION'])."','" . $full_description . "'";
 			$sql = "INSERT INTO FOOD_SERVICE_TRANSACTION_ITEMS (".$fields.") values (".$values.")";
 			DBQuery($sql);
 
@@ -36,89 +38,87 @@ Widgets('fsa_status');
 Widgets('fsa_barcode');
 Widgets('fsa_account_id');
 
-$extra['SELECT'] .= ",coalesce(fssa.STATUS,'Active') AS STATUS";
+$extra['SELECT'] .= ",coalesce(fssa.STATUS,'" . DBEscapeString( _( 'Active' ) ) . "') AS STATUS";
 $extra['SELECT'] .= ",(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fssa.ACCOUNT_ID) AS BALANCE";
-if(!mb_strpos($extra['FROM'],'fssa'))
+if ( !mb_strpos($extra['FROM'],'fssa'))
 {
 	$extra['FROM'] .= ",FOOD_SERVICE_STUDENT_ACCOUNTS fssa";
 	$extra['WHERE'] .= " AND fssa.STUDENT_ID=s.STUDENT_ID";
 }
-$extra['functions'] += array('BALANCE'=>'red');
-$extra['columns_after'] = array('BALANCE'=>_('Balance'),'STATUS'=>_('Status'));
+$extra['functions'] += array('BALANCE' => 'red');
+$extra['columns_after'] = array('BALANCE' => _('Balance'),'STATUS' => _('Status'));
 
 Search('student_id',$extra);
 
-if(isset($error))
-	echo ErrorMessage($error);
+echo ErrorMessage( $error );
 
-if(UserStudentID() && empty($_REQUEST['modfunc']))
+if (UserStudentID() && empty($_REQUEST['modfunc']))
 {
 	$student = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,fsa.ACCOUNT_ID,fsa.STATUS,
-	(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fsa.ACCOUNT_ID) AS BALANCE 
-	FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fsa 
-	WHERE s.STUDENT_ID='".UserStudentID()."' 
+	(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fsa.ACCOUNT_ID) AS BALANCE
+	FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fsa
+	WHERE s.STUDENT_ID='".UserStudentID()."'
 	AND fsa.STUDENT_ID=s.STUDENT_ID"));
 	$student = $student[1];
 
 	//$PHP_tmp_SELF = PreparePHP_SELF();
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=" method="POST">';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=" method="POST">';
 
 	DrawHeader('',ResetButton(_('Cancel')).SubmitButton(_('Save'),'save'));
 
 	DrawHeader(NoInput($student['FULL_NAME'],'&nbsp;'.$student['STUDENT_ID']),'', NoInput(red($student['BALANCE']),_('Balance')));
 
-	if($student['BALANCE']!='')
+	if ( $student['BALANCE']!='')
 	{
-        $RET = DBGet(DBQuery("SELECT fst.TRANSACTION_ID,fst.DESCRIPTION AS TYPE,fsti.DESCRIPTION,fsti.AMOUNT 
-		FROM FOOD_SERVICE_TRANSACTIONS fst,FOOD_SERVICE_TRANSACTION_ITEMS fsti 
-		WHERE fst.SYEAR='".UserSyear()."' 
-		AND fst.ACCOUNT_ID='".$student['ACCOUNT_ID']."' 
-		AND (fst.STUDENT_ID IS NULL OR fst.STUDENT_ID='".UserStudentID()."') 
-		AND fst.TIMESTAMP BETWEEN CURRENT_DATE AND CURRENT_DATE+1 
+        $RET = DBGet(DBQuery("SELECT fst.TRANSACTION_ID,fst.DESCRIPTION AS TYPE,fsti.DESCRIPTION,fsti.AMOUNT
+		FROM FOOD_SERVICE_TRANSACTIONS fst,FOOD_SERVICE_TRANSACTION_ITEMS fsti
+		WHERE fst.SYEAR='".UserSyear()."'
+		AND fst.ACCOUNT_ID='".$student['ACCOUNT_ID']."'
+		AND (fst.STUDENT_ID IS NULL OR fst.STUDENT_ID='".UserStudentID()."')
+		AND fst.TIMESTAMP BETWEEN CURRENT_DATE AND CURRENT_DATE+1
 		AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID"));
 //FJ add translation
 		function types_locale($type) {
-			$types = array('Deposit'=>_('Deposit'),'Credit'=>_('Credit'),'Debit'=>_('Debit'));
+			$types = array('Deposit' => _('Deposit'),'Credit' => _('Credit'),'Debit' => _('Debit'));
 			if (array_key_exists($type, $types)) {
-				return $types[$type];
+				return $types[ $type ];
 			}
 			return $type;
 		}
 		function options_locale($option) {
-			$options = array('Cash '=>_('Cash'),'Check'=>_('Check'),'Credit Card'=>_('Credit Card'),'Debit Card'=>_('Debit Card'),'Transfer'=>_('Transfer'));
+			$options = array('Cash ' => _('Cash'),'Check' => _('Check'),'Credit Card' => _('Credit Card'),'Debit Card' => _('Debit Card'),'Transfer' => _('Transfer'));
 			if (array_key_exists($option, $options)) {
-				return $options[$option];
+				return $options[ $option ];
 			}
 			return $option;
 		}
-		foreach($RET as $RET_key=>$RET_val) {
-			$RET_temp[$RET_key]=array_map('types_locale', $RET_val);
-			$RET[$RET_key]=array_map('options_locale', $RET_temp[$RET_key]);
-		}	
+		foreach ( (array) $RET as $RET_key => $RET_val) {
+			$RET_temp[ $RET_key ]=array_map('types_locale', $RET_val);
+			$RET[ $RET_key ]=array_map('options_locale', $RET_temp[ $RET_key ]);
+		}
 
-		echo '<TABLE class="width-100p"><TR><TD class="width-100p valign-top">';
+		echo '<table class="width-100p"><tr><td class="width-100p valign-top">';
 
-		if(AllowEdit())
+		if (AllowEdit())
 		{
-			$types = array('Deposit'=>_('Deposit'),'Credit'=>_('Credit'),'Debit'=>_('Debit'));
+			$types = array('Deposit' => _('Deposit'),'Credit' => _('Credit'),'Debit' => _('Debit'));
 			$link['add']['html']['TYPE'] = SelectInput('','values[TYPE]','',$types,false);
-			$options = array('Cash'=>_('Cash'),'Check'=>_('Check'),'Credit Card'=>_('Credit Card'),'Debit Card'=>_('Debit Card'),'Transfer'=>_('Transfer'));
+			$options = array('Cash' => _('Cash'),'Check' => _('Check'),'Credit Card' => _('Credit Card'),'Debit Card' => _('Debit Card'),'Transfer' => _('Transfer'));
 			$link['add']['html']['DESCRIPTION'] = SelectInput('','values[OPTION]','',$options).' '.TextInput('','values[DESCRIPTION]','','size=20 maxlength=50');
 			$link['add']['html']['AMOUNT'] = TextInput('','values[AMOUNT]','','size=5 maxlength=10 required');
 			$link['add']['html']['remove'] = button('add');
 			$link['remove']['link'] = "Modules.php?modname=".$_REQUEST['modname']."&modfunc=delete";
-			$link['remove']['variables'] = array('id'=>'TRANSACTION_ID');
+			$link['remove']['variables'] = array('id' => 'TRANSACTION_ID');
 		}
 
-		$columns = array('TYPE'=>_('Type'),'DESCRIPTION'=>_('Description'),'AMOUNT'=>_('Amount'));
+		$columns = array('TYPE' => _('Type'),'DESCRIPTION' => _('Description'),'AMOUNT' => _('Amount'));
 
 		ListOutput($RET,$columns,'Earlier Transaction','Earlier Transactions',$link,false,array('save'=>false,'search'=>false));
-		echo '<br /><span class="center">'.SubmitButton(_('Save'),'save').'</span>';
+		echo '<br /><div class="center">' . SubmitButton(_('Save'),'save') . '</div>';
 
-		echo '</TD></TR></TABLE>';
+		echo '</td></tr></table>';
 	}
 	else
 		echo ErrorMessage(array(_('This student does not have a valid Meal Account.')));
-	echo '</FORM>';
+	echo '</form>';
 }
-?>

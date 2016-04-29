@@ -213,3 +213,7 @@ pip-log.txt
 
 #RosarioSIS
 /config.inc.php
+assets/AssignmentsFiles/
+assets/StudentPhotos/
+assets/UserPhotos/
+assets/school_logo*

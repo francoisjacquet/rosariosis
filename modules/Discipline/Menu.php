@@ -1,37 +1,41 @@
 <?php
 /**
-* @file $Id: Menu.php 252 2006-10-19 18:46:09Z focus-sis $
-* @package Focus/SIS
-* @copyright Copyright (C) 2006 Andrew Schmadeke. All rights reserved.
-* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.txt
-* Focus/SIS is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.txt for copyright notices and details.
-*/
+ * Discipline module Menu entries
+ *
+ * @uses $menu global var
+ *
+ * @see  Menu.php in root folder
+ * 
+ * @package RosarioSIS
+ * @subpackage modules
+ */
 
 $menu['Discipline']['admin'] = array(
-						'default'=>'Discipline/Referrals.php',
-						'Discipline/MakeReferral.php'=>_('Add Referral'),
-						'Discipline/Referrals.php'=>_('Referrals'),
-						1=>_('Reports'),
-						'Discipline/CategoryBreakdown.php'=>_('Category Breakdown'),
-						'Discipline/CategoryBreakdownTime.php'=>_('Category Breakdown over Time'),
-						'Discipline/StudentFieldBreakdown.php'=>_('Breakdown by Student Field'),
-						'Discipline/ReferralLog.php'=>_('Discipline Log'),
-						2=>_('Setup'),
-						'Discipline/DisciplineForm.php'=>_('Referral Form')
-					);
+	'title' => _( 'Discipline' ),
+	'default' => 'Discipline/Referrals.php',
+	'Discipline/MakeReferral.php' => _( 'Add Referral' ),
+	'Discipline/Referrals.php' => _( 'Referrals' ),
+	1 => _( 'Reports' ),
+	'Discipline/CategoryBreakdown.php' => _( 'Category Breakdown' ),
+	'Discipline/CategoryBreakdownTime.php' => _( 'Category Breakdown over Time' ),
+	'Discipline/StudentFieldBreakdown.php' => _( 'Breakdown by Student Field' ),
+	'Discipline/ReferralLog.php' => _( 'Discipline Log' ),
+	2 => _( 'Setup' ),
+	'Discipline/DisciplineForm.php' => _( 'Referral Form' ),
+);
+
 $menu['Discipline']['teacher'] = array(
-						'default'=>'Discipline/Referrals.php',
-						'Discipline/MakeReferral.php'=>_('Add Referral'),
-						'Discipline/Referrals.php'=>_('Referrals')
-					);
+	'title' => _( 'Discipline' ),
+	'default' => 'Discipline/Referrals.php',
+	'Discipline/MakeReferral.php' => _( 'Add Referral' ),
+	'Discipline/Referrals.php' => _( 'Referrals' ),
+);
+
 $menu['Discipline']['parent'] = array(
-						'default'=>'Discipline/Referrals.php',
-						'Discipline/Referrals.php'=>_('Referrals')
-					);
+	'title' => _( 'Discipline' ),
+	'default' => 'Discipline/Referrals.php',
+	'Discipline/Referrals.php' => _( 'Referrals' ),
+);
+
 $exceptions['Discipline'] = array(
-					);
-?>
+);

@@ -1,26 +1,25 @@
 <?php
-include_once('modules/Accounting/functions.inc.php');
+require_once 'modules/Accounting/functions.inc.php';
 
-if(User('PROFILE')=='teacher')//limit to teacher himself
+if (User('PROFILE')=='teacher')//limit to teacher himself
 	$_REQUEST['staff_id'] = User('STAFF_ID');
 
-if(!$_REQUEST['print_statements'])
+if ( ! $_REQUEST['print_statements'])
 {
 	DrawHeader(ProgramTitle());
 	
-	//Widgets('all');
 	Search('staff_id',$extra);
 }
 
-if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
+if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
-	foreach($_REQUEST['values'] as $id=>$columns)
+	foreach ( (array) $_REQUEST['values'] as $id => $columns)
 	{
-		if($id!='new')
+		if ( $id!='new')
 		{
 			$sql = "UPDATE ACCOUNTING_PAYMENTS SET ";
 							
-			foreach($columns as $column=>$value)
+			foreach ( (array) $columns as $column => $value)
 			{
 				$sql .= $column."='".$value."',";
 			}
@@ -29,7 +28,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 		}
 		else
 		{
-			$id = DBGet(DBQuery("SELECT ".db_seq_nextval('ACCOUNTING_PAYMENTS_SEQ').' AS ID'.FROM_DUAL));
+			$id = DBGet(DBQuery("SELECT ".db_seq_nextval('ACCOUNTING_PAYMENTS_SEQ').' AS ID'));
 			$id = $id[1]['ID'];
 
 			$sql = "INSERT INTO ACCOUNTING_PAYMENTS ";
@@ -38,15 +37,16 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			$values = "'".$id."','".UserStaffID()."','".UserSyear()."','".UserSchool()."','".DBDate()."',";
 			
 			$go = 0;
-			foreach($columns as $column=>$value)
+			foreach ( (array) $columns as $column => $value)
 			{
-				if(!empty($value) || $value=='0')
+				if ( !empty($value) || $value=='0')
 				{
-					if($column=='AMOUNT')
+					if ( $column=='AMOUNT')
 					{
 						$value = preg_replace('/[^0-9.-]/','',$value);
-//FJ fix SQL bug invalid amount
-						if (!is_numeric($value))
+
+						//FJ fix SQL bug invalid amount
+						if ( !is_numeric($value))
 							$value = 0;
 					}
 					$fields .= $column.',';
@@ -56,46 +56,46 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			}
 			$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 			
-			if($go)
+			if ( $go)
 				DBQuery($sql);
 		}
 	}
 	unset($_REQUEST['values']);
 }
 
-if($_REQUEST['modfunc']=='remove' && AllowEdit())
+if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 {
-	if(DeletePrompt(_('Payment')))
+	if (DeletePrompt(_('Payment')))
 	{
 		DBQuery("DELETE FROM ACCOUNTING_PAYMENTS WHERE ID='".$_REQUEST['id']."'");
 		unset($_REQUEST['modfunc']);
 	}
 }
 
-if(UserStaffID() && !$_REQUEST['modfunc'])
+if (UserStaffID() && ! $_REQUEST['modfunc'])
 {
 	$payments_total = 0;
-	$functions = array('REMOVE'=>'_makePaymentsRemove','AMOUNT'=>'_makePaymentsAmount','PAYMENT_DATE'=>'ProperDate','COMMENTS'=>'_makePaymentsTextInput');
+	$functions = array('REMOVE' => '_makePaymentsRemove','AMOUNT' => '_makePaymentsAmount','PAYMENT_DATE' => 'ProperDate','COMMENTS' => '_makePaymentsTextInput');
 	$payments_RET = DBGet(DBQuery("SELECT '' AS REMOVE,ID,AMOUNT,PAYMENT_DATE,COMMENTS FROM ACCOUNTING_PAYMENTS WHERE STAFF_ID='".UserStaffID()."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY ID"),$functions);
 	$i = 1;
 	$RET = array();
-	foreach($payments_RET as $payment)
+	foreach ( (array) $payments_RET as $payment)
 	{
-		$RET[$i] = $payment;
+		$RET[ $i ] = $payment;
 		$i++;
 	}
 
-	if(count($RET) && !$_REQUEST['print_statements'] && AllowEdit())
-		$columns = array('REMOVE'=>'');
+	if (count($RET) && ! $_REQUEST['print_statements'] && AllowEdit())
+		$columns = array('REMOVE' => '');
 	else
 		$columns = array();
 	
-	$columns += array('AMOUNT'=>_('Amount'),'PAYMENT_DATE'=>_('Date'),'COMMENTS'=>_('Comment'));
-	if(!$_REQUEST['print_statements'] && AllowEdit())
+	$columns += array('AMOUNT' => _('Amount'),'PAYMENT_DATE' => _('Date'),'COMMENTS' => _('Comment'));
+	if ( ! $_REQUEST['print_statements'] && AllowEdit())
 		$link['add']['html'] = array('REMOVE'=>button('add'),'AMOUNT'=>_makePaymentsTextInput('','AMOUNT'),'PAYMENT_DATE'=>ProperDate(DBDate()),'COMMENTS'=>_makePaymentsTextInput('','COMMENTS'));
-	if(!$_REQUEST['print_statements'] && AllowEdit())
+	if ( ! $_REQUEST['print_statements'] && AllowEdit())
 	{
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 		DrawHeader('',SubmitButton(_('Save')));
 		$options = array();
 	}
@@ -104,25 +104,24 @@ if(UserStaffID() && !$_REQUEST['modfunc'])
 
 	ListOutput($RET,$columns,'Payment','Payments',$link,array(),$options);
 
-	if(!$_REQUEST['print_statements'] && AllowEdit())
-		echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
+	if ( ! $_REQUEST['print_statements'] && AllowEdit())
+		echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 
-	echo '<BR />';
+	echo '<br />';
 
 	$salaries_total = DBGet(DBQuery("SELECT SUM(f.AMOUNT) AS TOTAL FROM ACCOUNTING_SALARIES f WHERE f.STAFF_ID='".UserStaffID()."' AND f.SYEAR='".UserSyear()."' AND f.SCHOOL_ID='".UserSchool()."'"));
 
-	$table = '<TABLE class="align-right"><TR><TD>'._('Total from Salaries').': '.'</TD><TD>'.Currency($salaries_total[1]['TOTAL']).'</TD></TR>';
+	$table = '<table class="align-right"><tr><td>'._('Total from Salaries').': '.'</td><td>'.Currency($salaries_total[1]['TOTAL']).'</td></tr>';
 
-	$table .= '<TR><TD>'._('Less').': '._('Total from Staff Payments').': '.'</TD><TD>'.Currency($payments_total).'</TD></TR>';
+	$table .= '<tr><td>'._('Less').': '._('Total from Staff Payments').': '.'</td><td>'.Currency($payments_total).'</td></tr>';
 
-	$table .= '<TR><TD>'._('Balance').': <b>'.'</b></TD><TD><b>'.Currency(($salaries_total[1]['TOTAL']-$payments_total),'CR').'</b></TD></TR></TABLE>';
+	$table .= '<tr><td>'._('Balance').': <b>'.'</b></td><td><b>'.Currency(($salaries_total[1]['TOTAL']-$payments_total),'CR').'</b></td></tr></table>';
 
-	if(!$_REQUEST['print_statements'])
+	if ( ! $_REQUEST['print_statements'])
 		DrawHeader('','',$table);
 	else
 		DrawHeader($table,'','',null,null,true);
 	
-	if(!$_REQUEST['print_statements'] && AllowEdit())
-		echo '</FORM>';
+	if ( ! $_REQUEST['print_statements'] && AllowEdit())
+		echo '</form>';
 }
-?>

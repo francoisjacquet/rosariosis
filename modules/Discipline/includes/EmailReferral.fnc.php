@@ -5,13 +5,15 @@
  *
  * Email is from User if has his email set
  *
- * @param  int   $referral_id Referral ID
- * @param  array $emails      array of emails
+ * @param  int   $referral_id Referral ID.
+ * @param  array $emails      array of emails.
  *
  * @return bool  true on success, false on failure
  */
 function EmailReferral( $referral_id, $emails )
 {
+	require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
+
 	// get Referral
 	//FJ prevent referral ID hacking
 	if ( User( 'PROFILE' ) === 'teacher' )
@@ -43,7 +45,7 @@ function EmailReferral( $referral_id, $emails )
 	{
 		$referral = $referral_RET[1];
 
-		$student_RET = DBGet( DBQuery( "SELECT FIRST_NAME||' '||LAST_NAME||' '||coalesce(NAME_SUFFIX,' ') AS FULL_NAME
+		$student_RET = DBGet( DBQuery( "SELECT FIRST_NAME||' '||LAST_NAME||coalesce(' '||NAME_SUFFIX,' ') AS FULL_NAME
 			FROM STUDENTS
 			WHERE STUDENT_ID='" . $referral['STUDENT_ID'] . "'" ) );
 
@@ -56,12 +58,14 @@ function EmailReferral( $referral_id, $emails )
 
 		$referral_fields = array();
 
-		foreach ( (array)$referral as $column => $Y )
+		foreach ( (array) $referral as $column => $Y )
 		{
 			$category_id = mb_substr( $column, 9 );
 
-			if ( !isset( $categories_RET[ $category_id ] ) )
+			if ( ! isset( $categories_RET[ $category_id ] ) )
+			{
 				continue;
+			}
 
 			$data_type = $categories_RET[ $category_id ][1]['DATA_TYPE'];
 
@@ -72,17 +76,17 @@ function EmailReferral( $referral_id, $emails )
 
 				if ( $data_type === 'checkbox' )
 				{
-					$referral_fields[] = $title_txt . ( $referral[$column] == 'Y' ? _( 'Yes' ) : _( 'No' ) );
+					$referral_fields[] = $title_txt . ( $referral[ $column ] == 'Y' ? _( 'Yes' ) : _( 'No' ) );
 				}
 				elseif ( $data_type === 'multiple_checkbox' )
 				{
-					$referral_fields[] = $title_txt . str_replace( '||', ', ', mb_substr( $referral[$column], 2, -2 ) );
+					$referral_fields[] = $title_txt . str_replace( '||', ', ', mb_substr( $referral[ $column ], 2, -2 ) );
 				}
 				else
-					$referral_fields[] = $title_txt . $referral[$column];
+					$referral_fields[] = $title_txt . $referral[ $column ];
 			}
 			else
-				$referral_fields[] = $title_txt . "\n" . $referral[$column];
+				$referral_fields[] = $title_txt . "\n" . MarkDownToHTML( $referral[ $column ] );
 		}
 	}
 	else
@@ -91,7 +95,7 @@ function EmailReferral( $referral_id, $emails )
 	// verify emails array and build TO
 	$to_emails = array();
 
-	foreach ( (array)$emails as $email )
+	foreach ( (array) $emails as $email )
 	{
 		if ( filter_var( $email, FILTER_VALIDATE_EMAIL ) )
 			$to_emails[] = $email;
@@ -122,7 +126,7 @@ function EmailReferral( $referral_id, $emails )
 
 	//var_dump($to, $subject,$message, $from);
 
-	include_once( 'ProgramFunctions/SendEmail.fnc.php' );
+	require_once 'ProgramFunctions/SendEmail.fnc.php';
 
 	return SendEmail( $to, $subject,$message, $from );
 }

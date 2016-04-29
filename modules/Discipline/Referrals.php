@@ -1,64 +1,58 @@
 <?php
-/**
-* @file $Id: Referrals.php 573 2007-06-05 08:11:06Z focus-sis $
-* @package Focus/SIS
-* @copyright Copyright (C) 2006 Andrew Schmadeke. All rights reserved.
-* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.txt
-* Focus/SIS is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.txt for copyright notices and details.
-*/
 
-if($_REQUEST['month_values'] && $_POST['month_values'])
+require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
+
+if ( isset( $_POST['day_values'], $_POST['month_values'], $_POST['year_values'] ) )
 {
-	foreach($_REQUEST['month_values'] as $column=>$value)
-	{
-		$_REQUEST['values'][$column] = $_REQUEST['day_values'][$column].'-'.$value.'-'.$_REQUEST['year_values'][$column];
-		//FJ bugfix SQL bug when incomplete or non-existent date
-		//if($_REQUEST['values'][$column]=='--')
-		if(mb_strlen($_REQUEST['values'][$column]) < 11)
-			$_REQUEST['values'][$column] = '';
-		else
-		{
-			while(!VerifyDate($_REQUEST['values'][$column]))
-			{
-				$_REQUEST['day_values'][$column]--;
-				$_REQUEST['values'][$column] = $_REQUEST['day_values'][$column].'-'.$value.'-'.$_REQUEST['year_values'][$column];
-			}
-		}
-	}
-	$_POST['values'] = $_REQUEST['values'];
+	$requested_dates = RequestedDates(
+		$_REQUEST['year_values'],
+		$_REQUEST['month_values'],
+		$_REQUEST['day_values']
+	);
+
+	$_REQUEST['values'] = array_replace_recursive( (array) $_REQUEST['values'], $requested_dates );
+
+	$_POST['values'] = array_replace_recursive( (array) $_POST['values'], $requested_dates );
 }
 
-if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
+if ( isset( $_POST['values'] )
+	&& count( $_POST['values'] )
+	&& AllowEdit() )
 {
 	$sql = "UPDATE DISCIPLINE_REFERRALS SET ";
 
 	$go = 0;
 
 	$categories_RET = DBGet(DBQuery("SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du WHERE du.SYEAR='".UserSyear()."' AND du.SCHOOL_ID='".UserSchool()."' AND du.DISCIPLINE_FIELD_ID=df.ID ORDER BY du.SORT_ORDER"), array(), array('ID'));
-	
-	foreach($_REQUEST['values'] as $column_name=>$value)
+
+	foreach ( (array) $_REQUEST['values'] as $column_name => $value)
 	{
-		if(1)//!empty($value) || $value=='0')
+		if (1)//!empty($value) || $value=='0')
 		{
+			$column_data_type = $categories_RET[ str_replace( 'CATEGORY_', '', $column_name ) ][1]['DATA_TYPE'];
+
 			//FJ check numeric fields
-			if ($categories_RET[str_replace('CATEGORY_','',$column_name)][1]['DATA_TYPE'] == 'numeric' && $value!='' && !is_numeric($value))
+			if ( $column_data_type === 'numeric'
+				&& ! is_numeric( $value ) )
 			{
-				$error[] = _('Please enter valid Numeric data.');
+				$error[] = _( 'Please enter valid Numeric data.' );
 				continue;
 			}
 
-			if(!is_array($value))
+			// FJ textarea fields MarkDown sanitize.
+			if ( $column_data_type === 'textarea' )
+			{
+				$value = SanitizeMarkDown( $_POST['values'][ $column_name ] );
+			}
+
+			if ( !is_array($value))
 				$sql .= "$column_name='".str_replace("&rsquo;","''",$value)."',";
 			else
 			{
 				$sql .= $column_name."='||";
-				foreach($value as $val)
+				foreach ( (array) $value as $val)
 				{
-					if($val)
+					if ( $val)
 						$sql .= str_replace('&quot;','"',$val).'||';
 				}
 				$sql .= "',";
@@ -68,7 +62,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 	}
 	$sql = mb_substr($sql,0,-1) . " WHERE ID='".$_REQUEST['referral_id']."'";
 
-	if ($go)
+	if ( $go)
 		DBQuery($sql);
 	unset($_REQUEST['values']);
 	unset($_SESSION['_REQUEST_vars']['values']);
@@ -76,12 +70,11 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 
 DrawHeader(ProgramTitle());
 
-if($error)
-	echo ErrorMessage(array(_('Please enter valid Numeric data.')));
+echo ErrorMessage( $error );
 
-if($_REQUEST['modfunc']=='remove' && AllowEdit())
+if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 {
-	if(DeletePrompt(_('Referral')))
+	if (DeletePrompt(_('Referral')))
 	{
 		DBQuery("DELETE FROM DISCIPLINE_REFERRALS WHERE ID='".$_REQUEST['id']."'");
 		unset($_REQUEST['modfunc']);
@@ -90,10 +83,12 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 
 $categories_RET = DBGet(DBQuery("SELECT df.ID,du.TITLE FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du WHERE df.DATA_TYPE!='textarea' AND du.SYEAR='".UserSyear()."' AND du.SCHOOL_ID='".UserSchool()."' AND du.DISCIPLINE_FIELD_ID=df.ID ORDER BY du.SORT_ORDER"));
 
-Widgets('discipline');
+Widgets( 'reporter' );
+Widgets( 'incident_date' );
+Widgets( 'discipline_fields' );
 
 $extra['SELECT'] = ',dr.*';
-if(mb_strpos($extra['FROM'],'DISCIPLINE_REFERRALS')===false)
+if (mb_strpos($extra['FROM'],'DISCIPLINE_REFERRALS')===false)
 {
 	$extra['FROM'] .= ',DISCIPLINE_REFERRALS dr ';
 	$extra['WHERE'] .= ' AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SYEAR=ssm.SYEAR AND dr.SCHOOL_ID=ssm.SCHOOL_ID ';
@@ -101,10 +96,10 @@ if(mb_strpos($extra['FROM'],'DISCIPLINE_REFERRALS')===false)
 
 $extra['ORDER_BY'] = 'dr.ENTRY_DATE DESC,s.LAST_NAME,s.FIRST_NAME,s.MIDDLE_NAME';
 
-$extra['columns_after'] = array('STAFF_ID'=>_('Reporter'),'ENTRY_DATE'=>_('Incident Date'));
-$extra['functions'] = array('STAFF_ID'=>'GetTeacher','ENTRY_DATE'=>'ProperDate');
+$extra['columns_after'] = array('STAFF_ID' => _('Reporter'),'ENTRY_DATE' => _('Incident Date'));
+$extra['functions'] = array('STAFF_ID' => 'GetTeacher','ENTRY_DATE' => 'ProperDate');
 
-foreach($categories_RET as $category)
+foreach ( (array) $categories_RET as $category)
 {
 	$extra['columns_after']['CATEGORY_'.$category['ID']] = $category['TITLE'];
 	$extra['functions']['CATEGORY_'.$category['ID']] = '_make';
@@ -115,32 +110,40 @@ $extra['new'] = true;
 $extra['singular'] = _('Referral');
 $extra['plural'] = _('Referrals');
 $extra['link']['FULL_NAME']['link'] = 'Modules.php?modname='.$_REQUEST['modname'];
-$extra['link']['FULL_NAME']['variables'] = array('referral_id'=>'ID');
+$extra['link']['FULL_NAME']['variables'] = array('referral_id' => 'ID');
 $extra['link']['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';
-$extra['link']['remove']['variables'] = array('id'=>'ID');
+$extra['link']['remove']['variables'] = array('id' => 'ID');
 
-if($_REQUEST['search_modfunc']=='list' && $_REQUEST['student_header']=='true')
-	DrawStudentHeader();
+// Parent: associated students.
+$extra['ASSOCIATED'] = User( 'STAFF_ID' );
 
-if($_REQUEST['student_header']=='true')
-{
-	$extra['NoSearchTerms'] = true;
-	if(AllowUse('Discipline/MakeReferral.php'))
-		$add_link = button('add',_('Add Referral'),'"Modules.php?modname=Discipline/MakeReferral.php&search_modfunc=result&student_id='.UserStudentID().'"');
-	DrawHeader('',$add_link);
-}
-
-if(empty($_REQUEST['modfunc']) && $_REQUEST['referral_id'])
+if ( ! $_REQUEST['modfunc']
+	&& $_REQUEST['referral_id'] )
 {
 
-	//FJ prevent referral ID hacking
-	if (User('PROFILE')=='teacher')
+	// FJ prevent referral ID hacking.
+	if ( User( 'PROFILE' ) == 'parent' )
+	{
+		$where = " AND STUDENT_ID IN (SELECT STUDENT_ID
+			FROM STUDENTS_JOIN_USERS
+			WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "')";
+	}
+	elseif ( User( 'PROFILE' ) == 'student' )
+	{
+		$where = " AND STUDENT_ID='" . UserStudentID() . "'";
+	}
+	elseif ( User( 'PROFILE' ) == 'teacher' )
+	{
 		$where = " AND STUDENT_ID IN (SELECT STUDENT_ID FROM SCHEDULE
 		WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."'
 		AND '".DBDate()."'>=START_DATE
 		AND ('".DBDate()."'<=END_DATE OR END_DATE IS NULL))";
-	elseif (User('PROFILE')=='admin')
-		$where = " AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'";
+	}
+	elseif ( User( 'PROFILE' ) == 'admin' )
+	{
+		$where = " AND SYEAR='" . UserSyear() . "'
+			AND SCHOOL_ID='" . UserSchool() . "'";
+	}
 
 	$RET = DBGet(DBQuery("SELECT * FROM DISCIPLINE_REFERRALS WHERE ID='".$_REQUEST['referral_id']."'" . $where));
 
@@ -148,59 +151,59 @@ if(empty($_REQUEST['modfunc']) && $_REQUEST['referral_id'])
 	{
 		$RET = $RET[1];
 
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&referral_id='.$_REQUEST['referral_id'].'" method="POST">';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&referral_id='.$_REQUEST['referral_id'].'" method="POST">';
 
 		DrawHeader('',SubmitButton(_('Save')));
 
-		echo '<BR />';
+		echo '<br />';
 		PopTable('header',_('Referral'));
 
 		$categories_RET = DBGet(DBQuery("SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du WHERE du.SYEAR='".UserSyear()."' AND du.SCHOOL_ID='".UserSchool()."' AND du.DISCIPLINE_FIELD_ID=df.ID ORDER BY du.SORT_ORDER"));
 
-		echo '<TABLE class="width-100p col1-align-right">';
+		echo '<table class="width-100p col1-align-right">';
 
-		echo '<TR class="st"><TD><span class="legend-gray">'._('Student').'</span></TD><TD>';
+		echo '<tr class="st"><td><span class="legend-gray">'._('Student').'</span></td><td>';
 		$name = DBGet(DBQuery("SELECT FIRST_NAME,LAST_NAME,MIDDLE_NAME,NAME_SUFFIX FROM STUDENTS WHERE STUDENT_ID='".$RET['STUDENT_ID']."'"));
 		echo $name[1]['FIRST_NAME'].'&nbsp;'.($name[1]['MIDDLE_NAME']?$name[1]['MIDDLE_NAME'].' ':'').$name[1]['LAST_NAME'].'&nbsp;'.$name[1]['NAME_SUFFIX'];
-		echo '</TD></TR>';
+		echo '</td></tr>';
 
-		echo '<TR class="st"><TD><span class="legend-gray">'._('Reporter').'</span></TD><TD>';
+		echo '<tr class="st"><td><span class="legend-gray">'._('Reporter').'</span></td><td>';
 		$users_RET = DBGet(DBQuery("SELECT STAFF_ID,FIRST_NAME,LAST_NAME,MIDDLE_NAME FROM STAFF WHERE SYEAR='".UserSyear()."' AND SCHOOLS LIKE '%,".UserSchool().",%' AND PROFILE IN ('admin','teacher') ORDER BY LAST_NAME,FIRST_NAME,MIDDLE_NAME"));
 
-		foreach($users_RET as $user)
+		foreach ( (array) $users_RET as $user)
 			$options[$user['STAFF_ID']] = $user['LAST_NAME'].', '.$user['FIRST_NAME'].' '.$user['MIDDLE_NAME'];
 
 		echo SelectInput($RET['STAFF_ID'],'values[STAFF_ID]','',$options);
-		echo '</TD></TR>';
+		echo '</td></tr>';
 
-		echo '<TR class="st"><TD><span class="legend-gray">'._('Incident Date').'</span></TD><TD>';
+		echo '<tr class="st"><td><span class="legend-gray">'._('Incident Date').'</span></td><td>';
 		echo DateInput($RET['ENTRY_DATE'],'values[ENTRY_DATE]');
-		echo '</TD></TR>';
+		echo '</td></tr>';
 
-		foreach($categories_RET as $category)
+		foreach ( (array) $categories_RET as $category)
 		{
-			echo '<TR class="st"><TD><span class="legend-gray">'.$category['TITLE'].'</span></TD><TD>';
+			echo '<tr class="st"><td><span class="legend-gray">'.$category['TITLE'].'</span></td><td>';
 
-			switch($category['DATA_TYPE'])
+			switch ( $category['DATA_TYPE'])
 			{
 				case 'text':
 					echo TextInput($RET['CATEGORY_'.$category['ID']],'values[CATEGORY_'.$category['ID'].']');
-					//echo '<INPUT type=TEXT name=values[CATEGORY_'.$category['ID'].'] value="'.$RET['CATEGORY_'.$category['ID']].'" maxlength=255>';
+					//echo '<input type=TEXT name=values[CATEGORY_'.$category['ID'].'] value="'.$RET['CATEGORY_'.$category['ID']].'" maxlength=255>';
 				break;
 
 				case 'numeric':
 					echo TextInput($RET['CATEGORY_'.$category['ID']],'values[CATEGORY_'.$category['ID'].']','','size=9 maxlength=18');
-					//echo '<INPUT type=TEXT name=values[CATEGORY_'.$category['ID'].'] value="'.$RET['CATEGORY_'.$category['ID']].'" size=4 maxlength=10>';
+					//echo '<input type=TEXT name=values[CATEGORY_'.$category['ID'].'] value="'.$RET['CATEGORY_'.$category['ID']].'" size=4 maxlength=10>';
 				break;
 
 				case 'textarea':
 					echo TextAreaInput($RET['CATEGORY_'.$category['ID']],'values[CATEGORY_'.$category['ID'].']','','maxlength=5000 rows=4 cols=30');
-					//echo '<TEXTAREA name=values[CATEGORY_'.$category['ID'].'] rows=4 cols=30>'.$RET['CATEGORY_'.$category['ID']].'</TEXTAREA>';
+					//echo '<textarea name=values[CATEGORY_'.$category['ID'].'] rows=4 cols=30>'.$RET['CATEGORY_'.$category['ID']].'</textarea>';
 				break;
 
 				case 'checkbox':
 					echo CheckboxInput($RET['CATEGORY_'.$category['ID']],'values[CATEGORY_'.$category['ID'].']');
-					//echo '<INPUT type=CHECKBOX name=values[CATEGORY_'.$category['ID'].'] value=Y'.($RET['CATEGORY_'.$category['ID']]=='Y'?' checked':'').'>';
+					//echo '<input type=CHECKBOX name=values[CATEGORY_'.$category['ID'].'] value=Y'.($RET['CATEGORY_'.$category['ID']]=='Y'?' checked':'').'>';
 				break;
 
 				case 'date':
@@ -209,111 +212,135 @@ if(empty($_REQUEST['modfunc']) && $_REQUEST['referral_id'])
 				break;
 
 				case 'multiple_checkbox':
-					if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
+
+					$multiple_value = ( $RET[ 'CATEGORY_' . $category['ID'] ] != '' ) ?
+						str_replace( '||', ', ', mb_substr( $RET[ 'CATEGORY_' . $category['ID'] ], 2, -2 ) ) :
+						'-';
+
+					if ( ! AllowEdit()
+					 	|| isset( $_REQUEST['_ROSARIO_PDF'] ) )
 					{
-						$return = '<DIV id="divvalues[CATEGORY_'.$category['ID'].']"><div onclick=\'javascript:addHTML(htmlCATEGORY_'.$category['ID'];
-						$category['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$category['SELECT_OPTIONS']));
-						$options = explode("\r",$category['SELECT_OPTIONS']);
+						echo $multiple_value;
 
-						$toEscape = '<TABLE class="cellpadding-5"><TR class="st">';
-
-						$i = 0;
-						foreach($options as $option)
-						{
-							$i++;
-							if($i%3==0)
-								$toEscape .= '</TR><TR class="st">';
-							$toEscape .= '<TD><label><INPUT type="checkbox" name="values[CATEGORY_'.$category['ID'].'][]" value="'.htmlspecialchars($option,ENT_QUOTES).'"'.(mb_strpos($RET['CATEGORY_'.$category['ID']],$option)!==false?' checked':'').' />&nbsp;'.$option.'</label></TD>';
-						}
-
-						$toEscape .= '</TR></TABLE>';
-
-						echo '<script>var htmlCATEGORY_'.$category['ID'].'='.json_encode($toEscape).';</script>'.$return;
-						echo ',"divvalues[CATEGORY_'.$category['ID'].']'.'",true);\' >'.'<span class="underline-dots">'.(($RET['CATEGORY_'.$category['ID']]!='')?str_replace('||',', ',mb_substr($RET['CATEGORY_'.$category['ID']],2,-2)):'-').'</span>'.'</div></DIV>';
+						break;
 					}
-					else
-						echo (($RET['CATEGORY_'.$category['ID']]!='')?str_replace('||',', ',mb_substr($RET['CATEGORY_'.$category['ID']],2,-2)):'-');
+
+					$options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS'] ) );
+
+					$multiple_html = '<table class="cellpadding-5"><tr class="st">';
+
+					$i = 0;
+					foreach ( (array) $options as $option)
+					{
+						$i++;
+						if ( $i%3==0)
+							$multiple_html .= '</tr><tr class="st">';
+						$multiple_html .= '<td><label><input type="checkbox" name="values[CATEGORY_'.$category['ID'].'][]" value="'.htmlspecialchars($option,ENT_QUOTES).'"'.(mb_strpos($RET['CATEGORY_'.$category['ID']],$option)!==false?' checked':'').' />&nbsp;'.$option.'</label></td>';
+					}
+
+					$multiple_html .= '</tr></table>';
+
+					$id = GetInputID( 'values[CATEGORY_' . $category['ID'] . ']' );
+
+					echo InputDivOnclick(
+						$id,
+						$multiple_html,
+						$multiple_value,
+						''
+					);
+
 				break;
 
 				case 'multiple_radio':
-					if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
+
+					$multiple_value = ( $RET[ 'CATEGORY_' . $category['ID'] ] != '' ) ?
+						$RET[ 'CATEGORY_' . $category['ID'] ] :
+						'-';
+
+					if ( ! AllowEdit()
+					 	|| isset( $_REQUEST['_ROSARIO_PDF'] ) )
 					{
-						$return = '<DIV id="divvalues[CATEGORY_'.$category['ID'].']"><div onclick=\'javascript:addHTML(htmlCATEGORY_'.$category['ID'];
+						echo $multiple_value;
 
-						$category['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$category['SELECT_OPTIONS']));
-						$options = explode("\r",$category['SELECT_OPTIONS']);
-
-						$toEscape = '<TABLE class="cellpadding-5"><TR class="st">';
-
-						$i = 0;
-						foreach($options as $option)
-						{
-							$i++;
-							if($i%3==0)
-								$toEscape .= '</TR><TR class="st">';
-							$toEscape .= '<TD><label><INPUT type="radio" name="values[CATEGORY_'.$category['ID'].']" value="'.htmlspecialchars($option,ENT_QUOTES).'"'.(($RET['CATEGORY_'.$category['ID']]==$option)?' checked':'').'>&nbsp;'.$option.'</label></TD>';
-						}
-
-						$toEscape .= '</TR></TABLE>';
-
-						echo '<script>var htmlCATEGORY_'.$category['ID'].'='.json_encode($toEscape).';</script>'.$return;
-						echo ',"divvalues[CATEGORY_'.$category['ID'].']'.'",true);\' >'.'<span class="underline-dots">'.(($RET['CATEGORY_'.$category['ID']]!='')?$RET['CATEGORY_'.$category['ID']]:'-').'</span>'."</div></DIV>";
+						break;
 					}
-					else
-						echo (($RET['CATEGORY_'.$category['ID']]!='')?$RET['CATEGORY_'.$category['ID']]:'-');
+
+					$options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS'] ) );
+
+					$multiple_html = '<table class="cellpadding-5"><tr class="st">';
+
+					$i = 0;
+					foreach ( (array) $options as $option)
+					{
+						$i++;
+						if ( $i%3==0)
+							$multiple_html .= '</tr><tr class="st">';
+						$multiple_html .= '<td><label><input type="radio" name="values[CATEGORY_'.$category['ID'].']" value="'.htmlspecialchars($option,ENT_QUOTES).'"'.(($RET['CATEGORY_'.$category['ID']]==$option)?' checked':'').'>&nbsp;'.$option.'</label></td>';
+					}
+
+					$multiple_html .= '</tr></table>';
+
+					$id = GetInputID( 'values[CATEGORY_' . $category['ID'] . ']' );
+
+					echo InputDivOnclick(
+						$id,
+						$multiple_html,
+						$multiple_value,
+						''
+					);
+
 				break;
 
 				case 'select':
 					$options = array();
-					$category['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$category['SELECT_OPTIONS']));
-					$select_options = explode("\r",$category['SELECT_OPTIONS']);
 
-					foreach($select_options as $option)
-						$options[$option] = $option;
+					$select_options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS'] ) );
 
-					echo SelectInput($RET['CATEGORY_'.$category['ID']],'values[CATEGORY_'.$category['ID'].']','',$options,'N/A');
-					/*
-					echo '<SELECT name=values[CATEGORY_'.$category['ID'].']><OPTION value="">N/A';
-					foreach($options as $option)
-					{
-						echo '<OPTION value="'.str_replace('"','&quot;',$option).'"'.($RET['CATEGORY_'.$category['ID']]==str_replace('"','&quot;',$option)?' SELECTED':'').'>'.$option.'</OPTION>';
-					}
-					*/
+					foreach ( (array) $select_options as $option)
+						$options[ $option ] = $option;
+
+					echo SelectInput(
+						$RET[ 'CATEGORY_' . $category['ID'] ],
+						'values[CATEGORY_' . $category['ID'] . ']',
+						'',
+						$options,
+						'N/A'
+					);
+
 				break;
 			}
-			echo '</TD></TR>';
+			echo '</td></tr>';
 		}
-		echo '</TABLE>';
+		echo '</table>';
 
 		echo PopTable('footer');
 
-		if(AllowEdit())
-			echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';
+		if (AllowEdit())
+			echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 
-		echo '</FORM>';
+		echo '</form>';
 	}
 	else
 	{
-		$error[] = _('No Students were found.');
+		$error[] = _( 'No Students were found.' );
+
 		$_REQUEST['referral_id'] = false;
 	}
 }
 
-if (isset($error))
-	echo ErrorMessage($error);
+echo ErrorMessage( $error );
 
-if(!$_REQUEST['referral_id'] && !$_REQUEST['modfunc'])
+if ( ! $_REQUEST['referral_id'] && ! $_REQUEST['modfunc'])
 	Search('student_id',$extra);
 
 function _make($value,$column)
 {
-	if(mb_substr_count($value,'-')==2 && VerifyDate($value))
+	if (mb_substr_count($value,'-')==2 && VerifyDate($value))
 		$value = ProperDate($value);
-	elseif(is_numeric($value))
+	elseif (is_numeric($value))
 		$value = ((mb_strpos($value,'.')===false)?$value:rtrim(rtrim($value,'0'),'.'));
-	elseif ($value == 'Y')
+	elseif ( $value == 'Y')
 		$value = button('check');
 
-	return str_replace('||',',<BR />',trim($value,'|'));
+	return str_replace('||',',<br />',trim($value,'|'));
 }
-?>

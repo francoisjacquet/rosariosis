@@ -1,7 +1,7 @@
 <?php
 // Food Service Icons Path
 // You can override the Path definition in the config.inc.php file
-if (!isset($FS_IconsPath))
+if ( !isset($FS_IconsPath))
 	$FS_IconsPath = 'assets/FS_icons/'; // Food Service icons
 
 //FJ Food Service icons functions
@@ -10,9 +10,8 @@ if (!isset($FS_IconsPath))
 function makeIcon($value,$name,$height='30')
 {	global $FS_IconsPath;
 
-	if($value)
-		return '<IMG src="'.$FS_IconsPath.$value.'" height="'.$height.'" />';
+	if ( $value)
+		return '<img src="'.$FS_IconsPath.$value.'" height="'.$height.'" />';
 	else
 		return '&nbsp;';
 }
-?>

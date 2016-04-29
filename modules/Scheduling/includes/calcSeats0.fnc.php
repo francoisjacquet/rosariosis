@@ -19,5 +19,3 @@ function calcSeats0($period,$date='')
 	AND ac.SCHOOL_DATE BETWEEN ".($date?"'".$date."'":db_case(array("(CURRENT_DATE>'".GetMP($mp,'END_DATE')."')",'TRUE',"'".GetMP($mp,'START_DATE')."'",'CURRENT_DATE')))." AND '".GetMP($mp,'END_DATE')."'"));
 	return $seats[1]['FILLED_SEATS'];
 }
-
-?>

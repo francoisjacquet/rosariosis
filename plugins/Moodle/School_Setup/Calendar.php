@@ -27,18 +27,18 @@ list of (
 )
 */
 	//update_calendar_event
-	if($_REQUEST['event_id']!='new')
+	if ( $_REQUEST['event_id']!='new')
 	{
 		//get calendar event title & description
 		$calendar_event = DBGet(DBQuery("SELECT TITLE, DESCRIPTION FROM CALENDAR_EVENTS WHERE ID='".$_REQUEST['event_id']."'"));
 	}
 
-	if(empty($_REQUEST['values']['TITLE']))
+	if ( empty($_REQUEST['values']['TITLE']))
 		$name = $calendar_event[1]['TITLE'];
 	else
 		$name = $_REQUEST['values']['TITLE'];
 
-	if(empty($_REQUEST['values']['DESCRIPTION']))
+	if ( empty($_REQUEST['values']['DESCRIPTION']))
 		$description = $calendar_event[1]['DESCRIPTION'];
 	else
 		$description = $_REQUEST['values']['DESCRIPTION'];
@@ -173,4 +173,3 @@ function core_calendar_delete_calendar_events_response($response)
 	
 	return null;
 }
-?>

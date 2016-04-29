@@ -63,4 +63,3 @@ function enrol_manual_enrol_users_response($response)
 {
 	return null;
 }
-?>

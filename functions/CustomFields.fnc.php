@@ -1,320 +1,368 @@
 <?php
+/**
+ * Custom (staff) Fields function
+ *
+ * @package RosarioSIS
+ * @subpackage functions
+ */
 
-/*
-	Call in an SQL statement to select students based on custom fields
-	Use in the where section of the query by CustomFields('where')
-*/
+/**
+ * Custom (staff) fields query
+ * Call in an SQL statement to select students / staff based on custom fields
+ * Also sets $_ROSARIO['SearchTerms'] to display search terms
+ *
+ * @example Use in the where section of the query:
+ *          $extra['WHERE'] .= CustomFields( 'where' );
+ *
+ * @global array  $_ROSARIO Sets $_ROSARIO['SearchTerms']
+ *
+ * @param  string $location part of the SQL statement (always 'where').
+ * @param  string $type     student|staff (optional).
+ * @param  array  $extra    disable search terms: array( 'NoSearchTerms' => true ) (optional).
+ *
+ * @return string           Custom Fields SQL WHERE
+ */
+function CustomFields( $location, $type = 'student', $extra = array() )
+{
+	global $_ROSARIO;
 
-//FJ fix error Warning: Missing argument 3 for CustomFields()
-//function CustomFields($location,$type='student',$extra)
-function CustomFields($location,$type='student',$extra=array())
-{	global $_ROSARIO;
+	$return = '';
 
-	if(count($_REQUEST['month_cust_begin']))
+	// If location === 'from', return.
+	if ( $location !== 'where' )
 	{
-		foreach($_REQUEST['month_cust_begin'] as $field_name=>$month)
-		{
-			$_REQUEST['cust_begin'][$field_name] = $_REQUEST['day_cust_begin'][$field_name].'-'.$month.'-'.$_REQUEST['year_cust_begin'][$field_name];
-
-			if(!VerifyDate($_REQUEST['cust_begin'][$field_name]))
-				unset($_REQUEST['cust_begin'][$field_name]);
-		}
+		return $return;
 	}
 
-	unset($_REQUEST['month_cust_begin']);
-	unset($_REQUEST['year_cust_begin']);
-	unset($_REQUEST['day_cust_begin']);
+	// if location === 'where':
 
-	if(count($_REQUEST['month_cust_end']))
+	// Unset empty values.
+	$cust = array();
+
+	if ( isset( $_REQUEST['cust'] ) )
 	{
-		foreach($_REQUEST['month_cust_end'] as $field_name=>$month)
+		foreach ( (array) $_REQUEST['cust'] as $key => $value )
 		{
-			$_REQUEST['cust_end'][$field_name] = $_REQUEST['day_cust_end'][$field_name].'-'.$month.'-'.$_REQUEST['year_cust_end'][$field_name];
-
-			if(!VerifyDate($_REQUEST['cust_end'][$field_name]))
-				unset($_REQUEST['cust_end'][$field_name]);
-		}
-	}
-
-	unset($_REQUEST['month_cust_end']);
-	unset($_REQUEST['year_cust_end']);
-	unset($_REQUEST['day_cust_end']);
-
-	if(count($_REQUEST['cust']))
-	{
-		foreach($_REQUEST['cust'] as $key=>$value)
-		{
-			if($value=='')
-				unset($_REQUEST['cust'][$key]);
-		}
-	}
-	switch($location)
-	{
-		case 'from':
-		break;
-
-		case 'where':
-		if(count($_REQUEST['cust']) || count($_REQUEST['cust_begin'] || count($_REQUEST['cust_null'])))
-			$fields = ParseMLArray(DBGet(DBQuery("SELECT TITLE,ID,TYPE,SELECT_OPTIONS FROM ".($type=='staff'?'STAFF':'CUSTOM')."_FIELDS"),array(),array('ID')),'TITLE');
-
-		if(count($_REQUEST['cust']))
-		{
-			foreach($_REQUEST['cust'] as $field_name => $value)
+			if ( $value !== '' )
 			{
-				if($value!='')
+				$cust[ $key ] = $value;
+			}
+		}
+	}
+
+
+	// Format & Verify begin dates.
+	$cust_begin = array();
+
+	if ( isset( $_REQUEST['day_cust_begin'], $_REQUEST['month_cust_begin'], $_REQUEST['year_cust_begin'] ) )
+	{
+		$cust_begin = RequestedDates(
+			$_REQUEST['year_cust_begin'],
+			$_REQUEST['month_cust_begin'],
+			$_REQUEST['day_cust_begin']
+		);
+	}
+
+	if ( isset( $_REQUEST['cust_begin'] ) )
+	{
+		// Add begin Number.
+		$cust_begin += (array) $_REQUEST['cust_begin'];
+	}
+
+
+	// Format & Verify end dates.
+	$cust_end = array();
+
+	if ( isset( $_REQUEST['day_cust_end'], $_REQUEST['month_cust_end'], $_REQUEST['year_cust_end'] ) )
+	{
+		$cust_end = RequestedDates(
+			$_REQUEST['year_cust_end'],
+			$_REQUEST['month_cust_end'],
+			$_REQUEST['day_cust_end']
+		);
+	}
+
+	if ( isset( $_REQUEST['cust_end'] ) )
+	{
+		// Add end Number.
+		$cust_end += (array) $_REQUEST['cust_end'];
+	}
+
+
+	// Get custom (staff) fields.
+	if ( count( $cust )
+		|| count( $cust_begin )
+		|| count( $cust_end )
+		|| ( isset( $_REQUEST['cust_null'] )
+			&& count( (array) $_REQUEST['cust_null'] ) ) )
+	{
+		$fields = ParseMLArray( DBGet( DBQuery( "SELECT TITLE,ID,TYPE,SELECT_OPTIONS
+			FROM " . ( $type === 'staff' ? 'STAFF' : 'CUSTOM' ) . "_FIELDS" ), array(), array( 'ID' ) ), 'TITLE' );
+	}
+
+	foreach ( (array) $cust as $field_name => $value )
+	{
+		$field_id = mb_substr( $field_name, 7 );
+
+		$field_title = $fields[ $field_id ][1]['TITLE'];
+
+		if ( ! $extra['NoSearchTerms'] )
+		{
+			$_ROSARIO['SearchTerms'] .= '<b>' . $field_title . ': </b>';
+		}
+
+		switch ( $fields[ $field_id ][1]['TYPE'] )
+		{
+			// Checkbox.
+			case 'radio':
+
+				// Yes.
+				if ( $value == 'Y' )
 				{
-					switch($fields[mb_substr($field_name,7)][1]['TYPE'])
+					$return .= ' AND s.' . $field_name . "='" . $value . "' ";
+
+					if ( ! $extra['NoSearchTerms'] )
 					{
-						case 'radio':
-							if(!$extra['NoSearchTerms'])
-								$_ROSARIO['SearchTerms'] .= '<b>'.$fields[mb_substr($field_name,7)][1]['TITLE'].': </b>';
-
-							if($value=='Y')
-							{
-								$string .= " AND s.".$field_name."='".$value."' ";
-
-								if(!$extra['NoSearchTerms'])
-									$_ROSARIO['SearchTerms'] .= _('Yes');
-							}
-							elseif($value=='N')
-							{
-								$string .= " AND (s.".$field_name."!='Y' OR s.".$field_name." IS NULL) ";
-
-								if(!$extra['NoSearchTerms'])
-									$_ROSARIO['SearchTerms'] .= _('No');
-							}
-
-							if(!$extra['NoSearchTerms'])
-								$_ROSARIO['SearchTerms'] .= '<BR />';
-						break;
-
-						case 'codeds':
-							if(!$extra['NoSearchTerms'])
-								$_ROSARIO['SearchTerms'] .= '<b>'.$fields[mb_substr($field_name,7)][1]['TITLE'].': </b>';
-
-							if($value=='!')
-							{
-								$string .= " AND (s.".$field_name."='' OR s.".$field_name." IS NULL) ";
-
-								if(!$extra['NoSearchTerms'])
-									$_ROSARIO['SearchTerms'] .= _('No Value');
-							}
-							else
-							{
-								$string .= " AND s.".$field_name."='".$value."' ";
-
-								if(!$extra['NoSearchTerms'])
-								{
-									$select_options = str_replace("\n","\r",str_replace("\r\n","\r",$fields[mb_substr($field_name,7)][1]['SELECT_OPTIONS']));
-									$select_options = explode("\r",$select_options);
-
-									foreach($select_options as $option)
-									{
-										$option = explode('|',$option);
-										if($option[0]!='' && $option[1]!='' && $value==$option[0])
-										{
-											$value = $option[1];
-											break;
-										}
-									}
-									$_ROSARIO['SearchTerms'] .= $value;
-								}
-							}
-
-							if(!$extra['NoSearchTerms'])
-								$_ROSARIO['SearchTerms'] .= '<BR />';
-						break;
-
-						case 'exports':
-							if(!$extra['NoSearchTerms'])
-								$_ROSARIO['SearchTerms'] .= '<b>'.$fields[mb_substr($field_name,7)][1]['TITLE'].': </b>';
-
-							if($value=='!')
-							{
-								$string .= " AND (s.".$field_name."='' OR s.".$field_name." IS NULL) ";
-
-								if(!$extra['NoSearchTerms'])
-									$_ROSARIO['SearchTerms'] .= _('No Value');
-							}
-							else
-							{
-								$string .= " AND s.".$field_name."='".$value."' ";
-
-								if(!$extra['NoSearchTerms'])
-								{
-									$select_options = str_replace("\n","\r",str_replace("\r\n","\r",$fields[mb_substr($field_name,7)][1]['SELECT_OPTIONS']));
-									$select_options = explode("\r",$select_options);
-
-									foreach($select_options as $option)
-									{
-										$option = explode('|',$option);
-										if($option[0]!='' && $value==$option[0])
-										{
-											$value = $option[0];
-											break;
-										}
-									}
-									$_ROSARIO['SearchTerms'] .= $value;
-								}
-							}
-
-							if(!$extra['NoSearchTerms'])
-								$_ROSARIO['SearchTerms'] .= '<BR />';
-							break;
-
-						case 'select':
-							if(!$extra['NoSearchTerms'])
-								$_ROSARIO['SearchTerms'] .= '<b>'.$fields[mb_substr($field_name,7)][1]['TITLE'].': </b>';
-
-							if($value=='!')
-							{
-								$string .= " AND (s.".$field_name."='' OR s.".$field_name." IS NULL) ";
-
-								if(!$extra['NoSearchTerms'])
-									$_ROSARIO['SearchTerms'] .= _('No Value');
-							}
-							else
-							{
-								$string .= " AND s.".$field_name."='".$value."' ";
-
-								if(!$extra['NoSearchTerms'])
-									$_ROSARIO['SearchTerms'] .= $value;
-							}
-
-							if(!$extra['NoSearchTerms'])
-								$_ROSARIO['SearchTerms'] .= '<BR />';
-							break;
-
-						case 'autos':
-							if(!$extra['NoSearchTerms'])
-								$_ROSARIO['SearchTerms'] .= '<b>'.$fields[mb_substr($field_name,7)][1]['TITLE'].': </b>';
-
-							if($value=='!')
-							{
-								$string .= " AND (s.".$field_name."='' OR s.".$field_name." IS NULL) ";
-
-								if(!$extra['NoSearchTerms'])
-									$_ROSARIO['SearchTerms'] .= _('No Value');
-							}
-							else
-							{
-								$string .= " AND s.".$field_name."='".$value."' ";
-
-								if(!$extra['NoSearchTerms'])
-									$_ROSARIO['SearchTerms'] .= $value;
-							}
-
-							if(!$extra['NoSearchTerms'])
-								$_ROSARIO['SearchTerms'] .= '<BR />';
-							break;
-
-						case 'edits':
-							if(!$extra['NoSearchTerms'])
-								$_ROSARIO['SearchTerms'] .= '<b>'.$fields[mb_substr($field_name,7)][1]['TITLE'].': </b>';
-
-							if($value=='!')
-							{
-								$string .= " AND (s.".$field_name."='' OR s.".$field_name." IS NULL) ";
-
-								if(!$extra['NoSearchTerms'])
-									$_ROSARIO['SearchTerms'] .= _('No Value');
-							}
-							elseif($value=='~')
-							{
-								$string .= " AND position('\r'||s.".$field_name."||'\r' IN '\r'||(SELECT SELECT_OPTIONS FROM ".($type=='staff'?'STAFF':'CUSTOM')."_FIELDS WHERE ID='".mb_substr($field_name,7)."')||'\r')=0 ";
-
-								if(!$extra['NoSearchTerms'])
-									$_ROSARIO['SearchTerms'] .= _('Other Value');
-							}
-							else
-							{
-								$string .= " AND s.".$field_name."='".$value."' ";
-
-								if(!$extra['NoSearchTerms'])
-									$_ROSARIO['SearchTerms'] .= $value;
-							}
-
-							if(!$extra['NoSearchTerms'])
-								$_ROSARIO['SearchTerms'] .= '<BR />';
-							break;
-
-						case 'text':
-							if($value=='!')
-							{
-								$string .= " AND (s.".$field_name."='' OR s.".$field_name." IS NULL) ";
-
-								if(!$extra['NoSearchTerms'])
-									$_ROSARIO['SearchTerms'] .= '<b>'.$fields[mb_substr($field_name,7)][1]['TITLE'].': </b>'._('No Value').'<BR />';
-							}
-							elseif(mb_substr($value,0,2)=='\"' && mb_substr($value,-2)=='\"')
-							{
-								$string .= " AND s.".$field_name."='".mb_substr($value,2,-2)."' ";
-
-								if(!$extra['NoSearchTerms'])
-									$_ROSARIO['SearchTerms'] .= '<b>'.$fields[mb_substr($field_name,7)][1]['TITLE'].': </b>'.mb_substr($value,2,-2).'<BR />';
-							}
-							else
-							{
-								$string .= " AND LOWER(s.".$field_name.") LIKE '".mb_strtolower($value)."%' ";
-
-								if(!$extra['NoSearchTerms'])
-									$_ROSARIO['SearchTerms'] .= '<b>'.$fields[mb_substr($field_name,7)][1]['TITLE'].'&nbsp;'._('starts with').': </b>'.str_replace("''", "'", $value).'<BR />';
-							}
-						break;
+						$_ROSARIO['SearchTerms'] .= _( 'Yes' );
 					}
 				}
-			}
-		}
-		if(count($_REQUEST['cust_begin']))
-		{
-			foreach($_REQUEST['cust_begin'] as $field_name=>$value)
-			{
-				if($fields[mb_substr($field_name,7)][1]['TYPE']=='numeric')
-					$value = preg_replace('/[^0-9.-]+/','',$value);
-
-				if($value!='')
+				// No.
+				elseif ( $value == 'N' )
 				{
-					$string .= " AND s.".$field_name." >= '".$value."' ";
+					$return .= ' AND (s.' . $field_name . "!='Y' OR s." . $field_name . " IS NULL) ";
 
-					if(!$extra['NoSearchTerms'])
-						if($fields[mb_substr($field_name,7)][1]['TYPE']=='date')
-							$_ROSARIO['SearchTerms'] .= '<b>'.$fields[mb_substr($field_name,7)][1]['TITLE'].' <span class="sizep2">&ge;</span> </b>'.ProperDate($value).'<BR />';
-						else
-							$_ROSARIO['SearchTerms'] .= '<b>'.$fields[mb_substr($field_name,7)][1]['TITLE'].' <span class="sizep2">&ge;</span> </b>'.$value.'<BR />';
+					if ( ! $extra['NoSearchTerms'] )
+					{
+						$_ROSARIO['SearchTerms'] .= _( 'No' );
+					}
 				}
-			}
-		}
-		if(count($_REQUEST['cust_end']))
-		{
-			foreach($_REQUEST['cust_end'] as $field_name=>$value)
-			{
-				if($fields[mb_substr($field_name,7)][1]['TYPE']=='numeric')
-					$value = preg_replace('/[^0-9.-]+/','',$value);
 
-				if($value!='')
+			break;
+
+			// Export Pull-Down.
+			case 'exports':
+			// Coded Pull-Down.
+			case 'codeds':
+
+				// No Value.
+				if ( $value === '!' )
 				{
-					$string .= " AND s.".$field_name." <= '".$value."' ";
+					$return .= ' AND (s.' . $field_name . "='' OR s." . $field_name . " IS NULL) ";
 
-					if(!$extra['NoSearchTerms'])
-						if($fields[mb_substr($field_name,7)][1]['TYPE']=='date')
-							$_ROSARIO['SearchTerms'] .= '<b>'.$fields[mb_substr($field_name,7)][1]['TITLE'].' <span class="sizep2">&le;</span> </b>'.ProperDate($value).'<BR />';
-						else
-							$_ROSARIO['SearchTerms'] .= '<b>'.$fields[mb_substr($field_name,7)][1]['TITLE'].' <span class="sizep2">&le;</span> </b>'.$value.'<BR />';
+					if ( ! $extra['NoSearchTerms'] )
+					{
+						$_ROSARIO['SearchTerms'] .= _( 'No Value' );
+					}
 				}
-			}
-		}
-		if(count($_REQUEST['cust_null']))
-		{
-			foreach($_REQUEST['cust_null'] as $field_name=>$y)
-			{
-				$string .= " AND s.".$field_name." IS NULL ";
-				if(!$extra['NoSearchTerms'])
-					$_ROSARIO['SearchTerms'] .= '<b>'.$fields[mb_substr($field_name,7)][1]['TITLE'].': </b>'._('No Value').'<BR />';
-			}
+				else
+				{
+					$return .= ' AND s.' . $field_name . "='" . $value . "' ";
+
+					if ( ! $extra['NoSearchTerms'] )
+					{
+						$select_options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $fields[ $field_id ][1]['SELECT_OPTIONS'] ) );
+
+						foreach ( (array) $select_options as $option )
+						{
+							$option = explode( '|', $option );
+
+							if ( $fields[ $field_id ][1]['TYPE'] == 'exports'
+								&& $option[0] !== ''
+								&& $value == $option[0] )
+							{
+								$value = $option[0];
+								break;
+							}
+							// Codeds.
+							elseif ( $option[0] !== ''
+								&& $option[1] !== ''
+								&& $value == $option[0] )
+							{
+								$value = $option[1];
+								break;
+							}
+						}
+
+						$_ROSARIO['SearchTerms'] .= $value;
+					}
+				}
+
+			break;
+
+			// Pull-Down.
+			case 'select':
+			// Auto Pull-Down.
+			case 'autos':
+			// Edit Pull-Down.
+			case 'edits':
+
+				// No Value.
+				if ( $value === '!' )
+				{
+					$return .= ' AND (s.' . $field_name . "='' OR s." . $field_name . " IS NULL) ";
+
+					if ( ! $extra['NoSearchTerms'] )
+					{
+						$_ROSARIO['SearchTerms'] .= _( 'No Value' );
+					}
+				}
+				// Other Value (Edit Pull-Down only).
+				elseif ( $fields[ $field_id ][1]['TYPE'] == 'edits'
+					&& $value === '~' )
+				{
+					$return .= " AND position('\r'||s." . $field_name . "||'\r'
+						IN '\r'||(SELECT SELECT_OPTIONS
+							FROM " . ( $type === 'staff' ? 'STAFF' : 'CUSTOM' ) . "_FIELDS
+							WHERE ID='" . $field_id . "')||'\r')=0 ";
+
+					if ( ! $extra['NoSearchTerms'] )
+					{
+						$_ROSARIO['SearchTerms'] .= _( 'Other Value' );
+					}
+				}
+				else
+				{
+					$return .= ' AND s.' . $field_name . "='" . $value . "' ";
+
+					if ( ! $extra['NoSearchTerms'] )
+					{
+						$_ROSARIO['SearchTerms'] .= $value;
+					}
+				}
+
+			break;
+
+			// Text
+			// Enter '!' for No Value
+			// Enter text inside double quotes "" for exact search.
+			case 'text':
+
+				// No value.
+				if ( $value === '!' )
+				{
+					$return .= ' AND (s.' . $field_name . "='' OR s." . $field_name . " IS NULL) ";
+
+					if ( ! $extra['NoSearchTerms'] )
+					{
+						$_ROSARIO['SearchTerms'] .= _( 'No Value' );
+					}
+				}
+				// Matches "searched expression".
+				elseif ( mb_substr( $value, 0, 1 ) === '"'
+					&& mb_substr( $value, -1 ) === '"' )
+				{
+					$return .= ' AND s.' . $field_name . "='" . mb_substr( $value, 1, -1 ) . "' ";
+
+					if ( ! $extra['NoSearchTerms'] )
+					{
+						$_ROSARIO['SearchTerms'] .= mb_substr( $value, 1, -1 );
+					}
+				}
+				// Starts with.
+				else
+				{
+					$return .= ' AND LOWER(s.' . $field_name . ") LIKE '" . mb_strtolower( $value ) . "%' ";
+
+					if ( ! $extra['NoSearchTerms'] )
+					{
+						$_ROSARIO['SearchTerms'] .= _('starts with') . ' ' .
+							str_replace( "''", "'", $value );
+					}
+				}
+
+			break;
 		}
 
-		break;
+		if ( ! $extra['NoSearchTerms'] )
+		{
+			$_ROSARIO['SearchTerms'] .= '<br />';
+		}
 	}
-		return $string;
+
+	// Begin Dates / Number.
+	foreach ( (array) $cust_begin as $field_name => $value )
+	{
+		$field_id = mb_substr( $field_name, 7 );
+
+		$field_title = $fields[ $field_id ][1]['TITLE'];
+
+		if ( $fields[ $field_id ][1]['TYPE'] === 'numeric' )
+		{
+			$value = preg_replace( '/[^0-9.-]+/', '', $value );
+		}
+
+		if ( $value !== '' )
+		{
+			$return .= ' AND s.' . $field_name . " >= '" . $value . "' ";
+
+			if ( ! $extra['NoSearchTerms'] )
+			{
+				$_ROSARIO['SearchTerms'] .= '<b>' . $field_title . ': </b>' .
+					'<span class="sizep2">&ge;</span> ';
+
+				if ( $fields[ $field_id ][1]['TYPE'] === 'date' )
+				{
+					$_ROSARIO['SearchTerms'] .= ProperDate( $value );
+				}
+				else
+					$_ROSARIO['SearchTerms'] .= $value;
+
+				$_ROSARIO['SearchTerms'] .= '<br />';
+			}
+		}
+	}
+
+	// End Dates / Number.
+	foreach ( (array) $cust_end as $field_name => $value )
+	{
+		$field_id = mb_substr( $field_name, 7 );
+
+		$field_title = $fields[ $field_id ][1]['TITLE'];
+
+		if ( $fields[ $field_id ][1]['TYPE'] === 'numeric' )
+		{
+			$value = preg_replace( '/[^0-9.-]+/', '', $value );
+		}
+
+		if ( $value !== '' )
+		{
+			$return .= ' AND s.' . $field_name . " <= '" . $value . "' ";
+
+			if ( ! $extra['NoSearchTerms'] )
+			{
+				$_ROSARIO['SearchTerms'] .= '<b>' . $field_title . ': </b>' .
+					'<span class="sizep2">&le;</span> ';
+
+				if ( $fields[ $field_id ][1]['TYPE'] === 'date' )
+				{
+					$_ROSARIO['SearchTerms'] .= ProperDate( $value );
+				}
+				else
+					$_ROSARIO['SearchTerms'] .= $value;
+
+				$_ROSARIO['SearchTerms'] .= '<br />';
+			}
+		}
+	}
+
+	if ( isset( $_REQUEST['cust_null'] ) )
+	{
+		// No Value for Dates & Number.
+		foreach ( (array) $_REQUEST['cust_null'] as $field_name => $y )
+		{
+			$field_id = mb_substr( $field_name, 7 );
+
+			$field_title = $fields[ $field_id ][1]['TITLE'];
+
+			$return .= ' AND s.' . $field_name . " IS NULL ";
+
+			if ( ! $extra['NoSearchTerms'] )
+			{
+				$_ROSARIO['SearchTerms'] .= '<b>' . $field_title . ': </b>' .
+					_( 'No Value' ) . '<br />';
+			}
+		}
+	}
+
+	return $return;
 }
-?>

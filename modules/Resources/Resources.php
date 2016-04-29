@@ -1,15 +1,15 @@
 <?php
-if($_REQUEST['modfunc']=='update')
+if ( $_REQUEST['modfunc']=='update')
 {
-	if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
+	if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 	{
-		foreach($_REQUEST['values'] as $id=>$columns)
+		foreach ( (array) $_REQUEST['values'] as $id => $columns)
 		{
-			if($id!='new')
+			if ( $id!='new')
 			{
 				$sql = "UPDATE RESOURCES SET ";
 							
-				foreach($columns as $column=>$value)
+				foreach ( (array) $columns as $column => $value)
 				{
 					$sql .= $column."='".$value."',";
 				}
@@ -24,9 +24,9 @@ if($_REQUEST['modfunc']=='update')
 				$values = db_seq_nextval('RESOURCES_SEQ').",'".UserSchool()."',";
 
 				$go = 0;
-				foreach($columns as $column=>$value)
+				foreach ( (array) $columns as $column => $value)
 				{
-					if(!empty($value) || $value=='0')
+					if ( !empty($value) || $value=='0')
 					{
 						$fields .= $column.',';
 						$values .= "'".$value."',";
@@ -35,7 +35,7 @@ if($_REQUEST['modfunc']=='update')
 				}
 				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 			
-				if($go)
+				if ( $go)
 					DBQuery($sql);
 			}
 		}
@@ -46,46 +46,46 @@ if($_REQUEST['modfunc']=='update')
 
 DrawHeader(ProgramTitle());
 
-if($_REQUEST['modfunc']=='remove' && AllowEdit())
+if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 {
-	if(DeletePrompt(_('Resource')))
+	if (DeletePrompt(_('Resource')))
 	{
 		DBQuery("DELETE FROM RESOURCES WHERE ID='".$_REQUEST['id']."'");
 		unset($_REQUEST['modfunc']);
 	}
 }
 
-if(empty($_REQUEST['modfunc']))
+if (empty($_REQUEST['modfunc']))
 {
 	$sql = "SELECT ID,TITLE,LINK FROM RESOURCES WHERE SCHOOL_ID='".UserSchool()."' ORDER BY ID";
 	$QI = DBQuery($sql);
-	$resources_RET = DBGet($QI,array('TITLE'=>'_makeTextInput','LINK'=>'_makeLink'));
+	$resources_RET = DBGet($QI,array('TITLE' => '_makeTextInput','LINK' => '_makeLink'));
 
-	$columns = array('TITLE'=>_('Title'),'LINK'=>_('Link'));
+	$columns = array('TITLE' => _('Title'),'LINK' => _('Link'));
 	$link['add']['html'] = array('TITLE'=>_makeTextInput('','TITLE'),'LINK'=>_makeLink('','LINK'));
 	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';
-	$link['remove']['variables'] = array('id'=>'ID');
+	$link['remove']['variables'] = array('id' => 'ID');
 	
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
 
 	ListOutput($resources_RET,$columns,'Resource','Resources',$link);
-	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
-	echo '</FORM>';
+	echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+	echo '</form>';
 }
 
 function _makeTextInput($value,$name)
 {	global $THIS_RET;
 	
-	if($THIS_RET['ID'])
+	if ( $THIS_RET['ID'])
 		$id = $THIS_RET['ID'];
 	else
 		$id = 'new';
 	
-	if($name=='LINK')
+	if ( $name=='LINK')
 		$extra = 'maxlength=1000';
 		
-	if($name=='TITLE')
+	if ( $name=='TITLE')
 		$extra = 'maxlength=256';
 
 	return TextInput($value,'values['.$id.']['.$name.']','',$extra);
@@ -95,7 +95,7 @@ function _makeLink($value,$name)
 {
 	if (AllowEdit())
 	{
-		if($value)
+		if ( $value)
 			return '<div style="display:table-cell;"><a href="'.$value.'" target="_blank">'._('Link').'</a>&nbsp;</div><div style="display:table-cell;">'._makeTextInput($value,$name).'</div>';
 		else
 			return _makeTextInput($value,$name);
@@ -115,4 +115,3 @@ function _makeLink($value,$name)
 	 
 	return '<a href="'.$value.'" target="_blank">'.$truncated_link.'</a>';
 }
-?>

@@ -190,4 +190,3 @@ function core_calendar_delete_calendar_events_response($response)
 	
 	return null;
 }
-?>

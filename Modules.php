@@ -1,81 +1,129 @@
 <?php
-error_reporting(E_ALL ^ E_NOTICE);
-include('Warehouse.php');
+/**
+ * Modules
+ *
+ * Get requested program / modname
+ *
+ * @package RosarioSIS
+ */
 
-if(isset($_REQUEST['modname']))
+require_once 'Warehouse.php';
+
+// If no modname found, go back to index.
+if ( ! isset( $_REQUEST['modname'] )
+	|| empty( $_REQUEST['modname'] ) )
 {
-	$modname = $_REQUEST['modname'];
-	
-	if(!isset($_REQUEST['_ROSARIO_PDF']))
-	{
-		if ( empty( $_REQUEST['LO_save'] )
-			&& ( mb_strpos( $modname, 'misc/' ) === false
-				|| $modname == 'misc/Registration.php'
-				|| $modname == 'misc/Export.php'
-				|| $modname == 'misc/Portal.php' )
-			&& $modname !== 'Reports/SavedReports.php' )
-		{
-			$_SESSION['_REQUEST_vars'] = $_REQUEST;
-		}
-
-		$_ROSARIO['is_popup'] = $_ROSARIO['not_ajax'] = false;
-
-		//FJ security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
-		if (in_array($modname, array('misc/ChooseRequest.php', 'misc/ChooseCourse.php', 'misc/ViewContact.php')) || ($modname == 'School_Setup/Calendar.php' && $_REQUEST['modfunc'] == 'detail') || (in_array($modname, array('Scheduling/MassDrops.php', 'Scheduling/Schedule.php', 'Scheduling/MassSchedule.php', 'Scheduling/MassRequests.php', 'Scheduling/Courses.php')) && $_REQUEST['modfunc'] == 'choose_course')) //popups
-		{
-			$_ROSARIO['is_popup'] = true;
-		}
-		elseif (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'] !== 'XMLHttpRequest') //AJAX check
-		{
-			$_ROSARIO['not_ajax'] = true;
-		}
-		
-		if ($_ROSARIO['is_popup'] || $_ROSARIO['not_ajax'])
-			Warehouse('header');
-	}
-	else
-		ob_start();
-
-	$allowed = false;
-
-	//FJ security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
-	//allow PHP scripts in misc/ one by one in place of the whole folder
-	//if(mb_substr($_REQUEST['modname'],0,5)=='misc/')
-	if (in_array($modname, array('misc/ChooseRequest.php', 'misc/ChooseCourse.php', 'misc/Portal.php', 'misc/ViewContact.php')))
-		$allowed = true;
-	else
-	{
-		include 'Menu.php';
-		foreach($_ROSARIO['Menu'] as $modcat=>$programs)
-		{
-			foreach($programs as $program=>$title)
-			{
-	//FJ fix bug URL Modules.php?modname=Student_Billing/Statements.php&_ROSARIO_PDF
-				if($modname==$program || (mb_strpos($program, $modname)=== 0 && mb_strpos($_SERVER['QUERY_STRING'], $program)=== 8))
-				{
-					$allowed = true;
-					$_ROSARIO['Program_loaded'] = $program; //eg: "Student_Billing/Statements.php&_ROSARIO_PDF"
-				}
-			}
-			if ($allowed)
-				break;
-		}
-	}
-
-	if($allowed)
-	{
-		if(Preferences('SEARCH')!='Y')
-			$_REQUEST['search_modfunc'] = 'list';
-
-		include('modules/'.$modname);
-	}
-	elseif(User('USERNAME'))
-	{
-		include('ProgramFunctions/HackingLog.fnc.php');
-		HackingLog();
-	}
-
-	if(!isset($_REQUEST['_ROSARIO_PDF']))
-		Warehouse('footer');
+	header( 'Location: index.php' );
+	exit();
 }
-?>
+
+$modname = $_REQUEST['modname'];
+
+if ( ! isset( $_REQUEST['modfunc'] ) )
+{
+	$_REQUEST['modfunc'] = false;
+}
+
+// Not printing PDF.
+if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+{
+	// Save $_REQUEST vars in session: used to recreate $_REQUEST in Bottom.php.
+	if ( empty( $_REQUEST['LO_save'] )
+		&& ( mb_strpos( $modname, 'misc/' ) === false
+			|| $modname === 'misc/Portal.php'
+			|| $modname === 'misc/Registration.php'
+			|| $modname === 'misc/Export.php' )
+		&& $modname !== 'Reports/SavedReports.php' )
+	{
+		$_SESSION['_REQUEST_vars'] = $_REQUEST;
+	}
+
+	// Popup window detection.
+	$_ROSARIO['is_popup'] = isPopup( $modname, $_REQUEST['modfunc'] );
+
+	// AJAX request detection.
+	$_ROSARIO['not_ajax'] = empty( $_SERVER['HTTP_X_REQUESTED_WITH'] )
+		|| $_SERVER['HTTP_X_REQUESTED_WITH'] !== 'XMLHttpRequest';
+
+	// Output Header HTML.
+	if ( $_ROSARIO['is_popup']
+		|| $_ROSARIO['not_ajax'] )
+	{
+		Warehouse( 'header' );
+	}
+}
+// Print PDF.
+else
+{
+	// Start buffer.
+	ob_start();
+}
+
+
+/**
+ * FJ security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
+ * allow PHP scripts in misc/ one by one in place of the whole folder.
+ */
+$allowed = in_array(
+	$modname,
+	array(
+		'misc/ChooseRequest.php',
+		'misc/ChooseCourse.php',
+		'misc/Portal.php',
+		'misc/ViewContact.php',
+	)
+);
+
+// Browse allowed programs and look for requested modname.
+if ( ! $allowed )
+{
+	// Generate Menu.
+	require_once 'Menu.php';
+
+	foreach ( (array) $_ROSARIO['Menu'] as $modcat => $programs )
+	{
+		foreach ( (array) $programs as $program => $title )
+		{
+			// FJ fix bug URL Modules.php?modname=Student_Billing/Statements.php&_ROSARIO_PDF.
+			if ( $modname == $program
+				|| ( mb_strpos( $program, $modname ) === 0
+					&& mb_strpos( $_SERVER['QUERY_STRING'], $program ) === 8 ) )
+			{
+				$allowed = true;
+
+				// Eg: "Student_Billing/Statements.php&_ROSARIO_PDF".
+				$_ROSARIO['ProgramLoaded'] = $program;
+			}
+		}
+
+		if ( $allowed )
+		{
+			break;
+		}
+	}
+}
+
+if ( $allowed )
+{
+	// Force search_modfunc to list.
+	if ( Preferences( 'SEARCH' ) !== 'Y' )
+	{
+		$_REQUEST['search_modfunc'] = 'list';
+	}
+
+	require_once 'modules/' . $modname;
+}
+
+// Not allowed, hacking attempt?
+elseif ( User( 'USERNAME' ) )
+{
+	require_once 'ProgramFunctions/HackingLog.fnc.php';
+
+	HackingLog();
+}
+
+// Output Footer HTML.
+if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+{
+	Warehouse( 'footer' );
+}

@@ -1,89 +1,108 @@
 <?php
-/**
-* @file $Id: MakeReferral.php 480 2007-04-27 06:05:14Z focus-sis $
-* @package Focus/SIS
-* @copyright Copyright (C) 2006 Andrew Schmadeke. All rights reserved.
-* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.txt
-* Focus/SIS is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.txt for copyright notices and details.
-*/
 
-if($_REQUEST['day_start'] && $_REQUEST['month_start'] && $_REQUEST['year_start'])
-{
-	while(!VerifyDate($start_date = $_REQUEST['day_start'].'-'.$_REQUEST['month_start'].'-'.$_REQUEST['year_start']))
-		$_REQUEST['day_start']--;
-}
-else
-	$start_date = '01-'.mb_strtoupper(date('M-y'));
+require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 
-if($_REQUEST['day_end'] && $_REQUEST['month_end'] && $_REQUEST['year_end'])
+DrawHeader( ProgramTitle() );
+
+// set start date
+if ( isset( $_REQUEST['day_start'] )
+	&& isset( $_REQUEST['month_start'] )
+	&& isset( $_REQUEST['year_start'] ) )
 {
-	while(!VerifyDate($end_date = $_REQUEST['day_end'].'-'.$_REQUEST['month_end'].'-'.$_REQUEST['year_end']))
-		$_REQUEST['day_end']--;
+	$start_date = RequestedDate(
+		$_REQUEST['year_start'],
+		$_REQUEST['month_start'],
+		$_REQUEST['day_start']
+	);
 }
-else
+
+if ( empty( $start_date ) )
+{
+	$start_date = date( 'Y-m' ) . '-01';
+}
+
+// set end date
+if ( isset( $_REQUEST['day_end'] )
+	&& isset( $_REQUEST['month_end'] )
+	&& isset( $_REQUEST['year_end'] ) )
+{
+	$end_date = RequestedDate(
+		$_REQUEST['year_end'],
+		$_REQUEST['month_end'],
+		$_REQUEST['day_end']
+	);
+}
+
+if ( empty( $end_date ) )
+{
 	$end_date = DBDate();
-
-if($_REQUEST['month_values'] && $_POST['month_values'])
-{
-	foreach($_REQUEST['month_values'] as $column=>$value)
-	{
-		$_REQUEST['values'][$column] = $_REQUEST['day_values'][$column].'-'.$value.'-'.$_REQUEST['year_values'][$column];
-		//FJ bugfix SQL bug when incomplete or non-existent date
-		//if($_REQUEST['values'][$column]=='--')
-		if(mb_strlen($_REQUEST['values'][$column]) < 11)
-			$_REQUEST['values'][$column] = '';
-		else
-		{
-			while(!VerifyDate($_REQUEST['values'][$column]))
-			{
-				$_REQUEST['day_values'][$column]--;
-				$_REQUEST['values'][$column] = $_REQUEST['day_values'][$column].'-'.$value.'-'.$_REQUEST['year_values'][$column];
-			}
-		}
-	}
-	$_POST['values'] = $_REQUEST['values'];
 }
 
-if($_REQUEST['values'] && $_POST['values'])
+if ( isset( $_POST['day_values'], $_POST['month_values'], $_POST['year_values'] ) )
+{
+	$requested_dates = RequestedDates(
+		$_REQUEST['year_values'],
+		$_REQUEST['month_values'],
+		$_REQUEST['day_values']
+	);
+
+	$_REQUEST['values'] = array_replace_recursive( (array) $_REQUEST['values'], $requested_dates );
+
+	$_POST['values'] = array_replace_recursive( (array) $_POST['values'], $requested_dates );
+}
+
+if ( isset( $_POST['values'] )
+	&& count( $_POST['values'] ) )
 {
 	$sql = "INSERT INTO DISCIPLINE_REFERRALS ";
-	
+
 	$referral_id_RET = DBGet( DBQuery( "SELECT " . db_seq_nextval( 'DISCIPLINE_REFERRALS_SEQ' ) . " AS ID;" ) );
 
 	$referral_id = $referral_id_RET[1]['ID'];
 
 	$fields = "ID,SYEAR,SCHOOL_ID,STUDENT_ID,";
-	$values = $referral_id.",'".UserSyear()."','".UserSchool()."','".UserStudentID()."',";
+	$values = $referral_id . ",'" . UserSyear() . "','" . UserSchool() . "','" . UserStudentID() . "',";
+
+	if ( User( 'PROFILE' ) === 'teacher' )
+	{
+		// Limit relator to Teacher.
+		$_REQUEST['values']['STAFF_ID'] = $_POST['values']['STAFF_ID'] = User( 'STAFF_ID' );
+	}
 
 	$go = 0;
 
 	$categories_RET = DBGet(DBQuery("SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du WHERE du.SYEAR='".UserSyear()."' AND du.SCHOOL_ID='".UserSchool()."' AND du.DISCIPLINE_FIELD_ID=df.ID ORDER BY du.SORT_ORDER"), array(), array('ID'));
-	
-	foreach($_REQUEST['values'] as $column=>$value)
+
+	foreach ( (array) $_REQUEST['values'] as $column => $value)
 	{
-		if(!empty($value) || $value=='0')
+		if ( !empty($value) || $value=='0')
 		{
+			$column_data_type = $categories_RET[ str_replace( 'CATEGORY_', '', $column ) ][1]['DATA_TYPE'];
+
 			//FJ check numeric fields
-			if ($categories_RET[str_replace('CATEGORY_','',$column)][1]['DATA_TYPE'] == 'numeric' && $value!='' && !is_numeric($value))
+			if ( $column_data_type === 'numeric'
+				&& ! is_numeric( $value ) )
 			{
 				$error[] = _('Please enter valid Numeric data.');
 				$go = 0;
 				break;
 			}
 
+			// FJ textarea fields MarkDown sanitize.
+			if ( $column_data_type === 'textarea' )
+			{
+				$value = SanitizeMarkDown( $_POST['values'][ $column ] );
+			}
+
 			$fields .= $column.',';
-			if(!is_array($value))
+			if ( !is_array($value))
 				$values .= "'".str_replace('&quot;','"',$value)."',";
 			else
 			{
 				$values .= "'||";
-				foreach($value as $val)
+				foreach ( (array) $value as $val)
 				{
-					if($val)
+					if ( $val)
 						$values .= str_replace('&quot;','"',$val).'||';
 				}
 				$values .= "',";
@@ -94,18 +113,22 @@ if($_REQUEST['values'] && $_POST['values'])
 
 	$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 
-	if ($go)
+	if ( $go)
 	{
 		DBQuery($sql);
 
-		// FJ email Discipline Referral feature
+		// FJ email Discipline Referral feature.
 		if ( isset( $_REQUEST['emails'] ) )
 		{
-			include_once( 'modules/Discipline/includes/EmailReferral.fnc.php' );
+			require_once 'modules/Discipline/includes/EmailReferral.fnc.php';
 
 			if ( EmailReferral( $referral_id, $_REQUEST['emails'] ) )
 			{
 				$note[] = _( 'That discipline incident has been emailed.' );
+			}
+			elseif ( ROSARIO_DEBUG )
+			{
+				echo 'Referral not emailed: ' . var_dump( $referral_id );
 			}
 		}
 
@@ -118,151 +141,172 @@ if($_REQUEST['values'] && $_POST['values'])
 	unset($_SESSION['student_id']);
 }
 
-DrawHeader(ProgramTitle());
+echo ErrorMessage( $error );
 
-if(isset($error))
-	echo ErrorMessage($error);
+echo ErrorMessage( $note, 'note' );
 
-if(isset($note))
-	echo ErrorMessage($note,'note');
-
-//if(!$_REQUEST['student_id'])
+//if ( ! $_REQUEST['student_id'])
 	$extra['new'] = true;
 
 
-if($_REQUEST['student_id'])
-	echo '<BR />';
-//Widgets('all');
+if ( $_REQUEST['student_id'])
+	echo '<br />';
+
 Search('student_id',$extra);
 
-if(UserStudentID() && $_REQUEST['student_id'])
+if (UserStudentID() && $_REQUEST['student_id'])
 {
 	//FJ teachers need AllowEdit (to edit the input fields)
 	$_ROSARIO['allow_edit'] = true;
-	
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
-	echo '<BR />';
+
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
+	echo '<br />';
 	PopTable('header',ProgramTitle());
 
 	$categories_RET = DBGet(DBQuery("SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du WHERE du.SYEAR='".UserSyear()."' AND du.SCHOOL_ID='".UserSchool()."' AND du.DISCIPLINE_FIELD_ID=df.ID ORDER BY du.SORT_ORDER"));
-	
-	echo '<TABLE class="width-100p col1-align-right">';
 
-	echo '<TR class="st"><TD><span class="legend-gray">'._('Student').'</span></TD><TD>';
+	echo '<table class="width-100p col1-align-right">';
+
+	echo '<tr class="st"><td><span class="legend-gray">'._('Student').'</span></td><td>';
 	$name = DBGet(DBQuery("SELECT FIRST_NAME,LAST_NAME,MIDDLE_NAME,NAME_SUFFIX FROM STUDENTS WHERE STUDENT_ID='".UserStudentID()."'"));
 	echo $name[1]['FIRST_NAME'].'&nbsp;'.($name[1]['MIDDLE_NAME']?$name[1]['MIDDLE_NAME'].' ':'').$name[1]['LAST_NAME'].'&nbsp;'.$name[1]['NAME_SUFFIX'];
-	echo '</TD></TR>';
+	echo '</td></tr>';
 
-	echo '<TR class="st"><TD><span class="legend-gray">'._('Reporter').'</span></TD><TD>';
-	$users_RET = DBGet(DBQuery("SELECT STAFF_ID,FIRST_NAME,LAST_NAME,MIDDLE_NAME,EMAIL,PROFILE FROM STAFF WHERE SYEAR='".UserSyear()."' AND SCHOOLS LIKE '%,".UserSchool().",%' AND PROFILE IN ('admin','teacher') ORDER BY LAST_NAME,FIRST_NAME,MIDDLE_NAME"));
-	echo '<SELECT name="values[STAFF_ID]">';
-	foreach($users_RET as $user)
-		echo '<OPTION value="'.$user['STAFF_ID'].'"'.(User('STAFF_ID')==$user['STAFF_ID']?' SELECTED':'').'>'.$user['LAST_NAME'].', '.$user['FIRST_NAME'].' '.$user['MIDDLE_NAME'].'</OPTION>';
-	echo '</SELECT>';
-	echo '</TD></TR>';
+	echo '<tr class="st"><td><span class="legend-gray">'._('Reporter').'</span></td><td>';
 
-	echo '<TR class="st"><TD><span class="legend-gray">'._('Incident Date').'</span></TD><TD>';
+	$users_RET = DBGet( DBQuery( "SELECT STAFF_ID,FIRST_NAME||', '||LAST_NAME||coalesce(' '||MIDDLE_NAME,' ')AS FULL_NAME,EMAIL,PROFILE
+		FROM STAFF
+		WHERE SYEAR='" . UserSyear() . "'
+		AND SCHOOLS LIKE '%," . UserSchool() . ",%'
+		AND PROFILE IN ('admin','teacher')
+		ORDER BY FULL_NAME" ) );
+
+	$users_options = array();
+
+	foreach ( (array) $users_RET as $user )
+	{
+		$users_options[ $user['STAFF_ID'] ] = $user['FULL_NAME'];
+	}
+
+	if ( User( 'PROFILE' ) === 'teacher' )
+	{
+		// Limit reporter to Teacher.
+		echo NoInput( $users_options[ User( 'STAFF_ID' ) ] );
+	}
+	else
+	{
+		echo SelectInput(
+			User( 'STAFF_ID' ),
+			'values[STAFF_ID]',
+			'',
+			$users_options,
+			false,
+			'required',
+			false
+		);
+	}
+
+	echo '</td></tr>';
+
+	echo '<tr class="st"><td><span class="legend-gray">'._('Incident Date').'</span></td><td>';
 	echo PrepareDate(DBDate(),'_values[ENTRY_DATE]');
-	echo '</TD></TR>';
+	echo '</td></tr>';
 
 	// FJ email Discipline Referral feature
 	// email Referral to: Administrators and/or Teachers
 	// get Administrators & Teachers with valid emails:
-	foreach ( $users_RET as $user )
+	foreach ( (array) $users_RET as $user )
 	{
 		if ( filter_var( $user['EMAIL'], FILTER_VALIDATE_EMAIL ) )
 		{
 			if ( $user['PROFILE'] === 'admin' )
 			{
-				$emailadmin_options[$user['EMAIL']] = $user['LAST_NAME'].', '.$user['FIRST_NAME'].' '.$user['MIDDLE_NAME'];
+				$emailadmin_options[ $user['EMAIL'] ] = $user['FULL_NAME'];
 			}
 			elseif ( $user['PROFILE'] === 'teacher' )
 			{
-				$emailteacher_options[$user['EMAIL']] = $user['LAST_NAME'].', '.$user['FIRST_NAME'].' '.$user['MIDDLE_NAME'];
+				$emailteacher_options[ $user['EMAIL'] ] = $user['FULL_NAME'];
 			}
 		}
 	}
 
-	echo '<TR class="st"><TD><span class="legend-gray">'._('Email Referral to').'</span></TD><TD>';
+	echo '<tr class="st"><td><span class="legend-gray">'._('Email Referral to').'</span></td><td>';
 
 	$value = $allow_na = $div = false;
 
 	// multiple select input
 	$extra = 'multiple title="' . _( 'Hold the CTRL key down to select multiple options' ) . '"';
 
-	echo '<TABLE><TR class="st"><TD>';
+	echo '<table><tr class="st"><td>';
 
 	echo SelectInput( $value, 'emails[]', _( 'Administrators' ), $emailadmin_options, $allow_na, $extra, $div );
 
-	echo '</TD><TD>';
+	echo '</td><td>';
 
 	echo SelectInput( $value, 'emails[]', _( 'Teachers' ), $emailteacher_options, $allow_na, $extra, $div );
 
-	echo '</TD></TR></TABLE>';
+	echo '</td></tr></table>';
 
-	echo '</TD></TR>';
-	
+	echo '</td></tr>';
 
-	foreach($categories_RET as $category)
+	foreach ( (array) $categories_RET as $category)
 	{
-		echo '<TR class="st"><TD><span class="legend-gray">'.$category['TITLE'].'</span></TD><TD>';
-		switch($category['DATA_TYPE'])
+		echo '<tr class="st"><td><span class="legend-gray">'.$category['TITLE'].'</span></td><td>';
+		switch ( $category['DATA_TYPE'])
 		{
 			case 'text':
 				echo TextInput('','values[CATEGORY_'.$category['ID'].']','','maxlength=255');
-				//echo '<INPUT type="TEXT" name="values[CATEGORY_'.$category['ID'].']" maxlength="255" />';
+				//echo '<input type="TEXT" name="values[CATEGORY_'.$category['ID'].']" maxlength="255" />';
 			break;
-	
+
 			case 'numeric':
 				echo TextInput('','values[CATEGORY_'.$category['ID'].']','','size=9 maxlength=18');
-				//echo '<INPUT type="TEXT" name="values[CATEGORY_'.$category['ID'].']" size="4" maxlength="10" />';
+				//echo '<input type="TEXT" name="values[CATEGORY_'.$category['ID'].']" size="4" maxlength="10" />';
 			break;
-	
+
 			case 'textarea':
 				echo TextAreaInput('','values[CATEGORY_'.$category['ID'].']','','maxlength=5000 rows=4 cols=30');
-				//echo '<TEXTAREA name="values[CATEGORY_'.$category['ID'].']" rows="4" cols="30"></TEXTAREA>';
+				//echo '<textarea name="values[CATEGORY_'.$category['ID'].']" rows="4" cols="30"></textarea>';
 			break;
-	
+
 			case 'checkbox':
 				echo CheckboxInput('','values[CATEGORY_'.$category['ID'].']','','',true);
-				//echo '<INPUT type="CHECKBOX" name="values[CATEGORY_'.$category['ID'].']" value="Y" />';
+				//echo '<input type="CHECKBOX" name="values[CATEGORY_'.$category['ID'].']" value="Y" />';
 			break;
-			
+
 			case 'date':
 				echo DateInput(DBDate(),'_values[CATEGORY_'.$category['ID'].']');
 				//echo PrepareDate(DBDate(),'_values[CATEGORY_'.$category['ID'].']');
 			break;
-			
+
 			case 'multiple_checkbox':
-				$category['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$category['SELECT_OPTIONS']));
-				$options = explode("\r",$category['SELECT_OPTIONS']);
-				
-				echo '<TABLE class="cellpadding-5"><TR class="st">';
+				$options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS']) );
+
+				echo '<table class="cellpadding-5"><tr class="st">';
 				$i = 0;
-				foreach($options as $option)
+				foreach ( (array) $options as $option )
 				{
 					$i++;
-					if($i%3==0)
-						echo '</TR><TR class="st">';
-					echo '<TD><label><INPUT type="checkbox" name="values[CATEGORY_'.$category['ID'].'][]" value="'.str_replace('"','&quot;',$option).'" />&nbsp;'.$option.'</label></TD>';
+					if ( $i%3==0)
+						echo '</tr><tr class="st">';
+					echo '<td><label><input type="checkbox" name="values[CATEGORY_'.$category['ID'].'][]" value="'.str_replace('"','&quot;',$option).'" />&nbsp;'.$option.'</label></td>';
 				}
-				echo '</TR></TABLE>';
+				echo '</tr></table>';
 			break;
-			
+
 			case 'multiple_radio':
-				$category['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$category['SELECT_OPTIONS']));
-				$options = explode("\r",$category['SELECT_OPTIONS']);
-				
-				echo '<TABLE class="cellpadding-5"><TR class="st">';
+				$options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS']));
+
+				echo '<table class="cellpadding-5"><tr class="st">';
 				$i = 0;
-				foreach($options as $option)
+				foreach ( (array) $options as $option)
 				{
 					$i++;
-					if($i%3==0)
-						echo '</TR><TR class="st">';
-					echo '<TD><label><INPUT type="radio" name="values[CATEGORY_'.$category['ID'].']" value="'.str_replace('"','&quot;',$option).'">&nbsp;'.$option.'</label></TD>';
+					if ( $i%3==0)
+						echo '</tr><tr class="st">';
+					echo '<td><label><input type="radio" name="values[CATEGORY_'.$category['ID'].']" value="'.str_replace('"','&quot;',$option).'">&nbsp;'.$option.'</label></td>';
 				}
-				echo '</TR></TABLE>';
+				echo '</tr></table>';
 			break;
 
 			case 'select':
@@ -271,26 +315,25 @@ if(UserStudentID() && $_REQUEST['student_id'])
 
 				$select_options = explode("\r",$category['SELECT_OPTIONS']);
 
-				foreach($select_options as $option)
-					$options[$option] = $option;
+				foreach ( (array) $select_options as $option)
+					$options[ $option ] = $option;
 
 				echo SelectInput('','values[CATEGORY_'.$category['ID'].']','',$options,'N/A');
-				/*echo '<SELECT name="values[CATEGORY_'.$category['ID'].']"><OPTION value="">'._('N/A').'</OPTION>';
-				foreach($options as $option)
+				/*echo '<select name="values[CATEGORY_'.$category['ID'].']"><option value="">'._('N/A').'</option>';
+				foreach ( (array) $options as $option)
 				{
-					echo '<OPTION value="'.str_replace('"','&quot;',$option).'">'.$option.'</OPTION>';
+					echo '<option value="'.str_replace('"','&quot;',$option).'">'.$option.'</option>';
 				}
-				echo '</SELECT>';*/
+				echo '</select>';*/
 			break;
 		}
-		echo '</TD></TR>';
+		echo '</td></tr>';
 	}
-	echo '</TABLE>';
+	echo '</table>';
 
 	PopTable('footer');
 
-	echo '<BR /><span class="center">'.SubmitButton().'</span>';
+	echo '<br /><div class="center">' . SubmitButton( _( 'Submit' ) ) . '</div>';
 
-	echo '</FORM>';
+	echo '</form>';
 }
-?>

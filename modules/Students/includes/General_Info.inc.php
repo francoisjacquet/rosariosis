@@ -1,105 +1,141 @@
 <?php
-echo '<TABLE class="width-100p valign-top">';
-echo '<TR class="st"><TD rowspan="2">';
+echo '<table class="width-100p valign-top fixed-col"><tr class="st"><td rowspan="3">';
+
 // IMAGE
 if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF'])):
 ?>
-	<a href="#" id="aFormStudentPhoto"><?php echo button('add', '', '', 'smaller'); ?>&nbsp;<?php echo _('Student Photo'); ?></a><br />
-	<div id="formStudentPhoto" style="display:none;">
+	<a href="#" onclick="switchUserPhoto(); return false;"><?php echo button('add', '', '', 'smaller'); ?>&nbsp;<?php echo _('Student Photo'); ?></a><br />
+	<div class="user-photo-form" style="display:none;">
 		<br />
-		<input type="file" id="photo" name="photo" accept="image/*" /><img src="assets/themes/<?php echo Preferences('THEME'); ?>/spinning.gif" alt="Spinner" id="loading" style="display:none;" />
-		<BR /><span class="legend-gray"><?php echo _('Student Photo'); ?> (.jpg)</span>
+		<input type="file" id="photo" name="photo" accept="image/*" /><span class="loading"></span>
+		<br /><span class="legend-gray"><?php echo _('Student Photo'); ?> (.jpg)</span>
 	</div>
-	<script> 
-	//toggle form & photo
-	$('#aFormStudentPhoto').click(function () {
-		$('#formStudentPhoto').toggle();
-		$('#studentImg').toggle();
-		return false;
-	});
-	$('form[name="student"]').submit(function () {
-		if ($('#photo').val())
-			$('#loading').show();
-	});
-	</script> 
 <?php endif;
 
-if ($_REQUEST['student_id']!='new' && ($file = @fopen($picture_path=$StudentPicturesPath.UserSyear().'/'.UserStudentID().'.jpg','r')) || ($file = @fopen($picture_path=$StudentPicturesPath.(UserSyear()-1).'/'.UserStudentID().'.jpg','r'))):
+if ( $_REQUEST['student_id']!='new' && ($file = @fopen($picture_path=$StudentPicturesPath.UserSyear().'/'.UserStudentID().'.jpg','r')) || ($file = @fopen($picture_path=$StudentPicturesPath.(UserSyear()-1).'/'.UserStudentID().'.jpg','r'))):
 	fclose($file);
 ?>
-	<IMG SRC="<?php echo $picture_path.(!empty($new_photo_file)? '?cacheKiller='.rand():''); ?>" id="studentImg" />
+	<img src="<?php echo $picture_path.(!empty($new_photo_file)? '?cacheKiller='.rand():''); ?>" class="user-photo" />
 <?php endif;
 // END IMAGE
 
-echo '</TD><TD>';
+echo '</td><td colspan="2">';
 
-if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
-//FJ Moodle integrator
-	if($_REQUEST['student_id']=='new' || $_REQUEST['moodle_create_student'])
-		echo '<TABLE>
-		<TR class="st"><TD>
-		'.TextInput($student['FIRST_NAME'],'students[FIRST_NAME]',($student['FIRST_NAME']==''?'<span class="legend-red">':'')._('First Name').($student['FIRST_NAME']==''?'</span>':''),'size=12 maxlength=50 required', ($_REQUEST['moodle_create_student'] ? false : true)).'
-		</TD><TD>
-		'.TextInput($student['MIDDLE_NAME'],'students[MIDDLE_NAME]',_('Middle Name'),'maxlength=50').'
-		</TD><TD>
-		'.TextInput($student['LAST_NAME'],'students[LAST_NAME]',($student['LAST_NAME']==''?'<span class="legend-red">':'')._('Last Name').($student['LAST_NAME']==''?'</span>':''),'size=12 maxlength=50 required', ($_REQUEST['moodle_create_student'] ? false : true)).'
-		</TD><TD>
-		'.SelectInput($student['NAME_SUFFIX'],'students[NAME_SUFFIX]',_('Suffix'),array('Jr'=>_('Jr'),'Sr'=>_('Sr'),'II'=>_('II'),'III'=>_('III'),'IV'=>_('IV'),'V'=>_('V')),'').'
-		</TD></TR>
-		</TABLE>';
+if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
+{
+	$div = false;
+
+	$student_name_html = '<table><tr class="st"><td>' .
+	TextInput(
+		$student['FIRST_NAME'],
+		'students[FIRST_NAME]',
+		_('First Name'),
+		'size=12 maxlength=50 required',
+		$div
+	) . '</td><td>' .
+	TextInput(
+		$student['MIDDLE_NAME'],
+		'students[MIDDLE_NAME]',
+		_( 'Middle Name' ),
+		'maxlength=50',
+		$div
+	) . '</td><td>' .
+	TextInput(
+		$student['LAST_NAME'],
+		'students[LAST_NAME]',
+		_( 'Last Name' ),
+		'size=12 maxlength=50 required',
+		$div
+	) . '</td><td>' .
+	SelectInput(
+		$student['NAME_SUFFIX'],
+		'students[NAME_SUFFIX]',
+		_( 'Suffix' ),
+		array(
+			'Jr' => _('Jr'),
+			'Sr' => _('Sr'),
+			'II' => _('II'),
+			'III' => _('III'),
+			'IV' => _('IV'),
+			'V' => _('V')
+		),
+		'',
+		'',
+		$div
+	) . '</td></tr></table>';
+
+	//FJ Moodle integrator
+	if ( $_REQUEST['student_id'] === 'new'
+		|| $_REQUEST['moodle_create_student'] )
+	{
+		echo $student_name_html;
+	}
 	else
 	{
-		$student_name = '<TABLE>
-		<TR class="st"><TD>
-		'.TextInput($student['FIRST_NAME'],'students[FIRST_NAME]',_('First Name'),'size=12 maxlength=50 required',false).'
-		</TD><TD>
-		'.TextInput($student['MIDDLE_NAME'],'students[MIDDLE_NAME]',_('Middle Name'),'maxlength=50',false).'
-		</TD><TD>
-		'.TextInput($student['LAST_NAME'],'students[LAST_NAME]',_('Last Name'),'size=12 maxlength=50 required',false).'
-		</TD><TD>
-		'.SelectInput($student['NAME_SUFFIX'],'students[NAME_SUFFIX]',_('Suffix'),array('Jr'=>_('Jr'),'Sr'=>_('Sr'),'II'=>_('II'),'III'=>_('III'),'IV'=>_('IV'),'V'=>_('V')),'','',false).'
-		</TD></TR>
-		</TABLE>';
+		$id = 'student_name';
 
-		echo '<script>var student_name='.json_encode($student_name).';</script>';
-		
-		echo '<DIV id="student_name"><div class="onclick" onclick=\'addHTML(student_name';
-		
-		echo ',"student_name",true);\'><span class="underline-dots">'.$student['FIRST_NAME'].' '.$student['MIDDLE_NAME'].' '.$student['LAST_NAME'].' '.$student['NAME_SUFFIX'].'</span></div></DIV><span class="legend-gray">'._('Name').'</span>';
+		echo InputDivOnclick(
+			$id,
+			$student_name_html,
+			$student['FIRST_NAME'] . ' ' . $student['MIDDLE_NAME'] . ' ' .
+			$student['LAST_NAME'] . ' ' . $student['NAME_SUFFIX'],
+			FormatInputTitle( _( 'Name' ), $id )
+		);
 	}
+}
 else
-	echo ($student['FIRST_NAME']!=''||$student['MIDDLE_NAME']!=''||$student['LAST_NAME']!=''||$student['NAME_SUFFIX']!=''?$student['FIRST_NAME'].' '.$student['MIDDLE_NAME'].' '.$student['LAST_NAME'].' '.$student['NAME_SUFFIX']:'-').'<BR /><span class="legend-gray">'._('Name').'</span>';
+{
+	echo NoInput(
+		trim( $student['FIRST_NAME'] . ' ' . $student['MIDDLE_NAME'] . ' ' .
+			$student['LAST_NAME'] . ' ' . $student['NAME_SUFFIX'] ),
+		_( 'Name' )
+	);
+}
 
-echo '</TD><TD colspan="2">';
+echo '</td></tr><tr class="st"><td>';
 
-if($_REQUEST['student_id']=='new')
+if ( $_REQUEST['student_id']=='new')
 	echo TextInput('','assign_student_id',sprintf(_('%s ID'),Config('NAME')),'maxlength=10 size=10');
 else
 	echo NoInput(UserStudentID(),sprintf(_('%s ID'),Config('NAME')));
-echo '</TD>';
 
-echo '</TR><TR class="st"><TD>';
+echo '</td><td>';
 
 //FJ Moodle integrator
 //username, password required
 
 $required = $_REQUEST['moodle_create_student'] || $old_student_in_moodle || basename($_SERVER['PHP_SELF'])=='index.php';
-$legend_red = $required && !$student['USERNAME'];
+$legend_red = $required && ! $student['USERNAME'];
 
-echo TextInput($student['USERNAME'],'students[USERNAME]',($legend_red ? '<span class="legend-red">':'')._('Username').(($_REQUEST['moodle_create_student'] || $old_student_in_moodle) && !$student['USERNAME']?'</span>':''),($required ? 'required' : ''), ($_REQUEST['moodle_create_student'] ? false : true));
+echo TextInput($student['USERNAME'],'students[USERNAME]',($legend_red ? '<span class="legend-red">':'')._('Username').(($_REQUEST['moodle_create_student'] || $old_student_in_moodle) && ! $student['USERNAME']?'</span>':''),($required ? 'required' : ''), ($_REQUEST['moodle_create_student'] ? false : true));
 
-echo '</TD><TD>';
+echo '</td></tr><tr class="st"><td>';
 
 $required = $required;
-$legend_red = $required && !$student['PASSWORD'];
+$legend_red = $required && ! $student['PASSWORD'];
 
-echo TextInput((!$student['PASSWORD'] || $_REQUEST['moodle_create_student'] ?'':str_repeat('*',8)),'students[PASSWORD]',($legend_red ? '<span class="legend-red">':'<span class="legend-gray">').($_REQUEST['moodle_create_student'] || $old_student_in_moodle?'<SPAN style="cursor:help" title="'._('The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character').'">':'')._('Password').($_REQUEST['moodle_create_student'] || $old_student_in_moodle?'*</SPAN>':'').'</span>','autocomplete=off'.($required ? ' required' : ''), ($_REQUEST['moodle_create_student'] ? false : true));
+echo TextInput(
+	( ! $student['PASSWORD']
+		|| $_REQUEST['moodle_create_student'] ? '' : str_repeat( '*', 8 ) ),
+	'students[PASSWORD]',
+	( $legend_red ? '<span class="legend-red">' : '<span class="legend-gray">' ) .
+		_( 'Password' ) .
+		( $_REQUEST['moodle_create_student']
+			|| $old_student_in_moodle ?
+		'<div class="tooltip"><i>' .
+			_( 'The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character' ) .
+		'</i></div>' :
+		'' ) .
+		'</span>',
+	'autocomplete=off' . ( $required ? ' required' : '' ),
+	( $_REQUEST['moodle_create_student'] ? false : true )
+);
 
-echo '</TD><TD>';
+echo '</td><td>';
 
 echo NoInput(makeLogin($student['LAST_LOGIN']),_('Last Login'));
 
-echo '</TD></TR></TABLE>';
+echo '</td></tr></table>';
 
 
 $_REQUEST['category_id'] = '1';
@@ -107,10 +143,10 @@ $separator = '<hr />';
 
 include 'modules/Students/includes/Other_Info.inc.php';
 
-if($_REQUEST['student_id']!='new' && $student['SCHOOL_ID']!=UserSchool() && $student['SCHOOL_ID'])
+if ( $_REQUEST['student_id']!='new' && $student['SCHOOL_ID']!=UserSchool() && $student['SCHOOL_ID'])
 	$_ROSARIO['AllowEdit'][$_REQUEST['modname']] = $_ROSARIO['allow_edit'] = false;
 
-if(basename($_SERVER['PHP_SELF'])!='index.php')
+if (basename($_SERVER['PHP_SELF'])!='index.php')
 	include 'modules/Students/includes/Enrollment.inc.php';
 //FJ create account
 else
@@ -119,7 +155,7 @@ else
 
 	$school_options = array();
 
-	foreach($schools_RET as $school)
+	foreach ( (array) $schools_RET as $school)
 	{
 		$school_options[$school['ID']] = $school['TITLE'];
 	}
@@ -127,7 +163,6 @@ else
 	//add School select input
 	echo SelectInput('','values[STUDENT_ENROLLMENT][new][SCHOOL_ID]',_('School'),$school_options,false);
 
-	if ($PopTable_opened)
+	if ( $PopTable_opened)
 		PopTable('footer');
 }
-?>

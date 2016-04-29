@@ -1,13 +1,13 @@
 <?php
+// GET ALL THE CONFIG ITEMS FOR ELIGIBILITY
+$eligibility_config = ProgramConfig( 'eligibility' );
 
-$start_end_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_CONFIG WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND PROGRAM='eligibility' AND TITLE IN ('START_DAY','END_DAY')"));
-if(count($start_end_RET))
+foreach ( (array) $eligibility_config as $value )
 {
-	foreach($start_end_RET as $value)
-		$$value['TITLE'] = $value['VALUE'];
+	${$value[1]['TITLE']} = $value[1]['VALUE'];
 }
 
-switch(date('D'))
+switch (date('D'))
 {
 	case 'Mon':
 	$today = 1;
@@ -33,45 +33,48 @@ switch(date('D'))
 }
 
 $start = time() - ($today-$START_DAY)*60*60*24;
-$end = time();
 
-if(!$_REQUEST['start_date'])
+if ( ! $_REQUEST['start_date'] )
 {
 	$start_time = $start;
-	$start_date = mb_strtoupper(date('d-M-y',$start_time));
-	$end_date = mb_strtoupper(date('d-M-y',$end));
+
+	$start_date =  date( 'Y-m-d', $start_time );
+
+	$end_date =  date( 'Y-m-d', DBDate() );
 }
 else
 {
 	$start_time = $_REQUEST['start_date'];
-	$start_date = mb_strtoupper(date('d-M-y',$start_time));
-	$end_date = mb_strtoupper(date('d-M-y',$start_time+60*60*24*7));
+
+	$start_date =  date( 'Y-m-d', $start_time );
+
+	$end_date =  date( 'Y-m-d', $start_time + 60 * 60 * 24 * 7 );
 }
 
 $QI = DBQuery("SELECT PERIOD_ID,TITLE FROM SCHOOL_PERIODS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' ORDER BY SORT_ORDER ");
 $periods_RET = DBGet($QI);
 
-$period_select =  '<SELECT name="period"><OPTION value="">'._('All').'</OPTION>';
-foreach($periods_RET as $period)
-	$period_select .= '<OPTION value="'.$period[PERIOD_ID].'"'.(($_REQUEST['period']==$period['PERIOD_ID'])?' SELECTED':'').">".$period['TITLE'].'</OPTION>';
-$period_select .= '</SELECT>';
+$period_select =  '<select name="period"><option value="">'._('All').'</option>';
+foreach ( (array) $periods_RET as $period)
+	$period_select .= '<option value="'.$period[PERIOD_ID].'"'.(($_REQUEST['period']==$period['PERIOD_ID'])?' selected':'').">".$period['TITLE'].'</option>';
+$period_select .= '</select>';
 
 DrawHeader(ProgramTitle());
-echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
+echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 
 $begin_year = DBGet(DBQuery("SELECT min(date_part('epoch',SCHOOL_DATE)) as SCHOOL_DATE FROM ATTENDANCE_CALENDAR WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
 $begin_year = $begin_year[1]['SCHOOL_DATE'];
 
-if($start && $begin_year)
+if ( $start && $begin_year)
 {
 //modif: days display to locale
-	$date_select = '<OPTION value="'.$start.'">'.ProperDate(date('Y.m.d',$start)).' - '.ProperDate(date('Y.m.d',$end)).'</OPTION>';
-	for($i=$start-(60*60*24*7);$i>=$begin_year;$i-=(60*60*24*7))
-		$date_select .= '<OPTION value="'.$i.'"'.(($i+86400>=$start_time && $i-86400<=$start_time)?' SELECTED':'').'>'.ProperDate(date('Y.m.d',$i)).' - '.ProperDate(date('Y.m.d',($i+1+(($END_DAY-$START_DAY))*60*60*24))).'</OPTION>';
+	$date_select = '<option value="'.$start.'">'.ProperDate( date( 'Y-m-d', $start)).' - '.ProperDate( DBDate() ).'</option>';
+	for ( $i=$start-(60*60*24*7);$i>=$begin_year;$i-=(60*60*24*7))
+		$date_select .= '<option value="'.$i.'"'.(($i+86400>=$start_time && $i-86400<=$start_time)?' selected':'').'>'.ProperDate( date( 'Y-m-d', $i)).' - '.ProperDate( date( 'Y-m-d', ($i+1+(($END_DAY-$START_DAY))*60*60*24))).'</option>';
 }
 
-DrawHeader(_('Timeframe').': <SELECT name="start_date">'.$date_select.'</SELECT> - '._('Period').': '.$period_select.' '.SubmitButton(_('Go')));
-echo '</FORM>';
+DrawHeader(_('Timeframe').': <select name="start_date">'.$date_select.'</select> - '._('Period').': '.$period_select.' '.SubmitButton(_('Go')));
+echo '</form>';
 
 //FJ multiple school periods for a course period
 /*$sql = "SELECT s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,sp.TITLE,cp.PERIOD_ID,s.STAFF_ID 
@@ -96,22 +99,21 @@ $sql = "SELECT s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,sp.TITLE,cpsp.PERIOD
 $RET = DBGet(DBQuery($sql),array(),array('STAFF_ID','PERIOD_ID'));
 
 $i = 0;
-if(count($RET))
+if (count($RET))
 {
-	foreach($RET as $staff_id=>$periods)
+	foreach ( (array) $RET as $staff_id => $periods)
 	{
 		$i++;
-		$staff_RET[$i]['FULL_NAME'] = $periods[key($periods)][1]['FULL_NAME'];
-		foreach($periods as $period_id=>$period)
-			$staff_RET[$i][$period_id] = button('x');
+		$staff_RET[ $i ]['FULL_NAME'] = $periods[key($periods)][1]['FULL_NAME'];
+		foreach ( (array) $periods as $period_id => $period)
+			$staff_RET[ $i ][ $period_id ] = button('x');
 	}
 }
-$columns = array('FULL_NAME'=>_('Teacher'));
-if(!$_REQUEST['period'])
+$columns = array('FULL_NAME' => _('Teacher'));
+if ( ! $_REQUEST['period'])
 {
-	foreach($periods_RET as $period)
+	foreach ( (array) $periods_RET as $period)
 		$columns[$period['PERIOD_ID']] = $period['TITLE'];
 }
 
 ListOutput($staff_RET,$columns,'Teacher who hasn\'t entered eligibility','Teachers who haven\'t entered eligibility');
-?>

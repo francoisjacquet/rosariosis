@@ -1,12 +1,12 @@
 <?php
-if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
+if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
 	if (isset($_REQUEST['staff']) && is_array($_REQUEST['staff']) && AllowEdit())
 	{
 		$current_RET = DBGet(DBQuery("SELECT STAFF_ID FROM STUDENTS_JOIN_USERS WHERE STUDENT_ID='".UserStudentID()."'"),array(),array('STAFF_ID'));
-		foreach($_REQUEST['staff'] as $staff_id=>$yes)
+		foreach ( (array) $_REQUEST['staff'] as $staff_id => $yes)
 		{
-			if(!$current_RET[$staff_id])
+			if ( ! $current_RET[ $staff_id ])
 			{
 				$sql = "INSERT INTO STUDENTS_JOIN_USERS (STAFF_ID,STUDENT_ID) values('".$staff_id."','".UserStudentID()."')";
 				DBQuery($sql);
@@ -26,9 +26,9 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 DrawHeader(ProgramTitle());
 
-if($_REQUEST['modfunc']=='delete' && AllowEdit())
+if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 {
-	if(DeletePrompt(_('student from that user'),_('remove access to')) && !empty($_REQUEST['staff_id_remove']))
+	if (DeletePrompt(_('student from that user'),_('remove access to')) && !empty($_REQUEST['staff_id_remove']))
 	{
 		DBQuery("DELETE FROM STUDENTS_JOIN_USERS WHERE STAFF_ID='".$_REQUEST['staff_id_remove']."' AND STUDENT_ID='".UserStudentID()."'");
 
@@ -39,45 +39,43 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 	}
 }
 
-if(isset($note))
-	echo ErrorMessage($note,'note');
+echo ErrorMessage( $note,'note' );
 
-if(isset($error))
-	echo ErrorMessage($error);
+echo ErrorMessage( $error );
 
-if($_REQUEST['modfunc']!='delete')
+if ( $_REQUEST['modfunc']!='delete')
 {
 	$extra['SELECT'] = ",(SELECT count(u.STAFF_ID) FROM STUDENTS_JOIN_USERS u,STAFF st WHERE u.STUDENT_ID=s.STUDENT_ID AND st.STAFF_ID=u.STAFF_ID AND st.SYEAR=ssm.SYEAR) AS ASSOCIATED";
-	$extra['columns_after'] = array('ASSOCIATED'=>'# '._('Associated'));
+	$extra['columns_after'] = array('ASSOCIATED' => '# '._('Associated'));
 
-	if(!UserStudentID())
+	if ( !UserStudentID())
 		Search('student_id',$extra);
 
-	if(UserStudentID())
+	if (UserStudentID())
 	{
-		if($_REQUEST['search_modfunc']=='list')
+		if ( $_REQUEST['search_modfunc']=='list')
 		{
-			echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
+			echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
 			DrawHeader('',SubmitButton(_('Add Selected Parents')));
 		}
 
-		echo '<TABLE class="center"><TR><TD>';
+		echo '<table class="center"><tr><td>';
 
-		$current_RET = DBGet(DBQuery("SELECT u.STAFF_ID,s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,s.LAST_LOGIN FROM STUDENTS_JOIN_USERS u,STAFF s WHERE s.STAFF_ID=u.STAFF_ID AND u.STUDENT_ID='".UserStudentID()."' AND s.SYEAR='".UserSyear()."'"),array('LAST_LOGIN'=>'makeLogin'));
+		$current_RET = DBGet(DBQuery("SELECT u.STAFF_ID,s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,s.LAST_LOGIN FROM STUDENTS_JOIN_USERS u,STAFF s WHERE s.STAFF_ID=u.STAFF_ID AND u.STUDENT_ID='".UserStudentID()."' AND s.SYEAR='".UserSyear()."'"),array('LAST_LOGIN' => 'makeLogin'));
 
-		$link['remove'] = array('link'=>'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete','variables'=>array('staff_id_remove'=>'STAFF_ID'));
+		$link['remove'] = array('link' => 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete','variables' => array('staff_id_remove' => 'STAFF_ID'));
 
-		ListOutput($current_RET,array('FULL_NAME'=>_('Parents'),'LAST_LOGIN'=>_('Last Login')),'Associated Parent','Associated Parents',$link,array(),array('search'=>false));
+		ListOutput($current_RET,array('FULL_NAME' => _('Parents'),'LAST_LOGIN' => _('Last Login')),'Associated Parent','Associated Parents',$link,array(),array('search'=>false));
 
-		echo '</TD></TR><TR><TD>';
+		echo '</td></tr><tr><td>';
 
-		if(AllowEdit())
+		if (AllowEdit())
 		{
 			unset($extra);
 			$extra['link'] = array('FULL_NAME'=>false);
 			$extra['SELECT'] = ",CAST (NULL AS CHAR(1)) AS CHECKBOX";
-			$extra['functions'] = array('CHECKBOX'=>'_makeChooseCheckbox');
-			$extra['columns_before'] = array('CHECKBOX'=>'</A><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'staff\');" /><A>');
+			$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
+			$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.checked,\'staff\');" /><A>');
 			$extra['new'] = true;
 			$extra['options']['search'] = false;
 			$extra['profile'] = 'parent';
@@ -85,16 +83,15 @@ if($_REQUEST['modfunc']!='delete')
 			Search('staff_id',$extra);
 		}
 
-		echo '</TD></TR></TABLE>';
+		echo '</td></tr></table>';
 
-		if($_REQUEST['search_modfunc']=='list')
-			echo '<BR /><span class="center">'.SubmitButton(_('Add Selected Parents')).'</span></FORM>';
+		if ( $_REQUEST['search_modfunc']=='list')
+			echo '<br /><div class="center">' . SubmitButton(_('Add Selected Parents')) . '</div></form>';
 	}
 }
 
 function _makeChooseCheckbox($value,$title)
 {	global $THIS_RET;
 
-	return '<INPUT type="checkbox" name="staff['.$THIS_RET['STAFF_ID'].']" value="Y" />';
+	return '<input type="checkbox" name="staff['.$THIS_RET['STAFF_ID'].']" value="Y" />';
 }
-?>

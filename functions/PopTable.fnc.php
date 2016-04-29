@@ -1,25 +1,51 @@
 <?php
+/**
+ * Pop Table
+ * Used for Login screen, Student Information (multiple tabs)...
+ *
+ * @package RosarioSIS
+ * @subpackage functions
+ */
 
-// DRAWS A TABLE WITH A BLUE TAB, SURROUNDING SHADOW
-// REQUIRES A TITLE
+/**
+ * PopTable
+ *
+ * @example PopTable( 'header', _( 'Confirm Successful Installation' ) );
+ * @example PopTable( 'footer' );
+ *
+ * @global array  $_ROSARIO  Uses $_ROSARIO['selected_tab']
+ *
+ * @param  string       $action        'header' or 'footer'.
+ * @param  string|array $tabs_or_title PopTable Title or Tabs: array( array( 'link' => 'tab-link.php', 'title' => 'Tab Title' ) ) (optional).
+ * @param  string       $table_att     <table [attributes]> (optional).
+ *
+ * @return string outputs PopTable HTML
+ */
+function PopTable( $action, $tabs_or_title = 'Search', $table_att = '' )
+{
+	global $_ROSARIO;
 
-function PopTable($action,$title='Search',$table_att='')
-{	global $_ROSARIO;
-
-	if($action=='header')
+	if ( $action === 'header' )
 	{
-//FJ css WPadmin
-		echo '<TABLE class="postbox cellspacing-0" '.$table_att.'>';
-		echo '<THEAD><TR><TH class="center">';
-		if(is_array($title))
-			echo WrapTabs($title,$_ROSARIO['selected_tab']);
+		echo '<table class="postbox cellspacing-0" ' . $table_att . '>
+			<thead><tr><th class="center">';
+
+		// Multiple Tabs.
+		if ( is_array( $tabs_or_title ) )
+		{
+			echo WrapTabs( $tabs_or_title, $_ROSARIO['selected_tab'] );
+		}
+		// One Tab.
 		else
-			echo DrawTab($title);
-		echo '</TH></TR></THEAD><TBODY><TR><TD class="popTable">';
+		{
+			echo DrawTab( $tabs_or_title );
+		}
+
+		echo '</th></tr></thead>
+			<tbody><tr><td class="popTable">';
 	}
-	elseif($action=='footer')
+	elseif ( $action === 'footer' )
 	{
-		echo '</TD></TR></TBODY></TABLE>';
+		echo '</td></tr></tbody></table>';
 	}
 }
-?>

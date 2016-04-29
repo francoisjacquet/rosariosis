@@ -15,15 +15,15 @@ You MUST read and agree to the terms of this license prior to installing Rosario
 Documentation
 -------------
 
-For installation directions, please refer to the [INSTALL](https://github.com/francoisjacquet/rosariosis/blob/mobile/INSTALL) file part of this distribution.
+For installation directions, please refer to the [INSTALL.md](https://github.com/francoisjacquet/rosariosis/blob/mobile/INSTALL.md) file part of this distribution.
 
 [Quick Setup Guide](https://github.com/francoisjacquet/rosariosis/wiki/Quick-Setup-Guide)
 
 Handbooks:
-You can generate PDF Handbooks calling the `Help.php` script once you are logged in. The
+You can generate PDF Handbooks by calling the `Help.php` script once you are logged in. The
 Handbook will depend on your profile (Administrator, Teacher, Parent or Student).
 
-And yes, YOU NEED TO READ THE ABOVE DOCUMENTATION prior to attempting any install or upgrade.
+And yes, YOU NEED TO READ THE ABOVE DOCUMENTATION prior to attempting any install.
 
 
 About RosarioSIS
@@ -100,7 +100,7 @@ Consider the following:
 	semesters, 18 quarters, and 36 progress periods.  Everything is
 	completely customizable.
 
-You will find RosarioSIS to be a full-featured student information system that
+You will find RosarioSIS to be a full-featured Student Information System that
 facilitates your decision-making, provides data necessary for reports to the
 federal or state governments as well as local boards, and affords convenient
 access to all of the stakeholders in your building or district. And, because it

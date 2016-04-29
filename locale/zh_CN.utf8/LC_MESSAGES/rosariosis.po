@@ -1865,7 +1865,7 @@ msgstr "工作场所"
 #: modules/Custom/Registration.php:176
 #, fuzzy
 msgid "Information about your spouse or significant other residing with you"
-msgstr "你的配偶或其他重要的与你居住的信息： <BR> <small>离开本节空白，如果你是分开</small>的。"
+msgstr "你的配偶或其他重要的与你居住的信息： <br> <small>离开本节空白，如果你是分开</small>的。"
 
 #: modules/Custom/Registration.php:176
 msgid "Leave this section blank if you are separated."
@@ -2560,7 +2560,7 @@ msgstr "你确定你要运行调度吗？"
 #: modules/Food_Service/Students/Accounts.php:16
 #: modules/Food_Service/Users/Accounts.php:34
 #, php-format
-msgid "That barcode is already assigned to Student <B>%s</B>."
+msgid "That barcode is already assigned to Student <b>%s</b>."
 msgstr ""
 
 #: modules/Food_Service/Students/Accounts.php:16
@@ -2571,7 +2571,7 @@ msgstr ""
 #: modules/Food_Service/Students/Accounts.php:25
 #: modules/Food_Service/Users/Accounts.php:25
 #, php-format
-msgid "That barcode is already assigned to User <B>%s</B>."
+msgid "That barcode is already assigned to User <b>%s</b>."
 msgstr ""
 
 #: modules/Food_Service/Students/Accounts.php:98
@@ -2645,7 +2645,7 @@ msgid "%N's lunch account is getting low.  Please send in at least %P with %h re
 msgstr ""
 
 #: modules/Food_Service/Students/Reminders.php:19
-msgid "%N now has a <B>negative balance</B> in %h lunch account. Please send in the negative balance plus %T.  THANK YOU!"
+msgid "%N now has a <b>negative balance</b> in %h lunch account. Please send in the negative balance plus %T.  THANK YOU!"
 msgstr ""
 
 #: modules/Food_Service/Students/Reminders.php:21
@@ -2791,7 +2791,7 @@ msgid "Your lunch account is getting low.  Please send in at least %P with your 
 msgstr ""
 
 #: modules/Food_Service/Users/Reminders.php:7
-msgid "You now have a <B>negative balance</B> in your lunch account. Please send in the negative balance plus %T.  THANK YOU!"
+msgid "You now have a <b>negative balance</b> in your lunch account. Please send in the negative balance plus %T.  THANK YOU!"
 msgstr ""
 
 #: modules/Food_Service/Users/Reminders.php:9
@@ -3212,7 +3212,7 @@ msgid "Final Grade"
 msgstr "最终的成绩"
 
 #: modules/Grades/FinalGrades.php:104
-msgid "Abs<BR />YTD / MP"
+msgid "Abs<br />YTD / MP"
 msgstr ""
 
 #: modules/Grades/FinalGrades.php:173
@@ -5770,11 +5770,11 @@ msgid "Add an <b>Existing</b> Address"
 msgstr ""
 
 #: modules/Students/includes/Address.inc.php:460
-msgid "Add a <b>New</b> Contact<BR />without an Address"
+msgid "Add a <b>New</b> Contact<br />without an Address"
 msgstr ""
 
 #: modules/Students/includes/Address.inc.php:471
-msgid "Add an <b>Existing</b> Contact<BR />without an Address"
+msgid "Add an <b>Existing</b> Contact<br />without an Address"
 msgstr ""
 
 #: modules/Students/includes/Address.inc.php:490
@@ -9601,14 +9601,14 @@ msgstr "此人没有在系统中的信息。"
 #~ msgid ""
 #~ "You <i>must</i> roll users, school periods, marking periods, calendars, "
 #~ "and report card<br>codes at the same time or before rolling "
-#~ "courses<BR><BR>* You <i>must</i> roll courses at the same time or before "
-#~ "rolling report card comments<BR><BR>Red items have already have data in "
-#~ "the next school year (They might have been rolled).<BR><BR>Rolling red "
+#~ "courses<br><br>* You <i>must</i> roll courses at the same time or before "
+#~ "rolling report card comments<br><br>Red items have already have data in "
+#~ "the next school year (They might have been rolled).<br><br>Rolling red "
 #~ "items will delete already existing data in the next school year."
 #~ msgstr ""
 #~ "您<i>必须</i>辊用户，学校时期，标志着期间，日历，和成绩单<br>在同一时间或"
-#~ "前滚课程代码<BR><BR> *您<i>必须</i>滚动课程的同时或之前滚动报告卡意见"
-#~ "<BR><BR>红色的项目已经有在下一学年的数据（他们可能已经推出）。 <BR><BR>滚"
+#~ "前滚课程代码<br><br> *您<i>必须</i>滚动课程的同时或之前滚动报告卡意见"
+#~ "<br><br>红色的项目已经有在下一学年的数据（他们可能已经推出）。 <br><br>滚"
 #~ "动红色的项目，将在下一学年中删除已经存在的数据。"
 
 #~ msgid "Confirm Rollover"
@@ -9654,10 +9654,10 @@ msgstr "此人没有在系统中的信息。"
 #~ msgstr "招生记录"
 
 #~ msgid ""
-#~ "Pull-Down/Auto Pull-Down/Coded Pull-Down/Select Multiple Choices<BR>* one "
+#~ "Pull-Down/Auto Pull-Down/Coded Pull-Down/Select Multiple Choices<br>* one "
 #~ "per line"
 #~ msgstr ""
-#~ "Pull-Down/Auto Pull-Down/Coded Pull-Down/Select多选题<BR> *每行一个。"
+#~ "Pull-Down/Auto Pull-Down/Coded Pull-Down/Select多选题<br> *每行一个。"
 
 #~ msgid "for dates: YYYY-MM-DD"
 #~ msgstr "日期：YYYY - MM - DD"

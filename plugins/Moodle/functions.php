@@ -1,6 +1,6 @@
 <?php
 
-include('plugins/Moodle/getconfig.inc.php');
+require_once 'plugins/Moodle/getconfig.inc.php';
 
 //FJ Moodle plugin
 
@@ -8,87 +8,92 @@ include('plugins/Moodle/getconfig.inc.php');
 if (MOODLE_URL && MOODLE_TOKEN && MOODLE_PARENT_ROLE_ID && ROSARIO_STUDENTS_EMAIL_FIELD_ID)
 {
 	//Register plugin functions to be hooked
-	add_action('Students/Student.php|header', 'MoodleTriggered');
-	add_action('Students/Student.php|create_student_checks', 'MoodleTriggered');
-	add_action('Students/Student.php|create_student', 'MoodleTriggered');
-	add_action('Students/Student.php|update_student_checks', 'MoodleTriggered');
-	add_action('Students/Student.php|update_student', 'MoodleTriggered');
-	add_action('Students/Student.php|upload_student_photo', 'MoodleTriggered');
-	add_action('Students/Student.php|add_student_address', 'MoodleTriggered');
-	add_action('Students/Student.php|update_student_address', 'MoodleTriggered');
+	add_action( 'Students/Student.php|header', 'MoodleTriggered' );
+	add_action( 'Students/Student.php|create_student_checks', 'MoodleTriggered' );
+	add_action( 'Students/Student.php|create_student', 'MoodleTriggered' );
+	add_action( 'Students/Student.php|update_student_checks', 'MoodleTriggered' );
+	add_action( 'Students/Student.php|update_student', 'MoodleTriggered' );
+	add_action( 'Students/Student.php|upload_student_photo', 'MoodleTriggered' );
+	add_action( 'Students/Student.php|add_student_address', 'MoodleTriggered' );
+	add_action( 'Students/Student.php|update_student_address', 'MoodleTriggered' );
 
-	add_action('Students/AddUsers.php|user_assign_role', 'MoodleTriggered');
-	add_action('Students/AddUsers.php|user_unassign_role', 'MoodleTriggered');
+	add_action( 'Students/AddUsers.php|user_assign_role', 'MoodleTriggered' );
+	add_action( 'Students/AddUsers.php|user_unassign_role', 'MoodleTriggered' );
 
-	add_action('Users/User.php|header', 'MoodleTriggered');
-	add_action('Users/User.php|create_user_checks', 'MoodleTriggered');
-	add_action('Users/User.php|create_user', 'MoodleTriggered');
-	add_action('Users/User.php|update_user_checks', 'MoodleTriggered');
-	add_action('Users/User.php|update_user', 'MoodleTriggered');
-	add_action('Users/User.php|upload_user_photo', 'MoodleTriggered');
-	add_action('Users/User.php|delete_user', 'MoodleTriggered');
+	add_action( 'Users/User.php|header', 'MoodleTriggered' );
+	add_action( 'Users/User.php|create_user_checks', 'MoodleTriggered' );
+	add_action( 'Users/User.php|create_user', 'MoodleTriggered' );
+	add_action( 'Users/User.php|update_user_checks', 'MoodleTriggered' );
+	add_action( 'Users/User.php|update_user', 'MoodleTriggered' );
+	add_action( 'Users/User.php|upload_user_photo', 'MoodleTriggered' );
+	add_action( 'Users/User.php|delete_user', 'MoodleTriggered' );
 
-	add_action('Users/Preferences.php|update_password_checks', 'MoodleTriggered');
-	add_action('Users/Preferences.php|update_password', 'MoodleTriggered');
+	add_action( 'Users/Preferences.php|update_password_checks', 'MoodleTriggered' );
+	add_action( 'Users/Preferences.php|update_password', 'MoodleTriggered' );
 
-	add_action('Users/AddStudents.php|user_assign_role', 'MoodleTriggered');
-	add_action('Users/AddStudents.php|user_unassign_role', 'MoodleTriggered');
+	add_action( 'Users/AddStudents.php|user_assign_role', 'MoodleTriggered' );
+	add_action( 'Users/AddStudents.php|user_unassign_role', 'MoodleTriggered' );
 
-	add_action('Custom/CreateParents.php|create_user', 'MoodleTriggered');
-	add_action('Custom/CreateParents.php|user_assign_role', 'MoodleTriggered');
+	add_action( 'Custom/CreateParents.php|create_user', 'MoodleTriggered' );
+	add_action( 'Custom/CreateParents.php|user_assign_role', 'MoodleTriggered' );
 
-	add_action('Grades/Assignments.php|create_assignment', 'MoodleTriggered');
-	add_action('Grades/Assignments.php|update_assignment', 'MoodleTriggered');
-	add_action('Grades/Assignments.php|delete_assignment', 'MoodleTriggered');
+	add_action( 'Grades/Assignments.php|create_assignment', 'MoodleTriggered' );
+	add_action( 'Grades/Assignments.php|update_assignment', 'MoodleTriggered' );
+	add_action( 'Grades/Assignments.php|delete_assignment', 'MoodleTriggered' );
 
-	add_action('Scheduling/Courses.php|header', 'MoodleTriggered');
-	add_action('Scheduling/Courses.php|create_course_subject', 'MoodleTriggered');
-	add_action('Scheduling/Courses.php|create_course', 'MoodleTriggered');
-	add_action('Scheduling/Courses.php|create_course_period', 'MoodleTriggered');
-	add_action('Scheduling/Courses.php|update_course_subject', 'MoodleTriggered');
-	add_action('Scheduling/Courses.php|update_course', 'MoodleTriggered');
-	add_action('Scheduling/Courses.php|update_course_period', 'MoodleTriggered');
-	add_action('Scheduling/Courses.php|delete_course_subject', 'MoodleTriggered');
-	add_action('Scheduling/Courses.php|delete_course', 'MoodleTriggered');
-	add_action('Scheduling/Courses.php|delete_course_period', 'MoodleTriggered');
+	add_action( 'Scheduling/Courses.php|header', 'MoodleTriggered' );
+	add_action( 'Scheduling/Courses.php|create_course_subject', 'MoodleTriggered' );
+	add_action( 'Scheduling/Courses.php|create_course', 'MoodleTriggered' );
+	add_action( 'Scheduling/Courses.php|create_course_period', 'MoodleTriggered' );
+	add_action( 'Scheduling/Courses.php|update_course_subject', 'MoodleTriggered' );
+	add_action( 'Scheduling/Courses.php|update_course', 'MoodleTriggered' );
+	add_action( 'Scheduling/Courses.php|update_course_period', 'MoodleTriggered' );
+	add_action( 'Scheduling/Courses.php|delete_course_subject', 'MoodleTriggered' );
+	add_action( 'Scheduling/Courses.php|delete_course', 'MoodleTriggered' );
+	add_action( 'Scheduling/Courses.php|delete_course_period', 'MoodleTriggered' );
 
-	add_action('Scheduling/MassSchedule.php|schedule_student', 'MoodleTriggered');
-	add_action('Scheduling/MassDrops.php|drop_student', 'MoodleTriggered');
-	add_action('Scheduling/Schedule.php|drop_student', 'MoodleTriggered');
-	add_action('Scheduling/Schedule.php|schedule_student', 'MoodleTriggered');
-	add_action('Scheduling/Scheduler.php|schedule_student', 'MoodleTriggered');
+	add_action( 'Scheduling/MassSchedule.php|schedule_student', 'MoodleTriggered' );
+	add_action( 'Scheduling/MassDrops.php|drop_student', 'MoodleTriggered' );
+	add_action( 'Scheduling/Schedule.php|drop_student', 'MoodleTriggered' );
+	add_action( 'Scheduling/Schedule.php|schedule_student', 'MoodleTriggered' );
+	add_action( 'Scheduling/Scheduler.php|schedule_student', 'MoodleTriggered' );
 
-	add_action('School_Setup/Calendar.php|event_field', 'MoodleTriggered');
-	add_action('School_Setup/Calendar.php|create_calendar_event', 'MoodleTriggered');
-	add_action('School_Setup/Calendar.php|update_calendar_event', 'MoodleTriggered');
-	add_action('School_Setup/Calendar.php|delete_calendar_event', 'MoodleTriggered');
+	add_action( 'School_Setup/Calendar.php|event_field', 'MoodleTriggered' );
+	add_action( 'School_Setup/Calendar.php|create_calendar_event', 'MoodleTriggered' );
+	add_action( 'School_Setup/Calendar.php|update_calendar_event', 'MoodleTriggered' );
+	add_action( 'School_Setup/Calendar.php|delete_calendar_event', 'MoodleTriggered' );
 
-	add_action('School_Setup/PortalNotes.php|portal_note_field', 'MoodleTriggered', 2);
-	add_action('School_Setup/PortalNotes.php|create_portal_note', 'MoodleTriggered');
-	add_action('School_Setup/PortalNotes.php|update_portal_note', 'MoodleTriggered');
-	add_action('School_Setup/PortalNotes.php|delete_portal_note', 'MoodleTriggered');
+	add_action( 'School_Setup/PortalNotes.php|portal_note_field', 'MoodleTriggered', 2);
+	add_action( 'School_Setup/PortalNotes.php|create_portal_note', 'MoodleTriggered' );
+	add_action( 'School_Setup/PortalNotes.php|update_portal_note', 'MoodleTriggered' );
+	add_action( 'School_Setup/PortalNotes.php|delete_portal_note', 'MoodleTriggered' );
 
-	add_action('School_Setup/Rollover.php|rollover_checks', 'MoodleTriggered');
-	add_action('School_Setup/Rollover.php|rollover_staff', 'MoodleTriggered');
-	add_action('School_Setup/Rollover.php|rollover_course_subjects', 'MoodleTriggered');
-	add_action('School_Setup/Rollover.php|rollover_courses', 'MoodleTriggered');
-	add_action('School_Setup/Rollover.php|rollover_course_periods', 'MoodleTriggered');
+	add_action( 'School_Setup/Rollover.php|rollover_checks', 'MoodleTriggered' );
+	add_action( 'School_Setup/Rollover.php|rollover_staff', 'MoodleTriggered' );
+	add_action( 'School_Setup/Rollover.php|rollover_course_subjects', 'MoodleTriggered' );
+	add_action( 'School_Setup/Rollover.php|rollover_courses', 'MoodleTriggered' );
+	add_action( 'School_Setup/Rollover.php|rollover_course_periods', 'MoodleTriggered' );
 }
 
 
-//Triggered function
-//Will redirect to Moodle() function with the right WebService function name
-function MoodleTriggered($hook_tag, $arg1 = '')
+// Triggered function.
+// Will redirect to Moodle() function with the right WebService function name.
+function MoodleTriggered( $hook_tag, $arg1 = '' )
 {
 	global $error;
 
 	//check Moodle plugin configuration options are set
-	if (!MOODLE_URL || !MOODLE_TOKEN || !MOODLE_PARENT_ROLE_ID || !ROSARIO_STUDENTS_EMAIL_FIELD_ID)
+	if ( ! MOODLE_URL
+		|| ! MOODLE_TOKEN
+		|| ! MOODLE_PARENT_ROLE_ID
+		|| ! ROSARIO_STUDENTS_EMAIL_FIELD_ID )
+	{
 		return false;
+	}
 
-	list($modname, $action) = explode('|', $hook_tag);
+	list( $modname, $action ) = explode( '|', $hook_tag );
 
-	switch($hook_tag)
+	switch ( $hook_tag )
 	{
 
 /***************STUDENTS**/
@@ -104,9 +109,15 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 				//2) verify the student is not in Moodle:
 				if (UserStudentID())
 					$old_student_in_moodle = IsMoodleStudent(UserStudentID());
-			
-				if ($_REQUEST['student_id']=='new' || !$old_student_in_moodle)
-					DrawHeader('<label>'.CheckBoxOnclick('moodle_create_student').'&nbsp;'._('Create Student in Moodle').'</label>');
+
+				if ( $_REQUEST['student_id'] === 'new'
+					|| ! $old_student_in_moodle )
+				{
+					DrawHeader( CheckBoxOnclick(
+						'moodle_create_student',
+						_( 'Create Student in Moodle' )
+					) );
+				}
 			}
 
 		break;
@@ -118,17 +129,17 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 			//username, password, (email) required
 			if ($_REQUEST['moodle_create_student'] && (empty($_REQUEST['students']['USERNAME']) || empty($_REQUEST['students']['CUSTOM_'.ROSARIO_STUDENTS_EMAIL_FIELD_ID])))
 				$error[] = _('Please fill in the required fields');
-			
+
 		break;
 
 		case 'Students/Student.php|create_student':
-			if($_REQUEST['moodle_create_student'])
+			if ( $_REQUEST['moodle_create_student'])
 				Moodle($modname, 'core_user_create_users');
 
 		break;
 
 		case 'Students/Student.php|update_student_checks':
-			if(!empty($_REQUEST['students']['PASSWORD']))
+			if ( !empty($_REQUEST['students']['PASSWORD']))
 			{
 				if (($_REQUEST['moodle_create_student'] || IsMoodleStudent(UserStudentID())) && !MoodlePasswordCheck($_REQUEST['students']['PASSWORD']))
 					$error[] = _('Please enter a valid password');
@@ -139,7 +150,7 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 		break;
 
 		case 'Students/Student.php|update_student':
-			if($_REQUEST['moodle_create_student'])
+			if ( $_REQUEST['moodle_create_student'])
 			{
 				Moodle($modname, 'core_user_create_users');
 				//relate parent if exists
@@ -203,8 +214,15 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 				if (count(DBGet(DBQuery("SELECT 'ROLLED' FROM STAFF WHERE SYEAR='".(UserSyear()+1)."'"))))
 					$users_rolled = true;
 
-				if (($_REQUEST['staff_id']=='new' || !$old_user_in_moodle) && !$users_rolled)
-					DrawHeader('<label>'.CheckBoxOnclick('moodle_create_user').'&nbsp;'._('Create User in Moodle').'</label>');
+				if ( ( $_REQUEST['staff_id'] === 'new'
+						|| ! $old_user_in_moodle )
+					&& ! $users_rolled )
+				{
+					DrawHeader( CheckBoxOnclick(
+						'moodle_create_user',
+						_( 'Create User in Moodle' )
+					) );
+				}
 			}
 
 		break;
@@ -229,9 +247,9 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 			}
 
 		break;
-			
+
 		case 'Users/User.php|update_user_checks':
-			if(!empty($_REQUEST['staff']['PASSWORD']))
+			if ( !empty($_REQUEST['staff']['PASSWORD']))
 			{
 				if (($_REQUEST['moodle_create_user'] || IsMoodleUser(UserStaffID())) && !MoodlePasswordCheck($_REQUEST['staff']['PASSWORD']))
 					$error[] = _('Please enter a valid password');
@@ -240,7 +258,7 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 				$error[] = _('Please enter a valid password');
 
 		break;
-			
+
 		case 'Users/User.php|update_user':
 			if ($_REQUEST['moodle_create_user'])
 			{
@@ -263,20 +281,6 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 
 		case 'Users/User.php|delete_user':
 			Moodle($modname, 'core_user_delete_users');
-
-		break;
-
-		/*Users/Preferences.php*/
-		case 'Users/Preferences.php|update_password_checks':
-			global $new_password, $error;
-
-			if (!MoodlePasswordCheck($new_password))
-				$error[] = _('Please enter a valid password');
-
-		break;
-
-		case 'Users/Preferences.php|update_password':
-			Moodle($modname, 'core_user_update_users');
 
 		break;
 
@@ -339,16 +343,23 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 				$old_course_period_in_moodle = false;
 				if ($_REQUEST['course_period_id'] != 'new')
 					$old_course_period_in_moodle = IsMoodleCoursePeriod($_REQUEST['course_period_id']);
-					
+
 				//3) verify if the course is in Moodle:
 				$course_in_moodle = false;
 				if ($_REQUEST['course_id'] != 'new')
 					$course_in_moodle = IsMoodleCourse($_REQUEST['course_id']);
-				
-				if ($course_in_moodle && ($_REQUEST['course_period_id']=='new' || !$old_course_period_in_moodle))
-					DrawHeader('<label>'.CheckBoxOnclick('moodle_create_course_period').'&nbsp;'._('Create Course Period in Moodle').'</label>');
+
+				if ( $course_in_moodle
+					&& ( $_REQUEST['course_period_id'] === 'new'
+						|| ! $old_course_period_in_moodle ) )
+				{
+					DrawHeader( CheckBoxOnclick(
+						'moodle_create_course_period',
+						_( 'Create Course Period in Moodle' )
+					) );
+				}
 			}
-			
+
 		case 'Scheduling/Courses.php|create_course_subject':
 		case 'Scheduling/Courses.php|create_course':
 			Moodle($modname, 'core_course_create_categories');
@@ -356,7 +367,7 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 		break;
 
 		case 'Scheduling/Courses.php|create_course_period':
-			if($_REQUEST['moodle_create_course_period'])
+			if ( $_REQUEST['moodle_create_course_period'])
 			{
 				Moodle($modname, 'core_course_create_courses');
 				Moodle($modname, 'core_role_assign_roles');
@@ -372,7 +383,7 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 
 		case 'Scheduling/Courses.php|update_course_period':
 			//if Course Period is already in Moodle
-			if(IsMoodleCoursePeriod($_REQUEST['course_period_id']))
+			if ( IsMoodleCoursePeriod($_REQUEST['course_period_id']))
 			{
 				Moodle($modname, 'core_course_update_courses');
 
@@ -435,8 +446,8 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 		/*School_Setup/Calendar.php*/
 		case 'School_Setup/Calendar.php|event_field':
 			//only if new event
-			if($_REQUEST['event_id']=='new')
-				echo '<TR><TD>'._('Publish Event in Moodle?').'</TD><TD><label><INPUT type="checkbox" name="MOODLE_PUBLISH_EVENT" value="Y" checked> '._('Yes').'</label></TD></TR>';
+			if ( $_REQUEST['event_id']=='new')
+				echo '<tr><td>'._('Publish Event in Moodle?').'</td><td><label><input type="checkbox" name="MOODLE_PUBLISH_EVENT" value="Y" checked> '._('Yes').'</label></td></tr>';
 
 		break;
 
@@ -495,7 +506,7 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 
 			//only if new note
 			if ($id == 'new')
-				$return .= '<TR class="st"><TD colspan="2"><B>'._('Publish Note in Moodle?').'</B> <label><INPUT type="checkbox" name="MOODLE_PUBLISH_NOTE" value="Y" /> '._('Yes').'</label></TD></TR>';
+				$return .= '<tr class="st"><td colspan="2"><b>'._('Publish Note in Moodle?').'</b> <label><input type="checkbox" name="MOODLE_PUBLISH_NOTE" value="Y" /> '._('Yes').'</label></td></tr>';
 
 		break;
 
@@ -533,11 +544,11 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 
 				//COURSE_ID
 				DBQuery("UPDATE MOODLEXROSARIO SET ROSARIO_ID=(SELECT ROLLOVER_ID FROM COURSES WHERE COURSE_ID=ROSARIO_ID) WHERE exists(SELECT * FROM COURSES WHERE COURSE_ID=ROSARIO_ID AND ROLLOVER_ID IS NOT NULL AND SYEAR='".$next_syear."') AND \"column\"='course_id'");
-			
+
 				//COURSE_PERIOD_ID
 				$course_periods_RET = DBGet(DBQuery("SELECT mxc.MOODLE_ID AS CP_MOODLE_ID, cp.TEACHER_ID FROM COURSE_PERIODS cp, MOODLEXROSARIO mxc WHERE cp.SYEAR='".$next_syear."' AND cp.SCHOOL_ID='".UserSchool()."' AND cp.ROLLOVER_ID IS NOT NULL AND cp.ROLLOVER_ID=mxc.ROSARIO_ID AND mxc.\"column\"='course_period_id'"));
 
-				foreach($course_periods_RET as $reset_course_period)
+				foreach ( (array) $course_periods_RET as $reset_course_period)
 				{
 					$cp_moodle_id = $reset_course_period['CP_MOODLE_ID'];
 					$cp_teacher_id = $reset_course_period['TEACHER_ID'];
@@ -558,7 +569,7 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 
 			$staff_RET = DBGet(DBQuery("SELECT STAFF_ID,ROLLOVER_ID FROM STAFF WHERE SYEAR='".$next_syear."' AND ROLLOVER_ID IS NOT NULL"));
 
-			foreach($staff_RET as $value)
+			foreach ( (array) $staff_RET as $value)
 				DBQuery("UPDATE MOODLEXROSARIO SET ROSARIO_ID='".$value['STAFF_ID']."' WHERE ROSARIO_ID='".$value['ROLLOVER_ID']."' AND \"column\"='staff_id'");
 
 		break;
@@ -568,7 +579,7 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 
 			$course_subjects_RET = DBGet(DBQuery("SELECT SUBJECT_ID,ROLLOVER_ID FROM COURSE_SUBJECTS WHERE SYEAR='".$next_syear."' AND SCHOOL_ID='".UserSchool()."' AND ROLLOVER_ID IS NOT NULL"));
 
-			foreach($course_subjects_RET as $value)
+			foreach ( (array) $course_subjects_RET as $value)
 				DBQuery("UPDATE MOODLEXROSARIO SET ROSARIO_ID='".$value['SUBJECT_ID']."' WHERE ROSARIO_ID='".$value['ROLLOVER_ID']."' AND \"column\"='subject_id'");
 
 		break;
@@ -578,7 +589,7 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 
 			$courses_RET = DBGet(DBQuery("SELECT COURSE_ID,ROLLOVER_ID FROM COURSES WHERE SYEAR='".$next_syear."' AND SCHOOL_ID='".UserSchool()."' AND ROLLOVER_ID IS NOT NULL"));
 
-			foreach($courses_RET as $value)
+			foreach ( (array) $courses_RET as $value)
 				DBQuery("UPDATE MOODLEXROSARIO SET ROSARIO_ID='".$value['COURSE_ID']."' WHERE ROSARIO_ID='".$value['ROLLOVER_ID']."' AND \"column\"='course_id'");
 
 		break;
@@ -588,7 +599,7 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 
 			$course_periods_RET = DBGet(DBQuery("SELECT cp.COURSE_PERIOD_ID, cp.COURSE_ID, cp.SHORT_NAME, cp.MARKING_PERIOD_ID, cp.TEACHER_ID FROM COURSE_PERIODS cp, MOODLEXROSARIO mxc WHERE cp.SYEAR='".$next_syear."' AND cp.SCHOOL_ID='".UserSchool()."' AND cp.ROLLOVER_ID IS NOT NULL AND cp.ROLLOVER_ID=mxc.ROSARIO_ID AND mxc.\"column\"='course_period_id'"));
 
-			foreach($course_periods_RET as $rolled_course_period)
+			foreach ( (array) $course_periods_RET as $rolled_course_period)
 			{
 				Moodle($modname, 'core_course_create_courses');
 				Moodle($modname, 'core_role_assign_roles');
@@ -609,8 +620,9 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 //The function moodle_xmlrpc_call() sends the object to Moodle via XML-RPC
 function Moodle($modname, $moodle_functionname)
 {
-	require_once('plugins/Moodle/'.$modname);
-	require_once('plugins/Moodle/client.php');
+	require_once 'plugins/Moodle/' . $modname;
+
+	require_once 'plugins/Moodle/client.php';
 
 	//first, get the right object corresponding to the web service
 	$object = call_user_func($moodle_functionname.'_object');
@@ -649,5 +661,3 @@ function IsMoodleCoursePeriod($course_period_id)
 {
 	return count(DBGet(DBQuery("SELECT 1 FROM moodlexrosario WHERE rosario_id='".$course_period_id."' AND \"column\"='course_period_id'")));
 }
-
-?>

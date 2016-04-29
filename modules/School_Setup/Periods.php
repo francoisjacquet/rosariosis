@@ -1,27 +1,27 @@
 <?php
-if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
+if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
-	foreach($_REQUEST['values'] as $id=>$columns)
+	foreach ( (array) $_REQUEST['values'] as $id => $columns)
 	{
 //FJ fix SQL bug invalid numeric data
 		if ((empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER'])) && (empty($columns['LENGTH']) || is_numeric($columns['LENGTH'])))
 		{
-			if($columns['START_TIME_HOUR']!='' && $columns['START_TIME_MINUTE'] && $columns['START_TIME_M'])
+			if ( $columns['START_TIME_HOUR']!='' && $columns['START_TIME_MINUTE'] && $columns['START_TIME_M'])
 			{
 				$columns['START_TIME'] = $columns['START_TIME_HOUR'].':'.$columns['START_TIME_MINUTE'].' '.$columns['START_TIME_M'];
 			}
 			unset($columns['START_TIME_HOUR']);unset($columns['START_TIME_MINUTE']);unset($columns['START_TIME_M']);
-			if($columns['END_TIME_HOUR']!='' && $columns['END_TIME_MINUTE'] && $columns['END_TIME_M'])
+			if ( $columns['END_TIME_HOUR']!='' && $columns['END_TIME_MINUTE'] && $columns['END_TIME_M'])
 			{
 				$columns['END_TIME'] = $columns['END_TIME_HOUR'].':'.$columns['END_TIME_MINUTE'].' '.$columns['END_TIME_M'];
 			}
 			unset($columns['END_TIME_HOUR']);unset($columns['END_TIME_MINUTE']);unset($columns['END_TIME_M']);
 
-			if($id!='new')
+			if ( $id!='new')
 			{
 				$sql = "UPDATE SCHOOL_PERIODS SET ";
 
-				foreach($columns as $column=>$value)
+				foreach ( (array) $columns as $column => $value)
 				{
 					$sql .= $column."='".$value."',";
 				}
@@ -36,9 +36,9 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				$values = db_seq_nextval('SCHOOL_PERIODS_SEQ').",'".UserSchool()."','".UserSyear()."',";
 
 				$go = false;
-				foreach($columns as $column=>$value)
+				foreach ( (array) $columns as $column => $value)
 				{
-					if(!empty($value) || $value=='0')
+					if ( !empty($value) || $value=='0')
 					{
 						$fields .= $column.',';
 						$values .= "'".$value."',";
@@ -47,7 +47,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				}
 				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 
-				if($go)
+				if ( $go)
 					DBQuery($sql);
 			}
 		}
@@ -58,47 +58,51 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 
 DrawHeader(ProgramTitle());
 
-if($_REQUEST['modfunc']=='remove' && AllowEdit())
+if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 {
-	if(DeletePrompt(_('Period')))
+	if (DeletePrompt(_('Period')))
 	{
 		DBQuery("DELETE FROM SCHOOL_PERIODS WHERE PERIOD_ID='".$_REQUEST['id']."'");
 		unset($_REQUEST['modfunc']);
 	}
 }
 
-//FJ fix SQL bug invalid numeric data
-if(isset($error))
-	echo ErrorMessage($error);
+// FJ fix SQL bug invalid numeric data
+echo ErrorMessage( $error );
 
-if($_REQUEST['modfunc']!='remove')
+if ( $_REQUEST['modfunc']!='remove')
 {
 	$sql = "SELECT PERIOD_ID,TITLE,SHORT_NAME,SORT_ORDER,LENGTH,START_TIME,END_TIME,BLOCK,ATTENDANCE FROM SCHOOL_PERIODS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER";
 	$QI = DBQuery($sql);
-	$periods_RET = DBGet($QI,array('TITLE'=>'_makeTextInput','SHORT_NAME'=>'_makeTextInput','SORT_ORDER'=>'_makeTextInput','BLOCK'=>'_makeTextInput','LENGTH'=>'_makeTextInput','START_TIME'=>'_makeTimeInput','END_TIME'=>'_makeTimeInput','ATTENDANCE'=>'_makeCheckboxInput'));
+	$periods_RET = DBGet($QI,array('TITLE' => '_makeTextInput','SHORT_NAME' => '_makeTextInput','SORT_ORDER' => '_makeTextInput','BLOCK' => '_makeTextInput','LENGTH' => '_makeTextInput','ATTENDANCE' => '_makeCheckboxInput')); //,'START_TIME' => '_makeTimeInput','END_TIME' => '_makeTimeInput'
 
-	$columns = array('TITLE'=>_('Title'),'SHORT_NAME'=>_('Short Name'),'SORT_ORDER'=>_('Sort Order'),'LENGTH'=>_('Length (minutes)'),'BLOCK'=>_('Block'),'ATTENDANCE'=>_('Used for Attendance')); //,'START_TIME'=>_('Start Time'),'END_TIME'=>_('End Time'));
-	$link['add']['html'] = array('TITLE'=>_makeTextInput('','TITLE'),'SHORT_NAME'=>_makeTextInput('','SHORT_NAME'),'LENGTH'=>_makeTextInput('','LENGTH'),'SORT_ORDER'=>_makeTextInput('','SORT_ORDER'),'BLOCK'=>_makeTextInput('','BLOCK'),'START_TIME'=>_makeTimeInput('','START_TIME'),'END_TIME'=>_makeTimeInput('','END_TIME'),'ATTENDANCE'=>_makeCheckboxInput('','ATTENDANCE'));
-	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';
-	$link['remove']['variables'] = array('id'=>'PERIOD_ID');
+	$columns = array('TITLE' => _('Title'),'SHORT_NAME' => _('Short Name'),'SORT_ORDER' => _('Sort Order'),'LENGTH' => _('Length (minutes)'),'BLOCK' => _('Block'),'ATTENDANCE' => _('Used for Attendance')); //,'START_TIME' => _('Start Time'),'END_TIME' => _('End Time'));
+	$link['add']['html'] = array('TITLE'=>_makeTextInput('','TITLE'),'SHORT_NAME'=>_makeTextInput('','SHORT_NAME'),'LENGTH'=>_makeTextInput('','LENGTH'),'SORT_ORDER'=>_makeTextInput('','SORT_ORDER'),'BLOCK'=>_makeTextInput('','BLOCK'),'ATTENDANCE'=>_makeCheckboxInput('','ATTENDANCE')); //,'START_TIME'=>_makeTimeInput('','START_TIME'),'END_TIME'=>_makeTimeInput('','END_TIME')
 
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
+	// Do NOT delete last Period.
+	if ( count( $periods_RET ) > 1 )
+	{
+		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';
+		$link['remove']['variables'] = array('id' => 'PERIOD_ID');
+	}
+
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
 
 	ListOutput($periods_RET,$columns,'Period','Periods',$link);
-	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
-	echo '</FORM>';
+	echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+	echo '</form>';
 }
 
 function _makeTextInput($value,$name)
 {	global $THIS_RET;
 
-	if($THIS_RET['PERIOD_ID'])
+	if ( $THIS_RET['PERIOD_ID'])
 		$id = $THIS_RET['PERIOD_ID'];
 	else
 		$id = 'new';
 
-	if($name!='TITLE')
+	if ( $name!='TITLE')
 		$extra = 'size=5 maxlength=10';
 
 	return TextInput($value,'values['.$id.']['.$name.']','',$extra);
@@ -107,7 +111,7 @@ function _makeTextInput($value,$name)
 function _makeCheckboxInput($value,$name)
 {	global $THIS_RET;
 
-	if($THIS_RET['PERIOD_ID'])
+	if ( $THIS_RET['PERIOD_ID'])
 		$id = $THIS_RET['PERIOD_ID'];
 	else
 		$id = 'new';
@@ -118,7 +122,7 @@ function _makeCheckboxInput($value,$name)
 function _makeTimeInput($value,$name)
 {	global $THIS_RET;
 
-	if($THIS_RET['PERIOD_ID'])
+	if ( $THIS_RET['PERIOD_ID'])
 		$id = $THIS_RET['PERIOD_ID'];
 	else
 		$id = 'new';
@@ -127,28 +131,53 @@ function _makeTimeInput($value,$name)
 	$minute = mb_substr($value,mb_strpos($value,':'),mb_strpos($value,' '));
 	$m = mb_substr($value,mb_strpos($value,' '));
 
-	for($i=1;$i<=11;$i++)
-		$hour_options[$i] = ''.$i;
+	for ( $i=1;$i<=11;$i++)
+		$hour_options[ $i ] = ''.$i;
 	$hour_options['0'] = '12';
 
-	for($i=0;$i<=9;$i++)
+	for ( $i=0;$i<=9;$i++)
 		$minute_options['0'.$i] = '0'.$i;
-	for($i=10;$i<=59;$i++)
-		$minute_options[$i] = ''.$i;
+	for ( $i=10;$i<=59;$i++)
+		$minute_options[ $i ] = ''.$i;
 
-	$m_options = array('AM'=>'AM','PM'=>'PM');
+	$m_options = array('AM' => 'AM','PM' => 'PM');
 
-    if($id!='new' && $value)
+	$time_html = '<table><tr><td>' . SelectInput(
+		$hour,
+		'values[' . $id . '][' . $name . '_HOUR]',
+		'',
+		$hour_options,
+		'N/A',
+		'',
+		false
+	) . ':</td><td>' . SelectInput(
+		$minute,
+		'values[' . $id . '][' . $name . '_MINUTE]',
+		'',
+		$minute_options,
+		'N/A',
+		'',
+		false
+	) . '</td><td>' . SelectInput(
+		$m,
+		'values[' . $id . '][' . $name . '_M]',
+		'',
+		$m_options,
+		'N/A',
+		'',
+		false
+	) . '</td></tr></table>';
+
+	if ( $id != 'new'
+    	&& $value )
 	{
-		$return = '<DIV id='.$name.$id.'><div class="onclick" onclick=\'addHTML("';
-		
-        $toEscape = '<TABLE><TR><TD>'.SelectInput($hour,'values['.$id.']['.$name.'_HOUR]','',$hour_options,_('N/A'),'',false).':</TD><TD>'.SelectInput($minute,'values['.$id.']['.$name.'_MINUTE]','',$minute_options,_('N/A'),'',false).'</TD><TD>'.SelectInput($m,'values['.$id.']['.$name.'_M]','',$m_options,_('N/A'),'',false).'</TD></TR></TABLE>';
-		$return .= str_replace('"','\"',$toEscape);
-		
-		$return .= '","'.$name.$id.'",true);\'>'.'<span class="underline-dots">'.$value.'</span></div></DIV>';
-		return $return;
+		return InputDivOnclick(
+			$name . $id,
+			$time_html,
+			$value,
+			''
+		);
 	}
-    else
-        return '<TABLE><TR><TD>'.SelectInput($hour,'values['.$id.']['.$name.'_HOUR]','',$hour_options,_('N/A'),'',false).':</TD><TD>'.SelectInput($minute,'values['.$id.']['.$name.'_MINUTE]','',$minute_options,_('N/A'),'',false).'</TD><TD>'.SelectInput($m,'values['.$id.']['.$name.'_M]','',$m_options,_('N/A'),'',false).'</TD></TR></TABLE>';
+	else
+		return $time_html;
 }
-?>

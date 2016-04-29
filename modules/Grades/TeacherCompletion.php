@@ -1,5 +1,7 @@
 <?php
 
+require_once 'ProgramFunctions/TipMessage.fnc.php';
+
 DrawHeader(ProgramTitle());
 
 $sem = GetParentMP('SEM',UserMP());
@@ -7,35 +9,35 @@ $fy = GetParentMP('FY',$sem);
 $pros = GetChildrenMP('PRO',UserMP());
 
 // if the UserMP has been changed, the REQUESTed MP may not work
-if(!$_REQUEST['mp'] || mb_strpos($str="'".UserMP()."','".$sem."','".$fy."',".$pros,"'".$_REQUEST['mp']."'")===false)
+if ( ! $_REQUEST['mp'] || mb_strpos($str="'".UserMP()."','".$sem."','".$fy."',".$pros,"'".$_REQUEST['mp']."'")===false)
 	$_REQUEST['mp'] = UserMP();
 
 $QI = DBQuery("SELECT PERIOD_ID,TITLE FROM SCHOOL_PERIODS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND EXISTS (SELECT '' FROM COURSE_PERIODS WHERE PERIOD_ID=school_periods.PERIOD_ID) ORDER BY SORT_ORDER");
 $periods_RET = DBGet($QI,array(),array('PERIOD_ID'));
 
-$period_select = '<SELECT name="period" onChange="ajaxPostForm(this.form,true);"><OPTION value="">'._('All').'</OPTION>';
-foreach($periods_RET as $id=>$period)
-	$period_select .= '<OPTION value="'.$id.'"'.(($_REQUEST['period']==$id)?' SELECTED':'').">".$period[1]['TITLE']."</OPTION>";
-$period_select .= "</SELECT>";
+$period_select = '<select name="period" onChange="ajaxPostForm(this.form,true);"><option value="">'._('All').'</option>';
+foreach ( (array) $periods_RET as $id => $period)
+	$period_select .= '<option value="'.$id.'"'.(($_REQUEST['period']==$id)?' selected':'').">".$period[1]['TITLE']."</option>";
+$period_select .= "</select>";
 
-$mp_select = '<SELECT name="mp" onChange="ajaxPostForm(this.form,true);">';
-if($pros!='')
-	foreach(explode(',',str_replace("'",'',$pros)) as $pro)
-		if(GetMP($pro,'DOES_GRADES')=='Y')
-			$mp_select .= '<OPTION value="'.$pro.'"'.(($pro==$_REQUEST['mp'])?' SELECTED':'').">".GetMP($pro)."</OPTION>";
+$mp_select = '<select name="mp" onChange="ajaxPostForm(this.form,true);">';
+if ( $pros!='')
+	foreach ( explode(',',str_replace("'",'',$pros)) as $pro)
+		if (GetMP($pro,'DOES_GRADES')=='Y')
+			$mp_select .= '<option value="'.$pro.'"'.(($pro==$_REQUEST['mp'])?' selected':'').">".GetMP($pro)."</option>";
 
-$mp_select .= '<OPTION value="'.UserMP().'"'.((UserMP()==$_REQUEST['mp'])?' SELECTED':'').">".GetMP(UserMP())."</OPTION>";
+$mp_select .= '<option value="'.UserMP().'"'.((UserMP()==$_REQUEST['mp'])?' selected':'').">".GetMP(UserMP())."</option>";
 
-if(GetMP($sem,'DOES_GRADES')=='Y')
-	$mp_select .= '<OPTION value="'.$sem.'"'.(($sem==$_REQUEST['mp'])?' SELECTED':'').">".GetMP($sem)."</OPTION>";
+if (GetMP($sem,'DOES_GRADES')=='Y')
+	$mp_select .= '<option value="'.$sem.'"'.(($sem==$_REQUEST['mp'])?' selected':'').">".GetMP($sem)."</option>";
 
-if(GetMP($fy,'DOES_GRADES')=='Y')
-	$mp_select .= '<OPTION value="'.$fy.'"'.(($fy==$_REQUEST['mp'])?' SELECTED':'').">".GetMP($fy)."</OPTION>";
-$mp_select .= '</SELECT>';
+if (GetMP($fy,'DOES_GRADES')=='Y')
+	$mp_select .= '<option value="'.$fy.'"'.(($fy==$_REQUEST['mp'])?' selected':'').">".GetMP($fy)."</option>";
+$mp_select .= '</select>';
 
-echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
+echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 DrawHeader($mp_select.' - '.$period_select);
-echo '</FORM>';
+echo '</form>';
 
 //FJ multiple school periods for a course period
 /*$sql = "SELECT s.STAFF_ID,s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,sp.TITLE,cp.PERIOD_ID,cp.TITLE AS COURSE_TITLE,
@@ -59,38 +61,34 @@ $sql = "SELECT s.STAFF_ID,s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,sp.TITLE,
 		ORDER BY FULL_NAME";
 $RET = DBGet(DBQuery($sql),array(),array('STAFF_ID'));
 
-if(!$_REQUEST['period'])
+if ( ! $_REQUEST['period'] )
 {
-	$tiptitle = false;
-
-	foreach($RET as $staff_id=>$periods)
+	foreach ( (array) $RET as $staff_id => $periods )
 	{
 		$i++;
-		$staff_RET[$i]['FULL_NAME'] = $periods[1]['FULL_NAME'];
-		foreach($periods as $period)
+
+		$staff_RET[ $i ]['FULL_NAME'] = $periods[1]['FULL_NAME'];
+
+		foreach ( (array) $periods as $period )
 		{
-			if(!isset($_REQUEST['_ROSARIO_PDF']))
+			if ( !isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			{
-				$tipJS = '<script>';
-
-				if (!$tiptitle)
-				{
-					$tipJS .= 'var tiptitle='.json_encode(_('Course Title')).';';
-					$tiptitle = true;
-				}
-
-				$tipJS .= 'var tipmsg'.$i.$period['PERIOD_ID'].'='.json_encode($period['COURSE_TITLE']).';</script>';
-
-				$staff_RET[$i][$period['PERIOD_ID']] .= $tipJS.button($period['COMPLETED']=='Y'?'check':'x','','"#" onMouseOver="stm([tiptitle,tipmsg'.$i.$period['PERIOD_ID'].'])" onMouseOut="htm()" onclick="return false;"').' ';
+				$staff_RET[ $i ][$period['PERIOD_ID']] .= makeTipMessage(
+					$period['COURSE_TITLE'],
+					_( 'Course Title' ),
+					button( $period['COMPLETED'] === 'Y' ? 'check' : 'x' )
+				);
 			}
 			else
-				$staff_RET[$i][$period['PERIOD_ID']] = $period['COMPLETED']=='Y'?_('Yes').' ':_('No').' ';
+				$staff_RET[ $i ][$period['PERIOD_ID']] = $period['COMPLETED'] === 'Y' ?
+					_( 'Yes' ) . ' ' :
+					_( 'No' ) . ' ';
 		}
 	}
 
-	$columns = array('FULL_NAME'=>_('Teacher'));
-	foreach($periods_RET as $id=>$period)
-		$columns[$id] = $period[1]['TITLE'];
+	$columns = array('FULL_NAME' => _('Teacher'));
+	foreach ( (array) $periods_RET as $id => $period)
+		$columns[ $id ] = $period[1]['TITLE'];
 
 	ListOutput($staff_RET,$columns,'Teacher who enters grades','Teachers who enter grades');
 }
@@ -98,17 +96,16 @@ else
 {
 	$period_title = $periods_RET[$_REQUEST['period']][1]['TITLE'];
 
-	foreach($RET as $staff_id=>$periods)
+	foreach ( (array) $RET as $staff_id => $periods)
 	{
-		foreach($periods as $period_id=>$period)
+		foreach ( (array) $periods as $period_id => $period)
 		{
-			if(!isset($_REQUEST['_ROSARIO_PDF']))
-				$RET[$staff_id][$period_id]['COMPLETED'] = button($period['COMPLETED']=='Y'?'check':'x','','').' ';
+			if ( !isset($_REQUEST['_ROSARIO_PDF']))
+				$RET[ $staff_id ][ $period_id ]['COMPLETED'] = button($period['COMPLETED']=='Y'?'check':'x','','').' ';
 			else
-				$RET[$staff_id][$period_id]['COMPLETED'] = $period['COMPLETED']=='Y'?_('Yes').' ':_('No').' ';
+				$RET[ $staff_id ][ $period_id ]['COMPLETED'] = $period['COMPLETED']=='Y'?_('Yes').' ':_('No').' ';
 		}
 	}
 	
-	ListOutput($RET,array('FULL_NAME'=>_('Teacher'),'COURSE_TITLE'=>_('Course'),'COMPLETED'=>_('Completed')),sprintf(_('Teacher who enters grades for %s'), $period_title),sprintf(_('Teachers who enter grades for %s'), $period_title),false,array('STAFF_ID'));
+	ListOutput($RET,array('FULL_NAME' => _('Teacher'),'COURSE_TITLE' => _('Course'),'COMPLETED' => _('Completed')),sprintf(_('Teacher who enters grades for %s'), $period_title),sprintf(_('Teachers who enter grades for %s'), $period_title),false,array('STAFF_ID'));
 }
-?>

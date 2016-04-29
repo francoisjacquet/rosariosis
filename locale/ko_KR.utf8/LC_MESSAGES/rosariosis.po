@@ -1876,7 +1876,7 @@ msgstr "직장"
 #: modules/Custom/Registration.php:176
 #, fuzzy
 msgid "Information about your spouse or significant other residing with you"
-msgstr "귀하의 배우자 또는 중요한 다른 당신과 함께 거주에 관한 정보 : <BR> <small>당신이 분리하는 경우이 섹션을 비워두십시오.</small>"
+msgstr "귀하의 배우자 또는 중요한 다른 당신과 함께 거주에 관한 정보 : <br> <small>당신이 분리하는 경우이 섹션을 비워두십시오.</small>"
 
 #: modules/Custom/Registration.php:176
 msgid "Leave this section blank if you are separated."
@@ -2575,7 +2575,7 @@ msgstr "당신은 당신이 데이터를 복사 하시겠습니까"
 #: modules/Food_Service/Students/Accounts.php:16
 #: modules/Food_Service/Users/Accounts.php:34
 #, php-format
-msgid "That barcode is already assigned to Student <B>%s</B>."
+msgid "That barcode is already assigned to Student <b>%s</b>."
 msgstr ""
 
 #: modules/Food_Service/Students/Accounts.php:16
@@ -2586,7 +2586,7 @@ msgstr ""
 #: modules/Food_Service/Students/Accounts.php:25
 #: modules/Food_Service/Users/Accounts.php:25
 #, php-format
-msgid "That barcode is already assigned to User <B>%s</B>."
+msgid "That barcode is already assigned to User <b>%s</b>."
 msgstr ""
 
 #: modules/Food_Service/Students/Accounts.php:98
@@ -2661,7 +2661,7 @@ msgid "%N's lunch account is getting low.  Please send in at least %P with %h re
 msgstr ""
 
 #: modules/Food_Service/Students/Reminders.php:19
-msgid "%N now has a <B>negative balance</B> in %h lunch account. Please send in the negative balance plus %T.  THANK YOU!"
+msgid "%N now has a <b>negative balance</b> in %h lunch account. Please send in the negative balance plus %T.  THANK YOU!"
 msgstr ""
 
 #: modules/Food_Service/Students/Reminders.php:21
@@ -2807,7 +2807,7 @@ msgid "Your lunch account is getting low.  Please send in at least %P with your 
 msgstr ""
 
 #: modules/Food_Service/Users/Reminders.php:7
-msgid "You now have a <B>negative balance</B> in your lunch account. Please send in the negative balance plus %T.  THANK YOU!"
+msgid "You now have a <b>negative balance</b> in your lunch account. Please send in the negative balance plus %T.  THANK YOU!"
 msgstr ""
 
 #: modules/Food_Service/Users/Reminders.php:9
@@ -3229,7 +3229,7 @@ msgid "Final Grade"
 msgstr "최종 학년"
 
 #: modules/Grades/FinalGrades.php:104
-msgid "Abs<BR />YTD / MP"
+msgid "Abs<br />YTD / MP"
 msgstr ""
 
 #: modules/Grades/FinalGrades.php:173
@@ -5797,11 +5797,11 @@ msgid "Add an <b>Existing</b> Address"
 msgstr ""
 
 #: modules/Students/includes/Address.inc.php:460
-msgid "Add a <b>New</b> Contact<BR />without an Address"
+msgid "Add a <b>New</b> Contact<br />without an Address"
 msgstr ""
 
 #: modules/Students/includes/Address.inc.php:471
-msgid "Add an <b>Existing</b> Contact<BR />without an Address"
+msgid "Add an <b>Existing</b> Contact<br />without an Address"
 msgstr ""
 
 #: modules/Students/includes/Address.inc.php:490
@@ -10591,16 +10591,16 @@ msgstr "이 사람은 시스템에 정보가 없습니다."
 #~ msgid ""
 #~ "You <i>must</i> roll users, school periods, marking periods, calendars, "
 #~ "and report card<br>codes at the same time or before rolling "
-#~ "courses<BR><BR>* You <i>must</i> roll courses at the same time or before "
-#~ "rolling report card comments<BR><BR>Red items have already have data in "
-#~ "the next school year (They might have been rolled).<BR><BR>Rolling red "
+#~ "courses<br><br>* You <i>must</i> roll courses at the same time or before "
+#~ "rolling report card comments<br><br>Red items have already have data in "
+#~ "the next school year (They might have been rolled).<br><br>Rolling red "
 #~ "items will delete already existing data in the next school year."
 #~ msgstr ""
 #~ "당신은 사용자, 학교 기간, 마킹 기간, 달력,보고 카드를 <i>롤해야합니다</i> "
-#~ "<br> 동시에 또는 압연 과정을하기 전에 코드 <BR><BR> * 당신은 동시에 또는 "
-#~ "보고서 카드 의견을 압연하기 전에 과정을 <i>롤해야합니다</i> <BR><BR> 레드 "
+#~ "<br> 동시에 또는 압연 과정을하기 전에 코드 <br><br> * 당신은 동시에 또는 "
+#~ "보고서 카드 의견을 압연하기 전에 과정을 <i>롤해야합니다</i> <br><br> 레드 "
 #~ "항목은 이미 다음 학년의 데이터를 (그들은 압연되었을 수 있습니다)가 있습니"
-#~ "다. <BR><BR> 빨간색 항목 롤링하면 다음 학년에 이미 기존 데이터를 삭제합니"
+#~ "다. <br><br> 빨간색 항목 롤링하면 다음 학년에 이미 기존 데이터를 삭제합니"
 #~ "다."
 
 #~ msgid "Confirm Rollover"
@@ -10756,10 +10756,10 @@ msgstr "이 사람은 시스템에 정보가 없습니다."
 #~ msgstr "풀다운 자동"
 
 #~ msgid ""
-#~ "Pull-Down/Auto Pull-Down/Coded Pull-Down/Select Multiple Choices<BR>* one "
+#~ "Pull-Down/Auto Pull-Down/Coded Pull-Down/Select Multiple Choices<br>* one "
 #~ "per line"
 #~ msgstr ""
-#~ "Pull-Down/Auto Pull-Down/Coded Pull-Down/Select 복수 선택 <BR> 한 줄에 * "
+#~ "Pull-Down/Auto Pull-Down/Coded Pull-Down/Select 복수 선택 <br> 한 줄에 * "
 #~ "하나"
 
 #~ msgid "for dates: YYYY-MM-DD"

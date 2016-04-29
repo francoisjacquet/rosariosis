@@ -1,25 +1,28 @@
 <?php
 //FJ move Attendance.php from functions/ to modules/Attendance/includes
-require('modules/Attendance/includes/UpdateAttendanceDaily.fnc.php');
+require_once 'modules/Attendance/includes/UpdateAttendanceDaily.fnc.php';
 
-if(!$_REQUEST['month'])
-	$_REQUEST['month'] = date("m");
-else
-	$_REQUEST['month'] = MonthNWSwitch($_REQUEST['month'],'tonum');
-if(!$_REQUEST['year'])
-	$_REQUEST['year'] = date("Y");
+if ( ! $_REQUEST['month'] )
+{
+	$_REQUEST['month'] = date( 'm' );
+}
+
+if ( ! $_REQUEST['year'] )
+{
+	$_REQUEST['year'] = date( 'Y' );
+}
 else
 	$_REQUEST['year'] = ($_REQUEST['year']<1900?'20'.$_REQUEST['year']:$_REQUEST['year']);
 
-if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
+if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
-	if(count($_REQUEST['period']) && count($_REQUEST['student']) && count($_REQUEST['dates']))
+	if (count($_REQUEST['period']) && count($_REQUEST['student']) && count($_REQUEST['dates']))
 	{
-		foreach($_REQUEST['period'] as $period_id=>$yes)
+		foreach ( (array) $_REQUEST['period'] as $period_id => $yes)
 			$periods_list .= ",'".$period_id."'";
 		$periods_list = '('.mb_substr($periods_list,1).')';
 
-		foreach($_REQUEST['student'] as $student_id=>$yes)
+		foreach ( (array) $_REQUEST['student'] as $student_id => $yes)
 			$students_list .= ",'".$student_id."'";
 		$students_list = '('.mb_substr($students_list,1).')';
 
@@ -31,9 +34,9 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		AND STUDENT_ID IN ".$students_list),array(),array('STUDENT_ID','SCHOOL_DATE','PERIOD_ID'));
 		$state_code = DBGet(DBQuery("SELECT STATE_CODE FROM ATTENDANCE_CODES WHERE ID='".$_REQUEST['absence_code']."'"));
 		$state_code = $state_code[1]['STATE_CODE'];
-		foreach($_REQUEST['student'] as $student_id=>$yes)
+		foreach ( (array) $_REQUEST['student'] as $student_id => $yes)
 		{
-			foreach($_REQUEST['dates'] as $date=>$yes)
+			foreach ( (array) $_REQUEST['dates'] as $date => $yes)
 			{
 				$current_mp = GetCurrentMP('QTR',$date);
 				$all_mp = GetAllMP('QTR',$current_mp);
@@ -66,12 +69,12 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					$course_periods_RET = DBGet(DBQuery("SELECT s.COURSE_PERIOD_ID,cpsp.PERIOD_ID,cp.HALF_DAY FROM SCHEDULE s,COURSE_PERIODS cp,ATTENDANCE_CALENDAR ac,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE sp.PERIOD_ID=cpsp.PERIOD_ID AND ac.SCHOOL_DATE='".$date."' AND ac.CALENDAR_ID=cp.CALENDAR_ID AND (ac.BLOCK=sp.BLOCK OR sp.BLOCK IS NULL) AND s.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND s.STUDENT_ID='".$student_id."' AND cpsp.PERIOD_ID IN $periods_list AND position(',0,' IN cp.DOES_ATTENDANCE)>0 AND (ac.SCHOOL_DATE BETWEEN s.START_DATE AND s.END_DATE OR (s.END_DATE IS NULL AND ac.SCHOOL_DATE>=s.START_DATE)) AND position(substring('UMTWHFS' FROM cast(extract(DOW FROM ac.SCHOOL_DATE) AS INT)+1 FOR 1) IN cpsp.DAYS)>0 AND s.MARKING_PERIOD_ID IN ($all_mp)"),array(),array('PERIOD_ID'));				
 				}
 				//echo '<pre>'; var_dump($course_periods_RET); echo '</pre>';
-				foreach($_REQUEST['period'] as $period_id=>$yes)
+				foreach ( (array) $_REQUEST['period'] as $period_id => $yes)
 				{
-					$course_period_id = $course_periods_RET[$period_id][1]['COURSE_PERIOD_ID'];
-					if($course_period_id && !($course_periods_RET[$period_id][1]['COURSE_PERIOD_ID']=='Y' && $state_code=='H'))
+					$course_period_id = $course_periods_RET[ $period_id ][1]['COURSE_PERIOD_ID'];
+					if ( $course_period_id && !($course_periods_RET[ $period_id ][1]['COURSE_PERIOD_ID']=='Y' && $state_code=='H'))
 					{
-						if(!$current_RET[$student_id][$date][$period_id])
+						if ( ! $current_RET[ $student_id ][ $date ][ $period_id ])
 						{
 							$sql = "INSERT INTO ATTENDANCE_PERIOD (STUDENT_ID,SCHOOL_DATE,PERIOD_ID,MARKING_PERIOD_ID,COURSE_PERIOD_ID,ATTENDANCE_CODE,ATTENDANCE_REASON,ADMIN)
 										values('".$student_id."','".$date."','".$period_id."','".$current_mp."','".$course_period_id."','".$_REQUEST['absence_code']."','".$_REQUEST['absence_reason']."','Y')";
@@ -99,27 +102,26 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 DrawHeader(ProgramTitle());
 
-if (isset($note))
-	echo ErrorMessage($note, 'note');
-if (isset($error))
-	echo ErrorMessage($error);
+echo ErrorMessage( $note, 'note' );
 
-if(empty($_REQUEST['modfunc']))
+echo ErrorMessage( $error );
+
+if (empty($_REQUEST['modfunc']))
 
 {
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",CAST (NULL AS CHAR(1)) AS CHECKBOX";
 
-	if($_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" METHOD="POST">';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
 		DrawHeader('',SubmitButton(_('Add Absences to Selected Students')));
 
-		echo '<BR />';
+		echo '<br />';
 
 //FJ css WPadmin
-		echo '<TABLE class="postbox cellpadding-5 col1-align-right center"><TR><TD>'._('Add Absence to Periods').'</TD>';
-		echo '<TD><TABLE><TR>';
+		echo '<table class="postbox cellpadding-5 col1-align-right center"><tr><td>'._('Add Absence to Periods').'</td>';
+		echo '<td><table><tr>';
 
 		//FJ multiple school periods for a course period
 		//$periods_RET = DBGet(DBQuery("SELECT SHORT_NAME,PERIOD_ID FROM SCHOOL_PERIODS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND EXISTS (SELECT '' FROM COURSE_PERIODS WHERE PERIOD_ID=SCHOOL_PERIODS.PERIOD_ID AND position(',0,' IN DOES_ATTENDANCE)>0) ORDER BY SORT_ORDER"));
@@ -129,68 +131,67 @@ if(empty($_REQUEST['modfunc']))
 		AND SCHOOL_ID='".UserSchool()."' 
 		AND EXISTS (SELECT '' FROM COURSE_PERIOD_SCHOOL_PERIODS cpsp, COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND cpsp.PERIOD_ID=SCHOOL_PERIODS.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0) 
 		ORDER BY SORT_ORDER"));
-		foreach($periods_RET as $period)
+		foreach ( (array) $periods_RET as $period)
 //FJ add <label> on checkbox
-			echo '<TD><label><INPUT type="CHECKBOX" value="Y" name="period['.$period['PERIOD_ID'].']"> '.$period['SHORT_NAME'].'</label></TD>';
-		echo '</TR></TABLE></TD>';
+			echo '<td><label><input type="CHECKBOX" value="Y" name="period['.$period['PERIOD_ID'].']"> '.$period['SHORT_NAME'].'</label></td>';
+		echo '</tr></table></td>';
 
-		echo '<TR><TD>'._('Absence Code').'</TD><TD><SELECT name="absence_code">';
+		echo '<tr><td>'._('Absence Code').'</td><td><select name="absence_code">';
 		$codes_RET = DBGet(DBQuery("SELECT TITLE,ID FROM ATTENDANCE_CODES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND TABLE_NAME='0'"));
-		foreach($codes_RET as $code)
-			echo '<OPTION value='.$code['ID'].'>'.$code['TITLE'].'</OPTION>';
-		echo '</SELECT></TD></TR>';
+		foreach ( (array) $codes_RET as $code)
+			echo '<option value='.$code['ID'].'>'.$code['TITLE'].'</option>';
+		echo '</select></td></tr>';
 
-		echo '<TR><TD>'._('Absence Reason').'</TD><TD><INPUT type="text" name="absence_reason"></TD></TR>';
-		echo '<TR><TD colspan="2" class="center">';
+		echo '<tr><td>'._('Absence Reason').'</td><td><input type="text" name="absence_reason"></td></tr>';
+		echo '<tr><td colspan="2" class="center">';
 		$time = mktime(0,0,0,$_REQUEST['month']*1,1,mb_substr($_REQUEST['year'],2));
 		echo PrepareDate(mb_strtoupper(date("d-M-y",$time)),'',false,array('M'=>1,'Y'=>1,'submit'=>true));
 
 		$skip = date("w",$time);
 		$last = 31;
-		while(!checkdate($_REQUEST['month']*1, $last, mb_substr($_REQUEST['year'],2)))
+		while (!checkdate($_REQUEST['month']*1, $last, mb_substr($_REQUEST['year'],2)))
 			$last--;
 
-		echo '<TABLE><TR>';
-//		echo '<TH>S</TH><TH>M</TH><TH>T</TH><TH>W</TH><TH>Th</TH><TH>F</TH><TH>S</TH></TR><TR>';
-		echo '<TH>'.mb_substr(_('Sunday'),0,3).'</TH><TH>'.mb_substr(_('Monday'),0,3).'</TH><TH>'.mb_substr(_('Tuesday'),0,3).'</TH><TH>'.mb_substr(_('Wednesday'),0,3).'</TH><TH>'.mb_substr(_('Thursday'),0,3).'</TH><TH>'.mb_substr(_('Friday'),0,3).'</TH><TH>'.mb_substr(_('Saturday'),0,3).'</TH></TR><TR>';
+		echo '<table><tr>';
+//		echo '<th>S</th><th>M</th><th>T</th><th>W</th><th>Th</th><th>F</th><th>S</th></tr><tr>';
+		echo '<th>'.mb_substr(_('Sunday'),0,3).'</th><th>'.mb_substr(_('Monday'),0,3).'</th><th>'.mb_substr(_('Tuesday'),0,3).'</th><th>'.mb_substr(_('Wednesday'),0,3).'</th><th>'.mb_substr(_('Thursday'),0,3).'</th><th>'.mb_substr(_('Friday'),0,3).'</th><th>'.mb_substr(_('Saturday'),0,3).'</th></tr><tr>';
 		$calendar_RET = DBGet(DBQuery("SELECT SCHOOL_DATE FROM ATTENDANCE_CALENDAR WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND MINUTES!='0' AND EXTRACT(MONTH FROM SCHOOL_DATE)='".($_REQUEST['month']*1)."'"),array(),array('SCHOOL_DATE'));
-		for($i=1;$i<=$skip;$i++)
-			echo '<TD></TD>';
+		for ( $i=1;$i<=$skip;$i++)
+			echo '<td></td>';
 
-		for($i=1;$i<=$last;$i++)
+		for ( $i=1;$i<=$last;$i++)
 		{
 			$this_date = $_REQUEST['year'].'-'.$_REQUEST['month'].'-'.($i<10?'0'.$i:$i);
-			if(!$calendar_RET[$this_date])
+			if ( ! $calendar_RET[ $this_date ])
 				$disabled = ' DISABLED';
-			elseif(date('Y-m-d')==$this_date)
+			elseif (date('Y-m-d')==$this_date)
 				$disabled = ' checked';
 			else
 				$disabled = '';
 
-			echo '<TD style="text-align:right"><label>'.$i.'<INPUT type="checkbox" name="dates['.$this_date.']" value="Y"'.$disabled.'></label></TD>';
+			echo '<td style="text-align:right"><label>'.$i.'<input type="checkbox" name="dates['.$this_date.']" value="Y"'.$disabled.'></label></td>';
 			$skip++;
-			if($skip%7==0 && $i!=$last)
-				echo '</TR><TR>';
+			if ( $skip%7==0 && $i!=$last)
+				echo '</tr><tr>';
 		}
-		echo '</TR></TABLE>';
-		echo '</TD></TR></TABLE></BR>';
+		echo '</tr></table>';
+		echo '</td></tr></table></bR>';
 	}
 
 	Widgets('course');
 	Widgets('absences');
 
-	$extra['functions'] = array('CHECKBOX'=>'_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX'=>'</A><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'student\');" /><A>');
+	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
+	$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.checked,\'student\');" /><A>');
 	$extra['new'] = true;
 
 	Search('student_id',$extra);
-	if($_REQUEST['search_modfunc']=='list')
-		echo '<BR /><span class="center">'.SubmitButton(_('Add Absences to Selected Students')).'</span></FORM>';
+	if ( $_REQUEST['search_modfunc']=='list')
+		echo '<br /><div class="center">' . SubmitButton(_('Add Absences to Selected Students')) . '</div></form>';
 }
 
 function _makeChooseCheckbox($value,$title)
 {	global $THIS_RET;
 
-	return '<INPUT type="checkbox" name="student['.$THIS_RET['STUDENT_ID'].']" value="Y" />';
+	return '<input type="checkbox" name="student['.$THIS_RET['STUDENT_ID'].']" value="Y" />';
 }
-?>

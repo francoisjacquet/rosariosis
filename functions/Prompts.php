@@ -1,71 +1,154 @@
 <?php
+/**
+ * Prompt functions
+ *
+ * @package RosarioSIS
+ * @subpackage functions
+ */
 
-// example:
-//
-//	if(DeletePrompt(_('Title')))
-//	{
-//		DBQuery("DELETE FROM BOK WHERE id='".$_REQUEST['benchmark_id']."'");
-//	}
-
-
-function DeletePrompt($title,$action='Delete',$remove_modfunc_on_cancel=true)
+/**
+ * Prompt before Delete
+ * and display OK & Cancel buttons
+ *
+ * @example if ( DeletePrompt( _( 'Title' ) ) ) DBQuery( "DELETE FROM BOK WHERE id='" . $_REQUEST['benchmark_id'] . "'" );
+ *
+ * @param  string  $title                    Prompt title.
+ * @param  string  $action                   Prompt action (optional). Defaults to 'Delete'.
+ * @param  boolean $remove_modfunc_on_cancel Remove &modufnc=XXX part of the cancel button URL (optional).
+ *
+ * @return boolean true if user clicks OK or Cancel + modfunc, else false
+ */
+function DeletePrompt( $title, $action = 'Delete', $remove_modfunc_on_cancel = true )
 {
-	if(!$_REQUEST['delete_ok'] && !$_REQUEST['delete_cancel'])
+	// Display prompt.
+	if ( ( ! isset( $_REQUEST['delete_ok'] )
+			|| empty( $_REQUEST['delete_ok'] ) )
+		&&  ( ! isset( $_REQUEST['delete_cancel'] )
+			|| empty( $_REQUEST['delete_cancel'] ) ) )
 	{
-		echo '<BR />';
+		// Set default action text.
+		if ( $action === 'Delete' )
+		{
+			$action = _( 'Delete' );
+		}
 
-		$PHP_tmp_SELF = $PHP_tmp_SELF_cancel = PreparePHP_SELF($_REQUEST,array('delete_ok'));
+		echo '<br />';
 
-		if ($remove_modfunc_on_cancel)
-			$PHP_tmp_SELF_cancel = str_replace('&modfunc='.$_REQUEST['modfunc'], '', $PHP_tmp_SELF_cancel);
+		$PHP_tmp_SELF = PreparePHP_SELF( $_REQUEST );
 
-		PopTable('header',_('Confirm').(mb_strpos($action,' ')===false?' '.($action=='Delete'?_('Delete'):$action):''));
+		if ( $remove_modfunc_on_cancel )
+		{
+			$remove = array( 'modfunc' );
+		}
+		else
+			$remove = array();
 
-		echo '<span class="center"><h4>'.sprintf(_('Are you sure you want to %s that %s?'),($action=='Delete'?_('Delete'):$action),$title).'</h4><FORM action="'.$PHP_tmp_SELF.'&delete_ok=1" METHOD="POST"><INPUT type="submit" value="'._('OK').'"><INPUT type="button" name="delete_cancel" value="'._('Cancel').'" onclick="javascript:this.form.action=\''.$PHP_tmp_SELF_cancel.'&delete_cancel=1\';ajaxPostForm(this.form,true);"></FORM></span>';
+		$PHP_tmp_SELF_cancel = PreparePHP_SELF( $_REQUEST, $remove, array( 'delete_cancel' => true ) );
 
-		PopTable('footer');
+		PopTable( 'header', _( 'Confirm' ) . ( mb_strpos( $action, ' ' ) === false ? ' '. $action : '' ) );
+
+		echo '<br /><div class="center">' . button( 'warning', '', '', 'bigger' ) .
+			'<h4>' .	sprintf( _( 'Are you sure you want to %s that %s?' ), $action, $title ) . '</h4>
+			<form action="' . $PHP_tmp_SELF . '" method="POST">' .
+				SubmitButton( _( 'OK' ), 'delete_ok' ) .
+				'<input type="button" name="delete_cancel" value="' . _( 'Cancel' ) . '" onclick="ajaxLink(\'' . $PHP_tmp_SELF_cancel . '\');" />
+			</form>
+		</div><br />';
+
+		PopTable( 'footer' );
 
 		return false;
 	}
+	// If user clicked OK or Cancel + modfunc.
 	else
+	{
+		if ( isset( $_REQUEST['delete_ok'] ) )
+		{
+			$_REQUEST['delete_ok'] = false;
+
+			$_SESSION['_REQUEST_vars']['delete_ok'] = false;
+		}
+
 		return true;
+	}
 }
 
-function Prompt($title='Confirm',$question='',$message='',$pdf='',$remove_modfunc_on_cancel=true)
+
+/**
+ * Prompt question to user
+ * and display OK & Cancel buttons
+ *
+ * Go back in browser history on Cancel
+ *
+ * @example if ( Prompt( _( 'Confirm' ), _( 'Do you want to dance?' ), $message ) )
+ *
+ * @param  string  $title    Prompt title (optional). Defaults to 'Confirm'.
+ * @param  string  $question Prompt question (optional). Defaults to ''.
+ * @param  string  $message  Prompt message (optional). Defaults to ''.
+ *
+ * @return boolean true if user clicks OK, else false
+ */
+function Prompt( $title = 'Confirm', $question = '', $message = '' )
 {
-	if(!$_REQUEST['delete_ok'])
+	// Display prompt.
+	if ( ! isset( $_REQUEST['delete_ok'] )
+		|| empty( $_REQUEST['delete_ok'] ) )
 	{
-		echo '<BR />';
+		// Set default title.
+		if ( $title === 'Confirm' )
+		{
+			$title = _( 'Confirm' );
+		}
 
-		$PHP_tmp_SELF = PreparePHP_SELF($_REQUEST,array('delete_ok'),$pdf==true?array('_ROSARIO_PDF'=>true):array());
+		echo '<br />';
 
-		$PHP_tmp_SELF_cancel = str_replace('&_ROSARIO_PDF='.$_REQUEST['_ROSARIO_PDF'], '', $PHP_tmp_SELF);
+		$PHP_tmp_SELF = PreparePHP_SELF( $_REQUEST );
 
-		if ($remove_modfunc_on_cancel)
-			$PHP_tmp_SELF_cancel = str_replace('&modfunc='.$_REQUEST['modfunc'], '', $PHP_tmp_SELF_cancel);
+		PopTable( 'header', $title );
 
-		PopTable('header',($title=='Confirm'?_('Confirm'):$title));
+		echo '<h4 class="center">' . $question . '</h4>
+			<form action="' . $PHP_tmp_SELF . '" method="POST">' .
+				$message .
+				'<div class="center"><br />' .
+				SubmitButton( _( 'OK' ), 'delete_ok' ) .
+				'<input type="button" name="delete_cancel" value="' . _( 'Cancel' ) . '" onclick="javascript:self.history.go(-1);">
+				</div>
+			</form><br />';
 
-		echo '<span class="center"><h4>'.$question.'</h4></span><FORM action="'.$PHP_tmp_SELF.'&delete_ok=1" METHOD="POST">'.$message.'<BR /><BR /><span class="center"><INPUT type="submit" value="'._('OK').'"><INPUT type="button" name="delete_cancel" value="'._('Cancel').'" onclick="javascript:this.form.action=\''.$PHP_tmp_SELF_cancel.'&delete_cancel=1\';ajaxPostForm(this.form,true);"></span></FORM>';
-
-		PopTable('footer');
+		PopTable( 'footer' );
 
 		return false;
 	}
+	// If user clicked OK.
 	else
+	{
+		$_REQUEST['delete_ok'] = false;
+
+		$_SESSION['_REQUEST_vars']['delete_ok'] = false;
+
 		return true;
+	}
 }
 
-// Use the BackPrompt function only if there is an error in a script opened in a new window (ie. PDF printing)
-// BackPrompt will alert the message and close the window
-function BackPrompt($message)
+
+/**
+ * Prompt message in JS Alert box & close window
+ *
+ * Use the BackPrompt function only if there is an error
+ * in a script opened in a new window (ie. PDF printing)
+ * BackPrompt will alert the message and close the window
+ *
+ * @param  string $message Alert box message.
+ *
+ * @return string JS Alert box & close window, then exits
+ */
+function BackPrompt( $message )
 {
-//FJ errors not readable
-//	echo '<SCRIPT>alert("'.str_replace(array("'",'"'),array('&#39;','&quot;'),$message).'");self.history.go(-1);</SCRIPT>';
 	?>
-
-	<SCRIPT>alert(<?php echo json_encode($message); ?>);window.close();</SCRIPT>
+	<script>
+		alert(<?php echo json_encode( (string) $message ); ?>);
+		window.close();
+	</script>
 
 	<?php exit();
 }
-?>

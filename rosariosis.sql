@@ -56,7 +56,7 @@ BEGIN
     UPDATE student_mp_stats
     SET cum_cr_weighted_factor = cr_weighted_factors/cr_credits,
         cum_cr_unweighted_factor = cr_unweighted_factors/cr_credits
-	WHERE student_mp_stats.student_id = s_id and cast(student_mp_stats.marking_period_id as text) = mp_id;
+    WHERE student_mp_stats.student_id = s_id and cast(student_mp_stats.marking_period_id as text) = mp_id;
   RETURN 1;
 END;
 $_$;
@@ -78,7 +78,7 @@ BEGIN
     UPDATE student_mp_stats
     SET cum_weighted_factor = sum_weighted_factors/gp_credits,
         cum_unweighted_factor = sum_unweighted_factors/gp_credits
-	WHERE student_mp_stats.student_id = s_id and cast(student_mp_stats.marking_period_id as text) = mp_id;
+    WHERE student_mp_stats.student_id = s_id and cast(student_mp_stats.marking_period_id as text) = mp_id;
   RETURN 1;
 END;
 $_$;
@@ -96,7 +96,7 @@ CREATE OR REPLACE FUNCTION calc_cum_gpa_mp(character varying) RETURNS integer
   s student_mp_stats%ROWTYPE;
 BEGIN
   FOR s in select student_id from student_mp_stats where cast(marking_period_id as text) = mp_id LOOP
-   
+
     PERFORM calc_cum_gpa(mp_id, s.student_id);
     PERFORM calc_cum_cr_gpa(mp_id, s.student_id);
   END LOOP;
@@ -121,18 +121,18 @@ BEGIN
   SELECT * INTO oldrec FROM student_mp_stats WHERE student_id = s_id and cast(marking_period_id as text) = mp_id;
 
   IF FOUND THEN
-    UPDATE STUDENT_MP_STATS SET 
-        sum_weighted_factors = rcg.sum_weighted_factors, 
-        sum_unweighted_factors = rcg.sum_unweighted_factors, 
+    UPDATE STUDENT_MP_STATS SET
+        sum_weighted_factors = rcg.sum_weighted_factors,
+        sum_unweighted_factors = rcg.sum_unweighted_factors,
         cr_weighted_factors = rcg.cr_weighted,
         cr_unweighted_factors = rcg.cr_unweighted,
         gp_credits = rcg.gp_credits,
         cr_credits = rcg.cr_credits
-        
+
       FROM (
-      select 
-        sum(weighted_gp*credit_attempted/gp_scale) as sum_weighted_factors, 
-        sum(unweighted_gp*credit_attempted/gp_scale) as sum_unweighted_factors, 
+      select
+        sum(weighted_gp*credit_attempted/gp_scale) as sum_weighted_factors,
+        sum(unweighted_gp*credit_attempted/gp_scale) as sum_unweighted_factors,
         sum(credit_attempted) as gp_credits,
         sum( case when class_rank = 'Y' THEN weighted_gp*credit_attempted/gp_scale END ) as cr_weighted,
         sum( case when class_rank = 'Y' THEN unweighted_gp*credit_attempted/gp_scale END ) as cr_unweighted,
@@ -147,18 +147,18 @@ WHERE student_id = s_id and cast(marking_period_id as text) = mp_id;
   ELSE
     INSERT INTO STUDENT_MP_STATS (student_id, marking_period_id, sum_weighted_factors, sum_unweighted_factors, grade_level_short, cr_weighted_factors, cr_unweighted_factors, gp_credits, cr_credits)
 
-        select 
-            srcg.student_id, (srcg.marking_period_id::text)::int, 
-            sum(weighted_gp*credit_attempted/gp_scale) as sum_weighted_factors, 
-            sum(unweighted_gp*credit_attempted/gp_scale) as sum_unweighted_factors, 
+        select
+            srcg.student_id, (srcg.marking_period_id::text)::int,
+            sum(weighted_gp*credit_attempted/gp_scale) as sum_weighted_factors,
+            sum(unweighted_gp*credit_attempted/gp_scale) as sum_unweighted_factors,
             eg.short_name,
             sum( case when class_rank = 'Y' THEN weighted_gp*credit_attempted/gp_scale END ) as cr_weighted,
-	    sum( case when class_rank = 'Y' THEN unweighted_gp*credit_attempted/gp_scale END ) as cr_unweighted,
+        sum( case when class_rank = 'Y' THEN unweighted_gp*credit_attempted/gp_scale END ) as cr_unweighted,
             sum(credit_attempted) as gp_credits,
             sum(case when class_rank = 'Y' THEN credit_attempted END) as cr_credits
         from student_report_card_grades srcg join marking_periods mp on (cast(mp.marking_period_id as text) = srcg.marking_period_id) left outer join enroll_grade eg on (eg.student_id = srcg.student_id and eg.syear = mp.syear and eg.school_id = mp.school_id)
-        where srcg.student_id = s_id and cast(srcg.marking_period_id as text) = mp_id and not srcg.gp_scale = 0 
-		group by srcg.student_id, srcg.marking_period_id, eg.short_name;
+        where srcg.student_id = s_id and cast(srcg.marking_period_id as text) = mp_id and not srcg.gp_scale = 0
+        group by srcg.student_id, srcg.marking_period_id, eg.short_name;
   END IF;
   RETURN 0;
 END
@@ -173,30 +173,30 @@ $_$
 CREATE OR REPLACE FUNCTION credit(integer, character varying) RETURNS numeric
     AS $_$
 DECLARE
-	course_detail RECORD;
-	mp_detail RECORD;
-	values RECORD;
-	
+    course_detail RECORD;
+    mp_detail RECORD;
+    values RECORD;
+
 BEGIN
 select * into course_detail from course_periods where course_period_id = $1;
 select * into mp_detail from marking_periods where cast(marking_period_id as text) = $2;
 
 IF course_detail.marking_period_id = mp_detail.marking_period_id THEN
-	return course_detail.credits;
+    return course_detail.credits;
 ELSIF course_detail.mp = 'FY' AND mp_detail.mp_type = 'semester' THEN
-	select into values count(*) as mp_count from marking_periods where parent_id = course_detail.marking_period_id group by parent_id;
+    select into values count(*) as mp_count from marking_periods where parent_id = course_detail.marking_period_id group by parent_id;
 ELSIF course_detail.mp = 'FY' and mp_detail.mp_type = 'quarter' THEN
-	select into values count(*) as mp_count from marking_periods where grandparent_id = course_detail.marking_period_id group by grandparent_id;
+    select into values count(*) as mp_count from marking_periods where grandparent_id = course_detail.marking_period_id group by grandparent_id;
 ELSIF course_detail.mp = 'SEM' and mp_detail.mp_type = 'quarter' THEN
-	select into values count(*) as mp_count from marking_periods where parent_id = course_detail.marking_period_id group by parent_id;
+    select into values count(*) as mp_count from marking_periods where parent_id = course_detail.marking_period_id group by parent_id;
 ELSE
-	return course_detail.credits;
+    return course_detail.credits;
 END IF;
 
 IF values.mp_count > 0 THEN
-	return course_detail.credits/values.mp_count;
+    return course_detail.credits/values.mp_count;
 ELSE
-	return course_detail.credits;
+    return course_detail.credits;
 END IF;
 
 END$_$
@@ -209,42 +209,42 @@ END$_$
 
 CREATE OR REPLACE FUNCTION set_class_rank_mp(character varying) RETURNS integer
     AS $_$
-DECLARE 
-	mp_id alias for $1;
+DECLARE
+    mp_id alias for $1;
 BEGIN
 update student_mp_stats set cum_rank = rank.rank, class_size = rank.class_size  from
 (
-select 
+select
 mp.syear, mp.marking_period_id, sgm.student_id, se.grade_id, sgm.cum_cr_weighted_factor
 ,
- (select count(*)+1 
+ (select count(*)+1
    from student_mp_stats sgm3
    where sgm3.cum_cr_weighted_factor > sgm.cum_cr_weighted_factor
-     and sgm3.marking_period_id = mp.marking_period_id 
-     and sgm3.student_id in (select distinct sgm2.student_id 
+     and sgm3.marking_period_id = mp.marking_period_id
+     and sgm3.student_id in (select distinct sgm2.student_id
                             from student_mp_stats sgm2, student_enrollment se2
-                            where sgm2.student_id = se2.student_id 
-                              and sgm2.marking_period_id = mp.marking_period_id 
-				and se2.grade_id = se.grade_id
-				and se2.syear = se.syear)
+                            where sgm2.student_id = se2.student_id
+                              and sgm2.marking_period_id = mp.marking_period_id
+                              and se2.grade_id = se.grade_id
+                              and se2.syear = se.syear)
 ) as rank,
 
- (select count(*) 
+ (select count(*)
    from student_mp_stats sgm4
    where
-     sgm4.marking_period_id = mp.marking_period_id 
-     and sgm4.student_id in (select distinct sgm5.student_id 
+     sgm4.marking_period_id = mp.marking_period_id
+     and sgm4.student_id in (select distinct sgm5.student_id
                             from student_mp_stats sgm5, student_enrollment se3
-                            where sgm5.student_id = se3.student_id 
-                              and sgm5.marking_period_id = mp.marking_period_id 
-				and se3.grade_id = se.grade_id
-				and se3.syear = se.syear)
+                            where sgm5.student_id = se3.student_id
+                              and sgm5.marking_period_id = mp.marking_period_id
+                              and se3.grade_id = se.grade_id
+                              and se3.syear = se.syear)
 ) as class_size
 
-  
+
 from student_enrollment se, student_mp_stats sgm, marking_periods mp
- 
-where 
+
+where
 se.student_id = sgm.student_id
 and sgm.marking_period_id = mp.marking_period_id
 and cast(mp.marking_period_id as text) = mp_id
@@ -269,15 +269,15 @@ CREATE FUNCTION t_update_mp_stats() RETURNS "trigger"
 begin
 
   IF tg_op = 'DELETE' THEN
-	perform calc_gpa_mp(OLD.student_id::int, OLD.marking_period_id::varchar);
+    perform calc_gpa_mp(OLD.student_id::int, OLD.marking_period_id::varchar);
   ELSE
-	--IF tg_op = 'INSERT' THEN
-		--we need to do stuff here to gather other information since it's a new record.
-	--ELSE
-		--if report_card_grade_id changes, then we need to reset gp values
-	--	IF NOT NEW.report_card_grade_id = OLD.report_card_grade_id THEN
-			--
-	perform calc_gpa_mp(NEW.student_id::int, NEW.marking_period_id::varchar);
+    --IF tg_op = 'INSERT' THEN
+        --we need to do stuff here to gather other information since it's a new record.
+    --ELSE
+        --if report_card_grade_id changes, then we need to reset gp values
+    --  IF NOT NEW.report_card_grade_id = OLD.report_card_grade_id THEN
+            --
+    perform calc_gpa_mp(NEW.student_id::int, NEW.marking_period_id::varchar);
   END IF;
   return NULL;
 end
@@ -290,7 +290,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: accounting_incomes; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: accounting_incomes; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE accounting_incomes (
@@ -330,7 +330,7 @@ SELECT pg_catalog.setval('accounting_incomes_seq', 1, false);
 
 
 --
--- Name: accounting_salaries; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: accounting_salaries; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE accounting_salaries (
@@ -372,7 +372,7 @@ SELECT pg_catalog.setval('accounting_salaries_seq', 1, false);
 
 
 --
--- Name: accounting_payments; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: accounting_payments; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE accounting_payments (
@@ -412,7 +412,7 @@ SELECT pg_catalog.setval('accounting_payments_seq', 1, false);
 
 
 --
--- Name: address; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: address; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE address (
@@ -440,7 +440,7 @@ CREATE TABLE address (
 
 
 --
--- Name: address_field_categories; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: address_field_categories; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE address_field_categories (
@@ -477,7 +477,7 @@ SELECT pg_catalog.setval('address_field_categories_seq', 1, false);
 
 
 --
--- Name: address_fields; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: address_fields; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE address_fields (
@@ -537,7 +537,7 @@ SELECT pg_catalog.setval('address_seq', 1, true);
 
 
 --
--- Name: attendance_calendar; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: attendance_calendar; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE attendance_calendar (
@@ -553,7 +553,7 @@ CREATE TABLE attendance_calendar (
 
 
 --
--- Name: attendance_calendars; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: attendance_calendars; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE attendance_calendars (
@@ -569,7 +569,7 @@ CREATE TABLE attendance_calendars (
 
 
 --
--- Name: attendance_code_categories; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: attendance_code_categories; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE attendance_code_categories (
@@ -606,7 +606,7 @@ SELECT pg_catalog.setval('attendance_code_categories_seq', 1, false);
 
 
 --
--- Name: attendance_codes; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: attendance_codes; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE attendance_codes (
@@ -647,7 +647,7 @@ SELECT pg_catalog.setval('attendance_codes_seq', 4, true);
 
 
 --
--- Name: attendance_completed; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: attendance_completed; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE attendance_completed (
@@ -661,7 +661,7 @@ CREATE TABLE attendance_completed (
 
 
 --
--- Name: attendance_day; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: attendance_day; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE attendance_day (
@@ -678,7 +678,7 @@ CREATE TABLE attendance_day (
 
 
 --
--- Name: attendance_period; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: attendance_period; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE attendance_period (
@@ -698,7 +698,7 @@ CREATE TABLE attendance_period (
 
 
 --
--- Name: billing_fees; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: billing_fees; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE billing_fees (
@@ -740,7 +740,7 @@ SELECT pg_catalog.setval('billing_fees_seq', 1, false);
 
 
 --
--- Name: billing_payments; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: billing_payments; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE billing_payments (
@@ -780,7 +780,7 @@ SELECT pg_catalog.setval('billing_payments_seq', 1, false);
 
 
 --
--- Name: calendar_events; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: calendar_events; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE calendar_events (
@@ -838,11 +838,11 @@ SELECT pg_catalog.setval('calendars_seq', 1, true);
 
 
 --
--- Name: config; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: config; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE config (
-	school_id numeric NOT NULL,
+    school_id numeric NOT NULL,
     title character varying(100),
     config_value character varying(2550)
 );
@@ -851,7 +851,7 @@ CREATE TABLE config (
 
 
 --
--- Name: course_periods; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: course_periods; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE course_periods (
@@ -886,7 +886,7 @@ CREATE TABLE course_periods (
 
 
 --
--- Name: courses; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: courses; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE courses (
@@ -915,7 +915,7 @@ CREATE VIEW course_details AS
 
 
 --
--- Name: course_period_school_periods; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: course_period_school_periods; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE course_period_school_periods (
@@ -971,7 +971,7 @@ SELECT pg_catalog.setval('course_periods_seq', 1, true);
 
 
 --
--- Name: course_subjects; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: course_subjects; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE course_subjects (
@@ -1032,7 +1032,7 @@ SELECT pg_catalog.setval('courses_seq', 1, true);
 
 
 --
--- Name: custom_fields; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: custom_fields; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE custom_fields (
@@ -1071,7 +1071,7 @@ SELECT pg_catalog.setval('custom_seq', 1, true);
 
 
 --
--- Name: discipline_categories; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: discipline_categories; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE discipline_categories (
@@ -1109,7 +1109,7 @@ SELECT pg_catalog.setval('discipline_categories_seq', 1, false);
 
 
 --
--- Name: discipline_field_usage; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: discipline_field_usage; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE discipline_field_usage (
@@ -1147,7 +1147,7 @@ SELECT pg_catalog.setval('discipline_field_usage_seq', 6, true);
 
 
 --
--- Name: discipline_fields; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: discipline_fields; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE discipline_fields (
@@ -1183,7 +1183,7 @@ SELECT pg_catalog.setval('discipline_fields_seq', 6, true);
 
 
 --
--- Name: discipline_referrals; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: discipline_referrals; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE discipline_referrals (
@@ -1227,7 +1227,7 @@ SELECT pg_catalog.setval('discipline_referrals_seq', 1, false);
 
 
 --
--- Name: eligibility; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: eligibility; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE eligibility (
@@ -1243,7 +1243,7 @@ CREATE TABLE eligibility (
 
 
 --
--- Name: eligibility_activities; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: eligibility_activities; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE eligibility_activities (
@@ -1280,7 +1280,7 @@ SELECT pg_catalog.setval('eligibility_activities_seq', 3, true);
 
 
 --
--- Name: eligibility_completed; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: eligibility_completed; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE eligibility_completed (
@@ -1293,7 +1293,7 @@ CREATE TABLE eligibility_completed (
 
 
 --
--- Name: school_gradelevels; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: school_gradelevels; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE school_gradelevels (
@@ -1309,7 +1309,20 @@ CREATE TABLE school_gradelevels (
 
 
 --
--- Name: student_enrollment; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: student_assignments; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
+--
+
+CREATE TABLE student_assignments (
+    assignment_id numeric NOT NULL,
+    student_id numeric NOT NULL,
+    data text
+);
+
+
+
+
+--
+-- Name: student_enrollment; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE student_enrollment (
@@ -1348,7 +1361,7 @@ COMMENT ON VIEW enroll_grade IS 'Provides enrollment dates and grade levels';
 
 
 --
--- Name: food_service_accounts; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: food_service_accounts; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE food_service_accounts (
@@ -1361,7 +1374,7 @@ CREATE TABLE food_service_accounts (
 
 
 --
--- Name: food_service_categories; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: food_service_categories; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE food_service_categories (
@@ -1397,7 +1410,7 @@ SELECT pg_catalog.setval('food_service_categories_seq', 1, true);
 
 
 --
--- Name: food_service_items; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: food_service_items; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE food_service_items (
@@ -1438,7 +1451,7 @@ SELECT pg_catalog.setval('food_service_items_seq', 4, true);
 
 
 --
--- Name: food_service_menu_items; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: food_service_menu_items; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE food_service_menu_items (
@@ -1476,7 +1489,7 @@ SELECT pg_catalog.setval('food_service_menu_items_seq', 4, true);
 
 
 --
--- Name: food_service_menus; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: food_service_menus; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE food_service_menus (
@@ -1511,7 +1524,7 @@ SELECT pg_catalog.setval('food_service_menus_seq', 1, true);
 
 
 --
--- Name: food_service_staff_accounts; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: food_service_staff_accounts; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE food_service_staff_accounts (
@@ -1526,7 +1539,7 @@ CREATE TABLE food_service_staff_accounts (
 
 
 --
--- Name: food_service_staff_transaction_items; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: food_service_staff_transaction_items; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE food_service_staff_transaction_items (
@@ -1541,7 +1554,7 @@ CREATE TABLE food_service_staff_transaction_items (
 
 
 --
--- Name: food_service_staff_transactions; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: food_service_staff_transactions; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE food_service_staff_transactions (
@@ -1581,7 +1594,7 @@ SELECT pg_catalog.setval('food_service_staff_transactions_seq', 1, true);
 
 
 --
--- Name: food_service_student_accounts; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: food_service_student_accounts; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE food_service_student_accounts (
@@ -1596,7 +1609,7 @@ CREATE TABLE food_service_student_accounts (
 
 
 --
--- Name: food_service_transaction_items; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: food_service_transaction_items; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE food_service_transaction_items (
@@ -1612,7 +1625,7 @@ CREATE TABLE food_service_transaction_items (
 
 
 --
--- Name: food_service_transactions; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: food_service_transactions; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE food_service_transactions (
@@ -1654,7 +1667,7 @@ SELECT pg_catalog.setval('food_service_transactions_seq', 1, true);
 
 
 --
--- Name: gradebook_assignment_types; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: gradebook_assignment_types; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE gradebook_assignment_types (
@@ -1692,7 +1705,7 @@ SELECT pg_catalog.setval('gradebook_assignment_types_seq', 1, false);
 
 
 --
--- Name: gradebook_assignments; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: gradebook_assignments; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE gradebook_assignments (
@@ -1707,7 +1720,8 @@ CREATE TABLE gradebook_assignments (
     due_date date,
     points numeric NOT NULL,
     description character varying(1000),
-	default_points numeric
+    default_points numeric,
+    submission character varying(1)
 );
 
 
@@ -1735,7 +1749,7 @@ SELECT pg_catalog.setval('gradebook_assignments_seq', 1, true);
 
 
 --
--- Name: gradebook_grades; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: gradebook_grades; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE gradebook_grades (
@@ -1751,7 +1765,7 @@ CREATE TABLE gradebook_grades (
 
 
 --
--- Name: grades_completed; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: grades_completed; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE grades_completed (
@@ -1764,7 +1778,7 @@ CREATE TABLE grades_completed (
 
 
 --
--- Name: history_marking_periods; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: history_marking_periods; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE history_marking_periods (
@@ -1782,7 +1796,7 @@ CREATE TABLE history_marking_periods (
 
 
 --
--- Name: lunch_period; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: lunch_period; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE lunch_period (
@@ -1824,7 +1838,7 @@ SELECT pg_catalog.setval('marking_period_seq', 11, true);
 
 
 --
--- Name: school_marking_periods; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: school_marking_periods; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE school_marking_periods (
@@ -1859,7 +1873,7 @@ CREATE VIEW marking_periods AS
 
 
 --
--- Name: moodlexrosario; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: moodlexrosario; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE moodlexrosario (
@@ -1872,7 +1886,7 @@ CREATE TABLE moodlexrosario (
 
 
 --
--- Name: people; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: people; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE people (
@@ -1886,7 +1900,7 @@ CREATE TABLE people (
 
 
 --
--- Name: people_field_categories; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: people_field_categories; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE people_field_categories (
@@ -1922,7 +1936,7 @@ SELECT pg_catalog.setval('people_field_categories_seq', 1, false);
 
 
 --
--- Name: people_fields; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: people_fields; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE people_fields (
@@ -1961,7 +1975,7 @@ SELECT pg_catalog.setval('people_fields_seq', 1, true);
 
 
 --
--- Name: people_join_contacts; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: people_join_contacts; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE people_join_contacts (
@@ -2017,7 +2031,7 @@ SELECT pg_catalog.setval('people_seq', 1, true);
 
 
 --
--- Name: portal_notes; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: portal_notes; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE portal_notes (
@@ -2060,7 +2074,7 @@ SELECT pg_catalog.setval('portal_notes_seq', 1, false);
 
 
 --
--- Name: portal_poll_questions; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: portal_poll_questions; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE portal_poll_questions (
@@ -2097,7 +2111,7 @@ SELECT pg_catalog.setval('portal_poll_questions_seq', 1, false);
 
 
 --
--- Name: portal_polls; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: portal_polls; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE portal_polls (
@@ -2113,7 +2127,7 @@ CREATE TABLE portal_polls (
     start_date date,
     end_date date,
     published_profiles character varying(255),
-	students_teacher_id numeric,
+    students_teacher_id numeric,
     excluded_users text
 );
 
@@ -2142,7 +2156,7 @@ SELECT pg_catalog.setval('portal_polls_seq', 1, false);
 
 
 --
--- Name: profile_exceptions; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: profile_exceptions; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE profile_exceptions (
@@ -2156,7 +2170,7 @@ CREATE TABLE profile_exceptions (
 
 
 --
--- Name: program_config; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: program_config; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE program_config (
@@ -2171,7 +2185,7 @@ CREATE TABLE program_config (
 
 
 --
--- Name: program_user_config; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: program_user_config; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE program_user_config (
@@ -2186,7 +2200,7 @@ CREATE TABLE program_user_config (
 
 
 --
--- Name: report_card_comment_categories; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: report_card_comment_categories; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE report_card_comment_categories (
@@ -2225,7 +2239,7 @@ SELECT pg_catalog.setval('report_card_comment_categories_seq', 1, true);
 
 
 --
--- Name: report_card_comment_code_scales; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: report_card_comment_code_scales; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE report_card_comment_code_scales (
@@ -2262,7 +2276,7 @@ SELECT pg_catalog.setval('report_card_comment_code_scales_seq', 1, false);
 
 
 --
--- Name: report_card_comment_codes; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: report_card_comment_codes; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE report_card_comment_codes (
@@ -2300,7 +2314,7 @@ SELECT pg_catalog.setval('report_card_comment_codes_seq', 1, false);
 
 
 --
--- Name: report_card_comments; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: report_card_comments; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE report_card_comments (
@@ -2339,7 +2353,7 @@ SELECT pg_catalog.setval('report_card_comments_seq', 3, true);
 
 
 --
--- Name: report_card_grade_scales; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: report_card_grade_scales; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE report_card_grade_scales (
@@ -2381,7 +2395,7 @@ SELECT pg_catalog.setval('report_card_grade_scales_seq', 1, true);
 
 
 --
--- Name: report_card_grades; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: report_card_grades; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE report_card_grades (
@@ -2424,19 +2438,19 @@ SELECT pg_catalog.setval('report_card_grades_seq', 15, true);
 --
 -- Name: resources; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
- 
+
 CREATE TABLE resources (
-	id numeric NOT NULL,
-	school_id numeric NOT NULL,
-	title character varying(256),
-	link character varying(1000)
+    id numeric NOT NULL,
+    school_id numeric NOT NULL,
+    title character varying(256),
+    link character varying(1000)
 );
- 
- 
+
+
 --
 -- Name: resources_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
 --
- 
+
 CREATE SEQUENCE resources_seq
 START WITH 3
 INCREMENT BY 1
@@ -2448,12 +2462,12 @@ CACHE 1;
 --
 -- Name: resources_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
 --
- 
+
 SELECT pg_catalog.setval('resources_seq', 3, true);
 
 
 --
--- Name: schedule; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: schedule; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE schedule (
@@ -2476,7 +2490,7 @@ CREATE TABLE schedule (
 
 
 --
--- Name: schedule_requests; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: schedule_requests; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE schedule_requests (
@@ -2540,7 +2554,7 @@ SELECT pg_catalog.setval('schedule_seq', 1, false);
 
 
 --
--- Name: school_fields; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: school_fields; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE school_fields (
@@ -2553,6 +2567,27 @@ CREATE TABLE school_fields (
 );
 
 
+
+
+--
+-- Name: school_fields_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
+--
+
+CREATE SEQUENCE school_fields_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+
+
+--
+-- Name: school_fields_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
+--
+
+SELECT pg_catalog.setval('school_fields_seq', 1, true);
 
 
 --
@@ -2598,7 +2633,7 @@ SELECT pg_catalog.setval('school_gradelevels_seq', 9, true);
 
 
 --
--- Name: school_periods; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: school_periods; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE school_periods (
@@ -2641,7 +2676,7 @@ SELECT pg_catalog.setval('school_periods_seq', 11, true);
 
 
 --
--- Name: schools; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: schools; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE schools (
@@ -2658,7 +2693,7 @@ CREATE TABLE schools (
     school_number character varying(50),
     short_name character varying(25),
     reporting_gp_scale numeric(10,3),
-	number_days_rotation numeric(1,0)
+    number_days_rotation numeric(1,0)
 );
 
 
@@ -2686,7 +2721,7 @@ SELECT pg_catalog.setval('schools_seq', 1, true);
 
 
 --
--- Name: staff; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: staff; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE staff (
@@ -2715,7 +2750,7 @@ CREATE TABLE staff (
 
 
 --
--- Name: staff_exceptions; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: staff_exceptions; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE staff_exceptions (
@@ -2729,7 +2764,7 @@ CREATE TABLE staff_exceptions (
 
 
 --
--- Name: staff_field_categories; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: staff_field_categories; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE staff_field_categories (
@@ -2769,7 +2804,7 @@ SELECT pg_catalog.setval('staff_field_categories_seq', 3, true);
 
 
 --
--- Name: staff_fields; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: staff_fields; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE staff_fields (
@@ -2829,7 +2864,7 @@ SELECT pg_catalog.setval('staff_seq', 3, true);
 
 
 --
--- Name: student_eligibility_activities; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: student_eligibility_activities; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE student_eligibility_activities (
@@ -2842,7 +2877,7 @@ CREATE TABLE student_eligibility_activities (
 
 
 --
--- Name: student_enrollment_codes; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: student_enrollment_codes; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE student_enrollment_codes (
@@ -2901,7 +2936,7 @@ SELECT pg_catalog.setval('student_enrollment_seq', 1, true);
 
 
 --
--- Name: student_field_categories; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: student_field_categories; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE student_field_categories (
@@ -2937,7 +2972,7 @@ SELECT pg_catalog.setval('student_field_categories_seq', 5, true);
 
 
 --
--- Name: student_medical; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: student_medical; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE student_medical (
@@ -2952,7 +2987,7 @@ CREATE TABLE student_medical (
 
 
 --
--- Name: student_medical_alerts; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: student_medical_alerts; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE student_medical_alerts (
@@ -3007,7 +3042,7 @@ SELECT pg_catalog.setval('student_medical_seq', 1, false);
 
 
 --
--- Name: student_medical_visits; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: student_medical_visits; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE student_medical_visits (
@@ -3046,7 +3081,7 @@ SELECT pg_catalog.setval('student_medical_visits_seq', 1, false);
 
 
 --
--- Name: student_mp_comments; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: student_mp_comments; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE student_mp_comments (
@@ -3060,7 +3095,7 @@ CREATE TABLE student_mp_comments (
 
 
 --
--- Name: student_mp_stats; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: student_mp_stats; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE student_mp_stats (
@@ -3092,7 +3127,7 @@ CREATE TABLE student_mp_stats (
 
 
 --
--- Name: student_report_card_comments; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: student_report_card_comments; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE student_report_card_comments (
@@ -3109,7 +3144,7 @@ CREATE TABLE student_report_card_comments (
 
 
 --
--- Name: student_report_card_grades; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: student_report_card_grades; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE student_report_card_grades (
@@ -3161,7 +3196,7 @@ SELECT pg_catalog.setval('student_report_card_grades_seq', 1, false);
 
 
 --
--- Name: students; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: students; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE students (
@@ -3192,7 +3227,7 @@ CREATE TABLE students (
 
 
 --
--- Name: students_join_address; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: students_join_address; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE students_join_address (
@@ -3237,7 +3272,7 @@ SELECT pg_catalog.setval('students_join_address_seq', 1, true);
 
 
 --
--- Name: students_join_people; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: students_join_people; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE students_join_people (
@@ -3275,7 +3310,7 @@ SELECT pg_catalog.setval('students_join_people_seq', 1, true);
 
 
 --
--- Name: students_join_users; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: students_join_users; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE students_join_users (
@@ -3308,7 +3343,7 @@ SELECT pg_catalog.setval('students_seq', 1, true);
 
 
 --
--- Name: templates; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: templates; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE templates (
@@ -3332,7 +3367,7 @@ CREATE VIEW transcript_grades AS
 
 
 --
--- Name: user_profiles; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: user_profiles; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE user_profiles (
@@ -3472,6 +3507,7 @@ INSERT INTO attendance_codes VALUES (4, 2015, 1, 'Excused Absence', 'E', 'offici
 --
 
 INSERT INTO config VALUES (0, 'LOGIN', 'No');
+INSERT INTO config VALUES (0, 'VERSION', '2.9');
 INSERT INTO config VALUES (0, 'TITLE', 'Rosario Student Information System');
 INSERT INTO config VALUES (0, 'NAME', 'RosarioSIS');
 INSERT INTO config VALUES (0, 'MODULES', 'a:13:{s:12:"School_Setup";b:1;s:8:"Students";b:1;s:5:"Users";b:1;s:10:"Scheduling";b:1;s:6:"Grades";b:1;s:10:"Attendance";b:1;s:11:"Eligibility";b:1;s:10:"Discipline";b:1;s:10:"Accounting";b:1;s:15:"Student_Billing";b:1;s:12:"Food_Service";b:1;s:9:"Resources";b:1;s:6:"Custom";b:1;}');
@@ -3479,6 +3515,7 @@ INSERT INTO config VALUES (0, 'PLUGINS', 'a:1:{s:6:"Moodle";b:0;}');
 INSERT INTO config VALUES (0, 'THEME', 'WPadmin');
 INSERT INTO config VALUES (0, 'CREATE_USER_ACCOUNT', NULL);
 INSERT INTO config VALUES (0, 'CREATE_STUDENT_ACCOUNT', NULL);
+INSERT INTO config VALUES (0, 'STUDENTS_EMAIL_FIELD', NULL);
 INSERT INTO config VALUES (1, 'SCHOOL_SYEAR_OVER_2_YEARS', 'Y');
 INSERT INTO config VALUES (1, 'ATTENDANCE_FULL_DAY_MINUTES', '300');
 INSERT INTO config VALUES (1, 'STUDENTS_USE_MAILING', NULL);
@@ -3886,6 +3923,7 @@ INSERT INTO profile_exceptions VALUES (1, 'Food_Service/MenuItems.php', 'Y', 'Y'
 INSERT INTO profile_exceptions VALUES (1, 'Food_Service/Menus.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Food_Service/Kiosk.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Resources/Resources.php', 'Y', 'Y');
+INSERT INTO profile_exceptions VALUES (1, 'Accounting/DailyTotals.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Accounting/DailyTransactions.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Accounting/Expenses.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Accounting/Incomes.php', 'Y', 'Y');
@@ -3953,6 +3991,7 @@ INSERT INTO profile_exceptions VALUES (3, 'Scheduling/PrintSchedules.php', 'Y', 
 INSERT INTO profile_exceptions VALUES (3, 'Scheduling/PrintClassPictures.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (3, 'Scheduling/Requests.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (3, 'Grades/StudentGrades.php', 'Y', NULL);
+INSERT INTO profile_exceptions VALUES (3, 'Grades/StudentAssignments.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (3, 'Grades/FinalGrades.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (3, 'Grades/ReportCards.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (3, 'Grades/Transcripts.php', 'Y', NULL);
@@ -3976,6 +4015,7 @@ INSERT INTO profile_exceptions VALUES (0, 'Scheduling/PrintSchedules.php', 'Y', 
 INSERT INTO profile_exceptions VALUES (0, 'Scheduling/PrintClassPictures.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (0, 'Scheduling/Requests.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (0, 'Grades/StudentGrades.php', 'Y', NULL);
+INSERT INTO profile_exceptions VALUES (0, 'Grades/StudentAssignments.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (0, 'Grades/FinalGrades.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (0, 'Grades/ReportCards.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (0, 'Grades/Transcripts.php', 'Y', NULL);
@@ -4015,6 +4055,7 @@ INSERT INTO profile_exceptions VALUES (1, 'Student_Billing/MassAssignFees.php', 
 INSERT INTO profile_exceptions VALUES (1, 'Student_Billing/MassAssignPayments.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Student_Billing/StudentBalances.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Student_Billing/DailyTransactions.php', 'Y', 'Y');
+INSERT INTO profile_exceptions VALUES (1, 'Student_Billing/DailyTotals.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Student_Billing/Statements.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Student_Billing/Fees.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (0, 'Student_Billing/StudentFees.php', 'Y', NULL);
@@ -4376,35 +4417,35 @@ INSERT INTO user_profiles VALUES (3, 'parent', 'Parent');
 
 
 --
--- Name: accounting_incomes_pkey; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: accounting_incomes_pkey; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE UNIQUE INDEX accounting_incomes_pkey ON accounting_incomes USING btree (id);
 
 
 --
--- Name: accounting_salaries_pkey; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: accounting_salaries_pkey; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE UNIQUE INDEX accounting_salaries_pkey ON accounting_salaries USING btree (id);
 
 
 --
--- Name: accounting_payments_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: accounting_payments_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX accounting_payments_ind1 ON accounting_payments USING btree (staff_id);
 
 
 --
--- Name: accounting_payments_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: accounting_payments_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX accounting_payments_ind2 ON accounting_payments USING btree (amount);
 
 
 --
--- Name: address_field_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: address_field_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY address_field_categories
@@ -4412,7 +4453,7 @@ ALTER TABLE ONLY address_field_categories
 
 
 --
--- Name: address_fields_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: address_fields_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY address_fields
@@ -4420,7 +4461,7 @@ ALTER TABLE ONLY address_fields
 
 
 --
--- Name: address_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: address_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY address
@@ -4428,7 +4469,7 @@ ALTER TABLE ONLY address
 
 
 --
--- Name: attendance_calendar_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: attendance_calendar_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY attendance_calendar
@@ -4436,7 +4477,7 @@ ALTER TABLE ONLY attendance_calendar
 
 
 --
--- Name: attendance_codes_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: attendance_codes_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY attendance_codes
@@ -4444,7 +4485,7 @@ ALTER TABLE ONLY attendance_codes
 
 
 --
--- Name: attendance_completed_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: attendance_completed_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY attendance_completed
@@ -4452,7 +4493,7 @@ ALTER TABLE ONLY attendance_completed
 
 
 --
--- Name: attendance_day_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: attendance_day_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY attendance_day
@@ -4460,7 +4501,7 @@ ALTER TABLE ONLY attendance_day
 
 
 --
--- Name: attendance_period_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: attendance_period_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY attendance_period
@@ -4468,7 +4509,7 @@ ALTER TABLE ONLY attendance_period
 
 
 --
--- Name: calendar_events_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: calendar_events_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY calendar_events
@@ -4476,15 +4517,15 @@ ALTER TABLE ONLY calendar_events
 
 
 --
--- Name: course_period_school_periods_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: course_period_school_periods_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY course_period_school_periods
-    ADD CONSTRAINT course_period_school_periods_pkey PRIMARY KEY (course_period_id, period_id);
+    ADD CONSTRAINT course_period_school_periods_pkey PRIMARY KEY (course_period_school_periods_id, course_period_id, period_id);
 
 
 --
--- Name: course_periods_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: course_periods_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY course_periods
@@ -4492,7 +4533,7 @@ ALTER TABLE ONLY course_periods
 
 
 --
--- Name: course_subjects_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: course_subjects_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY course_subjects
@@ -4500,7 +4541,7 @@ ALTER TABLE ONLY course_subjects
 
 
 --
--- Name: courses_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: courses_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY courses
@@ -4508,7 +4549,7 @@ ALTER TABLE ONLY courses
 
 
 --
--- Name: custom_fields_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: custom_fields_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY custom_fields
@@ -4516,7 +4557,7 @@ ALTER TABLE ONLY custom_fields
 
 
 --
--- Name: eligibility_activities_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: eligibility_activities_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY eligibility_activities
@@ -4524,7 +4565,7 @@ ALTER TABLE ONLY eligibility_activities
 
 
 --
--- Name: eligibility_completed_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: eligibility_completed_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY eligibility_completed
@@ -4532,7 +4573,7 @@ ALTER TABLE ONLY eligibility_completed
 
 
 --
--- Name: food_service_accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: food_service_accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY food_service_accounts
@@ -4540,7 +4581,7 @@ ALTER TABLE ONLY food_service_accounts
 
 
 --
--- Name: food_service_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: food_service_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY food_service_categories
@@ -4548,7 +4589,7 @@ ALTER TABLE ONLY food_service_categories
 
 
 --
--- Name: food_service_items_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: food_service_items_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY food_service_items
@@ -4556,7 +4597,7 @@ ALTER TABLE ONLY food_service_items
 
 
 --
--- Name: food_service_menu_items_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: food_service_menu_items_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY food_service_menu_items
@@ -4564,7 +4605,7 @@ ALTER TABLE ONLY food_service_menu_items
 
 
 --
--- Name: food_service_menus_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: food_service_menus_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY food_service_menus
@@ -4572,7 +4613,7 @@ ALTER TABLE ONLY food_service_menus
 
 
 --
--- Name: food_service_staff_accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: food_service_staff_accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY food_service_staff_accounts
@@ -4580,7 +4621,7 @@ ALTER TABLE ONLY food_service_staff_accounts
 
 
 --
--- Name: food_service_staff_transaction_items_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: food_service_staff_transaction_items_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY food_service_staff_transaction_items
@@ -4588,7 +4629,7 @@ ALTER TABLE ONLY food_service_staff_transaction_items
 
 
 --
--- Name: food_service_staff_transactions_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: food_service_staff_transactions_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY food_service_staff_transactions
@@ -4596,7 +4637,7 @@ ALTER TABLE ONLY food_service_staff_transactions
 
 
 --
--- Name: food_service_student_accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: food_service_student_accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY food_service_student_accounts
@@ -4604,7 +4645,7 @@ ALTER TABLE ONLY food_service_student_accounts
 
 
 --
--- Name: food_service_transaction_items_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: food_service_transaction_items_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY food_service_transaction_items
@@ -4612,7 +4653,7 @@ ALTER TABLE ONLY food_service_transaction_items
 
 
 --
--- Name: food_service_transactions_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: food_service_transactions_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY food_service_transactions
@@ -4620,7 +4661,7 @@ ALTER TABLE ONLY food_service_transactions
 
 
 --
--- Name: gradebook_assignment_types_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: gradebook_assignment_types_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY gradebook_assignment_types
@@ -4628,7 +4669,7 @@ ALTER TABLE ONLY gradebook_assignment_types
 
 
 --
--- Name: gradebook_assignments_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: gradebook_assignments_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY gradebook_assignments
@@ -4636,7 +4677,7 @@ ALTER TABLE ONLY gradebook_assignments
 
 
 --
--- Name: gradebook_grades_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: gradebook_grades_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY gradebook_grades
@@ -4644,7 +4685,7 @@ ALTER TABLE ONLY gradebook_grades
 
 
 --
--- Name: grades_completed_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: grades_completed_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY grades_completed
@@ -4652,7 +4693,7 @@ ALTER TABLE ONLY grades_completed
 
 
 --
--- Name: history_marking_periods_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: history_marking_periods_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY history_marking_periods
@@ -4660,7 +4701,7 @@ ALTER TABLE ONLY history_marking_periods
 
 
 --
--- Name: lunch_period_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: lunch_period_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY lunch_period
@@ -4668,7 +4709,7 @@ ALTER TABLE ONLY lunch_period
 
 
 --
--- Name: moodlexrosario_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: moodlexrosario_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY moodlexrosario
@@ -4676,7 +4717,7 @@ ALTER TABLE ONLY moodlexrosario
 
 
 --
--- Name: people_field_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: people_field_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY people_field_categories
@@ -4684,7 +4725,7 @@ ALTER TABLE ONLY people_field_categories
 
 
 --
--- Name: people_fields_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: people_fields_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY people_fields
@@ -4692,7 +4733,7 @@ ALTER TABLE ONLY people_fields
 
 
 --
--- Name: people_join_contacts_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: people_join_contacts_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY people_join_contacts
@@ -4700,7 +4741,7 @@ ALTER TABLE ONLY people_join_contacts
 
 
 --
--- Name: people_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: people_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY people
@@ -4708,7 +4749,7 @@ ALTER TABLE ONLY people
 
 
 --
--- Name: portal_notes_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: portal_notes_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY portal_notes
@@ -4716,7 +4757,7 @@ ALTER TABLE ONLY portal_notes
 
 
 --
--- Name: portal_poll_questions_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: portal_poll_questions_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY portal_poll_questions
@@ -4724,7 +4765,7 @@ ALTER TABLE ONLY portal_poll_questions
 
 
 --
--- Name: profile_exceptions_profile_id_modname_key; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: profile_exceptions_profile_id_modname_key; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY profile_exceptions
@@ -4732,7 +4773,7 @@ ALTER TABLE ONLY profile_exceptions
 
 
 --
--- Name: report_card_comment_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: report_card_comment_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY report_card_comment_categories
@@ -4740,7 +4781,7 @@ ALTER TABLE ONLY report_card_comment_categories
 
 
 --
--- Name: report_card_comment_code_scales_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: report_card_comment_code_scales_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY report_card_comment_code_scales
@@ -4748,7 +4789,7 @@ ALTER TABLE ONLY report_card_comment_code_scales
 
 
 --
--- Name: report_card_comment_codes_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: report_card_comment_codes_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY report_card_comment_codes
@@ -4756,7 +4797,7 @@ ALTER TABLE ONLY report_card_comment_codes
 
 
 --
--- Name: report_card_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: report_card_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY report_card_comments
@@ -4764,7 +4805,7 @@ ALTER TABLE ONLY report_card_comments
 
 
 --
--- Name: report_card_grade_scales_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: report_card_grade_scales_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY report_card_grade_scales
@@ -4772,7 +4813,7 @@ ALTER TABLE ONLY report_card_grade_scales
 
 
 --
--- Name: report_card_grades_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: report_card_grades_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY report_card_grades
@@ -4780,7 +4821,7 @@ ALTER TABLE ONLY report_card_grades
 
 
 --
--- Name: schedule_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: schedule_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY schedule_requests
@@ -4788,7 +4829,7 @@ ALTER TABLE ONLY schedule_requests
 
 
 --
--- Name: school_gradelevels_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: school_gradelevels_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY school_gradelevels
@@ -4796,7 +4837,7 @@ ALTER TABLE ONLY school_gradelevels
 
 
 --
--- Name: school_marking_periods_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: school_marking_periods_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY school_marking_periods
@@ -4804,7 +4845,7 @@ ALTER TABLE ONLY school_marking_periods
 
 
 --
--- Name: school_periods_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: school_periods_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY school_periods
@@ -4812,7 +4853,7 @@ ALTER TABLE ONLY school_periods
 
 
 --
--- Name: schools_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: schools_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY schools
@@ -4820,7 +4861,7 @@ ALTER TABLE ONLY schools
 
 
 --
--- Name: staff_field_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: staff_field_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY staff_field_categories
@@ -4828,7 +4869,7 @@ ALTER TABLE ONLY staff_field_categories
 
 
 --
--- Name: staff_fields_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: staff_fields_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY staff_fields
@@ -4836,7 +4877,7 @@ ALTER TABLE ONLY staff_fields
 
 
 --
--- Name: staff_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: staff_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY staff
@@ -4844,7 +4885,15 @@ ALTER TABLE ONLY staff
 
 
 --
--- Name: student_enrollment_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: student_assignments_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
+--
+
+ALTER TABLE ONLY student_assignments
+    ADD CONSTRAINT student_assignments_pkey PRIMARY KEY (assignment_id, student_id);
+
+
+--
+-- Name: student_enrollment_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY student_enrollment
@@ -4852,7 +4901,7 @@ ALTER TABLE ONLY student_enrollment
 
 
 --
--- Name: student_field_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: student_field_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY student_field_categories
@@ -4860,7 +4909,7 @@ ALTER TABLE ONLY student_field_categories
 
 
 --
--- Name: student_medical_alerts_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: student_medical_alerts_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY student_medical_alerts
@@ -4868,7 +4917,7 @@ ALTER TABLE ONLY student_medical_alerts
 
 
 --
--- Name: student_medical_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: student_medical_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY student_medical
@@ -4876,7 +4925,7 @@ ALTER TABLE ONLY student_medical
 
 
 --
--- Name: student_medical_visits_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: student_medical_visits_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY student_medical_visits
@@ -4884,7 +4933,7 @@ ALTER TABLE ONLY student_medical_visits
 
 
 --
--- Name: student_mp_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: student_mp_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY student_mp_comments
@@ -4892,7 +4941,7 @@ ALTER TABLE ONLY student_mp_comments
 
 
 --
--- Name: student_mp_stats_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: student_mp_stats_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY student_mp_stats
@@ -4900,7 +4949,7 @@ ALTER TABLE ONLY student_mp_stats
 
 
 --
--- Name: student_report_card_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: student_report_card_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY student_report_card_comments
@@ -4908,7 +4957,7 @@ ALTER TABLE ONLY student_report_card_comments
 
 
 --
--- Name: student_report_card_grades_id_key; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: student_report_card_grades_id_key; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY student_report_card_grades
@@ -4916,7 +4965,7 @@ ALTER TABLE ONLY student_report_card_grades
 
 
 --
--- Name: student_report_card_grades_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: student_report_card_grades_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY student_report_card_grades
@@ -4924,7 +4973,7 @@ ALTER TABLE ONLY student_report_card_grades
 
 
 --
--- Name: students_join_address_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: students_join_address_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY students_join_address
@@ -4932,7 +4981,7 @@ ALTER TABLE ONLY students_join_address
 
 
 --
--- Name: students_join_people_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: students_join_people_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY students_join_people
@@ -4940,7 +4989,7 @@ ALTER TABLE ONLY students_join_people
 
 
 --
--- Name: students_join_users_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: students_join_users_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY students_join_users
@@ -4948,7 +4997,7 @@ ALTER TABLE ONLY students_join_users
 
 
 --
--- Name: students_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: students_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY students
@@ -4956,7 +5005,7 @@ ALTER TABLE ONLY students
 
 
 --
--- Name: templates_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: templates_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY templates
@@ -4964,819 +5013,819 @@ ALTER TABLE ONLY templates
 
 
 --
--- Name: address_3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: address_3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX address_3 ON address USING btree (zipcode, plus4);
 
 
 --
--- Name: address_4; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: address_4; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX address_4 ON address USING btree (street);
 
 
 --
--- Name: address_desc_ind; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: address_desc_ind; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX address_desc_ind ON address_fields USING btree (id);
 
 
 --
--- Name: address_desc_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: address_desc_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX address_desc_ind2 ON custom_fields USING btree (type);
 
 
 --
--- Name: address_fields_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: address_fields_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX address_fields_ind3 ON custom_fields USING btree (category_id);
 
 
 --
--- Name: attendance_code_categories_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: attendance_code_categories_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX attendance_code_categories_ind1 ON attendance_code_categories USING btree (id);
 
 
 --
--- Name: attendance_code_categories_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: attendance_code_categories_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX attendance_code_categories_ind2 ON attendance_code_categories USING btree (syear, school_id);
 
 
 --
--- Name: attendance_codes_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: attendance_codes_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX attendance_codes_ind2 ON attendance_codes USING btree (syear, school_id);
 
 
 --
--- Name: attendance_codes_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: attendance_codes_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX attendance_codes_ind3 ON attendance_codes USING btree (short_name);
 
 
 --
--- Name: attendance_period_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: attendance_period_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX attendance_period_ind1 ON attendance_period USING btree (student_id);
 
 
 --
--- Name: attendance_period_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: attendance_period_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX attendance_period_ind2 ON attendance_period USING btree (period_id);
 
 
 --
--- Name: attendance_period_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: attendance_period_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX attendance_period_ind3 ON attendance_period USING btree (attendance_code);
 
 
 --
--- Name: attendance_period_ind4; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: attendance_period_ind4; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX attendance_period_ind4 ON attendance_period USING btree (school_date);
 
 
 --
--- Name: attendance_period_ind5; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: attendance_period_ind5; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX attendance_period_ind5 ON attendance_period USING btree (attendance_code);
 
 
 --
--- Name: billing_fees_pkey; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: billing_fees_pkey; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE UNIQUE INDEX billing_fees_pkey ON billing_fees USING btree (id);
 
 
 --
--- Name: billing_payments_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: billing_payments_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX billing_payments_ind1 ON billing_payments USING btree (student_id);
 
 
 --
--- Name: billing_payments_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: billing_payments_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX billing_payments_ind2 ON billing_payments USING btree (amount);
 
 
 --
--- Name: billing_payments_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: billing_payments_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX billing_payments_ind3 ON billing_payments USING btree (refunded_payment_id);
 
 
 --
--- Name: billing_payments_pkey; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: billing_payments_pkey; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE UNIQUE INDEX billing_payments_pkey ON billing_payments USING btree (id);
 
 
 --
--- Name: course_periods_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: course_periods_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX course_periods_ind1 ON course_periods USING btree (syear);
 
 
 --
--- Name: course_periods_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: course_periods_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX course_periods_ind2 ON course_periods USING btree (course_id, syear, school_id);
 
 
 --
--- Name: course_periods_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: course_periods_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX course_periods_ind3 ON course_periods USING btree (course_period_id);
 
 
 --
--- Name: course_periods_ind5; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: course_periods_ind5; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX course_periods_ind5 ON course_periods USING btree (parent_id);
 
 
 --
--- Name: course_subjects_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: course_subjects_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX course_subjects_ind1 ON course_subjects USING btree (syear, school_id, subject_id);
 
 
 --
--- Name: courses_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: courses_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX courses_ind1 ON courses USING btree (course_id, syear);
 
 
 --
--- Name: courses_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: courses_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX courses_ind2 ON courses USING btree (subject_id);
 
 
 --
--- Name: custom_desc_ind; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: custom_desc_ind; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX custom_desc_ind ON custom_fields USING btree (id);
 
 
 --
--- Name: custom_desc_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: custom_desc_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX custom_desc_ind2 ON custom_fields USING btree (type);
 
 
 --
--- Name: custom_fields_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: custom_fields_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX custom_fields_ind3 ON custom_fields USING btree (category_id);
 
 
 --
--- Name: discipline_field_usage_pkey; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: discipline_field_usage_pkey; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE UNIQUE INDEX discipline_field_usage_pkey ON discipline_field_usage USING btree (id);
 
 
 --
--- Name: discipline_fields_pkey; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: discipline_fields_pkey; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE UNIQUE INDEX discipline_fields_pkey ON discipline_fields USING btree (id);
 
 
 --
--- Name: discipline_referrals_pkey; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: discipline_referrals_pkey; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE UNIQUE INDEX discipline_referrals_pkey ON discipline_referrals USING btree (id);
 
 
 --
--- Name: eligibility_activities_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: eligibility_activities_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX eligibility_activities_ind1 ON eligibility_activities USING btree (school_id, syear);
 
 
 --
--- Name: eligibility_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: eligibility_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX eligibility_ind1 ON eligibility USING btree (student_id, course_period_id, school_date);
 
 
 --
--- Name: food_service_categories_title; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: food_service_categories_title; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE UNIQUE INDEX food_service_categories_title ON food_service_categories USING btree (school_id, menu_id, title);
 
 
 --
--- Name: food_service_items_short_name; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: food_service_items_short_name; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE UNIQUE INDEX food_service_items_short_name ON food_service_items USING btree (school_id, short_name);
 
 
 --
--- Name: food_service_menus_title; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: food_service_menus_title; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE UNIQUE INDEX food_service_menus_title ON food_service_menus USING btree (school_id, title);
 
 
 --
--- Name: food_service_staff_transaction_items_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: food_service_staff_transaction_items_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX food_service_staff_transaction_items_ind1 ON food_service_staff_transaction_items USING btree (transaction_id);
 
 
 --
--- Name: food_service_transaction_items_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: food_service_transaction_items_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX food_service_transaction_items_ind1 ON food_service_transaction_items USING btree (transaction_id);
 
 
 --
--- Name: gradebook_assignment_types_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: gradebook_assignment_types_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX gradebook_assignment_types_ind1 ON gradebook_assignments USING btree (staff_id, course_id);
 
 
 --
--- Name: gradebook_assignments_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: gradebook_assignments_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX gradebook_assignments_ind1 ON gradebook_assignments USING btree (staff_id, marking_period_id);
 
 
 --
--- Name: gradebook_assignments_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: gradebook_assignments_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX gradebook_assignments_ind2 ON gradebook_assignments USING btree (course_id, course_period_id);
 
 
 --
--- Name: gradebook_assignments_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: gradebook_assignments_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX gradebook_assignments_ind3 ON gradebook_assignments USING btree (assignment_type_id);
 
 
 --
--- Name: gradebook_grades_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: gradebook_grades_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX gradebook_grades_ind1 ON gradebook_grades USING btree (assignment_id);
 
 
 --
--- Name: history_marking_period_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: history_marking_period_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX history_marking_period_ind1 ON history_marking_periods USING btree (school_id);
 
 
 --
--- Name: history_marking_period_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: history_marking_period_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX history_marking_period_ind2 ON history_marking_periods USING btree (syear);
 
 
 --
--- Name: history_marking_period_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: history_marking_period_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX history_marking_period_ind3 ON history_marking_periods USING btree (mp_type);
 
 
 --
--- Name: lunch_period_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: lunch_period_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX lunch_period_ind1 ON lunch_period USING btree (student_id);
 
 
 --
--- Name: lunch_period_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: lunch_period_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX lunch_period_ind2 ON lunch_period USING btree (period_id);
 
 
 --
--- Name: lunch_period_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: lunch_period_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX lunch_period_ind3 ON lunch_period USING btree (attendance_code);
 
 
 --
--- Name: lunch_period_ind4; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: lunch_period_ind4; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX lunch_period_ind4 ON lunch_period USING btree (school_date);
 
 
 --
--- Name: lunch_period_ind5; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: lunch_period_ind5; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX lunch_period_ind5 ON lunch_period USING btree (attendance_code);
 
 
 --
--- Name: name; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: name; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX name ON students USING btree (last_name, first_name, middle_name);
 
 
 --
--- Name: people_1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: people_1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX people_1 ON people USING btree (last_name, first_name);
 
 
 --
--- Name: people_3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: people_3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX people_3 ON people USING btree (person_id, last_name, first_name, middle_name);
 
 
 --
--- Name: people_desc_ind; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: people_desc_ind; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX people_desc_ind ON people_fields USING btree (id);
 
 
 --
--- Name: people_desc_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: people_desc_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX people_desc_ind2 ON custom_fields USING btree (type);
 
 
 --
--- Name: people_fields_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: people_fields_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX people_fields_ind3 ON custom_fields USING btree (category_id);
 
 
 --
--- Name: people_join_contacts_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: people_join_contacts_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX people_join_contacts_ind1 ON people_join_contacts USING btree (person_id);
 
 
 --
--- Name: program_config_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: program_config_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX program_config_ind1 ON program_config USING btree (program, school_id, syear);
 
 
 --
--- Name: program_user_config_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: program_user_config_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX program_user_config_ind1 ON program_user_config USING btree (user_id, program);
 
 
 --
--- Name: relations_meets_2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: relations_meets_2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX relations_meets_2 ON students_join_people USING btree (person_id);
 
 
 --
--- Name: relations_meets_5; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: relations_meets_5; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX relations_meets_5 ON students_join_people USING btree (id);
 
 
 --
--- Name: relations_meets_6; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: relations_meets_6; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX relations_meets_6 ON students_join_people USING btree (custody, emergency);
 
 
 --
--- Name: report_card_comment_categories_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: report_card_comment_categories_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX report_card_comment_categories_ind1 ON report_card_comment_categories USING btree (syear, school_id);
 
 
 --
--- Name: report_card_comment_codes_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: report_card_comment_codes_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX report_card_comment_codes_ind1 ON report_card_comment_codes USING btree (school_id);
 
 
 --
--- Name: report_card_comments_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: report_card_comments_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX report_card_comments_ind1 ON report_card_comments USING btree (syear, school_id);
 
 
 --
--- Name: report_card_grades_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: report_card_grades_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX report_card_grades_ind1 ON report_card_grades USING btree (syear, school_id);
 
 
 --
--- Name: schedule_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: schedule_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX schedule_ind1 ON schedule USING btree (course_id);
 
 
 --
--- Name: schedule_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: schedule_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX schedule_ind2 ON schedule USING btree (course_period_id);
 
 
 --
--- Name: schedule_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: schedule_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX schedule_ind3 ON schedule USING btree (student_id, marking_period_id, start_date, end_date);
 
 
 --
--- Name: schedule_ind4; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: schedule_ind4; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX schedule_ind4 ON schedule USING btree (syear, school_id);
 
 
 --
--- Name: schedule_requests_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: schedule_requests_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX schedule_requests_ind1 ON schedule_requests USING btree (student_id, course_id, syear, school_id);
 
 
 --
--- Name: schedule_requests_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: schedule_requests_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX schedule_requests_ind2 ON schedule_requests USING btree (syear, school_id);
 
 
 --
--- Name: schedule_requests_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: schedule_requests_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX schedule_requests_ind3 ON schedule_requests USING btree (course_id, syear, school_id);
 
 
 --
--- Name: schedule_requests_ind4; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: schedule_requests_ind4; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX schedule_requests_ind4 ON schedule_requests USING btree (with_teacher_id);
 
 
 --
--- Name: schedule_requests_ind5; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: schedule_requests_ind5; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX schedule_requests_ind5 ON schedule_requests USING btree (not_teacher_id);
 
 
 --
--- Name: schedule_requests_ind6; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: schedule_requests_ind6; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX schedule_requests_ind6 ON schedule_requests USING btree (with_period_id);
 
 
 --
--- Name: schedule_requests_ind7; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: schedule_requests_ind7; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX schedule_requests_ind7 ON schedule_requests USING btree (not_period_id);
 
 
 --
--- Name: schedule_requests_ind8; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: schedule_requests_ind8; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX schedule_requests_ind8 ON schedule_requests USING btree (request_id);
 
 
 --
--- Name: school_desc_ind; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: school_desc_ind; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX school_desc_ind ON school_fields USING btree (id);
 
 
 --
--- Name: school_desc_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: school_desc_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX school_desc_ind2 ON school_fields USING btree (type);
 
 
 --
--- Name: school_gradelevels_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: school_gradelevels_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX school_gradelevels_ind1 ON school_gradelevels USING btree (school_id);
 
 
 --
--- Name: school_marking_periods_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: school_marking_periods_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX school_marking_periods_ind1 ON school_marking_periods USING btree (parent_id);
 
 
 --
--- Name: school_marking_periods_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: school_marking_periods_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX school_marking_periods_ind2 ON school_marking_periods USING btree (syear, school_id, start_date, end_date);
 
 
 --
--- Name: school_periods_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: school_periods_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX school_periods_ind1 ON school_periods USING btree (period_id, syear);
 
 
 --
--- Name: schools_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: schools_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX schools_ind1 ON schools USING btree (syear);
 
 
 --
--- Name: staff_barcode; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: staff_barcode; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE UNIQUE INDEX staff_barcode ON food_service_staff_accounts USING btree (barcode);
 
 
 --
--- Name: staff_desc_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: staff_desc_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX staff_desc_ind1 ON staff_fields USING btree (id);
 
 
 --
--- Name: staff_desc_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: staff_desc_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX staff_desc_ind2 ON staff_fields USING btree (type);
 
 
 --
--- Name: staff_fields_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: staff_fields_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX staff_fields_ind3 ON staff_fields USING btree (category_id);
 
 
 --
--- Name: staff_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: staff_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX staff_ind1 ON staff USING btree (staff_id, syear);
 
 
 --
--- Name: staff_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: staff_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX staff_ind2 ON staff USING btree (last_name, first_name);
 
 
 --
--- Name: staff_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: staff_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX staff_ind3 ON staff USING btree (schools);
 
 
 --
--- Name: staff_ind4; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: staff_ind4; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE UNIQUE INDEX staff_ind4 ON staff USING btree (username, syear);
 
 
 --
--- Name: stu_addr_meets_2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: stu_addr_meets_2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX stu_addr_meets_2 ON students_join_address USING btree (address_id);
 
 
 --
--- Name: stu_addr_meets_3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: stu_addr_meets_3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX stu_addr_meets_3 ON students_join_address USING btree (primary_residence);
 
 
 --
--- Name: stu_addr_meets_4; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: stu_addr_meets_4; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX stu_addr_meets_4 ON students_join_address USING btree (legal_residence);
 
 
 --
--- Name: student_eligibility_activities_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: student_eligibility_activities_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX student_eligibility_activities_ind1 ON student_eligibility_activities USING btree (student_id);
 
 
 --
--- Name: student_enrollment_1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: student_enrollment_1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX student_enrollment_1 ON student_enrollment USING btree (student_id, enrollment_code);
 
 
 --
--- Name: student_enrollment_2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: student_enrollment_2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX student_enrollment_2 ON student_enrollment USING btree (grade_id);
 
 
 --
--- Name: student_enrollment_3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: student_enrollment_3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX student_enrollment_3 ON student_enrollment USING btree (syear, student_id, school_id, grade_id);
 
 
 --
--- Name: student_enrollment_6; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: student_enrollment_6; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX student_enrollment_6 ON student_enrollment USING btree (start_date, end_date);
 
 
 --
--- Name: student_enrollment_7; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: student_enrollment_7; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX student_enrollment_7 ON student_enrollment USING btree (school_id);
 
 
 --
--- Name: student_medical_alerts_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: student_medical_alerts_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX student_medical_alerts_ind1 ON student_medical_alerts USING btree (student_id);
 
 
 --
--- Name: student_medical_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: student_medical_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX student_medical_ind1 ON student_medical USING btree (student_id);
 
 
 --
--- Name: student_medical_visits_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: student_medical_visits_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX student_medical_visits_ind1 ON student_medical_visits USING btree (student_id);
 
 
 --
--- Name: student_report_card_comments_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: student_report_card_comments_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX student_report_card_comments_ind1 ON student_report_card_comments USING btree (school_id);
 
 
 --
--- Name: student_report_card_grades_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: student_report_card_grades_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX student_report_card_grades_ind1 ON student_report_card_grades USING btree (school_id);
 
 
 --
--- Name: student_report_card_grades_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: student_report_card_grades_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX student_report_card_grades_ind2 ON student_report_card_grades USING btree (student_id);
 
 
 --
--- Name: student_report_card_grades_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: student_report_card_grades_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX student_report_card_grades_ind3 ON student_report_card_grades USING btree (course_period_id);
 
 
 --
--- Name: student_report_card_grades_ind4; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: student_report_card_grades_ind4; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX student_report_card_grades_ind4 ON student_report_card_grades USING btree (marking_period_id);
 
 
 --
--- Name: students_barcode; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: students_barcode; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE UNIQUE INDEX students_barcode ON food_service_student_accounts USING btree (barcode);
 
 
 --
--- Name: students_ind4; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: students_ind4; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE UNIQUE INDEX students_ind4 ON students USING btree (username);
 
 
 --
--- Name: students_join_address_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: students_join_address_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX students_join_address_ind1 ON students_join_address USING btree (student_id);
 
 
 --
--- Name: students_join_address_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: students_join_address_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX students_join_address_ind2 ON students_join_address USING btree (id, student_id, address_id);
 
 
 --
--- Name: students_join_people_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+-- Name: students_join_people_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE INDEX students_join_people_ind1 ON students_join_people USING btree (student_id);

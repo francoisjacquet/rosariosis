@@ -1,4 +1,4 @@
-@import url("colors.css");
+@import url("css/colors.css");
 
 #wrap{
 	height:auto;
@@ -9,12 +9,15 @@
 #menuback,#menu{
 	width:205px
 }
+/*ScrollToFixed bug when menu hidden*/
+#menu.scroll-to-fixed-fixed.hide + div{
+	width:0!important
+}
 #menuback{
 	position:absolute;
 	top:0;
 	bottom:0;
 	left:0;
-	z-index:-1
 }
 #menuback,#menu{
 	border-width:0 1px 0 0;
@@ -24,6 +27,7 @@
 	position:relative;
 	float:left;
 	overflow: visible;
+	z-index: auto !important;
 }
 #menushadow{
 	position:absolute;
@@ -33,8 +37,11 @@
 	width:6px;
 	/*z-index:20*/
 }
-#body,#menu{
+#body{
 	margin-bottom:38px;
+}
+#menu{
+	padding-bottom:38px;
 }
 #footer{
 	clear:both;
@@ -65,6 +72,9 @@
 	display:table;
 	clear:both
 }
+input,select{
+	max-width:100%
+}
 input[type=text],input[type=password],textarea{
 	-ms-box-sizing:border-box;
 	box-sizing:border-box;
@@ -82,12 +92,14 @@ html,body{
 	margin:0;
 	padding:0
 }
-body{
+body,
+textarea{
 	font-family:sans-serif;
 	line-height:1.4em
 }
 *{
-	font-size:14px
+	font-size:14px;
+	word-wrap: break-word;
 }
 a{
 	-webkit-transition:color 0.2s ease-out 0s;
@@ -96,11 +108,17 @@ a{
 iframe,img{
 	border:0
 }
+img{
+	max-width: 100%;
+}
 td,textarea{
 	line-height:inherit
 }
 input,select{
-	line-height:1.2
+	line-height:1.231
+}
+select[multiple]{
+	height:6em
 }
 select[multiple]{
 	height:6em
@@ -108,9 +126,6 @@ select[multiple]{
 a,input,select:focus{
 	outline:0;
 	text-decoration:none
-}
-#menu select{
-	max-width:100%
 }
 blockquote,q{
 	quotes:none
@@ -131,7 +146,7 @@ li,dd{
 	margin-bottom:6px
 }
 textarea,input,select{
-	margin:2px 1px;
+	margin:2px 2px 2px 0;
 	padding:2px
 }
 select{
@@ -140,22 +155,16 @@ select{
 }
 h1,h2,h3,h4{
 	display:block;
-	font-weight:bold
+	font-weight:bold;
+	line-height:1em
 }
 h1{
 	font-size:2em;
 	margin:.67em 0
 }
-h2,.subtitle{
-	font-weight:normal;
-	margin:0;
-	text-shadow:#aaa 0 1px 1px
-}
 h2{
-	font-family:"HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",sans-serif;
-	font-size:30px;
-	padding:0 15px 14px 0;
-	line-height:30px
+	font-size:1.58em;
+	margin:.83em 0
 }
 h3{
 	font-size:1.17em;
@@ -179,6 +188,11 @@ code{
 	padding:1px 3px;
 	margin:0 1px;
 	font-size:11px
+}
+hr {
+	height:2px;
+	border:0 none;
+	margin:14px 0
 }
 .widefat,div.updated,div.error,textarea,input[type=text],input[type=password],input[type=file],input[type=button],input[type=submit],input[type=reset],input[type=email],input[type=number],input[type=search],input[type=tel],input[type=url],select,.postbox{
 	border-radius:3px;
@@ -221,7 +235,8 @@ code{
 .widefat th a[href*="LO_direction=-1"]:hover:after{
 	content: "\25be";
 }
-.widefat th a[href*="LO_sort=CHECKBOX"]:after{
+/*empty header link (checkbox / checkAll)*/
+.widefat th a:empty:after{
 	content: "";
 	padding-left: 0;
 }
@@ -229,19 +244,26 @@ code{
 .widefat td,.widefat th{
 	text-align:left;
 	border-width:1px 0;
-	border-style:solid
+	border-style:solid;
+	padding:3px 7px;
+	vertical-align:top
 }
 .widefat tfoot th{
 	border-bottom:none
 }
-.widefat td{
-	padding:3px 7px;
-	vertical-align:top
-}
 .widefat th{
-	padding:6px 7px;
-	line-height:1.3em;
+	overflow:hidden;
+	font-weight:normal;
+	line-height:1.6em
 }
+.widefat th,
+.widefat th a{
+	font-size:16px;
+}
+.widefat td p{
+	margin:2px 0 .8em
+}
+
 div.error{
 	padding:0 .6em;
 	margin:5px 0
@@ -250,7 +272,7 @@ div.updated{
 	padding:2px 9px;
 	margin:5px 0
 }
-.postbox h3,.widefat th{
+.postbox > thead th,.widefat th{
 	font-family:Georgia,"Times New Roman",Times,serif
 }
 select option{
@@ -290,17 +312,18 @@ label{
 	-webkit-user-select:none;
 	-moz-user-select:none;
 	-ms-user-select:none;
-	    user-select:none
+		user-select:none
 }
 .wp-submenu{
 	top: -1000em;
 	left: 0;
 	position: absolute;
+	min-width:205px;
 	padding:0;
 	margin:0;
 	overflow: hidden;
-	-webkit-transition: 0s top, 0s left;
-	transition: 0s top, 0s left;
+	-webkit-transition: 0s top, 0s left, 0s min-width;
+	transition: 0s top, 0s left, 0s min-width;
 	-webkit-transition-delay: .15s;
 	transition-delay: .15s;
 	border-width:1px;
@@ -318,6 +341,9 @@ label{
 	position: absolute;
 	right: 5px;
 }
+html[dir="RTL"].no-touch .menu-module:hover .menu-top:after{
+	content: "";
+}
 #selectedModuleLink:after{
 	content: "";
 }
@@ -325,13 +351,12 @@ label{
 	-webkit-transition-delay: .15s;
 	transition-delay: .15s;
 	z-index: 20;
-	position: absolute;
 	top: 0;
 	left: 205px;
 	overflow: visible;
 	word-wrap: break-word;
 	min-height: 36px;
-	min-width: 205px;
+	min-width: 215px;
 	width: auto;
 }
 #selectedModuleLink + .wp-submenu{
@@ -342,11 +367,13 @@ label{
 	position: relative;
 	margin-top: 0 !important;
 	border:0;
-	min-height:0
+	min-height:0;
+	min-width:205px
 }
 .menu-inter{
 	border-width:1px 0 0;
-	border-style:solid
+	border-style:solid;
+	padding: 2px 5px
 }
 .adminmenu a{
 	display:block;
@@ -357,7 +384,6 @@ label{
 	font-weight:400;
 	font-size:15px;
 	min-width:10em;
-	padding:2px 5px;
 	border-width:1px 0 1px;
 	border-style:solid
 }
@@ -373,47 +399,38 @@ label{
 	margin-top:5px;
 	font-weight:bold;
 }
-.widefat th,.widefat td{
-	overflow:hidden
-}
-.widefat th{
-	font-weight:normal
-}
-.widefat td p{
-	margin:2px 0 .8em
-}
 .postbox{
 	margin-bottom:20px;
 	padding:0;
 	line-height:1
 }
-.postbox h3{
-	padding:6px 10px;
-	border:0
+.postbox > thead th{
+	border-bottom-width:1px;
+	border-bottom-style:solid;
+	padding:0
 }
-.postbox .h3multi h3{
-	display:inline-block;
-	/* IE7 inline-block hack:*/
-	zoom:1;
-	*display:inline
-}
-.postbox h3,.postbox .h3multi{
-	margin:0;
+.postbox th h3,
+.postbox .h3multi{
 	-webkit-user-select:none;
 	-moz-user-select:none;
 	-ms-user-select:none;
-	    user-select:none
+		user-select:none
 }
-.postbox h3,.postbox h3 a{
-	font-size:15px;
+.postbox th h3{
+	line-height:31px;
+	height:33px;
+	margin:0;
+	border:0
+}
+.postbox th h3,.postbox th h3 a{
+	display:inline-block;
+	font-size:16px;
 	font-weight:normal
 }
+.postbox th h3 a{
+	padding:0 10px
+}
 .postbox .h3multi{
-	border-bottom-width:1px;
-	border-bottom-style:solid;
-	width:100%;
-	padding-left:0;
-	padding-right:0;
 	overflow-y:hidden
 }
 th a{
@@ -455,7 +472,7 @@ h3 span{
 .hide{
 	display:none
 }
-#studentImg, #userImg{
+.user-photo{
 	max-width:150px;
 	max-height:150px
 }
@@ -468,17 +485,26 @@ h3 span{
 	height:15px
 }
 #body{
-	padding:0 15px 38px
+	padding:0 15px 38px;
 }
 .headerIcon{
 	height:32px;
 	vertical-align:bottom
 }
+.header1 h2{
+	font-family:"HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",sans-serif;
+	font-size:30px;
+	font-weight:normal;
+	margin:0;
+	padding:14px 15px 14px 0;
+	text-shadow:#aaa 0 1px 1px
+}
 .header2{
-	padding:2px
+	padding:4px 8px
 }
 .header2 table{
-	line-height:1
+	line-height:1;
+	margin-left:-3px
 }
 #courses_div{
 	position:absolute;
@@ -486,15 +512,17 @@ h3 span{
 	border-width:1px;
 	padding:4px;
 	right:0;
+	left:0;
 	display:none;
 	max-height:80px;
 	overflow:auto;
-	width:98%
+	width:auto
 }
 .size-3{
 	font-size:11px
 }
-.size-1{
+.size-1,
+.size-1 *{
 	font-size:13px
 }
 .sizep1{
@@ -507,23 +535,79 @@ h3 span{
 	border-bottom-style:dotted;
 	border-bottom-width:1px
 }
-.underline-dots, .checkbox-label, .no-input-value{
-	line-height:27px;
-	margin:5px 0px
-}
-.textarea.underline-dots{
+/* Textarea MarkDown */
+div.underline-dots{
+	display:inline-block;
+	max-height:240px;
+	overflow:auto;
 	line-height:inherit;
 }
-span.legend-gray, span.legend-red{
+.underline-dots, .checkbox-label, .no-input-value{
+	line-height:27px;
+	margin:5px 0
+}
+textarea{
+	width:100%;
+	min-width:280px
+}
+
+/* MarkDown */
+.md-preview > .tab{
+	border-width:1px;
+	border-bottom:0;
+	border-style: solid;
+	border-top-left-radius:3px;
+	border-top-right-radius:3px;
+	font-weight:bold;
+	padding:5px 7px;
+	margin:0 2px 0 0;
+	line-height:27px
+}
+.md-preview > .tab.disabled{
+	pointer-events:none;
+	cursor:default
+}
+.md-preview .md-link{
+	line-height:27px;
+	float:right
+}
+.md-preview > div{
+	display:none;
+	border-width:1px;
+	border-style:solid;
+	padding:2px 7px;
+	margin-bottom:2px;
+	box-sizing:border-box;
+	overflow-y:auto;
+}
+.md-preview + textarea{
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	margin-top:0;
+	resize: vertical;
+}
+/*MarkDown to HTML table styling*/
+.markdown-to-html table{
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+.markdown-to-html th,
+.markdown-to-html td{
+	border: 1px solid #bbb;
+	padding: 5px;
+}
+
+.legend-gray, .legend-red{
 	margin-top:5px;
 	margin-bottom:7px;
-	display:block
+	display:inline-block
 }
-#SideLogo{
-	margin-left:25px;
-	margin-bottom:4px;
-	margin-top:2px;
-	max-width:150px
+.logo{
+	max-width:150px;
+	max-height:150px
+}
+#menu .logo{
+	margin-top:4px
 }
 .onclick{
 	cursor:pointer
@@ -536,6 +620,10 @@ span.legend-gray, span.legend-red{
 	/*width="100%"*/
 	width:100%
 }
+.fixed-col{
+	table-layout:fixed;
+	word-wrap:break-word; /* Fix cell content overflow */
+}
 .cellpadding-5 td{
 	padding-right:5px;
 	padding-bottom:5px
@@ -546,6 +634,7 @@ td.popTable{
 td.valign-top,tr.valign-top,table.valign-top td{
 	vertical-align:top
 }
+.align-right,
 .align-right td{
 	text-align:right
 }
@@ -554,7 +643,7 @@ table.col1-align-right > tbody > tr > td:first-child{
 	vertical-align:middle
 }
 .center{
-	/*<CENTER> && <TD align="center">*/
+	/*<CENTER> && <td align="center">*/
 	text-align:center
 }
 table.center{
@@ -567,7 +656,8 @@ span.nobr{
 div.nobr div{
 	display:inline
 }
-span.center{
+span.center,
+a.center{
 	display:block
 }
 tr.address > td{
@@ -631,44 +721,41 @@ form.login input[type=text],form.login input[type=password]{
 
 /*bottom*/
 .BottomButton{
-	padding-top:10px;
-}
-.BottomButton{
+	line-height: 32px;
 	margin-right:8px;
+}
+.BottomButton span{
+	vertical-align:top
 }
 .BottomButton img{
 	height:32px
 }
-.BottomButton span{
-	vertical-align:super
-}
-#BottomButtonMenu span{
-	vertical-align:baseline
-}
 #BottomButtonMenu{
+	height: 32px;
 	float:left;
-	padding:6px 0 6px 6px
 }
 #BottomButtonMenu:before{
 	content:"\2261";
 	font-size:3rem;
 	font-weight:bold;
-	vertical-align:top
 }
-#BottomSpinner{
+.BottomButton.loading{
 	float:right;
-	visibility:hidden;
+	padding-bottom:13px;
+}
+
+/* Loading spinner */
+.loading{
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	background: url('spinning.gif') no-repeat center;
+	visibility:hidden
 }
 
 /*bars*/
 .bar{
 	height:12px
-}
-.bar.relevance{
-	background-color:gray
-}
-.divPortalPoll .bar{
-	background-color:#cc4400
 }
 
 /*stackable tables*/
@@ -679,7 +766,8 @@ div.st{
 
 /*student comments*/
 #student-comments{
-	max-width:500px
+	max-width:100%;
+	width: 500px;
 }
 #student-comments span{
 	font-style:italic
@@ -692,16 +780,44 @@ div.st{
 
 /*calendar*/
 #calendar{
-	margin:0 auto
-}
-#calendar > tbody > tr > td{
-	width:126px
+	table-layout:fixed;
+	height: 80%;
 }
 .calendar-day{
+	min-width:109px;
+	height:96px;
+}
+.calendar-day > table{
 	height:inherit
 }
+/*http://stackoverflow.com/questions/9789723/css-text-overflow-in-a-table-cell*/
 .calendar-day td{
+	max-width:103px;
+	overflow:hidden;
+	white-space:nowrap;
 	line-height:1
+}
+.calendar-day .bold{
+	font-weight:bold
+}
+.calendar-event div{
+	border-left-width:3px;
+	border-left-style:solid;
+	margin:1px 0
+}
+.calendar-event a, .calendar-event span{
+	padding:4px 2px;
+	display:inline-block
+}
+td.calendar-menu{
+	white-space:normal;
+	max-width:none
+}
+
+/* colorBox */
+#cboxLoadedContent{
+	margin:1px;
+	padding:5px !important
 }
 
 /*responsive tables*/
@@ -717,26 +833,24 @@ div.st{
 }
 
 /*arrows*/
+.arrow.right:before,
 .switchMenu:before{
 	content: "\25b6\0000a0";
 }
 .switchMenu.switched:before{
 	content: "\25bc\0000a0";
 }
-
-/*jqplot charts*/
-#chart{
-	margin-top:20px;
-	margin-left:20px;
-	width:600px;
-	height:480px
+.arrow,
+.switchMenu{
+	display:inline-block;
+	padding:3px
 }
 
-/*tinymce*/
-table.mceLayout,textarea.tinymce{
-	/*cols="97" rows="27"*/
-	width:708px;
-	height:475px
+/*jqplot charts*/
+.chart{
+	margin:20px 10px;
+	width:700px;
+	height:560px
 }
 
 /*tipmessage (DO NOT EDIT)*/
@@ -748,7 +862,64 @@ table.mceLayout,textarea.tinymce{
 	max-width:300px
 }
 
+/* Tooltip */
+.tooltip{
+	position:relative;
+	display:inline-block;
+	margin-left:5px;
+	cursor:help
+}
+.tooltip:before{
+	content:"i";
+	font-family:monospace;
+	font-size:0.8em;
+	font-weight:bold;
+	padding:2px 5px;
+	border-radius:50%;
+}
+.tooltip > i{
+	visibility:hidden;
+	opacity:0;
+	position:absolute;
+	bottom:150%;
+	left:-75px;
+	width:150px;
+	z-index:999999;
+	display:inline-block;
+	padding:3px 6px;
+	border-radius:3px;
+	transition:opacity .3s;
+	text-align:left;
+	font-size:0.9em;
+	line-height:1.5
+}
+.tooltip:hover > i{
+	visibility:visible;
+	opacity:1
+}
+
+/* MiniColors */
+.minicolors{
+	margin:2px 2px 2px 0;
+}
+
+/* Accessibility (a11y) */
+.a11y-hidden {
+	display: none;
+}
+
+/*tablet vertical*/
+@media only screen and (max-width:800px){
+	.BottomButton span{
+		display:none
+	}
+}
+
+
 /*wkhtmltopdf code*/
 *{
     font-size:inherit;
+}
+body{
+	color:#000
 }

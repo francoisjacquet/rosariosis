@@ -151,4 +151,3 @@ function core_role_assign_roles_response($response)
 {
 	return null;
 }
-?>

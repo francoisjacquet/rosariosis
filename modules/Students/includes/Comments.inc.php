@@ -1,69 +1,150 @@
 <?php
 
-//FJ add School Configuration
-$program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='students'"),array(),array('TITLE'));
+// set comments Marking Period
+$comments_MP = UserMP();
 
-//$_ROSARIO['allow_edit'] = true;
-if($_REQUEST['modfunc']=='update' && AllowEdit())
+// if Semester comment
+if ( ProgramConfig( 'students', 'STUDENTS_SEMESTER_COMMENTS' ) )
 {
-	//FJ add time and user to comments "comment thread" like
-	$_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'] =
-		date('Y-m-d G:i:s') . '|'
-		. User('STAFF_ID') . '||'
-		. $_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'];
-	
-	$existing_RET = DBGet(DBQuery("SELECT STUDENT_ID, COMMENT FROM STUDENT_MP_COMMENTS WHERE STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."' AND MARKING_PERIOD_ID='".($program_config['STUDENTS_SEMESTER_COMMENTS'][1]['VALUE']?GetParentMP('SEM',UserMP()):UserMP())."'"));
-	
-	if(!$existing_RET)
-		DBQuery("INSERT INTO STUDENT_MP_COMMENTS (SYEAR,STUDENT_ID,MARKING_PERIOD_ID) values('".UserSyear()."','".UserStudentID()."','".($program_config['STUDENTS_SEMESTER_COMMENTS'][1]['VALUE']?GetParentMP('SEM',UserMP()):UserMP())."')");
-	else
-		$_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'] =
-			DBEscapeString( $existing_RET[1]['COMMENT'] ) . '||'
-			. $_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'];
-		
-	SaveData(array('STUDENT_MP_COMMENTS'=>"STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."' AND MARKING_PERIOD_ID='".($program_config['STUDENTS_SEMESTER_COMMENTS'][1]['VALUE']?GetParentMP('SEM',UserMP()):UserMP())."'"),'',array('COMMENT'=>_('Comment')));
-	//unset($_SESSION['_REQUEST_vars']['modfunc']);
-	//unset($_SESSION['_REQUEST_vars']['values']);
+	$comments_MP = GetParentMP( 'SEM', UserMP() );
 }
 
-if(empty($_REQUEST['modfunc']))
+if ( AllowEdit()
+	&& isset( $_POST['values'] )
+	&& trim( $_POST['values']['STUDENT_MP_COMMENTS'][ UserStudentID() ]['COMMENT'] ) !== '' )
 {
-	$comments_RET = DBGet(DBQuery("SELECT COMMENT FROM STUDENT_MP_COMMENTS WHERE STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."' AND MARKING_PERIOD_ID='".($program_config['STUDENTS_SEMESTER_COMMENTS'][1]['VALUE']?GetParentMP('SEM',UserMP()):UserMP())."'"));
+	require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
+
+	// Sanitize MarkDown.
+	$comment = SanitizeMarkDown( $_POST['values']['STUDENT_MP_COMMENTS'][ UserStudentID() ]['COMMENT'] );
+
+	if ( $comment )
+	{
+		// FJ add time and user to comments "comment thread" like.
+		$comment = array( array(
+			'date' => date( 'Y-m-d G:i:s' ),
+			'staff_id' => User( 'STAFF_ID' ),
+			'comment' => $comment,
+		) );
+
+		$existing_RET = DBGet( DBQuery( "SELECT STUDENT_ID, COMMENT
+			FROM STUDENT_MP_COMMENTS
+			WHERE STUDENT_ID='" . UserStudentID() . "'
+			AND SYEAR='" . UserSyear() . "'
+			AND MARKING_PERIOD_ID='" . $comments_MP . "'"
+		) );
+
+		if ( isset( $existing_RET[1]['COMMENT'] ) )
+		{
+			// Add Comment to Existing ones.
+			$comment = array_merge( $comment, (array) unserialize( $existing_RET[1]['COMMENT'] ) );
+		}
+		else
+		{
+			// Insert empty comment (SaveData wont INSERT unless $id == 'new').
+			DBQuery( "INSERT INTO STUDENT_MP_COMMENTS
+				(STUDENT_ID, SYEAR, MARKING_PERIOD_ID, COMMENT)
+				VALUES ('" . UserStudentID() . "',
+				'" . UserSyear() . "',
+				'" . $comments_MP . "',
+				'')" );
+		}
+
+		$_REQUEST['values']['STUDENT_MP_COMMENTS'][ UserStudentID() ]['COMMENT'] = DBEscapeString( serialize( $comment ) );
+
+		SaveData(
+			array(
+				'STUDENT_MP_COMMENTS' => "STUDENT_ID='" . UserStudentID() . "'
+				AND SYEAR='" . UserSyear() . "'
+				AND MARKING_PERIOD_ID='" . $comments_MP . "'",
+				'fields' => array(
+					'STUDENT_MP_COMMENTS' => 'STUDENT_ID,SYEAR,MARKING_PERIOD_ID,',
+				),
+				'values' => array(
+					'STUDENT_MP_COMMENTS' => "'" . UserStudentID() . "','" . UserSyear() . "','" . $comments_MP . "',",
+				) 
+			),
+			array( 'COMMENT' => _( 'Comment' ) )
+		);
+	}
+}
+
+if ( empty( $_REQUEST['modfunc'] ) )
+{
+	$comments_RET = DBGet( DBQuery( "SELECT COMMENT
+		FROM STUDENT_MP_COMMENTS
+		WHERE STUDENT_ID='" . UserStudentID() . "'
+		AND SYEAR='" . UserSyear() . "'
+		AND MARKING_PERIOD_ID='" . $comments_MP . "'" ) );
 	
-	echo '<TABLE id="student-comments">';
-	echo '<TR><TD>';
-	echo '<b>'.$mp['TITLE'].' '._('Comments').'</b><BR />';
-//FJ remove maxlength limitation as it is not technically needed
-	echo '<TEXTAREA id="textarea" name="values[STUDENT_MP_COMMENTS]['.UserStudentID().'][COMMENT]" rows="10" cols="66" style="width:100%;"'.(AllowEdit()?'':' readonly').'></TEXTAREA>';	
-	echo '</TD></TR>';
-	//echo '<BR /><b>* '._('If more than one teacher will be adding comments for this student').':</b><BR />';
+	?>
+
+	<table>
+		<tr><td>
+			<?php echo TextAreaInput(
+				'',
+				'values[STUDENT_MP_COMMENTS][' . UserStudentID() . '][COMMENT]',
+				GetMP( $comments_MP, 'TITLE' ) . ' ' . _( 'Comments' ),
+				'rows="10"' . ( AllowEdit() ? '' : ' readonly' ),
+				false
+			); ?>
+		</td></tr>
+	<?php
+	//echo '<br /><b>* '._('If more than one teacher will be adding comments for this student').':</b><br />';
 	//echo '<ul><li>'._('Type your name above the comments you enter.').'</li></ul>';
 	//echo '<li>'._('Leave space for other teachers to enter their comments.').'</li></ul>';
 	//FJ add time and user to comments "comment thread" like
-	echo '<TR><TD>';
-	if (!empty($comments_RET[1]['COMMENT']))
+	?>
+		<tr><td id="student-comments">
+	<?php
+	if ( ( $comments = unserialize( $comments_RET[1]['COMMENT'] ) ) )
 	{
-		$comments = explode('||', $comments_RET[1]['COMMENT']);
-		foreach($comments as $comment)
+		$comments_HTML = $staff_name = array();
+
+		foreach ( (array) $comments as $comment )
 		{
-			if(is_array(list($timestamp, $staff_id) = explode('|', $comment)) && is_numeric($staff_id))
+			$id = $comment['staff_id'];
+
+			if ( !isset( $staff_name[ $id ] ) )
 			{
-				if (User('STAFF_ID') == $staff_id)
-					$staff_name = User('NAME');
+				if ( User('STAFF_ID') === $id )
+				{
+					$staff_name[ $id ] = User( 'NAME' );
+				}
 				else
 				{
-					$staff_name_RET = DBGet(DBQuery("SELECT FIRST_NAME||' '||LAST_NAME AS NAME FROM STAFF WHERE SYEAR='".UserSyear()."' AND USERNAME=(SELECT USERNAME FROM STAFF WHERE SYEAR='".Config('SYEAR')."' AND STAFF_ID='".$staff_id."')"));
-					$staff_name = $staff_name_RET[1]['NAME'];
-				}
-				echo '<span>'.ProperDate(mb_substr($timestamp,0,10)).mb_substr($timestamp,10).', '.$staff_name.':</span>';
-			}
-			else
-				echo '<div>'.nl2br($comment).'</div>';
-		}
-	}
-	echo '</TD></TR></TABLE>';
+					$staff_name_RET = DBGet( DBQuery( "SELECT FIRST_NAME||' '||LAST_NAME AS NAME
+						FROM STAFF
+						WHERE SYEAR='" . UserSyear() . "'
+						AND USERNAME=(
+							SELECT USERNAME
+							FROM STAFF
+							WHERE SYEAR='" . Config( 'SYEAR' ) . "'
+							AND STAFF_ID='" . $id . "'
+						)" ) );
 
-	$_REQUEST['category_id'] = '4';
-	include('modules/Students/includes/Other_Info.inc.php');
+					$staff_name[ $id ] = $staff_name_RET[1]['NAME'];
+				}
+			}
+
+			// Comment meta data: "Date hour, User name:"
+			$comment_meta = '<span>' .
+				ProperDateTime( $comment['date'] ) . ', ' .
+				$staff_name[ $id ] .
+				':</span>';
+
+			// convert MarkDown to HTML
+			$comment_MD = '<div class="markdown-to-html">' . $comment['comment'] . '</div>';
+
+			$comments_HTML[] = $comment_meta . $comment_MD;
+		}
+
+		echo implode( "\n", $comments_HTML );
+	}
+	?>
+		</td></tr>
+	</table>
+	<?php
+
+	require_once 'modules/Students/includes/Other_Info.inc.php';
 }
-?>

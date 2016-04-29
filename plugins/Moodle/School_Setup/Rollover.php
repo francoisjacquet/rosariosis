@@ -276,5 +276,3 @@ function core_course_delete_courses_response($response)
 
 	return null;
 }
-
-?>

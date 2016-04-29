@@ -25,12 +25,12 @@ list of (
 
 	$name = $columns['TITLE'];
 	
-	if($table_name=='COURSE_SUBJECTS')
+	if ( $table_name=='COURSE_SUBJECTS')
 	{
 		$parent = 0;
 		$idnumber = (string)$_REQUEST['subject_id'];
 	}
-	elseif($table_name=='COURSES')
+	elseif ( $table_name=='COURSES')
 	{
 		//get the Moodle parent category
 		$parent = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_REQUEST['subject_id']."' AND \"column\"='subject_id'"));
@@ -78,12 +78,12 @@ list of (
 )
 */
 	
-	if($table_name=='COURSE_SUBJECTS')
+	if ( $table_name=='COURSE_SUBJECTS')
 	{
 		$column = 'subject_id';
 		$rosario_id = $_REQUEST['subject_id'];
 	}
-	elseif($table_name=='COURSES')
+	elseif ( $table_name=='COURSES')
 	{
 		$column = 'course_id';
 		$rosario_id = (string)$_REQUEST['course_id'];	
@@ -117,12 +117,12 @@ list of (
 )
 */
 	//gather the Moodle category ID
-	if($table_name=='COURSES')
+	if ( $table_name=='COURSES')
 	{
 		$column = 'course_id';
 		$rosario_id = $_REQUEST['course_id'];	
 	}
-	elseif($table_name=='COURSE_SUBJECTS')
+	elseif ( $table_name=='COURSE_SUBJECTS')
 	{
 		$column = 'subject_id';
 		$rosario_id = $_REQUEST['subject_id'];
@@ -161,12 +161,12 @@ function core_course_update_categories_response($response)
 function core_course_delete_categories_object()
 {
 	//gather the Moodle category ID
-	if(!empty($_REQUEST['course_id']))
+	if ( !empty($_REQUEST['course_id']))
 	{
 		$column = 'course_id';
 		$rosario_id = (string)$_REQUEST['course_id'];	
 	}
-	elseif(!empty($_REQUEST['subject_id']))
+	elseif ( !empty($_REQUEST['subject_id']))
 	{
 		$column = 'subject_id';
 		$rosario_id = $_REQUEST['subject_id'];
@@ -208,12 +208,12 @@ list of (
 function core_course_delete_categories_response($response)
 {
 	
-	if(!empty($_REQUEST['course_id']))
+	if ( !empty($_REQUEST['course_id']))
 	{
 		$column = 'course_id';
 		$rosario_id = (string)$_REQUEST['course_id'];	
 	}
-	elseif(!empty($_REQUEST['subject_id']))
+	elseif ( !empty($_REQUEST['subject_id']))
 	{
 		$column = 'subject_id';
 		$rosario_id = $_REQUEST['subject_id'];
@@ -607,4 +607,3 @@ function core_course_update_courses_response($response)
 {
 	return null;
 }
-?>

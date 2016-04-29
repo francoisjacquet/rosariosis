@@ -1,37 +1,48 @@
 <?php
 
-if($_REQUEST['month_date'] && $_REQUEST['day_date'] && $_REQUEST['year_date'])
-	while(!VerifyDate($date = $_REQUEST['day_date'].'-'.$_REQUEST['month_date'].'-'.$_REQUEST['year_date']))
-		$_REQUEST['day_date']--;
+require_once 'ProgramFunctions/TipMessage.fnc.php';
+
+// set date
+if ( isset( $_REQUEST['month_date'] )
+	&& isset( $_REQUEST['day_date'] )
+	&& isset( $_REQUEST['year_date'] ) )
+{
+	$date = RequestedDate(
+		$_REQUEST['year_date'],
+		$_REQUEST['month_date'],
+		$_REQUEST['day_date']
+	);
+}
 else
 {
 	$_REQUEST['day_date'] = date('d');
-	$_REQUEST['month_date'] = mb_strtoupper(date('M'));
+	$_REQUEST['month_date'] = date('m');
 	$_REQUEST['year_date'] = date('Y');
-	$date = $_REQUEST['day_date'].'-'.$_REQUEST['month_date'].'-'.$_REQUEST['year_date'];
+
+	$date = $_REQUEST['year_date'] . '-' . $_REQUEST['month_date'] . '-' . $_REQUEST['day_date'];
 }
 
 DrawHeader(ProgramTitle());
 $categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM ATTENDANCE_CODE_CATEGORIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER,TITLE"));
-if($_REQUEST['table']=='')
+if ( $_REQUEST['table']=='')
 	$_REQUEST['table'] = '0';
-$category_select = "<SELECT name=table onChange='ajaxPostForm(this.form,true);'><OPTION value='0'".($_REQUEST['table']=='0'?' SELECTED':'').">"._('Attendance')."</OPTION>";
-foreach($categories_RET as $category)
-	$category_select .= '<OPTION value="'.$category[ID].'"'.(($_REQUEST['table']==$category['ID'])?' SELECTED':'').">".$category['TITLE']."</OPTION>";
-$category_select .= "</SELECT>";
+$category_select = "<select name=table onChange='ajaxPostForm(this.form,true);'><option value='0'".($_REQUEST['table']=='0'?' selected':'').">"._('Attendance')."</option>";
+foreach ( (array) $categories_RET as $category)
+	$category_select .= '<option value="'.$category[ID].'"'.(($_REQUEST['table']==$category['ID'])?' selected':'').">".$category['TITLE']."</option>";
+$category_select .= "</select>";
 
 $QI = DBQuery("SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp WHERE sp.SCHOOL_ID='".UserSchool()."' AND sp.SYEAR='".UserSyear()."' AND EXISTS (SELECT '' FROM COURSE_PERIODS WHERE SYEAR=sp.SYEAR AND PERIOD_ID=sp.PERIOD_ID AND position(',$_REQUEST[table],' IN DOES_ATTENDANCE)>0) ORDER BY sp.SORT_ORDER");
 $periods_RET = DBGet($QI,array(),array('PERIOD_ID'));
 
-$period_select = "<SELECT name=period onChange='ajaxPostForm(this.form,true);'><OPTION value=''>"._('All')."</OPTION>";
-foreach($periods_RET as $id=>$period)
-	$period_select .= '<OPTION value="'.$id.'"'.(($_REQUEST['period']==$id)?' SELECTED':'').">".$period[1]['TITLE']."</OPTION>";
-$period_select .= "</SELECT>";
+$period_select = "<select name=period onChange='ajaxPostForm(this.form,true);'><option value=''>"._('All')."</option>";
+foreach ( (array) $periods_RET as $id => $period)
+	$period_select .= '<option value="'.$id.'"'.(($_REQUEST['period']==$id)?' selected':'').">".$period[1]['TITLE']."</option>";
+$period_select .= "</select>";
 
-echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
+echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)).' - '.$period_select);
 DrawHeader('',$category_select);
-echo '</FORM>';
+echo '</form>';
 
 //FJ days numbered
 //FJ multiple school periods for a course period
@@ -67,40 +78,37 @@ if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 }
 $RET = DBGet(DBQuery($sql),array(),array('STAFF_ID'));
 
-if(!$_REQUEST['period'])
+if ( ! $_REQUEST['period'])
 {
-	$tiptitle = false;
-
-	foreach($RET as $staff_id=>$periods)
+	foreach ( (array) $RET as $staff_id => $periods )
 	{
 		$i++;
-		$staff_RET[$i]['FULL_NAME'] = $periods[1]['FULL_NAME'];
-		foreach($periods as $period)
+
+		$staff_RET[ $i ]['FULL_NAME'] = $periods[1]['FULL_NAME'];
+
+		foreach ( (array) $periods as $period )
 		{
-			if(!isset($_REQUEST['_ROSARIO_PDF']))
+			if ( !isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			{
-				$tipJS = '<script>';
-
-				if (!$tiptitle)
-				{
-					$tipJS .= 'var tiptitle='.json_encode(_('Course Title')).';';
-					$tiptitle = true;
-				}
-
-				$tipJS .= 'var tipmsg'.$i.$period['PERIOD_ID'].'='.json_encode($period['COURSE_TITLE']).';</script>';
-
-				$staff_RET[$i][$period['PERIOD_ID']] .= $tipJS.button($period['COMPLETED']=='Y'?'check':'x','','"#" onMouseOver="stm([tiptitle,tipmsg'.$i.$period['PERIOD_ID'].'])" onMouseOut="htm()" onclick="return false;"').' ';
+				$staff_RET[ $i ][$period['PERIOD_ID']] = MakeTipMessage(
+					$period['COURSE_TITLE'],
+					_( 'Course Title' ),
+					button( $period['COMPLETED'] === 'Y' ? 'check' : 'x' )
+				);
 			}
 			else
-				$staff_RET[$i][$period['PERIOD_ID']] = ($period['COMPLETED']=='Y'?_('Yes'):_('No'))." ";
+				$staff_RET[ $i ][$period['PERIOD_ID']] = ($period['COMPLETED']=='Y'?_('Yes'):_('No'))." ";
 		}
 	}
 
-	$columns = array('FULL_NAME'=>_('Teacher'));
-	foreach($periods_RET as $id=>$period)
-		$columns[$id] = $period[1]['TITLE'];
+	$columns = array( 'FULL_NAME' => _( 'Teacher' ) );
 
-	ListOutput($staff_RET,$columns,'Teacher who takes attendance','Teachers who take attendance');
+	foreach ( (array) $periods_RET as $id => $period )
+	{
+		$columns[ $id ] = $period[1]['TITLE'];
+	}
+
+	ListOutput( $staff_RET, $columns, 'Teacher who takes attendance', 'Teachers who take attendance' );
 }
 else
 {
@@ -109,28 +117,32 @@ else
 	$tiptitle = false;
 
 	//FJ display icon for completed column
-	foreach($RET as $staff_id=>$periods)
+	foreach ( (array) $RET as $staff_id => $periods)
 	{
-		foreach($periods as $id=>$period)
+		foreach ( (array) $periods as $id => $period)
 		{
-			if(!isset($_REQUEST['_ROSARIO_PDF']))
+			if ( !isset($_REQUEST['_ROSARIO_PDF']))
 			{
-				$tipJS = '<script>';
-
-				if (!$tiptitle)
-				{
-					$tipJS .= 'var tiptitle='.json_encode(_('Course Title')).';';
-					$tiptitle = true;
-				}
-
-				$tipJS .= 'var tipmsg'.$staff_id.$id.'='.json_encode($period['COURSE_TITLE']).';</script>';
-
-				$RET[$staff_id][$id]['COMPLETED'] = $tipJS.button($period['COMPLETED']=='Y'?'check':'x','','"#" onMouseOver="stm([tiptitle,tipmsg'.$staff_id.$id.'])" onMouseOut="htm()" onclick="return false;"').' ';
+				$RET[ $staff_id ][ $id ]['COMPLETED'] = MakeTipMessage(
+					$period['COURSE_TITLE'],
+					_( 'Course Title' ),
+					button( $period['COMPLETED'] === 'Y' ? 'check' : 'x' )
+				);
 			}
 			else
-				$RET[$staff_id][$id]['COMPLETED'] = ($period['COMPLETED']=='Y'?_('Yes'):_('No'))." ";
+				$RET[ $staff_id ][ $id ]['COMPLETED'] = ($period['COMPLETED']=='Y'?_('Yes'):_('No'))." ";
 		}
 	}
-	ListOutput($RET,array('FULL_NAME'=>_('Teacher'),'COURSE_TITLE'=>_('Course'),'COMPLETED'=>_('Completed')),sprintf(_('Teacher who takes %s attendance'),$period_title),sprintf(_('Teachers who take %s attendance'),$period_title),false,array('STAFF_ID'));
+
+	ListOutput(
+		$RET,
+		array(
+			'FULL_NAME' => _( 'Teacher' ),
+			'COURSE_TITLE' => _( 'Course' ),
+			'COMPLETED' => _( 'Completed' ) ),
+		sprintf( _( 'Teacher who takes %s attendance' ), $period_title ),
+		sprintf( _( 'Teachers who take %s attendance' ), $period_title ),
+		false,
+		array( 'STAFF_ID' )
+	);
 }
-?>

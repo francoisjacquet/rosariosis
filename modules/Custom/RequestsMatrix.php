@@ -33,30 +33,29 @@
 				"),array(),array('CRS','PERIOD_ID'));
 
 	$periods_RET = DBGet(DBQuery("SELECT PERIOD_ID,SHORT_NAME FROM SCHOOL_PERIODS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
-	echo '<TABLE class="center" style="border: 1px solid;">';
-	echo '<TR><TD></TD>';
-	foreach($periods_RET as $period)
-		echo '<TD><b>'.$period['SHORT_NAME'].'</b></TD>';
-	foreach($requests_RET as $course=>$periods)
+	echo '<table class="center" style="border: 1px solid;">';
+	echo '<tr><td></td>';
+	foreach ( (array) $periods_RET as $period)
+		echo '<td><b>'.$period['SHORT_NAME'].'</b></td>';
+	foreach ( (array) $requests_RET as $course => $periods)
 	{
-		echo '<TR><TD><b>'.$periods[key($periods)][1]['COURSE_TITLE'].'</b></TD>';
-		foreach($periods_RET as $period)
+		echo '<tr><td><b>'.$periods[key($periods)][1]['COURSE_TITLE'].'</b></td>';
+		foreach ( (array) $periods_RET as $period)
 		{
-			if($periods[$period['PERIOD_ID']][1]['SCHEDULED'])
+			if ( $periods[$period['PERIOD_ID']][1]['SCHEDULED'])
 				$color = '0000FF';
-			elseif($periods[$period['PERIOD_ID']])
+			elseif ( $periods[$period['PERIOD_ID']])
 			{
-				if($periods[$period['PERIOD_ID']][1]['OPEN_SEATS']==0)
+				if ( $periods[$period['PERIOD_ID']][1]['OPEN_SEATS']==0)
 					$color = 'FFFF00';
 				else
 					$color = '00FF00';
 			}
 			else
 				$color = 'CCCCCC';
-			echo '<TD style="height:10px; width:6px; background-color:#'.$color.';"></TD>';
+			echo '<td style="height:10px; width:6px; background-color:#'.$color.';"></td>';
 		}
 		
-		echo '</TR>';
+		echo '</tr>';
 	}
-	echo '</TABLE>';
-?>
+	echo '</table>';

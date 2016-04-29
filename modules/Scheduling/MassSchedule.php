@@ -1,57 +1,62 @@
 <?php
 
-include('modules/Scheduling/includes/calcSeats0.fnc.php');
+require_once 'modules/Scheduling/includes/calcSeats0.fnc.php';
 
-include_once('modules/Scheduling/functions.inc.php');
+require_once 'modules/Scheduling/functions.inc.php';
 
-if(!$_REQUEST['modfunc'] && $_REQUEST['search_modfunc']!='list')
+if ( ! $_REQUEST['modfunc'] && $_REQUEST['search_modfunc']!='list')
 	unset($_SESSION['MassSchedule.php']);
 
-if($_REQUEST['modfunc']!='choose_course')
+if ( $_REQUEST['modfunc']!='choose_course')
 {
 	DrawHeader(ProgramTitle());
 }
 
-if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
+if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 {
-	if($_SESSION['MassSchedule.php'])
+	if ( $_SESSION['MassSchedule.php'])
 	{
-		if (!empty($_REQUEST['student']))
+		if ( !empty($_REQUEST['student']))
 		{
-			$start_date = $_REQUEST['day'].'-'.$_REQUEST['month'].'-'.$_REQUEST['year'];
-			if(VerifyDate($start_date))
+			$start_date = RequestedDate(
+				$_REQUEST['year_start'],
+				$_REQUEST['month_start'],
+				$_REQUEST['day_start']
+			);
+
+			if ( $start_date )
 			{
 				$course_period_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID, TOTAL_SEATS, COURSE_PERIOD_ID, CALENDAR_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$_SESSION['MassSchedule.php']['course_period_id']."'"));
 
 				$course_mp = $course_period_RET[1]['MARKING_PERIOD_ID'];
 				$course_mp_table = GetMP($course_mp,'MP');
 
-				if($course_mp_table=='FY' || $course_mp==$_REQUEST['marking_period_id'] || mb_strpos(GetChildrenMP($course_mp_table,$course_mp),"'".$_REQUEST['marking_period_id']."'")!==false)
+				if ( $course_mp_table=='FY' || $course_mp==$_REQUEST['marking_period_id'] || mb_strpos(GetChildrenMP($course_mp_table,$course_mp),"'".$_REQUEST['marking_period_id']."'")!==false)
 				{
 					//get available seats:
-					if($course_period_RET[1]['TOTAL_SEATS'])
+					if ( $course_period_RET[1]['TOTAL_SEATS'])
 					{
 						$seats = calcSeats0($course_period_RET[1],$start_date);
 
-						if($seats!='' && $seats>=$course_period_RET[1]['TOTAL_SEATS'])
+						if ( $seats!='' && $seats>=$course_period_RET[1]['TOTAL_SEATS'])
 							$warnings[] = _('The number of selected students exceeds the available seats.');
 					}
 
 					//FJ check if Available Seats < selected students
-					if(empty($warnings) || Prompt('Confirm', _('There is a conflict.').' '._('Are you sure you want to add this section?'),ErrorMessage($warnings,'note')))
+					if (empty($warnings) || Prompt('Confirm', _('There is a conflict.').' '._('Are you sure you want to add this section?'),ErrorMessage($warnings,'note')))
 					{
 
 						$mp_table = GetMP($_REQUEST['marking_period_id'],'MP');
 
 						$current_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM SCHEDULE WHERE COURSE_PERIOD_ID='".$_SESSION['MassSchedule.php']['course_period_id']."' AND SYEAR='".UserSyear()."' AND (('".$start_date."' BETWEEN START_DATE AND END_DATE OR END_DATE IS NULL) AND '".$start_date."'>=START_DATE)"),array(),array('STUDENT_ID'));
-						foreach($_REQUEST['student'] as $student_id=>$yes)
+						foreach ( (array) $_REQUEST['student'] as $student_id => $yes)
 						{
-							if(!$current_RET[$student_id])
+							if ( ! $current_RET[ $student_id ])
 							{
 								$sql = "INSERT INTO SCHEDULE (SYEAR,SCHOOL_ID,STUDENT_ID,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID,START_DATE)
 											values('".UserSyear()."','".UserSchool()."','".$student_id."','".$_SESSION['MassSchedule.php']['course_id']."','".$_SESSION['MassSchedule.php']['course_period_id']."','".$mp_table."','".$_REQUEST['marking_period_id']."','".$start_date."')";
 								DBQuery($sql);
-						
+
 								//hook
 								do_action('Scheduling/MassSchedule.php|schedule_student');
 							}
@@ -72,62 +77,66 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 	}
 	else
 		$error[] = _('You must choose a course.');
-		
+
 	unset($_SESSION['_REQUEST_vars']['modfunc']);
 	unset($_REQUEST['modfunc']);
 	unset($_SESSION['MassSchedule.php']);
 }
 
-if (isset($error))
-	echo ErrorMessage($error);
-if(isset($note))
-	echo ErrorMessage($note, 'note');
-		
-if(empty($_REQUEST['modfunc']))
+echo ErrorMessage( $error );
+
+echo ErrorMessage( $note, 'note' );
+
+if (empty($_REQUEST['modfunc']))
 {
-	if($_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
 		DrawHeader('',SubmitButton(_('Add Course to Selected Students')));
 
-		echo '<BR />';
+		echo '<br />';
 
 		PopTable('header', _('Course to Add'));
 
-		echo '<TABLE><TR><TD colspan="2"><DIV id=course_div>';
+		echo '<table><tr><td colspan="2"><div id=course_div>';
 
-		if($_SESSION['MassSchedule.php'])
+		if ( $_SESSION['MassSchedule.php'])
 		{
 			$course_title = DBGet(DBQuery("SELECT TITLE FROM COURSES WHERE COURSE_ID='".$_SESSION['MassSchedule.php']['course_id']."'"));
 			$course_title = $course_title[1]['TITLE'];
 			$period_title = DBGet(DBQuery("SELECT TITLE FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$_SESSION['MassSchedule.php']['course_period_id']."'"));
 			$period_title = $period_title[1]['TITLE'];
 
-			echo $course_title.'<BR />'.$period_title;
+			echo $course_title.'<br />'.$period_title;
 		}
-		echo '</DIV>'.'<A HREF="#" onclick=\'window.open("Modules.php?modname='.$_REQUEST['modname'].'&modfunc=choose_course","","scrollbars=yes,resizable=yes,width=800,height=400");\'>'._('Choose a Course').'</A></TD></TR>';
-		echo '<TR class="st"><TD>'._('Start Date').'</TD><TD>'.PrepareDate(DBDate(),'').'</TD></TR>';
 
-		echo '<TR class="st"><TD>'._('Marking Period').'</TD>';
+		echo '</div>' . '<a href="#" onclick=\'popups.open(
+				"Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=choose_course"
+			); return false;\'>' . _( 'Choose a Course' ) . '</a></td></tr>';
+
+		echo '<tr class="st"><td>' . _( 'Start Date' ) . '</td>
+			<td>' . DateInput( DBDate(), 'start', '', false, false ) . '</td></tr>';
+
+		echo '<tr class="st"><td>'._('Marking Period').'</td>';
 		$mp_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE,".db_case(array('MP',"'FY'","'0'","'SEM'","'1'","'QTR'","'2'"))." AS TBL FROM SCHOOL_MARKING_PERIODS WHERE (MP='FY' OR MP='SEM' OR MP='QTR') AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' ORDER BY TBL,SORT_ORDER"));
-		echo '<TD><SELECT name="marking_period_id">';
-		foreach($mp_RET as $mp)
-			echo '<OPTION value="'.$mp['MARKING_PERIOD_ID'].'">'.$mp['TITLE'].'</OPTION>';
-		echo '</SELECT>';
-		echo '</TD></TR></TABLE>';
+		echo '<td><select name="marking_period_id">';
+		foreach ( (array) $mp_RET as $mp)
+			echo '<option value="'.$mp['MARKING_PERIOD_ID'].'">'.$mp['TITLE'].'</option>';
+		echo '</select>';
+		echo '</td></tr></table>';
 
 		PopTable('footer');
 
-		echo '<BR />';
+		echo '<br />';
 	}
 
-	if($_REQUEST['search_modfunc']!='list')
+	if ( $_REQUEST['search_modfunc']!='list')
 		unset($_SESSION['MassSchedule.php']);
 
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",CAST (NULL AS CHAR(1)) AS CHECKBOX";
-	$extra['functions'] = array('CHECKBOX'=>'_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX'=>'</A><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'student\');"><A>');
+	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
+	$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.checked,\'student\');"><A>');
 	$extra['new'] = true;
 
 	Widgets('course');
@@ -137,18 +146,18 @@ if(empty($_REQUEST['modfunc']))
 
 	Search('student_id',$extra);
 
-	if($_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<BR /><span class="center">'.SubmitButton(_('Add Course to Selected Students')).'</span>';
-		echo '</FORM>';
+		echo '<br /><div class="center">' . SubmitButton(_('Add Course to Selected Students')) . '</div>';
+		echo '</form>';
 	}
 
 }
 
-if($_REQUEST['modfunc']=='choose_course')
+if ( $_REQUEST['modfunc']=='choose_course')
 {
 
-	if(!$_REQUEST['course_period_id'])
+	if ( ! $_REQUEST['course_period_id'])
 		include 'modules/Scheduling/Courses.php';
 	else
 	{
@@ -161,15 +170,13 @@ if($_REQUEST['modfunc']=='choose_course')
 		$period_title = DBGet(DBQuery("SELECT TITLE FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$_SESSION['MassSchedule.php']['course_period_id']."'"));
 		$period_title = $period_title[1]['TITLE'];
 
-		echo '<script>opener.document.getElementById("course_div").innerHTML = '.json_encode($course_title.'<BR />'.$period_title).'; window.close();</script>';
-		
+		echo '<script>opener.document.getElementById("course_div").innerHTML = '.json_encode($course_title.'<br />'.$period_title).'; window.close();</script>';
+
 	}
 }
 
 function _makeChooseCheckbox($value,$title)
 {	global $THIS_RET;
 
-	return '<INPUT type="checkbox" name="student['.$THIS_RET['STUDENT_ID'].']" value="Y" />';
+	return '<input type="checkbox" name="student['.$THIS_RET['STUDENT_ID'].']" value="Y" />';
 }
-
-?>

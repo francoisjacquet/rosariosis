@@ -131,4 +131,3 @@ function core_role_unassign_roles_response($response)
 {
 	return null;
 }
-?>

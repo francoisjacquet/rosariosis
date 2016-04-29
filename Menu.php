@@ -1,58 +1,110 @@
 <?php
-if(empty($_ROSARIO['Menu']))
+/**
+ * Generate Menu entries
+ *
+ * Depending on:
+ * Activated modules
+ * User profile & exceptions
+ *
+ * Save it in $_ROSARIO['Menu'] global var
+ *
+ * @package RosarioSIS
+ */
+
+if ( empty( $_ROSARIO['Menu'] ) )
 {
-	if (is_null($RosarioModules))
+	if ( ! isset( $RosarioModules ) )
+	{
 		global $RosarioModules;
-	
-	foreach($RosarioModules as $module=>$include)
-		if($include)
-			@include('modules/'.$module.'/Menu.php');
+	}
 
-	$profile = User('PROFILE');
+	// Include Menu.php for each active module.
+	foreach ( (array) $RosarioModules as $module => $active )
+	{
+		if ( $active )
+		{
+			if ( ROSARIO_DEBUG )
+			{
+				include 'modules/' . $module . '/Menu.php';
+			}
+			else
+				@include 'modules/' . $module . '/Menu.php';
+		}
+	}
 
-	if($profile!='student')
-		if(User('PROFILE_ID'))
-			$_ROSARIO['AllowUse'] = DBGet(DBQuery("SELECT MODNAME FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='".User('PROFILE_ID')."' AND CAN_USE='Y'"),array(),array('MODNAME'));
-		else
-			$_ROSARIO['AllowUse'] = DBGet(DBQuery("SELECT MODNAME FROM STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."' AND CAN_USE='Y'"),array(),array('MODNAME'));
+	$profile = User( 'PROFILE' );
+
+	if ( User( 'PROFILE_ID' ) != '' )
+	{
+		$allow_use_sql = "SELECT MODNAME
+			FROM PROFILE_EXCEPTIONS
+			WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'
+			AND CAN_USE='Y'";
+	}
+	// If user has custom exceptions.
 	else
 	{
-		$_ROSARIO['AllowUse'] = DBGet(DBQuery("SELECT MODNAME FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='0' AND CAN_USE='Y'"),array(),array('MODNAME'));
+		$allow_use_sql = "SELECT MODNAME
+			FROM STAFF_EXCEPTIONS
+			WHERE USER_ID='" . User( 'STAFF_ID' ) . "'
+			AND CAN_USE='Y'";
+	}
+
+	if ( $profile == 'student' )
+	{
+		// Force student profile to parent (same rights in Menu.php files).
 		$profile = 'parent';
 	}
 
-	foreach($menu as $modcat=>$profiles)
-	{
-		//FJ bugfix remove modules with no programs
-		$no_programs_in_module = true;
-		
-		$programs = $profiles[$profile];
-		foreach($programs as $program=>$title)
-		{
-			if(!is_numeric($program))
-			{
-//				if($_ROSARIO['AllowUse'][$program] && ($profile!='admin' || !$exceptions[$modcat][$program] || AllowEdit($program)))
-				if($program == 'default' && (!empty($_ROSARIO['AllowUse'][$title]) && ($profile!='admin' || empty($exceptions[$modcat][$title]) || AllowEdit($title))))
-					$_ROSARIO['Menu'][$modcat]['default'] = $title;
-				elseif(!empty($_ROSARIO['AllowUse'][$program]) && ($profile!='admin' || empty($exceptions[$modcat][$program]) || AllowEdit($program)))
-				{
-					$_ROSARIO['Menu'][$modcat][$program] = $title;
-					if (!isset($_ROSARIO['Menu'][$modcat]['default'])) //default to first allowed program if default not allowed
-						$_ROSARIO['Menu'][$modcat]['default'] = $program;
-					$no_programs_in_module = false;
-				}
-			}
-			else
-				$_ROSARIO['Menu'][$modcat][$program] = $title;
-		}
-		
-		if ($no_programs_in_module)
-			unset($_ROSARIO['Menu'][$modcat]);
-	}
+	$_ROSARIO['AllowUse'] = DBGet( DBQuery( $allow_use_sql ), array(), array( 'MODNAME' ) );
 
-//FJ enable password change for students
-	if(User('PROFILE')=='student')
-		//unset($_ROSARIO['Menu']['Users']);
-		unset($_ROSARIO['Menu']['Users']['parent']['Users/User.php']);
+	// Loop menu entries for each module & profile.
+	// Save menu entries in $_ROSARIO['Menu'] global var.
+	foreach ( (array) $menu as $modcat => $profiles )
+	{
+		// FJ bugfix remove modules with no programs.
+		$no_programs_in_module = true;
+
+		$programs = $profiles[ $profile ];
+
+		foreach ( (array) $programs as $program => $title )
+		{
+			if ( $program === 'title' // Module title.
+				|| $program === 'default' // Default program when opening module.
+				|| is_numeric( $program ) ) // If program is numeric, it is a section.
+			{
+				$_ROSARIO['Menu'][ $modcat ][ $program ] = $title;
+
+				continue;
+			}
+
+			// if ($_ROSARIO['AllowUse'][ $program ] && ($profile!='admin' || ! $exceptions[ $modcat ][ $program ] || AllowEdit($program)))
+			// If program allowed, add it.
+			if ( ! empty( $_ROSARIO['AllowUse'][ $program ] )
+					&& ( $profile !== 'admin'
+						|| empty( $exceptions[ $modcat ][ $program ] )
+						|| AllowEdit( $program ) ) )
+			{
+				$_ROSARIO['Menu'][ $modcat ][ $program ] = $title;
+
+				// Default to first allowed program if default not allowed.
+				if ( ! isset( $_ROSARIO['Menu'][ $modcat ]['default'] ) )
+				{
+					$_ROSARIO['Menu'][ $modcat ]['default'] = $program;
+				}
+
+				$no_programs_in_module = false;
+			}
+		}
+
+		if ( $no_programs_in_module )
+		{
+			unset( $_ROSARIO['Menu'][ $modcat ] );
+		}
+		// Compat with Modules < 2.9: no title entry for Menu.
+		elseif ( ! isset( $_ROSARIO['Menu'][ $modcat ]['title'] ) )
+		{
+			$_ROSARIO['Menu'][ $modcat ]['title'] = _( str_replace( '_', ' ', $modcat ) );
+		}
+	}
 }
-?>

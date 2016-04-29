@@ -1,8 +1,8 @@
 <?php
 
-if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
+if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
-	if(count($_REQUEST['cp_arr']))
+	if (count($_REQUEST['cp_arr']))
 	{
 		$cp_list = '\''.implode('\',\'',$_REQUEST['cp_arr']).'\'';
 
@@ -11,7 +11,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		$course_periods_RET = DBGet(DBQuery("SELECT cp.COURSE_PERIOD_ID,cp.TITLE,TEACHER_ID,cp.MARKING_PERIOD_ID,cp.MP FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID IN (".$cp_list.") ORDER BY cp.SHORT_NAME,cp.TITLE"));
 		//echo '<pre>'; var_dump($course_periods_RET); echo '</pre>';
 
-		if($_REQUEST['include_teacher']=='Y')
+		if ( $_REQUEST['include_teacher']=='Y')
 			$teachers_RET = DBGet(DBQuery("SELECT STAFF_ID,LAST_NAME,FIRST_NAME,ROLLOVER_ID FROM STAFF WHERE STAFF_ID IN (SELECT TEACHER_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID IN (".$cp_list."))"),array(),array('STAFF_ID'));
 		//echo '<pre>'; var_dump($teachers_RET); echo '</pre>';
 
@@ -21,20 +21,21 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 		$no_students_backprompt = true;
 
-		foreach($course_periods_RET as $course_period)
+		foreach ( (array) $course_periods_RET as $course_period)
 		{
 			$course_period_id = $course_period['COURSE_PERIOD_ID'];
 			$teacher_id = $course_period['TEACHER_ID'];
 
-			if($teacher_id)
+			if ( $teacher_id)
 			{
 				$_SESSION['UserCoursePeriod'] = $course_period_id;
 
-				$extra = array('SELECT_ONLY'=>'s.STUDENT_ID,s.LAST_NAME,s.FIRST_NAME', 'ORDER_BY'=>'s.LAST_NAME,s.FIRST_NAME,s.MIDDLE_NAME', 'MP'=>$course_period['MARKING_PERIOD_ID'], 'MPTable'=>$course_period['MP']);
+				$extra = array('SELECT_ONLY' => 's.STUDENT_ID,s.LAST_NAME,s.FIRST_NAME', 'ORDER_BY' => 's.LAST_NAME,s.FIRST_NAME,s.MIDDLE_NAME', 'MP' => $course_period['MARKING_PERIOD_ID'], 'MPTable' => $course_period['MP']);
 
-				//FJ prevent course period ID hacking
+
 				if (User('PROFILE')=='student' || User('PROFILE')=='parent')
 				{
+					// FJ prevent course period ID hacking.
 					$extra['WHERE'] .= " AND '".UserStudentID()."' IN
 					(SELECT STUDENT_ID
 					FROM SCHEDULE
@@ -78,72 +79,72 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				}
 				//echo '<pre>'; var_dump($RET); echo '</pre>';
 
-				if(count($RET))
+				if (count($RET))
 				{
 					$no_students_backprompt = false;
 
-					echo '<TABLE class="width-100p">';
+					echo '<table class="width-100p">';
 					//FJ school year over one/two calendar years format
-					echo '<TR><TD colspan="5" class="center"><h3>'.FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS')).' - '.$course_period['TITLE'].'</h3></TD></TR>';
+					echo '<tr><td colspan="5" class="center"><h3>'.FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS')).' - '.$course_period['TITLE'].'</h3></td></tr>';
 
 					$i = 0;
-					if($_REQUEST['include_teacher']=='Y')
+					if ( $_REQUEST['include_teacher']=='Y')
 					{
-						$teacher = $teachers_RET[$teacher_id][1];
+						$teacher = $teachers_RET[ $teacher_id ][1];
 
-						echo '<TR><TD style="vertical-align:bottom;"><TABLE>';
+						echo '<tr><td style="vertical-align:bottom;"><table>';
 
-						if($UserPicturesPath && (($size=@getimagesize($picture_path=$UserPicturesPath.UserSyear().'/'.$teacher_id.'.JPG')) || $_REQUEST['last_year']=='Y' && $staff['ROLLOVER_ID'] && ($size=@getimagesize($picture_path=$UserPicturesPath.(UserSyear()-1).'/'.$staff['ROLLOVER_ID'].'.JPG'))))
+						if ( $UserPicturesPath && (($size=@getimagesize($picture_path=$UserPicturesPath.UserSyear().'/'.$teacher_id.'.JPG')) || $_REQUEST['last_year']=='Y' && $staff['ROLLOVER_ID'] && ($size=@getimagesize($picture_path=$UserPicturesPath.(UserSyear()-1).'/'.$staff['ROLLOVER_ID'].'.JPG'))))
 						{
-							if($size[1]/$size[0] > 172/130)
-								echo '<TR><TD style="width:130px;"><IMG SRC="'.$picture_path.'" height="172"></TD></TR>';
+							if ( $size[1]/$size[0] > 172/130)
+								echo '<tr><td style="width:130px;"><img src="'.$picture_path.'" height="172"></td></tr>';
 							else
-								echo '<TR><TD style="width:130px;"><IMG SRC="'.$picture_path.'" width="130"></TD></TR>';
+								echo '<tr><td style="width:130px;"><img src="'.$picture_path.'" width="130"></td></tr>';
 						}
 						else
-							echo '<TR><TD style="width:130px; height:172px;"></TD></TR>';
+							echo '<tr><td style="width:130px; height:172px;"></td></tr>';
 
-						echo '<TR><TD><span class="size-1"><B>'.$teacher['LAST_NAME'].'</B><BR />'.$teacher['FIRST_NAME'].'</span></TD></TR>';
-						echo '</TABLE></TD>';
+						echo '<tr><td><span class="size-1"><b>'.$teacher['LAST_NAME'].'</b><br />'.$teacher['FIRST_NAME'].'</span></td></tr>';
+						echo '</table></td>';
 						$i++;
 					}
 
-					foreach($RET as $student)
+					foreach ( (array) $RET as $student)
 					{
 						$student_id = $student['STUDENT_ID'];
 
-						if($i++%5==0)
-							echo '<TR>';
+						if ( $i++%5==0)
+							echo '<tr>';
 
-						echo '<TD style="vertical-align:bottom;"><TABLE>';
+						echo '<td style="vertical-align:bottom;"><table>';
 
-						if($StudentPicturesPath && (($size=@getimagesize($picture_path=$StudentPicturesPath.UserSyear().'/'.$student_id.'.jpg')) || $_REQUEST['last_year']=='Y' && ($size=@getimagesize($picture_path=$StudentPicturesPath.(UserSyear()-1).'/'.$student_id.'.jpg'))))
+						if ( $StudentPicturesPath && (($size=@getimagesize($picture_path=$StudentPicturesPath.UserSyear().'/'.$student_id.'.jpg')) || $_REQUEST['last_year']=='Y' && ($size=@getimagesize($picture_path=$StudentPicturesPath.(UserSyear()-1).'/'.$student_id.'.jpg'))))
 						{
-							if($size[1]/$size[0] > 172/130)
-								echo '<TR><TD style="width:130px;"><IMG SRC="'.$picture_path.'" height="172"></TD></TR>';
+							if ( $size[1]/$size[0] > 172/130)
+								echo '<tr><td style="width:130px;"><img src="'.$picture_path.'" height="172"></td></tr>';
 							else
-								echo '<TR><TD style="width:130px;"><IMG SRC="'.$picture_path.'" width="130"></TD></TR>';
+								echo '<tr><td style="width:130px;"><img src="'.$picture_path.'" width="130"></td></tr>';
 						}
 						else
-							echo '<TR><TD style="width:130px; height:172px;"></TD></TR>';
+							echo '<tr><td style="width:130px; height:172px;"></td></tr>';
 
-						echo '<TR><TD><span class="size-1"><B>'.$student['LAST_NAME'].'</B><BR />'.$student['FIRST_NAME'].'</span></TD></TR>';
-						echo '</TABLE></TD>';
+						echo '<tr><td><span class="size-1"><b>'.$student['LAST_NAME'].'</b><br />'.$student['FIRST_NAME'].'</span></td></tr>';
+						echo '</table></td>';
 
-						if($i%5==0)
-							echo '</TR><!-- NEED 2in -->';
+						if ( $i%5==0)
+							echo '</tr><!-- NEED 2in -->';
 					}
 
-					if($i%5!=0)
-						echo '</TR>';
+					if ( $i%5!=0)
+						echo '</tr>';
 
-					echo '</TABLE><div style="page-break-after: always;"></div>';
+					echo '</table><div style="page-break-after: always;"></div>';
 				}
 			}
 		}
 		$_SESSION['UserCoursePeriod'] = $PCP_UserCoursePeriod;
 
-		if ($no_students_backprompt)
+		if ( $no_students_backprompt)
 			BackPrompt(_('No Students were found.'));
 
 		PDFStop($handle);
@@ -152,100 +153,100 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		BackPrompt(_('You must choose at least one course period.'));
 }
 
-if(empty($_REQUEST['modfunc']))
+if (empty($_REQUEST['modfunc']))
 {
 	DrawHeader(ProgramTitle());
 
-	if(User('PROFILE')!='admin')
+	if (User('PROFILE')!='admin')
 		$_REQUEST['search_modfunc'] = 'list';
 
-	if($_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&_ROSARIO_PDF=true" method="POST">';
-		$extra['header_right'] = '<INPUT type="submit" value="'._('Create Class Pictures for Selected Course Periods').'" />';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&_ROSARIO_PDF=true" method="POST">';
+		$extra['header_right'] = '<input type="submit" value="'._('Create Class Pictures for Selected Course Periods').'" />';
 
-		$extra['extra_header_left'] = '<TABLE>';
+		$extra['extra_header_left'] = '<table>';
 
 		//FJ add <label> on checkbox
-		$extra['extra_header_left'] .= '<TR class="st"><TD><label><INPUT type="checkbox" name="include_teacher" value="Y" checked /> '._('Include Teacher').'</label></TD>';
-		$extra['extra_header_left'] .= '<TD><label><INPUT type="checkbox" name="last_year" value="Y"> '._('Use Last Year\'s if Missing').'</label></TD></TR>';
+		$extra['extra_header_left'] .= '<tr class="st"><td><label><input type="checkbox" name="include_teacher" value="Y" checked /> '._('Include Teacher').'</label></td>';
+		$extra['extra_header_left'] .= '<td><label><input type="checkbox" name="last_year" value="Y"> '._('Use Last Year\'s if Missing').'</label></td></tr>';
 
-		if(User('PROFILE')=='admin' || User('PROFILE')=='teacher')
-			$extra['extra_header_left'] .= '<TR><TD colspan="3"><label><INPUT type="checkbox" name="include_inactive" value="Y"> '._('Include Inactive Students').'</label></TD></TR>';
+		if (User('PROFILE')=='admin' || User('PROFILE')=='teacher')
+			$extra['extra_header_left'] .= '<tr><td colspan="3"><label><input type="checkbox" name="include_inactive" value="Y"> '._('Include Inactive Students').'</label></td></tr>';
 
-		$extra['extra_header_left'] .= '</TABLE>';
+		$extra['extra_header_left'] .= '</table>';
 	}
 
 	mySearch('course_period',$extra);
-	if($_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<BR /><span class="center"><INPUT type="submit" value="'._('Create Class Pictures for Selected Course Periods').'" /></span>';
-		echo '</FORM>';
+		echo '<br /><div class="center"><input type="submit" value="'._('Create Class Pictures for Selected Course Periods').'" /></div>';
+		echo '</form>';
 	}
 }
 
 function mySearch($type,$extra='')
 {	global $extra;
 
-	if(!$_REQUEST['search_modfunc'])
+	if ( ! $_REQUEST['search_modfunc'])
 	{
 		$_SESSION['Search_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back'));
 
-		if($_SESSION['Back_PHP_SELF']!='course')
+		if ( $_SESSION['Back_PHP_SELF']!='course')
 		{
 			$_SESSION['Back_PHP_SELF'] = 'course';
 			unset($_SESSION['List_PHP_SELF']);
 		}
 
-		echo '<script>var footer_link = document.createElement("a"); footer_link.href = "Bottom.php"; footer_link.target = "footer"; ajaxLink(footer_link); old_modname="";</script>';
+		echo '<script>ajaxLink("Bottom.php"); old_modname="";</script>';
 
-		echo '<BR />';
+		echo '<br />';
 
 		PopTable('header',_('Find a Course'));
 
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&search_modfunc=list&next_modname='.$_REQUEST['next_modname'].'" method="POST">';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&search_modfunc=list&next_modname='.$_REQUEST['next_modname'].'" method="POST">';
 
-		echo '<TABLE>';
+		echo '<table>';
 
 		$RET = DBGet(DBQuery("SELECT STAFF_ID,LAST_NAME||', '||FIRST_NAME AS FULL_NAME FROM STAFF WHERE PROFILE='teacher' AND (SCHOOLS IS NULL OR position(',".UserSchool().",' IN SCHOOLS)>0) AND SYEAR='".UserSyear()."' ORDER BY FULL_NAME"));
 
-		echo '<TR class="st"><TD>'._('Teacher').'</TD><TD>';
+		echo '<tr class="st"><td>'._('Teacher').'</td><td>';
 
-		echo '<SELECT name="teacher_id"><OPTION value="">'._('N/A').'</OPTION>';
+		echo '<select name="teacher_id"><option value="">'._('N/A').'</option>';
 
-		foreach($RET as $teacher)
-			echo '<OPTION value="'.$teacher['STAFF_ID'].'">'.$teacher['FULL_NAME'].'</OPTION>';
+		foreach ( (array) $RET as $teacher)
+			echo '<option value="'.$teacher['STAFF_ID'].'">'.$teacher['FULL_NAME'].'</option>';
 
-		echo '</SELECT></TD></TR>';
+		echo '</select></td></tr>';
 
 		$RET = DBGet(DBQuery("SELECT SUBJECT_ID,TITLE FROM COURSE_SUBJECTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' ORDER BY TITLE"));
-		echo '<TR class="st"><TD>'._('Subject').'</TD><TD>';
+		echo '<tr class="st"><td>'._('Subject').'</td><td>';
 
-		echo '<SELECT name="subject_id"><OPTION value="">'._('N/A').'</OPTION>';
+		echo '<select name="subject_id"><option value="">'._('N/A').'</option>';
 
-		foreach($RET as $subject)
-			echo '<OPTION value="'.$subject['SUBJECT_ID'].'">'.$subject['TITLE'].'</OPTION>';
+		foreach ( (array) $RET as $subject)
+			echo '<option value="'.$subject['SUBJECT_ID'].'">'.$subject['TITLE'].'</option>';
 
-		echo '</SELECT></TD></TR>';
+		echo '</select></td></tr>';
 
 		$RET = DBGet(DBQuery("SELECT PERIOD_ID,TITLE FROM SCHOOL_PERIODS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
-		echo '<TR class="st"><TD>'._('Period').'</TD><TD>';
+		echo '<tr class="st"><td>'._('Period').'</td><td>';
 
-		echo '<SELECT name="period_id"><OPTION value="">'._('N/A').'</OPTION>';
+		echo '<select name="period_id"><option value="">'._('N/A').'</option>';
 
-		foreach($RET as $period)
-			echo '<OPTION value="'.$period['PERIOD_ID'].'">'.$period['TITLE'].'</OPTION>';
+		foreach ( (array) $RET as $period)
+			echo '<option value="'.$period['PERIOD_ID'].'">'.$period['TITLE'].'</option>';
 
-		echo '</SELECT></TD></TR>';
+		echo '</select></td></tr>';
 
 		Widgets('course');
 		echo $extra['search'];
 
-		echo '<TR><TD colspan="2" class="center">';
-		echo '<BR />';
+		echo '<tr><td colspan="2" class="center">';
+		echo '<br />';
 		echo Buttons(_('Submit'),_('Reset'));
 
-		echo '</TD></TR></TABLE></FORM>';
+		echo '</td></tr></table></form>';
 
 		PopTable('footer');
 	}
@@ -254,30 +255,30 @@ function mySearch($type,$extra='')
 		DrawHeader('',$extra['header_right']);
 		DrawHeader($extra['extra_header_left'],$extra['extra_header_right']);
 
-		if(User('PROFILE')=='admin')
+		if (User('PROFILE')=='admin')
 		{
-			if($_REQUEST['teacher_id'])
+			if ( $_REQUEST['teacher_id'])
 				$where .= " AND cp.TEACHER_ID='".$_REQUEST['teacher_id']."'";
 
-			if($_REQUEST['first'])
+			if ( $_REQUEST['first'])
 				$where .= " AND UPPER(s.FIRST_NAME) LIKE '".mb_strtoupper($_REQUEST['first'])."%'";
 
-			if($_REQUEST['w_course_period_id'])
+			if ( $_REQUEST['w_course_period_id'])
 			{
-				if($_REQUEST['w_course_period_id_which']=='course')
+				if ( $_REQUEST['w_course_period_id_which']=='course')
 					$where .= " AND cp.COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$_REQUEST['w_course_period_id']."')";
 				else
 					$where .= " AND cp.COURSE_PERIOD_ID='".$_REQUEST['w_course_period_id']."'";
 			}
 
-			if($_REQUEST['subject_id'])
+			if ( $_REQUEST['subject_id'])
 			{
 				$from .= ",COURSES c";
 				$where .= " AND c.COURSE_ID=cp.COURSE_ID AND c.SUBJECT_ID='".$_REQUEST['subject_id']."'";
 			}
 
 			//FJ multiple school periods for a course period
-			if($_REQUEST['period_id'])
+			if ( $_REQUEST['period_id'])
 			{
 				//$where .= " AND cp.PERIOD_ID='".$_REQUEST['period_id']."'";
 				$where .= " AND cpsp.PERIOD_ID='".$_REQUEST['period_id']."' AND cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID";
@@ -287,7 +288,7 @@ function mySearch($type,$extra='')
 			//$sql = "SELECT cp.COURSE_PERIOD_ID,cp.TITLE,sp.ATTENDANCE FROM COURSE_PERIODS cp,SCHOOL_PERIODS sp$from WHERE cp.SCHOOL_ID='".UserSchool()."' AND cp.SYEAR='".UserSyear()."' AND sp.PERIOD_ID=cp.PERIOD_ID$where";
 			$sql = "SELECT cp.COURSE_PERIOD_ID,cp.TITLE FROM COURSE_PERIODS cp$from WHERE cp.SCHOOL_ID='".UserSchool()."' AND cp.SYEAR='".UserSyear()."'$where";
 		}
-		elseif(User('PROFILE')=='teacher')
+		elseif (User('PROFILE')=='teacher')
 		{
 			//FJ multiple school periods for a course period
 			//$sql = "SELECT cp.COURSE_PERIOD_ID,cp.TITLE,sp.ATTENDANCE FROM COURSE_PERIODS cp,SCHOOL_PERIODS sp WHERE cp.SCHOOL_ID='".UserSchool()."' AND cp.SYEAR='".UserSyear()."' AND cp.TEACHER_ID='".User('STAFF_ID')."' AND sp.PERIOD_ID=cp.PERIOD_ID";
@@ -301,30 +302,29 @@ function mySearch($type,$extra='')
 		}
 		//$sql .= ' ORDER BY sp.PERIOD_ID';
 
-		$course_periods_RET = DBGet(DBQuery($sql),array('COURSE_PERIOD_ID'=>'_makeChooseCheckbox'));
-		$LO_columns = array('COURSE_PERIOD_ID'=>'</A><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'cp_arr\');" checked /><A>','TITLE'=>_('Course Period'));
+		$course_periods_RET = DBGet(DBQuery($sql),array('COURSE_PERIOD_ID' => '_makeChooseCheckbox'));
+		$LO_columns = array('COURSE_PERIOD_ID' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.checked,\'cp_arr\');" checked /><A>','TITLE' => _('Course Period'));
 
-		if(!$_REQUEST['LO_save'] && !$extra['suppress_save'])
+		if ( ! $_REQUEST['LO_save'] && ! $extra['suppress_save'])
 		{
 			$_SESSION['List_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back'));
 
-			if($_SESSION['Back_PHP_SELF']!='course')
+			if ( $_SESSION['Back_PHP_SELF']!='course')
 			{
 				$_SESSION['Back_PHP_SELF'] = 'course';
 				unset($_SESSION['Search_PHP_SELF']);
 			}
 
 			if (User('PROFILE')=='admin' || User('PROFILE')=='teacher')
-				echo '<script>var footer_link = document.createElement("a"); footer_link.href = "Bottom.php"; footer_link.target = "footer"; ajaxLink(footer_link); old_modname="";</script>';
+				echo '<script>ajaxLink("Bottom.php"); old_modname="";</script>';
 		}
 
-		echo '<INPUT type="hidden" name="relation">';
+		echo '<input type="hidden" name="relation">';
 		ListOutput($course_periods_RET,$LO_columns,'Course Period','Course Periods');
 	}
 }
 
 function _makeChooseCheckbox($value,$title)
 {
-	return '<INPUT type="checkbox" name="cp_arr[]" value="'.$value.'" checked />';
+	return '<input type="checkbox" name="cp_arr[]" value="'.$value.'" checked />';
 }
-?>

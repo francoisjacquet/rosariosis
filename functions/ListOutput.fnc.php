@@ -1,132 +1,168 @@
 <?php
+/**
+ * Lists / Listings
+ *
+ * @package RosarioSIS
+ * @subpackage functions
+ */
 
-function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,$group=array(),$options=array())
+function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $link = array(), $group = array(), $options = array() )
 {
-	//FJ bugfix ListOutput sorting when more than one list in a page
-	$LO_sort = $_REQUEST['LO_sort'];
 
-	if(!isset($options['save']))
-		$options['save'] = '1';
-	if(!isset($options['print']))
-		$options['print'] = true;
-	if(!isset($options['search']))
-		$options['search'] = true;
-	if(!isset($options['center']))
-		$options['center'] = true;
-	if(!isset($options['count']))
-		$options['count'] = true;
-	if(!isset($options['sort']))
+	$default_options = array(
+		'save' => '1',
+		'search' => true,
+		'center' => true,
+		'count' => true,
+		'sort' => empty( $group ),
+		'header_color' => Preferences( 'HEADER' ),
+		'responsive' => true,
+		'add' => true,
+	);
+
+	if ( ! empty( $options ) )
 	{
-		//FJ lists with grouping cannot be sorted
-		if(empty($group))
-			$options['sort'] = true;
-		else
-		{
-			$options['sort'] = false;
+		$options = array_replace_recursive( $default_options, $options );
+	}
+	else
+		$options = $default_options;
 
-			unset($LO_sort);
+	if ( $options['sort'] )
+	{
+		//FJ bugfix ListOutput sorting when more than one list in a page
+		$LO_sort = $_REQUEST['LO_sort'];
+	}
+
+	if ( ! $options['add']
+		|| ! AllowEdit()
+		|| isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
+		if ( ! empty( $link ) )
+		{
+			unset( $link['add'] );
+			unset( $link['remove'] );
 		}
 	}
-	/*if(!isset($options['cellpadding']))
-		$options['cellpadding'] = '6';*/
-	if(!isset($options['header_color']))
-		$options['header_color'] = Preferences('HEADER');
-	//FJ add responsive table option
-	//note: should be set to false when the list table have cell content that occupies more than one line height, like the Portal Notes'
-	if(!isset($options['responsive']))
-		$options['responsive'] = true;
 
-	if(!$link)
-		$link = array();
+	$result_count = $display_count = count( $result );
 
-	if(!isset($options['add']))
-	{
-		if(!AllowEdit() || isset($_REQUEST['_ROSARIO_PDF']))
-		{
-			if($link)
-			{
-				unset($link['add']);
-				unset($link['remove']);
-			}
-		}
-	}
+	$num_displayed = 100000;
 
 	// PREPARE LINKS ---
-	$result_count = $display_count = count($result);
-	$num_displayed = 100000;
-	$extra = 'LO_page='.(isset($_REQUEST['LO_page'])?$_REQUEST['LO_page']:'').'&amp;LO_sort='.(isset($LO_sort)?$LO_sort:'').'&amp;LO_direction='.(isset($_REQUEST['LO_direction'])?$_REQUEST['LO_direction']:'').'&amp;LO_search='.(isset($_REQUEST['LO_search'])?urlencode($_REQUEST['LO_search']):'');
+	$extra = 'LO_page=' . ( isset( $_REQUEST['LO_page'] ) ? $_REQUEST['LO_page'] : '' ) .
+		'&amp;LO_sort=' . ( isset( $LO_sort ) ? $LO_sort : '' ) .
+		'&amp;LO_direction=' . ( isset( $_REQUEST['LO_direction'] ) ? $_REQUEST['LO_direction'] : '' ) .
+		'&amp;LO_search=' . ( isset( $_REQUEST['LO_search'] ) ? urlencode( $_REQUEST['LO_search'] ) : '' );
 
-	$PHP_tmp_SELF = PreparePHP_SELF($_REQUEST,array('LO_page','LO_sort','LO_direction','LO_search','LO_save','remove_prompt','remove_name'));
-
+	$PHP_tmp_SELF = PreparePHP_SELF(
+		$_REQUEST,
+		array(
+			'LO_page',
+			'LO_sort',
+			'LO_direction',
+			'LO_search',
+			'LO_save',
+			'remove_prompt',
+			'remove_name'
+		)
+	);
 	// END PREPARE LINKS ---
 
 	// UN-GROUPING
-	if(empty($group))
+	if ( empty( $group ) )
+	{
 		$group_count = false;
+	}
 	else
-		$group_count = count($group);
+		$group_count = count( $group );
 
-	if($group_count && $result_count)
+	if ( $group_count
+		&& $result_count )
 	{
 		$group_result = $result;
-		unset($result);
+
+		unset( $result );
+
 		$result[0] = '';
 
-		foreach($group_result as $item1)
+		foreach ( (array) $group_result as $item1 )
 		{
-			$i=0;
-			foreach($item1 as $item2)
+			$i = 0;
+
+			foreach ( (array) $item1 as $item2 )
 			{
-				if($group_count==1)
+				if ( $group_count == 1 )
 				{
 					$i++;
-					if(count($group[0]) && $i!=1)
+
+					if ( count( $group[0] )
+						&& $i != 1 )
 					{
-//FJ fix error Warning: Invalid argument supplied for foreach()
-//						foreach($group[0] as $column)
-						$group[0]=$column;
-							$item2[$column] = str_replace('<!-- <!--','<!--','<!-- '.str_replace('-->','--><!--',$item2[$column])).' -->&nbsp;';
+						//FJ fix error Warning: Invalid argument supplied for foreach()
+						//foreach ( (array) $group[0] as $column)
+
+						$group[0] = $column;
+
+						$item2[ $column ] = str_replace(
+							'<!-- <!--',
+							'<!--',
+							'<!-- ' . str_replace( '-->', '--><!--', $item2[ $column ] )
+						) . ' -->&nbsp;';
 					}
 					$result[] = $item2;
 				}
 				else
 				{
-					foreach($item2 as $item3)
+					foreach ( (array) $item2 as $item3 )
 					{
-						if($group_count==2)
+						if ( $group_count == 2 )
 						{
 							$i++;
-							if(count($group[0]) && $i!=1)
+
+							if ( count( $group[0] )
+								&& $i != 1 )
 							{
-//FJ fix error Warning: Invalid argument supplied for foreach()
-		//						foreach($group[0] as $column)
-								$group[0]=$column;
-									$item3[$column] = '<!-- '.$item3[$column].' -->';
+								//FJ fix error Warning: Invalid argument supplied for foreach()
+								//foreach ( (array) $group[0] as $column)
+
+								$group[0] = $column;
+
+								$item3[ $column ] = '<!-- ' . $item3[ $column ] . ' -->';
 							}
-							if(count($group[1]) && $i!=1)
+
+							if ( count( $group[1] )
+								&& $i != 1 )
 							{
-//FJ fix error Warning: Invalid argument supplied for foreach()
-//								foreach($group[1] as $column)
-								$group[1]=$column;
-									$item3[$column] = '<!-- '.$item3[$column].' -->';
+								//FJ fix error Warning: Invalid argument supplied for foreach()
+								//foreach ( (array) $group[1] as $column)
+
+								$group[1] = $column;
+
+								$item3[ $column ] = '<!-- ' . $item3[ $column ] . ' -->';
 							}
+
 							//$item3['row_color'] = $color;
 							$result[] = $item3;
 						}
 						else
 						{
-							foreach($item3 as $item4)
+							foreach ( (array) $item3 as $item4 )
 							{
-								if($group_count==3)
+								if ( $group_count == 3 )
 								{
 									$i++;
-									if(count($group[2]) && $i!=1)
+
+									if ( count( $group[2] )
+										&& $i != 1 )
 									{
-//FJ fix error Warning: Invalid argument supplied for foreach()
-//										foreach($group[2] as $column)
-										$group[2]=$column;
-											unset($item4[$column]);
+										//FJ fix error Warning: Invalid argument supplied for foreach()
+										//foreach ( (array) $group[2] as $column)
+
+										$group[2] = $column;
+
+										unset( $item4[ $column ] );
 									}
+
 									//$item4['row_color'] = $color;
 									$result[] = $item4;
 								}
@@ -137,621 +173,896 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 			}
 			$i = 0;
 		}
-		unset($result[0]);
-		$result_count = count($result);
+
+		unset( $result[0] );
+
+		$result_count = count( $result );
 	}
 	// END UN-GROUPING
-	$_LIST['output'] = true;
+
+	//$_LIST['output'] = true;
 
 
 	// PRINT HEADINGS, PREPARE PDF, AND SORT THE LIST ---
-	if($_LIST['output']!=false)
+	/*if ( $_LIST['output']!=false)
+	{*/
+
+	// Add spacing
+	echo '<br />';
+
+	if ( $result_count != 0 )
 	{
-		if($result_count != 0)
+		$count = 0;
+
+		if ( isset( $link['remove']['variables'] ) )
 		{
-			$count = 0;
-			if (isset($link['remove']['variables']))
-				$remove = count($link['remove']['variables']);
-			else
-				$remove = 0;
-			$cols = count($column_names);
+			$remove = count( $link['remove']['variables'] );
+		}
+		else
+			$remove = 0;
 
-			// HANDLE SEARCHES ---
-//FJ fix bug search when only saving
-//			if($result_count && $_REQUEST['LO_search'] && $_REQUEST['LO_search']!='Search')
-			if($result_count && !empty($_REQUEST['LO_search']))
+		$cols = count( $column_names );
+
+		// HANDLE SEARCHES ---
+		if ( $result_count
+			&& !empty( $_REQUEST['LO_search'] ) )
+		{
+			//$_REQUEST['LO_search'] = $search_term = str_replace('\\\"','"',$_REQUEST['LO_search']);
+			//$_REQUEST['LO_search'] = $search_term = preg_replace('/[^a-zA-Z0-9 _"]*/','',mb_strtolower($search_term));
+			$search_term = trim( mb_strtolower( str_replace( "''", "'", $_REQUEST['LO_search'] ) ) );
+
+			if ( mb_substr( $search_term, 0, 1 ) != '"'
+				&& mb_substr( $search_term, -1, 1 ) != '"' )
 			{
-				//$_REQUEST['LO_search'] = $search_term = str_replace('\\\"','"',$_REQUEST['LO_search']);
-				//$_REQUEST['LO_search'] = $search_term = preg_replace('/[^a-zA-Z0-9 _"]*/','',mb_strtolower($search_term));
-				$search_term = mb_strtolower(str_replace("''", "'", $_REQUEST['LO_search']));
-				
-				if(mb_substr($search_term,0,1)!='"' && mb_substr($search_term,-1,1)!='"')
+				$search_term = str_replace( '"', '', $search_term );
+
+				while ( $space_pos = mb_strpos( $search_term, ' ' ) )
 				{
-					$search_term = str_replace('"','',$search_term);
-					while($space_pos = mb_strpos($search_term,' '))
+					$terms[mb_substr( $search_term, 0, $space_pos )] = 1;
+
+					$search_term = mb_substr( $search_term, ( $space_pos + 1 ) );
+				}
+
+				$terms[trim( $search_term )] = 1;
+			}
+			// Search "expression"
+			else
+			{
+				$search_term = str_replace( '"', '', $search_term );
+
+				$terms[ $search_term ] = 1;
+			}
+
+			/* TRANSLATORS: List of words ignored during search operations */
+			$ignored_words = explode( ', ', _( 'of, the, a, an, in' ) );
+
+			foreach ( $ignored_words as $word )
+			{
+				unset( $terms[trim( $word )] );
+			}
+
+			foreach ( (array) $result as $key => $value )
+			{
+				$values[ $key ] = 0;
+
+				foreach ( (array) $value as $val )
+				{
+					//FJ better list searching by isolating the values
+					//$val = preg_replace('/[^a-zA-Z0-9 _]+/','',mb_strtolower($val));
+					$val = mb_strtolower(strip_tags(preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $val)));
+
+					// +25 if Exact match
+					if ( $search_term == $val )
 					{
-						$terms[mb_substr($search_term,0,$space_pos)] = 1;
-						$search_term = mb_substr($search_term,($space_pos+1));
+						$values[ $key ] += 25;
 					}
-					$terms[trim($search_term)] = 1;
-				}
-				else
-				{
-					$search_term = str_replace('"','',$search_term);
-					$terms[trim($search_term)] = 1;
-				}
 
-				/* TRANSLATORS: List of words ignored during search operations */
-				$ignored_words = explode(',',_('of, the, a, an, in'));
-
-				foreach ($ignored_words as $word)
-					unset($terms[trim($word)]);
-
-				foreach($result as $key=>$value)
-				{
-					$values[$key] = 0;
-					foreach($value as $val)
+					// +3 for each Term found
+					foreach ( (array) $terms as $term => $one )
 					{
-						//FJ better list searching by isolating the values
-						//$val = preg_replace('/[^a-zA-Z0-9 _]+/','',mb_strtolower($val));
-						$val = mb_strtolower(strip_tags(preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $val)));
-
-						//if(mb_strtolower($_REQUEST['LO_search'])==$val)
-						if($search_term==$val)
-							$values[$key] += 25;
-
-						foreach($terms as $term=>$one)
+						if ( mb_strpos( $val, $term ) !== FALSE )
 						{
-							if(mb_strpos($val,$term)!==FALSE)
-								$values[$key] += 3;
+							$values[ $key ] += 3;
 						}
 					}
-					if($values[$key]==0)
-					{
-						unset($values[$key]);
-						unset($result[$key]);
-						$result_count--;
-						$display_count--;
-					}
 				}
-				if($result_count)
+
+				if ( $values[ $key ] == 0 )
 				{
-					array_multisort($values,SORT_DESC,$result);
-					$result = _ReindexResults($result);
-					$values = _ReindexResults($values);
+					unset( $values[ $key ] );
 
-					$last_value = 1;
-					$scale = (100/$values[$last_value]);
+					unset( $result[ $key ] );
 
-					for($i=$last_value;$i<=$result_count;$i++)
-						$result[$i]['RELEVANCE'] = '<!--' . ((int) ($values[$i]*$scale)) . '--><div class="bar relevance" style="width:'.((int) ($values[$i]*$scale)).'px;">&nbsp;</div>';
-				}
-				$column_names['RELEVANCE'] = _('Relevance');
+					$result_count--;
 
-				if(is_array($group) && count($group))
-				{
-					$options['count'] == false;
-					$display_zero = true;
+					$display_count--;
 				}
 			}
 
-			// END SEARCHES ---
-
-			if(!empty($LO_sort))
+			// Add Relevance column
+			if ( $result_count )
 			{
-				foreach($result as $sort)
-				{
-					if(mb_substr($sort[$LO_sort],0,4)!='<!--')
-						//FJ better list sorting by isolating the values
-						//$sort_array[] = $sort[$LO_sort];
-						$sort_array[] = strip_tags(preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $sort[$LO_sort]));
-					else
-						$sort_array[] = mb_substr($sort[$LO_sort],4,mb_strpos($sort[$LO_sort],'-->')-5);
-				}
+				array_multisort( $values, SORT_DESC, $result );
 
-				if($_REQUEST['LO_direction']==-1)
-					$dir = SORT_DESC;
+				$result = _ReindexResults( $result );
+
+				$values = _ReindexResults( $values );
+
+				$last_value = 1;
+
+				$scale = ( 100 / $values[ $last_value ] );
+
+				for ( $i = $last_value; $i <= $result_count; $i++ )
+				{
+					$score = (int)( $values[ $i ] * $scale );
+
+					$result[ $i ]['RELEVANCE'] = '<!--' . $score . '-->
+						<div class="bar relevance" style="width:' . $score . 'px;">&nbsp;</div>';
+				}
+			}
+
+			$column_names['RELEVANCE'] = _( 'Relevance' );
+
+			if ( is_array( $group )
+				&& count( $group ) )
+			{
+				$options['count'] = false;
+
+				$display_zero = true;
+			}
+		}
+		// END SEARCHES ---
+
+		if ( !empty( $LO_sort ) )
+		{
+			foreach ( (array) $result as $sort )
+			{
+				if ( mb_substr( $sort[ $LO_sort ], 0, 4 ) != '<!--' )
+				{
+					//FJ better list sorting by isolating the values
+					//$sort_array[] = $sort[ $LO_sort ];
+					$sort_array[] = strip_tags( preg_replace(
+						'/<script\b[^>]*>(.*?)<\/script>/is',
+						"",
+						$sort[ $LO_sort ]
+					) );
+				}
+				// Use value inside comment to sort!
 				else
-					$dir = SORT_ASC;
-
-				if($result_count>1)
 				{
-					if(is_int($sort_array[1]) || is_double($sort_array[1]))
-						array_multisort($sort_array,$dir,SORT_NUMERIC,$result);
-					else
-						array_multisort($sort_array,$dir,$result);
-					for($i=$result_count-1;$i>=0;$i--)
-						$result[$i+1] = $result[$i];
-					unset($result[0]);
+					$sort_array[] = mb_substr(
+						$sort[ $LO_sort ],
+						4,
+						mb_strpos( $sort[ $LO_sort ], '-->' ) - 5
+					);
 				}
 			}
-		}
 
-		// HANDLE SAVING THE LIST ---
-		if($options['save'] && $_REQUEST['LO_save']==$options['save'])
-		{
-			if(!$options['save_delimiter'] && Preferences('DELIMITER')=='CSV')
-				$options['save_delimiter'] = 'comma';
-			switch($options['save_delimiter'])
+			if ( $_REQUEST['LO_direction'] == -1 )
 			{
-				case 'comma':
-					$extension = 'csv';
-				break;
-				case 'xml':
-					$extension = 'xml';
-				break;
-				default:
-					$extension = 'xls';
-				break;
+				$dir = SORT_DESC;
 			}
-			ob_end_clean();
-			if($options['save_delimiter']!='xml')
+			else
+				$dir = SORT_ASC;
+
+
+			if ( $result_count > 1 )
 			{
-				foreach($column_names as $key=>$value)
+				if ( is_int( $sort_array[1] )
+					|| is_double( $sort_array[1] ) )
 				{
-					$value = ParseMLField($value);
-					if($options['save_delimiter']=='comma' && !$options['save_quotes'])
-						$value = str_replace(',',';',$value);
-					$output .= ($options['save_quotes']?'"':'') . str_ireplace('&nbsp;',' ',str_ireplace('<BR />',' ',preg_replace('/<!--.*-->/','',$value))) . ($options['save_quotes']?'"':'') . ($options['save_delimiter']=='comma'?',':"\t");
+					array_multisort( $sort_array, $dir, SORT_NUMERIC, $result );
 				}
-				$output .= "\n";
-			}
-			foreach($result as $item)
-			{
-				foreach($column_names as $key=>$value)
+				else
+					array_multisort( $sort_array, $dir, $result );
+
+				for ( $i = $result_count - 1; $i >= 0; $i-- )
 				{
-					$value = $item[$key];
-					if($options['save_delimiter']=='comma' && !$options['save_quotes'])
-						$value = str_replace(',',';',$value);
-					$value = preg_replace('!<SELECT.*SELECTED\>([^<]+)<.*</SELECT\>!i','\\1',$value);
-					$value = preg_replace('!<SELECT.*</SELECT\>!i','',$value);
-					$output .= ($options['save_quotes']?'"':'') . ($options['save_delimiter']=='xml'?'<'.str_replace(' ','',$value).'>':'') . trim(str_replace('  ',' ',preg_replace('/<[^>]+>/',' ',preg_replace("/<div onclick='[^']+'>/",'',preg_replace('/ +/',' ',preg_replace('/&[^;]+;/','',str_replace("\r",'',str_replace("\n",'',str_ireplace('<BR />',' ',str_ireplace('<BR />&middot;',' : ',str_ireplace('&nbsp;',' ',$value))))))))))) . ($options['save_delimiter']=='xml'?'</'.str_replace(' ','',$value).'>'."\n":'') . ($options['save_quotes']?'"':'') . ($options['save_delimiter']=='comma'?',':"\t");
+					$result[$i + 1] = $result[ $i ];
 				}
-				$output .= "\n";
+
+				unset( $result[0] );
 			}
-//FJ accents problem + Arabic chars
-//http://stackoverflow.com/questions/6002256/is-it-possible-to-force-excel-recognize-utf-8-csv-files-automatically
-			if ($extension == 'xls') //convert to for Excel only, CSV in UTF8
-				$output = utf8_decode($output);
-
-			header("Cache-Control: public");
-			header("Content-Type: application/$extension");
-			header("Content-Length: " . strlen($output));
-			header("Content-Disposition: inline; filename=\"".ProgramTitle().".$extension\"\n");
-
-			echo $output;
-			exit();
 		}
-		// END SAVING THE LIST ---
+	}
 
-		if(($options['count'] || $display_zero) && ((($result_count==0 || $display_count==0) && $plural) || ($result_count==0 || $display_count==0)))
+	// HANDLE SAVING THE LIST ---
+	if ( $options['save']
+		&& $_REQUEST['LO_save'] == $options['save']
+		&& ! headers_sent() )
+	{
+		_listSave( $result, $column_names, $singular, $plural, Preferences( 'DELIMITER' ) );
+	}
+	// END SAVING THE LIST ---
+
+	if (($options['count'] || $display_zero) && ((($result_count==0 || $display_count==0) && $plural) || ($result_count==0 || $display_count==0)))
+	{
+		echo '<table class="';
+
+		if (isset($_REQUEST['_ROSARIO_PDF']))
+			echo ' width-100p';
+
+		if ( $options['center'])
+			echo ' center';
+
+		echo '"><tr><td class="center">';
+	}
+
+	if ( $options['count'] || $display_zero)
+	{
+		if ( $result_count==0 || $display_count==0)
 		{
-			echo '<TABLE class="';
-
-			if(isset($_REQUEST['_ROSARIO_PDF']))
-				echo ' width-100p';
-
-			if($options['center'])
-				echo ' center';
-
-			echo '"><TR><TD class="center">';
-		}
-
-		if($options['count'] || $display_zero)
-		{
-			if($result_count==0 || $display_count==0)
-			{
 //FJ fix bug ngettext when the plural form is not registered as this in the rosario.po file
 //                echo "<b>".sprintf(_('No %s were found.'),ngettext($singular, $plural, 0))."</b> &nbsp; &nbsp;";
-				$singular_message = ngettext($singular, $plural, 0);
-				if ($singular_message == $singular)
-				{
-					$singular_message = _($singular);
-				}
-                echo '<b>'.sprintf(_('No %s were found.'),$singular_message).'</b> &nbsp; &nbsp;';
-			}
-		}
-
-		if($result_count!=0 || !empty($_REQUEST['LO_search']))
-		{
-			if(!isset($_REQUEST['_ROSARIO_PDF']))
+			$singular_message = ngettext($singular, $plural, 0);
+			if ( $singular_message == $singular)
 			{
-				if(empty($_REQUEST['LO_page']))
-					$_REQUEST['LO_page'] = 1;
+				$singular_message = _($singular);
+			}
+            echo '<b>'.sprintf(_('No %s were found.'),$singular_message).'</b> &nbsp; &nbsp;';
+		}
+	}
 
-				if($_REQUEST['LO_page'] < 1) //FJ check LO_page
-					$_REQUEST['LO_page'] = 1;
+	if ( $result_count!=0 || !empty($_REQUEST['LO_search']))
+	{
+		if ( !isset($_REQUEST['_ROSARIO_PDF']))
+		{
+			if (empty($_REQUEST['LO_page']))
+				$_REQUEST['LO_page'] = 1;
 
-				if(empty($_REQUEST['LO_direction']))
-					$_REQUEST['LO_direction'] = 1;
+			if ( $_REQUEST['LO_page'] < 1) //FJ check LO_page
+				$_REQUEST['LO_page'] = 1;
 
-				$start = ($_REQUEST['LO_page'] - 1) * $num_displayed + 1;
-				$stop = $start + ($num_displayed-1);
+			if (empty($_REQUEST['LO_direction']))
+				$_REQUEST['LO_direction'] = 1;
 
-				if($stop > $result_count)
-					$stop = $result_count;
+			$start = ($_REQUEST['LO_page'] - 1) * $num_displayed + 1;
+			$stop = $start + ($num_displayed-1);
 
-				/*if($result_count > $num_displayed)
+			if ( $stop > $result_count)
+				$stop = $result_count;
+
+			/*if ( $result_count > $num_displayed)
+			{
+				$where_message = "".sprintf(_('Displaying %d through %d'),$start,$stop)."";
+				if (ceil($result_count/$num_displayed) <= 10)
 				{
-					$where_message = "".sprintf(_('Displaying %d through %d'),$start,$stop)."";
-					if(ceil($result_count/$num_displayed) <= 10)
-					{	
-						$ceil = ceil($result_count/$num_displayed);
-						for($i=1;$i<=$ceil;$i++)
-						{
-							if($i!=$_REQUEST['LO_page'])
-								$LO_pages .= '<A HREF="'.$PHP_tmp_SELF.'&amp;LO_sort='.$LO_sort.'&amp;LO_direction='.$_REQUEST['LO_direction'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;LO_page='.$i.'">'.$i.'</A>, ';
-							else
-								$LO_pages .= $i.', ';
-						}
-						$LO_pages = mb_substr($LO_pages,0,-2) . "<BR />";
-					}
-					else
+					$ceil = ceil($result_count/$num_displayed);
+					for ( $i=1;$i<=$ceil;$i++)
 					{
-						for($i=1;$i<=7;$i++)
-						{
-							if($i!=$_REQUEST['LO_page'])
-								$LO_pages .= '<A HREF="'.$PHP_tmp_SELF.'&amp;LO_sort='.$LO_sort.'&amp;LO_direction='.$_REQUEST['LO_direction'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;LO_page='.$i.'">'.$i.'</A>, ';
-							else
-								$LO_pages .= $i.', ';
-						}
-						$LO_pages = mb_substr($LO_pages,0,-2) . " ... ";
-						$ceil = ceil($result_count/$num_displayed);
-						for($i=$ceil-2;$i<=$ceil;$i++)
-						{
-							if($i!=$_REQUEST['LO_page'])
-								$LO_pages .= '<A HREF="'.$PHP_tmp_SELF.'&amp;LO_sort='.$LO_sort.'&amp;LO_direction='.$_REQUEST['LO_direction'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;LO_page='.$i.'">'.$i.'</A>, ';
-							else
-								$LO_pages .= $i.', ';
-						}
-						$LO_pages = mb_substr($LO_pages,0,-2) . ' &nbsp;<A HREF="'.$PHP_tmp_SELF.'&amp;LO_sort='.$LO_sort.'&amp;LO_direction='.$_REQUEST['LO_direction'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;LO_page=' . ($_REQUEST['LO_page'] +1) . '">'._('Next LO_page').'</A><BR />';
+						if ( $i!=$_REQUEST['LO_page'])
+							$LO_pages .= '<a href="'.$PHP_tmp_SELF.'&amp;LO_sort='.$LO_sort.'&amp;LO_direction='.$_REQUEST['LO_direction'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;LO_page='.$i.'">'.$i.'</a>, ';
+						else
+							$LO_pages .= $i.', ';
 					}
-					echo sprintf(_('Go to LO_page %s'),$LO_pages);
-					echo '</TD></TR></TABLE>';
-					echo '<BR />';
+					$LO_pages = mb_substr($LO_pages,0,-2) . "<br />";
+				}
+				else
+				{
+					for ( $i=1;$i<=7;$i++)
+					{
+						if ( $i!=$_REQUEST['LO_page'])
+							$LO_pages .= '<a href="'.$PHP_tmp_SELF.'&amp;LO_sort='.$LO_sort.'&amp;LO_direction='.$_REQUEST['LO_direction'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;LO_page='.$i.'">'.$i.'</a>, ';
+						else
+							$LO_pages .= $i.', ';
+					}
+					$LO_pages = mb_substr($LO_pages,0,-2) . " ... ";
+					$ceil = ceil($result_count/$num_displayed);
+					for ( $i=$ceil-2;$i<=$ceil;$i++)
+					{
+						if ( $i!=$_REQUEST['LO_page'])
+							$LO_pages .= '<a href="'.$PHP_tmp_SELF.'&amp;LO_sort='.$LO_sort.'&amp;LO_direction='.$_REQUEST['LO_direction'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;LO_page='.$i.'">'.$i.'</a>, ';
+						else
+							$LO_pages .= $i.', ';
+					}
+					$LO_pages = mb_substr($LO_pages,0,-2) . ' &nbsp;<a href="'.$PHP_tmp_SELF.'&amp;LO_sort='.$LO_sort.'&amp;LO_direction='.$_REQUEST['LO_direction'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;LO_page=' . ($_REQUEST['LO_page'] +1) . '">'._('Next LO_page').'</a><br />';
+				}
+				echo sprintf(_('Go to LO_page %s'),$LO_pages);
+				echo '</td></tr></table>';
+				echo '<br />';
+			}*/
+		}
+		else
+		{
+			$start = 1;
+			$stop = $result_count;
+			if ( $cols>8 || $_REQUEST['expanded_view'])
+			{
+				//FJ wkhtmltopdf
+				$_SESSION['orientation'] = 'landscape';
+			}
+
+			if ( $options['print'])
+			{
+//FJ bug PDF
+/*					$html = explode('<div style="page-break-after: always;"></div>',mb_strtolower(ob_get_contents()));
+				$html = $html[count($html)-1];
+				echo '</td></tr></table>';
+				$br = (mb_substr_count($html,'<br />')) + (mb_substr_count($html,'</p>')) + (mb_substr_count($html,'</tr>')) + (mb_substr_count($html,'</h1>')) + (mb_substr_count($html,'</h2>')) + (mb_substr_count($html,'</h3>')) + (mb_substr_count($html,'</h4>')) + (mb_substr_count($html,'</h5>'));
+				if ( $br%2!=0)
+				{
+					$br++;
+					echo '<br />';
 				}*/
 			}
 			else
-			{
-				$start = 1;
-				$stop = $result_count;
-				if($cols>8 || $_REQUEST['expanded_view'])
-				{
-					//FJ wkhtmltopdf
-					$_SESSION['orientation'] = 'landscape';
-				}
+				echo '</td></tr></table>';
+		}
+		// END MISC ---
 
-				if($options['print'])
-				{
-//FJ bug PDF
-/*					$html = explode('<div style="page-break-after: always;"></div>',mb_strtolower(ob_get_contents()));
-					$html = $html[count($html)-1];
-					echo '</TD></TR></TABLE>';
-					$br = (mb_substr_count($html,'<BR />')) + (mb_substr_count($html,'</p>')) + (mb_substr_count($html,'</tr>')) + (mb_substr_count($html,'</h1>')) + (mb_substr_count($html,'</h2>')) + (mb_substr_count($html,'</h3>')) + (mb_substr_count($html,'</h4>')) + (mb_substr_count($html,'</h5>'));
-					if($br%2!=0)
-					{
-						$br++;
-						echo '<BR />';
-					}*/
-				}
-				else
-					echo '</TD></TR></TABLE>';
-			}
-			// END MISC ---
+		// SEARCH BOX & MORE HEADERS
+		if ( !empty($options['header']))
+			echo '<table class="postbox width-100p cellspacing-0" style="margin-bottom:0px; border-bottom:solid 1px #f1f1f1;"><thead><tr><th class="center">' . $options['header'] . '</th></tr></thead></table>
+				<div class="postbox" style="padding:5px; border-top:none; border-top-left-radius:0px; border-top-right-radius:0px; box-shadow: none;">';
 
-			// SEARCH BOX & MORE HEADERS
-			if(!empty($options['header']))
-				echo '<TABLE class="postbox width-100p cellspacing-0" style="margin-bottom:0px; border-bottom:solid 1px #f1f1f1;"><TR><TD class="center">'.$options['header'].'</TD></TR></TABLE><div class="postbox" style="padding:5px; border-top:none; border-top-left-radius:0px; border-top-right-radius:0px; box-shadow: none;">';
-				
-			if(!empty($where_message) || (($singular!='.') && ($plural!='.')) || (!isset($_REQUEST['_ROSARIO_PDF']) && $options['search']))
+		if ( !empty($where_message) || (($singular!='.') && ($plural!='.')) || (!isset($_REQUEST['_ROSARIO_PDF']) && $options['search']))
+		{
+			echo '<table class="width-100p">';
+			echo '<tr class="st"><td>';
+			if (($singular!='.') && ($plural!='.') && $options['count'])
 			{
-				echo '<TABLE class="width-100p">';
-				echo '<TR class="st"><TD>';
-				if(($singular!='.') && ($plural!='.') && $options['count'])
+				if ( $display_count>0)
 				{
-					if($display_count>0)
-					{
 //FJ fix bug ngettext when the plural form is not registered as this in the rosario.po file
 //						echo "<b>".sprintf(ngettext('%d %s was found.','%d %s were found.', $display_count), $display_count, ngettext($singular, $plural, $display_count))."</b> &nbsp; &nbsp;";
-						$plural_message = ngettext($singular, $plural, $display_count);
-						if (($plural_message == $plural || ($plural_message == _($singular) && $display_count!=1)) && _($plural)!=$plural)
-						{
-							$plural_message = _($plural);
-							if ($display_count==1) 
-								$plural_message = _($singular);
-						}
-						echo '<b>'.sprintf(ngettext('%d %s was found.','%d %s were found.', $display_count), $display_count, $plural_message).'</b>&nbsp;&nbsp;';
+					$plural_message = ngettext($singular, $plural, $display_count);
+					if (($plural_message == $plural || ($plural_message == _($singular) && $display_count!=1)) && _($plural)!=$plural)
+					{
+						$plural_message = _($plural);
+						if ( $display_count==1)
+							$plural_message = _($singular);
 					}
-					if(!empty($where_message))
-						echo '<BR />'.$where_message;
+					echo '<b>'.sprintf(ngettext('%d %s was found.','%d %s were found.', $display_count), $display_count, $plural_message).'</b>&nbsp;&nbsp;';
 				}
-
-				if($options['save'] && !isset($_REQUEST['_ROSARIO_PDF']) && $result_count>0)
-					echo '<A HREF="'.$PHP_tmp_SELF.'&amp;'.$extra.'&amp;LO_save='.$options['save'].'&amp;_ROSARIO_PDF=true" target="_blank"><IMG SRC="assets/themes/'. Preferences('THEME') .'/btn/download.png" class="alignImg" title="'._('Export list').'" /></A>';
-
-				echo '</TD>';
-				$colspan = 1;
-				if(!isset($_REQUEST['_ROSARIO_PDF']) && $options['search'])
-				{
-					echo '<TD style="text-align:right">';
-					echo '<script>var LO_searchonclick = document.createElement("a"); LO_searchonclick.href = "'.PreparePHP_SELF($_REQUEST,array('LO_search','LO_page')).'&LO_search="; LO_searchonclick.target = "body";</script>';
-					echo '<INPUT type="text" id="LO_search" name="LO_search" value="'.htmlspecialchars($_REQUEST['LO_search'],ENT_QUOTES).'" placeholder="'._('Search').'" onkeypress="if(event.keyCode==13 && this.value!=\'\'){LO_searchonclick.href += this.value; ajaxLink(LO_searchonclick); return false;}" /><INPUT type="button" value="'._('Go').'" onclick="if(document.getElementById(\'LO_search\').value!=\'\'){LO_searchonclick.href += document.getElementById(\'LO_search\').value; ajaxLink(LO_searchonclick);}" /></TD>';
-					$colspan++;
-				}
-
-				echo '</TR></TABLE>';
+				if ( !empty($where_message))
+					echo '<br />'.$where_message;
 			}
 
-			echo '<div style="overflow-x:auto;"><TABLE class="widefat width-100p cellspacing-0 '.($options['responsive'] && !isset($_REQUEST['_ROSARIO_PDF']) ? 'rt' : '').'">';
-			echo '<THEAD><TR>';
+			if ( $options['save'] && !isset($_REQUEST['_ROSARIO_PDF']) && $result_count>0)
+				echo '<a href="'.$PHP_tmp_SELF.'&amp;'.$extra.'&amp;LO_save='.$options['save'].'&amp;_ROSARIO_PDF=true" target="_blank"><img src="assets/themes/'. Preferences('THEME') .'/btn/download.png" class="alignImg" title="'._('Export list').'" /></a>';
 
-			$i = 1;
-			if($remove && !isset($_REQUEST['_ROSARIO_PDF']) && $result_count!=0)
+			echo '</td>';
+
+			$colspan = 1;
+
+			if ( ! isset( $_REQUEST['_ROSARIO_PDF'] )
+				&& $options['search'] )
 			{
-				echo '<TH>&nbsp;</TH>';
+				echo '<td class="align-right">';
+
+				// Do not remove search URL due to document.URL = 'index.php' in old IE browsers.
+				$search_URL = PreparePHP_SELF( $_REQUEST, array( 'LO_search' ) );
+
+				echo '<input type="text" id="LO_search" name="LO_search" value="' .
+					htmlspecialchars( $_REQUEST['LO_search'], ENT_QUOTES ) .
+					'" placeholder="' . _( 'Search' ) . '" onkeypress="LOSearch(event, this.value, \'' .
+						$search_URL . '\');" />
+					<input type="button" value="' . _( 'Go' ) .
+					'" onclick="LOSearch(false, $(\'#LO_search\').value, \'' .
+						$search_URL . '\');" /></td>';
+
+				$colspan++;
+			}
+
+			echo '</tr></table>';
+		}
+
+		echo '<div style="overflow-x:auto;"><table class="list widefat width-100p cellspacing-0 '.($options['responsive'] && !isset($_REQUEST['_ROSARIO_PDF']) ? 'rt' : '').'">';
+		echo '<thead><tr>';
+
+		$i = 1;
+		if ( $remove && !isset($_REQUEST['_ROSARIO_PDF']) && $result_count!=0)
+		{
+			echo '<th>&nbsp;</th>';
+			$i++;
+		}
+
+		if ( $result_count!=0 && $cols)
+		{
+			foreach ( (array) $column_names as $key => $value)
+			{
+				if (isset($LO_sort) && $LO_sort==$key)
+					$direction = -1 * $_REQUEST['LO_direction'];
+				else
+					$direction = 1;
+
+				if (isset($_REQUEST['_ROSARIO_PDF']))
+				{
+					echo '<td style="background-color:'.$options['header_color'].'; color:#fff;"><b>';
+					echo ParseMLField($value);
+					echo '</b></td>';
+				}
+				else
+				{
+					echo '<th>';
+
+					if ( $options['sort'] )
+						echo '<a href="'.$PHP_tmp_SELF.'&amp;LO_page='.$_REQUEST['LO_page'].'&amp;LO_sort='.$key.'&amp;LO_direction='.$direction.'&amp;LO_search='.urlencode(isset($_REQUEST['LO_search'])?$_REQUEST['LO_search']:'') . '">' .
+							ParseMLField( $value ) .
+						'</a>';
+					else
+						echo ParseMLField( $value );
+
+					echo '</th>';
+				}
 				$i++;
 			}
+		}
 
-			if($result_count!=0 && $cols)
+		echo '</tr></thead><tbody>';
+
+		// mab - enable add link as first or last
+		if ( $result_count!=0 && isset($link['add']['first']) && ($stop-$start+1)>=$link['add']['first'])
+		{
+			if ( $link['add']['link'] && !isset($_REQUEST['_ROSARIO_PDF']))
+				echo '<tr><td colspan="'.($remove?$cols+1:$cols).'">'.button('add',$link['add']['title'],$link['add']['link']).'</td></tr>';
+			elseif ( $link['add']['span'] && !isset($_REQUEST['_ROSARIO_PDF']))
+				echo '<tr><td colspan="'.($remove?$cols+1:$cols).'">'.button('add').$link['add']['span'].'</td></tr>';
+			elseif ( $link['add']['html'] && $cols)
 			{
-				foreach($column_names as $key=>$value)
+				echo '<tr>';
+				if ( $remove && !isset($_REQUEST['_ROSARIO_PDF']) && $link['add']['html']['remove'])
+					echo '<td>'.$link['add']['html']['remove'].'</td>';
+				elseif ( $remove && !isset($_REQUEST['_ROSARIO_PDF']))
+					echo '<td>'.button('add').'</td>';
+
+				foreach ( (array) $column_names as $key => $value)
 				{
-					if(isset($LO_sort) && $LO_sort==$key)
-						$direction = -1 * $_REQUEST['LO_direction'];
-					else
-						$direction = 1;
-
-					if (isset($_REQUEST['_ROSARIO_PDF']))
-					{
-						echo '<TD style="background-color:'.$options['header_color'].'; color:#fff;"><b>';
-						echo ParseMLField($value);
-						echo '</b></span></TD>';
-					}
-					else
-					{
-						echo '<TH><A ';
-
-						if($options['sort'])
-							echo 'HREF="'.$PHP_tmp_SELF.'&amp;LO_page='.$_REQUEST['LO_page'].'&amp;LO_sort='.$key.'&amp;LO_direction='.$direction.'&amp;LO_search='.urlencode(isset($_REQUEST['LO_search'])?$_REQUEST['LO_search']:'');
-
-						echo '">'.ParseMLField($value).'</A></TH>';
-					}
-					$i++;
+					echo '<td>'.$link['add']['html'][ $key ].'</td>';
 				}
-			}
-
-			echo '</TR></THEAD><TBODY>';
-
-			// mab - enable add link as first or last
-			if($result_count!=0 && isset($link['add']['first']) && ($stop-$start+1)>=$link['add']['first'])
-			{
-				if($link['add']['link'] && !isset($_REQUEST['_ROSARIO_PDF']))
-					echo '<TR><TD colspan="'.($remove?$cols+1:$cols).'">'.button('add',$link['add']['title'],$link['add']['link']).'</TD></TR>';
-				elseif($link['add']['span'] && !isset($_REQUEST['_ROSARIO_PDF']))
-					echo '<TR><TD colspan="'.($remove?$cols+1:$cols).'">'.button('add').$link['add']['span'].'</TD></TR>';
-				elseif($link['add']['html'] && $cols)
-				{
-					echo '<TR>';
-					if($remove && !isset($_REQUEST['_ROSARIO_PDF']) && $link['add']['html']['remove'])
-						echo '<TD>'.$link['add']['html']['remove'].'</TD>';
-					elseif($remove && !isset($_REQUEST['_ROSARIO_PDF']))
-						echo '<TD>'.button('add').'</TD>';
-
-					foreach($column_names as $key=>$value)
-					{
-						echo '<TD>'.$link['add']['html'][$key].'</TD>';
-					}
-					echo '</TR>';
-					$count++;
-				}
-			}
-
-			for($i=$start;$i<=$stop;$i++)
-			{
-				$item = $result[$i];
-				if(isset($_REQUEST['_ROSARIO_PDF']) && $options['print'] && count($item))
-				{
-					//modify loop: use for instead of foreach
-					$key = array_keys($item);
-					$size = sizeOf($key);
-					for ($j=0; $j<$size; $j++)
-					{
-						$value = preg_replace('!<SELECT.*SELECTED\>([^<]+)<.*</SELECT\>!i','\\1',$item[$key[$j]]);
-						$value = preg_replace('!<SELECT.*</SELECT\>!i','',$value);
-						$item[$key[$j]] = preg_replace("/<div onclick=[^']+'>/",'',$value);
-					}
-					
-					/*foreach($item as $key=>$value)
-					{
-						$value = preg_replace('!<SELECT.*SELECTED\>([^<]+)<.*</SELECT\>!i','\\1',$value);
-						$value = preg_replace('!<SELECT.*</SELECT\>!i','',$value);
-
-						$item[$key] = preg_replace("/<div onclick=[^']+'>/",'',$value);
-					}*/
-				}
-
-				if(!empty($item['row_color']))
-					$color = $item['row_color'];
-				else
-					$color = '';
-
-				echo '<TR>';
+				echo '</tr>';
 				$count++;
+			}
+		}
 
-				if($remove && !isset($_REQUEST['_ROSARIO_PDF']))
+		for ( $i=$start;$i<=$stop;$i++)
+		{
+			$item = $result[ $i ];
+			if (isset($_REQUEST['_ROSARIO_PDF']) && $options['print'] && count($item))
+			{
+				//modify loop: use for instead of foreach
+				$key = array_keys($item);
+				$size = count($key);
+				for ($j=0; $j<$size; $j++)
 				{
-					$button_title = $link['remove']['title'];
-					$button_link = $link['remove']['link'];
-					if(count($link['remove']['variables']))
-					{
-						foreach($link['remove']['variables'] as $var=>$val)
-							$button_link .= "&$var=" . urlencode($item[$val]);
-					}
-
-					echo '<TD>' . button('remove',$button_title,'"'.$button_link.'"') . '</TD>';
+					$value = preg_replace('!<select.*selected\>([^<]+)<.*</select\>!i','\\1',$item[$key[ $j ]]);
+					$value = preg_replace('!<select.*</select\>!i','',$value);
+					$item[$key[ $j ]] = preg_replace("/<div onclick=[^']+'>/",'',$value);
 				}
 
-				if($cols)
+				/*foreach ( (array) $item as $key => $value)
 				{
-					foreach($column_names as $key=>$value)
+					$value = preg_replace('!<select.*selected\>([^<]+)<.*</select\>!i','\\1',$value);
+					$value = preg_replace('!<select.*</select\>!i','',$value);
+
+					$item[ $key ] = preg_replace("/<div onclick=[^']+'>/",'',$value);
+				}*/
+			}
+
+			if ( !empty($item['row_color']))
+				$color = $item['row_color'];
+			else
+				$color = '';
+
+			echo '<tr>';
+			$count++;
+
+			if ( $remove && !isset($_REQUEST['_ROSARIO_PDF']))
+			{
+				$button_title = $link['remove']['title'];
+				$button_link = $link['remove']['link'];
+				if (count($link['remove']['variables']))
+				{
+					foreach ( (array) $link['remove']['variables'] as $var => $val)
+						$button_link .= "&$var=" . urlencode($item[ $val ]);
+				}
+
+				echo '<td>' . button('remove',$button_title,'"'.$button_link.'"') . '</td>';
+			}
+
+			if ( $cols)
+			{
+				foreach ( (array) $column_names as $key => $value)
+				{
+					if ( !empty($link[ $key ]) && $item[ $key ]!==false && !isset($_REQUEST['_ROSARIO_PDF']))
 					{
-						if(!empty($link[$key]) && $item[$key]!==false && !isset($_REQUEST['_ROSARIO_PDF']))
+						if ( $color==Preferences('HIGHLIGHT'))
+							echo '<td class="highlight">';
+						else
+							echo '<td>';
+						if ( !empty($link[ $key ]['js']))
 						{
-							if($color==Preferences('HIGHLIGHT'))
-								echo '<TD class="highlight">';
-							else
-								echo '<TD>';
-							if(!empty($link[$key]['js']))
+							echo '<a href="#" onclick=\'popups.open("' . $link[ $key ]['link'];
+
+							if ( count( $link[ $key ]['variables'] ) )
 							{
-								echo '<A HREF="#" onclick=\'window.open("'.$link[$key]['link'];
-								if(count($link[$key]['variables']))
-								{
-									foreach($link[$key]['variables'] as $var=>$val)
-										echo "&$var=".urlencode($item[$val]);
-								}
-								echo '","","scrollbars=yes,resizable=yes,width=800,height=400");\'';
-								if($link[$key]['extra'])
-									echo ' '.$link[$key]['extra'];
-								echo '>';
+								foreach ( (array) $link[ $key ]['variables'] as $var => $val )
+									echo "&$var=".urlencode($item[ $val ]);
 							}
-							else
-							{
-								echo '<A HREF="'.$link[$key]['link'];
-								if(count($link[$key]['variables']))
-								{
-									foreach($link[$key]['variables'] as $var=>$val)
-										echo '&'.$var.'='.urlencode($item[$val]);
-								}
-								echo '"';
-								if(!empty($link[$key]['extra']))
-									echo ' '.$link[$key]['extra'];
-								echo '>';
-							}
-							echo $item[$key];
-							if(!$item[$key])
-								echo '***';
-							echo '</A>';
-							echo '</TD>';
+
+							echo '"); return false;\'';
+
+							if ( $link[ $key ]['extra'])
+								echo ' '.$link[ $key ]['extra'];
+							echo '>';
 						}
 						else
 						{
-							if($color==Preferences('HIGHLIGHT'))
-								echo '<TD class="highlight">';
-							else
-								echo '<TD>';
-							echo $item[$key];
-							if(!$item[$key])
-								echo '&nbsp;';
-							echo '</TD>';
+							echo '<a href="'.$link[ $key ]['link'];
+							if (count($link[ $key ]['variables']))
+							{
+								foreach ( (array) $link[ $key ]['variables'] as $var => $val)
+									echo '&'.$var.'='.urlencode($item[ $val ]);
+							}
+							echo '"';
+							if ( !empty($link[ $key ]['extra']))
+								echo ' '.$link[ $key ]['extra'];
+							echo '>';
 						}
+						echo $item[ $key ];
+						if ( ! $item[ $key ])
+							echo '***';
+						echo '</a>';
+						echo '</td>';
 					}
-				}
-				echo '</TR>';
-			}
-
-			if($result_count!=0 && (!isset($link['add']['first']) || ($stop-$start+1)<$link['add']['first']))
-			{
-				//if($remove && !isset($_REQUEST['_ROSARIO_PDF']))
-				//	$cols++;
-				if(isset($link['add']['link']) && !isset($_REQUEST['_ROSARIO_PDF']))
-					echo '<TR><TD colspan="'.($remove?$cols+1:$cols).'">'.button('add',$link['add']['title'],$link['add']['link']).'</TD></TR>';
-				elseif(isset($link['add']['span']) && !isset($_REQUEST['_ROSARIO_PDF']))
-					echo '<TR><TD colspan="'.($remove?$cols+1:$cols).'">'.button('add').$link['add']['span'].'</TD></TR>';
-				elseif(isset($link['add']['html']) && $cols)
-				{
-					echo '<TR>';
-					if($remove && !isset($_REQUEST['_ROSARIO_PDF']) && $link['add']['html']['remove'])
-						echo '<TD>'.$link['add']['html']['remove'].'</TD>';
-					elseif($remove && !isset($_REQUEST['_ROSARIO_PDF']))
-						echo '<TD>'.button('add').'</TD>';
-
-					foreach($column_names as $key=>$value)
-					{
-						echo '<TD>'.$link['add']['html'][$key].'</TD>';
-					}
-					echo '</TR>';
-				}
-			}
-			if($result_count!=0)
-			{
-				echo '</TBODY></TABLE></div><BR />';
-			}
-			if(!empty($options['header']))
-				echo '</div>';
-
-		// END PRINT THE LIST ---
-		}
-		if($result_count==0)
-		{
-			// mab - problem with table closing if not opened above - do same conditional?
-			if(($options['count'] || $display_zero) && ((($result_count==0 || $display_count==0) && $plural) || ($result_count==0 || $display_count==0)))
-				echo '</TD></TR></TBODY></TABLE>';
-				
-			if(!empty($options['header']))
-				echo '<TABLE class="postbox width-100p cellspacing-0" style="margin-bottom:0px; border-bottom:0px;"><TR><TD class="center">'.$options['header'].'</TD></TR></TABLE><div class="postbox" style="padding:5px; border-top:none; border-top-left-radius:0px; border-top-right-radius:0px; box-shadow: none;">';
-
-			if($link['add']['link'] && !isset($_REQUEST['_ROSARIO_PDF']))
-				echo '<span class="center">' . button('add',$link['add']['title'],$link['add']['link']) . '</span>';
-			elseif(($link['add']['html'] || $link['add']['span']) && count($column_names) && !isset($_REQUEST['_ROSARIO_PDF']))
-			{
-				// WIDTH=100%
-				if($link['add']['html'])
-				{
-					echo '<div style="overflow-x:auto;"><TABLE class="widefat width-100p cellspacing-0';			
-					if ($options['responsive'] && !isset($_REQUEST['_ROSARIO_PDF']))
-						echo ' rt';
-
-					if($options['center'])
-						echo ' center';
-
-					echo '"><THEAD><TR><TH>&nbsp;</TH>';
-
-					foreach($column_names as $key=>$value)
-					{
-						echo '<TH>' . str_replace(' ','&nbsp;',$value) . '</TH>';
-					}
-					echo '</TR></THEAD>';
-
-					echo '<TBODY><TR>';
-
-					if($link['add']['html']['remove'])
-						echo '<TD>'.$link['add']['html']['remove'].'</TD>';
 					else
-						echo '<TD>'.button('add').'</TD>';
-
-					foreach($column_names as $key=>$value)
 					{
-						echo '<TD>'.$link['add']['html'][$key].'</TD>';
+						if ( $color==Preferences('HIGHLIGHT'))
+							echo '<td class="highlight">';
+						else
+							echo '<td>';
+						echo $item[ $key ];
+						if ( ! $item[ $key ])
+							echo '&nbsp;';
+						echo '</td>';
 					}
-					echo '</TR></TBODY>';
-					echo '</TABLE></div><BR />';
-				}
-				elseif($link['add']['span'] && !isset($_REQUEST['_ROSARIO_PDF']))
-				{
-					echo '<TABLE class="postbox';
-
-					if($options['center'])
-						echo ' center';
-
-					echo '"><TR><TD>'.button('add').$link['add']['span'].'</TD></TR></TABLE>';
 				}
 			}
-			if(!empty($options['header']))
-				echo '</div>';
+			echo '</tr>';
 		}
+
+		if ( $result_count!=0 && (!isset($link['add']['first']) || ($stop-$start+1)<$link['add']['first']))
+		{
+			//if ( $remove && !isset($_REQUEST['_ROSARIO_PDF']))
+			//	$cols++;
+			if (isset($link['add']['link']) && !isset($_REQUEST['_ROSARIO_PDF']))
+				echo '<tr><td colspan="'.($remove?$cols+1:$cols).'">'.button('add',$link['add']['title'],$link['add']['link']).'</td></tr>';
+			elseif (isset($link['add']['span']) && !isset($_REQUEST['_ROSARIO_PDF']))
+				echo '<tr><td colspan="'.($remove?$cols+1:$cols).'">'.button('add').$link['add']['span'].'</td></tr>';
+			elseif (isset($link['add']['html']) && $cols)
+			{
+				echo '<tr>';
+				if ( $remove && !isset($_REQUEST['_ROSARIO_PDF']) && $link['add']['html']['remove'])
+					echo '<td>'.$link['add']['html']['remove'].'</td>';
+				elseif ( $remove && !isset($_REQUEST['_ROSARIO_PDF']))
+					echo '<td>'.button('add').'</td>';
+
+				foreach ( (array) $column_names as $key => $value)
+				{
+					echo '<td>'.$link['add']['html'][ $key ].'</td>';
+				}
+				echo '</tr>';
+			}
+		}
+		if ( $result_count!=0)
+		{
+			echo '</tbody></table></div><br />';
+		}
+		if ( !empty($options['header']))
+			echo '</div>';
+
+	// END PRINT THE LIST ---
 	}
+	if ( $result_count==0)
+	{
+		// mab - problem with table closing if not opened above - do same conditional?
+		if (($options['count'] || $display_zero) && ((($result_count==0 || $display_count==0) && $plural) || ($result_count==0 || $display_count==0)))
+			echo '</td></tr></tbody></table>';
+
+		if ( !empty($options['header']))
+			echo '<table class="postbox width-100p cellspacing-0" style="margin-bottom:0px; border-bottom:0px;"><thead><tr><th class="center">' . $options['header'] . '</th></tr></thead></table>
+				<div class="postbox" style="padding:5px; border-top:none; border-top-left-radius:0px; border-top-right-radius:0px; box-shadow: none;">';
+
+		if ( $link['add']['link'] && !isset($_REQUEST['_ROSARIO_PDF']))
+			echo '<div class="center">' . button('add',$link['add']['title'],$link['add']['link']) . '</div>';
+		elseif (($link['add']['html'] || $link['add']['span']) && count($column_names) && !isset($_REQUEST['_ROSARIO_PDF']))
+		{
+			// WIDTH=100%
+			if ( $link['add']['html'])
+			{
+				echo '<div style="overflow-x:auto;"><table class="widefat width-100p cellspacing-0';
+				if ( $options['responsive'] && !isset($_REQUEST['_ROSARIO_PDF']))
+					echo ' rt';
+
+				if ( $options['center'])
+					echo ' center';
+
+				echo '"><thead><tr><th>&nbsp;</th>';
+
+				foreach ( (array) $column_names as $key => $value)
+				{
+					echo '<th>' . str_replace(' ','&nbsp;',$value) . '</th>';
+				}
+				echo '</tr></thead>';
+
+				echo '<tbody><tr>';
+
+				if ( $link['add']['html']['remove'])
+					echo '<td>'.$link['add']['html']['remove'].'</td>';
+				else
+					echo '<td>'.button('add').'</td>';
+
+				foreach ( (array) $column_names as $key => $value)
+				{
+					echo '<td>'.$link['add']['html'][ $key ].'</td>';
+				}
+				echo '</tr></tbody>';
+				echo '</table></div><br />';
+			}
+			elseif ( $link['add']['span'] && !isset($_REQUEST['_ROSARIO_PDF']))
+			{
+				echo '<table class="postbox';
+
+				if ( $options['center'])
+					echo ' center';
+
+				echo '"><tr><td>'.button('add').$link['add']['span'].'</td></tr></table>';
+			}
+		}
+		if ( !empty($options['header']))
+			echo '</div>';
+	}
+	//}
 }
 
-//FJ function moved from functions/ to here because used only in this file
-function _ReindexResults($array)
+
+/**
+ * Reindex Results
+ * Starting from 1
+ *
+ * Local function
+ *
+ * @example $result = _ReindexResults( $result );
+ *
+ * @param  array $array Array to reindex
+ *
+ * @return array Reindexed Array
+ */
+function _ReindexResults( $array )
 {
- 	$i=1;
-	foreach($array as $value)
+	$new = array();
+
+ 	$i = 1;
+
+	foreach ( (array) $array as $value )
 	{
-		$new[$i]=$value;
+		$new[ $i ] = $value;
+
 		$i++;
 	}
+
 	return $new;
 }
 
-?>
+class Rosario_List implements Countable {
+
+	/*****************************************************************/
+	/*                    Countable Implementation                   */
+	/*****************************************************************/
+
+	/**
+	 * Get the count of elements in the container array.
+	 *
+	 * @link http://php.net/manual/en/countable.count.php
+	 *
+	 * @return int
+	 */
+	public function count() {
+		return count( $this->container );
+	}
+}
+
+/**
+ * Save / Export List to CSV (OpenOffice), Tab (Excel) or XML
+ *
+ * Local function
+ *
+ * @since 2.9
+ *
+ * @example _listSave( $result, $column_names, Preferences( 'DELIMITER' ) );
+ *
+ * @param  array  $result       ListOutput $result
+ * @param  array  $column_names ListOutput $column_names
+ * @param  string $singular     ListOutput $singular
+ * @param  string $plural       ListOutput $plural
+ * @param  string $delimiter    CSV|Tab|XML
+ *
+ * @return void   Outputs file and exits
+ */
+function _listSave( $result, $column_names, $singular, $plural, $delimiter )
+{
+	$format_value =
+	function( $value )
+	{
+		$value = trim( preg_replace(
+			'/ +/', // remove double spaces
+			' ',
+			str_replace(
+				array( "\r", "\n", "\t", '[br][br]' ), // convert new lines to [br], remove tabs
+				array( '', '[br]', '', '[br]' ),
+				html_entity_decode( // decode HTML entities
+					strip_tags( // remove HTML tags
+						str_ireplace(
+							array( '&nbsp;', '<br />' ), // convert &nbsp; to space, <br /> to [br]
+							array( ' ', '[br]' ),
+							$value
+						)
+					),
+					ENT_QUOTES
+		))));
+
+		// remove first [br] if any
+		return mb_strpos( $value, '[br]' ) === 0 ? mb_substr( $value, 4 ) : $value;
+	};
+
+	switch ( $delimiter )
+	{
+		case 'CSV':
+
+			$extension = 'csv';
+			$delimiter = ',';
+
+		break;
+
+		case 'XML':
+
+			$extension = 'xml';
+			$delimiter = "";
+
+		break;
+
+		default: // Tab
+
+			$extension = 'xls';
+			$delimiter = "\t";
+
+		break;
+	}
+
+	// Clear output
+	ob_end_clean();
+
+	$formatted_columns = $formatted_result = array();
+
+	// Format Columns
+	foreach ( (array) $column_names as $column )
+	{
+		if ( $column !== '' )
+		{
+			$column = ParseMLField( $column );
+
+			$column = $format_value( $column );
+
+			$column = str_replace( '[br]', ' ', $column );
+		}
+
+		if ( $extension === 'csv' )
+		{
+			$column = '"' . str_replace( '"', '""', $column ) . '"';
+		}
+
+		$formatted_columns[] = $column;
+	}
+
+	$i = 0;
+
+	// Format Results
+	foreach ( (array) $result as $item )
+	{
+		$formatted_result[ $i ] = array();
+
+		foreach ( (array) $column_names as $key => $value )
+		{
+			$value = $item[ $key ];
+
+			if ( $value !== '' )
+			{
+				$value = preg_replace( '!<select.*selected\>([^<]+)<.*</select\>!i', '\\1', $value );
+
+				$value = preg_replace( '!<select.*</select\>!i', '', $value );
+
+				$value = $format_value( $value );
+
+				$replace_br = $extension === 'xml' ? '[br]' : ' ';
+
+				$value = str_replace( '[br]', $replace_br, $value );
+			}
+
+			if ( $extension === 'csv' )
+			{
+				$value = '"' . str_replace( '"', '""', $value ) . '"';
+			}
+
+			$formatted_result[ $i ][] = $value;
+		}
+
+		$i++;
+	}
+
+	// Generate output
+	if ( $extension !== 'xml' )
+	{
+		// 1st line: Columns
+		$output = implode( $delimiter, $formatted_columns );
+
+		$output .= "\n";
+
+		// Then values
+		foreach ( (array) $formatted_result as $result_line )
+		{
+			$output .= implode( $delimiter, $result_line );
+
+			$output .= "\n";
+		}
+
+		//FJ accents problem + Arabic chars
+		//http://stackoverflow.com/questions/6002256/is-it-possible-to-force-excel-recognize-utf-8-csv-files-automatically
+		if ( $extension == 'xls') //convert to ISO for Excel only, CSV in UTF8
+		{
+			$output = utf8_decode( $output );
+		}
+	}
+	// XML
+	else
+	{
+		if ( $plural !== '.' )
+		{
+			$elements = mb_strtolower( str_replace( ' ', '_', $plural ) );
+
+			$element = mb_strtolower( str_replace( ' ', '_', $singular ) );
+		}
+		else
+		{
+			$elements = 'items_set';
+
+			$element = 'item';
+		}
+
+		$output = '<?xml version="1.0" encoding="UTF-8"?>' . "\n" . '<' . $elements . '>' . "\n";
+
+		foreach ( (array) $formatted_result as $line_number => $result_line )
+		{
+			$output .= "\t" . '<' . $element . '>' . "\n";
+
+			foreach ( (array) $result_line as $key => $value )
+			{
+				if ( $formatted_columns[ $key ] === '' )
+				{
+					$column = 'column_' . ( $key + 1 );
+				}
+				else
+					$column = mb_strtolower( str_replace( ' ', '_', $formatted_columns[ $key ] ) );
+
+				// http://stackoverflow.com/questions/1091945/what-characters-do-i-need-to-escape-in-xml-documents
+				$value = str_replace( '[br]', '<br />', htmlspecialchars( $value, ENT_QUOTES ) );
+
+				$output .= "\t\t" . '<' . $column . '>' . $value .
+					'</' . $column . '>' . "\n";
+			}
+
+			$output .= "\t" . '</' . $element . '>' . "\n";
+		}
+
+		$output .= '</' . $elements . '>';
+	}
+
+	// Download file
+	header( "Cache-Control: public" );
+	header( "Content-Type: application/" . $extension );
+	header( "Content-Length: " . strlen( $output ) );
+	header( "Content-Disposition: inline; filename=\"" . ProgramTitle() . "." . $extension . "\"\n" );
+
+	echo $output;
+
+	exit();
+}

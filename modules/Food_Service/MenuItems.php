@@ -1,47 +1,45 @@
 <?php
-require_once('modules/Food_Service/includes/DeletePromptX.fnc.php');
-
-include_once('modules/Food_Service/includes/FS_Icons.inc.php');
+require_once 'modules/Food_Service/includes/FS_Icons.inc.php';
 
 DrawHeader(ProgramTitle());
 
-if($_REQUEST['modfunc']=='update')
+if ( $_REQUEST['modfunc']=='update')
 {
-	if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
+	if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 	{
-		if($_REQUEST['tab_id'])
+		if ( $_REQUEST['tab_id'])
 		{
-			foreach($_REQUEST['values'] as $id=>$columns)
+			foreach ( (array) $_REQUEST['values'] as $id => $columns)
 			{
-		//FJ fix SQL bug invalid sort order
+				// FJ fix SQL bug invalid sort order.
 				if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
 				{
-					if($id!='new')
+					if ( $id!='new')
 					{
 						//FJ fix SQL bug PRICE_STAFF & PRICE not null
 						//FJ fix SQL bug PRICE_FREE & PRICE_REDUCED numeric
-						if ($_REQUEST['tab_id']!='new' || ((empty($columns['PRICE_FREE']) || is_numeric($columns['PRICE_FREE'])) && (empty($columns['PRICE_REDUCED']) || is_numeric($columns['PRICE_REDUCED'])) && (empty($columns['PRICE_STAFF']) || is_numeric($columns['PRICE_STAFF'])) && (empty($columns['PRICE']) || is_numeric($columns['PRICE']))))
+						if ( $_REQUEST['tab_id']!='new' || ((empty($columns['PRICE_FREE']) || is_numeric($columns['PRICE_FREE'])) && (empty($columns['PRICE_REDUCED']) || is_numeric($columns['PRICE_REDUCED'])) && (empty($columns['PRICE_STAFF']) || is_numeric($columns['PRICE_STAFF'])) && (empty($columns['PRICE']) || is_numeric($columns['PRICE']))))
 						{
-							if($_REQUEST['tab_id']!='new')
+
+							if ( $_REQUEST['tab_id']!='new')
 								$sql = "UPDATE FOOD_SERVICE_MENU_ITEMS SET ";
 							else
 								$sql = "UPDATE FOOD_SERVICE_ITEMS SET ";
 
 							$go = false;
 
-							foreach( $columns as $column => $value )
+							foreach ( (array) $columns as $column => $value )
 							{
 								$sql .= $column . "='" . $value . "',";
-
 								$go = true;
 							}
 
-							if($_REQUEST['tab_id']!='new')
+							if ( $_REQUEST['tab_id']!='new')
 								$sql = mb_substr($sql,0,-1) . " WHERE MENU_ITEM_ID='".$id."'";
 							else
 								$sql = mb_substr($sql,0,-1) . " WHERE ITEM_ID='".$id."'";
 
-							if($go)
+							if ( $go)
 								DBQuery($sql);
 						}
 						else
@@ -49,7 +47,7 @@ if($_REQUEST['modfunc']=='update')
 					}
 					else
 					{
-						if($_REQUEST['tab_id']!='new')
+						if ( $_REQUEST['tab_id']!='new')
 						{
 							$sql = 'INSERT INTO FOOD_SERVICE_MENU_ITEMS ';
 							$fields = 'MENU_ITEM_ID,MENU_ID,SCHOOL_ID,';
@@ -63,8 +61,8 @@ if($_REQUEST['modfunc']=='update')
 						}
 
 						$go = false;
-						foreach($columns as $column=>$value)
-							if(!empty($value) || $value=='0')
+						foreach ( (array) $columns as $column => $value)
+							if ( !empty($value) || $value=='0')
 							{
 								$fields .= $column.',';
 								$values .= '\''.$value.'\',';
@@ -79,10 +77,10 @@ if($_REQUEST['modfunc']=='update')
 							$go = false;
 						}
 
-						if($go)
+						if ( $go )
 							//FJ fix SQL bug PRICE_STAFF & PRICE not null
 							//FJ fix SQL bug PRICE_FREE & PRICE_REDUCED numeric
-							if ($_REQUEST['tab_id']!='new' || ((empty($columns['PRICE_FREE']) || is_numeric($columns['PRICE_FREE'])) && (empty($columns['PRICE_REDUCED']) || is_numeric($columns['PRICE_REDUCED'])) && is_numeric($columns['PRICE_STAFF']) && is_numeric($columns['PRICE']) ))
+							if ( $_REQUEST['tab_id']!='new' || ((empty($columns['PRICE_FREE']) || is_numeric($columns['PRICE_FREE'])) && (empty($columns['PRICE_REDUCED']) || is_numeric($columns['PRICE_REDUCED'])) && is_numeric($columns['PRICE_STAFF']) && is_numeric($columns['PRICE']) ))
 								DBQuery($sql);
 							else
 								$error[] = _('Please enter valid Numeric data.');
@@ -96,80 +94,92 @@ if($_REQUEST['modfunc']=='update')
 	unset($_REQUEST['modfunc']);
 }
 
-if($_REQUEST['modfunc']=='remove' && AllowEdit())
+if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 {
-	if($_REQUEST['tab_id']!='new')
+	if ( $_REQUEST['tab_id']!='new')
 	{
-//FJ add translation
-		if(DeletePromptX(_('Meal Item')))
-			DBQuery("DELETE FROM FOOD_SERVICE_MENU_ITEMS WHERE MENU_ID='".$_REQUEST['tab_id']."' AND MENU_ITEM_ID='".$_REQUEST['menu_item_id']."'");
+		if ( DeletePrompt( _( 'Meal Item' ) ) )
+		{
+			DBQuery( "DELETE FROM FOOD_SERVICE_MENU_ITEMS
+				WHERE MENU_ID='" . $_REQUEST['tab_id'] . "'
+				AND MENU_ITEM_ID='" . $_REQUEST['menu_item_id'] . "'" );
+
+			$_REQUEST['modfunc'] = false;
+		}
 	}
 	else
-		if(DeletePromptX(_('Item')))
+	{
+		if ( DeletePrompt( _( 'Item' ) ) )
 		{
-			DBQuery("DELETE FROM FOOD_SERVICE_MENU_ITEMS WHERE ITEM_ID='".$_REQUEST['item_id']."'");
-			DBQuery("DELETE FROM FOOD_SERVICE_ITEMS WHERE ITEM_ID='".$_REQUEST['item_id']."'");
+			DBQuery( "DELETE FROM FOOD_SERVICE_MENU_ITEMS
+				WHERE ITEM_ID='" . $_REQUEST['item_id'] . "'" );
+
+			DBQuery( "DELETE FROM FOOD_SERVICE_ITEMS
+				WHERE ITEM_ID='" . $_REQUEST['item_id'] . "'" );
+
+			$_REQUEST['modfunc'] = false;
 		}
+	}
 }
 
-if(empty($_REQUEST['modfunc']))
+if (empty($_REQUEST['modfunc']))
 
 {
 	$menus_RET = DBGet(DBQuery('SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER'),array(),array('MENU_ID'));
-	if($_REQUEST['tab_id'])
+	if ( $_REQUEST['tab_id'])
 	{
-		if($_REQUEST['tab_id']!='new')
-			if($menus_RET[$_REQUEST['tab_id']])
+		if ( $_REQUEST['tab_id']!='new')
+			if ( $menus_RET[$_REQUEST['tab_id']])
 				$_SESSION['FSA_menu_id'] = $_REQUEST['tab_id'];
-			elseif(count($menus_RET))
+			elseif (count($menus_RET))
 				$_REQUEST['tab_id'] = $_SESSION['FSA_menu_id'] = key($menus_RET);
 			else
 				$_REQUEST['tab_id'] = 'new';
 	}
 	else
 	{
-		if($_SESSION['FSA_menu_id'])
-			if($menus_RET[$_SESSION['FSA_menu_id']])
+		if ( $_SESSION['FSA_menu_id'])
+			if ( $menus_RET[$_SESSION['FSA_menu_id']])
 				$_REQUEST['tab_id'] = $_SESSION['FSA_menu_id'];
-			elseif(count($menus_RET))
+			elseif (count($menus_RET))
 				$_REQUEST['tab_id'] = $_SESSION['FSA_menu_id'] = key($menus_RET);
 			else
 				$_REQUEST['tab_id'] = 'new';
 		else
-			if(count($menus_RET))
+			if (count($menus_RET))
 				$_REQUEST['tab_id'] = $_SESSION['FSA_menu_id'] = key($menus_RET);
 			else
 				$_REQUEST['tab_id'] = 'new';
 	}
 
 	$tabs = array();
-	foreach($menus_RET as $id=>$menu)
-		$tabs[] = array('title'=>$menu[1]['TITLE'],'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$id);
+	foreach ( (array) $menus_RET as $id => $menu)
+		$tabs[] = array('title' => $menu[1]['TITLE'],'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$id);
 
-	if($_REQUEST['tab_id']!='new')
+	if ( $_REQUEST['tab_id']!='new')
 	{
 		$items_RET = DBGet(DBQuery('SELECT ITEM_ID,DESCRIPTION FROM FOOD_SERVICE_ITEMS WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER'));
 		$items_select = array();
-		foreach($items_RET as $item)
-			$items_select += array($item['ITEM_ID']=>$item['DESCRIPTION']);
+		foreach ( (array) $items_RET as $item)
+			$items_select += array($item['ITEM_ID'] => $item['DESCRIPTION']);
 
 		$categories_RET = DBGet(DBQuery('SELECT CATEGORY_ID,TITLE FROM FOOD_SERVICE_CATEGORIES WHERE MENU_ID=\''.$_REQUEST['tab_id'].'\' ORDER BY SORT_ORDER'));
 		$categories_select = array();
-		foreach($categories_RET as $category)
-			$categories_select += array($category['CATEGORY_ID']=>$category['TITLE']);
+		foreach ( (array) $categories_RET as $category)
+			$categories_select += array($category['CATEGORY_ID'] => $category['TITLE']);
 
 		$sql = 'SELECT *,(SELECT ICON FROM FOOD_SERVICE_ITEMS WHERE ITEM_ID=fsmi.ITEM_ID) AS ICON FROM FOOD_SERVICE_MENU_ITEMS fsmi WHERE MENU_ID=\''.$_REQUEST['tab_id'].'\' ORDER BY (SELECT SORT_ORDER FROM FOOD_SERVICE_CATEGORIES WHERE CATEGORY_ID=fsmi.CATEGORY_ID),SORT_ORDER';
-		$functions = array('ITEM_ID'=>'makeSelectInput','ICON'=>'makeIcon','CATEGORY_ID'=>'makeSelectInput','DOES_COUNT'=>'makeCheckboxInput','SORT_ORDER'=>'makeTextInput');
+		$functions = array('ITEM_ID' => 'makeSelectInput','ICON' => 'makeIcon','CATEGORY_ID' => 'makeSelectInput','DOES_COUNT' => 'makeCheckboxInput','SORT_ORDER' => 'makeTextInput');
 
-		$LO_columns = array('ITEM_ID'=>_('Menu Item'),'ICON'=>_('Icon'),'CATEGORY_ID'=>_('Category'),'DOES_COUNT'=>_('Include in Counts'),'SORT_ORDER'=>_('Sort Order'));
+		$LO_columns = array('ITEM_ID' => _('Menu Item'),'ICON' => _('Icon'),'CATEGORY_ID' => _('Category'),'DOES_COUNT' => _('Include in Counts'),'SORT_ORDER' => _('Sort Order'));
 
 		$link['add']['html'] = array('ITEM_ID'=>makeSelectInput('','ITEM_ID'),'CATEGORY_ID'=>makeSelectInput('','CATEGORY_ID'),'DOES_COUNT'=>makeCheckboxInput('','DOES_COUNT'),'SORT_ORDER'=>makeTextInput('','SORT_ORDER'));
 		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&tab_id='.$_REQUEST['tab_id'];
-		$link['remove']['variables'] = array('menu_item_id'=>'MENU_ITEM_ID');
+		$link['remove']['variables'] = array('menu_item_id' => 'MENU_ITEM_ID');
 
 		$link['add']['html']['remove'] = button('add');
 
-		$tabs[] = array('title'=>button('add', '', '', 'smaller'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=new');
+		$tabs[] = array('title'=>button('add', '', '', 'smaller'),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=new');
 
 //FJ add translation
 		$singular = sprintf(_('%s Item'), $menus_RET[$_REQUEST['tab_id']][1]['TITLE']);
@@ -180,69 +190,70 @@ if(empty($_REQUEST['modfunc']))
 		$icons_select = get_icons_select($FS_IconsPath);
 
 		$sql = 'SELECT * FROM FOOD_SERVICE_ITEMS fsmi WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER';
-		$functions = array('DESCRIPTION'=>'makeTextInput','SHORT_NAME'=>'makeTextInput','ICON'=>'makeSelectInput','SORT_ORDER'=>'makeTextInput','PRICE'=>'makeTextInput','PRICE_REDUCED'=>'makeTextInput','PRICE_FREE'=>'makeTextInput','PRICE_STAFF'=>'makeTextInput');
+		$functions = array('DESCRIPTION' => 'makeTextInput','SHORT_NAME' => 'makeTextInput','ICON' => 'makeSelectInput','SORT_ORDER' => 'makeTextInput','PRICE' => 'makeTextInput','PRICE_REDUCED' => 'makeTextInput','PRICE_FREE' => 'makeTextInput','PRICE_STAFF' => 'makeTextInput');
 
-		if(User('PROFILE')=='admin' || User('PROFILE')=='teacher')
-			$LO_columns = array('DESCRIPTION'=>_('Item Description'),'SHORT_NAME'=>_('Short Name'),'ICON'=>_('Icon'),'SORT_ORDER'=>_('Sort Order'),'PRICE'=>_('Student Price'),'PRICE_REDUCED'=>_('Reduced Price'),'PRICE_FREE'=>_('Free Price'),'PRICE_STAFF'=>_('Staff Price'));
+		if (User('PROFILE')=='admin' || User('PROFILE')=='teacher')
+			$LO_columns = array('DESCRIPTION' => _('Item Description'),'SHORT_NAME' => _('Short Name'),'ICON' => _('Icon'),'SORT_ORDER' => _('Sort Order'),'PRICE' => _('Student Price'),'PRICE_REDUCED' => _('Reduced Price'),'PRICE_FREE' => _('Free Price'),'PRICE_STAFF' => _('Staff Price'));
 		else
 		{
-			$LO_columns = array('DESCRIPTION'=>_('Item Description'),'SHORT_NAME'=>_('Short Name'),'ICON'=>_('Icon'),'PRICE'=>_('Student Price'));
-			if(UserStudentID())
+			$LO_columns = array('DESCRIPTION' => _('Item Description'),'SHORT_NAME' => _('Short Name'),'ICON' => _('Icon'),'PRICE' => _('Student Price'));
+			if (UserStudentID())
 			{
 				$discount = DBGet(DBQuery('SELECT DISCOUNT FROM FOOD_SERVICE_STUDENT_ACCOUNTS WHERE STUDENT_ID=\''.UserStudentID().'\''));
 				$discount = $discount[1]['DISCOUNT'];
 
-				if($discount=='Reduced')
-					$LO_columns += array('PRICE_REDUCED'=>_('Reduced Price'));
-				elseif($discount=='Free')
-					$LO_columns += array('PRICE_FREE'=>_('Free Price'));
+				if ( $discount=='Reduced')
+					$LO_columns += array('PRICE_REDUCED' => _('Reduced Price'));
+				elseif ( $discount=='Free')
+					$LO_columns += array('PRICE_FREE' => _('Free Price'));
 			}
-			$LO_columns += array('PRICE_STAFF'=>_('Staff Price'));
+			$LO_columns += array('PRICE_STAFF' => _('Staff Price'));
 		}
 
 		$link['add']['html'] = array('DESCRIPTION'=>makeTextInput('','DESCRIPTION'),'SHORT_NAME'=>makeTextInput('','SHORT_NAME'),'ICON'=>makeSelectInput('','ICON'),'SORT_ORDER'=>makeTextInput('','SORT_ORDER'),'PRICE'=>makeTextInput('','PRICE'),'PRICE_REDUCED'=>makeTextInput('','PRICE_REDUCED'),'PRICE_FREE'=>makeTextInput('','PRICE_FREE'),'PRICE_STAFF'=>makeTextInput('','PRICE_STAFF'));
 		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&tab_id='.$_REQUEST['tab_id'];
-		$link['remove']['variables'] = array('item_id'=>'ITEM_ID');
+		$link['remove']['variables'] = array('item_id' => 'ITEM_ID');
 		$link['add']['html']['remove'] = button('add');
 
-		$tabs[] = array('title'=>button('add', '', '', 'smaller'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=new');
+		$tabs[] = array('title'=>button('add', '', '', 'smaller'),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=new');
 	}
 
 	$LO_ret = DBGet(DBQuery($sql),$functions);
 	//echo '<pre>'; var_dump($LO_ret); echo '</pre>';
 
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&tab_id='.$_REQUEST['tab_id'].'" method="POST">';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&tab_id='.$_REQUEST['tab_id'].'" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
-	echo '<BR />';
-//FJ fix SQL bug invalid sort order
-	if(isset($error)) echo ErrorMessage($error);
+	echo '<br />';
+
+	// FJ fix SQL bug invalid sort order
+	echo ErrorMessage( $error );
 
 	$extra = array('save'=>false,'search'=>false,
 		'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$_REQUEST['tab_id']));
 
-	if($_REQUEST['tab_id']!='new')
+	if ( $_REQUEST['tab_id']!='new')
 		ListOutput($LO_ret,$LO_columns,$singular,$plural,$link,array(),$extra);
 	else
 //FJ add translation
 		ListOutput($LO_ret,$LO_columns,'Meal Item','Meal Items',$link,array(),$extra);
 
-	echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';
-	echo '</FORM>';
+	echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+	echo '</form>';
 }
 
 function makeTextInput($value,$name)
 {	global $THIS_RET;
 
-	if($THIS_RET['MENU_ITEM_ID'])
+	if ( $THIS_RET['MENU_ITEM_ID'])
 		$id = $THIS_RET['MENU_ITEM_ID'];
-	elseif($THIS_RET['ITEM_ID'])
+	elseif ( $THIS_RET['ITEM_ID'])
 		$id = $THIS_RET['ITEM_ID'];
 	else
 		$id = 'new';
 
-	if($name=='DESCRIPTION')
+	if ( $name=='DESCRIPTION')
 		$extra = 'size=20 maxlength=25';
-	elseif($name=='SORT_ORDER')
+	elseif ( $name=='SORT_ORDER')
 		$extra = 'size=6 maxlength=8';
 	else
 		$extra = 'size=8 maxlength=8';
@@ -253,30 +264,60 @@ function makeTextInput($value,$name)
 function makeSelectInput($value,$name)
 {	global $THIS_RET,$items_select,$categories_select,$icons_select;
 
-	if($THIS_RET['MENU_ITEM_ID'])
+	if ( $THIS_RET['MENU_ITEM_ID'])
 		$id = $THIS_RET['MENU_ITEM_ID'];
-	elseif($THIS_RET['ITEM_ID'])
+	elseif ( $THIS_RET['ITEM_ID'])
 		$id = $THIS_RET['ITEM_ID'];
 	else
 		$id = 'new';
 
-	if($name=='ITEM_ID')
-		return SelectInput($value,"values[$id][$name]",'',$items_select,$id=='new'?'':false);
-	elseif($name=='CATEGORY_ID')
-		return SelectInput($value,"values[$id][$name]",'',$categories_select);
+	if ( $name=='ITEM_ID')
+	{
+		return SelectInput(
+			$value,
+			'values[' . $id . '][' . $name . ']',
+			'',
+			$items_select,
+			$id == 'new' ? '' : false
+		);
+	}
+	elseif ( $name=='CATEGORY_ID')
+	{
+		return SelectInput(
+			$value,
+			'values[' . $id . '][' . $name . ']',
+			'',
+			$categories_select
+		);
+	}
 	else
-		return SelectInput($value,"values[$id][$name]",'',$icons_select);
+	{
+		return SelectInput(
+			$value,
+			'values[' . $id . '][' . $name . ']',
+			'',
+			$icons_select
+		);
+	}
 }
 
 function makeCheckboxInput($value,$name)
 {	global $THIS_RET;
 
-	if($THIS_RET['MENU_ITEM_ID'])
+	if ( $THIS_RET['MENU_ITEM_ID'])
 		$id = $THIS_RET['MENU_ITEM_ID'];
 	else
 		$id = 'new';
 
-	return CheckboxInput($value, "values[$id][$name]", '', $value, $id=='new', button('check'), button('x'));
+	return CheckboxInput(
+		$value,
+		'values[' . $id . '][' . $name . ']',
+		'',
+		$value,
+		$id == 'new',
+		button( 'check' ),
+		button( 'x' )
+	);
 }
 
 function get_icons_select($path)
@@ -291,11 +332,10 @@ function get_icons_select($path)
 		//filter images
 		if ( in_array( mb_strtolower(mb_strrchr($icon, '.')), array('.jpg', '.jpeg', '.png', '.gif') ) )
 		{
-			$files[$icon] = array($icon, '<IMG src="'.$path.$icon.'" height="30" />');
+			$files[ $icon ] = array($icon, '<img src="'.$path.$icon.'" height="30" />');
 		}
 	}
 
 	ksort($files);
 	return $files;
 }
-?>

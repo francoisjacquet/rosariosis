@@ -1,14 +1,19 @@
 <?php
 
-if(!$_REQUEST['month'])
-	$_REQUEST['month'] = date("n");
-else
-	$_REQUEST['month'] = MonthNWSwitch($_REQUEST['month'],'tonum')+0;
-if(!$_REQUEST['year'])
-	$_REQUEST['year'] = date("Y");
+DrawHeader( ProgramTitle() );
+
+if ( ! $_REQUEST['month'] )
+{
+	$_REQUEST['month'] = date( 'm' );
+}
+
+if ( ! $_REQUEST['year'] )
+{
+	$_REQUEST['year'] = date( 'Y' );
+}
 
 $last = 31;
-while(!checkdate($_REQUEST['month'],$last,$_REQUEST['year']))
+while (!checkdate($_REQUEST['month'],$last,$_REQUEST['year']))
 	$last--;
 
 $time = mktime(0,0,0,$_REQUEST['month'],1,$_REQUEST['year']);
@@ -16,159 +21,219 @@ $time_last = mktime(0,0,0,$_REQUEST['month'],$last,$_REQUEST['year']);
 
 // use the dafault calendar
 $default_RET = DBGet(DBQuery("SELECT CALENDAR_ID FROM ATTENDANCE_CALENDARS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND DEFAULT_CALENDAR='Y'"));
-if(count($default_RET))
+if (count($default_RET))
 	$calendar_id = $default_RET[1]['CALENDAR_ID'];
 else
 {
 	$calendars_RET = DBGet(DBQuery("SELECT CALENDAR_ID FROM ATTENDANCE_CALENDARS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
-	if(count($calendars_RET))
+	if (count($calendars_RET))
 		$calendar_id = $calendars_RET[1]['CALENDAR_ID'];
 	else
 		ErrorMessage(array(_('There are no calendars yet setup.')),'fatal');
 }
 
 $menus_RET = DBGet(DBQuery('SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER'),array(),array('MENU_ID'));
-if(!$_REQUEST['menu_id'])
-	if(!$_SESSION['FSA_menu_id'])
-		if(count($menus_RET))
+if ( ! $_REQUEST['menu_id'])
+	if ( ! $_SESSION['FSA_menu_id'])
+		if (count($menus_RET))
 			$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'] = key($menus_RET);
 		else
 			ErrorMessage(array(_('There are no menus yet setup.')),'fatal');
 	else
 		$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'];
 else
-		$_SESSION['FSA_menu_id'] = $_REQUEST['menu_id'];
+	$_SESSION['FSA_menu_id'] = $_REQUEST['menu_id'];
 
-if($_REQUEST['submit']['save'] && $_REQUEST['food_service'] && $_POST['food_service'] && AllowEdit())
+if ( $_REQUEST['submit']['save'] && $_REQUEST['food_service'] && $_POST['food_service'] && AllowEdit())
 {
-	$events_RET = DBGet(DBQuery("SELECT ID,to_char(SCHOOL_DATE,'dd-MON-yy') AS SCHOOL_DATE
+	$events_RET = DBGet(DBQuery("SELECT ID,SCHOOL_DATE
 	FROM CALENDAR_EVENTS
-	WHERE SCHOOL_DATE BETWEEN '".date('d-M-y',$time)."' AND '".date('d-M-y',$time_last)."'
+	WHERE SCHOOL_DATE BETWEEN '" . date( 'Y-m-d', $time )."' AND '" . date( 'Y-m-d', $time_last ) . "'
 	AND SYEAR='".UserSyear()."'
 	AND SCHOOL_ID='".UserSchool()."'
 	AND TITLE='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."'"),array(),array('SCHOOL_DATE'));
 	//echo '<pre>'; var_dump($events_RET); echo '</pre>';
 
-	foreach($_REQUEST['food_service'] as $school_date=>$description)
+	foreach ( (array) $_REQUEST['food_service'] as $school_date => $description)
 	{
-		if($events_RET[$school_date])
-			if($description['text'] || $description['select'])
-				DBQuery("UPDATE CALENDAR_EVENTS SET DESCRIPTION='".$description['text'].$description['select']."' WHERE ID='".$events_RET[$school_date][1]['ID']."'");
+		if ( $events_RET[ $school_date ])
+			if ( $description['text'] || $description['select'])
+				DBQuery("UPDATE CALENDAR_EVENTS SET DESCRIPTION='".$description['text'].$description['select']."' WHERE ID='".$events_RET[ $school_date ][1]['ID']."'");
 			else
-				DBQuery("DELETE FROM CALENDAR_EVENTS WHERE ID='".$events_RET[$school_date][1]['ID']."'");
+				DBQuery("DELETE FROM CALENDAR_EVENTS WHERE ID='".$events_RET[ $school_date ][1]['ID']."'");
 		else
-			if($description['text'] || $description['select'])
+			if ( $description['text'] || $description['select'])
 				DBQuery("INSERT INTO CALENDAR_EVENTS (ID,SYEAR,SCHOOL_ID,SCHOOL_DATE,TITLE,DESCRIPTION) values(".db_seq_nextval('CALENDAR_EVENTS_SEQ').",'".UserSyear()."','".UserSchool()."','".$school_date."','".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."','".$description['text'].$description['select']."')");
 	}
 	unset($_REQUEST['food_service']);
 	unset($_SESSION['_REQUEST_vars']['food_service']);
 }
 
-if($_REQUEST['submit']['print'])
+if ( $_REQUEST['submit']['print'] )
 {
-	$events_RET = DBGet(DBQuery("SELECT TITLE,DESCRIPTION,to_char(SCHOOL_DATE,'dd-MON-yy') AS SCHOOL_DATE
+	$events_RET = DBGet(DBQuery("SELECT TITLE,DESCRIPTION,SCHOOL_DATE
 	FROM CALENDAR_EVENTS
-	WHERE SCHOOL_DATE BETWEEN '".date('d-M-y',$time)."' AND '".date('d-M-y',$time_last)."'
+	WHERE SCHOOL_DATE BETWEEN '" . date( 'Y-m-d', $time )."' AND '" . date( 'Y-m-d', $time_last ) . "'
 	AND SYEAR='".UserSyear()."'
 	AND SCHOOL_ID='".UserSchool()."'
 	AND (TITLE='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."' OR TITLE='No School')"),array(),array('SCHOOL_DATE'));
 
 	$skip = date("w",$time);
 
-	echo '<!-- MEDIA TOP 1in --><P class="center">';
-	echo '<TABLE style="background-color: #fff;" class="width-100p">'."\n";
-	if($_REQUEST['_ROSARIO_PDF'])
-		if(is_file('assets/dailymenu'.UserSchool().'.jpg'))
+	echo '<br /><table class="width-100p">';
+
+	if ( $_REQUEST['_ROSARIO_PDF'] )
+	{
+		// Landscape PDF.
+		$_SESSION['orientation'] = 'landscape';
+
+		if (is_file('assets/dailymenu' . UserSchool() . '.jpg'))
 		{
-			echo '<TR class="center"><TD colspan="3"><img src="assets/dailymenu'.UserSchool().'.jpg" /></TD></TR>'."\n";
+			echo '<tr class="center"><td colspan="3"><img src="assets/dailymenu' . UserSchool() . '.jpg" /></td></tr>';
 		}
 		else
-			echo '<TR class="center"><TD colspan="3"><span style="color:black" class="sizep2"><b>'.SchoolInfo('TITLE').'</b></span></TD></TR>'."\n";
-//FJ display locale with strftime()
-	echo '<TR class="center"><TD>'.$menus_RET[$_REQUEST['menu_id']][1]['TITLE'].'</TD><TD><span style="color:black" class="sizep2"><b>'.ProperDate(date('Y.m.d',mktime(0,0,0,$_REQUEST['month'],1,$_REQUEST['year']))).'</b></span></TD><TD>'.$menus_RET[$_REQUEST['menu_id']][1]['TITLE'].'</TD></TR></TABLE>'."\n";
-	echo '<TABLE style="border: solid 2px; background-color: #fff;" id="calendar"><THEAD><TR style="text-align:center; background-color:#808080; color:white;">'."\n";
-	echo '<TH>'.mb_substr(_('Sunday'),0,3).'<span>'.mb_substr(_('Sunday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Monday'),0,3).'<span>'.mb_substr(_('Monday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Tuesday'),0,3).'<span>'.mb_substr(_('Tuesday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Wednesday'),0,3).'<span>'.mb_substr(_('Wednesday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Thursday'),0,3).'<span>'.mb_substr(_('Thursday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Friday'),0,3).'<span>'.mb_substr(_('Friday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Saturday'),0,3).'<span>'.mb_substr(_('Saturday'),3).'</span>'.'</TH>'."\n";
-	echo '</TR></THEAD><TBODY>';
+			echo '<tr class="center"><td colspan="3"><b class="sizep2">' . SchoolInfo( 'TITLE' ) . '</b></td></tr>';
+	}
 
-	if($skip)
-		echo '<TR><TD style="background-color:#C0C0C0;" colspan="'.$skip.'">&nbsp;</TD>'."\n";
+	//FJ display locale with strftime()
+	echo '<tr class="center"><td>' . $menus_RET[ $_REQUEST['menu_id'] ][1]['TITLE'] . '</td>
+		<td><b class="sizep2">' . ProperDate( date( 'Y-m-d', mktime( 0, 0, 0, $_REQUEST['month'], 1, $_REQUEST['year'] ) ) ) . '</b></td>
+		<td>' . $menus_RET[ $_REQUEST['menu_id'] ][1]['TITLE'] . '</td></tr></table>';
 
-	for($i = 1; $i <= $last; $i++)
+	echo '<table id="calendar" class="width-100p valign-top"><thead><tr class="center">';
+
+	echo '<th>' . _( 'Sunday' ) . '</th>' .
+		'<th>' . _( 'Monday' ) . '</th>' .
+		'<th>' . _( 'Tuesday' ) . '</th>' .
+		'<th>' . _( 'Wednesday' ) . '</th>' .
+		'<th>' . _( 'Thursday' ) . '</th>' .
+		'<th>' . _( 'Friday' ) . '</th>' .
+		'<th>' . _( 'Saturday' ) . '</th>';
+
+	echo '</tr></thead><tbody>';
+
+	if ( $skip )
 	{
-		if($skip%7==0)
-			echo '<TR>';
+		echo '<tr><td colspan="' . $skip . '" class="calendar-skip">&nbsp;</td>';
+	}
+
+	for ( $i = 1; $i <= $last; $i++ )
+	{
+		if ( $skip%7==0)
+			echo '<tr>';
+
 		$day_time = mktime(0,0,0,$_REQUEST['month'],$i,$_REQUEST['year']);
-		$date = mb_strtoupper(date('d-M-y',$day_time));
 
-		echo '<TD class="valign-top" style="height:100%; '.(count($events_RET[$date]) ? 'background-color:#ffaaaa;' : '').'"><TABLE class="calendar-day'.(count($events_RET[$date]) ? ' hover"><TR><TD><b>'.$i.'</b>' : '"><TR><TD>'.$i);
+		$date =  date( 'Y-m-d', $day_time );
 
-		if(count($events_RET[$date]))
+		$day_classes = '';
+
+		// Thursdays, Fridays, Saturdays.
+		if ( ($i + 1) % 7 === 0
+			|| ($i + 1) % 7 > 4 )
 		{
-			foreach($events_RET[$date] as $event)
+			$day_classes .= ' thu-fri-sat';
+		}
+
+		$day_inner_classes = 'width-100p';
+
+		if ( count( $events_RET[ $date ] ) )
+		{
+			$day_inner_classes .= ' hover';
+		}
+
+		$day_number_classes = 'number';
+
+		// Bold class
+		if ( count( $events_RET[ $date ] )
+			|| count( $assignments_RET[ $date ] ) )
+		{
+			$day_number_classes .= ' bold';
+		}
+
+		echo '<td class="calendar-day' . $day_classes . '" style="background-color:' . ( count( $events_RET[ $date ] ) ? '#ffaaaa;' : '#fff' ) . '">
+			<table class="' . $day_inner_classes . '">
+				<tr><td class="' . $day_number_classes . '">' . $i . '</td></tr>';
+
+		echo '<tr><td class="calendar-menu">';
+
+		if (count($events_RET[ $date ]))
+		{
+			foreach ( (array) $events_RET[ $date ] as $event)
 			{
-				if($event['TITLE']!=$menus_RET[$_REQUEST['menu_id']][1]['TITLE'])
-					echo '<BR /><i>'.$event['TITLE'].'</i>';
-				echo '<BR />'.htmlspecialchars($event['DESCRIPTION'],ENT_QUOTES);
+				if ( $event['TITLE']!=$menus_RET[$_REQUEST['menu_id']][1]['TITLE'])
+					echo '<i>'.$event['TITLE'].'</i><br />';
+				echo htmlspecialchars($event['DESCRIPTION'],ENT_QUOTES);
 			}
 		}
-		echo '</TD></TR></TABLE></TD>';
+		echo '</td></tr></table></td>';
 
 		$skip++;
 
-		if($skip%7==0)
-			echo '</TR>';
-	}
-	if($skip%7!=0)
-		echo '<TD style="background-color:#C0C0C0;" colspan="'.(7-$skip%7).'">&nbsp;</TD></TR>';
-
-	echo '</TBODY></TABLE></P>';
-}
-else
-{
-	DrawHeader(ProgramTitle());
-
-	if(AllowEdit())
-	{
-		$description_RET = DBGet(DBQuery("SELECT DISTINCT DESCRIPTION FROM CALENDAR_EVENTS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND TITLE='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."' AND DESCRIPTION IS NOT NULL ORDER BY DESCRIPTION"));
-		if(count($description_RET))
+		if ( $skip % 7 == 0 )
 		{
-			$description_select = '<OPTION value="">'._('or select previous meal').'</OPTION>';
-			foreach($description_RET as $description)
-				$description_select .= '<OPTION value="'.$description['DESCRIPTION'].'">'.$description['DESCRIPTION'].'</OPTION>';
-			$description_select .= '</SELECT>';
+			echo '</tr>';
 		}
 	}
 
-	$calendar_RET = DBGet(DBQuery("SELECT to_char(SCHOOL_DATE,'dd-MON-YY') as SCHOOL_DATE
+	if ( $skip % 7 != 0 )
+	{
+		echo '<td colspan="' . ( 7 - $skip % 7 ) . '" class="calendar-skip">&nbsp;</td></tr>';
+	}
+
+	echo '</tbody></table></p>';
+}
+else
+{
+	if (AllowEdit())
+	{
+		$description_RET = DBGet(DBQuery("SELECT DISTINCT DESCRIPTION FROM CALENDAR_EVENTS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND TITLE='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."' AND DESCRIPTION IS NOT NULL ORDER BY DESCRIPTION"));
+		if (count($description_RET))
+		{
+			$description_select = '<option value="">'._('or select previous meal').'</option>';
+			foreach ( (array) $description_RET as $description)
+				$description_select .= '<option value="'.$description['DESCRIPTION'].'">'.$description['DESCRIPTION'].'</option>';
+			$description_select .= '</select>';
+		}
+	}
+
+	$calendar_RET = DBGet(DBQuery("SELECT SCHOOL_DATE
 	FROM ATTENDANCE_CALENDAR
-	WHERE SCHOOL_DATE BETWEEN '".date('d-M-y',$time)."' AND '".date('d-M-y',$time_last)."'
+	WHERE SCHOOL_DATE BETWEEN '" . date( 'Y-m-d', $time )."' AND '" . date( 'Y-m-d', $time_last ) . "'
 	AND SYEAR='".UserSyear()."'
 	AND SCHOOL_ID='".UserSchool()."'
 	AND CALENDAR_ID='".$calendar_id."'
 	AND MINUTES>0
 	ORDER BY SCHOOL_DATE"),array(),array('SCHOOL_DATE'));
 
-	$events_RET = DBGet(DBQuery("SELECT ID,TITLE,DESCRIPTION,to_char(SCHOOL_DATE,'dd-MON-yy') AS SCHOOL_DATE
+	$events_RET = DBGet(DBQuery("SELECT ID,TITLE,DESCRIPTION,SCHOOL_DATE
 	FROM CALENDAR_EVENTS
-	WHERE SCHOOL_DATE BETWEEN '".date('d-M-y',$time)."' AND '".date('d-M-y',$time_last)."'
+	WHERE SCHOOL_DATE BETWEEN '" . date( 'Y-m-d', $time )."' AND '" . date( 'Y-m-d', $time_last ) . "'
 	AND SYEAR='".UserSyear()."'
 	AND SCHOOL_ID='".UserSchool()."'
 	AND TITLE='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."'
-	ORDER BY SCHOOL_DATE"),array('DESCRIPTION'=>'makeDescriptionInput','SCHOOL_DATE'=>'ProperDate'));
+	ORDER BY SCHOOL_DATE"),array('DESCRIPTION' => 'makeDescriptionInput','SCHOOL_DATE' => 'ProperDate'));
 
 	$events_RET[0] = array(); // make sure indexing from 1
-	foreach($calendar_RET as $school_date=>$value)
-		$events_RET[] = array('ID'=>'new','SCHOOL_DATE'=>ProperDate($school_date),'DESCRIPTION'=>TextInput('','food_service['.$school_date.'][text]','','size=20').($description_select ? '<SELECT name="food_service['.$school_date.'][select]">'.$description_select : ''));
+	foreach ( (array) $calendar_RET as $school_date => $value)
+		$events_RET[] = array('ID' => 'new','SCHOOL_DATE'=>ProperDate($school_date),'DESCRIPTION'=>TextInput('','food_service['.$school_date.'][text]','','size=20').($description_select ? '<select name="food_service['.$school_date.'][select]">'.$description_select : ''));
 	unset($events_RET[0]);
-	$LO_columns = array('ID'=>_('ID'),'SCHOOL_DATE'=>_('Date'),'DESCRIPTION'=>_('Description'));
+	$LO_columns = array('ID' => _('ID'),'SCHOOL_DATE' => _('Date'),'DESCRIPTION' => _('Description'));
 
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$_REQUEST['menu_id'].'&month='.$_REQUEST['month'].'&year='.$_REQUEST['year'].'" METHOD="POST">';
-	DrawHeader(PrepareDate(mb_strtoupper(date("d-M-y",$time)),'',false,array('M'=>1,'Y'=>1,'submit'=>true)),SubmitButton(_('Save'),'submit[save]').'<INPUT type="submit" value="'._('Generate Menu').'" name="submit[print]" />');
-	echo '<BR />';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$_REQUEST['menu_id'].'&month='.$_REQUEST['month'].'&year='.$_REQUEST['year'].'" method="POST">';
+	DrawHeader(PrepareDate(mb_strtoupper(date("d-M-y",$time)),'',false,array('M'=>1,'Y'=>1,'submit'=>true)),SubmitButton(_('Save'),'submit[save]').SubmitButton(_('Generate Menu'),'submit[print]'));
+	echo '<br />';
 
 	$tabs = array();
-	foreach($menus_RET as $id=>$meal)
-		$tabs[] = array('title'=>$meal[1]['TITLE'],'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&menu_id=' . $id . '&month='.$_REQUEST['month'].'&year='.$_REQUEST['year']);
+
+	foreach ( (array) $menus_RET as $id => $meal )
+	{
+		$tabs[] = array(
+			'title' => $meal[1]['TITLE'],
+			'link' => 'Modules.php?modname=' . $_REQUEST['modname'] .
+				'&menu_id=' . $id . '&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year'],
+		);
+	}
 
 	$extra = array('save'=>false,'search'=>false,
 		'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$_REQUEST['menu_id'].'&month='.$_REQUEST['month'].'&year='.$_REQUEST['year']));
@@ -178,16 +243,15 @@ else
 //FJ add translation
 	ListOutput($events_RET,$LO_columns,$singular,$plural,array(),array(),$extra);
 
-	echo '<BR /><span class="center">'.SubmitButton(_('Save'),'submit[save]').'</span>';
-	echo '</FORM>';
+	echo '<br /><div class="center">' . SubmitButton(_('Save'),'submit[save]') . '</div>';
+	echo '</form>';
 }
 
 function makeDescriptionInput($value,$name)
 {	global $THIS_RET,$calendar_RET;
 
-	if($calendar_RET[$THIS_RET['SCHOOL_DATE']])
+	if ( $calendar_RET[$THIS_RET['SCHOOL_DATE']])
 		unset($calendar_RET[$THIS_RET{'SCHOOL_DATE'}]);
 
 	return TextInput($value,'food_service['.$THIS_RET['SCHOOL_DATE'].'][text]','','size=20');
 }
-?>

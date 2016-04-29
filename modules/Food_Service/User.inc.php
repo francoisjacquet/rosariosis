@@ -1,13 +1,15 @@
 <?php
 
-if($_REQUEST['modfunc']=='update')
+require_once 'ProgramFunctions/TipMessage.fnc.php';
+
+if ( $_REQUEST['modfunc']=='update')
 {
-	if(UserStaffID() && AllowEdit())
+	if (UserStaffID() && AllowEdit())
 	{
-		if(count($_REQUEST['food_service']))
+		if (count($_REQUEST['food_service']))
 		{
 			$sql = "UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET ";
-			foreach($_REQUEST['food_service'] as $column_name=>$value)
+			foreach ( (array) $_REQUEST['food_service'] as $column_name => $value)
 				$sql .= $column_name."='".trim($value)."',";
 			$sql = mb_substr($sql,0,-1)." WHERE STAFF_ID='".UserStaffID()."'";
 			DBQuery($sql);
@@ -18,7 +20,7 @@ if($_REQUEST['modfunc']=='update')
 	unset($_SESSION['_REQUEST_vars']['food_service']);
 }
 
-if(!$_REQUEST['modfunc'] && UserStaffID())
+if ( ! $_REQUEST['modfunc'] && UserStaffID())
 {
 	$staff = DBGet(DBQuery("SELECT s.STAFF_ID,s.FIRST_NAME||' '||s.LAST_NAME,
 	(SELECT s.STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS ACCOUNT_ID,
@@ -29,41 +31,40 @@ if(!$_REQUEST['modfunc'] && UserStaffID())
 	WHERE s.STAFF_ID='".UserStaffID()."'"));
 	$staff = $staff[1];
 
-	echo '<TABLE class="width-100p">';
-	echo '<TR>';
-	echo '<TD class="valign-top">';
-	echo '<TABLE class="width-100p"><TR>';
+	echo '<table class="width-100p">';
+	echo '<tr>';
+	echo '<td class="valign-top">';
+	echo '<table class="width-100p"><tr>';
 
-	echo '<TD class="valign-top">'.NoInput(($staff['BALANCE']<0?'<span style="color:red">':'').$staff['BALANCE'].($staff['BALANCE']<0?'</span>':''),'Balance');
+	echo '<td class="valign-top">'.NoInput(($staff['BALANCE']<0?'<span style="color:red">':'').$staff['BALANCE'].($staff['BALANCE']<0?'</span>':''),'Balance');
 
 	// warn if account non-existent (balance query failed)
-	if(!$staff['ACCOUNT_ID'])
+	if ( ! $staff['ACCOUNT_ID'] )
 	{
-		$warning = _('This user does not have a Meal Account.');
-
-		$tipJS = '<script>var tiptitle1='.json_encode(_('Warning')).'; var tipmsg1='.json_encode($warning).';</script>';
-
-		echo '<BR />'.$tipJS.button('warning','','"#" onMouseOver="stm([tiptitle1,tipmsg1])" onMouseOut="htm()" onclick="return false;"');
+		echo '<br />' . MakeTipMessage(
+			_( 'This user does not have a Meal Account.' ),
+			_( 'Warning' ),
+			button( 'warning' )
+		);
 	}
 
-	echo '</TD>';
+	echo '</td>';
 
-	echo '</TR></TABLE>';
-	echo '</TD></TR></TABLE>';
-	echo '<HR>';
+	echo '</tr></table>';
+	echo '</td></tr></table>';
+	echo '<hr />';
 
-	echo '<TABLE class="width-100p cellspacing-0">';
-	echo '<TR><TD class="valign-top">';
+	echo '<table class="width-100p fixed-col">';
+	echo '<tr><td class="valign-top">';
 
-	echo '<TABLE class="width-100p">';
-	echo '<TR>';
-	$options = array('Inactive'=>_('Inactive'),'Disabled'=>_('Disabled'),'Closed'=>_('Closed'));
-	echo '<TD>'.($staff['ACCOUNT_ID']?SelectInput($staff['STATUS'],'food_service[STATUS]',_('Status'),$options,_('Active')):NoInput('-',_('Status'))).'</TD>';
-	echo '<TD>'.($staff['ACCOUNT_ID']?TextInput($staff['BARCODE'],'food_service[BARCODE]',_('Barcode'),'size=12 maxlength=25'):NoInput('-',_('Barcode'))).'</TD>';
-	echo '</TR>';
-	echo '</TABLE>';
+	echo '<table class="width-100p">';
+	echo '<tr>';
+	$options = array('Inactive' => _('Inactive'),'Disabled' => _('Disabled'),'Closed' => _('Closed'));
+	echo '<td>'.($staff['ACCOUNT_ID']?SelectInput($staff['STATUS'],'food_service[STATUS]',_('Status'),$options,_('Active')):NoInput('-',_('Status'))).'</td>';
+	echo '<td>'.($staff['ACCOUNT_ID']?TextInput($staff['BARCODE'],'food_service[BARCODE]',_('Barcode'),'size=12 maxlength=25'):NoInput('-',_('Barcode'))).'</td>';
+	echo '</tr>';
+	echo '</table>';
 
-	echo '</TD></TR>';
-	echo '</TABLE>';
+	echo '</td></tr>';
+	echo '</table>';
 }
-?>

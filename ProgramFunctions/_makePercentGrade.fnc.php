@@ -1,38 +1,79 @@
 <?php
-function _makePercentGrade($grade_id,$course_period_id=0,$staff_id=0)
-{	global $programconfig,$_ROSARIO;
+/**
+ * Make Percent Grade function
+ *
+ * @package RosarioSIS
+ * @subpackage ProgramFunctions
+ */
 
-	if(!$course_period_id)
-		$course_period_id = UserCoursePeriod();
+/**
+ * Make Percent Grade
+ * From Grade ID or TITLE:
+ * = (Grade breakoff + Previous Grade breakoff) / 2
+ *
+ * @example _makePercentGrade( $grade[1]['REPORT_CARD_GRADE_ID'], $course_period_id )
+ *
+ * @global $_ROSARIO uses $_ROSARIO['_makeLetterGrade']
+ * @see _makeLetterGrade()
+ *
+ * @param  string  $grade_id_or_title Grade ID or TITLE.
+ * @param  integer $course_period_id  Course Period ID (optional). Defaults to UserCoursePeriod().
+ * @param  integer $staff_id          Staff ID (optional). Defaults to User( 'STAFF_ID' ).
+ *
+ * @return float Percent Grade or 0 if not found.
+ */
+function _makePercentGrade( $grade_id_or_title, $course_period_id = 0, $staff_id = 0 )
+{
+	global $_ROSARIO;
 
-	if(!$staff_id)
-		$staff_id = User('STAFF_ID');
-
-	if(!$programconfig[$staff_id])
+	if ( ! $grade_id_or_title )
 	{
-        $config_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".$staff_id."' AND PROGRAM='Gradebook'"),array(),array('TITLE'));
-		if(count($config_RET))
-			foreach($config_RET as $title=>$value)
-				$programconfig[$staff_id][$title] = $value[1]['VALUE'];
-		else
-			$programconfig[$staff_id] = true;
+		return 0;
 	}
-	if(!$_ROSARIO['_makeLetterGrade']['courses'][$course_period_id])
-		$_ROSARIO['_makeLetterGrade']['courses'][$course_period_id] = DBGet(DBQuery("SELECT DOES_BREAKOFF,GRADE_SCALE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$course_period_id."'"));
-	$does_breakoff = $_ROSARIO['_makeLetterGrade']['courses'][$course_period_id][1]['DOES_BREAKOFF'];
-	$grade_scale_id = $_ROSARIO['_makeLetterGrade']['courses'][$course_period_id][1]['GRADE_SCALE_ID'];
 
-	if(!$_ROSARIO['_makeLetterGrade']['grades'][$grade_scale_id])
-		$_ROSARIO['_makeLetterGrade']['grades'][$grade_scale_id] = DBGet(DBQuery("SELECT TITLE,ID,BREAK_OFF FROM REPORT_CARD_GRADES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND GRADE_SCALE_ID='".$grade_scale_id."' ORDER BY BREAK_OFF IS NOT NULL DESC,BREAK_OFF DESC,SORT_ORDER"));
+	$course_period_id = $course_period_id ? $course_period_id : UserCoursePeriod();
+
+	$staff_id = $staff_id ? $staff_id : User( 'STAFF_ID' );
+
+	$gradebook_config = ProgramUserConfig( 'Gradebook', $staff_id );
+
+	if ( ! isset( $_ROSARIO['_makeLetterGrade']['courses'][ $course_period_id ] ) )
+	{
+		$_ROSARIO['_makeLetterGrade']['courses'][ $course_period_id ] = DBGet( DBQuery( "SELECT DOES_BREAKOFF,GRADE_SCALE_ID
+			FROM COURSE_PERIODS
+			WHERE COURSE_PERIOD_ID='" . $course_period_id . "'" ) );
+	}
+
+	$does_breakoff = $_ROSARIO['_makeLetterGrade']['courses'][ $course_period_id ][1]['DOES_BREAKOFF'];
+
+	$grade_scale_id = $_ROSARIO['_makeLetterGrade']['courses'][ $course_period_id ][1]['GRADE_SCALE_ID'];
+
+	if ( ! isset( $_ROSARIO['_makeLetterGrade']['grades'][ $grade_scale_id ] ) )
+	{
+		$_ROSARIO['_makeLetterGrade']['grades'][ $grade_scale_id ] = DBGet( DBQuery( "SELECT TITLE,ID,BREAK_OFF
+			FROM REPORT_CARD_GRADES
+			WHERE SYEAR='" . UserSyear() . "'
+			AND SCHOOL_ID='" . UserSchool() . "'
+			AND GRADE_SCALE_ID='" . $grade_scale_id . "'
+			ORDER BY BREAK_OFF IS NOT NULL DESC,BREAK_OFF DESC,SORT_ORDER" ) );
+	}
 	//$grades = array('A+','A','A-','B+','B','B-','C+','C','C-','D+','D','D-','F');
 
-	foreach($_ROSARIO['_makeLetterGrade']['grades'][$grade_scale_id] as $grade)
+	foreach ( (array) $_ROSARIO['_makeLetterGrade']['grades'][ $grade_scale_id ] as $grade )
 	{
 		$prev = $crnt;
-		$crnt = ($does_breakoff=='Y' ? $programconfig[$staff_id][$course_period_id.'-'.$grade['ID']] : $grade['BREAK_OFF']);
-		if(is_numeric($grade_id) ? $grade_id==$grade['ID'] : mb_strtoupper($grade_id)==mb_strtoupper($grade['TITLE']))
-			return ($crnt + ($crnt>$prev ? 100 : $prev)) / 2;
+
+		$crnt = ( $does_breakoff === 'Y' ?
+			$gradebook_config[ $course_period_id . '-' . $grade['ID'] ] :
+			$grade['BREAK_OFF'] );
+
+		if ( is_numeric( $grade_id_or_title ) ?
+				$grade_id_or_title == $grade['ID'] :
+				mb_strtoupper( $grade_id_or_title ) == mb_strtoupper( $grade['TITLE'] ) )
+		{
+			return ( $crnt + ( $crnt > $prev ? 100 : $prev ) ) / 2;
+		}
 	}
+
 	return 0;
 }
-?>

@@ -47,7 +47,7 @@ function ReferralLogIncludeForm()
 	$fields[] = CheckboxInput( $value, 'elements[STAFF_ID]', _( 'Reporter' ), '', $new );
 
 	// Custom Discipline fields
-	foreach ( (array)$fields_RET as $id => $field )
+	foreach ( (array) $fields_RET as $id => $field )
 	{
 		// TEXTAREA fields are checked
 		$value = ( $field[1]['DATA_TYPE'] === 'textarea' ? 'Y' : 'N' );
@@ -78,6 +78,8 @@ function ReferralLogIncludeForm()
  */
 function ReferralLogsGenerate( $extra )
 {
+	require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
+
 	global $_ROSARIO;
 
 	static $fields_RET = null;
@@ -98,40 +100,48 @@ function ReferralLogsGenerate( $extra )
 	}
 
 	// Get eventual Incident Date timeframe
-	if ( $_REQUEST['month_discipline_entry_begin']
-		&& $_REQUEST['day_discipline_entry_begin']
-		&& $_REQUEST['year_discipline_entry_begin'] )
+	$start_date = $end_date = '';
+
+	// Get eventual Incident Date timeframe
+	if ( isset( $_REQUEST['month_discipline_entry_begin'] )
+		&& isset( $_REQUEST['day_discipline_entry_begin'] )
+		&& isset( $_REQUEST['year_discipline_entry_begin'] ) )
 	{
-		$start_date = $_REQUEST['day_discipline_entry_begin'] . '-' .
-			$_REQUEST['month_discipline_entry_begin'] . '-' .
-			$_REQUEST['year_discipline_entry_begin'];
+		$start_date = RequestedDate(
+			$_REQUEST['year_discipline_entry_begin'],
+			$_REQUEST['month_discipline_entry_begin'],
+			$_REQUEST['day_discipline_entry_begin']
+		);
 
-		if ( !VerifyDate( $start_date ) )
-			unset( $start_date );
+		if ( isset( $_REQUEST['month_discipline_entry_end'] )
+			&& isset( $_REQUEST['day_discipline_entry_end'] )
+			&& isset( $_REQUEST['year_discipline_entry_end'] ) )
+		{
+			$end_date = RequestedDate(
+				$_REQUEST['year_discipline_entry_end'],
+				$_REQUEST['month_discipline_entry_end'],
+				$_REQUEST['day_discipline_entry_end']
+			);
+		}
+ 	}
 
-		$end_date = $_REQUEST['day_discipline_entry_end'] . '-' .
-			$_REQUEST['month_discipline_entry_end'] . '-' .
-			$_REQUEST['year_discipline_entry_end'];
-
-		if ( !VerifyDate( $end_date ) )
-			unset( $end_date );
+	foreach ( (array) $_REQUEST['elements'] as $column => $Y )
+	{
+		$extra['SELECT'] .= ',dr.' . $column;
 	}
 
-	foreach ( (array)$_REQUEST['elements'] as $column => $Y )
+	if ( mb_strpos( $extra['FROM'], 'DISCIPLINE_REFERRALS' ) === false  )
 	{
-		$extra['SELECT'] .= ',r.' . $column;
+		$extra['WHERE'] .= ' AND dr.STUDENT_ID=ssm.STUDENT_ID
+			AND dr.SYEAR=ssm.SYEAR
+			AND dr.SCHOOL_ID=ssm.SCHOOL_ID ';
+
+		$extra['FROM'] .= ',DISCIPLINE_REFERRALS dr ';
 	}
-
-	$extra['FROM'] .= ',DISCIPLINE_REFERRALS r ';
-
-	$extra['WHERE'] .= " AND r.STUDENT_ID=ssm.STUDENT_ID AND r.SYEAR=ssm.SYEAR ";
-
-	if ( mb_strpos( $extra['FROM'], 'DISCIPLINE_REFERRALS dr' ) !== false )
-		$extra['WHERE'] .= ' AND r.ID=dr.ID';
 
 	$extra['group'] = array( 'STUDENT_ID' );
 
-	$extra['ORDER'] = ',r.ENTRY_DATE';
+	$extra['ORDER'] = ',dr.ENTRY_DATE';
 
 	$extra['WHERE'] .= appendSQL( '', $extra );
 
@@ -143,7 +153,7 @@ function ReferralLogsGenerate( $extra )
 		return array();
 	}
 
-	foreach ( (array)$referrals_RET as $student_id => $referrals )
+	foreach ( (array) $referrals_RET as $student_id => $referrals )
 	{
 		// Begin output buffer
 		ob_start();
@@ -159,10 +169,19 @@ function ReferralLogsGenerate( $extra )
 		DrawHeader( SchoolInfo( 'TITLE' ) );
 
 		// Incident Date timeframe
-		if ( isset( $start_date )
-			&& isset( $end_date ) )
+		if ( $start_date
+			|| $end_date )
 		{
-			DrawHeader( ProperDate( $start_date) . ' - ' . ProperDate( $end_date ) );
+			if ( ! $end_date )
+			{
+				$end_date = DBDate();
+			}
+			elseif ( ! $start_date )
+			{
+				$start_date = GetMP( GetCurrentMP( 'FY', DBDate() ), 'START_DATE' );
+			}
+
+			DrawHeader( ProperDate( $start_date ) . ' - ' . ProperDate( $end_date ) );
 		}
 		else
 		{
@@ -173,7 +192,7 @@ function ReferralLogsGenerate( $extra )
 
 		echo '<BR />';
 
-		foreach ( (array)$referrals as $referral )
+		foreach ( (array) $referrals as $referral )
 		{
 			// Entry Date
 			if ( isset( $_REQUEST['elements']['ENTRY_DATE'] ) )
@@ -188,7 +207,7 @@ function ReferralLogsGenerate( $extra )
 			}
 
 			// Custom Discipline fields
-			foreach ( (array)$_REQUEST['elements'] as $column => $Y )
+			foreach ( (array) $_REQUEST['elements'] as $column => $Y )
 			{
 				// Zap Entry Date & Reporter
 				if ( $column === 'ENTRY_DATE'
@@ -207,7 +226,7 @@ function ReferralLogsGenerate( $extra )
 					if ( $field_type === 'checkbox' )
 					{
 						DrawHeader( $title_txt .
-							( $referral[$column] === 'Y' ?
+							( $referral[ $column ] === 'Y' ?
 								button( 'check', '', '', 'bigger' ) :
 								button( 'x', '', '', 'bigger' ) ) );
 					}
@@ -215,22 +234,22 @@ function ReferralLogsGenerate( $extra )
 					elseif ( $field_type === 'multiple_checkbox' )
 					{
 						DrawHeader( $title_txt .
-							str_replace( '||', ', ', mb_substr( $referral[$column], 2, -2 ) ) );
+							str_replace( '||', ', ', mb_substr( $referral[ $column ], 2, -2 ) ) );
 					}
 					// Others
 					else
-						DrawHeader( $title_txt . $referral[$column] );
+						DrawHeader( $title_txt . $referral[ $column ] );
 				}
 				// TEXTEAREA fields
 				else
-					DrawHeader( nl2br( $referral[$column] ) );
+					DrawHeader( MarkDownToHTML( $referral[ $column ] ) );
 			}
 
 			echo '<BR />';
 		}
 
 		// Get output buffer
-		$referral_logs[$student_id] = ob_get_clean();
+		$referral_logs[ $student_id ] = ob_get_clean();
 	}
 
 	return $referral_logs;

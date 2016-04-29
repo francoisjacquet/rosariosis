@@ -1,45 +1,122 @@
 <?php
-function Buttons($value1,$value2='')
+/**
+ * Buttons functions
+ *
+ * @package RosarioSIS
+ * @subpackage functions
+ */
+
+/**
+ * Submit & Reset buttons
+ *
+ * @todo  use Buttons() programwide to homogenize code
+ *
+ * @param  string $submit_value Submit button text.
+ * @param  string $reset_value  Reset button text (optional).
+ *
+ * @return string Buttons HTML
+ */
+function Buttons( $submit_value, $reset_value = '' )
 {
-	$buttons = '<INPUT type="SUBMIT" value="'.$value1.'" />';
-	if($value2!='') 
-		$buttons .= ' <INPUT type="RESET" value="'.$value2.'" />';
-	
+	$buttons = '<input type="submit" value="' . $submit_value . '" />';
+
+	if ( $reset_value )
+	{
+		$buttons .= ' <input type="reset" value="' . $reset_value . '" />';
+	}
+
 	return $buttons;
 }
 
-function button($type,$text='',$link='',$class='')
+
+/**
+ * Image button with optional text & link
+ *
+ * @example echo button( 'x', '', '', 'bigger' );
+ *
+ * @param  string $type  [type]_button.png; ie. 'remove' will display the assets/themes/[user_theme]/btn/remove_button.png image.
+ * @param  string $text  button text (optional).
+ * @param  string $link  button link (optional).
+ * @param  string $class CSS classes (optional).
+ *
+ * @return string        button HTML
+ */
+function button( $type, $text = '', $link = '', $class = '' )
 {
-	if($link)
-		//dont put "" round the link href to let Javascript code insert
-		$button .= '<A HREF='.$link.($type=='remove' && empty($text)? ' title="'._('Delete').'"' : '').'>';
+	$button = '';
 
-	$img_file = 'assets/themes/'. Preferences('THEME') . '/btn/' . $type .'_button.png';
+	if ( $link )
+	{
+		$title = '';
 
-	$button .= '<IMG SRC="'.$img_file.'" class="button '.$class.'" />';
+		if ( $type === 'remove'
+			&& ! $text )
+		{
+			$title = ' title="' . _( 'Delete' ) . '"';
+		}
 
-	if($text)
-		$button .= ' <b>'.$text.'</b>';
+		// Dont put "" around the link href to allow Javascript code insert.
+		$button .= '<a href=' . $link . $title . '>';
+	}
 
-	if($link)
-		$button .= '</A>';
+	$button_file = 'assets/themes/' . Preferences( 'THEME' ) . '/btn/' . $type . '_button.png';
+
+	$button .= '<img src="' . $button_file . '" class="button ' . $class . '" alt="' . ucfirst( str_replace( '_', ' ', $type ) ) . '" />';
+
+	if ( $text )
+	{
+		$button .= '&nbsp;<b>' . $text . '</b>';
+	}
+
+	if ( $link )
+	{
+		$button .= '</a>';
+	}
 
 	return $button;
 }
 
-function SubmitButton($value='Submit',$name='',$options='')
+
+/**
+ * Submit button if user Can Edit
+ *
+ * @example echo SubmitButton( _( 'Save' ) );
+ *
+ * @param  string $value   Button text.
+ * @param  string $name    Button name attribute (optional).
+ * @param  string $options Button options (optional).
+ *
+ * @return string          Button HTML, empty string if user not allowed to edit
+ */
+function SubmitButton( $value, $name = '', $options = '' )
 {
-	if(AllowEdit())
-		return '<INPUT type="submit" value="'.$value.'"'.($name?' name="'.$name.'"':'').($options?' '.$options:'').' />';
-	else
-		return '';
+	if ( AllowEdit() )
+	{
+		$name_attr = $name ? ' name="' . $name . '" ' : '';
+
+		return '<input type="submit" value="' . $value . '"' . $name_attr . $options . ' />';
+	}
+
+	return '';
 }
 
-function ResetButton($value='Reset',$options='')
+
+/**
+ * Reset button if user Can Edit
+ *
+ * @example echo ResetButton( _( 'Cancel' ) );
+ *
+ * @param  string $value   Button text.
+ * @param  string $options Button options (optional).
+ *
+ * @return string          Button HTML, empty string if user not allowed to edit
+ */
+function ResetButton( $value, $options = '' )
 {
-	if(AllowEdit())
-		return '<INPUT type="reset" value="'.$value.'"'.($options?' '.$options:'').' />';
-	else
-		return '';
+	if ( AllowEdit() )
+	{
+		return '<input type="reset" value="' . $value . '" ' . $options . ' />';
+	}
+
+	return '';
 }
-?>

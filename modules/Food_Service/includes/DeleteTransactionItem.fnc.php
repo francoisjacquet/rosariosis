@@ -2,7 +2,7 @@
 
 function DeleteTransactionItem($transaction_id,$item_id,$type='student')
 {
-	if($type=='staff')
+	if ( $type=='staff')
 	{
 		$sql1 = "UPDATE FOOD_SERVICE_STAFF_TRANSACTIONS SET BALANCE=BALANCE-(SELECT AMOUNT FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID='".$transaction_id."' AND ITEM_ID='".$item_id."') WHERE TRANSACTION_ID>='".$transaction_id."' AND STAFF_ID=(SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_TRANSACTIONS WHERE TRANSACTION_ID='".$transaction_id."')";
 		$sql2 = "UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET BALANCE=BALANCE-(SELECT AMOUNT FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID='".$transaction_id."' AND ITEM_ID='".$item_id."') WHERE STAFF_ID=(SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_TRANSACTIONS WHERE TRANSACTION_ID='".$transaction_id."')";
@@ -21,8 +21,7 @@ function DeleteTransactionItem($transaction_id,$item_id,$type='student')
 	
 	if (empty($trans_items_RET))
 	{
-		require_once('modules/Food_Service/includes/DeleteTransaction.fnc.php');
+		require_once 'modules/Food_Service/includes/DeleteTransaction.fnc.php';
 		DeleteTransaction($transaction_id,$type);
 	}
 }
-?>

@@ -57,10 +57,13 @@ if ( empty( $_REQUEST['modfunc'] ) )
 	$extra['functions'] = array( 'CHECKBOX' => '_makeChooseCheckbox' );
 
 	$extra['columns_before'] = array(
-		'CHECKBOX' => '</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');" /><A>'
+		'CHECKBOX' => '</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.checked,\'st_arr\');" /><A>'
 	);
 
 	$extra['options']['search'] = false;
+
+	// Parent: associated students.
+	$extra['ASSOCIATED'] = User( 'STAFF_ID' );
 
 	Widgets( 'course' );
 

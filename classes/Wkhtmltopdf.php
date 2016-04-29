@@ -1,5 +1,13 @@
 <?php
 /**
+ * Wkhtmltopdf class
+ * wkhtmltopdf wrapper
+ *
+ * @package RosarioSIS
+ * @subpackage classes
+ */
+
+/**
  * @author aur1mas <aur1mas@devnet.lt>
  * @author Charles SANQUER <charles.sanquer@spyrit.net>
  * @author Clement Herreman <clement.herreman@pictime.com>
@@ -115,7 +123,7 @@ class Wkhtmltopdf
 
         if (!is_writable($options['path']))
         {
-            throw new Exception("Path to directory where to store files is not writable");
+            throw new Exception("Path to directory where to store files is not writable: " . $options['path']);
         }
         
         $this->setPath($options['path']);

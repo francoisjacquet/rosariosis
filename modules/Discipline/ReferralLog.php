@@ -7,7 +7,7 @@ $extra['new'] = true;
 
 $extra['action'] .= '&_ROSARIO_PDF=true';
 
-if ( !$_REQUEST['search_modfunc'] )
+if ( ! $_REQUEST['search_modfunc'] )
 {
 	DrawHeader( ProgramTitle() );
 	
@@ -23,14 +23,6 @@ else
 
 		echo '<BR /><BR />';
 	}
-
-	if ( isset( $_REQUEST['advanced'] )
-		&& $_REQUEST['advanced'] === 'Y' )
-	{
-		Widgets( 'all' );
-	}
-
-	$extra['WHERE'] .= appendSQL( '', $extra );
 
 	$PDF = '';
 

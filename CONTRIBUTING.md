@@ -1,0 +1,43 @@
+# CONTRIBUTING
+
+## New Issue
+
+Before reporting an [issue](https://github.com/francoisjacquet/rosariosis/issues/) related to RosarioSIS, please consider the following recommendations:
+
+1. Search the [closed issues](https://github.com/francoisjacquet/rosariosis/issues?q=is%3Aissue+is%3Aclosed) or the [Wiki](https://github.com/francoisjacquet/rosariosis/wiki), your problem may already have been answered. Please do not create **duplicates**.
+
+2. Specify your RosarioSIS, PHP & PostgreSQL **versions**, along with the server & browser used.
+
+3. Provide **steps to reproduce** the problem.
+
+4. Attach a **screenshot**.
+
+5. RosarioSIS errors, bugs (PHP, SQL, JS errors) & design or logic errors are welcome.
+
+6. **Installation problems**: RosarioSIS has been succesfully installed on various environments; nevertheless, you may encounter errors [specific to your OS, PHP or PostgreSQL version or configuration](https://github.com/francoisjacquet/rosariosis/blob/mobile/INSTALL.md#rosariosis-student-information-system). For the same reasons, installation problems will likely not be solved here.
+
+7. **RosarioSIS use**: the Handbooks, the inline Help & the [Wiki](https://github.com/francoisjacquet/rosariosis/wiki) contain useful resources to help you get the most out of RosarioSIS.
+
+8. **Email support**: to get professional help about installation problems, or RosarioSIS use, please head to https://www.rosariosis.org/services/
+
+You have PHP web development skills? Please head to the next section & send a [pull request](https://help.github.com/articles/using-pull-requests/).
+
+
+## Contributing to RosarioSIS
+
+Please head to the offical [Contribute page](https://www.rosariosis.org/contribute) to learn about how you can contribute to the project.
+
+### Coding standards
+
+1. We _roughly_ follow the [Wordpress Coding Standards](https://make.wordpress.org/core/handbook/coding-standards/).
+
+2. [Comment your code](https://make.wordpress.org/core/handbook/best-practices/inline-documentation-standards/): we use PHPDoc.
+
+3. Quality Assurance: we use code linters & other [QA tools](http://phpqatools.org/)
+
+4. Testing: Activate [debug mode](https://github.com/francoisjacquet/rosariosis/blob/mobile/INSTALL.md#installing-the-package); for emails, we use [MailCatcher](http://mailcatcher.me/)
+
+### Example Module
+
+Freely study and reuse the [Example module](https://github.com/francoisjacquet/rosariosis-module-example)
+

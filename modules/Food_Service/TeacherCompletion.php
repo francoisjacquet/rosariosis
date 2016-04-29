@@ -1,20 +1,30 @@
 <?php
 
-if($_REQUEST['month_date'] && $_REQUEST['day_date'] && $_REQUEST['year_date'])
-	while(!VerifyDate($date = $_REQUEST['day_date'].'-'.$_REQUEST['month_date'].'-'.$_REQUEST['year_date']))
-		$_REQUEST['day_date']--;
-else
+// set date
+if ( isset( $_REQUEST['month_date'] )
+	&& isset( $_REQUEST['day_date'] )
+	&& isset( $_REQUEST['year_date'] ) )
+{
+	$date = RequestedDate(
+		$_REQUEST['year_date'],
+		$_REQUEST['month_date'],
+		$_REQUEST['day_date']
+	);
+}
+
+if ( empty( $date ) )
 {
 	$_REQUEST['day_date'] = date('d');
-	$_REQUEST['month_date'] = mb_strtoupper(date('M'));
+	$_REQUEST['month_date'] = date('m');
 	$_REQUEST['year_date'] = date('Y');
-	$date = $_REQUEST['day_date'].'-'.$_REQUEST['month_date'].'-'.$_REQUEST['year_date'];
+
+	$date = $_REQUEST['year_date'] . '-' . $_REQUEST['month_date'] . '-' . $_REQUEST['day_date'];
 }
 
 DrawHeader(ProgramTitle());
 
 $day = date('D',strtotime($date));
-switch($day)
+switch ( $day)
 {
 	case 'Sun':
 		$day = 'U';
@@ -30,10 +40,10 @@ switch($day)
 $QI = DBQuery("SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp WHERE sp.SCHOOL_ID='".UserSchool()."' AND sp.SYEAR='".UserSyear()."' AND EXISTS (SELECT '' FROM COURSE_PERIODS WHERE SYEAR=sp.SYEAR AND PERIOD_ID=sp.PERIOD_ID AND DOES_FS_COUNTS='Y') ORDER BY sp.SORT_ORDER");
 $periods_RET = DBGet($QI);
 
-$period_select =  '<SELECT name="period"<OPTION value="">'._('All').'</OPTION>';
-foreach($periods_RET as $period)
-	$period_select .= '<OPTION value="'.$period[PERIOD_ID].'"'.(($_REQUEST['period']==$period['PERIOD_ID'])?' SELECTED':'').">".$period['TITLE'].'</OPTION>';
-$period_select .= '</SELECT>';
+$period_select =  '<select name="period"<option value="">'._('All').'</option>';
+foreach ( (array) $periods_RET as $period)
+	$period_select .= '<option value="'.$period[PERIOD_ID].'"'.(($_REQUEST['period']==$period['PERIOD_ID'])?' selected':'').">".$period['TITLE'].'</option>';
+$period_select .= '</select>';
 
 //FJ multiple school periods for a course period
 $sql = "SELECT s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,sp.TITLE,cpsp.PERIOD_ID,s.STAFF_ID
@@ -49,10 +59,10 @@ $sql = "SELECT s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,sp.TITLE,cpsp.PERIOD
 $RET = DBGet(DBQuery($sql),array(),array('STAFF_ID','PERIOD_ID'));
 
 $menus_RET = DBGet(DBQuery('SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER'),array(),array('MENU_ID'));
-if(!$_REQUEST['menu_id'])
+if ( ! $_REQUEST['menu_id'])
 {
-	if(!$_SESSION['FSA_menu_id'])
-		if(count($menus_RET))
+	if ( ! $_SESSION['FSA_menu_id'])
+		if (count($menus_RET))
 			$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'] = key($menus_RET);
 		else
 			ErrorMessage(array('There are no menus yet setup.'),'fatal');
@@ -64,74 +74,72 @@ else
 	$_SESSION['FSA_menu_id'] = $_REQUEST['menu_id'];
 
 $totals = array(array());
-if(count($RET))
+if (count($RET))
 {
-	foreach($RET as $staff_id=>$periods)
+	foreach ( (array) $RET as $staff_id => $periods)
 	{
 		$i++;
-		$staff_RET[$i]['FULL_NAME'] = $periods[key($periods)][1]['FULL_NAME'];
-		foreach($periods as $period_id=>$period)
+		$staff_RET[ $i ]['FULL_NAME'] = $periods[key($periods)][1]['FULL_NAME'];
+		foreach ( (array) $periods as $period_id => $period)
 		{
 			//$sql = 'SELECT (SELECT DESCRIPTION FROM FOOD_SERVICE_LUNCH_ITEMS WHERE ITEM_ID=ac.ITEM_ID) AS DESCRIPTION,(SELECT SORT_ORDER FROM FOOD_SERVICE_MENU_ITEMS WHERE ITEM_ID=ac.ITEM_ID AND MENU_ID=\''.$_REQUEST['menu_id'].'\') AS SORT_ORDER,ac.SHORT_NAME,ac.COUNT FROM FOOD_SERVICE_COMPLETED ac WHERE ac.STAFF_ID=\''.$staff_id.'\' AND ac.SCHOOL_DATE=\''.$date.'\' AND ac.PERIOD_ID=\''.$period_id.'\' ORDER BY SORT_ORDER';
 			$sql = 'SELECT fsi.DESCRIPTION,fsi.SHORT_NAME,ac.COUNT FROM FOOD_SERVICE_COMPLETED ac,FOOD_SERVICE_ITEMS fsi WHERE ac.STAFF_ID=\''.$staff_id.'\' AND ac.SCHOOL_DATE=\''.$date.'\' AND ac.PERIOD_ID=\''.$period_id.'\' AND ac.MENU_ID=\''.$_REQUEST['menu_id'].'\' AND fsi.ITEM_ID=ac.ITEM_ID ORDER BY fsi.SORT_ORDER';
 			$items_RET = DBGet(DBQuery($sql));
-			if ($items_RET) {
+			if ( $items_RET) {
 				$color = 'FFFFFF';
 
-				$staff_RET[$i][$period_id] = '<TABLE style="background-color:#'.$color.'"><TR>';
-				foreach($items_RET as $item) {
-					$staff_RET[$i][$period_id] .= '<TD style="background-color:#'.$color.'">'.($item['COUNT'] ? $item['COUNT'] : '0').'<BR />'.$item['DESCRIPTION'].'</TD>';
-					if($color=='FFFFFF')
+				$staff_RET[ $i ][ $period_id ] = '<table style="background-color:#'.$color.'"><tr>';
+				foreach ( (array) $items_RET as $item) {
+					$staff_RET[ $i ][ $period_id ] .= '<td style="background-color:#'.$color.'">'.($item['COUNT'] ? $item['COUNT'] : '0').'<br />'.$item['DESCRIPTION'].'</td>';
+					if ( $color=='FFFFFF')
 						$color = 'F0F0F0';
 					else
 						$color = 'FFFFFF';
-					if ($totals[$item['SHORT_NAME']])
+					if ( $totals[$item['SHORT_NAME']])
 						$totals[$item['SHORT_NAME']]['COUNT'] += $item['COUNT'];
 					else
-						$totals+= array($item['SHORT_NAME']=>array('DESCRIPTION'=>$item['DESCRIPTION'],'COUNT'=>$item['COUNT']));
+						$totals+= array($item['SHORT_NAME'] => array('DESCRIPTION' => $item['DESCRIPTION'],'COUNT' => $item['COUNT']));
 				}
-				$staff_RET[$i][$period_id] .= '</TR></TABLE>';
+				$staff_RET[ $i ][ $period_id ] .= '</tr></table>';
 			}
 			else
-				$staff_RET[$i][$period_id] = button('x');
+				$staff_RET[ $i ][ $period_id ] = button('x');
 		}
 	}
 }
 
-$columns = array('FULL_NAME'=>'Teacher');
-if(!$_REQUEST['period'])
+$columns = array('FULL_NAME' => 'Teacher');
+if ( ! $_REQUEST['period'])
 {
-	foreach($periods_RET as $period)
+	foreach ( (array) $periods_RET as $period)
 		$columns[$period['PERIOD_ID']] = $period['TITLE'];
 }
 
-echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
-DrawHeader(PrepareDate($date,'_date').' : '.$period_select.' : <INPUT type=submit value='._('Go').'>');
-echo '</FORM>';
+echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
+DrawHeader(PrepareDate($date,'_date').' : '.$period_select.' : <input type=submit value='._('Go').'>');
+echo '</form>';
 
-echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=add&menu_id='.$_REQUEST['menu_id'].'" method="POST">';
-if(count($menus_RET)>1)
+echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=add&menu_id='.$_REQUEST['menu_id'].'" method="POST">';
+if (count($menus_RET)>1)
 {
 	$tabs = array();
-	foreach($menus_RET as $id=>$menu)
-		$tabs[] = array('title'=>$menu[1]['TITLE'],'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$id);
+	foreach ( (array) $menus_RET as $id => $menu)
+		$tabs[] = array('title' => $menu[1]['TITLE'],'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$id);
 
-	echo '<BR />';
-	echo '<span class="center">'.WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$_REQUEST['menu_id']).'</span>';
+	echo '<br />';
+	echo '<div class="center">' . WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$_REQUEST['menu_id']) . '</div>';
 }
 
-echo '<TABLE class="width-100p"><TR><TD>';
+echo '<table class="width-100p"><tr><td>';
 $singular = sprintf(_('Teacher who takes %s counts'),$menus_RET[$_REQUEST['menu_id']][1]['TITLE']);
 $plural = sprintf(_('Teachers who take %s counts'),$menus_RET[$_REQUEST['menu_id']][1]['TITLE']);
 ListOutput($staff_RET,$columns,$singular,$plural);
-echo '</TD></TR>';
+echo '</td></tr>';
 
 $totals = array_values($totals);
 unset($totals[0]);
-echo '<TR><TD>';
-ListOutput($totals,array('DESCRIPTION'=>_('Item'),'COUNT'=>_('Total Count')),'Item Total','Item Totals');
-echo '</TD></TR></TABLE>';
+echo '<tr><td>';
+ListOutput($totals,array('DESCRIPTION' => _('Item'),'COUNT' => _('Total Count')),'Item Total','Item Totals');
+echo '</td></tr></table>';
 
-echo '</FORM>';
-
-?>
+echo '</form>';

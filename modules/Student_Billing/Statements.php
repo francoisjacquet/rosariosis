@@ -1,23 +1,10 @@
 <?php
-/**
-* @file $Id: Statements.php 422 2007-02-10 22:08:22Z focus-sis $
-* @package Focus/SIS
-* @copyright Copyright (C) 2006 Andrew Schmadeke. All rights reserved.
-* @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.txt
-* Focus/SIS is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.txt for copyright notices and details.
-*/
 
-//Widgets('all');
-Widgets('mailing_labels');
-//Widgets('document_template');
+Widgets( 'mailing_labels' );
 
-if(!$_REQUEST['search_modfunc'])
+if ( ! $_REQUEST['search_modfunc'] )
 {
-	DrawHeader(ProgramTitle());
+	DrawHeader( ProgramTitle() );
 
 	$extra['new'] = true;
 	$extra['action'] .= "&_ROSARIO_PDF=true";
@@ -25,40 +12,40 @@ if(!$_REQUEST['search_modfunc'])
 }
 else
 {
-	// For the Student Fees / Student Payments programs
+	// For the Student Fees / Student Payments programs.
 	$_REQUEST['print_statements'] = true;
-	if($_REQUEST['mailing_labels']=='Y')
-		$extra['group'][] = 'ADDRESS_ID';	
-	
-//FJ fix Advanced Search
-	$extra['WHERE'] .= appendSQL('',$extra);
-	$extra['WHERE'] .= CustomFields('where');
+
+	if ( $_REQUEST['mailing_labels']=='Y')
+		$extra['group'][] = 'ADDRESS_ID';
+
 	$RET = GetStuList($extra);
-	if(count($RET))
+
+	if (count($RET))
 	{
 		$SESSION_student_id_save = UserStudentID();
 		$handle = PDFStart();
-		foreach($RET as $student)
+		foreach ( (array) $RET as $student)
 		{
-			if($_REQUEST['mailing_labels']=='Y')
+			if ( $_REQUEST['mailing_labels']=='Y')
 			{
-				foreach($student as $address)
+				foreach ( (array) $student as $address)
 				{
-					echo '<BR /><BR /><BR />';
+					echo '<br /><br /><br />';
 					unset($_ROSARIO['DrawHeader']);
 					DrawHeader(_('Statement'));
 					DrawHeader($address['FULL_NAME'],$address['STUDENT_ID']);
 					DrawHeader($address['GRADE_ID']);
 					DrawHeader(SchoolInfo('TITLE'));
 					DrawHeader(ProperDate(DBDate()));
-		
-					echo '<BR /><BR /><TABLE class="width-100p"><TR><TD style="width:50px;"> &nbsp; </TD><TD>'.$address['MAILING_LABEL'].'</TD></TR></TABLE><BR />';
-					
+
+					echo '<br /><br /><table class="width-100p"><tr><td style="width:50px;"> &nbsp; </td><td>'.$address['MAILING_LABEL'].'</td></tr></table><br />';
+
 					SetUserStudentID($address['STUDENT_ID']);
 
-					include('modules/Student_Billing/StudentFees.php');
-					include('modules/Student_Billing/StudentPayments.php');
-					echo '<div style="page-break-after: always;"></div>';				
+					require 'modules/Student_Billing/StudentFees.php';
+					require 'modules/Student_Billing/StudentPayments.php';
+
+					echo '<div style="page-break-after: always;"></div>';
 				}
 			}
 			else
@@ -71,8 +58,10 @@ else
 				DrawHeader($student['GRADE_ID']);
 				DrawHeader(SchoolInfo('TITLE'));
 				DrawHeader(ProperDate(DBDate()));
-				include('modules/Student_Billing/StudentFees.php');
-				include('modules/Student_Billing/StudentPayments.php');
+
+				require 'modules/Student_Billing/StudentFees.php';
+				require 'modules/Student_Billing/StudentPayments.php';
+
 				echo '<div style="page-break-after: always;"></div>';
 			}
 		}
@@ -84,4 +73,3 @@ else
 	else
 		BackPrompt(_('No Students were found.'));
 }
-?>

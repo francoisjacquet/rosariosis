@@ -1,15 +1,18 @@
 <?php
-if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
+if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
-	if(count($_REQUEST['cp_arr']))
+	if (count($_REQUEST['cp_arr']))
 	{
 		$cp_list = '\''.implode('\',\'',$_REQUEST['cp_arr']).'\'';
 
 		$extra['DATE'] = DBGet(DBQuery("SELECT min(SCHOOL_DATE) AS START_DATE FROM ATTENDANCE_CALENDAR WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
 		$extra['DATE'] = $extra['DATE'][1]['START_DATE'];
 
-		if(!$extra['DATE'] || DBDate('postgres')>$extra['DATE'])
+		if ( ! $extra['DATE']
+			|| DBDate() > $extra['DATE'] )
+		{
 			$extra['DATE'] = DBDate();
+		}
 
 		// get the fy marking period id, there should be exactly one fy marking period
 		$fy_id = DBGet(DBQuery("SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
@@ -17,10 +20,10 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 		//FJ multiple school periods for a course period
 		//FJ add subject areas
-		$course_periods_RET = DBGet(DBQuery("SELECT cp.TITLE,cp.COURSE_PERIOD_ID,cp.TITLE,cp.MARKING_PERIOD_ID,cp.MP,c.TITLE AS COURSE_TITLE,cp.TEACHER_ID,(SELECT LAST_NAME||', '||FIRST_NAME FROM STAFF WHERE STAFF_ID=cp.TEACHER_ID) AS TEACHER 
-		FROM COURSE_PERIODS cp,COURSES c 
-		WHERE c.COURSE_ID=cp.COURSE_ID 
-		AND cp.COURSE_PERIOD_ID IN (".$cp_list.") 
+		$course_periods_RET = DBGet(DBQuery("SELECT cp.TITLE,cp.COURSE_PERIOD_ID,cp.TITLE,cp.MARKING_PERIOD_ID,cp.MP,c.TITLE AS COURSE_TITLE,cp.TEACHER_ID,(SELECT LAST_NAME||', '||FIRST_NAME FROM STAFF WHERE STAFF_ID=cp.TEACHER_ID) AS TEACHER
+		FROM COURSE_PERIODS cp,COURSES c
+		WHERE c.COURSE_ID=cp.COURSE_ID
+		AND cp.COURSE_PERIOD_ID IN (".$cp_list.")
 		ORDER BY TEACHER"));
 
 		$first_extra = $extra;
@@ -30,11 +33,11 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 		$no_students_backprompt = true;
 
-		foreach($course_periods_RET as $teacher_id=>$course_period)
+		foreach ( (array) $course_periods_RET as $teacher_id => $course_period)
 		{
 			$_SESSION['UserCoursePeriod'] = $course_period['COURSE_PERIOD_ID'];
 
-			$extra = array('SELECT_ONLY'=>'1');
+			$extra = array('SELECT_ONLY' => '1');
 
 			//FJ prevent course period ID hacking
 			if (User('PROFILE')=='teacher')
@@ -54,7 +57,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			$RET = GetStuList($extra);
 			//echo '<pre>'; var_dump($RET); echo '</pre>';
 
-			if(count($RET))
+			if (count($RET))
 			{
 				$no_students_backprompt = false;
 
@@ -74,14 +77,14 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					$extra['WHERE'] .= $extraWHERE;
 				}
 
-				include('modules/misc/Export.php');
+				require 'modules/misc/Export.php';
 
 				echo '<div style="page-break-after: always;"></div>';
 			}
 		}
 		$_SESSION['UserCoursePeriod'] = $PCL_UserCoursePeriod;
 
-		if ($no_students_backprompt)
+		if ( $no_students_backprompt)
 			BackPrompt(_('No Students were found.'));
 
 		PDFStop($handle);
@@ -90,80 +93,80 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		BackPrompt(_('You must choose at least one course period.'));
 }
 
-if(empty($_REQUEST['modfunc']))
+if (empty($_REQUEST['modfunc']))
 {
 	DrawHeader(ProgramTitle());
 
-	if(User('PROFILE')!='admin')
+	if (User('PROFILE')!='admin')
 		$_REQUEST['search_modfunc'] = 'list';
 
-	if($_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		$_REQUEST['search_modfunc'] = 'select';
-		$extra['header_right'] = '<INPUT type="submit" value="'._('Create Class Lists for Selected Course Periods').'" />';
+		$extra['header_right'] = '<input type="submit" value="'._('Create Class Lists for Selected Course Periods').'" />';
 
-		$extra['extra_header_left'] = '<TABLE><TR><TD><label><INPUT type="checkbox" name="include_inactive" value="Y"> '._('Include Inactive Students').'</label></TD></TR></TABLE>';
+		$extra['extra_header_left'] = '<table><tr><td><label><input type="checkbox" name="include_inactive" value="Y"> '._('Include Inactive Students').'</label></td></tr></table>';
 
 		$Search = 'mySearch';
-		include('modules/misc/Export.php');
+		require 'modules/misc/Export.php';
 	}
 	else
 	{
 		$_SESSION['Search_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back'));
 
-		if($_SESSION['Back_PHP_SELF']!='course')
+		if ( $_SESSION['Back_PHP_SELF']!='course')
 		{
 			$_SESSION['Back_PHP_SELF'] = 'course';
 			unset($_SESSION['List_PHP_SELF']);
 		}
 
-		echo '<script>var footer_link = document.createElement("a"); footer_link.href = "Bottom.php"; footer_link.target = "footer"; ajaxLink(footer_link); old_modname="";</script>';
+		echo '<script>ajaxLink("Bottom.php"); old_modname="";</script>';
 
-		echo '<BR />';
+		echo '<br />';
 
 		PopTable('header',_('Find a Course'));
 
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&search_modfunc=list&next_modname='.$_REQUEST['next_modname'].'" method="POST">';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&search_modfunc=list&next_modname='.$_REQUEST['next_modname'].'" method="POST">';
 
-		echo '<TABLE>';
+		echo '<table>';
 
 		$RET = DBGet(DBQuery("SELECT STAFF_ID,LAST_NAME||', '||FIRST_NAME AS FULL_NAME FROM STAFF WHERE PROFILE='teacher' AND (SCHOOLS IS NULL OR position(',".UserSchool().",' IN SCHOOLS)>0) AND SYEAR='".UserSyear()."' ORDER BY FULL_NAME"));
 
-		echo '<TR class="st"><TD>'._('Teacher').'</TD><TD>';
+		echo '<tr class="st"><td>'._('Teacher').'</td><td>';
 
-		echo '<SELECT name="teacher_id"><OPTION value="">'._('N/A').'</OPTION>';
+		echo '<select name="teacher_id"><option value="">'._('N/A').'</option>';
 
-		foreach($RET as $teacher)
-			echo '<OPTION value="'.$teacher['STAFF_ID'].'">'.$teacher['FULL_NAME'].'</OPTION>';
+		foreach ( (array) $RET as $teacher)
+			echo '<option value="'.$teacher['STAFF_ID'].'">'.$teacher['FULL_NAME'].'</option>';
 
-		echo '</SELECT></TD></TR>';
+		echo '</select></td></tr>';
 
 		$RET = DBGet(DBQuery("SELECT SUBJECT_ID,TITLE FROM COURSE_SUBJECTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' ORDER BY TITLE"));
-		echo '<TR class="st"><TD>'._('Subject').'</TD><TD>';
-		echo '<SELECT name="subject_id"><OPTION value="">'._('N/A').'</OPTION>';
+		echo '<tr class="st"><td>'._('Subject').'</td><td>';
+		echo '<select name="subject_id"><option value="">'._('N/A').'</option>';
 
-		foreach($RET as $subject)
-			echo '<OPTION value="'.$subject['SUBJECT_ID'].'">'.$subject['TITLE'].'</OPTION>';
+		foreach ( (array) $RET as $subject)
+			echo '<option value="'.$subject['SUBJECT_ID'].'">'.$subject['TITLE'].'</option>';
 
-		echo '</SELECT></TD></TR>';
+		echo '</select></td></tr>';
 
 		$RET = DBGet(DBQuery("SELECT PERIOD_ID,TITLE FROM SCHOOL_PERIODS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
-		echo '<TR class="st"><TD>'._('Period').'</TD><TD>';
-		echo '<SELECT name="period_id"><OPTION value="">'._('N/A').'</OPTION>';
+		echo '<tr class="st"><td>'._('Period').'</td><td>';
+		echo '<select name="period_id"><option value="">'._('N/A').'</option>';
 
-		foreach($RET as $period)
-			echo '<OPTION value="'.$period['PERIOD_ID'].'">'.$period['TITLE'].'</OPTION>';
+		foreach ( (array) $RET as $period)
+			echo '<option value="'.$period['PERIOD_ID'].'">'.$period['TITLE'].'</option>';
 
-		echo '</SELECT></TD></TR>';
+		echo '</select></td></tr>';
 
 		Widgets('course');
 		echo $extra['search'];
 
-		echo '<TR><TD colspan="2" class="center">';
-		echo '<BR />';
+		echo '<tr><td colspan="2" class="center">';
+		echo '<br />';
 		echo Buttons(_('Submit'),_('Reset'));
 
-		echo '</TD></TR></TABLE></FORM>';
+		echo '</td></tr></table></form>';
 
 		PopTable('footer');
 	}
@@ -171,39 +174,39 @@ if(empty($_REQUEST['modfunc']))
 
 function mySearch($extra)
 {
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&search_modfunc=list&_ROSARIO_PDF=true'.$extra['action'].'" method="POST" name="search">';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&search_modfunc=list&_ROSARIO_PDF=true'.$extra['action'].'" method="POST" name="search">';
 
 	DrawHeader('',$extra['header_right']);
 	DrawHeader($extra['extra_header_left'],$extra['extra_header_right']);
-	echo '<TABLE>'.$extra['extra_search'].'</TABLE>';
+	echo '<table>'.$extra['extra_search'].'</table>';
 
-	$sql = 'SELECT \'<INPUT type="checkbox" name="cp_arr[]" value="\'||cp.COURSE_PERIOD_ID||\'">\' AS CHECKBOX,cp.TITLE FROM COURSE_PERIODS cp';
+	$sql = 'SELECT \'<input type="checkbox" name="cp_arr[]" value="\'||cp.COURSE_PERIOD_ID||\'">\' AS CHECKBOX,cp.TITLE FROM COURSE_PERIODS cp';
 
-	if(User('PROFILE')=='admin')
+	if (User('PROFILE')=='admin')
 	{
-		if($_REQUEST['teacher_id'])
+		if ( $_REQUEST['teacher_id'])
 			$where .= " AND cp.TEACHER_ID='".$_REQUEST['teacher_id']."'";
 
-		if($_REQUEST['first'])
+		if ( $_REQUEST['first'])
 			$where .= " AND UPPER(s.FIRST_NAME) LIKE '".mb_strtoupper($_REQUEST['first'])."%'";
 
-		if($_REQUEST['w_course_period_id'])
-			if($_REQUEST['w_course_period_id'])
+		if ( $_REQUEST['w_course_period_id'])
+			if ( $_REQUEST['w_course_period_id'])
 			{
-				if($_REQUEST['w_course_period_id_which']=='course')
+				if ( $_REQUEST['w_course_period_id_which']=='course')
 					$where .= " AND cp.COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$_REQUEST['w_course_period_id']."')";
 				else
 					$where .= " AND cp.COURSE_PERIOD_ID='".$_REQUEST['w_course_period_id']."'";
 			}
 
-		if($_REQUEST['subject_id'])
+		if ( $_REQUEST['subject_id'])
 		{
 			$from .= ",COURSES c";
 			$where .= " AND c.COURSE_ID=cp.COURSE_ID AND c.SUBJECT_ID='".$_REQUEST['subject_id']."'";
 		}
 
 		//FJ multiple school periods for a course period
-		if($_REQUEST['period_id'])
+		if ( $_REQUEST['period_id'])
 		{
 			$from .= ',COURSE_PERIOD_SCHOOL_PERIODS cpsp';
 			$where .= " AND cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND cpsp.PERIOD_ID='".$_REQUEST['period_id']."'";
@@ -221,24 +224,23 @@ function mySearch($extra)
 	$sql .= ' ORDER BY cp.SHORT_NAME,cp.TITLE';
 
 	$course_periods_RET = DBGet(DBQuery($sql));
-	$LO_columns = array('CHECKBOX'=>'</A><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'cp_arr\');"><A>','TITLE'=>_('Course Period'));
+	$LO_columns = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.checked,\'cp_arr\');"><A>','TITLE' => _('Course Period'));
 
-	if(!$_REQUEST['LO_save'] && !$extra['suppress_save'])
+	if ( ! $_REQUEST['LO_save'] && ! $extra['suppress_save'])
 	{
 		$_SESSION['List_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back'));
 
-		if($_SESSION['Back_PHP_SELF']!='course')
+		if ( $_SESSION['Back_PHP_SELF']!='course')
 		{
 			$_SESSION['Back_PHP_SELF'] = 'course';
 			unset($_SESSION['Search_PHP_SELF']);
 		}
 
-		echo '<script>var footer_link = document.createElement("a"); footer_link.href = "Bottom.php"; footer_link.target = "footer"; ajaxLink(footer_link); old_modname="";</script>';
+		echo '<script>ajaxLink("Bottom.php"); old_modname="";</script>';
 	}
 
 	ListOutput($course_periods_RET,$LO_columns,'Course Period','Course Periods');
 
-	echo '<BR /><span class="center"><INPUT type="submit" value="'._('Create Class Lists for Selected Course Periods').'" /></span>';
-	echo '</FORM>';
+	echo '<br /><div class="center"><input type="submit" value="'._('Create Class Lists for Selected Course Periods').'" /></div>';
+	echo '</form>';
 }
-?>

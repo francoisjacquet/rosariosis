@@ -1,17 +1,64 @@
 <?php
-//FJ add password encryption
-if (!defined('CRYPT_SHA512'))
-	define('CRYPT_SHA512', 1);
-	
-function encrypt_password($plain) {
-	$password = rand(999999999, 9999999999);
-	$salt = '$6$'.mb_substr(sha1($password), 0, 16	);
-	$password = crypt($plain, $salt);
-	return $password;
+/**
+ * Password functions
+ *
+ * @package RosarioSIS
+ * @subpackage functions
+ */
+
+// We use SHA512 algorithm.
+if ( ! defined( 'CRYPT_SHA512' ) )
+{
+	define( 'CRYPT_SHA512', 1 );
 }
 
-function match_password($password, $plain) {
-	//$salt = mb_substr($password, 0, 19);
-	return $password == crypt($plain, $password);
+/**
+ * Encrypt Password
+ *
+ * @see http://php.net/crypt
+ *
+ * @uses SHA512 algorithm (PHP 5.3.2+ required)
+ *
+ * @param  string $plain Plain text password.
+ *
+ * @return string Encrypted password
+ */
+function encrypt_password( $plain )
+{
+	if ( ! $plain )
+	{
+		return '';
+	}
+
+	$rand = rand( 999999999, 9999999999 );
+
+	$salt = '$6$' . mb_substr( sha1( $rand ), 0, 16	);
+
+	return crypt( (string) $plain, $salt );
 }
-?>
+
+
+/**
+ * Match Password
+ *
+ * @see http://php.net/hash-equals
+ *
+ * @param  string $crypted Crypted password.
+ * @param  string $plain   Plain text password.
+ *
+ * @return boolean true if password match, else false
+ */
+function match_password( $crypted, $plain )
+{
+	if ( ! $plain
+		|| ! $crypted )
+	{
+		return false;
+	}
+
+	//$salt = mb_substr($password, 0, 19);
+
+	return function_exists( 'hash_equals' ) ? // PHP < 5.6 compat.
+		hash_equals( (string) $crypted, crypt( (string) $plain, (string) $crypted ) ) :
+		$crypted == crypt( (string) $plain, (string) $crypted );
+}
