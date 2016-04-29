@@ -27,6 +27,7 @@
 	position:relative;
 	float:left;
 	overflow: visible;
+	z-index: auto !important;
 }
 #menushadow{
 	position:absolute;
@@ -107,6 +108,9 @@ a{
 iframe,img{
 	border:0
 }
+img{
+	max-width: 100%;
+}
 td,textarea{
 	line-height:inherit
 }
@@ -119,9 +123,6 @@ select[multiple]{
 a,input,select:focus{
 	outline:0;
 	text-decoration:none
-}
-#menu select{
-	max-width:100%
 }
 blockquote,q{
 	quotes:none
@@ -308,17 +309,18 @@ label{
 	-webkit-user-select:none;
 	-moz-user-select:none;
 	-ms-user-select:none;
-	    user-select:none
+		user-select:none
 }
 .wp-submenu{
 	top: -1000em;
 	left: 0;
 	position: absolute;
+	min-width:205px;
 	padding:0;
 	margin:0;
 	overflow: hidden;
-	-webkit-transition: 0s top, 0s left;
-	transition: 0s top, 0s left;
+	-webkit-transition: 0s top, 0s left, 0s min-width;
+	transition: 0s top, 0s left, 0s min-width;
 	-webkit-transition-delay: .15s;
 	transition-delay: .15s;
 	border-width:1px;
@@ -346,7 +348,6 @@ html[dir="RTL"].no-touch .menu-module:hover .menu-top:after{
 	-webkit-transition-delay: .15s;
 	transition-delay: .15s;
 	z-index: 20;
-	position: absolute;
 	top: 0;
 	left: 205px;
 	overflow: visible;
@@ -368,7 +369,8 @@ html[dir="RTL"].no-touch .menu-module:hover .menu-top:after{
 }
 .menu-inter{
 	border-width:1px 0 0;
-	border-style:solid
+	border-style:solid;
+	padding: 2px 5px
 }
 .adminmenu a{
 	display:block;
@@ -379,7 +381,6 @@ html[dir="RTL"].no-touch .menu-module:hover .menu-top:after{
 	font-weight:400;
 	font-size:15px;
 	min-width:10em;
-	padding:2px 5px;
 	border-width:1px 0 1px;
 	border-style:solid
 }
@@ -482,7 +483,6 @@ h3 span{
 }
 #body{
 	padding:0 15px 38px;
-	margin-left: 206px;
 }
 .headerIcon{
 	height:32px;
@@ -500,7 +500,8 @@ h3 span{
 	padding:4px 8px
 }
 .header2 table{
-	line-height:1
+	line-height:1;
+	margin-left:-3px
 }
 #courses_div{
 	position:absolute;
@@ -556,6 +557,7 @@ textarea{
 	border-top-right-radius:3px;
 	font-weight:bold;
 	padding:5px 7px;
+	margin:0 2px 0 0;
 	line-height:27px
 }
 .md-preview > .tab.disabled{
@@ -570,14 +572,16 @@ textarea{
 	display:none;
 	border-width:1px;
 	border-style:solid;
-	margin:0 0 2px 0;
 	padding:2px 7px;
-	box-sizing:border-box
+	margin-bottom:2px;
+	box-sizing:border-box;
+	overflow-y:auto;
 }
 .md-preview + textarea{
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
-	margin-top:0
+	margin-top:0;
+	resize: vertical;
 }
 /*MarkDown to HTML table styling*/
 .markdown-to-html table{
@@ -614,7 +618,8 @@ textarea{
 	width:100%
 }
 .fixed-col{
-	table-layout:fixed
+	table-layout:fixed;
+	word-wrap:break-word; /* Fix cell content overflow */
 }
 .cellpadding-5 td{
 	padding-right:5px;
@@ -691,7 +696,8 @@ img.image-radio-list{
 }
 .button.cal{
 	cursor:pointer;
-	height:32px
+	height:32px;
+	margin-top:-9px
 }
 div.error .button, div.updated .button{
 	height:32px
@@ -740,7 +746,7 @@ form.login input[type=text],form.login input[type=password]{
 	display: inline-block;
 	width: 12px;
 	height: 12px;
-	background: url('spinning.gif') no-repeat;
+	background: url('spinning.gif') no-repeat center;
 	visibility:hidden
 }
 
@@ -879,7 +885,7 @@ td.calendar-menu{
 	display:inline-block;
 	padding:3px 6px;
 	border-radius:3px;
-	transition:all .3s ease-in-out;
+	transition:opacity .3s;
 	text-align:left;
 	font-size:0.9em;
 	line-height:1.5
@@ -898,6 +904,14 @@ td.calendar-menu{
 .a11y-hidden {
 	display: none;
 }
+
+/*tablet vertical*/
+@media only screen and (max-width:800px){
+	.BottomButton span{
+		display:none
+	}
+}
+
 
 /*wkhtmltopdf code*/
 *{
