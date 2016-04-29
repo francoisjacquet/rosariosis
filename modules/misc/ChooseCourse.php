@@ -11,7 +11,8 @@ else
 
 //FJ add <label> on radio
 	echo '<script>opener.document.getElementById("'.($_REQUEST['last_year']=='true'?'ly_':'').'course_div").innerHTML = ';
-	$toEscape = $course_title.'<br /><label><input type="radio" name="w_'.($_REQUEST['last_year']=='true'?'ly_':'').'course_period_id_which" value="course_period" checked /> '._('Course Period').'</label><label><input type="radio" name="w_'.($_REQUEST['last_year']=='true'?'ly_':'').'course_period_id_which" value="course" /> '._('Course').'</label>';
+	$toEscape = $course_title.'<br /><label><input type="radio" name="w_'.($_REQUEST['last_year']=='true'?'ly_':'').'course_period_id_which" value="course_period" checked /> '._('Course Period').'</label>
+		<label><input type="radio" name="w_'.($_REQUEST['last_year']=='true'?'ly_':'').'course_period_id_which" value="course" /> '._('Course').'</label>';
 	echo json_encode($toEscape);
 	echo '; window.close();</script>';
 }
