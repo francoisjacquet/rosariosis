@@ -450,10 +450,10 @@ function _passwordResetForm( $hash, $user_id )
 		<?php PopTable( 'header', _( 'Reset your password' ) ); ?>
 
 			<input type="password" name="PASSWORD" id="PASSWORD" size="25" maxlength="42" tabindex="1" required />
-			<?php echo FormatInputTitle( _( 'Password' ), 'PASSWORD' ); ?>
+			<?php echo FormatInputTitle( _( 'Password' ), 'PASSWORD', true ); ?>
 
 			<input type="password" name="VERIFY" id="VERIFY" size="25" maxlength="42" tabindex="2" required />
-			<?php echo FormatInputTitle( _( 'Verify New Password' ), 'VERIFY' ); ?>
+			<?php echo FormatInputTitle( _( 'Verify New Password' ), 'VERIFY', true ); ?>
 
 			<br />
 			<div class="center"><?php echo Buttons( _( 'Submit' ) ); ?></div>
