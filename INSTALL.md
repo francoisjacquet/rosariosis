@@ -44,7 +44,8 @@ Unzip the RosarioSIS distribution to a directory that is accessible to your web 
 - `$RosarioNotifyAddress` is the email address to send error and new administrator notifications to
 - `$RosarioLocales` is a comma separated list of the locale names of the translations (see `locale/` folder for available locales)
 
-  [Optional variables]
+#### Optional variables
+
 - `$RosarioPath` is full path to RosarioSIS installation, you can define it statically for your installation or the runtime value derived from the `__FILE__` magic constant should work
 - `$wkhtmltopdfAssetsPath` is path where wkhtmltopdf will access the `assets/` directory, possibly different than how the user's web browser finds it, empty string means no translation
 - `$StudentPicturesPath` path to student pictures
