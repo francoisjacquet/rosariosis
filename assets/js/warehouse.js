@@ -357,7 +357,7 @@ window.onload = function () {
 function LOSearch( event, val, url ) {
 
 	if ( !event || event.keyCode == 13 ) {
-		return ajaxLink( url + '&LO_search=' + encodeURIComponent(val) );
+		return ajaxLink( url + ( val ? '&LO_search=' + encodeURIComponent(val) : '' ) );
 	}
 }
 
