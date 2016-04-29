@@ -20,6 +20,8 @@ Before reporting an [issue](https://github.com/francoisjacquet/rosariosis/issues
 
 8. **Email support**: to get professional help about installation problems, or RosarioSIS use, please head to https://www.rosariosis.org/services/
 
+You have PHP web development skills? Please head to the next section & send a [pull request](https://help.github.com/articles/using-pull-requests/).
+
 
 ## Contributing to RosarioSIS
 
@@ -27,7 +29,7 @@ Please head to the offical [Contribute page](https://www.rosariosis.org/contribu
 
 ### Coding standards
 
-1. We roughly follow the [Wordpress Coding Standards](https://make.wordpress.org/core/handbook/coding-standards/).
+1. We _roughly_ follow the [Wordpress Coding Standards](https://make.wordpress.org/core/handbook/coding-standards/).
 
 2. [Comment your code](https://make.wordpress.org/core/handbook/best-practices/inline-documentation-standards/): we use PHPDoc.
 
@@ -38,3 +40,4 @@ Please head to the offical [Contribute page](https://www.rosariosis.org/contribu
 ### Example Module
 
 Freely study and reuse the [Example module](https://github.com/francoisjacquet/rosariosis-module-example)
+
