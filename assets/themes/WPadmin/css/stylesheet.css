@@ -313,12 +313,12 @@ label{
 	top: -1000em;
 	left: 0;
 	position: absolute;
-	min-width:205px;
+	min-width:215px;
 	padding:0;
 	margin:0;
 	overflow: hidden;
-	-webkit-transition: 0s top, 0s left, 0s min-width;
-	transition: 0s top, 0s left, 0s min-width;
+	-webkit-transition: 0s top, 0s left;
+	transition: 0s top, 0s left;
 	-webkit-transition-delay: .15s;
 	transition-delay: .15s;
 	border-width:1px;
@@ -351,7 +351,6 @@ html[dir="RTL"].no-touch .menu-module:hover .menu-top:after{
 	overflow: visible;
 	word-wrap: break-word;
 	min-height: 36px;
-	min-width: 215px;
 	width: auto;
 }
 #selectedModuleLink + .wp-submenu{
@@ -376,7 +375,6 @@ html[dir="RTL"].no-touch .menu-module:hover .menu-top:after{
 	padding:2px 5px
 }
 .menu-top{
-	font-weight:400;
 	font-size:15px;
 	min-width:10em;
 	border-width:1px 0 1px;
