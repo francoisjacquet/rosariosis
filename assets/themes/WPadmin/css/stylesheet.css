@@ -203,7 +203,9 @@ html,body{
 	padding:0
 }
 body,
-textarea{
+textarea,
+input,
+select{
 	font-family:'Open Sans';
 	line-height:1.4em
 }
