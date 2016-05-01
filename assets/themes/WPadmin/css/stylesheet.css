@@ -1,3 +1,115 @@
+/* Open Sans */
+@font-face {
+	font-family: 'Open Sans';
+	src: url('fonts/opensans/Regular.eot');
+	src: url('fonts/opensans/Regular.eot?#iefix') format('embedded-opentype'),
+		 url('fonts/opensans/Regular.woff') format('woff'),
+		 url('fonts/opensans/Regular.ttf') format('truetype'),
+		 url('fonts/opensans/Regular.svg#Open Sans') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Open Sans';
+	src: url('fonts/opensans/Italic.eot');
+	src: url('fonts/opensans/Italic.eot?#iefix') format('embedded-opentype'),
+		 url('fonts/opensans/Italic.woff') format('woff'),
+		 url('fonts/opensans/Italic.ttf') format('truetype'),
+		 url('fonts/opensans/Italic.svg#Open Sans') format('svg');
+	font-weight: normal;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'Open Sans';
+	src: url('fonts/opensans/BoldItalic.eot');
+	src: url('fonts/opensans/BoldItalic.eot?#iefix') format('embedded-opentype'),
+		 url('fonts/opensans/BoldItalic.woff') format('woff'),
+		 url('fonts/opensans/BoldItalic.ttf') format('truetype'),
+		 url('fonts/opensans/BoldItalic.svg#Open Sans') format('svg');
+	font-weight: 700;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'Open Sans';
+	src: url('fonts/opensans/Bold.eot');
+	src: url('fonts/opensans/Bold.eot?#iefix') format('embedded-opentype'),
+		 url('fonts/opensans/Bold.woff') format('woff'),
+		 url('fonts/opensans/Bold.ttf') format('truetype'),
+		 url('fonts/opensans/Bold.svg#Open Sans') format('svg');
+	font-weight: 700;
+	font-style: normal;
+}
+
+/*@font-face {
+	font-family: 'Open Sans';
+	src: url('fonts/opensans/ExtraBoldItalic.eot');
+	src: url('fonts/opensans/ExtraBoldItalic.eot?#iefix') format('embedded-opentype'),
+		 url('fonts/opensans/ExtraBoldItalic.woff') format('woff'),
+		 url('fonts/opensans/ExtraBoldItalic.ttf') format('truetype'),
+		 url('fonts/opensans/ExtraBoldItalic.svg#Open Sans') format('svg');
+	font-weight: 800;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'Open Sans';
+	src: url('fonts/opensans/ExtraBold.eot');
+	src: url('fonts/opensans/ExtraBold.eot?#iefix') format('embedded-opentype'),
+		 url('fonts/opensans/ExtraBold.woff') format('woff'),
+		 url('fonts/opensans/ExtraBold.ttf') format('truetype'),
+		 url('fonts/opensans/ExtraBold.svg#Open Sans') format('svg');
+	font-weight: 800;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Open Sans';
+	src: url('fonts/opensans/LightItalic.eot');
+	src: url('fonts/opensans/LightItalic.eot?#iefix') format('embedded-opentype'),
+		 url('fonts/opensans/LightItalic.woff') format('woff'),
+		 url('fonts/opensans/LightItalic.ttf') format('truetype'),
+		 url('fonts/opensans/LightItalic.svg#Open Sans') format('svg');
+	font-weight: 300;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'Open Sans';
+	src: url('fonts/opensans/Light.eot');
+	src: url('fonts/opensans/Light.eot?#iefix') format('embedded-opentype'),
+		 url('fonts/opensans/Light.woff') format('woff'),
+		 url('fonts/opensans/Light.ttf') format('truetype'),
+		 url('fonts/opensans/Light.svg#Open Sans') format('svg');
+	font-weight: 300;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Open Sans';
+	src: url('fonts/opensans/SemiboldItalic.eot');
+	src: url('fonts/opensans/SemiboldItalic.eot?#iefix') format('embedded-opentype'),
+		 url('fonts/opensans/SemiboldItalic.woff') format('woff'),
+		 url('fonts/opensans/SemiboldItalic.ttf') format('truetype'),
+		 url('fonts/opensans/SemiboldItalic.svg#Open Sans') format('svg');
+	font-weight: 600;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'Open Sans';
+	src: url('fonts/opensans/Semibold.eot');
+	src: url('fonts/opensans/Semibold.eot?#iefix') format('embedded-opentype'),
+		 url('fonts/opensans/Semibold.woff') format('woff'),
+		 url('fonts/opensans/Semibold.ttf') format('truetype'),
+		 url('fonts/opensans/Semibold.svg#Open Sans') format('svg');
+	font-weight: 600;
+	font-style: normal;
+}*/
+
+
 #wrap{
 	height:auto;
 	min-height:100%;
@@ -92,7 +204,7 @@ html,body{
 }
 body,
 textarea{
-	font-family:sans-serif;
+	font-family:'Open Sans';
 	line-height:1.4em
 }
 *{
@@ -485,7 +597,7 @@ h3 span{
 	vertical-align:bottom
 }
 .header1 h2{
-	font-family:"HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",sans-serif;
+	font-family:'Open Sans';
 	font-size:30px;
 	font-weight:normal;
 	margin:0;

@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 2.9.1
+----------------
+- Add Open Sans webfont in assets/themes/WPadmin/fonts/opensans/ & stylesheet.css
+
 Changes in 2.9
 --------------
 - Add Debug mode as optional config.inc.php option in Warehouse.php + INSTALL
