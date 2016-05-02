@@ -201,8 +201,8 @@ function jqPlotChart( $type, $data, $title, $save_image = true )
 				{
 					/* Pie Chart labels */
 					if ( $.jqplot.PieRenderer )
-						for ( var i=0; i < plot<?php echo $chartID; ?>data.length; i++ )
-							plot<?php echo $chartID; ?>data[i][0] = plot<?php echo $chartID; ?>data[i][0].substr(0, 15);
+						for ( var i=0; i < plot<?php echo $chartID; ?>data[0].length; i++ )
+							plot<?php echo $chartID; ?>data[0][i][0] = plot<?php echo $chartID; ?>data[0][i][0].substr(0, 12);
 
 					/* Column Chart ticks */
 					if ( $.jqplot.CanvasAxisTickRenderer )
