@@ -12,9 +12,12 @@
  *
  * @global $extra Get $extra['search'] for Mailing Labels Widget
  *
+ * @param string  $include_on_title Form title (optional). Defaults to 'Include on Report Card'.
+ * @param boolean $mailing_labels   Include Mailing Labels widget (optional). Defaults to true.
+ *
  * @return string Include on Report Card form
  */
-function ReportCardsIncludeForm()
+function ReportCardsIncludeForm( $include_on_title = 'Include on Report Card', $mailing_labels = true )
 {
 	global $extra;
 
@@ -27,10 +30,15 @@ function ReportCardsIncludeForm()
 		AND (DEFAULT_CODE!='Y' OR DEFAULT_CODE IS NULL)
 		AND TABLE_NAME='0'" ) );
 
+	if ( $title === 'Include on Report Card' )
+	{
+		$title = _( 'Include on Report Card' );
+	}
+
 	// Open table
 	$return = '<TABLE>';
 
-	$return .= '<TR><TD colspan="2"><b>' . _( 'Include on Report Card' ) . ':</b></TD></TR>';
+	$return .= '<TR><TD colspan="2"><b>' . $include_on_title . ':</b></TD></TR>';
 
 	$return .= '<TR class="st"><TD></TD><TD><TABLE><TR>';
 
@@ -157,10 +165,13 @@ function ReportCardsIncludeForm()
 		$return .= '</TR></TABLE></TD>';
 	}
 
-	$return .= '</TD></TR></TABLE></TR>';
+	$return .= '</TD></TR></TABLE></TD></TR>';
 
-	// Mailing Labels
-	Widgets( 'mailing_labels' );
+	if ( $mailing_labels )
+	{
+		// Mailing Labels.
+		Widgets( 'mailing_labels' );
+	}
 
 	$return .= $extra['search'];
 

@@ -1,5 +1,6 @@
 <?php
 
+require_once 'modules/Grades/includes/ReportCards.fnc.php';
 require_once 'ProgramFunctions/TipMessage.fnc.php';
 
 DrawHeader( ProgramTitle() );
@@ -415,10 +416,9 @@ if (empty($_REQUEST['modfunc']))
 
 		$extra['header_right'] = SubmitButton(_('Create Grade Lists for Selected Students'));
 
-		//FJ get the title istead of the attendance code short name
-		$attendance_codes = DBGet(DBQuery("SELECT SHORT_NAME,ID,TITLE FROM ATTENDANCE_CODES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND (DEFAULT_CODE!='Y' OR DEFAULT_CODE IS NULL) AND TABLE_NAME='0'"));
+		$extra['extra_header_left'] = ReportCardsIncludeForm( _( 'Include on Grade List' ), false );
 
-		$extra['extra_header_left'] = '<table>';
+		/*$extra['extra_header_left'] = '<table>';
 		$extra['extra_header_left'] .= '<tr><td colspan="2"><b>'._('Include on Grade List').':</b></td></tr>';
 
 		$extra['extra_header_left'] .= '<tr class="st"><td></td><td><table>';
@@ -490,7 +490,7 @@ if (empty($_REQUEST['modfunc']))
 			$extra['extra_header_left'] .= '</tr></table></td>';
 		}
 
-		$extra['extra_header_left'] .= '</td></tr></table></tr></table>';
+		$extra['extra_header_left'] .= '</td></tr></table></tr></table>';*/
 	}
 
 	$extra['new'] = true;
@@ -521,11 +521,6 @@ if (empty($_REQUEST['modfunc']))
 function _makeChooseCheckbox($value,$title)
 {
 	return '<input type="checkbox" name="st_arr[]" value="'.$value.'" checked />';
-}
-
-function _makeTeacher($teacher,$column)
-{
-	return mb_substr($teacher,mb_strrpos(str_replace(' - ',' ^ ',$teacher),'^')+2);
 }
 
 function _makeComments($value,$column)
