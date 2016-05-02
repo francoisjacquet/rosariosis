@@ -19,7 +19,7 @@ RosarioSIS was tested on:
 - Ubuntu 14.04 with Apache 2.4.18, Postgres 9.3.10, and PHP 5.5.9
 - Debian Jessie with Apache 2.4.16, Postgres 9.4, and PHP 5.6.13
 - through Mozilla Firefox
-- through BrowserStack for cross-browser compatibility
+- through BrowserStack for cross-browser compatibility (not compatible with Internet Explorer 8 or lower)
 
 Minimum requirements: **PHP 5.3.2** & **Postgres 8**
 
