@@ -5,6 +5,7 @@ Changes in 2.9.1
 ----------------
 - Add Open Sans webfont in assets/themes/WPadmin/fonts/opensans/ & stylesheet.css
 - Use ReportCards.fnc.php functions in FinalGrades.php
+- Add TipMessage with Student YTD & Period attendance in FinalGrades.php
 
 Changes in 2.9
 --------------

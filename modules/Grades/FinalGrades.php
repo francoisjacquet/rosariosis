@@ -106,53 +106,6 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 		}
 
-		if ( $_REQUEST['elements']['mp_tardies']=='Y' || $_REQUEST['elements']['ytd_tardies']=='Y')
-		{
-			// GET THE ATTENDANCE
-			unset($extra);
-			$extra['WHERE'] = " AND s.STUDENT_ID IN ($st_list)";
-			$extra['SELECT_ONLY'] .= "ap.SCHOOL_DATE,ap.COURSE_PERIOD_ID,ac.ID AS ATTENDANCE_CODE,ap.MARKING_PERIOD_ID,ssm.STUDENT_ID";
-			$extra['FROM'] .= ",ATTENDANCE_CODES ac,ATTENDANCE_PERIOD ap";
-			$extra['WHERE'] .= " AND ac.ID=ap.ATTENDANCE_CODE AND (ac.DEFAULT_CODE!='Y' OR ac.DEFAULT_CODE IS NULL) AND ac.SYEAR=ssm.SYEAR AND ap.STUDENT_ID=ssm.STUDENT_ID";
-
-			$extra['group'][] = 'STUDENT_ID';
-			$extra['group'][] = 'ATTENDANCE_CODE';
-			$extra['group'][] = 'MARKING_PERIOD_ID';
-
-			//Widgets('course'); // mab - these shouldn't be necessary because the student list is specified and the $_REQUEST values aren't passed from the select phase of search/select anyway
-			//Widgets('gpa');
-			//Widgets('class_rank');
-			//Widgets('letter_grade');
-
-			// Parent: associated students.
-			$extra['ASSOCIATED'] = User( 'STAFF_ID' );
-
-			$attendance_RET = GetStuList($extra);
-		}
-
-		if ( $_REQUEST['elements']['mp_absences']=='Y' || $_REQUEST['elements']['ytd_absences']=='Y')
-		{
-			// GET THE DAILY ATTENDANCE
-			unset($extra);
-			$extra['WHERE'] = " AND s.STUDENT_ID IN ($st_list)";
-			$extra['SELECT_ONLY'] .= "ad.SCHOOL_DATE,ad.MARKING_PERIOD_ID,ad.STATE_VALUE,ssm.STUDENT_ID";
-			$extra['FROM'] .= ",ATTENDANCE_DAY ad";
-			$extra['WHERE'] .= " AND ad.STUDENT_ID=ssm.STUDENT_ID AND ad.SYEAR=ssm.SYEAR AND (ad.STATE_VALUE='0.0' OR ad.STATE_VALUE='.5') AND ad.SCHOOL_DATE<='".GetMP($last_mp,'END_DATE')."'";
-
-			$extra['group'][] = 'STUDENT_ID';
-			$extra['group'][] = 'MARKING_PERIOD_ID';
-
-			//Widgets('course'); // mab - same as above
-			//Widgets('gpa');
-			//Widgets('class_rank');
-			//Widgets('letter_grade');
-
-			// Parent: associated students.
-			$extra['ASSOCIATED'] = User( 'STAFF_ID' );
-
-			$attendance_day_RET = GetStuList($extra);
-		}
-
 		if (count($RET))
 		{
 			$columns = array('FULL_NAME' => _('Student'),'COURSE_TITLE' => _('Course'));
@@ -182,8 +135,47 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			$i = 0;
 			foreach ( (array) $RET as $student_id => $course_periods)
 			{
-				$course_period_id = key($course_periods);
-				$grades_RET[$i+1]['FULL_NAME'] = $course_periods[ $course_period_id ][key($course_periods[ $course_period_id ])][1]['FULL_NAME'];
+				$name_tipmessage = '';
+
+				// Marking Period-by-period absences.
+				if ( $_REQUEST['elements']['mp_absences'] === 'Y' )
+				{
+					$name_tipmessage .= '<div>' .
+						GetMPAbsences( $st_list, $last_mp, $student_id ) . '</div>';
+				}
+
+				// Year-to-date Daily Absences.
+				if ( $_REQUEST['elements']['ytd_absences'] === 'Y' )
+				{
+					$name_tipmessage .= '<div>' .
+						GetYTDAbsences( $st_list, $last_mp, $student_id ) . '</div>';
+				}
+
+				// Marking Period Tardies.
+				if ( $_REQUEST['elements']['mp_tardies'] === 'Y' )
+				{
+					$name_tipmessage .= '<div>' .
+						GetMPTardies( $st_list, $last_mp, $student_id ) . '</div>';
+				}
+
+				// Year to Date Tardies.
+				if ( $_REQUEST['elements']['ytd_tardies'] === 'Y' )
+				{
+					$name_tipmessage .= '<div>' .
+						GetYTDTardies( $st_list, $student_id ) . '</div>';
+				}
+
+				$course_period_id = key( $course_periods );
+				$grades_RET[ $i + 1 ]['FULL_NAME'] = $course_periods[ $course_period_id ][ key( $course_periods[ $course_period_id ] ) ][1]['FULL_NAME'];
+
+				if ( $name_tipmessage )
+				{
+					$grades_RET[ $i + 1 ]['FULL_NAME'] = MakeTipMessage(
+						$name_tipmessage,
+						$grades_RET[ $i + 1 ]['FULL_NAME'],
+						$grades_RET[ $i + 1 ]['FULL_NAME']
+					);
+				}
 
 				$grades_RET[$i+1]['bgcolor'] = 'FFFFFF';
 

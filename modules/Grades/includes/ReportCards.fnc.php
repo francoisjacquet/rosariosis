@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Report Cards functions
  */
@@ -23,14 +22,7 @@ function ReportCardsIncludeForm( $include_on_title = 'Include on Report Card', $
 {
 	global $extra;
 
-	// Get Other Attendance Codes
-	//FJ get the title instead of the attendance code short name
-	$other_attendance_codes = DBGet( DBQuery( "SELECT SHORT_NAME,ID,TITLE
-		FROM ATTENDANCE_CODES
-		WHERE SYEAR='" . UserSyear() . "'
-		AND SCHOOL_ID='" . UserSchool() . "'
-		AND (DEFAULT_CODE!='Y' OR DEFAULT_CODE IS NULL)
-		AND TABLE_NAME='0'" ) );
+	$other_attendance_codes = _getOtherAttendanceCodes();
 
 	if ( $title === 'Include on Report Card' )
 	{
@@ -77,7 +69,7 @@ function ReportCardsIncludeForm( $include_on_title = 'Include on Report Card', $
 
 	foreach ( (array) $other_attendance_codes as $code )
 	{
-		$return .= '<OPTION value="' . $code['ID'] . '">'.  $code['TITLE'] . '</OPTION>';
+		$return .= '<OPTION value="' . $code[1]['ID'] . '">'.  $code[1]['TITLE'] . '</OPTION>';
 	}
 
 	$return .= '</SELECT></TD>';
@@ -88,7 +80,7 @@ function ReportCardsIncludeForm( $include_on_title = 'Include on Report Card', $
 
 	foreach ( (array) $other_attendance_codes as $code )
 	{
-		$return .= '<OPTION value="' . $code['ID'] . '">' . $code['TITLE'] . '</OPTION>';
+		$return .= '<OPTION value="' . $code[1]['ID'] . '">' . $code[1]['TITLE'] . '</OPTION>';
 	}
 
 	$return .= '</SELECT></TD></TR><TR class="st">';
@@ -308,67 +300,6 @@ function ReportCardsGenerate( $student_array, $mp_array )
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
 			AND COURSE_ID IS NULL" ), array(), array( 'ID' ) );
-	}
-
-	// Other Attendance this quarter or Other Attendance Year-to-date.
-	if ( $_REQUEST['elements']['mp_tardies'] === 'Y'
-		|| $_REQUEST['elements']['ytd_tardies'] === 'Y' )
-	{
-		// GET THE ATTENDANCE.
-		unset( $extra );
-
-		$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
-
-		$extra['SELECT_ONLY'] = "ap.SCHOOL_DATE,ap.COURSE_PERIOD_ID,ac.ID AS ATTENDANCE_CODE,
-			ap.MARKING_PERIOD_ID,ssm.STUDENT_ID";
-
-		$extra['FROM'] = ",ATTENDANCE_CODES ac,ATTENDANCE_PERIOD ap";
-
-		$extra['WHERE'] .= " AND ac.ID=ap.ATTENDANCE_CODE
-			AND (ac.DEFAULT_CODE!='Y' OR ac.DEFAULT_CODE IS NULL)
-			AND ac.SYEAR=ssm.SYEAR
-			AND ap.STUDENT_ID=ssm.STUDENT_ID";
-
-		$extra['group'] = array( 'STUDENT_ID', 'ATTENDANCE_CODE', 'MARKING_PERIOD_ID' );
-
-		// Parent: associated students.
-		$extra['ASSOCIATED'] = User( 'STAFF_ID' );
-
-		$attendance_RET = GetStuList( $extra );
-
-		// Get Other Attendance Codes.
-		$other_attendance_codes = DBGet( DBQuery( "SELECT SHORT_NAME,ID,TITLE
-			FROM ATTENDANCE_CODES
-			WHERE SYEAR='" . UserSyear() . "'
-			AND SCHOOL_ID='" . UserSchool() . "'
-			AND (DEFAULT_CODE!='Y' OR DEFAULT_CODE IS NULL)
-			AND TABLE_NAME='0'" ), array(), array( 'ID' ) );
-	}
-
-	// Daily Absences this quarter or Year-to-date Daily Absences.
-	if ( $_REQUEST['elements']['mp_absences'] === 'Y'
-		|| $_REQUEST['elements']['ytd_absences'] === 'Y' )
-	{
-		// GET THE DAILY ATTENDANCE.
-		unset( $extra );
-
-		$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
-
-		$extra['SELECT_ONLY'] = "ad.SCHOOL_DATE,ad.MARKING_PERIOD_ID,ad.STATE_VALUE,ssm.STUDENT_ID";
-
-		$extra['FROM'] = ",ATTENDANCE_DAY ad";
-
-		$extra['WHERE'] .= " AND ad.STUDENT_ID=ssm.STUDENT_ID
-			AND ad.SYEAR=ssm.SYEAR
-			AND (ad.STATE_VALUE='0.0' OR ad.STATE_VALUE='.5')
-			AND ad.SCHOOL_DATE<='" . GetMP( $last_mp, 'END_DATE' ) . "'";
-
-		$extra['group'] = array( 'STUDENT_ID', 'MARKING_PERIOD_ID' );
-
-		// Parent: associated students.
-		$extra['ASSOCIATED'] = User( 'STAFF_ID' );
-
-		$attendance_day_RET = GetStuList( $extra );
 	}
 
 	// Mailing Labels.
@@ -646,31 +577,13 @@ function ReportCardsGenerate( $student_array, $mp_array )
 			// Marking Period-by-period absences.
 			if ( $_REQUEST['elements']['mp_absences'] === 'Y' )
 			{
-				$count = 0;
-
-				foreach ( (array) $attendance_day_RET[ $student_id ][ $last_mp ] as $abs )
-				{
-					$count += 1 - $abs['STATE_VALUE'];
-				}
-
-				$mp_absences = sprintf( _( 'Absences in %s' ), GetMP( $last_mp, 'TITLE' ) ) . ': ' .
-					$count;
+				$mp_absences = GetMPAbsences( $st_list, $last_mp, $student_id );
 			}
 
 			// Year-to-date Daily Absences.
 			if ( $_REQUEST['elements']['ytd_absences'] === 'Y' )
 			{
-				$count = 0;
-
-				foreach ( (array) $attendance_day_RET[ $student_id ] as $mp_abs )
-				{
-					foreach ( (array) $mp_abs as $abs )
-					{
-						$count += 1 - $abs['STATE_VALUE'];
-					}
-				}
-
-				DrawHeader( _( 'Absences this year' ) . ': ' . $count, $mp_absences );
+				DrawHeader( GetYTDAbsences( $st_list, $last_mp, $student_id ), $mp_absences );
 
 				$count_lines++;
 			}
@@ -686,35 +599,13 @@ function ReportCardsGenerate( $student_array, $mp_array )
 			// Marking Period Tardies.
 			if ( $_REQUEST['elements']['mp_tardies'] === 'Y' )
 			{
-				$count = 0;
-
-				foreach ( (array) $attendance_RET[ $student_id ][ $_REQUEST['mp_tardies_code'] ][ $last_mp ] as $abs )
-				{
-					$count++;
-				}
-
-				$tardies_code_title = $other_attendance_codes[ $_REQUEST['mp_tardies_code'] ][1]['TITLE'];
-
-				$mp_tardies = sprintf( _( '%s in %s' ), $tardies_code_title, GetMP( $last_mp, 'TITLE' ) ) . ': ' .
-					$count;
+				$mp_tardies = GetMPTardies( $st_list, $last_mp, $student_id );
 			}
 
 			// Year to Date Tardies.
 			if ( $_REQUEST['elements']['ytd_tardies'] === 'Y' )
 			{
-				$count = 0;
-
-				foreach ( (array) $attendance_RET[ $student_id ][ $_REQUEST['ytd_tardies_code'] ] as $mp_abs )
-				{
-					foreach ( (array) $mp_abs as $abs )
-					{
-						$count++;
-					}
-				}
-
-				$tardies_code_title = $other_attendance_codes[ $_REQUEST['ytd_tardies_code'] ][1]['TITLE'];
-
-				DrawHeader( sprintf( _( '%s this year' ), $tardies_code_title ) . ': ' . $count, $mp_tardies );
+				DrawHeader( GetYTDTardies( $st_list, $student_id ), $mp_tardies );
 
 				$count_lines++;
 			}
@@ -1026,4 +917,178 @@ function GetReportCardsExtra( $mp_list, $st_list )
 function _makeTeacher( $teacher, $column )
 {
 	return mb_substr( $teacher, mb_strrpos( str_replace( ' - ', ' ^ ', $teacher ), '^' ) + 2 );
+}
+
+
+// Marking Period-by-period absences.
+function GetMPAbsences( $st_list, $last_mp, $student_id )
+{
+	$attendance_day_RET = _getAttendanceDayRET(  $st_list, $last_mp );
+
+	$count = 0;
+
+	foreach ( (array) $attendance_day_RET[ $student_id ][ $last_mp ] as $abs )
+	{
+		$count += 1 - $abs['STATE_VALUE'];
+	}
+
+	return sprintf( _( 'Absences in %s' ), GetMP( $last_mp, 'TITLE' ) ) . ': ' . $count;
+}
+
+
+// Year-to-date Daily Absences.
+function GetYTDAbsences( $st_list, $last_mp, $student_id )
+{
+	$attendance_day_RET = _getAttendanceDayRET( $st_list, $last_mp );
+
+	$count = 0;
+
+	foreach ( (array) $attendance_day_RET[ $student_id ] as $mp_abs )
+	{
+		foreach ( (array) $mp_abs as $abs )
+		{
+			$count += 1 - $abs['STATE_VALUE'];
+		}
+	}
+
+	return _( 'Absences this year' ) . ': ' . $count;
+}
+
+
+// Daily Absences this quarter or Year-to-date Daily Absences.
+function _getAttendanceDayRET( $st_list, $last_mp )
+{
+	static $attendance_day_RET = null,
+		$last_st_list,
+		$last_mp;
+
+	if ( ! $attendance_day_RET
+		|| $last_st_list !== $st_list
+		|| $last_last_mp !== $last_mp )
+	{
+		$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
+
+		$extra['SELECT_ONLY'] = "ad.SCHOOL_DATE,ad.MARKING_PERIOD_ID,ad.STATE_VALUE,ssm.STUDENT_ID";
+
+		$extra['FROM'] = ",ATTENDANCE_DAY ad";
+
+		$extra['WHERE'] .= " AND ad.STUDENT_ID=ssm.STUDENT_ID
+			AND ad.SYEAR=ssm.SYEAR
+			AND (ad.STATE_VALUE='0.0' OR ad.STATE_VALUE='.5')
+			AND ad.SCHOOL_DATE<='" . GetMP( $last_mp, 'END_DATE' ) . "'";
+
+		$extra['group'] = array( 'STUDENT_ID', 'MARKING_PERIOD_ID' );
+
+		// Parent: associated students.
+		$extra['ASSOCIATED'] = User( 'STAFF_ID' );
+
+		$attendance_day_RET = GetStuList( $extra );
+	}
+
+	$last_last_mp = $last_mp;
+	$last_st_list = $st_list;
+
+	return $attendance_day_RET;
+}
+
+
+// Marking Period Tardies.
+function GetMPTardies( $st_list, $last_mp, $student_id )
+{
+	// Other Attendance this quarter or Other Attendance Year-to-date.
+	$attendance_RET = _getAttendanceRET( $st_list );
+
+	// Get Other Attendance Codes.
+	$other_attendance_codes = _getOtherAttendanceCodes();
+
+	$count = 0;
+
+	foreach ( (array) $attendance_RET[ $student_id ][ $_REQUEST['mp_tardies_code'] ][ $last_mp ] as $abs )
+	{
+		$count++;
+	}
+
+	$tardies_code_title = $other_attendance_codes[ $_REQUEST['mp_tardies_code'] ][1]['TITLE'];
+
+	return sprintf( _( '%s in %s' ), $tardies_code_title, GetMP( $last_mp, 'TITLE' ) ) . ': ' .
+		$count;
+}
+
+
+// Year to Date Tardies.
+function GetYTDTardies( $st_list, $student_id )
+{
+	// Other Attendance this quarter or Other Attendance Year-to-date.
+	$attendance_RET = _getAttendanceRET( $st_list );
+
+	// Get Other Attendance Codes.
+	$other_attendance_codes = _getOtherAttendanceCodes();
+
+	$count = 0;
+
+	foreach ( (array) $attendance_RET[ $student_id ][ $_REQUEST['ytd_tardies_code'] ] as $mp_abs )
+	{
+		foreach ( (array) $mp_abs as $abs )
+		{
+			$count++;
+		}
+	}
+
+	$tardies_code_title = $other_attendance_codes[ $_REQUEST['ytd_tardies_code'] ][1]['TITLE'];
+
+	return sprintf( _( '%s this year' ), $tardies_code_title ) . ': ' . $count;
+}
+
+
+// Other Attendance this quarter or Other Attendance Year-to-date.
+function _getAttendanceRET( $st_list )
+{
+	static $attendance_day_RET = null,
+		$last_st_list;
+
+	if ( ! $attendance_day_RET
+		|| $last_st_list !== $st_list )
+	{
+		$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
+
+		$extra['SELECT_ONLY'] = "ap.SCHOOL_DATE,ap.COURSE_PERIOD_ID,ac.ID AS ATTENDANCE_CODE,
+			ap.MARKING_PERIOD_ID,ssm.STUDENT_ID";
+
+		$extra['FROM'] = ",ATTENDANCE_CODES ac,ATTENDANCE_PERIOD ap";
+
+		$extra['WHERE'] .= " AND ac.ID=ap.ATTENDANCE_CODE
+			AND (ac.DEFAULT_CODE!='Y' OR ac.DEFAULT_CODE IS NULL)
+			AND ac.SYEAR=ssm.SYEAR
+			AND ap.STUDENT_ID=ssm.STUDENT_ID";
+
+		$extra['group'] = array( 'STUDENT_ID', 'ATTENDANCE_CODE', 'MARKING_PERIOD_ID' );
+
+		// Parent: associated students.
+		$extra['ASSOCIATED'] = User( 'STAFF_ID' );
+
+		$attendance_RET = GetStuList( $extra );
+	}
+
+	$last_st_list = $st_list;
+
+	return $attendance_RET;
+}
+
+// Other Attendace Codes.
+function _getOtherAttendanceCodes()
+{
+	static $other_attendance_codes = null;
+
+	if ( ! $other_attendance_codes )
+	{
+		// Get Other Attendance Codes.
+		$other_attendance_codes = DBGet( DBQuery( "SELECT SHORT_NAME,ID,TITLE
+			FROM ATTENDANCE_CODES
+			WHERE SYEAR='" . UserSyear() . "'
+			AND SCHOOL_ID='" . UserSchool() . "'
+			AND (DEFAULT_CODE!='Y' OR DEFAULT_CODE IS NULL)
+			AND TABLE_NAME='0'" ), array(), array( 'ID' ) );
+	}
+
+	return $other_attendance_codes;
 }
