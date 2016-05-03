@@ -29,12 +29,18 @@ if ( $_REQUEST['modfunc'] === 'save' )
 {
 	if (count($_REQUEST['mp_arr']) && count($_REQUEST['st_arr']))
 	{
-		$mp_list = '\''.implode('\',\'',$_REQUEST['mp_arr']).'\'';
-		$last_mp = end($_REQUEST['mp_arr']);
-		$st_list = '\''.implode('\',\'',$_REQUEST['st_arr']).'\'';
-		$extra['WHERE'] = " AND s.STUDENT_ID IN ($st_list)";
 
-		$extra['SELECT'] .= ",rpg.TITLE as GRADE_TITLE,sg1.GRADE_PERCENT,sg1.COMMENT as COMMENT_TITLE,sg1.STUDENT_ID,sg1.COURSE_PERIOD_ID,sg1.MARKING_PERIOD_ID,c.TITLE as COURSE_TITLE,rc_cp.TITLE AS TEACHER,sp.SORT_ORDER";
+		$mp_list = "'" . implode( "','", $_REQUEST['mp_arr'] ) . "'";
+
+		$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
+
+		$last_mp = end( $_REQUEST['mp_arr'] );
+
+		$extra = GetReportCardsExtra( $mp_list, $st_list );
+
+		/*$extra['WHERE'] = " AND s.STUDENT_ID IN ($st_list)";
+
+		$extra['SELECT'] .= ",sg1.GRADE_LETTER as GRADE_TITLE,sg1.GRADE_PERCENT,sg1.COMMENT as COMMENT_TITLE,sg1.STUDENT_ID,sg1.COURSE_PERIOD_ID,sg1.MARKING_PERIOD_ID,c.TITLE as COURSE_TITLE,rc_cp.TITLE AS TEACHER,sp.SORT_ORDER";
 
 		if ( $_REQUEST['elements']['period_absences']=='Y')
 			//modif: SQL error fix: operator does not exist: character varying = integer, add explicit type casts
@@ -56,32 +62,32 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		//FJ multiple school periods for a course period
 		/*$extra['FROM'] .= ",STUDENT_REPORT_CARD_GRADES sg1 LEFT OUTER JOIN REPORT_CARD_GRADES rpg ON (rpg.ID=sg1.REPORT_CARD_GRADE_ID),
 						COURSE_PERIODS rc_cp,COURSES c,SCHOOL_PERIODS sp";*/
-		$extra['FROM'] .= ",STUDENT_REPORT_CARD_GRADES sg1 LEFT OUTER JOIN REPORT_CARD_GRADES rpg ON (rpg.ID=sg1.REPORT_CARD_GRADE_ID),
+		/*$extra['FROM'] .= ",STUDENT_REPORT_CARD_GRADES sg1,
 		COURSE_PERIODS rc_cp,COURSES c,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp";
 
 		/*$extra['WHERE'] .= " AND sg1.MARKING_PERIOD_ID IN (".$mp_list.")
 						AND rc_cp.COURSE_PERIOD_ID=sg1.COURSE_PERIOD_ID AND c.COURSE_ID = rc_cp.COURSE_ID AND sg1.STUDENT_ID=ssm.STUDENT_ID AND sp.PERIOD_ID=rc_cp.PERIOD_ID";*/
-		$extra['WHERE'] .= " AND sg1.MARKING_PERIOD_ID IN (".$mp_list.")
+		/*$extra['WHERE'] .= " AND sg1.MARKING_PERIOD_ID IN (".$mp_list.")
 		AND rc_cp.COURSE_PERIOD_ID=sg1.COURSE_PERIOD_ID
 		AND c.COURSE_ID = rc_cp.COURSE_ID
 		AND sg1.STUDENT_ID=ssm.STUDENT_ID
 		AND sp.PERIOD_ID=cpsp.PERIOD_ID
 		AND rc_cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID";
 
-		$extra['ORDER'] .= ",sp.SORT_ORDER,c.TITLE";
+		$extra['ORDER'] .= ",sg1.COURSE_TITLE,sp.SORT_ORDER,c.TITLE";
 		$extra['functions']['TEACHER'] = '_makeTeacher';
-
-		if ( $_REQUEST['elements']['comments']=='Y')
-			$extra['functions']['COMMENTS_RET'] = '_makeComments';
 
 		$extra['group'] = array('STUDENT_ID');
 		$extra['group'][] = 'COURSE_PERIOD_ID';
 		$extra['group'][] = 'MARKING_PERIOD_ID';
 
 		// Parent: associated students.
-		$extra['ASSOCIATED'] = User( 'STAFF_ID' );
+		$extra['ASSOCIATED'] = User( 'STAFF_ID' );*/
 
-		$RET = GetStuList($extra);
+		if ( $_REQUEST['elements']['comments']=='Y')
+			$extra['functions']['COMMENTS_RET'] = '_makeComments';
+
+		$RET = GetStuList( $extra );
 
 		// GET THE COMMENTS
 		if ( $_REQUEST['elements']['comments']=='Y')

@@ -4,7 +4,7 @@
 Changes in 2.9.1
 ----------------
 - Add Open Sans webfont in assets/themes/WPadmin/fonts/opensans/ & stylesheet.css
-- Use ReportCardsIncludeForm() in FinalGrades.php
+- Use ReportCards.fnc.php functions in FinalGrades.php
 
 Changes in 2.9
 --------------
