@@ -13,6 +13,8 @@
  *
  * @global $extra Get $extra['search'] for Mailing Labels Widget
  *
+ * @uses _getOtherAttendanceCodes()
+ *
  * @param string  $include_on_title Form title (optional). Defaults to 'Include on Report Card'.
  * @param boolean $mailing_labels   Include Mailing Labels widget (optional). Defaults to true.
  *
@@ -920,7 +922,17 @@ function _makeTeacher( $teacher, $column )
 }
 
 
-// Marking Period-by-period absences.
+/**
+ * Marking Period-by-period absences.
+ *
+ * @uses _getAttendanceDayRET()
+ *
+ * @param string $st_list    Student List
+ * @param string $last_mp    Last MP
+ * @param string $student_id Student ID
+ *
+ * @return string "Absences in [last MP]: x"
+ */
 function GetMPAbsences( $st_list, $last_mp, $student_id )
 {
 	$attendance_day_RET = _getAttendanceDayRET(  $st_list, $last_mp );
@@ -936,7 +948,17 @@ function GetMPAbsences( $st_list, $last_mp, $student_id )
 }
 
 
-// Year-to-date Daily Absences.
+/**
+ * Year-to-date Daily Absences.
+ *
+ * @uses _getAttendanceDayRET()
+ *
+ * @param string $st_list    Student List
+ * @param string $last_mp    Last MP
+ * @param string $student_id Student ID
+ *
+ * @return string "Absences this year: x"
+ */
 function GetYTDAbsences( $st_list, $last_mp, $student_id )
 {
 	$attendance_day_RET = _getAttendanceDayRET( $st_list, $last_mp );
@@ -955,7 +977,15 @@ function GetYTDAbsences( $st_list, $last_mp, $student_id )
 }
 
 
-// Daily Absences this quarter or Year-to-date Daily Absences.
+/**
+ * Daily Absences this quarter or Year-to-date Daily Absences.
+ * Local function.
+ *
+ * @param string $st_list Student List
+ * @param string $last_mp Last MP
+ *
+ * @return array $attendance_day_RET
+ */
 function _getAttendanceDayRET( $st_list, $last_mp )
 {
 	static $attendance_day_RET = null,
@@ -992,7 +1022,18 @@ function _getAttendanceDayRET( $st_list, $last_mp )
 }
 
 
-// Marking Period Tardies.
+/**
+ * Marking Period Tardies.
+ *
+ * @uses _getAttendanceRET()
+ * @uses _getOtherAttendanceCodes()
+ *
+ * @param string $st_list    Student List
+ * @param string $last_mp    Last MP
+ * @param string $student_id Student ID
+ *
+ * @return string "[attendance code] in [last MP]: x"
+ */
 function GetMPTardies( $st_list, $last_mp, $student_id )
 {
 	// Other Attendance this quarter or Other Attendance Year-to-date.
@@ -1015,7 +1056,17 @@ function GetMPTardies( $st_list, $last_mp, $student_id )
 }
 
 
-// Year to Date Tardies.
+/**
+ * Year to Date Tardies.
+ *
+ * @uses _getAttendanceRET()
+ * @uses _getOtherAttendanceCodes()
+ *
+ * @param string $st_list    Student List
+ * @param string $student_id Student ID
+ *
+ * @return string "[attendance code] this year: x"
+ */
 function GetYTDTardies( $st_list, $student_id )
 {
 	// Other Attendance this quarter or Other Attendance Year-to-date.
@@ -1040,7 +1091,14 @@ function GetYTDTardies( $st_list, $student_id )
 }
 
 
-// Other Attendance this quarter or Other Attendance Year-to-date.
+/**
+ * Other Attendance this quarter or Other Attendance Year-to-date.
+ * Local function.
+ *
+ * @param  string $st_list Student List
+ *
+ * @return array  Attendance RET
+ */
 function _getAttendanceRET( $st_list )
 {
 	static $attendance_day_RET = null,
@@ -1074,7 +1132,13 @@ function _getAttendanceRET( $st_list )
 	return $attendance_RET;
 }
 
-// Other Attendace Codes.
+
+/**
+ * Other Attendace Codes.
+ * Local function.
+ *
+ * @return array
+ */
 function _getOtherAttendanceCodes()
 {
 	static $other_attendance_codes = null;
