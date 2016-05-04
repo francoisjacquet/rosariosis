@@ -8,7 +8,7 @@ if ( $_REQUEST['modfunc']=='update')
 			if ( $id!='new')
 			{
 				$sql = "UPDATE RESOURCES SET ";
-							
+
 				foreach ( (array) $columns as $column => $value)
 				{
 					$sql .= $column."='".$value."',";
@@ -34,7 +34,7 @@ if ( $_REQUEST['modfunc']=='update')
 					}
 				}
 				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
-			
+
 				if ( $go)
 					DBQuery($sql);
 			}
@@ -55,7 +55,7 @@ if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 	}
 }
 
-if (empty($_REQUEST['modfunc']))
+if ( ! $_REQUEST['modfunc'] )
 {
 	$sql = "SELECT ID,TITLE,LINK FROM RESOURCES WHERE SCHOOL_ID='".UserSchool()."' ORDER BY ID";
 	$QI = DBQuery($sql);
@@ -65,7 +65,7 @@ if (empty($_REQUEST['modfunc']))
 	$link['add']['html'] = array('TITLE'=>_makeTextInput('','TITLE'),'LINK'=>_makeLink('','LINK'));
 	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';
 	$link['remove']['variables'] = array('id' => 'ID');
-	
+
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
 
@@ -76,15 +76,15 @@ if (empty($_REQUEST['modfunc']))
 
 function _makeTextInput($value,$name)
 {	global $THIS_RET;
-	
+
 	if ( $THIS_RET['ID'])
 		$id = $THIS_RET['ID'];
 	else
 		$id = 'new';
-	
+
 	if ( $name=='LINK')
 		$extra = 'maxlength=1000';
-		
+
 	if ( $name=='TITLE')
 		$extra = 'maxlength=256';
 
@@ -100,7 +100,7 @@ function _makeLink($value,$name)
 		else
 			return _makeTextInput($value,$name);
 	}
-	
+
 	//truncate links > 100 chars
 	$truncated_link = $value;
 	if (mb_strlen($truncated_link) > 100)
@@ -112,6 +112,6 @@ function _makeLink($value,$name)
 		$trunc =  mb_strlen($truncated_link) - $maxlength;
 		$truncated_link = substr_replace($truncated_link, $separator, $start, $trunc);
 	}
-	 
+
 	return '<a href="'.$value.'" target="_blank">'.$truncated_link.'</a>';
 }

@@ -4,7 +4,7 @@ $max_cols = 3;
 $max_rows = 10;
 $to_family = _('To the parents of').':';
 
-if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
+if ( $_REQUEST['modfunc'] === 'save' )
 {
 	if (count($_REQUEST['st_arr']))
 	{
@@ -136,7 +136,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		BackPrompt(_('You must choose at least one student.'));
 }
 
-if (empty($_REQUEST['modfunc']))
+if ( ! $_REQUEST['modfunc'] )
 
 {
 	DrawHeader(ProgramTitle());

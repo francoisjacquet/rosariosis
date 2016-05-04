@@ -111,7 +111,7 @@ if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 	}
 }
 
-if (empty($_REQUEST['modfunc']))
+if ( ! $_REQUEST['modfunc'] )
 {
 	if (User('PROFILE')=='admin')
 	{
@@ -170,13 +170,13 @@ if (empty($_REQUEST['modfunc']))
 	}
 
 	$categories_RET = DBGet(DBQuery("SELECT rc.ID,rc.TITLE,rc.COLOR,1,rc.SORT_ORDER,
-	(SELECT count(1) FROM REPORT_CARD_COMMENTS WHERE COURSE_ID=rc.COURSE_ID AND CATEGORY_ID=rc.ID) AS COUNT 
-	FROM REPORT_CARD_COMMENT_CATEGORIES rc 
-	WHERE rc.COURSE_ID='".$_REQUEST['course_id']."' 
-	UNION 
-	SELECT 0,'"._('All Courses')."',NULL,2,NULL,(SELECT count(1) FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND COURSE_ID='0' AND SYEAR='".UserSyear()."') 
-	UNION 
-	SELECT -1,'"._('General')."',NULL,3,NULL,(SELECT count(1) FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND COURSE_ID IS NULL AND SYEAR='".UserSyear()."') 
+	(SELECT count(1) FROM REPORT_CARD_COMMENTS WHERE COURSE_ID=rc.COURSE_ID AND CATEGORY_ID=rc.ID) AS COUNT
+	FROM REPORT_CARD_COMMENT_CATEGORIES rc
+	WHERE rc.COURSE_ID='".$_REQUEST['course_id']."'
+	UNION
+	SELECT 0,'"._('All Courses')."',NULL,2,NULL,(SELECT count(1) FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND COURSE_ID='0' AND SYEAR='".UserSyear()."')
+	UNION
+	SELECT -1,'"._('General')."',NULL,3,NULL,(SELECT count(1) FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND COURSE_ID IS NULL AND SYEAR='".UserSyear()."')
 	ORDER BY 4,SORT_ORDER"),array(),array('ID'));
 	if ( $_REQUEST['tab_id']=='' || $_REQUEST['tab_id']!='new' && ! $categories_RET[$_REQUEST['tab_id']])
 		//$_REQUEST['tab_id'] = key($categories_RET).'';
@@ -263,7 +263,7 @@ if (empty($_REQUEST['modfunc']))
 				$LO_columns += array('CATEGORY_ID' => _('Category'));
 			}
 		}
-        
+
 		$link['add']['html'] = array('TITLE'=>makeCommentsInput('','TITLE'),'SCALE_ID'=>makeCommentsInput('','SCALE_ID'),'SORT_ORDER'=>makeCommentsInput('','SORT_ORDER'));
 		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&tab_id='.$_REQUEST['tab_id'];
 		$link['remove']['variables'] = array('id' => 'ID');

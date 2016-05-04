@@ -31,7 +31,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		BackPrompt( _( 'You must choose at least one student and one marking period.' ) );
 }
 
-if ( empty( $_REQUEST['modfunc'] ) )
+if ( ! $_REQUEST['modfunc'] )
 {
 	DrawHeader( ProgramTitle() );
 

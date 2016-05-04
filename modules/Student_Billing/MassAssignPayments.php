@@ -1,6 +1,6 @@
 <?php
 
-if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
+if ( $_REQUEST['modfunc'] === 'save' )
 {
 	if (count($_REQUEST['student']) && AllowEdit())
 	{
@@ -20,20 +20,20 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	}
 	else
 		$error[] = _('You must choose at least one student.');
-		
+
 	unset($_SESSION['_REQUEST_vars']['modfunc']);
 	unset($_REQUEST['modfunc']);
 }
 
-if (empty($_REQUEST['modfunc']))
+if ( ! $_REQUEST['modfunc'] )
 
 {
 	DrawHeader(ProgramTitle());
-	
+
 	echo ErrorMessage( $error );
 
 	echo ErrorMessage( $note, 'note' );
-		
+
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
@@ -58,7 +58,7 @@ if (empty($_REQUEST['modfunc']))
 	}
 }
 
-if (empty($_REQUEST['modfunc']))
+if ( ! $_REQUEST['modfunc'] )
 
 {
 	$extra['link'] = array('FULL_NAME'=>false);

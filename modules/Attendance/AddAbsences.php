@@ -14,7 +14,7 @@ if ( ! $_REQUEST['year'] )
 else
 	$_REQUEST['year'] = ($_REQUEST['year']<1900?'20'.$_REQUEST['year']:$_REQUEST['year']);
 
-if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
+if ( $_REQUEST['modfunc'] === 'save' )
 {
 	if (count($_REQUEST['period']) && count($_REQUEST['student']) && count($_REQUEST['dates']))
 	{
@@ -26,11 +26,11 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			$students_list .= ",'".$student_id."'";
 		$students_list = '('.mb_substr($students_list,1).')';
 
-		$current_RET = DBGet(DBQuery("SELECT STUDENT_ID,PERIOD_ID,SCHOOL_DATE 
-		FROM ATTENDANCE_PERIOD 
-		WHERE EXTRACT(MONTH FROM SCHOOL_DATE)='".($_REQUEST['month']*1)."' 
-		AND EXTRACT(YEAR FROM SCHOOL_DATE)='".$_REQUEST['year']."' 
-		AND PERIOD_ID IN ".$periods_list." 
+		$current_RET = DBGet(DBQuery("SELECT STUDENT_ID,PERIOD_ID,SCHOOL_DATE
+		FROM ATTENDANCE_PERIOD
+		WHERE EXTRACT(MONTH FROM SCHOOL_DATE)='".($_REQUEST['month']*1)."'
+		AND EXTRACT(YEAR FROM SCHOOL_DATE)='".$_REQUEST['year']."'
+		AND PERIOD_ID IN ".$periods_list."
 		AND STUDENT_ID IN ".$students_list),array(),array('STUDENT_ID','SCHOOL_DATE','PERIOD_ID'));
 		$state_code = DBGet(DBQuery("SELECT STATE_CODE FROM ATTENDANCE_CODES WHERE ID='".$_REQUEST['absence_code']."'"));
 		$state_code = $state_code[1]['STATE_CODE'];
@@ -44,29 +44,29 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				//FJ multiple school periods for a course period
 				if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 				{
-					$course_periods_RET = DBGet(DBQuery("SELECT s.COURSE_PERIOD_ID,cpsp.PERIOD_ID,cp.HALF_DAY 
-					FROM SCHEDULE s,COURSE_PERIODS cp,ATTENDANCE_CALENDAR ac,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp 
-					WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID 
-					AND sp.PERIOD_ID=cpsp.PERIOD_ID 
-					AND ac.SCHOOL_DATE='".$date."' 
-					AND ac.CALENDAR_ID=cp.CALENDAR_ID 
-					AND (ac.BLOCK=sp.BLOCK OR sp.BLOCK IS NULL) 
-					AND s.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID 
-					AND s.STUDENT_ID='".$student_id."' 
-					AND cpsp.PERIOD_ID IN ".$periods_list." 
-					AND position(',0,' IN cp.DOES_ATTENDANCE)>0 
-					AND (ac.SCHOOL_DATE BETWEEN s.START_DATE AND s.END_DATE OR (s.END_DATE IS NULL AND ac.SCHOOL_DATE>=s.START_DATE)) 
+					$course_periods_RET = DBGet(DBQuery("SELECT s.COURSE_PERIOD_ID,cpsp.PERIOD_ID,cp.HALF_DAY
+					FROM SCHEDULE s,COURSE_PERIODS cp,ATTENDANCE_CALENDAR ac,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
+					WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
+					AND sp.PERIOD_ID=cpsp.PERIOD_ID
+					AND ac.SCHOOL_DATE='".$date."'
+					AND ac.CALENDAR_ID=cp.CALENDAR_ID
+					AND (ac.BLOCK=sp.BLOCK OR sp.BLOCK IS NULL)
+					AND s.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
+					AND s.STUDENT_ID='".$student_id."'
+					AND cpsp.PERIOD_ID IN ".$periods_list."
+					AND position(',0,' IN cp.DOES_ATTENDANCE)>0
+					AND (ac.SCHOOL_DATE BETWEEN s.START_DATE AND s.END_DATE OR (s.END_DATE IS NULL AND ac.SCHOOL_DATE>=s.START_DATE))
 					AND position(substring('MTWHFSU' FROM cast(
-						(SELECT CASE COUNT(school_date)% ".SchoolInfo('NUMBER_DAYS_ROTATION')." WHEN 0 THEN ".SchoolInfo('NUMBER_DAYS_ROTATION')." ELSE COUNT(school_date)% ".SchoolInfo('NUMBER_DAYS_ROTATION')." END AS day_number 
-						FROM attendance_calendar 
-						WHERE school_date>=(SELECT start_date FROM school_marking_periods WHERE start_date<=ac.SCHOOL_DATE AND end_date>=ac.SCHOOL_DATE AND mp='QTR' AND SCHOOL_ID=ac.SCHOOL_ID) 
-						AND school_date<=ac.SCHOOL_DATE 
+						(SELECT CASE COUNT(school_date)% ".SchoolInfo('NUMBER_DAYS_ROTATION')." WHEN 0 THEN ".SchoolInfo('NUMBER_DAYS_ROTATION')." ELSE COUNT(school_date)% ".SchoolInfo('NUMBER_DAYS_ROTATION')." END AS day_number
+						FROM attendance_calendar
+						WHERE school_date>=(SELECT start_date FROM school_marking_periods WHERE start_date<=ac.SCHOOL_DATE AND end_date>=ac.SCHOOL_DATE AND mp='QTR' AND SCHOOL_ID=ac.SCHOOL_ID)
+						AND school_date<=ac.SCHOOL_DATE
 						AND SCHOOL_ID=ac.SCHOOL_ID)
-					AS INT) FOR 1) IN cpsp.DAYS)>0 
-					AND s.MARKING_PERIOD_ID IN (".$all_mp.") 
+					AS INT) FOR 1) IN cpsp.DAYS)>0
+					AND s.MARKING_PERIOD_ID IN (".$all_mp.")
 					AND ac.SCHOOL_ID=s.SCHOOL_ID"),array(),array('PERIOD_ID'));
 				} else {
-					$course_periods_RET = DBGet(DBQuery("SELECT s.COURSE_PERIOD_ID,cpsp.PERIOD_ID,cp.HALF_DAY FROM SCHEDULE s,COURSE_PERIODS cp,ATTENDANCE_CALENDAR ac,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE sp.PERIOD_ID=cpsp.PERIOD_ID AND ac.SCHOOL_DATE='".$date."' AND ac.CALENDAR_ID=cp.CALENDAR_ID AND (ac.BLOCK=sp.BLOCK OR sp.BLOCK IS NULL) AND s.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND s.STUDENT_ID='".$student_id."' AND cpsp.PERIOD_ID IN $periods_list AND position(',0,' IN cp.DOES_ATTENDANCE)>0 AND (ac.SCHOOL_DATE BETWEEN s.START_DATE AND s.END_DATE OR (s.END_DATE IS NULL AND ac.SCHOOL_DATE>=s.START_DATE)) AND position(substring('UMTWHFS' FROM cast(extract(DOW FROM ac.SCHOOL_DATE) AS INT)+1 FOR 1) IN cpsp.DAYS)>0 AND s.MARKING_PERIOD_ID IN ($all_mp)"),array(),array('PERIOD_ID'));				
+					$course_periods_RET = DBGet(DBQuery("SELECT s.COURSE_PERIOD_ID,cpsp.PERIOD_ID,cp.HALF_DAY FROM SCHEDULE s,COURSE_PERIODS cp,ATTENDANCE_CALENDAR ac,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE sp.PERIOD_ID=cpsp.PERIOD_ID AND ac.SCHOOL_DATE='".$date."' AND ac.CALENDAR_ID=cp.CALENDAR_ID AND (ac.BLOCK=sp.BLOCK OR sp.BLOCK IS NULL) AND s.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND s.STUDENT_ID='".$student_id."' AND cpsp.PERIOD_ID IN $periods_list AND position(',0,' IN cp.DOES_ATTENDANCE)>0 AND (ac.SCHOOL_DATE BETWEEN s.START_DATE AND s.END_DATE OR (s.END_DATE IS NULL AND ac.SCHOOL_DATE>=s.START_DATE)) AND position(substring('UMTWHFS' FROM cast(extract(DOW FROM ac.SCHOOL_DATE) AS INT)+1 FOR 1) IN cpsp.DAYS)>0 AND s.MARKING_PERIOD_ID IN ($all_mp)"),array(),array('PERIOD_ID'));
 				}
 				//echo '<pre>'; var_dump($course_periods_RET); echo '</pre>';
 				foreach ( (array) $_REQUEST['period'] as $period_id => $yes)
@@ -95,7 +95,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	}
 	else
 		$error[] = _('You must choose at least one period and one student.');
-		
+
 	unset($_SESSION['_REQUEST_vars']['modfunc']);
 	unset($_REQUEST['modfunc']);
 }
@@ -106,8 +106,7 @@ echo ErrorMessage( $note, 'note' );
 
 echo ErrorMessage( $error );
 
-if (empty($_REQUEST['modfunc']))
-
+if ( ! $_REQUEST['modfunc'] )
 {
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",CAST (NULL AS CHAR(1)) AS CHECKBOX";
@@ -125,11 +124,11 @@ if (empty($_REQUEST['modfunc']))
 
 		//FJ multiple school periods for a course period
 		//$periods_RET = DBGet(DBQuery("SELECT SHORT_NAME,PERIOD_ID FROM SCHOOL_PERIODS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND EXISTS (SELECT '' FROM COURSE_PERIODS WHERE PERIOD_ID=SCHOOL_PERIODS.PERIOD_ID AND position(',0,' IN DOES_ATTENDANCE)>0) ORDER BY SORT_ORDER"));
-		$periods_RET = DBGet(DBQuery("SELECT SHORT_NAME,PERIOD_ID 
-		FROM SCHOOL_PERIODS 
-		WHERE SYEAR='".UserSyear()."' 
-		AND SCHOOL_ID='".UserSchool()."' 
-		AND EXISTS (SELECT '' FROM COURSE_PERIOD_SCHOOL_PERIODS cpsp, COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND cpsp.PERIOD_ID=SCHOOL_PERIODS.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0) 
+		$periods_RET = DBGet(DBQuery("SELECT SHORT_NAME,PERIOD_ID
+		FROM SCHOOL_PERIODS
+		WHERE SYEAR='".UserSyear()."'
+		AND SCHOOL_ID='".UserSchool()."'
+		AND EXISTS (SELECT '' FROM COURSE_PERIOD_SCHOOL_PERIODS cpsp, COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND cpsp.PERIOD_ID=SCHOOL_PERIODS.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0)
 		ORDER BY SORT_ORDER"));
 		foreach ( (array) $periods_RET as $period)
 //FJ add <label> on checkbox

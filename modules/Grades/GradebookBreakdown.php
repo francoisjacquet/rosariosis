@@ -57,12 +57,12 @@ $sql = "SELECT ASSIGNMENT_TYPE_ID,TITLE
 
 $types_RET = DBGet( DBQuery( $sql ) );
 
-$assignments_RET = DBGet( DBQuery( "SELECT ASSIGNMENT_ID,TITLE,POINTS 
-	FROM GRADEBOOK_ASSIGNMENTS 
-	WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "' 
-	AND ((COURSE_ID='" . $course_id . "' 
-	AND STAFF_ID='".User('STAFF_ID')."') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "') 
-	AND MARKING_PERIOD_ID='" . UserMP() . "' 
+$assignments_RET = DBGet( DBQuery( "SELECT ASSIGNMENT_ID,TITLE,POINTS
+	FROM GRADEBOOK_ASSIGNMENTS
+	WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
+	AND ((COURSE_ID='" . $course_id . "'
+	AND STAFF_ID='".User('STAFF_ID')."') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
+	AND MARKING_PERIOD_ID='" . UserMP() . "'
 	ORDER BY " . Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) . " DESC" ) );
 
 $assignment_select .= '<select name="assignment_id" id="assignment_id" onchange="ajaxPostForm(this.form, true)">';
@@ -119,12 +119,12 @@ if ( $_REQUEST['assignment_id'] === 'totals' )
 
 	$current_RET = DBGet( DBQuery( "SELECT g.STUDENT_ID,
 		sum(" . db_case( array( 'g.POINTS', "'-1'", "'0'", 'g.POINTS' ) ) . ") AS POINTS,
-		sum(" . db_case( array( 'g.POINTS', "'-1'", "'0'", 'a.POINTS' ) ) . ") AS TOTAL_POINTS 
-		FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a 
-		WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID 
-		AND a.MARKING_PERIOD_ID='" . UserMP() . "' 
-		AND g.COURSE_PERIOD_ID='" . UserCoursePeriod() . "' 
-		AND (a.COURSE_PERIOD_ID='" . UserCoursePeriod() . "' OR a.COURSE_ID='" . $course_id . "') 
+		sum(" . db_case( array( 'g.POINTS', "'-1'", "'0'", 'a.POINTS' ) ) . ") AS TOTAL_POINTS
+		FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a
+		WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID
+		AND a.MARKING_PERIOD_ID='" . UserMP() . "'
+		AND g.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'
+		AND (a.COURSE_PERIOD_ID='" . UserCoursePeriod() . "' OR a.COURSE_ID='" . $course_id . "')
 		GROUP BY g.STUDENT_ID"), array(), array( 'STUDENT_ID' ) );
 
 	if ( Preferences( 'WEIGHT', 'Gradebook' ) === 'Y' )
@@ -136,13 +136,13 @@ if ( $_REQUEST['assignment_id'] === 'totals' )
 				"'0'",
 				"(sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'gg.POINTS' ) ) . ")
 					* gt.FINAL_GRADE_PERCENT / sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ) ) . "))"
-			))." AS PARTIAL_PERCENT 
-			FROM GRADEBOOK_GRADES gg, GRADEBOOK_ASSIGNMENTS ga, GRADEBOOK_ASSIGNMENT_TYPES gt 
-			WHERE gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID 
-			AND ga.ASSIGNMENT_ID=gg.ASSIGNMENT_ID 
-			AND ga.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . ") 
-			AND gg.COURSE_PERIOD_ID='" . UserCoursePeriod() . "' 
-			AND gt.COURSE_ID='" . $course_id . "' 
+			))." AS PARTIAL_PERCENT
+			FROM GRADEBOOK_GRADES gg, GRADEBOOK_ASSIGNMENTS ga, GRADEBOOK_ASSIGNMENT_TYPES gt
+			WHERE gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID
+			AND ga.ASSIGNMENT_ID=gg.ASSIGNMENT_ID
+			AND ga.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . ")
+			AND gg.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'
+			AND gt.COURSE_ID='" . $course_id . "'
 			GROUP BY gg.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID,gt.FINAL_GRADE_PERCENT"),
 		array(),
 		array( 'STUDENT_ID', 'ASSIGNMENT_TYPE_ID' ) );
@@ -158,13 +158,13 @@ elseif ( !is_numeric( $_REQUEST['assignment_id'] ) )
 
 	$current_RET = DBGet( DBQuery( "SELECT g.STUDENT_ID,
 		sum(" . db_case( array( 'g.POINTS', "'-1'", "'0'", 'g.POINTS' ) ) . ") AS POINTS,
-		sum(" . db_case( array( 'g.POINTS', "'-1'", "'0'", 'a.POINTS' ) ) . ") AS TOTAL_POINTS 
-		FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a 
-		WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID 
-		AND a.MARKING_PERIOD_ID='" . UserMP() . "' 
-		AND g.COURSE_PERIOD_ID='" . UserCoursePeriod() . "' 
-		AND (a.COURSE_PERIOD_ID='" . UserCoursePeriod() . "' OR a.COURSE_ID='" . $course_id . "') 
-		AND a.ASSIGNMENT_TYPE_ID='" . $type_id . "' 
+		sum(" . db_case( array( 'g.POINTS', "'-1'", "'0'", 'a.POINTS' ) ) . ") AS TOTAL_POINTS
+		FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a
+		WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID
+		AND a.MARKING_PERIOD_ID='" . UserMP() . "'
+		AND g.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'
+		AND (a.COURSE_PERIOD_ID='" . UserCoursePeriod() . "' OR a.COURSE_ID='" . $course_id . "')
+		AND a.ASSIGNMENT_TYPE_ID='" . $type_id . "'
 		GROUP BY g.STUDENT_ID" ), array(), array( 'STUDENT_ID' ) );
 
 	if ( Preferences( 'WEIGHT', 'Gradebook' ) === 'Y' )
@@ -176,21 +176,21 @@ elseif ( !is_numeric( $_REQUEST['assignment_id'] ) )
 				"'0'",
 				"(sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'gg.POINTS' ) ) . ")
 					/ sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ) ) ."))"
-			) ) . " AS PARTIAL_PERCENT 
-			FROM GRADEBOOK_GRADES gg, GRADEBOOK_ASSIGNMENTS ga, GRADEBOOK_ASSIGNMENT_TYPES gt 
-			WHERE gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID 
-			AND ga.ASSIGNMENT_TYPE_ID='" . $type_id . "' 
-			AND ga.ASSIGNMENT_ID=gg.ASSIGNMENT_ID 
-			AND ga.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . ") 
-			AND gg.COURSE_PERIOD_ID='" . UserCoursePeriod() . "' 
-			AND gt.COURSE_ID='" . $course_id . "' 
+			) ) . " AS PARTIAL_PERCENT
+			FROM GRADEBOOK_GRADES gg, GRADEBOOK_ASSIGNMENTS ga, GRADEBOOK_ASSIGNMENT_TYPES gt
+			WHERE gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID
+			AND ga.ASSIGNMENT_TYPE_ID='" . $type_id . "'
+			AND ga.ASSIGNMENT_ID=gg.ASSIGNMENT_ID
+			AND ga.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . ")
+			AND gg.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'
+			AND gt.COURSE_ID='" . $course_id . "'
 			GROUP BY gg.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID,gt.FINAL_GRADE_PERCENT"),
 		array(),
 		array( 'STUDENT_ID', 'ASSIGNMENT_TYPE_ID' ) );
 	}
 
 	foreach ( (array) $assignments_RET as $assignment )
-		$total_points[$assignment['ASSIGNMENT_ID']] = $assignment['POINTS'];	
+		$total_points[$assignment['ASSIGNMENT_ID']] = $assignment['POINTS'];
 }
 // Assignment
 elseif ( $_REQUEST['assignment_id'] )
@@ -226,7 +226,7 @@ foreach ( (array) $grades as $option )
 	$chart['chart_data'][2][] = $option['TITLE'];
 }
 
-if ( empty( $_REQUEST['modfunc'] ) )
+if ( ! $_REQUEST['modfunc'] )
 {
 	echo '<form action="' . PreparePHP_SELF( $_REQUEST ) . '" method="GET">';
 

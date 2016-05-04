@@ -1,5 +1,6 @@
 <?php
-if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
+
+if ( $_REQUEST['modfunc'] === 'save' )
 {
 	if ( !empty($_REQUEST['activity_id']))
 	{

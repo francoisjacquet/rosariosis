@@ -1,5 +1,5 @@
 <?php
-if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
+if ( $_REQUEST['modfunc'] === 'save' )
 {
 	if (isset($_REQUEST['student']) && is_array($_REQUEST['student']) && AllowEdit())
 	{

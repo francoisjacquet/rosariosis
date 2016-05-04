@@ -69,7 +69,8 @@ $profile_id = '3';
 // end of user configuration
 
 
-if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'save'
+	&& AllowEdit() )
 {
 	// If $test email is set then this script will only 'go through the motions' and email the results to the $test_email address instead of parents
 	// no accounts are created and no associations are made.  Use this to verify the behavior and email operation before actual use.
@@ -246,7 +247,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 
 echo ErrorMessage( $error );
 
-if (empty($_REQUEST['modfunc']) && !empty($email_column))
+if (! $_REQUEST['modfunc'] && !empty($email_column))
 {
 	if ( $_REQUEST['search_modfunc']=='list')
 	{

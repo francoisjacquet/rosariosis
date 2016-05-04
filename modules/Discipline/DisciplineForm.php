@@ -23,7 +23,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				$id = DBGet(DBQuery("SELECT ".db_seq_nextval('DISCIPLINE_FIELDS_SEQ').' AS ID'));
 				$id = $id[1]['ID'];
 				$sql = "INSERT INTO DISCIPLINE_FIELDS ";
-				
+
 				$fields = "ID,COLUMN_NAME,";
 				$values = "'".$id."','CATEGORY_".$id."',";
 
@@ -40,14 +40,14 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 							$go = true;
 						}
 					}
-				
+
 					$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 
 					$usage_sql = "INSERT INTO DISCIPLINE_FIELD_USAGE ";
-					
+
 					$fields = "ID,DISCIPLINE_FIELD_ID,SYEAR,SCHOOL_ID,";
 					$values = db_seq_nextval('DISCIPLINE_FIELD_USAGE_SEQ').",'".$id."','".UserSyear()."','".UserSchool()."',";
-		
+
 					foreach ( (array) $columns as $column => $value)
 					{
 						if ( $value && $column!='DATA_TYPE')
@@ -56,32 +56,32 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 							$values .= "'".$value."',";
 						}
 					}
-				
+
 					$usage_sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 
-		
+
 					$create_index = true;
 					switch ( $columns['DATA_TYPE'])
 					{
 						case 'checkbox':
 							DBQuery("ALTER TABLE DISCIPLINE_REFERRALS ADD CATEGORY_$id VARCHAR(1)");
 						break;
-						
+
 						case 'text':
 						case 'multiple_radio':
 						case 'multiple_checkbox':
 						case 'select':
 							DBQuery("ALTER TABLE DISCIPLINE_REFERRALS ADD CATEGORY_$id VARCHAR(1000)");
 						break;
-						
+
 						case 'numeric':
 							DBQuery("ALTER TABLE DISCIPLINE_REFERRALS ADD CATEGORY_$id NUMERIC(20,2)");
 						break;
-						
+
 						case 'date':
 							DBQuery("ALTER TABLE DISCIPLINE_REFERRALS ADD CATEGORY_$id DATE");
 						break;
-						
+
 						case 'textarea':
 							DBQuery("ALTER TABLE DISCIPLINE_REFERRALS ADD CATEGORY_$id VARCHAR(5000)");
 							$create_index = false; //FJ SQL bugfix index row size exceeds maximum 2712 for index
@@ -138,15 +138,15 @@ if ( $_REQUEST['modfunc']=='add_usage' && AllowEdit())
 // FJ fix SQL bug invalid sort order
 echo ErrorMessage( $error );
 
-if (empty($_REQUEST['modfunc']))
+if ( ! $_REQUEST['modfunc'] )
 {
-	$sql = "SELECT NULL AS REMOVE,du.ID AS USAGE_ID,df.ID,COALESCE(du.TITLE,df.TITLE) AS TITLE,du.SORT_ORDER,df.DATA_TYPE,du.SELECT_OPTIONS 
-	FROM DISCIPLINE_FIELDS df LEFT 
-	OUTER JOIN DISCIPLINE_FIELD_USAGE du ON (du.DISCIPLINE_FIELD_ID=df.ID AND du.SYEAR='".UserSyear()."' AND du.SCHOOL_ID='".UserSchool()."') 
+	$sql = "SELECT NULL AS REMOVE,du.ID AS USAGE_ID,df.ID,COALESCE(du.TITLE,df.TITLE) AS TITLE,du.SORT_ORDER,df.DATA_TYPE,du.SELECT_OPTIONS
+	FROM DISCIPLINE_FIELDS df LEFT
+	OUTER JOIN DISCIPLINE_FIELD_USAGE du ON (du.DISCIPLINE_FIELD_ID=df.ID AND du.SYEAR='".UserSyear()."' AND du.SCHOOL_ID='".UserSchool()."')
 	ORDER BY du.ID,du.SORT_ORDER";
 	$QI = DBQuery($sql);
 	$referrals_RET = DBGet($QI,array('REMOVE' => '_makeRemove','TITLE' => '_makeTextInput','SORT_ORDER' => '_makeTextInput','DATA_TYPE' => '_makeType','SELECT_OPTIONS' => '_makeTextAreaInput'));
-	
+
 	foreach ( (array) $referrals_RET as $key => $item)
 	{
 		if ( ! $item['USAGE_ID'])
@@ -160,7 +160,7 @@ if (empty($_REQUEST['modfunc']))
 
 	$columns += array('TITLE' => _('Title'),'SORT_ORDER' => _('Sort Order'),'DATA_TYPE' => _('Data Type'),'SELECT_OPTIONS' => _('Pull-Down').'/'._('Select Multiple from Options').'/'._('Select One from Options'));
 	$link['add']['html'] = array('REMOVE'=>button('add'),'TITLE'=>_makeTextInput('','TITLE'),'SORT_ORDER'=>_makeTextInput('','SORT_ORDER'),'SELECT_OPTIONS'=>_makeTextAreaInput('','SELECT_OPTIONS'),'DATA_TYPE'=>_makeType('','DATA_TYPE'));
-	
+
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 
 	DrawHeader('',SubmitButton(_('Save')));
@@ -179,7 +179,7 @@ function _makeType($value,$name)
 		$id = 'new';
 
 	$new_options = array('checkbox' => _('Checkbox'),'text' => _('Text'),'multiple_checkbox' => _('Select Multiple from Options'),'multiple_radio' => _('Select One from Options'),'select' => _('Pull-Down'),'date' => _('Date'),'numeric' => _('Number'),'textarea' => _('Long Text'));
-	
+
 	if ( $THIS_RET['ID'])
 		return $new_options[ $value ];
 	else
@@ -188,21 +188,21 @@ function _makeType($value,$name)
 
 function _makeTextInput($value,$name)
 {	global $THIS_RET;
-	
+
 	if ( $THIS_RET['USAGE_ID'])
 		$id = $THIS_RET['USAGE_ID'];
 	elseif ( $THIS_RET['ID'])
 		$id = 'usage';
 	else
 		$id = 'new';
-	
+
 	if ( $name!='TITLE')
 		$extra = 'size=5 maxlength=2';
 	if ( $name=='SORT_ORDER')
 		$comment = '<!-- '.$value.' -->';
 
 	if ( $id=='usage')
-		return $value;		
+		return $value;
 	else
 		return $comment.TextInput($value,'values['.$id.']['.$name.']','',$extra);
 }
@@ -210,7 +210,7 @@ function _makeTextInput($value,$name)
 function _makeTextAreaInput( $value, $name )
 {
 	global $THIS_RET;
-	
+
 	if ( $THIS_RET['USAGE_ID'])
 		$id = $THIS_RET['USAGE_ID'];
 	elseif ( $THIS_RET['ID'])
@@ -241,7 +241,7 @@ function _makeTextAreaInput( $value, $name )
 
 function _makeRemove($value,$column)
 {	global $THIS_RET;
-	
+
 	$return = '';
 	if (AllowEdit())
 		if ( $THIS_RET['USAGE_ID'])

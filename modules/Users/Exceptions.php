@@ -109,7 +109,7 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 	unset($_SESSION['_REQUEST_vars']['can_use']);
 }
 
-if (UserStaffID() && empty($_REQUEST['modfunc']))
+if (UserStaffID() && ! $_REQUEST['modfunc'])
 {
 $staff_RET = DBGet(DBQuery("SELECT FIRST_NAME,LAST_NAME,PROFILE,PROFILE_ID FROM STAFF WHERE STAFF_ID='".UserStaffID()."'"));
 

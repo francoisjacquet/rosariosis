@@ -14,8 +14,7 @@ if ( !isset( $_REQUEST['chart_type'] )
 $chartline = false;
 
 // Advanced Search
-if ( isset( $_REQUEST['modfunc'] )
-	&& $_REQUEST['modfunc'] === 'search' )
+if ( $_REQUEST['modfunc'] === 'search' )
 {
 	echo '<br />';
 
@@ -170,7 +169,7 @@ if ( isset( $_REQUEST['field_id'] )
 	}
 }
 
-if ( empty( $_REQUEST['modfunc'] ) )
+if ( ! $_REQUEST['modfunc'] )
 {
 	echo '<form action="' . PreparePHP_SELF( $_REQUEST ) . '" method="GET">';
 

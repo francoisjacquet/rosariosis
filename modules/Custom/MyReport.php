@@ -2,7 +2,7 @@
 
 DrawHeader(_(ProgramTitle()));
 
-if (empty($_REQUEST['modfunc']))
+if ( ! $_REQUEST['modfunc'] )
 {
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
@@ -48,7 +48,7 @@ if (empty($_REQUEST['modfunc']))
 		$LO_columns += array('FULL_NAME' => _('Student'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'GRADE_ID' => _('Grade Level'));
 		foreach ( (array) $custom_fields_RET as $field)
 			$LO_columns += array('CUSTOM_'.$field['ID']=>ParseMLField($field['TITLE']));
-		
+
 //FJ disable mailing address display
 		if (Config('STUDENTS_USE_MAILING'))
 			$LO_columns += array('ADDRESS' => _('Street'),'CITY' => _('City'),'STATE' => _('State'),'ZIPCODE' => _('Zipcode'),'PHONE' => _('Phone'),'MAIL_ADDRESS' => _('Mailing Street'),'MAIL_CITY' => _('Mailing City'),'MAIL_STATE' => _('Mailing State'),'MAIL_ZIPCODE' => _('Mailing Zipcode'));

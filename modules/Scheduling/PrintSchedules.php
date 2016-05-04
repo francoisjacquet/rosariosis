@@ -1,6 +1,6 @@
 <?php
 
-if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
+if ( $_REQUEST['modfunc'] === 'save' )
 {
 	if (count($_REQUEST['st_arr']))
 	{

@@ -17,8 +17,8 @@ $extra['columns_after'] = array('BALANCE' => _('Balance'),'STATUS' => _('Status'
 
 Search('student_id',$extra);
 
-if (UserStudentID() && empty($_REQUEST['modfunc']))
-{	
+if (UserStudentID() && ! $_REQUEST['modfunc'])
+{
 
 	$where = '';
 	if ( $_REQUEST['type_select'])
@@ -26,19 +26,19 @@ if (UserStudentID() && empty($_REQUEST['modfunc']))
 
 	if ( $_REQUEST['staff_select'])
 		$where .= "AND fst.SELLER_ID='".$_REQUEST['staff_select']."' ";
-		
+
 	if ( $_REQUEST['detailed_view']=='true')
 	{
-	    $RET = DBGet(DBQuery("SELECT fst.TRANSACTION_ID AS TRANS_ID,fst.TRANSACTION_ID,fst.ACCOUNT_ID,fst.SHORT_NAME,fst.STUDENT_ID,fst.DISCOUNT,(SELECT sum(AMOUNT) FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,fst.BALANCE,to_char(fst.TIMESTAMP,'YYYY-MM-DD') AS DATE,to_char(fst.TIMESTAMP,'HH:MI:SS AM') AS TIME,fst.DESCRIPTION,".db_case(array('fst.STUDENT_ID',"''",'NULL',"(SELECT LAST_NAME||', '||FIRST_NAME FROM STUDENTS WHERE STUDENT_ID=fst.STUDENT_ID)"))." AS FULL_NAME,".db_case(array('fst.SELLER_ID',"''",'NULL',"(SELECT FIRST_NAME||' '||LAST_NAME FROM STAFF WHERE STAFF_ID=fst.SELLER_ID)"))." AS SELLER 
-		FROM FOOD_SERVICE_TRANSACTIONS fst 
-		WHERE SYEAR='".UserSyear()."' 
-		AND fst.TIMESTAMP BETWEEN '".$date."' AND date '".$date."' +1 
+	    $RET = DBGet(DBQuery("SELECT fst.TRANSACTION_ID AS TRANS_ID,fst.TRANSACTION_ID,fst.ACCOUNT_ID,fst.SHORT_NAME,fst.STUDENT_ID,fst.DISCOUNT,(SELECT sum(AMOUNT) FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,fst.BALANCE,to_char(fst.TIMESTAMP,'YYYY-MM-DD') AS DATE,to_char(fst.TIMESTAMP,'HH:MI:SS AM') AS TIME,fst.DESCRIPTION,".db_case(array('fst.STUDENT_ID',"''",'NULL',"(SELECT LAST_NAME||', '||FIRST_NAME FROM STUDENTS WHERE STUDENT_ID=fst.STUDENT_ID)"))." AS FULL_NAME,".db_case(array('fst.SELLER_ID',"''",'NULL',"(SELECT FIRST_NAME||' '||LAST_NAME FROM STAFF WHERE STAFF_ID=fst.SELLER_ID)"))." AS SELLER
+		FROM FOOD_SERVICE_TRANSACTIONS fst
+		WHERE SYEAR='".UserSyear()."'
+		AND fst.TIMESTAMP BETWEEN '".$date."' AND date '".$date."' +1
 		AND SCHOOL_ID='".UserSchool()."'".$where."
 		ORDER BY ".($_REQUEST['by_name']?"FULL_NAME,":'')."fst.TRANSACTION_ID DESC"),array('DATE' => 'ProperDate','SHORT_NAME' => 'bump_count'));
 	//FJ add translation
 		foreach ( (array) $RET as $RET_key => $RET_val) {
 			$RET[ $RET_key ]=array_map('types_locale', $RET_val);
-		}	
+		}
 
 		foreach ( (array) $RET as $key => $value)
 		{
@@ -48,7 +48,7 @@ if (UserStudentID() && empty($_REQUEST['modfunc']))
 	//FJ add translation
 			foreach ( (array) $tmpRET as $RET_key => $RET_val) {
 				$tmpRET[ $RET_key ]=array_map('options_locale', $RET_val);
-			}	
+			}
 			// merge transaction and detail records
 			$RET[ $key ] = array($value) + $tmpRET;
 		}
@@ -62,19 +62,19 @@ if (UserStudentID() && empty($_REQUEST['modfunc']))
 	{
 	    $RET = DBGet(DBQuery("SELECT fst.TRANSACTION_ID,fst.ACCOUNT_ID,fst.SHORT_NAME,fst.STUDENT_ID,fst.DISCOUNT,
 		(SELECT sum(AMOUNT) FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
-		fst.BALANCE,to_char(fst.TIMESTAMP,'YYYY-MM-DD') AS DATE,to_char(fst.TIMESTAMP,'HH:MI:SS AM') AS TIME,fst.DESCRIPTION,".db_case(array('fst.STUDENT_ID',"''",'NULL',"(SELECT LAST_NAME||', '||FIRST_NAME FROM STUDENTS WHERE STUDENT_ID=fst.STUDENT_ID)"))." AS FULL_NAME 
-		FROM FOOD_SERVICE_TRANSACTIONS fst 
-		WHERE SYEAR='".UserSyear()."' 
-		AND fst.TIMESTAMP BETWEEN '".$date."' AND date '".$date."' +1 
+		fst.BALANCE,to_char(fst.TIMESTAMP,'YYYY-MM-DD') AS DATE,to_char(fst.TIMESTAMP,'HH:MI:SS AM') AS TIME,fst.DESCRIPTION,".db_case(array('fst.STUDENT_ID',"''",'NULL',"(SELECT LAST_NAME||', '||FIRST_NAME FROM STUDENTS WHERE STUDENT_ID=fst.STUDENT_ID)"))." AS FULL_NAME
+		FROM FOOD_SERVICE_TRANSACTIONS fst
+		WHERE SYEAR='".UserSyear()."'
+		AND fst.TIMESTAMP BETWEEN '".$date."' AND date '".$date."' +1
 		AND SCHOOL_ID='".UserSchool()."'".$where."
 		ORDER BY ".($_REQUEST['by_name']?"FULL_NAME,":'')."fst.TRANSACTION_ID DESC"),array('DATE' => 'ProperDate','SHORT_NAME' => 'bump_count'));
 		$columns = array('TRANSACTION_ID' => _('ID'),'ACCOUNT_ID' => _('Account ID'),'FULL_NAME' => _('Student'),'DATE' => _('Date'),'TIME' => _('Time'),'BALANCE' => _('Balance'),'DISCOUNT' => _('Discount'),'DESCRIPTION' => _('Description'),'AMOUNT' => _('Amount'));
 	//FJ add translation
 		foreach ( (array) $RET as $RET_key => $RET_val) {
 			$RET[ $RET_key ]=array_map('types_locale', $RET_val);
-		}	
+		}
 	}
-	
+
 	$type_select = '<span class="nobr">'._('Type').' <select name="type_select"><option value="">'._('Not Specified').'</option>';
 	foreach ( (array) $types as $short_name => $type)
 		$type_select .= '<option value="'.$short_name.'"'.($_REQUEST['type_select']==$short_name ? ' selected' : '').'>'.$type['DESCRIPTION'].'</option>';
@@ -125,7 +125,7 @@ if (UserStudentID() && empty($_REQUEST['modfunc']))
 		$types_columns = array('DESCRIPTION' => _('Description'),'COUNT' => _('Count'),'AMOUNT' => _('Amount'));
 	}
 	unset($LO_types[0]);
-	
+
 	ListOutput($LO_types,$types_columns,'Transaction Type','Transaction Types',false,$types_group,array('save'=>false,'search'=>false,'print'=>false));
 
 	ListOutput($RET,$columns,'Transaction','Transactions',$link,$group,array('save'=>false,'search'=>false,'print'=>false));

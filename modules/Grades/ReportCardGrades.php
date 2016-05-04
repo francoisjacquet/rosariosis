@@ -97,7 +97,7 @@ if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 //FJ fix SQL bug invalid numeric data
 echo ErrorMessage( $error );
 
-if (empty($_REQUEST['modfunc']))
+if ( ! $_REQUEST['modfunc'] )
 {
 	if (User('PROFILE')=='admin')
 	{

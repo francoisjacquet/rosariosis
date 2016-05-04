@@ -19,7 +19,7 @@ if ( ( isset( $_POST['values'] )
 				'STUDENT_MEDICAL' => db_seq_nextval( 'STUDENT_MEDICAL_SEQ' ) . ",'" . UserStudentID() . "',",
 				'STUDENT_MEDICAL_ALERTS' => db_seq_nextval( 'STUDENT_MEDICAL_ALERTS_SEQ' ) . ",'" . UserStudentID() . "',",
 				'STUDENT_MEDICAL_VISITS' => db_seq_nextval( 'STUDENT_MEDICAL_VISITS_SEQ' ) . ",'" . UserStudentID() . "',"
-			) 
+			)
 		)
 	);
 }
@@ -39,15 +39,15 @@ if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 	}
 }
 
-if (empty($_REQUEST['modfunc']))
+if ( ! $_REQUEST['modfunc'] )
 {
 	require_once 'modules/Students/includes/Other_Info.inc.php';
-	
+
 	if ( $PopTable_opened )
 	{
 		PopTable( 'footer' );
 	}
-	
+
 	$table = 'STUDENT_MEDICAL';
 	$functions = array('TYPE' => '_makeType','MEDICAL_DATE' => '_makeDate','COMMENTS' => '_makeComments');
 	$med_RET = DBGet(DBQuery("SELECT ID,TYPE,MEDICAL_DATE,COMMENTS FROM STUDENT_MEDICAL WHERE STUDENT_ID='".UserStudentID()."' ORDER BY MEDICAL_DATE,TYPE"),$functions);

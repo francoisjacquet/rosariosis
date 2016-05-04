@@ -15,7 +15,7 @@ if (UserStaffID())
 	unset($_SESSION['staff_id']);
 }
 
-if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
+if ( $_REQUEST['modfunc'] === 'save' )
 {
 	if (count($_REQUEST['st_arr']))
 	{
@@ -53,7 +53,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		BackPrompt(_('You must choose at least one user'));
 }
 
-if (empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
+if (! $_REQUEST['modfunc'] || $_REQUEST['search_modfunc']=='list')
 {
 	if ( $_REQUEST['search_modfunc']=='list')
 	{

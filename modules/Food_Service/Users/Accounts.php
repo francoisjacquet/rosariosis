@@ -41,7 +41,7 @@ if ( $_REQUEST['modfunc']=='update')
                         }
                     }
                 }
- 
+
                 if ( ! $RET
                     || Prompt( 'Confirm', $question, $message ) )
                 {
@@ -80,14 +80,14 @@ if ( $_REQUEST['modfunc']=='create')
 	{
         $fields = 'STAFF_ID,BALANCE,TRANSACTION_ID,';
         $values = "'".UserStaffID()."','0.00','0',";
-        
+
         if (is_array($_REQUEST['food_service']))
 		 foreach ( (array) $_REQUEST['food_service'] as $column_name => $value)
 		 {
 		     $fields .= $column_name.',';
 		     $values .= "'".trim($value)."',";
 		 }
-		 
+
         $sql = 'INSERT INTO FOOD_SERVICE_STAFF_ACCOUNTS ('.mb_substr($fields,0,-1).') values ('.mb_substr($values,0,-1).')';
         DBQuery($sql);
 	}
@@ -106,14 +106,14 @@ $extra['columns_after'] = array('BALANCE' => _('Balance'),'STATUS' => _('Status'
 
 Search('staff_id',$extra);
 
-if (UserStaffID() && empty($_REQUEST['modfunc']))
+if (UserStaffID() && ! $_REQUEST['modfunc'])
 {
 	$staff = DBGet(DBQuery("SELECT s.STAFF_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,
 	(SELECT s.STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS ACCOUNT_ID,
 	(SELECT STATUS FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS STATUS,
 	(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE,
-	(SELECT BARCODE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BARCODE 
-	FROM STAFF s 
+	(SELECT BARCODE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BARCODE
+	FROM STAFF s
 	WHERE s.STAFF_ID='".UserStaffID()."'"));
 	$staff = $staff[1];
 

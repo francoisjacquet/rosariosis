@@ -136,7 +136,7 @@ if ( $_REQUEST['modfunc']=='activate' && AllowEdit())
 }
 
 
-if (empty($_REQUEST['modfunc']))
+if ( ! $_REQUEST['modfunc'] )
 {
 
 	echo ErrorMessage( $error );

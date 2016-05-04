@@ -56,12 +56,12 @@ if ( $_REQUEST['modfunc']=='submit')
 	unset($_REQUEST['submit']);
 }
 
-if (UserStaffID() && empty($_REQUEST['modfunc']))
+if (UserStaffID() && ! $_REQUEST['modfunc'])
 {
 	$staff = DBGet(DBQuery("SELECT s.STAFF_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,
 	(SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS ACCOUNT_ID,
-	(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE 
-	FROM STAFF s 
+	(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE
+	FROM STAFF s
 	WHERE s.STAFF_ID='".UserStaffID()."'"));
 	$staff = $staff[1];
 
@@ -76,12 +76,12 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 		echo '<table class="width-100p">';
 		echo '<tr class="st"><td class="width-100p valign-top">';
 
-		$RET = DBGet(DBQuery("SELECT fsti.DESCRIPTION,fsti.AMOUNT 
-		FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst,FOOD_SERVICE_STAFF_TRANSACTION_ITEMS fsti 
-		WHERE fst.STAFF_ID='".UserStaffID()."' 
-		AND fst.SYEAR='".UserSyear()."' 
-		AND fst.SHORT_NAME='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."' 
-		AND fst.TIMESTAMP BETWEEN CURRENT_DATE AND CURRENT_DATE+1 
+		$RET = DBGet(DBQuery("SELECT fsti.DESCRIPTION,fsti.AMOUNT
+		FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst,FOOD_SERVICE_STAFF_TRANSACTION_ITEMS fsti
+		WHERE fst.STAFF_ID='".UserStaffID()."'
+		AND fst.SYEAR='".UserSyear()."'
+		AND fst.SHORT_NAME='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."'
+		AND fst.TIMESTAMP BETWEEN CURRENT_DATE AND CURRENT_DATE+1
 		AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID"));
 
 		$columns = array('DESCRIPTION' => _('Item'),'AMOUNT' => _('Amount'));
@@ -100,19 +100,19 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 		echo '</td></tr>';
 		echo '<tr><td class="width-100p valign-top">';
 
-		$items_RET = DBGet(DBQuery("SELECT fsi.SHORT_NAME,fsi.DESCRIPTION,fsi.PRICE_STAFF,fsi.ICON 
-		FROM FOOD_SERVICE_ITEMS fsi,FOOD_SERVICE_MENU_ITEMS fsmi 
-		WHERE fsmi.MENU_ID='".$_REQUEST['menu_id']."' 
-		AND fsi.ITEM_ID=fsmi.ITEM_ID 
-		AND fsmi.CATEGORY_ID IS NOT NULL 
-		AND fsi.SCHOOL_ID='".UserSchool()."' 
+		$items_RET = DBGet(DBQuery("SELECT fsi.SHORT_NAME,fsi.DESCRIPTION,fsi.PRICE_STAFF,fsi.ICON
+		FROM FOOD_SERVICE_ITEMS fsi,FOOD_SERVICE_MENU_ITEMS fsmi
+		WHERE fsmi.MENU_ID='".$_REQUEST['menu_id']."'
+		AND fsi.ITEM_ID=fsmi.ITEM_ID
+		AND fsmi.CATEGORY_ID IS NOT NULL
+		AND fsi.SCHOOL_ID='".UserSchool()."'
 		ORDER BY fsi.SORT_ORDER"),array('ICON' => 'makeIcon'),array('SHORT_NAME'));
 		$items = array();
 		foreach ( (array) $items_RET as $sn => $item)
 			$items += array($sn => $item[1]['DESCRIPTION']);
 
 		$LO_ret = array(array());
-		
+
 		if (isset($_SESSION['FSA_sale']))
 			foreach ( (array) $_SESSION['FSA_sale'] as $id => $item_sn)
 			{
@@ -120,7 +120,7 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 				$price = $items_RET[ $item_sn ][1]['PRICE_STAFF'];
 				$LO_ret[] = array('SALE_ID' => $id,'PRICE' => $price,'DESCRIPTION' => $items_RET[ $item_sn ][1]['DESCRIPTION'],'ICON' => $items_RET[ $item_sn ][1]['ICON']);
 			}
-			
+
 		unset($LO_ret[0]);
 
 		$link['remove'] = array('link' => 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&menu_id='.$_REQUEST['menu_id'],

@@ -12,7 +12,8 @@ if ( $_REQUEST['modfunc']!='choose_course')
 	DrawHeader(ProgramTitle());
 }
 
-if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'save'
+	&& AllowEdit() )
 {
 	if ( $_SESSION['MassSchedule.php'])
 	{
@@ -87,7 +88,7 @@ echo ErrorMessage( $error );
 
 echo ErrorMessage( $note, 'note' );
 
-if (empty($_REQUEST['modfunc']))
+if ( ! $_REQUEST['modfunc'] )
 {
 	if ( $_REQUEST['search_modfunc']=='list')
 	{

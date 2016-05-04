@@ -13,8 +13,7 @@ $default_session_name = session_name();
 require_once 'Warehouse.php';
 
 // Logout.
-if ( isset( $_REQUEST['modfunc'] )
-	&& $_REQUEST['modfunc'] === 'logout' )
+if ( $_REQUEST['modfunc'] === 'logout' )
 {
 	// FJ set logout page to old session locale.
 	$old_session_locale = $_SESSION['locale'];
@@ -153,7 +152,7 @@ elseif ( isset( $_POST['USERNAME'] )
 
 </body>
 </html>
-<?php 
+<?php
 			// Set Config( 'LOGIN' ) to Yes.
 			DBQuery( "UPDATE CONFIG
 				SET CONFIG_VALUE='Yes'

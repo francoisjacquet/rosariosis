@@ -50,7 +50,7 @@ else
 						$sql .= "UPDATE CONFIG SET
 							CONFIG_VALUE='" . $value . "'
 							WHERE TITLE='" . $column . "'";
-					
+
 						// Program Title, Program Name, Default Theme, Create User Account, Create Student Account, Student email field.
 						$school_independant_values = array(
 							'TITLE',
@@ -70,7 +70,7 @@ else
 				if (isset($_REQUEST['values']['PROGRAM_CONFIG']) && is_array($_REQUEST['values']['PROGRAM_CONFIG']))
 					foreach ( (array) $_REQUEST['values']['PROGRAM_CONFIG'] as $column => $value)
 					{
-						$sql .= "UPDATE PROGRAM_CONFIG SET 
+						$sql .= "UPDATE PROGRAM_CONFIG SET
 							VALUE='" . $value . "'
 							WHERE TITLE='" . $column . "'
 							AND SCHOOL_ID='" . UserSchool() . "'
@@ -99,7 +99,7 @@ else
 		unset($_SESSION['_REQUEST_vars']['modfunc']);
 	}
 
-	if (empty($_REQUEST['modfunc']))
+	if ( ! $_REQUEST['modfunc'] )
 	{
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST" enctype="multipart/form-data">';
 
@@ -114,7 +114,7 @@ else
 
 		echo '<br />';
 		PopTable('header',SchoolInfo('TITLE'));
-	
+
 		echo '<fieldset><legend>'.ParseMLField(Config('TITLE')).'</legend><table>';
 
 		echo '<tr><td>'.MLTextInput(Config('TITLE'),'values[CONFIG][TITLE]',_('Program Title')).'</td></tr>';
@@ -202,7 +202,7 @@ else
 		echo '<tr><td>'.TextInput(Config('CURRENCY'),'values[CONFIG][CURRENCY]',_('Currency Symbol'),'maxlength=3 size=3').'</td></tr>';
 
 		echo '</table></fieldset>';
-	
+
 		if ( $RosarioModules['Students'])
 		{
 			echo '<br /><fieldset><legend>'._('Students').'</legend><table>';
@@ -241,7 +241,7 @@ else
 
 			echo '</table></fieldset>';
 		}
-	
+
 		if ( $RosarioModules['Grades'] )
 		{
 			echo '<br /><fieldset><legend>' . _( 'Grades' ) . '</legend><table>';

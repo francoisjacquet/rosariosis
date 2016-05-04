@@ -11,7 +11,7 @@ $extra['columns_after'] = array('BALANCE' => _('Balance'),'STATUS' => _('Status'
 
 Search('staff_id',$extra);
 
-if (UserStaffID() && empty($_REQUEST['modfunc']))
+if (UserStaffID() && ! $_REQUEST['modfunc'])
 {
 	$staff = DBGet(DBQuery("SELECT s.STAFF_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,(SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS ACCOUNT_ID,(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE FROM STAFF s WHERE s.STAFF_ID='".UserStaffID()."'"));
 	$staff = $staff[1];
@@ -39,19 +39,19 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
             $RET = DBGet(DBQuery("SELECT fst.TRANSACTION_ID AS TRANS_ID,fst.TRANSACTION_ID,
 			(SELECT sum(AMOUNT) FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
 			fst.STAFF_ID,fst.BALANCE,to_char(fst.TIMESTAMP,'YYYY-MM-DD') AS DATE,to_char(fst.TIMESTAMP,'HH:MI:SS AM') AS TIME,fst.DESCRIPTION,
-			".db_case(array('fst.SELLER_ID',"''",'NULL',"(SELECT FIRST_NAME||' '||LAST_NAME FROM STAFF WHERE STAFF_ID=fst.SELLER_ID)"))." AS SELLER 
-			FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst 
-			WHERE fst.STAFF_ID='".UserStaffID()."' 
-			AND fst.SYEAR='".UserSyear()."' 
-			AND fst.TIMESTAMP BETWEEN '".$start_date."' 
+			".db_case(array('fst.SELLER_ID',"''",'NULL',"(SELECT FIRST_NAME||' '||LAST_NAME FROM STAFF WHERE STAFF_ID=fst.SELLER_ID)"))." AS SELLER
+			FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst
+			WHERE fst.STAFF_ID='".UserStaffID()."'
+			AND fst.SYEAR='".UserSyear()."'
+			AND fst.TIMESTAMP BETWEEN '".$start_date."'
 			AND date '".$end_date."' +1".
-			$where." 
+			$where."
 			ORDER BY fst.TRANSACTION_ID DESC"),array('DATE' => 'ProperDate','BALANCE' => 'red'));
 //FJ add translation
 			foreach ( (array) $RET as $RET_key => $RET_val) {
 				$RET[ $RET_key ]=array_map('types_locale', $RET_val);
-			}	
-			
+			}
+
 			// get details of each transaction
 			foreach ( (array) $RET as $key => $value)
 			{
@@ -59,7 +59,7 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 //FJ add translation
 				foreach ( (array) $tmpRET as $RET_key => $RET_val) {
 					$tmpRET[ $RET_key ]=array_map('options_locale', $RET_val);
-				}	
+				}
 				// merge transaction and detail records
 				$RET[ $key ] = array($RET[ $key ]) + $tmpRET;
 			}
@@ -72,18 +72,18 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 		{
 			$RET = DBGet(DBQuery("SELECT fst.TRANSACTION_ID,
 			(SELECT sum(AMOUNT) FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
-			fst.BALANCE,to_char(fst.TIMESTAMP,'YYYY-MM-DD') AS DATE,to_char(fst.TIMESTAMP,'HH:MI:SS AM') AS TIME,fst.DESCRIPTION 
-			FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst 
-			WHERE fst.STAFF_ID='".UserStaffID()."' 
-			AND SYEAR='".UserSyear()."' 
+			fst.BALANCE,to_char(fst.TIMESTAMP,'YYYY-MM-DD') AS DATE,to_char(fst.TIMESTAMP,'HH:MI:SS AM') AS TIME,fst.DESCRIPTION
+			FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst
+			WHERE fst.STAFF_ID='".UserStaffID()."'
+			AND SYEAR='".UserSyear()."'
 			AND fst.TIMESTAMP BETWEEN '".$start_date."' AND date '".$end_date."' +1".
-			$where." 
+			$where."
 			ORDER BY fst.TRANSACTION_ID DESC"),array('DATE' => 'ProperDate','BALANCE' => 'red'));
 			$columns = array('TRANSACTION_ID' => _('ID'),'DATE' => _('Date'),'TIME' => _('Time'),'BALANCE' => _('Balance'),'DESCRIPTION' => _('Description'),'AMOUNT' => _('Amount'));
 //FJ add translation
 			foreach ( (array) $RET as $RET_key => $RET_val) {
 				$RET[ $RET_key ]=array_map('types_locale', $RET_val);
-			}	
+			}
 		}
 
 		ListOutput($RET,$columns,'Transaction','Transactions',$link,$group);

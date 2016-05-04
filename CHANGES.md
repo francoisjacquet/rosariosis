@@ -7,6 +7,7 @@ Changes in 2.9.1
 - Use ReportCards.fnc.php functions in FinalGrades.php
 - Add TipMessage with Student YTD & Period attendance in FinalGrades.php
 - Fix logo image overlapped in Report Cards
+- Remove isset & empty checks for $_REQUEST['modfunc'], program wide
 
 Changes in 2.9
 --------------

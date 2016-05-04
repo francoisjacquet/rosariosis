@@ -11,8 +11,7 @@
 require_once 'Warehouse.php';
 
 // Print PDF.
-if ( isset( $_REQUEST['modfunc'] )
-	&& $_REQUEST['modfunc'] === 'print' ) :
+if ( $_REQUEST['modfunc'] === 'print' ) :
 
 	if ( $_REQUEST['expanded_view'] )
 	{
@@ -49,8 +48,7 @@ if ( isset( $_REQUEST['modfunc'] )
 
 
 // Inline Help.
-elseif ( isset( $_REQUEST['modfunc'] ) &&
-	$_REQUEST['modfunc'] === 'help' ) :
+elseif ( $_REQUEST['modfunc'] === 'help' ) :
 
 	$help_translated = 'Help_' . mb_substr( $locale, 0, 2 ) . '.php';
 	$help_english = 'Help_en.php';

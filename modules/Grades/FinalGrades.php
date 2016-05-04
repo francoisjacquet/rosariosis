@@ -401,7 +401,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	}
 }
 
-if (empty($_REQUEST['modfunc']))
+if ( ! $_REQUEST['modfunc'] )
 {
 
 	echo ErrorMessage( $error );

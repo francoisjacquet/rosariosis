@@ -174,7 +174,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 	$_REQUEST['modfunc']=true;
 }
 
-if (empty($_REQUEST['modfunc']))
+if ( ! $_REQUEST['modfunc'] )
 {
 	DrawHeader(ProgramTitle());
 

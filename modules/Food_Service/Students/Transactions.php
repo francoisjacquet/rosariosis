@@ -52,7 +52,7 @@ Search('student_id',$extra);
 
 echo ErrorMessage( $error );
 
-if (UserStudentID() && empty($_REQUEST['modfunc']))
+if (UserStudentID() && ! $_REQUEST['modfunc'])
 {
 	$student = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,fsa.ACCOUNT_ID,fsa.STATUS,
 	(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fsa.ACCOUNT_ID) AS BALANCE

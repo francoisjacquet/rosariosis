@@ -1,6 +1,6 @@
 <?php
 
-if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
+if ( $_REQUEST['modfunc'] === 'save' )
 {
 	if (count($_REQUEST['mp_type_arr']) && count($_REQUEST['st_arr']))
 	{
@@ -325,7 +325,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		BackPrompt(_('You must choose at least one student and one marking period.'));
 }
 
-if (empty($_REQUEST['modfunc']))
+if ( ! $_REQUEST['modfunc'] )
 {
 	DrawHeader(ProgramTitle());
 

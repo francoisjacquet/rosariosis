@@ -36,8 +36,7 @@ if ( empty( $end_date ) )
 }
 
 // Advanced Search.
-if ( isset( $_REQUEST['modfunc'] )
-	&& $_REQUEST['modfunc'] === 'search' )
+if ( $_REQUEST['modfunc'] === 'search' )
 {
 	$extra['new'] = true;
 
@@ -55,7 +54,7 @@ if ( isset( $_REQUEST['modfunc'] )
 	Search( 'student_id', $extra );
 }
 
-if (empty($_REQUEST['modfunc']))
+if ( ! $_REQUEST['modfunc'] )
 {
 	if ( ! isset( $extra ) )
 	{

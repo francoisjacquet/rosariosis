@@ -377,7 +377,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 	}
 }
 
-if ( empty( $_REQUEST['modfunc'] ) )
+if ( ! $_REQUEST['modfunc'] )
 {
 	echo ErrorMessage( $error );
 

@@ -6,7 +6,7 @@
 DrawHeader(ProgramTitle());
 
 
-if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
+if ( $_REQUEST['modfunc'] === 'save' )
 {
 	// If $test email is set then this script will only 'go through the motions' and email the results to the $test_email address instead of parents
 	$test_email = $_REQUEST['test_email'];
@@ -97,7 +97,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 echo ErrorMessage( $error );
 
-if (empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
+if (! $_REQUEST['modfunc'] || $_REQUEST['search_modfunc']=='list')
 {
 	if ( $_REQUEST['search_modfunc']=='list')
 	{

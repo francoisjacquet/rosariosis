@@ -141,7 +141,7 @@ if ( $_REQUEST['modfunc']=='update')
 		unset($_REQUEST['modfunc']);
 }
 
-if (empty($_REQUEST['modfunc']))
+if ( ! $_REQUEST['modfunc'] )
 {
 	if ( !empty($note))
 		echo ErrorMessage($note, 'note');

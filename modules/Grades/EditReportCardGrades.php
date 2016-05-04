@@ -27,7 +27,7 @@ if ( UserStudentID() )
 
 		$_REQUEST['modfunc'] = false;
 	}
-    
+
 	if ( $_REQUEST['modfunc']=='update' && ! $_REQUEST['removemp'])
 	{
 
@@ -43,8 +43,8 @@ if ( UserStudentID() )
 
 		if ( $_REQUEST['SMS_GRADE_LEVEL'] && $mp_id)
 		{
-			$updatestats = "UPDATE student_mp_stats SET grade_level_short = '".$_REQUEST['SMS_GRADE_LEVEL']."' 
-					WHERE marking_period_id = '".$mp_id."' 
+			$updatestats = "UPDATE student_mp_stats SET grade_level_short = '".$_REQUEST['SMS_GRADE_LEVEL']."'
+					WHERE marking_period_id = '".$mp_id."'
 					AND student_id = '".$student_id."'";
 			DBQuery($updatestats);
 		}
@@ -91,7 +91,7 @@ if ( UserStudentID() )
 
 						if ( ! $columns['CREDIT_EARNED'])
 						{
-							if ( $columns['UNWEIGHTED_GP'] > 0 || $columns['WEIGHTED_GP'] > 0) 
+							if ( $columns['UNWEIGHTED_GP'] > 0 || $columns['WEIGHTED_GP'] > 0)
 								$columns['CREDIT_EARNED'] = 1;
 							else
 								$columns['CREDIT_EARNED'] = 0;
@@ -121,7 +121,7 @@ if ( UserStudentID() )
 
 		}
 
-		unset($_REQUEST['modfunc']); 
+		unset($_REQUEST['modfunc']);
 	}
 
 	if ( $_REQUEST['modfunc']=='remove')
@@ -138,14 +138,14 @@ if ( UserStudentID() )
 	// FJ fix SQL bug when text data entered, data verification
 	echo ErrorMessage( $error );
 
-	if (empty($_REQUEST['modfunc']))
-	{  
+	if ( ! $_REQUEST['modfunc'] )
+	{
 		$stuRET = DBGet(DBQuery("SELECT LAST_NAME, FIRST_NAME, MIDDLE_NAME, NAME_SUFFIX from STUDENTS where STUDENT_ID = $student_id"));
 		$stuRET = $stuRET[1];
 
 		$displayname = $stuRET['LAST_NAME'].(($stuRET['NAME_SUFFIX'])?$stuRET['suffix'].' ':'').', '.$stuRET['FIRST_NAME'].' '.$stuRET['MIDDLE_NAME'];
-       
-		$gquery = "SELECT mp.syear, mp.marking_period_id as mp_id, mp.title as mp_name, mp.post_end_date as posted, sms.grade_level_short as grade_level, 
+
+		$gquery = "SELECT mp.syear, mp.marking_period_id as mp_id, mp.title as mp_name, mp.post_end_date as posted, sms.grade_level_short as grade_level,
 		CASE WHEN sms.gp_credits > 0 THEN (sms.sum_weighted_factors/sms.gp_credits)*s.reporting_gp_scale ELSE 0 END as weighted_gpa,
 		sms.cum_weighted_factor*s.reporting_gp_scale as weighted_cum,
 		CASE WHEN sms.gp_credits > 0 THEN (sms.sum_unweighted_factors/sms.gp_credits)*s.reporting_gp_scale ELSE 0 END as unweighted_gpa,
@@ -157,9 +157,9 @@ if ( UserStudentID() )
 		s.id = mp.school_id and sms.student_id='".$student_id."'
 		AND mp.school_id='".UserSchool()."'
 		order by posted";
-            
+
 		$GRET = DBGet(DBQuery($gquery));
-        
+
 		$last_posted = null;
 		$gmp = array(); //grade marking_periods
 		$grecs = array();  //grade records
@@ -194,11 +194,11 @@ if ( UserStudentID() )
 			$mpselect .= '<option value="'.$id.'"'.(($id==$mp_id)?' selected':'').">".$mparray['schoolyear'].' '.$mparray['mp_name'].', '._('Grade Level').' '.$mparray['grade_level']."</option>";
 		}
 
-		$mpselect .= '<option value="0" '.(($mp_id=='0')?' selected':'').">"._('Add another marking period')."</option>";   
+		$mpselect .= '<option value="0" '.(($mp_id=='0')?' selected':'').">"._('Add another marking period')."</option>";
 		$mpselect .= '</select></form>';
 
 		DrawHeader($mpselect);
-            
+
 		//FORM for updates/new records
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&tab_id='.$_REQUEST['tab_id'].'&mp_id='.$mp_id.'" method="POST">';
 

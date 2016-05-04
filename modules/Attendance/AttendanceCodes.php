@@ -93,7 +93,7 @@ if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 // FJ fix SQL bug invalid sort order
 echo ErrorMessage( $error );
 
-if (empty($_REQUEST['modfunc']))
+if ( ! $_REQUEST['modfunc'] )
 {
 	if ( $_REQUEST['table']!=='new')
 	{

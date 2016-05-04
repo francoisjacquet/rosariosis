@@ -129,7 +129,7 @@ echo ErrorMessage( $note, 'note' );
 echo ErrorMessage( $warning, 'warning' );
 
 
-if (empty($_REQUEST['modfunc']))
+if ( ! $_REQUEST['modfunc'] )
 {
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",CAST (NULL AS CHAR(1)) AS CHECKBOX";

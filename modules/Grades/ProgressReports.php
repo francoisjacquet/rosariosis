@@ -6,7 +6,7 @@ $course_id = DBGet(DBQuery("SELECT cp.COURSE_ID,c.TITLE FROM COURSE_PERIODS cp,C
 $course_title = $course_id[1]['TITLE'];
 $course_id = $course_id[1]['COURSE_ID'];
 
-if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
+if ( $_REQUEST['modfunc'] === 'save' )
 {
 	$gradebook_config = ProgramUserConfig( 'Gradebook' );
 
@@ -127,7 +127,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		BackPrompt(_('You must choose at least one student.'));
 }
 
-if (empty($_REQUEST['modfunc']))
+if ( ! $_REQUEST['modfunc'] )
 {
 	DrawHeader(_('Gradebook').' - '.ProgramTitle());
 

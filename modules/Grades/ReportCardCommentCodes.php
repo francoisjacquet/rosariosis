@@ -102,7 +102,7 @@ if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 // FJ fix SQL bug invalid sort order
 echo ErrorMessage( $error );
 
-if (empty($_REQUEST['modfunc']))
+if ( ! $_REQUEST['modfunc'] )
 {
 	$comment_scales_RET = DBGet(DBQuery('SELECT ID,TITLE FROM REPORT_CARD_COMMENT_CODE_SCALES WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER,ID'),array(),array('ID'));
 	if ( $_REQUEST['tab_id']=='' || $_REQUEST['tab_id']!='new' && ! $comment_scales_RET[$_REQUEST['tab_id']])
@@ -163,12 +163,12 @@ if (empty($_REQUEST['modfunc']))
 	echo '<br />';
 
 	$LO_options = array('save'=>false,'search'=>false,'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$_REQUEST['tab_id']));
-        
+
     if ( $subject == 'Codes')
 	    ListOutput($LO_ret,$LO_columns,'Code','Codes',$link,array(),$LO_options);
-    elseif ( $subject == 'Comment Code Scales') 
+    elseif ( $subject == 'Comment Code Scales')
         ListOutput($LO_ret,$LO_columns,'Comment Code Scale','Comment Code Scales',$link,array(),$LO_options);
-        
+
 	echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 	echo '</td></tr></table></form>';
 }

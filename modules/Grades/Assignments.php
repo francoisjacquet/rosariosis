@@ -246,8 +246,7 @@ if ( isset( $_POST['tables'] )
 }
 
 // DELETE
-if ( isset( $_REQUEST['modfunc'] )
-	&& $_REQUEST['modfunc'] === 'delete' )
+if ( $_REQUEST['modfunc'] === 'delete' )
 {
 	// Assignment
 	if ( $_REQUEST['assignment_id'] )
@@ -338,7 +337,7 @@ if ( isset( $_REQUEST['modfunc'] )
 
 echo ErrorMessage( $error );
 
-if (empty($_REQUEST['modfunc']))
+if ( ! $_REQUEST['modfunc'] )
 {
 	// ASSIGNMENT TYPES.
 	$assignment_types_sql = "SELECT ASSIGNMENT_TYPE_ID,TITLE,SORT_ORDER

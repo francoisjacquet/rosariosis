@@ -809,7 +809,7 @@ if ( $_REQUEST['modfunc'] === 'list_events' )
 }
 
 // Display Calendar View
-if ( empty( $_REQUEST['modfunc'] ) )
+if ( ! $_REQUEST['modfunc'] )
 {
 
 	echo ErrorMessage( $error );

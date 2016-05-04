@@ -1,6 +1,6 @@
 <?php
 
-if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
+if ( $_REQUEST['modfunc'] === 'save' )
 {
 	if (count($_REQUEST['student']) && AllowEdit())
 	{
@@ -37,7 +37,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 }
 
 
-if (empty($_REQUEST['modfunc']))
+if ( ! $_REQUEST['modfunc'] )
 
 {
 	DrawHeader(ProgramTitle());
@@ -74,7 +74,7 @@ if (empty($_REQUEST['modfunc']))
 	}
 }
 
-if (empty($_REQUEST['modfunc']))
+if ( ! $_REQUEST['modfunc'] )
 {
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",NULL AS CHECKBOX";

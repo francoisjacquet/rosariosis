@@ -1,6 +1,6 @@
 <?php
 require_once 'modules/Scheduling/functions.inc.php';
-if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
+if ( $_REQUEST['modfunc'] === 'save' )
 {
 	if ( $_SESSION['MassRequests.php'])
 	{
@@ -23,7 +23,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	}
 	else
 		$error[] = _('You must choose a course.');
-		
+
 	unset($_SESSION['_REQUEST_vars']['modfunc']);
 	unset($_REQUEST['modfunc']);
 	unset($_SESSION['MassRequests.php']);
@@ -33,7 +33,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 if ( $_REQUEST['modfunc']!='choose_course')
 {
 	DrawHeader(ProgramTitle());
-	
+
 	echo ErrorMessage( $error );
 
 	echo ErrorMessage( $note, 'note' );
@@ -100,7 +100,7 @@ if ( $_REQUEST['modfunc']!='choose_course')
 	}
 }
 
-if (empty($_REQUEST['modfunc']))
+if ( ! $_REQUEST['modfunc'] )
 
 {
 	if ( $_REQUEST['search_modfunc']!='list')
@@ -135,7 +135,7 @@ if ( $_REQUEST['modfunc']=='choose_course')
 		$course_title = $course_title[1]['TITLE'];
 
 		echo '<script>opener.document.getElementById("course_div").innerHTML = '.json_encode($course_title).'; window.close();</script>';
-		
+
 	}
 }
 

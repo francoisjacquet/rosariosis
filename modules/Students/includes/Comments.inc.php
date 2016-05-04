@@ -62,21 +62,21 @@ if ( AllowEdit()
 				),
 				'values' => array(
 					'STUDENT_MP_COMMENTS' => "'" . UserStudentID() . "','" . UserSyear() . "','" . $comments_MP . "',",
-				) 
+				)
 			),
 			array( 'COMMENT' => _( 'Comment' ) )
 		);
 	}
 }
 
-if ( empty( $_REQUEST['modfunc'] ) )
+if ( ! $_REQUEST['modfunc'] )
 {
 	$comments_RET = DBGet( DBQuery( "SELECT COMMENT
 		FROM STUDENT_MP_COMMENTS
 		WHERE STUDENT_ID='" . UserStudentID() . "'
 		AND SYEAR='" . UserSyear() . "'
 		AND MARKING_PERIOD_ID='" . $comments_MP . "'" ) );
-	
+
 	?>
 
 	<table>
