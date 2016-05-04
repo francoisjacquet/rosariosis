@@ -990,7 +990,7 @@ function _getAttendanceDayRET( $st_list, $last_mp )
 {
 	static $attendance_day_RET = null,
 		$last_st_list,
-		$last_mp;
+		$last_last_mp;
 
 	if ( ! $attendance_day_RET
 		|| $last_st_list !== $st_list
@@ -1101,10 +1101,10 @@ function GetYTDTardies( $st_list, $student_id )
  */
 function _getAttendanceRET( $st_list )
 {
-	static $attendance_day_RET = null,
+	static $attendance_RET = null,
 		$last_st_list;
 
-	if ( ! $attendance_day_RET
+	if ( ! $attendance_RET
 		|| $last_st_list !== $st_list )
 	{
 		$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
