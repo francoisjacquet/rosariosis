@@ -192,7 +192,7 @@ input[type=text],input[type=password],textarea{
 input[type=checkbox],input[type=radio]{
 	margin-bottom:0;
 	margin-right:0;
-	vertical-align:text-bottom
+	vertical-align:-10%
 }
 input[type=number]{
 	width:50px
