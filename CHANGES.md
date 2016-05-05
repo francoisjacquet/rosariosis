@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 2.9.2
+----------------
+- If Admin Profile updated, reload menu in Profiles.php
+
 Changes in 2.9.1
 ----------------
 - Add Open Sans webfont in assets/themes/WPadmin/fonts/opensans/ & stylesheet.css

@@ -91,7 +91,9 @@ if ( $_REQUEST['modfunc'] === 'delete'
 	}
 }
 
-if ( $_REQUEST['modfunc']=='update' && ! $_REQUEST['new_profile_title'] && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'update'
+	&& ! $_REQUEST['new_profile_title']
+	&& AllowEdit() )
 {
 	$tmp_menu = $menu;
 
@@ -156,7 +158,9 @@ if ( $_REQUEST['modfunc']=='update' && ! $_REQUEST['new_profile_title'] && Allow
 		}
 	}
 
-	$exceptions_RET = DBGet(DBQuery("SELECT MODNAME,CAN_USE,CAN_EDIT FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='".$_REQUEST['profile_id']."'"),array(),array('MODNAME'));
+	$exceptions_RET = DBGet( DBQuery( "SELECT MODNAME,CAN_USE,CAN_EDIT
+		FROM PROFILE_EXCEPTIONS
+		WHERE PROFILE_ID='" . $_REQUEST['profile_id'] . "'" ), array(), array( 'MODNAME' ) );
 
 	unset($tmp_menu);
 	unset($_REQUEST['modfunc']);
@@ -165,6 +169,16 @@ if ( $_REQUEST['modfunc']=='update' && ! $_REQUEST['new_profile_title'] && Allow
 	unset($_SESSION['_REQUEST_vars']['can_edit']);
 	unset($_REQUEST['can_use']);
 	unset($_SESSION['_REQUEST_vars']['can_use']);
+
+	// If Admin Profile updated, reload menu.
+	if ( $_REQUEST['profile_id'] === '1' )
+	{
+		?>
+		<script>
+			ajaxLink( 'Side.php' );
+		</script>
+		<?php
+	}
 }
 
 if ( $_REQUEST['new_profile_title'] && AllowEdit())
