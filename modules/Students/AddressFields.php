@@ -227,9 +227,12 @@ if ( ! $_REQUEST['modfunc'] )
 				button( 'check' ),
 				button( 'x' )
 			) . '</td></tr></table>' .
-			str_replace( '<br />', '', FormatInputTitle(
-				_( 'Note: All unchecked means applies to all addresses' )
-			) )
+			FormatInputTitle(
+				_( 'Note: All unchecked means applies to all addresses' ),
+				'',
+				false,
+				''
+			)
 		);
 	}
 

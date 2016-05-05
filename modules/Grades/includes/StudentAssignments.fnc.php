@@ -293,7 +293,7 @@ function StudentAssignmentSubmissionOutput( $assignment_id )
 		{
 			// Display assignment message.
 			DrawHeader( $old_message . $message .
-				str_replace( '<br />', '', FormatInputTitle( _( 'Message' ) ) ) );
+				FormatInputTitle( _( 'Message' ), '', false, '' ) );
 		}
 
 		echo ErrorMessage( array( _( 'Submissions for this assignment are closed.' ) ), 'note' );
@@ -559,7 +559,7 @@ function MakeStudentAssignmentSubmissionView( $value, $column )
 			<div id="submission' . $THIS_RET['ASSIGNMENT_ID'] . '-' . $student_id. '">' .
 			NoInput( $date, _( 'Submission date' ) ) . '<br />' .
 			NoInput( GetAssignmentFileLink( $file ), _( 'File' ) ) .
-			$message . str_replace( '<br />', '', FormatInputTitle( _( 'Message' ) ) ) .
+			$message . FormatInputTitle( _( 'Message' ), '', false, '' ) .
 			'</div></div>';
 
 		return $html;

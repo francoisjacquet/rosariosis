@@ -265,9 +265,12 @@ if ( ! $_REQUEST['modfunc'] )
 					button( 'check' ),
 					button( 'x' )
 				) . '</td></tr></table>' .
-				str_replace( '<br />', '', FormatInputTitle(
-					_( 'Profiles' )
-				) );
+				FormatInputTitle(
+					_( 'Profiles' ),
+					'',
+					false,
+					''
+				);
 		}
 
 		if ( $_REQUEST['category_id'] > 2

@@ -845,9 +845,9 @@ if ((! $_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && ! $_REQ
 
 			$attendance_html .= '</tr></table>';
 
-			$attendance_title = FormatInputTitle( _( 'Takes Attendance' ), 'attendance' );
+			$attendance_title = FormatInputTitle( _( 'Takes Attendance' ), 'attendance', false, '' );
 
-			$header .= $attendance_html . str_replace( '<br />', '', $attendance_title );
+			$header .= $attendance_html . $attendance_title;
 
 			$header .= '</td><td colspan="2">' . CheckboxInput($RET['DOES_HONOR_ROLL'], 'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][DOES_HONOR_ROLL]', _('Affects Honor Roll'), $checked, $new, button('check'), button('x')) . '</td>';
 

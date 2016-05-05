@@ -64,7 +64,7 @@ function DateInput( $value, $name, $title = '', $div = true, $allow_na = true, $
 		}
 	}
 	else
-		$return = ($value != '' ? ProperDate( $value ) : '-' ) . $ftitle;
+		$return = ( $value != '' ? ProperDate( $value ) : '-' ) . $ftitle;
 
 	return $return;
 }
@@ -242,9 +242,7 @@ function setMLvalue(id, loc, value){
 	else
 		$return .= ParseMLField( $value );
 
-	$ftitle = FormatInputTitle( $title );
-
-	$return .= str_replace( '<br />', '', $ftitle );
+	$return .= FormatInputTitle( $title, '', false, '' );
 
 	return $return;
 }
@@ -1098,10 +1096,11 @@ function GetInputID( $name )
  * @param  string  $title    Input Title
  * @param  string  $id       Input id attribute (optional). Defaults to ''
  * @param  boolean $required Required Input & AllowEdit() ? CSS class is .legend-red
+ * @param  string  $break    Break before title (optional). Defaults to '<br />'
  *
  * @return string  Formatted Input Title
  */
-function FormatInputTitle( $title, $id = '', $required = false )
+function FormatInputTitle( $title, $id = '', $required = false, $break = '<br />' )
 {
 	if ( $title === '' )
 	{
@@ -1122,7 +1121,7 @@ function FormatInputTitle( $title, $id = '', $required = false )
 		$title = '<label for="' . $id . '">' . $title . '</label>';
 	}
 
-	return '<br />' . $title;
+	return $break . $title;
 }
 
 

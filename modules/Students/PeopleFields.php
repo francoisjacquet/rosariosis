@@ -151,7 +151,7 @@ if ( $_REQUEST['modfunc'] == 'delete'
 if ( ! $_REQUEST['modfunc'] )
 {
 	echo ErrorMessage( $error );
-	
+
 	// ADDING & EDITING FORM.
 	if ( $_REQUEST['id']
 		&& $_REQUEST['id'] !== 'new' )
@@ -218,9 +218,12 @@ if ( ! $_REQUEST['modfunc'] )
 				button( 'check' ),
 				button( 'x' )
 			) . '</td></tr></table>' .
-			str_replace( '<br />', '', FormatInputTitle(
-				_( 'Note: All unchecked means applies to all contacts' )
-			) )
+			FormatInputTitle(
+				_( 'Note: All unchecked means applies to all contacts' ),
+				'',
+				false,
+				''
+			)
 		);
 	}
 
