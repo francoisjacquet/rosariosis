@@ -950,7 +950,10 @@ td.calendar-menu{
 .arrow,
 .switchMenu{
 	display:inline-block;
-	padding:3px
+}
+
+.switchMenu {
+	padding:5px
 }
 
 /*jqplot charts*/

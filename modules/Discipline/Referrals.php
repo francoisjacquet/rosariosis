@@ -156,59 +156,108 @@ if ( ! $_REQUEST['modfunc']
 		DrawHeader('',SubmitButton(_('Save')));
 
 		echo '<br />';
-		PopTable('header',_('Referral'));
+		PopTable( 'header', _( 'Referral' ) );
 
-		$categories_RET = DBGet(DBQuery("SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du WHERE du.SYEAR='".UserSyear()."' AND du.SCHOOL_ID='".UserSchool()."' AND du.DISCIPLINE_FIELD_ID=df.ID ORDER BY du.SORT_ORDER"));
+		$categories_RET = DBGet( DBQuery("SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS
+			FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du
+			WHERE du.SYEAR='" . UserSyear() . "'
+			AND du.SCHOOL_ID='" . UserSchool() . "'
+			AND du.DISCIPLINE_FIELD_ID=df.ID
+			ORDER BY du.SORT_ORDER" ) );
 
-		echo '<table class="width-100p col1-align-right">';
+		echo '<table class="width-100p">';
 
-		echo '<tr class="st"><td><span class="legend-gray">'._('Student').'</span></td><td>';
-		$name = DBGet(DBQuery("SELECT FIRST_NAME,LAST_NAME,MIDDLE_NAME,NAME_SUFFIX FROM STUDENTS WHERE STUDENT_ID='".$RET['STUDENT_ID']."'"));
-		echo $name[1]['FIRST_NAME'].'&nbsp;'.($name[1]['MIDDLE_NAME']?$name[1]['MIDDLE_NAME'].' ':'').$name[1]['LAST_NAME'].'&nbsp;'.$name[1]['NAME_SUFFIX'];
-		echo '</td></tr>';
+		$student_name_RET = DBGet( DBQuery( "SELECT LAST_NAME||', '||FIRST_NAME||' '||COALESCE(MIDDLE_NAME,' ') AS FULL_NAME
+			FROM STUDENTS
+			WHERE STUDENT_ID='" . $RET['STUDENT_ID'] . "'" ) );
 
-		echo '<tr class="st"><td><span class="legend-gray">'._('Reporter').'</span></td><td>';
-		$users_RET = DBGet(DBQuery("SELECT STAFF_ID,FIRST_NAME,LAST_NAME,MIDDLE_NAME FROM STAFF WHERE SYEAR='".UserSyear()."' AND SCHOOLS LIKE '%,".UserSchool().",%' AND PROFILE IN ('admin','teacher') ORDER BY LAST_NAME,FIRST_NAME,MIDDLE_NAME"));
+		echo '<tr><td>' . NoInput( $student_name_RET[1]['FULL_NAME'], _( 'Student' ) ) . '</td></tr>';
 
-		foreach ( (array) $users_RET as $user)
-			$options[$user['STAFF_ID']] = $user['LAST_NAME'].', '.$user['FIRST_NAME'].' '.$user['MIDDLE_NAME'];
+		$users_RET = DBGet( DBQuery( "SELECT STAFF_ID,FIRST_NAME||', '||LAST_NAME||coalesce(' '||MIDDLE_NAME,' ') AS FULL_NAME,
+			EMAIL,PROFILE
+			FROM STAFF
+			WHERE SYEAR='" . UserSyear() . "'
+			AND SCHOOLS LIKE '%," . UserSchool() . ",%'
+			AND PROFILE IN ('admin','teacher')
+			ORDER BY FULL_NAME" ) );
 
-		echo SelectInput($RET['STAFF_ID'],'values[STAFF_ID]','',$options);
-		echo '</td></tr>';
+		$users_options = array();
 
-		echo '<tr class="st"><td><span class="legend-gray">'._('Incident Date').'</span></td><td>';
-		echo DateInput($RET['ENTRY_DATE'],'values[ENTRY_DATE]');
-		echo '</td></tr>';
+		foreach ( (array) $users_RET as $user )
+		{
+			$users_options[ $user['STAFF_ID'] ] = $user['FULL_NAME'];
+		}
+
+		echo '<tr><td>' . SelectInput(
+			$RET['STAFF_ID'],
+			'values[STAFF_ID]',
+			_( 'Reporter' ),
+			$users_options,
+			false,
+			'required',
+			true
+		) . '</td></tr>';
+
+		echo '<tr><td>' .
+			DateInput( $RET['ENTRY_DATE'], 'values[ENTRY_DATE]', _( 'Incident Date' ) ) .
+		'</td></tr>';
 
 		foreach ( (array) $categories_RET as $category)
 		{
-			echo '<tr class="st"><td><span class="legend-gray">'.$category['TITLE'].'</span></td><td>';
+			echo '<tr><td>';
 
 			switch ( $category['DATA_TYPE'])
 			{
 				case 'text':
-					echo TextInput($RET['CATEGORY_'.$category['ID']],'values[CATEGORY_'.$category['ID'].']');
-					//echo '<input type=TEXT name=values[CATEGORY_'.$category['ID'].'] value="'.$RET['CATEGORY_'.$category['ID']].'" maxlength=255>';
+
+					echo TextInput(
+						$RET['CATEGORY_' . $category['ID'] ],
+						'values[CATEGORY_' . $category['ID'] . ']',
+						$category['TITLE']
+					);
+
 				break;
 
 				case 'numeric':
-					echo TextInput($RET['CATEGORY_'.$category['ID']],'values[CATEGORY_'.$category['ID'].']','','size=9 maxlength=18');
-					//echo '<input type=TEXT name=values[CATEGORY_'.$category['ID'].'] value="'.$RET['CATEGORY_'.$category['ID']].'" size=4 maxlength=10>';
+
+					echo TextInput(
+						$RET['CATEGORY_' . $category['ID'] ],
+						'values[CATEGORY_' . $category['ID'] . ']',
+						$category['TITLE'],
+						'size=9 maxlength=18'
+					);
+
 				break;
 
 				case 'textarea':
-					echo TextAreaInput($RET['CATEGORY_'.$category['ID']],'values[CATEGORY_'.$category['ID'].']','','maxlength=5000 rows=4 cols=30');
-					//echo '<textarea name=values[CATEGORY_'.$category['ID'].'] rows=4 cols=30>'.$RET['CATEGORY_'.$category['ID']].'</textarea>';
+
+					echo TextAreaInput(
+						$RET['CATEGORY_' . $category['ID'] ],
+						'values[CATEGORY_' . $category['ID'] . ']',
+						$category['TITLE'],
+						'maxlength=5000 rows=4 cols=30'
+					);
+
 				break;
 
 				case 'checkbox':
-					echo CheckboxInput($RET['CATEGORY_'.$category['ID']],'values[CATEGORY_'.$category['ID'].']');
-					//echo '<input type=CHECKBOX name=values[CATEGORY_'.$category['ID'].'] value=Y'.($RET['CATEGORY_'.$category['ID']]=='Y'?' checked':'').'>';
+
+					echo CheckboxInput(
+						$RET['CATEGORY_' . $category['ID'] ],
+						'values[CATEGORY_' . $category['ID'] . ']',
+						$category['TITLE']
+					);
+
 				break;
 
 				case 'date':
-					echo DateInput($RET['CATEGORY_'.$category['ID']],'_values[CATEGORY_'.$category['ID'].']');
-					//echo PrepareDate($RET['CATEGORY_'.$category['ID']],'_values[CATEGORY_'.$category['ID'].']');
+
+					echo DateInput(
+						$RET['CATEGORY_' . $category['ID'] ],
+						'values[CATEGORY_' . $category['ID'] . ']',
+						$category['TITLE']
+					);
+
 				break;
 
 				case 'multiple_checkbox':
@@ -230,11 +279,14 @@ if ( ! $_REQUEST['modfunc']
 					$multiple_html = '<table class="cellpadding-5"><tr class="st">';
 
 					$i = 0;
+
 					foreach ( (array) $options as $option)
 					{
 						$i++;
+
 						if ( $i%3==0)
 							$multiple_html .= '</tr><tr class="st">';
+
 						$multiple_html .= '<td><label><input type="checkbox" name="values[CATEGORY_'.$category['ID'].'][]" value="'.htmlspecialchars($option,ENT_QUOTES).'"'.(mb_strpos($RET['CATEGORY_'.$category['ID']],$option)!==false?' checked':'').' />&nbsp;'.$option.'</label></td>';
 					}
 
@@ -242,11 +294,13 @@ if ( ! $_REQUEST['modfunc']
 
 					$id = GetInputID( 'values[CATEGORY_' . $category['ID'] . ']' );
 
+					$ftitle = FormatInputTitle( $category['TITLE'] );
+
 					echo InputDivOnclick(
 						$id,
-						$multiple_html,
+						$multiple_html . str_replace( '<br />' , '', $ftitle ),
 						$multiple_value,
-						''
+						$ftitle
 					);
 
 				break;
@@ -270,11 +324,14 @@ if ( ! $_REQUEST['modfunc']
 					$multiple_html = '<table class="cellpadding-5"><tr class="st">';
 
 					$i = 0;
+
 					foreach ( (array) $options as $option)
 					{
 						$i++;
+
 						if ( $i%3==0)
 							$multiple_html .= '</tr><tr class="st">';
+
 						$multiple_html .= '<td><label><input type="radio" name="values[CATEGORY_'.$category['ID'].']" value="'.htmlspecialchars($option,ENT_QUOTES).'"'.(($RET['CATEGORY_'.$category['ID']]==$option)?' checked':'').'>&nbsp;'.$option.'</label></td>';
 					}
 
@@ -282,41 +339,50 @@ if ( ! $_REQUEST['modfunc']
 
 					$id = GetInputID( 'values[CATEGORY_' . $category['ID'] . ']' );
 
+					$ftitle = FormatInputTitle( $category['TITLE'] );
+
 					echo InputDivOnclick(
 						$id,
-						$multiple_html,
+						$multiple_html . str_replace( '<br />' , '', $ftitle ),
 						$multiple_value,
-						''
+						$ftitle
 					);
 
 				break;
 
 				case 'select':
+
 					$options = array();
 
 					$select_options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS'] ) );
 
-					foreach ( (array) $select_options as $option)
+					foreach ( (array) $select_options as $option )
+					{
 						$options[ $option ] = $option;
+					}
 
 					echo SelectInput(
 						$RET[ 'CATEGORY_' . $category['ID'] ],
 						'values[CATEGORY_' . $category['ID'] . ']',
-						'',
+						$category['TITLE'],
 						$options,
 						'N/A'
 					);
 
 				break;
 			}
+
 			echo '</td></tr>';
 		}
+
 		echo '</table>';
 
-		echo PopTable('footer');
+		echo PopTable( 'footer' );
 
-		if (AllowEdit())
+		if ( AllowEdit() )
+		{
 			echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+		}
 
 		echo '</form>';
 	}
