@@ -150,7 +150,7 @@ foreach ( (array) $semesters as $sem)
 
 		foreach ( (array) $quarters[$sem['MARKING_PERIOD_ID']] as $qtr)
 		{
-			$table .= '<td><span style="white-space:nowrap;">'.$qtr['TITLE'].'&nbsp;</span><br />';
+			$table .= '<td><span class="nobr">'.$qtr['TITLE'].'&nbsp;</span><br />';
 			$table .= '<input type="text" name="values[SEM-'.$qtr['MARKING_PERIOD_ID'].']" value="'.$gradebook_config['SEM-'.$qtr['MARKING_PERIOD_ID']].'" size="3" maxlength="6" /></td>';
 			$total += $gradebook_config['SEM-'.$qtr['MARKING_PERIOD_ID']];
 		}
@@ -172,14 +172,14 @@ if ( $year[1]['DOES_GRADES']=='Y')
 	{
 		foreach ( (array) $quarters[$sem['MARKING_PERIOD_ID']] as $qtr)
 		{
-			$table .= '<td><span style="white-space:nowrap;">'.$qtr['TITLE'].'&nbsp;</span><br />';
+			$table .= '<td><span class="nobr">'.$qtr['TITLE'].'&nbsp;</span><br />';
 			$table .= '<input type="text" name="values[FY-'.$qtr['MARKING_PERIOD_ID'].']" value="'.$gradebook_config['FY-'.$qtr['MARKING_PERIOD_ID']].'" size="3" maxlength="6" /></td>';
 			$total += $gradebook_config['FY-'.$qtr['MARKING_PERIOD_ID']];
 		}
 
 		if ( $sem['DOES_GRADES']=='Y')
 		{
-			$table .= '<td><span style="white-space:nowrap;">'.$sem['TITLE'].'&nbsp;</span><br />';
+			$table .= '<td><span class="nobr">'.$sem['TITLE'].'&nbsp;</span><br />';
 			$table .= '<input type="text" name="values[FY-'.$sem['MARKING_PERIOD_ID'].']" value="'.$gradebook_config['FY-'.$sem['MARKING_PERIOD_ID']].'" size="3" maxlength="6" /></td>';
 			$total += $gradebook_config['FY-'.$sem['MARKING_PERIOD_ID']];
 		}

@@ -100,7 +100,7 @@ function ProperDate( $date, $length = 'long' )
 	// FJ display locale with strftime()
 	// FJ NOBR on date.
 	return $comment .
-		'<span style="white-space:nowrap">' .
+		'<span class="nobr">' .
 			mb_convert_case( iconv( '', 'UTF-8', strftime( $pref_date, $time ) ), MB_CASE_TITLE ) .
 		'</span>';
 }
