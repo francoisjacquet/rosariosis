@@ -4,6 +4,7 @@
 Changes in 2.9.2
 ----------------
 - If Admin Profile updated, reload menu in Profiles.php
+- Add page CSS class to body & always use Warehouse( 'header' )
 
 Changes in 2.9.1
 ----------------

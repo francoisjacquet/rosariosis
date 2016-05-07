@@ -24,6 +24,8 @@ if ( ! isset( $_REQUEST['modfunc'] ) )
 	$_REQUEST['modfunc'] = false;
 }
 
+$_ROSARIO['page'] = 'modules';
+
 // Not printing PDF.
 if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 {

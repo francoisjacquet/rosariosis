@@ -911,6 +911,25 @@ td.calendar-menu{
 	display: none;
 }
 
+/* Login, First login & Password Reset pages */
+.login,
+.first-login,
+.password-reset {
+	padding: 42px 2px;
+	height: auto;
+}
+
+.login .postbox,
+.password-reset .postbox {
+	max-width: 550px;
+}
+
+/* Create account page */
+.create-account {
+	padding: 0 2px;
+}
+
+
 /*tablet vertical*/
 @media only screen and (max-width:800px){
 	.BottomButton span{

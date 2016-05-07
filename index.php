@@ -119,9 +119,11 @@ elseif ( isset( $_POST['USERNAME'] )
 		// If 1st login, Confirm Successful Installation screen.
 		if ( Config( 'LOGIN' ) === 'No' ) :
 
+			$_ROSARIO['page'] = 'first-login';
+
 			Warehouse( 'header' ); ?>
 
-	<form action="index.php" method="POST" target="_top"><br />
+	<form action="index.php" method="POST">
 
 	<?php PopTable( 'header', _( 'Confirm Successful Installation' ) ); ?>
 
@@ -143,7 +145,7 @@ elseif ( isset( $_POST['USERNAME'] )
 			?>
 		</p>
 		<br />
-		<?php Buttons( _( 'OK' ) ); ?>
+		<?php echo Buttons( _( 'OK' ) ); ?>
 	</div>
 
 	<?php PopTable( 'footer' ); ?>
@@ -226,6 +228,8 @@ elseif ( isset( $_REQUEST['create_account'] ) )
 	}
 	else
 	{
+		$_ROSARIO['page'] = 'create-account';
+
 		Warehouse( 'header' );
 
 		$_ROSARIO['allow_edit'] = true;
@@ -242,37 +246,13 @@ if ( empty( $_SESSION['STAFF_ID'] )
 	&& empty( $_SESSION['STUDENT_ID'] )
 	&& ! isset( $_REQUEST['create_account'] ) )
 {
-	$lang_2_chars = mb_substr( $locale, 0, 2 );
+	$_ROSARIO['page'] = 'login';
 
-	// Right to left direction.
-	$RTL_languages = array( 'ar', 'he', 'dv', 'fa', 'ur' );
-
-	$dir_RTL = in_array( $lang_2_chars, $RTL_languages ) ? ' dir="RTL"' : '';
-
-?>
-<!doctype html>
-<html lang="<?php echo $lang_2_chars; ?>"<?php echo $dir_RTL; ?>>
-<head>
-	<title><?php echo ParseMLField( Config( 'TITLE' ) ); ?></title>
-	<meta charset="UTF-8" />
-	<meta name="robots" content="noindex" />
-	<meta name="viewport" content="width=device-width" />
-	<meta name="apple-mobile-web-app-capable" content="yes" />
-	<noscript>
-		<meta http-equiv="REFRESH" content="0;url=index.php?modfunc=logout&amp;reason=javascript" />
-	</noscript>
-	<link rel="icon" href="favicon.ico" sizes="32x32" />
-	<link rel="icon" href="apple-touch-icon.png" sizes="128x128" />
-	<link rel="stylesheet" type="text/css" href="assets/themes/<?php echo Config( 'THEME' ); ?>/stylesheet.css" />
-</head>
-<body>
-<br /><br />
-<?php
+	Warehouse( 'header' );
 
 	PopTable(
 		'header',
-		sprintf( _( '%s Login' ), Config( 'NAME' ) ),
-		'style="max-width: 550px;"'
+		sprintf( _( '%s Login' ), Config( 'NAME' ) )
 	);
 
 	if ( isset( $_REQUEST['reason'] ) )
@@ -321,7 +301,7 @@ if ( empty( $_SESSION['STAFF_ID'] )
 			<img src="assets/themes/<?php echo Config( 'THEME' ); ?>/logo.png" class="logo" alt="Logo" />
 		</td>
 		<td>
-			<form name="loginform" method="post" action="index.php" class="login">
+			<form name="loginform" method="post" action="index.php">
 			<h4 class="center"><?php echo ParseMLField( Config( 'TITLE' ) ); ?></h4>
 			<table class="cellspacing-0 col1-align-right width-100p">
 
@@ -419,7 +399,6 @@ if ( empty( $_SESSION['STAFF_ID'] )
 
 <?php PopTable( 'footer' ); ?>
 
-<br />
 </body>
 </html>
 <?php

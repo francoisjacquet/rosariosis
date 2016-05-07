@@ -814,7 +814,7 @@ div.error .button, div.updated .button{
 }
 
 /*login form*/
-form.login input[type=text],form.login input[type=password]{
+.login form input[type=text],.login form input[type=password]{
 	font-weight:200;
 	font-size:20px;
 	width:100%;
@@ -1017,6 +1017,25 @@ td.calendar-menu{
 .a11y-hidden {
 	display: none;
 }
+
+/* Login, First login & Password Reset pages */
+.login,
+.first-login,
+.password-reset {
+	padding: 42px 2px;
+	height: auto;
+}
+
+.login .postbox,
+.password-reset .postbox {
+	max-width: 550px;
+}
+
+/* Create account page */
+.create-account {
+	padding: 0 2px;
+}
+
 
 /*tablet vertical*/
 @media only screen and (max-width:800px){

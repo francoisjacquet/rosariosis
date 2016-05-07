@@ -472,42 +472,16 @@ function _printPageHead( $title )
 {
 	global $locale,
 		$error,
-		$note;
+		$note,
+		$_ROSARIO;
 
-	$lang_2_chars = mb_substr( $locale, 0, 2 );
+	$_ROSARIO['page'] = 'password-reset';
 
-	// Right to left direction.
-	$RTL_languages = array( 'ar', 'he', 'dv', 'fa', 'ur' );
-
-	$dir_RTL = in_array( $lang_2_chars, $RTL_languages ) ? ' dir="RTL"' : '';
-
-	?>
-	<!doctype html>
-	<html lang="<?php echo $lang_2_chars; ?>"<?php echo $dir_RTL; ?>>
-	<head>
-		<title><?php echo $title . ' | ' . ParseMLField( Config( 'TITLE' ) ); ?></title>
-		<meta charset="UTF-8" />
-		<meta name="robots" content="noindex" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<noscript>
-			<meta http-equiv="REFRESH" content="0;url=index.php?modfunc=logout&amp;reason=javascript" />
-		</noscript>
-		<link rel="icon" href="favicon.ico" sizes="32x32" />
-		<link rel="icon" href="apple-touch-icon.png" sizes="128x128" />
-		<link rel="stylesheet" type="text/css" href="assets/themes/<?php echo Config( 'THEME' ); ?>/stylesheet.css" />
-	</head>
-	<body>
-	<br /><br />
-	<?php
-
-	echo '<div style="max-width: 500px; margin: 0 auto;">';
+	Warehouse( 'header' );
 
 	echo ErrorMessage( $error );
 
 	echo ErrorMessage( $note, 'note' );
-
-	echo '</div>';
 }
 
 

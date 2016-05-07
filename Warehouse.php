@@ -374,21 +374,23 @@ function Warehouse( $mode )
 	<link rel="icon" href="apple-touch-icon.png" sizes="128x128" />
 	<link rel="stylesheet" href="assets/themes/<?php echo Preferences( 'THEME' ); ?>/stylesheet.css?v=<?php echo ROSARIO_VERSION; ?>" />
 	<style>.highlight,.highlight-hover:hover{background-color:<?php echo Preferences( 'HIGHLIGHT' ); ?> !important;}</style>
+	<?php if ( $_ROSARIO['page'] === 'modules' ) : ?>
 	<script src="assets/js/jquery.js"></script>
 	<script src="assets/js/plugins.min.js?v=<?php echo ROSARIO_VERSION; ?>"></script>
 	<script src="assets/js/warehouse.js?v=<?php echo ROSARIO_VERSION; ?>"></script>
 	<script src="assets/js/jscalendar/lang/calendar-<?php echo file_exists( 'assets/js/jscalendar/lang/calendar-' . $lang_2_chars . '.js' ) ? $lang_2_chars : 'en'; ?>.js"></script>
 	<script>var scrollTop = "<?php echo Preferences( 'SCROLL_TOP' ); ?>";</script>
+	<?php endif; ?>
 </head>
-<body>
-<?php
-			// If popup window, verify it is an actual popup.
-			if ( $_ROSARIO['is_popup'] ) :
+<body class="<?php echo $_ROSARIO['page']; ?>">
+<?php 	if ( $_ROSARIO['page'] === 'modules' ) :
+				// If popup window, verify it is an actual popup.
+				if ( $_ROSARIO['is_popup'] ) :
 ?>
 <script>if(window == top  && (!window.opener)) window.location.href = "index.php";</script>
 <?php
-			// Else if not AJAX request.
-			elseif ( $_ROSARIO['not_ajax'] ) :
+				// Else if not AJAX request.
+				elseif ( $_ROSARIO['not_ajax'] ) :
 ?>
 <div id="wrap">
 	<footer id="footer" class="mod">
@@ -400,10 +402,11 @@ function Warehouse( $mode )
 	</aside>
 
 <?php
-			endif;
+				endif;
 ?>
 	<div id="body" tabindex="0" role="main" class="mod">
 <?php
+			endif;
 		break;
 
 		// Footer HTML.
