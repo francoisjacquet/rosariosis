@@ -394,7 +394,7 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 	}
 
 	// FJ NOBR on date input.
-	$return = '<span style="white-space: nowrap;">' . $return . '</span>';
+	$return = '<span class="nobr">' . $return . '</span>';
 
 	return $return;
 }

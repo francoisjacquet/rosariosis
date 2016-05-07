@@ -382,7 +382,7 @@ function db_show_error( $sql, $failnote, $additional = '' )
 
 	// TRANSLATION: do NOT translate these since error messages need to stay in English for technical support.
 	?>
-		<table class="col1-align-right" style="border-collapse:separate; border-spacing:10px;">
+		<table class="col1-align-right">
 			<tr>
 				<td><b>Date:</b></td>
 				<td><pre><?php echo date( 'm/d/Y h:i:s' ); ?></pre></td>

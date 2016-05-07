@@ -190,7 +190,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 							{
 								$attendance = $attendance_RET[ $month ][ $day ][1];
 
-								echo '<td style="text-align:center;">'.$attendance['STATE_CODE'].'</td>';
+								echo '<td class="center">'.$attendance['STATE_CODE'].'</td>';
 
 								$abs += ($attendance['STATE_CODE']=='A'?$calendar['POS']:($attendance['STATE_CODE']=='H'?$calendar['POS']/2:0));
 							}

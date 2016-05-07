@@ -151,7 +151,7 @@ if ( ! $_REQUEST['modfunc'] )
 		while (!checkdate($_REQUEST['month']*1, $last, mb_substr($_REQUEST['year'],2)))
 			$last--;
 
-		echo '<table><tr>';
+		echo '<table><tr class="align-right">';
 //		echo '<th>S</th><th>M</th><th>T</th><th>W</th><th>Th</th><th>F</th><th>S</th></tr><tr>';
 		echo '<th>'.mb_substr(_('Sunday'),0,3).'</th><th>'.mb_substr(_('Monday'),0,3).'</th><th>'.mb_substr(_('Tuesday'),0,3).'</th><th>'.mb_substr(_('Wednesday'),0,3).'</th><th>'.mb_substr(_('Thursday'),0,3).'</th><th>'.mb_substr(_('Friday'),0,3).'</th><th>'.mb_substr(_('Saturday'),0,3).'</th></tr><tr>';
 		$calendar_RET = DBGet(DBQuery("SELECT SCHOOL_DATE FROM ATTENDANCE_CALENDAR WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND MINUTES!='0' AND EXTRACT(MONTH FROM SCHOOL_DATE)='".($_REQUEST['month']*1)."'"),array(),array('SCHOOL_DATE'));
@@ -168,13 +168,13 @@ if ( ! $_REQUEST['modfunc'] )
 			else
 				$disabled = '';
 
-			echo '<td style="text-align:right"><label>'.$i.'<input type="checkbox" name="dates['.$this_date.']" value="Y"'.$disabled.'></label></td>';
+			echo '<td><label>'.$i.'<input type="checkbox" name="dates['.$this_date.']" value="Y"'.$disabled.'></label></td>';
 			$skip++;
 			if ( $skip%7==0 && $i!=$last)
 				echo '</tr><tr>';
 		}
 		echo '</tr></table>';
-		echo '</td></tr></table></bR>';
+		echo '</td></tr></table><br />';
 	}
 
 	Widgets('course');

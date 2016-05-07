@@ -426,11 +426,26 @@ if ( ! $_REQUEST['modfunc'] )
 					$this_address = $address;
 
 				$i++;
-				//echo '<a style="cursor: pointer;">';
-				if ( $_REQUEST['address_id']==$address['ADDRESS_ID'])
-					echo '<tr class="highlight"><td>'.(($address['ADDRESS_ID']!='0' && AllowEdit()) ? button('remove', '', '"Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$address['ADDRESS_ID'].'&modfunc=delete"'):'').'</td><td style="color:white;">';
+
+				$remove_address_button = '';
+
+				if ( $address['ADDRESS_ID'] != '0' && AllowEdit() )
+				{
+					$remove_address_button = button(
+						'remove',
+						'',
+						'"Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $_REQUEST['category_id'] . '&address_id=' . $address['ADDRESS_ID'] . '&modfunc=delete"'
+					);
+				}
+
+				if ( $_REQUEST['address_id'] == $address['ADDRESS_ID'] )
+				{
+					echo '<tr class="highlight"><td>' . $remove_address_button . '</td><td>';
+				}
 				else
-					echo '<tr class="highlight-hover"><td>'.(($address['ADDRESS_ID']!='0' && AllowEdit())?button('remove', '', '"Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$address['ADDRESS_ID'].'&modfunc=delete"'):'').'</td><td>';
+				{
+					echo '<tr class="highlight-hover"><td>' . $remove_address_button . '</td><td>';
+				}
 
 				echo '<a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$address['ADDRESS_ID'].'">'.$address['ADDRESS'].'<br />'.($address['CITY']?$address['CITY'].', ':'').$address['STATE'].($address['ZIPCODE']?' '.$address['ZIPCODE']:'').'</a>';
 
@@ -439,7 +454,8 @@ if ( ! $_REQUEST['modfunc'] )
 
 				echo '</tr>';
 			}
-			echo '<tr><td colspan="3" style="height:40px;"></td></tr>';
+
+			echo '<tr><td colspan="3">&nbsp;</td></tr>';
 		}
 	}
 	else
@@ -492,9 +508,8 @@ if ( ! $_REQUEST['modfunc'] )
 		echo '<td><a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=0&person_id=old" class="arrow right"></a></td>';
 		echo '</tr>';
 	}
-	echo '</table>';
-	echo '</td>';
-	//echo '<td style="width:10px; border:1;">&nbsp;</td>';
+
+	echo '</table></td>';
 
 	if (isset($_REQUEST['address_id']))
 	{
@@ -596,10 +611,10 @@ if ( ! $_REQUEST['modfunc'] )
 				echo '<tr><td colspan="3">'.($_REQUEST['address_id']=='0'?_('There are no contacts without an address.'):_('There are no contacts at this address.')).'</td></tr>';
 
 			// New Contact
-			if (AllowEdit())
+			if ( AllowEdit() )
 			{
-//				$style = ' style="border-color: gray; border:1; border-style: solid none none none;"';
 				$style = '';
+
 				if ( $_REQUEST['person_id']=='new')
 					echo '<tr class="highlight"><td>'.button('add').'</td><td>';
 				else
@@ -970,10 +985,10 @@ if ( ! $_REQUEST['modfunc'] )
 		{
 			$categories_RET = DBGet(DBQuery("SELECT c.ID AS CATEGORY_ID,c.TITLE AS CATEGORY_TITLE,c.RESIDENCE,c.MAILING,c.BUS,f.ID,f.TITLE,f.TYPE,f.SELECT_OPTIONS,f.DEFAULT_SELECTION,f.REQUIRED FROM ADDRESS_FIELD_CATEGORIES c,ADDRESS_FIELDS f WHERE f.CATEGORY_ID=c.ID ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE"),array(),array('CATEGORY_ID'));
 
-			if ( $categories_RET)
+			if ( $categories_RET )
 			{
-				//echo '<td style="width:10px; border:1;">&nbsp;</td>';
 				echo '<td class="valign-top">';
+
 				if ( $_REQUEST['address_id']!='new' )
 				{
 					$value = DBGet(DBQuery("SELECT * FROM ADDRESS WHERE ADDRESS_ID='".$_REQUEST['address_id']."'"));

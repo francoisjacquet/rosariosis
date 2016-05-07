@@ -9,7 +9,7 @@ function _makeFeesRemove($value,$column)
 	if ( ! $THIS_RET['WAIVED_FEE_ID'] && ! $waived_fees_RET[$THIS_RET['ID']])
 		$return = button('remove',_('Waive'),'"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=waive&id='.$THIS_RET['ID'].'"');
 	elseif ( $waived_fees_RET[$THIS_RET['ID']])
-		$return = '<span style="color:#00A642; text-align:center">'._('Waived').'</span>';
+		$return = '<span class="center" style="color:#00A642">'._('Waived').'</span>';
 	return $return.button('remove',_('Delete'),'"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&id='.$THIS_RET['ID'].'"');
 }
 
@@ -22,7 +22,7 @@ function _makePaymentsRemove($value,$column)
 	if ( ! $THIS_RET['REFUNDED_PAYMENT_ID'] && ! $refunded_payments_RET[$THIS_RET['ID']])
 		$return = button('remove',_('Refund'),'"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=refund&id='.$THIS_RET['ID'].'"');
 	elseif ( $refunded_payments_RET[$THIS_RET['ID']])
-		$return = '<span style="color:#00A642; text-align:center">'._('Refunded').'</span>';
+		$return = '<span class="center" style="color:#00A642">'._('Refunded').'</span>';
 	return $return.button('remove',_('Delete'),'"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&id='.$THIS_RET['ID'].'"');
 }
 

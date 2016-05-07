@@ -119,7 +119,7 @@ if (! $_REQUEST['modfunc'] || $_REQUEST['search_modfunc']=='list')
 				'inputnotifyparentstext'
 			) . '</td></tr>';
 
-		$extra['extra_header_left'] .= '<tr class="st"><td style="vertical-align: top;">'._('Substitutions').':</td><td><table><tr class="st">';
+		$extra['extra_header_left'] .= '<tr class="st"><td class="valign-top">'._('Substitutions').':</td><td><table><tr class="st">';
 		$extra['extra_header_left'] .= '<td>__PARENT_NAME__</td><td>= '._('Parent Name').'</td><td>&nbsp;</td>';
 		$extra['extra_header_left'] .= '<td>__ASSOCIATED_STUDENTS__</td><td>= '._('Associated Students').'</td>';
 		$extra['extra_header_left'] .= '</tr><tr class="st">';
@@ -129,7 +129,7 @@ if (! $_REQUEST['modfunc'] || $_REQUEST['search_modfunc']=='list')
 		$extra['extra_header_left'] .= '<td>__SCHOOL_ID__</td><td>= '._('School').'</td><td colspan="3">&nbsp;</td>';
 		$extra['extra_header_left'] .= '</tr></table></td></tr>';
 
-		$extra['extra_header_left'] .= '<tr class="st"><td style="vertical-align: top;">' .
+		$extra['extra_header_left'] .= '<tr class="st"><td class="valign-top">' .
 			_( 'Test Mode' ) . ':' . '</td><td>' .
 			TextInput(
 				'',

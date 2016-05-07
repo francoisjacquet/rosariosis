@@ -152,10 +152,10 @@ if ( ! $staff_RET[1]['PROFILE_ID'])
 
 					//echo '<tr><td></td><td></td>';
 
-					echo '<td style="text-align:right"><input type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></td>';
+					echo '<td class="align-right"><input type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></td>';
 
 					if ( $staff_RET[1]['PROFILE']=='admin')
-						echo '<td style="text-align:right"><input type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></td>';
+						echo '<td class="align-right"><input type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></td>';
 					else
 						echo '<td>&nbsp;</td>';
 
@@ -171,9 +171,9 @@ if ( ! $staff_RET[1]['PROFILE_ID'])
 							$can_use = $exceptions_RET[ $file ][1]['CAN_USE'];
 							$can_edit = $exceptions_RET[ $file ][1]['CAN_EDIT'];
 
-							echo '<tr><td style="text-align:right"><input type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></td>';
+							echo '<tr><td class="align-right"><input type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></td>';
 
-							echo '<td style="text-align:right"><input type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></td>';
+							echo '<td class="align-right"><input type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></td>';
 
 							echo '<td>'.$title.'</td></tr>';
 						}
@@ -188,9 +188,9 @@ if ( ! $staff_RET[1]['PROFILE_ID'])
 							$can_use = $exceptions_RET[ $file ][1]['CAN_USE'];
 							$can_edit = $exceptions_RET[ $file ][1]['CAN_EDIT'];
 
-							echo '<tr><td style="text-align:right"><input type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></td>';
+							echo '<tr><td class="align-right"><input type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></td>';
 
-							echo '<td style="text-align:right"><input type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></td>';
+							echo '<td class="align-right"><input type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></td>';
 
 							echo '<td>'.$title.'</td></tr>';
 						}

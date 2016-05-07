@@ -59,7 +59,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					echo '<tr>';
 				}
 
-				echo '<td style="text-align:center; width:33%; vertical-align: middle;">';
+				echo '<td class="center" style="width:33%; vertical-align: middle;">';
 
 				if ( $student['LAST_NAME'] === '&nbsp;' )
 				{
@@ -129,7 +129,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			{
 				while ($cols!=0 && $cols<$max_cols)
 				{
-					echo '<td style="text-align:center; width:33%; vertical-align: middle; padding-bottom: 8px;">&nbsp;</td>';
+					echo '<td class="center" style="width:33%; vertical-align: middle; padding-bottom: 8px;">&nbsp;</td>';
 					$cols++;
 				}
 				if ( $cols==$max_cols)

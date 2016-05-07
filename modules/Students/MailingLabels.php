@@ -90,7 +90,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 					if ( $cols<1)
 						echo '<tr>';
-					echo '<td style="text-align:center; width:33%; vertical-align: middle;">';
+					echo '<td class="center" style="width:33%; vertical-align: middle;">';
 					echo $address['MAILING_LABEL'];
 					echo '</td>';
 
@@ -118,7 +118,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			{
 				while ($cols!=0 && $cols<$max_cols)
 				{
-					echo '<td style="text-align:center; width:33%; height:86px; vertical-align: middle;">&nbsp;</td>';
+					echo '<td class="center" style="width:33%; height:86px; vertical-align: middle;">&nbsp;</td>';
 					$cols++;
 				}
 				if ( $cols==$max_cols)

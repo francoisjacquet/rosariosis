@@ -173,7 +173,7 @@ function PortalPollForm($poll_id, $profile_id, $user_id, $poll_questions_RET)
 
 	foreach ($poll_questions_RET as $question)
 	{
-		$PollForm .= '<tr><td style="vertical-align:top;"><b>'.$question['QUESTION'].'</b></td>
+		$PollForm .= '<tr><td class="valign-top"><b>'.$question['QUESTION'].'</b></td>
 		<td><table class="width-100p cellspacing-0">';
 
 		$options_array = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r",$question['OPTIONS']));
