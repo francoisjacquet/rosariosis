@@ -8,6 +8,7 @@ Changes in 2.9.2
 - Remove inline CSS & use CSS classes program wide
 - Select all School Years in Transcripts.php
 - Set Payment Date in StudentPayments.php & MassAssignPayments.php
+- Set Date in Incomes.php, Expenses.php & StaffPayments.php
 
 Changes in 2.9.1
 ----------------

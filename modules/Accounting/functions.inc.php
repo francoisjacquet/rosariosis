@@ -37,24 +37,29 @@ function _makeIncomesTextInput($value,$name)
 	return TextInput($value,'values['.$id.']['.$name.']','',$extra,$div);
 }
 
-function _makeSalariesTextInput($value,$name)
-{	global $THIS_RET;
 
-	if ( $THIS_RET['ID'])
+function _makeIncomesDateInput( $value, $name )
+{
+	global $THIS_RET;
+
+	if ( $THIS_RET['ID'] )
 	{
 		$id = $THIS_RET['ID'];
-		$div = 'force';
 	}
 	else
-	{
 		$id = 'new';
-		$div = false;
-	}
 
-	if ( $name=='AMOUNT')
-		$extra = 'size=5 maxlength=10';
+	return DateInput( $value, 'values[' . $id . '][' . $name . ']', '', ( $id !== 'new' ), false );
+}
 
-	return TextInput($value,'values['.$id.']['.$name.']','',$extra,$div);
+function _makePaymentsDateInput( $value, $name )
+{
+	return _makeIncomesDateInput( $value, $name );
+}
+
+function _makeSalariesTextInput( $value, $name )
+{
+	return _makeIncomesTextInput( $value, $name );
 }
 
 function _makeSalariesDateInput($value='',$name)
