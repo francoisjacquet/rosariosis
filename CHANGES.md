@@ -6,6 +6,7 @@ Changes in 2.9.2
 - If Admin Profile updated, reload menu in Profiles.php
 - Add page CSS class to body & always use Warehouse( 'header' )
 - Remove inline CSS & use CSS classes program wide
+- Select all School Years in Transcripts.php
 
 Changes in 2.9.1
 ----------------

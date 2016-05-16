@@ -2,32 +2,43 @@
 
 if ( $_REQUEST['modfunc'] === 'save' )
 {
-	if (count($_REQUEST['mp_type_arr']) && count($_REQUEST['st_arr']))
+	if ( count( $_REQUEST['mp_type_arr'] ) && count( $_REQUEST['st_arr'] ) )
 	{
-		//limit School & Year to current ones if not admin
-		$syear = (User('PROFILE')=='admin' && $_REQUEST['syear'] ? $_REQUEST['syear'] : UserSyear());
-		$school_id = (User('PROFILE')=='admin' && $_REQUEST['SCHOOL_ID'] ? $_REQUEST['SCHOOL_ID'] : UserSchool());
+		// Limit School & Year to current ones if not admin.
+		$syear_list = ( User( 'PROFILE' ) === 'admin' && $_REQUEST['syear_arr'] ?
+			"'" . implode( "','", $_REQUEST['syear_arr'] ) . "'" :
+			"'" . UserSyear() . "'" );
+
+		$school_id = ( User( 'PROFILE' ) === 'admin' && $_REQUEST['SCHOOL_ID'] ? $_REQUEST['SCHOOL_ID'] : UserSchool() );
 
 		$mp_type_list = '\''.implode('\',\'',$_REQUEST['mp_type_arr']).'\'';
 
 		$st_list = '\''.implode('\',\'',$_REQUEST['st_arr']).'\'';
 
 		$RET = 1;
-		//FJ prevent student ID hacking
-		if (User('PROFILE')!='admin')
+
+		// FJ prevent student ID hacking.
+		if ( User( 'PROFILE' ) !== 'admin' )
 		{
-			$extra['WHERE'] = " AND s.STUDENT_ID IN (".$st_list.")";
+			$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
 
 			// Parent: associated students.
 			$extra['ASSOCIATED'] = User( 'STAFF_ID' );
 
-			$RET = GetStuList($extra);
+			$RET = GetStuList( $extra );
 		}
 
-		$t_grades = DBGet(DBQuery("select * from transcript_grades where student_id in (".$st_list.") and mp_type in (".$mp_type_list.") and school_id='".$school_id."' and syear='".$syear."' ORDER BY mp_type, end_date"),array(),array('STUDENT_ID', 'MARKING_PERIOD_ID'));
+		$t_grades = DBGet( DBQuery( "select *
+			from transcript_grades
+			where student_id in (" . $st_list . ")
+			and mp_type in (" . $mp_type_list . ")
+			and school_id='" . $school_id . "'
+			and syear in (" . $syear_list . ")
+			ORDER BY mp_type, end_date" ), array(), array( 'STUDENT_ID', 'SYEAR', 'MARKING_PERIOD_ID' ) );
 
 		if (count($t_grades) && count($RET))
 		{
+			$syear = $_REQUEST['syear_arr'][0];
 
 			$showStudentPic = $_REQUEST['showstudentpic'];
 			$showSAT = $_REQUEST['showsat'];
@@ -100,221 +111,224 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			$school_info = DBGet(DBQuery('select * from schools where syear = '.UserSyear().' AND id = '.$school_id));
 			$school_info = $school_info[1];
 
-			foreach ( (array) $t_grades as $student_id => $mps)
+			foreach ( (array) $t_grades as $student_id => $t_sgrades )
 			{
-				$student_data = $students_data[ $student_id ][1];
-
-				echo '<table class="width-100p"><tr class="valign-top"><td>';
-				//Student Photo
-				$stu_pic =  $StudentPicturesPath.Config('SYEAR').'/'.$student_id.'.jpg';
-				$stu_pic2 =  $StudentPicturesPath.$syear.'/'.$student_id.'.jpg';
-				$picwidth = 70;
-
-				if (file_exists($stu_pic) && $showStudentPic){
-					echo '<img src="'.$stu_pic.'" width="'.$picwidth.'" />';
-				}
-				elseif (file_exists($stu_pic2) && $showStudentPic){
-					echo '<img src="'.$stu_pic2.'" width="'.$picwidth.'" />';
-				}
-				else
-					echo '&nbsp;';
-
-				echo '</td><td>';
-
-				//Student Info
-				echo '<span style="font-size:x-large;">'.$student_data['LAST_NAME'].', '.$student_data['FIRST_NAME'].'<br /></span>';
-				echo '<span>'.$student_data['ADDRESS'].'<br /></span>';
-				echo '<span>'.$student_data['CITY'].(!empty($student_data['STATE'])?', '.$student_data['STATE']:'').(!empty($student_data['ZIPCODE'])?'  '.$student_data['ZIPCODE']:'').'</span>';
-
-				echo '<table class="cellspacing-0 cellpadding-5" style="margin-top:10px;"><tr>';
-
-				if ( $custom_fields_RET['200000004'] && $custom_fields_RET['200000004'][1]['TYPE'] == 'date')
-					echo '<td style="border:solid black; border-width:1px 0 1px 1px;">'.ParseMLField($custom_fields_RET['200000004'][1]['TITLE']).'</td>';
-
-				if ( $custom_fields_RET['200000000'] && $custom_fields_RET['200000000'][1]['TYPE'] == 'select')
-					echo '<td style="border:solid black; border-width:1px 0 1px 1px;">'.ParseMLField($custom_fields_RET['200000000'][1]['TITLE']).'</td>';
-
-				echo '<td style="border:solid black; border-width:1px;">'._('Grade Level').'</td>';
-				echo '</tr><tr>';
-
-				if ( $custom_fields_RET['200000004'] && $custom_fields_RET['200000004'][1]['TYPE'] == 'date')
+				foreach ( (array) $t_sgrades as $syear => $mps )
 				{
-					$dob = explode('-', $student_data['BIRTHDATE']);
+					$student_data = $students_data[ $student_id ][1];
 
-					if ( !empty($dob))
-						echo '<td class="center">'.$dob[1].'/'.$dob[2].'/'.$dob[0].'</td>';
+					echo '<table class="width-100p"><tr class="valign-top"><td>';
+					//Student Photo
+					$stu_pic =  $StudentPicturesPath.Config('SYEAR').'/'.$student_id.'.jpg';
+					$stu_pic2 =  $StudentPicturesPath.$syear.'/'.$student_id.'.jpg';
+					$picwidth = 70;
+
+					if (file_exists($stu_pic) && $showStudentPic){
+						echo '<img src="'.$stu_pic.'" width="'.$picwidth.'" />';
+					}
+					elseif (file_exists($stu_pic2) && $showStudentPic){
+						echo '<img src="'.$stu_pic2.'" width="'.$picwidth.'" />';
+					}
 					else
-						echo '<td>&nbsp;</td>';
-				}
+						echo '&nbsp;';
 
-				if ( $custom_fields_RET['200000000'] && $custom_fields_RET['200000000'][1]['TYPE'] == 'select')
-					echo '<td class="center">'.$student_data['GENDER'].'</td>';
+					echo '</td><td>';
 
-				//FJ history grades in Transripts
-				if (empty($student_data['GRADE_LEVEL']))
-					$student_data['GRADE_LEVEL'] = $mps[key($mps)][1]['GRADE_LEVEL_SHORT'];
+					//Student Info
+					echo '<span style="font-size:x-large;">'.$student_data['LAST_NAME'].', '.$student_data['FIRST_NAME'].'<br /></span>';
+					echo '<span>'.$student_data['ADDRESS'].'<br /></span>';
+					echo '<span>'.$student_data['CITY'].(!empty($student_data['STATE'])?', '.$student_data['STATE']:'').(!empty($student_data['ZIPCODE'])?'  '.$student_data['ZIPCODE']:'').'</span>';
 
-				echo '<td class="center">'.$student_data['GRADE_LEVEL'].'</td>';
-				echo '</tr></table>';
+					echo '<table class="cellspacing-0 cellpadding-5" style="margin-top:10px;"><tr>';
 
-				echo '</td>';
+					if ( $custom_fields_RET['200000004'] && $custom_fields_RET['200000004'][1]['TYPE'] == 'date')
+						echo '<td style="border:solid black; border-width:1px 0 1px 1px;">'.ParseMLField($custom_fields_RET['200000004'][1]['TITLE']).'</td>';
 
-				//School logo
-				$logo_pic =  'assets/school_logo_'.UserSchool().'.jpg';
-				$picwidth = 120;
-				echo '<td style="width:'.$picwidth.'px;">';
+					if ( $custom_fields_RET['200000000'] && $custom_fields_RET['200000000'][1]['TYPE'] == 'select')
+						echo '<td style="border:solid black; border-width:1px 0 1px 1px;">'.ParseMLField($custom_fields_RET['200000000'][1]['TITLE']).'</td>';
 
-				if (file_exists($logo_pic))
-					echo '<img src="'.$logo_pic.'" width="'.$picwidth.'" />';
+					echo '<td style="border:solid black; border-width:1px;">'._('Grade Level').'</td>';
+					echo '</tr><tr>';
 
-				echo '</td>';
+					if ( $custom_fields_RET['200000004'] && $custom_fields_RET['200000004'][1]['TYPE'] == 'date')
+					{
+						$dob = explode('-', $student_data['BIRTHDATE']);
 
-				//School Info
-				echo '<td style="width:384px;">';
-				echo '<span style="font-size:x-large;">'.$school_info['TITLE'].'<br /></span>';
-				echo '<span>'.$school_info['ADDRESS'].'<br /></span>';
-				echo '<span>'.$school_info['CITY'].(!empty($school_info['STATE'])?', '.$school_info['STATE']:'').(!empty($school_info['ZIPCODE'])?'  '.$school_info['ZIPCODE']:'').'<br /></span>';
+						if ( !empty($dob))
+							echo '<td class="center">'.$dob[1].'/'.$dob[2].'/'.$dob[0].'</td>';
+						else
+							echo '<td>&nbsp;</td>';
+					}
 
-				if ( $school_info['PHONE'])
-					echo '<span>'._('Phone').': '.$school_info['PHONE'].'<br /></span>';
+					if ( $custom_fields_RET['200000000'] && $custom_fields_RET['200000000'][1]['TYPE'] == 'select')
+						echo '<td class="center">'.$student_data['GENDER'].'</td>';
 
-				if ( $school_info['WWW_ADDRESS'])
-					echo '<span>'._('Website').': '.$school_info['WWW_ADDRESS'].'<br /></span>';
+					//FJ history grades in Transripts
+					if (empty($student_data['GRADE_LEVEL']))
+						$student_data['GRADE_LEVEL'] = $mps[key($mps)][1]['GRADE_LEVEL_SHORT'];
 
-				if ( $school_info['SCHOOL_NUMBER'])
-					echo '<span>'._('School Number').': '.$school_info['SCHOOL_NUMBER'].'<br /><br /></span>';
+					echo '<td class="center">'.$student_data['GRADE_LEVEL'].'</td>';
+					echo '</tr></table>';
 
-				echo '<span>'.$school_info['PRINCIPAL'].'<br /></span>';
+					echo '</td>';
 
-				echo '</td></tr>';
+					//School logo
+					$logo_pic =  'assets/school_logo_'.UserSchool().'.jpg';
+					$picwidth = 120;
+					echo '<td style="width:'.$picwidth.'px;">';
 
-				//Certificate Text block 1
-				if ( $showCertificate)
-				{
-					echo '<tr><td colspan="4">';
-					echo '<br /><span style="font-size:x-large;" class="center">'._('Studies Certificate').'<br /></span>';
-					$certificateText[0] = str_replace(array('__SSECURITY__','__FULL_NAME__','__FIRST_NAME__','__LAST_NAME__','__MIDDLE_NAME__','__GRADE_ID__','__NEXT_GRADE_ID__','__YEAR__','__SCHOOL_ID__'),array($student_data['SSECURITY'],$student_data['FULL_NAME'],$student_data['FIRST_NAME'],$student_data['LAST_NAME'],$student_data['MIDDLE_NAME'],$student_data['GRADE_LEVEL'],$student_data['NEXT_GRADE_LEVEL'],$syear,$school_info['TITLE']),$certificateText[0]);
-					echo '<span>'.nl2br(trim($certificateText[0])).'</span>';
+					if (file_exists($logo_pic))
+						echo '<img src="'.$logo_pic.'" width="'.$picwidth.'" />';
+
+					echo '</td>';
+
+					//School Info
+					echo '<td style="width:384px;">';
+					echo '<span style="font-size:x-large;">'.$school_info['TITLE'].'<br /></span>';
+					echo '<span>'.$school_info['ADDRESS'].'<br /></span>';
+					echo '<span>'.$school_info['CITY'].(!empty($school_info['STATE'])?', '.$school_info['STATE']:'').(!empty($school_info['ZIPCODE'])?'  '.$school_info['ZIPCODE']:'').'<br /></span>';
+
+					if ( $school_info['PHONE'])
+						echo '<span>'._('Phone').': '.$school_info['PHONE'].'<br /></span>';
+
+					if ( $school_info['WWW_ADDRESS'])
+						echo '<span>'._('Website').': '.$school_info['WWW_ADDRESS'].'<br /></span>';
+
+					if ( $school_info['SCHOOL_NUMBER'])
+						echo '<span>'._('School Number').': '.$school_info['SCHOOL_NUMBER'].'<br /><br /></span>';
+
+					echo '<span>'.$school_info['PRINCIPAL'].'<br /></span>';
+
 					echo '</td></tr>';
-				}
 
-				echo '</table>';
-
-				//generate ListOutput friendly array
-				$listOutput_RET = array();
-				$total_credit_earned = 0;
-				$total_credit_attempted = 0;
-
-				foreach ( (array) $mps as $mp_id => $grades)
-				{
-					$columns[ $mp_id ] = $grades[1]['SHORT_NAME'];
-					//$i = 1;
-
-					foreach ( (array) $grades as $grade)
+					//Certificate Text block 1
+					if ( $showCertificate)
 					{
-						$i = $grade['COURSE_TITLE'];
-
-						$listOutput_RET[ $i ]['COURSE_TITLE'] = $grade['COURSE_TITLE'];
-
-						if ( $showGrades)
-						{
-							if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) > 0 )
-								$listOutput_RET[ $i ][ $mp_id ] = $grade['GRADE_PERCENT'].'%';
-							elseif ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) < 0 )
-								$listOutput_RET[ $i ][ $mp_id ] = $grade['GRADE_LETTER'];
-							else
-								$listOutput_RET[ $i ][ $mp_id ] = $grade['GRADE_LETTER'].'&nbsp;&nbsp;'.$grade['GRADE_PERCENT'].'%';
-						}
-
-						if ( $showCredits)
-						{
-							if ((strpos($mp_type_list, 'year')!==false && $grade['MP_TYPE']!='quarter' && $grade['MP_TYPE']!='semester') || (strpos($mp_type_list, 'semester')!==false && $grade['MP_TYPE']!='quarter') || (strpos($mp_type_list, 'year')===false && strpos($mp_type_list, 'semester')===false && $grade['MP_TYPE']=='quarter'))
-							{
-								$listOutput_RET[ $i ]['CREDIT_EARNED'] += sprintf('%01.2f', $grade['CREDIT_EARNED']);
-								$total_credit_earned += $grade['CREDIT_EARNED'];
-								$total_credit_attempted += $grade['CREDIT_ATTEMPTED'];
-							}
-						}
-
-						if ( $showCreditHours)
-						{
-							if ( !isset($listOutput_RET[ $i ]['CREDIT_HOURS']))
-							{
-								$listOutput_RET[ $i ]['CREDIT_HOURS'] = ((int)$grade['CREDIT_HOURS'] == $grade['CREDIT_HOURS'] ? (int)$grade['CREDIT_HOURS'] : $grade['CREDIT_HOURS']);
-							}
-						}
-
-						if ( $showMPcomments)
-							$listOutput_RET[ $i ]['COMMENT'] = $grade['COMMENT'];
-						//$i++;
-					}
-				}
-
-				if ( $showCredits)
-					$columns['CREDIT_EARNED'] = _('Credit');
-
-				if ( $showCreditHours)
-					$columns['CREDIT_HOURS'] = _('C.H.');
-
-				if ( $showMPcomments)
-					$columns['COMMENT'] = _('Comment');
-
-				$listOutput_RET = array_values($listOutput_RET);
-				array_unshift($listOutput_RET,'start_array_to_1');
-				unset($listOutput_RET[0]);
-				//var_dump($listOutput_RET);exit;
-
-				echo '<br />';
-				ListOutput($listOutput_RET,$columns,'.','.',false);
-
-				//School Year
-				echo '<table class="width-100p"><tr><td>';
-				echo '<span><br />'._('School Year').': '.FormatSyear($syear,Config('SCHOOL_SYEAR_OVER_2_YEARS')).'</span>';
-				echo '</td></tr>';
-
-				//Class Rank
-				if ( $showGrades)
-					if ( $grade['MP_TYPE']!='quarter' && !empty($grade['CUM_WEIGHTED_GPA']) && !empty($grade['CUM_RANK']))
-					{
-						echo '<tr><td>';
-						echo '<span>'.sprintf(_('GPA').': %01.2f / %01.0f', $grade['CUM_WEIGHTED_GPA'], $grade['SCHOOL_SCALE']).' &ndash; '._('Class Rank').': '.$grade['CUM_RANK'].' / '.$grade['CLASS_SIZE'].'</span>';
+						echo '<tr><td colspan="4">';
+						echo '<br /><span style="font-size:x-large;" class="center">'._('Studies Certificate').'<br /></span>';
+						$certificateText[0] = str_replace(array('__SSECURITY__','__FULL_NAME__','__FIRST_NAME__','__LAST_NAME__','__MIDDLE_NAME__','__GRADE_ID__','__NEXT_GRADE_ID__','__YEAR__','__SCHOOL_ID__'),array($student_data['SSECURITY'],$student_data['FULL_NAME'],$student_data['FIRST_NAME'],$student_data['LAST_NAME'],$student_data['MIDDLE_NAME'],$student_data['GRADE_LEVEL'],$student_data['NEXT_GRADE_LEVEL'],$syear,$school_info['TITLE']),$certificateText[0]);
+						echo '<span>'.nl2br(trim($certificateText[0])).'</span>';
 						echo '</td></tr>';
 					}
 
-				//Total Credits
-				if ( $showCredits)
-					if ( $total_credit_attempted > 0)
+					echo '</table>';
+
+					//generate ListOutput friendly array
+					$listOutput_RET = array();
+					$total_credit_earned = 0;
+					$total_credit_attempted = 0;
+
+					foreach ( (array) $mps as $mp_id => $grades)
 					{
-						echo '<tr><td>';
-						echo '<span>'._('Total').' '._('Credit').': '._('Credit Attempted').': '.sprintf('%01.2f', $total_credit_attempted).' &ndash; '._('Credit Earned').': '.sprintf('%01.2f', $total_credit_earned).'</span>';
-						echo '</td></tr>';
+						$columns[ $mp_id ] = $grades[1]['SHORT_NAME'];
+						//$i = 1;
+
+						foreach ( (array) $grades as $grade)
+						{
+							$i = $grade['COURSE_TITLE'];
+
+							$listOutput_RET[ $i ]['COURSE_TITLE'] = $grade['COURSE_TITLE'];
+
+							if ( $showGrades)
+							{
+								if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) > 0 )
+									$listOutput_RET[ $i ][ $mp_id ] = $grade['GRADE_PERCENT'].'%';
+								elseif ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) < 0 )
+									$listOutput_RET[ $i ][ $mp_id ] = $grade['GRADE_LETTER'];
+								else
+									$listOutput_RET[ $i ][ $mp_id ] = $grade['GRADE_LETTER'].'&nbsp;&nbsp;'.$grade['GRADE_PERCENT'].'%';
+							}
+
+							if ( $showCredits)
+							{
+								if ((strpos($mp_type_list, 'year')!==false && $grade['MP_TYPE']!='quarter' && $grade['MP_TYPE']!='semester') || (strpos($mp_type_list, 'semester')!==false && $grade['MP_TYPE']!='quarter') || (strpos($mp_type_list, 'year')===false && strpos($mp_type_list, 'semester')===false && $grade['MP_TYPE']=='quarter'))
+								{
+									$listOutput_RET[ $i ]['CREDIT_EARNED'] += sprintf('%01.2f', $grade['CREDIT_EARNED']);
+									$total_credit_earned += $grade['CREDIT_EARNED'];
+									$total_credit_attempted += $grade['CREDIT_ATTEMPTED'];
+								}
+							}
+
+							if ( $showCreditHours)
+							{
+								if ( !isset($listOutput_RET[ $i ]['CREDIT_HOURS']))
+								{
+									$listOutput_RET[ $i ]['CREDIT_HOURS'] = ((int)$grade['CREDIT_HOURS'] == $grade['CREDIT_HOURS'] ? (int)$grade['CREDIT_HOURS'] : $grade['CREDIT_HOURS']);
+								}
+							}
+
+							if ( $showMPcomments)
+								$listOutput_RET[ $i ]['COMMENT'] = $grade['COMMENT'];
+							//$i++;
+						}
 					}
 
-				//Certificate Text block 2
-				if ( $showCertificate && !empty($certificateText[1]))
-				{
-					$certificateText[1] = str_replace(array('__SSECURITY__','__FULL_NAME__','__FIRST_NAME__','__LAST_NAME__','__MIDDLE_NAME__','__GRADE_ID__','__NEXT_GRADE_ID__','__YEAR__','__SCHOOL_ID__'),array($student_data['SSECURITY'],$student_data['FULL_NAME'],$student_data['FIRST_NAME'],$student_data['LAST_NAME'],$student_data['MIDDLE_NAME'],$student_data['GRADE_LEVEL'],$student_data['NEXT_GRADE_LEVEL'],$syear,$school_info['TITLE']),$certificateText[1]);
-					echo '<tr><td><br /><span>'.nl2br(trim($certificateText[1])).'</span></td></tr>';
-				}
+					if ( $showCredits)
+						$columns['CREDIT_EARNED'] = _('Credit');
 
-				echo '</table>';
+					if ( $showCreditHours)
+						$columns['CREDIT_HOURS'] = _('C.H.');
 
-				//Signatures
-				echo '<br /><br /><br /><table class="width-100p" style="border-collapse:separate; border-spacing: 40px;"><tr><td style="width:50%;">';
-				echo '<table class="width-100p"><tr><td style="border-top:solid black 1px;" class="center"><span style="font-size:x-small;">'._('Signature').'<br /><br /><br /></span></td></tr>';
-				echo '<tr><td style="border-top:solid black 1px;" class="center"><span style="font-size:x-small;">'._('Title').'</span></td></tr></table>';
-				echo '</td><td style="width:50%;">';
+					if ( $showMPcomments)
+						$columns['COMMENT'] = _('Comment');
 
-				//FJ add second signature for the certificate
-				if ( $showCertificate)
-				{
+					$listOutput_RET = array_values($listOutput_RET);
+					array_unshift($listOutput_RET,'start_array_to_1');
+					unset($listOutput_RET[0]);
+					//var_dump($listOutput_RET);exit;
+
+					echo '<br />';
+					ListOutput($listOutput_RET,$columns,'.','.',false);
+
+					//School Year
+					echo '<table class="width-100p"><tr><td>';
+					echo '<span><br />'._('School Year').': '.FormatSyear($syear,Config('SCHOOL_SYEAR_OVER_2_YEARS')).'</span>';
+					echo '</td></tr>';
+
+					//Class Rank
+					if ( $showGrades)
+						if ( $grade['MP_TYPE']!='quarter' && !empty($grade['CUM_WEIGHTED_GPA']) && !empty($grade['CUM_RANK']))
+						{
+							echo '<tr><td>';
+							echo '<span>'.sprintf(_('GPA').': %01.2f / %01.0f', $grade['CUM_WEIGHTED_GPA'], $grade['SCHOOL_SCALE']).' &ndash; '._('Class Rank').': '.$grade['CUM_RANK'].' / '.$grade['CLASS_SIZE'].'</span>';
+							echo '</td></tr>';
+						}
+
+					//Total Credits
+					if ( $showCredits)
+						if ( $total_credit_attempted > 0)
+						{
+							echo '<tr><td>';
+							echo '<span>'._('Total').' '._('Credit').': '._('Credit Attempted').': '.sprintf('%01.2f', $total_credit_attempted).' &ndash; '._('Credit Earned').': '.sprintf('%01.2f', $total_credit_earned).'</span>';
+							echo '</td></tr>';
+						}
+
+					//Certificate Text block 2
+					if ( $showCertificate && !empty($certificateText[1]))
+					{
+						$certificateText[1] = str_replace(array('__SSECURITY__','__FULL_NAME__','__FIRST_NAME__','__LAST_NAME__','__MIDDLE_NAME__','__GRADE_ID__','__NEXT_GRADE_ID__','__YEAR__','__SCHOOL_ID__'),array($student_data['SSECURITY'],$student_data['FULL_NAME'],$student_data['FIRST_NAME'],$student_data['LAST_NAME'],$student_data['MIDDLE_NAME'],$student_data['GRADE_LEVEL'],$student_data['NEXT_GRADE_LEVEL'],$syear,$school_info['TITLE']),$certificateText[1]);
+						echo '<tr><td><br /><span>'.nl2br(trim($certificateText[1])).'</span></td></tr>';
+					}
+
+					echo '</table>';
+
+					//Signatures
+					echo '<br /><br /><br /><table class="width-100p" style="border-collapse:separate; border-spacing: 40px;"><tr><td style="width:50%;">';
 					echo '<table class="width-100p"><tr><td style="border-top:solid black 1px;" class="center"><span style="font-size:x-small;">'._('Signature').'<br /><br /><br /></span></td></tr>';
 					echo '<tr><td style="border-top:solid black 1px;" class="center"><span style="font-size:x-small;">'._('Title').'</span></td></tr></table>';
+					echo '</td><td style="width:50%;">';
+
+					//FJ add second signature for the certificate
+					if ( $showCertificate)
+					{
+						echo '<table class="width-100p"><tr><td style="border-top:solid black 1px;" class="center"><span style="font-size:x-small;">'._('Signature').'<br /><br /><br /></span></td></tr>';
+						echo '<tr><td style="border-top:solid black 1px;" class="center"><span style="font-size:x-small;">'._('Title').'</span></td></tr></table>';
+					}
+
+					echo '</td></tr></table>';
+
+					echo '<div style="page-break-after: always;"></div>';
 				}
-
-				echo '</td></tr></table>';
-
-				echo '<div style="page-break-after: always;"></div>';
 			}
 			PDFStop($handle);
 		}
@@ -340,24 +354,50 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$extra['extra_header_left'] .= '<tr><td colspan="2"><b>'._('Include on Transcript').':</b><input type="hidden" name="SCHOOL_ID" value="'.UserSchool().'"><br /></td></tr>';
 
-		//FJ history grades in Transripts
-		if (User('PROFILE')=='admin')
+		// FJ history grades & previous school years in Transripts.
+		if ( User( 'PROFILE' ) === 'admin' )
 		{
-			$syear_history_RET = DBGet(DBQuery("SELECT DISTINCT SYEAR FROM HISTORY_MARKING_PERIODS WHERE SYEAR<>'".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SYEAR DESC"));
+			$syear_history_RET = DBGet( DBQuery( "SELECT DISTINCT SYEAR
+				FROM HISTORY_MARKING_PERIODS
+				WHERE SYEAR<>'" . UserSyear() . "'
+				AND SYEAR<>'" . UserSyear() . "'
+				AND SCHOOL_ID='" . UserSchool() . "'
+				UNION SELECT DISTINCT SYEAR
+				FROM SCHOOL_MARKING_PERIODS
+				WHERE SYEAR<>'" . UserSyear() . "'
+				AND SYEAR<>'" . UserSyear() . "'
+				AND SCHOOL_ID='" . UserSchool() . "'
+				ORDER BY SYEAR DESC" ) );
 
-			//if History School Years
-			if (count($syear_history_RET))
+			// If History School Years or previous school years.
+			if ( $syear_history_RET )
 			{
-				$extra['extra_header_left'] .= '<tr class="st"><td>'._('School Year').':</td><td>';
+				$extra['extra_header_left'] .= '<tr class="st"><td>' . _( 'School Years' ) . ':</td><td>';
 
-				$syoptions[UserSyear()] = FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS'));
-				foreach ( (array) $syear_history_RET as $syear_history)
+				$syoptions[ UserSyear() ] = FormatSyear( UserSyear(), Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) );
+
+				// Multiple select input.
+				$syextra = 'multiple title="' . _( 'Hold the CTRL key down to select multiple options' ) . '"';
+
+				foreach ( (array) $syear_history_RET as $syear_history )
 				{
-					$syoptions[$syear_history['SYEAR']] = FormatSyear($syear_history['SYEAR'],Config('SCHOOL_SYEAR_OVER_2_YEARS'));
+					$syoptions[ $syear_history['SYEAR'] ] = FormatSyear(
+						$syear_history['SYEAR'],
+						Config( 'SCHOOL_SYEAR_OVER_2_YEARS' )
+					);
 				}
 
-				$extra['extra_header_left'] .= SelectInput(UserSyear(),'syear','',$syoptions,false,null,false);
-				$extra['extra_header_left'] .= '</select></td>';
+				$extra['extra_header_left'] .= SelectInput(
+					UserSyear(),
+					'syear_arr[]',
+					'',
+					$syoptions,
+					false,
+					$syextra,
+					false
+				);
+
+				$extra['extra_header_left'] .= '</td>';
 			}
 		}
 
