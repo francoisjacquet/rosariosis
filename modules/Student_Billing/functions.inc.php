@@ -68,18 +68,37 @@ function _makeFeesAmount($value,$column)
 	return Currency($value);
 }
 
-function _makePaymentsTextInput($value,$name)
-{	global $THIS_RET;
+function _makePaymentsTextInput( $value, $name )
+{
+	global $THIS_RET;
 
-	if ( $THIS_RET['ID'])
+	if ( $THIS_RET['ID'] )
+	{
 		$id = $THIS_RET['ID'];
+	}
 	else
 		$id = 'new';
 
-	if ( $name=='AMOUNT')
+	if ( $name === 'AMOUNT' )
+	{
 		$extra = 'size=5 maxlength=10';
+	}
 
-	return TextInput($value,'values['.$id.']['.$name.']','',$extra);
+	return TextInput( $value, 'values[' . $id . '][' . $name . ']', '', $extra );
+}
+
+function _makePaymentsDateInput( $value, $name )
+{
+	global $THIS_RET;
+
+	if ( $THIS_RET['ID'] )
+	{
+		$id = $THIS_RET['ID'];
+	}
+	else
+		$id = 'new';
+
+	return DateInput( $value, 'values[' . $id . '][' . $name . ']', '', ( $id !== 'new' ), false );
 }
 
 function _makePaymentsAmount($value,$column)

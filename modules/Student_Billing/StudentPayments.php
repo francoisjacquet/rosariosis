@@ -2,11 +2,23 @@
 
 require_once 'modules/Student_Billing/functions.inc.php';
 
-if ( ! $_REQUEST['print_statements'])
+if ( ! $_REQUEST['print_statements'] )
 {
 	DrawHeader(ProgramTitle());
 
 	Search('student_id');
+}
+
+// Add eventual Dates to $_REQUEST['values'].
+if ( isset( $_REQUEST['day_values'], $_REQUEST['month_values'], $_REQUEST['year_values'] ) )
+{
+	$requested_dates = RequestedDates(
+		$_REQUEST['year_values'],
+		$_REQUEST['month_values'],
+		$_REQUEST['day_values']
+	);
+
+	$_REQUEST['values'] = array_replace_recursive( (array) $_REQUEST['values'], (array) $requested_dates );
 }
 
 if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
@@ -16,7 +28,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 		if ( $id!='new')
 		{
 			$sql = "UPDATE BILLING_PAYMENTS SET ";
-							
+
 			foreach ( (array) $columns as $column => $value)
 			{
 				$sql .= $column."='".$value."',";
@@ -24,16 +36,17 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
 			DBQuery($sql);
 		}
-		else
+		elseif ( $columns['AMOUNT'] !== ''
+			&& $columns['PAYMENT_DATE'] )
 		{
 			$id = DBGet(DBQuery("SELECT ".db_seq_nextval('BILLING_PAYMENTS_SEQ').' AS ID'));
 			$id = $id[1]['ID'];
 
 			$sql = "INSERT INTO BILLING_PAYMENTS ";
 
-			$fields = 'ID,STUDENT_ID,SYEAR,SCHOOL_ID,PAYMENT_DATE,';
-			$values = "'".$id."','".UserStudentID()."','".UserSyear()."','".UserSchool()."','".DBDate()."',";
-			
+			$fields = 'ID,STUDENT_ID,SYEAR,SCHOOL_ID,';
+			$values = "'".$id."','".UserStudentID()."','".UserSyear()."','".UserSchool()."',";
+
 			$go = 0;
 			foreach ( (array) $columns as $column => $value)
 			{
@@ -53,7 +66,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				}
 			}
 			$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
-			
+
 			if ( $go)
 				DBQuery($sql);
 		}
@@ -82,13 +95,22 @@ if ( $_REQUEST['modfunc']=='refund' && AllowEdit())
 
 if (UserStudentID() && ! $_REQUEST['modfunc'])
 {
+	echo ErrorMessage( $error );
+
 	$payments_total = 0;
-	$functions = array('REMOVE' => '_makePaymentsRemove','AMOUNT' => '_makePaymentsAmount','PAYMENT_DATE' => 'ProperDate','COMMENTS' => '_makePaymentsTextInput','LUNCH_PAYMENT' => '_lunchInput');
-	
+
+	$functions = array(
+		'REMOVE' => '_makePaymentsRemove',
+		'AMOUNT' => '_makePaymentsAmount',
+		'PAYMENT_DATE' => 'ProperDate',
+		'COMMENTS' => '_makePaymentsTextInput',
+		'LUNCH_PAYMENT' => '_lunchInput',
+	);
+
 	$refunded_payments_RET = DBGet(DBQuery("SELECT '' AS REMOVE,ID,REFUNDED_PAYMENT_ID,AMOUNT,PAYMENT_DATE,COMMENTS FROM BILLING_PAYMENTS WHERE STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."' AND (REFUNDED_PAYMENT_ID IS NOT NULL)"),$functions,array('REFUNDED_PAYMENT_ID'));
-	
+
 	$payments_RET = DBGet(DBQuery("SELECT '' AS REMOVE,ID,REFUNDED_PAYMENT_ID,AMOUNT,PAYMENT_DATE,COMMENTS,LUNCH_PAYMENT FROM BILLING_PAYMENTS WHERE STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."' AND (REFUNDED_PAYMENT_ID IS NULL OR REFUNDED_PAYMENT_ID='') ORDER BY ID"),$functions);
-	
+
 	$i = 1;
 	$RET = array();
 	foreach ( (array) $payments_RET as $payment)
@@ -106,10 +128,26 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 		$columns = array('REMOVE' => '');
 	else
 		$columns = array();
-	
-	$columns += array('AMOUNT' => _('Amount'),'PAYMENT_DATE' => _('Date'),'COMMENTS' => _('Comment'),'LUNCH_PAYMENT' => _('Lunch Payment'));
-	if ( ! $_REQUEST['print_statements'] && AllowEdit())
-		$link['add']['html'] = array('REMOVE'=>button('add'),'AMOUNT'=>_makePaymentsTextInput('','AMOUNT'),'PAYMENT_DATE'=>ProperDate(DBDate()),'COMMENTS'=>_makePaymentsTextInput('','COMMENTS'),'LUNCH_PAYMENT'=>_lunchInput('','LUNCH_PAYMENT'));
+
+	$columns += array(
+		'AMOUNT' => _( 'Amount' ),
+		'PAYMENT_DATE' => _( 'Date' ),
+		'COMMENTS' => _( 'Comment' ),
+		'LUNCH_PAYMENT' => _( 'Lunch Payment' ),
+	);
+
+	if ( ! $_REQUEST['print_statements']
+		&& AllowEdit() )
+	{
+		$link['add']['html'] = array(
+			'REMOVE' => button( 'add' ),
+			'AMOUNT' => _makePaymentsTextInput( '','AMOUNT' ),
+			'PAYMENT_DATE' => _makePaymentsDateInput( DBDate(), 'PAYMENT_DATE' ),
+			'COMMENTS' => _makePaymentsTextInput( '','COMMENTS' ),
+			'LUNCH_PAYMENT' => _lunchInput( '', 'LUNCH_PAYMENT' ),
+		);
+	}
+
 	if ( ! $_REQUEST['print_statements'])
 	{
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
@@ -140,7 +178,7 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 		DrawHeader('','',$table);
 	else
 		DrawHeader($table,'','',null,null,true);
-	
+
 	if ( ! $_REQUEST['print_statements'] && AllowEdit())
 		echo '</form>';
 }

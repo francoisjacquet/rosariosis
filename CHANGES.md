@@ -7,6 +7,7 @@ Changes in 2.9.2
 - Add page CSS class to body & always use Warehouse( 'header' )
 - Remove inline CSS & use CSS classes program wide
 - Select all School Years in Transcripts.php
+- Set Payment Date in StudentPayments.php & MassAssignPayments.php
 
 Changes in 2.9.1
 ----------------
