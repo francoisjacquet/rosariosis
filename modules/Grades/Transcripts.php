@@ -38,7 +38,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 		if (count($t_grades) && count($RET))
 		{
-			$syear = $_REQUEST['syear_arr'][0];
+			$syear = ( User( 'PROFILE' ) === 'admin' && $_REQUEST['syear_arr'] ?
+				$_REQUEST['syear_arr'][0] :
+				UserSyear() );
 
 			$showStudentPic = $_REQUEST['showstudentpic'];
 			$showSAT = $_REQUEST['showsat'];
