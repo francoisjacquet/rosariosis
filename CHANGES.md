@@ -10,6 +10,7 @@ Changes in 2.9.2
 - Set Payment Date in StudentPayments.php & MassAssignPayments.php
 - Set Date in Incomes.php, Expenses.php & StaffPayments.php
 - Add Minimum Passing Grade option to Grade Scales in ReportCardGrades.php & InputFinalGrades.php
+- Place RosarioSIS version, disclaimer & copyright inside "About" toggle in index.php
 
 Changes in 2.9.2
 ----------------

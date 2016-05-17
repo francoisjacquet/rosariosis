@@ -797,7 +797,8 @@ img.image-radio-list{
 /*buttons*/
 .button{
 	vertical-align:middle;
-	height:18px
+	height:18px;
+	max-width:none
 }
 .button.bigger{
 	height:24px
@@ -944,6 +945,7 @@ td.calendar-menu{
 .arrow.right:before,
 .switchMenu:before{
 	content: "\25b6\0000a0";
+	vertical-align: 10%;
 }
 .switchMenu.switched:before{
 	content: "\25bc\0000a0";
@@ -1007,6 +1009,24 @@ td.calendar-menu{
 .tooltip:hover > i{
 	visibility:visible;
 	opacity:1
+}
+
+/* Toggle, CSS checkbox hack */
+.toggle {
+	cursor: pointer;
+}
+
+input[type=checkbox].toggle {
+	position: absolute;
+	left: -9999px;
+}
+
+.toggle + div { /* Hidden State */
+	display: none;
+}
+
+.toggle:checked + div { /* Toggled State */
+	display: block;
 }
 
 /* MiniColors */
