@@ -388,7 +388,7 @@ if ( $_REQUEST['values'] && $_POST['values'])
 				//bjj can we use $percent all the time?  TODO: rework this so updates to credits occur when grade is changed
 				$sql .= ",COURSE_TITLE='".$course_RET[1]['COURSE_NAME']."'";
 				$sql .= ",CREDIT_ATTEMPTED='".$course_RET[1]['CREDITS']."'";
-				$sql .= ",CREDIT_EARNED='" . ( $weighted && $weighted >= $gp_passing ? $course_RET[1]['CREDITS'] : '0' ) . "'";
+				$sql .= ",CREDIT_EARNED='" . ( (float) $weighted && $weighted >= $gp_passing ? $course_RET[1]['CREDITS'] : '0' ) . "'";
 				$sep = ',';
 			}
 			elseif ( $columns['grade'])
@@ -414,7 +414,7 @@ if ( $_REQUEST['values'] && $_POST['values'])
 				$sql .= ",REPORT_CARD_GRADE_ID='".$grade."',GRADE_LETTER='".$letter."',WEIGHTED_GP='".$weighted."',UNWEIGHTED_GP='".$unweighted."',GP_SCALE='".$scale."'";
 				$sql .= ",COURSE_TITLE='".$course_RET[1]['COURSE_NAME']."'";
 				$sql .= ",CREDIT_ATTEMPTED='".$course_RET[1]['CREDITS']."'";
-				$sql .= ",CREDIT_EARNED='" . ( $weighted && $weighted >= $gp_passing ? $course_RET[1]['CREDITS'] : '0' ) . "'";
+				$sql .= ",CREDIT_EARNED='" . ( (float) $weighted && $weighted >= $gp_passing ? $course_RET[1]['CREDITS'] : '0' ) . "'";
 				$sep = ',';
 			}
 			elseif (isset($columns['percent']) || isset($columns['grade']))
@@ -438,8 +438,14 @@ if ( $_REQUEST['values'] && $_POST['values'])
 			if (isset($columns['comment']))
 				$sql .= $sep."COMMENT='".$columns['comment']."'";
 
-			if ( $sql)
-				$sql = "UPDATE STUDENT_REPORT_CARD_GRADES SET ".$sql." WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$course_period_id."' AND MARKING_PERIOD_ID='".$_REQUEST['mp']."'";
+			if ( $sql )
+			{
+				$sql = "UPDATE STUDENT_REPORT_CARD_GRADES
+					SET " . $sql . "
+					WHERE STUDENT_ID='" . $student_id . "'
+					AND COURSE_PERIOD_ID='" . $course_period_id . "'
+					AND MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'";
+			}
 		}
 		elseif ( $columns['percent']!='' || $columns['grade'] || $columns['comment'])
 		{
@@ -536,7 +542,7 @@ if ( $_REQUEST['values'] && $_POST['values'])
 				$scale . "','" .
 				DBEscapeString( $course_RET[1]['COURSE_NAME'] ) . "','" .
 				$course_RET[1]['CREDITS'] . "','" .
-				( $weighted && $weighted >= $gp_passing ? $course_RET[1]['CREDITS'] : '0' ) . "','" .
+				( (float) $weighted && $weighted >= $gp_passing ? $course_RET[1]['CREDITS'] : '0' ) . "','" .
 				$course_RET[1]['CLASS_RANK'] . "'," .
 				( is_null( $course_RET[1]['CREDIT_HOURS'] ) ? 'NULL' : $course_RET[1]['CREDIT_HOURS'] ) .
 			")";
