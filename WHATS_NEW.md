@@ -14,6 +14,9 @@ Grades
 - Student Assignments
 	- Submit Assignment
 
+- Grading Scales
+	- Minimum Passing Grade
+
 Student Billing & Accounting
 
 - Daily Totals

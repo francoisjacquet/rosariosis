@@ -41,6 +41,14 @@ function Update()
 			{
 				$return = _update29alpha();
 			}
+
+
+		case version_compare( $from_version, '2.9.2', '<' ):
+
+			if ( function_exists( '_update292' ) )
+			{
+				$return = _update292();
+			}
 	}
 
 	// Update version in DB CONFIG table.
@@ -242,6 +250,50 @@ function _update29alpha()
 	{
 		DBQuery( "INSERT INTO profile_exceptions VALUES (0, 'Grades/StudentAssignments.php', 'Y', NULL);
 			INSERT INTO profile_exceptions VALUES (3, 'Grades/StudentAssignments.php', 'Y', NULL);" );
+	}
+
+	return $return;
+}
+
+
+/**
+ * Update to version 2.9.2
+ *
+ * 1. Add GP_PASSING_VALUE to REPORT_CARD_GRADE_SCALES table
+ *
+ * Local function
+ *
+ * @since 2.9.2
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update292()
+{
+	$callers = debug_backtrace();
+
+	if ( ! isset( $callers[1]['function'] )
+		|| $callers[1]['function'] !== 'Update' )
+	{
+		return false;
+	}
+
+	$return = true;
+
+
+	/**
+	 * 1. Add GP_PASSING_VALUE to REPORT_CARD_GRADE_SCALES table
+	 * & Set minimum passing grade to '0' for already present scales.
+	 */
+	$gppassingvalue_column_exists = DBGet( DBQuery( "SELECT 1 FROM pg_attribute
+		WHERE attrelid = (SELECT oid FROM pg_class WHERE relname = 'report_card_grade_scales')
+		AND attname = 'gp_passing_value';" ) );
+
+	if ( ! $gppassingvalue_column_exists )
+	{
+		DBQuery( "ALTER TABLE ONLY report_card_grade_scales
+			ADD COLUMN gp_passing_value numeric(10,3);
+			UPDATE report_card_grade_scales
+			SET gp_passing_value=0;" );
 	}
 
 	return $return;

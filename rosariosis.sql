@@ -2367,6 +2367,7 @@ CREATE TABLE report_card_grade_scales (
     sort_order numeric,
     rollover_id numeric,
     gp_scale numeric(10,3),
+    gp_passing_value numeric(10,3),
     hrs_gpa_value numeric(4,2)
 );
 
@@ -3507,7 +3508,7 @@ INSERT INTO attendance_codes VALUES (4, 2015, 1, 'Excused Absence', 'E', 'offici
 --
 
 INSERT INTO config VALUES (0, 'LOGIN', 'No');
-INSERT INTO config VALUES (0, 'VERSION', '2.9.1');
+INSERT INTO config VALUES (0, 'VERSION', '2.9.2');
 INSERT INTO config VALUES (0, 'TITLE', 'Rosario Student Information System');
 INSERT INTO config VALUES (0, 'NAME', 'RosarioSIS');
 INSERT INTO config VALUES (0, 'MODULES', 'a:13:{s:12:"School_Setup";b:1;s:8:"Students";b:1;s:5:"Users";b:1;s:10:"Scheduling";b:1;s:6:"Grades";b:1;s:10:"Attendance";b:1;s:11:"Eligibility";b:1;s:10:"Discipline";b:1;s:10:"Accounting";b:1;s:15:"Student_Billing";b:1;s:12:"Food_Service";b:1;s:9:"Resources";b:1;s:6:"Custom";b:1;}');
@@ -4137,7 +4138,7 @@ INSERT INTO report_card_comments VALUES (3, 2015, 1, NULL, NULL, NULL, 3, '^n Ex
 -- Data for Name: report_card_grade_scales; Type: TABLE DATA; Schema: public; Owner: rosariosis
 --
 
-INSERT INTO report_card_grade_scales VALUES (1, 2015, 1, 'Main', NULL, NULL, NULL, 1, NULL, 4, NULL);
+INSERT INTO report_card_grade_scales VALUES (1, 2015, 1, 'Main', NULL, NULL, NULL, 1, NULL, 4, 0, NULL);
 
 
 --

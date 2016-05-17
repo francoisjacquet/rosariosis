@@ -1284,6 +1284,9 @@ HTML;
 <p>
 	Para eliminar cualquier tipo de calificación, haga clic sobre el icono eliminar (-) al lado de la calificación que quiere eliminar. Se le preguntará si desea confirmar la eliminación.
 </p>
+<p>
+	Para agregar o modificar una escala de calificaciones, haga clic sobre la pestaña más (+) primero. Para cada escala de calificaciones, debería ajustar el valor de la escala, la calificación mínima de aprobación (mínimo para obtener los créditos), así que varios mínimos de promedio para los cuadros de honor.
+</p>
 HTML;
 
 	$help['Grades/ReportCardComments.php'] = <<<HTML

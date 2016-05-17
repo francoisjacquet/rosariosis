@@ -1257,7 +1257,7 @@ HTML;
 
 	$help['Grades/ReportCardGrades.php'] = <<<HTML
 <p>
-	<i>Report Card Grades</i> allows you to setup your school's report card grades. Report card grades are used in the Input Final Grades program by teachers and in most of the Grades reports. Report card grades include letter grades as well as grade comments that a teacher can choose from when entering grades.
+	<i>Grading Scales</i> allows you to setup your school's report card grades. Report card grades are used in the Input Final Grades program by teachers and in most of the Grades reports. Report card grades include letter grades as well as grade comments that a teacher can choose from when entering grades.
 </p>
 <p>
 	To add a report card grade, fill in the grade's title, GPA value, and sort order in the empty fields at the bottom of the grades list and click the "Save" button.
@@ -1270,6 +1270,9 @@ HTML;
 </p>
 <p>
 	To delete either type of grade, click the delete icon (-) next to the grade you want to delete. You will be asked to confirm the deletion.
+</p>
+<p>
+	To add or edit a grade scale, first click the plus icon (+) tab. For each grade scale you should adjust their scale value, minimum passing grade (minimum grade to earn credits), along with various honor roll minimum GPAs.
 </p>
 HTML;
 

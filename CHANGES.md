@@ -9,8 +9,9 @@ Changes in 2.9.2
 - Select all School Years in Transcripts.php
 - Set Payment Date in StudentPayments.php & MassAssignPayments.php
 - Set Date in Incomes.php, Expenses.php & StaffPayments.php
+- Add Minimum Passing Grade option to Grade Scales in ReportCardGrades.php & InputFinalGrades.php
 
-Changes in 2.9.1
+Changes in 2.9.2
 ----------------
 - Add Open Sans webfont in assets/themes/WPadmin/fonts/opensans/ & stylesheet.css
 - Use ReportCards.fnc.php functions in FinalGrades.php
