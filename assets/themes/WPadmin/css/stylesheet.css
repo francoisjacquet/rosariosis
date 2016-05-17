@@ -137,7 +137,7 @@
 	position:relative;
 	float:left;
 	overflow: visible;
-	z-index: auto !important;
+	z-index: 1 !important;
 }
 #menushadow{
 	position:absolute;
