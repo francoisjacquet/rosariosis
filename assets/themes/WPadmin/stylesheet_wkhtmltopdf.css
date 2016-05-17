@@ -27,7 +27,7 @@
 	position:relative;
 	float:left;
 	overflow: visible;
-	z-index: auto !important;
+	z-index: 1 !important;
 }
 #menushadow{
 	position:absolute;
@@ -93,8 +93,10 @@ html,body{
 	padding:0
 }
 body,
-textarea{
-	font-family:sans-serif;
+textarea,
+input,
+select{
+	font-family:'Open Sans';
 	line-height:1.4em
 }
 *{
@@ -116,9 +118,6 @@ td,textarea{
 }
 input,select{
 	line-height:1.231
-}
-select[multiple]{
-	height:6em
 }
 select[multiple]{
 	height:6em
@@ -318,12 +317,12 @@ label{
 	top: -1000em;
 	left: 0;
 	position: absolute;
-	min-width:205px;
+	min-width:215px;
 	padding:0;
 	margin:0;
 	overflow: hidden;
-	-webkit-transition: 0s top, 0s left, 0s min-width;
-	transition: 0s top, 0s left, 0s min-width;
+	-webkit-transition: 0s top, 0s left;
+	transition: 0s top, 0s left;
 	-webkit-transition-delay: .15s;
 	transition-delay: .15s;
 	border-width:1px;
@@ -356,7 +355,6 @@ html[dir="RTL"].no-touch .menu-module:hover .menu-top:after{
 	overflow: visible;
 	word-wrap: break-word;
 	min-height: 36px;
-	min-width: 215px;
 	width: auto;
 }
 #selectedModuleLink + .wp-submenu{
@@ -381,7 +379,6 @@ html[dir="RTL"].no-touch .menu-module:hover .menu-top:after{
 	padding:2px 5px
 }
 .menu-top{
-	font-weight:400;
 	font-size:15px;
 	min-width:10em;
 	border-width:1px 0 1px;
@@ -492,7 +489,7 @@ h3 span{
 	vertical-align:bottom
 }
 .header1 h2{
-	font-family:"HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",sans-serif;
+	font-family:'Open Sans';
 	font-size:30px;
 	font-weight:normal;
 	margin:0;
@@ -598,7 +595,6 @@ textarea{
 }
 
 .legend-gray, .legend-red{
-	margin-top:5px;
 	margin-bottom:7px;
 	display:inline-block
 }
@@ -690,7 +686,8 @@ img.image-radio-list{
 /*buttons*/
 .button{
 	vertical-align:middle;
-	height:18px
+	height:18px;
+	max-width:none
 }
 .button.bigger{
 	height:24px
@@ -708,7 +705,7 @@ div.error .button, div.updated .button{
 }
 
 /*login form*/
-form.login input[type=text],form.login input[type=password]{
+.login form input[type=text],.login form input[type=password]{
 	font-weight:200;
 	font-size:20px;
 	width:100%;
@@ -837,6 +834,7 @@ td.calendar-menu{
 .arrow.right:before,
 .switchMenu:before{
 	content: "\25b6\0000a0";
+	vertical-align: 10%;
 }
 .switchMenu.switched:before{
 	content: "\25bc\0000a0";
@@ -846,7 +844,7 @@ td.calendar-menu{
 	display:inline-block;
 }
 
-.switchMenu{
+.switchMenu {
 	padding:5px
 }
 
@@ -902,6 +900,24 @@ td.calendar-menu{
 	opacity:1
 }
 
+/* Toggle, CSS checkbox hack */
+.toggle {
+	cursor: pointer;
+}
+
+input[type=checkbox].toggle {
+	position: absolute;
+	left: -9999px;
+}
+
+.toggle + div { /* Hidden State */
+	display: none;
+}
+
+.toggle:checked + div { /* Toggled State */
+	display: block;
+}
+
 /* MiniColors */
 .minicolors{
 	margin:2px 2px 2px 0;
@@ -928,14 +944,6 @@ td.calendar-menu{
 /* Create account page */
 .create-account {
 	padding: 0 2px;
-}
-
-
-/*tablet vertical*/
-@media only screen and (max-width:800px){
-	.BottomButton span{
-		display:none
-	}
 }
 
 
