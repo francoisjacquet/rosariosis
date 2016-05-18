@@ -12,7 +12,7 @@ Changes in 2.9.2
 - Add Minimum Passing Grade option to Grade Scales in ReportCardGrades.php & InputFinalGrades.php
 - Place RosarioSIS version, disclaimer & copyright inside "About" toggle in index.php
 
-Changes in 2.9.2
+Changes in 2.9.1
 ----------------
 - Add Open Sans webfont in assets/themes/WPadmin/fonts/opensans/ & stylesheet.css
 - Use ReportCards.fnc.php functions in FinalGrades.php
