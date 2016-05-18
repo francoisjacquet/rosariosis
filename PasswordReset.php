@@ -452,6 +452,7 @@ function _passwordResetForm( $hash, $user_id )
 			<input type="password" name="PASSWORD" id="PASSWORD" size="25" maxlength="42" tabindex="1" required />
 			<?php echo FormatInputTitle( _( 'Password' ), 'PASSWORD', true ); ?>
 
+			<br />
 			<input type="password" name="VERIFY" id="VERIFY" size="25" maxlength="42" tabindex="2" required />
 			<?php echo FormatInputTitle( _( 'Verify New Password' ), 'VERIFY', true ); ?>
 
