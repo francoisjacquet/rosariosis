@@ -32,16 +32,10 @@ function _makeTextInput( $column, $name, $request )
 		$value[ $column ] = $field['DEFAULT_SELECTION'];
 
 		$div = false;
-
-		$req = $field['REQUIRED'] === 'Y' ? array( '<span class="legend-red">', '</span>' ) : array( '', '' );
 	}
 	else
 	{
 		$div = true;
-
-		$req = $field['REQUIRED'] === 'Y' && ! $value[ $column ] ?
-			array( '<span class="legend-red">', '</span>' ) :
-			array( '', '' );
 	}
 
 	if ( $field['TYPE'] === 'numeric' )
@@ -49,6 +43,10 @@ function _makeTextInput( $column, $name, $request )
 		$value[ $column ] = str_replace( '.00', '', $value[ $column ] );
 
 		$options = 'size=9 maxlength=18';
+	}
+	elseif ( Config( 'STUDENTS_EMAIL_FIELD' ) === str_replace( 'CUSTOM_', '', $column ) )
+	{
+		$options = 'maxlength=255 type="email" pattern="[^ @]*@[^ @]*" placeholder="' . _( 'Email' ) . '"';
 	}
 	else
 		$options = 'maxlength=255';
@@ -59,7 +57,7 @@ function _makeTextInput( $column, $name, $request )
 	return TextInput(
 		$value[ $column ],
 		$request . '[' . $column . ']',
-		$req[0] . $name . $req[1],
+		$name,
 		$options,
 		$div
 	);
@@ -89,16 +87,10 @@ function _makeDateInput( $column, $name, $request )
 		$value[ $column ] = $field['DEFAULT_SELECTION'];
 
 		$div = false;
-
-		$req = $field['REQUIRED'] === 'Y' ? array( '<span class="legend-red">', '</span>' ) : array( '', '' );
 	}
 	else
 	{
 		$div = true;
-
-		$req = $field['REQUIRED'] === 'Y' && ! $value[ $column ] ?
-			array( '<span class="legend-red">', '</span>' ) :
-			array( '', '' );
 	}
 
 	// FJ date field is required.
@@ -112,7 +104,7 @@ function _makeDateInput( $column, $name, $request )
 	return DateInput(
 		$value[ $column ],
 		$request . '[' . $column . ']',
-		$req[0] . $name . $req[1],
+		$name,
 		$div,
 		true,
 		$required
@@ -143,16 +135,10 @@ function _makeSelectInput( $column, $name, $request )
 		$value[ $column ] = $field['DEFAULT_SELECTION'];
 
 		$div = false;
-
-		$req = $field['REQUIRED'] === 'Y' ? array( '<span class="legend-red">', '</span>' ) : array( '', '' );
 	}
 	else
 	{
 		$div = true;
-
-		$req = $field['REQUIRED'] === 'Y' && ! $value[ $column ] ?
-			array( '<span class="legend-red">', '</span>' ) :
-			array( '', '' );
 	}
 
 	$select_options = array();
@@ -189,7 +175,7 @@ function _makeSelectInput( $column, $name, $request )
 	return SelectInput(
 		$value[ $column ],
 		$request . '[' . $column . ']',
-		$req[0] . $name . $req[1],
+		$name,
 		$options,
 		_( 'N/A' ),
 		$extra,
@@ -221,16 +207,10 @@ function _makeAutoSelectInput( $column, $name, $request )
 		$value[ $column ] = $field['DEFAULT_SELECTION'];
 
 		$div = false;
-
-		$req = $field['REQUIRED'] === 'Y' ? array( '<span class="legend-red">', '</span>' ) : array( '', '' );
 	}
 	else
 	{
 		$div = true;
-
-		$req = $field['REQUIRED'] === 'Y' && ( ! $value[ $column ] || $value[ $column ] === '---' ) ?
-			array( '<span class="legend-red">', '</span>' ) :
-			array( '', '' );
 	}
 
 	// Build the select list...
@@ -334,7 +314,7 @@ function _makeAutoSelectInput( $column, $name, $request )
 		return SelectInput(
 			$value[ $column ],
 			$request . '[' . $column . ']',
-			$req[0] . $name . $req[1],
+			$name,
 			$options,
 			_( 'N/A' ),
 			$extra,
@@ -349,8 +329,8 @@ function _makeAutoSelectInput( $column, $name, $request )
 				array( '---', '<span style="color:red">-' . _( 'Edit' ) . '-</span>' ) :
 				$value[ $column ],
 			$request . '[' . $column . ']',
-			$req[0] . $name . $req[1],
-			'',
+			$name,
+			( $field['REQUIRED'] === 'Y' ? 'required' : '' ),
 			$div
 		);
 	}

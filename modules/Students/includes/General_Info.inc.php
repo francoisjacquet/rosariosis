@@ -104,36 +104,39 @@ echo '</td><td>';
 //FJ Moodle integrator
 //username, password required
 
-$required = $_REQUEST['moodle_create_student'] || $old_student_in_moodle || basename($_SERVER['PHP_SELF'])=='index.php';
-$legend_red = $required && ! $student['USERNAME'];
+$required = $_REQUEST['moodle_create_student'] || $old_student_in_moodle || basename( $_SERVER['PHP_SELF'] ) == 'index.php';
 
-echo TextInput($student['USERNAME'],'students[USERNAME]',($legend_red ? '<span class="legend-red">':'')._('Username').(($_REQUEST['moodle_create_student'] || $old_student_in_moodle) && ! $student['USERNAME']?'</span>':''),($required ? 'required' : ''), ($_REQUEST['moodle_create_student'] ? false : true));
+echo TextInput(
+	$student['USERNAME'],
+	'students[USERNAME]',
+	_( 'Username' ),
+	( $required ? 'required ' : '' ) .
+		( Config( 'STUDENTS_EMAIL_FIELD' ) === 'USERNAME' ?
+			'type="email" pattern="[^ @]*@[^ @]*" placeholder="' . _( 'Email' ) . '"' :
+			'' ),
+	! $_REQUEST['moodle_create_student']
+);
 
 echo '</td></tr><tr class="st"><td>';
-
-$required = $required;
-$legend_red = $required && ! $student['PASSWORD'];
 
 echo TextInput(
 	( ! $student['PASSWORD']
 		|| $_REQUEST['moodle_create_student'] ? '' : str_repeat( '*', 8 ) ),
 	'students[PASSWORD]',
-	( $legend_red ? '<span class="legend-red">' : '<span class="legend-gray">' ) .
-		_( 'Password' ) .
+	_( 'Password' ) .
 		( $_REQUEST['moodle_create_student']
 			|| $old_student_in_moodle ?
 		'<div class="tooltip"><i>' .
 			_( 'The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character' ) .
 		'</i></div>' :
-		'' ) .
-		'</span>',
+		'' ),
 	'autocomplete=off' . ( $required ? ' required' : '' ),
 	( $_REQUEST['moodle_create_student'] ? false : true )
 );
 
 echo '</td><td>';
 
-echo NoInput(makeLogin($student['LAST_LOGIN']),_('Last Login'));
+echo NoInput( makeLogin( $student['LAST_LOGIN'] ), _( 'Last Login' ) );
 
 echo '</td></tr></table>';
 

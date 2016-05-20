@@ -110,29 +110,30 @@ echo '</td></tr><tr class="st"><td>';
 //FJ Moodle integrator
 //username, password required
 
-$required = $_REQUEST['moodle_create_user'] || $old_user_in_moodle || basename($_SERVER['PHP_SELF'])=='index.php';
-$legend_red = $required && ! $staff['USERNAME'];
+$required = $_REQUEST['moodle_create_user'] || $old_user_in_moodle || basename( $_SERVER['PHP_SELF'] ) == 'index.php';
 
-echo TextInput($staff['USERNAME'],'staff[USERNAME]',($legend_red ? '<span class="legend-red">':'')._('Username').(($_REQUEST['moodle_create_user'] || $old_user_in_moodle) && ! $staff['USERNAME']?'</span>':''),'size=12 maxlength=100 '.($required ? 'required' : ''),($_REQUEST['moodle_create_user'] ?false:true));
+echo TextInput(
+	$staff['USERNAME'],
+	'staff[USERNAME]',
+	_( 'Username' ),
+	'size=12 maxlength=100 ' . ( $required ? 'required' : '' ),
+	( $_REQUEST['moodle_create_user'] ? false : true )
+);
 
 echo '</td><td>';
-
-$required = $required;
-$legend_red = $required && ! $staff['PASSWORD'];
 
 echo TextInput(
 	( ! $staff['PASSWORD']
 		|| $_REQUEST['moodle_create_user'] ? '' : str_repeat( '*', 8 ) ),
 	'staff[PASSWORD]',
-	( $legend_red ? '<span class="legend-red">' : '<span class="legend-gray">' ) .
-		_( 'Password' ) .
+	_( 'Password' ) .
 		( $_REQUEST['moodle_create_user']
 		|| $old_user_in_moodle ?
 		'<div class="tooltip"><i>' .
 			_( 'The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character' ) .
 		'</i></div>' :
 		''
-		) . '</span>',
+		),
 	'size=12 maxlength=42 autocomplete=off' . ( $required ? ' required' : '' ),
 	( $_REQUEST['moodle_create_user'] ? false : true )
 );
@@ -271,10 +272,14 @@ echo '<tr class="st"><td>';
 //FJ Moodle integrator
 //email required
 //echo TextInput($staff['EMAIL'],'staff[EMAIL]',_('Email Address'),'size=12 maxlength=100');
-if (AllowEdit())
-	echo TextInput($staff['EMAIL'],'staff[EMAIL]',(($_REQUEST['moodle_create_user'] || $old_user_in_moodle) && ! $staff['EMAIL']?'<span class="legend-red">':'')._('Email Address').(($_REQUEST['moodle_create_user'] || $old_user_in_moodle) && ! $staff['EMAIL']?'</span>':''),'size=12 maxlength=100'.($_REQUEST['moodle_create_user'] || $old_user_in_moodle ?' required':''),($_REQUEST['moodle_create_user'] ?false:true));
-else
-	echo TextInput($staff['EMAIL'],'staff[EMAIL]',_('Email Address'),'size=12 maxlength=100');
+echo TextInput(
+	$staff['EMAIL'],
+	'staff[EMAIL]',
+	_( 'Email Address' ),
+	'type="email" pattern="[^ @]*@[^ @]*" size=12 maxlength=100' .
+		( $_REQUEST['moodle_create_user'] || $old_user_in_moodle ?' required' : '' ),
+	( $_REQUEST['moodle_create_user'] ? false : true )
+);
 
 echo '</td><td colspan="2">';
 

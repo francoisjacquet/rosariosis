@@ -111,7 +111,10 @@ function TextInput( $value, $name, $title = '', $extra = '', $div = true )
 			$extra .= $value != '' ? ' size="' . min( mb_strlen( $value ), 32 ) . '"' : ' size="10"';
 		}
 
-		$input = '<input type="text" id="' . $id . '" name="' . $name . '" ' .
+		// Specify input type via $extra (email,...).
+		$type = mb_strpos( $extra, 'type=' ) === false ? 'type="text"' : '';
+
+		$input = '<input ' . $type . ' id="' . $id . '" name="' . $name . '" ' .
 			( $value || $value === '0' ? 'value="' . htmlspecialchars( $value, ENT_QUOTES ) . '"' : '' ) .
 			' ' . $extra . ' />' . $ftitle;
 
