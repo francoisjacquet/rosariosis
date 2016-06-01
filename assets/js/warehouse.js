@@ -311,6 +311,11 @@ function ajaxPrepare(target) {
 	submenuOffset();
 
 	if ( target == '#body' || target == 'body' ) {
+
+		if ( screen.width > 767 ) {
+			fixedMenu();
+		}
+
 		popups.closeAll();
 
 		MarkDownToHTML();
@@ -341,16 +346,6 @@ window.onload = function () {
 			ajaxLink(document.URL);
 		}, false);
 	}, 1);
-
-	if ( screen.width > 767 ) {
-		// ScrollToFixed: Menu
-		$('#menu').scrollToFixed({
-			marginTop: function(){
-				var mTop = $(window).height() - $('#menu').outerHeight(true);
-				return mTop >= 0 ? 0 : mTop;
-			}
-		});
-	}
 };
 
 //ListOutput JS
