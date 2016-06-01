@@ -376,12 +376,14 @@ function db_show_error( $sql, $failnote, $additional = '' )
 {
 	global $RosarioNotifyAddress;
 
-	echo '<br />';
-
-	PopTable( 'header', _( 'We have a problem, please contact technical support ...' ) );
-
 	// TRANSLATION: do NOT translate these since error messages need to stay in English for technical support.
 	?>
+	<br />
+	<table class="postbox cellspacing-0" ' . $table_att . '>
+		<thead><tr><th class="center">
+			<?php echo _( 'We have a problem, please contact technical support ...' ); ?>
+		</th></tr></thead>
+	<tbody><tr><td class="popTable">
 		<table class="col1-align-right">
 			<tr>
 				<td><b>Date:</b></td>
@@ -396,18 +398,19 @@ function db_show_error( $sql, $failnote, $additional = '' )
 				<td><?php echo $additional; ?></td>
 			</tr>
 		</table>
+	</td></tr></tbody></table>
 	<?php
 	// Something you have asked the system to do has thrown a database error.
 	// A system administrator has been notified, and the problem will be fixed as soon as possible.
 	// It might be that changing the input parameters sent to this program will cause it to run properly.
 	// Thanks for your patience.
-	PopTable( 'footer' );
 
 	// Dump SQL statement in an HTML comment.
 	echo '<!-- SQL STATEMENT: ' . "\n\n" . $sql . "\n\n" . ' -->';
 
-	// Send notification email if $RosarioNotifyAddress set.
-	if ( filter_var( $RosarioNotifyAddress, FILTER_VALIDATE_EMAIL ) )
+	// Send notification email if $RosarioNotifyAddress set & functions loaded.
+	if ( filter_var( $RosarioNotifyAddress, FILTER_VALIDATE_EMAIL )
+		&& function_exists( 'ParseMLField' ) )
 	{
 		// FJ add SendEmail function.
 		require_once 'ProgramFunctions/SendEmail.fnc.php';
