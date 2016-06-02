@@ -95,7 +95,7 @@ function fixMenu() {
 
 	if ( $( '#menu' ).height() < $( window ).height() ) {
 
-		bottom = $( window ).height() - $( '#menu' ).height();
+		bottom = $( window ).height() - $( '#menu' ).outerHeight();
 	}
 
 	$( '#menu' ).css({
