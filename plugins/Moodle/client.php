@@ -1,7 +1,7 @@
 <?php
 /**
  * Moodle integrator
- * 
+ *
  * XMLRPC client for Moodle 2
  */
 
@@ -22,6 +22,8 @@ function moodle_xmlrpc_call( $functionname, $object )
 	$serverurl = MOODLE_URL . '/webservice/xmlrpc/server.php?wstoken=' . MOODLE_TOKEN;
 
 	$curl = new curl;
+
+	$curl->setHeader( 'Content-type: text/xml' );
 
 	//var_dump($object);
 
@@ -70,6 +72,6 @@ function get_xmlrpc_error( $resp )
 
 		return false;
 	}
-	
+
 	return true;
 }
