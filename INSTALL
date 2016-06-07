@@ -1,7 +1,7 @@
 Rosario Student Information System - INSTALLATION DIRECTIONS
 
 -------------------------------------------------------------------------------
-Version 1.4.13
+Version 1.4.14
 -------------------------------------------------------------------------------
 
 NOTE: Before Installing RosarioSIS, you must read and agree to the included
@@ -13,8 +13,8 @@ RosarioSIS to work you must first have your web server working, PHP working,
 postgres working. username/password authentication working.  Setting these
 up varies a lot with platform, operating system, and distribution so it is
 well beyond to scope of this brief install document. RosarioSIS 1.0 was
-tested on a Windows 7 x64 with Apache 2.2.21, Postgres 9.1, and PHP 5.3.9 
-(EasyPHP 5.3.9) and on a Ubuntu Server 12.04 with Apache 2.2.22, Postgres 9.1, 
+tested on a Windows 7 x64 with Apache 2.2.21, Postgres 9.1, and PHP 5.3.9
+(EasyPHP 5.3.9) and on a Ubuntu Server 12.04 with Apache 2.2.22, Postgres 9.1,
 and PHP 5.3.10 and through Mozilla Firefox.
 
 Minimum requirements: PHP 5.3.2 & Postgres 8
@@ -24,7 +24,7 @@ Installing the Package
 ----------------------
 
 Unzip the RosarioSIS distribution to a directory that is accessible to your web
-browser. Edit the config.inc.sample.php file to set the configuration variables 
+browser. Edit the config.inc.sample.php file to set the configuration variables
 as appropriate for your installation. Rename the file to config.inc.php.
 
   $DatabaseServer is the host name or ip for the database server
@@ -33,8 +33,8 @@ as appropriate for your installation. Rename the file to config.inc.php.
   $DatabaseName is the database name
   $DatabasePort is the socket port number for accessing the database server
 
-  $RosarioPath is full path to RosarioSIS installation, you can define it 
-	statically for your installation or the runtime value derived from the 
+  $RosarioPath is full path to RosarioSIS installation, you can define it
+	statically for your installation or the runtime value derived from the
 	__FILE__ magic constant should work
   $pg_dumpPath is full path to the postgres database dump utility pg_dump
   $wkhtmltopdfPath full path to wkhtmltopdf for pdf 'printing'
@@ -121,5 +121,5 @@ Note: for a 64bits distribution, replace 'i386' with 'amd64'.
 Additional Configuration
 ------------------------
 
-In addition to the main config.inc.php file there are optional module configuration. 
+In addition to the main config.inc.php file there are optional module configuration.
 See the School Configuration in the School Setup module for details.

@@ -3,13 +3,13 @@
 if(!defined('WAREHOUSE_PHP'))
 {
 	define("WAREHOUSE_PHP",1);
-    $RosarioVersion = '1.4.13';
+    $RosarioVersion = '1.4.14';
 
     if (!file_exists ('config.inc.php'))
         die ('config.inc.php not found. Please read the configuration guide.');
 	require_once('config.inc.php');
 	require_once('database.inc.php');
-    
+
 	//modif Francois: remove IgnoreFiles
 	// Load functions.
 	/*if($handle = opendir('functions'))
@@ -32,7 +32,7 @@ if(!defined('WAREHOUSE_PHP'))
 			require_once('functions/'.$function);
 	}
 
-	
+
 
 	// Start Session.
     session_name('RosarioSIS');
@@ -46,9 +46,9 @@ if(!defined('WAREHOUSE_PHP'))
 	}
 
     // Internationalization
-    if (!empty($_GET['locale'])) 
+    if (!empty($_GET['locale']))
 		$_SESSION['locale'] = $_GET['locale'];
-    if (empty($_SESSION['locale'])) 
+    if (empty($_SESSION['locale']))
 		$_SESSION['locale'] = $RosarioLocales[0]; //english
     $locale = $_SESSION['locale'];
     putenv('LC_ALL='.$locale);
@@ -58,7 +58,7 @@ if(!defined('WAREHOUSE_PHP'))
     bind_textdomain_codeset('rosariosis','UTF-8');     //ensures text returned is utf-8, quite often this is iso-8859-1 by default
     textdomain('rosariosis');    //sets the domain name, this means gettext will be looking for a file called rosariosis.mo
 	mb_internal_encoding('UTF-8'); //modif Francois: multibyte strings
-	
+
 	function Warehouse($mode)
 	{	global $_ROSARIO,$locale;
 
@@ -93,7 +93,7 @@ if(!defined('WAREHOUSE_PHP'))
 <script type="text/javascript" src="assets/js/jscalendar/calendar.js"></script>
 <script type="text/javascript" src="assets/js/jscalendar/lang/calendar-<?php echo mb_substr($locale, 0, 2); ?>.js"></script>
 <script type="text/javascript" src="assets/js/jscalendar/calendar-setup.js"></script>
-<?php			
+<?php
 					for($i=1;$i<=$_ROSARIO['PrepareDate'];$i++)
 					{
 ?>
