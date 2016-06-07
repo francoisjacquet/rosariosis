@@ -53,9 +53,9 @@ foreach ( (array) $fields_RET as $field )
 	{
 		case 'text':
 		case 'numeric':
-			
+
 			//FJ Moodle integrator / email field
-			if ( $_REQUEST['moodle_create_student'] && ROSARIO_STUDENTS_EMAIL_FIELD_ID == $field['ID'])
+			if ( $_REQUEST['moodle_create_student'] && ROSARIO_STUDENTS_EMAIL_FIELD == 'CUSTOM_' . $field['ID'])
 				echo TextInput($value['CUSTOM_'.$field['ID']],'students[CUSTOM_'.$field['ID'].']',$field['TITLE'],'required',false);
 			else
 				echo _makeTextInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], 'students' );

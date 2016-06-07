@@ -14,8 +14,15 @@ if ( UserSchool() > 0 )
 	//example: 10
 	define( 'MOODLE_PARENT_ROLE_ID', ProgramConfig( 'moodle', 'MOODLE_PARENT_ROLE_ID' ) );
 
-	//example: 11
-	define( 'ROSARIO_STUDENTS_EMAIL_FIELD_ID', ProgramConfig( 'moodle', 'ROSARIO_STUDENTS_EMAIL_FIELD_ID' ) );
+	$email_field = ProgramConfig( 'moodle', 'ROSARIO_STUDENTS_EMAIL_FIELD_ID' );
+
+	if ( $email_field !== 'USERNAME' )
+	{
+		$email_field = 'CUSTOM_' . $email_field;
+	}
+
+	//example: 11 => CUSTOM_11
+	define( 'ROSARIO_STUDENTS_EMAIL_FIELD', $email_field );
 }
 // not logged in
 else

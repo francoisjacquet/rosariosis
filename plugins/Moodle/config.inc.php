@@ -10,7 +10,11 @@ if ($_REQUEST['modname'] == 'School_Setup/Configuration.php' && $RosarioPlugins[
 		if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 		{
 			//update the PROGRAM_CONFIG table
-			if ((empty($_REQUEST['values']['PROGRAM_CONFIG']['MOODLE_PARENT_ROLE_ID']) || is_numeric($_REQUEST['values']['PROGRAM_CONFIG']['MOODLE_PARENT_ROLE_ID'])) && (empty($_REQUEST['values']['PROGRAM_CONFIG']['ROSARIO_STUDENTS_EMAIL_FIELD_ID']) || is_numeric($_REQUEST['values']['PROGRAM_CONFIG']['ROSARIO_STUDENTS_EMAIL_FIELD_ID'])))
+			if ( ( empty( $_REQUEST['values']['PROGRAM_CONFIG']['MOODLE_PARENT_ROLE_ID'] )
+					|| is_numeric( $_REQUEST['values']['PROGRAM_CONFIG']['MOODLE_PARENT_ROLE_ID'] ) )
+				&& ( empty( $_REQUEST['values']['PROGRAM_CONFIG']['ROSARIO_STUDENTS_EMAIL_FIELD_ID'] )
+					|| ( is_numeric( $_REQUEST['values']['PROGRAM_CONFIG']['ROSARIO_STUDENTS_EMAIL_FIELD_ID'] )
+						|| $_REQUEST['values']['PROGRAM_CONFIG']['ROSARIO_STUDENTS_EMAIL_FIELD_ID'] === 'USERNAME' ) ) )
 			{
 				$sql = '';
 				if (isset($_REQUEST['values']['PROGRAM_CONFIG']) && is_array($_REQUEST['values']['PROGRAM_CONFIG']))
@@ -56,12 +60,10 @@ if ($_REQUEST['modname'] == 'School_Setup/Configuration.php' && $RosarioPlugins[
 			echo ErrorMessage($error, 'error');
 
 		echo '<br />';
-		PopTable('header',_('Moodle'));
-
-		echo '<fieldset><legend>'._('Moodle').'</legend><table>';
+		PopTable( 'header', _( 'Moodle' ) );
 
 		// URL
-		echo '<tr><td>' . TextInput(
+		echo '<table><tr><td>' . TextInput(
 			ProgramConfig( 'moodle', 'MOODLE_URL' ),
 			'values[PROGRAM_CONFIG][MOODLE_URL]',
 			_( 'Moodle URL' ),
@@ -93,16 +95,27 @@ if ($_REQUEST['modname'] == 'School_Setup/Configuration.php' && $RosarioPlugins[
 		) . '</td></tr>';
 
 		// Students email Field ID
-		echo '<tr><td>' . TextInput(
+		$students_email_field_RET = DBGet( DBQuery( "SELECT ID, TITLE
+			FROM CUSTOM_FIELDS
+			WHERE TYPE='text'
+			AND CATEGORY_ID=1" ) );
+
+		$students_email_field_options = array( 'USERNAME' => _( 'Username' ) );
+
+		foreach ( (array) $students_email_field_RET as $field )
+		{
+			$students_email_field_options[ str_replace( 'custom_', '', $field['ID'] ) ] = ParseMLField( $field['TITLE'] );
+		}
+
+		echo '<tr><td>' . SelectInput(
 			ProgramConfig( 'moodle', 'ROSARIO_STUDENTS_EMAIL_FIELD_ID' ),
 			'values[PROGRAM_CONFIG][ROSARIO_STUDENTS_EMAIL_FIELD_ID]',
-			sprintf( _( '%s Student email field ID' ), Config( 'NAME' ) ),
-			'maxlength=2 size=2 min=0 placeholder=11'
-		) . '</td></tr>';
+			sprintf( _( 'Student email field' ), Config( 'NAME' ) ),
+			$students_email_field_options,
+			'N/A'
+		) . '</td></tr></table>';
 
-		echo '</table></fieldset>';
-
-		PopTable('footer');
+		PopTable( 'footer' );
 
 		echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 		echo '</form>';

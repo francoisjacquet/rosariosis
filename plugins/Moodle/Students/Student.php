@@ -6,10 +6,10 @@ function core_user_create_users_object()
 {
 	//first, gather the necessary variables
 	global $student_id, $locale, $_REQUEST;
-	
+
 	//then, convert variables for the Moodle object:
 /*
-list of ( 
+list of (
 	object {
 		username string   //Username policy is defined in Moodle security config. Must be lowercase.
 		password string   //Plain text password consisting of any characters
@@ -27,28 +27,28 @@ list of (
 		city string  Optional //Home city of the user
 		country string  Optional //Home country code of the user, such as AU or CZ
 		preferences  Optional //User preferences
-			list of ( 
+			list of (
 				object {
 					type string   //The name of the preference
 					value string   //The value of the preference
-				} 
+				}
 		)customfields  Optional //User custom fields (also known as user profil fields)
-			list of ( 
+			list of (
 				object {
 					type string   //The name of the custom field
 					value string   //The value of the custom field
-				} 
-		)} 
+				}
+		)}
 )
 */
 	$username = mb_strtolower($_REQUEST['students']['USERNAME']);
 	$password = $_REQUEST['students']['PASSWORD'];
 	$firstname = $_REQUEST['students']['FIRST_NAME'];
 	$lastname = $_REQUEST['students']['LAST_NAME'];
-	$email = $_REQUEST['students']['CUSTOM_'.ROSARIO_STUDENTS_EMAIL_FIELD_ID];
+	$email = $_REQUEST['students'][ ROSARIO_STUDENTS_EMAIL_FIELD ];
 	$auth = 'manual';
 	$idnumber = (string)(!empty($student_id) ? $student_id : UserStudentID());
-	
+
 	$users = array(
 				array(
 					'username' => $username,
@@ -60,7 +60,7 @@ list of (
 					'idnumber' => $idnumber,
 				)
 			);
-	
+
 	return array($users);
 }
 
@@ -69,20 +69,20 @@ function core_user_create_users_response($response)
 {
 	//first, gather the necessary variables
 	global $student_id;
-	
+
 	//then, save the ID in the moodlexrosario cross-reference table:
 /*
-Array 
+Array
 	(
 	[0] =>
-		Array 
+		Array
 			(
-			[id] => int                
-			[username] => string                
+			[id] => int
+			[username] => string
 			)
 	)
 */
-	
+
 	DBQuery("INSERT INTO MOODLEXROSARIO (\"column\", rosario_id, moodle_id) VALUES ('student_id', '".(!empty($student_id) ? $student_id : UserStudentID())."', ".$response[0]['id'].")");
 
 	$_REQUEST['moodle_create_student'] = false;
@@ -97,7 +97,7 @@ function core_user_update_users_object()
 {
 	//first, gather the necessary variables
 	global $_REQUEST;
-	
+
 	//gather the Moodle user ID
 	$rosario_id = UserStudentID();
 	$moodle_id = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$rosario_id."' AND \"column\"='student_id'"));
@@ -109,10 +109,10 @@ function core_user_update_users_object()
 	{
 		return null;
 	}
-	
+
 	//then, convert variables for the Moodle object:
 /*
-list of ( 
+list of (
 	object {
 		id double   //ID of the user
 		username string  Optional //Username policy is defined in Moodle security config. Must be lowercase.
@@ -131,25 +131,25 @@ list of (
 		city string  Optional //Home city of the user
 		country string  Optional //Home country code of the user, such as AU or CZ
 		customfields  Optional //User custom fields (also known as user profil fields)
-			list of ( 
+			list of (
 				object {
 					type string   //The name of the custom field
 					value string   //The value of the custom field
-				} 
+				}
 		)preferences  Optional //User preferences
-			list of ( 
+			list of (
 			object {
 				type string   //The name of the preference
 				value string   //The value of the preference
-			} 
-	)} 
+			}
+	)}
 )
 */
 	$username = (!empty($_REQUEST['students']['USERNAME']) ? mb_strtolower($_REQUEST['students']['USERNAME']) : false);
 	$password = (!empty($_REQUEST['students']['PASSWORD']) ? $_REQUEST['students']['PASSWORD'] : false);
 	$firstname = (!empty($_REQUEST['students']['FIRST_NAME']) ? $_REQUEST['students']['FIRST_NAME'] : false);
 	$lastname = (!empty($_REQUEST['students']['LAST_NAME']) ? $_REQUEST['students']['LAST_NAME'] : false);
-	$email = (!empty($_REQUEST['students']['CUSTOM_'.ROSARIO_STUDENTS_EMAIL_FIELD_ID]) ? $_REQUEST['students']['CUSTOM_'.ROSARIO_STUDENTS_EMAIL_FIELD_ID] : false);
+	$email = (!empty($_REQUEST['students'][ ROSARIO_STUDENTS_EMAIL_FIELD ]) ? $_REQUEST['students'][ ROSARIO_STUDENTS_EMAIL_FIELD_ID ] : false);
 
 	$user = array('id' => $moodle_id);
 
@@ -163,8 +163,8 @@ list of (
 		$user['lastname'] = $lastname;
 	if ($email)
 		$user['email'] = $email;
-		
-		
+
+
 	//Update Address
 	//Residence only
 	//Address and Phone not possible...
@@ -172,7 +172,7 @@ list of (
 	$city = (!empty($_REQUEST['values']['ADDRESS']['CITY']) ? $_REQUEST['values']['ADDRESS']['CITY'] : false);
 	//$country = 'CO'; //Hardcoded (Colombia)
 	//$phone1 = (!empty($_REQUEST['values']['ADDRESS']['PHONE']) ? $_REQUEST['values']['ADDRESS']['PHONE'] : false);
-	
+
 	/*if ($address)
 		$user['address'] = $address;*/
 	if ($city)
@@ -180,13 +180,13 @@ list of (
 	//$user['country'] = $country;
 	/*if ($phone1)
 		$user['phone1'] = $phone1;*/
-	
+
 	//if none of the above user fields are updated, no object returned
 	if (count($user) < 2)
 		return null;
-		
+
 	$users = array($user);
-	
+
 	return array($users);
 }
 
@@ -202,10 +202,10 @@ function core_user_update_users_response($response)
 function core_role_assign_roles_object()
 {
 	//first, gather the necessary variables
-	
+
 	//then, convert variables for the Moodle object:
 /*
-list of ( 
+list of (
 	object {
 		roleid int   //Role to assign to the user
 		userid int   //The user that is going to be assigned
@@ -213,7 +213,7 @@ list of (
 		contextlevel string  Optional //The context level to assign the user role in
 				                      (block, course, coursecat, system, user, module)
 		instanceid int  Optional //The Instance id of item where the role needs to be assigned
-	} 
+	}
 )*/
 
 	//gather the Moodle user ID
@@ -227,7 +227,7 @@ list of (
 	{
 		return null;
 	}
-	
+
 	//gather the Moodle student ID
 	$studentid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$student_id."' AND \"column\"='student_id'"));
 	if (count($studentid))
@@ -242,7 +242,7 @@ list of (
 	$contextlevel = 'user';
 	$roleid = MOODLE_PARENT_ROLE_ID;
 	$instanceid = $studentid;
-	
+
 	$assignments = array(
 				array(
 					'roleid' => $roleid,
@@ -251,7 +251,7 @@ list of (
 					'instanceid' => $instanceid,
 				)
 			);
-	
+
 	return array($assignments);
 }
 
@@ -268,8 +268,8 @@ function core_files_upload_object()
 {
 	//first, gather the necessary variables
 	global $_POST;
-	
-	
+
+
 	//then, convert variables for the Moodle object:
 /*
 contextid int  Default to "null" //context id
@@ -299,7 +299,7 @@ filecontent = base64_encode
 //For the moment, component = user && filearea = private is hardcoded...
 // see http://tracker.moodle.org/browse/MDL-31116
 	return null;
-		
+
 	$rosario_id = $_POST['userId'];
 	//gather the Moodle user ID
 	$column = (mb_strpos($_POST['modname'], 'Users') !== false ? 'staff_id' : 'student_id');
@@ -334,7 +334,7 @@ filecontent = base64_encode
 
 	global $RosarioPath;
 	$filecontent = base64_encode_file ($RosarioPath.$_POST['photoPath'].$_POST['sYear'].'/'.$_POST['userId'].'.jpg');
-	
+
 	if ( ! $filecontent)
 	{
 		global $error;
@@ -354,7 +354,7 @@ filecontent = base64_encode
 					$contextlevel,
 					$instanceid,
 				);
-	
+
 	return $file;
 }
 
@@ -362,15 +362,15 @@ filecontent = base64_encode
 function core_files_upload_response($response)
 {
 /*
-    Array 
+    Array
         (
-        [contextid] => int        
-        [component] => string        
-        [filearea] => string        
-        [itemid] => int        
-        [filepath] => string        
-        [filename] => string        
-        [url] => string        
+        [contextid] => int
+        [component] => string
+        [filearea] => string
+        [itemid] => int
+        [filepath] => string
+        [filename] => string
+        [url] => string
         )
 */
 	return null;

@@ -269,15 +269,14 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 }
 
 echo '<tr class="st"><td>';
-//FJ Moodle integrator
-//email required
+// FJ Moodle integrator: email required
 //echo TextInput($staff['EMAIL'],'staff[EMAIL]',_('Email Address'),'size=12 maxlength=100');
 echo TextInput(
 	$staff['EMAIL'],
 	'staff[EMAIL]',
 	_( 'Email Address' ),
 	'type="email" pattern="[^ @]*@[^ @]*" size=12 maxlength=100' .
-		( $_REQUEST['moodle_create_user'] || $old_user_in_moodle ?' required' : '' ),
+		( $_REQUEST['moodle_create_user'] || $old_user_in_moodle ? ' required' : '' ),
 	( $_REQUEST['moodle_create_user'] ? false : true )
 );
 

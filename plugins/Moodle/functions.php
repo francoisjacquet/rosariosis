@@ -5,7 +5,7 @@ require_once 'plugins/Moodle/getconfig.inc.php';
 //FJ Moodle plugin
 
 //check Moodle plugin configuration options are set
-if (MOODLE_URL && MOODLE_TOKEN && MOODLE_PARENT_ROLE_ID && ROSARIO_STUDENTS_EMAIL_FIELD_ID)
+if (MOODLE_URL && MOODLE_TOKEN && MOODLE_PARENT_ROLE_ID && ROSARIO_STUDENTS_EMAIL_FIELD)
 {
 	//Register plugin functions to be hooked
 	add_action( 'Students/Student.php|header', 'MoodleTriggered' );
@@ -86,7 +86,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 	if ( ! MOODLE_URL
 		|| ! MOODLE_TOKEN
 		|| ! MOODLE_PARENT_ROLE_ID
-		|| ! ROSARIO_STUDENTS_EMAIL_FIELD_ID )
+		|| ! ROSARIO_STUDENTS_EMAIL_FIELD )
 	{
 		return false;
 	}
@@ -127,8 +127,12 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 				$error[] = _('Please enter a valid password');
 
 			//username, password, (email) required
-			if ($_REQUEST['moodle_create_student'] && (empty($_REQUEST['students']['USERNAME']) || empty($_REQUEST['students']['CUSTOM_'.ROSARIO_STUDENTS_EMAIL_FIELD_ID])))
-				$error[] = _('Please fill in the required fields');
+			if ( $_REQUEST['moodle_create_student']
+				&& ( empty( $_REQUEST['students']['USERNAME'] )
+					|| empty( $_REQUEST['students'][ ROSARIO_STUDENTS_EMAIL_FIELD ] ) ) )
+			{
+				$error[] = _( 'Please fill in the required fields' );
+			}
 
 		break;
 
@@ -240,7 +244,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 		break;
 
 		case 'Users/User.php|create_user':
-			if ($_REQUEST['moodle_create_user'])
+			if ( $_REQUEST['moodle_create_user'] )
 			{
 				Moodle($modname, 'core_user_create_users');
 				Moodle($modname, 'core_role_assign_roles');
@@ -260,12 +264,12 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 		break;
 
 		case 'Users/User.php|update_user':
-			if ($_REQUEST['moodle_create_user'])
+			if ( $_REQUEST['moodle_create_user'] )
 			{
 				Moodle($modname, 'core_user_create_users');
 				Moodle($modname, 'core_role_assign_roles');
 			}
-			elseif (IsMoodleUser(UserStaffID()))
+			elseif ( IsMoodleUser( UserStaffID() ) )
 			{
 				Moodle($modname, 'core_user_update_users');
 				Moodle($modname, 'core_role_unassign_roles');

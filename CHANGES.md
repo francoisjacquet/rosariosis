@@ -7,6 +7,7 @@ Changes in 2.9.3
 - Replace jQuery ScrollToFixed plugin with jQuery FixedMenu in assets/js/jquery-fixedmenu/
 - Fix XMLRPC error with Moodle 3.1 in plugins/Moodle/client.php
 - Update Default School Year to 2016 in rosariosis.sql & config.inc.sample.php
+- Moodle plugin configuration, Student email field: select input + Username
 
 Changes in 2.9.2
 ----------------
