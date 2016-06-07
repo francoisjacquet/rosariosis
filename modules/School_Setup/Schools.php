@@ -178,42 +178,102 @@ if ( ! $_REQUEST['modfunc'] )
 		echo '<tr><td colspan="3">'.(file_exists('assets/school_logo_'.UserSchool().'.jpg') ? '<img src="assets/school_logo_'.UserSchool().'.jpg" style="max-width:225px; max-height:225px;" /><br /><span class="legend-gray">'._('School logo').'</span>' : '').'</td></tr>';
 
 	//FJ school name field required
-	echo '<tr><td colspan="3">'.TextInput($schooldata['TITLE'],'values[TITLE]',(! $schooldata['TITLE']?'<span class="legend-red">':'')._('School Name').(! $schooldata['TITLE']?'</span>':''),'required maxlength=100').'</td></tr>';
+	echo '<tr><td colspan="3">' . TextInput(
+		$schooldata['TITLE'],
+		'values[TITLE]',
+		_( 'School Name' ),
+		'required maxlength=100'
+	) . '</td></tr>';
 
-	echo '<tr><td colspan="3">'.TextInput($schooldata['ADDRESS'],'values[ADDRESS]',_('Address'),'maxlength=100').'</td></tr>';
+	echo '<tr><td colspan="3">' . TextInput(
+		$schooldata['ADDRESS'],
+		'values[ADDRESS]',
+		_( 'Address' ),
+		'maxlength=100'
+	) . '</td></tr>';
 
-	echo '<tr><td>'.TextInput($schooldata['CITY'],'values[CITY]',_('City'),'maxlength=100').'</td><td>'.TextInput($schooldata['STATE'],'values[STATE]',_('State'),'maxlength=10').'</td>';
+	echo '<tr><td>' . TextInput(
+		$schooldata['CITY'],
+		'values[CITY]',
+		_( 'City' ),
+		'maxlength=100'
+	) . '</td><td>' .
+	TextInput(
+		$schooldata['STATE'],
+		'values[STATE]',
+		_( 'State' ),
+		'maxlength=10'
+	) . '</td><td>' .
+	TextInput(
+		$schooldata['ZIPCODE'],
+		'values[ZIPCODE]',
+		_( 'Zip' ),
+		'maxlength=10'
+	) . '</td></tr>';
 
-	echo '<td>'.TextInput($schooldata['ZIPCODE'],'values[ZIPCODE]',_('Zip'),'maxlength=10').'</td></tr>';
+	echo '<tr><td colspan="3">' . TextInput(
+		$schooldata['PHONE'],
+		'values[PHONE]',
+		_( 'Phone' ),
+		'maxlength=30'
+	) . '</td></tr>';
 
-	echo '<tr><td colspan="3">'.TextInput($schooldata['PHONE'],'values[PHONE]',_('Phone'),'maxlength=30').'</td></tr>';
+	echo '<tr><td colspan="3">' . TextInput(
+		$schooldata['PRINCIPAL'],
+		'values[PRINCIPAL]',
+		_( 'Principal of School' ),
+		'maxlength=100'
+	) . '</td></tr>';
 
-	echo '<tr><td colspan="3">'.TextInput($schooldata['PRINCIPAL'],'values[PRINCIPAL]',_('Principal of School'),'maxlength=100').'</td></tr>';
-
-	if (AllowEdit() || ! $schooldata['WWW_ADDRESS'])
-		echo '<tr><td colspan="3">'.TextInput($schooldata['WWW_ADDRESS'],'values[WWW_ADDRESS]',_('Website'),'maxlength=100').'</td></tr>';
+	if ( AllowEdit()
+		|| ! $schooldata['WWW_ADDRESS'] )
+	{
+		echo '<tr><td colspan="3">' . TextInput(
+			$schooldata['WWW_ADDRESS'],
+			'values[WWW_ADDRESS]',
+			_( 'Website' ),
+			'maxlength=100'
+		) . '</td></tr>';
+	}
 	else
+	{
 		echo '<tr><td colspan="3"><a href="http://'.$schooldata['WWW_ADDRESS'].'" target="_blank">'.$schooldata['WWW_ADDRESS'].'</a><br /><span class="legend-gray">'._('Website').'</span></td></tr>';
+	}
 
-	echo '<tr><td colspan="3">'.TextInput($schooldata['SHORT_NAME'],'values[SHORT_NAME]',_('Short Name'),'maxlength=25').'</td></tr>';
+	echo '<tr><td colspan="3">' . TextInput(
+		$schooldata['SHORT_NAME'],
+		'values[SHORT_NAME]',
+		_( 'Short Name' ),
+		'maxlength=25'
+	) . '</td></tr>';
 
-	echo '<tr><td colspan="3">'.TextInput($schooldata['SCHOOL_NUMBER'],'values[SCHOOL_NUMBER]',_('School Number'),'maxlength=100').'</td></tr>';
+	echo '<tr><td colspan="3">' . TextInput(
+		$schooldata['SCHOOL_NUMBER'],
+		'values[SCHOOL_NUMBER]',
+		_( 'School Number' ),
+		'maxlength=100'
+	) . '</td></tr>';
 
-	echo '<tr><td colspan="3">'.TextInput($schooldata['REPORTING_GP_SCALE'],'values[REPORTING_GP_SCALE]',(! $schooldata['REPORTING_GP_SCALE']?'<span class="legend-red">':'')._('Base Grading Scale').(! $schooldata['TITLE']?'</span>':''),'maxlength=10 required').'</td></tr>';
+	echo '<tr><td colspan="3">' . TextInput(
+		$schooldata['REPORTING_GP_SCALE'],
+		'values[REPORTING_GP_SCALE]',
+		_( 'Base Grading Scale' ),
+		'maxlength=10 required'
+	) . '</td></tr>';
 
 	if ( AllowEdit() )
 	{
 		echo '<tr><td colspan="3">' . TextInput(
 			$schooldata['NUMBER_DAYS_ROTATION'],
 			'values[NUMBER_DAYS_ROTATION]',
-			_('Number of Days for the Rotation' ) .
+			_( 'Number of Days for the Rotation' ) .
 				'<div class="tooltip"><i>' .
 				_( 'Leave the field blank if the school does not use a Rotation of Numbered Days' ) .
 				'</i></div>',
 			'maxlength=1 size=1 min=1'
 		) . '</td></tr>';
 	}
-	elseif ( !empty( $schooldata['NUMBER_DAYS_ROTATION'] ) ) //do not show if no rotation set
+	elseif ( ! empty( $schooldata['NUMBER_DAYS_ROTATION'] ) ) //do not show if no rotation set
 	{
 		echo '<tr><td colspan="3">' . TextInput(
 			$schooldata['NUMBER_DAYS_ROTATION'],

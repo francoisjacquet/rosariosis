@@ -82,7 +82,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 	$message .= TextInput(
 		( $_REQUEST['calendar_id'] ? $default_calendar['TITLE'] : '' ),
 		'title',
-		'<span class="legend-red">' . _( 'Title' ) . '</span>',
+		_( 'Title' ),
 		'required',
 		$div
 	);

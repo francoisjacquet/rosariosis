@@ -435,14 +435,14 @@ if ( ! $_REQUEST['modfunc'] )
 	$header .= '<td>' . TextInput(
 		$RET['TITLE'],
 		'tables[' . $_REQUEST['marking_period_id'] . '][TITLE]',
-		( ! $RET['TITLE'] ? '<span class="legend-red">' : '' ) . _( 'Title' ) . ( ! $RET['TITLE'] ? '</span>' : '' ),
-		'required'
+		_( 'Title' ),
+		'required maxlength="50"'
 	) . '</td>';
 
 	$header .= '<td>' . TextInput(
 		$RET['SHORT_NAME'],
 		'tables[' . $_REQUEST['marking_period_id'] . '][SHORT_NAME]',
-		( ! $RET['SHORT_NAME'] ? '<span class="legend-red">' : '' ) . _( 'Short Name' ) . ( ! $RET['SHORT_NAME'] ? '</span>' : '' ),
+		_( 'Short Name' ),
 		'required maxlength="10"'
 	) . '</td>';
 
@@ -450,7 +450,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$RET['SORT_ORDER'],
 		'tables[' . $_REQUEST['marking_period_id'] . '][SORT_ORDER]',
 		_( 'Sort Order' ),
-		'size="3"'
+		'size="3" maxlength="4"'
 	) . '</td>';
 
 	$header .= '<td><table class="width-100p"><tr>';
@@ -482,7 +482,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$header .= '<td>' . DateInput(
 		$RET['START_DATE'],
 		'tables[' . $_REQUEST['marking_period_id'] . '][START_DATE]',
-		( ! $RET['START_DATE'] ? '<span class="legend-red">' : '' ) . _( 'Begins' ) . ( ! $RET['START_DATE'] ? '</span>' : '' ),
+		_( 'Begins' ),
 		$div,
 		$allow_na,
 		$required
@@ -491,7 +491,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$header .= '<td>' . DateInput(
 		$RET['END_DATE'],
 		'tables[' . $_REQUEST['marking_period_id'] . '][END_DATE]',
-		( ! $RET['END_DATE'] ? '<span class="legend-red">' : '' ) . _( 'Ends' ) . ( ! $RET['END_DATE'] ? '</span>' : '' ),
+		_( 'Ends' ),
 		$div,
 		$allow_na,
 		$required

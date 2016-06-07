@@ -917,7 +917,7 @@ if ( ! $_REQUEST['modfunc'] )
 					_makePeopleInput(
 						'',
 						'FIRST_NAME',
-						'<span class="legend-red">' . _( 'First Name' ) . '</span>'
+						_( 'First Name' )
 					) .
 					'<br />' .
 					_makePeopleInput(
@@ -928,7 +928,7 @@ if ( ! $_REQUEST['modfunc'] )
 					_makePeopleInput(
 						'',
 						'LAST_NAME',
-						'<span class="legend-red">' . _( 'Last Name' ) . '</span>'
+						_( 'Last Name' )
 					) . '</tr>';
 
 					echo '<tr><td colspan="3">'.SelectInput('','values[STUDENTS_JOIN_PEOPLE][STUDENT_RELATION]',_('Relation'),$relation_options,_('N/A')).'</td></tr>';
