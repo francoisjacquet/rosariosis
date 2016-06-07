@@ -6,6 +6,7 @@ Changes in 2.9.3
 - Force email fields check using HTML5 input's email type, pattern & placeholder in General_Info.inc.php & StudentsUsersInfo.fnc.php
 - Replace jQuery ScrollToFixed plugin with jQuery FixedMenu in assets/js/jquery-fixedmenu/
 - Fix XMLRPC error with Moodle 3.1 in plugins/Moodle/client.php
+- Update Default School Year to 2016 in rosariosis.sql & config.inc.sample.php
 
 Changes in 2.9.2
 ----------------
