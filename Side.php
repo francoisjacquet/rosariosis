@@ -89,7 +89,8 @@ if ( isset( $_REQUEST['sidefunc'] )
 					AND SYEAR='" . UserSyear() . "'" ) );
 			}
 
-			if ( count( $new_staff_id_RET ) )
+			if ( $new_staff_id_RET
+				&& $new_staff_id_RET[1]['STAFF_ID'] )
 			{
 				SetUserStaffID( $new_staff_id_RET[1]['STAFF_ID'] );
 
@@ -366,12 +367,12 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 			// Student SELECT (Parents only).
 			if ( User( 'PROFILE' ) === 'parent' ) :
 
-				$RET = DBGet( DBQuery( "SELECT sju.STUDENT_ID,s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,se.SCHOOL_ID 
-					FROM STUDENTS s,STUDENTS_JOIN_USERS sju,STUDENT_ENROLLMENT se 
-					WHERE s.STUDENT_ID=sju.STUDENT_ID 
-					AND sju.STAFF_ID='" . User( 'STAFF_ID' ) . "' 
-					AND se.SYEAR='" . UserSyear() . "' 
-					AND se.STUDENT_ID=sju.STUDENT_ID 
+				$RET = DBGet( DBQuery( "SELECT sju.STUDENT_ID,s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,se.SCHOOL_ID
+					FROM STUDENTS s,STUDENTS_JOIN_USERS sju,STUDENT_ENROLLMENT se
+					WHERE s.STUDENT_ID=sju.STUDENT_ID
+					AND sju.STAFF_ID='" . User( 'STAFF_ID' ) . "'
+					AND se.SYEAR='" . UserSyear() . "'
+					AND se.STUDENT_ID=sju.STUDENT_ID
 					AND ('" . DBDate() . "'>=se.START_DATE
 						AND ('" . DBDate() . "'<=se.END_DATE
 							OR se.END_DATE IS NULL ) )" ) );
@@ -509,14 +510,14 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 
 				// FJ multiple school periods for a course period.
 				//$QI = DBQuery("SELECT cp.PERIOD_ID,cp.COURSE_PERIOD_ID,sp.TITLE,sp.SHORT_NAME,cp.MARKING_PERIOD_ID,cp.DAYS,c.TITLE AS COURSE_TITLE FROM COURSE_PERIODS cp, SCHOOL_PERIODS sp,COURSES c WHERE c.COURSE_ID=cp.COURSE_ID AND cp.PERIOD_ID=sp.PERIOD_ID AND cp.SYEAR='".UserSyear()."' AND cp.SCHOOL_ID='".UserSchool()."' AND cp.TEACHER_ID='".User('STAFF_ID')."' AND cp.MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).") ORDER BY sp.SORT_ORDER");
-				$QI = DBQuery( "SELECT cpsp.PERIOD_ID,cp.COURSE_PERIOD_ID,cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID,sp.TITLE,sp.SHORT_NAME,cp.MARKING_PERIOD_ID,cpsp.DAYS,c.TITLE AS COURSE_TITLE, cp.SHORT_NAME AS CP_SHORT_NAME 
-					FROM COURSE_PERIODS cp,SCHOOL_PERIODS sp,COURSES c,COURSE_PERIOD_SCHOOL_PERIODS cpsp 
-					WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID 
-					AND c.COURSE_ID=cp.COURSE_ID 
-					AND cpsp.PERIOD_ID=sp.PERIOD_ID 
-					AND cp.SYEAR='" . UserSyear() . "' 
-					AND cp.SCHOOL_ID='" . UserSchool() . "' 
-					AND cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "' 
+				$QI = DBQuery( "SELECT cpsp.PERIOD_ID,cp.COURSE_PERIOD_ID,cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID,sp.TITLE,sp.SHORT_NAME,cp.MARKING_PERIOD_ID,cpsp.DAYS,c.TITLE AS COURSE_TITLE, cp.SHORT_NAME AS CP_SHORT_NAME
+					FROM COURSE_PERIODS cp,SCHOOL_PERIODS sp,COURSES c,COURSE_PERIOD_SCHOOL_PERIODS cpsp
+					WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
+					AND c.COURSE_ID=cp.COURSE_ID
+					AND cpsp.PERIOD_ID=sp.PERIOD_ID
+					AND cp.SYEAR='" . UserSyear() . "'
+					AND cp.SCHOOL_ID='" . UserSchool() . "'
+					AND cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "'
 					AND cp.MARKING_PERIOD_ID IN (" . $all_MP . ")
 					ORDER BY cp.SHORT_NAME, sp.SORT_ORDER" );
 
