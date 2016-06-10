@@ -8,6 +8,7 @@ Changes in 2.9.3
 - Fix XMLRPC error with Moodle 3.1 in plugins/Moodle/client.php
 - Update Default School Year to 2016 in rosariosis.sql & config.inc.sample.php
 - Moodle plugin configuration, Student email field: select input + Username
+- Moodle plugin: add empty XMLRPC response error in client.php
 
 Changes in 2.9.2
 ----------------
