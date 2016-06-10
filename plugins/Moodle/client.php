@@ -39,8 +39,19 @@ function moodle_xmlrpc_call( $functionname, $object )
 	$resp = xmlrpc_decode( $curl->post( $serverurl, $post ), 'utf-8' );
 
 	if ( get_xmlrpc_error( $resp ) )
-		//handle the positive response
+	{
+		if ( ! $resp )
+		{
+			global $error;
+
+			$error[] = _( 'Moodle response is empty. Please check your Moodle and Moodle server configuration.' );
+
+			return false;
+		}
+
+		// Handle the positive response.
 		return call_user_func( $functionname . '_response', $resp );
+	}
 	else
 		return false;
 }
@@ -60,7 +71,7 @@ function get_xmlrpc_error( $resp )
 	if ( is_array( $resp )
 		&& xmlrpc_is_fault( $resp ) )
 	{
-		$message = 'Moodle: '  .$resp['faultCode'] . ' - ' . $resp['faultString'];
+		$message = 'Moodle: ' . $resp['faultCode'] . ' - ' . $resp['faultString'];
 
 		$error[] = $message;
 
