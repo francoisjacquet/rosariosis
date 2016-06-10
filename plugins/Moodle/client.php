@@ -40,15 +40,6 @@ function moodle_xmlrpc_call( $functionname, $object )
 
 	if ( get_xmlrpc_error( $resp ) )
 	{
-		if ( ! $resp )
-		{
-			global $error;
-
-			$error[] = _( 'Moodle response is empty. Please check your Moodle and Moodle server configuration.' );
-
-			return false;
-		}
-
 		// Handle the positive response.
 		return call_user_func( $functionname . '_response', $resp );
 	}

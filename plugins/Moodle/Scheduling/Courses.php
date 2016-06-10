@@ -7,11 +7,11 @@ function core_course_create_categories_object()
 {
 	//first, gather the necessary variables
 	global $columns, $_REQUEST, $table_name;
-	
-	
+
+
 	//then, convert variables for the Moodle object:
 /*
-list of ( 
+list of (
 	object {
 		name string   //new category name
 		parent int  Défaut pour « 0 » //the parent category id inside which the new category will be created
@@ -20,15 +20,15 @@ list of (
 		description string  Optionnel //the new category description
 		descriptionformat int  Défaut pour « 1 » //description format (1 = HTML, 0 = MOODLE, 2 = PLAIN or 4 = MARKDOWN)
 		theme string  Optionnel //the new category theme. This option must be enabled on moodle
-	} 
+	}
 )*/
 
 	$name = $columns['TITLE'];
-	
+
 	if ( $table_name=='COURSE_SUBJECTS')
 	{
 		$parent = 0;
-		$idnumber = (string)$_REQUEST['subject_id'];
+		//$idnumber = (string)$_REQUEST['subject_id'];
 	}
 	elseif ( $table_name=='COURSES')
 	{
@@ -43,22 +43,22 @@ list of (
 			return null;
 		}
 
-		$idnumber = (string)$_REQUEST['course_id'];	
+		//$idnumber = (string)$_REQUEST['course_id'];
 	}
 	else //error...
 		return null;
-		
+
 	$descriptionformat = 1;
 
 	$categories = array(
 						array(
 							'name' => $name,
 							'parent' => $parent,
-							'idnumber' => $idnumber,
+							//'idnumber' => $idnumber,
 							'descriptionformat' => $descriptionformat,
 						)
 					);
-	
+
 	return array($categories);
 }
 
@@ -67,17 +67,17 @@ function core_course_create_categories_response($response)
 {
 	//first, gather the necessary variables
 	global $_REQUEST, $table_name;
-	
+
 	//then, save the ID in the moodlexrosario cross-reference table:
 /*
-list of ( 
+list of (
 	object {
 		id int   //new category id
 		name string   //new category name
-	} 
+	}
 )
 */
-	
+
 	if ( $table_name=='COURSE_SUBJECTS')
 	{
 		$column = 'subject_id';
@@ -86,9 +86,9 @@ list of (
 	elseif ( $table_name=='COURSES')
 	{
 		$column = 'course_id';
-		$rosario_id = (string)$_REQUEST['course_id'];	
+		$rosario_id = (string)$_REQUEST['course_id'];
 	}
-	
+
 	DBQuery("INSERT INTO MOODLEXROSARIO (\"column\", rosario_id, moodle_id) VALUES ('".$column."', '".$rosario_id."', ".$response[0]['id'].")");
 	return null;
 }
@@ -100,11 +100,11 @@ function core_course_update_categories_object()
 {
 	//first, gather the necessary variables
 	global $columns, $_REQUEST, $table_name;
-	
-	
+
+
 	//then, convert variables for the Moodle object:
 /*
-list of ( 
+list of (
 	object {
 		id int   //course id
 		name string  Optionnel //category name
@@ -113,14 +113,14 @@ list of (
 		description string  Optionnel //category description
 		descriptionformat int  Défaut pour « 1 » //description format (1 = HTML, 0 = MOODLE, 2 = PLAIN or 4 = MARKDOWN)
 		theme string  Optionnel //the category theme. This option must be enabled on moodle
-	} 
+	}
 )
 */
 	//gather the Moodle category ID
 	if ( $table_name=='COURSES')
 	{
 		$column = 'course_id';
-		$rosario_id = $_REQUEST['course_id'];	
+		$rosario_id = $_REQUEST['course_id'];
 	}
 	elseif ( $table_name=='COURSE_SUBJECTS')
 	{
@@ -138,14 +138,14 @@ list of (
 	}
 
 	$name = $columns['TITLE'];
-	
+
 	$categories = array(
 						array(
 							'id' => $id,
 							'name' => $name,
 						)
 					);
-	
+
 	return array($categories);
 }
 
@@ -164,7 +164,7 @@ function core_course_delete_categories_object()
 	if ( !empty($_REQUEST['course_id']))
 	{
 		$column = 'course_id';
-		$rosario_id = (string)$_REQUEST['course_id'];	
+		$rosario_id = (string)$_REQUEST['course_id'];
 	}
 	elseif ( !empty($_REQUEST['subject_id']))
 	{
@@ -180,48 +180,48 @@ function core_course_delete_categories_object()
 	{
 		return null;
 	}
-	
+
 	//then, convert variables for the Moodle object:
 /*
-list of ( 
+list of (
 	object {
 		id int   //category id to delete
 		newparent int  Optionnel //the parent category to move the contents to, if specified
 		recursive int  Défaut pour « 0 » //1: recursively delete all contents inside this
 										category, 0 (default): move contents to newparent or current parent category (except if parent is root)
-	} 
+	}
 )*/
 
 	$recursive = 1;
-	
+
 	$categories = array(
 						array(
 							'id' => $id,
 							'recursive' => $recursive,
 						)
 					);
-	
+
 	return array($categories);
 }
 
 
 function core_course_delete_categories_response($response)
 {
-	
+
 	if ( !empty($_REQUEST['course_id']))
 	{
 		$column = 'course_id';
-		$rosario_id = (string)$_REQUEST['course_id'];	
+		$rosario_id = (string)$_REQUEST['course_id'];
 	}
 	elseif ( !empty($_REQUEST['subject_id']))
 	{
 		$column = 'subject_id';
 		$rosario_id = $_REQUEST['subject_id'];
 	}
-	
+
 	//delete the reference the moodlexrosario cross-reference table:
 	DBQuery("DELETE FROM MOODLEXROSARIO WHERE \"column\"='".$column."' AND rosario_id='".$rosario_id."'");
-	
+
 	return null;
 }
 
@@ -232,11 +232,11 @@ function core_course_create_courses_object()
 {
 	//first, gather the necessary variables
 	global $columns, $_REQUEST, $base_title;
-	
-	
+
+
 	//then, convert variables for the Moodle object:
 /*
-list of ( 
+list of (
 	object {
 		fullname string   //full name
 		shortname string   //course short name
@@ -263,13 +263,13 @@ list of (
 		completionnotify int  Optionnel //1: yes 0: no
 		lang string  Optionnel //forced course language
 		forcetheme string  Optionnel //name of the force theme
-	} 
+	}
 )
 */
 	//add the year to the course name
 	$fullname = FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS')).' - '.$base_title;
 	$shortname = $columns['SHORT_NAME'];
-	
+
 	//get the Moodle category
 	$categoryid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_REQUEST['course_id']."' AND \"column\"='course_id'"));
 	if (count($categoryid))
@@ -280,7 +280,7 @@ list of (
 	{
 		return null;
 	}
-	
+
 	$idnumber = (string)$_REQUEST['course_period_id'];
 	$summaryformat = 1;
 	$format = 'weeks';
@@ -295,7 +295,7 @@ list of (
 	$groupmode = 0;
 	$groupmodeforce = 0;
 	$defaultgroupingid = 0;
-		
+
 	$courses = array(
 						array(
 							'fullname' => $fullname,
@@ -316,7 +316,7 @@ list of (
 							'defaultgroupingid' => $defaultgroupingid,
 						)
 					);
-	
+
 	return array($courses);
 }
 
@@ -325,16 +325,16 @@ function core_course_create_courses_response($response)
 {
 	//first, gather the necessary variables
 	global $_REQUEST;
-	
+
 	//then, save the ID in the moodlexrosario cross-reference table:
 /*
-list of ( 
+list of (
 	object {
 		id int   //course id
 		shortname string   //short name
-	} 
+	}
 )*/
-	
+
 	DBQuery("INSERT INTO MOODLEXROSARIO (\"column\", rosario_id, moodle_id) VALUES ('course_period_id', '".$_REQUEST['course_period_id']."', ".$response[0]['id'].")");
 
 	$_REQUEST['moodle_create_course_period'] = false;
@@ -349,11 +349,11 @@ function core_role_assign_roles_object()
 {
 	//first, gather the necessary variables
 	global $columns, $_REQUEST;
-	
-	
+
+
 	//then, convert variables for the Moodle object:
 /*
-list of ( 
+list of (
 	object {
 		roleid int   //Role to assign to the user
 		userid int   //The user that is going to be assigned
@@ -361,12 +361,12 @@ list of (
 		contextlevel string  Optional //The context level to assign the user role in
 				                      (block, course, coursecat, system, user, module)
 		instanceid int  Optional //The Instance id of item where the role needs to be assigned
-	} 
+	}
 )*/
 
 	//teacher's roleid = teacher = 3
 	$roleid = 3;
-	
+
 	//get the Moodle user ID
 	$userid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$columns['TEACHER_ID']."' AND \"column\"='staff_id'"));
 	if (count($userid))
@@ -377,7 +377,7 @@ list of (
 	{
 		return null;
 	}
-	
+
 	//gather the Moodle course ID
 	$courseid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_REQUEST['course_period_id']."' AND \"column\"='course_period_id'"));
 	if (count($courseid))
@@ -400,7 +400,7 @@ list of (
 							'instanceid' => $instanceid,
 						)
 					);
-	
+
 	return array($assignments);
 }
 
@@ -425,25 +425,25 @@ function core_course_delete_courses_object()
 	{
 		return null;
 	}
-	
+
 	//then, convert variables for the Moodle object:
 /*
-list of ( 
+list of (
 	int   //course ID
 )*/
 
 	$courses = array($id);
-	
+
 	return array($courses);
 }
 
 
 function core_course_delete_courses_response($response)
 {
-	
+
 	//delete the reference the moodlexrosario cross-reference table:
 	DBQuery("DELETE FROM MOODLEXROSARIO WHERE \"column\" = 'course_period_id' AND rosario_id ='".$_REQUEST['course_period_id']."'");
-	
+
 	return null;
 }
 
@@ -454,11 +454,11 @@ function core_role_unassign_roles_object()
 {
 	//first, gather the necessary variables
 	global $current, $_REQUEST;
-	
-	
+
+
 	//then, convert variables for the Moodle object:
 /*
-list of ( 
+list of (
 	object {
 		roleid int   //Role to assign to the user
 		userid int   //The user that is going to be assigned
@@ -466,7 +466,7 @@ list of (
 		contextlevel string  Optional //The context level to unassign the user role in
 		+                                    (block, course, coursecat, system, user, module)
 		instanceid int  Optional //The Instance id of item where the role needs to be unassigned
-	} 
+	}
 )*/
 	//gather the Moodle user ID
 	$userid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$current[1]['TEACHER_ID']."' AND \"column\"='staff_id'"));
@@ -495,7 +495,7 @@ list of (
 
 	$contextlevel = 'course';
 	$instanceid = $courseperiodid;
-	
+
 	$unassignments = array(
 						array(
 							'roleid' => $roleid,
@@ -504,7 +504,7 @@ list of (
 							'instanceid' => $instanceid,
 						)
 					);
-	
+
 	return array($unassignments);
 }
 
@@ -520,11 +520,11 @@ function core_course_update_courses_object()
 {
 	//first, gather the necessary variables
 	global $columns, $_REQUEST, $base_title;
-	
-	
+
+
 	//then, convert variables for the Moodle object:
 /*
-list of ( 
+list of (
 	object {
 		id int   //ID of the course
 		fullname string  Optional //full name
@@ -552,19 +552,19 @@ list of (
 		lang string  Optional //forced course language
 		forcetheme string  Optional //name of the force theme
 		courseformatoptions  Optional //additional options for particular course format
-		list of ( 
+		list of (
 			object {
 				name string   //course format option name
 				value string   //course format option value
-			} 
+			}
 		)
-	} 
+	}
 )
 */
 
 	//add the year to the course name
 	$fullname = FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS')).' - '.$base_title;
-	
+
 	//get the Moodle course ID
 	$moodle_id = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_REQUEST['course_period_id']."' AND \"column\"='course_period_id'"));
 	if (count($moodle_id))
@@ -575,9 +575,9 @@ list of (
 	{
 		return null;
 	}
-	
+
 	$id = $moodle_id;
-		
+
 	$course = array(
 			'id' => $id,
 			'fullname' => $fullname,
