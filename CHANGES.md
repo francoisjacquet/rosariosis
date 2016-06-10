@@ -9,6 +9,7 @@ Changes in 2.9.3
 - Update Default School Year to 2016 in rosariosis.sql & config.inc.sample.php
 - Moodle plugin configuration, Student email field: select input + Username
 - Moodle plugin fix: do not save idnumber for courses categories in Courses.php
+- Fix switch to previous Syear with current UserStaff (not rolled) in Side.php
 
 Changes in 2.9.2
 ----------------
