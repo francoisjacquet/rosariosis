@@ -658,6 +658,9 @@ function GetStuList( &$extra = array() )
 		$sql .= ' ORDER BY ' . $extra['ORDER_BY'];
 	}
 
+	// LIMIT 1000!
+	$sql .= ' LIMIT 1000';
+
 	// FJ bugfix if PDF, dont echo SQL.
 	if ( ! isset( $_REQUEST['_ROSARIO_PDF'] )
 		&& ROSARIO_DEBUG ) // Activate only for debug purpose.
