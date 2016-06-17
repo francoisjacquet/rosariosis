@@ -386,8 +386,9 @@ function _sendPasswordResetEmail( $user_id, $user_type = 'staff', $email )
 	// Send email.
 	require_once 'ProgramFunctions/SendEmail.fnc.php';
 
-	$message = _( 'Please visit the following link to reset your password' ) . ":\n\n" . $link .
-		"\n\n" . _( 'Please permanently delete this email once you are done.' );
+	$message = _( 'Please visit the following link to reset your password' ) . ':<br />' .
+		'<a href="' . $link . '">' . $link . '</a><br /><br />' .
+		_( 'Please permanently delete this email once you are done.' );
 
 	$email_sent = SendEmail( $email, _( 'Password Reset' ), $message );
 
