@@ -3558,13 +3558,13 @@ INSERT INTO config VALUES (1, 'CURRENCY', '$');
 --
 
 INSERT INTO custom_fields VALUES (200000000, 'select', 'Gender', 0, 'Male
-Female', 1, 'Y', NULL);
+Female', 1, NULL, NULL);
 INSERT INTO custom_fields VALUES (200000001, 'select', 'Ethnicity', 1, 'White, Non-Hispanic
 Black, Non-Hispanic
 Amer. Indian or Alaskan Native
 Asian or Pacific Islander
 Hispanic
-Other', 1, 'Y', NULL);
+Other', 1, NULL, NULL);
 INSERT INTO custom_fields VALUES (200000002, 'text', 'Common Name', 2, NULL, 1, NULL, NULL);
 INSERT INTO custom_fields VALUES (200000003, 'text', 'Social Security', 3, NULL, 1, NULL, NULL);
 INSERT INTO custom_fields VALUES (200000004, 'date', 'Birthdate', 4, NULL, 1, NULL, NULL);

@@ -5,6 +5,7 @@ Changes in 2.9.4
 ----------------
 - Limit GetStuList() SQL to 1000 in GetStuList.fnc.php
 - Add European Dates Formats: DD-MM-YYYY & DD-MM-YY to ExplodeDate() in Date.php
+- Gender & Ethnicity Student Fields not Required by default in rosariosis.sql
 
 Changes in 2.9.3
 ----------------
