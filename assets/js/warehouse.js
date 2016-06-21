@@ -197,6 +197,9 @@ function JSCalendarSetup()
 function ajaxOptions(target, url, form) {
 	return {
 		beforeSend: function (data) {
+			// AJAX error hide.
+			$('.ajax-error').hide();
+
 			$('.loading').css('visibility', 'visible');
 		},
 		success: function (data) {
@@ -224,7 +227,24 @@ function ajaxOptions(target, url, form) {
 			ajaxSuccess(data, target, url);
 		},
 		error: function (x, st, err) {
-			alert("Ajax get error\nStatus: " + st + "\nHTTP status: " + err + "\nURL: " + url);
+			var errorMsg = 'AJAX error. ' + x.status + ' ';
+
+			if (x.status === 0) {
+				errorMsg += 'Check your Network';
+			} else if (x.status == 404) {
+				errorMsg += 'Requested URL not found: ' + url;
+			} else if (st == 'parsererror') {
+				errorMsg += 'JSON parse failed';
+			} else if (st == 'timeout') {
+				errorMsg += 'Request Timeout';
+			} else if (st == 'abort') {
+				errorMsg += 'Request Aborted';
+			} else {
+				errorMsg += err;
+			}
+
+			// AJAX error popup.
+			$('.ajax-error').html(errorMsg).fadeIn();
 		},
 		complete: function () {
 			$('.loading').css('visibility', 'hidden');

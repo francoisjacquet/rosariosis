@@ -432,6 +432,7 @@ function Warehouse( $mode )
 			if ( $_ROSARIO['is_popup']
 				|| $_ROSARIO['not_ajax'] ) :
 ?>
+		<div class="ajax-error">AJAX error: JSON parse failed http://localhost/github/rosariosis/index.phphttp://localhost/github/rosariosis/index.phphttp://localhost/github/rosariosis/index.phphttp://localhost/github/rosariosis/index.php</div>
 	</div><!-- #body -->
 <?php
 				if ( $_ROSARIO['not_ajax']

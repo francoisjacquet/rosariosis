@@ -1056,6 +1056,20 @@ input[type=checkbox].toggle {
 	padding: 0 2px;
 }
 
+/* AJAX error message */
+.ajax-error {
+	position: fixed;
+	top: 0;
+	right: 0;
+	padding: 11px;
+	background-color: red;
+	font-weight: bold;
+	color: #fff;
+	z-index: 100000;
+	display: none;
+}
+
+
 
 /*tablet vertical*/
 @media only screen and (max-width:800px){
