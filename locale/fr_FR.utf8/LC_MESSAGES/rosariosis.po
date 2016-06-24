@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-06-10 12:54-0500\n"
-"PO-Revision-Date: 2016-06-10 12:54-0500\n"
+"PO-Revision-Date: 2016-06-24 15:17-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -6772,7 +6772,7 @@ msgstr "Options de Passage / Maintient"
 #: modules/Students/AssignOtherInfo.php:353
 #: modules/Students/includes/Enrollment.inc.php:21
 msgid "Attendance Start Date this School Year"
-msgstr "Date de Début d'Attendance cette Année Scolaire"
+msgstr "Date de Début de Présence cette Année Scolaire"
 
 #: modules/Students/EnrollmentCodes.php:52
 #: modules/Students/EnrollmentCodes.php:76 modules/misc/Export.php:144
