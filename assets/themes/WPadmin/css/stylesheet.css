@@ -1156,6 +1156,12 @@ input[type=checkbox].toggle {
 	.divPortalPoll{
 		min-width: 0
 	}
+
+	/*bigger tooltip*/
+	.tooltip::before {
+		font-size: 1em;
+		padding: 3px 7px;
+	}
 }
 
 @media only screen and (max-width:1023px){
