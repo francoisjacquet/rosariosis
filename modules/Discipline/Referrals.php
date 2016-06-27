@@ -81,13 +81,20 @@ if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 	}
 }
 
-$categories_RET = DBGet(DBQuery("SELECT df.ID,du.TITLE FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du WHERE df.DATA_TYPE!='textarea' AND du.SYEAR='".UserSyear()."' AND du.SCHOOL_ID='".UserSchool()."' AND du.DISCIPLINE_FIELD_ID=df.ID ORDER BY du.SORT_ORDER"));
+$categories_RET = DBGet( DBQuery( "SELECT df.ID,du.TITLE
+	FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du
+	WHERE df.DATA_TYPE!='textarea'
+	AND du.SYEAR='" . UserSyear() . "'
+	AND du.SCHOOL_ID='" . UserSchool() . "'
+	AND du.DISCIPLINE_FIELD_ID=df.ID
+	ORDER BY du.SORT_ORDER" ) );
 
 Widgets( 'reporter' );
 Widgets( 'incident_date' );
 Widgets( 'discipline_fields' );
 
 $extra['SELECT'] = ',dr.*';
+
 if (mb_strpos($extra['FROM'],'DISCIPLINE_REFERRALS')===false)
 {
 	$extra['FROM'] .= ',DISCIPLINE_REFERRALS dr ';
@@ -99,7 +106,7 @@ $extra['ORDER_BY'] = 'dr.ENTRY_DATE DESC,s.LAST_NAME,s.FIRST_NAME,s.MIDDLE_NAME'
 $extra['columns_after'] = array('STAFF_ID' => _('Reporter'),'ENTRY_DATE' => _('Incident Date'));
 $extra['functions'] = array('STAFF_ID' => 'GetTeacher','ENTRY_DATE' => 'ProperDate');
 
-foreach ( (array) $categories_RET as $category)
+foreach ( (array) $categories_RET as $category )
 {
 	$extra['columns_after']['CATEGORY_'.$category['ID']] = $category['TITLE'];
 	$extra['functions']['CATEGORY_'.$category['ID']] = '_make';
@@ -396,17 +403,27 @@ if ( ! $_REQUEST['modfunc']
 
 echo ErrorMessage( $error );
 
-if ( ! $_REQUEST['referral_id'] && ! $_REQUEST['modfunc'])
-	Search('student_id',$extra);
-
-function _make($value,$column)
+if ( ! $_REQUEST['referral_id']
+	&& ! $_REQUEST['modfunc'] )
 {
-	if (mb_substr_count($value,'-')==2 && VerifyDate($value))
-		$value = ProperDate($value);
-	elseif (is_numeric($value))
-		$value = ((mb_strpos($value,'.')===false)?$value:rtrim(rtrim($value,'0'),'.'));
-	elseif ( $value == 'Y')
-		$value = button('check');
+	Search( 'student_id', $extra );
+}
 
-	return str_replace('||',',<br />',trim($value,'|'));
+function _make( $value, $column )
+{
+	if ( mb_substr_count( $value, '-' ) === 2
+		&& VerifyDate( $value ) )
+	{
+		$value = ProperDate( $value );
+	}
+	elseif ( is_numeric( $value ) )
+	{
+		$value = mb_strpos( $value, '.' ) === false ? $value : rtrim( rtrim( $value, '0' ), '.' );
+	}
+	elseif ( $value === 'Y' )
+	{
+		$value = button( 'check' );
+	}
+
+	return str_replace( '||', ', ', trim( $value, '|' ) );
 }
