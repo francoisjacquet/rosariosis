@@ -1070,6 +1070,10 @@ input[type=checkbox].toggle {
 }
 
 
+/* TinyMCE responsive toolbar buttons */
+.mce-btn-group .mce-btn {
+	float: left;
+}
 
 /*tablet vertical*/
 @media only screen and (max-width:800px){
