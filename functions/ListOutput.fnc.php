@@ -46,7 +46,16 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 	$result_count = $display_count = count( $result );
 
-	$num_displayed = 100000;
+	if ( $result_count > 1000 )
+	{
+		// Limit to 1000!
+		$result_count = 1000;
+
+		// Remove results above 1000.
+		$result = array_slice( $result, 0, 1001 );
+	}
+
+	$num_displayed = 1000;
 
 	// PREPARE LINKS ---
 	$extra = 'LO_page=' . ( isset( $_REQUEST['LO_page'] ) ? $_REQUEST['LO_page'] : '' ) .
@@ -377,10 +386,10 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 	if (($options['count'] || $display_zero) && ((($result_count==0 || $display_count==0) && $plural) || ($result_count==0 || $display_count==0)))
 	{
-		echo '<table class="';
+		echo '<table class="width-100p';
 
 		if (isset($_REQUEST['_ROSARIO_PDF']))
-			echo ' width-100p';
+			echo ' ';
 
 		if ( $options['center'])
 			echo ' center';
@@ -388,18 +397,14 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		echo '"><tr><td class="center">';
 	}
 
-	if ( $options['count'] || $display_zero)
+	if ( $options['count']
+		|| $display_zero )
 	{
-		if ( $result_count==0 || $display_count==0)
+		if ( $result_count == 0
+			|| $display_count == 0 )
 		{
-//FJ fix bug ngettext when the plural form is not registered as this in the rosario.po file
-//                echo "<b>".sprintf(_('No %s were found.'),ngettext($singular, $plural, 0))."</b> &nbsp; &nbsp;";
-			$singular_message = ngettext($singular, $plural, 0);
-			if ( $singular_message == $singular)
-			{
-				$singular_message = _($singular);
-			}
-            echo '<b>'.sprintf(_('No %s were found.'),$singular_message).'</b> &nbsp; &nbsp;';
+			// No results message.
+            echo '<b>' . sprintf( _( 'No %s were found.' ), ngettext( $singular, $plural, 0 ) ) . '</b>';
 		}
 	}
 
@@ -419,13 +424,14 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			$start = ($_REQUEST['LO_page'] - 1) * $num_displayed + 1;
 			$stop = $start + ($num_displayed-1);
 
-			if ( $stop > $result_count)
+			if ( $stop > $result_count )
 				$stop = $result_count;
 
-			/*if ( $result_count > $num_displayed)
+			if ( $result_count >= $num_displayed )
 			{
-				$where_message = "".sprintf(_('Displaying %d through %d'),$start,$stop)."";
-				if (ceil($result_count/$num_displayed) <= 10)
+				$where_message = sprintf( _( 'Displaying %d through %d' ), $start, $stop );
+
+				/*if (ceil($result_count/$num_displayed) <= 10)
 				{
 					$ceil = ceil($result_count/$num_displayed);
 					for ( $i=1;$i<=$ceil;$i++)
@@ -459,8 +465,8 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				}
 				echo sprintf(_('Go to LO_page %s'),$LO_pages);
 				echo '</td></tr></table>';
-				echo '<br />';
-			}*/
+				echo '<br />';*/
+			}
 		}
 		else
 		{
@@ -497,29 +503,36 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 		if ( !empty($where_message) || (($singular!='.') && ($plural!='.')) || (!isset($_REQUEST['_ROSARIO_PDF']) && $options['search']))
 		{
-			echo '<table class="width-100p">';
-			echo '<tr class="st"><td>';
-			if (($singular!='.') && ($plural!='.') && $options['count'])
+			echo '<table class="width-100p"><tr class="st"><td>';
+
+			if ( $singular !== '.'
+				&& $plural !== '.'
+				&& $options['count'] )
 			{
-				if ( $display_count>0)
+				if ( $display_count > 0 )
 				{
-//FJ fix bug ngettext when the plural form is not registered as this in the rosario.po file
-//						echo "<b>".sprintf(ngettext('%d %s was found.','%d %s were found.', $display_count), $display_count, ngettext($singular, $plural, $display_count))."</b> &nbsp; &nbsp;";
-					$plural_message = ngettext($singular, $plural, $display_count);
-					if (($plural_message == $plural || ($plural_message == _($singular) && $display_count!=1)) && _($plural)!=$plural)
-					{
-						$plural_message = _($plural);
-						if ( $display_count==1)
-							$plural_message = _($singular);
-					}
-					echo '<b>'.sprintf(ngettext('%d %s was found.','%d %s were found.', $display_count), $display_count, $plural_message).'</b>&nbsp;&nbsp;';
+					echo '<b>' . sprintf(
+						ngettext( '%d %s was found.', '%d %s were found.', $display_count ),
+						$display_count,
+						ngettext( $singular, $plural, $display_count )
+					) . '</b> ';
 				}
-				if ( !empty($where_message))
-					echo '<br />'.$where_message;
+
+				if ( isset( $where_message ) )
+				{
+					echo $where_message;
+				}
 			}
 
-			if ( $options['save'] && !isset($_REQUEST['_ROSARIO_PDF']) && $result_count>0)
-				echo '<a href="'.$PHP_tmp_SELF.'&amp;'.$extra.'&amp;LO_save='.$options['save'].'&amp;_ROSARIO_PDF=true" target="_blank"><img src="assets/themes/'. Preferences('THEME') .'/btn/download.png" class="alignImg" title="'._('Export list').'" /></a>';
+			if ( $options['save']
+				&& ! isset( $_REQUEST['_ROSARIO_PDF'] )
+				&& $result_count > 0 )
+			{
+				// Save / Export list button.
+				echo '&nbsp;<a href="'.$PHP_tmp_SELF.'&amp;'.$extra.'&amp;LO_save='.$options['save'].'&amp;_ROSARIO_PDF=true" target="_blank">
+						<img src="assets/themes/'. Preferences('THEME') .'/btn/download.png" class="alignImg" title="'._('Export list').'" />
+					</a>';
+			}
 
 			echo '</td>';
 
