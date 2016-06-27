@@ -1020,12 +1020,21 @@ input[type=checkbox].toggle {
 	left: -9999px;
 }
 
-.toggle + div { /* Hidden State */
+.toggle ~ .toggle-me { /* Hidden State */
 	display: none;
 }
 
-.toggle:checked + div { /* Toggled State */
+.toggle:checked ~ .toggle-me { /* Toggled State */
 	display: block;
+}
+
+.toggle:before{
+	content:"\25b6\0000a0";
+	vertical-align:10%
+}
+
+.toggle:checked + .toggle:before{
+	content:"\25bc\0000a0"
 }
 
 /* MiniColors */
