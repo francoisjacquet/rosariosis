@@ -417,7 +417,7 @@ function ExplodeDate( $date )
 	{
 		$year = mb_substr( $date, 7, 2 );
 
-		$year = ( $year < 50 && $year > 0 ? '20' : '19' ) . $year;
+		$year = ( $year < 30 && $year > 0 ? '20' : '19' ) . $year;
 
 		$month = MonthNWSwitch( mb_substr( $date, 3, 3 ), 'tonum' );
 
@@ -432,15 +432,27 @@ function ExplodeDate( $date )
 
 		$day = mb_substr( $date, 8, 2 );
 
-		// European Format: DD-MM-YYYY.
 		if ( ! is_numeric( $year )
 			&& is_numeric( mb_substr( $date, 6, 4 ) ) )
 		{
-			$year = mb_substr( $date, 6, 4 );
+			if ( mb_substr( $date, 2, 1 ) === '/' )
+			{
+				// US Format: MM/DD/YYYY.
+				$year = mb_substr( $date, 6, 4 );
 
-			$month = mb_substr( $date, 3, 2 );
+				$month = mb_substr( $date, 0, 2 );
 
-			$day = mb_substr( $date, 0, 2 );
+				$day = mb_substr( $date, 3, 2 );
+			}
+			else
+			{
+				// European Format: DD-MM-YYYY.
+				$year = mb_substr( $date, 6, 4 );
+
+				$month = mb_substr( $date, 3, 2 );
+
+				$day = mb_substr( $date, 0, 2 );
+			}
 		}
 	}
 	// Oracle with 4-digits year DD-MMM-YYYY.
