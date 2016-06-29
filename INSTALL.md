@@ -9,7 +9,7 @@ NOTE: Before Installing RosarioSIS, you must read and agree to the included [lic
 
 RosarioSIS is a web based application which relies on other facilities such as a web server, PHP server-side scripting, and PostgreSQL database server.
 
-For RosarioSIS to work you must first have your web server working, PostgreSQL working, PHP working (including the `pgsql`, `gettext` & `mbstring` extensions). Setting these up varies a lot with platform, operating system, and distribution so it is well beyond to scope of this brief install document.
+For RosarioSIS to work you must first have your web server working, PostgreSQL working, PHP working (including the `pgsql`, `gettext`, `mbstring`, `curl` & `xmlrpc` extensions). Setting these up varies a lot with platform, operating system, and distribution so it is well beyond to scope of this brief install document.
 
 RosarioSIS was tested on:
 
@@ -101,23 +101,15 @@ To help you spot problems, point your browser to: `http://yourdomain.com/INSTALL
 Installing [wkhtmltopdf](http://wkhtmltopdf.org/)
 -------------------------------------------------
 
-Install instructions for Ubuntu 14.04 64bits:
+Install instructions for Ubuntu 16.04 64bits:
 
-1. Download the latest executable (0.12.2.1 as of 2015.02.03): `server$ wget http://download.gna.org/wkhtmltopdf/0.12/0.12.2.1/wkhtmltox-0.12.2.1_linux-trusty-amd64.deb`
-
-2. Install package: `server$ sudo dpkg --install wkhtmltox-0.12.2.1_linux-trusty-amd64.deb`
-
-3. Install the missing dependencies: `server$ sudo apt-get -f install`
-
-4. Test: `server$ wkhtmltopdf --margin-top 0 --margin-bottom 0 --margin-left 0 --margin-right 0 https://www.rosariosis.org/quick-setup-guide/ RosarioSIS_Quick_Setup_Guide.pdf`
-
-5. Set `$wkhtmltopdfPath` in RosarioSIS `config.inc.php` file: `$wkhtmltopdfPath = '/usr/local/bin/wkhtmltopdf';`
+	`server$ sudo apt-get install wkhtmltopdf`
 
 
 Activate PHP mail() function
 ----------------------------
 
-Install instructions for Ubuntu 14.04 64bits:
+Install instructions for Ubuntu 16.04 64bits:
 	`server$ sudo apt-get install sendmail`
 
 
