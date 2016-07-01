@@ -27,10 +27,7 @@ function switchMenu(el) {
  *
  * @deprecated Remove when IE8 usage < 1%
  */
-var tags = 'article|aside|footer|header|hgroup|nav|section'.split('|'),
-	i = 0,
-	max = tags.length;
-for (; i < max; i++) {
+for (var tags = 'article|aside|footer|header|hgroup|nav|section'.split('|'), i = 0, max = tags.length; i < max; i++) {
 	document.createElement(tags[i]);
 }
 
@@ -49,10 +46,10 @@ function popups()
 	};
 
 	this.closeAll = function() {
-		for(var i=0, max=this.childs.length; i<max; i++)
-		{
-			if (!this.childs[i].closed)
-				this.childs[i].close();
+		for (var i=0, max=this.childs.length; i<max; i++) {
+			var child = this.childs[i];
+			if (!child.closed)
+				child.close();
 		}
 	};
 }
@@ -168,8 +165,7 @@ function MarkDownToHTML()
 {
 	$('.markdown-to-html').html(function(i, html){
 
-		if ( typeof( sdc ) !== 'object' )
-		{
+		if ( typeof( sdc ) !== 'object' ) {
 			sdc = new showdown.Converter({
 				tables: true,
 				simplifiedAutoLink: true,
@@ -224,8 +220,7 @@ function ajaxOptions(target, url, form) {
 					});
 
 					getStr = getStr.join('&');
-				}
-				else {
+				} else {
 					getStr = $(form).formSerialize();
 				}
 
@@ -243,11 +238,12 @@ function ajaxOptions(target, url, form) {
 }
 
 function ajaxError(x, st, err) {
-	var errorMsg = 'AJAX error. ' + x.status + ' ';
+	var code = x.status,
+		errorMsg = 'AJAX error. ' + code + ' ';
 
-	if (x.status === 0) {
+	if (code === 0) {
 		errorMsg += 'Check your Network';
-	} else if (x.status == 404) {
+	} else if (code == 404) {
 		errorMsg += 'Requested URL not found: ' + url;
 	} else if (st == 'parsererror') {
 		errorMsg += 'JSON parse failed';
@@ -405,7 +401,8 @@ function repeatListTHead( $lists )
 
 			// each 20 rows, or at the end if number of rows <= 40
 			for( var j = (tr_num > tr_max*2 ? tr_max : tr_num-1), trs2th = []; j < tr_num; j += tr_max ) {
-				trs2th.push(trs[j]);
+				var tr = trs[j];
+				trs2th.push(tr);
 			}
 
 			// clone header
@@ -417,29 +414,27 @@ function repeatListTHead( $lists )
 
 // Side.php JS
 function openMenu(modname) {
+
+	if (modname == 'misc/Portal.php') return;
+
 	var oldA,
-		doc = document;
+		modcat;
 
-	if (modname != 'misc/Portal.php') {
-		if ((oldA = doc.getElementById("selectedMenuLink"))) oldA.id = "";
-		$('.wp-submenu a[href$="' + modname + '"]:first').each(function () {
-			this.id = "selectedMenuLink";
-		});
-		// Add selectedModuleLink
-		if ((oldA = doc.getElementById("selectedModuleLink"))) oldA.id = "";
+	$("#selectedMenuLink").attr('id', '');
 
-		var modcat;
-		if (modname === '') modcat = openMenu.tmpCat;
-		else $('#selectedMenuLink').parents('.wp-submenu').each(function () {
-			modcat = this.id.replace('menu_', '');
-		});
+	$('.wp-submenu a[href$="' + modname + '"]').first().attr('id', 'selectedMenuLink');
 
-		$('a[href*="' + modcat + '"].menu-top').each(function () {
-			this.id = "selectedModuleLink";
-		});
+	// Add selectedModuleLink
+	$("#selectedModuleLink").attr('id', '');
 
-		openMenu.tmpCat = modcat;
-	}
+	if (modname === '') modcat = openMenu.tmpCat;
+	else $('#selectedMenuLink').parents('.wp-submenu').each(function () {
+		modcat = this.id.replace('menu_', '');
+	});
+
+	$('#menu_' + modcat).prev().attr('id', 'selectedModuleLink');
+
+	openMenu.tmpCat = modcat;
 }
 
 // Adjust Side.php submenu bottom offset
