@@ -1,32 +1,32 @@
-//Modules.php JS
-var locked;
-
+// Modules.php JS
 function addHTML(html, id, replace) {
-	if (locked !== false) {
-		if (replace === true) document.getElementById(id).innerHTML = html;
-		else document.getElementById(id).innerHTML = document.getElementById(id).innerHTML + html;
+	var $el = $( '#' + id );
+
+	if ( replace ) {
+
+		$el.html( html );
+	} else {
+
+		$el.append( html );
 	}
 }
 
 function checkAll(form, value, name_like) {
-	for (i = 0; i < form.elements.length; i++) {
-		chk = form.elements[i];
+	for (var i = 0, max = form.elements.length; i < max; i++) {
+		var chk = form.elements[i];
 		if (chk.type == 'checkbox' && chk.name.substr(0, name_like.length) == name_like) chk.checked = value;
 	}
 }
 
 function switchMenu(el) {
-	$(el).nextAll('table').first().toggle();
-	$(el).toggleClass('switched');
+	$(el).nextAll('table').first().toggle().toggleClass('switched');
 }
 
-// Toggle user photo & upload form
-function switchUserPhoto() {
-	$('.user-photo-form,.user-photo').toggle();
-	return false;
-}
-
-//IE8 HTML5 tags fix
+/**
+ * IE8 HTML5 tags fix
+ *
+ * @deprecated Remove when IE8 usage < 1%
+ */
 var tags = 'article|aside|footer|header|hgroup|nav|section'.split('|'),
 	i = 0,
 	max = tags.length;
@@ -34,7 +34,7 @@ for (; i < max; i++) {
 	document.createElement(tags[i]);
 }
 
-//popups
+// Popups
 var popups = new popups();
 
 function popups()
@@ -57,8 +57,14 @@ function popups()
 	};
 }
 
-//touchScroll, enables overflow:auto on mobile
-//https://gist.github.com/chrismbarr/4107472
+/**
+ * touchScroll, enables overflow:auto on mobile
+ *
+ * @link https://gist.github.com/chrismbarr/4107472
+ *
+ * @deprecated Remove when Android v.2.3 (Gingerbread) & old Safari (iOS < 5) usage < 1%
+ * @link http://chris-barr.com/2010/05/scrolling_a_overflowauto_element_on_a_touch_screen_device/
+ */
 function touchScroll(el) {
 	var startY = 0,
 		startX = 0;
@@ -85,11 +91,12 @@ function isTouchDevice() {
 		return false;
 	}
 }
+
 // ColorBox
 if (isTouchDevice()) $(document).bind("cbox_complete", function () {
 	touchScroll(document.getElementById("cboxLoadedContent"));
 });
-else // add .no-touch CSS class
+else // Add .no-touch CSS class
 	document.documentElement.className += " no-touch";
 
 function ColorBox() {
@@ -123,7 +130,7 @@ function MarkDownInputPreview( input_id )
 		html = input.val(),
 		md_prev = $('#divMDPreview' + input_id);
 
-	// send AJAX request only if input modified
+	// Send AJAX request only if input modified
 	if ( !md_prev.is(":visible") && html !== '' && md_last_val[input_id] !== html )
 	{
 		md_last_val[input_id] = html;
@@ -150,10 +157,10 @@ function MarkDownInputPreview( input_id )
 		//md_prev.parent('.md-preview').css({'max-width': input.css('width')});
 	}
 
-	// toggle MD preview & Input
+	// Toggle MD preview & Input
 	md_prev.toggle();
 	input.toggle();
-	// disable Write / Preview tab
+	// Disable Write / Preview tab
 	md_prev.siblings('.tab').toggleClass('disabled');
 }
 
@@ -176,7 +183,7 @@ function MarkDownToHTML()
 	});
 }
 
-//JSCalendar
+// JSCalendar
 function JSCalendarSetup()
 {
 	$('.button.cal').each(function(i, el){
@@ -211,7 +218,7 @@ function ajaxOptions(target, url, form) {
 					var formArray = $(form).formToArray();
 
 					$(formArray).each(function(i,el){
-						// only add not empty values
+						// Only add not empty values
 						if (el.value !== '')
 							getStr.push(el.name + '=' + el.value);
 					});
@@ -226,26 +233,7 @@ function ajaxOptions(target, url, form) {
 			}
 			ajaxSuccess(data, target, url);
 		},
-		error: function (x, st, err) {
-			var errorMsg = 'AJAX error. ' + x.status + ' ';
-
-			if (x.status === 0) {
-				errorMsg += 'Check your Network';
-			} else if (x.status == 404) {
-				errorMsg += 'Requested URL not found: ' + url;
-			} else if (st == 'parsererror') {
-				errorMsg += 'JSON parse failed';
-			} else if (st == 'timeout') {
-				errorMsg += 'Request Timeout';
-			} else if (st == 'abort') {
-				errorMsg += 'Request Aborted';
-			} else {
-				errorMsg += err;
-			}
-
-			// AJAX error popup.
-			$('.ajax-error').html(errorMsg).fadeIn();
-		},
+		error: ajaxError,
 		complete: function () {
 			$('.loading').css('visibility', 'hidden');
 
@@ -254,8 +242,29 @@ function ajaxOptions(target, url, form) {
 	};
 }
 
+function ajaxError(x, st, err) {
+	var errorMsg = 'AJAX error. ' + x.status + ' ';
+
+	if (x.status === 0) {
+		errorMsg += 'Check your Network';
+	} else if (x.status == 404) {
+		errorMsg += 'Requested URL not found: ' + url;
+	} else if (st == 'parsererror') {
+		errorMsg += 'JSON parse failed';
+	} else if (st == 'timeout') {
+		errorMsg += 'Request Timeout';
+	} else if (st == 'abort') {
+		errorMsg += 'Request Aborted';
+	} else {
+		errorMsg += err;
+	}
+
+	// AJAX error popup.
+	$('.ajax-error').html(errorMsg).fadeIn();
+}
+
 function ajaxLink(link) {
-	//will work only if in the onclick there is no error!
+	// Will work only if in the onclick there is no error!
 
 	var href,target;
 
@@ -269,7 +278,7 @@ function ajaxLink(link) {
 		target = link.target;
 	}
 
-	if (href.indexOf('#') != -1 || target == '_blank' || target == '_top') //internal/external/index.php anchor
+	if (href.indexOf('#') != -1 || target == '_blank' || target == '_top') // Internal/external/index.php anchor
 		return true;
 
 	if (!target) {
@@ -284,7 +293,7 @@ function ajaxLink(link) {
 function ajaxPostForm(form, submit) {
 	var target = form.target || 'body';
 
-	if (form.action.indexOf('_ROSARIO_PDF') != -1) //print PDF
+	if (form.action.indexOf('_ROSARIO_PDF') != -1) // Print PDF
 	{
 		form.target = '_blank';
 		form.method = 'post';
@@ -300,11 +309,13 @@ function ajaxPostForm(form, submit) {
 }
 
 function ajaxSuccess(data, target, url) {
-	//change URL after AJAX
+	// Change URL after AJAX
 	//http://stackoverflow.com/questions/5525890/how-to-change-url-after-an-ajax-request#5527095
 	$('#' + target).html(data);
 
-	if (history.pushState && target == 'body' && document.URL != url) history.pushState(null, document.title, url);
+	var doc = document;
+
+	if (history.pushState && target == 'body' && doc.URL != url) history.pushState(null, doc.title, url);
 
 	ajaxPrepare('#' + target);
 }
@@ -351,16 +362,17 @@ function ajaxPrepare(target) {
 //disable links while AJAX
 $(document).ajaxStart(function () {
 	$('input[type="submit"],input[type="button"],a').css('pointer-events', 'none').attr('disabled', true);
-});
-$(document).ajaxStop(function () {
+}).ajaxStop(function () {
 	$('input[type="submit"],input[type="button"],a').css('pointer-events', '').attr('disabled', false);
 });
 
-//onload
+
+
+// onload
 window.onload = function () {
 	ajaxPrepare('body');
 
-	//load body after browser history
+	// Load body after browser history
 	if (history.pushState) window.setTimeout(function () {
 		window.addEventListener('popstate', function (e) {
 			ajaxLink(document.URL);
@@ -368,7 +380,7 @@ window.onload = function () {
 	}, 1);
 };
 
-//ListOutput JS
+// ListOutput JS
 function LOSearch( event, val, url ) {
 
 	if ( !event || event.keyCode == 13 ) {
@@ -376,7 +388,7 @@ function LOSearch( event, val, url ) {
 	}
 }
 
-//Repeat long list table header
+// Repeat long list table header
 function repeatListTHead( $lists )
 {
 	if ( !$lists.length )
@@ -392,8 +404,8 @@ function repeatListTHead( $lists )
 			var th = trs[0];
 
 			// each 20 rows, or at the end if number of rows <= 40
-			for( i = (tr_num > tr_max*2 ? tr_max : tr_num-1), trs2th = []; i < tr_num; i += tr_max ) {
-				trs2th.push(trs[i]);
+			for( var j = (tr_num > tr_max*2 ? tr_max : tr_num-1), trs2th = []; j < tr_num; j += tr_max ) {
+				trs2th.push(trs[j]);
 			}
 
 			// clone header
@@ -403,21 +415,21 @@ function repeatListTHead( $lists )
 }
 
 
-//Side.php JS
-var old_modcat = false,
-	menu_link = 'Side.php';
-
+// Side.php JS
 function openMenu(modname) {
+	var oldA,
+		doc = document;
+
 	if (modname != 'misc/Portal.php') {
-		if ((oldA = document.getElementById("selectedMenuLink"))) oldA.id = "";
+		if ((oldA = doc.getElementById("selectedMenuLink"))) oldA.id = "";
 		$('.wp-submenu a[href$="' + modname + '"]:first').each(function () {
 			this.id = "selectedMenuLink";
 		});
-		//add selectedModuleLink
-		if ((oldA = document.getElementById("selectedModuleLink"))) oldA.id = "";
+		// Add selectedModuleLink
+		if ((oldA = doc.getElementById("selectedModuleLink"))) oldA.id = "";
 
 		var modcat;
-		if (modname === '') modcat = old_modcat;
+		if (modname === '') modcat = openMenu.tmpCat;
 		else $('#selectedMenuLink').parents('.wp-submenu').each(function () {
 			modcat = this.id.replace('menu_', '');
 		});
@@ -426,40 +438,37 @@ function openMenu(modname) {
 			this.id = "selectedModuleLink";
 		});
 
-		old_modcat = modcat;
+		openMenu.tmpCat = modcat;
 	}
 }
 
-// adjust Side.php submenu bottom offset
+// Adjust Side.php submenu bottom offset
 function submenuOffset() {
 	$(".adminmenu .menu-top").mouseover(function(){
-		var submenu = $(this).next(".wp-submenu");
-		var moveup = $("#footer").offset().top - $(this).offset().top - submenu.outerHeight();
+		var submenu = $(this).next(".wp-submenu"),
+			moveup = $("#footer").offset().top - $(this).offset().top - submenu.outerHeight();
 		submenu.css("margin-top", (moveup < 0 ? moveup : 0) + 'px');
 	});
 }
 
-//Bottom.php JS
+// Bottom.php JS
 function toggleHelp() {
 	if ($('#footerhelp').css('display') !== 'block') showHelp();
 	else hideHelp();
 }
 
-var old_modname = false;
-
 function showHelp() {
-	if (modname !== old_modname) {
+	var $fh = $('#footerhelp');
+	if (modname !== showHelp.tmp) {
 		$.get("Bottom.php?modfunc=help&modname=" + modname, function (data) {
-			$('#footerhelp').html(data);
-			if (isTouchDevice()) touchScroll(document.getElementById('footerhelp'));
-		}).fail(function () {
-			alert('Error: expandHelp ' + modname);
-		});
-		old_modname = modname;
+			$fh.html(data);
+			if (isTouchDevice()) touchScroll( $fh[0] );
+		}).fail( ajaxError );
+		showHelp.tmp = modname;
 	}
-	$('#footerhelp').show();
+	$fh.show();
 	$('#footer').css('height', function (i, val) {
-		return parseInt(val,10) + parseInt($('#footerhelp').css('height'),10);
+		return parseInt(val,10) + parseInt($fh.css('height'),10);
 	});
 }
 
