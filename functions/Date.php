@@ -417,7 +417,7 @@ function ExplodeDate( $date )
 	{
 		$year = mb_substr( $date, 7, 2 );
 
-		$year = ( $year < 30 && $year > 0 ? '20' : '19' ) . $year;
+		$year = ( $year < 30 ? '20' : '19' ) . $year;
 
 		$month = MonthNWSwitch( mb_substr( $date, 3, 3 ), 'tonum' );
 
@@ -444,7 +444,9 @@ function ExplodeDate( $date )
 
 				$day = mb_substr( $date, 3, 2 );
 			}
-			else
+
+			if ( mb_substr( $date, 2, 1 ) === '-'
+				|| $month > 12 )
 			{
 				// European Format: DD-MM-YYYY.
 				$year = mb_substr( $date, 6, 4 );
