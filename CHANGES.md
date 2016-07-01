@@ -7,6 +7,7 @@ Changes in 2.9.4
 - Add European Dates Formats: DD-MM-YYYY & DD-MM-YY to ExplodeDate() in Date.php
 - Gender & Ethnicity Student Fields not Required by default in rosariosis.sql
 - Add user friendly AJAX error messages in warehouse.js & Warehouse.php & stylesheet.css
+- JS code optimizations in warehouse.js
 
 Changes in 2.9.3
 ----------------
