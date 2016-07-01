@@ -4,7 +4,7 @@ echo '<table class="width-100p valign-top fixed-col"><tr class="st"><td rowspan=
 // IMAGE
 if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF'])):
 ?>
-	<a href="#" onclick="switchUserPhoto(); return false;"><?php echo button('add', '', '', 'smaller'); ?>&nbsp;<?php echo _('User Photo'); ?></a><br />
+	<a href="#" onclick="$('.user-photo-form,.user-photo').toggle(); return false;"><?php echo button('add', '', '', 'smaller'); ?>&nbsp;<?php echo _('User Photo'); ?></a><br />
 	<div class="user-photo-form hide">
 		<br />
 		<input type="file" id="photo" name="photo" accept="image/*" /><span class="loading"></span>
