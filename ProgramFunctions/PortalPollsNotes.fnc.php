@@ -214,57 +214,71 @@ function PortalPollForm($poll_id, $profile_id, $user_id, $poll_questions_RET)
 }
 
 
-function PortalPollsVotesDisplay($poll_id, $display_votes, $poll_questions_RET, $votes_number, $js_included_is_voting = false)
+function PortalPollsVotesDisplay( $poll_id, $display_votes, $poll_questions_RET, $votes_number, $js_included_is_voting = false )
 {
 
-	if ( ! $display_votes)
+	if ( ! $display_votes )
 	{
-		$poll_completed_str = isset($_POST['poll_completed_string']) ? $_POST['poll_completed_string'] : _('Poll completed');
+		$poll_completed_str = isset( $_POST['poll_completed_string'] ) ?
+			$_POST['poll_completed_string'] :
+			_( 'Poll completed' );
 
-		return ErrorMessage( array( button('check', '', '', 'bigger') .'&nbsp;'.$poll_completed_str, 'Note' ) );
+		return ErrorMessage( array( button('check', '', '', 'bigger') . '&nbsp;' . $poll_completed_str, 'note' ) );
 	}
 
-	//FJ responsive rt td too large
-	if ( ! $js_included_is_voting)
+	$votes_display = '';
+
+	// FJ responsive rt td too large.
+	if ( ! $js_included_is_voting )
 	{
-		$votes_display .= '<div id="divPortalPoll'.$poll_id.'" class="divPortalPoll rt2colorBox">'."\n";
+		$votes_display .= '<div id="divPortalPoll' . $poll_id . '" class="divPortalPoll rt2colorBox">' . "\n";
 	}
 
-	foreach ($poll_questions_RET as $question)
+	foreach ( (array) $poll_questions_RET as $question )
 	{
 		$total_votes = 0;
-		//question
-		$votes_display .= '<p><b>'.$question['QUESTION'].'</b></p>
-			<table class="cellspacing-0 widefat col1-align-right">'."\n";
 
-		//votes
-		$votes_array = explode('||', $question['VOTES']);
-		foreach ($votes_array as $votes)
-			$total_votes += $votes;
+		// Question.
+		$votes_display .= '<p><b>' . $question['QUESTION'] . '</b></p>
+			<table class="cellspacing-0 widefat col1-align-right">' . "\n";
 
-		//options
-		$options_array = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r",$question['OPTIONS']));
-		$options_array_count = count($options_array);
+		// Votes.
+		$votes_array = explode( '||', $question['VOTES'] );
 
-		for ($i=0; $i < $options_array_count; $i++)
+		foreach ( (array) $votes_array as $votes )
 		{
-			$percent = round(($votes_array[ $i ]/$total_votes)*100);
+			$total_votes += $votes;
+		}
+
+		// Options.
+		$options_array = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $question['OPTIONS'] ) );
+
+		$options_array_count = count( $options_array );
+
+		for ( $i = 0; $i < $options_array_count; $i++ )
+		{
+			$percent = round( ( $votes_array[ $i ] / $total_votes ) * 100 );
 
 			$votes_display .= '<tr>
-				<td>'.$options_array[ $i ].'</td>
-				<td><div class="bar" style="width:'.$percent.'px;">&nbsp;</div></td>
-				<td><b> '.$percent.'%</b></td>
-			</tr>'."\n";
+				<td>' . $options_array[ $i ] . '</td>
+				<td><div class="bar" style="width:' . $percent . 'px;">&nbsp;</div></td>
+				<td><b> ' . $percent . '%</b></td>
+			</tr>' . "\n";
 		}
-		$votes_display .= '</table>'."\n";
+
+		$votes_display .= '</table>' . "\n";
 	}
 
-	$total_votes_str = isset($_POST['total_votes_string']) ? $_POST['total_votes_string'] : _('Total Participants');
+	$total_votes_str = isset( $_POST['total_votes_string'] ) ?
+		$_POST['total_votes_string'] :
+		_( 'Total Participants' );
 
-	$votes_display .= '<p>'.$total_votes_str.': '.$votes_number.'</p>';
+	$votes_display .= '<p>' . $total_votes_str . ': ' . $votes_number . '</p>';
 
-	if ( ! $js_included_is_voting)
+	if ( ! $js_included_is_voting )
+	{
 		$votes_display .= '</div>';
+	}
 
 	return $votes_display;
 }
