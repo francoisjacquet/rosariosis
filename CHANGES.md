@@ -8,6 +8,7 @@ Changes in 2.9.4
 - Gender & Ethnicity Student Fields not Required by default in rosariosis.sql
 - Add user friendly AJAX error messages in warehouse.js & Warehouse.php & stylesheet.css
 - JS code optimizations in warehouse.js
+- JS: show loading spinner when loading Help in warehouse.js
 
 Changes in 2.9.3
 ----------------

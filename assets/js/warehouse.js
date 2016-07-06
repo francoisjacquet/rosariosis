@@ -458,9 +458,11 @@ function showHelp() {
 		$('.loading').css('visibility', 'visible');
 		$.get("Bottom.php?modfunc=help&modname=" + modname, function (data) {
 			$fh.html(data);
-			$('.loading').css('visibility', 'hidden');
 			if (isTouchDevice()) touchScroll( $fh[0] );
-		}).fail( ajaxError );
+		}).fail( ajaxError ).always( function() {
+			$('.loading').css('visibility', 'hidden');
+		});
+
 		showHelp.tmp = modname;
 	}
 	$fh.show();
