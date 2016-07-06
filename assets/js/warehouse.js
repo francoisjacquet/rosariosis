@@ -455,8 +455,10 @@ function toggleHelp() {
 function showHelp() {
 	var $fh = $('#footerhelp');
 	if (modname !== showHelp.tmp) {
+		$('.loading').css('visibility', 'visible');
 		$.get("Bottom.php?modfunc=help&modname=" + modname, function (data) {
 			$fh.html(data);
+			$('.loading').css('visibility', 'hidden');
 			if (isTouchDevice()) touchScroll( $fh[0] );
 		}).fail( ajaxError );
 		showHelp.tmp = modname;
