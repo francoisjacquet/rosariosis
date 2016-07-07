@@ -12,6 +12,8 @@
  *
  * @example SendEmail( $to, $subject, $msg, 'Foo <bar@from.address>', $cc, array( array( $pdf_file, $pdf_name ) ) );
  *
+ * @link https://www.mail-tester.com/
+ *
  * @uses PHPMailer class
  * @global $phpmailer
  *
@@ -142,10 +144,25 @@ function SendEmail( $to, $subject, $message, $from = null, $cc = null, $attachme
 	// Append Program Name to subject.
 	$subject = Config( 'NAME' ) . ' - ' . $subject;
 
-	// Set mail's subject and body.
+	// Set mail's subject.
 	$phpmailer->Subject = $subject;
 
-	$phpmailer->Body    = $message;
+	// Set Charset.
+	$phpmailer->CharSet = 'UTF-8';
+
+	// Set Content-Type and body.
+	// Detect if HTML message.
+	if ( mb_strlen( $message ) !== mb_strlen( strip_tags( $message ) ) )
+	{
+		// Send plain text message along with the HTML one!
+		$phpmailer->msgHTML( $message );
+	}
+	else
+	{
+		$phpmailer->ContentType = 'text/plain';
+
+		$phpmailer->Body = $message;
+	}
 
 	// Add any CC and BCC recipients.
 	if ( ! is_array( $cc ) )
@@ -182,19 +199,6 @@ function SendEmail( $to, $subject, $message, $from = null, $cc = null, $attachme
 
 	// Set to use PHP's mail().
 	$phpmailer->IsMail();
-
-	// Set Content-Type and charset.
-	// Detect if HTML message.
-	if ( mb_strlen( $message ) !== mb_strlen( strip_tags( $message ) ) )
-	{
-		$phpmailer->ContentType = 'text/html';
-	}
-	else
-	{
-		$phpmailer->ContentType = 'text/plain';
-	}
-
-	$phpmailer->CharSet = 'UTF-8';
 
 	if ( ! empty( $attachments ) )
 	{
@@ -240,7 +244,7 @@ function SendEmail( $to, $subject, $message, $from = null, $cc = null, $attachme
 	{
 		//FJ add SendEmail function
 		require_once 'ProgramFunctions/SendEmail.fnc.php';
-		
+
 		$message = "System: ".ParseMLField(Config('TITLE'))." \n";
 		$message .= "Date: ".date("m/d/Y h:i:s")."\n";
 		$message .= "Page: ".$_SERVER['PHP_SELF'].' '.ProgramTitle()." \n\n";
@@ -249,12 +253,12 @@ function SendEmail( $to, $subject, $message, $from = null, $cc = null, $attachme
 		$message .= "\n $sql \n";
 		$message .= "Request Array: \n".print_r($_REQUEST, true);
 		$message .= "\n\nSession Array: \n".print_r($_SESSION, true);
-		
+
 		SendEmail($RosarioNotifyAddress,'Database Error',$message);
 	}
 */
 /*function SendEmail($to, $subject, $message, $from = null, $cc = null)
-{	
+{
 	//FJ add email headers
 	if (empty($from))
 	{
@@ -278,7 +282,7 @@ function SendEmail( $to, $subject, $message, $from = null, $cc = null, $attachme
 	$headers = 'From:'. $from ."\r\n";
 	if ( !empty($cc))
 		$headers .= "Cc:". $cc ."\r\n";
-	$headers .= 'Return-Path:'. $from ."\r\n"; 
+	$headers .= 'Return-Path:'. $from ."\r\n";
 	$headers .= 'Reply-To:'. $from ."\r\n". 'X-Mailer: PHP/' . phpversion() ."\r\n";
 	$headers .= 'Content-Type: text/plain; charset=UTF-8';
 	//The f flag generates a Warning:
@@ -288,5 +292,5 @@ function SendEmail( $to, $subject, $message, $from = null, $cc = null, $attachme
 	//append Program Name to subject
 	$subject = Config('NAME').' - '.$subject;
 
-	return @mail($to,$subject,$message,$headers);	
+	return @mail($to,$subject,$message,$headers);
 }*/
