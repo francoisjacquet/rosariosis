@@ -386,10 +386,10 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 	if (($options['count'] || $display_zero) && ((($result_count==0 || $display_count==0) && $plural) || ($result_count==0 || $display_count==0)))
 	{
-		echo '<table class="width-100p';
+		echo '<table class="';
 
 		if (isset($_REQUEST['_ROSARIO_PDF']))
-			echo ' ';
+			echo ' width-100p';
 
 		if ( $options['center'])
 			echo ' center';

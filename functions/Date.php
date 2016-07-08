@@ -403,6 +403,8 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 /**
  * Explode a ISO or Oracle date
  *
+ * @todo use strtotime()?
+ *
  * @param  string $date Postgres or Oracle date.
  *
  * @return array  array( 'year' => '4_digits_year', 'month' => 'numeric_month', 'day' => 'day' )
