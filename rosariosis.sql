@@ -4166,8 +4166,9 @@ INSERT INTO report_card_grades VALUES (15, 2016, 1, 'N/A', 15, 0.00, NULL, NULL,
 -- Data for Name: resources; Type: TABLE DATA; Schema: public; Owner: rosariosis
 --
 
-INSERT INTO resources VALUES (1, 1, 'RosarioSIS Wiki', 'https://github.com/francoisjacquet/rosariosis/wiki');
-INSERT INTO resources VALUES (2, 1, 'Print Handbook', 'Help.php');
+INSERT INTO resources VALUES (1, 1, 'Print Handbook', 'Help.php');
+INSERT INTO resources VALUES (2, 1, 'RosarioSIS Wiki', 'https://github.com/francoisjacquet/rosariosis/wiki');
+INSERT INTO resources VALUES (3, 1, 'Contribute to the Project', 'https://www.rosariosis.org/contribute/');
 
 
 --
