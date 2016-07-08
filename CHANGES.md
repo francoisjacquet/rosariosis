@@ -9,7 +9,7 @@ Changes in 2.9.4
 - Add user friendly AJAX error messages in warehouse.js & Warehouse.php & stylesheet.css
 - JS code optimizations in warehouse.js
 - JS: show loading spinner when loading Help in warehouse.js
-- Spam fix: send plain text email along with HTML in SendEmail.fnc.php
+- Spam fix: send plain text email along with HTML & set Reply To instead of From in SendEmail.fnc.php
 
 Changes in 2.9.3
 ----------------

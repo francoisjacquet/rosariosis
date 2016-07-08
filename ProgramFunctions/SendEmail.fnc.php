@@ -9,6 +9,7 @@
 /**
  * Send Email
  * And eventual Attachment(s)
+ * From: RosarioSIS <rosariosis@yourdomain.com>
  *
  * @example SendEmail( $to, $subject, $msg, 'Foo <bar@from.address>', $cc, array( array( $pdf_file, $pdf_name ) ) );
  *
@@ -20,13 +21,13 @@
  * @param string|array $to          Recipients, array or comma separated list of emails.
  * @param string       $subject     Subject.
  * @param string       $message     Message.
- * @param string       $from        if empty, defaults to rosariosis@[yourserverdomain].
+ * @param string       $reply_to    Reply To email.
  * @param string|array $cc          Carbon Copy, array or comma separated list of emails.
  * @param array        $attachments Array of file paths, or Array of Attachments (file path, file name).
  *
  * @return boolean true if email sent, or false
  */
-function SendEmail( $to, $subject, $message, $from = null, $cc = null, $attachments = array() )
+function SendEmail( $to, $subject, $message, $reply_to = null, $cc = null, $attachments = array() )
 {
 	global $phpmailer;
 
@@ -52,64 +53,48 @@ function SendEmail( $to, $subject, $message, $from = null, $cc = null, $attachme
 	$phpmailer->ClearReplyTos();
 
 	// FJ add email headers.
-	if ( empty( $from ) )
+	// Get the site domain and get rid of www.
+	$sitename = strtolower( $_SERVER['SERVER_NAME'] );
+
+	if ( substr( $sitename, 0, 4 ) === 'www.' )
 	{
-		// Get the site domain and get rid of www.
-		$sitename = strtolower( $_SERVER['SERVER_NAME'] );
-
-		if ( substr( $sitename, 0, 4 ) === 'www.' )
-		{
-			$sitename = substr( $sitename, 4 );
-		}
-
-		$programname = mb_strtolower( filter_var(
-			Config( 'NAME' ),
-			FILTER_SANITIZE_EMAIL
-		));
-
-		if ( ! $programname )
-		{
-			$programname = 'rosariosis';
-		}
-
-		$from_email = $programname . '@' . $sitename;
+		$sitename = substr( $sitename, 4 );
 	}
-	else
-	{
-		// Break $from into name and address parts if in the format "Foo <bar@baz.com>".
-		$bracket_pos = strpos( $from, '<' );
 
-		if ( $bracket_pos !== false )
+	$programname = mb_strtolower( filter_var(
+		Config( 'NAME' ),
+		FILTER_SANITIZE_EMAIL
+	));
+
+	// Set Email address to send from: RosarioSIS <rosariosis@yourdomain.com>.
+	$phpmailer->From = $programname . '@' . $sitename;
+
+	$phpmailer->FromName = Config( 'NAME' );
+
+	// Set Reply To email if any (use instead of From to prevent spam!).
+	if ( $reply_to )
+	{
+		try
 		{
-			// Text before the bracketed email is the "From" name.
-			if ( $bracket_pos > 0 )
+			$reply_to_name = '';
+
+			// Break $reply_to into name and address parts if in the format "Foo <bar@baz.com>".
+			if ( preg_match( '/(.*)<(.+)>/', $reply_to, $matches ) )
 			{
-				$from_name = substr( $from, 0, $bracket_pos - 1 );
-				$from_name = str_replace( '"', '', $from_name );
-				$from_name = trim( $from_name );
+				if ( count( $matches ) == 3 )
+				{
+					$reply_to_name = $matches[1];
+					$reply_to = $matches[2];
+				}
 			}
 
-			$from_email = substr( $from, $bracket_pos + 1 );
-			$from_email = str_replace( '>', '', $from_email );
-			$from_email = trim( $from_email );
+			$phpmailer->addReplyTo( $reply_to, $reply_to_name );
 		}
-		// Avoid setting an empty $from_email.
-		elseif ( '' !== trim( $from ) )
+		catch ( phpmailerException $e )
 		{
-
-			$from_email = trim( $from );
+			continue;
 		}
 	}
-
-	if ( ! isset( $from_name ) )
-	{
-		$from_name = Config( 'NAME' );
-	}
-
-	// Set Email address to send from.
-	$phpmailer->From = $from_email;
-
-	$phpmailer->FromName = $from_name;
 
 	// Set destination addresses.
 	if ( ! is_array( $to ) )
