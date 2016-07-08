@@ -4,7 +4,7 @@
 Changes in 2.9.4
 ----------------
 - Limit ListOutput() results to 1000 in ListOutput.fnc.php
-- Add European Dates Formats: DD-MM-YYYY & DD-MM-YY to ExplodeDate() in Date.php
+- Add Dates Formats: DD-MM-YYYY, DD-MM-YY (European) & MM/DD/YYYY (US) to ExplodeDate() in Date.php
 - Gender & Ethnicity Student Fields not Required by default in rosariosis.sql
 - Add user friendly AJAX error messages in warehouse.js & Warehouse.php & stylesheet.css
 - JS code optimizations in warehouse.js
