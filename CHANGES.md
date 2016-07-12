@@ -1,6 +1,11 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 2.9.5
+----------------
+- Fix #152 Cookie on localhost/ (root path) and IE in Warehouse.php
+- Add jQuery Chosen 1.5.1 plugin in assets/js/jquery-chosen
+
 Changes in 2.9.4
 ----------------
 - Limit ListOutput() results to 1000 in ListOutput.fnc.php

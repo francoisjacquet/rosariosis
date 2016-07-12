@@ -726,12 +726,29 @@ if ( ! $_REQUEST['modfunc'] )
 				echo '<tr><td>'.CheckboxInput($this_address['MAILING'], 'values[STUDENTS_JOIN_ADDRESS][MAILING]', '', 'CHECKED', $new, button('check'), button('x')).'</td><td>'. button('mailbox','','','bigger') .'</td><td>'._('Mailing Address').'</td></tr></table>';
 		}
 
-		if ( $_REQUEST['address_id']=='old')
+		if ( $_REQUEST['address_id'] === 'old' )
 		{
-			$addresses_RET = DBGet(DBQuery("SELECT ADDRESS_ID,ADDRESS,CITY,STATE,ZIPCODE FROM ADDRESS WHERE ADDRESS_ID!='0' AND ADDRESS_ID NOT IN (SELECT ADDRESS_ID FROM STUDENTS_JOIN_ADDRESS WHERE STUDENT_ID='".UserStudentID()."') ORDER BY ADDRESS,CITY,STATE,ZIPCODE"));
-			foreach ( (array) $addresses_RET as $address)
-				$address_select[$address['ADDRESS_ID']] = $address['ADDRESS'].', '.$address['CITY'].', '.$address['STATE'].', '.$address['ZIPCODE'];
-			echo SelectInput('','values[EXISTING][address_id]',_('Select Address'),$address_select);
+			$addresses_RET = DBGet( DBQuery( "SELECT ADDRESS_ID,ADDRESS,CITY,STATE,ZIPCODE
+				FROM ADDRESS
+				WHERE ADDRESS_ID!='0'
+				AND ADDRESS_ID NOT IN (SELECT ADDRESS_ID
+					FROM STUDENTS_JOIN_ADDRESS
+					WHERE STUDENT_ID='" . UserStudentID() . "')
+				ORDER BY ADDRESS,CITY,STATE,ZIPCODE" ) );
+
+			$address_select = array();
+
+			foreach ( (array) $addresses_RET as $address )
+			{
+				$address_select[ $address['ADDRESS_ID'] ] = $address['ADDRESS'] . ', ' . $address['CITY'] . ', ' . $address['STATE'] . ', ' . $address['ZIPCODE'];
+			}
+
+			echo SelectInput(
+				'',
+				'values[EXISTING][address_id]',
+				_( 'Select Address' ),
+				$address_select
+			);
 		}
 
 		echo '</td>';
@@ -973,12 +990,30 @@ if ( ! $_REQUEST['modfunc'] )
 					echo '</td>';
 				}
 			}
-			elseif ( $_REQUEST['person_id']=='old')
+			elseif ( $_REQUEST['person_id'] === 'old' )
 			{
-				$people_RET = DBGet(DBQuery("SELECT DISTINCT p.PERSON_ID,p.FIRST_NAME,p.LAST_NAME FROM PEOPLE p,STUDENTS_JOIN_PEOPLE sjp WHERE sjp.PERSON_ID=p.PERSON_ID AND sjp.ADDRESS_ID".($_REQUEST['address_id']!='0'?'!=':'=')."'0' AND p.PERSON_ID NOT IN (SELECT PERSON_ID FROM STUDENTS_JOIN_PEOPLE WHERE STUDENT_ID='".UserStudentID()."') ORDER BY LAST_NAME,FIRST_NAME"));
-				foreach ( (array) $people_RET as $people)
-					$people_select[$people['PERSON_ID']] = $people['LAST_NAME'].', '.$people['FIRST_NAME'];
-				echo SelectInput('','values[EXISTING][person_id]',_('Select Person'),$people_select);
+				$people_RET = DBGet( DBQuery( "SELECT DISTINCT p.PERSON_ID,p.FIRST_NAME,p.LAST_NAME
+					FROM PEOPLE p,STUDENTS_JOIN_PEOPLE sjp
+					WHERE sjp.PERSON_ID=p.PERSON_ID
+					AND sjp.ADDRESS_ID" . ( $_REQUEST['address_id'] != '0' ? '!=' : '=' ) . "'0'
+					AND p.PERSON_ID NOT IN (SELECT PERSON_ID
+						FROM STUDENTS_JOIN_PEOPLE
+						WHERE STUDENT_ID='" . UserStudentID() . "')
+					ORDER BY LAST_NAME,FIRST_NAME" ) );
+
+				$people_select = array();
+
+				foreach ( (array) $people_RET as $people )
+				{
+					$people_select[ $people['PERSON_ID'] ] = $people['LAST_NAME'] . ', ' . $people['FIRST_NAME'];
+				}
+
+				echo SelectInput(
+					'',
+					'values[EXISTING][person_id]',
+					_( 'Select Person' ),
+					$people_select
+				);
 			}
 		}
 		elseif ( $_REQUEST['address_id']!='0' && $_REQUEST['address_id']!='old')
