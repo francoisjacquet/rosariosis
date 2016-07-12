@@ -96,7 +96,7 @@ foreach ( $functions as $function )
 session_name( 'RosarioSIS' );
 
 // See http://php.net/manual/en/session.security.php.
-$cookie_path = dirname( $_SERVER['SCRIPT_NAME'] ) == '/' ?
+$cookie_path = dirname( $_SERVER['SCRIPT_NAME'] ) === DIRECTORY_SEPARATOR ?
 	'/' :
 	dirname( $_SERVER['SCRIPT_NAME'] ) . '/';
 
