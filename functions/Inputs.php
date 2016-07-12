@@ -800,6 +800,94 @@ function MLSelectInput( $value, $name, $title = '', $options, $allow_na = 'N/A',
 
 
 /**
+ * SelectInput() wrapper
+ * which adds jQuery Chosen.
+ *
+ * Chosen is a library for making long, unwieldy select boxes more friendly.
+ * @link https://github.com/harvesthq/chosen
+ *
+ * @since 2.9.4
+ *
+ * @example ChosenSelectInput( $value, 'values[' . $id . '][' . $name . ']', '', $options, 'N/A', $extra )
+ *
+ * @uses SelectInput() to generate the Select input
+ *
+ * @param  string         $value    Input value.
+ * @param  string         $name     Input name.
+ * @param  string         $title    Input title (optional). Defaults to ''.
+ * @param  array          $options  Input options: array( option_value => option_text ).
+ * @param  string|boolean $allow_na Allow N/A (empty value); set to false to disallow (optional). Defaults to N/A.
+ * @param  string         $extra    Extra HTML attributes added to the input.
+ * @param  boolean        $div      Is input wrapped into <div onclick>? (optional). Defaults to true.
+ *
+ * @return string         Input HTML
+ */
+function ChosenSelectInput( $value, $name, $title = '', $options = array(), $allow_na = 'N/A', $extra = '', $div = true )
+{
+	static $chosen_included = false;
+
+	$js = '';
+
+	if ( ! $chosen_included
+		&& AllowEdit()
+		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
+
+		ob_start();	?>
+		<!-- Chosen -->
+		<script src="assets/js/jquery-chosen/chosen.jquery.min.js"></script>
+		<link rel="stylesheet" href="assets/js/jquery-chosen/chosen.min.css">
+		<script>
+			$(document).ready(function(){
+				$('.chosen-select').chosen('.chosen-select');
+			});
+		</script>
+		<?php $chosen_included = true;
+
+		$js = ob_get_clean();
+	}
+
+	$chosen_class = ' class="chosen-select"';
+
+	if ( ! $extra
+		|| mb_strpos( $extra, 'class=' ) === false )
+	{
+		$extra .= $chosen_class;
+	}
+	elseif ( mb_strpos( $extra, 'class=' ) !== false )
+	{
+		$extra = str_replace(
+			array( 'class="', "class='" ),
+			array( 'class="chosen-select ', "class='chosen-select " ),
+			$extra
+		);
+	}
+
+	$return = $js . SelectInput(
+		$value,
+		$name,
+		$title,
+		$options,
+		$allow_na,
+		$extra,
+		$div
+	);
+
+	if ( $value != ''
+		&& $div )
+	{
+		$id = GetInputID( $name );
+
+		$return .= '<script>$("#div' . $id . '").on("click", function(){
+			$("#' . $id . '").chosen();
+		});</script>';
+	}
+
+	return $return;
+}
+
+
+/**
  * Radio Input
  *
  * @example RadioInput( $value, 'values[' . $id . '][COLOR]', '', $color_options );
