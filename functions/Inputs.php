@@ -806,7 +806,7 @@ function MLSelectInput( $value, $name, $title = '', $options, $allow_na = 'N/A',
  * Chosen is a library for making long, unwieldy select boxes more friendly.
  * @link https://github.com/harvesthq/chosen
  *
- * @since 2.9.4
+ * @since 2.9.5
  *
  * @example ChosenSelectInput( $value, 'values[' . $id . '][' . $name . ']', '', $options, 'N/A', $extra )
  *

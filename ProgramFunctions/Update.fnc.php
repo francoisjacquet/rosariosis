@@ -49,6 +49,14 @@ function Update()
 			{
 				$return = _update292();
 			}
+
+
+		case version_compare( $from_version, '2.9.5', '<' ):
+
+			if ( function_exists( '_update295' ) )
+			{
+				$return = _update295();
+			}
 	}
 
 	// Update version in DB CONFIG table.
@@ -294,6 +302,45 @@ function _update292()
 			ADD COLUMN gp_passing_value numeric(10,3);
 			UPDATE report_card_grade_scales
 			SET gp_passing_value=0;" );
+	}
+
+	return $return;
+}
+
+
+/**
+ * Update to version 2.9.5
+ *
+ * 1. Add LIMIT_EXISTING_CONTACTS_ADDRESSES to CONFIG table.
+ *
+ * Local function
+ *
+ * @since 2.9.5
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update295()
+{
+	$callers = debug_backtrace();
+
+	if ( ! isset( $callers[1]['function'] )
+		|| $callers[1]['function'] !== 'Update' )
+	{
+		return false;
+	}
+
+	$return = true;
+
+
+	/**
+	 * 1. Add LIMIT_EXISTING_CONTACTS_ADDRESSES to CONFIG table.
+	 */
+	$limit_existing_contacts_addresses_field_added = DBGet( DBQuery( "SELECT 1 FROM CONFIG
+		WHERE TITLE='LIMIT_EXISTING_CONTACTS_ADDRESSES'" ) );
+
+	if ( ! $limit_existing_contacts_addresses_field_added )
+	{
+		DBQuery( "INSERT INTO config VALUES (0, 'LIMIT_EXISTING_CONTACTS_ADDRESSES', NULL);" );
 	}
 
 	return $return;

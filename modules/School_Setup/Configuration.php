@@ -71,6 +71,7 @@ else
 							'CREATE_USER_ACCOUNT',
 							'CREATE_STUDENT_ACCOUNT',
 							'STUDENTS_EMAIL_FIELD',
+							'LIMIT_EXISTING_CONTACTS_ADDRESSES',
 						);
 
 						if ( in_array( $column, $school_independant_values ) )
