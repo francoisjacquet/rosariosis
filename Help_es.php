@@ -257,6 +257,9 @@ HTML;
 			<li>
 				<i>Usar Comentarios Semestrales en lugar de Comentarios Bimestrales</i>: tener un nuevo campo de comentarios cada semestre en lugar de cada bimestre
 			</li>
+			<li>
+				<i>Limitar los Contactos y las Direcciones Existentes a la institución corriente</i>: ajuste global (aplica a todas las instituciones) que limita las listas de Personas y Direcciones a las asociadas con la escuela corriente del usuario al momento de Agregar un Contacto o una Dirreción Existente
+			</li>
 		</ul>
 	</li>
 	<li>El módulo Calificaciones:

@@ -4,6 +4,11 @@
 
 New in 2.9
 ----------
+School Setup
+
+- Configuration
+	- Limit Existing Contacts & Addresses to current school
+
 Users
 
 - My Preferences

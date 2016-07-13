@@ -6,25 +6,35 @@
 
 DrawHeader(ProgramTitle());
 
-$configuration_link = '<a href="Modules.php?modname='.$_REQUEST['modname'].'"><b>'._('Configuration').'</b></a>';
-$modules_link = '<a href="Modules.php?modname='.$_REQUEST['modname'].'&tab=modules"><b>'._('Modules').'</b></a>';
-$plugins_link = '<a href="Modules.php?modname='.$_REQUEST['modname'].'&tab=plugins"><b>'._('Plugins').'</b></a>';
+$configuration_link = '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '"><b>' .
+	_( 'Configuration' ) . '</b></a>';
 
-if (AllowEdit())
-	DrawHeader($configuration_link.' | '.$modules_link.' | '.$plugins_link);
+$modules_link = '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&tab=modules"><b>' .
+	_( 'Modules' ) . '</b></a>';
 
-if (isset($_REQUEST['tab']) && $_REQUEST['tab']=='modules')
+$plugins_link = '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&tab=plugins"><b>' .
+	_( 'Plugins' ) . '</b></a>';
+
+if ( AllowEdit() )
+{
+	DrawHeader( $configuration_link . ' | ' . $modules_link . ' | ' . $plugins_link );
+}
+
+if ( isset( $_REQUEST['tab'] )
+	&& $_REQUEST['tab'] === 'modules' )
+{
 	require_once 'modules/School_Setup/includes/Modules.inc.php';
-
-elseif (isset($_REQUEST['tab']) && $_REQUEST['tab']=='plugins')
+}
+elseif ( isset( $_REQUEST['tab'] )
+	&& $_REQUEST['tab'] === 'plugins' )
+{
 	require_once 'modules/School_Setup/includes/Plugins.inc.php';
-
+}
 else
 {
-
 	require_once 'ProgramFunctions/FileUpload.fnc.php';
 
-	if ( $_REQUEST['modfunc']=='update')
+	if ( $_REQUEST['modfunc'] === 'update' )
 	{
 		//FJ upload school logo
 		if ( $_FILES['LOGO_FILE'] && AllowEdit())
@@ -44,8 +54,10 @@ else
 				|| is_numeric($_REQUEST['values']['PROGRAM_CONFIG']['FOOD_SERVICE_BALANCE_TARGET'])))
 			{
 				$sql = '';
-				if (isset($_REQUEST['values']['CONFIG']) && is_array($_REQUEST['values']['CONFIG']))
-					foreach ( (array) $_REQUEST['values']['CONFIG'] as $column => $value)
+				if ( isset( $_REQUEST['values']['CONFIG'] )
+					&& is_array( $_REQUEST['values']['CONFIG'] ) )
+				{
+					foreach ( (array) $_REQUEST['values']['CONFIG'] as $column => $value )
 					{
 						$sql .= "UPDATE CONFIG SET
 							CONFIG_VALUE='" . $value . "'
@@ -61,14 +73,21 @@ else
 							'STUDENTS_EMAIL_FIELD',
 						);
 
-						if (in_array($column,$school_independant_values))
+						if ( in_array( $column, $school_independant_values ) )
+						{
 							$sql .= " AND SCHOOL_ID='0';";
+						}
 						else
+						{
 							$sql .= " AND SCHOOL_ID='" . UserSchool() . "';";
+						}
 					}
+				}
 
-				if (isset($_REQUEST['values']['PROGRAM_CONFIG']) && is_array($_REQUEST['values']['PROGRAM_CONFIG']))
-					foreach ( (array) $_REQUEST['values']['PROGRAM_CONFIG'] as $column => $value)
+				if ( isset( $_REQUEST['values']['PROGRAM_CONFIG'] )
+					&& is_array( $_REQUEST['values']['PROGRAM_CONFIG'] ) )
+				{
+					foreach ( (array) $_REQUEST['values']['PROGRAM_CONFIG'] as $column => $value )
 					{
 						$sql .= "UPDATE PROGRAM_CONFIG SET
 							VALUE='" . $value . "'
@@ -76,12 +95,14 @@ else
 							AND SCHOOL_ID='" . UserSchool() . "'
 							AND SYEAR='" . UserSyear() . "';";
 					}
+				}
 
-				if ( $sql != '')
+				if ( $sql != '' )
 				{
-					DBQuery($sql);
+					DBQuery( $sql );
 
-					$note[] = button('check') .'&nbsp;'._('The school configuration has been modified.');
+					$note[] = button( 'check' ) .'&nbsp;' .
+						_( 'The school configuration has been modified.' );
 				}
 
 				unset( $_ROSARIO['Config'] ); // update Config var
@@ -90,13 +111,13 @@ else
 			}
 			else
 			{
-				$error[] = _('Please enter valid Numeric data.');
+				$error[] = _( 'Please enter valid Numeric data.' );
 			}
 		}
 
-		unset($_REQUEST['modfunc']);
-		unset($_SESSION['_REQUEST_vars']['values']);
-		unset($_SESSION['_REQUEST_vars']['modfunc']);
+		unset( $_REQUEST['modfunc'] );
+		unset( $_SESSION['_REQUEST_vars']['values'] );
+		unset( $_SESSION['_REQUEST_vars']['modfunc'] );
 	}
 
 	if ( ! $_REQUEST['modfunc'] )
@@ -233,6 +254,16 @@ else
 				ProgramConfig( 'students', 'STUDENTS_SEMESTER_COMMENTS' ),
 				'values[PROGRAM_CONFIG][STUDENTS_SEMESTER_COMMENTS]',
 				_( 'Use Semester Comments instead of Quarter Comments' ),
+				'',
+				false,
+				button( 'check' ),
+				button( 'x' )
+			) . '</td></tr>';
+
+			echo '<tr><td>' . CheckboxInput(
+				Config( 'LIMIT_EXISTING_CONTACTS_ADDRESSES' ),
+				'values[CONFIG][LIMIT_EXISTING_CONTACTS_ADDRESSES]',
+				_( 'Limit Existing Contacts & Addresses to current school' ),
 				'',
 				false,
 				button( 'check' ),

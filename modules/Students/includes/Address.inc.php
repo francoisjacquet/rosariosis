@@ -728,13 +728,25 @@ if ( ! $_REQUEST['modfunc'] )
 
 		if ( $_REQUEST['address_id'] === 'old' )
 		{
+			$limit_current_school_sql = '';
+
+			if ( Config( 'LIMIT_EXISTING_CONTACTS_ADDRESSES' ) )
+			{
+				// Limit Existing Addresses to current school.
+				$limit_current_school_sql = " AND ADDRESS_ID IN (SELECT sja.ADDRESS_ID
+					FROM STUDENTS_JOIN_ADDRESS sja, STUDENT_ENROLLMENT se
+					WHERE sja.STUDENT_ID=se.STUDENT_ID
+					AND se.SCHOOL_ID='" . UserSchool() . "')";
+			}
+
 			$addresses_RET = DBGet( DBQuery( "SELECT ADDRESS_ID,ADDRESS,CITY,STATE,ZIPCODE
 				FROM ADDRESS
 				WHERE ADDRESS_ID!='0'
 				AND ADDRESS_ID NOT IN (SELECT ADDRESS_ID
 					FROM STUDENTS_JOIN_ADDRESS
-					WHERE STUDENT_ID='" . UserStudentID() . "')
-				ORDER BY ADDRESS,CITY,STATE,ZIPCODE" ) );
+					WHERE STUDENT_ID='" . UserStudentID() . "')" .
+				$limit_current_school_sql .
+				" ORDER BY ADDRESS,CITY,STATE,ZIPCODE" ) );
 
 			$address_select = array();
 
@@ -743,7 +755,7 @@ if ( ! $_REQUEST['modfunc'] )
 				$address_select[ $address['ADDRESS_ID'] ] = $address['ADDRESS'] . ', ' . $address['CITY'] . ', ' . $address['STATE'] . ', ' . $address['ZIPCODE'];
 			}
 
-			echo SelectInput(
+			echo ChosenSelectInput(
 				'',
 				'values[EXISTING][address_id]',
 				_( 'Select Address' ),
@@ -992,14 +1004,26 @@ if ( ! $_REQUEST['modfunc'] )
 			}
 			elseif ( $_REQUEST['person_id'] === 'old' )
 			{
+				$limit_current_school_sql = '';
+
+				if ( Config( 'LIMIT_EXISTING_CONTACTS_ADDRESSES' ) )
+				{
+					// Limit Existing Contacts to current school.
+					$limit_current_school_sql = " AND p.PERSON_ID IN (SELECT sjp.PERSON_ID
+						FROM STUDENTS_JOIN_PEOPLE sjp, STUDENT_ENROLLMENT se
+						WHERE sjp.STUDENT_ID=se.STUDENT_ID
+						AND se.SCHOOL_ID='" . UserSchool() . "')";
+				}
+
 				$people_RET = DBGet( DBQuery( "SELECT DISTINCT p.PERSON_ID,p.FIRST_NAME,p.LAST_NAME
 					FROM PEOPLE p,STUDENTS_JOIN_PEOPLE sjp
 					WHERE sjp.PERSON_ID=p.PERSON_ID
 					AND sjp.ADDRESS_ID" . ( $_REQUEST['address_id'] != '0' ? '!=' : '=' ) . "'0'
 					AND p.PERSON_ID NOT IN (SELECT PERSON_ID
 						FROM STUDENTS_JOIN_PEOPLE
-						WHERE STUDENT_ID='" . UserStudentID() . "')
-					ORDER BY LAST_NAME,FIRST_NAME" ) );
+						WHERE STUDENT_ID='" . UserStudentID() . "')" .
+					$limit_current_school_sql .
+					" ORDER BY LAST_NAME,FIRST_NAME" ) );
 
 				$people_select = array();
 
@@ -1008,7 +1032,7 @@ if ( ! $_REQUEST['modfunc'] )
 					$people_select[ $people['PERSON_ID'] ] = $people['LAST_NAME'] . ', ' . $people['FIRST_NAME'];
 				}
 
-				echo SelectInput(
+				echo ChosenSelectInput(
 					'',
 					'values[EXISTING][person_id]',
 					_( 'Select Person' ),

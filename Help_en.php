@@ -264,6 +264,9 @@ HTML;
 			<li>
 				<i>Use Semester Comments instead of Quarter Comments</i>: have a new student comments field each semester instead of each quarter
 			</li>
+			<li>
+				<i>Limit Existing Contacts &amp; Addresses to current school</i>: global setting (applies to all schools) that will limit the lists of Persons &amp; Addresses to the ones associated with the user's current school when Adding an Existing Contact or Address
+			</li>
 		</ul>
 	</li>
 	<li>The Grades module:
