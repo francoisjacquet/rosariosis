@@ -170,7 +170,7 @@ function _makeSelectInput( $column, $name, $request )
 	}
 
 	// FJ select field is required.
-	$extra = 'style="max-width:250px;"' . ( $field['REQUIRED'] === 'Y' ? ' required': '' );
+	$extra = ( $field['REQUIRED'] === 'Y' ? 'required': '' );
 
 	return SelectInput(
 		$value[ $column ],
@@ -309,7 +309,7 @@ function _makeAutoSelectInput( $column, $name, $request )
 		&& count( $options ) > 1 )
 	{
 		// FJ select field is required.
-		$extra = 'style="max-width:250px;"' . ( $field['REQUIRED'] === 'Y' ? ' required' : '' );
+		$extra = ( $field['REQUIRED'] === 'Y' ? 'required' : '' );
 
 		return SelectInput(
 			$value[ $column ],
