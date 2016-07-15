@@ -847,7 +847,12 @@ function ChosenSelectInput( $value, $name, $title = '', $options = array(), $all
 		$js = ob_get_clean();
 	}
 
-	$chosen_class = ' class="chosen-select"';
+	// Right to left direction.
+	$RTL_languages = array( 'ar', 'he', 'dv', 'fa', 'ur' );
+
+	$chosen_rtl = in_array( mb_substr( $_SESSION['locale'], 0, 2 ), $RTL_languages ) ? ' chosen-rtl' : '';
+
+	$chosen_class = ' class="chosen-select' . $chosen_rtl . '"';
 
 	if ( ! $extra
 		|| mb_strpos( $extra, 'class=' ) === false )

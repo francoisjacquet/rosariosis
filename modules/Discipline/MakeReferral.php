@@ -241,16 +241,32 @@ if (UserStudentID() && $_REQUEST['student_id'])
 
 	$value = $allow_na = $div = false;
 
-	// multiple select input
-	$extra = 'multiple title="' . _( 'Hold the CTRL key down to select multiple options' ) . '"';
+	// Chosen Multiple select inputs.
+	$extra = 'multiple';
 
 	echo '<table><tr class="st"><td>';
 
-	echo SelectInput( $value, 'emails[]', _( 'Administrators' ), $emailadmin_options, $allow_na, $extra, $div );
+	echo ChosenSelectInput(
+		$value,
+		'emails[]',
+		_( 'Administrators' ),
+		$emailadmin_options,
+		$allow_na,
+		$extra,
+		$div
+	);
 
 	echo '</td><td>';
 
-	echo SelectInput( $value, 'emails[]', _( 'Teachers' ), $emailteacher_options, $allow_na, $extra, $div );
+	echo ChosenSelectInput(
+		$value,
+		'emails[]',
+		_( 'Teachers' ),
+		$emailteacher_options,
+		$allow_na,
+		$extra,
+		$div
+	);
 
 	echo '</td></tr></table></td></tr>';
 

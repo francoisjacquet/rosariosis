@@ -378,8 +378,8 @@ if ( ! $_REQUEST['modfunc'] )
 
 				$syoptions[ UserSyear() ] = FormatSyear( UserSyear(), Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) );
 
-				// Multiple select input.
-				$syextra = 'multiple title="' . _( 'Hold the CTRL key down to select multiple options' ) . '"';
+				// Chosen Multiple select input.
+				$syextra = 'multiple';
 
 				foreach ( (array) $syear_history_RET as $syear_history )
 				{
@@ -389,7 +389,7 @@ if ( ! $_REQUEST['modfunc'] )
 					);
 				}
 
-				$extra['extra_header_left'] .= SelectInput(
+				$extra['extra_header_left'] .= ChosenSelectInput(
 					UserSyear(),
 					'syear_arr[]',
 					'',

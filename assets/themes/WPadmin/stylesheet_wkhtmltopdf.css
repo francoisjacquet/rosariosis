@@ -910,12 +910,21 @@ input[type=checkbox].toggle {
 	left: -9999px;
 }
 
-.toggle + div { /* Hidden State */
+.toggle ~ .toggle-me { /* Hidden State */
 	display: none;
 }
 
-.toggle:checked + div { /* Toggled State */
+.toggle:checked ~ .toggle-me { /* Toggled State */
 	display: block;
+}
+
+.toggle:before{
+	content:"\25b6\0000a0";
+	vertical-align:10%
+}
+
+.toggle:checked + .toggle:before{
+	content:"\25bc\0000a0"
 }
 
 /* MiniColors */
@@ -944,6 +953,30 @@ input[type=checkbox].toggle {
 /* Create account page */
 .create-account {
 	padding: 0 2px;
+}
+
+/* AJAX error message */
+.ajax-error {
+	position: fixed;
+	top: 0;
+	right: 0;
+	padding: 11px;
+	background-color: red;
+	font-weight: bold;
+	color: #fff;
+	z-index: 100000;
+	display: none;
+}
+
+
+/* TinyMCE responsive toolbar buttons */
+.mce-btn-group .mce-btn {
+	float: left;
+}
+
+/* Chosen select: add 19px to original width so Chosen options ALL fit */
+.chosen-select {
+	padding-right: 19px;
 }
 
 
