@@ -7,6 +7,7 @@ Changes in 2.9.5
 - Add jQuery Chosen 1.5.1 plugin in assets/js/jquery-chosen
 - Add ChosenSelectInput() function in Inputs.php
 - Add "Limit Existing Contacts & Addresses to current school" global setting in Configuration.php (sponsored by Aptiris)
+- Use Chosen for multiple select inputs in MakeReferral.php & Transcripts.php
 
 Changes in 2.9.4
 ----------------
