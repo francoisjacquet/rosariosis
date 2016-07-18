@@ -1083,6 +1083,7 @@ input[type=checkbox].toggle {
 
 /* Chosen select: add 15px to original width so Chosen options ALL fit */
 .chosen-select {
+	min-width: 25px;
 	padding-right: 15px;
 }
 /* Add 23px to multiple Chosen select */

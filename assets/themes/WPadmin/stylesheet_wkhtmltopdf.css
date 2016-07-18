@@ -971,9 +971,14 @@ input[type=checkbox].toggle {
 	float: left;
 }
 
-/* Chosen select: add 19px to original width so Chosen options ALL fit */
+/* Chosen select: add 15px to original width so Chosen options ALL fit */
 .chosen-select {
-	padding-right: 19px;
+	min-width: 25px;
+	padding-right: 15px;
+}
+/* Add 23px to multiple Chosen select */
+.chosen-select[multiple] {
+	padding-right: 23px;
 }
 
 
