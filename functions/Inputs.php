@@ -800,8 +800,7 @@ function MLSelectInput( $value, $name, $title = '', $options, $allow_na = 'N/A',
 
 
 /**
- * SelectInput() wrapper
- * which adds jQuery Chosen.
+ * SelectInput() wrapper which adds jQuery Chosen.
  *
  * Chosen is a library for making long, unwieldy select boxes more friendly.
  * @link https://github.com/harvesthq/chosen
@@ -879,10 +878,13 @@ function ChosenSelectInput( $value, $name, $title = '', $options = array(), $all
 	);
 
 	if ( $value != ''
-		&& $div )
+		&& $div
+		&& AllowEdit()
+		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		$id = GetInputID( $name );
 
+		// On InputDivOnClick(), call Chosen.
 		$return .= '<script>$("#div' . $id . '").on("click", function(){
 			$("#' . $id . '").chosen();
 		});</script>';
