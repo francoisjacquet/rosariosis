@@ -348,7 +348,7 @@ if ( empty( $_SESSION['STAFF_ID'] )
 				</tr>
 				<tr>
 					<td colspan="2">
-						<a href="PasswordReset.php"><?php echo _( 'Password help' ); ?></a>
+						<a href="PasswordReset.php" rel="nofollow"><?php echo _( 'Password help' ); ?></a>
 					</td>
 				</tr>
 			</table>
@@ -359,7 +359,7 @@ if ( empty( $_SESSION['STAFF_ID'] )
 			<?php if ( Config( 'CREATE_USER_ACCOUNT' ) ) : ?>
 
 				<div class="center">[
-					<a href="index.php?create_account=user&amp;staff_id=new">
+					<a href="index.php?create_account=user&amp;staff_id=new" rel="nofollow">
 						<?php echo _( 'Create User Account' ); ?>
 					</a>
 				]</div>
@@ -369,7 +369,7 @@ if ( empty( $_SESSION['STAFF_ID'] )
 			if ( Config( 'CREATE_STUDENT_ACCOUNT' ) ) : ?>
 
 				<div class="center">[
-					<a href="index.php?create_account=student&amp;student_id=new">
+					<a href="index.php?create_account=student&amp;student_id=new" rel="nofollow">
 						<?php echo _( 'Create Student Account' ); ?>
 					</a>
 				]</div>
