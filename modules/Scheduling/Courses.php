@@ -776,7 +776,7 @@ if ((! $_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && ! $_REQ
 				if ( $new == false )
 				{
 					// Fix Delete Period when days unchecked.
-					$days_html .= '<input type="hidden" value="" name="tables[COURSE_PERIOD_SCHOOL_PERIODS][' . $school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'] . '][DAYS][' . $day . ']" />';
+					$days_html = '<input type="hidden" value="" name="tables[COURSE_PERIOD_SCHOOL_PERIODS][' . $school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'] . '][DAYS][' . $day . ']" />' . $days_html;
 
 					$header .= InputDivOnclick(
 						$days_id,
