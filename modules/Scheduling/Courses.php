@@ -227,6 +227,7 @@ if ( $_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 									$columns['MP'] = 'QTR';
 							}
 						}
+
 						//FJ multiple school period for a course period
 						if ( $table_name=='COURSE_PERIOD_SCHOOL_PERIODS')
 						{
@@ -240,7 +241,7 @@ if ( $_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 							{
 								$school_p_title = DBGet(DBQuery("SELECT TITLE FROM SCHOOL_PERIODS WHERE PERIOD_ID='".$school_p['PERIOD_ID']."' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
 
-			//FJ days display to locale
+								//FJ days display to locale
 								$nb_days = mb_strlen($school_p['DAYS']);
 								$columns_DAYS_locale = $nb_days > 1?' '._('Days').' ':($nb_days == 0 ? '' : ' '._('Day').' ');
 								for ($i = 0; $i < $nb_days; $i++) {
@@ -774,6 +775,9 @@ if ((! $_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && ! $_REQ
 
 				if ( $new == false )
 				{
+					// Fix Delete Period when days unchecked.
+					$days_html .= '<input type="hidden" value="" name="tables[COURSE_PERIOD_SCHOOL_PERIODS][' . $school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'] . '][DAYS][' . $day . ']" />';
+
 					$header .= InputDivOnclick(
 						$days_id,
 						$days_html . str_replace( '<br />', '', $days_title ),
