@@ -537,12 +537,33 @@ if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 
 if ((! $_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && ! $_REQUEST['course_modfunc'])
 {
+	// Check subject ID is valid for current school & syear!
+	if ( $_REQUEST['modfunc'] !== 'choose_course'
+		&& isset( $_REQUEST['subject_id'] )
+		&& $_REQUEST['subject_id'] )
+	{
+		$subject_RET = DBGet( DBQuery( "SELECT SUBJECT_ID
+			FROM COURSE_SUBJECTS
+			WHERE SCHOOL_ID='" . UserSchool() . "'
+			AND SYEAR='" . UserSyear() . "'
+			AND SUBJECT_ID='" . $_REQUEST['subject_id'] . "'" ) );
+
+		if ( ! $subject_RET )
+		{
+			// Unset subject, course & course period IDs.
+			unset( $_REQUEST['subject_id'], $_REQUEST['course_id'], $_REQUEST['course_period_id'] );
+		}
+	}
+
 	// FJ fix SQL bug invalid sort order
 	echo ErrorMessage( $error );
 
-	$sql = "SELECT SUBJECT_ID,TITLE FROM COURSE_SUBJECTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".($_REQUEST['modfunc']=='choose_course'&&$_REQUEST['last_year']=='true'?UserSyear()-1:UserSyear())."' ORDER BY SORT_ORDER,TITLE";
-	$QI = DBQuery($sql);
-	$subjects_RET = DBGet($QI);
+	$subjects_RET = DBGet( DBQuery( "SELECT SUBJECT_ID,TITLE
+		FROM COURSE_SUBJECTS
+		WHERE SCHOOL_ID='" . UserSchool() . "'
+		AND SYEAR='" . ( $_REQUEST['modfunc'] == 'choose_course' && $_REQUEST['last_year'] == 'true' ?
+			UserSyear() - 1 :
+			UserSyear() ) . "' ORDER BY SORT_ORDER,TITLE" ) );
 
 	if ( $_REQUEST['modfunc']!='choose_course')
 	{
