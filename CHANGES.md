@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 2.9.6
+----------------
+- Fix #157 Delete Period when days unchecked in Courses.php
+
 Changes in 2.9.5
 ----------------
 - Fix #152 Cookie on localhost/ (root path) and IE in Warehouse.php
@@ -8,7 +12,6 @@ Changes in 2.9.5
 - Add ChosenSelectInput() function in Inputs.php
 - Add "Limit Existing Contacts & Addresses to current school" global setting in Configuration.php (sponsored by Aptiris)
 - Use Chosen for multiple select inputs in MakeReferral.php & Transcripts.php
-- Fix #157 Delete Period when days unchecked in Courses.php
 
 Changes in 2.9.4
 ----------------
