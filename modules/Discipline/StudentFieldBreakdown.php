@@ -23,7 +23,8 @@ if ( empty( $start_date ) )
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'" ) );
 
-	if ( count( $min_date ) )
+	if ( $min_date
+		&& $min_date[1]['MIN_DATE'] )
 	{
 		$start_date = $min_date[1]['MIN_DATE'];
 	}
