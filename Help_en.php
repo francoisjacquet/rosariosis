@@ -906,7 +906,8 @@ if ( User( 'PROFILE' ) === 'admin' ) :
 	To add a course to the student's schedule, click on the "Add a Course" link next to the add icon (+) and select a course from the popup window that appears. The screen will automatically refresh to show the course addition.
 </p>
 <p>
-	To drop an existing course, click on the delete icon (-) next to the course you want to drop from the student's schedule.
+	To drop an existing course, select the "Dropped" date next to the course you want to drop from the student's schedule.
+	If you select a "Dropped" date prior to the "Enrolled" date, the course will be removed and you will be asked to confirm the removal of the associated absences and grades records.
 </p>
 <p>
 	To change the course period of a course for the student, click on the "Period - Teacher" of the course you want to change and select the new course period. You can also change the term in the same fashion.

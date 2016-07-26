@@ -6,6 +6,7 @@ Changes in 2.9.6
 - Fix #157 Delete Period when days unchecked in Courses.php
 - Fix Check subject ID is valid for current school & syear in Courses.php
 - Fix SQL error invalid input syntax for type date in Discipline/*Breakdown.php
+- Fix #159 Update Help text to drop/remove a course in Help_en.php & Help_es.php
 
 Changes in 2.9.5
 ----------------

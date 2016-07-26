@@ -914,7 +914,8 @@ if ( User( 'PROFILE' ) === 'admin' ) :
 	Para agregar un curso al horario del estudiante, haga clic sobre el enlace «Agregar un Curso» al lado del icono «+» y seleccione el curso desde la ventana emergente que aparece. La pantalla se refrescara automáticamente para mostrar el curso.
 </p>
 <p>
-	Para retirar un curso existente, haga clic sobre el icono «-» al lado del curso que quiere retirar del horario del estudiante.
+	Para retirar un curso existente, selecionne la fecha «Retirado» al lado del curso que quiere retirar del horario del estudiante y guarde.
+	Si selecciona una fecha «Retirado» anterior a la fecha «Matriculado», el curso será eliminado y se le pedirá confirmar la eliminación de las ausencias y las calificaciones asociadas al curso.
 </p>
 <p>
 	Para cambiar una clase de un curso de un estudiante, haga clic sobre «Hora - Docente» del curso que quiere cambiar y seleccione la nueva clase. Usted también puede cambiar el periodo de la misma manera.
