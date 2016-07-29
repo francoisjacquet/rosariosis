@@ -261,7 +261,7 @@ function Widgets( $item, &$myextra = null )
 						AND w_ss.SYEAR=ssm.SYEAR
 						AND w_ss.SCHOOL_ID=ssm.SCHOOL_ID
 						AND w_ss.COURSE_PERIOD_ID='" . $_REQUEST['w_course_period_id'] . "'
-						AND ('".DBDate()."'
+						AND ('" . DBDate() . "'
 							BETWEEN w_ss.START_DATE
 							AND w_ss.END_DATE
 							OR w_ss.END_DATE IS NULL)";
@@ -742,7 +742,7 @@ function Widgets( $item, &$myextra = null )
 
 				if ( ! $extra['NoSearchTerms'] )
 				{
-					$_ROSARIO['SearchTerms'] = $LetterGradeSearchTerms;
+					$_ROSARIO['SearchTerms'] .= $LetterGradeSearchTerms;
 				}
 
 				$extra['WHERE'] .= " AND " . ( $_REQUEST['letter_grade_exclude'] == 'Y' ? 'NOT ' : '' ) . "EXISTS
