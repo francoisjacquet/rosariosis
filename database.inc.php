@@ -117,25 +117,9 @@ function DBQuery( $sql )
  */
 function db_fetch_row( $result )
 {
-	$return = @pg_fetch_array( $result );
+	$return = @pg_fetch_array( $result, null, PGSQL_ASSOC );
 
-	if ( is_array( $return ) )
-	{
-		// Modify loop: use for instead of foreach.
-		$key = array_keys( $return );
-
-		$size = count( $key );
-
-		for ( $i = 0; $i < $size; $i++ )
-		{
-			if ( is_int( $key[ $i ] ) )
-			{
-				unset( $return[ $key[ $i ] ] );
-			}
-		}
-	}
-
-	return @array_change_key_case( $return, CASE_UPPER );
+	return is_array( $return ) ? @array_change_key_case( $return, CASE_UPPER ) : $return;
 }
 
 

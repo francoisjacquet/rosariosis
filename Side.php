@@ -733,15 +733,16 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 					$title = $_ROSARIO['Menu'][ $menu_key[ $i ] ][ $modcat_key[ $j ] ];
 
 					// If URL, not a program.
-					if ( mb_stripos( $modcat_key[ $j ], 'http' ) !== false ) : ?>
+					/*if ( mb_stripos( $modcat_key[ $j ], 'http' ) !== false ) : ?>
 						<li><a href="<?php echo $modcat_key[ $j ]; ?>" target="_blank"><?php
 							echo $title;
 						?></a></li>
 					<?php
-					elseif ( ! is_numeric( $modcat_key[ $j ] ) ) :
+					else*/
+					if ( ! is_numeric( $modcat_key[ $j ] ) ) :
 
 						// If PDF, open in new tab.
-						$target = ( mb_stripos( $modcat_key[ $j ], '_ROSARIO_PDF' ) !== false ?
+						$target = ( mb_strpos( $modcat_key[ $j ], '_ROSARIO_PDF' ) !== false ?
 							' target="_blank"' :
 							''
 						);

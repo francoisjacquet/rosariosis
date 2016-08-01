@@ -86,7 +86,7 @@ function DBGet( $QI, $functions = array(), $index = array() )
 
 		foreach ( (array) $RET as $key => $value )
 		{
-			if ( array_key_exists( $key, $functions )
+			if ( isset( $functions[ $key ] )
 				&& function_exists( $functions[ $key ] ) )
 			{
 				if ( $index_count )
