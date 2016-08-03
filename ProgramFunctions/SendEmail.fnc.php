@@ -92,7 +92,6 @@ function SendEmail( $to, $subject, $message, $reply_to = null, $cc = null, $atta
 		}
 		catch ( phpmailerException $e )
 		{
-			continue;
 		}
 	}
 
