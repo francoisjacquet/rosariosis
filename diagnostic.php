@@ -57,6 +57,12 @@ if ( ! extension_loaded( 'mbstring' ) )
 	$error[] = 'PHP extensions: RosarioSIS relies on the mbstring extension. See the php.ini file to activate it.' . $inipath;
 }
 
+// Check for xml extension.
+if ( ! extension_loaded( 'xml' ) )
+{
+	$error[] = 'PHP extensions: RosarioSIS relies on the xml extension. See the php.ini file to activate it.' . $inipath;
+}
+
 if ( count( $error ) )
 {
 	echo _ErrorMessage( $error, 'fatal' );
