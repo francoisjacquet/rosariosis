@@ -374,7 +374,8 @@ function Warehouse( $mode )
 	<link rel="icon" href="apple-touch-icon.png" sizes="128x128" />
 	<link rel="stylesheet" href="assets/themes/<?php echo Preferences( 'THEME' ); ?>/stylesheet.css?v=<?php echo ROSARIO_VERSION; ?>" />
 	<style>.highlight,.highlight-hover:hover{background-color:<?php echo Preferences( 'HIGHLIGHT' ); ?> !important;}</style>
-	<?php if ( $_ROSARIO['page'] === 'modules' ) : ?>
+	<?php if ( $_ROSARIO['page'] === 'modules'
+		|| $_ROSARIO['page'] === 'create-account' ) : ?>
 	<script src="assets/js/jquery.js"></script>
 	<script src="assets/js/plugins.min.js?v=<?php echo ROSARIO_VERSION; ?>"></script>
 	<script src="assets/js/warehouse.js?v=<?php echo ROSARIO_VERSION; ?>"></script>
