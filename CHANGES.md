@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 2.9.7
+----------------
+- Update Parsedown class to version 1.6.0 in classes/Parsedown.php
+
 Changes in 2.9.6
 ----------------
 - Fix #157 Delete Period when days unchecked in Courses.php
