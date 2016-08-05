@@ -5,6 +5,7 @@ Changes in 2.9.7
 ----------------
 - Update Parsedown class to version 1.6.0 in classes/Parsedown.php
 - Update PHPMailer class to version 5.2.16 in classes/PHPMailer/
+- Actions API simplified: register your custom action tag on the fly in Actions.php
 
 Changes in 2.9.6
 ----------------
