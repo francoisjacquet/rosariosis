@@ -7,6 +7,7 @@ Changes in 2.9.7
 - Update PHPMailer class to version 5.2.16 in classes/PHPMailer/
 - Actions API simplified: register your custom action tag on the fly in Actions.php
 - Fix no JS loaded regression (since 2.9.2) in Create Account pages in Warehouse.php
+- Hotfix SQL error when new subject ID
 
 Changes in 2.9.6
 ----------------
