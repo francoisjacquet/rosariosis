@@ -540,7 +540,7 @@ if ((! $_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && ! $_REQ
 	// Check subject ID is valid for current school & syear!
 	if ( $_REQUEST['modfunc'] !== 'choose_course'
 		&& isset( $_REQUEST['subject_id'] )
-		&& $_REQUEST['subject_id'] )
+		&& $_REQUEST['subject_id'] !== 'new' )
 	{
 		$subject_RET = DBGet( DBQuery( "SELECT SUBJECT_ID
 			FROM COURSE_SUBJECTS
