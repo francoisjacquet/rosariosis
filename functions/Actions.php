@@ -14,6 +14,8 @@
  *
  * Each tag contains an array of the functions to be hooked
  *
+ * @since 2.9.7 Actions API simplified: register your custom action tag on the fly
+ *
  * @var array RosarioSIS actions
  */
 $RosarioActions = array();
