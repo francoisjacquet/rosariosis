@@ -70,7 +70,7 @@ if ( empty( $_ROSARIO['Menu'] ) )
 		foreach ( (array) $programs as $program => $title )
 		{
 			if ( $program === 'title' // Module title.
-				|| $program === 'default' // Default program when opening module.
+				|| ( $program === 'default' ) // Default program when opening module (allowed).
 				|| is_numeric( $program ) ) // If program is numeric, it is a section.
 			{
 				$_ROSARIO['Menu'][ $modcat ][ $program ] = $title;
@@ -88,7 +88,8 @@ if ( empty( $_ROSARIO['Menu'] ) )
 				$_ROSARIO['Menu'][ $modcat ][ $program ] = $title;
 
 				// Default to first allowed program if default not allowed.
-				if ( ! isset( $_ROSARIO['Menu'][ $modcat ]['default'] ) )
+				if ( ! isset( $_ROSARIO['Menu'][ $modcat ]['default'] )
+					|| ! $_ROSARIO['AllowUse'][ $_ROSARIO['Menu'][ $modcat ]['default'] ] )
 				{
 					$_ROSARIO['Menu'][ $modcat ]['default'] = $program;
 				}

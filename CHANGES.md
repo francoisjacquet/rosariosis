@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 2.9.8
+----------------
+- Fix Menu default program when not allowed in Menu.php
+
 Changes in 2.9.7
 ----------------
 - Update Parsedown class to version 1.6.0 in classes/Parsedown.php
