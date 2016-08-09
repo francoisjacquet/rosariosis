@@ -70,7 +70,7 @@ if ( empty( $_ROSARIO['Menu'] ) )
 		foreach ( (array) $programs as $program => $title )
 		{
 			if ( $program === 'title' // Module title.
-				|| ( $program === 'default' ) // Default program when opening module (allowed).
+				|| $program === 'default' // Default program when opening module.
 				|| is_numeric( $program ) ) // If program is numeric, it is a section.
 			{
 				$_ROSARIO['Menu'][ $modcat ][ $program ] = $title;
