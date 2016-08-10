@@ -1,20 +1,23 @@
 <?php
-function _makeIncomesRemove($value,$column)
-{	global $THIS_RET;
+function _makeIncomesRemove( $value, $column )
+{
+	global $THIS_RET;
 
-	return button('remove',_('Delete'),'"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&id='.$THIS_RET['ID'].'"');
+	return button(
+		'remove',
+		_( 'Delete' ),
+		'"Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove&id=' . $THIS_RET['ID'] . '"'
+	);
 }
 
-function _makeSalariesRemove($value,$column)
-{	global $THIS_RET;
-
-	return button('remove',_('Delete'),'"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&id='.$THIS_RET['ID'].'"');
+function _makeSalariesRemove( $value, $column )
+{
+	return _makeIncomesRemove( $value, $name );
 }
 
-function _makePaymentsRemove($value,$column)
-{	global $THIS_RET;
-
-	return button('remove',_('Delete'),'"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&id='.$THIS_RET['ID'].'"');
+function _makePaymentsRemove( $value, $column )
+{
+	return _makeIncomesRemove( $value, $name );
 }
 
 function _makeIncomesTextInput($value,$name)
