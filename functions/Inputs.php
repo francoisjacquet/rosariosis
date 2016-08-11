@@ -1205,13 +1205,9 @@ function FormatInputTitle( $title, $id = '', $required = false, $break = '<br />
 		return '';
 	}
 
-	// Check if span override
-	if ( mb_stripos( $title, '<span ' ) === false )
-	{
-		$class = $required && AllowEdit() ? 'legend-red' : 'legend-gray';
+	$class = $required && AllowEdit() ? 'legend-red' : 'legend-gray';
 
-		$title = '<span class="' . $class . '">' . $title . '</span>';
-	}
+	$title = '<span class="' . $class . '">' . $title . '</span>';
 
 	// Add label only if id attribute given
 	if ( $id !== '' )
