@@ -318,19 +318,29 @@ echo ErrorMessage( $error );
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	$addresses_RET = DBGet(DBQuery("SELECT a.ADDRESS_ID, sjp.STUDENT_RELATION,a.ADDRESS,a.CITY,a.STATE,a.ZIPCODE,a.PHONE,a.MAIL_ADDRESS,a.MAIL_CITY,a.MAIL_STATE,a.MAIL_ZIPCODE,  sjp.CUSTODY,sja.MAILING,sja.RESIDENCE,sja.BUS_PICKUP,sja.BUS_DROPOFF,".db_case(array('a.ADDRESS_ID',"'0'",'1','0'))."AS SORT_ORDER
+	$addresses_RET = DBGet( DBQuery( "SELECT a.ADDRESS_ID, sjp.STUDENT_RELATION,a.ADDRESS,
+		a.CITY,a.STATE,a.ZIPCODE,a.PHONE,a.MAIL_ADDRESS,a.MAIL_CITY,a.MAIL_STATE,a.MAIL_ZIPCODE,
+		sjp.CUSTODY,sja.MAILING,sja.RESIDENCE,sja.BUS_PICKUP,sja.BUS_DROPOFF," .
+		db_case( array( 'a.ADDRESS_ID', "'0'", '1', '0' ) ) . "AS SORT_ORDER
 	FROM ADDRESS a,STUDENTS_JOIN_ADDRESS sja,STUDENTS_JOIN_PEOPLE sjp
 	WHERE a.ADDRESS_ID=sja.ADDRESS_ID
-	AND sja.STUDENT_ID='".UserStudentID()."'
+	AND sja.STUDENT_ID='" . UserStudentID() . "'
 	AND a.ADDRESS_ID=sjp.ADDRESS_ID
 	AND sjp.STUDENT_ID=sja.STUDENT_ID
 	UNION
-	SELECT a.ADDRESS_ID,'"._('No Contact')."' AS STUDENT_RELATION,a.ADDRESS,a.CITY,a.STATE,a.ZIPCODE,a.PHONE,a.MAIL_ADDRESS,a.MAIL_CITY,a.MAIL_STATE,a.MAIL_ZIPCODE,'' AS CUSTODY,sja.MAILING,sja.RESIDENCE,sja.BUS_PICKUP,sja.BUS_DROPOFF,".db_case(array('a.ADDRESS_ID',"'0'",'1','0'))." AS SORT_ORDER
+	SELECT a.ADDRESS_ID,'" . DBEscapeString( _( 'No Contact' ) ) . "' AS STUDENT_RELATION,
+		a.ADDRESS,a.CITY,a.STATE,a.ZIPCODE,a.PHONE,a.MAIL_ADDRESS,a.MAIL_CITY,a.MAIL_STATE,
+		a.MAIL_ZIPCODE,'' AS CUSTODY,sja.MAILING,sja.RESIDENCE,sja.BUS_PICKUP,sja.BUS_DROPOFF," .
+		db_case( array( 'a.ADDRESS_ID', "'0'", '1', '0' ) ) . " AS SORT_ORDER
 	FROM ADDRESS a,STUDENTS_JOIN_ADDRESS sja
 	WHERE a.ADDRESS_ID=sja.ADDRESS_ID
-	AND sja.STUDENT_ID='".UserStudentID()."'
-	AND NOT EXISTS (SELECT '' FROM STUDENTS_JOIN_PEOPLE sjp WHERE sjp.STUDENT_ID=sja.STUDENT_ID AND sjp.ADDRESS_ID=a.ADDRESS_ID)
-	ORDER BY SORT_ORDER,RESIDENCE,CUSTODY,STUDENT_RELATION"),array(),array('ADDRESS_ID'));
+	AND sja.STUDENT_ID='" . UserStudentID() . "'
+	AND NOT EXISTS (SELECT ''
+		FROM STUDENTS_JOIN_PEOPLE sjp
+		WHERE sjp.STUDENT_ID=sja.STUDENT_ID
+		AND sjp.ADDRESS_ID=a.ADDRESS_ID)
+	ORDER BY SORT_ORDER,RESIDENCE,CUSTODY,STUDENT_RELATION" ), array(), array( 'ADDRESS_ID' ) );
+
 	//echo '<pre>'; var_dump($addresses_RET); echo '</pre>';
 
 	if (count($addresses_RET)==1 && $_REQUEST['address_id']!='new' && $_REQUEST['address_id']!='old' && $_REQUEST['address_id']!='0')
@@ -344,169 +354,176 @@ if ( ! $_REQUEST['modfunc'] )
 		if ( $_REQUEST['address_id']=='')
 			$_REQUEST['address_id'] = key($addresses_RET).'';
 
-		if (count($addresses_RET))
+		foreach ( (array) $addresses_RET as $address_id => $addresses)
 		{
-			foreach ( (array) $addresses_RET as $address_id => $addresses)
+			echo '<tr>';
+
+			if ( $address_id!='0')
 			{
-				echo '<tr>';
 
-				if ( $address_id!='0')
+			// find other students associated with this address
+			$xstudents = DBGet( DBQuery( "SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,
+				RESIDENCE,BUS_PICKUP,BUS_DROPOFF,MAILING
+				FROM STUDENTS s,STUDENTS_JOIN_ADDRESS sja
+				WHERE s.STUDENT_ID=sja.STUDENT_ID
+				AND sja.ADDRESS_ID='" . $address_id . "'
+				AND sja.STUDENT_ID!='" . UserStudentID() . "'" ) );
+
+			if ( $xstudents )
+			{
+				$warning = array();
+
+				foreach ( (array) $xstudents as $xstudent )
 				{
+					$ximages = '';
 
-				// find other students associated with this address
-				$xstudents = DBGet( DBQuery( "SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,
-					RESIDENCE,BUS_PICKUP,BUS_DROPOFF,MAILING
-					FROM STUDENTS s,STUDENTS_JOIN_ADDRESS sja
-					WHERE s.STUDENT_ID=sja.STUDENT_ID
-					AND sja.ADDRESS_ID='" . $address_id . "'
-					AND sja.STUDENT_ID!='" . UserStudentID() . "'" ) );
-
-				if ( $xstudents )
-				{
-					$warning = array();
-
-					foreach ( (array) $xstudents as $xstudent )
+					if ( $xstudent['RESIDENCE'] === 'Y' )
 					{
-						$ximages = '';
-
-						if ( $xstudent['RESIDENCE'] === 'Y' )
-						{
-							$ximages .= ' ' . button( 'house', '', '', 'bigger' );
-						}
-
-						if ( $xstudent['BUS_PICKUP'] === 'Y'
-							|| $xstudent['BUS_DROPOFF'] === 'Y' )
-						{
-							$ximages .= ' ' . button( 'bus', '', '', 'bigger' );
-						}
-
-						if ( $xstudent['MAILING'] === 'Y' )
-						{
-							$ximages .= ' ' . button( 'mailbox', '', '', 'bigger' );
-						}
-
-						$warning[] = '<b>' . $xstudent['FULL_NAME'] . '</b>' . $ximages;
+						$ximages .= ' ' . button( 'house', '', '', 'bigger' );
 					}
 
-					echo '<th>' . makeTipMessage(
-						implode( '<br />', $warning ),
-						_( 'Other students associated with this address' ),
-						button( 'warning' )
-					) . '</th>';
-				}
-				else
-					echo '<th>&nbsp;</th>';
-				}
-				else
-					echo '<th>&nbsp;</th>';
+					if ( $xstudent['BUS_PICKUP'] === 'Y'
+						|| $xstudent['BUS_DROPOFF'] === 'Y' )
+					{
+						$ximages .= ' ' . button( 'bus', '', '', 'bigger' );
+					}
 
-				$relation_list = '';
-				foreach ( (array) $addresses as $address)
+					if ( $xstudent['MAILING'] === 'Y' )
+					{
+						$ximages .= ' ' . button( 'mailbox', '', '', 'bigger' );
+					}
+
+					$warning[] = '<b>' . $xstudent['FULL_NAME'] . '</b>' . $ximages;
+				}
+
+				echo '<th>' . makeTipMessage(
+					implode( '<br />', $warning ),
+					_( 'Other students associated with this address' ),
+					button( 'warning' )
+				) . '</th>';
+			}
+			else
+				echo '<th>&nbsp;</th>';
+			}
+			else
+				echo '<th>&nbsp;</th>';
+
+			$relation_list = '';
+			foreach ( (array) $addresses as $address)
 //FJ fix Warning: mb_strpos(): Empty delimiter
 //					$relation_list .= ($address['STUDENT_RELATION']&&mb_strpos($address['STUDENT_RELATION'].', ',$relation_list)==false?$address['STUDENT_RELATION']:'---').', ';
-					$relation_list .= ($address['STUDENT_RELATION']&&(empty($relation_list)?false:mb_strpos($address['STUDENT_RELATION'].', ',$relation_list))==false?$address['STUDENT_RELATION']:'---').', ';
-				$address = $addresses[1];
-				$relation_list = mb_substr($relation_list,0,-2);
+				$relation_list .= ($address['STUDENT_RELATION']&&(empty($relation_list)?false:mb_strpos($address['STUDENT_RELATION'].', ',$relation_list))==false?$address['STUDENT_RELATION']:'---').', ';
+			$address = $addresses[1];
+			$relation_list = mb_substr($relation_list,0,-2);
 
-				$images = '';
-				if ( $address['RESIDENCE']=='Y')
-					$images .= ' '. button('house','','','bigger');
+			$images = '';
+			if ( $address['RESIDENCE']=='Y')
+				$images .= ' '. button('house','','','bigger');
 
-				if ( $address['BUS_PICKUP']=='Y' || $address['BUS_DROPOFF']=='Y')
-					$images .= ' '. button('bus','','','bigger');
+			if ( $address['BUS_PICKUP']=='Y' || $address['BUS_DROPOFF']=='Y')
+				$images .= ' '. button('bus','','','bigger');
 
-				if ( $address['MAILING']=='Y')
-					$images .= ' '. button('mailbox','','','bigger');
+			if ( $address['MAILING']=='Y')
+				$images .= ' '. button('mailbox','','','bigger');
 
-				echo '<th colspan="2">'.$images.'&nbsp;'.$relation_list.'</th>';
+			echo '<th colspan="2">'.$images.'&nbsp;'.$relation_list.'</th>';
 
-				echo '</tr>';
+			echo '</tr>';
 
-				if ( $address_id==$_REQUEST['address_id'] && $_REQUEST['address_id']!='0' && $_REQUEST['address_id']!='new')
-					$this_address = $address;
+			if ( $address_id==$_REQUEST['address_id'] && $_REQUEST['address_id']!='0' && $_REQUEST['address_id']!='new')
+				$this_address = $address;
 
-				$i++;
+			$i++;
 
-				$remove_address_button = '';
+			$remove_address_button = '';
 
-				if ( $address['ADDRESS_ID'] != '0' && AllowEdit() )
-				{
-					$remove_address_button = button(
-						'remove',
-						'',
-						'"Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $_REQUEST['category_id'] . '&address_id=' . $address['ADDRESS_ID'] . '&modfunc=delete"'
-					);
-				}
-
-				if ( $_REQUEST['address_id'] == $address['ADDRESS_ID'] )
-				{
-					echo '<tr class="highlight"><td>' . $remove_address_button . '</td><td>';
-				}
-				else
-				{
-					echo '<tr class="highlight-hover"><td>' . $remove_address_button . '</td><td>';
-				}
-
-				echo '<a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$address['ADDRESS_ID'].'">'.$address['ADDRESS'].'<br />'.($address['CITY']?$address['CITY'].', ':'').$address['STATE'].($address['ZIPCODE']?' '.$address['ZIPCODE']:'').'</a>';
-
-				echo '</td>';
-				echo '<td'.$style.'><a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$address['ADDRESS_ID'].'" class="arrow right"></a></td>';
-
-				echo '</tr>';
+			if ( $address['ADDRESS_ID'] != '0' && AllowEdit() )
+			{
+				$remove_address_button = button(
+					'remove',
+					'',
+					'"Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $_REQUEST['category_id'] . '&address_id=' . $address['ADDRESS_ID'] . '&modfunc=delete"'
+				);
 			}
 
+			if ( $_REQUEST['address_id'] == $address['ADDRESS_ID'] )
+			{
+				echo '<tr class="highlight"><td>' . $remove_address_button . '</td><td>';
+			}
+			else
+			{
+				echo '<tr class="highlight-hover"><td>' . $remove_address_button . '</td><td>';
+			}
+
+			echo '<a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$address['ADDRESS_ID'].'">'.$address['ADDRESS'].'<br />'.($address['CITY']?$address['CITY'].', ':'').$address['STATE'].($address['ZIPCODE']?' '.$address['ZIPCODE']:'').'</a>';
+
+			echo '</td>';
+			echo '<td'.$style.'><a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$address['ADDRESS_ID'].'" class="arrow right"></a></td>';
+
+			echo '</tr>';
+		}
+
+		if ( count( $addresses_RET ) )
+		{
 			echo '<tr><td colspan="3">&nbsp;</td></tr>';
 		}
 	}
 	else
 		echo '<tr><td colspan="3">'._('This student doesn\'t have an address.').'</td></tr>';
 
-	// New Address
-	if (AllowEdit())
+	if ( AllowEdit() )
 	{
-		if ( $_REQUEST['address_id']=='new')
-			echo '<tr class="highlight"><td>'.button('add').'</td><td>';
-		else
-			echo '<tr class="highlight-hover"><td>'.button('add').'</td><td>';
+		$tr_add_highlight = '<tr class="highlight"><td>' . button( 'add' ) . '</td><td>';
 
-		echo '<a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=new">'._('Add a <b>New</b> Address').' &nbsp; </a>';
-		echo '</td>';
+		$tr_add_highlight_hover = '<tr class="highlight-hover"><td>' . button( 'add' ) . '</td><td>';
 
-		echo '<td><a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=new" class="arrow right"></a></td>';
-		echo '</tr>';
+		// New Address.
+		echo $_REQUEST['address_id'] == 'new' ? $tr_add_highlight : $tr_add_highlight_hover;
 
-		if ( $_REQUEST['address_id']=='old')
-			echo '<tr class="highlight"><td>'.button('add').'</td><td>';
-		else
-			echo '<tr class="highlight-hover"><td>'.button('add').'</td><td>';
+		$link = 'Modules.php?modname=' . $_REQUEST['modname'] .
+			'&category_id=' . $_REQUEST['category_id'] . '&address_id=new';
 
-		echo '<a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=old">'._('Add an <b>Existing</b> Address').' &nbsp; </a>';
-		echo '</td>';
+		echo '<a href="' . $link . '">' . _( 'Add a <b>New</b> Address' ) . ' &nbsp; </a></td>';
 
-		echo '<td><a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=old" class="arrow right"></a></td>';
-		echo '</tr>';
+		echo '<td><a href="' . $link . '" class="arrow right"></a></td></tr>';
 
-		if ( $_REQUEST['address_id']=='0' && $_REQUEST['person_id']=='new')
-			echo '<tr class="highlight"><td>'.button('add').'</td><td '.$link.'>';
-		else
-			echo '<tr class="highlight-hover"><td>'.button('add').'</td><td>';
 
-		echo '<a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=0&person_id=new">'._('Add a <b>New</b> Contact<br />without an Address').' &nbsp; </a>';
-		echo '</td>';
+		// Existing Address.
+		echo $_REQUEST['address_id'] == 'old' ? $tr_add_highlight : $tr_add_highlight_hover;
 
-		echo '<td><a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=0&person_id=new" class="arrow right"></a></td>';
-		echo '</tr>';
+		$link = 'Modules.php?modname=' . $_REQUEST['modname'] .
+			'&category_id=' . $_REQUEST['category_id'] . '&address_id=old';
 
-		if ( $_REQUEST['address_id']=='0' && $_REQUEST['person_id']=='old')
-			echo '<tr class="highlight"><td>'.button('add').'</td><td '.$link.'>';
-		else
-			echo '<tr class="highlight-hover"><td>'.button('add').'</td><td>';
+		echo '<a href="' . $link . '">' . _( 'Add an <b>Existing</b> Address' ) . ' &nbsp; </a></td>';
 
-		echo '<a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=0&person_id=old">'._('Add an <b>Existing</b> Contact<br />without an Address').' &nbsp; </a>';
-		echo '</td>';
+		echo '<td><a href="' . $link . '" class="arrow right"></a></td></tr>';
 
-		echo '<td><a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=0&person_id=old" class="arrow right"></a></td>';
-		echo '</tr>';
+
+		// New Contact without Address.
+		echo $_REQUEST['address_id'] == '0'	&& $_REQUEST['person_id'] == 'new' ?
+			$tr_add_highlight :
+			$tr_add_highlight_hover;
+
+		$link = 'Modules.php?modname=' . $_REQUEST['modname'] .
+			'&category_id=' . $_REQUEST['category_id'] . '&address_id=0&person_id=new';
+
+		echo '<a href="' . $link . '">' .
+				_( 'Add a <b>New</b> Contact<br />without an Address' ) . ' &nbsp; </a></td>';
+
+		echo '<td><a href="' . $link . '" class="arrow right"></a></td></tr>';
+
+		// Existing Contact without Address.
+		echo $_REQUEST['address_id'] == '0'	&& $_REQUEST['person_id'] == 'old' ?
+			$tr_add_highlight :
+			$tr_add_highlight_hover;
+
+		$link = 'Modules.php?modname=' . $_REQUEST['modname'] .
+			'&category_id=' . $_REQUEST['category_id'] . '&address_id=0&person_id=old';
+
+		echo '<a href="' . $link . '">' .
+				_( 'Add an <b>Existing</b> Contact<br />without an Address' ) . ' &nbsp; </a></td>';
+
+		echo '<td><a href="' . $link . '" class="arrow right"></a></td></tr>';
 	}
 
 	echo '</table></td>';
