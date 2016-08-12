@@ -99,6 +99,13 @@ $RosarioActions = array();
 	 * @since 2.9
 	 */
 	/*'Bottom.php|bottom_buttons' => array(),
+
+	/**
+	 * Create Student Account.
+	 *
+	 * @since 2.9.8
+	 */
+	/*'Students/Student.php|account_created' => array(),
 );*/
 
 

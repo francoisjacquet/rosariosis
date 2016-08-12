@@ -345,6 +345,7 @@ elseif ( !UserStudentID())
 //account created, return to index
 else
 {
+	do_action( 'Students/Student.php|account_created' );
 ?>
 	<script>window.location.href = "index.php?modfunc=logout&reason=account_created";</script>
 <?php
