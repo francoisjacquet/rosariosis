@@ -4,7 +4,8 @@
 Changes in 2.9.8
 ----------------
 - Fix Menu default program when not allowed in Menu.php
-- Add Students/Student.php|account_created action in Student.php
+- Add "Students/Student.php|account_created" action hook in Student.php
+- Add "index.php|login_check" action hook in index.php
 
 Changes in 2.9.7
 ----------------

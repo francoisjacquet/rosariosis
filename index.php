@@ -193,7 +193,7 @@ elseif ( isset( $_POST['USERNAME'] )
 	{
 		DBQuery( "UPDATE STAFF
 			SET FAILED_LOGIN=" . db_case( array( 'FAILED_LOGIN', "''", '1', 'FAILED_LOGIN+1' ) ) . "
-			WHERE UPPER(USERNAME)=UPPER('".$username."')
+			WHERE UPPER(USERNAME)=UPPER('" . $username . "')
 			AND SYEAR='" . Config( 'SYEAR' ) . "'" );
 
 		DBQuery( "UPDATE STUDENTS
@@ -203,6 +203,8 @@ elseif ( isset( $_POST['USERNAME'] )
 		$error[] = _( 'Incorrect username or password.' ) . '&nbsp;'
 			. _( 'Please try logging in again.' );
 	}
+
+	do_action( 'index.php|login_check', $username );
 }
 
 // FJ create account.

@@ -106,6 +106,13 @@ $RosarioActions = array();
 	 * @since 2.9.8
 	 */
 	/*'Students/Student.php|account_created' => array(),
+
+	/**
+	 * Login.
+	 *
+	 * @since 2.9.8
+	 */
+	/*'index.php|login_check' => array(),
 );*/
 
 
