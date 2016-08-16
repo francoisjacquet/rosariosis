@@ -299,7 +299,7 @@ _printPageHead( _( 'Forgot your password?' ) );
 
 	<?php PopTable( 'header', _( 'Forgot your password?' ) ); ?>
 
-		<label><input type="text" name="email" id="email" size="25" maxlength="100" tabindex="1" required autofocus />
+		<label><input type="text" name="email" id="email" size="25" maxlength="255" tabindex="1" pattern="[^ @]*@[^ @]*" required autofocus />
 		<br />
 		<?php echo _( 'Email' ); ?></label>
 		<br />
