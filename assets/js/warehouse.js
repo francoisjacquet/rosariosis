@@ -317,7 +317,7 @@ function ajaxSuccess(data, target, url) {
 }
 
 function ajaxPrepare(target) {
-	if (scrollTop == 'Y' && target == '#body') body.scrollIntoView();
+	if (scrollTop == 'Y' && target == '#body') document.body.scrollIntoView();
 
 	$(target + ' form').each(function () {
 		ajaxPostForm(this, false);
