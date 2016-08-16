@@ -393,7 +393,7 @@ if (UserStudentID() || $_REQUEST['student_id']=='new')
 			echo '<form name="student" action="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$category_id.'&modfunc=update" method="POST" enctype="multipart/form-data">';
 		//FJ create account
 		else
-			echo '<form action="index.php?create_account=student&student_id=new&modfunc=update" method="POST" enctype="multipart/form-data">';
+			echo '<form action="index.php?create_account=student&student_id=new&modfunc=update" method="POST" enctype="multipart/form-data" target="_top">';
 
 		if ( $_REQUEST['student_id']!='new')
 			$name = $student['FIRST_NAME'].' '.$student['MIDDLE_NAME'].' '.$student['LAST_NAME'].' '.$student['NAME_SUFFIX'].' - '.$student['STUDENT_ID'];

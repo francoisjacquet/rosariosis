@@ -388,7 +388,7 @@ if ((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='de
 	if (basename($_SERVER['PHP_SELF'])!='index.php')
 		echo '<form name="staff" action="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$category_id.'&modfunc=update" method="POST" enctype="multipart/form-data">';
 	else
-		echo '<form action="index.php?create_account=user&staff_id=new&modfunc=update" method="POST" enctype="multipart/form-data">';
+		echo '<form action="index.php?create_account=user&staff_id=new&modfunc=update" method="POST" enctype="multipart/form-data" target="_top">';
 
 	if (basename($_SERVER['PHP_SELF'])!='index.php')
 	{
