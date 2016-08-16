@@ -385,13 +385,13 @@ function Warehouse( $mode )
 </head>
 <body class="<?php echo $_ROSARIO['page']; ?>">
 <?php 	if ( $_ROSARIO['page'] === 'modules' ) :
-				// If popup window, verify it is an actual popup.
-				if ( $_ROSARIO['is_popup'] ) :
+			// If popup window, verify it is an actual popup.
+			if ( $_ROSARIO['is_popup'] ) :
 ?>
 <script>if(window == top  && (!window.opener)) window.location.href = "index.php";</script>
 <?php
-				// Else if not AJAX request.
-				elseif ( $_ROSARIO['not_ajax'] ) :
+			// Else if not AJAX request.
+			elseif ( $_ROSARIO['not_ajax'] ) :
 ?>
 <div id="wrap">
 	<footer id="footer" class="mod">
@@ -403,11 +403,11 @@ function Warehouse( $mode )
 	</aside>
 
 <?php
-				endif;
+			endif;
+		endif;
 ?>
 	<div id="body" tabindex="0" role="main" class="mod">
 <?php
-			endif;
 		break;
 
 		// Footer HTML.
