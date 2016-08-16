@@ -58,7 +58,7 @@ function Config( $item )
  *
  * Values set in School Configuration or directly in Module (ex.: Eligibility Entry times)
  *
- * @example if ( ProgramConfig( 'STUDENTS_SEMESTER_COMMENTS', 'students' ) )
+ * @example if ( ProgramConfig( 'students', 'STUDENTS_SEMESTER_COMMENTS' ) )
  *
  * @since 2.9
  *
