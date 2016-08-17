@@ -414,6 +414,7 @@ function Warehouse( $mode )
 		case 'footer':
 ?>
 <br />
+<?php 	if ( $_ROSARIO['page'] === 'modules' ) : ?>
 <script>
 	var modname = "<?php echo isset( $_ROSARIO['ProgramLoaded'] ) ? $_ROSARIO['ProgramLoaded'] : ''; ?>";
 	if (typeof menuStudentID !== 'undefined'
@@ -428,8 +429,7 @@ function Warehouse( $mode )
 		openMenu( modname );
 <?php		endif; ?>
 </script>
-<?php
-			// If popup window or if not AJAX request.
+<?php		// If popup window or if not AJAX request.
 			if ( $_ROSARIO['is_popup']
 				|| $_ROSARIO['not_ajax'] ) :
 ?>
@@ -447,7 +447,11 @@ function Warehouse( $mode )
 </body></html>
 <?php
 			endif;
-
+		else : // Other pages (not modules). ?>
+	</div><!-- #body -->
+</body></html>
+<?php
+		endif;
 		break;
 	} // End switch.
 } // End Warehouse().

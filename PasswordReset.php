@@ -309,10 +309,10 @@ _printPageHead( _( 'Forgot your password?' ) );
 	<?php PopTable( 'footer' ); ?>
 
 </form>
-<br />
-</body>
-</html>
 <?php
+
+Warehouse( 'footer' );
+
 
 unset( $_SESSION['USERNAME'] );
 unset( $_SESSION['STAFF_ID'] );
@@ -465,10 +465,8 @@ function _passwordResetForm( $hash, $user_id )
 		<?php PopTable( 'footer' ); ?>
 
 	</form>
-	<br />
-	</body>
-	</html>
 	<?php
+	Warehouse( 'footer' );
 }
 
 

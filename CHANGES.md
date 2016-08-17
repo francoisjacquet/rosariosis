@@ -7,6 +7,7 @@ Changes in 2.9.8
 - Add "Students/Student.php|account_created" action hook in Student.php
 - Add "index.php|login_check" action hook in index.php
 - Fix Create Account (was not redirecting to index) (regression since 2.9.2) in Warehouse.php
+- Adapt Warehouse( 'footer' ) & use it on non Modules pages in Warehouse.php
 
 Changes in 2.9.7
 ----------------

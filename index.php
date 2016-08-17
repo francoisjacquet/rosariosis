@@ -151,10 +151,9 @@ elseif ( isset( $_POST['USERNAME'] )
 	<?php PopTable( 'footer' ); ?>
 
 	</form>
-
-</body>
-</html>
 <?php
+			Warehouse( 'footer' );
+
 			// Set Config( 'LOGIN' ) to Yes.
 			DBQuery( "UPDATE CONFIG
 				SET CONFIG_VALUE='Yes'
@@ -403,12 +402,9 @@ if ( empty( $_SESSION['STAFF_ID'] )
 		</p>
 	</div>
 
-<?php PopTable( 'footer' ); ?>
+<?php PopTable( 'footer' );
 
-</body>
-</html>
-<?php
-
+	Warehouse( 'footer' );
 }
 
 // Successfully logged in, display Portal.
