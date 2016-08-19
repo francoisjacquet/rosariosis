@@ -149,7 +149,7 @@ list of (
 	$password = (!empty($_REQUEST['students']['PASSWORD']) ? $_REQUEST['students']['PASSWORD'] : false);
 	$firstname = (!empty($_REQUEST['students']['FIRST_NAME']) ? $_REQUEST['students']['FIRST_NAME'] : false);
 	$lastname = (!empty($_REQUEST['students']['LAST_NAME']) ? $_REQUEST['students']['LAST_NAME'] : false);
-	$email = (!empty($_REQUEST['students'][ ROSARIO_STUDENTS_EMAIL_FIELD ]) ? $_REQUEST['students'][ ROSARIO_STUDENTS_EMAIL_FIELD_ID ] : false);
+	$email = (!empty($_REQUEST['students'][ ROSARIO_STUDENTS_EMAIL_FIELD ]) ? $_REQUEST['students'][ ROSARIO_STUDENTS_EMAIL_FIELD ] : false);
 
 	$user = array('id' => $moodle_id);
 
