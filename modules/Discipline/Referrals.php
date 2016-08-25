@@ -213,7 +213,7 @@ if ( ! $_REQUEST['modfunc']
 		{
 			echo '<tr><td>';
 
-			switch ( $category['DATA_TYPE'])
+			switch ( $category['DATA_TYPE'] )
 			{
 				case 'text':
 
@@ -281,20 +281,30 @@ if ( ! $_REQUEST['modfunc']
 						break;
 					}
 
-					$options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS'] ) );
+					$options = array_diff(
+						explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS'] ) ),
+						array( '' )
+					);
 
 					$multiple_html = '<table class="cellpadding-5"><tr class="st">';
 
 					$i = 0;
 
-					foreach ( (array) $options as $option)
+					foreach ( (array) $options as $option )
 					{
 						$i++;
 
-						if ( $i%3==0)
+						if ( $i % 3 == 0 )
+						{
 							$multiple_html .= '</tr><tr class="st">';
+						}
 
-						$multiple_html .= '<td><label><input type="checkbox" name="values[CATEGORY_'.$category['ID'].'][]" value="'.htmlspecialchars($option,ENT_QUOTES).'"'.(mb_strpos($RET['CATEGORY_'.$category['ID']],$option)!==false?' checked':'').' />&nbsp;'.$option.'</label></td>';
+						$multiple_html .= '<td><label>
+							<input type="checkbox" name="values[CATEGORY_' . $category['ID'] . '][]"
+								value="' . htmlspecialchars( $option, ENT_QUOTES ) . '"' .
+								( mb_strpos( $RET[ 'CATEGORY_' . $category['ID'] ], $option ) !== false ? ' checked' : '' ) . ' />&nbsp;' .
+							$option .
+						'</label></td>';
 					}
 
 					$multiple_html .= '</tr></table>';
