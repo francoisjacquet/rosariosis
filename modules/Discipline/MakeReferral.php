@@ -333,7 +333,10 @@ if (UserStudentID() && $_REQUEST['student_id'])
 
 			case 'multiple_checkbox':
 
-				$options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS']) );
+				$options = array_diff(
+					explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS'] ) ),
+					array( '' )
+				);
 
 				echo '<table class="cellpadding-5"><tr class="st">';
 
@@ -357,7 +360,10 @@ if (UserStudentID() && $_REQUEST['student_id'])
 
 			case 'multiple_radio':
 
-				$options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS']));
+				$options = array_diff(
+					explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS'] ) ),
+					array( '' )
+				);
 
 				echo '<table class="cellpadding-5"><tr class="st">';
 

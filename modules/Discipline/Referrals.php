@@ -336,7 +336,10 @@ if ( ! $_REQUEST['modfunc']
 						break;
 					}
 
-					$options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS'] ) );
+					$options = array_diff(
+						explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS'] ) ),
+						array( '' )
+					);
 
 					$multiple_html = '<table class="cellpadding-5"><tr class="st">';
 
