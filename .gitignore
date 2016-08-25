@@ -219,3 +219,5 @@ assets/UserPhotos/
 assets/school_logo*
 assets/themes/WPadmin-icon-sets/
 modules/Students_Import/
+modules/Messaging/
+plugins/Paypal_Registration
