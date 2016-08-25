@@ -209,7 +209,7 @@ if ( ! $_REQUEST['modfunc']
 			DateInput( $RET['ENTRY_DATE'], 'values[ENTRY_DATE]', _( 'Incident Date' ) ) .
 		'</td></tr>';
 
-		foreach ( (array) $categories_RET as $category)
+		foreach ( (array) $categories_RET as $category )
 		{
 			echo '<tr><td>';
 
@@ -281,10 +281,7 @@ if ( ! $_REQUEST['modfunc']
 						break;
 					}
 
-					$options = array_diff(
-						explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS'] ) ),
-						array( '' )
-					);
+					$options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS'] ) );
 
 					$multiple_html = '<table class="cellpadding-5"><tr class="st">';
 
@@ -302,8 +299,8 @@ if ( ! $_REQUEST['modfunc']
 						$multiple_html .= '<td><label>
 							<input type="checkbox" name="values[CATEGORY_' . $category['ID'] . '][]"
 								value="' . htmlspecialchars( $option, ENT_QUOTES ) . '"' .
-								( mb_strpos( $RET[ 'CATEGORY_' . $category['ID'] ], $option ) !== false ? ' checked' : '' ) . ' />&nbsp;' .
-							$option .
+								( $option != '' && mb_strpos( $RET[ 'CATEGORY_' . $category['ID'] ], $option ) !== false ? ' checked' : '' ) . ' />&nbsp;' .
+							( $option != '' ? $option : '-' ) .
 						'</label></td>';
 					}
 
@@ -336,23 +333,27 @@ if ( ! $_REQUEST['modfunc']
 						break;
 					}
 
-					$options = array_diff(
-						explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS'] ) ),
-						array( '' )
-					);
+					$options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS'] ) );
 
 					$multiple_html = '<table class="cellpadding-5"><tr class="st">';
 
 					$i = 0;
 
-					foreach ( (array) $options as $option)
+					foreach ( (array) $options as $option )
 					{
 						$i++;
 
-						if ( $i%3==0)
+						if ( $i % 3 == 0 )
+						{
 							$multiple_html .= '</tr><tr class="st">';
+						}
 
-						$multiple_html .= '<td><label><input type="radio" name="values[CATEGORY_'.$category['ID'].']" value="'.htmlspecialchars($option,ENT_QUOTES).'"'.(($RET['CATEGORY_'.$category['ID']]==$option)?' checked':'').'>&nbsp;'.$option.'</label></td>';
+						$multiple_html .= '<td><label>
+							<input type="radio" name="values[CATEGORY_' . $category['ID'] . ']"
+								value="' . htmlspecialchars( $option, ENT_QUOTES ) . '"' .
+								( $RET['CATEGORY_' . $category['ID'] ] == $option ? ' checked' : '' ) . '>&nbsp;' .
+							( $option != '' ? $option : '-' ) .
+						'</label></td>';
 					}
 
 					$multiple_html .= '</tr></table>';

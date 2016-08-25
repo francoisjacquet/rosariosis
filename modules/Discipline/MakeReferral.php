@@ -333,10 +333,7 @@ if (UserStudentID() && $_REQUEST['student_id'])
 
 			case 'multiple_checkbox':
 
-				$options = array_diff(
-					explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS'] ) ),
-					array( '' )
-				);
+				$options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS']) );
 
 				echo '<table class="cellpadding-5"><tr class="st">';
 
@@ -346,10 +343,16 @@ if (UserStudentID() && $_REQUEST['student_id'])
 				{
 					$i++;
 
-					if ( $i%3==0)
+					if ( $i % 3 == 0 )
+					{
 						echo '</tr><tr class="st">';
+					}
 
-					echo '<td><label><input type="checkbox" name="values[CATEGORY_'.$category['ID'].'][]" value="'.str_replace('"','&quot;',$option).'" />&nbsp;'.$option.'</label></td>';
+					echo '<td><label>
+						<input type="checkbox" name="values[CATEGORY_' . $category['ID'] . '][]"
+							value="' . htmlspecialchars( $option, ENT_QUOTES ) .'" />&nbsp;' .
+						( $option != '' ? $option : '-' ) .
+					'</label></td>';
 				}
 
 				echo '</tr></table>';
@@ -360,10 +363,7 @@ if (UserStudentID() && $_REQUEST['student_id'])
 
 			case 'multiple_radio':
 
-				$options = array_diff(
-					explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS'] ) ),
-					array( '' )
-				);
+				$options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS']));
 
 				echo '<table class="cellpadding-5"><tr class="st">';
 
@@ -376,7 +376,11 @@ if (UserStudentID() && $_REQUEST['student_id'])
 					if ( $i%3==0)
 						echo '</tr><tr class="st">';
 
-					echo '<td><label><input type="radio" name="values[CATEGORY_'.$category['ID'].']" value="'.str_replace('"','&quot;',$option).'">&nbsp;'.$option.'</label></td>';
+					echo '<td><label>
+						<input type="radio" name="values[CATEGORY_' . $category['ID'] . ']"
+							value="' . htmlspecialchars( $option, ENT_QUOTES ) . '">&nbsp;' .
+						( $option != '' ? $option : '-' ) .
+					'</label></td>';
 				}
 
 				echo '</tr></table>';

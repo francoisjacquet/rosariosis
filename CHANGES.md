@@ -3,7 +3,7 @@
 
 Changes in 2.9.9
 ----------------
-- Fix Do not show checkbox or radio input when no options in Referral.php & MakeReferral.php
+- Fix PHP error when no options set for multiple field in Referral.php & MakeReferral.php
 
 Changes in 2.9.8
 ----------------
