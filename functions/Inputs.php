@@ -851,20 +851,25 @@ function ChosenSelectInput( $value, $name, $title = '', $options = array(), $all
 
 	$chosen_rtl = in_array( mb_substr( $_SESSION['locale'], 0, 2 ), $RTL_languages ) ? ' chosen-rtl' : '';
 
-	$chosen_class = ' class="chosen-select' . $chosen_rtl . '"';
-
 	if ( ! $extra
 		|| mb_strpos( $extra, 'class=' ) === false )
 	{
-		$extra .= $chosen_class;
+		$extra .= ' class="chosen-select' . $chosen_rtl . '"';
 	}
 	elseif ( mb_strpos( $extra, 'class=' ) !== false )
 	{
 		$extra = str_replace(
 			array( 'class="', "class='" ),
-			array( 'class="chosen-select ', "class='chosen-select " ),
+			array( 'class="chosen-select' . $chosen_rtl . ' ', "class='chosen-select" . $chosen_rtl . ' ' ),
 			$extra
 		);
+	}
+
+	// Translate default "Select Some Options" multiple placeholder.
+	if ( mb_strpos( $extra, 'multiple' ) !== false
+		&& mb_strpos( $extra, 'data-placeholder=' ) === false )
+	{
+		$extra .= ' data-placeholder="' . htmlspecialchars( _( 'Select some Options' ), ENT_QUOTES ) . '"';
 	}
 
 	$return = $js . SelectInput(
