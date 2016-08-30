@@ -144,15 +144,15 @@ function SetUserStaffID( $staff_id )
 				// Get teacher's related parents, include parents of inactive students.
 				$is_related_parent = DBGet( DBQuery( "SELECT 1
 					FROM STAFF s
-					WHERE s.SYEAR='" . UserSyear() . "' 
-					AND (s.SCHOOLS LIKE '%," . UserSchool() . ",%' OR s.SCHOOLS IS NULL OR s.SCHOOLS='') 
+					WHERE s.SYEAR='" . UserSyear() . "'
+					AND (s.SCHOOLS LIKE '%," . UserSchool() . ",%' OR s.SCHOOLS IS NULL OR s.SCHOOLS='')
 					AND (s.PROFILE='parent' AND exists(
-						SELECT '' 
-						FROM STUDENTS_JOIN_USERS _sju,STUDENT_ENROLLMENT _sem,SCHEDULE _ss 
-						WHERE _sju.STAFF_ID=s.STAFF_ID 
-						AND _sem.STUDENT_ID=_sju.STUDENT_ID 
-						AND _sem.SYEAR='" . UserSyear() . "' 
-						AND _ss.STUDENT_ID=_sem.STUDENT_ID 
+						SELECT ''
+						FROM STUDENTS_JOIN_USERS _sju,STUDENT_ENROLLMENT _sem,SCHEDULE _ss
+						WHERE _sju.STAFF_ID=s.STAFF_ID
+						AND _sem.STUDENT_ID=_sju.STUDENT_ID
+						AND _sem.SYEAR='" . UserSyear() . "'
+						AND _ss.STUDENT_ID=_sem.STUDENT_ID
 						AND _ss.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'
 					))
 					AND s.STAFF_ID='" . $staff_id . "'" ), array(), array( 'STAFF_ID' ) );
@@ -240,11 +240,11 @@ function SetUserStudentID( $student_id )
 
 			// Get parent's related students.
 			$is_related_student = DBGet( DBQuery( "SELECT 1
-				FROM STUDENTS s,STUDENTS_JOIN_USERS sju,STUDENT_ENROLLMENT se 
-				WHERE s.STUDENT_ID=sju.STUDENT_ID 
-				AND sju.STAFF_ID='" . User( 'STAFF_ID' ) . "' 
-				AND se.SYEAR='" . UserSyear() . "' 
-				AND se.STUDENT_ID=sju.STUDENT_ID 
+				FROM STUDENTS s,STUDENTS_JOIN_USERS sju,STUDENT_ENROLLMENT se
+				WHERE s.STUDENT_ID=sju.STUDENT_ID
+				AND sju.STAFF_ID='" . User( 'STAFF_ID' ) . "'
+				AND se.SYEAR='" . UserSyear() . "'
+				AND se.STUDENT_ID=sju.STUDENT_ID
 				AND ('" . DBDate() . "'>=se.START_DATE AND ('" . DBDate() . "'<=se.END_DATE OR se.END_DATE IS NULL))
 				AND sju.STUDENT_ID='" . $student_id . "'"), array(), array( 'STUDENT_ID' ) );
 
@@ -258,22 +258,22 @@ function SetUserStudentID( $student_id )
 
 			// Get teacher's related students, include inactive students.
 			$is_related_student = DBGet( DBQuery( "SELECT 1
-				FROM STUDENTS s 
+				FROM STUDENTS s
 				JOIN SCHEDULE ss ON (ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='" . UserSyear() . "' AND ss.START_DATE=
-					(SELECT START_DATE FROM SCHEDULE 
-					WHERE STUDENT_ID=s.STUDENT_ID 
-					AND SYEAR=ss.SYEAR 
-					AND COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID 
-					ORDER BY START_DATE DESC 
+					(SELECT START_DATE FROM SCHEDULE
+					WHERE STUDENT_ID=s.STUDENT_ID
+					AND SYEAR=ss.SYEAR
+					AND COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID
+					ORDER BY START_DATE DESC
 					LIMIT 1)
-				) 
-				JOIN COURSE_PERIODS cp ON (cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "') 
+				)
+				JOIN COURSE_PERIODS cp ON (cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "')
 				JOIN STUDENT_ENROLLMENT ssm ON (ssm.STUDENT_ID=s.STUDENT_ID AND ssm.SYEAR=ss.SYEAR AND ssm.SCHOOL_ID='" . UserSchool() . "' AND ssm.ID=
-					(SELECT ID 
-					FROM STUDENT_ENROLLMENT 
-					WHERE STUDENT_ID=ssm.STUDENT_ID 
-					AND SYEAR=ssm.SYEAR 
-					ORDER BY START_DATE DESC 
+					(SELECT ID
+					FROM STUDENT_ENROLLMENT
+					WHERE STUDENT_ID=ssm.STUDENT_ID
+					AND SYEAR=ssm.SYEAR
+					ORDER BY START_DATE DESC
 					LIMIT 1)
 				)
 				AND s.STUDENT_ID='" . $student_id . "'"), array(), array( 'STUDENT_ID' ) );
@@ -290,8 +290,8 @@ function SetUserStudentID( $student_id )
 			$is_admin_student = DBGet( DBQuery( "SELECT 1
 				FROM STUDENT_ENROLLMENT
 				WHERE STUDENT_ID='" . $student_id . "'
-				AND SCHOOL_ID=" . UserSchool() . "
-				AND SYEAR='" . UserSyear() . "'") );
+				AND SCHOOL_ID='" . UserSchool() . "'
+				AND SYEAR='" . UserSyear() . "'" ) );
 
 			if ( ! $is_admin_student )
 			{
