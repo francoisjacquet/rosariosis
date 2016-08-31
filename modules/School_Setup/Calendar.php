@@ -816,8 +816,10 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$last = 31;
 
-	while( !checkdate( $_REQUEST['month'], $last, $_REQUEST['year'] ) )
+	while( ! checkdate( $_REQUEST['month'], $last, $_REQUEST['year'] ) )
+	{
 		$last--;
+	}
 
 	$first_day_month = date( 'Y-m-d', $time );
 
@@ -843,6 +845,12 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		foreach ( (array) $_REQUEST['minutes'] as $date => $minutes )
 		{
+			// Fix SQL error when all-day checked & minutes.
+			if ( isset( $_REQUEST['all_day'][ $date ] ) )
+			{
+				continue;
+			}
+
 			if ( $calendar_RET[ $date ] )
 			{
 				//if ( $minutes!='0' && $minutes!='')
@@ -883,7 +891,7 @@ if ( ! $_REQUEST['modfunc'] )
 		unset( $_SESSION['_REQUEST_vars']['minutes'] );
 	}
 
-	// Update All day school
+	// Update All day school.
 	if ( isset( $_REQUEST['all_day'] ) )
 	{
 		foreach ( (array) $_REQUEST['all_day'] as $date => $yes )
@@ -897,7 +905,6 @@ if ( ! $_REQUEST['modfunc'] )
 						WHERE SCHOOL_DATE='" . $date . "'
 						AND SYEAR='" . UserSyear() . "'
 						AND SCHOOL_ID='" . UserSchool() . "'
-						AND CALENDAR_ID='" . $_REQUEST['calendar_id'] . "'
 						AND CALENDAR_ID='" . $_REQUEST['calendar_id'] . "'" );
 				}
 				else
