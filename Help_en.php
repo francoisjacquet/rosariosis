@@ -42,7 +42,7 @@ if ( User( 'PROFILE' ) === 'admin' ) :
 	In many places in RosarioSIS, you will see lists of data that are modifiable. Oftentimes, you will have to first click the value you want to change to have access to an input field. Then, when you change the value and save, the value will return to its previous state.
 </p>
 <p>
-	You can logout of RosarioSIS at any time by clicking the "Logout" link at the bottom of your side menu.
+	You can logout of RosarioSIS at any time by clicking the "Logout" button in the bottom menu.
 </p>
 HTML;
 
@@ -59,13 +59,13 @@ elseif ( User( 'PROFILE' ) === 'teacher' ) :
 	As you use RosarioSIS, you will notice other items appear in your side menu. When you select a student to work on, the student's name will appear under the marking period pull-down menu preceded by a cross. As you move between programs, you will continue to work on this student. If you want to change the working student, click on the cross by the student's name. You can also quickly access the student's General Information screen by clicking on the student's name.
 </p>
 <p>
-	Also, when you click on any of the program icons in the top menu, you will see a list of programs available to you in that program category. Clicking on any program title will launch the program in the main frame, and it will update the help frame to display help for that program.
+	Also, when you click on any of the program icons in the side menu, you will see a list of programs available to you in that program category. Clicking on any program title will launch the program in the main frame, and it will update the help frame to display help for that program.
 </p>
 <p>
 	In the gradebook, you will see lists of modifiable data. Oftentimes, you will have to first click the value you want to change to have access to an input field. Then, when you change the value and save, the value will return to its previous state.
 </p>
 <p>
-	You can logout of RosarioSIS at any time by clicking the "Logout" link at the bottom of your side menu.
+	You can logout of RosarioSIS at any time by clicking the "Logout" button in the bottom menu.
 </p>
 HTML;
 
@@ -73,16 +73,16 @@ elseif ( User( 'PROFILE' ) === 'parent' ) :
 
 	$help['default'] = <<<HTML
 <p>
-	As a parent, you can view your children's information, schedules, grades, eligibility, and attendance.
+	As a parent, you can view your children's information, schedules, assignments, grades, eligibility, and attendance.
 </p>
 <p>
 	To choose a child to work on, select the child's name from the pull-down menu on the left frame. The program will automatically refresh with the new child in the workspace. You can also change the school year and current marking period in a similar fashion.
 </p>
 <p>
-	As you use RosarioSIS, you will notice other items appear in your side menu. When you click on any of the program icons in the top menu, you will see a list of programs available in that program category. Clicking on any program title will launch the program in the main frame, and it will update the help frame to display help for that program.
+	As you use RosarioSIS, you will notice other items appear in your side menu. When you click on any of the program icons in the side menu, you will see a list of programs available in that program category. Clicking on any program title will launch the program in the main frame, and it will update the help frame to display help for that program.
 </p>
 <p>
-	You can logout of RosarioSIS at any time by clicking the "Logout" link at the bottom of your side menu.
+	You can logout of RosarioSIS at any time by clicking the "Logout" button in the bottom menu.
 </p>
 HTML;
 
@@ -90,16 +90,16 @@ elseif ( User( 'PROFILE' ) === 'student' ) :
 
 	$help['default'] = <<<HTML
 <p>
-	As a student, you can view your demographic information, schedule, grades, eligibility, and attendance.
+	As a student, you can view your demographic information, schedule, assignments, grades, eligibility, and attendance.
 </p>
 <p>
 	You can change the school year and current marking period with the pull-down menus in the left frame.
 </p>
 <p>
-	As you use RosarioSIS, you will notice other items appear in your side menu. When you click on any of the program icons in the top menu, you will see a list of programs available in that program category. Clicking on any program title will launch the program in the main frame, and it will update the help frame to display help for that program.
+	As you use RosarioSIS, you will notice other items appear in your side menu. When you click on any of the program icons in the side menu, you will see a list of programs available in that program category. Clicking on any program title will launch the program in the main frame, and it will update the help frame to display help for that program.
 </p>
 <p>
-	You can logout of RosarioSIS at any time by clicking the "Logout" link at the bottom of your side menu.
+	You can logout of RosarioSIS at any time by clicking the "Logout" link in the bottom menu.
 </p>
 HTML;
 
