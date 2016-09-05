@@ -159,13 +159,13 @@ HTML;
 
 	$help['School_Setup/Calendar.php'] = <<<HTML
 <p>
-	<i>Calendar</i> allows you to setup your school's calendar for the year. The calendar displays the current month by default. The month and year displayed can be changed by changing the month and year pull-down menus at the top of the screen and clicking the "Update" button.
+	<i>Calendars</i> allows you to setup your school's calendar for the year. The calendar displays the current month by default. The month and year displayed can be changed by changing the month and year pull-down menus at the top of the screen.
 </p>
 <p>
 	On full school days, the checkbox in the upper right-hand corner of the day's square should be checked. For partial days, the checkbox should be unchecked and the number of minutes school will be in attendance should be entered into the text box next to the checkbox. For days on which there will be no school, the checkbox should be unchecked and the text field should be blank. To uncheck the checkbox or change the number of minutes in the school day, you must first click on the value you want to change. After making any changes to the calendar, click the "Update" button at the top of the screen.
 </p>
 <p>
-	To setup your calendar at the beginning of the year, you should use the "Create this year's calendar" feature. By clicking on this link in the upper right-hand corner of the screen, you can setup all days in a specified timeframe as meeting all day. You can also select which days of the week that your school is in session. After selecting the beginning and ending dates of your school's school year and the day's of the week that your school meets, click the "OK" button. You can now go through the calendar and mark holidays and partial days.
+	To setup your calendar at the beginning of the year, you should use the "Create new calendar" or "Recreate this calendar" feature. By clicking on this link in the upper right-hand corner of the screen, you can setup all days in a specified timeframe as meeting all day. You can also select which days of the week that your school is in session. After selecting the beginning and ending dates of your school's school year and the day's of the week that your school meets, click the "OK" button. You can now go through the calendar and mark holidays and partial days.
 </p>
 <p>
 	The calendar is also a display of school events. This can include everything from teacher in-service days to sporting events. These events are visible by other administrators as well as parents and teachers at your school.
@@ -328,10 +328,10 @@ HTML;
 
 	$help['School_Setup/Calendar.php'] = <<<HTML
 <p>
-	<i>Calendar</i> is a display of school events and your student's assignments. The calendar also displays whether or not school is in attendance on any given day. By default, the calendar displays the current month. The month and year displayed can be changed by changing the month and year pull-down menus at the top of the screen and clicking the "Update" button.
+	<i>Calendars</i> is a display of school events and your student's assignments. The calendar also displays whether or not school is in attendance on any given day. By default, the calendar displays the current month. The month and year displayed can be changed by changing the month and year pull-down menus at the top of the screen.
 </p>
 <p>
-	The titles of school events and assignments are displayed in each date's box. Clicking on these titles will open a popup window that displays more information about the event or assignment. School assignments are preceded by a red dot and assignments are preceded by a blue dot.
+	The titles of school events and assignments are displayed in each date's box. Clicking on these titles will open a popup window that displays more information about the event or assignment. School assignments are preceded by a red stripe and assignments are preceded by a blue stripe.
 </p>
 <p>
 	For days that school is in attendance all day, a green checkmark appears in the upper right-hand corner of the date. On partial days, the number of minutes that school is in session is displayed here instead. If the school is not in attendance at all on any given day, nothing will appear in the upper right-hand corner of the date.
@@ -696,7 +696,7 @@ HTML;
 	Student Listing tab
 </p>
 <p>
-	"Student Sorting" lets you choose to have the students in listings listed by just their "Name" or by their Grade Level and Name. "File Export Type" lets you choose between Tabulation delimited files, designed for Excel, or CSV files (comma-separated values) designed for Open Office. "Date Export Format" lets you choose betwwen different date formats when date fields are exported using the "Download Icon". "Display Student Search Screen" should remain checked, unless instructed otherwise.
+	"Student Sorting" lets you choose to have the students in listings listed by just their "Name" or by their Grade Level and Name. "File Export Type" lets you choose between Tabulation delimited files, designed for Excel, or CSV files (comma-separated values) designed for LibreOffice, or XML files. "Date Export Format" lets you choose between different date formats when date fields are exported using the "Download Icon". "Display Student Search Screen" should remain checked, unless instructed otherwise.
 </p>
 <p>
 	Password tab
@@ -1085,13 +1085,13 @@ HTML;
 
 	$help['Scheduling/Courses.php'] = <<<HTML
 <p>
-	<i>Courses</i> allows you to setup your school's courses. There are four tiers of courses: Subjects, Courses, Course Weights, and Course Periods.
+	<i>Courses</i> allows you to setup your school's courses. There are three tiers of courses: Subjects, Courses, and Course Periods.
 </p>
 <p>
-	To add any of these four things, click on the Add icon (+) in the column corresponding to what you want to add. Then, fill in the information requested in the fields above the list of marking periods and click the "Save" button.
+	To add any of these three things, click on the Add icon (+) in the column corresponding to what you want to add. Then, fill in the information requested in the fields above the list of courses and click the "Save" button.
 </p>
 <p>
-	To change any of these four things, click on the item you want to change, and click on whatever value you want to change in the grey area above the lists. Then, change the value and click the "Save" button.
+	To change any of these three things, click on the item you want to change, and click on whatever value you want to change in the grey area above the lists. Then, change the value and click the "Save" button.
 </p>
 <p>
 	Finally, to delete something, select it by clicking on its title on the list and click the "Delete" button at the top of the screen. You will be asked to confirm the deletion.
