@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-25 15:37-0500\n"
-"PO-Revision-Date: 2016-08-25 15:38-0500\n"
+"PO-Revision-Date: 2016-09-05 15:35-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -1706,7 +1706,7 @@ msgstr "Notes"
 #: modules/Eligibility/Menu.php:33 modules/Grades/Configuration.php:68
 #: modules/Users/Preferences.php:556
 msgid "Eligibility"
-msgstr "Eligibilité"
+msgstr "Éligibilité"
 
 #: functions/Widgets.fnc.php:168 modules/Discipline/Menu.php:14
 #: modules/Discipline/Menu.php:28 modules/Discipline/Menu.php:35
@@ -4973,7 +4973,7 @@ msgstr "Ajouter un Commentaire"
 #: modules/Grades/Menu.php:16 modules/Grades/Menu.php:46
 #: modules/Grades/Menu.php:72
 msgid "Report Cards"
-msgstr "Bulletin de Notes"
+msgstr "Bulletins de Notes"
 
 #: modules/Grades/Menu.php:19
 msgid "Honor Roll by Subject"
@@ -5611,7 +5611,7 @@ msgstr "Vous ne pouvez pas "
 #: modules/Scheduling/MassSchedule.php:96
 #: modules/Scheduling/MassSchedule.php:152
 msgid "Add Course to Selected Students"
-msgstr "Ajouter le Cours aux Eleves Sélectionnés"
+msgstr "Ajouter le Cours aux Élèves Sélectionnés"
 
 #: modules/Scheduling/MassSchedule.php:100
 msgid "Course to Add"
@@ -6044,7 +6044,7 @@ msgstr "La configuration de cette école a été modifiée."
 
 #: modules/School_Setup/Configuration.php:142
 msgid "Program Title"
-msgstr "Nom du Programme"
+msgstr "Titre du Programme"
 
 #: modules/School_Setup/Configuration.php:144
 msgid "Program Name"
@@ -6094,7 +6094,7 @@ msgstr "Cocher Ramassage / Dépose Car Scolaire par défaut"
 
 #: modules/School_Setup/Configuration.php:247
 msgid "Enable Legacy Contact Information"
-msgstr "Activer les Anciennes Coordonnées du Contact"
+msgstr "Activer les Coordonnées du Contact"
 
 #: modules/School_Setup/Configuration.php:257
 msgid "Use Semester Comments instead of Quarter Comments"
@@ -6319,7 +6319,7 @@ msgstr "Report Final"
 #: modules/School_Setup/Menu.php:27 modules/School_Setup/Menu.php:39
 #: modules/School_Setup/Menu.php:49
 msgid "School Information"
-msgstr "Informations sur les écoles"
+msgstr "Informations de l'école"
 
 #: modules/School_Setup/Menu.php:28 modules/School_Setup/Schools.php:158
 msgid "Add a School"
@@ -6327,7 +6327,7 @@ msgstr "Ajouter une école"
 
 #: modules/School_Setup/Menu.php:29
 msgid "Copy School"
-msgstr "Copier une école"
+msgstr "Copier l'école"
 
 #: modules/School_Setup/Menu.php:31
 msgid "School Fields"
@@ -6401,7 +6401,7 @@ msgstr "Écoles"
 
 #: modules/School_Setup/Rollover.php:3
 msgid "Student Enrollment Codes"
-msgstr "Codes d'Inscription pour les Eleves"
+msgstr "Codes d'Inscription Élèves"
 
 #: modules/School_Setup/Rollover.php:10
 msgid "Food Service Staff Accounts"
@@ -7299,7 +7299,7 @@ msgstr "Gadgets Utilisateur"
 
 #: modules/Users/Preferences.php:231
 msgid "Student Sorting"
-msgstr "Tri Élève"
+msgstr "Tri Élèves"
 
 #: modules/Users/Preferences.php:244
 msgid "File Export Type"
