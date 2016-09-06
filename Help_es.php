@@ -152,7 +152,7 @@ HTML;
 
 	$help['School_Setup/Calendar.php'] = <<<HTML
 <p>
-	<i>Calendario</i> le permite configurar el calendario de su institución para el año. El calendario muestra el mes actual por defecto. El mes y el año mostrado se pueden cambiar en los menús desplegables del mes y del año en la parte superior de la pantalla.
+	<i>Calendarios</i> le permite configurar el calendario de su institución para el año. El calendario muestra el mes actual por defecto. El mes y el año mostrado se pueden cambiar en los menús desplegables del mes y del año en la parte superior de la pantalla.
 </p>
 <p>
 	En días completos de institución, la casilla en la esquina superior derecha del día debería estar marcada. Para los días parciales, la casilla no debería estar marcada y el número de minutos de asistencia a la institución, debería estar en el campo de texto al lado de la casilla. Para los días sin institución, la casilla no debería estar marcada y el campo de texto vacío. Para desactivar la casilla o cambiar el número de minutos en el día, usted debe primero hacer clic sobre el valor que desee cambiar. Después de hacer un cambio al calendario, presione el botón «Actualizar» en la parte superior de la pantalla.
@@ -623,6 +623,9 @@ HTML;
 	<i>Códigos de Matrícula</i> le permite configurar los códigos de matrícula de su institución. Los códigos de matrícula son usados en la pantalla de <i>Información del estudiante</i>, y especifican la razón de matrícula o retiro de un estudiante de una institución. Estos códigos aplican para todas las instituciones del sistema.
 </p>
 <p>
+	La columna "Por Defecto de Traslado" define el código usado al momento de matricular los estudiantes para el año escolar siguiente con el programa Transferir. Debería tener exactamente un código de matrícula por Defecto de Traslado (del tipo "Agregar").
+</p>
+<p>
 	Para agregar un código de matrícula, llene el titulo del código, su nombre corto, y tipo en los campos vacíos al fin de la lista de códigos de matrícula. Presione el botón «Guardar».
 </p>
 <p>
@@ -701,7 +704,7 @@ HTML;
 	Pestaña Lista de Estudiantes
 </p>
 <p>
-	"Clasificación de Estudiantes" le permite escoger ver a los estudiantes listados en los varios listados de estudiante solamente por el "Nombre" o por el Grado y Nombre. "Tipo de Archivo a Exportar" le permite escoger entre archivos delimitados por tabulaciones, los cuales funcionan mejor con Excel, o archivos CSV (comma-separated values), los cuales funcionan mejor con Open Office. "Formato de Exportación de Fecha" le permite escoger diferentes formatos de fecha cuando se exportan campos, usando el icono Descargar. "Mostrar pantalla de búsqueda de estudiante" deberia quedarse marcado, a menos de ser invitado a lo contrario.
+	"Clasificación de Estudiantes" le permite escoger ver a los estudiantes listados en los varios listados de estudiante solamente por el "Nombre" o por el Grado y Nombre. "Tipo de Archivo a Exportar" le permite escoger entre archivos delimitados por tabulaciones, los cuales funcionan mejor con Excel, archivos CSV (comma-separated values), diseñados para LibreOffice, y también archivos XML. "Formato de Exportación de Fecha" le permite escoger diferentes formatos de fecha cuando se exportan campos, usando el icono Descargar. "Mostrar pantalla de búsqueda de estudiante" deberia quedarse marcado, a menos de ser invitado a lo contrario.
 </p>
 <p>
 	Pestaña Contraseña

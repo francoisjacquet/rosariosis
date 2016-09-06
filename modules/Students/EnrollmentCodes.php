@@ -3,7 +3,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
 	foreach ( (array) $_REQUEST['values'] as $id => $columns)
 	{
-//FJ fix SQL bug invalid sort order
+		//FJ fix SQL bug invalid sort order
 		if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
 		{
 			if ( $id!='new')
@@ -45,7 +45,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 	}
 }
 
-DrawHeader(ProgramTitle());
+DrawHeader( ProgramTitle() );
 
 if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 {
@@ -56,8 +56,23 @@ if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 	}
 }
 
-// FJ fix SQL bug invalid sort order
+// Check we have 1 and only one Rollover default code.
+$rollover_default_RET = DBGet( DBQuery( "SELECT ID
+	FROM STUDENT_ENROLLMENT_CODES
+	WHERE SYEAR='" . UserSyear() . "'
+	AND TYPE='Add'
+	AND DEFAULT_CODE='Y'" ) );
+
+if ( ! $rollover_default_RET
+	|| count( $rollover_default_RET ) !== 1 )
+{
+	$warning[] = _( 'You must have exactly one Rollover default enrollment code (of type "Add").' );
+}
+
+// FJ fix SQL bug invalid sort order.
 echo ErrorMessage( $error );
+
+echo ErrorMessage( $warning, 'warning' );
 
 if ( $_REQUEST['modfunc']!='remove')
 {

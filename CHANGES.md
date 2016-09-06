@@ -6,6 +6,7 @@ Changes in 2.9.9
 - Fix PHP error when no options set for multiple field in Referral.php & MakeReferral.php
 - Fix SQL error when all-day checked & minutes in Calendar.php
 - Fix SQL error when more than one Rollover default enrollment code in Rollover.php
+- Add warning & help for Rollover default enrollment code in EnrollmentCodes.php
 
 Changes in 2.9.8
 ----------------
