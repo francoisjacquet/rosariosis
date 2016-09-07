@@ -66,7 +66,7 @@ $rollover_default_RET = DBGet( DBQuery( "SELECT ID
 if ( ! $rollover_default_RET
 	|| count( $rollover_default_RET ) !== 1 )
 {
-	$warning[] = _( 'You must have exactly one Rollover default enrollment code (of type "Add").' );
+	$warning[] = _( 'There must be exactly one Rollover default enrollment code (of type Add).' );
 }
 
 // FJ fix SQL bug invalid sort order.

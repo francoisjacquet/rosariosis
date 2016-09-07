@@ -618,7 +618,7 @@ HTML;
 	<i>Enrollment Codes</i> allows you to setup your school's enrollment codes. Enrollment codes are used in the Enrollment student screen, and specify the reason the student was enrolled or dropped from a school. These codes apply to all schools system-wide.
 </p>
 <p>
-	The "Rollover default" column sets the code used by the Rollover program when enrolling students in the next school year. You should have exactly one Rollover default enrollment code (of type "Add").
+	The "Rollover default" column sets the code used by the Rollover program when enrolling students in the next school year. There must be exactly one Rollover default enrollment code (of type "Add").
 </p>
 <p>
 	To add an enrollment code, fill in the enrollment code's title, short name, and type in the empty fields at the bottom of the enrollment codes list. Click the "Save" button.

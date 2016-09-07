@@ -623,7 +623,7 @@ HTML;
 	<i>Códigos de Matrícula</i> le permite configurar los códigos de matrícula de su institución. Los códigos de matrícula son usados en la pantalla de <i>Información del estudiante</i>, y especifican la razón de matrícula o retiro de un estudiante de una institución. Estos códigos aplican para todas las instituciones del sistema.
 </p>
 <p>
-	La columna "Por Defecto de Traslado" define el código usado al momento de matricular los estudiantes para el año escolar siguiente con el programa Transferir. Debería tener exactamente un código de matrícula por Defecto de Traslado (del tipo "Agregar").
+	La columna "Por Defecto de Traslado" define el código usado al momento de matricular los estudiantes para el año escolar siguiente con el programa Transferir. Debería existir exactamente un código de matrícula por Defecto de Traslado (del tipo "Agregar").
 </p>
 <p>
 	Para agregar un código de matrícula, llene el titulo del código, su nombre corto, y tipo en los campos vacíos al fin de la lista de códigos de matrícula. Presione el botón «Guardar».

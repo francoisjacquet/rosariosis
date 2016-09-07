@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-25 15:37-0500\n"
-"PO-Revision-Date: 2016-08-25 15:37-0500\n"
+"POT-Creation-Date: 2016-09-07 11:37-0500\n"
+"PO-Revision-Date: 2016-09-07 11:37-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -232,7 +232,7 @@ msgid "Verify New Password"
 msgstr "Verificar Nueva Contraseña"
 
 #: PasswordReset.php:463 ProgramFunctions/PortalPollsNotes.fnc.php:208
-#: modules/Discipline/MakeReferral.php:413
+#: modules/Discipline/MakeReferral.php:423
 #: modules/Scheduling/PrintClassLists.php:167
 #: modules/Scheduling/PrintClassPictures.php:247
 #: modules/Students/Search.inc.php:70 modules/Students/Search.inc.php:140
@@ -272,7 +272,7 @@ msgstr "Eliminar"
 #: modules/Custom/Registration.php:297
 #: modules/Discipline/DisciplineForm.php:166
 #: modules/Discipline/DisciplineForm.php:169
-#: modules/Discipline/Referrals.php:163 modules/Discipline/Referrals.php:391
+#: modules/Discipline/Referrals.php:163 modules/Discipline/Referrals.php:405
 #: modules/Eligibility/Activities.php:81 modules/Eligibility/Activities.php:83
 #: modules/Eligibility/EnterEligibility.php:148
 #: modules/Eligibility/EnterEligibility.php:152
@@ -316,8 +316,8 @@ msgstr "Eliminar"
 #: modules/Scheduling/Schedule.php:134 modules/Scheduling/Schedule.php:250
 #: modules/Scheduling/new_Requests.php:51
 #: modules/Scheduling/new_Requests.php:56 modules/School_Setup/Calendar.php:470
-#: modules/School_Setup/Calendar.php:703 modules/School_Setup/Calendar.php:1003
-#: modules/School_Setup/Calendar.php:1283
+#: modules/School_Setup/Calendar.php:703 modules/School_Setup/Calendar.php:1010
+#: modules/School_Setup/Calendar.php:1290
 #: modules/School_Setup/Configuration.php:129
 #: modules/School_Setup/Configuration.php:397
 #: modules/School_Setup/GradeLevels.php:74
@@ -335,8 +335,8 @@ msgstr "Eliminar"
 #: modules/Student_Billing/StudentPayments.php:165
 #: modules/Students/AssignOtherInfo.php:140
 #: modules/Students/AssignOtherInfo.php:380
-#: modules/Students/EnrollmentCodes.php:74
-#: modules/Students/EnrollmentCodes.php:77 modules/Students/Student.php:401
+#: modules/Students/EnrollmentCodes.php:89
+#: modules/Students/EnrollmentCodes.php:92 modules/Students/Student.php:401
 #: modules/Students/Student.php:451 modules/Users/Exceptions.php:119
 #: modules/Users/Exceptions.php:211 modules/Users/Preferences.php:121
 #: modules/Users/Preferences.php:637 modules/Users/Profiles.php:201
@@ -459,7 +459,7 @@ msgid "One per line"
 msgstr "Uno per línea"
 
 #: ProgramFunctions/Fields.fnc.php:435 modules/School_Setup/Calendar.php:73
-#: modules/School_Setup/Calendar.php:967
+#: modules/School_Setup/Calendar.php:974
 #: modules/Users/includes/General_Info.inc.php:190
 msgid "Default"
 msgstr "Por Defecto"
@@ -495,7 +495,7 @@ msgstr "Obligatorio"
 #: modules/School_Setup/MarkingPeriods.php:452
 #: modules/School_Setup/Periods.php:79 modules/School_Setup/PortalNotes.php:216
 #: modules/School_Setup/PortalPolls.php:200
-#: modules/Students/EnrollmentCodes.php:68
+#: modules/Students/EnrollmentCodes.php:83
 msgid "Sort Order"
 msgstr "Orden"
 
@@ -521,7 +521,7 @@ msgstr "Orden"
 #: modules/School_Setup/includes/Modules.inc.php:185
 #: modules/School_Setup/includes/Plugins.inc.php:174
 #: modules/Student_Billing/MassAssignFees.php:60
-#: modules/Students/EnrollmentCodes.php:68 modules/Users/Exceptions.php:216
+#: modules/Students/EnrollmentCodes.php:83 modules/Users/Exceptions.php:216
 #: modules/Users/Profiles.php:229
 #: modules/Users/includes/General_Info.inc.php:36 modules/misc/Portal.php:117
 #: modules/misc/Portal.php:134 modules/misc/Portal.php:272
@@ -809,7 +809,7 @@ msgstr "No hay Bimestres Encontrados"
 #: modules/Eligibility/EntryTimes.php:45
 #: modules/Food_Service/DailyMenus.php:105 modules/Scheduling/Courses.php:95
 #: modules/Scheduling/PrintSchedules.php:61
-#: modules/School_Setup/Calendar.php:149 modules/School_Setup/Calendar.php:1079
+#: modules/School_Setup/Calendar.php:149 modules/School_Setup/Calendar.php:1086
 #: modules/Users/TeacherPrograms.php:75
 #: modules/Users/includes/Schedule.inc.php:81
 msgid "Sunday"
@@ -820,7 +820,7 @@ msgstr "Domingo"
 #: modules/Eligibility/EntryTimes.php:45
 #: modules/Food_Service/DailyMenus.php:106 modules/Scheduling/Courses.php:95
 #: modules/Scheduling/PrintSchedules.php:61
-#: modules/School_Setup/Calendar.php:150 modules/School_Setup/Calendar.php:1080
+#: modules/School_Setup/Calendar.php:150 modules/School_Setup/Calendar.php:1087
 #: modules/Users/TeacherPrograms.php:75
 #: modules/Users/includes/Schedule.inc.php:81
 msgid "Monday"
@@ -831,7 +831,7 @@ msgstr "Lunes"
 #: modules/Eligibility/EntryTimes.php:45
 #: modules/Food_Service/DailyMenus.php:107 modules/Scheduling/Courses.php:95
 #: modules/Scheduling/PrintSchedules.php:61
-#: modules/School_Setup/Calendar.php:151 modules/School_Setup/Calendar.php:1081
+#: modules/School_Setup/Calendar.php:151 modules/School_Setup/Calendar.php:1088
 #: modules/Users/TeacherPrograms.php:75
 #: modules/Users/includes/Schedule.inc.php:81
 msgid "Tuesday"
@@ -842,7 +842,7 @@ msgstr "Martes"
 #: modules/Eligibility/EntryTimes.php:45
 #: modules/Food_Service/DailyMenus.php:108 modules/Scheduling/Courses.php:95
 #: modules/Scheduling/PrintSchedules.php:61
-#: modules/School_Setup/Calendar.php:152 modules/School_Setup/Calendar.php:1082
+#: modules/School_Setup/Calendar.php:152 modules/School_Setup/Calendar.php:1089
 #: modules/Users/TeacherPrograms.php:75
 #: modules/Users/includes/Schedule.inc.php:81
 msgid "Wednesday"
@@ -853,7 +853,7 @@ msgstr "Miércoles"
 #: modules/Eligibility/EntryTimes.php:45
 #: modules/Food_Service/DailyMenus.php:109 modules/Scheduling/Courses.php:95
 #: modules/Scheduling/PrintSchedules.php:61
-#: modules/School_Setup/Calendar.php:153 modules/School_Setup/Calendar.php:1083
+#: modules/School_Setup/Calendar.php:153 modules/School_Setup/Calendar.php:1090
 #: modules/Users/TeacherPrograms.php:75
 #: modules/Users/includes/Schedule.inc.php:81
 msgid "Thursday"
@@ -864,7 +864,7 @@ msgstr "Jueves"
 #: modules/Eligibility/EntryTimes.php:45
 #: modules/Food_Service/DailyMenus.php:110 modules/Scheduling/Courses.php:95
 #: modules/Scheduling/PrintSchedules.php:61
-#: modules/School_Setup/Calendar.php:154 modules/School_Setup/Calendar.php:1084
+#: modules/School_Setup/Calendar.php:154 modules/School_Setup/Calendar.php:1091
 #: modules/Users/TeacherPrograms.php:75
 #: modules/Users/includes/Schedule.inc.php:81
 msgid "Friday"
@@ -875,7 +875,7 @@ msgstr "Viernes"
 #: modules/Eligibility/EntryTimes.php:45
 #: modules/Food_Service/DailyMenus.php:111 modules/Scheduling/Courses.php:95
 #: modules/Scheduling/PrintSchedules.php:61
-#: modules/School_Setup/Calendar.php:155 modules/School_Setup/Calendar.php:1085
+#: modules/School_Setup/Calendar.php:155 modules/School_Setup/Calendar.php:1092
 #: modules/Users/TeacherPrograms.php:75
 #: modules/Users/includes/Schedule.inc.php:81
 msgid "Saturday"
@@ -884,7 +884,7 @@ msgstr "Sábado"
 #: Side.php:614 modules/Attendance/StudentSummary.php:186
 #: modules/Scheduling/Courses.php:246 modules/Scheduling/Courses.php:267
 #: modules/Scheduling/Courses.php:389 modules/Scheduling/PrintSchedules.php:64
-#: modules/School_Setup/Calendar.php:1261 modules/Users/TeacherPrograms.php:88
+#: modules/School_Setup/Calendar.php:1268 modules/Users/TeacherPrograms.php:88
 #: modules/Users/includes/Schedule.inc.php:84 modules/misc/Portal.php:151
 #: modules/misc/Portal.php:307 modules/misc/Portal.php:477
 #: modules/misc/Portal.php:613
@@ -2613,7 +2613,7 @@ msgstr "Entre un Orden valido por favor."
 #: modules/School_Setup/GradeLevels.php:68
 #: modules/School_Setup/MarkingPeriods.php:445
 #: modules/School_Setup/Periods.php:79 modules/School_Setup/Schools.php:246
-#: modules/Students/EnrollmentCodes.php:68 modules/misc/Portal.php:217
+#: modules/Students/EnrollmentCodes.php:83 modules/misc/Portal.php:217
 #: modules/misc/Portal.php:404
 msgid "Short Name"
 msgstr "Nombre Corto"
@@ -2631,7 +2631,7 @@ msgstr "Nombre Corto"
 #: modules/Grades/Assignments-new.php:229
 #: modules/Grades/Assignments-new.php:253
 #: modules/Grades/EditHistoryMarkingPeriods.php:90
-#: modules/Students/EnrollmentCodes.php:68 modules/Users/Exceptions.php:217
+#: modules/Students/EnrollmentCodes.php:83 modules/Users/Exceptions.php:217
 #: modules/Users/Profiles.php:230
 msgid "Type"
 msgstr "Tipo"
@@ -2743,7 +2743,7 @@ msgstr "No se encontraron Duplicados"
 
 #: modules/Attendance/DuplicateAttendance.php:357
 #: modules/Custom/AttendanceSummary.php:251
-#: modules/Discipline/ReferralLog.php:34 modules/Discipline/Referrals.php:398
+#: modules/Discipline/ReferralLog.php:34 modules/Discipline/Referrals.php:412
 #: modules/Grades/FinalGrades.php:389 modules/Grades/GradebookBreakdown.php:236
 #: modules/Grades/ProgressReports.php:124 modules/Grades/ReportCards.php:28
 #: modules/Grades/Transcripts.php:338 modules/Scheduling/PrintClassLists.php:88
@@ -3519,7 +3519,7 @@ msgstr "Aún no hay calendarios configurados."
 #: modules/Eligibility/Student.php:123
 #: modules/Food_Service/Students/ServeMenus.php:141
 #: modules/Food_Service/Users/ServeMenus.php:130
-#: modules/Students/EnrollmentCodes.php:106
+#: modules/Students/EnrollmentCodes.php:121
 msgid "Add"
 msgstr "Agregar"
 
@@ -3662,7 +3662,7 @@ msgstr "Débito"
 #: modules/Food_Service/Users/Statements.php:82
 #: modules/Grades/ReportCardCommentCodes.php:136
 #: modules/Grades/ReportCardCommentCodes.php:152
-#: modules/Students/EnrollmentCodes.php:71
+#: modules/Students/EnrollmentCodes.php:86
 msgid "ID"
 msgstr "ID"
 
@@ -5994,7 +5994,7 @@ msgstr "De otro modo, el Predeterminado es minutos del Calendario Copiado"
 msgid "Default is Full Day"
 msgstr "El Predeterminado es Día Completo"
 
-#: modules/School_Setup/Calendar.php:194 modules/School_Setup/Calendar.php:1199
+#: modules/School_Setup/Calendar.php:194 modules/School_Setup/Calendar.php:1206
 msgid "Minutes"
 msgstr "Minutos"
 
@@ -6003,7 +6003,7 @@ msgstr "Minutos"
 msgid "Recreate %s calendar"
 msgstr "Volver a Crear el calendario %s"
 
-#: modules/School_Setup/Calendar.php:205 modules/School_Setup/Calendar.php:986
+#: modules/School_Setup/Calendar.php:205 modules/School_Setup/Calendar.php:993
 msgid "Create new calendar"
 msgstr "Crear un nuevo calendario"
 
@@ -6020,7 +6020,7 @@ msgid_plural "Events"
 msgstr[0] "Evento"
 msgstr[1] "Eventos"
 
-#: modules/School_Setup/Calendar.php:612 modules/School_Setup/Calendar.php:1252
+#: modules/School_Setup/Calendar.php:612 modules/School_Setup/Calendar.php:1259
 msgid "New Event"
 msgstr "Nuevo Evento"
 
@@ -6036,28 +6036,28 @@ msgstr "Notas"
 msgid "Back to Calendar"
 msgstr "Regresar al Calendario"
 
-#: modules/School_Setup/Calendar.php:989
+#: modules/School_Setup/Calendar.php:996
 msgid "Recreate this calendar"
 msgstr "Volver a crear este calendario"
 
-#: modules/School_Setup/Calendar.php:992
+#: modules/School_Setup/Calendar.php:999
 msgid "Delete this calendar"
 msgstr "Eliminar este calendario"
 
-#: modules/School_Setup/Calendar.php:1001
+#: modules/School_Setup/Calendar.php:1008
 msgid "List Events"
 msgstr "Lista de Eventos"
 
-#: modules/School_Setup/Calendar.php:1014
+#: modules/School_Setup/Calendar.php:1021
 msgid "This school has more than one default calendar!"
 msgstr "Esta institución tiene más de un calendario por defecto!"
 
-#: modules/School_Setup/Calendar.php:1015
+#: modules/School_Setup/Calendar.php:1022
 msgid "This school does not have a default calendar!"
 msgstr "Esta institución no tiene un calendario por defecto!"
 
-#: modules/School_Setup/Calendar.php:1187
-#: modules/School_Setup/Calendar.php:1196
+#: modules/School_Setup/Calendar.php:1194
+#: modules/School_Setup/Calendar.php:1203
 msgid "All Day"
 msgstr "Todo el Día"
 
@@ -6825,18 +6825,25 @@ msgid "Attendance Start Date this School Year"
 msgstr "Primer Día de Clase del Año Escolar"
 
 #: modules/Students/EnrollmentCodes.php:52
-#: modules/Students/EnrollmentCodes.php:76 modules/misc/Export.php:144
+#: modules/Students/EnrollmentCodes.php:91 modules/misc/Export.php:144
 #: modules/misc/Export.php:480
 msgid "Enrollment Code"
 msgid_plural "Enrollment Codes"
 msgstr[0] "Código de Matrícula"
 msgstr[1] "Códigos de Matrícula"
 
-#: modules/Students/EnrollmentCodes.php:68
+#: modules/Students/EnrollmentCodes.php:69
+msgid ""
+"There must be exactly one Rollover default enrollment code (of type Add)."
+msgstr ""
+"Debería existir exactamente un código de matrícula por Defecto de Traslado "
+"(del tipo Agregar)."
+
+#: modules/Students/EnrollmentCodes.php:83
 msgid "Rollover Default"
 msgstr "Por Defecto de Traslado"
 
-#: modules/Students/EnrollmentCodes.php:106
+#: modules/Students/EnrollmentCodes.php:121
 msgid "Drop"
 msgstr "Retiro"
 
