@@ -49,10 +49,10 @@ if ( $_REQUEST['modfunc']=='submit')
 
 			unset($_SESSION['FSA_sale']);
 		}
-		unset($_REQUEST['modfunc']);
+		$_REQUEST['modfunc'] = false;
 	}
 	else
-		unset($_REQUEST['modfunc']);
+		$_REQUEST['modfunc'] = false;
 	unset($_REQUEST['submit']);
 }
 

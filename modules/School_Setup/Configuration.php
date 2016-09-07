@@ -116,9 +116,9 @@ else
 			}
 		}
 
-		unset( $_REQUEST['modfunc'] );
+		$_REQUEST['modfunc'] = false;
 		unset( $_SESSION['_REQUEST_vars']['values'] );
-		unset( $_SESSION['_REQUEST_vars']['modfunc'] );
+		$_SESSION['_REQUEST_vars']['modfunc'] = false;
 	}
 
 	if ( ! $_REQUEST['modfunc'] )

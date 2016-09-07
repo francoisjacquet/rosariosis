@@ -144,8 +144,8 @@ if ( $_REQUEST['modfunc']=='update')
 		}
 	}
 
-	unset( $_REQUEST['modfunc'] );
-	unset( $_SESSION['_REQUEST_vars']['modfunc'] );
+	$_REQUEST['modfunc'] = false;
+	$_SESSION['_REQUEST_vars']['modfunc'] = false;
 }
 
 if ( $_REQUEST['modfunc']=='remove')

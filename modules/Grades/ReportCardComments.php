@@ -71,7 +71,7 @@ if ( $_REQUEST['modfunc']=='update')
 				$error[] = _('There are no courses setup yet.');
 		}
 	}
-	unset($_REQUEST['modfunc']);
+	$_REQUEST['modfunc'] = false;
 }
 
 if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )

@@ -66,7 +66,7 @@ if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 			}
 		}
 
-		unset($_REQUEST['modfunc']);
+		$_REQUEST['modfunc'] = false;
 		unset($_REQUEST['module']);
 	}
 }
@@ -94,7 +94,7 @@ if ( $_REQUEST['modfunc']=='deactivate' && AllowEdit())
 			$error[] = _('Incomplete or inexistant module.');
 		}
 
-		unset($_REQUEST['modfunc']);
+		$_REQUEST['modfunc'] = false;
 		unset($_REQUEST['module']);
 	}
 }
@@ -144,7 +144,7 @@ if ( $_REQUEST['modfunc']=='activate' && AllowEdit())
 		_reloadMenu();
 	}
 
-	unset($_REQUEST['modfunc']);
+	$_REQUEST['modfunc'] = false;
 	unset($_REQUEST['module']);
 }
 

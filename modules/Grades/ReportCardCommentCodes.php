@@ -65,7 +65,7 @@ if ( $_REQUEST['modfunc']=='update')
 			}
 		}
 	}
-	unset($_REQUEST['modfunc']);
+	$_REQUEST['modfunc'] = false;
 }
 
 if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )

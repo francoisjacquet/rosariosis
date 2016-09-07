@@ -62,7 +62,7 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 				$error[] = _('Please enter a valid Sort Order.');
 		}
 	}
-	unset($_REQUEST['modfunc']);
+	$_REQUEST['modfunc'] = false;
 }
 
 DrawHeader(ProgramTitle());
@@ -90,8 +90,8 @@ if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )
 			DBQuery("UPDATE COURSE_PERIODS SET DOES_ATTENDANCE=replace(DOES_ATTENDANCE,',$_REQUEST[id],',',') WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'");
 			DBQuery("UPDATE COURSE_PERIODS SET DOES_ATTENDANCE=NULL WHERE DOES_ATTENDANCE=',' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'");
 
-			unset( $_REQUEST['modfunc'] );
-			unset( $_SESSION['_REQUEST_vars']['modfunc'] );
+			$_REQUEST['modfunc'] = false;
+			$_SESSION['_REQUEST_vars']['modfunc'] = false;
 			unset( $_SESSION['_REQUEST_vars']['id'] );
 		}
 	}

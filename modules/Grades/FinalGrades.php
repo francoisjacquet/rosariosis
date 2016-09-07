@@ -388,16 +388,16 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		{
 			$error[] = _('No Students were found.');
 
-			unset($_SESSION['_REQUEST_vars']['modfunc']);
-			unset($_REQUEST['modfunc']);
+			$_SESSION['_REQUEST_vars']['modfunc'] = false;
+			$_REQUEST['modfunc'] = false;
 		}
 	}
 	else
 	{
 		$error[] = _('You must choose at least one student and one marking period.');
 
-		unset($_SESSION['_REQUEST_vars']['modfunc']);
-		unset($_REQUEST['modfunc']);
+		$_SESSION['_REQUEST_vars']['modfunc'] = false;
+		$_REQUEST['modfunc'] = false;
 	}
 }
 

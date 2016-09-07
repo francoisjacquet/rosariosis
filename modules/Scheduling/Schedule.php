@@ -47,7 +47,7 @@ else
 		$date = $_REQUEST['year_date'] . '-' . $_REQUEST['month_date'] . '-' . $_REQUEST['day_date'];
 	}
 }
-unset($_SESSION['_REQUEST_vars']['modfunc']);
+$_SESSION['_REQUEST_vars']['modfunc'] = false;
 
 Widgets('course');
 Widgets('request');

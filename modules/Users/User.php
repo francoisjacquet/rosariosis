@@ -316,9 +316,9 @@ Remote IP: %s', $admin_username, User('NAME'), $ip);
 		$_REQUEST['staff_id'] = 'new';
 
 	unset( $_REQUEST['staff'] );
-	unset( $_REQUEST['modfunc'] );
+	$_REQUEST['modfunc'] = false;
 	unset( $_SESSION['_REQUEST_vars']['staff'] );
-	unset( $_SESSION['_REQUEST_vars']['modfunc'] );
+	$_SESSION['_REQUEST_vars']['modfunc'] = false;
 
 	if ( User('STAFF_ID') == $_REQUEST['staff_id'] )
 		unset( $_ROSARIO['User'] );
@@ -367,9 +367,9 @@ if ( $_REQUEST['modfunc']=='delete' && basename($_SERVER['PHP_SELF'])!='index.ph
 
 		unset($_SESSION['staff_id']);
 		unset($_REQUEST['staff_id']);
-		unset($_REQUEST['modfunc']);
+		$_REQUEST['modfunc'] = false;
 		unset($_SESSION['_REQUEST_vars']['staff_id']);
-		unset($_SESSION['_REQUEST_vars']['modfunc']);
+		$_SESSION['_REQUEST_vars']['modfunc'] = false;
 		Search('staff_id',$extra);
 	}
 }

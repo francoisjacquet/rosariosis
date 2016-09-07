@@ -28,7 +28,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 		explodeCustom($address_categories_RET, $address_custom, 'a');
 		explodeCustom($people_categories_RET, $people_custom, 'p');
 
-		unset($_REQUEST['modfunc']);
+		$_REQUEST['modfunc'] = false;
 
 		$handle = PDFStart();
 

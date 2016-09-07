@@ -258,7 +258,7 @@ if ( $_REQUEST['modfunc']=='gradebook')
 
 		}
 	}
-	unset($_SESSION['_REQUEST_vars']['modfunc']);
+	$_SESSION['_REQUEST_vars']['modfunc'] = false;
 }
 
 if ( $_REQUEST['modfunc']=='grades')
@@ -277,7 +277,7 @@ if ( $_REQUEST['modfunc']=='grades')
 
 		unset($_SESSION['_REQUEST_vars']['prev_mp']);
 	}
-	unset($_SESSION['_REQUEST_vars']['modfunc']);
+	$_SESSION['_REQUEST_vars']['modfunc'] = false;
 }
 
 if ( $_REQUEST['modfunc']=='comments')
@@ -308,7 +308,7 @@ if ( $_REQUEST['modfunc']=='comments')
 
 		unset($_SESSION['_REQUEST_vars']['prev_mp']);
 	}
-	unset($_SESSION['_REQUEST_vars']['modfunc']);
+	$_SESSION['_REQUEST_vars']['modfunc'] = false;
 }
 
 if ( $_REQUEST['modfunc']=='clearall')
@@ -331,7 +331,7 @@ if ( $_REQUEST['modfunc']=='clearall')
 			foreach ( (array) $comment as $i => $comment)
 				$current_commentsB_RET[ $student_id ][ $i ] = '';
 	}
-	unset($_SESSION['_REQUEST_vars']['modfunc']);
+	$_SESSION['_REQUEST_vars']['modfunc'] = false;
 }
 
 if ( $_REQUEST['values'] && $_POST['values'])

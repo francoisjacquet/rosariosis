@@ -52,7 +52,7 @@ if ( $_REQUEST['modfunc']=='update')
 				DBQuery($sql);
 		}
 	}
-	unset($_REQUEST['modfunc']);
+	$_REQUEST['modfunc'] = false;
 }
 
 if ( $_REQUEST['modfunc']=='remove')

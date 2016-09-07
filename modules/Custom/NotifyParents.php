@@ -90,8 +90,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	else
 	{
 		$error[] = _('You must choose at least one user');
-		unset($_SESSION['_REQUEST_vars']['modfunc']);
-		unset($_REQUEST['modfunc']);
+		$_SESSION['_REQUEST_vars']['modfunc'] = false;
+		$_REQUEST['modfunc'] = false;
 	}
 }
 

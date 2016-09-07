@@ -371,8 +371,8 @@ if ( $_REQUEST['modfunc'] === 'create'
 		// Set Current Calendar
 		$_REQUEST['calendar_id'] = $calendar_id;
 
-		unset( $_REQUEST['modfunc'] );
-		unset( $_SESSION['_REQUEST_vars']['modfunc'] );
+		$_REQUEST['modfunc'] = false;
+		$_SESSION['_REQUEST_vars']['modfunc'] = false;
 		unset( $_REQUEST['weekdays']);
 		unset( $_SESSION['_REQUEST_vars']['weekdays'] );
 		unset( $_REQUEST['title'] );
@@ -403,8 +403,8 @@ if ( $_REQUEST['modfunc'] === 'delete_calendar'
 			AND DEFAULT_CALENDAR='Y'" ) );
 
 		unset( $_REQUEST['calendar_id'] );
-		unset( $_REQUEST['modfunc'] );
-		unset( $_SESSION['_REQUEST_vars']['modfunc'] );
+		$_REQUEST['modfunc'] = false;
+		$_SESSION['_REQUEST_vars']['modfunc'] = false;
 	}
 }
 

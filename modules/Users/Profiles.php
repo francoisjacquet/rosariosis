@@ -76,16 +76,16 @@ if ( $_REQUEST['modfunc'] === 'delete'
 			DBQuery( "DELETE FROM PROFILE_EXCEPTIONS
 				WHERE PROFILE_ID='" . $_REQUEST['profile_id'] . "'" );
 
-			unset( $_REQUEST['modfunc'] );
-			unset( $_SESSION['_REQUEST_vars']['modfunc'] );
+			$_REQUEST['modfunc'] = false;
+			$_SESSION['_REQUEST_vars']['modfunc'] = false;
 			unset( $_REQUEST['profile_id'] );
 			unset( $_SESSION['_REQUEST_vars']['profile_id'] );
 		}
 	}
 	else // bad or already deleted profile ID
 	{
-		unset($_REQUEST['modfunc']);
-		unset($_SESSION['_REQUEST_vars']['modfunc']);
+		$_REQUEST['modfunc'] = false;
+		$_SESSION['_REQUEST_vars']['modfunc'] = false;
 		unset( $_REQUEST['profile_id'] );
 		unset( $_SESSION['_REQUEST_vars']['profile_id'] );
 	}
@@ -163,8 +163,8 @@ if ( $_REQUEST['modfunc'] === 'update'
 		WHERE PROFILE_ID='" . $_REQUEST['profile_id'] . "'" ), array(), array( 'MODNAME' ) );
 
 	unset($tmp_menu);
-	unset($_REQUEST['modfunc']);
-	unset($_SESSION['_REQUEST_vars']['modfunc']);
+	$_REQUEST['modfunc'] = false;
+	$_SESSION['_REQUEST_vars']['modfunc'] = false;
 	unset($_REQUEST['can_edit']);
 	unset($_SESSION['_REQUEST_vars']['can_edit']);
 	unset($_REQUEST['can_use']);

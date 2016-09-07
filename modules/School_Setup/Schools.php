@@ -109,9 +109,9 @@ if ( $_REQUEST['modfunc']=='update')
 			}
 		}
 
-		unset($_REQUEST['modfunc']);
+		$_REQUEST['modfunc'] = false;
 		unset($_SESSION['_REQUEST_vars']['values']);
-		unset($_SESSION['_REQUEST_vars']['modfunc']);
+		$_SESSION['_REQUEST_vars']['modfunc'] = false;
 	}
 	elseif ( $_REQUEST['button']==_('Delete') && User('PROFILE')=='admin' && AllowEdit())
 	{
@@ -128,7 +128,7 @@ if ( $_REQUEST['modfunc']=='update')
 			DBQuery("DELETE FROM CONFIG WHERE SCHOOL_ID='".UserSchool()."'");
 			DBQuery("DELETE FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."'");
 
-			unset($_REQUEST['modfunc']);
+			$_REQUEST['modfunc'] = false;
 
 			//set current school to one of the remaining schools
 			$first_remaining_school = DBGet(DBQuery("SELECT ID FROM SCHOOLS WHERE SYEAR = '".UserSyear()."' LIMIT 1"));
@@ -138,7 +138,7 @@ if ( $_REQUEST['modfunc']=='update')
 		}
 	}
 	else
-		unset($_REQUEST['modfunc']);
+		$_REQUEST['modfunc'] = false;
 }
 
 if ( ! $_REQUEST['modfunc'] )

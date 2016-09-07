@@ -20,8 +20,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	else
 		$error[] = _('You must choose at least one user');
 
-	unset($_REQUEST['modfunc']);
-	unset($_SESSION['_REQUEST_vars']['modfunc']);
+	$_REQUEST['modfunc'] = false;
+	$_SESSION['_REQUEST_vars']['modfunc'] = false;
 }
 
 DrawHeader(ProgramTitle());
@@ -35,7 +35,7 @@ if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 		//hook
 		do_action('Students/AddUsers.php|user_unassign_role');
 
-		unset($_REQUEST['modfunc']);
+		$_REQUEST['modfunc'] = false;
 	}
 }
 

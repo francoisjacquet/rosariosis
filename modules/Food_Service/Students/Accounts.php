@@ -51,7 +51,7 @@ if ( $_REQUEST['modfunc']=='update')
 				}
 				else
 					$error[] = _('Please enter valid Numeric data.');
-                unset($_REQUEST['modfunc']);
+                $_REQUEST['modfunc'] = false;
                 unset($_REQUEST['food_service']);
                 unset($_SESSION['_REQUEST_vars']['food_service']);
             }
@@ -59,7 +59,7 @@ if ( $_REQUEST['modfunc']=='update')
     }
     else
     {
-        unset($_REQUEST['modfunc']);
+        $_REQUEST['modfunc'] = false;
         unset($_REQUEST['food_service']);
         unset($_SESSION['_REQUEST_vars']['food_service']);
     }

@@ -17,7 +17,7 @@ if ( $_REQUEST['modfunc']=='add' && AllowEdit())
 		echo ErrorMessage(array(_('The activity you selected is already assigned to this student!')));
 	else
 		DBQuery("INSERT INTO STUDENT_ELIGIBILITY_ACTIVITIES (STUDENT_ID,ACTIVITY_ID,SYEAR) values('".UserStudentID()."','".$_REQUEST['new_activity']."','".UserSyear()."')");
-	unset($_REQUEST['modfunc']);
+	$_REQUEST['modfunc'] = false;
 }
 
 if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )

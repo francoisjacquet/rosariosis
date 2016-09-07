@@ -331,7 +331,7 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 
 			unset($_REQUEST['assignment_id']);
 		}
-		unset($_REQUEST['modfunc']);
+		$_REQUEST['modfunc'] = false;
 	}
 }
 

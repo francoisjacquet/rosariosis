@@ -55,7 +55,7 @@ if ( $_REQUEST['modfunc']=='update')
                         DBQuery("UPDATE FOOD_SERVICE_STUDENT_ACCOUNTS SET BARCODE=NULL WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."'");
                     }
                     DBQuery($sql);
-                    unset($_REQUEST['modfunc']);
+                    $_REQUEST['modfunc'] = false;
                     unset($_REQUEST['food_service']);
                     unset($_SESSION['_REQUEST_vars']['food_service']);
                 }
@@ -64,7 +64,7 @@ if ( $_REQUEST['modfunc']=='update')
     }
     else
     {
-        unset($_REQUEST['modfunc']);
+        $_REQUEST['modfunc'] = false;
         unset($_REQUEST['food_service']);
         unset($_SESSION['_REQUEST_vars']['food_service']);
     }
@@ -91,7 +91,7 @@ if ( $_REQUEST['modfunc']=='create')
         $sql = 'INSERT INTO FOOD_SERVICE_STAFF_ACCOUNTS ('.mb_substr($fields,0,-1).') values ('.mb_substr($values,0,-1).')';
         DBQuery($sql);
 	}
-	unset($_REQUEST['modfunc']);
+	$_REQUEST['modfunc'] = false;
 }
 
 StaffWidgets('fsa_balance');

@@ -315,13 +315,13 @@ if ( $_REQUEST['modfunc'] === 'update'
 		$_REQUEST['student_id'] = 'new';
 	}
 
-	unset( $_REQUEST['modfunc'] );
+	$_REQUEST['modfunc'] = false;
 
 	// SHOULD THIS BE HERE???
 	if ( !UserStudentID() )
 		unset( $_REQUEST['values'] );
 
-	unset( $_SESSION['_REQUEST_vars']['modfunc'] );
+	$_SESSION['_REQUEST_vars']['modfunc'] = false;
 	unset( $_SESSION['_REQUEST_vars']['students'] );
 	unset( $_SESSION['_REQUEST_vars']['values'] );
 }

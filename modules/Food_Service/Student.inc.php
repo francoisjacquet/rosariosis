@@ -15,7 +15,7 @@ if ( $_REQUEST['modfunc']=='update')
 			DBQuery($sql);
 		}
 	}
-	//unset($_REQUEST['modfunc']);
+	//$_REQUEST['modfunc'] = false;
 	unset($_REQUEST['food_service']);
 	unset($_SESSION['_REQUEST_vars']['food_service']);
 }

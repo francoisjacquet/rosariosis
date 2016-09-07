@@ -121,7 +121,7 @@ if ( UserStudentID() )
 
 		}
 
-		unset($_REQUEST['modfunc']);
+		$_REQUEST['modfunc'] = false;
 	}
 
 	if ( $_REQUEST['modfunc']=='remove')

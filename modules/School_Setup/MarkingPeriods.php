@@ -368,8 +368,8 @@ if ( $_REQUEST['modfunc'] === 'delete'
 		DBQuery( "DELETE FROM SCHOOL_MARKING_PERIODS
 			WHERE MARKING_PERIOD_ID='" . $_REQUEST['marking_period_id'] . "'");
 
-		unset( $_REQUEST['modfunc'] );
-		unset( $_SESSION['_REQUEST_vars']['modfunc'] );
+		$_REQUEST['modfunc'] = false;
+		$_SESSION['_REQUEST_vars']['modfunc'] = false;
 
 		$_REQUEST['mp_term'] = $parent_term;
 

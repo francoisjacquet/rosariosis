@@ -17,7 +17,7 @@ if ( $_REQUEST['modfunc']=='update')
 	}
 	unset($_REQUEST['student']);
 	unset($_REQUEST['staff']);
-	unset($_REQUEST['modfunc']);
+	$_REQUEST['modfunc'] = false;
 }
 
 $schools_RET = DBGet(DBQuery("SELECT ID,SYEAR,TITLE FROM SCHOOLS"),array(),array('SYEAR'));

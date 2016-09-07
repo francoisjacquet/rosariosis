@@ -114,9 +114,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	else
 		$error[] = _('You must choose at least one field and one student');
 
-	unset($_REQUEST['modfunc']);
+	$_REQUEST['modfunc'] = false;
 	unset($_REQUEST['values']);
-	unset($_SESSION['_REQUEST_vars']['modfunc']);
+	$_SESSION['_REQUEST_vars']['modfunc'] = false;
 	unset($_SESSION['_REQUEST_vars']['values']);
 }
 

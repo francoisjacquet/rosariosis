@@ -531,7 +531,7 @@ if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 		}
 
 			unset($_REQUEST[ $unset ]);
-		unset($_REQUEST['modfunc']);
+		$_REQUEST['modfunc'] = false;
 	}
 }
 

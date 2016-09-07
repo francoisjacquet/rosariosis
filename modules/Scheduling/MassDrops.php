@@ -86,8 +86,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 	if (empty($schedule_deletion_pending))
 	{
-		unset($_SESSION['_REQUEST_vars']['modfunc']);
-		unset($_REQUEST['modfunc']);
+		$_SESSION['_REQUEST_vars']['modfunc'] = false;
+		$_REQUEST['modfunc'] = false;
 		unset($_SESSION['MassDrops.php']);
 	}
 }

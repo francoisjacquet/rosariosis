@@ -26,7 +26,7 @@ if ( $_REQUEST['modfunc']=='config')
 		require_once 'plugins/'.$_REQUEST['plugin'].'/config.inc.php';
 	else
 	{
-		unset($_REQUEST['modfunc']);
+		$_REQUEST['modfunc'] = false;
 		unset($_REQUEST['plugin']);
 	}
 }
@@ -59,7 +59,7 @@ if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 			}
 		}
 
-		unset($_REQUEST['modfunc']);
+		$_REQUEST['modfunc'] = false;
 		unset($_REQUEST['plugin']);
 	}
 }
@@ -84,7 +84,7 @@ if ( $_REQUEST['modfunc']=='deactivate' && AllowEdit())
 			$error[] = _('Incomplete or inexistant plugin.');
 		}
 
-		unset($_REQUEST['modfunc']);
+		$_REQUEST['modfunc'] = false;
 		unset($_REQUEST['plugin']);
 	}
 }
@@ -131,7 +131,7 @@ if ( $_REQUEST['modfunc']=='activate' && AllowEdit())
 		_saveRosarioPlugins();
 	}
 
-	unset($_REQUEST['modfunc']);
+	$_REQUEST['modfunc'] = false;
 	unset($_REQUEST['plugin']);
 }
 

@@ -5,7 +5,7 @@ require_once 'modules/Food_Service/includes/FS_Icons.inc.php';
 if ( $_REQUEST['modfunc']=='select')
 {
 	$_SESSION['FSA_type'] = $_REQUEST['fsa_type'];
-	unset($_REQUEST['modfunc']);
+	$_REQUEST['modfunc'] = false;
 }
 
 if ( $_REQUEST['type'])
@@ -49,14 +49,14 @@ if ( $_REQUEST['modfunc']=='add')
 {
 	if ( $_REQUEST['item_sn'])
 		$_SESSION['FSA_sale'][] = $_REQUEST['item_sn'];
-	unset($_REQUEST['modfunc']);
+	$_REQUEST['modfunc'] = false;
 }
 
 if ( $_REQUEST['modfunc']=='remove')
 {
 	if ( $_REQUEST['id']!='')
 		unset($_SESSION['FSA_sale'][$_REQUEST['id']]);
-	unset($_REQUEST['modfunc']);
+	$_REQUEST['modfunc'] = false;
 }
 
 require_once 'modules/Food_Service/'.($_SESSION['FSA_type']=='staff'?'Users/':'Students/').'/ServeMenus.php';

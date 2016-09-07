@@ -34,7 +34,7 @@ if ( $_REQUEST['modfunc']=='update')
 			DBQuery($sql);
 		}
 
-	unset($_REQUEST['modfunc']);
+	$_REQUEST['modfunc'] = false;
 }
 
 if ( $_REQUEST['modfunc']=='add' && AllowEdit())
@@ -44,7 +44,7 @@ if ( $_REQUEST['modfunc']=='add' && AllowEdit())
 	$subject_id = $subject_id[1]['SUBJECT_ID'];
 
 	DBQuery("INSERT INTO SCHEDULE_REQUESTS (REQUEST_ID,SYEAR,SCHOOL_ID,STUDENT_ID,SUBJECT_ID,COURSE_ID) values(".db_seq_nextval('SCHEDULE_REQUESTS_SEQ').",'".UserSyear()."','".UserSchool()."','".UserStudentID()."','".$subject_id."','".$course_id."')");
-	unset($_REQUEST['modfunc']);
+	$_REQUEST['modfunc'] = false;
 }
 
 if ( $_REQUEST['modfunc'] == 'XMLHttpRequest' )

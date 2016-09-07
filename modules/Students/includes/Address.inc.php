@@ -264,7 +264,7 @@ if ( isset( $_POST['values'] )
 		DBQuery($sql);
 	}
 
-	unset($_REQUEST['modfunc']);
+	$_REQUEST['modfunc'] = false;
 	unset($_REQUEST['values']);
 }
 
@@ -275,7 +275,7 @@ if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 		if (DeletePrompt(_('Contact Information')))
 		{
 			DBQuery("DELETE FROM PEOPLE_JOIN_CONTACTS WHERE ID='".$_REQUEST['contact_id']."'");
-			unset($_REQUEST['modfunc']);
+			$_REQUEST['modfunc'] = false;
 		}
 	}
 	elseif ( $_REQUEST['person_id'])
@@ -293,7 +293,7 @@ if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 				DBQuery("DELETE FROM STUDENTS_JOIN_ADDRESS WHERE ADDRESS_ID='0' AND STUDENT_ID='".UserStudentID()."'");
 				unset($_REQUEST['address_id']);
 			}
-			unset($_REQUEST['modfunc']);
+			$_REQUEST['modfunc'] = false;
 			unset($_REQUEST['person_id']);
 		}
 	}
@@ -308,7 +308,7 @@ if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 				DBQuery("DELETE FROM STUDENTS_JOIN_ADDRESS WHERE STUDENT_ID='".UserStudentID()."' AND ADDRESS_ID='".$_REQUEST['address_id']."'");
 			if (count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_ADDRESS WHERE ADDRESS_ID='".$_REQUEST['address_id']."'")))==0)
 				DBQuery("DELETE FROM ADDRESS WHERE ADDRESS_ID='".$_REQUEST['address_id']."'");
-			unset($_REQUEST['modfunc']);
+			$_REQUEST['modfunc'] = false;
 			unset($_REQUEST['address_id']);
 		}
 	}

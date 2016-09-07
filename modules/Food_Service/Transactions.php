@@ -28,8 +28,8 @@ if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 	{
 		require_once 'modules/Food_Service/includes/DeleteTransaction.fnc.php';
 		DeleteTransaction($_REQUEST['id'],$_REQUEST['type']);
-		unset($_REQUEST['modfunc']);
-		unset($_SESSION['_REQUEST_vars']['modfunc']);
+		$_REQUEST['modfunc'] = false;
+		$_SESSION['_REQUEST_vars']['modfunc'] = false;
 	}
 }
 

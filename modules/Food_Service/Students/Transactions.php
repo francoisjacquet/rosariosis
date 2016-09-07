@@ -30,7 +30,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && $_REQUEST['save'])
 		else
 			$error[] = _('Please enter valid Type and Amount.');
 	}
-	unset($_REQUEST['modfunc']);
+	$_REQUEST['modfunc'] = false;
 }
 
 Widgets('fsa_discount');
