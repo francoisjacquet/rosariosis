@@ -5,14 +5,16 @@ if ( $_REQUEST['modfunc']!='XMLHttpRequest')
 Widgets('request');
 Search('student_id',$extra);
 
-if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )
 {
-	if (DeletePrompt(_('Request')))
+	if ( DeletePrompt( _( 'Request' ) ) )
 	{
-		DBQuery("DELETE FROM SCHEDULE_REQUESTS WHERE REQUEST_ID='".$_REQUEST['id']."'");
-		unset($_REQUEST['modfunc']);
-		unset($_SESSION['_REQUEST_vars']['modfunc']);
-		unset($_SESSION['_REQUEST_vars']['id']);
+		DBQuery("DELETE FROM SCHEDULE_REQUESTS WHERE REQUEST_ID='" . $_REQUEST['id'] . "'");
+
+		// Unset modfunc & ID.
+		$_REQUEST['modfunc'] = false;
+		$_SESSION['_REQUEST_vars']['modfunc'] = false;
+		$_SESSION['_REQUEST_vars']['id'] = false;
 	}
 }
 

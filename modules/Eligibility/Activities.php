@@ -57,12 +57,16 @@ if ( isset( $_POST['values'] )
 
 DrawHeader(ProgramTitle());
 
-if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )
 {
-	if (DeletePrompt(_('Activity')))
+	if ( DeletePrompt( _( 'Activity' ) ) )
 	{
-		DBQuery("DELETE FROM ELIGIBILITY_ACTIVITIES WHERE ID='".$_REQUEST['id']."'");
-		unset($_REQUEST['modfunc']);
+		DBQuery("DELETE FROM ELIGIBILITY_ACTIVITIES WHERE ID='" . $_REQUEST['id'] . "'");
+
+		// Unset modfunc & ID.
+		$_REQUEST['modfunc'] = false;
+		$_SESSION['_REQUEST_vars']['modfunc'] = false;
+		$_SESSION['_REQUEST_vars']['id'] = false;
 	}
 }
 

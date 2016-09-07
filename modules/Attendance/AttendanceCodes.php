@@ -67,25 +67,32 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 
 DrawHeader(ProgramTitle());
 
-if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )
 {
 	if ( $_REQUEST['table']!='new')
 	{
-		if (DeletePrompt(_('Attendance Code')))
+		if ( DeletePrompt( _( 'Attendance Code' ) ) )
 		{
-			DBQuery("DELETE FROM ATTENDANCE_CODES WHERE ID='".$_REQUEST['id']."'");
-			unset($_REQUEST['modfunc']);
+			DBQuery("DELETE FROM ATTENDANCE_CODES WHERE ID='" . $_REQUEST['id'] . "'");
+
+			// Unset modfunc & ID.
+			$_REQUEST['modfunc'] = false;
+			$_SESSION['_REQUEST_vars']['modfunc'] = false;
+			$_SESSION['_REQUEST_vars']['id'] = false;
 		}
 	}
 	else
 	{
-		if (DeletePrompt(_('Category')))
+		if ( DeletePrompt( _( 'Category' ) ) )
 		{
-			DBQuery("DELETE FROM ATTENDANCE_CODE_CATEGORIES WHERE ID='".$_REQUEST['id']."'");
+			DBQuery("DELETE FROM ATTENDANCE_CODE_CATEGORIES WHERE ID='" . $_REQUEST['id'] . "'");
 			DBQuery("DELETE FROM ATTENDANCE_CODES WHERE TABLE_NAME='".$_REQUEST['id']."'");
 			DBQuery("UPDATE COURSE_PERIODS SET DOES_ATTENDANCE=replace(DOES_ATTENDANCE,',$_REQUEST[id],',',') WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'");
 			DBQuery("UPDATE COURSE_PERIODS SET DOES_ATTENDANCE=NULL WHERE DOES_ATTENDANCE=',' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'");
-			unset($_REQUEST['modfunc']);
+
+			unset( $_REQUEST['modfunc'] );
+			unset( $_SESSION['_REQUEST_vars']['modfunc'] );
+			unset( $_SESSION['_REQUEST_vars']['id'] );
 		}
 	}
 }

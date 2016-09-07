@@ -60,12 +60,17 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 	unset($_REQUEST['values']);
 }
 
-if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )
 {
-	if (DeletePrompt(_('Income')))
+	if ( DeletePrompt( _( 'Income' ) ) )
 	{
-		DBQuery("DELETE FROM ACCOUNTING_INCOMES WHERE ID='".$_REQUEST['id']."'");
-		unset($_REQUEST['modfunc']);
+		DBQuery("DELETE FROM ACCOUNTING_INCOMES WHERE ID='" . $_REQUEST['id'] . "'");
+
+		// Unset modfunc & ID.
+		// Unset modfunc & ID.
+		$_REQUEST['modfunc'] = false;
+		$_SESSION['_REQUEST_vars']['modfunc'] = false;
+		$_SESSION['_REQUEST_vars']['id'] = false;
 	}
 }
 

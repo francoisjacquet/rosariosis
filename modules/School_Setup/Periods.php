@@ -3,7 +3,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
 	foreach ( (array) $_REQUEST['values'] as $id => $columns)
 	{
-//FJ fix SQL bug invalid numeric data
+		// FJ fix SQL bug invalid numeric data.
 		if ((empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER'])) && (empty($columns['LENGTH']) || is_numeric($columns['LENGTH'])))
 		{
 			if ( $columns['START_TIME_HOUR']!='' && $columns['START_TIME_MINUTE'] && $columns['START_TIME_M'])
@@ -58,12 +58,16 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 
 DrawHeader(ProgramTitle());
 
-if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )
 {
-	if (DeletePrompt(_('Period')))
+	if ( DeletePrompt( _( 'Period' ) ) )
 	{
-		DBQuery("DELETE FROM SCHOOL_PERIODS WHERE PERIOD_ID='".$_REQUEST['id']."'");
-		unset($_REQUEST['modfunc']);
+		DBQuery("DELETE FROM SCHOOL_PERIODS WHERE PERIOD_ID='" . $_REQUEST['id'] . "'");
+
+		// Unset modfunc & ID.
+		$_REQUEST['modfunc'] = false;
+		$_SESSION['_REQUEST_vars']['modfunc'] = false;
+		$_SESSION['_REQUEST_vars']['id'] = false;
 	}
 }
 

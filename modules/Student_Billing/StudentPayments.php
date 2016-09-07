@@ -74,12 +74,16 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 	unset($_REQUEST['values']);
 }
 
-if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )
 {
-	if (DeletePrompt(_('Payment')))
+	if ( DeletePrompt( _( 'Payment' ) ) )
 	{
-		DBQuery("DELETE FROM BILLING_PAYMENTS WHERE ID='".$_REQUEST['id']."' OR REFUNDED_PAYMENT_ID='".$_REQUEST['id']."'");
-		unset($_REQUEST['modfunc']);
+		DBQuery("DELETE FROM BILLING_PAYMENTS WHERE ID='" . $_REQUEST['id'] . "' OR REFUNDED_PAYMENT_ID='" . $_REQUEST['id'] . "'");
+
+		// Unset modfunc & ID.
+		$_REQUEST['modfunc'] = false;
+		$_SESSION['_REQUEST_vars']['modfunc'] = false;
+		$_SESSION['_REQUEST_vars']['id'] = false;
 	}
 }
 
@@ -87,13 +91,14 @@ if ( $_REQUEST['modfunc']=='refund' && AllowEdit())
 {
 	if (DeletePrompt(_('Payment'),_('Refund')))
 	{
-		$payment_RET = DBGet(DBQuery("SELECT COMMENTS,AMOUNT FROM BILLING_PAYMENTS WHERE ID='".$_REQUEST['id']."'"));
+		$payment_RET = DBGet(DBQuery("SELECT COMMENTS,AMOUNT FROM BILLING_PAYMENTS WHERE ID='" . $_REQUEST['id'] . "'"));
 		DBQuery("INSERT INTO BILLING_PAYMENTS (ID,SYEAR,SCHOOL_ID,STUDENT_ID,AMOUNT,PAYMENT_DATE,COMMENTS,REFUNDED_PAYMENT_ID) values(".db_seq_nextval('BILLING_PAYMENTS_SEQ').",'".UserSyear()."','".UserSchool()."','".UserStudentID()."','".($payment_RET[1]['AMOUNT']*-1)."','".DBDate()."','".DBEscapeString($payment_RET[1]['COMMENTS'])." "._('Refund')."','".$_REQUEST['id']."')");
 		unset($_REQUEST['modfunc']);
 	}
 }
 
-if (UserStudentID() && ! $_REQUEST['modfunc'])
+if ( UserStudentID()
+	&& ! $_REQUEST['modfunc'] )
 {
 	echo ErrorMessage( $error );
 

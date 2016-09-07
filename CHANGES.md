@@ -7,6 +7,7 @@ Changes in 2.9.9
 - Fix SQL error when all-day checked & minutes in Calendar.php
 - Fix SQL error when more than one Rollover default enrollment code in Rollover.php
 - Add warning & help for Rollover default enrollment code in EnrollmentCodes.php
+- Fix Delete Prompt displayed when working User/Student cleared program wide
 
 Changes in 2.9.8
 ----------------

@@ -103,35 +103,44 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 	unset($_SESSION['_REQUEST_vars']['values']);
 }
 
-if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'delete' && AllowEdit() )
 {
-	if (DeletePrompt(_('Category')))
+	if ( DeletePrompt( _( 'Category' ) ) )
 	{
 		$id = $_REQUEST['id'];
 		DBQuery("DELETE FROM DISCIPLINE_FIELDS WHERE ID='".$id."'");
 		DBQuery("DELETE FROM DISCIPLINE_FIELD_USAGE WHERE DISCIPLINE_FIELD_ID='".$id."'");
 		DBQuery("ALTER TABLE DISCIPLINE_REFERRALS DROP COLUMN CATEGORY_$id");
-		unset($_REQUEST['modfunc']);
-		unset($_REQUEST['id']);
+
+		// Unset modfunc & ID.
+		$_REQUEST['modfunc'] = false;
+		$_SESSION['_REQUEST_vars']['modfunc'] = false;
+		$_SESSION['_REQUEST_vars']['id'] = false;
 	}
 }
 
-if ( $_REQUEST['modfunc']=='delete_usage' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'delete_usage' && AllowEdit() )
 {
-	if (DeletePrompt(_('Category'),_('Don\'t use')))
+	if ( DeletePrompt( _( 'Category' ), _( 'Don\'t use' ) ) )
 	{
 		$id = $_REQUEST['id'];
 		DBQuery("DELETE FROM DISCIPLINE_FIELD_USAGE WHERE ID='".$id."'");
-		unset($_REQUEST['modfunc']);
-		unset($_REQUEST['id']);
+
+		// Unset modfunc & ID.
+		$_REQUEST['modfunc'] = false;
+		$_SESSION['_REQUEST_vars']['modfunc'] = false;
+		$_SESSION['_REQUEST_vars']['id'] = false;
 	}
 }
 
-if ( $_REQUEST['modfunc']=='add_usage' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'add_usage' && AllowEdit() )
 {
-	DBQuery("INSERT INTO DISCIPLINE_FIELD_USAGE (ID,DISCIPLINE_FIELD_ID,SYEAR,SCHOOL_ID,TITLE,SELECT_OPTIONS,SORT_ORDER) SELECT ".db_seq_nextval('DISCIPLINE_FIELD_USAGE_SEQ')." AS ID,'".$_REQUEST['id']."' AS DISCIPLINE_FIELD_ID,'".UserSyear()."' AS SYEAR,'".UserSchool()."' AS SCHOOL_ID,TITLE,NULL AS SELECT_OPTIONS,NULL AS SORT_ORDER FROM DISCIPLINE_FIELDS WHERE ID='".$_REQUEST['id']."'");
-	unset($_REQUEST['modfunc']);
-	unset($_REQUEST['id']);
+	DBQuery("INSERT INTO DISCIPLINE_FIELD_USAGE (ID,DISCIPLINE_FIELD_ID,SYEAR,SCHOOL_ID,TITLE,SELECT_OPTIONS,SORT_ORDER) SELECT ".db_seq_nextval('DISCIPLINE_FIELD_USAGE_SEQ')." AS ID,'".$_REQUEST['id']."' AS DISCIPLINE_FIELD_ID,'".UserSyear()."' AS SYEAR,'".UserSchool()."' AS SCHOOL_ID,TITLE,NULL AS SELECT_OPTIONS,NULL AS SORT_ORDER FROM DISCIPLINE_FIELDS WHERE ID='" . $_REQUEST['id'] . "'");
+
+	// Unset modfunc & ID.
+	$_REQUEST['modfunc'] = false;
+	$_SESSION['_REQUEST_vars']['modfunc'] = false;
+	$_SESSION['_REQUEST_vars']['id'] = false;
 }
 
 

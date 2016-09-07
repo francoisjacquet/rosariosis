@@ -72,12 +72,16 @@ DrawHeader(ProgramTitle());
 
 echo ErrorMessage( $error );
 
-if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )
 {
-	if (DeletePrompt(_('Referral')))
+	if ( DeletePrompt( _( 'Referral' ) ) )
 	{
-		DBQuery("DELETE FROM DISCIPLINE_REFERRALS WHERE ID='".$_REQUEST['id']."'");
-		unset($_REQUEST['modfunc']);
+		DBQuery("DELETE FROM DISCIPLINE_REFERRALS WHERE ID='" . $_REQUEST['id'] . "'");
+
+		// Unset modfunc & ID.
+		$_REQUEST['modfunc'] = false;
+		$_SESSION['_REQUEST_vars']['modfunc'] = false;
+		$_SESSION['_REQUEST_vars']['id'] = false;
 	}
 }
 

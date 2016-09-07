@@ -65,13 +65,17 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 	unset($_REQUEST['values']);
 }
 
-if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )
 {
-	if (DeletePrompt(_('Fee')))
+	if ( DeletePrompt( _( 'Fee' ) ) )
 	{
-		DBQuery("DELETE FROM BILLING_FEES WHERE ID='".$_REQUEST['id']."'");
-		DBQuery("DELETE FROM BILLING_FEES WHERE WAIVED_FEE_ID='".$_REQUEST['id']."'");
-		unset($_REQUEST['modfunc']);
+		DBQuery("DELETE FROM BILLING_FEES WHERE ID='" . $_REQUEST['id'] . "'");
+		DBQuery("DELETE FROM BILLING_FEES WHERE WAIVED_FEE_ID='" . $_REQUEST['id'] . "'");
+
+		// Unset modfunc & ID.
+		$_REQUEST['modfunc'] = false;
+		$_SESSION['_REQUEST_vars']['modfunc'] = false;
+		$_SESSION['_REQUEST_vars']['id'] = false;
 	}
 }
 
@@ -79,13 +83,14 @@ if ( $_REQUEST['modfunc']=='waive' && AllowEdit())
 {
 	if (DeletePrompt(_('Fee'),_('Waive')))
 	{
-		$fee_RET = DBGet(DBQuery("SELECT TITLE,AMOUNT FROM BILLING_FEES WHERE ID='".$_REQUEST['id']."'"));
+		$fee_RET = DBGet(DBQuery("SELECT TITLE,AMOUNT FROM BILLING_FEES WHERE ID='" . $_REQUEST['id'] . "'"));
 		DBQuery("INSERT INTO BILLING_FEES (ID,SYEAR,SCHOOL_ID,TITLE,AMOUNT,WAIVED_FEE_ID,STUDENT_ID,ASSIGNED_DATE,COMMENTS) values(".db_seq_nextval('BILLING_FEES_SEQ').",'".UserSyear()."','".UserSchool()."','".DBEscapeString($fee_RET[1]['TITLE'])." "._('Waiver')."','".($fee_RET[1]['AMOUNT']*-1)."','".$_REQUEST['id']."','".UserStudentID()."','".DBDate()."','"._('Waiver')."')");
 		unset($_REQUEST['modfunc']);
 	}
 }
 
-if (UserStudentID() && ! $_REQUEST['modfunc'])
+if ( UserStudentID()
+	&& ! $_REQUEST['modfunc'] )
 {
 	$fees_total = 0;
 	$functions = array('REMOVE' => '_makeFeesRemove','ASSIGNED_DATE' => 'ProperDate','DUE_DATE' => '_makeFeesDateInput','COMMENTS' => '_makeFeesTextInput','AMOUNT' => '_makeFeesAmount');

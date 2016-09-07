@@ -47,12 +47,16 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 
 DrawHeader( ProgramTitle() );
 
-if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )
 {
-	if (DeletePrompt(_('Enrollment Code')))
+	if ( DeletePrompt( _( 'Enrollment Code' ) ) )
 	{
-		DBQuery("DELETE FROM STUDENT_ENROLLMENT_CODES WHERE ID='".$_REQUEST['id']."'");
-		unset($_REQUEST['modfunc']);
+		DBQuery("DELETE FROM STUDENT_ENROLLMENT_CODES WHERE ID='" . $_REQUEST['id'] . "'");
+
+		// Unset modfunc & ID.
+		$_REQUEST['modfunc'] = false;
+		$_SESSION['_REQUEST_vars']['modfunc'] = false;
+		$_SESSION['_REQUEST_vars']['id'] = false;
 	}
 }
 

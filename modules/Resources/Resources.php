@@ -46,12 +46,16 @@ if ( $_REQUEST['modfunc']=='update')
 
 DrawHeader(ProgramTitle());
 
-if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )
 {
-	if (DeletePrompt(_('Resource')))
+	if ( DeletePrompt( _( 'Resource' ) ) )
 	{
-		DBQuery("DELETE FROM RESOURCES WHERE ID='".$_REQUEST['id']."'");
-		unset($_REQUEST['modfunc']);
+		DBQuery("DELETE FROM RESOURCES WHERE ID='" . $_REQUEST['id'] . "'");
+
+		// Unset modfunc & ID.
+		$_REQUEST['modfunc'] = false;
+		$_SESSION['_REQUEST_vars']['modfunc'] = false;
+		$_SESSION['_REQUEST_vars']['id'] = false;
 	}
 }
 

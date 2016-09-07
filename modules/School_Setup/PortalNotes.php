@@ -180,19 +180,22 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 
 DrawHeader(ProgramTitle());
 
-if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )
 {
-	if (DeletePrompt(_('Note')))
+	if ( DeletePrompt( _( 'Note' ) ) )
 	{
-//FJ file attached to portal notes
-		$file_to_remove = DBGet(DBQuery("SELECT FILE_ATTACHED FROM PORTAL_NOTES WHERE ID='".$_REQUEST['id']."'"));
+		// FJ file attached to portal notes.
+		$file_to_remove = DBGet(DBQuery("SELECT FILE_ATTACHED FROM PORTAL_NOTES WHERE ID='" . $_REQUEST['id'] . "'"));
 		@unlink($file_to_remove[1]['FILE_ATTACHED']);
-		DBQuery("DELETE FROM PORTAL_NOTES WHERE ID='".$_REQUEST['id']."'");
+		DBQuery("DELETE FROM PORTAL_NOTES WHERE ID='" . $_REQUEST['id'] . "'");
 
 		//hook
 		do_action('School_Setup/PortalNotes.php|delete_portal_note');
 
-		unset($_REQUEST['modfunc']);
+		// Unset modfunc & ID.
+		$_REQUEST['modfunc'] = false;
+		$_SESSION['_REQUEST_vars']['modfunc'] = false;
+		$_SESSION['_REQUEST_vars']['id'] = false;
 	}
 }
 

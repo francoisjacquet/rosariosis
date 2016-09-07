@@ -68,7 +68,7 @@ if ( $_REQUEST['modfunc']=='update')
 	unset($_REQUEST['modfunc']);
 }
 
-if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )
 {
 	if ( $_REQUEST['tab_id']!='new')
 	{
@@ -77,7 +77,10 @@ if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 			DBQuery( "DELETE FROM REPORT_CARD_COMMENT_CODES
 				WHERE ID='" . $_REQUEST['id'] . "'" );
 
+			// Unset modfunc & ID.
 			$_REQUEST['modfunc'] = false;
+			$_SESSION['_REQUEST_vars']['modfunc'] = false;
+			$_SESSION['_REQUEST_vars']['id'] = false;
 		}
 	}
 	else
@@ -94,7 +97,10 @@ if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 			DBQuery( "DELETE FROM REPORT_CARD_COMMENT_CODE_SCALES
 				WHERE ID='" . $_REQUEST['id'] . "'" );
 
+			// Unset modfunc & ID.
 			$_REQUEST['modfunc'] = false;
+			$_SESSION['_REQUEST_vars']['modfunc'] = false;
+			$_SESSION['_REQUEST_vars']['id'] = false;
 		}
 	}
 }

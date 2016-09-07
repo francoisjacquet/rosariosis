@@ -24,7 +24,7 @@ if ( ( isset( $_POST['values'] )
 	);
 }
 
-if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
+if ( $_REQUEST['modfunc'] == 'delete' && AllowEdit() )
 {
 	if ( ! isset( $_REQUEST['delete_ok'] )
 		&& ! isset( $_REQUEST['delete_cancel'] ) )
@@ -34,8 +34,12 @@ if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 
 	if (DeletePrompt($_REQUEST['title']))
 	{
-		DBQuery("DELETE FROM ".$_REQUEST['table']." WHERE ID='".$_REQUEST['id']."'");
-		unset($_REQUEST['modfunc']);
+		DBQuery("DELETE FROM ".$_REQUEST['table']." WHERE ID='" . $_REQUEST['id'] . "'");
+
+		// Unset modfunc & ID.
+		$_REQUEST['modfunc'] = false;
+		$_SESSION['_REQUEST_vars']['modfunc'] = false;
+		$_SESSION['_REQUEST_vars']['id'] = false;
 	}
 }
 

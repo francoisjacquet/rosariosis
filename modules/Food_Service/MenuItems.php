@@ -94,7 +94,7 @@ if ( $_REQUEST['modfunc']=='update')
 	unset($_REQUEST['modfunc']);
 }
 
-if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )
 {
 	if ( $_REQUEST['tab_id']!='new')
 	{
@@ -104,7 +104,10 @@ if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 				WHERE MENU_ID='" . $_REQUEST['tab_id'] . "'
 				AND MENU_ITEM_ID='" . $_REQUEST['menu_item_id'] . "'" );
 
+			// Unset modfunc & ID.
 			$_REQUEST['modfunc'] = false;
+			$_SESSION['_REQUEST_vars']['modfunc'] = false;
+			$_SESSION['_REQUEST_vars']['menu_item_id'] = false;
 		}
 	}
 	else
@@ -117,7 +120,10 @@ if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 			DBQuery( "DELETE FROM FOOD_SERVICE_ITEMS
 				WHERE ITEM_ID='" . $_REQUEST['item_id'] . "'" );
 
+			// Unset modfunc & ID.
 			$_REQUEST['modfunc'] = false;
+			$_SESSION['_REQUEST_vars']['modfunc'] = false;
+			$_SESSION['_REQUEST_vars']['item_id'] = false;
 		}
 	}
 }
