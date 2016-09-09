@@ -339,6 +339,27 @@ echo ErrorMessage( $error );
 
 if ( ! $_REQUEST['modfunc'] )
 {
+	// Check assignment type ID is valid for current school & syear!
+	if ( $_REQUEST['assignment_type_id']
+		&& $_REQUEST['assignment_type_id'] !== 'new' )
+	{
+		$assignment_type_RET = DBGet( DBQuery( "SELECT ASSIGNMENT_TYPE_ID
+			FROM GRADEBOOK_ASSIGNMENT_TYPES
+			WHERE COURSE_ID=(SELECT COURSE_ID
+				FROM COURSE_PERIODS
+				WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
+			AND ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'" ) );
+
+		if ( ! $assignment_type_RET )
+		{
+			// Unset assignment & type IDs.
+			unset(
+				$_REQUEST['assignment_type_id'],
+				$_REQUEST['assignment_id']
+			);
+		}
+	}
+
 	// ASSIGNMENT TYPES.
 	$assignment_types_sql = "SELECT ASSIGNMENT_TYPE_ID,TITLE,SORT_ORDER
 		FROM GRADEBOOK_ASSIGNMENT_TYPES

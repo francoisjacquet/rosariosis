@@ -2,24 +2,11 @@
 
 DrawHeader( ProgramTitle() );
 
-// default MP ID to Full Year
-if ( !isset( $_REQUEST['marking_period_id'] )
+// Default MP ID to Full Year.
+if ( ! isset( $_REQUEST['marking_period_id'] )
 	|| empty( $_REQUEST['marking_period_id'] ) )
 {
-	$fy_RET = DBGet( DBQuery( "SELECT MARKING_PERIOD_ID
-		FROM SCHOOL_MARKING_PERIODS
-		WHERE MP='FY'
-		AND SCHOOL_ID='" . UserSchool() . "'
-		AND SYEAR='" . UserSyear() . "' ORDER BY SORT_ORDER" ) );
-
-	if ( count( $fy_RET ) )
-	{
-		$_REQUEST['marking_period_id'] = $fy_RET[1]['MARKING_PERIOD_ID'];
-	}
-	else
-	{
-		$_REQUEST['marking_period_id'] = 'new';
-	}
+	$_REQUEST['marking_period_id'] = _getMPFullYear();
 
 	$_REQUEST['mp_term'] = 'FY';
 }
@@ -381,7 +368,32 @@ if ( ! $_REQUEST['modfunc'] )
 {
 	echo ErrorMessage( $error );
 
-	// ADDING & EDITING FORM
+	// Check marking period ID is valid for current school & syear!
+	if ( $_REQUEST['marking_period_id']
+		&& $_REQUEST['marking_period_id'] !== 'new' )
+	{
+		$marking_period_RET = DBGet( DBQuery( "SELECT MARKING_PERIOD_ID
+			FROM SCHOOL_MARKING_PERIODS
+			WHERE SCHOOL_ID='" . UserSchool() . "'
+			AND SYEAR='" . UserSyear() . "'
+			AND MARKING_PERIOD_ID='" . $_REQUEST['marking_period_id'] . "'" ) );
+
+		if ( ! $marking_period_RET )
+		{
+			// Unset marking period, year & semester & quarter IDs.
+			unset(
+				$_REQUEST['year_id'],
+				$_REQUEST['semester_id'],
+				$_REQUEST['quarter_id']
+			);
+
+			$_REQUEST['marking_period_id'] = _getMPFullYear();
+
+			$_REQUEST['mp_term'] = 'FY';
+		}
+	}
+
+	// ADDING & EDITING FORM.
 	if ( $_REQUEST['marking_period_id'] !== 'new' )
 	{
 		$RET = DBGet( DBQuery( "SELECT TITLE,SHORT_NAME,SORT_ORDER,DOES_GRADES,DOES_COMMENTS,
@@ -708,5 +720,24 @@ if ( ! $_REQUEST['modfunc'] )
 				echo '</div>';
 			}
 		}
+	}
+}
+
+
+function _getMPFullYear()
+{
+	$fy_RET = DBGet( DBQuery( "SELECT MARKING_PERIOD_ID
+		FROM SCHOOL_MARKING_PERIODS
+		WHERE MP='FY'
+		AND SCHOOL_ID='" . UserSchool() . "'
+		AND SYEAR='" . UserSyear() . "' ORDER BY SORT_ORDER" ) );
+
+	if ( count( $fy_RET ) )
+	{
+		return $fy_RET[1]['MARKING_PERIOD_ID'];
+	}
+	else
+	{
+		return 'new';
 	}
 }

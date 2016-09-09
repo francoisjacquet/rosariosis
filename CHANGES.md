@@ -9,6 +9,7 @@ Changes in 2.9.9
 - Add warning & help for Rollover default enrollment code in EnrollmentCodes.php
 - Fix Delete Prompt displayed when working User/Student cleared program wide
 - Add Warning if not in current Quarter in Assignments.php
+- Check IDs are valid for current school & syear in MarkingPeriods.php & Assignments.php
 
 Changes in 2.9.8
 ----------------
