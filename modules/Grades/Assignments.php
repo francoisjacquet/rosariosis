@@ -2,7 +2,7 @@
 
 require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 
-DrawHeader( _( 'Gradebook' ) . ' - ' . ProgramTitle() );
+DrawHeader( ProgramTitle() . ' - ' . GetMP( UserMP() ) );
 
 if ( ! UserCoursePeriod() )
 {
@@ -350,7 +350,8 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$types_RET = DBGet( DBQuery( $assignment_types_sql ) );
 
-	if ( $_REQUEST['assignment_id']!='new' && $_REQUEST['assignment_type_id']!='new')
+	if ( $_REQUEST['assignment_id'] !== 'new'
+		&& $_REQUEST['assignment_type_id'] !== 'new' )
 	{
 		$delete_url = "'Modules.php?modname=" . $_REQUEST['modname'] .
 			'&modfunc=delete&assignment_type_id=' . $_REQUEST['assignment_type_id'] .
@@ -359,15 +360,21 @@ if ( ! $_REQUEST['modfunc'] )
 		$delete_button = '<input type="button" value="' . _( 'Delete' ) . '" onClick="javascript:ajaxLink(' . $delete_url . ');" />';
 	}
 
-	// ADDING & EDITING FORM
-	if ( $_REQUEST['assignment_id'] && $_REQUEST['assignment_id']!='new')
+	// ADDING & EDITING FORM.
+	if ( $_REQUEST['assignment_id']
+		&& $_REQUEST['assignment_id'] !== 'new' )
 	{
-		$sql = "SELECT ASSIGNMENT_TYPE_ID,TITLE,ASSIGNED_DATE,DUE_DATE,POINTS,COURSE_ID,DESCRIPTION,DEFAULT_POINTS,SUBMISSION,
+		$sql = "SELECT ASSIGNMENT_TYPE_ID,TITLE,ASSIGNED_DATE,DUE_DATE,POINTS,COURSE_ID,
+					DESCRIPTION,DEFAULT_POINTS,SUBMISSION,
 				CASE WHEN DUE_DATE<ASSIGNED_DATE THEN 'Y' ELSE NULL END AS DATE_ERROR,
-				CASE WHEN ASSIGNED_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID='".UserMP()."') THEN 'Y' ELSE NULL END AS ASSIGNED_ERROR,
-				CASE WHEN DUE_DATE>(SELECT END_DATE+1 FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID='".UserMP()."') THEN 'Y' ELSE NULL END AS DUE_ERROR
+				CASE WHEN ASSIGNED_DATE>(SELECT END_DATE
+					FROM SCHOOL_MARKING_PERIODS
+					WHERE MARKING_PERIOD_ID='" . UserMP() . "') THEN 'Y' ELSE NULL END AS ASSIGNED_ERROR,
+				CASE WHEN DUE_DATE>(SELECT END_DATE+1
+					FROM SCHOOL_MARKING_PERIODS
+					WHERE MARKING_PERIOD_ID='" . UserMP() . "') THEN 'Y' ELSE NULL END AS DUE_ERROR
 				FROM GRADEBOOK_ASSIGNMENTS
-				WHERE ASSIGNMENT_ID='".$_REQUEST['assignment_id']."'";
+				WHERE ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'";
 
 		$RET = DBGet( DBQuery( $sql ) );
 
@@ -375,43 +382,68 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$title = $RET['TITLE'];
 	}
-	elseif ( $_REQUEST['assignment_type_id'] && $_REQUEST['assignment_type_id']!='new' && $_REQUEST['assignment_id']!='new')
+	elseif ( $_REQUEST['assignment_type_id']
+		&& $_REQUEST['assignment_type_id'] !== 'new'
+		&& $_REQUEST['assignment_id'] !== 'new' )
 	{
 		$sql = "SELECT at.TITLE,at.FINAL_GRADE_PERCENT,SORT_ORDER,COLOR,
-				(SELECT sum(FINAL_GRADE_PERCENT) FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."') AND STAFF_ID='".User('STAFF_ID')."') AS TOTAL_PERCENT
+				(SELECT sum(FINAL_GRADE_PERCENT)
+					FROM GRADEBOOK_ASSIGNMENT_TYPES
+					WHERE COURSE_ID=(SELECT COURSE_ID
+						FROM COURSE_PERIODS
+						WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
+						AND STAFF_ID='" . User( 'STAFF_ID' ) . "') AS TOTAL_PERCENT
 				FROM GRADEBOOK_ASSIGNMENT_TYPES at
-				WHERE at.ASSIGNMENT_TYPE_ID='".$_REQUEST['assignment_type_id']."'";
+				WHERE at.ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'";
 
-		$RET = DBGet( DBQuery( $sql ),array('FINAL_GRADE_PERCENT' => '_makePercent'));
+		$RET = DBGet( DBQuery( $sql ), array( 'FINAL_GRADE_PERCENT' => '_makePercent' ) );
 
 		$RET = $RET[1];
 
 		$title = $RET['TITLE'];
 	}
-	elseif ( $_REQUEST['assignment_id']=='new')
+	elseif ( $_REQUEST['assignment_id'] === 'new' )
 	{
-		$title = _('New Assignment');
+		// FJ Add Warning if not in current Quarter.
+		if ( GetCurrentMP( 'QTR', DBDate(), false ) !== UserMP() )
+		{
+			$warning[] = _( 'You are not in the current Quarter.' );
+
+			echo ErrorMessage( $warning, 'warning' );
+		}
+
+		$title = _( 'New Assignment' );
 		$new = true;
 	}
 	elseif ( $_REQUEST['assignment_type_id']=='new')
 	{
-		$sql = "SELECT sum(FINAL_GRADE_PERCENT) AS TOTAL_PERCENT FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."') AND STAFF_ID='".User('STAFF_ID')."'";
+		$sql = "SELECT sum(FINAL_GRADE_PERCENT) AS TOTAL_PERCENT
+			FROM GRADEBOOK_ASSIGNMENT_TYPES
+			WHERE COURSE_ID=(SELECT COURSE_ID
+				FROM COURSE_PERIODS
+				WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
+			AND STAFF_ID='" . User( 'STAFF_ID' ) . "'";
 
-		$RET = DBGet( DBQuery( $sql ),array('FINAL_GRADE_PERCENT' => '_makePercent'));
+		$RET = DBGet( DBQuery( $sql ), array( 'FINAL_GRADE_PERCENT' => '_makePercent' ) );
 
 		$RET = $RET[1];
 
-		$title = _('New Assignment Type');
+		$title = _( 'New Assignment Type' );
 	}
 
-	if ( $_REQUEST['assignment_id'])
+	if ( $_REQUEST['assignment_id'] )
 	{
-		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&assignment_type_id='.$_REQUEST['assignment_type_id'];
-		if ( $_REQUEST['assignment_id']!='new')
+		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&assignment_type_id=' . $_REQUEST['assignment_type_id'];
+
+		if ( $_REQUEST['assignment_id'] !== 'new' ) {
+
 			echo '&assignment_id='.$_REQUEST['assignment_id'];
+		}
+
 		echo '&table=GRADEBOOK_ASSIGNMENTS" method="POST">';
 
-		DrawHeader($title,$delete_button.SubmitButton(_('Save')));
+		DrawHeader( $title, $delete_button . SubmitButton( _( 'Save' ) ) );
+
 		$header .= '<table class="width-100p valign-top fixed-col">';
 		$header .= '<tr class="st">';
 
