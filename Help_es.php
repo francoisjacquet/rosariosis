@@ -172,6 +172,9 @@ HTML;
 <p>
 	Para cambiar un evento, haga clic sobre el evento que quiere modificar, y cambie los datos del evento en la ventana emergente que aparece. Luego, presione el botón «Guardar». La ventana se cerrara y el calendario será actualizado para mostrar el cambio.
 </p>
+<p>
+	Si la institución usa una rotación de días enumerados, el número asociado al día aparece en la caja del día.
+</p>
 HTML;
 
 	$help['School_Setup/Periods.php'] = <<<HTML
@@ -324,13 +327,13 @@ HTML;
 	<i>Calendario</i> muestra los eventos de la institución y las tareas de sus estudiantes. El calendario muestra también los días de institución. Por defecto, el calendario muestra el mes actual. El mes y el año mostrados pueden ser cambiados en los menús desplegables del mes y del año en la parte superior de la pantalla.
 </p>
 <p>
-	Los títulos de los eventos y de las tareas están en cada caja del día. Haciendo clic sobre estos títulos abrirá una ventana emergente que muestra mas información sobre el evento o la tarea.
+	Los títulos de los eventos y de las tareas están en cada caja del día. Haciendo clic sobre estos títulos abrirá una ventana emergente que muestra mas información sobre el evento o la tarea. Los eventos tienen por delante una barra negra y las tareas una barra roja.
 </p>
 <p>
 	En días completos de institución, el día aparece en verde. Para los días parciales, el número de minutos de asistencia en la institución aparece en la esquina superior derecha. Para los días sin institución, el día aparece en rosado.
 </p>
 <p>
-	Si la institución usa una rotación de días enumerados, el número del día aparece en la caja de los días de institución.
+	Si la institución usa una rotación de días enumerados, el número asociado al día aparece en la caja del día.
 </p>
 HTML;
 

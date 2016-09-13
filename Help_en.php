@@ -176,6 +176,9 @@ HTML;
 <p>
 	To modify an event, click on the event you want to modify, and change the event's information in the popup window that appears after clicking on the values you want to change. Click the "Save" button. The window will close and the calendar will automatically refresh to display the change.
 </p>
+<p>
+	If the school uses a Rotation of Numbered Days, the day's number is displayed in the day's box.
+</p>
 HTML;
 
 	$help['School_Setup/Periods.php'] = <<<HTML
@@ -331,10 +334,13 @@ HTML;
 	<i>Calendars</i> is a display of school events and your student's assignments. The calendar also displays whether or not school is in attendance on any given day. By default, the calendar displays the current month. The month and year displayed can be changed by changing the month and year pull-down menus at the top of the screen.
 </p>
 <p>
-	The titles of school events and assignments are displayed in each date's box. Clicking on these titles will open a popup window that displays more information about the event or assignment. School assignments are preceded by a red stripe and assignments are preceded by a blue stripe.
+	The titles of school events and assignments are displayed in each date's box. Clicking on these titles will open a popup window that displays more information about the event or assignment. School events are preceded by a black stripe and assignments are preceded by a red stripe.
 </p>
 <p>
-	For days that school is in attendance all day, a green checkmark appears in the upper right-hand corner of the date. On partial days, the number of minutes that school is in session is displayed here instead. If the school is not in attendance at all on any given day, nothing will appear in the upper right-hand corner of the date.
+	For days that school is in attendance all day, the date's box is green. On partial days, the number of minutes that school is in session is displayed. If the school is not in attendance at all on any given day, the date's box is pink.
+</p>
+<p>
+	If the school uses a Rotation of Numbered Days, the day's number is displayed in the day's box.
 </p>
 HTML;
 
