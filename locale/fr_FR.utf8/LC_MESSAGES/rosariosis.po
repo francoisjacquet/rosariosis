@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-09-09 14:52-0500\n"
-"PO-Revision-Date: 2016-09-09 14:52-0500\n"
+"PO-Revision-Date: 2016-09-12 12:56-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -5775,8 +5775,8 @@ msgid ""
 "Only course periods with a length <= %d minutes (full school day in minutes "
 "divided by 2) are shown in the table schedule."
 msgstr ""
-"Seuls les classes d'une durée <= %d minutes (minutes d'une journée d'école "
-"complète divisées par 2) sont montrées dans l'emploi du temps tableau."
+"Seuls les classes d'une durée <= %d minutes (minutes d'une journée entière "
+"d'école divisées par 2) sont montrées dans l'emploi du temps tableau."
 
 #: modules/Scheduling/PrintSchedules.php:245
 #: modules/Scheduling/PrintSchedules.php:286
@@ -6145,13 +6145,13 @@ msgstr ""
 
 #: modules/School_Setup/Configuration.php:342
 msgid "Minutes in a Full School Day"
-msgstr "Minutes dans une Journée d'École Complète"
+msgstr "Minutes d'une Journée Entière d'École"
 
 #: modules/School_Setup/Configuration.php:347
 msgid "Number of days before the school date teachers can edit attendance"
 msgstr ""
-"Nombre de jours avant la date du jour pour lesquels les professeurs peuvent "
-"éditer les absences"
+"Nombre de jours avant la date du jour durant lesquels les professeurs "
+"peuvent éditer les absences"
 
 #: modules/School_Setup/Configuration.php:349
 #: modules/School_Setup/Configuration.php:359
@@ -6161,8 +6161,8 @@ msgstr "Laisser le champ vide pour permettre tout le temps"
 #: modules/School_Setup/Configuration.php:357
 msgid "Number of days after the school date teachers can edit attendance"
 msgstr ""
-"Nombre de jours après la date du jour pour lesquels les professeurs peuvent "
-"éditer les absences"
+"Nombre de jours après la date du jour durant lesquels les professeurs "
+"peuvent éditer les absences"
 
 #: modules/School_Setup/Configuration.php:374
 msgid "Food Service Balance minimum amount for warning"
