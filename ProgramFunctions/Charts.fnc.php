@@ -178,6 +178,7 @@ function jqPlotChart( $type, $data, $title, $save_image = true )
 				renderer:$.jqplot.PieRenderer,
 				rendererOptions: {
 					showDataLabels: true,
+					padding: screen.width < 648 ? 5 : 20
 				},
 			},
 			legend:{show:true},';
