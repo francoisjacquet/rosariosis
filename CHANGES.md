@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 2.9.10
+-----------------
+- Schedule multiple courses in MassSchedule.php
+
 Changes in 2.9.9
 ----------------
 - Fix PHP error when no options set for multiple field in Referral.php & MakeReferral.php

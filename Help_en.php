@@ -946,13 +946,16 @@ HTML;
 
 	$help['Scheduling/MassSchedule.php'] = <<<HTML
 <p>
-	<i>Group Schedule</i> allows you to schedule a group of students into a course in one action.
+	<i>Group Schedule</i> allows you to schedule a group of students into one or more courses in one action.
 </p>
 <p>
 	You must first select a (group of) student(s) by using the "Find a Student" search screen. You can search for students who have requested a specific course or request by clicking on the "Choose" link next to the search options "Course" and "Request" respectively and choosing a course from the popup window that appears.
 </p>
 <p>
 	Select a course period to add by clicking the "Choose a Course" link at the top of the screen and choosing the course from the popup screen that appears. The window will close and the course period will now show on the page.
+</p>
+<p>
+	Repeat the last step to select and add another course period.
 </p>
 <p>
 	Then, select the proper "Start Date" (the date that the students will first attend this course period), and the appropriate "Marking Period".

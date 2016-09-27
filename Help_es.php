@@ -951,13 +951,16 @@ HTML;
 
 	$help['Scheduling/MassSchedule.php'] = <<<HTML
 <p>
-	<i>Programar en Grupo</i> le permite agregar un curso a un grupo de estudiantes de una vez.
+	<i>Programar en Grupo</i> le permite agregar uno o multiples cursos a un grupo de estudiantes de una vez.
 </p>
 <p>
 	Usted debe primero seleccionar un (grupo de) estudiante(s) usando la pantalla de búsqueda «Encontrar un Estudiante». Usted puede buscar estudiantes que han solicitado un curso especifico haciendo clic sobre el enlace «Escoger» al lado de las opciones de búsqueda «Curso» y «Solicitud» y escogiendo un curso desde la ventana emergente que aparece.
 </p>
 <p>
 	Para agregar un curso al horario de los estudiantes, haga clic sobre el enlace «Escoger un Curso» en la parte superior de la pantalla y seleccione el curso desde la ventana emergente que aparece. La pantalla se refrescara automáticamente para mostrar el curso.
+</p>
+<p>
+	Si necesario, repite el paso anterior para escoger y agregar un curso adicional.
 </p>
 <p>
 	Luego, seleccione la "Fecha de Inicio" adecuada (la fecha en la cual los estudiantes empezaran la clase), y el "Período a Calificar" apropiado.

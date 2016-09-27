@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-09 14:52-0500\n"
-"PO-Revision-Date: 2016-09-09 14:53-0500\n"
+"POT-Creation-Date: 2016-09-26 18:40+0100\n"
+"PO-Revision-Date: 2016-09-26 18:44+0100\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -240,7 +240,7 @@ msgstr "Verificar Nueva Contraseña"
 msgid "Submit"
 msgstr "Enviar"
 
-#: ProgramFunctions/Charts.fnc.php:361
+#: ProgramFunctions/Charts.fnc.php:362
 msgid "Right Click to Save Image As..."
 msgstr "Clic Botón Derecho, Guardar Imagen Como..."
 
@@ -317,7 +317,7 @@ msgstr "Eliminar"
 #: modules/Scheduling/new_Requests.php:51
 #: modules/Scheduling/new_Requests.php:56 modules/School_Setup/Calendar.php:470
 #: modules/School_Setup/Calendar.php:703 modules/School_Setup/Calendar.php:1010
-#: modules/School_Setup/Calendar.php:1290
+#: modules/School_Setup/Calendar.php:1291
 #: modules/School_Setup/Configuration.php:129
 #: modules/School_Setup/Configuration.php:397
 #: modules/School_Setup/GradeLevels.php:78
@@ -787,7 +787,7 @@ msgstr "Año Escolar"
 #: Side.php:466 modules/Grades/EditReportCardGrades.php:19
 #: modules/Grades/HonorRoll.php:159 modules/Grades/HonorRollSubject.php:99
 #: modules/Scheduling/Courses.php:700 modules/Scheduling/MassDrops.php:130
-#: modules/Scheduling/MassSchedule.php:121
+#: modules/Scheduling/MassSchedule.php:155
 #: modules/Scheduling/MasterScheduleReport.php:14
 #: modules/Scheduling/PrintRequests.php:92
 #: modules/Scheduling/PrintSchedules.php:248
@@ -809,7 +809,7 @@ msgstr "No hay Bimestres Encontrados"
 #: modules/Eligibility/EntryTimes.php:45
 #: modules/Food_Service/DailyMenus.php:105 modules/Scheduling/Courses.php:95
 #: modules/Scheduling/PrintSchedules.php:61
-#: modules/School_Setup/Calendar.php:149 modules/School_Setup/Calendar.php:1086
+#: modules/School_Setup/Calendar.php:149 modules/School_Setup/Calendar.php:1087
 #: modules/Users/TeacherPrograms.php:75
 #: modules/Users/includes/Schedule.inc.php:81
 msgid "Sunday"
@@ -820,7 +820,7 @@ msgstr "Domingo"
 #: modules/Eligibility/EntryTimes.php:45
 #: modules/Food_Service/DailyMenus.php:106 modules/Scheduling/Courses.php:95
 #: modules/Scheduling/PrintSchedules.php:61
-#: modules/School_Setup/Calendar.php:150 modules/School_Setup/Calendar.php:1087
+#: modules/School_Setup/Calendar.php:150 modules/School_Setup/Calendar.php:1088
 #: modules/Users/TeacherPrograms.php:75
 #: modules/Users/includes/Schedule.inc.php:81
 msgid "Monday"
@@ -831,7 +831,7 @@ msgstr "Lunes"
 #: modules/Eligibility/EntryTimes.php:45
 #: modules/Food_Service/DailyMenus.php:107 modules/Scheduling/Courses.php:95
 #: modules/Scheduling/PrintSchedules.php:61
-#: modules/School_Setup/Calendar.php:151 modules/School_Setup/Calendar.php:1088
+#: modules/School_Setup/Calendar.php:151 modules/School_Setup/Calendar.php:1089
 #: modules/Users/TeacherPrograms.php:75
 #: modules/Users/includes/Schedule.inc.php:81
 msgid "Tuesday"
@@ -842,7 +842,7 @@ msgstr "Martes"
 #: modules/Eligibility/EntryTimes.php:45
 #: modules/Food_Service/DailyMenus.php:108 modules/Scheduling/Courses.php:95
 #: modules/Scheduling/PrintSchedules.php:61
-#: modules/School_Setup/Calendar.php:152 modules/School_Setup/Calendar.php:1089
+#: modules/School_Setup/Calendar.php:152 modules/School_Setup/Calendar.php:1090
 #: modules/Users/TeacherPrograms.php:75
 #: modules/Users/includes/Schedule.inc.php:81
 msgid "Wednesday"
@@ -853,7 +853,7 @@ msgstr "Miércoles"
 #: modules/Eligibility/EntryTimes.php:45
 #: modules/Food_Service/DailyMenus.php:109 modules/Scheduling/Courses.php:95
 #: modules/Scheduling/PrintSchedules.php:61
-#: modules/School_Setup/Calendar.php:153 modules/School_Setup/Calendar.php:1090
+#: modules/School_Setup/Calendar.php:153 modules/School_Setup/Calendar.php:1091
 #: modules/Users/TeacherPrograms.php:75
 #: modules/Users/includes/Schedule.inc.php:81
 msgid "Thursday"
@@ -864,7 +864,7 @@ msgstr "Jueves"
 #: modules/Eligibility/EntryTimes.php:45
 #: modules/Food_Service/DailyMenus.php:110 modules/Scheduling/Courses.php:95
 #: modules/Scheduling/PrintSchedules.php:61
-#: modules/School_Setup/Calendar.php:154 modules/School_Setup/Calendar.php:1091
+#: modules/School_Setup/Calendar.php:154 modules/School_Setup/Calendar.php:1092
 #: modules/Users/TeacherPrograms.php:75
 #: modules/Users/includes/Schedule.inc.php:81
 msgid "Friday"
@@ -875,7 +875,7 @@ msgstr "Viernes"
 #: modules/Eligibility/EntryTimes.php:45
 #: modules/Food_Service/DailyMenus.php:111 modules/Scheduling/Courses.php:95
 #: modules/Scheduling/PrintSchedules.php:61
-#: modules/School_Setup/Calendar.php:155 modules/School_Setup/Calendar.php:1092
+#: modules/School_Setup/Calendar.php:155 modules/School_Setup/Calendar.php:1093
 #: modules/Users/TeacherPrograms.php:75
 #: modules/Users/includes/Schedule.inc.php:81
 msgid "Saturday"
@@ -884,7 +884,7 @@ msgstr "Sábado"
 #: Side.php:614 modules/Attendance/StudentSummary.php:186
 #: modules/Scheduling/Courses.php:246 modules/Scheduling/Courses.php:267
 #: modules/Scheduling/Courses.php:389 modules/Scheduling/PrintSchedules.php:64
-#: modules/School_Setup/Calendar.php:1268 modules/Users/TeacherPrograms.php:88
+#: modules/School_Setup/Calendar.php:1269 modules/Users/TeacherPrograms.php:88
 #: modules/Users/includes/Schedule.inc.php:84 modules/misc/Portal.php:151
 #: modules/misc/Portal.php:307 modules/misc/Portal.php:477
 #: modules/misc/Portal.php:613
@@ -1419,7 +1419,7 @@ msgstr "Confirmar"
 #: functions/Prompts.php:51
 #, php-format
 msgid "Are you sure you want to %s that %s?"
-msgstr "¿Está seguro que desea %s este(a) %s?"
+msgstr "¿Está seguro de querer %s este(a) %s?"
 
 #: functions/Prompts.php:53 functions/Prompts.php:113 index.php:148
 #: modules/School_Setup/CopySchool.php:74 modules/School_Setup/Rollover.php:90
@@ -2702,7 +2702,7 @@ msgstr "El registro duplicado ha sido eliminado."
 #: modules/Grades/HonorRoll.php:176 modules/Grades/HonorRollSubject.php:114
 #: modules/Grades/ProgressReports.php:127 modules/Scheduling/MassDrops.php:82
 #: modules/Scheduling/MassRequests.php:22
-#: modules/Scheduling/MassSchedule.php:77
+#: modules/Scheduling/MassSchedule.php:113
 #: modules/Scheduling/PrintSchedules.php:229
 #: modules/Student_Billing/MassAssignFees.php:33
 #: modules/Student_Billing/MassAssignPayments.php:34
@@ -5567,19 +5567,19 @@ msgstr ""
 "No se puede agendar un estudiante en este curso durante este período a "
 "calificar."
 
-#: modules/Scheduling/MassDrops.php:76 modules/Scheduling/MassSchedule.php:71
+#: modules/Scheduling/MassDrops.php:76
 #, php-format
 msgid "This course meets on %s."
 msgstr "Esta clase se da en el %s."
 
-#: modules/Scheduling/MassDrops.php:79 modules/Scheduling/MassSchedule.php:74
+#: modules/Scheduling/MassDrops.php:79 modules/Scheduling/MassSchedule.php:110
 #: modules/Student_Billing/MassAssignFees.php:27
 #: modules/Student_Billing/MassAssignPayments.php:28
 msgid "The date you entered is not valid"
 msgstr "La fecha introducida no está válida"
 
 #: modules/Scheduling/MassDrops.php:85 modules/Scheduling/MassRequests.php:25
-#: modules/Scheduling/MassSchedule.php:80
+#: modules/Scheduling/MassSchedule.php:116
 msgid "You must choose a course."
 msgstr "Debe escoger un curso."
 
@@ -5592,7 +5592,7 @@ msgid "Course to Drop"
 msgstr "Curso para Eliminar"
 
 #: modules/Scheduling/MassDrops.php:125 modules/Scheduling/MassRequests.php:61
-#: modules/Scheduling/MassSchedule.php:116
+#: modules/Scheduling/MassSchedule.php:150
 msgid "Choose a Course"
 msgstr "Escoger un Curso"
 
@@ -5615,41 +5615,48 @@ msgstr "Agregar Solicitud a los Estudiantes Seleccionados"
 msgid "Request to Add"
 msgstr "Solicitud para Agregar"
 
-#: modules/Scheduling/MassSchedule.php:43
+#: modules/Scheduling/MassSchedule.php:55
 msgid "The number of selected students exceeds the available seats."
 msgstr ""
 "El numero de estudiantes seleccionados sobrepasa los cupos disponibles."
 
-#: modules/Scheduling/MassSchedule.php:47 modules/Scheduling/Schedule.php:362
+#: modules/Scheduling/MassSchedule.php:63 modules/Scheduling/Schedule.php:362
 msgid "There is a conflict."
 msgstr "Hay un conflicto."
 
-#: modules/Scheduling/MassSchedule.php:47 modules/Scheduling/Schedule.php:362
-msgid "Are you sure you want to add this section?"
-msgstr "¿Está seguro que quiere agregar esta sección?"
+#: modules/Scheduling/MassSchedule.php:64
+#, php-format
+msgid "Are you sure you want to add %s?"
+msgstr "¿Está seguro de querer agregar %s?"
 
-#: modules/Scheduling/MassSchedule.php:65
-msgid "This course has been added to the selected students' schedules."
+#: modules/Scheduling/MassSchedule.php:95
+#, php-format
+msgid "The %s course has been added to the selected students' schedules."
 msgstr ""
-"Ese curso fue agregado a los horarios de los estudiantes seleccionados."
+"El curso %s ha sido agregado al horario de los estudiantes seleccionados."
 
-#: modules/Scheduling/MassSchedule.php:71
+#: modules/Scheduling/MassSchedule.php:102
 msgid ""
 "You cannot schedule a student into this course during this marking period."
 msgstr ""
 "No se puede agendar un estudiante en ese curso durante este período a "
 "calificar."
 
-#: modules/Scheduling/MassSchedule.php:96
+#: modules/Scheduling/MassSchedule.php:103
+#, php-format
+msgid "The %s course meets on %s."
+msgstr "El curso %s se da en el %s."
+
+#: modules/Scheduling/MassSchedule.php:134
+#: modules/Scheduling/MassSchedule.php:202
+msgid "Add Courses to Selected Students"
+msgstr "Agregar Cursos a los Estudiantes Seleccionados"
+
+#: modules/Scheduling/MassSchedule.php:138
+msgid "Courses to Add"
+msgstr "Cursos para Agregar"
+
 #: modules/Scheduling/MassSchedule.php:152
-msgid "Add Course to Selected Students"
-msgstr "Agregar Curso a los Estudiantes Seleccionados"
-
-#: modules/Scheduling/MassSchedule.php:100
-msgid "Course to Add"
-msgstr "Curso para Agregar"
-
-#: modules/Scheduling/MassSchedule.php:118
 msgid "Start Date"
 msgstr "Fecha de Inicio"
 
@@ -5885,6 +5892,10 @@ msgstr "Ese estudiante ya está programado en este curso."
 msgid "There is already a course scheduled in that period."
 msgstr "Ya existe un curso programado para este período."
 
+#: modules/Scheduling/Schedule.php:362
+msgid "Are you sure you want to add this section?"
+msgstr "¿Está seguro que quiere agregar esta sección?"
+
 #: modules/Scheduling/Schedule.php:394 modules/Scheduling/Schedule.php:412
 msgid "Unlocked"
 msgstr "Desbloqueado"
@@ -5998,7 +6009,7 @@ msgstr "De otro modo, el Predeterminado es minutos del Calendario Copiado"
 msgid "Default is Full Day"
 msgstr "El Predeterminado es Día Completo"
 
-#: modules/School_Setup/Calendar.php:194 modules/School_Setup/Calendar.php:1206
+#: modules/School_Setup/Calendar.php:194 modules/School_Setup/Calendar.php:1207
 msgid "Minutes"
 msgstr "Minutos"
 
@@ -6024,7 +6035,7 @@ msgid_plural "Events"
 msgstr[0] "Evento"
 msgstr[1] "Eventos"
 
-#: modules/School_Setup/Calendar.php:612 modules/School_Setup/Calendar.php:1259
+#: modules/School_Setup/Calendar.php:612 modules/School_Setup/Calendar.php:1260
 msgid "New Event"
 msgstr "Nuevo Evento"
 
@@ -6060,8 +6071,8 @@ msgstr "Esta institución tiene más de un calendario por defecto!"
 msgid "This school does not have a default calendar!"
 msgstr "Esta institución no tiene un calendario por defecto!"
 
-#: modules/School_Setup/Calendar.php:1194
-#: modules/School_Setup/Calendar.php:1203
+#: modules/School_Setup/Calendar.php:1195
+#: modules/School_Setup/Calendar.php:1204
 msgid "All Day"
 msgstr "Todo el Día"
 
@@ -7776,6 +7787,16 @@ msgstr "Publicar el Evento en Moodle?"
 #: plugins/Moodle/functions.php:513
 msgid "Publish Note in Moodle?"
 msgstr "Publicar la Nota en Moodle?"
+
+#~ msgid "This course has been added to the selected students' schedules."
+#~ msgstr ""
+#~ "Ese curso fue agregado a los horarios de los estudiantes seleccionados."
+
+#~ msgid "Add Course to Selected Students"
+#~ msgstr "Agregar Curso a los Estudiantes Seleccionados"
+
+#~ msgid "Course to Add"
+#~ msgstr "Curso para Agregar"
 
 #~ msgid "Hold the CTRL key down to select multiple options"
 #~ msgstr "Mantenga la tecla CTRL apretada para seleccionar múltiples opciones"

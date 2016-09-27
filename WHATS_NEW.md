@@ -14,6 +14,11 @@ Users
 - My Preferences
 	- Export Listings in XML format
 
+Scheduling
+
+- Group Schedule
+	- Schedule multiple courses
+
 Grades
 
 - Student Assignments

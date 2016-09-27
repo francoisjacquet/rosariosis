@@ -1272,28 +1272,35 @@ if ( $_REQUEST['modname']=='Scheduling/Courses.php' && $_REQUEST['modfunc']=='ch
 	echo '<script>opener.document.getElementById("'.($_REQUEST['last_year']=='true'?'ly_':'').'course_div").innerHTML = '.json_encode($course_title).'; window.close();</script>';
 }
 
-function calcSeats1(&$periods,$date)
+function calcSeats1( &$periods, $date )
 {
-	foreach ( (array) $periods as $key => $period)
+	foreach ( (array) $periods as $key => $period )
 	{
-		if ( $_REQUEST['include_child_mps'])
+		if ( $_REQUEST['include_child_mps'] )
 		{
 			$mps = GetChildrenMP($period['MP'],$period['MARKING_PERIOD_ID']);
-			if ( $period['MP']=='FY' || $period['MP']=='SEM')
+
+			if ( $period['MP']=='FY' || $period['MP']=='SEM' )
+			{
 				$mps = "'".$period['MARKING_PERIOD_ID']."'".($mps?','.$mps:'');
+			}
 		}
 		else
 			$mps = "'".$period['MARKING_PERIOD_ID']."'";
+
 		$periods[ $key ]['AVAILABLE_SEATS'] = '';
-		foreach ( explode(',',$mps) as $mp)
+
+		foreach ( explode( ',', $mps ) as $mp )
 		{
 			$mp = trim($mp,"'");
+
 			if ( GetMP( $mp, 'END_DATE' ) >= $date )
 			{
 				$link = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&subject_id='.$period['SUBJECT_ID'].'&course_id='.$period['COURSE_ID'];
 				$link .= '&last_year='.$_REQUEST['last_year'].'&year_date='.$_REQUEST['year_date'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date'];
 				$link .= '&course_period_id='.$period['COURSE_PERIOD_ID'].'&course_marking_period_id='.$mp;
-				if ( $period['AVAILABLE_SEATS'])
+
+				if ( $period['AVAILABLE_SEATS'] )
 				{
 					$seats = DBGet(DBQuery("SELECT
 						max((SELECT count(1)
@@ -1308,20 +1315,32 @@ function calcSeats1(&$periods,$date)
 					WHERE ac.CALENDAR_ID='".$period['CALENDAR_ID']."'
 					AND ac.SCHOOL_DATE BETWEEN '".$date."'
 					AND '".GetMP($mp,'END_DATE')."'"));
-					if ( $seats[1]['FILLED_SEATS']!='')
-						if ( $_REQUEST['include_child_mps'])
+
+					if ( $seats[1]['FILLED_SEATS']!='' )
+					{
+						if ( $_REQUEST['include_child_mps'] )
+						{
 							$periods[ $key ]['AVAILABLE_SEATS'] .= '<a href='.$link.'>'.(GetMP($mp,'SHORT_NAME')?GetMP($mp,'SHORT_NAME'):GetMP($mp)).'('.($period['AVAILABLE_SEATS']-$seats[1]['FILLED_SEATS']).')</a> | ';
+						}
 						else
 							$periods[ $key ]['AVAILABLE_SEATS'] = $period['AVAILABLE_SEATS']-$seats[1]['FILLED_SEATS'];
+					}
 				}
 				else
-					if ( $_REQUEST['include_child_mps'])
+				{
+					if ( $_REQUEST['include_child_mps'] )
+					{
 						$periods[ $key ]['AVAILABLE_SEATS'] .= '<a href='.$link.'>'.(GetMP($mp,'SHORT_NAME')?GetMP($mp,'SHORT_NAME'):GetMP($mp)).'</a> | ';
+					}
 					else
 						$periods[ $key ]['AVAILABLE_SEATS'] = _('N/A');
+				}
 			}
 		}
-		if ( $_REQUEST['include_child_mps'])
+
+		if ( $_REQUEST['include_child_mps'] )
+		{
 			$periods[ $key ]['AVAILABLE_SEATS'] = mb_substr($periods[ $key ]['AVAILABLE_SEATS'],0,-3);
+		}
 	}
 }
