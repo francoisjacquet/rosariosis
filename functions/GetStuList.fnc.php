@@ -118,7 +118,7 @@ function GetStuList( &$extra = array() )
 
 		if ( ! $view_fields_RET
 			&& ! $view_address_RET
-			&& !isset( $view_other_RET['CONTACT_INFO'] ) )
+			&& ! isset( $view_other_RET['CONTACT_INFO'] ) )
 		{
 			$extra['columns_after'] = array(
 				'ADDRESS' => _( 'Mailing Address' ),
@@ -754,6 +754,8 @@ function removeDot00( $value, $column = '' )
  *
  * @example if ( $view_other_RET['HOME_PHONE'][1]['VALUE'] === 'Y' ) $functions['PHONE'] = 'makePhone';
  *
+ * @since 2.9.10 Wrap phone inside tel dial link.
+ *
  * @see DBGet() callback
  *
  * @param  string $phone  Phone number.
@@ -763,21 +765,63 @@ function removeDot00( $value, $column = '' )
  */
 function makePhone( $phone, $column = '' )
 {
+	global $locale;
+
+	$phone = trim( $phone );
+
+	// Keep numbers and extension.
+	$unformatted_phone = preg_replace( "/[^0-9\+x]/", "", $phone );
+
 	if ( $phone === '' )
 	{
 		return '';
 	}
+	elseif ( $unformatted_phone !== $phone )
+	{
+		// Phone already contains formatting chars, keep them.
+		$fphone = $phone;
+	}
+	elseif ( mb_strlen( $phone ) === 9 )
+	{
+		// Spain: 012 345 678.
+		$fphone = mb_substr( $phone, 0, 3 ) . ' ' .
+			mb_substr( $phone, 3, 3 ) . ' ' . mb_substr( $phone, 6 );
+	}
 	elseif ( mb_strlen( $phone ) === 10 )
 	{
-		return '(' . mb_substr( $phone, 0, 3 ) . ')' .
-			mb_substr( $phone, 3, 7 ) . '-' . mb_substr( $phone, 7 );
+		if ( mb_strpos( $locale, 'fr' ) === 0 )
+		{
+			// France: 01 23 45 67 89.
+			$fphone = mb_substr( $phone, 0, 2 ) . ' ' .
+				mb_substr( $phone, 2, 2 ) . ' ' . mb_substr( $phone, 4, 2 ) . ' ' .
+				mb_substr( $phone, 6, 2 ) . ' ' . mb_substr( $phone, 8 );
+		}
+		else
+		{
+			// US: (012) 345-6789.
+			$fphone = '(' . mb_substr( $phone, 0, 3 ) . ') ' .
+				mb_substr( $phone, 3, 4 ) . '-' . mb_substr( $phone, 7 );
+		}
 	}
 	elseif ( mb_strlen( $phone ) === 7 )
 	{
-		return mb_substr( $phone, 0, 3 ) . '-' . mb_substr( $phone, 3 );
+		// US: 345-6789.
+		$fphone = mb_substr( $phone, 0, 3 ) . '-' . mb_substr( $phone, 3 );
 	}
 	else
-		return $phone;
+		$fphone = $phone;
+
+	$dial_phone = $unformatted_phone;
+
+	$extension_pos = mb_strpos( $dial_phone, 'x' );
+
+	if ( $extension_pos !== false )
+	{
+		// Remove extension.
+		$dial_phone = mb_substr( $dial_phone, 0, $extension_pos );
+	}
+
+	return '<a href="tel:' . $dial_phone . '" title="' . _( 'Call' ) . '">' . $fphone . '</a>';
 }
 
 

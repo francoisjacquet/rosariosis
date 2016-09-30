@@ -3,7 +3,8 @@
 
 Changes in 2.9.10
 -----------------
-- Schedule multiple courses in MassSchedule.php
+- Schedule multiple courses in MassSchedule.php (sponsored by Aptiris)
+- Wrap phone inside tel dial link in GetStuList.fnc.php
 
 Changes in 2.9.9
 ----------------
