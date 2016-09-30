@@ -821,7 +821,7 @@ function makePhone( $phone, $column = '' )
 		$dial_phone = mb_substr( $dial_phone, 0, $extension_pos );
 	}
 
-	return '<a href="tel:' . $dial_phone . '" title="' . _( 'Call' ) . '">' . $fphone . '</a>';
+	return '<a href="tel:' . $dial_phone . '" title="' . _( 'Call' ) . '" class="phone-link">' . $fphone . '</a>';
 }
 
 
