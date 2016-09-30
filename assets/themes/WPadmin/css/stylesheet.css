@@ -1091,6 +1091,16 @@ input[type=checkbox].toggle {
 	padding-right: 23px;
 }
 
+/**
+ * Disguise phone number "tel" links on desktop
+ * http://stackoverflow.com/questions/15425356/how-to-disable-link-to-phone-number-when-on-desktop
+ */
+.no-touch .phone-link {
+	color: #555;
+	/*pointer-events: none;*/
+	cursor: default;
+}
+
 
 /*tablet vertical*/
 @media only screen and (max-width:800px){
