@@ -208,72 +208,72 @@ function Search( $type, $extra = null )
 			if ( $type === 'staff_fields_all' )
 			{
 				$categories_SQL = "SELECT sfc.ID,sfc.TITLE AS CATEGORY_TITLE,
-				'CUSTOM_'||cf.ID AS COLUMN_NAME,cf.TYPE,cf.TITLE,SELECT_OPTIONS 
-				FROM STAFF_FIELD_CATEGORIES sfc,STAFF_FIELDS cf 
-				WHERE (SELECT CAN_USE 
+				'CUSTOM_'||cf.ID AS COLUMN_NAME,cf.TYPE,cf.TITLE,SELECT_OPTIONS
+				FROM STAFF_FIELD_CATEGORIES sfc,STAFF_FIELDS cf
+				WHERE (SELECT CAN_USE
 					FROM " . ( User( 'PROFILE_ID' ) ?
-						"PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'":
+						"PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
 						"STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'" ) . "
-					AND MODNAME='Users/User.php&category_id='||sfc.ID)='Y' 
-				AND cf.CATEGORY_ID=sfc.ID 
+					AND MODNAME='Users/User.php&category_id='||sfc.ID)='Y'
+				AND cf.CATEGORY_ID=sfc.ID
 				AND NOT exists( SELECT ''
 					FROM PROGRAM_USER_CONFIG
 					WHERE PROGRAM='StaffFieldsSearch'
 					AND TITLE=cast(cf.ID AS TEXT)
-					AND USER_ID='" . User( 'STAFF_ID' ) . "' AND VALUE='Y') 
+					AND USER_ID='" . User( 'STAFF_ID' ) . "' AND VALUE='Y')
 				ORDER BY sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER,cf.TITLE";
 			}
 			elseif ( $type === 'staff_fields' )
 			{
 				$categories_SQL = "SELECT '0' AS ID,'' AS CATEGORY_TITLE,
-				'CUSTOM_'||cf.ID AS COLUMN_NAME,cf.TYPE,cf.TITLE,cf.SELECT_OPTIONS 
-				FROM STAFF_FIELDS cf 
+				'CUSTOM_'||cf.ID AS COLUMN_NAME,cf.TYPE,cf.TITLE,cf.SELECT_OPTIONS
+				FROM STAFF_FIELDS cf
 				WHERE (SELECT CAN_USE
 					FROM " . ( User( 'PROFILE_ID' ) ?
-						"PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'":
+						"PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
 						"STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'") . "
-					AND MODNAME='Users/User.php&category_id='||cf.CATEGORY_ID)='Y' 
+					AND MODNAME='Users/User.php&category_id='||cf.CATEGORY_ID)='Y'
 				AND ((SELECT VALUE
 					FROM PROGRAM_USER_CONFIG
-					WHERE TITLE=cast(cf.ID AS TEXT) 
-					AND PROGRAM='StaffFieldsSearch' 
-					AND USER_ID='" . User( 'STAFF_ID' ) . "')='Y') 
+					WHERE TITLE=cast(cf.ID AS TEXT)
+					AND PROGRAM='StaffFieldsSearch'
+					AND USER_ID='" . User( 'STAFF_ID' ) . "')='Y')
 				ORDER BY cf.SORT_ORDER,cf.TITLE";
 			}
 			elseif ( $type === 'student_fields_all' )
 			{
 				$categories_SQL = "SELECT sfc.ID,sfc.TITLE AS CATEGORY_TITLE,
-				'CUSTOM_'||cf.ID AS COLUMN_NAME,cf.TYPE,cf.TITLE,SELECT_OPTIONS 
-				FROM STUDENT_FIELD_CATEGORIES sfc,CUSTOM_FIELDS cf 
+				'CUSTOM_'||cf.ID AS COLUMN_NAME,cf.TYPE,cf.TITLE,SELECT_OPTIONS
+				FROM STUDENT_FIELD_CATEGORIES sfc,CUSTOM_FIELDS cf
 				WHERE (SELECT CAN_USE
 					FROM " . ( User( 'PROFILE_ID' ) ?
-						"PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'":
+						"PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
 						"STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'") . "
-					AND MODNAME='Students/Student.php&category_id='||sfc.ID)='Y' 
-				AND cf.CATEGORY_ID=sfc.ID 
+					AND MODNAME='Students/Student.php&category_id='||sfc.ID)='Y'
+				AND cf.CATEGORY_ID=sfc.ID
 				AND NOT exists(SELECT ''
 					FROM PROGRAM_USER_CONFIG
 					WHERE PROGRAM='StudentFieldsSearch'
 					AND TITLE=cast(cf.ID AS TEXT)
 					AND USER_ID='" . User( 'STAFF_ID' ) . "'
-					AND VALUE='Y') 
+					AND VALUE='Y')
 				ORDER BY sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER,cf.TITLE";
 			}
 			else
 			{
 				$categories_SQL = "SELECT '0' AS ID,'' AS CATEGORY_TITLE,
-				'CUSTOM_'||cf.ID AS COLUMN_NAME,cf.TYPE,cf.TITLE,cf.SELECT_OPTIONS 
-				FROM CUSTOM_FIELDS cf 
+				'CUSTOM_'||cf.ID AS COLUMN_NAME,cf.TYPE,cf.TITLE,cf.SELECT_OPTIONS
+				FROM CUSTOM_FIELDS cf
 				WHERE (SELECT CAN_USE
 					FROM " . ( User( 'PROFILE_ID' ) ?
 						"PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
 						"STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'") . "
-					AND MODNAME='Students/Student.php&category_id='||cf.CATEGORY_ID)='Y' 
+					AND MODNAME='Students/Student.php&category_id='||cf.CATEGORY_ID)='Y'
 				AND ((SELECT VALUE
 					FROM PROGRAM_USER_CONFIG
 					WHERE TITLE=cast(cf.ID AS TEXT)
 					AND PROGRAM='StudentFieldsSearch'
-					AND USER_ID='" . User( 'STAFF_ID' ) . "')='Y') 
+					AND USER_ID='" . User( 'STAFF_ID' ) . "')='Y')
 				ORDER BY cf.SORT_ORDER,cf.TITLE";
 			}
 
@@ -285,6 +285,48 @@ function Search( $type, $extra = null )
 				array( 'CATEGORY_TITLE', 'TITLE' )
 			);
 
+			if ( $type === 'staff_fields_all' )
+			{
+				// User Fields: search Email Address & Phone.
+				$general_info_category_title_RET = DBGet( DBQuery( "SELECT sfc.TITLE
+					FROM STAFF_FIELD_CATEGORIES sfc
+					WHERE sfc.ID=1" ) );
+
+				$general_info_category_title = ParseMLField( $general_info_category_title_RET[1]['TITLE'] );
+
+				if ( isset( $categories_RET[1] ) )
+				{
+					$i = count( $categories_RET[1] );
+				}
+				else
+				{
+					$i = 1;
+
+					// Empty General Info category.
+					$categories_RET[1] = array();
+				}
+
+				// Add Email Address to Staff General Info.
+				$categories_RET[1]['text'][ $i++ ] = array(
+					'ID' => '1',
+					'CATEGORY_TITLE' => $general_info_category_title,
+					'COLUMN_NAME' => 'EMAIL',
+					'TYPE' => 'text',
+					'TITLE' => _( 'Email Address' ),
+					'SELECT_OPTIONS' => null,
+				);
+
+				// Add Phone Number to Staff General Info.
+				$categories_RET[1]['text'][ $i++ ] = array(
+					'ID' => '1',
+					'CATEGORY_TITLE' => $general_info_category_title,
+					'COLUMN_NAME' => 'PHONE',
+					'TYPE' => 'text',
+					'TITLE' => _( 'Phone Number' ),
+					'SELECT_OPTIONS' => null,
+				);
+			}
+
 			foreach ( (array) $categories_RET as $category )
 			{
 				$TR_classes = '';
@@ -293,7 +335,7 @@ function Search( $type, $extra = null )
 					|| $type === 'staff_fields_all' )
 				{
 					echo '<a onclick="switchMenu(this); return false;" href="#" class="switchMenu">
-					<b>' . $category[key($category)][1]['CATEGORY_TITLE'] . '</b></a>
+					<b>' . $category[ key( $category ) ][1]['CATEGORY_TITLE'] . '</b></a>
 					<br />
 					<table class="widefat width-100p cellspacing-0 col1-align-right hide">';
 
@@ -318,10 +360,10 @@ function Search( $type, $extra = null )
 				foreach ( (array) $category['numeric'] as $col )
 				{
 					echo '<tr class="' . $TR_classes . '"><td>' . $col['TITLE'] . '</td><td>
-					<span class="sizep2">&ge;</span> 
-					<input type="text" name="cust_begin[' . $col['COLUMN_NAME'] . ']" size="3" maxlength="11" /> 
-					<span class="sizep2">&le;</span> 
-					<input type="text" name="cust_end[' . $col['COLUMN_NAME'] . ']" size="3" maxlength="11" /> 
+					<span class="sizep2">&ge;</span>
+					<input type="text" name="cust_begin[' . $col['COLUMN_NAME'] . ']" size="3" maxlength="11" />
+					<span class="sizep2">&le;</span>
+					<input type="text" name="cust_end[' . $col['COLUMN_NAME'] . ']" size="3" maxlength="11" />
 					<label>' . _( 'No Value' ) .
 					' <input type="checkbox" name="cust_null[' . $col['COLUMN_NAME'] . ']" /></label>&nbsp;
 					</td></tr>';

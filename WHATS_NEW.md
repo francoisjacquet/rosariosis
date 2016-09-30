@@ -13,6 +13,7 @@ Users
 
 - My Preferences
 	- Export Listings in XML format
+	- User Fields: search Email Address & Phone
 
 Scheduling
 

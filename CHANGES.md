@@ -5,6 +5,7 @@ Changes in 2.9.10
 -----------------
 - Schedule multiple courses in MassSchedule.php (sponsored by Aptiris)
 - Wrap phone inside tel dial link in GetStuList.fnc.php
+- User Fields: search Email Address & Phone in CustomFields.fnc.php, GetStaffList.fnc.php, Search.fnc.php & Preferences.php
 
 Changes in 2.9.9
 ----------------

@@ -20,7 +20,9 @@ function GetStaffList(& $extra)
 
 			$extra['WHERE'] .= CustomFields( 'where', 'staff', $extra );
 
-			if ( $_REQUEST['expanded_view']=='true')
+			// Expanded View.
+			if ( isset( $_REQUEST['expanded_view'] )
+				&& $_REQUEST['expanded_view'] === 'true' )
 			{
 				$select = ',LAST_LOGIN';
 				$extra['columns_after']['LAST_LOGIN'] = _('Last Login');
@@ -69,16 +71,44 @@ function GetStaffList(& $extra)
 					$select .= ',s.' . $field_key;
 				}
 
+				// User Fields: search Email Address & Phone.
+				$view_other_RET = DBGet( DBQuery( "SELECT TITLE,VALUE
+					FROM PROGRAM_USER_CONFIG
+					WHERE PROGRAM='StaffFieldsView'
+					AND TITLE IN ('EMAIL','PHONE')
+					AND USER_ID='" . User( 'STAFF_ID' ) . "'"), array(), array( 'TITLE' ) );
+
+				if ( $view_other_RET['EMAIL'][1]['VALUE'] === 'Y' )
+				{
+					$extra['columns_after']['EMAIL'] = _( 'Email Address' );
+
+					$select .= ',s.EMAIL';
+				}
+
+				if ( $view_other_RET['PHONE'][1]['VALUE'] === 'Y' )
+				{
+					$extra['columns_after']['PHONE'] = _( 'Phone Number' );
+
+					$functions['PHONE'] = 'makePhone';
+
+					$select .= ',s.PHONE';
+				}
+
 				$extra['SELECT'] .= $select;
 			}
 			else
 			{
-				if ( ! $extra['columns_after'])
-					$extra['columns_after'] = array();
-
-				if ( $extra['staff_fields']['view'])
+				if ( ! $extra['columns_after'] )
 				{
-					$view_fields_RET = DBGet(DBQuery("SELECT cf.ID,cf.TYPE,cf.TITLE FROM STAFF_FIELDS cf WHERE cf.ID IN (".$extra['staff_fields']['view'].") ORDER BY cf.SORT_ORDER,cf.TITLE"));
+					$extra['columns_after'] = array();
+				}
+
+				if ( $extra['staff_fields']['view'] )
+				{
+					$view_fields_RET = DBGet( DBQuery( "SELECT cf.ID,cf.TYPE,cf.TITLE
+						FROM STAFF_FIELDS cf
+						WHERE cf.ID IN (" . $extra['staff_fields']['view'] . ")
+						ORDER BY cf.SORT_ORDER,cf.TITLE" ) );
 
 					foreach ( (array) $view_fields_RET as $field )
 					{
@@ -114,7 +144,8 @@ function GetStaffList(& $extra)
 					$extra['SELECT'] .= $select;
 				}
 			}
-			if (User('PROFILE')!='admin')
+
+			if ( User( 'PROFILE' ) !== 'admin' )
 			{
 				$extra['WHERE'] .= " AND (s.STAFF_ID='".User('STAFF_ID')."' OR s.PROFILE='parent' AND exists(SELECT '' FROM STUDENTS_JOIN_USERS _sju,STUDENT_ENROLLMENT _sem,SCHEDULE _ss WHERE _sju.STAFF_ID=s.STAFF_ID AND _sem.STUDENT_ID=_sju.STUDENT_ID AND _sem.SYEAR='".UserSYEAR()."' AND _ss.STUDENT_ID=_sem.STUDENT_ID AND _ss.COURSE_PERIOD_ID='".UserCoursePeriod()."'";
 				if ( $_REQUEST['include_inactive']!='Y')
