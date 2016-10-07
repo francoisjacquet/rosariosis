@@ -6,7 +6,7 @@ $tables = array(
 	'SCHOOL_MARKING_PERIODS' => _( 'Marking Periods' ),
 	'REPORT_CARD_GRADES' => _( 'Report Card Grade Codes' ),
 	'REPORT_CARD_COMMENTS' => _( 'Report Card Comment Codes' ),
-	'ELIGIBILITY_ACTIVITIES' => _( 'Eligibility Activity Codes' ),
+	'ELIGIBILITY_ACTIVITIES' => _( 'Eligibility Activities' ),
 	'ATTENDANCE_CODES' => _( 'Attendance Codes' ),
 	'SCHOOL_GRADELEVELS' => _( 'Grade Levels' ),
 );

@@ -4,7 +4,7 @@ $tables = array('SCHOOLS' => _('Schools'),'STAFF' => _('Users'),'SCHOOL_PERIODS'
 $no_school_tables = array('SCHOOLS'=>true,'STUDENT_ENROLLMENT_CODES'=>true,'STAFF'=>true);
 
 if ( $RosarioModules['Eligibility'])
-	$tables += array('ELIGIBILITY_ACTIVITIES' => _('Eligibility Activity Codes'));
+	$tables += array('ELIGIBILITY_ACTIVITIES' => _('Eligibility Activities'));
 
 if ( $RosarioModules['Food_Service'])
 	$tables += array('FOOD_SERVICE_STAFF_ACCOUNTS' => _('Food Service Staff Accounts'));
