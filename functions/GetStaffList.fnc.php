@@ -260,23 +260,23 @@ function makeProfile($value)
 	return $return;
 }
 
-function makeLogin($value,$title='LAST_LOGIN')
+function makeLogin( $value, $column = 'LAST_LOGIN' )
 {
-	//FJ add failed login to expanded view
-	if ( $title == 'LAST_LOGIN')
+	if ( $column === 'LAST_LOGIN' )
 	{
-		if (empty($value))
-			return button('x');
+		if ( empty( $value ) )
+		{
+			return button( 'x' );
+		}
 		else
-			return ProperDate(mb_substr($value,0,10)).mb_substr($value,10);
+		{
+			return ProperDateTime( $value, 'short' );
+		}
 	}
-	if ( $title == 'FAILED_LOGIN')
-	{
-		if (empty($value))
-			return '0';
-		else
-			return $value;
-	}
+
+	// FJ add failed login to expanded view.
+	// Column should be FAILED_LOGIN.
+	return empty( $value ) ? '0' : $value;
 }
 
 

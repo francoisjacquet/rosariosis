@@ -133,14 +133,14 @@ function ProperDateTime( $datetime, $length = 'long' )
 
 	$locale_time = strftime( '%X', $time );
 
+	$date = mb_substr( $datetime, 0, 10 );
+
 	if ( $length === 'short'
 		&& DBDate() === $date )
 	{
 		// Today: only time!
 		return $locale_time;
 	}
-
-	$date = mb_substr( $datetime, 0, 10 );
 
 	return ProperDate( $date, $length ) . ' ' . $locale_time;
 }
