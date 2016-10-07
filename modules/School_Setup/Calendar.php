@@ -1051,10 +1051,11 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 	elseif ( User( 'PROFILE' ) === 'teacher' )
 	{
-		$assignments_SQL = "SELECT ASSIGNMENT_ID AS ID,a.DUE_DATE AS SCHOOL_DATE,a.TITLE,CASE WHEN a.ASSIGNED_DATE<=CURRENT_DATE OR a.ASSIGNED_DATE IS NULL THEN 'Y' ELSE NULL END AS ASSIGNED
+		$assignments_SQL = "SELECT ASSIGNMENT_ID AS ID,a.DUE_DATE AS SCHOOL_DATE,a.TITLE,
+				CASE WHEN a.ASSIGNED_DATE<=CURRENT_DATE OR a.ASSIGNED_DATE IS NULL THEN 'Y' ELSE NULL END AS ASSIGNED
 			FROM GRADEBOOK_ASSIGNMENTS a
 			WHERE a.STAFF_ID='" . User( 'STAFF_ID' ) . "'
-			AND a.DUE_DATE BETWEEN '".$first_day_month."' AND '" . $last_day_month . "'";
+			AND a.DUE_DATE BETWEEN '" . $first_day_month . "' AND '" . $last_day_month . "'";
 
 	}
 

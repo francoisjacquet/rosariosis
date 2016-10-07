@@ -46,7 +46,7 @@ function GetMP( $mp_id, $column = 'TITLE' )
 /**
  * Get All Marking Periods
  *
- * Returns FY,[SEM,...],[QTR,...],[PRO,...]
+ * Returns FY,[SEM,...],[QTR,...],[PRO,...] IDs.
  *
  * @example GetAllMP( 'QTR', UserMP() );
  *

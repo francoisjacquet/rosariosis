@@ -29,7 +29,7 @@ function Config( $item )
 	}
 
 	// Get General & School Config.
-	if ( !isset( $_ROSARIO['Config'][ (string) $item ] ) )
+	if ( ! isset( $_ROSARIO['Config'][ (string) $item ] ) )
 	{
 		// General (for every school) Config is stored with SCHOOL_ID=0.
 		$school_where = "SCHOOL_ID='0'";

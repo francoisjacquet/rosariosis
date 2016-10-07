@@ -282,7 +282,12 @@ echo TextInput(
 
 echo '</td><td colspan="2">';
 
-echo TextInput($staff['PHONE'],'staff[PHONE]',_('Phone Number'),'size=12 maxlength=100');
+echo TextInput(
+	$staff['PHONE'],
+	'staff[PHONE]',
+	_( 'Phone Number' ),
+	'size=12 maxlength=100'
+);
 
 echo '</td></tr></table>';
 

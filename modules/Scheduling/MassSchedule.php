@@ -44,7 +44,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 						|| $course_mp === $_REQUEST['marking_period_id']
 						|| mb_strpos( GetChildrenMP( $course_mp_table, $course_mp ), "'" . $_REQUEST['marking_period_id'] . "'" ) !== false )
 					{
-						// Get available seats:
+						// Check available seats:
 						if ( $course_period_RET[1]['TOTAL_SEATS'] )
 						{
 							$seats = calcSeats0( $course_period_RET[1], $start_date );
