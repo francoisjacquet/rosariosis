@@ -435,7 +435,8 @@ function _makePeriodSelect($course_period_id,$column)
 		'schedule[' . $THIS_RET['COURSE_PERIOD_ID'] . '][' . $THIS_RET['START_DATE'] . '][COURSE_PERIOD_ID]',
 		'',
 		$periods,
-		false
+		false,
+		'style="max-width: 300px;"'
 	);
 }
 
