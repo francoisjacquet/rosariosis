@@ -338,7 +338,11 @@ if ( $_REQUEST['search_modfunc'] == 'list' )
 		{
 			$columns[ $field ] = ParseMLField( $fields_list[ $field ] );
 
-			if ( mb_substr( $field, 0, 7 ) == 'CUSTOM_' )
+			if ( Config( 'STUDENTS_EMAIL_FIELD' ) === str_replace( 'CUSTOM_', '', $field ) )
+			{
+				$extra['functions'][ $field ] = 'makeEmail';
+			}
+			elseif ( mb_substr( $field, 0, 7 ) === 'CUSTOM_' )
 			{
 				$field_type = $custom_RET[ mb_substr( $field, 7 ) ][1]['TYPE'];
 
@@ -368,7 +372,7 @@ if ( $_REQUEST['search_modfunc'] == 'list' )
 					$extra['functions'][ $field ] = 'makeTextarea';
 				}
 			}
-			elseif ( mb_substr( $field, 0, 8 ) == 'ADDRESS_' )
+			elseif ( mb_substr( $field, 0, 8 ) === 'ADDRESS_' )
 			{
 				$field_type = $address_RET[ mb_substr( $field, 8 ) ][1]['TYPE'];
 

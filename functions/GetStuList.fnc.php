@@ -21,6 +21,7 @@
  * @uses CustomFields()    add Custom Fields SQL to $extra['WHERE']
  * @uses DBGet()           return Students
  * @uses makeParents()     generate Parents info popup
+ * @uses makeEmail()       format Email address
  * @uses makePhone()       format Phone number
  * @uses makeContactInfo() generate Contact Info tooltip
  * @uses makeCheckbox()    format Checkbox value
@@ -207,7 +208,7 @@ function GetStuList( &$extra = array() )
 		else
 		{
 			if ( $view_other_RET['CONTACT_INFO'][1]['VALUE'] == 'Y'
-				&& !isset( $_REQUEST['_ROSARIO_PDF'] ) )
+				&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			{
 				$select .= ',ssm.STUDENT_ID AS CONTACT_INFO ';
 
@@ -262,7 +263,11 @@ function GetStuList( &$extra = array() )
 				$field_key = 'CUSTOM_' . $field['ID'];
 				$extra['columns_after'][ $field_key ] = $field['TITLE'];
 
-				if ( $field['TYPE'] === 'date' )
+				if ( Config( 'STUDENTS_EMAIL_FIELD' ) === $field['ID'] )
+				{
+					$functions[ $field_key ] = 'makeEmail';
+				}
+				elseif ( $field['TYPE'] === 'date' )
 				{
 					$functions[ $field_key ] = 'ProperDate';
 				}
@@ -372,7 +377,11 @@ function GetStuList( &$extra = array() )
 
 				$extra['columns_after'][ $field_key ] = $field['TITLE'];
 
-				if ( $field['TYPE'] === 'date' )
+				if ( Config( 'STUDENTS_EMAIL_FIELD' ) === $field['ID'] )
+				{
+					$functions[ $field_key ] = 'makeEmail';
+				}
+				elseif ( $field['TYPE'] === 'date' )
 				{
 					$functions[ $field_key ] = 'ProperDate';
 				}
@@ -732,7 +741,7 @@ function makeContactInfo( $student_id, $column )
 
 
 /**
- * Remove .00 to float string
+ * Remove .00 from float string
  *
  * @example if ( $field['TYPE'] === 'numeric' )	$functions[ $field_key ] = 'removeDot00';
  *
@@ -746,6 +755,39 @@ function makeContactInfo( $student_id, $column )
 function removeDot00( $value, $column = '' )
 {
 	return str_replace( '.00', '', $value );
+}
+
+
+/**
+ * Make / Format Email address
+ *
+ * @example if ( Config( 'STUDENTS_EMAIL_FIELD' ) === $field['ID'] ) $functions['EMAIL'] = 'makeEmail';
+ *
+ * @since 2.9.10
+ *
+ * @see DBGet() callback
+ *
+ * @param  string $email  Email address.
+ * @param  string $column Column (optional). Defaults to ''.
+ *
+ * @return string Formatted email address
+ */
+function makeEmail( $email, $column = '' )
+{
+	$email = trim( $email );
+
+	if ( $email === '' )
+	{
+		return '';
+	}
+
+	// Validate email.
+	if ( ! filter_var( $email, FILTER_VALIDATE_EMAIL ) )
+	{
+		return $email;
+	}
+
+	return '<a href="mailto:' . $email . '">' . $email . '</a>';
 }
 
 
@@ -1054,7 +1096,7 @@ function makeTextarea( $value, $column )
 {
 	static $i = 1;
 
-	return $value !== '' ?
+	return $value != '' ?
 		'<div id="' . $column . $i++ . '" class="rt2colorBox"><div class="markdown-to-html">' .
 			$value . '</div></div>' :
 		'';

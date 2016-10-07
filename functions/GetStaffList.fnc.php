@@ -82,6 +82,8 @@ function GetStaffList(& $extra)
 				{
 					$extra['columns_after']['EMAIL'] = _( 'Email Address' );
 
+					$functions['EMAIL'] = 'makeEmail';
+
 					$select .= ',s.EMAIL';
 				}
 
