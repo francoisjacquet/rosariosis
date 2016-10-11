@@ -117,12 +117,6 @@ div.updated{
 .widefat th{
 	text-shadow:rgba(255,255,255,.8) 0 1px 0
 }
-.widefat td{
-	color:#555
-}
-.widefat p,.widefat ol,.widefat ul,.widefat th,.widefat th{
-	color:#333
-}
 a,.adminmenu a{
 	color:#21759b
 }

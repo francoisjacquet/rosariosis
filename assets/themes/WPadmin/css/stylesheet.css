@@ -1096,7 +1096,7 @@ input[type=checkbox].toggle {
  * http://stackoverflow.com/questions/15425356/how-to-disable-link-to-phone-number-when-on-desktop
  */
 .no-touch .phone-link {
-	color: #555;
+	color: #333;
 	/*pointer-events: none;*/
 	cursor: default;
 }
