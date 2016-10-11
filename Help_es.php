@@ -378,7 +378,7 @@ HTML;
 	<i>Imprimir Cartas</i> le permite imprimir un modelo de carta para varios estudiantes.
 </p>
 <p>
-	Primero, busca estudiantes. Después de seleccionar estudiantes desde el resultado de la búsqueda, entre el texto de la carta en el campo de texto «Texto de la Carta». Arriba de este campo de texto se encuentran varias opciones de formato del texto.
+	Primero, busca estudiantes. Después de seleccionar estudiantes desde el resultado de la búsqueda, entre el texto de la carta en el campo de texto «Texto de la Carta». Debajo de este campo de texto se encuentran varias opciones de formato del texto.
 </p>
 <p>
 	Usted puede insertar algunos datos del estudiante en la carta con variables especiales:

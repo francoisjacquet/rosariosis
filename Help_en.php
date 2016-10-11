@@ -364,17 +364,20 @@ HTML;
 	<i>Associate Parents with Students</i> allows you to associate parents to students.
 </p>
 <p>
-	Once a parent's account has been set up, their children must be associated to their account with this program. If you have not already chosen a student earlier in your session, select a user by using the "Find a Student" Search screen. Next, search for a user to associate with the student. From the search result, you can select any number of users. You can select all the users in the list by checking the checkbox in the column headings above the list. After you have selected each desired user from this list, click the "Add Selected Parents" button at the top of the screen.
+	Once a parent's account has been set up, their children must be associated to their account with this program. If you have not already chosen a student earlier in your session, select a student by using the "Find a Student" Search screen. Next, search for a user to associate with the student. From the search result, you can select any number of users. You can select all the users in the list by checking the checkbox in the column headings above the list. After you have selected each desired user from this list, click the "Add Selected Parents" button at the top of the screen.
 </p>
 <p>
-	At any time after a student has been selected, you can see the parents already associated with that student. These parents are listed to the top of the user search screen / search results. These parents can be disassociated from this user by clicking the delete icon (-) next to the parent you wish to disassociate from the student. You will be asked to confirm this action.
+	At any time after a student has been selected, you can see the parents already associated with that student. These parents are listed to the top of the user search screen / search results. These parents can be disassociated from this student by clicking the delete icon (-) next to the parent you wish to disassociate from the student. You will be asked to confirm this action.
 </p>
 HTML;
 
 	$help['Students/AssignOtherInfo.php'] = <<<HTML
 <p>
-	<i>Assign Other Info</i> allows you to assign values to any of the Other Info data fields for a group of students in one action.
-</p>First, search for students. From the search result, you can select any number of students. You can select all the students in the list by checking the checkbox in the blue column headings above the list. After selecting students, fill in any of the Other Info fields in the yellow box above the student list. Fields that you leave blank will not affect the students you selected. After you have selected each desired student from this list and filled in each desired Other Info field, click the "Save" button at the top of the screen.
+	<i>Group Assign Student Info</i> allows you to assign values to any of the Student data fields for a group of students in one action.
+</p>
+<p>
+	First, search for students. From the search result, you can select any number of students. You can select all the students in the list by checking the checkbox in the column headings above the list. After selecting students, fill in any of the Student fields in the box above the student list. Fields that you leave blank will not affect the students you selected. After you have selected each desired student from this list and filled in each desired Other Info field, click the "Save" button at the top of the screen.
+</p>
 HTML;
 
 	$help['Students/Letters.php'] = <<<HTML
@@ -382,7 +385,7 @@ HTML;
 	<i>Print Letters</i> allows you to print form letters for any number of students.
 </p>
 <p>
-	To print the letters, enter the letter text in the "Letter Text" text field at the bottom of the search screen. Then search for students by filling in any desired search field, and click the "Submit" button.
+	First, search for students. From the search result, you can select any number of students. You can select all the students in the list by checking the checkbox in the column headings above the list. After selecting students, enter the letter text in the "Letter Text" text field above the student list.
 </p>
 <p>
 	You can insert certain pieces of student information into your letter with special variables:
@@ -404,7 +407,7 @@ HTML;
 		<b>RosarioSIS ID:</b> __STUDENT_ID__
 	</li>
 	<li>
-		<b>Grade:</b> __GRADE_ID__
+		<b>Grade Level:</b> __GRADE_ID__
 	</li>
 </ul>
 <p>
@@ -423,19 +426,19 @@ HTML;
 
 	$help['Students/Address'] = <<<HTML
 <p>
-	<i>Address</i> is a display of a student's address and contact information.
+	<i>Addresses &amp; Contacts</i> is a display of a student's address and contact information.
 </p>
 <p>
-	A student can have any number of addresses. To add an address, complete the empty fields at the bottom of the Address screen, and click the "Save" button at the top of the screen.
+	A student can have any number of addresses. To add an address, click the "Add a New Address" link and complete the empty fields in the Address box. Finally, click the "Save" button at the top of the screen.
 </p>
 <p>
 	Now, you can add a contact to this address. To do this, complete the contact's name, and again, press the "Save" button.
 </p>
 <p>
-	You can now add more information about this contact by checking the "Custody" and "Emergency" checkboxes, after first clicking on their default value of "No." Relations marked as having "Custody" of the student receive mailings and relations marked as being "Emergency" contacts can be contacted in the case of an emergency.
+	You can now add more information about this contact by checking the "Custody" and "Emergency" checkboxes, after first clicking on their default value of "No" (cross). Relations marked as having "Custody" of the student receive mailings and relations marked as being "Emergency" contacts can be contacted in the case of an emergency.
 </p>
 <p>
-	You can add other information about this contact, such as their cell phone number, fax number, occupation, workplace, etc. by filling in the title of the new data in the empty field with the default value "New Info" and its corresponding value in the empty field to the right.
+	You can add other information about this contact, such as their cell phone number, fax number, occupation, workplace, etc. by filling in the title of the new data in the "Description" field and its corresponding value in the "Value" field.
 </p>
 <p>
 	Contacts and information about contacts can be deleted by clicking on the delete icon (-) next to the information to be deleted. (Note: you will be asked to confirm all deletions.) Any information on the screen can be modified by first clicking on the information, then changing its value, and finally clicking the "Save" button at the top of the screen.
@@ -468,7 +471,7 @@ HTML;
 	<i>Enrollment</i> can be used to enroll or drop a student from any school. A student can have only one active enrollment record at any time.
 </p>
 <p>
-	To drop a student, change the "Dropped" date and reason to the effective date of the student's drop as well as the reason for his drop. Click the "Save" button at the top of the screen.
+	To drop a student, change the "Dropped" date to the effective date of the student's drop as well as the reason for his drop. Click the "Save" button at the top of the screen.
 </p>
 <p>
 	Now you can reenroll the student. To do this, select the effective date of the student's enrollment and the reason for his enrollment from the blank line at the bottom of the list. Also, select the school at which the student should be enrolled and click the "Save" button at the top of the screen.
@@ -573,7 +576,7 @@ HTML;
 	Click on the "+" icon below the "No Student Fields were found" text. Fill in the Field Name field(s), and then choose what type of field you wish with the "Data Type" pull-down.
 </p>
 <p>
-	"Pull-Down" fields create menus from which you can select one option. To create this type of field, click on "Pull down" and then add your options (one per line) in the "Pull-Down/Auto Pull-down/Coded Pull-Down/Select Multiple from Options" text box.
+	"Pull-Down" fields create menus from which you can select one option. To create this type of field, click on "Pull-Down" and then add your options (one per line) in the "Pull-Down/Auto Pull-down/Coded Pull-Down/Select Multiple from Options" text box.
 </p>
 <p>
 	"Auto Pull-Down" fields create menus from which you can select one option, and add options. You add options by selecting the "-Edit-" option in the menu choices and click "Save". You can then edit the field by removing the red "-Edit-" from the field, entering the correct information. RosarioSIS gets all the options that have been added to this field to create the pull-down.
@@ -684,7 +687,7 @@ HTML;
 	<i>Associate Students with Parents</i> allows you to associate students to parents.
 </p>
 <p>
-	Once a parent's account has been set up, their children must be associated to their account with this program. If you have not already chosen a user earlier in your session, select a user by using the "Find a User" Search screen. Next, search for a student to add to the user's account. From the search result, you can select any number of students. You can select all the students in the list by checking the checkbox in the blue column headings above the list. After you have selected each desired student from this list, click the "Add Selected Students" button at the top of the screen.
+	Once a parent's account has been set up, their children must be associated to their account with this program. If you have not already chosen a user earlier in your session, select a user by using the "Find a User" Search screen. Next, search for a student to add to the user's account. From the search result, you can select any number of students. You can select all the students in the list by checking the checkbox in the column headings above the list. After you have selected each desired student from this list, click the "Add Selected Students" button at the top of the screen.
 </p>
 <p>
 	At any time after a user has been selected, you can see the students already associated with that user. These students are listed to the top of the student search screen / search results. These students can be disassociated from this user by clicking the delete icon (-) next to the student you wish to disassociate from the user. You will be asked to confirm this action.
@@ -771,10 +774,10 @@ HTML;
 
 	$help['Users/Exceptions.php'] = <<<HTML
 <p>
-	<i>Admin Permissions</i> allows you to deny access and/or write privileges to any program for any admin user.
+	<i>User Permissions</i> allows you to deny access and/or write privileges to any program for any user.
 </p>
 <p>
-	To assign privileges to an admin user, first select an administrator by searching for one and clicking on his name on the list. Then, use the checkboxes to define which programs the administrator can use and which programs he can use to modify information. If a user cannot use a particular program, the program will not be displayed on his menu. If he can use the program, but can't edit information with the program, the program will display the data, but won't let him change it. After you have completed the program checkboxes, click the "Save" button to save the administrator's permissions.
+	To assign privileges to a user, first select a user by searching and clicking on his name on the list. Then, use the checkboxes to define which programs the user can use and which programs he can use to modify information. If a user cannot use a particular program, the program will not be displayed on his menu. If he can use the program, but can't edit information with the program, the program will display the data, but won't let him change it. After you have completed the program checkboxes, click the "Save" button to save the user's permissions.
 </p>
 HTML;
 
@@ -801,7 +804,7 @@ HTML;
 	Click on the "+" icon below the "No User Fields were found" text. Fill in the Field Name field(s), and then choose what type of field you wish with the "Data Type" pull-down.
 </p>
 <p>
-	"Pull-Down" fields create menus from which you can select one option. To create this type of field, click on "Pull down" and then add your options (one per line) in the "Pull-Down/Auto Pull-down/Coded Pull-Down/Select Multiple from Options" text box.
+	"Pull-Down" fields create menus from which you can select one option. To create this type of field, click on "Pull-Down" and then add your options (one per line) in the "Pull-Down/Auto Pull-down/Coded Pull-Down/Select Multiple from Options" text box.
 </p>
 <p>
 	"Auto Pull-Down" fields create menus from which you can select one option, and add options. You add options by selecting the "-Edit-" option in the menu choices and click "Save". You can then edit the field by removing the red "-Edit-" from the field, entering the correct information. RosarioSIS gets all the options that have been added to this field to create the pull-down.
@@ -906,7 +909,7 @@ if ( User( 'PROFILE' ) === 'admin' ) :
 
 	$help['Scheduling/Schedule.php'] = <<<HTML
 <p>
-	<i>Schedule</i> allows you to modify a student's course schedule.
+	<i>Student Schedule</i> allows you to modify a student's course schedule.
 </p>
 <p>
 	You must first select a student by using the "Find a Student" search screen. You can search for students who have requested a specific course or request by clicking on the "Choose" link next to the search options "Course" and "Request" respectively and choosing a course from the popup window that appears.
@@ -922,25 +925,25 @@ if ( User( 'PROFILE' ) === 'admin' ) :
 	To change the course period of a course for the student, click on the "Period - Teacher" of the course you want to change and select the new course period. You can also change the term in the same fashion.
 </p>
 <p>
-	All additions, deletions, and modifications to a student's schedule are not made permanent until you click the "Save" button at the top of the screen and confirm your modifications. In addition, you will have to specify the effective date (the date on which your changes should take effect) on the confirmation screen.
+	All additions, deletions, and modifications to a student's schedule are not made permanent until you click the "Save" button at the top of the screen.
 </p>
 HTML;
 
 	$help['Scheduling/Requests.php'] = <<<HTML
 <p>
-	<i>Requests</i> allows you to specify which courses a student intends to take in the next school year. These requests are used by the Scheduler when filling a student's schedule.
+	<i>Student Requests</i> allows you to specify which courses a student intends to take in the next school year. These requests are used by the Scheduler when filling a student's schedule.
 </p>
 <p>
 	You must first select a student by using the "Find a Student" search screen. You can search for students who have requested a specific request by clicking on the "Choose" link next to the search option "Request" and choosing a course from the popup window that appears.
 </p>
 <p>
-	You can add a request by selecting the course you want to add from under the corresponding subject heading. You can add requests from each subject in the same way, or you can add another request in the same subject by clicking on the add icon (+) next to the subject name. Doing this will cause another set of request pull-down menus to appear under the subject heading. Once you have added all the desired requests, click the "Save" button at the top of the screen.
+	You can add a request by selecting the course you want to add from under the corresponding subject heading. You can add requests from each subject in the same way, or you can add another request in the same subject by clicking on the on the subject name in the last line of the list with the add icon (+). Doing this will cause another set of request pull-down menus to appear under the subject heading. Once you have added all the desired requests, click the "Save" button at the top of the screen.
 </p>
 <p>
-	When you save the student's requests, the Requests program will run the Scheduler without saving the schedule for the current student to notify you of any conflicts. The Scheduler output will also tell you if any course requested has zero available seats. If a request could not be met, you can change the requests accordingly to ensure complete scheduling. You will also be given the option to schedule the student with the requests you entered.
+	When you save the student's requests, the Student Requests program will run the Scheduler without saving the schedule for the current student to notify you of any conflicts. The Scheduler output will also tell you if any course requested has zero available seats. If a request could not be met, you can change the requests accordingly to ensure complete scheduling. You will also be given the option to schedule the student with the requests you entered.
 </p>
 <p>
-	Furthermore, when you have saved the student's requests, you will have the option to specify a teacher or period and to exclude a teacher or period. To do this, select the teacher or period from the "With" and "Without" pull-down menus respectively. You can also delete a request that you entered by changing the course and weight to "Not Specified." Once you have made all the desired modifications, click the "Save" button again.
+	Furthermore, when you have saved the student's requests, you will have the option to specify a teacher or period and to exclude a teacher or period. To do this, select the teacher or period from the "With" and "Without" pull-down menus respectively. Once you have made all the desired modifications, click the "Save" button. You can also delete a request that you entered by clicking on the delete icon (-).
 </p>
 HTML;
 
@@ -961,12 +964,26 @@ HTML;
 	Then, select the proper "Start Date" (the date that the students will first attend this course period), and the appropriate "Marking Period".
 </p>
 <p>
-	From the search result, you can select any number of students. To select all the students in the list, check the checkbox in the column headings above the list. After you have selected each desired student from this list, click the "Add Course for Selected Students" button at the top of the screen.
+	From the search result, you can select any number of students. To select all the students in the list, check the checkbox in the column headings above the list. After you have selected each desired student from this list, click the "Add Courses to Selected Students" button at the top of the screen.
 </p>
 HTML;
 
 	$help['Scheduling/MassRequests.php'] = <<<HTML
-<p><i>Mass Requests</i> allows you to add a request to a group of students in one action.</p><p>You must first select a (group of) student(s) by using the "Find a Student" search screen. You can search for students who have requested a specific request by clicking on the "Choose" link next to the search option "Request" and choosing a course from the popup window that appears. Notice that you can search for students who already have a certain request or are in a certain activity. This can be useful since you can add a laboratory course request to all students who requested chemistry. Or you can add a P.E. course request to all students in Boy's Basketball.</p><p>Select a course to be added as a request by clicking the "Choose a Course" link at the top of the screen and choosing the course from the popup screen that appears.</p><p>Then, select the proper "With" or "Without" Teacher, and the correct Period.</p><p>From the search result, you can select any number of students. To select all the students in the list, check the checkbox in column headings above the list. After you have selected each desired student from this list, click the "Add Request to Selected Students" button at the top of the screen. If you have not yet chosen a course to add as a request, you must do that before you click this button.</p>
+<p>
+	<i>Group Requests</i> allows you to add a request to a group of students in one action.
+</p>
+<p>
+	You must first select a (group of) student(s) by using the "Find a Student" search screen. You can search for students who have requested a specific request by clicking on the "Choose" link next to the search option "Request" and choosing a course from the popup window that appears. Notice that you can search for students who already have a certain request or are in a certain activity. This can be useful since you can add a laboratory course request to all students who requested chemistry. Or you can add a P.E. course request to all students in Boy's Basketball.
+</p>
+<p>
+	Select a course to be added as a request by clicking the "Choose a Course" link at the top of the screen and choosing the course from the popup screen that appears.
+</p>
+<p>
+	Then, select the proper "With" or "Without" Teacher, and the correct Period.
+</p>
+<p>
+	From the search result, you can select any number of students. To select all the students in the list, check the checkbox in column headings above the list. After you have selected each desired student from this list, click the "Add Request to Selected Students" button at the top of the screen. If you have not yet chosen a course to add as a request, you must do that before you click this button.
+</p>
 HTML;
 
 	$help['Scheduling/MassDrops.php'] = <<<HTML
@@ -1518,7 +1535,7 @@ HTML;
 	<i>Add Absences</i> allows you to add an absence to a group of students in one action.
 </p>First, search for students. Notice that you can search for students who are enrolled in a specific course or are in a certain activity. This can be useful since you can add an absence record for each period to all of Mrs. Smith's first period students or the football team who will be on an all day field trip.
 <p>
-	From the search result, you can select any number of students. You can select all the students in the list by checking the checkbox in the blue column headings above the list. You can also specify the periods to mark the selected students, the absence code, the absence reason, and the date in the yellow box above the student list. After you have selected each desired student from this list, all the desired periods, the absence code, absence reason, and absence date, click the "Save" button at the top of the screen.
+	From the search result, you can select any number of students. You can select all the students in the list by checking the checkbox in the column headings above the list. You can also specify the periods to mark the selected students, the absence code, the absence reason, and the date in the yellow box above the student list. After you have selected each desired student from this list, all the desired periods, the absence code, absence reason, and absence date, click the "Save" button at the top of the screen.
 </p>
 HTML;
 
