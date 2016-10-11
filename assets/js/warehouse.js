@@ -19,7 +19,7 @@ function checkAll(form, value, name_like) {
 }
 
 function switchMenu(el) {
-	$(el).nextAll('table').first().toggle().toggleClass('switched');
+	$(el).toggleClass('switched').nextAll('table').first().toggle();
 }
 
 /**
