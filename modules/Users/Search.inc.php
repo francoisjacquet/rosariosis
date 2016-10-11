@@ -57,7 +57,9 @@ if ( ! $_REQUEST['search_modfunc'])
 			}
 
 			if ( $extra['profile'] )
-				$options = array($extra['profile'] => $options[$extra['profile']]);
+			{
+				$options = array( $extra['profile'] => $options[ $extra['profile'] ] );
+			}
 
 			echo '<tr><td><label for="profile">' . _( 'Profile' ) . '</label></td>
 				<td><select name="profile" id="profile">';
@@ -69,8 +71,10 @@ if ( ! $_REQUEST['search_modfunc'])
 
 			echo '</select></td></tr>';
 
-			if ( !isset( $extra ) )
+			if ( ! isset( $extra ) )
+			{
 				$extra = array();
+			}
 
 			StaffWidgets( 'user', $extra );
 

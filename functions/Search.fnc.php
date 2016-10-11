@@ -296,7 +296,7 @@ function Search( $type, $extra = null )
 
 				if ( isset( $categories_RET[1] ) )
 				{
-					$i = count( $categories_RET[1] );
+					$i = count( $categories_RET[1]['text'] ) ? 1 : count( $categories_RET[1]['text'] );
 				}
 				else
 				{
@@ -306,25 +306,59 @@ function Search( $type, $extra = null )
 					$categories_RET[1] = array();
 				}
 
-				// Add Email Address to Staff General Info.
-				$categories_RET[1]['text'][ $i++ ] = array(
-					'ID' => '1',
-					'CATEGORY_TITLE' => $general_info_category_title,
-					'COLUMN_NAME' => 'EMAIL',
-					'TYPE' => 'text',
-					'TITLE' => _( 'Email Address' ),
-					'SELECT_OPTIONS' => null,
-				);
+				if ( Preferences( 'EMAIL', 'StaffFieldsSearch' ) !== 'Y' )
+				{
+					// Add Email Address to Staff General Info.
+					$categories_RET[1]['text'][ $i++ ] = array(
+						'ID' => '1',
+						'CATEGORY_TITLE' => $general_info_category_title,
+						'COLUMN_NAME' => 'EMAIL',
+						'TYPE' => 'text',
+						'TITLE' => _( 'Email Address' ),
+						'SELECT_OPTIONS' => null,
+					);
+				}
 
-				// Add Phone Number to Staff General Info.
-				$categories_RET[1]['text'][ $i++ ] = array(
-					'ID' => '1',
-					'CATEGORY_TITLE' => $general_info_category_title,
-					'COLUMN_NAME' => 'PHONE',
-					'TYPE' => 'text',
-					'TITLE' => _( 'Phone Number' ),
-					'SELECT_OPTIONS' => null,
-				);
+				if ( Preferences( 'PHONE', 'StaffFieldsSearch' ) !== 'Y' )
+				{
+					// Add Phone Number to Staff General Info.
+					$categories_RET[1]['text'][ $i++ ] = array(
+						'ID' => '1',
+						'CATEGORY_TITLE' => '',
+						'COLUMN_NAME' => 'PHONE',
+						'TYPE' => 'text',
+						'TITLE' => _( 'Phone Number' ),
+						'SELECT_OPTIONS' => null,
+					);
+				}
+			}
+			elseif ( $type === 'staff_fields' )
+			{
+				if ( Preferences( 'EMAIL', 'StaffFieldsSearch' ) === 'Y' )
+				{
+					// Add Email Address to Find a User form.
+					$categories_RET[1]['text'][ $i++ ] = array(
+						'ID' => '1',
+						'CATEGORY_TITLE' => '',
+						'COLUMN_NAME' => 'EMAIL',
+						'TYPE' => 'text',
+						'TITLE' => _( 'Email Address' ),
+						'SELECT_OPTIONS' => null,
+					);
+				}
+
+				if ( Preferences( 'PHONE', 'StaffFieldsSearch' ) === 'Y' )
+				{
+					// Add Phone Number to Find a User form.
+					$categories_RET[1]['text'][ $i++ ] = array(
+						'ID' => '1',
+						'CATEGORY_TITLE' => $general_info_category_title,
+						'COLUMN_NAME' => 'PHONE',
+						'TYPE' => 'text',
+						'TITLE' => _( 'Phone Number' ),
+						'SELECT_OPTIONS' => null,
+					);
+				}
 			}
 
 			foreach ( (array) $categories_RET as $category )
