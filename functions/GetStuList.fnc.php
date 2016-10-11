@@ -776,7 +776,7 @@ function makeEmail( $email, $column = '' )
 {
 	$email = trim( $email );
 
-	if ( $email === '' )
+	if ( $email == '' )
 	{
 		return '';
 	}
