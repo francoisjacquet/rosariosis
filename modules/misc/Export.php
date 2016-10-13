@@ -342,6 +342,10 @@ if ( $_REQUEST['search_modfunc'] == 'list' )
 			{
 				$extra['functions'][ $field ] = 'makeEmail';
 			}
+			elseif ( $field === 'PHONE' )
+			{
+				$extra['functions'][ $field ] = 'makePhone';
+			}
 			elseif ( mb_substr( $field, 0, 7 ) === 'CUSTOM_' )
 			{
 				$field_type = $custom_RET[ mb_substr( $field, 7 ) ][1]['TYPE'];
