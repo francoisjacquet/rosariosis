@@ -9,6 +9,7 @@ Changes in 2.9.10
 - Add makeEmail() function in GetStuList.fnc.php
 - Help texts updates in Help_en.php & Help_es.php
 - Fix SQL error table "a" specified more than once when searching Address in MyReport.php
+- Add makeFieldTypeFunction() function in GetStuList.fnc.php
 
 Changes in 2.9.9
 ----------------

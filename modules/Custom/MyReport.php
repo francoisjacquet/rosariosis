@@ -94,8 +94,6 @@ if ( ! $_REQUEST['modfunc'] )
 			}
 		}
 
-		$students_RET = GetStuList($extra);
-
 		$LO_columns += array(
 			'FULL_NAME' => _( 'Student' ),
 			'STUDENT_ID' => sprintf( _( '%s ID' ), Config( 'NAME' ) ),
@@ -115,6 +113,8 @@ if ( ! $_REQUEST['modfunc'] )
 			'PHONE' => _( 'Phone' ),
 		);
 
+		$extra['functions']['PHONE'] = 'makePhone';
+
 		// FJ disable mailing address display.
 		if ( Config( 'STUDENTS_USE_MAILING' ) )
 		{
@@ -128,14 +128,22 @@ if ( ! $_REQUEST['modfunc'] )
 
 		foreach ( (array) $address_fields_RET as $field )
 		{
-			$LO_columns += array('ADDRESS_' . $field['ID'] => ParseMLField( $field['TITLE'] ) );
+			$field_key = 'ADDRESS_' . $field['ID'];
+
+			$extra['functions'][ $field_key ] = makeFieldTypeFunction( $field['TYPE'] );
+
+			$LO_columns[ $field_key ] = ParseMLField( $field['TITLE'] );
 		}
 
 		$LO_columns += array( 'PERSON_NAME' => _( 'Person Name' ) );
 
 		foreach ( (array) $people_fields_RET as $field )
 		{
-			$LO_columns += array( 'PEOPLE_' . $field['ID'] => ParseMLField( $field['TITLE'] ) );
+			$field_key = 'PEOPLE_' . $field['ID'];
+
+			$extra['functions'][ $field_key ] = makeFieldTypeFunction( $field['TYPE'] );
+
+			$LO_columns[ $field_key ] = ParseMLField( $field['TITLE'] );
 		}
 
 		for ( $i = 1; $i <= $maxTV; $i++ )
@@ -145,6 +153,8 @@ if ( ! $_REQUEST['modfunc'] )
 				'VALUE_' . $i => _( 'Value' ) . ' ' . $i,
 			);
 		}
+
+		$students_RET = GetStuList( $extra );
 
 		DrawHeader( $header_left );
 

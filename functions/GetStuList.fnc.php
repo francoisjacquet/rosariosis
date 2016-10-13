@@ -16,16 +16,15 @@
  *
  * @see Search()
  *
- * @uses Widgets()         add Widgets SQL to $extra
- * @uses appendSQL()       add Search Student basic fields SQL to $extra['WHERE']
- * @uses CustomFields()    add Custom Fields SQL to $extra['WHERE']
- * @uses DBGet()           return Students
- * @uses makeParents()     generate Parents info popup
- * @uses makeEmail()       format Email address
- * @uses makePhone()       format Phone number
- * @uses makeContactInfo() generate Contact Info tooltip
- * @uses makeCheckbox()    format Checkbox value
- * @uses makeTextarea()    format Textarea value
+ * @uses Widgets()               add Widgets SQL to $extra
+ * @uses appendSQL()             add Search Student basic fields SQL to $extra['WHERE']
+ * @uses CustomFields()          add Custom Fields SQL to $extra['WHERE']
+ * @uses DBGet()                 return Students
+ * @uses makeParents()           generate Parents info popup
+ * @uses makeEmail()             format Email address
+ * @uses makePhone()             format Phone number
+ * @uses makeContactInfo()       generate Contact Info tooltip
+ * @uses makeFieldTypeFunction() make / format custom fields based on their type
  *
  * @global $contacts_RET   Student Contacts array
  * @global $view_other_RET Used by makeParents() (see below)
@@ -267,29 +266,9 @@ function GetStuList( &$extra = array() )
 				{
 					$functions[ $field_key ] = 'makeEmail';
 				}
-				elseif ( $field['TYPE'] === 'date' )
+				else
 				{
-					$functions[ $field_key ] = 'ProperDate';
-				}
-				elseif ( $field['TYPE'] === 'numeric' )
-				{
-					$functions[ $field_key ] = 'removeDot00';
-				}
-				elseif ( $field['TYPE'] === 'codeds' )
-				{
-					$functions[ $field_key ] = 'DeCodeds';
-				}
-				elseif ( $field['TYPE'] === 'exports' )
-				{
-					$functions[ $field_key ] = 'DeCodeds';
-				}
-				elseif ( $field['TYPE'] === 'radio' )
-				{
-					$functions[ $field_key ] = 'makeCheckbox';
-				}
-				elseif ( $field['TYPE'] === 'textarea' )
-				{
-					$functions[ $field_key ] = 'makeTextarea';
+					$functions[ $field_key ] = makeFieldTypeFunction( $field['TYPE'] );
 				}
 
 				$select .= ',s.' . $field_key;
@@ -1246,4 +1225,51 @@ function appendSQL( $sql, $extra = array() )
 	}
 
 	return $sql;
+}
+
+
+/**
+ * Get make / format function by field type.
+ *
+ * @example $extra['functions'][ 'CUSTOM_' . $field['ID'] ] = makeFieldTypeFunction( $field['TYPE'] );
+ *
+ * @since 2.9.10
+ *
+ * @param string  $field_type Field type.
+ * @param string  $table      'auto'|'STAFF' (optional). Defaults to 'auto'.
+ *
+ * @return string             Make function name or empty if type not found.
+ */
+function makeFieldTypeFunction( $field_type, $table = 'auto' )
+{
+	switch ( $field_type )
+	{
+		case 'date':
+
+			return 'ProperDate';
+
+		case 'numeric':
+
+			return 'removeDot00';
+
+		case 'codeds':
+		case 'exports':
+
+			if ( $table === 'STAFF' )
+			{
+				return 'StaffDecodeds';
+			}
+
+			return 'DeCodeds';
+
+		case 'radio':
+
+			return 'makeCheckbox';
+
+		case 'textarea':
+
+			return 'makeTextarea';
+	}
+
+	return '';
 }

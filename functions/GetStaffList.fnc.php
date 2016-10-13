@@ -43,30 +43,7 @@ function GetStaffList(& $extra)
 					$field_key = 'CUSTOM_' . $field['ID'];
 					$extra['columns_after'][ $field_key ] = $field['TITLE'];
 
-					if ( $field['TYPE'] === 'date' )
-					{
-						$functions[ $field_key ] = 'ProperDate';
-					}
-					elseif ( $field['TYPE'] === 'numeric' )
-					{
-						$functions[ $field_key ] = 'removeDot00';
-					}
-					elseif ( $field['TYPE'] === 'codeds' )
-					{
-						$functions[ $field_key ] = 'StaffDeCodeds';
-					}
-					elseif ( $field['TYPE'] === 'exports' )
-					{
-						$functions[ $field_key ] = 'StaffDeCodeds';
-					}
-					elseif ( $field['TYPE'] === 'radio' )
-					{
-						$functions[ $field_key ] = 'makeCheckbox';
-					}
-					elseif ( $field['TYPE'] === 'textarea' )
-					{
-						$functions[ $field_key ] = 'makeTextarea';
-					}
+					$functions[ $field_key ] = makeFieldTypeFunction( $field['TYPE'], 'STAFF' );
 
 					$select .= ',s.' . $field_key;
 				}
@@ -117,30 +94,7 @@ function GetStaffList(& $extra)
 						$field_key = 'CUSTOM_' . $field['ID'];
 						$extra['columns_after'][ $field_key ] = $field['TITLE'];
 
-						if ( $field['TYPE'] === 'date' )
-						{
-							$functions[ $field_key ] = 'ProperDate';
-						}
-						elseif ( $field['TYPE'] === 'numeric' )
-						{
-							$functions[ $field_key ] = 'removeDot00';
-						}
-						elseif ( $field['TYPE'] === 'codeds' )
-						{
-							$functions[ $field_key ] = 'StaffDeCodeds';
-						}
-						elseif ( $field['TYPE'] === 'exports' )
-						{
-							$functions[ $field_key ] = 'StaffDeCodeds';
-						}
-						elseif ( $field['TYPE'] === 'radio' )
-						{
-							$functions[ $field_key ] = 'makeCheckbox';
-						}
-						elseif ( $field['TYPE'] === 'textarea' )
-						{
-							$functions[ $field_key ] = 'makeTextarea';
-						}
+						$functions[ $field_key ] = makeFieldTypeFunction( $field['TYPE'], 'STAFF' );
 					}
 
 					$extra['SELECT'] .= $select;

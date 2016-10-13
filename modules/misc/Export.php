@@ -346,60 +346,20 @@ if ( $_REQUEST['search_modfunc'] == 'list' )
 			{
 				$field_type = $custom_RET[ mb_substr( $field, 7 ) ][1]['TYPE'];
 
-				if ( $field_type === 'date'
-					&& ! $extra['functions'][ $field ] )
+				if ( ! isset( $extra['functions'][ $field ] )
+					|| ! $extra['functions'][ $field ] )
 				{
-					$extra['functions'][ $field ] = 'ProperDate';
-				}
-				elseif ( $field_type === 'codeds'
-					&& ! $extra['functions'][ $field ] )
-				{
-					$extra['functions'][ $field ] = 'DeCodeds';
-				}
-				elseif ( $field_type === 'exports'
-					&& ! $extra['functions'][ $field ] )
-				{
-					$extra['functions'][ $field ] = 'DeCodeds';
-				}
-				elseif ( $field_type === 'radio'
-					&& ! $extra['functions'][ $field ] )
-				{
-					$extra['functions'][ $field ] = 'makeCheckbox';
-				}
-				elseif ( $field_type === 'textarea'
-					&& ! $extra['functions'][ $field ] )
-				{
-					$extra['functions'][ $field ] = 'makeTextarea';
+					$extra['functions'][ $field ] = makeFieldTypeFunction( $field_type );
 				}
 			}
 			elseif ( mb_substr( $field, 0, 8 ) === 'ADDRESS_' )
 			{
 				$field_type = $address_RET[ mb_substr( $field, 8 ) ][1]['TYPE'];
 
-				if ( $field_type === 'date'
-					&& ! $extra['functions'][ $field ] )
+				if ( ! isset( $extra['functions'][ $field ] )
+					|| ! $extra['functions'][ $field ] )
 				{
-					$extra['functions'][ $field ] = 'ProperDate';
-				}
-				elseif ( $field_type === 'codeds'
-					&& ! $extra['functions'][ $field ] )
-				{
-					$extra['functions'][ $field ] = 'DeCodeds';
-				}
-				elseif ( $field_type === 'exports'
-					&& ! $extra['functions'][ $field ] )
-				{
-					$extra['functions'][ $field ] = 'DeCodeds';
-				}
-				elseif ( $field_type === 'radio'
-					&& ! $extra['functions'][ $field ] )
-				{
-					$extra['functions'][ $field ] = 'makeCheckbox';
-				}
-				elseif ( $field_type === 'textarea'
-					&& ! $extra['functions'][ $field ] )
-				{
-					$extra['functions'][ $field ] = 'makeTextarea';
+					$extra['functions'][ $field ] = makeFieldTypeFunction( $field_type );
 				}
 			}
 		}
