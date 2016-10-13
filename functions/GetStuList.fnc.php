@@ -1236,7 +1236,7 @@ function appendSQL( $sql, $extra = array() )
 		$sql .= " AND (LOWER(a.ADDRESS) LIKE '%" . mb_strtolower( $_REQUEST['addr'] ) .
 			"%' OR LOWER(a.CITY) LIKE '" . mb_strtolower( $_REQUEST['addr'] ) .
 			"%' OR LOWER(a.STATE)='" . mb_strtolower( $_REQUEST['addr'] ) .
-			"' OR ZIPCODE LIKE '" . $_REQUEST['addr'] . "%')";
+			"' OR a.ZIPCODE LIKE '" . $_REQUEST['addr'] . "%')";
 
 		if ( ! $no_search_terms )
 		{
