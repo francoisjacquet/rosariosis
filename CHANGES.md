@@ -8,6 +8,7 @@ Changes in 2.9.10
 - User Fields: search Email Address & Phone in CustomFields.fnc.php, GetStaffList.fnc.php, Search.fnc.php & Preferences.php
 - Add makeEmail() function in GetStuList.fnc.php
 - Help texts updates in Help_en.php & Help_es.php
+- Fix SQL error table "a" specified more than once when searching Address in MyReport.php
 
 Changes in 2.9.9
 ----------------
