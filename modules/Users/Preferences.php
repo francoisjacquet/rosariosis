@@ -499,7 +499,7 @@ if ( ! $_REQUEST['modfunc'] )
 	// Student Fields tab.
 	if ( $_REQUEST['tab'] === 'student_fields' )
 	{
-		$custom_fields_sql = "SELECT sfc.TITLE AS CATEGORY,cf.ID,cf.TITLE,
+		$custom_fields_sql = "SELECT sfc.TITLE AS CATEGORY,cf.ID,cf.TITLE,cf.TYPE,
 				'' AS SEARCH,'' AS DISPLAY
 			FROM CUSTOM_FIELDS cf,STUDENT_FIELD_CATEGORIES sfc
 			WHERE sfc.ID=cf.CATEGORY_ID
@@ -509,7 +509,6 @@ if ( ! $_REQUEST['modfunc'] )
 					"PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
 					"STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'" ) .
 				" AND MODNAME='Students/Student.php&category_id='||cf.CATEGORY_ID)='Y'
-			AND cf.TYPE!='textarea'
 			ORDER BY sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER,cf.TITLE";
 
 		$custom_fields_RET = DBGet(
@@ -689,7 +688,7 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( $_REQUEST['tab'] === 'staff_fields'
 		&& User( 'PROFILE' ) === 'admin' )
 	{
-		$custom_fields_sql = "SELECT sfc.TITLE AS CATEGORY,cf.ID,cf.TITLE,
+		$custom_fields_sql = "SELECT sfc.TITLE AS CATEGORY,cf.ID,cf.TITLE,cf.TYPE,
 				'' AS STAFF_SEARCH,'' AS STAFF_DISPLAY
 			FROM STAFF_FIELDS cf,STAFF_FIELD_CATEGORIES sfc
 			WHERE sfc.ID=cf.CATEGORY_ID
@@ -699,7 +698,6 @@ if ( ! $_REQUEST['modfunc'] )
 					"PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
 					"STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'" ) .
 				" AND MODNAME='Users/User.php&category_id='||cf.CATEGORY_ID)='Y'
-			AND cf.TYPE!='textarea'
 			ORDER BY sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER,cf.TITLE";
 
 		$custom_fields_RET = DBGet(
@@ -813,43 +811,45 @@ if ( ! $_REQUEST['modfunc'] )
 function _make($value,$name)
 {	global $THIS_RET,$current_RET;
 
-	switch ( $name)
+	// No Search checkbox for textarea fields.
+	if ( isset( $THIS_RET['TYPE'] )
+		&& $THIS_RET['TYPE'] === 'textarea'
+		&& mb_strpos( $name, 'SEARCH' ) !== false )
+	{
+		return '';
+	}
+
+	switch ( $name )
 	{
 		case 'SEARCH':
-			if ( $current_RET['StudentFieldsSearch'][$THIS_RET['ID']])
+			if ( $current_RET['StudentFieldsSearch'][ $THIS_RET['ID'] ] )
 				$checked = ' checked';
-			return '<input type="checkbox" name="values[StudentFieldsSearch]['.$THIS_RET['ID'].']" value="Y"'.$checked.' />';
-		break;
+			return '<input type="checkbox" name="values[StudentFieldsSearch][' . $THIS_RET['ID'] . ']" value="Y"'.$checked.' />';
 
 		case 'DISPLAY':
-			if ( $current_RET['StudentFieldsView'][$THIS_RET['ID']])
+			if ( $current_RET['StudentFieldsView'][ $THIS_RET['ID'] ] )
 				$checked = ' checked';
-			return '<input type="checkbox" name="values[StudentFieldsView]['.$THIS_RET['ID'].']" value="Y"'.$checked.' />';
-		break;
+			return '<input type="checkbox" name="values[StudentFieldsView][' . $THIS_RET['ID'] . ']" value="Y"'.$checked.' />';
 
 		case 'WIDGET':
-			if ( $current_RET['WidgetsSearch'][$THIS_RET['ID']])
+			if ( $current_RET['WidgetsSearch'][ $THIS_RET['ID'] ] )
 				$checked = ' checked';
-			return '<input type="checkbox" name="values[WidgetsSearch]['.$THIS_RET['ID'].']" value="Y"'.$checked.' />';
-		break;
+			return '<input type="checkbox" name="values[WidgetsSearch][' . $THIS_RET['ID'] . ']" value="Y"'.$checked.' />';
 
 		case 'STAFF_SEARCH':
-			if ( $current_RET['StaffFieldsSearch'][$THIS_RET['ID']])
+			if ( $current_RET['StaffFieldsSearch'][ $THIS_RET['ID'] ] )
 				$checked = ' checked';
-			return '<input type="checkbox" name="values[StaffFieldsSearch]['.$THIS_RET['ID'].']" value="Y"'.$checked.' />';
-		break;
+			return '<input type="checkbox" name="values[StaffFieldsSearch][' . $THIS_RET['ID'] . ']" value="Y"'.$checked.' />';
 
 		case 'STAFF_DISPLAY':
-			if ( $current_RET['StaffFieldsView'][$THIS_RET['ID']])
+			if ( $current_RET['StaffFieldsView'][ $THIS_RET['ID'] ] )
 				$checked = ' checked';
-			return '<input type="checkbox" name="values[StaffFieldsView]['.$THIS_RET['ID'].']" value="Y"'.$checked.' />';
-		break;
+			return '<input type="checkbox" name="values[StaffFieldsView][' . $THIS_RET['ID'] . ']" value="Y"'.$checked.' />';
 
 		case 'STAFF_WIDGET':
-			if ( $current_RET['StaffWidgetsSearch'][$THIS_RET['ID']])
+			if ( $current_RET['StaffWidgetsSearch'][ $THIS_RET['ID'] ] )
 				$checked = ' checked';
-			return '<input type="checkbox" name="values[StaffWidgetsSearch]['.$THIS_RET['ID'].']" value="Y"'.$checked.' />';
-		break;
+			return '<input type="checkbox" name="values[StaffWidgetsSearch][' . $THIS_RET['ID'] . ']" value="Y"'.$checked.' />';
 	}
 }
 
