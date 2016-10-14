@@ -301,13 +301,16 @@ function Search( $type, $extra = null )
 				else
 				{
 					$i = 1;
-
-					// Empty General Info category.
-					$categories_RET[1] = array();
 				}
 
 				if ( Preferences( 'EMAIL', 'StaffFieldsSearch' ) !== 'Y' )
 				{
+					if ( ! isset( $categories_RET[1] ) )
+					{
+						// Empty General Info category.
+						$categories_RET[1] = array();
+					}
+
 					// Add Email Address to Staff General Info.
 					$categories_RET[1]['text'][ $i++ ] = array(
 						'ID' => '1',
@@ -321,10 +324,16 @@ function Search( $type, $extra = null )
 
 				if ( Preferences( 'PHONE', 'StaffFieldsSearch' ) !== 'Y' )
 				{
+					if ( ! isset( $categories_RET[1] ) )
+					{
+						// Empty General Info category.
+						$categories_RET[1] = array();
+					}
+
 					// Add Phone Number to Staff General Info.
 					$categories_RET[1]['text'][ $i++ ] = array(
 						'ID' => '1',
-						'CATEGORY_TITLE' => '',
+						'CATEGORY_TITLE' => $general_info_category_title,
 						'COLUMN_NAME' => 'PHONE',
 						'TYPE' => 'text',
 						'TITLE' => _( 'Phone Number' ),
@@ -352,7 +361,7 @@ function Search( $type, $extra = null )
 					// Add Phone Number to Find a User form.
 					$categories_RET[1]['text'][ $i++ ] = array(
 						'ID' => '1',
-						'CATEGORY_TITLE' => $general_info_category_title,
+						'CATEGORY_TITLE' => '',
 						'COLUMN_NAME' => 'PHONE',
 						'TYPE' => 'text',
 						'TITLE' => _( 'Phone Number' ),
