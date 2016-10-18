@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 2.9.11
+-----------------
+- Put Course Periods back + fixes in ScheduleReport.php
+
 Changes in 2.9.10
 -----------------
 - Schedule multiple courses in MassSchedule.php (sponsored by Aptiris)

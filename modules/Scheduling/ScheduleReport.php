@@ -1,65 +1,104 @@
 <?php
-DrawHeader(ProgramTitle());
+DrawHeader( ProgramTitle() );
 
 echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 
 if ( $_REQUEST['modfunc'] !== 'students' )
 {
-    DrawHeader( CheckBoxOnclick(
+	DrawHeader( CheckBoxOnclick(
 		'include_child_mps',
 		_( 'Show Child Marking Period Details' )
-    ) );
+	) );
 }
+
+// Check if Subject ID is valid for current school & syear!
+if ( isset( $_REQUEST['subject_id'] ) )
+{
+	$subject_RET = DBGet( DBQuery( "SELECT SUBJECT_ID
+		FROM COURSE_SUBJECTS
+		WHERE SCHOOL_ID='" . UserSchool() . "'
+		AND SYEAR='" . UserSyear() . "'
+		AND SUBJECT_ID='" . $_REQUEST['subject_id'] . "'" ) );
+
+	if ( ! $subject_RET )
+	{
+		// Unset subject, course & course period IDs.
+		unset( $_REQUEST['subject_id'], $_REQUEST['course_id'], $_REQUEST['course_period_id'] );
+
+		// Unset students.
+		unset( $_REQUEST['students'] );
+
+		// Unset modfunc.
+		$_REQUEST['modfunc'] = false;
+	}
+}
+
 
 if ( $_REQUEST['subject_id'] )
 {
 	$RET = DBGet(DBQuery("SELECT TITLE FROM COURSE_SUBJECTS WHERE SUBJECT_ID='".$_REQUEST['subject_id']."'"));
-//FJ add translation
+
+	//FJ add translation
 	$header .= '<a href="Modules.php?modname='.$_REQUEST['modname'].'&include_child_mps='.$_REQUEST['include_child_mps'].'">'._('Top').'</a> &rsaquo; <a href="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=courses&subject_id='.$_REQUEST['subject_id'].'&include_child_mps='.$_REQUEST['include_child_mps'].'">'.$RET[1]['TITLE'].'</a>';
+
 	if ( $_REQUEST['course_id'])
 	{
 		$header2 = '<a href="Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'];
+
 		$location = 'courses';
+
 		$RET = DBGet(DBQuery("SELECT TITLE FROM COURSES WHERE COURSE_ID='".$_REQUEST['course_id']."'"));
+
 		$header .= ' &rsaquo; <a href="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=students&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&include_child_mps='.$_REQUEST['include_child_mps'].'">'.$RET[1]['TITLE'].'</a>';
 
 		$header2 .= '&students='.$location.'&modfunc=students&include_child_mps='.$_REQUEST['include_child_mps'].'">'._('List Students').'</a> | '.$header2.'&unscheduled=true&students='.$location.'&modfunc=students&include_child_mps='.$_REQUEST['include_child_mps'].'">'._('List Unscheduled Students').'</a>';
 
 		DrawHeader($header);
+
 		DrawHeader($header2);
 	}
 	else
 		DrawHeader($header);
 }
+
 echo '</form>';
 
 $LO_options = array('save'=>false,'search'=>false,'print'=>false);
 
-echo '<table><tr class="st">';
+echo '<div class="st">';
 
 // SUBJECTS ----
-if ( ! $_REQUEST['modfunc'] || ($_REQUEST['modfunc']=='courses' && $_REQUEST['students']!='courses'))
+$QI = DBQuery("SELECT s.SUBJECT_ID,s.TITLE FROM COURSE_SUBJECTS s WHERE s.SYEAR='".UserSyear()."' AND s.SCHOOL_ID='".UserSchool()."' ORDER BY s.SORT_ORDER,s.TITLE");
+
+$RET = DBGet($QI);
+
+if (count($RET) && $_REQUEST['subject_id'])
 {
-	$QI = DBQuery("SELECT s.SUBJECT_ID,s.TITLE FROM COURSE_SUBJECTS s WHERE s.SYEAR='".UserSyear()."' AND s.SCHOOL_ID='".UserSchool()."' ORDER BY s.SORT_ORDER,s.TITLE");
-	$RET = DBGet($QI);
-	if (count($RET) && $_REQUEST['subject_id'])
+	foreach ( (array) $RET as $key => $value)
 	{
-		foreach ( (array) $RET as $key => $value)
+		if ( $value['SUBJECT_ID']==$_REQUEST['subject_id'])
 		{
-			if ( $value['SUBJECT_ID']==$_REQUEST['subject_id'])
-				$RET[ $key ]['row_color'] = Preferences('HIGHLIGHT');
+			$RET[ $key ]['row_color'] = Preferences('HIGHLIGHT');
 		}
 	}
-	$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=courses&include_child_mps='.$_REQUEST['include_child_mps'];
-	$link['TITLE']['variables'] = array('subject_id' => 'SUBJECT_ID');
-	echo '<td class="valign-top">';
-	$LO_options['responsive'] = false;
-	ListOutput($RET,array('TITLE' => _('Subject')),'Subject','Subjects',$link,array(),$LO_options);
-	echo '</td>';
 }
 
+$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=courses&include_child_mps='.$_REQUEST['include_child_mps'];
+
+$link['TITLE']['variables'] = array('subject_id' => 'SUBJECT_ID');
+
+echo '<div class="st">';
+
+$LO_options['responsive'] = false;
+
+ListOutput($RET,array('TITLE' => _('Subject')),'Subject','Subjects',$link,array(),$LO_options);
+
+echo '</div>';
+
 // COURSES ----
-if ( $_REQUEST['modfunc']=='courses')
+if ( $_REQUEST['modfunc'] === 'courses'
+	|| $_REQUEST['modfunc'] === 'course_periods'
+	|| $_REQUEST['modfunc'] === 'students' )
 {
 	$QI = DBQuery("SELECT c.COURSE_ID,c.TITLE,cp.TOTAL_SEATS,cp.COURSE_PERIOD_ID,cp.MARKING_PERIOD_ID,cp.MP,cp.CALENDAR_ID,
 	(SELECT count(*) FROM SCHEDULE_REQUESTS sr WHERE sr.COURSE_ID=c.COURSE_ID) AS COUNT_REQUESTS
@@ -79,46 +118,70 @@ if ( $_REQUEST['modfunc']=='courses')
 		foreach ( (array) $RET as $key => $value)
 		{
 			if ( $value['COURSE_ID']==$_REQUEST['course_id'])
+			{
 				$RET[ $key ]['row_color'] = Preferences('HIGHLIGHT');
+			}
 		}
 	}
-	$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=students&subject_id='.$_REQUEST['subject_id'].'&include_child_mps='.$_REQUEST['include_child_mps'];
+
+	$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=course_periods&subject_id='.$_REQUEST['subject_id'].'&include_child_mps='.$_REQUEST['include_child_mps'];
+
 	$link['TITLE']['variables'] = array('course_id' => 'COURSE_ID');
+
 	$columns = array('TITLE' => _('Course'),'COUNT_REQUESTS' => _('Requests'));
+
 	if ( $_REQUEST['include_child_mps'])
 	{
 		$OFT_string = mb_substr(_('Open'),0,1).'&#124;'.mb_substr(_('Filled'),0,1).'&#124;'.mb_substr(_('Total'),0,1);
+
 		//FJ fix error Missing argument 1
 		foreach ( explode(',',GetAllMP('')) as $mp)
 		{
 			$mp = trim($mp,"'");
-			$columns += array('OFT_'.$mp=>(GetMP($mp,'SHORT_NAME')?GetMP($mp,'SHORT_NAME'):GetMP($mp)).'<br />'.$OFT_string);
+
+			$columns += array('OFT_'.$mp=>(GetMP($mp,'SHORT_NAME') ?
+				GetMP($mp,'SHORT_NAME') :
+				GetMP($mp)).'<br />'.$OFT_string);
 		}
 	}
 	else
+	{
 		$columns += array('OPEN_SEATS' => _('Open'),'FILLED_SEATS' => _('Filled'),'TOTAL_SEATS' => _('Total'));
-	echo '<td class="valign-top">';
+	}
+
 	$LO_options['responsive'] = true;
+
+	echo '<div class="st">';
+
 	ListOutput($RET,$columns,'Course','Courses',$link,array(),$LO_options);
-	echo '</td>';
+
+	echo '</div>';
 }
 
 // COURSE PERIODS ----
-if ( $_REQUEST['modfunc']=='course_periods' || $_REQUEST['students']=='course_periods')
+if ( $_REQUEST['modfunc'] === 'course_periods'
+	|| $_REQUEST['students'] === 'course_periods' )
 {
 	//FJ multiple school periods for a course period
 	//$QI = DBQuery("SELECT COURSE_PERIOD_ID,TITLE,MARKING_PERIOD_ID,MP,CALENDAR_ID,TOTAL_SEATS FROM COURSE_PERIODS cp WHERE COURSE_ID='".$_REQUEST['course_id']."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID),TITLE");
 	$QI = DBQuery("SELECT COURSE_PERIOD_ID,TITLE,MARKING_PERIOD_ID,MP,CALENDAR_ID,TOTAL_SEATS FROM COURSE_PERIODS cp WHERE COURSE_ID='".$_REQUEST['course_id']."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SHORT_NAME,TITLE");
+
 	$RET = DBGet($QI);
 
 	foreach ( (array) $RET as $key => $period)
 	{
 		$value = array();
 		if ( $_REQUEST['include_child_mps'])
+		{
 			$total_seats = $filled_seats = array();
+		}
 		else
+		{
 			$total_seats = $filled_seats = 0;
+		}
+
 		calcSeats1($period,$total_seats,$filled_seats);
+
 		if ( $_REQUEST['include_child_mps'])
 		{
 			foreach ( (array) $total_seats as $mp => $total)
@@ -127,7 +190,10 @@ if ( $_REQUEST['modfunc']=='course_periods' || $_REQUEST['students']=='course_pe
 			}
 		}
 		else
+		{
 			$value += array('OPEN_SEATS'=>($total_seats!==false?($filled_seats!==false?$total_seats-$filled_seats:'') : _( 'N/A' ) ),'FILLED_SEATS'=>($filled_seats!==false?$filled_seats:''),'TOTAL_SEATS'=>($total_seats!==false?$total_seats : _( 'N/A' ) ));
+		}
+
 		$RET[ $key ] += $value;
 	}
 
@@ -136,42 +202,57 @@ if ( $_REQUEST['modfunc']=='course_periods' || $_REQUEST['students']=='course_pe
 		foreach ( (array) $RET as $key => $value)
 		{
 			if ( $value['COURSE_PERIOD_ID']==$_REQUEST['course_period_id'])
+			{
 				$RET[ $key ]['row_color'] = Preferences('HIGHLIGHT');
+			}
 		}
 	}
+
 	$link = array();
+
 	$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=students&students=course_periods&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&include_child_mps='.$_REQUEST['include_child_mps'];
+
 	$link['TITLE']['variables'] = array('course_period_id' => 'COURSE_PERIOD_ID');
-    $columns = array('TITLE' => _('Course'),'COUNT_REQUESTS' => _('Requests'));
+
 	$columns = array('TITLE' => _('Period').' '._('Days').' - '._('Short Name').' - '._('Teacher'));
+
 	if ( $_REQUEST['include_child_mps'])
 	{
 		foreach ( explode(',',GetAllMP()) as $mp)
 		{
 			$mp = trim($mp,"'");
+
 			$columns += array('OFT_'.$mp=>(GetMP($mp,'SHORT_NAME')?GetMP($mp,'SHORT_NAME'):GetMP($mp)).'<br />O|F|T');
 		}
 	}
 	else
+	{
 		$columns += array('OPEN_SEATS' => _('Open'),'FILLED_SEATS' => _('Filled'),'TOTAL_SEATS' => _('Total'));
-	echo '<td class="valign-top">';
+	}
+
+	echo '<div class="st">';
+
 	ListOutput($RET,$columns,'Course Period','Course Periods',$link,array(),$LO_options);
-	echo '</td>';
+
+	echo '</div>';
 }
 
-echo '</tr></table>';
 
 // LIST STUDENTS ----
 if ( $_REQUEST['modfunc']=='students')
 {
 	$custom_fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE FROM CUSTOM_FIELDS WHERE ID=200000004 AND TYPE='date'"),array(),array('ID'));
+
 	$sql_birthdate = '';
-	$function_birthdate = array();
-	$column_birthdate = array();
+
+	$function_birthdate = $column_birthdate = array();
+
 	if ( $custom_fields_RET['200000004'])
 	{
 		$sql_birthdate = ',s.CUSTOM_200000004';
-		$function_birthdate = array('CUSTOM_200000004' => 'ShortDate');
+
+		$function_birthdate = array('CUSTOM_200000004' => 'ProperDate');
+
 		$column_birthdate = array('CUSTOM_200000004'=>ParseMLField($custom_fields_RET['200000004'][1]['TITLE']));
 	}
 
@@ -187,9 +268,14 @@ if ( $_REQUEST['modfunc']=='students')
 				AND ssm.SCHOOL_ID='".UserSchool()."' ";
 
 		if ( $_REQUEST['course_id'])
+		{
 			$sql .= "AND sr.COURSE_ID='".$_REQUEST['course_id']."' ";
+		}
 		elseif ( $_REQUEST['course_id'])
+		{
 			$sql .= "AND sr.COURSE_ID='".$_REQUEST['course_id']."' ";
+		}
+
 		$sql .= "AND NOT EXISTS (SELECT '' FROM SCHEDULE ss WHERE ss.COURSE_ID=sr.COURSE_ID AND ss.STUDENT_ID=sr.STUDENT_ID AND ('".DBDate()."' BETWEEN ss.START_DATE AND ss.END_DATE OR ss.END_DATE IS NULL))";
 	}
 	else
@@ -204,23 +290,59 @@ if ( $_REQUEST['modfunc']=='students')
 				AND ssm.SCHOOL_ID='".UserSchool()."' ";
 
 		if ( $_REQUEST['course_period_id'])
+		{
 			$sql .= "AND ss.COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."'";
+		}
 		elseif ( $_REQUEST['course_id'])
+		{
 			$sql .= "AND ss.COURSE_ID='".$_REQUEST['course_id']."'";
+		}
 	}
+
 	$sql .= ' ORDER BY s.LAST_NAME,s.FIRST_NAME';
+
 	$RET = DBGet(DBQuery($sql),array('GRADE_ID' => 'GetGrade') + $function_birthdate);
 
 	$link = array();
+
 	if (AllowUse('Scheduling/Schedule.php'))
 	{
 		$link['FULL_NAME']['link'] = "Modules.php?modname=Scheduling/Schedule.php";
 		$link['FULL_NAME']['variables'] = array('student_id' => 'STUDENT_ID');
 	}
-    if ( $_REQUEST['unscheduled']=='true')
-	    ListOutput($RET,array('FULL_NAME' => _('Student'),'GRADE_ID' => _('Grade Level')) + $column_birthdate,'Unscheduled Student','Unscheduled Students',$link,array(),$LO_options);
-    else
-        ListOutput($RET,array('FULL_NAME' => _('Student'),'GRADE_ID' => _('Grade Level')) + $column_birthdate,'Student','Students',$link,array(),$LO_options);
+
+	echo '<div style="clear: both;">';
+
+	if ( $_REQUEST['unscheduled']=='true')
+	{
+		ListOutput(
+			$RET,
+			array(
+				'FULL_NAME' => _( 'Student' ),
+				'GRADE_ID' => _( 'Grade Level' )
+			) + $column_birthdate,
+			'Unscheduled Student',
+			'Unscheduled Students',
+			$link,
+			array(),
+			$LO_options
+		);
+	}
+	else
+	{
+		ListOutput(
+			$RET,
+			array(
+				'FULL_NAME' => _( 'Student' ),
+				'GRADE_ID' => _( 'Grade Level' )
+			) + $column_birthdate,
+			'Student',
+			'Students',
+			$link,
+			array(),
+			$LO_options
+		);
+	}
 }
 
 function calcSeats1($period,&$total_seats,&$filled_seats)
