@@ -306,7 +306,8 @@ function Widgets( $item, &$myextra = null )
 					WHERE c.COURSE_ID='" . $_REQUEST['request_course_id'] . "'" ) );
 
 				// Request.
-				if ( ! $_REQUEST['not_request_course'] )
+				if ( ! isset( $_REQUEST['missing_request_course'] )
+					|| ! $_REQUEST['missing_request_course'] )
 				{
 					$extra['FROM'] .= ",SCHEDULE_REQUESTS sr";
 
