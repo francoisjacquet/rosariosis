@@ -1014,7 +1014,11 @@ td.calendar-menu{
 
 input[type=checkbox].toggle {
 	position: absolute;
-	top: -9999px;
+	left: -9999px;
+}
+/* Fix for RTL languages */
+html[dir=RTL] input[type=checkbox].toggle {
+	right: -9999px;
 }
 
 .toggle ~ .toggle-me { /* Hidden State */
