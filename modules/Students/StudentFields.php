@@ -30,6 +30,24 @@ if ( isset( $_POST['tables'] )
 			if ( ! isset( $columns['TITLE'] )
 				|| ! empty( $columns['TITLE'] ) )
 			{
+				// FJ Fix PHP fatal error: check Include file exists.
+				if ( isset( $columns['INCLUDE'] )
+					&& $columns['INCLUDE'] )
+				{
+					$include_file_path = 'modules/' . $columns['INCLUDE'] . '.inc.php';
+
+					if ( ! file_exists( $include_file_path ) )
+					{
+						// File does not exist: reset + error.
+						unset( $columns['INCLUDE'] );
+
+						$error[] = sprintf(
+							_( 'The include file was not found: "%s"' ),
+							$include_file_path
+						);
+					}
+				}
+
 				// Update Field / Category.
 				if ( $id !== 'new' )
 				{

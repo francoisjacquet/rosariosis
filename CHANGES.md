@@ -4,6 +4,7 @@
 Changes in 2.9.11
 -----------------
 - Put Course Periods back + fixes in ScheduleReport.php
+- Fix PHP fatal error: check Include file exists in StudentFields.php & UserFields.php
 
 Changes in 2.9.10
 -----------------
