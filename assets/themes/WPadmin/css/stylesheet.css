@@ -506,7 +506,7 @@ html[dir="RTL"].no-touch .menu-module:hover .menu-top:after{
 .postbox{
 	margin-bottom:20px;
 	padding:0;
-	line-height:1
+	line-height:1.1
 }
 .postbox > thead th{
 	border-bottom-width:1px;
