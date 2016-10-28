@@ -35,7 +35,7 @@ if (GetMP($fy,'DOES_GRADES')=='Y')
 	$mp_select .= '<option value="'.$fy.'"'.(($fy==$_REQUEST['mp'])?' selected':'').">".GetMP($fy)."</option>";
 $mp_select .= '</select>';
 
-echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
+echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="GET">';
 DrawHeader($mp_select.' - '.$period_select);
 echo '</form>';
 
@@ -51,8 +51,8 @@ echo '</form>';
 		ORDER BY FULL_NAME";*/
 $sql = "SELECT s.STAFF_ID,s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,sp.TITLE,cpsp.PERIOD_ID,cp.TITLE AS COURSE_TITLE,
 			(SELECT 'Y' FROM GRADES_COMPLETED ac WHERE ac.STAFF_ID=cp.TEACHER_ID AND ac.MARKING_PERIOD_ID='".$_REQUEST['mp']."' AND ac.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID) AS COMPLETED
-		FROM STAFF s,COURSE_PERIODS cp,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp 
-		WHERE 
+		FROM STAFF s,COURSE_PERIODS cp,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
+		WHERE
 			cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND
 			sp.PERIOD_ID = cpsp.PERIOD_ID AND cp.GRADE_SCALE_ID IS NOT NULL
 			AND cp.TEACHER_ID=s.STAFF_ID AND cp.MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).")
@@ -106,6 +106,6 @@ else
 				$RET[ $staff_id ][ $period_id ]['COMPLETED'] = $period['COMPLETED']=='Y'?_('Yes').' ':_('No').' ';
 		}
 	}
-	
+
 	ListOutput($RET,array('FULL_NAME' => _('Teacher'),'COURSE_TITLE' => _('Course'),'COMPLETED' => _('Completed')),sprintf(_('Teacher who enters grades for %s'), $period_title),sprintf(_('Teachers who enter grades for %s'), $period_title),false,array('STAFF_ID'));
 }
