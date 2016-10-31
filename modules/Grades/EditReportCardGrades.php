@@ -10,18 +10,18 @@ if ( UserStudentID() )
 
 	$mp_id = $_REQUEST['mp_id'];
 
-	$tab_id = ($_REQUEST['tab_id']?$_REQUEST['tab_id']:'grades');
+	$tab_id = $_REQUEST['tab_id'] ? $_REQUEST['tab_id'] : 'grades';
 
 	// FJ fix bug no delete MP.
-	if ( $_REQUEST['modfunc'] == 'update'
+	if ( $_REQUEST['modfunc'] === 'update'
 		&& $_REQUEST['removemp']
 		&& $_REQUEST['new_sms']
 		&& DeletePrompt( _( 'Marking Period' ) ) )
 	{
 		//DBQuery("DELETE FROM STUDENT_MP_STATS WHERE student_id = $student_id and marking_period_id = $mp_id");
 		DBQuery( "DELETE FROM STUDENT_MP_STATS
-			WHERE student_id='" . $student_id . "
-			AND marking_period_id=" . $_REQUEST['new_sms'] );
+			WHERE student_id='" . $student_id . "'
+			AND marking_period_id='" . $_REQUEST['new_sms'] . "'" );
 
 		unset( $mp_id );
 
