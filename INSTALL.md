@@ -18,6 +18,7 @@ RosarioSIS was tested on:
 - Ubuntu 12.04 with Apache 2.2.22, Postgres 9.1, and PHP 5.3.10
 - Ubuntu 14.04 with Apache 2.4.18, Postgres 9.3.10, and PHP 5.5.9
 - Debian Jessie with Apache 2.4.16, Postgres 9.4, and PHP 5.6.13
+- Shared hosting with cPanel, nginx, Postgres 8.4, and PHP 5.6.27
 - through Mozilla Firefox
 - through BrowserStack for cross-browser compatibility (not compatible with Internet Explorer 8 or lower)
 
