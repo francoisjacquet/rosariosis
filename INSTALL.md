@@ -24,6 +24,7 @@ RosarioSIS was tested on:
 Minimum requirements: **PHP 5.3.2** & **Postgres 8**
 
 [Installation Directions for **Windows**](https://github.com/francoisjacquet/rosariosis/wiki/How-to-install-RosarioSIS-on-Windows)
+[Installation Directions for **cPanel**](https://github.com/francoisjacquet/rosariosis/wiki/How-to-install-RosarioSIS-on-cPanel)
 
 
 Installing the Package
