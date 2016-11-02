@@ -6,6 +6,7 @@ Changes in 2.9.11
 - Put Course Periods back + fixes in ScheduleReport.php
 - Fix PHP fatal error: check Include file exists in StudentFields.php & UserFields.php
 - Fix SQL error unterminated quoted string at or near "'1 in EditReportCardGrades.php
+- Added common file types to upload white list in PortalNotes.php & StudentAssignments.fnc.php
 
 Changes in 2.9.10
 -----------------

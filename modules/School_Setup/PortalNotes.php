@@ -107,36 +107,81 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				$values = $portal_note_id.",'".UserSchool()."','".UserSyear()."',CURRENT_TIMESTAMP,'".User('STAFF_ID')."',";
 
 				$file_attached_ext_white_list = array(
-					// Micro$oft Office
+					/**
+					 * Extensions white list.
+					 *
+					 * Common file types.
+					 * Obviously, we won't include executable types
+					 * .php, .sql, .js, .exe...
+					 * If you file type is not white listed,
+					 * put it in a ZIP archive!
+					 *
+					 * @link http://fileinfo.com/filetypes/common
+					 */
+					// Micro$oft Office.
 					'.doc',
 					'.docx',
 					'.xls',
 					'.xlsx',
+					'.xlr',
+					'.pps',
 					'.ppt',
 					'.pptx',
-					// Libre Office
+					'.wps',
+					'.wpd',
+					'.rtf',
+					// Libre Office.
 					'.odt',
 					'.ods',
 					'.odp',
-					// Images
+					// Images.
 					'.jpg',
 					'.jpeg',
 					'.png',
 					'.gif',
-					// Sound
+					'.bmp',
+					'.svg',
+					'.ico',
+					'.psd',
+					'.ai',
+					'.eps',
+					'.ps',
+					// Audio.
 					'.mp3',
 					'.ogg',
 					'.wav',
-					// Video
+					'.mid',
+					'.wma',
+					// Video.
 					'.avi',
 					'.mp4',
+					'.mpg',
 					'.ogv',
 					'.webm',
-					// Others
-					'.zip',
+					'.wmv',
+					'.mov',
+					'.m4v',
+					'.flv',
+					'.swf',
+					// Text.
 					'.txt',
 					'.pdf',
+					'.md',
 					'.csv',
+					'.tex',
+					// Web.
+					'.xml',
+					'.xhtml',
+					'.html',
+					'.htm',
+					'.css',
+					'.rss',
+					// Compressed.
+					'.zip',
+					'.rar',
+					'.7z',
+					'.tar',
+					'.gz',
 				);
 
 				if ( $columns['FILE_OR_EMBED'] == 'FILE')
