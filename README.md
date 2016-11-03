@@ -15,13 +15,13 @@ Documentation
 
 For installation directions, please refer to the [INSTALL.md](INSTALL.md) file part of this distribution.
 
+And yes, YOU NEED TO READ THE ABOVE DOCUMENTATION prior to attempting any install.
+
 [Quick Setup Guide](https://github.com/francoisjacquet/rosariosis/wiki/Quick-Setup-Guide)
 
 Handbooks:
 You can generate PDF Handbooks by calling the `Help.php` script once you are logged in. The
 Handbook will depend on your profile (Administrator, Teacher, Parent or Student).
-
-And yes, YOU NEED TO READ THE ABOVE DOCUMENTATION prior to attempting any install.
 
 
 About RosarioSIS
