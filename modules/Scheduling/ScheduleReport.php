@@ -36,77 +36,114 @@ if ( isset( $_REQUEST['subject_id'] ) )
 
 if ( $_REQUEST['subject_id'] )
 {
-	$RET = DBGet(DBQuery("SELECT TITLE FROM COURSE_SUBJECTS WHERE SUBJECT_ID='".$_REQUEST['subject_id']."'"));
+	$subject_RET = DBGet( DBQuery( "SELECT TITLE
+		FROM COURSE_SUBJECTS
+		WHERE SUBJECT_ID='" . $_REQUEST['subject_id'] . "'" ) );
 
 	//FJ add translation
-	$header .= '<a href="Modules.php?modname='.$_REQUEST['modname'].'&include_child_mps='.$_REQUEST['include_child_mps'].'">'._('Top').'</a> &rsaquo; <a href="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=courses&subject_id='.$_REQUEST['subject_id'].'&include_child_mps='.$_REQUEST['include_child_mps'].'">'.$RET[1]['TITLE'].'</a>';
+	$header .= '<a href="Modules.php?modname=' . $_REQUEST['modname'] .
+		'&include_child_mps=' . $_REQUEST['include_child_mps'] . '">' . _( 'Top' ) . '</a>
+		&rsaquo; <a href="Modules.php?modname=' . $_REQUEST['modname'] .
+		'&modfunc=courses&subject_id=' . $_REQUEST['subject_id'] .
+		'&include_child_mps=' . $_REQUEST['include_child_mps'] . '">' .
+		$subject_RET[1]['TITLE'] . '</a>';
 
-	if ( $_REQUEST['course_id'])
+	if ( $_REQUEST['course_id'] )
 	{
-		$header2 = '<a href="Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'];
+		$header2 = '<a href="Modules.php?modname=' . $_REQUEST['modname'] .
+			'&subject_id=' . $_REQUEST['subject_id'] . '&course_id=' . $_REQUEST['course_id'];
 
 		$location = 'courses';
 
-		$RET = DBGet(DBQuery("SELECT TITLE FROM COURSES WHERE COURSE_ID='".$_REQUEST['course_id']."'"));
+		$course_RET = DBGet( DBQuery( "SELECT TITLE
+			FROM COURSES
+			WHERE COURSE_ID='" . $_REQUEST['course_id'] . "'" ) );
 
-		$header .= ' &rsaquo; <a href="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=students&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&include_child_mps='.$_REQUEST['include_child_mps'].'">'.$RET[1]['TITLE'].'</a>';
+		$header .= ' &rsaquo; <a href="Modules.php?modname=' . $_REQUEST['modname'] .
+			'&modfunc=students&subject_id=' . $_REQUEST['subject_id'] .
+			'&course_id=' . $_REQUEST['course_id'] .
+			'&include_child_mps=' . $_REQUEST['include_child_mps'] . '">' .
+			$course_RET[1]['TITLE'] . '</a>';
 
-		$header2 .= '&students='.$location.'&modfunc=students&include_child_mps='.$_REQUEST['include_child_mps'].'">'._('List Students').'</a> | '.$header2.'&unscheduled=true&students='.$location.'&modfunc=students&include_child_mps='.$_REQUEST['include_child_mps'].'">'._('List Unscheduled Students').'</a>';
+		$header2 .= '&students=' . $location .
+			'&modfunc=students&include_child_mps=' . $_REQUEST['include_child_mps'] . '">' .
+			_( 'List Students' ) . '</a> | ' . $header2 .
+			'&unscheduled=true&students=' . $location .
+			'&modfunc=students&include_child_mps=' . $_REQUEST['include_child_mps'] . '">' .
+			_( 'List Unscheduled Students' ) . '</a>';
 
-		DrawHeader($header);
+		DrawHeader( $header );
 
-		DrawHeader($header2);
+		DrawHeader( $header2 );
 	}
 	else
-		DrawHeader($header);
+	{
+		DrawHeader( $header );
+	}
 }
 
 echo '</form>';
 
-$LO_options = array('save'=>false,'search'=>false,'print'=>false);
-
-echo '<div class="st">';
-
 // SUBJECTS ----
-$QI = DBQuery("SELECT s.SUBJECT_ID,s.TITLE FROM COURSE_SUBJECTS s WHERE s.SYEAR='".UserSyear()."' AND s.SCHOOL_ID='".UserSchool()."' ORDER BY s.SORT_ORDER,s.TITLE");
+$subject_RET = DBGet( DBQuery( "SELECT s.SUBJECT_ID,s.TITLE
+	FROM COURSE_SUBJECTS s
+	WHERE s.SYEAR='" . UserSyear() . "'
+	AND s.SCHOOL_ID='" . UserSchool() . "'
+	ORDER BY s.SORT_ORDER,s.TITLE" ) );
 
-$RET = DBGet($QI);
-
-if (count($RET) && $_REQUEST['subject_id'])
+if ( count( $subject_RET ) && $_REQUEST['subject_id'] )
 {
-	foreach ( (array) $RET as $key => $value)
+	foreach ( (array) $subject_RET as $key => $value)
 	{
-		if ( $value['SUBJECT_ID']==$_REQUEST['subject_id'])
+		if ( $value['SUBJECT_ID'] == $_REQUEST['subject_id'] )
 		{
-			$RET[ $key ]['row_color'] = Preferences('HIGHLIGHT');
+			$subject_RET[ $key ]['row_color'] = Preferences( 'HIGHLIGHT' );
 		}
 	}
 }
 
-$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=courses&include_child_mps='.$_REQUEST['include_child_mps'];
+$link['TITLE']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] .
+	'&modfunc=courses&include_child_mps=' . $_REQUEST['include_child_mps'];
 
-$link['TITLE']['variables'] = array('subject_id' => 'SUBJECT_ID');
+$link['TITLE']['variables'] = array( 'subject_id' => 'SUBJECT_ID' );
+
+$LO_options = array(
+	'save' => false,
+	'search' => false,
+	'print' => false,
+	'responsive' => false,
+);
 
 echo '<div class="st">';
 
-$LO_options['responsive'] = false;
-
-ListOutput($RET,array('TITLE' => _('Subject')),'Subject','Subjects',$link,array(),$LO_options);
+ListOutput(
+	$subject_RET,
+	array( 'TITLE' => _( 'Subject' ) ),
+	'Subject',
+	'Subjects',
+	$link,
+	array(),
+	$LO_options
+);
 
 echo '</div>';
+
+// Now, Course & Course periods Lists are responsive (multiple columns).
+$LO_options['responsive'] = true;
 
 // COURSES ----
 if ( $_REQUEST['modfunc'] === 'courses'
 	|| $_REQUEST['modfunc'] === 'course_periods'
 	|| $_REQUEST['modfunc'] === 'students' )
 {
-	$QI = DBQuery("SELECT c.COURSE_ID,c.TITLE,cp.TOTAL_SEATS,cp.COURSE_PERIOD_ID,cp.MARKING_PERIOD_ID,cp.MP,cp.CALENDAR_ID,
+	$QI = DBQuery( "SELECT c.COURSE_ID,c.TITLE,cp.TOTAL_SEATS,cp.COURSE_PERIOD_ID,
+	cp.MARKING_PERIOD_ID,cp.MP,cp.CALENDAR_ID,
 	(SELECT count(*) FROM SCHEDULE_REQUESTS sr WHERE sr.COURSE_ID=c.COURSE_ID) AS COUNT_REQUESTS
 	FROM COURSES c,COURSE_PERIODS cp
-	WHERE c.SUBJECT_ID='".$_REQUEST['subject_id']."'
+	WHERE c.SUBJECT_ID='" . $_REQUEST['subject_id'] . "'
 	AND c.COURSE_ID=cp.COURSE_ID
-	AND c.SYEAR='".UserSyear()."'
-	AND c.SCHOOL_ID='".UserSchool()."'
+	AND c.SYEAR='" . UserSyear() . "'
+	AND c.SCHOOL_ID='" . UserSchool() . "'
 	ORDER BY c.TITLE");
 
 	$_RET = DBGet($QI,array(),array('COURSE_ID'));
@@ -134,8 +171,8 @@ if ( $_REQUEST['modfunc'] === 'courses'
 	{
 		$OFT_string = mb_substr(_('Open'),0,1).'&#124;'.mb_substr(_('Filled'),0,1).'&#124;'.mb_substr(_('Total'),0,1);
 
-		//FJ fix error Missing argument 1
-		foreach ( explode(',',GetAllMP('')) as $mp)
+		// FJ fix error Missing argument 1.
+		foreach ( explode( ',', GetAllMP( '' ) ) as $mp )
 		{
 			$mp = trim($mp,"'");
 
@@ -148,8 +185,6 @@ if ( $_REQUEST['modfunc'] === 'courses'
 	{
 		$columns += array('OPEN_SEATS' => _('Open'),'FILLED_SEATS' => _('Filled'),'TOTAL_SEATS' => _('Total'));
 	}
-
-	$LO_options['responsive'] = true;
 
 	echo '<div class="st">';
 
@@ -218,7 +253,8 @@ if ( $_REQUEST['modfunc'] === 'course_periods'
 
 	if ( $_REQUEST['include_child_mps'])
 	{
-		foreach ( explode(',',GetAllMP()) as $mp)
+		// FJ fix error Missing argument 1.
+		foreach ( explode( ',', GetAllMP( '' ) ) as $mp )
 		{
 			$mp = trim($mp,"'");
 
