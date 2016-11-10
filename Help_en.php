@@ -147,6 +147,9 @@ HTML;
 	To add a marking period, click on the Add icon (+) in the column corresponding to the type of marking period you want to add. Then, complete the marking period's information in the fields above the list of marking periods and click the "Save" button.
 </p>
 <p>
+	The "Grade Posting Begins" and "Grade Posting Ends" dates define the first and last day of the period during which teachers can enter final grades.
+</p>
+<p>
 	To change a marking period, click on the marking period you want to change, and click on whatever value you want to change in the grey area above the marking period list. Then, change the value and click the "Save" button.
 </p>
 <p>
@@ -424,7 +427,7 @@ HTML;
 </p>
 HTML;
 
-	$help['Students/Address'] = <<<HTML
+	$help['Students/Addresses & Contacts'] = <<<HTML
 <p>
 	<i>Addresses &amp; Contacts</i> is a display of a student's address and contact information.
 </p>
@@ -466,7 +469,7 @@ HTML;
 </p>
 HTML;
 
-	$help['Enrollment'] = <<<HTML
+	$help['Students/Enrollment'] = <<<HTML
 <p>
 	<i>Enrollment</i> can be used to enroll or drop a student from any school. A student can have only one active enrollment record at any time.
 </p>
@@ -575,39 +578,41 @@ HTML;
 <p>
 	Click on the "+" icon below the "No Student Fields were found" text. Fill in the Field Name field(s), and then choose what type of field you wish with the "Data Type" pull-down.
 </p>
-<p>
+<ul>
+<li>
 	"Pull-Down" fields create menus from which you can select one option. To create this type of field, click on "Pull-Down" and then add your options (one per line) in the "Pull-Down/Auto Pull-down/Coded Pull-Down/Select Multiple from Options" text box.
-</p>
-<p>
+</li>
+<li>
 	"Auto Pull-Down" fields create menus from which you can select one option, and add options. You add options by selecting the "-Edit-" option in the menu choices and click "Save". You can then edit the field by removing the red "-Edit-" from the field, entering the correct information. RosarioSIS gets all the options that have been added to this field to create the pull-down.
-</p>
-<p>
+</li>
+<li>
 	"Edit Pull-Down" fields are similar to Auto Pull-Down fields.
-</p>
-<p>
+</li>
+<li>
 	"Text" fields create alphanumeric text fields with a maximum capacity of 255 characters.
-</p>
-<p>
+</li>
+<li>
 	"Checkbox" fields create checkboxes. When checked it means "yes" and when un-checked "no".
-</p>
-<p>
+</li>
+<li>
 	"Coded Pull-Down" fields are created by adding options to the large text box respecting the following pattern: "option shown"|"option stored in database" (where | is the "pipe" character). For example: "Two|2", where "Two" is displayed on screen to the user, or in a downloaded spreadsheet, and "2" is stored in the database.
-</p>
-<p>
+</li>
+<li>
 	"Export Pull-Down" fields are created by adding options to the large text box respecting the same pattern used for "Coded Pull-Down" fields ("option shown"|"option stored in database"). For example: "Two|2", where "Two" is displayed on screen to the user, and "2" is the value in a downloaded spreadsheet, but "Two" is stored in the database.
-</p>
-<p>
+</li>
+<li>
 	"Number" fields create text fields that stores only numeric values.
-</p>
-<p>
+</li>
+<li>
 	"Select Multiple from options" fields create multiple checkboxes to choose one or more options.
-</p>
-<p>
+</li>
+<li>
 	"Date" field creates pull-downs fields to pick a date from.
-</p>
-<p>
+</li>
+<li>
 	"Long Text" fields create large alphanumeric text boxes with a maximum length of 5000 characters.
-</p>
+</li>
+</ul>
 <p>
 	The "Required" checkbox, if checked, will make that field required so an error will be displayed if the field is empty when saving the page.
 </p>
@@ -649,12 +654,12 @@ else :
 </p>
 HTML;
 
-	$help['Students/Address'] = <<<HTML
+	$help['Students/Addresses & Contacts'] = <<<HTML
 <p>
-	<i>Address</i> is a display of a student's address and contact information.
+	<i>Addresses &amp; Contacts</i> is a display of a student's address and contact information.
 </p>
 <p>
-	A student can have any number addresses.
+	A student can have any number of addresses.
 </p>
 HTML;
 
@@ -803,39 +808,41 @@ HTML;
 <p>
 	Click on the "+" icon below the "No User Fields were found" text. Fill in the Field Name field(s), and then choose what type of field you wish with the "Data Type" pull-down.
 </p>
-<p>
+<ul>
+<li>
 	"Pull-Down" fields create menus from which you can select one option. To create this type of field, click on "Pull-Down" and then add your options (one per line) in the "Pull-Down/Auto Pull-down/Coded Pull-Down/Select Multiple from Options" text box.
-</p>
-<p>
+</li>
+<li>
 	"Auto Pull-Down" fields create menus from which you can select one option, and add options. You add options by selecting the "-Edit-" option in the menu choices and click "Save". You can then edit the field by removing the red "-Edit-" from the field, entering the correct information. RosarioSIS gets all the options that have been added to this field to create the pull-down.
-</p>
-<p>
+</li>
+<li>
 	"Edit Pull-Down" fields are similar to Auto Pull-Down fields.
-</p>
-<p>
+</li>
+<li>
 	"Text" fields create alphanumeric text fields with a maximum capacity of 255 characters.
-</p>
-<p>
+</li>
+<li>
 	"Checkbox" fields create checkboxes. When checked it means "yes" and when un-checked "no".
-</p>
-<p>
+</li>
+<li>
 	"Coded Pull-Down" fields are created by adding options to the large text box respecting the following pattern: "option shown"|"option stored in database" (where | is the "pipe" character). For example: "Two|2", where "Two" is displayed on screen to the user, or in a downloaded spreadsheet, and "2" is stored in the database.
-</p>
-<p>
+</li>
+<li>
 	"Export Pull-Down" fields are created by adding options to the large text box respecting the same pattern used for "Coded Pull-Down" fields ("option shown"|"option stored in database"). For example: "Two|2", where "Two" is displayed on screen to the user, and "2" is the value in a downloaded spreadsheet, but "Two" is stored in the database.
-</p>
-<p>
+</li>
+<li>
 	"Number" fields create text fields that stores only numeric values.
-</p>
-<p>
+</li>
+<li>
 	"Select Multiple from options" fields create multiple checkboxes to choose one or more options.
-</p>
-<p>
+</li>
+<li>
 	"Date" field creates pull-downs fields to pick a date from.
-</p>
-<p>
+</li>
+<li>
 	"Long Text" fields create large alphanumeric text boxes with a maximum length of 5000 characters.
-</p>
+</li>
+</ul>
 <p>
 	The "Required" checkbox, if checked, will make that field required so an error will be displayed if the field is empty when saving the page.
 </p>
@@ -1015,7 +1022,7 @@ HTML;
 	Also, you can choose to print the schedules with mailing labels. The schedules will have mailing labels positioned in such a way as to be visible in a windowed envelope when the sheet is folded in thirds. More than one schedule may be printed per student if the student has guardians residing at more than one address.
 </p>
 <p>
-	The schedules will be automatically downloaded to your computer in the printable PDF format when you click the "Submit" button.
+	The schedules will be automatically downloaded to your computer in the printable PDF format when you click the "Create Schedules for Selected Students" button.
 </p>
 HTML;
 
@@ -1060,13 +1067,13 @@ HTML;
 	<i>Schedule Report</i> is a report that shows the students who are scheduled into each course, the students who requested the course but weren't successfully scheduled into it, and the number of requests, open seats, and total seats in each course.
 </p>
 <p>
-	To navigate through this report, first click on any one of the subjects. You will now see each course in that subject as well as the number of requests for that course and open and total seats available for that course. If you choose a course by clicking on it, you will see a list of the course weights, and the requests, open, and total seats numbers will be broken down by each weight. Here, you can also see a list of students scheduled in the course or a list of students who requested the course but weren't scheduled into it by clicking the "List Students" and "List Unscheduled Students" links respectively.
+	To navigate through this report, first click on any one of the subjects. You will now see each course in that subject as well as the number of requests for that course and open and total seats available for that course. If you choose a course by clicking on it, you will see a list of the course periods, and the requests, open, and total seats numbers will be broken down by each period. Here, you can also see a list of students scheduled in the course or a list of students who requested the course but weren't scheduled into it by clicking the "List Students" and "List Unscheduled Students" links respectively.
 </p>
 <p>
-	If you select a weight by clicking on it, the open / total seats will be broken down even farther by each period. Here again you can list scheduled and unscheduled students. Also, you can select a single course period and list the scheduled and unscheduled students.
+	If you select a course period by clicking on it, you can display a list of students scheduled in the course or a list of students who requested the course but weren't scheduled into it by clicking the "List Students" and "List Unscheduled Students" links respectively.
 </p>
 <p>
-	At any point after selecting a subject, you can navigate backwards by clicking on the links that appear in the grey bar at the top of the screen. These links also show you which students you are viewing.
+	At any point after selecting a subject, you can navigate backwards by clicking on the links that appear in the grey bar at the top of the screen.
 </p>
 HTML;
 
@@ -1135,7 +1142,7 @@ HTML;
 	You first must confirm the Scheduler run. Here, you can also choose to run the scheduler in "Test Mode" which will not save the student schedules.
 </p>
 <p>
-	Once the scheduler has run, which could take several minutes, it will notify you of any conflicts. The Scheduler output will also tell you if any course requested has zero available seats. If a request could not be met, you can change the requests accordingly to ensure complete scheduling. If you ran the Scheduler in "Test Mode," you will be given the option to run the scheduler saving the schedules. Once the schedules have been saved, you will be given the option to view the Schedule Report.
+	Once the scheduler has run, which could take several minutes, it will notify you of any conflicts. The Scheduler output will also tell you if any course requested has zero available seats. If a request could not be met, you can change the requests accordingly to ensure complete scheduling. Once the schedules have been saved, you will be given the option to view the Schedule Report.
 </p>
 HTML;
 
@@ -1179,7 +1186,7 @@ if ( User( 'PROFILE' ) === 'admin' ) :
 	Before printing the report cards, you must select which marking periods to display on the report card by checking desired marking period checkboxes.
 </p>
 <p>
-	The report cards will be automatically downloaded to your computer in the printable PDF format when you click the "Submit" button.
+	The report cards will be automatically downloaded to your computer in the printable PDF format when you click the "Create Report Cards for Selected Students" button.
 </p>
 HTML;
 
@@ -1200,10 +1207,10 @@ HTML;
 
 	$help['Grades/CalcGPA.php'] = <<<HTML
 <p>
-	<i>Calculate GPA</i> calculates and saves the GPA and class rank of each student in your school based upon their semester grades.
+	<i>Calculate GPA</i> calculates and saves the GPA and class rank of each student in your school based upon their grades.
 </p>
 <p>
-	You must confirm your intention to calculate GPA. Here, you can also specify what number your weighted scale is based upon and whether to base class rank upon weighted or unweighted GPA.
+	You must confirm your intention to calculate GPA. Here, you can also specify for which marking period the GPA is calculated. The GPA is calculated using the "Base grading scale" specified in the school setup.
 </p>
 <p>
 	The Calculate GPA program calculates the weighted GPA earned per course by multiplying the GPA value of the grade earned by the GPA multiplier of the course weight. Then, it divides that value by the number you specified as the base for your weighted scale. For unweighted GPA, the Calculate GPA program simply takes the GPA value of the grade the student earned. After finding the GPA points earned for each course, the program averages these values to determine the student's to-date GPA. It then sorts these values to determine the class rank. If more than one student has the same GPA, they will share a position in class rank.
@@ -1233,7 +1240,7 @@ HTML;
 	The red checks indicate that a teacher has failed to enter the current marking period's grades for that period.
 </p>
 <p>
-	You can select the current quarter, semester from the pull-down menu at the top of the screen. To change the current quarter, change the marking period pull-down menu on the left frame. You can also show only one period by choosing that period from the period pull-down menu at the top of the screen. After choosing a marking period or period, click the "Go" button to refresh the list with the new parameters.
+	You can select the current quarter, semester from the pull-down menu at the top of the screen. To change the current quarter, change the marking period pull-down menu on the left frame. You can also show only one period by choosing that period from the period pull-down menu at the top of the screen.
 </p>
 HTML;
 
@@ -1248,13 +1255,10 @@ HTML;
 
 	$help['Grades/StudentGrades.php'] = <<<HTML
 <p>
-	<i>Student Grades</i> allows you to view the grades earned by any number of students.
+	<i>Student Grades</i> allows you to view the grades earned by a student.
 </p>
 <p>
 	You can search for students who are enrolled in a specific course by clicking the "Choose" link next to the "Course" search option and choosing a course from the popup window that appears. You can also limit your search based on weighted/unweighted GPA, class rank, and letter grade by filling in the upper and lower bounds of the GPA and class rank range and checking the desired letter grade checkboxes. For example, this allows you to search for all students in the top ten of their class, all students who are failing, or all students who have failed at least one course in the marking periods selected.
-</p>
-<p>
-	Before searching, you must select which marking periods to display by checking desired marking period checkboxes.
 </p>
 HTML;
 
@@ -1317,7 +1321,7 @@ HTML;
 	The "All Courses" tab is where you create Comments that apply to All Courses, for example to grade conduct, or a quality of the students that all courses share in common. The (+) tab is where you add other comments, specifically course-specific comment tabs and comments.
 </p>
 <p>
-	The "General" tab contains the comments that are added when entering students' grades in the "Input Final Grades" program. Teachers can use the pull-down menu under the "General" tab to add one or more pre-designed comments to the report card. Please note that RosarioSIS has placeholder symbols that can be used in these comments: "^n" will be replaced by the student's first name, while "^s" will be replaced a gender-appropriate pronoun. For example, the comment "^n Comes to ^s Class Unprepared" will be translated to "John Comes to his Class Unprepared" in John Smith's report card. Those comments are used in the pull-down menu under the "General" tab in the "Input Final Grades" program.
+	The "General" tab contains the comments that are added when entering students' grades in the "Input Final Grades" program. Teachers can use the pull-down menu under the "General" tab to add one or more pre-designed comments to the report card. Please note that RosarioSIS has placeholder symbols that can be used in these comments: "^n" will be replaced by the student's first name, while "^s" will be replaced a gender-appropriate pronoun. For example, the comment "^n Comes to ^s Class Unprepared" will be translated to "John Comes to his Class Unprepared" in John Smith's report card.
 </p>
 <p>
 	The "All Courses" tab allows you to create Comments that apply to All Courses. Enter the Comment name and associate it to a "Code Scale" (created in the "Comment Codes" program) using the pull-down menu. The result will be a new column for the comment in the "Input Final Grades" program, under the "All Courses" tab. The column will display a pull-down menu with the comment codes of the scale associated.
@@ -1332,7 +1336,7 @@ HTML;
 	<i>Comment Codes</i> allows you to create comment scales that will generate pull-down menus of grading codes in the Input Final Grades program. Then, those codes will be displayed with their associated comment in the Report Card.
 </p>
 <p>
-	To create a new Comment Scale, click on the tab with the (+) icon. Give a name to your comment scale, add an optional comment and then click "Save". A new tab will appear with the name of your new Comment Scale. Click on the tab of the comment scale to select it and then you will be able to add, one by one, the comment scale codes by filling in their respective "Title" (enter here the code), "Short Name" and "Comment" (entry that will appear on the report card).
+	To create a new Comment Scale, click on the tab with the (+) icon. Give a name to your comment scale, add an optional comment and then click "Save". A new tab will appear with the name of your new Comment Scale. Click on the tab of the comment scale to select it and then you will be able to add, one by one, the comment scale codes by filling in their respective "Title" (enter here the code), "Short Name" and "Comment" (entry / code legend that will appear on the report card).
 </p>
 HTML;
 

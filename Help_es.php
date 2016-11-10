@@ -140,6 +140,9 @@ HTML;
 	Para agregar un período a calificar, haga clic sobre el icono «+» en la columna del tipo de período a calificar que usted quiere agregar. Luego, completa los datos del período a calificar en los campos de arriba y presione el botón «Guardar».
 </p>
 <p>
+	Las fechas "Publicación de Calificaciones" y "Finalización Publicación de Calificaciones" definen el primer y el último día del periodo durante el cual los docentes pueden entrar las calificaciones finales.
+</p>
+<p>
 	Para cambiar un período a calificar, haga clic sobre el período a calificar que usted quiere cambiar, y haga clic sobre cualquier valor que usted quiere cambiar en la zona de arriba. Luego, cambie el valor y presione el botón «Guardar».
 </p>
 <p>
@@ -468,7 +471,7 @@ HTML;
 </p>
 HTML;
 
-	$help['Matrícula'] = <<<HTML
+	$help['Students/Matrícula'] = <<<HTML
 <p>
 	<i>Matrícula</i> puede ser usado para matricular o retirar un estudiante de una institución. Un estudiante puede tener solamente una clave de matrícula activa a la vez.
 </p>
@@ -574,39 +577,41 @@ HTML;
 <p>
 	Haga clic sobre el icono "+" debajo del texto "No se encontró ningún(a) Campo de Datos.". Llene el/los campo(s) "Nombre del Campo", y luego escoge el tipo de campo que desee con el menú desplegable "Tipo de Dato".
 </p>
-<p>
+<ul>
+<li>
 	Los campos "Menú Desplegable" crean un menú a partir del cual se puede escoger una opción. Para crear este tipo de campo, haga lic sobre "Menú Desplegable" y luego entre las opciones (una por línea) en el campo de texto "Menú Desplegable/Menú Desplegable Automático/Menú Desplegable Codificado/Selección de Opción Múltiple".
-</p>
-<p>
+</li>
+<li>
 	Los campos "Menú Desplegable Automático" crean un menú a partir del cual se puede escoger una opción y agregar opciones. Se agregan las opciones escogiendo el opción "-Editar-" en el menú y presionando "Guardar". Se puede editar el campo quitando el "-Editar-" rojo del campo, entrando la información correcta. RosarioSIS toma todas las opciones que han sido agregadas a este campo para crear el Menú Desplegable.
-</p>
-<p>
+</li>
+<li>
 	Los campos "Menú Desplegable Editable" son similares a los campos Menú Desplegable Automático.
-</p>
-<p>
+</li>
+<li>
 	Los campos de "Texto" crean un campo de texto alfanumérico con una capacidad máxima de 255 caracteres.
-</p>
-<p>
+</li>
+<li>
 	Los campos "Casilla" crean casillas. Cuando marcada, significa "Sí", y cuando no marcado "No".
-</p>
-<p>
+</li>
+<li>
 	Los campos "Menú Desplegable Codificado" son creados agregando opciones al grande campo de texto de la siguiente manera: "opción mostrada"|"opción guardada en la base de datos" (donde | es el carácter separador). Por ejemplo: "Dos|2", donde "Dos" está expuesto en la pantalla, o un documento descargado, y "2" está almacenado en la base de datos.
-</p>
-<p>
+</li>
+<li>
 	Los campos "Menú Desplegable Exportable" son creados agregando opciones respectando la misma convención usado para los campos "Menú Desplegable Codificado" ("opción mostrada"|"opción guardada en la base de datos"). Por ejemplo: "Dos|2", donde "Dos" está expuesto en la pantalla, y "2" es el valor del documento descargado, pero "Dos" está almacenado en la base de datos.
-</p>
-<p>
+</li>
+<li>
 	Los campos "Número" crean campos de texto que almacenan valores numéricos solamente.
-</p>
-<p>
+</li>
+<li>
 	Los campos "Selección de Opción Múltiple" crean casillas múltiples para escoger una o varias opciones.
-</p>
-<p>
+</li>
+<li>
 	Los campos "Fecha" crean menús desplegables para escoger una fecha.
-</p>
-<p>
+</li>
+<li>
 	Los campos "Texto Largo" crean grandes cajas de texto alfanumérico con una capacidad máxima de 5000 caracteres.
-</p>
+</li>
+</ul>
 <p>
 	La casilla "Obligatorio", si marcada, volverá el campo requerido y un error sera generado si el campo está vació al momento de guardar.
 </p>
@@ -805,39 +810,41 @@ HTML;
 <p>
 	Haga clic sobre el icono "+" debajo del texto "No se encontró ningún(a) Campo de Usuario.". Llene el/los campo(s) "Nombre del Campo", y luego escoge el tipo de campo que desee con el menú desplegable "Tipo de Dato".
 </p>
-<p>
+<ul>
+<li>
 	Los campos "Menú Desplegable" crean un menú a partir del cual se puede escoger una opción. Para crear este tipo de campo, haga lic sobre "Menú Desplegable" y luego entre las opciones (una por línea) en el campo de texto "Menú Desplegable/Menú Desplegable Automático/Menú Desplegable Codificado/Selección de Opción Múltiple".
-</p>
-<p>
+</li>
+<li>
 	Los campos "Menú Desplegable Automático" crean un menú a partir del cual se puede escoger una opción y agregar opciones. Se agregan las opciones escogiendo el opción "-Editar-" en el menú y presionando "Guardar". Se puede editar el campo quitando el "-Editar-" rojo del campo, entrando la información correcta. RosarioSIS toma todas las opciones que han sido agregadas a este campo para crear el Menú Desplegable.
-</p>
-<p>
+</li>
+<li>
 	Los campos "Menú Desplegable Editable" son similares a los campos Menú Desplegable Automático.
-</p>
-<p>
+</li>
+<li>
 	Los campos de "Texto" crean un campo de texto alfanumérico con una capacidad máxima de 255 caracteres.
-</p>
-<p>
+</li>
+<li>
 	Los campos "Casilla" crean casillas. Cuando marcada, significa "Sí", y cuando no marcado "No".
-</p>
-<p>
+</li>
+<li>
 	Los campos "Menú Desplegable Codificado" son creados agregando opciones al grande campo de texto de la siguiente manera: "opción mostrada"|"opción guardada en la base de datos" (donde | es el carácter separador). Por ejemplo: "Dos|2", donde "Dos" está expuesto en la pantalla, o un documento descargado, y "2" está almacenado en la base de datos.
-</p>
-<p>
+</li>
+<li>
 	Los campos "Menú Desplegable Exportable" son creados agregando opciones respectando la misma convención usado para los campos "Menú Desplegable Codificado" ("opción mostrada"|"opción guardada en la base de datos"). Por ejemplo: "Dos|2", donde "Dos" está expuesto en la pantalla, y "2" es el valor del documento descargado, pero "Dos" está almacenado en la base de datos.
-</p>
-<p>
+</li>
+<li>
 	Los campos "Número" crean campos de texto que almacenan valores numéricos solamente.
-</p>
-<p>
+</li>
+<li>
 	Los campos "Selección de Opción Múltiple" crean casillas múltiples para escoger una o varias opciones.
-</p>
-<p>
+</li>
+<li>
 	Los campos "Fecha" crean menús desplegables para escoger una fecha.
-</p>
-<p>
+</li>
+<li>
 	Los campos "Texto Largo" crean grandes cajas de texto alfanumérico con una capacidad máxima de 5000 caracteres.
-</p>
+</li>
+</ul>
 <p>
 	La casilla "Obligatorio", si marcada, volverá el campo requerido y un error sera generado si el campo está vació al momento de guardar.
 </p>
@@ -1017,7 +1024,7 @@ HTML;
 	También puede escoger imprimir las solicitudes con etiquetas de correo. Las solicitudes tendrán etiquetas de correo posicionadas de una manera visible para un sobre con ventana cuando la hoja está doblada en tercios. Mas de una carta puede ser impreza por estudiante si el estudiante tiene padres residiendo en mas de una dirección.
 </p>
 <p>
-	Las solicitudes serán automáticamente creadas en el formato imprimible PDF cuando usted presione el botón «Enviar».
+	Las solicitudes serán automáticamente creadas en el formato imprimible PDF cuando usted presione el botón «Crear Horarios para los Estudiantes Seleccionados».
 </p>
 HTML;
 
@@ -1080,13 +1087,13 @@ HTML;
 
 	$help['Scheduling/UnfilledRequests.php'] = <<<HTML
 <p>
-	<i>Solicitudes Incompletas</i> es un reporte de las solicitudes no completadas de un grupo de estudiantes.
+	<i>Solicitudes Vacantes</i> es un reporte de las solicitudes no completadas de un grupo de estudiantes.
 </p>
 <p>
 	Usted debe primero seleccionar un (grupo de) estudiante(s) usando la pantalla de búsqueda «Encontrar un Estudiante».
 </p>
 <p>
-	El reporte muestra la información del estudiante junto con los detalles de la solicitud incompleta (el docente y la hora solicitados) y el numero de secciones o clases que han sido creadas para el curso (en el programa Horarios &gt; Cursos). Se puede también chequear el número de cupos disponibles marcando "Mostrar Cupos Disponibles" en la parte superior de la pantalla.
+	El reporte muestra la información del estudiante junto con los detalles de la solicitud vacante (el docente y la hora solicitados) y el numero de secciones o clases que han sido creadas para el curso (en el programa Horarios &gt; Cursos). Se puede también chequear el número de cupos disponibles marcando "Mostrar Cupos Disponibles" en la parte superior de la pantalla.
 </p>
 <p>
 	Haciendo clic sobre el nombre del estudiante le redireccionara hacia el programa Solicitudes de Estudiante.
@@ -1134,7 +1141,7 @@ HTML;
 	Usted debe primero confirmar correr el Programador. Aquí, también puede escoger correr el Programador en «Modo de Prueba» que no guardara los horarios de los estudiantes.
 </p>
 <p>
-	Una vez que el programador ha corrido, lo que puede tomar algunos minutos, le mostrara las Solicitudes Incompletas.
+	Una vez que el programador ha corrido, lo que puede tomar algunos minutos, le mostrara las Solicitudes Vacantes.
 </p>
 HTML;
 
@@ -1200,6 +1207,9 @@ HTML;
 	$help['Grades/CalcGPA.php'] = <<<HTML
 <p>
 	<i>Calcular el Promedio</i> calcula y guarda el promedio y el puesto en la clase de cada estudiante en su institución basado en las calificaciones del periodo a calificar escogido.
+</p>
+<p>
+	Se debe confirmar el calculo del Promedio. Acá, se puede también especificar para cual periodo escolar el Promedio está calculado. El promedio está calculado usando la "Escala base de calificaciones"  especificada en la configuración de la institución.
 </p>
 <p>
 	El servicio Calcular el Promedio calcula el promedio ponderado por cada curso multiplicando el dato promedio de la calificación ponderada por el número de créditos. Luego, el divide este dato por el número especifico como escala base de calificaciones. El promedio no ponderado se calcula de la misma manera sino que utiliza la calificación que no es ponderada. Después de calcular el promedio por cada curso, el servicio calcula el promedio del periodo a calificar. El programador clasifica estos datos para determinar el puesto en la clase. Si mas de un estudiante tiene el mismo promedio, ellos van a compartir el mismo puesto.
@@ -1325,7 +1335,7 @@ HTML;
 	<i>Códigos de Comentarios</i> le permite crear escalas de comentarios que muestran menús desplegables de códigos de calificaciones en el programa Entrar Calificaciones Finales. Luego, estos códigos estarán expuestos junto con el comentario asociado en el Boletín de Calificaciones.
 </p>
 <p>
-	Para crear una nueva Escala de Comentarios, haga clic sobre la pestaña con el icono (+). Nombre su escala de comentarios, agregue un comentario opcional y luego presione "Guardar". Una nueva pestaña con el nombre de la nueva Escala de Comentarios aparecerá. Haga clic sobre la pestaña de la escala de comentarios para seleccionarla y luego se podrá agregar, uno por uno, los códigos de la escala de comentarios llenando su "Título" (entre aquí el código), "Nombre Corto" y "Comentario" (lo cual aparecerá en el Boletín de Calificaciones).
+	Para crear una nueva Escala de Comentarios, haga clic sobre la pestaña con el icono (+). Nombre su escala de comentarios, agregue un comentario opcional y luego presione "Guardar". Una nueva pestaña con el nombre de la nueva Escala de Comentarios aparecerá. Haga clic sobre la pestaña de la escala de comentarios para seleccionarla y luego se podrá agregar, uno por uno, los códigos de la escala de comentarios llenando su "Título" (entre aquí el código), "Nombre Corto" y "Comentario" (leyenda del código, la cual aparecerá en el Boletín de Calificaciones).
 </p>
 HTML;
 
