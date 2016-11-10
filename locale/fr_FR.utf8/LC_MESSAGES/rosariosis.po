@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-10-27 10:56+0100\n"
-"PO-Revision-Date: 2016-10-27 10:57+0100\n"
+"PO-Revision-Date: 2016-11-04 13:35+0100\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -178,7 +178,7 @@ msgstr "version %s"
 
 #: PasswordReset.php:173 PasswordReset.php:282
 msgid "Please enter your email again."
-msgstr "Entrez votre email de nouveau s'il vous plaît."
+msgstr "Saisissez votre email de nouveau s'il vous plaît."
 
 #: PasswordReset.php:269 modules/Users/Preferences.php:13
 msgid "Your new passwords did not match."
@@ -1539,7 +1539,7 @@ msgstr "Non Spécifié"
 #: modules/Grades/Grades.php:418 modules/Grades/Grades.php:431
 #: modules/Grades/TeacherCompletion.php:18
 msgid "All"
-msgstr "Tous"
+msgstr "Tou(te)s"
 
 #: functions/StaffWidgets.fnc.php:77 modules/Food_Service/Accounts.php:14
 #: modules/Food_Service/ActivityReport.php:32
@@ -1636,7 +1636,7 @@ msgstr "Statut Cantine"
 #: functions/StaffWidgets.fnc.php:263 functions/Widgets.fnc.php:1758
 #: functions/Widgets.fnc.php:1763
 msgid "Account Status"
-msgstr "Etat du Compte"
+msgstr "État du Compte"
 
 #: functions/StaffWidgets.fnc.php:268 functions/Widgets.fnc.php:1768
 #: modules/Food_Service/Student.inc.php:75
@@ -2791,7 +2791,7 @@ msgstr "Ajouter Absences"
 #: modules/Attendance/Menu.php:19 modules/Eligibility/Menu.php:20
 #: modules/Grades/Menu.php:24
 msgid "Teacher Completion"
-msgstr "Etat d'Avancement"
+msgstr "État d'Avancement"
 
 #: modules/Attendance/Menu.php:20
 msgid "Average Daily Attendance"
@@ -2907,7 +2907,7 @@ msgstr "Toutes les Tranches Horaires"
 
 #: modules/Attendance/StudentSummary.php:102
 msgid "State Abs"
-msgstr "Abs Etat"
+msgstr "État Abs"
 
 #: modules/Attendance/TakeAttendance.php:51
 msgid "You cannot take attendance for this course period."
@@ -3144,7 +3144,7 @@ msgstr "Ville"
 #: modules/Custom/MyReport.php:124 modules/misc/Export.php:161
 #: modules/misc/Export.php:465
 msgid "Mailing State"
-msgstr "Etat"
+msgstr "État"
 
 #: modules/Custom/MyReport.php:125 modules/misc/Export.php:162
 #: modules/misc/Export.php:467
@@ -3430,7 +3430,7 @@ msgstr "Inclure au Journal de Discipline"
 
 #: modules/Discipline/includes/ReferralLog.fnc.php:44
 msgid "Entry Date"
-msgstr "Date de l'Entrée"
+msgstr "Date de Saisie"
 
 #: modules/Eligibility/Activities.php:79
 #: modules/School_Setup/MarkingPeriods.php:497
@@ -3474,7 +3474,7 @@ msgstr "Incomplet"
 #: modules/Eligibility/EnterEligibility.php:144
 #, php-format
 msgid "You can only enter eligibility from %s %s to %s %s."
-msgstr "Vous ne pouvez rentrer l'éligibilité que de %s %s à %s %s."
+msgstr "Vous ne pouvez saisir l'éligibilité que de %s %s à %s %s."
 
 #: modules/Eligibility/EnterEligibility.php:148
 msgid "Use Gradebook Grades"
@@ -3502,11 +3502,11 @@ msgstr "Activités"
 
 #: modules/Eligibility/Menu.php:23
 msgid "Entry Times"
-msgstr "Heures d'Entrée"
+msgstr "Heures de Saisie"
 
 #: modules/Eligibility/Menu.php:29 modules/Eligibility/Menu.php:42
 msgid "Enter Eligibility"
-msgstr "Entrer l'Éligibilité"
+msgstr "Saisir l'Éligibilité"
 
 #: modules/Eligibility/Student.php:17
 msgid "The activity you selected is already assigned to this student!"
@@ -3531,8 +3531,8 @@ msgstr "Commence"
 #: modules/Eligibility/TeacherCompletion.php:119
 msgid "Teacher who hasn't entered eligibility"
 msgid_plural "Teachers who haven't entered eligibility"
-msgstr[0] "Enseignant qui n'a pas entré l'éligibilité"
-msgstr[1] "Enseignants qui n'ont pas entré l'éligibilité"
+msgstr[0] "Enseignant qui n'a pas saisi l'éligibilité"
+msgstr[1] "Enseignants qui n'ont pas saisi l'éligibilité"
 
 #: modules/Food_Service/Accounts.php:16
 #: modules/Food_Service/ActivityReport.php:34
@@ -4858,7 +4858,7 @@ msgstr "Principal"
 
 #: modules/Grades/HonorRoll.php:186 modules/Grades/HonorRoll.php:276
 msgid "Create Honor Roll for Selected Students"
-msgstr "Créer le Roulement d'Honneur pour les Élèves Sélectionnés"
+msgstr "Créer les Mentions pour les Élèves Sélectionnés"
 
 #: modules/Grades/HonorRoll.php:193
 msgid "Certificates"
@@ -4899,7 +4899,7 @@ msgstr "Mention"
 #: modules/Grades/HonorRollSubject.php:124
 #: modules/Grades/HonorRollSubject.php:229
 msgid "Create Honor Roll by Subject for Selected Students"
-msgstr "Créer le Roulement d'Honneur par Matière pour les Élèves Sélectionnés"
+msgstr "Créer les Mentions par Matière pour les Élèves Sélectionnés"
 
 #: modules/Grades/HonorRollSubject.php:150
 #: modules/Grades/HonorRollSubject.php:186
@@ -5146,11 +5146,11 @@ msgstr "Moyenne"
 
 #: modules/Grades/ReportCardGrades.php:206
 msgid "High Honor Roll GPA Min"
-msgstr "Moyenne Minimum pour Mention avec Distinction"
+msgstr "Moyenne Min pour Mention avec Distinction"
 
 #: modules/Grades/ReportCardGrades.php:207
 msgid "Honor Roll GPA Min"
-msgstr "Moyenne Minimum pour Mention"
+msgstr "Moyenne Min pour Mention"
 
 #: modules/Grades/ReportCardGrades.php:208
 msgid "Honor Roll by Subject GPA Min"
