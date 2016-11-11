@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-10-27 10:57+0100\n"
-"PO-Revision-Date: 2016-10-27 10:59+0100\n"
+"PO-Revision-Date: 2016-11-11 12:13+0100\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -7583,7 +7583,7 @@ msgstr "Listar Clases Para Todas las Instituciones"
 
 #: modules/misc/ChooseRequest.php:14
 msgid "Not Requested"
-msgstr "No Requerido"
+msgstr "No Solicitado"
 
 #: modules/misc/Export.php:122 modules/misc/Export.php:124
 msgid "You must choose at least one field"
