@@ -385,10 +385,19 @@ if ((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='de
 		$staff = $staff[1];
 	}
 
-	if (basename($_SERVER['PHP_SELF'])!='index.php')
-		echo '<form name="staff" action="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$category_id.'&modfunc=update" method="POST" enctype="multipart/form-data">';
+	if ( basename( $_SERVER['PHP_SELF'] ) !== 'index.php' )
+	{
+		$form_action = 'Modules.php?modname=' . $_REQUEST['modname'] .
+			'&category_id=' . $category_id . '&modfunc=update';
+	}
 	else
-		echo '<form action="index.php?create_account=user&staff_id=new&modfunc=update" method="POST" enctype="multipart/form-data">';
+	{
+		// FJ create account.
+		$form_action = 'index.php?create_account=user&staff_id=new&modfunc=update';
+	}
+
+	echo '<form name="staff" id="staff"	action="' . $form_action . '"
+		method="POST" enctype="multipart/form-data">';
 
 	if (basename($_SERVER['PHP_SELF'])!='index.php')
 	{

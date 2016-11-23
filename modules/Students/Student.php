@@ -389,11 +389,19 @@ if (UserStudentID() || $_REQUEST['student_id']=='new')
 			$school = DBGet(DBQuery("SELECT SCHOOL_ID,GRADE_ID FROM STUDENT_ENROLLMENT WHERE STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."' AND ('".DBDate()."' BETWEEN START_DATE AND END_DATE OR END_DATE IS NULL)"));
 		}
 
-		if (basename($_SERVER['PHP_SELF'])!='index.php')
-			echo '<form name="student" action="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$category_id.'&modfunc=update" method="POST" enctype="multipart/form-data">';
-		//FJ create account
+		if ( basename( $_SERVER['PHP_SELF'] ) !== 'index.php' )
+		{
+			$form_action = 'Modules.php?modname=' . $_REQUEST['modname'] .
+				'&category_id=' . $category_id . '&modfunc=update';
+		}
 		else
-			echo '<form action="index.php?create_account=student&student_id=new&modfunc=update" method="POST" enctype="multipart/form-data">';
+		{
+			// FJ create account.
+			$form_action = 'index.php?create_account=student&student_id=new&modfunc=update';
+		}
+
+		echo '<form name="student" id="student"	action="' . $form_action . '"
+			method="POST" enctype="multipart/form-data">';
 
 		if ( $_REQUEST['student_id']!='new')
 			$name = $student['FIRST_NAME'].' '.$student['MIDDLE_NAME'].' '.$student['LAST_NAME'].' '.$student['NAME_SUFFIX'].' - '.$student['STUDENT_ID'];
