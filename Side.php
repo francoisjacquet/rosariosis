@@ -368,7 +368,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 			// Student SELECT (Parents only).
 			if ( User( 'PROFILE' ) === 'parent' ) :
 
-				$RET = DBGet( DBQuery( "SELECT sju.STUDENT_ID,s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,se.SCHOOL_ID
+				$students_RET = DBGet( DBQuery( "SELECT sju.STUDENT_ID,s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,se.SCHOOL_ID
 					FROM STUDENTS s,STUDENTS_JOIN_USERS sju,STUDENT_ENROLLMENT se
 					WHERE s.STUDENT_ID=sju.STUDENT_ID
 					AND sju.STAFF_ID='" . User( 'STAFF_ID' ) . "'
@@ -382,14 +382,14 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 				if ( ! UserStudentID() )
 				{
 					// Note: do not use SetUserStudentID() here as this is safe.
-					$_SESSION['student_id'] = $RET[1]['STUDENT_ID'];
+					$_SESSION['student_id'] = $students_RET[1]['STUDENT_ID'];
 				}
 				?>
 
 				<span class="br-after">
-					<label for="student" class="a11y-hidden"><?php echo _( 'Student' ); ?></label>
-					<select name="student_id" id="student" onChange="ajaxPostForm(this.form,true);">
-				<?php foreach ( (array) $RET as $student ) : ?>
+					<label for="student_id" class="a11y-hidden"><?php echo _( 'Student' ); ?></label>
+					<select name="student_id" id="student_id" onChange="ajaxPostForm(this.form,true);">
+				<?php foreach ( (array) $students_RET as $student ) : ?>
 					<option value="<?php echo $student['STUDENT_ID']; ?>"<?php echo ( ( UserStudentID() == $student['STUDENT_ID'] ) ? ' selected' : '' ); ?>><?php
 						echo $student['FULL_NAME'];
 					?></option>
