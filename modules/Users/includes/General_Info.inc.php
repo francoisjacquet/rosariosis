@@ -204,7 +204,8 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 	{
 		$schools_RET = DBGet( DBQuery( "SELECT ID,TITLE
 			FROM SCHOOLS
-			WHERE SYEAR='" . UserSyear() . "'" ) );
+			WHERE SYEAR='" . UserSyear() . "'
+			ORDER BY TITLE" ) );
 
 		unset( $options );
 

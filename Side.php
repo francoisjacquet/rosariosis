@@ -336,15 +336,16 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 
 				$schools = mb_substr( str_replace( ',', "','", User( 'SCHOOLS' ) ), 2, -2 );
 
-				$RET = DBGet( DBQuery( "SELECT ID,TITLE,SHORT_NAME
+				$schools_RET = DBGet( DBQuery( "SELECT ID,TITLE,SHORT_NAME
 					FROM SCHOOLS
 					WHERE SYEAR='" . UserSyear() . "'" .
-					( $schools ? " AND ID IN (" . $schools . ")" : '' ) ) );
+					( $schools ? " AND ID IN (" . $schools . ")" : '' ) .
+					" ORDER BY TITLE" ) );
 
 				// Set current School.
 				if ( ! UserSchool() )
 				{
-					$_SESSION['UserSchool'] = $RET[1]['ID'];
+					$_SESSION['UserSchool'] = $schools_RET[1]['ID'];
 
 					DBQuery( "UPDATE STAFF
 						SET CURRENT_SCHOOL_ID='" . UserSchool() . "'
@@ -354,7 +355,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 				<span class="br-after">
 					<label for="school" class="a11y-hidden"><?php echo _( 'School' ); ?></label>
 					<select name="school" id="school" onChange="ajaxPostForm(this.form,true);">
-				<?php foreach ( (array) $RET as $school ) : ?>
+				<?php foreach ( (array) $schools_RET as $school ) : ?>
 					<option value="<?php echo $school['ID']; ?>"<?php echo ( ( UserSchool() == $school['ID'] ) ? ' selected' : '' ); ?>><?php
 						echo ( $school['SHORT_NAME'] ? $school['SHORT_NAME'] : $school['TITLE'] );
 					?></option>

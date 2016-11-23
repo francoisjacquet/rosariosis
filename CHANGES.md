@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 2.9.12
+-----------------
+- Order Schools list by title in Users/includes/General_Info.inc.php & Side.php (sponsored by Aptiris)
+
 Changes in 2.9.11
 -----------------
 - Put Course Periods back + fixes in ScheduleReport.php
