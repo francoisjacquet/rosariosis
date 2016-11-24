@@ -35,7 +35,7 @@ function Update()
 
 	switch ( true )
 	{
-		case version_compare( $from_version, '2.9-alpha', '<' ):
+		case version_compare( $from_version, '2.9-alpha', '<' ) :
 
 			if ( function_exists( '_update29alpha' ) )
 			{
@@ -43,7 +43,7 @@ function Update()
 			}
 
 
-		case version_compare( $from_version, '2.9.2', '<' ):
+		case version_compare( $from_version, '2.9.2', '<' ) :
 
 			if ( function_exists( '_update292' ) )
 			{
@@ -51,11 +51,19 @@ function Update()
 			}
 
 
-		case version_compare( $from_version, '2.9.5', '<' ):
+		case version_compare( $from_version, '2.9.5', '<' ) :
 
 			if ( function_exists( '_update295' ) )
 			{
 				$return = _update295();
+			}
+
+
+		case version_compare( $from_version, '2.9.12', '<' ) :
+
+			if ( function_exists( '_update2912' ) )
+			{
+				$return = _update2912();
 			}
 	}
 
@@ -341,6 +349,44 @@ function _update295()
 	if ( ! $limit_existing_contacts_addresses_field_added )
 	{
 		DBQuery( "INSERT INTO config VALUES (0, 'LIMIT_EXISTING_CONTACTS_ADDRESSES', NULL);" );
+	}
+
+	return $return;
+}
+
+
+/**
+ * Update to version 2.9.12
+ *
+ * 1. Add THEME_FORCE to CONFIG table.
+ *
+ * Local function
+ *
+ * @since 2.9.12
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update2912()
+{
+	$callers = debug_backtrace();
+
+	if ( ! isset( $callers[1]['function'] )
+		|| $callers[1]['function'] !== 'Update' )
+	{
+		return false;
+	}
+
+	$return = true;
+
+	/**
+	 * 1. Add THEME_FORCE to CONFIG table.
+	 */
+	$theme_force_field_added = DBGet( DBQuery( "SELECT 1 FROM CONFIG
+		WHERE TITLE='THEME_FORCE'" ) );
+
+	if ( ! $theme_force_field_added )
+	{
+		DBQuery( "INSERT INTO config VALUES (0, 'THEME_FORCE', NULL);" );
 	}
 
 	return $return;

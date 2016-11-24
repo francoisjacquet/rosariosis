@@ -229,7 +229,7 @@ HTML;
 			<li>
 				<i>Titulo del Programa</i> &amp; <i>Título del Programa</i>: renombrar RosarioSIS
 			</li>
-			<li>Definir el <i>Diseño por Defecto</i>
+			<li>Definir el <i>Diseño por Defecto</i>, y eventualmente <i>Forzarlo</i> para ignorar el diseño definido por los usuarios.
 			</li>
 			<li>
 				<i>Crear Cuenta de Usuario</i> &amp; <i>Crear Cuenta de Estudiante</i>: activar el registro en línea. Enlaces "Crear Cuenta de Usuario / Estudiante" estaran agregados a la pagína de entrada.

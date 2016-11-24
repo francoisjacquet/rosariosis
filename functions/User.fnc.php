@@ -153,11 +153,23 @@ function Preferences( $item, $program = 'Preferences' )
 	 * Force Display student search screen to No
 	 * for Parents & Students.
 	 */
-	if ( ! empty( $_SESSION['STAFF_ID'] )
+	if ( $item === 'SEARCH'
+		&& ! empty( $_SESSION['STAFF_ID'] )
 		&& User( 'PROFILE' ) === 'parent'
 		|| ! empty( $_SESSION['STUDENT_ID'] ) )
 	{
 		$_ROSARIO['Preferences'][ $program ]['SEARCH'][1]['VALUE'] = 'N';
+	}
+
+	/**
+	 * Force Default Theme.
+	 * Override user preference if any.
+	 */
+	if ( $item === 'THEME'
+		&& Config( 'THEME_FORCE' )
+		&& ! empty( $_SESSION['STAFF_ID'] ) )
+	{
+		$_ROSARIO['Preferences'][ $program ]['THEME'][1]['VALUE'] = $defaults['THEME'];
 	}
 
 	return $_ROSARIO['Preferences'][ $program ][ $item ][1]['VALUE'];

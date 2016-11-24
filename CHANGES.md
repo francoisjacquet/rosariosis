@@ -5,6 +5,7 @@ Changes in 2.9.12
 -----------------
 - Order Schools list by title in Users/includes/General_Info.inc.php & Side.php (sponsored by Aptiris)
 - Add Open Sans CSS to stylesheet_wkhtmltopdf.css
+- Add Force Default Theme option in Configuration.php & User.fnc.php
 
 Changes in 2.9.11
 -----------------

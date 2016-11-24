@@ -233,7 +233,7 @@ HTML;
 			<li>
 				<i>Program Title</i> &amp; <i>Program Name</i>: rebrand RosarioSIS
 			</li>
-			<li>Set the <i>Default Theme</i>
+			<li>Set the <i>Default Theme</i>, and eventually <i>Force</i> it to override users' preferred theme.
 			</li>
 			<li>
 				<i>Create User Account</i> &amp; <i>Create Student Account</i>: activate online registration. "Create User / Student Account" links will be displayed on the login page.

@@ -63,11 +63,12 @@ else
 							CONFIG_VALUE='" . $value . "'
 							WHERE TITLE='" . $column . "'";
 
-						// Program Title, Program Name, Default Theme, Create User Account, Create Student Account, Student email field.
+						// Program Title, Program Name, Default Theme, Force Default Theme, Create User Account, Create Student Account, Student email field.
 						$school_independant_values = array(
 							'TITLE',
 							'NAME',
 							'THEME',
+							'THEME_FORCE',
 							'CREATE_USER_ACCOUNT',
 							'CREATE_STUDENT_ACCOUNT',
 							'STUDENTS_EMAIL_FIELD',
@@ -143,31 +144,50 @@ else
 
 		echo '<tr><td>'.TextInput(Config('NAME'),'values[CONFIG][NAME]',_('Program Name'),'required').'</td></tr>';
 
-		//FJ add Default Theme to Configuration
-		echo '<tr><td><table><tr>';
+		// FJ add Default Theme to Configuration.
+		echo '<tr><td><table class="width-100p"><tr>';
 
-		$themes = glob('assets/themes/*', GLOB_ONLYDIR);
-		foreach ($themes as $theme)
+		$themes = glob( 'assets/themes/*', GLOB_ONLYDIR );
+
+		foreach ( (array) $themes as $theme )
 		{
-			$theme_name = str_replace('assets/themes/', '', $theme);
+			$theme_name = str_replace( 'assets/themes/', '', $theme );
 
-			echo '<td><label><input type="radio" name="values[CONFIG][THEME]" value="'.$theme_name.'"'.((Config('THEME')==$theme_name)?' checked':'').'> '.$theme_name.'</label></td>';
+			echo '<td><label><input type="radio" name="values[CONFIG][THEME]" value="' . $theme_name . '"' .
+				( ( Config( 'THEME' ) === $theme_name ) ? ' checked' : '' ) . '> ' .
+				$theme_name . '</label></td>';
 
-			if ( $count++%3==0)
+			if ( ++$count % 3 == 0 )
+			{
 				echo '</tr><tr class="st">';
+			}
 		}
-		echo '</tr></table></td></tr>';
-		echo '<tr><td><span class="legend-gray">'._('Default Theme').'</span></td></tr>';
 
-		//FJ add Registration to Configuration
-		echo '<tr><td><fieldset><legend>'._('Registration').'</legend><table>';
+		echo '</tr></table></td></tr>';
+		echo '<tr><td>';
+
+		echo '<span class="legend-gray">' . _( 'Default Theme' ) . '</span> ';
+
+		// FJ Add Force Default Theme.
+		echo CheckboxInput(
+			Config( 'THEME_FORCE' ),
+			'values[CONFIG][THEME_FORCE]',
+			_( 'Force' ),
+			'',
+			true
+		);
+
+		echo '</td></tr>';
+
+		// FJ add Registration to Configuration.
+		echo '<tr><td><fieldset><legend>' . _( 'Registration' ) . '</legend><table>';
 
 		echo '<tr><td>' . CheckboxInput(
 			Config('CREATE_USER_ACCOUNT'),
 			'values[CONFIG][CREATE_USER_ACCOUNT]',
 			_( 'Create User Account' ) .
 				'<div class="tooltip"><i>' .
-					_('New users will be added with the No Access profile' ) .
+					_( 'New users will be added with the No Access profile' ) .
 				'</i></div>',
 			'',
 			false,

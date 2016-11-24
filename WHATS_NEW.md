@@ -8,6 +8,7 @@ School Setup
 
 - Configuration
 	- Limit Existing Contacts & Addresses to current school
+	- Force Default Theme
 
 Users
 
