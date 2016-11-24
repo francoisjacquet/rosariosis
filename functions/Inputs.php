@@ -528,7 +528,8 @@ function CheckboxInput( $value, $name, $title = '', $checked = '', $new = false,
 	{
 		$id = GetInputID( $name );
 
-		$checkbox = '<label class="checkbox-label">
+		$checkbox = '<input type="hidden" name="' . $name . '" value="" />' . // Save unchecked value!
+			'<label class="checkbox-label">
 			<input type="checkbox" name="' . $name . '" id="' . $id . '" value="Y"' . $checked . ' ' . $extra . ' />&nbsp;' .
 			$title . '</label>';
 
@@ -541,7 +542,6 @@ function CheckboxInput( $value, $name, $title = '', $checked = '', $new = false,
 		{
 			$return = InputDivOnclick(
 				$id,
-				'<input type="hidden" name="' . $name . '" value="" />' . // Save unchecked value!
 				$checkbox,
 				( $value ?
 					( $yes === 'Yes' ? _( 'Yes' ) : $yes ) :
