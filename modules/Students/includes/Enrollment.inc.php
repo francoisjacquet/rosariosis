@@ -9,7 +9,7 @@ $functions = array(
 
 unset( $THIS_RET );
 
-$RET = DBGet( DBQuery( "SELECT e.ID,e.ENROLLMENT_CODE,e.START_DATE,e.DROP_CODE,e.END_DATE,
+$enrollment_RET = DBGet( DBQuery( "SELECT e.ID,e.ENROLLMENT_CODE,e.START_DATE,e.DROP_CODE,e.END_DATE,
 		e.END_DATE AS END,e.SCHOOL_ID,e.NEXT_SCHOOL,e.CALENDAR_ID,e.GRADE_ID
 	FROM STUDENT_ENROLLMENT e
 	WHERE e.STUDENT_ID='" . UserStudentID() . "'
@@ -18,7 +18,7 @@ $RET = DBGet( DBQuery( "SELECT e.ID,e.ENROLLMENT_CODE,e.START_DATE,e.DROP_CODE,e
 
 $add = true;
 
-foreach ( (array) $RET as $value )
+foreach ( (array) $enrollment_RET as $value )
 {
 	if ( ( $value['DROP_CODE'] == ''
 			|| ! $value['DROP_CODE'] )
@@ -48,7 +48,11 @@ $schools_RET = DBGet( DBQuery( "SELECT ID,TITLE
 	WHERE ID!='" . UserSchool() . "'
 	AND SYEAR='" . UserSyear() . "'" ) );
 
-$next_school_options = array(UserSchool() => _('Next grade at current school'),'0' => _('Retain'),'-1' => _('Do not enroll after this school year'));
+$next_school_options = array(
+	UserSchool() => _( 'Next grade at current school' ),
+	'0' => _( 'Retain' ),
+	'-1' => _( 'Do not enroll after this school year' ),
+);
 
 foreach ( (array) $schools_RET as $school )
 {
@@ -80,13 +84,13 @@ foreach ( (array) $gradelevels_RET as $gradelevel )
 	$gradelevel_options[ $gradelevel['ID'] ] = $gradelevel['TITLE'];
 }
 
-if ( $_REQUEST['student_id']!='new' && count($RET))
+if ( $_REQUEST['student_id']!='new' && count($enrollment_RET))
 {
-	$id = $RET[count($RET)]['ID'];
+	$id = $enrollment_RET[count($enrollment_RET)]['ID'];
 
-	$next_school = $RET[count($RET)]['NEXT_SCHOOL'];
-	$calendar = $RET[count($RET)]['CALENDAR_ID'];
-	$gradelevel_id = $RET[count($RET)]['GRADE_ID'];
+	$next_school = $enrollment_RET[count($enrollment_RET)]['NEXT_SCHOOL'];
+	$calendar = $enrollment_RET[count($enrollment_RET)]['CALENDAR_ID'];
+	$gradelevel_id = $enrollment_RET[count($enrollment_RET)]['GRADE_ID'];
 
 	$div = true;
 }
@@ -147,7 +151,7 @@ if ( $PopTable_opened )
 }
 
 ListOutput(
-	$RET,
+	$enrollment_RET,
 	$columns,
 	'Enrollment Record',
 	'Enrollment Records',
