@@ -28,7 +28,8 @@ function DrawHeader( $left, $right = '', $center = '' )
 	global $_ROSARIO;
 
 	// Primary Header.
-	if ( ! $_ROSARIO['DrawHeader'] )
+	if ( ! isset( $_ROSARIO['DrawHeader'] )
+		|| ! $_ROSARIO['DrawHeader'] )
 	{
 		$_ROSARIO['DrawHeader'] = 'header1';
 	}

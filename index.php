@@ -13,7 +13,8 @@ $default_session_name = session_name();
 require_once 'Warehouse.php';
 
 // Logout.
-if ( $_REQUEST['modfunc'] === 'logout' )
+if ( isset( $_REQUEST['modfunc'] )
+	&& $_REQUEST['modfunc'] === 'logout' )
 {
 	// FJ set logout page to old session locale.
 	$old_session_locale = $_SESSION['locale'];
