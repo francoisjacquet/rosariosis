@@ -672,7 +672,7 @@ if ( ! $_REQUEST['modfunc'] )
 			//FJ css WPadmin
 			echo '<table class="widefat width-100p cellspacing-0"><tr><th colspan="3">';
 			echo _('Address').'</th></tr>';
-			echo '<tr><td colspan="3">'.TextInput($this_address['ADDRESS'],'values[ADDRESS][ADDRESS]',_('Street'),$size?'required size=20':'required').'</td>';
+			echo '<tr><td colspan="3">'.TextInput($this_address['ADDRESS'],'values[ADDRESS][ADDRESS]',_('Street'),$size?'required maxlength=255 size=20':'required maxlength=255').'</td>';
 			echo '</tr><tr><td>'._makeAutoSelectInputX($this_address['CITY'],'CITY','ADDRESS',_('City'),$city_options).'</td>';
 			echo '<td>'._makeAutoSelectInputX($this_address['STATE'],'STATE','ADDRESS',_('State'),$state_options).'</td>';
 			echo '<td>'._makeAutoSelectInputX($this_address['ZIPCODE'],'ZIPCODE','ADDRESS',_('Zip'),$zip_options).'</td></tr>';
@@ -1102,9 +1102,17 @@ if ( ! $_REQUEST['modfunc'] )
 
 function _makePeopleInput($value,$column,$title='')
 {
-	if ( $column=='LAST_NAME' || $column=='FIRST_NAME')
+	if ( $column === 'LAST_NAME'
+		|| $column === 'FIRST_NAME' )
 	{
 		$options = 'required';
+	}
+
+	if ( $column === 'LAST_NAME'
+		|| $column === 'FIRST_NAME'
+		|| $column === 'MIDDLE_NAME' )
+	{
+		$options .= ' maxlength=50';
 	}
 
 	if ( $_REQUEST['person_id']=='new')
