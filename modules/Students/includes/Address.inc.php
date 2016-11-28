@@ -2,7 +2,7 @@
 
 require_once 'ProgramFunctions/TipMessage.fnc.php';
 
-// set this to false to disable auto-pull-downs for the contact info Description field
+// Set this to false to disable auto-pull-downs for the contact info Description field.
 $info_apd = true;
 
 if ( isset( $_POST['day_values'], $_POST['month_values'], $_POST['year_values'] ) )
@@ -826,76 +826,68 @@ if ( ! $_REQUEST['modfunc'] )
 
 					echo '<tr><td colspan="2">'._makeAutoSelectInputX($this_contact['STUDENT_RELATION'],'STUDENT_RELATION','STUDENTS_JOIN_PEOPLE',_('Relation'),$relation_options).'</td>';
 
-					echo '<tr><td>'.CheckboxInput($this_contact['CUSTODY'], 'values[STUDENTS_JOIN_PEOPLE][CUSTODY]', '', 'CHECKED',$new, button('check'), button('x')).'</td><td>'. button('gavel','','','bigger') .' '._('Custody').'</td></tr>';
+					// Custody.
+					echo '<tr><td>' . CheckboxInput(
+						$this_contact['CUSTODY'],
+						'values[STUDENTS_JOIN_PEOPLE][CUSTODY]',
+						'',
+						'CHECKED',
+						$new,
+						button( 'check' ),
+						button('x')
+					) . '</td><td>' .
+					button( 'gavel', '', '', 'bigger' ) . ' ' . _( 'Custody' ) .
+					'</td></tr>';
 
-					echo '<tr><td>'.CheckboxInput($this_contact['EMERGENCY'], 'values[STUDENTS_JOIN_PEOPLE][EMERGENCY]', '', 'CHECKED', $new, button('check'), button('x')).'</td><td>'. button('emergency','','','bigger') .' '._('Emergency').'</td></tr>';
+					// Emergency.
+					echo '<tr><td>' . CheckboxInput(
+						$this_contact['EMERGENCY'],
+						'values[STUDENTS_JOIN_PEOPLE][EMERGENCY]',
+						'',
+						'CHECKED',
+						$new,
+						button( 'check' ),
+						button( 'x' )
+					) . '</td><td>' .
+					button( 'emergency', '', '', 'bigger' ) . ' ' . _( 'Emergency' ) .
+					'</td></tr>';
 
-					$info_RET = DBGet(DBQuery("SELECT ID,TITLE,VALUE FROM PEOPLE_JOIN_CONTACTS WHERE PERSON_ID='".$_REQUEST['person_id']."'"));
+					$info_RET = DBGet( DBQuery( "SELECT ID,TITLE,VALUE
+						FROM PEOPLE_JOIN_CONTACTS
+						WHERE PERSON_ID='" . $_REQUEST['person_id'] . "'" ) );
 
-					if ( $info_apd)
-						$info_options = _makeAutoSelect('TITLE','PEOPLE_JOIN_CONTACTS',$info_RET,array());
+					$info_options = _makeAutoSelect(
+						'TITLE',
+						'PEOPLE_JOIN_CONTACTS',
+						$info_RET,
+						array()
+					);
 
-					if ( ! $info_apd)
+					foreach ( (array) $info_RET as $info )
 					{
-						echo '<tr><td>
-						</td><td>
-						<span class="legend-gray">'._('Description').'</span> &nbsp;
-						</td><td>
-						<span class="legend-gray">'._('Value').'</span>
-						</td></tr>';
+						echo '<tr>';
 
-						if (count($info_RET))
+						if ( AllowEdit() )
 						{
-							foreach ( (array) $info_RET as $info)
-							{
-							echo '<tr>';
-							if (AllowEdit())
-								echo '<td>'.button('remove','','"Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&modfunc=delete&address_id='.$_REQUEST['address_id'].'&person_id='.$_REQUEST['person_id'].'&contact_id='.$info['ID'].'"').'</td>';
-							else
-								echo '<td></td>';
-							if ( $info_apd)
-								echo '<td>'._makeAutoSelectInputX($info['TITLE'],'TITLE','PEOPLE_JOIN_CONTACTS','',$info_options,$info['ID']).'</td>';
-							else
-								echo '<td>'.TextInput($info['TITLE'],'values[PEOPLE_JOIN_CONTACTS]['.$info['ID'].'][TITLE]','','maxlength=100').'</td>';
-							echo '<td>'.TextInput($info['VALUE'],'values[PEOPLE_JOIN_CONTACTS]['.$info['ID'].'][VALUE]','','maxlength=100').'</td>';
-							echo '</tr>';
-							}
+							echo '<td>' . button(
+								'remove',
+								'',
+								'"Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $_REQUEST['category_id'] . '&modfunc=delete&address_id=' . $_REQUEST['address_id'] . '&person_id=' . $_REQUEST['person_id'] . '&contact_id=' . $info['ID'] . '"'
+							) . '</td><td>';
 						}
-						if ( AllowEdit()
-							&& ProgramConfig( 'students', 'STUDENTS_USE_CONTACT' ) )
+						else
+							echo '<td></td><td>';
+
+						if ( ! AllowEdit() )
 						{
-							echo '<tr>';
-							echo '<td>'.button('add').'</td>';
-							if ( $info_apd)
-							{
-								echo '<td>'.(count($info_options)>1?SelectInput('','values[PEOPLE_JOIN_CONTACTS][new][TITLE]','',$info_options,_('N/A')):TextInput('','values[PEOPLE_JOIN_CONTACTS][new][TITLE]','','maxlength=100')).'</td>';
-								echo '<td>'.TextInput('','values[PEOPLE_JOIN_CONTACTS][new][VALUE]','','maxlength=100').'</td>';
-							}
-							else
-							{
-								echo '<td><input size="15" type="TEXT" value="" placeholder="'._('Example Phone').'" name="values[PEOPLE_JOIN_CONTACTS][new][TITLE]" maxlength=100 /></td>';
-								echo '<td><input size="15" type="TEXT" value="" placeholder="(xxx) xxx-xxxx" name="values[PEOPLE_JOIN_CONTACTS][new][VALUE]" maxlength=100 /></td>';
-							}
-							echo '</tr>';
+							echo TextInput(
+								$info['VALUE'],
+								'values[PEOPLE_JOIN_CONTACTS][' . $info['ID'] . '][VALUE]',
+								$info['TITLE']
+							);
 						}
-					}
-					else
-					{
-						foreach ( (array) $info_RET as $info )
+						else
 						{
-							echo '<tr>';
-
-							if ( AllowEdit() )
-							{
-								echo '<td>' . button(
-									'remove',
-									'',
-									'"Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $_REQUEST['category_id'] . '&modfunc=delete&address_id=' . $_REQUEST['address_id'] . '&person_id=' . $_REQUEST['person_id'] . '&contact_id=' . $info['ID'] . '"'
-								) . '</td><td>';
-							}
-							else
-								echo '<td></td><td>';
-
 							$id = 'info_' . $info['ID'];
 
 							$info_html = TextInput(
@@ -904,16 +896,30 @@ if ( ! $_REQUEST['modfunc'] )
 								'',
 								'',
 								false
-							) . '<br />' .
-							_makeAutoSelectInputX(
-								$info['TITLE'],
-								'TITLE',
-								'PEOPLE_JOIN_CONTACTS',
-								'',
-								$info_options,
-								$info['ID'],
-								false
-							);
+							) . '<br />';
+
+							if ( $info_apd )
+							{
+								$info_html .= _makeAutoSelectInputX(
+									$info['TITLE'],
+									'TITLE',
+									'PEOPLE_JOIN_CONTACTS',
+									'',
+									$info_options,
+									$info['ID'],
+									false
+								);
+							}
+							else
+							{
+								$info_html .= TextInput(
+									$info['TITLE'],
+									'values[PEOPLE_JOIN_CONTACTS][' . $info['ID'] . '][TITLE]',
+									'',
+									'',
+									false
+								);
+							}
 
 							echo InputDivOnclick(
 								$id,
@@ -926,34 +932,34 @@ if ( ! $_REQUEST['modfunc'] )
 									$id
 								)
 							);
-
-							echo '</td></tr>';
 						}
 
-						if ( AllowEdit()
-							&& ProgramConfig( 'students', 'STUDENTS_USE_CONTACT' ) )
-						{
-							echo '<tr><td>' . button( 'add' ) . '</td><td>' .
+						echo '</td></tr>';
+					}
+
+					if ( AllowEdit()
+						&& ProgramConfig( 'students', 'STUDENTS_USE_CONTACT' ) )
+					{
+						echo '<tr><td>' . button( 'add' ) . '</td><td>' .
+						TextInput(
+							'',
+							'values[PEOPLE_JOIN_CONTACTS][new][VALUE]',
+							_('Value'),
+							'maxlength=100'
+						) . '<br />' . ( $info_apd && count( $info_options ) > 1 ?
+							SelectInput(
+								'',
+								'values[PEOPLE_JOIN_CONTACTS][new][TITLE]',
+								_( 'Description' ),
+								$info_options,
+								_( 'N/A' )
+							) :
 							TextInput(
 								'',
-								'values[PEOPLE_JOIN_CONTACTS][new][VALUE]',
-								_('Value'),
+								'values[PEOPLE_JOIN_CONTACTS][new][TITLE]',
+								_( 'Description' ),
 								'maxlength=100'
-							) . '<br />' . ( count( $info_options ) > 1 ?
-								SelectInput(
-									'',
-									'values[PEOPLE_JOIN_CONTACTS][new][TITLE]',
-									_( 'Description' ),
-									$info_options,
-									_( 'N/A' )
-								) :
-								TextInput(
-									'',
-									'values[PEOPLE_JOIN_CONTACTS][new][TITLE]',
-									_( 'Description' ),
-									'maxlength=100'
-								) ) . '</td></tr>';
-						}
+							) ) . '</td></tr>';
 					}
 				}
 				else
