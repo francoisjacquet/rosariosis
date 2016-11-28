@@ -43,7 +43,7 @@ Unzip the RosarioSIS distribution to a directory that is accessible to your web 
 - `$pg_dumpPath` is full path to the postgres database dump utility (pg_dump)
 - `$wkhtmltopdfPath` full path to wkhtmltopdf for PDF 'printing'
 
-- `$DefaultSyear` default school year, should be present in the database to be able to login
+- `$DefaultSyear` default school year, should match the database to be able to login
 - `$RosarioNotifyAddress` is the email address to send error and new administrator notifications to
 - `$RosarioLocales` is a comma separated list of the locale names of the translations (see `locale/` folder for available locales)
 
@@ -57,7 +57,7 @@ Unzip the RosarioSIS distribution to a directory that is accessible to your web 
 - `$AssignmentsFilesPath` path to student assignments files
 - `$FS_IconsPath` path to food service icons
 - `$LocalePath` path were the language packs are stored. You need to restart Apache at each change in this directory.
-- `$Timezone` sets the default time zone used by all date/time functions. See [List of Supported Timezones](http://php.net/manual/en/timezones.php).
+- `$Timezone` sets the default time zone used by date/time functions. See [List of Supported Timezones](http://php.net/manual/en/timezones.php).
 
   [Debug mode: add the following line to activate]
 - `define( 'ROSARIO_DEBUG', true );`
@@ -105,7 +105,6 @@ Installing [wkhtmltopdf](http://wkhtmltopdf.org/)
 -------------------------------------------------
 
 Install instructions for Ubuntu 16.04 64bits:
-
 	`server$ sudo apt-get install wkhtmltopdf`
 
 
