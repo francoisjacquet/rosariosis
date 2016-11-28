@@ -5,7 +5,7 @@
  * @uses $menu global var
  *
  * @see  Menu.php in root folder
- * 
+ *
  * @package RosarioSIS
  * @subpackage modules
  */
@@ -23,6 +23,16 @@ if ( $RosarioModules['Students'] )
 		'Custom/CreateParents.php' => true,
 		'Custom/NotifyParents.php' => true,
 	);
+
+	$menu['Students']['parent'] += array(
+		'Custom/Registration.php' => _( 'Registration' ),
+	);
+
+	// FJ disable Registration for students.
+	/*if ( User( 'PROFILE' ) === 'student' )
+	{
+		unset( $menu['Students']['parent']['Custom/Registration.php'] );
+	}*/
 }
 
 // Custom Users programs

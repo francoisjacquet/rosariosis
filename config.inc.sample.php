@@ -66,8 +66,10 @@ $DefaultSyear = '2016';
 
 
 /**
- * Notify email address
- * where to send error and new administrator notifications
+ * Notify email address where to send
+ * error,
+ * new administrator,
+ * new registration notifications
  *
  * Leave empty to not receive email notifications
  */

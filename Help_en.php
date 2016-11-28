@@ -669,6 +669,18 @@ HTML;
 </p>
 HTML;
 
+	$help['Custom/Registration.php'] = <<<HTML
+<p>
+	<i>Registration</i> will let you register your child's contacts details.
+</p>
+<p>
+	Fill in the form fields with your contacts details and their associated addresses. Then, enter or update the student information.
+</p>
+<p>
+	Once you have completed the forms, click the "Save" button at the bottom of the screen.
+</p>
+HTML;
+
 endif;
 
 

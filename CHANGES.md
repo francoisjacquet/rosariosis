@@ -7,6 +7,7 @@ Changes in 2.9.12
 - Add Open Sans CSS to stylesheet_wkhtmltopdf.css
 - Add Force Default Theme option in Configuration.php & User.fnc.php
 - Fix Contact info fields display, with(out) auto-pull-downs or AllowEdit in Address.inc.php
+- Add Custom/Registration.php program (sponsored by @dpredster)
 
 Changes in 2.9.11
 -----------------

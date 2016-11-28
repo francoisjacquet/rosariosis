@@ -668,6 +668,18 @@ HTML;
 </p>
 HTML;
 
+	$help['Custom/Registration.php'] = <<<HTML
+<p>
+	<i>Inscripción</i> le permite entrar las informaciones de contacto del estudiante.
+</p>
+<p>
+	Llene los campos del formulario con las informaciones de sus contactos y sus direcciones asociadas. Luego, entre o actualize los datos del estudiante.
+</p>
+<p>
+	Después de haber llenado el formulario, presione el botón «Guardar» en la parte inferior de la pantalla.
+</p>
+HTML;
+
 endif;
 
 
