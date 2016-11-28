@@ -35,6 +35,12 @@ if ( isset( $_SESSION['STUDENT_ID'] )
 	$is_student = true;
 }
 
+$student_RET = DBGet( DBQuery( "SELECT FIRST_NAME,LAST_NAME" . $student_dataquery . "
+	FROM STUDENTS
+	WHERE STUDENT_ID='" . UserStudentID() . "'" ) );
+
+$student = $student_RET[1];
+
 // Birthdate.
 if ( isset( $_REQUEST['year_CUSTOM_200000004'] )
 	&& isset( $_REQUEST['month_CUSTOM_200000004'] )
@@ -265,10 +271,6 @@ if ( isset( $_REQUEST['values'] )
 
 		DBQuery( $sql );
 	}
-
-	$student = DBGet( DBQuery( "SELECT FIRST_NAME,LAST_NAME
-		FROM STUDENTS
-		WHERE STUDENT_ID='" . UserStudentID() . "'" ) );
 
 	// Send New Registration email to Notify.
 	if ( filter_var( $RosarioNotifyAddress, FILTER_VALIDATE_EMAIL ) )
@@ -526,12 +528,6 @@ if ( isset( $custom_fields_RET['200000009'] )
 {
 	$student_dataquery .= ', CUSTOM_200000009';
 }
-
-$student_RET = DBGet( DBQuery( "SELECT FIRST_NAME,LAST_NAME" . $student_dataquery . "
-	FROM STUDENTS
-	WHERE STUDENT_ID='" . UserStudentID() . "'" ) );
-
-$student = $student_RET[1];
 
 echo '<hr /><p><b>' . sprintf(
 	_( 'Information about %s %s' ),
