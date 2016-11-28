@@ -716,6 +716,9 @@ textarea{
 .onclick{
 	cursor:pointer
 }
+div.onclick{
+	display: inline-block;
+}
 .cellspacing-0{
 	/*cellspacing="0"*/
 	border-spacing:0
