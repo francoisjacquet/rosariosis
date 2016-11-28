@@ -341,7 +341,7 @@ echo '<table class="width-100p valign-top fixed-col"><tr><td>';
 // First name & last name required.
 echo _makeInput( 'values[PEOPLE][1][FIRST_NAME]', _( 'First Name' ), '', 'size="15" maxlength="50" required' );
 
-echo '<br />' . _makeInput( 'values[PEOPLE][2][MIDDLE_NAME]', _( 'Middle Name' ), '', 'size="15" maxlength="50"' );
+echo '<br />' . _makeInput( 'values[PEOPLE][1][MIDDLE_NAME]', _( 'Middle Name' ), '', 'size="15" maxlength="50"' );
 
 echo '<br />' . _makeInput( 'values[PEOPLE][1][LAST_NAME]', _( 'Last Name' ), '', 'size="15" maxlength="50" required' );
 
@@ -462,7 +462,7 @@ echo '</td><td>';
 
 echo _makeInput( 'values[PEOPLE][8][FIRST_NAME]', _( 'First Name' ), '', 'size="15" maxlength="50"' );
 
-echo '<br />' . _makeInput( 'values[PEOPLE][7][MIDDLE_NAME]', _( 'Middle Name' ), '', 'size="15" maxlength="50"' );
+echo '<br />' . _makeInput( 'values[PEOPLE][8][MIDDLE_NAME]', _( 'Middle Name' ), '', 'size="15" maxlength="50"' );
 
 echo '<br />' . _makeInput( 'values[PEOPLE][8][LAST_NAME]', _( 'Last Name' ), '', 'size="15" maxlength="50"' );
 
