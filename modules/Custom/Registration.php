@@ -35,12 +35,6 @@ if ( isset( $_SESSION['STUDENT_ID'] )
 	$is_student = true;
 }
 
-$student_RET = DBGet( DBQuery( "SELECT FIRST_NAME,LAST_NAME" . $student_dataquery . "
-	FROM STUDENTS
-	WHERE STUDENT_ID='" . UserStudentID() . "'" ) );
-
-$student = $student_RET[1];
-
 // Birthdate.
 if ( isset( $_REQUEST['year_CUSTOM_200000004'] )
 	&& isset( $_REQUEST['month_CUSTOM_200000004'] )
@@ -278,7 +272,11 @@ if ( isset( $_REQUEST['values'] )
 		// FJ add SendEmail function.
 		require_once 'ProgramFunctions/SendEmail.fnc.php';
 
-		$student_name = $student['FIRST_NAME'] . ' ' . $student['LAST_NAME'];
+		$student_RET = DBGet( DBQuery( "SELECT FIRST_NAME,LAST_NAME
+			FROM STUDENTS
+			WHERE STUDENT_ID='" . UserStudentID() . "'" ) );
+
+		$student_name = $student_RET[1]['FIRST_NAME'] . ' ' . $student_RET[1]['LAST_NAME'];
 
 		$message = sprintf(
 			_( 'New Registration %s (%d) has been registered by %s.' ),
@@ -298,7 +296,7 @@ $addresses_RET = DBGet( DBQuery( "SELECT COUNT(*) AS COUNT
 	WHERE STUDENT_ID='" . UserStudentID() . "'" ) );
 
 // Registration check.
-if ( $addresses_RET[1]['COUNT'] > 0 )
+/*if ( $addresses_RET[1]['COUNT'] > 0 )
 {
 	$note[] = button( 'check', '', '', 'bigger' ) . ' ' .
 		( $is_student ?
@@ -311,7 +309,7 @@ if ( $addresses_RET[1]['COUNT'] > 0 )
 	Warehouse( 'footer' );
 
 	exit;
-}
+}*/
 
 DrawHeader( sprintf(
 	_( 'Welcome, %s, to the %s' ),
@@ -528,6 +526,12 @@ if ( isset( $custom_fields_RET['200000009'] )
 {
 	$student_dataquery .= ', CUSTOM_200000009';
 }
+
+$student_RET = DBGet( DBQuery( "SELECT FIRST_NAME,LAST_NAME" . $student_dataquery . "
+	FROM STUDENTS
+	WHERE STUDENT_ID='" . UserStudentID() . "'" ) );
+
+$student = $student_RET[1];
 
 echo '<hr /><p><b>' . sprintf(
 	_( 'Information about %s %s' ),
