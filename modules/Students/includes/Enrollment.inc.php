@@ -107,7 +107,7 @@ else
 
 echo '<hr />';
 
-echo '<table class="width-100p valign-top fixed-col"><tr class="st"><td>';
+echo '<table class="enrollment width-100p valign-top fixed-col"><tr class="st"><td>';
 
 echo SelectInput(
 	$gradelevel_id,

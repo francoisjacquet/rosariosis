@@ -27,7 +27,7 @@ if ( count( $fields_RET ) )
 {
 	echo $separator;
 
-	echo '<table class="width-100p valign-top fixed-col">';
+	echo '<table class="other-info width-100p valign-top fixed-col">';
 }
 
 $i = 1;
