@@ -658,25 +658,96 @@ if ( ! $_REQUEST['modfunc'] )
 			echo '</table><br />';
 		}
 
-		if ( $_REQUEST['address_id']!='0' && $_REQUEST['address_id']!='old')
+		if ( $_REQUEST['address_id'] != '0'
+			&& $_REQUEST['address_id'] != 'old' )
 		{
-			if ( $_REQUEST['address_id']=='new')
+			if ( $_REQUEST['address_id'] === 'new' )
+			{
 				$size = true;
+			}
 			else
+			{
 				$size = false;
+			}
 
-			$city_options = _makeAutoSelect('CITY','ADDRESS',array(array('CITY' => $this_address['CITY']),array('CITY' => $this_address['MAIL_CITY'])),array());
-			$state_options = _makeAutoSelect('STATE','ADDRESS',array(array('STATE' => $this_address['STATE']),array('STATE' => $this_address['MAIL_STATE'])),array());
-			$zip_options = _makeAutoSelect('ZIPCODE','ADDRESS',array(array('ZIPCODE' => $this_address['ZIPCODE']),array('ZIPCODE' => $this_address['MAIL_ZIPCODE'])),array());
+			// Get City, State & Zip options for auto pull-downs.
+			$city_options = _makeAutoSelect(
+				'CITY',
+				'ADDRESS',
+				array(
+					array( 'CITY' => $this_address['CITY'] ),
+					array( 'CITY' => $this_address['MAIL_CITY'] )
+				),
+				array()
+			);
 
-			//FJ css WPadmin
-			echo '<table class="widefat width-100p cellspacing-0"><tr><th colspan="3">';
-			echo _('Address').'</th></tr>';
-			echo '<tr><td colspan="3">'.TextInput($this_address['ADDRESS'],'values[ADDRESS][ADDRESS]',_('Street'),$size?'required maxlength=255 size=20':'required maxlength=255').'</td>';
-			echo '</tr><tr><td>'._makeAutoSelectInputX($this_address['CITY'],'CITY','ADDRESS',_('City'),$city_options).'</td>';
-			echo '<td>'._makeAutoSelectInputX($this_address['STATE'],'STATE','ADDRESS',_('State'),$state_options).'</td>';
-			echo '<td>'._makeAutoSelectInputX($this_address['ZIPCODE'],'ZIPCODE','ADDRESS',_('Zip'),$zip_options).'</td></tr>';
-			echo '<tr><td colspan="3">'.TextInput($this_address['PHONE'],'values[ADDRESS][PHONE]',_('Phone'),$size?'size=13':'').'</td></tr>';
+			$state_options = _makeAutoSelect(
+				'STATE',
+				'ADDRESS',
+				array(
+					array( 'STATE' => $this_address['STATE'] ),
+					array( 'STATE' => $this_address['MAIL_STATE'] )
+				),
+				array()
+			);
+
+			$zip_options = _makeAutoSelect(
+				'ZIPCODE',
+				'ADDRESS',
+				array(
+					array( 'ZIPCODE' => $this_address['ZIPCODE'] ),
+					array( 'ZIPCODE' => $this_address['MAIL_ZIPCODE'] )
+				),
+				array()
+			);
+
+			echo '<table class="widefat width-100p cellspacing-0"><tr><th colspan="3">' .
+				_( 'Address' ) . '</th></tr>';
+
+			echo '<tr><td colspan="3">' .
+				TextInput(
+					$this_address['ADDRESS'],
+					'values[ADDRESS][ADDRESS]',
+					_( 'Street' ),
+					$size ? 'required maxlength=255 size=20' : 'required maxlength=255' ) .
+			'</td></tr>';
+
+			// City, State & Zip auto pull-downs.
+			echo '<tr><td>' .
+				_makeAutoSelectInputX(
+					$this_address['CITY'],
+					'CITY',
+					'ADDRESS',
+					_( 'City' ),
+					$city_options
+				) . '</td>';
+
+			echo '<td>' .
+				_makeAutoSelectInputX(
+					$this_address['STATE'],
+					'STATE',
+					'ADDRESS',
+					_( 'State' ),
+					$state_options
+				) . '</td>';
+
+			echo '<td>' .
+				_makeAutoSelectInputX(
+					$this_address['ZIPCODE'],
+					'ZIPCODE',
+					'ADDRESS',
+					_( 'Zip' ),
+					$zip_options
+				) . '</td></tr>';
+
+			echo '<tr><td colspan="3">' .
+				TextInput(
+					$this_address['PHONE'],
+					'values[ADDRESS][PHONE]',
+					_('Phone'),
+					$size ? 'size=13' : ''
+				) . '</td></tr>';
+
 			if ( $_REQUEST['address_id']!='new' && $_REQUEST['address_id']!='0')
 			{
 				$display_address = urlencode($this_address['ADDRESS'].', '.($this_address['CITY']?' '.$this_address['CITY'].', ':'').$this_address['STATE'].($this_address['ZIPCODE']?' '.$this_address['ZIPCODE']:''));
@@ -789,7 +860,12 @@ if ( ! $_REQUEST['modfunc'] )
 
 			if ( $_REQUEST['person_id']!='old')
 			{
-				$relation_options = _makeAutoSelect('STUDENT_RELATION','STUDENTS_JOIN_PEOPLE',$this_contact['STUDENT_RELATION'],array());
+				$relation_options = _makeAutoSelect(
+					'STUDENT_RELATION',
+					'STUDENTS_JOIN_PEOPLE',
+					$this_contact['STUDENT_RELATION'],
+					array()
+				);
 
 				//FJ css WPadmin
 				echo '<table class="widefat cellspacing-0"><tr><th colspan="3">'._('Contact Information').'</th></tr>';
@@ -1144,56 +1220,162 @@ function _makePeopleInput($value,$column,$title='')
 	);
 }
 
-function _makeAutoSelect($column,$table,$values='',$options=array())
+function _makeAutoSelect( $column, $table, $values = '', $options = array() )
 {
-	// add the 'new' option, is also the separator
+	$fatal_error = array();
 
-//FJ new option
-//	$options['---'] = '---';
-	$options['---'] = '-'. _('Edit') .'-';
-	if (AllowEdit()) // we don't really need the select list if we can't edit anyway
+	// Tables white list, prevent hacking.
+	$tables_white_list = array(
+		'ADDRESS',
+		'STUDENTS_JOIN_PEOPLE',
+	);
+
+	if ( ! in_array( $table, $tables_white_list ) )
 	{
-		// add values already in table
-		$options_RET = DBGet(DBQuery("SELECT DISTINCT $column,upper($column) AS SORT_KEY FROM $table ORDER BY SORT_KEY"));
-		if (count($options_RET))
-			foreach ( (array) $options_RET as $option)
-				if ( $option[ $column ]!='' && ! $options[$option[ $column ]])
-					$options[$option[ $column ]] = array($option[ $column ],$option[ $column ]);
+		// Do NOT translate this error, should never be displayed.
+		$fatal_error[] = sprintf( '_makeAutoSelect error: unknown table %s', $table );
 	}
-	// make sure values are in the list
-	if (isset($values) && is_array($values))
+
+	// Column sanitize, prevent hacking.
+	if ( ! preg_match( "/^[a-zA-Z0-9_]*$/", $column ) )
 	{
-		foreach ( (array) $values as $value)
-			if ( $value[ $column ]!='' && ! $options[$value[ $column ]])
-				$options[$value[ $column ]] = array($value[ $column ],$value[ $column ]);
+		// Do NOT translate this error, should never be displayed.
+		$fatal_error[] = sprintf( '_makeAutoSelect error: illegal column %s', $column );
 	}
-	else
-		if ( $values!='' && ! $options[ $values ])
-			$options[ $values ] = array($values,$values);
+
+	if ( $fatal_error )
+	{
+		return ErrorMessage( $error, 'fatal' );
+	}
+
+	// Add the 'new' option, is also the separator.
+	$options['---'] = '-' . _( 'Edit' ) . '-';
+
+	if ( AllowEdit() ) // We don't really need the select list if we can't edit anyway.
+	{
+		$limit_current_school_sql = '';
+
+		if ( $table === 'ADDRESS'
+			&& Config( 'LIMIT_EXISTING_CONTACTS_ADDRESSES' ) )
+		{
+			// Limit Existing Addresses to current school.
+			$limit_current_school_sql = " WHERE ADDRESS_ID IN (SELECT sja.ADDRESS_ID
+				FROM STUDENTS_JOIN_ADDRESS sja, STUDENT_ENROLLMENT se
+				WHERE sja.STUDENT_ID=se.STUDENT_ID
+				AND se.SCHOOL_ID='" . UserSchool() . "')";
+		}
+
+		// Add values already in table
+		$options_RET = DBGet( DBQuery( "SELECT DISTINCT " . $column . ",upper(" . $column . ") AS SORT_KEY
+			FROM " . $table .
+			$limit_current_school_sql .
+			" ORDER BY SORT_KEY" ) );
+
+		foreach ( (array) $options_RET as $option )
+		{
+			if ( $option[ $column ] != ''
+				&& ! isset( $options[ $option[ $column ] ] ) )
+			{
+				$options[ $option[ $column ] ] = array( $option[ $column ], $option[ $column ] );
+			}
+		}
+	}
+
+	// Make sure values are in the list.
+	if ( isset( $values )
+		&& is_array( $values ) )
+	{
+		foreach ( (array) $values as $value )
+		{
+			if ( $value[ $column ] != ''
+				&& ! isset( $options[ $value[ $column ] ] ) )
+			{
+				$options[ $value[ $column ] ] = array( $value[ $column ], $value[ $column ] );
+			}
+		}
+	}
+	elseif ( $values != ''
+		&& ! isset( $options[ $values ] ) )
+	{
+		$options[ $values ] = array( $values, $values );
+	}
 
 	return $options;
 }
 
-function _makeAutoSelectInputX($value,$column,$table,$title,$select,$id='',$div=true)
+function _makeAutoSelectInputX( $value, $column, $table, $title, $select, $id = '', $div = true )
 {
-	if ( $column=='CITY' || $column=='MAIL_CITY')
+	static $js_included = false;
+
+	if ( $column === 'CITY'
+		|| $column === 'MAIL_CITY' )
+	{
 		$options = 'maxlength=60';
-	if ( $column=='STATE' || $column=='MAIL_STATE')
+	}
+
+	if ( $column === 'STATE'
+		|| $column === 'MAIL_STATE' )
+	{
 		$options = 'size=3 maxlength=10';
-	elseif ( $column=='ZIPCODE' || $column=='MAIL_ZIPCODE')
+	}
+	elseif ( $column === 'ZIPCODE'
+		|| $column === 'MAIL_ZIPCODE' )
+	{
 		$options = 'size=5 maxlength=10';
+	}
 	else
 		$options = 'maxlength=100';
 
-	if ( $value!='---' && count($select)>1)
+	if ( $value !== '---'
+		&& count( $select ) > 1 )
 	{
-		return SelectInput(
+		// When -Edit- option selected, change the Address auto pull-downs to text fields.
+		$js = '';
+
+		if ( ! $js_included )
+		{
+			$js_included = true;
+
+			ob_start(); ?>
+			<script>
+			function maybeEditTextInput(el) {
+
+				// -Edit- option's value is ---.
+				if ( el.options[el.selectedIndex].value === '---' ) {
+
+					var $el = $( el );
+
+					// Remove parent <div> if any
+					if ( $el.parent('div').length ) {
+						$el.unwrap();
+					}
+					// Remove the select input.
+					$el.remove();
+
+					// Show & enable the text input of the same name.
+					$( '[name="' + el.name + '"]' ).prop('disabled', false).show().focus();
+				}
+			}
+			</script>
+			<?php $js = ob_get_clean();
+		}
+
+		return $js .
+		// Add hidden & disabled Text input in case user chooses -Edit-.
+		TextInput(
+			'',
+			'values[' . $table . ']' . ( $id ? '[' . $id . ']' : '' ) . '[' . $column . ']',
+			'',
+			$options . ' disabled style="display:none;"',
+			false
+		) .
+		SelectInput(
 			$value,
 			'values[' . $table . ']' . ( $id ? '[' . $id . ']' : '' ) . '[' . $column . ']',
 			$title,
 			$select,
 			'N/A',
-			'',
+			'onchange="maybeEditTextInput(this);"',
 			$div
 		);
 	}
@@ -1201,7 +1383,7 @@ function _makeAutoSelectInputX($value,$column,$table,$title,$select,$id='',$div=
 	{
 		// FJ new option.
 		return TextInput(
-			$value == '---' ? array( '---', '<span style="color:red">-' . _( 'Edit' ) . '-</span>' ) : $value,
+			$value === '---' ? array( '---', '<span style="color:red">-' . _( 'Edit' ) . '-</span>' ) : $value,
 			'values[' . $table . ']' . ( $id ? '[' . $id . ']' : '' ) . '[' . $column . ']',
 			$title,
 			$options,
