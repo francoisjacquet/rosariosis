@@ -94,7 +94,7 @@ body,
 textarea,
 input,
 select{
-	font-family:'Open Sans';
+	font-family:'Open Sans', sans-serif;
 	line-height:1.4em
 }
 *{
@@ -484,7 +484,7 @@ h3 span{
 	vertical-align:bottom
 }
 .header1 h2{
-	font-family:'Open Sans';
+	font-family:'Open Sans', sans-serif;
 	font-size:30px;
 	font-weight:normal;
 	margin:0;
