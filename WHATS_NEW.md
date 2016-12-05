@@ -6,7 +6,7 @@ New in 2.9
 ----------
 Students
 
-- Registration (for parents & students to register their contacts)
+- (Custom) Registration (for parents or students to register their contacts)
 
 School Setup
 
