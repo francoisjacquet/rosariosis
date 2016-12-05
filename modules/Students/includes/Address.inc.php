@@ -1330,9 +1330,10 @@ function _makeAutoSelectInputX( $value, $column, $table, $title, $select, $id = 
 		&& count( $select ) > 1 )
 	{
 		// When -Edit- option selected, change the Address auto pull-downs to text fields.
-		$js = '';
+		$return = '';
 
-		if ( ! $js_included )
+		if ( AllowEdit()
+			&& ! $js_included )
 		{
 			$js_included = true;
 
@@ -1357,19 +1358,22 @@ function _makeAutoSelectInputX( $value, $column, $table, $title, $select, $id = 
 				}
 			}
 			</script>
-			<?php $js = ob_get_clean();
+			<?php $return = ob_get_clean();
 		}
 
-		return $js .
-		// Add hidden & disabled Text input in case user chooses -Edit-.
-		TextInput(
-			'',
-			'values[' . $table . ']' . ( $id ? '[' . $id . ']' : '' ) . '[' . $column . ']',
-			'',
-			$options . ' disabled style="display:none;"',
-			false
-		) .
-		SelectInput(
+		if ( AllowEdit() )
+		{
+			// Add hidden & disabled Text input in case user chooses -Edit-.
+			$return .= TextInput(
+				'',
+				'values[' . $table . ']' . ( $id ? '[' . $id . ']' : '' ) . '[' . $column . ']',
+				'',
+				$options . ' disabled style="display:none;"',
+				false
+			);
+		}
+
+		$return .= SelectInput(
 			$value,
 			'values[' . $table . ']' . ( $id ? '[' . $id . ']' : '' ) . '[' . $column . ']',
 			$title,
@@ -1378,6 +1382,8 @@ function _makeAutoSelectInputX( $value, $column, $table, $title, $select, $id = 
 			'onchange="maybeEditTextInput(this);"',
 			$div
 		);
+
+		return $return;
 	}
 	else
 	{
