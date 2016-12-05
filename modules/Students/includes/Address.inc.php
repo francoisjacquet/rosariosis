@@ -1303,6 +1303,30 @@ function _makeAutoSelect( $column, $table, $values = '', $options = array() )
 	return $options;
 }
 
+
+/**
+ * Make Auto Select input
+ * aka auto pull-down:
+ * When the -Edit- option is selected,
+ * the select field is automatically transformed into a text field.
+ * If the value is "---" or if there are less than 2 values saved yet,
+ * a text field is directly shown.
+ *
+ * Local function.
+ *
+ * @uses SelectInput()
+ * @uses TextInput()
+ *
+ * @param  string  $value  Input value.
+ * @param  string  $column Column.
+ * @param  string  $table  DB table (ADDRESS or PEOPLE_JOIN_CONTACTS or STUDENTS_JOIN_PEOPLE).
+ * @param  string  $title  Input title.
+ * @param  array   $select Select options.
+ * @param  string  $id     ID. Optional. Defaults to ''.
+ * @param  boolean $div    Wrap in div onclick? Optional. Defaults to false.
+ *
+ * @return string          Select or Text Input.
+ */
 function _makeAutoSelectInputX( $value, $column, $table, $title, $select, $id = '', $div = true )
 {
 	static $js_included = false;
@@ -1325,6 +1349,8 @@ function _makeAutoSelectInputX( $value, $column, $table, $title, $select, $id = 
 	}
 	else
 		$options = 'maxlength=100';
+
+	$input_name = 'values[' . $table . ']' . ( $id ? '[' . $id . ']' : '' ) . '[' . $column . ']';
 
 	if ( $value !== '---'
 		&& count( $select ) > 1 )
@@ -1366,7 +1392,7 @@ function _makeAutoSelectInputX( $value, $column, $table, $title, $select, $id = 
 			// Add hidden & disabled Text input in case user chooses -Edit-.
 			$return .= TextInput(
 				'',
-				'values[' . $table . ']' . ( $id ? '[' . $id . ']' : '' ) . '[' . $column . ']',
+				$input_name,
 				'',
 				$options . ' disabled style="display:none;"',
 				false
@@ -1375,7 +1401,7 @@ function _makeAutoSelectInputX( $value, $column, $table, $title, $select, $id = 
 
 		$return .= SelectInput(
 			$value,
-			'values[' . $table . ']' . ( $id ? '[' . $id . ']' : '' ) . '[' . $column . ']',
+			$input_name,
 			$title,
 			$select,
 			'N/A',
@@ -1390,7 +1416,7 @@ function _makeAutoSelectInputX( $value, $column, $table, $title, $select, $id = 
 		// FJ new option.
 		return TextInput(
 			$value === '---' ? array( '---', '<span style="color:red">-' . _( 'Edit' ) . '-</span>' ) : $value,
-			'values[' . $table . ']' . ( $id ? '[' . $id . ']' : '' ) . '[' . $column . ']',
+			$input_name,
 			$title,
 			$options,
 			$div
