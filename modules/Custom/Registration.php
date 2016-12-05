@@ -296,7 +296,7 @@ $addresses_RET = DBGet( DBQuery( "SELECT COUNT(*) AS COUNT
 	WHERE STUDENT_ID='" . UserStudentID() . "'" ) );
 
 // Registration check.
-/*if ( $addresses_RET[1]['COUNT'] > 0 )
+if ( $addresses_RET[1]['COUNT'] > 0 )
 {
 	$note[] = button( 'check', '', '', 'bigger' ) . ' ' .
 		( $is_student ?
@@ -309,7 +309,7 @@ $addresses_RET = DBGet( DBQuery( "SELECT COUNT(*) AS COUNT
 	Warehouse( 'footer' );
 
 	exit;
-}*/
+}
 
 DrawHeader( sprintf(
 	_( 'Welcome, %s, to the %s' ),
