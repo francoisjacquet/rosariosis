@@ -266,7 +266,7 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 	}
 
 	$_ROSARIO['PrepareDate'] = isset( $_ROSARIO['PrepareDate'] ) ?
-		$_ROSARIO['PrepareDate']++ :
+		++$_ROSARIO['PrepareDate'] :
 		1;
 
 	// Required fields.
