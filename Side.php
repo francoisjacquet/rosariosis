@@ -316,7 +316,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 
 		<?php // User Information. ?>
 
-		<a href="index.php" target="_top" class="center">
+		<a href="Modules.php?modname=misc/Portal.php" target="_top" class="center">
 			<img src="assets/themes/<?php echo Preferences( 'THEME' ); ?>/logo.png" class="logo" alt="Logo" />
 		</a>
 		<form action="Side.php?sidefunc=update" method="POST" target="menu">

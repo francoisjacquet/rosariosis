@@ -388,7 +388,7 @@ function Warehouse( $mode )
 			// If popup window, verify it is an actual popup.
 			if ( $_ROSARIO['is_popup'] ) :
 ?>
-<script>if(window == top  && (!window.opener)) window.location.href = "index.php";</script>
+<script>if(window == top  && (!window.opener)) window.location.href = "Modules.php?modname=misc/Portal.php";</script>
 <?php
 			// Else if not AJAX request.
 			elseif ( $_ROSARIO['not_ajax'] ) :

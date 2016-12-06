@@ -411,7 +411,8 @@ if ( empty( $_SESSION['STAFF_ID'] )
 // Successfully logged in, display Portal.
 elseif ( ! isset( $_REQUEST['create_account'] ) )
 {
-	$_REQUEST['modname'] = 'misc/Portal.php';
+	// Fix #173 resend login form: redirect to Modules.php.
+	header( 'Location: Modules.php?modname=misc/Portal.php' );
 
-	require_once 'Modules.php';
+	exit;
 }

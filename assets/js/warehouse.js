@@ -274,7 +274,7 @@ function ajaxLink(link) {
 		target = link.target;
 	}
 
-	if (href.indexOf('#') != -1 || target == '_blank' || target == '_top') // Internal/external/index.php anchor
+	if (href.indexOf('#') != -1 || target == '_blank' || target == '_top') // Internal/external/top anchor
 		return true;
 
 	if (!target) {
