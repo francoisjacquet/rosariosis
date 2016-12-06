@@ -9,6 +9,7 @@ Changes in 2.9.12
 - Fix Contact info fields display, with(out) auto-pull-downs or AllowEdit in Address.inc.php
 - Add Custom/Registration.php program (sponsored by @dpredster)
 - When -Edit- option selected, change the Address auto pull-downs to text fields in Address.inc.php (sponsored by Aptiris)
+- Fix #173 resend login form: redirect to Modules.php in index.php
 
 Changes in 2.9.11
 -----------------
