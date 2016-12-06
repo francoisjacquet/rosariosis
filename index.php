@@ -124,7 +124,7 @@ elseif ( isset( $_POST['USERNAME'] )
 
 			Warehouse( 'header' ); ?>
 
-	<form action="index.php" method="POST">
+	<form action="Modules.php?modname=misc/Portal.php" method="POST">
 
 	<?php PopTable( 'header', _( 'Confirm Successful Installation' ) ); ?>
 
