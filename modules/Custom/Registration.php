@@ -1,10 +1,10 @@
 <?php
 
 require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
+require_once 'ProgramFunctions/Fields.fnc.php';
 
 DrawHeader( ProgramTitle() );
 
-// TODO: adapt program so Students register their contacts themselves here.
 /*if ( ! UserStudentID() )
 {
 	$_SESSION['UserSyear'] = Config( 'SYEAR' );
@@ -35,25 +35,20 @@ if ( isset( $_SESSION['STUDENT_ID'] )
 	$is_student = true;
 }
 
-// Birthdate.
-if ( isset( $_REQUEST['year_CUSTOM_200000004'] )
-	&& isset( $_REQUEST['month_CUSTOM_200000004'] )
-	&& isset( $_REQUEST['day_CUSTOM_200000004'] ) )
+// Requested Dates.
+if ( isset( $_REQUEST['year_students'] )
+	&& isset( $_REQUEST['month_students'] )
+	&& isset( $_REQUEST['day_students'] ) )
 {
-	$_REQUEST['values']['STUDENTS']['CUSTOM_200000004'] = RequestedDate(
-		$_REQUEST['year_CUSTOM_200000004'],
-		$_REQUEST['month_CUSTOM_200000004'],
-		$_REQUEST['day_CUSTOM_200000004']
+	$_REQUEST['students'] = RequestedDates(
+		$_REQUEST['year_students'],
+		$_REQUEST['month_students'],
+		$_REQUEST['day_students']
 	);
 }
 
-// Sanitize Medical Comments.
-if ( isset( $_REQUEST['values']['STUDENTS']['CUSTOM_200000009'] ) )
-{
-	$_REQUEST['values']['STUDENTS']['CUSTOM_200000009'] = SanitizeMarkDown(
-		$_POST['values']['STUDENTS']['CUSTOM_200000009']
-	);
-}
+// FJ textarea fields MarkDown sanitize.
+$_REQUEST['students'] = FilterCustomFieldsMarkdown( 'CUSTOM_FIELDS', 'students' );
 
 if ( isset( $_REQUEST['values'] )
 	&& $_REQUEST['values'] )
@@ -252,11 +247,11 @@ if ( isset( $_REQUEST['values'] )
 	}
 
 	// Save Student Info.
-	if ( $_REQUEST['values']['STUDENTS'] )
+	if ( $_REQUEST['students'] )
 	{
 		$sql = "UPDATE STUDENTS SET ";
 
-		foreach ( (array) $_REQUEST['values']['STUDENTS'] as $column_name => $value )
+		foreach ( (array) $_REQUEST['students'] as $column_name => $value )
 		{
 			$sql .= $column_name . "='" . $value . "',";
 		}
@@ -288,7 +283,7 @@ if ( isset( $_REQUEST['values'] )
 		SendEmail( $RosarioNotifyAddress, _( 'New Registration' ), $message );
 	}
 
-	unset( $_SESSION['_REQUEST_vars']['values'] );
+	unset( $_SESSION['_REQUEST_vars']['students'] );
 }
 
 $addresses_RET = DBGet( DBQuery( "SELECT COUNT(*) AS COUNT
@@ -477,7 +472,7 @@ $custom_fields_RET = DBGet( DBQuery( "SELECT ID,TITLE,TYPE,SELECT_OPTIONS
 
 $student_dataquery = '';
 
-if ( isset( $custom_fields_RET['200000000'] )
+/*if ( isset( $custom_fields_RET['200000000'] )
 	&& $custom_fields_RET['200000000'][1]['TYPE'] === 'select' )
 {
 	$student_dataquery .= ', CUSTOM_200000000';
@@ -504,7 +499,7 @@ if ( isset( $custom_fields_RET['200000005'] )
 	&& $custom_fields_RET['200000005'][1]['TYPE'] === 'select' )
 {
 	$student_dataquery .= ', CUSTOM_200000005';
-}
+}*/
 
 if ( isset( $custom_fields_RET['200000006'] ) )
 {
@@ -538,7 +533,14 @@ echo '<hr /><p><b>' . sprintf(
 	$student['FIRST_NAME'],
 	$student['LAST_NAME'] ) . ':</b></p>';
 
-echo '<table class="width-100p valign-top fixed-col"><tr class="st"><td>';
+// Display General Info's tab custom fields (Other Info).
+$_REQUEST['category_id'] = '1';
+$separator = '';
+
+include 'modules/Students/includes/Other_Info.inc.php';
+
+
+/*echo '<table class="width-100p valign-top fixed-col"><tr class="st"><td>';
 
 // Birthdate.
 if ( array_key_exists( 'CUSTOM_200000004', $student ) )
@@ -556,7 +558,7 @@ echo '</td><td>';
 if ( array_key_exists( 'CUSTOM_200000003', $student ) )
 {
 	echo _makeInput(
-		'values[STUDENTS][CUSTOM_200000003]',
+		'students[CUSTOM_200000003]',
 		ParseMLField( $custom_fields_RET['200000003'][1]['TITLE'] ),
 		$student['CUSTOM_200000003']
 	);
@@ -581,7 +583,7 @@ if ( array_key_exists( 'CUSTOM_200000001', $student ) )
 
 	echo SelectInput(
 		$student['CUSTOM_200000001'],
-		'values[STUDENTS][CUSTOM_200000001]',
+		'students[CUSTOM_200000001]',
 		ParseMLField( $custom_fields_RET['200000001'][1]['TITLE'] ),
 		$select_options
 	);
@@ -606,7 +608,7 @@ if ( array_key_exists( 'CUSTOM_200000005', $student ) )
 
 	echo SelectInput(
 		$student['CUSTOM_200000005'],
-		'values[STUDENTS][CUSTOM_200000005]',
+		'students[CUSTOM_200000005]',
 		ParseMLField( $custom_fields_RET['200000005'][1]['TITLE'] ),
 		$select_options,
 		_( 'N/A' ),
@@ -633,13 +635,13 @@ if ( array_key_exists( 'CUSTOM_200000000', $student ) )
 
 	echo SelectInput(
 		$student['CUSTOM_200000000'],
-		'values[STUDENTS][CUSTOM_200000000]',
+		'students[CUSTOM_200000000]',
 		ParseMLField( $custom_fields_RET['200000000'][1]['TITLE'] ),
 		$select_options
 	);
 }
 
-echo '</td></tr></table>';
+echo '</td></tr></table>';*/
 
 // Medical.
 $medical_fields_category_RET = DBGet( DBQuery( "SELECT TITLE
@@ -657,7 +659,7 @@ echo '<table class="width-100p valign-top fixed-col"><tr class="st"><td>';
 if ( array_key_exists( 'CUSTOM_200000006', $student ) )
 {
 	echo '<br />' . _makeInput(
-		'values[STUDENTS][CUSTOM_200000006]',
+		'students[CUSTOM_200000006]',
 		ParseMLField( $custom_fields_RET['200000006'][1]['TITLE'] ),
 		$student['CUSTOM_200000006'],
 		'size="30" maxlength="255"'
@@ -670,7 +672,7 @@ echo '</td><td>';
 if ( array_key_exists( 'CUSTOM_200000007', $student ) )
 {
 	echo '<br />' . _makeInput(
-		'values[STUDENTS][CUSTOM_200000007]',
+		'students[CUSTOM_200000007]',
 		ParseMLField( $custom_fields_RET['200000007'][1]['TITLE'] ),
 		$student['CUSTOM_200000007'],
 		'size="15" maxlength="255"'
@@ -683,7 +685,7 @@ echo '</td></tr><tr class="st"><td>';
 if ( array_key_exists( 'CUSTOM_200000008', $student ) )
 {
 	echo '<br />' . _makeInput(
-		'values[STUDENTS][CUSTOM_200000008]',
+		'students[CUSTOM_200000008]',
 		ParseMLField( $custom_fields_RET['200000008'][1]['TITLE'] ),
 		$student['CUSTOM_200000008'],
 		'size="30" maxlength="255"'
@@ -697,11 +699,11 @@ if ( array_key_exists( 'CUSTOM_200000009', $student ) )
 {
 	echo '<br />' . TextAreaInput(
 		$student['CUSTOM_200000009'],
-		'values[STUDENTS][CUSTOM_200000009]',
+		'students[CUSTOM_200000009]',
 		ParseMLField( $custom_fields_RET['200000009'][1]['TITLE'] )
 	);
 
-	// echo '<br /><textarea name=values[STUDENTS][CUSTOM_200000009] cols=26 rows=5 style="color: BBBBBB;" onfocus=\'if (this.value=="Medical Comments") this.value=""; this.style.color="000000";\' onblur=\'if (this.value=="") {this.value="Medical Comments"; this.style.color="BBBBBB";}\'">'.ParseMLField($custom_fields_RET['200000009'][1]['TITLE']).'</textarea>';
+	// echo '<br /><textarea name=students[CUSTOM_200000009] cols=26 rows=5 style="color: BBBBBB;" onfocus=\'if (this.value=="Medical Comments") this.value=""; this.style.color="000000";\' onblur=\'if (this.value=="") {this.value="Medical Comments"; this.style.color="BBBBBB";}\'">'.ParseMLField($custom_fields_RET['200000009'][1]['TITLE']).'</textarea>';
 }
 
 echo '</td></tr></table>';
@@ -715,7 +717,7 @@ echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div></form>
 
 function _makeInput( $name, $title, $value = '', $extra = '' )
 {
-	return TextInput( $value, $name, $title, $extra, false );
+	return TextInput( $value, $name, $title, $extra );
 
 	// return '<input type="text" name="'.$name.'" value="'.$title.'" style="color:	BBBBBB" onfocus=\'if (this.value=="'.$title.'") this.value=""; this.style.color="000000"\' onsubmit=\'if (this.value=="'.$title.'") this.value=""; this.style.color="000000"\' onblur=\'if (this.value=="") {this.value="'.$title.'"; this.style.color="BBBBBB"}\' '.$extra.' />';
 }

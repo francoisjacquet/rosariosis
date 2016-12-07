@@ -8,6 +8,7 @@ Changes in 2.9.12
 - Add Force Default Theme option in Configuration.php & User.fnc.php
 - Fix Contact info fields display, with(out) auto-pull-downs or AllowEdit in Address.inc.php
 - Add Custom/Registration.php program (sponsored by @dpredster)
+- Display General Info's tab custom fields (Other Info) in Registration.php
 - When -Edit- option selected, change the Address auto pull-downs to text fields in Address.inc.php (sponsored by Aptiris)
 - Fix #173 resend login form: redirect to Modules.php in index.php
 
