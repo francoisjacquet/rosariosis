@@ -76,6 +76,8 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 
 	if ( isset( $_REQUEST['staff']['SCHOOLS'] ) )
 	{
+		$staff_schools = '';
+
 		// FJ remove empty schools.
 		foreach ( (array) $_REQUEST['staff']['SCHOOLS'] as $school_id => $yes )
 		{
@@ -86,7 +88,7 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 		}
 
 		// Build schools format: ,1,2,
-		$_REQUEST['staff']['SCHOOLS'] = ',' . $staff_schools;
+		$_REQUEST['staff']['SCHOOLS'] = $staff_schools ? ',' . $staff_schools : '';
 
 		// FJ remove Schools for Parents.
 		if ( isset ( $_REQUEST['staff']['PROFILE'] )
