@@ -11,6 +11,7 @@ Changes in 2.9.12
 - Display General Info's tab custom fields (Other Info) in Registration.php
 - When -Edit- option selected, change the Address auto pull-downs to text fields in Address.inc.php (sponsored by Aptiris)
 - Fix #173 resend login form: redirect to Modules.php in index.php
+- Fix Recreate Calendar defaults + copy Calendar weekdays in Calendar.php
 
 Changes in 2.9.11
 -----------------

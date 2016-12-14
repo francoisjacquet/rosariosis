@@ -60,6 +60,8 @@ if ( $_REQUEST['modfunc'] === 'create'
 	// Prepare table for Copy Calendar & add ' (Default)' mention.
 	$copy_calendar_options = array();
 
+	$recreate_calendar = false;
+
 	foreach ( (array) $title_RET as $id => $title )
 	{
 		$copy_calendar_options[ $id ] = $title[1]['TITLE'];
@@ -68,9 +70,14 @@ if ( $_REQUEST['modfunc'] === 'create'
 			&& $title[1]['DEFAULT_CALENDAR'] === 'Y'
 			&& $title[1]['SCHOOL_ID'] === UserSchool() )
 		{
-			$default_calendar = $title[1];
-
 			$copy_calendar_options[ $id ] .= ' (' . _( 'Default' ) . ')';
+		}
+
+		if ( AllowEdit()
+			&& isset( $_REQUEST['calendar_id'] )
+			&& $id == $_REQUEST['calendar_id'] )
+		{
+			$recreate_calendar = $title[1];
 		}
 	}
 
@@ -80,7 +87,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 
 	// Title.
 	$message .= TextInput(
-		( $_REQUEST['calendar_id'] ? $default_calendar['TITLE'] : '' ),
+		( $recreate_calendar ? $recreate_calendar['TITLE'] : '' ),
 		'title',
 		_( 'Title' ),
 		'required',
@@ -91,7 +98,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 
 	// Default.
 	$message .= CheckboxInput(
-		$_REQUEST['calendar_id'] && $default_calendar['DEFAULT_CALENDAR'] == 'Y',
+		$recreate_calendar && $recreate_calendar['DEFAULT_CALENDAR'] == 'Y',
 		'default',
 		_( 'Default Calendar for this School' ),
 		'',
@@ -117,34 +124,34 @@ if ( $_REQUEST['modfunc'] === 'create'
 	$message .= '<table class="width-100p valign-top"><tr class="st"><td>' . _( 'From' ) . ' ';
 
 	$message .= DateInput(
-		$_REQUEST['calendar_id'] && $default_calendar['START_DATE'] ?
-			$default_calendar['START_DATE'] :
+		$recreate_calendar && $recreate_calendar['START_DATE'] ?
+			$recreate_calendar['START_DATE'] :
 			$fy['START_DATE'],
 		'min',
 		'',
 		$div,
 		true,
-		!( $_REQUEST['calendar_id'] && $default_calendar['START_DATE'] )
+		!( $recreate_calendar && $recreate_calendar['START_DATE'] )
 	);
 
 	// to date
 	$message .= '</td><td>' . _( 'To' )  . ' ';
 	$message .= DateInput(
-		$_REQUEST['calendar_id'] && $default_calendar['END_DATE'] ?
-			$default_calendar['END_DATE'] :
+		$recreate_calendar && $recreate_calendar['END_DATE'] ?
+			$recreate_calendar['END_DATE'] :
 			$fy['END_DATE'],
 		'max',
 		'',
 		$div,
 		true,
-		!( $_REQUEST['calendar_id'] && $default_calendar['END_DATE'] )
+		!( $recreate_calendar && $recreate_calendar['END_DATE'] )
 	);
 
 	$message .= '</td></tr></table>';
 
 	$message .= '<table class="width-100p valign-top"><tr class="st"><td>';
 
-	// weekdays
+	// Weekdays.
 	$weekdays = array(
 		_( 'Sunday' ),
 		_( 'Monday' ),
@@ -161,11 +168,13 @@ if ( $_REQUEST['modfunc'] === 'create'
 	{
 		$value = 'Y';
 
-		// unckeck Saturday & Sunday
+		// Unckeck Saturday & Sunday.
 		if ( ( $id === 0
 				|| $id === 6 )
-			&& $_REQUEST['calendar_id'] )
+			&& ! $recreate_calendar )
+		{
 			$value = 'N';
+		}
 
 		$weekdays_inputs[] .= CheckboxInput(
 			$value,
@@ -183,7 +192,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 	$message .= '<table class="width-100p"><tr class="st valign-top"><td>';
 
 	// minutes
-	$minutes_tip_text = ( $_REQUEST['calendar_id'] ?
+	$minutes_tip_text = ( $recreate_calendar ?
 		_( 'Default is Full Day if Copy Calendar is N/A.' ) . ' ' . _( 'Otherwise Default is minutes from the Copy Calendar' ) :
 		_( 'Default is Full Day' )
 	);
@@ -257,7 +266,18 @@ if ( $_REQUEST['modfunc'] === 'create'
 		// Copy Calendar
 		if ( $_REQUEST['copy_id'] )
 		{
-			$weekdays_list = '\'' . implode( '\',\'', array_keys( $_REQUEST['weekdays'] ) ) . '\'';
+			$weekdays_list = array();
+
+			// FJ remove empty weekdays.
+			foreach ( (array) $_REQUEST['weekdays'] as $weekday_id => $yes )
+			{
+				if ( $yes )
+				{
+					$weekdays_list[] = $weekday_id;
+				}
+			}
+
+			$weekdays_list = "'" . implode( "','", $weekdays_list ) . "'";
 
 			if ( $_REQUEST['calendar_id']
 				&& $_REQUEST['calendar_id'] === $_REQUEST['copy_id'] )
