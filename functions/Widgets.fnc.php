@@ -732,8 +732,13 @@ function Widgets( $item, &$myextra = null )
 					WHERE SCHOOL_ID='" . UserSchool() . "'
 					AND SYEAR='" . UserSyear() . "'"), array(), array( 'ID' ) );
 
-				foreach ( (array) $_REQUEST['letter_grade'] as $grade => $Y )
+				foreach ( (array) $_REQUEST['letter_grade'] as $grade => $yes )
 				{
+					if ( ! $yes )
+					{
+						continue;
+					}
+
 					$letter_grades .= ",'" . $grade . "'";
 
 					$LetterGradeSearchTerms .= $letter_grades_RET[ $grade ][1]['TITLE'].', ';
