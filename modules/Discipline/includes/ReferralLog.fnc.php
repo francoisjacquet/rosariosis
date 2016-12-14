@@ -22,8 +22,8 @@ function ReferralLogIncludeForm()
 
 	// Get custom Discipline fields
 	$fields_RET = DBGet(
-		DBQuery( "SELECT f.ID,u.TITLE,u.SELECT_OPTIONS,f.DATA_TYPE,u.SORT_ORDER 
-			FROM DISCIPLINE_FIELDS f,DISCIPLINE_FIELD_USAGE u 
+		DBQuery( "SELECT f.ID,u.TITLE,u.SELECT_OPTIONS,f.DATA_TYPE,u.SORT_ORDER
+			FROM DISCIPLINE_FIELDS f,DISCIPLINE_FIELD_USAGE u
 			WHERE u.DISCIPLINE_FIELD_ID=f.ID
 			ORDER BY " . db_case( array( 'DATA_TYPE', "'textarea'", "'1'", "'0'" ) ) . ",SORT_ORDER" ),
 		array(),
@@ -90,8 +90,8 @@ function ReferralLogsGenerate( $extra )
 	if ( is_null( $fields_RET ) )
 	{
 		$fields_RET = DBGet(
-			DBQuery( "SELECT f.ID,u.TITLE,u.SELECT_OPTIONS,f.DATA_TYPE,u.SORT_ORDER 
-				FROM DISCIPLINE_FIELDS f,DISCIPLINE_FIELD_USAGE u 
+			DBQuery( "SELECT f.ID,u.TITLE,u.SELECT_OPTIONS,f.DATA_TYPE,u.SORT_ORDER
+				FROM DISCIPLINE_FIELDS f,DISCIPLINE_FIELD_USAGE u
 				WHERE u.DISCIPLINE_FIELD_ID=f.ID
 				ORDER BY " . db_case( array( 'DATA_TYPE', "'textarea'", "'1'", "'0'" ) ) . ",SORT_ORDER" ),
 			array(),
@@ -125,9 +125,12 @@ function ReferralLogsGenerate( $extra )
 		}
  	}
 
-	foreach ( (array) $_REQUEST['elements'] as $column => $Y )
+	foreach ( (array) $_REQUEST['elements'] as $column => $yes )
 	{
-		$extra['SELECT'] .= ',dr.' . $column;
+		if ( $yes )
+		{
+			$extra['SELECT'] .= ',dr.' . $column;
+		}
 	}
 
 	if ( mb_strpos( $extra['FROM'], 'DISCIPLINE_REFERRALS' ) === false  )
@@ -195,22 +198,23 @@ function ReferralLogsGenerate( $extra )
 		foreach ( (array) $referrals as $referral )
 		{
 			// Entry Date
-			if ( isset( $_REQUEST['elements']['ENTRY_DATE'] ) )
+			if ( $_REQUEST['elements']['ENTRY_DATE'] )
 			{
 				DrawHeader( '<b>' . _( 'Date' ) . ': </b>' . ProperDate( $referral['ENTRY_DATE'] ) );
 			}
 
 			// Reporter
-			if ( isset( $_REQUEST['elements']['STAFF_ID'] ) )
+			if ( $_REQUEST['elements']['STAFF_ID'] )
 			{
 				DrawHeader( '<b>' . _( 'Reporter' ) .': </b>' . GetTeacher( $referral['STAFF_ID'] ) );
 			}
 
 			// Custom Discipline fields
-			foreach ( (array) $_REQUEST['elements'] as $column => $Y )
+			foreach ( (array) $_REQUEST['elements'] as $column => $yes )
 			{
-				// Zap Entry Date & Reporter
-				if ( $column === 'ENTRY_DATE'
+				// Zap not checked, Entry Date & Reporter
+				if ( ! $yes
+					|| $column === 'ENTRY_DATE'
 					|| $column === 'STAFF_ID' )
 				{
 					continue;
