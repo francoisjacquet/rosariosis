@@ -1059,7 +1059,14 @@ if ( ! $_REQUEST['modfunc'] )
 						_( 'Last Name' )
 					) . '</tr>';
 
-					echo '<tr><td colspan="3">'.SelectInput('','values[STUDENTS_JOIN_PEOPLE][STUDENT_RELATION]',_('Relation'),$relation_options,_('N/A')).'</td></tr>';
+					echo '<tr><td colspan="3">' .
+					_makeAutoSelectInputX(
+						'',
+						'STUDENT_RELATION',
+						'STUDENTS_JOIN_PEOPLE',
+						_( 'Relation'),
+						$relation_options
+					) . '</td></tr>';
 
 					echo '<tr><td>'. button('gavel', '', '', 'bigger').' ';
 
@@ -1359,6 +1366,7 @@ function _makeAutoSelectInputX( $value, $column, $table, $title, $select, $id = 
 		$return = '';
 
 		if ( AllowEdit()
+			&& ! isset( $_REQUEST['_ROSARIO_PDF'] )
 			&& ! $js_included )
 		{
 			$js_included = true;
@@ -1387,7 +1395,8 @@ function _makeAutoSelectInputX( $value, $column, $table, $title, $select, $id = 
 			<?php $return = ob_get_clean();
 		}
 
-		if ( AllowEdit() )
+		if ( AllowEdit()
+			&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		{
 			// Add hidden & disabled Text input in case user chooses -Edit-.
 			$return .= TextInput(
