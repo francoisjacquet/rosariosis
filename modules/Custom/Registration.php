@@ -283,7 +283,9 @@ if ( isset( $_REQUEST['values'] )
 		SendEmail( $RosarioNotifyAddress, _( 'New Registration' ), $message );
 	}
 
-	unset( $_SESSION['_REQUEST_vars']['students'] );
+	// Unset Student & values.
+	$_SESSION['_REQUEST_vars']['students'] = false;
+	$_SESSION['_REQUEST_vars']['values'] = false;
 }
 
 $addresses_RET = DBGet( DBQuery( "SELECT COUNT(*) AS COUNT
