@@ -73,27 +73,32 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				//hook
 				do_action('School_Setup/PortalNotes.php|update_portal_note');
 			}
-			else
+			// New: check for Title.
+			elseif ( $columns['TITLE'] )
 			{
-				if (count($_REQUEST['profiles']['new']))
+				foreach ( array('admin','teacher','parent') as $profile_id )
 				{
-					foreach ( array('admin','teacher','parent') as $profile_id)
+					if ( isset( $_REQUEST['profiles']['new'][ $profile_id ] )
+						&& $_REQUEST['profiles']['new'][ $profile_id ] )
 					{
-						if ( $_REQUEST['profiles']['new'][ $profile_id ])
-							$_REQUEST['values']['new']['PUBLISHED_PROFILES'] .= $profile_id.',';
-						$columns['PUBLISHED_PROFILES'] = ','.$_REQUEST['values']['new']['PUBLISHED_PROFILES'];
-					}
-					foreach ( (array) $profiles_RET as $profile)
-					{
-						$profile_id = $profile['ID'];
-
-						if ( $_REQUEST['profiles']['new'][ $profile_id ])
-							$_REQUEST['values']['new']['PUBLISHED_PROFILES'] .= $profile_id.',';
-						$columns['PUBLISHED_PROFILES'] = ','.$_REQUEST['values']['new']['PUBLISHED_PROFILES'];
+						$_REQUEST['values']['new']['PUBLISHED_PROFILES'] .= $profile_id . ',';
 					}
 				}
-				else
-					$_REQUEST['values']['new']['PUBLISHED_PROFILES'] = '';
+
+				foreach ( (array) $profiles_RET as $profile )
+				{
+					$profile_id = $profile['ID'];
+
+					if ( isset( $_REQUEST['profiles']['new'][ $profile_id ] )
+						&& $_REQUEST['profiles']['new'][ $profile_id ] )
+					{
+						$_REQUEST['values']['new']['PUBLISHED_PROFILES'] .= $profile_id . ',';
+					}
+				}
+
+				$columns['PUBLISHED_PROFILES'] = $_REQUEST['values']['new']['PUBLISHED_PROFILES'] ?
+					',' . $_REQUEST['values']['new']['PUBLISHED_PROFILES'] :
+					'';
 
 				$sql = "INSERT INTO PORTAL_NOTES ";
 
