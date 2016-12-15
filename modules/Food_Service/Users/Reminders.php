@@ -21,8 +21,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	{
 		$st_list = "'".implode("','",$_REQUEST['st_arr'])."'";
 
-		$school = DBGet(DBQuery("SELECT TITLE FROM SCHOOLS WHERE ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
-		$school = $school[1]['TITLE'];
+		$school = SchoolInfo( 'TITLE' );
 
 		$staffs = DBGet(DBQuery("SELECT s.STAFF_ID,s.FIRST_NAME,s.LAST_NAME,s.MIDDLE_NAME,s.PROFILE,fsa.STATUS,fsa.BALANCE FROM STAFF s,FOOD_SERVICE_STAFF_ACCOUNTS fsa WHERE s.STAFF_ID IN (".$st_list.") AND fsa.STAFF_ID=s.STAFF_ID"));
 		$handle = PDFStart();

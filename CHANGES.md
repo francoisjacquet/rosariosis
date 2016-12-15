@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 2.9.13
+-----------------
+- Always use SchoolInfo() instead of querying SCHOOLS DB table, programwide
+
 Changes in 2.9.12
 -----------------
 **Warning**: consequently to commit 2eaee53c6e9f5d9e7bfa24be859e9c711de88b39

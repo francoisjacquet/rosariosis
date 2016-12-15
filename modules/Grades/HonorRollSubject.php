@@ -23,8 +23,6 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 		$mp_RET = DBGet(DBQuery("SELECT TITLE,END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND MARKING_PERIOD_ID='".UserMP()."'"));
 
-		$school_info_RET = DBGet(DBQuery("SELECT TITLE,PRINCIPAL FROM SCHOOLS WHERE ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
-
 		$extra['SELECT'] .= ",(SELECT SORT_ORDER FROM SCHOOL_GRADELEVELS WHERE ID=ssm.GRADE_ID) AS SORT_ORDER";
 
 		$extra['SELECT'] .= ",(SELECT st.FIRST_NAME||coalesce(' '||st.MIDDLE_NAME||' ',' ')||st.LAST_NAME
@@ -89,7 +87,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			$student['LAST_NAME'],
 			$student['MIDDLE_NAME'],
 			$student['GRADE_ID'],
-			$school_info_RET[1]['TITLE'],
+			SchoolInfo( 'TITLE' ),
 			$_REQUEST['subject']),$honor_roll_text);
 
 			echo '<tr><td>'.$honor_roll_text.'</td></tr></table>';
@@ -98,7 +96,10 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			echo '<tr><td><span style="font-size:x-large;">'.$student['TEACHER'].'</span><br /><span style="font-size:medium;">'._('Teacher').'</span></td>';
 			echo '<td><span style="font-size:x-large;">'.$mp_RET[1]['TITLE'].'</span><br /><span style="font-size:medium;">'._('Marking Period').'</span></td></tr>';
 
-			echo '<tr><td><span style="font-size:x-large;">'.$school_info_RET[1]['PRINCIPAL'].'</span><br /><span style="font-size:medium;">'._('Principal').'</span></td>';
+			echo '<tr><td><span style="font-size:x-large;">' .
+				SchoolInfo( 'PRINCIPAL' ) . '</span><br />
+				<span style="font-size:medium;">' . _( 'Principal' ) . '</span></td>';
+
 			echo '<td><span style="font-size:x-large;">' .
 				ProperDate( $mp_RET[1]['END_DATE'] ) .
 				'</span><br />

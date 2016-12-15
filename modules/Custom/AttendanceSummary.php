@@ -45,8 +45,6 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 	if (count($RET))
 	{
-		$school_RET = DBGet(DBQuery("SELECT SCHOOL_NUMBER FROM SCHOOLS WHERE ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
-
 		//change orientation to landscape
 		$_SESSION['orientation'] = 'landscape';
 
@@ -107,7 +105,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			//FJ school year over one/two calendar years format
 			echo '<tr class="center"><td>'.$student['FULL_NAME'].'</td>
 			<td>'.$student['STUDENT_ID'].'</td>
-			<td>'.$school_RET[1]['SCHOOL_NUMBER'].' / '.FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS')).'</td></tr>';
+			<td>' . SchoolInfo( 'SCHOOL_NUMBER' ) .
+				' / ' . FormatSyear( UserSyear(), Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) ) .
+			'</td></tr>';
 
 			echo '<tr><td colspan="3">
 			<h3>'._('Demographics').'</h3>
