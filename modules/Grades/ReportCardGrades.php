@@ -149,18 +149,24 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( $_REQUEST['tab_id'] !== 'new' )
 	{
 		$sql = 'SELECT * FROM REPORT_CARD_GRADES WHERE GRADE_SCALE_ID=\''.$_REQUEST['tab_id'].'\' AND SYEAR=\''.UserSyear().'\' AND SCHOOL_ID=\''.UserSchool().'\' ORDER BY BREAK_OFF IS NOT NULL DESC,BREAK_OFF DESC, SORT_ORDER';
-		$functions = array('TITLE' => '_makeGradesInput',
-							'BREAK_OFF' => '_makeGradesInput',
-							'SORT_ORDER' => '_makeGradesInput',
-							'GPA_VALUE' => '_makeGradesInput',
-							'UNWEIGHTED_GP' => '_makeGradesInput',
-							'COMMENT' => '_makeGradesInput');
-		$LO_columns = array('TITLE' => _('Title'),
-							'BREAK_OFF' => _('Breakoff'),
-							'GPA_VALUE' => _('GPA Value'),
-							'UNWEIGHTED_GP' => _('Unweighted GP Value'),
-							'SORT_ORDER' => _('Order'),
-							'COMMENT' => _('Comment'));
+
+		$functions = array(
+			'TITLE' => '_makeGradesInput',
+			'BREAK_OFF' => '_makeGradesInput',
+			'SORT_ORDER' => '_makeGradesInput',
+			'GPA_VALUE' => '_makeGradesInput',
+			'UNWEIGHTED_GP' => '_makeGradesInput',
+			'COMMENT' => '_makeGradesInput',
+		);
+
+		$LO_columns = array(
+			'TITLE' => _( 'Title' ),
+			'BREAK_OFF' => _( 'Breakoff' ),
+			'GPA_VALUE' => _( 'GPA Value' ),
+			'UNWEIGHTED_GP' => _( 'Unweighted GP Value' ),
+			'SORT_ORDER' => _( 'Order' ),
+			'COMMENT' => _( 'Comment' ),
+		);
 
 		if (User('PROFILE')=='admin' && AllowEdit())
 		{
@@ -264,7 +270,9 @@ function _makeGradesInput( $value, $name )
 		$id = $THIS_RET['ID'];
 	}
 	else
+	{
 		$id = 'new';
+	}
 
 	if ( $name === 'GRADE_SCALE_ID' )
 	{
@@ -276,21 +284,10 @@ function _makeGradesInput( $value, $name )
 			false
 		);
 	}
-	elseif ( $name === 'COMMENT' )
+
+	if ( $name === 'COMMENT' )
 	{
 		$extra = 'size=15 maxlength=100';
-	}
-	// FJ Honor Roll by Subject.
-	elseif ( $name === 'GPA_VALUE'
-		|| $name === 'HHR_GPA_VALUE'
-		|| $name === 'HR_GPA_VALUE'
-		|| $name === 'HRS_GPA_VALUE' )
-	{
-		$extra = 'size=5 maxlength=5';
-	}
-	elseif ( $name === 'SORT_ORDER' )
-	{
-		$extra = 'size=5 maxlength=5';
 	}
 	elseif ( $name === 'BREAK_OFF'
 		&& $teacher_id
@@ -302,6 +299,12 @@ function _makeGradesInput( $value, $name )
 	else
 	{
 		$extra = 'size=5 maxlength=5';
+
+		if ( $name === 'TITLE'
+			&& $id !== 'new' )
+		{
+			$extra .= ' required';
+		}
 	}
 
 	return TextInput(
