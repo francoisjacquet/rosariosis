@@ -20,10 +20,11 @@ function _makePaymentsRemove( $value, $column )
 	return _makeIncomesRemove( $value, $name );
 }
 
-function _makeIncomesTextInput($value,$name)
-{	global $THIS_RET;
+function _makeIncomesTextInput( $value, $name )
+{
+	global $THIS_RET;
 
-	if ( $THIS_RET['ID'])
+	if ( $THIS_RET['ID'] )
 	{
 		$id = $THIS_RET['ID'];
 		$div = 'force';
@@ -34,10 +35,12 @@ function _makeIncomesTextInput($value,$name)
 		$div = false;
 	}
 
-	if ( $name=='AMOUNT')
+	if ( $name === 'AMOUNT' )
+	{
 		$extra = 'size=5 maxlength=10';
+	}
 
-	return TextInput($value,'values['.$id.']['.$name.']','',$extra,$div);
+	return TextInput( $value, 'values[' . $id . '][' . $name . ']', '', $extra, $div );
 }
 
 
