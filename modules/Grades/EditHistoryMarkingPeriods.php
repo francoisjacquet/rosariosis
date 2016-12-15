@@ -80,27 +80,30 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$sql = 'SELECT * FROM history_marking_periods WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY POST_END_DATE';
 
-	$functions = array( 'MP_TYPE' => '_makeSelectInput',
-			'NAME' => '_makeTextInput',
-			'SHORT_NAME' => '_makeTextInput',
-			'POST_END_DATE' => '_makeDateInput',
-			'SYEAR' => '_makeSchoolYearSelectInput'
-			);
+	$functions = array(
+		'MP_TYPE' => '_makeSelectInput',
+		'NAME' => '_makeTextInput',
+		'SHORT_NAME' => '_makeTextInput',
+		'POST_END_DATE' => '_makeDateInput',
+		'SYEAR' => '_makeSchoolYearSelectInput',
+	);
 
 	//FJ add translation
-	$LO_columns = array('MP_TYPE' => _('Type'),
-			'NAME' => _('Name'),
-			'SHORT_NAME' => _('Short Name'),
-			'POST_END_DATE' => _('Grade Post Date'),
-			'SYEAR' => _('School Year')
-			);
+	$LO_columns = array(
+		'MP_TYPE' => _( 'Type' ),
+		'NAME' => _( 'Name' ),
+		'SHORT_NAME' => _( 'Short Name' ),
+		'POST_END_DATE' => _( 'Grade Post Date' ),
+		'SYEAR' => _( 'School Year' ),
+	);
 
-	$link['add']['html'] = array('MP_TYPE'=>_makeSelectInput('','MP_TYPE'),
-			'NAME'=>_makeTextInput('','NAME'),
-			'SHORT_NAME'=>_makeTextInput('','SHORT_NAME'),
-			'POST_END_DATE'=>_makeDateInput('','POST_END_DATE'),
-			'SYEAR'=>_makeSchoolYearSelectInput('','SYEAR')
-			);
+	$link['add']['html'] = array(
+		'MP_TYPE' => _makeSelectInput( '', 'MP_TYPE' ),
+		'NAME' => _makeTextInput( '', 'NAME' ),
+		'SHORT_NAME' => _makeTextInput( '', 'SHORT_NAME' ),
+		'POST_END_DATE' => _makeDateInput( '', 'POST_END_DATE' ),
+		'SYEAR' => _makeSchoolYearSelectInput( '', 'SYEAR' ),
+	);
 
 	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';//&mp_id=$mp_id";
 	$link['remove']['variables'] = array('id' => 'MARKING_PERIOD_ID');
@@ -126,14 +129,6 @@ function _makeTextInput( $value, $name )
 		$id = 'new';
 	}
 
-//    if ( $name=='COURSE_TITLE')
-//        $extra = 'size=20 maxlength=25';
-//    elseif ( $name=='GRADE_PERCENT')
-//        $extra = 'size=6 maxlength=6';
-//    elseif ( $name=='GRADE_LETTER' || $name=='GP_VALUE' || $name=='UNWEIGHTED_GP_VALUE')
-//        $extra = 'size=5 maxlength=5';
-
-//    else
 	if ( $name === 'NAME' )
 	{
 		$extra = 'size=20 maxlength=25';
