@@ -29,7 +29,8 @@ if ( $_REQUEST['modfunc']=='update')
 							$sql = mb_substr($sql,0,-1) . " WHERE MENU_ID='".$id."'";
 						DBQuery($sql);
 					}
-					else
+					// New: check for Title
+					elseif ( $columns['TITLE'] )
 					{
 						if ( $_REQUEST['tab_id']!='new')
 						{

@@ -17,7 +17,8 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
 				DBQuery($sql);
 			}
-			else
+			// New: check for Title.
+			elseif ( $columns['TITLE'] )
 			{
 				$sql = "INSERT INTO STUDENT_ENROLLMENT_CODES ";
 

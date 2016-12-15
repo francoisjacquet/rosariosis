@@ -69,7 +69,8 @@ if ( UserStudentID() )
 
 						DBQuery($sql);
 					}
-					elseif ( $columns['COURSE_TITLE'])
+					// New: check for Title.
+					elseif ( $columns['COURSE_TITLE'] )
 					{
 						$sql = 'INSERT INTO student_report_card_grades ';
 

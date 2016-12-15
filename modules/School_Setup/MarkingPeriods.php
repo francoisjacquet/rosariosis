@@ -136,8 +136,8 @@ if ( isset( $_POST['tables'] )
 
 			$go = true;
 		}
-		// INSERT
-		else
+		// New: check for Title.
+		elseif ( $columns['TITLE'] )
 		{
 			$id_RET = DBGet( DBQuery( 'SELECT ' . db_seq_nextval( 'MARKING_PERIOD_SEQ' ).' AS ID' ) );
 

@@ -3,7 +3,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
 	foreach ( (array) $_REQUEST['values'] as $id => $columns)
 	{
-//FJ fix SQL bug invalid sort order
+		// FJ fix SQL bug invalid sort order.
 		if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
 		{
 			if ( $id!='new')
@@ -17,7 +17,8 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
 				DBQuery($sql);
 			}
-			else
+			// New: check for Title.
+			elseif ( $columns['TITLE'] )
 			{
 				$sql = "INSERT INTO SCHOOL_GRADELEVELS ";
 

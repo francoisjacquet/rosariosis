@@ -28,7 +28,8 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				$sql = mb_substr($sql,0,-1) . " WHERE PERIOD_ID='".$id."'";
 				DBQuery($sql);
 			}
-			else
+			// New: check for Title.
+			elseif ( $columns['TITLE'] )
 			{
 				$sql = "INSERT INTO SCHOOL_PERIODS ";
 

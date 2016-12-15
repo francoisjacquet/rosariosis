@@ -28,7 +28,8 @@ if ( $_REQUEST['modfunc']=='update')
 							$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
 							DBQuery($sql);
 						}
-						else
+						// New: check for Title
+						elseif ( $columns['TITLE'] )
 						{
 							$sql = "INSERT INTO $table ";
 
@@ -45,16 +46,7 @@ if ( $_REQUEST['modfunc']=='update')
 									$fields .= $column.',';
 									$values .= "'".$value."',";
 									$go = true;
-
-									$columns_to_insert++;
 								}
-							}
-
-							// Do not INSERT if only SORT_ORDER set
-							if ( !empty( $columns['SORT_ORDER'] )
-								&& $columns_to_insert === 1 )
-							{
-								$go = false;
 							}
 
 							$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';

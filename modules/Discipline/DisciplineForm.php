@@ -18,7 +18,8 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
 				$go = true;
 			}
-			else
+			// New: check for Title.
+			elseif ( $columns['TITLE'] )
 			{
 				$id = DBGet(DBQuery("SELECT ".db_seq_nextval('DISCIPLINE_FIELDS_SEQ').' AS ID'));
 				$id = $id[1]['ID'];
@@ -29,7 +30,6 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 
 
 				$go = 0;
-				if ( $columns['TITLE'])
 				{
 					foreach ( (array) $columns as $column => $value)
 					{

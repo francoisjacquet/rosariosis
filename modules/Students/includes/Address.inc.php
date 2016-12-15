@@ -213,29 +213,29 @@ if ( isset( $_POST['values'] )
 				$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
 				DBQuery($sql);
 			}
-			else
+			elseif ( $info_apd
+				|| ( $values['TITLE'] && $values['VALUE'] ) )
 			{
-				if ( $info_apd || ($values['TITLE'] && $values['VALUE']))
+				$sql = "INSERT INTO PEOPLE_JOIN_CONTACTS ";
+
+				$fields = 'ID,PERSON_ID,';
+				$vals = db_seq_nextval('PEOPLE_JOIN_CONTACTS_SEQ').",'".$_REQUEST['person_id']."',";
+
+				$go = 0;
+				foreach ( (array) $values as $column => $value)
 				{
-					$sql = "INSERT INTO PEOPLE_JOIN_CONTACTS ";
-
-					$fields = 'ID,PERSON_ID,';
-					$vals = db_seq_nextval('PEOPLE_JOIN_CONTACTS_SEQ').",'".$_REQUEST['person_id']."',";
-
-					$go = 0;
-					foreach ( (array) $values as $column => $value)
+					if ( !empty($value) || $value=='0')
 					{
-						if ( !empty($value) || $value=='0')
-						{
-							$fields .= $column.',';
-							$vals .= "'".$value."',";
-							$go = true;
-						}
+						$fields .= $column.',';
+						$vals .= "'".$value."',";
+						$go = true;
 					}
-					$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($vals,0,-1) . ')';
-					if ( $go)
-						DBQuery($sql);
 				}
+
+				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($vals,0,-1) . ')';
+
+				if ( $go)
+					DBQuery($sql);
 			}
 		}
 	}

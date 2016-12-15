@@ -31,7 +31,8 @@ if ( $_REQUEST['modfunc']=='update')
 
 			DBQuery($sql);
 		}
-		else
+		// New: check for Name.
+		elseif ( $columns['NAME'] )
 		{
 			$sql = 'INSERT INTO history_marking_periods ';
 			$fields = 'MARKING_PERIOD_ID, SCHOOL_ID, ';
@@ -48,7 +49,7 @@ if ( $_REQUEST['modfunc']=='update')
 
 			$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 
-			if ( $go && $columns['NAME'])
+			if ( $go )
 				DBQuery($sql);
 		}
 	}

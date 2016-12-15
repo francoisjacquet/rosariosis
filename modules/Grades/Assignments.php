@@ -123,9 +123,10 @@ if ( isset( $_POST['tables'] )
 
 						$gradebook_assignment_update = true;
 					}
-					else
+					// New: check for Title.
+					elseif ( $columns['TITLE'] )
 					{
-						$sql = "INSERT INTO $table ";
+						$sql = "INSERT INTO " . $table . " ";
 
 						if ( $table == 'GRADEBOOK_ASSIGNMENTS')
 						{

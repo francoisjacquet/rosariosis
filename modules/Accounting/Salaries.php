@@ -39,7 +39,8 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			$sql = mb_substr($sql,0,-1) . " WHERE STAFF_ID='".UserStaffID()."' AND ID='".$id."'";
 			DBQuery($sql);
 		}
-		else
+		// New: check for Title
+		elseif ( $columns['TITLE'] )
 		{
 			$sql = "INSERT INTO ACCOUNTING_SALARIES ";
 
