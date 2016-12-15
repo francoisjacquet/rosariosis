@@ -101,8 +101,11 @@ if ( $_REQUEST['modfunc']=='update')
 
 						unset($_REQUEST['new_school']);
 
-						//set new current school
+						// Set new current school.
 						$_SESSION['UserSchool'] = $id;
+
+						// Unset current student.
+						unset( $_SESSION['student_id'] );
 					}
 				}
 				UpdateSchoolArray(UserSchool());
@@ -113,7 +116,9 @@ if ( $_REQUEST['modfunc']=='update')
 		unset($_SESSION['_REQUEST_vars']['values']);
 		$_SESSION['_REQUEST_vars']['modfunc'] = false;
 	}
-	elseif ( $_REQUEST['button']==_('Delete') && User('PROFILE')=='admin' && AllowEdit())
+	elseif ( $_REQUEST['button'] === _( 'Delete' )
+		&& User( 'PROFILE' ) === 'admin'
+		&& AllowEdit() )
 	{
 		if (DeletePrompt(_('School')))
 		{

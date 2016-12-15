@@ -4,6 +4,7 @@
 Changes in 2.9.13
 -----------------
 - Always use SchoolInfo() instead of querying SCHOOLS DB table, programwide
+- Unset current student after setting new current school in Schools.php & CopySchool.php
 
 Changes in 2.9.12
 -----------------

@@ -54,7 +54,10 @@ if ( $go
 
 	DBQuery( "INSERT INTO SCHOOLS (ID,SYEAR,TITLE,REPORTING_GP_SCALE)
 		values('" . $id . "','" . UserSyear() . "','" . $_REQUEST['title'] . "',
-		(SELECT REPORTING_GP_SCALE FROM SCHOOLS WHERE ID='" . UserSchool() . "'))" );
+		(SELECT REPORTING_GP_SCALE
+			FROM SCHOOLS
+			WHERE ID='" . UserSchool() . "'
+			AND SYEAR='" . UserSyear() . "'))" );
 
 	DBQuery( "UPDATE STAFF
 		SET SCHOOLS=rtrim(SCHOOLS,',')||'," . $id . ",'
@@ -79,8 +82,11 @@ if ( $go
 
 	unset( $_SESSION['_REQUEST_vars']['tables'] );
 
-	//set new current school
+	// Set new current school.
 	$_SESSION['UserSchool'] = $id;
+
+	// Unset current student.
+	unset( $_SESSION['student_id'] );
 
 	UpdateSchoolArray( UserSchool() );
 }
