@@ -3,6 +3,9 @@
 
 Changes in 2.9.12
 -----------------
+**Warning**: consequently to commit 2eaee53c6e9f5d9e7bfa24be859e9c711de88b39
+please also upgrade the [Students Import](https://github.com/francoisjacquet/Students_Import) & [Reports](https://github.com/francoisjacquet/Reports) add-on modules.
+
 - Order Schools list by title in Users/includes/General_Info.inc.php & Side.php (sponsored by Aptiris)
 - Add Open Sans CSS to stylesheet_wkhtmltopdf.css
 - Add Force Default Theme option in Configuration.php & User.fnc.php
