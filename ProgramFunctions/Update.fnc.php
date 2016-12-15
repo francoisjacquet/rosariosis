@@ -25,6 +25,17 @@ function Update()
 
 	$to_version = ROSARIO_VERSION;
 
+	/**
+	 * Check if Update() version < ROSARIO_VERSION.
+	 *
+	 * Prevent DB version update if new Update.fnc.php file has NOT been uploaded YET.
+	 * Update must be run once both new Warehouse.php & Update.fnc.php files are uploaded.
+	 */
+	if ( version_compare( '2.9.12', ROSARIO_VERSION, '<' ) )
+	{
+		return false;
+	}
+
 	// Check if version in DB >= ROSARIO_VERSION.
 	if ( version_compare( $from_version, $to_version, '>=' ) )
 	{
