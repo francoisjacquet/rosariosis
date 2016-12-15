@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-11-28 18:11-0500\n"
-"PO-Revision-Date: 2016-11-28 18:15-0500\n"
+"PO-Revision-Date: 2016-12-07 10:54-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -4685,8 +4685,8 @@ msgstr "Pourcentages des Notes Définitives"
 #: modules/Grades/EditHistoryMarkingPeriods.php:109
 msgid "History Marking Period"
 msgid_plural "History Marking Periods"
-msgstr[0] "Historique de Période Scolaire"
-msgstr[1] "Historique des Périodes Scolaires"
+msgstr[0] "Période Scolaire Antérieure"
+msgstr[1] "Périodes Scolaires Antérieures"
 
 #: modules/Grades/EditHistoryMarkingPeriods.php:93
 msgid "Grade Post Date"
@@ -5063,7 +5063,7 @@ msgstr "Historique des Périodes Scolaires"
 
 #: modules/Grades/Menu.php:35
 msgid "Edit Student Grades"
-msgstr "Notation des Élèves"
+msgstr "Éditer les Notes des Élèves"
 
 #: modules/Grades/Menu.php:37 modules/Grades/Menu.php:45
 #: modules/Grades/Menu.php:80
