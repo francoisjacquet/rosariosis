@@ -284,7 +284,7 @@ function makeSelectInput($value,$name)
 			'values[' . $id . '][' . $name . ']',
 			'',
 			$items_select,
-			$id == 'new' ? '' : false
+			( $id === 'new' ? 'N/A' : false )
 		);
 	}
 	elseif ( $name=='CATEGORY_ID')
