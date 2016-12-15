@@ -18,13 +18,25 @@ if ( $_REQUEST['modfunc'] === 'save' )
 {
 	if (count($_REQUEST['period']) && count($_REQUEST['student']) && count($_REQUEST['dates']))
 	{
-		foreach ( (array) $_REQUEST['period'] as $period_id => $yes)
-			$periods_list .= ",'".$period_id."'";
-		$periods_list = '('.mb_substr($periods_list,1).')';
+		foreach ( (array) $_REQUEST['period'] as $period_id => $yes )
+		{
+			if ( $yes )
+			{
+				$periods_list .= ",'" . $period_id . "'";
+			}
+		}
 
-		foreach ( (array) $_REQUEST['student'] as $student_id => $yes)
-			$students_list .= ",'".$student_id."'";
-		$students_list = '('.mb_substr($students_list,1).')';
+		$periods_list = '(' . mb_substr( $periods_list, 1 ) . ')';
+
+		foreach ( (array) $_REQUEST['student'] as $student_id => $yes )
+		{
+			if ( $yes )
+			{
+				$students_list .= ",'" . $student_id . "'";
+			}
+		}
+
+		$students_list = '(' . mb_substr( $students_list, 1 ) . ')';
 
 		$current_RET = DBGet(DBQuery("SELECT STUDENT_ID,PERIOD_ID,SCHOOL_DATE
 		FROM ATTENDANCE_PERIOD
@@ -68,9 +80,15 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				} else {
 					$course_periods_RET = DBGet(DBQuery("SELECT s.COURSE_PERIOD_ID,cpsp.PERIOD_ID,cp.HALF_DAY FROM SCHEDULE s,COURSE_PERIODS cp,ATTENDANCE_CALENDAR ac,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE sp.PERIOD_ID=cpsp.PERIOD_ID AND ac.SCHOOL_DATE='".$date."' AND ac.CALENDAR_ID=cp.CALENDAR_ID AND (ac.BLOCK=sp.BLOCK OR sp.BLOCK IS NULL) AND s.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND s.STUDENT_ID='".$student_id."' AND cpsp.PERIOD_ID IN $periods_list AND position(',0,' IN cp.DOES_ATTENDANCE)>0 AND (ac.SCHOOL_DATE BETWEEN s.START_DATE AND s.END_DATE OR (s.END_DATE IS NULL AND ac.SCHOOL_DATE>=s.START_DATE)) AND position(substring('UMTWHFS' FROM cast(extract(DOW FROM ac.SCHOOL_DATE) AS INT)+1 FOR 1) IN cpsp.DAYS)>0 AND s.MARKING_PERIOD_ID IN ($all_mp)"),array(),array('PERIOD_ID'));
 				}
+
 				//echo '<pre>'; var_dump($course_periods_RET); echo '</pre>';
-				foreach ( (array) $_REQUEST['period'] as $period_id => $yes)
+				foreach ( (array) $_REQUEST['period'] as $period_id => $yes )
 				{
+					if ( ! $yes )
+					{
+						continue;
+					}
+
 					$course_period_id = $course_periods_RET[ $period_id ][1]['COURSE_PERIOD_ID'];
 					if ( $course_period_id && !($course_periods_RET[ $period_id ][1]['COURSE_PERIOD_ID']=='Y' && $state_code=='H'))
 					{
