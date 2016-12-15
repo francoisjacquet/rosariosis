@@ -79,21 +79,35 @@ if ( ! $_REQUEST['modfunc'] )
 	echo '</form>';
 }
 
-function _makeTextInput($value,$name)
-{	global $THIS_RET;
+function _makeTextInput( $value, $name )
+{
+	global $THIS_RET;
 
-	if ( $THIS_RET['ID'])
+	if ( $THIS_RET['ID'] )
+	{
 		$id = $THIS_RET['ID'];
+	}
 	else
+	{
 		$id = 'new';
+	}
 
-	if ( $name=='LINK')
+	if ( $name === 'LINK' )
+	{
 		$extra = 'maxlength=1000';
+	}
 
-	if ( $name=='TITLE')
+	if ( $name === 'TITLE' )
+	{
 		$extra = 'maxlength=256';
+	}
 
-	return TextInput($value,'values['.$id.']['.$name.']','',$extra);
+	if ( $id !== 'new' )
+	{
+		$extra .= ' required';
+	}
+
+	return TextInput( $value, 'values[' . $id . '][' . $name . ']', '', $extra );
 }
 
 function _makeLink($value,$name)

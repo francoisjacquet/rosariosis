@@ -6,7 +6,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
 	foreach ( (array) $_REQUEST['values'] as $id => $columns)
 	{
-//FJ fix SQL bug invalid sort order
+		// FJ fix SQL bug invalid sort order.
 		if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
 		{
 			if ( $id!='new')
@@ -30,67 +30,66 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 
 
 				$go = 0;
+
+				foreach ( (array) $columns as $column => $value)
 				{
-					foreach ( (array) $columns as $column => $value)
+					if ( $value && $column!='SORT_ORDER' && $column!='SELECT_OPTIONS')
 					{
-						if ( $value && $column!='SORT_ORDER' && $column!='SELECT_OPTIONS')
-						{
-							$fields .= $column.',';
-							$values .= "'".$value."',";
-							$go = true;
-						}
+						$fields .= $column.',';
+						$values .= "'".$value."',";
+						$go = true;
 					}
-
-					$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
-
-					$usage_sql = "INSERT INTO DISCIPLINE_FIELD_USAGE ";
-
-					$fields = "ID,DISCIPLINE_FIELD_ID,SYEAR,SCHOOL_ID,";
-					$values = db_seq_nextval('DISCIPLINE_FIELD_USAGE_SEQ').",'".$id."','".UserSyear()."','".UserSchool()."',";
-
-					foreach ( (array) $columns as $column => $value)
-					{
-						if ( $value && $column!='DATA_TYPE')
-						{
-							$fields .= $column.',';
-							$values .= "'".$value."',";
-						}
-					}
-
-					$usage_sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
-
-
-					$create_index = true;
-					switch ( $columns['DATA_TYPE'])
-					{
-						case 'checkbox':
-							DBQuery("ALTER TABLE DISCIPLINE_REFERRALS ADD CATEGORY_$id VARCHAR(1)");
-						break;
-
-						case 'text':
-						case 'multiple_radio':
-						case 'multiple_checkbox':
-						case 'select':
-							DBQuery("ALTER TABLE DISCIPLINE_REFERRALS ADD CATEGORY_$id VARCHAR(1000)");
-						break;
-
-						case 'numeric':
-							DBQuery("ALTER TABLE DISCIPLINE_REFERRALS ADD CATEGORY_$id NUMERIC(20,2)");
-						break;
-
-						case 'date':
-							DBQuery("ALTER TABLE DISCIPLINE_REFERRALS ADD CATEGORY_$id DATE");
-						break;
-
-						case 'textarea':
-							DBQuery("ALTER TABLE DISCIPLINE_REFERRALS ADD CATEGORY_$id VARCHAR(5000)");
-							$create_index = false; //FJ SQL bugfix index row size exceeds maximum 2712 for index
-						break;
-					}
-					if ( $create_index)
-						DBQuery("CREATE INDEX DISCIPLINE_REFERRALS_IND$id ON DISCIPLINE_REFERRALS (CATEGORY_$id)");
-					DBQuery($usage_sql);
 				}
+
+				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
+
+				$usage_sql = "INSERT INTO DISCIPLINE_FIELD_USAGE ";
+
+				$fields = "ID,DISCIPLINE_FIELD_ID,SYEAR,SCHOOL_ID,";
+				$values = db_seq_nextval('DISCIPLINE_FIELD_USAGE_SEQ').",'".$id."','".UserSyear()."','".UserSchool()."',";
+
+				foreach ( (array) $columns as $column => $value)
+				{
+					if ( $value && $column!='DATA_TYPE')
+					{
+						$fields .= $column.',';
+						$values .= "'".$value."',";
+					}
+				}
+
+				$usage_sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
+
+
+				$create_index = true;
+				switch ( $columns['DATA_TYPE'])
+				{
+					case 'checkbox':
+						DBQuery("ALTER TABLE DISCIPLINE_REFERRALS ADD CATEGORY_$id VARCHAR(1)");
+					break;
+
+					case 'text':
+					case 'multiple_radio':
+					case 'multiple_checkbox':
+					case 'select':
+						DBQuery("ALTER TABLE DISCIPLINE_REFERRALS ADD CATEGORY_$id VARCHAR(1000)");
+					break;
+
+					case 'numeric':
+						DBQuery("ALTER TABLE DISCIPLINE_REFERRALS ADD CATEGORY_$id NUMERIC(20,2)");
+					break;
+
+					case 'date':
+						DBQuery("ALTER TABLE DISCIPLINE_REFERRALS ADD CATEGORY_$id DATE");
+					break;
+
+					case 'textarea':
+						DBQuery("ALTER TABLE DISCIPLINE_REFERRALS ADD CATEGORY_$id VARCHAR(5000)");
+						$create_index = false; //FJ SQL bugfix index row size exceeds maximum 2712 for index
+					break;
+				}
+				if ( $create_index)
+					DBQuery("CREATE INDEX DISCIPLINE_REFERRALS_IND$id ON DISCIPLINE_REFERRALS (CATEGORY_$id)");
+				DBQuery($usage_sql);
 			}
 
 			if ( $go)
@@ -195,25 +194,48 @@ function _makeType($value,$name)
 		return SelectInput($value,'values[new]['.$name.']','',$new_options,false);
 }
 
-function _makeTextInput($value,$name)
-{	global $THIS_RET;
+function _makeTextInput( $value, $name )
+{
+	global $THIS_RET;
 
-	if ( $THIS_RET['USAGE_ID'])
+	if ( $THIS_RET['USAGE_ID'] )
+	{
 		$id = $THIS_RET['USAGE_ID'];
-	elseif ( $THIS_RET['ID'])
+	}
+	elseif ( $THIS_RET['ID'] )
+	{
 		$id = 'usage';
+	}
 	else
+	{
 		$id = 'new';
+	}
 
-	if ( $name!='TITLE')
+	if ( $name !== 'TITLE' )
+	{
 		$extra = 'size=5 maxlength=2';
-	if ( $name=='SORT_ORDER')
-		$comment = '<!-- '.$value.' -->';
+	}
+	elseif ( $id !== 'new' )
+	{
+		$extra = 'required';
+	}
 
-	if ( $id=='usage')
+	$comment = '';
+
+	if ( $name === 'SORT_ORDER' )
+	{
+		$comment = '<!-- ' . $value . ' -->';
+	}
+
+	if ( $id=== 'usage' )
+	{
 		return $value;
+	}
 	else
-		return $comment.TextInput($value,'values['.$id.']['.$name.']','',$extra);
+	{
+		return $comment .
+			TextInput( $value, 'values[' . $id . '][' . $name . ']', '', $extra );
+	}
 }
 
 function _makeTextAreaInput( $value, $name )

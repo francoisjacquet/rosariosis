@@ -221,24 +221,32 @@ if ( $_REQUEST['modfunc']!='remove')
 	echo '</form>';
 }
 
-function _makeTextInput($value,$name)
-{	global $THIS_RET;
+function _makeTextInput( $value, $name )
+{
+	global $THIS_RET;
 
-	if ( $THIS_RET['ID'])
+	if ( $THIS_RET['ID'] )
+	{
 		$id = $THIS_RET['ID'];
+	}
 	else
+	{
 		$id = 'new';
+	}
 
-	if ( $name!='TITLE')
+	if ( $name !== 'TITLE' )
+	{
 		$extra = 'size=5 maxlength=10';
-//FJ title field required
-	if ( $name=='TITLE' && $id != 'new')
+	}
+	elseif ( $id !== 'new')
+	{
 		$extra = 'required';
+	}
 
 	return TextInput(
-		$name == 'TITLE' && $THIS_RET['EXPIRED'] ?
+		( $name == 'TITLE' && $THIS_RET['EXPIRED'] ?
 			array( $value, '<span style="color:red">' . $value . '</span>' ) :
-			$value,
+			$value ),
 		'values[' . $id . '][' . $name . ']',
 		'',
 		$extra

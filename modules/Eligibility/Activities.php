@@ -74,12 +74,30 @@ if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )
 if ( $_REQUEST['modfunc']!='remove')
 {
 	$sql = "SELECT ID,TITLE,START_DATE,END_DATE FROM ELIGIBILITY_ACTIVITIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY TITLE";
-	$QI = DBQuery($sql);
-	$activities_RET = DBGet($QI,array('TITLE' => 'makeTextInput','START_DATE' => 'makeDateInput','END_DATE' => 'makeDateInput'));
 
-	$columns = array('TITLE' => _('Title'),'START_DATE' => _('Begins'),'END_DATE' => _('Ends'));
-	$link['add']['html'] = array('TITLE'=>makeTextInput('','TITLE'),'START_DATE'=>makeDateInput('','START_DATE'),'END_DATE'=>makeDateInput('','END_DATE'));
+	$activities_RET = DBGet(
+		DBQuery( $sql ),
+		array(
+			'TITLE' => '_makeTextInput',
+			'START_DATE' => '_makeDateInput',
+			'END_DATE' => '_makeDateInput',
+		)
+	);
+
+	$columns = array(
+		'TITLE' => _( 'Title' ),
+		'START_DATE' => _( 'Begins' ),
+		'END_DATE' => _( 'Ends' ),
+	);
+
+	$link['add']['html'] = array(
+		'TITLE' => _makeTextInput( '', 'TITLE' ),
+		'START_DATE' => _makeDateInput( '', 'START_DATE' ),
+		'END_DATE' => _makeDateInput( '', 'END_DATE' ),
+	);
+
 	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';
+
 	$link['remove']['variables'] = array('id' => 'ID');
 
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
@@ -89,24 +107,41 @@ if ( $_REQUEST['modfunc']!='remove')
 	echo '</form>';
 }
 
-function makeTextInput($value,$name)
-{	global $THIS_RET;
+function _makeTextInput( $value, $name )
+{
+	global $THIS_RET;
 
-	if ( $THIS_RET['ID'])
+	$extra = '';
+
+	if ( $THIS_RET['ID'] )
+	{
 		$id = $THIS_RET['ID'];
-	else
-		$id = 'new';
 
-	return TextInput($value,'values['.$id.']['.$name.']');
+		if ( $name === 'TITLE' )
+		{
+			$extra .= ' required';
+		}
+	}
+	else
+	{
+		$id = 'new';
+	}
+
+	return TextInput( $value, 'values[' . $id . '][' . $name . ']', '', $extra );
 }
 
-function makeDateInput($value,$name)
-{	global $THIS_RET;
+function _makeDateInput( $value, $name )
+{
+	global $THIS_RET;
 
-	if ( $THIS_RET['ID'])
+	if ( $THIS_RET['ID'] )
+	{
 		$id = $THIS_RET['ID'];
+	}
 	else
+	{
 		$id = 'new';
+	}
 
-	return DateInput($value,'values['.$id.']['.$name.']');
+	return DateInput( $value, 'values[' . $id . '][' . $name . ']', '', true, ( $id === 'new' ) );
 }

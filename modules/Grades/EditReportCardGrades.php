@@ -332,25 +332,46 @@ function _makeTextInput( $value, $name )
 {
 	global $THIS_RET;
 
-	if ( $THIS_RET['ID'])
+	if ( $THIS_RET['ID'] )
+	{
 		$id = $THIS_RET['ID'];
+	}
 	else
+	{
 		$id = 'new';
+	}
+
 	//    //bjj adding 'GP_SCALE'
-	if ( $name=='COURSE_TITLE')
+	if ( $name === 'COURSE_TITLE' )
+	{
 		$extra = 'size=20 maxlength=25';
-	elseif ( $name=='GRADE_PERCENT')
+
+		if ( $id !== 'new' )
+		{
+			$extra .= ' required';
+		}
+	}
+	elseif ( $name === 'GRADE_PERCENT' )
+	{
 		$extra = 'size=6 maxlength=6';
-	elseif ( $name=='GRADE_LETTER' || $name=='WEIGHTED_GP' || $name=='UNWEIGHTED_GP')
+	}
+	elseif ( $name === 'GRADE_LETTER'
+		|| $name === 'WEIGHTED_GP'
+		|| $name === 'UNWEIGHTED_GP' )
+	{
 		$extra = 'size=5 maxlength=5';
-	elseif ( $name=='CLASS_RANK')
+	}
+	elseif ( $name === 'CLASS_RANK' )
+	{
 		$extra = 'size=1 maxlength=1';
+	}
 	//elseif ( $name=='GP_VALUE')
 	//    $extra = 'size=5 maxlength=5';
 	//elseif ( $name=='UNWEIGHTED_GP_VALUE')
-
 	else
+	{
 		$extra = 'size=5 maxlength=10';
+	}
 
 	return TextInput( $value, "values[" . $id . "][" . $name . "]", '', $extra, ( $id !== 'new' ) );
 }

@@ -129,16 +129,16 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( $_REQUEST['tab_id']!='new')
 	{
 		$sql = 'SELECT * FROM REPORT_CARD_COMMENT_CODES WHERE SCALE_ID=\''.$_REQUEST['tab_id'].'\' AND SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER,ID';
-		$functions = array('TITLE' => 'makeCommentsInput','SHORT_NAME' => 'makeCommentsInput','COMMENT' => 'makeCommentsInput','SORT_ORDER' => 'makeCommentsInput');
+		$functions = array('TITLE' => '_makeCommentsInput','SHORT_NAME' => '_makeCommentsInput','COMMENT' => '_makeCommentsInput','SORT_ORDER' => '_makeCommentsInput');
 		$LO_columns = array('TITLE' => _('Title'),'SHORT_NAME' => _('Short Name'),'COMMENT' => _('Comment'),'SORT_ORDER' => _('Sort Order'));
 
 		if (User('PROFILE')=='admin' && AllowEdit())
 		{
-			$functions += array('SCALE_ID' => 'makeCommentsInput');
+			$functions += array('SCALE_ID' => '_makeCommentsInput');
 			$LO_columns += array('SCALE_ID' => _('Comment Scale'));
 		}
 
-		$link['add']['html'] = array('TITLE'=>makeCommentsInput('','TITLE'),'SHORT_NAME'=>makeCommentsInput('','SHORT_NAME'),'COMMENT'=>makeCommentsInput('','COMMENT'),'SORT_ORDER'=>makeCommentsInput('','SORT_ORDER'));
+		$link['add']['html'] = array('TITLE'=>_makeCommentsInput('','TITLE'),'SHORT_NAME'=>_makeCommentsInput('','SHORT_NAME'),'COMMENT'=>_makeCommentsInput('','COMMENT'),'SORT_ORDER'=>_makeCommentsInput('','SORT_ORDER'));
 		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&tab_id='.$_REQUEST['tab_id'];
 		$link['remove']['variables'] = array('id' => _('ID'));
 		$link['add']['html']['remove'] = button('add');
@@ -151,10 +151,10 @@ if ( ! $_REQUEST['modfunc'] )
 	else
 	{
 		$sql = 'SELECT * FROM REPORT_CARD_COMMENT_CODE_SCALES WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER,ID';
-		$functions = array('TITLE' => 'makeTextInput','COMMENT' => 'makeTextInput','SORT_ORDER' => 'makeTextInput');
+		$functions = array('TITLE' => '_makeTextInput','COMMENT' => '_makeTextInput','SORT_ORDER' => '_makeTextInput');
 		$LO_columns = array('TITLE' => _('Comment Scale'),'COMMENT' => _('Comment'),'SORT_ORDER' => _('Sort Order'));
 
-		$link['add']['html'] = array('TITLE'=>makeTextInput('','TITLE'),'COMMENT'=>makeTextInput('','COMMENT'),'HHR_GPA_VALUE'=>makeCommentsInput('','HHR_GPA_VALUE'),'HR_GPA_VALUE'=>makeCommentsInput('','HR_GPA_VALUE'),'SORT_ORDER'=>makeTextInput('','SORT_ORDER'));
+		$link['add']['html'] = array('TITLE'=>_makeTextInput('','TITLE'),'COMMENT'=>_makeTextInput('','COMMENT'),'HHR_GPA_VALUE'=>_makeCommentsInput('','HHR_GPA_VALUE'),'HR_GPA_VALUE'=>_makeCommentsInput('','HR_GPA_VALUE'),'SORT_ORDER'=>_makeTextInput('','SORT_ORDER'));
 		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&tab_id=new';
 		$link['remove']['variables'] = array('id' => _('ID'));
 		$link['add']['html']['remove'] = button('add');
@@ -180,15 +180,21 @@ if ( ! $_REQUEST['modfunc'] )
 	echo '</td></tr></table></form>';
 }
 
-function makeCommentsInput($value,$name)
-{	global $THIS_RET,$comment_scale_select;
+function _makeCommentsInput( $value, $name )
+{
+	global $THIS_RET,
+		$comment_scale_select;
 
-	if ( $THIS_RET['ID'])
+	if ( $THIS_RET['ID'] )
+	{
 		$id = $THIS_RET['ID'];
+	}
 	else
+	{
 		$id = 'new';
+	}
 
-	if ( $name=='SCALE_ID')
+	if ( $name === 'SCALE_ID' )
 	{
 		return SelectInput(
 			$value,
@@ -198,14 +204,29 @@ function makeCommentsInput($value,$name)
 			false
 		);
 	}
-	elseif ( $name=='COMMENT')
+	elseif ( $name === 'COMMENT' )
+	{
 		$extra = 'size=15 maxlength=100';
-	elseif ( $name=='SHORT_NAME')
+	}
+	elseif ( $name === 'SHORT_NAME' )
+	{
 		$extra = 'size=15 maxlength=100';
-	elseif ( $name=='SORT_ORDER')
+	}
+	elseif ( $name === 'SORT_ORDER' )
+	{
 		$extra = 'size=5 maxlength=5';
+	}
 	else
+	{
 		$extra = 'size=5 maxlength=5';
+	}
+
+	if ( $name === 'TITLE'
+		&& $id !== 'new' )
+	{
+		$extra .= ' required';
+	}
+
 
 	return TextInput(
 		$value,
@@ -215,20 +236,36 @@ function makeCommentsInput($value,$name)
 	);
 }
 
-function makeTextInput($value,$name)
-{	global $THIS_RET;
+function _makeTextInput( $value, $name )
+{
+	global $THIS_RET;
 
-	if ( $THIS_RET['ID'])
+	if ( $THIS_RET['ID'] )
+	{
 		$id = $THIS_RET['ID'];
+	}
 	else
+	{
 		$id = 'new';
+	}
 
-	if ( $name=='TITLE')
+	if ( $name === 'TITLE' )
+	{
 		$extra = 'size=15 maxlength=25';
-	elseif ( $name=='COMMENT')
+
+		if ( $id !== 'new' )
+		{
+			$extra .= ' required';
+		}
+	}
+	elseif ( $name === 'COMMENT' )
+	{
 		$extra = 'size=15 maxlength=100';
+	}
 	else
+	{
 		$extra = 'size=5 maxlength=5';
+	}
 
 	return TextInput(
 		$value,

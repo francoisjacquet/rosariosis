@@ -83,10 +83,10 @@ if ( $_REQUEST['modfunc']!='remove')
 {
 	$sql = "SELECT ID,TITLE,SHORT_NAME,TYPE,DEFAULT_CODE,SORT_ORDER FROM STUDENT_ENROLLMENT_CODES WHERE SYEAR='".UserSyear()."' ORDER BY SORT_ORDER,TITLE";
 	$QI = DBQuery($sql);
-	$codes_RET = DBGet($QI,array('TITLE' => 'makeTextInput','SHORT_NAME' => 'makeTextInput','TYPE' => 'makeSelectInput','DEFAULT_CODE' => 'makeCheckBoxInput','SORT_ORDER' => 'makeTextInput'));
+	$codes_RET = DBGet($QI,array('TITLE' => '_makeTextInput','SHORT_NAME' => '_makeTextInput','TYPE' => '_makeSelectInput','DEFAULT_CODE' => '_makeCheckBoxInput','SORT_ORDER' => '_makeTextInput'));
 
 	$columns = array('TITLE' => _('Title'),'SHORT_NAME' => _('Short Name'),'TYPE' => _('Type'),'DEFAULT_CODE' => _('Rollover Default'),'SORT_ORDER' => _('Sort Order'));
-	$link['add']['html'] = array('TITLE'=>makeTextInput('','TITLE'),'SHORT_NAME'=>makeTextInput('','SHORT_NAME'),'TYPE'=>makeSelectInput('','TYPE'),'DEFAULT_CODE'=>makeCheckBoxInput('','DEFAULT_CODE'),'SORT_ORDER'=>makeTextInput('','SORT_ORDER'));
+	$link['add']['html'] = array('TITLE'=>_makeTextInput('','TITLE'),'SHORT_NAME'=>_makeTextInput('','SHORT_NAME'),'TYPE'=>_makeSelectInput('','TYPE'),'DEFAULT_CODE'=>_makeCheckBoxInput('','DEFAULT_CODE'),'SORT_ORDER'=>_makeTextInput('','SORT_ORDER'));
 	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';
 	$link['remove']['variables'] = array('id' => _('ID'));
 
@@ -98,45 +98,87 @@ if ( $_REQUEST['modfunc']!='remove')
 	echo '</form>';
 }
 
-function makeTextInput($value,$name)
-{	global $THIS_RET;
+function _makeTextInput( $value, $name )
+{
+	global $THIS_RET;
 
-	if ( $THIS_RET['ID'])
+	if ( $THIS_RET['ID'] )
+	{
 		$id = $THIS_RET['ID'];
+	}
 	else
+	{
 		$id = 'new';
+	}
 
-	if ( $name=='SHORT_NAME')
+	if ( $name === 'SHORT_NAME' )
+	{
 		$extra = 'size=5 maxlength=10';
-	elseif ( $name=='SORT_ORDER')
+	}
+	elseif ( $name === 'SORT_ORDER' )
+	{
 		$extra = 'size=5 maxlength=10';
+	}
+	elseif ( $name === 'TITLE' )
+	{
+		$extra = '';
 
-	return TextInput($value,'values['.$id.']['.$name.']','',$extra);
+		if ( $id !== 'new' )
+		{
+			$extra .= ' required';
+		}
+	}
+
+	return TextInput( $value, 'values[' . $id . '][' . $name . ']', '', $extra );
 }
 
-function makeSelectInput($value,$name)
-{	global $THIS_RET;
+function _makeSelectInput( $value, $name )
+{
+	global $THIS_RET;
 
-	if ( $THIS_RET['ID'])
+	if ( $THIS_RET['ID'] )
+	{
 		$id = $THIS_RET['ID'];
+	}
 	else
+	{
 		$id = 'new';
+	}
 
-	if ( $name=='TYPE')
-		$options = array('Add' => _('Add'),'Drop' => _('Drop'));
+	if ( $name === 'TYPE' )
+	{
+		$options = array( 'Add' => _( 'Add' ), 'Drop' => _( 'Drop' ) );
+	}
 
-	return SelectInput($value,'values['.$id.']['.$name.']','',$options);
+	return SelectInput(
+		$value,
+		'values[' . $id . '][' . $name . ']',
+		'',
+		$options,
+		( $id === 'new' ? 'N/A' : false )
+	);
 }
 
-function makeCheckBoxInput($value,$name)
-{	global $THIS_RET;
+function _makeCheckBoxInput( $value, $name )
+{
+	global $THIS_RET;
 
-	if ( $THIS_RET['ID'])
+	if ( $THIS_RET['ID'] )
+	{
 		$id = $THIS_RET['ID'];
+	}
 	else
+	{
 		$id = 'new';
+	}
 
-//FJ css WPadmin
-//	return CheckboxInput($value,'values['.$id.']['.$name.']','','',($id=='new'));
-	return CheckboxInput($value, 'values['.$id.']['.$name.']', '', '', ($id=='new'), button('check'), button('x'));
+	return CheckboxInput(
+		$value,
+		'values[' . $id . '][' . $name . ']',
+		'',
+		'',
+		( $id === 'new' ),
+		button( 'check' ),
+		button( 'x' )
+	);
 }

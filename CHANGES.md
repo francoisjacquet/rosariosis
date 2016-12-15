@@ -12,6 +12,8 @@ Changes in 2.9.12
 - When -Edit- option selected, change the Address auto pull-downs to text fields in Address.inc.php (sponsored by Aptiris)
 - Fix #173 resend login form: redirect to Modules.php in index.php
 - Fix Recreate Calendar defaults + copy Calendar weekdays in Calendar.php
+- New: check for Title, programwide
+- Not new: Title is required, programwide
 
 Changes in 2.9.11
 -----------------

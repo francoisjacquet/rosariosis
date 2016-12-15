@@ -149,12 +149,12 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( $_REQUEST['tab_id'] !== 'new' )
 	{
 		$sql = 'SELECT * FROM REPORT_CARD_GRADES WHERE GRADE_SCALE_ID=\''.$_REQUEST['tab_id'].'\' AND SYEAR=\''.UserSyear().'\' AND SCHOOL_ID=\''.UserSchool().'\' ORDER BY BREAK_OFF IS NOT NULL DESC,BREAK_OFF DESC, SORT_ORDER';
-		$functions = array('TITLE' => 'makeGradesInput',
-							'BREAK_OFF' => 'makeGradesInput',
-							'SORT_ORDER' => 'makeGradesInput',
-							'GPA_VALUE' => 'makeGradesInput',
-							'UNWEIGHTED_GP' => 'makeGradesInput',
-							'COMMENT' => 'makeGradesInput');
+		$functions = array('TITLE' => '_makeGradesInput',
+							'BREAK_OFF' => '_makeGradesInput',
+							'SORT_ORDER' => '_makeGradesInput',
+							'GPA_VALUE' => '_makeGradesInput',
+							'UNWEIGHTED_GP' => '_makeGradesInput',
+							'COMMENT' => '_makeGradesInput');
 		$LO_columns = array('TITLE' => _('Title'),
 							'BREAK_OFF' => _('Breakoff'),
 							'GPA_VALUE' => _('GPA Value'),
@@ -164,11 +164,11 @@ if ( ! $_REQUEST['modfunc'] )
 
 		if (User('PROFILE')=='admin' && AllowEdit())
 		{
-			$functions += array('GRADE_SCALE_ID' => 'makeGradesInput');
+			$functions += array('GRADE_SCALE_ID' => '_makeGradesInput');
 			$LO_columns += array('GRADE_SCALE_ID' => _('Grade Scale'));
 		}
 
-		$link['add']['html'] = array('TITLE'=>makeGradesInput('','TITLE'),'BREAK_OFF'=>makeGradesInput('','BREAK_OFF'),'GPA_VALUE'=>makeGradesInput('','GPA_VALUE'),'UNWEIGHTED_GP'=>makeGradesInput('','UNWEIGHTED_GP'),'SORT_ORDER'=>makeGradesInput('','SORT_ORDER'),'COMMENT'=>makeGradesInput('','COMMENT'));
+		$link['add']['html'] = array('TITLE'=>_makeGradesInput('','TITLE'),'BREAK_OFF'=>_makeGradesInput('','BREAK_OFF'),'GPA_VALUE'=>_makeGradesInput('','GPA_VALUE'),'UNWEIGHTED_GP'=>_makeGradesInput('','UNWEIGHTED_GP'),'SORT_ORDER'=>_makeGradesInput('','SORT_ORDER'),'COMMENT'=>_makeGradesInput('','COMMENT'));
 		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&tab_id='.$_REQUEST['tab_id'];
 		$link['remove']['variables'] = array('id' => 'ID');
 		$link['add']['html']['remove'] = button('add');
@@ -189,14 +189,14 @@ if ( ! $_REQUEST['modfunc'] )
 			ORDER BY SORT_ORDER,ID";
 
 		$functions = array(
-			'TITLE' => 'makeTextInput',
-			'GP_SCALE' => 'makeTextInput',
-			'GP_PASSING_VALUE' => 'makeTextInput',
-			'COMMENT' => 'makeTextInput',
-			'HHR_GPA_VALUE' => 'makeGradesInput',
-			'HR_GPA_VALUE' => 'makeGradesInput',
-			'HRS_GPA_VALUE' => 'makeGradesInput',
-			'SORT_ORDER' => 'makeTextInput',
+			'TITLE' => '_makeTextInput',
+			'GP_SCALE' => '_makeTextInput',
+			'GP_PASSING_VALUE' => '_makeTextInput',
+			'COMMENT' => '_makeTextInput',
+			'HHR_GPA_VALUE' => '_makeGradesInput',
+			'HR_GPA_VALUE' => '_makeGradesInput',
+			'HRS_GPA_VALUE' => '_makeGradesInput',
+			'SORT_ORDER' => '_makeTextInput',
 		);
 
 		$LO_columns = array(
@@ -211,14 +211,14 @@ if ( ! $_REQUEST['modfunc'] )
 		);
 
 		$link['add']['html'] = array(
-			'TITLE' => makeTextInput( '', 'TITLE' ),
-			'GP_SCALE' => makeTextInput( '', 'GP_SCALE' ),
-			'GP_PASSING_VALUE' => makeTextInput( '', 'GP_PASSING_VALUE' ),
-			'COMMENT' => makeTextInput( '', 'COMMENT' ),
-			'HHR_GPA_VALUE' => makeGradesInput( '', 'HHR_GPA_VALUE' ),
-			'HR_GPA_VALUE' => makeGradesInput( '', 'HR_GPA_VALUE' ),
-			'HRS_GPA_VALUE' => makeGradesInput( '', 'HRS_GPA_VALUE' ),
-			'SORT_ORDER' => makeTextInput( '', 'SORT_ORDER' ),
+			'TITLE' => _makeTextInput( '', 'TITLE' ),
+			'GP_SCALE' => _makeTextInput( '', 'GP_SCALE' ),
+			'GP_PASSING_VALUE' => _makeTextInput( '', 'GP_PASSING_VALUE' ),
+			'COMMENT' => _makeTextInput( '', 'COMMENT' ),
+			'HHR_GPA_VALUE' => _makeGradesInput( '', 'HHR_GPA_VALUE' ),
+			'HR_GPA_VALUE' => _makeGradesInput( '', 'HR_GPA_VALUE' ),
+			'HRS_GPA_VALUE' => _makeGradesInput( '', 'HRS_GPA_VALUE' ),
+			'SORT_ORDER' => _makeTextInput( '', 'SORT_ORDER' ),
 		);
 
 		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&tab_id=new';
@@ -252,15 +252,21 @@ if ( ! $_REQUEST['modfunc'] )
 	echo '</form>';
 }
 
-function makeGradesInput($value,$name)
-{	global $THIS_RET,$grade_scale_select,$teacher_id,$gradebook_config;
+function _makeGradesInput( $value, $name )
+{
+	global $THIS_RET,
+		$grade_scale_select,
+		$teacher_id,
+		$gradebook_config;
 
-	if ( $THIS_RET['ID'])
+	if ( $THIS_RET['ID'] )
+	{
 		$id = $THIS_RET['ID'];
+	}
 	else
 		$id = 'new';
 
-	if ( $name=='GRADE_SCALE_ID')
+	if ( $name === 'GRADE_SCALE_ID' )
 	{
 		return SelectInput(
 			$value,
@@ -270,17 +276,33 @@ function makeGradesInput($value,$name)
 			false
 		);
 	}
-	elseif ( $name=='COMMENT')
+	elseif ( $name === 'COMMENT' )
+	{
 		$extra = 'size=15 maxlength=100';
-//FJ Honor Roll by Subject
-	elseif ( $name=='GPA_VALUE' || $name=='HHR_GPA_VALUE' || $name=='HR_GPA_VALUE' || $name=='HRS_GPA_VALUE')
+	}
+	// FJ Honor Roll by Subject.
+	elseif ( $name === 'GPA_VALUE'
+		|| $name === 'HHR_GPA_VALUE'
+		|| $name === 'HR_GPA_VALUE'
+		|| $name === 'HRS_GPA_VALUE' )
+	{
 		$extra = 'size=5 maxlength=5';
-	elseif ( $name=='SORT_ORDER')
+	}
+	elseif ( $name === 'SORT_ORDER' )
+	{
 		$extra = 'size=5 maxlength=5';
-	elseif ( $name=='BREAK_OFF' && $teacher_id && $gradebook_config[UserCoursePeriod().'-'.$THIS_RET['ID']][1]['VALUE']!='')
-		return '<span style="color:blue">'.$gradebook_config[UserCoursePeriod().'-'.$THIS_RET['ID']][1]['VALUE'].'</span>';
+	}
+	elseif ( $name === 'BREAK_OFF'
+		&& $teacher_id
+		&& $gradebook_config[ UserCoursePeriod() . '-' . $THIS_RET['ID'] ][1]['VALUE'] != '' )
+	{
+		return '<span style="color:blue">' .
+			$gradebook_config[ UserCoursePeriod() . '-' . $THIS_RET['ID'] ][1]['VALUE'] . '</span>';
+	}
 	else
+	{
 		$extra = 'size=5 maxlength=5';
+	}
 
 	return TextInput(
 		$value,
@@ -290,24 +312,45 @@ function makeGradesInput($value,$name)
 	);
 }
 
-function makeTextInput($value,$name)
-{	global $THIS_RET;
+function _makeTextInput( $value, $name )
+{
+	global $THIS_RET;
 
-	if ( $THIS_RET['ID'])
+	if ( $THIS_RET['ID'] )
+	{
 		$id = $THIS_RET['ID'];
+	}
 	else
+	{
 		$id = 'new';
+	}
+
 	//bjj adding 'GP_SCALE'
-	if ( $name=='TITLE')
+	if ( $name === 'TITLE' )
+	{
 		$extra = 'size=15 maxlength=25';
-	elseif ( $name=='GP_SCALE')
+
+		if ( $id !== 'new' )
+		{
+			$extra .= ' required';
+		}
+	}
+	elseif ( $name === 'GP_SCALE' )
+	{
 		$extra = 'size=5 maxlength=5';
-	elseif ( $name=='GP_PASSING_VALUE')
+	}
+	elseif ( $name === 'GP_PASSING_VALUE' )
+	{
 		$extra = 'size=5 maxlength=5';
-	elseif ( $name=='COMMENT')
+	}
+	elseif ( $name === 'COMMENT' )
+	{
 		$extra = 'size=15 maxlength=100';
+	}
 	else
+	{
 		$extra = 'size=5 maxlength=5';
+	}
 
 	return TextInput(
 		$value,

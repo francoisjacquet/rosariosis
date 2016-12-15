@@ -99,18 +99,29 @@ if ( $_REQUEST['modfunc']!='remove')
 	echo '</form>';
 }
 
-function _makeTextInput($value,$name)
-{	global $THIS_RET;
+function _makeTextInput( $value, $name )
+{
+	global $THIS_RET;
 
-	if ( $THIS_RET['PERIOD_ID'])
+	if ( $THIS_RET['PERIOD_ID'] )
+	{
 		$id = $THIS_RET['PERIOD_ID'];
+	}
 	else
+	{
 		$id = 'new';
+	}
 
-	if ( $name!='TITLE')
+	if ( $name !== 'TITLE' )
+	{
 		$extra = 'size=5 maxlength=10';
+	}
+	elseif ( $id !== 'new' )
+	{
+		$extra = 'required';
+	}
 
-	return TextInput($value,'values['.$id.']['.$name.']','',$extra);
+	return TextInput( $value, 'values[' . $id . '][' . $name . ']', '', $extra );
 }
 
 function _makeCheckboxInput($value,$name)

@@ -68,10 +68,10 @@ if ( $_REQUEST['modfunc']!='remove')
 {
 	$sql = "SELECT ID,TITLE,SHORT_NAME,SORT_ORDER,NEXT_GRADE_ID FROM SCHOOL_GRADELEVELS WHERE SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER";
 	$QI = DBQuery($sql);
-	$grades_RET = DBGet($QI,array('TITLE' => 'makeTextInput','SHORT_NAME' => 'makeTextInput','SORT_ORDER' => 'makeTextInput','NEXT_GRADE_ID' => 'makeGradeInput'));
+	$grades_RET = DBGet($QI,array('TITLE' => '_makeTextInput','SHORT_NAME' => '_makeTextInput','SORT_ORDER' => '_makeTextInput','NEXT_GRADE_ID' => '_makeGradeInput'));
 
 	$columns = array('TITLE' => _('Title'),'SHORT_NAME' => _('Short Name'),'SORT_ORDER' => _('Sort Order'),'NEXT_GRADE_ID' => _('Next Grade'));
-	$link['add']['html'] = array('TITLE'=>makeTextInput('','TITLE'),'SHORT_NAME'=>makeTextInput('','SHORT_NAME'),'SORT_ORDER'=>makeTextInput('','SORT_ORDER'),'NEXT_GRADE_ID'=>makeGradeInput('','NEXT_GRADE_ID'));
+	$link['add']['html'] = array('TITLE'=>_makeTextInput('','TITLE'),'SHORT_NAME'=>_makeTextInput('','SHORT_NAME'),'SORT_ORDER'=>_makeTextInput('','SORT_ORDER'),'NEXT_GRADE_ID'=>_makeGradeInput('','NEXT_GRADE_ID'));
 	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';
 	$link['remove']['variables'] = array('id' => 'ID');
 
@@ -83,24 +83,43 @@ if ( $_REQUEST['modfunc']!='remove')
 	echo '</form>';
 }
 
-function makeTextInput($value,$name)
-{	global $THIS_RET;
+function _makeTextInput( $value, $name )
+{
+	global $THIS_RET;
 
-	if ( $THIS_RET['ID'])
+	if ( $THIS_RET['ID'] )
+	{
 		$id = $THIS_RET['ID'];
+	}
 	else
+	{
 		$id = 'new';
+	}
 
-	if ( $name!='TITLE')
+	if ( $name !== 'TITLE' )
+	{
 		$extra = 'size=5 maxlength=2';
-	if ( $name=='SORT_ORDER')
-		$comment = '<!-- '.$value.' -->';
+	}
+	elseif ( $id !== 'new' )
+	{
+		$extra = 'required';
+	}
 
-	return $comment.TextInput($value,'values['.$id.']['.$name.']','',$extra);
+	$comment = '';
+
+	if ( $name === 'SORT_ORDER' )
+	{
+		$comment = '<!-- ' . $value . ' -->';
+	}
+
+	return $comment .
+		TextInput( $value, 'values[' . $id . '][' . $name . ']', '', $extra );
 }
 
-function makeGradeInput($value,$name)
-{	global $THIS_RET,$grades;
+function _makeGradeInput( $value, $name )
+{
+	global $THIS_RET,
+		$grades;
 
 	if ( $THIS_RET['ID'])
 		$id = $THIS_RET['ID'];

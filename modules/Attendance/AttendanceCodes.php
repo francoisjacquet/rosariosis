@@ -8,7 +8,7 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 	{
 		foreach ( (array) $_REQUEST['values'] as $id => $columns)
 		{
-			//FJ fix SQL bug invalid sort order
+			// FJ fix SQL bug invalid sort order.
 			if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
 			{
 				if ( $columns['DEFAULT_CODE']=='Y')
@@ -163,40 +163,73 @@ if ( ! $_REQUEST['modfunc'] )
 	echo '</form>';
 }
 
-function _makeTextInput($value,$name)
-{	global $THIS_RET;
+function _makeTextInput( $value, $name )
+{
+	global $THIS_RET;
 
-	if ( $THIS_RET['ID'])
+	if ( $THIS_RET['ID'] )
+	{
 		$id = $THIS_RET['ID'];
+	}
 	else
+	{
 		$id = 'new';
+	}
 
-	if ( $name=='SHORT_NAME' || $name=='SORT_ORDER')
-		$extra = 'size=5 maxlength=10';
+	$extra = '';
 
-	return TextInput($value,'values['.$id.']['.$name.']','',$extra);
+	if ( $name === 'SHORT_NAME'
+		|| $name === 'SORT_ORDER' )
+	{
+		$extra .= 'size=5 maxlength=10';
+	}
+
+	if ( $id !== 'new'
+		&& ( $name === 'TITLE'
+			|| $name === 'SHORT_NAME' ) )
+	{
+		$extra .= ' required';
+	}
+
+	return TextInput( $value, 'values[' . $id . '][' . $name . ']', '', $extra );
 }
 
-function _makeSelectInput($value,$name)
-{	global $THIS_RET;
+function _makeSelectInput( $value, $name )
+{
+	global $THIS_RET;
 
-	if ( $THIS_RET['ID'])
+	if ( $THIS_RET['ID'] )
 	{
 		$id = $THIS_RET['ID'];
-		$extra = 'required';
 	}
 	else
 	{
 		$id = 'new';
-		$extra = '';
 	}
 
-	if ( $name=='TYPE')
-		$options = array('teacher' => _('Teacher & Office'),'official' => _('Office Only'));
-	elseif ( $name='STATE_CODE')
-		$options = array('P' => _('Present'),'A' => _('Absent'),'H' => _('Half Day'));
+	if ( $name === 'TYPE' )
+	{
+		$options = array(
+			'teacher' => _( 'Teacher & Office' ),
+			'official' => _( 'Office Only' ),
+		);
+	}
+	elseif ( $name === 'STATE_CODE' )
+	{
+		$options = array(
+			'P' => _( 'Present' ),
+			'A' => _( 'Absent' ),
+			'H' => _( 'Half Day' ),
+		);
+	}
 
-	return SelectInput($value,'values['.$id.']['.$name.']','',$options,'N/A',$extra);
+	return SelectInput(
+		$value,
+		'values[' . $id . '][' . $name . ']',
+		'',
+		$options,
+		( $id === 'new' ? 'N/A' : false )
+	);
 }
 
 function _makeCheckBoxInput($value,$name)
