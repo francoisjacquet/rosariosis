@@ -55,8 +55,11 @@ if ( ! $_REQUEST['search_modfunc'])
 					( Preferences( 'DEFAULT_FAMILIES' ) == 'Y' ? ' checked' : '' ) . '>&nbsp;' .
 					_( 'Group by Family' ) . '</label><br />';
 
-				//FJ if only one school, no Search All Schools option
-				if ( SchoolInfo( 'SCHOOLS_NB' ) > 1 )
+				// FJ if only one school, no Search All Schools option.
+				// Restrict Search All Schools to user schools.
+				if ( SchoolInfo( 'SCHOOLS_NB' ) > 1
+					&& ( ! trim( User( 'SCHOOLS' ), ',' )
+						|| mb_substr_count( User( 'SCHOOLS' ), ',' ) > 2 ) )
 				{
 					echo '<label><input type="checkbox" name="_search_all_schools" value="Y"' .
 						( Preferences( 'DEFAULT_ALL_SCHOOLS' ) == 'Y' ? ' checked' : '' ) . '>&nbsp;' .
@@ -186,8 +189,11 @@ else
 	$name_link['FULL_NAME']['link'] = 'Modules.php?modname='.$_REQUEST['next_modname'];
 	$name_link['FULL_NAME']['variables'] = array('student_id' => 'STUDENT_ID');
 
-	if ( $_REQUEST['_search_all_schools'])
+	if ( isset( $_REQUEST['_search_all_schools'] )
+		&& $_REQUEST['_search_all_schools'] === 'Y' )
+	{
 		$name_link['FULL_NAME']['variables']['school_id'] = 'SCHOOL_ID';
+	}
 
 	if (isset($extra['link']) && is_array($extra['link']))
 		$link = $extra['link'] + $name_link;

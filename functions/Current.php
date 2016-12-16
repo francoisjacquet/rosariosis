@@ -116,6 +116,7 @@ function UserStaffID()
  *  OR is an ID of the parents of its related students
  * Admin:
  * Check $staff_id is in current Year
+ *  AND $staff_id belongs to user schools
  * Student:
  * Forbid
  *
@@ -168,7 +169,7 @@ function SetUserStaffID( $staff_id )
 		case 'admin':
 
 			// Check $staff_id is in current Year.
-			$is_admin_staff = DBGet( DBQuery( "SELECT 1
+			$is_admin_staff = DBGet( DBQuery( "SELECT SCHOOLS
 				FROM STAFF
 				WHERE STAFF_ID='" . $staff_id . "'
 				AND SYEAR='" . UserSyear() . "'" ) );
@@ -176,6 +177,29 @@ function SetUserStaffID( $staff_id )
 			if ( ! $is_admin_staff )
 			{
 				$isHack = true;
+			}
+
+			if ( ! trim( User( 'SCHOOLS' ), ',' )
+				|| ! trim( $is_admin_staff[1]['SCHOOLS'], ',' ) )
+			{
+				// (Current) User is assigned to "All Schools".
+				break;
+			}
+
+			$isHack = true;
+
+			// Check both users have at least one school in common.
+			$user_schools = explode( ',', trim( User( 'SCHOOLS' ), ',' ) );
+
+			foreach ( (array) $user_schools as $user_school )
+			{
+				if ( mb_strpos( $is_admin_staff[1]['SCHOOLS'], ',' . $user_school . ',' ) !== false )
+				{
+					// School in common found.
+					$isHack = false;
+
+					break;
+				}
 			}
 
 		break;

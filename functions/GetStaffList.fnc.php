@@ -118,10 +118,25 @@ function GetStaffList(& $extra)
 				WHERE
 					s.SYEAR='".UserSyear()."'";
 
-			if ( $_REQUEST['_search_all_schools']!='Y')
-				$sql .= " AND (s.SCHOOLS LIKE '%,".UserSchool().",%' OR s.SCHOOLS IS NULL OR s.SCHOOLS='') ";
+			if ( ! isset( $_REQUEST['_search_all_schools'] )
+				|| $_REQUEST['_search_all_schools'] !== 'Y' )
+			{
+				$sql .= " AND (s.SCHOOLS LIKE '%," . UserSchool() . ",%' OR s.SCHOOLS IS NULL OR s.SCHOOLS='') ";
+			}
+			// Search All Schools: if user is not assigned to "All Schools".
+			elseif ( trim( User( 'SCHOOLS' ), ',' ) )
+			{
+				// Restrict Search All Schools to user schools.
+				$sql_schools_like = explode( ',', trim( User( 'SCHOOLS' ), ',' ) );
 
-			$sql .= $extra['WHERE'].' ';
+				$sql_schools_like = implode( ",%' OR s.SCHOOLS LIKE '%,", $sql_schools_like );
+
+				$sql_schools_like = "s.SCHOOLS LIKE '%," . $sql_schools_like . ",%'";
+
+				$sql .= " AND (" . $sql_schools_like . " OR s.SCHOOLS IS NULL OR s.SCHOOLS='') ";
+			}
+
+			$sql .= $extra['WHERE'] . ' ';
 
 			// it would be easier to sort on full_name but postgres sometimes yields strange results
 			$sql .= 'ORDER BY s.LAST_NAME,s.FIRST_NAME,s.MIDDLE_NAME';

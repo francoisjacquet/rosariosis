@@ -304,8 +304,11 @@ if ( ! $_REQUEST['modfunc'] )
 				$new
 			) . '</td></tr>';
 
-			//FJ if only one school, no Search All Schools option
-			if ( SchoolInfo( 'SCHOOLS_NB' ) > 1 )
+			// FJ if only one school, no Search All Schools option.
+			// Restrict Search All Schools to user schools.
+			if ( SchoolInfo( 'SCHOOLS_NB' ) > 1
+				&& ( ! trim( User( 'SCHOOLS' ), ',' )
+					|| mb_substr_count( User( 'SCHOOLS' ), ',' ) > 2 ) )
 			{
 				// Search all schools by default.
 				echo '<tr><td>' . CheckboxInput(
