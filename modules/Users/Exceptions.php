@@ -52,6 +52,14 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 	{
 		$file = 'Users/User.php&category_id='.$category['ID'];
 		$tmp_menu['Users'][ $xprofile ][ $file ] = ' &nbsp; &nbsp; &rsaquo; '.$category['TITLE'];
+
+		// Admin Schools restriction.
+		if ( $xprofile === 'admin'
+			&& $category['ID'] === '1' )
+		{
+			$file = 'Users/User.php&category_id=1&schools';
+			$tmp_menu['Users'][ $xprofile ][ $file ] = ' &nbsp; &nbsp;  &nbsp; &nbsp; &rsaquo; ' . _( 'Schools' );
+		}
 	}
 
 	//FJ fix SQL bug TeacherPrograms inserted twice as in Users and other categories
@@ -137,7 +145,7 @@ if ( ! $staff_RET[1]['PROFILE_ID'])
 			$module_title = _(str_replace('_',' ',$modcat));
 
 		echo '<tr><td colspan="3"><h4>'.$module_title.'</h4></td></tr>';
-//FJ add <label> on checkbox
+
 		echo '<tr><th><label>'._('Can Use').' '.(AllowEdit()?'<input type="checkbox" name="can_use_'.$modcat.'" onclick=\'checkAll(this.form,this.form.can_use_'.$modcat.'.checked,"can_use['.$modcat.'");\' />':'').'</span></label></th><th><label>'._('Can Edit').' '.(AllowEdit()?'<input type="checkbox" name="can_edit_'.$modcat.'" onclick=\'checkAll(this.form,this.form.can_edit_'.$modcat.'.checked,"can_edit['.$modcat.'");\' />':'').'</span></label></th><th>&nbsp;</th></tr>';
 		if (count($values))
 		{
@@ -176,6 +184,22 @@ if ( ! $staff_RET[1]['PROFILE_ID'])
 							echo '<td class="align-right"><input type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></td>';
 
 							echo '<td>'.$title.'</td></tr>';
+
+							// Admin Schools restriction.
+							if ( $xprofile === 'admin'
+								&& $category['ID'] === '1' )
+							{
+								$file = 'Users/User.php&category_id=1&schools';
+								$title = ' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&rsaquo; ' . _( 'Schools' );
+								$can_use = $exceptions_RET[ $file ][1]['CAN_USE'];
+								$can_edit = $exceptions_RET[ $file ][1]['CAN_EDIT'];
+
+								echo '<tr><td class="align-right"><input type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></td>';
+
+								echo '<td class="align-right"><input type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></td>';
+
+								echo '<td>' . $title . '</td></tr>';
+							}
 						}
 					}
 					elseif ( $modcat=='Users' && $file=='Users/User.php')

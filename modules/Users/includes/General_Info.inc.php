@@ -97,15 +97,23 @@ else
 	);
 }
 
-echo '</td></tr><tr class="st"><td>';
+echo '</td></tr>';
 
-echo NoInput($staff['STAFF_ID'],sprintf(_('%s ID'),Config('NAME')));
+if ( ! isset( $_REQUEST['staff_id'] )
+	|| $_REQUEST['staff_id'] !== 'new' )
+{
+	echo '<tr class="st"><td>';
 
-echo '</td><td>';
+	echo NoInput( $staff['STAFF_ID'], sprintf( _( '%s ID' ), Config( 'NAME' ) ) );
 
-echo NoInput($staff['ROLLOVER_ID'],sprintf(_('Last Year %s ID'),Config('NAME')));
+	echo '</td><td>';
 
-echo '</td></tr><tr class="st"><td>';
+	echo NoInput( $staff['ROLLOVER_ID'], sprintf( _( 'Last Year %s ID' ), Config( 'NAME' ) ) );
+
+	echo '</td></tr>';
+}
+
+echo '<tr class="st"><td>';
 
 //FJ Moodle integrator
 //username, password required
@@ -211,6 +219,19 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 
 		if ( $schools_RET )
 		{
+			$admin_schools_restriction = false;
+
+			// Admin Schools restriction.
+			if ( User( 'PROFILE' ) === 'admin'
+				&& AllowEdit()
+				&& ! AllowEdit( 'Users/User.php&category_id=1&schools' ) )
+			{
+				// Temporarily deactivate AllowEdit.
+				$_ROSARIO['allow_edit'] = false;
+
+				$admin_schools_restriction = true;
+			}
+
 			$i = 0;
 
 			$schools_html = '<table class="cellspacing-0 width-100p"><tr class="st">';
@@ -250,7 +271,8 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 
 			$title = FormatInputTitle( _( 'Schools' ), $id );
 
-			if ( $_REQUEST['staff_id'] != 'new' )
+			if ( $_REQUEST['staff_id'] !== 'new'
+				&& AllowEdit() )
 			{
 				echo InputDivOnclick(
 					$id,
@@ -259,10 +281,29 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 					$title
 				);
 			}
-            else
-            {
-                echo $schools_html . str_replace( '<br />', '', $title );
-            }
+			elseif ( AllowEdit() )
+			{
+				echo $schools_html . str_replace( '<br />', '', $title );
+			}
+			// Admin Schools restriction.
+			elseif ( $_REQUEST['staff_id'] === 'new'
+				&& $admin_schools_restriction )
+			{
+				// Assign new user to current school only.
+				echo SchoolInfo( 'TITLE' ) . $title;
+			}
+			else
+			{
+				echo ( $school_titles ? implode( ', ', $school_titles ) : _( 'All Schools' ) ) .
+					$title;
+			}
+
+			// Admin Schools restriction.
+			if ( $admin_schools_restriction )
+			{
+				// Reactivate AllowEdit.
+				$_ROSARIO['allow_edit'] = true;
+			}
 		}
 		//echo SelectInput($staff['SCHOOL_ID'],'staff[SCHOOL_ID]','School',$options,'All Schools');
 	}

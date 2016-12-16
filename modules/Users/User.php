@@ -97,6 +97,14 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 			$_REQUEST['staff']['SCHOOLS'] = '';
 		}
 
+		// Admin Schools restriction.
+		if ( User( 'PROFILE' ) === 'admin'
+			&& ! AllowEdit( 'Users/User.php&category_id=1&schools' ) )
+		{
+			// Assign new user to current school only.
+			$_REQUEST['staff']['SCHOOLS'] = ',' . UserSchool() . ',';
+		}
+
 		// FJ reset current school if updating self schools.
 		if ( User( 'STAFF_ID' ) == UserStaffID() )
 		{

@@ -107,10 +107,18 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 	$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM STAFF_FIELD_CATEGORIES"));
 
-	foreach ( (array) $categories_RET as $category)
+	foreach ( (array) $categories_RET as $category )
 	{
-		$file = 'Users/User.php&category_id='.$category['ID'];
-		$tmp_menu['Users'][ $xprofile ][ $file ] = ' &nbsp; &nbsp; &rsaquo; '.$category['TITLE'];
+		$file = 'Users/User.php&category_id=' . $category['ID'];
+		$tmp_menu['Users'][ $xprofile ][ $file ] = ' &nbsp; &nbsp; &rsaquo; ' . $category['TITLE'];
+
+		// Admin Schools restriction.
+		if ( $xprofile === 'admin'
+			&& $category['ID'] === '1' )
+		{
+			$file = 'Users/User.php&category_id=1&schools';
+			$tmp_menu['Users'][ $xprofile ][ $file ] = ' &nbsp; &nbsp;  &nbsp; &nbsp; &rsaquo; ' . _( 'Schools' );
+		}
 	}
 
 	//FJ fix SQL bug TeacherPrograms inserted twice as in Users and other categories
@@ -320,12 +328,11 @@ if ( $_REQUEST['modfunc']!='delete')
 							$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM STAFF_FIELD_CATEGORIES ORDER BY SORT_ORDER,TITLE"));
 							foreach ( (array) $categories_RET as $category)
 							{
-								$file = 'Users/User.php&category_id='.$category['ID'];
-								$title = '&nbsp;&nbsp;&rsaquo; '.ParseMLField($category['TITLE']);
+								$file = 'Users/User.php&category_id=' . $category['ID'];
+								$title = '&nbsp;&nbsp;&rsaquo; ' . ParseMLField( $category['TITLE'] );
 								$can_use = $exceptions_RET[ $file ][1]['CAN_USE'];
 								$can_edit = $exceptions_RET[ $file ][1]['CAN_EDIT'];
 
-								//echo '<tr><td>&nbsp;</td><td>&nbsp;</td>';
 								echo '<tr><td class="align-right"><input type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></td>';
 
 								if ( $xprofile=='admin')
@@ -334,6 +341,22 @@ if ( $_REQUEST['modfunc']!='delete')
 									echo '<td>&nbsp;</td>';
 
 								echo '<td>'.$title.'</td></tr>';
+
+								// Admin Schools restriction.
+								if ( $xprofile === 'admin'
+									&& $category['ID'] === '1' )
+								{
+									$file = 'Users/User.php&category_id=1&schools';
+									$title = ' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&rsaquo; ' . _( 'Schools' );
+									$can_use = $exceptions_RET[ $file ][1]['CAN_USE'];
+									$can_edit = $exceptions_RET[ $file ][1]['CAN_EDIT'];
+
+									echo '<tr><td class="align-right"><input type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></td>';
+
+									echo '<td class="align-right"><input type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></td>';
+
+									echo '<td>' . $title . '</td></tr>';
+								}
 							}
 						}
 					}
