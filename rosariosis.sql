@@ -3857,6 +3857,7 @@ INSERT INTO profile_exceptions VALUES (1, 'Users/Exceptions.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Users/UserFields.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Users/TeacherPrograms.php&include=Eligibility/EnterEligibility.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Users/User.php&category_id=1', 'Y', 'Y');
+INSERT INTO profile_exceptions VALUES (1, 'Users/User.php&category_id=1&schools', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Users/User.php&category_id=2', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Users/User.php&category_id=3', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Scheduling/Schedule.php', 'Y', 'Y');

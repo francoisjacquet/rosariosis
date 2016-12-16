@@ -31,7 +31,7 @@ function Update()
 	 * Prevent DB version update if new Update.fnc.php file has NOT been uploaded YET.
 	 * Update must be run once both new Warehouse.php & Update.fnc.php files are uploaded.
 	 */
-	if ( version_compare( '2.9.12', ROSARIO_VERSION, '<' ) )
+	if ( version_compare( '2.9.13', ROSARIO_VERSION, '<' ) )
 	{
 		return false;
 	}
@@ -48,34 +48,27 @@ function Update()
 	{
 		case version_compare( $from_version, '2.9-alpha', '<' ) :
 
-			if ( function_exists( '_update29alpha' ) )
-			{
-				$return = _update29alpha();
-			}
+			$return = _update29alpha();
 
 
 		case version_compare( $from_version, '2.9.2', '<' ) :
 
-			if ( function_exists( '_update292' ) )
-			{
-				$return = _update292();
-			}
+			$return = _update292();
 
 
 		case version_compare( $from_version, '2.9.5', '<' ) :
 
-			if ( function_exists( '_update295' ) )
-			{
-				$return = _update295();
-			}
+			$return = _update295();
 
 
 		case version_compare( $from_version, '2.9.12', '<' ) :
 
-			if ( function_exists( '_update2912' ) )
-			{
-				$return = _update2912();
-			}
+			$return = _update2912();
+
+
+		case version_compare( $from_version, '2.9.13', '<' ) :
+
+			$return = _update2913();
 	}
 
 	// Update version in DB CONFIG table.
@@ -84,6 +77,31 @@ function Update()
 		WHERE TITLE='VERSION'" ) );
 
 	return $return;
+}
+
+
+/**
+ * Is function called by Update()?
+ *
+ * Local function
+ *
+ * @example _isCallerUpdate( debug_backtrace() );
+ *
+ * @since 2.9.13
+ *
+ * @param  array   $callers debug_backtrace().
+ *
+ * @return boolean          Exit with error message if not called by Update().
+ */
+function _isCallerUpdate( $callers )
+{
+	if ( ! isset( $callers[1]['function'] )
+		|| $callers[1]['function'] !== 'Update' )
+	{
+		exit( 'Error: the update functions must be called by Update() only!' );
+	}
+
+	return true;
 }
 
 
@@ -105,13 +123,7 @@ function Update()
  */
 function _update29alpha()
 {
-	$callers = debug_backtrace();
-
-	if ( ! isset( $callers[1]['function'] )
-		|| $callers[1]['function'] !== 'Update' )
-	{
-		return false;
-	}
+	_isCallerUpdate( debug_backtrace() );
 
 	$return = true;
 
@@ -296,13 +308,7 @@ function _update29alpha()
  */
 function _update292()
 {
-	$callers = debug_backtrace();
-
-	if ( ! isset( $callers[1]['function'] )
-		|| $callers[1]['function'] !== 'Update' )
-	{
-		return false;
-	}
+	_isCallerUpdate( debug_backtrace() );
 
 	$return = true;
 
@@ -340,13 +346,7 @@ function _update292()
  */
 function _update295()
 {
-	$callers = debug_backtrace();
-
-	if ( ! isset( $callers[1]['function'] )
-		|| $callers[1]['function'] !== 'Update' )
-	{
-		return false;
-	}
+	_isCallerUpdate( debug_backtrace() );
 
 	$return = true;
 
@@ -379,13 +379,7 @@ function _update295()
  */
 function _update2912()
 {
-	$callers = debug_backtrace();
-
-	if ( ! isset( $callers[1]['function'] )
-		|| $callers[1]['function'] !== 'Update' )
-	{
-		return false;
-	}
+	_isCallerUpdate( debug_backtrace() );
 
 	$return = true;
 
@@ -398,6 +392,65 @@ function _update2912()
 	if ( ! $theme_force_field_added )
 	{
 		DBQuery( "INSERT INTO config VALUES (0, 'THEME_FORCE', NULL);" );
+	}
+
+	return $return;
+}
+
+
+/**
+ * Update to version 2.9.13
+ *
+ * Admin Schools restriction.
+ * 1. Add Users/User.php&category_id=1&schools to profile_exceptions table.
+ * 2. Add Users/User.php&category_id=1&schools to staff_exceptions table.
+ *
+ * Local function
+ *
+ * @since 2.9.13
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update2913()
+{
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. Add Users/User.php&category_id=1&schools to profile_exceptions table.
+	 */
+	$as_profile_exceptions_exists = DBGet( DBQuery( "SELECT 1
+		FROM profile_exceptions
+		WHERE profile_id=1
+		AND modname='Users/User.php&category_id=1&schools'" ) );
+
+	if ( ! $as_profile_exceptions_exists )
+	{
+		DBQuery( "INSERT INTO profile_exceptions
+			VALUES (1, 'Users/User.php&category_id=1&schools', 'Y', 'Y');" );
+	}
+
+	/**
+	 * 2. Add Users/User.php&category_id=1&schools to staff_exceptions table.
+	 */
+	$as_staff_exceptions_exists = DBGet( DBQuery( "SELECT 1
+		FROM staff_exceptions
+		WHERE modname='Users/User.php&category_id=1&schools'" ) );
+
+	// Check if we have staff_exceptions.
+	$staff_exceptions_user_ids = DBGet( DBQuery( "SELECT user_id
+		FROM staff_exceptions
+		WHERE modname='Users/User.php&category_id=1'" ) );
+
+	if ( ! $as_staff_exceptions_exists
+		&& $staff_exceptions_user_ids )
+	{
+		foreach ( (array) $staff_exceptions_user_ids as $user_id )
+		{
+			DBQuery( "INSERT INTO staff_exceptions
+				VALUES ('" . $user_id['USER_ID'] . "', 'Users/User.php&category_id=1&schools', 'Y', 'Y');" );
+		}
 	}
 
 	return $return;
