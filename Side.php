@@ -511,7 +511,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 
 				// FJ multiple school periods for a course period.
 				//$QI = DBQuery("SELECT cp.PERIOD_ID,cp.COURSE_PERIOD_ID,sp.TITLE,sp.SHORT_NAME,cp.MARKING_PERIOD_ID,cp.DAYS,c.TITLE AS COURSE_TITLE FROM COURSE_PERIODS cp, SCHOOL_PERIODS sp,COURSES c WHERE c.COURSE_ID=cp.COURSE_ID AND cp.PERIOD_ID=sp.PERIOD_ID AND cp.SYEAR='".UserSyear()."' AND cp.SCHOOL_ID='".UserSchool()."' AND cp.TEACHER_ID='".User('STAFF_ID')."' AND cp.MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).") ORDER BY sp.SORT_ORDER");
-				$QI = DBQuery( "SELECT cpsp.PERIOD_ID,cp.COURSE_PERIOD_ID,cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID,sp.TITLE,sp.SHORT_NAME,cp.MARKING_PERIOD_ID,cpsp.DAYS,c.TITLE AS COURSE_TITLE, cp.SHORT_NAME AS CP_SHORT_NAME
+				$cp_RET = DBGet( DBQuery( "SELECT cpsp.PERIOD_ID,cp.COURSE_PERIOD_ID,cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID,sp.TITLE,sp.SHORT_NAME,cp.MARKING_PERIOD_ID,cpsp.DAYS,c.TITLE AS COURSE_TITLE, cp.SHORT_NAME AS CP_SHORT_NAME
 					FROM COURSE_PERIODS cp,SCHOOL_PERIODS sp,COURSES c,COURSE_PERIOD_SCHOOL_PERIODS cpsp
 					WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 					AND c.COURSE_ID=cp.COURSE_ID
@@ -520,9 +520,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 					AND cp.SCHOOL_ID='" . UserSchool() . "'
 					AND cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "'
 					AND cp.MARKING_PERIOD_ID IN (" . $all_MP . ")
-					ORDER BY cp.SHORT_NAME, sp.SORT_ORDER" );
-
-				$RET = DBGet( $QI );
+					ORDER BY cp.SHORT_NAME, sp.SORT_ORDER" ) );
 
 				/**
 				 * Get the Full Year marking period id
@@ -536,16 +534,16 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 
 				// Set current CoursePeriod after login.
 				if ( ! UserCoursePeriod()
-					&& isset( $RET[1] ) )
+					&& isset( $cp_RET[1] ) )
 				{
-					$_SESSION['UserCoursePeriod'] = $RET[1]['COURSE_PERIOD_ID'];
-					$_SESSION['UserCoursePeriodSchoolPeriod'] = $RET[1]['COURSE_PERIOD_SCHOOL_PERIODS_ID'];
+					$_SESSION['UserCoursePeriod'] = $cp_RET[1]['COURSE_PERIOD_ID'];
+					$_SESSION['UserCoursePeriodSchoolPeriod'] = $cp_RET[1]['COURSE_PERIOD_SCHOOL_PERIODS_ID'];
 				} ?>
 
 				<select name="period" onChange="ajaxPostForm(this.form,true);">
-				<?php $optgroup = FALSE;
+				<?php $optgroup = $current_cp_found = false;
 
-				foreach ( $RET as $period )
+				foreach ( (array) $cp_RET as $period )
 				{
 					// FJ add optroup to group periods by course periods.
 					if ( ! empty( $period['COURSE_TITLE'] )
@@ -568,7 +566,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 
 						$_SESSION['UserPeriod'] = $period['PERIOD_ID'];
 
-						$found = true;
+						$current_cp_found = true;
 					}
 					else
 						$selected = '';
@@ -633,18 +631,28 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 					<?php
 				}
 
+				// Error if no courses.
+				if ( ! $cp_RET ) : ?>
+
+						<option value=""><?php
+							echo _( 'Error' ) . ': ' . _( 'No courses found' );
+						?></option>
+
+				<?php endif;
+
 				/**
 				 * Error: current CoursePeriod not found
 				 * reset current CoursePeriod
 				 * and unset current Student
 				 */
-				if ( ! $found )
+				if ( ! $current_cp_found )
 				{
-					$_SESSION['UserCoursePeriod'] = $RET[1]['COURSE_PERIOD_ID'];
-					$_SESSION['UserPeriod'] = $RET[1]['PERIOD_ID'];
+					$_SESSION['UserCoursePeriod'] = $cp_RET[1]['COURSE_PERIOD_ID'];
+					$_SESSION['UserPeriod'] = $cp_RET[1]['PERIOD_ID'];
 
 					unset( $_SESSION['student_id'] );
-				} ?>
+				}
+				?>
 				</select>
 
 			<?php endif; ?>
