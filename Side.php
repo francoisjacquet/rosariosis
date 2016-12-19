@@ -635,7 +635,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 				if ( ! $cp_RET ) : ?>
 
 						<option value=""><?php
-							echo _( 'Error' ) . ': ' . _( 'No courses found' );
+							echo _( 'No courses found' );
 						?></option>
 
 				<?php endif;
