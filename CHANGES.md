@@ -4,6 +4,7 @@
 Changes in 2.9.14
 -----------------
 - Add "No courses found" error in Side.php
+- Fix gettext bug when string is '.' in ParseML.php
 
 Changes in 2.9.13
 -----------------

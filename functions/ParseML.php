@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Parse Multi Language data
  *
@@ -27,9 +27,10 @@ function ParseMLField( $field, $loc = '' )
 {
 	global $locale;
 
-	if ( ! $field )
+	if ( ! $field
+		|| $field === '.' )
 	{
-		return '';
+		return $field;
 	}
 
 	if ( empty( $loc ) )
