@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-12-19 09:25-0500\n"
-"PO-Revision-Date: 2016-12-19 09:30-0500\n"
+"PO-Revision-Date: 2016-12-20 10:30-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -2958,7 +2958,7 @@ msgstr "Usted ya ha tomado la asistencia para esta hora."
 #: modules/Grades/includes/StudentAssignments.fnc.php:521
 #: modules/Scheduling/Requests.php:122
 msgid "Course Title"
-msgstr "Titulo del Curso"
+msgstr "Título del Curso"
 
 #: modules/Attendance/TeacherCompletion.php:111
 msgid "Teacher who takes attendance"
@@ -6149,11 +6149,11 @@ msgstr "La configuración de esta institución ha sido modificada."
 
 #: modules/School_Setup/Configuration.php:143
 msgid "Program Title"
-msgstr "Titulo del Programa"
+msgstr "Título del Programa"
 
 #: modules/School_Setup/Configuration.php:145
 msgid "Program Name"
-msgstr "Título del Programa"
+msgstr "Nombre del Programa"
 
 #: modules/School_Setup/Configuration.php:169
 msgid "Default Theme"
