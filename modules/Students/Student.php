@@ -149,7 +149,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 							continue;
 						}
 
-						if ( !is_array($value))
+						if ( ! is_array( $value ) )
 						{
 							//FJ add password encryption
 							if ( $column!=='PASSWORD')
@@ -166,17 +166,24 @@ if ( $_REQUEST['modfunc'] === 'update'
 						}
 						else
 						{
-							//FJ fix bug none selected not saved
-							$sql .= $column."='";
+							// FJ fix bug none selected not saved.
 							$sql_multiple_input = '';
-							foreach ( (array) $value as $val)
+
+							foreach ( (array) $value as $val )
 							{
-								if ( $val)
-									$sql_multiple_input .= str_replace('&quot;','"',$val).'||';
+								if ( $val )
+								{
+									$sql_multiple_input .= $val . '||';
+								}
 							}
-							if ( !empty($sql_multiple_input))
-								$sql .= "||".$sql_multiple_input;
-							$sql .= "',";
+
+							if ( $sql_multiple_input )
+							{
+								$sql_multiple_input = "||" . $sql_multiple_input;
+							}
+
+							$sql .= $column . "='" . $sql_multiple_input . "',";
+
 							$go = true;
 						}
 					}

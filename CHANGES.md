@@ -8,6 +8,7 @@ Changes in 2.9.14
 - Add SELECT\_OPTIONS column to SCHOOL_FIELDS table in Update.fnc.php & rosariosis.sql
 - Get autos / edits pull-down edited options: fix $field var name in AssignOtherInfo.php
 - _makeMultipleInput(): Fix div ID in StudentsUsersInfo.fnc.php
+- Fix Save Select multiple from options field in User.php
 
 Changes in 2.9.13
 -----------------

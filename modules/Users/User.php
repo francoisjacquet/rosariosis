@@ -187,7 +187,7 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 				$go = false;
 				foreach ( (array) $_REQUEST['staff'] as $column_name => $value)
 				{
-					if (1)//!empty($value) || $value=='0')
+					if ( ! is_array( $value ) )
 					{
 						//FJ check numeric fields
 						if ( $fields_RET[str_replace('CUSTOM_','',$column_name)][1]['TYPE'] == 'numeric' && $value!='' && !is_numeric($value))
@@ -208,6 +208,29 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 							$sql .= "$column_name='".encrypt_password($value)."',";
 							$go = true;
 						}
+					}
+					else
+					{
+						// Select multiple from options.
+						// FJ fix bug none selected not saved.
+						$sql_multiple_input = '';
+
+						foreach ( (array) $value as $val )
+						{
+							if ( $val )
+							{
+								$sql_multiple_input .= $val . '||';
+							}
+						}
+
+						if ( $sql_multiple_input )
+						{
+							$sql_multiple_input = "||" . $sql_multiple_input;
+						}
+
+						$sql .= $column_name . "='" . $sql_multiple_input . "',";
+
+						$go = true;
 					}
 				}
 				$sql = mb_substr($sql,0,-1) . " WHERE STAFF_ID='".UserStaffID()."'";
