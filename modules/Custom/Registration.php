@@ -613,7 +613,7 @@ if ( array_key_exists( 'CUSTOM_200000005', $student ) )
 		'students[CUSTOM_200000005]',
 		ParseMLField( $custom_fields_RET['200000005'][1]['TITLE'] ),
 		$select_options,
-		_( 'N/A' ),
+		'N/A',
 		'style="width:200"'
 	);
 }

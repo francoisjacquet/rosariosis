@@ -1028,7 +1028,7 @@ if ( ! $_REQUEST['modfunc'] )
 								'values[PEOPLE_JOIN_CONTACTS][new][TITLE]',
 								_( 'Description' ),
 								$info_options,
-								_( 'N/A' )
+								'N/A'
 							) :
 							TextInput(
 								'',

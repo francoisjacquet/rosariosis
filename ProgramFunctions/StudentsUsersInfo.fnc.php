@@ -177,7 +177,7 @@ function _makeSelectInput( $column, $name, $request )
 		$request . '[' . $column . ']',
 		$name,
 		$options,
-		_( 'N/A' ),
+		'N/A',
 		$extra,
 		$div
 	);
@@ -316,7 +316,7 @@ function _makeAutoSelectInput( $column, $name, $request )
 			$request . '[' . $column . ']',
 			$name,
 			$options,
-			_( 'N/A' ),
+			'N/A',
 			$extra,
 			$div
 		);
@@ -708,7 +708,7 @@ function _makeStartInput( $value, $column )
 			'values[STUDENT_ENROLLMENT][' . $id . '][ENROLLMENT_CODE]',
 			'',
 			$add_codes,
-			_( 'N/A' ),
+			'N/A',
 			'style="max-width:150px;"'
 		) .
 	'</div>';
@@ -762,7 +762,7 @@ function _makeEndInput( $value, $column )
 			'values[STUDENT_ENROLLMENT][' . $id . '][DROP_CODE]',
 			'',
 			$drop_codes,
-			_( 'N/A' ),
+			'N/A',
 			'style="max-width:150px;"'
 		) .
 	'</div>';

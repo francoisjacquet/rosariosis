@@ -414,7 +414,7 @@ function _makeDateInput( $column )
 
 function _makeSelectInput( $column, $options )
 {
-	return SelectInput( '', 'values[' . $column . ']', '', $options, _( 'N/A' ), "style='max-width:190px;'" );
+	return SelectInput( '', 'values[' . $column . ']', '', $options, 'N/A', "style='max-width:190px;'" );
 }
 
 function _makeCheckboxInput( $column )
