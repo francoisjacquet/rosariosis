@@ -6,6 +6,7 @@ Changes in 2.9.14
 - Add "No courses found" error in Side.php
 - Fix gettext bug when string is '.' in ParseML.php
 - Add SELECT\_OPTIONS column to SCHOOL_FIELDS table in Update.fnc.php & rosariosis.sql
+- Add School Field types in Schools.php & SchoolFields.php (sponsored by Aptiris)
 - Get autos / edits pull-down edited options: fix $field var name in AssignOtherInfo.php
 - _makeMultipleInput(): Fix div ID in StudentsUsersInfo.fnc.php
 - Fix Save Select multiple from options field in User.php

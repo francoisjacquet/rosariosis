@@ -115,7 +115,7 @@ if ( ! $_REQUEST['modfunc'] )
 		&& $_REQUEST['id'] !== 'new' )
 	{
 		$RET = DBGet( DBQuery( "SELECT ID,(SELECT NULL) AS CATEGORY_ID,TITLE,TYPE,
-			DEFAULT_SELECTION,SORT_ORDER,REQUIRED
+			SELECT_OPTIONS,DEFAULT_SELECTION,SORT_ORDER,REQUIRED
 			FROM SCHOOL_FIELDS
 			WHERE ID='" . $_REQUEST['id'] . "'" ) );
 
@@ -134,13 +134,7 @@ if ( ! $_REQUEST['modfunc'] )
 		'SCHOOL',
 		$title,
 		$RET,
-		array(),
-		array(
-			'text' => _( 'Text' ),
-			'numeric' => _( 'Number' ),
-			'date' => _( 'Date' ),
-			'textarea' => _( 'Long Text' ),
-		)
+		array()
 	);
 
 	// DISPLAY THE MENU.
