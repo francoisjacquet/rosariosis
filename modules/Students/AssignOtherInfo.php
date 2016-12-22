@@ -247,8 +247,8 @@ if ( ! $_REQUEST['modfunc'] )
 			}
 
 			// Get autos / edits pull-down edited options.
-			if ( $col['TYPE'] === 'autos'
-				|| $col['TYPE'] === 'edits' )
+			if ( $field['TYPE'] === 'autos'
+				|| $field['TYPE'] === 'edits' )
 			{
 				$sql_options = "SELECT DISTINCT s." . $col_name . ",upper(s." . $col_name . ") AS SORT_KEY
 					FROM STUDENTS s,STUDENT_ENROLLMENT sse
