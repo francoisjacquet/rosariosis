@@ -330,14 +330,14 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 				'select' => _( 'Pull-Down' ),
 				'autos' => _( 'Auto Pull-Down' ),
 				'edits' => _( 'Edit Pull-Down' ),
-				'text' => _( 'Text' ),
-				'radio' => _( 'Checkbox' ),
 				'codeds' => _( 'Coded Pull-Down' ),
 				'exports' => _( 'Export Pull-Down' ),
-				'numeric' => _( 'Number' ),
 				'multiple' => _( 'Select Multiple from Options' ),
-				'date' => _( 'Date' ),
+				'text' => _( 'Text' ),
 				'textarea' => _( 'Long Text' ),
+				'radio' => _( 'Checkbox' ),
+				'numeric' => _( 'Number' ),
+				'date' => _( 'Date' ),
 			);
 		}
 
@@ -618,14 +618,14 @@ function MakeFieldType( $value, $column = '' )
 		'select' => _( 'Pull-Down' ),
 		'autos' => _( 'Auto Pull-Down' ),
 		'edits' => _( 'Edit Pull-Down' ),
-		'text' => _( 'Text' ),
-		'radio' => _( 'Checkbox' ),
 		'codeds' => _( 'Coded Pull-Down' ),
 		'exports' => _( 'Export Pull-Down' ),
-		'numeric' => _( 'Number' ),
 		'multiple' => _( 'Select Multiple from Options' ),
-		'date' => _( 'Date' ),
+		'text' => _( 'Text' ),
 		'textarea' => _( 'Long Text' ),
+		'radio' => _( 'Checkbox' ),
+		'numeric' => _( 'Number' ),
+		'date' => _( 'Date' ),
 	);
 
 	return isset( $type_options[ $value ] ) ? $type_options[ $value ] : $value;

@@ -588,28 +588,28 @@ HTML;
 	Los campos "Menú Desplegable Editable" son similares a los campos Menú Desplegable Automático.
 </li>
 <li>
-	Los campos de "Texto" crean un campo de texto alfanumérico con una capacidad máxima de 255 caracteres.
-</li>
-<li>
-	Los campos "Casilla" crean casillas. Cuando marcada, significa "Sí", y cuando no marcado "No".
-</li>
-<li>
 	Los campos "Menú Desplegable Codificado" son creados agregando opciones al grande campo de texto de la siguiente manera: "opción mostrada"|"opción guardada en la base de datos" (donde | es el carácter separador). Por ejemplo: "Dos|2", donde "Dos" está expuesto en la pantalla, o un documento descargado, y "2" está almacenado en la base de datos.
 </li>
 <li>
 	Los campos "Menú Desplegable Exportable" son creados agregando opciones respectando la misma convención usado para los campos "Menú Desplegable Codificado" ("opción mostrada"|"opción guardada en la base de datos"). Por ejemplo: "Dos|2", donde "Dos" está expuesto en la pantalla, y "2" es el valor del documento descargado, pero "Dos" está almacenado en la base de datos.
 </li>
 <li>
-	Los campos "Número" crean campos de texto que almacenan valores numéricos solamente.
-</li>
-<li>
 	Los campos "Selección de Opción Múltiple" crean casillas múltiples para escoger una o varias opciones.
 </li>
 <li>
-	Los campos "Fecha" crean menús desplegables para escoger una fecha.
+	Los campos de "Texto" crean un campo de texto alfanumérico con una capacidad máxima de 255 caracteres.
 </li>
 <li>
 	Los campos "Texto Largo" crean grandes cajas de texto alfanumérico con una capacidad máxima de 5000 caracteres.
+</li>
+<li>
+	Los campos "Casilla" crean casillas. Cuando marcada, significa "Sí", y cuando no marcado "No".
+</li>
+<li>
+	Los campos "Número" crean campos de texto que almacenan valores numéricos solamente.
+</li>
+<li>
+	Los campos "Fecha" crean menús desplegables para escoger una fecha.
 </li>
 </ul>
 <p>
@@ -836,28 +836,28 @@ HTML;
 	Los campos "Menú Desplegable Editable" son similares a los campos Menú Desplegable Automático.
 </li>
 <li>
-	Los campos de "Texto" crean un campo de texto alfanumérico con una capacidad máxima de 255 caracteres.
-</li>
-<li>
-	Los campos "Casilla" crean casillas. Cuando marcada, significa "Sí", y cuando no marcado "No".
-</li>
-<li>
 	Los campos "Menú Desplegable Codificado" son creados agregando opciones al grande campo de texto de la siguiente manera: "opción mostrada"|"opción guardada en la base de datos" (donde | es el carácter separador). Por ejemplo: "Dos|2", donde "Dos" está expuesto en la pantalla, o un documento descargado, y "2" está almacenado en la base de datos.
 </li>
 <li>
 	Los campos "Menú Desplegable Exportable" son creados agregando opciones respectando la misma convención usado para los campos "Menú Desplegable Codificado" ("opción mostrada"|"opción guardada en la base de datos"). Por ejemplo: "Dos|2", donde "Dos" está expuesto en la pantalla, y "2" es el valor del documento descargado, pero "Dos" está almacenado en la base de datos.
 </li>
 <li>
-	Los campos "Número" crean campos de texto que almacenan valores numéricos solamente.
-</li>
-<li>
 	Los campos "Selección de Opción Múltiple" crean casillas múltiples para escoger una o varias opciones.
 </li>
 <li>
-	Los campos "Fecha" crean menús desplegables para escoger una fecha.
+	Los campos de "Texto" crean un campo de texto alfanumérico con una capacidad máxima de 255 caracteres.
 </li>
 <li>
 	Los campos "Texto Largo" crean grandes cajas de texto alfanumérico con una capacidad máxima de 5000 caracteres.
+</li>
+<li>
+	Los campos "Casilla" crean casillas. Cuando marcada, significa "Sí", y cuando no marcado "No".
+</li>
+<li>
+	Los campos "Número" crean campos de texto que almacenan valores numéricos solamente.
+</li>
+<li>
+	Los campos "Fecha" crean menús desplegables para escoger una fecha.
 </li>
 </ul>
 <p>
