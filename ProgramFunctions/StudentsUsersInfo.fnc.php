@@ -296,7 +296,7 @@ function _makeAutoSelectInput( $column, $name, $request )
 	}
 
 	// Make sure the current value is in the list.
-	if ( ! $value[ $column ]
+	if ( $value[ $column ] != ''
 		&& ! isset( $options[ $value[ $column ] ] ) )
 	{
 		$options[ $value[ $column ] ] = array(
@@ -444,7 +444,7 @@ function _makeMultipleInput( $column, $name, $request )
 
 		if ( $value[ $column ] != '' )
 		{
-			$return = '<div id="div' . $request . '[' . $column . ']">
+			$return = '<div id="div' . $request . $column . '">
 				<div class="onclick" onclick=\'javascript:addHTML(html' . $request . $column;
 		}
 
@@ -492,7 +492,7 @@ function _makeMultipleInput( $column, $name, $request )
 		if ( $value[ $column ] != '' )
 		{
 			echo '<script>var html' . $request . $column . '=' . json_encode( $table ) . ';</script>' . $return;
-			echo ',"div' . $request . '[' . $column . ']",true);\' >';
+			echo ',"div' . $request . $column . '",true);\' >';
 			echo '<span class="underline-dots">' . ($value[ $column ] != '' ? str_replace( '||', ', ', mb_substr( $value[ $column ], 2, -2 ) ) : '-' ) . '</span>';
 			echo '</div></div>';
 		}
