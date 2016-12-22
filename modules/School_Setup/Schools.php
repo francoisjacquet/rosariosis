@@ -148,10 +148,10 @@ if ( $_REQUEST['modfunc']=='update')
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	if ( !empty($note))
-		echo ErrorMessage($note, 'note');
-	if ( !empty($error))
-		echo ErrorMessage($error, 'error');
+
+	echo ErrorMessage( $note, 'note' );
+
+	echo ErrorMessage( $error, 'error' );
 
 	if ( ! $_REQUEST['new_school'])
 	{
@@ -242,7 +242,15 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 	else
 	{
-		echo '<tr><td colspan="3"><a href="http://'.$schooldata['WWW_ADDRESS'].'" target="_blank">'.$schooldata['WWW_ADDRESS'].'</a><br /><span class="legend-gray">'._('Website').'</span></td></tr>';
+		$school_link = mb_strpos( $schooldata['WWW_ADDRESS'], 'http' ) === 0 ?
+			$schooldata['WWW_ADDRESS'] :
+			'http://' . $schooldata['WWW_ADDRESS'];
+
+		echo '<tr><td colspan="3">
+			<a href="' . $school_link . '" target="_blank">' .
+			$schooldata['WWW_ADDRESS'] .
+			'</a><br />
+			<span class="legend-gray">' . _( 'Website' ) . '</span></td></tr>';
 	}
 
 	echo '<tr><td colspan="3">' . TextInput(
