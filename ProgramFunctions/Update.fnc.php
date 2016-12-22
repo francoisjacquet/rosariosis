@@ -69,6 +69,11 @@ function Update()
 		case version_compare( $from_version, '2.9.13', '<' ) :
 
 			$return = _update2913();
+
+
+		case version_compare( $from_version, '2.9.14', '<' ) :
+
+			$return = _update2914();
 	}
 
 	// Update version in DB CONFIG table.
@@ -451,6 +456,41 @@ function _update2913()
 			DBQuery( "INSERT INTO staff_exceptions
 				VALUES ('" . $user_id['USER_ID'] . "', 'Users/User.php&category_id=1&schools', 'Y', 'Y');" );
 		}
+	}
+
+	return $return;
+}
+
+
+/**
+ * Update to version 2.9.14
+ *
+ * Add School Field types.
+ * 1. Add SELECT_OPTIONS column to SCHOOL_FIELDS table.
+ *
+ * Local function
+ *
+ * @since 2.9.14
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update2914()
+{
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. Add SELECT_OPTIONS column to SCHOOL_FIELDS table.
+	 */
+	$select_options_column_exists = DBGet( DBQuery( "SELECT 1 FROM pg_attribute
+		WHERE attrelid = (SELECT oid FROM pg_class WHERE relname = 'school_fields')
+		AND attname = 'select_options';" ) );
+
+	if ( ! $select_options_column_exists )
+	{
+		DBQuery( "ALTER TABLE ONLY school_fields
+			ADD COLUMN select_options character varying(10000);" );
 	}
 
 	return $return;

@@ -2563,6 +2563,7 @@ CREATE TABLE school_fields (
     type character varying(10) NOT NULL,
     title character varying(1000) NOT NULL,
     sort_order numeric,
+    select_options character varying(1000),
     required character varying(1),
     default_selection character varying(255)
 );
