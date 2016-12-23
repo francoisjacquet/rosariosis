@@ -425,15 +425,24 @@ function _update2913()
 	/**
 	 * 1. Add Users/User.php&category_id=1&schools to profile_exceptions table.
 	 */
-	$as_profile_exceptions_exists = DBGet( DBQuery( "SELECT 1
-		FROM profile_exceptions
-		WHERE profile_id=1
-		AND modname='Users/User.php&category_id=1&schools'" ) );
+	$admin_profiles_RET = DBGet( DBQuery( "SELECT id
+		FROM profile_exceptions, user_profiles
+		WHERE profile='admin'" ) );
 
-	if ( ! $as_profile_exceptions_exists )
+	foreach ( (array) $admin_profiles_RET as $admin_profile )
 	{
-		DBQuery( "INSERT INTO profile_exceptions
-			VALUES (1, 'Users/User.php&category_id=1&schools', 'Y', 'Y');" );
+		$profile_id = $admin_profile['ID'];
+
+		$as_profile_exceptions_exists = DBGet( DBQuery( "SELECT 1
+			FROM profile_exceptions
+			WHERE profile_id='" . $profile_id . "'
+			AND modname='Users/User.php&category_id=1&schools'" ) );
+
+		if ( ! $as_profile_exceptions_exists )
+		{
+			DBQuery( "INSERT INTO profile_exceptions
+				VALUES ('" . $profile_id . "', 'Users/User.php&category_id=1&schools', 'Y', 'Y');" );
+		}
 	}
 
 	/**
@@ -499,15 +508,24 @@ function _update2914()
 	/**
 	 * 2. Add Users/User.php&category_id=1&user_profile to profile_exceptions table.
 	 */
-	$up_profile_exceptions_exists = DBGet( DBQuery( "SELECT 1
-		FROM profile_exceptions
-		WHERE profile_id=1
-		AND modname='Users/User.php&category_id=1&user_profile'" ) );
+	$admin_profiles_RET = DBGet( DBQuery( "SELECT id
+		FROM user_profiles
+		WHERE profile='admin'" ) );
 
-	if ( ! $up_profile_exceptions_exists )
+	foreach ( (array) $admin_profiles_RET as $admin_profile )
 	{
-		DBQuery( "INSERT INTO profile_exceptions
-			VALUES (1, 'Users/User.php&category_id=1&user_profile', 'Y', 'Y');" );
+		$profile_id = $admin_profile['ID'];
+
+		$up_profile_exceptions_exists = DBGet( DBQuery( "SELECT 1
+			FROM profile_exceptions
+			WHERE profile_id='" . $profile_id . "'
+			AND modname='Users/User.php&category_id=1&user_profile'" ) );
+
+		if ( ! $up_profile_exceptions_exists )
+		{
+			DBQuery( "INSERT INTO profile_exceptions
+				VALUES ('" . $profile_id . "', 'Users/User.php&category_id=1&user_profile', 'Y', 'Y');" );
+		}
 	}
 
 	/**
