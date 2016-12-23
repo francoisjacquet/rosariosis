@@ -60,20 +60,17 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 		foreach ( (array) $RET as $student)
 		{
-			$calendar_RET = DBGet(DBquery("SELECT ".db_case(array(
-				"MINUTES>=".Config('ATTENDANCE_FULL_DAY_MINUTES'),
-				'true',
-				"'1.0'",
-				"'0.5'")
-			)." AS POS,
-			trim(leading '0' from to_char(SCHOOL_DATE,'MM')) AS MON,
-			trim(leading '0' from to_char(SCHOOL_DATE,'DD')) AS DAY
-			FROM ATTENDANCE_CALENDAR
-			WHERE CALENDAR_ID='".$student['CALENDAR_ID']."'
-			AND SCHOOL_DATE>='".$student['START_DATE']."'".
-			($student['END_DATE']?" AND SCHOOL_DATE<='".$student['END_DATE']."'":'')),
-			array(),
-			array('MON','DAY'));
+			$calendar_RET = DBGet(DBquery("SELECT CASE WHEN                                                                                                                      
+                                MINUTES>=".Config('ATTENDANCE_FULL_DAY_MINUTES').                                                                                                            
+                        " THEN '1.0' ELSE '0.5' END AS POS,                                                                                                                                  
+                        trim(leading '0' from to_char(SCHOOL_DATE,'MM')) AS MON,                                                                                                             
+                        trim(leading '0' from to_char(SCHOOL_DATE,'DD')) AS DAY                                                                                                              
+                        FROM ATTENDANCE_CALENDAR                                                                                                                                             
+                        WHERE CALENDAR_ID='".$student['CALENDAR_ID']."'                                                                                                                      
+                        AND SCHOOL_DATE>='".$student['START_DATE']."'".                                                                                                                      
+                        ($student['END_DATE']?" AND SCHOOL_DATE<='".$student['END_DATE']."'":'')),                                                                                           
+                        array(),                                                                                                                                                             
+                        array('MON','DAY'));      
 
 			$attendance_RET = DBGet(DBQuery("SELECT
 			trim(leading '0' from to_char(ap.SCHOOL_DATE,'MM')) AS MON,
