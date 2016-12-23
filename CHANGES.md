@@ -13,6 +13,7 @@ Changes in 2.9.14
 - Fix Save Select multiple from options field in User.php
 - Admin User Profile restriction in Profiles.php, Exceptions.php, User.php & General_Info.inc.php (sponsored by Aptiris)
 - Update database for Admin User Profile restriction in rosariosis.sql & Update.fnc.php
+- Merge PR #175 Update AttendanceSummary.php, fix #174, thanks to @lkozloff
 
 Changes in 2.9.13
 -----------------
