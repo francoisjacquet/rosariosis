@@ -112,6 +112,25 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 		}
 	}
 
+	// Admin Schools restriction.
+	if ( User( 'PROFILE' ) === 'admin'
+		&& ! AllowEdit( 'Users/User.php&category_id=1&user_profile' )
+		&& isset( $_REQUEST['staff']['PROFILE'] ) )
+	{
+		if ( UserStaffID() )
+		{
+			// Restricted!
+			unset( $_REQUEST['staff']['PROFILE'] );
+			unset( $_REQUEST['staff']['PROFILE_ID'] );
+		}
+		// New User.
+		elseif ( $_REQUEST['staff']['PROFILE'] === 'admin' )
+		{
+			// Remove Administrator from profile options.
+			$_REQUEST['staff']['PROFILE'] = 'teacher';
+		}
+	}
+
 	if ( isset( $_POST['staff'] )
 		&& count( $_POST['staff'] )
 		&& ( User( 'PROFILE' ) === 'admin'
