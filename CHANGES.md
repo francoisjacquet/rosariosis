@@ -10,13 +10,14 @@ Changes in 2.9.14
 - Get autos / edits pull-down edited options: fix $field var name in AssignOtherInfo.php
 - _makeMultipleInput(): Fix div ID in StudentsUsersInfo.fnc.php
 - Fix Save Select multiple from options field in User.php
+- Admin User Profile restriction in Profiles.php, Exceptions.php, User.php & General_Info.inc.php (sponsored by Aptiris)
 
 Changes in 2.9.13
 -----------------
 - Always use SchoolInfo() instead of querying SCHOOLS DB table, programwide
 - Unset current student after setting new current school in Schools.php & CopySchool.php
 - Check if Update() version < ROSARIO_VERSION in Update.fnc.php
-- Admin Schools restriction in Profile.php, Exceptions.php, User.php & General_Info.inc.php (sponsored by Aptiris)
+- Admin Schools restriction in Profiles.php, Exceptions.php, User.php & General_Info.inc.php (sponsored by Aptiris)
 - Update database for Admin Schools restriction in rosariosis.sql & Update.fnc.php
 - Restrict Search All Schools to user schools (sponsored by Aptiris)
 

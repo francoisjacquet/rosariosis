@@ -761,6 +761,9 @@ HTML;
 	Administrators have access to almost all pages, to read or to write information on that page. By default, they cannot see the "Comments" tab in the Student Info program, but can access and can modify all other pages.
 </p>
 <p>
+	You can restrict the User Profile edition if you uncheck the <i>Users > User Info > General Info > User Profile</i> checkbox. Administrators will then loose the ability to assign user profiles (and permissions).
+</p>
+<p>
 	You can restrict the User Schools edition if you uncheck the <i>Users > User Info > General Info > Schools</i> checkbox. Administrators will then loose the ability to add or remove schools to/from a user.
 </p>
 <p>

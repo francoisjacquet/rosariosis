@@ -763,6 +763,9 @@ HTML;
 	Los Administradores no pueden ver la pestaña "Comentarios" del archivo del estudiante, pero pueden ver y modificar cualquier otra página.
 </p>
 <p>
+	Se puede restringuir la edición del perfil de los usuarios desmarcando la casilla <i>Usuarios > Información del Usuario > Datos Personales > Perfil del Usuario</i>. Los administradores perderan la posibilidad de asignar el perfil de los usuarios (y los permisos).
+</p>
+<p>
 	Se puede restringuir la edición de las escuelas de los usuarios desmarcando la casilla <i>Usuarios > Información del Usuario > Datos Personales > Escuelas</i>. Los administradores perderan la posibilidad de agregar o quitar escuelas a/de un usuario.
 </p>
 <p>

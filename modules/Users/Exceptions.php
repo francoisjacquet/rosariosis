@@ -53,10 +53,14 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 		$file = 'Users/User.php&category_id='.$category['ID'];
 		$tmp_menu['Users'][ $xprofile ][ $file ] = ' &nbsp; &nbsp; &rsaquo; '.$category['TITLE'];
 
-		// Admin Schools restriction.
 		if ( $xprofile === 'admin'
 			&& $category['ID'] === '1' )
 		{
+			// Admin User Profile restriction.
+			$file = 'Users/User.php&category_id=1&user_profile';
+			$tmp_menu['Users'][ $xprofile ][ $file ] = ' &nbsp; &nbsp;  &nbsp; &nbsp; &rsaquo; ' . _( 'User Profile' );
+
+			// Admin Schools restriction.
 			$file = 'Users/User.php&category_id=1&schools';
 			$tmp_menu['Users'][ $xprofile ][ $file ] = ' &nbsp; &nbsp;  &nbsp; &nbsp; &rsaquo; ' . _( 'Schools' );
 		}
@@ -185,10 +189,22 @@ if ( ! $staff_RET[1]['PROFILE_ID'])
 
 							echo '<td>'.$title.'</td></tr>';
 
-							// Admin Schools restriction.
 							if ( $xprofile === 'admin'
 								&& $category['ID'] === '1' )
 							{
+								// Admin User Profile restriction.
+								$file = 'Users/User.php&category_id=1&user_profile';
+								$title = ' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&rsaquo; ' . _( 'User Profile' );
+								$can_use = $exceptions_RET[ $file ][1]['CAN_USE'];
+								$can_edit = $exceptions_RET[ $file ][1]['CAN_EDIT'];
+
+								echo '<tr><td class="align-right"><input type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></td>';
+
+								echo '<td class="align-right"><input type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></td>';
+
+								echo '<td>' . $title . '</td></tr>';
+
+								// Admin Schools restriction.
 								$file = 'Users/User.php&category_id=1&schools';
 								$title = ' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&rsaquo; ' . _( 'Schools' );
 								$can_use = $exceptions_RET[ $file ][1]['CAN_USE'];

@@ -166,6 +166,31 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 		'none' => _( 'No Access' )
 	);
 
+	$admin_user_profile_restriction = false;
+
+	// Admin USer Profile restriction.
+	if ( User( 'PROFILE' ) === 'admin'
+		&& AllowEdit()
+		&& ! AllowEdit( 'Users/User.php&category_id=1&user_profile' ) )
+	{
+		if ( $_REQUEST['staff_id'] !== 'new' )
+		{
+			// Temporarily deactivate AllowEdit.
+			$_ROSARIO['allow_edit'] = false;
+		}
+		else
+		{
+			// Remove Administrator from profile options.
+			$profile_options = array(
+				'teacher' => _( 'Teacher' ),
+				'parent' => _( 'Parent' ),
+				'none' => _( 'No Access' )
+			);
+		}
+
+		$admin_user_profile_restriction = true;
+	}
+
 	echo SelectInput(
 		$staff['PROFILE'],
 		'staff[PROFILE]',
@@ -180,7 +205,7 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 
 	$permissions_options = array();
 
-	if ( $_REQUEST['staff_id'] != 'new' )
+	if ( $_REQUEST['staff_id'] !== 'new' )
 	{
 		$permissions_RET = DBGet( DBQuery( "SELECT ID,TITLE
 			FROM USER_PROFILES
@@ -189,7 +214,7 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 
 		foreach ( (array) $permissions_RET as $permission )
 		{
-			$permissions_options[$permission['ID']] = _( $permission['TITLE'] );
+			$permissions_options[ $permission['ID'] ] = _( $permission['TITLE'] );
 		}
 
 		$na = _( 'Custom' );
@@ -204,6 +229,14 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 		$permissions_options,
 		$na
 	);
+
+	// Admin User Profile restriction.
+	if ( $admin_user_profile_restriction
+		&& $_REQUEST['staff_id'] !== 'new' )
+	{
+		// Reactivate AllowEdit.
+		$_ROSARIO['allow_edit'] = true;
+	}
 
 	echo '</td><td>';
 
