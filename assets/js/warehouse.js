@@ -1,14 +1,8 @@
 // Modules.php JS
 function addHTML(html, id, replace) {
-	var $el = $( '#' + id );
+	var el = document.getElementById( id );
 
-	if ( replace ) {
-
-		$el.html( html );
-	} else {
-
-		$el.append( html );
-	}
+	el.innerHTML = replace ? html : el.innerHTML + html;
 }
 
 function checkAll(form, value, name_like) {
