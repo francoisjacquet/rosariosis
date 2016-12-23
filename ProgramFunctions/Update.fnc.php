@@ -467,6 +467,9 @@ function _update2913()
  *
  * Add School Field types.
  * 1. Add SELECT_OPTIONS column to SCHOOL_FIELDS table.
+ * Admin User Profile restriction.
+ * 2. Add Users/User.php&category_id=1&user_profile to profile_exceptions table.
+ * 3. Add Users/User.php&category_id=1&user_profile to staff_exceptions table.
  *
  * Local function
  *
@@ -491,6 +494,42 @@ function _update2914()
 	{
 		DBQuery( "ALTER TABLE ONLY school_fields
 			ADD COLUMN select_options character varying(10000);" );
+	}
+
+	/**
+	 * 2. Add Users/User.php&category_id=1&user_profile to profile_exceptions table.
+	 */
+	$up_profile_exceptions_exists = DBGet( DBQuery( "SELECT 1
+		FROM profile_exceptions
+		WHERE profile_id=1
+		AND modname='Users/User.php&category_id=1&user_profile'" ) );
+
+	if ( ! $up_profile_exceptions_exists )
+	{
+		DBQuery( "INSERT INTO profile_exceptions
+			VALUES (1, 'Users/User.php&category_id=1&user_profile', 'Y', 'Y');" );
+	}
+
+	/**
+	 * 3. Add Users/User.php&category_id=1&user_profile to staff_exceptions table.
+	 */
+	$up_staff_exceptions_exists = DBGet( DBQuery( "SELECT 1
+		FROM staff_exceptions
+		WHERE modname='Users/User.php&category_id=1&user_profile'" ) );
+
+	// Check if we have staff_exceptions.
+	$staff_exceptions_user_ids = DBGet( DBQuery( "SELECT user_id
+		FROM staff_exceptions
+		WHERE modname='Users/User.php&category_id=1'" ) );
+
+	if ( ! $up_staff_exceptions_exists
+		&& $staff_exceptions_user_ids )
+	{
+		foreach ( (array) $staff_exceptions_user_ids as $user_id )
+		{
+			DBQuery( "INSERT INTO staff_exceptions
+				VALUES ('" . $user_id['USER_ID'] . "', 'Users/User.php&category_id=1&user_profile', 'Y', 'Y');" );
+		}
 	}
 
 	return $return;
