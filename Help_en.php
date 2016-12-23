@@ -323,6 +323,65 @@ HTML;
 </p>
 HTML;
 
+	$help['School_Setup/SchoolFields.php'] = <<<HTML
+<p>
+	<i>School Fields</i> allows you to add new fields to the School Information screen.
+</p>
+<p>
+	Add a new Field
+</p>
+<p>
+	Click on the "+" icon below the "No School Fields were found" text. Fill in the Field Name field(s), and then choose what type of field you wish with the "Data Type" pull-down.
+</p>
+<ul>
+<li>
+	"Pull-Down" fields create menus from which you can select one option. To create this type of field, click on "Pull-Down" and then add your options (one per line) in the "Pull-Down/Auto Pull-down/Coded Pull-Down/Select Multiple from Options" text box.
+</li>
+<li>
+	"Auto Pull-Down" fields create menus from which you can select one option, and add options. You add options by selecting the "-Edit-" option in the menu choices and click "Save". You can then edit the field by removing the red "-Edit-" from the field, entering the correct information. RosarioSIS gets all the options that have been added to this field to create the pull-down.
+</li>
+<li>
+	"Edit Pull-Down" fields are similar to Auto Pull-Down fields.
+</li>
+<li>
+	"Coded Pull-Down" fields are created by adding options to the large text box respecting the following pattern: "option shown"|"option stored in database" (where | is the "pipe" character). For example: "Two|2", where "Two" is displayed on screen to the user, or in a downloaded spreadsheet, and "2" is stored in the database.
+</li>
+<li>
+	"Export Pull-Down" fields are created by adding options to the large text box respecting the same pattern used for "Coded Pull-Down" fields ("option shown"|"option stored in database"). For example: "Two|2", where "Two" is displayed on screen to the user, and "2" is the value in a downloaded spreadsheet, but "Two" is stored in the database.
+</li>
+<li>
+	"Select Multiple from options" fields create multiple checkboxes to choose one or more options.
+</li>
+<li>
+	"Text" fields create alphanumeric text fields with a maximum capacity of 255 characters.
+</li>
+<li>
+	"Long Text" fields create large alphanumeric text boxes with a maximum length of 5000 characters.
+</li>
+<li>
+	"Checkbox" fields create checkboxes. When checked it means "yes" and when un-checked "no".
+</li>
+<li>
+	"Number" fields create text fields that stores only numeric values.
+</li>
+<li>
+	"Date" field creates pull-downs fields to pick a date from.
+</li>
+</ul>
+<p>
+	The "Required" checkbox, if checked, will make that field required so an error will be displayed if the field is empty when saving the page.
+</p>
+<p>
+	The "Sort Order" determines the order in which the fields will be displayed on the School Information screen.
+</p>
+<p>
+	Delete a field
+</p>
+<p>
+	You can delete any School field simply by clicking on the "Delete" button in the upper right corner. Please note that you will lose all your data if you delete an already used field.
+</p>
+HTML;
+
 	// Teacher & Parent & Student.
 else :
 

@@ -316,6 +316,66 @@ HTML;
 </p>
 HTML;
 
+	$help['School_Setup/SchoolFields.php'] = <<<HTML
+<p>
+	<i>Campos de Institución</i> le permite agregar nuevos campos a la pantalla Información de la Institución.
+</p>
+<p>
+	Agregar un Nuevo Campo
+</p>
+<p>
+	Haga clic sobre el icono "+" debajo del texto "No se encontró ningún(a) Campo de Usuario.". Llene el/los campo(s) "Nombre del Campo", y luego escoge el tipo de campo que desee con el menú desplegable "Tipo de Dato".
+</p>
+<ul>
+<li>
+	Los campos "Menú Desplegable" crean un menú a partir del cual se puede escoger una opción. Para crear este tipo de campo, haga lic sobre "Menú Desplegable" y luego entre las opciones (una por línea) en el campo de texto "Menú Desplegable/Menú Desplegable Automático/Menú Desplegable Codificado/Selección de Opción Múltiple".
+</li>
+<li>
+	Los campos "Menú Desplegable Automático" crean un menú a partir del cual se puede escoger una opción y agregar opciones. Se agregan las opciones escogiendo el opción "-Editar-" en el menú y presionando "Guardar". Se puede editar el campo quitando el "-Editar-" rojo del campo, entrando la información correcta. RosarioSIS toma todas las opciones que han sido agregadas a este campo para crear el Menú Desplegable.
+</li>
+<li>
+	Los campos "Menú Desplegable Editable" son similares a los campos Menú Desplegable Automático.
+</li>
+<li>
+	Los campos "Menú Desplegable Codificado" son creados agregando opciones al grande campo de texto de la siguiente manera: "opción mostrada"|"opción guardada en la base de datos" (donde | es el carácter separador). Por ejemplo: "Dos|2", donde "Dos" está expuesto en la pantalla, o un documento descargado, y "2" está almacenado en la base de datos.
+</li>
+<li>
+	Los campos "Menú Desplegable Exportable" son creados agregando opciones respectando la misma convención usado para los campos "Menú Desplegable Codificado" ("opción mostrada"|"opción guardada en la base de datos"). Por ejemplo: "Dos|2", donde "Dos" está expuesto en la pantalla, y "2" es el valor del documento descargado, pero "Dos" está almacenado en la base de datos.
+</li>
+<li>
+	Los campos "Selección de Opción Múltiple" crean casillas múltiples para escoger una o varias opciones.
+</li>
+<li>
+	Los campos de "Texto" crean un campo de texto alfanumérico con una capacidad máxima de 255 caracteres.
+</li>
+<li>
+	Los campos "Texto Largo" crean grandes cajas de texto alfanumérico con una capacidad máxima de 5000 caracteres.
+</li>
+<li>
+	Los campos "Casilla" crean casillas. Cuando marcada, significa "Sí", y cuando no marcado "No".
+</li>
+<li>
+	Los campos "Número" crean campos de texto que almacenan valores numéricos solamente.
+</li>
+<li>
+	Los campos "Fecha" crean menús desplegables para escoger una fecha.
+</li>
+</ul>
+<p>
+	La casilla "Obligatorio", si marcada, volverá el campo requerido y un error sera generado si el campo está vació al momento de guardar.
+</p>
+<p>
+	La "Orden" determina la orden en la cual los campos están organizados en el programa Información de la Institución.
+</p>
+<p>
+	Eliminar un campo
+</p>
+<p>
+	Se puede eliminar cualquier Campo de Usuario simplemente presionando el botón "Eliminar" en la parte arriba de la pantalla. Por favor nota bien que se perderá toda la información si se elimina un campo ya usada.
+</p>
+HTML;
+
+
 	// Teacher & Parent & Student.
 else :
 
@@ -808,7 +868,7 @@ HTML;
 
 	$help['Users/UserFields.php'] = <<<HTML
 <p>
-	<i>User Fields</i> le permite agregar nuevos campos y pestañas a la pantalla Información del Usuario.
+	<i>Campos de Usuario</i> le permite agregar nuevos campos y pestañas a la pantalla Información del Usuario.
 </p>
 <p>
 	Categorías de Campo de Usuario

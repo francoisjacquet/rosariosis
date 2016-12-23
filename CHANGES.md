@@ -7,6 +7,7 @@ Changes in 2.9.14
 - Fix gettext bug when string is '.' in ParseML.php
 - Add SELECT\_OPTIONS column to SCHOOL_FIELDS table in Update.fnc.php & rosariosis.sql
 - Add School Field types in Schools.php & SchoolFields.php (sponsored by Aptiris)
+- Add help for School Fields in Help_en.php & Help_es.php
 - Get autos / edits pull-down edited options: fix $field var name in AssignOtherInfo.php
 - _makeMultipleInput(): Fix div ID in StudentsUsersInfo.fnc.php
 - Fix Save Select multiple from options field in User.php
