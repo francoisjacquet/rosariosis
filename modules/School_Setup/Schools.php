@@ -425,7 +425,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 			case 'multiple':
 				// Global.
-				$value[ 'CUSTOM_' . $field['ID'] ] = $value_custom;
+				$value = array( 'CUSTOM_' . $field['ID'] => $value_custom );
 
 				echo _makeMultipleInput( 'CUSTOM_' . $field['ID'], $title_custom, 'values' );
 
