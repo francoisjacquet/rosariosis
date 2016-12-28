@@ -306,6 +306,9 @@ hr {
 	border-width:1px;
 	border-style:solid
 }
+.postbox{
+	border-bottom-width:2px
+}
 .widefat{
 	clear:both;
 	margin:0
