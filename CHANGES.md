@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 2.9.15
+-----------------
+- Security: update PHPMailer to version 2.9.21
+
 Changes in 2.9.14
 -----------------
 - Add "No courses found" error in Side.php
