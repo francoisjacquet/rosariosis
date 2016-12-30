@@ -1611,7 +1611,10 @@ HTML;
 	$help['Attendance/AddAbsences.php'] = <<<HTML
 <p>
 	<i>Agregar Ausencias</i> le permite agregar una ausencia a un grupo de estudiantes de una vez.
-</p>Primero, busca estudiantes. Note que usted puede buscar para estudiantes que están tomando un curso específico o están en una actividad especial.
+</p>
+<p>
+	Primero, busca estudiantes. Note que usted puede buscar para estudiantes que están tomando un curso específico o están en una actividad especial.
+</p>
 <p>
 	Desde los resultados de la búsqueda, usted puede seleccionar cualquier número de estudiantes. Usted puede seleccionar todos los estudiantes de la lista marcando la casilla en el encabezado de la lista. Usted también puede especificar las horas, el código de ausencia, la razón de la ausencia, y la fecha. Finalmente, presione el botón «Guardar» en la parte superior de la pantalla.
 </p>
@@ -1721,6 +1724,27 @@ elseif ( User( 'PROFILE' ) === 'teacher' ) :
 </p>
 <p>
 	Una vez que está en la clase correcta, usted puede tomar la asistencia seleccionando el código de asistencia para cada estudiante. Una vez que usted ha tomado la asistencia para todos sus estudiantes, presione el botón «Guardar» en la parte superior de la pantalla.
+</p>
+
+HTML;
+	$help['Attendance/DailySummary.php'] = <<<HTML
+<p>
+	<i>Gráfico de Asistencia</i> es un reporte que muestra la asistencia diaria de cualquier número de estudiantes para cada día de un transcurso.
+</p>
+<p>
+	Después de buscar por estudiantes, usted puede cambiar el periodo con las fechas en los menús desplegables en la parte superior de la pantalla. La lista muestra el dato de asistencia diaria de cada estudiante para cada día con un código de color. Rojo significa ausente todo el día, amarillo significa ausente medio día y verde significa presente todo el día.
+</p>
+<p>
+	Usted puede ver los registros de asistencia para cada hora, para cualquier estudiante haciendo clic sobre el nombre del estudiante. Aquí, el código está en la casilla de color.
+</p>
+HTML;
+
+	$help['Attendance/StudentSummary.php'] = <<<HTML
+<p>
+	<i>Resumen de la Ausencia</i> es un reporte que muestra los días por lo cuales un estudiante tiene una ausencia.
+</p>
+<p>
+	Después de seleccionar un estudiante, usted puede cambiar el periodo con las fechas en los menús desplegables en la parte superior de la pantalla y presionando el botón «Ir». La lista muestra las ausencias del estudiante para cada hora de cada día con ausencia. Una cruz roja indica una ausencia por la hora correspondiente.
 </p>
 HTML;
 

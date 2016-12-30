@@ -1614,7 +1614,10 @@ HTML;
 	$help['Attendance/AddAbsences.php'] = <<<HTML
 <p>
 	<i>Add Absences</i> allows you to add an absence to a group of students in one action.
-</p>First, search for students. Notice that you can search for students who are enrolled in a specific course or are in a certain activity. This can be useful since you can add an absence record for each period to all of Mrs. Smith's first period students or the football team who will be on an all day field trip.
+</p>
+<p>
+	First, search for students. Notice that you can search for students who are enrolled in a specific course or are in a certain activity. This can be useful since you can add an absence record for each period to all of Mrs. Smith's first period students or the football team who will be on an all day field trip.
+</p>
 <p>
 	From the search result, you can select any number of students. You can select all the students in the list by checking the checkbox in the column headings above the list. You can also specify the periods to mark the selected students, the absence code, the absence reason, and the date in the yellow box above the student list. After you have selected each desired student from this list, all the desired periods, the absence code, absence reason, and absence date, click the "Save" button at the top of the screen.
 </p>
@@ -1724,6 +1727,27 @@ elseif ( User( 'PROFILE' ) === 'teacher' ) :
 </p>
 <p>
 	Once you are in the correct period, you can enter attendance by selecting the attendance code corresponding to each student. Once you have entered attendance for all your students, click the "Save" button at the top of the screen.
+</p>
+HTML;
+
+	$help['Attendance/DailySummary.php'] = <<<HTML
+<p>
+	<i>Daily Summary</i> is a report that shows the daily attendance status of any number of students for every date during any timeframe.
+</p>
+<p>
+	After searching for students, you can alter the date range by changing the date pull-down menus at the top of the screen and clicking the "Go" button. The list shows each student's daily attendance value for each day with color codes. A red box signifies that the student was absent all day, a yellow box signifies that a student was absent half-day, and a green box signifies that a student was present all day long.
+</p>
+<p>
+	You can see the attendance records for each period for any student by clicking on a student's name from the list. Here, the absence code is displayed in the color-coded box.
+</p>
+HTML;
+
+	$help['Attendance/StudentSummary.php'] = <<<HTML
+<p>
+	<i>Student Summary</i> is a report that shows the days for which a student has an absence.
+</p>
+<p>
+	After selecting a student, you can alter the date range by changing the date pull-down menus at the top of the screen and clicking the "Go" button. The list shows the student's absences for each period of each day that he had an absence. A red "x" indicates the student was absent in the corresponding period.
 </p>
 HTML;
 
