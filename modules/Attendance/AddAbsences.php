@@ -136,8 +136,9 @@ if ( ! $_REQUEST['modfunc'] )
 
 		echo '<br />';
 
-//FJ css WPadmin
-		echo '<table class="postbox cellpadding-5 col1-align-right center"><tr><td>'._('Add Absence to Periods').'</td>';
+		PopTable( 'header', _( 'Add Absences' ) );
+
+		echo '<table class="cellpadding-5 col1-align-right center"><tr><td>'._('Add Absence to Periods').'</td>';
 		echo '<td><table><tr>';
 
 		//FJ multiple school periods for a course period
@@ -148,9 +149,12 @@ if ( ! $_REQUEST['modfunc'] )
 		AND SCHOOL_ID='".UserSchool()."'
 		AND EXISTS (SELECT '' FROM COURSE_PERIOD_SCHOOL_PERIODS cpsp, COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND cpsp.PERIOD_ID=SCHOOL_PERIODS.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0)
 		ORDER BY SORT_ORDER"));
-		foreach ( (array) $periods_RET as $period)
-//FJ add <label> on checkbox
+
+		foreach ( (array) $periods_RET as $period )
+		{
 			echo '<td><label><input type="CHECKBOX" value="Y" name="period['.$period['PERIOD_ID'].']"> '.$period['SHORT_NAME'].'</label></td>';
+		}
+
 		echo '</tr></table></td>';
 
 		echo '<tr><td>'._('Absence Code').'</td><td><select name="absence_code">';
@@ -160,7 +164,7 @@ if ( ! $_REQUEST['modfunc'] )
 		echo '</select></td></tr>';
 
 		echo '<tr><td>'._('Absence Reason').'</td><td><input type="text" name="absence_reason"></td></tr>';
-		echo '<tr><td colspan="2" class="center">';
+		echo '<tr><td colspan="2"><div class="center">';
 		$time = mktime(0,0,0,$_REQUEST['month']*1,1,mb_substr($_REQUEST['year'],2));
 		echo PrepareDate(mb_strtoupper(date("d-M-y",$time)),'',false,array('M'=>1,'Y'=>1,'submit'=>true));
 
@@ -169,7 +173,7 @@ if ( ! $_REQUEST['modfunc'] )
 		while (!checkdate($_REQUEST['month']*1, $last, mb_substr($_REQUEST['year'],2)))
 			$last--;
 
-		echo '<table><tr class="align-right">';
+		echo '</div><table class="width-100p"><tr>';
 //		echo '<th>S</th><th>M</th><th>T</th><th>W</th><th>Th</th><th>F</th><th>S</th></tr><tr>';
 		echo '<th>'.mb_substr(_('Sunday'),0,3).'</th><th>'.mb_substr(_('Monday'),0,3).'</th><th>'.mb_substr(_('Tuesday'),0,3).'</th><th>'.mb_substr(_('Wednesday'),0,3).'</th><th>'.mb_substr(_('Thursday'),0,3).'</th><th>'.mb_substr(_('Friday'),0,3).'</th><th>'.mb_substr(_('Saturday'),0,3).'</th></tr><tr>';
 		$calendar_RET = DBGet(DBQuery("SELECT SCHOOL_DATE FROM ATTENDANCE_CALENDAR WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND MINUTES!='0' AND EXTRACT(MONTH FROM SCHOOL_DATE)='".($_REQUEST['month']*1)."'"),array(),array('SCHOOL_DATE'));
@@ -192,7 +196,11 @@ if ( ! $_REQUEST['modfunc'] )
 				echo '</tr><tr>';
 		}
 		echo '</tr></table>';
-		echo '</td></tr></table><br />';
+		echo '</td></tr></table>';
+
+		PopTable( 'footer' );
+
+		echo '<br />';
 	}
 
 	Widgets('course');

@@ -41,6 +41,8 @@ if ( empty( $end_date ) )
 //FJ bugfix bug when Back to Student Search
 if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')=='parent' || User('PROFILE')=='student')
 {
+	$period_select = '';
+
 	if ( !UserStudentID() && ! $_REQUEST['student_id'])
 	{
 		//FJ multiple school periods for a course period
@@ -71,9 +73,14 @@ if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')==
 		$period_select .= '</select>';
 	}
 
-	$PHP_tmp_SELF = PreparePHP_SELF();
-	echo '<form action="'.$PHP_tmp_SELF.'" method="POST">';
-	DrawHeader(_('Timeframe').': '.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end').' : '.$period_select.' : <input type="submit" value="'._('Go').'" />');
+	echo '<form action="' . PreparePHP_SELF() . '" method="GET">';
+
+	DrawHeader( _( 'Timeframe' ) . ': ' . PrepareDate( $start_date, '_start' ) . ' ' .
+		_( 'to' ) . ' ' . PrepareDate( $end_date, '_end' ) .
+		( $period_select ? ' : ' . $period_select : '' ) .
+		' : ' . Buttons( _( 'Go' ) )
+	);
+
 	echo '</form>';
 }
 
@@ -135,7 +142,6 @@ if (UserStudentID())
 {
 	$name_RET = DBGet(DBQuery("SELECT FIRST_NAME||' '||COALESCE(MIDDLE_NAME,' ')||' '||LAST_NAME AS FULL_NAME FROM STUDENTS WHERE STUDENT_ID='".UserStudentID()."'"));
 	DrawHeader($name_RET[1]['FULL_NAME']);
-	$PHP_tmp_SELF = PreparePHP_SELF();
 
 	$absences_RET = DBGet(DBQuery("SELECT ap.STUDENT_ID,ap.PERIOD_ID,ap.SCHOOL_DATE,ac.SHORT_NAME,
 		ac.TITLE,ac.STATE_CODE,ad.STATE_VALUE,ad.COMMENT AS OFFICE_COMMENT,ap.COMMENT AS TEACHER_COMMENT
@@ -202,5 +208,5 @@ function _makeColor( $value, $title, $state_code )
 
 	return '<span style="float:left; padding:0 8px;' .
 		( isset( $colors[ $state_code ] ) ? ' background-color:' . $colors[ $state_code ] . ';' : '' ) .
-		'" title="' . $title . '">' . $value . '</div>';
+		'" title="' . $title . '">' . $value . '</span>';
 }

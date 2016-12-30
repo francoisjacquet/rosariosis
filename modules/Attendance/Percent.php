@@ -141,7 +141,13 @@ if ( ! $_REQUEST['modfunc'] )
 		$columns = array('GRADE_ID' => _('Grade Level'),'STUDENTS' => _('Students'),'DAYS_POSSIBLE' => _('Days Possible'),'PRESENT' => _('Present'),'ABSENT' => _('Absent'),'ADA' => _('ADA'),'AVERAGE_ATTENDANCE' => _('Average Attendance'),'AVERAGE_ABSENT' => _('Average Absent'));
 		$link['add']['html'] = array('GRADE_ID' => '<b>'._('Total').'</b>','STUDENTS'=>round($sum['STUDENTS'],1),'DAYS_POSSIBLE' => $cal_days[key($cal_days)][1]['COUNT'],'PRESENT' => $sum['PRESENT'],'ADA'=>_Percent((($sum['PRESENT']+$sum['ABSENT']) > 0 ? ($sum['PRESENT'])/($sum['PRESENT']+$sum['ABSENT']) : 0)),'ABSENT' => $sum['ABSENT'],'AVERAGE_ATTENDANCE'=>round($sum['AVERAGE_ATTENDANCE'],1),'AVERAGE_ABSENT'=>round($sum['AVERAGE_ABSENT'],1));
 
-		ListOutput($student_days_possible,$columns,'School Day','School Days',$link);
+		ListOutput(
+			$student_days_possible,
+			$columns,
+			'Grade Level',
+			'Grade Levels',
+			$link
+		);
 	}
 }
 

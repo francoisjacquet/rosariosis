@@ -101,8 +101,13 @@ if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')==
 	else
 		$period_select .= '<option value="PERIOD"'.($_REQUEST['period_id']?' selected':'').'>'._('By Period').'</option>';
 	$period_select .= '</select>';
-	echo '<form action="'.$PHP_tmp_SELF.'" method="POST">';
-	DrawHeader(_('Timeframe').': '.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end').' : '.$period_select.' : <input type="submit" value="'._('Go').'" />');
+
+	echo '<form action="' . $PHP_tmp_SELF . '" method="GET">';
+
+	DrawHeader( _( 'Timeframe' ) . ': ' . PrepareDate( $start_date, '_start' ) . ' ' .
+		_( 'to' ) . ' ' . PrepareDate( $end_date, '_end' ) . ' : ' .
+		$period_select . ' : ' . Buttons( _( 'Go' ) )
+	);
 }
 
 $cal_RET = DBGet(DBQuery("SELECT DISTINCT SCHOOL_DATE,'_'||to_char(SCHOOL_DATE,'yyyymmdd') AS SHORT_DATE FROM ATTENDANCE_CALENDAR WHERE SCHOOL_ID='".UserSchool()."' AND SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' ORDER BY SCHOOL_DATE"));
@@ -178,8 +183,8 @@ if ( $_REQUEST['student_id'] || User('PROFILE')=='parent')
 	{
 		$school_date = ProperDate( $value['SCHOOL_DATE'], 'short' );
 
-		// 2 digits year to gain space.
-		$school_date = str_replace( date( 'Y' ), date( 'y' ), $school_date );
+		// Remove year to gain space.
+		$school_date = str_replace( date( 'Y' ), '', $school_date );
 
 		$columns[ $value['SHORT_DATE'] ] = ( isset( $_REQUEST['LO_save'] ) ?
 			strip_tags( $school_date ) :
