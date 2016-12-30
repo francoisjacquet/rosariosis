@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-12-19 09:23-0500\n"
-"PO-Revision-Date: 2016-12-19 09:24-0500\n"
+"PO-Revision-Date: 2016-12-30 15:23-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -2412,7 +2412,7 @@ msgstr "Imprimer Relevés"
 #: modules/Grades/StudentGrades.php:421
 #: modules/Student_Billing/StudentFees.php:121
 msgid "Due"
-msgstr "Date d'Echéance"
+msgstr "Date d'Échéance"
 
 #: modules/Accounting/Salaries.php:125 modules/Accounting/StaffPayments.php:152
 msgid "Total from Salaries"
@@ -2539,7 +2539,7 @@ msgstr "Remarque du Jour"
 #: modules/Attendance/Administration.php:354
 #: modules/Attendance/Administration_fast.old.php:161
 msgid "Current Student"
-msgstr "Élève Selectionné"
+msgstr "Élève Sélectionné"
 
 #: modules/Attendance/Administration.php:429
 msgid "Not Present"
@@ -2796,7 +2796,7 @@ msgstr "État d'Avancement"
 
 #: modules/Attendance/Menu.php:20
 msgid "Average Daily Attendance"
-msgstr "Absences Journalières Moyennes"
+msgstr "Présence Journalière Moyenne"
 
 #: modules/Attendance/Menu.php:21
 msgid "Average Attendance by Day"
@@ -2804,7 +2804,7 @@ msgstr "Présence Moyenne par Jour"
 
 #: modules/Attendance/Menu.php:22 modules/Attendance/Menu.php:37
 msgid "Attendance Chart"
-msgstr "Graphique des Absences"
+msgstr "Tableau des Absences"
 
 #: modules/Attendance/Menu.php:23 modules/Attendance/Menu.php:38
 msgid "Absence Summary"
@@ -2886,7 +2886,7 @@ msgstr "Jours Possibles"
 # Average Daily Attendance
 #: modules/Attendance/Percent.php:108 modules/Attendance/Percent.php:141
 msgid "ADA"
-msgstr "Attendance Moyenne"
+msgstr "PJM"
 
 #: modules/Attendance/Percent.php:108 modules/Attendance/Percent.php:141
 msgid "Average Attendance"
@@ -4475,7 +4475,7 @@ msgstr "Date de Début"
 #: modules/Student_Billing/MassAssignFees.php:64 modules/misc/Portal.php:334
 #: modules/misc/Portal.php:517 modules/misc/Portal.php:653
 msgid "Due Date"
-msgstr "Date d'Echéance"
+msgstr "Date d'Échéance"
 
 # 'user_profiles' table
 #: modules/Grades/Assignments-new.php:256 modules/Grades/Grades.php:201
@@ -4648,7 +4648,7 @@ msgstr "La date assignée est aujourd'hui par défaut"
 
 #: modules/Grades/Configuration.php:57
 msgid "Due Date defaults to today"
-msgstr "La Date d'Echéance est aujourd'hui par défaut."
+msgstr "La Date d'Échéance est aujourd'hui par défaut."
 
 #: modules/Grades/Configuration.php:58
 msgid "Hide letter grades for all gradebook assignments"
@@ -7358,7 +7358,7 @@ msgstr "Champs Utilisateur"
 
 #: modules/Users/Preferences.php:29
 msgid "Your current password was incorrect."
-msgstr "Le mot de passe courant est incorrect."
+msgstr "Le mot de passe actuel est incorrect."
 
 #: modules/Users/Preferences.php:39
 msgid "Your new password was saved."
@@ -7450,7 +7450,7 @@ msgstr "Couleur de l'Entête de Liste PDF"
 
 #: modules/Users/Preferences.php:478
 msgid "Current Password"
-msgstr "Mot de Passe Actuel"
+msgstr "Mot de Passe actuel"
 
 #: modules/Users/Preferences.php:544
 msgid "Home Phone Number"
