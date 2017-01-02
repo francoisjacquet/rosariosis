@@ -1,11 +1,16 @@
 <?php
 
+DrawHeader( ProgramTitle() );
+
 if (count($_REQUEST['mp_arr']))
 {
-        foreach ( (array) $_REQUEST['mp_arr'] as $mp)
-                $mp_list .= ",'".$mp."'";
-        $mp_list = mb_substr($mp_list,1);
-        $last_mp = $mp;
+	foreach ( (array) $_REQUEST['mp_arr'] as $mp )
+	{
+		$mp_list .= ",'".$mp."'";
+	}
+
+	$mp_list = mb_substr($mp_list,1);
+	$last_mp = $mp;
 }
 
 //Widgets('course');
@@ -82,7 +87,11 @@ if ( $_REQUEST['delete']=='true')
 	else
 		$error[] = _('You must choose at least one student.');
 
-	unset($_REQUEST['delete']);
+	if ( $note
+		|| $error )
+	{
+		$_REQUEST['delete'] = false;
+	}
 }
 
 if (isset($_REQUEST['search_modfunc']) && $_REQUEST['search_modfunc']=='list' && $_REQUEST['delete']!='true')
@@ -181,8 +190,6 @@ if (isset($_REQUEST['search_modfunc']) && $_REQUEST['search_modfunc']=='list' &&
 		Widgets('letter_grade');
 
 		$result1 = GetStuList($extra);
-
-		DrawHeader(ProgramTitle());
 
 		echo ErrorMessage( $error );
 
