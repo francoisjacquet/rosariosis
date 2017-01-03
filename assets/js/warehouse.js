@@ -451,14 +451,16 @@ function showHelp() {
 	if (modname !== showHelp.tmp) {
 		$('.loading').css('visibility', 'visible');
 		$.get("Bottom.php?modfunc=help&modname=" + modname, function (data) {
-			$fh.html(data);
-			$fh.scrollTop(0);
+			showHelp.tmpdata = data;
+			$fh.html(data).scrollTop(0);
 			if (isTouchDevice()) touchScroll( $fh[0] );
 		}).fail( ajaxError ).always( function() {
 			$('.loading').css('visibility', 'hidden');
 		});
 
 		showHelp.tmp = modname;
+	} else if (showHelp.tmpdata && ! $fh.html()) {
+		$fh.html(showHelp.tmpdata);
 	}
 	$fh.show();
 	$('#footer').css('height', function (i, val) {

@@ -6,6 +6,7 @@ Changes in 2.9.15
 - Security: update PHPMailer to version 2.9.21
 - Fix #176 SQL error More than 1 row returned by a subquery in Rollover.php
 - Add Attendance Chart + Student Summary to Teachers help in Help\_en.php & Help_es.php
+- Fix footer help text disappearing when bottom menu updated in warehouse.js
 
 Changes in 2.9.14
 -----------------
