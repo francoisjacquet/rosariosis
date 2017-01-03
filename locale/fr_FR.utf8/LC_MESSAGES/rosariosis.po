@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-12-19 09:23-0500\n"
-"PO-Revision-Date: 2016-12-30 15:23-0500\n"
+"PO-Revision-Date: 2017-01-03 12:16-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -3505,7 +3505,7 @@ msgstr "Vous devez choisir une activité."
 #: modules/Eligibility/AddActivity.php:41
 #: modules/Eligibility/AddActivity.php:70
 msgid "Add Activity to Selected Students"
-msgstr "Ajouter Activité pour les Élèves Sélectionnés"
+msgstr "Assigner Activité aux Élèves Sélectionnés"
 
 #: modules/Eligibility/EnterEligibility.php:135
 msgid "Passing"
@@ -3542,11 +3542,11 @@ msgstr "Fin"
 
 #: modules/Eligibility/Menu.php:16 modules/Eligibility/Menu.php:35
 msgid "Student Screen"
-msgstr "Ecran Élève"
+msgstr "Écran Élève"
 
 #: modules/Eligibility/Menu.php:17
 msgid "Add Activity"
-msgstr "Ajouter une Activité"
+msgstr "Assigner une Activité"
 
 #: modules/Eligibility/Menu.php:22
 msgid "Activities"
@@ -3841,7 +3841,7 @@ msgstr "Repas"
 
 #: modules/Food_Service/Menu.php:30
 msgid "Kiosk Preview"
-msgstr "Prévisualisation Ecran"
+msgstr "Prévisualisation Écran"
 
 #: modules/Food_Service/MenuItems.php:101
 #: modules/Food_Service/MenuItems.php:244
@@ -4576,9 +4576,9 @@ msgid ""
 "school setup."
 msgstr ""
 "La moyenne pondérée et non-pondérée est calculée en divisant les notes "
-"pondérées et non-pondérées indiquées pour chaque note lettrée (configuration "
-"par le programme Configuration du Bulletin de Note) par la base de notation "
-"configurée dans le paramétrage de l'école."
+"pondérées et non-pondérées indiquées pour chaque note (lettrée) "
+"(configuration dans le programme Configuration du Bulletin de Notes) par la "
+"base de notation configurée dans le paramétrage de l'école."
 
 #: modules/Grades/CalcGPA.php:44
 msgid "GPA Calculation"
@@ -4652,11 +4652,11 @@ msgstr "La Date d'Échéance est aujourd'hui par défaut."
 
 #: modules/Grades/Configuration.php:58
 msgid "Hide letter grades for all gradebook assignments"
-msgstr "Cacher la note lettrée pour tous les devoirs du carnet de notes"
+msgstr "Cacher les notes lettrées pour tous les devoirs du carnet de notes"
 
 #: modules/Grades/Configuration.php:59
 msgid "Minimum assignment points for letter grade"
-msgstr "Minimum de points au devoir pour la note lettrée"
+msgstr "Minimum de points au devoir pour la note (lettrée)"
 
 #: modules/Grades/Configuration.php:60
 msgid "Allowed maximum percent in Anomalous grades"
@@ -4686,7 +4686,7 @@ msgstr "Code de commentaire %s par défaut"
 
 #: modules/Grades/Configuration.php:113
 msgid "Score Breakoff Points"
-msgstr "Points Limites du Résultat"
+msgstr "Points Limites pour la Note"
 
 #: modules/Grades/Configuration.php:142
 msgid "Final Grading Percentages"
