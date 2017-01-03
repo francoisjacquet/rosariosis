@@ -452,6 +452,7 @@ function showHelp() {
 		$('.loading').css('visibility', 'visible');
 		$.get("Bottom.php?modfunc=help&modname=" + modname, function (data) {
 			$fh.html(data);
+			$fh.scrollTop(0);
 			if (isTouchDevice()) touchScroll( $fh[0] );
 		}).fail( ajaxError ).always( function() {
 			$('.loading').css('visibility', 'hidden');
