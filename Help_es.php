@@ -158,7 +158,7 @@ HTML;
 	<i>Calendarios</i> le permite configurar el calendario de su institución para el año. El calendario muestra el mes actual por defecto. El mes y el año mostrado se pueden cambiar en los menús desplegables del mes y del año en la parte superior de la pantalla.
 </p>
 <p>
-	En días completos de institución, la casilla en la esquina superior derecha del día debería estar marcada. Para los días parciales, la casilla no debería estar marcada y el número de minutos de asistencia a la institución, debería estar en el campo de texto al lado de la casilla. Para los días sin institución, la casilla no debería estar marcada y el campo de texto vacío. Para desactivar la casilla o cambiar el número de minutos en el día, usted debe primero hacer clic sobre el valor que desee cambiar. Después de hacer un cambio al calendario, presione el botón «Actualizar» en la parte superior de la pantalla.
+	En días completos de institución, la casilla en la esquina superior derecha del día debería estar marcada. Para los días parciales, la casilla no debería estar marcada y el número de minutos de asistencia a la institución, debería estar en el campo de texto al lado de la casilla. Para los días sin institución, la casilla no debería estar marcada y el campo de texto vacío. Para desactivar la casilla o cambiar el número de minutos en el día, usted debe primero hacer clic sobre el valor que desee cambiar. Después de hacer un cambio al calendario, presione el botón «Guardar» en la parte superior de la pantalla.
 </p>
 <p>
 	Si la institución usa una rotación de días enumerados, el numero del día aparece en el cuadro de los días de institución.

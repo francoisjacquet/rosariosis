@@ -165,7 +165,7 @@ HTML;
 	<i>Calendars</i> allows you to setup your school's calendar for the year. The calendar displays the current month by default. The month and year displayed can be changed by changing the month and year pull-down menus at the top of the screen.
 </p>
 <p>
-	On full school days, the checkbox in the upper right-hand corner of the day's square should be checked. For partial days, the checkbox should be unchecked and the number of minutes school will be in attendance should be entered into the text box next to the checkbox. For days on which there will be no school, the checkbox should be unchecked and the text field should be blank. To uncheck the checkbox or change the number of minutes in the school day, you must first click on the value you want to change. After making any changes to the calendar, click the "Update" button at the top of the screen.
+	On full school days, the checkbox in the upper right-hand corner of the day's square should be checked. For partial days, the checkbox should be unchecked and the number of minutes school will be in attendance should be entered into the text box next to the checkbox. For days on which there will be no school, the checkbox should be unchecked and the text field should be blank. To uncheck the checkbox or change the number of minutes in the school day, you must first click on the value you want to change. After making any changes to the calendar, click the "Save" button at the top of the screen.
 </p>
 <p>
 	To setup your calendar at the beginning of the year, you should use the "Create new calendar" or "Recreate this calendar" feature. By clicking on this link in the upper right-hand corner of the screen, you can setup all days in a specified timeframe as meeting all day. You can also select which days of the week that your school is in session. After selecting the beginning and ending dates of your school's school year and the day's of the week that your school meets, click the "OK" button. You can now go through the calendar and mark holidays and partial days.
@@ -1643,7 +1643,7 @@ HTML;
 
 	$help['Attendance/DailySummary.php'] = <<<HTML
 <p>
-	<i>Daily Summary</i> is a report that shows the daily attendance status of any number of students for every date during any timeframe.
+	<i>Attendance Chart</i> is a report that shows the daily attendance status of any number of students for every date during any timeframe.
 </p>
 <p>
 	After searching for students, you can alter the date range by changing the date pull-down menus at the top of the screen and clicking the "Go" button. The list shows each student's daily attendance value for each day with color codes. A red box signifies that the student was absent all day, a yellow box signifies that a student was absent half-day, and a green box signifies that a student was present all day long.
@@ -1670,7 +1670,7 @@ HTML;
 	The red checks indicate that a teacher has failed to enter the current day's attendance for that period.
 </p>
 <p>
-	You can select the current date from the pull-down menu at the top of the screen. You can also show only one period by choosing that period from the period pull-down menu at the top of the screen. After choosing a date or period, click the "Go" button to refresh the list with the new parameters.
+	You can select the current date from the pull-down menu at the top of the screen. You can also show only one period by choosing that period from the period pull-down menu at the top of the screen. After choosing a date or period, the list will be automtically refreshed with the new parameters.
 </p>
 HTML;
 
@@ -1792,7 +1792,7 @@ HTML;
 	<i>Add Activity</i> allows you to add an activity to a group of students in one action.
 </p>
 <p>
-	First, select an activity to be added from the pull-down menu at the top of the screen. You can also perform this action from the next screen. Next, search for students. Notice that you can search for students who are in a certain activity or course. From the search result, you can select any number of students. You can select all the students in the list by checking the checkbox in the column headings above the list. After you have selected each desired student from this list, click the "Add Activity to Selected Students" button at the top of the screen. If you have not yet chosen an activity, you must do that before you click this button.
+	First, search for students. Notice that you can search for students who are in a certain activity or course. From the search result, you can select any number of students. You can select all the students in the list by checking the checkbox in the column headings above the list. Next, select an activity to be added from the pull-down menu at the top of the screen. After you have selected each desired student from this list and the desired activity, click the "Add Activity to Selected Students" button at the top of the screen.
 </p>
 HTML;
 
