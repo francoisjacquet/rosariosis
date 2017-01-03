@@ -7,6 +7,7 @@ Changes in 2.9.15
 - Fix #176 SQL error More than 1 row returned by a subquery in Rollover.php
 - Add Attendance Chart + Student Summary to Teachers help in Help\_en.php & Help_es.php
 - Fix footer help text disappearing when bottom menu updated in warehouse.js
+- Add French help in Help_fr.php
 
 Changes in 2.9.14
 -----------------

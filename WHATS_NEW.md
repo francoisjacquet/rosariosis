@@ -43,6 +43,8 @@ Password Reset feature
 
 Automatic database upgrade
 
+French help
+
 
 New in 2.8
 -----------
