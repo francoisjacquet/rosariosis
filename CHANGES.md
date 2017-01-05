@@ -8,6 +8,7 @@ Changes in 2.9.15
 - Add Attendance Chart + Student Summary to Teachers help in Help\_en.php & Help_es.php
 - Fix footer help text disappearing when bottom menu updated in warehouse.js
 - Add French help in Help_fr.php
+- Merge PR #178 Add Khmer translation thanks to @lkozloff
 
 Changes in 2.9.14
 -----------------

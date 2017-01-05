@@ -45,6 +45,8 @@ Automatic database upgrade
 
 French help
 
+Khmer / Cambodian translation
+
 
 New in 2.8
 -----------
