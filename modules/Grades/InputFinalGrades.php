@@ -176,15 +176,27 @@ if ( $_REQUEST['modfunc']=='gradebook')
 				{
 					$total = $total_percent = 0;
 
-					foreach ( (array) $student as $partial_points)
-						if ( $partial_points['PARTIAL_TOTAL']!=0 || $gradebook_config['WEIGHT']!='Y')
+					foreach ( (array) $student as $partial_points )
+					{
+						if ( $partial_points['PARTIAL_TOTAL'] != 0
+							|| $gradebook_config['WEIGHT'] != 'Y' )
 						{
-							$total += $partial_points['PARTIAL_POINTS']*($gradebook_config['WEIGHT']=='Y'?$partial_points['FINAL_GRADE_PERCENT']/$partial_points['PARTIAL_TOTAL']:1);
-							$total_percent += ($gradebook_config['WEIGHT']=='Y'?$partial_points['FINAL_GRADE_PERCENT']:$partial_points['PARTIAL_TOTAL']);
-						}
+							$total += $partial_points['PARTIAL_POINTS'] * ( $gradebook_config['WEIGHT'] == 'Y' ?
+								$partial_points['FINAL_GRADE_PERCENT'] / $partial_points['PARTIAL_TOTAL'] :
+								1
+							);
 
-					if ( $total_percent!=0)
+							$total_percent += ( $gradebook_config['WEIGHT'] == 'Y' ?
+								$partial_points['FINAL_GRADE_PERCENT'] :
+								$partial_points['PARTIAL_TOTAL']
+							);
+						}
+					}
+
+					if ( $total_percent != 0 )
+					{
 						$total /= $total_percent;
+					}
 
 					$import_RET[ $student_id ] = array(1 => array('REPORT_CARD_GRADE_ID'=>_makeLetterGrade($total,$course_period_id,0,'ID'),'GRADE_PERCENT'=>round(100*$total,1)));
 				}
@@ -234,16 +246,21 @@ if ( $_REQUEST['modfunc']=='gradebook')
 
 			$percents_RET = DBGet(DBQuery("SELECT STUDENT_ID,GRADE_PERCENT,MARKING_PERIOD_ID FROM STUDENT_REPORT_CARD_GRADES WHERE COURSE_PERIOD_ID='".$course_period_id."' AND MARKING_PERIOD_ID IN ($mps)"),array(),array('STUDENT_ID'));
 
-			foreach ( (array) $percents_RET as $student_id => $percents)
+			foreach ( (array) $percents_RET as $student_id => $percents )
 			{
 				$total = $total_percent = 0;
 
-				foreach ( (array) $percents as $percent)
+				foreach ( (array) $percents as $percent )
 				{
-					$total += $percent['GRADE_PERCENT'] * $gradebook_config[$prefix.$percent['MARKING_PERIOD_ID']];
-					$total_percent += $gradebook_config[$prefix.$percent['MARKING_PERIOD_ID']];
+					$total += $percent['GRADE_PERCENT'] * $gradebook_config[ $prefix . $percent['MARKING_PERIOD_ID'] ];
+
+					$total_percent += $gradebook_config[ $prefix . $percent['MARKING_PERIOD_ID'] ];
 				}
-				$total /= $total_percent;
+
+				if ( $total_percent != 0 )
+				{
+					$total /= $total_percent;
+				}
 
 				$import_RET[ $student_id ] = array(1 => array('REPORT_CARD_GRADE_ID'=>_makeLetterGrade($total/100,$course_period_id,0,'ID'),'GRADE_PERCENT'=>round($total,1)));
 

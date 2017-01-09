@@ -11,6 +11,7 @@ Changes in 2.9.15
 - Merge PR #178 Add Khmer translation thanks to @lkozloff
 - Include theme's scripts.js file (optional) in Warehouse.php
 - Add percent sign (%) to grade & semester fields in Grades/Configuration.php
+- Fix PHP error division by zero in InputFinalGrades.php
 
 Changes in 2.9.14
 -----------------
