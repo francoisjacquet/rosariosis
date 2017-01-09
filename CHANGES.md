@@ -10,6 +10,7 @@ Changes in 2.9.15
 - Add French help in Help_fr.php
 - Merge PR #178 Add Khmer translation thanks to @lkozloff
 - Include theme's scripts.js file (optional) in Warehouse.php
+- Add percent sign (%) to grade & semester fields in Grades/Configuration.php
 
 Changes in 2.9.14
 -----------------
