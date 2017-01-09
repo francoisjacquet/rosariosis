@@ -381,7 +381,10 @@ function Warehouse( $mode )
 	<script src="assets/js/warehouse.js?v=<?php echo ROSARIO_VERSION; ?>"></script>
 	<script src="assets/js/jscalendar/lang/calendar-<?php echo file_exists( 'assets/js/jscalendar/lang/calendar-' . $lang_2_chars . '.js' ) ? $lang_2_chars : 'en'; ?>.js"></script>
 	<script>var scrollTop = "<?php echo Preferences( 'SCROLL_TOP' ); ?>";</script>
-	<?php endif; ?>
+		<?php if ( file_exists( 'assets/themes/' . Preferences( 'THEME' ) . '/scripts.js' ) ) : ?>
+		<script src="assets/themes/<?php echo Preferences( 'THEME' ); ?>/scripts.js"></script>
+		<?php endif;
+	endif; ?>
 </head>
 <body class="<?php echo $_ROSARIO['page']; ?>">
 <?php 	if ( $_ROSARIO['page'] === 'modules' ) :

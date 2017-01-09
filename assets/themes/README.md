@@ -7,7 +7,7 @@ Or select your preferred theme in _Users > My Preferences > Display Options_
 Every theme must have the following files:
 
 - _stylesheet.css_
-- _stylesheet_wkhtmltopdf.css_
+- _stylesheet\_wkhtmltopdf.css_
 - _logo.png_
 - _spinning.gif_
 - _btn/*.png_ (all the button images)
@@ -15,6 +15,10 @@ Every theme must have the following files:
 Note:
 The _stylesheet_wkhtmltopdf.css_ file is the CSS file used by wkhtmltopdf.
 It is meant to be the copy of the _stylesheet.css_ file WITHOUT media queries.
+
+Optional files:
+
+- _scripts.js_
 
 Note 2:
 Replace the modules icons in CSS (example for School Setup & Student icons):

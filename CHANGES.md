@@ -9,6 +9,7 @@ Changes in 2.9.15
 - Fix footer help text disappearing when bottom menu updated in warehouse.js
 - Add French help in Help_fr.php
 - Merge PR #178 Add Khmer translation thanks to @lkozloff
+- Include theme's scripts.js file (optional) in Warehouse.php
 
 Changes in 2.9.14
 -----------------
