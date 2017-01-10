@@ -145,6 +145,8 @@ foreach ( (array) $help as $program => $value ) :
 <?php
 	if ( User( 'PROFILE' ) == 'student' )
 	{
+		// Note: for other languages, this is hard to translate.
+		// Please use the general term "student" instead of child!
 		$value = str_replace(
 			'your child',
 			'yourself',
