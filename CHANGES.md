@@ -12,6 +12,7 @@ Changes in 2.9.15
 - Include theme's scripts.js file (optional) in Warehouse.php
 - Add percent sign (%) to grade & semester fields in Grades/Configuration.php
 - Fix PHP error division by zero in InputFinalGrades.php
+- Fix Show Go button to Parents & Students in StudentList.php
 
 Changes in 2.9.14
 -----------------

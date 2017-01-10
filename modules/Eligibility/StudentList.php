@@ -52,8 +52,11 @@ else
 }
 
 
-DrawHeader(ProgramTitle());
-if ( $_REQUEST['search_modfunc'] || User('PROFILE')=='parent' || User('PROFILE')=='student')
+DrawHeader( ProgramTitle() );
+
+if ( $_REQUEST['search_modfunc']
+	|| User( 'PROFILE' ) === 'parent'
+	|| User( 'PROFILE' ) === 'student' )
 {
 	$tmp_PHP_SELF = PreparePHP_SELF();
 	echo '<form action="'.$tmp_PHP_SELF.'" method="POST">';
@@ -62,12 +65,15 @@ if ( $_REQUEST['search_modfunc'] || User('PROFILE')=='parent' || User('PROFILE')
 	$begin_year = $begin_year[1]['SCHOOL_DATE'];
 	if (is_null($begin_year))
 		ErrorMessage(array(_('There are no calendars yet setup.')), 'fatal');
-	
+
 	$date_select = '<option value="'.$start.'">'.ProperDate( date( 'Y-m-d', $start)).' - '.ProperDate( DBDate() ).'</option>';
 	for ( $i=$start-(60*60*24*7);$i>=$begin_year;$i-=(60*60*24*7))
 		$date_select .= '<option value="'.$i.'"'.(($i+86400>=$start_time && $i-86400<=$start_time)?' selected':'').'>'.ProperDate( date( 'Y-m-d', $i)).' - '.ProperDate( date( 'Y-m-d', ($i+1+(($END_DAY-$START_DAY))*60*60*24))).'</option>';
-	
-	DrawHeader('<select name="start_date">'.$date_select.'</select>'.$period_select.' '.SubmitButton(_('Go')));
+
+	$date_select = '<select name="start_date">' . $date_select .'</select>';
+
+	DrawHeader( $date_select . ' ' . Buttons( _( 'Go' ) ) );
+
 	echo '</form>';
 }
 
@@ -82,20 +88,35 @@ Widgets('eligibility');
 Widgets('activity');
 Widgets('course');
 
-if ( ! $_REQUEST['search_modfunc'] && User('PROFILE')!='parent' && User('PROFILE')!='student')
+if ( ! $_REQUEST['search_modfunc']
+	&& User( 'PROFILE' ) !== 'parent'
+	&& User( 'PROFILE' ) !== 'student' )
 {
 	$extra['new'] = true;
-	Search('student_id',$extra);
+
+	Search('student_id', $extra );
 }
 else
 {
-	$RET = GetStuList($extra);
-	
-	$columns = array('FULL_NAME' => _('Student'),'COURSE_TITLE' => _('Course'),'ELIGIBILITY_CODE' => _('Grade'));
-	ListOutput($RET,$columns,'Student','Students',array(),array('STUDENT_ID' => array('FULL_NAME','STUDENT_ID')));
+	$student_RET = GetStuList( $extra );
+
+	$columns = array(
+		'FULL_NAME' => _( 'Student' ),
+		'COURSE_TITLE' => _( 'Course' ),
+		'ELIGIBILITY_CODE' => _( 'Grade' ),
+	);
+
+	ListOutput(
+		$student_RET,
+		$columns,
+		'Student',
+		'Students',
+		array(),
+		array( 'STUDENT_ID' => array( 'FULL_NAME', 'STUDENT_ID' ) )
+	);
 }
 
-function _makeLower($word)
+function _makeLower( $word )
 {
-	return ucwords(mb_strtolower($word));
+	return ucwords( mb_strtolower( $word ) );
 }
