@@ -29,7 +29,7 @@ if ( User( 'PROFILE' ) === 'admin' ) :
 	En utilisant RosarioSIS, vous noterez d'autres éléments pouvant apparaître dans votre menu latéral. Quand vous sélectionnez un élève, le nom de l'élève précédé d'une croix apparaît en dessous du menu déroulant des périodes scolaires. Lorsque vous changez de programme, vous continuerez de travailler avec cet élève. Si vous souhaitez changer d'élève courant, cliquez sur la croix devant le nom de l'élève. Vous pouvez aussi accéder rapidement aux Informations Générales de l'élève en cliquant sur le nom de l'élève.
 </p>
 <p>
-	Si vous sélectionnez un utilisateur, son nom apparaitra aussi dans le menu latéral. Le comportement sera identique à celui du nom de l'élève.
+	Si vous sélectionnez un utilisateur, son nom apparaîtra aussi dans le menu latéral. Le comportement sera identique à celui du nom de l'élève.
 </p>
 <p>
 	Aussi, quand vous cliquez sur une icône du menu latéral, vous verrez la liste des programmes disponibles dans ce module. Le fait de cliquer sur un titre de programme lancera celui-ci dans l'espace de travail, et actualisera le texte d'aide en ligne.
@@ -69,10 +69,10 @@ elseif ( User( 'PROFILE' ) === 'parent' ) :
 
 	$help['default'] = <<<HTML
 <p>
-	Comme parent, vous pouvez consulter les informations de vos enfants, leurs emploi du temps, devoirs, notes, éligibilité et leurs absences.
+	Comme parent, vous pouvez consulter les informations de l'élève, leurs emploi du temps, devoirs, notes, éligibilité et leurs absences.
 </p>
 <p>
-	Afin de choisir l'enfant courant, vous devrez le sélectionner depuis le menu déroulant du menu latéral. Le programme de l'espace de travail sera alors automatiquement rafraichit avec le nouvel enfant. Vous pouvez, de manière similaire, changer l'année scolaire et la période scolaire courante.
+	Afin de choisir l'élève courant, vous devrez le sélectionner depuis le menu déroulant du menu latéral. Le programme de l'espace de travail sera alors automatiquement rafraichit avec le nouvel élève. Vous pouvez, de manière similaire, changer l'année scolaire et la période scolaire courante.
 </p>
 <p>
 	En utilisant RosarioSIS, vous noterez d'autre éléments apparaître dans votre menu latéral. Quand vous sélectionnez un élève, le nom de l'élève précédé d'une croix apparaît en dessous du menu déroulant des périodes scolaires. Lorsque vous changez de programme, vous continuerez de travailler avec cet élève. Si vous souhaitez changer d'élève courant, cliquez sur la croix devant le nom de l'élève.
@@ -1233,7 +1233,7 @@ else :
 
 	$help['Scheduling/Schedule.php'] = <<<HTML
 <p>
-	<i>Emploi du Temps</i> affiche l'emploi du temps de votre enfant.
+	<i>Emploi du Temps</i> affiche l'emploi du temps de l'élève.
 </p>
 HTML;
 
@@ -1526,7 +1526,7 @@ else :
 
 	$help['Grades/ReportCards.php'] = <<<HTML
 <p>
-	<i>Bulletins de Notes</i> est un outil qui vous permet d'imprimer les bulletins de notes de votre enfant.
+	<i>Bulletins de Notes</i> est un outil qui vous permet d'imprimer les bulletins de notes de l'élève.
 </p>
 <p>
 	Avant d'imprimer le bulletin de notes, vous devez sélectionner quelles périodes scolaires afficher sur le bulletin de notes en cochant les cases à cocher des périodes scolaires désirées.
@@ -1538,7 +1538,7 @@ HTML;
 
 	$help['Grades/Transcripts.php'] = <<<HTML
 <p>
-	<i>Livrets Scolaires</i> est un outil qui vous permet d'imprimer les livrets scolaires de votre enfant.
+	<i>Livrets Scolaires</i> est un outil qui vous permet d'imprimer les livrets scolaires de l'élève.
 </p>
 <p>
 	Avant d'imprimer le livret scolaire, vous devez sélectionner quelles périodes scolaires afficher sur le livret scolaire en cochant les cases à cocher des périodes scolaires désirées.
@@ -1550,7 +1550,7 @@ HTML;
 
 	$help['Grades/StudentAssignments.php'] = <<<HTML
 <p>
-	<i>Devoirs</i> vous permet de consulter les devoirs de votre enfant.
+	<i>Devoirs</i> vous permet de consulter les devoirs de l'élève.
 </p>
 <p>
 	Sur la page d'un devoir particulier, il vous est possible de rendre le devoir si cela est permis par l'enseignant. Pour ce faire, vous pourrez uploader un fichier et/ou laisser un message.
@@ -1565,7 +1565,7 @@ HTML;
 
 	$help['Grades/StudentGrades.php'] = <<<HTML
 <p>
-	<i>Carnet de Notes</i> vous permet de consulter les notes de votre enfant.
+	<i>Carnet de Notes</i> vous permet de consulter les notes de l'élève.
 </p>
 <p>
 	Vous pouvez changer de période scolaire grâce au menu déroulant situé dans le menu latéral.
@@ -1574,7 +1574,7 @@ HTML;
 
 	$help['Grades/GPARankList.php'] = <<<HTML
 <p>
-	<i>Liste Moyenne / Classement</i> est un rapport qui affiche la moyenne non pondérée, pondérée, ainsi que le classement de votre enfant.
+	<i>Liste Moyenne / Classement</i> est un rapport qui affiche la moyenne non pondérée, pondérée, ainsi que le classement de l'élève.
 </p>
 HTML;
 
@@ -1750,7 +1750,7 @@ else :
 
 	$help['Attendance/DailySummary.php'] = <<<HTML
 <p>
-	<i>Tableau des Absences</i> est un rapport qui permet de consulter les statuts de présence de votre enfant pour chaque jour d'une période de temps donnée.
+	<i>Tableau des Absences</i> est un rapport qui permet de consulter les statuts de présence de l'élève pour chaque jour d'une période de temps donnée.
 </p>
 <p>
 	Vous pouvez modifier l'intervalle de temps en changeant les dates grâce aux menus déroulants en haut de l'écran et en cliquant sur le bouton "Go". La liste affiche la valeur de présence journalière de l'élève pour chaque jour avec des code de couleur. Le rouge signifie que l'élève a été absent toute la journée, le jaune qu'il a été absent une demi-journée et le vert qu'il a été présent toute la journée.
@@ -1857,7 +1857,7 @@ else :
 
 	$help['Eligibility/Student.php'] = <<<HTML
 <p>
-	<i>Écran Élève</i> affiche les activités de votre enfant et les notes d'éligibilité de la période courante.
+	<i>Écran Élève</i> affiche les activités de l'élève et les notes d'éligibilité de la période courante.
 </p>
 <p>
 	Vous pouvez spécifier la période d'éligibilité que vous désirez consulter en choisissant la période de temps dans le menu déroulant en haut de l'écran. L'Éligibilité est saisie une fois par semaine.
@@ -1866,7 +1866,7 @@ HTML;
 
 	$help['Eligibility/StudentList.php'] = <<<HTML
 <p>
-	<i>Liste des Élèves</i> est un rapport qui permet de consulter les notes d'éligibilité attribuées à votre enfant pour chaque cours.
+	<i>Liste des Élèves</i> est un rapport qui permet de consulter les notes d'éligibilité attribuées à l'élève pour chaque cours.
 </p>
 <p>
 	Vous pouvez spécifier la période d'éligibilité que vous désirez consulter en choisissant la période de temps dans le menu déroulant en haut de l'écran et en cliquant sur le bouton "Go". L'Éligibilité est saisie une fois par semaine.
