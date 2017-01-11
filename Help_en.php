@@ -1009,7 +1009,7 @@ if ( User( 'PROFILE' ) === 'admin' ) :
 	To change the course period of a course for the student, click on the "Period - Teacher" of the course you want to change and select the new course period. You can also change the term in the same fashion.
 </p>
 <p>
-	All additions, deletions, and modifications to a student's schedule are not made permanent until you click the "Save" button at the top of the screen.
+	All deletions, and modifications to a student's schedule are not made permanent until you click the "Save" button at the top of the screen.
 </p>
 HTML;
 

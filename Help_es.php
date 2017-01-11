@@ -1012,7 +1012,7 @@ if ( User( 'PROFILE' ) === 'admin' ) :
 	Para cambiar una clase de un curso de un estudiante, haga clic sobre «Hora - Docente» del curso que quiere cambiar y seleccione la nueva clase. Usted también puede cambiar el periodo de la misma manera.
 </p>
 <p>
-	Todas las adiciones, eliminaciones, modificaciones al horario de un estudiante no permanecen a menos que usted presiona el botón «Guardar».
+	Todas las eliminaciones y modificaciones al horario de un estudiante no permanecen a menos que presione el botón «Guardar».
 </p>
 HTML;
 

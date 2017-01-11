@@ -4,7 +4,7 @@
  *
  * Texts are organized by:
  * - Module
- * - Profil
+ * - Profile
  *
  * @author François Jacquet
  *
@@ -951,7 +951,7 @@ HTML;
 
 	$help['Users/TeacherPrograms.php&include=Grades/AnomalousGrades.php'] = <<<HTML
 <p>
-	<i>Programmes Enseignants: Notes non Conformes</i> est un rapport qui aide les enseignants à repérer les notes manquantes, non conformes ou les excuses. Les notes apparaissant dans ce rapport ne sont PAS problématiques, mais un enseignant PEUT vouloir les réviser. Les notes manquantes, négatives et les excuses, ou les notes qui sont des Points Bonus ou celles qui excèdent les 100% sont affichées. La colonne "Problème" indique la raison pour laquelle la note est non conforme.
+	<i>Programmes Enseignants: Notes non Conformes</i> est un rapport qui aide les enseignants à repérer les notes manquantes, non conformes ou les dispenses. Les notes apparaissant dans ce rapport ne sont PAS problématiques, mais un enseignant PEUT vouloir les réviser. Les notes manquantes, négatives et les dispenses, ou les notes qui sont des Points Bonus ou celles qui excèdent les 100% sont affichées. La colonne "Problème" indique la raison pour laquelle la note est non conforme.
 </p>
 <p>
 	Vous pouvez sélectionner les classes d'un enseignant en utilisant le menu déroulant du coin supérieur gauche de la page. Vous pouvez aussi sélectionnez quel type de notes "non conformes" que vous souhaitez que le rapport affiche.
@@ -1006,7 +1006,7 @@ if ( User( 'PROFILE' ) === 'admin' ) :
 	Pour changer la classe du cours pour un élève, cliquez sur le texte "Période - Enseignant" du cours que vous souhaitez changer et sélectionnez la nouvelle classe. Vous pouvez aussi changer le trimestre de la même manière.
 </p>
 <p>
-	Tous les ajouts, suppressions et modifications ne sont pas sauvegardées tant que vous ne cliquez pas sur le bouton "Enregistrer" en haut de l'écran.
+	Tous les suppressions et modifications ne sont pas sauvegardées tant que vous ne cliquez pas sur le bouton "Enregistrer" en haut de l'écran.
 </p>
 HTML;
 
@@ -1087,7 +1087,7 @@ HTML;
 
 	$help['Scheduling/PrintSchedules.php'] = <<<HTML
 <p>
-	<i>Imprimer Emplois du Temps</i> est un outil qui vous permet d'imprimer les emplois du temps d'un ou plusieurs élèves.
+	<i>Imprimer Emplois du Temps</i> est un utilitaire qui vous permet d'imprimer les emplois du temps d'un ou plusieurs élèves.
 </p>
 <p>
 	Vous pouvez rechercher des élèves qui ont sont inscrits ou ont demandé un cours spécifique en cliquant sur le lien "Choisir" à côté des options de recherche "Cours" et "Demande" respectivement et en choisissant un cours depuis la fenêtre popup qui apparaît.
@@ -1111,7 +1111,7 @@ HTML;
 	Sélectionner un "Enseignant" montrera toutes les classes de cet enseignant. Sélectionner une "Matière" montrera toutes les classes de cette matière. Sélectionner une "Tranche horaire" montrera toutes les classes de cette tranche horaire. Sélectionner un "Cours" via le lien "Choisir" montrera cette classe précise.
 </p>
 <p>
-	Ensuite, sur le côté gauche de la page, cochz les colonnes que souhaitez voir sur le rapport. LEs champs apparaîtront, dans l'ordre où vous les avez sélectionné, dans une liste en haut de la page.
+	Ensuite, sur le côté gauche de la page, cochz les colonnes que souhaitez voir sur le rapport. Les champs apparaîtront, dans l'ordre où vous les avez sélectionné, dans une liste en haut de la page.
 </p>
 <p>
 	Enfin, sélectionnez les Classes à Lister sur le rapport en bas de la page et cliquez sur le bouton "Créer les Listes de Classe pour les Classes Sélectionnées".
