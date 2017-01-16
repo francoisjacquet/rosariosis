@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-12-19 09:23-0500\n"
-"PO-Revision-Date: 2017-01-16 10:34-0500\n"
+"PO-Revision-Date: 2017-01-16 10:38-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -4806,7 +4806,7 @@ msgstr "Commentaires Généraux"
 #: modules/Grades/InputFinalGrades.php:887 modules/Grades/Menu.php:32
 #: modules/Grades/Menu.php:63
 msgid "Comment Codes"
-msgstr "Codes de Commentaire"
+msgstr "Codes de Commentaires"
 
 #: modules/Grades/FinalGrades.php:333
 #: modules/Grades/includes/ReportCards.fnc.php:684
@@ -5151,8 +5151,8 @@ msgstr[1] "Codes"
 #: modules/Grades/ReportCardCommentCodes.php:177
 msgid "Comment Code Scale"
 msgid_plural "Comment Code Scales"
-msgstr[0] "Échelle de Code Commentaire"
-msgstr[1] "Échelles de Code Commentaire"
+msgstr[0] "Échelle de Codes de Commentaires"
+msgstr[1] "Échelles de Codes Commentaires"
 
 #: modules/Grades/ReportCardComments.php:63
 msgid "There are no courses setup yet."
@@ -5384,7 +5384,7 @@ msgstr "sa"
 
 #: modules/Grades/includes/ReportCards.fnc.php:817
 msgid "Explanation of Comment Codes"
-msgstr "Explication des Codes Commentaires"
+msgstr "Explication des Codes de Commentaires"
 
 #: modules/Grades/includes/ReportCards.fnc.php:947
 #, php-format
@@ -6262,7 +6262,7 @@ msgstr "Codes Notation Bulletin de Notes"
 
 #: modules/School_Setup/CopySchool.php:8 modules/School_Setup/Rollover.php:3
 msgid "Report Card Comment Codes"
-msgstr "Codes Commentaires Bulletin de Notes"
+msgstr "Codes de Commentaires du Bulletin de Notes"
 
 #: modules/School_Setup/CopySchool.php:9 modules/School_Setup/Rollover.php:7
 msgid "Eligibility Activities"
