@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-12-19 09:23-0500\n"
-"PO-Revision-Date: 2017-01-11 17:10-0500\n"
+"PO-Revision-Date: 2017-01-16 10:34-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -4577,8 +4577,8 @@ msgid ""
 msgstr ""
 "La moyenne pondérée et non-pondérée est calculée en divisant les notes "
 "pondérées et non-pondérées indiquées pour chaque note (lettrée) "
-"(configuration dans le programme Configuration du Bulletin de Notes) par la "
-"base de notation configurée dans le paramétrage de l'école."
+"(configuration dans le programme de configuration des Échelles de Notation) "
+"par la base de notation configurée dans les paramétrages de l'école."
 
 #: modules/Grades/CalcGPA.php:44
 msgid "GPA Calculation"
@@ -4606,7 +4606,7 @@ msgstr "La configuration du carnet de notes a été modifiée."
 #: modules/School_Setup/includes/Plugins.inc.php:174
 #: modules/School_Setup/includes/Plugins.inc.php:203
 msgid "Configuration"
-msgstr "Mise en Place"
+msgstr "Configuration"
 
 #: modules/Grades/Configuration.php:41 modules/Grades/Menu.php:49
 #: modules/Grades/Menu.php:70
