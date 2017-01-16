@@ -1527,6 +1527,15 @@ HTML;
 </p>
 HTML;
 
+	$help['Grades/AnomalousGrades.php'] = <<<HTML
+<p>
+	<i>Anomalous Grades</i> is a report that will help you to keep track of missing, inappropriate and excused grades. The grades appearing on this report are NOT problematic, but you MAY wish to review them. Missing, excused &amp; negative grades, or grades that are extra credit or that exceed 100% are shown. The "Problem" column indicates the reason why the grade is anomalous.
+</p>
+<p>
+	You can select the class using the course period pull-down in the left menu. You can also select which type of "anomalous" grades you wish the report to display.
+</p>
+HTML;
+
 	// Parent & Student.
 else :
 

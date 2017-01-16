@@ -1521,6 +1521,15 @@ HTML;
 </p>
 HTML;
 
+	$help['Grades/AnomalousGrades.php'] = <<<HTML
+<p>
+	<i>Notes non Conformes</i> est un rapport qui vous aidera à repérer les notes manquantes, non conformes ou les dispenses. Les notes apparaissant dans ce rapport ne sont PAS problématiques, mais vous POURREZ vouloir les réviser. Les notes manquantes, négatives et les dispenses, ou les notes qui sont des Points Bonus ou celles qui excèdent les 100% sont affichées. La colonne "Problème" indique la raison pour laquelle la note est non conforme.
+</p>
+<p>
+	Vous pouvez sélectionner la classe en utilisant le menu déroulant du menu latéral. Vous pouvez aussi sélectionnez quel type de notes "non conformes" que vous souhaitez que le rapport affiche.
+</p>
+HTML;
+
 	// Parent & Élève.
 else :
 

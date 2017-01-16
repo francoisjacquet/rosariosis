@@ -13,6 +13,7 @@ Changes in 2.9.15
 - Add percent sign (%) to grade & semester fields in Grades/Configuration.php
 - Fix PHP error division by zero in InputFinalGrades.php
 - Fix Show Go button to Parents & Students in StudentList.php
+- Add Anomalous Grades help texts for teachers in Help_*.php
 
 Changes in 2.9.14
 -----------------

@@ -1524,6 +1524,15 @@ HTML;
 </p>
 HTML;
 
+	$help['Grades/AnomalousGrades.php'] = <<<HTML
+<p>
+	<i>Calificaciones con Anomalía</i> en un reporte que lo ayudará a hacer seguimiento de las calificaciones faltantes, inapropriadas, y los excusados. Las calificaciones que aparecen en el reporte NO son problematicas, pero de pronto QUISIERA revisarlas. Las calificaciones faltantes, negativas, los excusados, o las calificaciones con crédito extra o que exceden 100% son mostradas. La columna "Problema" indica la razon por la cual la calificación es irregular.
+</p>
+<p>
+	Usted puede seleccionar la clase usando el menú desplegable del menú izquierdo. Usted puede tambien seleccionar cual tipo de calificación con anomalía quiere que reporte muestra.
+</p>
+HTML;
+
 	// Parent & Student.
 else :
 
