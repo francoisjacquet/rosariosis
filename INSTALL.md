@@ -101,17 +101,24 @@ Installation problems
 To help you spot problems, point your browser to: `http://yourdomain.com/INSTALL_LOCATION/diagnostic.php`
 
 
+Installing PHP extensions
+-------------------------
+
+Install instructions for Ubuntu 16.04:
+	`server$ sudo apt-get install php-pgsql php-gettext php-mbstring php-curl php-xmlrpc php-xml`
+
+
 Installing [wkhtmltopdf](http://wkhtmltopdf.org/)
 -------------------------------------------------
 
-Install instructions for Ubuntu 16.04 64bits:
+Install instructions for Ubuntu 16.04:
 	`server$ sudo apt-get install wkhtmltopdf`
 
 
 Activate PHP mail() function
 ----------------------------
 
-Install instructions for Ubuntu 16.04 64bits:
+Install instructions for Ubuntu 16.04:
 	`server$ sudo apt-get install sendmail`
 
 
