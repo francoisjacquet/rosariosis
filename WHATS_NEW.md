@@ -47,6 +47,8 @@ French help
 
 Khmer / Cambodian translation
 
+Cache system ([ETag](https://en.wikipedia.org/wiki/HTTP_ETag))
+
 
 New in 2.8
 -----------

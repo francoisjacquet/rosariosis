@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 2.9.16
+-----------------
+- Add ETag cache system in Warehouse.php & Modules.php
+
 Changes in 2.9.15
 -----------------
 - Security: update PHPMailer to version 2.9.21

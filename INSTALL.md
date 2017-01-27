@@ -58,6 +58,7 @@ Unzip the RosarioSIS distribution to a directory that is accessible to your web 
 - `$FS_IconsPath` path to food service icons
 - `$LocalePath` path were the language packs are stored. You need to restart Apache at each change in this directory.
 - `$Timezone` sets the default time zone used by date/time functions. See [List of Supported Timezones](http://php.net/manual/en/timezones.php).
+- `$ETagCache` set to `false` to deactivate the [ETag cache](https://en.wikipedia.org/wiki/HTTP_ETag) and disable "private" session cache. See [Sessions and security](http://php.net/manual/it/session.security.php).
 
   [Debug mode: add the following line to activate]
 - `define( 'ROSARIO_DEBUG', true );`

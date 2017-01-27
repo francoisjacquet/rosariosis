@@ -53,6 +53,11 @@ if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		Warehouse( 'header' );
 	}
+	elseif ( $ETagCache )
+	{
+		// Start buffer (to generate ETag).
+		ob_start();
+	}
 }
 // Print PDF.
 else

@@ -78,6 +78,12 @@ if ( isset( $Timezone ) ) // Sets the default time zone used by all date/time fu
 	}
 }
 
+// ETag cache system.
+if ( ! isset( $ETagCache ) )
+{
+	$ETagCache = true;
+}
+
 
 /**
  * Load functions
@@ -346,12 +352,19 @@ function _LoadAddons( $addons, $folder )
  */
 function Warehouse( $mode )
 {
-	global $_ROSARIO;
+	global $_ROSARIO,
+		$ETagCache;
 
 	switch ( $mode )
 	{
 		// Header HTML.
 		case 'header':
+
+			if ( $ETagCache )
+			{
+				// Start buffer (to generate ETag).
+				ob_start();
+			}
 
 			$lang_2_chars = mb_substr( $_SESSION['locale'], 0, 2 );
 
@@ -455,6 +468,42 @@ function Warehouse( $mode )
 </body></html>
 <?php
 		endif;
+
+		if ( ! $ETagCache )
+		{
+			break;
+		}
+
+		// Stop & get buffer buffer (to generate ETag).
+		$etag_buffer = ob_get_clean();
+
+		/**
+		 * Generate ETag
+		 * Weak ETag ("W/").
+		 *
+		 * @link https://en.wikipedia.org/wiki/HTTP_ETag
+		 */
+		$etag = 'W/' . md5( $etag_buffer );
+
+		// If-None-Match header sent by client.
+		if ( isset( $_SERVER['HTTP_IF_NONE_MATCH'] )
+			&& $_SERVER['HTTP_IF_NONE_MATCH'] === $etag )
+		{
+			// Page cached: send 304 + empty content.
+			header( $_SERVER['SERVER_PROTOCOL'] . ' 304 Not Modified' );
+
+			exit;
+
+		} else {
+
+			header( "Cache-Control: private, must-revalidate" );
+
+			// Send ETag + content (buffer).
+			header( 'ETag: ' . $etag );
+
+			echo $etag_buffer;
+		}
+
 		break;
 	} // End switch.
 } // End Warehouse().
