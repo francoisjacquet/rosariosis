@@ -138,6 +138,7 @@ function SanitizeMarkDown( $md )
  *
  * @see     assets/js/tinymce/
  * @uses    Security class
+ * @uses    CheckBase64Image()
  *
  * @example require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
  *          $_REQUEST['values']['textarea'] = SanitizeHTML( $_POST['values']['textarea'] );
@@ -168,7 +169,45 @@ function SanitizeHTML( $html )
 		$security = new Security();
 	}
 
-	$sanitized_html = $security->xss_clean( $html );
+	$has_base64_images = preg_match_all(
+		'/<img src=\"(data:image\/[a-z.]{3,};base64[^\"\']*)\"[ |>]/i',
+		$html,
+		$base64_images
+	);
+
+	if ( $has_base64_images )
+	{
+		$base64_replace = array();
+
+		foreach ( (array) $base64_images[1] as $key => $data )
+		{
+			// Prevent hacking: check base64 images are valid!
+			if ( ! CheckBase64Image( $data ) )
+			{
+				return '';
+			}
+
+			$base64_replace[] = 'base64_image' . $key;
+		}
+
+		/**
+		 * Temporarily remove TinyMCE base64 images.
+		 * FJ fix bug preg_replace_callback returns NULL (in Security.php)
+		 *
+		 * @link http://php.net/manual/en/function.preg-replace-callback.php#98721
+		 */
+		$html_no_base64 = str_replace(
+			$base64_images[1],
+			$base64_replace,
+			$html
+		);
+	}
+	else
+	{
+		$html_no_base64 = $html;
+	}
+
+	$sanitized_html = $security->xss_clean( $html_no_base64 );
 
 	/**
 	 * Convert single quotes to HTML entities
@@ -180,5 +219,57 @@ function SanitizeHTML( $html )
 	 */
 	$sanitized_html_quotes = str_replace( "'", '&#039;', $sanitized_html );
 
+	if ( $has_base64_images )
+	{
+		// Replace TinyMCE base64 images.
+		$sanitized_html_quotes = str_replace( $base64_replace, $base64_images[1], $sanitized_html_quotes );
+	}
+
 	return $sanitized_html_quotes;
+}
+
+
+/**
+ * Check base64 encoded images.
+ *
+ * @since  2.9.16
+ *
+ * @uses getimagesizefromstring(), requires PHP 5.4+
+ *
+ * @param  string $data Base64 encoded image.
+ *
+ * @return bool         False if not an image.
+ */
+function CheckBase64Image( $data )
+{
+	if ( strpos( $data, 'base64' ) !== false )
+	{
+		$data = substr( $data, ( strpos( $data, 'base64' ) + 6 ) );
+	}
+
+	$decoded_data = base64_decode( $data );
+
+	$img = imagecreatefromstring( $decoded_data );
+
+	if ( ! $img )
+	{
+		return false;
+	}
+
+	if ( ! function_exists( 'getimagesizefromstring' ) )
+	{
+		return true;
+	}
+
+	$size = getimagesizefromstring( $decoded_data );
+
+	if ( ! $size
+		|| $size[0] == 0
+		|| $size[1] == 0
+		|| ! $size['mime'] )
+	{
+		return false;
+	}
+
+	return true;
 }

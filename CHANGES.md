@@ -6,6 +6,7 @@ Changes in 2.9.16
 - Add ETag cache system in Warehouse.php & Modules.php
 - CSS responsive image in stylesheet.css
 - Add TinyMCE UploadImage plugin in assets/js/tinymce/plugins/uploadimage & Inputs.php
+- Add CheckBase64Image() in MarkDownHTML.fnc.php
 
 Changes in 2.9.15
 -----------------
