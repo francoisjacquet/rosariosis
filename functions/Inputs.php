@@ -387,6 +387,20 @@ function TinyMCEInput( $value, $name, $title = '', $extra = '' )
 	{
 		$extra = 'class="tinymce" ' . $extra;
 	}
+	else
+	{
+		$extra = str_replace(
+			array( 'class="', "class='" ),
+			array( 'class="tinymce ', "class='tinymce " ),
+			$extra
+		);
+	}
+
+	if ( mb_strpos( (string) $extra, 'required' ) !== false )
+	{
+		// Remove required attribute, TinyMCE bug.
+		$extra = str_replace( 'required', '', $extra );
+	}
 
 	$textarea = TextAreaInput( $value, $name, $title, $extra , $div, $type );
 
@@ -431,14 +445,18 @@ function TinyMCEInput( $value, $name, $title = '', $extra = '' )
 <script>
 	tinymce.init({
 		selector:'.tinymce',
-		plugins : 'link image pagebreak paste table textcolor colorpicker code fullscreen hr media lists',
-		toolbar: "bold italic underline bullist numlist alignleft aligncenter alignright alignjustify link image forecolor backcolor code fullscreen",
+		plugins : 'link image uploadimage pagebreak paste table textcolor colorpicker code fullscreen hr media lists',
+		toolbar: "bold italic underline bullist numlist alignleft aligncenter alignright alignjustify link image uploadimage forecolor backcolor code fullscreen",
 		menu: {
 			// file: {title: 'File', items: 'newdocument'},
 			edit: {title: 'Edit', items: 'undo redo | cut copy paste pastetext'},
 			insert: {title: 'Insert', items: 'media | hr pagebreak | inserttable cell row column'},
 			// view: {title: 'View', items: 'visualaid'},
 			format: {title: 'Format', items: 'formats | removeformat'}
+		},
+		paste_data_images: true,
+		images_upload_handler: function (blobInfo, success, failure) {
+			success("data:" + blobInfo.blob().type + ";base64," + blobInfo.base64());
 		},
 		pagebreak_separator : '<div style="page-break-after: always;"></div>',
 		language : <?php echo json_encode( $tinymce_language ); ?>,
