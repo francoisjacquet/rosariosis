@@ -316,9 +316,6 @@ function ajaxPrepare(target) {
 	$(target + ' form').each(function () {
 		ajaxPostForm(this, false);
 	});
-	$(target + ' a').click(function (e) {
-		return $(this).css('pointer-events') == 'none' ? e.preventDefault() : ajaxLink(this);
-	});
 
 	if (target == '#menu' && window.modname) openMenu(modname);
 
@@ -349,6 +346,7 @@ function ajaxPrepare(target) {
 	}
 }
 
+
 //disable links while AJAX
 $(document).ajaxStart(function () {
 	$('input[type="submit"],input[type="button"],a').css('pointer-events', 'none').attr('disabled', true);
@@ -360,6 +358,10 @@ $(document).ajaxStart(function () {
 
 // onload
 window.onload = function () {
+	$(document).on('click', 'a', function (e) {
+		return $(this).css('pointer-events') == 'none' ? e.preventDefault() : ajaxLink(this);
+	});
+
 	ajaxPrepare('body');
 
 	// Load body after browser history
