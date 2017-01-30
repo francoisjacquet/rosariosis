@@ -2,6 +2,14 @@
 
 ## RosarioSIS Student Information System
 
+New in 3.0
+----------
+
+Cache system ([ETag](https://en.wikipedia.org/wiki/HTTP_ETag))
+
+Upload images in text editor (TinyMCE)
+
+
 New in 2.9
 ----------
 Students
@@ -46,10 +54,6 @@ Automatic database upgrade
 French help
 
 Khmer / Cambodian translation
-
-Cache system ([ETag](https://en.wikipedia.org/wiki/HTTP_ETag))
-
-Upload images in text editor (TinyMCE)
 
 
 New in 2.8

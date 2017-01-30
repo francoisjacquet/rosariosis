@@ -232,7 +232,7 @@ function SanitizeHTML( $html )
 /**
  * Check base64 encoded images.
  *
- * @since  2.9.16
+ * @since 3.0
  *
  * @uses getimagesizefromstring(), requires PHP 5.4+
  *

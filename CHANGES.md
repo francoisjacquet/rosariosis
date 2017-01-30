@@ -1,8 +1,8 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
-Changes in 2.9.16
------------------
+Changes in 3.0
+--------------
 - Add ETag cache system in Warehouse.php & Modules.php
 - Add TinyMCE UploadImage plugin in assets/js/tinymce/plugins/uploadimage & Inputs.php
 - Add CheckBase64Image() in MarkDownHTML.fnc.php
