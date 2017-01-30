@@ -496,10 +496,14 @@ function Warehouse( $mode )
 
 		} else {
 
-			header( "Cache-Control: private, must-revalidate" );
+			// FJ fix headers already sent error when program outputs buffer.
+			if ( ! headers_sent() )
+			{
+				header( "Cache-Control: private, must-revalidate" );
 
-			// Send ETag + content (buffer).
-			header( 'ETag: ' . $etag );
+				// Send ETag + content (buffer).
+				header( 'ETag: ' . $etag );
+			}
 
 			echo $etag_buffer;
 		}
