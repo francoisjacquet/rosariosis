@@ -215,5 +215,6 @@ tinymce.addI18n('fr_FR',{
 "Tools": "Outils",
 "View": "Voir",
 "Table": "Tableau",
-"Format": "Format"
+"Format": "Format",
+"Upload Image": "Uploader une Image"
 });
