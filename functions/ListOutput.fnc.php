@@ -551,7 +551,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 					'" placeholder="' . _( 'Search' ) . '" onkeypress="LOSearch(event, this.value, \'' .
 						$search_URL . '\');" />
 					<input type="button" value="' . _( 'Go' ) .
-					'" onclick="LOSearch(false, $(\'#LO_search\').val()), \'' .
+					'" onclick="LOSearch(false, $(\'#LO_search\').val(), \'' .
 						$search_URL . '\');" /></td>';
 
 				$colspan++;
