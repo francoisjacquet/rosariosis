@@ -111,7 +111,6 @@ iframe,img{
 /* Responsive image */
 img{
 	max-width: 100%;
-	height: auto;
 }
 td,textarea{
 	line-height:inherit
