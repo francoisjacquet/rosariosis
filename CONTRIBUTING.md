@@ -16,9 +16,9 @@ Before reporting an [issue](https://github.com/francoisjacquet/rosariosis/issues
 
 6. **Installation problems**: RosarioSIS has been succesfully installed on various environments; nevertheless, you may encounter errors [specific to your OS, PHP or PostgreSQL version or configuration](https://github.com/francoisjacquet/rosariosis/blob/mobile/INSTALL.md#rosariosis-student-information-system). For the same reasons, installation problems will likely not be solved here.
 
-7. **RosarioSIS use**: the Handbooks, the inline Help & the [Wiki](https://github.com/francoisjacquet/rosariosis/wiki) contain useful resources to help you get the most out of RosarioSIS.
+7. **RosarioSIS use**: the Handbooks, the inline Help & the [Wiki](https://github.com/francoisjacquet/rosariosis/wiki) contain useful resources to help you get the most out of RosarioSIS. For all your questions about RosarioSIS use and school administration, you can discuss them in the [forum](https://www.rosariosis.org/forum/).
 
-8. **Email support**: to get professional help about installation problems, or RosarioSIS use, please head to https://www.rosariosis.org/services/
+8. **Email support**: to get professional help with installation problems, or RosarioSIS configuration, please head to https://www.rosariosis.org/services/
 
 You have PHP web development skills? Please head to the next section & send a [pull request](https://help.github.com/articles/using-pull-requests/).
 
