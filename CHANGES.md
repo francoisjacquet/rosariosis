@@ -7,6 +7,7 @@ Changes in 3.0
 - Add TinyMCE UploadImage plugin in assets/js/tinymce/plugins/uploadimage & Inputs.php
 - Add CheckBase64Image() in MarkDownHTML.fnc.php
 - Fix JS error for search Go button in ListOutput.fnc.php
+- Add link to RosarioSIS Forum to Resources in rosariosis.sql
 
 Changes in 2.9.15
 -----------------
