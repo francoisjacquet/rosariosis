@@ -140,7 +140,8 @@ if ( $_REQUEST['modfunc']=='update')
 		unset($_SESSION['_REQUEST_vars']['values']);
 		$_SESSION['_REQUEST_vars']['modfunc'] = false;
 	}
-	elseif ( $_REQUEST['button'] === _( 'Delete' )
+	elseif ( ( $_POST['button'] === _( 'Delete' )
+			|| isset( $_POST['delete_ok'] ) )
 		&& User( 'PROFILE' ) === 'admin'
 		&& AllowEdit() )
 	{
