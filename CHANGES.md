@@ -8,6 +8,7 @@ Changes in 3.0
 - Add CheckBase64Image() in MarkDownHTML.fnc.php
 - Fix JS error for search Go button in ListOutput.fnc.php
 - Add link to RosarioSIS Forum to Resources in rosariosis.sql
+- Current tab in bold in Configuration.php & Food Service module wide
 
 Changes in 2.9.15
 -----------------

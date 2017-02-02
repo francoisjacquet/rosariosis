@@ -287,23 +287,45 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					echo '<span><br />'._('School Year').': '.FormatSyear($syear,Config('SCHOOL_SYEAR_OVER_2_YEARS')).'</span>';
 					echo '</td></tr>';
 
-					//Class Rank
-					if ( $showGrades)
-						if ( $grade['MP_TYPE']!='quarter' && !empty($grade['CUM_WEIGHTED_GPA']) && !empty($grade['CUM_RANK']))
+					// GPA and/or Class Rank.
+					if ( $showGrades
+						&& $grade['MP_TYPE'] !== 'quarter'
+						&& ( ! empty( $grade['CUM_WEIGHTED_GPA'] ) || ! empty( $grade['CUM_RANK'] ) ) )
+					{
+						echo '<tr><td><span>';
+
+						if ( ! empty( $grade['CUM_WEIGHTED_GPA'] ) )
 						{
-							echo '<tr><td>';
-							echo '<span>'.sprintf(_('GPA').': %01.2f / %01.0f', $grade['CUM_WEIGHTED_GPA'], $grade['SCHOOL_SCALE']).' &ndash; '._('Class Rank').': '.$grade['CUM_RANK'].' / '.$grade['CLASS_SIZE'].'</span>';
-							echo '</td></tr>';
+							echo sprintf(
+								_( 'GPA' ) . ': %01.2f / %01.0f',
+								$grade['CUM_WEIGHTED_GPA'],
+								$grade['SCHOOL_SCALE'] );
+
+							if ( ! empty( $grade['CUM_RANK'] ) )
+							{
+								echo ' &ndash; ';
+							}
 						}
 
-					//Total Credits
-					if ( $showCredits)
-						if ( $total_credit_attempted > 0)
+						if ( ! empty( $grade['CUM_RANK'] ) )
 						{
-							echo '<tr><td>';
-							echo '<span>'._('Total').' '._('Credit').': '._('Credit Attempted').': '.sprintf('%01.2f', $total_credit_attempted).' &ndash; '._('Credit Earned').': '.sprintf('%01.2f', $total_credit_earned).'</span>';
-							echo '</td></tr>';
+							 echo _( 'Class Rank' ) . ': ' . $grade['CUM_RANK'] .
+							 	' / ' . $grade['CLASS_SIZE'] . '</span>';
 						}
+
+						echo '</span></td></tr>';
+					}
+
+					// Total Credits.
+					if ( $showCredits
+						&& $total_credit_attempted > 0 )
+					{
+						echo '<tr><td><span>';
+						echo _( 'Total' ) . ' ' . _( 'Credit' ) . ': ' .
+							_( 'Credit Attempted' ) . ': ' . sprintf( '%01.2f', $total_credit_attempted ) .
+							' &ndash; ' . _( 'Credit Earned' ) . ': ' . sprintf( '%01.2f', $total_credit_earned );
+						echo '</span></td></tr>';
+					}
 
 					//Certificate Text block 2
 					if ( $showCertificate && !empty($certificateText[1]))

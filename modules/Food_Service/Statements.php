@@ -47,9 +47,19 @@ if ( $_REQUEST['type'])
 else
 	$_SESSION['_REQUEST_vars']['type'] = $_REQUEST['type'] = $_SESSION['FSA_type'];
 
-//FJ remove DrawTab params
-$header = '<a href="Modules.php?modname='.$_REQUEST['modname'].'&day_start='.$_REQUEST['day_start'].'&month_start='.$_REQUEST['month_start'].'&year_start='.$_REQUEST['year_start'].'&day_end='.$_REQUEST['day_end'].'&month_end='.$_REQUEST['month_end'].'&year_end='.$_REQUEST['year_end'].'&type=student"><b>'._('Students').'</b></a>';
-$header .= ' | <a href="Modules.php?modname='.$_REQUEST['modname'].'&day_start='.$_REQUEST['day_start'].'&month_start='.$_REQUEST['month_start'].'&year_start='.$_REQUEST['year_start'].'&day_end='.$_REQUEST['day_end'].'&month_end='.$_REQUEST['month_end'].'&year_end='.$_REQUEST['year_end'].'&type=staff"><b>'._('Users').'</b></a>';
+$header = '<a href="Modules.php?modname=' . $_REQUEST['modname'] .
+	'&day_start=' . $_REQUEST['day_start'] . '&month_start=' . $_REQUEST['month_start'] . '&year_start=' . $_REQUEST['year_start'] .
+	'&day_end=' . $_REQUEST['day_end'] . '&month_end=' . $_REQUEST['month_end'] . '&year_end=' . $_REQUEST['year_end'] .
+	'&type=student">' .
+	( ! isset( $_REQUEST['type'] ) || $_REQUEST['type'] === 'student' ?
+		'<b>' . _( 'Students' ) . '</b>' : _( 'Students' ) ) . '</a>';
+
+$header .= ' | <a href="Modules.php?modname='.$_REQUEST['modname'] .
+	'&day_start=' . $_REQUEST['day_start'] . '&month_start=' . $_REQUEST['month_start'] . '&year_start=' . $_REQUEST['year_start'] .
+	'&day_end=' . $_REQUEST['day_end'] . '&month_end=' . $_REQUEST['month_end'] . '&year_end=' . $_REQUEST['year_end'] .
+	'&type=staff">' .
+	( isset( $_REQUEST['type'] ) && $_REQUEST['type'] === 'staff' ?
+		'<b>' . _( 'Users' ) . '</b>' : _( 'Users' ) ) . '</a>';
 
 DrawHeader(($_REQUEST['type']=='staff'?_('User'):_('Student')).' &minus; '.ProgramTitle());
 User('PROFILE')=='student'?'':DrawHeader($header);

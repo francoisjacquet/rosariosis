@@ -6,9 +6,13 @@ else
 
 if ( $_REQUEST['modfunc']!='save')
 {
-	//FJ remove DrawTab params
-	$header .= '<a href="Modules.php?modname='.$_REQUEST['modname'].'&type=student"><b>'._('Students').'</b></a>';
-	$header .= ' | <a href="Modules.php?modname='.$_REQUEST['modname'].'&type=staff"><b>'._('Users').'</b></a>';
+	$header = '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&type=student">' .
+		( ! isset( $_REQUEST['type'] ) || $_REQUEST['type'] === 'student' ?
+			'<b>' . _( 'Students' ) . '</b>' : _( 'Students' ) ) . '</a>';
+
+	$header .= ' | <a href="Modules.php?modname=' . $_REQUEST['modname'] . '&type=staff">' .
+		( isset( $_REQUEST['type'] ) && $_REQUEST['type'] === 'staff' ?
+			'<b>' . _( 'Users' ) . '</b>' : _( 'Users' ) ) . '</a>';
 
 	DrawHeader(($_REQUEST['type']=='staff' ? _('User') : _('Student')).' &minus; '.ProgramTitle());
 	User('PROFILE')=='student'?'':DrawHeader($header);

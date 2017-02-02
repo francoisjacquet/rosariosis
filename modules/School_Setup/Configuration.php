@@ -4,16 +4,19 @@
 // 'config' if the value is needed in multiple modules
 // 'program_config' if the value is needed in one module
 
-DrawHeader(ProgramTitle());
+DrawHeader( ProgramTitle() );
 
-$configuration_link = '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '"><b>' .
-	_( 'Configuration' ) . '</b></a>';
+$configuration_link = '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '">' .
+	( ! isset( $_REQUEST['tab'] ) ?
+		'<b>' . _( 'Configuration' ) . '</b>' : _( 'Configuration' ) ) . '</a>';
 
-$modules_link = '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&tab=modules"><b>' .
-	_( 'Modules' ) . '</b></a>';
+$modules_link = '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&tab=modules">' .
+	( isset( $_REQUEST['tab'] ) && $_REQUEST['tab'] === 'modules' ?
+		'<b>' . _( 'Modules' ) . '</b>' : _( 'Modules' ) ) . '</a>';
 
-$plugins_link = '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&tab=plugins"><b>' .
-	_( 'Plugins' ) . '</b></a>';
+$plugins_link = '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&tab=plugins">' .
+	( isset( $_REQUEST['tab'] ) && $_REQUEST['tab'] === 'plugins' ?
+		'<b>' . _( 'Plugins' ) . '</b>' : _( 'Plugins' ) ) . '</a>';
 
 if ( AllowEdit() )
 {
