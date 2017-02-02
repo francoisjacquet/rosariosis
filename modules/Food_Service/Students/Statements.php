@@ -44,7 +44,7 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 	}
 
 	echo '<form action="'.PreparePHP_SELF().'" method="POST">';
-	DrawHeader(_('Timeframe').':'.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end').' : '.$type_select.($student_select?' : '.$student_select:'').' : <input type="submit" value="'._('Go').'">');
+	DrawHeader(_('Timeframe').': '.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end').' : '.$type_select.($student_select?' : '.$student_select:'').' : <input type="submit" value="'._('Go').'">');
 	echo '</form>';
 
 	DrawHeader(NoInput($student['FULL_NAME'],'&nbsp;'.$student['STUDENT_ID']),'', NoInput(red($student['BALANCE']),_('Balance')));

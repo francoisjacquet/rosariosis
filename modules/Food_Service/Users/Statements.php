@@ -17,7 +17,7 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 	$staff = $staff[1];
 
 	echo '<form action="'.PreparePHP_SELF().'" method="POST">';
-	DrawHeader(_('Timeframe').':'.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end').' : '.$type_select.' : <input type="submit" value="'._('Go').'">');
+	DrawHeader(_('Timeframe').': '.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end').' : '.$type_select.' : <input type="submit" value="'._('Go').'">');
 	echo '</form>';
 
 //FJ fix bug no balance
