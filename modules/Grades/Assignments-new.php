@@ -65,7 +65,7 @@ if ( $_REQUEST['modfunc']=='update')
 							//FJ default points
 							elseif ( $column=='DEFAULT_POINTS' && $value=='*')
 								$value = '-1';
-							$sql .= $column."='".$value."',";
+							$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 						}
 
 						if ( $_REQUEST['tab_id']!='new')

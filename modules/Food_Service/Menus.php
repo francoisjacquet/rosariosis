@@ -21,7 +21,7 @@ if ( $_REQUEST['modfunc']=='update')
 							$sql = "UPDATE FOOD_SERVICE_MENUS SET ";
 
 						foreach ( (array) $columns as $column => $value)
-							$sql .= $column."='".$value."',";
+							$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 
 						if ( $_REQUEST['tab_id']!='new')
 							$sql = mb_substr($sql,0,-1) . " WHERE CATEGORY_ID='".$id."'";

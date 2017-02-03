@@ -30,7 +30,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 							$sql = "UPDATE REPORT_CARD_GRADE_SCALES SET ";
 
 						foreach ( (array) $columns as $column => $value)
-							$sql .= $column."='".$value."',";
+							$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 
 						if ( $_REQUEST['tab_id']!='new')
 							$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";

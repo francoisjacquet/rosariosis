@@ -60,7 +60,7 @@ if ( UserStudentID() )
 					{
 						$sql = "UPDATE student_report_card_grades SET ";
 						foreach ( (array) $columns as $column => $value)
-							$sql .= $column."='".$value."',";
+							$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 
 						if ( $_REQUEST['tab_id']!='new')
 							$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";

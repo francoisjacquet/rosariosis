@@ -71,7 +71,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 						$sql_questions[] = $sql_question.$sql_question_cols;
 					}
 					else
-						$sql .= $column."='".$value."',";
+						$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 				}
 				$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
 				DBQuery($sql);

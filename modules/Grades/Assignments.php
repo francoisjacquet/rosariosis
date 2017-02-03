@@ -34,7 +34,7 @@ if ( isset( $_POST['tables'] )
 {
 	$table = $_REQUEST['table'];
 
-	foreach ( (array) $_REQUEST['tables'] as $id => $columns)
+	foreach ( (array) $_REQUEST['tables'] as $id => $columns )
 	{
 		// FJ textarea fields MarkDown sanitize.
 		if ( isset( $columns['DESCRIPTION'] ) )
@@ -71,7 +71,7 @@ if ( isset( $_POST['tables'] )
 							$_REQUEST['assignment_type_id'] = $columns['ASSIGNMENT_TYPE_ID'];
 						}
 
-						$sql = "UPDATE $table SET ";
+						$sql = "UPDATE " . DBEscapeIdentifier( $table ) . " SET ";
 
 						//if ( ! $columns['COURSE_ID'] && $table=='GRADEBOOK_ASSIGNMENTS')
 						//	$columns['COURSE_ID'] = 'N';
@@ -114,10 +114,11 @@ if ( isset( $_POST['tables'] )
 								$value = '-1';
 							}
 
-							$sql .= $column . "='". $value . "',";
+							$sql .= DBEscapeIdentifier( $column ) . "='". $value . "',";
 						}
 
-						$sql = mb_substr( $sql, 0, -1 ) . " WHERE " . mb_substr( $table, 10, -1 ) . "_ID='" . $id . "'";
+						$sql = mb_substr( $sql, 0, -1 ) . " WHERE " .
+							DBEscapeIdentifier( mb_substr( $table, 10, -1 ) . '_ID' ) . "='" . $id . "'";
 
 						$go = true;
 
@@ -126,7 +127,7 @@ if ( isset( $_POST['tables'] )
 					// New: check for Title.
 					elseif ( $columns['TITLE'] )
 					{
-						$sql = "INSERT INTO " . $table . " ";
+						$sql = "INSERT INTO " . DBEscapeIdentifier( $table ) . " ";
 
 						if ( $table == 'GRADEBOOK_ASSIGNMENTS')
 						{
@@ -206,7 +207,7 @@ if ( isset( $_POST['tables'] )
 
 							if ( $value != '' )
 							{
-								$fields .= $column . ',';
+								$fields .= DBEscapeIdentifier( $column ) . ',';
 
 								$values .= "'" . $value . "',";
 

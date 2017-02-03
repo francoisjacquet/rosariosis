@@ -88,7 +88,7 @@ function SaveData( $iu_extra, $field_names = array() )
 					&& $value
 					&& ! VerifyDate( $value ) )
 				{
-					$error[] = sprintf( _('%s, a date field, was not a valid date. This value could not be saved.' ), $name );
+					$error[] = sprintf( _( '%s, a date field, was not a valid date. This value could not be saved.' ), $name );
 
 					continue;
 				}
@@ -98,7 +98,7 @@ function SaveData( $iu_extra, $field_names = array() )
 					if ( !empty( $value )
 						|| $value == '0' )
 					{
-						$ins_fields[ $table ] .= $column . ',';
+						$ins_fields[ $table ] .= DBEscapeIdentifier( $column ) . ',';
 
 						$ins_values[ $table ] .= "'" . $value . "',";
 
@@ -107,7 +107,7 @@ function SaveData( $iu_extra, $field_names = array() )
 				}
 				else
 				{
-					$sql[ $table ] .= $column . "='" . $value . "',";
+					$sql[ $table ] .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 
 					$go = true;
 				}
@@ -117,14 +117,15 @@ function SaveData( $iu_extra, $field_names = array() )
 			if ( $id === 'new'
 				&& $go )
 			{
-				$sql[ $table ] = 'INSERT INTO ' . $table . ' (' . $iu_extra['fields'][ $table ] . mb_substr( $ins_fields[ $table ], 0, -1 ) . ')
+				$sql[ $table ] = 'INSERT INTO ' . DBEscapeIdentifier( $table ) .
+					' (' . $iu_extra['fields'][ $table ] . mb_substr( $ins_fields[ $table ], 0, -1 ) . ')
 					VALUES (' . $iu_extra['values'][ $table ] . mb_substr( $ins_values[ $table ], 0, -1 ) . ')';
 			}
 
 			// UPDATE data.
 			elseif ( $go )
 			{
-				$sql[ $table ] = 'UPDATE ' . $table .
+				$sql[ $table ] = 'UPDATE ' . DBEscapeIdentifier( $table ) .
 					' SET ' . mb_substr( $sql[ $table ], 0, -1 ) .
 					' WHERE ' . str_replace( '__ID__', $id, $iu_extra[ $table ] );
 			}

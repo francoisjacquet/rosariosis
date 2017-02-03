@@ -61,7 +61,7 @@ if ( isset( $_POST['tables'] )
 
 					foreach ( (array) $columns as $column => $value )
 					{
-						$sql .= $column . "='" . $value . "',";
+						$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 					}
 
 					$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . $id . "'";

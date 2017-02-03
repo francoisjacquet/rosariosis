@@ -139,7 +139,11 @@ if (!isset($_ROSARIO['allow_edit']))
 	}
 }
 
-$current_Q = "SELECT ATTENDANCE_TEACHER_CODE,STUDENT_ID,ADMIN,COMMENT,COURSE_PERIOD_ID,ATTENDANCE_REASON FROM ".$table." t WHERE SCHOOL_DATE='".$date."' AND PERIOD_ID='".UserPeriod()."'".($table=='LUNCH_PERIOD'?" AND TABLE_NAME='".$_REQUEST['table']."'":'');
+$current_Q = "SELECT ATTENDANCE_TEACHER_CODE,STUDENT_ID,ADMIN,COMMENT,COURSE_PERIOD_ID,ATTENDANCE_REASON
+	FROM " . DBEscapeIdentifier( $table ) . " t
+	WHERE SCHOOL_DATE='" . $date . "'
+	AND PERIOD_ID='" . UserPeriod() . "'" .
+	( $table == 'LUNCH_PERIOD' ? " AND TABLE_NAME='" . $_REQUEST['table'] . "'" : '' );
 
 $current_RET = DBGet(DBQuery($current_Q),array(),array('STUDENT_ID'));
 
@@ -149,7 +153,9 @@ if ($_REQUEST['attendance'] && $_POST['attendance'])
 	{
 		if ($current_RET[ $student_id ])
 		{
-			$sql = "UPDATE $table SET ATTENDANCE_TEACHER_CODE='".mb_substr($value,5)."',COURSE_PERIOD_ID='".UserCoursePeriod()."'";
+			$sql = "UPDATE " . DBEscapeIdentifier( $table ) .
+				" SET ATTENDANCE_TEACHER_CODE='" . mb_substr( $value, 5 ) . "',
+				COURSE_PERIOD_ID='" . UserCoursePeriod() . "'";
 
 			if ($current_RET[ $student_id ][1]['ADMIN']!='Y')
 				$sql .= ",ATTENDANCE_CODE='".mb_substr($value,5)."'";
@@ -160,9 +166,18 @@ if ($_REQUEST['attendance'] && $_POST['attendance'])
 			$sql .= " WHERE SCHOOL_DATE='".$date."' AND PERIOD_ID='".UserPeriod()."' AND STUDENT_ID='".$student_id."'";
 		}
 		else
-			$sql = "INSERT INTO ".$table." (STUDENT_ID,SCHOOL_DATE,MARKING_PERIOD_ID,PERIOD_ID,COURSE_PERIOD_ID,ATTENDANCE_CODE,ATTENDANCE_TEACHER_CODE,COMMENT".($table=='LUNCH_PERIOD'?',TABLE_NAME':'').") values('".$student_id."','".$date."','".$qtr_id."','".UserPeriod()."','".UserCoursePeriod()."','".mb_substr($value,5)."','".mb_substr($value,5)."','".$_REQUEST['comment'][ $student_id ]."'".($table=='LUNCH_PERIOD'?",'".$_REQUEST['table']."'":'').")";
+		{
+			$sql = "INSERT INTO " . DBEscapeIdentifier( $table ) .
+				" (STUDENT_ID,SCHOOL_DATE,MARKING_PERIOD_ID,PERIOD_ID,COURSE_PERIOD_ID,
+					ATTENDANCE_CODE,ATTENDANCE_TEACHER_CODE,COMMENT" .
+					( $table == 'LUNCH_PERIOD' ? ',TABLE_NAME' : '' ) . ")
+				values('" . $student_id . "','" . $date . "','" . $qtr_id . "','" . UserPeriod() .
+					"','" . UserCoursePeriod() . "','" . mb_substr( $value, 5 ) . "','" .
+					mb_substr( $value, 5 ) . "','" . $_REQUEST['comment'][ $student_id ] . "'" .
+					( $table == 'LUNCH_PERIOD' ? ",'" . $_REQUEST['table'] . "'" : '' ) . ")";
+		}
 
-		DBQuery($sql);
+		DBQuery( $sql );
 
 		if ($_REQUEST['table']=='0')
 			UpdateAttendanceDaily($student_id,$date);

@@ -10,10 +10,15 @@ if ( $_REQUEST['modfunc']=='update')
 		{
 			if ( $_REQUEST['tab_id']!=='new' || !empty($_REQUEST['course_id']))
 			{
-				if ( $_REQUEST['tab_id']=='new')
+				if ( $_REQUEST['tab_id'] === 'new' )
+				{
 					$table = 'REPORT_CARD_COMMENT_CATEGORIES';
+				}
 				else
+				{
 					$table = 'REPORT_CARD_COMMENTS';
+				}
+
 				foreach ( (array) $_REQUEST['values'] as $id => $columns)
 				{
 					//FJ fix SQL bug invalid sort order
@@ -21,9 +26,12 @@ if ( $_REQUEST['modfunc']=='update')
 					{
 						if ( $id!='new')
 						{
-							$sql = "UPDATE $table SET ";
-							foreach ( (array) $columns as $column => $value)
-								$sql .= $column."='".$value."',";
+							$sql = "UPDATE " . DBEscapeIdentifier( $table ) . " SET ";
+
+							foreach ( (array) $columns as $column => $value )
+							{
+								$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
+							}
 
 							$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
 							DBQuery($sql);

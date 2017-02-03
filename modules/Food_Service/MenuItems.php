@@ -30,7 +30,7 @@ if ( $_REQUEST['modfunc']=='update')
 
 							foreach ( (array) $columns as $column => $value )
 							{
-								$sql .= $column . "='" . $value . "',";
+								$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 								$go = true;
 							}
 

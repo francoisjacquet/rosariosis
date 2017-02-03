@@ -60,7 +60,11 @@ if ( ! $current_mp)
 
 $all_mp = GetAllMP('QTR',$current_mp);
 
-$current_Q = "SELECT ATTENDANCE_TEACHER_CODE,ATTENDANCE_CODE,ATTENDANCE_REASON,COMMENT,STUDENT_ID,ADMIN,PERIOD_ID FROM $table WHERE SCHOOL_DATE='".$date."'".$extra_sql;
+$current_Q = "SELECT ATTENDANCE_TEACHER_CODE,ATTENDANCE_CODE,ATTENDANCE_REASON,COMMENT,
+	STUDENT_ID,ADMIN,PERIOD_ID
+	FROM " . DBEscapeIdentifier( $table ) .
+	" WHERE SCHOOL_DATE='" . $date . "'" . $extra_sql;
+
 //FJ days numbered
 //FJ multiple school periods for a course period
 if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
@@ -113,17 +117,25 @@ if ( $_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 		{
 			if ( $current_RET[ $student_id ][ $period_id ])
 			{
-				$sql = "UPDATE $table SET ADMIN='Y',COURSE_PERIOD_ID='".$current_schedule_RET[ $student_id ][ $period_id ][1]['COURSE_PERIOD_ID']."',";
+				$sql = "UPDATE " . DBEscapeIdentifier( $table ) .
+					" SET ADMIN='Y',
+					COURSE_PERIOD_ID='" . $current_schedule_RET[ $student_id ][ $period_id ][1]['COURSE_PERIOD_ID'] . "',";
 
-				foreach ( (array) $columns as $column => $value)
-					$sql .= $column."='".$value."',";
+				foreach ( (array) $columns as $column => $value )
+				{
+					$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
+				}
 
-				$sql = mb_substr($sql,0,-1) . " WHERE SCHOOL_DATE='".$date."' AND PERIOD_ID='".$period_id."' AND STUDENT_ID='".$student_id."'".$extra_sql;
-				DBQuery($sql);
+				$sql = mb_substr( $sql, 0, -1 ) . " WHERE SCHOOL_DATE='" . $date . "'
+					AND PERIOD_ID='" . $period_id . "'
+					AND STUDENT_ID='" . $student_id . "'" .
+					$extra_sql;
+
+				DBQuery( $sql );
 			}
 			else
 			{
-				$sql = "INSERT INTO $table ";
+				$sql = "INSERT INTO " . DBEscapeIdentifier( $table ) . " ";
 
 				$fields = 'STUDENT_ID,SCHOOL_DATE,PERIOD_ID,MARKING_PERIOD_ID,ADMIN,COURSE_PERIOD_ID,';
 				$values = "'".$student_id."','".$date."','".$period_id."','".$current_mp."','Y','".$current_schedule_RET[ $student_id ][ $period_id ][1]['COURSE_PERIOD_ID']."',";

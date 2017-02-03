@@ -119,7 +119,7 @@ if ( $_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 	{
 		foreach ( (array) $_REQUEST['tables'] as $table_name => $tables)
 		{
-			if ( $table_name == 'COURSE_PERIOD_SCHOOL_PERIODS')
+			if ( $table_name == 'COURSE_PERIOD_SCHOOL_PERIODS' )
 			{
 				unset($_REQUEST['tables'][ $table_name ]);
 
@@ -175,7 +175,7 @@ if ( $_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 						if ( $table_name=='COURSES' && $columns['SUBJECT_ID'] && $columns['SUBJECT_ID']!=$_REQUEST['subject_id'])
 							$_REQUEST['subject_id'] = $columns['SUBJECT_ID'];
 
-						$sql = "UPDATE ".$table_name." SET ";
+						$sql = "UPDATE " . DBEscapeIdentifier( $table_name ) . " SET ";
 
 						if ( $table_name=='COURSE_PERIODS')
 						{
@@ -291,7 +291,7 @@ if ( $_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 						}
 
 						foreach ( (array) $columns as $column => $value)
-							$sql .= $column."='".$value."',";
+							$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 
 						$sql = mb_substr($sql,0,-1) . " WHERE ".$where[ $table_name ]."='".$id."'";
 						DBQuery($sql);

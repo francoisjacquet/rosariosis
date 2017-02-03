@@ -34,7 +34,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 
 			foreach ( (array) $columns as $column => $value)
 			{
-				$sql .= $column."='".$value."',";
+				$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 			}
 			$sql = mb_substr($sql,0,-1) . " WHERE STAFF_ID='".UserStaffID()."' AND ID='".$id."'";
 			DBQuery($sql);

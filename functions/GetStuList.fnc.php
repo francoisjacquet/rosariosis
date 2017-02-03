@@ -966,8 +966,8 @@ function DeCodeds( $value, $column, $table = 'auto' )
 	if ( ! isset( $decodeds[ $column ] ) )
 	{
 		$RET = DBGet( DBQuery( "SELECT TYPE,SELECT_OPTIONS
-			FROM " . $table . "_FIELDS
-			WHERE ID='" . $field[1] . "'" ) );
+			FROM " . DBEscapeIdentifier( $table . '_FIELDS' ) .
+			" WHERE ID='" . $field[1] . "'" ) );
 
 		if ( $RET[1]['TYPE'] == 'codeds'
 			|| $RET[1]['TYPE'] == 'exports' )

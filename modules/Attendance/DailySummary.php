@@ -47,7 +47,7 @@ if ( $_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 			$sql = "UPDATE ATTENDANCE_PERIOD SET ADMIN='Y',";
 
 			foreach ( (array) $columns as $column => $value)
-				$sql .= $column."='".$value."',";
+				$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 
 			$sql = mb_substr($sql,0,-1) . " WHERE SCHOOL_DATE='".$school_date."' AND PERIOD_ID='".$_REQUEST['period_id']."' AND STUDENT_ID='".$student_id."'";
 			DBQuery($sql);

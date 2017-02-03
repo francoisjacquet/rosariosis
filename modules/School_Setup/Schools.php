@@ -64,7 +64,7 @@ if ( $_REQUEST['modfunc']=='update')
 								continue;
 							}
 
-							$sql .= $column . "='" . $value . "',";
+							$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 							$go = true;
 						}
 						else

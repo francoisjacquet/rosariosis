@@ -75,7 +75,7 @@ if ( isset( $_POST['values'] )
 					}
 
 					if ( !is_array($value))
-						$sql .= $column."='".$value."',";
+						$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 					else
 					{
 						$sql .= $column."='||";
@@ -158,7 +158,7 @@ if ( isset( $_POST['values'] )
 						continue;
 					}
 
-					$sql .= $column."='".$value."',";
+					$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 					$go = true;
 				}
 			}
@@ -208,7 +208,7 @@ if ( isset( $_POST['values'] )
 
 				foreach ( (array) $values as $column => $value)
 				{
-					$sql .= $column."='".$value."',";
+					$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 				}
 				$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
 				DBQuery($sql);
@@ -246,7 +246,7 @@ if ( isset( $_POST['values'] )
 
 		foreach ( (array) $_REQUEST['values']['STUDENTS_JOIN_PEOPLE'] as $column => $value)
 		{
-			$sql .= $column."='".$value."',";
+			$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 		}
 		$sql = mb_substr($sql,0,-1) . " WHERE PERSON_ID='".$_REQUEST['person_id']."' AND STUDENT_ID='".UserStudentID()."'";
 		DBQuery($sql);
@@ -258,7 +258,7 @@ if ( isset( $_POST['values'] )
 
 		foreach ( (array) $_REQUEST['values']['STUDENTS_JOIN_ADDRESS'] as $column => $value)
 		{
-			$sql .= $column."='".$value."',";
+			$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 		}
 		$sql = mb_substr($sql,0,-1) . " WHERE ADDRESS_ID='".$_REQUEST['address_id']."' AND STUDENT_ID='".UserStudentID()."'";
 		DBQuery($sql);
@@ -1273,8 +1273,9 @@ function _makeAutoSelect( $column, $table, $values = '', $options = array() )
 		}
 
 		// Add values already in table
-		$options_RET = DBGet( DBQuery( "SELECT DISTINCT " . $column . ",upper(" . $column . ") AS SORT_KEY
-			FROM " . $table .
+		$options_RET = DBGet( DBQuery( "SELECT DISTINCT " . DBEscapeIdentifier( $column ) .
+			",upper(" . DBEscapeIdentifier( $column ) . ") AS SORT_KEY
+			FROM " . DBEscapeIdentifier( $table ) .
 			$limit_current_school_sql .
 			" ORDER BY SORT_KEY" ) );
 
