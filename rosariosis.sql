@@ -3983,6 +3983,7 @@ INSERT INTO profile_exceptions VALUES (2, 'Accounting/Salaries.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (2, 'Accounting/StaffPayments.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (2, 'Accounting/Statements.php&_ROSARIO_PDF', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (3, 'School_Setup/Schools.php', 'Y', NULL);
+INSERT INTO profile_exceptions VALUES (3, 'School_Setup/MarkingPeriods.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (3, 'School_Setup/Calendar.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (3, 'Students/Student.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (3, 'Students/Student.php&category_id=1', 'Y', NULL);
@@ -4012,6 +4013,7 @@ INSERT INTO profile_exceptions VALUES (3, 'Food_Service/DailyMenus.php', 'Y', NU
 INSERT INTO profile_exceptions VALUES (3, 'Food_Service/MenuItems.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (3, 'Resources/Resources.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (0, 'School_Setup/Schools.php', 'Y', NULL);
+INSERT INTO profile_exceptions VALUES (0, 'School_Setup/MarkingPeriods.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (0, 'School_Setup/Calendar.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (0, 'Students/Student.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (0, 'Students/Student.php&category_id=1', 'Y', NULL);

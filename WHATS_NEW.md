@@ -5,6 +5,11 @@
 New in 3.0
 ----------
 
+School Setup
+
+- Marking Periods
+	- Access granted to parents & students (see _Users > User Profiles_ for configuration)
+
 Cache system ([ETag](https://en.wikipedia.org/wiki/HTTP_ETag))
 
 Upload images in text editor (TinyMCE)
