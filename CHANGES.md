@@ -12,6 +12,7 @@ Changes in 3.0
 - Fix do not show Delete prompt when reloading page in Schools.php
 - Add Marking Periods to parents & students in School_Setup/Menu.php & rosariosis.sql
 - Add Access Log, thanks to @dpredster in AccessLog.php, index.php, Update.fnc.php & rosariosis.sql
+- Logic & design fixes & show Can Edit for User Info tabs in Profiles.php & Exceptions.php
 
 Changes in 2.9.15
 -----------------
