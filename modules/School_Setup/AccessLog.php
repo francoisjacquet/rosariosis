@@ -14,10 +14,6 @@
 
 DrawHeader( ProgramTitle() );
 
-// Set start date as the 1st of the month and end date as current day.
-$start_date = date( 'Y-m' ) . '-01';
-$end_date = DBDate();
-
 // Requested start date.
 if ( isset( $_REQUEST['day_start'] )
 	&& isset( $_REQUEST['month_start'] )
@@ -28,6 +24,13 @@ if ( isset( $_REQUEST['day_start'] )
 		$_REQUEST['month_start'],
 		$_REQUEST['day_start']
 	);
+}
+
+if ( ! isset( $start_date )
+	|| ! $start_date )
+{
+	// Set start date as the 1st of the month.
+	$start_date = date( 'Y-m' ) . '-01';
 }
 
 // Requested end date.
@@ -42,13 +45,21 @@ if ( isset( $_REQUEST['day_end'] )
 	);
 }
 
+if ( ! isset( $end_date )
+	|| ! $end_date )
+{
+	//  Set end date as current day.
+	$end_date = DBDate();
+}
+
+
 if ( ! $_REQUEST['modfunc'] )
 {
 	echo '<FORM name="log" id="log" action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="GET">';
 
 	DrawHeader(
-		_( 'From' ) . ' ' . PrepareDate( $start_date, '_start' ) . ' - ' .
-		_( 'To' ) . ' ' . PrepareDate( $end_date, '_end' ) .
+		_( 'From' ) . ' ' . DateInput( $start_date, 'start', '', false, false ) . ' - ' .
+		_( 'To' ) . ' ' . DateInput( $end_date, 'end', '', false, false ) .
 		Buttons( _( 'Go' ) )
 	);
 

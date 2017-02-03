@@ -117,6 +117,8 @@ elseif ( isset( $_POST['USERNAME'] )
 			SET LAST_LOGIN=CURRENT_TIMESTAMP,FAILED_LOGIN=NULL
 			WHERE STAFF_ID='" . $login_RET[1]['STAFF_ID'] . "'" );
 
+		$login_status = 'Y';
+
 		// If 1st login, Confirm Successful Installation screen.
 		if ( Config( 'LOGIN' ) === 'No' ) :
 
@@ -186,6 +188,8 @@ elseif ( isset( $_POST['USERNAME'] )
 		DBQuery( "UPDATE STUDENTS
 			SET LAST_LOGIN=CURRENT_TIMESTAMP,FAILED_LOGIN=NULL
 			WHERE STUDENT_ID='" . $student_RET[1]['STUDENT_ID'] . "'" );
+
+		$login_status = 'Y';
 	}
 
 	// Failed login.
@@ -202,6 +206,22 @@ elseif ( isset( $_POST['USERNAME'] )
 
 		$error[] = _( 'Incorrect username or password.' ) . '&nbsp;'
 			. _( 'Please try logging in again.' );
+
+		$login_status = '';
+	}
+
+	// Access Log.
+	if ( ! function_exists( 'AccessLogRecord' ) )
+	{
+		DBQuery( "INSERT INTO ACCESS_LOG
+			(SYEAR,USERNAME,PROFILE,LOGIN_TIME,IP_ADDRESS,STATUS)
+			values('" . Config( 'SYEAR' ) . "',
+			'" . $username . "',
+			'" . User( 'PROFILE' ) . "',
+			CURRENT_TIMESTAMP,
+			'" . ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ?
+				$_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'] ) . "',
+			'" . $login_status . "' )" );
 	}
 
 	do_action( 'index.php|login_check', $username );
