@@ -747,7 +747,8 @@ td.valign-top,tr.valign-top,table.valign-top td{
 }
 .align-right,
 .align-right td,
-td.align-right{
+td.align-right,
+th.align-right{
 	text-align:right
 }
 table.col1-align-right > tbody > tr > td:first-child{
