@@ -290,6 +290,22 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: access_log; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
+--
+
+CREATE TABLE access_log (
+    syear numeric(4,0),
+    username character varying(100),
+    profile character varying(30),
+    login_time timestamp(0) without time zone,
+    ip_address character varying(50),
+    status character varying(50)
+);
+
+
+
+
+--
 -- Name: accounting_incomes; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
@@ -4059,6 +4075,7 @@ INSERT INTO profile_exceptions VALUES (1, 'Scheduling/MasterScheduleReport.php',
 INSERT INTO profile_exceptions VALUES (1, 'School_Setup/DatabaseBackup.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'School_Setup/PortalPolls.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'School_Setup/Configuration.php', 'Y', 'Y');
+INSERT INTO profile_exceptions VALUES (1, 'School_Setup/AccessLog.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Student_Billing/StudentFees.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Student_Billing/StudentPayments.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Student_Billing/MassAssignFees.php', 'Y', 'Y');

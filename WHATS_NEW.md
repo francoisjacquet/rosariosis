@@ -7,8 +7,9 @@ New in 3.0
 
 School Setup
 
+- Access Log
 - Marking Periods
-	- Access granted to parents & students (see _Users > User Profiles_ for configuration)
+	- Access granted to parents & students
 
 Cache system ([ETag](https://en.wikipedia.org/wiki/HTTP_ETag))
 

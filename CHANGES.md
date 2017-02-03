@@ -11,6 +11,7 @@ Changes in 3.0
 - Current tab in bold in Configuration.php & Food Service module wide
 - Fix do not show Delete prompt when reloading page in Schools.php
 - Add Marking Periods to parents & students in School_Setup/Menu.php & rosariosis.sql
+- Add Access Log, thanks to @dpredster in AccessLog.php, Update.fnc.php & rosariosis.sql
 
 Changes in 2.9.15
 -----------------

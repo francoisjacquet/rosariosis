@@ -27,6 +27,8 @@ $menu['School_Setup']['admin'] = array(
 	'School_Setup/CopySchool.php' => _( 'Copy School' ),
 	'School_Setup/SchoolFields.php' => _( 'School Fields' ),
 	'School_Setup/Configuration.php'  => _( 'School Configuration' ),
+	2 => dgettext( 'Access_Log', _( 'Security' ) ),
+	'School_Setup/AccessLog.php' => _( 'Access Log' ),
 );
 
 $menu['School_Setup']['teacher'] = array(

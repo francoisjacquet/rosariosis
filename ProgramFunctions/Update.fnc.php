@@ -31,7 +31,7 @@ function Update()
 	 * Prevent DB version update if new Update.fnc.php file has NOT been uploaded YET.
 	 * Update must be run once both new Warehouse.php & Update.fnc.php files are uploaded.
 	 */
-	if ( version_compare( '2.9.15', ROSARIO_VERSION, '<' ) )
+	if ( version_compare( '3.0', ROSARIO_VERSION, '<' ) )
 	{
 		return false;
 	}
@@ -74,6 +74,11 @@ function Update()
 		case version_compare( $from_version, '2.9.14', '<' ) :
 
 			$return = _update2914();
+
+
+		case version_compare( $from_version, '3.0', '<' ) :
+
+			$return = _update30();
 	}
 
 	// Update version in DB CONFIG table.
@@ -548,6 +553,49 @@ function _update2914()
 			DBQuery( "INSERT INTO staff_exceptions
 				VALUES ('" . $user_id['USER_ID'] . "', 'Users/User.php&category_id=1&user_profile', 'Y', 'Y');" );
 		}
+	}
+
+	return $return;
+}
+
+
+/**
+ * Update to version 3.0
+ *
+ * Add Access Log.
+ * 1. Add ACCESS_LOG table.
+ * Will not grant access to the program to Admins.
+ * Go to Users > User Profiles for that.
+ *
+ * Local function
+ *
+ * @since 3.0
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update30()
+{
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. Add ACCESS_LOG table.
+	 */
+	$access_log_table_exists = DBGet( DBQuery( "SELECT 1
+		FROM pg_catalog.pg_tables
+		WHERE tablename  = 'access_log'" ) );
+
+	if ( ! $access_log_table_exists )
+	{
+		DBQuery( "CREATE TABLE access_log (
+			syear numeric(4,0),
+			username character varying(100),
+			profile character varying(30),
+			login_time timestamp(0) without time zone,
+			ip_address character varying(50),
+			status character varying(50)
+		);" );
 	}
 
 	return $return;
