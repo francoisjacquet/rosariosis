@@ -432,3 +432,31 @@ function DBEscapeString( $input )
 	// return str_replace("'","''",$input);
 	return pg_escape_string( $input );
 }
+
+
+/**
+ * Escapes identifiers (table, column) using double quotes.
+ * Security function for
+ * when you HAVE to use a variable as an identifier.
+ *
+ * @since 3.0
+ *
+ * @example $safe_sql = "SELECT COLUMN FROM " . DBEscapeIdentifier( $table ) . " WHERE " . DBEscapeIdentifier( $column ) . "='Y'";
+ *
+ * @uses pg_escape_identifier(), requires PHP 5.4.4+
+ *
+ * @param string $identifier SQL identifier (table, column).
+ *
+ * @return string Escaped identifier.
+ */
+function DBEscapeIdentifier( $identifier )
+{
+	$identifier = mb_strtolower( $identifier );
+
+	if ( ! function_exists( 'pg_escape_identifier' ) )
+	{
+		return '"' . $identifier . '"';
+	}
+
+	return pg_escape_identifier( $identifier );
+}

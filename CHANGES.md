@@ -13,6 +13,7 @@ Changes in 3.0
 - Add Marking Periods to parents & students in School_Setup/Menu.php & rosariosis.sql
 - Add Access Log, thanks to @dpredster in AccessLog.php, index.php, Update.fnc.php & rosariosis.sql
 - Logic & design fixes & show Can Edit for User Info tabs in Profiles.php & Exceptions.php
+- Add DBEscapeIdentifier() in database.inc.php
 - Escape SQL identifiers (table, column), program wide
 
 Changes in 2.9.15
