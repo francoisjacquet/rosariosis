@@ -124,13 +124,13 @@ if ( $_REQUEST['modfunc']=='update')
 								$value = '-1';
 							if ( $value!='')
 							{
-								$fields .= $column.',';
-								$values .= "'".$value."',";
+								$fields .= DBEscapeIdentifier( $column ) . ',';
+								$values .= "'" . $value . "',";
 								if ( $column!='ASSIGNMENT_TYPE_ID' && $column!='ASSIGNED_DATE' && $column!='DUE_DATE' && $column!='DEFAULT_POINTS' && $column!='DESCRIPTION')
 									$go = true;
 							}
 						}
-						$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
+						$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
 
 						if ( $go)
 							DBQuery($sql);

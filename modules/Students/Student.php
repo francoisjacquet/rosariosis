@@ -247,12 +247,12 @@ if ( $_REQUEST['modfunc'] === 'update'
 							continue;
 						}
 
-						$fields .= $column.',';
+						$fields .= DBEscapeIdentifier( $column ) . ',';
 						if ( !is_array($value))
 						{
 							//FJ add password encryption
 							if ( $column!=='PASSWORD')
-								$values .= "'".$value."',";
+								$values .= "'" . $value . "',";
 							else
 							{
 								$value = str_replace("''","'",$value);
@@ -272,7 +272,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 					}
 				}
 
-				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
+				$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
 				DBQuery($sql);
 
 				// create default food service account for this student

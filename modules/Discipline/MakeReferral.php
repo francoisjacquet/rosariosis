@@ -94,7 +94,7 @@ if ( isset( $_POST['values'] )
 				$value = SanitizeMarkDown( $_POST['values'][ $column ] );
 			}
 
-			$fields .= $column.',';
+			$fields .= DBEscapeIdentifier( $column ) . ',';
 			if ( !is_array($value))
 				$values .= "'".str_replace('&quot;','"',$value)."',";
 			else
@@ -116,7 +116,7 @@ if ( isset( $_POST['values'] )
 
 	$values .= "'" . DBDate() . "',";
 
-	$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
+	$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
 
 	if ( $go)
 	{

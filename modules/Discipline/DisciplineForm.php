@@ -35,13 +35,13 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				{
 					if ( $value && $column!='SORT_ORDER' && $column!='SELECT_OPTIONS')
 					{
-						$fields .= $column.',';
-						$values .= "'".$value."',";
+						$fields .= DBEscapeIdentifier( $column ) . ',';
+						$values .= "'" . $value . "',";
 						$go = true;
 					}
 				}
 
-				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
+				$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
 
 				$usage_sql = "INSERT INTO DISCIPLINE_FIELD_USAGE ";
 
@@ -52,12 +52,12 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				{
 					if ( $value && $column!='DATA_TYPE')
 					{
-						$fields .= $column.',';
-						$values .= "'".$value."',";
+						$fields .= DBEscapeIdentifier( $column ) . ',';
+						$values .= "'" . $value . "',";
 					}
 				}
 
-				$usage_sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
+				$usage_sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
 
 
 				$create_index = true;

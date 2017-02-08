@@ -54,12 +54,12 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				{
 					if ( $column=='AMOUNT')
 						$value = preg_replace('/[^0-9.-]/','',$value);
-					$fields .= $column.',';
-					$values .= "'".$value."',";
+					$fields .= DBEscapeIdentifier( $column ) . ',';
+					$values .= "'" . $value . "',";
 					$go = true;
 				}
 			}
-			$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
+			$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
 
 			if ( $go)
 				DBQuery($sql);

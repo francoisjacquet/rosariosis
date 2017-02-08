@@ -64,11 +64,11 @@ if ( $_REQUEST['modfunc']=='update')
 						foreach ( (array) $columns as $column => $value)
 							if ( !empty($value) || $value=='0')
 							{
-								$fields .= $column.',';
-								$values .= '\''.$value.'\',';
+								$fields .= DBEscapeIdentifier( $column ) . ',';
+								$values .= "'" . $value . "',";
 								$go = true;
 							}
-						$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
+						$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
 
 						//FJ fix SQL bug MENU_ITEM not null
 						if ( $_REQUEST['tab_id'] !== 'new'

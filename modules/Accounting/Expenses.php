@@ -53,12 +53,12 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 						if ( !is_numeric($value))
 							$value = 0;
 					}
-					$fields .= $column.',';
-					$values .= "'".$value."',";
+					$fields .= DBEscapeIdentifier( $column ) . ',';
+					$values .= "'" . $value . "',";
 					$go = true;
 				}
 			}
-			$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
+			$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
 
 			if ( $go)
 				DBQuery($sql);
