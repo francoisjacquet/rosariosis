@@ -109,6 +109,13 @@ Install instructions for Ubuntu 16.04:
 	`server$ sudo apt-get install php-pgsql php-gettext php-mbstring php-curl php-xmlrpc php-xml`
 
 
+Installing other languages
+--------------------------
+
+Install instructions for Ubuntu 16.04 and the _Spanish_ locale:
+	`server$ sudo apt-get install language-pack-es`
+
+
 Installing [wkhtmltopdf](http://wkhtmltopdf.org/)
 -------------------------------------------------
 
