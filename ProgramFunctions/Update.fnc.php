@@ -594,8 +594,21 @@ function _update30()
 			profile character varying(30),
 			login_time timestamp(0) without time zone,
 			ip_address character varying(50),
+			user_agent text,
 			status character varying(50)
 		);" );
+	} else {
+
+		// Add user_agent column.
+		$user_agent_column_exists = DBGet( DBQuery( "SELECT 1 FROM pg_attribute
+			WHERE attrelid = (SELECT oid FROM pg_class WHERE relname = 'access_log')
+			AND attname = 'user_agent';" ) );
+
+		if ( ! $user_agent_column_exists )
+		{
+			DBQuery( "ALTER TABLE ONLY access_log
+				ADD COLUMN user_agent text;" );
+		}
 	}
 
 	return $return;

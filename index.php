@@ -214,14 +214,15 @@ elseif ( isset( $_POST['USERNAME'] )
 	if ( ! function_exists( 'AccessLogRecord' ) )
 	{
 		DBQuery( "INSERT INTO ACCESS_LOG
-			(SYEAR,USERNAME,PROFILE,LOGIN_TIME,IP_ADDRESS,STATUS)
+			(SYEAR,USERNAME,PROFILE,LOGIN_TIME,IP_ADDRESS,USER_AGENT,STATUS)
 			values('" . Config( 'SYEAR' ) . "',
 			'" . $username . "',
 			'" . User( 'PROFILE' ) . "',
 			CURRENT_TIMESTAMP,
 			'" . ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ?
 				$_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'] ) . "',
-			'" . $login_status . "' )" );
+			'" . DBEscapeString( $_SERVER['HTTP_USER_AGENT'] ) . // http://php.net/get-browser
+			"','" . $login_status . "' )" );
 	}
 
 	do_action( 'index.php|login_check', $username );

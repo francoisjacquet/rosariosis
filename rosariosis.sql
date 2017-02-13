@@ -299,6 +299,7 @@ CREATE TABLE access_log (
     profile character varying(30),
     login_time timestamp(0) without time zone,
     ip_address character varying(50),
+    user_agent text,
     status character varying(50)
 );
 
@@ -434,13 +435,10 @@ SELECT pg_catalog.setval('accounting_payments_seq', 1, false);
 CREATE TABLE address (
     address_id numeric(10,0) NOT NULL,
     house_no numeric(5,0),
-    fraction character varying(3),
-    letter character varying(2),
     direction character varying(2),
     street character varying(30),
     apt character varying(5),
     zipcode character varying(10),
-    plus4 character varying(4),
     city character varying(60),
     state character varying(10),
     mail_street character varying(30),
@@ -3440,7 +3438,7 @@ SELECT pg_catalog.setval('user_profiles_seq', 3, true);
 -- Data for Name: address; Type: TABLE DATA; Schema: public; Owner: rosariosis
 --
 
-INSERT INTO address VALUES (0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No Address', NULL, NULL);
+INSERT INTO address VALUES (0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No Address', NULL, NULL);
 
 
 --
@@ -5045,7 +5043,7 @@ ALTER TABLE ONLY templates
 -- Name: address_3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX address_3 ON address USING btree (zipcode, plus4);
+CREATE INDEX address_3 ON address USING btree (zipcode);
 
 
 --
