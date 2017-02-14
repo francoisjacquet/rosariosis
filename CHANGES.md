@@ -15,6 +15,7 @@ Changes in 3.0
 - Logic & design fixes & show Can Edit for User Info tabs in Profiles.php & Exceptions.php
 - Add DBEscapeIdentifier() in database.inc.php
 - Escape SQL identifiers (table, column), program wide
+- Add User Agent functions in ProgramFunctions/UserAgent.fnc.php
 
 Changes in 2.9.15
 -----------------
