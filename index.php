@@ -221,7 +221,7 @@ elseif ( isset( $_POST['USERNAME'] )
 			CURRENT_TIMESTAMP,
 			'" . ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ?
 				$_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'] ) . "',
-			'" . DBEscapeString( $_SERVER['HTTP_USER_AGENT'] ) . // http://php.net/get-browser
+			'" . DBEscapeString( $_SERVER['HTTP_USER_AGENT'] ) .
 			"','" . $login_status . "' )" );
 	}
 

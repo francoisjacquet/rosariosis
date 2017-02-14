@@ -12,6 +12,8 @@
  * @subpackage modules
  */
 
+require_once 'ProgramFunctions/UserAgent.fnc.php';
+
 DrawHeader( ProgramTitle() );
 
 // Requested start date.
@@ -70,10 +72,11 @@ if ( ! $_REQUEST['modfunc'] )
 		'STATUS' => '_makeAccessLogStatus', // Translate status.
 		'PROFILE' => '_makeAccessLogProfile', // Translate profile.
 		'LOGIN_TIME' => 'ProperDateTime', // Display localized & preferred Date & Time.
+		'USER_AGENT' => '_makeAccessLogUserAgent', // Display Browser & OS.
 	);
 
 	$alllogs_RET = DBGet( DBQuery( "SELECT
-		DISTINCT USERNAME,PROFILE,LOGIN_TIME,IP_ADDRESS,STATUS
+		DISTINCT USERNAME,PROFILE,LOGIN_TIME,IP_ADDRESS,STATUS,USER_AGENT
 		FROM ACCESS_LOG
 		WHERE LOGIN_TIME >='" . $start_date . "'
 		AND LOGIN_TIME <='" . $end_date . ' 23:59:59' . "'
@@ -91,6 +94,7 @@ if ( ! $_REQUEST['modfunc'] )
 			'PROFILE' => _( 'User Profile' ),
 			'STATUS' => _( 'Status' ),
 			'IP_ADDRESS' => _( 'IP Address' ),
+			'USER_AGENT' => _( 'Browser' ),
 		),
 		'Login record',
 		'Login records',
@@ -125,7 +129,7 @@ if ( $_REQUEST['modfunc'] == 'delete' )
  * Local function
  * DBGet callback
  *
- * @since 1.2
+ * @since 3.0
  *
  * @param  string $value   Field value.
  * @param  string $name    'STATUS'.
@@ -151,7 +155,7 @@ function _makeAccessLogStatus( $value, $column )
  * Local function
  * DBGet callback
  *
- * @since 1.2
+ * @since 3.0
  *
  * @param  string $value   Field value.
  * @param  string $name    'PROFILE'.
@@ -174,4 +178,37 @@ function _makeAccessLogProfile( $value, $column )
 	}
 
 	return $profile_options[ $value ];
+}
+
+
+/**
+ * Make User Agent
+ *
+ * Local function
+ * DBGet callback
+ *
+ * @since 3.0
+ *
+ * @link http://php.net/get-browser
+ *
+ * @param  string $value   Field value.
+ * @param  string $name    'USER_AGENT'.
+ *
+ * @return string          Browser (OS).
+ */
+function _makeAccessLogUserAgent( $value, $column )
+{
+	if ( empty( $value ) )
+	{
+		return $value;
+	}
+
+	$os = GetUserAgentOS( $value );
+
+	if ( $os )
+	{
+		$os = ' (' . $os . ')';
+	}
+
+	return GetUserAgentBrowser( $value ) . $os;
 }

@@ -12,10 +12,12 @@ Changes in 3.0
 - Fix do not show Delete prompt when reloading page in Schools.php
 - Add Marking Periods to parents & students in School_Setup/Menu.php & rosariosis.sql
 - Add Access Log, thanks to @dpredster in AccessLog.php, index.php, Update.fnc.php & rosariosis.sql
+- Add User Agent functions in ProgramFunctions/UserAgent.fnc.php
+- Add Browser column to Access Log in AccessLog.php
 - Logic & design fixes & show Can Edit for User Info tabs in Profiles.php & Exceptions.php
 - Add DBEscapeIdentifier() in database.inc.php
 - Escape SQL identifiers (table, column), program wide
-- Add User Agent functions in ProgramFunctions/UserAgent.fnc.php
+
 
 Changes in 2.9.15
 -----------------
