@@ -113,7 +113,7 @@ function GetStuList( &$extra = array() )
 		$view_other_RET = DBGet( DBQuery( "SELECT TITLE,VALUE
 			FROM PROGRAM_USER_CONFIG
 			WHERE PROGRAM='StudentFieldsView'
-			AND TITLE IN ('CONTACT_INFO','HOME_PHONE','GUARDIANS','ALL_CONTACTS')
+			AND TITLE IN ('USERNAME','CONTACT_INFO','HOME_PHONE','GUARDIANS','ALL_CONTACTS')
 			AND USER_ID='" . User( 'STAFF_ID' ) . "'"), array(), array( 'TITLE' ) );
 
 		if ( ! $view_fields_RET
@@ -255,6 +255,14 @@ function GetStuList( &$extra = array() )
 				$_REQUEST['expanded_view'] = $expanded_view;
 
 				$_REQUEST['addr'] = $addr;
+			}
+
+			// Student Fields: search Username.
+			if ( $view_other_RET['USERNAME'][1]['VALUE'] === 'Y' )
+			{
+				$extra['columns_after']['USERNAME'] = _( 'Username' );
+
+				$select .= ',s.USERNAME';
 			}
 
 			foreach ( (array) $view_fields_RET as $field )
@@ -1096,6 +1104,8 @@ function makeTextarea( $value, $column )
  *
  * @global $_ROSARIO sets $_ROSARIO['SearchTerms']
  *
+ * @uses SearchField()
+ *
  * @param  string $sql   Students SQL query.
  * @param  array  $extra Extra for SQL request (optional). Defaults to empty array.
  *
@@ -1133,30 +1143,34 @@ function appendSQL( $sql, $extra = array() )
 		}
 	}
 
-	// Last Name (starts with, case insensitive).
+	// Last Name.
 	if ( isset( $_REQUEST['last'] )
 		&& $_REQUEST['last'] !== '' )
 	{
-		$sql .= " AND LOWER(s.LAST_NAME) LIKE '" . mb_strtolower( $_REQUEST['last'] ) . "%'";
+		$last_name = array(
+			'COLUMN' => 'LAST_NAME',
+			'VALUE' => $_REQUEST['last'],
+			'TITLE' => _( 'Last Name' ),
+			'TYPE' => 'text',
+			'SELECT_OPTIONS' => null,
+		);
 
-		if ( ! $no_search_terms )
-		{
-			$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Last Name starts with' ) . ': </b>' .
-				str_replace( "''", "'", $_REQUEST['last'] ) . '<br />';
-		}
+		$sql .= SearchField( $last_name, 'where', 'student', $extra );
 	}
 
-	// First Name (starts with, case insensitive).
+	// First Name.
 	if ( isset( $_REQUEST['first'] )
 		&& $_REQUEST['first'] !== '' )
 	{
-		$sql .= " AND LOWER(s.FIRST_NAME) LIKE '" . mb_strtolower( $_REQUEST['first'] ) . "%'";
+		$first_name = array(
+			'COLUMN' => 'FIRST_NAME',
+			'VALUE' => $_REQUEST['first'],
+			'TITLE' => _( 'First Name' ),
+			'TYPE' => 'text',
+			'SELECT_OPTIONS' => null,
+		);
 
-		if ( ! $no_search_terms )
-		{
-			$_ROSARIO['SearchTerms'] .= '<b>' . _( 'First Name starts with' ) . ': </b>' .
-			str_replace( "''", "'", $_REQUEST['first'] ).'<br />';
-		}
+		$sql .= SearchField( $first_name, 'where', 'student', $extra );
 	}
 
 	// Grade Level.

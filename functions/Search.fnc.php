@@ -285,7 +285,59 @@ function Search( $type, $extra = null )
 				array( 'CATEGORY_TITLE', 'TITLE' )
 			);
 
-			if ( $type === 'staff_fields_all' )
+			if ( $type === 'student_fields_all' )
+			{
+				// Student Fields: search Username.
+				$general_info_category_title_RET = DBGet( DBQuery( "SELECT sfc.TITLE
+					FROM STUDENT_FIELD_CATEGORIES sfc
+					WHERE sfc.ID=1" ) );
+
+				$general_info_category_title = ParseMLField( $general_info_category_title_RET[1]['TITLE'] );
+
+				if ( isset( $categories_RET[1] ) )
+				{
+					$i = count( $categories_RET[1]['text'] ) ? 1 : count( $categories_RET[1]['text'] );
+				}
+				else
+				{
+					$i = 1;
+				}
+
+				if ( Preferences( 'USERNAME', 'StudentFieldsSearch' ) !== 'Y' )
+				{
+					if ( ! isset( $categories_RET[1] ) )
+					{
+						// Empty General Info category.
+						$categories_RET[1] = array();
+					}
+
+					// Add USername to Staff General Info.
+					$categories_RET[1]['text'][ $i++ ] = array(
+						'ID' => '1',
+						'CATEGORY_TITLE' => $general_info_category_title,
+						'COLUMN_NAME' => 'USERNAME',
+						'TYPE' => 'text',
+						'TITLE' => _( 'Username' ),
+						'SELECT_OPTIONS' => null,
+					);
+				}
+			}
+			elseif ( $type === 'student_fields' )
+			{
+				if ( Preferences( 'USERNAME', 'StudentFieldsSearch' ) === 'Y' )
+				{
+					// Add USername to Find a User form.
+					$categories_RET[1]['text'][ $i++ ] = array(
+						'ID' => '1',
+						'CATEGORY_TITLE' => '',
+						'COLUMN_NAME' => 'USERNAME',
+						'TYPE' => 'text',
+						'TITLE' => _( 'Username' ),
+						'SELECT_OPTIONS' => null,
+					);
+				}
+			}
+			elseif ( $type === 'staff_fields_all' )
 			{
 				// User Fields: search Email Address & Phone.
 				$general_info_category_title_RET = DBGet( DBQuery( "SELECT sfc.TITLE
@@ -571,4 +623,294 @@ function Search( $type, $extra = null )
 
 		break;
 	}
+}
+
+
+
+
+/**
+ * Search (custom) (staff) Field SQL
+ * Call in an SQL statement to select students / staff based on this field
+ * Also sets $_ROSARIO['SearchTerms'] to display search term
+ *
+ * @since 3.0
+ *
+ * @see appendSQL(), appendStaffSQL() & CustomFields() for use cases.
+ *
+ * Use in the where section of the query:
+ * @example $return .= SearchField( $first_name, 'student', $extra );
+ *
+ * Searching "Attendance Start" date >= to value, use PART => 'begin':
+ * @example $sql .= SearchField( array( 'COLUMN' => 'ENROLLED_BEGIN', 'VALUE' => '2017-02-15', 'TYPE' => 'date', 'PART' => 'begin', 'TITLE' => _( 'Attendance Start' ) ), 'student', $extra );
+ * Same applies for numeric fields.
+ * PART can be 'begin' (greater than or equal) or 'end' (lower than or equal), defaults to equal.
+ *
+ * @global array  $_ROSARIO Sets $_ROSARIO['SearchTerms']
+ *
+ * @param  array  $field  Field data: must include COLUMN|VALUE|TYPE|TITLE, may include SELECT_OPTIONS|PART.
+ * @param  string $type   student|staff (optional).
+ * @param  array  $extra  disable search terms: array( 'NoSearchTerms' => true ) (optional).
+ *
+ * @return string         (Custom) Field SQL WHERE
+ */
+function SearchField( $field, $type = 'student', $extra = array() )
+{
+	global $_ROSARIO;
+
+	// No empty values.
+	if ( ! is_array( $field )
+		|| $field['VALUE'] === '' )
+	{
+		return '';
+	}
+
+	$no_search_terms = isset( $extra['NoSearchTerms'] ) && $extra['NoSearchTerms'];
+
+	if ( ! $no_search_terms )
+	{
+		$_ROSARIO['SearchTerms'] .= '<b>' . $field['TITLE'] . ':</b> ';
+	}
+
+	$column = $field['COLUMN'];
+
+	$sql_col = 's.' . DBEscapeIdentifier( $column );
+
+	$value = $field['VALUE'];
+
+	switch ( $field['TYPE'] )
+	{
+		// Text
+		// Enter '!' for No Value
+		// Enter text inside double quotes "" for exact search.
+		case 'text':
+
+			// No value.
+			if ( $value === '!' )
+			{
+				if ( ! $no_search_terms )
+				{
+					$_ROSARIO['SearchTerms'] .= _( 'No Value' ) . '<br />';
+				}
+
+				return ' AND (' . $sql_col . "='' OR " . $sql_col . " IS NULL) ";
+			}
+			// Matches "searched expression".
+			elseif ( mb_substr( $value, 0, 1 ) === '"'
+				&& mb_substr( $value, -1 ) === '"' )
+			{
+				if ( ! $no_search_terms )
+				{
+					$_ROSARIO['SearchTerms'] .= mb_substr( $value, 1, -1 ) . '<br />';
+				}
+
+				return ' AND ' . $sql_col . "='" . mb_substr( $value, 1, -1 ) . "' ";
+			}
+			// Starts with.
+			else
+			{
+				if ( ! $no_search_terms )
+				{
+					$_ROSARIO['SearchTerms'] .= _( 'starts with' ) . ' ' .
+						str_replace( "''", "'", $value ) . '<br />';
+				}
+
+				return ' AND LOWER(' . $sql_col . ") LIKE '" . mb_strtolower( $value ) . "%' ";
+			}
+
+		break;
+
+		// Checkbox.
+		case 'radio':
+
+			// Yes.
+			if ( $value == 'Y' )
+			{
+				if ( ! $no_search_terms )
+				{
+					$_ROSARIO['SearchTerms'] .= _( 'Yes' ) . '<br />';
+				}
+
+				return ' AND s.' . $sql_col . "='" . $value . "' ";
+			}
+			// No.
+			elseif ( $value == 'N' )
+			{
+				if ( ! $no_search_terms )
+				{
+					$_ROSARIO['SearchTerms'] .= _( 'No' ) . '<br />';
+				}
+
+				return ' AND (' . $sql_col . "!='Y' OR " . $sql_col . " IS NULL) ";
+			}
+
+		break;
+
+		case 'numeric':
+		case 'date':
+
+			if ( isset( $_REQUEST['cust_null'][ $column ] ) )
+			{
+				// No Value for Custom Dates & Number.
+				if ( ! $no_search_terms )
+				{
+					$_ROSARIO['SearchTerms'] .= _( 'No Value' ) . '<br />';
+				}
+
+				return ' AND ' . $sql_col . " IS NULL ";
+			}
+
+			$value = preg_replace( '/[^0-9.-]+/', '', $value );
+
+			if ( $value === '' )
+			{
+				return '';
+			}
+
+			if ( $field['TYPE'] === 'date'
+				&& ! VerifyDate( $value ) )
+			{
+				return '';
+			}
+
+			// Default: compares to equal.
+			$part = array(
+				'operator' => '=',
+				'html' => '=',
+			);
+
+			if ( isset( $field['PART'] ) )
+			{
+				if ( $field['PART'] === 'begin' )
+				{
+					// Begin Dates / Number.
+					// Compares to greater than or equal.
+					$part = array(
+						'operator' => '>=',
+						'html' => '&ge;',
+					);
+				}
+				elseif ( $field['PART'] === 'end' )
+				{
+					// End Dates / Number.
+					// Compares to lower than or equal.
+					$part = array(
+						'operator' => '<=',
+						'html' => '&le;',
+					);
+				}
+			}
+
+			if ( ! $no_search_terms )
+			{
+				$_ROSARIO['SearchTerms'] .= '<span class="sizep2">' . $part['html'] . '</span> ';
+
+				if ( $field['TYPE'] === 'date' )
+				{
+					$_ROSARIO['SearchTerms'] .= ProperDate( $value );
+				}
+				else
+					$_ROSARIO['SearchTerms'] .= $value;
+
+				$_ROSARIO['SearchTerms'] .= '<br />';
+			}
+
+			return ' AND ' . $sql_col . " " . $part['operator'] . " '" . $value . "' ";
+
+		break;
+
+		// Export Pull-Down.
+		case 'exports':
+		// Coded Pull-Down.
+		case 'codeds':
+
+			// No Value.
+			if ( $value === '!' )
+			{
+				if ( ! $no_search_terms )
+				{
+					$_ROSARIO['SearchTerms'] .= _( 'No Value' ) . '<br />';
+				}
+
+				return ' AND (' . $sql_col . "='' OR " . $sql_col . " IS NULL) ";
+			}
+			else
+			{
+				if ( ! $no_search_terms )
+				{
+					$select_options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $field['SELECT_OPTIONS'] ) );
+
+					foreach ( (array) $select_options as $option )
+					{
+						$option = explode( '|', $option );
+
+						if ( $field['TYPE'] == 'exports'
+							&& $option[0] !== ''
+							&& $value == $option[0] )
+						{
+							$value = $option[0];
+							break;
+						}
+						// Codeds.
+						elseif ( $option[0] !== ''
+							&& $option[1] !== ''
+							&& $value == $option[0] )
+						{
+							$value = $option[1];
+							break;
+						}
+					}
+
+					$_ROSARIO['SearchTerms'] .= $value;
+				}
+
+				return ' AND ' . $sql_col . "='" . $value . "' ";
+			}
+
+		break;
+
+		// Pull-Down.
+		case 'select':
+		// Auto Pull-Down.
+		case 'autos':
+		// Edit Pull-Down.
+		case 'edits':
+
+			// No Value.
+			if ( $value === '!' )
+			{
+				if ( ! $no_search_terms )
+				{
+					$_ROSARIO['SearchTerms'] .= _( 'No Value' ) . '<br />';
+				}
+
+				return ' AND (' . $sql_col . "='' OR " . $sql_col . " IS NULL) ";
+			}
+			// Other Value (Edit Pull-Down only).
+			elseif ( $field['TYPE'] == 'edits'
+				&& $value === '~' )
+			{
+				if ( ! $no_search_terms )
+				{
+					$_ROSARIO['SearchTerms'] .= _( 'Other Value' ) . '<br />';
+				}
+
+				return " AND position('\r'||" . $sql_col . "||'\r'
+					IN '\r'||(SELECT SELECT_OPTIONS
+						FROM " . ( $type === 'staff' ? 'STAFF' : 'CUSTOM' ) . "_FIELDS
+						WHERE ID='" . $sql_col . "')||'\r')=0 ";
+			}
+			else
+			{
+				if ( ! $no_search_terms )
+				{
+					$_ROSARIO['SearchTerms'] .= $value . '<br />';
+				}
+
+				return ' AND ' . $sql_col . "='" . $value . "' ";
+			}
+
+		break;
+	}
+
+	return '';
 }

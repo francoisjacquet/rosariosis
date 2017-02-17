@@ -11,6 +11,11 @@ School Setup
 - Marking Periods
 	- Access granted to parents & students
 
+Users
+
+- My Preferences
+	- Student Fields: search Username
+
 Performance
 
 - 90% gain when updating Side menu

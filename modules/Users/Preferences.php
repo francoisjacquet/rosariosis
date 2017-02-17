@@ -529,11 +529,39 @@ if ( ! $_REQUEST['modfunc'] )
 			}
 		}
 
+		// Student Fields: search Username.
+		$general_info_category_title_RET = DBGet( DBQuery( "SELECT sfc.TITLE
+			FROM STUDENT_FIELD_CATEGORIES sfc
+			WHERE sfc.ID=1" ) );
+
+		$general_info_category_title = $general_info_category_title_RET[1]['TITLE'];
+
+		if ( ! isset( $custom_fields_RET[ $general_info_category_title ] ) )
+		{
+			// Empty General Info category.
+			$custom_fields_RET[ $general_info_category_title ] = array();
+		}
+
+		$THIS_RET['ID'] = 'USERNAME';
+		$username_field = array(
+			'CATEGORY' => '<b>' . $general_info_category_title . '</b>',
+			'ID' => 'USERNAME',
+			'TITLE' => _( 'Username' ),
+			'SEARCH' => _make( 'USERNAME', 'SEARCH' ),
+			'DISPLAY' => _make( 'USERNAME', 'DISPLAY' ),
+		);
+
+		// Add Username to General Info fields.
+		$custom_fields_RET[ $general_info_category_title ] = array_merge(
+			array( $username_field ),
+			$custom_fields_RET[ $general_info_category_title ]
+		);
+
 		$THIS_RET['ID'] = 'CONTACT_INFO';
 		$custom_fields_RET[-1][1] = array(
 			'CATEGORY' => '<b>' . _( 'Contact Information') . '</b>',
 			'ID' => 'CONTACT_INFO',
-			'TITLE'=> button('down_phone', '', '', 'bigger')  . ' ' . _( 'Contact Information' ),
+			'TITLE' => button( 'down_phone', '', '', 'bigger' )  . ' ' . _( 'Contact Information' ),
 			'DISPLAY' => _make( '', 'DISPLAY' ),
 		);
 

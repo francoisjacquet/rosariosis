@@ -149,60 +149,139 @@ function GetStaffList(& $extra)
 	}
 }
 
-function appendStaffSQL($sql,$extra)
-{	global $_ROSARIO;
 
-	if ( $_REQUEST['usrid'])
+/**
+ * Append:
+ * - User ID(s)
+ * - Last Name
+ * - First Name
+ * - Profile
+ * - Username
+ * Search terms to Students SQL WHERE part
+ *
+ * @example $extra['WHERE'] .= appendStaffSQL( '', $extra );
+ *
+ * @global $_ROSARIO sets $_ROSARIO['SearchTerms']
+ *
+ * @uses SearchField()
+ *
+ * @param  string $sql   Staff SQL query.
+ * @param  array  $extra Extra for SQL request (optional). Defaults to empty array.
+ *
+ * @return string Appended SQL WHERE part
+ */
+function appendStaffSQL( $sql, $extra = array() )
+{
+	global $_ROSARIO;
+
+	$no_search_terms = isset( $extra['NoSearchTerms'] ) && $extra['NoSearchTerms'];
+
+	if ( $_REQUEST['usrid'] )
 	{
-//FJ allow comma separated list of staff IDs
-		$usrid_array = explode(',', $_REQUEST['usrid']);
+		// FJ allow comma separated list of staff IDs
+		$usrid_array = explode( ',', $_REQUEST['usrid'] );
+
 		$usrids = array();
-		foreach ($usrid_array as $usrid)
+
+		foreach ( $usrid_array as $usrid )
 		{
-			if (is_numeric($usrid))
+			if ( is_numeric( $usrid ) )
+			{
 				$usrids[] = $usrid;
+			}
 		}
-		if ( !empty($usrids))
+
+		if ( $usrids )
 		{
-			$usrids = implode(',', $usrids);
-			//$sql .= " AND s.STAFF_ID='".$_REQUEST['usrid']."'";
-			$sql .= " AND s.STAFF_ID IN (".$usrids.")";
+			$usrids = implode( ',', $usrids );
 
-			if ( ! $extra['NoSearchTerms'])
-				$_ROSARIO['SearchTerms'] .= '<b>'._('User ID').': </b>'.$usrids.'<br />';
+			$sql .= " AND s.STAFF_ID IN (" . $usrids . ")";
+
+			if ( ! $no_search_terms )
+			{
+				$_ROSARIO['SearchTerms'] .= '<b>' . _( 'User ID' ) . ':</b> ' . $usrids . '<br />';
+			}
 		}
 	}
 
-	if ( $_REQUEST['last'])
+	// Last Name.
+	if ( isset( $_REQUEST['last'] )
+		&& $_REQUEST['last'] !== '' )
 	{
-		$sql .= " AND UPPER(s.LAST_NAME) LIKE '".mb_strtoupper($_REQUEST['last'])."%'";
+		$last_name = array(
+			'COLUMN' => 'LAST_NAME',
+			'VALUE' => $_REQUEST['last'],
+			'TITLE' => _( 'Last Name' ),
+			'TYPE' => 'text',
+			'SELECT_OPTIONS' => null,
+		);
 
-		if ( ! $extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<b>'._('Last Name starts with').': </b>'.str_replace("''", "'", $_REQUEST['last']).'<br />';
+		$sql .= SearchField( $last_name, 'where', 'staff', $extra );
 	}
 
-	if ( $_REQUEST['first'])
+	// First Name.
+	if ( isset( $_REQUEST['first'] )
+		&& $_REQUEST['first'] !== '' )
 	{
-		$sql .= " AND UPPER(s.FIRST_NAME) LIKE '".mb_strtoupper($_REQUEST['first'])."%'";
+		$first_name = array(
+			'COLUMN' => 'FIRST_NAME',
+			'VALUE' => $_REQUEST['first'],
+			'TITLE' => _( 'First Name' ),
+			'TYPE' => 'text',
+			'SELECT_OPTIONS' => null,
+		);
 
-		if ( ! $extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<b>'._('First Name starts with').': </b>'.str_replace("''", "'", $_REQUEST['first']).'<br />';
+		$sql .= SearchField( $first_name, 'where', 'staff', $extra );
 	}
 
-	if ( $_REQUEST['profile'])
+	// Profile.
+	if ( isset( $_REQUEST['profile'] )
+		&& $_REQUEST['profile'] !== '' )
 	{
-		$sql .= " AND s.PROFILE='".$_REQUEST['profile']."'";
+		if ( User( 'PROFILE' ) == 'admin' )
+		{
+			$options = array(
+				'admin' => _( 'Administrator' ),
+				'teacher' => _( 'Teacher' ),
+				'parent' => _( 'Parent' ),
+				'none' => _( 'No Access' ),
+			);
+		}
+		else
+		{
+			$options = array(
+				'teacher' => _( 'Teacher' ),
+				'parent' => _( 'Parent' ),
+			);
+		}
 
-		if ( ! $extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<b>'._('Profile').': </b>'._(UCFirst($_REQUEST['profile'])).'<br />';
+		if ( $extra['profile'] )
+		{
+			$options = array( $extra['profile'] => $options[ $extra['profile'] ] );
+		}
+
+		if ( isset( $options[ $_REQUEST['profile'] ] ) )
+		{
+			$sql .= " AND s.PROFILE='" . $_REQUEST['profile'] . "' ";
+
+			$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Profile' ) . ':</b> ' .
+				$options[ $_REQUEST['profile'] ] . '<br />';
+		}
 	}
 
-	if ( $_REQUEST['username'])
+	// Username.
+	if ( isset( $_REQUEST['username'] )
+		&& $_REQUEST['username'] !== '' )
 	{
-		$sql .= " AND UPPER(s.USERNAME) LIKE '".mb_strtoupper($_REQUEST['username'])."%'";
+		$username = array(
+			'COLUMN' => 'USERNAME',
+			'VALUE' => $_REQUEST['username'],
+			'TITLE' => _( 'Username' ),
+			'TYPE' => 'text',
+			'SELECT_OPTIONS' => null,
+		);
 
-		if ( ! $extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<b>'._('UserName starts with').': </b>'.str_replace("''", "'", $_REQUEST['username']).'<br />';
+		$sql .= SearchField( $username, 'where', 'staff', $extra );
 	}
 
 	return $sql;

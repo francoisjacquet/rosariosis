@@ -18,6 +18,8 @@ Changes in 3.0
 - Add DBEscapeIdentifier() in database.inc.php
 - Escape SQL identifiers (table, column), program wide
 - Performance: 90% gain when updating Side menu in Side.php, Warehouse.php & warehouse.js
+- Student Fields: Search Username in Search.fnc.php, GetStuList.fnc.php
+- Add SearchField() function in Search.fnc.php
 
 
 Changes in 2.9.15
