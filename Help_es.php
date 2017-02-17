@@ -808,7 +808,7 @@ HTML;
 	RosarioSIS viene con cuatro grupos principales como perfiles: Administrador, Docente, Padre &amp; Estudiante. El perfil de Administrador tiene lo más de permisos, y los otros perfiles son restringidos como les corresponde. Por favor nota bien que los docentes pueden solamente ver los datos de los estudiantes en sus clases, que los padres pueden ver solamente los datos de sus hijos, y que los estudiantes pueden ver solamente sus datos personales
 </p>
 <p>
-	Si le de clic en uno de los Perfiles, usted vera la página de Permisiones. Esta página muestra a cuales páginas el perfil tiene acceso para LEER (Puede Usar) o para ESCRIBIR (Se Puede Editar) datos en esta página en particular.
+	Si le de clic en uno de los Perfiles, usted vera la página de Permisiones. Esta página muestra a cuales páginas el perfil tiene acceso para LEER (Puede Usar) o para ESCRIBIR (Puede Editar) datos en esta página en particular.
 </p>
 <p>
 	Si quita la marca de "Puede Usar" de una página, entonces este perfil no vera el programa en el menú de izquierda, y por supuesto, no podrá ver o cambiar ningún dato de esta página.
@@ -817,7 +817,7 @@ HTML;
 	Perfil Administrador
 </p>
 <p>
-	El perfil de Administrador tiene acceso a cuasi todas la páginas, para leer y escribir. Si quita la marca de "Se Puede Editar", el usuario con este perfil vera el programa en el menú, podrá hacer clic sobre el, y vera los datos en esta página. Pero el usuario NO podrá cambiar ningún dato de esta página.
+	El perfil de Administrador tiene acceso a cuasi todas la páginas, para leer y escribir. Si quita la marca de "Puede Editar", el usuario con este perfil vera el programa en el menú, podrá hacer clic sobre el, y vera los datos en esta página. Pero el usuario NO podrá cambiar ningún dato de esta página.
 </p>
 <p>
 	Los Administradores no pueden ver la pestaña "Comentarios" del archivo del estudiante, pero pueden ver y modificar cualquier otra página.

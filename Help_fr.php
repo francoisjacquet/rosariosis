@@ -805,10 +805,10 @@ HTML;
 	RosarioSIS vient avec quatre groupes ou profils prédéfinis: Administrateur, Enseignant, Parent &amp; Élève. Le profil Administrateur a le plus de droits, tandis que les autres prodils sont restreints de manière appropriée. Veuillez noter que les enseignants sont limités en accès aux élèves de leurs classes seulement, et que les parents peuvent seulement voir les informations de leurs enfants. Les élèves, quant à eux ne peuvent voir que leurs informations personelles.
 </p>
 <p>
-	Si vous cliquez sur un des Profils, vous verrez la page des Droits d'utilisation. Cette page montre à quelles pages ou programmes le profil a accès en LECTURE (Droit d'Utilisation) ou en ÉCRITURE (Droit de Modification) à l'information de cette page particulière.
+	Si vous cliquez sur un des Profils, vous verrez la page des Droits d'Accès. Cette page montre à quelles pages ou programmes le profil a accès en LECTURE (Peut Utiliser) ou en ÉCRITURE (Peut Modifier) à l'information de cette page particulière.
 </p>
 <p>
-	Lorsque vous décochez "Droit de Modification", les utilisateurs appartenant à ce profil pourront accéder au programme dans le menu et verront les informations de la page en cliquant sur celui-ci. Ils ne seront PAS capables de modifier les informations présentes sur cette page. Lorsque vous décochez "Droit d'Utilisation" pour un programme particulier, les utilisateurs appartenant à ce profil ne verront plus le programme dans le menu et ne pourront plus y accéder.
+	Lorsque vous décochez "Peut Modifier", les utilisateurs appartenant à ce profil pourront accéder au programme dans le menu et verront les informations de la page en cliquant sur celui-ci. Ils ne seront PAS capables de modifier les informations présentes sur cette page. Lorsque vous décochez "Petu Utiliser" pour un programme particulier, les utilisateurs appartenant à ce profil ne verront plus le programme dans le menu et ne pourront plus y accéder.
 </p>
 <p>
 	Profil Administrateur
@@ -817,7 +817,7 @@ HTML;
 	Les Administrateurs ont accès à quasiment toutes les pages, en lecture et en écriture. Par défaut, ils ne peuvent pas voir l'onglet "Commentaires" du programme Informations Élève, mais ils peuvent accéder à et modifier toutes les autres pages.
 </p>
 <p>
-	Il est possible de restreindre l'édition des profils utilisateurs en cochant la case <i>Utilisateurs > Informations Utilisateur > Informations Générales > Profil Utilisateur</i>. Les administrateurs perdent alors la possibilité d'assigner le profil des utilisateurs (et les droits d'utilisation).
+	Il est possible de restreindre l'édition des profils utilisateurs en cochant la case <i>Utilisateurs > Informations Utilisateur > Informations Générales > Profil Utilisateur</i>. Les administrateurs perdent alors la possibilité d'assigner le profil des utilisateurs (et les droits d'accès).
 </p>
 <p>
 	Il est possible de restreindre l'édition des écoles des utilisateurs en cochant la case <i>Utilisateurs > Informations Utilisateur > Informations Générales > Écoles</i>. Les administrateurs perdent alors la possibilité d'ajouter ou d'enlever des écoles à/d'un utilisateur.
@@ -844,7 +844,7 @@ HTML;
 	Pour ajouter un nouveau Profil, entrez son nom dans le champ texte "Titre" et ensuite sélectionnez-le "Type" de profil. Finalement, cliquez sur le bouton "Enregistrer" situé dans la partie supérieure de l'écran.
 </p>
 <p>
-	Ajuster les Droits d'utilisation
+	Ajuster les Droits d'accès
 </p>
 <p>
 	Afin de mieux configurer les droits que vos utilisateurs auront, il peut-être pratique d'entrer dans RosarioSIS avec un utilisateur de test appartenant au profil et de se rendre compte de ce qui peut-être vu. Less is more!
