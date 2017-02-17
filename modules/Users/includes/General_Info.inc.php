@@ -190,6 +190,14 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 
 		$admin_user_profile_restriction = true;
 	}
+	elseif ( User( 'PROFILE' ) !== 'admin'
+		&& $_ROSARIO['allow_edit'] )
+	{
+		// Temporarily deactivate AllowEdit for Parents & Teachers.
+		$_ROSARIO['allow_edit'] = false;
+
+		$admin_user_profile_restriction = true;
+	}
 
 	echo SelectInput(
 		$staff['PROFILE'],
@@ -229,6 +237,15 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 		$permissions_options,
 		$na
 	);
+
+	if ( User( 'PROFILE' ) === 'admin'
+		&& AllowEdit( 'Users/Exceptions.php' )
+		&& ! $staff['PROFILE_ID'] )
+	{
+		// Add link to User Permissions.
+		echo '<div><a href="Modules.php?modname=Users/Exceptions.php">' .
+			_( 'Permissions' ) . '</a></div>';
+	}
 
 	// Admin User Profile restriction.
 	if ( $admin_user_profile_restriction
