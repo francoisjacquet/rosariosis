@@ -1,4 +1,6 @@
 <?php
+require_once 'ProgramFunctions/Theme.fnc.php';
+
 //FJ add School Configuration
 //move the Modules config.inc.php to the database table
 // 'config' if the value is needed in multiple modules
@@ -110,9 +112,15 @@ else
 						_( 'The school configuration has been modified.' );
 				}
 
+
+				$old_theme = Config( 'THEME' );
+
 				unset( $_ROSARIO['Config'] ); // update Config var
 
 				unset( $_ROSARIO['ProgramConfig'] ); // update ProgramConfig var
+
+				// Theme changed? Update it live!
+				ThemeLiveUpdate( Config( 'THEME' ), $old_theme );
 			}
 			else
 			{
@@ -421,4 +429,61 @@ else
 		echo '</form>';
 
 	}
+}
+
+
+/**
+ * Theme live update.
+ * Configured theme has changed? Update it live!
+ * Updates the stylesheet.css file to the new theme directory,
+ * Using a Javascript snippet.
+ *
+ * @todo use it Preferences too!
+ *
+ * Local function
+ *
+ * @since  3.0
+ *
+ * @param  string  $new_theme New theme name / directory.
+ * @param  string  $old_theme Old theme name / directory.
+ * @param  boolean $default   Is default theme (Configuration.php) or Preferred theme (Preferences.php)?
+ *
+ * @return boolean            False if has not changed, else true.
+ */
+function _themeLiveUpdate( $new_theme, $old_theme, $default = true )
+{
+	if ( ! $new_theme
+		|| ! $old_theme
+		|| $new_theme === $old_theme )
+	{
+		return false;
+	}
+
+	if ( ! $default
+		&& Config( 'THEME_FORCE' ) )
+	{
+		// Theme forced, we should not be able to change it anyway!
+		return false;
+	}
+
+	// If not Forcing theme, update admin Preferred theme too.
+	if ( $default
+		&& ! Config( 'THEME_FORCE' )
+		&& Preferences( 'THEME' ) !== $new_theme )
+	{
+		// TODO.
+	}
+
+	// Update stylesheet(s) href. ?>
+	<script>
+	$('link[href^="assets/themes"]').each(function(){
+		$(this).attr('href', $(this).attr('href').replace(
+			<?php echo json_encode( $old_theme ); ?>,
+			<?php echo json_encode( $new_theme ); ?>
+		) );
+	});
+	</script>
+	<?php
+
+	return true;
 }

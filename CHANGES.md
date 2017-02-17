@@ -23,6 +23,7 @@ Changes in 3.0
 - Add SearchField() function in Search.fnc.php
 - Add link to User Permissions when user has custom permissions in Users/includes/General_Info.inc.php
 - Can't delete Assignment Type if has Assignments in Assignments.php
+- Add ThemeLiveUpdate() in ProgramFunctions/Theme.fnc.php
 
 
 Changes in 2.9.15

@@ -1,4 +1,6 @@
 <?php
+require_once 'ProgramFunctions/Theme.fnc.php';
+
 DrawHeader(ProgramTitle());
 
 if ( $_REQUEST['values'] && $_POST['values'])
@@ -99,8 +101,13 @@ if ( $_REQUEST['values'] && $_POST['values'])
 
 		$note[] = button( 'check' ) . '&nbsp;' . _( 'Your preferences were saved.' );
 
-		// So Preferences() will get the new values
-		unset($_ROSARIO['Preferences']);
+		$old_theme = Preferences( 'THEME' );
+
+		// So Preferences() will get the new values.
+		unset( $_ROSARIO['Preferences'] );
+
+		// Theme changed? Update it live!
+		ThemeLiveUpdate( Preferences( 'THEME' ), $old_theme, false );
 	}
 	unset($_REQUEST['values']);
 	unset($_SESSION['_REQUEST_vars']['values']);
@@ -324,7 +331,7 @@ if ( ! $_REQUEST['modfunc'] )
 		echo '</table>';
 	}
 
-	// Display Options tab
+	// Display Options tab.
 	if ( $_REQUEST['tab'] === 'display_options' )
 	{
 		echo '<table class="cellpadding-5"><tr><td>';
@@ -340,9 +347,22 @@ if ( ! $_REQUEST['modfunc'] )
 			$theme_options[ $theme_name ] = $theme_name;
 		}
 
-		// Theme
+		$theme_value = Preferences( 'THEME' );
+
+		// http://stackoverflow.com/questions/1479233/why-doesnt-firefox-show-the-correct-default-select-option
+		$extra = 'autocomplete="off"';
+
+		if ( Config( 'THEME_FORCE' ) )
+		{
+			// Theme forced, we should not be able to change it.
+			$extra = 'disabled';
+
+			$theme_value = Config( 'THEME' );
+		}
+
+		// Theme.
 		echo SelectInput(
-			Preferences( 'THEME' ),
+			$theme_value,
 			'values[Preferences][THEME]',
 			_( 'Theme' ),
 			$theme_options,
@@ -350,6 +370,8 @@ if ( ! $_REQUEST['modfunc'] )
 			$extra,
 			$div
 		);
+
+		$extra = '';
 
 		echo '</td></tr><tr><td>';
 
