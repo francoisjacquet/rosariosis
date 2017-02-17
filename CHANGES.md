@@ -20,6 +20,8 @@ Changes in 3.0
 - Performance: 90% gain when updating Side menu in Side.php, Warehouse.php & warehouse.js
 - Student Fields: Search Username in Search.fnc.php, GetStuList.fnc.php
 - Add SearchField() function in Search.fnc.php
+- Add link to User Permissions when user has custom permissions in Users/includes/General_Info.inc.php
+- Can't delete Assignment Type if has Assignments in Assignments.php
 
 
 Changes in 2.9.15

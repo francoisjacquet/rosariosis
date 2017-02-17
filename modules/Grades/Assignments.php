@@ -250,57 +250,46 @@ if ( isset( $_POST['tables'] )
 // DELETE
 if ( $_REQUEST['modfunc'] === 'delete' )
 {
-	// Assignment
 	if ( $_REQUEST['assignment_id'] )
 	{
+		// Assignment.
 		$prompt_title = _( 'Assignment' );
+
+		$assignment_has_grades = DBGet( DBQuery( "SELECT 1
+			FROM GRADEBOOK_GRADES
+			WHERE ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'" ) );
+
+		if ( $assignment_has_grades )
+		{
+			$prompt_title = _( 'Assignment as well as the associated Grades' );
+		}
 
 		$sql = "DELETE
 			FROM GRADEBOOK_ASSIGNMENTS
 			WHERE ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'";
 	}
-	// Assignment Type
 	else
 	{
-		$cp_qtr_mps_titles = '';
+		$assignment_type_has_assignments = DBGet( DBQuery( "SELECT 1
+			FROM GRADEBOOK_ASSIGNMENTS
+			WHERE ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'" ) );
 
-		// Get MPs list associated to Course Period
-		$cp_mp_id = DBGet( DBQuery( "SELECT MARKING_PERIOD_ID
-			FROM COURSE_PERIODS
-			WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" ) );
-
-		$cp_mp_id = $cp_mp_id[1]['MARKING_PERIOD_ID'];
-
-		$cp_mp = GetMP( $cp_mp_id, 'MP' );
-
-		if ( $cp_mp !== 'QTR'
-			&& $cp_mp !== 'PRO' )
+		// Can't delete Assignment Type if has Assignments!
+		if ( $assignment_type_has_assignments )
 		{
-			$cp_qtr_mps_list = GetChildrenMP( $cp_mp, $cp_mp_id );
-
-			$cp_qtr_mps_array = explode( ",", $cp_qtr_mps_list );
-
-			foreach ( (array) $cp_qtr_mps_array as $cp_qtr_mp )
-			{
-				if ( GetMP( trim( $cp_qtr_mp, "'" ), 'MP' ) === 'QTR' )
-				{
-					$cp_qtr_mps_titles .= GetMP( trim( $cp_qtr_mp, "'" ), 'TITLE' ) . ', ';
-				}
-			}
-
-			$cp_qtr_mps_titles = ' (' . mb_substr( $cp_qtr_mps_titles, 0, -2 ) . ')';
+			// Do NOT translate, hacking prevention.
+			echo ErrorMessage( array( 'Assignment Type has assignments, delete them first.' ), 'fatal' );
 		}
 
-		// FJ More explicit Assignment Type deletion Prompt message
-		$prompt_title = _( 'Assignment Type as well as its Assignments & associated Grades' ) .
-			$cp_qtr_mps_titles;
+		// Assignment Type.
+		$prompt_title = _( 'Assignment Type' );
 
 		$sql = "DELETE
 			FROM GRADEBOOK_ASSIGNMENT_TYPES
 			WHERE ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'";
 	}
 
-	// Confirm Delete
+	// Confirm Delete.
 	if ( DeletePrompt( $prompt_title ) )
 	{
 		DBQuery($sql);
@@ -376,11 +365,22 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( $_REQUEST['assignment_id'] !== 'new'
 		&& $_REQUEST['assignment_type_id'] !== 'new' )
 	{
-		$delete_url = "'Modules.php?modname=" . $_REQUEST['modname'] .
-			'&modfunc=delete&assignment_type_id=' . $_REQUEST['assignment_type_id'] .
-			'&assignment_id=' . $_REQUEST['assignment_id'] . "'";
+		$is_assignment = $_REQUEST['assignment_id'];
 
-		$delete_button = '<input type="button" value="' . _( 'Delete' ) . '" onClick="javascript:ajaxLink(' . $delete_url . ');" />';
+		$assignment_type_has_assignments = DBGet( DBQuery( "SELECT 1
+			FROM GRADEBOOK_ASSIGNMENTS
+			WHERE ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'" ) );
+
+		// Can't delete Assignment Type if has Assignments!
+		if ( $is_assignment
+			|| ! $assignment_type_has_assignments )
+		{
+			$delete_url = "'Modules.php?modname=" . $_REQUEST['modname'] .
+				'&modfunc=delete&assignment_type_id=' . $_REQUEST['assignment_type_id'] .
+				'&assignment_id=' . $_REQUEST['assignment_id'] . "'";
+
+			$delete_button = '<input type="button" value="' . _( 'Delete' ) . '" onClick="javascript:ajaxLink(' . $delete_url . ');" />';
+		}
 	}
 
 	// ADDING & EDITING FORM.
