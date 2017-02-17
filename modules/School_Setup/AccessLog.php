@@ -71,6 +71,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$alllogs_functions = array(
 		'STATUS' => '_makeAccessLogStatus', // Translate status.
 		'PROFILE' => '_makeAccessLogProfile', // Translate profile.
+		'USERNAME' => '_makeAccessLogUsername', // Add link to user info.
 		'LOGIN_TIME' => 'ProperDateTime', // Display localized & preferred Date & Time.
 		'USER_AGENT' => '_makeAccessLogUserAgent', // Display Browser & OS.
 	);
@@ -106,6 +107,22 @@ if ( ! $_REQUEST['modfunc'] )
 	echo '<div class="center">' . SubmitButton( _( 'Clear Log' ), 'del' ) . '</div>';
 
 	echo '</form>';
+
+	// When clicking on Username, go to Student or User Info. ?>
+<script>
+	$('.al-username').attr('href', function(){
+		var url = 'Modules.php?modname=Users/User.php&search_modfunc=list&next_modname=Users/User.php&';
+
+		if ( $(this).hasClass('student') ) {
+			url = url.replace( /Users\/User\.php/g, 'Students/Student.php' ) + 'cust[USERNAME]=';
+		} else {
+			url += 'username=';
+		}
+
+		return url + this.firstChild.data;
+	});
+</script>
+	<?php
 }
 
 if ( $_REQUEST['modfunc'] == 'delete' )
@@ -178,6 +195,40 @@ function _makeAccessLogProfile( $value, $column )
 	}
 
 	return $profile_options[ $value ];
+}
+
+
+/**
+ * Make Username
+ * Links to user info page.
+ *
+ * Local function
+ * DBGet callback
+ *
+ * @since 3.0
+ *
+ * @param  string $value   Field value.
+ * @param  string $name    'USERNAME'.
+ *
+ * @return string          USername linking to user info page.
+ */
+function _makeAccessLogUsername( $value, $column )
+{
+	global $THIS_RET;
+
+	if ( ! $value )
+	{
+		return '';
+	}
+
+	if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
+		return $value;
+	}
+
+	return '<a class="al-username ' .
+		( $THIS_RET['PROFILE'] === 'student' ? 'student' : '' ) .
+		'" href="#">' . $value . '</a>';
 }
 
 

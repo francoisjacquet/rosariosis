@@ -14,6 +14,7 @@ Changes in 3.0
 - Add Access Log, thanks to @dpredster in AccessLog.php, index.php, Update.fnc.php & rosariosis.sql
 - Add User Agent functions in ProgramFunctions/UserAgent.fnc.php
 - Add Browser column to Access Log in AccessLog.php
+- When clicking on Username, go to Student or User Info in AccessLog.php
 - Logic & design fixes & show Can Edit for User Info tabs in Profiles.php & Exceptions.php
 - Add DBEscapeIdentifier() in database.inc.php
 - Escape SQL identifiers (table, column), program wide
