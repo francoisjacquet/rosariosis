@@ -59,7 +59,8 @@ if (User('PROFILE')!='admin')
 		$_ROSARIO['allow_edit'] = true;
 }
 
-if ( $_REQUEST['modfunc']=='update' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'update'
+	&& AllowEdit() )
 {
 	if ( isset( $_POST['day_staff'], $_POST['month_staff'], $_POST['year_staff'] ) )
 	{
@@ -98,11 +99,20 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 		}
 
 		// Admin Schools restriction.
-		if ( User( 'PROFILE' ) === 'admin'
-			&& ! AllowEdit( 'Users/User.php&category_id=1&schools' ) )
+		if ( ( User( 'PROFILE' ) === 'admin'
+				&& ! AllowEdit( 'Users/User.php&category_id=1&schools' ) )
+			|| User( 'PROFILE' ) !== 'admin' )
 		{
-			// Assign new user to current school only.
-			$_REQUEST['staff']['SCHOOLS'] = ',' . UserSchool() . ',';
+			if ( UserStaffID() )
+			{
+				// Restricted!
+				unset( $_REQUEST['staff']['SCHOOLS'] );
+			}
+			else
+			{
+				// Assign new user to current school only.
+				$_REQUEST['staff']['SCHOOLS'] = ',' . UserSchool() . ',';
+			}
 		}
 
 		// FJ reset current school if updating self schools.
@@ -110,12 +120,14 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 		{
 			unset( $_SESSION['UserSchool'] );
 		}
+
 	}
 
-	// Admin Schools restriction.
-	if ( User( 'PROFILE' ) === 'admin'
-		&& ! AllowEdit( 'Users/User.php&category_id=1&user_profile' )
-		&& isset( $_REQUEST['staff']['PROFILE'] ) )
+	// Admin Profile restriction.
+	if ( ( User( 'PROFILE' ) === 'admin'
+			&& ! AllowEdit( 'Users/User.php&category_id=1&user_profile' )
+			&& isset( $_REQUEST['staff']['PROFILE'] ) )
+		|| User( 'PROFILE' ) !== 'admin' )
 	{
 		if ( UserStaffID() )
 		{
@@ -132,9 +144,7 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 	}
 
 	if ( isset( $_POST['staff'] )
-		&& count( $_POST['staff'] )
-		&& ( User( 'PROFILE' ) === 'admin'
-			|| basename( $_SERVER['PHP_SELF'] ) === 'index.php' ) )
+		&& count( $_POST['staff'] ) )
 	{
 		$required_error = false;
 
@@ -304,11 +314,11 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 							break;
 						}
 
-						$fields .= $column.',';
+						$fields .= DBEscapeIdentifier( $column ) . ',';
 
 						//FJ add password encryption
 						if ( $column!=='PASSWORD')
-							$values .= "'".$value."',";
+							$values .= "'" . $value . "',";
 						else
 						{
 							$value = str_replace("''","'",$value);
@@ -316,7 +326,7 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 						}
 					}
 				}
-				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
+				$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
 
 				DBQuery($sql);
 
