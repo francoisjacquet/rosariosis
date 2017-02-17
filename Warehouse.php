@@ -438,7 +438,7 @@ function Warehouse( $mode )
 			|| menuStaffID != "<?php echo UserStaffID(); ?>"
 			|| menuSchool != "<?php echo UserSchool(); ?>"
 			|| menuCoursePeriod != "<?php echo UserCoursePeriod(); ?>")) {
-		ajaxLink( 'Side.php' );
+		ajaxLink( 'Side.php?sidefunc=update' );
 	}
 <?php 		if ( ! empty( $_ROSARIO['ProgramLoaded'] ) ) : ?>
 	else

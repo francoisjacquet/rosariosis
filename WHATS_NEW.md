@@ -11,7 +11,10 @@ School Setup
 - Marking Periods
 	- Access granted to parents & students
 
-Cache system ([ETag](https://en.wikipedia.org/wiki/HTTP_ETag))
+Performance
+
+- 90% gain when updating Side menu
+- Cache system ([ETag](https://en.wikipedia.org/wiki/HTTP_ETag))
 
 Upload images in text editor (TinyMCE)
 

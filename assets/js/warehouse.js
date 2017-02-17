@@ -262,6 +262,7 @@ function ajaxLink(link) {
 		href = link;
 		target = 'body';
 		if ( href == 'Side.php' ) target = 'menu';
+		else if ( href == 'Side.php?sidefunc=update' ) target = 'menu-top';
 		else if ( href == 'Bottom.php' ) target = 'footer';
 	} else {
 		href = link.href;

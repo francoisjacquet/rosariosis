@@ -17,6 +17,7 @@ Changes in 3.0
 - Logic & design fixes & show Can Edit for User Info tabs in Profiles.php & Exceptions.php
 - Add DBEscapeIdentifier() in database.inc.php
 - Escape SQL identifiers (table, column), program wide
+- Performance: 90% gain when updating Side menu in Side.php, Warehouse.php & warehouse.js
 
 
 Changes in 2.9.15
