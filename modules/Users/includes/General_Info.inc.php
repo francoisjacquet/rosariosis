@@ -244,7 +244,7 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 	{
 		// Add link to User Permissions.
 		echo '<div><a href="Modules.php?modname=Users/Exceptions.php">' .
-			_( 'Permissions' ) . '</a></div>';
+			_( 'User Permissions' ) . '</a></div>';
 	}
 
 	// Admin User Profile restriction.
