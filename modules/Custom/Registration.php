@@ -95,7 +95,7 @@ if ( isset( $_REQUEST['values'] )
 
 			$fields = 'ADDRESS_ID,';
 
-			$values = $address_id[ $key ] . ',';
+			$values = DBEscapeIdentifier( $address_id[ $key ] ) . ',';
 
 			$columns += _prepareAddress( $columns['ADDRESS'] );
 
@@ -807,6 +807,9 @@ function _prepareAddress( $temp )
 	{
 		$address['STREET'] = $temp;
 	}
+
+	// Fix SQL error: STREET column is max 30 chars long.
+	$address['STREET'] = mb_substr( $address['STREET'], 0, 30 );
 
 	return $address;
 }
