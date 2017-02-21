@@ -94,12 +94,12 @@ function _makeTextInput( $value, $name )
 
 	if ( $name === 'LINK' )
 	{
-		$extra = 'maxlength=1000';
+		$extra = 'size="32" maxlength="1000"';
 	}
 
 	if ( $name === 'TITLE' )
 	{
-		$extra = 'maxlength=256';
+		$extra = 'maxlength="256"';
 	}
 
 	if ( $id !== 'new' )
@@ -110,27 +110,46 @@ function _makeTextInput( $value, $name )
 	return TextInput( $value, 'values[' . $id . '][' . $name . ']', '', $extra );
 }
 
-function _makeLink($value,$name)
+function _makeLink( $value, $name )
 {
-	if (AllowEdit())
+	if ( isset( $_REQUEST['LO_save'] )
+		&& $_REQUEST['LO_save'] )
 	{
-		if ( $value)
-			return '<div style="display:table-cell;"><a href="'.$value.'" target="_blank">'._('Link').'</a>&nbsp;</div><div style="display:table-cell;">'._makeTextInput($value,$name).'</div>';
-		else
-			return _makeTextInput($value,$name);
+		// Export list.
+		return $value;
 	}
 
-	//truncate links > 100 chars
+	if ( AllowEdit() )
+	{
+		if ( $value )
+		{
+			return '<div style="display:table-cell;"><a href="' . $value . '" target="_blank">' .
+				_( 'Link' ) . '</a>&nbsp;</div>
+				<div style="display:table-cell;">' . _makeTextInput( $value, $name ) . '</div>';
+		}
+		else
+		{
+			return _makeTextInput( $value, $name );
+		}
+	}
+
+	if ( ! $value )
+	{
+		return $value;
+	}
+
+	// Truncate links > 100 chars.
 	$truncated_link = $value;
-	if (mb_strlen($truncated_link) > 100)
+
+	if ( mb_strlen( $truncated_link ) > 100 )
 	{
 		$separator = '/.../';
-		$separatorlength = mb_strlen($separator) ;
-		$maxlength = 100 - $separatorlength;
-		$start = $maxlength / 2 ;
-		$trunc =  mb_strlen($truncated_link) - $maxlength;
-		$truncated_link = substr_replace($truncated_link, $separator, $start, $trunc);
+		$separator_length = mb_strlen( $separator );
+		$max_length = 100 - $separator_length;
+		$start = $max_length / 2 ;
+		$trunc =  mb_strlen( $truncated_link ) - $max_length;
+		$truncated_link = substr_replace( $truncated_link, $separator, $start, $trunc );
 	}
 
-	return '<a href="'.$value.'" target="_blank">'.$truncated_link.'</a>';
+	return '<a href="' . $value . '" target="_blank">' . $truncated_link . '</a>';
 }
