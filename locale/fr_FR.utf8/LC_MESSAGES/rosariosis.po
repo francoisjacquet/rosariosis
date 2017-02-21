@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-17 15:24-0500\n"
-"PO-Revision-Date: 2017-02-17 15:25-0500\n"
+"PO-Revision-Date: 2017-02-21 13:00-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -7504,7 +7504,7 @@ msgstr "Année Prochaine"
 
 #: modules/Users/Preferences.php:724 modules/Users/Preferences.php:849
 msgid "Widget"
-msgstr "Gadget"
+msgstr "Widget"
 
 #: modules/Users/Profiles.php:63
 msgid "Confirm Delete"
