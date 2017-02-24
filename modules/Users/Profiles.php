@@ -27,7 +27,7 @@ if ( isset( $_REQUEST['profile_id'] )
 	$_REQUEST['profile_id'] = false;
 }
 
-if ( $_REQUEST['profile_id'] )
+if ( $_REQUEST['profile_id'] !== false )
 {
 	$exceptions_RET = DBGet(DBQuery("SELECT PROFILE_ID,MODNAME,CAN_USE,CAN_EDIT FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='".$_REQUEST['profile_id']."'"),array(),array('MODNAME'));
 	$profile_RET = DBGet(DBQuery("SELECT PROFILE FROM USER_PROFILES WHERE ID='".$_REQUEST['profile_id']."'"));
