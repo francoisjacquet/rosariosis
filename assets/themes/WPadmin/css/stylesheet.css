@@ -1010,7 +1010,7 @@ html[dir=RTL] input[type=checkbox].toggle {
 }
 
 /*mobile*/
-@media only screen and (max-width:640px){
+@media only screen and (max-width:736px){
 	/*quick smartphone reset*/
 	.mod{
 		float:none !important;
