@@ -48,7 +48,7 @@ if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		|| $_SERVER['HTTP_X_REQUESTED_WITH'] !== 'XMLHttpRequest';
 
 	// Output Header HTML.
-	if ( $_ROSARIO['is_popup']
+	if ( ( $_ROSARIO['is_popup'] && $_ROSARIO['not_ajax'] )
 		|| $_ROSARIO['not_ajax'] )
 	{
 		Warehouse( 'header' );

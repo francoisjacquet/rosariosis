@@ -446,7 +446,7 @@ function Warehouse( $mode )
 <?php		endif; ?>
 </script>
 <?php		// If popup window or if not AJAX request.
-			if ( $_ROSARIO['is_popup']
+			if ( ( $_ROSARIO['is_popup'] && $_ROSARIO['not_ajax'] )
 				|| $_ROSARIO['not_ajax'] ) :
 ?>
 	</div><!-- #body -->
