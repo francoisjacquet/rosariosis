@@ -34,7 +34,7 @@ function DrawHeader( $left, $right = '', $center = '' )
 		$_ROSARIO['DrawHeader'] = 'header1';
 	}
 
-	echo '<table class="width-100p cellspacing-0"><tr class="st">';
+	echo '<table class="header"><tr class="st">';
 
 	if ( $left )
 	{

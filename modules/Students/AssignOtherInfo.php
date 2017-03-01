@@ -168,7 +168,7 @@ if ( ! $_REQUEST['modfunc'] )
 			echo '<option value="'.$category['ID'].'"'.($_REQUEST['category_id']==$category['ID']?' selected':'').'>'.ParseMLField($category['TITLE']).'</option>';
 		echo '</select>';
 
-		echo '</div><table class="widefat cellspacing-0 center col1-align-right">';
+		echo '</div><table class="widefat center col1-align-right">';
 
 		if ( isset( $fields_RET['text'] ) )
 		{

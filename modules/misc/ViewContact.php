@@ -28,7 +28,7 @@ PopTable(
 if ( count( $contacts_RET )
 	|| count( $fields_RET ) )
 {
-	echo '<table class="widefat width-100p cellspacing-0">';
+	echo '<table class="widefat width-100p">';
 
 	foreach ( (array) $contacts_RET as $info )
 	{

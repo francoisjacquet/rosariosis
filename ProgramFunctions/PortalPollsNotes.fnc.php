@@ -169,7 +169,7 @@ function PortalPollForm($poll_id, $profile_id, $user_id, $poll_questions_RET)
 	<input type="hidden" name="user_id" value="'.$user_id.'" />
 	<input type="hidden" name="total_votes_string" value="'._('Total Participants').'" />
 	<input type="hidden" name="poll_completed_string" value="'._('Poll completed').'" />
-	<table class="width-100p cellspacing-0 widefat">';
+	<table class="width-100p widefat">';
 
 	foreach ($poll_questions_RET as $question)
 	{
@@ -240,7 +240,7 @@ function PortalPollsVotesDisplay( $poll_id, $display_votes, $poll_questions_RET,
 
 		// Question.
 		$votes_display .= '<p><b>' . $question['QUESTION'] . '</b></p>
-			<table class="cellspacing-0 widefat col1-align-right">' . "\n";
+			<table class="widefat col1-align-right">' . "\n";
 
 		// Votes.
 		$votes_array = explode( '||', $question['VOTES'] );
@@ -327,7 +327,7 @@ function makePublishing($value,$name)
 	$return = '<div id="divPublishing'.$id.'" class="rt2colorBox">'."\n";
 
 	//FJ remove LO_field
-	$return .= '<table class="cellspacing-0 widefat"><tr><td><b>'._('Visible Between').':</b><br />';
+	$return .= '<table class="widefat"><tr><td><b>'._('Visible Between').':</b><br />';
 	$return .= DateInput($value,'values['.$id.']['.$name.']').' '._('to').' ';
 	$return .= DateInput($THIS_RET['END_DATE'],'values['.$id.'][END_DATE]').'</td></tr>';
 

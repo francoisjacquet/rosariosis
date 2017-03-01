@@ -233,7 +233,7 @@ if ( $_REQUEST['modfunc']!='delete')
 	echo '<br />';
 	echo '<table><tr class="st"><td class="valign-top">';
 
-	echo '<table class="widefat cellspacing-0">';
+	echo '<table class="widefat">';
 
 	//$profiles_RET = DBGet(DBQuery("SELECT ID,TITLE,PROFILE FROM USER_PROFILES"));
 	$profiles_RET = DBGet(DBQuery("SELECT ID,TITLE,PROFILE FROM USER_PROFILES ORDER BY ID"),array(),array('PROFILE','ID'));
@@ -280,7 +280,7 @@ if ( $_REQUEST['modfunc']!='delete')
 	{
 		PopTable('header',_('Permissions'));
 
-		echo '<table class="widefat cellspacing-0">';
+		echo '<table class="widefat">';
 		foreach ( (array) $menu as $modcat => $profiles )
 		{
 			$values = $profiles[ $xprofile ];

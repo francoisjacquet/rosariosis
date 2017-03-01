@@ -196,9 +196,6 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 	/*if ( $_LIST['output']!=false)
 	{*/
 
-	// Add spacing
-	echo '<br />';
-
 	if ( $result_count != 0 )
 	{
 		$count = 0;
@@ -464,8 +461,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 					$LO_pages = mb_substr($LO_pages,0,-2) . ' &nbsp;<a href="'.$PHP_tmp_SELF.'&amp;LO_sort='.$LO_sort.'&amp;LO_direction='.$_REQUEST['LO_direction'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;LO_page=' . ($_REQUEST['LO_page'] +1) . '">'._('Next LO_page').'</a><br />';
 				}
 				echo sprintf(_('Go to LO_page %s'),$LO_pages);
-				echo '</td></tr></table>';
-				echo '<br />';*/
+				echo '</td></tr></table>';*/
 			}
 		}
 		else
@@ -503,7 +499,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 		if ( !empty($where_message) || (($singular!='.') && ($plural!='.')) || (!isset($_REQUEST['_ROSARIO_PDF']) && $options['search']))
 		{
-			echo '<table class="width-100p"><tr class="st"><td>';
+			echo '<table class="list-header"><tr class="st"><td>';
 
 			if ( $singular !== '.'
 				&& $plural !== '.'
@@ -560,7 +556,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			echo '</tr></table>';
 		}
 
-		echo '<div style="overflow-x:auto;"><table class="list widefat width-100p cellspacing-0 '.($options['responsive'] && !isset($_REQUEST['_ROSARIO_PDF']) ? 'rt' : '').'">';
+		echo '<div style="overflow-x:auto;"><table class="list widefat '.($options['responsive'] && !isset($_REQUEST['_ROSARIO_PDF']) ? 'rt' : '').'">';
 		echo '<thead><tr>';
 
 		$i = 1;
@@ -759,7 +755,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		}
 		if ( $result_count!=0)
 		{
-			echo '</tbody></table></div><br />';
+			echo '</tbody></table></div>';
 		}
 		if ( !empty($options['header']))
 			echo '</div>';
@@ -783,7 +779,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			// WIDTH=100%
 			if ( $link['add']['html'])
 			{
-				echo '<div style="overflow-x:auto;"><table class="widefat width-100p cellspacing-0';
+				echo '<div style="overflow-x:auto;"><table class="widefat width-100p';
 				if ( $options['responsive'] && !isset($_REQUEST['_ROSARIO_PDF']))
 					echo ' rt';
 
@@ -810,7 +806,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 					echo '<td>'.$link['add']['html'][ $key ].'</td>';
 				}
 				echo '</tr></tbody>';
-				echo '</table></div><br />';
+				echo '</table></div>';
 			}
 			elseif ( $link['add']['span'] && !isset($_REQUEST['_ROSARIO_PDF']))
 			{

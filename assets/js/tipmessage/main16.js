@@ -25,7 +25,7 @@ function stm(t){
 	if(document.onmousemove!=mig_mo||w.onresize!=mig_re) mig_hand();
 
 	var title=t[0]?"<THEAD><TR><TH>"+t[0]+"</TH></TR></THEAD>":"",
-		txt="<TABLE class='widefat cellspacing-0'>"+title+"<TR><TD>"+t[1]+"</TD></TR></TABLE>";
+		txt="<TABLE class='widefat'>"+title+"<TR><TD>"+t[1]+"</TD></TR></TABLE>";
 
 	mig_wlay(txt);
 

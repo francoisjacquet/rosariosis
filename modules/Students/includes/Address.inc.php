@@ -347,7 +347,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$_REQUEST['address_id'] = key($addresses_RET).'';
 
 	echo '<table><tr class="address st"><td class="valign-top">';
-	echo '<table class="widefat cellspacing-0">';
+	echo '<table class="widefat">';
 	if (count($addresses_RET) || $_REQUEST['address_id']=='new' || $_REQUEST['address_id']=='0')
 	{
 		$i = 1;
@@ -535,7 +535,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		if ( $_REQUEST['address_id']!='new' && $_REQUEST['address_id']!='old')
 		{
-			echo '<table class="widefat width-100p cellspacing-0"><tr><th colspan="3">';
+			echo '<table class="widefat width-100p"><tr><th colspan="3">';
 
 			echo ($_REQUEST['address_id']=='0'?_('Contacts without an Address'):_('Contacts at this Address')).'</th></tr>';
 
@@ -701,7 +701,7 @@ if ( ! $_REQUEST['modfunc'] )
 				array()
 			);
 
-			echo '<table class="widefat width-100p cellspacing-0"><tr><th colspan="3">' .
+			echo '<table class="widefat width-100p"><tr><th colspan="3">' .
 				_( 'Address' ) . '</th></tr>';
 
 			echo '<tr><td colspan="3">' .
@@ -781,7 +781,7 @@ if ( ! $_REQUEST['modfunc'] )
 			}
 
 			//FJ css WPadmin
-			echo '<br /><table class="widefat cellspacing-0"><tr><td>'.CheckboxInput($this_address['RESIDENCE'], 'values[STUDENTS_JOIN_ADDRESS][RESIDENCE]', '', 'CHECKED', $new, button('check'), button('x')).'</td><td>'. button('house','','','bigger') .'</td><td>'._('Residence').'</td></tr>';
+			echo '<br /><table class="widefat"><tr><td>'.CheckboxInput($this_address['RESIDENCE'], 'values[STUDENTS_JOIN_ADDRESS][RESIDENCE]', '', 'CHECKED', $new, button('check'), button('x')).'</td><td>'. button('house','','','bigger') .'</td><td>'._('Residence').'</td></tr>';
 
 			echo '<tr><td>'.CheckboxInput($this_address['BUS_PICKUP'], 'values[STUDENTS_JOIN_ADDRESS][BUS_PICKUP]', '', 'CHECKED', $new, button('check'), button('x')).'</td><td>'. button('bus','','','bigger') .'</td><td>'._('Bus Pickup').'</td></tr>';
 
@@ -795,7 +795,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 				echo '<div id="mailing_address_div" style="visibility: '.(($this_address['MAILING']||$_REQUEST['address_id']=='new')?'visible':'hidden').';">';
 
-				echo '<br /><table class="widefat cellspacing-0"><tr><th colspan="3">'._('Mailing Address').'&nbsp;('._('If different than above').')';
+				echo '<br /><table class="widefat"><tr><th colspan="3">'._('Mailing Address').'&nbsp;('._('If different than above').')';
 
 				echo '</th></tr>';
 
@@ -868,7 +868,7 @@ if ( ! $_REQUEST['modfunc'] )
 				);
 
 				//FJ css WPadmin
-				echo '<table class="widefat cellspacing-0"><tr><th colspan="3">'._('Contact Information').'</th></tr>';
+				echo '<table class="widefat"><tr><th colspan="3">'._('Contact Information').'</th></tr>';
 
 				if ( $_REQUEST['person_id']!='new')
 				{

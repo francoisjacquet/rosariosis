@@ -65,7 +65,7 @@ function StaffWidgets( $item, &$myextra = null )
 				return '<a onclick="switchMenu(this); return false;" href="#" class="switchMenu">
 				<b>' . $title . '</b></a>
 				<br />
-				<table class="widefat width-100p cellspacing-0 col1-align-right hide">';
+				<table class="widefat width-100p col1-align-right hide">';
 			};
 
 			$widget_wrap_footer = '</table>';

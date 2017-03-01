@@ -342,11 +342,11 @@ function _makeOptionsInputs($value,$name)
 				cell.innerHTML = cell.innerHTML.replace(reg, \'new\'+newId);
 			}
 		</script>';
-		$return .= '<table class="cellspacing-0 widefat" id="newOptionsTable"><tr><td><b>'._('Question').'</b></td><td><b>'._('Options').'</b></td><td><b>'._('Data Type').'</b></td></tr>'.$value.'<tr><td colspan="3" class="align-right"><a href="#" onclick="newOption();return false;">'. button('add') .' '._('New Question').'</a></tr></table>';
+		$return .= '<table class="widefat" id="newOptionsTable"><tr><td><b>'._('Question').'</b></td><td><b>'._('Options').'</b></td><td><b>'._('Data Type').'</b></td></tr>'.$value.'<tr><td colspan="3" class="align-right"><a href="#" onclick="newOption();return false;">'. button('add') .' '._('New Question').'</a></tr></table>';
 	}
 	else
 	{
-		$return .= '<table class="cellspacing-0 widefat"><tr><td><b>'._('Question').'</b></td><td><b>'._('Options').'</b></td><td><b>'._('Data Type').'</b></td></tr>'.$value.'</table>';
+		$return .= '<table class="widefat"><tr><td><b>'._('Question').'</b></td><td><b>'._('Options').'</b></td><td><b>'._('Data Type').'</b></td></tr>'.$value.'</table>';
 	}
 
 	$return .= '</div>';

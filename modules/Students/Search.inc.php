@@ -76,7 +76,7 @@ if ( ! $_REQUEST['search_modfunc'])
 				|| $extra['extra_search']
 				|| $extra['second_col'] )
 			{
-				echo '<table class="widefat width-100p cellspacing-0 col1-align-right">';
+				echo '<table class="widefat width-100p col1-align-right">';
 
 				if ( $extra['search'] )
 					echo $extra['search'];

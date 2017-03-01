@@ -199,7 +199,9 @@ hr {
 }
 .widefat{
 	clear:both;
-	margin:0
+	margin:0;
+	/* Move .cellspacing-0 directly here */
+	border-spacing: 0;
 }
 .widefat *{
 	word-wrap:break-word
@@ -261,14 +263,25 @@ hr {
 .widefat td p{
 	margin:2px 0 .8em
 }
+/* Lists */
+.list-header,.list {
+	/* Move .width-100p here */
+	width: 100%;
+}
+.list-header {
+	margin-top: 16px;
+}
+.list {
+	margin-bottom: 16px;
+}
 
 div.error{
 	padding:0 .6em;
-	margin:5px 0
+	margin:16px 0
 }
 div.updated{
 	padding:2px 9px;
-	margin:5px 0
+	margin:16px 0
 }
 .postbox > thead th,.widefat th{
 	font-family:Georgia,"Times New Roman",Times,serif
@@ -482,6 +495,11 @@ h3 span{
 }
 #body{
 	padding:0 15px 38px;
+}
+.header {
+	/* Move .cellspacing-0 & width-100p directly here */
+	border-spacing: 0;
+	width: 100%;
 }
 .headerIcon{
 	height:32px;

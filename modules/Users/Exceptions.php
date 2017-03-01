@@ -132,7 +132,7 @@ if ( ! $staff_RET[1]['PROFILE_ID'])
 	echo '<br />';
 	PopTable('header',_('Permissions'));
 //	echo '<table cellspacing=0>';
-	echo '<table class="widefat cellspacing-0">';
+	echo '<table class="widefat">';
 	foreach ( (array) $menu as $modcat => $profiles)
 	{
 		$values = $profiles[$staff_RET[1]['PROFILE']];

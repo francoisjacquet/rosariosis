@@ -79,7 +79,7 @@ function ErrorMessage( $errors, $code = 'error' )
 		$return .= '</ul>';
 	}
 
-	$return .= '</div><br />';
+	$return .= '</div>';
 
 	// Fatal error, display error and exit.
 	if ( $code === 'fatal' )
