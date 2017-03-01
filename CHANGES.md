@@ -1,6 +1,12 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 3.0.1
+----------------
+- Fix popup + AJAX: no Warehouse header / footer neede in Modules.php & Warehouse.php
+- CSS optimizations: add .header & .list-header classes in DrawHeader.fnc.php & ListOutput.fnc.php
+- CSS Media queries for mobile: update for iPhone 6 plus in stylesheet.css
+
 Changes in 3.0
 --------------
 - Add ETag cache system in Warehouse.php & Modules.php
