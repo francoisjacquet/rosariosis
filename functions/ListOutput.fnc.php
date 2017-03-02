@@ -383,7 +383,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 	if (($options['count'] || $display_zero) && ((($result_count==0 || $display_count==0) && $plural) || ($result_count==0 || $display_count==0)))
 	{
-		echo '<table class="';
+		echo '<table class="list-header';
 
 		if (isset($_REQUEST['_ROSARIO_PDF']))
 			echo ' width-100p';
