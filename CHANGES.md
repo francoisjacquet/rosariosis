@@ -8,6 +8,7 @@ Changes in 3.0.1
 - CSS Media queries for mobile: update for iPhone 6 plus in stylesheet.css
 - Add isAJAX() function in Warehouse.php
 - Simplified code in Modules.php
+- Fix XML export: remove parenthesis in column names in ListOutput.fnc.php
 
 Changes in 3.0
 --------------

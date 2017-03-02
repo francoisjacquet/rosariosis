@@ -1050,7 +1050,13 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 					$column = 'column_' . ( $key + 1 );
 				}
 				else
-					$column = mb_strtolower( str_replace( ' ', '_', $formatted_columns[ $key ] ) );
+				{
+					$column = mb_strtolower( str_replace(
+						array( ' ', '(', ')' ),
+						array( '_', '' ),
+						$formatted_columns[ $key ]
+					) );
+				}
 
 				// http://stackoverflow.com/questions/1091945/what-characters-do-i-need-to-escape-in-xml-documents
 				$value = str_replace( '[br]', '<br />', htmlspecialchars( $value, ENT_QUOTES ) );
