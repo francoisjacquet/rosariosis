@@ -346,7 +346,11 @@ function _LoadAddons( $addons, $folder )
  *
  * @example  Warehouse( 'header' );
  *
- * @global $_ROSARIO Uses $_ROSARIO['is_popup'], $_ROSARIO['not_ajax'], $_ROSARIO['ProgramLoaded']
+ * @global $_ROSARIO  Uses $_ROSARIO['ProgramLoaded']
+ * @global $ETagCache ETag cache system.
+ *
+ * @uses isPopup()
+ * @uses isAJAX()
  *
  * @param  string $mode 'header' or 'footer'.
  */
@@ -354,6 +358,18 @@ function Warehouse( $mode )
 {
 	global $_ROSARIO,
 		$ETagCache;
+
+	if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
+		if ( $mode === 'header' )
+		{
+			// Start buffer.
+			ob_start();
+		}
+
+		// Printing PDF, skip, see PDF.fnc.php.
+		return;
+	}
 
 	switch ( $mode )
 	{
@@ -364,6 +380,12 @@ function Warehouse( $mode )
 			{
 				// Start buffer (to generate ETag).
 				ob_start();
+			}
+
+			if ( isAJAX() )
+			{
+				// AJAX: we only need to generate #body content.
+				break;
 			}
 
 			$lang_2_chars = mb_substr( $_SESSION['locale'], 0, 2 );
@@ -402,12 +424,11 @@ function Warehouse( $mode )
 <body class="<?php echo $_ROSARIO['page']; ?>">
 <?php 	if ( $_ROSARIO['page'] === 'modules' ) :
 			// If popup window, verify it is an actual popup.
-			if ( $_ROSARIO['is_popup'] ) :
+			if ( isPopup() ) :
 ?>
 <script>if(window == top  && (!window.opener)) window.location.href = "Modules.php?modname=misc/Portal.php";</script>
 <?php
-			// Else if not AJAX request.
-			elseif ( $_ROSARIO['not_ajax'] ) :
+			else :
 ?>
 <div id="wrap">
 	<footer id="footer" class="mod">
@@ -445,15 +466,13 @@ function Warehouse( $mode )
 		openMenu( modname );
 <?php		endif; ?>
 </script>
-<?php		// If popup window or if not AJAX request.
-			if ( ( $_ROSARIO['is_popup'] && $_ROSARIO['not_ajax'] )
-				|| $_ROSARIO['not_ajax'] ) :
+<?php		// If not AJAX request.
+			if ( ! isAJAX() ) :
 ?>
 	</div><!-- #body -->
 	<div class="ajax-error"></div>
 <?php
-				if ( $_ROSARIO['not_ajax']
-					&& ! $_ROSARIO['is_popup'] ) :
+				if ( ! isPopup() ) :
 ?>
 	<div style="clear:both;"></div>
 </div><!-- #wrap -->
@@ -518,16 +537,31 @@ function Warehouse( $mode )
  *
  * @link http://www.securiteam.com/securitynews/6S02U1P6BI.html
  *
- * @example $_ROSARIO['is_popup'] = isPopup( $modname, $_REQUEST['modfunc'] );
+ * Set it once in Modules.php:
+ * @example isPopup( $modname, $_REQUEST['modfunc'] );
+ * Later call it:
+ * @example if ( isPopup() )
  *
- * @param  string $modname Mod name.
- * @param  string $modfunc Mod function.
+ * @param  string $modname Mod name. Optional, defaults to ''.
+ * @param  string $modfunc Mod function. Optional, defaults to ''.
  *
  * @return boolean True if popup, else false
  */
-function isPopup( $modname, $modfunc )
+function isPopup( $modname = '', $modfunc = '' )
 {
+	static $is_popup = null;
+
+	if ( ! is_null( $is_popup ) )
+	{
+		return $is_popup;
+	}
+
 	$is_popup = false;
+
+	if ( ! $modname )
+	{
+		return $is_popup;
+	}
 
 	/**
 	 * Popup window detection.
@@ -560,4 +594,29 @@ function isPopup( $modname, $modfunc )
 	}
 
 	return $is_popup;
+}
+
+
+/**
+ * AJAX request detection
+ *
+ * @since 3.0.1
+ *
+ * @example if ( isAJAX() )
+ *
+ * @return boolean True if is AJAX, else false
+ */
+function isAJAX()
+{
+	static $is_ajax = null;
+
+	if ( ! is_null( $is_ajax ) )
+	{
+		return $is_ajax;
+	}
+
+	$is_ajax = isset( $_SERVER['HTTP_X_REQUESTED_WITH'] )
+		&& $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest';
+
+	return $is_ajax;
 }
