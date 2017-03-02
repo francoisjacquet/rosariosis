@@ -10,6 +10,7 @@ Changes in 3.0.1
 - Simplified code in Modules.php
 - Fix XML export: remove parenthesis in column names in ListOutput.fnc.php
 - Fix Admin User Profile & School restrictions position in Exceptions.php
+- Fix logic for User Info tabs in Profiles.php & Exceptions.php
 
 Changes in 3.0
 --------------

@@ -229,10 +229,23 @@ if ( ! $staff_RET[1]['PROFILE_ID'])
 				elseif ( $modcat === 'Users'
 					&& $file === 'Users/User.php' )
 				{
+					$categories_profiles_where = DBEscapeIdentifier( $xprofile ) . "='Y'";
+
+					if ( $xprofile === 'admin' )
+					{
+						// Admins can access all profiles, hence their tabs too.
+						$categories_profiles_where .= " OR TEACHER='Y' OR PARENT='Y' OR NONE='Y'";
+					}
+					elseif ( $xprofile === 'teacher' )
+					{
+						// Teachers can access themselves and parents, hence their tabs too.
+						$categories_profiles_where .= " OR PARENT='Y'";
+					}
+
 					$categories_RET = DBGet( DBQuery( "SELECT ID,TITLE
 						FROM STAFF_FIELD_CATEGORIES
-						WHERE " . $xprofile . "='Y'
-						ORDER BY SORT_ORDER,TITLE" ) );
+						WHERE " . $categories_profiles_where .
+						" ORDER BY SORT_ORDER,TITLE" ) );
 
 					foreach ( (array) $categories_RET as $category )
 					{
