@@ -7,6 +7,7 @@ Changes in 3.0.1
 - CSS optimizations: add .header & .list-header classes in DrawHeader.fnc.php & ListOutput.fnc.php
 - CSS Media queries for mobile: update for iPhone 6 plus in stylesheet.css
 - Add isAJAX() function in Warehouse.php
+- Simplified code in Modules.php
 
 Changes in 3.0
 --------------
