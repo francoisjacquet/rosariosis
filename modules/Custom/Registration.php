@@ -95,7 +95,7 @@ if ( isset( $_REQUEST['values'] )
 
 			$fields = 'ADDRESS_ID,';
 
-			$values = DBEscapeIdentifier( $address_id[ $key ] ) . ',';
+			$values = $address_id[ $key ] . ',';
 
 			$columns += _prepareAddress( $columns['ADDRESS'] );
 
@@ -111,7 +111,7 @@ if ( isset( $_REQUEST['values'] )
 				if ( ! empty( $value )
 					|| $value == '0' )
 				{
-					$fields .= $column . ',';
+					$fields .= DBEscapeIdentifier( $column ) . ',';
 					$values .= "'" . $value . "',";
 
 					$go = true;
