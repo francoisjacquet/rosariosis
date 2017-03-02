@@ -224,6 +224,28 @@ if ( ! $staff_RET[1]['PROFILE_ID'])
 						echo '<td class="align-right"><input type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></td>';
 
 						echo '<td>'.$title.'</td></tr>';
+					}
+				}
+				elseif ( $modcat === 'Users'
+					&& $file === 'Users/User.php' )
+				{
+					$categories_RET = DBGet( DBQuery( "SELECT ID,TITLE
+						FROM STAFF_FIELD_CATEGORIES
+						WHERE " . $xprofile . "='Y'
+						ORDER BY SORT_ORDER,TITLE" ) );
+
+					foreach ( (array) $categories_RET as $category )
+					{
+						$file = 'Users/User.php&category_id='.$category['ID'];
+						$title = '&nbsp;&nbsp;&rsaquo; '.ParseMLField($category['TITLE']);
+						$can_use = $exceptions_RET[ $file ][1]['CAN_USE'];
+						$can_edit = $exceptions_RET[ $file ][1]['CAN_EDIT'];
+
+						echo '<tr><td class="align-right"><input type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></td>';
+
+						echo '<td class="align-right"><input type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></td>';
+
+						echo '<td>'.$title.'</td></tr>';
 
 						if ( $xprofile === 'admin'
 							&& $category['ID'] === '1' )
@@ -252,28 +274,6 @@ if ( ! $staff_RET[1]['PROFILE_ID'])
 
 							echo '<td>' . $title . '</td></tr>';
 						}
-					}
-				}
-				elseif ( $modcat === 'Users'
-					&& $file === 'Users/User.php' )
-				{
-					$categories_RET = DBGet( DBQuery( "SELECT ID,TITLE
-						FROM STAFF_FIELD_CATEGORIES
-						WHERE " . $xprofile . "='Y'
-						ORDER BY SORT_ORDER,TITLE" ) );
-
-					foreach ( (array) $categories_RET as $category )
-					{
-						$file = 'Users/User.php&category_id='.$category['ID'];
-						$title = '&nbsp;&nbsp;&rsaquo; '.ParseMLField($category['TITLE']);
-						$can_use = $exceptions_RET[ $file ][1]['CAN_USE'];
-						$can_edit = $exceptions_RET[ $file ][1]['CAN_EDIT'];
-
-						echo '<tr><td class="align-right"><input type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></td>';
-
-						echo '<td class="align-right"><input type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></td>';
-
-						echo '<td>'.$title.'</td></tr>';
 					}
 				}
 			}

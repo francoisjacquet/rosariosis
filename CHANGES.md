@@ -9,6 +9,7 @@ Changes in 3.0.1
 - Add isAJAX() function in Warehouse.php
 - Simplified code in Modules.php
 - Fix XML export: remove parenthesis in column names in ListOutput.fnc.php
+- Fix Admin User Profile & School restrictions position in Exceptions.php
 
 Changes in 3.0
 --------------
