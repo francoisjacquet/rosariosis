@@ -462,8 +462,7 @@ function Warehouse( $mode )
 		ajaxLink( 'Side.php?sidefunc=update' );
 	}
 <?php 		if ( ! empty( $_ROSARIO['ProgramLoaded'] ) ) : ?>
-	else
-		openMenu( modname );
+	openMenu( modname );
 <?php		endif; ?>
 </script>
 <?php		// If not AJAX request.

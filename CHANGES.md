@@ -5,6 +5,7 @@ Changes in 3.1
 --------------
 - Retry once on 0 error AJAX error, maybe aleatory in warehouse.js
 - Better check if #body should be updated in Side.php
+- Fix Warehouse footer: always open menu to modname in Warehouse.php
 
 Changes in 3.0.1
 ----------------
