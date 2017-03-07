@@ -24,7 +24,13 @@ $addJavascripts = '';
  */
 if ( isset( $_REQUEST['sidefunc'] )
 	&& $_REQUEST['sidefunc'] === 'update'
-	&& is_array( $_POST ) )
+	&& ( isset( $_REQUEST['side_student_id'] )
+		|| isset( $_REQUEST['side_staff_id'] )
+		|| isset( $_POST['mp'] )
+		|| isset( $_POST['syear'] )
+		|| isset( $_POST['period'] )
+		|| isset( $_POST['school'] )
+		|| isset( $_POST['student_id'] ) ) )
 {
 	// Update Admin & Teachers's current School.
 	if ( ( User( 'PROFILE' ) === 'admin'
@@ -198,9 +204,6 @@ if ( isset( $_REQUEST['sidefunc'] )
 		}
 
 		unset( $_SESSION['_REQUEST_vars']['search_modfunc'] );
-
-		// Update "#body" Module page.
-		$update_body = true;
 	}
 
 	// Update "#body" Module page.
