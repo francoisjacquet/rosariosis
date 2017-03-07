@@ -245,8 +245,11 @@ function ajaxError(x, url, target, form) {
 		errorMsg += 'Check your Network';
 
 		if ( ajaxError.num === 1 ) {
-			// Retry once on 0 error AJAX error, maybe aleatory.
-			return $.ajax(url, ajaxOptions(target, url, form));
+			window.setTimeout(function () {
+				// Retry once on AJAX error 0, maybe a micro Wifi interruption.
+				$.ajax(url, ajaxOptions(target, url, form));
+			}, 500);
+			return;
 		}
 	} else if (code == 404) {
 		errorMsg += 'Requested URL not found: ' + url;
