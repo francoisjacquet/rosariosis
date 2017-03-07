@@ -26,11 +26,7 @@ if ( isset( $_REQUEST['sidefunc'] )
 	&& $_REQUEST['sidefunc'] === 'update'
 	&& ( isset( $_REQUEST['side_student_id'] )
 		|| isset( $_REQUEST['side_staff_id'] )
-		|| isset( $_POST['mp'] )
-		|| isset( $_POST['syear'] )
-		|| isset( $_POST['period'] )
-		|| isset( $_POST['school'] )
-		|| isset( $_POST['student_id'] ) ) )
+		|| $_POST ) )
 {
 	// Update Admin & Teachers's current School.
 	if ( ( User( 'PROFILE' ) === 'admin'
