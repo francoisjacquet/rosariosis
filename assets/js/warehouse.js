@@ -222,7 +222,7 @@ function ajaxOptions(target, url, form) {
 			}
 			ajaxSuccess(data, target, url);
 		},
-		error: ajaxError,
+		error: function(x){ ajaxError(x, url, target, form); },
 		complete: function () {
 			$('.loading').css('visibility', 'hidden');
 
@@ -231,7 +231,7 @@ function ajaxOptions(target, url, form) {
 	};
 }
 
-function ajaxError(x, st, err) {
+function ajaxError(x, url, target, form) {
 	var code = x.status,
 		errorMsg = 'AJAX error. ' + code + ' ';
 
