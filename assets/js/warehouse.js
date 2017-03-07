@@ -235,8 +235,19 @@ function ajaxError(x, st, err) {
 	var code = x.status,
 		errorMsg = 'AJAX error. ' + code + ' ';
 
+	if ( typeof ajaxError.num === 'undefined' ) {
+		ajaxError.num = 0;
+	}
+
+	ajaxError.num++;
+
 	if (code === 0) {
 		errorMsg += 'Check your Network';
+
+		if ( ajaxError.num === 1 ) {
+			// Retry once on 0 error AJAX error, maybe aleatory.
+			return $.ajax(url, ajaxOptions(target, url, form));
+		}
 	} else if (code == 404) {
 		errorMsg += 'Requested URL not found: ' + url;
 	} else if (st == 'parsererror') {
@@ -248,6 +259,8 @@ function ajaxError(x, st, err) {
 	} else {
 		errorMsg += err;
 	}
+
+	ajaxError.num = 0;
 
 	// AJAX error popup.
 	$('.ajax-error').html(errorMsg).fadeIn();

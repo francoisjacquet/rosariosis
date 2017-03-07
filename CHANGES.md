@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 3.1
+--------------
+- Retry once on 0 error AJAX error, maybe aleatory in warehouse.js
+
 Changes in 3.0.1
 ----------------
 - Fix popup + AJAX: no Warehouse header / footer neede in Modules.php & Warehouse.php
