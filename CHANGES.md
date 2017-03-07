@@ -1,11 +1,12 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
-Changes in 3.1
---------------
+Changes in 3.0.2
+----------------
 - Retry once on 0 error AJAX error, maybe aleatory in warehouse.js
 - Better check if #body should be updated in Side.php
 - Fix Warehouse footer: always open menu to modname in Warehouse.php
+- Cache <script> resources loaded in AJAX in warehouse.js
 
 Changes in 3.0.1
 ----------------

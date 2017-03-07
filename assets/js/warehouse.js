@@ -372,6 +372,9 @@ $(document).ajaxStart(function () {
 
 // onload
 window.onload = function () {
+	// Cache <script> resources loaded in AJAX.
+	$.ajaxPrefilter('script', function(options) { options.cache = true; });
+
 	$(document).on('click', 'a', function (e) {
 		return $(this).css('pointer-events') == 'none' ? e.preventDefault() : ajaxLink(this);
 	});
