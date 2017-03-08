@@ -347,17 +347,16 @@ function _LoadAddons( $addons, $folder )
  * @example  Warehouse( 'header' );
  *
  * @global $_ROSARIO  Uses $_ROSARIO['ProgramLoaded']
- * @global $ETagCache ETag cache system.
  *
  * @uses isPopup()
  * @uses isAJAX()
+ * @uses ETagCache()
  *
  * @param  string $mode 'header' or 'footer'.
  */
 function Warehouse( $mode )
 {
-	global $_ROSARIO,
-		$ETagCache;
+	global $_ROSARIO;
 
 	if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
@@ -376,11 +375,7 @@ function Warehouse( $mode )
 		// Header HTML.
 		case 'header':
 
-			if ( $ETagCache )
-			{
-				// Start buffer (to generate ETag).
-				ob_start();
-			}
+			ETagCache( 'start' );
 
 			if ( isAJAX() )
 			{
@@ -487,44 +482,7 @@ function Warehouse( $mode )
 <?php
 		endif;
 
-		if ( ! $ETagCache )
-		{
-			break;
-		}
-
-		// Stop & get buffer buffer (to generate ETag).
-		$etag_buffer = ob_get_clean();
-
-		/**
-		 * Generate ETag
-		 * Weak ETag ("W/").
-		 *
-		 * @link https://en.wikipedia.org/wiki/HTTP_ETag
-		 */
-		$etag = 'W/' . md5( $etag_buffer );
-
-		// If-None-Match header sent by client.
-		if ( isset( $_SERVER['HTTP_IF_NONE_MATCH'] )
-			&& $_SERVER['HTTP_IF_NONE_MATCH'] === $etag )
-		{
-			// Page cached: send 304 + empty content.
-			header( $_SERVER['SERVER_PROTOCOL'] . ' 304 Not Modified' );
-
-			exit;
-
-		} else {
-
-			// FJ fix headers already sent error when program outputs buffer.
-			if ( ! headers_sent() )
-			{
-				header( "Cache-Control: private, must-revalidate" );
-
-				// Send ETag + content (buffer).
-				header( 'ETag: ' . $etag );
-			}
-
-			echo $etag_buffer;
-		}
+		ETagCache( 'stop' );
 
 		break;
 	} // End switch.
@@ -618,4 +576,79 @@ function isAJAX()
 		&& $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest';
 
 	return $is_ajax;
+}
+
+
+/**
+ * ETag cache system.
+ * Start buffer, or stop buffer
+ * and calculate ETag:
+ * If ETag === If-None-Match, then send 403
+ * Else send content (buffer) + ETag.
+ * If no mode is set, will only check if $ETagCache activated.
+ *
+ * @since  3.1
+ *
+ * @global $ETagCache ETag cache system.
+ *
+ * @param  string  $mode Mode: start|stop. Optional, defaults to ''.
+ *
+ * @return boolean       True if ETagCache activated, else false.
+ */
+function ETagCache( $mode = '' )
+{
+	global $ETagCache;
+
+	static $ob_started = false;
+
+	if ( ! $ETagCache )
+	{
+		return false;
+	}
+
+	if ( $mode === 'start'
+		&& ! $ob_started )
+	{
+		// Start buffer (to generate ETag).
+		$ob_started = ob_start();
+	}
+	elseif ( $mode === 'stop'
+		&& $ob_started )
+	{
+		// Stop & get buffer buffer (to generate ETag).
+		$etag_buffer = ob_get_clean();
+
+		/**
+		 * Generate ETag
+		 * Weak ETag ("W/").
+		 *
+		 * @link https://en.wikipedia.org/wiki/HTTP_ETag
+		 */
+		$etag = 'W/' . md5( $etag_buffer );
+
+		// If-None-Match header sent by client.
+		if ( isset( $_SERVER['HTTP_IF_NONE_MATCH'] )
+			&& $_SERVER['HTTP_IF_NONE_MATCH'] === $etag )
+		{
+			// Page cached: send 304 + empty content.
+			header( $_SERVER['SERVER_PROTOCOL'] . ' 304 Not Modified' );
+
+			exit;
+
+		} else {
+
+			// FJ fix headers already sent error when program outputs buffer.
+			if ( ! headers_sent() )
+			{
+				header( "Cache-Control: private, must-revalidate" );
+
+				// Send ETag + content (buffer).
+				header( 'ETag: ' . $etag );
+			}
+
+			echo $etag_buffer;
+		}
+	}
+
+	return true;
 }

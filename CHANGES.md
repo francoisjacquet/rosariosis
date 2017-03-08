@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 3.1
+--------------
+- Add ETagCache() function in Warehouse.php
+
 Changes in 3.0.2
 ----------------
 - Retry once on AJAX error 0, maybe a micro Wifi interruption in warehouse.js
