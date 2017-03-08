@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-17 15:25-0500\n"
-"PO-Revision-Date: 2017-02-17 15:26-0500\n"
+"PO-Revision-Date: 2017-03-07 18:35-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -6373,7 +6373,7 @@ msgstr "Nuevo Semestre"
 
 #: modules/School_Setup/MarkingPeriods.php:34
 msgid "New Progress Period"
-msgstr "Nuevo Período de Calificaciones"
+msgstr "Nuevo Período Intermedio"
 
 #: modules/School_Setup/MarkingPeriods.php:87
 #: modules/School_Setup/MarkingPeriods.php:184
