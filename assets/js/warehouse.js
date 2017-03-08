@@ -248,7 +248,7 @@ function ajaxError(x, url, target, form) {
 			window.setTimeout(function () {
 				// Retry once on AJAX error 0, maybe a micro Wifi interruption.
 				$.ajax(url, ajaxOptions(target, url, form));
-			}, 500);
+			}, 1000);
 			return;
 		}
 	} else if (code == 404) {
