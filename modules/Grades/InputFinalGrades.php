@@ -158,14 +158,58 @@ if ( $_REQUEST['modfunc']=='gradebook')
 		{
 			// Note: The 'active assignment' determination is not fully correct.  It would be easy to be fully correct here but the same determination
 			// as in Grades.php is used to avoid apparent inconsistencies in the grade calculations.  See also the note at top of Grades.php.
-			$extra['SELECT_ONLY'] = "s.STUDENT_ID, gt.ASSIGNMENT_TYPE_ID,sum(".db_case(array('gg.POINTS',"'-1'","'0'",'gg.POINTS')).") AS PARTIAL_POINTS,sum(".db_case(array('gg.POINTS',"'-1'","'0'",'ga.POINTS')).") AS PARTIAL_TOTAL,    gt.FINAL_GRADE_PERCENT";
-			$extra['FROM'] = " JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID OR ga.COURSE_ID=cp.COURSE_ID AND ga.STAFF_ID=cp.TEACHER_ID) AND ga.MARKING_PERIOD_ID='".UserMP()."') LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.STUDENT_ID=s.STUDENT_ID AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID),GRADEBOOK_ASSIGNMENT_TYPES gt";
-			$extra['WHERE'] = " AND gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID AND gt.COURSE_ID=cp.COURSE_ID AND (gg.POINTS IS NOT NULL OR (ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE) OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID))";
-			$extra['WHERE'] .=" AND (gg.POINTS IS NOT NULL OR ga.DUE_DATE IS NULL OR ((ga.DUE_DATE>=ss.START_DATE AND (ss.END_DATE IS NULL OR ga.DUE_DATE<=ss.END_DATE)) AND (ga.DUE_DATE>=ssm.START_DATE AND (ssm.END_DATE IS NULL OR ga.DUE_DATE<=ssm.END_DATE))))";
-			$extra['GROUP'] = "gt.ASSIGNMENT_TYPE_ID,gt.FINAL_GRADE_PERCENT,s.STUDENT_ID";
-			$extra['group'] = array('STUDENT_ID');
+			$extra['SELECT_ONLY'] = "s.STUDENT_ID, gt.ASSIGNMENT_TYPE_ID,sum(" .
+				db_case( array( 'gg.POINTS', "'-1'", "'0'", 'gg.POINTS' ) ) . ") AS PARTIAL_POINTS,sum(" .
+				db_case( array( 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ) ) . ") AS PARTIAL_TOTAL,gt.FINAL_GRADE_PERCENT";
 
-			$points_RET = GetStuList($extra);
+			$extra['FROM'] = " JOIN GRADEBOOK_ASSIGNMENTS ga ON
+				((ga.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
+						OR ga.COURSE_ID=cp.COURSE_ID
+						AND ga.STAFF_ID=cp.TEACHER_ID)
+					AND ga.MARKING_PERIOD_ID='" . UserMP() . "')
+				LEFT OUTER JOIN GRADEBOOK_GRADES gg ON
+				(gg.STUDENT_ID=s.STUDENT_ID
+					AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID
+					AND gg.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID),GRADEBOOK_ASSIGNMENT_TYPES gt";
+
+			// Check Current date.
+			$extra['WHERE'] = " AND gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID
+				AND gt.COURSE_ID=cp.COURSE_ID
+				AND (gg.POINTS IS NOT NULL
+					OR (ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE)
+					AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE)
+					OR CURRENT_DATE>(SELECT END_DATE
+						FROM SCHOOL_MARKING_PERIODS
+						WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID))";
+
+			// Check Student enrollment.
+			$extra['WHERE'] .= " AND (gg.POINTS IS NOT NULL
+				OR ga.DUE_DATE IS NULL
+				OR ((ga.DUE_DATE>=ss.START_DATE
+					AND (ss.END_DATE IS NULL OR ga.DUE_DATE<=ss.END_DATE))
+				AND (ga.DUE_DATE>=ssm.START_DATE
+					AND (ssm.END_DATE IS NULL OR ga.DUE_DATE<=ssm.END_DATE))))";
+
+			if ( GetMP( $_REQUEST['mp'], 'MP' ) === 'PRO' )
+			{
+				// FJ: limit Assignments to the ones due during the Progress Period.
+				$extra['WHERE'] .= " AND ((ga.ASSIGNED_DATE IS NULL OR (SELECT END_DATE
+						FROM SCHOOL_MARKING_PERIODS
+						WHERE MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "')>=ga.ASSIGNED_DATE)
+					AND (ga.DUE_DATE IS NULL
+						OR (SELECT END_DATE
+							FROM SCHOOL_MARKING_PERIODS
+							WHERE MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "')>=ga.DUE_DATE
+						AND (SELECT START_DATE
+							FROM SCHOOL_MARKING_PERIODS
+							WHERE MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "')<=ga.DUE_DATE))";
+			}
+
+			$extra['GROUP'] = "gt.ASSIGNMENT_TYPE_ID,gt.FINAL_GRADE_PERCENT,s.STUDENT_ID";
+
+			$extra['group'] = array( 'STUDENT_ID' );
+
+			$points_RET = GetStuList( $extra );
 			//echo '<pre>'; var_dump($points_RET); echo '</pre>';
 
 			unset($extra);

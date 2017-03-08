@@ -7,6 +7,7 @@ Changes in 3.0.2
 - Better check if #body should be updated in Side.php
 - Fix Warehouse footer: always open menu to modname in Warehouse.php
 - Cache <script> resources loaded in AJAX in warehouse.js
+- Limit Assignments to the ones due during the Progress Period in InputFinalGrades
 
 Changes in 3.0.1
 ----------------
