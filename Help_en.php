@@ -936,13 +936,16 @@ HTML;
 
 	$help['Users/TeacherPrograms.php&include=Grades/InputFinalGrades.php'] = <<<HTML
 <p>
-	<i>Teacher Programs: Input Final Grades</i> allows you to enter quarter, semester grades for all the selected teacher's students in the current period. By default, this program will list the students in the selected teacher's first period class for the current quarter. You can alter the period by changing the period pull-down menu at the top of the screen. Also, you can alter the quarter by changing the marking period pull-down menu on the left frame. Furthermore, you can select the current semester or semester final by changing the marking period pull-down menu at the top of the screen to the desired marking period.
+	<i>Teacher Programs: Input Final Grades</i> allows you to enter quarter, semester or progress period grades for all the selected teacher's students in the current period. By default, this program will list the students in the selected teacher's first period class for the current quarter. You can alter the period by changing the period pull-down menu at the top of the screen. Also, you can alter the quarter by changing the marking period pull-down menu on the left frame. Furthermore, you can select the current semester or progress period by changing the marking period pull-down menu at the top of the screen to the desired marking period.
 </p>
 <p>
 	Once you are in the correct marking period, you can enter student grades by selecting the earned grade for each student and entering comments as desired. Once all the grades and comments have been entered, click the "Save" button at the top of the screen.
 </p>
 <p>
-	If the selected teacher is using the Gradebook, you can have RosarioSIS calculate each student's quarter grades by clicking on the "Use Gradebook Grades" link at the top of the list. Clicking this link will automatically save each student's grades and refresh the list.
+	If the selected teacher is using the Gradebook, you can have RosarioSIS calculate each student's quarter grades by clicking on the "Get Gradebook Grades" link at the top of the list. Clicking this link will automatically save each student's grades and refresh the list.
+</p>
+<p>
+	If the marking period you are in is a Progress Period, when clicking on the "Get Gradebook Grades" link, the gades taken in account will be limited to the one for which the Assignment Due Date is comprised within the Progress Period, or the ones with no Due Dates.
 </p>
 HTML;
 
@@ -1451,13 +1454,16 @@ elseif ( User( 'PROFILE' ) === 'teacher' ) :
 
 	$help['Grades/InputFinalGrades.php'] = <<<HTML
 <p>
-	<i>Input Final Grades</i> allows you to enter quarter, semester grades for all your students in the current period. By default, this program will list the students in your first period class for the current quarter. You can alter the quarter by changing the marking period pull-down menu on the left frame. Also, you can select the current semester or semester final by changing the marking period pull-down menu at the top of the screen to the desired marking period.
+	<i>Input Final Grades</i> allows you to enter quarter, semester or progress period grades for all your students in the current period. By default, this program will list the students in your first period class for the current quarter. You can alter the quarter by changing the marking period pull-down menu on the left frame. Also, you can select the current semester or progress period by changing the marking period pull-down menu at the top of the screen to the desired marking period.
 </p>
 <p>
 	Once you are in the correct marking period, you can enter student grades by selecting the earned grade for each student and entering comments as desired. Once all the grades and comments have been entered, click the "Save" button at the top of the screen.
 </p>
 <p>
 	If you are using the Gradebook, you can have RosarioSIS calculate each student's quarter grades by clicking on the "Use Gradebook Grades" link at the top of the list. Clicking this link will automatically save each student's grades and refresh the list.
+</p>
+<p>
+	If the marking period you are in is a Progress Period, when clicking on the "Get Gradebook Grades" link, the gades taken in account will be limited to the one for which the Assignment Due Date is comprised within the Progress Period, or the ones with no Due Dates.
 </p>
 HTML;
 

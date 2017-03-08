@@ -8,6 +8,7 @@ Changes in 3.0.2
 - Fix Warehouse footer: always open menu to modname in Warehouse.php
 - Cache <script> resources loaded in AJAX in warehouse.js
 - Limit Assignments to the ones due during the Progress Period in InputFinalGrades
+- Update help texts for Input Final Grades in Help_en.php, Help_es.php & Help_fr.php
 
 Changes in 3.0.1
 ----------------

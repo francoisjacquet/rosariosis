@@ -933,13 +933,16 @@ HTML;
 
 	$help['Users/TeacherPrograms.php&include=Grades/InputFinalGrades.php'] = <<<HTML
 <p>
-	<i>Programmes Enseignants: Saisie des Notes</i> vous permet d'enter les notes du trimestre,ou semestre pour tous les élèves de l'enseignant sélectionné dans la classe courante. Par défaut, ce programme liste les élèves de la première classe de l'enseignant sélectionné pour le trimestre courant. Vous pouvez changer la classe grâce au menu déroulant en haut de l'écran. Aussi, vous pouvez changer de trimestre en sélectionnant une autre période scolaire grâce au menu déroulant du menu latéral. Enfin, vous pouvez sélectionner le semestre courant ou le semestre final en changeant la période scolaire du menu déroulant en haut de l'écran.
+	<i>Programmes Enseignants: Saisie des Notes</i> vous permet d'enter les notes du trimestre, semestre ou de la période intermédiaire pour tous les élèves de l'enseignant sélectionné dans la classe courante. Par défaut, ce programme liste les élèves de la première classe de l'enseignant sélectionné pour le trimestre courant. Vous pouvez changer la classe grâce au menu déroulant en haut de l'écran. Aussi, vous pouvez changer de trimestre en sélectionnant une autre période scolaire grâce au menu déroulant du menu latéral. Enfin, vous pouvez sélectionner le semestre ou la période intermédiaire courant(e) en changeant la période scolaire du menu déroulant en haut de l'écran.
 </p>
 <p>
 	Une fois dans la bonne période scolaire, vous pouvez saisir les notes des élèves en sélectionnant la note de chaque élève et en entrant les commentaires. Une fois que toutes les notes et commentaires ont été entrés, cliquez sur le bouton "Enregistrer" en haut de l'écran.
 </p>
 <p>
 	Si l'enseignant sélectionné utilise le Carnet de Notes, RosarioSIS peut calculer les notes de chaque élève en cliquant sur le lien "Utiliser les Notes du Carnet" au-dessus de la liste. En cliquant sur le lien, les notes de chaque élève sont enregistrées et la liste rafraîchie.
+</p>
+<p>
+	Si la période scolaire dans laquelle vous êtes est une Période Intermédiaire, lorsque vous cliquez sur le lien "Utiliser les Notes du Carnet", les notes prises en compte seront limitées aux Devoirs dont la Date de Rendu est comprise dans la Période intermédiaire, ou ceux qui n'ont pas de Date de Rendu.
 </p>
 HTML;
 
@@ -1445,13 +1448,16 @@ elseif ( User( 'PROFILE' ) === 'teacher' ) :
 
 	$help['Grades/InputFinalGrades.php'] = <<<HTML
 <p>
-	<i>Saisie des Notes</i> vous permet de saisir les notes du trimestre et semestre pour tous vos élèves de la classe courante. Par défaut, ce programme liste les élèves de la classe courante pour le trimestre courant. Vous pouvez changer le trimestre en changeant la période scolaire grâce au menu déroulant du menu latéral. Aussi, vous pouvez sélectionner le semestre courant ou le semestre final en changeant la période scolaire grâce au menu déroulant situé en haut de l'écran.
+	<i>Saisie des Notes</i> vous permet de saisir les notes du trimestre, semestre ou de la période intermédiaire pour tous vos élèves de la classe courante. Par défaut, ce programme liste les élèves de la classe courante pour le trimestre courant. Vous pouvez changer le trimestre en changeant la période scolaire grâce au menu déroulant du menu latéral. Aussi, vous pouvez sélectionner le semestre ou la période intermédiaire courant(e) en changeant la période scolaire grâce au menu déroulant situé en haut de l'écran.
 </p>
 <p>
 	Une fois la période scolaire correcte sélectionnée, vous pouvez saisir les notes des élève en sélectionnant la note obtenue par chaque élève et en entrant les commentaires souhaités. Une fois les notes et commentaires saisis, cliquez sur le bouton "Enregistrer" en haut de l'écran.
 </p>
 <p>
 	Si vous utilisez le Carnet de Notes, RosarioSIS peut calculer automatiquement la note trimestrielle de chaque élève en cliquant sur lien "Utiliser les Notes du Carnet" au-dessus de la liste. En cliquant sur le lien, les notes de chaque élève sont enregistrées et la liste rafraîchie.
+</p>
+<p>
+	Si la période scolaire dans laquelle vous êtes est une Période Intermédiaire, lorsque vous cliquez sur le lien "Utiliser les Notes du Carnet", les notes prises en compte seront limitées aux Devoirs dont la Date de Rendu est comprise dans la Période intermédiaire, ou ceux qui n'ont pas de Date de Rendu.
 </p>
 HTML;
 

@@ -939,13 +939,16 @@ HTML;
 
 	$help['Users/TeacherPrograms.php&include=Grades/InputFinalGrades.php'] = <<<HTML
 <p>
-	<i>Programas Docente - Entrar Calificaciones Finales</i> le permite entrar la calificaciones de los bimestres, semestres, y exámenes de semestre para todos los estudiantes del docente seleccionado en la clase actual. Por defecto, el servicio listara los estudiantes de la primera clase del docente seleccionado para el bimestre actual. Usted puede cambiar la clase con el menú desplegable de las clases en la parte superior de la pantalla. Usted también puede cambiar el periodo a calificar con el menú desplegable de los periodos a calificar en el marco izquierdo. Además, usted puede seleccionar el semestre actual en el menú desplegable en la parte superior de la pantalla.
+	<i>Programas Docente - Entrar Calificaciones Finales</i> le permite entrar la calificaciones de los bimestres, semestres, o periodo intermedio para todos los estudiantes del docente seleccionado en la clase actual. Por defecto, el servicio listara los estudiantes de la primera clase del docente seleccionado para el bimestre actual. Usted puede cambiar la clase con el menú desplegable de las clases en la parte superior de la pantalla. Usted también puede cambiar el periodo a calificar con el menú desplegable de los periodos a calificar en el marco izquierdo. Además, usted puede seleccionar el semestre o periodo intermedio actual en el menú desplegable en la parte superior de la pantalla.
 </p>
 <p>
 	Una vez que usted esté en el periodo a calificar adecuado, usted puede entrar las calificaciones de los estudiantes seleccionando la calificación para cada estudiante y entrando comentarios como desee. Una vez que todas las calificaciones y los comentarios han sido entrados, presione el botón «Guardar» en la parte superior de la pantalla.
 </p>
 <p>
 	Si el docente seleccionado usa el Libro de Calificaciones, RosarioSIS puede calcular las calificaciones de cada estudiante para el bimestre haciendo clic sobre el enlace «Obtener las Calificaciones del Libro de Calificaciones.» de arriba.
+</p>
+<p>
+	Si el periodo a calificar en el cual está es un Período Intermedio, cuando hace clic sobre el enlace «Obtener las Calificaciones del Libro de Calificaciones», se tendrán en cuenta solamente las calificaciones de las Tareas que tienen Fecha de Plazo dentro del Periódo Intermedio ó las que no tienen Fecha de Plazo.
 </p>
 HTML;
 
@@ -1451,16 +1454,16 @@ elseif ( User( 'PROFILE' ) === 'teacher' ) :
 
 	$help['Grades/InputFinalGrades.php'] = <<<HTML
 <p>
-	<i>Entrar Calificaciones Finales</i> le permite entrar las calificaciones del bimestre, semestre para todos sus estudiantes en la clase actual. Por defecto, el servicio lista los estudiantes en su primera clase para el bimestre actual. Usted puede cambiar el bimestre en el menú desplegable en el marco izquierdo. Usted también puede seleccionar el semestre actual en el menú desplegable en la parte superior de la pantalla.
+	<i>Entrar Calificaciones Finales</i> le permite entrar las calificaciones del bimestre, semestre o período intermedio para todos sus estudiantes en la clase actual. Por defecto, el servicio lista los estudiantes en su primera clase para el bimestre actual. Usted puede cambiar el bimestre en el menú desplegable en el marco izquierdo. Usted también puede seleccionar el semestre o período intermedio actual en el menú desplegable en la parte superior de la pantalla.
 </p>
 <p>
 	Una vez que esté en el periodo a calificar deseado, usted puede entrar las calificaciones de los estudiantes seleccionando la calificación para cada estudiante y entrar comentarios si lo desea. Una vez que todos los grados y comentarios están entrados, presione el botón «Guardar» en la parte superior de la pantalla.
 </p>
 <p>
-	Si usted usa el Libro de Calificaciones, RosarioSIS puede calcular cada calificación del bimestre haciendo clic sobre el enlace «Usar la Calificaciones del Libro de Calificaciones» de arriba.
+	Si usted usa el Libro de Calificaciones, RosarioSIS puede calcular cada calificación del bimestre haciendo clic sobre el enlace Obtener la Calificaciones del Libro de Calificaciones.» de arriba.
 </p>
 <p>
-	Si el mensaje «Usted no puede editar estas calificaciones.» aparece, usted no puede entrar las calificaciones finales ese día porque este no se encuentra en el transcurso de publicación de la calificaciones configurado por el periodo a calificar. Ver el servicio Períodos a Calificar para conocer las fechas de publicación de calificaciones.
+	Si el periodo a calificar en el cual está es un Período Intermedio, cuando hace clic sobre el enlace «Obtener las Calificaciones del Libro de Calificaciones.», se tendrán en cuenta solamente las calificaciones de las Tareas que tienen Fecha de Plazo dentro del Periódo Intermedio ó las que no tienen Fecha de Plazo.
 </p>
 HTML;
 
