@@ -279,7 +279,7 @@ function ajaxLink(link) {
 		target = 'body';
 		if ( href == 'Side.php' ) target = 'menu';
 		else if ( href == 'Side.php?sidefunc=update' ) target = 'menu-top';
-		else if ( href == 'Bottom.php' ) target = 'footer';
+		else if ( href.indexOf('Bottom.php') === 0 ) target = 'footer';
 	} else {
 		href = link.href;
 		target = link.target;
@@ -472,7 +472,7 @@ function showHelp() {
 	var $fh = $('#footerhelp');
 	if (modname !== showHelp.tmp) {
 		$('.loading').css('visibility', 'visible');
-		$.get("Bottom.php?modfunc=help&modname=" + modname, function (data) {
+		$.get("Bottom.php?bottomfunc=help&modname=" + modname, function (data) {
 			showHelp.tmpdata = data;
 			$fh.html(data).scrollTop(0);
 			if (isTouchDevice()) touchScroll( $fh[0] );

@@ -10,8 +10,18 @@
 
 require_once 'Warehouse.php';
 
+if ( ! isset( $_REQUEST['bottomfunc'] ) )
+{
+	$_REQUEST['bottomfunc'] = false;
+}
+
+if ( isAJAX() )
+{
+	ETagCache( 'start' );
+}
+
 // Print PDF.
-if ( $_REQUEST['modfunc'] === 'print' ) :
+if ( $_REQUEST['bottomfunc'] === 'print' ) :
 
 	if ( $_REQUEST['expanded_view'] )
 	{
@@ -48,7 +58,7 @@ if ( $_REQUEST['modfunc'] === 'print' ) :
 
 
 // Inline Help.
-elseif ( $_REQUEST['modfunc'] === 'help' ) :
+elseif ( $_REQUEST['bottomfunc'] === 'help' ) :
 
 	$help_translated = 'Help_' . mb_substr( $locale, 0, 2 ) . '.php';
 	$help_english = 'Help_en.php';
@@ -83,7 +93,7 @@ elseif ( $_REQUEST['modfunc'] === 'help' ) :
 	{
 		foreach ( (array) $help as $program => $help_txt )
 		{
-			// FJ fix bug URL Modules.php?modfunc=help&modname=Student_Billing/Statements.php&_ROSARIO_PDF.
+			// FJ fix bug URL Modules.php?modname=Student_Billing/Statements.php&_ROSARIO_PDF.
 			if ( $_REQUEST['modname'] === $program ||
 				( mb_strpos( $program, $_REQUEST['modname'] ) === 0
 					&& mb_strpos( $_SERVER['QUERY_STRING'], $program ) === 21 ) )
@@ -193,7 +203,7 @@ else : ?>
 		// Do bottom_buttons hook.
 		do_action( 'Bottom.php|bottom_buttons' ); ?>
 
-		<a href="Bottom.php?modfunc=print" target="_blank" title="<?php echo _( 'Print' ); ?>" class="BottomButton">
+		<a href="Bottom.php?bottomfunc=print" target="_blank" title="<?php echo _( 'Print' ); ?>" class="BottomButton">
 			<img src="<?php echo $btn_path; ?>print.png" />
 			<span><?php echo _( 'Print' ); ?></span>
 		</a>
@@ -211,3 +221,8 @@ else : ?>
 	<div id="footerhelp"></div>
 
 <?php endif;
+
+if ( isAJAX() )
+{
+	ETagCache( 'stop' );
+}
