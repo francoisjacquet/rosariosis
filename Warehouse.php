@@ -630,6 +630,8 @@ function ETagCache( $mode = '' )
 		if ( isset( $_SERVER['HTTP_IF_NONE_MATCH'] )
 			&& $_SERVER['HTTP_IF_NONE_MATCH'] === $etag )
 		{
+			header( "Cache-Control: private, must-revalidate" );
+
 			// Page cached: send 304 + empty content.
 			header( $_SERVER['SERVER_PROTOCOL'] . ' 304 Not Modified' );
 
