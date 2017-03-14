@@ -2376,13 +2376,13 @@ CREATE TABLE report_card_grade_scales (
     school_id numeric NOT NULL,
     title character varying(300),
     comment character varying(1000),
-    hhr_gpa_value numeric(4,2),
-    hr_gpa_value numeric(4,2),
+    hhr_gpa_value numeric,
+    hr_gpa_value numeric,
     sort_order numeric,
     rollover_id numeric,
     gp_scale numeric(10,3),
     gp_passing_value numeric(10,3),
-    hrs_gpa_value numeric(4,2)
+    hrs_gpa_value numeric
 );
 
 
@@ -2419,11 +2419,11 @@ CREATE TABLE report_card_grades (
     school_id numeric,
     title character varying(100),
     sort_order numeric,
-    gpa_value numeric(4,2),
+    gpa_value numeric,
     break_off numeric,
     comment character varying(1000),
     grade_scale_id numeric,
-    unweighted_gp numeric(4,2)
+    unweighted_gp numeric
 );
 
 

@@ -4,6 +4,7 @@
 Changes in 3.1
 --------------
 - Add ETagCache() function in Warehouse.php
+- Fix SQL error when entering (Unweighted) GPA Value > 99.99 in rosariosis.sql & Update.fnc.php
 
 Changes in 3.0.2
 ----------------

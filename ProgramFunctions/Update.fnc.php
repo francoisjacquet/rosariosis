@@ -79,6 +79,11 @@ function Update()
 		case version_compare( $from_version, '3.0', '<' ) :
 
 			$return = _update30();
+
+
+		case version_compare( $from_version, '3.1', '<' ) :
+
+			$return = _update31();
 	}
 
 	// Update version in DB CONFIG table.
@@ -610,6 +615,58 @@ function _update30()
 				ADD COLUMN user_agent text;" );
 		}
 	}
+
+	return $return;
+}
+
+
+/**
+ * Update to version 3.1
+ *
+ * Fix SQL error when entering (Unweighted) GPA Value > 99.99
+ * 1. REPORT_CARD_GRADES table:
+ * Change gpa_value & unweighted_gp columns type to numeric
+ *
+ * 2. REPORT_CARD_GRADE_SCALES table:
+ * Change hhr_gpa_value & hr_gpa_value & hrs_gpa_value columns type to numeric
+ * Was numeric(4,2) which would prevent to enter values like 100 (or above).
+ *
+ * Local function
+ *
+ * @since 3.1
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update31()
+{
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. REPORT_CARD_GRADES table:
+	 * Change gpa_value & unweighted_gp columns type to numeric
+	 * Was numeric(4,2) which would prevent to enter values like 100.
+	 */
+	DBQuery( "ALTER TABLE report_card_grades
+		ALTER COLUMN gpa_value TYPE numeric;" );
+
+	DBQuery( "ALTER TABLE report_card_grades
+		ALTER COLUMN unweighted_gp TYPE numeric;" );
+
+	/**
+	 * 2. REPORT_CARD_GRADE_SCALES table:
+	 * Change hhr_gpa_value & hr_gpa_value & hrs_gpa_value columns type to numeric
+	 * Was numeric(4,2) which would prevent to enter values like 100 (or above).
+	 */
+	DBQuery( "ALTER TABLE report_card_grade_scales
+		ALTER COLUMN hhr_gpa_value TYPE numeric;" );
+
+	DBQuery( "ALTER TABLE report_card_grade_scales
+		ALTER COLUMN hr_gpa_value TYPE numeric;" );
+
+	DBQuery( "ALTER TABLE report_card_grade_scales
+		ALTER COLUMN hrs_gpa_value TYPE numeric;" );
 
 	return $return;
 }
