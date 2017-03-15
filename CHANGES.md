@@ -5,6 +5,9 @@ Changes in 3.1
 --------------
 - Add ETagCache() function in Warehouse.php
 - Fix SQL error when entering (Unweighted) GPA Value > 99.99 in rosariosis.sql & Update.fnc.php
+- Activate ETagCache in Bottom.php
+- Rename 'modfunc' to 'bottomfunc' in Bottom.php & warehouse.js
+- Unique Bottom.php URL in Users/Search.inc.php & Students/Search.inc.php
 
 Changes in 3.0.2
 ----------------

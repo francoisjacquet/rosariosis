@@ -167,8 +167,10 @@ if ( ! $_REQUEST['search_modfunc'])
 
 			echo '</form>';
 
-			// update Bottom.php
-			echo '<script>ajaxLink("Bottom.php"); old_modname="";</script>';
+			// Update Bottom.php.
+			$bottom_url = 'Bottom.php?modname=' . $_REQUEST['modname'];
+
+			echo '<script>ajaxLink(' .  json_encode( $bottom_url ) . '); old_modname="";</script>';
 
 			PopTable( 'footer' );
 
@@ -277,7 +279,10 @@ else
 				unset($_SESSION['Search_PHP_SELF']);
 			}
 
-			echo '<script>ajaxLink("Bottom.php"); old_modname="";</script>';
+			// Update Bottom.php.
+			$bottom_url = 'Bottom.php?modname=' . $_REQUEST['modname'] . '&search_modfunc=list';
+
+			echo '<script>ajaxLink(' .  json_encode( $bottom_url ) . '); old_modname="";</script>';
 		}
 
 		ListOutput( $staff_RET, $columns, $singular, $plural, $link, false, $extra['options'] );
