@@ -779,7 +779,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			// WIDTH=100%
 			if ( $link['add']['html'])
 			{
-				echo '<div style="overflow-x:auto;"><table class="widefat width-100p';
+				echo '<div style="overflow-x:auto;"><table class="list widefat width-100p';
 				if ( $options['responsive'] && !isset($_REQUEST['_ROSARIO_PDF']))
 					echo ' rt';
 
