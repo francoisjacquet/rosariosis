@@ -98,30 +98,30 @@ if ( $_REQUEST['modfunc'] === 'update'
 			$_REQUEST['staff']['SCHOOLS'] = '';
 		}
 
-		// Admin Schools restriction.
-		if ( ( User( 'PROFILE' ) === 'admin'
-				&& ! AllowEdit( 'Users/User.php&category_id=1&schools' ) )
-			|| User( 'PROFILE' ) !== 'admin' )
-		{
-			if ( UserStaffID() )
-			{
-				// Restricted!
-				unset( $_REQUEST['staff']['SCHOOLS'] );
-			}
-			else
-			{
-				// Assign new user to current school only.
-				$_REQUEST['staff']['SCHOOLS'] = ',' . UserSchool() . ',';
-			}
-		}
-
 		// FJ reset current school if updating self schools.
 		if ( User( 'STAFF_ID' ) == UserStaffID() )
 		{
 			unset( $_SESSION['UserSchool'] );
 		}
-
 	}
+
+	// Admin Schools restriction.
+	if ( ( User( 'PROFILE' ) === 'admin'
+			&& ! AllowEdit( 'Users/User.php&category_id=1&schools' ) )
+		|| User( 'PROFILE' ) !== 'admin' )
+	{
+		if ( UserStaffID() )
+		{
+			// Restricted!
+			unset( $_REQUEST['staff']['SCHOOLS'] );
+		}
+		else
+		{
+			// Assign new user to current school only.
+			$_REQUEST['staff']['SCHOOLS'] = ',' . UserSchool() . ',';
+		}
+	}
+
 
 	// Admin Profile restriction.
 	if ( ( User( 'PROFILE' ) === 'admin'

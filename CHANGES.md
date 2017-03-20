@@ -9,6 +9,7 @@ Changes in 3.1
 - Rename 'modfunc' to 'bottomfunc' in Bottom.php & warehouse.js
 - Unique Bottom.php URL in Users/Search.inc.php & Students/Search.inc.php
 - Hide link to User Permissions on Add a User screen in Users/includes/General_Info.inc.php
+- Fix Admin Schools restriction: Assign new user to current school only in User.php
 
 Changes in 3.0.2
 ----------------
