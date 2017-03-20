@@ -8,6 +8,7 @@ Changes in 3.1
 - Activate ETagCache in Bottom.php
 - Rename 'modfunc' to 'bottomfunc' in Bottom.php & warehouse.js
 - Unique Bottom.php URL in Users/Search.inc.php & Students/Search.inc.php
+- Hide link to User Permissions on Add a User screen in Users/includes/General_Info.inc.php
 
 Changes in 3.0.2
 ----------------

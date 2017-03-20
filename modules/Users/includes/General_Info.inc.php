@@ -240,7 +240,8 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 
 	if ( User( 'PROFILE' ) === 'admin'
 		&& AllowEdit( 'Users/Exceptions.php' )
-		&& ! $staff['PROFILE_ID'] )
+		&& ! $staff['PROFILE_ID']
+		&& UserStaffID() )
 	{
 		// Add link to User Permissions.
 		echo '<div><a href="Modules.php?modname=Users/Exceptions.php">' .
