@@ -5,7 +5,7 @@
  * @uses $menu global var
  *
  * @see  Menu.php in root folder
- * 
+ *
  * @package RosarioSIS
  * @subpackage modules
  */
@@ -15,7 +15,6 @@ $menu['Grades']['admin'] = array(
 	'default' => 'Grades/GPARankList.php',
 	'Grades/ReportCards.php' => _( 'Report Cards' ),
 	'Grades/HonorRoll.php' => _( 'Honor Roll' ),
-	//FJ Honor Roll by Subject
 	'Grades/HonorRollSubject.php' => _( 'Honor Roll by Subject' ),
 	'Grades/CalcGPA.php' => _( 'Calculate GPA' ),
 	'Grades/Transcripts.php' => _( 'Transcripts' ),
@@ -33,6 +32,7 @@ $menu['Grades']['admin'] = array(
 	'Grades/EditHistoryMarkingPeriods.php' => _( 'History Marking Periods' ),
 	3 => _( 'Utilities' ),
 	'Grades/EditReportCardGrades.php' => _( 'Edit Student Grades' ),
+	'Grades/MassCreateAssignments.php' => _( 'Mass Create Assignments' ),
 	4 => _( 'Teacher Programs' ),
 	'Users/TeacherPrograms.php&include=Grades/InputFinalGrades.php' => _( 'Input Final Grades' ),
 	'Users/TeacherPrograms.php&include=Grades/Grades.php' => _( 'Gradebook Grades' ),

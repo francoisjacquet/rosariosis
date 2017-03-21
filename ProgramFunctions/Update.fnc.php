@@ -631,6 +631,9 @@ function _update30()
  * Change hhr_gpa_value & hr_gpa_value & hrs_gpa_value columns type to numeric
  * Was numeric(4,2) which would prevent to enter values like 100 (or above).
  *
+ * Add Mass Create Assignments program.
+ * 3. Add Grades/MassCreateAssignments.php to profile_exceptions table.
+ *
  * Local function
  *
  * @since 3.1
@@ -667,6 +670,29 @@ function _update31()
 
 	DBQuery( "ALTER TABLE report_card_grade_scales
 		ALTER COLUMN hrs_gpa_value TYPE numeric;" );
+
+	/**
+	 * 3. Add Grades/MassCreateAssignments.php to profile_exceptions table.
+	 */
+	$admin_profiles_RET = DBGet( DBQuery( "SELECT id
+		FROM user_profiles
+		WHERE profile='admin'" ) );
+
+	foreach ( (array) $admin_profiles_RET as $admin_profile )
+	{
+		$profile_id = $admin_profile['ID'];
+
+		$mca_profile_exceptions_exists = DBGet( DBQuery( "SELECT 1
+			FROM profile_exceptions
+			WHERE profile_id='" . $profile_id . "'
+			AND modname='Grades/MassCreateAssignments.php'" ) );
+
+		if ( ! $mca_profile_exceptions_exists )
+		{
+			DBQuery( "INSERT INTO profile_exceptions
+				VALUES ('" . $profile_id . "', 'Grades/MassCreateAssignments.php', 'Y', 'Y');" );
+		}
+	}
 
 	return $return;
 }

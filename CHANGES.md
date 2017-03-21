@@ -11,6 +11,7 @@ Changes in 3.1
 - Hide link to User Permissions on Add a User screen in Users/includes/General_Info.inc.php
 - Fix Admin Schools restriction: Assign new user to current school only in User.php
 - Fix modname & ProgramLoaded when has parameters in Modules.php & warehouse.js
+- Add Mass Create Assignments program (sponsored by Sofia Private School) in MassCreateAssignments.php & Grades/Menu.php & Update.fnc.php
 
 Changes in 3.0.2
 ----------------

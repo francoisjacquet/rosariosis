@@ -1,0 +1,504 @@
+<?php
+
+require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
+
+DrawHeader( ProgramTitle() . ' - ' . GetMP( UserMP() ) );
+
+if ( isset( $_POST['day_tables'], $_POST['month_tables'], $_POST['year_tables'] ) )
+{
+	$requested_dates = RequestedDates(
+		$_REQUEST['year_tables'],
+		$_REQUEST['month_tables'],
+		$_REQUEST['day_tables']
+	);
+
+	$_REQUEST['tables'] = array_replace_recursive( (array) $_REQUEST['tables'], $requested_dates );
+
+	$_POST['tables'] = array_replace_recursive( (array) $_POST['tables'], $requested_dates );
+}
+
+// TODO: add Warning before create!!
+if ( isset( $_POST['tables'] )
+	&& count( $_POST['tables'] ) )
+{
+	$table = $_REQUEST['table'];
+
+	foreach ( (array) $_REQUEST['tables'] as $id => $columns )
+	{
+		// FJ textarea fields MarkDown sanitize.
+		if ( isset( $columns['DESCRIPTION'] ) )
+		{
+			$columns['DESCRIPTION'] = SanitizeMarkDown( $_POST['tables'][ $id ]['DESCRIPTION'] );
+		}
+
+		// FJ added SQL constraint TITLE & POINTS are not null.
+		if ( ( isset( $columns['TITLE'] )
+				&& $columns['TITLE'] === '' )
+			|| ( isset( $columns['POINTS'] )
+				&& $columns['POINTS'] === '' ) )
+		{
+			$error[] = _( 'Please fill in the required fields' );
+		}
+
+		// FJ fix SQL bug invalid numeric data.
+		// FJ default points.
+		if ( ( isset( $columns['POINTS'] )
+				&& ( ! is_numeric( $columns['POINTS'] )
+					|| ! intval( $columns['POINTS'] ) >= 0 ) )
+			&& ( isset( $columns['DEFAULT_POINTS'] )
+				&& $columns['DEFAULT_POINTS'] !== ''
+				&& $columns['DEFAULT_POINTS'] !== '*'
+				&& ( ! is_numeric( $columns['DEFAULT_POINTS'] )
+					|| ! intval( $columns['DEFAULT_POINTS'] ) >= 0 ) ) )
+		{
+			$error[] = _( 'Please enter valid Numeric data.' );
+		}
+
+		// FJ fix SQL bug invalid sort order.
+		/*if ( ! empty( $columns['SORT_ORDER'] )
+			&& ! is_numeric( $columns['SORT_ORDER'] ) )
+		{
+			$error[] = _( 'Please enter a valid Sort Order.' );
+		}*/
+
+		// FJ textarea fields MarkDown sanitize.
+		if ( isset( $columns['DESCRIPTION'] ) )
+		{
+			$columns['DESCRIPTION'] = SanitizeMarkDown( $_POST['tables'][ $id ]['DESCRIPTION'] );
+		}
+
+		if ( ! isset( $_REQUEST['cp_arr'] )
+			|| ! is_array( $_REQUEST['cp_arr'] ) )
+		{
+			$error[] = _( 'You must choose a course.' );
+		}
+
+		$cp_list = "'" . implode( "','", $_REQUEST['cp_arr'] ) . "'";
+
+		if ( $table === 'GRADEBOOK_ASSIGNMENTS' )
+		{
+			$fields = "ASSIGNMENT_ID,MARKING_PERIOD_ID,"; // ASSIGNMENT_TYPE_ID,STAFF_ID added for each CP below.
+
+			$assignment_types_teachers_RET = DBGet( DBQuery( "SELECT gat.ASSIGNMENT_TYPE_ID, cp.TEACHER_ID, cp.COURSE_PERIOD_ID
+			FROM GRADEBOOK_ASSIGNMENT_TYPES gat, COURSE_PERIODS cp
+			WHERE cp.COURSE_PERIOD_ID IN (" . $cp_list . ")
+			AND gat.ASSIGNMENT_TYPE_ID IN (SELECT COURSE_ID FROM COURSE_PERIODS
+				WHERE COURSE_PERIOD_ID IN (" . $cp_list . ")
+				AND SYEAR='" . UserSyear() . "'
+				AND SCHOOL_ID='" . UserSchool() . "')" ), array(), array( 'COURSE_PERIOD_ID' ) );
+
+			$values = db_seq_nextval( 'GRADEBOOK_ASSIGNMENTS_SEQ' ) . ",'" . UserMP() . "',";
+		}
+		elseif ( $table === 'GRADEBOOK_ASSIGNMENT_TYPES' )
+		{
+			$fields = "ASSIGNMENT_TYPE_ID,"; // COURSE_ID,STAFF_ID added for each CP below.
+
+			$assignment_courses_teachers_RET = DBGet( DBQuery( "SELECT COURSE_ID, TEACHER_ID, COURSE_PERIOD_ID
+			FROM COURSE_PERIODS
+			WHERE COURSE_PERIOD_ID IN (" . $cp_list . ")" ), array(), array( 'COURSE_PERIOD_ID' ) );
+
+			$values = db_seq_nextval( 'GRADEBOOK_ASSIGNMENT_TYPES_SEQ' ) . ",";
+		}
+
+		$go = false;
+
+		foreach ( (array) $columns as $column => $value )
+		{
+			if ( ( $column === 'DUE_DATE'
+					|| $column === 'ASSIGNED_DATE' )
+				&& $value !== '' )
+			{
+				$end_of_quarter_date = GetMP( UserMP(), 'END_DATE' );
+
+				if ( ! VerifyDate( $value ) )
+				{
+					$error[] = _( 'Some dates were not entered correctly.' );
+				}
+				elseif ( $column === 'DUE_DATE' )
+				{
+					if ( $value < $columns['ASSIGNED_DATE'] )
+					{
+						$error[] = _( 'Due date is before assigned date!' );
+					}
+
+					if ( str_replace( '-', '', $end_of_quarter_date ) + 1 < $value )
+					{
+						$error[] = _( 'Due date is after end of quarter!' );
+					}
+				}
+				elseif ( $column === 'ASSIGNED_DATE'
+					&& $end_of_quarter_date < $value )
+				{
+					$error[] = _( 'Assigned date is after end of quarter!' );
+				}
+			}
+			elseif ( $column == 'FINAL_GRADE_PERCENT'
+				&& $table == 'GRADEBOOK_ASSIGNMENT_TYPES' )
+			{
+				$value = preg_replace('/[^0-9.]/','',$value) / 100;
+			}
+			//FJ default points
+			elseif ( $column == 'DEFAULT_POINTS'
+				&& $value == '*'
+				&& $table == 'GRADEBOOK_ASSIGNMENTS' )
+			{
+				$value = '-1';
+			}
+
+			if ( $value != '' )
+			{
+				$fields .= DBEscapeIdentifier( $column ) . ',';
+
+				$values .= "'" . $value . "',";
+
+				$go = true;
+			}
+		}
+
+
+		$sql = '';
+
+		foreach ( (array) $_REQUEST['cp_arr'] as $cp_id )
+		{
+			$sql .= "INSERT INTO " . DBEscapeIdentifier( $table ) . " ";
+
+			if ( $table === 'GRADEBOOK_ASSIGNMENTS' )
+			{
+				$fields_final = $fields . 'ASSIGNMENT_TYPE_ID,STAFF_ID,COURSE_PERIOD_ID,';
+
+				$cp_teacher = $assignment_types_teachers_RET[ $cp_id ][1]['TEACHER_ID'];
+
+				$cp_assignment_type = $assignment_types_teachers_RET[ $cp_id ][1]['ASSIGNMENT_TYPE_ID'];
+
+				$values_final = $values . "'" . $cp_teacher . "','" . $cp_assignment_type . "','" . $cp_id . "',";
+			}
+			elseif ( $table === 'GRADEBOOK_ASSIGNMENT_TYPES' )
+			{
+				$fields_final = $fields . 'COURSE_ID,STAFF_ID,';
+
+				$cp_course = $assignment_courses_teachers_RET[ $cp_id ][1]['COURSE_ID'];
+
+				$cp_teacher = $assignment_courses_teachers_RET[ $cp_id ][1]['TEACHER_ID'];
+
+				$values_final = $values . "'" . $cp_course . "','" . $cp_teacher . "',";
+			}
+
+			$sql .= '(' . mb_substr( $fields_final, 0, -1 ) . ') values(' . mb_substr( $values_final, 0, -1 ) . ');';
+		}
+
+		if ( ! $error && $go )
+		{
+			var_dump($sql);
+			DBQuery( $sql );
+
+			if ( $table === 'GRADEBOOK_ASSIGNMENTS' )
+			{
+				$note[] = _( 'The Assignments were successfully created.' );
+			}
+			elseif ( $table === 'GRADEBOOK_ASSIGNMENT_TYPES' )
+			{
+				$note[] = _( 'The Assignment Types were successfully created.' );
+			}
+
+			if ( $table === 'GRADEBOOK_ASSIGNMENTS' )
+			{
+				// TODO Hook.
+				// do_action( 'Grades/MassCreateAssignments.php|mass_create_assignments' );
+			}
+		}
+	}
+
+	unset( $_REQUEST['tables'] );
+	unset( $_SESSION['_REQUEST_vars']['tables'] );
+}
+
+echo ErrorMessage( $error );
+
+echo ErrorMessage( $note, 'note' );
+
+if ( ! $_REQUEST['modfunc'] )
+{
+	$course_periods_limit_sql = '';
+
+	// Check assignment type is valid for current school & syear!
+	if ( isset( $_REQUEST['assignment_type'] )
+		&& $_REQUEST['assignment_type'] !== 'new' )
+	{
+		$assignment_type_RET = DBGet( DBQuery( "SELECT ASSIGNMENT_TYPE_ID
+			FROM GRADEBOOK_ASSIGNMENT_TYPES
+			WHERE COURSE_ID IN (SELECT COURSE_ID
+				FROM COURSE_PERIODS
+				WHERE SYEAR='" . UserSyear() . "'
+				AND SCHOOL_ID='" . UserSchool() . "')
+			AND TITLE='" . $_REQUEST['assignment_type'] . "'" ) );
+
+		if ( ! $assignment_type_RET )
+		{
+			// Unset assignment type.
+			unset( $_REQUEST['assignment_type']	);
+		}
+		else
+		{
+			// Limit course periods to the ones where the assignment type exists
+			// and to the ones in the current MP.
+			$course_periods_limit_sql = " AND cp.COURSE_PERIOD_ID IN (SELECT cp2.COURSE_PERIOD_ID
+				FROM GRADEBOOK_ASSIGNMENT_TYPES gat, COURSE_PERIODS cp2
+				WHERE gat.COURSE_ID IN (SELECT COURSE_ID
+					FROM COURSE_PERIODS
+					WHERE SYEAR='" . UserSyear() . "'
+					AND SCHOOL_ID='" . UserSchool() . "')
+				AND gat.TITLE='" . $_REQUEST['assignment_type'] . "'
+				AND gat.COURSE_ID=cp2.COURSE_ID
+				AND cp2.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . "))";
+		}
+	}
+
+	if ( isset( $_REQUEST['assignment_type'] )
+		&& $_REQUEST['assignment_type'] !== 'new' )
+	{
+		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&assignment_type=' . $_REQUEST['assignment_type'] . '&table=GRADEBOOK_ASSIGNMENTS" method="POST">';
+
+		$submit_button = SubmitButton( _( 'Create Assignment for Selected Courses' ) );
+
+		DrawHeader(
+			_( 'New Assignment' ),
+			$submit_button
+		);
+
+		$header .= '<table class="width-100p valign-top fixed-col">';
+		$header .= '<tr class="st">';
+
+		// FJ title & points are required.
+		$header .= '<td>' . TextInput(
+			'',
+			'tables[new][TITLE]',
+			_( 'Title' ),
+			'required'
+		) . '</td>';
+
+		$header .= '<td>' . NoInput(
+			$_REQUEST['assignment_type'],
+			_( 'Assignment Type' )
+		) . '</td>';
+
+		$header .= '</tr><tr class="st">';
+
+		$header .= '<td>' . TextInput(
+			'',
+			'tables[new][POINTS]',
+			_( 'Points' ) .
+				'<div class="tooltip"><i>' .
+					_( 'Enter 0 so you can give students extra credit' ) .
+				'</i></div>',
+			'required size=4 maxlength=4 min=0'
+		) . '</td>';
+
+		$header .= '<td>' . TextInput(
+			'',
+			'tables[new][DEFAULT_POINTS]',
+			_( 'Default Points' ) .
+				'<div class="tooltip"><i>' .
+					_( 'Enter an asterisk (*) to excuse student' ) .
+				'</i></div>',
+			' size=4 maxlength=4'
+		) . '</td>';
+
+		$header .= '</tr><tr class="st">';
+
+		$header .= '<td colspan="2">' . TextAreaInput(
+			'',
+			'tables[new][DESCRIPTION]',
+			_( 'Description' )
+		) . '</td>';
+
+		$header .= '</tr><tr class="st">';
+
+		$header .= '<td>' . CheckboxInput(
+			'',
+			'tables[new][SUBMISSION]',
+			_( 'Enable Assignment Submission' ),
+			'',
+			true
+		) . '</td>';
+
+		$header .= '<td></td>';
+
+		$header .= '</tr><tr class="st">';
+
+		$header .= '<td>' . DateInput(
+			DBDate(),
+			'tables[new][ASSIGNED_DATE]',
+			_( 'Assigned' ),
+			false
+		) . '</td>';
+
+		$header .= '<td>' . DateInput(
+			'',
+			'tables[new][DUE_DATE]',
+			_( 'Due' ),
+			false
+		) . '</td>';
+
+		$header .= '</tr></table>';
+	}
+	elseif ( $_REQUEST['assignment_type'] === 'new' )
+	{
+		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&table=GRADEBOOK_ASSIGNMENT_TYPES" method="POST">';
+
+		$submit_button = SubmitButton( _( 'Create Assignment Type for Selected Courses' ) );
+
+		DrawHeader(
+			_( 'New Assignment Type' ),
+			$submit_button
+		);
+
+		$header .= '<table class="width-100p valign-top fixed-col">';
+
+		$header .= '<tr class="st">';
+
+		// FJ title is required.
+		$header .= '<td>' . TextInput(
+			'',
+			'tables[new][TITLE]',
+			_( 'Title' ),
+			'required'
+		) . '</td>';
+
+		$header .= '<td>' . TextInput(
+			'',
+			'tables[new][FINAL_GRADE_PERCENT]',
+			_( 'Percent of Final Grade' )/* .
+			'<div class="tooltip"><i>' .
+				_( 'Will be applied only if teacher configured his gradebook so grades are Weighted' ) .
+			'</i></div>'*/,
+			'maxlength="5" size="4"'
+		) . '</td>';
+
+		$header .= '<td>' . ColorInput(
+			'',
+			'tables[new][COLOR]',
+			_( 'Color' ),
+			'hidden'
+		) . '</td>';
+
+		$header .= '</tr></table>';
+	}
+	else
+		$header = false;
+
+	if ( $header )
+	{
+		DrawHeader( $header );
+	}
+
+	// DISPLAY THE MENU
+	// ASSIGNMENT TYPES.
+	$assignment_types_sql = "SELECT DISTINCT TITLE
+	FROM GRADEBOOK_ASSIGNMENT_TYPES
+	WHERE COURSE_ID IN (SELECT COURSE_ID
+		FROM COURSE_PERIODS
+		WHERE SYEAR='" . UserSyear() . "'
+		AND SCHOOL_ID='" . UserSchool() . "')
+	ORDER BY TITLE";
+
+	$types_RET = DBGet( DBQuery( $assignment_types_sql ) );
+
+	if ( $_REQUEST['assignment_type'] !== 'new' )
+	{
+		foreach ( (array) $types_RET as $key => $value )
+		{
+			if ( $value['TITLE'] === $_REQUEST['assignment_type'] )
+			{
+				$types_RET[ $key ]['row_color'] = Preferences( 'HIGHLIGHT' );
+			}
+		}
+	}
+
+	$columns = array( 'TITLE' => _( 'Assignment Type' ) );
+
+	$link = array();
+
+	$link['TITLE']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=' . $_REQUEST['modfunc'];
+
+	$link['TITLE']['variables'] = array( 'assignment_type' => 'TITLE' );
+
+	$link['add']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&assignment_type=new';
+
+	$link['add']['first'] = 5; // number before add link moves to top
+
+	$LO_options = array(
+		'save' => false,
+		'search' => false,
+		'add' => true,
+		'responsive' => false,
+	);
+
+	echo '<div class="st">';
+
+	ListOutput(
+		$types_RET,
+		$columns,
+		'Assignment Type',
+		'Assignment Types',
+		$link,
+		array(),
+		$LO_options
+	);
+
+	echo '</div>';
+
+	if ( $header )
+	{
+		// Display the course periods list.
+		$course_periods_RET = DBGet( DBQuery( "SELECT cp.COURSE_PERIOD_ID, cp.TITLE,
+			c.TITLE AS COURSE, cs.TITLE AS SUBJECT, cp.MARKING_PERIOD_ID
+			FROM COURSE_PERIODS cp, COURSES c, COURSE_SUBJECTS cs
+			WHERE cp.SCHOOL_ID='" . UserSchool() . "'
+			AND cp.SYEAR='" . UserSyear() . "'
+			AND cp.SCHOOL_ID=c.SCHOOL_ID
+			AND cp.SYEAR=c.SYEAR
+			AND cs.SCHOOL_ID=c.SCHOOL_ID
+			AND cs.SYEAR=c.SYEAR
+			AND cp.COURSE_ID=c.COURSE_ID
+			AND cs.SUBJECT_ID=c.SUBJECT_ID" . $course_periods_limit_sql .
+			" ORDER BY COURSE, cp.SHORT_NAME" ),
+			array( 'COURSE_PERIOD_ID' => '_makeChooseCheckbox', 'MARKING_PERIOD_ID' => 'GetMP' )
+		);
+
+		$columns = array(
+			'COURSE_PERIOD_ID' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.checked,\'cp_arr\');" checked /><a>',
+			'TITLE' => _( 'Title' ),
+			'COURSE' => _( 'Course' ),
+			'MARKING_PERIOD_ID' => _( 'Marking Period' ),
+			// 'SUBJECT' => _( 'Subject' ),
+		);
+
+		ListOutput(
+			$course_periods_RET,
+			$columns,
+			'Course Period',
+			'Course Periods'
+		);
+
+		echo '<div class="center">' . $submit_button . '</div>';
+		echo '</form>';
+	}
+}
+
+
+/**
+ * Make choose checkbox
+ *
+ * DBGet() callback.
+ *
+ * Local function.
+ *
+ * @param  string $value Course Period ID.
+ * @param  string $title 'COURSE_PERIOD_ID'
+ *
+ * @return string        Checkbox to choose Course Period. Checked by default.
+ */
+function _makeChooseCheckbox( $value, $title )
+{
+	return '<input type="checkbox" name="cp_arr[]" value="' . $value . '" checked />';
+}

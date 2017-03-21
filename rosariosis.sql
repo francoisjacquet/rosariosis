@@ -3909,6 +3909,7 @@ INSERT INTO profile_exceptions VALUES (1, 'Grades/ReportCardComments.php', 'Y', 
 INSERT INTO profile_exceptions VALUES (1, 'Grades/ReportCardCommentCodes.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Grades/EditHistoryMarkingPeriods.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Grades/EditReportCardGrades.php', 'Y', 'Y');
+INSERT INTO profile_exceptions VALUES (1, 'Grades/MassCreateAssignments.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Users/TeacherPrograms.php&include=Grades/InputFinalGrades.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Users/TeacherPrograms.php&include=Grades/Grades.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Users/TeacherPrograms.php&include=Grades/AnomalousGrades.php', 'Y', 'Y');
