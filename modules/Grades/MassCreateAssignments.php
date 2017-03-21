@@ -72,7 +72,7 @@ if ( isset( $_POST['tables'] )
 		{
 			$error[] = _( 'You must choose a course.' );
 
-			$cp_list = '';
+			$cp_list = "''";
 		}
 		else
 		{
