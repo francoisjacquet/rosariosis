@@ -82,7 +82,7 @@ if ( isset( $_POST['tables'] )
 			$assignment_types_teachers_RET = DBGet( DBQuery( "SELECT gat.ASSIGNMENT_TYPE_ID, cp.TEACHER_ID, cp.COURSE_PERIOD_ID
 			FROM GRADEBOOK_ASSIGNMENT_TYPES gat, COURSE_PERIODS cp
 			WHERE cp.COURSE_PERIOD_ID IN (" . $cp_list . ")
-			AND gat.ASSIGNMENT_TYPE_ID IN (SELECT COURSE_ID FROM COURSE_PERIODS
+			AND gat.COURSE_ID IN (SELECT COURSE_ID FROM COURSE_PERIODS
 				WHERE COURSE_PERIOD_ID IN (" . $cp_list . ")
 				AND SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "')" ), array(), array( 'COURSE_PERIOD_ID' ) );
@@ -170,7 +170,7 @@ if ( isset( $_POST['tables'] )
 
 				$cp_assignment_type = $assignment_types_teachers_RET[ $cp_id ][1]['ASSIGNMENT_TYPE_ID'];
 
-				$values_final = $values . "'" . $cp_teacher . "','" . $cp_assignment_type . "','" . $cp_id . "',";
+				$values_final = $values . "'" . $cp_assignment_type . "','" . $cp_teacher . "','" . $cp_id . "',";
 			}
 			elseif ( $table === 'GRADEBOOK_ASSIGNMENT_TYPES' )
 			{
@@ -188,7 +188,6 @@ if ( isset( $_POST['tables'] )
 
 		if ( ! $error && $go )
 		{
-			var_dump($sql);
 			DBQuery( $sql );
 
 			if ( $table === 'GRADEBOOK_ASSIGNMENTS' )
