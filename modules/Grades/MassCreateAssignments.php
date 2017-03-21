@@ -67,20 +67,20 @@ if ( isset( $_POST['tables'] )
 			$columns['DESCRIPTION'] = SanitizeMarkDown( $_POST['tables'][ $id ]['DESCRIPTION'] );
 		}
 
-		if ( ! isset( $_REQUEST['cp_arr'] )
-			|| ! is_array( $_REQUEST['cp_arr'] ) )
-		{
-			$error[] = _( 'You must choose a course.' );
-
-			$cp_list = "''";
-		}
-		else
-		{
-			$cp_list = "'" . implode( "','", $_REQUEST['cp_arr'] ) . "'";
-		}
-
 		if ( $table === 'GRADEBOOK_ASSIGNMENTS' )
 		{
+			if ( ! isset( $_REQUEST['cp_arr'] )
+				|| ! is_array( $_REQUEST['cp_arr'] ) )
+			{
+				$error[] = _( 'You must choose a course.' );
+
+				$cp_list = "''";
+			}
+			else
+			{
+				$cp_list = "'" . implode( "','", $_REQUEST['cp_arr'] ) . "'";
+			}
+
 			$fields = "ASSIGNMENT_ID,MARKING_PERIOD_ID,"; // ASSIGNMENT_TYPE_ID,STAFF_ID added for each CP below.
 
 			$assignment_types_teachers_RET = DBGet( DBQuery( "SELECT gat.ASSIGNMENT_TYPE_ID, cp.TEACHER_ID, cp.COURSE_PERIOD_ID
@@ -95,11 +95,23 @@ if ( isset( $_POST['tables'] )
 		}
 		elseif ( $table === 'GRADEBOOK_ASSIGNMENT_TYPES' )
 		{
-			$fields = "ASSIGNMENT_TYPE_ID,"; // COURSE_ID,STAFF_ID added for each CP below.
+			if ( ! isset( $_REQUEST['c_arr'] )
+				|| ! is_array( $_REQUEST['c_arr'] ) )
+			{
+				$error[] = _( 'You must choose a course.' );
 
-			$assignment_courses_teachers_RET = DBGet( DBQuery( "SELECT COURSE_ID, TEACHER_ID, COURSE_PERIOD_ID
+				$c_list = "''";
+			}
+			else
+			{
+				$c_list = "'" . implode( "','", $_REQUEST['c_arr'] ) . "'";
+			}
+
+			$fields = "ASSIGNMENT_TYPE_ID,"; // COURSE_ID,STAFF_ID added for each Course below.
+
+			$assignment_courses_teachers_RET = DBGet( DBQuery( "SELECT DISTINCT COURSE_ID, TEACHER_ID
 			FROM COURSE_PERIODS
-			WHERE COURSE_PERIOD_ID IN (" . $cp_list . ")" ), array(), array( 'COURSE_PERIOD_ID' ) );
+			WHERE COURSE_ID IN (" . $c_list . ")" ), array(), array( 'COURSE_ID' ) );
 
 			$values = db_seq_nextval( 'GRADEBOOK_ASSIGNMENT_TYPES_SEQ' ) . ",";
 		}
@@ -162,12 +174,12 @@ if ( isset( $_POST['tables'] )
 
 		$sql = '';
 
-		foreach ( (array) $_REQUEST['cp_arr'] as $cp_id )
+		if ( $table === 'GRADEBOOK_ASSIGNMENTS' )
 		{
-			$sql .= "INSERT INTO " . DBEscapeIdentifier( $table ) . " ";
-
-			if ( $table === 'GRADEBOOK_ASSIGNMENTS' )
+			foreach ( (array) $_REQUEST['cp_arr'] as $cp_id )
 			{
+				$sql .= "INSERT INTO " . DBEscapeIdentifier( $table ) . " ";
+
 				$fields_final = $fields . 'ASSIGNMENT_TYPE_ID,STAFF_ID,COURSE_PERIOD_ID,';
 
 				$cp_teacher = $assignment_types_teachers_RET[ $cp_id ][1]['TEACHER_ID'];
@@ -175,19 +187,29 @@ if ( isset( $_POST['tables'] )
 				$cp_assignment_type = $assignment_types_teachers_RET[ $cp_id ][1]['ASSIGNMENT_TYPE_ID'];
 
 				$values_final = $values . "'" . $cp_assignment_type . "','" . $cp_teacher . "','" . $cp_id . "',";
+
+				$sql .= '(' . mb_substr( $fields_final, 0, -1 ) .
+					') values(' . mb_substr( $values_final, 0, -1 ) . ');';
 			}
-			elseif ( $table === 'GRADEBOOK_ASSIGNMENT_TYPES' )
+		}
+		elseif ( $table === 'GRADEBOOK_ASSIGNMENT_TYPES' )
+		{
+			foreach ( (array) $_REQUEST['c_arr'] as $c_id )
 			{
-				$fields_final = $fields . 'COURSE_ID,STAFF_ID,';
+				foreach ( (array) $assignment_courses_teachers_RET[ $c_id ] as $assignment_course_teacher )
+				{
+					$sql .= "INSERT INTO " . DBEscapeIdentifier( $table ) . " ";
 
-				$cp_course = $assignment_courses_teachers_RET[ $cp_id ][1]['COURSE_ID'];
+					$fields_final = $fields . 'COURSE_ID,STAFF_ID,';
 
-				$cp_teacher = $assignment_courses_teachers_RET[ $cp_id ][1]['TEACHER_ID'];
+					$c_teacher = $assignment_course_teacher['TEACHER_ID'];
 
-				$values_final = $values . "'" . $cp_course . "','" . $cp_teacher . "',";
+					$values_final = $values . "'" . $c_id . "','" . $c_teacher . "',";
+
+					$sql .= '(' . mb_substr( $fields_final, 0, -1 ) .
+						') values(' . mb_substr( $values_final, 0, -1 ) . ');';
+				}
 			}
-
-			$sql .= '(' . mb_substr( $fields_final, 0, -1 ) . ') values(' . mb_substr( $values_final, 0, -1 ) . ');';
 		}
 
 		if ( ! $error && $go )
@@ -239,20 +261,6 @@ if ( ! $_REQUEST['modfunc'] )
 		{
 			// Unset assignment type.
 			unset( $_REQUEST['assignment_type']	);
-		}
-		else
-		{
-			// Limit course periods to the ones where the assignment type exists
-			// and to the ones in the current MP.
-			$course_periods_limit_sql = " AND cp.COURSE_PERIOD_ID IN (SELECT cp2.COURSE_PERIOD_ID
-				FROM GRADEBOOK_ASSIGNMENT_TYPES gat, COURSE_PERIODS cp2
-				WHERE gat.COURSE_ID IN (SELECT COURSE_ID
-					FROM COURSE_PERIODS
-					WHERE SYEAR='" . UserSyear() . "'
-					AND SCHOOL_ID='" . UserSchool() . "')
-				AND gat.TITLE='" . $_REQUEST['assignment_type'] . "'
-				AND gat.COURSE_ID=cp2.COURSE_ID
-				AND cp2.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . "))";
 		}
 	}
 
@@ -452,36 +460,78 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( $header )
 	{
-		// Display the course periods list.
-		$course_periods_RET = DBGet( DBQuery( "SELECT cp.COURSE_PERIOD_ID, cp.TITLE,
-			c.TITLE AS COURSE, cs.TITLE AS SUBJECT, cp.MARKING_PERIOD_ID
-			FROM COURSE_PERIODS cp, COURSES c, COURSE_SUBJECTS cs
-			WHERE cp.SCHOOL_ID='" . UserSchool() . "'
-			AND cp.SYEAR='" . UserSyear() . "'
-			AND cp.SCHOOL_ID=c.SCHOOL_ID
-			AND cp.SYEAR=c.SYEAR
-			AND cs.SCHOOL_ID=c.SCHOOL_ID
-			AND cs.SYEAR=c.SYEAR
-			AND cp.COURSE_ID=c.COURSE_ID
-			AND cs.SUBJECT_ID=c.SUBJECT_ID" . $course_periods_limit_sql .
-			" ORDER BY COURSE, cp.SHORT_NAME" ),
-			array( 'COURSE_PERIOD_ID' => '_makeChooseCheckbox', 'MARKING_PERIOD_ID' => 'GetMP' )
-		);
+		if ( $_REQUEST['assignment_type'] === 'new' )
+		{
+			// Display the courses list.
+			$courses_RET = DBGet( DBQuery( "SELECT c.COURSE_ID,
+				c.TITLE, cs.TITLE AS SUBJECT
+				FROM COURSES c, COURSE_SUBJECTS cs
+				WHERE c.SCHOOL_ID='" . UserSchool() . "'
+				AND c.SYEAR='" . UserSyear() . "'
+				AND cs.SCHOOL_ID=c.SCHOOL_ID
+				AND cs.SYEAR=c.SYEAR
+				AND cs.SUBJECT_ID=c.SUBJECT_ID
+				ORDER BY cs.TITLE, c.TITLE" ),
+				array( 'COURSE_ID' => '_makeChooseCheckbox', 'MARKING_PERIOD_ID' => 'GetMP' )
+			);
 
-		$columns = array(
-			'COURSE_PERIOD_ID' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.checked,\'cp_arr\');" checked /><a>',
-			'TITLE' => _( 'Title' ),
-			'COURSE' => _( 'Course' ),
-			'MARKING_PERIOD_ID' => _( 'Marking Period' ),
-			// 'SUBJECT' => _( 'Subject' ),
-		);
+			$columns = array(
+				'COURSE_ID' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.checked,\'c_arr\');" checked /><a>',
+				'TITLE' => _( 'Title' ),
+				'SUBJECT' => _( 'Subject' ),
+			);
 
-		ListOutput(
-			$course_periods_RET,
-			$columns,
-			'Course Period',
-			'Course Periods'
-		);
+			ListOutput(
+				$courses_RET,
+				$columns,
+				'Course',
+				'Courses'
+			);
+		} else {
+
+			// Limit course periods to the ones where the assignment type exists
+			// and to the ones in the current MP.
+			$course_periods_limit_sql = " AND cp.COURSE_PERIOD_ID IN (SELECT cp2.COURSE_PERIOD_ID
+				FROM GRADEBOOK_ASSIGNMENT_TYPES gat, COURSE_PERIODS cp2
+				WHERE gat.COURSE_ID IN (SELECT COURSE_ID
+					FROM COURSE_PERIODS
+					WHERE SYEAR='" . UserSyear() . "'
+					AND SCHOOL_ID='" . UserSchool() . "')
+				AND gat.TITLE='" . $_REQUEST['assignment_type'] . "'
+				AND gat.COURSE_ID=cp2.COURSE_ID
+				AND cp2.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . "))";
+
+			// Display the course periods list.
+			$course_periods_RET = DBGet( DBQuery( "SELECT cp.COURSE_PERIOD_ID, cp.TITLE,
+				c.TITLE AS COURSE, cs.TITLE AS SUBJECT, cp.MARKING_PERIOD_ID
+				FROM COURSE_PERIODS cp, COURSES c, COURSE_SUBJECTS cs
+				WHERE cp.SCHOOL_ID='" . UserSchool() . "'
+				AND cp.SYEAR='" . UserSyear() . "'
+				AND cp.SCHOOL_ID=c.SCHOOL_ID
+				AND cp.SYEAR=c.SYEAR
+				AND cs.SCHOOL_ID=c.SCHOOL_ID
+				AND cs.SYEAR=c.SYEAR
+				AND cp.COURSE_ID=c.COURSE_ID
+				AND cs.SUBJECT_ID=c.SUBJECT_ID" . $course_periods_limit_sql .
+				" ORDER BY COURSE, cp.SHORT_NAME" ),
+				array( 'COURSE_PERIOD_ID' => '_makeChooseCheckbox', 'MARKING_PERIOD_ID' => 'GetMP' )
+			);
+
+			$columns = array(
+				'COURSE_PERIOD_ID' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.checked,\'cp_arr\');" checked /><a>',
+				'TITLE' => _( 'Title' ),
+				'COURSE' => _( 'Course' ),
+				'MARKING_PERIOD_ID' => _( 'Marking Period' ),
+				// 'SUBJECT' => _( 'Subject' ),
+			);
+
+			ListOutput(
+				$course_periods_RET,
+				$columns,
+				'Course Period',
+				'Course Periods'
+			);
+		}
 
 		echo '<div class="center">' . $submit_button . '</div>';
 		echo '</form>';
@@ -497,11 +547,18 @@ if ( ! $_REQUEST['modfunc'] )
  * Local function.
  *
  * @param  string $value Course Period ID.
- * @param  string $title 'COURSE_PERIOD_ID'
+ * @param  string $title 'COURSE_PERIOD_ID' or 'COURSE_ID'.
  *
- * @return string        Checkbox to choose Course Period. Checked by default.
+ * @return string        Checkbox to choose Course (Period). Checked by default.
  */
 function _makeChooseCheckbox( $value, $title )
 {
-	return '<input type="checkbox" name="cp_arr[]" value="' . $value . '" checked />';
+	$name = 'cp_arr[]';
+
+	if ( $title === 'COURSE_ID' )
+	{
+		$name = 'c_arr[]';
+	}
+
+	return '<input type="checkbox" name="' . $name . '" value="' . $value . '" checked />';
 }
