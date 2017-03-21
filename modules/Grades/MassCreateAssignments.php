@@ -71,9 +71,13 @@ if ( isset( $_POST['tables'] )
 			|| ! is_array( $_REQUEST['cp_arr'] ) )
 		{
 			$error[] = _( 'You must choose a course.' );
-		}
 
-		$cp_list = "'" . implode( "','", $_REQUEST['cp_arr'] ) . "'";
+			$cp_list = '';
+		}
+		else
+		{
+			$cp_list = "'" . implode( "','", $_REQUEST['cp_arr'] ) . "'";
+		}
 
 		if ( $table === 'GRADEBOOK_ASSIGNMENTS' )
 		{
