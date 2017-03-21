@@ -12,6 +12,7 @@ Changes in 3.1
 - Fix Admin Schools restriction: Assign new user to current school only in User.php
 - Fix modname & ProgramLoaded when has parameters in Modules.php & warehouse.js
 - Add Mass Create Assignments program (sponsored by Sofia Private School) in MassCreateAssignments.php & Grades/Menu.php & Update.fnc.php
+- Fix login page not cached so user cannot browse back in Warehouse.php
 
 Changes in 3.0.2
 ----------------

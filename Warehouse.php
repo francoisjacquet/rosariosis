@@ -598,11 +598,13 @@ function isAJAX()
  */
 function ETagCache( $mode = '' )
 {
-	global $ETagCache;
+	global $ETagCache,
+		$_ROSARIO;
 
 	static $ob_started = false;
 
-	if ( ! $ETagCache )
+	if ( ! $ETagCache
+		|| $_ROSARIO['page'] === 'login' ) // Fix login page not cached so user cannot browse back.
 	{
 		return false;
 	}
