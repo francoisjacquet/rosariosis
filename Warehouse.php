@@ -397,6 +397,7 @@ function Warehouse( $mode )
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width" />
 	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="mobile-web-app-capable" content="yes" />
 	<noscript>
 		<meta http-equiv="REFRESH" content="0;url=index.php?modfunc=logout&amp;reason=javascript" />
 	</noscript>
