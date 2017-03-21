@@ -1,7 +1,10 @@
 <?php
-if ( $_REQUEST['modfunc'] === 'save' )
+if ( $_REQUEST['modfunc'] === 'save'
+	&& AllowEdit()
+	&& UserStudentID() )
 {
-	if (isset($_REQUEST['staff']) && is_array($_REQUEST['staff']) && AllowEdit())
+	if ( isset( $_REQUEST['staff'] )
+		&& is_array( $_REQUEST['staff'] ) )
 	{
 		$current_RET = DBGet(DBQuery("SELECT STAFF_ID FROM STUDENTS_JOIN_USERS WHERE STUDENT_ID='".UserStudentID()."'"),array(),array('STAFF_ID'));
 		foreach ( (array) $_REQUEST['staff'] as $staff_id => $yes)
@@ -24,9 +27,11 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	$_SESSION['_REQUEST_vars']['modfunc'] = false;
 }
 
-DrawHeader(ProgramTitle());
+DrawHeader( ProgramTitle() );
 
-if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'delete'
+	&& AllowEdit()
+	&& UserStudentID() )
 {
 	if (DeletePrompt(_('student from that user'),_('remove access to')) && !empty($_REQUEST['staff_id_remove']))
 	{

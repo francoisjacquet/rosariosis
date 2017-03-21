@@ -63,7 +63,8 @@ if (User('PROFILE')!='admin')
 }
 
 if ( $_REQUEST['modfunc'] === 'update'
-	&& AllowEdit() )
+	&& AllowEdit()
+	&& UserStudentID() )
 {
 	if ( isset( $_POST['day_students'], $_POST['month_students'], $_POST['year_students'] ) )
 	{

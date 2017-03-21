@@ -52,7 +52,8 @@ if ( isset( $_POST['day_values'], $_POST['month_values'], $_POST['year_values'] 
 }
 
 if ( isset( $_POST['values'] )
-	&& count( $_POST['values'] ) )
+	&& count( $_POST['values'] )
+	&& UserStudentID() )
 {
 	$sql = "INSERT INTO DISCIPLINE_REFERRALS ";
 

@@ -20,7 +20,7 @@ if ( !isset( $menu ) )
 	}
 }
 
-if (UserStaffID())
+if ( UserStaffID() )
 {
 	$profile = DBGet(DBQuery("SELECT PROFILE_ID,PROFILE FROM STAFF WHERE STAFF_ID='".UserStaffID()."'"));
 	if ( $profile[1]['PROFILE_ID'] || $profile[1]['PROFILE']=='none')
@@ -35,7 +35,9 @@ $profile = DBGet(DBQuery("SELECT PROFILE FROM STAFF WHERE STAFF_ID='".$user_id."
 $xprofile = $profile[1]['PROFILE'];
 $exceptions_RET = DBGet(DBQuery("SELECT MODNAME,CAN_USE,CAN_EDIT FROM STAFF_EXCEPTIONS WHERE USER_ID='".$user_id."'"),array(),array('MODNAME'));
 
-if ( $_REQUEST['modfunc']=='update' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'update'
+	&& AllowEdit()
+	&& UserStaffID() )
 {
 	$tmp_menu = $menu;
 	$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM STUDENT_FIELD_CATEGORIES"));

@@ -13,6 +13,7 @@ Changes in 3.1
 - Fix modname & ProgramLoaded when has parameters in Modules.php & warehouse.js
 - Add Mass Create Assignments program (sponsored by Sofia Private School) in MassCreateAssignments.php & Grades/Menu.php & Update.fnc.php
 - Fix login page not cached so user cannot browse back in Warehouse.php
+- Fix SQL error: check for current Student / User ID before saving programwide
 
 Changes in 3.0.2
 ----------------

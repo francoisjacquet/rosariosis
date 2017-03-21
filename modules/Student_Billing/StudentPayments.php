@@ -21,7 +21,10 @@ if ( isset( $_REQUEST['day_values'], $_REQUEST['month_values'], $_REQUEST['year_
 	$_REQUEST['values'] = array_replace_recursive( (array) $_REQUEST['values'], (array) $requested_dates );
 }
 
-if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
+if ( $_REQUEST['values']
+	&& $_POST['values']
+	&& AllowEdit()
+	&& UserStudentID() )
 {
 	foreach ( (array) $_REQUEST['values'] as $id => $columns)
 	{
@@ -166,8 +169,11 @@ if ( UserStudentID()
 
 	ListOutput($RET,$columns,'Payment','Payments',$link,array(),$options);
 
-	if ( ! $_REQUEST['print_statements'] && AllowEdit())
+	if ( ! $_REQUEST['print_statements']
+		&& AllowEdit() )
+	{
 		echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+	}
 
 	echo '<br />';
 

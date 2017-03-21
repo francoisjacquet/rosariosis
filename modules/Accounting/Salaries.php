@@ -11,7 +11,10 @@ if ( ! $_REQUEST['print_statements'])
 	Search('staff_id',$extra);
 }
 
-if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
+if ( $_REQUEST['values']
+	&& $_POST['values']
+	&& AllowEdit()
+	&& UserStaffID() )
 {
 	if ( isset( $_POST['day_values'], $_POST['month_values'], $_POST['year_values'] ) )
 	{

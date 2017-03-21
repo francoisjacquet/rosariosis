@@ -1,7 +1,10 @@
 <?php
-if ( $_REQUEST['modfunc'] === 'save' )
+if ( $_REQUEST['modfunc'] === 'save'
+	&& AllowEdit()
+	&& UserStaffID() )
 {
-	if (isset($_REQUEST['student']) && is_array($_REQUEST['student']) && AllowEdit())
+	if ( isset( $_REQUEST['student'] )
+		&& is_array( $_REQUEST['student'] ) )
 	{
 		$current_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS_JOIN_USERS WHERE STAFF_ID='".UserStaffID()."'"),array(),array('STUDENT_ID'));
 		foreach ( (array) $_REQUEST['student'] as $student_id => $yes)
@@ -27,7 +30,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 DrawHeader(ProgramTitle());
 
-if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
+if ( $_REQUEST['modfunc']=='delete'
+	&& AllowEdit()
+	&& UserStaffID() )
 {
 	if (DeletePrompt(_('student from that user'),_('remove access to')) && !empty($_REQUEST['student_id_remove']))
 	{

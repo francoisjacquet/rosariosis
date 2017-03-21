@@ -23,7 +23,10 @@ if ( isset( $_REQUEST['day_values'], $_REQUEST['month_values'], $_REQUEST['year_
 	$_REQUEST['values'] = array_replace_recursive( (array) $_REQUEST['values'], (array) $requested_dates );
 }
 
-if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
+if ( $_REQUEST['values']
+	&& $_POST['values']
+	&& AllowEdit()
+	&& UserStaffID() )
 {
 	foreach ( (array) $_REQUEST['values'] as $id => $columns)
 	{

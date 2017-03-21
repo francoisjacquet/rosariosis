@@ -60,7 +60,8 @@ if (User('PROFILE')!='admin')
 }
 
 if ( $_REQUEST['modfunc'] === 'update'
-	&& AllowEdit() )
+	&& AllowEdit()
+	&& UserStaffID() )
 {
 	if ( isset( $_POST['day_staff'], $_POST['month_staff'], $_POST['year_staff'] ) )
 	{

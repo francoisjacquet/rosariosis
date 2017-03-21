@@ -9,7 +9,10 @@ if ( ! $_REQUEST['print_statements'])
 	Search('student_id',$extra);
 }
 
-if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
+if ( $_REQUEST['values']
+	&& $_POST['values']
+	&& AllowEdit()
+	&& UserStudentID() )
 {
 	if ( isset( $_POST['day_values'], $_POST['month_values'], $_POST['year_values'] ) )
 	{
@@ -134,8 +137,11 @@ if ( UserStudentID()
 
 	ListOutput($RET,$columns,'Fee','Fees',$link,array(),$options);
 
-	if ( ! $_REQUEST['print_statements'] && AllowEdit())
+	if ( ! $_REQUEST['print_statements']
+		&& AllowEdit() )
+	{
 		echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+	}
 
 	echo '<br />';
 	if ( ! $_REQUEST['print_statements'])
