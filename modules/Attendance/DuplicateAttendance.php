@@ -206,7 +206,8 @@ if (isset($_REQUEST['search_modfunc']) && $_REQUEST['search_modfunc']=='list' &&
 			$totalpages = $num_rows/$rows_per_page;
 			$totalpages = ceil($totalpages);
 
-			echo '<span class="center">'._('Page').': ';
+			echo '<br />';
+			echo '<div class="center">'._('Page').': ';
 			$first = 0;
 			$ii = 1;
 			for ( $i=0;$i<$totalpages;$i++)
@@ -226,14 +227,12 @@ if (isset($_REQUEST['search_modfunc']) && $_REQUEST['search_modfunc']=='list' &&
 			}
 
 			echo sprintf(_('of %d pages.'), $totalpages);
+			echo '</div>';
 		}
 
-
-		echo '<br />';
-		//FJ css WPadmin
-		echo '<br />&nbsp;<br /><table class="widefat rt center">';
+		echo '<br /><table class="widefat rt center">';
 		echo '<thead><tr><th class="column_heading"><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.checked,\'deletecheck\');" /> &nbsp</th>';
-		//FJ add translation
+
 		echo '<th>'._('Student').' ('.sprintf(_('%s ID'),Config('NAME')).')</th>';
 		echo '<th>'._('Course').' ('._('Course Period ID').')</th>';
 		echo '<th>'._('Course Start Date').'</th>';
@@ -288,7 +287,14 @@ if (isset($_REQUEST['search_modfunc']) && $_REQUEST['search_modfunc']=='list' &&
 						   $yellow = 0;
 					}
 
-					echo '<tr><td><input type="checkbox" name="deletecheck['.$count.']" value="'.$count.'"></td><td><span class="size-1">'.$first.' '.$last.' ('.$studentid.')</td><td><span class="size-1">'.$short_name.' ('.$courseid.')</td><td><span class="size-1">'.$start.' &nbsp</td><td><span class="size-1">'.$end.' &nbsp</td><td><span class="size-1">'.$schooldate.'</td></tr>';
+					echo '<tr>
+						<td><input type="checkbox" name="deletecheck[' . $count . ']" value="' . $count . '"></td>
+						<td>' . $first . ' ' . $last . ' (' . $studentid . ')</td>
+						<td>' . $short_name . ' (' .$courseid . ')</td>
+						<td>' . ProperDate( $start ) . '</td>
+						<td>' . ProperDate( $end ) . '</td>
+						<td>' . ProperDate( $schooldate ) . '</td>
+					</tr>';
 
 					$count++;
 				}
@@ -318,7 +324,14 @@ if (isset($_REQUEST['search_modfunc']) && $_REQUEST['search_modfunc']=='list' &&
 						   $yellow = 0;
 					}
 
-					echo '<tr><td><input type="checkbox" name="deletecheck['.$count.']" value="'.$count.'"></td><td><span class="size-1">'.$first.' '.$last.' ('.$studentid.')</td><td><span class="size-1">'.$short_name.' ('.$courseid.')</td><td><span class="size-1">'.$start.' &nbsp</td><td><span class="size-1">'.$end.' &nbsp</td><td><span class="size-1">'.$schooldate.'</td></tr>';
+					echo '<tr>
+						<td><input type="checkbox" name="deletecheck[' . $count . ']" value="' . $count . '"></td>
+						<td>' . $first . ' ' . $last . ' (' . $studentid . ')</td>
+						<td>' . $short_name . ' (' . $courseid . ')</td>
+						<td>' . ProperDate( $start ) . '</td>
+						<td>' . ProperDate( $end ) . '</td>
+						<td>' . ProperDate( $schooldate ) . '</td>
+					</tr>';
 
 					$count++;
 				}
