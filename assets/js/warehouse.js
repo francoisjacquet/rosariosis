@@ -472,7 +472,7 @@ function showHelp() {
 	var $fh = $('#footerhelp');
 	if (modname !== showHelp.tmp) {
 		$('.loading').css('visibility', 'visible');
-		$.get("Bottom.php?bottomfunc=help&modname=" + modname, function (data) {
+		$.get("Bottom.php?bottomfunc=help&modname=" + encodeURIComponent(modname), function (data) {
 			showHelp.tmpdata = data;
 			$fh.html(data).scrollTop(0);
 			if (isTouchDevice()) touchScroll( $fh[0] );

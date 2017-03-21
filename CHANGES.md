@@ -10,6 +10,7 @@ Changes in 3.1
 - Unique Bottom.php URL in Users/Search.inc.php & Students/Search.inc.php
 - Hide link to User Permissions on Add a User screen in Users/includes/General_Info.inc.php
 - Fix Admin Schools restriction: Assign new user to current school only in User.php
+- Fix modname & ProgramLoaded when has parameters in Modules.php & warehouse.js
 
 Changes in 3.0.2
 ----------------
