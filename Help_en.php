@@ -1450,6 +1450,30 @@ HTML;
 </p>
 HTML;
 
+	$help['Grades/MassCreateAssignments.php'] = <<<HTML
+<p>
+	<i>Mass Create Assignments</i> allows you to create assignments for multiple courses at once. There are two tiers involved with assignments: assignment types and assignments.
+</p>
+<p>
+	You will probably have assignment types called "Homework", "Tests", and perhaps "Quizzes". Assignment types are set for every period of a given course.
+</p>
+<p>
+	To add an assignment type, click on the Add icon (+) in the assignment type column. Then, fill in the information in the fields above the list of assignment types. Select the Courses in the list at the bottom of the screen and click the "Create Assignment Type for Selected Courses" button.
+</p>
+<p>
+	If you set the "Percent of Final Grade", teachers will see it only if they have checked the "Weight Grades" checkbox in their Gradebook Configuration.
+</p>
+<p>
+	To add an assignment, click on the desired assignment type in the assignment type column. Then, fill in the information in the fields above the list of assignment types. Select the Course Periods in the list at the bottom of the screen and click the "Create Assignment for Selected Course Periods" button.
+</p>
+<p>
+	If you enter 0 "Points", this will let you give Students Extra Credit.
+</p>
+<p>
+	If you check "Enable Assignment Submission", Students (or Parents) can submit the assignment (upload a file and/or leave a message). Submissions are opened from the assigned date and until the due date. If no due date has been set, submissions are open until the end of the quarter. Teachers can later consult the submissions in the "Grades" program.
+</p>
+HTML;
+
 elseif ( User( 'PROFILE' ) === 'teacher' ) :
 
 	$help['Grades/InputFinalGrades.php'] = <<<HTML

@@ -1450,6 +1450,30 @@ HTML;
 </p>
 HTML;
 
+	$help['Grades/MassCreateAssignments.php'] = <<<HTML
+<p>
+	<i>Tareas para Varias Clases</i> le permite crear tareas para varios clases a la vez. Existen tipos de tarea y tareas.
+</p>
+<p>
+	Usted tendrá probablemente tipos de tarea llamados «Trabajo», «Quiz», o «Previa». Los tipos de tarea se crean para cada clase de un mismo curso.
+</p>
+<p>
+	Para agregar un tipo de tarea, haga clic sobre el icono «+» en la columna tipo de tarea. Luego, llene los datos en los campos arriba de la lista. Seleccione los cursos deseados en la lista en la parte inferior de la pantalla y presione el botón «Crear el Tipo de Tarea para los Cursos Seleccionados».
+</p>
+<p>
+	Si define el "Porcentaje de la Calificación Final", los docentes lo podrán ver solamente si han marcado la casilla "Ponderar Calificaciones" en la Configuración de sus Libro de Calificaciones.
+</p>
+<p>
+	Para agregar una tarea, haga clic sobre el tipo de tarea deseado en la columna tipo de tarea. Luego, llene los datos en los campos arriba de la lista. Seleccione las clases deseadas en la lista en la parte inferior de la pantalla y presione el botón «Crear la Tarea para las Clases Seleccionadas».
+</p>
+<p>
+	Si entra 0 "Puntos", podrá dar Puntos Extra a los Estudiantes.
+</p>
+<p>
+	Si marca la casilla «Permitir Entrega de Tarea», los Estudiantes (o Padres) pueden entregar la tarea (subir un archivo o/y dejar un mensaje). Las entregas están abiertas desde la fecha de asignación hasta la fecha de plazo. Si ninguna fecha de plazo ha sido definida, las entregas están abiertas hasta el fin del bimestre. Luego, los docentes podran consultar las entregas en el programa "Calificaciones".
+</p>
+HTML;
+
 elseif ( User( 'PROFILE' ) === 'teacher' ) :
 
 	$help['Grades/InputFinalGrades.php'] = <<<HTML
@@ -1478,10 +1502,10 @@ HTML;
 
 	$help['Grades/Assignments.php'] = <<<HTML
 <p>
-	<i>Libro de Calificaciones - Tareas</i> le permite configurar sus tareas. Hay tipos de tareas y tareas.
+	<i>Tareas</i> le permite configurar sus tareas. Existen tipos de tarea y tareas.
 </p>
 <p>
-	Usted tendrá probablemente tipos de tareas llamados «Trabajo», «Quiz», o «Previa». Los tipos de tareas se crean para cada curso que usted tiene.
+	Usted tendrá probablemente tipos de tarea llamados «Trabajo», «Quiz», o «Previa». Los tipos de tarea se crean para cada clase de un mismo curso.
 </p>
 <p>
 	Para agregar un tipo de tarea o una tarea, haga clic sobre el icono «+» en la columna deseada. Luego, llene los datos en los campos arriba de las listas y presione el botón «Guardar».
