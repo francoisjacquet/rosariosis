@@ -269,7 +269,7 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&assignment_type=' . $_REQUEST['assignment_type'] . '&table=GRADEBOOK_ASSIGNMENTS" method="POST">';
 
-		$submit_button = SubmitButton( _( 'Create Assignment for Selected Courses' ) );
+		$submit_button = SubmitButton( _( 'Create Assignment for Selected Course Periods' ) );
 
 		DrawHeader(
 			_( 'New Assignment' ),
