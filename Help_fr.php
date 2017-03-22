@@ -1444,6 +1444,30 @@ Maintenant, pour l'élève sélectionné, ajoutez la période scolaire (typiquem
 </p>
 HTML;
 
+	$help['Grades/MassCreateAssignments.php'] = <<<HTML
+<p>
+	<i>Créer des Devoirs en Masse</i> vous permet de créer des devoirs pour plusieurs classes à la fois. Il existe les types de devoir et les devoirs en eux-même.
+</p>
+<p>
+	Vous aurez probablement des types de devoir nommés "Devoirs maison", "Contrôles", ou bien "Quiz". Les types de devoir sont définis pour toutes les classes d'un même cours.
+</p>
+<p>
+	Pour ajouter un type de devoir, cliquez sur l'icône Ajouter (+) dans la colonne type de devoir. Esuite, renseignez les informations dans les champs au dessus de la liste de types de devoir. Sélectionnez les Cours désirés dans la liste en bas de l'écran et cliquez sur le bouton "Créer le Type de Devoir pour les Cours Sélectionnés".
+</p>
+<p>
+	Si vous définissez le "Pourcentage de la Note Définitive", les enseignants le verront seulement si ils ont coché la case "Pondérer les Notes" dans la Configuration de leur Carnet de Notes.
+</p>
+<p>
+	Pour ajouter un devoir, cliquez sur le type de devoir désiré dans la colonne type de devoir. Esuite, renseignez les informations dans les champs au dessus de la liste de types de devoir. Sélectionnez les Classes désirées dans la liste en bas de l'écran cliquez sur le bouton "Créer le Devoir pour les Classes Sélectionnées".
+</p>
+<p>
+	Si vous saisissez 0 "Points", cela vous permet de donner des Points Bonus aux Élèves.
+</p>
+<p>
+	Si vous cochez "Activer la Remise de Devoir", les Élèves (ou leurs Parents) peuvent rendre le devoir (uploader un fichier et/ou laisser un message). La remise est possible depuis la date de début et jusqu'à la date d'échéance. Si aucune date d'échéance n'a été définie, la remise peut se faire jusqu'à la fin du trimestre. Les enseignants pourront ensuite consulter les devoirs grâce au programme "Notes".
+</p>
+HTML;
+
 elseif ( User( 'PROFILE' ) === 'teacher' ) :
 
 	$help['Grades/InputFinalGrades.php'] = <<<HTML
@@ -1478,19 +1502,19 @@ HTML;
 
 	$help['Grades/Assignments.php'] = <<<HTML
 <p>
-	<i>Devoirs</i> vous permet de configurer les devoirs. Il existe les types de devoirs et les devoirs en eux-même.
+	<i>Devoirs</i> vous permet de configurer les devoirs. Il existe les types de devoir et les devoirs en eux-même.
 </p>
 <p>
-	Vous aurez probablement des types de devoirs nommés "Devoirs maison", "Contrôles", ou bien "Quiz". Les types de devoirs sont définis pour toutes les classes d'un même cours. Donc, si vous enseignez les Mathématiques dans 2 classes, vous devrez ajouter les types de devoirs seulement une fois pour ces 2 classes.
+	Vous aurez probablement des types de devoir nommés "Devoirs maison", "Contrôles", ou bien "Quiz". Les types de devoir sont définis pour toutes les classes d'un même cours. Donc, si vous enseignez les Mathématiques dans 2 classes, vous devrez ajouter les types de devoir seulement une fois pour ces 2 classes.
 </p>
 <p>
-	Pour ajouter un type de devoirs ou un devoir, cliquez sur l'icône Ajouter (+) dans la colonne correspondante. Esuite, renseignez les informations dans les champs au dessus des listes de devoirs / types et cliquez sur le bouton "Enregistrer".
+	Pour ajouter un type de devoir ou un devoir, cliquez sur l'icône Ajouter (+) dans la colonne correspondante. Esuite, renseignez les informations dans les champs au dessus des listes de devoirs / types et cliquez sur le bouton "Enregistrer".
 </p>
 <p>
 	Si vous saisissez 0 "Points", cela vous permet de donner des Points Bonus aux Élèves.
 </p>
 <p>
-	Si vous cochez "Appliquer à toutes les Classes de ce Cours", le devoir sera ajouté pour chaque classe du cours, de manière similaire à l'ajout des types de devoirs.
+	Si vous cochez "Appliquer à toutes les Classes de ce Cours", le devoir sera ajouté pour chaque classe du cours, de manière similaire à l'ajout des types de devoir.
 </p>
 <p>
 	Si vous cochez "Activer la Remise de Devoir", les Élèves (ou leurs Parents) peuvent rendre le devoir (uploader un fichier et/ou laisser un message). La remise est possible depuis la date de début et jusqu'à la date d'échéance. Si aucune date d'échéance n'a été définie, la remise peut se faire jusqu'à la fin du trimestre. Vous pourrez ensuite consulter les devoirs grâce au programme "Notes".
