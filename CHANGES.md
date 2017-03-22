@@ -15,6 +15,7 @@ Changes in 3.1
 - Fix login page not cached so user cannot browse back in Warehouse.php
 - Fix SQL error: check for current Student / User ID before saving programwide
 - Format code & data display in DuplicateAttendance.php
+- Update French & Spanish translations
 
 Changes in 3.0.2
 ----------------
