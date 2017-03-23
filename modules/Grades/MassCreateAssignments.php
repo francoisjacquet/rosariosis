@@ -44,12 +44,12 @@ if ( isset( $_POST['tables'] )
 		// FJ default points.
 		if ( ( isset( $columns['POINTS'] )
 				&& ( ! is_numeric( $columns['POINTS'] )
-					|| ! intval( $columns['POINTS'] ) >= 0 ) )
-			&& ( isset( $columns['DEFAULT_POINTS'] )
+					|| intval( $columns['POINTS'] ) < 0 ) )
+			|| ( isset( $columns['DEFAULT_POINTS'] )
 				&& $columns['DEFAULT_POINTS'] !== ''
 				&& $columns['DEFAULT_POINTS'] !== '*'
 				&& ( ! is_numeric( $columns['DEFAULT_POINTS'] )
-					|| ! intval( $columns['DEFAULT_POINTS'] ) >= 0 ) ) )
+					|| intval( $columns['DEFAULT_POINTS'] ) < 0 ) ) )
 		{
 			$error[] = _( 'Please enter valid Numeric data.' );
 		}
