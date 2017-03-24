@@ -16,6 +16,7 @@ Changes in 3.1
 - Fix SQL error: check for current Student / User ID before saving programwide
 - Format code & data display in DuplicateAttendance.php
 - Update French & Spanish translations
+- CSS for responsive images, TinyMCE max-width & min-height
 
 Changes in 3.0.2
 ----------------
