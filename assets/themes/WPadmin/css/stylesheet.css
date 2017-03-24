@@ -994,6 +994,21 @@ html[dir=RTL] input[type=checkbox].toggle {
 	display: none;
 }
 
+/**
+ * TinyMCE
+ */
+.tinymce {
+	min-height:200px;
+}
+
+.mce-tinymce {
+	/* Max width: 1024px for PDF */
+	max-width: 1024px;
+}
+
+.mce-tinymce.mce-fullscreen {
+	max-width: none;
+}
 
 /* TinyMCE responsive toolbar buttons */
 .mce-btn-group .mce-btn {
