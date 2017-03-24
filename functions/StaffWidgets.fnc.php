@@ -214,7 +214,7 @@ function StaffWidgets( $item, &$myextra = null )
 			<label><span class="sizep2">&lt;</span>
 				<input type="radio" name="fsa_bal_ge" value="" checked /></label>
 			</td><td rowspan="2">
-			<input type="text" name="fsa_balance" size="10"' . ( $value ? ' value="' . $value . '"' : '') . ' />
+			<input type="text" name="fsa_balance" size="9" maxlength="9"' . ( $value ? ' value="' . $value . '"' : '') . ' />
 			</td></tr><tr><td>
 			<label><span class="sizep2">&ge;</span>
 				<input type="radio" name="fsa_bal_ge" value="Y" /></label>
@@ -299,7 +299,7 @@ function StaffWidgets( $item, &$myextra = null )
 			}
 
 			$extra['search'] .= '<tr class="st"><td>' . _( 'Barcode' ) . '</td><td>
-			<input type="text" name="fsa_barcode" size="15" />
+			<input type="text" name="fsa_barcode" size="15" maxlength="50" />
 			</td></tr>';
 
 		break;

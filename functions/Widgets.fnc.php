@@ -1305,7 +1305,7 @@ function Widgets( $item, &$myextra = null )
 				{
 					case 'text':
 
-						$extra['search'] .= '<input type="text" name="discipline[' . $category['ID'] . ']" />';
+						$extra['search'] .= '<input type="text" name="discipline[' . $category['ID'] . ']" size="24" maxlength="255" />';
 
 						if ( $_REQUEST['discipline'][$category['ID']] )
 						{
@@ -1327,7 +1327,7 @@ function Widgets( $item, &$myextra = null )
 
 						if ( $_REQUEST['discipline'][$category['ID']] )
 						{
-							$extra['WHERE'] .= " AND dr.CATEGORY_" . $category['ID'] . " = 'Y' ";
+							$extra['WHERE'] .= " AND dr.CATEGORY_" . $category['ID'] . "='Y' ";
 
 							if ( ! $extra['NoSearchTerms'] )
 							{
@@ -1678,7 +1678,7 @@ function Widgets( $item, &$myextra = null )
 			<table class="cellspacing-0"><tr><td>
 			<label class="sizep2">&lt; <input type="radio" name="fsa_bal_ge" value="" checked /></label>
 			</td><td rowspan="2">
-			<input type="text" name="fsa_balance" size="10"' . ( $value ? ' value="' . $value . '"' : '' ) . ' />
+			<input type="text" name="fsa_balance" size="9" maxlength="9"' . ( $value ? ' value="' . $value . '"' : '' ) . ' />
 			</td></tr><tr><td>
 			<label class="sizep2">&ge; <input type="radio" name="fsa_bal_ge" value="Y" /></label>
 			</td></tr></table>

@@ -25,51 +25,7 @@ if ( ! $_REQUEST['search_modfunc'])
 
 			echo '<table class="width-100p col1-align-right" id="general_table">';
 
-			echo '<tr><td><label for="last">' . _( 'Last Name' ) . '</label></td>
-				<td><input type="text" name="last" id="last" size="30" autofocus /></td></tr>';
-
-			echo '<tr><td><label for="first">' . _( 'First Name' ) . '</label></td>
-				<td><input type="text" name="first" id="first" size="30" /></td></tr>';
-
-			echo '<tr><td><label for="usrid">' . _( 'User ID' ) . '</label></td>
-				<td><input type="text" name="usrid" id="usrid" size="30" /></td></tr>';
-
-			echo '<tr><td><label for="username">' . _( 'Username' ) . '</label></td>
-				<td><input type="text" name="username" id="username" size="30" /></td></tr>';
-
-			if ( User( 'PROFILE' ) == 'admin' )
-			{
-				$options = array(
-					'' => _( 'N/A' ),
-					'admin' => _( 'Administrator' ),
-					'teacher' => _( 'Teacher' ),
-					'parent' => _( 'Parent' ),
-					'none' => _( 'No Access' ),
-				);
-			}
-			else
-			{
-				$options = array(
-					'' => _( 'N/A' ),
-					'teacher' => _( 'Teacher' ),
-					'parent' => _( 'Parent' ),
-				);
-			}
-
-			if ( $extra['profile'] )
-			{
-				$options = array( $extra['profile'] => $options[ $extra['profile'] ] );
-			}
-
-			echo '<tr><td><label for="profile">' . _( 'Profile' ) . '</label></td>
-				<td><select name="profile" id="profile">';
-
-			foreach ( (array) $options as $key => $val )
-			{
-				echo '<option value="' . $key . '">' . $val . '</option>';
-			}
-
-			echo '</select></td></tr>';
+			Search( 'staff_general_info', $extra );
 
 			if ( ! isset( $extra ) )
 			{

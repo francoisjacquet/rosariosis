@@ -1,6 +1,11 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 3.1.1
+----------------
+- Add maxlength attribute to every text input in Widgets.fnc.php & StaffWidgets.fnc.php
+- Move Find a User form General Info & Profile inside Search() in Users/Search.inc.php & Search.fnc.php
+
 Changes in 3.1
 --------------
 - Add ETagCache() function in Warehouse.php

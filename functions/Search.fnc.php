@@ -17,7 +17,7 @@
  *
  * @global $_ROSARIO Used in Search.inc.php
  *
- * @param  string $type  student_id|staff_id|general_info|staff_fields|staff_fields_all|student_fields|student_fields_all.
+ * @param  string $type  student_id|staff_id|general_info|staff_general_info|staff_fields|staff_fields_all|student_fields|student_fields_all.
  * @param  array  $extra Search.inc.php extra (HTML, functions...) (optional). Defaults to null.
  *
  * @return void
@@ -124,25 +124,28 @@ function Search( $type, $extra = null )
 
 		break;
 
+		// Find a Student form General Info & Grade Level.
 		case 'general_info':
-
+			// TODO:
+			// http://ux.stackexchange.com/questions/85050/what-is-the-best-practice-for-password-field-placeholders
 			echo '<tr><td><label for="last">' . _( 'Last Name' ) . '</label></td><td>
-				<input type="text" name="last" id="last" size="30" maxlength="50" autofocus />
+				<input type="text" name="last" id="last" size="24" maxlength="50" autofocus />
 				</td></tr>';
 
 			echo '<tr><td><label for="first">' . _( 'First Name' ) . '</label></td><td>
-				<input type="text" name="first" id="first" size="30" maxlength="50" />
+				<input type="text" name="first" id="first" size="24" maxlength="50" />
 				</td></tr>';
 
 			echo '<tr><td><label for="stuid">' . sprintf( _( '%s ID' ), Config( 'NAME' ) ) .
 				'</label></td><td>
-				<input type="text" name="stuid" id="stuid" size="30" maxlength="50" />
+				<input type="text" name="stuid" id="stuid" size="24" maxlength="50" />
 				</td></tr>';
 
 			echo '<tr><td><label for="addr">' . _( 'Address' ) . '</label></td><td>
-				<input type="text" name="addr" id="addr" size="30" maxlength="255" />
+				<input type="text" name="addr" id="addr" size="24" maxlength="255" />
 				</td></tr>';
 
+			// Grade Level.
 			$list = DBGet( DBQuery( "SELECT ID,TITLE,SHORT_NAME
 				FROM SCHOOL_GRADELEVELS
 				WHERE SCHOOL_ID='" . UserSchool() . "'
@@ -197,6 +200,64 @@ function Search( $type, $extra = null )
 
 				echo '</select></td></tr>';
 			}
+
+		break;
+
+		// Find a User form General Info & Profile.
+		case 'staff_general_info':
+
+			echo '<tr><td><label for="last">' . _( 'Last Name' ) . '</label></td><td>
+				<input type="text" name="last" id="last" size="24" maxlength="50" autofocus />
+				</td></tr>';
+
+			echo '<tr><td><label for="first">' . _( 'First Name' ) . '</label></td><td>
+				<input type="text" name="first" id="first" size="24" maxlength="50" />
+				</td></tr>';
+
+			echo '<tr><td><label for="stuid">' . _( 'User ID' ) .
+				'</label></td><td>
+				<input type="text" name="usrid" id="usrid" size="24" maxlength="50" />
+				</td></tr>';
+
+			echo '<tr><td><label for="username">' . _( 'Username' ) .
+				'</label></td><td>
+				<input type="text" name="username" id="username" size="24" maxlength="255" />
+				</td></tr>';
+
+			// Profile.
+			if ( User( 'PROFILE' ) === 'admin' )
+			{
+				$options = array(
+					'' => _( 'N/A' ),
+					'admin' => _( 'Administrator' ),
+					'teacher' => _( 'Teacher' ),
+					'parent' => _( 'Parent' ),
+					'none' => _( 'No Access' ),
+				);
+			}
+			else
+			{
+				$options = array(
+					'' => _( 'N/A' ),
+					'teacher' => _( 'Teacher' ),
+					'parent' => _( 'Parent' ),
+				);
+			}
+
+			if ( $extra['profile'] )
+			{
+				$options = array( $extra['profile'] => $options[ $extra['profile'] ] );
+			}
+
+			echo '<tr><td><label for="profile">' . _( 'Profile' ) . '</label></td>
+				<td><select name="profile" id="profile">';
+
+			foreach ( (array) $options as $key => $val )
+			{
+				echo '<option value="' . $key . '">' . $val . '</option>';
+			}
+
+			echo '</select></td></tr>';
 
 		break;
 
@@ -447,7 +508,7 @@ function Search( $type, $extra = null )
 					echo '<tr class="' . $TR_classes . '"><td>
 					<label for="' . $id . '">' . $col['TITLE'] . '</label>
 					</td><td>
-					<input type="text" name="' . $name . '" id="' . $id . '" size="30" maxlength="255" />
+					<input type="text" name="' . $name . '" id="' . $id . '" size="24" maxlength="255" />
 					</td></tr>';
 				}
 
