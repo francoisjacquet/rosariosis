@@ -209,7 +209,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		//FJ add TinyMCE to the textarea
 		$extra['extra_header_left'] .= '<tr><td>&nbsp;</td></tr>
-		<tr class="st"><td style="vertical-align: top;">' . _( 'Text' ) . '</td>
+		<tr class="st"><td class="valign-top">' . _( 'Text' ) . '</td>
 		<td class="width-100p">' .
 		TinyMCEInput(
 			( isset( $templates[ User( 'STAFF_ID' ) ] ) ?
@@ -220,7 +220,7 @@ if ( ! $_REQUEST['modfunc'] )
 			'class="tinymce-horizontal"'
 		) . '</td></tr>';
 
-		$extra['extra_header_left'] .= '<tr class="st"><td style="vertical-align: top;">'._('Substitutions').':</td><td><table><tr class="st">';
+		$extra['extra_header_left'] .= '<tr class="st"><td class="valign-top">'._('Substitutions').':</td><td><table><tr class="st">';
 		$extra['extra_header_left'] .= '<td>__FULL_NAME__</td><td>= '._('Last, First M').'</td><td>&nbsp;</td>';
 		$extra['extra_header_left'] .= '<td>__LAST_NAME__</td><td>= '._('Last Name').'</td></tr>';
 
