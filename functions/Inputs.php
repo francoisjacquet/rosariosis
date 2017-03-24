@@ -290,7 +290,7 @@ function TextAreaInput( $value, $name, $title = '', $extra = '', $div = true, $t
 		}
 		elseif ( $type === 'tinymce' )
 		{
-			$display_val = $value;
+			$display_val = '<div class="tinymce-html">' . $value . '</div>';
 		}
 		else
 			$display_val = nl2br( $value );

@@ -1015,6 +1015,12 @@ html[dir=RTL] input[type=checkbox].toggle {
 	float: left;
 }
 
+.tinymce-html img,
+.markdown-to-html img {
+	/* Responsive image for TinyMCE & Markdown HTML. */
+	height: auto;
+}
+
 /* Chosen select: add 15px to original width so Chosen options ALL fit */
 .chosen-select {
 	min-width: 55px;
