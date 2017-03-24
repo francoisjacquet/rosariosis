@@ -350,13 +350,15 @@ function TextAreaInput( $value, $name, $title = '', $extra = '', $div = true, $t
 /**
  * TinyMCE Input (HTML editor)
  *
- * Note: if you will pass additional CSS classes in the `$extra` paramenter
+ * Note: if you will pass additional CSS classes in the `$extra` parameter
+ * Add the `tinymce-horizontal` class for Horizontal PDF.
  * Do not forget the `tinymce` class required to trigger TinyMCE.
  *
  * @todo Fix <label>, see http://stackoverflow.com/questions/4258701/tinymce-accessibility-label-for
  * @todo Allow passing options to TinyMCE (plugins, ...)
  *
  * @example TinyMCEInput( $RET[1]['TEMPLATE'], 'tinymce_textarea' )
+ * @example TinyMCEInput( $html, 'tinymce_horizontal', _( 'Horizontal PDF' ), 'class="tinymce-horizontal"' )
  *
  * @uses TextAreaInput()
  *
@@ -383,12 +385,26 @@ function TinyMCEInput( $value, $name, $title = '', $extra = '' )
 
 	$type = 'tinymce';
 
+	$wrapper = '';
+
 	if ( mb_strpos( (string) $extra, 'class=' ) === false )
 	{
 		$extra = 'class="tinymce" ' . $extra;
 	}
 	else
 	{
+		// If has .tinymce-horizontal class, add wrapper, needed here.
+		if ( mb_strpos( (string) $extra, 'tinymce-horizontal' ) !== false )
+		{
+			$extra = str_replace(
+				'tinymce-horizontal',
+				'',
+				$extra
+			);
+
+			$wrapper = '<div class="tinymce-horizontal">';
+		}
+
 		$extra = str_replace(
 			array( 'class="', "class='" ),
 			array( 'class="tinymce ', "class='tinymce " ),
@@ -403,6 +419,11 @@ function TinyMCEInput( $value, $name, $title = '', $extra = '' )
 	}
 
 	$textarea = TextAreaInput( $value, $name, $title, $extra , $div, $type );
+
+	if ( $wrapper )
+	{
+		$textarea = $wrapper . $textarea . '</div>';
+	}
 
 	$tinymce_js = '';
 

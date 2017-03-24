@@ -1001,12 +1001,18 @@ html[dir=RTL] input[type=checkbox].toggle {
 	min-height:200px;
 }
 
-.mce-tinymce {
+.mce-tinymce.mce-container {
 	/* Max width: 1024px for PDF */
 	max-width: 1024px;
 }
 
-.mce-tinymce.mce-fullscreen {
+.tinymce-horizontal .mce-tinymce.mce-container {
+	/* Max width: 1448px for Horizontal PDF */
+	max-width: 1448px;
+}
+
+.mce-tinymce.mce-fullscreen,
+.tinymce-horizontal .mce-tinymce.mce-fullscreen {
 	max-width: none;
 }
 

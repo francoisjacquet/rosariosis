@@ -130,12 +130,15 @@ if ( ! $_REQUEST['modfunc'] )
 			AND STAFF_ID IN (0,'" . User( 'STAFF_ID' ) . "')" ), array(), array( 'STAFF_ID' ) );
 
 		$extra['extra_header_left'] = '<table><tr class="st">
-		<td style="vertical-align: top;">'._('Text').'</td><td>' .
+		<td style="vertical-align: top;">' . _( 'Text' ) . '</td>
+		<td class="width-100p">' .
 		TinyMCEInput(
 			( isset( $templates[ User( 'STAFF_ID' ) ] ) ?
 				$templates[ User( 'STAFF_ID' ) ][1]['TEMPLATE'] :
 				$templates[0][1]['TEMPLATE'] ),
-			'honor_roll_text'
+			'honor_roll_text',
+			'',
+			'class="tinymce-horizontal"'
 		) . '</td></tr>';
 
 		$extra['extra_header_left'] .= '<tr class="st"><td style="vertical-align: top;">'._('Substitutions').':</td><td><table><tr class="st">';

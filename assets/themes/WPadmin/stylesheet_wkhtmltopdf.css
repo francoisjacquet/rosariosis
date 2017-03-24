@@ -1119,7 +1119,13 @@ html[dir=RTL] input[type=checkbox].toggle {
 	max-width: 1024px;
 }
 
-.mce-tinymce.mce-fullscreen {
+.tinymce-horizontal .mce-tinymce.mce-container {
+	/* Max width: 1448px for Horizontal PDF */
+	max-width: 1448px;
+}
+
+.mce-tinymce.mce-fullscreen,
+.tinymce-horizontal .mce-tinymce.mce-fullscreen {
 	max-width: none;
 }
 
