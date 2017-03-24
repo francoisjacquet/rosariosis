@@ -2,6 +2,14 @@
 
 ## RosarioSIS Student Information System
 
+New in 3.1
+----------
+
+Grades
+
+- Mass Create Assignments
+
+
 New in 3.0
 ----------
 
@@ -15,10 +23,6 @@ Users
 
 - My Preferences
 	- Student Fields: search Username
-
-Grades
-
-- Mass Create Assignments
 
 Performance
 
