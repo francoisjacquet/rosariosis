@@ -351,6 +351,8 @@ function ajaxPrepare(target) {
 			fixedMenu();
 		}
 
+		openMenu();
+
 		popups.closeAll();
 
 		MarkDownToHTML();
@@ -378,6 +380,7 @@ window.onload = function () {
 	// Cache <script> resources loaded in AJAX.
 	$.ajaxPrefilter('script', function(options) { options.cache = true; });
 
+
 	$(document).on('click', 'a', function (e) {
 		return $(this).css('pointer-events') == 'none' ? e.preventDefault() : ajaxLink(this);
 	});
@@ -391,6 +394,16 @@ window.onload = function () {
 		}, false);
 	}, 1);
 };
+
+// onunload: Fix for Firefox to execute Javascript on history back.
+window.onunload = function(){};
+
+// Check if logged in.
+// http://stackoverflow.com/questions/6359327/detect-back-button-click-in-browser
+if (window.performance && window.performance.navigation.type == 2) {
+	if ( document.URL.indexOf('Modules.php?') )
+		window.location.href = 'index.php?modfunc=logout';
+}
 
 // ListOutput JS
 function LOSearch( event, val, url ) {
@@ -429,28 +442,16 @@ function repeatListTHead( $lists )
 
 
 // Side.php JS
-function openMenu(modname) {
+function openMenu() {
 
-	if (modname == 'misc/Portal.php') return;
+	$("#selectedMenuLink,#selectedModuleLink").attr('id', '');
 
-	var oldA,
-		modcat;
-
-	$("#selectedMenuLink").attr('id', '');
+	if (!modname || modname == 'misc/Portal.php') return;
 
 	$('.wp-submenu a[href$="' + modname + '"]').first().attr('id', 'selectedMenuLink');
 
 	// Add selectedModuleLink
-	$("#selectedModuleLink").attr('id', '');
-
-	if (modname === '') modcat = openMenu.tmpCat;
-	else $('#selectedMenuLink').parents('.wp-submenu').each(function () {
-		modcat = this.id.replace('menu_', '');
-	});
-
-	$('#menu_' + modcat).prev().attr('id', 'selectedModuleLink');
-
-	openMenu.tmpCat = modcat;
+	$('#selectedMenuLink').parents('.menu-module').children('.menu-top').attr('id', 'selectedModuleLink');
 }
 
 // Adjust Side.php submenu bottom offset

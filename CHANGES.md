@@ -1,11 +1,6 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
-Changes in 3.1.1
-----------------
-- Add maxlength attribute to every text input in Widgets.fnc.php & StaffWidgets.fnc.php
-- Move Find a User form General Info & Profile inside Search() in Users/Search.inc.php & Search.fnc.php
-
 Changes in 3.1
 --------------
 - Add ETagCache() function in Warehouse.php
@@ -17,11 +12,13 @@ Changes in 3.1
 - Fix Admin Schools restriction: Assign new user to current school only in User.php
 - Fix modname & ProgramLoaded when has parameters in Modules.php & warehouse.js
 - Add Mass Create Assignments program (sponsored by Sofia Private School) in MassCreateAssignments.php & Grades/Menu.php & Update.fnc.php
-- Fix login page not cached so user cannot browse back in Warehouse.php
+- Fix check if user logged in when history back in warehouse.js, Warehouse.php & Side.php
 - Fix SQL error: check for current Student / User ID before saving programwide
 - Format code & data display in DuplicateAttendance.php
 - Update French & Spanish translations
 - CSS for responsive images, TinyMCE max-width & min-height
+- Add maxlength attribute to every text input in Widgets.fnc.php & StaffWidgets.fnc.php
+- Move Find a User form General Info & Profile inside Search() in Users/Search.inc.php & Search.fnc.php
 
 Changes in 3.0.2
 ----------------

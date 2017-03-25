@@ -379,6 +379,11 @@ function Warehouse( $mode )
 
 			if ( isAJAX() )
 			{
+				// If jQuery not available, log out.
+				if ( $_ROSARIO['page'] === 'modules' ) : ?>
+<script>if (!window.$) window.location.href = 'index.php?modfunc=logout';</script>
+				<?php endif;
+
 				// AJAX: we only need to generate #body content.
 				break;
 			}
@@ -457,9 +462,6 @@ function Warehouse( $mode )
 			|| menuCoursePeriod != "<?php echo UserCoursePeriod(); ?>")) {
 		ajaxLink( 'Side.php?sidefunc=update' );
 	}
-<?php 		if ( ! empty( $_ROSARIO['ProgramLoaded'] ) ) : ?>
-	openMenu( modname );
-<?php		endif; ?>
 </script>
 <?php		// If not AJAX request.
 			if ( ! isAJAX() ) :
@@ -603,8 +605,7 @@ function ETagCache( $mode = '' )
 
 	static $ob_started = false;
 
-	if ( ! $ETagCache
-		|| $_ROSARIO['page'] === 'login' ) // Fix login page not cached so user cannot browse back.
+	if ( ! $ETagCache )
 	{
 		return false;
 	}
