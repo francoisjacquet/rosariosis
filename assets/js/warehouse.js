@@ -446,7 +446,7 @@ function openMenu() {
 
 	$("#selectedMenuLink,#selectedModuleLink").attr('id', '');
 
-	if (!modname || modname == 'misc/Portal.php') return;
+	if ( !window.modname || !modname || modname=='misc/Portal.php' ) return;
 
 	$('.wp-submenu a[href$="' + modname + '"]').first().attr('id', 'selectedMenuLink');
 
