@@ -63,8 +63,7 @@ if (User('PROFILE')!='admin')
 }
 
 if ( $_REQUEST['modfunc'] === 'update'
-	&& AllowEdit()
-	&& UserStudentID() )
+	&& AllowEdit() )
 {
 	if ( isset( $_POST['day_students'], $_POST['month_students'], $_POST['year_students'] ) )
 	{
@@ -437,11 +436,16 @@ if (UserStudentID() || $_REQUEST['student_id']=='new')
 				else
 					$include = 'Other_Info';*/
 
-				$tabs[] = array('title' => $category['TITLE'],'link'=>($_REQUEST['student_id']!='new' ? 'Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$category['ID'] : ''));
+				$tabs[] = array(
+					'title' => $category['TITLE'],
+					'link' => ( $_REQUEST['student_id'] !== 'new' ?
+						'Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $category['ID'] . '&student_id=' . UserStudentID() :
+						'' ),
+				);
 			}
 		}
 
-		$_ROSARIO['selected_tab'] = 'Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$category_id;
+		$_ROSARIO['selected_tab'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $category_id . '&student_id=' . UserStudentID();
 
 		echo '<br />';
 		echo PopTable('header',$tabs,'width="100%"');

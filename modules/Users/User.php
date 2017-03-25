@@ -60,8 +60,7 @@ if (User('PROFILE')!='admin')
 }
 
 if ( $_REQUEST['modfunc'] === 'update'
-	&& AllowEdit()
-	&& UserStaffID() )
+	&& AllowEdit() )
 {
 	if ( isset( $_POST['day_staff'], $_POST['month_staff'], $_POST['year_staff'] ) )
 	{
@@ -523,11 +522,16 @@ if ((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='de
 			else
 				$include = 'Other_Info';*/
 
-			$tabs[] = array('title' => $category['TITLE'],'link'=>($_REQUEST['staff_id']!='new' ? 'Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$category['ID'] : ''));
+			$tabs[] = array(
+				'title' => $category['TITLE'],
+				'link' => ( $_REQUEST['staff_id'] !== 'new' ?
+					'Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $category['ID'] . '&staff_id=' . UserStaffID() :
+					'' ),
+			);
 		}
 	}
 
-	$_ROSARIO['selected_tab'] = 'Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$category_id;
+	$_ROSARIO['selected_tab'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $category_id . '&staff_id=' . UserStaffID();
 
 	echo '<br />';
 	PopTable('header',$tabs,'width="100%"');
