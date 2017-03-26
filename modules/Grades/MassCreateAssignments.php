@@ -83,14 +83,6 @@ if ( isset( $_POST['tables'] )
 
 			$fields = "ASSIGNMENT_ID,MARKING_PERIOD_ID,"; // ASSIGNMENT_TYPE_ID,STAFF_ID added for each CP below.
 
-			$assignment_types_teachers_RET = DBGet( DBQuery( "SELECT gat.ASSIGNMENT_TYPE_ID, cp.TEACHER_ID, cp.COURSE_PERIOD_ID
-			FROM GRADEBOOK_ASSIGNMENT_TYPES gat, COURSE_PERIODS cp
-			WHERE cp.COURSE_PERIOD_ID IN (" . $cp_list . ")
-			AND gat.COURSE_ID IN (SELECT COURSE_ID FROM COURSE_PERIODS
-				WHERE COURSE_PERIOD_ID IN (" . $cp_list . ")
-				AND SYEAR='" . UserSyear() . "'
-				AND SCHOOL_ID='" . UserSchool() . "')" ), array(), array( 'COURSE_PERIOD_ID' ) );
-
 			$values = db_seq_nextval( 'GRADEBOOK_ASSIGNMENTS_SEQ' ) . ",'" . UserMP() . "',";
 		}
 		elseif ( $table === 'GRADEBOOK_ASSIGNMENT_TYPES' )
@@ -182,9 +174,25 @@ if ( isset( $_POST['tables'] )
 
 				$fields_final = $fields . 'ASSIGNMENT_TYPE_ID,STAFF_ID,COURSE_PERIOD_ID,';
 
-				$cp_teacher = $assignment_types_teachers_RET[ $cp_id ][1]['TEACHER_ID'];
+				$assignment_type_teacher_RET = DBGet( DBQuery( "SELECT ASSIGNMENT_TYPE_ID, STAFF_ID
+				FROM GRADEBOOK_ASSIGNMENT_TYPES
+				WHERE COURSE_ID=(SELECT COURSE_ID
+					FROM COURSE_PERIODS
+					WHERE COURSE_PERIOD_ID='" . $cp_id . "'
+					AND SYEAR='" . UserSyear() . "'
+					AND SCHOOL_ID='" . UserSchool() . "'
+					LIMIT 1)
+				AND TITLE='" . $_REQUEST['assignment_type'] . "'
+				LIMIT 1" ) );
 
-				$cp_assignment_type = $assignment_types_teachers_RET[ $cp_id ][1]['ASSIGNMENT_TYPE_ID'];
+				if ( ! $assignment_type_teacher_RET )
+				{
+					continue;
+				}
+
+				$cp_teacher = $assignment_type_teacher_RET[1]['STAFF_ID'];
+
+				$cp_assignment_type = $assignment_type_teacher_RET[1]['ASSIGNMENT_TYPE_ID'];
 
 				$values_final = $values . "'" . $cp_assignment_type . "','" . $cp_teacher . "','" . $cp_id . "',";
 

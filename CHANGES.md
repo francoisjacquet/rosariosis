@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 3.1.1
+----------------
+- Fix memory error: rework SQL query in MassCreateAssignments.php
+
 Changes in 3.1
 --------------
 - Add ETagCache() function in Warehouse.php
