@@ -27,7 +27,8 @@ if ( ! isset( $_REQUEST['modfunc'] ) )
 $_ROSARIO['page'] = 'modules';
 
 // Save $_REQUEST vars in session: used to recreate $_REQUEST in Bottom.php.
-if ( empty( $_REQUEST['LO_save'] )
+if ( ! isset( $_REQUEST['_ROSARIO_PDF'] )
+	&& empty( $_REQUEST['LO_save'] )
 	&& ( mb_strpos( $modname, 'misc/' ) === false
 		|| $modname === 'misc/Portal.php'
 		|| $modname === 'misc/Registration.php'
