@@ -12,112 +12,111 @@
 
 function fixedMenu() {
 
-	// It has not... perform the initialization
-	fixedMenu.init = typeof fixedMenu.init == 'undefined';
+	var menu = $( '#menu' ),
+	$window = $( window ),
+	body = $( '#body' );
 
-	if ( fixedMenu.init ) {
-
-		/**
-		 * Add ghost div after menu
-		 * to compensate menu width and keep content right.
-		 */
-		$( '#menu' ).after(
-			'<div style="display: none; width: ' + $( '#menu' ).width() +
-				'px; height: ' + $( '#menu' ).height() +
-				'px; float: left;"></div>'
-		);
-
-		/**
-		 * Case 3: Add fixedMenu check on resize
-		 */
-		$( window ).resize( fixedMenu );
-	}
-
-	/**
-	 * Case 1: body height > window height && menu height < body height
-	 * Add fix logic on scroll
-	 */
-	if ( $( '#body' ).height() > $( window ).height() &&
-		$( '#menu' ).height() < $( '#body' ).height() ) {
+	var init = function() {
+		// It has not... perform the initialization
+		fixedMenu.init = typeof fixedMenu.init == 'undefined';
 
 		if ( fixedMenu.init ) {
 
-			// Onload, eventually fix if not on top of page.
-			fixMenuLogic();
+			/**
+			 * Add ghost div after menu
+			 * to compensate menu width and keep content right.
+			 */
+			menu.after(
+				'<div style="display: none; width: ' + menu.outerWidth() +
+					'px; height: ' + menu.height() + 'px; float: left;"></div>'
+			);
+
+			/**
+			 * Case 3: Add fixedMenu check on resize
+			 */
+			$window.resize( fixedMenu );
 		}
 
-		$( window ).scroll( fixMenuLogic );
-	}
+		/**
+		 * Case 1: body height > window height && menu height < body height
+		 * Add fix logic on scroll
+		 */
+		if ( body.height() > $window.height() &&
+			menu.height() < body.height() ) {
+
+			if ( fixedMenu.init ) {
+
+				// Onload, eventually fix if not on top of page.
+				fixMenuLogic();
+			}
+
+			$window.scroll( fixMenuLogic );
+		}
+		/**
+		 * Case 2: body height <= window height || menu height >= body height
+		 * Remove CSS; remove on scroll
+		 */
+		else {
+			unfixMenu();
+
+			$window.unbind( 'scroll', fixMenuLogic );
+		}
+
+	};
+
+
+
 	/**
-	 * Case 2: body height <= window height || menu height >= body height
-	 * Remove CSS; remove on scroll
+	 * Fix logic
+	 * a) Y from top + window height > menu height
+	 * Fix menu (add CSS)
+	 * b) Y from top + window height <= menu height
+	 * Remove CSS
 	 */
-	else {
-		unfixMenu();
+	var fixMenuLogic = function() {
+		var windowHeight = $window.height();
 
-		$( window ).unbind( 'scroll', fixMenuLogic );
-	}
+		if ( $window.scrollTop() + windowHeight > menu.outerHeight() ) {
 
-}
+			/**
+			 * Fix Menu
+			 *
+			 * Adjust bottom if Menu height < window height.
+			 *
+			 * Add fixed CSS.
+			 * Add .fixedmenu-fixed CSS class to menu
+			 * Show ghost div.
+			 */
+			var bottom = windowHeight - menu.height();
 
+			menu.css({
+				'position': 'fixed',
+				'bottom': ( bottom < 0 ? 0 : bottom ) + 'px',
+				'left': '0px'
+			}).addClass( 'fixedmenu-fixed' ).next().show();
 
+		} else {
 
-/**
- * Fix logic
- * a) Y from top + window height > menu height
- * Fix menu (add CSS)
- * b) Y from top + window height <= menu height
- * Remove CSS
- */
-function fixMenuLogic() {
-	if ( $( window ).scrollTop() + $( window ).height() > $( '#menu' ).height() ) {
-
-		fixMenu();
-	} else {
-
-		unfixMenu();
-	}
-}
-
-
-
-/**
- * Fix Menu
- *
- * Adjust bottom if Menu height < window height.
- *
- * Add fixed CSS.
- * Add .fixedmenu-fixed CSS class to menu
- * Show ghost div.
- */
-function fixMenu() {
-	var bottom = 0;
-
-	if ( $( '#menu' ).height() < $( window ).height() ) {
-
-		bottom = $( window ).height() - $( '#menu' ).outerHeight();
-	}
-
-	$( '#menu' ).css({
-		'position': 'fixed',
-		'bottom': bottom + 'px',
-		'left': '0px'
-	}).addClass( 'fixedmenu-fixed' ).next().show();
-}
+			unfixMenu();
+		}
+	};
 
 
 
-/**
- * Unfix Menu
- *
- * Remove fixed CSS.
- * Remove .fixedmenu-fixed CSS class from menu
- * Hide ghost div.
- */
-function unfixMenu() {
-	$( '#menu' ).css({
-		'position': '',
-		'bottom': '',
-		'left': ''
-	}).removeClass( 'fixedmenu-fixed' ).next().hide();
+	/**
+	 * Unfix Menu
+	 *
+	 * Remove fixed CSS.
+	 * Remove .fixedmenu-fixed CSS class from menu
+	 * Hide ghost div.
+	 */
+	var unfixMenu = function() {
+		menu.css({
+			'position': '',
+			'bottom': '',
+			'left': ''
+		}).removeClass( 'fixedmenu-fixed' ).next().hide();
+	};
+
+	init();
 }

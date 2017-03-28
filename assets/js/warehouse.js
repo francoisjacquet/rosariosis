@@ -347,11 +347,11 @@ function ajaxPrepare(target) {
 
 	if ( target == '#body' || target == 'body' ) {
 
+		openMenu();
+
 		if ( screen.width > 767 ) {
 			fixedMenu();
 		}
-
-		openMenu();
 
 		popups.closeAll();
 
