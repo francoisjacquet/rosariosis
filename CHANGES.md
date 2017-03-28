@@ -4,6 +4,7 @@
 Changes in 3.1.1
 ----------------
 - Fix memory error: rework SQL query in MassCreateAssignments.php
+- Fix Save $_REQUEST vars in session: if not printing PDF in Modules.php
 
 Changes in 3.1
 --------------
