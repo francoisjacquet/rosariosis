@@ -45,9 +45,9 @@ if ( isset( $_REQUEST['assignment_id'] )
 	StudentAssignmentSubmissionOutput( $_REQUEST['assignment_id'] );
 
 	echo '</form>';
-
-	exit;
 }
-
-// Output Current Quarter's Assignments List.
-StudentAssignmentsListOutput();
+else
+{
+	// Output Current Quarter's Assignments List.
+	StudentAssignmentsListOutput();
+}

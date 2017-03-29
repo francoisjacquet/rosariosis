@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 3.1.2
+----------------
+- Fix Assignment view: do not exit so Warehouse('footer') is called in StudentAssignments.php
+
 Changes in 3.1.1
 ----------------
 - Fix memory error: rework SQL query in MassCreateAssignments.php
