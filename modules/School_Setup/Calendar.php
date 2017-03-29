@@ -681,7 +681,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 			'</a></td></tr>';
 		}
 
-		//FJ add event repeat
+		// FJ add event repeat.
 		if ( $_REQUEST['event_id'] === 'new' )
 		{
 			echo '<tr><td>
@@ -690,13 +690,13 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 			'</td></tr>';
 		}
 
-		//hook
+		// Hook.
 		do_action( 'School_Setup/Calendar.php|event_field' );
 
 
 		// FJ bugfix SQL bug value too long for type character varying(50).
 		echo '<tr><td>' .
-			TextInput( $RET[1]['TITLE'], 'values[TITLE]', _( 'Title' ), 'required maxlength="50"' ) .
+			TextInput( $RET[1]['TITLE'], 'values[TITLE]', _( 'Title' ), 'required length="17" maxlength="50"' ) .
 		'</td></tr>';
 
 		// FJ add course.
