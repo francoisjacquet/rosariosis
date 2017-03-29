@@ -4,6 +4,7 @@
 Changes in 3.1.2
 ----------------
 - Fix Assignment view: do not exit so Warehouse('footer') is called in StudentAssignments.php
+- Remove Used for Attendance column, unused in Periods.php
 
 Changes in 3.1.1
 ----------------
