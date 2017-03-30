@@ -1026,9 +1026,15 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 	{
 		if ( $plural !== '.' )
 		{
+			// Sanitize XML tag names.
 			$elements = mb_strtolower( str_replace( ' ', '_', $plural ) );
 
 			$element = mb_strtolower( str_replace( ' ', '_', $singular ) );
+
+			// Remove punctuation excepted underscores, points and dashes.
+			$elements = preg_replace( "/(?![.-_])\p{P}/u", '', $elements );
+
+			$element = preg_replace( "/(?![.-_])\p{P}/u", '', $element );
 		}
 		else
 		{
@@ -1051,11 +1057,15 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 				}
 				else
 				{
+					// Sanitize XML tag names.
 					$column = mb_strtolower( str_replace(
-						array( ' ', '(', ')' ),
-						array( '_', '' ),
+						' ',
+						'_',
 						$formatted_columns[ $key ]
 					) );
+
+					// Remove punctuation excepted underscores, points and dashes.
+					$column = preg_replace( "/(?![.-_])\p{P}/u", '', $column );
 
 					if ( (string) (int) mb_substr( $column, 0, 1 ) === mb_substr( $column, 0, 1 ) )
 					{

@@ -6,7 +6,7 @@ Changes in 3.1.2
 - Fix Assignment view: do not exit so Warehouse('footer') is called in StudentAssignments.php
 - Remove Used for Attendance column, unused in Periods.php
 - Add Student photo Tip message in MakeReferral.php & Referrals.php
-- Fix Column name cannot start with a number in XML in ListOutput.fnc.php
+- Sanitize XML tag names in ListOutput.fnc.php
 
 Changes in 3.1.1
 ----------------
