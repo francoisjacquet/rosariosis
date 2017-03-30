@@ -1024,17 +1024,29 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 	// XML
 	else
 	{
+		$sanitize_xml_tag = function( $name )
+		{
+			// Remove punctuation excepted underscores, points and dashes.
+			$name = preg_replace( "/(?![.\-_])\p{P}/u", '', $name );
+
+			// Lowercase and replace spaces by underscores.
+			$name = mb_strtolower( str_replace( ' ', '_', $name ) );
+
+			if ( (string) (int) mb_substr( $name, 0, 1 ) === mb_substr( $name, 0, 1 ) )
+			{
+				// Name cannot start with a number.
+				$name = '_' . $name;
+			}
+
+			return $name;
+		};
+
 		if ( $plural !== '.' )
 		{
 			// Sanitize XML tag names.
-			$elements = mb_strtolower( str_replace( ' ', '_', $plural ) );
+			$elements = $sanitize_xml_tag( $plural );
 
-			$element = mb_strtolower( str_replace( ' ', '_', $singular ) );
-
-			// Remove punctuation excepted underscores, points and dashes.
-			$elements = preg_replace( "/(?![.-_])\p{P}/u", '', $elements );
-
-			$element = preg_replace( "/(?![.-_])\p{P}/u", '', $element );
+			$element = $sanitize_xml_tag( $singular );
 		}
 		else
 		{
@@ -1058,20 +1070,7 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 				else
 				{
 					// Sanitize XML tag names.
-					$column = mb_strtolower( str_replace(
-						' ',
-						'_',
-						$formatted_columns[ $key ]
-					) );
-
-					// Remove punctuation excepted underscores, points and dashes.
-					$column = preg_replace( "/(?![.-_])\p{P}/u", '', $column );
-
-					if ( (string) (int) mb_substr( $column, 0, 1 ) === mb_substr( $column, 0, 1 ) )
-					{
-						// Column name cannot start with a number.
-						$column = '_' . $column;
-					}
+					$column = $sanitize_xml_tag( $formatted_columns[ $key ] );
 				}
 
 				// http://stackoverflow.com/questions/1091945/what-characters-do-i-need-to-escape-in-xml-documents
