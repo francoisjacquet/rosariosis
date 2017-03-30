@@ -1,6 +1,7 @@
 <?php
 
 require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
+require_once 'ProgramFunctions/TipMessage.fnc.php';
 
 if ( isset( $_POST['day_values'], $_POST['month_values'], $_POST['year_values'] ) )
 {
@@ -182,7 +183,10 @@ if ( ! $_REQUEST['modfunc']
 			FROM STUDENTS
 			WHERE STUDENT_ID='" . $RET['STUDENT_ID'] . "'" ) );
 
-		echo '<tr><td>' . NoInput( $student_name_RET[1]['FULL_NAME'], _( 'Student' ) ) . '</td></tr>';
+		echo '<tr><td>' . NoInput(
+			MakeStudentPhotoTipMessage( $RET['STUDENT_ID'], $student_name_RET[1]['FULL_NAME'] ),
+			_( 'Student' )
+		) . '</td></tr>';
 
 		$users_RET = DBGet( DBQuery( "SELECT STAFF_ID,FIRST_NAME||', '||LAST_NAME||coalesce(' '||MIDDLE_NAME,' ') AS FULL_NAME,
 			EMAIL,PROFILE

@@ -1,6 +1,7 @@
 <?php
 
 require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
+require_once 'ProgramFunctions/TipMessage.fnc.php';
 
 DrawHeader( ProgramTitle() );
 
@@ -177,7 +178,10 @@ if (UserStudentID() && $_REQUEST['student_id'])
 		FROM STUDENTS
 		WHERE STUDENT_ID='" . UserStudentID() . "'" ) );
 
-	echo '<tr><td>' . NoInput( $student_name_RET[1]['FULL_NAME'], _( 'Student' ) ) . '</td></tr>';
+	echo '<tr><td>' . NoInput(
+		MakeStudentPhotoTipMessage( UserStudentID(), $student_name_RET[1]['FULL_NAME'] ),
+		_( 'Student' )
+	) . '</td></tr>';
 
 	echo '<tr><td>';
 
