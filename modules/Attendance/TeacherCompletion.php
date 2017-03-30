@@ -46,12 +46,12 @@ echo '</form>';
 
 //FJ days numbered
 //FJ multiple school periods for a course period
-if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
+if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 {
-	$sql = "SELECT s.STAFF_ID,s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,sp.TITLE,cpsp.PERIOD_ID,cp.TITLE AS COURSE_TITLE,
+	$sql = "SELECT s.STAFF_ID,s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,sp.TITLE,cpsp.PERIOD_ID,cp.TITLE AS CP_TITLE,
 			(SELECT 'Y' FROM ATTENDANCE_COMPLETED ac WHERE ac.STAFF_ID=cp.TEACHER_ID AND ac.SCHOOL_DATE=acc.SCHOOL_DATE AND ac.PERIOD_ID=sp.PERIOD_ID AND TABLE_NAME='".$_REQUEST['table']."') AS COMPLETED
-			FROM STAFF s,COURSE_PERIODS cp,SCHOOL_PERIODS sp,ATTENDANCE_CALENDAR acc, COURSE_PERIOD_SCHOOL_PERIODS cpsp 
-			WHERE 
+			FROM STAFF s,COURSE_PERIODS cp,SCHOOL_PERIODS sp,ATTENDANCE_CALENDAR acc, COURSE_PERIOD_SCHOOL_PERIODS cpsp
+			WHERE
 				cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND
 				sp.PERIOD_ID = cpsp.PERIOD_ID AND position(',".$_REQUEST['table'].",' IN cp.DOES_ATTENDANCE)>0
 				AND cp.TEACHER_ID=s.STAFF_ID AND cp.MARKING_PERIOD_ID IN (".GetAllMP('QTR',GetCurrentMP('QTR',$date)).")
@@ -62,23 +62,41 @@ if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 				OR sp.BLOCK IS NOT NULL AND acc.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK)
 			ORDER BY FULL_NAME";
 } else {
-	$sql = "SELECT s.STAFF_ID,s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,sp.TITLE,cpsp.PERIOD_ID,cp.TITLE AS COURSE_TITLE,
-			(SELECT 'Y' FROM ATTENDANCE_COMPLETED ac WHERE ac.STAFF_ID=cp.TEACHER_ID AND ac.SCHOOL_DATE=acc.SCHOOL_DATE AND ac.PERIOD_ID=sp.PERIOD_ID AND TABLE_NAME='".$_REQUEST['table']."') AS COMPLETED
-			FROM STAFF s,COURSE_PERIODS cp,SCHOOL_PERIODS sp,ATTENDANCE_CALENDAR acc, COURSE_PERIOD_SCHOOL_PERIODS cpsp 
-			WHERE 
-				cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND
-				sp.PERIOD_ID = cpsp.PERIOD_ID AND position(',".$_REQUEST['table'].",' IN cp.DOES_ATTENDANCE)>0
-				AND cp.TEACHER_ID=s.STAFF_ID AND cp.MARKING_PERIOD_ID IN (".GetAllMP('QTR',GetCurrentMP('QTR',$date)).")
-				AND cp.SYEAR='".UserSyear()."' AND cp.SCHOOL_ID='".UserSchool()."' AND s.PROFILE='teacher'
-				".(($_REQUEST['period'])?" AND cpsp.PERIOD_ID='".$_REQUEST['period']."'":'')." AND acc.CALENDAR_ID=cp.CALENDAR_ID AND acc.SCHOOL_DATE='".$date."'
-				AND acc.SYEAR='".UserSyear()."' AND (acc.MINUTES IS NOT NULL AND acc.MINUTES>0)
-				AND (sp.BLOCK IS NULL AND position(substring('UMTWHFS' FROM cast(extract(DOW FROM acc.SCHOOL_DATE) AS INT)+1 FOR 1) IN cpsp.DAYS)>0
-				OR sp.BLOCK IS NOT NULL AND acc.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK)
-			ORDER BY FULL_NAME";
+	$sql = "SELECT s.STAFF_ID,s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,sp.TITLE,
+		cpsp.PERIOD_ID,cp.TITLE AS CP_TITLE,
+		(SELECT 'Y'
+			FROM ATTENDANCE_COMPLETED ac
+			WHERE ac.STAFF_ID=cp.TEACHER_ID
+			AND ac.SCHOOL_DATE=acc.SCHOOL_DATE
+			AND ac.PERIOD_ID=sp.PERIOD_ID
+			AND TABLE_NAME='" . $_REQUEST['table'] . "') AS COMPLETED
+		FROM STAFF s,COURSE_PERIODS cp,SCHOOL_PERIODS sp,ATTENDANCE_CALENDAR acc,
+			COURSE_PERIOD_SCHOOL_PERIODS cpsp
+		WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
+		AND	sp.PERIOD_ID=cpsp.PERIOD_ID
+		AND position('," . $_REQUEST['table'] . ",' IN cp.DOES_ATTENDANCE)>0
+		AND cp.TEACHER_ID=s.STAFF_ID
+		AND cp.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', GetCurrentMP( 'QTR', $date ) ) . ")
+		AND cp.SYEAR='" . UserSyear() . "'
+		AND cp.SCHOOL_ID='" . UserSchool() . "'
+		AND s.PROFILE='teacher'" .
+		( $_REQUEST['period'] ? " AND cpsp.PERIOD_ID='" . $_REQUEST['period'] . "'" : '' ) .
+		" AND acc.CALENDAR_ID=cp.CALENDAR_ID
+		AND acc.SCHOOL_DATE='" . $date . "'
+		AND acc.SYEAR='" . UserSyear() . "'
+		AND (acc.MINUTES IS NOT NULL AND acc.MINUTES>0)
+		AND (sp.BLOCK IS NULL
+			AND position(substring('UMTWHFS' FROM cast(extract(DOW FROM acc.SCHOOL_DATE) AS INT)+1 FOR 1) IN cpsp.DAYS)>0
+			OR sp.BLOCK IS NOT NULL
+			AND acc.BLOCK IS NOT NULL
+			AND sp.BLOCK=acc.BLOCK)
+		ORDER BY FULL_NAME";
 }
-$RET = DBGet(DBQuery($sql),array(),array('STAFF_ID'));
 
-if ( ! $_REQUEST['period'])
+$RET = DBGet( DBQuery( $sql ), array(), array( 'STAFF_ID' ) );
+
+if ( ! isset( $_REQUEST['period'] )
+	|| ! $_REQUEST['period'] )
 {
 	foreach ( (array) $RET as $staff_id => $periods )
 	{
@@ -88,16 +106,18 @@ if ( ! $_REQUEST['period'])
 
 		foreach ( (array) $periods as $period )
 		{
-			if ( !isset( $_REQUEST['_ROSARIO_PDF'] ) )
+			if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			{
-				$staff_RET[ $i ][$period['PERIOD_ID']] = MakeTipMessage(
-					$period['COURSE_TITLE'],
-					_( 'Course Title' ),
-					button( $period['COMPLETED'] === 'Y' ? 'check' : 'x' )
-				);
+				$staff_RET[ $i ][ $period['PERIOD_ID'] ] = button( $period['COMPLETED'] === 'Y' ? 'check' : 'x' );
+
+				continue;
 			}
-			else
-				$staff_RET[ $i ][$period['PERIOD_ID']] = ($period['COMPLETED']=='Y'?_('Yes'):_('No'))." ";
+
+			$staff_RET[ $i ][ $period['PERIOD_ID'] ] = MakeTipMessage(
+				$period['CP_TITLE'],
+				_( 'Course Title' ),
+				button( $period['COMPLETED'] === 'Y' ? 'check' : 'x' )
+			);
 		}
 	}
 
@@ -112,25 +132,14 @@ if ( ! $_REQUEST['period'])
 }
 else
 {
-	$period_title = $periods_RET[$_REQUEST['period']][1]['TITLE'];
+	$period_title = $periods_RET[ $_REQUEST['period'] ][1]['TITLE'];
 
-	$tiptitle = false;
-
-	//FJ display icon for completed column
-	foreach ( (array) $RET as $staff_id => $periods)
+	// FJ display icon for completed column.
+	foreach ( (array) $RET as $staff_id => $periods )
 	{
-		foreach ( (array) $periods as $id => $period)
+		foreach ( (array) $periods as $id => $period )
 		{
-			if ( !isset($_REQUEST['_ROSARIO_PDF']))
-			{
-				$RET[ $staff_id ][ $id ]['COMPLETED'] = MakeTipMessage(
-					$period['COURSE_TITLE'],
-					_( 'Course Title' ),
-					button( $period['COMPLETED'] === 'Y' ? 'check' : 'x' )
-				);
-			}
-			else
-				$RET[ $staff_id ][ $id ]['COMPLETED'] = ($period['COMPLETED']=='Y'?_('Yes'):_('No'))." ";
+			$RET[ $staff_id ][ $id ]['COMPLETED'] = button( $period['COMPLETED'] === 'Y' ? 'check' : 'x' );
 		}
 	}
 
@@ -138,8 +147,9 @@ else
 		$RET,
 		array(
 			'FULL_NAME' => _( 'Teacher' ),
-			'COURSE_TITLE' => _( 'Course' ),
-			'COMPLETED' => _( 'Completed' ) ),
+			'CP_TITLE' => _( 'Course Period' ),
+			'COMPLETED' => _( 'Completed' ),
+		),
 		sprintf( _( 'Teacher who takes %s attendance' ), $period_title ),
 		sprintf( _( 'Teachers who take %s attendance' ), $period_title ),
 		false,
