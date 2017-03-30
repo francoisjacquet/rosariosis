@@ -49,17 +49,25 @@ else
 	}
 }
 
-if (User('PROFILE')!='admin')
+// Allow update for Parents, Students & Teachers if have Edit permissions.
+if ( User( 'PROFILE' ) !== 'admin' )
 {
-	if (User('PROFILE')!='student')
-		if (User('PROFILE_ID'))
-			$can_edit_RET = DBGet(DBQuery("SELECT MODNAME FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='".User('PROFILE_ID')."' AND MODNAME='Students/Student.php&category_id=".$category_id."' AND CAN_EDIT='Y'"));
-		else
-			$can_edit_RET = DBGet(DBQuery("SELECT MODNAME FROM STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."' AND MODNAME='Students/Student.php&category_id=".$category_id."' AND CAN_EDIT='Y'"),array(),array('MODNAME'));
-	else
-		$can_edit_RET = DBGet(DBQuery("SELECT MODNAME FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='0' AND MODNAME='Students/Student.php&category_id=".$category_id."' AND CAN_EDIT='Y'"));
-	if ( $can_edit_RET)
+	$can_edit_from_where = " FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'";
+
+	if ( User( 'PROFILE' ) !== 'student'
+		&& ! User( 'PROFILE_ID' ) )
+	{
+		$can_edit_from_where = " FROM STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'";
+	}
+
+	$can_edit_RET = DBGet( DBQuery( "SELECT MODNAME " . $can_edit_from_where .
+		" AND MODNAME='Students/Student.php&category_id=" . $category_id . "'
+		AND CAN_EDIT='Y'" ) );
+
+	if ( $can_edit_RET )
+	{
 		$_ROSARIO['allow_edit'] = true;
+	}
 }
 
 if ( $_REQUEST['modfunc'] === 'update'
