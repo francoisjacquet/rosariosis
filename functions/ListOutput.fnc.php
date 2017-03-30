@@ -1056,6 +1056,12 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 						array( '_', '' ),
 						$formatted_columns[ $key ]
 					) );
+
+					if ( (string) (int) mb_substr( $column, 0, 1 ) === mb_substr( $column, 0, 1 ) )
+					{
+						// Column name cannot start with a number.
+						$column = '_' . $column;
+					}
 				}
 
 				// http://stackoverflow.com/questions/1091945/what-characters-do-i-need-to-escape-in-xml-documents
