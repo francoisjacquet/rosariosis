@@ -547,7 +547,7 @@ function FieldsMenuOutput( $RET, $id, $category_id = '0' )
 	$LO_options = array( 'save' => false, 'search' => false, 'responsive' => false );
 
 	$LO_columns = array(
-		'TITLE' => $category_id ? _( 'Field' ) : _( 'Category' ),
+		'TITLE' => ( $category_id || $category_id === false ? _( 'Field' ) : _( 'Category' ) ),
 		'SORT_ORDER' => _( 'Sort Order' ),
 	);
 
