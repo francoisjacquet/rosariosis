@@ -108,7 +108,8 @@ if ( ! isset( $_REQUEST['period'] )
 		{
 			if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			{
-				$staff_RET[ $i ][ $period['PERIOD_ID'] ] = button( $period['COMPLETED'] === 'Y' ? 'check' : 'x' );
+				$staff_RET[ $i ][ $period['PERIOD_ID'] ] = ( $period['COMPLETED'] === 'Y' ?
+					_( 'Yes' ) : _( 'No' ) );
 
 				continue;
 			}

@@ -143,7 +143,7 @@ foreach ( (array) $RET as $staff_id => $periods )
 		{
 			if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			{
-				$staff_RET[ $i ][ $period_id ] = button( 'x' );
+				$staff_RET[ $i ][ $period_id ] = _( 'No' );
 
 				continue;
 			}
