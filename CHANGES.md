@@ -7,6 +7,7 @@ Changes in 3.1.2
 - Remove Used for Attendance column, unused in Periods.php
 - Add Student photo Tip message in MakeReferral.php & Referrals.php
 - Sanitize XML tag names in ListOutput.fnc.php
+- Fix #185 PHP error do not check if constant is empty
 
 Changes in 3.1.1
 ----------------

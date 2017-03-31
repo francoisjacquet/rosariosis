@@ -142,8 +142,8 @@ function _validMoodleURLandToken()
 	$url_available = true;
 
 	// Check Moodle URL is available if set
-	if ( !empty( MOODLE_URL )
-		&& !empty( MOODLE_TOKEN ) )
+	if ( MOODLE_URL
+		&& MOODLE_TOKEN )
 	{
 		$serverurl = MOODLE_URL . '/webservice/xmlrpc/server.php?wstoken=' . MOODLE_TOKEN;
 
