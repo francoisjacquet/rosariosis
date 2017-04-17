@@ -5,7 +5,7 @@
  * @uses $menu global var
  *
  * @see  Menu.php in root folder
- * 
+ *
  * @package RosarioSIS
  * @subpackage modules
  */
@@ -23,7 +23,6 @@ $menu['Scheduling']['admin'] = array(
 	'Scheduling/PrintClassLists.php' => _( 'Print Class Lists' ),
 	'Scheduling/PrintClassPictures.php' => _( 'Print Class Pictures' ),
 	'Scheduling/PrintRequests.php' => _( 'Print Requests' ),
-	//FJ add Master Schedule Report
 	'Scheduling/MasterScheduleReport.php' => _( 'Master Schedule Report' ),
 	'Scheduling/ScheduleReport.php' => _( 'Schedule Report' ),
 	'Scheduling/RequestsReport.php' => _( 'Requests Report' ),
@@ -32,7 +31,7 @@ $menu['Scheduling']['admin'] = array(
 	'Scheduling/AddDrop.php' => _( 'Add / Drop Report' ),
 	2 => _( 'Setup' ),
 	'Scheduling/Courses.php' => _( 'Courses' ),
-	'Scheduling/Scheduler.php' => _( 'Run Scheduler' )
+	'Scheduling/Scheduler.php' => _( 'Run Scheduler' ),
 );
 
 $menu['Scheduling']['teacher'] = array(
@@ -42,17 +41,17 @@ $menu['Scheduling']['teacher'] = array(
 	1 => _( 'Reports' ),
 	'Scheduling/PrintSchedules.php' => _( 'Print Schedules' ),
 	'Scheduling/PrintClassLists.php' => _( 'Print Class Lists' ),
-	'Scheduling/PrintClassPictures.php' => _( 'Print Class Pictures' )
+	'Scheduling/PrintClassPictures.php' => _( 'Print Class Pictures' ),
 );
 
 $menu['Scheduling']['parent'] = array(
 	'title' => _( 'Scheduling' ),
 	'default' => 'Scheduling/Schedule.php',
 	'Scheduling/Schedule.php' => _( 'Schedule' ),
-	//FJ activate Print Schedules for parents and students
+	// FJ activate Print Schedules for parents and students.
 	'Scheduling/PrintSchedules.php' => _( 'Print Schedules' ),
 	'Scheduling/PrintClassPictures.php' => _( 'Class Pictures' ),
-	'Scheduling/Requests.php' => _( 'Student Requests' )
+	'Scheduling/Requests.php' => _( 'Student Requests' ),
 );
 
 $exceptions['Scheduling'] = array(
