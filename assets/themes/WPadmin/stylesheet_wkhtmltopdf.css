@@ -633,6 +633,7 @@ h3 span{
 	line-height:1;
 	margin-left:-3px
 }
+/* Scheduling Requests Courses div */
 #courses_div{
 	position:absolute;
 	border-style:solid;
@@ -1019,11 +1020,11 @@ td.calendar-menu{
 	opacity:0;
 	position:absolute;
 	bottom:150%;
-	left:-75px;
-	width:150px;
+	left:-50px;
+	width:100px;
 	z-index:999999;
 	display:inline-block;
-	padding:3px 6px;
+	padding:2px 4px;
 	border-radius:3px;
 	transition:opacity .3s;
 	text-align:left;
@@ -1033,6 +1034,12 @@ td.calendar-menu{
 .tooltip:hover > i{
 	visibility:visible;
 	opacity:1
+}
+
+/* Tip Message */
+.tipmsg {
+	display: inline-block;
+	border-bottom: 1px dashed #bbb;
 }
 
 /* Toggle, CSS checkbox hack */

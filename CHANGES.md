@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 3.2
+--------------
+- CSS add .tipmsg class to TipMessage label in TipMessage.fnc.php & stylesheet.css
+
 Changes in 3.1.2
 ----------------
 - Fix Assignment view: do not exit so Warehouse('footer') is called in StudentAssignments.php
