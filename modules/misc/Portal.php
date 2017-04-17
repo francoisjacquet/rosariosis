@@ -13,8 +13,7 @@ DrawHeader( '<span id="salute"></span>' );
 
 ?>
 <script>
-var currentTime = new Date(),
-	hours = currentTime.getHours(),
+var hours = new Date().getHours(),
 	salute = document.getElementById("salute");
 	if (hours < 12)
 		salute.innerHTML=<?php echo json_encode( sprintf( _( 'Good Morning, %s.' ), User( 'NAME' ) ) ); ?>;
