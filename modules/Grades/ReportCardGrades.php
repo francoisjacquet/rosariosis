@@ -314,6 +314,13 @@ function _makeGradesInput( $value, $name )
 		}
 	}
 
+	if ( $name === 'BREAK_OFF'
+		&& $value !== '' )
+	{
+		// Append "%" to displayed Breakoff value.
+		$value = array( $value, $value . '%' );
+	}
+
 	return TextInput(
 		$value,
 		'values[' . $id . '][' . $name . ']',
