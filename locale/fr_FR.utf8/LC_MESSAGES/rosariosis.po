@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-03-21 19:24-0500\n"
-"PO-Revision-Date: 2017-03-21 19:25-0500\n"
+"PO-Revision-Date: 2017-03-31 14:56-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -2086,7 +2086,7 @@ msgstr "Veuillez réessayer de vous connecter."
 #: index.php:278
 #, php-format
 msgid "%s Login"
-msgstr "Login %s"
+msgstr "Entrer à %s"
 
 #: index.php:286
 #, php-format
@@ -2133,7 +2133,7 @@ msgstr "Aide mot de passe"
 
 #: index.php:379
 msgid "Login"
-msgstr "Login"
+msgstr "Entrer"
 
 #: index.php:386 modules/School_Setup/Configuration.php:199
 #: modules/Users/User.php:414
@@ -6111,11 +6111,11 @@ msgstr "Copier Calendrier"
 
 #: modules/School_Setup/Calendar.php:196
 msgid "Default is Full Day if Copy Calendar is N/A."
-msgstr "Journée Entière par défaut si le Calendrier de Copie est N/A."
+msgstr "Journée Entière par défaut si le Calendrier de Copie est N/D."
 
 #: modules/School_Setup/Calendar.php:196
 msgid "Otherwise Default is minutes from the Copy Calendar"
-msgstr "Autrement les minutes sont par Défaut depuis le Calendrier de Copie"
+msgstr "Autrement les minutes sont par défaut celles du Calendrier copié"
 
 #: modules/School_Setup/Calendar.php:197
 msgid "Default is Full Day"
@@ -6445,7 +6445,7 @@ msgstr[1] "Périodes intermédiaires"
 
 #: modules/School_Setup/MarkingPeriods.php:473
 msgid "Graded"
-msgstr "Notes"
+msgstr "Noté"
 
 #: modules/School_Setup/MarkingPeriods.php:519
 msgid "Grade Posting Begins"
@@ -7723,7 +7723,7 @@ msgstr "Bienvenue au %s!"
 #: modules/misc/Portal.php:33
 #, php-format
 msgid "Your last login was <b>%s</b>."
-msgstr "Votre dernière connexion était <b>%s</b>"
+msgstr "Votre dernière connexion était le <b>%s</b>"
 
 #: modules/misc/Portal.php:42
 #, php-format
@@ -7736,19 +7736,19 @@ msgstr ""
 
 #: modules/misc/Portal.php:53
 msgid "You are an <b>Administrator</b> on the system."
-msgstr "Vous êtes un <b>Administrateur</b> sur le système."
+msgstr "Vous êtes connecté en tant qu'<b>Administrateur</b>."
 
 #: modules/misc/Portal.php:59
 msgid "You are a <b>Teacher</b> on the system."
-msgstr "Vous êtes un <b>Enseignant</b> sur le système."
+msgstr "Vous êtes  connecté en tant qu'<b>Enseignant</b>."
 
 #: modules/misc/Portal.php:65
 msgid "You are a <b>Parent</b> on the system."
-msgstr "Vous êtes un <b>Parent</b> sur le système."
+msgstr "Vous êtes  connecté en tant que <b>Parent</b>."
 
 #: modules/misc/Portal.php:71
 msgid "You are a <b>Student</b> on the system."
-msgstr "Vous êtes un <b>Élève</b> sur le système."
+msgstr "Vous êtes  connecté comme <b>Élève</b>."
 
 #: modules/misc/Portal.php:117 modules/misc/Portal.php:134
 #: modules/misc/Portal.php:272 modules/misc/Portal.php:291

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-03-21 19:25-0500\n"
-"PO-Revision-Date: 2017-03-21 19:28-0500\n"
+"PO-Revision-Date: 2017-03-28 15:33-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -1056,7 +1056,7 @@ msgstr "Ultima Entrada"
 
 #: functions/GetStaffList.fnc.php:33
 msgid "Failed Login"
-msgstr "Intentos Fallidos de Entrar"
+msgstr "Intentos Fallidos de Entrada"
 
 #: functions/GetStaffList.fnc.php:202 modules/Users/Search.inc.php:34
 msgid "User ID"
@@ -2097,7 +2097,7 @@ msgstr "Por favor trate de entrar de nuevo."
 #: index.php:278
 #, php-format
 msgid "%s Login"
-msgstr "Entrar %s"
+msgstr "Entrar a %s"
 
 #: index.php:286
 #, php-format
