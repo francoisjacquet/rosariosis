@@ -69,8 +69,9 @@ else
 	// FJ no time limit for this script!
 	set_time_limit( 0 );
 
-	DBQuery( "SELECT calc_cum_gpa_mp('" . $_REQUEST['marking_period_id'] . "');
-		SELECT set_class_rank_mp('" . $_REQUEST['marking_period_id'] . "');" );
+	DBQuery( "SELECT calc_cum_gpa_mp('" . $_REQUEST['marking_period_id'] . "')" );
+
+	DBQuery( "SELECT set_class_rank_mp('" . $_REQUEST['marking_period_id'] . "')" );
 
 	//FJ remove STUDENT_GPA_CALCULATED table.
 	//DBQuery("UPDATE STUDENT_GPA_CALCULATED SET CLASS_RANK='".$rank."' WHERE STUDENT_ID='".$student['STUDENT_ID']."' AND MARKING_PERIOD_ID='".$_REQUEST['marking_period_id']."'");
