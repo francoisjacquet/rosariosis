@@ -21,7 +21,13 @@ if (empty($course_period_id))
 //FJ add Credit Hours
 //FJ add explicit type cast
 //$course_RET = DBGet(DBQuery("SELECT cp.COURSE_ID,c.TITLE as COURSE_NAME, cp.TITLE, cp.GRADE_SCALE_ID, credit($course_period_id, '".$_REQUEST['mp']."') AS CREDITS, (SELECT ATTENDANCE FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID) AS ATTENDANCE FROM COURSE_PERIODS cp, COURSES c WHERE cp.COURSE_ID = c.COURSE_ID AND cp.COURSE_PERIOD_ID='".$course_period_id."'"));
-$course_RET = DBGet(DBQuery("SELECT cp.COURSE_ID,c.TITLE as COURSE_NAME, cp.TITLE, cp.GRADE_SCALE_ID, credit(CAST(".$course_period_id." AS integer), CAST('".$_REQUEST['mp']."' AS character varying)) AS CREDITS, DOES_CLASS_RANK AS CLASS_RANK, c.CREDIT_HOURS FROM COURSE_PERIODS cp, COURSES c WHERE cp.COURSE_ID = c.COURSE_ID AND cp.COURSE_PERIOD_ID='".$course_period_id."'"));
+$course_RET = DBGet( DBQuery( "SELECT cp.COURSE_ID,c.TITLE as COURSE_NAME,cp.TITLE,
+	cp.GRADE_SCALE_ID, credit(CAST(" . $course_period_id . " AS integer),
+	CAST( '" . $_REQUEST['mp'] . "' AS character varying)) AS CREDITS,
+	DOES_CLASS_RANK AS CLASS_RANK,c.CREDIT_HOURS
+	FROM COURSE_PERIODS cp,COURSES c
+	WHERE cp.COURSE_ID=c.COURSE_ID
+	AND cp.COURSE_PERIOD_ID='" . $course_period_id . "'" ) );
 
 if ( ! $course_RET[1]['GRADE_SCALE_ID'])
 	ErrorMessage(array(_('You cannot enter grades for this course period.')),'fatal');
@@ -1022,8 +1028,7 @@ if (GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y')
 		$LO_columns += array('CB'.$i => _('Add Comment'));
 }
 
-if ( !ProgramConfig( 'grades', 'GRADES_HIDE_NON_ATTENDANCE_COMMENT' )
-	|| $course_RET[1]['ATTENDANCE'] == 'Y' )
+if ( ! ProgramConfig( 'grades', 'GRADES_HIDE_NON_ATTENDANCE_COMMENT' ) )
 {
 	$LO_columns += array( 'COMMENT' => _( 'Comment' ) );
 }
