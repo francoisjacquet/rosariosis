@@ -317,6 +317,8 @@ if ( $_REQUEST['modfunc']!='delete')
 
 			if ( $xprofile === 'admin'
 				|| $modcat === 'Students'
+				|| ( $xprofile !== 'teacher'
+					&& $modcat === 'Scheduling' )
 				|| ( $_REQUEST['profile_id'] !== '0' // Student.
 					&& $modcat === 'Users' ) )
 			{
@@ -344,20 +346,27 @@ if ( $_REQUEST['modfunc']!='delete')
 					$can_use = $exceptions_RET[ $file ][1]['CAN_USE'];
 					$can_edit = $exceptions_RET[ $file ][1]['CAN_EDIT'];
 
-					//echo '<tr><td>&nbsp;</td><td>&nbsp;</td>';
+					echo '<tr><td class="align-right"><input type="checkbox" name="can_use[' .
+						str_replace( '.', '_', $file ) . ']" value="true"' .
+						( $can_use === 'Y' ? ' checked' : '' ) .
+						( AllowEdit() ? '' : ' disabled' ) . '></td>';
 
-					echo '<tr><td class="align-right"><input type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></td>';
-
-					if ( $xprofile === 'admin' )
+					if ( $xprofile === 'admin'
+						|| ( $xprofile !== 'teacher'
+							&& $file === 'Scheduling/Requests.php' ) )
 					{
-						echo '<td class="align-right"><input type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></td>';
+						echo '<td class="align-right"><input type="checkbox" name="can_edit[' .
+							str_replace( '.', '_', $file ) . ']" value="true"' .
+							( $can_edit === 'Y' ? ' checked' : '' ) .
+							( AllowEdit() ? '' : ' disabled' ) . ' /></td>';
 					}
 					else
 						echo '<td>&nbsp;</td>';
 
-					echo'<td>'.$title.'</td></tr>';
+					echo'<td>' . $title . '</td></tr>';
 
-					if ( $modcat=='Students' && $file=='Students/Student.php')
+					if ( $modcat === 'Students'
+						&& $file === 'Students/Student.php' )
 					{
 						$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM STUDENT_FIELD_CATEGORIES ORDER BY SORT_ORDER,TITLE"));
 						foreach ( (array) $categories_RET as $category)

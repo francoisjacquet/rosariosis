@@ -2,6 +2,14 @@
 
 ## RosarioSIS Student Information System
 
+New in 3.2
+----------
+
+Scheduling
+
+- Requests: Students & Parents can Edit
+
+
 New in 3.1
 ----------
 

@@ -5,6 +5,7 @@ Changes in 3.2
 --------------
 - CSS add .tipmsg class to TipMessage label in TipMessage.fnc.php & stylesheet.css
 - Format code, reorganize update errors & add maxlength to Sort Order input in Assignments.php
+- Allow Parents & Students to Edit Requests if have permissions in Requests.php, Exceptions.php & Profiles.php
 - Update French & Spanish translations
 
 Changes in 3.1.2
