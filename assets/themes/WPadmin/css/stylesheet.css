@@ -1311,5 +1311,12 @@ html[dir=RTL] input[type=checkbox].toggle {
 	input,select{
 		max-width:260px
 	}
-
+	/* Hide List sorting icons to gain space */
+	.widefat th a:after{
+		content: "";
+		padding-left: 0;
+	}
+	.widefat th a:hover:after{
+		content: "";
+	}
 }
