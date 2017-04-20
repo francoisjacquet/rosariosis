@@ -924,7 +924,7 @@ td.calendar-menu{
 }
 
 /* Tip Message */
-.tipmsg {
+.tipmsg-label {
 	display: inline-block;
 	border-bottom: 1px dashed #bbb;
 }
