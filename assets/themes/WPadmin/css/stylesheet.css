@@ -416,7 +416,7 @@ html[dir="RTL"].no-touch .menu-module:hover .menu-top:after{
 .postbox > thead th{
 	border-bottom-width:1px;
 	border-bottom-style:solid;
-	padding:0
+	padding:0 5px;
 }
 .postbox th h3,
 .postbox .h3multi{
