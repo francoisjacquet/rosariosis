@@ -60,7 +60,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 	// PREPARE LINKS ---
 	$extra = 'LO_page=' . ( isset( $_REQUEST['LO_page'] ) ? $_REQUEST['LO_page'] : '' ) .
 		'&amp;LO_sort=' . ( isset( $LO_sort ) ? $LO_sort : '' ) .
-		'&amp;LO_direction=' . ( isset( $_REQUEST['LO_direction'] ) ? $_REQUEST['LO_direction'] : '' ) .
+		'&amp;LO_dir=' . ( isset( $_REQUEST['LO_dir'] ) ? $_REQUEST['LO_dir'] : '' ) .
 		'&amp;LO_search=' . ( isset( $_REQUEST['LO_search'] ) ? urlencode( $_REQUEST['LO_search'] ) : '' );
 
 	$PHP_tmp_SELF = PreparePHP_SELF(
@@ -68,7 +68,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		array(
 			'LO_page',
 			'LO_sort',
-			'LO_direction',
+			'LO_dir',
 			'LO_search',
 			'LO_save',
 			'remove_prompt',
@@ -344,7 +344,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				}
 			}
 
-			if ( $_REQUEST['LO_direction'] == -1 )
+			if ( $_REQUEST['LO_dir'] == -1 )
 			{
 				$dir = SORT_DESC;
 			}
@@ -415,8 +415,8 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			if ( $_REQUEST['LO_page'] < 1) //FJ check LO_page
 				$_REQUEST['LO_page'] = 1;
 
-			if (empty($_REQUEST['LO_direction']))
-				$_REQUEST['LO_direction'] = 1;
+			if (empty($_REQUEST['LO_dir']))
+				$_REQUEST['LO_dir'] = 1;
 
 			$start = ($_REQUEST['LO_page'] - 1) * $num_displayed + 1;
 			$stop = $start + ($num_displayed-1);
@@ -434,7 +434,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 					for ( $i=1;$i<=$ceil;$i++)
 					{
 						if ( $i!=$_REQUEST['LO_page'])
-							$LO_pages .= '<a href="'.$PHP_tmp_SELF.'&amp;LO_sort='.$LO_sort.'&amp;LO_direction='.$_REQUEST['LO_direction'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;LO_page='.$i.'">'.$i.'</a>, ';
+							$LO_pages .= '<a href="'.$PHP_tmp_SELF.'&amp;LO_sort='.$LO_sort.'&amp;LO_dir='.$_REQUEST['LO_dir'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;LO_page='.$i.'">'.$i.'</a>, ';
 						else
 							$LO_pages .= $i.', ';
 					}
@@ -445,7 +445,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 					for ( $i=1;$i<=7;$i++)
 					{
 						if ( $i!=$_REQUEST['LO_page'])
-							$LO_pages .= '<a href="'.$PHP_tmp_SELF.'&amp;LO_sort='.$LO_sort.'&amp;LO_direction='.$_REQUEST['LO_direction'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;LO_page='.$i.'">'.$i.'</a>, ';
+							$LO_pages .= '<a href="'.$PHP_tmp_SELF.'&amp;LO_sort='.$LO_sort.'&amp;LO_dir='.$_REQUEST['LO_dir'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;LO_page='.$i.'">'.$i.'</a>, ';
 						else
 							$LO_pages .= $i.', ';
 					}
@@ -454,11 +454,11 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 					for ( $i=$ceil-2;$i<=$ceil;$i++)
 					{
 						if ( $i!=$_REQUEST['LO_page'])
-							$LO_pages .= '<a href="'.$PHP_tmp_SELF.'&amp;LO_sort='.$LO_sort.'&amp;LO_direction='.$_REQUEST['LO_direction'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;LO_page='.$i.'">'.$i.'</a>, ';
+							$LO_pages .= '<a href="'.$PHP_tmp_SELF.'&amp;LO_sort='.$LO_sort.'&amp;LO_dir='.$_REQUEST['LO_dir'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;LO_page='.$i.'">'.$i.'</a>, ';
 						else
 							$LO_pages .= $i.', ';
 					}
-					$LO_pages = mb_substr($LO_pages,0,-2) . ' &nbsp;<a href="'.$PHP_tmp_SELF.'&amp;LO_sort='.$LO_sort.'&amp;LO_direction='.$_REQUEST['LO_direction'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;LO_page=' . ($_REQUEST['LO_page'] +1) . '">'._('Next LO_page').'</a><br />';
+					$LO_pages = mb_substr($LO_pages,0,-2) . ' &nbsp;<a href="'.$PHP_tmp_SELF.'&amp;LO_sort='.$LO_sort.'&amp;LO_dir='.$_REQUEST['LO_dir'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;LO_page=' . ($_REQUEST['LO_page'] +1) . '">'._('Next LO_page').'</a><br />';
 				}
 				echo sprintf(_('Go to LO_page %s'),$LO_pages);
 				echo '</td></tr></table>';*/
@@ -571,7 +571,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			foreach ( (array) $column_names as $key => $value)
 			{
 				if (isset($LO_sort) && $LO_sort==$key)
-					$direction = -1 * $_REQUEST['LO_direction'];
+					$direction = -1 * $_REQUEST['LO_dir'];
 				else
 					$direction = 1;
 
@@ -586,7 +586,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 					echo '<th>';
 
 					if ( $options['sort'] )
-						echo '<a href="'.$PHP_tmp_SELF.'&amp;LO_page='.$_REQUEST['LO_page'].'&amp;LO_sort='.$key.'&amp;LO_direction='.$direction.'&amp;LO_search='.urlencode(isset($_REQUEST['LO_search'])?$_REQUEST['LO_search']:'') . '">' .
+						echo '<a href="'.$PHP_tmp_SELF.'&amp;LO_page='.$_REQUEST['LO_page'].'&amp;LO_sort='.$key.'&amp;LO_dir='.$direction.'&amp;LO_search='.urlencode(isset($_REQUEST['LO_search'])?$_REQUEST['LO_search']:'') . '">' .
 							ParseMLField( $value ) .
 						'</a>';
 					else

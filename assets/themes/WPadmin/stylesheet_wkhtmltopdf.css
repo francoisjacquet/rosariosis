@@ -335,17 +335,17 @@ hr {
 	border-bottom-right-radius:3px
 }
 /* listOutput sorting icon */
-.widefat th a[href*="LO_direction"]:after{
+.widefat th a[href*="LO_dir"]:after{
 	font-family: monospace;
 	font-size: larger;
 	line-height: 0.5em;
 	content: "\0000a0";
 	padding-left: 3px;
 }
-.widefat th a[href*="LO_direction=1"]:hover:after{
+.widefat th a[href*="LO_dir=1"]:hover:after{
 	content: "\25b4";
 }
-.widefat th a[href*="LO_direction=-1"]:hover:after{
+.widefat th a[href*="LO_dir=-1"]:hover:after{
 	content: "\25be";
 }
 /*empty header link (checkbox / checkAll)*/

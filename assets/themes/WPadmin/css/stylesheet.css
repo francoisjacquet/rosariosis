@@ -222,17 +222,17 @@ hr {
 	border-bottom-right-radius:3px
 }
 /* listOutput sorting icon */
-.widefat th a[href*="LO_direction"]:after{
+.widefat th a[href*="LO_dir"]:after{
 	font-family: monospace;
 	font-size: larger;
 	line-height: 0.5em;
 	content: "\0000a0";
 	padding-left: 3px;
 }
-.widefat th a[href*="LO_direction=1"]:hover:after{
+.widefat th a[href*="LO_dir=1"]:hover:after{
 	content: "\25b4";
 }
-.widefat th a[href*="LO_direction=-1"]:hover:after{
+.widefat th a[href*="LO_dir=-1"]:hover:after{
 	content: "\25be";
 }
 /*empty header link (checkbox / checkAll)*/
@@ -1292,6 +1292,13 @@ html[dir=RTL] input[type=checkbox].toggle {
 		width: 210px;
 		float: right;
 	}
+	/* Show List sorting icons */
+	.widefat th a[href*="LO_dir=1"]:after{
+		content: "\25b4";
+	}
+	.widefat th a[href*="LO_dir=-1"]:after{
+		content: "\25be";
+	}
 }
 
 /*320 & 360px mobile*/
@@ -1312,11 +1319,11 @@ html[dir=RTL] input[type=checkbox].toggle {
 		max-width:260px
 	}
 	/* Hide List sorting icons to gain space */
-	.widefat th a:after{
+	.widefat th a[href*="LO_dir"]:after{
 		content: "";
 		padding-left: 0;
 	}
-	.widefat th a:hover:after{
+	.widefat th a[href*="LO_dir"]:hover:after{
 		content: "";
 	}
 }
