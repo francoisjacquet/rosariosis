@@ -645,7 +645,7 @@ div.onclick{
 	padding-right:5px;
 	padding-bottom:5px
 }
-td.popTable{
+.popTable{
 	padding:5px
 }
 td.valign-top,tr.valign-top,table.valign-top td{
@@ -830,7 +830,7 @@ div.st{
 	padding:4px 2px;
 	display:inline-block
 }
-td.calendar-menu{
+.calendar-menu{
 	white-space:normal;
 	max-width:none
 }
