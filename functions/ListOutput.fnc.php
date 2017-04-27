@@ -511,7 +511,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 						ngettext( '%d %s was found.', '%d %s were found.', $display_count ),
 						$display_count,
 						ngettext( $singular, $plural, $display_count )
-					) . '</b> ';
+					) . '</b>';
 				}
 
 				if ( isset( $where_message ) )
@@ -525,9 +525,11 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				&& $result_count > 0 )
 			{
 				// Save / Export list button.
-				echo '&nbsp;<a href="'.$PHP_tmp_SELF.'&amp;'.$extra.'&amp;LO_save='.$options['save'].'&amp;_ROSARIO_PDF=true" target="_blank">
-						<img src="assets/themes/'. Preferences('THEME') .'/btn/download.png" class="alignImg" title="'._('Export list').'" />
-					</a>';
+				echo '&nbsp;<a href="' . $PHP_tmp_SELF . '&amp;' . $extra .
+					'&amp;LO_save=' . $options['save'] .
+					'&amp;_ROSARIO_PDF=true" target="_blank"><img src="assets/themes/' .
+					Preferences( 'THEME' ) . '/btn/download.png" class="alignImg" title="' .
+					_( 'Export list' ) . '" /></a>';
 			}
 
 			echo '</td>';
@@ -545,8 +547,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				echo '<input type="text" id="LO_search" name="LO_search" value="' .
 					htmlspecialchars( $_REQUEST['LO_search'], ENT_QUOTES ) .
 					'" placeholder="' . _( 'Search' ) . '" onkeypress="LOSearch(event, this.value, \'' .
-						$search_URL . '\');" />
-					<input type="button" value="' . _( 'Go' ) .
+						$search_URL . '\');" /><input type="button" value="' . _( 'Go' ) .
 					'" onclick="LOSearch(false, $(\'#LO_search\').val(), \'' .
 						$search_URL . '\');" /></td>';
 

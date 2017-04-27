@@ -384,6 +384,9 @@ hr {
 .list-header {
 	margin-top: 16px;
 }
+.list-header td {
+	padding: 4px 8px;
+}
 .list {
 	margin-bottom: 16px;
 }

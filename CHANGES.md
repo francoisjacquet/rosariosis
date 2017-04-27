@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 3.2.1
+----------------
+- CSS Add padding to .list-header & remove spaces before buttons in ListOutput.fnc.php & stylesheet.css
+
 Changes in 3.2
 --------------
 - Append "%" to displayed Breakoff value in ReportCardGrades.php
