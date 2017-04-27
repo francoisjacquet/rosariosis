@@ -426,7 +426,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 			if ( $result_count >= $num_displayed )
 			{
-				$where_message = sprintf( _( 'Displaying %d through %d' ), $start, $stop );
+				$where_message = ' ' . sprintf( _( 'Displaying %d through %d' ), $start, $stop );
 
 				/*if (ceil($result_count/$num_displayed) <= 10)
 				{
