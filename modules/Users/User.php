@@ -476,7 +476,7 @@ if ((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='de
 	if ( basename( $_SERVER['PHP_SELF'] ) !== 'index.php' )
 	{
 		$form_action = 'Modules.php?modname=' . $_REQUEST['modname'] .
-			'&category_id=' . $category_id . '&modfunc=update';
+			'&category_id=' . $category_id . '&staff_id=' . UserStaffID() . '&modfunc=update';
 	}
 	else
 	{

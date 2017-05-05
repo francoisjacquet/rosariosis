@@ -11,6 +11,7 @@ Changes in 3.3
 - Remove "# Associated" column from Student list in AddStudents.php
 - Fix disabled buttons on back or page reload in Firefox in warehouse.js
 - CSS larger tooltip & fix FS menu calendar in stylesheet.css
+- Add  &student_id / &staff_id params to update form URL in Student.php & User.php
 
 Changes in 3.2
 --------------

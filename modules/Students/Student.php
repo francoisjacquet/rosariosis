@@ -416,7 +416,7 @@ if (UserStudentID() || $_REQUEST['student_id']=='new')
 		if ( basename( $_SERVER['PHP_SELF'] ) !== 'index.php' )
 		{
 			$form_action = 'Modules.php?modname=' . $_REQUEST['modname'] .
-				'&category_id=' . $category_id . '&modfunc=update';
+				'&category_id=' . $category_id . '&student_id=' . UserStudentID() . '&modfunc=update';
 		}
 		else
 		{
