@@ -59,15 +59,10 @@ function DeletePrompt( $title, $action = 'Delete', $remove_modfunc_on_cancel = t
 
 		return false;
 	}
-	// If user clicked OK or Cancel + modfunc.
 	else
 	{
-		if ( isset( $_REQUEST['delete_ok'] ) )
-		{
-			$_REQUEST['delete_ok'] = false;
-
-			$_SESSION['_REQUEST_vars']['delete_ok'] = false;
-		}
+		// If user clicked OK or Cancel + modfunc.
+		RedirectURL( array( 'delete_ok', 'delete_cancel' ) );
 
 		return true;
 	}
@@ -102,7 +97,7 @@ function Prompt( $title = 'Confirm', $question = '', $message = '' )
 
 		echo '<br />';
 
-		$PHP_tmp_SELF = PreparePHP_SELF( $_REQUEST );
+		$PHP_tmp_SELF = PreparePHP_SELF();
 
 		PopTable( 'header', $title );
 
