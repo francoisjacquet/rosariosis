@@ -20,7 +20,10 @@ function GetTeacher( $teacher_id, $column = 'FULL_NAME', $schools = true )
 	static $teachers = null;
 
 	// Column defaults to FULL_NAME.
-	if ( ! in_array( $column, array( 'FULL_NAME', 'LAST_NAME', 'FIRST_NAME', 'USERNAME', 'PROFILE' ) ) )
+	if ( $column !== 'FULL_NAME'
+		&& ( $column === 'STAFF_ID'
+			|| $column === 'TEACHER_ID'
+			|| ! in_array( $column, array( 'LAST_NAME', 'FIRST_NAME', 'USERNAME', 'PROFILE' ) ) ) )
 	{
 		$column = 'FULL_NAME';
 	}
@@ -28,8 +31,8 @@ function GetTeacher( $teacher_id, $column = 'FULL_NAME', $schools = true )
 	if ( is_null( $teachers ) )
 	{
 		$teachers = DBGet( DBQuery(
-			"SELECT STAFF_ID,LAST_NAME,FIRST_NAME,LAST_NAME||', '||FIRST_NAME AS FULL_NAME,USERNAME,PROFILE 
-			FROM STAFF 
+			"SELECT STAFF_ID,LAST_NAME,FIRST_NAME,LAST_NAME||', '||FIRST_NAME AS FULL_NAME,USERNAME,PROFILE
+			FROM STAFF
 			WHERE SYEAR='" . UserSyear() . "'" .
 			( $schools ? " AND (SCHOOLS IS NULL OR SCHOOLS LIKE '%," . UserSchool() . ",%')" : '' ) ),
 			array(),
