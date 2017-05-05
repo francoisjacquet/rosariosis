@@ -10,6 +10,7 @@ Changes in 3.3
 - Fixed Cancel Delete Event in Calendar.php
 - Remove "# Associated" column from Student list in AddStudents.php
 - Fix disabled buttons on back or page reload in Firefox in warehouse.js
+- CSS larger tooltip & fix FS menu calendar in stylesheet.css
 
 Changes in 3.2
 --------------

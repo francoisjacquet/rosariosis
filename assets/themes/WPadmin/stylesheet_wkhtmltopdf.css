@@ -932,7 +932,7 @@ div.st{
 	max-width:103px;
 	overflow:hidden;
 	white-space:nowrap;
-	line-height:1
+	line-height:1.231
 }
 .calendar-day .bold{
 	font-weight:bold
@@ -1023,11 +1023,11 @@ td.calendar-menu{
 	opacity:0;
 	position:absolute;
 	bottom:150%;
-	left:-50px;
-	width:100px;
+	left:-55px;
+	width:120px;
 	z-index:999999;
 	display:inline-block;
-	padding:2px 4px;
+	padding:3px 5px;
 	border-radius:3px;
 	transition:opacity .3s;
 	text-align:left;
