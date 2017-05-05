@@ -108,7 +108,6 @@ function ColorBox() {
 	$('.colorbox').colorbox();
 	$('.colorboxiframe').colorbox({iframe:true, innerWidth:cWidth, innerHeight:cHeight});
 	$('.colorboxinline').colorbox({inline:true, maxWidth:'95%', maxHeight:'85%', scrolling:true});
-
 }
 
 // MarkDown
@@ -367,13 +366,13 @@ function ajaxPrepare(target) {
 }
 
 
-//disable links while AJAX
+// Disable links while AJAX (do NOT use disabled attribute).
+// http://stackoverflow.com/questions/5985839/bug-with-firefox-disabled-attribute-of-input-not-resetting-when-refreshing
 $(document).ajaxStart(function () {
-	$('input[type="submit"],input[type="button"],a').css('pointer-events', 'none').attr('disabled', true);
+	$('input[type="submit"],input[type="button"],a').css('pointer-events', 'none');
 }).ajaxStop(function () {
-	$('input[type="submit"],input[type="button"],a').css('pointer-events', '').attr('disabled', false);
+	$('input[type="submit"],input[type="button"],a').css('pointer-events', '');
 });
-
 
 
 // onload

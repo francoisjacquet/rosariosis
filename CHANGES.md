@@ -9,6 +9,7 @@ Changes in 3.3
 - Use PreparePHP_Self() in forms to maintain program state in Administration.php & Eligibility/Student.php
 - Fixed Cancel Delete Event in Calendar.php
 - Remove "# Associated" column from Student list in AddStudents.php
+- Fix disabled buttons on back or page reload in Firefox in warehouse.js
 
 Changes in 3.2
 --------------
