@@ -112,8 +112,21 @@ function ColorBox() {
 }
 
 // MarkDown
-var md_last_val = {},
-	sdc;
+var md_last_val = {};
+
+function GetMDConverter() {
+	if ( typeof GetMDConverter.mdc === 'undefined' ) {
+		GetMDConverter.mdc = new showdown.Converter({
+			tables: true,
+			simplifiedAutoLink: true,
+			parseImgDimensions: true,
+			tasklists: true,
+			literalMidWordUnderscores: true
+		});
+	}
+
+	return GetMDConverter.mdc;
+}
 
 function MarkDownInputPreview( input_id )
 {
@@ -126,19 +139,10 @@ function MarkDownInputPreview( input_id )
 	{
 		md_last_val[input_id] = html;
 
-		if ( typeof( sdc ) !== 'object' )
-		{
-			sdc = new showdown.Converter({
-				tables: true,
-				simplifiedAutoLink: true,
-				parseImgDimensions: true,
-				tasklists: true,
-				literalMidWordUnderscores: true,
-			});
-		}
+		var mdc = GetMDConverter();
 
 		// Convert MarkDown to HTML
-		md_prev.html( sdc.makeHtml( html ) );
+		md_prev.html( mdc.makeHtml( html ) );
 	}
 
 	// MD preview = Input size
@@ -159,17 +163,9 @@ function MarkDownToHTML()
 {
 	$('.markdown-to-html').html(function(i, html){
 
-		if ( typeof( sdc ) !== 'object' ) {
-			sdc = new showdown.Converter({
-				tables: true,
-				simplifiedAutoLink: true,
-				parseImgDimensions: true,
-				tasklists: true,
-				literalMidWordUnderscores: true,
-			});
-		}
+		var mdc = GetMDConverter();
 
-		return sdc.makeHtml( html );
+		return mdc.makeHtml( html );
 	});
 }
 
