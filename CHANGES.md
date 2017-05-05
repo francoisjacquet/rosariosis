@@ -12,6 +12,7 @@ Changes in 3.3
 - Fix disabled buttons on back or page reload in Firefox in warehouse.js
 - CSS larger tooltip & fix FS menu calendar in stylesheet.css
 - Add  &student_id / &staff_id params to update form URL in Student.php & User.php
+- Do not display Contact Info tipmsg in Student List if no contacts in GetStuList.fnc.php
 
 Changes in 3.2
 --------------

@@ -686,16 +686,20 @@ function makeContactInfo( $student_id, $column )
 		require_once 'ProgramFunctions/TipMessage.fnc.php';
 	}
 
+	$tipmsg = '';
+
 	if ( isset( $contacts_RET[ $student_id ] ) )
 	{
-		$tipmsg = '';
-
 		foreach ( (array) $contacts_RET[ $student_id ] as $person )
 		{
 			if ( $person[1]['FIRST_NAME'] || $person[1]['LAST_NAME'] )
 			{
 				$tipmsg .= $person[1]['STUDENT_RELATION'] . ': ' .
 					$person[1]['FIRST_NAME'] . ' ' . $person[1]['LAST_NAME'] . '<br />';
+			}
+			else
+			{
+				continue;
 			}
 
 			$tipmsg .= '<table class="width-100p cellspacing-0">';
@@ -720,8 +724,14 @@ function makeContactInfo( $student_id, $column )
 		}
 	}
 	else
-		$tipmsg = _( 'This student has no contact information.' );
+	{
+		// $tipmsg = _( 'This student has no contact information.' );
+	}
 
+	if ( ! $tipmsg )
+	{
+		return '';
+	}
 
 	return MakeTipMessage( $tipmsg, _( 'Contact Information' ), button( 'phone' ) );
 }
