@@ -115,15 +115,13 @@ if ( $_REQUEST['modfunc'] === 'update'
 	$exceptions_RET = DBGet(DBQuery("SELECT MODNAME,CAN_USE,CAN_EDIT FROM STAFF_EXCEPTIONS WHERE USER_ID='".$user_id."'"),array(),array('MODNAME'));
 
 	unset($tmp_menu);
-	$_REQUEST['modfunc'] = false;
-	$_SESSION['_REQUEST_vars']['modfunc'] = false;
-	unset($_REQUEST['can_edit']);
-	unset($_SESSION['_REQUEST_vars']['can_edit']);
-	unset($_REQUEST['can_use']);
-	unset($_SESSION['_REQUEST_vars']['can_use']);
+
+	// Unset modfunc & can edit & can use & redirect URL.
+	RedirectURL( array( 'modfunc', 'can_edit', 'can_use' ) );
 }
 
-if (UserStaffID() && ! $_REQUEST['modfunc'])
+if ( UserStaffID()
+	&& ! $_REQUEST['modfunc'] )
 {
 $staff_RET = DBGet(DBQuery("SELECT FIRST_NAME,LAST_NAME,PROFILE,PROFILE_ID FROM STAFF WHERE STAFF_ID='".UserStaffID()."'"));
 

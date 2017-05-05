@@ -111,10 +111,12 @@ if ( !isset($_ROSARIO['allow_edit']))
 
 $current_RET = DBGet(DBQuery('SELECT ITEM_ID FROM FOOD_SERVICE_COMPLETED WHERE STAFF_ID=\''.User('STAFF_ID').'\' AND SCHOOL_DATE=\''.$date.'\' AND PERIOD_ID=\''.UserPeriod().'\' AND MENU_ID=\''.$_REQUEST['menu_id'].'\''),array(),array('ITEM_ID'));
 //echo '<pre>'; var_dump($current_RET); echo '</pre>';
-if ( $_REQUEST['values'] && $_POST['values'])
+if ( $_REQUEST['values']
+	&& $_POST['values'] )
 {
-	GetCurrentMP('QTR',$date);
-	foreach ( (array) $_REQUEST['values'] as $id => $value)
+	GetCurrentMP( 'QTR', $date );
+
+	foreach ( (array) $_REQUEST['values'] as $id => $value )
 	{
 		if ( $current_RET[ $id ])
 		{
@@ -130,7 +132,9 @@ if ( $_REQUEST['values'] && $_POST['values'])
 		}
 		DBQuery($sql);
 	}
-	unset($_SESSION['_REQUEST_vars']['values']);
+
+	// Unset values & redirect URL.
+	RedirectURL( 'values' );
 }
 
 if ( $date != DBDate())

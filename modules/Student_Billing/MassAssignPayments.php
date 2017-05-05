@@ -33,14 +33,14 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	else
 		$error[] = _( 'You must choose at least one student.' );
 
-	$_SESSION['_REQUEST_vars']['modfunc'] = false;
-	$_REQUEST['modfunc'] = false;
+	// Unset modfunc & redirect URL.
+	RedirectURL( 'modfunc' );
 }
 
 if ( ! $_REQUEST['modfunc'] )
 
 {
-	DrawHeader(ProgramTitle());
+	DrawHeader( ProgramTitle() );
 
 	echo ErrorMessage( $error );
 

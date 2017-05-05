@@ -108,6 +108,58 @@ function PreparePHP_SELF( $tmp_REQUEST = array(), $remove = array(), $add = arra
 
 
 /**
+ * Redirect URL
+ * Will update the requested URL in the browser,
+ * (soft redirection using the X-Redirect-Url header)
+ * removing the requested parameters passed as argument.
+ * Use after a successful remove / delete / update / save operation.
+ * Prevents showing an obsolete & confusing delete confirmation screen on page reload.
+ *
+ * @since 3.3
+ *
+ * @example RedirectURL( array( 'modfunc', 'id' ) );
+ *
+ * @uses X-Redirect-Url header.
+ * @uses PreparePHP_SELF
+ *
+ * @see warehouse.js check for X-Redirect-Url
+ *
+ * @param array|string $remove Parameters to remove from the $_REQUEST & $_SESSION['_REQUEST_vars'] arrays.
+ *
+ * @return boolean     False if nothing to remove, else true.
+ */
+function RedirectURL( $remove )
+{
+	if ( ! $remove )
+	{
+		return false;
+	}
+
+	foreach ( (array) $remove as $request_key )
+	{
+		if ( ! isset( $_REQUEST[ $request_key ] ) )
+		{
+			continue;
+		}
+
+		$_REQUEST[ $request_key ] = false;
+
+		if ( isset( $_SESSION['_REQUEST_vars'][ $request_key ] ) )
+		{
+			$_SESSION['_REQUEST_vars'][ $request_key ] = false;
+		}
+	}
+
+	$redirect_url = PreparePHP_SELF( $_GET, $remove );
+
+	// Redirect URL.
+	header( 'X-Redirect-Url: ' . $redirect_url );
+
+	return true;
+}
+
+
+/**
  * My URL encode
  * RFC 3986 compliant
  *

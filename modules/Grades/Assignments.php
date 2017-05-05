@@ -244,8 +244,8 @@ if ( isset( $_POST['tables'] )
 		}
 	}
 
-	unset( $_REQUEST['tables'] );
-	unset( $_SESSION['_REQUEST_vars']['tables'] );
+	// Unset tables & redirect URL.
+	RedirectURL( array( 'tables' ) );
 }
 
 // DELETE
@@ -293,37 +293,45 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 	// Confirm Delete.
 	if ( DeletePrompt( $prompt_title ) )
 	{
-		DBQuery($sql);
-		if ( ! $_REQUEST['assignment_id'])
+		DBQuery( $sql );
+
+		if ( ! $_REQUEST['assignment_id'] )
 		{
-			$assignments_RET = DBGet(DBQuery("SELECT ASSIGNMENT_ID FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_TYPE_ID='".$_REQUEST['assignment_type_id']."'"));
-			if (count($assignments_RET))
+			$assignments_RET = DBGet( DBQuery( "SELECT ASSIGNMENT_ID
+				FROM GRADEBOOK_ASSIGNMENTS
+				WHERE ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'" ) );
+
+			foreach ( (array) $assignments_RET as $assignment_id )
 			{
-				foreach ( (array) $assignments_RET as $assignment_id)
-				{
-					DBQuery("DELETE FROM GRADEBOOK_GRADES WHERE ASSIGNMENT_ID='".$assignment_id['ASSIGNMENT_ID']."'");
+				DBQuery( "DELETE FROM GRADEBOOK_GRADES
+					WHERE ASSIGNMENT_ID='" . $assignment_id['ASSIGNMENT_ID'] . "'" );
 
-					$_REQUEST['assignment_id'] = $assignment_id['ASSIGNMENT_ID'];
+				$_REQUEST['assignment_id'] = $assignment_id['ASSIGNMENT_ID'];
 
-					//hook
-					do_action('Grades/Assignments.php|delete_assignment');
-
-					unset($_REQUEST['assignment_id']);
-				}
+				// Hook.
+				do_action( 'Grades/Assignments.php|delete_assignment' );
 			}
-			DBQuery("DELETE FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_TYPE_ID='".$_REQUEST['assignment_type_id']."'");
-			unset($_REQUEST['assignment_type_id']);
+
+			DBQuery( "DELETE FROM GRADEBOOK_ASSIGNMENTS
+				WHERE ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'" );
+
+			// Unset assignment type ID & redirect URL.
+			RedirectURL( 'assignment_type_id' );
 		}
 		else
 		{
-			DBQuery("DELETE FROM GRADEBOOK_GRADES WHERE ASSIGNMENT_ID='".$_REQUEST['assignment_id']."'");
+			DBQuery( "DELETE FROM GRADEBOOK_GRADES
+				WHERE ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'" );
 
-			//hook
-			do_action('Grades/Assignments.php|delete_assignment');
+			// Hook.
+			do_action( 'Grades/Assignments.php|delete_assignment' );
 
-			unset($_REQUEST['assignment_id']);
+			// Unset assignment ID & redirect URL.
+			RedirectURL( 'assignment_id' );
 		}
-		$_REQUEST['modfunc'] = false;
+
+		// Unset modfunc & redirect URL.
+		RedirectURL( 'modfunc' );
 	}
 }
 
@@ -344,11 +352,8 @@ if ( ! $_REQUEST['modfunc'] )
 
 		if ( ! $assignment_type_RET )
 		{
-			// Unset assignment & type IDs.
-			unset(
-				$_REQUEST['assignment_type_id'],
-				$_REQUEST['assignment_id']
-			);
+			// Unset assignment & type IDs & redirect URL.
+			RedirectURL( array( 'assignment_type_id', 'assignment_id' ) );
 		}
 	}
 

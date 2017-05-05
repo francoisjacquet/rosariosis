@@ -109,12 +109,13 @@ if ( $_REQUEST['values'] && $_POST['values'])
 		// Theme changed? Update it live!
 		ThemeLiveUpdate( Preferences( 'THEME' ), $old_theme, false );
 	}
-	unset($_REQUEST['values']);
-	unset($_SESSION['_REQUEST_vars']['values']);
+
+	// Unset values & redirect URL.
+	RedirectURL( 'values' );
 }
 
-unset($_REQUEST['search_modfunc']);
-unset($_SESSION['_REQUEST_vars']['search_modfunc']);
+// Unset search modfunc & redirect URL.
+RedirectURL( 'search_modfunc' );
 
 echo ErrorMessage( $error );
 

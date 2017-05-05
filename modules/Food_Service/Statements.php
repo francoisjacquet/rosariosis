@@ -64,27 +64,33 @@ $header .= ' | <a href="Modules.php?modname='.$_REQUEST['modname'] .
 DrawHeader(($_REQUEST['type']=='staff'?_('User'):_('Student')).' &minus; '.ProgramTitle());
 User('PROFILE')=='student'?'':DrawHeader($header);
 
-if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'delete'
+	&& AllowEdit() )
 {
-	if ( $_REQUEST['item_id']!='')
+	if ( $_REQUEST['item_id'] != '' )
 	{
 		if ( DeletePrompt( _( 'Transaction Item' ) ) )
 		{
 			require_once 'modules/Food_Service/includes/DeleteTransactionItem.fnc.php';
-			DeleteTransactionItem($_REQUEST['transaction_id'],$_REQUEST['item_id'],$_REQUEST['type']);
-			$_REQUEST['modfunc'] = false;
-			$_SESSION['_REQUEST_vars']['modfunc'] = false;
+
+			DeleteTransactionItem(
+				$_REQUEST['transaction_id'],
+				$_REQUEST['item_id'],
+				$_REQUEST['type']
+			);
+
+			// Unset modfunc & transaction ID & item ID & redirect URL.
+			RedirectURL( array( 'modfunc', 'transaction_id', 'item_id' ) );
 		}
 	}
-	else
+	elseif ( DeletePrompt( _( 'Transaction' ) ) )
 	{
-		if ( DeletePrompt( _( 'Transaction' ) ) )
-		{
-			require_once 'modules/Food_Service/includes/DeleteTransaction.fnc.php';
-			DeleteTransaction($_REQUEST['transaction_id'],$_REQUEST['type']);
-			$_REQUEST['modfunc'] = false;
-			$_SESSION['_REQUEST_vars']['modfunc'] = false;
-		}
+		require_once 'modules/Food_Service/includes/DeleteTransaction.fnc.php';
+
+		DeleteTransaction( $_REQUEST['transaction_id'], $_REQUEST['type'] );
+
+		// Unset modfunc & transaction ID & redirect URL.
+		RedirectURL( array( 'modfunc', 'transaction_id' ) );
 	}
 }
 

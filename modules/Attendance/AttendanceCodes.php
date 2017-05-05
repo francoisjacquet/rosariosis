@@ -1,12 +1,17 @@
 <?php
+
+DrawHeader( ProgramTitle() );
+
 if ( $_REQUEST['table']=='')
 	$_REQUEST['table'] = '0';
 
-if ( $_REQUEST['modfunc']=='update' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'update'
+	&& AllowEdit() )
 {
-	if ( $_REQUEST['values'] && $_POST['values'])
+	if ( $_REQUEST['values']
+		&& $_POST['values'] )
 	{
-		foreach ( (array) $_REQUEST['values'] as $id => $columns)
+		foreach ( (array) $_REQUEST['values'] as $id => $columns )
 		{
 			// FJ fix SQL bug invalid sort order.
 			if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
@@ -63,12 +68,13 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 				$error[] = _('Please enter a valid Sort Order.');
 		}
 	}
-	$_REQUEST['modfunc'] = false;
+
+	// Unset modfunc & redirect URL.
+	RedirectURL( 'modfunc' );
 }
 
-DrawHeader(ProgramTitle());
-
-if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )
+if ( $_REQUEST['modfunc'] === 'remove'
+	&& AllowEdit() )
 {
 	if ( $_REQUEST['table']!='new')
 	{
@@ -76,25 +82,31 @@ if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )
 		{
 			DBQuery("DELETE FROM ATTENDANCE_CODES WHERE ID='" . $_REQUEST['id'] . "'");
 
-			// Unset modfunc & ID.
-			$_REQUEST['modfunc'] = false;
-			$_SESSION['_REQUEST_vars']['modfunc'] = false;
-			$_SESSION['_REQUEST_vars']['id'] = false;
+			// Unset modfunc & ID & redirect URL.
+			RedirectURL( array( 'modfunc', 'id' ) );
 		}
 	}
-	else
+	elseif ( DeletePrompt( _( 'Category' ) ) )
 	{
-		if ( DeletePrompt( _( 'Category' ) ) )
-		{
-			DBQuery("DELETE FROM ATTENDANCE_CODE_CATEGORIES WHERE ID='" . $_REQUEST['id'] . "'");
-			DBQuery("DELETE FROM ATTENDANCE_CODES WHERE TABLE_NAME='".$_REQUEST['id']."'");
-			DBQuery("UPDATE COURSE_PERIODS SET DOES_ATTENDANCE=replace(DOES_ATTENDANCE,',$_REQUEST[id],',',') WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'");
-			DBQuery("UPDATE COURSE_PERIODS SET DOES_ATTENDANCE=NULL WHERE DOES_ATTENDANCE=',' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'");
+		DBQuery( "DELETE FROM ATTENDANCE_CODE_CATEGORIES
+			WHERE ID='" . $_REQUEST['id'] . "'" );
 
-			$_REQUEST['modfunc'] = false;
-			$_SESSION['_REQUEST_vars']['modfunc'] = false;
-			unset( $_SESSION['_REQUEST_vars']['id'] );
-		}
+		DBQuery( "DELETE FROM ATTENDANCE_CODES
+			WHERE TABLE_NAME='" . $_REQUEST['id'] . "'" );
+
+		DBQuery( "UPDATE COURSE_PERIODS
+			SET DOES_ATTENDANCE=replace(DOES_ATTENDANCE,'," . $_REQUEST['id'] . ",',',')
+			WHERE SYEAR='" . UserSyear() . "'
+			AND SCHOOL_ID='" . UserSchool() . "'" );
+
+		DBQuery( "UPDATE COURSE_PERIODS
+			SET DOES_ATTENDANCE=NULL
+			WHERE DOES_ATTENDANCE=','
+			AND SYEAR='" . UserSyear() . "'
+			AND SCHOOL_ID='" . UserSchool() . "'" );
+
+		// Unset modfunc & ID & redirect URL.
+		RedirectURL( array( 'modfunc', 'id' ) );
 	}
 }
 

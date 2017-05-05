@@ -2,67 +2,66 @@
 
 require_once 'ProgramFunctions/TipMessage.fnc.php';
 
-if ( $_REQUEST['modfunc']=='update')
+if ( $_REQUEST['modfunc'] === 'update' )
 {
-    if (UserStudentID() && AllowEdit())
-    {
-        if (count($_REQUEST['food_service']))
-        {
-            if ( $_REQUEST['food_service']['BARCODE'])
-            {
-                $RET = DBGet(DBQuery("SELECT ACCOUNT_ID FROM FOOD_SERVICE_STUDENT_ACCOUNTS WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."' AND STUDENT_ID!='".UserStudentID()."'"));
-                if ( $RET)
-                {
-                    $student_RET = DBGet(DBQuery("SELECT s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa WHERE s.STUDENT_ID=fssa.STUDENT_ID AND fssa.ACCOUNT_ID='".$RET[1]['ACCOUNT_ID']."'"));
-                    $question = _("Are you sure you want to assign that barcode?");
-                    $message = sprintf(_("That barcode is already assigned to Student <b>%s</b>."),$student_RET[1]['FULL_NAME']).' '._("Hit OK to reassign it to the current student or Cancel to cancel all changes.");
-                }
-                else
-                {
-                    $RET = DBGet(DBQuery("SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."'"));
-                    if ( $RET)
-                    {
-                        $staff_RET = DBGet(DBQuery("SELECT FIRST_NAME||' '||LAST_NAME AS FULL_NAME FROM STAFF WHERE STAFF_ID='".$RET[1]['STAFF_ID']."'"));
-                        $question = _("Are you sure you want to assign that barcode?");
-                        $message = sprintf(_("That barcode is already assigned to User <b>%s</b>."),$staff_RET[1]['FULL_NAME']).' '._("Hit OK to reassign it to the current student or Cancel to cancel all changes.");
-                    }
-                }
-            }
-
-			if ( ! $RET
-				|| Prompt( 'Confirm', $question, $message ) )
-            {
-                if ( ! isset( $_REQUEST['food_service']['ACCOUNT_ID'] )
-					|| ( (string) (int) $_REQUEST['food_service']['ACCOUNT_ID'] === $_REQUEST['food_service']['ACCOUNT_ID']
-					 	&&  $_REQUEST['food_service']['ACCOUNT_ID'] > 0 ) )
+	if ( UserStudentID()
+		&& AllowEdit()
+		&& count( $_REQUEST['food_service'] )
+		&& count( $_POST['food_service'] ) )
+	{
+		if ( $_REQUEST['food_service']['BARCODE'] )
+		{
+			$RET = DBGet(DBQuery("SELECT ACCOUNT_ID FROM FOOD_SERVICE_STUDENT_ACCOUNTS WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."' AND STUDENT_ID!='".UserStudentID()."'"));
+			if ( $RET)
+			{
+				$student_RET = DBGet(DBQuery("SELECT s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa WHERE s.STUDENT_ID=fssa.STUDENT_ID AND fssa.ACCOUNT_ID='".$RET[1]['ACCOUNT_ID']."'"));
+				$question = _("Are you sure you want to assign that barcode?");
+				$message = sprintf(_("That barcode is already assigned to Student <b>%s</b>."),$student_RET[1]['FULL_NAME']).' '._("Hit OK to reassign it to the current student or Cancel to cancel all changes.");
+			}
+			else
+			{
+				$RET = DBGet(DBQuery("SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."'"));
+				if ( $RET)
 				{
-					$sql = "UPDATE FOOD_SERVICE_STUDENT_ACCOUNTS SET ";
-					foreach ( (array) $_REQUEST['food_service'] as $column_name => $value)
-					{
-						$sql .= $column_name."='".trim($value)."',";
-					}
-					$sql = mb_substr($sql,0,-1)." WHERE STUDENT_ID='".UserStudentID()."'";
-					if ( $_REQUEST['food_service']['BARCODE'])
-					{
-						DBQuery("UPDATE FOOD_SERVICE_STUDENT_ACCOUNTS SET BARCODE=NULL WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."'");
-						DBQuery("UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET BARCODE=NULL WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."'");
-					}
-					DBQuery($sql);
+					$staff_RET = DBGet(DBQuery("SELECT FIRST_NAME||' '||LAST_NAME AS FULL_NAME FROM STAFF WHERE STAFF_ID='".$RET[1]['STAFF_ID']."'"));
+					$question = _("Are you sure you want to assign that barcode?");
+					$message = sprintf(_("That barcode is already assigned to User <b>%s</b>."),$staff_RET[1]['FULL_NAME']).' '._("Hit OK to reassign it to the current student or Cancel to cancel all changes.");
 				}
-				else
-					$error[] = _('Please enter valid Numeric data.');
-                $_REQUEST['modfunc'] = false;
-                unset($_REQUEST['food_service']);
-                unset($_SESSION['_REQUEST_vars']['food_service']);
-            }
-        }
-    }
-    else
-    {
-        $_REQUEST['modfunc'] = false;
-        unset($_REQUEST['food_service']);
-        unset($_SESSION['_REQUEST_vars']['food_service']);
-    }
+			}
+		}
+
+		if ( ! $RET
+			|| Prompt( 'Confirm', $question, $message ) )
+		{
+			if ( ! isset( $_REQUEST['food_service']['ACCOUNT_ID'] )
+				|| ( (string) (int) $_REQUEST['food_service']['ACCOUNT_ID'] === $_REQUEST['food_service']['ACCOUNT_ID']
+					&&  $_REQUEST['food_service']['ACCOUNT_ID'] > 0 ) )
+			{
+				$sql = "UPDATE FOOD_SERVICE_STUDENT_ACCOUNTS SET ";
+				foreach ( (array) $_REQUEST['food_service'] as $column_name => $value)
+				{
+					$sql .= DBEscapeIdentifier( $column_name ) . "='" . trim( $value ) . "',";
+				}
+				$sql = mb_substr($sql,0,-1)." WHERE STUDENT_ID='".UserStudentID()."'";
+				if ( $_REQUEST['food_service']['BARCODE'])
+				{
+					DBQuery("UPDATE FOOD_SERVICE_STUDENT_ACCOUNTS SET BARCODE=NULL WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."'");
+					DBQuery("UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET BARCODE=NULL WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."'");
+				}
+				DBQuery($sql);
+			}
+			else
+				$error[] = _('Please enter valid Numeric data.');
+
+			// Unset modfunc & redirect URL.
+			RedirectURL( 'modfunc' );
+		}
+	}
+	else
+	{
+		// Unset modfunc & redirect URL.
+		RedirectURL( 'modfunc' );
+	}
 }
 
 Widgets('fsa_discount');
@@ -138,7 +137,7 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 		echo MakeTipMessage(
 			_( 'Non-existent account!' ),
 			_( 'Warning' ),
-			button( 'warning' )
+			button( 'warning', '', '', 'bigger' )
 		);
 	}
 
@@ -155,7 +154,7 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 		echo MakeTipMessage(
 			$warning,
 			_( 'Warning' ),
-			button( 'warning' )
+			button( 'warning', '', '', 'bigger' )
 		);
 	}
 

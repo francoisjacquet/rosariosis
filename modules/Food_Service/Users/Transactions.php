@@ -1,8 +1,11 @@
 <?php
 
-if ( $_REQUEST['values'] && $_POST['values'] && $_REQUEST['save'])
+if ( $_REQUEST['values']
+	&& $_POST['values']
+	&& $_REQUEST['modfunc'] === 'save' )
 {
-	if (UserStaffID() && AllowEdit())
+	if ( UserStaffID()
+		&& AllowEdit() )
 	{
 		//$existing_account = DBGet(DBQuery('SELECT \'exists\' FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID='.UserStaffID()));
 		//if ( !count($existing_account))
@@ -29,7 +32,9 @@ if ( $_REQUEST['values'] && $_POST['values'] && $_REQUEST['save'])
 		else
 			$error[] = _('Please enter valid Type and Amount.');
 	}
-	$_REQUEST['modfunc'] = false;
+
+	// Unset modfunc & redirect URL.
+	RedirectURL( 'modfunc' );
 }
 
 StaffWidgets('fsa_status');
@@ -45,7 +50,8 @@ Search('staff_id',$extra);
 
 echo ErrorMessage( $error );
 
-if (UserStaffID() && ! $_REQUEST['modfunc'])
+if ( UserStaffID()
+	&& ! $_REQUEST['modfunc'] )
 {
 	$staff = DBGet(DBQuery("SELECT s.STAFF_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,
 	(SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS ACCOUNT_ID,
@@ -55,9 +61,9 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 	$staff = $staff[1];
 
 	//$PHP_tmp_SELF = PreparePHP_SELF();
-	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=" method="POST">';
+	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save" method="POST">';
 
-	DrawHeader('',ResetButton(_('Cancel')).SubmitButton(_('Save'),'save'));
+	DrawHeader( '', ResetButton( _( 'Cancel' ) ) . SubmitButton( _( 'Save' ) ) );
 
 //FJ fix bug no balance
 //	DrawHeader(NoInput($staff['FULL_NAME'],'&nbsp;'.$staff['STAFF_ID']),'', NoInput(red($student['BALANCE']),_('Balance')));
@@ -71,7 +77,8 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 		AND fst.STAFF_ID='".UserStaffID()."'
 		AND fst.TIMESTAMP BETWEEN CURRENT_DATE AND CURRENT_DATE+1
 		AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID"));
-//FJ add translation
+
+		// TODO: code duplication!
 		function types_locale($type) {
 			$types = array('Deposit' => _('Deposit'),'Credit' => _('Credit'),'Debit' => _('Debit'));
 			if (array_key_exists($type, $types)) {
@@ -106,7 +113,8 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 		$columns = array('TYPE' => _('Type'),'DESCRIPTION' => _('Description'),'AMOUNT' => _('Amount'));
 
 		ListOutput($RET,$columns,'Earlier Transaction','Earlier Transactions',$link,false,array('save'=>false,'search'=>false));
-		echo '<div class="center">' . SubmitButton(_('Save'),'save') . '</div>';
+
+		echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 	}
 	else
 		echo ErrorMessage(array(_('This user does not have a Meal Account.')));

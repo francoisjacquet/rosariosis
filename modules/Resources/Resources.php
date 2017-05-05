@@ -1,7 +1,12 @@
 <?php
-if ( $_REQUEST['modfunc']=='update')
+
+DrawHeader( ProgramTitle() );
+
+if ( $_REQUEST['modfunc'] === 'update' )
 {
-	if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
+	if ( $_REQUEST['values']
+		&& $_POST['values']
+		&& AllowEdit() )
 	{
 		foreach ( (array) $_REQUEST['values'] as $id => $columns)
 		{
@@ -42,21 +47,20 @@ if ( $_REQUEST['modfunc']=='update')
 		}
 	}
 
-	$_REQUEST['modfunc'] = false;
+	// Unset modfunc & redirect URL.
+	RedirectURL( 'modfunc' );
 }
 
-DrawHeader(ProgramTitle());
-
-if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )
+if ( $_REQUEST['modfunc'] === 'remove'
+	&& AllowEdit() )
 {
 	if ( DeletePrompt( _( 'Resource' ) ) )
 	{
-		DBQuery("DELETE FROM RESOURCES WHERE ID='" . $_REQUEST['id'] . "'");
+		DBQuery( "DELETE FROM RESOURCES
+			WHERE ID='" . $_REQUEST['id'] . "'" );
 
-		// Unset modfunc & ID.
-		$_REQUEST['modfunc'] = false;
-		$_SESSION['_REQUEST_vars']['modfunc'] = false;
-		$_SESSION['_REQUEST_vars']['id'] = false;
+		// Unset modfunc & ID & redirect URL.
+		RedirectURL( array( 'modfunc', 'id' ) );
 	}
 }
 

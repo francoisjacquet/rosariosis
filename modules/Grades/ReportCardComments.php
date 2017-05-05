@@ -1,82 +1,85 @@
 <?php
 
-DrawHeader(ProgramTitle());
+DrawHeader( ProgramTitle() );
 
-if ( $_REQUEST['modfunc']=='update')
+if ( $_REQUEST['modfunc'] === 'update' )
 {
-	if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
+	if ( $_REQUEST['values']
+		&& $_POST['values']
+		&& AllowEdit()
+		&& $_REQUEST['tab_id'] != '' )
 	{
-		if ( $_REQUEST['tab_id']!='')
+		if ( $_REQUEST['tab_id']!=='new' || !empty($_REQUEST['course_id']))
 		{
-			if ( $_REQUEST['tab_id']!=='new' || !empty($_REQUEST['course_id']))
+			if ( $_REQUEST['tab_id'] === 'new' )
 			{
-				if ( $_REQUEST['tab_id'] === 'new' )
-				{
-					$table = 'REPORT_CARD_COMMENT_CATEGORIES';
-				}
-				else
-				{
-					$table = 'REPORT_CARD_COMMENTS';
-				}
-
-				foreach ( (array) $_REQUEST['values'] as $id => $columns)
-				{
-					//FJ fix SQL bug invalid sort order
-					if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
-					{
-						if ( $id!='new')
-						{
-							$sql = "UPDATE " . DBEscapeIdentifier( $table ) . " SET ";
-
-							foreach ( (array) $columns as $column => $value )
-							{
-								$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-							}
-
-							$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
-							DBQuery($sql);
-						}
-						// New: check for Title
-						elseif ( $columns['TITLE'] )
-						{
-							$sql = "INSERT INTO $table ";
-
-							$fields = "ID,SCHOOL_ID,SYEAR,COURSE_ID,".($_REQUEST['tab_id']=='new'?'':"CATEGORY_ID,");
-
-							$values = db_seq_nextval($table.'_SEQ').",'".UserSchool()."','".UserSyear()."',".($_REQUEST['tab_id']=='new'?"'".$_REQUEST['course_id']."'":($_REQUEST['tab_id']=='-1'?"NULL,NULL":($_REQUEST['tab_id']=='0'?"'0',NULL":"'".$_REQUEST['course_id']."','".$_REQUEST['tab_id']."'"))).",";
-
-							$go = false;
-
-							foreach ( (array) $columns as $column => $value )
-							{
-								if ( !empty($value) || $value=='0')
-								{
-									$fields .= DBEscapeIdentifier( $column ) . ',';
-									$values .= "'" . $value . "',";
-									$go = true;
-								}
-							}
-
-							$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
-
-							if ( $go )
-								DBQuery( $sql );
-						}
-					}
-					else
-						$error[] = _('Please enter a valid Sort Order.');
-				}
+				$table = 'REPORT_CARD_COMMENT_CATEGORIES';
 			}
 			else
-				$error[] = _('There are no courses setup yet.');
+			{
+				$table = 'REPORT_CARD_COMMENTS';
+			}
+
+			foreach ( (array) $_REQUEST['values'] as $id => $columns)
+			{
+				//FJ fix SQL bug invalid sort order
+				if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
+				{
+					if ( $id!='new')
+					{
+						$sql = "UPDATE " . DBEscapeIdentifier( $table ) . " SET ";
+
+						foreach ( (array) $columns as $column => $value )
+						{
+							$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
+						}
+
+						$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
+						DBQuery($sql);
+					}
+					// New: check for Title
+					elseif ( $columns['TITLE'] )
+					{
+						$sql = "INSERT INTO $table ";
+
+						$fields = "ID,SCHOOL_ID,SYEAR,COURSE_ID,".($_REQUEST['tab_id']=='new'?'':"CATEGORY_ID,");
+
+						$values = db_seq_nextval($table.'_SEQ').",'".UserSchool()."','".UserSyear()."',".($_REQUEST['tab_id']=='new'?"'".$_REQUEST['course_id']."'":($_REQUEST['tab_id']=='-1'?"NULL,NULL":($_REQUEST['tab_id']=='0'?"'0',NULL":"'".$_REQUEST['course_id']."','".$_REQUEST['tab_id']."'"))).",";
+
+						$go = false;
+
+						foreach ( (array) $columns as $column => $value )
+						{
+							if ( !empty($value) || $value=='0')
+							{
+								$fields .= DBEscapeIdentifier( $column ) . ',';
+								$values .= "'" . $value . "',";
+								$go = true;
+							}
+						}
+
+						$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
+
+						if ( $go )
+							DBQuery( $sql );
+					}
+				}
+				else
+					$error[] = _('Please enter a valid Sort Order.');
+			}
 		}
+		else
+			$error[] = _('There are no courses setup yet.');
 	}
-	$_REQUEST['modfunc'] = false;
+
+	// Unset modfunc & redirect URL.
+	RedirectURL( 'modfunc' );
 }
 
-if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )
+if ( $_REQUEST['modfunc'] === 'remove'
+	&& AllowEdit() )
 {
-	if ( $_REQUEST['tab_id']=='new')
+	if ( $_REQUEST['tab_id'] == 'new' )
 	{
 		if ( DeletePrompt( _( 'Report Card Comment Category' ) ) )
 		{
@@ -86,37 +89,28 @@ if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )
 			DBQuery( "DELETE FROM REPORT_CARD_COMMENT_CATEGORIES
 				WHERE ID='" . $_REQUEST['id'] . "'" );
 
-			// Unset modfunc & ID.
-			$_REQUEST['modfunc'] = false;
-			$_SESSION['_REQUEST_vars']['modfunc'] = false;
-			$_SESSION['_REQUEST_vars']['id'] = false;
+			// Unset modfunc & ID & redirect URL.
+			RedirectURL( array( 'modfunc', 'id' ) );
 		}
 	}
-	elseif ( $_REQUEST['tab_id']=='-1')
+	elseif ( $_REQUEST['tab_id'] == '-1' )
 	{
 		if ( DeletePrompt( _( 'Report Card Comment' ) ) )
 		{
 			DBQuery( "DELETE FROM REPORT_CARD_COMMENTS
 				WHERE ID='" . $_REQUEST['id'] . "'" );
 
-			// Unset modfunc & ID.
-			$_REQUEST['modfunc'] = false;
-			$_SESSION['_REQUEST_vars']['modfunc'] = false;
-			$_SESSION['_REQUEST_vars']['id'] = false;
+			// Unset modfunc & ID & redirect URL.
+			RedirectURL( array( 'modfunc', 'id' ) );
 		}
 	}
-	else
+	elseif ( DeletePrompt( _( 'Report Card Comment' ) ) )
 	{
-		if ( DeletePrompt( _( 'Report Card Comment' ) ) )
-		{
-			DBQuery( "DELETE FROM REPORT_CARD_COMMENTS
-				WHERE ID='" . $_REQUEST['id'] . "'" );
+		DBQuery( "DELETE FROM REPORT_CARD_COMMENTS
+			WHERE ID='" . $_REQUEST['id'] . "'" );
 
-			// Unset modfunc & ID.
-			$_REQUEST['modfunc'] = false;
-			$_SESSION['_REQUEST_vars']['modfunc'] = false;
-			$_SESSION['_REQUEST_vars']['id'] = false;
-		}
+		// Unset modfunc & ID & redirect URL.
+		RedirectURL( array( 'modfunc', 'id' ) );
 	}
 }
 

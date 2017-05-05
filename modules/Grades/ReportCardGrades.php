@@ -5,78 +5,81 @@ DrawHeader( ProgramTitle() );
 
 if ( $_REQUEST['modfunc'] === 'update' )
 {
-	if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit() )
+	if ( $_REQUEST['values']
+		&& $_POST['values']
+		&& AllowEdit()
+		&& $_REQUEST['tab_id'] )
 	{
-		if ( $_REQUEST['tab_id'])
+		foreach ( (array) $_REQUEST['values'] as $id => $columns )
 		{
-			foreach ( (array) $_REQUEST['values'] as $id => $columns)
+			// FJ fix SQL bug invalid numeric data.
+			if ( ( empty( $columns['SORT_ORDER'] ) || is_numeric( $columns['SORT_ORDER'] ) )
+				&& ( empty( $columns['BREAK_OFF'] ) || is_numeric( $columns['BREAK_OFF'] ) )
+				&& ( empty( $columns['GPA_VALUE'] ) || is_numeric( $columns['GPA_VALUE'] ) )
+				&& ( empty( $columns['UNWEIGHTED_GP'] ) || is_numeric( $columns['UNWEIGHTED_GP'] ) )
+				&& ( empty( $columns['GP_SCALE'] ) || is_numeric( $columns['GP_SCALE'] ) )
+				&& ( empty( $columns['GP_PASSING_VALUE'] ) || is_numeric( $columns['GP_PASSING_VALUE'] ) )
+				&& ( empty( $columns['HR_GPA_VALUE'] ) || is_numeric( $columns['HR_GPA_VALUE'] ) )
+				&& ( empty( $columns['HHR_GPA_VALUE'] ) || is_numeric( $columns['HHR_GPA_VALUE'] ) )
+				&& ( empty( $columns['HRS_GPA_VALUE'] ) || is_numeric( $columns['HRS_GPA_VALUE'] ) ) )
 			{
-				// FJ fix SQL bug invalid numeric data.
-				if ( ( empty( $columns['SORT_ORDER'] ) || is_numeric( $columns['SORT_ORDER'] ) )
-					&& ( empty( $columns['BREAK_OFF'] ) || is_numeric( $columns['BREAK_OFF'] ) )
-					&& ( empty( $columns['GPA_VALUE'] ) || is_numeric( $columns['GPA_VALUE'] ) )
-					&& ( empty( $columns['UNWEIGHTED_GP'] ) || is_numeric( $columns['UNWEIGHTED_GP'] ) )
-					&& ( empty( $columns['GP_SCALE'] ) || is_numeric( $columns['GP_SCALE'] ) )
-					&& ( empty( $columns['GP_PASSING_VALUE'] ) || is_numeric( $columns['GP_PASSING_VALUE'] ) )
-					&& ( empty( $columns['HR_GPA_VALUE'] ) || is_numeric( $columns['HR_GPA_VALUE'] ) )
-					&& ( empty( $columns['HHR_GPA_VALUE'] ) || is_numeric( $columns['HHR_GPA_VALUE'] ) )
-					&& ( empty( $columns['HRS_GPA_VALUE'] ) || is_numeric( $columns['HRS_GPA_VALUE'] ) ) )
+				if ( $id!='new')
 				{
-					if ( $id!='new')
-					{
-						if ( $_REQUEST['tab_id']!='new')
-							$sql = "UPDATE REPORT_CARD_GRADES SET ";
-						else
-							$sql = "UPDATE REPORT_CARD_GRADE_SCALES SET ";
+					if ( $_REQUEST['tab_id']!='new')
+						$sql = "UPDATE REPORT_CARD_GRADES SET ";
+					else
+						$sql = "UPDATE REPORT_CARD_GRADE_SCALES SET ";
 
-						foreach ( (array) $columns as $column => $value)
-							$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
+					foreach ( (array) $columns as $column => $value)
+						$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 
-						if ( $_REQUEST['tab_id']!='new')
-							$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
-						else
-							$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
-						DBQuery($sql);
-					}
-					// New: check for Title
-					elseif ( $columns['TITLE'] )
-					{
-						if ( $_REQUEST['tab_id']!='new')
-						{
-							$sql = 'INSERT INTO REPORT_CARD_GRADES ';
-							$fields = 'ID,SCHOOL_ID,SYEAR,GRADE_SCALE_ID,';
-							$values = db_seq_nextval('REPORT_CARD_GRADES_SEQ').',\''.UserSchool().'\',\''.UserSyear().'\',\''.$_REQUEST['tab_id'].'\',';
-						}
-						else
-						{
-							$sql = 'INSERT INTO REPORT_CARD_GRADE_SCALES ';
-							$fields = 'ID,SCHOOL_ID,SYEAR,';
-							$values = db_seq_nextval('REPORT_CARD_GRADE_SCALES_SEQ').',\''.UserSchool().'\',\''.UserSyear().'\',';
-						}
-
-						$go = false;
-						foreach ( (array) $columns as $column => $value)
-							if ( !empty($value) || $value=='0')
-							{
-								$fields .= DBEscapeIdentifier( $column ) . ',';
-								$values .= "'" . $value . "',";
-								$go = true;
-							}
-						$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
-
-						if ( $go)
-							DBQuery($sql);
-					}
+					if ( $_REQUEST['tab_id']!='new')
+						$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
+					else
+						$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
+					DBQuery($sql);
 				}
-				else
-					$error[] = _( 'Please enter valid Numeric data.' );
+				// New: check for Title
+				elseif ( $columns['TITLE'] )
+				{
+					if ( $_REQUEST['tab_id']!='new')
+					{
+						$sql = 'INSERT INTO REPORT_CARD_GRADES ';
+						$fields = 'ID,SCHOOL_ID,SYEAR,GRADE_SCALE_ID,';
+						$values = db_seq_nextval('REPORT_CARD_GRADES_SEQ').',\''.UserSchool().'\',\''.UserSyear().'\',\''.$_REQUEST['tab_id'].'\',';
+					}
+					else
+					{
+						$sql = 'INSERT INTO REPORT_CARD_GRADE_SCALES ';
+						$fields = 'ID,SCHOOL_ID,SYEAR,';
+						$values = db_seq_nextval('REPORT_CARD_GRADE_SCALES_SEQ').',\''.UserSchool().'\',\''.UserSyear().'\',';
+					}
+
+					$go = false;
+					foreach ( (array) $columns as $column => $value)
+						if ( !empty($value) || $value=='0')
+						{
+							$fields .= DBEscapeIdentifier( $column ) . ',';
+							$values .= "'" . $value . "',";
+							$go = true;
+						}
+					$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
+
+					if ( $go)
+						DBQuery($sql);
+				}
 			}
+			else
+				$error[] = _( 'Please enter valid Numeric data.' );
 		}
 	}
-	$_REQUEST['modfunc'] = false;
+
+	// Unset modfunc & redirect URL.
+	RedirectURL( 'modfunc' );
 }
 
-if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )
+if ( $_REQUEST['modfunc'] === 'remove'
+	&& AllowEdit() )
 {
 	if ( $_REQUEST['tab_id']!='new')
 	{
@@ -85,27 +88,20 @@ if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )
 			DBQuery( "DELETE FROM REPORT_CARD_GRADES
 				WHERE ID='" . $_REQUEST['id'] . "'" );
 
-			// Unset modfunc & ID.
-			$_REQUEST['modfunc'] = false;
-			$_SESSION['_REQUEST_vars']['modfunc'] = false;
-			$_SESSION['_REQUEST_vars']['id'] = false;
+			// Unset modfunc & ID & redirect URL.
+			RedirectURL( array( 'modfunc', 'id' ) );
 		}
 	}
-	else
+	elseif ( DeletePrompt( _( 'Report Card Grading Scale' ) ) )
 	{
-		if ( DeletePrompt( _( 'Report Card Grading Scale' ) ) )
-		{
-			DBQuery( "DELETE FROM REPORT_CARD_GRADES
-				WHERE GRADE_SCALE_ID='" . $_REQUEST['id'] . "'" );
+		DBQuery( "DELETE FROM REPORT_CARD_GRADES
+			WHERE GRADE_SCALE_ID='" . $_REQUEST['id'] . "'" );
 
-			DBQuery( "DELETE FROM REPORT_CARD_GRADE_SCALES
-				WHERE ID='" . $_REQUEST['id'] . "'" );
+		DBQuery( "DELETE FROM REPORT_CARD_GRADE_SCALES
+			WHERE ID='" . $_REQUEST['id'] . "'" );
 
-			// Unset modfunc & ID.
-			$_REQUEST['modfunc'] = false;
-			$_SESSION['_REQUEST_vars']['modfunc'] = false;
-			$_SESSION['_REQUEST_vars']['id'] = false;
-		}
+		// Unset modfunc & ID & redirect URL.
+		RedirectURL( array( 'modfunc', 'id' ) );
 	}
 }
 

@@ -396,10 +396,8 @@ Remote IP: %s', $admin_username, User('NAME'), $ip);
 	if ( $error && !UserStaffID())
 		$_REQUEST['staff_id'] = 'new';
 
-	unset( $_REQUEST['staff'] );
-	$_REQUEST['modfunc'] = false;
-	unset( $_SESSION['_REQUEST_vars']['staff'] );
-	$_SESSION['_REQUEST_vars']['modfunc'] = false;
+	// Unset modfunc & staff & redirect URL.
+	RedirectURL( array( 'modfunc', 'staff' ) );
 
 	if ( User('STAFF_ID') == $_REQUEST['staff_id'] )
 		unset( $_ROSARIO['User'] );
@@ -434,24 +432,33 @@ else
 
 echo ErrorMessage( $error );
 
-if ( $_REQUEST['modfunc']=='delete' && basename($_SERVER['PHP_SELF'])!='index.php' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'delete'
+	&& basename( $_SERVER['PHP_SELF'] ) != 'index.php'
+	&& AllowEdit() )
 {
-	if (DeletePrompt(_('User')))
+	if ( DeletePrompt( _( 'User' ) ) )
 	{
-		DBQuery("DELETE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".UserStaffID()."'");
-		DBQuery("DELETE FROM STAFF_EXCEPTIONS WHERE USER_ID='".UserStaffID()."'");
-		DBQuery("DELETE FROM STUDENTS_JOIN_USERS WHERE STAFF_ID='".UserStaffID()."'");
-		DBQuery("DELETE FROM STAFF WHERE STAFF_ID='".UserStaffID()."'");
+		DBQuery( "DELETE FROM PROGRAM_USER_CONFIG
+			WHERE USER_ID='" . UserStaffID() . "'" );
 
-		//hook
-		do_action('Users/User.php|delete_user');
+		DBQuery( "DELETE FROM STAFF_EXCEPTIONS
+			WHERE USER_ID='" . UserStaffID() . "'" );
 
-		unset($_SESSION['staff_id']);
-		unset($_REQUEST['staff_id']);
-		$_REQUEST['modfunc'] = false;
-		unset($_SESSION['_REQUEST_vars']['staff_id']);
-		$_SESSION['_REQUEST_vars']['modfunc'] = false;
-		Search('staff_id',$extra);
+		DBQuery( "DELETE FROM STUDENTS_JOIN_USERS
+			WHERE STAFF_ID='" . UserStaffID() . "'" );
+
+		DBQuery( "DELETE FROM STAFF
+			WHERE STAFF_ID='" . UserStaffID() . "'" );
+
+		// Hook
+		do_action( 'Users/User.php|delete_user' );
+
+		unset( $_SESSION['staff_id'] );
+
+		// Unset modfunc & staff_id & redirect URL.
+		RedirectURL( array( 'modfunc', 'staff_id' ) );
+
+		Search( 'staff_id', $extra );
 	}
 }
 

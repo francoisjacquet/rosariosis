@@ -45,9 +45,9 @@ if ( isset( $_POST['day_tables'], $_POST['month_tables'], $_POST['year_tables'] 
 		$_REQUEST['day_tables']
 	);
 
-	$_POST['tables'] = array_replace_recursive( (array) $_POST['tables'], $requested_dates);
+	$_POST['tables'] = array_replace_recursive( (array) $_POST['tables'], $requested_dates );
 
-	$_REQUEST['tables'] = array_replace_recursive( (array) $_REQUEST['tables'], $requested_dates);
+	$_REQUEST['tables'] = array_replace_recursive( (array) $_REQUEST['tables'], $requested_dates );
 }
 
 if ( isset( $_POST['tables'] )
@@ -276,8 +276,8 @@ if ( isset( $_POST['tables'] )
 			$_REQUEST['marking_period_id'] = $id_RET[1]['ID'];
 	}
 
-	unset( $_REQUEST['tables'] );
-	unset( $_SESSION['_REQUEST_vars']['tables'] );
+	// Unset tables & redirect URL.
+	RedirectURL( array( 'tables' ) );
 }
 
 // DELETING
@@ -355,12 +355,12 @@ if ( $_REQUEST['modfunc'] === 'delete'
 		DBQuery( "DELETE FROM SCHOOL_MARKING_PERIODS
 			WHERE MARKING_PERIOD_ID='" . $_REQUEST['marking_period_id'] . "'");
 
-		$_REQUEST['modfunc'] = false;
-		$_SESSION['_REQUEST_vars']['modfunc'] = false;
-
 		$_REQUEST['mp_term'] = $parent_term;
 
 		$_REQUEST['marking_period_id'] = $parent_id;
+
+		// Unset modfunc & redirect URL.
+		RedirectURL( 'modfunc' );
 	}
 }
 
@@ -380,16 +380,12 @@ if ( ! $_REQUEST['modfunc'] )
 
 		if ( ! $marking_period_RET )
 		{
-			// Unset marking period, year & semester & quarter IDs.
-			unset(
-				$_REQUEST['year_id'],
-				$_REQUEST['semester_id'],
-				$_REQUEST['quarter_id']
-			);
-
 			$_REQUEST['marking_period_id'] = _getMPFullYear();
 
 			$_REQUEST['mp_term'] = 'FY';
+
+			// Unset year & semester & quarter IDs & redirect URL.
+			RedirectURL( array( 'year_id', 'semester_id', 'quarter_id' ) );
 		}
 	}
 

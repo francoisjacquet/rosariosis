@@ -2,6 +2,8 @@
 //FJ move Attendance.php from functions/ to modules/Attendance/includes
 require_once 'modules/Attendance/includes/UpdateAttendanceDaily.fnc.php';
 
+DrawHeader( ProgramTitle() );
+
 if ( ! $_REQUEST['month'] )
 {
 	$_REQUEST['month'] = date( 'm' );
@@ -16,7 +18,9 @@ else
 
 if ( $_REQUEST['modfunc'] === 'save' )
 {
-	if (count($_REQUEST['period']) && count($_REQUEST['student']) && count($_REQUEST['dates']))
+	if ( count( $_REQUEST['period'] )
+		&& count( $_REQUEST['student'] )
+		&& count( $_REQUEST['dates'] ) )
 	{
 		foreach ( (array) $_REQUEST['period'] as $period_id => $yes )
 		{
@@ -114,11 +118,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	else
 		$error[] = _('You must choose at least one period and one student.');
 
-	$_SESSION['_REQUEST_vars']['modfunc'] = false;
-	$_REQUEST['modfunc'] = false;
+	// Unset modfunc & redirect URL.
+	RedirectURL( 'modfunc' );
 }
-
-DrawHeader(ProgramTitle());
 
 echo ErrorMessage( $note, 'note' );
 

@@ -88,7 +88,8 @@ if ( $_REQUEST['modfunc'] === 'update' )
 		}
 	}
 
-	$_REQUEST['modfunc'] = false;
+	// Unset modfunc & redirect.
+	RedirectURL( 'modfunc' );
 }
 
 if ( $_REQUEST['modfunc'] === 'remove'
@@ -99,10 +100,8 @@ if ( $_REQUEST['modfunc'] === 'remove'
 		DBQuery( "DELETE FROM SCHOOL_PERIODS
 			WHERE PERIOD_ID='" . $_REQUEST['id'] . "'" );
 
-		// Unset modfunc & ID.
-		$_REQUEST['modfunc'] = false;
-		$_SESSION['_REQUEST_vars']['modfunc'] = false;
-		$_SESSION['_REQUEST_vars']['id'] = false;
+		// Unset modfunc & ID & redirect.
+		RedirectURL( array( 'modfunc', 'id' ) );
 	}
 }
 

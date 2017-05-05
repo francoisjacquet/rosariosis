@@ -1,4 +1,7 @@
 <?php
+
+DrawHeader( ProgramTitle() );
+
 if ( $_REQUEST['modfunc'] === 'save'
 	&& AllowEdit()
 	&& UserStaffID() )
@@ -24,24 +27,26 @@ if ( $_REQUEST['modfunc'] === 'save'
 	else
 		$error[] = _('You must choose at least one student.');
 
-	$_REQUEST['modfunc'] = false;
-	$_SESSION['_REQUEST_vars']['modfunc'] = false;
+	// Unset modfunc & redirect URL.
+	RedirectURL( 'modfunc' );
 }
 
-DrawHeader(ProgramTitle());
-
-if ( $_REQUEST['modfunc']=='delete'
+if ( $_REQUEST['modfunc'] === 'delete'
 	&& AllowEdit()
 	&& UserStaffID() )
 {
-	if (DeletePrompt(_('student from that user'),_('remove access to')) && !empty($_REQUEST['student_id_remove']))
+	if ( DeletePrompt( _( 'student from that user' ), _( 'remove access to' ) )
+		&& ! empty( $_REQUEST['student_id_remove'] ) )
 	{
-		DBQuery("DELETE FROM STUDENTS_JOIN_USERS WHERE STUDENT_ID='".$_REQUEST['student_id_remove']."' AND STAFF_ID='".UserStaffID()."'");
+		DBQuery( "DELETE FROM STUDENTS_JOIN_USERS
+			WHERE STUDENT_ID='" . $_REQUEST['student_id_remove'] . "'
+			AND STAFF_ID='" . UserStaffID() . "'" );
 
-		//hook
-		do_action('Users/AddStudents.php|user_unassign_role');
+		// Hook.
+		do_action( 'Users/AddStudents.php|user_unassign_role' );
 
-		$_REQUEST['modfunc'] = false;
+		// Unset modfunc & student ID remove & redirect URL.
+		RedirectURL( array( 'modfunc', 'student_id_remove' ) );
 	}
 }
 
@@ -49,29 +54,32 @@ echo ErrorMessage( $note, 'note' );
 
 echo ErrorMessage( $error );
 
-if ( $_REQUEST['modfunc']!='delete')
+if ( ! $_REQUEST['modfunc'] )
 {
-	if (UserStaffID())
+	if ( UserStaffID() )
 	{
 		$profile = DBGet(DBQuery("SELECT PROFILE FROM STAFF WHERE STAFF_ID='".UserStaffID()."'"));
 		if ( $profile[1]['PROFILE']!='parent')
 			unset($_SESSION['staff_id']);
 	}
 
-	//FJ add # Associated students
-	$extra['SELECT'] = ",(SELECT count(u.STUDENT_ID)
-	FROM STUDENTS_JOIN_USERS u,STUDENT_ENROLLMENT ssm
-	WHERE u.STAFF_ID=s.STAFF_ID
-	AND ssm.STUDENT_ID=u.STUDENT_ID
-	AND ssm.SYEAR='".UserSyear()."'
-	AND ('".DBDate()."' BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL)) AS ASSOCIATED";
 
-	$extra['columns_after'] = array('ASSOCIATED' => '# '._('Associated'));
+	if ( ! UserStaffID() )
+	{
+		// FJ add # Associated students.
+		$extra['SELECT'] = ",(SELECT count(u.STUDENT_ID)
+		FROM STUDENTS_JOIN_USERS u,STUDENT_ENROLLMENT ssm
+		WHERE u.STAFF_ID=s.STAFF_ID
+		AND ssm.STUDENT_ID=u.STUDENT_ID
+		AND ssm.SYEAR='" . UserSyear() . "'
+		AND ('" . DBDate() . "' BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL)) AS ASSOCIATED";
 
-	$extra['profile'] = 'parent';
+		$extra['columns_after'] = array( 'ASSOCIATED' => '# ' . _( 'Associated' ) );
 
-	if ( !UserStaffID())
-		Search('staff_id',$extra);
+		$extra['profile'] = 'parent';
+
+		Search( 'staff_id', $extra );
+	}
 
 	if (UserStaffID())
 	{

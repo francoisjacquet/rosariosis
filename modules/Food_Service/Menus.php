@@ -2,9 +2,11 @@
 
 DrawHeader(ProgramTitle());
 
-if ( $_REQUEST['modfunc']=='update')
+if ( $_REQUEST['modfunc'] === 'update' )
 {
-	if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
+	if ( $_REQUEST['values']
+		&& $_POST['values']
+		&& AllowEdit() )
 	{
 		if ( $_REQUEST['tab_id'])
 		{
@@ -64,10 +66,13 @@ if ( $_REQUEST['modfunc']=='update')
 			}
 		}
 	}
-	$_REQUEST['modfunc'] = false;
+
+	// Unset modfunc & redirect URL.
+	RedirectURL( 'modfunc' );
 }
 
-if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )
+if ( $_REQUEST['modfunc'] === 'remove'
+	&& AllowEdit() )
 {
 	if ( $_REQUEST['tab_id']!='new')
 	{
@@ -80,30 +85,23 @@ if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )
 			DBQuery( "DELETE FROM FOOD_SERVICE_CATEGORIES
 				WHERE CATEGORY_ID='" . $_REQUEST['category_id'] . "'" );
 
-			// Unset modfunc & ID.
-			$_REQUEST['modfunc'] = false;
-			$_SESSION['_REQUEST_vars']['modfunc'] = false;
-			$_SESSION['_REQUEST_vars']['category_id'] = false;
+			// Unset modfunc & category ID & redirect URL.
+			RedirectURL( array( 'modfunc', 'category_id' ) );
 		}
 	}
-	else
+	elseif ( DeletePrompt( _( 'Meal' ) ) )
 	{
-		if ( DeletePrompt( _( 'Meal' ) ) )
-		{
-			DBQuery( "DELETE FROM FOOD_SERVICE_MENU_ITEMS
-				WHERE MENU_ID='" . $_REQUEST['menu_id'] . "'" );
+		DBQuery( "DELETE FROM FOOD_SERVICE_MENU_ITEMS
+			WHERE MENU_ID='" . $_REQUEST['menu_id'] . "'" );
 
-			DBQuery( "DELETE FROM FOOD_SERVICE_CATEGORIES
-				WHERE MENU_ID='" . $_REQUEST['menu_id'] . "'" );
+		DBQuery( "DELETE FROM FOOD_SERVICE_CATEGORIES
+			WHERE MENU_ID='" . $_REQUEST['menu_id'] . "'" );
 
-			DBQuery( "DELETE FROM FOOD_SERVICE_MENUS
-				WHERE MENU_ID='" . $_REQUEST['menu_id'] . "'" );
+		DBQuery( "DELETE FROM FOOD_SERVICE_MENUS
+			WHERE MENU_ID='" . $_REQUEST['menu_id'] . "'" );
 
-			// Unset modfunc & ID.
-			$_REQUEST['modfunc'] = false;
-			$_SESSION['_REQUEST_vars']['modfunc'] = false;
-			$_SESSION['_REQUEST_vars']['menu_id'] = false;
-		}
+		// Unset modfunc & menu ID & redirect URL.
+		RedirectURL( array( 'modfunc', 'menu_id' ) );
 	}
 }
 

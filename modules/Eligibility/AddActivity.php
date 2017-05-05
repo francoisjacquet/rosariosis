@@ -1,13 +1,15 @@
 <?php
 
+DrawHeader( ProgramTitle() );
+
 if ( $_REQUEST['modfunc'] === 'save' )
 {
 	if ( !empty($_REQUEST['activity_id']))
 	{
 		if (count($_REQUEST['student']))
 		{
-	//FJ fix bug add the same activity more than once
-	//		$current_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENT_ELIGIBILITY_ACTIVITIES WHERE ACTIVITY_ID='".$_SESSION['activity_id']."' AND SYEAR='".UserSyear()."'"),array(),array('STUDENT_ID'));
+			// FJ fix bug add the same activity more than once
+			// $current_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENT_ELIGIBILITY_ACTIVITIES WHERE ACTIVITY_ID='".$_SESSION['activity_id']."' AND SYEAR='".UserSyear()."'"),array(),array('STUDENT_ID'));
 			$current_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENT_ELIGIBILITY_ACTIVITIES WHERE ACTIVITY_ID='".$_REQUEST['activity_id']."' AND SYEAR='".UserSyear()."'"),array(),array('STUDENT_ID'));
 			foreach ( (array) $_REQUEST['student'] as $student_id => $yes)
 			{
@@ -25,11 +27,10 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	}
 	else
 		$error[] = _('You must choose an activity.');
-	$_SESSION['_REQUEST_vars']['modfunc'] = false;
-	$_REQUEST['modfunc'] = false;
-}
 
-DrawHeader(ProgramTitle());
+	// Unset modfunc & redirect URL.
+	RedirectURL( 'modfunc' );
+}
 
 echo ErrorMessage( $note, 'note' );
 

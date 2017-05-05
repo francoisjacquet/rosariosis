@@ -3,6 +3,8 @@
 require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 require_once 'ProgramFunctions/TipMessage.fnc.php';
 
+DrawHeader( ProgramTitle() );
+
 if ( isset( $_POST['day_values'], $_POST['month_values'], $_POST['year_values'] ) )
 {
 	$requested_dates = RequestedDates(
@@ -65,24 +67,23 @@ if ( isset( $_POST['values'] )
 
 	if ( $go)
 		DBQuery($sql);
-	unset($_REQUEST['values']);
-	unset($_SESSION['_REQUEST_vars']['values']);
-}
 
-DrawHeader(ProgramTitle());
+	// Unset values & redirect URL.
+	RedirectURL( 'values' );
+}
 
 echo ErrorMessage( $error );
 
-if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )
+if ( $_REQUEST['modfunc'] === 'remove'
+	&& AllowEdit() )
 {
 	if ( DeletePrompt( _( 'Referral' ) ) )
 	{
-		DBQuery("DELETE FROM DISCIPLINE_REFERRALS WHERE ID='" . $_REQUEST['id'] . "'");
+		DBQuery( "DELETE FROM DISCIPLINE_REFERRALS
+			WHERE ID='" . $_REQUEST['id'] . "'" );
 
-		// Unset modfunc & ID.
-		$_REQUEST['modfunc'] = false;
-		$_SESSION['_REQUEST_vars']['modfunc'] = false;
-		$_SESSION['_REQUEST_vars']['id'] = false;
+		// Unset modfunc & ID & redirect URL.
+		RedirectURL( array( 'modfunc', 'id' ) );
 	}
 }
 

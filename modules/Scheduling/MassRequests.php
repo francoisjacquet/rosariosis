@@ -1,10 +1,12 @@
 <?php
 require_once 'modules/Scheduling/functions.inc.php';
+
 if ( $_REQUEST['modfunc'] === 'save' )
 {
-	if ( $_SESSION['MassRequests.php'])
+	if ( $_SESSION['MassRequests.php'] )
 	{
-		if (isset($_REQUEST['student']) && is_array($_REQUEST['student']))
+		if ( isset( $_REQUEST['student'] )
+			&& is_array( $_REQUEST['student'] ) )
 		{
 			$current_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM SCHEDULE_REQUESTS WHERE COURSE_ID='".$_REQUEST['MassRequests.php']['course_id']."' AND SYEAR='".UserSyear()."'"),array(),array('STUDENT_ID'));
 			foreach ( (array) $_REQUEST['student'] as $student_id => $yes)
@@ -24,15 +26,16 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	else
 		$error[] = _('You must choose a course.');
 
-	$_SESSION['_REQUEST_vars']['modfunc'] = false;
-	$_REQUEST['modfunc'] = false;
-	unset($_SESSION['MassRequests.php']);
+	// Unset modfunc redirect URL.
+	RedirectURL( 'modfunc' );
+
+	unset( $_SESSION['MassRequests.php'] );
 }
 
 
 if ( $_REQUEST['modfunc']!='choose_course')
 {
-	DrawHeader(ProgramTitle());
+	DrawHeader( ProgramTitle() );
 
 	echo ErrorMessage( $error );
 

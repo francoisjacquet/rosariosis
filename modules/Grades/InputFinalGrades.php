@@ -150,7 +150,7 @@ elseif (is_array($commentsB_RET))
 	foreach ( (array) $commentsB_RET as $id => $comment)
 		$commentsB_select += array($id => array($comment[1]['SORT_ORDER'].' - '.(mb_strlen($comment[1]['TITLE']) > 99+3?mb_substr($comment[1]['TITLE'],0,99).'...':$comment[1]['TITLE']),$comment[1]['TITLE']));
 
-if ( $_REQUEST['modfunc']=='gradebook')
+if ( $_REQUEST['modfunc'] === 'gradebook' )
 {
 	if ( $_REQUEST['mp'])
 	{
@@ -325,31 +325,33 @@ if ( $_REQUEST['modfunc']=='gradebook')
 
 		}
 	}
-	$_SESSION['_REQUEST_vars']['modfunc'] = false;
+
+	// Unset modfunc & redirect URL.
+	RedirectURL( array( 'modfunc' ) );
 }
 
-if ( $_REQUEST['modfunc']=='grades')
+if ( $_REQUEST['modfunc'] === 'grades' )
 {
-	if ( $_REQUEST['prev_mp'])
+	if ( $_REQUEST['prev_mp'] )
 	{
 		require_once 'ProgramFunctions/_makePercentGrade.fnc.php';
 
 		$import_RET = DBGet(DBQuery("SELECT g.STUDENT_ID,g.REPORT_CARD_GRADE_ID,g.GRADE_PERCENT FROM STUDENT_REPORT_CARD_GRADES g,COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=g.COURSE_PERIOD_ID AND cp.COURSE_PERIOD_ID='".$course_period_id."' AND g.MARKING_PERIOD_ID='".$_REQUEST['prev_mp']."'"),array(),array('STUDENT_ID'));
 
-		foreach ( (array) $import_RET as $student_id => $grade)
+		foreach ( (array) $import_RET as $student_id => $grade )
 		{
 			$import_RET[ $student_id ][1]['GRADE_PERCENT'] = _makePercentGrade($grade[1]['REPORT_CARD_GRADE_ID'],$course_period_id);
 			$import_RET[ $student_id ][1]['REPORT_CARD_GRADE_ID'] = $grade[1]['REPORT_CARD_GRADE_ID'];
 		}
-
-		unset($_SESSION['_REQUEST_vars']['prev_mp']);
 	}
-	$_SESSION['_REQUEST_vars']['modfunc'] = false;
+
+	// Unset modfunc & prev MP & redirect URL.
+	RedirectURL( array( 'modfunc', 'prev_mp' ) );
 }
 
-if ( $_REQUEST['modfunc']=='comments')
+if ( $_REQUEST['modfunc'] === 'comments' )
 {
-	if ( $_REQUEST['prev_mp'])
+	if ( $_REQUEST['prev_mp'] )
 	{
 		$import_comments_RET = DBGet(DBQuery("SELECT g.STUDENT_ID,g.REPORT_CARD_COMMENT_ID,g.COMMENT
 		FROM STUDENT_REPORT_CARD_GRADES g
@@ -369,18 +371,22 @@ if ( $_REQUEST['modfunc']=='comments')
 		AND g.MARKING_PERIOD_ID='".$_REQUEST['prev_mp']."'
 		AND g.REPORT_CARD_COMMENT_ID IN (SELECT ID FROM REPORT_CARD_COMMENTS WHERE COURSE_ID IS NULL)"),array(),array('STUDENT_ID'));
 
-		foreach ( (array) $import_commentsB_RET as $comments)
-			if (count($comments)>$max_current_commentsB)
-				$max_current_commentsB = count($comments);
-
-		unset($_SESSION['_REQUEST_vars']['prev_mp']);
+		foreach ( (array) $import_commentsB_RET as $comments )
+		{
+			if ( count( $comments ) > $max_current_commentsB )
+			{
+				$max_current_commentsB = count( $comments );
+			}
+		}
 	}
-	$_SESSION['_REQUEST_vars']['modfunc'] = false;
+
+	// Unset modfunc & prev MP & redirect URL.
+	RedirectURL( array( 'modfunc', 'prev_mp' ) );
 }
 
-if ( $_REQUEST['modfunc']=='clearall')
+if ( $_REQUEST['modfunc'] === 'clearall' )
 {
-	foreach ( (array) $current_RET as $student_id => $prev)
+	foreach ( (array) $current_RET as $student_id => $prev )
 	{
 		$current_RET[ $student_id ][1]['REPORT_CARD_GRADE_ID'] = '';
 		$current_RET[ $student_id ][1]['GRADE_PERCENT'] = '';
@@ -398,17 +404,23 @@ if ( $_REQUEST['modfunc']=='clearall')
 			foreach ( (array) $comment as $i => $comment)
 				$current_commentsB_RET[ $student_id ][ $i ] = '';
 	}
-	$_SESSION['_REQUEST_vars']['modfunc'] = false;
+
+	// Unset modfunc & redirect URL.
+	RedirectURL( 'modfunc' );
 }
 
-if ( $_REQUEST['values'] && $_POST['values'])
+if ( $_REQUEST['values']
+	&& $_POST['values'] )
 {
 	require_once 'ProgramFunctions/_makeLetterGrade.fnc.php';
 	require_once 'ProgramFunctions/_makePercentGrade.fnc.php';
 	$completed = true;
 
 	//FJ add precision to year weighted GPA if not year course period
-	$course_period_mp = DBGet(DBQuery("SELECT MP FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$course_period_id."'"));
+	$course_period_mp = DBGet( DBQuery( "SELECT MP
+		FROM COURSE_PERIODS
+		WHERE COURSE_PERIOD_ID='" . $course_period_id . "'" ) );
+
 	$course_period_mp = $course_period_mp[1]['MP'];
 
 	foreach ( (array) $_REQUEST['values'] as $student_id => $columns)
@@ -780,12 +792,8 @@ if ( $_REQUEST['values'] && $_POST['values'])
 
 	$current_completed = count(DBGet(DBQuery("SELECT '' FROM GRADES_COMPLETED WHERE STAFF_ID='".User('STAFF_ID')."' AND MARKING_PERIOD_ID='".$_REQUEST['mp']."' AND COURSE_PERIOD_ID='".$course_period_id."'")));
 
-	unset($_SESSION['_REQUEST_vars']['values']);
-}
-
-if ( $_REQUEST['values'] && $_POST['values'] && $_REQUEST['submit']['cancel'])
-{
-	unset($_SESSION['_REQUEST_vars']['values']);
+	// Unset values & redirect URL.
+	RedirectURL( 'values' );
 }
 
 $mps_onchange_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .

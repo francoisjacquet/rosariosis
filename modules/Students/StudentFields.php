@@ -144,11 +144,12 @@ if ( isset( $_POST['tables'] )
 			$error[] = _( 'Please enter valid Numeric data.' );
 	}
 
-	unset( $_REQUEST['tables'] );
+	// Unset tables & redirect URL.
+	RedirectURL( array( 'tables' ) );
 }
 
 // Delete Field / Category.
-if ( $_REQUEST['modfunc'] == 'delete'
+if ( $_REQUEST['modfunc'] === 'delete'
 	&& AllowEdit() )
 {
 	if ( isset( $_REQUEST['id'] )
@@ -158,9 +159,8 @@ if ( $_REQUEST['modfunc'] == 'delete'
 		{
 			DeleteDBField( 'STUDENTS', $_REQUEST['id'] );
 
-			$_REQUEST['modfunc'] = false;
-
-			unset( $_REQUEST['id'] );
+			// Unset modfunc & ID & redirect URL.
+			RedirectURL( array( 'modfunc', 'id' ) );
 		}
 	}
 	elseif ( isset( $_REQUEST['category_id'] )
@@ -178,9 +178,8 @@ if ( $_REQUEST['modfunc'] == 'delete'
 			DBQuery( "DELETE FROM STAFF_EXCEPTIONS
 				WHERE MODNAME='Students/Student.php&category_id=" . $_REQUEST['category_id'] . "'" );
 
-			$_REQUEST['modfunc'] = false;
-
-			unset( $_REQUEST['category_id'] );
+			// Unset modfunc & category ID redirect URL.
+			RedirectURL( array( 'modfunc', 'category_id' ) );
 		}
 	}
 }

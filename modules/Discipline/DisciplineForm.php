@@ -1,10 +1,12 @@
 <?php
 
-DrawHeader(ProgramTitle());
+DrawHeader( ProgramTitle() );
 
-if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
+if ( $_REQUEST['values']
+	&& $_POST['values']
+	&& AllowEdit() )
 {
-	foreach ( (array) $_REQUEST['values'] as $id => $columns)
+	foreach ( (array) $_REQUEST['values'] as $id => $columns )
 	{
 		// FJ fix SQL bug invalid sort order.
 		if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
@@ -98,48 +100,54 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 		else
 			$error[] = _('Please enter a valid Sort Order.');
 	}
-	unset($_REQUEST['values']);
-	unset($_SESSION['_REQUEST_vars']['values']);
+
+	// Unset values & redirect URL.
+	RedirectURL( 'values' );
 }
 
-if ( $_REQUEST['modfunc'] === 'delete' && AllowEdit() )
+if ( $_REQUEST['modfunc'] === 'delete'
+	&& AllowEdit() )
 {
 	if ( DeletePrompt( _( 'Category' ) ) )
 	{
 		$id = $_REQUEST['id'];
-		DBQuery("DELETE FROM DISCIPLINE_FIELDS WHERE ID='".$id."'");
-		DBQuery("DELETE FROM DISCIPLINE_FIELD_USAGE WHERE DISCIPLINE_FIELD_ID='".$id."'");
-		DBQuery("ALTER TABLE DISCIPLINE_REFERRALS DROP COLUMN CATEGORY_$id");
 
-		// Unset modfunc & ID.
-		$_REQUEST['modfunc'] = false;
-		$_SESSION['_REQUEST_vars']['modfunc'] = false;
-		$_SESSION['_REQUEST_vars']['id'] = false;
+		DBQuery( "DELETE FROM DISCIPLINE_FIELDS
+			WHERE ID='" . $id . "'" );
+
+		DBQuery( "DELETE FROM DISCIPLINE_FIELD_USAGE
+			WHERE DISCIPLINE_FIELD_ID='" . $id . "'" );
+
+		$column_name = DBEscapeIdentifier( 'CATEGORY_' . $id );
+
+		DBQuery( "ALTER TABLE DISCIPLINE_REFERRALS
+			DROP COLUMN " . $column_name );
+
+		// Unset modfunc & ID & redirect URL.
+		RedirectURL( array( 'modfunc', 'id' ) );
 	}
 }
 
-if ( $_REQUEST['modfunc'] === 'delete_usage' && AllowEdit() )
+if ( $_REQUEST['modfunc'] === 'delete_usage'
+	&& AllowEdit() )
 {
 	if ( DeletePrompt( _( 'Category' ), _( 'Don\'t use' ) ) )
 	{
 		$id = $_REQUEST['id'];
 		DBQuery("DELETE FROM DISCIPLINE_FIELD_USAGE WHERE ID='".$id."'");
 
-		// Unset modfunc & ID.
-		$_REQUEST['modfunc'] = false;
-		$_SESSION['_REQUEST_vars']['modfunc'] = false;
-		$_SESSION['_REQUEST_vars']['id'] = false;
+		// Unset modfunc & ID & redirect URL.
+		RedirectURL( array( 'modfunc', 'id' ) );
 	}
 }
 
-if ( $_REQUEST['modfunc'] === 'add_usage' && AllowEdit() )
+if ( $_REQUEST['modfunc'] === 'add_usage'
+	&& AllowEdit() )
 {
 	DBQuery("INSERT INTO DISCIPLINE_FIELD_USAGE (ID,DISCIPLINE_FIELD_ID,SYEAR,SCHOOL_ID,TITLE,SELECT_OPTIONS,SORT_ORDER) SELECT ".db_seq_nextval('DISCIPLINE_FIELD_USAGE_SEQ')." AS ID,'".$_REQUEST['id']."' AS DISCIPLINE_FIELD_ID,'".UserSyear()."' AS SYEAR,'".UserSchool()."' AS SCHOOL_ID,TITLE,NULL AS SELECT_OPTIONS,NULL AS SORT_ORDER FROM DISCIPLINE_FIELDS WHERE ID='" . $_REQUEST['id'] . "'");
 
-	// Unset modfunc & ID.
-	$_REQUEST['modfunc'] = false;
-	$_SESSION['_REQUEST_vars']['modfunc'] = false;
-	$_SESSION['_REQUEST_vars']['id'] = false;
+	// Unset modfunc & ID & redirect URL.
+	RedirectURL( array( 'modfunc', 'id' ) );
 }
 
 

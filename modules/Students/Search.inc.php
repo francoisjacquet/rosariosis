@@ -8,8 +8,11 @@ if ( ! $_REQUEST['search_modfunc'])
 		case 'admin':
 		case 'teacher':
 			//if ( $_SESSION['student_id'] && ($_REQUEST['modname']!='Students/Search.php' || $_REQUEST['student_id']=='new'))
-			if (UserStudentID() && $_REQUEST['student_id']=='new')
-				unset($_SESSION['student_id']);
+			if ( UserStudentID()
+				&& $_REQUEST['student_id'] === 'new' )
+			{
+				unset( $_SESSION['student_id'] );
+			}
 
 			$_SESSION['Search_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back','advanced'));
 			if ( $_SESSION['Back_PHP_SELF']!='student')
@@ -279,14 +282,17 @@ else
 				$_REQUEST[ $var ] = $students_RET['1'][ $val ];
 		}
 
-		if ( !is_array($students_RET[1]['STUDENT_ID']))
+		if ( ! is_array( $students_RET[1]['STUDENT_ID'] ) )
 		{
-			if ( $students_RET[1]['SCHOOL_ID']!=UserSchool())
+			if ( $students_RET[1]['SCHOOL_ID']!= UserSchool() )
+			{
 				$_SESSION['UserSchool'] = $students_RET[1]['SCHOOL_ID'];
+			}
 
-			SetUserStudentID($students_RET[1]['STUDENT_ID']);
+			SetUserStudentID( $students_RET[1]['STUDENT_ID'] );
 
-			unset($_REQUEST['search_modfunc']);
+			// Unset search modfunc & redirect URL.
+			RedirectURL( 'search_modfunc' );
 		}
 
 		if ( $_REQUEST['modname']!=$_REQUEST['next_modname'])

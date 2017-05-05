@@ -1,7 +1,12 @@
 <?php
-if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
+DrawHeader( ProgramTitle() );
+
+if ( $_REQUEST['modfunc'] === 'update'
+	&& $_REQUEST['values']
+	&& $_POST['values']
+	&& AllowEdit() )
 {
-	foreach ( (array) $_REQUEST['values'] as $id => $columns)
+	foreach ( (array) $_REQUEST['values'] as $id => $columns )
 	{
 		// FJ fix SQL bug invalid sort order.
 		if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
@@ -44,27 +49,27 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 		else
 			$error[] = _('Please enter a valid Sort Order.');
 	}
+
+	// Unset modfunc & redirect URL.
+	RedirectURL( 'modfunc' );
 }
 
-DrawHeader(ProgramTitle());
-
-if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )
+if ( $_REQUEST['modfunc'] === 'remove'
+	&& AllowEdit() )
 {
 	if ( DeletePrompt( _( 'Grade Level' ) ) )
 	{
 		DBQuery("DELETE FROM SCHOOL_GRADELEVELS WHERE ID='" . $_REQUEST['id'] . "'");
 
-		// Unset modfunc & ID.
-		$_REQUEST['modfunc'] = false;
-		$_SESSION['_REQUEST_vars']['modfunc'] = false;
-		$_SESSION['_REQUEST_vars']['id'] = false;
+		// Unset modfunc & ID & redirect URL.
+		RedirectURL( array( 'modfunc', 'id' ) );
 	}
 }
 
 // FJ fix SQL bug invalid sort order
 echo ErrorMessage( $error );
 
-if ( $_REQUEST['modfunc']!='remove')
+if ( ! $_REQUEST['modfunc'] )
 {
 	$sql = "SELECT ID,TITLE,SHORT_NAME,SORT_ORDER,NEXT_GRADE_ID FROM SCHOOL_GRADELEVELS WHERE SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER";
 	$QI = DBQuery($sql);

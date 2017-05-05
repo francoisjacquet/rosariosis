@@ -325,20 +325,29 @@ if ( $_REQUEST['modfunc'] === 'update'
 	}
 
 	if ( $error
-		&& !UserStudentID() )
+		&& ! UserStudentID() )
 	{
 		$_REQUEST['student_id'] = 'new';
 	}
 
-	$_REQUEST['modfunc'] = false;
+	// Unset modfunc, students (& values if no current Student).
+	$unset_request = array( 'modfunc', 'students' );
+
+	if ( ! UserStudentID() )
+	{
+		$unset_request[] = 'values';
+	}
+
+	// Unset & redirect URL.
+	RedirectURL( $unset_request );
 
 	// SHOULD THIS BE HERE???
-	if ( !UserStudentID() )
+	/*if ( !UserStudentID() )
 		unset( $_REQUEST['values'] );
 
 	$_SESSION['_REQUEST_vars']['modfunc'] = false;
 	unset( $_SESSION['_REQUEST_vars']['students'] );
-	unset( $_SESSION['_REQUEST_vars']['values'] );
+	unset( $_SESSION['_REQUEST_vars']['values'] );*/
 }
 
 if (basename($_SERVER['PHP_SELF'])!='index.php')

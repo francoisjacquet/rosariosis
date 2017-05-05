@@ -1,7 +1,9 @@
 <?php
 
-if ( $_REQUEST['modfunc']!='choose_course')
-	DrawHeader(ProgramTitle());
+if ( $_REQUEST['modfunc'] !== 'choose_course' )
+{
+	DrawHeader( ProgramTitle() );
+}
 
 //unset($_SESSION['_REQUEST_vars']['subject_id']);
 //unset($_SESSION['_REQUEST_vars']['course_id']);
@@ -99,7 +101,9 @@ if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 
 
 // UPDATING
-if ( $_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
+if ( $_REQUEST['tables']
+	&& $_POST['tables']
+	&& AllowEdit() )
 {
 	$where = array('COURSE_SUBJECTS' => 'SUBJECT_ID',
 				'COURSES' => 'COURSE_ID',
@@ -458,12 +462,15 @@ if ( $_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 			}
 		}
 	}
-	unset($_REQUEST['tables']);
+
+	// Unset tables & redirect URL.
+	RedirectURL( array( 'tables' ) );
 }
 
-if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'delete'
+	&& AllowEdit() )
 {
-	if ( $_REQUEST['course_period_id'])
+	if ( $_REQUEST['course_period_id'] )
 	{
 		$table = _('Course Period');
 
@@ -475,7 +482,7 @@ if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 
 		$unset = 'course_period_id';
 	}
-	elseif ( $_REQUEST['course_id'])
+	elseif ( $_REQUEST['course_id'] )
 	{
 		$table = _('Course');
 
@@ -487,7 +494,7 @@ if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 
 		$unset = 'course_id';
 	}
-	elseif ( $_REQUEST['subject_id'])
+	elseif ( $_REQUEST['subject_id'] )
 	{
 		$table = _('Subject');
 
@@ -508,34 +515,36 @@ if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 		$unset = 'subject_id';
 	}
 
-	if (DeletePrompt($table))
+	if ( DeletePrompt( $table ) )
 	{
-		foreach ( (array) $sql as $query)
+		foreach ( (array) $sql as $query )
 			DBQuery($query);
 
-		if ( $_REQUEST['course_period_id'])
+		if ( $_REQUEST['course_period_id'] )
 		{
-			//hook
-			do_action('Scheduling/Courses.php|delete_course_period');
+			// Hook.
+			do_action( 'Scheduling/Courses.php|delete_course_period' );
 		}
-		elseif ( $_REQUEST['subject_id'])
+		elseif ( $_REQUEST['subject_id'] )
 		{
-			//hook
-			do_action('Scheduling/Courses.php|delete_course_subject');
+			// Hook.
+			do_action( 'Scheduling/Courses.php|delete_course_subject' );
 
 		}
-		elseif ( $_REQUEST['course_id'])
+		elseif ( $_REQUEST['course_id'] )
 		{
-			//hook
-			do_action('Scheduling/Courses.php|delete_course');
+			// Hook.
+			do_action( 'Scheduling/Courses.php|delete_course' );
 		}
 
-			unset($_REQUEST[ $unset ]);
-		$_REQUEST['modfunc'] = false;
+		// Unset modfunc & ID redirect URL.
+		RedirectURL( array( 'modfunc', $unset ) );
 	}
 }
 
-if ((! $_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && ! $_REQUEST['course_modfunc'])
+if ( ( ! $_REQUEST['modfunc']
+		|| $_REQUEST['modfunc'] === 'choose_course' )
+	&& ! $_REQUEST['course_modfunc'] )
 {
 	// Check subject ID is valid for current school & syear!
 	if ( $_REQUEST['modfunc'] !== 'choose_course'
@@ -550,8 +559,12 @@ if ((! $_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && ! $_REQ
 
 		if ( ! $subject_RET )
 		{
-			// Unset subject, course & course period IDs.
-			unset( $_REQUEST['subject_id'], $_REQUEST['course_id'], $_REQUEST['course_period_id'] );
+			// Unset subject, course & course period IDs & redirect URL.
+			RedirectURL( array(
+				$_REQUEST['subject_id'],
+				$_REQUEST['course_id'],
+				$_REQUEST['course_period_id'],
+			) );
 		}
 	}
 

@@ -74,7 +74,8 @@ if ( isset( $_POST['day_schedule'], $_POST['month_schedule'], $_POST['year_sched
 	unset($_SESSION['_REQUEST_vars']['year_schedule']);
 }
 
-if ( isset( $_REQUEST['schedule'] )
+if ( $_REQUEST['modfunc'] === 'modify'
+	&& isset( $_REQUEST['schedule'] )
 	&& count( $_REQUEST['schedule'] )
 	&& AllowEdit() )
 {
@@ -97,8 +98,14 @@ if ( isset( $_REQUEST['schedule'] )
 			//User is asked if he wants absences and grades to be deleted
 			if (count($start_end_RET))
 			{
-				//if user clicked Cancel or OK then pass else Display Prompt
-				if (DeletePrompt(_('Student\'s Absences and Grades'), 'Delete', false))
+				$delete_ok = DeletePrompt(
+					_( 'Student\'s Absences and Grades' ),
+					_( 'also delete' ),
+					false
+				);
+
+				// If user clicked Cancel or OK then pass else Display Prompt
+				if ( $delete_ok )
 				{
 					//if user clicked OK
 					if ( ! isset( $_REQUEST['delete_cancel'] ) )
@@ -123,11 +130,15 @@ if ( isset( $_REQUEST['schedule'] )
 		}
 	}
 
-	unset($_SESSION['_REQUEST_vars']['schedule']);
-	unset($_REQUEST['schedule']);
+	if ( ! $schedule_deletion_pending )
+	{
+		// Unset modfunc & schedule & redirect URL.
+		RedirectURL( array( 'modfunc', 'schedule' ) );
+	}
 }
 
-if (UserStudentID() && $_REQUEST['modfunc']!='choose_course' && empty($schedule_deletion_pending))
+if ( UserStudentID()
+	&& ! $_REQUEST['modfunc'] )
 {
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=modify" method="POST">';
 

@@ -88,9 +88,12 @@ AND ASSIGNMENT_TYPE_ID=gt.ASSIGNMENT_TYPE_ID)>0
 ORDER BY SORT_ORDER,TITLE"),array(),array('ASSIGNMENT_TYPE_ID'));
 //echo '<pre>'; var_dump($types_RET); echo '</pre>';
 
-if ( $_REQUEST['type_id'])
-	if ( ! $types_RET[$_REQUEST['type_id']])
-		unset($_REQUEST['type_id']);
+if ( $_REQUEST['type_id']
+	&& ! $types_RET[ $_REQUEST['type_id'] ] )
+{
+	// Unset type ID & redirect URL.
+	RedirectURL( 'type_id' );
+}
 
 //FJ default points
 $assignments_RET = DBGet(DBQuery("SELECT ASSIGNMENT_ID,ASSIGNMENT_TYPE_ID,TITLE,POINTS,ASSIGNED_DATE,DUE_DATE,DEFAULT_POINTS,extract(EPOCH FROM DUE_DATE) AS DUE_EPOCH,
@@ -104,25 +107,64 @@ ORDER BY ".Preferences('ASSIGNMENT_SORTING','Gradebook')." DESC,ASSIGNMENT_ID DE
 //echo '<pre>'; var_dump($assignments_RET); echo '</pre>';
 
 // when changing course periods the assignment_id will be wrong except for '' (totals) and 'all'
-if ( $_REQUEST['assignment_id'] && $_REQUEST['assignment_id']!='all')
-	if ( ! $assignments_RET[$_REQUEST['assignment_id']])
-		unset($_REQUEST['assignment_id']);
+if ( $_REQUEST['assignment_id']
+	&& $_REQUEST['assignment_id'] !== 'all'
+	&& ! $assignments_RET[ $_REQUEST['assignment_id'] ] )
+{
+	// Unset assignment ID & redirect URL.
+	RedirectURL( 'assignment_id' );
+}
 	//else
 	//	$_REQUEST['type_id'] = $assignments_RET[$_REQUEST['assignment_id']][1]['ASSIGNMENT_TYPE_ID'];
 
-if (UserStudentID() && ! $_REQUEST['assignment_id'])
+if ( UserStudentID()
+	&& ! $_REQUEST['assignment_id'] )
+{
 	$_REQUEST['assignment_id'] = 'all';
+}
 
-if ( $_REQUEST['values'] && $_POST['values'] && $_SESSION['type_id']==$_REQUEST['type_id'] && $_SESSION['assignment_id']==$_REQUEST['assignment_id'])
+if ( $_REQUEST['values']
+	&& $_POST['values']
+	&& $_SESSION['type_id'] === $_REQUEST['type_id']
+	&& $_SESSION['assignment_id'] === $_REQUEST['assignment_id'] )
 {
 	include 'ProgramFunctions/_makePercentGrade.fnc.php';
 
-	if (UserStudentID())
-		$current_RET[UserStudentID()] = DBGet(DBQuery("SELECT g.ASSIGNMENT_ID FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID AND a.MARKING_PERIOD_ID='".UserMP()."' AND g.STUDENT_ID='".UserStudentID()."' AND g.COURSE_PERIOD_ID='".UserCoursePeriod()."'".($_REQUEST['assignment_id']=='all'?'':" AND g.ASSIGNMENT_ID='".$_REQUEST['assignment_id']."'")),array(),array('ASSIGNMENT_ID'));
-	elseif ( $_REQUEST['assignment_id']=='all')
-		$current_RET = DBGet(DBQuery("SELECT g.STUDENT_ID,g.ASSIGNMENT_ID,g.POINTS FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID AND a.MARKING_PERIOD_ID='".UserMP()."' AND g.COURSE_PERIOD_ID='".UserCoursePeriod()."'"),array(),array('STUDENT_ID','ASSIGNMENT_ID'));
+	if ( UserStudentID() )
+	{
+		$current_RET[ UserStudentID() ] = DBGet( DBQuery( "SELECT g.ASSIGNMENT_ID
+			FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a
+			WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID
+			AND a.MARKING_PERIOD_ID='" . UserMP() . "'
+			AND g.STUDENT_ID='" . UserStudentID() . "'
+			AND g.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" .
+			( $_REQUEST['assignment_id'] === 'all' ? '' :
+				" AND g.ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'" ) ),
+			array(),
+			array( 'ASSIGNMENT_ID' )
+		);
+	}
+	elseif ( $_REQUEST['assignment_id'] === 'all' )
+	{
+		$current_RET = DBGet( DBQuery( "SELECT g.STUDENT_ID,g.ASSIGNMENT_ID,g.POINTS
+			FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a
+			WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID
+			AND a.MARKING_PERIOD_ID='" . UserMP() . "'
+			AND g.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" ),
+			array(),
+			array( 'STUDENT_ID', 'ASSIGNMENT_ID' )
+		);
+	}
 	else
-		$current_RET = DBGet(DBQuery("SELECT STUDENT_ID,POINTS,COMMENT,ASSIGNMENT_ID FROM GRADEBOOK_GRADES WHERE ASSIGNMENT_ID='".$_REQUEST['assignment_id']."' AND COURSE_PERIOD_ID='".UserCoursePeriod()."'"),array(),array('STUDENT_ID','ASSIGNMENT_ID'));
+	{
+		$current_RET = DBGet( DBQuery( "SELECT STUDENT_ID,POINTS,COMMENT,ASSIGNMENT_ID
+			FROM GRADEBOOK_GRADES
+			WHERE ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'
+			AND COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" ),
+			array(),
+			array( 'STUDENT_ID', 'ASSIGNMENT_ID' )
+		);
+	}
 
 	foreach ( (array) $_REQUEST['values'] as $student_id => $assignments)
 	{
@@ -167,9 +209,10 @@ if ( $_REQUEST['values'] && $_POST['values'] && $_SESSION['type_id']==$_REQUEST[
 		}
 	}
 
-	unset($_REQUEST['values']);
-	unset($_SESSION['_REQUEST_vars']['values']);
-	unset($current_RET);
+	// Unset values & redirect URL.
+	RedirectURL( 'values' );
+
+	unset( $current_RET );
 }
 
 $_SESSION['type_id'] = $_REQUEST['type_id'];

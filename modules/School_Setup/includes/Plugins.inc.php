@@ -19,19 +19,20 @@ if (isset($_REQUEST['plugin']) && strpos($_REQUEST['plugin'], '..') !== false)
 }
 
 
-if ( $_REQUEST['modfunc']=='config')
+if ( $_REQUEST['modfunc'] === 'config' )
 {
 	//if the plugin is activated, show configuration (call the plugin's config.inc.php file)
 	if (in_array($_REQUEST['plugin'], array_keys($RosarioPlugins)) && $RosarioPlugins[$_REQUEST['plugin']] == true && file_exists('plugins/'.$_REQUEST['plugin'].'/config.inc.php'))
 		require_once 'plugins/'.$_REQUEST['plugin'].'/config.inc.php';
 	else
 	{
-		$_REQUEST['modfunc'] = false;
-		unset($_REQUEST['plugin']);
+		// Unset modfunc & plugin & redirect URL.
+		RedirectURL( array( 'modfunc', 'plugin' ) );
 	}
 }
 
-if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'delete'
+	&& AllowEdit() )
 {
 	if (DeletePrompt(_('Plugin')))
 	{
@@ -59,8 +60,8 @@ if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 			}
 		}
 
-		$_REQUEST['modfunc'] = false;
-		unset($_REQUEST['plugin']);
+		// Unset modfunc & plugin & redirect URL.
+		RedirectURL( array( 'modfunc', 'plugin' ) );
 	}
 }
 
@@ -84,12 +85,13 @@ if ( $_REQUEST['modfunc']=='deactivate' && AllowEdit())
 			$error[] = _('Incomplete or inexistant plugin.');
 		}
 
-		$_REQUEST['modfunc'] = false;
-		unset($_REQUEST['plugin']);
+		// Unset modfunc & plugin & redirect URL.
+		RedirectURL( array( 'modfunc', 'plugin' ) );
 	}
 }
 
-if ( $_REQUEST['modfunc']=='activate' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'activate'
+	&& AllowEdit() )
 {
 	$update_RosarioPlugins = false;
 
@@ -131,8 +133,8 @@ if ( $_REQUEST['modfunc']=='activate' && AllowEdit())
 		_saveRosarioPlugins();
 	}
 
-	$_REQUEST['modfunc'] = false;
-	unset($_REQUEST['plugin']);
+	// Unset modfunc & plugin & redirect URL.
+	RedirectURL( array( 'modfunc', 'plugin' ) );
 }
 
 

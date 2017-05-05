@@ -1,4 +1,7 @@
 <?php
+
+DrawHeader( ProgramTitle() );
+
 if ( $_REQUEST['modfunc'] === 'save'
 	&& AllowEdit()
 	&& UserStudentID() )
@@ -23,24 +26,26 @@ if ( $_REQUEST['modfunc'] === 'save'
 	else
 		$error[] = _('You must choose at least one user');
 
-	$_REQUEST['modfunc'] = false;
-	$_SESSION['_REQUEST_vars']['modfunc'] = false;
+	// Unset modfunc & redirect URL.
+	RedirectURL( 'modfunc' );
 }
-
-DrawHeader( ProgramTitle() );
 
 if ( $_REQUEST['modfunc'] === 'delete'
 	&& AllowEdit()
 	&& UserStudentID() )
 {
-	if (DeletePrompt(_('student from that user'),_('remove access to')) && !empty($_REQUEST['staff_id_remove']))
+	if ( DeletePrompt( _( 'student from that user' ), _( 'remove access to' ) )
+		&& ! empty( $_REQUEST['staff_id_remove'] ) )
 	{
-		DBQuery("DELETE FROM STUDENTS_JOIN_USERS WHERE STAFF_ID='".$_REQUEST['staff_id_remove']."' AND STUDENT_ID='".UserStudentID()."'");
+		DBQuery( "DELETE FROM STUDENTS_JOIN_USERS
+			WHERE STAFF_ID='" . $_REQUEST['staff_id_remove'] . "'
+			AND STUDENT_ID='" . UserStudentID() . "'" );
 
-		//hook
-		do_action('Students/AddUsers.php|user_unassign_role');
+		// Hook.
+		do_action( 'Students/AddUsers.php|user_unassign_role' );
 
-		$_REQUEST['modfunc'] = false;
+		// Unset modfunc & staff ID remove & redirect URL.
+		RedirectURL( array( 'modfunc', 'staff_id_remove' ) );
 	}
 }
 
@@ -48,7 +53,7 @@ echo ErrorMessage( $note,'note' );
 
 echo ErrorMessage( $error );
 
-if ( $_REQUEST['modfunc']!='delete')
+if ( ! $_REQUEST['modfunc'] )
 {
 	$extra['SELECT'] = ",(SELECT count(u.STAFF_ID) FROM STUDENTS_JOIN_USERS u,STAFF st WHERE u.STUDENT_ID=s.STUDENT_ID AND st.STAFF_ID=u.STAFF_ID AND st.SYEAR=ssm.SYEAR) AS ASSOCIATED";
 	$extra['columns_after'] = array('ASSOCIATED' => '# '._('Associated'));

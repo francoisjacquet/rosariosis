@@ -2,75 +2,74 @@
 
 require_once 'ProgramFunctions/TipMessage.fnc.php';
 
-if ( $_REQUEST['modfunc']=='update')
+if ( $_REQUEST['modfunc'] === 'update' )
 {
-    if (UserStaffID() && AllowEdit())
-    {
-        if ( $_REQUEST['submit']['delete'])
-        {
+	if ( UserStaffID()
+		&& AllowEdit() )
+	{
+		if ( $_REQUEST['submit']['delete'])
+		{
 			if ( DeletePrompt( _( 'User Account' ) ) )
 			{
 				DBQuery( "DELETE FROM FOOD_SERVICE_STAFF_ACCOUNTS
 					WHERE STAFF_ID='" . UserStaffID() . "'" );
 
-				$_REQUEST['modfunc'] = false;
+				// Unset modfunc & redirect URL.
+				RedirectURL( 'modfunc' );
 			}
-            //unset($_REQUEST['submit']);
-        }
-        else
-        {
-            if (count($_REQUEST['food_service']))
-            {
-                if ( $_REQUEST['food_service']['BARCODE'])
-                {
-                    $RET = DBGet(DBQuery("SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."' AND STAFF_ID!='".UserStaffID()."'"));
-                    if ( $RET)
-                    {
-                        $staff_RET = DBGet(DBQuery("SELECT FIRST_NAME||' '||LAST_NAME AS FULL_NAME FROM STAFF WHERE STAFF_ID='".$RET[1]['STAFF_ID']."'"));
-                        $question = _("Are you sure you want to assign that barcode?");
-                        $message = sprintf(_("That barcode is already assigned to User <b>%s</b>."),$staff_RET[1]['FULL_NAME']).' '._("Hit OK to reassign it to the current user or Cancel to cancel all changes.");
-                    }
-                    else
-                    {
-                        $RET = DBGet(DBQuery("SELECT ACCOUNT_ID FROM FOOD_SERVICE_STUDENT_ACCOUNTS WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."'"));
-                        if ( $RET)
-                        {
-                            $student_RET = DBGet(DBQuery("SELECT s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa WHERE s.STUDENT_ID=fssa.STUDENT_ID AND fssa.ACCOUNT_ID='".$RET[1]['ACCOUNT_ID']."'"));
-                            $question = _("Are you sure you want to assign that barcode?");
-                            $message = sprintf(_("That barcode is already assigned to Student <b>%s</b>."),$student_RET[1]['FULL_NAME']).' '._("Hit OK to reassign it to the user student or Cancel to cancel all changes.");
-                        }
-                    }
-                }
+			//unset($_REQUEST['submit']);
+		}
+		elseif ( count( $_REQUEST['food_service'] ) )
+		{
+			if ( $_REQUEST['food_service']['BARCODE'])
+			{
+				$RET = DBGet(DBQuery("SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."' AND STAFF_ID!='".UserStaffID()."'"));
+				if ( $RET)
+				{
+					$staff_RET = DBGet(DBQuery("SELECT FIRST_NAME||' '||LAST_NAME AS FULL_NAME FROM STAFF WHERE STAFF_ID='".$RET[1]['STAFF_ID']."'"));
+					$question = _("Are you sure you want to assign that barcode?");
+					$message = sprintf(_("That barcode is already assigned to User <b>%s</b>."),$staff_RET[1]['FULL_NAME']).' '._("Hit OK to reassign it to the current user or Cancel to cancel all changes.");
+				}
+				else
+				{
+					$RET = DBGet(DBQuery("SELECT ACCOUNT_ID FROM FOOD_SERVICE_STUDENT_ACCOUNTS WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."'"));
+					if ( $RET)
+					{
+						$student_RET = DBGet(DBQuery("SELECT s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa WHERE s.STUDENT_ID=fssa.STUDENT_ID AND fssa.ACCOUNT_ID='".$RET[1]['ACCOUNT_ID']."'"));
+						$question = _("Are you sure you want to assign that barcode?");
+						$message = sprintf(_("That barcode is already assigned to Student <b>%s</b>."),$student_RET[1]['FULL_NAME']).' '._("Hit OK to reassign it to the user student or Cancel to cancel all changes.");
+					}
+				}
+			}
 
-                if ( ! $RET
-                    || Prompt( 'Confirm', $question, $message ) )
-                {
-                    $sql = 'UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET ';
-                    foreach ( (array) $_REQUEST['food_service'] as $column_name => $value)
-                        $sql .= $column_name."='".trim($value)."',";
-                    $sql = mb_substr($sql,0,-1)." WHERE STAFF_ID='".UserStaffID()."'";
-                    if ( $_REQUEST['food_service']['BARCODE'])
-                    {
-                        DBQuery("UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET BARCODE=NULL WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."'");
-                        DBQuery("UPDATE FOOD_SERVICE_STUDENT_ACCOUNTS SET BARCODE=NULL WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."'");
-                    }
-                    DBQuery($sql);
-                    $_REQUEST['modfunc'] = false;
-                    unset($_REQUEST['food_service']);
-                    unset($_SESSION['_REQUEST_vars']['food_service']);
-                }
-            }
-        }
-    }
-    else
-    {
-        $_REQUEST['modfunc'] = false;
-        unset($_REQUEST['food_service']);
-        unset($_SESSION['_REQUEST_vars']['food_service']);
-    }
+			if ( ! $RET
+				|| Prompt( 'Confirm', $question, $message ) )
+			{
+				$sql = 'UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET ';
+				foreach ( (array) $_REQUEST['food_service'] as $column_name => $value)
+					$sql .= DBEscapeIdentifier( $column_name ) . "='" . trim( $value ) . "',";
+				$sql = mb_substr($sql,0,-1)." WHERE STAFF_ID='".UserStaffID()."'";
+				if ( $_REQUEST['food_service']['BARCODE'])
+				{
+					DBQuery("UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET BARCODE=NULL WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."'");
+					DBQuery("UPDATE FOOD_SERVICE_STUDENT_ACCOUNTS SET BARCODE=NULL WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."'");
+				}
+
+				DBQuery( $sql );
+
+				// Unset modfunc redirect URL.
+				RedirectURL( 'modfunc' );
+			}
+		}
+	}
+	else
+	{
+		// Unset modfunc & redirect URL.
+		RedirectURL( 'modfunc' );
+	}
 }
 
-if ( $_REQUEST['modfunc']=='create')
+if ( $_REQUEST['modfunc'] === 'create' )
 {
 	if ( UserStaffID()
 		&& AllowEdit()
@@ -78,20 +77,24 @@ if ( $_REQUEST['modfunc']=='create')
 			FROM FOOD_SERVICE_STAFF_ACCOUNTS
 			WHERE STAFF_ID='" . UserStaffID() . "'" ) ) )
 	{
-        $fields = 'STAFF_ID,BALANCE,TRANSACTION_ID,';
-        $values = "'".UserStaffID()."','0.00','0',";
+		$fields = 'STAFF_ID,BALANCE,TRANSACTION_ID,';
+		$values = "'" . UserStaffID() . "','0.00','0',";
 
-        if (is_array($_REQUEST['food_service']))
-		 foreach ( (array) $_REQUEST['food_service'] as $column_name => $value)
-		 {
-		     $fields .= $column_name.',';
-		     $values .= "'".trim($value)."',";
-		 }
+		foreach ( (array) $_REQUEST['food_service'] as $column_name => $value )
+		{
+			$fields .= DBEscapeIdentifier( $column_name ) . ',';
 
-        $sql = 'INSERT INTO FOOD_SERVICE_STAFF_ACCOUNTS ('.mb_substr($fields,0,-1).') values ('.mb_substr($values,0,-1).')';
-        DBQuery($sql);
+			$values .= "'" . trim( $value ) . "',";
+		}
+
+		$sql = 'INSERT INTO FOOD_SERVICE_STAFF_ACCOUNTS (' . mb_substr( $fields, 0, -1 ) .
+			') VALUES (' . mb_substr( $values, 0, -1 ) . ')';
+
+		DBQuery( $sql );
 	}
-	$_REQUEST['modfunc'] = false;
+
+	// Unset modfunc & food service & redirect URL.
+	RedirectURL( array( 'modfunc', 'food_service' ) );
 }
 
 StaffWidgets('fsa_balance');

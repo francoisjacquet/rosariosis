@@ -4,11 +4,11 @@ require_once 'modules/Accounting/functions.inc.php';
 if (User('PROFILE')=='teacher')//limit to teacher himself
 	$_REQUEST['staff_id'] = User('STAFF_ID');
 
-if ( ! $_REQUEST['print_statements'])
+if ( ! $_REQUEST['print_statements'] )
 {
-	DrawHeader(ProgramTitle());
+	DrawHeader( ProgramTitle() );
 
-	Search('staff_id',$extra);
+	Search( 'staff_id', $extra );
 }
 
 if ( $_REQUEST['values']
@@ -68,19 +68,21 @@ if ( $_REQUEST['values']
 				DBQuery($sql);
 		}
 	}
-	unset($_REQUEST['values']);
+
+	// Unset values & redirect URL.
+	RedirectURL( 'values' );
 }
 
-if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )
+if ( $_REQUEST['modfunc'] === 'remove'
+	&& AllowEdit() )
 {
 	if ( DeletePrompt( _( 'Salary' ) ) )
 	{
-		DBQuery("DELETE FROM ACCOUNTING_SALARIES WHERE ID='" . $_REQUEST['id'] . "'");
+		DBQuery( "DELETE FROM ACCOUNTING_SALARIES
+			WHERE ID='" . $_REQUEST['id'] . "'" );
 
-		// Unset modfunc & ID.
-		$_REQUEST['modfunc'] = false;
-		$_SESSION['_REQUEST_vars']['modfunc'] = false;
-		$_SESSION['_REQUEST_vars']['id'] = false;
+		// Unset modfunc & ID & redirect URL.
+		RedirectURL( array( 'modfunc', 'id' ) );
 	}
 }
 

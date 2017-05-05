@@ -55,9 +55,25 @@ if ( ! isset( $end_date )
 }
 
 
+if ( $_REQUEST['modfunc'] === 'delete' )
+{
+	// Prompt before deleting log.
+	if ( DeletePrompt( _( 'Access Log' ) ) )
+	{
+		DBQuery( 'DELETE FROM ACCESS_LOG' );
+
+		$note[] = _( 'Access Log cleared.' );
+
+		// Unset modfunc & redirect URL.
+		RedirectURL( 'modfunc' );
+	}
+}
+
+echo ErrorMessage( $note, 'note' );
+
 if ( ! $_REQUEST['modfunc'] )
 {
-	echo '<FORM name="log" id="log" action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="GET">';
+	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="GET">';
 
 	DrawHeader(
 		_( 'From' ) . ' ' . DateInput( $start_date, 'start', '', false, false ) . ' - ' .
@@ -83,9 +99,9 @@ if ( ! $_REQUEST['modfunc'] )
 		AND LOGIN_TIME <='" . $end_date . ' 23:59:59' . "'
 		ORDER BY LOGIN_TIME DESC" ), $alllogs_functions );
 
-	echo '<form name="del" id="del" action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete" method="POST">';
+	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete" method="POST">';
 
-	DrawHeader( '', SubmitButton( _( 'Clear Log' ), 'del' ) );
+	DrawHeader( '', SubmitButton( _( 'Clear Log' ) ) );
 
 	ListOutput(
 		$alllogs_RET,
@@ -104,7 +120,7 @@ if ( ! $_REQUEST['modfunc'] )
 		array( 'count' => true, 'save' => true )
 	);
 
-	echo '<div class="center">' . SubmitButton( _( 'Clear Log' ), 'del' ) . '</div>';
+	echo '<div class="center">' . SubmitButton( _( 'Clear Log' ) ) . '</div>';
 
 	echo '</form>';
 
@@ -123,19 +139,6 @@ if ( ! $_REQUEST['modfunc'] )
 	});
 </script>
 	<?php
-}
-
-if ( $_REQUEST['modfunc'] == 'delete' )
-{
-	// Prompt before deleting log.
-	if ( DeletePrompt( _( 'Access Log' ) ) )
-	{
-		DBQuery( 'DELETE FROM ACCESS_LOG' );
-
-		$note[] = _( 'Access Log cleared.' );
-
-		echo ErrorMessage( $note, 'note' );
-	}
 }
 
 

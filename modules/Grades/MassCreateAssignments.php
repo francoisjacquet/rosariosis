@@ -241,8 +241,8 @@ if ( isset( $_POST['tables'] )
 		}
 	}
 
-	unset( $_REQUEST['tables'] );
-	unset( $_SESSION['_REQUEST_vars']['tables'] );
+	// Unset tables & redirect URL.
+	RedirectURL( 'tables' );
 }
 
 echo ErrorMessage( $error );
@@ -267,12 +267,12 @@ if ( ! $_REQUEST['modfunc'] )
 
 		if ( ! $assignment_type_RET )
 		{
-			// Unset assignment type.
-			unset( $_REQUEST['assignment_type']	);
+			// Unset assignment type & redirect URL.
+			RedirectURL( 'assignment_type' );
 		}
 	}
 
-	if ( isset( $_REQUEST['assignment_type'] )
+	if ( $_REQUEST['assignment_type']
 		&& $_REQUEST['assignment_type'] !== 'new' )
 	{
 		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&assignment_type=' . $_REQUEST['assignment_type'] . '&table=GRADEBOOK_ASSIGNMENTS" method="POST">';

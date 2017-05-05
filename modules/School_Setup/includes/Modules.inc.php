@@ -38,7 +38,8 @@ if (isset($_REQUEST['module']) && strpos($_REQUEST['module'], '..') !== false)
 }
 
 
-if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'delete'
+	&& AllowEdit() )
 {
 	if (DeletePrompt(_('Module')))
 	{
@@ -66,12 +67,13 @@ if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 			}
 		}
 
-		$_REQUEST['modfunc'] = false;
-		unset($_REQUEST['module']);
+		// Unset modfunc & module & redirect URL.
+		RedirectURL( array( 'modfunc', 'module' ) );
 	}
 }
 
-if ( $_REQUEST['modfunc']=='deactivate' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'deactivate'
+	&& AllowEdit() )
 {
 	if (DeletePrompt(_('Module'),_('Deactivate')))
 	{
@@ -94,12 +96,13 @@ if ( $_REQUEST['modfunc']=='deactivate' && AllowEdit())
 			$error[] = _('Incomplete or inexistant module.');
 		}
 
-		$_REQUEST['modfunc'] = false;
-		unset($_REQUEST['module']);
+		// Unset modfunc & module & redirect URL.
+		RedirectURL( array( 'modfunc', 'module' ) );
 	}
 }
 
-if ( $_REQUEST['modfunc']=='activate' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'activate'
+	&& AllowEdit() )
 {
 	$update_RosarioModules = false;
 
@@ -144,8 +147,8 @@ if ( $_REQUEST['modfunc']=='activate' && AllowEdit())
 		_reloadMenu();
 	}
 
-	$_REQUEST['modfunc'] = false;
-	unset($_REQUEST['module']);
+	// Unset modfunc & module & redirect URL.
+	RedirectURL( array( 'modfunc', 'module' ) );
 }
 
 

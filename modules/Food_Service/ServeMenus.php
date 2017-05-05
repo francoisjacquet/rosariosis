@@ -2,10 +2,12 @@
 
 require_once 'modules/Food_Service/includes/FS_Icons.inc.php';
 
-if ( $_REQUEST['modfunc']=='select')
+if ( $_REQUEST['modfunc'] === 'select' )
 {
 	$_SESSION['FSA_type'] = $_REQUEST['fsa_type'];
-	$_REQUEST['modfunc'] = false;
+
+	// Unset modfunc & redirect URL.
+	RedirectURL( 'modfunc' );
 }
 
 if ( $_REQUEST['type'])
@@ -50,18 +52,26 @@ if ( ! $_REQUEST['menu_id'])
 else
 	$_SESSION['FSA_menu_id'] = $_REQUEST['menu_id'];
 
-if ( $_REQUEST['modfunc']=='add')
+if ( $_REQUEST['modfunc'] === 'add' )
 {
-	if ( $_REQUEST['item_sn'])
+	if ( $_REQUEST['item_sn'] )
+	{
 		$_SESSION['FSA_sale'][] = $_REQUEST['item_sn'];
-	$_REQUEST['modfunc'] = false;
+	}
+
+	// Unset modfunc & item sn & redirect URL.
+	RedirectURL( array( 'modfunc', 'item_sn' ) );
 }
 
-if ( $_REQUEST['modfunc']=='remove')
+if ( $_REQUEST['modfunc'] === 'remove' )
 {
-	if ( $_REQUEST['id']!='')
-		unset($_SESSION['FSA_sale'][$_REQUEST['id']]);
-	$_REQUEST['modfunc'] = false;
+	if ( $_REQUEST['id'] !== '' )
+	{
+		unset( $_SESSION['FSA_sale'][ $_REQUEST['id'] ] );
+	}
+
+	// Unset modfunc & ID & redirect URL.
+	RedirectURL( array( 'modfunc', 'id' ) );
 }
 
 require_once 'modules/Food_Service/'.($_SESSION['FSA_type']=='staff'?'Users/':'Students/').'/ServeMenus.php';

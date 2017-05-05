@@ -2,7 +2,8 @@
 
 if ( $_REQUEST['modfunc'] === 'save' )
 {
-	if (count($_REQUEST['student']) && AllowEdit())
+	if ( count( $_REQUEST['student'] )
+		&& AllowEdit() )
 	{
 		//FJ fix SQL bug invalid amount
 		if (is_numeric($_REQUEST['amount']))
@@ -32,15 +33,15 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	else
 		$error[] = _('You must choose at least one student.');
 
-	$_SESSION['_REQUEST_vars']['modfunc'] = false;
-	$_REQUEST['modfunc'] = false;
+	// Unset modfunc & redirect URL.
+	RedirectURL( 'modfunc' );
 }
 
 
 if ( ! $_REQUEST['modfunc'] )
 
 {
-	DrawHeader(ProgramTitle());
+	DrawHeader( ProgramTitle() );
 
 	echo ErrorMessage( $error );
 

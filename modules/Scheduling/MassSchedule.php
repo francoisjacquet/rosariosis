@@ -115,8 +115,8 @@ if ( $_REQUEST['modfunc'] === 'save'
 	else
 		$error[] = _( 'You must choose a course.' );
 
-	$_SESSION['_REQUEST_vars']['modfunc'] = false;
-	$_REQUEST['modfunc'] = false;
+	// Unset modfunc redirect URL.
+	RedirectURL( 'modfunc' );
 
 	$_SESSION['MassSchedule.php'] = array();
 }

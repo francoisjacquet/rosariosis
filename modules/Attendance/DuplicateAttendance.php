@@ -19,7 +19,7 @@ if (count($_REQUEST['mp_arr']))
 //Widgets('letter_grade');
 
 
-if ( $_REQUEST['delete']=='true')
+if ( $_REQUEST['delete'] === 'true' )
 {
 	//DeletePrompt(_('Duplicate Attendance Record'));
 	if ( !empty($_REQUEST['deletecheck']))
@@ -90,13 +90,16 @@ if ( $_REQUEST['delete']=='true')
 	if ( $note
 		|| $error )
 	{
-		$_REQUEST['delete'] = false;
+		// Unset delete & redirect URL.
+		RedirectURL( 'delete' );
 	}
 }
 
-if (isset($_REQUEST['search_modfunc']) && $_REQUEST['search_modfunc']=='list' && $_REQUEST['delete']!='true')
+if ( isset( $_REQUEST['search_modfunc'] )
+	&& $_REQUEST['search_modfunc'] === 'list'
+	&& $_REQUEST['delete'] !== 'true' )
 {
-	$RET = GetStuList($extra);
+	$RET = GetStuList( $extra );
 
 	if (isset($_REQUEST['page']))
 	{
@@ -369,23 +372,23 @@ if (isset($_REQUEST['search_modfunc']) && $_REQUEST['search_modfunc']=='list' &&
 
 		echo '</form>';
 		$RET = " ";
-
 	}
 	else
 	{
-		unset($_REQUEST['search_modfunc']);
-		$error[] = _('No Students were found.');
+		// Unset search modfunc & redirect URL.
+		RedirectURL( 'search_modfunc' );
+
+		$error[] = _( 'No Students were found.' );
 	}
 }
 
-if ( !isset($_REQUEST['search_modfunc']) && $_REQUEST['delete']!='true')
+if ( ! $_REQUEST['search_modfunc']
+	&& $_REQUEST['delete'] !== 'true' )
 {
 	echo ErrorMessage( $error );
 
-	DrawHeader(ProgramTitle());
-
 	$extra['new'] = true;
-	Search('student_id',$extra);
+	Search( 'student_id', $extra );
 }
 
 function _makeTeacher($teacher,$column)

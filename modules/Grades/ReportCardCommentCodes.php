@@ -2,107 +2,103 @@
 
 //echo '<pre>'; var_dump($_REQUEST); echo '</pre>';
 
-DrawHeader(ProgramTitle());
+DrawHeader( ProgramTitle() );
 
-if ( $_REQUEST['modfunc']=='update')
+if ( $_REQUEST['modfunc'] === 'update' )
 {
-	if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
+	if ( $_REQUEST['values']
+		&& $_POST['values']
+		&& AllowEdit()
+		&& $_REQUEST['tab_id'] )
 	{
-		if ( $_REQUEST['tab_id'])
+		foreach ( (array) $_REQUEST['values'] as $id => $columns)
 		{
-			foreach ( (array) $_REQUEST['values'] as $id => $columns)
+			// FJ fix SQL bug invalid sort order.
+			if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
 			{
-				// FJ fix SQL bug invalid sort order.
-				if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
+				if ( $id!='new')
 				{
-					if ( $id!='new')
-					{
-						if ( $_REQUEST['tab_id']!='new')
-							$sql = "UPDATE REPORT_CARD_COMMENT_CODES SET ";
-						else
-							$sql = "UPDATE REPORT_CARD_COMMENT_CODE_SCALES SET ";
+					if ( $_REQUEST['tab_id']!='new')
+						$sql = "UPDATE REPORT_CARD_COMMENT_CODES SET ";
+					else
+						$sql = "UPDATE REPORT_CARD_COMMENT_CODE_SCALES SET ";
 
-						foreach ( (array) $columns as $column => $value)
-							$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
+					foreach ( (array) $columns as $column => $value)
+						$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 
-						if ( $_REQUEST['tab_id']!='new')
-							$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
-						else
-							$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
-						DBQuery($sql);
-					}
-					// New: check for Title
-					elseif ( $columns['TITLE'] )
-					{
-						if ( $_REQUEST['tab_id']!='new')
-						{
-							$sql = 'INSERT INTO REPORT_CARD_COMMENT_CODES ';
-							$fields = 'ID,SCHOOL_ID,SCALE_ID,';
-							$values = db_seq_nextval('REPORT_CARD_COMMENT_CODES_SEQ').',\''.UserSchool().'\',\''.$_REQUEST['tab_id'].'\',';
-						}
-						else
-						{
-							$sql = 'INSERT INTO REPORT_CARD_COMMENT_CODE_SCALES ';
-							$fields = 'ID,SCHOOL_ID,';
-							$values = db_seq_nextval('REPORT_CARD_COMMENT_CODE_SCALES_SEQ').',\''.UserSchool().'\',';
-						}
-
-						$go = false;
-						foreach ( (array) $columns as $column => $value)
-							if ( !empty($value) || $value=='0')
-							{
-								$fields .= DBEscapeIdentifier( $column ) . ',';
-								$values .= "'" . $value . "',";
-								$go = true;
-							}
-						$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
-
-						if ( $go)
-							DBQuery($sql);
-					}
+					if ( $_REQUEST['tab_id']!='new')
+						$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
+					else
+						$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
+					DBQuery($sql);
 				}
-				else
-					$error[] = _('Please enter a valid Sort Order.');
+				// New: check for Title
+				elseif ( $columns['TITLE'] )
+				{
+					if ( $_REQUEST['tab_id']!='new')
+					{
+						$sql = 'INSERT INTO REPORT_CARD_COMMENT_CODES ';
+						$fields = 'ID,SCHOOL_ID,SCALE_ID,';
+						$values = db_seq_nextval('REPORT_CARD_COMMENT_CODES_SEQ').',\''.UserSchool().'\',\''.$_REQUEST['tab_id'].'\',';
+					}
+					else
+					{
+						$sql = 'INSERT INTO REPORT_CARD_COMMENT_CODE_SCALES ';
+						$fields = 'ID,SCHOOL_ID,';
+						$values = db_seq_nextval('REPORT_CARD_COMMENT_CODE_SCALES_SEQ').',\''.UserSchool().'\',';
+					}
+
+					$go = false;
+					foreach ( (array) $columns as $column => $value)
+						if ( !empty($value) || $value=='0')
+						{
+							$fields .= DBEscapeIdentifier( $column ) . ',';
+							$values .= "'" . $value . "',";
+							$go = true;
+						}
+					$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
+
+					if ( $go)
+						DBQuery($sql);
+				}
 			}
+			else
+				$error[] = _('Please enter a valid Sort Order.');
 		}
 	}
-	$_REQUEST['modfunc'] = false;
+
+	// Unset modfunc & redirect URL.
+	RedirectURL( 'modfunc' );
 }
 
-if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )
+if ( $_REQUEST['modfunc'] === 'remove'
+	&& AllowEdit() )
 {
-	if ( $_REQUEST['tab_id']!='new')
+	if ( $_REQUEST['tab_id'] != 'new' )
 	{
 		if ( DeletePrompt( _( 'Report Card Comment' ) ) )
 		{
 			DBQuery( "DELETE FROM REPORT_CARD_COMMENT_CODES
 				WHERE ID='" . $_REQUEST['id'] . "'" );
 
-			// Unset modfunc & ID.
-			$_REQUEST['modfunc'] = false;
-			$_SESSION['_REQUEST_vars']['modfunc'] = false;
-			$_SESSION['_REQUEST_vars']['id'] = false;
+			// Unset modfunc & ID & redirect URL.
+			RedirectURL( array( 'modfunc', 'id' ) );
 		}
 	}
-	else
+	elseif ( DeletePrompt( _( 'Report Card Grading Scale' ) ) )
 	{
-		if ( DeletePrompt( _( 'Report Card Grading Scale' ) ) )
-		{
-			DBQuery( "UPDATE REPORT_CARD_COMMENTS
-				SET SCALE_ID=NULL
-				WHERE SCALE_ID='" . $_REQUEST['id'] . "'" );
+		DBQuery( "UPDATE REPORT_CARD_COMMENTS
+			SET SCALE_ID=NULL
+			WHERE SCALE_ID='" . $_REQUEST['id'] . "'" );
 
-			DBQuery( "DELETE FROM REPORT_CARD_COMMENT_CODES
-				WHERE SCALE_ID='" . $_REQUEST['id'] . "'" );
+		DBQuery( "DELETE FROM REPORT_CARD_COMMENT_CODES
+			WHERE SCALE_ID='" . $_REQUEST['id'] . "'" );
 
-			DBQuery( "DELETE FROM REPORT_CARD_COMMENT_CODE_SCALES
-				WHERE ID='" . $_REQUEST['id'] . "'" );
+		DBQuery( "DELETE FROM REPORT_CARD_COMMENT_CODE_SCALES
+			WHERE ID='" . $_REQUEST['id'] . "'" );
 
-			// Unset modfunc & ID.
-			$_REQUEST['modfunc'] = false;
-			$_SESSION['_REQUEST_vars']['modfunc'] = false;
-			$_SESSION['_REQUEST_vars']['id'] = false;
-		}
+		// Unset modfunc & ID & redirect URL.
+		RedirectURL( array( 'modfunc', 'id' ) );
 	}
 }
 

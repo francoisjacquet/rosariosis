@@ -2,7 +2,10 @@
 
 require_once 'ProgramFunctions/Fields.fnc.php';
 
-if ( $_REQUEST['modfunc'] === 'save' )
+DrawHeader( ProgramTitle() );
+
+if ( $_REQUEST['modfunc'] === 'save'
+	&& AllowEdit() )
 {
 	// Add eventual Dates to $_REQUEST['values'].
 	if ( isset( $_POST['day_values'], $_POST['month_values'], $_POST['year_values'] ) )
@@ -114,13 +117,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	else
 		$error[] = _('You must choose at least one field and one student');
 
-	$_REQUEST['modfunc'] = false;
-	unset($_REQUEST['values']);
-	$_SESSION['_REQUEST_vars']['modfunc'] = false;
-	unset($_SESSION['_REQUEST_vars']['values']);
+	// Unset modfunc & values & redirect URL.
+	RedirectURL( array( 'modfunc', 'values' ) );
 }
-
-DrawHeader(ProgramTitle());
 
 echo ErrorMessage( $error );
 

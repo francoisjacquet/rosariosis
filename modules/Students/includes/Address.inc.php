@@ -264,23 +264,27 @@ if ( isset( $_POST['values'] )
 		DBQuery($sql);
 	}
 
-	$_REQUEST['modfunc'] = false;
-	unset($_REQUEST['values']);
+	// Unset modfunc & values & redirect URL.
+	RedirectURL( array( 'modfunc', 'values' ) );
 }
 
-if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'delete'
+	&& AllowEdit() )
 {
-	if ( $_REQUEST['contact_id'])
+	if ( $_REQUEST['contact_id'] )
 	{
-		if (DeletePrompt(_('Contact Information')))
+		if ( DeletePrompt( _( 'Contact Information' ) ) )
 		{
-			DBQuery("DELETE FROM PEOPLE_JOIN_CONTACTS WHERE ID='".$_REQUEST['contact_id']."'");
-			$_REQUEST['modfunc'] = false;
+			DBQuery( "DELETE FROM PEOPLE_JOIN_CONTACTS
+				WHERE ID='" . $_REQUEST['contact_id'] . "'" );
+
+			// Unset modfunc & contact ID redirect URL.
+			RedirectURL( array( 'modfunc', 'contact_id' ) );
 		}
 	}
-	elseif ( $_REQUEST['person_id'])
+	elseif ( $_REQUEST['person_id'] )
 	{
-		if (DeletePrompt(_('Contact')))
+		if ( DeletePrompt( _( 'Contact' ) ) )
 		{
 			DBQuery("DELETE FROM STUDENTS_JOIN_PEOPLE WHERE PERSON_ID='".$_REQUEST['person_id']."' AND ADDRESS_ID='".$_REQUEST['address_id']."' AND STUDENT_ID='".UserStudentID()."'");
 			if (count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_PEOPLE WHERE PERSON_ID='".$_REQUEST['person_id']."'")))==0)
@@ -291,15 +295,15 @@ if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 			if ( $_REQUEST['address_id']=='0' && count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_PEOPLE WHERE ADDRESS_ID='0' AND STUDENT_ID='".UserStudentID()."'")))==0)
 			{
 				DBQuery("DELETE FROM STUDENTS_JOIN_ADDRESS WHERE ADDRESS_ID='0' AND STUDENT_ID='".UserStudentID()."'");
-				unset($_REQUEST['address_id']);
 			}
-			$_REQUEST['modfunc'] = false;
-			unset($_REQUEST['person_id']);
+
+			// Unset modfunc & address ID & person ID redirect URL.
+			RedirectURL( array( 'modfunc', 'address_id', 'person_id' ) );
 		}
 	}
-	elseif ( $_REQUEST['address_id'])
+	elseif ( $_REQUEST['address_id'] )
 	{
-		if (DeletePrompt(_('Address')))
+		if ( DeletePrompt( _( 'Address' ) ) )
 		{
 			DBQuery("UPDATE STUDENTS_JOIN_PEOPLE SET ADDRESS_ID='0' WHERE STUDENT_ID='".UserStudentID()."' AND ADDRESS_ID='".$_REQUEST['address_id']."'");
 			if (count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_PEOPLE WHERE STUDENT_ID='".UserStudentID()."' AND ADDRESS_ID='0'"))) && count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_ADDRESS WHERE ADDRESS_ID='0' AND STUDENT_ID='".UserStudentID()."'")))==0)
@@ -308,8 +312,9 @@ if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 				DBQuery("DELETE FROM STUDENTS_JOIN_ADDRESS WHERE STUDENT_ID='".UserStudentID()."' AND ADDRESS_ID='".$_REQUEST['address_id']."'");
 			if (count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_ADDRESS WHERE ADDRESS_ID='".$_REQUEST['address_id']."'")))==0)
 				DBQuery("DELETE FROM ADDRESS WHERE ADDRESS_ID='".$_REQUEST['address_id']."'");
-			$_REQUEST['modfunc'] = false;
-			unset($_REQUEST['address_id']);
+
+			// Unset modfunc & address ID redirect URL.
+			RedirectURL( array( 'modfunc', 'address_id' ) );
 		}
 	}
 }

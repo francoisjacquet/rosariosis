@@ -142,10 +142,11 @@ if ( isset( $_POST['values'] )
 		$note[] = _('That discipline incident has been referred to an administrator.');
 	}
 
-	unset($_REQUEST['values']);
-	unset($_SESSION['_REQUEST_vars']['values']);
-	unset($_REQUEST['student_id']);
-	unset($_SESSION['student_id']);
+	// Unset values & student ID & redirect URL.
+	RedirectURL( 'values', 'student_id' );
+
+	// Unset current student ID.
+	unset( $_SESSION['student_id'] );
 }
 
 echo ErrorMessage( $error );

@@ -2,6 +2,8 @@
 //FJ Portal Polls inspired by Portal Notes
 require_once 'ProgramFunctions/PortalPollsNotes.fnc.php';
 
+DrawHeader( ProgramTitle() );
+
 // Add eventual Dates to $_REQUEST['values'].
 if ( isset( $_POST['day_values'], $_POST['month_values'], $_POST['year_values'] ) )
 {
@@ -17,7 +19,13 @@ if ( isset( $_POST['day_values'], $_POST['month_values'], $_POST['year_values'] 
 }
 
 $profiles_RET = DBGet(DBQuery("SELECT ID,TITLE FROM USER_PROFILES ORDER BY ID"));
-if ((($_REQUEST['profiles'] && $_POST['profiles']) || ($_REQUEST['values'] && $_POST['values'])) && AllowEdit())
+
+if ( $_REQUEST['modfunc'] === 'update'
+	&& ( ( $_REQUEST['profiles']
+			&& $_POST['profiles'] )
+		|| ( $_REQUEST['values']
+			&& $_POST['values'] ) )
+	&& AllowEdit() )
 {
 	$polls_RET = DBGet(DBQuery("SELECT ID FROM PORTAL_POLLS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
 
@@ -43,10 +51,12 @@ if ((($_REQUEST['profiles'] && $_POST['profiles']) || ($_REQUEST['values'] && $_
 	}
 }
 
-if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'update'
+	&& $_REQUEST['values']
+	&& $_POST['values']
+	&& AllowEdit() )
 {
-
-	foreach ( (array) $_REQUEST['values'] as $id => $columns)
+	foreach ( (array) $_REQUEST['values'] as $id => $columns )
 	{
 		// FJ fix SQL bug invalid sort order.
 		if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
@@ -165,32 +175,27 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 		else
 			$error[] = _('Please enter a valid Sort Order.');
 	}
-	unset($_REQUEST['values']);
-	unset($_SESSION['_REQUEST_vars']['values']);
-	unset($_REQUEST['profiles']);
-	unset($_SESSION['_REQUEST_vars']['profiles']);
+
+	// Unset modfunc & values & profiles & redirect URL.
+	RedirectURL( array( 'modfunc', 'values', 'profiles' ) );
 }
 
-DrawHeader(ProgramTitle());
-
-if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )
+if ( $_REQUEST['modfunc'] === 'remove'
+	&& AllowEdit() )
 {
 	if ( DeletePrompt( _( 'Poll' ) ) )
 	{
 		DBQuery("DELETE FROM PORTAL_POLLS WHERE ID='" . $_REQUEST['id'] . "'");
 		DBQuery("DELETE FROM PORTAL_POLL_QUESTIONS WHERE PORTAL_POLL_ID='" . $_REQUEST['id'] . "'");
 
-		// Unset modfunc & ID.
-		$_REQUEST['modfunc'] = false;
-		$_SESSION['_REQUEST_vars']['modfunc'] = false;
-		$_SESSION['_REQUEST_vars']['id'] = false;
+		// Unset modfunc & ID & redirect URL.
+		RedirectURL( array( 'modfunc', 'id' ) );
 	}
 }
 
-// FJ fix SQL bug invalid sort order
 echo ErrorMessage( $error );
 
-if ( $_REQUEST['modfunc']!='remove')
+if ( ! $_REQUEST['modfunc'] )
 {
 	$sql_questions = "SELECT ppq.ID,ppq.PORTAL_POLL_ID,ppq.OPTIONS,ppq.VOTES,ppq.QUESTION,ppq.TYPE FROM PORTAL_POLL_QUESTIONS ppq, PORTAL_POLLS pp WHERE pp.SCHOOL_ID='".UserSchool()."' AND pp.SYEAR='".UserSyear()."' AND pp.ID=ppq.PORTAL_POLL_ID ORDER BY ppq.ID";
 	$QI_questions = DBQuery($sql_questions);

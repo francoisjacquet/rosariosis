@@ -2,25 +2,32 @@
 
 require_once 'ProgramFunctions/TipMessage.fnc.php';
 
-if ( $_REQUEST['modfunc']=='update')
+if ( $_REQUEST['modfunc'] === 'update' )
 {
-	if (UserStudentID() && AllowEdit())
+	if ( UserStudentID()
+		&& AllowEdit()
+		&& count( $_REQUEST['food_service'] ) )
 	{
-		if (count($_REQUEST['food_service']))
+		$sql = "UPDATE FOOD_SERVICE_STUDENT_ACCOUNTS SET ";
+
+		foreach ( (array) $_REQUEST['food_service'] as $column_name => $value )
 		{
-			$sql = "UPDATE FOOD_SERVICE_STUDENT_ACCOUNTS SET ";
-			foreach ( (array) $_REQUEST['food_service'] as $column_name => $value)
-				$sql .= $column_name."='".trim($value)."',";
-			$sql = mb_substr($sql,0,-1)." WHERE STUDENT_ID='".UserStudentID()."'";
-			DBQuery($sql);
+			$sql .= DBEscapeIdentifier( $column_name ) . "='" . trim( $value ) . "',";
 		}
+
+		$sql = mb_substr( $sql, 0, -1 ) . " WHERE STUDENT_ID='" . UserStudentID() . "'";
+
+		DBQuery( $sql );
 	}
-	//$_REQUEST['modfunc'] = false;
-	unset($_REQUEST['food_service']);
-	unset($_SESSION['_REQUEST_vars']['food_service']);
+
+	// $_REQUEST['modfunc'] = false;
+
+	// Unset food service & redirect URL.
+	RedirectURL( array( 'food_service' ) );
 }
 
-if ( ! $_REQUEST['modfunc'] && UserStudentID())
+if ( ! $_REQUEST['modfunc']
+	&& UserStudentID() )
 {
 	$student = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,fssa.ACCOUNT_ID,fssa.STATUS,fssa.DISCOUNT,fssa.BARCODE,(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fssa.ACCOUNT_ID) AS BALANCE FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa WHERE s.STUDENT_ID='".UserStudentID()."' AND fssa.STUDENT_ID=s.STUDENT_ID"));
 	$student = $student[1];

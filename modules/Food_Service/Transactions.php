@@ -27,14 +27,17 @@ $header .= ' | <a href="Modules.php?modname=' . $_REQUEST['modname'] . '&type=st
 DrawHeader(($_REQUEST['type']=='staff'?_('User'):_('Student')).' &minus; '.ProgramTitle());
 User('PROFILE')=='student'?'':DrawHeader($header);
 
-if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'delete'
+	&& AllowEdit() )
 {
 	if ( DeletePrompt( _( 'Transaction' ) ) )
 	{
 		require_once 'modules/Food_Service/includes/DeleteTransaction.fnc.php';
-		DeleteTransaction($_REQUEST['id'],$_REQUEST['type']);
-		$_REQUEST['modfunc'] = false;
-		$_SESSION['_REQUEST_vars']['modfunc'] = false;
+
+		DeleteTransaction( $_REQUEST['id'], $_REQUEST['type'] );
+
+		// Unset modfunc & ID redirect URL.
+		RedirectURL( array( 'modfunc', 'id' ) );
 	}
 }
 

@@ -17,7 +17,7 @@ if ( isset( $_POST['day_values'], $_POST['month_values'], $_POST['year_values'] 
 	$_POST['values'] = array_replace_recursive( (array) $_POST['values'], $requested_dates );
 }
 
-if ( $_REQUEST['modfunc']=='update')
+if ( $_REQUEST['modfunc'] === 'update' )
 {
 	if ( isset( $_POST['values'] )
 		&& count( $_POST['values'] ) )
@@ -144,11 +144,11 @@ if ( $_REQUEST['modfunc']=='update')
 		}
 	}
 
-	$_REQUEST['modfunc'] = false;
-	$_SESSION['_REQUEST_vars']['modfunc'] = false;
+	// Unset modfunc & redirect URL.
+	RedirectURL( 'modfunc' );
 }
 
-if ( $_REQUEST['modfunc']=='remove')
+if ( $_REQUEST['modfunc'] === 'remove' )
 {
 	if ( DeletePrompt( $_REQUEST['tab_id'] != 'new' ? _( 'Assignment' ) : _( 'Assignment Type' ) ) )
 	{
@@ -170,9 +170,8 @@ if ( $_REQUEST['modfunc']=='remove')
 			DBQuery("DELETE FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE ASSIGNMENT_TYPE_ID='" . $_REQUEST['id'] . "'");
 		}
 
-		unset( $_REQUEST['id'] );
-
-		$_REQUEST['modfunc'] = false;
+		// Unset modfunc & ID & redirect URL.
+		RedirectURL( array( 'modfunc', 'id' ) );
 	}
 }
 

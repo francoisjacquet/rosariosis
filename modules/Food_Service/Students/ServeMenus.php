@@ -5,66 +5,72 @@ Widgets('fsa_barcode');
 
 Search('student_id',$extra);
 
-if ( $_REQUEST['modfunc']=='submit')
+if ( $_REQUEST['modfunc'] === 'submit' )
 {
-	if ( $_REQUEST['submit']['cancel'])
+	if ( $_REQUEST['submit']['cancel'] )
 	{
 		if ( DeletePrompt( _( 'Sale' ), _( 'Cancel' ) ) )
 		{
 			unset( $_SESSION['FSA_sale'] );
 
-			$_REQUEST['modfunc'] = false;
+			// Unset modfunc & redirect URL.
+			RedirectURL( 'modfunc' );
 		}
 	}
-	elseif ( $_REQUEST['submit']['save'])
+	elseif ( $_REQUEST['submit']['save']
+		&& count( $_SESSION['FSA_sale'] ) )
 	{
-		if (count($_SESSION['FSA_sale']))
+		$student = DBGet(DBQuery("SELECT ACCOUNT_ID,DISCOUNT FROM FOOD_SERVICE_STUDENT_ACCOUNTS WHERE STUDENT_ID='".UserStudentID()."'"));
+		$student = $student[1];
+
+		$items_RET = DBGet(DBQuery("SELECT DESCRIPTION,SHORT_NAME,PRICE,PRICE_REDUCED,PRICE_FREE FROM FOOD_SERVICE_ITEMS WHERE SCHOOL_ID='".UserSchool()."'"),array(),array('SHORT_NAME'));
+
+		// get next transaction id
+		$id = DBGet(DBQuery("SELECT ".db_seq_nextval('FOOD_SERVICE_TRANSACTIONS_SEQ')." AS SEQ_ID "));
+		$id = $id[1]['SEQ_ID'];
+
+		$item_id = 0;
+		foreach ( (array) $_SESSION['FSA_sale'] as $item_sn)
 		{
-			$student = DBGet(DBQuery("SELECT ACCOUNT_ID,DISCOUNT FROM FOOD_SERVICE_STUDENT_ACCOUNTS WHERE STUDENT_ID='".UserStudentID()."'"));
-			$student = $student[1];
+			// determine price based on discount
+			$price = $items_RET[ $item_sn ][1]['PRICE'];
+			$discount = $student['DISCOUNT'];
+			if ( $student['DISCOUNT']=='Reduced')
+				if ( $items_RET[ $item_sn ][1]['PRICE_REDUCED']!='')
+					$price = $items_RET[ $item_sn ][1]['PRICE_REDUCED'];
+				else
+					$discount = '';
+			elseif ( $student['DISCOUNT']=='Free')
+				if ( $items_RET[ $item_sn ][1]['PRICE_FREE']!='')
+					$price = $items_RET[ $item_sn ][1]['PRICE_FREE'];
+				else
+					$discount = '';
 
-			$items_RET = DBGet(DBQuery("SELECT DESCRIPTION,SHORT_NAME,PRICE,PRICE_REDUCED,PRICE_FREE FROM FOOD_SERVICE_ITEMS WHERE SCHOOL_ID='".UserSchool()."'"),array(),array('SHORT_NAME'));
-
-			// get next transaction id
-			$id = DBGet(DBQuery("SELECT ".db_seq_nextval('FOOD_SERVICE_TRANSACTIONS_SEQ')." AS SEQ_ID "));
-			$id = $id[1]['SEQ_ID'];
-
-			$item_id = 0;
-			foreach ( (array) $_SESSION['FSA_sale'] as $item_sn)
-			{
-				// determine price based on discount
-				$price = $items_RET[ $item_sn ][1]['PRICE'];
-				$discount = $student['DISCOUNT'];
-				if ( $student['DISCOUNT']=='Reduced')
-					if ( $items_RET[ $item_sn ][1]['PRICE_REDUCED']!='')
-						$price = $items_RET[ $item_sn ][1]['PRICE_REDUCED'];
-					else
-						$discount = '';
-				elseif ( $student['DISCOUNT']=='Free')
-					if ( $items_RET[ $item_sn ][1]['PRICE_FREE']!='')
-						$price = $items_RET[ $item_sn ][1]['PRICE_FREE'];
-					else
-						$discount = '';
-
-				$fields = 'ITEM_ID,TRANSACTION_ID,AMOUNT,DISCOUNT,SHORT_NAME,DESCRIPTION';
-				$values = "'".$item_id++."','".$id."','-".$price."','".$discount."','".$items_RET[ $item_sn ][1]['SHORT_NAME']."','".$items_RET[ $item_sn ][1]['DESCRIPTION']."'";
-				$sql = "INSERT INTO FOOD_SERVICE_TRANSACTION_ITEMS (".$fields.") values (".$values.")";
-				DBQuery($sql);
-			}
-
-			$sql1 = "UPDATE FOOD_SERVICE_ACCOUNTS SET TRANSACTION_ID='".$id."',BALANCE=BALANCE+(SELECT sum(AMOUNT) FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID='".$id."') WHERE ACCOUNT_ID='".$student['ACCOUNT_ID']."'";
-			$fields = 'TRANSACTION_ID,ACCOUNT_ID,STUDENT_ID,SYEAR,SCHOOL_ID,DISCOUNT,BALANCE,TIMESTAMP,SHORT_NAME,DESCRIPTION,SELLER_ID';
-			$values = "'".$id."','".$student['ACCOUNT_ID']."','".UserStudentID()."','".UserSyear()."','".UserSchool()."','".$discount."',(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID='".$student['ACCOUNT_ID']."'),CURRENT_TIMESTAMP,'".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."','".$menus_RET[$_REQUEST['menu_id']][1]['TITLE'].' - '.DBDate()."','".User('STAFF_ID')."'";
-			$sql2 = "INSERT INTO FOOD_SERVICE_TRANSACTIONS (".$fields.") values (".$values.")";
-			DBQuery('BEGIN; '.$sql1.'; '.$sql2.'; COMMIT');
-
-			unset($_SESSION['FSA_sale']);
+			$fields = 'ITEM_ID,TRANSACTION_ID,AMOUNT,DISCOUNT,SHORT_NAME,DESCRIPTION';
+			$values = "'".$item_id++."','".$id."','-".$price."','".$discount."','".$items_RET[ $item_sn ][1]['SHORT_NAME']."','".$items_RET[ $item_sn ][1]['DESCRIPTION']."'";
+			$sql = "INSERT INTO FOOD_SERVICE_TRANSACTION_ITEMS (".$fields.") values (".$values.")";
+			DBQuery($sql);
 		}
-		$_REQUEST['modfunc'] = false;
+
+		$sql1 = "UPDATE FOOD_SERVICE_ACCOUNTS SET TRANSACTION_ID='".$id."',BALANCE=BALANCE+(SELECT sum(AMOUNT) FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID='".$id."') WHERE ACCOUNT_ID='".$student['ACCOUNT_ID']."'";
+		$fields = 'TRANSACTION_ID,ACCOUNT_ID,STUDENT_ID,SYEAR,SCHOOL_ID,DISCOUNT,BALANCE,TIMESTAMP,SHORT_NAME,DESCRIPTION,SELLER_ID';
+		$values = "'".$id."','".$student['ACCOUNT_ID']."','".UserStudentID()."','".UserSyear()."','".UserSchool()."','".$discount."',(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID='".$student['ACCOUNT_ID']."'),CURRENT_TIMESTAMP,'".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."','".$menus_RET[$_REQUEST['menu_id']][1]['TITLE'].' - '.DBDate()."','".User('STAFF_ID')."'";
+		$sql2 = "INSERT INTO FOOD_SERVICE_TRANSACTIONS (".$fields.") values (".$values.")";
+		DBQuery('BEGIN; '.$sql1.'; '.$sql2.'; COMMIT');
+
+		unset($_SESSION['FSA_sale']);
+
+		// Unset modfunc & redirect URL.
+		RedirectURL( 'modfunc' );
 	}
 	else
-		$_REQUEST['modfunc'] = false;
-	unset($_REQUEST['submit']);
+	{
+		// Unset modfunc & redirect URL.
+		RedirectURL( 'modfunc' );
+	}
+
+	// Unset submit & redirect URL.
+	RedirectURL( 'submit' );
 }
 
 if (UserStudentID() && ! $_REQUEST['modfunc'])

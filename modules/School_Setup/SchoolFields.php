@@ -86,7 +86,8 @@ if ( isset( $_POST['tables'] )
 			$error[] = _( 'Please enter valid Numeric data.' );
 	}
 
-	unset( $_REQUEST['tables'] );
+	// Unset tables & redirect URL.
+	RedirectURL( 'tables' );
 }
 
 if ( $_REQUEST['modfunc'] === 'delete'
@@ -101,7 +102,8 @@ if ( $_REQUEST['modfunc'] === 'delete'
 
 			$_REQUEST['modfunc'] = false;
 
-			unset( $_REQUEST['id'] );
+			// Unset modfunc & ID & redirect URL.
+			RedirectURL( array( 'modfunc', 'id' ) );
 		}
 	}
 }

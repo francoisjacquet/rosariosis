@@ -45,7 +45,9 @@ else
 		if ( $_FILES['LOGO_FILE'] && AllowEdit())
 			FileUpload('LOGO_FILE', 'assets'.'/', array('.jpg', '.jpeg'), 2, $error, '.jpg', 'school_logo_'.UserSchool());
 
-		if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
+		if ( $_REQUEST['values']
+			&& $_POST['values']
+			&& AllowEdit() )
 		{
 			if ((empty($_REQUEST['values']['PROGRAM_CONFIG']['ATTENDANCE_EDIT_DAYS_BEFORE'])
 				|| is_numeric($_REQUEST['values']['PROGRAM_CONFIG']['ATTENDANCE_EDIT_DAYS_BEFORE']))
@@ -128,9 +130,8 @@ else
 			}
 		}
 
-		$_REQUEST['modfunc'] = false;
-		unset( $_SESSION['_REQUEST_vars']['values'] );
-		$_SESSION['_REQUEST_vars']['modfunc'] = false;
+		// Unset modfunc & values & redirect URL.
+		RedirectURL( array( 'modfunc', 'values' ) );
 	}
 
 	if ( ! $_REQUEST['modfunc'] )

@@ -5,7 +5,8 @@ require_once 'ProgramFunctions/TipMessage.fnc.php';
 
 DrawHeader( ProgramTitle() );
 
-if ( $_REQUEST['modfunc'] === 'delete' && AllowEdit() )
+if ( $_REQUEST['modfunc'] === 'delete'
+	&& AllowEdit() )
 {
 	if ( DeletePrompt( _( 'Final Grade' ) ) )
 	{
@@ -27,7 +28,8 @@ if ( $_REQUEST['modfunc'] === 'delete' && AllowEdit() )
 
 if ( $_REQUEST['modfunc'] === 'save' )
 {
-	if (count($_REQUEST['mp_arr']) && count($_REQUEST['st_arr']))
+	if ( count( $_REQUEST['mp_arr'] )
+		&& count( $_REQUEST['st_arr'] ) )
 	{
 
 		$mp_list = "'" . implode( "','", $_REQUEST['mp_arr'] ) . "'";
@@ -386,18 +388,18 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		}
 		else
 		{
-			$error[] = _('No Students were found.');
+			$error[] = _( 'No Students were found.' );
 
-			$_SESSION['_REQUEST_vars']['modfunc'] = false;
-			$_REQUEST['modfunc'] = false;
+			// Unset modfunc & redirect URL. TOCHECK!
+			RedirectURL( 'modfunc' );
 		}
 	}
 	else
 	{
-		$error[] = _('You must choose at least one student and one marking period.');
+		$error[] = _( 'You must choose at least one student and one marking period.' );
 
-		$_SESSION['_REQUEST_vars']['modfunc'] = false;
-		$_REQUEST['modfunc'] = false;
+		// Unset modfunc & redirect URL.
+		RedirectURL( 'modfunc' );
 	}
 }
 

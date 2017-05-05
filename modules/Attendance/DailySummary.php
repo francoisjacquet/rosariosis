@@ -38,24 +38,33 @@ if ( empty( $end_date ) )
 	$end_date = DBDate();
 }
 
-if ( $_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
+if ( $_REQUEST['attendance']
+	&& $_POST['attendance']
+	&& AllowEdit() )
 {
-	foreach ( (array) $_REQUEST['attendance'] as $student_id => $values)
+	foreach ( (array) $_REQUEST['attendance'] as $student_id => $values )
 	{
 		foreach ( (array) $values as $school_date => $columns)
 		{
 			$sql = "UPDATE ATTENDANCE_PERIOD SET ADMIN='Y',";
 
-			foreach ( (array) $columns as $column => $value)
+			foreach ( (array) $columns as $column => $value )
+			{
 				$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
+			}
 
 			$sql = mb_substr($sql,0,-1) . " WHERE SCHOOL_DATE='".$school_date."' AND PERIOD_ID='".$_REQUEST['period_id']."' AND STUDENT_ID='".$student_id."'";
 			DBQuery($sql);
 			UpdateAttendanceDaily($student_id,$school_date);
 		}
 	}
-	$current_RET = DBGet(DBQuery("SELECT ATTENDANCE_TEACHER_CODE,ATTENDANCE_CODE,ATTENDANCE_REASON,STUDENT_ID,ADMIN,COURSE_PERIOD_ID FROM ATTENDANCE_PERIOD WHERE SCHOOL_DATE='".$date."'"),array(),array('STUDENT_ID','COURSE_PERIOD_ID'));
-	unset($_REQUEST['attendance']);
+	$current_RET = DBGet( DBQuery( "SELECT ATTENDANCE_TEACHER_CODE,ATTENDANCE_CODE,
+		ATTENDANCE_REASON,STUDENT_ID,ADMIN,COURSE_PERIOD_ID
+		FROM ATTENDANCE_PERIOD
+		WHERE SCHOOL_DATE='" . $date . "'" ), array(), array( 'STUDENT_ID', 'COURSE_PERIOD_ID' ) );
+
+	// Unset attendance & redirect URL.
+	RedirectURL( 'attendance' );
 }
 
 //FJ bugfix bug when Back to Student Search

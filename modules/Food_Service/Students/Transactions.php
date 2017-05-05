@@ -1,8 +1,11 @@
 <?php
 
-if ( $_REQUEST['values'] && $_POST['values'] && $_REQUEST['save'])
+if ( $_REQUEST['values']
+	&& $_POST['values']
+	&& $_REQUEST['modfunc'] === 'save' )
 {
-	if (UserStudentID() && AllowEdit())
+	if ( UserStudentID()
+		&& AllowEdit() )
 	{
 		$account_id = DBGet(DBQuery("SELECT ACCOUNT_ID FROM FOOD_SERVICE_STUDENT_ACCOUNTS WHERE STUDENT_ID='".UserStudentID()."'"));
 		$account_id = $account_id[1]['ACCOUNT_ID'];
@@ -30,7 +33,9 @@ if ( $_REQUEST['values'] && $_POST['values'] && $_REQUEST['save'])
 		else
 			$error[] = _('Please enter valid Type and Amount.');
 	}
-	$_REQUEST['modfunc'] = false;
+
+	// Unset modfunc & values redirect URL.
+	RedirectURL( 'modfunc' );
 }
 
 Widgets('fsa_discount');
@@ -52,7 +57,8 @@ Search('student_id',$extra);
 
 echo ErrorMessage( $error );
 
-if (UserStudentID() && ! $_REQUEST['modfunc'])
+if ( UserStudentID()
+	&& ! $_REQUEST['modfunc'] )
 {
 	$student = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,fsa.ACCOUNT_ID,fsa.STATUS,
 	(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fsa.ACCOUNT_ID) AS BALANCE
@@ -62,9 +68,9 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 	$student = $student[1];
 
 	//$PHP_tmp_SELF = PreparePHP_SELF();
-	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=" method="POST">';
+	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save" method="POST">';
 
-	DrawHeader('',ResetButton(_('Cancel')).SubmitButton(_('Save'),'save'));
+	DrawHeader( '', ResetButton( _( 'Cancel' ) ) . SubmitButton( _( 'Save' ) ) );
 
 	DrawHeader(NoInput($student['FULL_NAME'],'&nbsp;'.$student['STUDENT_ID']),'', NoInput(red($student['BALANCE']),_('Balance')));
 
@@ -77,7 +83,8 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 		AND (fst.STUDENT_ID IS NULL OR fst.STUDENT_ID='".UserStudentID()."')
 		AND fst.TIMESTAMP BETWEEN CURRENT_DATE AND CURRENT_DATE+1
 		AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID"));
-//FJ add translation
+
+        // TODO: code duplication!
 		function types_locale($type) {
 			$types = array('Deposit' => _('Deposit'),'Credit' => _('Credit'),'Debit' => _('Debit'));
 			if (array_key_exists($type, $types)) {
@@ -112,7 +119,8 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 		$columns = array('TYPE' => _('Type'),'DESCRIPTION' => _('Description'),'AMOUNT' => _('Amount'));
 
 		ListOutput($RET,$columns,'Earlier Transaction','Earlier Transactions',$link,false,array('save'=>false,'search'=>false));
-		echo '<br /><div class="center">' . SubmitButton(_('Save'),'save') . '</div>';
+
+		echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 	}
 	else
 		echo ErrorMessage(array(_('This student does not have a valid Meal Account.')));

@@ -3,6 +3,8 @@ require_once 'ProgramFunctions/PortalPollsNotes.fnc.php';
 require_once 'ProgramFunctions/FileUpload.fnc.php';
 require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 
+DrawHeader( ProgramTitle() );
+
 // Add eventual Dates to $_REQUEST['values'].
 if ( isset( $_POST['day_values'], $_POST['month_values'], $_POST['year_values'] ) )
 {
@@ -18,11 +20,17 @@ if ( isset( $_POST['day_values'], $_POST['month_values'], $_POST['year_values'] 
 }
 
 $profiles_RET = DBGet(DBQuery("SELECT ID,TITLE FROM USER_PROFILES ORDER BY ID"));
-if ((($_REQUEST['profiles'] && $_POST['profiles']) || ($_REQUEST['values'] && $_POST['values'])) && AllowEdit())
+
+if ( $_REQUEST['modfunc'] === 'update'
+	&& ( ( $_REQUEST['profiles']
+			&& $_POST['profiles'] )
+		|| ( $_REQUEST['values']
+			&& $_POST['values'] ) )
+	&& AllowEdit() )
 {
 	$notes_RET = DBGet(DBQuery("SELECT ID FROM PORTAL_NOTES WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
 
-	foreach ( (array) $notes_RET as $note_id)
+	foreach ( (array) $notes_RET as $note_id )
 	{
 		$note_id = $note_id['ID'];
 		$_REQUEST['values'][ $note_id ]['PUBLISHED_PROFILES'] = '';
@@ -44,9 +52,12 @@ if ((($_REQUEST['profiles'] && $_POST['profiles']) || ($_REQUEST['values'] && $_
 	}
 }
 
-if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'update'
+	&& $_REQUEST['values']
+	&& $_POST['values']
+	&& AllowEdit() )
 {
-	foreach ( (array) $_REQUEST['values'] as $id => $columns)
+	foreach ( (array) $_REQUEST['values'] as $id => $columns )
 	{
 		// FJ fix SQL bug invalid sort order.
 		if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
@@ -222,15 +233,13 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 		else
 			$error[] = _('Please enter a valid Sort Order.');
 	}
-	unset($_REQUEST['values']);
-	unset($_SESSION['_REQUEST_vars']['values']);
-	unset($_REQUEST['profiles']);
-	unset($_SESSION['_REQUEST_vars']['profiles']);
+
+	// Unset modfunc & values & profiles & redirect URL.
+	RedirectURL( array( 'modfunc', 'values', 'profiles' ) );
 }
 
-DrawHeader(ProgramTitle());
-
-if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )
+if ( $_REQUEST['modfunc'] === 'remove'
+	&& AllowEdit() )
 {
 	if ( DeletePrompt( _( 'Note' ) ) )
 	{
@@ -242,20 +251,16 @@ if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )
 		//hook
 		do_action('School_Setup/PortalNotes.php|delete_portal_note');
 
-		// Unset modfunc & ID.
-		$_REQUEST['modfunc'] = false;
-		$_SESSION['_REQUEST_vars']['modfunc'] = false;
-		$_SESSION['_REQUEST_vars']['id'] = false;
+		// Unset modfunc & ID & redirect URL.
+		RedirectURL( array( 'modfunc', 'id' ) );
 	}
 }
 
-//FJ fix SQL bug invalid sort order
-if ( !empty($error))
-	echo ErrorMessage($error);
+echo ErrorMessage( $error );
 
-if ( $_REQUEST['modfunc']!='remove')
+if ( ! $_REQUEST['modfunc'] )
 {
-//FJ file attached to portal notes
+	// FJ file attached to portal notes.
 	$sql = "SELECT ID,SORT_ORDER,TITLE,CONTENT,START_DATE,END_DATE,PUBLISHED_PROFILES,FILE_ATTACHED,
 	CASE WHEN END_DATE IS NOT NULL AND END_DATE<CURRENT_DATE THEN 'Y' ELSE NULL END AS EXPIRED
 	FROM PORTAL_NOTES

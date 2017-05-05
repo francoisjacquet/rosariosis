@@ -88,7 +88,9 @@ if (Prompt(_('Confirm').' '._('Rollover'),sprintf(_('Are you sure you want to ro
 		echo ErrorMessage($error);
 
 	echo '<div class="center"><input type="submit" value="'._('OK').'" /></div></form>';
-	unset($_SESSION['_REQUEST_vars']['tables']);
+
+	// Unset tables & redirect URL.
+	RedirectURL( 'tables' );
 }
 
 function Rollover($table)

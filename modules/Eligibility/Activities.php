@@ -1,5 +1,7 @@
 <?php
 
+DrawHeader( ProgramTitle() );
+
 if ( isset( $_POST['day_values'], $_POST['month_values'], $_POST['year_values'] ) )
 {
 	$requested_dates = RequestedDates(
@@ -13,7 +15,8 @@ if ( isset( $_POST['day_values'], $_POST['month_values'], $_POST['year_values'] 
 	$_POST['values'] = array_replace_recursive( (array) $_POST['values'], $requested_dates );
 }
 
-if ( isset( $_POST['values'] )
+if ( $_REQUEST['modfunc'] === 'update'
+	&& isset( $_POST['values'] )
 	&& count( $_POST['values'] )
 	&& AllowEdit() )
 {
@@ -54,24 +57,25 @@ if ( isset( $_POST['values'] )
 				DBQuery($sql);
 		}
 	}
+
+	// Unset modfunc & redirect URL.
+	RedirectURL( 'modfunc' );
 }
 
-DrawHeader(ProgramTitle());
-
-if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )
+if ( $_REQUEST['modfunc'] === 'remove'
+	&& AllowEdit() )
 {
 	if ( DeletePrompt( _( 'Activity' ) ) )
 	{
-		DBQuery("DELETE FROM ELIGIBILITY_ACTIVITIES WHERE ID='" . $_REQUEST['id'] . "'");
+		DBQuery( "DELETE FROM ELIGIBILITY_ACTIVITIES
+			WHERE ID='" . $_REQUEST['id'] . "'" );
 
-		// Unset modfunc & ID.
-		$_REQUEST['modfunc'] = false;
-		$_SESSION['_REQUEST_vars']['modfunc'] = false;
-		$_SESSION['_REQUEST_vars']['id'] = false;
+		// Unset modfunc & ID & redirect URL.
+		RedirectURL( array( 'modfunc', 'id' ) );
 	}
 }
 
-if ( $_REQUEST['modfunc']!='remove')
+if ( ! $_REQUEST['modfunc'] )
 {
 	$sql = "SELECT ID,TITLE,START_DATE,END_DATE FROM ELIGIBILITY_ACTIVITIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY TITLE";
 

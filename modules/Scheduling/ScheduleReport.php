@@ -22,14 +22,8 @@ if ( isset( $_REQUEST['subject_id'] ) )
 
 	if ( ! $subject_RET )
 	{
-		// Unset subject, course & course period IDs.
-		unset( $_REQUEST['subject_id'], $_REQUEST['course_id'], $_REQUEST['course_period_id'] );
-
-		// Unset students.
-		unset( $_REQUEST['students'] );
-
-		// Unset modfunc.
-		$_REQUEST['modfunc'] = false;
+		// Unset modfunc & subject ID & course ID & course period ID & students & redirect URL.
+		RedirectURL( array( 'modfunc', 'subject_id', 'course_id', 'course_period_id', 'students' ) );
 	}
 }
 

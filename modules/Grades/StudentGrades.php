@@ -9,10 +9,12 @@ require_once 'ProgramFunctions/_makeLetterGrade.fnc.php';
 
 $_ROSARIO['allow_edit'] = false;
 
-DrawHeader(ProgramTitle());
-Search('student_id');
+DrawHeader( ProgramTitle() );
 
-if (UserStudentID() && ! $_REQUEST['modfunc'])
+Search( 'student_id' );
+
+if ( UserStudentID()
+	&& ! $_REQUEST['modfunc'] )
 {
 //FJ multiple school periods for a course period
 /*$courses_RET = DBGet(DBQuery("SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,cp.COURSE_PERIOD_ID,cp.COURSE_ID,cp.TEACHER_ID AS STAFF_ID FROM SCHEDULE s,COURSE_PERIODS cp,COURSES c WHERE s.SYEAR='".UserSyear()."' AND cp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID AND s.MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).") AND ('".DBDate()."'>=s.START_DATE AND (s.END_DATE IS NULL OR '".DBDate()."'<=s.END_DATE)) AND s.STUDENT_ID='".UserStudentID()."' AND cp.GRADE_SCALE_ID IS NOT NULL".(User('PROFILE')=='teacher'?' AND cp.TEACHER_ID=\''.User('STAFF_ID').'\'':'')." AND c.COURSE_ID=cp.COURSE_ID ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID)"),array(),array('COURSE_PERIOD_ID'));*/
@@ -30,10 +32,15 @@ AND c.COURSE_ID=cp.COURSE_ID
 ORDER BY cp.SHORT_NAME, cp.TITLE"),array(),array('COURSE_PERIOD_ID'));
 //echo '<pre>'; var_dump($courses_RET); echo '</pre>';
 
-if ( $_REQUEST['id'] && $_REQUEST['id']!='all' && ! $courses_RET[$_REQUEST['id']])
-	unset($_REQUEST['id']);
+if ( $_REQUEST['id']
+	&& $_REQUEST['id'] !== 'all'
+	&& ! $courses_RET[ $_REQUEST['id'] ] )
+{
+	// Unset ID & redirect URL.
+	RedirectURL( 'id' );
+}
 
-if ( ! $_REQUEST['id'])
+if ( ! $_REQUEST['id'] )
 {
 	DrawHeader(_('Totals'),'<a href="Modules.php?modname='.$_REQUEST['modname'].'&id=all'.($do_stats?'&do_stats='.$_REQUEST['do_stats']:'').'">'._('Expand All').'</a>');
 
@@ -71,7 +78,7 @@ if ( ! $_REQUEST['id'])
 			$course_id = $course['COURSE_ID'];
 			$course_title = $course['TITLE'];
 			//echo $staff_id.'+'.$course_id.'+'.$course_period_id.'+'.$course_title.'|';
-            $assignments_RET = DBGet(DBQuery("SELECT ASSIGNMENT_ID,TITLE,POINTS FROM GRADEBOOK_ASSIGNMENTS WHERE STAFF_ID='".$staff_id."' AND (COURSE_ID='".$course_id."' OR COURSE_PERIOD_ID='".$course_period_id."') AND MARKING_PERIOD_ID='".UserMP()."' ORDER BY DUE_DATE DESC,ASSIGNMENT_ID"));
+			$assignments_RET = DBGet(DBQuery("SELECT ASSIGNMENT_ID,TITLE,POINTS FROM GRADEBOOK_ASSIGNMENTS WHERE STAFF_ID='".$staff_id."' AND (COURSE_ID='".$course_id."' OR COURSE_PERIOD_ID='".$course_period_id."') AND MARKING_PERIOD_ID='".UserMP()."' ORDER BY DUE_DATE DESC,ASSIGNMENT_ID"));
 			//echo '<pre>'; var_dump($assignments_RET); echo '</pre>';
 
 			$gradebook_config[ $staff_id ] = ProgramUserConfig( 'Gradebook', $staff_id );
@@ -79,30 +86,36 @@ if ( ! $_REQUEST['id'])
 			$sql = "SELECT s.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID,sum(".db_case(array('gg.POINTS',"'-1'","'0'",'gg.POINTS')).") AS PARTIAL_POINTS,sum(".db_case(array('gg.POINTS',"'-1'","'0'",'ga.POINTS')).") AS PARTIAL_TOTAL,gt.FINAL_GRADE_PERCENT,sum(".db_case(array('gg.POINTS',"''","1","0")).") AS UNGRADED
 			FROM STUDENTS s
 			JOIN SCHEDULE ss ON (ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='".UserSyear()."'";
-            if ( $_REQUEST['include_inactive']=='Y')
-                $sql .= " AND ss.START_DATE=(SELECT START_DATE FROM SCHEDULE WHERE STUDENT_ID=s.STUDENT_ID AND SYEAR=ss.SYEAR AND COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID ORDER BY START_DATE DESC LIMIT 1)";
-            else
-                $sql .= " AND ss.MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).") AND (CURRENT_DATE>=ss.START_DATE AND (CURRENT_DATE<=ss.END_DATE OR ss.END_DATE IS NULL))";
+			if ( $_REQUEST['include_inactive']=='Y')
+				$sql .= " AND ss.START_DATE=(SELECT START_DATE FROM SCHEDULE WHERE STUDENT_ID=s.STUDENT_ID AND SYEAR=ss.SYEAR AND COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID ORDER BY START_DATE DESC LIMIT 1)";
+			else
+				$sql .= " AND ss.MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).") AND (CURRENT_DATE>=ss.START_DATE AND (CURRENT_DATE<=ss.END_DATE OR ss.END_DATE IS NULL))";
 
-            $sql .= ") JOIN COURSE_PERIODS cp ON (cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND cp.COURSE_PERIOD_ID='".$course_period_id."')
-                JOIN STUDENT_ENROLLMENT ssm ON (ssm.STUDENT_ID=s.STUDENT_ID AND ssm.SYEAR=ss.SYEAR AND ssm.SCHOOL_ID='".UserSchool()."'";
+			$sql .= ") JOIN COURSE_PERIODS cp ON (cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND cp.COURSE_PERIOD_ID='".$course_period_id."')
+				JOIN STUDENT_ENROLLMENT ssm ON (ssm.STUDENT_ID=s.STUDENT_ID AND ssm.SYEAR=ss.SYEAR AND ssm.SCHOOL_ID='".UserSchool()."'";
 
-            if ( $_REQUEST['include_inactive']=='Y')
-                $sql .= " AND ssm.ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE STUDENT_ID=ssm.STUDENT_ID AND SYEAR=ssm.SYEAR ORDER BY START_DATE DESC LIMIT 1)";
-            else
-                $sql .= " AND (CURRENT_DATE>=ssm.START_DATE AND (ssm.END_DATE IS NULL OR CURRENT_DATE<=ssm.END_DATE))";
-            $sql .= ") JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID OR ga.COURSE_ID=cp.COURSE_ID AND ga.STAFF_ID=cp.TEACHER_ID) AND ga.MARKING_PERIOD_ID='".UserMP()."') LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.STUDENT_ID=s.STUDENT_ID AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID),GRADEBOOK_ASSIGNMENT_TYPES gt";
-            $sql .= " WHERE gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID AND gt.COURSE_ID=cp.COURSE_ID AND (gg.POINTS IS NOT NULL OR (ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE+".round($gradebook_config[ $staff_id ]['LATENCY']).") OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID))";
-            $sql .= " AND (gg.POINTS IS NOT NULL OR ga.DUE_DATE IS NULL OR ((ga.DUE_DATE>=ss.START_DATE AND (ss.END_DATE IS NULL OR ga.DUE_DATE<=ss.END_DATE)) AND (ga.DUE_DATE>=ssm.START_DATE AND (ssm.END_DATE IS NULL OR ga.DUE_DATE<=ssm.END_DATE))))".($do_stats&&$_REQUEST['do_stats']?'':" AND s.STUDENT_ID='".UserStudentID()."'");
-            $sql .= " GROUP BY gt.ASSIGNMENT_TYPE_ID,gt.FINAL_GRADE_PERCENT,s.STUDENT_ID";
-            if ( $do_stats && $_REQUEST['do_stats'])
-            {
-                $group = array('STUDENT_ID');
-                $all_RET = DBGet(DBQuery($sql),array(),$group);
-                $points_RET = $all_RET[UserStudentID()];
-            }
-            else
-                 $points_RET = DBGet(DBQuery($sql));
+			if ( $_REQUEST['include_inactive']=='Y')
+				$sql .= " AND ssm.ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE STUDENT_ID=ssm.STUDENT_ID AND SYEAR=ssm.SYEAR ORDER BY START_DATE DESC LIMIT 1)";
+			else
+				$sql .= " AND (CURRENT_DATE>=ssm.START_DATE AND (ssm.END_DATE IS NULL OR CURRENT_DATE<=ssm.END_DATE))";
+
+			$sql .= ") JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID OR ga.COURSE_ID=cp.COURSE_ID AND ga.STAFF_ID=cp.TEACHER_ID) AND ga.MARKING_PERIOD_ID='".UserMP()."') LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.STUDENT_ID=s.STUDENT_ID AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID),GRADEBOOK_ASSIGNMENT_TYPES gt";
+
+			$sql .= " WHERE gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID AND gt.COURSE_ID=cp.COURSE_ID AND (gg.POINTS IS NOT NULL OR (ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE+".round($gradebook_config[ $staff_id ]['LATENCY']).") OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID))";
+
+			$sql .= " AND (gg.POINTS IS NOT NULL OR ga.DUE_DATE IS NULL OR ((ga.DUE_DATE>=ss.START_DATE AND (ss.END_DATE IS NULL OR ga.DUE_DATE<=ss.END_DATE)) AND (ga.DUE_DATE>=ssm.START_DATE AND (ssm.END_DATE IS NULL OR ga.DUE_DATE<=ssm.END_DATE))))".($do_stats&&$_REQUEST['do_stats']?'':" AND s.STUDENT_ID='".UserStudentID()."'");
+
+			$sql .= " GROUP BY gt.ASSIGNMENT_TYPE_ID,gt.FINAL_GRADE_PERCENT,s.STUDENT_ID";
+
+			if ( $do_stats
+				&& $_REQUEST['do_stats'] )
+			{
+				$all_RET = DBGet( DBQuery( $sql ), array(), array( 'STUDENT_ID' ) );
+
+				$points_RET = $all_RET[ UserStudentID() ];
+			}
+			else
+				 $points_RET = DBGet( DBQuery( $sql ) );
 			//echo '<pre>'; var_dump($points_RET); echo '</pre>';
 			//echo '<pre>'; var_dump($all_RET); echo '</pre>';
 
@@ -112,7 +125,7 @@ if ( ! $_REQUEST['id'])
 				$ungraded = 0;
 				foreach ( (array) $points_RET as $partial_points)
 				{
-                    if ( $partial_points['PARTIAL_TOTAL']!=0 || $gradebook_config[ $staff_id ]['WEIGHT']!='Y')
+					if ( $partial_points['PARTIAL_TOTAL']!=0 || $gradebook_config[ $staff_id ]['WEIGHT']!='Y')
 					{
 						$total += $partial_points['PARTIAL_POINTS']*($gradebook_config[ $staff_id ]['WEIGHT']=='Y'?$partial_points['FINAL_GRADE_PERCENT']/$partial_points['PARTIAL_TOTAL']:1);
 						$total_percent += ($gradebook_config[ $staff_id ]['WEIGHT']=='Y'?$partial_points['FINAL_GRADE_PERCENT']:$partial_points['PARTIAL_TOTAL']);
@@ -133,7 +146,7 @@ if ( ! $_REQUEST['id'])
 					{
 						$total = $total_percent = 0;
 						foreach ( (array) $student as $partial_points)
-                            if ( $partial_points['PARTIAL_TOTAL']!=0 || $gradebook_config[ $staff_id ]['WEIGHT']!='Y')
+							if ( $partial_points['PARTIAL_TOTAL']!=0 || $gradebook_config[ $staff_id ]['WEIGHT']!='Y')
 							{
 								$total += $partial_points['PARTIAL_POINTS'] * ($gradebook_config[ $staff_id ]['WEIGHT']=='Y'?$partial_points['FINAL_GRADE_PERCENT']/$partial_points['PARTIAL_TOTAL']:1);
 								$total_percent += ($gradebook_config[ $staff_id ]['WEIGHT']=='Y'?$partial_points['FINAL_GRADE_PERCENT']:$partial_points['PARTIAL_TOTAL']);
@@ -238,7 +251,7 @@ else
 	}
 	//echo '<pre>'; var_dump($courses_RET); echo '</pre>';
 
-    foreach ( (array) $courses_RET as $course_period_id => $course)
+	foreach ( (array) $courses_RET as $course_period_id => $course)
 	{
 		$course = $course[1];
 		$staff_id = $course['STAFF_ID'];

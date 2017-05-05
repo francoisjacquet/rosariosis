@@ -58,12 +58,11 @@ if ( $_REQUEST['modfunc'] === 'remove'
 {
 	if ( DeletePrompt( _( 'Request' ) ) )
 	{
-		DBQuery( "DELETE FROM SCHEDULE_REQUESTS WHERE REQUEST_ID='" . $_REQUEST['id'] . "'" );
+		DBQuery( "DELETE FROM SCHEDULE_REQUESTS
+			WHERE REQUEST_ID='" . $_REQUEST['id'] . "'" );
 
-		// Unset modfunc & ID.
-		$_REQUEST['modfunc'] = false;
-		$_SESSION['_REQUEST_vars']['modfunc'] = false;
-		$_SESSION['_REQUEST_vars']['id'] = false;
+		// Unset modfunc & ID & redirect URL.
+		RedirectURL( array( 'modfunc', 'id' ) );
 	}
 }
 
@@ -91,7 +90,8 @@ if ( $_REQUEST['modfunc'] === 'update' )
 		}
 	}
 
-	$_REQUEST['modfunc'] = false;
+	// Unset modfunc & redirect URL.
+	RedirectURL( 'modfunc' );
 }
 
 // Add.
@@ -117,7 +117,8 @@ if ( $_REQUEST['modfunc'] === 'add' )
 				$course_id . "')" );
 	}
 
-	$_REQUEST['modfunc'] = false;
+	// Unset modfunc & course & redirect URL.
+	RedirectURL( array( 'modfunc', 'course' ) );
 }
 
 if ( ! $_REQUEST['modfunc']

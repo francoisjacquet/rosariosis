@@ -4,9 +4,9 @@ require_once 'modules/Student_Billing/functions.inc.php';
 
 if ( ! $_REQUEST['print_statements'] )
 {
-	DrawHeader(ProgramTitle());
+	DrawHeader( ProgramTitle() );
 
-	Search('student_id');
+	Search( 'student_id' );
 }
 
 // Add eventual Dates to $_REQUEST['values'].
@@ -26,7 +26,7 @@ if ( $_REQUEST['values']
 	&& AllowEdit()
 	&& UserStudentID() )
 {
-	foreach ( (array) $_REQUEST['values'] as $id => $columns)
+	foreach ( (array) $_REQUEST['values'] as $id => $columns )
 	{
 		if ( $id!='new')
 		{
@@ -74,29 +74,48 @@ if ( $_REQUEST['values']
 				DBQuery($sql);
 		}
 	}
-	unset($_REQUEST['values']);
+
+	// Unset values & redirect URL.
+	RedirectURL( 'values' );
 }
 
-if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )
+if ( $_REQUEST['modfunc'] === 'remove'
+	&& AllowEdit() )
 {
 	if ( DeletePrompt( _( 'Payment' ) ) )
 	{
-		DBQuery("DELETE FROM BILLING_PAYMENTS WHERE ID='" . $_REQUEST['id'] . "' OR REFUNDED_PAYMENT_ID='" . $_REQUEST['id'] . "'");
+		DBQuery( "DELETE FROM BILLING_PAYMENTS
+			WHERE ID='" . $_REQUEST['id'] . "'
+			OR REFUNDED_PAYMENT_ID='" . $_REQUEST['id'] . "'" );
 
-		// Unset modfunc & ID.
-		$_REQUEST['modfunc'] = false;
-		$_SESSION['_REQUEST_vars']['modfunc'] = false;
-		$_SESSION['_REQUEST_vars']['id'] = false;
+		// Unset modfunc & ID & redirect URL.
+		RedirectURL( array( 'modfunc', 'id' ) );
 	}
 }
 
-if ( $_REQUEST['modfunc']=='refund' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'refund'
+	&& AllowEdit() )
 {
-	if (DeletePrompt(_('Payment'),_('Refund')))
+	if ( DeletePrompt( _( 'Payment' ), _( 'Refund' ) ) )
 	{
-		$payment_RET = DBGet(DBQuery("SELECT COMMENTS,AMOUNT FROM BILLING_PAYMENTS WHERE ID='" . $_REQUEST['id'] . "'"));
-		DBQuery("INSERT INTO BILLING_PAYMENTS (ID,SYEAR,SCHOOL_ID,STUDENT_ID,AMOUNT,PAYMENT_DATE,COMMENTS,REFUNDED_PAYMENT_ID) values(".db_seq_nextval('BILLING_PAYMENTS_SEQ').",'".UserSyear()."','".UserSchool()."','".UserStudentID()."','".($payment_RET[1]['AMOUNT']*-1)."','".DBDate()."','".DBEscapeString($payment_RET[1]['COMMENTS'])." "._('Refund')."','".$_REQUEST['id']."')");
-		$_REQUEST['modfunc'] = false;
+		$payment_RET = DBGet( DBQuery( "SELECT COMMENTS,AMOUNT
+			FROM BILLING_PAYMENTS
+			WHERE ID='" . $_REQUEST['id'] . "'" ) );
+
+		DBQuery( "INSERT INTO BILLING_PAYMENTS (ID,SYEAR,SCHOOL_ID,STUDENT_ID,AMOUNT,
+			PAYMENT_DATE,COMMENTS,REFUNDED_PAYMENT_ID)
+			VALUES(" .
+				db_seq_nextval( 'BILLING_PAYMENTS_SEQ' ) . ",'" .
+				UserSyear() . "','" .
+				UserSchool() . "','" .
+				UserStudentID() . "','" .
+				( $payment_RET[1]['AMOUNT'] * -1 ) . "','" .
+				DBDate() . "','" .
+				DBEscapeString( $payment_RET[1]['COMMENTS'] . " " . _( 'Refund' ) ) . "','" .
+				$_REQUEST['id'] . "')" );
+
+		// Unset modfunc & ID & redirect URL.
+		RedirectURL( array( 'modfunc', 'id' ) );
 	}
 }
 

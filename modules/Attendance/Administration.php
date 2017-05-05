@@ -2,7 +2,7 @@
 //FJ move Attendance.php from functions/ to modules/Attendance/includes
 require_once 'modules/Attendance/includes/UpdateAttendanceDaily.fnc.php';
 
-DrawHeader(ProgramTitle());
+DrawHeader( ProgramTitle() );
 
 // set date
 if ( isset( $_REQUEST['month_date'] )
@@ -15,10 +15,11 @@ if ( isset( $_REQUEST['month_date'] )
 		$_REQUEST['day_date']
 	);
 
-	if ( $_SESSION['Administration.php']['date'] && $_SESSION['Administration.php']['date']!=$date)
+	if ( $_SESSION['Administration.php']['date']
+		&& $_SESSION['Administration.php']['date'] !== $date )
 	{
-		unset($_REQUEST['attendance']);
-		unset($_REQUEST['attendance_day']);
+		// Unset attendance & attendance day & redirect URL.
+		RedirectURL( array( 'attendance', 'attendance_day' ) );
 	}
 }
 else
@@ -49,9 +50,13 @@ $current_mp = GetCurrentMP('QTR',$date,false);
 
 if ( ! $current_mp)
 {
-	echo '<form action="'.PreparePHP_SELF($_REQUEST,array('day_date','month_date','year_date','codes')).'" method="POST">';
+	echo '<form action="' .
+		PreparePHP_SELF( $_REQUEST ) .
+		'" method="POST">';
 
-	DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)));
+	DrawHeader(
+		PrepareDate( $date, '_date', false, array( 'submit' => true ) )
+	);
 
 	echo '</form>';
 
@@ -101,10 +106,14 @@ if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 	AND s.MARKING_PERIOD_ID IN (".$all_mp.")
 	ORDER BY s.START_DATE ASC";
 }
+// TODO: can be optimized? Remove PERIOD_ID index.
 $current_RET = DBGet(DBQuery($current_Q),array(),array('STUDENT_ID','PERIOD_ID'));
-if ( $_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
+
+if ( $_REQUEST['attendance']
+	&& $_POST['attendance']
+	&& AllowEdit() )
 {
-	foreach ( (array) $_REQUEST['attendance'] as $student_id => $values)
+	foreach ( (array) $_REQUEST['attendance'] as $student_id => $values )
 	{
 		if ( ! $current_schedule_RET[ $student_id ])
 		{
@@ -164,10 +173,11 @@ if ( $_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 		UpdateAttendanceDaily($student_id,$date,($_REQUEST['attendance_day'][ $student_id ]['COMMENT']?$_REQUEST['attendance_day'][ $student_id ]['COMMENT']:false));
 		unset($_REQUEST['attendance_day'][ $student_id ]);
 	}
+	// TODO: can be optimized? Remove PERIOD_ID index.
 	$current_RET = DBGet(DBQuery($current_Q),array(),array('STUDENT_ID','PERIOD_ID'));
-	unset($_REQUEST['attendance']);
-	unset($_SESSION['_REQUEST_vars']['attendance']);
-	unset($_SESSION['_REQUEST_vars']['attendance_day']);
+
+	// Unset attendance & attendance day & redirect URL.
+	RedirectURL( array( 'attendance', 'attendance_day' ) );
 }
 
 if (count($_REQUEST['attendance_day']))
@@ -175,7 +185,8 @@ if (count($_REQUEST['attendance_day']))
 	foreach ( (array) $_REQUEST['attendance_day'] as $student_id => $comment)
 		UpdateAttendanceDaily($student_id,$date,$comment['COMMENT']);
 
-	unset($_REQUEST['attendance_day']);
+	// Unset attendance day & redirect URL.
+	RedirectURL( 'attendance_day' );
 }
 
 $codes_RET = DBGet(DBQuery("SELECT ID,SHORT_NAME,TITLE,STATE_CODE FROM ATTENDANCE_CODES WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND TABLE_NAME='".$_REQUEST['table']."'"));
@@ -191,7 +202,7 @@ $categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM ATTENDANCE_CODE_CATEGORIES
 
 if (count($categories_RET))
 {
-	$tmp_PHP_SELF = PreparePHP_SELF($_REQUEST,array('table','codes'));
+	$tmp_PHP_SELF = PreparePHP_SELF( $_REQUEST, array( 'table', 'codes' ) );
 
 	$headerl .= '<a href="' . $tmp_PHP_SELF . '&amp;table=0"><b>' . _( 'Attendance' ) . '</b></a>';
 
@@ -249,11 +260,17 @@ if (isset($_REQUEST['student_id']) && $_REQUEST['student_id']!='new')
 
 	$columns = array('PERIOD_TITLE' => _('Period'), 'COURSE' => _('Course'), 'ATTENDANCE_CODE' => _('Attendance Code'), 'ATTENDANCE_TEACHER_CODE' => _('Teacher\'s Entry'), 'ATTENDANCE_REASON' => _('Office Comment'), 'COMMENT' => _('Teacher Comment'));
 
-	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=student&student_id='.$_REQUEST['student_id'].'&table='.$_REQUEST['table'].'" method="POST">';
+	echo '<form action="' .
+		PreparePHP_SELF( $_REQUEST ) .
+		'" method="POST">';
 
-	DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)),SubmitButton(_('Update')));
+	DrawHeader(
+		PrepareDate( $date, '_date', false, array( 'submit' => true ) ),
+		SubmitButton( _( 'Update' ) )
+	);
 
-	$headerr = '<a href="Modules.php?modname='.$_REQUEST['modname'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date'].'&year_date='.$_REQUEST['year_date'].'&table='.$_REQUEST['table'].'">'._('Student List').'</a>';
+	$headerr = '<a href="' . PreparePHP_Self( $_REQUEST, array( 'student_id' ) ) . '">' .
+		_( 'Student List' ) . '</a>';
 
 	DrawHeader($headerl, $headerr);
 
@@ -336,7 +353,9 @@ else
 		$extra['columns_after']['DAILY_COMMENT'] = _('Day Comment');
 	}
 
-	$extra['link']['FULL_NAME']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date'].'&year_date='.$_REQUEST['year_date'].'&table='.$_REQUEST['table'];
+
+	// $extra['link']['FULL_NAME']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date'].'&year_date='.$_REQUEST['year_date'].'&table='.$_REQUEST['table'];
+	$extra['link']['FULL_NAME']['link'] = PreparePHP_SELF( $_REQUEST );
 	$extra['link']['FULL_NAME']['variables'] = array('student_id' => 'STUDENT_ID');
 	$extra['BackPrompt'] = false;
 	$extra['Redirect'] = false;
@@ -359,15 +378,32 @@ else
 	else
 		$code_pulldowns = _makeCodeSearch();
 
-	echo '<form action="'.PreparePHP_SELF($_REQUEST,array('day_date','month_date','year_date','codes')).'" method="POST">';
-	DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)),SubmitButton(_('Update')));
+	echo '<form action="' .
+		PreparePHP_SELF( $_REQUEST ) .
+		'" method="POST">';
 
-	if (UserStudentID())
-		$current_student_link = '<a href="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=student&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date'].'&year_date='.$_REQUEST['year_date'].'&student_id='.UserStudentID().'&table='.$_REQUEST['table'].'">'._('Current Student').'</a></td><td>';
+	DrawHeader(
+		PrepareDate( $date, '_date', false, array( 'submit' => true ) ),
+		SubmitButton( _( 'Update' ) )
+	);
 
-	$headerr = '<table><tr><td>'.$current_student_link.button('add','','"#" onclick=\'javascript:addHTML("'.str_replace('"','\"',_makeCodeSearch()).'","code_pulldowns"); return false;\'').'</td><td><div id=code_pulldowns>'.$code_pulldowns.'</div></td></tr></table>';
+	if ( UserStudentID() )
+	{
+		$current_student_link = '<a href="' .
+			PreparePHP_Self( $_REQUEST, array(), array( 'student_id' => UserStudentID() ) ) . '">' .
+			_( 'Current Student' ) . '</a></td><td>';
+	}
 
-	DrawHeader($headerl, $headerr);
+	$headerr = '<table style="float: right;"><tr><td class="align-right">' .
+		button(
+			'add',
+			'',
+			'"#" onclick=\'javascript:addHTML("' . str_replace( '"', '\"', _makeCodeSearch() ) .
+			'","code_pulldowns"); return false;\''
+		) . '</td><td><div id="code_pulldowns">' . $code_pulldowns . '</div></td>' .
+		'<td class="align-right">' . $current_student_link . '</td></tr></table>';
+
+	DrawHeader( $headerl, $headerr );
 
 	$_REQUEST['search_modfunc'] = 'list';
 	Search('student_id',$extra);

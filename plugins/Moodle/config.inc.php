@@ -1,13 +1,17 @@
 <?php
 //plugin configuration interface
 //verify the script is called by the right program & plugin is activated
-if ($_REQUEST['modname'] == 'School_Setup/Configuration.php' && $RosarioPlugins['Moodle'] && $_REQUEST['modfunc'] == 'config')
+if ( $_REQUEST['modname'] === 'School_Setup/Configuration.php'
+	&& $RosarioPlugins['Moodle']
+	&& $_REQUEST['modfunc'] === 'config' )
 {
 	//note: no need to call ProgramTitle()
 
-	if ( $_REQUEST['save']=='true')
+	if ( $_REQUEST['save'] === 'true' )
 	{
-		if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
+		if ( $_REQUEST['values']
+			&& $_POST['values']
+			&& AllowEdit() )
 		{
 			//update the PROGRAM_CONFIG table
 			if ( ( empty( $_REQUEST['values']['PROGRAM_CONFIG']['MOODLE_PARENT_ROLE_ID'] )
@@ -38,12 +42,11 @@ if ($_REQUEST['modname'] == 'School_Setup/Configuration.php' && $RosarioPlugins[
 			}
 		}
 
-		unset($_REQUEST['save']);
-		unset($_SESSION['_REQUEST_vars']['values']);
-		unset($_SESSION['_REQUEST_vars']['save']);
+		// Unset save & values & redirect URL.
+		RedirectURL( 'save', 'values' );
 	}
 
-	if ( empty($_REQUEST['save']))
+	if ( empty( $_REQUEST['save'] ) )
 	{
 		// TODO: use real values, not the CONSTANTS.
 		/*if ( !_validMoodleURLandToken() )
@@ -51,13 +54,11 @@ if ($_REQUEST['modname'] == 'School_Setup/Configuration.php' && $RosarioPlugins[
 
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&tab=plugins&modfunc=config&plugin=Moodle&save=true" method="POST">';
 
-		DrawHeader('',SubmitButton(_('Save')));
+		DrawHeader( '', SubmitButton( _( 'Save' ) ) );
 
-		if (!empty($note))
-			echo ErrorMessage($note, 'note');
+		echo ErrorMessage( $note, 'note' );
 
-		if (!empty($error))
-			echo ErrorMessage($error, 'error');
+		echo ErrorMessage( $error, 'error' );
 
 		echo '<br />';
 		PopTable( 'header', _( 'Moodle' ) );
@@ -123,8 +124,9 @@ if ($_REQUEST['modname'] == 'School_Setup/Configuration.php' && $RosarioPlugins[
 }
 else
 {
-	$error[] = _('You\'re not allowed to use this program!');
-	echo ErrorMessage($error, 'fatal');
+	$error[] = _( 'You\'re not allowed to use this program!' );
+
+	echo ErrorMessage( $error, 'fatal' );
 }
 
 

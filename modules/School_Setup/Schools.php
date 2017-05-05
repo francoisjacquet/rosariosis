@@ -18,11 +18,13 @@ if ( isset( $_POST['day_values'], $_POST['month_values'], $_POST['year_values'] 
 	$_POST['values'] = array_replace_recursive( (array) $_POST['values'], $requested_dates );
 }
 
-if ( $_REQUEST['modfunc']=='update')
+if ( $_REQUEST['modfunc'] === 'update' )
 {
-	if ( $_REQUEST['button']==_('Save') && AllowEdit())
+	if ( $_REQUEST['button'] === _( 'Save' )
+		&& AllowEdit() )
 	{
-		if ( $_REQUEST['values'] && $_POST['values'])
+		if ( $_REQUEST['values']
+			&& $_POST['values'] )
 		{
 			// FJ other fields required.
 			$required_error = CheckRequiredCustomFields( 'PEOPLE_FIELDS', $_REQUEST['values']['PEOPLE'] );
@@ -86,7 +88,7 @@ if ( $_REQUEST['modfunc']=='update')
 								$sql_multiple_input = "||" . $sql_multiple_input;
 							}
 
-							$sql .= $column . "='" . $sql_multiple_input . "',";
+							$sql .= DBEscapeIdentifier( $column ) . "='" . $sql_multiple_input . "',";
 
 							$go = true;
 						}
@@ -105,7 +107,7 @@ if ( $_REQUEST['modfunc']=='update')
 					foreach ( (array) $_REQUEST['values'] as $column => $value)
 						if ( $column!='ID' && $value)
 						{
-							$fields .= ','.$column;
+							$fields .= ',' . DBEscapeIdentifier( $column );
 							$values .= ",'".$value."'";
 						}
 
@@ -123,7 +125,8 @@ if ( $_REQUEST['modfunc']=='update')
 						$sql = "INSERT INTO PROGRAM_CONFIG (SCHOOL_ID,SYEAR,PROGRAM,VALUE,TITLE) SELECT '".$id."' AS SCHOOL_ID,SYEAR,PROGRAM,VALUE,TITLE FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."';";
 						DBQuery($sql);
 
-						unset($_REQUEST['new_school']);
+						// Unset new school & redirect URL.
+						RedirectURL( 'new_school' );
 
 						// Set new current school.
 						$_SESSION['UserSchool'] = $id;
@@ -136,16 +139,15 @@ if ( $_REQUEST['modfunc']=='update')
 			}
 		}
 
-		$_REQUEST['modfunc'] = false;
-		unset($_SESSION['_REQUEST_vars']['values']);
-		$_SESSION['_REQUEST_vars']['modfunc'] = false;
+		// Unset modfunc & redirect URL.
+		RedirectURL( 'modfunc' );
 	}
-	elseif ( ( $_POST['button'] === _( 'Delete' )
+	elseif ( ( $_REQUEST['button'] === _( 'Delete' )
 			|| isset( $_POST['delete_ok'] ) )
 		&& User( 'PROFILE' ) === 'admin'
 		&& AllowEdit() )
 	{
-		if (DeletePrompt(_('School')))
+		if ( DeletePrompt( _( 'School' ) ) )
 		{
 			DBQuery("DELETE FROM SCHOOLS WHERE ID='".UserSchool()."'");
 			DBQuery("DELETE FROM SCHOOL_GRADELEVELS WHERE SCHOOL_ID='".UserSchool()."'");
@@ -158,7 +160,8 @@ if ( $_REQUEST['modfunc']=='update')
 			DBQuery("DELETE FROM CONFIG WHERE SCHOOL_ID='".UserSchool()."'");
 			DBQuery("DELETE FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."'");
 
-			$_REQUEST['modfunc'] = false;
+			// Unset modfunc & redirect URL.
+			RedirectURL( 'modfunc' );
 
 			//set current school to one of the remaining schools
 			$first_remaining_school = DBGet(DBQuery("SELECT ID FROM SCHOOLS WHERE SYEAR = '".UserSyear()."' LIMIT 1"));
@@ -168,7 +171,10 @@ if ( $_REQUEST['modfunc']=='update')
 		}
 	}
 	else
-		$_REQUEST['modfunc'] = false;
+	{
+		// Unset modfunc & redirect URL.
+		RedirectURL( 'modfunc' );
+	}
 }
 
 if ( ! $_REQUEST['modfunc'] )

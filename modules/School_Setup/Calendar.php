@@ -55,29 +55,29 @@ if ( $_REQUEST['modfunc'] === 'create'
 		WHERE ac.SYEAR='" . UserSyear() . "'
 		AND s.STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND (s.SCHOOLS IS NULL OR position(','||ac.SCHOOL_ID||',' IN s.SCHOOLS)>0)
-		ORDER BY " . db_case( array( 'ac.SCHOOL_ID', "'" . UserSchool() . "'", 0, 'ac.SCHOOL_ID' ) ) . ",ac.DEFAULT_CALENDAR ASC,ac.TITLE" ), array(), array( 'CALENDAR_ID' ) );
+		ORDER BY " . db_case( array( 'ac.SCHOOL_ID', "'" . UserSchool() . "'", 0, 'ac.SCHOOL_ID' ) ) . ",ac.DEFAULT_CALENDAR ASC,ac.TITLE" ) );
 
 	// Prepare table for Copy Calendar & add ' (Default)' mention.
 	$copy_calendar_options = array();
 
 	$recreate_calendar = false;
 
-	foreach ( (array) $title_RET as $id => $title )
+	foreach ( (array) $title_RET as $title )
 	{
-		$copy_calendar_options[ $id ] = $title[1]['TITLE'];
+		$copy_calendar_options[ $title['CALENDAR_ID'] ] = $title['TITLE'];
 
 		if ( AllowEdit()
-			&& $title[1]['DEFAULT_CALENDAR'] === 'Y'
-			&& $title[1]['SCHOOL_ID'] === UserSchool() )
+			&& $title['DEFAULT_CALENDAR'] === 'Y'
+			&& $title['SCHOOL_ID'] === UserSchool() )
 		{
-			$copy_calendar_options[ $id ] .= ' (' . _( 'Default' ) . ')';
+			$copy_calendar_options[ $title['CALENDAR_ID'] ] .= ' (' . _( 'Default' ) . ')';
 		}
 
 		if ( AllowEdit()
 			&& isset( $_REQUEST['calendar_id'] )
-			&& $id == $_REQUEST['calendar_id'] )
+			&& $title['CALENDAR_ID'] == $_REQUEST['calendar_id'] )
 		{
-			$recreate_calendar = $title[1];
+			$recreate_calendar = $title;
 		}
 	}
 
@@ -391,16 +391,8 @@ if ( $_REQUEST['modfunc'] === 'create'
 		// Set Current Calendar
 		$_REQUEST['calendar_id'] = $calendar_id;
 
-		$_REQUEST['modfunc'] = false;
-		$_SESSION['_REQUEST_vars']['modfunc'] = false;
-		unset( $_REQUEST['weekdays']);
-		unset( $_SESSION['_REQUEST_vars']['weekdays'] );
-		unset( $_REQUEST['title'] );
-		unset( $_SESSION['_REQUEST_vars']['title'] );
-		unset( $_REQUEST['minutes'] );
-		unset( $_SESSION['_REQUEST_vars']['minutes'] );
-		unset( $_REQUEST['copy_id'] );
-		unset( $_SESSION['_REQUEST_vars']['copy_id'] );
+		// Unset modfunc & weekdays & title & minutes & copy ID & redirect URL.
+		RedirectURL( array( 'modfunc', 'weekdays', 'title', 'minutes', 'copy_id' ) );
 	}
 }
 
@@ -422,9 +414,8 @@ if ( $_REQUEST['modfunc'] === 'delete_calendar'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND DEFAULT_CALENDAR='Y'" ) );
 
-		unset( $_REQUEST['calendar_id'] );
-		$_REQUEST['modfunc'] = false;
-		$_SESSION['_REQUEST_vars']['modfunc'] = false;
+		// Unset modfunc & calendar ID & redirect URL.
+		RedirectURL( array( 'modfunc', 'calendar_id' ) );
 	}
 }
 
@@ -582,14 +573,15 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 </script>
 			<?php
 
-			unset( $_REQUEST['values'] );
-			unset( $_SESSION['_REQUEST_vars']['values'] );
+			// Unset values & redirect URL.
+			RedirectURL( 'values' );
 		}
 	}
 	// Delete Event
-	elseif ( $_REQUEST['button'] == _( 'Delete' ) )
+	elseif ( $_REQUEST['button'] == _( 'Delete' )
+		&& ! isset( $_REQUEST['delete_cancel'] ) )
 	{
-		if ( DeletePrompt( _( 'Event' ) ) )
+		if ( DeletePrompt( _( 'Event' ), 'Delete', false ) )
 		{
 			DBQuery( "DELETE FROM CALENDAR_EVENTS
 				WHERE ID='" . $_REQUEST['event_id'] . "'" );
@@ -606,10 +598,8 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 </script>
 			<?php
 
-			unset( $_REQUEST['values'] );
-			unset( $_SESSION['_REQUEST_vars']['values'] );
-			unset( $_REQUEST['button'] );
-			unset( $_SESSION['_REQUEST_vars']['button'] );
+			// Unset button & values & redirect URL.
+			RedirectURL( array( 'button', 'values' ) );
 		}
 	}
 	// Display Event / Assignment
@@ -622,7 +612,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 			{
 				$RET = DBGet( DBQuery( "SELECT TITLE,DESCRIPTION,SCHOOL_DATE
 					FROM CALENDAR_EVENTS
-					WHERE ID='" . $_REQUEST['event_id'] . "'"), array() );
+					WHERE ID='" . $_REQUEST['event_id'] . "'" ) );
 
 				$title = $RET[1]['TITLE'];
 			}
@@ -737,10 +727,8 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 		if ( $_REQUEST['event_id'] )
 			echo '</form>';
 
-		unset( $_REQUEST['values'] );
-		unset( $_SESSION['_REQUEST_vars']['values'] );
-		unset( $_REQUEST['button'] );
-		unset( $_SESSION['_REQUEST_vars']['button'] );
+		// Unset button & values & redirect URL.
+		RedirectURL( array( 'button', 'values' ) );
 	}
 }
 
@@ -907,8 +895,8 @@ if ( ! $_REQUEST['modfunc'] )
 			}
 		}
 
-		unset( $_REQUEST['minutes'] );
-		unset( $_SESSION['_REQUEST_vars']['minutes'] );
+		// Unset minutes & redirect URL.
+		RedirectURL( 'minutes' );
 	}
 
 	// Update All day school.
@@ -946,8 +934,8 @@ if ( ! $_REQUEST['modfunc'] )
 			$update_calendar = true;
 		}
 
-		unset( $_REQUEST['all_day'] );
-		unset( $_SESSION['_REQUEST_vars']['all_day'] );
+		// Unset all day & redirect URL.
+		RedirectURL( 'all_day' );
 	}
 
 	// Update Blocks
@@ -968,8 +956,8 @@ if ( ! $_REQUEST['modfunc'] )
 			}
 		}
 
-		unset( $_REQUEST['blocks'] );
-		unset( $_SESSION['_REQUEST_vars']['blocks'] );
+		// Unset blocks & redirect URL.
+		RedirectURL( 'blocks' );
 	}
 
 	// Update Calendar RET

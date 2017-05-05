@@ -1,7 +1,10 @@
 <?php
 require_once 'modules/Accounting/functions.inc.php';
-if ( ! $_REQUEST['print_statements'])
-	DrawHeader(ProgramTitle());
+
+if ( ! $_REQUEST['print_statements'] )
+{
+	DrawHeader( ProgramTitle() );
+}
 
 // Add eventual Dates to $_REQUEST['values'].
 if ( isset( $_REQUEST['day_values'], $_REQUEST['month_values'], $_REQUEST['year_values'] ) )
@@ -15,9 +18,11 @@ if ( isset( $_REQUEST['day_values'], $_REQUEST['month_values'], $_REQUEST['year_
 	$_REQUEST['values'] = array_replace_recursive( (array) $_REQUEST['values'], (array) $requested_dates );
 }
 
-if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
+if ( $_REQUEST['values']
+	&& $_POST['values']
+	&& AllowEdit() )
 {
-	foreach ( (array) $_REQUEST['values'] as $id => $columns)
+	foreach ( (array) $_REQUEST['values'] as $id => $columns )
 	{
 		if ( $id!='new')
 		{
@@ -49,7 +54,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 					if ( $column=='AMOUNT')
 					{
 						$value = preg_replace('/[^0-9.-]/','',$value);
-//FJ fix SQL bug invalid amount
+						// FJ fix SQL bug invalid amount.
 						if ( !is_numeric($value))
 							$value = 0;
 					}
@@ -64,23 +69,25 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				DBQuery($sql);
 		}
 	}
-	unset($_REQUEST['values']);
+
+	// Unset modfunc & redirect URL.
+	RedirectURL( 'modfunc' );
 }
 
-if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )
+if ( $_REQUEST['modfunc'] === 'remove'
+	&& AllowEdit() )
 {
 	if ( DeletePrompt( _( 'Expense' ) ) )
 	{
-		DBQuery("DELETE FROM ACCOUNTING_PAYMENTS WHERE ID='" . $_REQUEST['id'] . "'");
+		DBQuery( "DELETE FROM ACCOUNTING_PAYMENTS
+			WHERE ID='" . $_REQUEST['id'] . "'" );
 
-		// Unset modfunc & ID.
-		$_REQUEST['modfunc'] = false;
-		$_SESSION['_REQUEST_vars']['modfunc'] = false;
-		$_SESSION['_REQUEST_vars']['id'] = false;
+		// Unset modfunc & ID & redirect URL.
+		RedirectURL( array( 'modfunc', 'id' ) );
 	}
 }
 
-if ( ! $_REQUEST['modfunc'])
+if ( ! $_REQUEST['modfunc'] )
 {
 	$payments_total = 0;
 

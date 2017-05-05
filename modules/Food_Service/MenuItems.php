@@ -1,13 +1,15 @@
 <?php
 require_once 'modules/Food_Service/includes/FS_Icons.inc.php';
 
-DrawHeader(ProgramTitle());
+DrawHeader( ProgramTitle() );
 
-if ( $_REQUEST['modfunc']=='update')
+if ( $_REQUEST['modfunc'] === 'update' )
 {
-	if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
+	if ( $_REQUEST['values']
+		&& $_POST['values']
+		&& AllowEdit() )
 	{
-		if ( $_REQUEST['tab_id'])
+		if ( $_REQUEST['tab_id'] )
 		{
 			foreach ( (array) $_REQUEST['values'] as $id => $columns)
 			{
@@ -91,10 +93,13 @@ if ( $_REQUEST['modfunc']=='update')
 			}
 		}
 	}
-	$_REQUEST['modfunc'] = false;
+
+	// Unset modfunc & redirect URL.
+	RedirectURL( 'modfunc' );
 }
 
-if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )
+if ( $_REQUEST['modfunc'] === 'remove'
+	&& AllowEdit() )
 {
 	if ( $_REQUEST['tab_id']!='new')
 	{
@@ -104,32 +109,24 @@ if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )
 				WHERE MENU_ID='" . $_REQUEST['tab_id'] . "'
 				AND MENU_ITEM_ID='" . $_REQUEST['menu_item_id'] . "'" );
 
-			// Unset modfunc & ID.
-			$_REQUEST['modfunc'] = false;
-			$_SESSION['_REQUEST_vars']['modfunc'] = false;
-			$_SESSION['_REQUEST_vars']['menu_item_id'] = false;
+			// Unset modfunc & menu item ID & redirect URL.
+			RedirectURL( array( 'modfunc', 'menu_item_id' ) );
 		}
 	}
-	else
+	elseif ( DeletePrompt( _( 'Item' ) ) )
 	{
-		if ( DeletePrompt( _( 'Item' ) ) )
-		{
-			DBQuery( "DELETE FROM FOOD_SERVICE_MENU_ITEMS
-				WHERE ITEM_ID='" . $_REQUEST['item_id'] . "'" );
+		DBQuery( "DELETE FROM FOOD_SERVICE_MENU_ITEMS
+			WHERE ITEM_ID='" . $_REQUEST['item_id'] . "'" );
 
-			DBQuery( "DELETE FROM FOOD_SERVICE_ITEMS
-				WHERE ITEM_ID='" . $_REQUEST['item_id'] . "'" );
+		DBQuery( "DELETE FROM FOOD_SERVICE_ITEMS
+			WHERE ITEM_ID='" . $_REQUEST['item_id'] . "'" );
 
-			// Unset modfunc & ID.
-			$_REQUEST['modfunc'] = false;
-			$_SESSION['_REQUEST_vars']['modfunc'] = false;
-			$_SESSION['_REQUEST_vars']['item_id'] = false;
-		}
+		// Unset modfunc & item ID & redirect URL.
+		RedirectURL( array( 'modfunc', 'item_id' ) );
 	}
 }
 
 if ( ! $_REQUEST['modfunc'] )
-
 {
 	$menus_RET = DBGet(DBQuery('SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER'),array(),array('MENU_ID'));
 	if ( $_REQUEST['tab_id'])

@@ -6,57 +6,61 @@ StaffWidgets('fsa_exists_Y');
 
 Search('staff_id',$extra);
 
-if ( $_REQUEST['modfunc']=='submit')
+if ( $_REQUEST['modfunc'] === 'submit' )
 {
-	if ( $_REQUEST['submit']['cancel'])
+	if ( $_REQUEST['submit']['cancel'] )
 	{
 		if ( DeletePrompt( _( 'Sale' ), _( 'Cancel' ) ) )
 		{
 			unset( $_SESSION['FSA_sale'] );
 
-			$_REQUEST['modfunc'] = false;
+			// Unset modfunc & redirect URL.
+			RedirectURL( 'modfunc' );
 		}
 	}
-	elseif ( $_REQUEST['submit']['save'])
+	elseif ( $_REQUEST['submit']['save']
+		&& count( $_SESSION['FSA_sale'] ) )
 	{
-		if (count($_SESSION['FSA_sale']))
+		$items_RET = DBGet(DBQuery("SELECT DESCRIPTION,SHORT_NAME,PRICE_STAFF FROM FOOD_SERVICE_ITEMS WHERE SCHOOL_ID='".UserSchool()."'"),array(),array('SHORT_NAME'));
+
+		// get next transaction id
+		$id = DBGet(DBQuery('SELECT '.db_seq_nextval('FOOD_SERVICE_STAFF_TRANSACTIONS_SEQ').' AS SEQ_ID'));
+		$id = $id[1]['SEQ_ID'];
+
+		$item_id = 0;
+		foreach ( (array) $_SESSION['FSA_sale'] as $item_sn)
 		{
 
-
-
-			$items_RET = DBGet(DBQuery("SELECT DESCRIPTION,SHORT_NAME,PRICE_STAFF FROM FOOD_SERVICE_ITEMS WHERE SCHOOL_ID='".UserSchool()."'"),array(),array('SHORT_NAME'));
-
-			// get next transaction id
-			$id = DBGet(DBQuery('SELECT '.db_seq_nextval('FOOD_SERVICE_STAFF_TRANSACTIONS_SEQ').' AS SEQ_ID'));
-			$id = $id[1]['SEQ_ID'];
-
-			$item_id = 0;
-			foreach ( (array) $_SESSION['FSA_sale'] as $item_sn)
-			{
-
-				$price = $items_RET[ $item_sn ][1]['PRICE_STAFF'];
-				$fields = 'ITEM_ID,TRANSACTION_ID,AMOUNT,SHORT_NAME,DESCRIPTION';
-				$values = "'".$item_id++."','".$id."','-".$price."','".$items_RET[ $item_sn ][1]['SHORT_NAME']."','".$items_RET[ $item_sn ][1]['DESCRIPTION']."'";
-				$sql = "INSERT INTO FOOD_SERVICE_STAFF_TRANSACTION_ITEMS (".$fields.") values (".$values.")";
-				DBQuery($sql);
-			}
-
-			$sql1 = "UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET TRANSACTION_ID='".$id."',BALANCE=BALANCE+(SELECT sum(AMOUNT) FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID='".$id."') WHERE STAFF_ID='".UserStaffID()."'";
-			$fields = 'TRANSACTION_ID,STAFF_ID,SYEAR,SCHOOL_ID,BALANCE,TIMESTAMP,SHORT_NAME,DESCRIPTION,SELLER_ID';
-			$values = "'".$id."','".UserStaffID()."','".UserSyear()."','".UserSchool()."',(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID='".UserStaffID()."'),CURRENT_TIMESTAMP,'".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."','".$menus_RET[$_REQUEST['menu_id']][1]['TITLE'].' - '.DBDate()."','".User('STAFF_ID')."'";
-			$sql2 = 'INSERT INTO FOOD_SERVICE_STAFF_TRANSACTIONS ('.$fields.') values ('.$values.')';
-			DBQuery('BEGIN; '.$sql1.'; '.$sql2.'; COMMIT');
-
-			unset($_SESSION['FSA_sale']);
+			$price = $items_RET[ $item_sn ][1]['PRICE_STAFF'];
+			$fields = 'ITEM_ID,TRANSACTION_ID,AMOUNT,SHORT_NAME,DESCRIPTION';
+			$values = "'".$item_id++."','".$id."','-".$price."','".$items_RET[ $item_sn ][1]['SHORT_NAME']."','".$items_RET[ $item_sn ][1]['DESCRIPTION']."'";
+			$sql = "INSERT INTO FOOD_SERVICE_STAFF_TRANSACTION_ITEMS (".$fields.") values (".$values.")";
+			DBQuery($sql);
 		}
-		$_REQUEST['modfunc'] = false;
+
+		$sql1 = "UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET TRANSACTION_ID='".$id."',BALANCE=BALANCE+(SELECT sum(AMOUNT) FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID='".$id."') WHERE STAFF_ID='".UserStaffID()."'";
+		$fields = 'TRANSACTION_ID,STAFF_ID,SYEAR,SCHOOL_ID,BALANCE,TIMESTAMP,SHORT_NAME,DESCRIPTION,SELLER_ID';
+		$values = "'".$id."','".UserStaffID()."','".UserSyear()."','".UserSchool()."',(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID='".UserStaffID()."'),CURRENT_TIMESTAMP,'".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."','".$menus_RET[$_REQUEST['menu_id']][1]['TITLE'].' - '.DBDate()."','".User('STAFF_ID')."'";
+		$sql2 = 'INSERT INTO FOOD_SERVICE_STAFF_TRANSACTIONS ('.$fields.') values ('.$values.')';
+		DBQuery('BEGIN; '.$sql1.'; '.$sql2.'; COMMIT');
+
+		unset($_SESSION['FSA_sale']);
+
+		// Unset modfunc & redirect URL.
+		RedirectURL( 'modfunc' );
 	}
 	else
-		$_REQUEST['modfunc'] = false;
-	unset($_REQUEST['submit']);
+	{
+		// Unset modfunc & redirect URL.
+		RedirectURL( 'modfunc' );
+	}
+
+	// Unset submit & redirect URL.
+	RedirectURL( 'submit' );
 }
 
-if (UserStaffID() && ! $_REQUEST['modfunc'])
+if ( UserStaffID()
+	&& ! $_REQUEST['modfunc'] )
 {
 	$staff = DBGet(DBQuery("SELECT s.STAFF_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,
 	(SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS ACCOUNT_ID,

@@ -2,11 +2,11 @@
 
 require_once 'modules/Student_Billing/functions.inc.php';
 
-if ( ! $_REQUEST['print_statements'])
+if ( ! $_REQUEST['print_statements'] )
 {
-	DrawHeader(ProgramTitle());
+	DrawHeader( ProgramTitle() );
 
-	Search('student_id',$extra);
+	Search( 'student_id', $extra );
 }
 
 if ( $_REQUEST['values']
@@ -66,30 +66,51 @@ if ( $_REQUEST['values']
 				DBQuery($sql);
 		}
 	}
-	unset($_REQUEST['values']);
+
+	// Unset values & redirect URL.
+	RedirectURL( 'values' );
 }
 
-if ( $_REQUEST['modfunc'] === 'remove' && AllowEdit() )
+if ( $_REQUEST['modfunc'] === 'remove'
+	&& AllowEdit() )
 {
 	if ( DeletePrompt( _( 'Fee' ) ) )
 	{
-		DBQuery("DELETE FROM BILLING_FEES WHERE ID='" . $_REQUEST['id'] . "'");
-		DBQuery("DELETE FROM BILLING_FEES WHERE WAIVED_FEE_ID='" . $_REQUEST['id'] . "'");
+		DBQuery( "DELETE FROM BILLING_FEES
+			WHERE ID='" . $_REQUEST['id'] . "'" );
 
-		// Unset modfunc & ID.
-		$_REQUEST['modfunc'] = false;
-		$_SESSION['_REQUEST_vars']['modfunc'] = false;
-		$_SESSION['_REQUEST_vars']['id'] = false;
+		DBQuery( "DELETE FROM BILLING_FEES
+			WHERE WAIVED_FEE_ID='" . $_REQUEST['id'] . "'" );
+
+		// Unset modfunc & ID & redirect URL.
+		RedirectURL( array( 'modfunc', 'id' ) );
 	}
 }
 
-if ( $_REQUEST['modfunc']=='waive' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'waive'
+	&& AllowEdit() )
 {
-	if (DeletePrompt(_('Fee'),_('Waive')))
+	if ( DeletePrompt( _( 'Fee' ), _( 'Waive' ) ) )
 	{
-		$fee_RET = DBGet(DBQuery("SELECT TITLE,AMOUNT FROM BILLING_FEES WHERE ID='" . $_REQUEST['id'] . "'"));
-		DBQuery("INSERT INTO BILLING_FEES (ID,SYEAR,SCHOOL_ID,TITLE,AMOUNT,WAIVED_FEE_ID,STUDENT_ID,ASSIGNED_DATE,COMMENTS) values(".db_seq_nextval('BILLING_FEES_SEQ').",'".UserSyear()."','".UserSchool()."','".DBEscapeString($fee_RET[1]['TITLE'])." "._('Waiver')."','".($fee_RET[1]['AMOUNT']*-1)."','".$_REQUEST['id']."','".UserStudentID()."','".DBDate()."','"._('Waiver')."')");
-		$_REQUEST['modfunc'] = false;
+		$fee_RET = DBGet( DBQuery( "SELECT TITLE,AMOUNT
+			FROM BILLING_FEES
+			WHERE ID='" . $_REQUEST['id'] . "'" ) );
+
+		DBQuery( "INSERT INTO BILLING_FEES (ID,SYEAR,SCHOOL_ID,TITLE,AMOUNT,WAIVED_FEE_ID,
+			STUDENT_ID,ASSIGNED_DATE,COMMENTS)
+			VALUES (" .
+				db_seq_nextval( 'BILLING_FEES_SEQ' ) . ",'" .
+				UserSyear() . "','" .
+				UserSchool() . "','" .
+				DBEscapeString( $fee_RET[1]['TITLE'] . " " . _( 'Waiver' )  ) . "','" .
+				( $fee_RET[1]['AMOUNT'] * -1 ) . "','" .
+				$_REQUEST['id'] . "','" .
+				UserStudentID() . "','" .
+				DBDate() . "','" .
+				DBEscapeString( _( 'Waiver' ) ) . "')" );
+
+		// Unset modfunc & ID & redirect URL.
+		RedirectURL( array( 'modfunc', 'id' ) );
 	}
 }
 

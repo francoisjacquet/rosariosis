@@ -84,18 +84,14 @@ if ( $_REQUEST['modfunc'] === 'delete'
 			DBQuery( "DELETE FROM PROFILE_EXCEPTIONS
 				WHERE PROFILE_ID='" . $_REQUEST['profile_id'] . "'" );
 
-			$_REQUEST['modfunc'] = false;
-			$_SESSION['_REQUEST_vars']['modfunc'] = false;
-			unset( $_REQUEST['profile_id'] );
-			unset( $_SESSION['_REQUEST_vars']['profile_id'] );
+			// Unset modfunc & profile ID & redirect URL.
+			RedirectURL( array( 'modfunc', 'profile_id' ) );
 		}
 	}
 	else // bad or already deleted profile ID
 	{
-		$_REQUEST['modfunc'] = false;
-		$_SESSION['_REQUEST_vars']['modfunc'] = false;
-		unset( $_REQUEST['profile_id'] );
-		unset( $_SESSION['_REQUEST_vars']['profile_id'] );
+		// Unset modfunc & profile ID & redirect URL.
+		RedirectURL( array( 'modfunc', 'profile_id' ) );
 	}
 }
 
@@ -183,12 +179,9 @@ if ( $_REQUEST['modfunc'] === 'update'
 		WHERE PROFILE_ID='" . $_REQUEST['profile_id'] . "'" ), array(), array( 'MODNAME' ) );
 
 	unset($tmp_menu);
-	$_REQUEST['modfunc'] = false;
-	$_SESSION['_REQUEST_vars']['modfunc'] = false;
-	unset($_REQUEST['can_edit']);
-	unset($_SESSION['_REQUEST_vars']['can_edit']);
-	unset($_REQUEST['can_use']);
-	unset($_SESSION['_REQUEST_vars']['can_use']);
+
+	// Unset modfunc & can edit & can use & redirect URL.
+	RedirectURL( array( 'modfunc', 'can_edit', 'can_use' ) );
 
 	// If Admin Profile updated, reload menu.
 	if ( $_REQUEST['profile_id'] === '1' )
@@ -201,7 +194,9 @@ if ( $_REQUEST['modfunc'] === 'update'
 	}
 }
 
-if ( $_REQUEST['new_profile_title'] && AllowEdit())
+if ( $_REQUEST['modfunc']
+	&& $_REQUEST['new_profile_title']
+	&& AllowEdit() )
 {
 	$id = DBGet(DBQuery("SELECT ".db_seq_nextval('USER_PROFILES_SEQ')." AS ID"));
 	$id = $id[1]['ID'];
@@ -220,10 +215,8 @@ if ( $_REQUEST['new_profile_title'] && AllowEdit())
 
 	$_REQUEST['profile_id'] = $id;
 
-	unset( $_REQUEST['new_profile_title'] );
-	unset( $_SESSION['_REQUEST_vars']['new_profile_title'] );
-	unset( $_REQUEST['new_profile_type'] );
-	unset( $_SESSION['_REQUEST_vars']['new_profile_type'] );
+	// Unset modfunc & new profile type & new profile title & redirect URL.
+	RedirectURL( array( 'modfunc', 'new_profile_title', 'new_profile_type' ) );
 }
 
 if ( $_REQUEST['modfunc']!='delete')

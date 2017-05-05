@@ -44,7 +44,10 @@ if ( ! $_REQUEST['menu_id'])
 else
 	$_SESSION['FSA_menu_id'] = $_REQUEST['menu_id'];
 
-if ( $_REQUEST['submit']['save'] && $_REQUEST['food_service'] && $_POST['food_service'] && AllowEdit())
+if ( $_REQUEST['submit']['save']
+	&& $_REQUEST['food_service']
+	&& $_POST['food_service']
+	&& AllowEdit() )
 {
 	$events_RET = DBGet(DBQuery("SELECT ID,SCHOOL_DATE
 	FROM CALENDAR_EVENTS
@@ -65,8 +68,9 @@ if ( $_REQUEST['submit']['save'] && $_REQUEST['food_service'] && $_POST['food_se
 			if ( $description['text'] || $description['select'])
 				DBQuery("INSERT INTO CALENDAR_EVENTS (ID,SYEAR,SCHOOL_ID,SCHOOL_DATE,TITLE,DESCRIPTION) values(".db_seq_nextval('CALENDAR_EVENTS_SEQ').",'".UserSyear()."','".UserSchool()."','".$school_date."','".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."','".$description['text'].$description['select']."')");
 	}
-	unset($_REQUEST['food_service']);
-	unset($_SESSION['_REQUEST_vars']['food_service']);
+
+	// Unset food_service & redirect URL.
+	RedirectURL( 'food_service' );
 }
 
 if ( $_REQUEST['submit']['print'] )
@@ -215,9 +219,20 @@ else
 	ORDER BY SCHOOL_DATE"),array('DESCRIPTION' => 'makeDescriptionInput','SCHOOL_DATE' => 'ProperDate'));
 
 	$events_RET[0] = array(); // make sure indexing from 1
-	foreach ( (array) $calendar_RET as $school_date => $value)
-		$events_RET[] = array('ID' => 'new','SCHOOL_DATE'=>ProperDate($school_date),'DESCRIPTION'=>TextInput('','food_service['.$school_date.'][text]','','size=20').($description_select ? '<select name="food_service['.$school_date.'][select]">'.$description_select : ''));
-	unset($events_RET[0]);
+
+	foreach ( (array) $calendar_RET as $school_date => $value )
+	{
+		$events_RET[] = array(
+			'ID' => '',
+			'SCHOOL_DATE' => ProperDate( $school_date ),
+			'DESCRIPTION' => TextInput( '', 'food_service[' . $school_date . '][text]', '', 'size=20' ) .
+				( $description_select ? '<select name="food_service[' . $school_date . '][select]">' .
+					$description_select : '' ),
+		);
+	}
+
+	unset( $events_RET[0] );
+
 	$LO_columns = array('ID' => _('ID'),'SCHOOL_DATE' => _('Date'),'DESCRIPTION' => _('Description'));
 
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$_REQUEST['menu_id'].'&month='.$_REQUEST['month'].'&year='.$_REQUEST['year'].'" method="POST">';

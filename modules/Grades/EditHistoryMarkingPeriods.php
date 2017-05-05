@@ -1,8 +1,8 @@
 <?php
 
-DrawHeader(ProgramTitle());
+DrawHeader( ProgramTitle() );
 
-if ( $_REQUEST['modfunc']=='update')
+if ( $_REQUEST['modfunc'] === 'update' )
 {
 	if ( isset( $_REQUEST['day_values'], $_REQUEST['month_values'], $_REQUEST['year_values'] ) )
 	{
@@ -15,7 +15,7 @@ if ( $_REQUEST['modfunc']=='update')
 		$_REQUEST['values'] = array_replace_recursive( (array) $_REQUEST['values'], $requested_dates );
 	}
 
-	foreach ( (array) $_REQUEST['values'] as $id => $columns)
+	foreach ( (array) $_REQUEST['values'] as $id => $columns )
 	{
 		if ( $id!='new')
 		{
@@ -35,17 +35,20 @@ if ( $_REQUEST['modfunc']=='update')
 		elseif ( $columns['NAME'] )
 		{
 			$sql = 'INSERT INTO history_marking_periods ';
-			$fields = 'MARKING_PERIOD_ID, SCHOOL_ID, ';
-			$values = "NEXTVAL('MARKING_PERIOD_SEQ'), ".UserSchool().", ";
+			$fields = 'MARKING_PERIOD_ID,SCHOOL_ID,';
+			$values = "NEXTVAL('MARKING_PERIOD_SEQ'),'" . UserSchool() . "',";
 
 			$go = false;
-			foreach ( (array) $columns as $column => $value)
-				if ( !empty($value) || $value=='0')
+			foreach ( (array) $columns as $column => $value )
+			{
+				if ( ! empty( $value )
+					|| $value == '0' )
 				{
 					$fields .= DBEscapeIdentifier( $column ) . ',';
 					$values .= "'" . $value . "',";
 					$go = true;
 				}
+			}
 
 			$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
 
@@ -53,10 +56,12 @@ if ( $_REQUEST['modfunc']=='update')
 				DBQuery($sql);
 		}
 	}
-	$_REQUEST['modfunc'] = false;
+
+	// Unset modfunc & redirect URL.
+	RedirectURL( 'modfunc' );
 }
 
-if ( $_REQUEST['modfunc']=='remove')
+if ( $_REQUEST['modfunc'] === 'remove' )
 {
 	if ( DeletePrompt( _( 'History Marking Period' ) ) )
 	{
@@ -66,7 +71,8 @@ if ( $_REQUEST['modfunc']=='remove')
 		DBQuery( "DELETE FROM student_report_card_grades
 			WHERE MARKING_PERIOD_ID='" . $_REQUEST['id'] . "'" );
 
-		$_REQUEST['modfunc'] = false;
+		// Unset modfunc & ID & redirect URL.
+		RedirectURL( array( 'modfunc', 'id' ) );
 	}
 }
 

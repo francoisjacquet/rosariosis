@@ -251,11 +251,12 @@ else
 				$_REQUEST[ $var ] = $staff_RET['1'][ $val ];
 		}
 
-		if ( !is_array($staff_RET[1]['STAFF_ID']))
+		if ( ! is_array( $staff_RET[1]['STAFF_ID'] ) )
 		{
-			SetUserStaffID($staff_RET[1]['STAFF_ID']);
+			SetUserStaffID( $staff_RET[1]['STAFF_ID'] );
 
-			unset($_REQUEST['search_modfunc']);
+			// Unset search modfunc & redirect URL.
+			RedirectURL( 'search_modfunc' );
 		}
 
 		if ( $_REQUEST['modname']!=$_REQUEST['next_modname'])

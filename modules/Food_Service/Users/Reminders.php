@@ -8,11 +8,15 @@ $negative_note = _('You now have a <b>negative balance</b> in your lunch account
 $minimum = $food_service_config['FOOD_SERVICE_BALANCE_MINIMUM'][1]['VALUE'];
 $minimum_note = _('You now have a <b>negative balance</b> below the allowed minimum.  Please send in the negative balance plus %T.  THANK YOU!');
 
-if ( $_REQUEST['staff_id'])
-	unset($_REQUEST['staff_id']);
-if (UserStaffID())
+if ( $_REQUEST['staff_id'] )
 {
-	unset($_SESSION['staff_id']);
+	// Unset staff ID & redirect URL.
+	RedirectURL( 'staff_id' );
+}
+
+if ( UserStaffID() )
+{
+	unset( $_SESSION['staff_id'] );
 }
 
 if ( $_REQUEST['modfunc'] === 'save' )

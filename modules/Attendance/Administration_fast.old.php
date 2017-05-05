@@ -55,7 +55,9 @@ if ( $_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 		UpdateAttendanceDaily($student_id,$date);
 	}
 	$current_RET = DBGet(DBQuery("SELECT ATTENDANCE_TEACHER_CODE,ATTENDANCE_CODE,ATTENDANCE_REASON,STUDENT_ID,ADMIN,COURSE_PERIOD_ID FROM ATTENDANCE_PERIOD WHERE SCHOOL_DATE='".$date."'"),array(),array('STUDENT_ID','COURSE_PERIOD_ID'));
-	unset($_REQUEST['attendance']);
+
+	// Unset attendance & redirect URL.
+	RedirectURL( 'attendance' );
 }
 
 $codes_RET = DBGet(DBQuery("SELECT ID,SHORT_NAME,TITLE FROM ATTENDANCE_CODES WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));

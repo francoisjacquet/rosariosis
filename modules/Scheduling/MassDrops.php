@@ -1,15 +1,19 @@
 <?php
 
-DrawHeader(ProgramTitle());
+DrawHeader( ProgramTitle() );
 
-if ( ! $_REQUEST['modfunc'] && $_REQUEST['search_modfunc']!='list')
-	unset($_SESSION['MassDrops.php']);
+if ( ! $_REQUEST['modfunc']
+	&& $_REQUEST['search_modfunc'] !== 'list' )
+{
+	unset( $_SESSION['MassDrops.php'] );
+}
 
 if ( $_REQUEST['modfunc'] === 'save' )
 {
-	if ( $_SESSION['MassDrops.php'])
+	if ( $_SESSION['MassDrops.php'] )
 	{
-		if (isset($_REQUEST['student']) && is_array($_REQUEST['student']))
+		if ( isset( $_REQUEST['student'] )
+			&& is_array( $_REQUEST['student'] ) )
 		{
 			$drop_date = RequestedDate(
 				$_REQUEST['year_drop'],
@@ -84,11 +88,12 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	else
 		$error[] = _('You must choose a course.');
 
-	if (empty($schedule_deletion_pending))
+	if ( empty( $schedule_deletion_pending ) )
 	{
-		$_SESSION['_REQUEST_vars']['modfunc'] = false;
-		$_REQUEST['modfunc'] = false;
-		unset($_SESSION['MassDrops.php']);
+		// Unset modfunc & redirect URL.
+		RedirectURL( 'modfunc' );
+
+		unset( $_SESSION['MassDrops.php'] );
 	}
 }
 

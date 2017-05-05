@@ -1,15 +1,15 @@
 <?php
 // This script will automatically create parent accounts and associate students based on an email address which is part of the student record.
 
-DrawHeader(ProgramTitle());
+DrawHeader( ProgramTitle() );
 
-// remove current student
+// Remove current student.
 if ( UserStudentID() )
 {
-	unset($_SESSION['student_id']);
+	unset( $_SESSION['student_id'] );
 
-	//remove student_id from URL
-	unset($_SESSION['_REQUEST_vars']['student_id']);
+	// Unset student ID & redirect URL.
+	RedirectURL( 'student_id' );
 }
 
 // The $email_column corresponds to a student field or an address field which is created for the email address.  The COLUMN_# is the column in the
@@ -237,8 +237,9 @@ if ( $_REQUEST['modfunc'] === 'save'
 	else
 	{
 		$error[] = _('You must choose at least one student.');
-		$_SESSION['_REQUEST_vars']['modfunc'] = false;
-		$_REQUEST['modfunc'] = false;
+
+		// Unset modfunc & redirect URL.
+		RedirectURL( 'modfunc' );
 	}
 
 	//reset $email_column var
