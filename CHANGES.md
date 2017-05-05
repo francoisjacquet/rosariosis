@@ -5,6 +5,7 @@ Changes in 3.3
 --------------
 - CSS Add padding to .list-header & remove spaces before buttons in ListOutput.fnc.php & stylesheet.css
 - Add RedirectURL(), prevents showing an obsolete & confusing delete confirmation screen on page reload in Prepare_PHP_SELF.fnc.php & program wide
+- Handle X-Redirect-Url header in warehouse.js
 - Use PreparePHP_Self() in forms to maintain program state in Administration.php & Eligibility/Student.php
 - Fixed Cancel Delete Event in Calendar.php
 - Remove "# Associated" column from Student list in AddStudents.php

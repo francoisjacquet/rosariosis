@@ -199,8 +199,13 @@ function ajaxOptions(target, url, form) {
 
 			$('.loading').css('visibility', 'visible');
 		},
-		success: function (data) {
-			if (form && form.method == 'get') {
+		success: function (data, s, xhr) {
+			// See PHP RedirectURL().
+			var redirectUrl = xhr.getResponseHeader("X-Redirect-Url");
+			if (redirectUrl) {
+				url = redirectUrl;
+			}
+			else if (form && form.method == 'get') {
 				var getStr = [];
 
 				// Fix advanced search forms (student & user) URL > 2000 chars
