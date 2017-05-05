@@ -719,20 +719,22 @@ if ( ! isset( $_REQUEST['sidefunc'] )
 
 	// Modify loop: use for instead of foreach.
 	$menu_key = array_keys( $_ROSARIO['Menu'] );
-	$size = count( $menu_key );
+	$size_menu = count( $menu_key );
 
 	global $RosarioCoreModules;
 
-	for ( $i = 0; $i < $size; $i++ ) :
+	for ( $i = 0; $i < $size_menu; $i++ ) :
 
-		if ( count( $modcat_menu = $_ROSARIO['Menu'][ $menu_key[ $i ] ] ) ) :
+		$menu_i = $menu_key[ $i ];
 
-			$modcat_class = mb_strtolower( str_replace( '_', '-', $menu_key[ $i ] ) ); ?>
+		if ( count( $modcat_menu = $_ROSARIO['Menu'][ $menu_i ] ) ) :
+
+			$modcat_class = mb_strtolower( str_replace( '_', '-', $menu_i ) ); ?>
 		<li class="menu-module <?php echo $modcat_class; ?>">
 			<a href="Modules.php?modname=<?php echo $modcat_menu['default']; ?>" class="menu-top">
-				<img src="modules/<?php echo $menu_key[ $i ]; ?>/icon.png" alt="<?php echo $modcat_menu['title']; ?>" />&nbsp;<?php echo $modcat_menu['title']; ?>
+				<img src="modules/<?php echo $menu_i; ?>/icon.png" alt="<?php echo $modcat_menu['title']; ?>" />&nbsp;<?php echo $modcat_menu['title']; ?>
 			</a>
-			<ul id="menu_<?php echo $menu_key[ $i ]; ?>" class="wp-submenu">
+			<ul id="menu_<?php echo $menu_i; ?>" class="wp-submenu">
 			<?php
 			unset(
 				$modcat_menu['default'],
@@ -744,23 +746,25 @@ if ( ! isset( $_REQUEST['sidefunc'] )
 
 			for ( $j = 0; $j < $size_modcat; $j++ )
 			{
-				$title = $_ROSARIO['Menu'][ $menu_key[ $i ] ][ $modcat_key[ $j ] ];
+				$modcat_j = $modcat_key[ $j ];
+
+				$title = $_ROSARIO['Menu'][ $menu_i ][ $modcat_j ];
 
 				// If URL, not a program.
-				/*if ( mb_stripos( $modcat_key[ $j ], 'http' ) !== false ) : ?>
-					<li><a href="<?php echo $modcat_key[ $j ]; ?>" target="_blank"><?php
+				/*if ( mb_stripos( $modcat_j, 'http' ) !== false ) : ?>
+					<li><a href="<?php echo $modcat_j; ?>" target="_blank"><?php
 						echo $title;
 					?></a></li>
 				<?php
 				else*/
-				if ( ! is_numeric( $modcat_key[ $j ] ) ) :
+				if ( ! is_numeric( $modcat_j ) ) :
 
 					// If PDF, open in new tab.
-					$target = ( mb_strpos( $modcat_key[ $j ], '_ROSARIO_PDF' ) !== false ?
+					$target = ( mb_strpos( $modcat_j, '_ROSARIO_PDF' ) !== false ?
 						' target="_blank"' :
 						''
 					); ?>
-					<li><a href="Modules.php?modname=<?php echo $modcat_key[ $j ]; ?>"<?php echo $target; ?>><?php
+					<li><a href="Modules.php?modname=<?php echo $modcat_j; ?>"<?php echo $target; ?>><?php
 						echo $title;
 					?></a></li>
 				<?php // If is a section.
