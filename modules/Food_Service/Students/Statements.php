@@ -66,8 +66,7 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 		{
 			$RET = DBGet(DBQuery("SELECT fst.TRANSACTION_ID AS TRANS_ID,fst.TRANSACTION_ID,fst.STUDENT_ID,fst.DISCOUNT,
 			(SELECT sum(AMOUNT) FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
-			fst.BALANCE,to_char(fst.TIMESTAMP,'YYYY-MM-DD') AS DATE,
-			to_char(fst.TIMESTAMP,'HH:MI:SS AM') AS TIME,fst.DESCRIPTION,
+			fst.BALANCE,fst.TIMESTAMP AS DATE,fst.DESCRIPTION,
 			".db_case(array('fst.STUDENT_ID',"''",'NULL',"(SELECT FIRST_NAME||' '||LAST_NAME FROM STUDENTS WHERE STUDENT_ID=fst.STUDENT_ID)"))." AS STUDENT,
 			".db_case(array('fst.SELLER_ID',"''",'NULL',"(SELECT FIRST_NAME||' '||LAST_NAME FROM STAFF WHERE STAFF_ID=fst.SELLER_ID)"))." AS SELLER
 			FROM FOOD_SERVICE_TRANSACTIONS fst
@@ -75,8 +74,8 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 			AND SYEAR='".UserSyear()."'
 			AND fst.TIMESTAMP BETWEEN '".$start_date."' AND date '".$end_date."' +1".
 			$where."
-			ORDER BY fst.TRANSACTION_ID DESC"),array('DATE' => 'ProperDate','BALANCE' => 'red'));
-//FJ add translation
+			ORDER BY fst.TRANSACTION_ID DESC"),array('DATE' => 'ProperDateTime','BALANCE' => 'red'));
+
 			foreach ( (array) $RET as $RET_key => $RET_val) {
 				$RET[ $RET_key ]=array_map('types_locale', $RET_val);
 			}
@@ -96,7 +95,6 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 				'TRANSACTION_ID' => _( 'ID' ),
 				'STUDENT' => _( 'Student' ),
 				'DATE' => _( 'Date' ),
-				'TIME' => _( 'Time' ), // TODO: use ProperDateTime().
 				'BALANCE' => _( 'Balance' ),
 				'DISCOUNT' => _( 'Discount' ),
 				'DESCRIPTION' => _( 'Description' ),
@@ -120,15 +118,23 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 		else
 		{
 			$RET = DBGet(DBQuery("SELECT fst.TRANSACTION_ID,fst.DISCOUNT,(SELECT sum(AMOUNT) FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
-			fst.BALANCE,to_char(fst.TIMESTAMP,'YYYY-MM-DD') AS DATE,to_char(fst.TIMESTAMP,'HH:MI:SS AM') AS TIME,fst.DESCRIPTION
+			fst.BALANCE,fst.TIMESTAMP AS DATE,fst.DESCRIPTION
 			FROM FOOD_SERVICE_TRANSACTIONS fst
 			WHERE fst.ACCOUNT_ID='".$student['ACCOUNT_ID']."'
 			AND SYEAR='".UserSyear()."'
 			AND fst.TIMESTAMP BETWEEN '".$start_date."'
 			AND date '".$end_date."'+1 ".$where."
-			ORDER BY fst.TRANSACTION_ID DESC"),array('DATE' => 'ProperDate','BALANCE' => 'red'));
-			$columns = array('TRANSACTION_ID' => _('ID'),'DATE' => _('Date'),'TIME' => _('Time'),'BALANCE' => _('Balance'),'DISCOUNT' => _('Discount'),'DESCRIPTION' => _('Description'),'AMOUNT' => _('Amount'));
-//FJ add translation
+			ORDER BY fst.TRANSACTION_ID DESC"),array('DATE' => 'ProperDateTime','BALANCE' => 'red'));
+
+			$columns = array(
+				'TRANSACTION_ID' => _( 'ID' ),
+				'DATE' => _( 'Date' ),
+				'BALANCE' => _( 'Balance' ),
+				'DISCOUNT' => _( 'Discount' ),
+				'DESCRIPTION' => _( 'Description' ),
+				'AMOUNT' => _( 'Amount' ),
+			);
+
 			foreach ( (array) $RET as $RET_key => $RET_val) {
 				$RET[ $RET_key ]=array_map('types_locale', $RET_val);
 			}

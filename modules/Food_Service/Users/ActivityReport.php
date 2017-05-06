@@ -23,13 +23,13 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 
 	if ( $_REQUEST['detailed_view']=='true')
 	{
-	    $RET = DBGet(DBQuery("SELECT fst.TRANSACTION_ID AS TRANS_ID,fst.TRANSACTION_ID,fst.SHORT_NAME,fst.STAFF_ID,(SELECT sum(AMOUNT) FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,fst.BALANCE,to_char(fst.TIMESTAMP,'YYYY-MM-DD') AS DATE,to_char(fst.TIMESTAMP,'HH:MI:SS AM') AS TIME,fst.DESCRIPTION,".db_case(array('fst.STAFF_ID',"''",'NULL',"(SELECT LAST_NAME||', '||FIRST_NAME FROM STAFF WHERE STAFF_ID=fst.STAFF_ID)"))." AS FULL_NAME,".db_case(array('fst.SELLER_ID',"''",'NULL',"(SELECT FIRST_NAME||' '||LAST_NAME FROM STAFF WHERE STAFF_ID=fst.SELLER_ID)"))." AS SELLER
+	    $RET = DBGet(DBQuery("SELECT fst.TRANSACTION_ID AS TRANS_ID,fst.TRANSACTION_ID,fst.SHORT_NAME,fst.STAFF_ID,(SELECT sum(AMOUNT) FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,fst.BALANCE,fst.TIMESTAMP AS DATE,fst.DESCRIPTION,".db_case(array('fst.STAFF_ID',"''",'NULL',"(SELECT LAST_NAME||', '||FIRST_NAME FROM STAFF WHERE STAFF_ID=fst.STAFF_ID)"))." AS FULL_NAME,".db_case(array('fst.SELLER_ID',"''",'NULL',"(SELECT FIRST_NAME||' '||LAST_NAME FROM STAFF WHERE STAFF_ID=fst.SELLER_ID)"))." AS SELLER
 		FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst
 		WHERE SYEAR='".UserSyear()."'
 		AND fst.TIMESTAMP BETWEEN '".$date."' AND date '".$date."' +1
 		AND SCHOOL_ID='".UserSchool()."'".$where."
-		ORDER BY ".($_REQUEST['by_name']?"FULL_NAME,":'')."fst.TRANSACTION_ID DESC"),array('DATE' => 'ProperDate','SHORT_NAME' => 'bump_count'));
-	//FJ add translation
+		ORDER BY ".($_REQUEST['by_name']?"FULL_NAME,":'')."fst.TRANSACTION_ID DESC"),array('DATE' => 'ProperDateTime','SHORT_NAME' => 'bump_count'));
+
 		foreach ( (array) $RET as $RET_key => $RET_val) {
 			$RET[ $RET_key ]=array_map('types_locale', $RET_val);
 		}
@@ -52,7 +52,6 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 			'TRANSACTION_ID' => _( 'ID' ),
 			'FULL_NAME' => _( 'User' ),
 			'DATE' => _( 'Date' ),
-			'TIME' => _( 'Time' ), // TODO: use ProperDateTime().
 			'BALANCE' => _( 'Balance' ),
 			'DESCRIPTION' => _( 'Description' ),
 			'AMOUNT' => _( 'Amount' ),
@@ -76,14 +75,22 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 	{
 	    $RET = DBGet(DBQuery("SELECT fst.TRANSACTION_ID,fst.SHORT_NAME,fst.STAFF_ID,
 		(SELECT sum(AMOUNT) FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
-		fst.BALANCE,to_char(fst.TIMESTAMP,'YYYY-MM-DD') AS DATE,to_char(fst.TIMESTAMP,'HH:MI:SS AM') AS TIME,fst.DESCRIPTION,".db_case(array('fst.STAFF_ID',"''",'NULL',"(SELECT LAST_NAME||', '||FIRST_NAME FROM STAFF WHERE STAFF_ID=fst.STAFF_ID)"))." AS FULL_NAME
+		fst.BALANCE,fst.TIMESTAMP AS DATE,fst.DESCRIPTION,".db_case(array('fst.STAFF_ID',"''",'NULL',"(SELECT LAST_NAME||', '||FIRST_NAME FROM STAFF WHERE STAFF_ID=fst.STAFF_ID)"))." AS FULL_NAME
 		FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst
 		WHERE SYEAR='".UserSyear()."'
 		AND fst.TIMESTAMP BETWEEN '".$date."' AND date '".$date."' +1
 		AND SCHOOL_ID='".UserSchool()."'".$where."
-		ORDER BY ".($_REQUEST['by_name']?"FULL_NAME,":'')."fst.TRANSACTION_ID DESC"),array('DATE' => 'ProperDate','SHORT_NAME' => 'bump_count'));
-		$columns = array('TRANSACTION_ID' => _('ID'),'FULL_NAME' => _('User'),'DATE' => _('Date'),'TIME' => _('Time'),'BALANCE' => _('Balance'),'DESCRIPTION' => _('Description'),'AMOUNT' => _('Amount'));
-	//FJ add translation
+		ORDER BY ".($_REQUEST['by_name']?"FULL_NAME,":'')."fst.TRANSACTION_ID DESC"),array('DATE' => 'ProperDateTime','SHORT_NAME' => 'bump_count'));
+
+		$columns = array(
+			'TRANSACTION_ID' => _( 'ID' ),
+			'FULL_NAME' => _( 'User' ),
+			'DATE' => _( 'Date' ),
+			'BALANCE' => _( 'Balance' ),
+			'DESCRIPTION' => _( 'Description' ),
+			'AMOUNT' => _( 'Amount' ),
+		);
+
 		foreach ( (array) $RET as $RET_key => $RET_val) {
 			$RET[ $RET_key ]=array_map('types_locale', $RET_val);
 		}
