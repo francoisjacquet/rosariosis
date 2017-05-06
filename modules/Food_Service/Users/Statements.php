@@ -63,10 +63,29 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 				// merge transaction and detail records
 				$RET[ $key ] = array($RET[ $key ]) + $tmpRET;
 			}
-			$columns = array('TRANSACTION_ID' => _('ID'),'DATE' => _('Date'),'TIME' => _('Time'),'BALANCE' => _('Balance'),'DESCRIPTION' => _('Description'),'AMOUNT' => _('Amount'),'SELLER' => _('User'));
-			$group = array(array('TRANSACTION_ID'));
-			$link['remove']['link'] = PreparePHP_SELF($_REQUEST,array(),array('modfunc' => 'delete'));
-			$link['remove']['variables'] = array('transaction_id' => 'TRANS_ID','item_id' => 'ITEM_ID');
+
+			$columns = array(
+				'TRANSACTION_ID' => _( 'ID' ),
+				'DATE' => _( 'Date' ),
+				'TIME' => _( 'Time' ), // TODO: use ProperDateTime().
+				'BALANCE' => _( 'Balance' ),
+				'DESCRIPTION' => _( 'Description' ),
+				'AMOUNT' => _( 'Amount' ),
+				'SELLER' => _( 'User' ),
+			);
+
+			$group = array( array( 'TRANSACTION_ID' ) );
+
+			$link['remove']['link'] = PreparePHP_SELF(
+				$_REQUEST,
+				array( 'delete_cancel' ),
+				array( 'modfunc' => 'delete' )
+			);
+
+			$link['remove']['variables'] = array(
+				'transaction_id' => 'TRANS_ID',
+				'item_id' => 'ITEM_ID',
+			);
 		}
 		else
 		{

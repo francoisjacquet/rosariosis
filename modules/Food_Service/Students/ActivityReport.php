@@ -17,7 +17,8 @@ $extra['columns_after'] = array('BALANCE' => _('Balance'),'STATUS' => _('Status'
 
 Search('student_id',$extra);
 
-if (UserStudentID() && ! $_REQUEST['modfunc'])
+if ( UserStudentID()
+	&& ! $_REQUEST['modfunc'] )
 {
 
 	$where = '';
@@ -35,7 +36,7 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 		AND fst.TIMESTAMP BETWEEN '".$date."' AND date '".$date."' +1
 		AND SCHOOL_ID='".UserSchool()."'".$where."
 		ORDER BY ".($_REQUEST['by_name']?"FULL_NAME,":'')."fst.TRANSACTION_ID DESC"),array('DATE' => 'ProperDate','SHORT_NAME' => 'bump_count'));
-	//FJ add translation
+
 		foreach ( (array) $RET as $RET_key => $RET_val) {
 			$RET[ $RET_key ]=array_map('types_locale', $RET_val);
 		}
@@ -45,7 +46,6 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 			// get details of each transaction
 			$tmpRET = DBGet(DBQuery("SELECT TRANSACTION_ID AS TRANS_ID,*,'".$value['SHORT_NAME']."' AS TRANSACTION_SHORT_NAME FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID='".$value['TRANSACTION_ID']."'"),array('SHORT_NAME' => 'bump_items_count'));
 
-	//FJ add translation
 			foreach ( (array) $tmpRET as $RET_key => $RET_val) {
 				$tmpRET[ $RET_key ]=array_map('options_locale', $RET_val);
 			}
@@ -53,10 +53,33 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 			$RET[ $key ] = array($value) + $tmpRET;
 		}
 		//echo '<pre>'; var_dump($RET); echo '</pre>';
-		$columns = array('TRANSACTION_ID' => _('ID'),'ACCOUNT_ID' => _('Account ID'),'FULL_NAME' => _('Student'),'DATE' => _('Date'),'TIME' => _('Time'),'BALANCE' => _('Balance'),'DISCOUNT' => _('Discount'),'DESCRIPTION' => _('Description'),'DISCOUNT' => _('Discount'),'AMOUNT' => _('Amount'),'SELLER' => _('User'));
-		$group = array(array('TRANSACTION_ID'));
-		$link['remove']['link'] = PreparePHP_SELF($_REQUEST,array(),array('modfunc' => 'delete'));
-		$link['remove']['variables'] = array('transaction_id' => 'TRANS_ID','item_id' => 'ITEM_ID');
+
+		$columns = array(
+			'TRANSACTION_ID' => _( 'ID' ),
+			'ACCOUNT_ID' => _( 'Account ID' ),
+			'FULL_NAME' => _( 'Student' ),
+			'DATE' => _( 'Date' ),
+			'TIME' => _( 'Time' ), // TODO: use ProperDateTime().
+			'BALANCE' => _( 'Balance' ),
+			'DISCOUNT' => _( 'Discount' ),
+			'DESCRIPTION' => _( 'Description' ),
+			'DISCOUNT' => _( 'Discount' ),
+			'AMOUNT' => _( 'Amount' ),
+			'SELLER' => _( 'User' ),
+		);
+
+		$group = array( array( 'TRANSACTION_ID' ) );
+
+		$link['remove']['link'] = PreparePHP_SELF(
+			$_REQUEST,
+			array( 'delete_cancel' ),
+			array( 'modfunc' => 'delete' )
+		);
+
+		$link['remove']['variables'] = array(
+			'transaction_id' => 'TRANS_ID',
+			'item_id' => 'ITEM_ID',
+		);
 	}
 	else
 	{

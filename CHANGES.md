@@ -7,7 +7,7 @@ Changes in 3.3
 - Add RedirectURL(), prevents showing an obsolete & confusing delete confirmation screen on page reload in Prepare_PHP_SELF.fnc.php & program wide
 - Handle X-Redirect-Url header in warehouse.js
 - Use PreparePHP_Self() in forms to maintain program state in Administration.php & Eligibility/Student.php
-- Fixed Cancel Delete Event in Calendar.php
+- Fixed Cancel Delete Event / Transaction in Calendar.php, ActivityReport.php & Statements.php
 - Remove "# Associated" column from Student list in AddStudents.php
 - Fix disabled buttons on back or page reload in Firefox in warehouse.js
 - CSS larger tooltip & fix FS menu calendar in stylesheet.css
