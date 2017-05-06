@@ -130,6 +130,8 @@ function PreparePHP_SELF( $tmp_REQUEST = array(), $remove = array(), $add = arra
  */
 function RedirectURL( $remove )
 {
+	static $remove_all = array();
+
 	if ( ! $remove )
 	{
 		return false;
@@ -150,7 +152,9 @@ function RedirectURL( $remove )
 		}
 	}
 
-	$redirect_url = PreparePHP_SELF( $_GET, $remove );
+	$remove_all = array_unique( array_merge( $remove_all, (array) $remove ) );
+
+	$redirect_url = PreparePHP_SELF( $_GET, $remove_all );
 
 	// Redirect URL.
 	header( 'X-Redirect-Url: ' . $redirect_url );
