@@ -2,6 +2,13 @@
 
 ## RosarioSIS Student Information System
 
+New in 3.3
+----------
+
+Up to 4x speed & memory gain (DBGet core function)
+
+Usability improvements
+
 New in 3.2
 ----------
 

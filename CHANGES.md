@@ -13,6 +13,7 @@ Changes in 3.3
 - CSS larger tooltip & fix FS menu calendar in stylesheet.css
 - Add  &student_id / &staff_id params to update form URL in Student.php & User.php
 - Do not display Contact Info tipmsg in Student List if no contacts in GetStuList.fnc.php
+- Remove eval(),  in DBGet.fnc.php
 
 Changes in 3.2
 --------------

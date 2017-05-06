@@ -15,6 +15,7 @@
  * Use the second parameter (an array of functions indexed by the column to apply them to)
  * if you need to do complicated formatting and don't want to loop through the
  * array before sending it to ListOutput.  Use especially when expecting a large result.
+ * Use with parcimony!
  *
  * $THIS_RET is a useful variable for the functions in the second parameter.  It is the current row of the
  * query result.
@@ -28,8 +29,7 @@
  * COURSE_ID,COURSE_PERIOD_ID from COURSE_PERIODS, and choose to index by
  * array('COURSE_ID','COURSE_PERIOD_ID') then you will be returned an array formatted like this:
  * $array[10101][402345][1] = array('COURSE_ID' => '10101','COURSE_PERIOD_ID' => '402345')
- *
- * @todo remove eval(), anyone?
+ * Use with parcimony!
  *
  * @example $column_RET = DBGet( DBQuery( "SELECT column FROM table;" ) );
  *
@@ -37,7 +37,7 @@
  *
  * @param  resource $QI        PostgreSQL result resource.
  * @param  array    $functions Associative array( 'COLUMN' => 'FunctionName' ); Functions to apply (optional).
- * @param  array    $index     Indexes of the resulting array (optional).
+ * @param  array    $index     Indexes of the resulting array (4 maximum) (optional).
  *
  * @return array    null if no results, else an array of formatted results
  */
@@ -45,66 +45,109 @@ function DBGet( $QI, $functions = array(), $index = array() )
 {
 	global $THIS_RET;
 
+	$tmp_THIS_RET = $THIS_RET;
+
 	$functions = (array) $functions;
+
+	foreach ( $functions as $function )
+	{
+		if ( ! function_exists( $function ) )
+		{
+			unset( $functions[ $function ] );
+		}
+	}
 
 	$index_count = count( $index );
 
-	$tmp_THIS_RET = $THIS_RET;
+	$s = ( $index_count ? array() : 0 );
 
 	$results = array();
 
-	while ( $RET = db_fetch_row( $QI ) )
+	while ( $THIS_RET = db_fetch_row( $QI ) )
 	{
-		$THIS_RET = $RET;
-
 		if ( $index_count )
 		{
-			$ind = '';
+			// $ind = '';
+
+			$ind = array();
 
 			foreach ( (array) $index as $col )
 			{
-				$ind .= "['" . str_replace( "'", "\'", $THIS_RET[ $col ] ) . "']";
+				// $ind .= "['" . str_replace( "'", "\'", $THIS_RET[ $col ] ) . "']";
+
+				$ind[] = $THIS_RET[ $col ];
+			}
+
+			if ( $index_count === 1 )
+			{
+				$this_ind = ++$s[ $ind[0] ];
+			}
+			elseif ( $index_count === 2 )
+			{
+				$this_ind = ++$s[ $ind[0] ][ $ind[1] ];
+			}
+			elseif ( $index_count === 3 )
+			{
+				$this_ind = ++$s[ $ind[0] ][ $ind[1] ][ $ind[2] ];
+			}
+			elseif ( $index_count === 4 )
+			{
+				$this_ind = ++$s[ $ind[0] ][ $ind[1] ][ $ind[2] ][ $ind[3] ];
 			}
 
 			// eval('$s'.$ind.'++;$this_ind=$s'.$ind.';');
 
-			if ( ! eval( 'return isset($s' . $ind . ');' ) )
+			/*if ( ! eval( 'return isset($s' . $ind . ');' ) )
 			{
 				eval( '$s' . $ind . '=1;' );
 			}
 			else
 				eval( '$s' . $ind . '++;' );
 
-			eval( '$this_ind=$s' . $ind . ';' );
-		}
-		elseif ( ! isset( $s ) )
-		{
-			$s = 1;
+			eval( '$this_ind=$s' . $ind . ';' );*/
 		}
 		else
 			$s++; // 1-based if no index specified.
 
-		foreach ( (array) $RET as $key => $value )
+		foreach ( $THIS_RET as $key => $value )
 		{
-			if ( isset( $functions[ $key ] )
-				&& function_exists( $functions[ $key ] ) )
+			if ( isset( $functions[ $key ] ) )
 			{
-				if ( $index_count )
-				{
-					eval( '$results' . $ind . '[ $this_ind ][ $key ] = $functions[ $key ]($value,$key);' );
-				}
-				else
-					$results[ $s ][ $key ] = $functions[ $key ]( $value, $key );
+				$result = $functions[ $key ]( $value, $key );
 			}
 			else
 			{
-				if ( $index_count )
-				{
-					eval( '$results' . $ind . '[ $this_ind ][ $key ] = $value;' );
-				}
-				else
-					$results[ $s ][ $key ] = $value;
+				$result = $value;
 			}
+
+			if ( ! $index_count )
+			{
+				$results[ $s ][ $key ] = $result;
+			}
+			elseif ( $index_count === 1 )
+			{
+				$results[ $ind[0] ][ $this_ind ][ $key ] = $result;
+			}
+			elseif ( $index_count === 2 )
+			{
+				$results[ $ind[0] ][ $ind[1] ][ $this_ind ][ $key ] = $result;
+			}
+			elseif ( $index_count === 3 )
+			{
+				$results[ $ind[0] ][ $ind[1] ][ $ind[2] ][ $this_ind ][ $key ] = $result;
+			}
+			elseif ( $index_count === 4 )
+			{
+				$results[ $ind[0] ][ $ind[1] ][ $ind[2] ][ $ind[3] ][ $this_ind ][ $key ] = $result;
+			}
+
+			/*if ( isset( $functions[ $key ] )
+				&& function_exists( $functions[ $key ] ) )
+			{
+				eval( '$results' . $ind . '[ $this_ind ][ $key ] = $functions[ $key ]($value,$key);' );
+			}
+			else
+				eval( '$results' . $ind . '[ $this_ind ][ $key ] = $value;' );*/
 		}
 	}
 
