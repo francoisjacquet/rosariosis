@@ -139,7 +139,15 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 				$RET[ $RET_key ]=array_map('types_locale', $RET_val);
 			}
 		}
-		ListOutput($RET,$columns,'Transaction','Transactions',$link,$group);
+
+		ListOutput(
+			$RET,
+			$columns,
+			'Transaction',
+			'Transactions',
+			$link,
+			$group
+		);
 	}
 	else
 		echo ErrorMessage(array(_('This student does not have a valid Meal Account.')));
