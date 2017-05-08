@@ -15,6 +15,8 @@ Changes in 3.3
 - Do not display Contact Info tipmsg in Student List if no contacts in GetStuList.fnc.php
 - Remove eval(),  in DBGet.fnc.php
 - Fix PHP error 'VALUE' index. Append % to Teacher grade scale breakoff in ReportCardGrades.php
+- Format ListOutput() code, rework nav HTML & logic in ListOutput.fnc.php
+- Do not submit form when LO_search in ListOutput.fnc.php & warehouse.js
 
 Changes in 3.2
 --------------

@@ -57,7 +57,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 	$num_displayed = 1000;
 
-	// PREPARE LINKS ---
+	// PREPARE LINKS ---.
 	$extra = 'LO_page=' . ( isset( $_REQUEST['LO_page'] ) ? $_REQUEST['LO_page'] : '' ) .
 		'&amp;LO_sort=' . ( isset( $LO_sort ) ? $LO_sort : '' ) .
 		'&amp;LO_dir=' . ( isset( $_REQUEST['LO_dir'] ) ? $_REQUEST['LO_dir'] : '' ) .
@@ -75,7 +75,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			'remove_name'
 		)
 	);
-	// END PREPARE LINKS ---
+	// END PREPARE LINKS ---.
 
 	// UN-GROUPING
 	if ( empty( $group ) )
@@ -192,7 +192,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 	//$_LIST['output'] = true;
 
 
-	// PRINT HEADINGS, PREPARE PDF, AND SORT THE LIST ---
+	// PRINT HEADINGS, PREPARE PDF, AND SORT THE LIST ---.
 	/*if ( $_LIST['output']!=false)
 	{*/
 
@@ -209,7 +209,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 		$cols = count( $column_names );
 
-		// HANDLE SEARCHES ---
+		// HANDLE SEARCHES ---.
 		if ( $result_count
 			&& !empty( $_REQUEST['LO_search'] ) )
 		{
@@ -285,7 +285,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				}
 			}
 
-			// Add Relevance column
+			// Add Relevance column.
 			if ( $result_count )
 			{
 				array_multisort( $values, SORT_DESC, $result );
@@ -302,12 +302,12 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				{
 					$score = (int)( $values[ $i ] * $scale );
 
-					$result[ $i ]['RELEVANCE'] = '<!--' . $score . '-->
-						<div class="bar relevance" style="width:' . $score . 'px;">&nbsp;</div>';
+					$result[ $i ]['RELEVANCE'] = '<div class="bar relevance" style="width:' .
+						$score . 'px;">' . $score . '</div>';
 				}
-			}
 
-			$column_names['RELEVANCE'] = _( 'Relevance' );
+				$column_names['RELEVANCE'] = _( 'Relevance' );
+			}
 
 			if ( is_array( $group )
 				&& count( $group ) )
@@ -317,7 +317,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				$display_zero = true;
 			}
 		}
-		// END SEARCHES ---
+		// END SEARCHES ---.
 
 		if ( !empty( $LO_sort ) )
 		{
@@ -372,41 +372,19 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		}
 	}
 
-	// HANDLE SAVING THE LIST ---
+	// HANDLE SAVING THE LIST ---.
 	if ( $options['save']
 		&& $_REQUEST['LO_save'] == $options['save']
 		&& ! headers_sent() )
 	{
 		_listSave( $result, $column_names, $singular, $plural, Preferences( 'DELIMITER' ) );
 	}
-	// END SAVING THE LIST ---
+	// END SAVING THE LIST ---.
 
-	if (($options['count'] || $display_zero) && ((($result_count==0 || $display_count==0) && $plural) || ($result_count==0 || $display_count==0)))
+	if ( $result_count > 0
+		|| ! empty( $_REQUEST['LO_search'] ) )
 	{
-		echo '<table class="list-header';
-
-		if (isset($_REQUEST['_ROSARIO_PDF']))
-			echo ' width-100p';
-
-		if ( $options['center'])
-			echo ' center';
-
-		echo '"><tr><td class="center">';
-	}
-
-	if ( $options['count']
-		|| $display_zero )
-	{
-		if ( $result_count == 0
-			|| $display_count == 0 )
-		{
-			// No results message.
-            echo '<b>' . sprintf( _( 'No %s were found.' ), ngettext( $singular, $plural, 0 ) ) . '</b>';
-		}
-	}
-
-	if ( $result_count!=0 || !empty($_REQUEST['LO_search']))
-	{
+		// HANDLE MISC ---.
 		if ( !isset($_REQUEST['_ROSARIO_PDF']))
 		{
 			if (empty($_REQUEST['LO_page']))
@@ -476,8 +454,8 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 			if ( $options['print'])
 			{
-//FJ bug PDF
-/*					$html = explode('<div style="page-break-after: always;"></div>',mb_strtolower(ob_get_contents()));
+				//FJ bug PDF
+				/*$html = explode('<div style="page-break-after: always;"></div>',mb_strtolower(ob_get_contents()));
 				$html = $html[count($html)-1];
 				echo '</td></tr></table>';
 				$br = (mb_substr_count($html,'<br />')) + (mb_substr_count($html,'</p>')) + (mb_substr_count($html,'</tr>')) + (mb_substr_count($html,'</h1>')) + (mb_substr_count($html,'</h2>')) + (mb_substr_count($html,'</h3>')) + (mb_substr_count($html,'</h4>')) + (mb_substr_count($html,'</h5>'));
@@ -487,87 +465,121 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 					echo '<br />';
 				}*/
 			}
-			else
-				echo '</td></tr></table>';
+			/*else
+				echo '</td></tr></table>';*/
 		}
-		// END MISC ---
+		// END MISC ---.
+	}
 
-		// SEARCH BOX & MORE HEADERS
-		if ( !empty($options['header']))
-			echo '<table class="postbox width-100p cellspacing-0" style="margin-bottom:0px; border-bottom:solid 1px #f1f1f1;"><thead><tr><th class="center">' . $options['header'] . '</th></tr></thead></table>
-				<div class="postbox" style="padding:5px; border-top:none; border-top-left-radius:0px; border-top-right-radius:0px; box-shadow: none;">';
+	// SEARCH BOX & MORE HEADERS ---.
+	if ( !empty($options['header']))
+		echo '<table class="postbox width-100p cellspacing-0" style="margin-bottom:0px; border-bottom:solid 1px #f1f1f1;"><thead><tr><th class="center">' . $options['header'] . '</th></tr></thead></table>
+			<div class="postbox" style="padding:5px; border-top:none; border-top-left-radius:0px; border-top-right-radius:0px; box-shadow: none;">';
 
-		if ( !empty($where_message) || (($singular!='.') && ($plural!='.')) || (!isset($_REQUEST['_ROSARIO_PDF']) && $options['search']))
+	$list_has_nav = false;
+
+	if ( $options['count']
+		|| $display_zero
+		|| ( $options['save']
+			|| $options['search']
+			&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) ) )
+	{
+		$list_has_nav = true;
+
+		echo '<table class="list-nav"><tr class="st"><td>';
+
+		if ( $singular !== '.'
+			&& $plural !== '.'
+			&& $options['count'] )
 		{
-			echo '<table class="list-header"><tr class="st"><td>';
-
-			if ( $singular !== '.'
-				&& $plural !== '.'
-				&& $options['count'] )
+			if ( $display_count > 0 )
 			{
-				if ( $display_count > 0 )
-				{
-					echo '<b>' . sprintf(
-						ngettext( '%d %s was found.', '%d %s were found.', $display_count ),
-						$display_count,
-						ngettext( $singular, $plural, $display_count )
-					) . '</b>';
-				}
-
-				if ( isset( $where_message ) )
-				{
-					echo $where_message;
-				}
+				echo '<b>' . sprintf(
+					ngettext( '%d %s was found.', '%d %s were found.', $display_count ),
+					$display_count,
+					ngettext( $singular, $plural, $display_count )
+				) . '</b>';
 			}
 
-			if ( $options['save']
-				&& ! isset( $_REQUEST['_ROSARIO_PDF'] )
-				&& $result_count > 0 )
+			if ( isset( $where_message ) )
 			{
-				// Save / Export list button.
-				echo '&nbsp;<a href="' . $PHP_tmp_SELF . '&amp;' . $extra .
-					'&amp;LO_save=' . $options['save'] .
-					'&amp;_ROSARIO_PDF=true" target="_blank"><img src="assets/themes/' .
-					Preferences( 'THEME' ) . '/btn/download.png" class="alignImg" title="' .
-					_( 'Export list' ) . '" /></a>';
+				echo $where_message;
 			}
-
-			echo '</td>';
-
-			$colspan = 1;
-
-			if ( ! isset( $_REQUEST['_ROSARIO_PDF'] )
-				&& $options['search'] )
-			{
-				echo '<td class="align-right">';
-
-				// Do not remove search URL due to document.URL = 'index.php' in old IE browsers.
-				$search_URL = PreparePHP_SELF( $_REQUEST, array( 'LO_search' ) );
-
-				echo '<input type="text" id="LO_search" name="LO_search" value="' .
-					htmlspecialchars( $_REQUEST['LO_search'], ENT_QUOTES ) .
-					'" placeholder="' . _( 'Search' ) . '" onkeypress="LOSearch(event, this.value, \'' .
-						$search_URL . '\');" /><input type="button" value="' . _( 'Go' ) .
-					'" onclick="LOSearch(false, $(\'#LO_search\').val(), \'' .
-						$search_URL . '\');" /></td>';
-
-				$colspan++;
-			}
-
-			echo '</tr></table>';
 		}
 
-		echo '<div style="overflow-x:auto;"><table class="list widefat '.($options['responsive'] && !isset($_REQUEST['_ROSARIO_PDF']) ? 'rt' : '').'">';
+		if ( ( $options['count']
+				|| $display_zero )
+			&& ( $result_count == 0
+				|| $display_count == 0 ) )
+		{
+			// No results message. Default to "Results".
+			echo '<b>' . sprintf(
+				_( 'No %s were found.' ),
+				ngettext(
+					( $singular === '.' ? _( 'Result' ) : $singular ),
+					( $plural === '.' ? _( 'Results' ) : $plural ),
+					0
+				)
+			) . '</b>';
+		}
+
+
+		if ( $options['save']
+			&& ! isset( $_REQUEST['_ROSARIO_PDF'] )
+			&& $result_count > 0 )
+		{
+			// Save / Export list button.
+			echo '&nbsp;<a href="' . $PHP_tmp_SELF . '&amp;' . $extra .
+				'&amp;LO_save=' . $options['save'] .
+				'&amp;_ROSARIO_PDF=true" target="_blank"><img src="assets/themes/' .
+				Preferences( 'THEME' ) . '/btn/download.png" class="alignImg" title="' .
+				_( 'Export list' ) . '" /></a>';
+		}
+
+		echo '</td>';
+
+		$colspan = 1;
+
+		if ( $options['search']
+			&& ! isset( $_REQUEST['_ROSARIO_PDF'] )
+			&& ( $result_count > 0
+				|| $_REQUEST['LO_search'] ) )
+		{
+			echo '<td class="align-right">';
+
+			// Do not remove search URL due to document.URL = 'index.php' in old IE browsers.
+			$search_URL = PreparePHP_SELF( $_REQUEST, array( 'LO_search' ) );
+
+			echo '<input type="text" id="LO_search" name="LO_search" value="' .
+				htmlspecialchars( $_REQUEST['LO_search'], ENT_QUOTES ) .
+				'" placeholder="' . _( 'Search' ) . '" onkeypress="LOSearch(event, this.value, \'' .
+					$search_URL . '\');" /><input type="button" value="' . _( 'Go' ) .
+				'" onclick="LOSearch(event, $(\'#LO_search\').val(), \'' .
+					$search_URL . '\');" /></td>';
+
+			$colspan++;
+		}
+
+		echo '</tr></table>';
+	}
+	// END SEARCH BOX & MORE HEADERS ---.
+
+	if ( $result_count > 0 )
+	{
+		echo '<div style="overflow-x:auto;"><table class="list widefat' .
+			( $options['responsive'] && ! isset( $_REQUEST['_ROSARIO_PDF'] ) ? ' rt' : '' ) .
+			( ! $list_has_nav ? ' list-no-nav' : '' ) . '">';
 		echo '<thead><tr>';
 
 		$i = 1;
-		if ( $remove && !isset($_REQUEST['_ROSARIO_PDF']) && $result_count!=0)
+		if ( $remove
+			&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		{
 			echo '<th>&nbsp;</th>';
 			$i++;
 		}
 
-		if ( $result_count!=0 && $cols)
+		if ( $cols )
 		{
 			foreach ( (array) $column_names as $key => $value)
 			{
@@ -602,7 +614,8 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		echo '</tr></thead><tbody>';
 
 		// mab - enable add link as first or last
-		if ( $result_count!=0 && isset($link['add']['first']) && ($stop-$start+1)>=$link['add']['first'])
+		if ( isset( $link['add']['first'] )
+			&& ( $stop - $start + 1 ) >= $link['add']['first'] )
 		{
 			if ( $link['add']['link'] && !isset($_REQUEST['_ROSARIO_PDF']))
 				echo '<tr><td colspan="'.($remove?$cols+1:$cols).'">'.button('add',$link['add']['title'],$link['add']['link']).'</td></tr>';
@@ -731,7 +744,8 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			echo '</tr>';
 		}
 
-		if ( $result_count!=0 && (!isset($link['add']['first']) || ($stop-$start+1)<$link['add']['first']))
+		if ( ! isset( $link['add']['first'] )
+			|| ( $stop - $start + 1 ) < $link['add']['first'] )
 		{
 			//if ( $remove && !isset($_REQUEST['_ROSARIO_PDF']))
 			//	$cols++;
@@ -754,35 +768,39 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				echo '</tr>';
 			}
 		}
-		if ( $result_count!=0)
+
+		echo '</tbody></table></div>';
+
+		if ( ! empty( $options['header'] ) )
 		{
-			echo '</tbody></table></div>';
-		}
-		if ( !empty($options['header']))
 			echo '</div>';
-
-	// END PRINT THE LIST ---
+		}
 	}
-	if ( $result_count==0)
+	// END PRINT THE LIST ---.
+
+	// NO RESULTS, BUT HAS ADD FIELDS ---.
+	if ( $result_count == 0 )
 	{
-		// mab - problem with table closing if not opened above - do same conditional?
-		if (($options['count'] || $display_zero) && ((($result_count==0 || $display_count==0) && $plural) || ($result_count==0 || $display_count==0)))
-			echo '</td></tr></tbody></table>';
-
-		if ( !empty($options['header']))
-			echo '<table class="postbox width-100p cellspacing-0" style="margin-bottom:0px; border-bottom:0px;"><thead><tr><th class="center">' . $options['header'] . '</th></tr></thead></table>
-				<div class="postbox" style="padding:5px; border-top:none; border-top-left-radius:0px; border-top-right-radius:0px; box-shadow: none;">';
-
-		if ( $link['add']['link'] && !isset($_REQUEST['_ROSARIO_PDF']))
-			echo '<div class="center">' . button('add',$link['add']['title'],$link['add']['link']) . '</div>';
-		elseif (($link['add']['html'] || $link['add']['span']) && count($column_names) && !isset($_REQUEST['_ROSARIO_PDF']))
+		if ( $link['add']['link']
+			&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+		{
+			echo '<div class="center">' .
+				button( 'add', $link['add']['title'], $link['add']['link'] ) . '</div>';
+		}
+		elseif ( ( $link['add']['html']
+				|| $link['add']['span'] )
+			&& count( $column_names )
+			&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		{
 			// WIDTH=100%
 			if ( $link['add']['html'])
 			{
-				echo '<div style="overflow-x:auto;"><table class="list widefat width-100p';
-				if ( $options['responsive'] && !isset($_REQUEST['_ROSARIO_PDF']))
+				echo '<div style="overflow-x:auto;"><table class="list widefat';
+				if ( $options['responsive'] )
 					echo ' rt';
+
+				if ( ! $list_has_nav )
+					echo ' list-no-nav';
 
 				if ( $options['center'])
 					echo ' center';
@@ -809,7 +827,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				echo '</tr></tbody>';
 				echo '</table></div>';
 			}
-			elseif ( $link['add']['span'] && !isset($_REQUEST['_ROSARIO_PDF']))
+			elseif ( $link['add']['span'] )
 			{
 				echo '<table class="postbox';
 
@@ -819,10 +837,13 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				echo '"><tr><td>'.button('add').$link['add']['span'].'</td></tr></table>';
 			}
 		}
-		if ( !empty($options['header']))
+
+		if ( ! empty( $options['header'] ) )
+		{
 			echo '</div>';
+		}
 	}
-	//}
+	// END NO RESULTS, BUT HAS ADD FIELDS ---.
 }
 
 
@@ -842,7 +863,7 @@ function _ReindexResults( $array )
 {
 	$new = array();
 
- 	$i = 1;
+	$i = 1;
 
 	foreach ( (array) $array as $value )
 	{
