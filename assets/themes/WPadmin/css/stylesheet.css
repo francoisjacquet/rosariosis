@@ -823,7 +823,7 @@ div.error .button, div.updated .button{
 
 /*bars*/
 .bar{
-	height:12px
+	word-wrap: normal;
 }
 
 

@@ -250,11 +250,14 @@ hr{
 }
 
 /*bars*/
+.bar {
+	color: transparent;
+}
 .bar.relevance{
-	background:gray
+	background: gray;
 }
 .divPortalPoll .bar{
-	background: #cc4400
+	background: #cc4400;
 }
 
 /* colorBox */

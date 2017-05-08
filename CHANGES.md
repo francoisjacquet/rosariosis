@@ -19,6 +19,7 @@ Changes in 3.3
 - Do not submit form when LO_search in ListOutput.fnc.php & warehouse.js
 - CSS Rename .list-header to .list-nav & add .list-no-nav class in stylesheet.css
 - Add Grunt for automatic CSS & JS files concat & minify in package.json, Gruntfile.js, assets/js/ & assets/themes/WPadmin/
+- Relevance score inside bar (transparent) so value can be exported in stylesheet.css, colors.css & ListOutput.fnc.php
 
 Changes in 3.2
 --------------
