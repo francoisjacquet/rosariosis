@@ -14,6 +14,7 @@ Changes in 3.3
 - Add  &student_id / &staff_id params to update form URL in Student.php & User.php
 - Do not display Contact Info tipmsg in Student List if no contacts in GetStuList.fnc.php
 - Remove eval(),  in DBGet.fnc.php
+- Fix PHP error 'VALUE' index. Append % to Teacher grade scale breakoff in ReportCardGrades.php
 
 Changes in 3.2
 --------------
