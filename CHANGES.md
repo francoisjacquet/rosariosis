@@ -3,7 +3,7 @@
 
 Changes in 3.3
 --------------
-- CSS Add padding to .list-header & remove spaces before buttons in ListOutput.fnc.php & stylesheet.css
+- CSS Add padding to .list-nav & remove spaces before buttons in ListOutput.fnc.php & stylesheet.css
 - Add RedirectURL(), prevents showing an obsolete & confusing delete confirmation screen on page reload in Prepare_PHP_SELF.fnc.php & program wide
 - Handle X-Redirect-Url header in warehouse.js
 - Use PreparePHP_Self() in forms to maintain program state in Administration.php & Eligibility/Student.php
@@ -17,6 +17,7 @@ Changes in 3.3
 - Fix PHP error 'VALUE' index. Append % to Teacher grade scale breakoff in ReportCardGrades.php
 - Format ListOutput() code, rework nav HTML & logic in ListOutput.fnc.php
 - Do not submit form when LO_search in ListOutput.fnc.php & warehouse.js
+- CSS Rename .list-header to .list-nav & add .list-no-nav class in stylesheet.css
 
 Changes in 3.2
 --------------
@@ -71,7 +72,7 @@ Changes in 3.0.2
 Changes in 3.0.1
 ----------------
 - Fix popup + AJAX: no Warehouse header / footer neede in Modules.php & Warehouse.php
-- CSS optimizations: add .header & .list-header classes in DrawHeader.fnc.php & ListOutput.fnc.php
+- CSS optimizations: add .header & .list-nav classes in DrawHeader.fnc.php & ListOutput.fnc.php
 - CSS Media queries for mobile: update for iPhone 6 plus in stylesheet.css
 - Add isAJAX() function in Warehouse.php
 - Simplified code in Modules.php
