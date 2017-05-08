@@ -7,6 +7,7 @@
 #menuback,#menu{
 	width:205px
 }
+
 /*ScrollToFixed bug when menu hidden*/
 #menu.scroll-to-fixed-fixed.hide + div{
 	width:0!important
@@ -108,6 +109,7 @@ a{
 iframe,img{
 	border:0
 }
+
 /* Responsive image */
 img{
 	max-width: 100%;
@@ -189,6 +191,7 @@ hr {
 	border:0 none;
 	margin:14px 0
 }
+
 .widefat,div.updated,div.error,textarea,input[type=text],input[type=password],input[type=file],input[type=button],input[type=submit],input[type=reset],input[type=email],input[type=number],input[type=search],input[type=tel],input[type=url],select,.postbox{
 	border-radius:3px;
 	border-width:1px;
@@ -221,6 +224,7 @@ hr {
 .widefat tfoot th:last-of-type{
 	border-bottom-right-radius:3px
 }
+
 /* listOutput sorting icon */
 .widefat th a[href*="LO_dir"]:after{
 	font-family: monospace;
@@ -235,6 +239,7 @@ hr {
 .widefat th a[href*="LO_dir=-1"]:hover:after{
 	content: "\25be";
 }
+
 /*empty header link (checkbox / checkAll)*/
 .widefat th a:empty:after{
 	content: "";
@@ -263,20 +268,26 @@ hr {
 .widefat td p{
 	margin:2px 0 .8em
 }
+
+
 /* Lists */
-.list-header,.list {
+.list-nav,.list {
 	/* Move .width-100p here */
 	width: 100%;
 }
-.list-header {
+.list-nav {
 	margin-top: 16px;
 }
-.list-header td {
+.list-nav td {
 	padding: 4px 8px;
 }
 .list {
 	margin-bottom: 16px;
 }
+.list-no-nav {
+	margin-top: 24px;
+}
+
 
 div.error{
 	padding:0 .6em;
@@ -286,9 +297,11 @@ div.updated{
 	padding:2px 9px;
 	margin:16px 0
 }
+
 .postbox > thead th,.widefat th{
 	font-family:Georgia,"Times New Roman",Times,serif
 }
+
 select option{
 	padding:2px
 }
@@ -312,6 +325,8 @@ input[type=submit],input[type=reset],input[type=button]{
 label{
 	vertical-align:middle
 }
+
+
 .adminmenu,.wp-submenu{
 	width:100%;
 	list-style: outside none none;
@@ -406,11 +421,15 @@ html[dir="RTL"].no-touch .menu-module:hover .menu-top:after{
 .wp-submenu a{
 	margin:0
 }
+
+
 .current-person{
 	padding:1px;
 	margin-top:5px;
 	font-weight:bold;
 }
+
+
 .postbox{
 	margin-bottom:20px;
 	padding:0;
@@ -445,6 +464,7 @@ html[dir="RTL"].no-touch .menu-module:hover .menu-top:after{
 .postbox .h3multi{
 	overflow-y:hidden
 }
+
 th a{
 	display:block;
 	overflow:hidden;
@@ -454,11 +474,13 @@ th a{
 	position:relative;
 	min-width:255px
 }
+
 fieldset{
 	border-width:1px;
 	border-style:solid;
 	margin:0
 }
+
 .error a{
 	text-decoration:underline
 }
@@ -470,15 +492,19 @@ div.error p,div.updated p{
 	margin:.2em 0;
 	padding:2px
 }
+
 h3 span{
 	font-weight:normal
 }
+
 .highlight{
 	padding:3px 3px 3px 12px;
 	margin-left:-12px;
 	font-weight:bold;
 	border:0 none
 }
+
+
 
 /*added*/
 .hide{
@@ -523,6 +549,7 @@ h3 span{
 	line-height:1;
 	margin-left:-3px
 }
+
 /* Scheduling Requests Courses div */
 #courses_div{
 	position:absolute;
@@ -536,6 +563,7 @@ h3 span{
 	overflow:auto;
 	width:auto
 }
+
 .size-3{
 	font-size:11px
 }
@@ -549,10 +577,13 @@ h3 span{
 .sizep2{
 	font-size:16px
 }
+
 .underline-dots{
 	border-bottom-style:dotted;
 	border-bottom-width:1px
 }
+
+
 /* Textarea MarkDown */
 div.underline-dots{
 	display:inline-block;
@@ -604,6 +635,7 @@ textarea{
 	margin-top:0;
 	resize: vertical;
 }
+
 /*MarkDown to HTML table styling*/
 .markdown-to-html table{
 	border-collapse: collapse;
@@ -615,10 +647,12 @@ textarea{
 	padding: 5px;
 }
 
+
 .legend-gray, .legend-red{
 	margin-bottom:7px;
 	display:inline-block
 }
+
 .logo{
 	max-width:150px;
 	max-height:150px
@@ -626,12 +660,14 @@ textarea{
 #menu .logo{
 	margin-top:4px
 }
+
 .onclick{
 	cursor:pointer
 }
 div.onclick{
 	display: inline-block;
 }
+
 .cellspacing-0{
 	/*cellspacing="0"*/
 	border-spacing:0
@@ -648,6 +684,7 @@ div.onclick{
 	padding-right:5px;
 	padding-bottom:5px
 }
+
 .popTable{
 	padding:5px
 }
@@ -683,6 +720,7 @@ span.center,
 a.center{
 	display:block
 }
+
 tr.address > td{
 	border-style:none dotted none none;
 	border:1;
@@ -691,6 +729,7 @@ tr.address > td{
 .br-after{
 	display:block
 }
+
 
 /*Honor Roll cliparts + frames*/
 td.image-radio-list{
@@ -708,6 +747,7 @@ img.image-radio-list{
 	max-width:150px;
 	max-height:150px
 }
+
 
 /*buttons*/
 .button{
@@ -730,6 +770,7 @@ div.error .button, div.updated .button{
 	height:32px
 }
 
+
 /*login form*/
 .login form input[type=text],.login form input[type=password]{
 	font-weight:200;
@@ -742,6 +783,7 @@ div.error .button, div.updated .button{
 	outline:none;
 	box-shadow:inset 1px 1px 2px rgba(200,200,200,.2)
 }
+
 
 /*bottom*/
 .BottomButton{
@@ -768,6 +810,7 @@ div.error .button, div.updated .button{
 	padding-bottom:13px;
 }
 
+
 /* Loading spinner */
 .loading{
 	display: inline-block;
@@ -777,16 +820,19 @@ div.error .button, div.updated .button{
 	visibility:hidden
 }
 
+
 /*bars*/
 .bar{
 	height:12px
 }
+
 
 /*stackable tables*/
 div.st{
 	float:left;
 	padding:4px
 }
+
 
 /*student comments*/
 #student-comments{
@@ -801,6 +847,7 @@ div.st{
 	margin-bottom:15px;
 	border-bottom:1px solid
 }
+
 
 /*calendar*/
 #calendar{
@@ -838,16 +885,19 @@ td.calendar-menu{
 	max-width:none
 }
 
+
 /* colorBox */
 #cboxLoadedContent{
 	margin:1px;
 	padding:5px !important
 }
 
+
 /*responsive tables*/
 .rt .link2colorBox{
 	display:none
 }
+
 
 /*portal polls*/
 .divPortalPoll{
@@ -855,6 +905,7 @@ td.calendar-menu{
 	overflow-y:auto;
 	min-width: 300px
 }
+
 
 /*arrows*/
 .arrow.right:before,
@@ -874,12 +925,14 @@ td.calendar-menu{
 	padding:5px
 }
 
+
 /*jqplot charts*/
 .chart{
 	margin:20px 10px;
 	width:700px;
 	height:560px
 }
+
 
 /*tipmessage (DO NOT EDIT)*/
 #tipMsg{
@@ -889,6 +942,11 @@ td.calendar-menu{
 	top:-100px;
 	max-width:300px
 }
+.tipmsg-label {
+	display: inline-block;
+	border-bottom: 1px dashed #bbb;
+}
+
 
 /* Tooltip */
 .tooltip{
@@ -926,11 +984,6 @@ td.calendar-menu{
 	opacity:1
 }
 
-/* Tip Message */
-.tipmsg-label {
-	display: inline-block;
-	border-bottom: 1px dashed #bbb;
-}
 
 /* Toggle, CSS checkbox hack */
 .toggle {
@@ -941,6 +994,7 @@ input[type=checkbox].toggle {
 	position: absolute;
 	left: -9999px;
 }
+
 /* Fix for RTL languages */
 html[dir=RTL] input[type=checkbox].toggle {
 	right: -9999px;
@@ -963,15 +1017,18 @@ html[dir=RTL] input[type=checkbox].toggle {
 	content:"\25bc\0000a0"
 }
 
+
 /* MiniColors */
 .minicolors{
 	margin:2px 2px 2px 0;
 }
 
+
 /* Accessibility (a11y) */
 .a11y-hidden {
 	display: none;
 }
+
 
 /* Login, First login & Password Reset pages */
 .login,
@@ -986,10 +1043,12 @@ html[dir=RTL] input[type=checkbox].toggle {
 	max-width: 550px;
 }
 
+
 /* Create account page */
 .create-account {
 	padding: 0 2px;
 }
+
 
 /* AJAX error message */
 .ajax-error {
@@ -1003,6 +1062,7 @@ html[dir=RTL] input[type=checkbox].toggle {
 	z-index: 100000;
 	display: none;
 }
+
 
 /**
  * TinyMCE
@@ -1026,6 +1086,7 @@ html[dir=RTL] input[type=checkbox].toggle {
 	max-width: none;
 }
 
+
 /* TinyMCE responsive toolbar buttons */
 .mce-btn-group .mce-btn {
 	float: left;
@@ -1037,6 +1098,7 @@ html[dir=RTL] input[type=checkbox].toggle {
 	height: auto;
 }
 
+
 /* Chosen select: add 15px to original width so Chosen options ALL fit */
 .chosen-select {
 	min-width: 55px;
@@ -1046,6 +1108,7 @@ html[dir=RTL] input[type=checkbox].toggle {
 .chosen-select[multiple] {
 	padding-right: 23px;
 }
+
 
 /**
  * Disguise phone number "tel" links on desktop
@@ -1064,6 +1127,7 @@ html[dir=RTL] input[type=checkbox].toggle {
 		display:none
 	}
 }
+
 
 /*mobile*/
 @media only screen and (max-width:736px){
@@ -1150,6 +1214,7 @@ html[dir=RTL] input[type=checkbox].toggle {
 		padding: 3px 7px;
 	}
 }
+
 
 @media only screen and (max-width:1023px){
 	/*responsive tables*/
@@ -1303,6 +1368,7 @@ html[dir=RTL] input[type=checkbox].toggle {
 		content: "\25be";
 	}
 }
+
 
 /*320 & 360px mobile*/
 @media only screen and (max-width:479px){

@@ -1,17 +1,43 @@
-// Modules.php JS
+// Modules.php JS.
+/**
+ * Add/replace HTML given the markup and the target ID.
+ * @param {string}  html    [description]
+ * @param {string}  id      [description]
+ * @param {boolean} replace [description]
+ */
 function addHTML(html, id, replace) {
 	var el = document.getElementById( id );
 
 	el.innerHTML = replace ? html : el.innerHTML + html;
 }
 
+/**
+ * Check all checkboxes given the form,
+ * the value/state and the checkboxes name (beginning with).
+ *
+ * @param  {[type]} form      [description]
+ * @param  {string} value     [description]
+ * @param  {string} name_like [description]
+ */
 function checkAll(form, value, name_like) {
 	for (var i = 0, max = form.elements.length; i < max; i++) {
 		var chk = form.elements[i];
-		if (chk.type == 'checkbox' && chk.name.substr(0, name_like.length) == name_like) chk.checked = value;
+
+		if (chk.type == 'checkbox' &&
+			chk.name.substr(0, name_like.length) == name_like) {
+
+			chk.checked = value;
+		}
 	}
 }
 
+/**
+ * Switch menu,
+ * used for the Advanced search widgets.
+ * Toggles the next adjacent table element visibility.
+ *
+ * @param  {DOMelement} el The element, this.
+ */
 function switchMenu(el) {
 	$(el).toggleClass('switched').nextAll('table').first().toggle();
 }

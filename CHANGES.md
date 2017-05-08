@@ -18,6 +18,7 @@ Changes in 3.3
 - Format ListOutput() code, rework nav HTML & logic in ListOutput.fnc.php
 - Do not submit form when LO_search in ListOutput.fnc.php & warehouse.js
 - CSS Rename .list-header to .list-nav & add .list-no-nav class in stylesheet.css
+- Add Grunt for automatic CSS & JS files concat & minify in package.json, Gruntfile.js, assets/js/ & assets/themes/WPadmin/
 
 Changes in 3.2
 --------------

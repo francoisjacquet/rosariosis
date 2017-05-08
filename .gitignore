@@ -211,14 +211,19 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 
+# Node
+node_modules
+
 #RosarioSIS
 /config.inc.php
+assets/FileUploads/
 assets/AssignmentsFiles/
 assets/StudentPhotos/
 assets/UserPhotos/
 assets/school_logo*
 assets/themes/WPadmin-icon-sets/
 assets/themes/WPadmin-Aptiris/
+assets/themes/openSIS/
 modules/Students_Import/
 modules/Messaging/
 plugins/Paypal_Registration
