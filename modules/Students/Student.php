@@ -379,21 +379,37 @@ else
 
 echo ErrorMessage( $error );
 
-Search('student_id');
+Search( 'student_id' );
 
-if (UserStudentID() || $_REQUEST['student_id']=='new')
+if ( UserStudentID()
+	|| $_REQUEST['student_id'] === 'new' )
 {
-	if (User('PROFILE')!='student')
-		if (User('PROFILE_ID'))
-			$can_use_RET = DBGet(DBQuery("SELECT MODNAME FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='".User('PROFILE_ID')."' AND CAN_USE='Y'"),array(),array('MODNAME'));
-		else
-			$can_use_RET = DBGet(DBQuery("SELECT MODNAME FROM STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."' AND CAN_USE='Y'"),array(),array('MODNAME'));
+	// MODNAME LIKE 'Students/Student.php%'.
+	if ( User( 'PROFILE_ID' )
+		|| User( 'PROFILE' ) === 'student' )
+	{
+		$can_use_sql = "SELECT MODNAME
+			FROM PROFILE_EXCEPTIONS
+			WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'
+			AND CAN_USE='Y'
+			AND MODNAME LIKE 'Students/Student.php%'";
+	}
 	else
-		$can_use_RET = DBGet(DBQuery("SELECT MODNAME FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='0' AND CAN_USE='Y'"),array(),array('MODNAME'));
+	{
+		$can_use_sql = "SELECT MODNAME
+			FROM STAFF_EXCEPTIONS
+			WHERE USER_ID='" . User( 'STAFF_ID' ) . "'
+			AND CAN_USE='Y'
+			AND MODNAME LIKE 'Students/Student.php%'";
+	}
 
-	//FJ create account
-	if (basename($_SERVER['PHP_SELF'])=='index.php')
+	$can_use_RET = DBGet( DBQuery( $can_use_sql ), array(), array( 'MODNAME' ) );
+
+	// FJ create account.
+	if ( basename( $_SERVER['PHP_SELF'] ) === 'index.php' )
+	{
 		$can_use_RET['Students/Student.php&category_id=1'] = true;
+	}
 
 	//FJ General_Info only for new student
 	//$categories_RET = DBGet(DBQuery("SELECT ID,TITLE,INCLUDE FROM STUDENT_FIELD_CATEGORIES ORDER BY SORT_ORDER,TITLE"));
