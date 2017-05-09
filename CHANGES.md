@@ -21,6 +21,7 @@ Changes in 3.3
 - Add Grunt for automatic CSS & JS files concat & minify in package.json, Gruntfile.js, assets/js/ & assets/themes/WPadmin/
 - Relevance score inside bar (transparent) so value can be exported in stylesheet.css, colors.css & ListOutput.fnc.php
 - Check if Request exists before inserting in Requests.php
+- Check for PHP gd extension in diagnostic.php & INSTALL.md
 
 Changes in 3.2
 --------------

@@ -9,7 +9,7 @@ NOTE: Before Installing RosarioSIS, you must read and agree to the included [lic
 
 RosarioSIS is a web based application which relies on other facilities such as a web server, PHP server-side scripting, and PostgreSQL database server.
 
-For RosarioSIS to work you must first have your web server working, PostgreSQL working, PHP working (including the `pgsql`, `gettext`, `mbstring`, `curl`, `xmlrpc` & `xml` extensions). Setting these up varies a lot with platform, operating system, and distribution so it is well beyond to scope of this brief install document.
+For RosarioSIS to work you must first have your web server working, PostgreSQL working, PHP working (including the `pgsql`, `gettext`, `mbstring`, `gd`, `curl`, `xmlrpc` & `xml` extensions). Setting these up varies a lot with platform, operating system, and distribution so it is well beyond to scope of this brief install document.
 
 RosarioSIS was tested on:
 
@@ -106,7 +106,7 @@ Installing PHP extensions
 -------------------------
 
 Install instructions for Ubuntu 16.04:
-	`server$ sudo apt-get install php-pgsql php-gettext php-mbstring php-curl php-xmlrpc php-xml`
+	`server$ sudo apt-get install php-pgsql php-gettext php-mbstring php-gd php-curl php-xmlrpc php-xml`
 
 
 Installing other languages
