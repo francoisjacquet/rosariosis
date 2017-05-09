@@ -233,13 +233,13 @@ elseif ( isset( $_REQUEST['create_account'] ) )
 {
 	$include = false;
 
-	if ( $_REQUEST['create_account'] == 'user'
+	if ( $_REQUEST['create_account'] === 'user'
 		&& Config( 'CREATE_USER_ACCOUNT' ) )
 	{
 		$include = 'Users/User.php';
 	}
 
-	elseif ( $_REQUEST['create_account'] == 'student'
+	elseif ( $_REQUEST['create_account'] === 'student'
 		&& Config( 'CREATE_STUDENT_ACCOUNT' ) )
 	{
 		$include = 'Students/Student.php';
@@ -247,7 +247,8 @@ elseif ( isset( $_REQUEST['create_account'] ) )
 
 	if ( ! $include )
 	{
-		unset( $_REQUEST['create_account'] );
+		// Do not use RedirectURL() here (no JS loaded).
+		header( 'Location: index.php' );
 	}
 	else
 	{
