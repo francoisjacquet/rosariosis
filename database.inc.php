@@ -111,9 +111,9 @@ function DBQuery( $sql )
 /**
  * Return next row
  *
- * @param  PostgreSQL result resource $result Result.
+ * @param  resource PostgreSQL result resource $result Result.
  *
- * @return array 	next row in result set
+ * @return array 	Next row in result set.
  */
 function db_fetch_row( $result )
 {

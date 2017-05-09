@@ -176,7 +176,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	DrawHeader(ProgramTitle());
+	DrawHeader( ProgramTitle() );
 
 	if ( $_REQUEST['search_modfunc']=='list')
 	{

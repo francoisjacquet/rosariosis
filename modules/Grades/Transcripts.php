@@ -2,7 +2,8 @@
 
 if ( $_REQUEST['modfunc'] === 'save' )
 {
-	if ( count( $_REQUEST['mp_type_arr'] ) && count( $_REQUEST['st_arr'] ) )
+	if ( count( $_REQUEST['mp_type_arr'] )
+		&& count( $_REQUEST['st_arr'] ) )
 	{
 		// Limit School & Year to current ones if not admin.
 		$syear_list = ( User( 'PROFILE' ) === 'admin' && $_REQUEST['syear_arr'] ?
@@ -28,12 +29,12 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			$RET = GetStuList( $extra );
 		}
 
-		$t_grades = DBGet( DBQuery( "select *
-			from transcript_grades
-			where student_id in (" . $st_list . ")
-			and mp_type in (" . $mp_type_list . ")
-			and school_id='" . $school_id . "'
-			and syear in (" . $syear_list . ")
+		$t_grades = DBGet( DBQuery( "SELECT *
+			FROM transcript_grades
+			WHERE student_id IN (" . $st_list . ")
+			AND mp_type in (" . $mp_type_list . ")
+			AND school_id='" . $school_id . "'
+			AND syear in (" . $syear_list . ")
 			ORDER BY mp_type, end_date" ), array(), array( 'STUDENT_ID', 'SYEAR', 'MARKING_PERIOD_ID' ) );
 
 		if (count($t_grades) && count($RET))
@@ -67,11 +68,12 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				$certificateText = explode('__BLOCK2__', $_REQUEST['inputcertificatetext']);
 			}
 
-			$students_dataquery = "select
+			$students_dataquery = "SELECT
 			s.student_id
 			, s.first_name
 			, s.last_name
 			, s.middle_name";
+
 			$custom_fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE FROM CUSTOM_FIELDS WHERE ID IN (200000000, 200000003, 200000004)"),array(),array('ID'));
 
 			if ( $custom_fields_RET['200000000'] && $custom_fields_RET['200000000'][1]['TYPE'] == 'select')
@@ -93,15 +95,32 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			, a.mail_city
 			, a.mail_state
 			, a.mail_zipcode
-			, (select start_date from student_enrollment where student_id = s.student_id order by syear, start_date limit 1) as init_enroll
-			, (select sgl.title from school_gradelevels sgl join student_enrollment se on (sgl.id = se.grade_id) where se.syear = ".$syear." and se.student_id = s.student_id and (se.end_date is null or se.start_date < se.end_date) order by se.start_date desc limit 1) as grade_level
-			, (select sgl2.title from school_gradelevels sgl2, school_gradelevels sgl join student_enrollment se on (sgl.id = se.grade_id) where se.syear = ".$syear." and se.student_id = s.student_id and (se.end_date is null or se.start_date < se.end_date) and sgl2.id = sgl.next_grade_id order by se.start_date desc limit 1) as next_grade_level
-			from
-			students s
-			left outer join students_join_address sja on (sja.student_id = s.student_id)
-			left outer join address a on (a.address_id = sja.address_id) ";
+			, (SELECT start_date FROM student_enrollment
+				WHERE student_id=s.student_id
+				ORDER BY syear, start_date
+				LIMIT 1) as init_enroll
+			, (SELECT sgl.title
+				FROM school_gradelevels sgl JOIN student_enrollment se ON (sgl.id=se.grade_id)
+				WHERE se.syear='" . $syear . "'
+				AND se.student_id=s.student_id
+				AND (se.end_date is null OR se.start_date < se.end_date)
+				ORDER BY se.start_date desc
+				LIMIT 1) as grade_level
+			, (SELECT sgl2.title
+				FROM school_gradelevels sgl2, school_gradelevels sgl JOIN student_enrollment se ON (sgl.id=se.grade_id)
+				WHERE se.syear='" . $syear . "'
+				AND se.student_id=s.student_id
+				AND (se.end_date is null OR se.start_date < se.end_date)
+				AND sgl2.id=sgl.next_grade_id
+				ORDER BY se.start_date desc
+				LIIT 1) as next_grade_level
+			FROM students s
+			LEFT OUTER JOIN students_join_address sja ON (sja.student_id=s.student_id)
+			LEFT OUTER JOIN address a ON (a.address_id=sja.address_id) ";
 
-			$students_data = DBGet(DBQuery($students_dataquery.' where s.student_id in ('.$st_list.') order by last_name, first_name'),array(),array('STUDENT_ID'));
+			$students_data = DBGet( DBQuery( $students_dataquery .
+				' WHERE s.student_id IN (' . $st_list . ')
+				ORDER BY last_name, first_name' ), array(), array( 'STUDENT_ID' ) );
 
 
 			$handle = PDFStart();
@@ -365,7 +384,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	DrawHeader(ProgramTitle());
+	DrawHeader( ProgramTitle() );
 
 	if ( $_REQUEST['search_modfunc']=='list')
 	{

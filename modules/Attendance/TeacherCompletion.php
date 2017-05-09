@@ -31,7 +31,7 @@ foreach ( (array) $categories_RET as $category)
 	$category_select .= '<option value="'.$category[ID].'"'.(($_REQUEST['table']==$category['ID'])?' selected':'').">".$category['TITLE']."</option>";
 $category_select .= "</select>";
 
-$QI = DBQuery("SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp WHERE sp.SCHOOL_ID='".UserSchool()."' AND sp.SYEAR='".UserSyear()."' AND EXISTS (SELECT '' FROM COURSE_PERIODS WHERE SYEAR=sp.SYEAR AND PERIOD_ID=sp.PERIOD_ID AND position(',$_REQUEST[table],' IN DOES_ATTENDANCE)>0) ORDER BY sp.SORT_ORDER");
+$QI = DBQuery("SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp WHERE sp.SCHOOL_ID='".UserSchool()."' AND sp.SYEAR='".UserSyear()."' AND EXISTS (SELECT '' FROM COURSE_PERIODS WHERE SYEAR=sp.SYEAR AND PERIOD_ID=sp.PERIOD_ID AND position('," . $_REQUEST['table'] . ",' IN DOES_ATTENDANCE)>0) ORDER BY sp.SORT_ORDER");
 $periods_RET = DBGet($QI,array(),array('PERIOD_ID'));
 
 $period_select = "<select name=period onChange='ajaxPostForm(this.form,true);'><option value=''>"._('All')."</option>";

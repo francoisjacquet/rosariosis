@@ -159,7 +159,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$extra['extra_header_left'] .= '<tr><td colspan="4"><b>'._('Include On Labels').':</b></td></tr>';
 		$extra['extra_header_left'] .= '<tr class="st">';
-//FJ add <label> on radio
+
 		$extra['extra_header_left'] .= '<td><label><input type="radio" name="full_name" value="given" checked /> '._('Last, Given Middle').'</label></td>';
 		$extra['extra_header_left'] .= '<td><label><input type="radio" name="full_name" value="given_natural"> '._('Given Last').'</label></td>';
 		if (User('PROFILE')=='admin')
@@ -167,7 +167,7 @@ if ( ! $_REQUEST['modfunc'] )
 			if ( $_REQUEST['w_course_period_id_which']=='course_period' && $_REQUEST['w_course_period_id'])
 			{
 				$course_RET = DBGet(DBQuery("SELECT s.FIRST_NAME||' '||s.LAST_NAME AS TEACHER,cp.ROOM FROM STAFF s,COURSE_PERIODS cp WHERE s.STAFF_ID=cp.TEACHER_ID AND cp.COURSE_PERIOD_ID='".$_REQUEST['w_course_period_id']."'"));
-//FJ add <label> on checkbox
+
 				$extra['extra_header_left'] .= '<tr><td colspan="4"><label><input type="checkbox" name="teacher" value="Y"> '._('Teacher').' ('.$course_RET[1]['TEACHER'].')</label></td></tr>';
 				$extra['extra_header_left'] .= '<tr><td colspan="4"><label><input type="checkbox" name="room" value="Y"> '._('Room').' ('.$course_RET[1]['ROOM'].')</label></td></tr>';
 			}
