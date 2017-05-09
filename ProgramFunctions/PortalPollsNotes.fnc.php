@@ -261,7 +261,7 @@ function PortalPollsVotesDisplay( $poll_id, $display_votes, $poll_questions_RET,
 
 			$votes_display .= '<tr>
 				<td>' . $options_array[ $i ] . '</td>
-				<td><div class="bar" style="width:' . $percent . 'px;">&nbsp;</div></td>
+				<td><div class="bar" style="width:' . $percent . 'px;">' . $percent . '</div></td>
 				<td><b> ' . $percent . '%</b></td>
 			</tr>' . "\n";
 		}
