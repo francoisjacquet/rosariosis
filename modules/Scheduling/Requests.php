@@ -109,12 +109,18 @@ if ( $_REQUEST['modfunc'] === 'add' )
 		$subject_id = $subject_id[1]['SUBJECT_ID'];
 
 		DBQuery( "INSERT INTO SCHEDULE_REQUESTS (REQUEST_ID,SYEAR,SCHOOL_ID,STUDENT_ID,SUBJECT_ID,COURSE_ID)
-			values(" . db_seq_nextval( 'SCHEDULE_REQUESTS_SEQ' ) . ",'" .
+			SELECT " . db_seq_nextval( 'SCHEDULE_REQUESTS_SEQ' ) . ",'" .
 				UserSyear() . "','" .
 				UserSchool() . "','" .
 				UserStudentID() . "','" .
 				$subject_id . "','" .
-				$course_id . "')" );
+				$course_id . "'
+			WHERE NOT EXISTS (SELECT COURSE_ID
+				FROM SCHEDULE_REQUESTS
+				WHERE SYEAR='" .UserSyear() . "'
+				AND SCHOOL_ID='" . UserSchool() . "'
+				AND STUDENT_ID='" . UserStudentID() . "'
+				AND COURSE_ID='" . $course_id . "')" );
 	}
 
 	// Unset modfunc & course & redirect URL.
