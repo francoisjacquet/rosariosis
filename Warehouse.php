@@ -63,6 +63,11 @@ if ( ! isset( $UserPicturesPath ) )
 	$UserPicturesPath = 'assets/UserPhotos/';
 }
 
+if ( ! isset( $FileUploadsPath ) )
+{
+	$FileUploadsPath = 'assets/FileUploads/';
+}
+
 if ( ! isset( $LocalePath ) )
 {
 	// Path were the language packs are stored. You need to restart Apache at each change in this directory.
