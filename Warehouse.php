@@ -15,7 +15,7 @@
  * @package RosarioSIS
  */
 
-define( 'ROSARIO_VERSION', '3.2' );
+define( 'ROSARIO_VERSION', '3.3-beta' );
 
 /**
  * Include config.inc.php file.

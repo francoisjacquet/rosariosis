@@ -13,7 +13,7 @@ Changes in 3.3
 - CSS larger tooltip & fix FS menu calendar in stylesheet.css
 - Add  &student_id / &staff_id params to update form URL in Student.php & User.php
 - Do not display Contact Info tipmsg in Student List if no contacts in GetStuList.fnc.php
-- Remove eval(),  in DBGet.fnc.php
+- Remove eval(), up to 4x speed & memory gain in DBGet.fnc.php
 - Fix PHP error 'VALUE' index. Append % to Teacher grade scale breakoff in ReportCardGrades.php
 - Format ListOutput() code, rework nav HTML & logic in ListOutput.fnc.php
 - Do not submit form when LO_search in ListOutput.fnc.php & warehouse.js
