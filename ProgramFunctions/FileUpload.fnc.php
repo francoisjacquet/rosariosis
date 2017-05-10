@@ -85,13 +85,244 @@ function FileUpload( $input, $path, $ext_white_list, $size_limit, &$error, $fina
 				0,
 				mb_strrpos( $_FILES[ $input ]['name'], '.' )
 			) ) . $final_ext
-		) ) 
+		) )
 	) )
 	{
 		$error[] = sprintf( _( 'File invalid or not moveable' ) . ': %s', $_FILES[ $input ]['tmp_name'] );
 	}
 
 	return $full_path;
+}
+
+
+/**
+ * Image File Upload
+ *
+ * @example ImageUpload( 'photo', array( 'width' => 150, 'height' => '150' ), $StudentPicturesPath . UserSyear() . '/', array(), '.jpg', UserStudentID() );
+ * @example ImageUpload( $base64_img, array( 'width' => 640, 'height' => '320' ) );
+ *
+ * @since 3.3
+ *
+ * @uses FileUpload()
+ * @uses ImageResizeGD class.
+ *
+ * @param string $input            Name of the input file field, for example 'photo', or base64 encoded data, src attribute value.
+ * @param array  $target_dim       Target dimensions to determine if can be resized. Defaults to array( 'width' => 994, 'height' => 1405 ) (optional).
+ * @param string $path             Final path with trailing slash, for example $StudentPicturesPath . UserSyear() . '/'. Defaults to "assets/FileUploads/[Syear]/[staff_or_student_ID]/" (optional).
+ * @param array  $ext_white_list   Extensions white list, for example array('.jpg', '.jpeg').
+ * @param string $final_ext        Final file extension (useful for .jpg, if .jpeg submitted) (optional).
+ * @param string $file_name_no_ext Final file name without extension, for example UserStudentID() (optional).
+ *
+ * @return string|boolean Full path to file, or false if error
+ */
+function ImageUpload( $input, $target_dim = array(), $path = '', $ext_white_list = array(), $final_ext = null, $file_name_no_ext = '' )
+{
+	global $FileUploadsPath,
+		$PNGQuantPath,
+		$error;
+
+	require_once 'classes/ImageResizeGD.php';
+
+	$is_base64 = ( strpos( $input, 'data:image' ) === 0 );
+
+	if ( ! $path )
+	{
+		// Path defaults to "assets/FileUploads/[Syear]/[staff_or_student_ID]/".
+		$user_folder = User( 'STAFF_ID' ) ? 'staff_' . User( 'STAFF_ID' ) : 'student_' . UserStudentID();
+
+		$path = $FileUploadsPath . UserSyear() . '/' . $user_folder . '/';
+	}
+
+	if ( ! $ext_white_list )
+	{
+		// Defaults to JPG, PNG & GIF.
+		$ext_white_list = array( '.jpg', '.jpeg', '.png', '.gif' );
+	}
+
+	// Defaults to horizontal PDF target dimensions.
+	$target_dim_default = array( 'width' => 994, 'height' => 1405 );
+
+	$target_dim = array_replace_recursive( $target_dim_default, (array) $target_dim );
+
+	if ( ImageResizeGD::test() )
+	{
+		// If folder doesnt exist, create it!
+		if ( ! is_dir( $path )
+			&& ! mkdir( $path, 0774, true ) )
+		{
+			$error[] = sprintf( _( 'Folder not created' ) . ': %s', $path );
+
+			return ( $is_base64 ? $input : false );
+		}
+		elseif ( ! is_writable( $path ) )
+		{
+			// See PHP / Apache user rights for folder.
+			$error[] = sprintf( _( 'Folder not writable' ) . ': %s', $path );
+
+			return ( $is_base64 ? $input : false );
+		}
+
+		if ( ! $is_base64 )
+		{
+			if ( ! is_uploaded_file( $_FILES[ $input ]['tmp_name'] ) )
+			{
+				// Check the post_max_size & php_value upload_max_filesize values in the php.ini file.
+				$error[] = _( 'File not uploaded' );
+
+				return false;
+			}
+
+			$image_path_or_string = $_FILES[ $input ]['tmp_name'];
+
+			$original_image_size = filesize( $image_path_or_string );
+		}
+		else
+		{
+			$image_path_or_string = $input;
+
+			// http://stackoverflow.com/questions/5373544/php-size-of-base64-encode-string-file
+			$original_image_size = (int) ( strlen( rtrim( $image_path_or_string, '=' ) ) * 3 / 4 );
+		}
+
+		// Build file name.
+		if ( $file_name_no_ext )
+		{
+			$file_name = $file_name_no_ext . $final_ext;
+		}
+		elseif ( $is_base64 )
+		{
+			// Use MD5 sum for base64 images.
+			$file_name = md5( $image_path_or_string ) . $final_ext;
+
+			$full_path = $path . $file_name;
+
+			// Check if file already exists?
+			if ( $final_ext
+				&& file_exists( $full_path ) )
+			{
+				return $full_path;
+			}
+			elseif ( file_exists( $full_path . '.jpg' ) )
+			{
+				return $full_path . '.jpg';
+			}
+			elseif ( file_exists( $full_path . '.png' ) )
+			{
+				return $full_path . '.png';
+			}
+			elseif ( file_exists( $full_path . '.gif' ) )
+			{
+				return $full_path . '.gif';
+			}
+		}
+		else
+		{
+			// Use original file name.
+			$file_name = no_accents( mb_substr(
+				$_FILES[ $input ]['name'],
+				0,
+				mb_strrpos( $_FILES[ $input ]['name'], '.' )
+			) ) . $final_ext;
+		}
+
+		$extension = null;
+
+		if ( mb_strtolower( $final_ext ) === '.jpg'
+			|| mb_strtolower( $final_ext ) === '.jpeg' )
+		{
+			$extension = IMAGETYPE_JPEG;
+		}
+		elseif ( mb_strtolower( $final_ext ) === '.png' )
+		{
+			$extension = IMAGETYPE_PNG;
+		}
+		elseif ( mb_strtolower( $final_ext ) === '.gif' )
+		{
+			$extension = IMAGETYPE_GIF;
+		}
+
+		try
+		{
+			$target_jpg_compression = 85;
+
+			$image_resize_gd = new ImageResizeGD(
+				$image_path_or_string,
+				$target_jpg_compression,
+				9,
+				$PNGQuantPath
+			);
+
+			if ( $image_resize_gd->getSourceWidth() > $target_dim['width'] * 2
+				|| $image_resize_gd->getSourceHeight() > $target_dim['height'] * 2 )
+			{
+				// Image dimensions > target dimensions *2 (enough for Retina), resize.
+				$image_resize_gd->resizeWithinDimensions(
+					$target_dim['width'] * 2,
+					$target_dim['height'] * 2
+				);
+
+				$target_jpg_compression = 50;
+			}
+			elseif ( $image_resize_gd->getSourceWidth() > $target_dim['width']
+				|| $image_resize_gd->getSourceHeight() > $target_dim['height'] )
+			{
+				// Image dimensions > target dimensions, do not resize but compress a bit more.
+				$target_jpg_compression = 75;
+			}
+
+			// Upload image and return path.
+			$full_path = $image_resize_gd->saveImageFile(
+				$path . $file_name,
+				$extension,
+				$target_jpg_compression,
+				// White background for JPEG.
+				( $extension === IMAGETYPE_JPEG ? 'FFFFFF' : null )
+			);
+
+			if ( filesize( $full_path ) < $original_image_size )
+			{
+				return $full_path;
+			}
+			elseif ( $is_base64 )
+			{
+				// Our "optimized" file results bigger than the original one...
+				$image_data = $image_path_or_string;
+
+				$image_data = substr( $image_data, ( strpos( $image_data, 'base64' ) + 6 ) );
+
+				$image_data = base64_decode( $image_data );
+
+				// Save the original base64 image instead.
+				file_put_contents( $full_path, $image_data );
+			}
+		}
+		catch ( Exception $e )
+		{
+			$error[] = 'ImageResizeGD: ' . $e->getMessage();
+		}
+		catch ( InvalidArgumentException $e )
+		{
+			$error[] = 'ImageResizeGD: ' . $e->getMessage();
+		}
+	}
+
+	// No GD library or ImageResizeGD exception...
+	if ( $is_base64 )
+	{
+		// We return the base64 image as is...
+		return $input;
+	}
+
+	// Use regular FileUpload() function.
+	return (string) FileUpload(
+		$input,
+		$path,
+		$ext_white_list,
+		0,
+		$error,
+		(string) $final_ext,
+		$file_name_no_ext
+	);
 }
 
 
