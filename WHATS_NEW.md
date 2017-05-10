@@ -5,6 +5,8 @@
 New in 3.3
 ----------
 
+New File Uploads folder in `assets/FileUploads/`.
+
 .jpg, .png, .gif formats are now accepted for Student / User photos.
 The 2MB size limit was removed.
 

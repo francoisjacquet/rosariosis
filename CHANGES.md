@@ -22,6 +22,7 @@ Changes in 3.3
 - Relevance score inside bar (transparent) so value can be exported in stylesheet.css, colors.css & ListOutput.fnc.php
 - Check if Request exists before inserting in Requests.php
 - Check for PHP gd extension in diagnostic.php & INSTALL.md
+- Add general File Uploads folder in assets/FileUploads/
 - Add $FileUploadsPath & $PNGQuantPath optional configuration variables in INSTALL.md & Warehouse.php
 - Add Image resize and compress class in classes/ImageResizeGD.php
 - Add ImageUpload() function in FileUpload.fnc.php
