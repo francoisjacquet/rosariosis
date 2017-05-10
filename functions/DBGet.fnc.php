@@ -49,11 +49,12 @@ function DBGet( $QI, $functions = array(), $index = array() )
 
 	$functions = (array) $functions;
 
-	foreach ( $functions as $function )
+	foreach ( $functions as $key => $function )
 	{
-		if ( ! function_exists( $function ) )
+		if ( ! $function
+			|| ! function_exists( $function ) )
 		{
-			unset( $functions[ $function ] );
+			unset( $functions[ $key ] );
 		}
 	}
 
