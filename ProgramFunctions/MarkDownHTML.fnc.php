@@ -170,7 +170,7 @@ function SanitizeHTML( $html )
 	}
 
 	$has_base64_images = preg_match_all(
-		'/<img src=\"(data:image\/[a-z.]{3,};base64[^\"\']*)\"[ |>]/i',
+		'/<img src=\"(data:image\/[a-z.\+]{3,};base64[^\"\']*)\"[ |>]/i',
 		$html,
 		$base64_images
 	);
@@ -181,12 +181,6 @@ function SanitizeHTML( $html )
 
 		foreach ( (array) $base64_images[1] as $key => $data )
 		{
-			// Prevent hacking: check base64 images are valid!
-			if ( ! CheckBase64Image( $data ) )
-			{
-				return '';
-			}
-
 			$base64_replace[] = 'base64_image' . $key;
 		}
 
@@ -221,6 +215,47 @@ function SanitizeHTML( $html )
 
 	if ( $has_base64_images )
 	{
+		require_once 'ProgramFunctions/FileUpload.fnc.php';
+
+			$error;
+
+		// Upload base64 images.
+		foreach ( (array) $base64_images[1] as $key => $data )
+		{
+			// Get width & height attr if any.
+			$img_tag = mb_substr( $html_no_base64, strpos( $html_no_base64, $base64_replace[ $key ] ) );
+
+			$img_tag = mb_substr( $img_tag, 0, strpos( $img_tag, ' />' ) );
+
+			$target_dim = array();
+
+			$target_width_pos = strpos( $img_tag, 'width="' );
+
+			if ( $target_width_pos )
+			{
+				$target_dim['width'] = mb_substr(
+					$img_tag,
+					$target_width_pos + 7,
+					strpos( mb_substr( $img_tag, $target_width_pos + 7 ), '"' )
+				);
+			}
+
+			$target_height_pos = strpos( $img_tag, 'height="' );
+
+			if ( $target_height_pos )
+			{
+				$target_dim['height'] = mb_substr(
+					$img_tag,
+					$target_height_pos + 8,
+					strpos( mb_substr( $img_tag, $target_height_pos + 8 ), '"' )
+				);
+			}
+
+			$image_path = ImageUpload( $data, $target_dim );
+var_dump($image_path);
+			$base64_images[1][ $key ] = $image_path;
+		}
+
 		// Replace TinyMCE base64 images.
 		$sanitized_html_quotes = str_replace( $base64_replace, $base64_images[1], $sanitized_html_quotes );
 	}
@@ -228,48 +263,3 @@ function SanitizeHTML( $html )
 	return $sanitized_html_quotes;
 }
 
-
-/**
- * Check base64 encoded images.
- *
- * @since 3.0
- *
- * @uses getimagesizefromstring(), requires PHP 5.4+
- *
- * @param  string $data Base64 encoded image.
- *
- * @return bool         False if not an image.
- */
-function CheckBase64Image( $data )
-{
-	if ( strpos( $data, 'base64' ) !== false )
-	{
-		$data = substr( $data, ( strpos( $data, 'base64' ) + 6 ) );
-	}
-
-	$decoded_data = base64_decode( $data );
-
-	$img = imagecreatefromstring( $decoded_data );
-
-	if ( ! $img )
-	{
-		return false;
-	}
-
-	if ( ! function_exists( 'getimagesizefromstring' ) )
-	{
-		return true;
-	}
-
-	$size = getimagesizefromstring( $decoded_data );
-
-	if ( ! $size
-		|| $size[0] == 0
-		|| $size[1] == 0
-		|| ! $size['mime'] )
-	{
-		return false;
-	}
-
-	return true;
-}

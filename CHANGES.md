@@ -25,6 +25,7 @@ Changes in 3.3
 - Add $FileUploadsPath & $PNGQuantPath optional configuration variables in INSTALL.md & Warehouse.php
 - Add Image resize and compress class in classes/ImageResizeGD.php
 - Add ImageUpload() function in FileUpload.fnc.php
+- Use new ImageUpload() function in SanitizeHTML() & remove CheckBase64Image() in MarkDownHTML.fnc.php
 
 Changes in 3.2
 --------------
