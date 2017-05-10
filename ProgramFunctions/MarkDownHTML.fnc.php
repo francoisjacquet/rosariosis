@@ -252,7 +252,7 @@ function SanitizeHTML( $html )
 			}
 
 			$image_path = ImageUpload( $data, $target_dim );
-var_dump($image_path);
+
 			$base64_images[1][ $key ] = $image_path;
 		}
 
