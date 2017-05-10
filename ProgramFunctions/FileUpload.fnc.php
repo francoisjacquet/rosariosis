@@ -261,7 +261,7 @@ function ImageUpload( $input, $target_dim = array(), $path = '', $ext_white_list
 					$target_dim['height'] * 2
 				);
 
-				$target_jpg_compression = 50;
+				$target_jpg_compression = 65;
 			}
 			elseif ( $image_resize_gd->getSourceWidth() > $target_dim['width']
 				|| $image_resize_gd->getSourceHeight() > $target_dim['height'] )
