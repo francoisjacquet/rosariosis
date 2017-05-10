@@ -1,14 +1,17 @@
 <?php
 echo '<table class="general-info width-100p valign-top fixed-col"><tr class="st"><td rowspan="3">';
 
-// IMAGE
-if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF'])):
+// IMAGE.
+if ( AllowEdit()
+	&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) ) :
 ?>
-	<a href="#" onclick="$('.user-photo-form,.user-photo').toggle(); return false;"><?php echo button('add', '', '', 'smaller'); ?>&nbsp;<?php echo _('Student Photo'); ?></a><br />
+	<a href="#" onclick="$('.user-photo-form,.user-photo').toggle(); return false;"><?php
+		echo button( 'add', '', '', 'smaller' ) . '&nbsp;' . _( 'Student Photo' );
+	?></a><br />
 	<div class="user-photo-form hide">
-		<br />
 		<input type="file" id="photo" name="photo" accept="image/*" /><span class="loading"></span>
-		<br /><span class="legend-gray"><?php echo _('Student Photo'); ?> (.jpg)</span>
+		<br />
+		<span class="legend-gray"><?php echo _( 'Student Photo' ); ?> (.jpg, .png, .gif)</span>
 	</div>
 <?php endif;
 
@@ -17,7 +20,7 @@ if ( $_REQUEST['student_id']!='new' && ($file = @fopen($picture_path=$StudentPic
 ?>
 	<img src="<?php echo $picture_path.(!empty($new_photo_file)? '?cacheKiller='.rand():''); ?>" class="user-photo" />
 <?php endif;
-// END IMAGE
+// END IMAGE.
 
 echo '</td><td colspan="2">';
 

@@ -303,12 +303,23 @@ if ( $_REQUEST['modfunc'] === 'update'
 			}
 		}
 
-		if (UserStudentID() && $_FILES['photo'])
+		if ( UserStudentID()
+			&& isset( $_FILES['photo'] )
+			&& is_array( $_FILES['photo'] ) )
 		{
-			$new_photo_file = FileUpload('photo', $StudentPicturesPath.UserSyear().'/', array('.jpg', '.jpeg'), 2, $error, '.jpg', UserStudentID());
+			// $new_photo_file = FileUpload('photo', $StudentPicturesPath.UserSyear().'/', array('.jpg', '.jpeg'), 2, $error, '.jpg', UserStudentID());
 
-			//hook
-			do_action('Students/Student.php|upload_student_photo');
+			$new_photo_file = ImageUpload(
+				'photo',
+				array( 'width' => 150, 'height' => '150' ),
+				$StudentPicturesPath . UserSyear() . '/',
+				array(),
+				'.jpg',
+				UserStudentID()
+			);
+
+			// Hook.
+			do_action( 'Students/Student.php|upload_student_photo' );
 		}
 	}
 

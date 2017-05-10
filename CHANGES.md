@@ -26,6 +26,7 @@ Changes in 3.3
 - Add Image resize and compress class in classes/ImageResizeGD.php
 - Add ImageUpload() function in FileUpload.fnc.php
 - Use new ImageUpload() function in SanitizeHTML() & remove CheckBase64Image() in MarkDownHTML.fnc.php
+- Use new ImageUpload() function for student / user photo in Student.php & User.php
 
 Changes in 3.2
 --------------

@@ -373,12 +373,22 @@ Remote IP: %s', $admin_username, User('NAME'), $ip);
 			}
 		}
 
-		if (UserStaffID() && $_FILES['photo'])
+		if ( UserStaffID()
+			&& $_FILES['photo'] )
 		{
-			$new_photo_file = FileUpload('photo', $UserPicturesPath.UserSyear().'/', array('.jpg', '.jpeg'), 2, $error, '.jpg', UserStaffID());
+			// $new_photo_file = FileUpload('photo', $UserPicturesPath.UserSyear().'/', array('.jpg', '.jpeg'), 2, $error, '.jpg', UserStaffID());
 
-			//hook
-			do_action('Users/User.php|upload_user_photo');
+			$new_photo_file = ImageUpload(
+				'photo',
+				array( 'width' => 150, 'height' => '150' ),
+				$UserPicturesPath . UserSyear() . '/',
+				array(),
+				'.jpg',
+				UserStaffID()
+			);
+
+			// Hook.
+			do_action( 'Users/User.php|upload_user_photo' );
 		}
 
 	}

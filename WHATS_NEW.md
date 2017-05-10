@@ -5,6 +5,12 @@
 New in 3.3
 ----------
 
+.jpg, .png, .gif formats are now accepted for Student / User photos.
+The 2MB size limit was removed.
+
+Automatically resize & compress uploaded images.
+[PNGQuant](INSTALL.md#optional-variables) can be used for PNG compression.
+
 Up to 4x speed & memory gain (DBGet core function)
 
 Usability improvements
