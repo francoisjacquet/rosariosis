@@ -294,6 +294,8 @@ function ImageUpload( $input, $target_dim = array(), $path = '', $ext_white_list
 
 				// Save the original base64 image instead.
 				file_put_contents( $full_path, $image_data );
+
+				return $full_path;
 			}
 		}
 		catch ( Exception $e )
