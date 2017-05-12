@@ -1,0 +1,8 @@
+/* wkhtmltopdf specific */
+* {
+	font-size: inherit;
+}
+
+body {
+	color: #000;
+}

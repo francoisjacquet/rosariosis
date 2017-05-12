@@ -84,11 +84,19 @@ module.exports = function(grunt) {
 			},
 			target: {
 				files: {
-					'assets/themes/WPadmin/stylesheet.css': ['assets/themes/WPadmin/css/*.css'],
+					'assets/themes/WPadmin/stylesheet.css': [
+						'assets/themes/WPadmin/css/calendar-blue.css',
+						'assets/themes/WPadmin/css/colorbox.css',
+						'assets/themes/WPadmin/css/colors.css',
+						'assets/themes/WPadmin/css/font.css',
+						'assets/themes/WPadmin/css/stylesheet.css',
+						'assets/themes/WPadmin/css/zresponsive.css'
+					],
 					'assets/themes/WPadmin/stylesheet_wkhtmltopdf.css': [
 						'assets/themes/WPadmin/css/colors.css',
 						'assets/themes/WPadmin/css/font.css',
-						'assets/themes/WPadmin/css/stylesheet.css'
+						'assets/themes/WPadmin/css/stylesheet.css',
+						'assets/themes/WPadmin/css/wkhtmltopdf.css'
 					]
 				}
 			}
