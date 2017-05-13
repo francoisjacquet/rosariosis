@@ -252,13 +252,16 @@ function ImageUpload( $input, $target_dim = array(), $path = '', $ext_white_list
 				$PNGQuantPath
 			);
 
-			if ( $image_resize_gd->getSourceWidth() > $target_dim['width'] * 2
-				|| $image_resize_gd->getSourceHeight() > $target_dim['height'] * 2 )
+			// 3x or 2x Retina factor depending if small target image.
+			$factor = $target_dim['width'] < 994 ? 3 : 2;
+
+			if ( $image_resize_gd->getSourceWidth() > $target_dim['width'] * $factor
+				|| $image_resize_gd->getSourceHeight() > $target_dim['height'] * $factor )
 			{
-				// Image dimensions > target dimensions *2 (enough for Retina), resize.
+				// Image dimensions > target dimensions *2 or 3 (enough for Retina), resize & compress more.
 				$image_resize_gd->resizeWithinDimensions(
-					$target_dim['width'] * 2,
-					$target_dim['height'] * 2
+					$target_dim['width'] * $factor,
+					$target_dim['height'] * $factor
 				);
 
 				$target_jpg_compression = 65;
@@ -266,7 +269,7 @@ function ImageUpload( $input, $target_dim = array(), $path = '', $ext_white_list
 			elseif ( $image_resize_gd->getSourceWidth() > $target_dim['width']
 				|| $image_resize_gd->getSourceHeight() > $target_dim['height'] )
 			{
-				// Image dimensions > target dimensions, do not resize but compress a bit more.
+				// Image dimensions > target dimensions, compress a bit more.
 				$target_jpg_compression = 75;
 			}
 
