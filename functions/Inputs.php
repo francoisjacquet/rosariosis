@@ -465,8 +465,8 @@ function TinyMCEInput( $value, $name, $title = '', $extra = '' )
 <script src="assets/js/tinymce/tinymce.min.js"></script>
 <script>
 	tinymce.init({
-		selector:'.tinymce',
-		plugins : 'link image uploadimage pagebreak paste table textcolor colorpicker code fullscreen hr media lists',
+		selector: '.tinymce',
+		plugins: 'link image uploadimage pagebreak paste table textcolor colorpicker code fullscreen hr media lists',
 		toolbar: "bold italic underline bullist numlist alignleft aligncenter alignright alignjustify link image uploadimage forecolor backcolor code fullscreen",
 		menu: {
 			// file: {title: 'File', items: 'newdocument'},
@@ -476,12 +476,11 @@ function TinyMCEInput( $value, $name, $title = '', $extra = '' )
 			format: {title: 'Format', items: 'formats | removeformat'}
 		},
 		paste_data_images: true,
-		images_upload_handler: function (blobInfo, success, failure) {
-			success("data:" + blobInfo.blob().type + ";base64," + blobInfo.base64());
-		},
-		pagebreak_separator : '<div style="page-break-after: always;"></div>',
-		language : <?php echo json_encode( $tinymce_language ); ?>,
-		directionality : <?php echo json_encode( $tinymce_directionality ); ?>
+		pagebreak_separator: '<div style="page-break-after: always;"></div>',
+		language: <?php echo json_encode( $tinymce_language ); ?>,
+		directionality : <?php echo json_encode( $tinymce_directionality ); ?>,
+		relative_urls: false,
+		remove_script_host: false
 	});
 </script><!-- /TinyMCE -->
 
