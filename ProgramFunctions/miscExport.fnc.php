@@ -23,6 +23,8 @@ function _makeNextSchool( $value, $column )
 {
 	global $THIS_RET;
 
+	static $schools_RET;
+
 	if ( $value == '0' )
 	{
 		return _( 'Retain' );
@@ -32,12 +34,14 @@ function _makeNextSchool( $value, $column )
 		return _( 'Do not enroll after this school year' );
 	}
 
-	$school_RET = DBGet( DBQuery( "SELECT TITLE
-		FROM SCHOOLS WHERE
-		SYEAR='" . UserSyear() . "'
-		AND ID='" . $value . "'" ) );
+	if ( ! $schools_RET )
+	{
+		$schools_RET = DBGet( DBQuery( "SELECT ID,TITLE
+			FROM SCHOOLS WHERE
+			SYEAR='" . UserSyear() . "'" ), array(), array( 'ID' ) );
+	}
 
-	$school_title = $school_RET[1]['TITLE'];
+	$school_title = $schools_RET[ $value ][1]['TITLE'];
 
 	if ( $value == $THIS_RET['SCHOOL_ID'] )
 	{
@@ -90,6 +94,11 @@ function _makeCalendar( $value, $column )
  */
 function _makeTeachers( $value, $column )
 {
+	if ( $value === '{}' )
+	{
+		return '';
+	}
+
 	$teachers = explode( '","', mb_substr( $value, 2, -2 ) );
 
 	return implode( '<br />', (array) $teachers );
