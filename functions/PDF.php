@@ -146,11 +146,11 @@ function PDFStop( $handle )
 		if ( ! empty( $wkhtmltopdfAssetsPath ) )
 		{
 			// Fix wkhtmltopdf error on Windows: prepend file:///.
-			$html = str_replace( 'assets/', 'file:///' . $wkhtmltopdfAssetsPath, $html );
+			$html = str_replace( '"assets/', '"file:///' . $wkhtmltopdfAssetsPath, $html );
 		}
 
 		// Fix wkhtmltopdf error on Windows: prepend file:///.
-		$html = str_replace( 'modules/', 'file:///' . $RosarioPath . 'modules/', $html );
+		$html = str_replace( '"modules/', '"file:///' . $RosarioPath . 'modules/', $html );
 
 		require_once 'classes/Wkhtmltopdf.php';
 
