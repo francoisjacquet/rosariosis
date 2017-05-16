@@ -493,6 +493,8 @@ class ImageResizeGD {
 			throw new \Exception('Image could not be opened.');
 		}
 
+		$image = $this->fixTransparentBackground( $image );
+
 		return $image;
 	}
 
@@ -563,6 +565,48 @@ class ImageResizeGD {
 			throw new \Exception('Image type is not supported or file is corrupted.');
 		}
 
+		$image = $this->fixTransparentBackground( $image );
+
+		return $image;
+	}
+
+
+	/**
+	 * Fix GD bug with transparent background PNG
+	 * ending up having a black background
+	 * when opened with imagecreatefromstring and then saved.
+	 *
+	 * @link http://stackoverflow.com/questions/2611852/imagecreatefrompng-makes-a-black-background-instead-of-transparent?rq=1
+	 *
+	 * @param  resource $image GD image resource.
+	 * @return resource        GD image resource.
+	 */
+	protected function fixTransparentBackground( $image )
+	{
+		switch ( $this->sourceType ) {
+			case IMAGETYPE_GIF:
+			case IMAGETYPE_PNG:
+				// Integer representation of the color black (rgb: 0,0,0).
+				$background = imagecolorallocate($image , 0, 0, 0);
+				// Removing the black from the placeholder.
+				imagecolortransparent($image, $background);
+
+			case IMAGETYPE_PNG:
+				/**
+				 * Turning off alpha blending (to ensure alpha channel information
+				 * is preserved, rather than removed (blending with the rest of the
+				 * image in the form of black))
+				 */
+				imagealphablending($image, false);
+
+				/**
+				 * turning on alpha channel information saving (to ensure the full range
+				 * of transparency is preserved)
+				 */
+				imagesavealpha($image, true);
+			break;
+		}
+
 		return $image;
 	}
 
@@ -574,6 +618,8 @@ class ImageResizeGD {
 	 * @author François Jacquet
 	 *
 	 * @link https://pngquant.org/
+	 *
+	 * @uses shell_exec
 	 *
 	 * @param  string $imageFile Image file path.
 	 */
