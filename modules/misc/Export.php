@@ -95,7 +95,7 @@ $extra['SELECT'] .= ",ssm.NEXT_SCHOOL,ssm.CALENDAR_ID,ssm.SYEAR,
 	(SELECT sch.SCHOOL_NUMBER
 		FROM SCHOOLS sch
 		WHERE ssm.SCHOOL_ID=sch.ID
-		AND sch.SYEAR='".UserSyear()."') AS SCHOOL_NUMBER,s.*";
+		AND sch.SYEAR='" . UserSyear() . "') AS SCHOOL_NUMBER"; // Fix PHP error removed s.*.
 
 if ( $_REQUEST['fields']['FIRST_INIT'] )
 	$extra['SELECT'] .= ',SUBSTR(s.FIRST_NAME,1,1) AS FIRST_INIT';
@@ -189,6 +189,12 @@ if ( $_REQUEST['search_modfunc'] == 'list' )
 		{
 			$fields_list[ 'CUSTOM_' . $id ] = $field[1]['TITLE'];
 		}
+
+		if ( $_REQUEST['fields'][ 'CUSTOM_' . $id ] )
+		{
+			// Fix PHP error removed s.*, select each student field.
+			$extra['SELECT'] .= ',s.CUSTOM_'  . $id;
+		}
 	}
 
 	$address_RET = DBGet( DBQuery( "SELECT TITLE,ID,TYPE
@@ -266,8 +272,10 @@ if ( $_REQUEST['search_modfunc'] == 'list' )
 			AND ss.STUDENT_ID=ssm.STUDENT_ID
 			AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID
 			AND cp.TEACHER_ID=st.STAFF_ID
-			AND cpsp.PERIOD_ID=\''.$period['PERIOD_ID'].'\' AND (\''.$date.'\' BETWEEN ss.START_DATE AND ss.END_DATE OR \''.$date.'\'>=ss.START_DATE AND ss.END_DATE IS NULL)
-			AND ss.MARKING_PERIOD_ID IN ('.GetAllMP('QTR',GetCurrentMP('QTR',$date)).'))
+			AND cpsp.PERIOD_ID=\''.$period['PERIOD_ID'].'\'
+			AND (\''.$date.'\' BETWEEN ss.START_DATE AND ss.END_DATE
+				OR \''.$date.'\'>=ss.START_DATE AND ss.END_DATE IS NULL)
+			AND ss.MARKING_PERIOD_ID IN (' . GetAllMP( 'QTR', UserMP() ) . '))
 			AS PERIOD_'.$period['PERIOD_ID'];
 
 			$extra['functions']['PERIOD_' . $period['PERIOD_ID']] = '_makeTeachers';
