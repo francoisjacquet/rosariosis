@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 3.3.1
+----------------
+- Fix wkhtmltopdf error on Windows: prepend file:/// in PDF.php
+
 Changes in 3.3
 --------------
 - CSS Add padding to .list-nav & remove spaces before buttons in ListOutput.fnc.php & stylesheet.css
