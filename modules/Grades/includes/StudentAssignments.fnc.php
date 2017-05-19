@@ -63,6 +63,8 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 
 	$timestamp = date( 'Y-m-d His' );
 
+	$assignments_path = GetAssignmentsFilesPath( $assignment['STAFF_ID'] );
+
 	// Check if file submitted.
 	if ( isset( $_FILES[ 'submission_file' ] ) )
 	{
@@ -154,8 +156,6 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 		$file_name_no_ext = no_accents( $assignment['COURSE_TITLE'] . '_' . $assignment_id . '_' .
 			$student_name ) . '_' . $timestamp;
 
-		$assignments_path = GetAssignmentsFilesPath( $assignment['STAFF_ID'] );
-
 		// Upload file to AssignmentsFiles/[School_Year]/Teacher[teacher_ID]/Quarter[1,2,3,4...]/.
 		$file = FileUpload(
 			'submission_file',
@@ -187,7 +187,7 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 	}
 
 	// Check if HMTL submitted.
-	$message = isset( $_POST['message'] ) ? SanitizeHTML( $_POST['message'] ) : '';
+	$message = isset( $_POST['message'] ) ? SanitizeHTML( $_POST['message'], $assignments_path ) : '';
 
 	// Serialize Assignment Data.
 	$data = array( 'files' => $files, 'message' => $message, 'date' => $timestamp );

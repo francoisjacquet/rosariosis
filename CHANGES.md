@@ -9,6 +9,8 @@ Changes in 3.3.1
 - Fix GD bug with transparent background PNG in ImageResizeGD.php
 - Fix TinyMCE using relative URLs in Inputs.php
 - JS Fix tipmessage mig_lay error in main16.js
+- Add $image_path parameter to SanitizeHTML() in MarDownHTML.fnc.php
+- Upload TinyMCE images to AssignmentFiles/ in StudentAssignments.fnc.php
 
 Changes in 3.3
 --------------
