@@ -64,8 +64,10 @@ function DBGet( $QI, $functions = array(), $index = array() )
 
 	$results = array();
 
-	while ( $THIS_RET = db_fetch_row( $QI ) )
+	while ( $RET = db_fetch_row( $QI ) )
 	{
+		$THIS_RET = $RET;
+
 		if ( $index_count )
 		{
 			// $ind = '';
@@ -76,7 +78,7 @@ function DBGet( $QI, $functions = array(), $index = array() )
 			{
 				// $ind .= "['" . str_replace( "'", "\'", $THIS_RET[ $col ] ) . "']";
 
-				$ind[] = $THIS_RET[ $col ];
+				$ind[] = $RET[ $col ];
 			}
 
 			if ( $index_count === 1 )
@@ -110,7 +112,7 @@ function DBGet( $QI, $functions = array(), $index = array() )
 		else
 			$s++; // 1-based if no index specified.
 
-		foreach ( $THIS_RET as $key => $value )
+		foreach ( $RET as $key => $value )
 		{
 			if ( isset( $functions[ $key ] ) )
 			{
