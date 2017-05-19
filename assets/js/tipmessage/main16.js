@@ -78,6 +78,10 @@ function mig_layCss(){
 	return mig_lay().style;
 }
 
+function mig_lay(){
+	return document.getElementById('tipMsg');
+}
+
 function mig_wlay(txt){
 	mig_lay().innerHTML=txt;
 }

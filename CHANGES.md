@@ -8,6 +8,7 @@ Changes in 3.3.1
 - Optimize _makeNextSchool & _makeTeachers functions in miscExport.fnc.php
 - Fix GD bug with transparent background PNG in ImageResizeGD.php
 - Fix TinyMCE using relative URLs in Inputs.php
+- JS Fix tipmessage mig_lay error in main16.js
 
 Changes in 3.3
 --------------
