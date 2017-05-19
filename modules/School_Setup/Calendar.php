@@ -1028,7 +1028,8 @@ if ( ! $_REQUEST['modfunc'] )
 			array( $defaults ?
 				_( 'This school has more than one default calendar!' ) :
 				_( 'This school does not have a default calendar!' )
-			)
+			),
+			( $defaults ? 'error' : 'fatal' )
 		);
 	}
 
