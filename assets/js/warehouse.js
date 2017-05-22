@@ -1,9 +1,9 @@
 // Modules.php JS.
 /**
  * Add/replace HTML given the markup and the target ID.
- * @param {string}  html    [description]
- * @param {string}  id      [description]
- * @param {boolean} replace [description]
+ * @param {string}  html
+ * @param {string}  id
+ * @param {boolean} replace Replace or add the HTML.
  */
 function addHTML(html, id, replace) {
 	var el = document.getElementById( id );

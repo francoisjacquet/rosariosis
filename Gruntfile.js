@@ -42,7 +42,9 @@ module.exports = function(grunt) {
 
 		uglify: {
 			options: {
-				banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+				banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
+				// https://www.html5rocks.com/en/tutorials/developertools/sourcemaps/
+				sourceMap: true
 			},
 			my_target: {
 				files: {
