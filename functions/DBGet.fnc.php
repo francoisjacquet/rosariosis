@@ -83,19 +83,19 @@ function DBGet( $QI, $functions = array(), $index = array() )
 
 			if ( $index_count === 1 )
 			{
-				$this_ind = ++$s[ $ind[0] ];
+				$this_ind = @++$s[ $ind[0] ];
 			}
 			elseif ( $index_count === 2 )
 			{
-				$this_ind = ++$s[ $ind[0] ][ $ind[1] ];
+				$this_ind = @++$s[ $ind[0] ][ $ind[1] ];
 			}
 			elseif ( $index_count === 3 )
 			{
-				$this_ind = ++$s[ $ind[0] ][ $ind[1] ][ $ind[2] ];
+				$this_ind = @++$s[ $ind[0] ][ $ind[1] ][ $ind[2] ];
 			}
 			elseif ( $index_count === 4 )
 			{
-				$this_ind = ++$s[ $ind[0] ][ $ind[1] ][ $ind[2] ][ $ind[3] ];
+				$this_ind = @++$s[ $ind[0] ][ $ind[1] ][ $ind[2] ][ $ind[3] ];
 			}
 
 			// eval('$s'.$ind.'++;$this_ind=$s'.$ind.';');
