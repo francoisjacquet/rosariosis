@@ -94,9 +94,10 @@ else
 	}
 	else
 	{
+		$connectstring = '';
 		if ( $DatabaseServer !== 'localhost' )
 		{
-			$connectstring = 'host=' . $DatabaseServer . ' ';
+			$connectstring .= 'host=' . $DatabaseServer . ' ';
 		}
 
 		if ( $DatabasePort !== '5432' )
