@@ -32,7 +32,10 @@ if ( ! isset( $start_date )
 	|| ! $start_date )
 {
 	// Set start date as the 1st of the month.
-	$start_date = date( 'Y-m' ) . '-01';
+	// $start_date = date( 'Y-m' ) . '-01';
+
+	// Set start date as yesterday, prevents having long list on first load.
+	$start_date = date( 'Y-m-d', time() - 60 * 60 * 24 );
 }
 
 // Requested end date.
