@@ -5,8 +5,11 @@ Changes in 3.3.2
 ----------------
 - Fix SQL error in students data in Transcripts.php
 - Fatal error when no calendars setup yet in Calendar.php
-- Fix #192 CheckRequiredCustomFields() in Fields.fnc.php
+- Fix #192 CheckRequiredCustomFields() in Fields.fnc.php, thanks to @vanyog
 - Display required address / people fields error in Address.inc.php
+- Set start date to yesterday, prevents having long list on first load in AccessLog.php
+- Fix PHP notice in diagnostic.php, thanks to @vanyog
+- Add rosariosis2017.sql for 2017 school year DB in rosariosis2017.sql
 
 Changes in 3.3.1
 ----------------
