@@ -12,9 +12,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 		$school_id = ( User( 'PROFILE' ) === 'admin' && $_REQUEST['SCHOOL_ID'] ? $_REQUEST['SCHOOL_ID'] : UserSchool() );
 
-		$mp_type_list = '\''.implode('\',\'',$_REQUEST['mp_type_arr']).'\'';
+		$mp_type_list = "'" . implode( "','", $_REQUEST['mp_type_arr'] ) . "'";
 
-		$st_list = '\''.implode('\',\'',$_REQUEST['st_arr']).'\'';
+		$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
 
 		$RET = 1;
 
@@ -113,7 +113,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				AND (se.end_date is null OR se.start_date < se.end_date)
 				AND sgl2.id=sgl.next_grade_id
 				ORDER BY se.start_date desc
-				LIIT 1) as next_grade_level
+				LIMIT 1) as next_grade_level
 			FROM students s
 			LEFT OUTER JOIN students_join_address sja ON (sja.student_id=s.student_id)
 			LEFT OUTER JOIN address a ON (a.address_id=sja.address_id) ";

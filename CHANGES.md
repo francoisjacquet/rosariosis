@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 3.3.2
+----------------
+- Fix SQL error in students data in Transcripts.php
+
 Changes in 3.3.1
 ----------------
 - Fix wkhtmltopdf error on Windows: prepend file:/// in PDF.php
