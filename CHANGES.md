@@ -5,6 +5,7 @@ Changes in 3.3.2
 ----------------
 - Fix SQL error in students data in Transcripts.php
 - Fatal error when no calendars setup yet in Calendar.php
+- Fix #192 CheckRequiredCustomFields() in Fields.fnc.php
 
 Changes in 3.3.1
 ----------------

@@ -736,8 +736,7 @@ function CheckRequiredCustomFields( $table, $request_values )
 	}
 
 	$required_RET = DBGet( DBQuery( "SELECT ID FROM " . DBEscapeIdentifier( $table ) . "
-		WHERE CATEGORY_ID='" . $category_id . "'
-		AND REQUIRED='Y'" ) );
+		WHERE REQUIRED='Y'" ) );
 
 	foreach ( (array) $required_RET as $required )
 	{

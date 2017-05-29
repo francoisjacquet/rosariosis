@@ -27,7 +27,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 			&& $_POST['values'] )
 		{
 			// FJ other fields required.
-			$required_error = CheckRequiredCustomFields( 'PEOPLE_FIELDS', $_REQUEST['values']['PEOPLE'] );
+			$required_error = CheckRequiredCustomFields( 'SCHOOL_FIELDS', $_REQUEST['values'] );
 
 			if ( $required_error )
 			{
