@@ -458,7 +458,7 @@ if ( ! isset( $_REQUEST['calendar_id'] )
 			$_REQUEST['calendar_id'] = $calendars_RET[1]['CALENDAR_ID'];
 		}
 		else
-			$error[] = _( 'There are no calendars setup yet.' );
+			$no_calendars_error[] = _( 'There are no calendars setup yet.' );
 	}
 }
 
@@ -1028,9 +1028,14 @@ if ( ! $_REQUEST['modfunc'] )
 			array( $defaults ?
 				_( 'This school has more than one default calendar!' ) :
 				_( 'This school does not have a default calendar!' )
-			),
-			( $defaults ? 'error' : 'fatal' )
+			)
 		);
+	}
+
+	if ( isset( $no_calendars_error ) )
+	{
+		// No calendars, die.
+		echo ErrorMessage( $no_calendars_error, 'fatal' );
 	}
 
 	echo '<br />';
