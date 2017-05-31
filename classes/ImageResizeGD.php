@@ -132,7 +132,7 @@ class ImageResizeGD {
 		$this->sourceHeight = imagesy($this->image);
 
 		if($this->sourceWidth === false || $this->sourceHeight === false) {
-			throw new \InvalidArgumentException('Image type is not supported or file is currupted.');
+			throw new \InvalidArgumentException('Image type is not supported or file is corrupted.');
 		}
 	}
 
@@ -450,6 +450,9 @@ class ImageResizeGD {
 	 */
 	protected function copyImageDataWithoutResampling() {
 		$this->imageModified = $this->image;
+
+		$this->newWidth = $this->sourceWidth;
+		$this->newHeight = $this->sourceHeight;
 	}
 
 	/**

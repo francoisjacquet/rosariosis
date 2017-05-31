@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 3.3.3
+----------------
+- Fix PHP error new width height not set in ImageResizeGD.php
+
 Changes in 3.3.2
 ----------------
 - Fix SQL error in students data in Transcripts.php
