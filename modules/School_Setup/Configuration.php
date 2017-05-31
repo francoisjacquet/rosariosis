@@ -41,9 +41,19 @@ else
 
 	if ( $_REQUEST['modfunc'] === 'update' )
 	{
-		//FJ upload school logo
-		if ( $_FILES['LOGO_FILE'] && AllowEdit())
-			FileUpload('LOGO_FILE', 'assets'.'/', array('.jpg', '.jpeg'), 2, $error, '.jpg', 'school_logo_'.UserSchool());
+		// FJ upload school logo.
+		if ( $_FILES['LOGO_FILE']
+			&& AllowEdit() )
+		{
+			ImageUpload(
+				'LOGO_FILE',
+				array(),
+				'assets/',
+				array(),
+				'.jpg',
+				'school_logo_' . UserSchool()
+			);
+		}
 
 		if ( $_REQUEST['values']
 			&& $_POST['values']
@@ -249,8 +259,14 @@ else
 		//FJ school year over one/two calendar years format
 		echo '<tr><td>'.CheckboxInput(Config('SCHOOL_SYEAR_OVER_2_YEARS'), 'values[CONFIG][SCHOOL_SYEAR_OVER_2_YEARS]', _('School year over two calendar years'), '', false, button('check'), button('x')).'</td></tr>';
 
-		//FJ upload school logo
-		echo '<tr><td>'.(file_exists('assets/school_logo_'.UserSchool().'.jpg') ? '<br /><img src="assets/school_logo_'.UserSchool().'.jpg?cache_killer='.rand().'" style="max-width:225px; max-height:225px;" /><br />' : '').'<input type="file" id="LOGO_FILE" name="LOGO_FILE" size="14" accept="image/jpeg" /><span id="loading"></span><br /><span class="legend-gray">'._('School logo').' (.jpg)</span></td></tr>';
+		// FJ upload school logo.
+		echo '<tr><td>' . ( file_exists( 'assets/school_logo_' . UserSchool() . '.jpg' ) ?
+			'<br /><img src="assets/school_logo_' . UserSchool() . '.jpg?cache_killer=' . rand() .
+			'" style="max-width:225px; max-height:225px;" /><br />' : '' ) .
+			'<input type="file" id="LOGO_FILE" name="LOGO_FILE" size="14" accept="image/*" />
+				<span id="loading"></span>
+				<br /><span class="legend-gray">' . _( 'School logo' ) .
+				' (.jpg, .png, .gif)</span></td></tr>';
 
 		//FJ currency
 		echo '<tr><td>'.TextInput(Config('CURRENCY'),'values[CONFIG][CURRENCY]',_('Currency Symbol'),'maxlength=3 size=3').'</td></tr>';

@@ -4,6 +4,7 @@
 Changes in 3.3.3
 ----------------
 - Fix PHP error new width height not set in ImageResizeGD.php
+- Accept .jpg, .png. & .gif + remove 2MB limit for school logo upload in Configuration.php
 
 Changes in 3.3.2
 ----------------
