@@ -1066,7 +1066,7 @@ if ( ( ! $_REQUEST['modfunc']
 				$RET['TITLE'],
 				'tables[COURSES][' . $_REQUEST['course_id'] . '][TITLE]',
 				_( 'Title' ),
-				'required maxlength=100'
+				'required maxlength=100 size=20'
 			) . '</td>';
 
 			$header .= '<td>' . TextInput(
@@ -1081,7 +1081,7 @@ if ( ( ! $_REQUEST['modfunc']
 				$RET['CREDIT_HOURS'],
 				'tables[COURSES][' . $_REQUEST['course_id'] . '][CREDIT_HOURS]',
 				_( 'Credit Hours' ),
-				'maxlength=7'
+				'maxlength=7 size=7'
 			) . '</td>';
 
 			//FJ SQL error column "subject_id" specified more than once
@@ -1125,14 +1125,14 @@ if ( ( ! $_REQUEST['modfunc']
 				$RET['TITLE'],
 				'tables[COURSE_SUBJECTS][' . $_REQUEST['subject_id'] . '][TITLE]',
 				_( 'Title' ),
-				'required maxlength=100'
+				'required maxlength=100 size=20'
 			) . '</td>';
 
 			$header .= '<td>' . TextInput(
 				$RET['SORT_ORDER'],
 				'tables[COURSE_SUBJECTS][' . $_REQUEST['subject_id'] . '][SORT_ORDER]',
 				_( 'Sort Order' ),
-				'maxlength=3'
+				'maxlength=3 size=5'
 			) . '</td>';
 
 			$header .= '</tr>';
