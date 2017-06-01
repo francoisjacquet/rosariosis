@@ -724,7 +724,7 @@ if ( ( ! $_REQUEST['modfunc']
 				'size=4 maxlength=4'
 			) . '</td>';
 
-			$header .= '</tr>';
+			$header .= '</tr><tr><td colspan="6"><hr /></td></tr>';
 
 			$days = array('M','T','W','H','F','S','U');
 
@@ -832,7 +832,14 @@ if ( ( ! $_REQUEST['modfunc']
 
 			} while ( $i <= count( $RET2 ) );
 
-			$header .= '<tr class="st"><td colspan="6"><a href="#" onclick="'.($new ? 'newSchoolPeriod();' : 'document.getElementById(\'schoolPeriod\'+'.$i.').style.display=\'table-row\';').' return false;">'. button('add') .' '._('New Period').'</a></td></tr>';
+			$header .= '<tr class="st"><td colspan="6">
+				<a href="#" onclick="' .
+					( $new ?
+						'newSchoolPeriod();' :
+						'document.getElementById(\'schoolPeriod\'+' . $i . ').style.display=\'table-row\';' ).
+					' return false;">' .
+				button( 'add' ) . ' ' . _( 'New Period' ) . '</a>
+				<hr /></td></tr>';
 
 			if ( ! $new )
 				$header .= '<script>document.getElementById(\'schoolPeriod\'+'.$i.').style.display = "none";</script>';
@@ -1025,9 +1032,9 @@ if ( ( ! $_REQUEST['modfunc']
 					'' ) .
 				'<span class="legend-gray">' . _( 'Parent Course Period' ) . '</span></td>';
 
-			$header .= '</tr>';
-			$header .= '</table>';
-			DrawHeader($header);
+			$header .= '</tr></table>';
+
+			DrawHeader( $header );
 			//echo '</form>';
 		}
 		elseif ( $_REQUEST['course_id'] )
