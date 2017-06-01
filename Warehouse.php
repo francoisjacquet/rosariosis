@@ -11,11 +11,13 @@
  * Update RosarioSIS
  * Warehouse() function (Output HTML header (including Bottom & Side menus), or footer)
  * isPopup() function (Popup window detection)
+ * isAJAX() function (AJAX request detection)
+ * ETagCache() function (ETag cache system)
  *
  * @package RosarioSIS
  */
 
-define( 'ROSARIO_VERSION', '3.3.2' );
+define( 'ROSARIO_VERSION', '3.3.3' );
 
 /**
  * Include config.inc.php file.
