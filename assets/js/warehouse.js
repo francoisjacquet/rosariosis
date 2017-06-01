@@ -5,7 +5,7 @@
  * @param {string}  id
  * @param {boolean} replace Replace or add the HTML.
  */
-function addHTML(html, id, replace) {
+var addHTML = function(html, id, replace) {
 	var el = document.getElementById( id );
 
 	el.innerHTML = replace ? html : el.innerHTML + html;
@@ -15,11 +15,11 @@ function addHTML(html, id, replace) {
  * Check all checkboxes given the form,
  * the value/state and the checkboxes name (beginning with).
  *
- * @param  {[type]} form      [description]
- * @param  {string} value     [description]
- * @param  {string} name_like [description]
+ * @param  {[type]} form      Form element.
+ * @param  {string} value     Checked value.
+ * @param  {string} name_like Checkbox name begins with.
  */
-function checkAll(form, value, name_like) {
+var checkAll = function(form, value, name_like) {
 	for (var i = 0, max = form.elements.length; i < max; i++) {
 		var chk = form.elements[i];
 
@@ -38,7 +38,7 @@ function checkAll(form, value, name_like) {
  *
  * @param  {DOMelement} el The element, this.
  */
-function switchMenu(el) {
+var switchMenu = function(el) {
 	$(el).toggleClass('switched').nextAll('table').first().toggle();
 }
 
@@ -82,7 +82,7 @@ function popups()
  * @deprecated Remove when Android v.2.3 (Gingerbread) & old Safari (iOS < 5) usage < 1%
  * @link http://chris-barr.com/2010/05/scrolling_a_overflowauto_element_on_a_touch_screen_device/
  */
-function touchScroll(el) {
+var touchScroll = function(el) {
 	var startY = 0,
 		startX = 0;
 
@@ -109,14 +109,14 @@ function isTouchDevice() {
 	}
 }
 
-// ColorBox
+// ColorBox.
 if (isTouchDevice()) $(document).bind("cbox_complete", function () {
 	touchScroll(document.getElementById("cboxLoadedContent"));
 });
-else // Add .no-touch CSS class
+else // Add .no-touch CSS class.
 	document.documentElement.className += " no-touch";
 
-function ColorBox() {
+var ColorBox = function() {
 	var cWidth = 640, cHeight = 390;
 	if ( screen.width < 768 ) {
 		cWidth = 300; cHeight = 183;
@@ -136,10 +136,10 @@ function ColorBox() {
 	$('.colorboxinline').colorbox({inline:true, maxWidth:'95%', maxHeight:'85%', scrolling:true});
 }
 
-// MarkDown
+// MarkDown.
 var md_last_val = {};
 
-function GetMDConverter() {
+var GetMDConverter = function() {
 	if ( typeof GetMDConverter.mdc === 'undefined' ) {
 		GetMDConverter.mdc = new showdown.Converter({
 			tables: true,
@@ -153,38 +153,38 @@ function GetMDConverter() {
 	return GetMDConverter.mdc;
 }
 
-function MarkDownInputPreview( input_id )
+var MarkDownInputPreview = function( input_id )
 {
 	var input = $('#' + input_id),
 		html = input.val(),
 		md_prev = $('#divMDPreview' + input_id);
 
-	// Send AJAX request only if input modified
+	// Send AJAX request only if input modified.
 	if ( !md_prev.is(":visible") && html !== '' && md_last_val[input_id] !== html )
 	{
 		md_last_val[input_id] = html;
 
 		var mdc = GetMDConverter();
 
-		// Convert MarkDown to HTML
+		// Convert MarkDown to HTML.
 		md_prev.html( mdc.makeHtml( html ) );
 	}
 
-	// MD preview = Input size
+	// MD preview = Input size.
 	if ( !md_prev.is(":visible") ) {
 
 		md_prev.css({'height': input.css('height'), 'width': input.css('width')});
 		//md_prev.parent('.md-preview').css({'max-width': input.css('width')});
 	}
 
-	// Toggle MD preview & Input
+	// Toggle MD preview & Input.
 	md_prev.toggle();
 	input.toggle();
-	// Disable Write / Preview tab
+	// Disable Write / Preview tab.
 	md_prev.siblings('.tab').toggleClass('disabled');
 }
 
-function MarkDownToHTML()
+var MarkDownToHTML = function()
 {
 	$('.markdown-to-html').html(function(i, html){
 
@@ -194,8 +194,8 @@ function MarkDownToHTML()
 	});
 }
 
-// JSCalendar
-function JSCalendarSetup()
+// JSCalendar.
+var JSCalendarSetup = function()
 {
 	$('.button.cal').each(function(i, el){
 		var j = el.id.replace( 'trigger', '' );
@@ -212,7 +212,7 @@ function JSCalendarSetup()
 	});
 }
 
-function ajaxOptions(target, url, form) {
+var ajaxOptions = function(target, url, form) {
 	return {
 		beforeSend: function (data) {
 			// AJAX error hide.
@@ -229,12 +229,12 @@ function ajaxOptions(target, url, form) {
 			else if (form && form.method == 'get') {
 				var getStr = [];
 
-				// Fix advanced search forms (student & user) URL > 2000 chars
+				// Fix advanced search forms (student & user) URL > 2000 chars.
 				if (form.name == 'search') {
 					var formArray = $(form).formToArray();
 
 					$(formArray).each(function(i,el){
-						// Only add not empty values
+						// Only add not empty values.
 						if (el.value !== '')
 							getStr.push(el.name + '=' + el.value);
 					});
@@ -257,7 +257,7 @@ function ajaxOptions(target, url, form) {
 	};
 }
 
-function ajaxError(x, url, target, form) {
+var ajaxError = function(x, url, target, form) {
 	var code = x.status,
 		errorMsg = 'AJAX error. ' + code + ' ';
 
@@ -295,7 +295,7 @@ function ajaxError(x, url, target, form) {
 	$('.ajax-error').html(errorMsg).fadeIn();
 }
 
-function ajaxLink(link) {
+var ajaxLink = function(link) {
 	// Will work only if in the onclick there is no error!
 
 	var href,target;
@@ -311,7 +311,7 @@ function ajaxLink(link) {
 		target = link.target;
 	}
 
-	if (href.indexOf('#') != -1 || target == '_blank' || target == '_top') // Internal/external/top anchor
+	if (href.indexOf('#') != -1 || target == '_blank' || target == '_top') // Internal/external/top anchor.
 		return true;
 
 	if (!target) {
@@ -323,10 +323,10 @@ function ajaxLink(link) {
 	return false;
 }
 
-function ajaxPostForm(form, submit) {
+var ajaxPostForm = function(form, submit) {
 	var target = form.target || 'body';
 
-	if (form.action.indexOf('_ROSARIO_PDF') != -1) // Print PDF
+	if (form.action.indexOf('_ROSARIO_PDF') != -1) // Print PDF.
 	{
 		form.target = '_blank';
 		form.method = 'post';
@@ -341,8 +341,8 @@ function ajaxPostForm(form, submit) {
 	return false;
 }
 
-function ajaxSuccess(data, target, url) {
-	// Change URL after AJAX
+var ajaxSuccess = function(data, target, url) {
+	// Change URL after AJAX.
 	//http://stackoverflow.com/questions/5525890/how-to-change-url-after-an-ajax-request#5527095
 	$('#' + target).html(data);
 
@@ -353,7 +353,7 @@ function ajaxSuccess(data, target, url) {
 	ajaxPrepare('#' + target);
 }
 
-function ajaxPrepare(target) {
+var ajaxPrepare = function(target) {
 	if (scrollTop == 'Y' && target == '#body') body.scrollIntoView();
 
 	$(target + ' form').each(function () {
@@ -401,8 +401,8 @@ $(document).ajaxStart(function () {
 });
 
 
-// onload
-window.onload = function () {
+// On load.
+window.onload = function() {
 	// Cache <script> resources loaded in AJAX.
 	$.ajaxPrefilter('script', function(options) { options.cache = true; });
 
@@ -413,7 +413,7 @@ window.onload = function () {
 
 	ajaxPrepare('body');
 
-	// Load body after browser history
+	// Load body after browser history.
 	if (history.pushState) window.setTimeout(function () {
 		window.addEventListener('popstate', function (e) {
 			ajaxLink(document.URL);
@@ -431,16 +431,16 @@ if (window.performance && window.performance.navigation.type == 2) {
 		window.location.href = 'index.php?modfunc=logout';
 }
 
-// ListOutput JS
-function LOSearch( ev, val, url ) {
+// ListOutput JS.
+var LOSearch = function( ev, val, url ) {
 	if ( ev.target.type === 'button' || ev.keyCode == 13 ) {
 		ev.preventDefault();
 		return ajaxLink( url + ( val ? '&LO_search=' + encodeURIComponent(val) : '' ) );
 	}
 }
 
-// Repeat long list table header
-function repeatListTHead( $lists )
+// Repeat long list table header.
+var repeatListTHead = function( $lists )
 {
 	if ( !$lists.length )
 		return;
@@ -450,25 +450,25 @@ function repeatListTHead( $lists )
 			tr_num = trs.length,
 			tr_max = 20;
 
-		// If more than 20 rows
+		// If more than 20 rows.
 		if ( tr_num > tr_max ) {
 			var th = trs[0];
 
-			// each 20 rows, or at the end if number of rows <= 40
+			// Each 20 rows, or at the end if number of rows <= 40.
 			for( var j = (tr_num > tr_max*2 ? tr_max : tr_num-1), trs2th = []; j < tr_num; j += tr_max ) {
 				var tr = trs[j];
 				trs2th.push(tr);
 			}
 
-			// clone header
+			// Clone header.
 			$(th).clone().addClass('thead-repeat').insertAfter( trs2th );
 		}
 	});
 }
 
 
-// Side.php JS
-function openMenu() {
+// Side.php JS.
+var openMenu = function() {
 
 	$("#selectedMenuLink,#selectedModuleLink").attr('id', '');
 
@@ -476,11 +476,11 @@ function openMenu() {
 
 	$('.wp-submenu a[href$="' + modname + '"]').first().attr('id', 'selectedMenuLink');
 
-	// Add selectedModuleLink
+	// Add selectedModuleLink.
 	$('#selectedMenuLink').parents('.menu-module').children('.menu-top').attr('id', 'selectedModuleLink');
 }
 
-// Adjust Side.php submenu bottom offset
+// Adjust Side.php submenu bottom offset.
 function submenuOffset() {
 	$(".adminmenu .menu-top").mouseover(function(){
 		var submenu = $(this).next(".wp-submenu"),
@@ -489,13 +489,13 @@ function submenuOffset() {
 	});
 }
 
-// Bottom.php JS
-function toggleHelp() {
+// Bottom.php JS.
+var toggleHelp = function() {
 	if ($('#footerhelp').css('display') !== 'block') showHelp();
 	else hideHelp();
 }
 
-function showHelp() {
+var showHelp = function() {
 	var $fh = $('#footerhelp');
 	if (modname !== showHelp.tmp) {
 		$('.loading').css('visibility', 'visible');
@@ -517,11 +517,11 @@ function showHelp() {
 	});
 }
 
-function hideHelp() {
+var hideHelp = function() {
 	$('#footerhelp').hide();
 	$('#footer').css('height', '');
 }
 
-function expandMenu() {
+var expandMenu = function() {
 	$('#menu,#menuback').toggleClass('hide');
 }
