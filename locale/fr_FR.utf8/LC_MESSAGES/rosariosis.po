@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-03-21 19:24-0500\n"
-"PO-Revision-Date: 2017-03-31 14:56-0500\n"
+"PO-Revision-Date: 2017-06-01 13:58-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -2327,7 +2327,7 @@ msgstr "Paiement Élève"
 #: modules/Student_Billing/StudentPayments.php:143
 #: modules/Students/includes/Comments.inc.php:67
 msgid "Comment"
-msgstr "Remarques"
+msgstr "Commentaire"
 
 #: modules/Accounting/DailyTransactions.php:195
 #: modules/Food_Service/ActivityReport.php:60
