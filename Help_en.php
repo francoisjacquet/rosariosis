@@ -192,6 +192,9 @@ HTML;
 	To add a period, fill in the period's title, short name, sort order, and length in minutes in the empty fields at the bottom of the periods list and click the "Save" button.
 </p>
 <p>
+	Blocks can be used to define irregular periods which happens on specific days. See the <i>Calendars</i> program for setup.
+</p>
+<p>
 	To modify a period, click on any of the period's information, change the value, and click the "Save" button.
 </p>
 <p>

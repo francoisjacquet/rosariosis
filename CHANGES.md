@@ -5,6 +5,7 @@ Changes in 3.3.3
 ----------------
 - Fix PHP error new width height not set in ImageResizeGD.php
 - Accept .jpg, .png. & .gif + remove 2MB limit for school logo upload in Configuration.php
+- Add School Periods "Blocks" help text in Help_en.php, Help_es.php & Help_fr.php
 
 Changes in 3.3.2
 ----------------
@@ -102,7 +103,7 @@ Changes in 3.0.2
 - Retry once on AJAX error 0, maybe a micro Wifi interruption in warehouse.js
 - Better check if #body should be updated in Side.php
 - Fix Warehouse footer: always open menu to modname in Warehouse.php
-- Cache <script> resources loaded in AJAX in warehouse.js
+- Cache &lt;script&gt; resources loaded in AJAX in warehouse.js
 - Limit Assignments to the ones due during the Progress Period in InputFinalGrades
 - Update help texts for Input Final Grades in Help_en.php, Help_es.php & Help_fr.php
 
@@ -1620,7 +1621,7 @@ Changes in 1.0
 - added CSS tags for the new theme
 - delete old themes
 - replaced modules icon set
-- added <label> on checkbox and radio
+- added &lt;label&gt; on checkbox and radio
 - added favicon
 - removed Common Name
 - added ability to add Student/User Photo directly from the Student/User screen via jQueryForm

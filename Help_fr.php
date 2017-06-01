@@ -185,7 +185,10 @@ HTML;
 	<i>Tranches Horaires</i> vous permet de configurer les tranches horaires de votre école. Les collèges et lycées auront sûrement beaucoup de tranches horaires; au contraire, les primaires auront probablement une seule tranche horaire (appelée Journée) ou peut-être 3 (Journée, Matin, et Après-midi).
 </p>
 <p>
-	Pour ajouter une tranche horaire, remplissez les champs titre, nom abrégé, ordre de tri, et durée en minute dans la denière ligne de la liste des tranches horaire et cliquez sur le bouton "Enregistrer".
+	Pour ajouter une tranche horaire, remplissez les champs titre, nom abrégé, ordre de tri, et durée en minutes dans la denière ligne de la liste des tranches horaire et cliquez sur le bouton "Enregistrer".
+</p>
+<p>
+	Les Blocs servent à définir des Tranches horaires irrégulières valides certains jours spécifiques. Voir le programme <i>Calendriers</i> pour la configuration.
 </p>
 <p>
 	Pour modifier une tranche horaire, cliquez sur une information de la tranche horaire, changez sa valeur, et cliquez sur le bouton "Enregistrer".

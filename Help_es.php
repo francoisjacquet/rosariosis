@@ -188,6 +188,9 @@ HTML;
 	Para agregar una hora, llene el titulo de la hora, su nombre corto, orden, y duración en minutos en los campos vacíos al pié de la lista de horas y presione el botón «Guardar».
 </p>
 <p>
+	Los Bloques se usan para definir horas irregulares que son vigentes en días especificos. Ver el programa <i>Calendarios</i> para la configuración.
+</p>
+<p>
 	Para cambiar una hora, haga clic sobre cualquiera dato de la hora, cambie el dato, y presione el botón «Guardar».
 </p>
 <p>
