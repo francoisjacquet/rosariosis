@@ -125,7 +125,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 			// Restricted!
 			unset( $_REQUEST['staff']['SCHOOLS'] );
 		}
-		else
+		elseif ( UserSchool() ) // No set if "Create User Account".
 		{
 			// Assign new user to current school only.
 			$_REQUEST['staff']['SCHOOLS'] = ',' . UserSchool() . ',';

@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 3.3.4
+----------------
+- Fix "Create User Account" schools in User.php
+
 Changes in 3.3.3
 ----------------
 - Fix PHP error new width height not set in ImageResizeGD.php
