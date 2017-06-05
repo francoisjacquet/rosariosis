@@ -69,6 +69,11 @@ if ( ! $allowed )
 	{
 		foreach ( (array) $programs as $program => $title )
 		{
+			if ( is_int( $program ) )
+			{
+				continue;
+			}
+
 			// FJ fix bug URL Modules.php?modname=Student_Billing/Statements.php&_ROSARIO_PDF.
 			if ( $modname == $program
 				|| ( mb_strpos( $program, $modname ) === 0
@@ -96,7 +101,18 @@ if ( $allowed )
 		$_REQUEST['search_modfunc'] = 'list';
 	}
 
-	require_once 'modules/' . $modname;
+	if ( substr( $modname, -4, 4 ) !== '.php'
+		|| strpos( $modname, '..' ) !== false
+		/*|| ! is_file( 'modules/' . $modname )*/ )
+	{
+		require_once 'ProgramFunctions/HackingLog.fnc.php';
+
+		HackingLog();
+	}
+	else
+	{
+		require_once 'modules/' . $modname;
+	}
 }
 
 // Not allowed, hacking attempt?
