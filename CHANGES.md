@@ -5,6 +5,7 @@ Changes in 3.3.4
 ----------------
 - Fix "Create User Account" schools in User.php
 - Security check for $modname in Modules.php
+- Default school year is 2017 in rosariosis.sql & config.inc.sample.php
 
 Changes in 3.3.3
 ----------------

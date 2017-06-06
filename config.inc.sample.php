@@ -62,7 +62,7 @@ $wkhtmltopdfPath = '';
  * Change after rollover
  * Should match the database to be able to login
  */
-$DefaultSyear = '2016';
+$DefaultSyear = '2017';
 
 
 /**
