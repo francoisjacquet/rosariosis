@@ -4301,7 +4301,7 @@ INSERT INTO staff_field_categories VALUES (3, 'Food Service', 3, NULL, 'Food_Ser
 -- Data for Name: student_enrollment; Type: TABLE DATA; Schema: public; Owner: rosariosis
 --
 
-INSERT INTO student_enrollment VALUES (1, 2017, 1, 1, 7, '2017-06-22', NULL, 3, NULL, 1, 1, 1);
+INSERT INTO student_enrollment VALUES (1, 2017, 1, 1, 7, '2017-06-12', NULL, 3, NULL, 1, 1, 1);
 
 
 --
