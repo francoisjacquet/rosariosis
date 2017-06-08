@@ -215,6 +215,7 @@ pip-log.txt
 node_modules
 
 #RosarioSIS
+/phpcompatinfo*
 /config.inc.php
 assets/FileUploads/
 assets/AssignmentsFiles/
@@ -228,3 +229,4 @@ modules/Students_Import/
 modules/Messaging/
 plugins/Paypal_Registration
 modules/Access_Log/
+modules/School_Inventory/
