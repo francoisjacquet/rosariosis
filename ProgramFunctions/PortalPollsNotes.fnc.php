@@ -34,11 +34,9 @@ function PortalPollsVote( $poll_id, $votes_array )
 	}
 
 	// Add user to excluded users list, format = '|[profile_id]:[user_id]'.
-	$profile_id = $_POST['profile_id'];
-	$user_id = $_POST['user_id'];
-	$excluded_user = '|' . $profile_id . ':' . $user_id;
+	$excluded_user = GetPortalPollUser();
 
-	if ( $excluded_user === '|:'
+	if ( ! $excluded_user
 		|| mb_strpos( $poll_RET[1]['EXCLUDED_USERS'] . '|', $excluded_user . '|' ) !== false )
 	{
 		// Should never be displayed, so do not translate.
@@ -72,102 +70,162 @@ function PortalPollsVote( $poll_id, $votes_array )
  *
  * @return $poll_questions_RET array updated with Votes
  */
-function PortalPollsSaveVotes($poll_questions_RET, $votes_array)
+function PortalPollsSaveVotes( $poll_questions_RET, $votes_array )
 {
-	//add votes
+	// Add votes.
 	$voted_array = array();
 
-	foreach ($poll_questions_RET as $key => $question)
+	foreach ( (array) $poll_questions_RET as $key => $question )
 	{
-		if ( !empty($question['VOTES']))
+		if ( !empty( $question['VOTES'] ) )
 		{
-			$voted_array[$question['ID']] = explode('||', $question['VOTES']);
+			$voted_array[ $question['ID'] ] = explode( '||', $question['VOTES'] );
 
-			if (is_array($votes_array[$question['ID']])) //multiple
+			if ( is_array( $votes_array[ $question['ID'] ] ) ) // Multiple.
 			{
-				foreach ($votes_array[$question['ID']] as $checked_box)
-					$voted_array[$question['ID']][ $checked_box ]++;
+				foreach ( (array) $votes_array[ $question['ID'] ] as $checked_box )
+				{
+					$voted_array[ $question['ID'] ][ $checked_box ]++;
+				}
 			}
-			else //multiple_radio
-				$voted_array[$question['ID']][$votes_array[$question['ID']]]++;
+			else // Multiple_radio.
+			{
+				$voted_array[ $question['ID'] ] [$votes_array[ $question['ID'] ] ]++;
+			}
 		}
-		else //first vote
+		else // First vote.
 		{
-			$voted_array[$question['ID']] = array();
-			$options_array = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r",$question['OPTIONS']));
+			$voted_array[ $question['ID'] ] = array();
 
-			if (is_array($votes_array[$question['ID']])) //multiple
+			$options_array = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $question['OPTIONS'] ) );
+
+			if ( is_array( $votes_array[ $question['ID'] ] ) ) // Multiple.
 			{
-				foreach ($options_array as $option_nb => $option_label)
-					$voted_array[$question['ID']][ $option_nb ] = 0;
+				foreach ( (array) $options_array as $option_nb => $option_label )
+				{
+					$voted_array[ $question['ID'] ][ $option_nb ] = 0;
+				}
 
-				foreach ($votes_array[$question['ID']] as $checked_box)
-					$voted_array[$question['ID']][ $checked_box ]++;
+				foreach ( (array) $votes_array[ $question['ID'] ] as $checked_box )
+				{
+					$voted_array[ $question['ID'] ][ $checked_box ]++;
+				}
 			}
-			else //multiple_radio
-				foreach ($options_array as $option_nb => $option_label)
-					$voted_array[$question['ID']][ $option_nb ] = ($votes_array[$question['ID']] == $option_nb ? 1 : 0);
+			else // Multiple_radio.
+			{
+				foreach ( (array) $options_array as $option_nb => $option_label )
+				{
+					$voted_array[ $question['ID'] ][ $option_nb ] = ( $votes_array[ $question['ID'] ] == $option_nb ? 1 : 0 );
+				}
+			}
 		}
 
-		$voted_array[$question['ID']] = implode('||', $voted_array[$question['ID']]);
+		$voted_array[ $question['ID'] ] = implode( '||', $voted_array[ $question['ID'] ] );
 
-		//submit query
-		DBQuery("UPDATE PORTAL_POLL_QUESTIONS SET VOTES='".$voted_array[$question['ID']]."' WHERE ID='".$question['ID']."'");
+		// Submit query.
+		DBQuery( "UPDATE PORTAL_POLL_QUESTIONS
+			SET VOTES='" . $voted_array[ $question['ID'] ] . "'
+			WHERE ID='" . $question['ID'] . "'" );
 
-		//update the $poll_questions_RET array with Votes
-		$poll_questions_RET[ $key ]['VOTES'] = $voted_array[$question['ID']];
+		// Update the $poll_questions_RET array with Votes.
+		$poll_questions_RET[ $key ]['VOTES'] = $voted_array[ $question['ID'] ];
 	}
 
 	return $poll_questions_RET;
 }
 
 
-function PortalPollsDisplay($value,$name)
-{	 global $THIS_RET;
+function PortalPollsDisplay( $value, $name )
+{
+	global $THIS_RET;
 
 	$poll_id = $THIS_RET['ID'];
 
-	//get poll:
-	$poll_RET = DBGet(DBQuery("SELECT EXCLUDED_USERS, VOTES_NUMBER, DISPLAY_VOTES FROM PORTAL_POLLS WHERE ID='".$poll_id."'"));
+	// Get poll:
+	$poll_RET = DBGet( DBQuery( "SELECT EXCLUDED_USERS,VOTES_NUMBER,DISPLAY_VOTES
+		FROM PORTAL_POLLS
+		WHERE ID='" . $poll_id . "'" ) );
 
 	require_once 'ProgramFunctions/Linkify.fnc.php';
 
-	$poll_questions_RET = DBGet(DBQuery("SELECT ID, QUESTION, OPTIONS, TYPE, VOTES
+	$poll_questions_RET = DBGet( DBQuery( "SELECT ID,QUESTION,OPTIONS,TYPE,VOTES
 		FROM PORTAL_POLL_QUESTIONS
-		WHERE PORTAL_POLL_ID='".$poll_id."'
-		ORDER BY ID"), array('OPTIONS' => 'Linkify'));
+		WHERE PORTAL_POLL_ID='" . $poll_id . "'
+		ORDER BY ID" ), array( 'OPTIONS' => 'Linkify' ) );
 
-	if ( ! $poll_RET || ! $poll_questions_RET)
-		return ErrorMessage(array('Poll does not exist'));//should never be displayed, so do not translate
+	if ( ! $poll_RET || ! $poll_questions_RET )
+	{
+		// Should never be displayed, so do not translate.
+		return ErrorMessage( array( 'Poll does not exist' ) );
+	}
 
-	//verify if user is in excluded users list (format = '|[profile_id]:[user_id]')
-	$profile_id = User('PROFILE_ID');
+	$excluded_user = GetPortalPollUser();
 
-	if ( $profile_id !== '0' ) //FJ call right Student/Staff ID
-		$user_id = $_SESSION['STAFF_ID'];
-	else
-		$user_id = $_SESSION['STUDENT_ID'];
+	if ( ! $excluded_user )
+	{
+		// Should never be displayed, so do not translate.
+		return ErrorMessage( array( 'User not logged in' ) );
+	}
 
-	$excluded_user = '|'.$profile_id.':'.$user_id;
-
-	if (mb_strpos($poll_RET[1]['EXCLUDED_USERS'].'|', $excluded_user.'|') !== false)
-		return PortalPollsVotesDisplay($poll_id,
+	// Check if user is in excluded users list (format = '|[profile_id]:[user_id]').
+	if ( mb_strpos( $poll_RET[1]['EXCLUDED_USERS'] . '|', $excluded_user . '|' ) !== false )
+	{
+		// User already voted, display votes.
+		return PortalPollsVotesDisplay(
+			$poll_id,
 			$poll_RET[1]['DISPLAY_VOTES'],
 			$poll_questions_RET,
 			$poll_RET[1]['VOTES_NUMBER']
-		); //user already voted, display votes
+		);
+	}
 
-	return PortalPollForm($poll_id, $profile_id, $user_id, $poll_questions_RET);
+	return PortalPollForm(
+		$poll_id,
+		$poll_questions_RET
+	);
 }
 
 
 /**
- * function called by PortalPollsDisplay()
+ * Get poll user, using the excluded users format:
+ * |[profile_id]:[user_id]
+ *
+ * @since 3.4
+ *
+ * @return string User, empty if no user ID.
+ */
+function GetPortalPollUser()
+{
+	$profile_id = User( 'PROFILE_ID' );
+
+	if ( $profile_id !== '0' ) // FJ call right Student/Staff ID.
+	{
+		$user_id = $_SESSION['STAFF_ID'];
+	}
+	else
+	{
+		$user_id = $_SESSION['STUDENT_ID'];
+	}
+
+	if ( ! $user_id )
+	{
+		return '';
+	}
+
+	return '|' . $profile_id . ':' . $user_id;
+}
+
+
+/**
+ * Function called by PortalPollsDisplay()
  * generates the Portal Poll's HTML form
  *
- * @return $PollForm HTML form
+ * @param integer $poll_id            Poll ID.
+ * @param array   $poll_questions_RET Poll questions.
+ *
+ * @return string Poll HTML form.
  */
-function PortalPollForm($poll_id, $profile_id, $user_id, $poll_questions_RET)
+function PortalPollForm( $poll_id, $poll_questions_RET )
 {
 	$PollForm = '';
 
@@ -175,16 +233,14 @@ function PortalPollForm($poll_id, $profile_id, $user_id, $poll_questions_RET)
 	if ( !isset($_REQUEST['_ROSARIO_PDF']))
 		$PollForm .= '<div id="divPortalPoll'.$poll_id.'" class="divPortalPoll rt2colorBox">';
 
-	$PollForm .= '<form method="POST" id="formPortalPoll'.$poll_id.'" action="ProgramFunctions/PortalPollsNotes.fnc.php" target="divPortalPoll'.$poll_id.'">
-	<input type="hidden" name="profile_id" value="'.$profile_id.'" />
-	<input type="hidden" name="user_id" value="'.$user_id.'" />
-	<input type="hidden" name="total_votes_string" value="'._('Total Participants').'" />
-	<input type="hidden" name="poll_completed_string" value="'._('Poll completed').'" />
+	$PollForm .= '<form method="POST" id="formPortalPoll' . $poll_id . '"
+		action="ProgramFunctions/PortalPollsNotes.fnc.php"
+		target="divPortalPoll' . $poll_id . '">
 	<table class="width-100p widefat">';
 
-	foreach ($poll_questions_RET as $question)
+	foreach ( (array) $poll_questions_RET as $question )
 	{
-		$PollForm .= '<tr><td class="valign-top"><b>'.$question['QUESTION'].'</b></td>
+		$PollForm .= '<tr><td class="valign-top"><b>' . $question['QUESTION'] . '</b></td>
 		<td><table class="width-100p cellspacing-0">';
 
 		$options_array = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r",$question['OPTIONS']));
@@ -230,12 +286,8 @@ function PortalPollsVotesDisplay( $poll_id, $display_votes, $poll_questions_RET,
 
 	if ( ! $display_votes )
 	{
-		$poll_completed_str = isset( $_POST['poll_completed_string'] ) ?
-			$_POST['poll_completed_string'] :
-			_( 'Poll completed' );
-
-		// Fix PHP error: do not call button(), not logged in.
-		$note[] = $poll_completed_str;
+		$note[] = button( 'check', '', '', 'bigger' ) .
+			'&nbsp;' . _( 'Poll completed' );
 
 		return ErrorMessage( $note, 'note' );
 	}
@@ -283,11 +335,7 @@ function PortalPollsVotesDisplay( $poll_id, $display_votes, $poll_questions_RET,
 		$votes_display .= '</table>' . "\n";
 	}
 
-	$total_votes_str = isset( $_POST['total_votes_string'] ) ?
-		$_POST['total_votes_string'] :
-		_( 'Total Participants' );
-
-	$votes_display .= '<p>' . $total_votes_str . ': ' . $votes_number . '</p>';
+	$votes_display .= '<p>' . _( 'Total Participants' ) . ': ' . $votes_number . '</p>';
 
 	if ( ! $js_included_is_voting )
 	{
@@ -298,7 +346,7 @@ function PortalPollsVotesDisplay( $poll_id, $display_votes, $poll_questions_RET,
 }
 
 
-//AJAX vote call:
+// AJAX vote call:
 if ( isset( $_POST['votes'] )
 	&& is_array( $_POST['votes'] ) )
 {
@@ -310,16 +358,7 @@ if ( isset( $_POST['votes'] )
 
 	chdir( '../' );
 
-	require_once 'config.inc.php';
-	require_once 'database.inc.php';
-
-	// Load functions.
-	$functions = glob( 'functions/*.php' );
-
-	foreach ( (array) $functions as $function )
-	{
-		require_once $function;
-	}
+	require_once 'Warehouse.php';
 
 	foreach ( (array) $_POST['votes'] as $poll_id => $votes_array )
 	{
