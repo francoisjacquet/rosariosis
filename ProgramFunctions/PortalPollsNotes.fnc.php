@@ -15,42 +15,53 @@ if ( !isset($PortalNotesFilesPath))
 
 //FJ Portal Polls functions
 
-function PortalPollsVote($poll_id, $votes_array)
+function PortalPollsVote( $poll_id, $votes_array )
 {
-	//get poll:
-	$poll_RET = DBGet(DBQuery("SELECT EXCLUDED_USERS, VOTES_NUMBER, DISPLAY_VOTES FROM PORTAL_POLLS WHERE ID='".$poll_id."'"));
+	// Get poll:
+	$poll_RET = DBGet( DBQuery( "SELECT EXCLUDED_USERS, VOTES_NUMBER, DISPLAY_VOTES
+		FROM PORTAL_POLLS
+		WHERE ID='" . $poll_id . "'" ) );
 
-	$poll_questions_RET = DBGet(DBQuery("SELECT ID, QUESTION, OPTIONS, VOTES
+	$poll_questions_RET = DBGet( DBQuery( "SELECT ID, QUESTION, OPTIONS, VOTES
 		FROM PORTAL_POLL_QUESTIONS
-		WHERE PORTAL_POLL_ID='".$poll_id."'
-		ORDER BY ID"));
+		WHERE PORTAL_POLL_ID='" . $poll_id . "'
+		ORDER BY ID" ) );
 
-	if ( ! $poll_RET || ! $poll_questions_RET)
-		return ErrorMessage(array('Poll does not exist'));//should never be displayed, so do not translate
+	if ( ! $poll_RET || ! $poll_questions_RET )
+	{
+		// Should never be displayed, so do not translate.
+		return ErrorMessage( array( 'Poll does not exist' ) );
+	}
 
-	//add user to excluded users list (format = '|[profile_id]:[user_id]')
+	// Add user to excluded users list, format = '|[profile_id]:[user_id]'.
 	$profile_id = $_POST['profile_id'];
 	$user_id = $_POST['user_id'];
-	$excluded_user = '|'.$profile_id.':'.$user_id;
+	$excluded_user = '|' . $profile_id . ':' . $user_id;
 
-	if (mb_strpos($poll_RET[1]['EXCLUDED_USERS'].'|', $excluded_user.'|') !== false)
-		return ErrorMessage(array('User excluded from this poll'));//should never be displayed, so do not translate
+	if ( $excluded_user === '|:'
+		|| mb_strpos( $poll_RET[1]['EXCLUDED_USERS'] . '|', $excluded_user . '|' ) !== false )
+	{
+		// Should never be displayed, so do not translate.
+		return ErrorMessage( array( 'User excluded from this poll' ) );
+	}
 
-	$excluded_users = $poll_RET[1]['EXCLUDED_USERS'].$excluded_user;
+	$excluded_users = $poll_RET[1]['EXCLUDED_USERS'] . $excluded_user;
 
-	$poll_questions_updated = PortalPollsSaveVotes($poll_questions_RET, $votes_array);
+	$poll_questions_updated = PortalPollsSaveVotes( $poll_questions_RET, $votes_array );
 
-	//submit query
-	DBQuery("UPDATE PORTAL_POLLS
-	SET EXCLUDED_USERS='".$excluded_users."',
-	VOTES_NUMBER=(SELECT CASE WHEN VOTES_NUMBER ISNULL THEN 1 ELSE VOTES_NUMBER+1 END FROM PORTAL_POLLS WHERE ID='".$poll_id."')
-	WHERE ID='".$poll_id."'");
+	// Submit query.
+	DBQuery( "UPDATE PORTAL_POLLS
+		SET EXCLUDED_USERS='" . $excluded_users . "',
+		VOTES_NUMBER=(SELECT CASE WHEN VOTES_NUMBER ISNULL THEN 1 ELSE VOTES_NUMBER+1 END
+			FROM PORTAL_POLLS
+			WHERE ID='" . $poll_id . "')
+		WHERE ID='" . $poll_id . "'" );
 
 	return PortalPollsVotesDisplay(
 		$poll_id,
 		$poll_RET[1]['DISPLAY_VOTES'],
 		$poll_questions_updated,
-		(empty($poll_RET[1]['VOTES_NUMBER'])? 1 : $poll_RET[1]['VOTES_NUMBER']+1),
+		( empty( $poll_RET[1]['VOTES_NUMBER'] ) ? 1 : $poll_RET[1]['VOTES_NUMBER'] + 1 ),
 		true
 	);
 }
@@ -132,7 +143,7 @@ function PortalPollsDisplay($value,$name)
 	//verify if user is in excluded users list (format = '|[profile_id]:[user_id]')
 	$profile_id = User('PROFILE_ID');
 
-	if ( $profile_id != 0) //FJ call right Student/Staff ID
+	if ( $profile_id !== '0' ) //FJ call right Student/Staff ID
 		$user_id = $_SESSION['STAFF_ID'];
 	else
 		$user_id = $_SESSION['STUDENT_ID'];
@@ -223,7 +234,10 @@ function PortalPollsVotesDisplay( $poll_id, $display_votes, $poll_questions_RET,
 			$_POST['poll_completed_string'] :
 			_( 'Poll completed' );
 
-		return ErrorMessage( array( button('check', '', '', 'bigger') . '&nbsp;' . $poll_completed_str, 'note' ) );
+		// Fix PHP error: do not call button(), not logged in.
+		$note[] = $poll_completed_str;
+
+		return ErrorMessage( $note, 'note' );
 	}
 
 	$votes_display = '';
@@ -285,32 +299,38 @@ function PortalPollsVotesDisplay( $poll_id, $display_votes, $poll_questions_RET,
 
 
 //AJAX vote call:
-if (isset($_POST['votes']) && is_array($_POST['votes']))
+if ( isset( $_POST['votes'] )
+	&& is_array( $_POST['votes'] ) )
 {
-	if (empty($_SERVER['HTTP_X_REQUESTED_WITH'])
-		|| $_SERVER['HTTP_X_REQUESTED_WITH'] !== 'XMLHttpRequest')
-		die('Error: no AJAX');
+	if ( empty( $_SERVER['HTTP_X_REQUESTED_WITH'] )
+		|| $_SERVER['HTTP_X_REQUESTED_WITH'] !== 'XMLHttpRequest' )
+	{
+		die( 'Error: no AJAX' );
+	}
 
-	chdir('../');
+	chdir( '../' );
 
 	require_once 'config.inc.php';
 	require_once 'database.inc.php';
 
 	// Load functions.
-	$functions = glob('functions/*.php');
-	foreach ($functions as $function)
+	$functions = glob( 'functions/*.php' );
+
+	foreach ( (array) $functions as $function )
 	{
 		require_once $function;
 	}
 
-	foreach ($_POST['votes'] as $poll_id => $votes_array)
+	foreach ( (array) $_POST['votes'] as $poll_id => $votes_array )
 	{
-		if ( !empty($votes_array))
+		if ( ! empty( $votes_array ) )
 		{
-			echo PortalPollsVote($poll_id, $votes_array);
+			echo PortalPollsVote( $poll_id, $votes_array );
 			break;
 		}
 	}
+
+	exit();
 }
 
 

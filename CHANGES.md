@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 3.4
+--------------
+- Fix #193 PHP error: do not call button(), not logged in in PortalPollsNotes.fnc.php
+
 Changes in 3.3.4
 ----------------
 - Fix "Create User Account" schools in User.php
