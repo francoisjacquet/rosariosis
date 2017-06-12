@@ -227,20 +227,20 @@ function GetPortalPollUser()
  */
 function PortalPollForm( $poll_id, $poll_questions_RET )
 {
-	$PollForm = '';
+	$poll_form = '';
 
 	//FJ responsive rt td too large
 	if ( !isset($_REQUEST['_ROSARIO_PDF']))
-		$PollForm .= '<div id="divPortalPoll'.$poll_id.'" class="divPortalPoll rt2colorBox">';
+		$poll_form .= '<div id="divPortalPoll'.$poll_id.'" class="divPortalPoll rt2colorBox">';
 
-	$PollForm .= '<form method="POST" id="formPortalPoll' . $poll_id . '"
+	$poll_form .= '<form method="POST" id="formPortalPoll' . $poll_id . '"
 		action="ProgramFunctions/PortalPollsNotes.fnc.php"
 		target="divPortalPoll' . $poll_id . '">
 	<table class="width-100p widefat">';
 
 	foreach ( (array) $poll_questions_RET as $question )
 	{
-		$PollForm .= '<tr><td class="valign-top"><b>' . $question['QUESTION'] . '</b></td>
+		$poll_form .= '<tr><td class="valign-top"><b>' . $question['QUESTION'] . '</b></td>
 		<td><table class="width-100p cellspacing-0">';
 
 		$options_array = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r",$question['OPTIONS']));
@@ -248,36 +248,40 @@ function PortalPollForm( $poll_id, $poll_questions_RET )
 		$checked = true;
 		foreach ($options_array as $option_nb => $option_label)
 		{
-			if ( $question['TYPE'] == 'multiple_radio')
+			if ( $question['TYPE'] == 'multiple_radio' )
 			{
-				$PollForm .= '<tr><td>
+				$poll_form .= '<tr><td>
 					<label>
-					<input type="radio" name="votes['.$poll_id.']['.$question['ID'].']" value="'.$option_nb.'" '.($checked?'checked':'').' /> '.$option_label.'
-					</label>
-					</td></tr>'."\n";
+					<input type="radio" name="votes[' . $poll_id . '][' . $question['ID'] . ']" value="' .
+						$option_nb . '" ' . ( $checked ? 'checked' : '' ) . ' />&nbsp;' .
+						$option_label .
+					'</label>
+					</td></tr>' . "\n";
 			}
-			else //multiple
+			else // Multiple.
 			{
-				$PollForm .= '<tr><td>
+				$poll_form .= '<tr><td>
 					<label>
-					<input type="checkbox" name="votes['.$poll_id.']['.$question['ID'].'][]" value="'.$option_nb.'" /> '.$option_label.'
-					</label>
-					</td></tr>'."\n";
+					<input type="checkbox" name="votes[' . $poll_id . '][' . $question['ID'] . '][]" value="' .
+						$option_nb . '" />&nbsp;' . $option_label .
+					'</label>
+					</td></tr>' . "\n";
 			}
 
 			$checked = false;
 		}
 
-		$PollForm .= '</table></td></tr>';
+		$poll_form .= '</table></td></tr>';
 	}
 
-	$PollForm .= '</td></tr></table>
-	<p><input type="submit" value="'._('Submit').'" id="pollSubmit'.$poll_id.'" /></p></form>';
+	$poll_form .= '</td></tr></table><p>' . Buttons( _( 'Submit' ) ) . '</p></form>';
 
-	if ( !isset($_REQUEST['_ROSARIO_PDF']))
-		$PollForm .= '</div>';
+	if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
+		$poll_form .= '</div>';
+	}
 
-	return $PollForm;
+	return $poll_form;
 }
 
 
