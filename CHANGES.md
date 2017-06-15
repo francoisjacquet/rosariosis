@@ -6,6 +6,7 @@ Changes in 3.4
 - Fix #193 PHP error: do not call button(), not logged in in PortalPollsNotes.fnc.php
 - New translations (37% completed) in locale/
 - Add new translations flag icons in assets/flags/
+- Update README.md & add translations REFERENCE.md in locale/
 
 Changes in 3.3.4
 ----------------

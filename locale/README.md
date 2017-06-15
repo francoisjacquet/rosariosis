@@ -1,7 +1,13 @@
-The `locale/` folder contains the localization files.
-The structure of the subfolders and files must be as follow:
-For example, for a French translation:
+LOCALE
+======
 
+The `locale/` folder contains the localization files used to translate RosarioSIS strings.
+
+
+Folders structure
+-----------------
+The structure of the subfolders and files _must_ be as follow.
+Example for the French translation:
 ```
 locale/
 	fr_FR.utf8/
@@ -9,11 +15,24 @@ locale/
 			rosariosis.mo
 			rosariosis.po
 ```
+Note: **fr_FR.utf8** is the name of the French locale.
 
-Note: "fr_FR.utf8" is the name of the French locale. Do not forget to install the locale first (on Ubuntu):
 
-`server$ locale -a`
+Install
+-------
+Install the locale first on your server.
+Example for Ubuntu:
+```
+server$ locale -a
+server$ sudo apt-get install language-pack-fr
+```
 
-`server$ sudo apt-get install language-pack-fr`
 
-Note 2: The localization system is gettext, and the `*.po` files can be edited using [Poedit](http://poedit.net/). To start (or complete) a translation, please follow [this tutorial](https://github.com/francoisjacquet/rosariosis/wiki/Localizing,-translate-RosarioSIS-with-Poedit).
+Gettext & Poedit
+----------------
+The localization system is `gettext`, and the `*.po` files can be edited using [Poedit](http://poedit.net/). To start (or complete) a translation, please follow [this tutorial](https://github.com/francoisjacquet/rosariosis/wiki/Localizing,-translate-RosarioSIS-with-Poedit).
+
+
+Reference
+---------
+A reference of the currently available translations, including their code, language, country, completion and other useful information is available in the [REFERENCE.md](REFERENCE.md) file.
