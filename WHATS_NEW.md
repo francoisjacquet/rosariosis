@@ -2,6 +2,43 @@
 
 ## RosarioSIS Student Information System
 
+New in 3.4
+----------
+
+[New translations](locale/REFERENCE.md) (37% completed)
+
+- Afrikaans (South Africa)
+- Arabic (Saudi Arabia)
+- Belarusian (Belarus)
+- Czech (Czech Republic)
+- Greek (Greece)
+- Estonian (Estonia)
+- Finnish (Finland)
+- Irish (Ireland)
+- Galician
+- Croatian (Croatia)
+- Hungarian (Hungary)
+- Indonesian (Indonesia)
+- Icelandic (Iceland)
+- Lithuanian (Lithuania)
+- Latvian (Latvia)
+- Macedonian (Macedonia)
+- Dutch (Netherlands)
+- Norwegian Nynorsk (Norway)
+- Polish (Poland)
+- Romanian (Romania)
+- Slovak (Slovakia)
+- Slovenian (Slovenia)
+- Albanian (Albania)
+- Serbian (Cyrillic, Bosnia)
+- Swedish (Sweden)
+- Thai (Thailand)
+- Ukrainian (Ukraine)
+- Vietnamese (Vietnam)
+- Walloon (Belgium)
+- Chinese (Traditional, Taiwan)
+
+
 New in 3.3
 ----------
 
@@ -16,6 +53,7 @@ Automatically resize & compress uploaded images.
 Up to 4x speed & memory gain (DBGet core function)
 
 Usability improvements
+
 
 New in 3.2
 ----------
