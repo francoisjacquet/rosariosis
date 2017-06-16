@@ -331,23 +331,178 @@ function ImageUpload( $input, $target_dim = array(), $path = '', $ext_white_list
 }
 
 
-function no_accents( $string_accents )
+/**
+ * Removes accents from string.
+ * Also replaces spaces and chars other than point, dashes & numbers
+ * with underscores '_'.
+ * Perfect to sanitize a filename.
+ *
+ * @since 3.4 uses PHP intl extension or return microtime in case string does not contain ASCII chars.
+ *
+ * @link http://stackoverflow.com/questions/1017599/how-do-i-remove-accents-from-characters-in-a-php-string
+ *
+ * @example no_accents( 'рулонпользователей' )
+ * Will return 'rulonpol_zovatelej' if PHP intl extension is activated
+ * Else it will return microtime, for example '14976328319110'
+ *
+ * @example no_accents( '集团分配学生信息' )
+ * Will return 'ji_tuan_fen_pei_xue_sheng_xin_xi' if PHP intl extension is activated
+ * Else it will return microtime, for example '14976328319110'
+ *
+ * @param string $string String with maybe accents.
+ *
+ * @return string String with no accents or microtime.
+ */
+function no_accents( $string )
 {
-	 $string_accents = strtr(
-		utf8_decode( $string_accents ),
-		utf8_decode( 'ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïñðòóôõöùúûüýÿ/' ),
-		'AAAAAACEEEEIIIINOOOOOUUUUYaaaaaaceeeeiiiinoooooouuuuyy/'
-	 );
+	if ( ! preg_match( '/[\x80-\xff]/', $string) )
+	{
+		return $string;
+	}
 
-	 // Replace characters others than letters and numbers and points with underscore  "_".
-	 $string_accents = preg_replace(
+	if ( function_exists( 'transliterator_transliterate' ) )
+	{
+		/**
+		 * Requires PHP intl extension.
+		 * Will transliterate to latin ASCII chars.
+		 *
+		 * @example рулонпользователей => rulonpol_zovatelej
+		 * @example 集团分配学生信息 => ji_tuan_fen_pei_xue_sheng_xin_xi
+		 */
+		$string = transliterator_transliterate(
+			'Any-Latin; Latin-ASCII; Lower()',
+			$string
+		);
+
+		// Replace characters others than letters, numbers & points with underscores  "_".
+		$string = preg_replace(
+			'/([^_\-.a-z\/0-9]+)/i',
+			'_',
+			$string
+		);
+
+		return $string;
+	}
+
+	$c195 = chr( 195 );
+	$c196 = chr( 196 );
+	$c197 = chr( 197 );
+
+	$chars = array(
+	// Decompositions for Latin-1 Supplement.
+	$c195 . chr(128) => 'A', $c195 . chr(129) => 'A',
+	$c195 . chr(130) => 'A', $c195 . chr(131) => 'A',
+	$c195 . chr(132) => 'A', $c195 . chr(133) => 'A',
+	$c195 . chr(135) => 'C', $c195 . chr(136) => 'E',
+	$c195 . chr(137) => 'E', $c195 . chr(138) => 'E',
+	$c195 . chr(139) => 'E', $c195 . chr(140) => 'I',
+	$c195 . chr(141) => 'I', $c195 . chr(142) => 'I',
+	$c195 . chr(143) => 'I', $c195 . chr(145) => 'N',
+	$c195 . chr(146) => 'O', $c195 . chr(147) => 'O',
+	$c195 . chr(148) => 'O', $c195 . chr(149) => 'O',
+	$c195 . chr(150) => 'O', $c195 . chr(153) => 'U',
+	$c195 . chr(154) => 'U', $c195 . chr(155) => 'U',
+	$c195 . chr(156) => 'U', $c195 . chr(157) => 'Y',
+	$c195 . chr(159) => 's', $c195 . chr(160) => 'a',
+	$c195 . chr(161) => 'a', $c195 . chr(162) => 'a',
+	$c195 . chr(163) => 'a', $c195 . chr(164) => 'a',
+	$c195 . chr(165) => 'a', $c195 . chr(167) => 'c',
+	$c195 . chr(168) => 'e', $c195 . chr(169) => 'e',
+	$c195 . chr(170) => 'e', $c195 . chr(171) => 'e',
+	$c195 . chr(172) => 'i', $c195 . chr(173) => 'i',
+	$c195 . chr(174) => 'i', $c195 . chr(175) => 'i',
+	$c195 . chr(177) => 'n', $c195 . chr(178) => 'o',
+	$c195 . chr(179) => 'o', $c195 . chr(180) => 'o',
+	$c195 . chr(181) => 'o', $c195 . chr(182) => 'o',
+	$c195 . chr(182) => 'o', $c195 . chr(185) => 'u',
+	$c195 . chr(186) => 'u', $c195 . chr(187) => 'u',
+	$c195 . chr(188) => 'u', $c195 . chr(189) => 'y',
+	$c195 . chr(191) => 'y',
+	// Decompositions for Latin Extended-A.
+	$c196 . chr(128) => 'A', $c196 . chr(129) => 'a',
+	$c196 . chr(130) => 'A', $c196 . chr(131) => 'a',
+	$c196 . chr(132) => 'A', $c196 . chr(133) => 'a',
+	$c196 . chr(134) => 'C', $c196 . chr(135) => 'c',
+	$c196 . chr(136) => 'C', $c196 . chr(137) => 'c',
+	$c196 . chr(138) => 'C', $c196 . chr(139) => 'c',
+	$c196 . chr(140) => 'C', $c196 . chr(141) => 'c',
+	$c196 . chr(142) => 'D', $c196 . chr(143) => 'd',
+	$c196 . chr(144) => 'D', $c196 . chr(145) => 'd',
+	$c196 . chr(146) => 'E', $c196 . chr(147) => 'e',
+	$c196 . chr(148) => 'E', $c196 . chr(149) => 'e',
+	$c196 . chr(150) => 'E', $c196 . chr(151) => 'e',
+	$c196 . chr(152) => 'E', $c196 . chr(153) => 'e',
+	$c196 . chr(154) => 'E', $c196 . chr(155) => 'e',
+	$c196 . chr(156) => 'G', $c196 . chr(157) => 'g',
+	$c196 . chr(158) => 'G', $c196 . chr(159) => 'g',
+	$c196 . chr(160) => 'G', $c196 . chr(161) => 'g',
+	$c196 . chr(162) => 'G', $c196 . chr(163) => 'g',
+	$c196 . chr(164) => 'H', $c196 . chr(165) => 'h',
+	$c196 . chr(166) => 'H', $c196 . chr(167) => 'h',
+	$c196 . chr(168) => 'I', $c196 . chr(169) => 'i',
+	$c196 . chr(170) => 'I', $c196 . chr(171) => 'i',
+	$c196 . chr(172) => 'I', $c196 . chr(173) => 'i',
+	$c196 . chr(174) => 'I', $c196 . chr(175) => 'i',
+	$c196 . chr(176) => 'I', $c196 . chr(177) => 'i',
+	$c196 . chr(178) => 'IJ',$c196 . chr(179) => 'ij',
+	$c196 . chr(180) => 'J', $c196 . chr(181) => 'j',
+	$c196 . chr(182) => 'K', $c196 . chr(183) => 'k',
+	$c196 . chr(184) => 'k', $c196 . chr(185) => 'L',
+	$c196 . chr(186) => 'l', $c196 . chr(187) => 'L',
+	$c196 . chr(188) => 'l', $c196 . chr(189) => 'L',
+	$c196 . chr(190) => 'l', $c196 . chr(191) => 'L',
+	$c197 . chr(128) => 'l', $c197 . chr(129) => 'L',
+	$c197 . chr(130) => 'l', $c197 . chr(131) => 'N',
+	$c197 . chr(132) => 'n', $c197 . chr(133) => 'N',
+	$c197 . chr(134) => 'n', $c197 . chr(135) => 'N',
+	$c197 . chr(136) => 'n', $c197 . chr(137) => 'N',
+	$c197 . chr(138) => 'n', $c197 . chr(139) => 'N',
+	$c197 . chr(140) => 'O', $c197 . chr(141) => 'o',
+	$c197 . chr(142) => 'O', $c197 . chr(143) => 'o',
+	$c197 . chr(144) => 'O', $c197 . chr(145) => 'o',
+	$c197 . chr(146) => 'OE',$c197 . chr(147) => 'oe',
+	$c197 . chr(148) => 'R', $c197 . chr(149) => 'r',
+	$c197 . chr(150) => 'R', $c197 . chr(151) => 'r',
+	$c197 . chr(152) => 'R', $c197 . chr(153) => 'r',
+	$c197 . chr(154) => 'S', $c197 . chr(155) => 's',
+	$c197 . chr(156) => 'S', $c197 . chr(157) => 's',
+	$c197 . chr(158) => 'S', $c197 . chr(159) => 's',
+	$c197 . chr(160) => 'S', $c197 . chr(161) => 's',
+	$c197 . chr(162) => 'T', $c197 . chr(163) => 't',
+	$c197 . chr(164) => 'T', $c197 . chr(165) => 't',
+	$c197 . chr(166) => 'T', $c197 . chr(167) => 't',
+	$c197 . chr(168) => 'U', $c197 . chr(169) => 'u',
+	$c197 . chr(170) => 'U', $c197 . chr(171) => 'u',
+	$c197 . chr(172) => 'U', $c197 . chr(173) => 'u',
+	$c197 . chr(174) => 'U', $c197 . chr(175) => 'u',
+	$c197 . chr(176) => 'U', $c197 . chr(177) => 'u',
+	$c197 . chr(178) => 'U', $c197 . chr(179) => 'u',
+	$c197 . chr(180) => 'W', $c197 . chr(181) => 'w',
+	$c197 . chr(182) => 'Y', $c197 . chr(183) => 'y',
+	$c197 . chr(184) => 'Y', $c197 . chr(185) => 'Z',
+	$c197 . chr(186) => 'z', $c197 . chr(187) => 'Z',
+	$c197 . chr(188) => 'z', $c197 . chr(189) => 'Z',
+	$c197 . chr(190) => 'z', $c197 . chr(191) => 's'
+	);
+
+	$string = strtr( $string, $chars );
+
+	// Replace characters others than letters, numbers & points with underscores  "_".
+	$string = preg_replace(
 		'/([^_\-.a-z\/0-9]+)/i',
 		'_',
-		ucwords( $string_accents )
-	 );
+		$string
+	);
 
-	 return utf8_encode( $string_accents );
+	if ( $string === '_' )
+	{
+		// String does not contain any latin ASCII char return microtime!
+		$string = number_format( microtime( true ), 4, '', '' );
+	}
+
+	return $string;
 }
+
 
 
 /**

@@ -7,6 +7,7 @@ Changes in 3.4
 - New translations (37% completed) in locale/
 - Add new translations flag icons in assets/flags/
 - Update README.md & add translations REFERENCE.md in locale/
+- International proof no_accents function in FileUpload.fnc.php
 
 Changes in 3.3.4
 ----------------
