@@ -732,7 +732,8 @@ function _prepareAddress( $temp )
 
 	$temp = preg_replace( '/^[0-9]+ /', '', $temp );
 
-	if ( $regs[0] )
+	if ( $regs[0]
+		&& mb_strlen( $regs[0] ) < 6 ) // Fix SQL error field type numeric(5,0).
 	{
 		$address['HOUSE_NO'] = $regs[0];
 	}

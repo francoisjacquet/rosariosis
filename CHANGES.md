@@ -8,6 +8,7 @@ Changes in 3.4
 - Add new translations flag icons in assets/flags/
 - Update README.md & add translations REFERENCE.md in locale/
 - International proof no_accents function in FileUpload.fnc.php
+- Fix SQL error field type numeric(5,0) in Registration.php
 
 Changes in 3.3.4
 ----------------
