@@ -11,6 +11,7 @@ Changes in 3.4
 - Fix SQL error field type numeric(5,0) in Registration.php
 - Fix PHP error typo SchoolInfo() in HonorRoll.php
 - Rollback TinyMCE image upload handler in Inputs.php
+- CSS style sub & sup HTML elements in stylesheet.css
 
 Changes in 3.3.4
 ----------------
