@@ -10,6 +10,7 @@ Changes in 3.4
 - International proof no_accents function in FileUpload.fnc.php
 - Fix SQL error field type numeric(5,0) in Registration.php
 - Fix PHP error typo SchoolInfo() in HonorRoll.php
+- Rollback TinyMCE image upload handler in Inputs.php
 
 Changes in 3.3.4
 ----------------

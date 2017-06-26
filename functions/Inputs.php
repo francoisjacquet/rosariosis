@@ -480,11 +480,17 @@ function TinyMCEInput( $value, $name, $title = '', $extra = '' )
 		language: <?php echo json_encode( $tinymce_language ); ?>,
 		directionality : <?php echo json_encode( $tinymce_directionality ); ?>,
 		relative_urls: false,
+		images_upload_handler: function (blobInfo, success, failure) {
+			success("data:" + blobInfo.blob().type + ";base64," + blobInfo.base64());
+		},
+		// verify_html: false,
 		remove_script_host: false
 	});
 </script><!-- /TinyMCE -->
 
 		<?php $tinymce_js = ob_get_clean();
+
+		$js_included = true;
 	}
 
 	return $tinymce_js . $textarea;
