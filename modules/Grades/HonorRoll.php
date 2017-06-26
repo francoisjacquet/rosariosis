@@ -60,14 +60,14 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 		$RET = GetStuList($extra);
 
-		if ( $_REQUEST['list'])
+		if ( $_REQUEST['list'] )
 		{
 			$handle = PDFStart();
 			echo '<table class="center" style="width:80%;">';
 			echo '<tr class="center"><td colspan="6"><b>' .
 				sprintf(
 					_( '%s Honor Roll' ),
-					SchollInfo( 'TITLE' )
+					SchoolInfo( 'TITLE' )
 				) . ' </b> - ' . $mp_RET[1]['TITLE'] . ' - ' .
 				date( 'F j, Y', strtotime( $mp_RET[1]['END_DATE'] ) ) .
 			'</td></tr>';
