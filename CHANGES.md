@@ -12,6 +12,8 @@ Changes in 3.4
 - Fix PHP error typo SchoolInfo() in HonorRoll.php
 - Rollback TinyMCE image upload handler in Inputs.php
 - CSS style sub & sup HTML elements in stylesheet.css
+- Add pdf_start action hook to PDF.php & Actions.php
+- Add header & footer HTML options to PDF.php & Wkhtmltopdf.php
 
 Changes in 3.3.4
 ----------------

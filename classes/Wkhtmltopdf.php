@@ -32,6 +32,7 @@ class Wkhtmltopdf
 	protected $_xvfb = false;
 	protected $_path;               // path to directory where to place files
 	protected $_footerHtml;
+	protected $_headerHtml;
 	protected $_username;
 	protected $_password;
 	protected $_windowStatus;
@@ -62,6 +63,19 @@ class Wkhtmltopdf
 	const MODE_STRING = 1;
 	const MODE_EMBEDDED = 2;
 	const MODE_SAVE = 3;
+
+
+	public function __destruct() {
+		if ( file_exists( $this->getHeaderHtml() ) ) {
+			// We don't need the header HTML file anymore.
+			unlink( $this->getHeaderHtml() );
+		}
+		if ( file_exists( $this->getFooterHtml() ) ) {
+			// We don't need the footer HTML file anymore.
+			unlink( $this->getFooterHtml() );
+		}
+	}
+
 
 	/**
 	 * @author aur1mas <aur1mas@devnet.lt>
@@ -97,7 +111,7 @@ class Wkhtmltopdf
 			$this->setBinPath($options['binpath']);
 		}
 
-	if (array_key_exists('window-status', $options)) {
+		if (array_key_exists('window-status', $options)) {
 			$this->setWindowStatus($options['window-status']);
 		}
 
@@ -107,14 +121,6 @@ class Wkhtmltopdf
 
 		if (array_key_exists('title', $options)) {
 			$this->setTitle($options['title']);
-		}
-
-		if (array_key_exists('footer_html', $options)) {
-			$this->setFooterHtml($options['footer_html']);
-		}
-
-		if (array_key_exists('xvfb', $options)) {
-			$this->setRunInVirtualX($options['xvfb']);
 		}
 
 		if (!array_key_exists('path', $options)) {
@@ -127,6 +133,18 @@ class Wkhtmltopdf
 		}
 
 		$this->setPath($options['path']);
+
+		if (array_key_exists('header_html', $options)) {
+			$this->setHeaderHtml($options['header_html']);
+		}
+
+		if (array_key_exists('footer_html', $options)) {
+			$this->setFooterHtml($options['footer_html']);
+		}
+
+		if (array_key_exists('xvfb', $options)) {
+			$this->setRunInVirtualX($options['xvfb']);
+		}
 
 		$this->_createFile();
 	}
@@ -527,7 +545,7 @@ class Wkhtmltopdf
 	}
 
 	/**
-	 *  set footer html
+	 * set footer html
 	 *
 	 * @param string $footer
 	 * @return Wkthmltopdf
@@ -535,12 +553,21 @@ class Wkhtmltopdf
 	 */
 	public function setFooterHtml($footer)
 	{
-		$this->_footerHtml = (string)$footer;
+		$this->_footerHtml = $this->getPath() . mt_rand() . '-pdf-footer.html';
+
+		/**
+		 * create HTML file
+		 */
+		file_put_contents($this->_footerHtml, (string)$footer);
+		chmod($this->_footerHtml, 0777);
+
+		$margins = $this->getMargins();
+
 		return $this;
 	}
 
 	/**
-	 * get footer html
+	 * get footer html URL
 	 *
 	 * @return string
 	 * @author aur1mas <aur1mas@devnet.lt>
@@ -548,6 +575,39 @@ class Wkhtmltopdf
 	public function getFooterHtml()
 	{
 		return $this->_footerHtml;
+	}
+
+	/**
+	 * set header html URL
+	 *
+	 * @param string $header
+	 * @return Wkthmltopdf
+	 * @author aur1mas <aur1mas@devnet.lt>
+	 */
+	public function setHeaderHtml($header)
+	{
+		$this->_headerHtml = $this->getPath() . mt_rand() . '-pdf-header.html';
+
+		/**
+		 * create HTML file
+		 */
+		file_put_contents($this->_headerHtml, (string)$header);
+		chmod($this->_filename, 0777);
+
+		$margins = $this->getMargins();
+
+		return $this;
+	}
+
+	/**
+	 * get header html
+	 *
+	 * @return string
+	 * @author aur1mas <aur1mas@devnet.lt>
+	 */
+	public function getHeaderHtml()
+	{
+		return $this->_headerHtml;
 	}
 
 	/**
@@ -621,9 +681,11 @@ class Wkhtmltopdf
 		$command .= ($this->getGrayscale()) ? " --grayscale" : "";
 		$command .= (mb_strlen($this->getPassword()) > 0) ? " --password " . $this->getPassword() . "" : "";
 		$command .= (mb_strlen($this->getUsername()) > 0) ? " --username " . $this->getUsername() . "" : "";
-		$command .= (mb_strlen($this->getFooterHtml()) > 0) ? " --margin-bottom 20 --footer-html \"" . $this->getFooterHtml() . "\"" : "";
 
+		$command .= (file_exists($this->getHeaderHtml())) ? " --header-html " . $this->getHeaderHtml() . "" : "";
+		$command .= (file_exists($this->getFooterHtml())) ? " --footer-html " . $this->getFooterHtml() : "";
 		$command .= ($this->getTitle()) ? ' --title "' . $this->getTitle() . '"' : '';
+
 		$command .= ' "%input%"';
 		$command .= " -";
 		if ( $this->getRunInVirtualX() )

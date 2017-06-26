@@ -113,6 +113,13 @@ $RosarioActions = array();
 	 * @since 2.9.8
 	 */
 	/*'index.php|login_check' => array(),
+
+	/**
+	 * PDF start.
+	 *
+	 * @since 3.4
+	 */
+	/*'functions/PDF.php|pdf_start' => array(),
 );*/
 
 

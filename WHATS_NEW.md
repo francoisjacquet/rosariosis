@@ -5,6 +5,8 @@
 New in 3.4
 ----------
 
+New [PDF Header Footer](https://github.com/francoisjacquet/PDF_Header_Footer) plugin
+
 [New translations](locale/REFERENCE.md) (37% completed)
 
 - Afrikaans (South Africa)

@@ -27,6 +27,8 @@
  */
 function PDFStart( $options = array() )
 {
+	global $pdf_options;
+
 	$_REQUEST['_ROSARIO_PDF'] = true;
 
 	$default_options = array(
@@ -36,6 +38,9 @@ function PDFStart( $options = array() )
 	);
 
 	$pdf_options = array_replace_recursive( $default_options, (array) $options );
+
+	// Do hook.
+	do_action( 'functions/PDF.php|pdf_start' );
 
 	// Start buffering.
 	ob_start();
@@ -95,33 +100,37 @@ function PDFStop( $handle )
 	// Page title.
 	$page_title = str_replace( _( 'Print' ) . ' ', '', ProgramTitle() );
 
+	$_html = array();
+
 	// Convert to HTML page with CSS.
-	$html = '<!doctype html>
+	$_html['head'] = '<!doctype html>
 		<html lang="' . $lang_2_chars . '" ' . $dir_RTL . '>
 		<head>
 			<meta charset="UTF-8" />';
 
 	if ( $handle['css'] )
 	{
-		$html .= '<link rel="stylesheet" type="text/css" href="assets/themes/' . Preferences( 'THEME' ) . '/stylesheet_wkhtmltopdf.css" />';
+		$_html['head'] .= '<link rel="stylesheet" type="text/css" href="assets/themes/' . Preferences( 'THEME' ) . '/stylesheet_wkhtmltopdf.css" />';
 	}
 
 	// Include Markdown to HTML.
-	$html .= '<script src="assets/js/showdown/showdown.min.js"></script>';
+	$_html['head'] .= '<script src="assets/js/showdown/showdown.min.js"></script>';
 
 	// Include wkhtmltopdf Warehouse JS functions.
-	$html .= '<script src="assets/js/warehouse_wkhtmltopdf.js"></script>';
+	$_html['head'] .= '<script src="assets/js/warehouse_wkhtmltopdf.js"></script>';
 
 	// FJ bugfix wkhtmltopdf screen resolution on linux
 	// see: https://code.google.com/p/wkhtmltopdf/issues/detail?id=118
-	$html .= '<title>' . $page_title . '</title>
+	$_html['head'] .= '<title>' . $page_title . '</title>
 		</head>
 		<body>
-			<div style="width:' . $page_width . 'px" id="pdf">'
-			. $html_content
-			. '</div>
+			<div style="width:' . $page_width . 'px" id="pdf">';
+
+	$_html['foot'] = '</div>
 		</body>
 		</html>';
+
+	$html = $_html['head'] . $html_content . $_html['foot'];
 
 	// Create PDF in the temporary files system directory.
 	$path = sys_get_temp_dir();
@@ -147,6 +156,8 @@ function PDFStop( $handle )
 		{
 			// Fix wkhtmltopdf error on Windows: prepend file:///.
 			$html = str_replace( '"assets/', '"file:///' . $wkhtmltopdfAssetsPath, $html );
+
+			$_html['head'] = str_replace( '"assets/', '"file:///' . $wkhtmltopdfAssetsPath, $_html['head'] );
 		}
 
 		// Fix wkhtmltopdf error on Windows: prepend file:///.
@@ -177,6 +188,38 @@ function PDFStop( $handle )
 				$wkhtmltopdf->setMargins( $handle['margins'] );
 			}
 
+			if ( isset( $handle['header_html'] )
+				&& $handle['header_html'] )
+			{
+				$header_html = $handle['header_html'];
+
+				if ( mb_stripos( $header_html, '<html' ) === false )
+				{
+					// Build full HMTL page.
+					// Fix HTML header not showing, remove CSS width & height 100%.
+					$header_html = str_replace( '<html', '<html style="width: auto; height: auto;"', $_html['head'] ) .
+						$header_html . $_html['foot'];
+				}
+
+				$wkhtmltopdf->setHeaderHtml( $header_html );
+			}
+
+			if ( isset( $handle['footer_html'] )
+				&& $handle['footer_html'] )
+			{
+				$footer_html = $handle['footer_html'];
+
+				if ( mb_stripos( $footer_html, '<html' ) === false )
+				{
+					// Build full HMTL page.
+					// Fix HTML footer, remove CSS width & height 100%.
+					$footer_html = str_replace( '<html', '<html style="width: auto; height: auto;"', $_html['head'] ) .
+						$footer_html . $_html['foot'];
+				}
+
+				$wkhtmltopdf->setFooterHtml( $footer_html );
+			}
+
 			$wkhtmltopdf->setTitle( utf8_decode( $page_title ) );
 
 			// Directly pass HTML code.
@@ -204,9 +247,9 @@ function PDFStop( $handle )
 			);
 
 			// Set Absolute URLs to images, CSS...
-			$html = str_replace( 'assets/', $base_url . 'assets/', $html );
+			$html = str_replace( '"assets/', '"' . $base_url . 'assets/', $html );
 
-			$html = str_replace( 'modules/', $base_url . 'modules/', $html);
+			$html = str_replace( '"modules/', '"' . $base_url . 'modules/', $html );
 
 			file_put_contents( $path . DIRECTORY_SEPARATOR . $filename . '.html', $html );
 
