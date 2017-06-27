@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-06-14 17:48-0500\n"
-"PO-Revision-Date: 2017-06-14 17:48-0500\n"
+"PO-Revision-Date: 2017-06-27 14:41+0100\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS\n"
 "Language: fr\n"
@@ -7792,7 +7792,7 @@ msgstr "Des élèves ont un solde de compte cantine inférieur à %1.2f"
 
 #: modules/misc/Portal.php:248
 msgid "Happy administrating..."
-msgstr "Joyeuse administration ..."
+msgstr "Bonne administration ..."
 
 #: modules/misc/Portal.php:339 modules/misc/Portal.php:523
 #: modules/misc/Portal.php:660
@@ -7828,7 +7828,7 @@ msgstr "Bonne session ..."
 
 #: modules/misc/Portal.php:671
 msgid "Happy learning..."
-msgstr "Bonnes études ..."
+msgstr "Bon apprentissage ..."
 
 #: modules/misc/ViewContact.php:47
 msgid "This person has no information in the system."
