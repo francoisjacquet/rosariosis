@@ -197,8 +197,11 @@ function PDFStop( $handle )
 				{
 					// Build full HMTL page.
 					// Fix HTML header not showing, remove CSS width & height 100%.
-					$header_html = str_replace( '<html', '<html style="width: auto; height: auto;"', $_html['head'] ) .
-						$header_html . $_html['foot'];
+					$header_html = str_replace(
+						'<html',
+						'<html style="width: auto; height: auto;"',
+						$_html['head']
+						) .	$header_html . $_html['foot'];
 				}
 
 				$wkhtmltopdf->setHeaderHtml( $header_html );
@@ -213,8 +216,11 @@ function PDFStop( $handle )
 				{
 					// Build full HMTL page.
 					// Fix HTML footer, remove CSS width & height 100%.
-					$footer_html = str_replace( '<html', '<html style="width: auto; height: auto;"', $_html['head'] ) .
-						$footer_html . $_html['foot'];
+					$footer_html = str_replace(
+						'<html',
+						'<html style="width: auto; height: auto;"',
+						$_html['head']
+						) .	$footer_html . $_html['foot'];
 				}
 
 				$wkhtmltopdf->setFooterHtml( $footer_html );
