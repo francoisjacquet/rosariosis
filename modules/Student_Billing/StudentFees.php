@@ -118,11 +118,29 @@ if ( UserStudentID()
 	&& ! $_REQUEST['modfunc'] )
 {
 	$fees_total = 0;
-	$functions = array('REMOVE' => '_makeFeesRemove','ASSIGNED_DATE' => 'ProperDate','DUE_DATE' => '_makeFeesDateInput','COMMENTS' => '_makeFeesTextInput','AMOUNT' => '_makeFeesAmount');
 
-	$waived_fees_RET = DBGet(DBQuery("SELECT '' AS REMOVE,f.ID,f.TITLE,f.ASSIGNED_DATE,f.DUE_DATE,f.COMMENTS,f.AMOUNT,f.WAIVED_FEE_ID FROM BILLING_FEES f WHERE f.STUDENT_ID='".UserStudentID()."' AND f.SYEAR='".UserSyear()."' AND f.WAIVED_FEE_ID IS NOT NULL"),$functions,array('WAIVED_FEE_ID'));
+	$functions = array(
+		'REMOVE' => '_makeFeesRemove',
+		'ASSIGNED_DATE' => 'ProperDate',
+		'DUE_DATE' => '_makeFeesDateInput',
+		'COMMENTS' => '_makeFeesTextInput',
+		'AMOUNT' => '_makeFeesAmount',
+	);
 
-	$fees_RET = DBGet(DBQuery("SELECT '' AS REMOVE,f.ID,f.TITLE,f.ASSIGNED_DATE,f.DUE_DATE,f.COMMENTS,f.AMOUNT,f.WAIVED_FEE_ID FROM BILLING_FEES f WHERE f.STUDENT_ID='".UserStudentID()."' AND f.SYEAR='".UserSyear()."' AND (f.WAIVED_FEE_ID IS NULL OR f.WAIVED_FEE_ID='') ORDER BY f.ASSIGNED_DATE"),$functions);
+	$waived_fees_RET = DBGet( DBQuery( "SELECT '' AS REMOVE,f.ID,f.TITLE,f.ASSIGNED_DATE,
+		f.DUE_DATE,f.COMMENTS,f.AMOUNT,f.WAIVED_FEE_ID
+		FROM BILLING_FEES f
+		WHERE f.STUDENT_ID='" . UserStudentID() . "'
+		AND f.SYEAR='" . UserSyear() . "'
+		AND f.WAIVED_FEE_ID IS NOT NULL" ), $functions, array( 'WAIVED_FEE_ID' ) );
+
+	$fees_RET = DBGet( DBQuery( "SELECT '' AS REMOVE,f.ID,f.TITLE,f.ASSIGNED_DATE,
+		f.DUE_DATE,f.COMMENTS,f.AMOUNT,f.WAIVED_FEE_ID
+		FROM BILLING_FEES f
+		WHERE f.STUDENT_ID='" . UserStudentID() . "'
+		AND f.SYEAR='" . UserSyear() . "'
+		AND (f.WAIVED_FEE_ID IS NULL OR f.WAIVED_FEE_ID='')
+		ORDER BY f.ASSIGNED_DATE" ), $functions );
 
 	$i = 1;
 	$RET = array();
@@ -142,10 +160,27 @@ if ( UserStudentID()
 	else
 		$columns = array();
 
-	$columns += array('TITLE' => _('Fee'),'AMOUNT' => _('Amount'),'ASSIGNED_DATE' => _('Assigned'),'DUE_DATE' => _('Due'),'COMMENTS' => _('Comment'));
-	if ( ! $_REQUEST['print_statements'])
-		$link['add']['html'] = array('REMOVE'=>button('add'),'TITLE'=>_makeFeesTextInput('','TITLE'),'AMOUNT'=>_makeFeesTextInput('','AMOUNT'),'ASSIGNED_DATE'=>ProperDate(DBDate()),'DUE_DATE'=>_makeFeesDateInput('','DUE_DATE'),'COMMENTS'=>_makeFeesTextInput('','COMMENTS'));
-	if ( ! $_REQUEST['print_statements'])
+	$columns += array(
+		'TITLE' => _( 'Fee' ),
+		'AMOUNT' => _( 'Amount' ),
+		'ASSIGNED_DATE' => _( 'Assigned' ),
+		'DUE_DATE' => _( 'Due' ),
+		'COMMENTS' => _( 'Comment' ),
+	);
+
+	if ( ! $_REQUEST['print_statements'] )
+	{
+		$link['add']['html'] = array(
+			'REMOVE' => button( 'add' ),
+			'TITLE' => _makeFeesTextInput( '', 'TITLE' ),
+			'AMOUNT' => _makeFeesTextInput( '', 'AMOUNT' ),
+			'ASSIGNED_DATE' => ProperDate( DBDate() ),
+			'DUE_DATE' => _makeFeesDateInput( '', 'DUE_DATE' ),
+			'COMMENTS' => _makeFeesTextInput( '', 'COMMENTS' ),
+		);
+	}
+
+	if ( ! $_REQUEST['print_statements'] )
 	{
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 		//DrawStudentHeader();
@@ -156,7 +191,7 @@ if ( UserStudentID()
 	else
 		$options = array('center'=>false);
 
-	ListOutput($RET,$columns,'Fee','Fees',$link,array(),$options);
+	ListOutput( $RET, $columns, 'Fee', 'Fees', $link, array(), $options );
 
 	if ( ! $_REQUEST['print_statements']
 		&& AllowEdit() )

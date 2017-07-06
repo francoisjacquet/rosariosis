@@ -8,39 +8,47 @@ if ( ! $_REQUEST['search_modfunc'] )
 
 	$extra['new'] = true;
 	$extra['action'] .= "&_ROSARIO_PDF=true";
-	Search('student_id',$extra);
+
+	Search( 'student_id', $extra );
 }
 else
 {
 	// For the Student Fees / Student Payments programs.
 	$_REQUEST['print_statements'] = true;
 
-	if ( $_REQUEST['mailing_labels']=='Y')
+	if ( $_REQUEST['mailing_labels'] === 'Y' )
+	{
 		$extra['group'][] = 'ADDRESS_ID';
+	}
 
-	$RET = GetStuList($extra);
+	$students_RET = GetStuList( $extra );
 
-	if (count($RET))
+	if ( count( $students_RET ) )
 	{
 		$SESSION_student_id_save = UserStudentID();
+
 		$handle = PDFStart();
-		foreach ( (array) $RET as $student)
+
+		foreach ( (array) $students_RET as $student )
 		{
-			if ( $_REQUEST['mailing_labels']=='Y')
+			if ( $_REQUEST['mailing_labels'] === 'Y' )
 			{
-				foreach ( (array) $student as $address)
+				foreach ( (array) $student as $address )
 				{
 					echo '<br /><br /><br />';
-					unset($_ROSARIO['DrawHeader']);
-					DrawHeader(_('Statement'));
-					DrawHeader($address['FULL_NAME'],$address['STUDENT_ID']);
-					DrawHeader($address['GRADE_ID']);
-					DrawHeader(SchoolInfo('TITLE'));
-					DrawHeader(ProperDate(DBDate()));
 
-					echo '<br /><br /><table class="width-100p"><tr><td style="width:50px;"> &nbsp; </td><td>'.$address['MAILING_LABEL'].'</td></tr></table><br />';
+					unset( $_ROSARIO['DrawHeader'] );
 
-					SetUserStudentID($address['STUDENT_ID']);
+					DrawHeader( _( 'Statement' ) );
+					DrawHeader( $address['FULL_NAME'], $address['STUDENT_ID'] );
+					DrawHeader( $address['GRADE_ID'] );
+					DrawHeader( SchoolInfo( 'TITLE' ) );
+					DrawHeader( ProperDate( DBDate() ) );
+
+					echo '<br /><br /><table class="width-100p"><tr><td style="width:50px;"> &nbsp; </td>
+						<td>' . $address['MAILING_LABEL'] . '</td></tr></table><br />';
+
+					SetUserStudentID( $address['STUDENT_ID'] );
 
 					require 'modules/Student_Billing/StudentFees.php';
 					require 'modules/Student_Billing/StudentPayments.php';
@@ -50,14 +58,15 @@ else
 			}
 			else
 			{
-				SetUserStudentID($student['STUDENT_ID']);
+				SetUserStudentID( $student['STUDENT_ID'] );
 
-				unset($_ROSARIO['DrawHeader']);
-				DrawHeader(_('Statement'));
-				DrawHeader($student['FULL_NAME'],$student['STUDENT_ID']);
-				DrawHeader($student['GRADE_ID']);
-				DrawHeader(SchoolInfo('TITLE'));
-				DrawHeader(ProperDate(DBDate()));
+				unset( $_ROSARIO['DrawHeader'] );
+
+				DrawHeader( _( 'Statement' ) );
+				DrawHeader( $student['FULL_NAME'], $student['STUDENT_ID'] );
+				DrawHeader( $student['GRADE_ID'] );
+				DrawHeader( SchoolInfo( 'TITLE' ) );
+				DrawHeader( ProperDate( DBDate() ) );
 
 				require 'modules/Student_Billing/StudentFees.php';
 				require 'modules/Student_Billing/StudentPayments.php';
@@ -68,8 +77,8 @@ else
 
 		$_SESSION['student_id'] = $SESSION_student_id_save;
 
-		PDFStop($handle);
+		PDFStop( $handle );
 	}
 	else
-		BackPrompt(_('No Students were found.'));
+		BackPrompt( _( 'No Students were found.' ) );
 }
