@@ -27,11 +27,16 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 	else
 		$options = $default_options;
 
-	if ( $options['sort'] )
-	{
-		//FJ bugfix ListOutput sorting when more than one list in a page
-		$LO_sort = $_REQUEST['LO_sort'];
-	}
+	$LO_page = ( isset( $_REQUEST['LO_page'] ) ? $_REQUEST['LO_page'] : '' );
+
+	// FJ bugfix ListOutput sorting when more than one list in a page.
+	$LO_sort = ( isset( $_REQUEST['LO_sort'] ) ? $_REQUEST['LO_sort'] : '' );
+
+	$LO_dir = ( isset( $_REQUEST['LO_dir'] ) ? $_REQUEST['LO_dir'] : '' );
+
+	$LO_search = ( isset( $_REQUEST['LO_search'] ) ? $_REQUEST['LO_search'] : '' );
+
+	$LO_save = ( isset( $_REQUEST['LO_save'] ) ? $_REQUEST['LO_save'] : '' );
 
 	if ( ! $options['add']
 		|| ! AllowEdit()
@@ -58,10 +63,10 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 	$num_displayed = 1000;
 
 	// PREPARE LINKS ---.
-	$extra = 'LO_page=' . ( isset( $_REQUEST['LO_page'] ) ? $_REQUEST['LO_page'] : '' ) .
-		'&amp;LO_sort=' . ( isset( $LO_sort ) ? $LO_sort : '' ) .
-		'&amp;LO_dir=' . ( isset( $_REQUEST['LO_dir'] ) ? $_REQUEST['LO_dir'] : '' ) .
-		'&amp;LO_search=' . ( isset( $_REQUEST['LO_search'] ) ? urlencode( $_REQUEST['LO_search'] ) : '' );
+	$extra = 'LO_page=' . ( $LO_page ? $LO_page : '' ) .
+		'&amp;LO_sort=' . ( $LO_sort ? $LO_sort : '' ) .
+		'&amp;LO_dir=' . ( $LO_dir ? $LO_dir : '' ) .
+		'&amp;LO_search=' . ( $LO_search ? urlencode( $LO_search ) : '' );
 
 	$PHP_tmp_SELF = PreparePHP_SELF(
 		$_REQUEST,
@@ -211,11 +216,11 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 		// HANDLE SEARCHES ---.
 		if ( $result_count
-			&& !empty( $_REQUEST['LO_search'] ) )
+			&& $LO_search !== '' )
 		{
-			//$_REQUEST['LO_search'] = $search_term = str_replace('\\\"','"',$_REQUEST['LO_search']);
-			//$_REQUEST['LO_search'] = $search_term = preg_replace('/[^a-zA-Z0-9 _"]*/','',mb_strtolower($search_term));
-			$search_term = trim( mb_strtolower( str_replace( "''", "'", $_REQUEST['LO_search'] ) ) );
+			//$LO_search = $search_term = str_replace('\\\"','"',$LO_search);
+			//$LO_search = $search_term = preg_replace('/[^a-zA-Z0-9 _"]*/','',mb_strtolower($search_term));
+			$search_term = trim( mb_strtolower( str_replace( "''", "'", $LO_search ) ) );
 
 			if ( mb_substr( $search_term, 0, 1 ) != '"'
 				&& mb_substr( $search_term, -1, 1 ) != '"' )
@@ -319,7 +324,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		}
 		// END SEARCHES ---.
 
-		if ( !empty( $LO_sort ) )
+		if ( $LO_sort )
 		{
 			foreach ( (array) $result as $sort )
 			{
@@ -344,7 +349,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				}
 			}
 
-			if ( $_REQUEST['LO_dir'] == -1 )
+			if ( $LO_dir == -1 )
 			{
 				$dir = SORT_DESC;
 			}
@@ -374,7 +379,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 	// HANDLE SAVING THE LIST ---.
 	if ( $options['save']
-		&& $_REQUEST['LO_save'] == $options['save']
+		&& $LO_save === $options['save']
 		&& ! headers_sent() )
 	{
 		_listSave( $result, $column_names, $singular, $plural, Preferences( 'DELIMITER' ) );
@@ -382,21 +387,23 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 	// END SAVING THE LIST ---.
 
 	if ( $result_count > 0
-		|| ! empty( $_REQUEST['LO_search'] ) )
+		|| $LO_search !== '' )
 	{
 		// HANDLE MISC ---.
-		if ( !isset($_REQUEST['_ROSARIO_PDF']))
+		if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		{
-			if (empty($_REQUEST['LO_page']))
-				$_REQUEST['LO_page'] = 1;
+			if ( empty( $LO_page )
+				|| $LO_page < 1 )
+			{
+				$LO_page = 1;
+			}
 
-			if ( $_REQUEST['LO_page'] < 1) //FJ check LO_page
-				$_REQUEST['LO_page'] = 1;
+			if ( empty( $LO_dir ) )
+			{
+				$LO_dir = 1;
+			}
 
-			if (empty($_REQUEST['LO_dir']))
-				$_REQUEST['LO_dir'] = 1;
-
-			$start = ($_REQUEST['LO_page'] - 1) * $num_displayed + 1;
+			$start = ($LO_page - 1) * $num_displayed + 1;
 			$stop = $start + ($num_displayed-1);
 
 			if ( $stop > $result_count )
@@ -411,8 +418,8 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 					$ceil = ceil($result_count/$num_displayed);
 					for ( $i=1;$i<=$ceil;$i++)
 					{
-						if ( $i!=$_REQUEST['LO_page'])
-							$LO_pages .= '<a href="'.$PHP_tmp_SELF.'&amp;LO_sort='.$LO_sort.'&amp;LO_dir='.$_REQUEST['LO_dir'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;LO_page='.$i.'">'.$i.'</a>, ';
+						if ( $i!=$LO_page)
+							$LO_pages .= '<a href="'.$PHP_tmp_SELF.'&amp;LO_sort='.$LO_sort.'&amp;LO_dir='.$LO_dir.'&amp;LO_search='.urlencode($LO_search).'&amp;LO_page='.$i.'">'.$i.'</a>, ';
 						else
 							$LO_pages .= $i.', ';
 					}
@@ -422,8 +429,8 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				{
 					for ( $i=1;$i<=7;$i++)
 					{
-						if ( $i!=$_REQUEST['LO_page'])
-							$LO_pages .= '<a href="'.$PHP_tmp_SELF.'&amp;LO_sort='.$LO_sort.'&amp;LO_dir='.$_REQUEST['LO_dir'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;LO_page='.$i.'">'.$i.'</a>, ';
+						if ( $i!=$LO_page)
+							$LO_pages .= '<a href="'.$PHP_tmp_SELF.'&amp;LO_sort='.$LO_sort.'&amp;LO_dir='.$LO_dir.'&amp;LO_search='.urlencode($LO_search).'&amp;LO_page='.$i.'">'.$i.'</a>, ';
 						else
 							$LO_pages .= $i.', ';
 					}
@@ -431,14 +438,14 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 					$ceil = ceil($result_count/$num_displayed);
 					for ( $i=$ceil-2;$i<=$ceil;$i++)
 					{
-						if ( $i!=$_REQUEST['LO_page'])
-							$LO_pages .= '<a href="'.$PHP_tmp_SELF.'&amp;LO_sort='.$LO_sort.'&amp;LO_dir='.$_REQUEST['LO_dir'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;LO_page='.$i.'">'.$i.'</a>, ';
+						if ( $i!=$LO_page)
+							$LO_pages .= '<a href="'.$PHP_tmp_SELF.'&amp;LO_sort='.$LO_sort.'&amp;LO_dir='.$LO_dir.'&amp;LO_search='.urlencode($LO_search).'&amp;LO_page='.$i.'">'.$i.'</a>, ';
 						else
 							$LO_pages .= $i.', ';
 					}
-					$LO_pages = mb_substr($LO_pages,0,-2) . ' &nbsp;<a href="'.$PHP_tmp_SELF.'&amp;LO_sort='.$LO_sort.'&amp;LO_dir='.$_REQUEST['LO_dir'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;LO_page=' . ($_REQUEST['LO_page'] +1) . '">'._('Next LO_page').'</a><br />';
+					$LO_pages = mb_substr($LO_pages,0,-2) . ' &nbsp;<a href="'.$PHP_tmp_SELF.'&amp;LO_sort='.$LO_sort.'&amp;LO_dir='.$LO_dir.'&amp;LO_search='.urlencode($LO_search).'&amp;LO_page=' . ($LO_page +1) . '">'._('Next page').'</a><br />';
 				}
-				echo sprintf(_('Go to LO_page %s'),$LO_pages);
+				echo sprintf(_('Go to page %s'),$LO_pages);
 				echo '</td></tr></table>';*/
 			}
 		}
@@ -543,7 +550,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		if ( $options['search']
 			&& ! isset( $_REQUEST['_ROSARIO_PDF'] )
 			&& ( $result_count > 0
-				|| $_REQUEST['LO_search'] ) )
+				|| $LO_search ) )
 		{
 			echo '<td class="align-right">';
 
@@ -551,7 +558,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			$search_URL = PreparePHP_SELF( $_REQUEST, array( 'LO_search' ) );
 
 			echo '<input type="text" id="LO_search" name="LO_search" value="' .
-				htmlspecialchars( $_REQUEST['LO_search'], ENT_QUOTES ) .
+				htmlspecialchars( $LO_search, ENT_QUOTES ) .
 				'" placeholder="' . _( 'Search' ) . '" onkeypress="LOSearch(event, this.value, \'' .
 					$search_URL . '\');" /><input type="button" value="' . _( 'Go' ) .
 				'" onclick="LOSearch(event, $(\'#LO_search\').val(), \'' .
@@ -583,8 +590,10 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		{
 			foreach ( (array) $column_names as $key => $value)
 			{
-				if (isset($LO_sort) && $LO_sort==$key)
-					$direction = -1 * $_REQUEST['LO_dir'];
+				if ( $LO_sort == $key )
+				{
+					$direction = -1 * $LO_dir;
+				}
 				else
 					$direction = 1;
 
@@ -599,7 +608,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 					echo '<th>';
 
 					if ( $options['sort'] )
-						echo '<a href="'.$PHP_tmp_SELF.'&amp;LO_page='.$_REQUEST['LO_page'].'&amp;LO_sort='.$key.'&amp;LO_dir='.$direction.'&amp;LO_search='.urlencode(isset($_REQUEST['LO_search'])?$_REQUEST['LO_search']:'') . '">' .
+						echo '<a href="'.$PHP_tmp_SELF.'&amp;LO_page='.$LO_page.'&amp;LO_sort='.$key.'&amp;LO_dir='.$direction.'&amp;LO_search='.urlencode(isset($LO_search)?$LO_search:'') . '">' .
 							ParseMLField( $value ) .
 						'</a>';
 					else

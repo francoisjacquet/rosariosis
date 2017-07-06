@@ -5,6 +5,7 @@ Changes in 3.4.1
 ----------------
 - Add maxlength & length to Fees & Payments text inputs in Student_Billing/functions.inc.php
 - Add maxlength & length to Salaries & Payments text inputs in Accounting/functions.inc.php
+- #191 Fix PHP notices thanks to @vanyog in GetStaffList.fnc.php, GetStuList.fnc.php & ListOutput.fnc.php
 
 Changes in 3.4
 --------------
