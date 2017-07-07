@@ -908,6 +908,12 @@ td.calendar-menu{
 	overflow-y:auto;
 	min-width: 300px
 }
+.divPortalPoll .widefat{
+	margin-bottom: 0.8em;
+}
+.widefat .divPortalPoll > p{
+	margin-bottom: 2px;
+}
 
 
 /*arrows*/
