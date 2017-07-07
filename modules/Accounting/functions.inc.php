@@ -35,9 +35,15 @@ function _makeIncomesTextInput( $value, $name )
 		$div = false;
 	}
 
+	$extra = 'maxlength=255';
+
 	if ( $name === 'AMOUNT' )
 	{
 		$extra = 'size=5 maxlength=10';
+	}
+	elseif ( $id === 'new' )
+	{
+		$extra = ' size=15';
 	}
 
 	return TextInput( $value, 'values[' . $id . '][' . $name . ']', '', $extra, $div );
@@ -81,18 +87,29 @@ function _makeSalariesDateInput($value='',$name)
 	return DateInput($value,$name);
 }
 
-function _makePaymentsTextInput($value,$name)
-{	global $THIS_RET;
+function _makePaymentsTextInput( $value, $name )
+{
+	global $THIS_RET;
 
-	if ( $THIS_RET['ID'])
+	if ( $THIS_RET['ID'] )
+	{
 		$id = $THIS_RET['ID'];
+	}
 	else
 		$id = 'new';
 
-	if ( $name=='AMOUNT')
-		$extra = 'size=5 maxlength=10';
+	$extra = 'maxlength=255';
 
-	return TextInput($value,'values['.$id.']['.$name.']','',$extra);
+	if ( $name === 'AMOUNT' )
+	{
+		$extra = 'size=5 maxlength=10';
+	}
+	elseif ( $id === 'new' )
+	{
+		$extra = ' size=15';
+	}
+
+	return TextInput( $value, 'values[' . $id . '][' . $name . ']', '', $extra );
 }
 
 function _makeSalariesAmount($value,$column)
