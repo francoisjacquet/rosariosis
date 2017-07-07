@@ -228,5 +228,6 @@ assets/themes/openSIS/
 modules/Students_Import/
 modules/Messaging/
 plugins/Paypal_Registration
+plugins/PDF_Header_Footer
 modules/Access_Log/
 modules/School_Inventory/
