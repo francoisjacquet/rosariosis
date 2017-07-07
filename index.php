@@ -225,6 +225,13 @@ elseif ( isset( $_POST['USERNAME'] )
 			"','" . $login_status . "' )" );
 	}
 
+	// Set current SchoolYear on login.
+	if ( $login_status === 'Y'
+		&& ! UserSyear() )
+	{
+		$_SESSION['UserSyear'] = Config( 'SYEAR' );
+	}
+
 	do_action( 'index.php|login_check', $username );
 }
 

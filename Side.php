@@ -213,13 +213,6 @@ if ( isset( $_REQUEST['sidefunc'] )
  */
 else
 {
-
-	// Set current SchoolYear.
-	if ( ! UserSyear() )
-	{
-		$_SESSION['UserSyear'] = Config( 'SYEAR' );
-	}
-
 	// Set current Student (if user is student).
 	if ( ! UserStudentID()
 		&& User( 'PROFILE' ) === 'student' )

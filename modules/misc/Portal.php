@@ -1,10 +1,5 @@
 <?php
 
-if ( ! UserSyear() )
-{
-	$_SESSION['UserSyear'] = Config( 'SYEAR' );
-}
-
 $_ROSARIO['HeaderIcon'] = 'modules/misc/icon.png';
 
 DrawHeader( ParseMLField( Config( 'TITLE' ) ) );
