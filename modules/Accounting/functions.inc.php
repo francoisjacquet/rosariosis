@@ -41,9 +41,9 @@ function _makeIncomesTextInput( $value, $name )
 	{
 		$extra = 'size=5 maxlength=10';
 	}
-	elseif ( $id === 'new' )
+	elseif ( ! $value )
 	{
-		$extra = ' size=15';
+		$extra .= ' size=15';
 	}
 
 	return TextInput( $value, 'values[' . $id . '][' . $name . ']', '', $extra, $div );
@@ -104,9 +104,9 @@ function _makePaymentsTextInput( $value, $name )
 	{
 		$extra = 'size=5 maxlength=10';
 	}
-	elseif ( $id === 'new' )
+	elseif ( ! $value )
 	{
-		$extra = ' size=15';
+		$extra .= ' size=15';
 	}
 
 	return TextInput( $value, 'values[' . $id . '][' . $name . ']', '', $extra );
