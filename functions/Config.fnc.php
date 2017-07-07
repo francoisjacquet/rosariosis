@@ -79,7 +79,7 @@ function ProgramConfig( $program, $item = 'all'  )
 		return '';
 	}
 
-	if ( ! isset( $_ROSARIO['ProgramConfig'] ) )
+	if ( ! isset( $_ROSARIO['ProgramConfig'][ (string) $program ] ) )
 	{
 		$_ROSARIO['ProgramConfig'] = DBGet( DBQuery( "SELECT PROGRAM,TITLE,VALUE
 			FROM PROGRAM_CONFIG

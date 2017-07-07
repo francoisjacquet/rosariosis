@@ -7,6 +7,7 @@ Changes in 3.4.1
 - Add maxlength & length to Salaries & Payments text inputs in Accounting/functions.inc.php
 - #191 Fix PHP notices thanks to @vanyog in GetStaffList.fnc.php, GetStuList.fnc.php & ListOutput.fnc.php
 - Set current SchoolYear on login in index.php, Side.php & Portal.php
+- Fix SQL error when UserSchool() not set in Config.fnc.php
 
 Changes in 3.4
 --------------
