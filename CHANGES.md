@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 3.4.1
+----------------
+- Add maxlength & length to Fees & Payments text inputs in Student_Billing/functions.inc.php
+
 Changes in 3.4
 --------------
 - Fix #193 PHP error: do not call button(), not logged in in PortalPollsNotes.fnc.php
