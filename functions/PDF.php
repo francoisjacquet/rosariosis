@@ -21,7 +21,7 @@
  * @example $pdf_options = array( 'css' => false, 'margins' => array( 'top' => 0, 'bottom' => 0, 'left' => 0, 'right' => 0) 'mode' => 3 );
  *          PDFStart( $pdf_options );
  *
- * @param  array $options PDF options (optional). Defaults to array( 'css' => true, 'margins' => array(), 'mode' => 2 ).
+ * @param  array $options PDF options (optional). Defaults see $default_options.
  *
  * @return array PDF options
  */
@@ -35,6 +35,8 @@ function PDFStart( $options = array() )
 		'css' => true, // Include CSS.
 		'margins' => array(), // Default margins.
 		'mode' => 2, // MODE_EMBEDDED.
+        'header_html' => '', // No HTML header.
+        'footer_html' => '', // No HTML footer.
 	);
 
 	$pdf_options = array_replace_recursive( $default_options, (array) $options );
@@ -52,6 +54,8 @@ function PDFStart( $options = array() )
 /**
  * Get buffer and generate PDF
  * Renders HTML if not wkhtmltopdf
+ *
+ * @since 3.4 Handle HTML header & footer.
  *
  * @global string $wkhtmltopdfPath
  * @global string $wkhtmltopdfAssetsPath
@@ -188,8 +192,7 @@ function PDFStop( $handle )
 				$wkhtmltopdf->setMargins( $handle['margins'] );
 			}
 
-			if ( isset( $handle['header_html'] )
-				&& $handle['header_html'] )
+			if ( $handle['header_html'] )
 			{
 				$header_html = $handle['header_html'];
 
@@ -207,8 +210,7 @@ function PDFStop( $handle )
 				$wkhtmltopdf->setHeaderHtml( $header_html );
 			}
 
-			if ( isset( $handle['footer_html'] )
-				&& $handle['footer_html'] )
+			if ( $handle['footer_html'] )
 			{
 				$footer_html = $handle['footer_html'];
 
