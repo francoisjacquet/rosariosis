@@ -63,10 +63,10 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 	$num_displayed = 1000;
 
 	// PREPARE LINKS ---.
-	$extra = 'LO_page=' . ( $LO_page ? $LO_page : '' ) .
-		'&amp;LO_sort=' . ( $LO_sort ? $LO_sort : '' ) .
-		'&amp;LO_dir=' . ( $LO_dir ? $LO_dir : '' ) .
-		'&amp;LO_search=' . ( $LO_search ? urlencode( $LO_search ) : '' );
+	$extra = 'LO_page=' . $LO_page .
+		'&amp;LO_sort=' . $LO_sort .
+		'&amp;LO_dir=' . $LO_dir .
+		'&amp;LO_search=' . urlencode( $LO_search );
 
 	$PHP_tmp_SELF = PreparePHP_SELF(
 		$_REQUEST,
