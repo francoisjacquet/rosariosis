@@ -22,7 +22,6 @@ if ( isset( $_POST['values'] )
 	&& count( $_POST['values'] )
 	&& AllowEdit() )
 {
-
 	if ( $_REQUEST['values']['EXISTING'])
 	{
 		if ( $_REQUEST['values']['EXISTING']['address_id'] && $_REQUEST['address_id']=='old')
@@ -42,7 +41,6 @@ if ( isset( $_POST['values'] )
 				DBQuery("INSERT INTO STUDENTS_JOIN_PEOPLE (ID,STUDENT_ID,PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION) SELECT DISTINCT ON (PERSON_ID) ".db_seq_nextval('STUDENTS_JOIN_PEOPLE_SEQ').",'".UserStudentID()."',PERSON_ID,'".$_REQUEST['address_id']."',CUSTODY,EMERGENCY,STUDENT_RELATION FROM STUDENTS_JOIN_PEOPLE WHERE PERSON_ID='".$_REQUEST['person_id']."'");
 				if ( $_REQUEST['address_id']=='0' && count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_ADDRESS WHERE ADDRESS_ID='0' AND STUDENT_ID='".UserStudentID()."'")))==0)
 					DBQuery("INSERT INTO STUDENTS_JOIN_ADDRESS (ID,ADDRESS_ID,STUDENT_ID) values (".db_seq_nextval('STUDENTS_JOIN_ADDRESS_SEQ').",'0','".UserStudentID()."')");
-
 			}
 		}
 	}
@@ -465,7 +463,13 @@ if ( ! $_REQUEST['modfunc'] )
 				echo '<tr class="highlight-hover"><td>' . $remove_address_button . '</td><td>';
 			}
 
-			echo '<a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$address['ADDRESS_ID'].'">'.$address['ADDRESS'].'<br />'.($address['CITY']?$address['CITY'].', ':'').$address['STATE'].($address['ZIPCODE']?' '.$address['ZIPCODE']:'').'</a>';
+			// Translate "No Address".
+			echo '<a href="Modules.php?modname=' . $_REQUEST['modname'] .
+				'&category_id=' . $_REQUEST['category_id'] .
+				'&address_id=' . $address['ADDRESS_ID'] . '">' .
+				( $address['ADDRESS_ID'] == '0' ? _( 'No Address' ) : $address['ADDRESS'] ) .
+				'<br />' . ( $address['CITY'] ? $address['CITY'] . ', ' : '' ) .
+				$address['STATE'] . ( $address['ZIPCODE'] ? ' ' . $address['ZIPCODE'] : '' ) . '</a>';
 
 			echo '</td>';
 			echo '<td'.$style.'><a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$address['ADDRESS_ID'].'" class="arrow right"></a></td>';

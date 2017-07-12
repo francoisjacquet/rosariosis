@@ -155,9 +155,13 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 					echo '</td><td>';
 
-					//Student Info
-					echo '<span style="font-size:x-large;">'.$student_data['LAST_NAME'].', '.$student_data['FIRST_NAME'].'<br /></span>';
-					echo '<span>'.$student_data['ADDRESS'].'<br /></span>';
+					// Student Info.
+					echo '<span style="font-size:x-large;">' . $student_data['LAST_NAME'] . ', ' .
+						$student_data['FIRST_NAME'] . '<br /></span>';
+
+					// Translate "No Address".
+					echo '<span>' . ( $student_data['ADDRESS'] === 'No Address' ?
+						_( 'No Address' ) : $student_data['ADDRESS'] ) . '<br /></span>';
 					echo '<span>'.$student_data['CITY'].(!empty($student_data['STATE'])?', '.$student_data['STATE']:'').(!empty($student_data['ZIPCODE'])?'  '.$student_data['ZIPCODE']:'').'</span>';
 
 					echo '<table class="cellspacing-0 cellpadding-5" style="margin-top:10px;"><tr>';
@@ -403,12 +407,10 @@ if ( ! $_REQUEST['modfunc'] )
 			$syear_history_RET = DBGet( DBQuery( "SELECT DISTINCT SYEAR
 				FROM HISTORY_MARKING_PERIODS
 				WHERE SYEAR<>'" . UserSyear() . "'
-				AND SYEAR<>'" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'
 				UNION SELECT DISTINCT SYEAR
 				FROM SCHOOL_MARKING_PERIODS
 				WHERE SYEAR<>'" . UserSyear() . "'
-				AND SYEAR<>'" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'
 				ORDER BY SYEAR DESC" ) );
 

@@ -9,6 +9,7 @@ Changes in 3.4.1
 - Set current SchoolYear on login in index.php, Side.php & Portal.php
 - Fix SQL error when UserSchool() not set in Config.fnc.php
 - Optimize: remove SCHOOL_DATE index (events) & group LO options in vars in Portal.php
+- Translate "No Address" in Address.inc.php, Transcripts.php
 
 Changes in 3.4
 --------------
