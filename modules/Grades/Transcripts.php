@@ -127,8 +127,6 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 			echo '<style type="text/css"> * {font-size:large; line-height:1.2;} </style>';
 
-			$columns = array('COURSE_TITLE' => _('Course'));
-
 			$school_info = DBGet(DBQuery('select * from schools where syear = '.UserSyear().' AND id = '.$school_id));
 			$school_info = $school_info[1];
 
@@ -242,6 +240,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					$listOutput_RET = array();
 					$total_credit_earned = 0;
 					$total_credit_attempted = 0;
+
+					$columns = array( 'COURSE_TITLE' => _( 'Course' ) );
 
 					foreach ( (array) $mps as $mp_id => $grades)
 					{
