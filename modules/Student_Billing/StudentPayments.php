@@ -134,25 +134,42 @@ if ( UserStudentID()
 		'LUNCH_PAYMENT' => '_lunchInput',
 	);
 
-	$refunded_payments_RET = DBGet(DBQuery("SELECT '' AS REMOVE,ID,REFUNDED_PAYMENT_ID,AMOUNT,PAYMENT_DATE,COMMENTS FROM BILLING_PAYMENTS WHERE STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."' AND (REFUNDED_PAYMENT_ID IS NOT NULL)"),$functions,array('REFUNDED_PAYMENT_ID'));
+	$refunded_payments_RET = DBGet( DBQuery( "SELECT '' AS REMOVE,ID,REFUNDED_PAYMENT_ID,
+		AMOUNT,PAYMENT_DATE,COMMENTS
+		FROM BILLING_PAYMENTS
+		WHERE STUDENT_ID='" . UserStudentID() . "'
+		AND SYEAR='" . UserSyear() . "'
+		AND (REFUNDED_PAYMENT_ID IS NOT NULL)" ), $functions, array( 'REFUNDED_PAYMENT_ID' ) );
 
-	$payments_RET = DBGet(DBQuery("SELECT '' AS REMOVE,ID,REFUNDED_PAYMENT_ID,AMOUNT,PAYMENT_DATE,COMMENTS,LUNCH_PAYMENT FROM BILLING_PAYMENTS WHERE STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."' AND (REFUNDED_PAYMENT_ID IS NULL OR REFUNDED_PAYMENT_ID='') ORDER BY ID"),$functions);
+	$payments_RET = DBGet( DBQuery( "SELECT '' AS REMOVE,ID,REFUNDED_PAYMENT_ID,
+		AMOUNT,PAYMENT_DATE,COMMENTS,LUNCH_PAYMENT
+		FROM BILLING_PAYMENTS
+		WHERE STUDENT_ID='" . UserStudentID() . "'
+		AND SYEAR='" . UserSyear() . "'
+		AND (REFUNDED_PAYMENT_ID IS NULL OR REFUNDED_PAYMENT_ID='') ORDER BY ID" ), $functions );
 
 	$i = 1;
 	$RET = array();
-	foreach ( (array) $payments_RET as $payment)
+
+	foreach ( (array) $payments_RET as $payment )
 	{
 		$RET[ $i ] = $payment;
-		if ( $refunded_payments_RET[$payment['ID']])
+
+		if ( $refunded_payments_RET[ $payment['ID'] ] )
 		{
 			$i++;
-			$RET[ $i ] = ($refunded_payments_RET[$payment['ID']][1] + array('row_color' => 'FF0000'));
+			$RET[ $i ] = ( $refunded_payments_RET[ $payment['ID'] ][1] + array( 'row_color' => 'FF0000' ) );
 		}
+
 		$i++;
 	}
 
-	if (count($RET) && ! $_REQUEST['print_statements'] && AllowEdit())
-		$columns = array('REMOVE' => '');
+	if ( count( $RET )
+		&& ! $_REQUEST['print_statements']
+		&& AllowEdit() )
+	{
+		$columns = array( 'REMOVE' => '' );
+	}
 	else
 		$columns = array();
 
@@ -175,18 +192,29 @@ if ( UserStudentID()
 		);
 	}
 
-	if ( ! $_REQUEST['print_statements'])
+	if ( ! $_REQUEST['print_statements'] )
 	{
-		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
-		//DrawStudentHeader();
-		if (AllowEdit())
-			DrawHeader('',SubmitButton(_('Save')));
+		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
+
+		if ( AllowEdit() )
+		{
+			DrawHeader( '', SubmitButton( _( 'Save' ) ) );
+		}
+
 		$options = array();
 	}
 	else
-		$options = array('center'=>false,'add'=>false);
+		$options = array( 'center' => false, 'add' => false );
 
-	ListOutput($RET,$columns,'Payment','Payments',$link,array(),$options);
+	ListOutput(
+		$RET,
+		$columns,
+		'Payment',
+		'Payments',
+		$link,
+		array(),
+		$options
+	);
 
 	if ( ! $_REQUEST['print_statements']
 		&& AllowEdit() )
@@ -196,19 +224,32 @@ if ( UserStudentID()
 
 	echo '<br />';
 
-	$fees_total = DBGet(DBQuery("SELECT SUM(f.AMOUNT) AS TOTAL FROM BILLING_FEES f WHERE f.STUDENT_ID='".UserStudentID()."' AND f.SYEAR='".UserSyear()."'"));
+	$fees_total = DBGet( DBQuery( "SELECT SUM(f.AMOUNT) AS TOTAL
+		FROM BILLING_FEES f
+		WHERE f.STUDENT_ID='" . UserStudentID() . "'
+		AND f.SYEAR='" . UserSyear() . "'" ) );
 
-	$table = '<table class="align-right"><tr><td>'._('Total from Fees').': '.'</td><td>'.Currency($fees_total[1]['TOTAL']).'</td></tr>';
+	$table = '<table class="align-right"><tr>
+		<td>' . _( 'Total from Fees' ) . ': </td>
+		<td>' . Currency( $fees_total[1]['TOTAL'] ) . '</td></tr>';
 
-	$table .= '<tr><td>'._('Less').': '._('Total from Payments').': '.'</td><td>'.Currency($payments_total).'</td></tr>';
+	$table .= '<tr><td>' . _( 'Less' ) . ': ' . _( 'Total from Payments' ) . ': </td>
+		<td>' . Currency( $payments_total ) . '</td></tr>';
 
-	$table .= '<tr><td>'._('Balance').': <b>'.'</b></td><td><b>'.Currency(($fees_total[1]['TOTAL']-$payments_total),'CR').'</b></td></tr></table>';
+	$table .= '<tr><td>' . _( 'Balance' ) . ': </td>
+		<td><b>' . Currency( ( $fees_total[1]['TOTAL'] - $payments_total ), 'CR' ) . '</b></td>
+		</tr></table>';
 
-	if ( ! $_REQUEST['print_statements'])
-		DrawHeader('','',$table);
+	if ( ! $_REQUEST['print_statements'] )
+	{
+		DrawHeader( '', '', $table );
+	}
 	else
-		DrawHeader($table,'','',null,null,true);
+		DrawHeader( $table, '', '', null, null, true );
 
-	if ( ! $_REQUEST['print_statements'] && AllowEdit())
+	if ( ! $_REQUEST['print_statements']
+		&& AllowEdit() )
+	{
 		echo '</form>';
+	}
 }
