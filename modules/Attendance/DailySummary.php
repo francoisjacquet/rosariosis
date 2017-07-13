@@ -212,10 +212,11 @@ else
 		$att_sql = "SELECT ad.STATE_VALUE,SCHOOL_DATE,'_'||to_char(ad.SCHOOL_DATE,'yyyymmdd') AS SHORT_DATE
 		FROM ATTENDANCE_DAY ad,STUDENT_ENROLLMENT ssm
 		WHERE ad.STUDENT_ID=ssm.STUDENT_ID
-		AND (('".DBDate()."' BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL) AND '".DBDate()."'>=ssm.START_DATE)
-		AND ssm.SCHOOL_ID='".UserSchool()."'
-		AND ad.SCHOOL_DATE BETWEEN '".$start_date."'
-		AND '".$end_date."'
+		AND (('" . DBDate() . "' BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL)
+			AND '" . DBDate() . "'>=ssm.START_DATE)
+		AND ssm.SCHOOL_ID='" . UserSchool() . "'
+		AND ad.SCHOOL_DATE BETWEEN '" . $start_date . "'
+		AND '" . $end_date . "'
 		AND ad.STUDENT_ID=";
 	}
 	else
@@ -223,8 +224,8 @@ else
 		$att_sql = "SELECT ap.ATTENDANCE_CODE,ap.SCHOOL_DATE,'_'||to_char(ap.SCHOOL_DATE,'yyyymmdd') AS SHORT_DATE
 		FROM ATTENDANCE_PERIOD ap,STUDENT_ENROLLMENT ssm
 		WHERE ap.STUDENT_ID=ssm.STUDENT_ID
-		AND ap.SCHOOL_DATE BETWEEN '".$start_date."'
-		AND '".$end_date."'
+		AND ap.SCHOOL_DATE BETWEEN '" . $start_date . "'
+		AND '" . $end_date . "'
 		AND ap.STUDENT_ID=";
 	}
 
@@ -263,13 +264,22 @@ function _makeColor($value,$column)
 	//FJ add translation:
 	$attendance_codes_locale = array('P' => _('Present'),'A' => _('Absent'),'H' => _('Half Day'));
 
-	if ( ! $att_RET[$THIS_RET['STUDENT_ID']])
-		$att_RET[$THIS_RET['STUDENT_ID']] = DBGet(DBQuery($att_sql.$THIS_RET['STUDENT_ID']),array(),array('SHORT_DATE'));
-
-	if ( $_REQUEST['period_id'])
+	if ( ! $att_RET[ $THIS_RET['STUDENT_ID'] ] )
 	{
-		if ( ! $attendance_codes)
-			$attendance_codes = DBGet(DBQuery("SELECT ID,DEFAULT_CODE,STATE_CODE,SHORT_NAME FROM ATTENDANCE_CODES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND TABLE_NAME='0'"),array(),array('ID'));
+		$att_RET[ $THIS_RET['STUDENT_ID'] ] = DBGet( DBQuery( $att_sql .
+			"'" . $THIS_RET['STUDENT_ID'] . "'" ), array(), array( 'SHORT_DATE' ) );
+	}
+
+	if ( $_REQUEST['period_id'] )
+	{
+		if ( ! $attendance_codes )
+		{
+			$attendance_codes = DBGet( DBQuery( "SELECT ID,DEFAULT_CODE,STATE_CODE,SHORT_NAME
+				FROM ATTENDANCE_CODES
+				WHERE SYEAR='" . UserSyear() . "'
+				AND SCHOOL_ID='" . UserSchool() . "'
+				AND TABLE_NAME='0'" ), array(), array( 'ID' ) );
+		}
 
 		$ac = $att_RET[$THIS_RET['STUDENT_ID']][ $column ][1]['ATTENDANCE_CODE'];
 		if ( $attendance_codes[ $ac ][1]['DEFAULT_CODE']=='Y')

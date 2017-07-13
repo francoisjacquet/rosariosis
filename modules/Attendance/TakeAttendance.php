@@ -250,7 +250,11 @@ DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)).$date_note);
 
 echo ErrorMessage( $note, 'note' );
 
-$LO_columns = array('FULL_NAME' => _('Student'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'GRADE_ID' => _('Grade Level')) + $columns;
+$LO_columns = array(
+	'FULL_NAME' => _( 'Student' ),
+	'STUDENT_ID' => sprintf( _( '%s ID' ), Config( 'NAME' ) ),
+	'GRADE_ID' => _( 'Grade Level' ),
+) + $columns;
 
 foreach ( (array) $categories_RET as $category)
 	$tabs[] = array('title'=>ParseMLField($category['TITLE']),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&table='.$category['ID'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date'].'&year_date='.$_REQUEST['year_date']);
