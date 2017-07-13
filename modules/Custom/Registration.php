@@ -23,6 +23,15 @@ DrawHeader( ProgramTitle() );
 	$_SESSION['student_id'] = $student_RET[1]['STUDENT_ID'];
 }*/
 
+
+// Fix PHP error when no Student associated to Parent.
+if ( ! UserStudentID() )
+{
+	$error[] = _( 'No Students were found.' );
+
+	echo ErrorMessage( $error, 'fatal' );
+}
+
 // Allow Edit.
 $_ROSARIO['allow_edit'] = true;
 
