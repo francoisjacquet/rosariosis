@@ -214,7 +214,7 @@ function Search( $type, $extra = null )
 				<input type="text" name="first" id="first" size="24" maxlength="50" />
 				</td></tr>';
 
-			echo '<tr><td><label for="stuid">' . _( 'User ID' ) .
+			echo '<tr><td><label for="usrid">' . _( 'User ID' ) .
 				'</label></td><td>
 				<input type="text" name="usrid" id="usrid" size="24" maxlength="50" />
 				</td></tr>';
@@ -791,7 +791,7 @@ function SearchField( $field, $type = 'student', $extra = array() )
 					$_ROSARIO['SearchTerms'] .= _( 'Yes' ) . '<br />';
 				}
 
-				return ' AND s.' . $sql_col . "='" . $value . "' ";
+				return ' AND ' . $sql_col . "='" . $value . "' ";
 			}
 			// No.
 			elseif ( $value == 'N' )

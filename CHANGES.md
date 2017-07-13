@@ -11,6 +11,7 @@ Changes in 3.4.1
 - Optimize: remove SCHOOL_DATE index (events) & group LO options in vars in Portal.php
 - Translate "No Address" in Address.inc.php, Transcripts.php
 - Fix Remove previous years MP columns from list in Transcripts.php
+- Fix SQL error remove duplicate "s." prefix in Search.fnc.php
 
 Changes in 3.4
 --------------
