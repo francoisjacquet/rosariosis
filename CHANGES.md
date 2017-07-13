@@ -12,6 +12,7 @@ Changes in 3.4.1
 - Translate "No Address" in Address.inc.php, Transcripts.php
 - Fix Remove previous years MP columns from list in Transcripts.php
 - Fix SQL error remove duplicate "s." prefix in Search.fnc.php
+- Remove useless DBGet indexes in SetUserStudentID() in Current.php
 
 Changes in 3.4
 --------------

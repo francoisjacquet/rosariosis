@@ -270,7 +270,7 @@ function SetUserStudentID( $student_id )
 				AND se.SYEAR='" . UserSyear() . "'
 				AND se.STUDENT_ID=sju.STUDENT_ID
 				AND ('" . DBDate() . "'>=se.START_DATE AND ('" . DBDate() . "'<=se.END_DATE OR se.END_DATE IS NULL))
-				AND sju.STUDENT_ID='" . $student_id . "'"), array(), array( 'STUDENT_ID' ) );
+				AND sju.STUDENT_ID='" . $student_id . "'" ) );
 
 			if ( ! $is_related_student )
 			{
@@ -283,24 +283,26 @@ function SetUserStudentID( $student_id )
 			// Get teacher's related students, include inactive students.
 			$is_related_student = DBGet( DBQuery( "SELECT 1
 				FROM STUDENTS s
-				JOIN SCHEDULE ss ON (ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='" . UserSyear() . "' AND ss.START_DATE=
-					(SELECT START_DATE FROM SCHEDULE
-					WHERE STUDENT_ID=s.STUDENT_ID
-					AND SYEAR=ss.SYEAR
-					AND COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID
-					ORDER BY START_DATE DESC
-					LIMIT 1)
-				)
-				JOIN COURSE_PERIODS cp ON (cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "')
-				JOIN STUDENT_ENROLLMENT ssm ON (ssm.STUDENT_ID=s.STUDENT_ID AND ssm.SYEAR=ss.SYEAR AND ssm.SCHOOL_ID='" . UserSchool() . "' AND ssm.ID=
-					(SELECT ID
-					FROM STUDENT_ENROLLMENT
-					WHERE STUDENT_ID=ssm.STUDENT_ID
-					AND SYEAR=ssm.SYEAR
-					ORDER BY START_DATE DESC
-					LIMIT 1)
-				)
-				AND s.STUDENT_ID='" . $student_id . "'"), array(), array( 'STUDENT_ID' ) );
+				JOIN SCHEDULE ss ON (ss.STUDENT_ID=s.STUDENT_ID
+					AND ss.SYEAR='" . UserSyear() . "'
+					AND ss.START_DATE=(SELECT START_DATE FROM SCHEDULE
+						WHERE STUDENT_ID=s.STUDENT_ID
+						AND SYEAR=ss.SYEAR
+						AND COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID
+						ORDER BY START_DATE DESC
+						LIMIT 1))
+				JOIN COURSE_PERIODS cp ON (cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID
+					AND cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "')
+				JOIN STUDENT_ENROLLMENT ssm ON (ssm.STUDENT_ID=s.STUDENT_ID
+					AND ssm.SYEAR=ss.SYEAR
+					AND ssm.SCHOOL_ID='" . UserSchool() . "'
+					AND ssm.ID=(SELECT ID
+						FROM STUDENT_ENROLLMENT
+						WHERE STUDENT_ID=ssm.STUDENT_ID
+						AND SYEAR=ssm.SYEAR
+						ORDER BY START_DATE DESC
+						LIMIT 1))
+				AND s.STUDENT_ID='" . $student_id . "'" ) );
 
 			if ( ! $is_related_student )
 			{
