@@ -14,6 +14,7 @@ Changes in 3.4.1
 - Fix SQL error remove duplicate "s." prefix in Search.fnc.php
 - Remove useless DBGet indexes in SetUserStudentID() in Current.php
 - Fix PHP error when no Student associated to Parent in Registration.php
+- Fix #197 last login date in PasswordReset.php
 
 Changes in 3.4
 --------------

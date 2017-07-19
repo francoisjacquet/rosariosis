@@ -375,7 +375,7 @@ function _sendPasswordResetEmail( $user_id, $user_type = 'staff', $email )
 	}
 
 	// Last login = now + 2 hours.
-	$last_login = date( 'Y-m-d G:i:s', time() + 7200 );
+	$last_login = date( 'Y-m-d H:i:s', time() + 7200 );
 
 	// Generate hash from user ID, username, name, password, email & last login.
 	$hash = encrypt_password( $user_id . $username . $name . $password . $email . $last_login );
