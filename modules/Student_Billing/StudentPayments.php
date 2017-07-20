@@ -206,6 +206,9 @@ if ( UserStudentID()
 	else
 		$options = array( 'center' => false, 'add' => false );
 
+	// Do hook.
+	do_action( 'Student_Billing/StudentPayments.php|student_payments_header' );
+
 	ListOutput(
 		$RET,
 		$columns,

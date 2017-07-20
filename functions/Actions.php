@@ -120,6 +120,13 @@ $RosarioActions = array();
 	 * @since 3.4
 	 */
 	/*'functions/PDF.php|pdf_start' => array(),
+
+	/**
+	 * Student Payments Header.
+	 *
+	 * @since 3.4.1
+	 */
+	/*'Student_Billing/StudentPayments.php|student_payments_header' => array(),
 );*/
 
 
