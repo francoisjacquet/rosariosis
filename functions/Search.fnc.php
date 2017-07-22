@@ -955,10 +955,13 @@ function SearchField( $field, $type = 'student', $extra = array() )
 					$_ROSARIO['SearchTerms'] .= _( 'Other Value' ) . '<br />';
 				}
 
-				return " AND position('\r'||" . $sql_col . "||'\r'
-					IN '\r'||(SELECT SELECT_OPTIONS
-						FROM " . ( $type === 'staff' ? 'STAFF' : 'CUSTOM' ) . "_FIELDS
-						WHERE ID='" . $sql_col . "')||'\r')=0 ";
+				$select_options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $field['SELECT_OPTIONS'] ) );
+
+				$select_options_list = "'" . implode( "','", $select_options ) . "'";
+
+				// Other value = not null && value <> select options.
+				return " AND " . $sql_col . " IS NOT NULL
+					AND " . $sql_col . " NOT IN (" . $select_options_list . ") ";
 			}
 			else
 			{

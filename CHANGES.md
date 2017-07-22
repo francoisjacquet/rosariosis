@@ -16,6 +16,7 @@ Changes in 3.4.1
 - Fix PHP error when no Student associated to Parent in Registration.php
 - Fix #197 last login date in PasswordReset.php, thanks to @Claculagator
 - Add Student Payments Header action hook in StudentPayments.php
+- Fix SQL error searching Other Value in Search.fnc.php
 
 Changes in 3.4
 --------------
