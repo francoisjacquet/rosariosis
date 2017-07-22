@@ -132,16 +132,24 @@ function _makePaymentsAmount($value,$column)
 	return Currency($value);
 }
 
-function _lunchInput($value,$column)
-{	global $THIS_RET;
+function _lunchInput( $value, $column )
+{
+	global $THIS_RET;
 
-	if ( $THIS_RET['ID'])
+	if ( $THIS_RET['ID'] )
+	{
 		$id = $THIS_RET['ID'];
+	}
 	else
 	{
 		$id = 'new';
-		$new = true;
 	}
 
-	return CheckboxInput($value,'values['.$id.']['.$column.']','','',$new,_('Yes'),_('No'));
+	return CheckboxInput(
+		$value,
+		'values[' . $id . '][' . $column . ']',
+		'',
+		'',
+		( $id === 'new' )
+	);
 }
