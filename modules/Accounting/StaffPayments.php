@@ -158,13 +158,15 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 
 	$table .= '<tr><td>'._('Less').': '._('Total from Staff Payments').': '.'</td><td>'.Currency($payments_total).'</td></tr>';
 
-	$table .= '<tr><td>'._('Balance').': <b>'.'</b></td><td><b>'.Currency(($salaries_total[1]['TOTAL']-$payments_total),'CR').'</b></td></tr></table>';
+	$table .= '<tr><td>' . _( 'Balance' ) . ': </td>
+		<td><b>' . Currency( ( $salaries_total[1]['TOTAL'] - $payments_total ), 'CR' ) .
+		'</b></td></tr></table>';
 
-	if ( ! $_REQUEST['print_statements'])
-		DrawHeader('','',$table);
-	else
-		DrawHeader($table,'','',null,null,true);
+	DrawHeader( $table );
 
-	if ( ! $_REQUEST['print_statements'] && AllowEdit())
+	if ( ! $_REQUEST['print_statements']
+		&& AllowEdit() )
+	{
 		echo '</form>';
+	}
 }

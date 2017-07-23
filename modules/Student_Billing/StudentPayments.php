@@ -243,12 +243,7 @@ if ( UserStudentID()
 		<td><b>' . Currency( ( $fees_total[1]['TOTAL'] - $payments_total ), 'CR' ) . '</b></td>
 		</tr></table>';
 
-	if ( ! $_REQUEST['print_statements'] )
-	{
-		DrawHeader( '', '', $table );
-	}
-	else
-		DrawHeader( $table, '', '', null, null, true );
+	DrawHeader( $table );
 
 	if ( ! $_REQUEST['print_statements']
 		&& AllowEdit() )

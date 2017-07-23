@@ -123,7 +123,7 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 		echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 	echo '<br />';
 
-	if ( ! $_REQUEST['print_statements'])
+	if ( ! $_REQUEST['print_statements'] )
 	{
 		$payments_total = DBGet(DBQuery("SELECT SUM(p.AMOUNT) AS TOTAL FROM ACCOUNTING_PAYMENTS p WHERE p.STAFF_ID='".UserStaffID()."' AND p.SYEAR='".UserSyear()."' AND p.SCHOOL_ID='".UserSchool()."'"));
 
@@ -131,9 +131,11 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 
 		$table .= '<tr><td>'._('Less').': '._('Total from Staff Payments').': '.'</td><td>'.Currency($payments_total[1]['TOTAL']).'</td></tr>';
 
-		$table .= '<tr><td>'._('Balance').': <b>'.'</b></td><td><b>'.Currency(($salaries_total-$payments_total[1]['TOTAL']),'CR').'</b></td></tr></table>';
+		$table .= '<tr><td>' . _( 'Balance' ) . ': </td>
+			<td><b>' . Currency( ( $salaries_total - $payments_total[1]['TOTAL'] ), 'CR' ) .
+			'</b></td></tr></table>';
 
-		DrawHeader('','',$table);
+		DrawHeader( $table );
 
 		echo '</form>';
 	}

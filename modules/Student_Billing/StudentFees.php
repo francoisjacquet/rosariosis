@@ -200,7 +200,8 @@ if ( UserStudentID()
 	}
 
 	echo '<br />';
-	if ( ! $_REQUEST['print_statements'])
+
+	if ( ! $_REQUEST['print_statements'] )
 	{
 		$payments_total = DBGet(DBQuery("SELECT SUM(p.AMOUNT) AS TOTAL FROM BILLING_PAYMENTS p WHERE p.STUDENT_ID='".UserStudentID()."' AND p.SYEAR='".UserSyear()."'"));
 
@@ -208,9 +209,11 @@ if ( UserStudentID()
 
 		$table .= '<tr><td>'._('Less').': '._('Total from Payments').': '.'</td><td>'.Currency($payments_total[1]['TOTAL']).'</td></tr>';
 
-		$table .= '<tr><td>'._('Balance').': <b>'.'</b></td><td><b>'.Currency(($fees_total-$payments_total[1]['TOTAL']),'CR').'</b></td></tr></table>';
+		$table .= '<tr><td>' . _( 'Balance' ) . ': </td>
+			<td><b>' . Currency( ( $fees_total - $payments_total[1]['TOTAL'] ), 'CR' ) .
+			'</b></td></tr></table>';
 
-		DrawHeader('','',$table);
+		DrawHeader( $table );
 
 		echo '</form>';
 	}

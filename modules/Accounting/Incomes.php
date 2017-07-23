@@ -167,13 +167,15 @@ if ( ! $_REQUEST['modfunc'] )
 	$Staff_payments_total = DBGet(DBQuery("SELECT SUM(p.AMOUNT) AS TOTAL FROM ACCOUNTING_PAYMENTS p WHERE p.STAFF_ID IS NOT NULL AND p.SYEAR='".UserSyear()."' AND p.SCHOOL_ID='".UserSchool()."'"));
 	$table .= '<tr><td>& '._('Total from Staff Payments').': '.'</td><td>'.Currency($Staff_payments_total[1]['TOTAL']).'</td></tr>';
 
-	$table .= '<tr><td>'._('General Balance').': <b>'.'</b></td><td><b id="update_balance">'.Currency(($incomes_total+$student_payments_total[1]['TOTAL']-$payments_total[1]['TOTAL']-$Staff_payments_total[1]['TOTAL'])).'</b></td></tr></table>';
+	$table .= '<tr><td>' . _( 'General Balance' ) . ': </td>
+		<td><b id="update_balance">' . Currency( ( $incomes_total + $student_payments_total[1]['TOTAL'] - $payments_total[1]['TOTAL'] - $Staff_payments_total[1]['TOTAL'] ) ) .
+		'</b></td></tr></table>';
 
-	if ( ! $_REQUEST['print_statements'])
-		DrawHeader('','',$table);
-	else
-		DrawHeader($table,'','',null,null,true);
+	DrawHeader( $table );
 
-	if ( ! $_REQUEST['print_statements'] && AllowEdit())
+	if ( ! $_REQUEST['print_statements']
+		&& AllowEdit() )
+	{
 		echo '</form>';
+	}
 }
