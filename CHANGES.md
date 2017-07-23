@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 3.4.2
+----------------
+- Move "Calendars" program up & "Database Backup" under Security in School_Setup/Menu.php
+
 Changes in 3.4.1
 ----------------
 - Add maxlength & length to Fees & Payments text inputs in Student_Billing/functions.inc.php
