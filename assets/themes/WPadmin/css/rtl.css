@@ -55,4 +55,5 @@ html[dir="RTL"] .menu-top:hover,
 html[dir="RTL"] .menu-top:focus,
 html[dir="RTL"] #selectedModuleLink + .wp-submenu{
 	background-image:url(menu-shadow-rtl.png);
+	background-position:top left;
 }
