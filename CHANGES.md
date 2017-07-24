@@ -4,7 +4,7 @@
 Changes in 3.4.2
 ----------------
 - Move "Calendars" program up & "Database Backup" under Security in School_Setup/Menu.php
-- Update Arabic translation, thanks to Ali Al-Hassan in locale/ar_AE.utf8
+- Update Arabic translation in locale/ar_AE.utf8, thanks to @abogadeer
 - Fix #195 Add Right to Left languages stylesheet & move side menu to right in rtl.css
 - Fix #195 Handle RTL languages (menu on the right) in jquery-fixedmenu.js
 
