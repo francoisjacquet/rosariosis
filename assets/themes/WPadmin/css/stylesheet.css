@@ -373,9 +373,6 @@ label{
 	position: absolute;
 	right: 5px;
 }
-html[dir="RTL"].no-touch .menu-module:hover .menu-top:after{
-	content: "";
-}
 #selectedModuleLink:after{
 	content: "";
 }
@@ -1002,11 +999,6 @@ td.calendar-menu{
 input[type=checkbox].toggle {
 	position: absolute;
 	left: -9999px;
-}
-
-/* Fix for RTL languages */
-html[dir=RTL] input[type=checkbox].toggle {
-	right: -9999px;
 }
 
 .toggle ~ .toggle-me { /* Hidden State */

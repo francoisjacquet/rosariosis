@@ -1,0 +1,58 @@
+/**
+ * CSS rules for Right To Left languages (Arabic...)
+ *
+ * @since 3.4.2
+ */
+
+/* Place side menu on the right */
+html[dir="RTL"] #menuback{
+	right: 0;
+	left: auto;
+}
+html[dir="RTL"] #menu{
+	float: right;
+}
+html[dir="RTL"] #menuback,#menu{
+	border-width:0 0 0 1px;
+}
+html[dir="RTL"] #menushadow{
+	left: 0;
+	right: auto;
+}
+
+/* Submenu on module hover */
+html[dir="RTL"] .wp-submenu{
+	right: 0;
+	left: auto;
+	-webkit-transition: 0s top, 0s right;
+	transition: 0s top, 0s right;
+}
+html.no-touch[dir="RTL"] .menu-module:hover .menu-top:after{
+	left: 5px;
+	right: auto;
+}
+
+html.no-touch[dir="RTL"] .menu-module:hover .wp-submenu{
+	right: 205px;
+	left: auto;
+}
+
+html[dir="RTL"] #selectedModuleLink:after,
+html[dir="RTL"] #selectedModuleLink + .wp-submenu{
+	right: 0;
+	left: auto;
+}
+
+/* Fix for RTL languages */
+html[dir=RTL] input[type=checkbox].toggle {
+	right: -9999px;
+}
+
+/* colors.css */
+html[dir="RTL"] #menushadow,
+html[dir="RTL"] #menuback,
+html[dir="RTL"] .menu-top:hover,
+html[dir="RTL"] .menu-top:focus,
+html[dir="RTL"] #selectedModuleLink + .wp-submenu{
+	background-image:url(menu-shadow-rtl.png);
+}
