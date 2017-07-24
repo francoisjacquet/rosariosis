@@ -4,6 +4,7 @@
 Changes in 3.4.2
 ----------------
 - Move "Calendars" program up & "Database Backup" under Security in School_Setup/Menu.php
+- Update Arabic translation, thanks to Ali Al-Hassan in locale/ar_AE.utf8
 
 Changes in 3.4.1
 ----------------

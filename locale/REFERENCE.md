@@ -6,7 +6,7 @@ Do not forget to add the `.utf8` suffix to the locale code.
 | Code  | Language (Country)            | Completed | Translator          |
 | ----- | ----------------------------- | --------- | ------------------- |
 | af_ZA | Afrikaans (South Africa)      | 36%       |                     |
-| ar_AE | Arabic (United Arab Emirates) | **82%**   | Husam Shabeeb       |
+| ar_AE | Arabic (United Arab Emirates) | **95%**   | Husam Shabeeb, Ali Al-Hassan |
 | ar_DZ | Arabic (Saudi Arabia)         | 37%       |                     |
 | be_BY | Belarusian (Belarus)          | 37%       |                     |
 | bn_BD | Bengali (Bangladesh)          | 36%       |                     |
