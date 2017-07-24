@@ -8,13 +8,17 @@
  * @package RosarioSIS
  * @subpackage assets/js
  * @since 2.9.3
+ *
+ * @since 3.4.2 Handle RTL languages (menu on the right).
  */
 
 function fixedMenu() {
 
 	var menu = $( '#menu' ),
 	$window = $( window ),
-	body = $( '#body' );
+	body = $( '#body' ),
+	// Handle RTL languages (menu on the right).
+	leftOrRight = ( $( 'html' ).attr('dir') === 'RTL' ? 'right' : 'left' );
 
 	var init = function() {
 		// It has not... perform the initialization
@@ -28,7 +32,8 @@ function fixedMenu() {
 			 */
 			menu.after(
 				'<div style="display: none; width: ' + menu.outerWidth() +
-					'px; height: ' + menu.height() + 'px; float: left;"></div>'
+					'px; height: ' + menu.height() + 'px; float: ' +
+					leftOrRight + ';"></div>'
 			);
 
 			/**
@@ -89,11 +94,14 @@ function fixedMenu() {
 			 */
 			var bottom = windowHeight - menu.height();
 
-			menu.css({
+			var css = {
 				'position': 'fixed',
-				'bottom': ( bottom < 0 ? 0 : bottom ) + 'px',
-				'left': '0px'
-			}).addClass( 'fixedmenu-fixed' ).next().show();
+				'bottom': ( bottom < 0 ? 0 : bottom ) + 'px'
+			};
+
+			css[ leftOrRight ] = '0px';
+
+			menu.css( css ).addClass( 'fixedmenu-fixed' ).next().show();
 
 		} else {
 
@@ -111,11 +119,14 @@ function fixedMenu() {
 	 * Hide ghost div.
 	 */
 	var unfixMenu = function() {
-		menu.css({
-			'position': '',
-			'bottom': '',
-			'left': ''
-		}).removeClass( 'fixedmenu-fixed' ).next().hide();
+			var css = {
+				'position': '',
+				'bottom': ''
+			};
+
+			css[ leftOrRight ] = '';
+
+			menu.css( css ).removeClass( 'fixedmenu-fixed' ).next().hide();
 	};
 
 	init();
