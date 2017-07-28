@@ -7,6 +7,7 @@ Changes in 3.4.2
 - Update Arabic translation in locale/ar_AE.utf8, thanks to @abogadeer
 - Fix #195 Add Right to Left languages stylesheet & move side menu to right in rtl.css
 - Fix #195 Handle RTL languages (menu on the right) in jquery-fixedmenu.js
+- Fix SQL error if MP was deleted in ScheduleReport.php
 
 Changes in 3.4.1
 ----------------
