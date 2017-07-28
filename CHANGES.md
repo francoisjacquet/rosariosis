@@ -8,6 +8,7 @@ Changes in 3.4.2
 - Fix #195 Add Right to Left languages stylesheet & move side menu to right in rtl.css
 - Fix #195 Handle RTL languages (menu on the right) in jquery-fixedmenu.js
 - Fix SQL error if MP was deleted in ScheduleReport.php
+- CSS fix responsive calendar for RTL in rtl.css
 
 Changes in 3.4.1
 ----------------

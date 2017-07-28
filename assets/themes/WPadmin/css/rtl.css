@@ -57,3 +57,17 @@ html[dir="RTL"] #selectedModuleLink + .wp-submenu{
 	background-image:url(menu-shadow-rtl.png);
 	background-position:top left;
 }
+
+
+@media only screen and (max-width:1023px){
+	/* Calendar responsive */
+	.calendar-day .hover:hover{
+		right:0;
+	}
+
+	/*fridays, saturdays*/
+	.calendar-day.thu-fri-sat .hover:hover{
+		left:0;
+		right:auto;
+	}
+}
