@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-07-12 16:51+0100\n"
-"PO-Revision-Date: 2017-07-12 16:52+0100\n"
+"PO-Revision-Date: 2017-07-28 18:31+0100\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS\n"
 "Language: fr\n"
@@ -5713,7 +5713,9 @@ msgstr "Le cours %s a été ajouté aux emplois du temps des élèves sélection
 #: modules/Scheduling/MassSchedule.php:103
 msgid ""
 "You cannot schedule a student into this course during this marking period."
-msgstr "Vous ne pouvez pas "
+msgstr ""
+"Vous ne pouvez pas inscrire cet élève à ce cours pendant cette période "
+"scolaire."
 
 #: modules/Scheduling/MassSchedule.php:104
 #, php-format
