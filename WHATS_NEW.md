@@ -5,7 +5,7 @@
 New in 3.4
 ----------
 
-New [PDF Header Footer](https://github.com/francoisjacquet/PDF_Header_Footer) plugin
+New [PDF Header Footer](https://www.rosariosis.org/pdf-header-footer-plugin) plugin
 
 [New translations](locale/REFERENCE.md) (37% completed)
 
