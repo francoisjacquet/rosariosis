@@ -1,14 +1,23 @@
 // Modules.php JS.
 /**
  * Add/replace HTML given the markup and the target ID.
+ *
  * @param {string}  html
  * @param {string}  id
- * @param {boolean} replace Replace or add the HTML.
+ * @param {boolean} replace Replace or add the HTML (optional).
  */
 var addHTML = function(html, id, replace) {
+	// Get element in pure Javascript
+	// jQuery does not handle IDs with brackets [], check _makeMultipleInput().
 	var el = document.getElementById( id );
 
-	el.innerHTML = replace ? html : el.innerHTML + html;
+	// Here we use jQuery
+	// so inline Javascript gets evaluated!
+	if ( replace ) {
+		$( el ).html( html );
+	} else {
+		$( el ).append( html );
+	}
 }
 
 /**

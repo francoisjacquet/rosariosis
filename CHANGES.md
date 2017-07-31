@@ -5,6 +5,7 @@ Changes in 3.4.3
 ----------------
 - Fix #198 Add error if student account inactive (today < Attendance start date) in index.php
 - Optimization Remove $schools_RET & $calendars_RET ID index in Widgets.fnc.php
+- Fix JS addHTML so inline Javascript gets evaluated in warehouse.js
 
 Changes in 3.4.2
 ----------------
