@@ -797,14 +797,14 @@ function Widgets( $item, &$myextra = null )
 					WHERE rg.SCHOOL_ID='" . UserSchool() . "'
 					AND rg.SYEAR='" . UserSyear() . "'
 					AND rs.ID=rg.GRADE_SCALE_ID" .
-					( User( 'PROFILE' ) == 'teacher' ?
+					( User( 'PROFILE' ) === 'teacher' ?
 					" AND rg.GRADE_SCALE_ID=
 						(SELECT GRADE_SCALE_ID
 							FROM COURSE_PERIODS
 							WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')" :
 					'' ) .
 					" ORDER BY rs.SORT_ORDER,rs.ID,rg.BREAK_OFF IS NOT NULL DESC,rg.BREAK_OFF DESC,rg.SORT_ORDER" ),
-				array(), array( 'GRADE_SCALE_ID' ) );
+					array(), array( 'GRADE_SCALE_ID' ) );
 
 				$j = 0;
 
@@ -1076,13 +1076,15 @@ function Widgets( $item, &$myextra = null )
 
 				$extra['WHERE'] .= " AND dr.STAFF_ID='" . $_REQUEST['discipline_reporter'] . "' ";
 
-				$reporter = $users_RET[$_REQUEST['discipline_reporter']][1];
+				$reporter = $users_RET[ $_REQUEST['discipline_reporter'] ][1];
 
 				if ( ! $extra['NoSearchTerms'] )
+				{
 					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Reporter' ) . ': </b>' .
 						$reporter['LAST_NAME'] . ', ' .
 						$reporter['FIRST_NAME'] . ' ' .
 						$reporter['MIDDLE_NAME'] . '<br />';
+				}
 			}
 
 			$extra['search'] .= '<tr class="st"><td>
@@ -1217,9 +1219,9 @@ function Widgets( $item, &$myextra = null )
 
 				for ( $i = 0; $i < $size; $i++ )
 				{
-					if ( !( $_REQUEST['discipline'][$key[ $i ]] ) )
+					if ( ! ( $_REQUEST['discipline'][ $key[ $i ] ] ) )
 					{
-						unset( $_REQUEST['discipline'][$key[ $i ]] );
+						unset( $_REQUEST['discipline'][ $key[ $i ] ] );
 					}
 				}
 
@@ -1417,7 +1419,7 @@ function Widgets( $item, &$myextra = null )
 			$schools_RET = DBGet( DBQuery( "SELECT ID,TITLE
 				FROM SCHOOLS
 				WHERE ID!='" . UserSchool() . "'
-				AND SYEAR='" . UserSyear() . "'"), array(), array( 'ID' ) );
+				AND SYEAR='" . UserSyear() . "'" ) );
 
 			$next_year_options = array(
 				'' => _( 'N/A' ),
@@ -1427,9 +1429,9 @@ function Widgets( $item, &$myextra = null )
 				'-1' => _( 'Do not enroll after this school year' ),
 			);
 
-			foreach ( (array) $schools_RET as $id => $school )
+			foreach ( (array) $schools_RET as $school )
 			{
-				$next_year_options[ $id ] = $school[1]['TITLE'];
+				$next_year_options[ $school['ID'] ] = $school['TITLE'];
 			}
 
 			if ( $_REQUEST['next_year'] )
@@ -1474,27 +1476,37 @@ function Widgets( $item, &$myextra = null )
 				FROM ATTENDANCE_CALENDARS
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'
-				ORDER BY DEFAULT_CALENDAR ASC" ), array(), array( 'CALENDAR_ID' ) );
+				ORDER BY DEFAULT_CALENDAR ASC" ) );
 
 			if ( $_REQUEST['calendar'] )
 			{
-				if ( $_REQUEST['calendar'] == '!' )
+				if ( $_REQUEST['calendar'] === '!' )
 				{
-					$where_not = ($_REQUEST['calendar_not'] == 'Y' ? 'NOT ' : '' );
+					$where_not = ( $_REQUEST['calendar_not'] === 'Y' ? 'NOT ' : '' );
 
 					$extra['WHERE'] .= " AND ssm.CALENDAR_ID IS " . $where_not . "NULL";
 
-					$text_not = ( $_REQUEST['calendar_not'] == 'Y' ? _( 'Any Value' ) : _( 'No Value' ) );
+					$text_not = ( $_REQUEST['calendar_not'] === 'Y' ? _( 'Any Value' ) : _( 'No Value' ) );
 				}
 				else
 				{
 
-					$where_not = ($_REQUEST['calendar_not'] == 'Y' ? '!' : '' );
+					$where_not = ( $_REQUEST['calendar_not'] === 'Y' ? '!' : '' );
 
 					$extra['WHERE'] .= " AND ssm.CALENDAR_ID" . $where_not . "='" . $_REQUEST['calendar'] . "'";
 
+					foreach ( (array) $calendars_RET as $calendar )
+					{
+						if ( $_REQUEST['calendar'] === $calendar['CALENDAR_ID'] )
+						{
+							$calendar_title = $calendar['TITLE'];
+
+							break;
+						}
+					}
+
 					$text_not = ( $_REQUEST['calendar_not'] == 'Y' ? _( 'Not' ) . ' ' : '' ) .
-						$calendars_RET[$_REQUEST['calendar']][1]['TITLE'];
+						$calendar_title;
 				}
 
 				if ( ! $extra['NoSearchTerms'] )
@@ -1511,9 +1523,10 @@ function Widgets( $item, &$myextra = null )
 				<option value="">' . _( 'N/A' ) . '</option>
 				<option value="!">' . _( 'No Value' ) . '</option>';
 
-			foreach ( (array) $calendars_RET as $id => $calendar )
+			foreach ( (array) $calendars_RET as $calendar )
 			{
-				$extra['search'] .= '<option value="' . $id . '">' . $calendar[1]['TITLE'] . '</option>';
+				$extra['search'] .= '<option value="' . $calendar['CALENDAR_ID'] . '">' .
+					$calendar['TITLE'] . '</option>';
 			}
 
 			$extra['search'] .= '</select></td></tr>';
