@@ -93,6 +93,7 @@ elseif ( isset( $_POST['USERNAME'] )
 			FROM STUDENTS s,STUDENT_ENROLLMENT se
 			WHERE se.STUDENT_ID=s.STUDENT_ID
 			AND se.SYEAR='" . Config( 'SYEAR' ) . "'
+			AND (CURRENT_DATE<=se.END_DATE OR se.END_DATE IS NULL)
 			AND UPPER(s.USERNAME)=UPPER('" . $username . "')" ) );
 
 			if ( ! $student_RET
@@ -180,7 +181,7 @@ elseif ( isset( $_POST['USERNAME'] )
 	}
 
 	// Student account inactive (today < Attendance start date).
-	elseif( $student_RET
+	elseif ( $student_RET
 			&& DBDate() < $student_RET[1]['START_DATE'] )
 	{
 		$error[] = _( 'Your account has not yet been activated.' );
