@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 3.4.3
+----------------
+- Fix #198 Add error if student account inactive (today < Attendance start date) in index.php
+
 Changes in 3.4.2
 ----------------
 - Move "Calendars" program up & "Database Backup" under Security in School_Setup/Menu.php

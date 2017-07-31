@@ -85,21 +85,25 @@ elseif ( isset( $_POST['USERNAME'] )
 		{
 			unset( $_REQUEST['PASSWORD'], $_POST['PASSWORD'] );
 		}
-
-		// Student account not verified (enrollment school + start date + last login are NULL).
-		elseif ( DBGet( DBQuery( "SELECT s.USERNAME,s.STUDENT_ID,s.LAST_LOGIN,s.FAILED_LOGIN,se.START_DATE
+		else
+		{
+			// Student may be inactive or not verified, see below for corresponding errors.
+			$student_RET = DBGet( DBQuery( "SELECT s.USERNAME,s.STUDENT_ID,
+				s.LAST_LOGIN,s.FAILED_LOGIN,se.START_DATE,s.PASSWORD
 			FROM STUDENTS s,STUDENT_ENROLLMENT se
 			WHERE se.STUDENT_ID=s.STUDENT_ID
 			AND se.SYEAR='" . Config( 'SYEAR' ) . "'
-			AND se.START_DATE IS NULL
-			AND s.LAST_LOGIN IS NULL
-			AND UPPER(s.USERNAME)=UPPER('" . $username . "')")))
-		{
-			$student_RET = 0;
+			AND UPPER(s.USERNAME)=UPPER('" . $username . "')" ) );
+
+			if ( ! $student_RET
+				|| ! match_password( $student_RET[1]['PASSWORD'], $_REQUEST['PASSWORD'] ) )
+			{
+				$student_RET = false;
+			}
 		}
-		else
-			$student_RET = false;
 	}
+
+	$login_status = '';
 
 	// Admin, teacher or parent: initiate session.
 	if ( $login_RET
@@ -168,9 +172,24 @@ elseif ( isset( $_POST['USERNAME'] )
 	}
 
 	// User with No access profile.
-	elseif ( ( $login_RET
+	elseif ( $login_RET
 			&& $login_RET[1]['PROFILE'] == 'none' )
-		|| $student_RET === 0 )
+	{
+		$error[] = _( 'Your account has not yet been activated.' ) . ' '
+			. _( 'You will be notified when it has been verified by a school administrator.' );
+	}
+
+	// Student account inactive (today < Attendance start date).
+	elseif( $student_RET
+			&& DBDate() < $student_RET[1]['START_DATE'] )
+	{
+		$error[] = _( 'Your account has not yet been activated.' );
+	}
+
+	// Student account not verified (enrollment school + start date + last login are NULL).
+	elseif ( $student_RET
+			&& ! $student_RET[1]['START_DATE']
+			&& ! $student_RET[1]['LAST_LOGIN'] )
 	{
 		$error[] = _( 'Your account has not yet been activated.' ) . ' '
 			. _( 'You will be notified when it has been verified by a school administrator.' );
@@ -206,8 +225,6 @@ elseif ( isset( $_POST['USERNAME'] )
 
 		$error[] = _( 'Incorrect username or password.' ) . '&nbsp;'
 			. _( 'Please try logging in again.' );
-
-		$login_status = '';
 	}
 
 	// Access Log.
