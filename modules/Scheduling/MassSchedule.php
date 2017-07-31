@@ -76,20 +76,22 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 							foreach ( (array) $_REQUEST['student'] as $student_id => $yes )
 							{
-								if ( ! $current_RET[ $student_id ] )
+								if ( $current_RET[ $student_id ] )
 								{
-									DBQuery( "INSERT INTO SCHEDULE
-										(SYEAR,SCHOOL_ID,STUDENT_ID,COURSE_ID,COURSE_PERIOD_ID,MP,
-											MARKING_PERIOD_ID,START_DATE)
-										values('" . UserSyear() . "','" . UserSchool() . "',
-											'" . $student_id . "','" . $course_to_add['course_id'] . "',
-											'" . $course_to_add['course_period_id'] . "',
-											'" . $mp_table . "','" . $_REQUEST['marking_period_id'] . "',
-											'" . $start_date . "')" );
-
-									// Hook.
-									do_action( 'Scheduling/MassSchedule.php|schedule_student' );
+									continue;
 								}
+
+								DBQuery( "INSERT INTO SCHEDULE
+									(SYEAR,SCHOOL_ID,STUDENT_ID,COURSE_ID,COURSE_PERIOD_ID,MP,
+										MARKING_PERIOD_ID,START_DATE)
+									values('" . UserSyear() . "','" . UserSchool() . "',
+										'" . $student_id . "','" . $course_to_add['course_id'] . "',
+										'" . $course_to_add['course_period_id'] . "',
+										'" . $mp_table . "','" . $_REQUEST['marking_period_id'] . "',
+										'" . $start_date . "')" );
+
+								// Hook.
+								do_action( 'Scheduling/MassSchedule.php|schedule_student' );
 							}
 
 							$note[] = sprintf( _( 'The %s course has been added to the selected students\' schedules.' ), $course_to_add['course_title'] );
