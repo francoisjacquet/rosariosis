@@ -20,7 +20,7 @@ RosarioSIS was tested on:
 - Debian Jessie with Apache 2.4.16, Postgres 9.4, and PHP 5.6.13
 - Shared hosting with cPanel, nginx, Postgres 8.4, and PHP 5.6.27
 - through Mozilla Firefox
-- through BrowserStack for cross-browser compatibility (not compatible with Internet Explorer 8 or lower)
+- through [BrowserStack](https://www.browserstack.com/) for cross-browser compatibility (not compatible with Internet Explorer 8 or lower)
 
 Minimum requirements: **PHP 5.3.2** & **Postgres 8**
 
