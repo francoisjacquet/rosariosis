@@ -72,7 +72,8 @@ elseif ( isset( $_POST['USERNAME'] )
 	if ( ! $login_RET )
 	{
 		// Lookup for student $username in DB.
-		$student_RET = DBGet( DBQuery( "SELECT s.USERNAME,s.STUDENT_ID,s.LAST_LOGIN,s.FAILED_LOGIN,s.PASSWORD
+		$student_RET = DBGet( DBQuery( "SELECT s.USERNAME,s.STUDENT_ID,s.LAST_LOGIN,
+			s.FAILED_LOGIN,s.PASSWORD,se.START_DATE
 			FROM STUDENTS s,STUDENT_ENROLLMENT se
 			WHERE se.STUDENT_ID=s.STUDENT_ID
 			AND se.SYEAR='" . Config( 'SYEAR' ) . "'
