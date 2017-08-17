@@ -558,7 +558,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			$search_URL = PreparePHP_SELF( $_REQUEST, array( 'LO_search' ) );
 
 			echo '<input type="text" id="LO_search" name="LO_search" value="' .
-				htmlspecialchars( $LO_search, ENT_QUOTES ) .
+				htmlspecialchars( str_replace( "''", "'", $LO_search ), ENT_QUOTES ) .
 				'" placeholder="' . _( 'Search' ) . '" onkeypress="LOSearch(event, this.value, \'' .
 					$search_URL . '\');" /><input type="button" value="' . _( 'Go' ) .
 				'" onclick="LOSearch(event, $(\'#LO_search\').val(), \'' .
