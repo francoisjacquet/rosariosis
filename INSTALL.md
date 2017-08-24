@@ -75,21 +75,18 @@ Now, you're ready to setup the RosarioSIS database. If you have access to the co
 3. Get a PostgreSQL prompt:
 	`server$ psql`
 
-4. Create the rosariosis database:
-	`postgres=# CREATE DATABASE rosariosis WITH ENCODING 'UTF8';`
+4. Create the rosariosis user:
+	`postgres=# CREATE USER rosariosis_user WITH PASSWORD 'rosariosis_user_password';`
 
-5. Create the rosariosis user:
-	`postgres=# CREATE USER rosariosis WITH PASSWORD 'rosariosis_password';`
+5. Create the rosariosis database:
+	`postgres=# CREATE DATABASE rosariosis_db WITH ENCODING 'UTF8' OWNER rosariosis_user;`
 
-6. Grant the user access to the database:
-	`postgres=# GRANT ALL PRIVILEGES ON DATABASE rosariosis to rosariosis;`
-
-7. Logout of PostgreSQL:
+6. Logout of PostgreSQL:
 	`postgres=# \q` &
 	`server$ exit`
 
 8. Run the RosarioSIS SQL file:
-	`server$ psql -f INSTALL_DIRECTORY/rosariosis.sql rosariosis rosariosis`
+	`server$ psql -f INSTALL_DIRECTORY/rosariosis.sql rosariosis_db rosariosis_user`
 
 Also, the [`pg_hba.conf`](http://www.postgresql.org/docs/current/static/auth-pg-hba-conf.html) file may have to be altered to specify the server's TCP/IP address.
 
