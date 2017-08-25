@@ -244,6 +244,9 @@ HTML;
 			<li>
 				<i>Student email field</i>: choose the field which you will use to store your students emails. This can be the Username field or any other text field from the General Info tab. Setting this field will enable new features for or related to students within RosarioSIS such as "Password Reset".
 			</li>
+			<li>
+				<i>Failed Login Attempts Limit</i>: ban access during 10 minutes if failed login attempts limit is reached. The "Too many failed login attempts. Please try logging in later." error will be shown on the login screen and the corresponding Access Log will have the "Banned" status.
+			</li>
 		</ul>
 	</li>
 	<li>The School:

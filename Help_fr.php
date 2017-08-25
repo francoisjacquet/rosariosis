@@ -240,6 +240,9 @@ HTML;
 			<li>
 				<i>Champ email Élève</i>: sélectionner quel champ utiliser pour sauvegarder les emails de vos élèves. Cela peut-être le champ Nom Utilisateur ou n'importe quel autre champ texte de l'onglet Informations Générales. Définir ce champ activera de nouvelles fonctionnalités pour ou liées aux élèves au sein de RosarioSIS comme la "Réinitialisation de mot de passe".
 			</li>
+			<li>
+				<i>Limite de Tentatives de Connexion Échouées</i>: banni l'accès durant 10 minutes lorsque la limite de tentatives de connexions échouées est atteinte. L'erreur "Trop de Tentatives de Connexion Échouées. Veuillez réessayer plus tard." sera affichée sur l'écran de login et l'entrée du Journal d'Accès correspondante aura le statut "Banni".
+			</li>
 		</ul>
 	</li>
 	<li>L'école:
