@@ -4,6 +4,7 @@
 Changes in 3.5
 --------------
 - #199 Add failed login ban if >= X failed attempts within 10 minutes in index.php & AccessLog.php
+- #199 Add FAILED_LOGIN_LIMIT Config option in rosariosis.sql & Update.fnc.php & Configuration.php
 
 Changes in 3.4.3
 ----------------

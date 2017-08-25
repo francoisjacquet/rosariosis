@@ -31,7 +31,7 @@ function Update()
 	 * Prevent DB version update if new Update.fnc.php file has NOT been uploaded YET.
 	 * Update must be run once both new Warehouse.php & Update.fnc.php files are uploaded.
 	 */
-	if ( version_compare( '3.4.3', ROSARIO_VERSION, '<' ) )
+	if ( version_compare( '3.5', ROSARIO_VERSION, '<' ) )
 	{
 		return false;
 	}
@@ -84,6 +84,10 @@ function Update()
 		case version_compare( $from_version, '3.1', '<' ) :
 
 			$return = _update31();
+
+		case version_compare( $from_version, '3.5', '<' ) :
+
+			$return = _update35();
 	}
 
 	// Update version in DB CONFIG table.
@@ -692,6 +696,38 @@ function _update31()
 			DBQuery( "INSERT INTO profile_exceptions
 				VALUES ('" . $profile_id . "', 'Grades/MassCreateAssignments.php', 'Y', 'Y');" );
 		}
+	}
+
+	return $return;
+}
+
+
+/**
+ * Update to version 3.5
+ *
+ * 1. Add FAILED_LOGIN_LIMIT to CONFIG table
+ *
+ * Local function
+ *
+ * @since 3.5
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update35()
+{
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. Add FAILED_LOGIN_LIMIT to CONFIG table.
+	 */
+	$failed_login_limit_added = DBGet( DBQuery( "SELECT 1 FROM CONFIG
+		WHERE TITLE='FAILED_LOGIN_LIMIT'" ) );
+
+	if ( ! $failed_login_limit_added )
+	{
+		DBQuery( "INSERT INTO config VALUES (0, 'FAILED_LOGIN_LIMIT', NULL);" );
 	}
 
 	return $return;

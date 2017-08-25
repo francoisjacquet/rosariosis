@@ -68,7 +68,9 @@ else
 			&& (!isset($_REQUEST['values']['PROGRAM_CONFIG']['FOOD_SERVICE_BALANCE_MINIMUM'])
 				|| is_numeric($_REQUEST['values']['PROGRAM_CONFIG']['FOOD_SERVICE_BALANCE_MINIMUM']))
 			&& (!isset($_REQUEST['values']['PROGRAM_CONFIG']['FOOD_SERVICE_BALANCE_TARGET'])
-				|| is_numeric($_REQUEST['values']['PROGRAM_CONFIG']['FOOD_SERVICE_BALANCE_TARGET'])))
+				|| is_numeric($_REQUEST['values']['PROGRAM_CONFIG']['FOOD_SERVICE_BALANCE_TARGET']))
+			&& (!isset($_REQUEST['values']['CONFIG']['FAILED_LOGIN_LIMIT'])
+				|| is_numeric($_REQUEST['values']['CONFIG']['FAILED_LOGIN_LIMIT'])))
 			{
 				$sql = '';
 				if ( isset( $_REQUEST['values']['CONFIG'] )
@@ -80,7 +82,7 @@ else
 							CONFIG_VALUE='" . $value . "'
 							WHERE TITLE='" . $column . "'";
 
-						// Program Title, Program Name, Default Theme, Force Default Theme, Create User Account, Create Student Account, Student email field.
+						// Program Title, Program Name, Default Theme, Force Default Theme, Create User Account, Create Student Account, Student email field, Failed login attempts limit.
 						$school_independant_values = array(
 							'TITLE',
 							'NAME',
@@ -90,6 +92,7 @@ else
 							'CREATE_STUDENT_ACCOUNT',
 							'STUDENTS_EMAIL_FIELD',
 							'LIMIT_EXISTING_CONTACTS_ADDRESSES',
+							'FAILED_LOGIN_LIMIT',
 						);
 
 						if ( in_array( $column, $school_independant_values ) )
@@ -252,9 +255,25 @@ else
 
 		echo '</td></tr></table></fieldset>';
 
+		// FJ add Security to Configuration.
+		echo '<tr><td><fieldset><legend>' . _( 'Security' ) . '</legend><table>';
+
+		// Failed login ban if >= X failed attempts within 10 minutes.
+		echo '<tr><td colspan="3">' . TextInput(
+			Config( 'FAILED_LOGIN_LIMIT' ),
+			'values[CONFIG][FAILED_LOGIN_LIMIT]',
+			_( 'Failed Login Attempts Limit' ) .
+				'<div class="tooltip"><i>' .
+				_( 'Leave the field blank to always allow' ) .
+				'</i></div>',
+			'type=number maxlength=2 size=2 min=2 max=99'
+		) . '</td></tr>';
+
+		echo '</td></tr></table></fieldset>';
+
 		echo '</table></fieldset>';
 
-		echo '<br /><fieldset><legend>'._('School').'</legend><table>';
+		echo '<br /><fieldset><legend>' . _( 'School' ) . '</legend><table>';
 
 		//FJ school year over one/two calendar years format
 		echo '<tr><td>'.CheckboxInput(Config('SCHOOL_SYEAR_OVER_2_YEARS'), 'values[CONFIG][SCHOOL_SYEAR_OVER_2_YEARS]', _('School year over two calendar years'), '', false, button('check'), button('x')).'</td></tr>';
