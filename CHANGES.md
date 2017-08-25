@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 3.5
+--------------
+- #199 Add failed login ban if >= X failed attempts within 10 minutes in index.php & AccessLog.php
+
 Changes in 3.4.3
 ----------------
 - Fix #198 Add error if student account inactive (today < Attendance start date) in index.php

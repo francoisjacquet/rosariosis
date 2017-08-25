@@ -153,14 +153,20 @@ if ( ! $_REQUEST['modfunc'] )
  * DBGet callback
  *
  * @since 3.0
+ * @since 3.5 Banned status.
  *
  * @param  string $value   Field value.
  * @param  string $name    'STATUS'.
  *
- * @return string          Success or Fail.
+ * @return string          Success or Banned or Fail.
  */
 function _makeAccessLogStatus( $value, $column )
 {
+	if ( $value === 'B' )
+	{
+		return '<span style="color: red;">' . _( 'Banned' ) . '</span>';
+	}
+
 	if ( $value
 		&& $value !== 'Failed Login' ) // Compatibility with version 1.1.
 	{
