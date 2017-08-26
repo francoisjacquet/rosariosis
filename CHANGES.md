@@ -6,6 +6,7 @@ Changes in 3.5
 - #199 Add failed login ban if >= X failed attempts within 10 minutes in index.php & AccessLog.php
 - #199 Add FAILED_LOGIN_LIMIT Config option in rosariosis.sql & Update.fnc.php & Configuration.php
 - Add Help for FAILED_LOGIN_LIMIT Config option in Help_en.php, Help_fr.php & Help_es.php
+- #199 Add Captcha jQuery plugin in assets/js/jquery-captcha/
 
 Changes in 3.4.3
 ----------------
