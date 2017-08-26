@@ -158,7 +158,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 	{
 		$required_error = false;
 
-		//FJ fix SQL bug FIRST_NAME, LAST_NAME is null
+		// FJ fix SQL bug FIRST_NAME, LAST_NAME is null.
 		if ((isset($_REQUEST['staff']['FIRST_NAME']) && empty($_REQUEST['staff']['FIRST_NAME'])) || (isset($_REQUEST['staff']['LAST_NAME']) && empty($_REQUEST['staff']['LAST_NAME'])))
 			$required_error = true;
 
@@ -168,23 +168,34 @@ if ( $_REQUEST['modfunc'] === 'update'
 		// FJ textarea fields MarkDown sanitize.
 		$_REQUEST['staff'] = FilterCustomFieldsMarkdown( 'STAFF_FIELDS', 'staff' );
 
-		//FJ create account
-		if (basename($_SERVER['PHP_SELF'])=='index.php')
+		// FJ create account.
+		if ( basename( $_SERVER['PHP_SELF'] ) === 'index.php' )
 		{
-			//username & password required
-			if (empty($_REQUEST['staff']['USERNAME']) || empty($_REQUEST['staff']['PASSWORD']))
-				$required_error = true;
+			// Check Captcha.
+			if ( ! CheckCaptcha() )
+			{
+				$error[] = _( 'Captcha' );
+			}
 
-			//check if trying to hack profile (would result in an SQL error)
-			if (isset($_REQUEST['staff']['PROFILE']))
+			// Username & password required.
+			if ( empty( $_REQUEST['staff']['USERNAME'] )
+				|| empty( $_REQUEST['staff']['PASSWORD'] ) )
+			{
+				$required_error = true;
+			}
+
+			// Check if trying to hack profile (would result in an SQL error).
+			if ( isset( $_REQUEST['staff']['PROFILE'] ) )
 			{
 				require_once 'ProgramFunctions/HackingLog.fnc.php';
 				HackingLog();
 			}
 		}
 
-		if ( $required_error)
-			$error[] = _('Please fill in the required fields');
+		if ( $required_error )
+		{
+			$error[] = _( 'Please fill in the required fields' );
+		}
 
 		//check username unicity
 		$existing_username = DBGet(DBQuery("SELECT 'exists' FROM STAFF WHERE USERNAME='".$_REQUEST['staff']['USERNAME']."' AND SYEAR='".UserSyear()."' AND STAFF_ID!='".UserStaffID()."' UNION SELECT 'exists' FROM STUDENTS WHERE USERNAME='".$_REQUEST['staff']['USERNAME']."'"));

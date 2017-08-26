@@ -376,7 +376,15 @@ echo TextInput(
 	( $_REQUEST['moodle_create_user'] ? false : true )
 );
 
-echo '</td><td colspan="2">';
+// FJ create account.
+if ( basename( $_SERVER['PHP_SELF'] ) === 'index.php' )
+{
+	echo '</td><td>';
+}
+else
+{
+	echo '</td><td colspan="2">';
+}
 
 echo TextInput(
 	$staff['PHONE'],
@@ -384,6 +392,15 @@ echo TextInput(
 	_( 'Phone Number' ),
 	'size=12 maxlength=100'
 );
+
+// FJ create account.
+if ( basename( $_SERVER['PHP_SELF'] ) === 'index.php' )
+{
+	echo '</td><td>';
+
+	// Add Captcha.
+	echo CaptchaInput( 'captcha' . rand( 100, 9999 ), _( 'Captcha' ) );
+}
 
 echo '</td></tr></table>';
 

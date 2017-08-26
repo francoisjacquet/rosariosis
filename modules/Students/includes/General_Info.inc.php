@@ -152,23 +152,49 @@ include 'modules/Students/includes/Other_Info.inc.php';
 if ( $_REQUEST['student_id']!='new' && $student['SCHOOL_ID']!=UserSchool() && $student['SCHOOL_ID'])
 	$_ROSARIO['AllowEdit'][$_REQUEST['modname']] = $_ROSARIO['allow_edit'] = false;
 
-if (basename($_SERVER['PHP_SELF'])!='index.php')
+if ( basename( $_SERVER['PHP_SELF'] ) !== 'index.php' )
+{
 	include 'modules/Students/includes/Enrollment.inc.php';
-//FJ create account
+}
+// FJ create account.
 else
 {
-	$schools_RET = DBGet(DBQuery("SELECT ID, TITLE FROM SCHOOLS WHERE SYEAR='".UserSyear()."' ORDER BY ID"));
+	echo '<hr />';
+
+	echo '<table class="create-account width-100p valign-top fixed-col"><tr class="st"><td>';
+
+	$schools_RET = DBGet( DBQuery( "SELECT ID, TITLE
+		FROM SCHOOLS
+		WHERE SYEAR='" . UserSyear() . "'
+		ORDER BY ID" ) );
 
 	$school_options = array();
 
-	foreach ( (array) $schools_RET as $school)
+	foreach ( (array) $schools_RET as $school )
 	{
-		$school_options[$school['ID']] = $school['TITLE'];
+		$school_options[ $school['ID'] ] = $school['TITLE'];
 	}
 
-	//add School select input
-	echo SelectInput('','values[STUDENT_ENROLLMENT][new][SCHOOL_ID]',_('School'),$school_options,false);
+	// Add School select input.
+	echo SelectInput(
+		'',
+		'values[STUDENT_ENROLLMENT][new][SCHOOL_ID]',
+		_( 'School' ),
+		$school_options,
+		false
+	);
 
-	if ( $PopTable_opened)
-		PopTable('footer');
+	echo '</td><td colspan="2">';
+
+	// Add Captcha.
+	echo CaptchaInput( 'captcha' . rand( 100, 9999 ), _( 'Captcha' ) );
+
+	echo '</td></tr></table>';
+
+	if ( $PopTable_opened )
+	{
+		echo '<table><tr><td>';
+
+		PopTable( 'footer' );
+	}
 }

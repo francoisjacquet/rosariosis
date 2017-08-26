@@ -14,9 +14,15 @@ if (User('PROFILE')!='admin' && User('PROFILE')!='teacher' && $_REQUEST['student
 	exit;
 }
 
-$categories = array('1' => 'General_Info', '2' => 'Medical', '3' => 'Address', '4' => 'Comments', 'Other_Info' => 'Other_Info');
+$categories = array(
+	'1' => 'General_Info',
+	'2' => 'Medical',
+	'3' => 'Address',
+	'4' => 'Comments',
+	'Other_Info' => 'Other_Info',
+);
 
-if ( !isset($_REQUEST['category_id']))
+if ( ! isset( $_REQUEST['category_id'] ) )
 {
 	$category_id = '1';
 	$include = 'General_Info';
@@ -31,14 +37,18 @@ else
 	}
 	else
 	{
-		$category_include = DBGet(DBQuery("SELECT INCLUDE FROM STUDENT_FIELD_CATEGORIES WHERE ID='".$_REQUEST['category_id']."'"));
+		$category_include = DBGet( DBQuery( "SELECT INCLUDE
+			FROM STUDENT_FIELD_CATEGORIES
+			WHERE ID='" . $_REQUEST['category_id'] . "'" ) );
 
-		if (count($category_include))
+		if ( count( $category_include ) )
 		{
 			$include = $category_include[1]['INCLUDE'];
 
 			if ( empty( $include ) )
+			{
 				$include = $categories['Other_Info'];
+			}
 		}
 		//FJ Prevent $_REQUEST['category_id'] hacking
 		else
@@ -103,26 +113,47 @@ if ( $_REQUEST['modfunc'] === 'update'
 		// FJ textarea fields MarkDown sanitize.
 		$_REQUEST['students'] = FilterCustomFieldsMarkdown( 'CUSTOM_FIELDS', 'students' );
 
-		//FJ create account
-		if (basename($_SERVER['PHP_SELF'])=='index.php')
+		// FJ create account.
+		if ( basename( $_SERVER['PHP_SELF'] ) === 'index.php' )
 		{
-			//username & password required
-			if (empty($_REQUEST['students']['USERNAME']) || empty($_REQUEST['students']['PASSWORD']))
-				$required_error = true;
+			// Check Captcha.
+			if ( ! CheckCaptcha() )
+			{
+				$error[] = _( 'Captcha' );
+			}
 
-			//check if trying to hack enrollment
-			if (isset($_REQUEST['month_values']['STUDENT_ENROLLMENT']) || count($_REQUEST['values']['STUDENT_ENROLLMENT'])>1)
+			// Username & password required.
+			if ( empty( $_REQUEST['students']['USERNAME'] )
+				|| empty( $_REQUEST['students']['PASSWORD'] ) )
+			{
+				$required_error = true;
+			}
+
+			// Check if trying to hack enrollment.
+			if ( isset( $_REQUEST['month_values']['STUDENT_ENROLLMENT'] )
+				|| count( $_REQUEST['values']['STUDENT_ENROLLMENT'] ) > 1 )
 			{
 				require_once 'ProgramFunctions/HackingLog.fnc.php';
+
 				HackingLog();
 			}
 		}
 
-		if ( $required_error)
-			$error[] = _('Please fill in the required fields');
+		if ( $required_error )
+		{
+			$error[] = _( 'Please fill in the required fields' );
+		}
 
-		//check username unicity
-		$existing_username = DBGet(DBQuery("SELECT 'exists' FROM STAFF WHERE USERNAME='".$_REQUEST['students']['USERNAME']."' AND SYEAR='".UserSyear()."' UNION SELECT 'exists' FROM STUDENTS WHERE USERNAME='".$_REQUEST['students']['USERNAME']."' AND STUDENT_ID!='".UserStudentID()."'"));
+		// Check username unicity.
+		$existing_username = DBGet( DBQuery( "SELECT 'exists'
+			FROM STAFF
+			WHERE USERNAME='" . $_REQUEST['students']['USERNAME'] . "'
+			AND SYEAR='" . UserSyear() . "'
+			UNION SELECT 'exists'
+			FROM STUDENTS
+			WHERE USERNAME='" . $_REQUEST['students']['USERNAME'] . "'
+			AND STUDENT_ID!='" . UserStudentID() . "'" ) );
+
 		if (count($existing_username))
 		{
 			$error[] = _('A user with that username already exists. Choose a different username and try again.');
