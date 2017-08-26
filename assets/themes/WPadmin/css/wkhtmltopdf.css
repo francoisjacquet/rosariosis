@@ -3,6 +3,11 @@
 	font-size: inherit;
 }
 
+small,
+small *{
+	font-size: 14px;
+}
+
 body {
 	color: #000;
 }

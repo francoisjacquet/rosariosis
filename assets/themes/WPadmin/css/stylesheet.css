@@ -146,6 +146,10 @@ textarea,input,select{
 	margin:2px 2px 2px 0;
 	padding:2px
 }
+small,
+small *{
+	font-size: 14px;
+}
 select{
 	padding:0 2px;
 	height:23px
