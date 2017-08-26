@@ -958,7 +958,7 @@ function ChosenSelectInput( $value, $name, $title = '', $options = array(), $all
  * @param  string         $title    Input title (optional). Defaults to ''
  * @param  array          $options  Input options: array( option_value => option_text )
  * @param  string|boolean $allow_na Allow N/A (empty value); set to false to disallow (optional). Defaults to N/A
- * @param  string         $extra    Extra HTML attributes added to the input
+ * @param  string         $extra    Extra HTML attributes added to the input (optional).
  * @param  boolean        $div      Is input wrapped into <div onclick>? (optional). Defaults to true
  *
  * @return string         Input HTML
@@ -1067,6 +1067,7 @@ function RadioInput( $value, $name, $title = '', $options, $allow_na = 'N/A', $e
  * @param  string  $name  Input name attribute
  * @param  string  $title Input title (label)
  * @param  string  $type  hidden|text Input type attribute (optional). Defaults to 'hidden'
+ * @param  string  $extra Extra HTML attributes added to the input (optional).
  * @param  boolean $div   Is input wrapped into <div onclick>? (optional). Defaults to true
  *
  * @return string  Color Picker Input HTML
@@ -1138,6 +1139,81 @@ function ColorInput( $value, $name, $title = '', $type = 'hidden', $extra = '', 
 		$return = $color_rect . $ftitle;
 
 	return $return;
+}
+
+
+/**
+ * Captcha Input
+ *
+ * @example CaptchaInput( 'captcha' . rand( 100, 9999 ), _( 'Captcha' ) );
+ *
+ * @since 3.5
+ *
+ * @see assets/js/warehouse.js for captcha JS functions.
+ *
+ * @uses $_SESSION['CaptchaInput']
+ * Places input name in session
+ * so we can retrieve & check the input & answer values before processing form
+ *
+ * @param  string  $name  Input name attribute (array: 'input' & 'answer' indexes available).
+ * @param  string  $title Input title (label)
+ * @param  string  $extra Extra HTML attributes added to the input (optional).
+ *
+ * @return string  Captcha Input HTML
+ */
+function CaptchaInput( $name, $title, $extra = '' )
+{
+	// Place input name in session
+	// so we can retrieve & check the input & answer values before processing form.
+	$_SESSION['CaptchaInput'] = $name;
+
+	$id_base = GetInputID( $name );
+
+	$required = true;
+
+	ob_start(); ?>
+	<div class="captcha">
+		<span id="<?php echo $id_base; ?>-n1"></span> + <span id="<?php echo $id_base; ?>-n2"></span> = <input id="<?php echo $id_base; ?>-input" name="<?php echo $name; ?>[input]" type="number" required />
+		<input id="<?php echo $id_base; ?>-answer" name="<?php echo $name; ?>[answer]" type="hidden" <?php echo $extra; ?> />
+		<?php echo FormatInputTitle( $title, $id_base . '-input', $required ); ?>
+	</div>
+	<script>captcha(<?php echo json_encode( $id_base ); ?>);</script>
+	<?php
+	$captcha_html = ob_get_clean();
+
+	return $captcha_html;
+}
+
+
+/**
+ * Check Captcha
+ * Compare captcha input with answer.
+ *
+ * @since 3.5
+ *
+ * @uses $_SESSION['CaptchaInput'] where captcha name is stored.
+ *
+ * @see Create User / Student forms.
+ *
+ * @example if ( ! CheckCaptcha() )	$error[] = _( 'Captcha' );
+ *
+ * @return boolean True if no captcha or if captcha passed, else false.
+ */
+function CheckCaptcha()
+{
+	if ( ! isset( $_SESSION['CaptchaInput'] )
+		|| ! $_SESSION['CaptchaInput'] )
+	{
+		return true;
+	}
+
+	// Get submitted captcha using captcha name saved in session.
+	$captcha = isset( $_REQUEST[ $_SESSION['CaptchaInput'] ] ) ?
+		$_REQUEST[ $_SESSION['CaptchaInput'] ] :
+		array();
+
+	// Compare input & answer.
+	return $captcha && $captcha['input'] === $captcha['answer'];
 }
 
 
