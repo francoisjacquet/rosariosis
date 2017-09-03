@@ -9,6 +9,7 @@ Changes in 3.5
 - #199 Add Captcha jQuery plugin in assets/js/jquery-captcha/
 - #199 Add CaptchaInput() & CheckCaptcha() functions in Inputs.php
 - #199 Add Captcha to Create User / Student Account forms in User.php, Student.php & General_Info.inc.php
+- #201 Delete Student in Student.php
 
 Changes in 3.4.3
 ----------------
