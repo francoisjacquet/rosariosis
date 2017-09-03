@@ -424,26 +424,29 @@ Remote IP: %s', $admin_username, User('NAME'), $ip);
 		unset( $_ROSARIO['User'] );
 }
 
-if (basename($_SERVER['PHP_SELF'])!='index.php')
+if ( basename( $_SERVER['PHP_SELF'] ) !== 'index.php' )
 {
-	if ( $_REQUEST['staff_id']=='new')
+	if ( $_REQUEST['staff_id'] === 'new' )
 	{
 		$_ROSARIO['HeaderIcon'] = 'modules/Users/icon.png';
-		DrawHeader(_('Add a User'));
+
+		DrawHeader( _( 'Add a User' ) );
 	}
 	else
-		DrawHeader(ProgramTitle());
-		Search('staff_id',$extra);
+	{
+		DrawHeader( ProgramTitle() );
+	}
 }
-//FJ create account
-elseif ( !UserStaffID())
+elseif ( ! UserStaffID() )
 {
+	// FJ create account.
 	$_ROSARIO['HeaderIcon'] = 'modules/Users/icon.png';
-	DrawHeader(_('Create User Account'));
+
+	DrawHeader( _( 'Create User Account' ) );
 }
-//account created, return to index
 else
 {
+	// Account created, return to index.
 ?>
 	<script>window.location.href = "index.php?modfunc=logout&reason=account_created";</script>
 <?php
@@ -451,10 +454,10 @@ else
 }
 
 
-echo ErrorMessage( $error );
-
 if ( $_REQUEST['modfunc'] === 'delete'
-	&& basename( $_SERVER['PHP_SELF'] ) != 'index.php'
+	&& basename( $_SERVER['PHP_SELF'] ) !== 'index.php'
+	&& UserStaffID() !== User( 'STAFF_ID' )
+	&& User( 'PROFILE' ) === 'admin'
 	&& AllowEdit() )
 {
 	if ( DeletePrompt( _( 'User' ) ) )
@@ -471,26 +474,32 @@ if ( $_REQUEST['modfunc'] === 'delete'
 		DBQuery( "DELETE FROM STAFF
 			WHERE STAFF_ID='" . UserStaffID() . "'" );
 
-		// Hook
+		// Hook.
 		do_action( 'Users/User.php|delete_user' );
 
 		unset( $_SESSION['staff_id'] );
 
 		// Unset modfunc & staff_id & redirect URL.
 		RedirectURL( array( 'modfunc', 'staff_id' ) );
-
-		Search( 'staff_id', $extra );
 	}
 }
 
-if ((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='delete')
+echo ErrorMessage( $error );
+
+Search( 'staff_id', $extra );
+
+if ( ( UserStaffID()
+		|| $_REQUEST['staff_id'] === 'new' )
+	&& $_REQUEST['modfunc'] !== 'delete' )
 {
-	if ( $_REQUEST['staff_id']!='new')
+	if ( $_REQUEST['staff_id'] !== 'new' )
 	{
 		$sql = "SELECT s.STAFF_ID,s.TITLE,s.FIRST_NAME,s.LAST_NAME,s.MIDDLE_NAME,s.NAME_SUFFIX,
 						s.USERNAME,s.PASSWORD,s.SCHOOLS,s.PROFILE,s.PROFILE_ID,s.PHONE,s.EMAIL,s.LAST_LOGIN,s.SYEAR,s.ROLLOVER_ID
-				FROM STAFF s WHERE s.STAFF_ID='".UserStaffID()."'";
-		$staff = DBGet(DBQuery($sql));
+				FROM STAFF s WHERE s.STAFF_ID='" . UserStaffID() . "'";
+
+		$staff = DBGet( DBQuery( $sql ) );
+
 		$staff = $staff[1];
 	}
 
@@ -508,9 +517,12 @@ if ((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='de
 	echo '<form name="staff" id="staff"	action="' . $form_action . '"
 		method="POST" enctype="multipart/form-data">';
 
-	if (basename($_SERVER['PHP_SELF'])!='index.php')
+	if ( basename( $_SERVER['PHP_SELF'] ) !== 'index.php' )
 	{
-		if (UserStaffID() && UserStaffID()!=User('STAFF_ID') && UserStaffID()!=$_SESSION['STAFF_ID'] && User('PROFILE')=='admin' && AllowEdit())
+		if ( UserStaffID()
+			&& UserStaffID() !== User( 'STAFF_ID' )
+			&& User( 'PROFILE' ) === 'admin'
+			&& AllowEdit() )
 		{
 			$delete_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
 				"&modfunc=delete'";
@@ -528,15 +540,25 @@ if ((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='de
 		$name = $titles_array[$staff['TITLE']].' '.$staff['FIRST_NAME'].' '.$staff['MIDDLE_NAME'].' '.$staff['LAST_NAME'].' '.$suffixes_array[$staff['NAME_SUFFIX']].' - '.$staff['STAFF_ID'];
 	}
 
-	DrawHeader($name,$delete_button.SubmitButton(_('Save')));
+	DrawHeader( $name, $delete_button . SubmitButton( _( 'Save' ) ) );
 
-	//hook
-	do_action('Users/User.php|header');
+	// Hook.
+	do_action( 'Users/User.php|header' );
 
-	if (User('PROFILE_ID'))
-		$can_use_RET = DBGet(DBQuery("SELECT MODNAME FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='".User('PROFILE_ID')."' AND CAN_USE='Y'"),array(),array('MODNAME'));
+	if ( User( 'PROFILE_ID' ) )
+	{
+		$can_use_RET = DBGet( DBQuery( "SELECT MODNAME
+			FROM PROFILE_EXCEPTIONS
+			WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'
+			AND CAN_USE='Y'" ), array(), array( 'MODNAME' ) );
+	}
 	else
-		$can_use_RET = DBGet(DBQuery("SELECT MODNAME FROM STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."' AND CAN_USE='Y'"),array(),array('MODNAME'));
+	{
+		$can_use_RET = DBGet( DBQuery( "SELECT MODNAME
+			FROM STAFF_EXCEPTIONS
+			WHERE USER_ID='" . User( 'STAFF_ID' ) . "'
+			AND CAN_USE='Y'" ), array(), array( 'MODNAME' ) );
+	}
 
 	//FJ create account
 	if (basename($_SERVER['PHP_SELF'])=='index.php')
