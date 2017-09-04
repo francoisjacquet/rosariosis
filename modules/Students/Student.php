@@ -527,13 +527,13 @@ if ( ( UserStudentID()
 				// Can't delete Student if has Schedule, Attendance, or Grades records.
 				$student_records_RET = DBGet( DBQuery( "SELECT (SELECT 1
 						FROM SCHEDULE
-						WHERE STUDENT_ID='" . UserStudentID() . "') AS HAS_SCHEDULE,
+						WHERE STUDENT_ID='" . UserStudentID() . "' LIMIT 1) AS HAS_SCHEDULE,
 					(SELECT 1
 						FROM ATTENDANCE_PERIOD
-						WHERE STUDENT_ID='" . UserStudentID() . "') AS HAS_ATTENDANCE,
+						WHERE STUDENT_ID='" . UserStudentID() . "' LIMIT 1) AS HAS_ATTENDANCE,
 					(SELECT 1
 						FROM STUDENT_REPORT_CARD_GRADES
-						WHERE STUDENT_ID='" . UserStudentID() . "') AS HAS_GRADES" ) );
+						WHERE STUDENT_ID='" . UserStudentID() . "' LIMIT 1) AS HAS_GRADES" ) );
 
 				if ( ! $student_records_RET
 					|| ( ! $student_records_RET[1]['HAS_SCHEDULE']
