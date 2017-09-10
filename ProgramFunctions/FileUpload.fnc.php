@@ -76,7 +76,7 @@ function FileUpload( $input, $path, $ext_white_list, $size_limit, &$error, $fina
 	}
 
 	// Store file.
-	elseif ( ! move_uploaded_filef(
+	elseif ( ! move_uploaded_file(
 		$_FILES[ $input ]['tmp_name'],
 		$full_path = ( $path . ( $file_name ?
 			$file_name :
