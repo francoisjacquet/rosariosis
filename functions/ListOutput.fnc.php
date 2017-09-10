@@ -379,7 +379,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 	// HANDLE SAVING THE LIST ---.
 	if ( $options['save']
-		&& $LO_save === $options['save']
+		&& (int) $LO_save === (int) $options['save']
 		&& ! headers_sent() )
 	{
 		_listSave( $result, $column_names, $singular, $plural, Preferences( 'DELIMITER' ) );
