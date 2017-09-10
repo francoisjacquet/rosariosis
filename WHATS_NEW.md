@@ -2,6 +2,24 @@
 
 ## RosarioSIS Student Information System
 
+New in 3.5
+----------
+
+[Student Billing Premium](https://www.rosariosis.org/student-billing-premium-module/) module
+
+School Setup
+
+- School Configuration: Failed Login Attempts Limit, sponsored by @abogadeer
+
+Create Student / User Account
+
+- Captcha, sponsored by @abogadeer
+
+Students
+
+- Student Info: Delete Student button (only if no Schedule, Grades or Attendance records found), sponsored by @abogadeer
+
+
 New in 3.4
 ----------
 
