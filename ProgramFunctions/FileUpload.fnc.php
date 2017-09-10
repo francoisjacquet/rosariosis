@@ -64,7 +64,7 @@ function FileUpload( $input, $path, $ext_white_list, $size_limit, &$error, $fina
 
 	// If folder doesnt exist, create it!
 	elseif ( ! is_dir( $path )
-		&& ! mkdir( $path, 0774, true ) )
+		&& ! mkdir( $path, 0755, true ) ) // Fix shared hosting: permission 755 for directories.
 	{
 		$error[] = sprintf( _( 'Folder not created' ) . ': %s', $path );
 	}
@@ -76,7 +76,7 @@ function FileUpload( $input, $path, $ext_white_list, $size_limit, &$error, $fina
 	}
 
 	// Store file.
-	elseif ( ! move_uploaded_file(
+	elseif ( ! move_uploaded_filef(
 		$_FILES[ $input ]['tmp_name'],
 		$full_path = ( $path . ( $file_name ?
 			$file_name :
@@ -148,7 +148,7 @@ function ImageUpload( $input, $target_dim = array(), $path = '', $ext_white_list
 	{
 		// If folder doesnt exist, create it!
 		if ( ! is_dir( $path )
-			&& ! mkdir( $path, 0774, true ) )
+			&& ! mkdir( $path, 0755, true ) ) // Fix shared hosting: permission 755 for directories.
 		{
 			$error[] = sprintf( _( 'Folder not created' ) . ': %s', $path );
 
