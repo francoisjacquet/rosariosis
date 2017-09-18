@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 3.5.1
+----------------
+- Add Course Period column to Edit Student Grades program in EditReportCardGrades.php, sponsored by Aptiris
+
 Changes in 3.5
 --------------
 - #199 Add failed login ban if >= X failed attempts within 10 minutes in index.php & AccessLog.php
