@@ -180,7 +180,7 @@ msgstr "الرجاء إدخال عنوان البريدي الإلكتروني �
 
 #: PasswordReset.php:269 modules/Users/Preferences.php:15
 msgid "Your new passwords did not match."
-msgstr "لم تطابق كلمات المرور الجديدة الخاصة بك."
+msgstr "لم تتطابق كلمات المرور الجديدة الخاصة بك."
 
 #: PasswordReset.php:291
 msgid "Password reset is not activated for students."
@@ -538,7 +538,7 @@ msgstr[5] "حقل"
 #: modules/Grades/ReportCardComments.php:266
 #: modules/Grades/ReportCardComments.php:292 modules/Grades/StudentGrades.php:298
 msgid "Category"
-msgstr "الفئة"
+msgstr "التصنيف"
 
 #: ProgramFunctions/FileUpload.fnc.php:43 ProgramFunctions/FileUpload.fnc.php:170
 msgid "File not uploaded"
@@ -552,7 +552,7 @@ msgstr "نوع الملف غير سليم: %s (%s مطلوب)"
 #: ProgramFunctions/FileUpload.fnc.php:59
 #, php-format
 msgid "File size > %01.2fMb: %01.2fMb"
-msgstr "حجم الملف أكبر من %01.2fMb: %01.2fMb"
+msgstr "حجم الملف أكبر من  %01.2fMb: %01.2fMb"
 
 #: ProgramFunctions/FileUpload.fnc.php:69 ProgramFunctions/FileUpload.fnc.php:153
 #, php-format
@@ -668,7 +668,7 @@ msgstr "الجسمية"
 #: modules/Students/AssignOtherInfo.php:311
 #: modules/Students/includes/Enrollment.inc.php:53
 msgid "Retain"
-msgstr "الاحتفاظ"
+msgstr "احتفظ"
 
 #: ProgramFunctions/miscExport.fnc.php:34 functions/Widgets.fnc.php:1430
 #: modules/Students/AssignOtherInfo.php:312
@@ -722,7 +722,7 @@ msgstr "السنة الدراسية"
 #: modules/Scheduling/PrintSchedules.php:248
 #: modules/Users/includes/Schedule.inc.php:25
 msgid "Marking Period"
-msgstr "فترة إدخال الدرجات"
+msgstr "فترة الدراسة"
 
 #: Side.php:492 functions/ErrorMessage.fnc.php:52
 #: modules/Scheduling/new_Requests.php:33
@@ -949,12 +949,12 @@ msgstr "مايو"
 #: functions/Date.php:308 modules/Custom/AttendanceSummary.php:16
 #: modules/Students/AdvancedReport.php:21
 msgid "June"
-msgstr "يونيه"
+msgstr "يونيو"
 
 #: functions/Date.php:309 modules/Custom/AttendanceSummary.php:17
 #: modules/Students/AdvancedReport.php:21
 msgid "July"
-msgstr "يوليه"
+msgstr "يوليو"
 
 #: functions/Date.php:310 modules/Custom/AttendanceSummary.php:18
 #: modules/Students/AdvancedReport.php:21
@@ -1006,7 +1006,7 @@ msgstr "ملاحظة"
 
 #: functions/GetMP.php:398
 msgid "You are not currently in a marking period"
-msgstr "أنت لست حاليا في فترة إدخال درجات"
+msgstr "أنت لست حاليا في فترة دراسية"
 
 #: functions/GetStaffList.fnc.php:28 modules/Students/AddUsers.php:78
 #: modules/Students/includes/General_Info.inc.php:142
@@ -1021,7 +1021,7 @@ msgstr "فشل تسجيل الدخول"
 
 #: functions/GetStaffList.fnc.php:202 functions/Search.fnc.php:217
 msgid "User ID"
-msgstr "معرف المستخدم"
+msgstr "رقم المستخدم"
 
 #: functions/GetStaffList.fnc.php:214 functions/GetStuList.fnc.php:1163
 #: functions/Search.fnc.php:131 functions/Search.fnc.php:209
@@ -1067,7 +1067,7 @@ msgstr "الملف الشخصي"
 
 #: functions/GetStaffList.fnc.php:306
 msgid " w/Custom"
-msgstr ""
+msgstr "بصلاحية خاصة"
 
 #: functions/GetStuList.fnc.php:124 modules/Students/includes/Address.inc.php:804
 #: modules/Students/includes/Address.inc.php:808
@@ -3229,7 +3229,7 @@ msgstr "معلومات عن زوجك أو أي شخص مهم آخر"
 
 #: modules/Custom/Registration.php:355
 msgid "Leave this section blank if separated."
-msgstr "اترك هذا الحقل إذا كنت منفصلا"
+msgstr "اترك هذا الحقل إذا كانا منفصلين"
 
 #: modules/Custom/Registration.php:374
 msgid "Your Address"
@@ -3444,7 +3444,7 @@ msgstr "حادثة انضباط جديدة"
 msgid "%d new referral"
 msgid_plural "%d new referrals"
 msgstr[0] ""
-msgstr[1] "الإحالة الجديدة %d"
+msgstr[1] "تحويل سلوكي %d"
 msgstr[2] ""
 msgstr[3] ""
 msgstr[4] ""
@@ -4382,9 +4382,9 @@ msgstr "الاسم"
 msgid "Assignment"
 msgid_plural "Assignments"
 msgstr[0] ""
-msgstr[1] "التعيين"
-msgstr[2] ""
-msgstr[3] ""
+msgstr[1] "واجب"
+msgstr[2] "واجبان اثنان"
+msgstr[3] "واجبات"
 msgstr[4] ""
 msgstr[5] ""
 
@@ -4442,7 +4442,7 @@ msgstr "يرجى ملء الحقول المطلوبة"
 msgid "Assignment Type"
 msgid_plural "Assignment Types"
 msgstr[0] ""
-msgstr[1] "نوع التعيين"
+msgstr[1] "نوع الواجب"
 msgstr[2] ""
 msgstr[3] ""
 msgstr[4] ""
@@ -4521,7 +4521,7 @@ msgstr "تاريخ الاستحقاق يقع قبل التاريخ المحدد!
 
 #: modules/Grades/Assignments.php:9
 msgid "No courses assigned to teacher."
-msgstr "ليس للمعلم صفوف مرتبة به"
+msgstr "ليس للمعلم صفوف مرتبطة به"
 
 #: modules/Grades/Assignments.php:99 modules/Grades/Assignments.php:187
 #: modules/Grades/MassCreateAssignments.php:123
@@ -4712,7 +4712,7 @@ msgstr "نسب الدرجات النهائية"
 msgid "History Marking Period"
 msgid_plural "History Marking Periods"
 msgstr[0] ""
-msgstr[1] "سجل فترات إدخال الدرجات"
+msgstr[1] "سجل فترات الدراسة"
 msgstr[2] ""
 msgstr[3] ""
 msgstr[4] ""
@@ -5327,7 +5327,7 @@ msgstr "شهادة الدراسات"
 
 #: modules/Grades/Transcripts.php:291
 msgid "C.H."
-msgstr "قاربا"
+msgstr ""
 
 #: modules/Grades/Transcripts.php:360 modules/Grades/Transcripts.php:367
 msgid "Signature"
@@ -5351,7 +5351,7 @@ msgstr "السنوات الدراسية"
 #: modules/School_Setup/Menu.php:38 modules/School_Setup/Menu.php:49
 #: modules/School_Setup/Rollover.php:3
 msgid "Marking Periods"
-msgstr "فترات إدخال الدرجات"
+msgstr "فترات الدراسة"
 
 #: modules/Grades/Transcripts.php:462
 msgid "Other Options"
@@ -5385,7 +5385,7 @@ msgstr "كتلة النص 2"
 
 #: modules/Grades/includes/ReportCards.fnc.php:31
 msgid "Include on Report Card"
-msgstr "وتشمل على بطاقة تقرير"
+msgstr "أضف في إشعار الدرجات"
 
 #: modules/Grades/includes/ReportCards.fnc.php:53
 msgid "Percents"
@@ -5413,7 +5413,7 @@ msgstr "الغياب على أساس الحصص - الفترات"
 
 #: modules/Grades/includes/ReportCards.fnc.php:575
 msgid "Report Card"
-msgstr "بطاقة تقرير"
+msgstr "إشعار الدرجات"
 
 #: modules/Grades/includes/ReportCards.fnc.php:671
 msgid "his"
@@ -5425,7 +5425,7 @@ msgstr "هي"
 
 #: modules/Grades/includes/ReportCards.fnc.php:672
 msgid "his/her"
-msgstr "صفحته/صفحتها"
+msgstr "هو/هي"
 
 #: modules/Grades/includes/ReportCards.fnc.php:828
 msgid "Explanation of Comment Codes"
@@ -5507,9 +5507,8 @@ msgstr[4] "موارد"
 msgstr[5] "موارد"
 
 #: modules/Resources/Resources.php:73 modules/Resources/Resources.php:131
-#, fuzzy
 msgid "Link"
-msgstr "تضمين ارتباط"
+msgstr "الوصلة"
 
 #: modules/Scheduling/AddDrop.php:60 modules/Scheduling/Schedule.php:235
 #: modules/Students/AddDrop.php:56
@@ -5600,7 +5599,7 @@ msgstr "السماح لميزان الدرجات الخاص بالمعلم"
 
 #: modules/Scheduling/Courses.php:1033
 msgid "Parent Course Period"
-msgstr "الأصل بالطبع الفترة"
+msgstr "فترة الدراسة الأكبر"
 
 #: modules/Scheduling/Courses.php:1061
 msgid "New Course"
@@ -5635,7 +5634,7 @@ msgstr "تاريخ التسجيل"
 
 #: modules/Scheduling/Courses.php:1163
 msgid "Offer Enrollment in Child Marking Periods"
-msgstr "عرض التسجيل في فترة إدخال الدرجات للأطفال"
+msgstr "عرض التسجيل في فترة الدراسة للأطفال"
 
 #: modules/Scheduling/IncompleteSchedules.php:70
 msgid "Student with an incomplete schedule"
@@ -5658,7 +5657,7 @@ msgstr "تم إسقاط هذه المادة - الكورس  من جداول ال
 #: modules/Scheduling/MassDrops.php:80
 msgid ""
 "You cannot schedule a student into that course during this marking period."
-msgstr "لا يمكنك جدولة طالب في هذه المادة خلال فترة إدخال الدرجات."
+msgstr "لا يمكنك جدولة طالب في هذه المادة خلال فترة الدراسة الحالية."
 
 #: modules/Scheduling/MassDrops.php:80
 #, php-format
@@ -5721,12 +5720,12 @@ msgstr "الـ %s المادة تمت إضافتها لجدول الطلاب ا�
 #: modules/Scheduling/MassSchedule.php:103
 msgid ""
 "You cannot schedule a student into this course during this marking period."
-msgstr "لا يمكنك جدولة طالب في هذه الدورة خلال فترة وضع الدرجات."
+msgstr "لا يمكنك جدولة طالب في هذه الدورة خلال فترة الدراسة."
 
 #: modules/Scheduling/MassSchedule.php:104
 #, php-format
 msgid "The %s course meets on %s."
-msgstr ""
+msgstr "هذه المادة يلتقي طلابها %s بتاريخ %s."
 
 #: modules/Scheduling/MassSchedule.php:135
 #: modules/Scheduling/MassSchedule.php:203
@@ -5777,7 +5776,7 @@ msgstr "طباعة قوائم الفصول"
 
 #: modules/Scheduling/Menu.php:24 modules/Scheduling/Menu.php:44
 msgid "Print Class Pictures"
-msgstr "طباعة صور الفصول"
+msgstr "طباعة صور الطلاب حسب الفصل"
 
 #: modules/Scheduling/Menu.php:25
 msgid "Print Requests"
@@ -5891,8 +5890,6 @@ msgid ""
 "Only course periods with a length <= %d minutes (full school day in minutes "
 "divided by 2) are shown in the table schedule."
 msgstr ""
-"Only course periods with a length <= %d minutes (full school day in minutes "
-"divided by 2) are shown in the table schedule."
 
 #: modules/Scheduling/PrintSchedules.php:245
 #: modules/Scheduling/PrintSchedules.php:286
@@ -5979,7 +5976,7 @@ msgstr "هل أنت متأكد من أنك تريد إضافة هذا القسم
 
 #: modules/Scheduling/Schedule.php:405 modules/Scheduling/Schedule.php:423
 msgid "Unlocked"
-msgstr "غي رمقفل"
+msgstr "غير مقفل"
 
 #: modules/Scheduling/Schedule.php:409 modules/Scheduling/Schedule.php:423
 msgid "Locked"
@@ -5996,7 +5993,7 @@ msgstr "سنة كاملة"
 
 #: modules/Scheduling/ScheduleReport.php:10
 msgid "Show Child Marking Period Details"
-msgstr "إظهار فترة إدخال الدرجات للطفل"
+msgstr "اعرض فترة الدراسة للطفل"
 
 #: modules/Scheduling/ScheduleReport.php:39
 msgid "Top"
@@ -6089,7 +6086,7 @@ msgstr "مسح سجل عمليات الدخول"
 #: modules/Users/Exceptions.php:276 modules/Users/Profiles.php:124
 #: modules/Users/Profiles.php:419 modules/Users/includes/General_Info.inc.php:208
 msgid "User Profile"
-msgstr "التشكيل الجانبي للمستخدم"
+msgstr "الملف الشخصي للمستخدم"
 
 #: modules/School_Setup/AccessLog.php:116
 msgid "IP Address"
@@ -6136,7 +6133,7 @@ msgstr "دقائق"
 #: modules/School_Setup/Calendar.php:213
 #, php-format
 msgid "Recreate %s calendar"
-msgstr "إعادة انشاء %s"
+msgstr "إعادة انشاء %s التقويم"
 
 #: modules/School_Setup/Calendar.php:214 modules/School_Setup/Calendar.php:1001
 msgid "Create new calendar"
@@ -6150,13 +6147,12 @@ msgstr "لم يتم اعداد أي تقويم."
 #: modules/School_Setup/Calendar.php:814 modules/misc/Portal.php:150
 #: modules/misc/Portal.php:306 modules/misc/Portal.php:476
 #: modules/misc/Portal.php:613
-#, fuzzy
 msgid "Event"
 msgid_plural "Events"
 msgstr[0] "الحدث"
 msgstr[1] "الحدث"
-msgstr[2] "الحدث"
-msgstr[3] "الحدث"
+msgstr[2] "الحدثان"
+msgstr[3] "الأحداث"
 msgstr[4] "الحدث"
 msgstr[5] "الحدث"
 
@@ -6226,7 +6222,7 @@ msgstr "الثم الافتراضي"
 
 #: modules/School_Setup/Configuration.php:197
 msgid "Force"
-msgstr "Force"
+msgstr "فرض"
 
 #: modules/School_Setup/Configuration.php:212
 msgid "New users will be added with the No Access profile"
@@ -6234,7 +6230,7 @@ msgstr "المستخدمون الجدد سيضافون بدون ملفات شخ�
 
 #: modules/School_Setup/Configuration.php:225
 msgid "New students will be added as Inactive students"
-msgstr "الطلاب الجدد سيضافون على أنهم طلاب غير نشطين"
+msgstr "الطلاب الجدد سيضافون كطلاب غير نشطين"
 
 #: modules/School_Setup/Configuration.php:248 plugins/Moodle/config.inc.php:114
 #, php-format
@@ -6243,7 +6239,7 @@ msgstr "حقل البريد الإلكتروني للطالب"
 
 #: modules/School_Setup/Configuration.php:260
 msgid "School year over two calendar years"
-msgstr "السنة الدراسية أكثر من سنتين تقويميتين"
+msgstr "السنة الدراسية ممتدة لأكثر من سنتين"
 
 #: modules/School_Setup/Configuration.php:268
 #: modules/School_Setup/Schools.php:214
@@ -6280,7 +6276,7 @@ msgstr "استخدام الدرجات الرمزية ( أ - ب - ج - د - ه) �
 
 #: modules/School_Setup/Configuration.php:331
 msgid "Use letter and percent grades"
-msgstr "استخدم الدرجات الرمزية مع النسبة المؤوية"
+msgstr "استخدم الدرجات الرمزية مع النسبة المئوية"
 
 #: modules/School_Setup/Configuration.php:332
 msgid "Use percent grades only"
@@ -6413,20 +6409,20 @@ msgstr "تاريخ البدء يجب أن يستبق تاريخ الانتهاء
 msgid ""
 "The beginning and end dates you specified for this marking period overlap with "
 "those of \"%s\"."
-msgstr "تواريخ بداية ونهاية فترة إدخال الدرجات تتداخل مع  \"%s\"."
+msgstr "تواريخ بداية ونهاية فترة الدراسة تتداخل مع  \"%s\"."
 
 #: modules/School_Setup/MarkingPeriods.php:255
 msgid "Only one marking period can be open at any time."
 msgstr ""
-"فترة واحدة فقط من فترات إدخال الدرجات يمكن أن تكون مفتوحة. لا يمكن أن يكون "
-"هناك تداخل مع فترة أخرى."
+"فترة واحدة فقط من فترات الدراسة يمكن أن تكون مفتوحة. لا يمكن أن يكون هناك "
+"تداخل مع فترة أخرى."
 
 #: modules/School_Setup/MarkingPeriods.php:263
 #, php-format
 msgid ""
 "The grade posting dates you specified for this marking period overlap with "
 "those of \"%s\"."
-msgstr "تاريخ فترة نشر الدرجات التابع لفترة إدخال الدرجات تتداخل مع \"%s\"."
+msgstr "تاريخ فترة نشر الدرجات التابع لفترة الدراسة تتداخل مع \"%s\"."
 
 #: modules/School_Setup/MarkingPeriods.php:266
 msgid "Only one grade posting period can be open at any time."
@@ -6462,7 +6458,7 @@ msgstr "إعداد المدارس"
 
 #: modules/School_Setup/Menu.php:16
 msgid "Portal Notes"
-msgstr "ملاحظات النظام للمستخدمين"
+msgstr "قسم الإعلانات"
 
 #: modules/School_Setup/Menu.php:17
 msgid "Portal Polls"
@@ -6575,9 +6571,8 @@ msgid ""
 "attendance codes, and report card codes at the same time or before rolling "
 "courses."
 msgstr ""
-"<i>يجب</i> عليك نقل المستخدمين وفترات المدرسة، فترات إدخال الدرجات، "
-"والتقويمات، ورموز الحضور ورموز بطاقة تقرير في نفس الوقت أو قبل نقل المواد - "
-"الكورسات."
+"<i>يجب</i> عليك نقل المستخدمين وفترات المدرسة، فترات الدراسة، والتقويمات، "
+"ورموز الحضور ورموز بطاقة تقرير في نفس الوقت أو قبل نقل المواد - الكورسات."
 
 #: modules/School_Setup/Rollover.php:34
 msgid ""
@@ -6616,8 +6611,8 @@ msgid ""
 "You <i>must</i> roll users, school periods, marking periods, calendars, and "
 "report card codes at the same time or before rolling courses."
 msgstr ""
-"<i>يجب</i> عليك نقل المستخدمين وفترات المدرسة، فترات إدخال الدرجات، "
-"والتقويمات، ورموز بطاقة تقرير في نفس الوقت أو قبل نقل المواد - الكورسات."
+"<i>يجب</i> عليك نقل المستخدمين وفترات المدرسة، فترات الدراسة، والتقويمات، "
+"ورموز بطاقة تقرير في نفس الوقت أو قبل نقل المواد - الكورسات."
 
 #: modules/School_Setup/Rollover.php:76
 msgid "The data have been rolled."
@@ -7489,11 +7484,11 @@ msgstr "Tab-Delimited (Excel)"
 
 #: modules/Users/Preferences.php:279
 msgid "Date Export Format"
-msgstr "تاريخ تصدير التنسيق"
+msgstr "تنسيق تاريخ التصدير"
 
 #: modules/Users/Preferences.php:281
 msgid "Display Options Format"
-msgstr "عرض خيارات التنسيق"
+msgstr "تنسيق خيارات العرض"
 
 #: modules/Users/Preferences.php:298
 msgid "Display student search screen"
@@ -7726,7 +7721,7 @@ msgstr "مرحبا بكم في % s!"
 #: modules/misc/Portal.php:32
 #, php-format
 msgid "Your last login was <b>%s</b>."
-msgstr "معلومات تسجيل الدخول الأخير <b>% s</b>."
+msgstr "آخر دخول لك على النظام كان <b>% s</b>."
 
 #: modules/misc/Portal.php:41
 #, php-format
@@ -7828,8 +7823,6 @@ msgid ""
 "You have students with food service balance below %1.2f - please deposit at "
 "least the Minimum Deposit into you children's accounts."
 msgstr ""
-"You have students with food service balance below %1.2f - please deposit at "
-"least the Minimum Deposit into you children's accounts."
 
 #: modules/misc/Portal.php:550
 msgid "Minimum Deposit"
