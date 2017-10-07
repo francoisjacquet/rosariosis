@@ -5,6 +5,7 @@ Changes in 3.5.1
 ----------------
 - Add Course Period column to Edit Student Grades program in EditReportCardGrades.php, sponsored by Aptiris
 - Update Arabic translation & flag in locale/ar_AE.utf8, thanks to Ali Al-Hassan
+- Fix "Please enter valide numeric data error" in Configuration.php, thanks to @vanyog
 
 Changes in 3.5
 --------------

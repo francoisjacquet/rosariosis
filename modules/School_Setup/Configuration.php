@@ -69,7 +69,7 @@ else
 				|| is_numeric($_REQUEST['values']['PROGRAM_CONFIG']['FOOD_SERVICE_BALANCE_MINIMUM']))
 			&& (!isset($_REQUEST['values']['PROGRAM_CONFIG']['FOOD_SERVICE_BALANCE_TARGET'])
 				|| is_numeric($_REQUEST['values']['PROGRAM_CONFIG']['FOOD_SERVICE_BALANCE_TARGET']))
-			&& (!isset($_REQUEST['values']['CONFIG']['FAILED_LOGIN_LIMIT'])
+			&& (empty($_REQUEST['values']['CONFIG']['FAILED_LOGIN_LIMIT'])
 				|| is_numeric($_REQUEST['values']['CONFIG']['FAILED_LOGIN_LIMIT'])))
 			{
 				$sql = '';
