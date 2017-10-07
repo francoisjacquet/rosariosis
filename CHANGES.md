@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 3.5.2
+----------------
+- Fix pg_connect() error in database.inc.php
+
 Changes in 3.5.1
 ----------------
 - Add Course Period column to Edit Student Grades program in EditReportCardGrades.php, sponsored by Aptiris
