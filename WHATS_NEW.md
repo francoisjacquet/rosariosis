@@ -7,6 +7,8 @@ New in 3.5
 
 [Student Billing Premium](https://www.rosariosis.org/student-billing-premium-module/) module
 
+[Staff and Parents Import](https://www.rosariosis.org/staff-parents-import-module/) module, sponsored by @abogadeer
+
 School Setup
 
 - School Configuration: Failed Login Attempts Limit, sponsored by @abogadeer
