@@ -40,22 +40,26 @@ if ( $_REQUEST['modfunc'] === 'update' )
 			if ( ( ! empty( $_REQUEST['values']['NUMBER_DAYS_ROTATION'] )
 					&& ! is_numeric( $_REQUEST['values']['NUMBER_DAYS_ROTATION'] ) )
 				|| ( ! empty( $_REQUEST['values']['REPORTING_GP_SCALE'] )
-					&& ! is_numeric( $_REQUEST['values']['REPORTING_GP_SCALE'] ) ) )
+					&& ! is_numeric( $_REQUEST['values']['REPORTING_GP_SCALE'] )
+					// Fix DB error with REPORTING_GP_SCALE field numeric(10,3) type.
+					|| $_REQUEST['values']['REPORTING_GP_SCALE'] >= 10000000 ) )
 			{
 				$error[] = _( 'Please enter valid Numeric data.' );
 			}
 
 			if ( ! $error )
 			{
-				if ( $_REQUEST['new_school']!='true')
+				if ( $_REQUEST['new_school'] !== 'true' )
 				{
 					$sql = "UPDATE SCHOOLS SET ";
 
-					$fields_RET = DBGet(DBQuery("SELECT ID,TYPE FROM SCHOOL_FIELDS ORDER BY SORT_ORDER"), array(), array('ID'));
+					$fields_RET = DBGet( DBQuery( "SELECT ID,TYPE
+						FROM SCHOOL_FIELDS
+						ORDER BY SORT_ORDER" ), array(), array( 'ID' ) );
 
 					$go = 0;
 
-					foreach ( (array) $_REQUEST['values'] as $column => $value)
+					foreach ( (array) $_REQUEST['values'] as $column => $value )
 					{
 						if ( ! is_array( $value ) )
 						{
@@ -314,7 +318,7 @@ if ( ! $_REQUEST['modfunc'] )
 				'<div class="tooltip"><i>' .
 				_( 'Leave the field blank if the school does not use a Rotation of Numbered Days' ) .
 				'</i></div>',
-			'maxlength=1 size=1 min=1'
+			'type=number size=1 min=1 max=9'
 		) . '</td></tr>';
 	}
 	elseif ( ! empty( $schooldata['NUMBER_DAYS_ROTATION'] ) ) //do not show if no rotation set
