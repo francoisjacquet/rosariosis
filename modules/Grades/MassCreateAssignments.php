@@ -101,7 +101,7 @@ if ( isset( $_POST['tables'] )
 
 			$fields = "ASSIGNMENT_TYPE_ID,"; // COURSE_ID,STAFF_ID added for each Course below.
 
-			$assignment_courses_teachers_RET = DBGet( DBQuery( "SELECT DISTINCT COURSE_ID, TEACHER_ID
+			$assignment_courses_teachers_RET = DBGet( DBQuery( "SELECT DISTINCT COURSE_ID,TEACHER_ID
 			FROM COURSE_PERIODS
 			WHERE COURSE_ID IN (" . $c_list . ")" ), array(), array( 'COURSE_ID' ) );
 
@@ -220,7 +220,7 @@ if ( isset( $_POST['tables'] )
 			}
 		}
 
-		if ( ! $error && $go )
+		if ( ! $error && $go && $sql )
 		{
 			DBQuery( $sql );
 
@@ -471,14 +471,20 @@ if ( ! $_REQUEST['modfunc'] )
 		if ( $_REQUEST['assignment_type'] === 'new' )
 		{
 			// Display the courses list.
+			// Fix SQL error when course has no periods.
 			$courses_RET = DBGet( DBQuery( "SELECT c.COURSE_ID,
-				c.TITLE, cs.TITLE AS SUBJECT
+				c.TITLE,cs.TITLE AS SUBJECT
 				FROM COURSES c, COURSE_SUBJECTS cs
 				WHERE c.SCHOOL_ID='" . UserSchool() . "'
 				AND c.SYEAR='" . UserSyear() . "'
 				AND cs.SCHOOL_ID=c.SCHOOL_ID
 				AND cs.SYEAR=c.SYEAR
 				AND cs.SUBJECT_ID=c.SUBJECT_ID
+				AND EXISTS(SELECT 1
+					FROM COURSE_PERIODS cp
+					WHERE cp.SCHOOL_ID=c.SCHOOL_ID
+					AND cp.SYEAR=c.SYEAR
+					AND cp.COURSE_ID=c.COURSE_ID)
 				ORDER BY cs.TITLE, c.TITLE" ),
 				array( 'COURSE_ID' => '_makeChooseCheckbox', 'MARKING_PERIOD_ID' => 'GetMP' )
 			);
