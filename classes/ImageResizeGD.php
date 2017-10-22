@@ -16,11 +16,11 @@
 
 
 /*!
-* hi@j0hn.dk
-* No copyrights. Feel free to use this the way you like.
-*
-* @link https://github.com/michaube/image-resize-gd
-*/
+ * hi@j0hn.dk
+ * No copyrights. Feel free to use this the way you like.
+ *
+ * @link https://github.com/michaube/image-resize-gd
+ */
 class ImageResizeGD {
 
 	/**
@@ -475,6 +475,28 @@ class ImageResizeGD {
 	 * @throws Exception Image could not be opened
 	 */
 	protected function openImageFile($imagePath) {
+
+		if ( ! function_exists( 'exif_imagetype' ) ) {
+			/**
+			 * Exif imagetype function
+			 * Fix #171 Adding photos to users and students
+			 * Provides function if PHP exif extension not installed.
+			 *
+			 * @since 3.5.2
+			 *
+			 * @link http://php.net/manual/en/function.exif-imagetype.php#80383
+			 *
+			 * @param  string $filename File name.
+			 * @return mixed            Image type integer or false.
+			 */
+			function exif_imagetype ( $filename ) {
+				if ( ( list($width, $height, $type, $attr) = getimagesize( $filename ) ) !== false ) {
+					return $type;
+				}
+
+				return false;
+			}
+		}
 
 		$imageType = @exif_imagetype($imagePath);
 

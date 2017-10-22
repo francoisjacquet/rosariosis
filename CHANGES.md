@@ -6,6 +6,7 @@ Changes in 3.5.2
 - Fix pg_connect() error in database.inc.php
 - Fix DB error with REPORTING_GP_SCALE field numeric(10,3) type in Schools.php
 - Fix SQL error when course has no periods in MassCreateAssignments.php
+- Add Exif imagetype function in ImageResizeGD.php
 
 Changes in 3.5.1
 ----------------
