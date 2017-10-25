@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 3.5.3
+----------------
+- Fix AJAX error display in warehouse.js
+
 Changes in 3.5.2
 ----------------
 - Fix pg_connect() error in database.inc.php

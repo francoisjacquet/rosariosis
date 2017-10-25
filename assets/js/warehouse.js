@@ -257,7 +257,7 @@ var ajaxOptions = function(target, url, form) {
 			}
 			ajaxSuccess(data, target, url);
 		},
-		error: function(x){ ajaxError(x, url, target, form); },
+		error: function(xhr, status, error){ ajaxError(xhr, status, error, url, target, form); },
 		complete: function () {
 			$('.loading').css('visibility', 'hidden');
 
@@ -266,8 +266,8 @@ var ajaxOptions = function(target, url, form) {
 	};
 }
 
-var ajaxError = function(x, url, target, form) {
-	var code = x.status,
+var ajaxError = function(xhr, status, error, url, target, form) {
+	var code = xhr.status,
 		errorMsg = 'AJAX error. ' + code + ' ';
 
 	if ( typeof ajaxError.num === 'undefined' ) {
@@ -279,24 +279,24 @@ var ajaxError = function(x, url, target, form) {
 	if (code === 0) {
 		errorMsg += 'Check your Network';
 
-		if ( ajaxError.num === 1 ) {
+		if ( url && ajaxError.num === 1 ) {
 			window.setTimeout(function () {
 				// Retry once on AJAX error 0, maybe a micro Wifi interruption.
 				$.ajax(url, ajaxOptions(target, url, form));
 			}, 1000);
 			return;
 		}
-	} else if (code == 404) {
-		errorMsg += 'Requested URL not found: ' + url;
-	} else if (st == 'parsererror') {
+	} else if (status == 'parsererror') {
 		errorMsg += 'JSON parse failed';
-	} else if (st == 'timeout') {
+	} else if (status == 'timeout') {
 		errorMsg += 'Request Timeout';
-	} else if (st == 'abort') {
+	} else if (status == 'abort') {
 		errorMsg += 'Request Aborted';
 	} else {
-		errorMsg += err;
+		errorMsg += error;
 	}
+
+	errorMsg += '. ' + url;
 
 	ajaxError.num = 0;
 
