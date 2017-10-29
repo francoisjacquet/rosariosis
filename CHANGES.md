@@ -4,6 +4,7 @@
 Changes in 3.5.3
 ----------------
 - Fix AJAX error display in warehouse.js
+- Fix #177 Get Gradebook Grades' Percentage rounding issue in InputFinalGrades.php, thanks to @lkozloff
 
 Changes in 3.5.2
 ----------------
