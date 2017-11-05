@@ -42,6 +42,16 @@ $categories_RET = DBGet( DBQuery( "SELECT '0' AS ID,'" . DBEscapeString( _( 'Att
 	)>0
 	ORDER BY 3,SORT_ORDER,TITLE" ) );
 
+$cp_title_RET = DBGet( DBQuery( "SELECT TITLE
+	FROM COURSE_PERIODS
+	WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" ) );
+
+if ( isset( $cp_title_RET[1]['TITLE'] ) )
+{
+	// Add Course Period title header.
+	DrawHeader( $cp_title_RET[1]['TITLE'] );
+}
+
 if (count($categories_RET)==0)
 {
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&table='.$_REQUEST['table'].'" method="POST">';
