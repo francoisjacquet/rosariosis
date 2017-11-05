@@ -100,6 +100,11 @@ $events_LO_columns = array(
 	'DESCRIPTION' => _( 'Description' ),
 );
 
+$missing_attendance_LO_columns = array(
+	'SCHOOL_DATE' => _( 'Date' ),
+	'TITLE' => _( 'Period' ) . ' ' . _( 'Days' ) . ' - ' . _( 'Short Name' ) . ' - ' . _( 'Teacher' ),
+);
+
 if ( User( 'PROFILE') !== 'student'
 	|| SchoolInfo( 'SCHOOLS_NB' ) > 1 )
 {
@@ -109,6 +114,12 @@ if ( User( 'PROFILE') !== 'student'
 	$polls_LO_columns['SCHOOL'] = _( 'School' );
 
 	$events_LO_columns['SCHOOL'] = _( 'School' );
+}
+
+if ( User( 'PROFILE' ) === 'admin'
+	&& SchoolInfo( 'SCHOOLS_NB' ) > 1 )
+{
+	$missing_attendance_LO_columns['SCHOOL'] = _( 'School' );
 }
 
 $assignments_LO_columns = array(
@@ -240,9 +251,9 @@ switch ( User( 'PROFILE' ) )
 		{
 			// FJ days numbered.
 			// FJ multiple school periods for a course period.
-			if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
+			if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 			{
-				$RET = DBGET(DBQuery("SELECT cp.COURSE_PERIOD_ID,s.TITLE AS SCHOOL,acc.SCHOOL_DATE,cp.TITLE
+				$missing_attendance_RET = DBGET( DBQuery( "SELECT cp.COURSE_PERIOD_ID,s.TITLE AS SCHOOL,acc.SCHOOL_DATE,cp.TITLE
 				FROM ATTENDANCE_CALENDAR acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp,SCHOOLS s,STAFF st, COURSE_PERIOD_SCHOOL_PERIODS cpsp
 				WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 				AND acc.SYEAR='" . UserSyear() . "'
@@ -251,24 +262,24 @@ switch ( User( 'PROFILE' ) )
 				AND (st.SCHOOLS IS NULL OR position(','||acc.SCHOOL_ID||',' IN st.SCHOOLS)>0)
 				AND cp.SCHOOL_ID=acc.SCHOOL_ID
 				AND cp.SYEAR=acc.SYEAR
-				AND acc.SCHOOL_DATE<'".DBDate()."'
+				AND acc.SCHOOL_DATE<'" . DBDate() . "'
 				AND cp.CALENDAR_ID=acc.CALENDAR_ID
 				AND cp.MARKING_PERIOD_ID IN (SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE (MP='FY' OR MP='SEM' OR MP='QTR') AND SCHOOL_ID=acc.SCHOOL_ID AND acc.SCHOOL_DATE BETWEEN START_DATE AND END_DATE)
 				AND sp.PERIOD_ID=cpsp.PERIOD_ID
 				AND (sp.BLOCK IS NULL AND position(substring('MTWHFSU' FROM cast(
-					(SELECT CASE COUNT(school_date)% ".SchoolInfo('NUMBER_DAYS_ROTATION')." WHEN 0 THEN ".SchoolInfo('NUMBER_DAYS_ROTATION')." ELSE COUNT(school_date)% ".SchoolInfo('NUMBER_DAYS_ROTATION')." END AS day_number
+					(SELECT CASE COUNT(school_date)% " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " WHEN 0 THEN ".SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " ELSE COUNT(school_date)% " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " END AS day_number
 					FROM attendance_calendar
 					WHERE school_date>=(SELECT start_date FROM school_marking_periods WHERE start_date<=acc.SCHOOL_DATE AND end_date>=acc.SCHOOL_DATE AND mp='QTR' AND SCHOOL_ID=acc.SCHOOL_ID)
 					AND school_date<=acc.SCHOOL_DATE
 					AND SCHOOL_ID=acc.SCHOOL_ID)
 				AS INT) FOR 1) IN cpsp.DAYS)>0 OR sp.BLOCK IS NOT NULL AND acc.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK)
-				AND NOT exists(SELECT '' FROM ATTENDANCE_COMPLETED ac WHERE ac.SCHOOL_DATE=acc.SCHOOL_DATE AND ac.STAFF_ID=cp.TEACHER_ID AND ac.PERIOD_ID=cpsp.PERIOD_ID AND TABLE_NAME='".$category['ID']."')
-				AND position(',".$category['ID'].",' IN cp.DOES_ATTENDANCE)>0
+				AND NOT exists(SELECT '' FROM ATTENDANCE_COMPLETED ac WHERE ac.SCHOOL_DATE=acc.SCHOOL_DATE AND ac.STAFF_ID=cp.TEACHER_ID AND ac.PERIOD_ID=cpsp.PERIOD_ID AND TABLE_NAME='" . $category['ID'] . "')
+				AND position('," . $category['ID'] . ",' IN cp.DOES_ATTENDANCE)>0
 				AND s.ID=acc.SCHOOL_ID
 				AND s.SYEAR=acc.SYEAR
-				ORDER BY cp.TITLE,acc.SCHOOL_DATE"),array('SCHOOL_DATE' => 'ProperDate' ),array('COURSE_PERIOD_ID'));
+				ORDER BY cp.TITLE,acc.SCHOOL_DATE" ), array( 'SCHOOL_DATE' => 'ProperDate' ), array( 'COURSE_PERIOD_ID' ) );
 			} else {
-				$RET = DBGET(DBQuery("SELECT cp.COURSE_PERIOD_ID,s.TITLE AS SCHOOL,acc.SCHOOL_DATE,cp.TITLE
+				$missing_attendance_RET = DBGET( DBQuery( "SELECT cp.COURSE_PERIOD_ID,s.TITLE AS SCHOOL,acc.SCHOOL_DATE,cp.TITLE
 				FROM ATTENDANCE_CALENDAR acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp,SCHOOLS s,STAFF st, COURSE_PERIOD_SCHOOL_PERIODS cpsp
 				WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 				AND acc.SYEAR='" . UserSyear() . "'
@@ -277,29 +288,25 @@ switch ( User( 'PROFILE' ) )
 				AND (st.SCHOOLS IS NULL OR position(','||acc.SCHOOL_ID||',' IN st.SCHOOLS)>0)
 				AND cp.SCHOOL_ID=acc.SCHOOL_ID
 				AND cp.SYEAR=acc.SYEAR
-				AND acc.SCHOOL_DATE<'".DBDate()."'
+				AND acc.SCHOOL_DATE<'" . DBDate() . "'
 				AND cp.CALENDAR_ID=acc.CALENDAR_ID
 				AND cp.MARKING_PERIOD_ID IN (SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE (MP='FY' OR MP='SEM' OR MP='QTR') AND SCHOOL_ID=acc.SCHOOL_ID AND acc.SCHOOL_DATE BETWEEN START_DATE AND END_DATE)
 				AND sp.PERIOD_ID=cpsp.PERIOD_ID
 				AND (sp.BLOCK IS NULL AND position(substring('UMTWHFS' FROM cast(extract(DOW FROM acc.SCHOOL_DATE) AS INT)+1 FOR 1) IN cpsp.DAYS)>0 OR sp.BLOCK IS NOT NULL AND acc.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK)
-				AND NOT exists(SELECT '' FROM ATTENDANCE_COMPLETED ac WHERE ac.SCHOOL_DATE=acc.SCHOOL_DATE AND ac.STAFF_ID=cp.TEACHER_ID AND ac.PERIOD_ID=cpsp.PERIOD_ID AND TABLE_NAME='".$category['ID']."')
-				AND position(',".$category['ID'].",' IN cp.DOES_ATTENDANCE)>0
+				AND NOT exists(SELECT '' FROM ATTENDANCE_COMPLETED ac WHERE ac.SCHOOL_DATE=acc.SCHOOL_DATE AND ac.STAFF_ID=cp.TEACHER_ID AND ac.PERIOD_ID=cpsp.PERIOD_ID AND TABLE_NAME='" . $category['ID'] . "')
+				AND position('," . $category['ID'] . ",' IN cp.DOES_ATTENDANCE)>0
 				AND s.ID=acc.SCHOOL_ID
 				AND s.SYEAR=acc.SYEAR
-				ORDER BY cp.TITLE,acc.SCHOOL_DATE"),array('SCHOOL_DATE' => 'ProperDate' ),array('COURSE_PERIOD_ID'));
+				ORDER BY cp.TITLE,acc.SCHOOL_DATE" ), array( 'SCHOOL_DATE' => 'ProperDate' ), array( 'COURSE_PERIOD_ID' ) );
 			}
 
-			if ( $RET )
+			if ( $missing_attendance_RET )
 			{
 				echo ErrorMessage( array( _( 'Teachers have missing attendance data' ) ), 'warning' );
 
 				ListOutput(
-					$RET,
-					array(
-						'SCHOOL_DATE' => _( 'Date' ),
-						'TITLE' => _( 'Period' ) . ' ' . _( 'Days' ) . ' - ' . _( 'Short Name' ) . ' - ' . _( 'Teacher' ),
-						'SCHOOL' => _( 'School' ),
-					),
+					$missing_attendance_RET,
+					$missing_attendance_LO_columns,
 					'Course Period with missing attendance data',
 					'Course Periods with missing attendance data',
 					array(),
@@ -496,60 +503,57 @@ switch ( User( 'PROFILE' ) )
 			$categories_RET = DBGet( DBQuery( "SELECT '0' AS ID,'Attendance' AS TITLE,0,NULL AS SORT_ORDER UNION SELECT ID,TITLE,1,SORT_ORDER FROM ATTENDANCE_CODE_CATEGORIES WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='".UserSchool()."' ORDER BY 3,SORT_ORDER"));
 			foreach ( (array) $categories_RET as $category)
 			{
-			//FJ days numbered
-			//FJ multiple school periods for a course period
-				if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
+				// FJ days numbered.
+				// FJ multiple school periods for a course period.
+				if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 				{
-					$RET = DBGET(DBQuery("SELECT cp.COURSE_PERIOD_ID,acc.SCHOOL_DATE,cp.TITLE
+					$missing_attendance_RET = DBGET( DBQuery( "SELECT cp.COURSE_PERIOD_ID,acc.SCHOOL_DATE,cp.TITLE
 					FROM ATTENDANCE_CALENDAR acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp, COURSE_PERIOD_SCHOOL_PERIODS cpsp
 					WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 					AND acc.SYEAR='" . UserSyear() . "'
 					AND (acc.MINUTES IS NOT NULL AND acc.MINUTES>0)
 					AND cp.SCHOOL_ID=acc.SCHOOL_ID
 					AND cp.SYEAR=acc.SYEAR
-					AND acc.SCHOOL_DATE<'".DBDate()."'
+					AND acc.SCHOOL_DATE<'" . DBDate() . "'
 					AND cp.CALENDAR_ID=acc.CALENDAR_ID
 					AND cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "'
 					AND cp.MARKING_PERIOD_ID IN (SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE (MP='FY' OR MP='SEM' OR MP='QTR') AND SCHOOL_ID=acc.SCHOOL_ID AND acc.SCHOOL_DATE BETWEEN START_DATE AND END_DATE)
 					AND sp.PERIOD_ID=cpsp.PERIOD_ID
 					AND (sp.BLOCK IS NULL AND position(substring('MTWHFSU' FROM cast(
-						(SELECT CASE COUNT(school_date)% ".SchoolInfo('NUMBER_DAYS_ROTATION')." WHEN 0 THEN ".SchoolInfo('NUMBER_DAYS_ROTATION')." ELSE COUNT(school_date)% ".SchoolInfo('NUMBER_DAYS_ROTATION')." END AS day_number
+						(SELECT CASE COUNT(school_date)% " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " WHEN 0 THEN " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " ELSE COUNT(school_date)% " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " END AS day_number
 						FROM attendance_calendar
 						WHERE school_date>=(SELECT start_date FROM school_marking_periods WHERE start_date<=acc.SCHOOL_DATE AND end_date>=acc.SCHOOL_DATE AND mp='QTR' AND SCHOOL_ID=acc.SCHOOL_ID)
 						AND school_date<=acc.SCHOOL_DATE
 						AND SCHOOL_ID=acc.SCHOOL_ID)
 					AS INT) FOR 1) IN cpsp.DAYS)>0 OR sp.BLOCK IS NOT NULL AND acc.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK)
-					AND NOT exists(SELECT '' FROM ATTENDANCE_COMPLETED ac WHERE ac.SCHOOL_DATE=acc.SCHOOL_DATE AND ac.STAFF_ID=cp.TEACHER_ID AND ac.PERIOD_ID=cpsp.PERIOD_ID AND TABLE_NAME='".$category['ID']."')
-					AND position(',".$category['ID'].",' IN cp.DOES_ATTENDANCE)>0
-					ORDER BY cp.TITLE,acc.SCHOOL_DATE"),array('SCHOOL_DATE' => 'ProperDate' ),array('COURSE_PERIOD_ID'));
+					AND NOT exists(SELECT '' FROM ATTENDANCE_COMPLETED ac WHERE ac.SCHOOL_DATE=acc.SCHOOL_DATE AND ac.STAFF_ID=cp.TEACHER_ID AND ac.PERIOD_ID=cpsp.PERIOD_ID AND TABLE_NAME='" . $category['ID'] . "')
+					AND position('," . $category['ID'] . ",' IN cp.DOES_ATTENDANCE)>0
+					ORDER BY cp.TITLE,acc.SCHOOL_DATE" ), array( 'SCHOOL_DATE' => 'ProperDate' ),array( 'COURSE_PERIOD_ID' ) );
 				} else {
-					$RET = DBGET(DBQuery("SELECT cp.COURSE_PERIOD_ID,acc.SCHOOL_DATE,cp.TITLE
+					$missing_attendance_RET = DBGET( DBQuery( "SELECT cp.COURSE_PERIOD_ID,acc.SCHOOL_DATE,cp.TITLE
 					FROM ATTENDANCE_CALENDAR acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp, COURSE_PERIOD_SCHOOL_PERIODS cpsp
 					WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 					AND acc.SYEAR='" . UserSyear() . "'
 					AND (acc.MINUTES IS NOT NULL AND acc.MINUTES>0)
 					AND cp.SCHOOL_ID=acc.SCHOOL_ID
-					AND cp.SYEAR=acc.SYEAR AND acc.SCHOOL_DATE<'".DBDate()."'
+					AND cp.SYEAR=acc.SYEAR AND acc.SCHOOL_DATE<'" . DBDate() . "'
 					AND cp.CALENDAR_ID=acc.CALENDAR_ID
 					AND cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "'
 					AND cp.MARKING_PERIOD_ID IN (SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE (MP='FY' OR MP='SEM' OR MP='QTR') AND SCHOOL_ID=acc.SCHOOL_ID AND acc.SCHOOL_DATE BETWEEN START_DATE AND END_DATE)
 					AND sp.PERIOD_ID=cpsp.PERIOD_ID
 					AND (sp.BLOCK IS NULL AND position(substring('UMTWHFS' FROM cast(extract(DOW FROM acc.SCHOOL_DATE) AS INT)+1 FOR 1) IN cpsp.DAYS)>0 OR sp.BLOCK IS NOT NULL AND acc.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK)
-					AND NOT exists(SELECT '' FROM ATTENDANCE_COMPLETED ac WHERE ac.SCHOOL_DATE=acc.SCHOOL_DATE AND ac.STAFF_ID=cp.TEACHER_ID AND ac.PERIOD_ID=cpsp.PERIOD_ID AND TABLE_NAME='".$category['ID']."')
-					AND position(',".$category['ID'].",' IN cp.DOES_ATTENDANCE)>0
-					ORDER BY cp.TITLE,acc.SCHOOL_DATE"),array('SCHOOL_DATE' => 'ProperDate' ),array('COURSE_PERIOD_ID'));
+					AND NOT exists(SELECT '' FROM ATTENDANCE_COMPLETED ac WHERE ac.SCHOOL_DATE=acc.SCHOOL_DATE AND ac.STAFF_ID=cp.TEACHER_ID AND ac.PERIOD_ID=cpsp.PERIOD_ID AND TABLE_NAME='" . $category['ID'] . "')
+					AND position('," . $category['ID'] . ",' IN cp.DOES_ATTENDANCE)>0
+					ORDER BY cp.TITLE,acc.SCHOOL_DATE" ), array( 'SCHOOL_DATE' => 'ProperDate' ), array( 'COURSE_PERIOD_ID' ) );
 				}
 
-				if ( $RET )
+				if ( $missing_attendance_RET )
 				{
-					echo ErrorMessage(array(_('You have missing attendance data')), 'warning');
+					echo ErrorMessage( array( _( 'You have missing attendance data' ) ), 'warning' );
 
 					ListOutput(
-						$RET,
-						array(
-							'SCHOOL_DATE' => _( 'Date' ),
-							'TITLE' => _( 'Period' ) . ' ' . _( 'Days' ) . ' - ' . _( 'Short Name' ) . ' - ' . _( 'Teacher' ),
-						),
+						$missing_attendance_RET,
+						$missing_attendance_LO_columns,
 						'Course Period with missing attendance data',
 						'Course Periods with missing attendance data',
 						array(),
@@ -892,12 +896,12 @@ function PHPCheck() {
 
 	//FJ check PHP version
 	if (version_compare(PHP_VERSION, '5.3.2') == -1)
-	    $ret[] = 'RosarioSIS requires PHP 5.3.2 to run, your version is : ' . PHP_VERSION;
+		$ret[] = 'RosarioSIS requires PHP 5.3.2 to run, your version is : ' . PHP_VERSION;
 
 	if ((bool)ini_get('safe_mode'))
 		$ret[] = 'safe_mode is set to On in your PHP configuration.';
 
-	if (mb_strpos(ini_get('disable_functions'),'passthru')!==false)
+	if (mb_strpos(ini_get('disable_functions' ),'passthru')!==false)
 		$ret[] = 'passthru is disabled in your PHP configuration.';
 
 	return $ret;
