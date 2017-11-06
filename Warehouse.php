@@ -466,6 +466,7 @@ function Warehouse( $mode )
 		&& (menuStudentID != "<?php echo UserStudentID(); ?>"
 			|| menuStaffID != "<?php echo UserStaffID(); ?>"
 			|| menuSchool != "<?php echo UserSchool(); ?>"
+			|| menuMP != "<?php echo UserMP(); ?>"
 			|| menuCoursePeriod != "<?php echo UserCoursePeriod(); ?>")) {
 		ajaxLink( 'Side.php?sidefunc=update' );
 	}

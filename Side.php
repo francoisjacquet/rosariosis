@@ -294,12 +294,13 @@ if ( $update_body )
 
 /**
  * Set menu
- * Student / User / School / CoursePeriod
+ * Student / User / School / Marking Period / CoursePeriod
  * verify if have been changed in Warehouse.php
  */
 $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 	menuStaffID = "' . UserStaffID() . '",
 	menuSchool = "' . UserSchool() . '",
+	menuMP = "' . UserMP() . '",
 	menuCoursePeriod = "' . UserCoursePeriod() . '";';
 
 ?>
