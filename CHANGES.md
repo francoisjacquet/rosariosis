@@ -6,6 +6,7 @@ Changes in 3.5.3
 - Fix AJAX error display in warehouse.js
 - Fix #177 Get Gradebook Grades' Percentage rounding issue in InputFinalGrades.php, thanks to @lkozloff
 - Hide School column in Missing Attendance listing if only 1 school in Portal.php
+- Fix #206 No Missing Attendance warning if course period has no students in Portal.php
 
 Changes in 3.5.2
 ----------------
