@@ -4,6 +4,7 @@
 Changes in 3.6-beta
 -------------------
 - Add menuMP JS var to update current MP in side menu in Side.php & Warehouse.php
+- Add link to Take Attendance program from the Missing Attendance listing in Portal.php
 
 Changes in 3.5.3
 ----------------
