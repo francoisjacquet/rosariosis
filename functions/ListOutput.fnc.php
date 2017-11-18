@@ -1044,13 +1044,6 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 
 			$output .= "\n";
 		}
-
-		//FJ accents problem + Arabic chars
-		//http://stackoverflow.com/questions/6002256/is-it-possible-to-force-excel-recognize-utf-8-csv-files-automatically
-		if ( $extension == 'xls') //convert to ISO for Excel only, CSV in UTF8
-		{
-			$output = utf8_decode( $output );
-		}
 	}
 	// XML
 	else
