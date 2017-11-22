@@ -958,7 +958,7 @@ function _eventDay( $string, $key ) {
  *
  * DBGet callback function.
  *
- * @since 3.5.3
+ * @since 3.6
  *
  * @param  string $value  School date.
  * @param  string $column 'SCHOOL_DATE'.
@@ -975,6 +975,12 @@ function _makeTakeAttendanceLink( $value, $column )
 	}
 
 	$proper_date = ProperDate( $value );
+
+	if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
+		// Printing PDF or exporting list.
+		return $proper_date;
+	}
 
 	$modname = 'Attendance/TakeAttendance.php';
 
@@ -1017,7 +1023,7 @@ function _makeTakeAttendanceLink( $value, $column )
  * Redirect from Portal,
  * in case current School, SYear, MP, CP or Period are wrong.
  *
- * @since 3.5.3
+ * @since 3.6
  *
  * @see _makeTakeAttendanceLink
  *
@@ -1037,7 +1043,7 @@ function _redirectTakeAttendance()
 	list( $course_period, $course_period_school_period ) = explode( '.', $_REQUEST['period'] );
 
 	// Get Course Period info.
-	$cp_RET = DBGet( DBQuery( "SELECT SCHOOL_ID,TEACHER_ID,MARKING_PERIOD_ID
+	$cp_RET = DBGet( DBQuery( "SELECT SCHOOL_ID,TEACHER_ID
 		FROM COURSE_PERIODS
 		WHERE COURSE_PERIOD_ID='" . $course_period . "'
 		AND SYEAR='" . UserSyear() . "'
@@ -1093,17 +1099,12 @@ function _redirectTakeAttendance()
 		$_SESSION['UserSchool'] = $cp_RET[1]['SCHOOL_ID'];
 	}
 
-	$cp_mp_id = $cp_RET[1]['MARKING_PERIOD_ID'];
+	$cp_mp_id = GetCurrentMP( 'QTR', $_REQUEST['school_date'] );
 
-	$cp_mp = GetMP( $cp_mp_id, 'MP' );
-
-	if ( ( $cp_mp === 'QTR'
-			&& UserMP() != $cp_mp_id )
-		|| ( $cp_mp === 'SEM'
-			&& mb_strpos( GetChildrenMP( $cp_mp, $cp_mp_id ), "'" . UserMP() . "'" )  === false ) )
+	if ( UserMP() != $cp_mp_id )
 	{
 		// Update current MP.
-		$_SESSION['UserMP'] = GetCurrentMP( 'QTR', $_REQUEST['school_date'] );
+		$_SESSION['UserMP'] = $cp_mp_id;
 	}
 
 	// Get month, day & year from School Date.
