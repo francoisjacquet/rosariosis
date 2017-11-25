@@ -3,19 +3,23 @@
 if ( $_REQUEST['modfunc'] === 'save'
 	&& AllowEdit() )
 {
-	if (count($_REQUEST['st_arr']))
+	if ( count( $_REQUEST['st_arr'] ) )
 	{
-	$st_list = '\''.implode('\',\'',$_REQUEST['st_arr']).'\'';
-	$extra['WHERE'] = " AND s.STUDENT_ID IN ($st_list)";
 
-	$extra['functions'] = array('GRADE_ID' => '_grade_id');
+	$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
 
-	if ( $_REQUEST['mailing_labels']=='Y')
-		Widgets('mailing_labels');
+	$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
 
-	$RET = GetStuList($extra);
+	$extra['functions'] = array( 'GRADE_ID' => '_grade_id' );
 
-	if (count($RET))
+	if ( $_REQUEST['mailing_labels'] === 'Y' )
+	{
+		Widgets( 'mailing_labels' );
+	}
+
+	$RET = GetStuList( $extra );
+
+	if (count( $RET ) )
 	{
 		require_once 'ProgramFunctions/StudentsUsersInfo.fnc.php';
 		$categories_RET = DBGet(DBQuery("SELECT ID,TITLE,INCLUDE FROM STUDENT_FIELD_CATEGORIES ORDER BY SORT_ORDER,TITLE"),array(),array('ID'));

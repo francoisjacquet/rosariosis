@@ -2,27 +2,30 @@
 
 $max_cols = 3;
 $max_rows = 10;
-$to_family = _('To the parents of').':';
+$to_family = _( 'To the parents of' ) . ':';
 
 if ( $_REQUEST['modfunc'] === 'save' )
 {
-	if (count($_REQUEST['st_arr']))
+	if ( count( $_REQUEST['st_arr'] ) )
 	{
-		$st_list = '\''.implode('\',\'',$_REQUEST['st_arr']).'\'';
-		$extra['WHERE'] = " AND s.STUDENT_ID IN ($st_list)";
+		$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
 
-		$_REQUEST['mailing_labels']='Y';
+		$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
 
-		if ( $_REQUEST['to_address'])
-			$_REQUEST['residence']='Y';
+		$_REQUEST['mailing_labels'] = 'Y';
 
-		Widgets('mailing_labels');
+		if ( $_REQUEST['to_address'] )
+		{
+			$_REQUEST['residence'] = 'Y';
+		}
 
-		$extra['group'] = array('ADDRESS_ID');
+		Widgets( 'mailing_labels' );
 
-		$RET = GetStuList($extra);
+		$extra['group'] = array( 'ADDRESS_ID' );
 
-		if (count($RET))
+		$RET = GetStuList( $extra );
+
+		if ( count( $RET ) )
 		{
 			$handle = PDFstart();
 			echo '<table style="height: 100%" class="width-100p cellspacing-0">';

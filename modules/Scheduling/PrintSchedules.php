@@ -2,10 +2,12 @@
 
 if ( $_REQUEST['modfunc'] === 'save' )
 {
-	if (count($_REQUEST['st_arr']))
+	if ( count( $_REQUEST['st_arr'] ) )
 	{
-	$st_list = '\''.implode('\',\'',$_REQUEST['st_arr']).'\'';
-	$extra['WHERE'] = " AND s.STUDENT_ID IN (".$st_list.")";
+
+	$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
+
+	$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
 
 	if ( isset( $_REQUEST['day_include_active_date'] )
 		&& $_REQUEST['day_include_active_date']

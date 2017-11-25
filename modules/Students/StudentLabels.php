@@ -7,11 +7,11 @@ if ( $_REQUEST['modfunc'] === 'save' )
 {
 	if (count($_REQUEST['st_arr']))
 	{
-		$st_list = '\''.implode('\',\'',$_REQUEST['st_arr']).'\'';
-		$extra['WHERE'] = " AND s.STUDENT_ID IN ($st_list)";
+		$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
 
+		$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
 
-		if (User('PROFILE')=='admin')
+		if ( User( 'PROFILE' ) === 'admin' )
 		{
 			if ( $_REQUEST['w_course_period_id_which']=='course_period' && $_REQUEST['w_course_period_id'])
 			{

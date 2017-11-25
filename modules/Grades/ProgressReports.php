@@ -10,15 +10,18 @@ if ( $_REQUEST['modfunc'] === 'save' )
 {
 	$gradebook_config = ProgramUserConfig( 'Gradebook' );
 
-	if (count($_REQUEST['st_arr']))
+	if ( count( $_REQUEST['st_arr'] ) )
 	{
-	$st_list = '\''.implode('\',\'',$_REQUEST['st_arr']).'\'';
-	$extra['WHERE'] = " AND s.STUDENT_ID IN ($st_list)";
-	Widgets('mailing_labels');
 
-	$RET = GetStuList($extra);
+	$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
 
-	if (count($RET))
+	$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
+
+	Widgets( 'mailing_labels' );
+
+	$RET = GetStuList( $extra );
+
+	if ( count( $RET ) )
 	{
 		$LO_columns = array('TITLE' => _('Assignment'));
 

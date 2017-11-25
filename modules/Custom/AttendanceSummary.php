@@ -2,24 +2,26 @@
 
 if ( $_REQUEST['modfunc'] === 'save' )
 {
-	if (count($_REQUEST['st_arr']))
+	if ( count( $_REQUEST['st_arr'] ) )
 	{
-	$st_list = '\''.implode('\',\'',$_REQUEST['st_arr']).'\'';
-	$extra['WHERE'] = " AND s.STUDENT_ID IN (".$st_list.")";
+
+	$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
+
+	$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
 
 	$months = array(
-		1 => _('January'),
-		2 => _('February'),
-		3 => _('March'),
-		4 => _('April'),
-		5 => _('May'),
-		6 => _('June'),
-		7 => _('July'),
-		8 => _('August'),
-		9 => _('September'),
-		10 => _('October'),
-		11 => _('November'),
-		12 => _('December')
+		1 => _( 'January' ),
+		2 => _( 'February' ),
+		3 => _( 'March' ),
+		4 => _( 'April' ),
+		5 => _( 'May' ),
+		6 => _( 'June' ),
+		7 => _( 'July' ),
+		8 => _( 'August' ),
+		9 => _( 'September' ),
+		10 => _( 'October' ),
+		11 => _( 'November' ),
+		12 => _( 'December' ),
 	);
 
 	//check Social Security + Gender fields exists before adding them to SELECT
