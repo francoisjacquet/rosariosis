@@ -1,5 +1,7 @@
 <?php
 
+require_once 'ProgramFunctions/Template.fnc.php';
+
 if ( $_REQUEST['modfunc'] === 'save' )
 {
 	if ( count( $_REQUEST['mp_type_arr'] )
@@ -58,12 +60,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 			if ( $showCertificate)
 			{
-				//FJ add Template
-				$template_update = DBGet(DBQuery("SELECT 1 FROM TEMPLATES WHERE MODNAME = 'Grades/Transcripts.php' AND STAFF_ID = '".User('STAFF_ID')."'"));
-				if ( ! $template_update)
-					DBQuery("INSERT INTO TEMPLATES (MODNAME, STAFF_ID, TEMPLATE) VALUES ('Grades/Transcripts.php', '".User('STAFF_ID')."', '".$_REQUEST['inputcertificatetext']."')");
-				else
-					DBQuery("UPDATE TEMPLATES SET TEMPLATE = '".$_REQUEST['inputcertificatetext']."' WHERE MODNAME = 'Grades/Transcripts.php' AND STAFF_ID = '".User('STAFF_ID')."'");
+				SaveTemplate( $_REQUEST['inputcertificatetext'] );
 
 				$certificateText = explode('__BLOCK2__', $_REQUEST['inputcertificatetext']);
 			}
@@ -485,9 +482,6 @@ if ( ! $_REQUEST['modfunc'] )
 			$field_SSECURITY = ParseMLArray(DBGet(DBQuery("SELECT TITLE FROM CUSTOM_FIELDS WHERE ID = 200000003")),'TITLE');
 
 			$extra['extra_header_left'] .= '<tr><td><label><input type="checkbox" name="showcertificate" value="1" onclick=\'javascript: document.getElementById("divcertificatetext").style.display="block"; document.getElementById("inputcertificatetext").focus();\'> '._('Studies Certificate').'</label></td></tr>';
-
-			//FJ add Template
-			$templates = DBGet(DBQuery("SELECT TEMPLATE, STAFF_ID FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID IN (0,'".User('STAFF_ID')."')"), array(), array('STAFF_ID'));
 		}
 
 		//$extra['extra_header_left'] .= '<tr><td><input type=checkbox name=showsat value=1>SAT Scores</td></tr>';
@@ -502,7 +496,7 @@ if ( ! $_REQUEST['modfunc'] )
 			//FJ add Show Studies Certificate option
 			$extra['extra_header_left'] .= '<div id="divcertificatetext" style="display:none">
 				<textarea id="inputcertificatetext" name="inputcertificatetext" cols="100" rows="5">' .
-				( $templates[User( 'STAFF_ID' )] ? $templates[User( 'STAFF_ID' )][1]['TEMPLATE'] : $templates[0][1]['TEMPLATE'] ) .
+				GetTemplate() .
 				'</textarea>' .
 				FormatInputTitle(
 					_( 'Certificate Studies Text' ),

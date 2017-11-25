@@ -1,6 +1,7 @@
 <?php
 
 require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
+require_once 'ProgramFunctions/Template.fnc.php';
 
 if ( User( 'PROFILE' ) === 'teacher' )
 {
@@ -10,13 +11,14 @@ if ( User( 'PROFILE' ) === 'teacher' )
 if ( $_REQUEST['modfunc'] === 'save'
 	&& AllowEdit() )
 {
-	if (count($_REQUEST['st_arr']))
+	if ( count( $_REQUEST['st_arr'] ) )
 	{
-		//FJ bypass strip_tags on the $_REQUEST vars
+		// FJ bypass strip_tags on the $_REQUEST vars.
 		$REQUEST_letter_text = SanitizeHTML( $_POST['letter_text'] );
 
-		$st_list = '\''.implode('\',\'',$_REQUEST['st_arr']).'\'';
-		$extra['WHERE'] = " AND s.STUDENT_ID IN (".$st_list.")";
+		$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
+
+		$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
 
 		if ( $_REQUEST['mailing_labels']=='Y')
 			Widgets('mailing_labels');
@@ -45,22 +47,17 @@ if ( $_REQUEST['modfunc'] === 'save'
 			$extra['SELECT'] .= ",(SELECT cp.ROOM FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID='".UserCoursePeriod()."') AS ROOM";
 		}
 
-		$RET = GetStuList($extra);
+		$RET = GetStuList( $extra );
 
-		if (count($RET))
+		if ( count( $RET ) )
 		{
-			//FJ add Template
-			$template_update = DBGet(DBQuery("SELECT 1 FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID = '".User('STAFF_ID')."'"));
-			if ( ! $template_update)
-				DBQuery("INSERT INTO TEMPLATES (MODNAME, STAFF_ID, TEMPLATE) VALUES ('".$_REQUEST['modname']."', '".User('STAFF_ID')."', '".$REQUEST_letter_text."')");
-			else
-				DBQuery("UPDATE TEMPLATES SET TEMPLATE = '".$REQUEST_letter_text."' WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID = '".User('STAFF_ID')."'");
+			SaveTemplate( $REQUEST_letter_text );
 
 			// $REQUEST_letter_text = nl2br(str_replace("''","'",str_replace('  ',' &nbsp;',$REQUEST_letter_text)));
 
 			$handle = PDFStart();
 
-			foreach ( (array) $RET as $student)
+			foreach ( (array) $RET as $student )
 			{
 				$student_points = $total_points = 0;
 				unset($_ROSARIO['DrawHeader']);
@@ -106,15 +103,11 @@ if ( ! $_REQUEST['modfunc'] )
 		Widgets('mailing_labels');
 		$extra['extra_header_left'] = '<table>' . $extra['search'] . '</table>';
 		$extra['search'] = '';
-		//FJ add Template
-		$templates = DBGet(DBQuery("SELECT TEMPLATE, STAFF_ID FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID IN (0,'".User('STAFF_ID')."')"), array(), array('STAFF_ID'));
 
-		//FJ add TinyMCE to the textarea
+		// FJ add TinyMCE to the textarea.
 		$extra['extra_header_left'] .= '<table class="width-100p"><tr><td>' .
 			TinyMCEInput(
-				( isset( $templates[ User( 'STAFF_ID' ) ] ) ?
-					$templates[ User( 'STAFF_ID' ) ][1]['TEMPLATE'] :
-					$templates[0][1]['TEMPLATE'] ),
+				GetTemplate(),
 				'letter_text',
 				_( 'Letter Text' )
 			) .

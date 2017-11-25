@@ -1,4 +1,7 @@
 <?php
+
+require_once 'ProgramFunctions/Template.fnc.php';
+
 // This script will automatically create parent accounts and associate students based on an email address which is part of the student record.
 
 DrawHeader( ProgramTitle() );
@@ -78,10 +81,17 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 	// Set the from and cc emails here - the emails can be comma separated list of emails.
 	$cc = '';
-	if (User('EMAIL'))
-		$cc = User('EMAIL');
-	elseif ( !filter_var($test_email, FILTER_VALIDATE_EMAIL))
-		ErrorMessage(array(_('You must set the <b>test mode email</b> or have a user email address to use this script.')),'fatal');
+
+	if ( User( 'EMAIL' ) )
+	{
+		$cc = User( 'EMAIL' );
+	}
+	elseif ( ! filter_var( $test_email, FILTER_VALIDATE_EMAIL ) )
+	{
+		$error[] = _( 'You must set the <b>test mode email</b> or have a user email address to use this script.' );
+
+		ErrorMessage( $error, 'fatal' );
+	}
 
 
 	// new for when parent account was created new
@@ -89,13 +99,11 @@ if ( $_REQUEST['modfunc'] === 'save'
 	$subject['new'] = _('New Parent Account');
 	$subject['old'] = _('Updated Parent Account');
 
-	//FJ add Template
-	$createparentstext = $_REQUEST['inputcreateparentstext_new'].'__BLOCK2__'.$_REQUEST['inputcreateparentstext_old'];
-	$template_update = DBGet(DBQuery("SELECT 1 FROM TEMPLATES WHERE MODNAME = 'Custom/CreateParents.php' AND STAFF_ID = '".User('STAFF_ID')."'"));
-	if ( ! $template_update)
-		DBQuery("INSERT INTO TEMPLATES (MODNAME, STAFF_ID, TEMPLATE) VALUES ('Custom/CreateParents.php', '".User('STAFF_ID')."', '".$createparentstext."')");
-	else
-		DBQuery("UPDATE TEMPLATES SET TEMPLATE = '".$createparentstext."' WHERE MODNAME = 'Custom/CreateParents.php' AND STAFF_ID = '".User('STAFF_ID')."'");
+	// FJ add Template.
+	$createparentstext = $_REQUEST['inputcreateparentstext_new'] .
+		'__BLOCK2__' . $_REQUEST['inputcreateparentstext_old'];
+
+	SaveTemplate( $createparentstext );
 
 	$message['new'] = str_replace("''", "'", $_REQUEST['inputcreateparentstext_new']);
 	$message['old'] = str_replace("''", "'", $_REQUEST['inputcreateparentstext_old']);
@@ -257,9 +265,10 @@ if (! $_REQUEST['modfunc'] && !empty($email_column))
 
 		$extra['extra_header_left'] = '<table>';
 
-		//FJ add Template
-		$templates = DBGet(DBQuery("SELECT TEMPLATE, STAFF_ID FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID IN (0,'".User('STAFF_ID')."')"), array(), array('STAFF_ID'));
-		list($template_new, $template_old) = explode('__BLOCK2__', $templates[(isset($templates[User('STAFF_ID')]) ? User('STAFF_ID') : 0)][1]['TEMPLATE']);
+
+		$template = GetTemplate();
+
+		list( $template_new, $template_old ) = explode( '__BLOCK2__', $template );
 
 		$extra['extra_header_left'] .= '<tr class="st"><td>&nbsp;</td><td>' .
 			'<textarea name="inputcreateparentstext_new" cols="100" rows="5">' .

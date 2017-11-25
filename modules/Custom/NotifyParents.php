@@ -1,31 +1,36 @@
 <?php
 
+require_once 'ProgramFunctions/Template.fnc.php';
+
 // This was a quick hack to email parents who were assigned accounts but had never logged in
 // Warning: the passwords associated to the accounts will be reset
 
-DrawHeader(ProgramTitle());
+DrawHeader( ProgramTitle() );
 
 
 if ( $_REQUEST['modfunc'] === 'save' )
 {
-	// If $test email is set then this script will only 'go through the motions' and email the results to the $test_email address instead of parents
+	// If $test email is set then this script will only 'go through the motions'
+	// and email the results to the $test_email address instead of parents.
 	$test_email = $_REQUEST['test_email'];
 
 	// Set the from and cc emails here - the emails can be comma separated list of emails.
 	$cc = '';
-	if (User('EMAIL'))
-		$cc = User('EMAIL');
-	elseif ( !filter_var($test_email, FILTER_VALIDATE_EMAIL))
-		ErrorMessage(array(_('You must set the <b>test mode email</b> or have a user email address to use this script.')),'fatal');
+
+	if ( User( 'EMAIL' ) )
+	{
+		$cc = User( 'EMAIL' );
+	}
+	elseif ( ! filter_var( $test_email, FILTER_VALIDATE_EMAIL ) )
+	{
+		$error[] = _( 'You must set the <b>test mode email</b> or have a user email address to use this script.' );
+
+		ErrorMessage( $error, 'fatal' );
+	}
 
 	$subject = _('New Parent Account');
 
-	//FJ add Template
-	$template_update = DBGet(DBQuery("SELECT 1 FROM TEMPLATES WHERE MODNAME = 'Custom/NotifyParents.php' AND STAFF_ID = '".User('STAFF_ID')."'"));
-	if ( ! $template_update)
-		DBQuery("INSERT INTO TEMPLATES (MODNAME, STAFF_ID, TEMPLATE) VALUES ('Custom/NotifyParents.php', '".User('STAFF_ID')."', '".$_REQUEST['inputnotifyparentstext']."')");
-	else
-		DBQuery("UPDATE TEMPLATES SET TEMPLATE = '".$_REQUEST['inputnotifyparentstext']."' WHERE MODNAME = 'Custom/NotifyParents.php' AND STAFF_ID = '".User('STAFF_ID')."'");
+	SaveTemplate( $_REQUEST['inputnotifyparentstext'] );
 
 	$message = str_replace("''", "'", $_REQUEST['inputnotifyparentstext']);
 
@@ -34,14 +39,16 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		$st_list = '\''.implode('\',\'',$_REQUEST['staff']).'\'';
 
 		$extra['SELECT'] = ",s.FIRST_NAME||' '||s.LAST_NAME AS NAME,s.USERNAME,s.PASSWORD,s.EMAIL";
-		$extra['WHERE'] = " AND s.STAFF_ID IN ($st_list)";
+		$extra['WHERE'] = " AND s.STAFF_ID IN (" . $st_list . ")";
 
-		$RET = GetStaffList($extra);
+		$RET = GetStaffList( $extra );
 		//echo '<pre>'; var_dump($RET); echo '</pre>';
 
-		$RESULT = array(0 => array());
+		$LO_result = array( 0 => array() );
+
 		$i = 0;
-		foreach ( (array) $RET as $staff)
+
+		foreach ( (array) $RET as $staff )
 		{
 			$staff_id = $staff['STAFF_ID'];
 
@@ -75,17 +82,31 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			//FJ add SendEmail function
 			require_once 'ProgramFunctions/SendEmail.fnc.php';
 
-			$to = empty($test_email)?$staff['EMAIL']:$test_email;
+			$to = empty( $test_email ) ? $staff['EMAIL'] : $test_email;
 
-			//FJ send email from rosariosis@[domain]
-			$result = SendEmail($to, $subject, $msg, null, $cc);
+			// FJ send email from rosariosis@[domain].
+			$result = SendEmail( $to, $subject, $msg, null, $cc );
 
-			$RESULT[] = array('PARENT' => $staff['FULL_NAME'],'USERNAME' => $staff['USERNAME'],'EMAIL'=>! $test_email?$staff['EMAIL']:$test_email,'RESULT' => $result?_('Success'):_('Fail'));
+			$LO_result[] = array(
+				'PARENT' => $staff['FULL_NAME'],
+				'USERNAME' => $staff['USERNAME'],
+				'EMAIL'=> $to,
+				'RESULT' => $result ? _( 'Success' ) : _( 'Fail' ),
+			);
+
 			$i++;
 		}
-		unset($RESULT[0]);
-		$columns = array('PARENT' => _('Parent'),'USERNAME' => _('Username'),'EMAIL' => _('Email'),'RESULT' => _('Result'));
-		ListOutput($RESULT,$columns,'Notification Result','Notification Results');
+
+		unset( $LO_result[0] );
+
+		$columns = array(
+			'PARENT' => _( 'Parent' ),
+			'USERNAME' => _( 'Username' ),
+			'EMAIL' => _( 'Email' ),
+			'RESULT' => _( 'Result' ),
+		);
+
+		ListOutput( $LO_result, $columns, 'Notification Result', 'Notification Results' );
 	}
 	else
 	{
@@ -107,10 +128,7 @@ if (! $_REQUEST['modfunc'] || $_REQUEST['search_modfunc']=='list')
 
 		$extra['extra_header_left'] = '<table>';
 
-		//FJ add Template
-		$templates = DBGet(DBQuery("SELECT TEMPLATE, STAFF_ID FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID IN (0,'".User('STAFF_ID')."')"), array(), array('STAFF_ID'));
-
-		$template = $templates[(isset($templates[User('STAFF_ID')]) ? User('STAFF_ID') : 0)][1]['TEMPLATE'];
+		$template = GetTemplate();
 
 		$extra['extra_header_left'] .= '<tr class="st"><td>&nbsp;</td><td>' .
 			'<textarea name="inputnotifyparentstext" cols="97" rows="5">'

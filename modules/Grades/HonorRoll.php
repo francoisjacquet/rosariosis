@@ -1,6 +1,7 @@
 <?php
 
 require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
+require_once 'ProgramFunctions/Template.fnc.php';
 
 if ( $_REQUEST['modfunc'] === 'save' )
 {
@@ -11,8 +12,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			$REQUEST_honor_roll_text = SanitizeHTML( $_POST['honor_roll_text'] );
 		}
 
-		$st_list = '\''.implode('\',\'',$_REQUEST['st_arr']).'\'';
-		$extra['WHERE'] = " AND s.STUDENT_ID IN (".$st_list.")";
+		$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
+
+		$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
 
 		$mp_RET = DBGet(DBQuery("SELECT TITLE,END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND MARKING_PERIOD_ID='".UserMP()."'"));
 
@@ -100,13 +102,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		}
 		else
 		{
-			//FJ add Template
-			$template_update = DBGet(DBQuery("SELECT 1 FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID = '".User('STAFF_ID')."'"));
-
-			if ( ! $template_update)
-				DBQuery("INSERT INTO TEMPLATES (MODNAME, STAFF_ID, TEMPLATE) VALUES ('".$_REQUEST['modname']."', '".User('STAFF_ID')."', '".$REQUEST_honor_roll_text."')");
-			else
-				DBQuery("UPDATE TEMPLATES SET TEMPLATE = '".$REQUEST_honor_roll_text."' WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID = '".User('STAFF_ID')."'");
+			SaveTemplate( $REQUEST_honor_roll_text );
 
 			$no_margins = array( 'top' => 0, 'bottom' => 0, 'left' => 0, 'right' => 0 );
 
@@ -202,19 +198,12 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$extra['extra_header_left'] .= '<tr><td><label><input type="radio" name="list" value="" checked /> '._('Certificates').':</label></td></tr>';
 
-		//FJ add Template
-		$templates = DBGet( DBQuery( "SELECT TEMPLATE, STAFF_ID
-			FROM TEMPLATES WHERE MODNAME = '" . $_REQUEST['modname'] . "'
-			AND STAFF_ID IN (0,'" . User( 'STAFF_ID' ) . "')" ), array(), array( 'STAFF_ID' ) );
-
 		//FJ add TinyMCE to the textarea
 		$extra['extra_header_left'] .= '<tr><td>&nbsp;</td></tr>
 		<tr class="st"><td class="valign-top">' . _( 'Text' ) . '</td>
 		<td class="width-100p">' .
 		TinyMCEInput(
-			( isset( $templates[ User( 'STAFF_ID' ) ] ) ?
-				$templates[ User( 'STAFF_ID' ) ][1]['TEMPLATE'] :
-				$templates[0][1]['TEMPLATE'] ),
+			GetTemplate(),
 			'honor_roll_text',
 			'',
 			'class="tinymce-horizontal"'

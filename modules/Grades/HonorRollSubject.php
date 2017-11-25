@@ -1,27 +1,25 @@
 <?php
 
 require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
+require_once 'ProgramFunctions/Template.fnc.php';
 
 if ( $_REQUEST['modfunc'] === 'save' )
 {
-	if (count($_REQUEST['st_arr']))
+	if ( count( $_REQUEST['st_arr'] ) )
 	{
-		//FJ bypass strip_tags on the $_REQUEST vars
+		// FJ bypass strip_tags on the $_REQUEST vars.
 		$REQUEST_honor_roll_text = SanitizeHTML( $_POST['honor_roll_text'] );
 
-		//FJ add Template
-		$template_update = DBGet(DBQuery("SELECT 1 FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID = '".User('STAFF_ID')."'"));
+		SaveTemplate( $REQUEST_honor_roll_text );
 
-		if ( ! $template_update)
-			DBQuery("INSERT INTO TEMPLATES (MODNAME, STAFF_ID, TEMPLATE) VALUES ('".$_REQUEST['modname']."', '".User('STAFF_ID')."', '".$REQUEST_honor_roll_text."')");
-		else
-			DBQuery("UPDATE TEMPLATES SET TEMPLATE = '".$REQUEST_honor_roll_text."' WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID = '".User('STAFF_ID')."'");
+		$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
 
-		$st_list = '\''.implode('\',\'',$_REQUEST['st_arr']).'\'';
+		$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
 
-		$extra['WHERE'] = " AND s.STUDENT_ID IN (".$st_list.")";
-
-		$mp_RET = DBGet(DBQuery("SELECT TITLE,END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND MARKING_PERIOD_ID='".UserMP()."'"));
+		$mp_RET = DBGet( DBQuery( "SELECT TITLE,END_DATE
+			FROM SCHOOL_MARKING_PERIODS
+			WHERE MP='QTR'
+			AND MARKING_PERIOD_ID='" . UserMP() . "'" ) );
 
 		$extra['SELECT'] .= ",(SELECT SORT_ORDER FROM SCHOOL_GRADELEVELS WHERE ID=ssm.GRADE_ID) AS SORT_ORDER";
 
@@ -124,18 +122,11 @@ if ( ! $_REQUEST['modfunc'] )
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'&_ROSARIO_PDF=true" method="POST">';
 		$extra['header_right'] = SubmitButton(_('Create Honor Roll by Subject for Selected Students'));
 
-		//FJ add Template
-		$templates = DBGet( DBQuery( "SELECT TEMPLATE, STAFF_ID
-			FROM TEMPLATES WHERE MODNAME = '" . $_REQUEST['modname'] . "'
-			AND STAFF_ID IN (0,'" . User( 'STAFF_ID' ) . "')" ), array(), array( 'STAFF_ID' ) );
-
 		$extra['extra_header_left'] = '<table><tr class="st">
 		<td class="valign-top">' . _( 'Text' ) . '</td>
 		<td class="width-100p">' .
 		TinyMCEInput(
-			( isset( $templates[ User( 'STAFF_ID' ) ] ) ?
-				$templates[ User( 'STAFF_ID' ) ][1]['TEMPLATE'] :
-				$templates[0][1]['TEMPLATE'] ),
+			GetTemplate(),
 			'honor_roll_text',
 			'',
 			'class="tinymce-horizontal"'
