@@ -7,6 +7,7 @@ Changes in 3.6
 - Add link to Take Attendance program from the Missing Attendance listing in Portal.php
 - Fix UTF8 Excel file and non English characters in ListOutput.fnc.php
 - Add GetTemplate() & SaveTemplate() functions to ProgramFunctions/Template.fnc.php
+- Remove Honor Roll ClipArts in HonorRollSubject.php & assets/ClipArts/
 
 Changes in 3.5.3
 ----------------

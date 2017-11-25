@@ -4441,7 +4441,7 @@ INSERT INTO templates VALUES ('Grades/HonorRoll.php', 0, '<br /><br /><br />
 <div style="text-align: center;"><span style="font-size: xx-large;"><strong>__SCHOOL_ID__</strong><br /></span><br /><span style="font-size: xx-large;">We hereby recognize<br /><br /></span></div>
 <div style="text-align: center;"><span style="font-size: xx-large;"><strong>__FIRST_NAME__ __LAST_NAME__</strong><br /><br /></span></div>
 <div style="text-align: center;"><span style="font-size: xx-large;">Who has completed all the academic requirements for <br />Honor Roll</span></div>');
-INSERT INTO templates VALUES ('Grades/HonorRollSubject.php', 0, '<div style="text-align: center;">__CLIPART__<br /><br /><strong><span style="font-size: xx-large;">__SCHOOL_ID__<br /></span></strong><br /><span style="font-size: xx-large;">We hereby recognize<br /><br /></span></div>
+INSERT INTO templates VALUES ('Grades/HonorRollSubject.php', 0, '<div style="text-align: center;"><br /><br /><strong><span style="font-size: xx-large;">__SCHOOL_ID__<br /></span></strong><br /><span style="font-size: xx-large;">We hereby recognize<br /><br /></span></div>
 <div style="text-align: center;"><strong><span style="font-size: xx-large;">__FIRST_NAME__ __LAST_NAME__<br /><br /></span></strong></div>
 <div style="text-align: center;"><span style="font-size: xx-large;">Who has completed all the academic requirements for Academic Excellence in <br />__SUBJECT__</span></div>');
 INSERT INTO templates VALUES ('Grades/Transcripts.php', 0, 'The Principal undersigned certify:
