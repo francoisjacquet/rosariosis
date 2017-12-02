@@ -497,20 +497,33 @@ if ( ( UserStudentID()
 
 	//FJ General_Info only for new student
 	//$categories_RET = DBGet(DBQuery("SELECT ID,TITLE,INCLUDE FROM STUDENT_FIELD_CATEGORIES ORDER BY SORT_ORDER,TITLE"));
-	$categories_RET = DBGet(DBQuery("SELECT ID,TITLE,INCLUDE FROM STUDENT_FIELD_CATEGORIES WHERE ".($_REQUEST['student_id']!='new'?'TRUE':'ID=\'1\'')." ORDER BY SORT_ORDER,TITLE"));
+	$categories_RET = DBGet( DBQuery( "SELECT ID,TITLE,INCLUDE
+		FROM STUDENT_FIELD_CATEGORIES
+		WHERE " . ( $_REQUEST['student_id'] !== 'new' ? 'TRUE' : "ID='1'" ) .
+		" ORDER BY SORT_ORDER,TITLE" ) );
 
-	if ( $_REQUEST['modfunc']!='delete' || $_REQUEST['delete_ok'])
+	if ( $_REQUEST['modfunc'] !== 'delete_medical'
+		|| $_REQUEST['delete_ok'] )
 	{
-		if ( $_REQUEST['student_id']!='new')
+		if ( $_REQUEST['student_id'] !== 'new' )
 		{
 			$sql = "SELECT s.STUDENT_ID,s.FIRST_NAME,s.LAST_NAME,s.MIDDLE_NAME,s.NAME_SUFFIX,s.USERNAME,s.PASSWORD,s.LAST_LOGIN,
-			(SELECT ID FROM STUDENT_ENROLLMENT WHERE SYEAR='".UserSyear()."' AND STUDENT_ID=s.STUDENT_ID ORDER BY START_DATE DESC,END_DATE DESC LIMIT 1) AS ENROLLMENT_ID
+				(SELECT ID
+				FROM STUDENT_ENROLLMENT
+				WHERE SYEAR='" . UserSyear() . "'
+				AND STUDENT_ID=s.STUDENT_ID
+				ORDER BY START_DATE DESC,END_DATE DESC
+				LIMIT 1) AS ENROLLMENT_ID
 			FROM STUDENTS s
-			WHERE s.STUDENT_ID='".UserStudentID()."'";
+			WHERE s.STUDENT_ID='" . UserStudentID() . "'";
 
-			$student = DBGet(DBQuery($sql));
+			$student = DBGet( DBQuery( $sql ) );
 			$student = $student[1];
-			$school = DBGet(DBQuery("SELECT SCHOOL_ID,GRADE_ID FROM STUDENT_ENROLLMENT WHERE STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."' AND ('".DBDate()."' BETWEEN START_DATE AND END_DATE OR END_DATE IS NULL)"));
+			$school = DBGet( DBQuery( "SELECT SCHOOL_ID,GRADE_ID
+				FROM STUDENT_ENROLLMENT
+				WHERE STUDENT_ID='" . UserStudentID() . "'
+				AND SYEAR='" . UserSyear() . "'
+				AND ('" . DBDate() . "' BETWEEN START_DATE AND END_DATE OR END_DATE IS NULL)" ) );
 		}
 
 		$delete_button = '';
@@ -595,15 +608,18 @@ if ( ( UserStudentID()
 			}
 		}
 
-		$_ROSARIO['selected_tab'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $category_id . '&student_id=' . UserStudentID();
+		$_ROSARIO['selected_tab'] = 'Modules.php?modname=' . $_REQUEST['modname'] .
+			'&category_id=' . $category_id . '&student_id=' . UserStudentID();
 
 		echo '<br />';
-		echo PopTable('header',$tabs,'width="100%"');
+
+		echo PopTable( 'header', $tabs, 'width="100%"' );
+
 		$PopTable_opened = true;
 
-		if ( $can_use_RET['Students/Student.php&category_id='.$category_id])
+		if ( $can_use_RET['Students/Student.php&category_id=' . $category_id ] )
 		{
-			if ( !mb_strpos( $include, '/' ) )
+			if ( ! mb_strpos( $include, '/' ) )
 			{
 				require 'modules/Students/includes/' . $include . '.inc.php';
 			}
@@ -621,9 +637,9 @@ if ( ( UserStudentID()
 		echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 		echo '</form>';
 	}
-	elseif ( $can_use_RET['Students/Student.php&category_id='.$category_id])
+	elseif ( $can_use_RET['Students/Student.php&category_id=' . $category_id ] )
 	{
-		if ( !mb_strpos( $include, '/' ) )
+		if ( ! mb_strpos( $include, '/' ) )
 		{
 			require 'modules/Students/includes/' . $include . '.inc.php';
 		}

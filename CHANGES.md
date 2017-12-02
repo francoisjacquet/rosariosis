@@ -9,6 +9,7 @@ Changes in 3.6
 - Add GetTemplate() & SaveTemplate() functions to ProgramFunctions/Template.fnc.php
 - Remove Honor Roll ClipArts in HonorRollSubject.php & assets/ClipArts/
 - Add custom medical text input size per column in StudentsUsersInfo.fnc.php
+- Fix #216 Delete Medical info does not delete student in Student.php & Medical.inc.php
 
 Changes in 3.5.3
 ----------------
