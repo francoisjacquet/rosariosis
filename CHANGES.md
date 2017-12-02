@@ -8,6 +8,7 @@ Changes in 3.6
 - Fix UTF8 Excel file and non English characters in ListOutput.fnc.php
 - Add GetTemplate() & SaveTemplate() functions to ProgramFunctions/Template.fnc.php
 - Remove Honor Roll ClipArts in HonorRollSubject.php & assets/ClipArts/
+- Add custom medical text input size per column in StudentsUsersInfo.fnc.php
 
 Changes in 3.5.3
 ----------------

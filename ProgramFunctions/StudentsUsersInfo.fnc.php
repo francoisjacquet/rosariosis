@@ -601,6 +601,8 @@ function _makeDate( $value, $column = 'MEDICAL_DATE' )
 /**
  * Make Medical Comments Input
  *
+ * @since 3.6 Add custom input size per column.
+ *
  * @global array  $THIS_RET
  * @global string $table
  *
@@ -619,9 +621,24 @@ function _makeComments( $value, $column )
 		$THIS_RET['ID'] = 'new';
 	}
 
+	$input_size = 10;
+
+	if ( $column === 'TIME_IN'
+		|| $column === 'TIME_OUT' )
+	{
+		$input_size = 5;
+	}
+	elseif ( $column === 'COMMENTS'
+		|| $column === 'TITLE' )
+	{
+		$input_size = 20;
+	}
+
 	return TextInput(
 		$value,
-		'values[' . $table . '][' . $THIS_RET['ID'] . '][' . $column . ']'
+		'values[' . $table . '][' . $THIS_RET['ID'] . '][' . $column . ']',
+		'',
+		'size="' . $input_size . '"'
 	);
 }
 
