@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 3.6.1
+----------------
+- User email: reply-to instead of carbon-copy in CreateParents.php & NotifiyParents.php
+
 Changes in 3.6
 --------------
 - Add menuMP JS var to update current MP in side menu in Side.php & Warehouse.php

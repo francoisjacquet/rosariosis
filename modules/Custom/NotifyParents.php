@@ -1,6 +1,7 @@
 <?php
 
 require_once 'ProgramFunctions/Template.fnc.php';
+require_once 'ProgramFunctions/SendEmail.fnc.php';
 
 // This was a quick hack to email parents who were assigned accounts but had never logged in
 // Warning: the passwords associated to the accounts will be reset
@@ -15,11 +16,11 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	$test_email = $_REQUEST['test_email'];
 
 	// Set the from and cc emails here - the emails can be comma separated list of emails.
-	$cc = '';
+	$reply_to = '';
 
-	if ( User( 'EMAIL' ) )
+	if ( filter_var( User( 'EMAIL' ), FILTER_VALIDATE_EMAIL ) )
 	{
-		$cc = User( 'EMAIL' );
+		$reply_to = User( 'NAME' ) . ' <' . User( 'EMAIL' ) . '>';
 	}
 	elseif ( ! filter_var( $test_email, FILTER_VALIDATE_EMAIL ) )
 	{
@@ -79,13 +80,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	//		$msg = str_replace('__PASSWORD__',$staff['PASSWORD'],$msg);
 			$msg = str_replace('__PASSWORD__',$password,$msg);
 
-			//FJ add SendEmail function
-			require_once 'ProgramFunctions/SendEmail.fnc.php';
-
 			$to = empty( $test_email ) ? $staff['EMAIL'] : $test_email;
 
-			// FJ send email from rosariosis@[domain].
-			$result = SendEmail( $to, $subject, $msg, null, $cc );
+			$result = SendEmail( $to, $subject, $msg, $reply_to );
 
 			$LO_result[] = array(
 				'PARENT' => $staff['FULL_NAME'],

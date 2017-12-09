@@ -1,6 +1,7 @@
 <?php
 
 require_once 'ProgramFunctions/Template.fnc.php';
+require_once 'ProgramFunctions/SendEmail.fnc.php';
 
 // This script will automatically create parent accounts and associate students based on an email address which is part of the student record.
 
@@ -80,11 +81,11 @@ if ( $_REQUEST['modfunc'] === 'save'
 	$test_email = $_REQUEST['test_email'];
 
 	// Set the from and cc emails here - the emails can be comma separated list of emails.
-	$cc = '';
+	$reply_to = '';
 
-	if ( User( 'EMAIL' ) )
+	if ( filter_var( User( 'EMAIL' ), FILTER_VALIDATE_EMAIL ) )
 	{
-		$cc = User( 'EMAIL' );
+		$reply_to = User( 'NAME' ) . ' <' . User( 'EMAIL' ) . '>';
 	}
 	elseif ( ! filter_var( $test_email, FILTER_VALIDATE_EMAIL ) )
 	{
@@ -218,13 +219,9 @@ if ( $_REQUEST['modfunc'] === 'save'
 				$msg = str_replace('__USERNAME__',$staff['USERNAME'],$msg);
 				$msg = str_replace('__PASSWORD__',$password,$msg);
 
-				//FJ add SendEmail function
-				require_once 'ProgramFunctions/SendEmail.fnc.php';
-
 				$to = empty($test_email) ? $students[1]['EMAIL'] : $test_email;
 
-				//FJ send email from rosariosis@[domain]
-				$result = SendEmail($to, $subject[ $account ], $msg, null, $cc);
+				$result = SendEmail( $to, $subject[ $account ], $msg, $reply_to );
 
 				$RET[ $email ][1]['PARENT'] = $staff['NAME'];
 				$RET[ $email ][1]['USERNAME'] = $staff['USERNAME'];
