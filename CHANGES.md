@@ -4,6 +4,7 @@
 Changes in 3.6.1
 ----------------
 - User email: reply-to instead of carbon-copy in CreateParents.php & NotifiyParents.php
+- Give teachers, parents & students access to Courses program in Scheduling/Menu.php & rosariosis.sql
 
 Changes in 3.6
 --------------

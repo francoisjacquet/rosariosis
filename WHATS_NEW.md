@@ -2,6 +2,14 @@
 
 ## RosarioSIS Student Information System
 
+New in 3.6
+----------
+
+Scheduling
+
+- Courses: teachers, parents & students have access program
+
+
 New in 3.5
 ----------
 
