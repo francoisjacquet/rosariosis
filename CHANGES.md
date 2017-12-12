@@ -5,6 +5,7 @@ Changes in 3.6.1
 ----------------
 - User email: reply-to instead of carbon-copy in CreateParents.php & NotifiyParents.php
 - Give teachers, parents & students access to Courses program in Scheduling/Menu.php & rosariosis.sql
+- Fix bug when timezone for PHP and PostgreSQL are different in PassWordReset.php
 
 Changes in 3.6
 --------------
