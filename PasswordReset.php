@@ -374,6 +374,12 @@ function _sendPasswordResetEmail( $user_id, $user_type = 'staff', $email )
 		return false;
 	}
 
+	// Last login = now + 2 hours.
+	$last_login_RET = DBGet( DBQuery( "SELECT
+		CAST(CURRENT_TIMESTAMP + INTERVAL '2 hours' AS TIMESTAMP(0)) AS LAST_LOGIN" ) );
+
+	$last_login = $last_login_RET[1]['LAST_LOGIN'];
+
 	// Generate hash from user ID, username, name, password, email & last login.
 	$hash = encrypt_password( $user_id . $username . $name . $password . $email . $last_login );
 
@@ -398,7 +404,7 @@ function _sendPasswordResetEmail( $user_id, $user_type = 'staff', $email )
 	{
 		// Update Last login = now + 2 hours.
 		DBQuery( ( "UPDATE STAFF
-			SET LAST_LOGIN=CURRENT_TIMESTAMP + INTERVAL '2 hours'
+			SET LAST_LOGIN='" . $last_login . "'
 			WHERE STAFF_ID='" . $user_id . "'" ) ); // CURRENT_TIMESTAMP + interval '2 hours'.
 	}
 
