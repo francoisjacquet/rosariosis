@@ -5,9 +5,11 @@
 New in 3.6
 ----------
 
+[Email SMTP](https://www.rosariosis.org/email-smtp-plugin/) plugin
+
 Scheduling
 
-- Courses: teachers, parents & students have access program
+- Courses: teachers, parents & students can access program
 
 
 New in 3.5
