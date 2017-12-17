@@ -127,6 +127,13 @@ $RosarioActions = array();
 	 * @since 3.4.1
 	 */
 	/*'Student_Billing/StudentPayments.php|student_payments_header' => array(),
+
+	/**
+	 * Before Send.
+	 *
+	 * @since 3.6.1
+	 */
+	/*'ProgramFunctions/SendEmail.fnc.php|before_send' => array(),
 );*/
 
 

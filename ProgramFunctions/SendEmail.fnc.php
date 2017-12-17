@@ -11,6 +11,8 @@
  * And eventual Attachment(s)
  * From: RosarioSIS <rosariosis@yourdomain.com>
  *
+ * @since 3.6.1 ProgramFunctions/SendEmail.fnc.php|before_send hook.
+ *
  * @example SendEmail( $to, $subject, $msg, 'Foo <bar@from.address>', $cc, array( array( $pdf_file, $pdf_name ) ) );
  *
  * @link https://www.mail-tester.com/
@@ -46,6 +48,9 @@ function SendEmail( $to, $subject, $message, $reply_to = null, $cc = null, $atta
 		$phpmailer = new PHPMailer( true );
 	}
 
+	// Set to use PHP's mail().
+	$phpmailer->IsMail();
+
 	// Empty out the values that may be set.
 	$phpmailer->ClearAllRecipients();
 	$phpmailer->ClearAttachments();
@@ -66,8 +71,11 @@ function SendEmail( $to, $subject, $message, $reply_to = null, $cc = null, $atta
 		FILTER_SANITIZE_EMAIL
 	));
 
-	// Set Email address to send from: RosarioSIS <rosariosis@yourdomain.com>.
-	$phpmailer->From = $programname . '@' . $sitename;
+	if ( ! $phpmailer->From )
+	{
+		// Set Email address to send from: RosarioSIS <rosariosis@yourdomain.com>.
+		$phpmailer->From = $programname . '@' . $sitename;
+	}
 
 	$phpmailer->FromName = Config( 'NAME' );
 
@@ -149,7 +157,8 @@ function SendEmail( $to, $subject, $message, $reply_to = null, $cc = null, $atta
 	}
 
 	// Add any CC and BCC recipients.
-	if ( ! is_array( $cc ) )
+	if ( $cc
+		&& ! is_array( $cc ) )
 	{
 		$cc = explode( ',', $cc );
 	}
@@ -181,9 +190,6 @@ function SendEmail( $to, $subject, $message, $reply_to = null, $cc = null, $atta
 		}
 	}
 
-	// Set to use PHP's mail().
-	$phpmailer->IsMail();
-
 	if ( ! empty( $attachments ) )
 	{
 		foreach ( (array) $attachments as $attachment )
@@ -207,10 +213,19 @@ function SendEmail( $to, $subject, $message, $reply_to = null, $cc = null, $atta
 	// Send!
 	try
 	{
-		return $phpmailer->Send();
+		// Hook.
+		do_action( 'ProgramFunctions/SendEmail.fnc.php|before_send' );
+
+		$return = $phpmailer->Send();
+
+		return $return;
 	}
 	catch ( phpmailerException $e )
 	{
+		global $error;
+
+		$error[] = $e->getMessage();
+
 		return false;
 	}
 }
