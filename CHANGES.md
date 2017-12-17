@@ -8,6 +8,7 @@ Changes in 3.6.1
 - Fix bug when timezone for PHP and PostgreSQL are different in PassWordReset.php
 - Add ProgramFunctions/SendEmail.fnc.php|before_send hook in SendEmail.fnc.php
 - Update PHPMailer classes to v5.2.26 in classes/PHPMailer/
+- Fix SQL error escape parent's name in CreateParents.php
 
 Changes in 3.6
 --------------

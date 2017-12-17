@@ -158,30 +158,47 @@ if ( $_REQUEST['modfunc'] === 'save'
 					//$password = $passwords[rand(0,count($passwords)-1)];
 					$password = $username . rand( 100, 999 );
 
-					//FJ Moodle integrator / password
+					// FJ Moodle integrator / password.
 					$password = UCFirst( $password ) . '*';
 
-					if ( ! $test_email)
+					if ( ! $test_email )
 					{
-						// get staff id
-						$id = DBGet(DBQuery('SELECT '.db_seq_nextval('STAFF_SEQ').' AS SEQ_ID'));
+						// Get Staff ID.
+						$id = DBGet( DBQuery( 'SELECT ' . db_seq_nextval( 'STAFF_SEQ' ) . ' AS SEQ_ID' ) );
 						$id = $id[1]['SEQ_ID'];
 
-						//FJ add password encryption
-						$password_encrypted = encrypt_password($password);
+						// FJ add password encryption.
+						$password_encrypted = encrypt_password( $password );
 
-						$sql = "INSERT INTO STAFF (STAFF_ID,SYEAR,PROFILE,PROFILE_ID,FIRST_NAME,MIDDLE_NAME,LAST_NAME,USERNAME,PASSWORD,EMAIL) values ('".$id."','".UserSyear()."','parent','".$profile_id."','".$user['FIRST_NAME']."','".$user['MIDDLE_NAME']."','".$user['LAST_NAME']."','".$username."','".$password_encrypted."','".$students[1]['EMAIL']."')";
-						DBQuery($sql);
+						$sql = "INSERT INTO STAFF (STAFF_ID,SYEAR,PROFILE,PROFILE_ID,
+							FIRST_NAME,MIDDLE_NAME,LAST_NAME,USERNAME,PASSWORD,EMAIL) values (
+							'" . $id . "','" . UserSyear() . "','parent','" . $profile_id . "',
+							'" . DBEscapeString( $user['FIRST_NAME'] ) . "',
+							'" . DBEscapeString( $user['MIDDLE_NAME'] ) . "',
+							'" . DBEscapeString( $user['LAST_NAME'] ) . "',
+							'" . $username . "','" . $password_encrypted . "',
+							'" . $students[1]['EMAIL'] . "')";
 
-						//hook
-						do_action('Custom/CreateParents.php|create_user');
+						DBQuery( $sql );
 
-						$staff = DBGet(DBquery("SELECT FIRST_NAME||' '||LAST_NAME AS NAME,USERNAME,PASSWORD FROM STAFF WHERE STAFF_ID='".$id."'"));
+						// Hook.
+						do_action( 'Custom/CreateParents.php|create_user' );
+
+						$staff = DBGet( DBquery( "SELECT FIRST_NAME||' '||LAST_NAME AS NAME,
+							USERNAME,PASSWORD
+							FROM STAFF
+							WHERE STAFF_ID='" . $id . "'" ) );
 					}
 					else
 					{
 						$id = true;
-						$staff = array(1 => array('NAME' => $user['FIRST_NAME'].' '.$user['LAST_NAME'],'USERNAME' => $username,'PASSWORD' => $password));
+						$staff = array(
+							1 => array(
+								'NAME' => $user['FIRST_NAME'] . ' ' . $user['LAST_NAME'],
+								'USERNAME' => $username,
+								'PASSWORD' => $password,
+							),
+						);
 					}
 
 					$account = 'new';
