@@ -9,6 +9,7 @@ Changes in 3.6.1
 - Add ProgramFunctions/SendEmail.fnc.php|before_send hook in SendEmail.fnc.php
 - Update PHPMailer classes to v5.2.26 in classes/PHPMailer/
 - Fix SQL error escape parent's name in CreateParents.php
+- Fix Password Reset for Students in PasswordReset.php
 
 Changes in 3.6
 --------------

@@ -226,7 +226,7 @@ if ( isset( $_REQUEST['h'] )
 				{
 					$new_password = str_replace( "''", "'", $_REQUEST['PASSWORD'] );
 
-					if ( $user_type = 'staff' )
+					if ( $user_type === 'staff' )
 					{
 						// Update password.
 						DBQuery( "UPDATE STAFF SET PASSWORD='" .
@@ -240,13 +240,12 @@ if ( isset( $_REQUEST['h'] )
 							_notifyServerAdminPasswordReset( $user_id );
 						}
 					}
-					elseif ( $user_type = 'student' )
+					elseif ( $user_type === 'student' )
 					{
 						// Update password.
 						DBQuery( "UPDATE STUDENTS SET PASSWORD='" .
 							encrypt_password( $new_password ) . "'
-							WHERE STUDENT_ID='" . $user_id . "'
-							AND SYEAR='" . Config( 'SYEAR' ) . "'" );
+							WHERE STUDENT_ID='" . $user_id . "'" );
 					}
 
 					unset(
@@ -353,7 +352,7 @@ function _sendPasswordResetEmail( $user_id, $user_type = 'staff', $email )
 		// Get Student username, password, name.
 		$student_RET = DBGet( DBQuery( "SELECT USERNAME, PASSWORD,
 			LAST_NAME||', '||FIRST_NAME AS FULL_NAME
-			FROM STUDENTS s, STUDENT_ENROLLMENT ssm,
+			FROM STUDENTS s, STUDENT_ENROLLMENT ssm
 			WHERE s.STUDENT_ID='" . $user_id . "'
 			AND s.STUDENT_ID=ssm.STUDENT_ID
 			AND ssm.SYEAR='" . Config( 'SYEAR' ) . "'
@@ -389,8 +388,9 @@ function _sendPasswordResetEmail( $user_id, $user_type = 'staff', $email )
 	// Send email.
 	require_once 'ProgramFunctions/SendEmail.fnc.php';
 
-	$message = _( 'Please visit the following link to reset your password' ) . ':<br />' .
-		'<a href="' . $link . '">' . $link . '</a><br /><br />' .
+	$message = _( 'Please visit the following link to reset your password' ) . ':<br />
+		<a href="' . $link . '">' . $link . '</a>
+		<br /><br />' .
 		_( 'Please permanently delete this email once you are done.' );
 
 	$email_sent = SendEmail( $email, _( 'Password Reset' ), $message );
@@ -403,9 +403,16 @@ function _sendPasswordResetEmail( $user_id, $user_type = 'staff', $email )
 	if ( $user_type === 'staff' )
 	{
 		// Update Last login = now + 2 hours.
-		DBQuery( ( "UPDATE STAFF
+		DBQuery( "UPDATE STAFF
 			SET LAST_LOGIN='" . $last_login . "'
-			WHERE STAFF_ID='" . $user_id . "'" ) ); // CURRENT_TIMESTAMP + interval '2 hours'.
+			WHERE STAFF_ID='" . $user_id . "'" ); // CURRENT_TIMESTAMP + interval '2 hours'.
+	}
+	elseif ( $user_type === 'student' )
+	{
+		// Update Last login = now + 2 hours.
+		DBQuery( "UPDATE STUDENTS
+			SET LAST_LOGIN='" . $last_login . "'
+			WHERE STUDENT_ID='" . $user_id . "'" ); // CURRENT_TIMESTAMP + interval '2 hours'.
 	}
 
 	return true;
