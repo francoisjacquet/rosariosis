@@ -49,13 +49,13 @@ function SendEmail( $to, $subject, $message, $reply_to = null, $cc = null, $atta
 	}
 
 	// Set to use PHP's mail().
-	$phpmailer->IsMail();
+	$phpmailer->isMail();
 
 	// Empty out the values that may be set.
-	$phpmailer->ClearAllRecipients();
-	$phpmailer->ClearAttachments();
-	$phpmailer->ClearCustomHeaders();
-	$phpmailer->ClearReplyTos();
+	$phpmailer->clearAllRecipients();
+	$phpmailer->clearAttachments();
+	$phpmailer->clearCustomHeaders();
+	$phpmailer->clearReplyTos();
 
 	// FJ add email headers.
 	// Get the site domain and get rid of www.
@@ -125,7 +125,7 @@ function SendEmail( $to, $subject, $message, $reply_to = null, $cc = null, $atta
 				}
 			}
 
-			$phpmailer->AddAddress( $recipient, $recipient_name );
+			$phpmailer->addAddress( $recipient, $recipient_name );
 		}
 		catch ( phpmailerException $e )
 		{
@@ -181,7 +181,7 @@ function SendEmail( $to, $subject, $message, $reply_to = null, $cc = null, $atta
 					}
 				}
 
-				$phpmailer->AddCc( $recipient, $recipient_name );
+				$phpmailer->addCc( $recipient, $recipient_name );
 			}
 			catch ( phpmailerException $e )
 			{
@@ -198,10 +198,10 @@ function SendEmail( $to, $subject, $message, $reply_to = null, $cc = null, $atta
 			{
 				if ( is_array( $attachment ) )
 				{
-					$phpmailer->AddAttachment( $attachment[0], $attachment[1] );
+					$phpmailer->addAttachment( $attachment[0], $attachment[1] );
 				}
 				else
-					$phpmailer->AddAttachment( $attachment );
+					$phpmailer->addAttachment( $attachment );
 			}
 			catch ( phpmailerException $e )
 			{
@@ -216,7 +216,7 @@ function SendEmail( $to, $subject, $message, $reply_to = null, $cc = null, $atta
 		// Hook.
 		do_action( 'ProgramFunctions/SendEmail.fnc.php|before_send' );
 
-		$return = $phpmailer->Send();
+		$return = $phpmailer->send();
 
 		return $return;
 	}
@@ -224,7 +224,7 @@ function SendEmail( $to, $subject, $message, $reply_to = null, $cc = null, $atta
 	{
 		global $error;
 
-		$error[] = $e->getMessage();
+		$error[] = $e->errorMessage();
 
 		return false;
 	}
