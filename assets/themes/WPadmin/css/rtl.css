@@ -54,6 +54,11 @@ html[dir="RTL"] div.st {
 	float: right;
 }
 
+/* Tooltip */
+html[dir="RTL"] .tooltip > i{
+	text-align: right;
+}
+
 /* Fix for RTL languages */
 html[dir=RTL] input[type=checkbox].toggle {
 	right: -9999px;
