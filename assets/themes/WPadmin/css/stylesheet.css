@@ -921,6 +921,12 @@ td.calendar-menu{
 	float: left;
 }
 
+/* Take Attendance */
+.radio-attendance-code {
+	float: left;
+	padding: 2px 8px;
+}
+
 /*arrows*/
 .arrow.right:before,
 .switchMenu:before{

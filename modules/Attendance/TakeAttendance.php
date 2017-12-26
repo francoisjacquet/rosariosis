@@ -289,10 +289,16 @@ function _makeRadio($value,$title)
 		if (isset($_REQUEST['LO_save']))
 			return _('Yes');
 		else
-			return '<div style="'.($current_RET[$THIS_RET['STUDENT_ID']][1]['COURSE_PERIOD_ID']==UserCoursePeriod()?($colors[ $value ]?'background-color:'.$colors[ $value ].';':''):'background-color:#000;').' float:left; padding: 2px 8px;"><input type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'" checked /></div>';
+			return '<div class="radio-attendance-code" style="' . ( $current_RET[ $THIS_RET['STUDENT_ID'] ][1]['COURSE_PERIOD_ID'] == UserCoursePeriod() ?
+					( $colors[ $value ] ? 'background-color:' . $colors[ $value ] . ';' : '' ) :
+					'background-color:#000;' ) . '">
+				<input type="radio" name="attendance[' . $THIS_RET['STUDENT_ID'] . ']"
+					value="' . $title . '" checked /></div>';
 	}
 	else
-		return '<div style="float:left; padding: 2px 8px;"><input type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'"'.(AllowEdit()?'':' disabled').'></div>';
+		return '<div class="radio-attendance-code">
+			<input type="radio" name="attendance[' . $THIS_RET['STUDENT_ID'] . ']"
+				value="' . $title . '"' . ( AllowEdit() ? '' : ' disabled' ) . '></div>';
 }
 
 function _makeRadioSelected($value,$title)
@@ -306,16 +312,26 @@ function _makeRadioSelected($value,$title)
 			if (isset($_REQUEST['LO_save']))
 				return _('Yes');
 			else
-				return '<div style="'.($current_RET[$THIS_RET['STUDENT_ID']][1]['COURSE_PERIOD_ID']==UserCoursePeriod()?($colors[ $value ]?'background-color:'.$colors[ $value ].';':''):'background-color:#000;').' float:left; padding: 2px 8px;"><input type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'" checked /></div>';
+				return '<div class="radio-attendance-code" style="' .
+					( $current_RET[ $THIS_RET['STUDENT_ID'] ][1]['COURSE_PERIOD_ID'] == UserCoursePeriod() ?
+						( $colors[ $value ] ? 'background-color:' . $colors[ $value ] . ';' : '' ) :
+						'background-color:#000;' ) .'">
+					<input type="radio" name="attendance[' . $THIS_RET['STUDENT_ID'] . ']"
+						value="' . $title . '" checked /></div>';
 		}
 		else
-			return '<div style="float:left; padding: 2px 8px;"><input type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'"'.(AllowEdit()?'':' disabled').'></div>';
+			return '<div class="radio-attendance-code">
+				<input type="radio" name="attendance[' . $THIS_RET['STUDENT_ID'] . ']"
+					value="' . $title . '"' . ( AllowEdit() ? '' : ' disabled' ) . '></div>';
 	else
 	{
 		if (isset($_REQUEST['LO_save']))
 			return _('Yes');
 		else
-			return '<div style="'.($colors1[ $value ]?'background-color:'.$colors1[ $value ].';':'').'; float:left;">&nbsp;&nbsp;<input type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'" checked />&nbsp;&nbsp;</div>';
+			return '<div class="radio-attendance-code" style="' .
+				( $colors1[ $value ] ? 'background-color:' . $colors1[ $value ] . ';' : '' ) . ';">
+				<input type="radio" name="attendance[' . $THIS_RET['STUDENT_ID'] . ']"
+				value="' . $title . '" checked /></div>';
 	}
 }
 
