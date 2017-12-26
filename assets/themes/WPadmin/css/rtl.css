@@ -43,6 +43,12 @@ html[dir="RTL"] #selectedModuleLink + .wp-submenu{
 	left: auto;
 }
 
+/* ListOutput */
+html[dir="RTL"] .widefat td,
+html[dir="RTL"] .widefat th {
+	text-align: right;
+}
+
 /* Fix for RTL languages */
 html[dir=RTL] input[type=checkbox].toggle {
 	right: -9999px;
