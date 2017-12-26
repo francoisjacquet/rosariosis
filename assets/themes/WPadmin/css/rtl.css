@@ -59,6 +59,14 @@ html[dir="RTL"] .tooltip > i{
 	text-align: right;
 }
 
+/*arrows*/
+html[dir="RTL"] .arrow.right:before,
+html[dir="RTL"] .switchMenu:before,
+html[dir="RTL"] .switchMenu.switched:before,
+html[dir="RTL"] .toggle:before{
+	content: "\25c0\0000a0";
+}
+
 /* Fix for RTL languages */
 html[dir=RTL] input[type=checkbox].toggle {
 	right: -9999px;
