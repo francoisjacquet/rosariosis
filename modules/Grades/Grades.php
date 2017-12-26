@@ -600,7 +600,15 @@ function _makeExtraAssnCols($assignment_id,$column)
 						$points = rtrim(rtrim($points,'0'),'.');
 
 //					return '<table cellspacing=0 cellpadding=1><tr><td>'.TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex).'</td><td>&nbsp;/&nbsp;</td><td>'.$total_points.'</td></tr></table>';
-					return '<span'.($div ? ' style="float:left"' : '').'>'.TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex, $div).'</span><span>&nbsp;/&nbsp;'.$total_points.'</span>';
+					return '<span' . ( $div ? ' class="span-grade-points"' : '' ) . '>' .
+						TextInput(
+							$points,
+							'values[' . $THIS_RET['STUDENT_ID'] . '][' . $assignment_id . '][POINTS]',
+							'',
+							' size=2 maxlength=7 tabindex=' . $tabindex,
+							$div
+						) . '</span>
+						<span>&nbsp;/&nbsp;' . $total_points . '</span>';
 				}
 			}
 		break;

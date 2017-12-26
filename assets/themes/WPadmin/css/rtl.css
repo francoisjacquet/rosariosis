@@ -82,6 +82,10 @@ html[dir="RTL"] #selectedModuleLink + .wp-submenu{
 	background-position:top left;
 }
 
+/* Grades */
+html[dir="RTL"] .span-grade-points {
+	float: right;
+}
 
 @media only screen and (max-width:1023px){
 	/* Calendar responsive */

@@ -916,6 +916,10 @@ td.calendar-menu{
 	margin-bottom: 2px;
 }
 
+/* Grades */
+.span-grade-points {
+	float: left;
+}
 
 /*arrows*/
 .arrow.right:before,

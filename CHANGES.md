@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 3.7-beta
+-------------------
+- RTL layout issues #214 in rtl.css
+
 Changes in 3.6.1
 ----------------
 - User email: reply-to instead of carbon-copy in CreateParents.php & NotifiyParents.php
