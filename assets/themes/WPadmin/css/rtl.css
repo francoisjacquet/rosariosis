@@ -49,6 +49,11 @@ html[dir="RTL"] .widefat th {
 	text-align: right;
 }
 
+/* stackable tables */
+html[dir="RTL"] div.st {
+	float: right;
+}
+
 /* Fix for RTL languages */
 html[dir=RTL] input[type=checkbox].toggle {
 	right: -9999px;
