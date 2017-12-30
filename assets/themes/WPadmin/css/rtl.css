@@ -20,6 +20,10 @@ html[dir="RTL"] #menushadow{
 	right: auto;
 }
 
+html[dir="RTL"] #BottomButtonMenu {
+	float: right;
+}
+
 /* Submenu on module hover */
 html[dir="RTL"] .wp-submenu{
 	right: 0;

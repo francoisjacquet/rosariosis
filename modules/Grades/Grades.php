@@ -728,7 +728,15 @@ function _makeExtraStuCols($value,$column)
 				$value = rtrim(rtrim($value,'0'),'.');
 
 //			return '<table cellspacing=0 cellpadding=1><tr><td>'.TextInput($value,'values['.$THIS_RET['STUDENT_ID'].']['.$THIS_RET['ASSIGNMENT_ID'].'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex).'</td><td>&nbsp;/&nbsp;</td><td>'.$THIS_RET['TOTAL_POINTS'].'</td></tr></table>';
-			return '<span'.($div ? ' style="float:left"' : '').'>'.TextInput($value,'values['.$THIS_RET['STUDENT_ID'].']['.$THIS_RET['ASSIGNMENT_ID'].'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex, $div).'</span><span>&nbsp;/&nbsp;'.$THIS_RET['TOTAL_POINTS'].'</span>';
+			return '<span' . ( $div ? ' class="span-grade-points"' : '' ) . '>' .
+				TextInput(
+					$value,
+					'values[' . $THIS_RET['STUDENT_ID'] . '][' . $THIS_RET['ASSIGNMENT_ID'] . '][POINTS]',
+					'',
+					' size=2 maxlength=7 tabindex=' . $tabindex,
+					$div
+				) . '</span>
+				<span>&nbsp;/&nbsp;' . $THIS_RET['TOTAL_POINTS'] . '</span>';
 		break;
 
 		case 'PERCENT_GRADE':
@@ -763,8 +771,16 @@ function _makeExtraStuCols($value,$column)
 	}
 }
 
-function _makeExtraCols($assignment_id,$column)
-{	global $THIS_RET,$assignments_RET,$current_RET,$old_student_id,$student_count,$tabindex,$count_students,$max_allowed;
+function _makeExtraCols( $assignment_id, $column )
+{
+	global $THIS_RET,
+		$assignments_RET,
+		$current_RET,
+		$old_student_id,
+		$student_count,
+		$tabindex,
+		$count_students,
+		$max_allowed;
 
 	if ( $THIS_RET['STUDENT_ID']!=$old_student_id)
 	{
@@ -789,33 +805,69 @@ function _makeExtraCols($assignment_id,$column)
 			$div = false;
 		}
 
-		if ( $points=='-1')
-			$points = '*';
-		elseif (mb_strpos($points,'.'))
-			$points = rtrim(rtrim($points,'0'),'.');
-
-		if ( $total_points!=0)
+		if ( $points == '-1' )
 		{
-			if ( $points!='*')
-				// modif Francois: display letter grade according to Configuration
-				return '<span'.($div ? ' style="float:left"' : '').'>'.
-				TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex, $div).'</span>
-				<span>&nbsp;/&nbsp;'.$total_points.
-				( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) >= 0 ? '&nbsp;&minus;&nbsp;'.($assignments_RET[ $assignment_id ][1]['DUE']||$points!=''?($points>$total_points*$max_allowed?'<span style="color:red">':'<span>'):'<span>')._Percent($points/$total_points,0).'</span>' : '').
-				( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) <= 0 ? '&nbsp;&minus;&nbsp;<b>'._makeLetterGrade($points/$total_points).'</b>' : '').'</span>';
-			else
-//				return '<table cellspacing=0 cellpadding=1><tr align=center><td>'.TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex).'<hr />'.$total_points.'</td><td>&nbsp;'._('N/A').'<br />&nbsp;'._('N/A').'</td></tr></table>';
-				return '<span'.($div ? ' style="float:left"' : '').'>'.TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex, $div).'</span>
-				<span>&nbsp;/&nbsp;'.$total_points.'&nbsp;&minus;&nbsp;'._('N/A').'</span>';
+			$points = '*';
 		}
-		else
-			//return '<table class="cellspacing-0"><tr class="center"><td>'.TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex).'<hr />'.$total_points.'</td><td>&nbsp;E/C</td></tr></table>';
-			return '<span'.($div ? ' style="float:left"' : '').'>'.TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex, $div).'</span>
-			<span>&nbsp;/&nbsp;'.$total_points.'&nbsp;&minus;&nbsp;'._('E/C').'</span>';
+		elseif ( mb_strpos( $points, '.' ) )
+		{
+			$points = rtrim( rtrim( $points, '0' ), '.' );
+		}
+
+		if ( $total_points != 0 )
+		{
+			if ( $points != '*' )
+			{
+				// modif Francois: display letter grade according to Configuration
+				return '<span' . ( $div ? ' class="span-grade-points"' : '' ) . '>' .
+					TextInput(
+						$points,
+						'values[' . $THIS_RET['STUDENT_ID'] . '][' . $assignment_id . '][POINTS]',
+						'',
+						' size=2 maxlength=7 tabindex=' . $tabindex,
+						$div
+					) . '</span>
+					<span>&nbsp;/&nbsp;' . $total_points .
+					( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) >= 0 ?
+						'&nbsp;&minus;&nbsp;' . ( $assignments_RET[ $assignment_id ][1]['DUE'] || $points != '' ?
+							( $points > $total_points * $max_allowed ?
+								'<span style="color:red">' :
+								'<span>'
+							) :
+							'<span>' ) .
+						_Percent( $points / $total_points, 0 ) . '</span>' :
+						'' ) .
+					( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) <= 0 ?
+						'&nbsp;&minus;&nbsp;<b>' . _makeLetterGrade( $points / $total_points ) . '</b>' :
+						'' ) . '</span>';
+			}
+
+			//return '<table cellspacing=0 cellpadding=1><tr align=center><td>'.TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex).'<hr />'.$total_points.'</td><td>&nbsp;'._('N/A').'<br />&nbsp;'._('N/A').'</td></tr></table>';
+			return '<span' . ( $div ? ' class="span-grade-points"' : '' ) . '>' .
+				TextInput(
+					$points,
+					'values[' . $THIS_RET['STUDENT_ID'] . '][' . $assignment_id . '][POINTS]',
+					'',
+					' size=2 maxlength=7 tabindex=' . $tabindex,
+					$div
+				) . '</span>
+				<span>&nbsp;/&nbsp;' . $total_points . '&nbsp;&minus;&nbsp;' . _( 'N/A' ) . '</span>';
+		}
+
+		//return '<table class="cellspacing-0"><tr class="center"><td>'.TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex).'<hr />'.$total_points.'</td><td>&nbsp;E/C</td></tr></table>';
+		return '<span' . ( $div ? ' class="span-grade-points"' : '' ) . '>' .
+			TextInput(
+				$points,
+				'values[' . $THIS_RET['STUDENT_ID'] . '][' . $assignment_id . '][POINTS]',
+				'',
+				' size=2 maxlength=7 tabindex=' . $tabindex,
+				$div
+			) . '</span>
+			<span>&nbsp;/&nbsp;' . $total_points . '&nbsp;&minus;&nbsp;' . _( 'E/C' ) . '</span>';
 	}
 }
 
-function _Percent($num,$decimals=2)
+function _Percent( $num, $decimals = 2 )
 {
-	return number_format($num*100,2).'%';
+	return number_format( $num * 100, 2 ) . '%';
 }
