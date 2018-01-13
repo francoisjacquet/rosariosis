@@ -105,7 +105,7 @@ function DBQuery( $sql )
 	 */
 	$sql = str_replace(
 		array( '<>NULL', '!=NULL' ),
-		array( ' IS NOT NULL' ),
+		array( ' IS NOT NULL', ' IS NOT NULL' ),
 		$sql
 	);
 
