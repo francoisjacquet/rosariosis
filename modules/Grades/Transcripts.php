@@ -66,10 +66,11 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			}
 
 			$students_dataquery = "SELECT
-			s.student_id
-			, s.first_name
-			, s.last_name
-			, s.middle_name";
+			s.STUDENT_ID,
+			s.FIRST_NAME,
+			s.LAST_NAME,
+			s.MIDDLE_NAME,
+			" . getDisplayNameSQL( 's' ) . " AS FULL_NAME";
 
 			$custom_fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE FROM CUSTOM_FIELDS WHERE ID IN (200000000, 200000003, 200000004)"),array(),array('ID'));
 
@@ -117,7 +118,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 			$students_data = DBGet( DBQuery( $students_dataquery .
 				' WHERE s.student_id IN (' . $st_list . ')
-				ORDER BY last_name, first_name' ), array(), array( 'STUDENT_ID' ) );
+				ORDER BY LAST_NAME,FIRST_NAME' ), array(), array( 'STUDENT_ID' ) );
 
 
 			$handle = PDFStart();
@@ -151,8 +152,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					echo '</td><td>';
 
 					// Student Info.
-					echo '<span style="font-size:x-large;">' . $student_data['LAST_NAME'] . ', ' .
-						$student_data['FIRST_NAME'] . '<br /></span>';
+					echo '<span style="font-size:x-large;">' . $student_data['FULL_NAME'] . '<br /></span>';
 
 					// Translate "No Address".
 					echo '<span>' . ( $student_data['ADDRESS'] === 'No Address' ?

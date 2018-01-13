@@ -123,9 +123,10 @@ if ( $_REQUEST['modfunc'] === 'save'
 		$RET = GetStuList($extra);
 		//echo '<pre>'; var_dump($RET); echo '</pre>';
 
-		foreach ( (array) $RET as $email => $students)
+		foreach ( (array) $RET as $email => $students )
 		{
-			unset($id);
+			unset( $id );
+
 			$student_id = $students[1]['STUDENT_ID'];
 
 			if ( ! $students[1]['STAFF_ID'])
@@ -184,7 +185,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 						// Hook.
 						do_action( 'Custom/CreateParents.php|create_user' );
 
-						$staff = DBGet( DBquery( "SELECT FIRST_NAME||' '||LAST_NAME AS NAME,
+						$staff = DBGet( DBquery( "SELECT " . getDisplayNameSQL() . " AS NAME,
 							USERNAME,PASSWORD
 							FROM STAFF
 							WHERE STAFF_ID='" . $id . "'" ) );
@@ -194,7 +195,11 @@ if ( $_REQUEST['modfunc'] === 'save'
 						$id = true;
 						$staff = array(
 							1 => array(
-								'NAME' => $user['FIRST_NAME'] . ' ' . $user['LAST_NAME'],
+								'NAME' => getDisplayName(
+									$user['FIRST_NAME'],
+									$user['LAST_NAME'],
+									$user['MIDDLE_NAME']
+								),
 								'USERNAME' => $username,
 								'PASSWORD' => $password,
 							),

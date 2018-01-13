@@ -43,12 +43,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					{
 						foreach ( (array) $addresses as $key => $address)
 						{
-							if ( $_REQUEST['student_name']=='given')
-								$name = $address['LAST_NAME'].', '.$address['FIRST_NAME'].' '.$address['MIDDLE_NAME'];
-							elseif ( $_REQUEST['student_name']=='given_natural')
-								$name = $address['FIRST_NAME'].' '.$address['LAST_NAME'];
-							else
-								$name = $address['FULL_NAME'];
+							$name = $address['FULL_NAME'];
 
 							$addresses[ $key ]['MAILING_LABEL'] = $name.'<br />'.mb_substr($address['MAILING_LABEL'],mb_strpos($address['MAILING_LABEL'],'<!-- -->'));
 						}
@@ -167,8 +162,6 @@ if ( ! $_REQUEST['modfunc'] )
 		}
 		$extra['extra_header_left'] .= '<td colspan="2"></td></tr>';
 		$extra['extra_header_left'] .= '<tr class="st"><td><label><input type="radio" name="to_address" value="student" /> '._('To Student').'</label></td>';
-		$extra['extra_header_left'] .= '<td><label><input type="radio" name="student_name" value="given" checked /> '._('Last, Given Middle').'</label></td>';
-		$extra['extra_header_left'] .= '<td><label><input type="radio" name="student_name" value="given_natural" /> '._('Given Last').'</label></td>';
 		$extra['extra_header_left'] .= '<tr><td><label><input type="radio" name="to_address" value="family" /> '._('To the parents of').'</label></td>';
 
 		$extra['extra_header_left'] .= '<td colspan="2"></td></tr>';

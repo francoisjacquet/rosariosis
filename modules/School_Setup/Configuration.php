@@ -82,7 +82,9 @@ else
 							CONFIG_VALUE='" . $value . "'
 							WHERE TITLE='" . $column . "'";
 
-						// Program Title, Program Name, Default Theme, Force Default Theme, Create User Account, Create Student Account, Student email field, Failed login attempts limit.
+						// Program Title, Program Name, Default Theme, Force Default Theme,
+						// Create User Account, Create Student Account, Student email field,
+						// Failed login attempts limit, Display Name.
 						$school_independant_values = array(
 							'TITLE',
 							'NAME',
@@ -93,6 +95,7 @@ else
 							'STUDENTS_EMAIL_FIELD',
 							'LIMIT_EXISTING_CONTACTS_ADDRESSES',
 							'FAILED_LOGIN_LIMIT',
+							'DISPLAY_NAME',
 						);
 
 						if ( in_array( $column, $school_independant_values ) )
@@ -270,6 +273,24 @@ else
 		) . '</td></tr>';
 
 		echo '</td></tr></table></fieldset>';
+
+		// Display Name.
+		$display_name_options = array(
+			"FIRST_NAME||' '||LAST_NAME" => _( 'First Name' ) . ' ' . _( 'Last Name' ),
+			"FIRST_NAME||' '||LAST_NAME||coalesce(' '||NAME_SUFFIX,' ')" => _( 'First Name' ) . ' ' . _( 'Last Name' ) . ' ' . _( 'Suffix' ),
+			"FIRST_NAME||coalesce(' '||MIDDLE_NAME||' ',' ')||LAST_NAME" => _( 'First Name' ) . ' ' . _( 'Middle Name' ) . ' ' . _( 'Last Name' ),
+			"FIRST_NAME||', '||LAST_NAME||coalesce(' '||MIDDLE_NAME,' ')" => _( 'First Name' ) . ', ' . _( 'Last Name' ) . ' ' . _( 'Middle Name' ),
+			"LAST_NAME||', '||FIRST_NAME" => _( 'Last Name' ) . ', ' . _( 'First Name' ),
+			"LAST_NAME||', '||FIRST_NAME||' '||COALESCE(MIDDLE_NAME,' ')" => _( 'Last Name' ) . ', ' . _( 'First Name' ) . ' ' . _( 'Middle Name' ),
+		);
+
+		echo '<tr><td>' . SelectInput(
+			Config( 'DISPLAY_NAME' ),
+			'values[CONFIG][DISPLAY_NAME]',
+			_( 'Display Name' ),
+			$display_name_options,
+			false
+		) . '</td></tr>';
 
 		echo '</table></fieldset>';
 

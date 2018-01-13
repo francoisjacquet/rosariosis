@@ -27,9 +27,15 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 		$school = SchoolInfo( 'TITLE' );
 
-		$staffs = DBGet(DBQuery("SELECT s.STAFF_ID,s.FIRST_NAME,s.LAST_NAME,s.MIDDLE_NAME,s.PROFILE,fsa.STATUS,fsa.BALANCE FROM STAFF s,FOOD_SERVICE_STAFF_ACCOUNTS fsa WHERE s.STAFF_ID IN (".$st_list.") AND fsa.STAFF_ID=s.STAFF_ID"));
+		$staffs = DBGet( DBQuery( "SELECT s.FIRST_NAME," . getDisplayNameSQL( 's' ) . " AS FULL_NAME,
+			s.PROFILE,fsa.STATUS,fsa.BALANCE
+			FROM STAFF s,FOOD_SERVICE_STAFF_ACCOUNTS fsa
+			WHERE s.STAFF_ID IN (" . $st_list . ")
+			AND fsa.STAFF_ID=s.STAFF_ID" ) );
+
 		$handle = PDFStart();
-		foreach ( (array) $staffs as $staff)
+
+		foreach ( (array) $staffs as $staff )
 		{
 			$last_deposit = DBGet(DBQuery("SELECT
 			(SELECT sum(AMOUNT) FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
@@ -110,7 +116,7 @@ function reminder($staff,$school,$target,$last_deposit,$note)
 	echo '<tr><td colspan="3" class="center"><b>'.$school.'</b></td></tr>';
 
 	echo '<tr><td style="width:33%;">';
-	echo $staff['FIRST_NAME'].' '.$staff['MIDDLE_NAME'].' '.$staff['LAST_NAME'].'<br />';
+	echo $staff['FULL_NAME'] . '<br />';
 	echo ''.$staff['STAFF_ID'].'';
 	echo '</td><td style="width:33%;">';
 	echo '&nbsp;<br />';

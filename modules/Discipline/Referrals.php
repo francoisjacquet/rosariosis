@@ -180,7 +180,7 @@ if ( ! $_REQUEST['modfunc']
 
 		echo '<table class="width-100p">';
 
-		$student_name_RET = DBGet( DBQuery( "SELECT LAST_NAME||', '||FIRST_NAME||' '||COALESCE(MIDDLE_NAME,' ') AS FULL_NAME
+		$student_name_RET = DBGet( DBQuery( "SELECT " . getDisplayNameSQL() . " AS FULL_NAME
 			FROM STUDENTS
 			WHERE STUDENT_ID='" . $RET['STUDENT_ID'] . "'" ) );
 
@@ -189,7 +189,7 @@ if ( ! $_REQUEST['modfunc']
 			_( 'Student' )
 		) . '</td></tr>';
 
-		$users_RET = DBGet( DBQuery( "SELECT STAFF_ID,FIRST_NAME||', '||LAST_NAME||coalesce(' '||MIDDLE_NAME,' ') AS FULL_NAME,
+		$users_RET = DBGet( DBQuery( "SELECT STAFF_ID," . getDisplayNameSQL() . " AS FULL_NAME,
 			EMAIL,PROFILE
 			FROM STAFF
 			WHERE SYEAR='" . UserSyear() . "'

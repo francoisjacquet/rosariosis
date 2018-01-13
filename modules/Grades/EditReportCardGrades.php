@@ -167,15 +167,13 @@ if ( UserStudentID() )
 
 	if ( ! $_REQUEST['modfunc'] )
 	{
-		$student_RET = DBGet( DBQuery( "SELECT LAST_NAME,FIRST_NAME,MIDDLE_NAME,NAME_SUFFIX
+		$student_RET = DBGet( DBQuery( "SELECT " . getDisplayNameSQL() . " AS FULL_NAME
 			FROM STUDENTS
 			WHERE STUDENT_ID='" . $student_id . "'" ) );
 
 		$student = $student_RET[1];
 
-		$displayname = $student['LAST_NAME'] .
-			( $student['NAME_SUFFIX'] ? $student['suffix'] . ' ' : '' ) . ', ' .
-			$student['FIRST_NAME'] . ' ' . $student['MIDDLE_NAME'];
+		$displayname = $student['FULL_NAME'];
 
 		$g_sql = "SELECT mp.syear, mp.marking_period_id as mp_id, mp.title as mp_name, mp.post_end_date as posted, sms.grade_level_short as grade_level,
 		CASE WHEN sms.gp_credits > 0 THEN (sms.sum_weighted_factors/sms.gp_credits)*s.reporting_gp_scale ELSE 0 END as weighted_gpa,

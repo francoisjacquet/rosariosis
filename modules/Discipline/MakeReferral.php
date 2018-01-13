@@ -171,11 +171,16 @@ if (UserStudentID() && $_REQUEST['student_id'])
 	echo '<br />';
 	PopTable('header',ProgramTitle());
 
-	$categories_RET = DBGet(DBQuery("SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du WHERE du.SYEAR='".UserSyear()."' AND du.SCHOOL_ID='".UserSchool()."' AND du.DISCIPLINE_FIELD_ID=df.ID ORDER BY du.SORT_ORDER"));
+	$categories_RET = DBGet( DBQuery( "SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS
+		FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du
+		WHERE du.SYEAR='" . UserSyear() . "'
+		AND du.SCHOOL_ID='" . UserSchool() . "'
+		AND du.DISCIPLINE_FIELD_ID=df.ID
+		ORDER BY du.SORT_ORDER" ) );
 
 	echo '<table class="width-100p">';
 
-	$student_name_RET = DBGet( DBQuery( "SELECT LAST_NAME||', '||FIRST_NAME||' '||COALESCE(MIDDLE_NAME,' ') AS FULL_NAME
+	$student_name_RET = DBGet( DBQuery( "SELECT " . getDisplayNameSQL() . " AS FULL_NAME
 		FROM STUDENTS
 		WHERE STUDENT_ID='" . UserStudentID() . "'" ) );
 
@@ -186,7 +191,7 @@ if (UserStudentID() && $_REQUEST['student_id'])
 
 	echo '<tr><td>';
 
-	$users_RET = DBGet( DBQuery( "SELECT STAFF_ID,FIRST_NAME||', '||LAST_NAME||coalesce(' '||MIDDLE_NAME,' ') AS FULL_NAME,
+	$users_RET = DBGet( DBQuery( "SELECT STAFF_ID," . getDisplayNameSQL() . " AS FULL_NAME,
 		EMAIL,PROFILE
 		FROM STAFF
 		WHERE SYEAR='" . UserSyear() . "'

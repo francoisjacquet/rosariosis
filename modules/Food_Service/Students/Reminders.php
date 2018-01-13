@@ -7,7 +7,7 @@ $food_service_config = ProgramConfig( 'food_service' );
 $target = $food_service_config['FOOD_SERVICE_BALANCE_TARGET'][1]['VALUE'];
 $warning = $food_service_config['FOOD_SERVICE_BALANCE_WARNING'][1]['VALUE'];
 // Available substitutions for the notes...
-// %N = student firstname (given) or nickname (according to user preference)
+// %N = student firstname (given) or nickname (@deprecated) (according to user preference)
 // %F = student firstname
 // %g = he/she according to student gender
 // %G = He/She according to student gender
@@ -29,7 +29,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		$st_list = "'".implode("','",$_REQUEST['st_arr'])."'";
 
 	//FJ sql fix
-		$students = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME,s.LAST_NAME,s.MIDDLE_NAME,s.NAME_SUFFIX,'' AS NICKNAME,fsa.ACCOUNT_ID,fsa.STATUS,
+		$students = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME,s.LAST_NAME,s.MIDDLE_NAME,s.NAME_SUFFIX,fsa.ACCOUNT_ID,fsa.STATUS,
 		(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fsa.ACCOUNT_ID) AS BALANCE,
 		(SELECT TITLE FROM SCHOOLS WHERE ID=ssm.SCHOOL_ID AND SYEAR=ssm.SYEAR) AS SCHOOL,
 		(SELECT TITLE FROM SCHOOL_GRADELEVELS WHERE ID=ssm.GRADE_ID) AS GRADE".
@@ -39,38 +39,56 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		AND fsa.STUDENT_ID=s.STUDENT_ID
 		AND ssm.STUDENT_ID=s.STUDENT_ID
 		AND ssm.SYEAR='".UserSyear()."'"));
+
 		$handle = PDFStart();
-		foreach ( (array) $students as $student)
+
+		foreach ( (array) $students as $student )
 		{
-			if ( $homeroom)
-				$teacher = DBGet(DBQuery("SELECT s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,cs.TITLE
+			if ( $homeroom )
+			{
+				$teacher = DBGet( DBQuery( "SELECT " . getDisplayNameSQL( 's' ) . " AS FULL_NAME,cs.TITLE
 				FROM STAFF s,SCHEDULE sch,COURSE_PERIODS cp,COURSES c,COURSE_SUBJECTS cs
-				WHERE s.STAFF_ID=cp.TEACHER_ID AND sch.STUDENT_ID='".$student['STUDENT_ID']."' AND cp.COURSE_ID=sch.COURSE_ID AND c.COURSE_ID=cp.COURSE_ID AND c.SUBJECT_ID=cs.SUBJECT_ID AND cs.TITLE='".$homeroom."' AND sch.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND sch.SYEAR='".UserSyear()."'"));
+				WHERE s.STAFF_ID=cp.TEACHER_ID
+				AND sch.STUDENT_ID='" . $student['STUDENT_ID'] . "'
+				AND cp.COURSE_ID=sch.COURSE_ID
+				AND c.COURSE_ID=cp.COURSE_ID
+				AND c.SUBJECT_ID=cs.SUBJECT_ID
+				AND cs.TITLE='" . $homeroom . "'
+				AND sch.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
+				AND sch.SYEAR='" . UserSyear() . "'" ) );
+			}
 			else
+			{
 				//FJ multiple school periods for a course period
 				/*$teacher = DBGet(DBQuery("SELECT s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,cs.TITLE
 				FROM STAFF s,SCHEDULE sch,COURSE_PERIODS cp,COURSES c,COURSE_SUBJECTS cs,SCHOOL_PERIODS sp
 				WHERE s.STAFF_ID=cp.TEACHER_ID AND sch.STUDENT_ID='".$student['STUDENT_ID']."' AND cp.COURSE_ID=sch.COURSE_ID AND c.COURSE_ID=cp.COURSE_ID AND c.SUBJECT_ID=cs.SUBJECT_ID AND sp.PERIOD_ID=cp.PERIOD_ID AND sp.ATTENDANCE='Y' AND sch.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND sch.SYEAR='".UserSyear()."'"));*/
-				$teacher = DBGet(DBQuery("SELECT s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,cs.TITLE
+				$teacher = DBGet( DBQuery( "SELECT " . getDisplayNameSQL( 's' ) . " AS FULL_NAME,cs.TITLE
 				FROM STAFF s,SCHEDULE sch,COURSE_PERIODS cp,COURSES c,COURSE_SUBJECTS cs,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
 				WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 				AND s.STAFF_ID=cp.TEACHER_ID
-				AND sch.STUDENT_ID='".$student['STUDENT_ID']."'
+				AND sch.STUDENT_ID='" . $student['STUDENT_ID'] . "'
 				AND cp.COURSE_ID=sch.COURSE_ID
 				AND c.COURSE_ID=cp.COURSE_ID
 				AND c.SUBJECT_ID=cs.SUBJECT_ID
 				AND sp.PERIOD_ID=cpsp.PERIOD_ID
 				AND sp.ATTENDANCE='Y'
 				AND sch.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
-				AND sch.SYEAR='".UserSyear()."'"));
+				AND sch.SYEAR='" . UserSyear() . "'" ) );
+			}
+
 			$teacher = $teacher[1];
-	//FJ sql fix
-			$xstudents = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME,s.LAST_NAME,'' AS NICKNAME
+
+			$xstudents = DBGet( DBQuery( "SELECT s.STUDENT_ID,s.FIRST_NAME,s.LAST_NAME,s.NAME_SUFFIX
 			FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa
-			WHERE fssa.ACCOUNT_ID='".$student['ACCOUNT_ID']."'
+			WHERE fssa.ACCOUNT_ID='" . $student['ACCOUNT_ID'] . "'
 			AND s.STUDENT_ID=fssa.STUDENT_ID
-			AND s.STUDENT_ID!='".$student['STUDENT_ID']."'
-			AND exists(SELECT '' FROM STUDENT_ENROLLMENT WHERE STUDENT_ID=s.STUDENT_ID AND SYEAR='".UserSyear()."' AND (START_DATE<=CURRENT_DATE AND (END_DATE IS NULL OR CURRENT_DATE<=END_DATE)))"));
+			AND s.STUDENT_ID!='" . $student['STUDENT_ID'] . "'
+			AND exists(SELECT ''
+				FROM STUDENT_ENROLLMENT
+				WHERE STUDENT_ID=s.STUDENT_ID
+				AND SYEAR='" . UserSyear() . "'
+				AND (START_DATE<=CURRENT_DATE AND (END_DATE IS NULL OR CURRENT_DATE<=END_DATE)))" ) );
 
 			$last_deposit = DBGet(DBQuery("SELECT (SELECT sum(AMOUNT) FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,to_char(fst.TIMESTAMP,'YYYY-MM-DD') AS DATE
 			FROM FOOD_SERVICE_TRANSACTIONS fst
@@ -169,13 +187,29 @@ function reminder($student,$teacher,$xstudents,$target,$last_deposit,$note)
 	echo '<tr><td colspan="3" class="center"><b>'.$student['SCHOOL'].'</b></td></tr>';
 
 	echo '<tr><td style="width:33%;">';
-	echo ($student['NICKNAME']?$student['NICKNAME']:$student['FIRST_NAME']).' '.$student['LAST_NAME'].'<br />';
-	echo ''.$student['STUDENT_ID'].'';
+
+	echo getDisplayName(
+		$student['FIRST_NAME'],
+		$student['LAST_NAME'],
+		$student['MIDDLE_NAME'],
+		$student['NAME_SUFFIX']
+	) . '<br />';
+
+	echo $student['STUDENT_ID'];
 	if (count($xstudents))
 	{
 		echo '<br />'._('Other students on this account').':';
-		foreach ( (array) $xstudents as $xstudent)
-			echo '<br />&nbsp;&nbsp;'.($xstudent['NICKNAME']?$xstudent['NICKNAME']:$xstudent['FIRST_NAME']).' '.$xstudent['LAST_NAME'];
+
+		foreach ( (array) $xstudents as $xstudent )
+		{
+			echo '<br />&nbsp;&nbsp;' . getDisplayName(
+				$xstudent['FIRST_NAME'],
+				$xstudent['LAST_NAME'],
+				$xstudent['MIDDLE_NAME'],
+				$xstudent['NAME_SUFFIX']
+			);
+		}
+
 		echo '';
 	}
 	echo '</td><td style="width:33%;">';
@@ -208,7 +242,12 @@ function reminder($student,$teacher,$xstudents,$target,$last_deposit,$note)
 	echo ''._('Account ID').'';
 	echo '</td></tr>';
 
-	$note = str_replace('%N',($student['NICKNAME'] ? $student['NICKNAME'] : $student['FIRST_NAME']),$note);
+	$note = str_replace(
+		'%N',
+		$student['FIRST_NAME'],
+		$note
+	);
+
 	$note = str_replace('%F',$student['FIRST_NAME'],$note);
 	$note = str_replace('%g',($student['GENDER'] ? (mb_substr($student['GENDER'],0,1)=='F' ? 'she' : 'he') : 'he/she'),$note);
 	$note = str_replace('%G',($student['GENDER'] ? (mb_substr($student['GENDER'],0,1)=='F' ? 'She' : 'He') : 'He/she'),$note);

@@ -425,7 +425,7 @@ function makePublishing($value,$name)
  *
  * @return $visibleTo HTML form
  */
-function makePublishingVisibleTo($profiles, $THIS_RET, $id)
+function makePublishingVisibleTo( $profiles, $THIS_RET, $id )
 {
 	$visibleTo = '<table class="width-100p cellspacing-0">
 	<tr>
@@ -433,20 +433,19 @@ function makePublishingVisibleTo($profiles, $THIS_RET, $id)
 	</tr>
 	<tr class="st">';
 
-	//FJ Portal Polls add students teacher
-	$teachers_RET = DBGet(DBQuery("SELECT STAFF_ID,LAST_NAME,FIRST_NAME,MIDDLE_NAME
+	// FJ Portal Polls add students teacher.
+	$teachers_RET = DBGet( DBQuery( "SELECT STAFF_ID," . getDisplayNameSQL() . " AS FULL_NAME
 	FROM STAFF
-	WHERE (SCHOOLS IS NULL OR STRPOS(SCHOOLS,',".UserSchool().",')>0)
-	AND SYEAR='".UserSyear()."'
+	WHERE (SCHOOLS IS NULL OR STRPOS(SCHOOLS,'," . UserSchool() . ",')>0)
+	AND SYEAR='" . UserSyear() . "'
 	AND PROFILE='teacher'
-	ORDER BY LAST_NAME,FIRST_NAME"));
+	ORDER BY LAST_NAME,FIRST_NAME" ) );
 
 	$teachers = array();
 
-	if (count($teachers_RET))
+	foreach ( (array) $teachers_RET as $teacher )
 	{
-		foreach ( (array) $teachers_RET as $teacher)
-			$teachers[$teacher['STAFF_ID']] = $teacher['LAST_NAME'].', '.$teacher['FIRST_NAME'];
+		$teachers[ $teacher['STAFF_ID'] ] = $teacher['FULL_NAME'];
 	}
 
 	$i=0;
@@ -462,8 +461,8 @@ function makePublishingVisibleTo($profiles, $THIS_RET, $id)
 		{
 			$visibleTo .= ': ' . SelectInput(
 				$THIS_RET['STUDENTS_TEACHER_ID'],
-				'values['.$id.'][STUDENTS_TEACHER_ID]',
-				_('Limit to Teacher'),
+				'values[' . $id . '][STUDENTS_TEACHER_ID]',
+				_( 'Limit to Teacher' ),
 				$teachers,
 				'N/A',
 				'',

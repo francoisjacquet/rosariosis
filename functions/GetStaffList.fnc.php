@@ -155,7 +155,7 @@ function GetStaffList( &$extra = array() )
 
 	$profiles_RET = DBGet( DBQuery( "SELECT * FROM USER_PROFILES" ), array(), array( 'ID' ) );
 
-	$sql = "SELECT s.LAST_NAME||', '||s.FIRST_NAME||' '||COALESCE(s.MIDDLE_NAME,' ') AS FULL_NAME,
+	$sql = "SELECT " . getDisplayNameSQL( 's' ) . " AS FULL_NAME,
 			s.PROFILE,s.PROFILE_ID,s.STAFF_ID,s.SCHOOLS " . $extra['SELECT'] .
 			" FROM STAFF s " . $extra['FROM'] .
 			" WHERE	s.SYEAR='" . UserSyear() . "'";
@@ -182,8 +182,21 @@ function GetStaffList( &$extra = array() )
 	$sql .= $extra['WHERE'] . ' ';
 
 	// ORDER BY.
-	// It would be easier to sort on full_name but postgres sometimes yields strange results.
-	$sql .= 'ORDER BY s.LAST_NAME,s.FIRST_NAME,s.MIDDLE_NAME';
+	if ( ! isset( $extra['ORDER_BY'] )
+		/*&& ! isset( $extra['SELECT_ONLY'] )*/ )
+	{
+		// It would be easier to sort on full_name but postgres sometimes yields strange results.
+		$sql .= ' ORDER BY s.LAST_NAME,s.FIRST_NAME';
+
+		if ( isset( $extra['ORDER'] ) )
+		{
+			$sql .= $extra['ORDER'];
+		}
+	}
+	elseif ( isset( $extra['ORDER_BY'] ) )
+	{
+		$sql .= ' ORDER BY ' . $extra['ORDER_BY'];
+	}
 
 	if ( isset( $extra['functions'] ) )
 	{

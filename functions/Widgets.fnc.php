@@ -1056,12 +1056,12 @@ function Widgets( $item, &$myextra = null )
 				break;
 			}
 
-			$users_RET = DBGet( DBQuery( "SELECT STAFF_ID,FIRST_NAME,LAST_NAME,MIDDLE_NAME
+			$users_RET = DBGet( DBQuery( "SELECT STAFF_ID," . getDisplayNameSQL() . " AS FULL_NAME
 				FROM STAFF
-				WHERE SYEAR='".UserSyear()."'
+				WHERE SYEAR='" . UserSyear() . "'
 				AND (SCHOOLS IS NULL OR SCHOOLS LIKE '%," . UserSchool() . ",%')
 				AND (PROFILE='admin' OR PROFILE='teacher')
-				ORDER BY LAST_NAME,FIRST_NAME,MIDDLE_NAME"), array(), array( 'STAFF_ID' ) );
+				ORDER BY LAST_NAME,FIRST_NAME,MIDDLE_NAME" ), array(), array( 'STAFF_ID' ) );
 
 			if ( $_REQUEST['discipline_reporter'] )
 			{
@@ -1081,9 +1081,7 @@ function Widgets( $item, &$myextra = null )
 				if ( ! $extra['NoSearchTerms'] )
 				{
 					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Reporter' ) . ': </b>' .
-						$reporter['LAST_NAME'] . ', ' .
-						$reporter['FIRST_NAME'] . ' ' .
-						$reporter['MIDDLE_NAME'] . '<br />';
+						$reporter['FULL_NAME'] . '<br />';
 				}
 			}
 
@@ -1096,9 +1094,7 @@ function Widgets( $item, &$myextra = null )
 			foreach ( (array) $users_RET as $id => $user )
 			{
 				$extra['search'] .= '<option value="' . $id . '">' .
-						$user[1]['LAST_NAME'] . ', ' .
-						$user[1]['FIRST_NAME'] . ' ' .
-						$user[1]['MIDDLE_NAME'] .
+						$user[1]['FULL_NAME'] .
 					'</option>';
 			}
 

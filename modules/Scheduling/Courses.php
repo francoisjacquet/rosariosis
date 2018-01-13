@@ -340,17 +340,15 @@ if ( $_REQUEST['tables']
 							else
 								$short_name = $current[1]['SHORT_NAME'];
 
-							$teacher = DBGet(DBQuery("SELECT FIRST_NAME,LAST_NAME,MIDDLE_NAME FROM STAFF WHERE SYEAR='".UserSyear()."' AND STAFF_ID='".$staff_id."'"));
-
 							$mp_title = '';
 							if (GetMP($marking_period_id,'MP')!='FY')
 								$mp_title = GetMP($marking_period_id,'SHORT_NAME').' - ';
 
-							$base_title = $mp_title.$short_name.' - ';
+							$base_title = $mp_title . $short_name . ' - ';
 
 							//$base_title = str_replace("'","''",$base_title.$teacher[1]['FIRST_NAME'].' '.$teacher[1]['MIDDLE_NAME'].' '.$teacher[1]['LAST_NAME']);
 							//FJ remove teacher's middle name to gain space
-							$base_title = DBEscapeString($base_title.$teacher[1]['FIRST_NAME'].' '.$teacher[1]['LAST_NAME']);
+							$base_title = DBEscapeString( $base_title . GetTeacher( $staff_id ) );
 
 							$periods_title = '';
 							//get the missing part of the title before the short name:
@@ -478,9 +476,9 @@ if ( $_REQUEST['tables']
 						}
 						elseif ( $table_name=='COURSE_PERIODS')
 						{
-							$id = DBGet(DBQuery("SELECT ".db_seq_nextval('COURSE_PERIODS_SEQ').' AS ID'));
+							$id = DBGet( DBQuery( "SELECT " . db_seq_nextval( 'COURSE_PERIODS_SEQ' ) . ' AS ID' ) );
+
 							$fields = 'SYEAR,SCHOOL_ID,COURSE_PERIOD_ID,COURSE_ID,TITLE,FILLED_SEATS,';
-							$teacher = DBGet(DBQuery("SELECT FIRST_NAME,LAST_NAME,MIDDLE_NAME FROM STAFF WHERE SYEAR='".UserSyear()."' AND STAFF_ID='".$columns['TEACHER_ID']."'"));
 
 							if ( !isset($columns['PARENT_ID']))
 								$columns['PARENT_ID'] = $id[1]['ID'];
@@ -499,12 +497,14 @@ if ( $_REQUEST['tables']
 									$mp_title = GetMP($columns['MARKING_PERIOD_ID'],'SHORT_NAME').' - ';
 							}
 
-							if ( $columns['SHORT_NAME'])
-								$base_title = $mp_title.$columns['SHORT_NAME'].' - ';
+							if ( $columns['SHORT_NAME'] )
+							{
+								$base_title = $mp_title . $columns['SHORT_NAME'] . ' - ';
+							}
 
 							//$base_title = str_replace("'","''",$base_title.$teacher[1]['FIRST_NAME'].' '.$teacher[1]['MIDDLE_NAME'].' '.$teacher[1]['LAST_NAME']);
 							//FJ remove teacher's middle name to gain space
-							$base_title = DBEscapeString($base_title.$teacher[1]['FIRST_NAME'].' '.$teacher[1]['LAST_NAME']);
+							$base_title = DBEscapeString( $base_title . GetTeacher( $columns['TEACHER_ID'] ) );
 
 							$values = "'".UserSyear()."','".UserSchool()."','".$id[1]['ID']."','".$_REQUEST['course_id']."','".$base_title."','0',";
 							$_REQUEST['course_period_id'] = $id[1]['ID'];
@@ -839,7 +839,7 @@ if ( ( ! $_REQUEST['modfunc']
 				( $_REQUEST['moodle_create_course_period'] ? false : true )
 			) . '</td>';
 
-			$teachers_RET = DBGet( DBQuery( "SELECT STAFF_ID,LAST_NAME,FIRST_NAME,MIDDLE_NAME
+			$teachers_RET = DBGet( DBQuery( "SELECT STAFF_ID
 				FROM STAFF WHERE (SCHOOLS IS NULL OR STRPOS(SCHOOLS,'," . UserSchool() . ",')>0)
 				AND SYEAR='" . UserSyear() . "'
 				AND PROFILE='teacher'

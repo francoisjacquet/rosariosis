@@ -140,8 +140,11 @@ Search('student_id',$extra);
 
 if (UserStudentID())
 {
-	$name_RET = DBGet(DBQuery("SELECT FIRST_NAME||' '||COALESCE(MIDDLE_NAME,' ')||' '||LAST_NAME AS FULL_NAME FROM STUDENTS WHERE STUDENT_ID='".UserStudentID()."'"));
-	DrawHeader($name_RET[1]['FULL_NAME']);
+	$name_RET = DBGet( DBQuery( "SELECT " . getDisplayNameSQL() . " AS FULL_NAME
+		FROM STUDENTS
+		WHERE STUDENT_ID='" . UserStudentID() . "'" ) );
+
+	DrawHeader( $name_RET[1]['FULL_NAME'] );
 
 	$absences_RET = DBGet(DBQuery("SELECT ap.STUDENT_ID,ap.PERIOD_ID,ap.SCHOOL_DATE,ac.SHORT_NAME,
 		ac.TITLE,ac.STATE_CODE,ad.STATE_VALUE,ad.COMMENT AS OFFICE_COMMENT,ap.COMMENT AS TEACHER_COMMENT

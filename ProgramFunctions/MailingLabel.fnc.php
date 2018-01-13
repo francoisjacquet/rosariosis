@@ -53,7 +53,11 @@ function MailingLabel( $address_id )
 				$return .= $people[ $i ]['FIRST_NAME'] . ' &amp; ';
 			}
 
-			$return .= $people[ $i ]['FIRST_NAME'] . ' ' . $people[ $i ]['LAST_NAME'] . '<br />';
+			$return .= getDisplayName(
+				$people[ $i ]['FIRST_NAME'],
+				$people[ $i ]['LAST_NAME'],
+				$people[ $i ]['MIDDLE_NAME']
+			) . '<br />';
 		}
 
 		// Mab - this is a bit of a kludge but insert an html comment so people and address can be split later.

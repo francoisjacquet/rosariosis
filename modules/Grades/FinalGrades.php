@@ -25,16 +25,21 @@ if ( $_REQUEST['modfunc'] === 'delete'
 		$_REQUEST['modfunc'] = 'save';
 	}
 }
+elseif ( $_REQUEST['delete_cancel']
+	&& AllowEdit() )
+{
+	$_REQUEST['modfunc'] = 'save';
+}
 
 if ( $_REQUEST['modfunc'] === 'save' )
 {
 	if ( count( $_REQUEST['mp_arr'] )
-		&& count( $_REQUEST['st_arr'] ) )
+		&& count( $_REQUEST['st'] ) )
 	{
 
 		$mp_list = "'" . implode( "','", $_REQUEST['mp_arr'] ) . "'";
 
-		$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
+		$st_list = "'" . implode( "','", $_REQUEST['st'] ) . "'";
 
 		$last_mp = end( $_REQUEST['mp_arr'] );
 
@@ -77,17 +82,18 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		AND rc_cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID";
 
 		$extra['ORDER'] .= ",sg1.COURSE_TITLE,sp.SORT_ORDER,c.TITLE";
-		$extra['functions']['TEACHER'] = '_makeTeacher';
 
 		$extra['group'] = array('STUDENT_ID');
 		$extra['group'][] = 'COURSE_PERIOD_ID';
 		$extra['group'][] = 'MARKING_PERIOD_ID';
 
+		$extra['functions']['TEACHER'] = '_makeTeacher';
+
 		// Parent: associated students.
 		$extra['ASSOCIATED'] = User( 'STAFF_ID' );*/
 
-		if ( $_REQUEST['elements']['comments']=='Y')
-			$extra['functions']['COMMENTS_RET'] = '_makeComments';
+		/*if ( $_REQUEST['elements']['comments']=='Y')
+			$extra['functions']['COMMENTS_RET'] = '_makeComments';*/
 
 		$RET = GetStuList( $extra );
 
@@ -112,8 +118,10 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		{
 			$columns = array('FULL_NAME' => _('Student'),'COURSE_TITLE' => _('Course'));
 
-			if ( $_REQUEST['elements']['teacher']=='Y')
-				$columns += array('TEACHER' => _('Teacher'));
+			if ( $_REQUEST['elements']['teacher'] === 'Y' )
+			{
+				$columns += array( 'TEACHER_ID' => _( 'Teacher' ) );
+			}
 
 			if ( $_REQUEST['elements']['period_absences']=='Y')
 				$columns['ABSENCES'] = _('Abs<br />YTD / MP');
@@ -167,8 +175,13 @@ if ( $_REQUEST['modfunc'] === 'save' )
 						GetYTDTardies( $st_list, $student_id ) . '</div>';
 				}
 
-				$course_period_id = key( $course_periods );
-				$grades_RET[ $i + 1 ]['FULL_NAME'] = $course_periods[ $course_period_id ][ key( $course_periods[ $course_period_id ] ) ][1]['FULL_NAME'];
+				// Optimization: Student Full Name.
+				$student_name_RET = DBGet( DBQuery( "SELECT " . getDisplayNameSQL( 's' ) . " AS FULL_NAME
+					FROM STUDENTS s
+					WHERE s.STUDENT_ID='" . $student_id . "'
+					LIMIT 1" ) );
+
+				$grades_RET[ $i + 1 ]['FULL_NAME'] = $student_name_RET[1]['FULL_NAME'];
 
 				if ( $name_tipmessage )
 				{
@@ -189,7 +202,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					$grades_RET[ $i ]['MARKING_PERIOD_ID'] = key($mps);
 
 					$grades_RET[ $i ]['COURSE_TITLE'] = $mps[key($mps)][1]['COURSE_TITLE'];
-					$grades_RET[ $i ]['TEACHER'] = $mps[ $last_mp ][1]['TEACHER'];
+					$grades_RET[ $i ]['TEACHER_ID'] = GetTeacher( $mps[ $last_mp ][1]['TEACHER_ID'] );
 
 					foreach ( (array) $_REQUEST['mp_arr'] as $mp)
 					{
@@ -251,7 +264,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 			if (count($_REQUEST['mp_arr'])==1 && AllowEdit())
 			{
-				$link['remove']['link'] = PreparePHP_SELF($_REQUEST,array(),array('modfunc' => 'delete'));
+				$link['remove']['link'] = PreparePHP_SELF($_REQUEST,array('delete_cancel'),array('modfunc' => 'delete'));
 				$link['remove']['variables'] = array('student_id' => 'STUDENT_ID',
 				'course_period_id' => 'COURSE_PERIOD_ID',
 				'marking_period_id' => 'MARKING_PERIOD_ID');
@@ -373,7 +386,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 								$comment_scale_txt . '<br />';
 						}
 
-						$tipmessage .= makeTipMessage(
+						$tipmessage .= ' ' . makeTipMessage(
 							$tipmsg,
 							_( 'Comments' ),
 							button( 'comment', $commentsA[1]['COURSE_TITLE'] )
@@ -390,7 +403,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		{
 			$error[] = _( 'No Students were found.' );
 
-			// Unset modfunc & redirect URL. TOCHECK!
+			// Unset modfunc & redirect URL.
 			RedirectURL( 'modfunc' );
 		}
 	}
@@ -498,7 +511,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
 	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.checked,\'st_arr\');"><A>');
+	$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.checked,\'st\');"><A>');
 	$extra['options']['search'] = false;
 
 	// Parent: associated students.
@@ -520,7 +533,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 function _makeChooseCheckbox($value,$title)
 {
-	return '<input type="checkbox" name="st_arr[]" value="'.$value.'" checked />';
+	return '<input type="checkbox" name="st[]" value="'.$value.'" checked />';
 }
 
 function _makeComments($value,$column)
