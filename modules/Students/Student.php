@@ -503,6 +503,7 @@ if ( ( UserStudentID()
 		" ORDER BY SORT_ORDER,TITLE" ) );
 
 	if ( $_REQUEST['modfunc'] !== 'delete_medical'
+		&& $_REQUEST['modfunc'] !== 'delete_address'
 		|| $_REQUEST['delete_ok'] )
 	{
 		if ( $_REQUEST['student_id'] !== 'new' )

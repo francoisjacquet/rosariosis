@@ -271,7 +271,7 @@ if ( isset( $_POST['values'] )
 	RedirectURL( array( 'modfunc', 'values' ) );
 }
 
-if ( $_REQUEST['modfunc'] === 'delete'
+if ( $_REQUEST['modfunc'] === 'delete_address'
 	&& AllowEdit() )
 {
 	if ( $_REQUEST['contact_id'] )
@@ -450,7 +450,10 @@ if ( ! $_REQUEST['modfunc'] )
 				$remove_address_button = button(
 					'remove',
 					'',
-					'"Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $_REQUEST['category_id'] . '&address_id=' . $address['ADDRESS_ID'] . '&modfunc=delete"'
+					'"Modules.php?modname=' . $_REQUEST['modname'] .
+					'&category_id=' . $_REQUEST['category_id'] .
+					'&address_id=' . $address['ADDRESS_ID'] .
+					'&modfunc=delete_address"'
 				);
 			}
 
@@ -565,8 +568,18 @@ if ( ! $_REQUEST['modfunc'] )
 						$this_contact = $contact;
 
 					$i++;
-					if (AllowEdit())
-						$remove_button = button('remove', '', '"Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&modfunc=delete&address_id='.$_REQUEST['address_id'].'&person_id='.$contact['PERSON_ID'].'"');
+
+					if ( AllowEdit() )
+					{
+						$remove_button = button(
+							'remove',
+							'',
+							'"Modules.php?modname=' . $_REQUEST['modname'] .
+							'&category_id=' . $_REQUEST['category_id'] .
+							'&modfunc=delete_address&address_id=' . $_REQUEST['address_id'] .
+							'&person_id=' . $contact['PERSON_ID'] . '"'
+						);
+					}
 					else
 						$remove_button = '';
 
@@ -962,7 +975,11 @@ if ( ! $_REQUEST['modfunc'] )
 							echo '<td>' . button(
 								'remove',
 								'',
-								'"Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $_REQUEST['category_id'] . '&modfunc=delete&address_id=' . $_REQUEST['address_id'] . '&person_id=' . $_REQUEST['person_id'] . '&contact_id=' . $info['ID'] . '"'
+								'"Modules.php?modname=' . $_REQUEST['modname'] .
+								'&category_id=' . $_REQUEST['category_id'] .
+								'&modfunc=delete_address&address_id=' . $_REQUEST['address_id'] .
+								'&person_id=' . $_REQUEST['person_id'] .
+								'&contact_id=' . $info['ID'] . '"'
 							) . '</td><td>';
 						}
 						else
