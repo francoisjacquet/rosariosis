@@ -75,6 +75,8 @@ function db_start()
  *
  * @example $processable_results = DBQuery( "SELECT * FROM students" );
  *
+ * @since 3.7 INSERT INTO case to Replace empty strings ('') with NULL values.
+ *
  * @param  string   $sql SQL statement.
  *
  * @return resource PostgreSQL result resource
@@ -84,7 +86,15 @@ function DBQuery( $sql )
 	$connection = db_start();
 
 	// Replace empty strings ('') with NULL values.
-	$sql = preg_replace( "/([,\(>=])[\r\n\t ]*''(?!')/", '\\1NULL', $sql );
+	if ( strpos( 'INSERT INTO ', $sql ) !== false )
+	{
+		// Check for ( or , character before empty string ''
+		// AND ) or , character after empty string ''.
+		$sql = preg_replace( "/([,\(])[\r\n\t ]*''[\r\n\t ]*([,\)])/", '\\1NULL\\2', $sql );
+	}
+
+	// Check for <> or = character before empty string ''.
+	$sql = preg_replace( "/(<>|=)[\r\n\t ]*''(?!')/", '\\1NULL', $sql );
 
 	/**
 	 * IS NOT NULL cases
@@ -95,7 +105,7 @@ function DBQuery( $sql )
 	 */
 	$sql = str_replace(
 		array( '<>NULL', '!=NULL' ),
-		array( ' IS NOT NULL', ' IS NOT NULL' ),
+		array( ' IS NOT NULL' ),
 		$sql
 	);
 
