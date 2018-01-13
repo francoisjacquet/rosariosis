@@ -88,6 +88,10 @@ function Update()
 		case version_compare( $from_version, '3.5', '<' ) :
 
 			$return = _update35();
+
+		case version_compare( $from_version, '3.7-beta', '<' ) :
+
+			$return = _update37beta();
 	}
 
 	// Update version in DB CONFIG table.
@@ -728,6 +732,37 @@ function _update35()
 	if ( ! $failed_login_limit_added )
 	{
 		DBQuery( "INSERT INTO config VALUES (0, 'FAILED_LOGIN_LIMIT', NULL);" );
+	}
+
+	return $return;
+}
+
+
+/**
+ * Update to version 3.7-beta
+ *
+ * 1. Add DISPLAY_NAME to CONFIG table
+ *
+ * Local function
+ *
+ * @since 3.7
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update37beta()
+{
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. Add DISPLAY_NAME to CONFIG table.
+	 */
+	$display_name_added = DBGet( DBQuery( "SELECT 1 FROM CONFIG WHERE TITLE='DISPLAY_NAME'" ) );
+
+	if ( ! $display_name_added )
+	{
+		DBQuery( "INSERT INTO config VALUES (0, 'DISPLAY_NAME', 'FIRST_NAME||'' ''||LAST_NAME');" );
 	}
 
 	return $return;

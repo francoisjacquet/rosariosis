@@ -5,6 +5,7 @@ Changes in 3.7-beta
 -------------------
 - RTL layout issues #214 in rtl.css
 - INSERT INTO case to Replace empty strings ('') with NULL values in database.inc.php
+- Add DISPLAY_NAME to CONFIG table in rosariosis.sql & Update.fnc.php
 
 Changes in 3.6.1
 ----------------
