@@ -424,7 +424,7 @@ function GetStuList( &$extra = array() )
 	else
 	{
 		// Student Full Name.
-		$sql .= "s.LAST_NAME||', '||s.FIRST_NAME||' '||coalesce(s.MIDDLE_NAME,' ') AS FULL_NAME,";
+		$sql .= getDisplayNameSQL( 's' ) . " AS FULL_NAME,";
 
 		// Student Details.
 		$sql .='s.LAST_NAME,s.FIRST_NAME,s.MIDDLE_NAME,s.STUDENT_ID,ssm.SCHOOL_ID,ssm.GRADE_ID ' . $extra['SELECT'];
@@ -650,7 +650,7 @@ function GetStuList( &$extra = array() )
 		}
 
 		// It would be easier to sort on full_name but postgres sometimes yields strange results.
-		$sql .= 's.LAST_NAME,s.FIRST_NAME,s.MIDDLE_NAME';
+		$sql .= 's.LAST_NAME,s.FIRST_NAME';
 
 		if ( isset( $extra['ORDER'] ) )
 		{
@@ -1307,4 +1307,96 @@ function makeFieldTypeFunction( $field_type, $table = 'auto' )
 	}
 
 	return '';
+}
+
+
+/**
+ * Get Display Name SQL (SELECT)
+ * Must be used when retrieving Student or User full names.
+ *
+ * @since 3.7
+ *
+ * @example "SELECT " . getDisplayNameSQL( 's' ) . " AS FULL_NAME"
+ *
+ * @uses Config DISPLAY_NAME option.
+ *
+ * @param  string $table_alias Table alias, optional.
+ * @return string              Display name SQL (with table alias).
+ */
+function getDisplayNameSQL( $table_alias = '' )
+{
+	$display_name = Config( 'DISPLAY_NAME' );
+
+	// Values have %s. placeholders for table alias.
+	$display_names = array(
+		"FIRST_NAME||' '||LAST_NAME" => "%s.FIRST_NAME||' '||%s.LAST_NAME",
+		"FIRST_NAME||' '||LAST_NAME||coalesce(' '||NAME_SUFFIX,' ')" => "%s.FIRST_NAME||' '||%s.LAST_NAME||coalesce(' '||%s.NAME_SUFFIX,' ')",
+		"FIRST_NAME||coalesce(' '||MIDDLE_NAME||' ',' ')||LAST_NAME" => "%s.FIRST_NAME||coalesce(' '||%s.MIDDLE_NAME||' ',' ')||%s.LAST_NAME",
+		"FIRST_NAME||', '||LAST_NAME||coalesce(' '||MIDDLE_NAME,' ')" => "%s.FIRST_NAME||', '||%s.LAST_NAME||coalesce(' '||%s.MIDDLE_NAME,' ')",
+		"LAST_NAME||', '||FIRST_NAME" => "%s.LAST_NAME||', '||%s.FIRST_NAME",
+		"LAST_NAME||', '||FIRST_NAME||' '||COALESCE(MIDDLE_NAME,' ')" => "%s.LAST_NAME||', '||%s.FIRST_NAME||' '||COALESCE(%s.MIDDLE_NAME,' ')",
+	);
+
+	if ( ! isset( $display_names[ $display_name ] ) )
+	{
+		$display_name = key( $display_names );
+	}
+
+	if ( $table_alias )
+	{
+		$display_name = $display_names[ $display_name ];
+
+		$display_name = str_replace( '%s', $table_alias, $display_name );
+	}
+
+	return $display_name;
+}
+
+
+/**
+ * Get Display Name from values.
+ * Must be used when displaying Student or User full names.
+ *
+ * @since 3.7
+ *
+ * @example echo getDisplayName( 'John', 'Smith', 'Simon', 'Jr.' );
+ *
+ * @uses Config DISPLAY_NAME option.
+ *
+ * @param  string $first_name  First Name.
+ * @param  string $last_name   Last Name.
+ * @param  string $middle_name Middle Name (optional).
+ * @param  string $name_suffix Suffix (optional).
+ * @return string              Display Name.
+ */
+function getDisplayName( $first_name, $last_name, $middle_name = '', $name_suffix = '' )
+{
+	$display_name = Config( 'DISPLAY_NAME' );
+
+	// Values are not SQL formatted.
+	$display_names = array(
+		"FIRST_NAME||' '||LAST_NAME" => "FIRST_NAME LAST_NAME",
+		"FIRST_NAME||' '||LAST_NAME||coalesce(' '||NAME_SUFFIX,' ')" => "FIRST_NAME LAST_NAME NAME_SUFFIX",
+		"FIRST_NAME||coalesce(' '||MIDDLE_NAME||' ',' ')||LAST_NAME" => "FIRST_NAME MIDDLE_NAME LAST_NAME",
+		"FIRST_NAME||', '||LAST_NAME||coalesce(' '||MIDDLE_NAME,' ')" => "FIRST_NAME, LAST_NAME MIDDLE_NAME",
+		"LAST_NAME||', '||FIRST_NAME" => "LAST_NAME, FIRST_NAME",
+		"LAST_NAME||', '||FIRST_NAME||' '||COALESCE(MIDDLE_NAME,' ')" => "LAST_NAME, FIRST_NAME MIDDLE_NAME",
+	);
+
+	if ( ! isset( $display_names[ $display_name ] ) )
+	{
+		$display_name = $display_names["FIRST_NAME||' '||LAST_NAME"];
+	}
+	else
+	{
+		$display_name = $display_names[ $display_name ];
+	}
+
+	$display_name = str_replace(
+		array( 'FIRST_NAME', 'LAST_NAME', 'MIDDLE_NAME', 'NAME_SUFFIX' ),
+		array( $first_name, $last_name, $middle_name, $name_suffix ),
+		$display_name
+	);
+
+	return $display_name;
 }
