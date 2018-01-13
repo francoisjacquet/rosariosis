@@ -86,11 +86,10 @@ function DBQuery( $sql )
 	$connection = db_start();
 
 	// Replace empty strings ('') with NULL values.
-	if ( strpos( 'INSERT INTO ', $sql ) !== false )
+	if ( stripos( $sql, 'INSERT INTO ' ) !== false )
 	{
-		// Check for ( or , character before empty string ''
-		// AND ) or , character after empty string ''.
-		$sql = preg_replace( "/([,\(])[\r\n\t ]*''[\r\n\t ]*([,\)])/", '\\1NULL\\2', $sql );
+		// Check for ( or , character before empty string ''.
+		$sql = preg_replace( "/([,\(])[\r\n\t ]*''(?!')/", '\\1NULL', $sql );
 	}
 
 	// Check for <> or = character before empty string ''.
