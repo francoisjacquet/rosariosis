@@ -113,7 +113,7 @@ if ( ! $_REQUEST['modfunc'] )
 				}
 				else
 				{
-					$staff_name_RET = DBGet( DBQuery( "SELECT FIRST_NAME||' '||LAST_NAME AS NAME
+					$staff_name_RET = DBGet( DBQuery( "SELECT " . getDisplayNameSQL() . " AS NAME
 						FROM STAFF
 						WHERE SYEAR='" . UserSyear() . "'
 						AND USERNAME=(

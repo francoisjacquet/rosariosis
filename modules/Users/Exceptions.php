@@ -123,7 +123,9 @@ if ( $_REQUEST['modfunc'] === 'update'
 if ( UserStaffID()
 	&& ! $_REQUEST['modfunc'] )
 {
-$staff_RET = DBGet(DBQuery("SELECT FIRST_NAME,LAST_NAME,PROFILE,PROFILE_ID FROM STAFF WHERE STAFF_ID='".UserStaffID()."'"));
+	$staff_RET = DBGet( DBQuery( "SELECT " . getDisplayNameSQL() . " AS FULL_NAME,PROFILE,PROFILE_ID
+		FROM STAFF
+		WHERE STAFF_ID='" . UserStaffID() . "'" ) );
 
 if ( ! $staff_RET[1]['PROFILE_ID'])
 {
@@ -322,7 +324,12 @@ else
 	$profile_title = DBGet(DBQuery("SELECT TITLE FROM USER_PROFILES WHERE ID='".$staff_RET[1]['PROFILE_ID']."'"));
 	echo '<br />';
 
-	$error[] = sprintf(_('%s %s is assigned to the profile %s.'),$staff_RET[1]['FIRST_NAME'],$staff_RET[1]['LAST_NAME'],$profile_title[1]['TITLE']);
+	$error[] = sprintf(
+		_('%s %s is assigned to the profile %s.'),
+		$staff_RET[1]['FULL_NAME'],
+		'',
+		$profile_title[1]['TITLE']
+	);
 
 	$error[] = sprintf(_('To assign permissions to this user, either change the permissions for this profile using the %s setup or change this user to a user with custom permissions by using %s.'), (AllowUse('Users/Profiles.php') ? '<a href="Modules.php?modname=Users/Profiles.php">' : '')._('Profiles').(AllowUse('Users/Profiles.php') ? '</a>' : ''), (AllowUse('Users/User.php') ? '<a href="Modules.php?modname=Users/User.php">' : '')._('General Info').(AllowUse('Users/User.php') ? '</a>' : ''));
 

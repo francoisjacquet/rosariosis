@@ -20,11 +20,13 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 		//FJ multiple school periods for a course period
 		//FJ add subject areas
-		$course_periods_RET = DBGet(DBQuery("SELECT cp.TITLE,cp.COURSE_PERIOD_ID,cp.TITLE,cp.MARKING_PERIOD_ID,cp.MP,c.TITLE AS COURSE_TITLE,cp.TEACHER_ID,(SELECT LAST_NAME||', '||FIRST_NAME FROM STAFF WHERE STAFF_ID=cp.TEACHER_ID) AS TEACHER
+		$course_periods_RET = DBGet( DBQuery ("SELECT cp.TITLE,cp.COURSE_PERIOD_ID,cp.TITLE,
+		cp.MARKING_PERIOD_ID,cp.MP,c.TITLE AS COURSE_TITLE,cp.TEACHER_ID,
+		(SELECT " . getDisplayNameSQL() . " FROM STAFF WHERE STAFF_ID=cp.TEACHER_ID) AS TEACHER
 		FROM COURSE_PERIODS cp,COURSES c
 		WHERE c.COURSE_ID=cp.COURSE_ID
-		AND cp.COURSE_PERIOD_ID IN (".$cp_list.")
-		ORDER BY TEACHER"));
+		AND cp.COURSE_PERIOD_ID IN (" . $cp_list . ")
+		ORDER BY TEACHER" ) );
 
 		$first_extra = $extra;
 		$handle = PDFStart();
@@ -130,7 +132,12 @@ if ( ! $_REQUEST['modfunc'] )
 
 		echo '<table>';
 
-		$RET = DBGet(DBQuery("SELECT STAFF_ID,LAST_NAME||', '||FIRST_NAME AS FULL_NAME FROM STAFF WHERE PROFILE='teacher' AND (SCHOOLS IS NULL OR position(',".UserSchool().",' IN SCHOOLS)>0) AND SYEAR='".UserSyear()."' ORDER BY FULL_NAME"));
+		$RET = DBGet( DBQuery( "SELECT STAFF_ID," . getDisplayNameSQL() . " AS FULL_NAME
+			FROM STAFF
+			WHERE PROFILE='teacher'
+			AND (SCHOOLS IS NULL OR position('," . UserSchool() . ",' IN SCHOOLS)>0)
+			AND SYEAR='" . UserSyear() . "'
+			ORDER BY FULL_NAME" ) );
 
 		echo '<tr class="st"><td>'._('Teacher').'</td><td>';
 

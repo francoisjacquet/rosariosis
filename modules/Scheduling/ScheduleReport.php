@@ -288,14 +288,15 @@ if ( $_REQUEST['modfunc']=='students')
 
 	if ( $_REQUEST['unscheduled']=='true')
 	{
-		$sql = "SELECT s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,s.STUDENT_ID".$sql_birthdate.",ssm.GRADE_ID
-				FROM SCHEDULE_REQUESTS sr,STUDENTS s,STUDENT_ENROLLMENT ssm
-				WHERE (('".DBDate()."' BETWEEN ssm.START_DATE
-				AND ssm.END_DATE OR ssm.END_DATE IS NULL))
-				AND s.STUDENT_ID=sr.STUDENT_ID
-				AND s.STUDENT_ID=ssm.STUDENT_ID
-				AND ssm.SYEAR='".UserSyear()."'
-				AND ssm.SCHOOL_ID='".UserSchool()."' ";
+		$sql = "SELECT " . getDisplayNameSQL( 's' ) . " AS FULL_NAME,
+			s.STUDENT_ID" . $sql_birthdate . ",ssm.GRADE_ID
+			FROM SCHEDULE_REQUESTS sr,STUDENTS s,STUDENT_ENROLLMENT ssm
+			WHERE (('" . DBDate() . "' BETWEEN ssm.START_DATE
+			AND ssm.END_DATE OR ssm.END_DATE IS NULL))
+			AND s.STUDENT_ID=sr.STUDENT_ID
+			AND s.STUDENT_ID=ssm.STUDENT_ID
+			AND ssm.SYEAR='" . UserSyear() . "'
+			AND ssm.SCHOOL_ID='" . UserSchool() . "' ";
 
 		if ( $_REQUEST['course_id'])
 		{
@@ -310,14 +311,15 @@ if ( $_REQUEST['modfunc']=='students')
 	}
 	else
 	{
-		$sql = "SELECT s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,s.STUDENT_ID".$sql_birthdate.",ssm.GRADE_ID
-				FROM SCHEDULE ss,STUDENTS s,STUDENT_ENROLLMENT ssm
-				WHERE ('".DBDate()."' BETWEEN ss.START_DATE AND ss.END_DATE OR ss.END_DATE IS NULL)
-				AND (('".DBDate()."' BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL))
-				AND s.STUDENT_ID=ss.STUDENT_ID
-				AND s.STUDENT_ID=ssm.STUDENT_ID
-				AND ssm.SYEAR='".UserSyear()."'
-				AND ssm.SCHOOL_ID='".UserSchool()."' ";
+		$sql = "SELECT " . getDisplayNameSQL( 's' ) . " AS FULL_NAME,
+			s.STUDENT_ID" . $sql_birthdate . ",ssm.GRADE_ID
+			FROM SCHEDULE ss,STUDENTS s,STUDENT_ENROLLMENT ssm
+			WHERE ('" . DBDate() . "' BETWEEN ss.START_DATE AND ss.END_DATE OR ss.END_DATE IS NULL)
+			AND (('" . DBDate() . "' BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL))
+			AND s.STUDENT_ID=ss.STUDENT_ID
+			AND s.STUDENT_ID=ssm.STUDENT_ID
+			AND ssm.SYEAR='" . UserSyear() . "'
+			AND ssm.SCHOOL_ID='" . UserSchool() . "' ";
 
 		if ( $_REQUEST['course_period_id'])
 		{

@@ -91,7 +91,10 @@ if ( ! $_REQUEST['modfunc'] )
 
 		echo '<table class="center"><tr><td>';
 
-		$current_RET = DBGet(DBQuery("SELECT u.STUDENT_ID,s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME FROM STUDENTS_JOIN_USERS u,STUDENTS s WHERE s.STUDENT_ID=u.STUDENT_ID AND u.STAFF_ID='".UserStaffID()."'"));
+		$current_RET = DBGet( DBQuery( "SELECT u.STUDENT_ID," . getDisplayNameSQL( 's' ) . " AS FULL_NAME
+			FROM STUDENTS_JOIN_USERS u,STUDENTS s
+			WHERE s.STUDENT_ID=u.STUDENT_ID
+			AND u.STAFF_ID='" . UserStaffID() . "'" ) );
 
 		$link['remove'] = array('link' => 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete','variables' => array('student_id_remove' => 'STUDENT_ID'));
 

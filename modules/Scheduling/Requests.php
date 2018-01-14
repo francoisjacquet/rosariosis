@@ -250,7 +250,8 @@ function _makeTeacher( $value, $column )
 {
 	global $THIS_RET;
 
-	$teachers_RET = DBGet( DBQuery( "SELECT s.FIRST_NAME,s.LAST_NAME,s.STAFF_ID AS TEACHER_ID
+	$teachers_RET = DBGet( DBQuery( "SELECT " . getDisplayNameSQL( 's' ) . " AS FULL_NAME,
+		s.STAFF_ID AS TEACHER_ID
 		FROM STAFF s,COURSE_PERIODS cp
 		WHERE s.STAFF_ID=cp.TEACHER_ID
 		AND cp.COURSE_ID='" . $THIS_RET['COURSE_ID'] . "'" ) );
@@ -259,7 +260,7 @@ function _makeTeacher( $value, $column )
 
 	foreach ( (array) $teachers_RET as $teacher )
 	{
-		$options[ $teacher['TEACHER_ID'] ] = $teacher['FIRST_NAME'] . ' ' . $teacher['LAST_NAME'];
+		$options[ $teacher['TEACHER_ID'] ] = $teacher['FULL_NAME'];
 	}
 
 	return '<div style="display:table-cell;">' . _( 'With' ) . ':&nbsp;</div>

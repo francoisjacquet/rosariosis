@@ -2,6 +2,13 @@
 
 ## RosarioSIS Student Information System
 
+New in 3.7
+----------
+
+School Setup
+
+- School Configuration: Display Name, sponsored by @abogadeer
+
 New in 3.6
 ----------
 

@@ -146,7 +146,7 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 			'.gz',
 		);
 
-		$student_name_RET = DBGet( DBQuery( "SELECT FIRST_NAME||' '||LAST_NAME AS NAME
+		$student_name_RET = DBGet( DBQuery( "SELECT " . getDisplayNameSQL() . " AS NAME
 			FROM STUDENTS
 			WHERE STUDENT_ID='" . UserStudentID() . "'" ) );
 

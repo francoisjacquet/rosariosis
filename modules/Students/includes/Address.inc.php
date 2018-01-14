@@ -369,8 +369,8 @@ if ( ! $_REQUEST['modfunc'] )
 			if ( $address_id!='0')
 			{
 
-			// find other students associated with this address
-			$xstudents = DBGet( DBQuery( "SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,
+			// Find other students associated with this address.
+			$xstudents = DBGet( DBQuery( "SELECT s.STUDENT_ID," . getDisplayNameSQL( 's' ) . " AS FULL_NAME,
 				RESIDENCE,BUS_PICKUP,BUS_DROPOFF,MAILING
 				FROM STUDENTS s,STUDENTS_JOIN_ADDRESS sja
 				WHERE s.STUDENT_ID=sja.STUDENT_ID
@@ -556,7 +556,13 @@ if ( ! $_REQUEST['modfunc'] )
 
 			echo ($_REQUEST['address_id']=='0'?_('Contacts without an Address'):_('Contacts at this Address')).'</th></tr>';
 
-			$contacts_RET = DBGet(DBQuery("SELECT p.PERSON_ID,p.FIRST_NAME,p.MIDDLE_NAME,p.LAST_NAME,sjp.CUSTODY,sjp.EMERGENCY,sjp.STUDENT_RELATION FROM PEOPLE p,STUDENTS_JOIN_PEOPLE sjp WHERE p.PERSON_ID=sjp.PERSON_ID AND sjp.STUDENT_ID='".UserStudentID()."' AND sjp.ADDRESS_ID='".$_REQUEST['address_id']."' ORDER BY sjp.STUDENT_RELATION"));
+			$contacts_RET = DBGet( DBQuery( "SELECT p.PERSON_ID,p.FIRST_NAME,p.MIDDLE_NAME,p.LAST_NAME,
+				sjp.CUSTODY,sjp.EMERGENCY,sjp.STUDENT_RELATION
+				FROM PEOPLE p,STUDENTS_JOIN_PEOPLE sjp
+				WHERE p.PERSON_ID=sjp.PERSON_ID
+				AND sjp.STUDENT_ID='" . UserStudentID() . "'
+				AND sjp.ADDRESS_ID='" . $_REQUEST['address_id'] . "'
+				ORDER BY sjp.STUDENT_RELATION" ) );
 
 			$i = 1;
 			if (count($contacts_RET))
@@ -590,8 +596,9 @@ if ( ! $_REQUEST['modfunc'] )
 
 					$images = '';
 
-					// find other students associated with this person
-					$xstudents = DBGet( DBQuery( "SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,
+					// Find other students associated with this person.
+					$xstudents = DBGet( DBQuery( "SELECT s.STUDENT_ID,
+						" . getDisplayNameSQL( 's' ) . " AS FULL_NAME,
 						STUDENT_RELATION,CUSTODY,EMERGENCY
 						FROM STUDENTS s,STUDENTS_JOIN_PEOPLE sjp
 						WHERE s.STUDENT_ID=sjp.STUDENT_ID
@@ -1154,7 +1161,8 @@ if ( ! $_REQUEST['modfunc'] )
 						AND se.SCHOOL_ID='" . UserSchool() . "')";
 				}
 
-				$people_RET = DBGet( DBQuery( "SELECT DISTINCT p.PERSON_ID,p.FIRST_NAME,p.LAST_NAME
+				$people_RET = DBGet( DBQuery( "SELECT DISTINCT p.PERSON_ID,
+					p.FIRST_NAME,p.LAST_NAME,p.MIDDLE_NAME
 					FROM PEOPLE p,STUDENTS_JOIN_PEOPLE sjp
 					WHERE sjp.PERSON_ID=p.PERSON_ID
 					AND sjp.ADDRESS_ID" . ( $_REQUEST['address_id'] != '0' ? '!=' : '=' ) . "'0'
@@ -1168,7 +1176,11 @@ if ( ! $_REQUEST['modfunc'] )
 
 				foreach ( (array) $people_RET as $people )
 				{
-					$people_select[ $people['PERSON_ID'] ] = $people['LAST_NAME'] . ', ' . $people['FIRST_NAME'];
+					$people_select[ $people['PERSON_ID'] ] = getDisplayName(
+						$people['FIRST_NAME'],
+						$people['LAST_NAME'],
+						$people['MIDDLE_NAME']
+					);
 				}
 
 				echo ChosenSelectInput(
