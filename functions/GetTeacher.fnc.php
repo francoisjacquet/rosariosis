@@ -32,7 +32,7 @@ function GetTeacher( $teacher_id, $column = 'FULL_NAME', $schools = true )
 	{
 		$teachers = DBGet( DBQuery(
 			"SELECT STAFF_ID,FIRST_NAME,LAST_NAME,MIDDLE_NAME,
-			" . getDisplayNameSQL() . " AS FULL_NAME,USERNAME,PROFILE
+			" . DisplayNameSQL() . " AS FULL_NAME,USERNAME,PROFILE
 			FROM STAFF
 			WHERE SYEAR='" . UserSyear() . "'" .
 			( $schools ? " AND (SCHOOLS IS NULL OR SCHOOLS LIKE '%," . UserSchool() . ",%')" : '' ) ),

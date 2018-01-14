@@ -36,13 +36,13 @@ $students_RET = DBGet( DBQuery( "SELECT fst.TRANSACTION_ID,fst.ACCOUNT_ID,fst.SY
 		'fst.STUDENT_ID',
 		"''",
 		'NULL',
-		"(SELECT " . getDisplayNameSQL() . " FROM STUDENTS WHERE STUDENT_ID=fst.STUDENT_ID)"
+		"(SELECT " . DisplayNameSQL() . " FROM STUDENTS WHERE STUDENT_ID=fst.STUDENT_ID)"
 	) ) . " AS FULL_NAME,fst.ACCOUNT_ID AS STUDENTS,fst.SCHOOL_ID
 	FROM FOOD_SERVICE_TRANSACTIONS
 	fst WHERE fst.SCHOOL_ID IS NULL" ), array( 'STUDENTS' => '_students', 'SCHOOL_ID' => '_make_school' ) );
 
 $staff_RET = DBGet( DBQuery( "SELECT fst.TRANSACTION_ID,fst.STAFF_ID,fst.SYEAR,
-	(SELECT " . getDisplayNameSQL() . " FROM STAFF WHERE STAFF_ID=fst.STAFF_ID) AS FULL_NAME,fst.SCHOOL_ID
+	(SELECT " . DisplayNameSQL() . " FROM STAFF WHERE STAFF_ID=fst.STAFF_ID) AS FULL_NAME,fst.SCHOOL_ID
 	FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst
 	WHERE fst.SCHOOL_ID IS NULL" ), array( 'SCHOOL_ID' => '_make_staff_school' ) );
 

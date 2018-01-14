@@ -7,9 +7,9 @@ Changes in 3.7-beta
 - INSERT INTO case to Replace empty strings ('') with NULL values in database.inc.php
 - #218 Add DISPLAY_NAME to CONFIG table in rosariosis.sql & Update.fnc.php
 - Fix #221 Delete Addresses & Contacts info does not delete student in Student.php & Address.inc.php
-- #218 Add getDisplayNameSQL() & getDisplayName() functions in GetStuList.fnc.php
+- #218 Add DisplayNameSQL() & DisplayName() functions in GetStuList.fnc.php
 - #218 Add Display Name option in Configuration.php
-- #218 Use getDisplayName & getDisplayNameSQL functions programwide
+- #218 Use DisplayName & DisplayNameSQL functions programwide
 
 Changes in 3.6.1
 ----------------

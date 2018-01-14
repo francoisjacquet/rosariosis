@@ -128,7 +128,7 @@ if ( isset( $_REQUEST['h'] )
 {
 	// Select Staff where last login > now.
 	$staff_RET = DBGet( DBQuery( "SELECT STAFF_ID AS ID, USERNAME, PASSWORD, EMAIL,
-		" . getDisplayNameSQL() . " AS FULL_NAME, LAST_LOGIN, PROFILE_ID
+		" . DisplayNameSQL() . " AS FULL_NAME, LAST_LOGIN, PROFILE_ID
 		FROM STAFF
 		WHERE LAST_LOGIN > CURRENT_TIMESTAMP
 		AND SYEAR='" . Config( 'SYEAR' ) . "'" ) );
@@ -156,7 +156,7 @@ if ( isset( $_REQUEST['h'] )
 			// Select Students where last login > now & enrolled.
 			$student_RET = DBGet( DBQuery( "SELECT s.STUDENT_ID AS ID, s.USERNAME, s.PASSWORD,
 				s." . $custom_field . " AS EMAIL,
-				" . getDisplayNameSQL( 's' ) . " AS FULL_NAME, s.LAST_LOGIN
+				" . DisplayNameSQL( 's' ) . " AS FULL_NAME, s.LAST_LOGIN
 				FROM STUDENTS s, STUDENT_ENROLLMENT se
 				WHERE s.LAST_LOGIN > CURRENT_TIMESTAMP
 				AND se.SYEAR='" . Config( 'SYEAR' ) . "'
@@ -336,7 +336,7 @@ function _sendPasswordResetEmail( $user_id, $user_type = 'staff', $email )
 	{
 		// Get Staff email, password.
 		$staff_RET = DBGet( DBQuery( "SELECT USERNAME, PASSWORD,
-			" . getDisplayNameSQL() . " AS FULL_NAME
+			" . DisplayNameSQL() . " AS FULL_NAME
 			FROM STAFF
 			WHERE STAFF_ID='" . $user_id . "'
 			AND SYEAR='" . Config( 'SYEAR' ) . "'" ) );
@@ -351,7 +351,7 @@ function _sendPasswordResetEmail( $user_id, $user_type = 'staff', $email )
 	{
 		// Get Student username, password, name.
 		$student_RET = DBGet( DBQuery( "SELECT USERNAME,PASSWORD,
-			" . getDisplayNameSQL( 's' ) . " AS FULL_NAME
+			" . DisplayNameSQL( 's' ) . " AS FULL_NAME
 			FROM STUDENTS s,STUDENT_ENROLLMENT ssm
 			WHERE s.STUDENT_ID='" . $user_id . "'
 			AND s.STUDENT_ID=ssm.STUDENT_ID
@@ -508,7 +508,7 @@ function _notifyServerAdminPasswordReset( $user_id )
 		return false;
 	}
 
-	$staff_RET = DBGet( DBQuery( "SELECT USERNAME," . getDisplayNameSQL() . " AS FULL_NAME,PROFILE
+	$staff_RET = DBGet( DBQuery( "SELECT USERNAME," . DisplayNameSQL() . " AS FULL_NAME,PROFILE
 		FROM STAFF
 		WHERE STAFF_ID='" . $user_id . "'
 		AND SYEAR='" . Config( 'SYEAR' ) . "'" ) );

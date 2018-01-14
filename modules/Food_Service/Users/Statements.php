@@ -13,7 +13,7 @@ Search('staff_id',$extra);
 
 if (UserStaffID() && ! $_REQUEST['modfunc'])
 {
-	$staff = DBGet( DBQuery( "SELECT s.STAFF_ID," . getDisplayNameSQL( 's' ) . " AS FULL_NAME,
+	$staff = DBGet( DBQuery( "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 		(SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS ACCOUNT_ID,
 		(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE
 		FROM STAFF s
@@ -48,7 +48,7 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 				'fst.SELLER_ID',
 				"''",
 				'NULL',
-				"(SELECT " . getDisplayNameSQL() . " FROM STAFF WHERE STAFF_ID=fst.SELLER_ID)"
+				"(SELECT " . DisplayNameSQL() . " FROM STAFF WHERE STAFF_ID=fst.SELLER_ID)"
 			) ) . " AS SELLER
 			FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst
 			WHERE fst.STAFF_ID='" . UserStaffID() . "'

@@ -425,7 +425,7 @@ function GetStuList( &$extra = array() )
 	else
 	{
 		// Student Full Name.
-		$sql .= getDisplayNameSQL( 's' ) . " AS FULL_NAME,";
+		$sql .= DisplayNameSQL( 's' ) . " AS FULL_NAME,";
 
 		// Student Details.
 		$sql .='s.LAST_NAME,s.FIRST_NAME,s.MIDDLE_NAME,s.STUDENT_ID,ssm.SCHOOL_ID,ssm.GRADE_ID ' . $extra['SELECT'];
@@ -707,7 +707,7 @@ function makeContactInfo( $student_id, $column )
 			if ( $person[1]['FIRST_NAME'] || $person[1]['LAST_NAME'] )
 			{
 				$tipmsg .= $person[1]['STUDENT_RELATION'] . ': ' .
-					getDisplayName(
+					DisplayName(
 						$person[1]['FIRST_NAME'],
 						$person[1]['LAST_NAME'],
 						$person[1]['MIDDLE_NAME']
@@ -1322,14 +1322,14 @@ function makeFieldTypeFunction( $field_type, $table = 'auto' )
  *
  * @since 3.7
  *
- * @example "SELECT " . getDisplayNameSQL( 's' ) . " AS FULL_NAME"
+ * @example "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME FROM STUDENTS s"
  *
  * @uses Config DISPLAY_NAME option.
  *
  * @param  string $table_alias Table alias, optional.
  * @return string              Display name SQL (with table alias).
  */
-function getDisplayNameSQL( $table_alias = '' )
+function DisplayNameSQL( $table_alias = '' )
 {
 	$display_name = Config( 'DISPLAY_NAME' );
 
@@ -1366,7 +1366,7 @@ function getDisplayNameSQL( $table_alias = '' )
  *
  * @since 3.7
  *
- * @example echo getDisplayName( 'John', 'Smith', 'Simon', 'Jr.' );
+ * @example echo DisplayName( 'John', 'Smith', 'Simon', 'Jr.' );
  *
  * @uses Config DISPLAY_NAME option.
  *
@@ -1376,7 +1376,7 @@ function getDisplayNameSQL( $table_alias = '' )
  * @param  string $name_suffix Suffix (optional).
  * @return string              Display Name.
  */
-function getDisplayName( $first_name, $last_name, $middle_name = '', $name_suffix = '' )
+function DisplayName( $first_name, $last_name, $middle_name = '', $name_suffix = '' )
 {
 	$display_name = Config( 'DISPLAY_NAME' );
 

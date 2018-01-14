@@ -27,7 +27,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 		$school = SchoolInfo( 'TITLE' );
 
-		$staffs = DBGet( DBQuery( "SELECT s.FIRST_NAME," . getDisplayNameSQL( 's' ) . " AS FULL_NAME,
+		$staffs = DBGet( DBQuery( "SELECT s.FIRST_NAME," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 			s.PROFILE,fsa.STATUS,fsa.BALANCE
 			FROM STAFF s,FOOD_SERVICE_STAFF_ACCOUNTS fsa
 			WHERE s.STAFF_ID IN (" . $st_list . ")

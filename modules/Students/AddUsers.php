@@ -72,7 +72,7 @@ if ( ! $_REQUEST['modfunc'] )
 		echo '<table class="center"><tr><td>';
 
 		$current_RET = DBGet( DBQuery( "SELECT u.STAFF_ID,
-			" . getDisplayNameSQL( 's' ) . " AS FULL_NAME,s.LAST_LOGIN
+			" . DisplayNameSQL( 's' ) . " AS FULL_NAME,s.LAST_LOGIN
 			FROM STUDENTS_JOIN_USERS u,STAFF s
 			WHERE s.STAFF_ID=u.STAFF_ID
 			AND u.STUDENT_ID='" . UserStudentID() . "'

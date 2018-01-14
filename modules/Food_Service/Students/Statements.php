@@ -19,7 +19,7 @@ Search('student_id',$extra);
 
 if (UserStudentID() && ! $_REQUEST['modfunc'])
 {
-	$student = DBGet( DBQuery( "SELECT s.STUDENT_ID," . getDisplayNameSQL( 's' ) . " AS FULL_NAME,
+	$student = DBGet( DBQuery( "SELECT s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 	fsa.ACCOUNT_ID,fsa.STATUS,
 	(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fsa.ACCOUNT_ID) AS BALANCE
 	FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fsa
@@ -29,7 +29,7 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 	$student = $student[1];
 
 	// Find other students associated with the same account.
-	$xstudents = DBGet(DBQuery("SELECT s.STUDENT_ID," . getDisplayNameSQL( 's' ) . " AS FULL_NAME
+	$xstudents = DBGet(DBQuery("SELECT s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME
 	FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa
 	WHERE fssa.ACCOUNT_ID='" . $student['ACCOUNT_ID'] . "'
 	AND s.STUDENT_ID=fssa.STUDENT_ID
@@ -78,13 +78,13 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 				'fst.STUDENT_ID',
 				"''",
 				'NULL',
-				"(SELECT " . getDisplayNameSQL() . " FROM STUDENTS WHERE STUDENT_ID=fst.STUDENT_ID)"
+				"(SELECT " . DisplayNameSQL() . " FROM STUDENTS WHERE STUDENT_ID=fst.STUDENT_ID)"
 			) ) . " AS STUDENT," .
 			db_case( array(
 				'fst.SELLER_ID',
 				"''",
 				'NULL',
-				"(SELECT " . getDisplayNameSQL() . " FROM STAFF WHERE STAFF_ID=fst.SELLER_ID)"
+				"(SELECT " . DisplayNameSQL() . " FROM STAFF WHERE STAFF_ID=fst.SELLER_ID)"
 			) ) . " AS SELLER
 			FROM FOOD_SERVICE_TRANSACTIONS fst
 			WHERE fst.ACCOUNT_ID='" . $student['ACCOUNT_ID'] . "'

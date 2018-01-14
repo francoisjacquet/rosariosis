@@ -276,7 +276,7 @@ if ( isset( $_REQUEST['values'] )
 		// FJ add SendEmail function.
 		require_once 'ProgramFunctions/SendEmail.fnc.php';
 
-		$student_RET = DBGet( DBQuery( "SELECT " . getDisplayNameSQL() . " AS FULL_NAME
+		$student_RET = DBGet( DBQuery( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
 			FROM STUDENTS
 			WHERE STUDENT_ID='" . UserStudentID() . "'" ) );
 
@@ -531,7 +531,7 @@ if ( isset( $custom_fields_RET['200000009'] )
 	$student_dataquery .= ', CUSTOM_200000009';
 }
 
-$student_RET = DBGet( DBQuery( "SELECT " . getDisplayNameSQL() . " AS FULL_NAME" . $student_dataquery . "
+$student_RET = DBGet( DBQuery( "SELECT " . DisplayNameSQL() . " AS FULL_NAME" . $student_dataquery . "
 	FROM STUDENTS
 	WHERE STUDENT_ID='" . UserStudentID() . "'" ) );
 

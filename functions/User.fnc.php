@@ -40,7 +40,7 @@ function User( $item )
 		if ( ! empty( $_SESSION['STAFF_ID'] )
 			&& $_SESSION['STAFF_ID'] !== '-1' )
 		{
-			$sql = "SELECT STAFF_ID,USERNAME," . getDisplayNameSQL() . " AS NAME,
+			$sql = "SELECT STAFF_ID,USERNAME," . DisplayNameSQL() . " AS NAME,
 				PROFILE,PROFILE_ID,SCHOOLS,CURRENT_SCHOOL_ID,EMAIL,SYEAR,LAST_LOGIN
 				FROM STAFF
 				WHERE SYEAR='" . UserSyear() . "'
@@ -54,7 +54,7 @@ function User( $item )
 		// Get Student Info.
 		elseif ( ! empty( $_SESSION['STUDENT_ID'] ) )
 		{
-			$sql = "SELECT '0' AS STAFF_ID,s.USERNAME," . getDisplayNameSQL( 's' ) . " AS NAME,
+			$sql = "SELECT '0' AS STAFF_ID,s.USERNAME," . DisplayNameSQL( 's' ) . " AS NAME,
 				'student' AS PROFILE,'0' AS PROFILE_ID,','||se.SCHOOL_ID||',' AS SCHOOLS,se.SYEAR,se.SCHOOL_ID
 				FROM STUDENTS s,STUDENT_ENROLLMENT se
 				WHERE s.STUDENT_ID='" . $_SESSION['STUDENT_ID'] . "'

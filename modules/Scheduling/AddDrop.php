@@ -38,7 +38,7 @@ echo '<form action="'.PreparePHP_SELF().'" method="POST">';
 DrawHeader(_('Timeframe').':'.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end').' : <input type=submit value="'._('Go').'">');
 echo '</form>';
 
-$enrollment_RET = DBGet(DBQuery("SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,se.START_DATE AS START_DATE,NULL AS END_DATE,se.START_DATE AS DATE,se.STUDENT_ID," . getDisplayNameSQL( 's' ) . " AS FULL_NAME
+$enrollment_RET = DBGet(DBQuery("SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,se.START_DATE AS START_DATE,NULL AS END_DATE,se.START_DATE AS DATE,se.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME
 FROM SCHEDULE se,STUDENTS s,COURSES c,COURSE_PERIODS cp
 WHERE c.COURSE_ID=se.COURSE_ID
 AND cp.COURSE_PERIOD_ID=se.COURSE_PERIOD_ID
@@ -47,7 +47,7 @@ AND s.STUDENT_ID=se.STUDENT_ID
 AND se.SCHOOL_ID='".UserSchool()."'
 AND se.START_DATE BETWEEN '".$start_date."' AND '".$end_date."'
 UNION
-SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,NULL AS START_DATE,se.END_DATE AS END_DATE,se.END_DATE AS DATE,se.STUDENT_ID," . getDisplayNameSQL( 's' ) . " AS FULL_NAME
+SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,NULL AS START_DATE,se.END_DATE AS END_DATE,se.END_DATE AS DATE,se.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME
 FROM SCHEDULE se,STUDENTS s,COURSES c,COURSE_PERIODS cp
 WHERE c.COURSE_ID=se.COURSE_ID
 AND cp.COURSE_PERIOD_ID=se.COURSE_PERIOD_ID

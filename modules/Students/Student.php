@@ -508,7 +508,7 @@ if ( ( UserStudentID()
 	{
 		if ( $_REQUEST['student_id'] !== 'new' )
 		{
-			$sql = "SELECT s.STUDENT_ID," . getDisplayNameSQL( 's' ) . " AS FULL_NAME,
+			$sql = "SELECT s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 			s.FIRST_NAME,s.LAST_NAME,s.MIDDLE_NAME,s.NAME_SUFFIX,
 			s.USERNAME,s.PASSWORD,s.LAST_LOGIN,
 			(SELECT ID

@@ -29,7 +29,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 		{
 			if ( $_REQUEST['w_course_period_id_which']=='course_period' && $_REQUEST['w_course_period_id'])
 			{
-				$extra['SELECT'] .= ",(SELECT " . getDisplayNameSQL( 'st' ) . "
+				$extra['SELECT'] .= ",(SELECT " . DisplayNameSQL( 'st' ) . "
 				FROM STAFF st,COURSE_PERIODS cp
 				WHERE st.STAFF_ID=cp.TEACHER_ID
 				AND cp.COURSE_PERIOD_ID='" . $_REQUEST['w_course_period_id'] . "') AS TEACHER";
@@ -40,7 +40,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 			{
 				//FJ multiple school periods for a course period
 				//$extra['SELECT'] .= ",(SELECT st.FIRST_NAME||' '||st.LAST_NAME FROM STAFF st,COURSE_PERIODS cp,SCHOOL_PERIODS p,SCHEDULE ss WHERE st.STAFF_ID=cp.TEACHER_ID AND cp.PERIOD_id=p.PERIOD_ID AND p.ATTENDANCE='Y' AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='".UserSyear()."' AND ss.MARKING_PERIOD_ID IN (".GetAllMP('QTR',GetCurrentMP('QTR',DBDate(),false)).") AND (ss.START_DATE<='".DBDate()."' AND (ss.END_DATE>='".DBDate()."' OR ss.END_DATE IS NULL)) ORDER BY p.SORT_ORDER LIMIT 1) AS TEACHER";
-				$extra['SELECT'] .= ",(SELECT " . getDisplayNameSQL( 'st' ) . "
+				$extra['SELECT'] .= ",(SELECT " . DisplayNameSQL( 'st' ) . "
 				FROM STAFF st,COURSE_PERIODS cp,SCHOOL_PERIODS p,SCHEDULE ss,COURSE_PERIOD_SCHOOL_PERIODS cpsp
 				WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 				AND st.STAFF_ID=cp.TEACHER_ID
@@ -60,7 +60,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 		}
 		else
 		{
-			$extra['SELECT'] .= ",(SELECT " . getDisplayNameSQL( 'st' ) . "
+			$extra['SELECT'] .= ",(SELECT " . DisplayNameSQL( 'st' ) . "
 			FROM STAFF st,COURSE_PERIODS cp
 			WHERE st.STAFF_ID=cp.TEACHER_ID
 			AND cp.COURSE_PERIOD_ID='" . UserCoursePeriod() . "') AS TEACHER";

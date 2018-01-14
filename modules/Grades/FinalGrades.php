@@ -176,7 +176,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				}
 
 				// Optimization: Student Full Name.
-				$student_name_RET = DBGet( DBQuery( "SELECT " . getDisplayNameSQL( 's' ) . " AS FULL_NAME
+				$student_name_RET = DBGet( DBQuery( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME
 					FROM STUDENTS s
 					WHERE s.STUDENT_ID='" . $student_id . "'
 					LIMIT 1" ) );

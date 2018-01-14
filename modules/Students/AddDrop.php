@@ -40,13 +40,13 @@ echo '<form action="'.PreparePHP_SELF().'" method="POST">';
 DrawHeader(_('Timeframe').':'.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end').' : <input type="submit" value="'._('Go').'">');
 echo '</form>';
 
-$enrollment_RET = DBGet( DBQuery( "SELECT se.START_DATE AS START_DATE,NULL AS END_DATE,se.START_DATE AS DATE,se.STUDENT_ID," . getDisplayNameSQL( 's' ) . " AS FULL_NAME,sch.TITLE
+$enrollment_RET = DBGet( DBQuery( "SELECT se.START_DATE AS START_DATE,NULL AS END_DATE,se.START_DATE AS DATE,se.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,sch.TITLE
 FROM STUDENT_ENROLLMENT se,STUDENTS s,SCHOOLS sch
 WHERE s.STUDENT_ID=se.STUDENT_ID
 AND se.START_DATE BETWEEN '".$start_date."' AND '".$end_date."'
 AND sch.ID=se.SCHOOL_ID
 UNION
-SELECT NULL AS START_DATE,se.END_DATE AS END_DATE,se.END_DATE AS DATE,se.STUDENT_ID," . getDisplayNameSQL( 's' ) . " AS FULL_NAME,sch.TITLE
+SELECT NULL AS START_DATE,se.END_DATE AS END_DATE,se.END_DATE AS DATE,se.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,sch.TITLE
 FROM STUDENT_ENROLLMENT se,STUDENTS s,SCHOOLS sch
 WHERE s.STUDENT_ID=se.STUDENT_ID
 AND se.END_DATE BETWEEN '".$start_date."' AND '".$end_date."'

@@ -180,7 +180,7 @@ if (UserStudentID() && $_REQUEST['student_id'])
 
 	echo '<table class="width-100p">';
 
-	$student_name_RET = DBGet( DBQuery( "SELECT " . getDisplayNameSQL() . " AS FULL_NAME
+	$student_name_RET = DBGet( DBQuery( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
 		FROM STUDENTS
 		WHERE STUDENT_ID='" . UserStudentID() . "'" ) );
 
@@ -191,7 +191,7 @@ if (UserStudentID() && $_REQUEST['student_id'])
 
 	echo '<tr><td>';
 
-	$users_RET = DBGet( DBQuery( "SELECT STAFF_ID," . getDisplayNameSQL() . " AS FULL_NAME,
+	$users_RET = DBGet( DBQuery( "SELECT STAFF_ID," . DisplayNameSQL() . " AS FULL_NAME,
 		EMAIL,PROFILE
 		FROM STAFF
 		WHERE SYEAR='" . UserSyear() . "'

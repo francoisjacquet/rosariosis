@@ -14,7 +14,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 			$RET = DBGet(DBQuery("SELECT ACCOUNT_ID FROM FOOD_SERVICE_STUDENT_ACCOUNTS WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."' AND STUDENT_ID!='".UserStudentID()."'"));
 			if ( $RET)
 			{
-				$student_RET = DBGet( DBQuery( "SELECT " . getDisplayNameSQL( 's' ) . " AS FULL_NAME
+				$student_RET = DBGet( DBQuery( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME
 					FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa
 					WHERE s.STUDENT_ID=fssa.STUDENT_ID
 					AND fssa.ACCOUNT_ID='" . $RET[1]['ACCOUNT_ID'] . "'" ) );
@@ -27,7 +27,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 				$RET = DBGet(DBQuery("SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."'"));
 				if ( $RET)
 				{
-					$staff_RET = DBGet( DBQuery( "SELECT " . getDisplayNameSQL() . " AS FULL_NAME
+					$staff_RET = DBGet( DBQuery( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
 						FROM STAFF
 						WHERE STAFF_ID='" . $RET[1]['STAFF_ID'] . "'" ) );
 
@@ -93,7 +93,7 @@ echo ErrorMessage( $error );
 
 if (UserStudentID() && ! $_REQUEST['modfunc'])
 {
-	$student = DBGet(DBQuery("SELECT s.STUDENT_ID," . getDisplayNameSQL( 's' ) . " AS FULL_NAME,
+	$student = DBGet(DBQuery("SELECT s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 		fssa.ACCOUNT_ID,fssa.STATUS,fssa.DISCOUNT,fssa.BARCODE,
 		(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fssa.ACCOUNT_ID) AS BALANCE
 		FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa
@@ -103,7 +103,7 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 	$student = $student[1];
 
 	// Find other students associated with the same account.
-	$xstudents = DBGet( DBQuery( "SELECT s.STUDENT_ID," . getDisplayNameSQL( 's' ) . " AS FULL_NAME
+	$xstudents = DBGet( DBQuery( "SELECT s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME
 	FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa
 	WHERE fssa.ACCOUNT_ID='" . $student['ACCOUNT_ID'] . "'
 	AND s.STUDENT_ID=fssa.STUDENT_ID

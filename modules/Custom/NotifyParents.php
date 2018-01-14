@@ -39,7 +39,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	{
 		$st_list = '\''.implode('\',\'',$_REQUEST['staff']).'\'';
 
-		$extra['SELECT'] = "," . getDisplayNameSQL( 's' ) . " AS NAME,s.USERNAME,s.PASSWORD,s.EMAIL";
+		$extra['SELECT'] = "," . DisplayNameSQL( 's' ) . " AS NAME,s.USERNAME,s.PASSWORD,s.EMAIL";
 		$extra['WHERE'] = " AND s.STAFF_ID IN (" . $st_list . ")";
 
 		$RET = GetStaffList( $extra );
@@ -59,7 +59,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			$password_encrypted = encrypt_password($password);
 			DBQuery("UPDATE STAFF SET PASSWORD='".$password_encrypted."' WHERE STAFF_ID='".$staff_id."'");
 
-			$students_RET = DBGet( DBQuery( "SELECT " . getDisplayNameSQL( 's' ) . " AS FULL_NAME
+			$students_RET = DBGet( DBQuery( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME
 			FROM STUDENTS s,STUDENT_ENROLLMENT sse,STUDENTS_JOIN_USERS sju
 			WHERE sju.STAFF_ID='" . $staff_id . "'
 			AND s.STUDENT_ID=sju.STUDENT_ID

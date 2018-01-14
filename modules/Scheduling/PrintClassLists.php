@@ -22,7 +22,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		//FJ add subject areas
 		$course_periods_RET = DBGet( DBQuery ("SELECT cp.TITLE,cp.COURSE_PERIOD_ID,cp.TITLE,
 		cp.MARKING_PERIOD_ID,cp.MP,c.TITLE AS COURSE_TITLE,cp.TEACHER_ID,
-		(SELECT " . getDisplayNameSQL() . " FROM STAFF WHERE STAFF_ID=cp.TEACHER_ID) AS TEACHER
+		(SELECT " . DisplayNameSQL() . " FROM STAFF WHERE STAFF_ID=cp.TEACHER_ID) AS TEACHER
 		FROM COURSE_PERIODS cp,COURSES c
 		WHERE c.COURSE_ID=cp.COURSE_ID
 		AND cp.COURSE_PERIOD_ID IN (" . $cp_list . ")
@@ -132,7 +132,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		echo '<table>';
 
-		$RET = DBGet( DBQuery( "SELECT STAFF_ID," . getDisplayNameSQL() . " AS FULL_NAME
+		$RET = DBGet( DBQuery( "SELECT STAFF_ID," . DisplayNameSQL() . " AS FULL_NAME
 			FROM STAFF
 			WHERE PROFILE='teacher'
 			AND (SCHOOLS IS NULL OR position('," . UserSchool() . ",' IN SCHOOLS)>0)

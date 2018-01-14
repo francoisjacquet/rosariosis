@@ -45,7 +45,7 @@ function EmailReferral( $referral_id, $emails )
 	{
 		$referral = $referral_RET[1];
 
-		$student_RET = DBGet( DBQuery( "SELECT " . getDisplayNameSQL() . " AS FULL_NAME
+		$student_RET = DBGet( DBQuery( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
 			FROM STUDENTS
 			WHERE STUDENT_ID='" . $referral['STUDENT_ID'] . "'" ) );
 

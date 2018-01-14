@@ -1056,7 +1056,7 @@ function Widgets( $item, &$myextra = null )
 				break;
 			}
 
-			$users_RET = DBGet( DBQuery( "SELECT STAFF_ID," . getDisplayNameSQL() . " AS FULL_NAME
+			$users_RET = DBGet( DBQuery( "SELECT STAFF_ID," . DisplayNameSQL() . " AS FULL_NAME
 				FROM STAFF
 				WHERE SYEAR='" . UserSyear() . "'
 				AND (SCHOOLS IS NULL OR SCHOOLS LIKE '%," . UserSchool() . ",%')

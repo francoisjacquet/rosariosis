@@ -155,7 +155,7 @@ function GetStaffList( &$extra = array() )
 
 	$profiles_RET = DBGet( DBQuery( "SELECT * FROM USER_PROFILES" ), array(), array( 'ID' ) );
 
-	$sql = "SELECT " . getDisplayNameSQL( 's' ) . " AS FULL_NAME,
+	$sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 			s.PROFILE,s.PROFILE_ID,s.STAFF_ID,s.SCHOOLS " . $extra['SELECT'] .
 			" FROM STAFF s " . $extra['FROM'] .
 			" WHERE	s.SYEAR='" . UserSyear() . "'";

@@ -140,7 +140,7 @@ Search('student_id',$extra);
 
 if (UserStudentID())
 {
-	$name_RET = DBGet( DBQuery( "SELECT " . getDisplayNameSQL() . " AS FULL_NAME
+	$name_RET = DBGet( DBQuery( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
 		FROM STUDENTS
 		WHERE STUDENT_ID='" . UserStudentID() . "'" ) );
 

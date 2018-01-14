@@ -53,7 +53,7 @@ function MailingLabel( $address_id )
 				$return .= $people[ $i ]['FIRST_NAME'] . ' &amp; ';
 			}
 
-			$return .= getDisplayName(
+			$return .= DisplayName(
 				$people[ $i ]['FIRST_NAME'],
 				$people[ $i ]['LAST_NAME'],
 				$people[ $i ]['MIDDLE_NAME']

@@ -17,7 +17,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			{
 				if ( $_REQUEST['teacher'] )
 				{
-					$extra['SELECT'] .= ",(SELECT " . getDisplayNameSQL( 'st' ) . "
+					$extra['SELECT'] .= ",(SELECT " . DisplayNameSQL( 'st' ) . "
 					FROM STAFF st,COURSE_PERIODS cp
 					WHERE st.STAFF_ID=cp.TEACHER_ID
 					AND cp.COURSE_PERIOD_ID='" . $_REQUEST['w_course_period_id'] . "') AS TEACHER";
@@ -31,7 +31,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				if ( $_REQUEST['teacher'] )
 				{
 					// FJ multiple school periods for a course period.
-					$extra['SELECT'] .= ",(SELECT " . getDisplayNameSQL( 'st' ) . "
+					$extra['SELECT'] .= ",(SELECT " . DisplayNameSQL( 'st' ) . "
 					FROM STAFF st,COURSE_PERIODS cp,SCHOOL_PERIODS p,SCHEDULE ss, COURSE_PERIOD_SCHOOL_PERIODS cpsp
 					WHERE st.STAFF_ID=cp.TEACHER_ID
 					AND cpsp.PERIOD_id=p.PERIOD_ID
@@ -54,7 +54,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		{
 			if ( $_REQUEST['teacher'] )
 			{
-				$extra['SELECT'] .= ",(SELECT " . getDisplayNameSQL( 'st' ) . " AS FULL_NAME
+				$extra['SELECT'] .= ",(SELECT " . DisplayNameSQL( 'st' ) . " AS FULL_NAME
 					FROM STAFF st,COURSE_PERIODS cp
 					WHERE st.STAFF_ID=cp.TEACHER_ID
 					AND cp.COURSE_PERIOD_ID='" . UserCoursePeriod() . "') AS TEACHER";
@@ -172,7 +172,7 @@ if ( ! $_REQUEST['modfunc'] )
 		{
 			if ( $_REQUEST['w_course_period_id_which']=='course_period' && $_REQUEST['w_course_period_id'])
 			{
-				$course_RET = DBGet( DBQuery( "SELECT " . getDisplayNameSQL( 's' ) . " AS TEACHER,cp.ROOM
+				$course_RET = DBGet( DBQuery( "SELECT " . DisplayNameSQL( 's' ) . " AS TEACHER,cp.ROOM
 				FROM STAFF s,COURSE_PERIODS cp
 				WHERE s.STAFF_ID=cp.TEACHER_ID
 				AND cp.COURSE_PERIOD_ID='" . $_REQUEST['w_course_period_id'] . "'" ) );

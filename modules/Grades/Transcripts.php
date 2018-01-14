@@ -70,7 +70,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			s.FIRST_NAME,
 			s.LAST_NAME,
 			s.MIDDLE_NAME,
-			" . getDisplayNameSQL( 's' ) . " AS FULL_NAME";
+			" . DisplayNameSQL( 's' ) . " AS FULL_NAME";
 
 			$custom_fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE FROM CUSTOM_FIELDS WHERE ID IN (200000000, 200000003, 200000004)"),array(),array('ID'));
 

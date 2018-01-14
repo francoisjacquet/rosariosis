@@ -45,7 +45,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		{
 			if ( $homeroom )
 			{
-				$teacher = DBGet( DBQuery( "SELECT " . getDisplayNameSQL( 's' ) . " AS FULL_NAME,cs.TITLE
+				$teacher = DBGet( DBQuery( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,cs.TITLE
 				FROM STAFF s,SCHEDULE sch,COURSE_PERIODS cp,COURSES c,COURSE_SUBJECTS cs
 				WHERE s.STAFF_ID=cp.TEACHER_ID
 				AND sch.STUDENT_ID='" . $student['STUDENT_ID'] . "'
@@ -62,7 +62,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				/*$teacher = DBGet(DBQuery("SELECT s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,cs.TITLE
 				FROM STAFF s,SCHEDULE sch,COURSE_PERIODS cp,COURSES c,COURSE_SUBJECTS cs,SCHOOL_PERIODS sp
 				WHERE s.STAFF_ID=cp.TEACHER_ID AND sch.STUDENT_ID='".$student['STUDENT_ID']."' AND cp.COURSE_ID=sch.COURSE_ID AND c.COURSE_ID=cp.COURSE_ID AND c.SUBJECT_ID=cs.SUBJECT_ID AND sp.PERIOD_ID=cp.PERIOD_ID AND sp.ATTENDANCE='Y' AND sch.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND sch.SYEAR='".UserSyear()."'"));*/
-				$teacher = DBGet( DBQuery( "SELECT " . getDisplayNameSQL( 's' ) . " AS FULL_NAME,cs.TITLE
+				$teacher = DBGet( DBQuery( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,cs.TITLE
 				FROM STAFF s,SCHEDULE sch,COURSE_PERIODS cp,COURSES c,COURSE_SUBJECTS cs,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
 				WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 				AND s.STAFF_ID=cp.TEACHER_ID
@@ -187,7 +187,7 @@ function reminder($student,$teacher,$xstudents,$target,$last_deposit,$note)
 
 	echo '<tr><td style="width:33%;">';
 
-	echo getDisplayName(
+	echo DisplayName(
 		$student['FIRST_NAME'],
 		$student['LAST_NAME'],
 		$student['MIDDLE_NAME'],
@@ -201,7 +201,7 @@ function reminder($student,$teacher,$xstudents,$target,$last_deposit,$note)
 
 		foreach ( (array) $xstudents as $xstudent )
 		{
-			echo '<br />&nbsp;&nbsp;' . getDisplayName(
+			echo '<br />&nbsp;&nbsp;' . DisplayName(
 				$xstudent['FIRST_NAME'],
 				$xstudent['LAST_NAME'],
 				$xstudent['MIDDLE_NAME'],

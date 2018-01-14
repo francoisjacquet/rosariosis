@@ -153,7 +153,7 @@ if ( ! empty( $_REQUEST['student_billing'] )
 
 	if ( isset( $_REQUEST['staff_payroll'], $_REQUEST['student_billing'] ) )
 	{
-		$name_col_sql = "," . getDisplayNameSQL() . " AS STUDENT_NAME, '' AS FULL_NAME";
+		$name_col_sql = "," . DisplayNameSQL() . " AS STUDENT_NAME, '' AS FULL_NAME";
 	}
 
 	$fees_extra['SELECT'] .= $name_col_sql.",f.AMOUNT AS DEBIT,'' AS CREDIT,f.TITLE||' '||COALESCE(f.COMMENTS,' ') AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID";

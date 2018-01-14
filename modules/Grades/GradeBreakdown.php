@@ -66,7 +66,7 @@ DrawHeader( $mp_select );
 
 echo '</form>';
 
-$grouped_SQL = "SELECT " . getDisplayNameSQL( 's' ) . " AS FULL_NAME,s.STAFF_ID,g.REPORT_CARD_GRADE_ID
+$grouped_SQL = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,s.STAFF_ID,g.REPORT_CARD_GRADE_ID
 	FROM STUDENT_REPORT_CARD_GRADES g,STAFF s,COURSE_PERIODS cp
 	WHERE g.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
 	AND cp.TEACHER_ID=s.STAFF_ID

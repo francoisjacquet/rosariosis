@@ -23,7 +23,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 		$extra['SELECT'] .= ",(SELECT SORT_ORDER FROM SCHOOL_GRADELEVELS WHERE ID=ssm.GRADE_ID) AS SORT_ORDER";
 
-		$extra['SELECT'] .= ",(SELECT " . getDisplayNameSQL( 'st' ) . "
+		$extra['SELECT'] .= ",(SELECT " . DisplayNameSQL( 'st' ) . "
 		FROM STAFF st,COURSE_PERIODS cp,SCHEDULE ss
 		WHERE st.STAFF_ID=cp.TEACHER_ID
 		AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID

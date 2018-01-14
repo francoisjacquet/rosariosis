@@ -123,7 +123,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 if ( UserStaffID()
 	&& ! $_REQUEST['modfunc'] )
 {
-	$staff_RET = DBGet( DBQuery( "SELECT " . getDisplayNameSQL() . " AS FULL_NAME,PROFILE,PROFILE_ID
+	$staff_RET = DBGet( DBQuery( "SELECT " . DisplayNameSQL() . " AS FULL_NAME,PROFILE,PROFILE_ID
 		FROM STAFF
 		WHERE STAFF_ID='" . UserStaffID() . "'" ) );
 

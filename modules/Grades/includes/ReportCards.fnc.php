@@ -539,7 +539,7 @@ function ReportCardsGenerate( $student_array, $mp_array )
 			$addresses = array( 0 => array() );
 
 		// Optimization: Student Full Name & Grade Level.
-		$student_name_grade_RET = DBGet( DBQuery( "SELECT " . getDisplayNameSQL() . " AS FULL_NAME,ssm.GRADE_ID
+		$student_name_grade_RET = DBGet( DBQuery( "SELECT " . DisplayNameSQL() . " AS FULL_NAME,ssm.GRADE_ID
 			FROM STUDENTS s JOIN STUDENT_ENROLLMENT ssm ON (ssm.STUDENT_ID=s.STUDENT_ID)
 			WHERE s.STUDENT_ID='" . $student_id . "'
 			LIMIT 1" ) );

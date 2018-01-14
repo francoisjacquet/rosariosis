@@ -31,7 +31,7 @@ function Update()
 	 * Prevent DB version update if new Update.fnc.php file has NOT been uploaded YET.
 	 * Update must be run once both new Warehouse.php & Update.fnc.php files are uploaded.
 	 */
-	if ( version_compare( '3.6.1', ROSARIO_VERSION, '<' ) )
+	if ( version_compare( '3.7-beta', ROSARIO_VERSION, '<' ) )
 	{
 		return false;
 	}
@@ -762,7 +762,7 @@ function _update37beta()
 
 	if ( ! $display_name_added )
 	{
-		DBQuery( "INSERT INTO config VALUES (0, 'DISPLAY_NAME', 'FIRST_NAME||'' ''||LAST_NAME');" );
+		DBQuery( "INSERT INTO config VALUES (0, 'DISPLAY_NAME', 'FIRST_NAME||coalesce('' ''||MIDDLE_NAME||'' '','' '')||LAST_NAME');" );
 	}
 
 	return $return;

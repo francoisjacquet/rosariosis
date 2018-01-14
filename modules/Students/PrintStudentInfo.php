@@ -110,7 +110,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 						foreach ( (array) $contacts_RET as $contact )
 						{
-							echo '<br /><b>' . getDisplayName(
+							echo '<br /><b>' . DisplayName(
 								$contact['FIRST_NAME'],
 								$contact['LAST_NAME'],
 								$contact['MIDDLE_NAME']

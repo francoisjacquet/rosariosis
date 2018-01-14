@@ -370,7 +370,7 @@ if ( ! $_REQUEST['modfunc'] )
 			{
 
 			// Find other students associated with this address.
-			$xstudents = DBGet( DBQuery( "SELECT s.STUDENT_ID," . getDisplayNameSQL( 's' ) . " AS FULL_NAME,
+			$xstudents = DBGet( DBQuery( "SELECT s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 				RESIDENCE,BUS_PICKUP,BUS_DROPOFF,MAILING
 				FROM STUDENTS s,STUDENTS_JOIN_ADDRESS sja
 				WHERE s.STUDENT_ID=sja.STUDENT_ID
@@ -598,7 +598,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 					// Find other students associated with this person.
 					$xstudents = DBGet( DBQuery( "SELECT s.STUDENT_ID,
-						" . getDisplayNameSQL( 's' ) . " AS FULL_NAME,
+						" . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 						STUDENT_RELATION,CUSTODY,EMERGENCY
 						FROM STUDENTS s,STUDENTS_JOIN_PEOPLE sjp
 						WHERE s.STUDENT_ID=sjp.STUDENT_ID
@@ -646,7 +646,7 @@ if ( ! $_REQUEST['modfunc'] )
 					}
 
 					echo '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $_REQUEST['category_id'] . '&address_id=' . $_REQUEST['address_id'] . '&person_id=' . $contact['PERSON_ID'] . '">' .
-						getDisplayName(
+						DisplayName(
 							$contact['FIRST_NAME'],
 							$contact['LAST_NAME'],
 							$contact['MIDDLE_NAME']
@@ -1176,7 +1176,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 				foreach ( (array) $people_RET as $people )
 				{
-					$people_select[ $people['PERSON_ID'] ] = getDisplayName(
+					$people_select[ $people['PERSON_ID'] ] = DisplayName(
 						$people['FIRST_NAME'],
 						$people['LAST_NAME'],
 						$people['MIDDLE_NAME']

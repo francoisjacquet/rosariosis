@@ -40,13 +40,13 @@ if ( UserStudentID()
 	    		'fst.STUDENT_ID',
 	    		"''",
 	    		'NULL',
-	    		"(SELECT " . getDisplayNameSQL() . " FROM STUDENTS WHERE STUDENT_ID=fst.STUDENT_ID)"
+	    		"(SELECT " . DisplayNameSQL() . " FROM STUDENTS WHERE STUDENT_ID=fst.STUDENT_ID)"
 	    	) ) . " AS FULL_NAME," .
 	    	db_case( array(
 	    		'fst.SELLER_ID',
 	    		"''",
 	    		'NULL',
-	    		"(SELECT " . getDisplayNameSQL() . " FROM STAFF WHERE STAFF_ID=fst.SELLER_ID)"
+	    		"(SELECT " . DisplayNameSQL() . " FROM STAFF WHERE STAFF_ID=fst.SELLER_ID)"
 	    	) ) . " AS SELLER
 		FROM FOOD_SERVICE_TRANSACTIONS fst
 		WHERE SYEAR='" . UserSyear() . "'
@@ -109,7 +109,7 @@ if ( UserStudentID()
 			'fst.STUDENT_ID',
 			"''",
 			'NULL',
-			"(SELECT " . getDisplayNameSQL() . " FROM STUDENTS WHERE STUDENT_ID=fst.STUDENT_ID)"
+			"(SELECT " . DisplayNameSQL() . " FROM STUDENTS WHERE STUDENT_ID=fst.STUDENT_ID)"
 		) ) . " AS FULL_NAME
 		FROM FOOD_SERVICE_TRANSACTIONS fst
 		WHERE SYEAR='" . UserSyear() . "'
@@ -138,7 +138,7 @@ if ( UserStudentID()
 		$type_select .= '<option value="'.$short_name.'"'.($_REQUEST['type_select']==$short_name ? ' selected' : '').'>'.$type['DESCRIPTION'].'</option>';
 	$type_select .= '</select></span>';
 
-	$staff_RET = DBGet( DBquery( "SELECT STAFF_ID," . getDisplayNameSQL() . " AS FULL_NAME
+	$staff_RET = DBGet( DBquery( "SELECT STAFF_ID," . DisplayNameSQL() . " AS FULL_NAME
 		FROM STAFF
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOLS LIKE '%," . UserSchool() . ",%'

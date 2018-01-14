@@ -250,7 +250,7 @@ function _makeTeacher( $value, $column )
 {
 	global $THIS_RET;
 
-	$teachers_RET = DBGet( DBQuery( "SELECT " . getDisplayNameSQL( 's' ) . " AS FULL_NAME,
+	$teachers_RET = DBGet( DBQuery( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 		s.STAFF_ID AS TEACHER_ID
 		FROM STAFF s,COURSE_PERIODS cp
 		WHERE s.STAFF_ID=cp.TEACHER_ID

@@ -185,7 +185,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 						// Hook.
 						do_action( 'Custom/CreateParents.php|create_user' );
 
-						$staff = DBGet( DBquery( "SELECT " . getDisplayNameSQL() . " AS NAME,
+						$staff = DBGet( DBquery( "SELECT " . DisplayNameSQL() . " AS NAME,
 							USERNAME,PASSWORD
 							FROM STAFF
 							WHERE STAFF_ID='" . $id . "'" ) );
@@ -195,7 +195,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 						$id = true;
 						$staff = array(
 							1 => array(
-								'NAME' => getDisplayName(
+								'NAME' => DisplayName(
 									$user['FIRST_NAME'],
 									$user['LAST_NAME'],
 									$user['MIDDLE_NAME']
@@ -213,7 +213,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 			{
 				$id = $students[1]['STAFF_ID'];
 
-				$staff = DBGet( DBquery( "SELECT " . getDisplayNameSQL() . " AS NAME,
+				$staff = DBGet( DBquery( "SELECT " . DisplayNameSQL() . " AS NAME,
 					USERNAME,PASSWORD
 					FROM STAFF
 					WHERE STAFF_ID='" . $id . "'" ) );
@@ -407,7 +407,7 @@ function _makeContactSelect( $value, $column )
 		{
 			$return .= '<tr><td>'.($contact['PERSON_ID']?'<input type="radio" name="contact['.$value.']" value='.$contact['PERSON_ID'].$checked.' />':'&nbsp;').'</td>';
 
-			$return .= '<td>' . getDisplayName(
+			$return .= '<td>' . DisplayName(
 				$contact['FIRST_NAME'],
 				$contact['LAST_NAME'],
 				$contact['MIDDLE_NAME']

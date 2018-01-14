@@ -91,7 +91,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		echo '<table class="center"><tr><td>';
 
-		$current_RET = DBGet( DBQuery( "SELECT u.STUDENT_ID," . getDisplayNameSQL( 's' ) . " AS FULL_NAME
+		$current_RET = DBGet( DBQuery( "SELECT u.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME
 			FROM STUDENTS_JOIN_USERS u,STUDENTS s
 			WHERE s.STUDENT_ID=u.STUDENT_ID
 			AND u.STAFF_ID='" . UserStaffID() . "'" ) );

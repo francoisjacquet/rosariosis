@@ -208,7 +208,7 @@ function mySearch($type,$extra='')
 
 		echo '<table>';
 
-		$RET = DBGet( DBQuery( "SELECT STAFF_ID," . getDisplayNameSQL() . " AS FULL_NAME
+		$RET = DBGet( DBQuery( "SELECT STAFF_ID," . DisplayNameSQL() . " AS FULL_NAME
 			FROM STAFF
 			WHERE PROFILE='teacher'
 			AND (SCHOOLS IS NULL OR position('," . UserSchool() . ",' IN SCHOOLS)>0)

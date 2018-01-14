@@ -29,7 +29,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 if ( ! $_REQUEST['modfunc']
 	&& UserStudentID() )
 {
-	$student = DBGet( DBQuery( "SELECT s.STUDENT_ID," . getDisplayNameSQL( 's' ) . " AS FULL_NAME,
+	$student = DBGet( DBQuery( "SELECT s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 		fssa.ACCOUNT_ID,fssa.STATUS,fssa.DISCOUNT,fssa.BARCODE,
 		(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fssa.ACCOUNT_ID) AS BALANCE
 		FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa
@@ -39,7 +39,7 @@ if ( ! $_REQUEST['modfunc']
 	$student = $student[1];
 
 	// Find other students associated with the same account.
-	$xstudents = DBGet( DBQuery( "SELECT s.STUDENT_ID," . getDisplayNameSQL( 's' ) . " AS FULL_NAME
+	$xstudents = DBGet( DBQuery( "SELECT s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME
 		FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa
 		WHERE fssa.ACCOUNT_ID='" . $student['ACCOUNT_ID'] . "'
 		AND s.STUDENT_ID=fssa.STUDENT_ID

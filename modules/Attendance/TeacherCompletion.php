@@ -48,7 +48,7 @@ echo '</form>';
 //FJ multiple school periods for a course period
 if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 {
-	$sql = "SELECT s.STAFF_ID," . getDisplayNameSQL( 's' ) . " AS FULL_NAME,
+	$sql = "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 	sp.TITLE,cpsp.PERIOD_ID,cp.TITLE AS CP_TITLE,
 	(SELECT 'Y'
 		FROM ATTENDANCE_COMPLETED ac
@@ -86,7 +86,7 @@ if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 		AND sp.BLOCK=acc.BLOCK)
 	ORDER BY FULL_NAME";
 } else {
-	$sql = "SELECT s.STAFF_ID," . getDisplayNameSQL( 's' ) . " AS FULL_NAME,
+	$sql = "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 		sp.TITLE,cpsp.PERIOD_ID,cp.TITLE AS CP_TITLE,
 		(SELECT 'Y'
 			FROM ATTENDANCE_COMPLETED ac

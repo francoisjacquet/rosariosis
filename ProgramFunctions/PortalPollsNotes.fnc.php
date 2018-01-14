@@ -434,7 +434,7 @@ function makePublishingVisibleTo( $profiles, $THIS_RET, $id )
 	<tr class="st">';
 
 	// FJ Portal Polls add students teacher.
-	$teachers_RET = DBGet( DBQuery( "SELECT STAFF_ID," . getDisplayNameSQL() . " AS FULL_NAME
+	$teachers_RET = DBGet( DBQuery( "SELECT STAFF_ID," . DisplayNameSQL() . " AS FULL_NAME
 	FROM STAFF
 	WHERE (SCHOOLS IS NULL OR STRPOS(SCHOOLS,'," . UserSchool() . ",')>0)
 	AND SYEAR='" . UserSyear() . "'

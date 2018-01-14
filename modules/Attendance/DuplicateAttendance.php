@@ -121,7 +121,7 @@ if ( isset( $_REQUEST['search_modfunc'] )
 
 		unset($extra);
 		$extra['SELECT_ONLY'] .= "ap.COURSE_PERIOD_ID,s.STUDENT_ID,
-		" . getDisplayNameSQL( 's' ) . " AS FULL_NAME,
+		" . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 		ap.SCHOOL_DATE,cp.TITLE,ap.PERIOD_ID,sc.START_DATE,sc.END_DATE ";
 		$extra['FROM'] .= " ,ATTENDANCE_PERIOD ap, COURSE_PERIODS cp, SCHEDULE sc ";
 		//$extra['WHERE'] .= " AND ssm.student_id=s.student_id AND ap.STUDENT_ID=s.STUDENT_ID AND ap.COURSE_PERIOD_ID = cp.COURSE_PERIOD_ID AND ('".DBDate()."' BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL) ";
@@ -181,7 +181,7 @@ if ( isset( $_REQUEST['search_modfunc'] )
 
 		unset($extra);
 		$extra['SELECT_ONLY'] .= "ap.COURSE_PERIOD_ID,s.STUDENT_ID,
-		" . getDisplayNameSQL( 's' ) . " AS FULL_NAME,
+		" . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 		ap.SCHOOL_DATE,cp.TITLE,cp.SHORT_NAME,ap.PERIOD_ID,sc.START_DATE,sc.END_DATE ";
 		$extra['FROM'] .= " ,ATTENDANCE_PERIOD ap, COURSE_PERIODS cp, SCHEDULE sc ";
 		//$extra['WHERE'] .= " AND ssm.student_id=s.student_id AND ap.STUDENT_ID=s.STUDENT_ID AND ap.COURSE_PERIOD_ID = cp.COURSE_PERIOD_ID AND ('".DBDate()."' BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL) ";

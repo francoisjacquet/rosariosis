@@ -66,7 +66,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		$days_convert = array('U' => _('Day').' 7','M' => _('Day').' 1','T' => _('Day').' 2','W' => _('Day').' 3','H' => _('Day').' 4','F' => _('Day').' 5','S' => _('Day').' 6');
 
 	$schedule_table_RET = DBGet( DBQuery( "SELECT cp.ROOM,cs.TITLE,sp.TITLE AS SCHOOL_PERIOD,
-		cpsp.DAYS,stu.STUDENT_ID," . getDisplayNameSQL( 'sta' ) . " AS FULL_NAME
+		cpsp.DAYS,stu.STUDENT_ID," . DisplayNameSQL( 'sta' ) . " AS FULL_NAME
 	FROM COURSE_PERIODS cp,COURSES c,SCHOOLS s,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp,STUDENTS stu,SCHEDULE sch,STAFF sta,COURSE_SUBJECTS cs
 	WHERE cp.COURSE_ID=c.COURSE_ID
 	AND c.SUBJECT_ID=cs.SUBJECT_ID
