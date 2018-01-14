@@ -243,6 +243,9 @@ HTML;
 			<li>
 				<i>Limite de Intentos Fallidos de Entrada</i>: inhabilita el acceso durante 10 minutos cuando se alcanza el limite de intentos fallidos de entrada. Se mostrará el error "Demasiados intentos fallidos de entrada. Por favor intente entrar más tarde." en la pantalla de login y el Registro de Acceso corespondiente tendrá el estado "Inhabilitado".
 			</li>
+			<li>
+				<i>Nombre para Mostrar</i>: seleccione el formato que se usara para mostrar el nombre completo de un Usuario o un Estudiante.
+			</li>
 		</ul>
 	</li>
 	<li>La Institución:

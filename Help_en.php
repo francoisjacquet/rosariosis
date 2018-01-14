@@ -247,6 +247,9 @@ HTML;
 			<li>
 				<i>Failed Login Attempts Limit</i>: ban access during 10 minutes if failed login attempts limit is reached. The "Too many failed login attempts. Please try logging in later." error will be shown on the login screen and the corresponding Access Log will have the "Banned" status.
 			</li>
+			<li>
+				<i>Display Name</i>: select the format which will be used to display User and Student full name.
+			</li>
 		</ul>
 	</li>
 	<li>The School:

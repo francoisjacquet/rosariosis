@@ -243,6 +243,9 @@ HTML;
 			<li>
 				<i>Limite de Tentatives de Connexion Échouées</i>: banni l'accès durant 10 minutes lorsque la limite de tentatives de connexions échouées est atteinte. L'erreur "Trop de Tentatives de Connexion Échouées. Veuillez réessayer plus tard." sera affichée sur l'écran de login et l'entrée du Journal d'Accès correspondante aura le statut "Banni".
 			</li>
+			<li>
+				<i>Nom à Afficher</i>: sélectionnez le format utilisé pour afficher le nom complet des Utilisateurs et Élèves.
+			</li>
 		</ul>
 	</li>
 	<li>L'école:

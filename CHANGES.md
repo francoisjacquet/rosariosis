@@ -10,6 +10,7 @@ Changes in 3.7-beta
 - #218 Add DisplayNameSQL() & DisplayName() functions in GetStuList.fnc.php
 - #218 Add Display Name option in Configuration.php
 - #218 Use DisplayName & DisplayNameSQL functions programwide
+- Add Help for Display Name & update French & Spanish translations
 
 Changes in 3.6.1
 ----------------
