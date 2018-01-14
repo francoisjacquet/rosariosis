@@ -174,7 +174,8 @@ function GetStuList( &$extra = array() )
 
 			$extra2['NoSearchTerms'] = true;
 
-			$extra2['SELECT_ONLY'] = 'ssm.STUDENT_ID,p.PERSON_ID,p.FIRST_NAME,p.LAST_NAME,
+			$extra2['SELECT_ONLY'] = 'ssm.STUDENT_ID,p.PERSON_ID,
+				p.FIRST_NAME,p.LAST_NAME,p.MIDDLE_NAME,
 				sjp.STUDENT_RELATION,pjc.TITLE,pjc.VALUE,a.PHONE,sjp.ADDRESS_ID ';
 
 			$extra2['FROM'] .= ',ADDRESS a,STUDENTS_JOIN_ADDRESS sja LEFT OUTER JOIN STUDENTS_JOIN_PEOPLE sjp ON (sja.STUDENT_ID=sjp.STUDENT_ID AND sja.ADDRESS_ID=sjp.ADDRESS_ID)
@@ -226,7 +227,7 @@ function GetStuList( &$extra = array() )
 
 				$extra2['SELECT'] = '';
 
-				$extra2['SELECT_ONLY'] = 'ssm.STUDENT_ID,p.PERSON_ID,p.FIRST_NAME,p.LAST_NAME,
+				$extra2['SELECT_ONLY'] = 'ssm.STUDENT_ID,p.PERSON_ID,p.FIRST_NAME,p.LAST_NAME,p.MIDDLE_NAME,
 					sjp.STUDENT_RELATION,pjc.TITLE,pjc.VALUE,a.PHONE,sjp.ADDRESS_ID ';
 
 				$extra2['FROM'] .= ',ADDRESS a,STUDENTS_JOIN_ADDRESS sja
@@ -706,7 +707,11 @@ function makeContactInfo( $student_id, $column )
 			if ( $person[1]['FIRST_NAME'] || $person[1]['LAST_NAME'] )
 			{
 				$tipmsg .= $person[1]['STUDENT_RELATION'] . ': ' .
-					$person[1]['FIRST_NAME'] . ' ' . $person[1]['LAST_NAME'] . '<br />';
+					getDisplayName(
+						$person[1]['FIRST_NAME'],
+						$person[1]['LAST_NAME'],
+						$person[1]['MIDDLE_NAME']
+					) . '<br />';
 			}
 			else
 			{
@@ -921,7 +926,8 @@ function makeParents( $student_id, $column )
 		$constraint .= " AND sjp.CUSTODY='Y'";
 	}
 
-	$people_RET = DBGet( DBQuery( "SELECT p.PERSON_ID,p.FIRST_NAME,p.LAST_NAME,sjp.CUSTODY,sjp.EMERGENCY
+	$people_RET = DBGet( DBQuery( "SELECT p.PERSON_ID,p.FIRST_NAME,p.LAST_NAME,p.MIDDLE_NAME,
+		sjp.CUSTODY,sjp.EMERGENCY
 		FROM STUDENTS_JOIN_PEOPLE sjp,PEOPLE p
 		WHERE sjp.PERSON_ID=p.PERSON_ID
 		AND sjp.STUDENT_ID='" . $student_id . "'
@@ -1333,6 +1339,7 @@ function getDisplayNameSQL( $table_alias = '' )
 		"FIRST_NAME||' '||LAST_NAME||coalesce(' '||NAME_SUFFIX,' ')" => "%s.FIRST_NAME||' '||%s.LAST_NAME||coalesce(' '||%s.NAME_SUFFIX,' ')",
 		"FIRST_NAME||coalesce(' '||MIDDLE_NAME||' ',' ')||LAST_NAME" => "%s.FIRST_NAME||coalesce(' '||%s.MIDDLE_NAME||' ',' ')||%s.LAST_NAME",
 		"FIRST_NAME||', '||LAST_NAME||coalesce(' '||MIDDLE_NAME,' ')" => "%s.FIRST_NAME||', '||%s.LAST_NAME||coalesce(' '||%s.MIDDLE_NAME,' ')",
+		"LAST_NAME||' '||FIRST_NAME" => "%s.LAST_NAME||' '||%s.FIRST_NAME",
 		"LAST_NAME||', '||FIRST_NAME" => "%s.LAST_NAME||', '||%s.FIRST_NAME",
 		"LAST_NAME||', '||FIRST_NAME||' '||COALESCE(MIDDLE_NAME,' ')" => "%s.LAST_NAME||', '||%s.FIRST_NAME||' '||COALESCE(%s.MIDDLE_NAME,' ')",
 	);
@@ -1379,6 +1386,7 @@ function getDisplayName( $first_name, $last_name, $middle_name = '', $name_suffi
 		"FIRST_NAME||' '||LAST_NAME||coalesce(' '||NAME_SUFFIX,' ')" => "FIRST_NAME LAST_NAME NAME_SUFFIX",
 		"FIRST_NAME||coalesce(' '||MIDDLE_NAME||' ',' ')||LAST_NAME" => "FIRST_NAME MIDDLE_NAME LAST_NAME",
 		"FIRST_NAME||', '||LAST_NAME||coalesce(' '||MIDDLE_NAME,' ')" => "FIRST_NAME, LAST_NAME MIDDLE_NAME",
+		"LAST_NAME||' '||FIRST_NAME" => "LAST_NAME FIRST_NAME",
 		"LAST_NAME||', '||FIRST_NAME" => "LAST_NAME, FIRST_NAME",
 		"LAST_NAME||', '||FIRST_NAME||' '||COALESCE(MIDDLE_NAME,' ')" => "LAST_NAME, FIRST_NAME MIDDLE_NAME",
 	);
