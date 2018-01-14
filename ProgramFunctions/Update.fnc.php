@@ -762,7 +762,8 @@ function _update37beta()
 
 	if ( ! $display_name_added )
 	{
-		DBQuery( "INSERT INTO config VALUES (0, 'DISPLAY_NAME', 'FIRST_NAME||coalesce('' ''||MIDDLE_NAME||'' '','' '')||LAST_NAME');" );
+		// Fix empty string to NULL using Posix escape string syntax (E + backslash).
+		DBQuery( "INSERT INTO config VALUES (0, 'DISPLAY_NAME', E'FIRST_NAME||coalesce(\' \'||MIDDLE_NAME||\' \',\' \')||LAST_NAME');" );
 	}
 
 	return $return;
