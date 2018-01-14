@@ -104,6 +104,9 @@ else
 
 echo '</td><td>';
 
+echo NoInput( makeLogin( $student['LAST_LOGIN'] ), _( 'Last Login' ) );
+
+echo '</td></tr><tr class="st"><td>';
 //FJ Moodle integrator
 //username, password required
 
@@ -120,7 +123,7 @@ echo TextInput(
 	! $_REQUEST['moodle_create_student']
 );
 
-echo '</td></tr><tr class="st"><td>';
+echo '</td><td>';
 
 echo TextInput(
 	( ! $student['PASSWORD']
@@ -136,10 +139,6 @@ echo TextInput(
 	'autocomplete=off' . ( $required ? ' required' : '' ),
 	( $_REQUEST['moodle_create_student'] ? false : true )
 );
-
-echo '</td><td>';
-
-echo NoInput( makeLogin( $student['LAST_LOGIN'] ), _( 'Last Login' ) );
 
 echo '</td></tr></table>';
 
