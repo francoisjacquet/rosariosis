@@ -276,15 +276,13 @@ if ( isset( $_REQUEST['values'] )
 		// FJ add SendEmail function.
 		require_once 'ProgramFunctions/SendEmail.fnc.php';
 
-		$student_RET = DBGet( DBQuery( "SELECT FIRST_NAME,LAST_NAME
+		$student_RET = DBGet( DBQuery( "SELECT " . getDisplayNameSQL() . " AS FULL_NAME
 			FROM STUDENTS
 			WHERE STUDENT_ID='" . UserStudentID() . "'" ) );
 
-		$student_name = $student_RET[1]['FIRST_NAME'] . ' ' . $student_RET[1]['LAST_NAME'];
-
 		$message = sprintf(
 			_( 'New Registration %s (%d) has been registered by %s.' ),
-			$student_name,
+			$student_RET[1]['FULL_NAME'],
 			UserStudentID(),
 			User( 'NAME' )
 		);
@@ -533,7 +531,7 @@ if ( isset( $custom_fields_RET['200000009'] )
 	$student_dataquery .= ', CUSTOM_200000009';
 }
 
-$student_RET = DBGet( DBQuery( "SELECT FIRST_NAME,LAST_NAME" . $student_dataquery . "
+$student_RET = DBGet( DBQuery( "SELECT " . getDisplayNameSQL() . " AS FULL_NAME" . $student_dataquery . "
 	FROM STUDENTS
 	WHERE STUDENT_ID='" . UserStudentID() . "'" ) );
 
@@ -541,8 +539,8 @@ $student = $student_RET[1];
 
 echo '<hr /><p><b>' . sprintf(
 	_( 'Information about %s %s' ),
-	$student['FIRST_NAME'],
-	$student['LAST_NAME'] ) . ':</b></p>';
+	$student['FULL_NAME']
+) . ':</b></p>';
 
 // Display General Info's tab custom fields (Other Info).
 $_REQUEST['category_id'] = '1';

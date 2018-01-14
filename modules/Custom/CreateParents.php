@@ -212,7 +212,11 @@ if ( $_REQUEST['modfunc'] === 'save'
 			else //if user already exists
 			{
 				$id = $students[1]['STAFF_ID'];
-				$staff = DBGet(DBquery("SELECT FIRST_NAME||' '||LAST_NAME AS NAME,USERNAME,PASSWORD FROM STAFF WHERE STAFF_ID='".$id."'"));
+
+				$staff = DBGet( DBquery( "SELECT " . getDisplayNameSQL() . " AS NAME,
+					USERNAME,PASSWORD
+					FROM STAFF
+					WHERE STAFF_ID='" . $id . "'" ) );
 
 				$account = 'old';
 			}
@@ -373,18 +377,27 @@ function _makeChooseCheckbox($value,$title)
 		return '';
 }
 
-function _makeContactSelect($value,$column)
-{	global $THIS_RET;
+function _makeContactSelect( $value, $column )
+{
+	global $THIS_RET;
 
-	if ( ! $THIS_RET['STAFF_ID'])
-		$RET = DBGet(DBQuery("SELECT sjp.PERSON_ID,sjp.STUDENT_RELATION,p.FIRST_NAME||' '||p.LAST_NAME AS CONTACT
+	if ( ! $THIS_RET['STAFF_ID'] )
+	{
+		$RET = DBGet( DBQuery( "SELECT sjp.PERSON_ID,sjp.STUDENT_RELATION,
+			p.FIRST_NAME,p.LAST_NAME,p.MIDDLE_NAME
 		FROM STUDENTS_JOIN_PEOPLE sjp,PEOPLE p
 		WHERE p.PERSON_ID=sjp.PERSON_ID
-		AND sjp.STUDENT_ID='".$value."'
-		AND sjp.ADDRESS_ID='".$THIS_RET['ADDRESS_ID']."'
-		ORDER BY sjp.STUDENT_RELATION"));
+		AND sjp.STUDENT_ID='" . $value . "'
+		AND sjp.ADDRESS_ID='" . $THIS_RET['ADDRESS_ID'] . "'
+		ORDER BY sjp.STUDENT_RELATION" ) );
+	}
 	else
-		$RET = DBGet(DBQuery("SELECT '' AS PERSON_ID,STAFF_ID AS STUDENT_RELATION,FIRST_NAME||' '||LAST_NAME AS CONTACT FROM STAFF WHERE STAFF_ID='".$THIS_RET['STAFF_ID']."'"));
+	{
+		$RET = DBGet( DBQuery( "SELECT '' AS PERSON_ID,STAFF_ID AS STUDENT_RELATION,
+			FIRST_NAME,LAST_NAME,MIDDLE_NAME
+			FROM STAFF WHERE
+			STAFF_ID='" . $THIS_RET['STAFF_ID'] . "'" ) );
+	}
 
 	if (count($RET))
 	{
@@ -393,7 +406,13 @@ function _makeContactSelect($value,$column)
 		foreach ( (array) $RET as $contact)
 		{
 			$return .= '<tr><td>'.($contact['PERSON_ID']?'<input type="radio" name="contact['.$value.']" value='.$contact['PERSON_ID'].$checked.' />':'&nbsp;').'</td>';
-			$return .= '<td>'.$contact['CONTACT'].'</td>';
+
+			$return .= '<td>' . getDisplayName(
+				$contact['FIRST_NAME'],
+				$contact['LAST_NAME'],
+				$contact['MIDDLE_NAME']
+			) . '</td>';
+
 			$return .= '<td>('.$contact['STUDENT_RELATION'].')</td></tr>';
 			$checked = '';
 		}

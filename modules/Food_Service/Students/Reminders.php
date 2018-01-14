@@ -28,7 +28,6 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	{
 		$st_list = "'".implode("','",$_REQUEST['st_arr'])."'";
 
-	//FJ sql fix
 		$students = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME,s.LAST_NAME,s.MIDDLE_NAME,s.NAME_SUFFIX,fsa.ACCOUNT_ID,fsa.STATUS,
 		(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fsa.ACCOUNT_ID) AS BALANCE,
 		(SELECT TITLE FROM SCHOOLS WHERE ID=ssm.SCHOOL_ID AND SYEAR=ssm.SYEAR) AS SCHOOL,

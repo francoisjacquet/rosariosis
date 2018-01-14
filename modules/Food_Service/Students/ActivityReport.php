@@ -30,12 +30,29 @@ if ( UserStudentID()
 
 	if ( $_REQUEST['detailed_view']=='true')
 	{
-	    $RET = DBGet(DBQuery("SELECT fst.TRANSACTION_ID AS TRANS_ID,fst.TRANSACTION_ID,fst.ACCOUNT_ID,fst.SHORT_NAME,fst.STUDENT_ID,fst.DISCOUNT,(SELECT sum(AMOUNT) FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,fst.BALANCE,fst.TIMESTAMP AS DATE,fst.DESCRIPTION,".db_case(array('fst.STUDENT_ID',"''",'NULL',"(SELECT LAST_NAME||', '||FIRST_NAME FROM STUDENTS WHERE STUDENT_ID=fst.STUDENT_ID)"))." AS FULL_NAME,".db_case(array('fst.SELLER_ID',"''",'NULL',"(SELECT FIRST_NAME||' '||LAST_NAME FROM STAFF WHERE STAFF_ID=fst.SELLER_ID)"))." AS SELLER
+	    $RET = DBGet( DBQuery( "SELECT fst.TRANSACTION_ID AS TRANS_ID,fst.TRANSACTION_ID,
+	    	fst.ACCOUNT_ID,fst.SHORT_NAME,fst.STUDENT_ID,fst.DISCOUNT,
+	    	(SELECT sum(AMOUNT)
+	    		FROM FOOD_SERVICE_TRANSACTION_ITEMS
+	    		WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
+	    	fst.BALANCE,fst.TIMESTAMP AS DATE,fst.DESCRIPTION," .
+	    	db_case( array(
+	    		'fst.STUDENT_ID',
+	    		"''",
+	    		'NULL',
+	    		"(SELECT " . getDisplayNameSQL() . " FROM STUDENTS WHERE STUDENT_ID=fst.STUDENT_ID)"
+	    	) ) . " AS FULL_NAME," .
+	    	db_case( array(
+	    		'fst.SELLER_ID',
+	    		"''",
+	    		'NULL',
+	    		"(SELECT " . getDisplayNameSQL() . " FROM STAFF WHERE STAFF_ID=fst.SELLER_ID)"
+	    	) ) . " AS SELLER
 		FROM FOOD_SERVICE_TRANSACTIONS fst
-		WHERE SYEAR='".UserSyear()."'
-		AND fst.TIMESTAMP BETWEEN '".$date."' AND date '".$date."' +1
-		AND SCHOOL_ID='".UserSchool()."'".$where."
-		ORDER BY ".($_REQUEST['by_name']?"FULL_NAME,":'')."fst.TRANSACTION_ID DESC"),array('DATE' => 'ProperDateTime','SHORT_NAME' => 'bump_count'));
+		WHERE SYEAR='" . UserSyear() . "'
+		AND fst.TIMESTAMP BETWEEN '" . $date . "' AND date '" . $date . "' +1
+		AND SCHOOL_ID='" . UserSchool() . "'" . $where . "
+		ORDER BY " . ( $_REQUEST['by_name'] ? "FULL_NAME," : '' ) . "fst.TRANSACTION_ID DESC" ), array( 'DATE' => 'ProperDateTime', 'SHORT_NAME' => 'bump_count' ) );
 
 		foreach ( (array) $RET as $RET_key => $RET_val) {
 			$RET[ $RET_key ]=array_map('types_locale', $RET_val);
@@ -82,14 +99,23 @@ if ( UserStudentID()
 	}
 	else
 	{
-	    $RET = DBGet(DBQuery("SELECT fst.TRANSACTION_ID,fst.ACCOUNT_ID,fst.SHORT_NAME,fst.STUDENT_ID,fst.DISCOUNT,
-		(SELECT sum(AMOUNT) FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
-		fst.BALANCE,fst.TIMESTAMP AS DATE,fst.DESCRIPTION,".db_case(array('fst.STUDENT_ID',"''",'NULL',"(SELECT LAST_NAME||', '||FIRST_NAME FROM STUDENTS WHERE STUDENT_ID=fst.STUDENT_ID)"))." AS FULL_NAME
+	    $RET = DBGet( DBQuery( "SELECT fst.TRANSACTION_ID,fst.ACCOUNT_ID,fst.SHORT_NAME,
+	    fst.STUDENT_ID,fst.DISCOUNT,
+		(SELECT sum(AMOUNT)
+			FROM FOOD_SERVICE_TRANSACTION_ITEMS
+			WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
+		fst.BALANCE,fst.TIMESTAMP AS DATE,fst.DESCRIPTION," .
+		db_case( array(
+			'fst.STUDENT_ID',
+			"''",
+			'NULL',
+			"(SELECT " . getDisplayNameSQL() . " FROM STUDENTS WHERE STUDENT_ID=fst.STUDENT_ID)"
+		) ) . " AS FULL_NAME
 		FROM FOOD_SERVICE_TRANSACTIONS fst
-		WHERE SYEAR='".UserSyear()."'
-		AND fst.TIMESTAMP BETWEEN '".$date."' AND date '".$date."' +1
-		AND SCHOOL_ID='".UserSchool()."'".$where."
-		ORDER BY ".($_REQUEST['by_name']?"FULL_NAME,":'')."fst.TRANSACTION_ID DESC"),array('DATE' => 'ProperDateTime','SHORT_NAME' => 'bump_count'));
+		WHERE SYEAR='" . UserSyear() . "'
+		AND fst.TIMESTAMP BETWEEN '" . $date . "' AND date '" . $date . "' +1
+		AND SCHOOL_ID='" . UserSchool() . "'" . $where . "
+		ORDER BY " . ( $_REQUEST['by_name'] ? "FULL_NAME," : '' ) . "fst.TRANSACTION_ID DESC" ), array( 'DATE' => 'ProperDateTime', 'SHORT_NAME' => 'bump_count' ) );
 
 		$columns = array(
 			'TRANSACTION_ID' => _( 'ID' ),
@@ -112,7 +138,12 @@ if ( UserStudentID()
 		$type_select .= '<option value="'.$short_name.'"'.($_REQUEST['type_select']==$short_name ? ' selected' : '').'>'.$type['DESCRIPTION'].'</option>';
 	$type_select .= '</select></span>';
 
-	$staff_RET = DBGet(DBquery('SELECT STAFF_ID,FIRST_NAME||\' \'||LAST_NAME AS FULL_NAME FROM STAFF WHERE SYEAR=\''.UserSyear().'\' AND SCHOOLS LIKE \'%,'.UserSchool().',%\' AND PROFILE=\'admin\' ORDER BY LAST_NAME'));
+	$staff_RET = DBGet( DBquery( "SELECT STAFF_ID," . getDisplayNameSQL() . " AS FULL_NAME
+		FROM STAFF
+		WHERE SYEAR='" . UserSyear() . "'
+		AND SCHOOLS LIKE '%," . UserSchool() . ",%'
+		AND PROFILE='admin'
+		ORDER BY LAST_NAME" ) );
 
 	$staff_select = '<span class="nobr">'._('User').' <select name=staff_select><option value="">'._('Not Specified').'</option>';
 	foreach ( (array) $staff_RET as $staff)

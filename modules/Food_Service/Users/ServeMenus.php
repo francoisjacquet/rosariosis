@@ -62,11 +62,12 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 if ( UserStaffID()
 	&& ! $_REQUEST['modfunc'] )
 {
-	$staff = DBGet(DBQuery("SELECT s.STAFF_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,
+	$staff = DBGet( DBQuery( "SELECT s.STAFF_ID," . getDisplayNameSQL( 's' ) . " AS FULL_NAME,
 	(SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS ACCOUNT_ID,
 	(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE
 	FROM STAFF s
-	WHERE s.STAFF_ID='".UserStaffID()."'"));
+	WHERE s.STAFF_ID='" . UserStaffID() . "'" ) );
+
 	$staff = $staff[1];
 
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=submit&menu_id='.$_REQUEST['menu_id'].'" method="POST">';

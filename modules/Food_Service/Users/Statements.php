@@ -13,7 +13,12 @@ Search('staff_id',$extra);
 
 if (UserStaffID() && ! $_REQUEST['modfunc'])
 {
-	$staff = DBGet(DBQuery("SELECT s.STAFF_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,(SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS ACCOUNT_ID,(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE FROM STAFF s WHERE s.STAFF_ID='".UserStaffID()."'"));
+	$staff = DBGet( DBQuery( "SELECT s.STAFF_ID," . getDisplayNameSQL( 's' ) . " AS FULL_NAME,
+		(SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS ACCOUNT_ID,
+		(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE
+		FROM STAFF s
+		WHERE s.STAFF_ID='" . UserStaffID() . "'" ) );
+
 	$staff = $staff[1];
 
 	echo '<form action="'.PreparePHP_SELF().'" method="POST">';
@@ -36,17 +41,21 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 
 		if ( $_REQUEST['detailed_view']=='true')
 		{
-            $RET = DBGet(DBQuery("SELECT fst.TRANSACTION_ID AS TRANS_ID,fst.TRANSACTION_ID,
+            $RET = DBGet( DBQuery( "SELECT fst.TRANSACTION_ID AS TRANS_ID,fst.TRANSACTION_ID,
 			(SELECT sum(AMOUNT) FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
-			fst.STAFF_ID,fst.BALANCE,fst.TIMESTAMP AS DATE,fst.DESCRIPTION,
-			".db_case(array('fst.SELLER_ID',"''",'NULL',"(SELECT FIRST_NAME||' '||LAST_NAME FROM STAFF WHERE STAFF_ID=fst.SELLER_ID)"))." AS SELLER
+			fst.STAFF_ID,fst.BALANCE,fst.TIMESTAMP AS DATE,fst.DESCRIPTION," .
+			db_case( array(
+				'fst.SELLER_ID',
+				"''",
+				'NULL',
+				"(SELECT " . getDisplayNameSQL() . " FROM STAFF WHERE STAFF_ID=fst.SELLER_ID)"
+			) ) . " AS SELLER
 			FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst
-			WHERE fst.STAFF_ID='".UserStaffID()."'
-			AND fst.SYEAR='".UserSyear()."'
-			AND fst.TIMESTAMP BETWEEN '".$start_date."'
-			AND date '".$end_date."' +1".
-			$where."
-			ORDER BY fst.TRANSACTION_ID DESC"),array('DATE' => 'ProperDateTime','BALANCE' => 'red'));
+			WHERE fst.STAFF_ID='" . UserStaffID() . "'
+			AND fst.SYEAR='" . UserSyear() . "'
+			AND fst.TIMESTAMP BETWEEN '" . $start_date . "'	AND date '" . $end_date . "' +1".
+			$where . "
+			ORDER BY fst.TRANSACTION_ID DESC" ), array( 'DATE' => 'ProperDateTime', 'BALANCE' => 'red' ) );
 
 			foreach ( (array) $RET as $RET_key => $RET_val) {
 				$RET[ $RET_key ]=array_map('types_locale', $RET_val);

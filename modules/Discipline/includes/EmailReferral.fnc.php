@@ -34,8 +34,8 @@ function EmailReferral( $referral_id, $emails )
 		FROM DISCIPLINE_REFERRALS
 		WHERE ID='" . $referral_id . "'" . $where ) );
 
-	$categories_RET = DBGet( DBQuery( "SELECT f.ID,u.TITLE,u.SELECT_OPTIONS,f.DATA_TYPE,u.SORT_ORDER 
-		FROM DISCIPLINE_FIELDS f,DISCIPLINE_FIELD_USAGE u 
+	$categories_RET = DBGet( DBQuery( "SELECT f.ID,u.TITLE,u.SELECT_OPTIONS,f.DATA_TYPE,u.SORT_ORDER
+		FROM DISCIPLINE_FIELDS f,DISCIPLINE_FIELD_USAGE u
 		WHERE u.DISCIPLINE_FIELD_ID=f.ID
 		AND u.SCHOOL_ID='" . UserSchool() . "'
 		AND u.SYEAR='" . UserSyear() . "'
@@ -45,7 +45,7 @@ function EmailReferral( $referral_id, $emails )
 	{
 		$referral = $referral_RET[1];
 
-		$student_RET = DBGet( DBQuery( "SELECT FIRST_NAME||' '||LAST_NAME||coalesce(' '||NAME_SUFFIX,' ') AS FULL_NAME
+		$student_RET = DBGet( DBQuery( "SELECT " . getDisplayNameSQL() . " AS FULL_NAME
 			FROM STUDENTS
 			WHERE STUDENT_ID='" . $referral['STUDENT_ID'] . "'" ) );
 

@@ -66,14 +66,14 @@ DrawHeader( $mp_select );
 
 echo '</form>';
 
-$grouped_SQL = "SELECT s.LAST_NAME||', '||s.FIRST_NAME as FULL_NAME,s.STAFF_ID,g.REPORT_CARD_GRADE_ID
+$grouped_SQL = "SELECT " . getDisplayNameSQL( 's' ) . " AS FULL_NAME,s.STAFF_ID,g.REPORT_CARD_GRADE_ID
 	FROM STUDENT_REPORT_CARD_GRADES g,STAFF s,COURSE_PERIODS cp
 	WHERE g.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
 	AND cp.TEACHER_ID=s.STAFF_ID
 	AND cp.SYEAR=s.SYEAR
 	AND cp.SYEAR=g.SYEAR
-	AND cp.SYEAR='".UserSyear()."'
-	AND g.MARKING_PERIOD_ID='".$_REQUEST['mp']."'";
+	AND cp.SYEAR='" . UserSyear() . "'
+	AND g.MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'";
 
 $grouped_RET = DBGet( DBQuery( $grouped_SQL ), array(), array( 'STAFF_ID', 'REPORT_CARD_GRADE_ID' ) );
 

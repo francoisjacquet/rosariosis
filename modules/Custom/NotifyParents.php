@@ -39,7 +39,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	{
 		$st_list = '\''.implode('\',\'',$_REQUEST['staff']).'\'';
 
-		$extra['SELECT'] = ",s.FIRST_NAME||' '||s.LAST_NAME AS NAME,s.USERNAME,s.PASSWORD,s.EMAIL";
+		$extra['SELECT'] = "," . getDisplayNameSQL( 's' ) . " AS NAME,s.USERNAME,s.PASSWORD,s.EMAIL";
 		$extra['WHERE'] = " AND s.STAFF_ID IN (" . $st_list . ")";
 
 		$RET = GetStaffList( $extra );
@@ -59,18 +59,21 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			$password_encrypted = encrypt_password($password);
 			DBQuery("UPDATE STAFF SET PASSWORD='".$password_encrypted."' WHERE STAFF_ID='".$staff_id."'");
 
-			$students_RET = DBGet(DBQuery("SELECT s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME
+			$students_RET = DBGet( DBQuery( "SELECT " . getDisplayNameSQL( 's' ) . " AS FULL_NAME
 			FROM STUDENTS s,STUDENT_ENROLLMENT sse,STUDENTS_JOIN_USERS sju
-			WHERE sju.STAFF_ID='".$staff_id."'
+			WHERE sju.STAFF_ID='" . $staff_id . "'
 			AND s.STUDENT_ID=sju.STUDENT_ID
 			AND sse.STUDENT_ID=sju.STUDENT_ID
-			AND sse.SYEAR='".UserSyear()."'
-			AND sse.END_DATE IS NULL"));
+			AND sse.SYEAR='" . UserSyear() . "'
+			AND sse.END_DATE IS NULL" ) );
 			//echo '<pre>'; var_dump($students_RET); echo '</pre>';
 
 			$student_list = '';
-			foreach ( (array) $students_RET as $student)
-				$student_list .= str_replace('&nbsp;',' ',$student['FULL_NAME'])."\r";
+
+			foreach ( (array) $students_RET as $student )
+			{
+				$student_list .= $student['FULL_NAME'] . "\r";
+			}
 
 			$msg = str_replace('__ASSOCIATED_STUDENTS__',$student_list,$message);
 			$msg = str_replace('__SCHOOL_ID__',SchoolInfo('TITLE'),$msg);

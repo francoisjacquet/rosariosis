@@ -26,7 +26,10 @@ if ( $_REQUEST['modfunc'] === 'update' )
 				$RET = DBGet(DBQuery("SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."' AND STAFF_ID!='".UserStaffID()."'"));
 				if ( $RET)
 				{
-					$staff_RET = DBGet(DBQuery("SELECT FIRST_NAME||' '||LAST_NAME AS FULL_NAME FROM STAFF WHERE STAFF_ID='".$RET[1]['STAFF_ID']."'"));
+					$staff_RET = DBGet( DBQuery( "SELECT " . getDisplayNameSQL() . " AS FULL_NAME
+						FROM STAFF
+						WHERE STAFF_ID='" . $RET[1]['STAFF_ID'] . "'" ) );
+
 					$question = _("Are you sure you want to assign that barcode?");
 					$message = sprintf(_("That barcode is already assigned to User <b>%s</b>."),$staff_RET[1]['FULL_NAME']).' '._("Hit OK to reassign it to the current user or Cancel to cancel all changes.");
 				}
@@ -35,7 +38,11 @@ if ( $_REQUEST['modfunc'] === 'update' )
 					$RET = DBGet(DBQuery("SELECT ACCOUNT_ID FROM FOOD_SERVICE_STUDENT_ACCOUNTS WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."'"));
 					if ( $RET)
 					{
-						$student_RET = DBGet(DBQuery("SELECT s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa WHERE s.STUDENT_ID=fssa.STUDENT_ID AND fssa.ACCOUNT_ID='".$RET[1]['ACCOUNT_ID']."'"));
+						$student_RET = DBGet( DBQuery( "SELECT " . getDisplayNameSQL( 's' ) . " AS FULL_NAME
+							FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa
+							WHERE s.STUDENT_ID=fssa.STUDENT_ID
+							AND fssa.ACCOUNT_ID='" . $RET[1]['ACCOUNT_ID'] . "'" ) );
+
 						$question = _("Are you sure you want to assign that barcode?");
 						$message = sprintf(_("That barcode is already assigned to Student <b>%s</b>."),$student_RET[1]['FULL_NAME']).' '._("Hit OK to reassign it to the user student or Cancel to cancel all changes.");
 					}
@@ -111,13 +118,14 @@ Search('staff_id',$extra);
 
 if (UserStaffID() && ! $_REQUEST['modfunc'])
 {
-	$staff = DBGet(DBQuery("SELECT s.STAFF_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,
+	$staff = DBGet( DBQuery( "SELECT s.STAFF_ID," . getDisplayNameSQL( 's' ) . " AS FULL_NAME,
 	(SELECT s.STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS ACCOUNT_ID,
 	(SELECT STATUS FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS STATUS,
 	(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE,
 	(SELECT BARCODE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BARCODE
 	FROM STAFF s
-	WHERE s.STAFF_ID='".UserStaffID()."'"));
+	WHERE s.STAFF_ID='" . UserStaffID() . "'" ) );
+
 	$staff = $staff[1];
 
 	if ( $staff['ACCOUNT_ID'])

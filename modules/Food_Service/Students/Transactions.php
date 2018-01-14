@@ -60,11 +60,13 @@ echo ErrorMessage( $error );
 if ( UserStudentID()
 	&& ! $_REQUEST['modfunc'] )
 {
-	$student = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,fsa.ACCOUNT_ID,fsa.STATUS,
+	$student = DBGet( DBQuery( "SELECT s.STUDENT_ID," . getDisplayNameSQL( 's' ) . " AS FULL_NAME,
+	fsa.ACCOUNT_ID,fsa.STATUS,
 	(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fsa.ACCOUNT_ID) AS BALANCE
 	FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fsa
-	WHERE s.STUDENT_ID='".UserStudentID()."'
-	AND fsa.STUDENT_ID=s.STUDENT_ID"));
+	WHERE s.STUDENT_ID='" . UserStudentID() . "'
+	AND fsa.STUDENT_ID=s.STUDENT_ID" ) );
+
 	$student = $student[1];
 
 	//$PHP_tmp_SELF = PreparePHP_SELF();

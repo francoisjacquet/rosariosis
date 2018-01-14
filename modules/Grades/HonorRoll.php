@@ -18,7 +18,6 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 		$mp_RET = DBGet(DBQuery("SELECT TITLE,END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND MARKING_PERIOD_ID='".UserMP()."'"));
 
-		$extra['SELECT'] = ",s.FIRST_NAME AS NICK_NAME";
 		$extra['SELECT'] .= ",(SELECT SORT_ORDER FROM SCHOOL_GRADELEVELS WHERE ID=ssm.GRADE_ID) AS SORT_ORDER";
 		$extra['SELECT'] .= ",".db_case(array("exists(SELECT rg.GPA_VALUE
 		FROM STUDENT_REPORT_CARD_GRADES sg,COURSE_PERIODS cp,REPORT_CARD_GRADES rg
@@ -87,10 +86,16 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					{
 						echo '<tr><td>&nbsp;</td>';
 						$student = $RET[ $high ][ $i ];
-						echo '<td>'.$student['NICK_NAME'].' '.$student['LAST_NAME'].'</td><td>'.$student['ROOM'].'</td>';
+
+						echo '<td>' . $student['FULL_NAME'] . '</td>
+							<td>' . $student['ROOM'] . '</td>';
+
 						echo '<td>&nbsp;</td>';
-						$student = $RET[ $high ][$i+$n];
-						echo '<td>'.$student['NICK_NAME'].' '.$student['LAST_NAME'].'</td><td>'.$student['ROOM'].'</td></tr>';
+
+						$student = $RET[ $high ][ $i + $n ];
+
+						echo '<td>' . $student['FULL_NAME'] . '</td>
+							<td>' . $student['ROOM'] . '</td></tr>';
 					}
 
 					echo '<tr class="center"><td colspan="6">&nbsp;</td></tr>';

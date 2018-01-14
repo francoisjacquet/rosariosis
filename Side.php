@@ -362,7 +362,8 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 		// Student SELECT (Parents only).
 		if ( User( 'PROFILE' ) === 'parent' ) :
 
-			$students_RET = DBGet( DBQuery( "SELECT sju.STUDENT_ID,s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,se.SCHOOL_ID
+			$students_RET = DBGet( DBQuery( "SELECT sju.STUDENT_ID,
+				" . getDisplayNameSQL( 's' ) . " AS FULL_NAME,se.SCHOOL_ID
 				FROM STUDENTS s,STUDENTS_JOIN_USERS sju,STUDENT_ENROLLMENT se
 				WHERE s.STUDENT_ID=sju.STUDENT_ID
 				AND sju.STAFF_ID='" . User( 'STAFF_ID' ) . "'
@@ -658,7 +659,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 		&& ( User( 'PROFILE' ) === 'admin'
 			|| User( 'PROFILE' ) === 'teacher' ) ) :
 
-		$current_student_RET = DBGet( DBQuery( "SELECT FIRST_NAME||' '||LAST_NAME||coalesce(' '||NAME_SUFFIX,' ') AS FULL_NAME
+		$current_student_RET = DBGet( DBQuery( "SELECT " . getDisplayNameSQL() . " AS FULL_NAME
 			FROM STUDENTS
 			WHERE STUDENT_ID='" . UserStudentID() . "'" ) ); ?>
 
@@ -682,7 +683,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 		&& ( User( 'PROFILE' ) === 'admin'
 			|| User( 'PROFILE' ) === 'teacher' ) ) :
 
-		$current_user_RET = DBGet( DBQuery( "SELECT FIRST_NAME||' '||LAST_NAME AS FULL_NAME
+		$current_user_RET = DBGet( DBQuery( "SELECT " . getDisplayNameSQL() . " AS FULL_NAME
 			FROM STAFF
 			WHERE STAFF_ID='" . UserStaffID() . "'" ) ); ?>
 

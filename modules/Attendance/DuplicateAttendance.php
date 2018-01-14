@@ -120,7 +120,9 @@ if ( isset( $_REQUEST['search_modfunc'] )
 	{
 
 		unset($extra);
-		$extra['SELECT_ONLY'] .= "ap.COURSE_PERIOD_ID, s.STUDENT_ID, s.FIRST_NAME, s.LAST_NAME, ap.SCHOOL_DATE, cp.TITLE, ap.PERIOD_ID, sc.START_DATE, sc.END_DATE ";
+		$extra['SELECT_ONLY'] .= "ap.COURSE_PERIOD_ID,s.STUDENT_ID,
+		" . getDisplayNameSQL( 's' ) . " AS FULL_NAME,
+		ap.SCHOOL_DATE,cp.TITLE,ap.PERIOD_ID,sc.START_DATE,sc.END_DATE ";
 		$extra['FROM'] .= " ,ATTENDANCE_PERIOD ap, COURSE_PERIODS cp, SCHEDULE sc ";
 		//$extra['WHERE'] .= " AND ssm.student_id=s.student_id AND ap.STUDENT_ID=s.STUDENT_ID AND ap.COURSE_PERIOD_ID = cp.COURSE_PERIOD_ID AND ('".DBDate()."' BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL) ";
 		//$extra['WHERE'] .= " AND ssm.student_id=s.student_id AND ap.STUDENT_ID=s.STUDENT_ID AND ap.COURSE_PERIOD_ID = cp.COURSE_PERIOD_ID ";
@@ -142,8 +144,7 @@ if ( isset( $_REQUEST['search_modfunc'] )
 			$studentidr = $rr['STUDENT_ID'];
 			$courseidr = $rr['COURSE_PERIOD_ID'];
 			$periodidr = $rr['PERIOD_ID'];
-			$firstr = $rr['FIRST_NAME'];
-			$lastr = $rr['LAST_NAME'];
+			$full_namer = $rr['FULL_NAME'];
 			$schooldater = $rr['SCHOOL_DATE'];
 			$titler = $rr['TITLE'];
 			$startr = $rr['START_DATE'];
@@ -171,8 +172,7 @@ if ( isset( $_REQUEST['search_modfunc'] )
 			$courseid2 = $courseidr;
 			$periodid2 = $periodidr;
 			$schooldate2 = $schooldater;
-			$first2 = $firstr;
-			$last2 = $lastr;
+			$full_name2 = $full_namer;
 			$title2 = $titler;
 			$start2 = $startr;
 			$end2 = $endr;
@@ -180,7 +180,9 @@ if ( isset( $_REQUEST['search_modfunc'] )
 		//echo "$totalrows";
 
 		unset($extra);
-		$extra['SELECT_ONLY'] .= "ap.COURSE_PERIOD_ID, s.STUDENT_ID, s.FIRST_NAME, s.LAST_NAME, ap.SCHOOL_DATE, cp.TITLE, cp.SHORT_NAME, ap.PERIOD_ID, sc.START_DATE, sc.END_DATE ";
+		$extra['SELECT_ONLY'] .= "ap.COURSE_PERIOD_ID,s.STUDENT_ID,
+		" . getDisplayNameSQL( 's' ) . " AS FULL_NAME,
+		ap.SCHOOL_DATE,cp.TITLE,cp.SHORT_NAME,ap.PERIOD_ID,sc.START_DATE,sc.END_DATE ";
 		$extra['FROM'] .= " ,ATTENDANCE_PERIOD ap, COURSE_PERIODS cp, SCHEDULE sc ";
 		//$extra['WHERE'] .= " AND ssm.student_id=s.student_id AND ap.STUDENT_ID=s.STUDENT_ID AND ap.COURSE_PERIOD_ID = cp.COURSE_PERIOD_ID AND ('".DBDate()."' BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL) ";
 		//$extra['WHERE'] .= " AND ssm.student_id=s.student_id AND ap.STUDENT_ID=s.STUDENT_ID AND ap.COURSE_PERIOD_ID = cp.COURSE_PERIOD_ID ";
@@ -254,8 +256,7 @@ if ( isset( $_REQUEST['search_modfunc'] )
 			$studentid = $r['STUDENT_ID'];
 			$courseid = $r['COURSE_PERIOD_ID'];
 			$periodid = $r['PERIOD_ID'];
-			$first = $r['FIRST_NAME'];
-			$last = $r['LAST_NAME'];
+			$full_name = $r['FULL_NAME'];
 			$schooldate = $r['SCHOOL_DATE'];
 			$title = $r['TITLE'];
 			$short_name = $r['SHORT_NAME'];
@@ -292,7 +293,7 @@ if ( isset( $_REQUEST['search_modfunc'] )
 
 					echo '<tr>
 						<td><input type="checkbox" name="deletecheck[' . $count . ']" value="' . $count . '"></td>
-						<td>' . $first . ' ' . $last . ' (' . $studentid . ')</td>
+						<td>' . $full_name . ' (' . $studentid . ')</td>
 						<td>' . $short_name . ' (' .$courseid . ')</td>
 						<td>' . ProperDate( $start ) . '</td>
 						<td>' . ProperDate( $end ) . '</td>
@@ -329,7 +330,7 @@ if ( isset( $_REQUEST['search_modfunc'] )
 
 					echo '<tr>
 						<td><input type="checkbox" name="deletecheck[' . $count . ']" value="' . $count . '"></td>
-						<td>' . $first . ' ' . $last . ' (' . $studentid . ')</td>
+						<td>' . $full_name . ' (' . $studentid . ')</td>
 						<td>' . $short_name . ' (' . $courseid . ')</td>
 						<td>' . ProperDate( $start ) . '</td>
 						<td>' . ProperDate( $end ) . '</td>
@@ -350,8 +351,7 @@ if ( isset( $_REQUEST['search_modfunc'] )
 			$courseid2 = $courseid;
 			$periodid2 = $periodid;
 			$schooldate2 = $schooldate;
-			$first2 = $first;
-			$last2 = $last;
+			$full_name2 = $full_name;
 			$title2 = $title;
 			$start2 = $start;
 			$end2 = $end;
