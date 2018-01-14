@@ -99,12 +99,31 @@ if ( $_REQUEST['modfunc'] === 'save'
 								printCustom($categories,$address);
 							echo '</table>';
 						}
-						$contacts_RET = DBGet(DBQuery("SELECT p.PERSON_ID,p.FIRST_NAME,p.MIDDLE_NAME,p.LAST_NAME,sjp.CUSTODY,sjp.EMERGENCY,sjp.STUDENT_RELATION$people_custom FROM PEOPLE p,STUDENTS_JOIN_PEOPLE sjp WHERE p.PERSON_ID=sjp.PERSON_ID AND sjp.STUDENT_ID='".UserStudentID()."' AND sjp.ADDRESS_ID='".$address['ADDRESS_ID']."'"));
-						foreach ( (array) $contacts_RET as $contact)
+
+						$contacts_RET = DBGet( DBQuery( "SELECT p.PERSON_ID,p.FIRST_NAME,
+							p.MIDDLE_NAME,p.LAST_NAME,sjp.CUSTODY,sjp.EMERGENCY,
+							sjp.STUDENT_RELATION" . $people_custom . "
+							FROM PEOPLE p,STUDENTS_JOIN_PEOPLE sjp
+							WHERE p.PERSON_ID=sjp.PERSON_ID
+							AND sjp.STUDENT_ID='" . UserStudentID() . "'
+							AND sjp.ADDRESS_ID='" . $address['ADDRESS_ID'] . "'" ) );
+
+						foreach ( (array) $contacts_RET as $contact )
 						{
-							echo '<br /><b>'.$contact['FIRST_NAME'].' '.($contact['MIDDLE_NAME']?$contact['MIDDLE_NAME'].' ':'').$contact['LAST_NAME'].($contact['STUDENT_RELATION']?': '.$contact['STUDENT_RELATION']:'').' &nbsp;</b><br />';
-							$info_RET = DBGet(DBQuery("SELECT ID,TITLE,VALUE FROM PEOPLE_JOIN_CONTACTS WHERE PERSON_ID='".$contact['PERSON_ID']."'"));
+							echo '<br /><b>' . getDisplayName(
+								$contact['FIRST_NAME'],
+								$contact['LAST_NAME'],
+								$contact['MIDDLE_NAME']
+							) .
+							( $contact['STUDENT_RELATION'] ? ': ' . $contact['STUDENT_RELATION'] : '' ) .
+							' &nbsp;</b><br />';
+
+							$info_RET = DBGet( DBQuery( "SELECT ID,TITLE,VALUE
+								FROM PEOPLE_JOIN_CONTACTS
+								WHERE PERSON_ID='" . $contact['PERSON_ID'] . "'" ) );
+
 							echo '<table>';
+
 							foreach ( (array) $info_RET as $info)
 							{
 								echo '<tr><td>&nbsp;</td>';

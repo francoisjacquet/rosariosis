@@ -639,9 +639,11 @@ if ( ! $_REQUEST['modfunc'] )
 					}
 
 					echo '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $_REQUEST['category_id'] . '&address_id=' . $_REQUEST['address_id'] . '&person_id=' . $contact['PERSON_ID'] . '">' .
-						$contact['FIRST_NAME'] . ' ' .
-						($contact['MIDDLE_NAME'] ? $contact['MIDDLE_NAME'] . ' ' : '' ) .
-						$contact['LAST_NAME'] . '</a>';
+						getDisplayName(
+							$contact['FIRST_NAME'],
+							$contact['LAST_NAME'],
+							$contact['MIDDLE_NAME']
+						) . '</a>';
 
 					echo $contact['STUDENT_RELATION'] ? ' (' . $contact['STUDENT_RELATION'] . ')' : '';
 

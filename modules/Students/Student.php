@@ -508,8 +508,10 @@ if ( ( UserStudentID()
 	{
 		if ( $_REQUEST['student_id'] !== 'new' )
 		{
-			$sql = "SELECT s.STUDENT_ID,s.FIRST_NAME,s.LAST_NAME,s.MIDDLE_NAME,s.NAME_SUFFIX,s.USERNAME,s.PASSWORD,s.LAST_LOGIN,
-				(SELECT ID
+			$sql = "SELECT s.STUDENT_ID," . getDisplayNameSQL( 's' ) . " AS FULL_NAME,
+			s.FIRST_NAME,s.LAST_NAME,s.MIDDLE_NAME,s.NAME_SUFFIX,
+			s.USERNAME,s.PASSWORD,s.LAST_LOGIN,
+			(SELECT ID
 				FROM STUDENT_ENROLLMENT
 				WHERE SYEAR='" . UserSyear() . "'
 				AND STUDENT_ID=s.STUDENT_ID
@@ -520,6 +522,7 @@ if ( ( UserStudentID()
 
 			$student = DBGet( DBQuery( $sql ) );
 			$student = $student[1];
+
 			$school = DBGet( DBQuery( "SELECT SCHOOL_ID,GRADE_ID
 				FROM STUDENT_ENROLLMENT
 				WHERE STUDENT_ID='" . UserStudentID() . "'
@@ -572,9 +575,7 @@ if ( ( UserStudentID()
 
 		if ( $_REQUEST['student_id'] !== 'new' )
 		{
-			$name = $student['FIRST_NAME'] . ' ' . $student['MIDDLE_NAME'] . ' ' .
-				$student['LAST_NAME'] . ' ' . $student['NAME_SUFFIX'] . ' - ' .
-				$student['STUDENT_ID'];
+			$name = $student['FULL_NAME'] . ' - ' .	$student['STUDENT_ID'];
 		}
 
 		DrawHeader( $name, $delete_button . SubmitButton( _( 'Save' ) ) );

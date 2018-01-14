@@ -102,11 +102,13 @@ if ( $_REQUEST['fields']['FIRST_INIT'] )
 	$extra['SELECT'] .= ',SUBSTR(s.FIRST_NAME,1,1) AS FIRST_INIT';
 }
 
+// @deprecated, use FULL_NAME or your own combination of LAST, FIRST, MIDDLE & SUFFIX.
 if ( $_REQUEST['fields']['GIVEN_NAME'] )
 {
 	$extra['SELECT'] .= ",s.LAST_NAME||', '||s.FIRST_NAME||' '||coalesce(s.MIDDLE_NAME,' ') AS GIVEN_NAME";
 }
 
+// @deprecated, use FULL_NAME or your own combination of LAST, FIRST, MIDDLE & SUFFIX.
 if ( $_REQUEST['fields']['COMMON_NAME'] )
 {
 	$extra['SELECT'] .= ",s.LAST_NAME||', '||s.FIRST_NAME AS COMMON_NAME";

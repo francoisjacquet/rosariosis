@@ -8,6 +8,8 @@ Changes in 3.7-beta
 - #218 Add DISPLAY_NAME to CONFIG table in rosariosis.sql & Update.fnc.php
 - Fix #221 Delete Addresses & Contacts info does not delete student in Student.php & Address.inc.php
 - #218 Add getDisplayNameSQL() & getDisplayName() functions in GetStuList.fnc.php
+- #218 Add Display Name option in Configuration.php
+- #218 Use getDisplayName & getDisplayNameSQL functions programwide
 
 Changes in 3.6.1
 ----------------

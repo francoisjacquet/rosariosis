@@ -347,7 +347,7 @@ function ReportCardsGenerate( $student_array, $mp_array )
 
 	if ( $_REQUEST['elements']['teacher'] === 'Y' )
 	{
-		$LO_columns['TEACHER'] = _( 'Teacher' );
+		$LO_columns['TEACHER_ID'] = _( 'Teacher' );
 	}
 
 	if ( $_REQUEST['elements']['period_absences'] === 'Y' )
@@ -400,7 +400,7 @@ function ReportCardsGenerate( $student_array, $mp_array )
 
 			$grades_RET[ $i ]['COURSE_TITLE'] = $mps[key( $mps )][1]['COURSE_TITLE'];
 
-			$grades_RET[ $i ]['TEACHER'] = $mps[key( $mps )][1]['TEACHER'];
+			$grades_RET[ $i ]['TEACHER_ID'] = GetTeacher( $mps[ key( $mps ) ][1]['TEACHER_ID'] );
 
 			foreach ( (array) $mp_array as $mp )
 			{
@@ -538,6 +538,16 @@ function ReportCardsGenerate( $student_array, $mp_array )
 		else
 			$addresses = array( 0 => array() );
 
+		// Optimization: Student Full Name & Grade Level.
+		$student_name_grade_RET = DBGet( DBQuery( "SELECT " . getDisplayNameSQL() . " AS FULL_NAME,ssm.GRADE_ID
+			FROM STUDENTS s JOIN STUDENT_ENROLLMENT ssm ON (ssm.STUDENT_ID=s.STUDENT_ID)
+			WHERE s.STUDENT_ID='" . $student_id . "'
+			LIMIT 1" ) );
+
+		$student_full_name = $student_name_grade_RET[1]['FULL_NAME'];
+
+		$student_grade_level = GetGrade( $student_name_grade_RET[1]['GRADE_ID'] );
+
 		foreach ( (array) $addresses as $address )
 		{
 			unset( $_ROSARIO['DrawHeader'] );
@@ -564,9 +574,10 @@ function ReportCardsGenerate( $student_array, $mp_array )
 			// Headers.
 			DrawHeader( _( 'Report Card' ) );
 
-			DrawHeader($mps[key( $mps )][1]['FULL_NAME'], $mps[key( $mps )][1]['STUDENT_ID'] );
+			// TOCHECK! test headers.
+			DrawHeader( $student_full_name, $student_id );
 
-			DrawHeader( $mps[key( $mps )][1]['GRADE_ID'], SchoolInfo( 'TITLE' ) );
+			DrawHeader( $student_grade_level, SchoolInfo( 'TITLE' ) );
 
 			// FJ add school year.
 			DrawHeader( _( 'School Year' ) . ': ' .
@@ -859,14 +870,17 @@ function GetReportCardsExtra( $mp_list, $st_list )
 	// Student List Extra.
 	$extra['WHERE'] = " AND s.STUDENT_ID IN ( " . $st_list . ")";
 
-	$extra['SELECT'] .= ",sg1.GRADE_LETTER as GRADE_TITLE,sg1.GRADE_PERCENT,
+	// Student Details. TODO test if ReportCards needs GRADE_ID!!
+	$extra['SELECT_ONLY'] = "s.FIRST_NAME,s.LAST_NAME,s.STUDENT_ID,ssm.SCHOOL_ID";
+
+	$extra['SELECT_ONLY'] .= ",sg1.GRADE_LETTER as GRADE_TITLE,sg1.GRADE_PERCENT,
 		sg1.COMMENT as COMMENT_TITLE,sg1.STUDENT_ID,sg1.COURSE_PERIOD_ID,sg1.MARKING_PERIOD_ID,
-		sg1.COURSE_TITLE as COURSE_TITLE,rc_cp.TITLE AS TEACHER,sp.SORT_ORDER";
+		sg1.COURSE_TITLE as COURSE_TITLE,rc_cp.TEACHER_ID,sp.SORT_ORDER";
 
 	// Period-by-period absences.
 	if ( $_REQUEST['elements']['period_absences'] === 'Y' )
 	{
-		$extra['SELECT'] .= ",rc_cp.DOES_ATTENDANCE,
+		$extra['SELECT_ONLY'] .= ",rc_cp.DOES_ATTENDANCE,
 			(SELECT count(*) FROM ATTENDANCE_PERIOD ap,ATTENDANCE_CODES ac
 				WHERE ac.ID=ap.ATTENDANCE_CODE
 				AND ac.STATE_CODE='A'
@@ -895,8 +909,6 @@ function GetReportCardsExtra( $mp_list, $st_list )
 
 	$extra['ORDER'] .= ",sg1.COURSE_TITLE,sp.SORT_ORDER,ac.TITLE";
 
-	$extra['functions']['TEACHER'] = '_makeTeacher';
-
 	$extra['group']	= array( 'STUDENT_ID', 'COURSE_PERIOD_ID', 'MARKING_PERIOD_ID' );
 
 	// Parent: associated students.
@@ -910,6 +922,8 @@ function GetReportCardsExtra( $mp_list, $st_list )
  * Make Teacher
  * DBGet callback
  * Local function
+ *
+ * @deprecated since 3.4.3. Use Teacher ID instead of extracting Teacher name from CP title.
  *
  * @param  string $teacher Teacher
  * @param  string $column  'TEACHER'

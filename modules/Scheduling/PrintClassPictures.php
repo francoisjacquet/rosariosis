@@ -208,14 +208,21 @@ function mySearch($type,$extra='')
 
 		echo '<table>';
 
-		$RET = DBGet(DBQuery("SELECT STAFF_ID,LAST_NAME||', '||FIRST_NAME AS FULL_NAME FROM STAFF WHERE PROFILE='teacher' AND (SCHOOLS IS NULL OR position(',".UserSchool().",' IN SCHOOLS)>0) AND SYEAR='".UserSyear()."' ORDER BY FULL_NAME"));
+		$RET = DBGet( DBQuery( "SELECT STAFF_ID," . getDisplayNameSQL() . " AS FULL_NAME
+			FROM STAFF
+			WHERE PROFILE='teacher'
+			AND (SCHOOLS IS NULL OR position('," . UserSchool() . ",' IN SCHOOLS)>0)
+			AND SYEAR='" . UserSyear() . "'
+			ORDER BY FULL_NAME" ) );
 
 		echo '<tr class="st"><td>'._('Teacher').'</td><td>';
 
 		echo '<select name="teacher_id"><option value="">'._('N/A').'</option>';
 
-		foreach ( (array) $RET as $teacher)
-			echo '<option value="'.$teacher['STAFF_ID'].'">'.$teacher['FULL_NAME'].'</option>';
+		foreach ( (array) $RET as $teacher )
+		{
+			echo '<option value="' . $teacher['STAFF_ID'] . '">' . $teacher['FULL_NAME'] . '</option>';
+		}
 
 		echo '</select></td></tr>';
 

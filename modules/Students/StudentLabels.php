@@ -33,8 +33,13 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		}
 		else
 		{
-			if ( $_REQUEST['teacher'])
-				$extra['SELECT'] .= ",(SELECT st.FIRST_NAME||' '||st.LAST_NAME FROM STAFF st,COURSE_PERIODS cp WHERE st.STAFF_ID=cp.TEACHER_ID AND cp.COURSE_PERIOD_ID='".UserCoursePeriod()."') AS TEACHER";
+			if ( $_REQUEST['teacher'] )
+			{
+				$extra['SELECT'] .= ",(SELECT " . getDisplayNameSQL( 'st' ) . " AS FULL_NAME
+					FROM STAFF st,COURSE_PERIODS cp
+					WHERE st.STAFF_ID=cp.TEACHER_ID
+					AND cp.COURSE_PERIOD_ID='" . UserCoursePeriod() . "') AS TEACHER";
+			}
 
 			if ( $_REQUEST['room'])
 				$extra['SELECT'] .= ",(SELECT cp.ROOM FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID='".UserCoursePeriod()."') AS ROOM";
@@ -61,23 +66,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 				echo '<td class="center" style="width:33%; vertical-align: middle;">';
 
-				if ( $student['LAST_NAME'] === '&nbsp;' )
-				{
-					$name = $student['LAST_NAME'];
-				}
-				elseif ( $_REQUEST['full_name'] == 'given' )
-				{
-					$name = $student['LAST_NAME'] . ', ' .
-						$student['FIRST_NAME'] . ' ' . $student['MIDDLE_NAME'];
-				}
-				elseif ( $_REQUEST['full_name'] == 'given_natural' )
-				{
-					$name = $student['FIRST_NAME'] . ' ' . $student['LAST_NAME'];
-				}
-				else
-					$name = $student['FULL_NAME'];
-
-				echo '<b>' . $name . '</b>';
+				echo '<b>' . $student['FULL_NAME'] . '</b>';
 
 				if ( $_REQUEST['teacher'] )
 				{
@@ -160,13 +149,14 @@ if ( ! $_REQUEST['modfunc'] )
 		$extra['extra_header_left'] .= '<tr><td colspan="4"><b>'._('Include On Labels').':</b></td></tr>';
 		$extra['extra_header_left'] .= '<tr class="st">';
 
-		$extra['extra_header_left'] .= '<td><label><input type="radio" name="full_name" value="given" checked /> '._('Last, Given Middle').'</label></td>';
-		$extra['extra_header_left'] .= '<td><label><input type="radio" name="full_name" value="given_natural"> '._('Given Last').'</label></td>';
 		if (User('PROFILE')=='admin')
 		{
 			if ( $_REQUEST['w_course_period_id_which']=='course_period' && $_REQUEST['w_course_period_id'])
 			{
-				$course_RET = DBGet(DBQuery("SELECT s.FIRST_NAME||' '||s.LAST_NAME AS TEACHER,cp.ROOM FROM STAFF s,COURSE_PERIODS cp WHERE s.STAFF_ID=cp.TEACHER_ID AND cp.COURSE_PERIOD_ID='".$_REQUEST['w_course_period_id']."'"));
+				$course_RET = DBGet( DBQuery( "SELECT " . getDisplayNameSQL( 's' ) . " AS TEACHER,cp.ROOM
+				FROM STAFF s,COURSE_PERIODS cp
+				WHERE s.STAFF_ID=cp.TEACHER_ID
+				AND cp.COURSE_PERIOD_ID='" . $_REQUEST['w_course_period_id'] . "'" ) );
 
 				$extra['extra_header_left'] .= '<tr><td colspan="4"><label><input type="checkbox" name="teacher" value="Y"> '._('Teacher').' ('.$course_RET[1]['TEACHER'].')</label></td></tr>';
 				$extra['extra_header_left'] .= '<tr><td colspan="4"><label><input type="checkbox" name="room" value="Y"> '._('Room').' ('.$course_RET[1]['ROOM'].')</label></td></tr>';

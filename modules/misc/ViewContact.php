@@ -22,7 +22,11 @@ echo '<br />';
 PopTable(
 	'header',
 	( $person_RET[1]['STUDENT_RELATION'] ? $person_RET[1]['STUDENT_RELATION'] . ': ' : '' ) .
-		$person_RET[1]['FIRST_NAME'] . ' ' . $person_RET[1]['MIDDLE_NAME'] . ' ' . $person_RET[1]['LAST_NAME']
+		getDisplayName(
+			$person_RET[1]['FIRST_NAME'],
+			$person_RET[1]['LAST_NAME'],
+			$person_RET[1]['MIDDLE_NAME']
+		)
 );
 
 if ( count( $contacts_RET )

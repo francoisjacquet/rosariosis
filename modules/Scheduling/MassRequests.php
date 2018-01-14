@@ -86,10 +86,17 @@ if ( $_REQUEST['modfunc']!='choose_course')
 		echo '<table><tr class="st"><td>'._('Teacher').'</td><td><select name="with_teacher_id"><option value="">'._('N/A').'</option>';
 		//FJ fix bug teacher's schools is NULL
 		//$teachers_RET = DBGet(DBQuery("SELECT STAFF_ID,LAST_NAME,FIRST_NAME,MIDDLE_NAME FROM STAFF WHERE SCHOOLS LIKE '%,".UserSchool().",%' AND SYEAR='".UserSyear()."' AND PROFILE='teacher' ORDER BY LAST_NAME,FIRST_NAME"));
-		$teachers_RET = DBGet(DBQuery("SELECT STAFF_ID,LAST_NAME,FIRST_NAME,MIDDLE_NAME FROM STAFF WHERE (SCHOOLS LIKE '%,".UserSchool().",%' OR SCHOOLS IS NULL) AND SYEAR='".UserSyear()."' AND PROFILE='teacher' ORDER BY LAST_NAME,FIRST_NAME"));
+		$teachers_RET = DBGet( DBQuery( "SELECT STAFF_ID," . getDisplayNameSQL() . " AS FULL_NAME
+			FROM STAFF
+			WHERE (SCHOOLS LIKE '%," . UserSchool() . ",%' OR SCHOOLS IS NULL)
+			AND SYEAR='" . UserSyear() . "'
+			AND PROFILE='teacher'
+			ORDER BY LAST_NAME,FIRST_NAME" ) );
 
-		foreach ( (array) $teachers_RET as $teacher)
-			echo '<option value="'.$teacher['STAFF_ID'].'">'.$teacher['LAST_NAME'].', '.$teacher['FIRST_NAME'].' '.$teacher['MIDDLE_NAME'].'</option>';
+		foreach ( (array) $teachers_RET as $teacher )
+		{
+			echo '<option value="' . $teacher['STAFF_ID'] . '">' . $teacher['FULL_NAME'] . '</option>';
+		}
 
 		echo '</select></td></tr><tr class="st"><td>'._('Period').'</td><td><select name="with_period_id"><option value="">'._('N/A').'</option>';
 
@@ -104,8 +111,10 @@ if ( $_REQUEST['modfunc']!='choose_course')
 
 		echo '<table><tr class="st"><td>'._('Teacher').'</td><td><select name="without_teacher_id"><option value="">'._('N/A').'</option>';
 
-		foreach ( (array) $teachers_RET as $teacher)
-			echo '<option value="'.$teacher['STAFF_ID'].'">'.$teacher['LAST_NAME'].', '.$teacher['FIRST_NAME'].' '.$teacher['MIDDLE_NAME'].'</option>';
+		foreach ( (array) $teachers_RET as $teacher )
+		{
+			echo '<option value="' . $teacher['STAFF_ID'] . '">' . $teacher['FULL_NAME'] . '</option>';
+		}
 
 		echo '</select></td></tr><tr class="st"><td>'._('Period').'</td><td><select name="without_period_id"><option value="">'._('N/A').'</option>';
 

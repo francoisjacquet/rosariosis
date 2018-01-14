@@ -494,9 +494,12 @@ if ( ( UserStaffID()
 {
 	if ( $_REQUEST['staff_id'] !== 'new' )
 	{
-		$sql = "SELECT s.STAFF_ID,s.TITLE,s.FIRST_NAME,s.LAST_NAME,s.MIDDLE_NAME,s.NAME_SUFFIX,
-						s.USERNAME,s.PASSWORD,s.SCHOOLS,s.PROFILE,s.PROFILE_ID,s.PHONE,s.EMAIL,s.LAST_LOGIN,s.SYEAR,s.ROLLOVER_ID
-				FROM STAFF s WHERE s.STAFF_ID='" . UserStaffID() . "'";
+		$sql = "SELECT s.STAFF_ID," . getDisplayNameSQL( 's' ) . " AS FULL_NAME,
+		s.TITLE,s.FIRST_NAME,s.LAST_NAME,s.MIDDLE_NAME,s.NAME_SUFFIX,
+		s.USERNAME,s.PASSWORD,s.SCHOOLS,s.PROFILE,s.PROFILE_ID,s.PHONE,s.EMAIL,
+		s.LAST_LOGIN,s.SYEAR,s.ROLLOVER_ID
+		FROM STAFF s
+		WHERE s.STAFF_ID='" . UserStaffID() . "'";
 
 		$staff = DBGet( DBQuery( $sql ) );
 
@@ -533,11 +536,7 @@ if ( ( UserStaffID()
 
 	if ( $_REQUEST['staff_id']!='new')
 	{
-		//FJ add translation
-		$titles_array = array('Mr' => _('Mr'),'Mrs' => _('Mrs'),'Ms' => _('Ms'),'Miss' => _('Miss'),'Dr' => _('Dr'));
-		$suffixes_array = array('Jr' => _('Jr'),'Sr' => _('Sr'),'II' => _('II'),'III' => _('III'),'IV' => _('IV'),'V' => _('V'));
-
-		$name = $titles_array[$staff['TITLE']].' '.$staff['FIRST_NAME'].' '.$staff['MIDDLE_NAME'].' '.$staff['LAST_NAME'].' '.$suffixes_array[$staff['NAME_SUFFIX']].' - '.$staff['STAFF_ID'];
+		$name = $staff['FULL_NAME'] . ' - ' . $staff['STAFF_ID'];
 	}
 
 	DrawHeader( $name, $delete_button . SubmitButton( _( 'Save' ) ) );

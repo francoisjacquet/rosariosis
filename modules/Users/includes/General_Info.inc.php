@@ -24,9 +24,22 @@ if ( $_REQUEST['staff_id']!='new' && ($file = @fopen($picture_path=$UserPictures
 
 echo '</td><td colspan="2">';
 
-//FJ add translation
-$titles_array = array('Mr' => _('Mr'),'Mrs' => _('Mrs'),'Ms' => _('Ms'),'Miss' => _('Miss'),'Dr' => _('Dr'));
-$suffixes_array = array('Jr' => _('Jr'),'Sr' => _('Sr'),'II' => _('II'),'III' => _('III'),'IV' => _('IV'),'V' => _('V'));
+$titles_array = array(
+	'Mr' => _( 'Mr' ),
+	'Mrs' => _( 'Mrs' ),
+	'Ms' => _( 'Ms' ),
+	'Miss' => _( 'Miss' ),
+	'Dr' => _( 'Dr' ),
+);
+
+$suffixes_array = array(
+	'Jr' => _( 'Jr' ),
+	'Sr' => _( 'Sr' ),
+	'II' => _( 'II' ),
+	'III' => _( 'III' ),
+	'IV' => _( 'IV' ),
+	'V' => _( 'V' ),
+);
 
 if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 {
