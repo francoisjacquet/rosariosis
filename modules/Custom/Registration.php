@@ -539,7 +539,8 @@ $student = $student_RET[1];
 
 echo '<hr /><p><b>' . sprintf(
 	_( 'Information about %s %s' ),
-	$student['FULL_NAME']
+	$student['FULL_NAME'],
+	''
 ) . ':</b></p>';
 
 // Display General Info's tab custom fields (Other Info).
