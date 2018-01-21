@@ -321,13 +321,15 @@ if ( ! $staff_RET[1]['PROFILE_ID'])
 }
 else
 {
-	$profile_title = DBGet(DBQuery("SELECT TITLE FROM USER_PROFILES WHERE ID='".$staff_RET[1]['PROFILE_ID']."'"));
+	$profile_title = DBGet( DBQuery( "SELECT TITLE
+		FROM USER_PROFILES
+		WHERE ID='" . $staff_RET[1]['PROFILE_ID'] . "'" ) );
+
 	echo '<br />';
 
 	$error[] = sprintf(
-		_('%s %s is assigned to the profile %s.'),
+		_( '%s is assigned to the profile %s.' ),
 		$staff_RET[1]['FULL_NAME'],
-		'',
 		$profile_title[1]['TITLE']
 	);
 

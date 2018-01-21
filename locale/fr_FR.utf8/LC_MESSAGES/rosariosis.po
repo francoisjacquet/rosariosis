@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-14 17:02+0100\n"
-"PO-Revision-Date: 2018-01-14 17:02+0100\n"
+"POT-Creation-Date: 2018-01-21 12:04+0100\n"
+"PO-Revision-Date: 2018-01-21 12:10+0100\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS\n"
 "Language: fr\n"
@@ -206,7 +206,7 @@ msgstr "Mot de passe oublié?"
 #: modules/Custom/CreateParents.php:265 modules/Custom/CreateParents.php:327
 #: modules/Custom/CreateParents.php:343 modules/Custom/NotifyParents.php:105
 #: modules/Custom/NotifyParents.php:156 modules/Custom/NotifyParents.php:177
-#: modules/Students/includes/General_Info.inc.php:118
+#: modules/Students/includes/General_Info.inc.php:121
 msgid "Email"
 msgstr "Email"
 
@@ -715,7 +715,7 @@ msgstr "Classe supérieure dans "
 #: modules/School_Setup/Schools.php:154 modules/Students/AddDrop.php:56
 #: modules/Students/Letters.php:146
 #: modules/Students/includes/Enrollment.inc.php:43
-#: modules/Students/includes/General_Info.inc.php:182
+#: modules/Students/includes/General_Info.inc.php:181
 #: modules/Users/includes/Schedule.inc.php:28
 #: modules/Users/includes/Schedule.inc.php:50 modules/misc/Export.php:167
 #: modules/misc/Export.php:478 modules/misc/Portal.php:117
@@ -897,7 +897,7 @@ msgstr "Numéro de Téléphone"
 #: modules/Custom/NotifyParents.php:104 modules/Custom/NotifyParents.php:145
 #: modules/Custom/NotifyParents.php:176 modules/School_Setup/AccessLog.php:113
 #: modules/School_Setup/Configuration.php:244
-#: modules/Students/includes/General_Info.inc.php:115
+#: modules/Students/includes/General_Info.inc.php:118
 #: modules/Users/Preferences.php:572
 #: modules/Users/includes/General_Info.inc.php:142 modules/misc/Export.php:171
 #: modules/misc/Export.php:482 plugins/Moodle/config.inc.php:104
@@ -1038,7 +1038,7 @@ msgid "You are not currently in a marking period"
 msgstr "Vous n'avez pas sélectionné une période scolaire"
 
 #: functions/GetStaffList.fnc.php:47 modules/Students/AddUsers.php:83
-#: modules/Students/includes/General_Info.inc.php:142
+#: modules/Students/includes/General_Info.inc.php:107
 #: modules/Users/includes/General_Info.inc.php:167 modules/misc/Export.php:182
 #: modules/misc/Export.php:487
 msgid "Last Login"
@@ -2122,7 +2122,7 @@ msgstr "Langue"
 
 #: index.php:427 modules/Custom/CreateParents.php:265
 #: modules/Custom/CreateParents.php:317 modules/Custom/NotifyParents.php:146
-#: modules/Students/includes/General_Info.inc.php:129
+#: modules/Students/includes/General_Info.inc.php:132
 #: modules/Users/Preferences.php:161 modules/Users/Preferences.php:201
 #: modules/Users/Preferences.php:215
 #: modules/Users/includes/General_Info.inc.php:153
@@ -3309,8 +3309,8 @@ msgstr "Lien avec l'élève"
 
 #: modules/Custom/Registration.php:541
 #, php-format
-msgid "Information about %s %s"
-msgstr "Informations sur %s %s"
+msgid "Information about %s"
+msgstr "Informations à propos de %s"
 
 #: modules/Discipline/CategoryBreakdown.php:242
 #: modules/Discipline/CategoryBreakdownTime.php:423
@@ -7162,10 +7162,10 @@ msgstr[0] "Famille"
 msgstr[1] "Familles"
 
 #: modules/Students/Student.php:122
-#: modules/Students/includes/General_Info.inc.php:190
+#: modules/Students/includes/General_Info.inc.php:189
 #: modules/Users/User.php:177 modules/Users/includes/General_Info.inc.php:415
 msgid "Captcha"
-msgstr ""
+msgstr "Captcha"
 
 #: modules/Students/Student.php:159 modules/Users/User.php:204
 msgid ""
@@ -7330,7 +7330,7 @@ msgstr "IV"
 msgid "V"
 msgstr "V"
 
-#: modules/Students/includes/General_Info.inc.php:133
+#: modules/Students/includes/General_Info.inc.php:136
 #: modules/Users/includes/General_Info.inc.php:157
 msgid ""
 "The password must have at least 8 characters, at least 1 digit, at least 1 "
@@ -7397,12 +7397,12 @@ msgstr "Peut Utiliser"
 msgid "Can Edit"
 msgstr "Peut Modifier"
 
-#: modules/Users/Exceptions.php:328
+#: modules/Users/Exceptions.php:331
 #, php-format
-msgid "%s %s is assigned to the profile %s."
-msgstr "%s %s est assigné au profil %s."
+msgid "%s is assigned to the profile %s."
+msgstr "%s est assigné au profil %s."
 
-#: modules/Users/Exceptions.php:334
+#: modules/Users/Exceptions.php:336
 #, php-format
 msgid ""
 "To assign permissions to this user, either change the permissions for this "
@@ -7413,12 +7413,12 @@ msgstr ""
 "les droits d'accès de ce profil en utilisant la configuration de %s, soit "
 "assigner les droits d'accès Custom à cet utilisateur en utilisant %s."
 
-#: modules/Users/Exceptions.php:334 modules/Users/Profiles.php:233
+#: modules/Users/Exceptions.php:336 modules/Users/Profiles.php:233
 #: modules/Users/UserFields.php:286
 msgid "Profiles"
 msgstr "Profils Utilisateur"
 
-#: modules/Users/Exceptions.php:334
+#: modules/Users/Exceptions.php:336
 msgid "General Info"
 msgstr "Informations Générales"
 
@@ -7880,6 +7880,12 @@ msgstr "Publier l'Évènement dans Moodle?"
 #: plugins/Moodle/functions.php:517
 msgid "Publish Note in Moodle?"
 msgstr "Publier la Note dans Moodle?"
+
+#~ msgid "Information about %s %s"
+#~ msgstr "Informations sur %s %s"
+
+#~ msgid "%s %s is assigned to the profile %s."
+#~ msgstr "%s %s est assigné au profil %s."
 
 #~ msgid "ClipArt"
 #~ msgstr "ClipArt"

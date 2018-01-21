@@ -538,9 +538,8 @@ $student_RET = DBGet( DBQuery( "SELECT " . DisplayNameSQL() . " AS FULL_NAME" . 
 $student = $student_RET[1];
 
 echo '<hr /><p><b>' . sprintf(
-	_( 'Information about %s %s' ),
-	$student['FULL_NAME'],
-	''
+	_( 'Information about %s' ),
+	$student['FULL_NAME']
 ) . ':</b></p>';
 
 // Display General Info's tab custom fields (Other Info).
