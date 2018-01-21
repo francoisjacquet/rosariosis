@@ -1,8 +1,8 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
-Changes in 3.7-beta
--------------------
+Changes in 3.7
+--------------
 - RTL layout issues #214 in rtl.css
 - INSERT INTO case to Replace empty strings ('') with NULL values in database.inc.php
 - #218 Add DISPLAY_NAME to CONFIG table in rosariosis.sql & Update.fnc.php
