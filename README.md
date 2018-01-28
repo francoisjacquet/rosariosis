@@ -7,21 +7,24 @@ License
 -------
 
 RosarioSIS is "free" software released under the [GNU General Public License version 2](LICENSE).
-You MUST read and agree to the terms of this license prior to installing RosarioSIS.
+
+We welcome your [contributions](https://github.com/francoisjacquet/rosariosis/wiki/Contribute) to the project.
 
 
 Documentation
 -------------
 
-For installation directions, please refer to the [INSTALL.md](INSTALL.md) file part of this distribution.
+For installation directions, please refer to the [INSTALL.md](INSTALL.md) file.
 
-And yes, YOU NEED TO READ THE ABOVE DOCUMENTATION prior to attempting any install.
+You need to read the above documentation prior to attempting any install.
 
 [Quick Setup Guide](https://github.com/francoisjacquet/rosariosis/wiki/Quick-Setup-Guide)
 
-Handbooks:
-You can generate PDF Handbooks by calling the `Help.php` script once you are logged in. The
-Handbook will depend on your profile (Administrator, Teacher, Parent or Student).
+
+Demo
+----
+
+You can try RosarioSIS and access the [online demonstration](https://www.rosariosis.org/demonstration/) from the project website.
 
 
 About RosarioSIS
@@ -29,10 +32,9 @@ About RosarioSIS
 
 ![RosarioSIS screenshot](http://www.rosariosis.org/wp-content/uploads/2013/06/rosariosis_screenshot.png)
 
-RosarioSIS is a fork of Centre/SIS version 3.0.1.
 RosarioSIS has been designed to address the most important needs of administrators,
 teachers, support staff, parents, students, and clerical personnel. However, it
-also adds many components not typically found in student information systems.
+also adds many components not typically found in Student Information Systems.
 Consider the following:
 
 * Student screens that include all the critical information necessary for
@@ -40,7 +42,7 @@ Consider the following:
 	Several customizable features are also included that allow you to gather
 	data important to your school or district.
 
-*  Employee screens that not only provide quick access to demographic
+* Employee screens that not only provide quick access to demographic
 	information, but also assign email addresses, admittance to the system,
 	passwords, and more.
 
