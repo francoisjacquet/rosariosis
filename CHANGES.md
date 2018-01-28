@@ -5,6 +5,7 @@ Changes in 3.7.1
 ----------------
 - Fix #225 Print Schedule inactive courses bug in PrintSchedules.php
 - Automatically update schedules marking period in Courses.php, sponsored by Aptiris
+- Update MP column on MARKING_PERIOD_ID update in Schedule.php
 
 Changes in 3.7
 --------------

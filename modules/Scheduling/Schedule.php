@@ -80,22 +80,41 @@ if ( $_REQUEST['modfunc'] === 'modify'
 	&& AllowEdit() )
 {
 	foreach ( (array) $_REQUEST['schedule'] as $course_period_id => $start_dates)
-	foreach ( (array) $start_dates as $start_date => $columns)
+	foreach ( (array) $start_dates as $start_date => $columns )
 	{
 		$sql = "UPDATE SCHEDULE SET ";
 
-		foreach ( (array) $columns as $column => $value)
+		if ( isset( $columns['MARKING_PERIOD_ID'] ) )
+		{
+			$mp = GetMP( $columns['MARKING_PERIOD_ID'], 'MP' );
+
+			if ( $mp )
+			{
+				// Update MP column on MARKING_PERIOD_ID update!
+				$columns['MP'] = $mp;
+			}
+		}
+
+		foreach ( (array) $columns as $column => $value )
 		{
 			$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 		}
-		$sql = mb_substr($sql,0,-1) . " WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."' AND START_DATE='".$start_date."'";
-		DBQuery($sql);
+
+		$sql = mb_substr( $sql, 0, -1 ) . " WHERE STUDENT_ID='" . UserStudentID() . "'
+			AND COURSE_PERIOD_ID='" . $course_period_id . "'
+			AND START_DATE='" . $start_date . "'";
+
+		DBQuery( $sql );
 
 		if ( $columns['START_DATE'] || $columns['END_DATE'])
 		{
-			$start_end_RET = DBGet(DBQuery("SELECT START_DATE,END_DATE FROM SCHEDULE WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."' AND END_DATE<START_DATE"));
+			$start_end_RET = DBGet( DBQuery( "SELECT START_DATE,END_DATE
+				FROM SCHEDULE
+				WHERE STUDENT_ID='" . UserStudentID() . "'
+				AND COURSE_PERIOD_ID='" . $course_period_id . "'
+				AND END_DATE<START_DATE" ) );
 
-			//User is asked if he wants absences and grades to be deleted
+			// User is asked if he wants absences and grades to be deleted.
 			if (count($start_end_RET))
 			{
 				$delete_ok = DeletePrompt(
