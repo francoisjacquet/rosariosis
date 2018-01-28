@@ -18,11 +18,12 @@ RosarioSIS was tested on:
 - Ubuntu 12.04 with Apache 2.2.22, Postgres 9.1, and PHP 5.3.10
 - Ubuntu 14.04 with Apache 2.4.18, Postgres 9.3.10, and PHP 5.5.9
 - Debian Jessie with Apache 2.4.16, Postgres 9.4, and PHP 5.6.13
+- Debian Stretch with Apache 2.4.25, Postgres 9.6, and PHP 7.0.14
 - Shared hosting with cPanel, nginx, Postgres 8.4, and PHP 5.6.27
 - through Mozilla Firefox
 - through BrowserStack for cross-browser compatibility (not compatible with Internet Explorer 8 or lower)
 
-Minimum requirements: **PHP 5.3.2** & **Postgres 8**
+Minimum requirements: **PHP 5.3.2** & **PostgreSQL 8**
 
 [Installation directions for **Windows**](https://github.com/francoisjacquet/rosariosis/wiki/How-to-install-RosarioSIS-on-Windows)
 
@@ -38,18 +39,18 @@ Unzip the RosarioSIS distribution to a directory that is accessible to your web 
 - `$DatabaseUsername` is the username used for authenticating the database
 - `$DatabasePassword` is the password used for authenticating the database
 - `$DatabaseName` is the database name
-- `$DatabasePort` is the socket port number for accessing the database server
+- `$DatabasePort` is the port number for accessing the database server
 
-- `$pg_dumpPath` is full path to the postgres database dump utility (pg_dump)
-- `$wkhtmltopdfPath` full path to wkhtmltopdf for PDF 'printing'
+- `$pg_dumpPath` is full path to the postgres database dump utility, pg_dump
+- `$wkhtmltopdfPath` is full path to wkhtmltopdf for PDF generation
 
-- `$DefaultSyear` default school year, should match the database to be able to login
+- `$DefaultSyear` is default school year, should match the database to be able to login
 - `$RosarioNotifyAddress` is the email address to send error and new administrator notifications to
-- `$RosarioLocales` is a comma separated list of the locale names of the translations (see `locale/` folder for available locales)
+- `$RosarioLocales` is a comma separated list of locale names (language packs, check the `locale/` folder for available locales)
 
 #### Optional variables
 
-- `$RosarioPath` is full path to RosarioSIS installation, you can define it statically for your installation or the runtime value derived from the `__FILE__` magic constant should work
+- `$RosarioPath` is full path to RosarioSIS installation, you can define it statically or the runtime value derived from the `__FILE__` magic constant should work
 - `$wkhtmltopdfAssetsPath` is path where wkhtmltopdf will access the `assets/` directory, possibly different than how the user's web browser finds it, empty string means no translation
 - `$StudentPicturesPath` path to student pictures
 - `$UserPicturesPath` path to user pictures
@@ -60,10 +61,14 @@ Unzip the RosarioSIS distribution to a directory that is accessible to your web 
 - `$LocalePath` path were the language packs are stored. You need to restart Apache at each change in this directory.
 - `$PNGQuantPath` path to [PNGQuant](https://pngquant.org/) for PNG compression.
 - `$Timezone` sets the default time zone used by date/time functions. See [List of Supported Timezones](http://php.net/manual/en/timezones.php).
-- `$ETagCache` set to `false` to deactivate the [ETag cache](https://en.wikipedia.org/wiki/HTTP_ETag) and disable "private" session cache. See [Sessions and security](http://php.net/manual/it/session.security.php).
+- `$ETagCache` set to `false` to deactivate the [ETag cache](https://en.wikipedia.org/wiki/HTTP_ETag) and disable "private" session cache. See [Sessions and security](https://secure.php.net/manual/en/session.security.php).
 
   [Debug mode: add the following line to activate]
 - `define( 'ROSARIO_DEBUG', true );`
+
+
+Database setup
+--------------
 
 Now, you're ready to setup the RosarioSIS database. If you have access to the command prompt for your server, follow these instructions. If you're using phpPGAdmin or a similar tool, import the `rosariosis.sql` file included in this package.
 
@@ -85,14 +90,14 @@ Now, you're ready to setup the RosarioSIS database. If you have access to the co
 	`postgres=# \q` &
 	`server$ exit`
 
-8. Run the RosarioSIS SQL file:
+7. Run the RosarioSIS SQL file:
 	`server$ psql -f INSTALL_DIRECTORY/rosariosis.sql rosariosis_db rosariosis_user`
 
-Also, the [`pg_hba.conf`](http://www.postgresql.org/docs/current/static/auth-pg-hba-conf.html) file may have to be altered to specify the server's TCP/IP address.
+Also, the [`pg_hba.conf`](http://www.postgresql.org/docs/current/static/auth-pg-hba-conf.html) file may have to be altered to enable password authentication.
 
 That's it!... now, point your browser to: `http://yourdomain.com/INSTALL_LOCATION/index.php`
 
-and login as 'admin' password 'admin'.  With this login, you can create new users, and change and delete the three template users. Since students cannot be deleted the template student should be changed to a proper student.
+and login as 'admin' password 'admin'.  With this login, you can create new users, and change and delete the three template users.
 
 
 Installation problems
