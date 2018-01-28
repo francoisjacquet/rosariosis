@@ -1,6 +1,9 @@
-# Instructions d'installation
+# INSTRUCTIONS D'INSTALLATION
 
 ## RosarioSIS Student Information System
+
+Version 3.7
+-----------
 
 NOTE: Avant d'installer RosarioSIS, vous devez lire et accepter la [licence](LICENSE) incluse (en anglais).
 
@@ -27,7 +30,7 @@ Minimum requis: **PHP 5.3.2** & **PostgreSQL 8**
 [Instructions d'installation pour **cPanel**](https://github.com/francoisjacquet/rosariosis/wiki/How-to-install-RosarioSIS-on-cPanel) (en anglais)
 
 
-Installer le Paquet
+Installer le paquet
 -------------------
 
 Décompressez l'archive de RosarioSIS dans un répertoire accessible depuis le navigateur. Éditez le fichier `config.inc.sample.php` afin de régler les variables de configuration en accord avec votre installation. Renommez le fichier `config.inc.php`.
@@ -42,7 +45,7 @@ Décompressez l'archive de RosarioSIS dans un répertoire accessible depuis le n
 - `$wkhtmltopdfPath` est le chemin complet vers wkhtmltopdf pour la génération de PDF
 
 - `$DefaultSyear` est l'année scolaire par défaut, elle devrait correspondre à la base de donnée afin de pouvoir se connecter
-- `$RosarioNotifyAddress` est l'adresse email à laquelle sont envoyées les notifications d'erreurs et de nouvel administrateur
+- `$RosarioNotifyAddress` est l'adresse email à laquelle sont envoyées les notifications d'erreur et de nouvel administrateur
 - `$RosarioLocales` est une liste de noms de locales (packs de langue) séparées par des virgules (voir le dossier `locale/` pour les locales disponibles)
 
 #### Variables optionelles
@@ -58,7 +61,7 @@ Décompressez l'archive de RosarioSIS dans un répertoire accessible depuis le n
 - `$LocalePath` chemin où les packs de langue sont stockés. Vous devez redémarrer Apache à chaque changement de ce répertoire.
 - `$PNGQuantPath` chemin vers [PNGQuant](https://pngquant.org/) pour la compression des PNG.
 - `$Timezone` défini le fuseau horaire par défaut utilisé par les fonctions de date/heure. Voir la [Liste des Fuseaux Horaires Supportés](http://php.net/manual/fr/timezones.php).
-- `$ETagCache` réglez-le sur `false` pour désactiver le [cache ETag](https://fr.wikipedia.org/wiki/Balise-entit%C3%A9_ETag_HTTP) et désactiver le cache de session "privée". Voir [Sessions et security](https://secure.php.net/manual/fr/session.security.php).
+- `$ETagCache` réglez-le sur `false` pour désactiver le [cache ETag](https://fr.wikipedia.org/wiki/Balise-entit%C3%A9_ETag_HTTP) et le cache de session "privée". Voir [Sessions et security](https://secure.php.net/manual/fr/session.security.php).
 
   [Mode debug: ajouter la ligne suivante pour l'activer]
 - `define( 'ROSARIO_DEBUG', true );`
@@ -67,7 +70,7 @@ Décompressez l'archive de RosarioSIS dans un répertoire accessible depuis le n
 Installation de la base de données
 ----------------------------------
 
-Vous êtes maintenant prêt pour installer la base de données RosarioSIS. Si vous avez à l'invite' de commande sur votre serveur, suivez ces instructions. Si vous utilisez phpPgAdmin ou un utilitaire similaire, importez le fichier `rosariosis.sql` inclus dans ce paquet.
+Vous êtes maintenant prêt pour installer la base de données de RosarioSIS. Si vous avez à l'invite' de commande sur votre serveur, suivez ces instructions. Si vous utilisez phpPgAdmin ou un utilitaire similaire, importez le fichier `rosariosis.sql` inclus dans ce paquet.
 
 1. Ouvrez une fenêtre d'invite de commande.
 
@@ -132,7 +135,7 @@ Instructions d'installation pour Ubuntu 16.04:
     `server$ sudo apt-get install sendmail`
 
 
-Configuration Additionnelle
+Configuration additionnelle
 ---------------------------
 
 [Guide de Configuration Rapide](https://www.rosariosis.org/fr/quick-setup-guide/)

@@ -30,7 +30,7 @@ Minimum requirements: **PHP 5.3.2** & **PostgreSQL 8**
 [Installation directions for **cPanel**](https://github.com/francoisjacquet/rosariosis/wiki/How-to-install-RosarioSIS-on-cPanel)
 
 
-Installing the Package
+Installing the package
 ----------------------
 
 Unzip the RosarioSIS distribution to a directory that is accessible to your web browser. Edit the `config.inc.sample.php` file to set the configuration variables as appropriate for your installation. Rename the file to `config.inc.php`.
@@ -135,7 +135,7 @@ Install instructions for Ubuntu 16.04:
 	`server$ sudo apt-get install sendmail`
 
 
-Additional Configuration
+Additional configuration
 ------------------------
 
 [Quick Setup Guide](https://github.com/francoisjacquet/rosariosis/wiki/Quick-Setup-Guide)
