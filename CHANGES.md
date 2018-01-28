@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 3.7.1
+----------------
+- Fix #225 Print Schedule inactive courses bug in PrintSchedules.php
+
 Changes in 3.7
 --------------
 - RTL layout issues #214 in rtl.css

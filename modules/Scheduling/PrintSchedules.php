@@ -22,7 +22,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			$_REQUEST['day_include_active_date']
 		);
 
-		$date_extra = "OR ('" . $date . "' >= sr.START_DATE AND sr.END_DATE IS NULL)";
+		$date_extra = "OR ('" . $date . "'>=sr.START_DATE
+			AND sr.END_DATE IS NULL)";
 	}
 	else
 	{
@@ -30,18 +31,32 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 		$date_extra = 'OR sr.END_DATE IS NULL';
 	}
-//FJ multiple school periods for a course period
-//	$columns = array('PERIOD_TITLE' => _('Period').' '._('Days').' - '._('Short Name').' - '._('Teacher'),'MARKING_PERIOD_ID' => _('Term'),'DAYS' => _('Days'),'ROOM' => _('Room'),'COURSE_TITLE' => _('Course'));
-	$columns = array('PERIOD_TITLE' => _('Period').' '._('Days').' - '._('Short Name').' - '._('Teacher'),'MARKING_PERIOD_ID' => _('Term'),'ROOM' => _('Room'),'COURSE_TITLE' => _('Course'));
+	// FJ multiple school periods for a course period.
+	//$columns = array('PERIOD_TITLE' => _('Period').' '._('Days').' - '._('Short Name').' - '._('Teacher'),'MARKING_PERIOD_ID' => _('Term'),'DAYS' => _('Days'),'ROOM' => _('Room'),'COURSE_TITLE' => _('Course'));
+	$columns = array(
+		'PERIOD_TITLE' => _( 'Period' ) . ' ' . _( 'Days' ) . ' - ' . _( 'Short Name' ) . ' - ' . _( 'Teacher' ),
+		'MARKING_PERIOD_ID' => _( 'Term' ),
+		'ROOM' => _( 'Room' ),
+		'COURSE_TITLE' => _( 'Course' ),
+	);
 
-/*	$extra['SELECT'] .= ',c.TITLE AS COURSE_TITLE,p_cp.TITLE AS PERIOD_TITLE,sr.MARKING_PERIOD_ID,p_cp.DAYS,p_cp.ROOM';
+	/*	$extra['SELECT'] .= ',c.TITLE AS COURSE_TITLE,p_cp.TITLE AS PERIOD_TITLE,sr.MARKING_PERIOD_ID,p_cp.DAYS,p_cp.ROOM';
 	$extra['FROM'] .= ' LEFT OUTER JOIN SCHEDULE sr ON (sr.STUDENT_ID=ssm.STUDENT_ID),COURSES c,COURSE_PERIODS p_cp,SCHOOL_PERIODS sp ';
 	$extra['WHERE'] .= " AND p_cp.PERIOD_ID=sp.PERIOD_ID AND ssm.SYEAR=sr.SYEAR AND sr.COURSE_ID=c.COURSE_ID AND sr.COURSE_PERIOD_ID=p_cp.COURSE_PERIOD_ID  AND ('".$date."' BETWEEN sr.START_DATE AND sr.END_DATE $date_extra)";*/
 	$extra['SELECT'] .= ',c.TITLE AS COURSE_TITLE,p_cp.TITLE AS PERIOD_TITLE,sr.MARKING_PERIOD_ID,p_cp.ROOM';
 	$extra['FROM'] .= ' LEFT OUTER JOIN SCHEDULE sr ON (sr.STUDENT_ID=ssm.STUDENT_ID),COURSES c,COURSE_PERIODS p_cp ';
-	$extra['WHERE'] .= " AND ssm.SYEAR=sr.SYEAR AND sr.COURSE_ID=c.COURSE_ID AND sr.COURSE_PERIOD_ID=p_cp.COURSE_PERIOD_ID  AND ('".$date."' BETWEEN sr.START_DATE AND sr.END_DATE ".$date_extra.")";
-	if ( $_REQUEST['mp_id'])
-		$extra['WHERE'] .= ' AND sr.MARKING_PERIOD_ID IN ('.GetAllMP(GetMP($_REQUEST['mp_id'],'MP'),$_REQUEST['mp_id']).')';
+	$extra['WHERE'] .= " AND ssm.SYEAR=sr.SYEAR
+		AND sr.COURSE_ID=c.COURSE_ID
+		AND sr.COURSE_PERIOD_ID=p_cp.COURSE_PERIOD_ID
+		AND ('" . $date . "' BETWEEN sr.START_DATE AND sr.END_DATE " . $date_extra . ")";
+
+	if ( $_REQUEST['mp_id'] )
+	{
+		$extra['WHERE'] .= ' AND sr.MARKING_PERIOD_ID IN (' . GetAllMP(
+			GetMP( $_REQUEST['mp_id'], 'MP' ),
+			$_REQUEST['mp_id']
+		) . ')';
+	}
 
 //	$extra['functions'] = array('MARKING_PERIOD_ID' => 'GetMP','DAYS' => '_makeDays');
 //FJ add subject areas
@@ -57,39 +72,72 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 	$RET = GetStuList($extra);
 
-//FJ add schedule table
-	$schedule_table_days = array('U'=>false,'M'=>false,'T'=>false,'W'=>false,'H'=>false,'F'=>false,'S'=>false);
-	//FJ days display to locale
-	$days_convert = array('U' => _('Sunday'),'M' => _('Monday'),'T' => _('Tuesday'),'W' => _('Wednesday'),'H' => _('Thursday'),'F' => _('Friday'),'S' => _('Saturday'));
-	//FJ days numbered
-	if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
-		$days_convert = array('U' => _('Day').' 7','M' => _('Day').' 1','T' => _('Day').' 2','W' => _('Day').' 3','H' => _('Day').' 4','F' => _('Day').' 5','S' => _('Day').' 6');
+	// FJ add schedule table.
+	$schedule_table_days = array(
+		'U' => false,
+		'M' => false,
+		'T' => false,
+		'W' => false,
+		'H' => false,
+		'F' => false,
+		'S' => false,
+	);
+
+	// FJ days display to locale.
+	$days_convert = array(
+		'U' => _( 'Sunday' ),
+		'M' => _( 'Monday' ),
+		'T' => _( 'Tuesday' ),
+		'W' => _( 'Wednesday' ),
+		'H' => _( 'Thursday' ),
+		'F' => _( 'Friday' ),
+		'S' => _( 'Saturday' ),
+	);
+
+	// FJ days numbered.
+	if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
+	{
+		$days_convert = array(
+			'U' => _( 'Day' ) . ' 7',
+			'M' => _( 'Day' ) . ' 1',
+			'T' => _( 'Day' ) . ' 2',
+			'W' => _( 'Day' ) . ' 3',
+			'H' => _( 'Day' ) . ' 4',
+			'F' => _( 'Day' ) . ' 5',
+			'S' => _( 'Day' ) . ' 6',
+		);
+	}
 
 	$schedule_table_RET = DBGet( DBQuery( "SELECT cp.ROOM,cs.TITLE,sp.TITLE AS SCHOOL_PERIOD,
 		cpsp.DAYS,stu.STUDENT_ID," . DisplayNameSQL( 'sta' ) . " AS FULL_NAME
-	FROM COURSE_PERIODS cp,COURSES c,SCHOOLS s,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp,STUDENTS stu,SCHEDULE sch,STAFF sta,COURSE_SUBJECTS cs
+	FROM COURSE_PERIODS cp,COURSES c,SCHOOLS s,SCHOOL_PERIODS sp,
+		COURSE_PERIOD_SCHOOL_PERIODS cpsp,STUDENTS stu,SCHEDULE sr,STAFF sta,COURSE_SUBJECTS cs
 	WHERE cp.COURSE_ID=c.COURSE_ID
 	AND c.SUBJECT_ID=cs.SUBJECT_ID
-	AND cp.SYEAR='".UserSyear()."'
+	AND cp.SYEAR='" . UserSyear() . "'
 	AND s.ID=cp.SCHOOL_ID
-	AND s.ID='".UserSchool()."'
+	AND s.ID='" . UserSchool() . "'
 	AND s.SYEAR=cp.SYEAR
 	AND sp.PERIOD_ID=cpsp.PERIOD_ID
 	AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
-	AND sch.MARKING_PERIOD_ID IN (".GetAllMP(GetMP($_REQUEST['mp_id'],'MP'),$_REQUEST['mp_id']).")
-	AND stu.STUDENT_ID IN (".$st_list.")
-	AND stu.STUDENT_ID=sch.STUDENT_ID
-	AND sch.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
-	AND sta.STAFF_ID=cp.TEACHER_ID
-	AND sp.LENGTH <= ".(Config('ATTENDANCE_FULL_DAY_MINUTES') / 2)."
-	ORDER BY sp.SORT_ORDER"),array('DAYS' => '_GetDays'),array('STUDENT_ID','SCHOOL_PERIOD'));
-	//FJ note the "sp.LENGTH <= (Config('ATTENDANCE_FULL_DAY_MINUTES') / 2)" condition to remove Full Day and Half Day school periods from the schedule table!
+	AND sr.MARKING_PERIOD_ID IN (" . GetAllMP( GetMP( $_REQUEST['mp_id'], 'MP' ), $_REQUEST['mp_id'] ) . ")
+	AND stu.STUDENT_ID IN (" . $st_list . ")
+	AND stu.STUDENT_ID=sr.STUDENT_ID
+	AND sr.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
+	AND ('" . $date . "' BETWEEN sr.START_DATE AND sr.END_DATE " . $date_extra . ")
+	AND sp.LENGTH <= " . ( Config( 'ATTENDANCE_FULL_DAY_MINUTES' ) / 2 ) . "
+	ORDER BY sp.SORT_ORDER" ), array( 'DAYS' => '_GetDays' ), array( 'STUDENT_ID', 'SCHOOL_PERIOD' ) );
+	// FJ note the "sp.LENGTH <= (Config('ATTENDANCE_FULL_DAY_MINUTES') / 2)" condition
+	// to remove Full Day and Half Day school periods from the schedule table!
 
-	$columns_table = array('SCHOOL_PERIOD' => _('Periods'));
-	foreach ($schedule_table_days as $day => $true)
+	$columns_table = array( 'SCHOOL_PERIOD' => _( 'Periods' ) );
+
+	foreach ( $schedule_table_days as $day => $true )
 	{
-		if ( $true)
+		if ( $true )
+		{
 			$columns_table[ $day ] = $days_convert[ $day ];
+		}
 	}
 
 	if (count($RET))
@@ -249,7 +297,8 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$extra['extra_header_left'] = '<table class="cellpadding-5">';
 		$extra['extra_header_left'] .= '<tr class="st"><td>'._('Marking Period').'</td><td>'.$mp_select.'</td></tr>';
-		$extra['extra_header_left'] .= '<tr class="st"><td>'._('Include only courses active as of').'</td><td>'.PrepareDate('','_include_active_date').'</td></tr>';
+		$extra['extra_header_left'] .= '<tr class="st"><td>' . _ ('Include only courses active as of' ) .
+			'</td><td>' . PrepareDate( '', '_include_active_date' ) . '</td></tr>';
 
 		//FJ add Horizontal format option
 		$extra['extra_header_left'] .= '<tr class="st"><td>' .
