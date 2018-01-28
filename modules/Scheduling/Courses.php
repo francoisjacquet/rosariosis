@@ -37,14 +37,14 @@ if ( $_REQUEST['course_modfunc'] === 'search' )
 {
 	echo '<br />';
 
-	PopTable('header',_('Search'));
+	PopTable( 'header', _( 'Search' ) );
 
 	echo '<form name="search" action="Modules.php?modname=' . $_REQUEST['modname'] .
 		'&modfunc=' . $_REQUEST['modfunc'] . '&course_modfunc=search&last_year=' .
 		$_REQUEST['last_year'] . '" method="POST">';
 
 	echo '<table><tr><td><input type="text" name="search_term" value="' .
-		$_REQUEST['search_term'] . '" required></td>
+		$_REQUEST['search_term'] . '" required autofocus /></td>
 		<td><input type="submit" value="' . _( 'Search' ) . '"></td></tr></table>';
 
 	if ( $_REQUEST['modfunc'] === 'choose_course'
@@ -59,9 +59,7 @@ if ( $_REQUEST['course_modfunc'] === 'search' )
 
 	echo '</form>';
 
-	echo '<script><!--
-		document.search.search_term.focus();
-		--></script>';
+	echo '<script>document.search.search_term.focus();</script>';
 
 	PopTable( 'footer' );
 
@@ -312,8 +310,8 @@ if ( $_REQUEST['tables']
 							$columns['DOES_ATTENDANCE'] = '';
 					}
 
-					//if ( $id!='new')
-					if (mb_strpos($id,'new')===FALSE)
+					// if ( $id!='new')
+					if ( mb_strpos( $id, 'new' ) === false )
 					{
 						if ( $table_name=='COURSES' && $columns['SUBJECT_ID'] && $columns['SUBJECT_ID']!=$_REQUEST['subject_id'])
 							$_REQUEST['subject_id'] = $columns['SUBJECT_ID'];
@@ -323,15 +321,20 @@ if ( $_REQUEST['tables']
 						if ( $table_name=='COURSE_PERIODS')
 						{
 							//$current = DBGet(DBQuery("SELECT TEACHER_ID,PERIOD_ID,MARKING_PERIOD_ID,DAYS,SHORT_NAME FROM COURSE_PERIODS WHERE ".$where[ $table_name ]."='".$id."'"));
-							$current = DBGet(DBQuery("SELECT TEACHER_ID,MARKING_PERIOD_ID,SHORT_NAME,TITLE FROM COURSE_PERIODS WHERE ".$where[ $table_name ]."='".$id."'"));
+							$current = DBGet( DBQuery( "SELECT TEACHER_ID,MARKING_PERIOD_ID,
+								SHORT_NAME,TITLE
+								FROM COURSE_PERIODS
+								WHERE " . $where[ $table_name ] . "='" . $id . "'" ) );
 
 							if (isset($columns['TEACHER_ID']))
 								$staff_id = $columns['TEACHER_ID'];
 							else
 								$staff_id = $current[1]['TEACHER_ID'];
 
-							if (isset($columns['MARKING_PERIOD_ID']))
+							if ( isset( $columns['MARKING_PERIOD_ID'] ) )
+							{
 								$marking_period_id = $columns['MARKING_PERIOD_ID'];
+							}
 							else
 								$marking_period_id = $current[1]['MARKING_PERIOD_ID'];
 
@@ -424,33 +427,46 @@ if ( $_REQUEST['tables']
 
 							if (empty($columns['DAYS'])) //delete school period
 							{
-								DBQuery("DELETE FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE COURSE_PERIOD_SCHOOL_PERIODS_ID='".$id."'");
+								DBQuery( "DELETE FROM COURSE_PERIOD_SCHOOL_PERIODS
+									WHERE COURSE_PERIOD_SCHOOL_PERIODS_ID='" . $id . "'" );
+
 								break; //no update
 							}
 							else
 								$temp_PERIOD_ID[] = $columns['PERIOD_ID'];
 						}
 
-						foreach ( (array) $columns as $column => $value)
+						foreach ( (array) $columns as $column => $value )
+						{
 							$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-
-						$sql = mb_substr($sql,0,-1) . " WHERE ".$where[ $table_name ]."='".$id."'";
-						DBQuery($sql);
-
-						if ( $table_name=='COURSE_SUBJECTS')
-						{
-							//hook
-							do_action('Scheduling/Courses.php|update_course_subject');
 						}
-						elseif ( $table_name=='COURSES')
+
+						$sql = mb_substr( $sql, 0, -1 ) .
+							" WHERE " . $where[ $table_name ] . "='" . $id . "'";
+
+						DBQuery( $sql );
+
+						if ( $table_name === 'COURSE_SUBJECTS' )
 						{
-							//hook
-							do_action('Scheduling/Courses.php|update_course');
+							// Hook.
+							do_action( 'Scheduling/Courses.php|update_course_subject' );
 						}
-						elseif ( $table_name=='COURSE_PERIODS')
+						elseif ( $table_name === 'COURSES' )
 						{
-							//hook
-							do_action('Scheduling/Courses.php|update_course_period');
+							// Hook.
+							do_action( 'Scheduling/Courses.php|update_course' );
+						}
+						elseif ( $table_name === 'COURSE_PERIODS' )
+						{
+							if ( isset( $columns['MARKING_PERIOD_ID'] )
+								&& $current[1]['MARKING_PERIOD_ID'] !== $columns['MARKING_PERIOD_ID'] )
+							{
+								// Update schedules marking period too.
+								_updateSchedulesCPMP( $id, $columns['MARKING_PERIOD_ID'] );
+							}
+
+							// Hook.
+							do_action( 'Scheduling/Courses.php|update_course_period' );
 						}
 
 					}
@@ -1679,4 +1695,59 @@ function calcSeats1( &$periods, $date )
 			$periods[ $key ]['AVAILABLE_SEATS'] = mb_substr($periods[ $key ]['AVAILABLE_SEATS'],0,-3);
 		}
 	}
+}
+
+
+/**
+ * Automatically update schedules marking period.
+ *
+ * On the condition scheduled marking period is of greater type
+ * than the new course period marking period.
+ * For example: FY to SEM.
+ *
+ * Local function.
+ *
+ * @since 3.7.1
+ *
+ * @param  string $cp_id Course Period ID.
+ * @param  string $mp_id Marking Period ID.
+ * @return int           Number of schedules updated.
+ */
+function _updateSchedulesCPMP( $cp_id, $mp_id )
+{
+	// Get CP MP.
+	$cp_mp = GetMP( $mp_id, 'MP' );
+
+	if ( ! $cp_id
+		|| ! $mp_id
+		|| ! $cp_mp )
+	{
+		return 0;
+	}
+
+	if ( $cp_mp === 'FY' )
+	{
+		// CP MP is Full Year, no need to update.
+		return 0;
+	}
+
+	if ( $cp_mp !== 'SEM'
+		&& $cp_mp !== 'QTR' )
+	{
+		// CP MP is not a Semester neither a Quarter...!
+		return 0;
+	}
+
+	$schedule_mp_in = ( $cp_mp === 'QTR' ? "'FY','SEM'" : "'FY'" );
+
+	// Update Schedules for CP where MP is of greater type
+	// than the new course period marking period.
+	$update = DBQuery( "UPDATE SCHEDULE SET
+		MP='" . $cp_mp . "',
+		MARKING_PERIOD_ID='" . $mp_id . "'
+		WHERE COURSE_PERIOD_ID='" . $cp_id . "'
+		AND MP IN (" . $schedule_mp_in . ")" );
+
+	// Return number of updated schedules.
+	return pg_affected_rows( $update );
 }
