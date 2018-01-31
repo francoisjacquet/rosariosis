@@ -6,6 +6,7 @@ Changes in 3.7.1
 - Fix #225 Print Schedule inactive courses bug in PrintSchedules.php
 - Automatically update schedules marking period in Courses.php, sponsored by Aptiris
 - Update MP column on MARKING_PERIOD_ID update in Schedule.php
+- Fix #226 Student Photo tooltip won't disappear in TipMessage.fnc.php
 
 Changes in 3.7
 --------------

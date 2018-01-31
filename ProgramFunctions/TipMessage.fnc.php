@@ -15,6 +15,8 @@
  *
  * @example makeTipMessage( '<img src="' . $picture_path . '" width="150" />', $title, $title );
  *
+ * @todo Use CSS class + ID to trigger plugin and remove inline JS (data attributes) + onMouseOver + onMouseOut + onclick
+ *
  * @uses DHTML tip message JS plugin
  *
  * @see assets/js/tipmessage/
@@ -33,7 +35,7 @@ function MakeTipMessage( $message, $title, $label )
 		json_encode( (string) $title ) . ',' .
 		json_encode( (string) $message ) . '];</script>';
 
-	$tip_msg .= '<div class="tipmsg-label" onMouseOver="stm(tipmsg' . $tip_msg_ID . ');" onMouseOut="htm();" onclick="return false;">' .
+	$tip_msg .= '<div class="tipmsg-label" onMouseOver="stm(tipmsg' . $tip_msg_ID . ');" onMouseOut="htm();" onclick="htm();">' .
 		$label . '</div>';
 
 	$tip_msg_ID++;
