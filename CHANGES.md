@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 3.8-beta
+-------------------
+- PHP gettext, iconv, mbstring, json & xml extensions compatibility in functions/PHPCompatibility.php
+
 Changes in 3.7.1
 ----------------
 - Fix #225 Print Schedule inactive courses bug in PrintSchedules.php

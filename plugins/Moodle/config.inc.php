@@ -76,7 +76,9 @@ if ( $_REQUEST['modname'] === 'School_Setup/Configuration.php'
 		if ( $token
 			&& !AllowEdit() ) //obfuscate token as it is sensitive data
 		{
-			$token = mb_strimwidth( $token, 0, 19, "..." );
+			// Fix: do not use mb_strimwidth() as Mbstring polyfill does not implement it.
+			// @see classes/PHPCompatibility/Mbstring/Mbstring.php
+			$token = mb_substr( $token, 0, 16 ) . '...';
 		}
 
 		// Token

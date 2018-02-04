@@ -342,6 +342,12 @@ function _LoadAddons( $addons, $folder )
 		// Binds the messages domain to the locale folder.
 		bindtextdomain( $addon, $locale_path );
 
+		if ( function_exists( '_bindtextdomain' ) )
+		{
+			// Correctly bind domain when MoTranslator is in use.
+			_bindtextdomain( $addon, $locale_path );
+		}
+
 		// Ensures text returned is utf-8, quite often this is iso-8859-1 by default.
 		bind_textdomain_codeset( $addon, 'UTF-8' );
 	}

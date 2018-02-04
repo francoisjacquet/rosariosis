@@ -1,0 +1,62 @@
+<?php
+/**
+ * Implementation for PHP functions either missing from older PHP versions or not included by default.
+ * Shim, polyfill, emulation...
+ *
+ * @package RosarioSIS
+ * @subpackage functions
+ */
+
+if ( ! function_exists( 'gettext' ) )
+{
+	/**
+	 * Include PHP gettext extension emulation by PhpMyAdmin.
+	 *
+	 * @since 3.8
+	 */
+	require_once 'functions/PHPCompatibility/gettext.php';
+}
+
+
+if ( ! function_exists( 'iconv' ) )
+{
+	/**
+	 * Include PHP iconv extension emulation by Symfony.
+	 *
+	 * @since 3.8
+	 */
+	require_once 'functions/PHPCompatibility/iconv.php';
+}
+
+
+if ( ! function_exists( 'mb_substr' ) )
+{
+	/**
+	 * Include PHP mbstring extension emulation by Symfony.
+	 *
+	 * @since 3.8
+	 */
+	require_once 'functions/PHPCompatibility/mbstring.php';
+}
+
+
+if ( ! function_exists( 'json_encode' ) )
+{
+	/**
+	 * Include PHP json extension emulation by WordPress.
+	 *
+	 * @since 3.8
+	 */
+	require_once 'functions/PHPCompatibility/json.php';
+}
+
+
+if ( ! function_exists( 'utf8_encode' ) )
+{
+	/**
+	 * Include PHP xml extension emulation by Symfony.
+	 *
+	 * @since 3.8
+	 */
+	require_once 'functions/PHPCompatibility/xml.php';
+}
