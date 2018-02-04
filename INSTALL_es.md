@@ -95,7 +95,7 @@ Ahora, está listo para configurar la base de datos de RosarioSIS. Si tiene acce
 
 También, el archivo [`pg_hba.conf`](http://www.postgresql.org/docs/current/static/auth-pg-hba-conf.html) puede ser editado para activar la conexión con contraseña.
 
-Es todo!... ahora, apunte su navegador a: `http://yourdomain.com/REPERTORIO_DE_INSTALACION/index.php`
+Es todo!... ahora, apunte su navegador a: `http://sudominio.com/REPERTORIO_DE_INSTALACION/index.php`
 
 y entra con el nombre de usuario 'admin' y la contraseña 'admin'. Con esta cuenta, podrá agregar nuevos usuarios, y modificar o suprimir los tres usuarios plantilla.
 
@@ -103,7 +103,7 @@ y entra con el nombre de usuario 'admin' y la contraseña 'admin'. Con esta cuen
 Problemas de instalación
 ------------------------
 
-Para ayudarlo a detectar los problemas, apunte su navegador a: `http://yourdomain.com/REPERTORIO_DE_INSTALACION/diagnostic.php`
+Para ayudarlo a detectar los problemas, apunte su navegador a: `http://sudominio.com/REPERTORIO_DE_INSTALACION/diagnostic.php`
 
 
 Instalar las extensiones PHP
