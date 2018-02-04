@@ -97,7 +97,7 @@ Aussi, vous devrez peut-être éditer le fichier [`pg_hba.conf`](http://www.post
 
 C'est tout!... maintenant, pointez votre navigateur sur: `http://votredomaine.com/REPERTOIRE_DINSTALLATION/index.php`
 
-et connectez-vous avec 'admin' et le mot de passe 'admin'. Avec cet utilisateur, vous pourrez créer de nouveaux utilisateurs, et modifier ou supprimer les trois utilisateurs type.
+et connectez-vous avec le nom d'utilisateur 'admin' et le mot de passe 'admin'. Avec cet utilisateur, vous pourrez créer de nouveaux utilisateurs, et modifier ou supprimer les trois utilisateurs type.
 
 
 Problèmes d'installation
