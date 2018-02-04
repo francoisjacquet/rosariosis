@@ -9,7 +9,7 @@ NOTA: Antes de instalar RosarioSIS, debe leer y aprobar la [licencia](LICENSE) i
 
 RosarioSIS es una aplicación web que depende de un servidor web, el lenguaje de script PHP y un servidor de base de datos PostgreSQL.
 
-Para que funcione RosarioSIS se deben primero tener el servidor web, PostgreSQL, y PHP (incluyendo las extensiones `pgsql`, `gettext`, `mbstring`, `gd`, `curl`, `xmlrpc` y `xml`) operativos. La implementación de aquellos varia con la plataforma, el sistema operativo y la distribución así que está fuera del alcance de este breve documento de instalación.
+Para que funcione RosarioSIS se debe primero tener el servidor web, PostgreSQL, y PHP (incluyendo las extensiones `pgsql`, `gettext`, `mbstring`, `gd`, `curl`, `xmlrpc` y `xml`) operativos. La implementación de aquellos varia con la plataforma, el sistema operativo y la distribución así que está fuera del alcance de este breve documento de instalación.
 
 RosarioSIS ha sido probado en:
 
@@ -48,7 +48,7 @@ Descomprima el archivo de RosarioSIS en un directorio accesible con el navegador
 - `$RosarioNotifyAddress` es la dirección de email para recibir los errores y las notificaciones de nuevos administradores
 - `$RosarioLocales` es una lista separada por comas de nombres de locales (lenguajes, ver la carpeta `locale/` para la lista de locales)
 
-#### Optional variables
+#### Variables opcionales
 
 - `$RosarioPath` es el camino completo hacia la instalación de RosarioSIS, se puede definir de manera estática o usando la constante mágica `__FILE__`
 - `$wkhtmltopdfAssetsPath` es el camino para que wkhtmltopdf pueda acceder a la carpeta `assets/`, puede ser diferente de como el navegador la encuentra, una cadena vacía significa sin traducción
