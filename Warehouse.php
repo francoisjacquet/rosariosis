@@ -427,7 +427,18 @@ function Warehouse( $mode )
 	<script src="assets/js/warehouse.min.js?v=<?php echo ROSARIO_VERSION; ?>"></script>
 	<script src="assets/js/jscalendar/lang/calendar-<?php echo file_exists( 'assets/js/jscalendar/lang/calendar-' . $lang_2_chars . '.js' ) ? $lang_2_chars : 'en'; ?>.js"></script>
 	<script>var scrollTop = "<?php echo Preferences( 'SCROLL_TOP' ); ?>";</script>
-		<?php if ( file_exists( 'assets/themes/' . Preferences( 'THEME' ) . '/scripts.js' ) ) : ?>
+		<?php
+		/**
+		 * Hook.
+		 *
+		 * Add your extra module/plugin JS and/or CSS (dependencies) to HTML head here.
+		 *
+		 * @since 3.8
+		 */
+		do_action( 'Warehouse.php|header_head' );
+
+		// Add scripts.js file from theme if any found.
+		if ( file_exists( 'assets/themes/' . Preferences( 'THEME' ) . '/scripts.js' ) ) : ?>
 		<script src="assets/themes/<?php echo Preferences( 'THEME' ); ?>/scripts.js"></script>
 		<?php endif;
 	endif; ?>
@@ -489,11 +500,31 @@ function Warehouse( $mode )
 </div><!-- #wrap -->
 <?php
 				endif;
+
+				/**
+				 * Hook.
+				 *
+				 * Add your extra module/plugin JS (dependencies) to HTML footer here.
+				 *
+				 * @since 3.8
+				 */
+				do_action( 'Warehouse.php|footer' );
 ?>
 </body></html>
 <?php
 			endif;
-		else : // Other pages (not modules). ?>
+		else : // Other pages (not modules).
+
+			/**
+			 * Hook.
+			 *
+			 * Add your extra module/plugin JS (dependencies) to HTML footer here.
+			 * $_ROSARIO['page'] !== 'modules' case!
+			 *
+			 * @since 3.8
+			 */
+			do_action( 'Warehouse.php|footer' );
+?>
 	</div><!-- #body -->
 </body></html>
 <?php

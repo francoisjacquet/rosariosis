@@ -134,6 +134,27 @@ $RosarioActions = array();
 	 * @since 3.6.1
 	 */
 	/*'ProgramFunctions/SendEmail.fnc.php|before_send' => array(),
+
+	/**
+	 * Warehouse Header Head.
+	 *
+	 * @since 3.8
+	 */
+	/*'Warehouse.php|header_head' => array(),
+
+	/**
+	 * Warehouse Header Head.
+	 *
+	 * @since 3.8
+	 */
+	/*'Warehouse.php|header_head' => array(),
+
+	/**
+	 * Warehouse Footer.
+	 *
+	 * @since 3.8
+	 */
+	/*'Warehouse.php|footer' => array(),
 );*/
 
 
