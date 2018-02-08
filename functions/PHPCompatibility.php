@@ -17,16 +17,17 @@ if ( ! function_exists( 'gettext' ) )
 	require_once 'functions/PHPCompatibility/gettext.php';
 }
 
-
-if ( ! function_exists( 'iconv' ) )
+// Deactivate PHP iconv extension emulation
+// Causing bugs (see Student Info enrolment start date field) & lots of PHP notices.
+/*if ( ! function_exists( 'iconv' ) )
 {
 	/**
 	 * Include PHP iconv extension emulation by Symfony.
 	 *
 	 * @since 3.8
 	 */
-	require_once 'functions/PHPCompatibility/iconv.php';
-}
+	/*require_once 'functions/PHPCompatibility/iconv.php';
+}*/
 
 
 if ( ! function_exists( 'mb_substr' ) )
