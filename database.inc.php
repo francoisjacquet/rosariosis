@@ -379,7 +379,10 @@ function db_show_error( $sql, $failnote, $additional = '' )
 	<br />
 	<table class="postbox cellspacing-0" ' . $table_att . '>
 		<thead><tr><th class="center">
-			<?php echo _( 'We have a problem, please contact technical support ...' ); ?>
+			<?php echo function_exists( '_' ) ?
+				_( 'We have a problem, please contact technical support ...' ) :
+				// PHP gettext extension not loaded, and polyfill either (PHPCompatibility functions not loaded yet).
+				'We have a problem, please contact technical support ...'; ?>
 		</th></tr></thead>
 	<tbody><tr><td class="popTable">
 		<table class="col1-align-right">
