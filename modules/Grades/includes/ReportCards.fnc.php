@@ -871,7 +871,7 @@ function GetReportCardsExtra( $mp_list, $st_list )
 	$extra['WHERE'] = " AND s.STUDENT_ID IN ( " . $st_list . ")";
 
 	// Student Details. TODO test if ReportCards needs GRADE_ID!!
-	$extra['SELECT_ONLY'] = "s.FIRST_NAME,s.LAST_NAME,s.STUDENT_ID,ssm.SCHOOL_ID";
+	$extra['SELECT_ONLY'] = "DISTINCT s.FIRST_NAME,s.LAST_NAME,s.STUDENT_ID,ssm.SCHOOL_ID";
 
 	$extra['SELECT_ONLY'] .= ",sg1.GRADE_LETTER as GRADE_TITLE,sg1.GRADE_PERCENT,
 		sg1.COMMENT as COMMENT_TITLE,sg1.STUDENT_ID,sg1.COURSE_PERIOD_ID,sg1.MARKING_PERIOD_ID,

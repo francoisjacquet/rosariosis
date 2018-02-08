@@ -6,6 +6,7 @@ Changes in 3.8-beta
 - PHP gettext, mbstring, json & xml extensions compatibility in functions/PHPCompatibility.php
 - Add Warehouse header_head and footer actions in Warehouse.php
 - Side Menu form: add CSS classes in Side.php & stylesheet.css
+- Select distinct entries GetReportCardsExtra() in ReportCards.fnc.php
 
 Changes in 3.7.1
 ----------------
