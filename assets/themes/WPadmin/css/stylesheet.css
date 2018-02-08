@@ -333,6 +333,23 @@ label{
 	vertical-align:middle
 }
 
+/**
+ * Side Menu form: add CSS classes.
+ *
+ * @since 3.8
+ */
+#menu form {
+	padding: 0 5px;
+}
+
+#menu .username {
+	font-weight: bold;
+}
+
+#menu .today-date {
+	text-transform: capitalize;
+}
+
 
 .adminmenu,.wp-submenu{
 	width:100%;

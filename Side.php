@@ -314,14 +314,10 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 		<img src="assets/themes/<?php echo Preferences( 'THEME' ); ?>/logo.png" class="logo" alt="Logo" />
 	</a>
 	<form action="Side.php?sidefunc=update" method="POST" target="menu-top">
-		<span class="br-after">&nbsp;<b><?php echo User( 'NAME' ); ?></b></span>
+		<span class="username br-after"><?php echo User( 'NAME' ); ?></span>
 		<?php
 			// Localized today's date.
-			echo '<span class="size-1">&nbsp;' . mb_convert_case(
-				iconv( '', 'UTF-8', strftime( '%A %B %d, %Y' ) ),
-				MB_CASE_TITLE,
-				'UTF-8'
-			) . '</span>';
+			echo '<span class="today-date size-1">' . strftime( '%A %B %d, %Y' ) . '</span>';
 		?>
 		<br />
 		<?php // School SELECT (Admins & Teachers only).
