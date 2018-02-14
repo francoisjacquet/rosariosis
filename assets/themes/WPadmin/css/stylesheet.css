@@ -380,7 +380,8 @@ label{
 	-webkit-transition-delay: .15s;
 	transition-delay: .15s;
 	border-width:1px;
-	border-style:solid
+	border-style:solid;
+	box-sizing: border-box;
 }
 .adminmenu li{
 	margin-bottom: 0;

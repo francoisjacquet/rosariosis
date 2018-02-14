@@ -7,6 +7,7 @@ Changes in 3.8-beta
 - Add Warehouse header_head and footer actions in Warehouse.php
 - Side Menu form: add CSS classes in Side.php & stylesheet.css
 - Select distinct entries GetReportCardsExtra() in ReportCards.fnc.php
+- CSS fix (hidden) submenu width on mobile in stylesheet.css
 
 Changes in 3.7.1
 ----------------
