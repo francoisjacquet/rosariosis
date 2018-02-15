@@ -123,6 +123,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	AND sr.MARKING_PERIOD_ID IN (" . GetAllMP( GetMP( $_REQUEST['mp_id'], 'MP' ), $_REQUEST['mp_id'] ) . ")
 	AND stu.STUDENT_ID IN (" . $st_list . ")
 	AND stu.STUDENT_ID=sr.STUDENT_ID
+	AND cp.SCHOOL_ID=sr.SCHOOL_ID
+	AND cp.TEACHER_ID=sta.STAFF_ID
 	AND sr.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
 	AND ('" . $date . "' BETWEEN sr.START_DATE AND sr.END_DATE " . $date_extra . ")
 	AND sp.LENGTH <= " . ( Config( 'ATTENDANCE_FULL_DAY_MINUTES' ) / 2 ) . "
@@ -143,7 +145,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	if (count($RET))
 	{
 		$handle = PDFStart();
-		if ( $_REQUEST['schedule_table'] == 'No')
+
+		if ( $_REQUEST['schedule_table'] === 'No' )
+		{
 			foreach ( (array) $RET as $student_id => $courses)
 			{
 				if ( $_REQUEST['mailing_labels']=='Y')
@@ -181,6 +185,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					echo '<div style="page-break-after: always;"></div>';
 				}
 			}
+		}
 
 		// FJ add schedule table.
 		if ( $_REQUEST['schedule_table'] == 'Yes' )

@@ -8,6 +8,7 @@ Changes in 3.8-beta
 - Side Menu form: add CSS classes in Side.php & stylesheet.css
 - Select distinct entries GetReportCardsExtra() in ReportCards.fnc.php
 - CSS fix (hidden) submenu width on mobile in stylesheet.css
+- Fix SQL for Schedule table in PrintSchedules.php
 
 Changes in 3.7.1
 ----------------
