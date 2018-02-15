@@ -94,11 +94,17 @@ else
 	}
 	else
 	{
-		$connectstring = '';
-		if ( $DatabaseServer !== 'localhost' )
-		{
-			$connectstring .= 'host=' . $DatabaseServer . ' ';
-		}
+		/**
+		 * Fix pg_connect(): Unable to connect to PostgreSQL server:
+		 * could not connect to server:
+		 * No such file or directory Is the server running locally
+		 * and accepting connections on Unix domain socket "/tmp/.s.PGSQL.5432"
+		 *
+		 * Always set host, force TCP.
+		 *
+		 * @since 3.5.2
+		 */
+		$connectstring = 'host=' . $DatabaseServer . ' ';
 
 		if ( $DatabasePort !== '5432' )
 		{
