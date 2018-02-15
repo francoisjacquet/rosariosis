@@ -110,7 +110,10 @@ Installing PHP extensions
 -------------------------
 
 Install instructions for Ubuntu 16.04:
-	`server$ sudo apt-get install php-pgsql php-gettext php-mbstring php-gd php-curl php-xmlrpc php-xml`
+	`server$ sudo apt-get install php-pgsql php-gettext php-mbstring php-gd php-curl php-xmlrpc php-xml`  
+	
+Install instructions for Ubuntu 14.04:
+	`server$ sudo apt-get install php5-pgsql php5-gettext php5-mbstring php5-gd php5-curl php5-xmlrpc php5-xml`
 
 
 Installing other languages
@@ -124,7 +127,7 @@ Then restart the server.
 Installing [wkhtmltopdf](http://wkhtmltopdf.org/)
 -------------------------------------------------
 
-Install instructions for Ubuntu 16.04:
+Install instructions for Ubuntu 16.04 or Ubuntu 14.04:
 	`server$ sudo apt-get install wkhtmltopdf`
 
 
