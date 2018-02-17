@@ -329,18 +329,23 @@ class Translator
 		}
 
 		$string = $this->getPluralForms();
-		$string = str_replace('nplurals',"\$total",$string);
+
+		$string = str_replace('nplurals=' . $this->pluralcount . ';','',$string);
+		// $string = str_replace('nplurals',"\$total",$string);
 		$string = str_replace("n",$n,$string);
 		$string = str_replace('plural',"\$plural",$string);
 
-		$total = 0;
+		// $total = 0;
 		$plural = 0;
 
 		eval("$string");
 
-		if ($plural >= $total) {
-			$plural = $total - 1;
+		if ($plural >= $this->pluralcount) {
+			$plural = $this->pluralcount - 1;
 		}
+		/*if ($plural >= $total) {
+			$plural = $total - 1;
+		}*/
 
 		return $plural;
 	}
@@ -386,7 +391,10 @@ class Translator
 		// this should contains all strings separated by NULLs
 		$key = implode(chr(0), array($msgid, $msgidPlural));
 		if (!array_key_exists($key, $this->cache_translations)) {
-			return ($number != 1) ? $msgidPlural : $msgid;
+			// Try to return any existing translation, plural if n!=1.
+			return ($number != 1 && ($this->gettext($msgidPlural) !== $msgidPlural || $this->gettext($msgid) === $msgid) ) ?
+				$this->gettext($msgidPlural) :
+				$this->gettext($msgid);
 		}
 
 		// find out the appropriate form

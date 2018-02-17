@@ -9,6 +9,7 @@ Changes in 3.8-beta
 - Select distinct entries GetReportCardsExtra() in ReportCards.fnc.php
 - CSS fix (hidden) submenu width on mobile in stylesheet.css
 - Fix SQL for Schedule table in PrintSchedules.php
+- Fix ngettext plural forms in Translator.php
 
 Changes in 3.7.1
 ----------------
