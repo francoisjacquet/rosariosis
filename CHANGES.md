@@ -11,6 +11,7 @@ Changes in 3.8-beta
 - Fix SQL for Schedule table in PrintSchedules.php
 - Fix ngettext plural forms in Translator.php
 - Fix Error: RosarioSIS cannot connect to the PostgreSQL in diagnostic.php
+- JS Fix TipMessage on mobile in TipMessage.fnc.php & main17.js
 
 Changes in 3.7.1
 ----------------

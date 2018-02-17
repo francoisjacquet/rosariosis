@@ -51,7 +51,7 @@ module.exports = function(grunt) {
 					'assets/js/warehouse.min.js': ['assets/js/warehouse.js'],
 					'assets/js/plugins.min.js': [
 						'assets/js/jquery.form.js',
-						'assets/js/tipmessage/main16.js',
+						'assets/js/tipmessage/main17.js',
 						'assets/js/jscalendar/calendar.js',
 						'assets/js/jscalendar/calendar-setup.js',
 						'assets/js/jscalendar/calendar-setup.js',

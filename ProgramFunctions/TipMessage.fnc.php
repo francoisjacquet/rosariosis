@@ -35,7 +35,7 @@ function MakeTipMessage( $message, $title, $label )
 		json_encode( (string) $title ) . ',' .
 		json_encode( (string) $message ) . '];</script>';
 
-	$tip_msg .= '<div class="tipmsg-label" onMouseOver="stm(tipmsg' . $tip_msg_ID . ');" onMouseOut="htm();" onclick="htm();">' .
+	$tip_msg .= '<div class="tipmsg-label" onMouseOver="stm(tipmsg' . $tip_msg_ID . ');">' .
 		$label . '</div>';
 
 	$tip_msg_ID++;
