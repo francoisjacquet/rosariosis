@@ -10,6 +10,7 @@ Changes in 3.8-beta
 - CSS fix (hidden) submenu width on mobile in stylesheet.css
 - Fix SQL for Schedule table in PrintSchedules.php
 - Fix ngettext plural forms in Translator.php
+- Fix Error: RosarioSIS cannot connect to the PostgreSQL in diagnostic.php
 
 Changes in 3.7.1
 ----------------

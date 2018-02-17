@@ -102,9 +102,10 @@ else
 		 *
 		 * Always set host, force TCP.
 		 *
-		 * @since 3.5.2
+		 * @since 3.8
 		 */
 		$connectstring = 'host=' . $DatabaseServer . ' ';
+
 		if ( $DatabasePort !== '5432' )
 		{
 			$connectstring .= 'port=' . $DatabasePort .' ';
