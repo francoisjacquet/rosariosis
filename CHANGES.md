@@ -12,6 +12,7 @@ Changes in 3.8-beta
 - Fix ngettext plural forms in Translator.php
 - Fix Error: RosarioSIS cannot connect to the PostgreSQL in diagnostic.php
 - JS Fix TipMessage on mobile in TipMessage.fnc.php & main17.js
+- CSS RTL .align-right align left in rtl.css
 
 Changes in 3.7.1
 ----------------

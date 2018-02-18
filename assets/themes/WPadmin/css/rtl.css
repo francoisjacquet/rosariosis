@@ -96,6 +96,26 @@ html[dir="RTL"] .radio-attendance-code {
 	float: right;
 }
 
+
+/* Login inputs */
+html[dir="RTL"] .login form input[type="password"],
+html[dir="RTL"] .login form input[type="text"] {
+	margin-left: 6px;
+	margin-right: 0;
+}
+
+/* Align right: left */
+html[dir="RTL"] .align-right,
+html[dir="RTL"] .align-right td,
+html[dir="RTL"] td.align-right,
+html[dir="RTL"] th.align-right{
+	text-align:left
+}
+html[dir="RTL"] table.col1-align-right > tbody > tr > td:first-child{
+	text-align:left;
+}
+
+
 @media only screen and (max-width:1023px){
 	/* Calendar responsive */
 	.calendar-day .hover:hover{
