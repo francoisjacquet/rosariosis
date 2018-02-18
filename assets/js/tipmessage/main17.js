@@ -4,14 +4,14 @@
  * @version 1.7
  * @copyright Essam Gamal 2003
  * @copyright François Jacquet 2015-2018
- * @example <div onmouseover="stm([tiptitle,tipmsg]);" onmouseout="htm();">Tip</a>
+ * @example <div onmouseover="stm([tiptitle,tipmsg]);">Tip</a>
  */
 
 var mig = {};
 
 function stm(t){
-	if (document.onmousemove!=mig_mo){
-		document.onmousemove=mig_mo;
+	if (this.onmousemove!=mig_mo){
+		this.onmousemove=mig_mo;
 	}
 
 	var title=t[0]?"<THEAD><TR><TH>"+t[0]+"</TH></TR></THEAD>":"",
@@ -73,6 +73,11 @@ function htm(){
 	with(mig.lay.style){
 		visibility="hidden";left=0;top=-800+'px';
 	}
+
+	// Unset.
+	this.onmouseout = mig.lay.click = this.onmousemove = null;
+
+	return false;
 }
 
 function mig_init() {
