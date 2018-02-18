@@ -10,7 +10,7 @@ Do not forget to add the `.utf8` suffix to the locale code.
 | ar_DZ | Arabic (Saudi Arabia)         | 37%       |                     |
 | be_BY | Belarusian (Belarus)          | 37%       |                     |
 | bn_BD | Bengali (Bangladesh)          | 36%       |                     |
-| cs_CS | Czech (Czech Republic)        | 36%       |                     |
+| cs_CZ | Czech (Czech Republic)        | 36%       |                     |
 | da_DK | Danish (Denmark)              | 36%       |                     |
 | de_DE | German (Germany)              | **86%**   | Heike Gutsche       |
 | el_GR | Greek (Greece)                | 37%       |                     |

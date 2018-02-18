@@ -15,6 +15,7 @@ Changes in 3.8-beta
 - CSS RTL .align-right align left in rtl.css
 - CSS allow centering image using .center in stylesheet.css
 - Gettext .po use relative base path in locale/*.po
+- Gettext Czech (Czech Republic) locale code is "cs_CZ.utf8" in locale/cs_CZ.utf8/
 
 Changes in 3.7.1
 ----------------
