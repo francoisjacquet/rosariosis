@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-01-21 12:04+0100\n"
-"PO-Revision-Date: 2018-01-21 12:10+0100\n"
+"PO-Revision-Date: 2018-02-18 17:19+0100\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS\n"
 "Language: fr\n"
@@ -1046,7 +1046,7 @@ msgstr "Dernière Connexion"
 
 #: functions/GetStaffList.fnc.php:52
 msgid "Failed Login"
-msgstr "AConnexions Échouées"
+msgstr "Connexions Échouées"
 
 #: functions/GetStaffList.fnc.php:261 functions/Search.fnc.php:217
 msgid "User ID"
