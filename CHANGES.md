@@ -13,6 +13,8 @@ Changes in 3.8-beta
 - Fix Error: RosarioSIS cannot connect to the PostgreSQL in diagnostic.php
 - JS Fix TipMessage on mobile in TipMessage.fnc.php & main17.js
 - CSS RTL .align-right align left in rtl.css
+- CSS allow centering image using .center in stylesheet.css
+- Gettext .po use relative base path in locale/*.po
 
 Changes in 3.7.1
 ----------------
