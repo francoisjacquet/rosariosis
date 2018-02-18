@@ -380,95 +380,87 @@ if ( empty( $_SESSION['STAFF_ID'] )
 
 ?>
 
-	<table>
-		<tr class="st">
-		<td class="center">
-			<img src="assets/themes/<?php echo Config( 'THEME' ); ?>/logo.png" class="logo" alt="Logo" />
-		</td>
-		<td>
-			<form name="loginform" method="post" action="index.php">
-			<h4 class="center"><?php echo ParseMLField( Config( 'TITLE' ) ); ?></h4>
-			<table class="cellspacing-0 col1-align-right width-100p">
+	<img src="assets/themes/<?php echo Config( 'THEME' ); ?>/logo.png" class="logo center" alt="Logo" />
+	<h4 class="center"><?php echo ParseMLField( Config( 'TITLE' ) ); ?></h4>
+	<form name="loginform" method="post" action="index.php">
+	<table class="cellspacing-0 col1-align-right width-100p">
 
-			<?php // Choose language.
-			if ( count( $RosarioLocales ) > 1 ) : ?>
+	<?php // Choose language.
+	if ( count( $RosarioLocales ) > 1 ) : ?>
 
-				<tr>
-					<td>
-						<b><?php echo _( 'Language' ); ?></b>
-					</td>
-					<td>
-					<?php foreach ( $RosarioLocales as $loc ) : ?>
+		<tr>
+			<td>
+				<?php echo _( 'Language' ); ?>
+			</td>
+			<td>
+			<?php foreach ( $RosarioLocales as $loc ) : ?>
 
-						<a href="index.php?locale=<?php echo $loc; ?>" title="<?php echo str_replace( '.utf8', '', $loc ); ?>">
-							<img src="assets/flags/<?php echo $loc; ?>.png" height="32" />
-						</a>&nbsp;
+				<a href="index.php?locale=<?php echo $loc; ?>" title="<?php echo str_replace( '.utf8', '', $loc ); ?>">
+					<img src="assets/flags/<?php echo $loc; ?>.png" height="32" />
+				</a>&nbsp;
 
-					<?php endforeach; ?>
+			<?php endforeach; ?>
 
-					</td>
-				</tr>
+			</td>
+		</tr>
 
-			<?php endif; ?>
+	<?php endif; ?>
 
-				<tr>
-					<td>
-						<label for="USERNAME">
-							<b><?php echo _( 'Username' ); ?></b>
-						</label>
-					</td>
-					<td>
-						<input type="text" name="USERNAME" id="USERNAME" size="25" maxlength="100" tabindex="1" required autofocus />
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label for="PASSWORD">
-							<b><?php echo _( 'Password' ); ?></b>
-						</label>
-					</td>
-					<td>
-						<input type="password" name="PASSWORD" id="PASSWORD" size="25" maxlength="42" tabindex="2" required />
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2">
-						<a href="PasswordReset.php" rel="nofollow"><?php echo _( 'Password help' ); ?></a>
-					</td>
-				</tr>
-			</table>
-			<p class="center">
-				<input type="submit" value="<?php echo _( 'Login' ); ?>" class="button-primary" />
-			</p>
-
-			<?php if ( Config( 'CREATE_USER_ACCOUNT' ) ) : ?>
-
-				<div class="center">[
-					<a href="index.php?create_account=user&amp;staff_id=new" rel="nofollow">
-						<?php echo _( 'Create User Account' ); ?>
-					</a>
-				]</div>
-
-			<?php endif;
-
-			if ( Config( 'CREATE_STUDENT_ACCOUNT' ) ) : ?>
-
-				<div class="center">[
-					<a href="index.php?create_account=student&amp;student_id=new" rel="nofollow">
-						<?php echo _( 'Create Student Account' ); ?>
-					</a>
-				]</div>
-
-			<?php endif; ?>
-
-			</form>
-		</td>
+		<tr>
+			<td>
+				<label for="USERNAME">
+					<?php echo _( 'Username' ); ?>
+				</label>
+			</td>
+			<td>
+				<input type="text" name="USERNAME" id="USERNAME" size="20" maxlength="100" tabindex="1" required autofocus />
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="PASSWORD">
+					<?php echo _( 'Password' ); ?>
+				</label>
+			</td>
+			<td>
+				<input type="password" name="PASSWORD" id="PASSWORD" size="20" maxlength="42" tabindex="2" required />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<a href="PasswordReset.php" rel="nofollow"><?php echo _( 'Password help' ); ?></a>
+			</td>
 		</tr>
 	</table>
-	<?php // System disclaimer. ?>
+	<p class="center">
+		<input type="submit" value="<?php echo _( 'Login' ); ?>" class="button-primary" />
+	</p>
+
+	<?php if ( Config( 'CREATE_USER_ACCOUNT' ) ) : ?>
+
+		<div class="center">[
+			<a href="index.php?create_account=user&amp;staff_id=new" rel="nofollow">
+				<?php echo _( 'Create User Account' ); ?>
+			</a>
+		]</div>
+
+	<?php endif;
+
+	if ( Config( 'CREATE_STUDENT_ACCOUNT' ) ) : ?>
+
+		<div class="center">[
+			<a href="index.php?create_account=student&amp;student_id=new" rel="nofollow">
+				<?php echo _( 'Create Student Account' ); ?>
+			</a>
+		]</div>
+
+	<?php endif; ?>
+
+	</form>
 	<input class="toggle" type="checkbox" id="toggle1" />
 	<label class="toggle" for="toggle1"><?php echo _( 'About' ); ?></label>
-	<div class="toggle-me">
+	<div class="about-rosariosis toggle-me">
+		<?php // System disclaimer. ?>
 		<p class="size-3">
 			<?php
 				echo sprintf(

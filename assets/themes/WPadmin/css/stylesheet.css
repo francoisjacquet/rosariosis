@@ -797,6 +797,9 @@ div.error .button, div.updated .button{
 	height:32px
 }
 
+.login .popTable {
+	padding: 8px;
+}
 
 /*login form*/
 .login form input[type=text],.login form input[type=password]{
