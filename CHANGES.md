@@ -16,6 +16,7 @@ Changes in 3.8-beta
 - CSS allow centering image using .center in stylesheet.css
 - Gettext .po use relative base path in locale/*.po
 - Gettext Czech (Czech Republic) locale code is "cs_CZ.utf8" in locale/cs_CZ.utf8/
+- Gettext .pot file available in locale/en_US.utf8/LC_MESSAGES/rosariosis.pot
 
 Changes in 3.7.1
 ----------------

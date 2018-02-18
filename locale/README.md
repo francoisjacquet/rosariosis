@@ -32,6 +32,8 @@ Gettext & Poedit
 ----------------
 The localization system is `gettext`, and the `*.po` files can be edited using [Poedit](http://poedit.net/). To start (or complete) a translation, please follow [this tutorial](https://github.com/francoisjacquet/rosariosis/wiki/Localizing,-translate-RosarioSIS-with-Poedit).
 
+`.pot` file available in `locale/en_US.utf8/LC_MESSAGES/rosariosis.pot`
+
 
 Reference
 ---------
