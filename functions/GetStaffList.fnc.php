@@ -43,6 +43,16 @@ function GetStaffList( &$extra = array() )
 	if ( isset( $_REQUEST['expanded_view'] )
 		&& $_REQUEST['expanded_view'] === 'true' )
 	{
+		/**
+		 * Add User Photo Tip Message to Expanded View
+		 *
+		 * @since 3.8
+		 */
+		if ( empty( $functions['FULL_NAME'] ) )
+		{
+			$functions['FULL_NAME'] = 'makePhotoTipMessage';
+		}
+
 		$select = ',LAST_LOGIN';
 		$extra['columns_after']['LAST_LOGIN'] = _( 'Last Login' );
 		$functions['LAST_LOGIN'] = 'makeLogin';

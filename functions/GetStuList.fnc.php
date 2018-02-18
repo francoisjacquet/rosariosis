@@ -90,6 +90,16 @@ function GetStuList( &$extra = array() )
 	if ( isset( $_REQUEST['expanded_view'] )
 		&& $_REQUEST['expanded_view'] == 'true' )
 	{
+		/**
+		 * Add Sudent Photo Tip Message to Expanded View
+		 *
+		 * @since 3.8
+		 */
+		if ( empty( $functions['FULL_NAME'] ) )
+		{
+			$functions['FULL_NAME'] = 'makePhotoTipMessage';
+		}
+
 		if ( ! $extra['columns_after'] )
 		{
 			$extra['columns_after'] = array();
@@ -1407,4 +1417,38 @@ function DisplayName( $first_name, $last_name, $middle_name = '', $name_suffix =
 	);
 
 	return $display_name;
+}
+
+
+/**
+ * Make Tip Message containing Student or User Photo
+ *
+ * Callback for DBGet() column formatting
+ *
+ * @uses MakeStudentPhotoTipMessage()
+ * @uses MakeUserPhotoTipMessage()
+ *
+ * @see ProgramFunctions/TipMessage.fnc.php
+ *
+ * @global $THIS_RET, see DBGet()
+ *
+ * @param  string $full_name Student or User Full Name
+ * @param  string $column    'FULL_NAME'
+ *
+ * @return string Student or User Full Name + Tip Message containing Student Photo
+ */
+function makePhotoTipMessage( $full_name, $column )
+{
+	global $THIS_RET;
+
+	require_once 'ProgramFunctions/TipMessage.fnc.php';
+
+	if ( ! empty( $THIS_RET['STAFF_ID'] ) )
+	{
+		return MakeUserPhotoTipMessage( $THIS_RET['STAFF_ID'], $full_name );
+	}
+	elseif ( ! empty( $THIS_RET['STUDENT_ID'] ) )
+	{
+		return MakeStudentPhotoTipMessage( $THIS_RET['STUDENT_ID'], $full_name );
+	}
 }

@@ -236,7 +236,7 @@ $columns += array('COMMENT' => _('Teacher Comment'));
 if (!isset($extra['functions']) || !is_array($extra['functions']))
 	$extra['functions'] = array();
 
-$extra['functions'] += array('FULL_NAME' => '_makeTipMessage','COMMENT' => 'makeCommentInput','ATTENDANCE_REASON' => 'makeAttendanceReason');
+$extra['functions'] += array('FULL_NAME' => 'makePhotoTipMessage','COMMENT' => 'makeCommentInput','ATTENDANCE_REASON' => 'makeAttendanceReason');
 $extra['DATE'] = $date;
 
 $stu_RET = GetStuList($extra);
@@ -341,6 +341,8 @@ function _makeRadioSelected($value,$title)
  * Local function
  *
  * Callback for DBGet() column formatting
+ *
+ * @deprecated since 3.8, see GetStuList.fnc.php makePhotoTipMessage()
  *
  * @uses MakeStudentPhotoTipMessage()
  *

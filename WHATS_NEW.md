@@ -2,6 +2,14 @@
 
 ## RosarioSIS Student Information System
 
+New in 3.8
+----------
+
+Students & Users
+
+- Expanded View: Photo Tip Message
+
+
 New in 3.7
 ----------
 

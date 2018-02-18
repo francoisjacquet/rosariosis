@@ -958,7 +958,7 @@ if ( !isset( $_ROSARIO['allow_edit'] ) )
 $extra['SELECT'] = ",ssm.STUDENT_ID AS REPORT_CARD_GRADE";
 
 $extra['functions'] = array(
-	'FULL_NAME' => '_makeTipMessage',
+	'FULL_NAME' => 'makePhotoTipMessage',
 	'REPORT_CARD_GRADE' => '_makeLetterPercent'
 );
 
@@ -1161,6 +1161,8 @@ echo '</form>';
  * Local function
  *
  * Callback for DBGet() column formatting
+ *
+ * @deprecated since 3.8, see GetStuList.fnc.php makePhotoTipMessage()
  *
  * @uses MakeStudentPhotoTipMessage()
  *

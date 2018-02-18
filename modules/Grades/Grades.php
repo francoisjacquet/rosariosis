@@ -418,7 +418,7 @@ else
 		}
 	}
 
-	$extra['functions']['FULL_NAME'] = '_makeTipMessage';
+	$extra['functions']['FULL_NAME'] = 'makePhotoTipMessage';
 }
 
 $stu_RET = GetStuList($extra);
@@ -528,6 +528,8 @@ echo '</form>';
  * Local function
  *
  * Callback for DBGet() column formatting
+ *
+ * @deprecated since 3.8, see GetStuList.fnc.php makePhotoTipMessage()
  *
  * @uses MakeStudentPhotoTipMessage()
  *

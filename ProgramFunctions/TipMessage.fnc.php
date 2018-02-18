@@ -49,7 +49,7 @@ function MakeTipMessage( $message, $title, $label )
  * Look for current & previous school year Photos
  *
  * @example require_once 'ProgramFunctions/TipMessage.fnc.php';
- *          return makeStudentPhotoTipMessage( $THIS_RET['STUDENT_ID'], $full_name );
+ *          return MakeStudentPhotoTipMessage( $THIS_RET['STUDENT_ID'], $full_name );
  *
  * @uses MakeTipMessage()
  * @uses DHTML tip message JS plugin
@@ -70,6 +70,42 @@ function MakeStudentPhotoTipMessage( $student_id, $title )
 	if ( $StudentPicturesPath
 		&& ( file_exists( ( $picture_path = $StudentPicturesPath . UserSyear() . '/' . $student_id . '.jpg' ) )
 			|| file_exists( ( $picture_path = $StudentPicturesPath . ( UserSyear() - 1 ) . '/' . $student_id . '.jpg' ) ) ) )
+	{
+		return makeTipMessage( '<img src="' . $picture_path . '" width="150" />', $title, $title );
+	}
+	else
+		return $title;
+}
+
+
+/**
+ * Make User Photo Tip Message
+ * Look for current & previous school year Photos
+ *
+ * @example require_once 'ProgramFunctions/TipMessage.fnc.php';
+ *          return MakeUserPhotoTipMessage( $THIS_RET['STAFF_ID'], $full_name );
+ *
+ * @since 3.8
+ *
+ * @uses MakeTipMessage()
+ * @uses DHTML tip message JS plugin
+ *
+ * @see assets/js/tipmessage/
+ *
+ * @global $UserPicturesPath Student Pictures Path
+ *
+ * @param  string $staff_id Staff ID.
+ * @param  string $title    Tip title & label.
+ *
+ * @return string User Photo Tip Message or $title if no Photo found
+ */
+function MakeUserPhotoTipMessage( $staff_id, $title )
+{
+	global $UserPicturesPath;
+
+	if ( $UserPicturesPath
+		&& ( file_exists( ( $picture_path = $UserPicturesPath . UserSyear() . '/' . $staff_id . '.jpg' ) )
+			|| file_exists( ( $picture_path = $UserPicturesPath . ( UserSyear() - 1 ) . '/' . $staff_id . '.jpg' ) ) ) )
 	{
 		return makeTipMessage( '<img src="' . $picture_path . '" width="150" />', $title, $title );
 	}
