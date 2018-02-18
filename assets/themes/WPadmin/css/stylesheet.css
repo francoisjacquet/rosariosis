@@ -727,6 +727,14 @@ table.col1-align-right > tbody > tr > td:first-child{
 	/*<CENTER> && <td align="center">*/
 	text-align:center
 }
+span.center,
+a.center{
+	display:block
+}
+img.center {
+	display: block;
+	margin: 0 auto;
+}
 table.center{
 	text-align:inherit;
 	margin-left: auto;
@@ -738,10 +746,7 @@ span.nobr{
 div.nobr div{
 	display:inline
 }
-span.center,
-a.center{
-	display:block
-}
+
 
 tr.address > td{
 	border-style:none dotted none none;
@@ -1073,7 +1078,7 @@ input[type=checkbox].toggle {
 
 .login .postbox,
 .password-reset .postbox {
-	max-width: 550px;
+	max-width: 320px;
 }
 
 
