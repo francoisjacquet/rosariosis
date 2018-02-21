@@ -18,6 +18,7 @@ Changes in 3.8-beta
 - Gettext Czech (Czech Republic) locale code is "cs_CZ.utf8" in locale/cs_CZ.utf8/
 - Gettext .pot file available in locale/en_US.utf8/LC_MESSAGES/rosariosis.pot
 - Expanded View: Tip Message containing Student or User Photo in TipMessage.fnc.php & GetStuList.fnc.php & GetStaffList.fnc.php
+- CSS Display button text on multiple lines if too long in zresponsive.css
 
 Changes in 3.7.1
 ----------------

@@ -322,7 +322,9 @@ input[type=submit],input[type=reset],input[type=button]{
 	border-style:solid;
 	border-radius:11px;
 	-ms-box-sizing:content-box;
-	box-sizing:content-box
+	box-sizing:content-box;
+	/* Display button text on multiple lines if too long */
+	white-space: normal;
 }
 .button-primary{
 	line-height:16px;
