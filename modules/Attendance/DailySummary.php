@@ -71,7 +71,20 @@ if ( $_REQUEST['attendance']
 //if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || UserStudentID() || User('PROFILE')=='parent' || User('PROFILE')=='student')
 if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')=='parent' || User('PROFILE')=='student')
 {
-	$PHP_tmp_SELF = PreparePHP_SELF();
+	// Fix GET parameters appearing multiple times in URL.
+	$remove_request_params = array(
+		'month_start',
+		'day_start',
+		'year_start',
+		'month_end',
+		'day_end',
+		'year_end',
+		'period_id',
+		'by_teacher',
+	);
+
+	$PHP_tmp_SELF = PreparePHP_SELF( $_REQUEST, $remove_request_params );
+
 	$period_select = '<select name="period_id" onchange="ajaxPostForm(this.form,true);"><option value=""'.(empty($_REQUEST['period_id'])?' selected':'').'>'._('Daily').'</option>';
 	if ( !UserStudentID() && ! $_REQUEST['student_id'])
 	{
@@ -111,11 +124,30 @@ if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')==
 		$period_select .= '<option value="PERIOD"'.($_REQUEST['period_id']?' selected':'').'>'._('By Period').'</option>';
 	$period_select .= '</select>';
 
+	$by_teacher_checkbox = '';
+
+	/**
+	 * Only show Courses taught by Teacher.
+	 *
+	 * @since 3.8
+	 */
+	if ( $_REQUEST['period_id'] &&
+		User( 'PROFILE' ) === 'teacher' )
+	{
+		$by_teacher_checkbox = '<input type="hidden" name="by_teacher" value="" />' .
+			'<label class="checkbox-label">
+			<input type="checkbox" name="by_teacher" id="by_teacher" value="Y"' .
+			( empty( $_REQUEST['by_teacher'] ) ? '' : 'checked' ) .
+			' onchange="ajaxPostForm(this.form,true);" />&nbsp;' .
+			_( 'Only show my Courses' ) . '</label>';
+	}
+
 	echo '<form action="' . $PHP_tmp_SELF . '" method="GET">';
 
 	DrawHeader( _( 'Timeframe' ) . ': ' . PrepareDate( $start_date, '_start' ) . ' ' .
-		_( 'to' ) . ' ' . PrepareDate( $end_date, '_end' ) . ' : ' .
-		$period_select . ' : ' . Buttons( _( 'Go' ) )
+		_( 'to' ) . ' ' . PrepareDate( $end_date, '_end' ) . ' ' .
+		Buttons( _( 'Go' ) ),
+		$period_select . ' ' . $by_teacher_checkbox
 	);
 }
 
@@ -142,20 +174,30 @@ if ( $_REQUEST['student_id'] || User('PROFILE')=='parent')
 				AND ('".DBDate()."' BETWEEN s.START_DATE AND s.END_DATE OR s.END_DATE IS NULL)
 			ORDER BY sp.SORT_ORDER
 			";*/
-		$sql = "SELECT
-				cp.TITLE as COURSE_PERIOD,sp.TITLE as PERIOD,cpsp.PERIOD_ID
-			FROM
-				SCHEDULE s,COURSES c,COURSE_PERIODS cp,SCHOOL_PERIODS sp, COURSE_PERIOD_SCHOOL_PERIODS cpsp
-			WHERE
-				cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND
-				s.COURSE_ID = c.COURSE_ID AND s.COURSE_ID = cp.COURSE_ID
-				AND s.COURSE_PERIOD_ID = cp.COURSE_PERIOD_ID AND cpsp.PERIOD_ID = sp.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0
-				AND s.SYEAR = c.SYEAR AND cp.MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).")
-				AND s.STUDENT_ID='".UserStudentID()."' AND s.SYEAR='".UserSyear()."'
-				AND ('".DBDate()."' BETWEEN s.START_DATE AND s.END_DATE OR s.END_DATE IS NULL)
-			ORDER BY sp.SORT_ORDER
-			";
-		$schedule_RET = DBGet(DBQuery($sql));
+		$sql = "SELECT cp.TITLE as COURSE_PERIOD,sp.TITLE as PERIOD,cpsp.PERIOD_ID
+			FROM SCHEDULE s,COURSES c,COURSE_PERIODS cp,SCHOOL_PERIODS sp, COURSE_PERIOD_SCHOOL_PERIODS cpsp
+			WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
+			AND	s.COURSE_ID = c.COURSE_ID AND s.COURSE_ID = cp.COURSE_ID
+			AND s.COURSE_PERIOD_ID = cp.COURSE_PERIOD_ID AND cpsp.PERIOD_ID = sp.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0
+			AND s.SYEAR = c.SYEAR AND cp.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . ")
+			AND s.STUDENT_ID='" . UserStudentID() . "'
+			AND s.SYEAR='" . UserSyear() . "'
+			AND ('" . DBDate() . "' BETWEEN s.START_DATE AND s.END_DATE OR s.END_DATE IS NULL)";
+
+		if ( User( 'PROFILE' ) === 'teacher'
+			&& ! empty( $_REQUEST['by_teacher'] ) )
+		{
+			/**
+			 * Limit to Courses taught by Teacher.
+			 *
+			 * @since 3.8
+			 */
+			$sql .= " AND cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "'";
+		}
+
+		$sql .= " ORDER BY sp.SORT_ORDER";
+
+		$schedule_RET = DBGet( DBQuery( $sql ) );
 
 		$sql = "SELECT ap.SCHOOL_DATE,ap.PERIOD_ID,ac.SHORT_NAME,ac.STATE_CODE,ac.DEFAULT_CODE FROM ATTENDANCE_PERIOD ap,ATTENDANCE_CODES ac WHERE ap.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND ap.ATTENDANCE_CODE=ac.ID AND ap.STUDENT_ID='".UserStudentID()."'";
 		$attendance_RET = DBGet(DBQuery($sql),array(),array('SCHOOL_DATE','PERIOD_ID'));
