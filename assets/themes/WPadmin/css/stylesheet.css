@@ -803,11 +803,16 @@ div.error .button, div.updated .button{
 	padding: 8px;
 }
 
-/*login form*/
+.login .popTable td {
+	padding-bottom: 16px;
+}
+
+/* Login form */
 .login form input[type=text],.login form input[type=password]{
 	font-weight:200;
 	font-size:20px;
 	width:100%;
+	max-width: 100%;
 	padding:3px;
 	margin-top:2px;
 	margin-right:6px;
@@ -1077,7 +1082,7 @@ input[type=checkbox].toggle {
 .login,
 .first-login,
 .password-reset {
-	padding: 42px 2px;
+	padding: 64px 2px;
 	height: auto;
 }
 

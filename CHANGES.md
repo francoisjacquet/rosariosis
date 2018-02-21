@@ -19,6 +19,7 @@ Changes in 3.8-beta
 - Gettext .pot file available in locale/en_US.utf8/LC_MESSAGES/rosariosis.pot
 - Expanded View: Tip Message containing Student or User Photo in TipMessage.fnc.php & GetStuList.fnc.php & GetStaffList.fnc.php
 - CSS Display button text on multiple lines if too long in zresponsive.css
+- CSS & HTML reorganize login form in index.php & stylesheet.css
 - Only show Courses taught by Teacher in DailySummary.php, sponsored by @abogadeer
 
 Changes in 3.7.1

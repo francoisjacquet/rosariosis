@@ -383,15 +383,12 @@ if ( empty( $_SESSION['STAFF_ID'] )
 	<img src="assets/themes/<?php echo Config( 'THEME' ); ?>/logo.png" class="logo center" alt="Logo" />
 	<h4 class="center"><?php echo ParseMLField( Config( 'TITLE' ) ); ?></h4>
 	<form name="loginform" method="post" action="index.php">
-	<table class="cellspacing-0 col1-align-right width-100p">
+	<table class="cellspacing-0 width-100p">
 
 	<?php // Choose language.
 	if ( count( $RosarioLocales ) > 1 ) : ?>
 
 		<tr>
-			<td>
-				<?php echo _( 'Language' ); ?>
-			</td>
 			<td>
 			<?php foreach ( $RosarioLocales as $loc ) : ?>
 
@@ -400,7 +397,8 @@ if ( empty( $_SESSION['STAFF_ID'] )
 				</a>&nbsp;
 
 			<?php endforeach; ?>
-
+			<br />
+			<?php echo _( 'Language' ); ?>
 			</td>
 		</tr>
 
@@ -408,27 +406,23 @@ if ( empty( $_SESSION['STAFF_ID'] )
 
 		<tr>
 			<td>
-				<label for="USERNAME">
+				<label>
+					<input type="text" name="USERNAME" id="USERNAME" size="20" maxlength="100" tabindex="1" required autofocus />
 					<?php echo _( 'Username' ); ?>
 				</label>
 			</td>
-			<td>
-				<input type="text" name="USERNAME" id="USERNAME" size="20" maxlength="100" tabindex="1" required autofocus />
-			</td>
 		</tr>
 		<tr>
 			<td>
-				<label for="PASSWORD">
+				<label>
+					<input type="password" name="PASSWORD" id="PASSWORD" size="20" maxlength="42" tabindex="2" required />
 					<?php echo _( 'Password' ); ?>
 				</label>
-			</td>
-			<td>
-				<input type="password" name="PASSWORD" id="PASSWORD" size="20" maxlength="42" tabindex="2" required />
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<a href="PasswordReset.php" rel="nofollow"><?php echo _( 'Password help' ); ?></a>
+				<div class="align-right">
+					<a href="PasswordReset.php" rel="nofollow">
+						<?php echo _( 'Password help' ); ?>
+					</a>
+				</div>
 			</td>
 		</tr>
 	</table>
