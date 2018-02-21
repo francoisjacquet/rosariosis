@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-01-21 12:05+0100\n"
-"PO-Revision-Date: 2018-01-21 12:06+0100\n"
+"PO-Revision-Date: 2018-02-21 21:35+0100\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS\n"
 "Language: es\n"
@@ -231,7 +231,7 @@ msgstr "Restablecer Contraseña"
 
 #: PasswordReset.php:456 PasswordReset.php:463
 msgid "Reset your password"
-msgstr "Restablece su contraseña"
+msgstr "Restablecer mi contraseña"
 
 #: PasswordReset.php:466 modules/Users/Preferences.php:510
 msgid "New Password"
@@ -2094,7 +2094,7 @@ msgstr "Nombre de usuario o contraseña incorrecto."
 
 #: index.php:263
 msgid "Please try logging in again."
-msgstr "Por favor trate de entrar de nuevo."
+msgstr "Por favor intente entrar de nuevo."
 
 #: index.php:340
 #, php-format
@@ -2173,11 +2173,11 @@ msgid ""
 "you are acknowledging that you are aware of and agree to these terms."
 msgstr ""
 "Esta es una red restringida. El uso de esta red, su equipo, y recursos está "
-"monitoriada todo el tiempo y requiere permiso explícito del administrador de "
-"red y %s. Si usted no tiene permiso escrito, usted está violando las "
-"regulaciones de esta red y puede ser procesado siguiendo toda la ley "
-"extendida. Continuando dentro del sistema, usted está conociendo y "
-"acceptando los terminos y condiciones."
+"monitoreado todo el tiempo y requiere permiso explícito del administrador de "
+"red y %s. Si usted no tiene permiso escrito, está violando las regulaciones "
+"de esta red y puede ser procesado siguiendo toda la ley extendida. "
+"Continuando dentro del sistema, usted conoce y aprueba los términos y "
+"condiciones."
 
 #: index.php:481
 #, php-format
@@ -2188,7 +2188,6 @@ msgstr "%s versión %s"
 #: modules/Accounting/DailyTransactions.php:43
 #: modules/Accounting/DailyTransactions.php:102
 #: modules/Accounting/Expenses.php:80 modules/Accounting/Expenses.php:141
-#, fuzzy
 msgid "Expense"
 msgstr "Gasto"
 
@@ -2197,7 +2196,6 @@ msgstr "Gasto"
 #: modules/Accounting/DailyTransactions.php:103
 #: modules/Accounting/Incomes.php:73 modules/Accounting/Incomes.php:109
 #: modules/Accounting/Incomes.php:136
-#, fuzzy
 msgid "Income"
 msgstr "Ingreso"
 
@@ -3901,7 +3899,6 @@ msgstr[1] "Elementos de Comida"
 #: modules/Food_Service/Users/ServeMenus.php:92
 #: modules/Food_Service/Users/ServeMenus.php:136
 #: modules/Food_Service/Users/ServeMenus.php:147
-#, fuzzy
 msgid "Item"
 msgstr "Artículo"
 
