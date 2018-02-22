@@ -127,7 +127,7 @@ if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')==
 	$by_teacher_checkbox = '';
 
 	/**
-	 * Only show Courses taught by Teacher.
+	 * Teacher: Only show my Courses checkbox.
 	 *
 	 * @since 3.8
 	 */
@@ -188,7 +188,7 @@ if ( $_REQUEST['student_id'] || User('PROFILE')=='parent')
 			&& ! empty( $_REQUEST['by_teacher'] ) )
 		{
 			/**
-			 * Limit to Courses taught by Teacher.
+			 * Teacher: Only show my Courses checkbox.
 			 *
 			 * @since 3.8
 			 */
