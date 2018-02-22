@@ -10,8 +10,7 @@
 require_once 'Warehouse.php';
 
 // If no modname found, go back to index.
-if ( ! isset( $_REQUEST['modname'] )
-	|| empty( $_REQUEST['modname'] ) )
+if ( empty( $_REQUEST['modname'] ) )
 {
 	header( 'Location: index.php' );
 	exit();
