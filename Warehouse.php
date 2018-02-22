@@ -124,8 +124,19 @@ if ( empty( $_SESSION['STAFF_ID'] )
 	&& empty( $_SESSION['STUDENT_ID'] )
 	&& basename( $_SERVER['SCRIPT_NAME'] ) !== 'index.php' )
 {
+	/**
+	 * Redirect to Modules.php URL after login.
+	 *
+	 * @since 3.8
+	 */
+	$redirect_to = basename( $_SERVER['SCRIPT_NAME'] ) === 'Modules.php' ?
+		'&redirect_to=' . urlencode( $_SERVER['QUERY_STRING'] ) :
+		'';
+
+	// Redirection is done in Javascript in case current request is AJAX.
 ?>
-	<script>window.location.href = "index.php?modfunc=logout";</script>
+	<script>window.location.href = "index.php?modfunc=logout" +
+		<?php echo json_encode( $redirect_to ); ?>;</script>
 <?php
 	exit;
 }

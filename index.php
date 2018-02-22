@@ -23,9 +23,10 @@ if ( isset( $_REQUEST['modfunc'] )
 
 	session_destroy();
 
-	// Redirect to index.php with same locale as old session & eventual reason.
+	// Redirect to index.php with same locale as old session & eventual reason & redirect to URL.
 	header( 'Location: index.php?locale=' . $old_session_locale .
-		( isset( $_REQUEST['reason'] ) ? '&reason=' . $_REQUEST['reason'] : '' ) );
+		( isset( $_REQUEST['reason'] ) ? '&reason=' . $_REQUEST['reason'] : '' ) .
+		( isset( $_REQUEST['redirect_to'] ) ? '&redirect_to=' . urlencode( $_REQUEST['redirect_to'] ) : '' ) );
 
 	exit;
 }
@@ -432,24 +433,30 @@ if ( empty( $_SESSION['STAFF_ID'] )
 
 	<?php if ( Config( 'CREATE_USER_ACCOUNT' ) ) : ?>
 
-		<div class="center">[
+		<p class="align-right">
 			<a href="index.php?create_account=user&amp;staff_id=new" rel="nofollow">
 				<?php echo _( 'Create User Account' ); ?>
 			</a>
-		]</div>
+		</p>
 
 	<?php endif;
 
 	if ( Config( 'CREATE_STUDENT_ACCOUNT' ) ) : ?>
 
-		<div class="center">[
+		<p class="align-right">
 			<a href="index.php?create_account=student&amp;student_id=new" rel="nofollow">
 				<?php echo _( 'Create Student Account' ); ?>
 			</a>
-		]</div>
+		</p>
 
-	<?php endif; ?>
-
+	<?php endif;
+		/**
+		 * Redirect to Modules.php URL after login.
+		 *
+		 * @since 3.8
+		 */
+		?>
+		<input type="hidden" name="redirect_to" value="<?php echo htmlspecialchars( $_REQUEST['redirect_to'], ENT_QUOTES ); ?>" />
 	</form>
 	<input class="toggle" type="checkbox" id="toggle1" />
 	<label class="toggle" for="toggle1"><?php echo _( 'About' ); ?></label>
@@ -480,8 +487,16 @@ if ( empty( $_SESSION['STAFF_ID'] )
 // Successfully logged in, display Portal.
 elseif ( ! isset( $_REQUEST['create_account'] ) )
 {
-	// Fix #173 resend login form: redirect to Modules.php.
-	header( 'Location: Modules.php?modname=misc/Portal.php' );
+	/**
+	 * Redirect to Modules.php URL after login.
+	 *
+	 * @since 3.8
+	 */
+	$redirect_to = empty( $_REQUEST['redirect_to'] ) ?
+		'modname=misc/Portal.php' : // Fix #173 resend login form: redirect to Modules.php.
+		$_REQUEST['redirect_to'];
+
+	header( 'Location: Modules.php?' . $redirect_to );
 
 	exit;
 }

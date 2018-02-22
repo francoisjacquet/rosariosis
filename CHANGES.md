@@ -21,6 +21,7 @@ Changes in 3.8-beta
 - CSS Display button text on multiple lines if too long in zresponsive.css
 - CSS & HTML reorganize login form in index.php & stylesheet.css
 - Only show Courses taught by Teacher in DailySummary.php, sponsored by @abogadeer
+- Redirect to Modules.php URL after login in Warehouse.php & index.php
 
 Changes in 3.7.1
 ----------------
