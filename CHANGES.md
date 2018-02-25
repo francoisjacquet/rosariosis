@@ -20,8 +20,9 @@ Changes in 3.8-beta
 - Expanded View: Tip Message containing Student or User Photo in TipMessage.fnc.php & GetStuList.fnc.php & GetStaffList.fnc.php
 - CSS Display button text on multiple lines if too long in zresponsive.css
 - CSS & HTML reorganize login form in index.php & stylesheet.css
-- Only show Courses taught by Teacher in DailySummary.php, sponsored by @abogadeer
+- Teacher: My Periods option in DailySummary.php, sponsored by @abogadeer
 - Redirect to Modules.php URL after login in Warehouse.php & index.php
+- CSS, HTML & PHP add AttendanceCodesTipMessage() & MakeAttendanceCode() & color codes classes in AttendanceCodes.fnc.php, DailySummary.php, stylesheet.css & colors.css
 
 Changes in 3.7.1
 ----------------

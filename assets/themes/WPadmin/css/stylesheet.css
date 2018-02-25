@@ -960,6 +960,12 @@ td.calendar-menu{
 	padding: 2px 8px;
 }
 
+/* Attendance Codes */
+.attendance-code {
+	display: inline-block;
+	padding: 2px 8px;
+}
+
 /*arrows*/
 .arrow.right:before,
 .switchMenu:before{
