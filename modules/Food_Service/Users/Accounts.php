@@ -135,7 +135,10 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 		DrawHeader(
 			'',
 			SubmitButton( _( 'Save' ), 'submit[save]' ) .
-			( $staff['BALANCE'] == 0 ? SubmitButton( _( 'Delete Account' ), 'submit[delete]', '' ) : '' )
+			( $staff['BALANCE'] == 0 ?
+				SubmitButton( _( 'Delete Account' ), 'submit[delete]', '' ) : // No .primary button class.
+				''
+			)
 		);
 	}
 	else

@@ -74,7 +74,7 @@ if ( UserStaffID()
 
 	DrawHeader(
 		'',
-		SubmitButton( _( 'Cancel Sale' ), 'submit[cancel]', '' ) .
+		SubmitButton( _( 'Cancel Sale' ), 'submit[cancel]', '' ) . // No .primary button class.
 		SubmitButton( _( 'Complete Sale' ), 'submit[save]' )
 	);
 

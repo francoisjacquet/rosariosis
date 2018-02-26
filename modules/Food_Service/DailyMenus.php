@@ -249,7 +249,7 @@ else
 			)
 		),
 		SubmitButton( _( 'Save' ), 'submit[save]' ) .
-		SubmitButton( _( 'Generate Menu' ), 'submit[print]', '' )
+		SubmitButton( _( 'Generate Menu' ), 'submit[print]', '' ) // No .primary button class.
 	);
 
 	echo '<br />';

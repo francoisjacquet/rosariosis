@@ -26,6 +26,8 @@ Changes in 3.8-beta2
 - CSS & HTML use attendance-code colors classes in TakeAttendance.php
 - CSS add .proper-date class in Date.php & stylesheet.css
 - Add AddRequestedDates() function in Date.php & use programwide
+- Add CSS .button-primary class to submit buttons in Buttons.php
+- SubmitButton() $value parameter is optional i Buttons.php & programwide
 
 Changes in 3.7.1
 ----------------

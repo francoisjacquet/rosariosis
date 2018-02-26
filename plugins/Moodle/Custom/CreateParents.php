@@ -6,10 +6,10 @@ function core_user_create_users_object()
 {
 	//first, gather the necessary variables
 	global $id, $username, $password, $locale, $user, $students;
-	
+
 	//then, convert variables for the Moodle object:
 /*
-list of ( 
+list of (
 	object {
 		username string   //Username policy is defined in Moodle security config. Must be lowercase.
 		password string   //Plain text password consisting of any characters
@@ -27,18 +27,18 @@ list of (
 		city string  Optional //Home city of the user
 		country string  Optional //Home country code of the user, such as AU or CZ
 		preferences  Optional //User preferences
-			list of ( 
+			list of (
 				object {
 					type string   //The name of the preference
 					value string   //The value of the preference
-				} 
+				}
 		)customfields  Optional //User custom fields (also known as user profil fields)
-			list of ( 
+			list of (
 				object {
 					type string   //The name of the custom field
 					value string   //The value of the custom field
-				} 
-		)} 
+				}
+		)}
 )
 */
 	$username = mb_strtolower($username);
@@ -48,7 +48,7 @@ list of (
 	$email = $students[1]['EMAIL'];
 	$auth = 'manual';
 	$idnumber = (string)$id;
-	
+
 	$users = array(
 				array(
 					'username' => $username,
@@ -60,7 +60,7 @@ list of (
 					'idnumber' => $idnumber,
 				)
 			);
-	
+
 	return array($users);
 }
 
@@ -69,20 +69,20 @@ function core_user_create_users_response($response)
 {
 	//first, gather the necessary variables
 	global $id;
-	
+
 	//then, save the ID in the moodlexrosario cross-reference table:
 /*
-Array 
+Array
 	(
 	[0] =>
-		Array 
+		Array
 			(
-			[id] => int                
-			[username] => string                
+			[id] => int
+			[username] => string
 			)
 	)
 */
-	
+
 	DBQuery("INSERT INTO MOODLEXROSARIO (\"column\", rosario_id, moodle_id) VALUES ('staff_id', '".$id."', ".$response[0]['id'].")");
 	return null;
 }
@@ -93,11 +93,11 @@ function core_role_assign_roles_object()
 {
 	//first, gather the necessary variables
 	global $id, $student;
-	
-	
+
+
 	//then, convert variables for the Moodle object:
 /*
-list of ( 
+list of (
 	object {
 		roleid int   //Role to assign to the user
 		userid int   //The user that is going to be assigned
@@ -105,7 +105,7 @@ list of (
 		contextlevel string  Optional //The context level to assign the user role in
 				                      (block, course, coursecat, system, user, module)
 		instanceid int  Optional //The Instance id of item where the role needs to be assigned
-	} 
+	}
 )*/
 
 	//gather the Moodle user ID
@@ -142,7 +142,7 @@ list of (
 							'instanceid' => $instanceid,
 						)
 					);
-	
+
 	return array($assignments);
 }
 
