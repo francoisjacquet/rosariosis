@@ -806,6 +806,9 @@ div.error .button, div.updated .button{
 .login .popTable td {
 	padding-bottom: 16px;
 }
+.login .popTable tr:last-of-type td {
+	padding-bottom: 0;
+}
 
 /* Login form */
 .login form input[type=text],.login form input[type=password]{
