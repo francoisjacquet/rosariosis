@@ -204,59 +204,89 @@ if ( $_REQUEST['attendance']
 	RedirectURL( 'attendance' );
 }
 
-$codes_RET = DBGet(DBQuery("SELECT ID,TITLE,DEFAULT_CODE,STATE_CODE
-FROM ATTENDANCE_CODES
-WHERE SCHOOL_ID='".UserSchool()."'
-AND SYEAR='".UserSyear()."'
-AND TYPE = 'teacher'
-AND TABLE_NAME='".$_REQUEST['table']."'".
-($_REQUEST['table']=='0' && $course_RET[1]['HALF_DAY'] ? " AND STATE_CODE!='H'" : '')."
-ORDER BY SORT_ORDER"));
+$codes_RET = DBGet( DBQuery( "SELECT ID,TITLE,DEFAULT_CODE,STATE_CODE
+	FROM ATTENDANCE_CODES
+	WHERE SCHOOL_ID='" . UserSchool() . "'
+	AND SYEAR='" . UserSyear() . "'
+	AND TYPE='teacher'
+	AND TABLE_NAME='" . $_REQUEST['table'] . "'" .
+	( $_REQUEST['table'] == '0' && $course_RET[1]['HALF_DAY'] ? " AND STATE_CODE!='H'" : '' ) .
+	" ORDER BY SORT_ORDER" ) );
 
-if (count($codes_RET))
+$columns = array();
+
+foreach ( (array) $codes_RET as $code )
 {
-	foreach ( (array) $codes_RET as $code)
+	$extra['SELECT'] .= ",'" . $code['STATE_CODE'] . "' AS CODE_" . $code['ID'];
+
+	if ( $code['DEFAULT_CODE'] == 'Y' )
 	{
-		$extra['SELECT'] .= ",'".$code['STATE_CODE']."' AS CODE_".$code['ID'];
-
-		if ($code['DEFAULT_CODE']=='Y')
-			$extra['functions']['CODE_'.$code['ID']] = '_makeRadioSelected';
-		else
-			$extra['functions']['CODE_'.$code['ID']] = '_makeRadio';
-
-		$columns['CODE_'.$code['ID']] = $code['TITLE'];
+		$extra['functions']['CODE_' . $code['ID'] ] = '_makeRadioSelected';
 	}
+	else
+	{
+		$extra['functions']['CODE_' . $code['ID'] ] = '_makeRadio';
+	}
+
+	$columns['CODE_' . $code['ID'] ] = $code['TITLE'];
 }
-else
-	$columns = array();
 
 $extra['SELECT'] .= ',s.STUDENT_ID AS COMMENT,s.STUDENT_ID AS ATTENDANCE_REASON';
-$columns += array('COMMENT' => _('Teacher Comment'));
 
-if (!isset($extra['functions']) || !is_array($extra['functions']))
+$columns += array(
+	'COMMENT' => _( 'Teacher Comment' ),
+);
+
+if ( ! isset( $extra['functions'] )
+	|| ! is_array( $extra['functions'] ) )
+{
 	$extra['functions'] = array();
+}
 
-$extra['functions'] += array('FULL_NAME' => 'makePhotoTipMessage','COMMENT' => 'makeCommentInput','ATTENDANCE_REASON' => 'makeAttendanceReason');
+$extra['functions'] += array(
+	'FULL_NAME' => 'makePhotoTipMessage',
+	'COMMENT' => 'makeCommentInput',
+	'ATTENDANCE_REASON' => 'makeAttendanceReason',
+);
+
 $extra['DATE'] = $date;
 
-$stu_RET = GetStuList($extra);
+$stu_RET = GetStuList( $extra );
 
-if ($attendance_reason)
-	$columns += array('ATTENDANCE_REASON' => _('Office Comment'));
+if ( $attendance_reason )
+{
+	$columns += array(
+		'ATTENDANCE_REASON' => _( 'Office Comment' ),
+	);
+}
 
-$date_note = $date!=DBDate() ? ' <span style="color:red" class="nobr">'._('The selected date is not today').'</span> |' : '';
-$date_note .= AllowEdit() ? ' <span style="color:green" class="nobr">'._('You can edit this attendance').'</span>':' <span style="color:red" class="nobr">'._('You cannot edit this attendance').'</span>';
+echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
+	'&table=' . $_REQUEST['table'] . '" method="POST">';
 
-$completed_RET = DBGet(DBQuery("SELECT 'Y' as COMPLETED FROM ATTENDANCE_COMPLETED WHERE STAFF_ID='".User('STAFF_ID')."' AND SCHOOL_DATE='".$date."' AND PERIOD_ID='".UserPeriod()."' AND TABLE_NAME='".$_REQUEST['table']."'"));
+DrawHeader( '', SubmitButton( _( 'Save' ) ) );
 
-if (count($completed_RET))
-	$note[] = button('check') .'&nbsp;'._('You already have taken attendance today for this period.');
+$date_note = $date != DBDate() ? ' <span style="color:red" class="nobr">' .
+	_( 'The selected date is not today' ) . '</span> |' : '';
 
-echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&table='.$_REQUEST['table'].'" method="POST">';
+$date_note .= AllowEdit() ? ' <span style="color:green" class="nobr">' .
+	_( 'You can edit this attendance' ) . '</span>' :
+	' <span style="color:red" class="nobr">' . _( 'You cannot edit this attendance' ) . '</span>';
 
-DrawHeader('',SubmitButton(_('Save')));
-DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)).$date_note);
+DrawHeader( PrepareDate( $date, '_date', false, array( 'submit' => true ) ) . $date_note );
 //DrawHeader($note);
+
+$completed_RET = DBGet( DBQuery( "SELECT 'Y' AS COMPLETED
+	FROM ATTENDANCE_COMPLETED
+	WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
+	AND SCHOOL_DATE='" . $date . "'
+	AND PERIOD_ID='" . UserPeriod() . "'
+	AND TABLE_NAME='" . $_REQUEST['table'] . "'" ) );
+
+if ( $completed_RET )
+{
+	$note[] = button( 'check' ) . '&nbsp;' .
+		_( 'You already have taken attendance today for this period.' );
+}
 
 echo ErrorMessage( $note, 'note' );
 
@@ -266,72 +296,141 @@ $LO_columns = array(
 	'GRADE_ID' => _( 'Grade Level' ),
 ) + $columns;
 
-foreach ( (array) $categories_RET as $category)
-	$tabs[] = array('title'=>ParseMLField($category['TITLE']),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&table='.$category['ID'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date'].'&year_date='.$_REQUEST['year_date']);
+foreach ( (array) $categories_RET as $category )
+{
+	$tabs[] = array(
+		'title' => ParseMLField( $category['TITLE'] ),
+		'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=' . $category['ID'] .
+			'&month_date=' . $_REQUEST['month_date'] . '&day_date=' . $_REQUEST['day_date'] .
+			'&year_date=' . $_REQUEST['year_date'],
+	);
+}
+
+if ( count( $categories_RET ) )
+{
+	$LO_options = array(
+		'download' => false,
+		'search' => false,
+		'header' => WrapTabs(
+			$tabs,
+			'Modules.php?modname=' . $_REQUEST['modname'] . '&table='.$_REQUEST['table'] .
+				'&month_date=' . $_REQUEST['month_date'] . '&day_date=' . $_REQUEST['day_date'] .
+				'&year_date=' . $_REQUEST['year_date']
+		),
+	);
+}
+else
+{
+    $LO_options = array();
+}
 
 echo '<br />';
-if (count($categories_RET))
-    $LO_options = array('download'=>false,'search'=>false,'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&table='.$_REQUEST['table'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date'].'&year_date='.$_REQUEST['year_date']));
-else
-    $LO_options = array();
 
-ListOutput($stu_RET,$LO_columns,'Student','Students',false,array(),$LO_options);
+ListOutput(
+	$stu_RET,
+	$LO_columns,
+	'Student',
+	'Students',
+	false,
+	array(),
+	$LO_options
+);
 
 echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 echo '</form>';
 
-function _makeRadio($value,$title)
-{	global $THIS_RET,$current_RET;
+function _makeRadio( $value, $title )
+{
+	global $THIS_RET,
+		$current_RET;
 
-	$colors = array('P' => '#00FF00','A' => '#FF0000','H' => '#FFCC00','T' => '#0000FF');
-	if ($current_RET[$THIS_RET['STUDENT_ID']][1]['ATTENDANCE_TEACHER_CODE']==mb_substr($title,5))
+	$classes = array(
+		'P' => 'present',
+		'A' => 'absent',
+		'H' => 'half-day',
+		// 'T' => '#0000FF',
+	);
+
+	if ( $current_RET[ $THIS_RET['STUDENT_ID'] ][1]['ATTENDANCE_TEACHER_CODE'] == mb_substr( $title, 5 ) )
 	{
-		if (isset($_REQUEST['LO_save']))
-			return _('Yes');
-		else
-			return '<div class="radio-attendance-code" style="' . ( $current_RET[ $THIS_RET['STUDENT_ID'] ][1]['COURSE_PERIOD_ID'] == UserCoursePeriod() ?
-					( $colors[ $value ] ? 'background-color:' . $colors[ $value ] . ';' : '' ) :
-					'background-color:#000;' ) . '">
-				<input type="radio" name="attendance[' . $THIS_RET['STUDENT_ID'] . ']"
-					value="' . $title . '" checked /></div>';
-	}
-	else
-		return '<div class="radio-attendance-code">
-			<input type="radio" name="attendance[' . $THIS_RET['STUDENT_ID'] . ']"
-				value="' . $title . '"' . ( AllowEdit() ? '' : ' disabled' ) . '></div>';
-}
-
-function _makeRadioSelected($value,$title)
-{	global $THIS_RET,$current_RET;
-
-	$colors = array('P' => '#00FF00','A' => '#FF0000','H' => '#FFCC00','T' => '#0000FF');
-	$colors1 = array('P' => '#DDFFDD','A' => '#FFDDDD','H' => '#FFEEDD','T' => '#DDDDFF');
-	if ($current_RET[$THIS_RET['STUDENT_ID']][1]['ATTENDANCE_TEACHER_CODE']!='')
-		if ($current_RET[$THIS_RET['STUDENT_ID']][1]['ATTENDANCE_TEACHER_CODE']==mb_substr($title,5))
+		if ( isset( $_REQUEST['LO_save'] ) )
 		{
-			if (isset($_REQUEST['LO_save']))
-				return _('Yes');
-			else
-				return '<div class="radio-attendance-code" style="' .
-					( $current_RET[ $THIS_RET['STUDENT_ID'] ][1]['COURSE_PERIOD_ID'] == UserCoursePeriod() ?
-						( $colors[ $value ] ? 'background-color:' . $colors[ $value ] . ';' : '' ) :
-						'background-color:#000;' ) .'">
-					<input type="radio" name="attendance[' . $THIS_RET['STUDENT_ID'] . ']"
-						value="' . $title . '" checked /></div>';
+			return _( 'Yes' );
 		}
 		else
-			return '<div class="radio-attendance-code">
+		{
+			$class = isset( $classes[ $value ] ) ? $classes[ $value ] : '';
+
+			return '<div class="attendance-code ' . $class . '">
 				<input type="radio" name="attendance[' . $THIS_RET['STUDENT_ID'] . ']"
-					value="' . $title . '"' . ( AllowEdit() ? '' : ' disabled' ) . '></div>';
+					value="' . $title . '" checked /></div>';
+		}
+	}
 	else
 	{
-		if (isset($_REQUEST['LO_save']))
-			return _('Yes');
+		return '<div class="attendance-code">
+			<input type="radio" name="attendance[' . $THIS_RET['STUDENT_ID'] . ']"
+				value="' . $title . '"' . ( AllowEdit() ? '' : ' disabled' ) . '></div>';
+	}
+}
+
+function _makeRadioSelected( $value, $title )
+{
+	global $THIS_RET,
+		$current_RET;
+
+	$classes = array(
+		'P' => 'present',
+		'A' => 'absent',
+		'H' => 'half-day',
+		// 'T' => '#0000FF',
+	);
+
+	$class = isset( $classes[ $value ] ) ? $classes[ $value ] : '';
+
+	$classes_alt = array(
+		'P' => 'present-alt',
+		'A' => 'absent-alt',
+		'H' => 'half-day-alt',
+		// 'T' => '#DDDDFF',
+	);
+
+	$class_alt = isset( $classes_alt[ $value ] ) ? $classes_alt[ $value ] : '';
+
+	if ( $current_RET[ $THIS_RET['STUDENT_ID'] ][1]['ATTENDANCE_TEACHER_CODE'] != '' )
+	{
+		if ( $current_RET[ $THIS_RET['STUDENT_ID'] ][1]['ATTENDANCE_TEACHER_CODE'] == mb_substr( $title, 5 ) )
+		{
+			if ( isset( $_REQUEST['LO_save'] ) )
+			{
+				return _( 'Yes' );
+			}
+			else
+			{
+				return '<div class="attendance-code ' . $class . '">
+					<input type="radio" name="attendance[' . $THIS_RET['STUDENT_ID'] . ']"
+						value="' . $title . '" checked /></div>';
+			}
+		}
 		else
-			return '<div class="radio-attendance-code" style="' .
-				( $colors1[ $value ] ? 'background-color:' . $colors1[ $value ] . ';' : '' ) . ';">
+		{
+			return '<div class="attendance-code">
+				<input type="radio" name="attendance[' . $THIS_RET['STUDENT_ID'] . ']"
+					value="' . $title . '"' . ( AllowEdit() ? '' : ' disabled' ) . '></div>';
+		}
+	}
+	else
+	{
+		if ( isset( $_REQUEST['LO_save'] ) )
+		{
+			return _( 'Yes ');
+		}
+		else
+		{
+			return '<div class="radio-attendance-code ' . $class_alt . '">
 				<input type="radio" name="attendance[' . $THIS_RET['STUDENT_ID'] . ']"
 				value="' . $title . '" checked /></div>';
+		}
 	}
 }
 

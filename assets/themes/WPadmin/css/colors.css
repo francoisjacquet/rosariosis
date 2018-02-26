@@ -254,6 +254,16 @@ hr{
 	background-color: #FFCC00; /* Yellow */
 }
 
+.attendance-code.present-alt {
+	background-color: #DDFFDD; /* Green */
+}
+.attendance-code.absent-alt {
+	background-color: #FFDDDD; /* Red */
+}
+.attendance-code.half-day-alt {
+	background-color: #FFEEDD; /* Yellow */
+}
+
 
 /*arrows*/
 .switchMenu:before{

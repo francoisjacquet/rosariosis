@@ -23,6 +23,7 @@ Changes in 3.8-beta
 - Teacher: My Periods option in DailySummary.php, sponsored by @abogadeer
 - Redirect to Modules.php URL after login in Warehouse.php & index.php
 - CSS, HTML & PHP add AttendanceCodesTipMessage() & MakeAttendanceCode() & color codes classes in AttendanceCodes.fnc.php, DailySummary.php, stylesheet.css & colors.css
+- CSS & HTML use attendance-code colors classes in TakeAttendance.php
 
 Changes in 3.7.1
 ----------------

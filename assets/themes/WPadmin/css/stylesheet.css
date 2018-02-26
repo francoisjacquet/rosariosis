@@ -958,12 +958,8 @@ td.calendar-menu{
 }
 
 /* Take Attendance */
-.radio-attendance-code {
-	float: left;
-	padding: 2px 8px;
-}
-
 /* Attendance Codes */
+.radio-attendance-code,
 .attendance-code {
 	display: inline-block;
 	padding: 2px 8px;
