@@ -77,10 +77,19 @@ if ( $_REQUEST['attendance']
 //if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || UserStudentID() || User('PROFILE')=='parent' || User('PROFILE')=='student')
 if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')=='parent' || User('PROFILE')=='student')
 {
-	if ( $_REQUEST['student_id'] || User( 'PROFILE' ) === 'parent' )
+	if ( User( 'PROFILE' ) === 'student' )
+	{
+		$_REQUEST['student_id'] = UserStudentID();
+	}
+	elseif ( $_REQUEST['student_id'] || User( 'PROFILE' ) === 'parent' )
 	{
 		// Just to set UserStudentID().
 		Search( 'student_id' );
+	}
+	elseif ( User( 'PROFILE' ) === 'admin'
+		|| User( 'PROFILE' ) === 'teacher' )
+	{
+		unset( $_SESSION['student_id'] );
 	}
 
 	// Fix GET parameters appearing multiple times in URL.
@@ -92,7 +101,6 @@ if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')==
 		'day_end',
 		'year_end',
 		'period_id',
-		'by_teacher',
 	);
 
 	$PHP_tmp_SELF = PreparePHP_SELF( $_REQUEST, $remove_request_params );
@@ -148,14 +156,24 @@ if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')==
 	}
 	else
 	{
+		if ( is_numeric( $_REQUEST['period_id'] ) )
+		{
+			$_REQUEST['period_id'] = 'PERIOD';
+		}
+
 		$period_select .= '<option value="PERIOD"' .
 			( $_REQUEST['period_id'] === 'PERIOD' ? ' selected' : '' ) . '>' .
 			_( 'By Period' ) . '</option>';
 
 		if ( User( 'PROFILE' ) === 'teacher' )
 		{
-			$period_select .= '<option value="MY_PERIODS"' .
-				( $_REQUEST['period_id'] === 'MY_PERIODS' ? ' selected' : '' ) . '>' .
+			/**
+			 * Teacher: My Periods option.
+			 *
+			 * @since 3.8
+			 */
+			$period_select .= '<option value="TEACHER"' .
+				( $_REQUEST['period_id'] === 'TEACHER' ? ' selected' : '' ) . '>' .
 				_( 'My Periods' ) . '</option>';
 		}
 	}
@@ -219,7 +237,7 @@ if ( $_REQUEST['student_id'] || User( 'PROFILE' ) === 'parent' )
 			AND ('" . DBDate() . "' BETWEEN s.START_DATE AND s.END_DATE OR s.END_DATE IS NULL)";
 
 		if ( User( 'PROFILE' ) === 'teacher'
-			&& $_REQUEST['period_id'] === 'MY_PERIODS' )
+			&& $_REQUEST['period_id'] === 'TEACHER' )
 		{
 			/**
 			 * Teacher: My Periods option.
