@@ -214,6 +214,11 @@ pip-log.txt
 # Node
 node_modules
 
+# phpdoc
+phpdoc-cache*
+phpdoc/
+/php
+
 #RosarioSIS
 /phpcompatinfo*
 /config.inc.php

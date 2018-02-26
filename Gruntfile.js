@@ -64,18 +64,6 @@ module.exports = function(grunt) {
 			}
 		},
 
-		autoprefixer: {
-			options: {
-				browsers: ['last 2 versions', 'ie 8', 'ie 9']
-			},
-			multiple_files: {
-                expand: true,
-                flatten: true,
-                src: 'assets/themes/WPadmin/css/*.css',
-                dest: 'assets/themes/WPadmin/css/build/'
-            }
-		},
-
 		cssmin: {
 			options: {
 				level: {
@@ -105,8 +93,24 @@ module.exports = function(grunt) {
 					]
 				}
 			}
-		}
+		},
 
+		// @link https://www.npmjs.com/package/grunt-phpdoc
+		phpdoc: {
+			options: {
+				// Task-specific options go here
+				verbose: true
+			},
+			target: {
+				// Target-specific file lists and/or options go here
+				files: {
+					'phpdoc/functions': ['functions/*.php','ProgramFunctions/*.php']
+					// 'doc/second': []
+				}
+			},
+			/*src: ['.'],
+			dest: 'phpdoc'*/
+		}
 	});
 
 	/**
@@ -114,10 +118,9 @@ module.exports = function(grunt) {
 	 */
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-autoprefixer');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
+	grunt.loadNpmTasks('grunt-phpdoc');
 
 	// Default task(s).
 	grunt.registerTask( 'default', ['watch'] );
-
 };
