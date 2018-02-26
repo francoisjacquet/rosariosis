@@ -18,7 +18,7 @@ input[readonly]{
 	background: #eee;
 }
 body{
-	color: #333;
+	color: #111;
 }
 #menuback,#menu{
 	background: #ececec;
@@ -169,7 +169,7 @@ fieldset{
 	background: #ececec
 }
 .legend-gray{
-	color:gray
+	color: #666;
 }
 .legend-red{
 	color:red
