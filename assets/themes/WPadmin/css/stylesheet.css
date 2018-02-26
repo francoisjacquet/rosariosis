@@ -335,6 +335,12 @@ label{
 	vertical-align:middle
 }
 
+/* Proper Date, see ProperDate() */
+.proper-date {
+	white-space: nowrap;
+	text-transform: capitalize;
+}
+
 /**
  * Side Menu form: add CSS classes.
  *

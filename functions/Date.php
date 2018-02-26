@@ -37,6 +37,8 @@ function DBDate()
  * Localized & preferred date
  * Accepts Oracle or Postgres date
  *
+ * @since 3.8 CSS add .proper-date class.
+ *
  * @see Preferences & http://php.net/manual/en/function.strftime.php
  *
  * @param  string $date   Date.
@@ -97,11 +99,11 @@ function ProperDate( $date, $length = 'long' )
 		$date_exploded['year'] + 0
 	);
 
-	// FJ display locale with strftime()
-	// FJ NOBR on date.
+	// Display localized date with strftime().
+	// CSS add .proper-date class.
 	return $comment .
-		'<span class="nobr">' .
-			mb_convert_case( iconv( '', 'UTF-8', strftime( $pref_date, $time ) ), MB_CASE_TITLE ) .
+		'<span class="proper-date">' .
+			strftime( $pref_date, $time ) .
 		'</span>';
 }
 
