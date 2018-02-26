@@ -1425,6 +1425,8 @@ function DisplayName( $first_name, $last_name, $middle_name = '', $name_suffix =
  *
  * Callback for DBGet() column formatting
  *
+ * @since 3.8
+ *
  * @uses MakeStudentPhotoTipMessage()
  * @uses MakeUserPhotoTipMessage()
  *
