@@ -11,6 +11,8 @@
  *
  * @todo  use Buttons() programwide to homogenize code
  *
+ * @since 3.8 Add CSS .button-primary class to submit button.
+ *
  * @param  string $submit_value Submit button text.
  * @param  string $reset_value  Reset button text (optional).
  *
@@ -18,7 +20,7 @@
  */
 function Buttons( $submit_value, $reset_value = '' )
 {
-	$buttons = '<input type="submit" value="' . $submit_value . '" />';
+	$buttons = '<input type="submit" value="' . $submit_value . '" class="button-primary" />';
 
 	if ( $reset_value )
 	{
@@ -80,21 +82,30 @@ function button( $type, $text = '', $link = '', $class = '' )
 /**
  * Submit button if user Can Edit
  *
- * @example echo SubmitButton( _( 'Save' ) );
+ * @example echo SubmitButton();
  *
- * @param  string $value   Button text.
+ * @since 3.8 $value parameter is optional
+ * @since 3.8 $options parameter defaults to 'class="button-primary"'
+ *
+ * @param  string $value   Button text. Defaults to _( 'Save' ) (optional).
  * @param  string $name    Button name attribute (optional).
- * @param  string $options Button options (optional).
+ * @param  string $options Button options. Defaults to 'class="button-primary"' (optional).
  *
  * @return string          Button HTML, empty string if user not allowed to edit
  */
-function SubmitButton( $value, $name = '', $options = '' )
+function SubmitButton( $value = '', $name = '', $options = 'class="button-primary"' )
 {
 	if ( AllowEdit() )
 	{
+		if ( $value === '' )
+		{
+			$value = _( 'Save' );
+		}
+
 		$name_attr = $name ? ' name="' . $name . '" ' : '';
 
-		return '<input type="submit" value="' . $value . '"' . $name_attr . $options . ' />';
+		return '<input type="submit" value="' . $value . '" ' .
+			$name_attr . $options . ' />';
 	}
 
 	return '';

@@ -222,7 +222,7 @@ if ( $_REQUEST['modfunc']
 if ( $_REQUEST['modfunc']!='delete')
 {
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&profile_id='.$_REQUEST['profile_id'].'" method="POST">';
-	DrawHeader(_('Select the programs that users of this profile can use and which programs those users can use to save information.'),SubmitButton(_('Save')));
+	DrawHeader(_('Select the programs that users of this profile can use and which programs those users can use to save information.'),SubmitButton());
 	echo '<br />';
 	echo '<table><tr class="st"><td class="valign-top">';
 
@@ -453,7 +453,7 @@ if ( $_REQUEST['modfunc']!='delete')
 
 		PopTable('footer');
 
-		echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+		echo '<br /><div class="center">' . SubmitButton() . '</div>';
 	}
 	echo '</div>';
 	echo '</td></tr></table>';

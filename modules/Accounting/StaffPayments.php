@@ -130,7 +130,7 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 	if ( ! $_REQUEST['print_statements'] && AllowEdit())
 	{
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
-		DrawHeader('',SubmitButton(_('Save')));
+		DrawHeader( '', SubmitButton() );
 		$options = array();
 	}
 	else
@@ -139,7 +139,7 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 	ListOutput($RET,$columns,'Payment','Payments',$link,array(),$options);
 
 	if ( ! $_REQUEST['print_statements'] && AllowEdit())
-		echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+		echo '<div class="center">' . SubmitButton() . '</div>';
 
 	echo '<br />';
 

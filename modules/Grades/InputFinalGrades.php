@@ -1061,7 +1061,7 @@ if ( !isset($_REQUEST['_ROSARIO_PDF']))
 
 	DrawHeader(
 		$mps_select,
-		SubmitButton( _( 'Save' ) ),
+		SubmitButton(),
 		CheckBoxOnclick( 'include_inactive', _( 'Include Inactive Students' ) )
 	);
 
@@ -1152,7 +1152,7 @@ echo '<br />';
 
 ListOutput($stu_RET,$LO_columns,'Student','Students',false,array(),$LO_options);
 
-echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+echo '<br /><div class="center">' . SubmitButton() . '</div>';
 echo '</form>';
 
 

@@ -217,7 +217,7 @@ function processRequest()
 
 	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update" method="POST">';
 
-	DrawHeader( '', SubmitButton( _( 'Save' ) ) );
+	DrawHeader( '', SubmitButton() );
 
 	$link['add']['span'] = ' ' . _( 'Add a Request' ) .
 		': <span class="nobr"> ' . _( 'Subject' ) . ' ' . $subjects .
@@ -237,7 +237,7 @@ function processRequest()
 
 	echo '</div>';
 
-	echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+	echo '<br /><div class="center">' . SubmitButton() . '</div>';
 	echo '</form>';
 }
 

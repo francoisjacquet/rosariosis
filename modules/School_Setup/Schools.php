@@ -194,9 +194,15 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( $_REQUEST['new_school']!='true' && $_SESSION['SchoolData']['SCHOOLS_NB'] > 1)
 		$delete_button = true;
 
-	//FJ fix bug: no save button if no admin
-	if (User('PROFILE')=='admin' && AllowEdit())
-		DrawHeader('',SubmitButton(_('Save'), 'button').($delete_button?SubmitButton(_('Delete'), 'button'):''));
+	// FJ fix bug: no save button if not admin.
+	if ( User( 'PROFILE' ) === 'admin' && AllowEdit() )
+	{
+		DrawHeader(
+			'',
+			SubmitButton( _( 'Save' ), 'button' ) .
+			( $delete_button ? SubmitButton( _( 'Delete' ), 'button', '' ) : '' )
+		);
+	}
 
 	echo '<br />';
 

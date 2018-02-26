@@ -461,7 +461,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		echo '&table=GRADEBOOK_ASSIGNMENTS" method="POST">';
 
-		DrawHeader( $title, $delete_button . SubmitButton( _( 'Save' ) ) );
+		DrawHeader( $title, $delete_button . SubmitButton() );
 
 		$header .= '<table class="width-100p valign-top fixed-col">';
 		$header .= '<tr class="st">';
@@ -563,7 +563,7 @@ if ( ! $_REQUEST['modfunc'] )
 		if ( $_REQUEST['assignment_type_id']!='new')
 			echo '&assignment_type_id='.$_REQUEST['assignment_type_id'];
 		echo '" method="POST">';
-		DrawHeader($title,$delete_button.SubmitButton(_('Save')));
+		DrawHeader($title,$delete_button.SubmitButton());
 		$header .= '<table class="width-100p valign-top fixed-col">';
 		$header .= '<tr class="st">';
 

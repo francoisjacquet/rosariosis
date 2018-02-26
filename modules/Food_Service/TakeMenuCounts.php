@@ -146,7 +146,7 @@ if ( $completed[1]['COMPLETED'])
 	$note[] = button('check')._('You have taken lunch counts today for this period.');
 
 echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
-DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)).$date_note,SubmitButton(_('Save')));
+DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)).$date_note,SubmitButton());
 
 echo ErrorMessage( $note, 'note' );
 
@@ -184,7 +184,7 @@ $LO_columns = array('DESCRIPTION' => _('Item'),'COUNT' => _('Count'));
 
 ListOutput($items_RET,$LO_columns,$singular,$plural,false,false,$extra);
 
-echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+echo '<div class="center">' . SubmitButton() . '</div>';
 echo '</td><td style="width:50%;">';
 
 $extra['SELECT'] .= ',fsa.BALANCE,fssa.STATUS';

@@ -243,7 +243,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$LO_ret = DBGet(DBQuery($sql),$functions);
 
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&tab_id='.$_REQUEST['tab_id'].'" method="POST">';
-	DrawHeader('',SubmitButton(_('Save')));
+	DrawHeader( '', SubmitButton() );
 	echo '<br />';
 
 	$LO_options = array('search'=>false,
@@ -258,7 +258,7 @@ if ( ! $_REQUEST['modfunc'] )
 		ListOutput( $LO_ret, $LO_columns, 'Grade Scale', 'Grade Scales', $link, array(), $LO_options );
 	}
 
-	echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+	echo '<br /><div class="center">' . SubmitButton() . '</div>';
 	echo '</form>';
 }
 

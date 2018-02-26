@@ -712,7 +712,7 @@ echo '</td></tr></table>';
 
 echo PopTable( 'footer' );
 
-echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div></form>';
+echo '<br /><div class="center">' . SubmitButton() . '</div></form>';
 
 
 function _makeInput( $name, $title, $value = '', $extra = '' )

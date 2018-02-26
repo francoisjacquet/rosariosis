@@ -236,7 +236,22 @@ else
 	$LO_columns = array('ID' => _('ID'),'SCHOOL_DATE' => _('Date'),'DESCRIPTION' => _('Description'));
 
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$_REQUEST['menu_id'].'&month='.$_REQUEST['month'].'&year='.$_REQUEST['year'].'" method="POST">';
-	DrawHeader(PrepareDate(mb_strtoupper(date("d-M-y",$time)),'',false,array('M'=>1,'Y'=>1,'submit'=>true)),SubmitButton(_('Save'),'submit[save]').SubmitButton(_('Generate Menu'),'submit[print]'));
+
+	DrawHeader(
+		PrepareDate(
+			mb_strtoupper( date( "d-M-y", $time ) ),
+			'',
+			false,
+			array(
+				'M' => 1,
+				'Y' => 1,
+				'submit' => true,
+			)
+		),
+		SubmitButton( _( 'Save' ), 'submit[save]' ) .
+		SubmitButton( _( 'Generate Menu' ), 'submit[print]', '' )
+	);
+
 	echo '<br />';
 
 	$tabs = array();

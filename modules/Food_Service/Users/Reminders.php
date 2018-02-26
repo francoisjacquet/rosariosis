@@ -67,7 +67,7 @@ if (! $_REQUEST['modfunc'] || $_REQUEST['search_modfunc']=='list')
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&_ROSARIO_PDF=true" method="POST">';
-		DrawHeader('',SubmitButton(_('Create Reminders for Selected Users')));
+		DrawHeader( '', SubmitButton( _( 'Create Reminders for Selected Users' ) ) );
 	}
 
 	$extra['link'] = array('FULL_NAME'=>false);
@@ -99,7 +99,7 @@ if (! $_REQUEST['modfunc'] || $_REQUEST['search_modfunc']=='list')
 	Search('staff_id',$extra);
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<br /><div class="center">' . SubmitButton(_('Create Reminders for Selected Users')) . '</div>';
+		echo '<br /><div class="center">' . SubmitButton( _( 'Create Reminders for Selected Users' ) ) . '</div>';
 		echo '</form>';
 	}
 }

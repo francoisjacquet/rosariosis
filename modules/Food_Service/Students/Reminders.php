@@ -129,7 +129,7 @@ if ( ! $_REQUEST['modfunc'] )
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&_ROSARIO_PDF=true" method="POST">';
 		//DrawHeader('',SubmitButton('Create Reminders for Selected Students'));
 //FJ add translation
-		$extra['header_right'] = SubmitButton(_('Create Reminders for Selected Students'));
+		$extra['header_right'] = SubmitButton( _( 'Create Reminders for Selected Students' ) );
 
 		$extra['extra_header_left'] .= '<label>'._('Estimate for year end').'&nbsp;<input type="checkbox" name="year_end" value="Y" /></label>';
 	}
@@ -167,7 +167,7 @@ if ( ! $_REQUEST['modfunc'] )
 	Search('student_id',$extra);
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<br /><div class="center">' . SubmitButton(_('Create Reminders for Selected Students')) . '</div>';
+		echo '<br /><div class="center">' . SubmitButton( _( 'Create Reminders for Selected Students' ) ) . '</div>';
 		echo '</form>';
 	}
 }

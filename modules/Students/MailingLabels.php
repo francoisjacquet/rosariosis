@@ -200,7 +200,7 @@ if ( ! $_REQUEST['modfunc'] )
 	Search('student_id',$extra);
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<br /><div class="center">' . SubmitButton(_('Create Labels for Selected Students')) . '</div>';
+		echo '<br /><div class="center">' . SubmitButton( _( 'Create Labels for Selected Students' ) ) . '</div>';
 		echo '</form>';
 	}
 }

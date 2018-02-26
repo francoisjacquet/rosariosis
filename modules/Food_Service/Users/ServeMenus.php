@@ -71,7 +71,13 @@ if ( UserStaffID()
 	$staff = $staff[1];
 
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=submit&menu_id='.$_REQUEST['menu_id'].'" method="POST">';
-	DrawHeader('',SubmitButton(_('Cancel Sale'),'submit[cancel]').SubmitButton(_('Complete Sale'),'submit[save]'));
+
+	DrawHeader(
+		'',
+		SubmitButton( _( 'Cancel Sale' ), 'submit[cancel]', '' ) .
+		SubmitButton( _( 'Complete Sale' ), 'submit[save]' )
+	);
+
 	echo '</form>';
 
 	DrawHeader(NoInput($staff['FULL_NAME'],'&nbsp;'.$staff['STAFF_ID']),'', NoInput(red($staff['BALANCE']),_('Balance')));
@@ -132,7 +138,7 @@ if ( UserStaffID()
 					'variables' => array('id' => 'SALE_ID'));
 //FJ css WPadmin
 //		$link['add']['html'] = array('DESCRIPTION' => '<table class="cellspacing-0"><tr><td>'.SelectInput('','item_sn','',$items).'</td></tr></table>','ICON' => '<table class="cellspacing-0"><tr><td><input type=submit value='._('Add').'></td></tr></table>','remove'=>button('add'));
-		$link['add']['html'] = array('DESCRIPTION'=>SelectInput('','item_sn','',$items),'ICON'=>SubmitButton(_('Add')),'PRICE' => '&nbsp;','remove'=>button('add'));
+		$link['add']['html'] = array('DESCRIPTION'=>SelectInput('','item_sn','',$items),'ICON'=>SubmitButton( _( 'Add')),'PRICE' => '&nbsp;','remove'=>button('add' ) );
 		$columns = array('DESCRIPTION' => _('Item'),'ICON' => _('Icon'),'PRICE' => _('Price'));
 
 		$tabs = array();

@@ -197,7 +197,7 @@ if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')==
 
 	DrawHeader(
 		( empty( $_REQUEST['period_id'] ) ? '' : AttendanceCodesTipMessage() ),
-		( UserStudentID() || empty( $_REQUEST['period_id'] ) ? '' : SubmitButton( _( 'Save' ) ) )
+		( UserStudentID() || empty( $_REQUEST['period_id'] ) ? '' : SubmitButton() )
 	);
 }
 
@@ -381,7 +381,7 @@ else
 
 	Search( 'student_id', $extra );
 
-	echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+	echo '<br /><div class="center">' . SubmitButton() . '</div>';
 
 	echo '</form>';
 }

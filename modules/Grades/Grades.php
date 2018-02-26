@@ -488,7 +488,7 @@ foreach ( (array) $types_RET as $id => $type )
 	);
 }
 
-DrawHeader($type_select.$assignment_select,$_REQUEST['assignment_id']?SubmitButton(_('Save')):'');
+DrawHeader($type_select.$assignment_select,$_REQUEST['assignment_id']?SubmitButton():'');
 
 DrawHeader(
 	CheckBoxOnclick(
@@ -519,7 +519,7 @@ if (UserStudentID())
 else
 	ListOutput($stu_RET,$LO_columns,'Student','Students',$link,array(),$LO_options);
 
-echo $_REQUEST['assignment_id']?'<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>':'';
+echo $_REQUEST['assignment_id']?'<br /><div class="center">' . SubmitButton() . '</div>':'';
 echo '</form>';
 
 

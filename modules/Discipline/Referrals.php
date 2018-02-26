@@ -156,7 +156,7 @@ if ( ! $_REQUEST['modfunc']
 
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&referral_id='.$_REQUEST['referral_id'].'" method="POST">';
 
-		DrawHeader('',SubmitButton(_('Save')));
+		DrawHeader( '', SubmitButton() );
 
 		echo '<br />';
 		PopTable( 'header', _( 'Referral' ) );
@@ -401,7 +401,7 @@ if ( ! $_REQUEST['modfunc']
 
 		if ( AllowEdit() )
 		{
-			echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+			echo '<br /><div class="center">' . SubmitButton() . '</div>';
 		}
 
 		echo '</form>';

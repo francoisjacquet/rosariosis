@@ -54,7 +54,7 @@ if ( $_REQUEST['modname'] === 'School_Setup/Configuration.php'
 
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&tab=plugins&modfunc=config&plugin=Moodle&save=true" method="POST">';
 
-		DrawHeader( '', SubmitButton( _( 'Save' ) ) );
+		DrawHeader( '', SubmitButton() );
 
 		echo ErrorMessage( $note, 'note' );
 
@@ -120,7 +120,7 @@ if ( $_REQUEST['modname'] === 'School_Setup/Configuration.php'
 
 		PopTable( 'footer' );
 
-		echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+		echo '<br /><div class="center">' . SubmitButton() . '</div>';
 		echo '</form>';
 	}
 }

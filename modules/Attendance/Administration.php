@@ -409,7 +409,7 @@ else
 	$_REQUEST['search_modfunc'] = 'list';
 	Search('student_id',$extra);
 
-	echo '<br /><div class="center">' . SubmitButton(_('Update')) . '</div>';
+	echo '<br /><div class="center">' . SubmitButton( _( 'Update' ) ) . '</div>';
 	echo '</form>';
 }
 

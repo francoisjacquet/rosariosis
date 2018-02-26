@@ -838,7 +838,7 @@ if ( ( ! $_REQUEST['modfunc']
 				'&course_id=' . $_REQUEST['course_id'] .
 				'&course_period_id=' . $_REQUEST['course_period_id'] . '" method="POST">';
 
-			DrawHeader( $title, $delete_button . SubmitButton( _( 'Save' ) ) );
+			DrawHeader( $title, $delete_button . SubmitButton() );
 
 			// Hook.
 			do_action( 'Scheduling/Courses.php|header' );
@@ -1314,7 +1314,7 @@ if ( ( ! $_REQUEST['modfunc']
 			}
 
 			echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'" method="POST">';
-			DrawHeader($title,$delete_button.SubmitButton(_('Save')));
+			DrawHeader($title,$delete_button.SubmitButton());
 			$header .= '<table class="width-100p valign-top">';
 			$header .= '<tr class="st">';
 
@@ -1376,7 +1376,7 @@ if ( ( ! $_REQUEST['modfunc']
 			}
 
 			echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'" method="POST">';
-			DrawHeader($title,$delete_button.SubmitButton(_('Save')));
+			DrawHeader($title,$delete_button.SubmitButton());
 			$header .= '<table class="width-100p valign-top fixed-col">';
 			$header .= '<tr class="st">';
 

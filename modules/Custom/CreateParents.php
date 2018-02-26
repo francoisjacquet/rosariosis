@@ -58,7 +58,7 @@ if (empty($email_column))
 
 	DrawHeader('','',$select_html);
 
-	echo '<br /><div class="center">' . SubmitButton(_('Select Parents email field')) . '</div>';
+	echo '<br /><div class="center">' . SubmitButton( _( 'Select Parents email field' ) ) . '</div>';
 	echo '</form>';
 }
 
@@ -284,7 +284,7 @@ if (! $_REQUEST['modfunc'] && !empty($email_column))
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
-		$extra['header_right'] = SubmitButton(_('Create Parent Accounts for Selected Students'));
+		$extra['header_right'] = SubmitButton( _( 'Create Parent Accounts for Selected Students' ) );
 
 		$extra['extra_header_left'] = '<table>';
 
@@ -350,7 +350,7 @@ if (! $_REQUEST['modfunc'] && !empty($email_column))
 
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<br /><div class="center">' . SubmitButton(_('Create Parent Accounts for Selected Students')) . '</div>';
+		echo '<br /><div class="center">' . SubmitButton( _( 'Create Parent Accounts for Selected Students' ) ) . '</div>';
 		echo '</form>';
 	}
 }

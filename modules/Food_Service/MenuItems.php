@@ -225,7 +225,7 @@ if ( ! $_REQUEST['modfunc'] )
 	//echo '<pre>'; var_dump($LO_ret); echo '</pre>';
 
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&tab_id='.$_REQUEST['tab_id'].'" method="POST">';
-	DrawHeader('',SubmitButton(_('Save')));
+	DrawHeader( '', SubmitButton() );
 	echo '<br />';
 
 	// FJ fix SQL bug invalid sort order
@@ -240,7 +240,7 @@ if ( ! $_REQUEST['modfunc'] )
 //FJ add translation
 		ListOutput($LO_ret,$LO_columns,'Meal Item','Meal Items',$link,array(),$extra);
 
-	echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+	echo '<br /><div class="center">' . SubmitButton() . '</div>';
 	echo '</form>';
 }
 

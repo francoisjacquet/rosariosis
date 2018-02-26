@@ -179,10 +179,10 @@ if ( ! $_REQUEST['modfunc'] )
 
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 
-	DrawHeader('',SubmitButton(_('Save')));
+	DrawHeader( '', SubmitButton() );
 
 	ListOutput($referrals_RET,$columns,'Referral Form Category','Referral Form Categories',$link);
-	echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+	echo '<div class="center">' . SubmitButton() . '</div>';
 	echo '</form>';
 }
 

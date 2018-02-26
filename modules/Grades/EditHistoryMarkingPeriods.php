@@ -72,7 +72,7 @@ if ( ! $_REQUEST['modfunc'] )
 {
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&tab_id='.$_REQUEST['tab_id'].'&mp_id='.$mp_id.'" method="POST">';
 
-	DrawHeader('',SubmitButton(_('Save')));
+	DrawHeader( '', SubmitButton() );
 
 	echo '<br />';
 
@@ -110,7 +110,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	ListOutput($LO_ret,$LO_columns,'History Marking Period','History Marking Periods',$link,array(),array('count'=>true,'download'=>false,'search'=>false));
 
-	echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+	echo '<div class="center">' . SubmitButton() . '</div>';
 	echo '</form>';
 }
 

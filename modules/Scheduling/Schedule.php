@@ -145,7 +145,7 @@ if ( UserStudentID()
 {
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=modify" method="POST">';
 
-	DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)),SubmitButton(_('Save')));
+	DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)),SubmitButton());
 
 	DrawHeader(
 		CheckBoxOnclick( 'include_inactive', _( 'Include Inactive Courses' ) ) .
@@ -261,7 +261,7 @@ if ( UserStudentID()
 
 	ListOutput( $schedule_RET, $columns, 'Course', 'Courses', $link );
 
-	echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+	echo '<br /><div class="center">' . SubmitButton() . '</div>';
 	echo '</form>';
 
 	if (AllowEdit())

@@ -1015,7 +1015,7 @@ if ( ! $_REQUEST['modfunc'] )
 		' <a href="' . $list_events_URL . '">' .
 			_( 'List Events' ) .
 		'</a>',
-		SubmitButton( _( 'Save' ) )
+		SubmitButton()
 	);
 
 	if ( $links )
@@ -1302,6 +1302,6 @@ if ( ! $_REQUEST['modfunc'] )
 
 	echo '</tr></tbody></table>';
 
-	echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+	echo '<br /><div class="center">' . SubmitButton() . '</div>';
 	echo '<br /><br /></form>';
 }

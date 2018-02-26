@@ -50,7 +50,7 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
 
-		DrawHeader('',SubmitButton(_('Add Payment to Selected Students')));
+		DrawHeader( '', SubmitButton( _( 'Add Payment to Selected Students' ) ) );
 
 		echo '<br />';
 
@@ -94,7 +94,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<br /><div class="center">' . SubmitButton(_('Add Payment to Selected Students')) . '</div>';
+		echo '<br /><div class="center">' . SubmitButton( _( 'Add Payment to Selected Students' ) ) . '</div>';
 		echo '</form>';
 	}
 

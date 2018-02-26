@@ -64,7 +64,7 @@ if ( UserStaffID()
 	//$PHP_tmp_SELF = PreparePHP_SELF();
 	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save" method="POST">';
 
-	DrawHeader( '', ResetButton( _( 'Cancel' ) ) . SubmitButton( _( 'Save' ) ) );
+	DrawHeader( '', ResetButton( _( 'Cancel' ) ) . SubmitButton() );
 
 //FJ fix bug no balance
 //	DrawHeader(NoInput($staff['FULL_NAME'],'&nbsp;'.$staff['STAFF_ID']),'', NoInput(red($student['BALANCE']),_('Balance')));
@@ -115,7 +115,7 @@ if ( UserStaffID()
 
 		ListOutput($RET,$columns,'Earlier Transaction','Earlier Transactions',$link,false,array('save'=>false,'search'=>false));
 
-		echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+		echo '<div class="center">' . SubmitButton() . '</div>';
 	}
 	else
 		echo ErrorMessage(array(_('This user does not have a Meal Account.')));

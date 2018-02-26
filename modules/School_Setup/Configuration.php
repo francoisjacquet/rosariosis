@@ -155,7 +155,7 @@ else
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST" enctype="multipart/form-data">';
 
 		if (AllowEdit())
-			DrawHeader('',SubmitButton(_('Save')));
+			DrawHeader( '', SubmitButton() );
 
 		if ( !empty($note))
 			echo ErrorMessage($note, 'note');
@@ -484,7 +484,7 @@ else
 
 		PopTable('footer');
 		if (AllowEdit())
-			echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+			echo '<br /><div class="center">' . SubmitButton() . '</div>';
 		echo '</form>';
 
 	}

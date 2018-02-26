@@ -162,7 +162,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$LO_ret = DBGet(DBQuery($sql),$functions);
 
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&tab_id='.$_REQUEST['tab_id'].'" method="POST">';
-	DrawHeader('',SubmitButton(_('Save')));
+	DrawHeader( '', SubmitButton() );
 	echo '<br />';
 
 	$LO_options = array('save'=>false,'search'=>false,'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$_REQUEST['tab_id']));
@@ -172,7 +172,7 @@ if ( ! $_REQUEST['modfunc'] )
     elseif ( $subject == 'Comment Code Scales')
         ListOutput($LO_ret,$LO_columns,'Comment Code Scale','Comment Code Scales',$link,array(),$LO_options);
 
-	echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+	echo '<br /><div class="center">' . SubmitButton() . '</div>';
 	echo '</td></tr></table></form>';
 }
 

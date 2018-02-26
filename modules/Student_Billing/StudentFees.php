@@ -175,7 +175,7 @@ if ( UserStudentID()
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 		//DrawStudentHeader();
 		if (AllowEdit())
-			DrawHeader('',SubmitButton(_('Save')));
+			DrawHeader( '', SubmitButton() );
 		$options = array();
 	}
 	else
@@ -186,7 +186,7 @@ if ( UserStudentID()
 	if ( ! $_REQUEST['print_statements']
 		&& AllowEdit() )
 	{
-		echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+		echo '<div class="center">' . SubmitButton() . '</div>';
 	}
 
 	echo '<br />';

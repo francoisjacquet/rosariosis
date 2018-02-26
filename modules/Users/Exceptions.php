@@ -130,7 +130,7 @@ if ( UserStaffID()
 if ( ! $staff_RET[1]['PROFILE_ID'])
 {
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
-	DrawHeader(_('Select the programs with which this user can use and save information.'),SubmitButton(_('Save')));
+	DrawHeader(_('Select the programs with which this user can use and save information.'),SubmitButton());
 	echo '<br />';
 	PopTable('header',_('Permissions'));
 //	echo '<table cellspacing=0>';
@@ -311,7 +311,7 @@ if ( ! $staff_RET[1]['PROFILE_ID'])
 	}
 	echo '</table>';
 	PopTable('footer');
-	echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+	echo '<br /><div class="center">' . SubmitButton() . '</div>';
 
 	echo '</div>';
 	echo '</td></tr></table>';

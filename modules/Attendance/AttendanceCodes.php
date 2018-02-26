@@ -163,7 +163,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$LO_ret = DBGet(DBQuery($sql),$functions);
 
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&table='.$_REQUEST['table'].'" method="POST">';
-	DrawHeader('',SubmitButton(_('Save')));
+	DrawHeader( '', SubmitButton() );
 	echo '<br />';
 
 //FJ css WPadmin
@@ -171,7 +171,7 @@ if ( ! $_REQUEST['modfunc'] )
 //	ListOutput($LO_ret,$LO_columns,'.','.',$link,array(),array('count'=>false,'download'=>false,'search'=>false));
 	ListOutput($LO_ret,$LO_columns,'.','.',$link,array(),$LO_options);
 
-	echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+	echo '<br /><div class="center">' . SubmitButton() . '</div>';
 	echo '</form>';
 }
 

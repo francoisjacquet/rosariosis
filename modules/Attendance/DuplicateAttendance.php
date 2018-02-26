@@ -202,7 +202,7 @@ if ( isset( $_REQUEST['search_modfunc'] )
 
 		echo '<form action="Modules.php?modname=Attendance/DuplicateAttendance.php&modfunc=&search_modfunc=list&next_modname=Attendance/DuplicateAttendance.php&delete=true" method="POST">';
 
-		DrawHeader('',SubmitButton(_('Delete')));
+		DrawHeader( '', SubmitButton( _( 'Delete' ) ) );
 
 		$num_rows = $totalrows;
 

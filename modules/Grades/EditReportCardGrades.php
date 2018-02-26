@@ -246,7 +246,7 @@ if ( UserStudentID() )
 		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
 			'&modfunc=update&tab_id=' . $_REQUEST['tab_id'] . '&mp_id=' . $mp_id . '" method="POST">';
 
-		DrawHeader( '', SubmitButton( _( 'Save' ) ) );
+		DrawHeader( '', SubmitButton() );
 		echo '<br />';
 
 		echo PopTable( 'header', $displayname );
@@ -424,7 +424,7 @@ if ( UserStudentID() )
 			echo SubmitButton( _( 'Remove Marking Period' ), 'removemp' );
 		}
 
-		echo SubmitButton( _( 'Save' ) ).'</div>';
+		echo SubmitButton().'</div>';
 		echo '</form>';
 	}
 }

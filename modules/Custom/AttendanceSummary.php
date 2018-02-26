@@ -282,7 +282,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<br /><div class="center">' . SubmitButton(_('Create Attendance Report for Selected Students')) . '</div>';
+		echo '<br /><div class="center">' . SubmitButton( _( 'Create Attendance Report for Selected Students' ) ) . '</div>';
 		echo '</form>';
 	}
 }

@@ -50,12 +50,12 @@ $staff_RET = DBGet( DBQuery( "SELECT fst.TRANSACTION_ID,fst.STAFF_ID,fst.SYEAR,
 //echo '<pre>'; var_dump($users_RET); echo '</pre>';
 
 echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
-DrawHeader('',SubmitButton(_('Save')));
+DrawHeader( '', SubmitButton() );
 $columns = array('TRANSACTION_ID' => _('ID'),'ACCOUNT_ID' => _('Account ID'),'SYEAR' => _('School Year'),'FULL_NAME' => _('Student'),'STUDENTS' => _('Students'),'SCHOOL_ID' => _('School'));
 ListOutput($students_RET,$columns,'Student Transaction w/o School','Student Transactions w/o School',false,array(),array('save'=>false,'search'=>false));
 $columns = array('TRANSACTION_ID' => _('ID'),'SYEAR' => _('School Year'),'FULL_NAME' => _('User'),'SCHOOL_ID' => _('School'));
 ListOutput($staff_RET,$columns,'User Transaction w/o School','User Transactions w/o School',false,array(),array('save'=>false,'search'=>false));
-echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+echo '<div class="center">' . SubmitButton() . '</div>';
 echo '</form>';
 
 function _students($value,$column)

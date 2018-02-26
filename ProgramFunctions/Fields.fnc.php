@@ -311,7 +311,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 
 	ob_start();
 
-	DrawHeader( $title, $delete_button . SubmitButton( _( 'Save' ) ) );
+	DrawHeader( $title, $delete_button . SubmitButton() );
 
 	$form .= ob_get_clean();
 

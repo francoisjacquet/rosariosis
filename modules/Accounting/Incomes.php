@@ -118,7 +118,7 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 		if (AllowEdit())
-			DrawHeader('',SubmitButton(_('Save')));
+			DrawHeader( '', SubmitButton() );
 		$options = array();
 	}
 	else
@@ -129,7 +129,7 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( ! $_REQUEST['print_statements']
 		&& AllowEdit() )
 	{
-		echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+		echo '<div class="center">' . SubmitButton() . '</div>';
 	}
 
 	echo '<br />';

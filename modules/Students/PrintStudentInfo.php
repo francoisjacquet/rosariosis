@@ -204,7 +204,7 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'&_search_all_schools='.$_REQUEST['_search_all_schools'].'&_ROSARIO_PDF=true" method="POST">';
-		$extra['header_right'] = SubmitButton(_('Print Info for Selected Students'));
+		$extra['header_right'] = SubmitButton( _( 'Print Info for Selected Students' ) );
 
 		$extra['extra_header_left'] = '<table>';
 		Widgets('mailing_labels');
@@ -245,7 +245,7 @@ if ( ! $_REQUEST['modfunc'] )
 	Search('student_id',$extra);
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<br /><div class="center">' . SubmitButton(_('Print Info for Selected Students')) . '</div>';
+		echo '<br /><div class="center">' . SubmitButton( _( 'Print Info for Selected Students' ) ) . '</div>';
 		echo '</form>';
 	}
 }

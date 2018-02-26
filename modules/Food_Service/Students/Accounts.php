@@ -122,7 +122,7 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 			'include_inactive',
 			_( 'Include Inactive Students in Shared Account' )
 		),
-		SubmitButton( _( 'Save' ) )
+		SubmitButton()
 	);
 
 	echo '<br />';
@@ -187,6 +187,6 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 
 	PopTable('footer');
 
-	echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+	echo '<br /><div class="center">' . SubmitButton() . '</div>';
 	echo '</form>';
 }

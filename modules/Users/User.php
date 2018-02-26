@@ -529,7 +529,7 @@ if ( ( UserStaffID()
 		$name = $staff['FULL_NAME'] . ' - ' . $staff['STAFF_ID'];
 	}
 
-	DrawHeader( $name, $delete_button . SubmitButton( _( 'Save' ) ) );
+	DrawHeader( $name, $delete_button . SubmitButton() );
 
 	// Hook.
 	do_action( 'Users/User.php|header' );
@@ -604,6 +604,6 @@ if ( ( UserStaffID()
 
 	PopTable('footer');
 
-	echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+	echo '<br /><div class="center">' . SubmitButton() . '</div>';
 	echo '</form>';
 }

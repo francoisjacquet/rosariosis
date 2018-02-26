@@ -131,12 +131,17 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 	if ( $staff['ACCOUNT_ID'])
 	{
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
-		DrawHeader('',SubmitButton(_('Save'),'submit[save]').($staff['BALANCE'] == 0 ? SubmitButton(_('Delete Account'),'submit[delete]') : ''));
+
+		DrawHeader(
+			'',
+			SubmitButton( _( 'Save' ), 'submit[save]' ) .
+			( $staff['BALANCE'] == 0 ? SubmitButton( _( 'Delete Account' ), 'submit[delete]', '' ) : '' )
+		);
 	}
 	else
 	{
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=create" method="POST">';
-		DrawHeader('',SubmitButton(_('Create Account')));
+		DrawHeader( '', SubmitButton( _( 'Create Account' ) ) );
 	}
 
 	echo '<br />';
@@ -175,6 +180,6 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 
 	PopTable('footer');
 
-	echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+	echo '<br /><div class="center">' . SubmitButton() . '</div>';
 	echo '</form>';
 }

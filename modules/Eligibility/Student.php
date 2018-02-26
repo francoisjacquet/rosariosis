@@ -140,7 +140,7 @@ if ( UserStudentID()
 //FJ css WPadmin
 //	$link['add']['html']['TITLE'] = '<table class="cellspacing-0"><tr><td>'.SelectInput('','new_activity','',$activities).'</td><td><input type=submit value="'._('Add').'"></td></tr></table>';
 //	$link['add']['html']['remove'] = button('add');
-	$link['add']['html'] = array('remove' => button('add'), 'TITLE' => SelectInput('','new_activity','',$activities).SubmitButton(_('Add')), 'START_DATE' => '&nbsp;', 'END_DATE' => '&nbsp;');
+	$link['add']['html'] = array('remove' => button('add'), 'TITLE' => SelectInput('','new_activity','',$activities).SubmitButton( _( 'Add' ) ), 'START_DATE' => '&nbsp;', 'END_DATE' => '&nbsp;');
 
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=add&start_date='.$_REQUEST['start_date'].'" method="POST">';
 	$columns = array('TITLE' => _('Activity'),'START_DATE' => _('Starts'),'END_DATE' => _('Ends'));

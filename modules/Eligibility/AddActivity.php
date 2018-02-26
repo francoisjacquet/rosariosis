@@ -39,7 +39,7 @@ echo ErrorMessage( $error );
 if ( $_REQUEST['search_modfunc']=='list')
 {
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
-	DrawHeader('',SubmitButton(_('Add Activity to Selected Students')));
+	DrawHeader( '', SubmitButton( _( 'Add Activity to Selected Students' ) ) );
 	echo '<br />';
 
 //FJ css WPadmin
@@ -68,7 +68,7 @@ if ( $_REQUEST['search_modfunc']=='list')
 
 Search('student_id',$extra);
 if ( $_REQUEST['search_modfunc']=='list')
-	echo '<br /><div class="center">' . SubmitButton(_('Add Activity to Selected Students')) . '</div></form>';
+	echo '<br /><div class="center">' . SubmitButton( _( 'Add Activity to Selected Students' ) ) . '</div></form>';
 
 function _makeChooseCheckbox($value,$title)
 {	global $THIS_RET;

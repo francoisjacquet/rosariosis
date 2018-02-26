@@ -278,7 +278,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$LO_ret = DBGet(DBQuery($sql),$functions);
 
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&course_id='.$_REQUEST['course_id'].'&tab_id='.$_REQUEST['tab_id'].'" method="POST">';
-	DrawHeader($subject_select.' : '.$course_select,SubmitButton(_('Save')));
+	DrawHeader($subject_select.' : '.$course_select,SubmitButton());
 	echo '<br />';
 
 	//FJ fix SQL bug invalid sort order
@@ -293,7 +293,7 @@ if ( ! $_REQUEST['modfunc'] )
 	else
 		ListOutput($LO_ret,$LO_columns,'Comment','Comments',$link,array(),$LO_options);
 
-	echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+	echo '<br /><div class="center">' . SubmitButton() . '</div>';
 	echo '</form>';
 }
 

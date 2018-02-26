@@ -72,7 +72,7 @@ if ( UserStudentID()
 	//$PHP_tmp_SELF = PreparePHP_SELF();
 	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save" method="POST">';
 
-	DrawHeader( '', ResetButton( _( 'Cancel' ) ) . SubmitButton( _( 'Save' ) ) );
+	DrawHeader( '', ResetButton( _( 'Cancel' ) ) . SubmitButton() );
 
 	DrawHeader(NoInput($student['FULL_NAME'],'&nbsp;'.$student['STUDENT_ID']),'', NoInput(red($student['BALANCE']),_('Balance')));
 
@@ -122,7 +122,7 @@ if ( UserStudentID()
 
 		ListOutput($RET,$columns,'Earlier Transaction','Earlier Transactions',$link,false,array('save'=>false,'search'=>false));
 
-		echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+		echo '<br /><div class="center">' . SubmitButton() . '</div>';
 	}
 	else
 		echo ErrorMessage(array(_('This student does not have a valid Meal Account.')));

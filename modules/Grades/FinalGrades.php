@@ -427,7 +427,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'" method="GET">';
 
-		$extra['header_right'] = SubmitButton(_('Create Grade Lists for Selected Students'));
+		$extra['header_right'] = SubmitButton( _( 'Create Grade Lists for Selected Students' ) );
 
 		$extra['extra_header_left'] = ReportCardsIncludeForm( _( 'Include on Grade List' ), false );
 
@@ -526,7 +526,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<br /><div class="center">' . SubmitButton(_('Create Grade Lists for Selected Students')) . '</div>';
+		echo '<br /><div class="center">' . SubmitButton( _( 'Create Grade Lists for Selected Students' ) ) . '</div>';
 		echo '</form>';
 	}
 }

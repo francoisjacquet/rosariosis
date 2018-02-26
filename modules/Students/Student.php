@@ -568,7 +568,7 @@ if ( ( UserStudentID()
 			$name = $student['FULL_NAME'] . ' - ' .	$student['STUDENT_ID'];
 		}
 
-		DrawHeader( $name, $delete_button . SubmitButton( _( 'Save' ) ) );
+		DrawHeader( $name, $delete_button . SubmitButton() );
 
 		// Hook.
 		do_action( 'Students/Student.php|header' );
@@ -626,7 +626,7 @@ if ( ( UserStudentID()
 		}
 		echo PopTable('footer');
 
-		echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+		echo '<br /><div class="center">' . SubmitButton() . '</div>';
 		echo '</form>';
 	}
 	elseif ( $can_use_RET['Students/Student.php&category_id=' . $category_id ] )

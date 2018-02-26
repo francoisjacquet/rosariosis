@@ -62,7 +62,7 @@ if ( ! $_REQUEST['modfunc'] )
 	echo '<br />';
 	echo _('Download backup files periodically in case of system failure.');
 	echo '<br /><br />';
-	echo '<div class="center">' . SubmitButton(_('Download Backup File')) . '</div>';
+	echo '<div class="center">' . SubmitButton( _( 'Download Backup File' ) ) . '</div>';
 	echo '</form>';
 	PopTable('footer');
 }

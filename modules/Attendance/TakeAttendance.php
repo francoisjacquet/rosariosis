@@ -263,7 +263,7 @@ if ( $attendance_reason )
 echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
 	'&table=' . $_REQUEST['table'] . '" method="POST">';
 
-DrawHeader( '', SubmitButton( _( 'Save' ) ) );
+DrawHeader( '', SubmitButton() );
 
 $date_note = $date != DBDate() ? ' <span style="color:red" class="nobr">' .
 	_( 'The selected date is not today' ) . '</span> |' : '';
@@ -336,7 +336,7 @@ ListOutput(
 	$LO_options
 );
 
-echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+echo '<br /><div class="center">' . SubmitButton() . '</div>';
 echo '</form>';
 
 function _makeRadio( $value, $title )

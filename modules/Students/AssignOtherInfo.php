@@ -125,7 +125,7 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
-		DrawHeader('',SubmitButton(_('Save')));
+		DrawHeader( '', SubmitButton() );
 		echo '<br />';
 
 		if ( $_REQUEST['category_id'] )
@@ -365,7 +365,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	Search('student_id',$extra);
 	if ( $_REQUEST['search_modfunc']=='list')
-		echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div></form>';
+		echo '<br /><div class="center">' . SubmitButton() . '</div></form>';
 }
 
 

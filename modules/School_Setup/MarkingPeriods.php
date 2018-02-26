@@ -426,7 +426,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	echo '<form action="' . $mp_href . '" method="POST">';
 
-	DrawHeader( $title, $delete_button . SubmitButton( _( 'Save' ) ) );
+	DrawHeader( $title, $delete_button . SubmitButton() );
 
 	$header .= '<table class="width-100p valign-top fixed-col"><tr class="st">';
 

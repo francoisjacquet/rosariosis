@@ -122,7 +122,7 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'&_ROSARIO_PDF=true" method="POST">';
-		$extra['header_right'] = SubmitButton(_('Create Honor Roll by Subject for Selected Students'));
+		$extra['header_right'] = SubmitButton( _( 'Create Honor Roll by Subject for Selected Students' ) );
 
 		$extra['extra_header_left'] = '<table><tr class="st">
 		<td class="valign-top">' . _( 'Text' ) . '</td>
@@ -196,7 +196,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<br /><div class="center">' . SubmitButton(_('Create Honor Roll by Subject for Selected Students')) . '</div>';
+		echo '<br /><div class="center">' . SubmitButton( _( 'Create Honor Roll by Subject for Selected Students' ) ) . '</div>';
 		echo '</form>';
 	}
 }

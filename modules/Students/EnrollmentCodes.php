@@ -98,10 +98,10 @@ if ( ! $_REQUEST['modfunc'] )
 	$link['remove']['variables'] = array('id' => _('ID'));
 
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
-	DrawHeader('',SubmitButton(_('Save')));
+	DrawHeader( '', SubmitButton() );
 
 	ListOutput($codes_RET,$columns,'Enrollment Code','Enrollment Codes',$link);
-	echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+	echo '<div class="center">' . SubmitButton() . '</div>';
 	echo '</form>';
 }
 

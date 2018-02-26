@@ -269,7 +269,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&tab_id='.$_REQUEST['tab_id'].'" method="POST">';
 
-	DrawHeader( CheckBoxOnclick( 'allow_edit', _( 'Edit' ) ), SubmitButton( _( 'Save' ) ) );
+	DrawHeader( CheckBoxOnclick( 'allow_edit', _( 'Edit' ) ), SubmitButton() );
 
 	echo '<br />';
 
@@ -280,7 +280,7 @@ if ( ! $_REQUEST['modfunc'] )
     else
         ListOutput($LO_ret,$LO_columns,'Assignment Type','Assignment Types',$link,array(),$LO_options);
 
-	echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+	echo '<div class="center">' . SubmitButton() . '</div>';
 	echo '</form>';
 }
 

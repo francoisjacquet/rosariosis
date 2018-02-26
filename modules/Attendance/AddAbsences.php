@@ -134,7 +134,7 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
-		DrawHeader('',SubmitButton(_('Add Absences to Selected Students')));
+		DrawHeader( '', SubmitButton( _( 'Add Absences to Selected Students' ) ) );
 
 		echo '<br />';
 
@@ -214,7 +214,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	Search('student_id',$extra);
 	if ( $_REQUEST['search_modfunc']=='list')
-		echo '<br /><div class="center">' . SubmitButton(_('Add Absences to Selected Students')) . '</div></form>';
+		echo '<br /><div class="center">' . SubmitButton( _( 'Add Absences to Selected Students' ) ) . '</div></form>';
 }
 
 function _makeChooseCheckbox($value,$title)

@@ -81,7 +81,7 @@ echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">
 echo '<table class="cellpadding-5">';
 echo '<tr><td><b>'._('From').'</b></td><td>'.SelectInput($START_DAY,'values[START_DAY]','',$day_options,false,'',false).'</td><td>'.SelectInput($START_HOUR,'values[START_HOUR]','',$hour_options,false,'',false).'</td><td><b>:</b></td><td>'.SelectInput($START_MINUTE,'values[START_MINUTE]','',$minute_options,false,'',false).'</td><td>'.SelectInput($START_M,'values[START_M]','',$m_options,false,'',false).'</td></tr>';
 echo '<tr><td><b>'._('To').'</b></td><td>'.SelectInput($END_DAY,'values[END_DAY]','',$day_options,false,'',false).'</td><td>'.SelectInput($END_HOUR,'values[END_HOUR]','',$hour_options,false,'',false).'</td><td><b>:</b></td><td>'.SelectInput($END_MINUTE,'values[END_MINUTE]','',$minute_options,false,'',false).'</td><td>'.SelectInput($END_M,'values[END_M]','',$m_options,false,'',false).'</td></tr>';
-echo '<tr><td colspan="6" class="center">'.SubmitButton(_('Save')).'</td></tr>';
+echo '<tr><td colspan="6" class="center">' . SubmitButton() . '</td></tr>';
 echo '</table>';
 echo '</form>';
 
