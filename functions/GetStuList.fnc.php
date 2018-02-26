@@ -1443,6 +1443,12 @@ function makePhotoTipMessage( $full_name, $column )
 
 	require_once 'ProgramFunctions/TipMessage.fnc.php';
 
+	if ( ! empty( $_REQUEST['LO_save'] )
+		|| isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
+		return $full_name;
+	}
+
 	if ( ! empty( $THIS_RET['STAFF_ID'] ) )
 	{
 		return MakeUserPhotoTipMessage( $THIS_RET['STAFF_ID'], $full_name );
