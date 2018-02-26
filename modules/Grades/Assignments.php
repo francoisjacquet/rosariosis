@@ -19,18 +19,8 @@ $_ROSARIO['allow_edit'] = true;
 //unset($_SESSION['_REQUEST_vars']['assignment_type_id']);
 //unset($_SESSION['_REQUEST_vars']['assignment_id']);
 
-if ( isset( $_POST['day_tables'], $_POST['month_tables'], $_POST['year_tables'] ) )
-{
-	$requested_dates = RequestedDates(
-		$_REQUEST['year_tables'],
-		$_REQUEST['month_tables'],
-		$_REQUEST['day_tables']
-	);
-
-	$_REQUEST['tables'] = array_replace_recursive( (array) $_REQUEST['tables'], $requested_dates );
-
-	$_POST['tables'] = array_replace_recursive( (array) $_POST['tables'], $requested_dates );
-}
+// Add eventual Dates to $_REQUEST['tables'].
+AddRequestedDates( 'tables', 'post' );
 
 if ( isset( $_POST['tables'] )
 	&& count( $_POST['tables'] ) )

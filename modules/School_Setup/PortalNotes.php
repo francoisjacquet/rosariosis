@@ -6,18 +6,7 @@ require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 DrawHeader( ProgramTitle() );
 
 // Add eventual Dates to $_REQUEST['values'].
-if ( isset( $_POST['day_values'], $_POST['month_values'], $_POST['year_values'] ) )
-{
-	$requested_dates = RequestedDates(
-		$_REQUEST['year_values'],
-		$_REQUEST['month_values'],
-		$_REQUEST['day_values']
-	);
-
-	$_REQUEST['values'] = array_replace_recursive( (array) $_REQUEST['values'], $requested_dates );
-
-	$_POST['values'] = array_replace_recursive( (array) $_POST['values'], $requested_dates );
-}
+AddRequestedDates( 'values', 'post' );
 
 $profiles_RET = DBGet(DBQuery("SELECT ID,TITLE FROM USER_PROFILES ORDER BY ID"));
 

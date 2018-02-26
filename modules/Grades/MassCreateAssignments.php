@@ -4,18 +4,8 @@ require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 
 DrawHeader( ProgramTitle() . ' - ' . GetMP( UserMP() ) );
 
-if ( isset( $_POST['day_tables'], $_POST['month_tables'], $_POST['year_tables'] ) )
-{
-	$requested_dates = RequestedDates(
-		$_REQUEST['year_tables'],
-		$_REQUEST['month_tables'],
-		$_REQUEST['day_tables']
-	);
-
-	$_REQUEST['tables'] = array_replace_recursive( (array) $_REQUEST['tables'], $requested_dates );
-
-	$_POST['tables'] = array_replace_recursive( (array) $_POST['tables'], $requested_dates );
-}
+// Add eventual Dates to $_REQUEST['tables'].
+AddRequestedDates( 'tables', 'post' );
 
 // TODO: add Warning before create!!
 if ( isset( $_POST['tables'] )

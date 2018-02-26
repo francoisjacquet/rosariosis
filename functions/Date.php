@@ -545,7 +545,7 @@ function RequestedDate( $year, $month, $day )
 /**
  * Get dates requested by User
  *
- * Calls RequestedDate() function
+ * @uses RequestedDate() function
  * Recursive function
  *
  * @since 2.9
@@ -584,6 +584,52 @@ function RequestedDates( $year_array, $month_array, $day_array )
 	}
 
 	return $return;
+}
+
+
+/**
+ * Add dates requested by User
+ * to the $_REQUEST (and $_POST) array index specified.
+ *
+ * @since 3.8
+ *
+ * @example AddRequestedDates( 'values', 'post' );
+ *
+ * @uses RequestedDates() function
+ *
+ * @param string $request_index $_REQUEST array index where we add requested dates.
+ * @param string $add_to_post   Add to $_POST array too. Defaults to '' (optional).
+ */
+function AddRequestedDates( $request_index, $add_to_post = '' )
+{
+	if ( ! $request_index
+		|| ! isset(
+			$_REQUEST[ 'day_' . $request_index ],
+			$_REQUEST[ 'month_' . $request_index ],
+			$_REQUEST[ 'year_' . $request_index ]
+		) )
+	{
+		return;
+	}
+
+	$requested_dates = RequestedDates(
+		$_REQUEST[ 'year_' . $request_index ],
+		$_REQUEST[ 'month_' . $request_index ],
+		$_REQUEST[ 'day_' . $request_index ]
+	);
+
+	$_REQUEST[ $request_index ] = array_replace_recursive(
+		(array) $_REQUEST[ $request_index ],
+		(array) $requested_dates
+	);
+
+	if ( $add_to_post === 'post' )
+	{
+		$_POST[ $request_index ] = array_replace_recursive(
+			(array) $_POST[ $request_index ],
+			(array) $requested_dates
+		);
+	}
 }
 
 

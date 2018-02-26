@@ -4,16 +4,8 @@ DrawHeader( ProgramTitle() );
 
 if ( $_REQUEST['modfunc'] === 'update' )
 {
-	if ( isset( $_REQUEST['day_values'], $_REQUEST['month_values'], $_REQUEST['year_values'] ) )
-	{
-		$requested_dates = RequestedDates(
-			$_REQUEST['year_values'],
-			$_REQUEST['month_values'],
-			$_REQUEST['day_values']
-		);
-
-		$_REQUEST['values'] = array_replace_recursive( (array) $_REQUEST['values'], $requested_dates );
-	}
+	// Add eventual Dates to $_REQUEST['values'].
+	AddRequestedDates( 'values' );
 
 	foreach ( (array) $_REQUEST['values'] as $id => $columns )
 	{

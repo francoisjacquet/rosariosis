@@ -52,44 +52,17 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 		}
 	}
 
-
 	// Format & Verify begin dates.
-	$cust_begin = array();
+	AddRequestedDates( 'cust_begin' );
 
-	if ( isset( $_REQUEST['day_cust_begin'], $_REQUEST['month_cust_begin'], $_REQUEST['year_cust_begin'] ) )
-	{
-		$cust_begin = RequestedDates(
-			$_REQUEST['year_cust_begin'],
-			$_REQUEST['month_cust_begin'],
-			$_REQUEST['day_cust_begin']
-		);
-	}
-
-	if ( isset( $_REQUEST['cust_begin'] ) )
-	{
-		// Add begin Number.
-		$cust_begin += (array) $_REQUEST['cust_begin'];
-	}
-
+	// Add begin dates and begin Number.
+	$cust_begin = $_REQUEST['cust_begin'];
 
 	// Format & Verify end dates.
-	$cust_end = array();
+	AddRequestedDates( 'cust_end' );
 
-	if ( isset( $_REQUEST['day_cust_end'], $_REQUEST['month_cust_end'], $_REQUEST['year_cust_end'] ) )
-	{
-		$cust_end = RequestedDates(
-			$_REQUEST['year_cust_end'],
-			$_REQUEST['month_cust_end'],
-			$_REQUEST['day_cust_end']
-		);
-	}
-
-	if ( isset( $_REQUEST['cust_end'] ) )
-	{
-		// Add end Number.
-		$cust_end += (array) $_REQUEST['cust_end'];
-	}
-
+	// Add end dates and end Number.
+	$cust_end = $_REQUEST['cust_end'];
 
 	// Get custom (staff) fields.
 	if ( count( $cust )

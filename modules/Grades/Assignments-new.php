@@ -4,18 +4,8 @@ DrawHeader( ProgramTitle() );
 
 $_ROSARIO['allow_edit'] = ( $_REQUEST['allow_edit'] === 'Y' );
 
-if ( isset( $_POST['day_values'], $_POST['month_values'], $_POST['year_values'] ) )
-{
-	$requested_dates = RequestedDates(
-		$_REQUEST['year_values'],
-		$_REQUEST['month_values'],
-		$_REQUEST['day_values']
-	);
-
-	$_REQUEST['values'] = array_replace_recursive( (array) $_REQUEST['values'], $requested_dates );
-
-	$_POST['values'] = array_replace_recursive( (array) $_POST['values'], $requested_dates );
-}
+// Add eventual Dates to $_REQUEST['values'].
+AddRequestedDates( 'values', 'post' );
 
 if ( $_REQUEST['modfunc'] === 'update' )
 {

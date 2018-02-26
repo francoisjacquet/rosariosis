@@ -25,6 +25,7 @@ Changes in 3.8-beta2
 - CSS, HTML & PHP add AttendanceCodesTipMessage() & MakeAttendanceCode() & color codes classes in AttendanceCodes.fnc.php, DailySummary.php, stylesheet.css & colors.css
 - CSS & HTML use attendance-code colors classes in TakeAttendance.php
 - CSS add .proper-date class in Date.php & stylesheet.css
+- Add AddRequestedDates() function in Date.php & use programwide
 
 Changes in 3.7.1
 ----------------

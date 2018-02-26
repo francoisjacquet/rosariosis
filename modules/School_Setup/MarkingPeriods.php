@@ -36,20 +36,10 @@ if ( $_REQUEST['marking_period_id'] === 'new' )
 	}
 }
 
+// Add eventual Dates to $_REQUEST['tables'].
+AddRequestedDates( 'tables', 'post' );
+
 // UPDATING
-if ( isset( $_POST['day_tables'], $_POST['month_tables'], $_POST['year_tables'] ) )
-{
-	$requested_dates = RequestedDates(
-		$_REQUEST['year_tables'],
-		$_REQUEST['month_tables'],
-		$_REQUEST['day_tables']
-	);
-
-	$_POST['tables'] = array_replace_recursive( (array) $_POST['tables'], $requested_dates );
-
-	$_REQUEST['tables'] = array_replace_recursive( (array) $_REQUEST['tables'], $requested_dates );
-}
-
 if ( isset( $_POST['tables'] )
 	&& count( $_POST['tables'] )
 	&& AllowEdit() )

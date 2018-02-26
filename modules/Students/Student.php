@@ -83,18 +83,8 @@ if ( User( 'PROFILE' ) !== 'admin' )
 if ( $_REQUEST['modfunc'] === 'update'
 	&& AllowEdit() )
 {
-	if ( isset( $_POST['day_students'], $_POST['month_students'], $_POST['year_students'] ) )
-	{
-		$requested_dates = RequestedDates(
-			$_REQUEST['year_students'],
-			$_REQUEST['month_students'],
-			$_REQUEST['day_students']
-		);
-
-		$_REQUEST['students'] = array_replace_recursive( (array) $_REQUEST['students'], $requested_dates );
-
-		$_POST['students'] = array_replace_recursive( (array) $_POST['students'], $requested_dates );
-	}
+	// Add eventual Dates to $_REQUEST['students'].
+	AddRequestedDates( 'students', 'post' );
 
 	if ( ( isset( $_POST['students'] )
 			&& count( $_POST['students'] ) )

@@ -47,6 +47,7 @@ else
 		$date = $_REQUEST['year_date'] . '-' . $_REQUEST['month_date'] . '-' . $_REQUEST['day_date'];
 	}
 }
+
 $_SESSION['_REQUEST_vars']['modfunc'] = false;
 
 Widgets('course');
@@ -54,25 +55,8 @@ Widgets('request');
 
 Search('student_id',$extra);
 
-if ( isset( $_POST['day_schedule'], $_POST['month_schedule'], $_POST['year_schedule'] ) )
-{
-	$requested_dates = RequestedDates(
-		$_REQUEST['year_schedule'],
-		$_REQUEST['month_schedule'],
-		$_REQUEST['day_schedule']
-	);
-
-	$_REQUEST['schedule'] = array_replace_recursive( (array) $_REQUEST['schedule'], $requested_dates );
-
-	$_POST['schedule'] = array_replace_recursive( (array) $_POST['schedule'], $requested_dates );
-
-	unset($_REQUEST['month_schedule']);
-	unset($_REQUEST['day_schedule']);
-	unset($_REQUEST['year_schedule']);
-	unset($_SESSION['_REQUEST_vars']['month_schedule']);
-	unset($_SESSION['_REQUEST_vars']['day_schedule']);
-	unset($_SESSION['_REQUEST_vars']['year_schedule']);
-}
+// Add eventual Dates to $_REQUEST['schedule'].
+AddRequestedDates( 'schedule', 'post' );
 
 if ( $_REQUEST['modfunc'] === 'modify'
 	&& isset( $_REQUEST['schedule'] )

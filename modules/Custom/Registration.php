@@ -44,17 +44,8 @@ if ( isset( $_SESSION['STUDENT_ID'] )
 	$is_student = true;
 }
 
-// Requested Dates.
-if ( isset( $_REQUEST['year_students'] )
-	&& isset( $_REQUEST['month_students'] )
-	&& isset( $_REQUEST['day_students'] ) )
-{
-	$_REQUEST['students'] = RequestedDates(
-		$_REQUEST['year_students'],
-		$_REQUEST['month_students'],
-		$_REQUEST['day_students']
-	);
-}
+// Add eventual Dates to $_REQUEST['students'].
+AddRequestedDates( 'students' );
 
 // FJ textarea fields MarkDown sanitize.
 $_REQUEST['students'] = FilterCustomFieldsMarkdown( 'CUSTOM_FIELDS', 'students' );

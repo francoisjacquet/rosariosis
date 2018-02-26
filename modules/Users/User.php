@@ -72,18 +72,8 @@ if ( User( 'PROFILE' ) !== 'admin' )
 if ( $_REQUEST['modfunc'] === 'update'
 	&& AllowEdit() )
 {
-	if ( isset( $_POST['day_staff'], $_POST['month_staff'], $_POST['year_staff'] ) )
-	{
-		$requested_dates = RequestedDates(
-			$_REQUEST['year_staff'],
-			$_REQUEST['month_staff'],
-			$_REQUEST['day_staff']
-		);
-
-		$_REQUEST['staff'] = array_replace_recursive( (array) $_REQUEST['staff'], $requested_dates );
-
-		$_POST['staff'] = array_replace_recursive( (array) $_POST['staff'], $requested_dates );
-	}
+	// Add eventual Dates to $_REQUEST['staff'].
+	AddRequestedDates( 'staff', 'post' );
 
 	if ( isset( $_REQUEST['staff']['SCHOOLS'] ) )
 	{
