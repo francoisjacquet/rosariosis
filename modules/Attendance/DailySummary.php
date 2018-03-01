@@ -190,14 +190,16 @@ if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')==
 
 	echo '</form>';
 
-	if ( UserStudentID() )
+	if ( ! UserStudentID() && ! empty( $_REQUEST['period_id'] ) )
 	{
+		$has_edit_form = true;
+
 		echo '<form action="' . PreparePHP_SELF() . '" method="POST">';
 	}
 
 	DrawHeader(
 		( empty( $_REQUEST['period_id'] ) ? '' : AttendanceCodesTipMessage() ),
-		( UserStudentID() || empty( $_REQUEST['period_id'] ) ? '' : SubmitButton() )
+		( ! empty( $has_edit_form ) ? SubmitButton() : '' )
 	);
 }
 
@@ -381,9 +383,12 @@ else
 
 	Search( 'student_id', $extra );
 
-	echo '<br /><div class="center">' . SubmitButton() . '</div>';
+	if ( ! empty( $has_edit_form ) ) {
 
-	echo '</form>';
+		echo '<br /><div class="center">' . SubmitButton() . '</div>';
+
+		echo '</form>';
+	}
 }
 
 function _makeColor( $value, $column )
