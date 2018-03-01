@@ -50,8 +50,9 @@ function DeletePrompt( $title, $action = 'Delete', $remove_modfunc_on_cancel = t
 		echo '<br /><div class="center">' . button( 'warning', '', '', 'bigger' ) .
 			'<h4>' .	sprintf( _( 'Are you sure you want to %s that %s?' ), $action, $title ) . '</h4>
 			<form action="' . $PHP_tmp_SELF . '" method="POST">' .
-				SubmitButton( _( 'OK' ), 'delete_ok' ) .
-				'<input type="button" name="delete_cancel" value="' . _( 'Cancel' ) . '" onclick="ajaxLink(\'' . $PHP_tmp_SELF_cancel . '\');" />
+				SubmitButton( _( 'OK' ), 'delete_ok', '' ) .
+				'<input type="button" name="delete_cancel" class="button-primary" value="' . _( 'Cancel' ) . '"
+					onclick="ajaxLink(\'' . $PHP_tmp_SELF_cancel . '\');" />
 			</form>
 		</div><br />';
 
