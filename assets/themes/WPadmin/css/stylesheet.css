@@ -968,6 +968,9 @@ td.calendar-menu{
 .attendance-code {
 	display: inline-block;
 	padding: 2px 8px;
+	/* One letter codes: same width */
+	min-width: 10px;
+	text-align: center;
 }
 
 /*arrows*/

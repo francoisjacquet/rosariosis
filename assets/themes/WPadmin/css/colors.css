@@ -256,7 +256,7 @@ hr{
 }
 
 .attendance-code.present {
-	background-color: #00FF00; /* Green */
+	background-color: #20DD30; /* Green */
 }
 .attendance-code.absent {
 	background-color: #FF0000; /* Red */
