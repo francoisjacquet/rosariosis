@@ -81,19 +81,17 @@ if ( isset( $_POST['tables'] )
 				|| ! is_array( $_REQUEST['c_arr'] ) )
 			{
 				$error[] = _( 'You must choose a course.' );
-
-				$c_list = "''";
 			}
 			else
 			{
 				$c_list = "'" . implode( "','", $_REQUEST['c_arr'] ) . "'";
+
+				$assignment_courses_teachers_RET = DBGet( DBQuery( "SELECT DISTINCT COURSE_ID,TEACHER_ID
+				FROM COURSE_PERIODS
+				WHERE COURSE_ID IN (" . $c_list . ")" ), array(), array( 'COURSE_ID' ) );
 			}
 
 			$fields = "ASSIGNMENT_TYPE_ID,"; // COURSE_ID,STAFF_ID added for each Course below.
-
-			$assignment_courses_teachers_RET = DBGet( DBQuery( "SELECT DISTINCT COURSE_ID,TEACHER_ID
-			FROM COURSE_PERIODS
-			WHERE COURSE_ID IN (" . $c_list . ")" ), array(), array( 'COURSE_ID' ) );
 
 			$values = db_seq_nextval( 'GRADEBOOK_ASSIGNMENT_TYPES_SEQ' ) . ",";
 		}

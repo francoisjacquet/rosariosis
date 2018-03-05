@@ -29,6 +29,7 @@ Changes in 3.8-beta2
 - Add CSS .button-primary class to submit buttons in Buttons.php
 - SubmitButton() $value parameter is optional i Buttons.php & programwide
 - CSS accessibility color contrast: darker text & .legend-gray in colors.css
+- Fix SQL error when no Courses selected in MassCreateAssignments.php
 
 Changes in 3.7.1
 ----------------
