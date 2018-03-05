@@ -86,7 +86,7 @@ input[type="submit"]:active, input[type="reset"]:active, input[type="button"]:ac
 input.button-primary,
 button.button-primary,
 a.button-primary{
-	border-color: #298cba;
+	border-color: #15556b;
 	font-weight:bold;
 	color: #fff;
 	background: #21759B url(button-grad.png) repeat-x scroll left top;
@@ -103,7 +103,7 @@ a.button-primary:hover,
 input.button-primary:focus,
 button.button-primary:focus,
 a.button-primary:focus {
-	border-color: #13455b;
+	border-color: #10354b;
 	color: #fff;
 }
 
