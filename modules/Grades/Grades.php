@@ -21,9 +21,9 @@ $max_allowed = ( $gradebook_config['ANOMALOUS_MAX'] ? $gradebook_config['ANOMALO
 
 if ( $_REQUEST['student_id'])
 {
-	if ( $_REQUEST['student_id']!=UserStudentID())
+	if ( $_REQUEST['student_id'] !== UserStudentID() )
 	{
-		SetUserStudentID($_REQUEST['student_id']);
+		SetUserStudentID( $_REQUEST['student_id'] );
 
 		//FJ bugfix SQL bug course period
 		/*if ( $_REQUEST['period'] && $_REQUEST['period']!=UserCoursePeriod())
@@ -37,25 +37,22 @@ if ( $_REQUEST['student_id'])
 		}
 	}
 }
-else
+elseif ( UserStudentID() )
 {
-	if (UserStudentID())
+	unset( $_SESSION['student_id'] );
+	//FJ bugfix SQL bug course period
+	/*if ( $_REQUEST['period'] && $_REQUEST['period']!=UserCoursePeriod())
+		$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];*/
+	if ( $_REQUEST['period'] )
 	{
-		unset($_SESSION['student_id']);
-		//FJ bugfix SQL bug course period
-		/*if ( $_REQUEST['period'] && $_REQUEST['period']!=UserCoursePeriod())
-			$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];*/
-		if ( $_REQUEST['period'])
-		{
-			list($CoursePeriod, $CoursePeriodSchoolPeriod) = explode('.', $_REQUEST['period']);
+		list($CoursePeriod, $CoursePeriodSchoolPeriod) = explode('.', $_REQUEST['period']);
 
-			if ( $CoursePeriod!=UserCoursePeriod())
-				$_SESSION['UserCoursePeriod'] = $CoursePeriod;
-		}
+		if ( $CoursePeriod!=UserCoursePeriod())
+			$_SESSION['UserCoursePeriod'] = $CoursePeriod;
 	}
 }
 
-if ( $_REQUEST['period'])
+if ( $_REQUEST['period'] )
 {
 	//FJ bugfix SQL bug course period
 	/*if ( $_REQUEST['period']!=UserCoursePeriod())
@@ -125,8 +122,9 @@ if ( UserStudentID()
 
 if ( $_REQUEST['values']
 	&& $_POST['values']
-	&& $_SESSION['type_id'] === $_REQUEST['type_id']
-	&& $_SESSION['assignment_id'] === $_REQUEST['assignment_id'] )
+	// Fix use weak comparison "==" operator as $_SESSION['type_id'] maybe null.
+	&& $_SESSION['type_id'] == $_REQUEST['type_id']
+	&& $_SESSION['assignment_id'] == $_REQUEST['assignment_id'] )
 {
 	include 'ProgramFunctions/_makePercentGrade.fnc.php';
 
@@ -468,7 +466,9 @@ foreach ( (array) $assignments_RET as $id => $assignment)
 	$assignment_select .= '<option value="'.$id.'"'.($_REQUEST['assignment_id']==$id?' selected':'').'>'.($_REQUEST['type_id']?'':$types_RET[$assignment[1]['ASSIGNMENT_TYPE_ID']][1]['TITLE'].' - ').$assignment[1]['TITLE'].'</option>';
 $assignment_select .= '</select>';
 
-echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&student_id='.UserStudentID().'" method="POST">';
+// echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&student_id='.UserStudentID().'" method="POST">';
+
+echo '<form action="' . PreparePHP_SELF() . '" method="POST">';
 
 $tabs = array( array(
 	'title' => _( 'All' ),

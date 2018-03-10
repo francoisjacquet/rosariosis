@@ -30,6 +30,7 @@ Changes in 3.8-beta2
 - SubmitButton() $value parameter is optional i Buttons.php & programwide
 - CSS accessibility color contrast: darker text & .legend-gray in colors.css
 - Fix SQL error when no Courses selected in MassCreateAssignments.php
+- Fix #234 Grades not saved after ordering list, thanks to @abogadeer
 
 Changes in 3.7.1
 ----------------
