@@ -31,6 +31,7 @@ Changes in 3.8-beta2
 - CSS accessibility color contrast: darker text & .legend-gray in colors.css
 - Fix SQL error when no Courses selected in MassCreateAssignments.php
 - Fix #234 Grades not saved after ordering list, thanks to @abogadeer
+- Remove tabindex from Points and Comment input fields in Grades.php
 
 Changes in 3.7.1
 ----------------

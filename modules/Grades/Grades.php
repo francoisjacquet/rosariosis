@@ -248,7 +248,11 @@ if (UserStudentID())
 	}
 
 	$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&include_all='.$_REQUEST['include_all'];
-	$link['TITLE']['variables'] = array('type_id' => 'ASSIGNMENT_TYPE_ID','assignment_id' => 'ASSIGNMENT_ID');
+
+	$link['TITLE']['variables'] = array(
+		'type_id' => 'ASSIGNMENT_TYPE_ID',
+		'assignment_id' => 'ASSIGNMENT_ID',
+	);
 
 	$current_RET[UserStudentID()] = DBGet(DBQuery("SELECT g.ASSIGNMENT_ID
 	FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a
@@ -272,7 +276,9 @@ if (UserStudentID())
 	if ( ! $_REQUEST['type_id'])
 	{
 		$extra['SELECT'] .= ',(SELECT TITLE FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID) AS TYPE_TITLE';
+
 		$link['TYPE_TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&include_all='.$_REQUEST['include_all'];
+
 		$link['TYPE_TITLE']['variables'] = array('type_id' => 'ASSIGNMENT_TYPE_ID');
 	}
 
@@ -459,11 +465,21 @@ $assignment_select .= '<option value="all"' . ( ( $_REQUEST['assignment_id'] ===
 	_( 'All' ) .
 '</option>';
 
-if (UserStudentID() && $_REQUEST['assignment_id']=='all')
-	$assignment_select .= '<option value="all" selected>'.$stu_RET[1]['FULL_NAME'].'</option>';
+if ( UserStudentID() && $_REQUEST['assignment_id'] === 'all' )
+{
+	$assignment_select .= '<option value="all" selected>' . $stu_RET[1]['FULL_NAME'] . '</option>';
+}
 
 foreach ( (array) $assignments_RET as $id => $assignment)
-	$assignment_select .= '<option value="'.$id.'"'.($_REQUEST['assignment_id']==$id?' selected':'').'>'.($_REQUEST['type_id']?'':$types_RET[$assignment[1]['ASSIGNMENT_TYPE_ID']][1]['TITLE'].' - ').$assignment[1]['TITLE'].'</option>';
+{
+	$assignment_select .= '<option value="' . $id . '"' .
+		( $_REQUEST['assignment_id'] == $id ? ' selected' : '' ) . '>' .
+		( $_REQUEST['type_id'] ?
+			'' :
+			$types_RET[ $assignment[1]['ASSIGNMENT_TYPE_ID'] ][1]['TITLE'] . ' - ' ) .
+		$assignment[1]['TITLE'] . '</option>';
+}
+
 $assignment_select .= '</select>';
 
 // echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&student_id='.UserStudentID().'" method="POST">';
@@ -488,7 +504,10 @@ foreach ( (array) $types_RET as $id => $type )
 	);
 }
 
-DrawHeader($type_select.$assignment_select,$_REQUEST['assignment_id']?SubmitButton():'');
+DrawHeader(
+	$type_select . $assignment_select,
+	$_REQUEST['assignment_id'] ? SubmitButton() : ''
+);
 
 DrawHeader(
 	CheckBoxOnclick(
@@ -510,14 +529,46 @@ if ( $_REQUEST['assignment_id'] && $_REQUEST['assignment_id']!='all')
 	DrawHeader('<b>'._('Assigned Date').':</b> '.($assigned_date ? ProperDate($assigned_date) : _('N/A')).', <b>'._('Due Date').':</b> '.($due_date ? ProperDate($due_date) : _('N/A')).($due ? ' - <b>'._('Assignment is Due').'</b>' : ''));
 }
 
-$LO_options['header'] = WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&type_id='.($_REQUEST['type_id']?$_REQUEST['type_id']:($_REQUEST['assignment_id'] && $_REQUEST['assignment_id']!='all'?$assignments_RET[$_REQUEST['assignment_id']][1]['ASSIGNMENT_TYPE_ID']:'')).($_REQUEST['assignment_id']=='all'?'&assignment_id=all':'').(UserStudentID()?'&student_id='.UserStudentID():'').'&include_inactive='.$_REQUEST['include_inactive'].'&include_all='.$_REQUEST['include_all']);
+$LO_options['header'] = WrapTabs(
+	$tabs,
+	'Modules.php?modname=' . $_REQUEST['modname'] . '&type_id=' .
+	( $_REQUEST['type_id'] ?
+		$_REQUEST['type_id'] :
+		( $_REQUEST['assignment_id'] && $_REQUEST['assignment_id'] != 'all'?
+			$assignments_RET[ $_REQUEST['assignment_id'] ][1]['ASSIGNMENT_TYPE_ID'] :
+			'' )
+	) .
+	( $_REQUEST['assignment_id'] == 'all' ? '&assignment_id=all' : '' ) .
+	( UserStudentID() ? '&student_id=' . UserStudentID() : '' ) .
+	'&include_inactive=' . $_REQUEST['include_inactive'] . '&include_all=' . $_REQUEST['include_all']
+);
 
 echo '<br />';
 
-if (UserStudentID())
-	ListOutput($stu_RET,$LO_columns,'Assignment','Assignments',$link,array(),$LO_options);
+if ( UserStudentID() )
+{
+	ListOutput(
+		$stu_RET,
+		$LO_columns,
+		'Assignment',
+		'Assignments',
+		$link,
+		array(),
+		$LO_options
+	);
+}
 else
-	ListOutput($stu_RET,$LO_columns,'Student','Students',$link,array(),$LO_options);
+{
+	ListOutput(
+		$stu_RET,
+		$LO_columns,
+		'Student',
+		'Students',
+		$link,
+		array(),
+		$LO_options
+	);
+}
 
 echo $_REQUEST['assignment_id']?'<br /><div class="center">' . SubmitButton() . '</div>':'';
 echo '</form>';
@@ -552,14 +603,21 @@ function _makeTipMessage( $full_name, $column )
 }
 
 
-function _makeExtraAssnCols($assignment_id,$column)
-{	global $THIS_RET,$assignments_RET,$current_RET,$points_RET,$tabindex,$max_allowed,$total,$gradebook_config;
+function _makeExtraAssnCols( $assignment_id, $column )
+{
+	global $THIS_RET,
+		$assignments_RET,
+		$current_RET,
+		$points_RET,
+		$max_allowed,
+		$total,
+		$gradebook_config;
 
 	switch ( $column)
 	{
 		case 'POINTS':
-			$tabindex++;
-			if ( ! $assignment_id)
+
+			if ( ! $assignment_id )
 			{
 				$total = $total_points = 0;
 				//FJ default points
@@ -607,7 +665,7 @@ function _makeExtraAssnCols($assignment_id,$column)
 							$points,
 							'values[' . $THIS_RET['STUDENT_ID'] . '][' . $assignment_id . '][POINTS]',
 							'',
-							' size=2 maxlength=7 tabindex=' . $tabindex,
+							' size=2 maxlength=7',
 							$div
 						) . '</span>
 						<span>&nbsp;/&nbsp;' . $total_points . '</span>';
@@ -695,7 +753,12 @@ function _makeExtraAssnCols($assignment_id,$column)
 			{
 				if ( $_REQUEST['include_all'] || ($current_RET[$THIS_RET['STUDENT_ID']][ $assignment_id ][1]['POINTS']!='' || ! $assignments_RET[ $assignment_id ][1]['DUE_EPOCH'] || $assignments_RET[ $assignment_id ][1]['DUE_EPOCH']>=$THIS_RET['START_EPOCH'] && (! $THIS_RET['END_EPOCH'] || $assignments_RET[ $assignment_id ][1]['DUE_EPOCH']<=$THIS_RET['END_EPOCH'])))
 				{
-					return TextInput($current_RET[$THIS_RET['STUDENT_ID']][ $assignment_id ][1]['COMMENT'],'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][COMMENT]','',' maxlength=100 tabindex='.(500+$tabindex));
+					return TextInput(
+						$current_RET[ $THIS_RET['STUDENT_ID'] ][ $assignment_id ][1]['COMMENT'],
+						'values[' . $THIS_RET['STUDENT_ID'] . '][' . $assignment_id . '][COMMENT]',
+						'',
+						' maxlength=100'
+					);
 				}
 			}
 		break;
@@ -703,8 +766,13 @@ function _makeExtraAssnCols($assignment_id,$column)
 
 }
 
-function _makeExtraStuCols($value,$column)
-{	global $THIS_RET,$assignments_RET,$assignment_count,$count_assignments,$max_allowed;
+function _makeExtraStuCols( $value, $column )
+{
+	global $THIS_RET,
+		$assignments_RET,
+		$assignment_count,
+		$count_assignments,
+		$max_allowed;
 
 	//FJ default points
 	if (is_null($THIS_RET['POINTS']))
@@ -714,7 +782,6 @@ function _makeExtraStuCols($value,$column)
 	{
 		case 'POINTS':
 			$assignment_count++;
-			$tabindex = $assignment_count;
 
 			//FJ default points
 			$div = true;
@@ -735,7 +802,7 @@ function _makeExtraStuCols($value,$column)
 					$value,
 					'values[' . $THIS_RET['STUDENT_ID'] . '][' . $THIS_RET['ASSIGNMENT_ID'] . '][POINTS]',
 					'',
-					' size=2 maxlength=7 tabindex=' . $tabindex,
+					' size=2 maxlength=7',
 					$div
 				) . '</span>
 				<span>&nbsp;/&nbsp;' . $THIS_RET['TOTAL_POINTS'] . '</span>';
@@ -766,9 +833,13 @@ function _makeExtraStuCols($value,$column)
 		break;
 
 		case 'COMMENT':
-			$tabindex += $count_assignments;
 
-			return TextInput($value,'values['.$THIS_RET['STUDENT_ID'].']['.$THIS_RET['ASSIGNMENT_ID'].'][COMMENT]','',' maxlength=100 tabindex='.$tabindex);
+			return TextInput(
+				$value,
+				'values[' . $THIS_RET['STUDENT_ID'] . '][' . $THIS_RET['ASSIGNMENT_ID'] . '][COMMENT]',
+				'',
+				' maxlength=100'
+			);
 		break;
 	}
 }
@@ -780,18 +851,15 @@ function _makeExtraCols( $assignment_id, $column )
 		$current_RET,
 		$old_student_id,
 		$student_count,
-		$tabindex,
 		$count_students,
 		$max_allowed;
 
 	if ( $THIS_RET['STUDENT_ID']!=$old_student_id)
 	{
 		$student_count++;
-		$tabindex=$student_count;
+
 		$old_student_id = $THIS_RET['STUDENT_ID'];
 	}
-	else
-		$tabindex += $count_students;
 
 	$total_points = $assignments_RET[ $assignment_id ][1]['POINTS'];
 
@@ -826,7 +894,7 @@ function _makeExtraCols( $assignment_id, $column )
 						$points,
 						'values[' . $THIS_RET['STUDENT_ID'] . '][' . $assignment_id . '][POINTS]',
 						'',
-						' size=2 maxlength=7 tabindex=' . $tabindex,
+						' size=2 maxlength=7',
 						$div
 					) . '</span>
 					<span>&nbsp;/&nbsp;' . $total_points .
@@ -850,7 +918,7 @@ function _makeExtraCols( $assignment_id, $column )
 					$points,
 					'values[' . $THIS_RET['STUDENT_ID'] . '][' . $assignment_id . '][POINTS]',
 					'',
-					' size=2 maxlength=7 tabindex=' . $tabindex,
+					' size=2 maxlength=7',
 					$div
 				) . '</span>
 				<span>&nbsp;/&nbsp;' . $total_points . '&nbsp;&minus;&nbsp;' . _( 'N/A' ) . '</span>';
@@ -862,7 +930,7 @@ function _makeExtraCols( $assignment_id, $column )
 				$points,
 				'values[' . $THIS_RET['STUDENT_ID'] . '][' . $assignment_id . '][POINTS]',
 				'',
-				' size=2 maxlength=7 tabindex=' . $tabindex,
+				' size=2 maxlength=7',
 				$div
 			) . '</span>
 			<span>&nbsp;/&nbsp;' . $total_points . '&nbsp;&minus;&nbsp;' . _( 'E/C' ) . '</span>';
