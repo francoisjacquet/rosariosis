@@ -338,28 +338,44 @@ if ( $_REQUEST['tables']
 							else
 								$marking_period_id = $current[1]['MARKING_PERIOD_ID'];
 
-							if ( $columns['SHORT_NAME'])
+							if ( $columns['SHORT_NAME'] )
+							{
 								$short_name = $columns['SHORT_NAME'];
+							}
 							else
+							{
 								$short_name = $current[1]['SHORT_NAME'];
+							}
 
 							$mp_title = '';
-							if (GetMP($marking_period_id,'MP')!='FY')
-								$mp_title = GetMP($marking_period_id,'SHORT_NAME').' - ';
+
+							if ( GetMP( $marking_period_id, 'MP' ) != 'FY' )
+							{
+								$mp_title = GetMP( $marking_period_id, 'SHORT_NAME' ) . ' - ';
+							}
 
 							$base_title = $mp_title . $short_name . ' - ';
 
-							//$base_title = str_replace("'","''",$base_title.$teacher[1]['FIRST_NAME'].' '.$teacher[1]['MIDDLE_NAME'].' '.$teacher[1]['LAST_NAME']);
-							//FJ remove teacher's middle name to gain space
+							// $base_title = str_replace("'","''",$base_title.$teacher[1]['FIRST_NAME'].' '.$teacher[1]['MIDDLE_NAME'].' '.$teacher[1]['LAST_NAME']);
+							// FJ remove teacher's middle name to gain space.
 							$base_title = DBEscapeString( $base_title . GetTeacher( $staff_id ) );
 
 							$periods_title = '';
-							//get the missing part of the title before the short name:
-							$base_title_pos = mb_strpos($current[1]['TITLE'], (GetMP($current[1]['MARKING_PERIOD_ID'],'MP')!='FY' ? GetMP($current[1]['MARKING_PERIOD_ID'],'SHORT_NAME') : $current[1]['SHORT_NAME']));
-							if ( $base_title_pos!= 0)
-								$periods_title = mb_substr($current[1]['TITLE'],0,$base_title_pos);
 
-							$sql .= "TITLE='".$periods_title.$base_title."',";
+							// Get missing part of the title before short name:
+							$base_title_pos = mb_strpos(
+								$current[1]['TITLE'],
+								( GetMP( $current[1]['MARKING_PERIOD_ID'], 'MP' ) !== 'FY' ?
+									GetMP( $current[1]['MARKING_PERIOD_ID'], 'SHORT_NAME' ) :
+									$current[1]['SHORT_NAME'] )
+							);
+
+							if ( $base_title_pos != 0 )
+							{
+								$periods_title = mb_substr( $current[1]['TITLE'], 0, $base_title_pos );
+							}
+
+							$sql .= "TITLE='" . $periods_title . $base_title . "',";
 
 							if (isset($columns['MARKING_PERIOD_ID']))
 							{
