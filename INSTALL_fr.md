@@ -125,9 +125,11 @@ Installer [wkhtmltopdf](http://wkhtmltopdf.org/)
 ------------------------------------------------
 
 Instructions d'installation pour Ubuntu 16.04:
-    `server$ wget https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.4/wkhtmltox-0.12.4_linux-generic-amd64.tar.xz`
-    `server$ sudo tar --directory=/opt -xvf wkhtmltox-0.12.4_linux-generic-amd64.tar.xz`
-    `server$ export PATH=$PATH:/opt/wkhtmltox/bin`
+```
+server$ wget https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.4/wkhtmltox-0.12.4_linux-generic-amd64.tar.xz
+server$ sudo tar --directory=/opt -xvf wkhtmltox-0.12.4_linux-generic-amd64.tar.xz
+server$ export PATH=$PATH:/opt/wkhtmltox/bin
+```
 
 Définir le chemin dans `config.inc.php`:
 
