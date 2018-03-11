@@ -15,10 +15,11 @@
  *
  * @param array  $state_code Attendance State code.
  * @param string $name       Name or HTML to display. Defaults to localized attendance code.
+ * @param string $title      Title attribute. Defaults to localized attendance code.
  *
  * @return string Attendance code HMTL.
  */
-function MakeAttendanceCode( $state_code, $name = '' )
+function MakeAttendanceCode( $state_code, $name = '', $title = '' )
 {
 	if ( empty( $state_code ) )
 	{
@@ -57,7 +58,10 @@ function MakeAttendanceCode( $state_code, $name = '' )
 		$state_code = '0.5';
 	}
 
-	$title = $attendance_codes_locale[ $state_code ];
+	if ( $title === '' )
+	{
+		$title = $attendance_codes_locale[ $state_code ];
+	}
 
 	$class .= ' ' . $attendance_code_classes[ $state_code ];
 

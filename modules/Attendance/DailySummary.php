@@ -253,7 +253,7 @@ if ( $_REQUEST['student_id'] || User( 'PROFILE' ) === 'parent' )
 
 		$schedule_RET = DBGet( DBQuery( $sql ) );
 
-		$sql = "SELECT ap.SCHOOL_DATE,ap.PERIOD_ID,ac.SHORT_NAME,ac.STATE_CODE,ac.DEFAULT_CODE
+		$sql = "SELECT ap.SCHOOL_DATE,ap.PERIOD_ID,ac.SHORT_NAME,ac.STATE_CODE,ac.DEFAULT_CODE,ac.TITLE
 			FROM ATTENDANCE_PERIOD ap,ATTENDANCE_CODES ac
 			WHERE ap.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
 			AND ap.ATTENDANCE_CODE=ac.ID
@@ -297,7 +297,12 @@ if ( $_REQUEST['student_id'] || User( 'PROFILE' ) === 'parent' )
 		{
 			$student_RET[ $i ][ $value['SHORT_DATE'] ] = MakeAttendanceCode(
 				$attendance_RET[ $value['SCHOOL_DATE'] ][ $course['PERIOD_ID'] ][1]['STATE_CODE'],
-				( $_REQUEST['period_id'] ? $attendance_RET[ $value['SCHOOL_DATE'] ][ $course['PERIOD_ID'] ][1]['SHORT_NAME'] : '' )
+				( $_REQUEST['period_id'] ?
+					$attendance_RET[ $value['SCHOOL_DATE'] ][ $course['PERIOD_ID'] ][1]['SHORT_NAME'] :
+					'' ),
+				( $_REQUEST['period_id'] ?
+					$attendance_RET[ $value['SCHOOL_DATE'] ][ $course['PERIOD_ID'] ][1]['TITLE'] :
+					'' )
 			);
 		}
 	}
@@ -411,7 +416,7 @@ function _makeColor( $value, $column )
 	{
 		if ( empty( $attendance_codes_RET ) )
 		{
-			$attendance_codes_RET = DBGet( DBQuery( "SELECT ID,DEFAULT_CODE,STATE_CODE,SHORT_NAME
+			$attendance_codes_RET = DBGet( DBQuery( "SELECT ID,DEFAULT_CODE,STATE_CODE,SHORT_NAME,TITLE
 				FROM ATTENDANCE_CODES
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'
@@ -420,7 +425,8 @@ function _makeColor( $value, $column )
 
 		return MakeAttendanceCode(
 			$attendance_codes_RET[ $att['ATTENDANCE_CODE'] ][1]['STATE_CODE'],
-			makeCodePulldown( $att['ATTENDANCE_CODE'], $THIS_RET['STUDENT_ID'], $column )
+			makeCodePulldown( $att['ATTENDANCE_CODE'], $THIS_RET['STUDENT_ID'], $column ),
+			$attendance_codes_RET[ $att['ATTENDANCE_CODE'] ][1]['TITLE']
 		);
 	}
 	else
