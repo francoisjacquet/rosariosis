@@ -1099,6 +1099,10 @@ input[type=checkbox].toggle {
 	height: auto;
 }
 
+.password-reset {
+	padding-top: 0;
+}
+
 .login .postbox,
 .password-reset .postbox {
 	max-width: 320px;

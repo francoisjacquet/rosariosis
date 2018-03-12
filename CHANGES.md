@@ -33,6 +33,7 @@ Changes in 3.8
 - Fix #234 Grades not saved after ordering list, thanks to @abogadeer
 - Remove tabindex from Points and Comment input fields in Grades.php
 - JS fix fixMenuLogic in jquery-fixedmenu.js
+- CSS & HTML add header title to Password Reset page in PasswordReset.php
 
 Changes in 3.7.1
 ----------------

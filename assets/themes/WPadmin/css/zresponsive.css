@@ -96,6 +96,10 @@
 	.password-reset {
 		padding: 32px 2px;
 	}
+
+	.password-reset {
+		padding-top: 0;
+	}
 }
 
 @media only screen and (max-width:1023px){

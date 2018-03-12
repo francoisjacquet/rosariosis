@@ -491,6 +491,8 @@ function _printPageHead( $title )
 
 	Warehouse( 'header' );
 
+	DrawHeader( _( 'Password help' ) );
+
 	echo ErrorMessage( $error );
 
 	echo ErrorMessage( $note, 'note' );
