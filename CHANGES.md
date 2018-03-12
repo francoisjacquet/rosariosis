@@ -32,6 +32,7 @@ Changes in 3.8
 - Fix SQL error when no Courses selected in MassCreateAssignments.php
 - Fix #234 Grades not saved after ordering list, thanks to @abogadeer
 - Remove tabindex from Points and Comment input fields in Grades.php
+- JS fix fixMenuLogic in jquery-fixedmenu.js
 
 Changes in 3.7.1
 ----------------
