@@ -489,12 +489,18 @@ elseif ( ! isset( $_REQUEST['create_account'] ) )
 {
 	/**
 	 * Redirect to Modules.php URL after login.
+	 * Defaults to modname=misc/Portal.php.
+	 * Sanitize redirect_to.
 	 *
 	 * @since 3.8
 	 */
 	$redirect_to = empty( $_REQUEST['redirect_to'] ) ?
 		'modname=misc/Portal.php' : // Fix #173 resend login form: redirect to Modules.php.
-		$_REQUEST['redirect_to'];
+		str_replace(
+			array( '&_ROSARIO_PDF=true', '&_ROSARIO_PDF', '&LO_save=1' ),
+			'',
+			$_REQUEST['redirect_to']
+		);
 
 	header( 'Location: Modules.php?' . $redirect_to );
 
