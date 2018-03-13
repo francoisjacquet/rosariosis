@@ -321,10 +321,10 @@ class Translator
 	 * @param n count
 	 * @return int array index of the right plural form
 	 */
-	private function selectString($n)
+	private function selectString(int $n)
 	{
 		if (!is_int($n)) {
-			throw new InvalidArgumentException(
+			throw new \InvalidArgumentException(
 			  "Select_string only accepts integers: " . $n);
 		}
 
