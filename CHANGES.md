@@ -1,6 +1,11 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 3.8.1
+----------------
+- Add FileInput() function in Inputs.php
+- Add FileExtensionWhiteList() function in FileUpload.fnc.php
+
 Changes in 3.8
 --------------
 - PHP gettext, mbstring, json & xml extensions compatibility in functions/PHPCompatibility.php

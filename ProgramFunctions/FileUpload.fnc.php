@@ -588,3 +588,87 @@ function HumanFilesize( $bytes, $decimals = 1 )
 
 	return sprintf( "%.{$decimals}f", $bytes / pow( 1024, $factor ) ) . @$sz[ $factor ];
 }
+
+
+/**
+ * Extensions white list.
+ * Common file types.
+ * Obviously, we won't include executable types
+ * .php, .sql, .js, .exe...
+ * If you file type is not white listed,
+ * put it in a ZIP archive!
+ *
+ * @since 3.8.1
+ *
+ * @link http://fileinfo.com/filetypes/common
+ */
+function FileExtensionWhiteList() {
+	$file_ext_white_list = array(
+		// Micro$oft Office.
+		'.doc',
+		'.docx',
+		'.xls',
+		'.xlsx',
+		'.xlr',
+		'.pps',
+		'.ppt',
+		'.pptx',
+		'.wps',
+		'.wpd',
+		'.rtf',
+		// Libre Office.
+		'.odt',
+		'.ods',
+		'.odp',
+		// Images.
+		'.jpg',
+		'.jpeg',
+		'.png',
+		'.gif',
+		'.bmp',
+		'.svg',
+		'.ico',
+		'.psd',
+		'.ai',
+		'.eps',
+		'.ps',
+		// Audio.
+		'.mp3',
+		'.ogg',
+		'.wav',
+		'.mid',
+		'.wma',
+		// Video.
+		'.avi',
+		'.mp4',
+		'.mpg',
+		'.ogv',
+		'.webm',
+		'.wmv',
+		'.mov',
+		'.m4v',
+		'.flv',
+		'.swf',
+		// Text.
+		'.txt',
+		'.pdf',
+		'.md',
+		'.csv',
+		'.tex',
+		// Web.
+		'.xml',
+		'.xhtml',
+		'.html',
+		'.htm',
+		'.css',
+		'.rss',
+		// Compressed.
+		'.zip',
+		'.rar',
+		'.7z',
+		'.tar',
+		'.gz',
+	);
+
+	return $file_ext_white_list;
+}
