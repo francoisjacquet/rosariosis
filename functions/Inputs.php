@@ -1255,7 +1255,8 @@ function FileInput( $name, $title = '', $extra = '' )
 		$extra .= ' title="' . sprintf( _( 'Maximum file size: %01.0fMb' ), FileUploadMaxSize() ) . '"';
 	}
 
-	$input = '<input type="file" id="' . $id . '" name="' . $name . '" ' . $extra . ' />' . $ftitle;
+	$input = '<input type="file" id="' . $id . '" name="' . $name . '" ' . $extra . ' />
+		<span class="loading"></span>' . $ftitle;
 
 	return $input;
 }

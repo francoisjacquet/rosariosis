@@ -271,11 +271,7 @@ function StudentAssignmentSubmissionOutput( $assignment_id )
 	// File upload.
 	$file_id = 'submission_file';
 
-	$file_ftitle = FormatInputTitle( _( 'File' ), $file_id );
-
-	$file_html = '<input type="file" id="' . $file_id . '" name="' . $file_id . '" size="14" title="' .
-		sprintf( _( 'Maximum file size: %01.0fMb' ), FileUploadMaxSize() ) . '" />
-		<span class="loading"></span>' . $file_ftitle;
+	$file_html = FileInput( $file_id, _( 'File' ) );
 
 	// Input div onclick only if old file.
 	DrawHeader( $old_file ?

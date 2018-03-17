@@ -8,11 +8,13 @@ if ( AllowEdit()
 	<a href="#" onclick="$('.user-photo-form,.user-photo').toggle(); return false;"><?php
 		echo button( 'add', '', '', 'smaller' ) . '&nbsp;' . _( 'Student Photo' );
 	?></a><br />
-	<div class="user-photo-form hide">
-		<input type="file" id="photo" name="photo" accept="image/*" /><span class="loading"></span>
-		<br />
-		<span class="legend-gray"><?php echo _( 'Student Photo' ); ?> (.jpg, .png, .gif)</span>
-	</div>
+	<div class="user-photo-form hide"><?php
+		echo FileInput(
+			'photo',
+			_( 'Student Photo' ) . ' (.jpg, .png, .gif)',
+			'accept="image/*"'
+		);
+	?></div>
 <?php endif;
 
 if ( $_REQUEST['student_id']!='new' && ($file = @fopen($picture_path=$StudentPicturesPath.UserSyear().'/'.UserStudentID().'.jpg','r')) || ($file = @fopen($picture_path=$StudentPicturesPath.(UserSyear()-1).'/'.UserStudentID().'.jpg','r'))):
@@ -148,8 +150,12 @@ $separator = '<hr />';
 
 include 'modules/Students/includes/Other_Info.inc.php';
 
-if ( $_REQUEST['student_id']!='new' && $student['SCHOOL_ID']!=UserSchool() && $student['SCHOOL_ID'])
-	$_ROSARIO['AllowEdit'][$_REQUEST['modname']] = $_ROSARIO['allow_edit'] = false;
+if ( $_REQUEST['student_id'] !== 'new'
+	&& $student['SCHOOL_ID'] != UserSchool()
+	&& $student['SCHOOL_ID'] )
+{
+	$_ROSARIO['AllowEdit'][ $_REQUEST['modname'] ] = $_ROSARIO['allow_edit'] = false;
+}
 
 if ( basename( $_SERVER['PHP_SELF'] ) !== 'index.php' )
 {

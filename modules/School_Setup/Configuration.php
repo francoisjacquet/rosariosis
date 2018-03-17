@@ -307,10 +307,11 @@ else
 		echo '<tr><td>' . ( file_exists( 'assets/school_logo_' . UserSchool() . '.jpg' ) ?
 			'<br /><img src="assets/school_logo_' . UserSchool() . '.jpg?cache_killer=' . rand() .
 			'" style="max-width:225px; max-height:225px;" /><br />' : '' ) .
-			'<input type="file" id="LOGO_FILE" name="LOGO_FILE" size="14" accept="image/*" />
-				<span id="loading"></span>
-				<br /><span class="legend-gray">' . _( 'School logo' ) .
-				' (.jpg, .png, .gif)</span></td></tr>';
+			FileInput(
+				'LOGO_FILE',
+				_( 'School logo' ) . ' (.jpg, .png, .gif)',
+				'accept="image/*"'
+			) . '</td></tr>';
 
 		//FJ currency
 		echo '<tr><td>'.TextInput(Config('CURRENCY'),'values[CONFIG][CURRENCY]',_('Currency Symbol'),'maxlength=3 size=3').'</td></tr>';

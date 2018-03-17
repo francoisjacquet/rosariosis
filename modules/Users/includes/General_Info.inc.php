@@ -8,11 +8,13 @@ if ( AllowEdit()
 	<a href="#" onclick="$('.user-photo-form,.user-photo').toggle(); return false;"><?php
 		echo button( 'add', '', '', 'smaller' ) . '&nbsp;' . _( 'User Photo' );
 	?></a><br />
-	<div class="user-photo-form hide">
-		<input type="file" id="photo" name="photo" accept="image/*" /><span class="loading"></span>
-		<br />
-		<span class="legend-gray"><?php echo _( 'User Photo' ); ?> (.jpg, .png, .gif)</span>
-	</div>
+	<div class="user-photo-form hide"><?php
+		echo FileInput(
+			'photo',
+			_( 'User Photo' ) . ' (.jpg, .png, .gif)',
+			'accept="image/*"'
+		);
+	?></div>
 <?php endif;
 
 if ( $_REQUEST['staff_id']!='new' && ($file = @fopen($picture_path=$UserPicturesPath.UserSyear().'/'.UserStaffID().'.jpg','r')) || ($file = @fopen($picture_path=$UserPicturesPath.(UserSyear()-1).'/'.UserStaffID().'.jpg','r'))):

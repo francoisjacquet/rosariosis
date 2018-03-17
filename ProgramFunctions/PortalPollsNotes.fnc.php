@@ -533,10 +533,9 @@ function makeFileAttached($value,$name)
 		$return .= '<div id="divFileAttached'.$id.'" class="rt2colorBox">';
 		$return .= '<div>
 			<label>
-				<input type="radio" name="values[new][FILE_OR_EMBED]" value="FILE">&nbsp;
-				<input type="file" id="'.$name.'_FILE" name="'.$name.'_FILE" size="14" title="' . sprintf( _( 'Maximum file size: %01.0fMb' ), FileUploadMaxSize() ) . '" />
-				<span id="loading"></span>
-			</label>
+				<input type="radio" name="values[new][FILE_OR_EMBED]" value="FILE">&nbsp;';
+		$return .= FileInput( $name . '_FILE' );
+		$return .= '</label>
 		</div>';
 		$return .= '<div style="float:left;">
 			<label>
