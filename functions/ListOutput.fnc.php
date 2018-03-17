@@ -790,19 +790,19 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 	// NO RESULTS, BUT HAS ADD FIELDS ---.
 	if ( $result_count == 0 )
 	{
-		if ( $link['add']['link']
+		if ( ! empty( $link['add']['link'] )
 			&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		{
 			echo '<div class="center">' .
 				button( 'add', $link['add']['title'], $link['add']['link'] ) . '</div>';
 		}
-		elseif ( ( $link['add']['html']
-				|| $link['add']['span'] )
+		elseif ( ( ! empty( $link['add']['html'] )
+				|| ! empty( $link['add']['span'] ) )
 			&& count( $column_names )
 			&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		{
 			// WIDTH=100%
-			if ( $link['add']['html'])
+			if ( ! empty( $link['add']['html'] ) )
 			{
 				echo '<div style="overflow-x:auto;"><table class="list widefat';
 				if ( $options['responsive'] )
@@ -836,7 +836,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				echo '</tr></tbody>';
 				echo '</table></div>';
 			}
-			elseif ( $link['add']['span'] )
+			elseif ( ! empty( $link['add']['span'] ) )
 			{
 				echo '<table class="postbox';
 

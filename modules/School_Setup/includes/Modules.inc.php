@@ -278,15 +278,17 @@ function _makeReadMe($module_title,$activated=null)
 			|| ( ( $readme_path = $readme_path . '.md' )
 				&& file_exists( $readme_path ) ) ) )
 	{
-		//get README.md content
+		// Get README.md content.
 		$readme_content = file_get_contents( $readme_path );
 
-		// convert MarkDown text to HTML
+		// Convert MarkDown text to HTML.
 		$readme_content = '<div class="markdown-to-html">' . $readme_content . '</div>';
 
-		$return .= '<div style="display:none;"><div id="README_'.$module_title.'">'.$readme_content.'</div></div>';
+		$return = '<div style="display:none;"><div id="README_' . $module_title . '">' .
+			$readme_content . '</div></div>';
 
-		$return .= '<a class="colorboxinline" href="#README_'.$module_title.'">'.$module_title_echo.'</a>';
+		$return .= '<a class="colorboxinline" href="#README_' . $module_title . '">' .
+			$module_title_echo . '</a>';
 	}
 	else
 		$return = $module_title_echo;

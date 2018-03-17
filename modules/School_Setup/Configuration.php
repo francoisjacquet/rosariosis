@@ -177,6 +177,8 @@ else
 
 		$themes = glob( 'assets/themes/*', GLOB_ONLYDIR );
 
+		$count = 0;
+
 		foreach ( (array) $themes as $theme )
 		{
 			$theme_name = str_replace( 'assets/themes/', '', $theme );

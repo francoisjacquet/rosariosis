@@ -450,6 +450,8 @@ if ( empty( $_SESSION['STAFF_ID'] )
 		</p>
 
 	<?php endif;
+
+	if ( ! empty( $_REQUEST['redirect_to'] ) ) :
 		/**
 		 * Redirect to Modules.php URL after login.
 		 *
@@ -457,6 +459,7 @@ if ( empty( $_SESSION['STAFF_ID'] )
 		 */
 		?>
 		<input type="hidden" name="redirect_to" value="<?php echo htmlspecialchars( $_REQUEST['redirect_to'], ENT_QUOTES ); ?>" />
+	<?php endif; ?>
 	</form>
 	<input class="toggle" type="checkbox" id="toggle1" />
 	<label class="toggle" for="toggle1"><?php echo _( 'About' ); ?></label>

@@ -146,7 +146,7 @@ function Preferences( $item, $program = 'Preferences' )
 
 	if ( ! isset( $_ROSARIO['Preferences'][ $program ][ $item ][1]['VALUE'] ) )
 	{
-		$_ROSARIO['Preferences'][ $program ][ $item ][1]['VALUE'] = $defaults[ $item ];
+		$_ROSARIO['Preferences'][ $program ][ $item ][1]['VALUE'] = isset( $defaults[ $item ] ) ? $defaults[ $item ] : null;
 	}
 
 	/**

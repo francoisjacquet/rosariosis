@@ -277,12 +277,14 @@ function _makeReadMe($plugin_title,$activated=null)
 		//get README.md content
 		$readme_content = file_get_contents( $readme_path );
 
-		// convert MarkDown text to HTML
+		// Convert MarkDown text to HTML.
 		$readme_content = '<div class="markdown-to-html">' . $readme_content . '</div>';
 
-		$return .= '<div style="display:none;"><div id="README_'.$plugin_title.'">'.$readme_content.'</div></div>';
+		$return = '<div style="display:none;"><div id="README_' . $plugin_title . '">' .
+			$readme_content . '</div></div>';
 
-		$return .= '<a class="colorboxinline" href="#README_'.$plugin_title.'">'.$plugin_title_echo.'</a>';
+		$return .= '<a class="colorboxinline" href="#README_' . $plugin_title . '">' .
+			$plugin_title_echo . '</a>';
 	}
 	else
 		$return = $plugin_title_echo;

@@ -1,6 +1,6 @@
 <?php
 
-if ( ! $_REQUEST['search_modfunc'])
+if ( empty( $_REQUEST['search_modfunc'] ) )
 {
 	//if (UserStudentID() && User('PROFILE')!='parent' && User('PROFILE')!='student' && ($_REQUEST['modname']!='Students/Search.php' || $_REQUEST['student_id']=='new'))
 	switch (User('PROFILE'))
@@ -25,10 +25,14 @@ if ( ! $_REQUEST['search_modfunc'])
 
 			PopTable(
 				'header',
-				$extra['search_title'] ? $extra['search_title'] : _( 'Find a Student' )
+				! empty( $extra['search_title'] ) ? $extra['search_title'] : _( 'Find a Student' )
 			);
 
-			echo '<form name="search" id="search" action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&search_modfunc=list&next_modname='.$_REQUEST['next_modname'].'&advanced='.$_REQUEST['advanced'].$extra['action'].'" method="GET">';
+			echo '<form name="search" id="search" action="Modules.php?modname=' . $_REQUEST['modname'] .
+				'&modfunc=' . $_REQUEST['modfunc'] .
+				'&search_modfunc=list&next_modname=' . $_REQUEST['next_modname'] .
+				'&advanced=' . ( ! empty( $_REQUEST['advanced'] ) ? $_REQUEST['advanced'] : '' ) .
+				$extra['action'] . '" method="GET">';
 
 			echo '<table class="width-100p col1-align-right" id="general_table">';
 
@@ -41,13 +45,15 @@ if ( ! $_REQUEST['search_modfunc'])
 
 			Search(
 				'student_fields',
-				is_array( $extra['student_fields'] ) ? $extra['student_fields'] : array()
+				isset( $extra['student_fields'] ) && is_array( $extra['student_fields'] ) ?
+					$extra['student_fields'] :
+					array()
 			);
 
 
 			echo '</table><div class="center">';
 
-			if ( $extra['search_second_col'] )
+			if ( ! empty( $extra['search_second_col'] ) )
 			{
 				echo $extra['search_second_col'];
 			}
@@ -75,25 +81,31 @@ if ( ! $_REQUEST['search_modfunc'])
 
 			echo '<br />' . Buttons( _( 'Submit' ), _( 'Reset' ) ) . '</div><br />';
 
-			if ( $extra['search']
-				|| $extra['extra_search']
-				|| $extra['second_col'] )
+			if ( ! empty( $extra['search'] )
+				|| ! empty( $extra['extra_search'] )
+				|| ! empty( $extra['second_col'] ) )
 			{
 				echo '<table class="widefat width-100p col1-align-right">';
 
-				if ( $extra['search'] )
+				if ( ! empty( $extra['search'] ) )
+				{
 					echo $extra['search'];
+				}
 
-				if ( $extra['extra_search'] )
+				if ( ! empty( $extra['extra_search'] ) )
+				{
 					echo $extra['extra_search'];
+				}
 
-				if ( $extra['second_col'] )
+				if ( ! empty( $extra['second_col'] ) )
+				{
 					echo $extra['second_col'];
+				}
 
 				echo '</table><br />';
 			}
 
-			if ( $_REQUEST['advanced'] === 'Y' )
+			if ( isset( $_REQUEST['advanced'] ) && $_REQUEST['advanced'] === 'Y' )
 			{
 				$extra['search'] = '';
 
@@ -157,7 +169,7 @@ if ( ! $_REQUEST['search_modfunc'])
 //if ( $_REQUEST['search_modfunc']=='list')
 else
 {
-	if ( ! $_REQUEST['next_modname'])
+	if ( empty( $_REQUEST['next_modname'] ) )
 		$_REQUEST['next_modname'] = 'Students/Student.php';
 
 	if (User('PROFILE')=='admin' || User('PROFILE')=='teacher')
@@ -167,7 +179,7 @@ else
 		Widgets('user',$extra);
 	}
 
-	if ( ! $extra['NoSearchTerms'])
+	if ( empty( $extra['NoSearchTerms'] ) )
 	{
 		if ( $_REQUEST['_search_all_schools']=='Y')
 			$_ROSARIO['SearchTerms'] .= '<b>'._('Search All Schools').'</b><br />';
@@ -176,7 +188,7 @@ else
 			$_ROSARIO['SearchTerms'] .= '<b>'._('Include Inactive Students').'</b><br />';
 	}
 
-	if ( $_REQUEST['address_group'])
+	if ( ! empty( $_REQUEST['address_group'] ) )
 	{
 		$extra['SELECT'] .= ",coalesce((SELECT ADDRESS_ID FROM STUDENTS_JOIN_ADDRESS WHERE STUDENT_ID=ssm.STUDENT_ID AND RESIDENCE='Y' LIMIT 1),-ssm.STUDENT_ID) AS FAMILY_ID";
 		$extra['group'] = $extra['LO_group'] = array('FAMILY_ID');
@@ -185,7 +197,7 @@ else
 	$students_RET = GetStuList($extra);
 
 	if ( $extra['array_function'] && function_exists($extra['array_function']))
-		if ( $_REQUEST['address_group'])
+		if ( ! empty( $_REQUEST['address_group'] ) )
 			foreach ( (array) $students_RET as $id => $student_RET)
 				$students_RET[ $id ] = $extra['array_function']($student_RET);
 		else
@@ -216,32 +228,49 @@ else
 	if (isset($extra['columns_after']) && is_array($extra['columns_after']))
 		$columns += $extra['columns_after'];
 
+	$extra['header_right'] = isset( $extra['header_right'] ) ? $extra['header_right'] : '';
+
 	if (count($students_RET)>1 || $link['add'] || ! $link['FULL_NAME'] || $extra['columns_before'] || $extra['columns'] || $extra['columns_after'] || ($extra['BackPrompt']==false && count($students_RET)==0) || (($extra['Redirect']===false || $_REQUEST['address_group']) && count($students_RET)==1))
 	{
-		if ( !isset($_REQUEST['_ROSARIO_PDF']))
+		if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		{
-			if ( $_REQUEST['expanded_view']!='true')
-				$header_left = '<a href="'.PreparePHP_SELF($_REQUEST,array(),array('expanded_view' => 'true')).'">'._('Expanded View').'</a>';
+			if ( ! isset( $_REQUEST['expanded_view'] ) || $_REQUEST['expanded_view'] !== 'true' )
+			{
+				$header_left = '<a href="' . PreparePHP_SELF( $_REQUEST, array(), array( 'expanded_view' => 'true' ) ) . '">' .
+					_( 'Expanded View' ) . '</a>';
+			}
 			else
-				$header_left = '<a href="'.PreparePHP_SELF($_REQUEST,array(),array('expanded_view' => 'false')).'">'._('Original View').'</a>';
+			{
+				$header_left = '<a href="' . PreparePHP_SELF( $_REQUEST, array(), array( 'expanded_view' => 'false' ) ) . '">' .
+					_( 'Original View' ) . '</a>';
+			}
 
-			if ( ! $_REQUEST['address_group'])
-				$header_left .= ' | <a href="'.PreparePHP_SELF($_REQUEST,array(),array('address_group' => 'Y')).'">'._('Group by Family').'</a>';
+			if ( empty( $_REQUEST['address_group'] ) )
+			{
+				$header_left .= ' | <a href="' . PreparePHP_SELF( $_REQUEST, array(), array( 'address_group' => 'Y' ) ) . '">' .
+					_( 'Group by Family' ) . '</a>';
+			}
 			else
-				$header_left .= ' | <a href="'.PreparePHP_SELF($_REQUEST,array(),array('address_group' => '')).'">'._('Ungroup by Family').'</a>';
+			{
+				$header_left .= ' | <a href="' . PreparePHP_SELF( $_REQUEST, array(), array( 'address_group' => '' ) ) . '">' .
+					_( 'Ungroup by Family' ) . '</a>';
+			}
 		}
 
 		DrawHeader($header_left,$extra['header_right']);
 
-		if ( $extra['extra_header_left']
-			|| $extra['extra_header_right'] )
+		if ( ! empty( $extra['extra_header_left'] )
+			|| ! empty( $extra['extra_header_right'] ) )
 		{
 			DrawHeader( $extra['extra_header_left'], $extra['extra_header_right'] );
 		}
 
-		DrawHeader( mb_substr( $_ROSARIO['SearchTerms'], 0, -6 ) );
+		if ( ! empty( $_ROSARIO['SearchTerms'] ) )
+		{
+			DrawHeader( mb_substr( $_ROSARIO['SearchTerms'], 0, -6 ) );
+		}
 
-		if ( ! $_REQUEST['LO_save'] && ! $extra['suppress_save'])
+		if ( empty( $_REQUEST['LO_save'] ) && empty( $extra['suppress_save'] ) )
 		{
 			$_SESSION['List_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back'));
 
@@ -261,7 +290,7 @@ else
 			}
 		}
 
-		if ( $_REQUEST['address_group'])
+		if ( ! empty( $_REQUEST['address_group'] ) )
 		{
 			ListOutput($students_RET,$columns,'Family','Families',$link,$extra['LO_group'],$extra['options']);
 		}
@@ -295,7 +324,7 @@ else
 			RedirectURL( 'search_modfunc' );
 		}
 
-		if ( $_REQUEST['modname']!=$_REQUEST['next_modname'])
+		if ( $_REQUEST['modname'] != $_REQUEST['next_modname'] )
 		{
 			$modname = $_REQUEST['next_modname'];
 
@@ -305,7 +334,7 @@ else
 			if (mb_strpos($modname,'&'))
 				$modname = mb_substr($_REQUEST['next_modname'],0,mb_strpos($_REQUEST['next_modname'],'&'));
 
-			if ( $_REQUEST['modname'])
+			if ( ! empty( $_REQUEST['modname'] ) )
 				$_REQUEST['modname'] = $modname;
 
 			//FJ security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
@@ -322,8 +351,8 @@ else
 	{
 		DrawHeader('',$extra['header_right']);
 
-		if ( $extra['extra_header_left']
-			|| $extra['extra_header_right'] )
+		if ( ! empty( $extra['extra_header_left'] )
+			|| ! empty( $extra['extra_header_right'] ) )
 		{
 			DrawHeader( $extra['extra_header_left'], $extra['extra_header_right'] );
 		}

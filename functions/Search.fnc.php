@@ -90,7 +90,7 @@ function Search( $type, $extra = null )
 			if ( ( isset( $_REQUEST['bottom_back'] )
 					&& $_REQUEST['bottom_back'] == true )
 				|| ( User( 'PROFILE' ) !== 'parent'
-					&& $_REQUEST['search_modfunc'] ) )
+					&& ! empty( $_REQUEST['search_modfunc'] ) ) )
 			{
 				unset( $_SESSION['staff_id'] );
 			}
@@ -244,7 +244,7 @@ function Search( $type, $extra = null )
 				);
 			}
 
-			if ( $extra['profile'] )
+			if ( ! empty( $extra['profile'] ) )
 			{
 				$options = array( $extra['profile'] => $options[ $extra['profile'] ] );
 			}
