@@ -105,7 +105,7 @@ function TextInput( $value, $name, $title = '', $extra = '', $div = true )
 		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		// Input size / length based on value number of chars
-		if ( mb_strpos( $extra, 'size' ) === false )
+		if ( mb_strpos( $extra, 'size=' ) === false )
 		{
 			// Max size is 32 (more or less 300px)
 			$extra .= $value != '' ? ' size="' . min( mb_strlen( $value ), 32 ) . '"' : ' size="10"';
@@ -182,7 +182,7 @@ function MLTextInput( $value, $name, $title = '', $extra = '', $div = true )
 		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		// Input size / length based on value number of chars.
-		if ( mb_strpos( $extra, 'size' ) === false
+		if ( mb_strpos( $extra, 'size=' ) === false
 			&& $value != '' )
 		{
 			$nb_loc = mb_substr_count( $value, '|' ) + 1;
@@ -1214,6 +1214,50 @@ function CheckCaptcha()
 
 	// Compare input & answer.
 	return $captcha && $captcha['input'] === $captcha['answer'];
+}
+
+
+/**
+ * File Input
+ *
+ * @since 3.8.1
+ *
+ * @example FileInput( 'values[new][FILE]', _( 'Attached File' ), 'required' )
+ *
+ * @uses GetInputID() to generate ID from name
+ * @uses FormatInputTitle() to format title
+ *
+ * @param  string  $name  Input name.
+ * @param  string  $title Input title (optional). Defaults to ''.
+ * @param  string  $extra Extra HTML attributes added to the input.
+ *
+ * @return string  Input HTML
+ */
+function FileInput( $name, $title = '', $extra = '' )
+{
+	require_once 'ProgramFunctions/FileUpload.fnc.php';
+
+	$id = GetInputID( $name );
+
+	$required = mb_strpos( $extra, 'required' ) !== false;
+
+	$ftitle = FormatInputTitle( $title, $id, $required );
+
+	// Input size / length based on value number of chars.
+	if ( mb_strpos( $extra, 'size=' ) === false )
+	{
+		$extra .= ' size="10"';
+	}
+
+	// Input title indicating Maximum file size.
+	if ( mb_strpos( $extra, 'title=' ) === false )
+	{
+		$extra .= ' title="' . sprintf( _( 'Maximum file size: %01.0fMb' ), FileUploadMaxSize() ) . '"';
+	}
+
+	$input = '<input type="file" id="' . $id . '" name="' . $name . '" ' . $extra . ' />' . $ftitle;
+
+	return $input;
 }
 
 
