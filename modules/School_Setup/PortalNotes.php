@@ -24,7 +24,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 		$note_id = $note_id['ID'];
 		$_REQUEST['values'][ $note_id ]['PUBLISHED_PROFILES'] = '';
 		foreach ( array('admin','teacher','parent') as $profile_id)
-			if ( $_REQUEST['profiles'][ $note_id ][ $profile_id ])
+			if ( ! empty( $_REQUEST['profiles'][ $note_id ][ $profile_id ] ) )
 				$_REQUEST['values'][ $note_id ]['PUBLISHED_PROFILES'] .= ','.$profile_id;
 		if (count($_REQUEST['profiles'][ $note_id ]))
 		{
@@ -32,11 +32,11 @@ if ( $_REQUEST['modfunc'] === 'update'
 			{
 				$profile_id = $profile['ID'];
 
-				if ( $_REQUEST['profiles'][ $note_id ][ $profile_id ])
+				if ( ! empty( $_REQUEST['profiles'][ $note_id ][ $profile_id ] ) )
 					$_REQUEST['values'][ $note_id ]['PUBLISHED_PROFILES'] .= ','.$profile_id;
 			}
 		}
-		if ( $_REQUEST['values'][ $note_id ]['PUBLISHED_PROFILES'])
+		if ( ! empty( $_REQUEST['values'][ $note_id ]['PUBLISHED_PROFILES'] ) )
 			$_REQUEST['values'][ $note_id ]['PUBLISHED_PROFILES'] .= ',';
 	}
 }
@@ -111,90 +111,23 @@ if ( $_REQUEST['modfunc'] === 'update'
 				//$values = db_seq_nextval('PORTAL_NOTES_SEQ').",'".UserSchool()."','".UserSyear()."',CURRENT_TIMESTAMP,'".User('STAFF_ID')."',";
 				$values = $portal_note_id.",'".UserSchool()."','".UserSyear()."',CURRENT_TIMESTAMP,'".User('STAFF_ID')."',";
 
-				$file_attached_ext_white_list = array(
-					/**
-					 * Extensions white list.
-					 *
-					 * Common file types.
-					 * Obviously, we won't include executable types
-					 * .php, .sql, .js, .exe...
-					 * If you file type is not white listed,
-					 * put it in a ZIP archive!
-					 *
-					 * @link http://fileinfo.com/filetypes/common
-					 */
-					// Micro$oft Office.
-					'.doc',
-					'.docx',
-					'.xls',
-					'.xlsx',
-					'.xlr',
-					'.pps',
-					'.ppt',
-					'.pptx',
-					'.wps',
-					'.wpd',
-					'.rtf',
-					// Libre Office.
-					'.odt',
-					'.ods',
-					'.odp',
-					// Images.
-					'.jpg',
-					'.jpeg',
-					'.png',
-					'.gif',
-					'.bmp',
-					'.svg',
-					'.ico',
-					'.psd',
-					'.ai',
-					'.eps',
-					'.ps',
-					// Audio.
-					'.mp3',
-					'.ogg',
-					'.wav',
-					'.mid',
-					'.wma',
-					// Video.
-					'.avi',
-					'.mp4',
-					'.mpg',
-					'.ogv',
-					'.webm',
-					'.wmv',
-					'.mov',
-					'.m4v',
-					'.flv',
-					'.swf',
-					// Text.
-					'.txt',
-					'.pdf',
-					'.md',
-					'.csv',
-					'.tex',
-					// Web.
-					'.xml',
-					'.xhtml',
-					'.html',
-					'.htm',
-					'.css',
-					'.rss',
-					// Compressed.
-					'.zip',
-					'.rar',
-					'.7z',
-					'.tar',
-					'.gz',
-				);
-
-				if ( $columns['FILE_OR_EMBED'] == 'FILE')
-					$columns['FILE_ATTACHED'] = FileUpload('FILE_ATTACHED_FILE', $PortalNotesFilesPath, $file_attached_ext_white_list, 0, $error);
-
-				elseif ( $columns['FILE_OR_EMBED'] == 'EMBED')
-					if (filter_var($columns['FILE_ATTACHED_EMBED'], FILTER_VALIDATE_URL) !== false)
+				if ( $columns['FILE_OR_EMBED'] == 'FILE' )
+				{
+					$columns['FILE_ATTACHED'] = FileUpload(
+						'FILE_ATTACHED_FILE',
+						$PortalNotesFilesPath,
+						FileExtensionWhiteList(),
+						0,
+						$error
+					);
+				}
+				elseif ( $columns['FILE_OR_EMBED'] == 'EMBED' )
+				{
+					if ( filter_var( $columns['FILE_ATTACHED_EMBED'], FILTER_VALIDATE_URL ) !== false )
+					{
 						$columns['FILE_ATTACHED'] = $columns['FILE_ATTACHED_EMBED'];
+					}
+				}
 
 				unset($columns['FILE_ATTACHED_EMBED'], $columns['FILE_OR_EMBED']);
 

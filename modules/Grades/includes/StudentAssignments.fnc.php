@@ -68,84 +68,6 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 	// Check if file submitted.
 	if ( isset( $_FILES[ 'submission_file' ] ) )
 	{
-		$file_attached_ext_white_list = array(
-			/**
-			 * Extensions white list.
-			 *
-			 * Common file types.
-			 * Obviously, we won't include executable types
-			 * .php, .sql, .js, .exe...
-			 * If you file type is not white listed,
-			 * put it in a ZIP archive!
-			 *
-			 * @link http://fileinfo.com/filetypes/common
-			 */
-			// Micro$oft Office.
-			'.doc',
-			'.docx',
-			'.xls',
-			'.xlsx',
-			'.xlr',
-			'.pps',
-			'.ppt',
-			'.pptx',
-			'.wps',
-			'.wpd',
-			'.rtf',
-			// Libre Office.
-			'.odt',
-			'.ods',
-			'.odp',
-			// Images.
-			'.jpg',
-			'.jpeg',
-			'.png',
-			'.gif',
-			'.bmp',
-			'.svg',
-			'.ico',
-			'.psd',
-			'.ai',
-			'.eps',
-			'.ps',
-			// Audio.
-			'.mp3',
-			'.ogg',
-			'.wav',
-			'.mid',
-			'.wma',
-			// Video.
-			'.avi',
-			'.mp4',
-			'.mpg',
-			'.ogv',
-			'.webm',
-			'.wmv',
-			'.mov',
-			'.m4v',
-			'.flv',
-			'.swf',
-			// Text.
-			'.txt',
-			'.pdf',
-			'.md',
-			'.csv',
-			'.tex',
-			// Web.
-			'.xml',
-			'.xhtml',
-			'.html',
-			'.htm',
-			'.css',
-			'.rss',
-			// Compressed.
-			'.zip',
-			'.rar',
-			'.7z',
-			'.tar',
-			'.gz',
-		);
-
 		$student_name_RET = DBGet( DBQuery( "SELECT " . DisplayNameSQL() . " AS NAME
 			FROM STUDENTS
 			WHERE STUDENT_ID='" . UserStudentID() . "'" ) );
@@ -160,7 +82,7 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 		$file = FileUpload(
 			'submission_file',
 			$assignments_path,
-			$file_attached_ext_white_list,
+			FileExtensionWhiteList(),
 			0,
 			$error,
 			'',
