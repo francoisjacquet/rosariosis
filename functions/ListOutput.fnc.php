@@ -101,91 +101,30 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 		foreach ( (array) $group_result as $item1 )
 		{
-			$i = 0;
-
 			foreach ( (array) $item1 as $item2 )
 			{
 				if ( $group_count == 1 )
 				{
-					$i++;
-
-					if ( count( $group[0] )
-						&& $i != 1 )
-					{
-						//FJ fix error Warning: Invalid argument supplied for foreach()
-						//foreach ( (array) $group[0] as $column)
-
-						$group[0] = $column;
-
-						$item2[ $column ] = str_replace(
-							'<!-- <!--',
-							'<!--',
-							'<!-- ' . str_replace( '-->', '--><!--', $item2[ $column ] )
-						) . ' -->&nbsp;';
-					}
 					$result[] = $item2;
+
+					continue;
 				}
-				else
+
+				foreach ( (array) $item2 as $item3 )
 				{
-					foreach ( (array) $item2 as $item3 )
+					if ( $group_count == 2 )
 					{
-						if ( $group_count == 2 )
-						{
-							$i++;
+						$result[] = $item3;
 
-							if ( count( $group[0] )
-								&& $i != 1 )
-							{
-								//FJ fix error Warning: Invalid argument supplied for foreach()
-								//foreach ( (array) $group[0] as $column)
+						continue;
+					}
 
-								$group[0] = $column;
-
-								$item3[ $column ] = '<!-- ' . $item3[ $column ] . ' -->';
-							}
-
-							if ( count( $group[1] )
-								&& $i != 1 )
-							{
-								//FJ fix error Warning: Invalid argument supplied for foreach()
-								//foreach ( (array) $group[1] as $column)
-
-								$group[1] = $column;
-
-								$item3[ $column ] = '<!-- ' . $item3[ $column ] . ' -->';
-							}
-
-							//$item3['row_color'] = $color;
-							$result[] = $item3;
-						}
-						else
-						{
-							foreach ( (array) $item3 as $item4 )
-							{
-								if ( $group_count == 3 )
-								{
-									$i++;
-
-									if ( count( $group[2] )
-										&& $i != 1 )
-									{
-										//FJ fix error Warning: Invalid argument supplied for foreach()
-										//foreach ( (array) $group[2] as $column)
-
-										$group[2] = $column;
-
-										unset( $item4[ $column ] );
-									}
-
-									//$item4['row_color'] = $color;
-									$result[] = $item4;
-								}
-							}
-						}
+					foreach ( (array) $item3 as $item4 )
+					{
+						$result[] = $item4;
 					}
 				}
 			}
-			$i = 0;
 		}
 
 		unset( $result[0] );

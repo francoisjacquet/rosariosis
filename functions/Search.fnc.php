@@ -34,7 +34,7 @@ function Search( $type, $extra = null )
 					&& $_REQUEST['bottom_back'] == true )
 				|| ( User( 'PROFILE' ) !== 'student'
 					&& User( 'PROFILE' ) !== 'parent'
-					&& $_REQUEST['search_modfunc'] ) )
+					&& ! empty( $_REQUEST['search_modfunc'] ) ) )
 			{
 				unset( $_SESSION['student_id'] );
 			}

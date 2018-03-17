@@ -72,7 +72,7 @@ function AllowEdit( $modname = false )
 			return false;
 	}
 	else
-		return $_ROSARIO['allow_edit'];
+		return ! empty( $_ROSARIO['allow_edit'] );
 }
 
 
