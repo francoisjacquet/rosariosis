@@ -3,7 +3,7 @@
  * Help
  *
  * Generate the Help / Handbook PDF
- * Translated if Help_[2_letters_locale].php file exists
+ * Translated if locale/[code]/Help.php file exists
  * Based on user profile
  *
  * @package RosarioSIS
@@ -11,8 +11,8 @@
 
 require_once 'Warehouse.php';
 
-$help_translated = 'Help_' . mb_substr( $locale, 0, 2 ) . '.php';
-$help_english = 'Help_en.php';
+$help_translated = 'locale/' . $locale . '/Help.php';
+$help_english = 'locale/en_US.utf8/Help.php';
 
 if ( file_exists( $help_translated ) ) // FJ translated help.
 {
@@ -77,6 +77,8 @@ $handle = PDFStart(); ?>
 <hr />
 
 <?php
+$old_modcat = '';
+
 foreach ( (array) $help as $program => $value ) :
 
 	// FJ zap programs which are not allowed.

@@ -23,7 +23,7 @@ if ( isAJAX() )
 // Print PDF.
 if ( $_REQUEST['bottomfunc'] === 'print' ) :
 
-	if ( $_REQUEST['expanded_view'] )
+	if ( ! empty( $_REQUEST['expanded_view'] ) )
 	{
 		$_SESSION['orientation'] = 'landscape';
 	}
@@ -60,8 +60,8 @@ if ( $_REQUEST['bottomfunc'] === 'print' ) :
 // Inline Help.
 elseif ( $_REQUEST['bottomfunc'] === 'help' ) :
 
-	$help_translated = 'Help_' . mb_substr( $locale, 0, 2 ) . '.php';
-	$help_english = 'Help_en.php';
+	$help_translated = 'locale/' . $locale . '/Help.php';
+	$help_english = 'locale/en_US.utf8/Help.php';
 
 	if ( file_exists( $help_translated ) ) // FJ translated help.
 	{

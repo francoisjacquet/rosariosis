@@ -40,9 +40,13 @@ Reference
 A reference of the currently available translations, including their code, language, country, completion and other useful information is available in the [REFERENCE.md](REFERENCE.md) file.
 
 
+Help texts
+----------
+Place a `Help.php` file inside your locale folder. The translated help texts will be used for the inline help and to generate Handbooks. Use the `locale/en_US.utf8/Help.php` file as a model.
+
+
 Flag icons
 ----------
-
-Place a `flag.png` inside your locale folder. It will be displayed for language selection on the Login screen.
+Place a `flag.png` file inside your locale folder. It will be displayed for language selection on the Login screen.
 
 [World Flag icons](http://www.customicondesign.com/free-icons/flag-icon-set/all-in-one-country-flag-icon-set/)

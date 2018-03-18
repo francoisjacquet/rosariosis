@@ -7,8 +7,8 @@
  * - Profile
  *
  * Please use this file as a model to translate the texts to your language
- * The new resulting Help file should be named after the following convention:
- * Help_[two letters language code].php
+ * The new resulting Help file should be placed after the following convention:
+ * locale/[code]/Help.php
  *
  * @author François Jacquet
  *
