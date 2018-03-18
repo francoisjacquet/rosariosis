@@ -2,9 +2,9 @@
 
 ## New Issue
 
-Before reporting an [issue](https://github.com/francoisjacquet/rosariosis/issues/) related to RosarioSIS, please consider the following recommendations:
+Before reporting an [issue](https://github.com/francoisjacquet/rosariosis/issues/), please consider the following recommendations:
 
-1. Search the [closed issues](https://github.com/francoisjacquet/rosariosis/issues?q=is%3Aissue+is%3Aclosed) or the [Wiki](https://github.com/francoisjacquet/rosariosis/wiki), your problem may already have been answered. Please do not create **duplicates**.
+1. Search [closed issues](https://github.com/francoisjacquet/rosariosis/issues?q=is%3Aissue+is%3Aclosed) or the [Wiki](https://github.com/francoisjacquet/rosariosis/wiki), your problem may already have been addressed. Please do not create **duplicates**.
 
 2. Specify your RosarioSIS, PHP & PostgreSQL **versions**, along with the server & browser used.
 
