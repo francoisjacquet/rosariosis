@@ -151,7 +151,8 @@ function Search( $type, $extra = null )
 				WHERE SCHOOL_ID='" . UserSchool() . "'
 				ORDER BY SORT_ORDER" ) );
 
-			if ( $_REQUEST['advanced'] === 'Y'
+			if ( isset( $_REQUEST['advanced'] )
+				&& $_REQUEST['advanced'] === 'Y'
 				|| is_array( $extra ) )
 			{
 				echo '<tr><td>' . _( 'Grade Levels' ) . '</td>

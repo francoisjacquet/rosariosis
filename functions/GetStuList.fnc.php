@@ -203,11 +203,11 @@ function GetStuList( &$extra = array() )
 			// EXPANDED VIEW AND ADDR BREAKS THIS QUERY ... SO, TURN 'EM OFF.
 			if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			{
-				$expanded_view = $_REQUEST['expanded_view'];
+				$expanded_view = isset( $_REQUEST['expanded_view'] ) ? $_REQUEST['expanded_view'] : null;
 
 				$_REQUEST['expanded_view'] = false;
 
-				$addr = $_REQUEST['addr'];
+				$addr = isset( $_REQUEST['addr'] ) ? $_REQUEST['addr'] : null;
 
 				unset( $_REQUEST['addr'] );
 
@@ -258,11 +258,11 @@ function GetStuList( &$extra = array() )
 				$extra2['link'] = array();
 
 				// EXPANDED VIEW AND ADDR BREAKS THIS QUERY ... SO, TURN 'EM OFF.
-				$expanded_view = $_REQUEST['expanded_view'];
+				$expanded_view = isset( $_REQUEST['expanded_view'] ) ? $_REQUEST['expanded_view'] : null;
 
 				$_REQUEST['expanded_view'] = false;
 
-				$addr = $_REQUEST['addr'];
+				$addr = isset( $_REQUEST['addr'] ) ? $_REQUEST['addr'] : null;
 
 				unset( $_REQUEST['addr'] );
 
@@ -438,7 +438,8 @@ function GetStuList( &$extra = array() )
 		$sql .= DisplayNameSQL( 's' ) . " AS FULL_NAME,";
 
 		// Student Details.
-		$sql .='s.LAST_NAME,s.FIRST_NAME,s.MIDDLE_NAME,s.STUDENT_ID,ssm.SCHOOL_ID,ssm.GRADE_ID ' . $extra['SELECT'];
+		$sql .='s.LAST_NAME,s.FIRST_NAME,s.MIDDLE_NAME,s.STUDENT_ID,ssm.SCHOOL_ID,ssm.GRADE_ID ' .
+			( empty( $extra['SELECT'] ) ? '' : $extra['SELECT'] );
 	}
 
 	switch ( User( 'PROFILE' ) )
@@ -636,12 +637,12 @@ function GetStuList( &$extra = array() )
 	}
 
 	// Extra FROM.
-	$sql .= ")" . $extra['FROM'] . " WHERE TRUE";
+	$sql .= ")" . ( isset( $extra['FROM'] ) ? $extra['FROM'] : '' ) . " WHERE TRUE";
 
 	//$sql = appendSQL($sql,array('NoSearchTerms' => $extra['NoSearchTerms']));
 
 	// WHERE.
-	$sql .= ' ' . $extra['WHERE'] . ' ';
+	$sql .= ' ' . ( isset( $extra['WHERE'] ) ? $extra['WHERE'] : '' ) . ' ';
 
 	// GROUP BY.
 	if ( isset( $extra['GROUP'] ) )

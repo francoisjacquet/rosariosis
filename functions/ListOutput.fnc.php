@@ -610,28 +610,33 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				}*/
 			}
 
-			if ( !empty($item['row_color']))
-				$color = $item['row_color'];
-			else
-				$color = '';
-
 			echo '<tr>';
+
 			$count++;
 
-			if ( $remove && !isset($_REQUEST['_ROSARIO_PDF']))
+			if ( $remove && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			{
-				$button_title = $link['remove']['title'];
-				$button_link = $link['remove']['link'];
-				if (count($link['remove']['variables']))
+				$button_title = empty( $link['remove']['title'] ) ? '' : $link['remove']['title'];
+
+				$button_link = empty( $link['remove']['link'] ) ?
+					PreparePHP_SELF( array(), array_keys( $link['remove']['variables'] ) ) :
+					$link['remove']['link'];
+
+				foreach ( (array) $link['remove']['variables'] as $var => $val )
 				{
-					foreach ( (array) $link['remove']['variables'] as $var => $val)
-						$button_link .= "&$var=" . urlencode($item[ $val ]);
+					$button_link .= '&' . $var . '=' . urlencode( $item[ $val ] );
 				}
 
-				echo '<td>' . button('remove',$button_title,'"'.$button_link.'"') . '</td>';
+				echo '<td>' . button(
+					'remove',
+					$button_title,
+					'"' . $button_link . '"'
+				) . '</td>';
 			}
 
-			if ( $cols)
+			$color = empty( $item['row_color'] ) ? '' : $item['row_color'];
+
+			if ( $cols )
 			{
 				foreach ( (array) $column_names as $key => $value)
 				{
@@ -645,10 +650,9 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 						{
 							echo '<a href="#" onclick=\'popups.open("' . $link[ $key ]['link'];
 
-							if ( count( $link[ $key ]['variables'] ) )
+							foreach ( (array) $link[ $key ]['variables'] as $var => $val )
 							{
-								foreach ( (array) $link[ $key ]['variables'] as $var => $val )
-									echo "&$var=".urlencode($item[ $val ]);
+								echo '&' . $var . '=' . urlencode( $item[ $val ] );
 							}
 
 							echo '"); return false;\'';
@@ -697,22 +701,36 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		{
 			//if ( $remove && !isset($_REQUEST['_ROSARIO_PDF']))
 			//	$cols++;
-			if (isset($link['add']['link']) && !isset($_REQUEST['_ROSARIO_PDF']))
-				echo '<tr><td colspan="'.($remove?$cols+1:$cols).'">'.button('add',$link['add']['title'],$link['add']['link']).'</td></tr>';
-			elseif (isset($link['add']['span']) && !isset($_REQUEST['_ROSARIO_PDF']))
-				echo '<tr><td colspan="'.($remove?$cols+1:$cols).'">'.button('add').$link['add']['span'].'</td></tr>';
-			elseif (isset($link['add']['html']) && $cols)
+			if ( isset( $link['add']['link'] ) && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+			{
+				echo '<tr><td colspan="' . ( $remove ? $cols + 1 : $cols ) . '">' .
+					button( 'add', $link['add']['title'], $link['add']['link'] ) . '</td></tr>';
+			}
+			elseif ( isset( $link['add']['span'] ) && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+			{
+				echo '<tr><td colspan="' . ( $remove ? $cols + 1 : $cols ) . '">' .
+					button( 'add' ) . $link['add']['span'] . '</td></tr>';
+			}
+			elseif ( isset( $link['add']['html'] ) && $cols )
 			{
 				echo '<tr>';
-				if ( $remove && !isset($_REQUEST['_ROSARIO_PDF']) && $link['add']['html']['remove'])
-					echo '<td>'.$link['add']['html']['remove'].'</td>';
-				elseif ( $remove && !isset($_REQUEST['_ROSARIO_PDF']))
-					echo '<td>'.button('add').'</td>';
 
-				foreach ( (array) $column_names as $key => $value)
+				if ( $remove
+					&& ! isset( $_REQUEST['_ROSARIO_PDF'] )
+					&& ! empty( $link['add']['html']['remove'] ) )
+				{
+					echo '<td>' . $link['add']['html']['remove'] . '</td>';
+				}
+				elseif ( $remove && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+				{
+					echo '<td>' . button( 'add' ) . '</td>';
+				}
+
+				foreach ( (array) $column_names as $key => $value )
 				{
 					echo '<td>'.$link['add']['html'][ $key ].'</td>';
 				}
+
 				echo '</tr>';
 			}
 		}

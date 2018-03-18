@@ -181,11 +181,17 @@ else
 
 	if ( empty( $extra['NoSearchTerms'] ) )
 	{
-		if ( $_REQUEST['_search_all_schools']=='Y')
-			$_ROSARIO['SearchTerms'] .= '<b>'._('Search All Schools').'</b><br />';
+		if ( isset( $_REQUEST['_search_all_schools'] )
+			&& $_REQUEST['_search_all_schools'] === 'Y' )
+		{
+			$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Search All Schools' ) . '</b><br />';
+		}
 
-		if ( $_REQUEST['include_inactive']=='Y')
-			$_ROSARIO['SearchTerms'] .= '<b>'._('Include Inactive Students').'</b><br />';
+		if ( isset( $_REQUEST['include_inactive'] )
+			&& $_REQUEST['include_inactive'] === 'Y' )
+		{
+			$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Include Inactive Students' ) . '</b><br />';
+		}
 	}
 
 	if ( ! empty( $_REQUEST['address_group'] ) )
@@ -194,14 +200,23 @@ else
 		$extra['group'] = $extra['LO_group'] = array('FAMILY_ID');
 	}
 
-	$students_RET = GetStuList($extra);
+	$students_RET = GetStuList( $extra );
 
-	if ( $extra['array_function'] && function_exists($extra['array_function']))
+	if ( isset( $extra['array_function'] )
+		&& function_exists( $extra['array_function'] ) )
+	{
 		if ( ! empty( $_REQUEST['address_group'] ) )
-			foreach ( (array) $students_RET as $id => $student_RET)
-				$students_RET[ $id ] = $extra['array_function']($student_RET);
+		{
+			foreach ( (array) $students_RET as $id => $student_RET )
+			{
+				$students_RET[ $id ] = $extra['array_function']( $student_RET );
+			}
+		}
 		else
-			$students_RET = $extra['array_function']($students_RET);
+		{
+			$students_RET = $extra['array_function']( $students_RET );
+		}
+	}
 
 	$name_link['FULL_NAME']['link'] = 'Modules.php?modname='.$_REQUEST['next_modname'];
 	$name_link['FULL_NAME']['variables'] = array('student_id' => 'STUDENT_ID');
@@ -290,17 +305,49 @@ else
 			}
 		}
 
+		$extra['LO_group'] = isset( $extra['LO_group'] ) ? $extra['LO_group'] : array();
+
+		$extra['options'] = isset( $extra['options'] ) ? $extra['options'] : array();
+
 		if ( ! empty( $_REQUEST['address_group'] ) )
 		{
-			ListOutput($students_RET,$columns,'Family','Families',$link,$extra['LO_group'],$extra['options']);
+			ListOutput(
+				$students_RET,
+				$columns,
+				'Family',
+				'Families',
+				$link,
+				$extra['LO_group'],
+				$extra['options']
+			);
 		}
 		else
 		{
 			//FJ override "Student" if extra singular/plural set
-			if ( !empty($extra['singular']) && !empty($extra['plural']))
-				ListOutput($students_RET,$columns,$extra['singular'],$extra['plural'],$link,$extra['LO_group'],$extra['options']);
+			if ( ! empty( $extra['singular'] ) && ! empty( $extra['plural'] ) )
+			{
+				ListOutput(
+					$students_RET,
+					$columns,
+					$extra['singular'],
+					$extra['plural'],
+					$link,
+					$extra['LO_group'],
+					$extra['options']
+				);
+			}
 			else
-				ListOutput($students_RET,$columns,'Student','Students',$link,$extra['LO_group'],$extra['options']);
+			{
+				ListOutput(
+					$students_RET,
+					$columns,
+					'Student',
+					'Students',
+					$link,
+					$extra['LO_group'],
+					$extra['options']
+				);
+			}
 		}
 	}
 	elseif (count($students_RET)==1)

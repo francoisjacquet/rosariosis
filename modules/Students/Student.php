@@ -384,7 +384,8 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 if ( basename( $_SERVER['PHP_SELF'] ) !== 'index.php' )
 {
-	if ( $_REQUEST['student_id'] === 'new' )
+	if ( isset( $_REQUEST['student_id'] )
+		&& $_REQUEST['student_id'] === 'new' )
 	{
 		$_ROSARIO['HeaderIcon'] = 'modules/Students/icon.png';
 
@@ -455,7 +456,7 @@ echo ErrorMessage( $error );
 Search( 'student_id' );
 
 if ( ( UserStudentID()
-		|| $_REQUEST['student_id'] === 'new' )
+		|| isset( $_REQUEST['student_id'] ) && $_REQUEST['student_id'] === 'new' )
 	&& $_REQUEST['modfunc'] !== 'delete' )
 {
 	// MODNAME LIKE 'Students/Student.php%'.
