@@ -78,7 +78,7 @@ function PDFStop( $handle )
 		return '';
 	}
 
-	$handle['orientation'] = $_SESSION['orientation'];
+	$handle['orientation'] = empty( $_SESSION['orientation'] ) ? '' : $_SESSION['orientation'];
 
 	unset( $_SESSION['orientation'] );
 
@@ -95,8 +95,7 @@ function PDFStop( $handle )
 	// Page width.
 	$page_width = '994'; // Originally 1024px.
 
-	if ( ! empty( $handle['orientation'] )
-		&& $handle['orientation'] === 'landscape' )
+	if ( $handle['orientation'] === 'landscape' )
 	{
 		$page_width = '1405'; // Originally 1448px.
 	}
