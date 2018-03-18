@@ -1,10 +1,11 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
-Changes in 3.8.1
-----------------
+Changes in 3.9-beta
+-------------------
 - Add FileInput() function in Inputs.php
 - Add FileExtensionWhiteList() function in FileUpload.fnc.php
+- Move flag icons from assets/flags/ to their corresponding locale/[code].utf8/ folder
 
 Changes in 3.8
 --------------

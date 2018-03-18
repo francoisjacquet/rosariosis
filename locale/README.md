@@ -38,3 +38,11 @@ The localization system is `gettext`, and the `*.po` files can be edited using [
 Reference
 ---------
 A reference of the currently available translations, including their code, language, country, completion and other useful information is available in the [REFERENCE.md](REFERENCE.md) file.
+
+
+Flag icons
+----------
+
+Place a `flag.png` inside your locale folder. It will be displayed for language selection on the Login screen.
+
+[World Flag icons](http://www.customicondesign.com/free-icons/flag-icon-set/all-in-one-country-flag-icon-set/)

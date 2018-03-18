@@ -41,7 +41,7 @@ Do not forget to add the `.utf8` suffix to the locale code.
 | ro_RO | Romanian (Romania)            | 37%       |                     |
 | ru_RU | Russian (Russia)              | 36%       |                     |
 | sk_SK | Slovak (Slovakia)             | 37%       |                     |
-| sl_SL | Slovenian (Slovenia)          | 37%       |                     |
+| sl_SI | Slovenian (Slovenia)          | 37%       |                     |
 | sq_AL | Albanian (Albania)            | 37%       |                     |
 | sr_RS | Serbian (Cyrillic, Bosnia)    | 37%       |                     |
 | sv_SE | Swedish (Sweden)              | 37%       |                     |
