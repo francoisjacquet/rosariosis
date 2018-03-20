@@ -225,7 +225,7 @@ function setMLvalue(id, loc, value){
 
 		foreach ( (array) $RosarioLocales as $key => $loc )
 		{
-			$return .= '<label><img src="assets/flags/' . $loc . '.png" class="button bigger" /> ';
+			$return .= '<label><img src="locale/' . $loc . '/flag.png" class="button bigger" /> ';
 
 			//$return .= TextInput(ParseMLField($value, $loc),'ML_'.$name.'['.$loc.']','',$extra." onchange=\"javascript:setMLvalue('".$name."','".($id==0?'':$loc)."',this.value);\"",false);
 			$return .= TextInput(
