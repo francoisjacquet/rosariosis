@@ -39,13 +39,13 @@ function MakeAttendanceCode( $state_code, $name = '', $title = '' )
 
 	$attendance_code_classes = array(
 		// Attendance codes.
-		'P' => _( 'present' ),
-		'A' => _( 'absent' ),
-		'H' => _( 'half-day' ),
+		'P' => 'present',
+		'A' => 'absent',
+		'H' => 'half-day',
 		// Daily attendance.
-		'1.0' => _( 'present' ),
-		'0.0' => _( 'absent' ),
-		'0.5' => _( 'half-day' ),
+		'1.0' => 'present',
+		'0.0' => 'absent',
+		'0.5' => 'half-day',
 	);
 
 	$class = 'attendance-code';
