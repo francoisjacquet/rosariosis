@@ -67,11 +67,11 @@ if ( ! empty( $_REQUEST['check'] ) )
 {
 	if ( ! _validMoodleURLandToken() )
 	{
-		$error[] = _( 'Fail' );
+		$error[] = _( 'Check' ) . ': ' . _( 'Fail' );
 	}
 	else
 	{
-		$note[] = button( 'check' ) . '&nbsp;' . _( 'Success' );
+		$note[] = button( 'check' ) . '&nbsp;' . _( 'Check' ) . ': ' . _( 'Success' );
 	}
 
 	// Unset save & values & redirect URL.
@@ -168,49 +168,44 @@ if ( empty( $_REQUEST['save'] ) )
  *
  * @since 3.9
  *
- * @return bool true if URL or Token not set or if URL and Token are OK, else false
+ * @return bool false if URL or Token not set or invalid, else true
  */
 function _validMoodleURLandToken()
 {
-	$url_available = true;
+	require_once 'plugins/Moodle/client.php';
 
 	// Check Moodle URL if set + token set.
-	if ( MOODLE_URL
-		&& MOODLE_TOKEN )
+	if ( ! MOODLE_URL
+		|| ! MOODLE_TOKEN )
 	{
-		$serverurl = MOODLE_URL . '/webservice/xmlrpc/server.php?wstoken=' . MOODLE_TOKEN;
-
-		if ( ! filter_var( $serverurl, FILTER_VALIDATE_URL ) )
-		{
-			$url_available = false;
-		}
-		else
-		{
-			// Check URL is available with cURL.
-			require_once 'plugins/Moodle/client.php';
-
-			$functionname = 'core_user_get_users';
-
-			$id = 2; // Default Admin ID.
-
-			$criteria = array(
-				'key' => 'id',
-				'value' => $id,
-			);
-
-			$object = array( 'criteria' => $criteria );
-
-			return moodle_xmlrpc_call( $functionname, $object );
-
-			// Leave $url_available = true as moodle_xmlrpc_call()
-			// will already add the error to the $error global var
-		}
+		return false;
 	}
 
-	return $url_available;
-}
+	$serverurl = MOODLE_URL . '/webservice/xmlrpc/server.php?wstoken=' . MOODLE_TOKEN;
 
-function core_user_get_users_response( $response )
-{
-	return true;
+	if ( ! filter_var( $serverurl, FILTER_VALIDATE_URL ) )
+	{
+		return false;
+	}
+
+	// Check URL is responding with cURL.
+	$functionname = 'core_user_get_users';
+
+	// Dummy response function.
+	function core_user_get_users_response( $response )
+	{
+		// We had a response, return true so moodle_xmlrpc_call will return true.
+		return true;
+	}
+
+	$id = 2; // Default Admin ID.
+
+	$criteria = array(
+		'key' => 'id',
+		'value' => $id,
+	);
+
+	$object = array( 'criteria' => $criteria );
+
+	return moodle_xmlrpc_call( $functionname, $object );
 }
