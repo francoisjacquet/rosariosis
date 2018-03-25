@@ -213,7 +213,7 @@ $cal_RET = DBGet( DBQuery( "SELECT DISTINCT SCHOOL_DATE,'_'||to_char(SCHOOL_DATE
 //if (UserStudentID() || $_REQUEST['student_id'] || User('PROFILE')=='parent')
 if ( $_REQUEST['student_id'] || User( 'PROFILE' ) === 'parent' )
 {
-	if ( $_REQUEST['period_id'] )
+	if ( ! empty( $_REQUEST['period_id'] ) )
 	{
 		//FJ multiple school periods for a course period
 		/*$sql = "SELECT

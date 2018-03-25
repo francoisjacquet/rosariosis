@@ -2,7 +2,7 @@
 
 require_once 'modules/Accounting/functions.inc.php';
 
-if ( ! $_REQUEST['print_statements'] )
+if ( empty( $_REQUEST['print_statements'] ) )
 {
 	DrawHeader( ProgramTitle() );
 }
@@ -103,7 +103,7 @@ if ( ! $_REQUEST['modfunc'] )
 		'COMMENTS' => _( 'Comment' ),
 	);
 
-	if ( ! $_REQUEST['print_statements'] )
+	if ( empty( $_REQUEST['print_statements'] ) )
 	{
 		$link['add']['html'] = array(
 			'REMOVE' => button( 'add' ),
@@ -114,7 +114,7 @@ if ( ! $_REQUEST['modfunc'] )
 		);
 	}
 
-	if ( ! $_REQUEST['print_statements'])
+	if ( empty( $_REQUEST['print_statements'] ) )
 	{
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 		if (AllowEdit())

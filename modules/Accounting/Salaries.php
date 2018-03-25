@@ -4,7 +4,7 @@ require_once 'modules/Accounting/functions.inc.php';
 if (User('PROFILE')=='teacher')//limit to teacher himself
 	$_REQUEST['staff_id'] = User('STAFF_ID');
 
-if ( ! $_REQUEST['print_statements'] )
+if ( empty( $_REQUEST['print_statements'] ) )
 {
 	DrawHeader( ProgramTitle() );
 
@@ -95,9 +95,9 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 		$columns = array();
 
 	$columns += array('TITLE' => _('Salary'),'AMOUNT' => _('Amount'),'ASSIGNED_DATE' => _('Assigned'),'DUE_DATE' => _('Due'),'COMMENTS' => _('Comment'));
-	if ( ! $_REQUEST['print_statements'])
+	if ( empty( $_REQUEST['print_statements'] ) )
 		$link['add']['html'] = array('REMOVE'=>button('add'),'TITLE'=>_makeSalariesTextInput('','TITLE'),'AMOUNT'=>_makeSalariesTextInput('','AMOUNT'),'ASSIGNED_DATE'=>ProperDate(DBDate()),'DUE_DATE'=>_makeSalariesDateInput('','DUE_DATE'),'COMMENTS'=>_makeSalariesTextInput('','COMMENTS'));
-	if ( ! $_REQUEST['print_statements'])
+	if ( empty( $_REQUEST['print_statements'] ) )
 	{
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 		if (AllowEdit())
@@ -113,7 +113,7 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 		echo '<div class="center">' . SubmitButton() . '</div>';
 	echo '<br />';
 
-	if ( ! $_REQUEST['print_statements'] )
+	if ( empty( $_REQUEST['print_statements'] ) )
 	{
 		$payments_total = DBGet(DBQuery("SELECT SUM(p.AMOUNT) AS TOTAL FROM ACCOUNTING_PAYMENTS p WHERE p.STAFF_ID='".UserStaffID()."' AND p.SYEAR='".UserSyear()."' AND p.SCHOOL_ID='".UserSchool()."'"));
 

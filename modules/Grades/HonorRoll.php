@@ -56,12 +56,12 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 		$extra['ORDER_BY'] = 'HIGH_HONOR,SORT_ORDER DESC,ROOM,FULL_NAME';
 
-		if ( $_REQUEST['list'])
+		if ( ! empty( $_REQUEST['list'] ) )
 			$extra['group'] = array('HIGH_HONOR');
 
 		$RET = GetStuList($extra);
 
-		if ( $_REQUEST['list'] )
+		if ( ! empty( $_REQUEST['list'] ) )
 		{
 			$handle = PDFStart();
 			echo '<table class="center" style="width:80%;">';
@@ -127,7 +127,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					width:100%;
 					height:100%;';
 
-			if ( $_REQUEST['frame'] )
+			if ( ! empty( $_REQUEST['frame'] ) )
 			{
 				echo 'background:url(assets/Frames/' . $_REQUEST['frame'] . ') no-repeat;
 					background-size:100% 100%;';

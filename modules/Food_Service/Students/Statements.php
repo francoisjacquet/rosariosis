@@ -62,10 +62,10 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 
 	if ( $student['BALANCE'])
 	{
-		if ( $_REQUEST['student_select'])
+		if ( ! empty( $_REQUEST['student_select'] ) )
 			$where = " AND fst.STUDENT_ID='".$_REQUEST['student_select']."'";
 
-		if ( $_REQUEST['type_select'])
+		if ( ! empty( $_REQUEST['type_select'] ) )
 			$where .= " AND fst.SHORT_NAME='".$_REQUEST['type_select']."'";
 
 		if ( $_REQUEST['detailed_view']=='true')

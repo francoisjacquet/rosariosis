@@ -2,7 +2,7 @@
 Widgets('request');
 Widgets('mailing_labels');
 
-if ( ! $_REQUEST['search_modfunc'])
+if ( empty( $_REQUEST['search_modfunc'] ) )
 {
 	DrawHeader(ProgramTitle());
 
@@ -18,7 +18,7 @@ else
 	$extra['SELECT'] .= ",c.TITLE AS COURSE_TITLE,srp.PRIORITY,srp.MARKING_PERIOD_ID,srp.WITH_TEACHER_ID,srp.NOT_TEACHER_ID,srp.WITH_PERIOD_ID,srp.NOT_PERIOD_ID,'' AS WITH_FULL_NAME";
 	$extra['FROM'] .= ',COURSES c,SCHEDULE_REQUESTS srp';
 	$extra['WHERE'] .= ' AND ssm.STUDENT_ID=srp.STUDENT_ID AND ssm.SYEAR=srp.SYEAR AND srp.COURSE_ID = c.COURSE_ID';
-	
+
 //FJ add subject areas
 	$extra['functions'] += array('WITH_FULL_NAME' => '_makeExtra');
 	$extra['group'] = array('STUDENT_ID');
@@ -26,8 +26,8 @@ else
 	$extra['ORDER_BY'] = 'COURSE_TITLE';
 
 	if ( $_REQUEST['mailing_labels']=='Y')
-		$extra['group'][] = 'ADDRESS_ID';	
-	
+		$extra['group'][] = 'ADDRESS_ID';
+
 	$RET = GetStuList($extra);
 
 	if (count($RET))
@@ -47,11 +47,11 @@ else
 					DrawHeader($address[1]['GRADE_ID']);
 					DrawHeader(SchoolInfo('TITLE'));
 					DrawHeader(ProperDate(DBDate()));
-		
+
 					echo '<br /><br /><table class="width-100p"><tr><td style="width:50px;"> &nbsp; </td><td>'.$address[1]['MAILING_LABEL'].'</td></tr></table><br />';
-					
+
 					ListOutput($address,$columns,'Request','Requests',array(),array(),array('center'=>false,'print'=>false));
-					echo '<div style="page-break-after: always;"></div>';				
+					echo '<div style="page-break-after: always;"></div>';
 				}
 			}
 			else
@@ -62,7 +62,7 @@ else
 				DrawHeader($courses[1]['GRADE_ID']);
 				DrawHeader(SchoolInfo('TITLE'));
 				DrawHeader(ProperDate(DBDate()));
-				
+
 				ListOutput($courses,$columns,'Request','Requests',array(),array(),array('center'=>false,'print'=>false));
 				echo '<div style="page-break-after: always;"></div>';
 			}

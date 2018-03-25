@@ -2,7 +2,7 @@
 
 Widgets( 'mailing_labels' );
 
-if ( ! $_REQUEST['search_modfunc'] )
+if ( empty( $_REQUEST['search_modfunc'] ) )
 {
 	DrawHeader( ProgramTitle() );
 

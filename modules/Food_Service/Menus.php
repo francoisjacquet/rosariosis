@@ -4,11 +4,11 @@ DrawHeader(ProgramTitle());
 
 if ( $_REQUEST['modfunc'] === 'update' )
 {
-	if ( $_REQUEST['values']
-		&& $_POST['values']
+	if ( ! empty( $_REQUEST['values'] )
+		&& ! empty( $_POST['values'] )
 		&& AllowEdit() )
 	{
-		if ( $_REQUEST['tab_id'])
+		if ( ! empty( $_REQUEST['tab_id'] ) )
 		{
 			foreach ( (array) $_REQUEST['values'] as $id => $columns)
 			{
@@ -111,7 +111,7 @@ echo ErrorMessage( $error );
 if ( ! $_REQUEST['modfunc'] )
 {
 	$menus_RET = DBGet(DBQuery('SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER'),array(),array('MENU_ID'));
-	if ( $_REQUEST['tab_id'])
+	if ( ! empty( $_REQUEST['tab_id'] ) )
 	{
 		if ( $_REQUEST['tab_id']!='new')
 			if ( $menus_RET[$_REQUEST['tab_id']])

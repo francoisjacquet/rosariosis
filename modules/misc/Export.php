@@ -76,7 +76,7 @@ if ( $_REQUEST['fields']['ADDRESS']
 		$extra['STUDENTS_JOIN_ADDRESS'] .= 'FALSE)';
 	}
 
-	if ( $_REQUEST['fields']['PARENTS'] )
+	if ( ! empty( $_REQUEST['fields']['PARENTS'] ) )
 	{
 		$extra['SELECT'] .= ',ssm.STUDENT_ID AS PARENTS';
 
@@ -97,35 +97,35 @@ $extra['SELECT'] .= ",ssm.NEXT_SCHOOL,ssm.CALENDAR_ID,ssm.SYEAR,
 		WHERE ssm.SCHOOL_ID=sch.ID
 		AND sch.SYEAR='" . UserSyear() . "') AS SCHOOL_NUMBER"; // Fix PHP error removed s.*.
 
-if ( $_REQUEST['fields']['FIRST_INIT'] )
+if ( ! empty( $_REQUEST['fields']['FIRST_INIT'] ) )
 {
 	$extra['SELECT'] .= ',SUBSTR(s.FIRST_NAME,1,1) AS FIRST_INIT';
 }
 
 // @deprecated, use FULL_NAME or your own combination of LAST, FIRST, MIDDLE & SUFFIX.
-if ( $_REQUEST['fields']['GIVEN_NAME'] )
+if ( ! empty( $_REQUEST['fields']['GIVEN_NAME'] ) )
 {
 	$extra['SELECT'] .= ",s.LAST_NAME||', '||s.FIRST_NAME||' '||coalesce(s.MIDDLE_NAME,' ') AS GIVEN_NAME";
 }
 
 // @deprecated, use FULL_NAME or your own combination of LAST, FIRST, MIDDLE & SUFFIX.
-if ( $_REQUEST['fields']['COMMON_NAME'] )
+if ( ! empty( $_REQUEST['fields']['COMMON_NAME'] ) )
 {
 	$extra['SELECT'] .= ",s.LAST_NAME||', '||s.FIRST_NAME AS COMMON_NAME";
 }
 
-if ( $_REQUEST['fields']['USERNAME'] )
+if ( ! empty( $_REQUEST['fields']['USERNAME'] ) )
 {
 	$extra['SELECT'] .= ",s.USERNAME";
 }
 
-if ( $_REQUEST['fields']['LAST_LOGIN'] )
+if ( ! empty( $_REQUEST['fields']['LAST_LOGIN'] ) )
 {
 	$extra['SELECT'] .= ",s.LAST_LOGIN";
 }
 
 // School Title.
-if ( $_REQUEST['fields']['SCHOOL_TITLE'] )
+if ( ! empty( $_REQUEST['fields']['SCHOOL_TITLE'] ) )
 {
 	$extra['SELECT'] .= ",(SELECT sch.TITLE FROM SCHOOLS sch
 		WHERE ssm.SCHOOL_ID=sch.ID
@@ -214,7 +214,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 
 	foreach ( (array) $custom_RET as $id => $field )
 	{
-		if ( $_REQUEST['fields'][ 'CUSTOM_' . $id ] )
+		if ( ! empty( $_REQUEST['fields'][ 'CUSTOM_' . $id ] ) )
 		{
 			if ( ! $fields_list[ 'CUSTOM_' . $id ] )
 			{
@@ -234,7 +234,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
 		$fields_list[ 'ADDRESS_' . $id ] = $field[1]['TITLE'];
 
-		if ( $_REQUEST['fields'][ 'ADDRESS_' . $id ] )
+		if ( ! empty( $_REQUEST['fields'][ 'ADDRESS_' . $id ] ) )
 		{
 			$extra['SELECT'] .= ',a.CUSTOM_' . $id . ' AS ADDRESS_' . $id;
 			$extra['addr'] = true;
@@ -266,14 +266,14 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 			$extra['WHERE'] .= " AND xse.STUDENT_ID=s.STUDENT_ID AND xse.SYEAR='" . UserSyear() . "'";
 	}
 
-	if ( $_REQUEST['month_include_active_date'] )
+	if ( ! empty( $_REQUEST['month_include_active_date'] ) )
 		$date = $_REQUEST['day_include_active_date'] . '-' .
 			$_REQUEST['month_include_active_date'] . '-' .
 			$_REQUEST['year_include_active_date'];
 	else
 		$date = DBDate();
 
-	if ( $_REQUEST['fields']['PERIOD_ATTENDANCE'] )
+	if ( ! empty( $_REQUEST['fields']['PERIOD_ATTENDANCE'] ) )
 	{
 		//FJ multiple school periods for a course period
 		//$extra['SELECT'] .= ',(SELECT st.FIRST_NAME||\' \'||st.LAST_NAME||\' - \'||coalesce(cp.ROOM,\' \') FROM STAFF st,SCHEDULE ss,COURSE_PERIODS cp,SCHOOL_PERIODS p WHERE ss.STUDENT_ID=ssm.STUDENT_ID AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND cp.TEACHER_ID=st.STAFF_ID AND cp.PERIOD_ID=p.PERIOD_ID AND (\''.$date.'\' BETWEEN ss.START_DATE AND ss.END_DATE OR \''.$date.'\'>=ss.START_DATE AND ss.END_DATE IS NULL) AND ss.MARKING_PERIOD_ID IN ('.GetAllMP('QTR',GetCurrentMP('QTR',$date)).') AND p.ATTENDANCE=\'Y\') AS PERIOD_ATTENDANCE';
@@ -369,7 +369,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 	}
 
 
-	if ( $_REQUEST['fields'] )
+	if ( ! empty( $_REQUEST['fields'] ) )
 	{
 		foreach ( (array) $_REQUEST['fields'] as $field => $on )
 		{
@@ -405,7 +405,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 			}
 		}
 
-		if ( $_REQUEST['address_group'] )
+		if ( ! empty( $_REQUEST['address_group'] ) )
 		{
 			$extra['SELECT'] .= ",coalesce((SELECT ADDRESS_ID
 				FROM STUDENTS_JOIN_ADDRESS
@@ -438,7 +438,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 
 		if ( !isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		{
-			if ( ! $_REQUEST['address_group'] )
+			if ( empty( $_REQUEST['address_group'] ) )
 			{
 				$header_left = '<a href="' . PreparePHP_SELF( $_REQUEST, array(), array( 'address_group' => 'Y' ) ) . '">' .
 					_( 'Group by Family' ) . '</a>';
@@ -452,7 +452,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 
 		DrawHeader( str_replace( '<br />', '<br /> &nbsp;', mb_substr( $_ROSARIO['SearchTerms'], 0, -6 ) ) );
 
-		if ( $_REQUEST['address_group'] )
+		if ( ! empty( $_REQUEST['address_group'] ) )
 			ListOutput( $RET, $columns, 'Family', 'Families', array(), $extra['LO_group'], $extra['LO_options'] );
 		else
 			ListOutput( $RET, $columns, 'Student', 'Students', array(), $extra['LO_group'], $extra['LO_options'] );

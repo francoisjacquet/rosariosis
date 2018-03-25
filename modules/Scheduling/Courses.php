@@ -63,7 +63,7 @@ if ( $_REQUEST['course_modfunc'] === 'search' )
 
 	PopTable( 'footer' );
 
-	if ( $_REQUEST['search_term'] )
+	if ( ! empty( $_REQUEST['search_term'] ) )
 	{
 		// FJ add Available Seats column to every choose course popup.
 		if ( $_REQUEST['modname'] !== 'Scheduling/Schedule.php' )
@@ -643,7 +643,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 {
 	$delete_sql = array();
 
-	if ( $_REQUEST['course_period_id'] )
+	if ( ! empty( $_REQUEST['course_period_id'] ) )
 	{
 		$table = _( 'Course Period' );
 
@@ -663,7 +663,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 
 		$unset_get = 'course_period_id';
 	}
-	elseif ( $_REQUEST['course_id'] )
+	elseif ( ! empty( $_REQUEST['course_id'] ) )
 	{
 		$table = _( 'Course' );
 
@@ -687,7 +687,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 
 		$unset_get = 'course_id';
 	}
-	elseif ( $_REQUEST['subject_id'] )
+	elseif ( ! empty( $_REQUEST['subject_id'] ) )
 	{
 		$table = _( 'Subject' );
 
@@ -729,18 +729,18 @@ if ( $_REQUEST['modfunc'] === 'delete'
 			DBQuery( $delete_query );
 		}
 
-		if ( $_REQUEST['course_period_id'] )
+		if ( ! empty( $_REQUEST['course_period_id'] ) )
 		{
 			// Hook.
 			do_action( 'Scheduling/Courses.php|delete_course_period' );
 		}
-		elseif ( $_REQUEST['subject_id'] )
+		elseif ( ! empty( $_REQUEST['subject_id'] ) )
 		{
 			// Hook.
 			do_action( 'Scheduling/Courses.php|delete_course_subject' );
 
 		}
-		elseif ( $_REQUEST['course_id'] )
+		elseif ( ! empty( $_REQUEST['course_id'] ) )
 		{
 			// Hook.
 			do_action( 'Scheduling/Courses.php|delete_course' );
@@ -800,7 +800,7 @@ if ( ( ! $_REQUEST['modfunc']
 		}
 
 		// ADDING & EDITING FORM
-		if ( $_REQUEST['course_period_id'] )
+		if ( ! empty( $_REQUEST['course_period_id'] ) )
 		{
 			if ( $_REQUEST['course_period_id'] !== 'new' )
 			{
@@ -1301,7 +1301,7 @@ if ( ( ! $_REQUEST['modfunc']
 			DrawHeader( $header );
 			//echo '</form>';
 		}
-		elseif ( $_REQUEST['course_id'] )
+		elseif ( ! empty( $_REQUEST['course_id'] ) )
 		{
 			if ( $_REQUEST['course_id']!='new')
 			{
@@ -1371,7 +1371,7 @@ if ( ( ! $_REQUEST['modfunc']
 
 			echo '</form>';
 		}
-		elseif ( $_REQUEST['subject_id'] )
+		elseif ( ! empty( $_REQUEST['subject_id'] ) )
 		{
 			if ( $_REQUEST['subject_id'] !== 'new' )
 			{
@@ -1440,7 +1440,7 @@ if ( ( ! $_REQUEST['modfunc']
 			DrawHeader(_('Choose a').' '.($_REQUEST['subject_id']?($_REQUEST['course_id']?($_REQUEST['last_year']=='true'?_('Last Year Course Period'):_('Course Period')):($_REQUEST['last_year']=='true'?_('Last Year Course'):_('Course'))):($_REQUEST['last_year']=='true'?_('Last Year Subject'):_('Subject'))));
 		}
 	}
-	elseif ( ! $_REQUEST['subject_id'] )
+	elseif ( empty( $_REQUEST['subject_id'] ) )
 	{
 		DrawHeader( _( 'Courses' ) );
 	}
@@ -1644,7 +1644,7 @@ function calcSeats1( &$periods, $date )
 {
 	foreach ( (array) $periods as $key => $period )
 	{
-		if ( $_REQUEST['include_child_mps'] )
+		if ( ! empty( $_REQUEST['include_child_mps'] ) )
 		{
 			$mps = GetChildrenMP($period['MP'],$period['MARKING_PERIOD_ID']);
 
@@ -1686,7 +1686,7 @@ function calcSeats1( &$periods, $date )
 
 					if ( $seats[1]['FILLED_SEATS']!='' )
 					{
-						if ( $_REQUEST['include_child_mps'] )
+						if ( ! empty( $_REQUEST['include_child_mps'] ) )
 						{
 							$periods[ $key ]['AVAILABLE_SEATS'] .= '<a href='.$link.'>'.(GetMP($mp,'SHORT_NAME')?GetMP($mp,'SHORT_NAME'):GetMP($mp)).'('.($period['AVAILABLE_SEATS']-$seats[1]['FILLED_SEATS']).')</a> | ';
 						}
@@ -1696,7 +1696,7 @@ function calcSeats1( &$periods, $date )
 				}
 				else
 				{
-					if ( $_REQUEST['include_child_mps'] )
+					if ( ! empty( $_REQUEST['include_child_mps'] ) )
 					{
 						$periods[ $key ]['AVAILABLE_SEATS'] .= '<a href='.$link.'>'.(GetMP($mp,'SHORT_NAME')?GetMP($mp,'SHORT_NAME'):GetMP($mp)).'</a> | ';
 					}
@@ -1706,7 +1706,7 @@ function calcSeats1( &$periods, $date )
 			}
 		}
 
-		if ( $_REQUEST['include_child_mps'] )
+		if ( ! empty( $_REQUEST['include_child_mps'] ) )
 		{
 			$periods[ $key ]['AVAILABLE_SEATS'] = mb_substr($periods[ $key ]['AVAILABLE_SEATS'],0,-3);
 		}

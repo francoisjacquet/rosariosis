@@ -7,7 +7,7 @@ foreach ( (array) $eligibility_config as $value )
 	${$value[1]['TITLE']} = $value[1]['VALUE'];
 }
 
-if ( $_REQUEST['values'])
+if ( ! empty( $_REQUEST['values'] ) )
 {
 	if ( $_REQUEST['values']['START_M']=='PM')
 		$_REQUEST['values']['START_HOUR']+=12;

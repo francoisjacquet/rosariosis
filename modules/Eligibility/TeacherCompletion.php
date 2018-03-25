@@ -38,7 +38,7 @@ switch (date('D'))
 
 $start = time() - ($today-$START_DAY)*60*60*24;
 
-if ( ! $_REQUEST['start_date'] )
+if ( empty( $_REQUEST['start_date'] ) )
 {
 	$start_time = $start;
 
@@ -137,7 +137,7 @@ foreach ( (array) $RET as $staff_id => $periods )
 	$i++;
 	$staff_RET[ $i ]['FULL_NAME'] = $periods[ key( $periods ) ][1]['FULL_NAME'];
 
-	if ( ! $_REQUEST['period'] )
+	if ( empty( $_REQUEST['period'] ) )
 	{
 		foreach ( (array) $periods as $period_id => $course_periods )
 		{
@@ -167,7 +167,7 @@ foreach ( (array) $RET as $staff_id => $periods )
 
 $columns = array( 'FULL_NAME' => _( 'Teacher' ) );
 
-if ( ! $_REQUEST['period'] )
+if ( empty( $_REQUEST['period'] ) )
 {
 	foreach ( (array) $periods_RET as $period )
 	{

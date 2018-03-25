@@ -188,7 +188,7 @@ if ( ! $_REQUEST['modfunc'] )
 function mySearch($type,$extra='')
 {	global $extra;
 
-	if ( ! $_REQUEST['search_modfunc'])
+	if ( empty( $_REQUEST['search_modfunc'] ) )
 	{
 		$_SESSION['Search_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back'));
 
@@ -264,13 +264,13 @@ function mySearch($type,$extra='')
 
 		if (User('PROFILE')=='admin')
 		{
-			if ( $_REQUEST['teacher_id'])
+			if ( ! empty( $_REQUEST['teacher_id'] ) )
 				$where .= " AND cp.TEACHER_ID='".$_REQUEST['teacher_id']."'";
 
-			if ( $_REQUEST['first'])
+			if ( ! empty( $_REQUEST['first'] ) )
 				$where .= " AND UPPER(s.FIRST_NAME) LIKE '".mb_strtoupper($_REQUEST['first'])."%'";
 
-			if ( $_REQUEST['w_course_period_id'])
+			if ( ! empty( $_REQUEST['w_course_period_id'] ) )
 			{
 				if ( $_REQUEST['w_course_period_id_which']=='course')
 					$where .= " AND cp.COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$_REQUEST['w_course_period_id']."')";
@@ -278,14 +278,14 @@ function mySearch($type,$extra='')
 					$where .= " AND cp.COURSE_PERIOD_ID='".$_REQUEST['w_course_period_id']."'";
 			}
 
-			if ( $_REQUEST['subject_id'])
+			if ( ! empty( $_REQUEST['subject_id'] ) )
 			{
 				$from .= ",COURSES c";
 				$where .= " AND c.COURSE_ID=cp.COURSE_ID AND c.SUBJECT_ID='".$_REQUEST['subject_id']."'";
 			}
 
 			//FJ multiple school periods for a course period
-			if ( $_REQUEST['period_id'])
+			if ( ! empty( $_REQUEST['period_id'] ) )
 			{
 				//$where .= " AND cp.PERIOD_ID='".$_REQUEST['period_id']."'";
 				$where .= " AND cpsp.PERIOD_ID='".$_REQUEST['period_id']."' AND cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID";
@@ -312,7 +312,7 @@ function mySearch($type,$extra='')
 		$course_periods_RET = DBGet(DBQuery($sql),array('COURSE_PERIOD_ID' => '_makeChooseCheckbox'));
 		$LO_columns = array('COURSE_PERIOD_ID' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.checked,\'cp_arr\');" checked /><A>','TITLE' => _('Course Period'));
 
-		if ( ! $_REQUEST['LO_save'] && ! $extra['suppress_save'])
+		if ( empty( $_REQUEST['LO_save'] ) && ! $extra['suppress_save'] )
 		{
 			$_SESSION['List_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back'));
 

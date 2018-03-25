@@ -2,7 +2,7 @@
 
 DrawHeader( _( 'Gradebook' ) . ' - ' . ProgramTitle() );
 
-if ( $_REQUEST['values'] )
+if ( ! empty( $_REQUEST['values'] ) )
 {
 	DBQuery("DELETE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".User('STAFF_ID')."' AND PROGRAM='Gradebook'");
 	foreach ( (array) $_REQUEST['values'] as $title => $value)

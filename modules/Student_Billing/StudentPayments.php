@@ -2,7 +2,7 @@
 
 require_once 'modules/Student_Billing/functions.inc.php';
 
-if ( ! $_REQUEST['print_statements'] )
+if ( empty( $_REQUEST['print_statements'] ) )
 {
 	DrawHeader( ProgramTitle() );
 
@@ -183,7 +183,7 @@ if ( UserStudentID()
 		);
 	}
 
-	if ( ! $_REQUEST['print_statements'] )
+	if ( empty( $_REQUEST['print_statements'] ) )
 	{
 		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
 

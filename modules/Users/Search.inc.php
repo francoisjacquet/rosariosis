@@ -231,7 +231,7 @@ else
 
 	if (count($staff_RET)>1 || $link['add'] || ! $link['FULL_NAME'] || $extra['columns_before'] || $extra['columns_after'] || ($extra['BackPrompt']==false && count($staff_RET)==0) || ($extra['Redirect']===false && count($staff_RET)==1))
 	{
-		if ( isset( $_REQUEST['expanded_view'] ) && $_REQUEST['expanded_view'] !=='true' )
+		if ( ! isset( $_REQUEST['expanded_view'] ) || $_REQUEST['expanded_view'] !== 'true' )
 		{
 			DrawHeader(
 				'<a href="' . PreparePHP_SELF( $_REQUEST, array(), array( 'expanded_view' => 'true' ) ) .

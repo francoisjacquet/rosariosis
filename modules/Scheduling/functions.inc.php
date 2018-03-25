@@ -5,7 +5,7 @@ function MyWidgets($item)
 	switch ( $item)
 	{
 		case 'ly_course':
-			if ( $_REQUEST['w_ly_course_period_id'])
+			if ( ! empty( $_REQUEST['w_ly_course_period_id'] ) )
 			{
 				if ( $_REQUEST['w_ly_course_period_id_which']=='course')
 				{
@@ -26,7 +26,7 @@ function MyWidgets($item)
 			}
 
 			$extra['search'] .= '<tr><td>' . _( 'Last Year Course' ) . '</td>
-				<td><div id="ly_course_div"></div> 
+				<td><div id="ly_course_div"></div>
 				<a href="#" onclick=\'popups.open(
 					"Modules.php?modname=misc/ChooseCourse.php&last_year=true"
 				); return false;\'>' . _( 'Choose' ) . '</a></td></tr>';

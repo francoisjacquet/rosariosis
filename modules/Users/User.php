@@ -212,7 +212,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 					$_REQUEST['staff']['PROFILE_ID'] = '3';
 			}
 
-			if ( $_REQUEST['staff']['PROFILE_ID'])
+			if ( ! empty( $_REQUEST['staff']['PROFILE_ID'] ) )
 				DBQuery("DELETE FROM STAFF_EXCEPTIONS WHERE USER_ID='".UserStaffID()."'");
 			elseif (isset($_REQUEST['staff']['PROFILE_ID']) && $profile_RET[1]['PROFILE_ID'])
 			{

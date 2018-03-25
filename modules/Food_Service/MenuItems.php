@@ -5,11 +5,11 @@ DrawHeader( ProgramTitle() );
 
 if ( $_REQUEST['modfunc'] === 'update' )
 {
-	if ( $_REQUEST['values']
-		&& $_POST['values']
+	if ( ! empty( $_REQUEST['values'] )
+		&& ! empty( $_POST['values'] )
 		&& AllowEdit() )
 	{
-		if ( $_REQUEST['tab_id'] )
+		if ( ! empty( $_REQUEST['tab_id'] ) )
 		{
 			foreach ( (array) $_REQUEST['values'] as $id => $columns)
 			{
@@ -20,7 +20,11 @@ if ( $_REQUEST['modfunc'] === 'update' )
 					{
 						//FJ fix SQL bug PRICE_STAFF & PRICE not null
 						//FJ fix SQL bug PRICE_FREE & PRICE_REDUCED numeric
-						if ( $_REQUEST['tab_id']!='new' || ((empty($columns['PRICE_FREE']) || is_numeric($columns['PRICE_FREE'])) && (empty($columns['PRICE_REDUCED']) || is_numeric($columns['PRICE_REDUCED'])) && (empty($columns['PRICE_STAFF']) || is_numeric($columns['PRICE_STAFF'])) && (empty($columns['PRICE']) || is_numeric($columns['PRICE']))))
+						if ( $_REQUEST['tab_id'] !== 'new'
+							|| ( ( empty( $columns['PRICE_FREE'] ) || is_numeric( $columns['PRICE_FREE'] ) )
+								&& ( empty( $columns['PRICE_REDUCED'] ) || is_numeric( $columns['PRICE_REDUCED'] ) )
+								&& ( empty( $columns['PRICE_STAFF'] ) || is_numeric( $columns['PRICE_STAFF'] ) )
+								&& ( empty( $columns['PRICE'] ) || is_numeric( $columns['PRICE'] ) ) ) )
 						{
 
 							if ( $_REQUEST['tab_id']!='new')
@@ -80,12 +84,19 @@ if ( $_REQUEST['modfunc'] === 'update' )
 						}
 
 						if ( $go )
+						{
 							//FJ fix SQL bug PRICE_STAFF & PRICE not null
 							//FJ fix SQL bug PRICE_FREE & PRICE_REDUCED numeric
-							if ( $_REQUEST['tab_id']!='new' || ((empty($columns['PRICE_FREE']) || is_numeric($columns['PRICE_FREE'])) && (empty($columns['PRICE_REDUCED']) || is_numeric($columns['PRICE_REDUCED'])) && is_numeric($columns['PRICE_STAFF']) && is_numeric($columns['PRICE']) ))
-								DBQuery($sql);
+							if ( $_REQUEST['tab_id'] !== 'new'
+								|| ( ( empty( $columns['PRICE_FREE'] ) || is_numeric( $columns['PRICE_FREE'] ) )
+									&& ( empty($columns['PRICE_REDUCED'] ) || is_numeric( $columns['PRICE_REDUCED'] ) )
+									&& is_numeric( $columns['PRICE_STAFF'] ) && is_numeric( $columns['PRICE'] ) ) )
+							{
+								DBQuery( $sql );
+							}
 							else
 								$error[] = _('Please enter valid Numeric data.');
+						}
 					}
 				}
 				else
@@ -129,7 +140,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 if ( ! $_REQUEST['modfunc'] )
 {
 	$menus_RET = DBGet(DBQuery('SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER'),array(),array('MENU_ID'));
-	if ( $_REQUEST['tab_id'])
+	if ( ! empty( $_REQUEST['tab_id'] ) )
 	{
 		if ( $_REQUEST['tab_id']!='new')
 			if ( $menus_RET[$_REQUEST['tab_id']])

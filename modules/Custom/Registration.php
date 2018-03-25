@@ -247,7 +247,7 @@ if ( isset( $_REQUEST['values'] )
 	}
 
 	// Save Student Info.
-	if ( $_REQUEST['students'] )
+	if ( ! empty( $_REQUEST['students'] ) )
 	{
 		$sql = "UPDATE STUDENTS SET ";
 

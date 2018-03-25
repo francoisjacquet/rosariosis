@@ -15,10 +15,10 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 {
 
 	$where = '';
-	if ( $_REQUEST['type_select'])
+	if ( ! empty( $_REQUEST['type_select'] ) )
 		$where .= "AND fst.SHORT_NAME='".$_REQUEST['type_select']."' ";
 
-	if ( $_REQUEST['staff_select'])
+	if ( ! empty( $_REQUEST['staff_select'] ) )
 		$where .= "AND fst.SELLER_ID='".$_REQUEST['staff_select']."' ";
 
 	if ( $_REQUEST['detailed_view']=='true')
@@ -144,10 +144,10 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 
 	echo '</form>';
 
-	if ( $_REQUEST['type_select'])
+	if ( ! empty( $_REQUEST['type_select'] ) )
 		$where = "AND fst.SHORT_NAME='".$_REQUEST['type_select']."' ";
 
-	if ( $_REQUEST['staff_select'])
+	if ( ! empty( $_REQUEST['staff_select'] ) )
 		$where = "AND fst.SELLER_ID='".$_REQUEST['staff_select']."' ";
 
 	if ( $_REQUEST['detailed_view']!='true')

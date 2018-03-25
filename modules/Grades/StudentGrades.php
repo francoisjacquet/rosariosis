@@ -40,7 +40,7 @@ if ( $_REQUEST['id']
 	RedirectURL( 'id' );
 }
 
-if ( ! $_REQUEST['id'] )
+if ( empty( $_REQUEST['id'] ) )
 {
 	DrawHeader(_('Totals'),'<a href="Modules.php?modname='.$_REQUEST['modname'].'&id=all'.($do_stats?'&do_stats='.$_REQUEST['do_stats']:'').'">'._('Expand All').'</a>');
 

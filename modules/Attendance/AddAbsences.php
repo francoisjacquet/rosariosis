@@ -4,12 +4,12 @@ require_once 'modules/Attendance/includes/UpdateAttendanceDaily.fnc.php';
 
 DrawHeader( ProgramTitle() );
 
-if ( ! $_REQUEST['month'] )
+if ( empty( $_REQUEST['month'] ) )
 {
 	$_REQUEST['month'] = date( 'm' );
 }
 
-if ( ! $_REQUEST['year'] )
+if ( empty( $_REQUEST['year'] ) )
 {
 	$_REQUEST['year'] = date( 'Y' );
 }

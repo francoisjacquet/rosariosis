@@ -57,13 +57,13 @@ if ( $_REQUEST['modfunc'] === 'save'
 			if ( $_REQUEST['mailing_labels']=='Y')
 				echo '<br /><br /><table class="width-100p"><tr><td style="width:50px;"> &nbsp; </td><td>'.$student['MAILING_LABEL'].'</td></tr></table><br />';
 
-			if ( $_REQUEST['category']['1'] )
+			if ( ! empty( $_REQUEST['category']['1'] ) )
 			{
 				require 'modules/Students/includes/General_Info.inc.php';
 				echo '<div style="page-break-after: always;"></div>';
 			}
 
-			if ( $_REQUEST['category']['3'] )
+			if ( ! empty( $_REQUEST['category']['3'] ) )
 			{
 				$_ROSARIO['DrawHeader'] = '';
 
@@ -144,7 +144,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 				echo '<div style="page-break-after: always;"></div>';
 			}
 
-			if ( $_REQUEST['category']['2'] )
+			if ( ! empty( $_REQUEST['category']['2'] ) )
 			{
 				$_ROSARIO['DrawHeader'] = '';
 				DrawHeader(ParseMLField($categories_RET['2'][1]['TITLE']));
@@ -153,7 +153,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 				echo '<div style="page-break-after: always;"></div>';
 			}
 
-			if ( $_REQUEST['category']['4'] )
+			if ( ! empty( $_REQUEST['category']['4'] ) )
 			{
 				$_ROSARIO['DrawHeader'] = '';
 				DrawHeader(ParseMLField($categories_RET['4'][1]['TITLE']));

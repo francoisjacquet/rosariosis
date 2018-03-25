@@ -45,7 +45,7 @@ foreach ( (array) $periods_RET as $period)
 	$extra['columns_after']['PERIOD_'.$period['PERIOD_ID']] = $period['TITLE'];
 	$extra['functions']['PERIOD_'.$period['PERIOD_ID']] = '_preparePeriods';
 }
-if ( ! $_REQUEST['search_modfunc'])
+if ( empty( $_REQUEST['search_modfunc'] ) )
 	Search('student_id',$extra);
 else
 {

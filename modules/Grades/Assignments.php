@@ -241,7 +241,7 @@ if ( isset( $_POST['tables'] )
 // DELETE
 if ( $_REQUEST['modfunc'] === 'delete' )
 {
-	if ( $_REQUEST['assignment_id'] )
+	if ( ! empty( $_REQUEST['assignment_id'] ) )
 	{
 		// Assignment.
 		$prompt_title = _( 'Assignment' );
@@ -285,7 +285,7 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 	{
 		DBQuery( $sql );
 
-		if ( ! $_REQUEST['assignment_id'] )
+		if ( empty( $_REQUEST['assignment_id'] ) )
 		{
 			$assignments_RET = DBGet( DBQuery( "SELECT ASSIGNMENT_ID
 				FROM GRADEBOOK_ASSIGNMENTS
@@ -450,7 +450,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$title = _( 'New Assignment Type' );
 	}
 
-	if ( $_REQUEST['assignment_id'] )
+	if ( ! empty( $_REQUEST['assignment_id'] ) )
 	{
 		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&assignment_type_id=' . $_REQUEST['assignment_type_id'];
 
@@ -557,7 +557,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$header .= '<tr><td class="valign-top" colspan="2">' . ErrorMessage( $error ) . '</td></tr>';
 		$header .= '</table>';
 	}
-	elseif ( $_REQUEST['assignment_type_id'])
+	elseif ( ! empty( $_REQUEST['assignment_type_id'] ) )
 	{
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&table=GRADEBOOK_ASSIGNMENT_TYPES';
 		if ( $_REQUEST['assignment_type_id']!='new')
@@ -632,7 +632,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if (count($types_RET))
 	{
-		if ( $_REQUEST['assignment_type_id'])
+		if ( ! empty( $_REQUEST['assignment_type_id'] ) )
 		{
 			foreach ( (array) $types_RET as $key => $value)
 			{

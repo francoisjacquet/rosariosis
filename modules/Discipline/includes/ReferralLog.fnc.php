@@ -198,13 +198,13 @@ function ReferralLogsGenerate( $extra )
 		foreach ( (array) $referrals as $referral )
 		{
 			// Entry Date
-			if ( $_REQUEST['elements']['ENTRY_DATE'] )
+			if ( ! empty( $_REQUEST['elements']['ENTRY_DATE'] ) )
 			{
 				DrawHeader( '<b>' . _( 'Date' ) . ': </b>' . ProperDate( $referral['ENTRY_DATE'] ) );
 			}
 
 			// Reporter
-			if ( $_REQUEST['elements']['STAFF_ID'] )
+			if ( ! empty( $_REQUEST['elements']['STAFF_ID'] ) )
 			{
 				DrawHeader( '<b>' . _( 'Reporter' ) .': </b>' . GetTeacher( $referral['STAFF_ID'] ) );
 			}

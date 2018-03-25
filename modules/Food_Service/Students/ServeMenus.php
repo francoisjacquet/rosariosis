@@ -7,7 +7,7 @@ Search('student_id',$extra);
 
 if ( $_REQUEST['modfunc'] === 'submit' )
 {
-	if ( $_REQUEST['submit']['cancel'] )
+	if ( ! empty( $_REQUEST['submit']['cancel'] ) )
 	{
 		if ( DeletePrompt( _( 'Sale' ), _( 'Cancel' ) ) )
 		{

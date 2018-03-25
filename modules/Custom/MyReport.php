@@ -62,7 +62,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		//$extra['WHERE'] = " AND (adr.ADDRESS_ID IS NULL OR adr.ADDRESS_ID=sja.ADDRESS_ID)";
 
-		if ( $_REQUEST['address_group'] )
+		if ( ! empty( $_REQUEST['address_group'] ) )
 		{
 			$extra['SELECT'] .= ",coalesce((SELECT ADDRESS_ID
 				FROM STUDENTS_JOIN_ADDRESS
@@ -160,7 +160,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		DrawHeader( str_replace( '<br />', '<br /> &nbsp;', mb_substr( $_ROSARIO['SearchTerms'], 0, -6 ) ) );
 
-		if ( ! $_REQUEST['LO_save'] )
+		if ( empty( $_REQUEST['LO_save'] ) )
 		{
 			$_SESSION['List_PHP_SELF'] = PreparePHP_SELF( $_SESSION['_REQUEST_vars'], array( 'bottom_back' ) );
 

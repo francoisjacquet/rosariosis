@@ -84,7 +84,7 @@ if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')==
 	echo '</form>';
 }
 
-if ( $_REQUEST['period_id'])
+if ( ! empty( $_REQUEST['period_id'] ) )
 {
 	//FJ All periods
 	if ( $_REQUEST['period_id'] == 'all')

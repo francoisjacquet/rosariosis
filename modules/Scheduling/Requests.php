@@ -69,8 +69,8 @@ if ( $_REQUEST['modfunc'] === 'remove'
 // Update.
 if ( $_REQUEST['modfunc'] === 'update' )
 {
-	if ( $_REQUEST['values']
-		&& $_POST['values']
+	if ( ! empty( $_REQUEST['values'] )
+		&& ! empty( $_POST['values'] )
 		&& AllowEdit() )
 	{
 		foreach ( (array) $_REQUEST['values'] as $request_id => $columns )

@@ -2,7 +2,7 @@
 
 $_REQUEST['modfunc'] = 'choose_course';
 
-if ( ! $_REQUEST['course_id'])
+if ( empty( $_REQUEST['course_id'] ) )
 	include 'modules/Scheduling/Courses.php';
 else
 {

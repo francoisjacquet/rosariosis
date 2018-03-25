@@ -5,8 +5,8 @@ DrawHeader( ProgramTitle() );
 
 if ( $_REQUEST['modfunc'] === 'update' )
 {
-	if ( $_REQUEST['values']
-		&& $_POST['values']
+	if ( ! empty( $_REQUEST['values'] )
+		&& ! empty( $_POST['values'] )
 		&& AllowEdit()
 		&& $_REQUEST['tab_id'] )
 	{
@@ -112,12 +112,25 @@ if ( ! $_REQUEST['modfunc'] )
 {
 	if (User('PROFILE')=='admin')
 	{
-		$grade_scales_RET = DBGet(DBQuery('SELECT ID,TITLE FROM REPORT_CARD_GRADE_SCALES WHERE SCHOOL_ID=\''.UserSchool().'\' AND SYEAR=\''.UserSyear().'\' ORDER BY SORT_ORDER'),array(),array('ID'));
-		if ( $_REQUEST['tab_id']=='' || $_REQUEST['tab_id']!='new' && ! $grade_scales_RET[$_REQUEST['tab_id']])
-			if (count($grade_scales_RET))
-				$_REQUEST['tab_id'] = key($grade_scales_RET).'';
+		$grade_scales_RET = DBGet( DBQuery( "SELECT ID,TITLE
+			FROM REPORT_CARD_GRADE_SCALES
+			WHERE SCHOOL_ID='" . UserSchool() . "'
+			AND SYEAR='" . UserSyear() . "'
+			ORDER BY SORT_ORDER" ), array(), array( 'ID' ) );
+
+		if ( $_REQUEST['tab_id'] == ''
+			|| $_REQUEST['tab_id'] !== 'new'
+			&& empty( $grade_scales_RET[ $_REQUEST['tab_id'] ] ) )
+		{
+			if ( count( $grade_scales_RET ) )
+			{
+				$_REQUEST['tab_id'] = key( $grade_scales_RET ) . '';
+			}
 			else
+			{
 				$_REQUEST['tab_id'] = 'new';
+			}
+		}
 	}
 	else
 	{

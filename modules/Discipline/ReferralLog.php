@@ -7,10 +7,10 @@ $extra['new'] = true;
 
 $extra['action'] .= '&_ROSARIO_PDF=true';
 
-if ( ! $_REQUEST['search_modfunc'] )
+if ( empty( $_REQUEST['search_modfunc'] ) )
 {
 	DrawHeader( ProgramTitle() );
-	
+
 	$extra['second_col'] .= ReferralLogIncludeForm();
 
 	Search( 'student_id', $extra );

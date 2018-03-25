@@ -23,7 +23,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 		$poll_id = $poll_id['ID'];
 		$_REQUEST['values'][ $poll_id ]['PUBLISHED_PROFILES'] = '';
 		foreach ( array('admin','teacher','parent') as $profile_id)
-			if ( $_REQUEST['profiles'][ $poll_id ][ $profile_id ])
+			if ( ! empty( $_REQUEST['profiles'][ $poll_id ][ $profile_id ] ) )
 				$_REQUEST['values'][ $poll_id ]['PUBLISHED_PROFILES'] .= ','.$profile_id;
 		if (count($_REQUEST['profiles'][ $poll_id ]))
 		{
@@ -31,11 +31,11 @@ if ( $_REQUEST['modfunc'] === 'update'
 			{
 				$profile_id = $profile['ID'];
 
-				if ( $_REQUEST['profiles'][ $poll_id ][ $profile_id ])
+				if ( ! empty( $_REQUEST['profiles'][ $poll_id ][ $profile_id ] ) )
 					$_REQUEST['values'][ $poll_id ]['PUBLISHED_PROFILES'] .= ','.$profile_id;
 			}
 		}
-		if ( $_REQUEST['values'][ $poll_id ]['PUBLISHED_PROFILES'])
+		if ( ! empty( $_REQUEST['values'][ $poll_id ]['PUBLISHED_PROFILES'] ) )
 			$_REQUEST['values'][ $poll_id ]['PUBLISHED_PROFILES'] .= ',';
 	}
 }

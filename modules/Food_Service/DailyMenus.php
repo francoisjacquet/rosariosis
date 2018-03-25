@@ -2,12 +2,12 @@
 
 DrawHeader( ProgramTitle() );
 
-if ( ! $_REQUEST['month'] )
+if ( empty( $_REQUEST['month'] ) )
 {
 	$_REQUEST['month'] = date( 'm' );
 }
 
-if ( ! $_REQUEST['year'] )
+if ( empty( $_REQUEST['year'] ) )
 {
 	$_REQUEST['year'] = date( 'Y' );
 }
@@ -33,7 +33,7 @@ else
 }
 
 $menus_RET = DBGet(DBQuery('SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER'),array(),array('MENU_ID'));
-if ( ! $_REQUEST['menu_id'])
+if ( empty( $_REQUEST['menu_id'] ) )
 	if ( ! $_SESSION['FSA_menu_id'])
 		if (count($menus_RET))
 			$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'] = key($menus_RET);
@@ -73,7 +73,7 @@ if ( $_REQUEST['submit']['save']
 	RedirectURL( 'food_service' );
 }
 
-if ( $_REQUEST['submit']['print'] )
+if ( ! empty( $_REQUEST['submit']['print'] ) )
 {
 	$events_RET = DBGet(DBQuery("SELECT TITLE,DESCRIPTION,SCHOOL_DATE
 	FROM CALENDAR_EVENTS
@@ -86,7 +86,7 @@ if ( $_REQUEST['submit']['print'] )
 
 	echo '<br /><table class="width-100p">';
 
-	if ( $_REQUEST['_ROSARIO_PDF'] )
+	if ( ! empty( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		// Landscape PDF.
 		$_SESSION['orientation'] = 'landscape';

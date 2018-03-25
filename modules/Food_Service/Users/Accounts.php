@@ -7,7 +7,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 	if ( UserStaffID()
 		&& AllowEdit() )
 	{
-		if ( $_REQUEST['submit']['delete'])
+		if ( ! empty( $_REQUEST['submit']['delete'] ) )
 		{
 			if ( DeletePrompt( _( 'User Account' ) ) )
 			{
@@ -21,7 +21,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 		}
 		elseif ( count( $_REQUEST['food_service'] ) )
 		{
-			if ( $_REQUEST['food_service']['BARCODE'])
+			if ( ! empty( $_REQUEST['food_service']['BARCODE'] ) )
 			{
 				$RET = DBGet(DBQuery("SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."' AND STAFF_ID!='".UserStaffID()."'"));
 				if ( $RET)
@@ -56,7 +56,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 				foreach ( (array) $_REQUEST['food_service'] as $column_name => $value)
 					$sql .= DBEscapeIdentifier( $column_name ) . "='" . trim( $value ) . "',";
 				$sql = mb_substr($sql,0,-1)." WHERE STAFF_ID='".UserStaffID()."'";
-				if ( $_REQUEST['food_service']['BARCODE'])
+				if ( ! empty( $_REQUEST['food_service']['BARCODE'] ) )
 				{
 					DBQuery("UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET BARCODE=NULL WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."'");
 					DBQuery("UPDATE FOOD_SERVICE_STUDENT_ACCOUNTS SET BARCODE=NULL WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."'");

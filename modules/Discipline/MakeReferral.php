@@ -143,11 +143,11 @@ echo ErrorMessage( $error );
 
 echo ErrorMessage( $note, 'note' );
 
-//if ( ! $_REQUEST['student_id'])
+//if ( empty( $_REQUEST['student_id'] ) )
 	$extra['new'] = true;
 
 
-if ( $_REQUEST['student_id'])
+if ( ! empty( $_REQUEST['student_id'] ) )
 	echo '<br />';
 
 Search('student_id',$extra);

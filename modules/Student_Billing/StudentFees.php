@@ -2,7 +2,7 @@
 
 require_once 'modules/Student_Billing/functions.inc.php';
 
-if ( ! $_REQUEST['print_statements'] )
+if ( empty( $_REQUEST['print_statements'] ) )
 {
 	DrawHeader( ProgramTitle() );
 
@@ -158,7 +158,7 @@ if ( UserStudentID()
 		'COMMENTS' => _( 'Comment' ),
 	);
 
-	if ( ! $_REQUEST['print_statements'] )
+	if ( empty( $_REQUEST['print_statements'] ) )
 	{
 		$link['add']['html'] = array(
 			'REMOVE' => button( 'add' ),
@@ -170,7 +170,7 @@ if ( UserStudentID()
 		);
 	}
 
-	if ( ! $_REQUEST['print_statements'] )
+	if ( empty( $_REQUEST['print_statements'] ) )
 	{
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 		//DrawStudentHeader();
@@ -191,7 +191,7 @@ if ( UserStudentID()
 
 	echo '<br />';
 
-	if ( ! $_REQUEST['print_statements'] )
+	if ( empty( $_REQUEST['print_statements'] ) )
 	{
 		$payments_total = DBGet(DBQuery("SELECT SUM(p.AMOUNT) AS TOTAL FROM BILLING_PAYMENTS p WHERE p.STUDENT_ID='".UserStudentID()."' AND p.SYEAR='".UserSyear()."'"));
 

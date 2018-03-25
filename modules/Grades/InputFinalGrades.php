@@ -153,7 +153,7 @@ elseif ( $_REQUEST['tab_id'] == '0' )
 		AND g.REPORT_CARD_COMMENT_ID IN (SELECT ID
 			FROM REPORT_CARD_COMMENTS WHERE COURSE_ID='0')" ), array(), array( 'STUDENT_ID', 'REPORT_CARD_COMMENT_ID' ) );
 }
-elseif ( $_REQUEST['tab_id'] )
+elseif ( ! empty( $_REQUEST['tab_id'] ) )
 {
 	$commentsA_RET = DBGet( DBQuery( "SELECT ID,TITLE,SCALE_ID
 		FROM REPORT_CARD_COMMENTS
@@ -191,7 +191,7 @@ elseif (is_array($commentsB_RET))
 
 if ( $_REQUEST['modfunc'] === 'gradebook' )
 {
-	if ( $_REQUEST['mp'] )
+	if ( ! empty( $_REQUEST['mp'] ) )
 	{
 		$gradebook_config = ProgramUserConfig( 'Gradebook' );
 
@@ -392,7 +392,7 @@ if ( $_REQUEST['modfunc'] === 'gradebook' )
 
 if ( $_REQUEST['modfunc'] === 'grades' )
 {
-	if ( $_REQUEST['prev_mp'] )
+	if ( ! empty( $_REQUEST['prev_mp'] ) )
 	{
 		require_once 'ProgramFunctions/_makePercentGrade.fnc.php';
 
@@ -419,7 +419,7 @@ if ( $_REQUEST['modfunc'] === 'grades' )
 
 if ( $_REQUEST['modfunc'] === 'comments' )
 {
-	if ( $_REQUEST['prev_mp'] )
+	if ( ! empty( $_REQUEST['prev_mp'] ) )
 	{
 		$import_comments_RET = DBGet(DBQuery("SELECT g.STUDENT_ID,g.REPORT_CARD_COMMENT_ID,g.COMMENT
 		FROM STUDENT_REPORT_CARD_GRADES g
@@ -874,7 +874,7 @@ if ( $_REQUEST['values']
 		AND g.MARKING_PERIOD_ID='".$_REQUEST['mp']."'
 		AND g.REPORT_CARD_COMMENT_ID IN (SELECT ID FROM REPORT_CARD_COMMENTS WHERE COURSE_ID='0')"),array(),array('STUDENT_ID','REPORT_CARD_COMMENT_ID'));
 	}
-	elseif ( $_REQUEST['tab_id'])
+	elseif ( ! empty( $_REQUEST['tab_id'] ) )
 	{
 		$current_commentsA_RET = DBGet(DBQuery("SELECT g.STUDENT_ID,g.REPORT_CARD_COMMENT_ID,g.COMMENT
 		FROM STUDENT_REPORT_CARD_COMMENTS g,COURSE_PERIODS cp

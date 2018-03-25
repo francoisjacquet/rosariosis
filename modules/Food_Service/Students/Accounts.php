@@ -9,7 +9,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 		&& count( $_REQUEST['food_service'] )
 		&& count( $_POST['food_service'] ) )
 	{
-		if ( $_REQUEST['food_service']['BARCODE'] )
+		if ( ! empty( $_REQUEST['food_service']['BARCODE'] ) )
 		{
 			$RET = DBGet(DBQuery("SELECT ACCOUNT_ID FROM FOOD_SERVICE_STUDENT_ACCOUNTS WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."' AND STUDENT_ID!='".UserStudentID()."'"));
 			if ( $RET)
@@ -50,7 +50,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 					$sql .= DBEscapeIdentifier( $column_name ) . "='" . trim( $value ) . "',";
 				}
 				$sql = mb_substr($sql,0,-1)." WHERE STUDENT_ID='".UserStudentID()."'";
-				if ( $_REQUEST['food_service']['BARCODE'])
+				if ( ! empty( $_REQUEST['food_service']['BARCODE'] ) )
 				{
 					DBQuery("UPDATE FOOD_SERVICE_STUDENT_ACCOUNTS SET BARCODE=NULL WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."'");
 					DBQuery("UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET BARCODE=NULL WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."'");

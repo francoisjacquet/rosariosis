@@ -6,8 +6,8 @@ DrawHeader( ProgramTitle() );
 
 if ( $_REQUEST['modfunc'] === 'update' )
 {
-	if ( $_REQUEST['values']
-		&& $_POST['values']
+	if ( ! empty( $_REQUEST['values'] )
+		&& ! empty( $_POST['values'] )
 		&& AllowEdit()
 		&& $_REQUEST['tab_id'] )
 	{
@@ -107,12 +107,24 @@ echo ErrorMessage( $error );
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	$comment_scales_RET = DBGet(DBQuery('SELECT ID,TITLE FROM REPORT_CARD_COMMENT_CODE_SCALES WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER,ID'),array(),array('ID'));
-	if ( $_REQUEST['tab_id']=='' || $_REQUEST['tab_id']!='new' && ! $comment_scales_RET[$_REQUEST['tab_id']])
-		if (count($comment_scales_RET))
-			$_REQUEST['tab_id'] = key($comment_scales_RET).'';
+	$comment_scales_RET = DBGet( DBQuery( "SELECT ID,TITLE
+		FROM REPORT_CARD_COMMENT_CODE_SCALES
+		WHERE SCHOOL_ID='" . UserSchool() . "'
+		ORDER BY SORT_ORDER,ID" ), array(), array( 'ID' ) );
+
+	if ( $_REQUEST['tab_id'] == ''
+		|| $_REQUEST['tab_id'] !== 'new'
+		&& empty( $comment_scales_RET[ $_REQUEST['tab_id'] ] ) )
+	{
+		if ( count( $comment_scales_RET ) )
+		{
+			$_REQUEST['tab_id'] = key( $comment_scales_RET ) . '';
+		}
 		else
+		{
 			$_REQUEST['tab_id'] = 'new';
+		}
+	}
 
 	$tabs = array();
 	$comment_scale_select = array();

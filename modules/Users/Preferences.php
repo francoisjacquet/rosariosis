@@ -3,7 +3,8 @@ require_once 'ProgramFunctions/Theme.fnc.php';
 
 DrawHeader(ProgramTitle());
 
-if ( $_REQUEST['values'] && $_POST['values'])
+if ( ! empty( $_REQUEST['values'] )
+	&& ! empty( $_POST['values'] ) )
 {
 	if ( $_REQUEST['tab']=='password')
 	{
@@ -130,7 +131,7 @@ if ( ! $_REQUEST['modfunc'] )
 			'WidgetsSearch','StaffFieldsSearch','StaffFieldsView','StaffWidgetsSearch')" ),
 		array(), array( 'PROGRAM','TITLE' ) );
 
-	if ( ! $_REQUEST['tab'])
+	if ( empty( $_REQUEST['tab'] ) )
 	//FJ enable password change for students
 		//$_REQUEST['tab'] = 'display_options';
 		$_REQUEST['tab'] = 'password';

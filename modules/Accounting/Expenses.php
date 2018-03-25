@@ -1,7 +1,7 @@
 <?php
 require_once 'modules/Accounting/functions.inc.php';
 
-if ( ! $_REQUEST['print_statements'] )
+if ( empty( $_REQUEST['print_statements'] ) )
 {
 	DrawHeader( ProgramTitle() );
 }

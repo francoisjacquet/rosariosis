@@ -36,7 +36,7 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 
 	if ( $staff['ACCOUNT_ID'] && $staff['BALANCE']!='')
 	{
-		if ( $_REQUEST['type_select'])
+		if ( ! empty( $_REQUEST['type_select'] ) )
 			$where = " AND fst.SHORT_NAME='".$_REQUEST['type_select']."'";
 
 		if ( $_REQUEST['detailed_view']=='true')

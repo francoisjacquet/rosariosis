@@ -171,7 +171,7 @@ if ( $_REQUEST['attendance']
 			if ($current_RET[ $student_id ][1]['ADMIN']!='Y')
 				$sql .= ",ATTENDANCE_CODE='".mb_substr($value,5)."'";
 
-			if ($_REQUEST['comment'][ $student_id ])
+			if ( ! empty( $_REQUEST['comment'][ $student_id ] ) )
 				$sql .= ",COMMENT='".trim($_REQUEST['comment'][ $student_id ])."'";
 
 			$sql .= " WHERE SCHOOL_DATE='".$date."' AND PERIOD_ID='".UserPeriod()."' AND STUDENT_ID='".$student_id."'";

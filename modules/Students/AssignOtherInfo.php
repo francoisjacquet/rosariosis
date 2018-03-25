@@ -25,7 +25,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 			unset($_REQUEST['values']['NEXT_SCHOOL']);
 		}
 
-		if ( $_REQUEST['values']['CALENDAR_ID'])
+		if ( ! empty( $_REQUEST['values']['CALENDAR_ID'] ) )
 		{
 			$calendar = $_REQUEST['values']['CALENDAR_ID'];
 			unset($_REQUEST['values']['CALENDAR_ID']);
@@ -128,7 +128,7 @@ if ( ! $_REQUEST['modfunc'] )
 		DrawHeader( '', SubmitButton() );
 		echo '<br />';
 
-		if ( $_REQUEST['category_id'] )
+		if ( ! empty( $_REQUEST['category_id'] ) )
 		{
 			$fields_RET = DBGet( DBQuery( "SELECT ID,TITLE,TYPE,SELECT_OPTIONS
 				FROM CUSTOM_FIELDS

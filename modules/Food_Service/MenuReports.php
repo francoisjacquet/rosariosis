@@ -45,7 +45,7 @@ if ( empty( $end_date ) )
 DrawHeader(ProgramTitle());
 
 $menus_RET = DBGet(DBQuery("SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"),array(),array('MENU_ID'));
-if ( $_REQUEST['menu_id'])
+if ( ! empty( $_REQUEST['menu_id'] ) )
 {
 	if ( $_REQUEST['menu_id']!='new')
 		if ( $menus_RET[$_REQUEST['menu_id']])
@@ -120,42 +120,42 @@ $type_select = '<select name="type_select" onchange="ajaxPostForm(this.form,true
 
 //$calendars_RET = DBGet(DBQuery("SELECT acs.CALENDAR_ID,(SELECT count(1) FROM ATTENDANCE_CALENDAR WHERE CALENDAR_ID=acs.CALENDAR_ID AND SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."') AS DAY_COUNT FROM ATTENDANCE_CALENDARS acs WHERE acs.SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
 
-$RET = DBGet(DBQuery("SELECT 'Student' AS TYPE, fssa.DISCOUNT,count(1) AS DAYS,(SELECT count(1) FROM ATTENDANCE_CALENDAR WHERE CALENDAR_ID=ac.CALENDAR_ID AND SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."') AS ELLIGIBLE 
-FROM FOOD_SERVICE_STUDENT_ACCOUNTS fssa,STUDENT_ENROLLMENT ssm,ATTENDANCE_CALENDAR ac 
-WHERE ac.CALENDAR_ID=ssm.CALENDAR_ID 
-AND ac.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' 
-AND fssa.STATUS IS NULL 
-AND ssm.STUDENT_ID=fssa.STUDENT_ID 
-AND ssm.SYEAR='".UserSyear()."' 
-AND ssm.SCHOOL_ID='".UserSchool()."' 
-AND (ac.SCHOOL_DATE BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL AND ac.SCHOOL_DATE>=ssm.START_DATE) 
+$RET = DBGet(DBQuery("SELECT 'Student' AS TYPE, fssa.DISCOUNT,count(1) AS DAYS,(SELECT count(1) FROM ATTENDANCE_CALENDAR WHERE CALENDAR_ID=ac.CALENDAR_ID AND SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."') AS ELLIGIBLE
+FROM FOOD_SERVICE_STUDENT_ACCOUNTS fssa,STUDENT_ENROLLMENT ssm,ATTENDANCE_CALENDAR ac
+WHERE ac.CALENDAR_ID=ssm.CALENDAR_ID
+AND ac.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."'
+AND fssa.STATUS IS NULL
+AND ssm.STUDENT_ID=fssa.STUDENT_ID
+AND ssm.SYEAR='".UserSyear()."'
+AND ssm.SCHOOL_ID='".UserSchool()."'
+AND (ac.SCHOOL_DATE BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL AND ac.SCHOOL_DATE>=ssm.START_DATE)
 GROUP BY fssa.DISCOUNT,ac.CALENDAR_ID"),array('ELLIGIBLE' => 'bump_dep','DAYS' => 'bump_dep'));
 //echo '<pre>'; var_dump($RET); echo '</pre>';
 
-$RET = DBGet(DBQuery("SELECT 'User' AS TYPE,'' AS DISCOUNT,count(1) AS DAYS,(SELECT count(1) FROM ATTENDANCE_CALENDAR WHERE CALENDAR_ID=ac.CALENDAR_ID AND SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."') AS ELLIGIBLE 
-FROM FOOD_SERVICE_STAFF_ACCOUNTS fssa,STAFF s,ATTENDANCE_CALENDAR ac 
-WHERE ac.CALENDAR_ID=(SELECT CALENDAR_ID FROM ATTENDANCE_CALENDARS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND DEFAULT_CALENDAR='Y') 
-AND ac.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' 
-AND fssa.STATUS IS NULL 
-AND s.STAFF_ID=fssa.STAFF_ID 
-AND (s.SCHOOLS IS NULL OR position(','||'".UserSchool()."'||',' IN s.SCHOOLS)>0) 
+$RET = DBGet(DBQuery("SELECT 'User' AS TYPE,'' AS DISCOUNT,count(1) AS DAYS,(SELECT count(1) FROM ATTENDANCE_CALENDAR WHERE CALENDAR_ID=ac.CALENDAR_ID AND SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."') AS ELLIGIBLE
+FROM FOOD_SERVICE_STAFF_ACCOUNTS fssa,STAFF s,ATTENDANCE_CALENDAR ac
+WHERE ac.CALENDAR_ID=(SELECT CALENDAR_ID FROM ATTENDANCE_CALENDARS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND DEFAULT_CALENDAR='Y')
+AND ac.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."'
+AND fssa.STATUS IS NULL
+AND s.STAFF_ID=fssa.STAFF_ID
+AND (s.SCHOOLS IS NULL OR position(','||'".UserSchool()."'||',' IN s.SCHOOLS)>0)
 GROUP BY ac.CALENDAR_ID"),array('ELLIGIBLE' => 'bump_dep','DAYS' => 'bump_dep'));
 //echo '<pre>'; var_dump($RET); echo '</pre>';
 
-$RET = DBGet(DBQuery("SELECT DISTINCT ON (STUDENT_ID) 'Student' AS TYPE, DISCOUNT,count(1) AS PARTICIPATED 
-FROM FOOD_SERVICE_TRANSACTIONS 
-WHERE SYEAR='".UserSyear()."' 
-AND SHORT_NAME='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."' 
-AND TIMESTAMP BETWEEN '".$start_date."' AND date '".$end_date."' +1 
-AND SCHOOL_ID='".UserSchool()."' 
+$RET = DBGet(DBQuery("SELECT DISTINCT ON (STUDENT_ID) 'Student' AS TYPE, DISCOUNT,count(1) AS PARTICIPATED
+FROM FOOD_SERVICE_TRANSACTIONS
+WHERE SYEAR='".UserSyear()."'
+AND SHORT_NAME='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."'
+AND TIMESTAMP BETWEEN '".$start_date."' AND date '".$end_date."' +1
+AND SCHOOL_ID='".UserSchool()."'
 GROUP BY STUDENT_ID,DISCOUNT"),array('PARTICIPATED' => 'bump_dep'));
 
-$RET = DBGet(DBQuery("SELECT DISTINCT ON (STAFF_ID) 'User' AS TYPE,'' AS DISCOUNT,count(1) AS PARTICIPATED 
-FROM FOOD_SERVICE_STAFF_TRANSACTIONS 
-WHERE SYEAR='".UserSyear()."' 
-AND SHORT_NAME='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."' 
-AND TIMESTAMP BETWEEN '".$start_date."' AND date '".$end_date."' +1 
-AND SCHOOL_ID='".UserSchool()."' 
+$RET = DBGet(DBQuery("SELECT DISTINCT ON (STAFF_ID) 'User' AS TYPE,'' AS DISCOUNT,count(1) AS PARTICIPATED
+FROM FOOD_SERVICE_STAFF_TRANSACTIONS
+WHERE SYEAR='".UserSyear()."'
+AND SHORT_NAME='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."'
+AND TIMESTAMP BETWEEN '".$start_date."' AND date '".$end_date."' +1
+AND SCHOOL_ID='".UserSchool()."'
 GROUP BY STAFF_ID"),array('PARTICIPATED' => 'bump_dep'));
 
 //FJ add translation
@@ -163,21 +163,21 @@ $users_locale = array('Student' => _('Student'), 'User' => _('User'));
 
 if ( $_REQUEST['type_select']=='sales')
 {
-	$RET = DBGet(DBQuery("SELECT 'Student' AS TYPE,fsti.SHORT_NAME,fst.DISCOUNT,-sum((SELECT AMOUNT FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fsti.TRANSACTION_ID AND ITEM_ID=fsti.ITEM_ID)) AS COUNT 
-	FROM FOOD_SERVICE_TRANSACTIONS fst,FOOD_SERVICE_TRANSACTION_ITEMS fsti 
-	WHERE fsti.TRANSACTION_ID=fst.TRANSACTION_ID 
-	AND fst.SYEAR='".UserSyear()."' 
-	AND fst.SCHOOL_ID='".UserSchool()."' 
-	AND fst.SHORT_NAME='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."' 
-	AND fst.TIMESTAMP BETWEEN '".$start_date."' AND date '".$end_date."' +1 
+	$RET = DBGet(DBQuery("SELECT 'Student' AS TYPE,fsti.SHORT_NAME,fst.DISCOUNT,-sum((SELECT AMOUNT FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fsti.TRANSACTION_ID AND ITEM_ID=fsti.ITEM_ID)) AS COUNT
+	FROM FOOD_SERVICE_TRANSACTIONS fst,FOOD_SERVICE_TRANSACTION_ITEMS fsti
+	WHERE fsti.TRANSACTION_ID=fst.TRANSACTION_ID
+	AND fst.SYEAR='".UserSyear()."'
+	AND fst.SCHOOL_ID='".UserSchool()."'
+	AND fst.SHORT_NAME='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."'
+	AND fst.TIMESTAMP BETWEEN '".$start_date."' AND date '".$end_date."' +1
 	GROUP BY fsti.SHORT_NAME,fst.DISCOUNT"),array('SHORT_NAME' => 'bump_count'));
-	$RET = DBGet(DBQuery("SELECT 'User' AS TYPE,fsti.SHORT_NAME,'' AS DISCOUNT,-sum((SELECT sum(AMOUNT) FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fsti.TRANSACTION_ID AND SHORT_NAME=fsti.SHORT_NAME)) AS COUNT 
-	FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst,FOOD_SERVICE_STAFF_TRANSACTION_ITEMS fsti 
-	WHERE fsti.TRANSACTION_ID=fst.TRANSACTION_ID 
-	AND fst.SYEAR='".UserSyear()."' 
-	AND fst.SCHOOL_ID='".UserSchool()."' 
-	AND fst.SHORT_NAME='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."' 
-	AND fst.TIMESTAMP BETWEEN '".$start_date."' AND date '".$end_date."' +1 
+	$RET = DBGet(DBQuery("SELECT 'User' AS TYPE,fsti.SHORT_NAME,'' AS DISCOUNT,-sum((SELECT sum(AMOUNT) FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fsti.TRANSACTION_ID AND SHORT_NAME=fsti.SHORT_NAME)) AS COUNT
+	FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst,FOOD_SERVICE_STAFF_TRANSACTION_ITEMS fsti
+	WHERE fsti.TRANSACTION_ID=fst.TRANSACTION_ID
+	AND fst.SYEAR='".UserSyear()."'
+	AND fst.SCHOOL_ID='".UserSchool()."'
+	AND fst.SHORT_NAME='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."'
+	AND fst.TIMESTAMP BETWEEN '".$start_date."' AND date '".$end_date."' +1
 	GROUP BY fsti.SHORT_NAME"),array('SHORT_NAME' => 'bump_count'));
 
 	$LO_types = array(0 => array(array()));
@@ -205,21 +205,21 @@ if ( $_REQUEST['type_select']=='sales')
 }
 else
 {
-	$RET = DBGet(DBQuery("SELECT 'Student' AS TYPE,fst.DISCOUNT,fsti.SHORT_NAME,count(*) 
-	FROM FOOD_SERVICE_TRANSACTIONS fst,FOOD_SERVICE_TRANSACTION_ITEMS fsti 
-	WHERE fsti.TRANSACTION_ID=fst.TRANSACTION_ID 
-	AND fst.SYEAR='".UserSyear()."' 
-	AND fst.SCHOOL_ID='".UserSchool()."' 
-	AND fst.SHORT_NAME='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."' 
-	AND fst.TIMESTAMP BETWEEN '".$start_date."' AND date '".$end_date."' +1 
+	$RET = DBGet(DBQuery("SELECT 'Student' AS TYPE,fst.DISCOUNT,fsti.SHORT_NAME,count(*)
+	FROM FOOD_SERVICE_TRANSACTIONS fst,FOOD_SERVICE_TRANSACTION_ITEMS fsti
+	WHERE fsti.TRANSACTION_ID=fst.TRANSACTION_ID
+	AND fst.SYEAR='".UserSyear()."'
+	AND fst.SCHOOL_ID='".UserSchool()."'
+	AND fst.SHORT_NAME='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."'
+	AND fst.TIMESTAMP BETWEEN '".$start_date."' AND date '".$end_date."' +1
 	GROUP BY fsti.SHORT_NAME,fst.DISCOUNT"),array('SHORT_NAME' => 'bump_count'));
-	$RET = DBGet(DBQuery("SELECT 'User' AS TYPE,'' AS DISCOUNT,fsti.SHORT_NAME,count(*) 
-	FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst,FOOD_SERVICE_STAFF_TRANSACTION_ITEMS fsti 
-	WHERE fsti.TRANSACTION_ID=fst.TRANSACTION_ID 
-	AND fst.SYEAR='".UserSyear()."' 
-	AND fst.SCHOOL_ID='".UserSchool()."' 
-	AND fst.SHORT_NAME='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."' 
-	AND fst.TIMESTAMP BETWEEN '".$start_date."' AND date '".$end_date."' +1 
+	$RET = DBGet(DBQuery("SELECT 'User' AS TYPE,'' AS DISCOUNT,fsti.SHORT_NAME,count(*)
+	FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst,FOOD_SERVICE_STAFF_TRANSACTION_ITEMS fsti
+	WHERE fsti.TRANSACTION_ID=fst.TRANSACTION_ID
+	AND fst.SYEAR='".UserSyear()."'
+	AND fst.SCHOOL_ID='".UserSchool()."'
+	AND fst.SHORT_NAME='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."'
+	AND fst.TIMESTAMP BETWEEN '".$start_date."' AND date '".$end_date."' +1
 	GROUP BY fsti.SHORT_NAME"),array('SHORT_NAME' => 'bump_count'));
 
 	$LO_types = array(0 => array());

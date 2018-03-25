@@ -10,7 +10,7 @@ if ( $_REQUEST['modfunc'] === 'select' )
 	RedirectURL( 'modfunc' );
 }
 
-if ( $_REQUEST['type'])
+if ( ! empty( $_REQUEST['type'] ) )
 	$_SESSION['FSA_type'] = $_REQUEST['type'];
 else
 	$_SESSION['_REQUEST_vars']['type'] = $_REQUEST['type'] = $_SESSION['FSA_type'];
@@ -38,7 +38,7 @@ DrawHeader(($_SESSION['FSA_type']=='staff' ? _('User') : _('Student')).' &minus;
 User('PROFILE')=='student'?'':DrawHeader($header);
 
 $menus_RET = DBGet(DBQuery('SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER'),array(),array('MENU_ID'));
-if ( ! $_REQUEST['menu_id'])
+if ( empty( $_REQUEST['menu_id'] ) )
 {
 	if ( ! $_SESSION['FSA_menu_id'])
 		if (count($menus_RET))
@@ -54,7 +54,7 @@ else
 
 if ( $_REQUEST['modfunc'] === 'add' )
 {
-	if ( $_REQUEST['item_sn'] )
+	if ( ! empty( $_REQUEST['item_sn'] ) )
 	{
 		$_SESSION['FSA_sale'][] = $_REQUEST['item_sn'];
 	}

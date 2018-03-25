@@ -61,7 +61,7 @@ $sql = "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,sp.TITLE,cp
 		ORDER BY FULL_NAME";
 $RET = DBGet(DBQuery($sql),array(),array('STAFF_ID'));
 
-if ( ! $_REQUEST['period'] )
+if ( empty( $_REQUEST['period'] ) )
 {
 	foreach ( (array) $RET as $staff_id => $periods )
 	{

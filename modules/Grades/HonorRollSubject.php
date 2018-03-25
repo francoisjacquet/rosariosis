@@ -54,7 +54,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				width:100%;
 				height:100%;';
 
-		if ( $_REQUEST['frame'] )
+		if ( ! empty( $_REQUEST['frame'] ) )
 		{
 			echo 'background:url(assets/Frames/' . $_REQUEST['frame'] . ') no-repeat;
 				background-size:100% 100%;';

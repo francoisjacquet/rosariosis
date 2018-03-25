@@ -42,7 +42,7 @@ if ( empty( $end_date ) )
 	$end_date = $_REQUEST['year_end'] . '-' . $_REQUEST['month_end'] . '-' . $_REQUEST['day_end'];
 }
 
-if ( $_REQUEST['type'])
+if ( ! empty( $_REQUEST['type'] ) )
 	$_SESSION['FSA_type'] = $_REQUEST['type'];
 else
 	$_SESSION['_REQUEST_vars']['type'] = $_REQUEST['type'] = $_SESSION['FSA_type'];

@@ -289,7 +289,7 @@ if ( UserStudentID()
 
 		$columns = array('COURSE' => _('Request'),'SECTIONS' => _('Sections'),'WITH_TEACHER_ID' => _('Teacher'),'WITH_PERIOD_ID' => _('Period'));
 
-		if ( $_REQUEST['include_seats'])
+		if ( ! empty( $_REQUEST['include_seats'] ) )
 		{
 			$columns += array('AVAILABLE_SEATS' => _('Available Seats'));
 			$extra['functions'] += array('AVAILABLE_SEATS' => 'CalcSeats');
@@ -310,7 +310,7 @@ if ( UserStudentID()
 if ( $_REQUEST['modfunc']=='choose_course')
 {
 
-	if ( ! $_REQUEST['course_period_id'] )
+	if ( empty( $_REQUEST['course_period_id'] ) )
 	{
 		require_once 'modules/Scheduling/Courses.php';
 	}
@@ -323,7 +323,7 @@ if ( $_REQUEST['modfunc']=='choose_course')
 			WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 			AND cp.COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."'"));
 
-		if ( $_REQUEST['course_marking_period_id'])
+		if ( ! empty( $_REQUEST['course_marking_period_id'] ) )
 		{
 			$mp_RET[1]['MARKING_PERIOD_ID'] = $_REQUEST['course_marking_period_id'];
 			$mp_RET[1]['MP'] = GetMP($_REQUEST['course_marking_period_id'],'MP');

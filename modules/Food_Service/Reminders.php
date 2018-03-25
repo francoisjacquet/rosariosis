@@ -1,5 +1,5 @@
 <?php
-if ( $_REQUEST['type'])
+if ( ! empty( $_REQUEST['type'] ) )
 	$_SESSION['FSA_type'] = $_REQUEST['type'];
 else
 	$_SESSION['_REQUEST_vars']['type'] = $_REQUEST['type'] = $_SESSION['FSA_type'];

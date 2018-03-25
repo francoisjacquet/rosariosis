@@ -14,7 +14,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 		$_REQUEST['mailing_labels'] = 'Y';
 
-		if ( $_REQUEST['to_address'] )
+		if ( ! empty( $_REQUEST['to_address'] ) )
 		{
 			$_REQUEST['residence'] = 'Y';
 		}

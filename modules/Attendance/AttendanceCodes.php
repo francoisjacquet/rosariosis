@@ -8,8 +8,8 @@ if ( $_REQUEST['table']=='')
 if ( $_REQUEST['modfunc'] === 'update'
 	&& AllowEdit() )
 {
-	if ( $_REQUEST['values']
-		&& $_POST['values'] )
+	if ( ! empty( $_REQUEST['values'] )
+		&& ! empty( $_POST['values'] ) )
 	{
 		foreach ( (array) $_REQUEST['values'] as $id => $columns )
 		{

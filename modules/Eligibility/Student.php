@@ -82,7 +82,7 @@ if ( UserStudentID()
 
 	$start = time() - ($today-$START_DAY)*60*60*24;
 
-	if ( ! $_REQUEST['start_date'] )
+	if ( empty( $_REQUEST['start_date'] ) )
 	{
 		$start_time = $start;
 
