@@ -93,7 +93,11 @@ Vous êtes maintenant prêt pour installer la base de données de RosarioSIS. Si
 7. Importez le fichier SQL de RosarioSIS:
     `server$ psql -f REPERTOIRE_DINSTALLATION/rosariosis.sql rosariosis_db rosariosis_user`
 
-Aussi, vous devrez peut-être éditer le fichier [`pg_hba.conf`](http://www.postgresql.org/docs/current/static/auth-pg-hba-conf.html) afin d'autoriser la connexion par mot de passe.
+Aussi, vous devrez peut-être éditer le fichier [`pg_hba.conf`](http://www.postgresql.org/docs/current/static/auth-pg-hba-conf.html) afin d'autoriser la connexion d'utilisateur par mot de passe (`md5`):
+```
+# "local" is for Unix domain socket connections only
+local   all             all                                     md5
+```
 
 C'est tout!... maintenant, pointez votre navigateur sur: `http://votredomaine.com/REPERTOIRE_DINSTALLATION/index.php`
 
@@ -129,6 +133,7 @@ Instructions d'installation pour Ubuntu 16.04:
 server$ wget https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.4/wkhtmltox-0.12.4_linux-generic-amd64.tar.xz
 server$ sudo tar --directory=/opt -xvf wkhtmltox-0.12.4_linux-generic-amd64.tar.xz
 server$ export PATH=$PATH:/opt/wkhtmltox/bin
+server$ sudo apt-get install libxrender-dev
 ```
 
 Définir le chemin dans `config.inc.php`:
