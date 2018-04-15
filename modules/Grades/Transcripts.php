@@ -45,16 +45,16 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				$_REQUEST['syear_arr'][0] :
 				UserSyear() );
 
-			$showStudentPic = $_REQUEST['showstudentpic'];
-			$showSAT = $_REQUEST['showsat'];
+			$showStudentPic = isset( $_REQUEST['showstudentpic'] ) ? $_REQUEST['showstudentpic'] : null;
+			$showSAT = isset( $_REQUEST['showsat'] ) ? $_REQUEST['showsat'] : null;
 			//FJ add Show Grades option
-			$showGrades = $_REQUEST['showgrades'];
+			$showGrades = isset( $_REQUEST['showgrades'] ) ? $_REQUEST['showgrades'] : null;
 			//FJ add Show Comments option
-			$showMPcomments = $_REQUEST['showmpcomments'];
+			$showMPcomments = isset( $_REQUEST['showmpcomments'] ) ? $_REQUEST['showmpcomments'] : null;
 			//FJ add Show Credits option
-			$showCredits = $_REQUEST['showcredits'];
+			$showCredits = isset( $_REQUEST['showcredits'] ) ? $_REQUEST['showcredits'] : null;
 			//FJ add Show Credit Hours option
-			$showCreditHours = $_REQUEST['showcredithours'];
+			$showCreditHours = isset( $_REQUEST['showcredithours'] ) ? $_REQUEST['showcredithours'] : null;
 			//FJ add Show Studies Certificate option
 			$showCertificate = User('PROFILE')=='admin' && $_REQUEST['showcertificate'];
 
@@ -507,7 +507,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 			$extra['extra_header_left'] .= '<td>__SSECURITY__</td><td>= '.$field_SSECURITY[1]['TITLE'].'</td><td colspan="3">&nbsp;</td>';
 			$extra['extra_header_left'] .= '</tr><tr>';
-			$extra['extra_header_left'] .= '<td>__FULL_NAME__</td><td>= '._('Last, First M').'</td><td>&nbsp;</td>';
+			$extra['extra_header_left'] .= '<td>__FULL_NAME__</td><td>= '._( 'Display Name' ).'</td><td>&nbsp;</td>';
 			$extra['extra_header_left'] .= '<td>__LAST_NAME__</td><td>= '._('Last Name').'</td>';
 			$extra['extra_header_left'] .= '</tr><tr>';
 			$extra['extra_header_left'] .= '<td>__FIRST_NAME__</td><td>= '._('First Name').'</td><td>&nbsp;</td>';

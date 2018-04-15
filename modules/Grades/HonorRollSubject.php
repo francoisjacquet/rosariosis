@@ -135,7 +135,7 @@ if ( ! $_REQUEST['modfunc'] )
 		) . '</td></tr>';
 
 		$extra['extra_header_left'] .= '<tr class="st"><td class="valign-top">'._('Substitutions').':</td><td><table><tr class="st">';
-		$extra['extra_header_left'] .= '<td>__FULL_NAME__</td><td>= '._('Last, First M').'</td><td>&nbsp;</td>';
+		$extra['extra_header_left'] .= '<td>__FULL_NAME__</td><td>= '._( 'Display Name' ).'</td><td>&nbsp;</td>';
 		$extra['extra_header_left'] .= '<td>__LAST_NAME__</td><td>= '._('Last Name').'</td></tr>';
 
 		$extra['extra_header_left'] .= '<tr class="st"><td>__FIRST_NAME__</td><td>= '._('First Name').'</td><td>&nbsp;</td>';

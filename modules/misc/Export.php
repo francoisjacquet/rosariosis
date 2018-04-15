@@ -156,7 +156,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 	if ( ! $fields_list )
 	{
 		$fields_list = array(
-			'FULL_NAME' => _( 'Last, First M' ),
+			'FULL_NAME' => _( 'Display Name' ),
 			'FIRST_NAME' => _( 'First Name' ),
 			'FIRST_INIT' => _( 'First Name Initial' ),
 			'LAST_NAME' => _( 'Last Name' ),
@@ -467,7 +467,7 @@ else
 		if ( AllowUse( 'Students/Student.php&category_id=1' ) )
 		{
 			$fields_list['General'] = array(
-				'FULL_NAME' => _( 'Last, First M' ),
+				'FULL_NAME' => _( 'Display Name' ),
 				'FIRST_NAME' => _( 'First Name' ),
 				'FIRST_INIT' => _( 'First Name Initial' ),
 				'LAST_NAME' => _( 'Last Name' ),
