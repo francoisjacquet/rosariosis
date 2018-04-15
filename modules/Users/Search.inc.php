@@ -11,10 +11,13 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 				unset($_SESSION['staff_id']);
 
 			$_SESSION['Search_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back','advanced'));
-			if ( $_SESSION['Back_PHP_SELF']!='staff')
+
+			if ( empty( $_SESSION['Back_PHP_SELF'] )
+				|| $_SESSION['Back_PHP_SELF'] !== 'staff' )
 			{
 				$_SESSION['Back_PHP_SELF'] = 'staff';
-				unset($_SESSION['List_PHP_SELF']);
+
+				unset( $_SESSION['List_PHP_SELF'] );
 			}
 
 			echo '<br />';
@@ -27,8 +30,8 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 			echo '<form name="search" id="search" action="Modules.php?modname=' . $_REQUEST['modname'] .
 				'&modfunc=' . $_REQUEST['modfunc'] .
 				'&search_modfunc=list&next_modname=' . $_REQUEST['next_modname'] .
-				'&advanced=' . ( ! empty( $_REQUEST['advanced'] ) ? $_REQUEST['advanced'] : '' ) .
-				$extra['action'] . '" method="GET">';
+				'&advanced=' . ( isset( $_REQUEST['advanced'] ) ? $_REQUEST['advanced'] : '' ) .
+				( isset( $extra['action'] ) ? $extra['action'] : '' ) . '" method="GET">';
 
 			echo '<table class="width-100p col1-align-right" id="general_table">';
 
@@ -158,21 +161,30 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 else
 {
 	if ( empty( $_REQUEST['next_modname'] ) )
+	{
 		$_REQUEST['next_modname'] = 'Users/User.php';
+	}
 
-	if ( !isset($extra))
+	if ( ! isset( $extra ) )
+	{
 		$extra = array();
+	}
 
 	if ( empty( $extra['NoSearchTerms'] ) )
 	{
-		if ( $_REQUEST['_search_all_schools']=='Y')
-			$_ROSARIO['SearchTerms'] .= '<b>'._('Search All Schools').'</b><br />';
+		if ( isset( $_REQUEST['_search_all_schools'] )
+			&& $_REQUEST['_search_all_schools'] === 'Y' )
+		{
+			$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Search All Schools' ) . '</b><br />';
+		}
 	}
 
-	if ( !isset($_ROSARIO['DrawHeader']))
-		DrawHeader(_('Choose A User'));
+	if ( ! isset( $_ROSARIO['DrawHeader'] ) )
+	{
+		DrawHeader( _( 'Choose A User' ) );
+	}
 
-	$staff_RET = GetStaffList($extra);
+	$staff_RET = GetStaffList( $extra );
 
 	if ( ! empty( $extra['profile'] ) )
 	{
@@ -275,7 +287,15 @@ else
 			echo '<script>ajaxLink(' .  json_encode( $bottom_url ) . '); old_modname="";</script>';
 		}
 
-		ListOutput( $staff_RET, $columns, $singular, $plural, $link, false, $extra['options'] );
+		ListOutput(
+			$staff_RET,
+			$columns,
+			$singular,
+			$plural,
+			$link,
+			false,
+			( isset( $extra['options'] ) ? $extra['options'] : array() )
+		);
 	}
 	elseif (count($staff_RET)==1)
 	{

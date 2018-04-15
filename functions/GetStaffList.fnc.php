@@ -244,6 +244,8 @@ function appendStaffSQL( $sql, $extra = array() )
 
 	$no_search_terms = isset( $extra['NoSearchTerms'] ) && $extra['NoSearchTerms'];
 
+	$search_terms = '';
+
 	if ( isset( $_REQUEST['usrid'] )
 		&& $_REQUEST['usrid'] )
 	{
@@ -268,7 +270,7 @@ function appendStaffSQL( $sql, $extra = array() )
 
 			if ( ! $no_search_terms )
 			{
-				$_ROSARIO['SearchTerms'] .= '<b>' . _( 'User ID' ) . ':</b> ' . $usrids . '<br />';
+				$search_terms .= '<b>' . _( 'User ID' ) . ':</b> ' . $usrids . '<br />';
 			}
 		}
 	}
@@ -333,7 +335,7 @@ function appendStaffSQL( $sql, $extra = array() )
 		{
 			$sql .= " AND s.PROFILE='" . $_REQUEST['profile'] . "' ";
 
-			$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Profile' ) . ':</b> ' .
+			$search_terms .= '<b>' . _( 'Profile' ) . ':</b> ' .
 				$options[ $_REQUEST['profile'] ] . '<br />';
 		}
 	}
@@ -351,6 +353,13 @@ function appendStaffSQL( $sql, $extra = array() )
 		);
 
 		$sql .= SearchField( $username, 'where', 'staff', $extra );
+	}
+
+	if ( $search_terms )
+	{
+		$_ROSARIO['SearchTerms'] = isset( $_ROSARIO['SearchTerms'] ) ? $_ROSARIO['SearchTerms'] : '';
+
+		$_ROSARIO['SearchTerms'] .= $search_terms;
 	}
 
 	return $sql;

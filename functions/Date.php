@@ -211,6 +211,8 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 		'required' => false, // Required fields.
 	);
 
+	$options = array_replace_recursive( $defaults, (array) $options );
+
 	/**
 	 * If none of the Y|M|D|C options are true
 	 * set them all to true.
@@ -220,18 +222,8 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 		&& ! $options['D']
 		&& ! $options['C'] )
 	{
-		$defaults = array_merge(
-			$defaults,
-			array(
-				'Y' => true,
-				'M' => true,
-				'D' => true,
-				'C' => true,
-			)
-		);
+		$options['Y'] = $options['M'] = $options['D'] = $options['C'] = true;
 	}
-
-	$options = array_replace_recursive( $defaults, (array) $options );
 
 	// Short month select input.
 	if ( $options['short'] )
@@ -292,8 +284,7 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 
 		if ( $allow_na )
 		{
-			if ( $date_exploded['month'] === ''
-				|| $date_exploded['month'] === '000' )
+			if ( $date_exploded['month'] < 1 )
 			{
 				$return .= '<option value="" selected>' . _( 'N/A' );
 			}
@@ -331,8 +322,7 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 
 		if ( $allow_na )
 		{
-			if ( $date_exploded['day'] === ''
-				|| $date_exploded['day'] === '00' )
+			if ( $date_exploded['day'] < 1 )
 			{
 				$return .= '<option value="" selected>' . _( 'N/A' );
 			}
@@ -356,16 +346,15 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 	// YEAR  ---------------.
 	if ( $options['Y'] )
 	{
-		if ( $date_exploded['year'] === ''
-			|| $date_exploded['year'] === '0000' )
+		if ( $date_exploded['year'] < 1 )
 		{
-			// FJ show 80 previous years instead of 20.
+			// Show 80 previous years.
 			$begin = date( 'Y' ) - 80;
 			$end = date( 'Y' ) + 5;
 		}
 		else
 		{
-			// FJ show 20 previous years instead of 5.
+			// Show 20 previous years.
 			$begin = $date_exploded['year'] - 20;
 			$end = $date_exploded['year'] + 5;
 		}
@@ -374,8 +363,7 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 
 		if ( $allow_na )
 		{
-			if ( $date_exploded['year'] === ''
-				|| $date_exploded['year'] === '0000' )
+			if ( $date_exploded['year'] < 1 )
 			{
 				$return .= '<option value="" selected>' . _( 'N/A' );
 			}
@@ -397,7 +385,7 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 		$return .= '<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/calendar.png" title="' . _( 'Open calendar' ) . '" class="button cal" id="trigger' . $_ROSARIO['PrepareDate'] . '" />';
 	}
 
-	// FJ NOBR on date input.
+	// NOBR on date input.
 	$return = '<span class="nobr">' . $return . '</span>';
 
 	return $return;

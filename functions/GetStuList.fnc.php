@@ -531,6 +531,8 @@ function GetStuList( &$extra = array() )
 
 			//$sql = 'SELECT '.$distinct;
 
+			$extra['MPTable'] = isset( $extra['MPTable'] ) ? $extra['MPTable'] : '';
+
 			// Normal SELECT.
 			if ( ! $is_select_only )
 			{
@@ -590,7 +592,7 @@ function GetStuList( &$extra = array() )
 			}
 
 			$sql .= ") JOIN COURSE_PERIODS cp ON (cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND " .
-				( $extra['all_courses'] == 'Y' ?
+				( isset( $extra['all_courses'] ) && $extra['all_courses'] === 'Y' ?
 					"cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "'" :
 					"cp.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" ) . ")
 				JOIN STUDENT_ENROLLMENT ssm ON (ssm.STUDENT_ID=s.STUDENT_ID
