@@ -110,7 +110,7 @@ function Search( $type, $extra = null )
 				}
 			}
 			elseif ( ! UserStaffID()
-				|| $extra['new'] == true )
+				|| ( isset( $extra['new'] ) && $extra['new'] == true ) )
 			{
 				if ( UserStaffID() )
 				{

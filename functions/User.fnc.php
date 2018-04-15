@@ -86,7 +86,9 @@ function User( $item )
 		}
 	}
 
-	return $_ROSARIO['User'][1][ $item ];
+	return isset( $_ROSARIO['User'][1][ $item ] ) ?
+		$_ROSARIO['User'][1][ $item ] :
+		null;
 }
 
 

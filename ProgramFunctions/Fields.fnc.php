@@ -661,13 +661,13 @@ function FilterCustomFieldsMarkdown( $table, $request_index, $request_index_2 = 
 
 	if ( ! $request_index_2 )
 	{
-		$request_values = $_REQUEST[ $request_index ];
+		$request_values = isset( $_REQUEST[ $request_index ] ) ? $_REQUEST[ $request_index ] : null;
 
 		$post_values = $_POST[ $request_index ];
 	}
 	else
 	{
-		$request_values = $_REQUEST[ $request_index ][ $request_index_2 ];
+		$request_values = isset( $_REQUEST[ $request_index ][ $request_index_2 ] ) ? $_REQUEST[ $request_index ][ $request_index_2 ] : null;
 
 		$post_values = $_POST[ $request_index ][ $request_index_2 ];
 	}
