@@ -14,7 +14,7 @@ if ( isset( $_POST['tables'] )
 	&& is_array( $_POST['tables'] )
 	&& AllowEdit() )
 {
-	$table = $_REQUEST['table'];
+	$table = isset( $_REQUEST['table'] ) ? $_REQUEST['table'] : null;
 
 	foreach ( (array) $_REQUEST['tables'] as $id => $columns )
 	{

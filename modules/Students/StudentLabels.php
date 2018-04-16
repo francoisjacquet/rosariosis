@@ -13,9 +13,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 		if ( User( 'PROFILE' ) === 'admin' )
 		{
-			if ( $_REQUEST['w_course_period_id_which']=='course_period' && $_REQUEST['w_course_period_id'])
+			if ( $_REQUEST['w_course_period_id_which']=='course_period' && $_REQUEST['w_course_period_id'] )
 			{
-				if ( $_REQUEST['teacher'] )
+				if ( ! empty( $_REQUEST['teacher'] ) )
 				{
 					$extra['SELECT'] .= ",(SELECT " . DisplayNameSQL( 'st' ) . "
 					FROM STAFF st,COURSE_PERIODS cp
@@ -23,12 +23,12 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					AND cp.COURSE_PERIOD_ID='" . $_REQUEST['w_course_period_id'] . "') AS TEACHER";
 				}
 
-				if ( $_REQUEST['room'])
+				if ( ! empty( $_REQUEST['room'] ) )
 					$extra['SELECT'] .= ",(SELECT cp.ROOM FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID='".$_REQUEST['w_course_period_id']."') AS ROOM";
 			}
 			else
 			{
-				if ( $_REQUEST['teacher'] )
+				if ( ! empty( $_REQUEST['teacher'] ) )
 				{
 					// FJ multiple school periods for a course period.
 					$extra['SELECT'] .= ",(SELECT " . DisplayNameSQL( 'st' ) . "
@@ -46,13 +46,13 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					ORDER BY p.SORT_ORDER LIMIT 1) AS TEACHER";
 				}
 
-				if ( $_REQUEST['room'])
+				if ( ! empty( $_REQUEST['room'] ) )
 					$extra['SELECT'] .= ",(SELECT cp.ROOM FROM COURSE_PERIODS cp,SCHOOL_PERIODS p,SCHEDULE ss, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cpsp.PERIOD_id=p.PERIOD_ID AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND p.ATTENDANCE='Y' AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='".UserSyear()."' AND ss.MARKING_PERIOD_ID IN (".GetAllMP('QTR',GetCurrentMP('QTR',DBDate(),false)).") AND (ss.START_DATE<='".DBDate()."' AND (ss.END_DATE>='".DBDate()."' OR ss.END_DATE IS NULL)) ORDER BY p.SORT_ORDER LIMIT 1) AS ROOM";
 			}
 		}
 		else
 		{
-			if ( $_REQUEST['teacher'] )
+			if ( ! empty( $_REQUEST['teacher'] ) )
 			{
 				$extra['SELECT'] .= ",(SELECT " . DisplayNameSQL( 'st' ) . " AS FULL_NAME
 					FROM STAFF st,COURSE_PERIODS cp
@@ -60,7 +60,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					AND cp.COURSE_PERIOD_ID='" . UserCoursePeriod() . "') AS TEACHER";
 			}
 
-			if ( $_REQUEST['room'])
+			if ( ! empty( $_REQUEST['room'] ) )
 				$extra['SELECT'] .= ",(SELECT cp.ROOM FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID='".UserCoursePeriod()."') AS ROOM";
 		}
 		$RET = GetStuList($extra);
@@ -87,7 +87,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 				echo '<b>' . $student['FULL_NAME'] . '</b>';
 
-				if ( $_REQUEST['teacher'] )
+				if ( ! empty( $_REQUEST['teacher'] ) )
 				{
 					if ( $student['TEACHER'] )
 					{
@@ -99,7 +99,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					}
 				}
 
-				if ( $_REQUEST['room'] )
+				if ( ! empty( $_REQUEST['room'] ) )
 				{
 					if ( $student['ROOM'] )
 					{
@@ -170,7 +170,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		if (User('PROFILE')=='admin')
 		{
-			if ( $_REQUEST['w_course_period_id_which']=='course_period' && $_REQUEST['w_course_period_id'])
+			if ( $_REQUEST['w_course_period_id_which']=='course_period' && $_REQUEST['w_course_period_id'] )
 			{
 				$course_RET = DBGet( DBQuery( "SELECT " . DisplayNameSQL( 's' ) . " AS TEACHER,cp.ROOM
 				FROM STAFF s,COURSE_PERIODS cp

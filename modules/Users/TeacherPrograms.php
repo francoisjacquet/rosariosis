@@ -1,21 +1,31 @@
 <?php
-$_REQUEST['modname'] = $_REQUEST['modname'].'&include='.$_REQUEST['include'];
-//FJ Bugfix $_REQUEST['include'] 2 times in links
-$REQUEST_include = $_REQUEST['include'];
-unset($_REQUEST['include']);
-DrawHeader(_('Teacher Programs').' - '.ProgramTitle($_REQUEST['modname']));
 
-if (UserStaffID())
+// FJ Bugfix $_REQUEST['include'] 2 times in links.
+$REQUEST_include = isset( $_REQUEST['include'] ) ? $_REQUEST['include'] : null;
+
+unset( $_REQUEST['include'] );
+
+$_REQUEST['modname'] .= '&include=' . $REQUEST_include;
+
+DrawHeader( _( 'Teacher Programs' ) . ' - ' . ProgramTitle( $_REQUEST['modname'] ) );
+
+if ( UserStaffID() )
 {
-	$profile = DBGet(DBQuery("SELECT PROFILE FROM STAFF WHERE STAFF_ID='".UserStaffID()."'"));
-	if ( $profile[1]['PROFILE']!='teacher')
-		unset($_SESSION['staff_id']);
+	$profile = DBGet( DBQuery( "SELECT PROFILE
+		FROM STAFF
+		WHERE STAFF_ID='" . UserStaffID() . "'" ) );
+
+	if ( $profile[1]['PROFILE'] !== 'teacher' )
+	{
+		unset( $_SESSION['staff_id'] );
+	}
 }
 
 $extra['profile'] = 'teacher';
-Search('staff_id',$extra);
 
-if (UserStaffID())
+Search( 'staff_id', $extra );
+
+if ( UserStaffID() )
 {
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 	//FJ multiple school periods for a course period
@@ -35,7 +45,7 @@ if (UserStaffID())
 	// get the fy marking period id, there should be exactly one fy marking period
 	$fy_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
 
-	if ( $_REQUEST['period'] )
+	if ( ! empty( $_REQUEST['period'] ) )
 	{
 		list( $CoursePeriod, $CoursePeriodSchoolPeriod ) = explode( '.', $_REQUEST['period'] );
 

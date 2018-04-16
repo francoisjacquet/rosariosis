@@ -132,7 +132,7 @@ if ( ! $_REQUEST['modfunc'] )
 				'letter_text',
 				_( 'Letter Text' )
 			) .
-			'</textarea></td></tr>';
+			'</td></tr>';
 
 		$extra['extra_header_left'] .= '<tr><td>' . _( 'Substitutions' ) . '<br /><table><tr class="st">';
 		$extra['extra_header_left'] .= '<td>__FULL_NAME__</td><td>= '._( 'Display Name' ).'</td><td>&nbsp;</td>';

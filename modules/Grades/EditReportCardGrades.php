@@ -8,9 +8,9 @@ if ( UserStudentID() )
 {
 	$student_id = UserStudentID();
 
-	$mp_id = $_REQUEST['mp_id'];
+	$mp_id = isset( $_REQUEST['mp_id'] ) ? $_REQUEST['mp_id'] : null;
 
-	$tab_id = $_REQUEST['tab_id'] ? $_REQUEST['tab_id'] : 'grades';
+	$tab_id = ! empty( $_REQUEST['tab_id'] ) ? $_REQUEST['tab_id'] : 'grades';
 
 	// FJ fix bug no delete MP.
 	if ( $_REQUEST['modfunc'] === 'update'
@@ -33,7 +33,7 @@ if ( UserStudentID() )
 		&& ! $_REQUEST['removemp'] )
 	{
 
-		if ( $_REQUEST['new_sms'] )
+		if ( ! empty( $_REQUEST['new_sms'] ) )
 		{
 			// FJ fix SQL bug when marking period already exist.
 			$sms_RET = DBGet( DBQuery( "SELECT *
@@ -47,7 +47,7 @@ if ( UserStudentID() )
 					VALUES ('" . $student_id . "','" . $_REQUEST['new_sms'] . "')" );
 			}
 
-			$mp_id = $_REQUEST['new_sms'];
+			$mp_id = isset( $_REQUEST['new_sms'] ) ? $_REQUEST['new_sms'] : null;
 		}
 
 		if ( $_REQUEST['SMS_GRADE_LEVEL'] && $mp_id )
@@ -222,7 +222,7 @@ if ( UserStudentID() )
 			$mp_id = "0";
 
 		$mp_select = '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
-			'&tab_id=' . $_REQUEST['tab_id'] . '" method="POST">';
+			'&tab_id=' . $tab_id . '" method="POST">';
 
 		$mp_select .= '<select name="mp_id" onchange="ajaxPostForm(this.form,true);">';
 
@@ -244,7 +244,7 @@ if ( UserStudentID() )
 
 		// FORM for updates/new records.
 		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
-			'&modfunc=update&tab_id=' . $_REQUEST['tab_id'] . '&mp_id=' . $mp_id . '" method="POST">';
+			'&modfunc=update&tab_id=' . $tab_id . '&mp_id=' . $mp_id . '" method="POST">';
 
 		DrawHeader( '', SubmitButton() );
 		echo '<br />';
@@ -339,8 +339,7 @@ if ( UserStudentID() )
 			}
 
 			// Build forms based on tab selected.
-			if ( $_REQUEST['tab_id'] == 'grades'
-				|| $_REQUEST['tab_id'] == '' )
+			if ( $tab_id == 'grades' )
 			{
 				$functions = array(
 					'COURSE_TITLE' => '_makeTextInput',

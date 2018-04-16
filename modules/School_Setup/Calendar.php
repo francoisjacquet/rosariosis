@@ -220,7 +220,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 	if ( $OK )
 	{
 		// Set Calendar ID
-		if ( $_REQUEST['calendar_id'] )
+		if ( ! empty( $_REQUEST['calendar_id'] ) )
 		{
 			$calendar_id = $_REQUEST['calendar_id'];
 		}
@@ -231,7 +231,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 			$calendar_id = $calendar_id[1]['CALENDAR_ID'];
 		}
 
-		if ( $_REQUEST['default'] )
+		if ( ! empty( $_REQUEST['default'] ) )
 		{
 			DBQuery( "UPDATE ATTENDANCE_CALENDARS
 				SET DEFAULT_CALENDAR=NULL
@@ -240,7 +240,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 		}
 
 		// Recreate
-		if ( $_REQUEST['calendar_id'] )
+		if ( ! empty( $_REQUEST['calendar_id'] ) )
 		{
 			DBQuery( "UPDATE ATTENDANCE_CALENDARS
 				SET TITLE='" . $_REQUEST['title'] . "',DEFAULT_CALENDAR='" . $_REQUEST['default'] . "'
@@ -264,7 +264,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 		}
 
 		// Copy Calendar
-		if ( $_REQUEST['copy_id'] )
+		if ( ! empty( $_REQUEST['copy_id'] ) )
 		{
 			$weekdays_list = array();
 
@@ -308,7 +308,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 			}
 			else
 			{
-				if ( $_REQUEST['calendar_id'] )
+				if ( ! empty( $_REQUEST['calendar_id'] ) )
 				{
 					DBQuery( "DELETE FROM ATTENDANCE_CALENDAR
 						WHERE CALENDAR_ID='" . $calendar_id . "'" );
@@ -365,7 +365,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 
 			$weekday = date( 'w', $begin );
 
-			if ( $_REQUEST['calendar_id'] )
+			if ( ! empty( $_REQUEST['calendar_id'] ) )
 			{
 				DBQuery( "DELETE FROM ATTENDANCE_CALENDAR
 					WHERE CALENDAR_ID='" . $calendar_id . "'" );
@@ -481,10 +481,10 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 	if ( $_POST['button'] === _( 'Save' )
 		&& AllowEdit() )
 	{
-		if ( $_REQUEST['values'] )
+		if ( ! empty( $_REQUEST['values'] ) )
 		{
 			// FJ textarea fields MarkDown sanitize.
-			if ( $_REQUEST['values']['DESCRIPTION'] )
+			if ( ! empty( $_REQUEST['values']['DESCRIPTION'] ) )
 			{
 				$_REQUEST['values']['DESCRIPTION'] = SanitizeMarkDown( $_POST['values']['DESCRIPTION'] );
 			}
@@ -606,7 +606,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 	else
 	{
 		// Event
-		if ( $_REQUEST['event_id'] )
+		if ( ! empty( $_REQUEST['event_id'] ) )
 		{
 			if ( $_REQUEST['event_id'] !== 'new' )
 			{
@@ -621,13 +621,13 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 				//FJ add translation
 				$title = _( 'New Event' );
 
-				$RET[1]['SCHOOL_DATE'] = $_REQUEST['school_date'];
+				$RET[1]['SCHOOL_DATE'] = isset( $_REQUEST['school_date'] ) ? $_REQUEST['school_date'] : null;
 			}
 
 			echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=detail&event_id=' . $_REQUEST['event_id'] . '&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year'] . '" method="POST">';
 		}
 		// Assignment
-		elseif ( $_REQUEST['assignment_id'] )
+		elseif ( ! empty( $_REQUEST['assignment_id'] ) )
 		{
 			//FJ add assigned date
 			$RET = DBGet( DBQuery( "SELECT a.TITLE,a.STAFF_ID,a.DUE_DATE AS SCHOOL_DATE,
@@ -724,7 +724,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 
 		PopTable( 'footer' );
 
-		if ( $_REQUEST['event_id'] )
+		if ( ! empty( $_REQUEST['event_id'] ) )
 			echo '</form>';
 
 		// Unset button & values & redirect URL.

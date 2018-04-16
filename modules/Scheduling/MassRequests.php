@@ -154,12 +154,12 @@ if ( $_REQUEST['modfunc']=='choose_course')
 {
 
 //FJ fix bug window closed
-	if ( ! $_REQUEST['course_id'])
+	if ( empty( $_REQUEST['course_id'] ) )
 		include 'modules/Scheduling/Courses.php';
 	else
 	{
-		$_SESSION['MassRequests.php']['subject_id'] = $_REQUEST['subject_id'];
-		$_SESSION['MassRequests.php']['course_id'] = $_REQUEST['course_id'];
+		$_SESSION['MassRequests.php']['subject_id'] = isset( $_REQUEST['subject_id'] ) ? $_REQUEST['subject_id'] : null;
+		$_SESSION['MassRequests.php']['course_id'] = isset( $_REQUEST['course_id'] ) ? $_REQUEST['course_id'] : null;
 
 		$course_title = DBGet(DBQuery("SELECT TITLE FROM COURSES WHERE COURSE_ID='".$_SESSION['MassRequests.php']['course_id']."'"));
 		$course_title = $course_title[1]['TITLE'];

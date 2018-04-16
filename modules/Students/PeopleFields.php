@@ -16,7 +16,7 @@ if ( isset( $_POST['tables'] )
 	&& is_array( $_POST['tables'] )
 	&& AllowEdit() )
 {
-	$table = $_REQUEST['table'];
+	$table = isset( $_REQUEST['table'] ) ? $_REQUEST['table'] : null;
 
 	foreach ( (array) $_REQUEST['tables'] as $id => $columns )
 	{
@@ -185,7 +185,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$RET['ID'] = 'new';
 
-		$RET['CATEGORY_ID'] = $_REQUEST['category_id'];
+		$RET['CATEGORY_ID'] = isset( $_REQUEST['category_id'] ) ? $_REQUEST['category_id'] : null;
 	}
 	elseif ( $_REQUEST['category_id'] === 'new' )
 	{

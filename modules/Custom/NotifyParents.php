@@ -13,7 +13,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 {
 	// If $test email is set then this script will only 'go through the motions'
 	// and email the results to the $test_email address instead of parents.
-	$test_email = $_REQUEST['test_email'];
+	$test_email = isset( $_REQUEST['test_email'] ) ? $_REQUEST['test_email'] : null;
 
 	// Set the from and cc emails here - the emails can be comma separated list of emails.
 	$reply_to = '';

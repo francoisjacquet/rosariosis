@@ -307,7 +307,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 			$name = _( 'Semester' );
 
 			$parent_term = 'FY';
-			$parent_id = $_REQUEST['year_id'];
+			$parent_id = isset( $_REQUEST['year_id'] ) ? $_REQUEST['year_id'] : null;
 
 			$extra[] = "DELETE FROM SCHOOL_MARKING_PERIODS
 				WHERE PARENT_ID IN
@@ -323,7 +323,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 			$name = _( 'Quarter' );
 
 			$parent_term = 'SEM';
-			$parent_id = $_REQUEST['semester_id'];
+			$parent_id = isset( $_REQUEST['semester_id'] ) ? $_REQUEST['semester_id'] : null;
 
 			$extra[] = "DELETE FROM SCHOOL_MARKING_PERIODS
 				WHERE PARENT_ID='" . $_REQUEST['marking_period_id'] . "'";
@@ -333,7 +333,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 			$name = _( 'Progress Period' );
 
 			$parent_term = 'QTR';
-			$parent_id = $_REQUEST['quarter_id'];
+			$parent_id = isset( $_REQUEST['quarter_id'] ) ? $_REQUEST['quarter_id'] : null;
 		break;
 	}
 
@@ -538,10 +538,10 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( count( $fy_RET ) )
 	{
-		if ( $_REQUEST['mp_term'] )
+		if ( ! empty( $_REQUEST['mp_term'] ) )
 		{
 			if ( $_REQUEST['mp_term'] === 'FY' )
-				$_REQUEST['year_id'] = $_REQUEST['marking_period_id'];
+				$_REQUEST['year_id'] = isset( $_REQUEST['marking_period_id'] ) ? $_REQUEST['marking_period_id'] : null;
 
 			foreach ( (array) $fy_RET as $key => $value )
 			{
@@ -585,10 +585,10 @@ if ( ! $_REQUEST['modfunc'] )
 
 		if ( count( $sem_RET ) )
 		{
-			if ( $_REQUEST['mp_term'] )
+			if ( ! empty( $_REQUEST['mp_term'] ) )
 			{
 				if ( $_REQUEST['mp_term'] === 'SEM' )
-					$_REQUEST['semester_id'] = $_REQUEST['marking_period_id'];
+					$_REQUEST['semester_id'] = isset( $_REQUEST['marking_period_id'] ) ? $_REQUEST['marking_period_id'] : null;
 
 				foreach ( (array) $sem_RET as $key => $value )
 				{
@@ -635,7 +635,7 @@ if ( ! $_REQUEST['modfunc'] )
 					|| $_REQUEST['mp_term'] === 'PRO' )
 				{
 					if ( $_REQUEST['mp_term']=='QTR')
-						$_REQUEST['quarter_id'] = $_REQUEST['marking_period_id'];
+						$_REQUEST['quarter_id'] = isset( $_REQUEST['marking_period_id'] ) ? $_REQUEST['marking_period_id'] : null;
 
 					foreach ( (array) $qtr_RET as $key => $value )
 					{
@@ -679,7 +679,7 @@ if ( ! $_REQUEST['modfunc'] )
 					if ( ( $_REQUEST['mp_term'] === 'PRO'
 						&& $_REQUEST['marking_period_id'] !== 'new' ) )
 					{
-						$_REQUEST['progress_period_id'] = $_REQUEST['marking_period_id'];
+						$_REQUEST['progress_period_id'] = isset( $_REQUEST['marking_period_id'] ) ? $_REQUEST['marking_period_id'] : null;
 
 						foreach ( (array) $pro_RET as $key => $value )
 						{

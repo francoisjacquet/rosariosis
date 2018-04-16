@@ -78,7 +78,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 {
 	// If $test email is set then this script will only 'go through the motions' and email the results to the $test_email address instead of parents
 	// no accounts are created and no associations are made.  Use this to verify the behavior and email operation before actual use.
-	$test_email = $_REQUEST['test_email'];
+	$test_email = isset( $_REQUEST['test_email'] ) ? $_REQUEST['test_email'] : null;
 
 	// Set the from and cc emails here - the emails can be comma separated list of emails.
 	$reply_to = '';
@@ -131,7 +131,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 			if ( ! $students[1]['STAFF_ID'])
 			{
-				if ( $_REQUEST['contact'][ $student_id ])
+				if ( ! empty( $_REQUEST['contact'][ $student_id ] ) )
 				{
 					// Username = email.
 					$tmp_username = $username = mb_strtolower( trim( $students[1]['EMAIL'] ) );

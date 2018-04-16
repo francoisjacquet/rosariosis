@@ -6,10 +6,10 @@ function core_user_create_users_object()
 {
 	//first, gather the necessary variables
 	global $locale, $_REQUEST;
-	
+
 	//then, convert variables for the Moodle object:
 /*
-list of ( 
+list of (
 	object {
 		username string   //Username policy is defined in Moodle security config. Must be lowercase.
 		password string   //Plain text password consisting of any characters
@@ -27,28 +27,28 @@ list of (
 		city string  Optional //Home city of the user
 		country string  Optional //Home country code of the user, such as AU or CZ
 		preferences  Optional //User preferences
-			list of ( 
+			list of (
 				object {
 					type string   //The name of the preference
 					value string   //The value of the preference
-				} 
+				}
 		)customfields  Optional //User custom fields (also known as user profil fields)
-			list of ( 
+			list of (
 				object {
 					type string   //The name of the custom field
 					value string   //The value of the custom field
-				} 
-		)} 
+				}
+		)}
 )
 */
 	$username = mb_strtolower($_REQUEST['staff']['USERNAME']);
-	$password = $_REQUEST['staff']['PASSWORD'];
-	$firstname = $_REQUEST['staff']['FIRST_NAME'];
-	$lastname = $_REQUEST['staff']['LAST_NAME'];
-	$email = $_REQUEST['staff']['EMAIL'];
+	$password = isset( $_REQUEST['staff']['PASSWORD'] ) ? $_REQUEST['staff']['PASSWORD'] : null;
+	$firstname = isset( $_REQUEST['staff']['FIRST_NAME'] ) ? $_REQUEST['staff']['FIRST_NAME'] : null;
+	$lastname = isset( $_REQUEST['staff']['LAST_NAME'] ) ? $_REQUEST['staff']['LAST_NAME'] : null;
+	$email = isset( $_REQUEST['staff']['EMAIL'] ) ? $_REQUEST['staff']['EMAIL'] : null;
 	$auth = 'manual';
 	$idnumber = (string)UserStaffID();
-	
+
 	$users = array(
 				array(
 					'username' => $username,
@@ -60,7 +60,7 @@ list of (
 					'idnumber' => $idnumber,
 				)
 			);
-	
+
 	return array($users);
 }
 
@@ -69,17 +69,17 @@ function core_user_create_users_response($response)
 {
 	//then, save the ID in the moodlexrosario cross-reference table:
 /*
-Array 
+Array
 	(
 	[0] =>
-		Array 
+		Array
 			(
-			[id] => int                
-			[username] => string                
+			[id] => int
+			[username] => string
 			)
 	)
 */
-	
+
 	DBQuery("INSERT INTO MOODLEXROSARIO (\"column\", rosario_id, moodle_id) VALUES ('staff_id', '".UserStaffID()."', ".$response[0]['id'].")");
 
 	$_REQUEST['moodle_create_user'] = false;
@@ -94,7 +94,7 @@ function core_user_update_users_object()
 {
 	//first, gather the necessary variables
 	global $_REQUEST;
-	
+
 	//gather the Moodle user ID
 	$rosario_id = UserStaffID();
 	$moodle_id = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$rosario_id."' AND \"column\"='staff_id'"));
@@ -106,10 +106,10 @@ function core_user_update_users_object()
 	{
 		return null;
 	}
-	
+
 	//then, convert variables for the Moodle object:
 /*
-list of ( 
+list of (
 	object {
 		id double   //ID of the user
 		username string  Optional //Username policy is defined in Moodle security config. Must be lowercase.
@@ -128,18 +128,18 @@ list of (
 		city string  Optional //Home city of the user
 		country string  Optional //Home country code of the user, such as AU or CZ
 		customfields  Optional //User custom fields (also known as user profil fields)
-			list of ( 
+			list of (
 				object {
 					type string   //The name of the custom field
 					value string   //The value of the custom field
-				} 
+				}
 		)preferences  Optional //User preferences
-			list of ( 
+			list of (
 			object {
 				type string   //The name of the preference
 				value string   //The value of the preference
-			} 
-	)} 
+			}
+	)}
 )
 */
 	$username = (!empty($_REQUEST['staff']['USERNAME']) ? mb_strtolower($_REQUEST['staff']['USERNAME']) : false);
@@ -160,13 +160,13 @@ list of (
 		$user['lastname'] = $lastname;
 	if ($email)
 		$user['email'] = $email;
-	
+
 	//if none of the above user fields are updated, no object returned
 	if (count($user) < 2)
 		return null;
-		
+
 	$users = array($user);
-	
+
 	return array($users);
 }
 
@@ -192,28 +192,28 @@ function core_user_delete_users_object()
 	{
 		return null;
 	}
-	
+
 	//then, convert variables for the Moodle object:
 /*
-list of ( 
+list of (
 	int   //user ID
 )
 */
 
 	$user_ids = array($moodle_id);
-	
+
 	return array($user_ids);
 }
 
 
 function core_user_delete_users_response($response)
 {
-	
+
 	$rosario_id = UserStaffID();
-	
+
 	//delete the reference the moodlexrosario cross-reference table:
 	DBQuery("DELETE FROM MOODLEXROSARIO WHERE \"column\" = 'staff_id' AND rosario_id = '".$rosario_id."'");
-	
+
 	return null;
 }
 
@@ -224,11 +224,11 @@ function core_role_assign_roles_object()
 {
 	//first, gather the necessary variables
 	global $staff_id, $_REQUEST;
-	
-	
+
+
 	//then, convert variables for the Moodle object:
 /*
-list of ( 
+list of (
 	object {
 		roleid int   //Role to assign to the user
 		userid int   //The user that is going to be assigned
@@ -236,7 +236,7 @@ list of (
 		contextlevel string  Optional //The context level to assign the user role in
 				                      (block, course, coursecat, system, user, module)
 		instanceid int  Optional //The Instance id of item where the role needs to be assigned
-	} 
+	}
 )*/
 
 	//gather the Moodle user ID
@@ -282,7 +282,7 @@ list of (
 
 			The most common use of this is for the Parent role.
 			When the Parent role is created via Admin > Users > Permissions > Define roles the "user" context box is checked.
-			To assign a parent the role in the context of their child (so they can see their child's grades etc) click the child's profile and then go to Settings > Roles > Assign roles relative to this user 
+			To assign a parent the role in the context of their child (so they can see their child's grades etc) click the child's profile and then go to Settings > Roles > Assign roles relative to this user
 			http://docs.moodle.org/23/en/Parent_role
 		*/
 		return null;
@@ -302,7 +302,7 @@ list of (
 					'instanceid' => $instanceid,
 				)
 			);
-	
+
 	return array($assignments);
 }
 
@@ -319,11 +319,11 @@ function core_role_unassign_roles_object()
 {
 	//first, gather the necessary variables
 	global $_REQUEST;
-	
-	
+
+
 	//then, convert variables for the Moodle object:
 /*
-list of ( 
+list of (
 	object {
 		roleid int   //Role to assign to the user
 		userid int   //The user that is going to be assigned
@@ -331,7 +331,7 @@ list of (
 		contextlevel string  Optional //The context level to unassign the user role in
 		+                                    (block, course, coursecat, system, user, module)
 		instanceid int  Optional //The Instance id of item where the role needs to be unassigned
-	} 
+	}
 )*/
 	//gather the Moodle user ID
 	$userid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".UserStaffID()."' AND \"column\"='staff_id'"));
@@ -349,14 +349,14 @@ list of (
 	{
 		return null;
 	}
-	
+
 	//admin's roleid = manager = 1
-	
+
 	//only unassign manager role
 	$roleid = 1;
 	$contextlevel = 'system'; // System
 	$instanceid = $userid;
-	
+
 	$unassignments = array(
 						array(
 							'roleid' => $roleid,
@@ -365,7 +365,7 @@ list of (
 							'instanceid' => $instanceid,
 						)
 					);
-	
+
 	return array($unassignments);
 }
 
@@ -382,8 +382,8 @@ function core_files_upload_object()
 {
 	//first, gather the necessary variables
 	global $_POST;
-	
-	
+
+
 	//then, convert variables for the Moodle object:
 /*
 contextid int  Default to "null" //context id
@@ -413,7 +413,7 @@ filecontent = base64_encode
 //For the moment, component = user && filearea = private is hardcoded...
 // see http://tracker.moodle.org/browse/MDL-31116
 	return null;
-		
+
 	$rosario_id = $_POST['userId'];
 	//gather the Moodle user ID
 	$column = (mb_strpos($_POST['modname'], 'Users') !== false ? 'staff_id' : 'student_id');
@@ -448,7 +448,7 @@ filecontent = base64_encode
 
 	global $RosarioPath;
 	$filecontent = base64_encode_file ($RosarioPath.$_POST['photoPath'].$_POST['sYear'].'/'.$_POST['userId'].'.jpg');
-	
+
 	if ( ! $filecontent)
 	{
 		global $error;
@@ -468,7 +468,7 @@ filecontent = base64_encode
 					$contextlevel,
 					$instanceid,
 				);
-	
+
 	return $file;
 }
 
@@ -476,15 +476,15 @@ filecontent = base64_encode
 function core_files_upload_response($response)
 {
 /*
-    Array 
+    Array
         (
-        [contextid] => int        
-        [component] => string        
-        [filearea] => string        
-        [itemid] => int        
-        [filepath] => string        
-        [filename] => string        
-        [url] => string        
+        [contextid] => int
+        [component] => string
+        [filearea] => string
+        [itemid] => int
+        [filepath] => string
+        [filename] => string
+        [url] => string
         )
 */
 	return null;

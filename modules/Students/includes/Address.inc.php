@@ -12,7 +12,7 @@ if ( isset( $_POST['values'] )
 	&& count( $_POST['values'] )
 	&& AllowEdit() )
 {
-	if ( $_REQUEST['values']['EXISTING'])
+	if ( ! empty( $_REQUEST['values']['EXISTING'] ) )
 	{
 		if ( $_REQUEST['values']['EXISTING']['address_id'] && $_REQUEST['address_id']=='old')
 		{
@@ -35,7 +35,7 @@ if ( isset( $_POST['values'] )
 		}
 	}
 
-	if ( $_REQUEST['values']['ADDRESS'])
+	if ( ! empty( $_REQUEST['values']['ADDRESS'] ) )
 	{
 		// FJ other fields required.
 		$required_error = CheckRequiredCustomFields( 'ADDRESS_FIELDS', $_REQUEST['values']['ADDRESS'] );
@@ -119,7 +119,7 @@ if ( isset( $_POST['values'] )
 		}
 	}
 
-	if ( $_REQUEST['values']['PEOPLE'] )
+	if ( ! empty( $_REQUEST['values']['PEOPLE'] ) )
 	{
 		// FJ other fields required.
 		$required_error = CheckRequiredCustomFields( 'PEOPLE_FIELDS', $_REQUEST['values']['PEOPLE'] );
@@ -186,7 +186,7 @@ if ( isset( $_POST['values'] )
 		}
 	}
 
-	if ( $_REQUEST['values']['PEOPLE_JOIN_CONTACTS'] )
+	if ( ! empty( $_REQUEST['values']['PEOPLE_JOIN_CONTACTS'] ) )
 	{
 		foreach ( (array) $_REQUEST['values']['PEOPLE_JOIN_CONTACTS'] as $id => $values)
 		{
@@ -264,7 +264,7 @@ if ( isset( $_POST['values'] )
 if ( $_REQUEST['modfunc'] === 'delete_address'
 	&& AllowEdit() )
 {
-	if ( $_REQUEST['contact_id'] )
+	if ( ! empty( $_REQUEST['contact_id'] ) )
 	{
 		if ( DeletePrompt( _( 'Contact Information' ) ) )
 		{
@@ -275,7 +275,7 @@ if ( $_REQUEST['modfunc'] === 'delete_address'
 			RedirectURL( array( 'modfunc', 'contact_id' ) );
 		}
 	}
-	elseif ( $_REQUEST['person_id'] )
+	elseif ( ! empty( $_REQUEST['person_id'] ) )
 	{
 		if ( DeletePrompt( _( 'Contact' ) ) )
 		{
@@ -294,7 +294,7 @@ if ( $_REQUEST['modfunc'] === 'delete_address'
 			RedirectURL( array( 'modfunc', 'address_id', 'person_id' ) );
 		}
 	}
-	elseif ( $_REQUEST['address_id'] )
+	elseif ( ! empty( $_REQUEST['address_id'] ) )
 	{
 		if ( DeletePrompt( _( 'Address' ) ) )
 		{
@@ -579,7 +579,7 @@ if ( ! $_REQUEST['modfunc'] )
 					else
 						$remove_button = '';
 
-					if ( $_REQUEST['person_id']==$contact['PERSON_ID'])
+					if ( $_REQUEST['person_id']==$contact['PERSON_ID'] )
 						echo '<tr class="highlight"><td>'.$remove_button.'</td><td>';
 					else
 						echo '<tr class="highlight-hover"><td>'.$remove_button.'</td><td>';
@@ -879,7 +879,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		echo '</td>';
 
-		if ( $_REQUEST['person_id'])
+		if ( ! empty( $_REQUEST['person_id'] ) )
 		{
 			echo '<td class="valign-top">';
 			echo '<input type="hidden" name="person_id" value="'.$_REQUEST['person_id'].'" />';
