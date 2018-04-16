@@ -89,12 +89,29 @@ if ( ! empty( $_REQUEST['period_id'] ) )
 	//FJ All periods
 	if ( $_REQUEST['period_id'] == 'all')
 	{
-		$period_ids_RET = DBGet(DBQuery("SELECT PERIOD_ID FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE COURSE_PERIOD_ID IN (SELECT COURSE_PERIOD_ID FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE COURSE_PERIOD_SCHOOL_PERIODS_ID='".UserCoursePeriodSchoolPeriod()."')"));
+		if ( User( 'PROFILE' ) === 'teacher' )
+		{
+			$period_ids_RET = DBGet( DBQuery( "SELECT PERIOD_ID
+				FROM COURSE_PERIOD_SCHOOL_PERIODS
+				WHERE COURSE_PERIOD_ID IN (SELECT COURSE_PERIOD_ID
+					FROM COURSE_PERIOD_SCHOOL_PERIODS
+					WHERE COURSE_PERIOD_SCHOOL_PERIODS_ID='" . UserCoursePeriodSchoolPeriod() . "')" ) );
+		}
+		else
+		{
+			$period_ids_RET = DBGet( DBQuery( "SELECT PERIOD_ID
+				FROM SCHOOL_PERIODS
+				WHERE SYEAR='" . UserSyear() . "'
+				AND SCHOOL_ID='" . UserSchool() . "'
+				ORDER BY SORT_ORDER" ) );
+		}
 
 		$period_ids_list = array();
 
-		foreach ( (array) $period_ids_RET as $period_id)
+		foreach ( (array) $period_ids_RET as $period_id )
+		{
 			$period_ids_list[] = $period_id['PERIOD_ID'];
+		}
 
 		$period_ids_list = implode(',',$period_ids_list);
 	}

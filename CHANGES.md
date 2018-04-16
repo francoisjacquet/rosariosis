@@ -12,6 +12,7 @@ Changes in 3.9-beta
 - SaveTemplate() $staff_id param: use 0 for default template in Template.fnc.php
 - Add insert_attendance, update_attendance & header action hooks in Actions.php & TakeAttendance.php
 - Add $type param to AttendanceCodesTipMessage() in AttendanceCodes.fnc.php
+- Fix #246 SQL error when selecting "All Periods" (admin) in StudentSummary.php
 
 Changes in 3.8
 --------------
