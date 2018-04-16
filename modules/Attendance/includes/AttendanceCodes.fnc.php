@@ -81,14 +81,18 @@ function MakeAttendanceCode( $state_code, $name = '', $title = '' )
  *
  * @since 3.8
  *
+ * @since 3.9 Added $type param.
+ *
  * @uses MakeAttendanceCode
  * @uses MakeTipMessage
+ *
+ * @param string $type Type: 'teacher' or 'official'. Defaults to ''. Optional.
+ *
+ * @return string Attendance Codes Tip Message.
  */
-function AttendanceCodesTipMessage()
+function AttendanceCodesTipMessage( $type = '' )
 {
 	static $attendance_codes_RET;
-
-	$date = mb_substr( $date, 1, 4 ) . '-' . mb_substr( $date, 5, 2 ) . '-' . mb_substr( $date, 7 );
 
 	require_once 'ProgramFunctions/TipMessage.fnc.php';
 
@@ -96,12 +100,21 @@ function AttendanceCodesTipMessage()
 
 	if ( empty( $attendance_codes_RET ) )
 	{
+		$type_where = '';
+
+		if ( $type === 'teacher'
+			|| $type === 'official' )
+		{
+			$type_where = " AND TYPE='" . $type . "' ";
+		}
+
 		$attendance_codes_RET = DBGet( DBQuery( "SELECT ID,DEFAULT_CODE,STATE_CODE,SHORT_NAME,TITLE
 		FROM ATTENDANCE_CODES
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
-		AND TABLE_NAME='0'
-		ORDER BY TABLE_NAME,SORT_ORDER" ) );
+		AND TABLE_NAME='0'" .
+		$type_where .
+		" ORDER BY TABLE_NAME,SORT_ORDER" ) );
 	}
 
 	foreach ( (array) $attendance_codes_RET as $attendance_code )
