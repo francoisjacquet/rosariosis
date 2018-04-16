@@ -155,6 +155,15 @@ $RosarioActions = array();
 	 * @since 3.8
 	 */
 	/*'Warehouse.php|footer' => array(),
+
+	/**
+	 * Take Attendance.
+	 *
+	 * @since 3.9
+	 */
+	/*'Attendance/TakeAttendance.php|insert_attendance' => array(),
+	'Attendance/TakeAttendance.php|update_attendance' => array(),
+	'Attendance/TakeAttendance.php|header' => array(),
 );*/
 
 

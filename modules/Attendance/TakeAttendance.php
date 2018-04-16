@@ -61,13 +61,20 @@ if (count($categories_RET)==0)
 	ErrorMessage(array(_('You cannot take attendance for this course period.')),'fatal');
 }
 
-if ($_REQUEST['table']=='')
+if ( ! isset( $_REQUEST['table'] )
+	|| $_REQUEST['table'] == '' )
+{
 	$_REQUEST['table'] = $categories_RET[1]['ID'];
+}
 
-if ($_REQUEST['table']=='0')
+if ( $_REQUEST['table'] == '0' )
+{
 	$table = 'ATTENDANCE_PERIOD';
+}
 else
+{
 	$table = 'LUNCH_PERIOD';
+}
 
 //FJ days numbered
 //FJ multiple school periods for a course period
@@ -157,12 +164,12 @@ $current_Q = "SELECT ATTENDANCE_TEACHER_CODE,STUDENT_ID,ADMIN,COMMENT,COURSE_PER
 
 $current_RET = DBGet(DBQuery($current_Q),array(),array('STUDENT_ID'));
 
-if ( $_REQUEST['attendance']
-	&& $_POST['attendance'] )
+if ( ! empty( $_REQUEST['attendance'] )
+	&& ! empty( $_POST['attendance'] ) )
 {
 	foreach ( (array) $_REQUEST['attendance'] as $student_id => $value )
 	{
-		if ($current_RET[ $student_id ])
+		if ( ! empty( $current_RET[ $student_id ] ) )
 		{
 			$sql = "UPDATE " . DBEscapeIdentifier( $table ) .
 				" SET ATTENDANCE_TEACHER_CODE='" . mb_substr( $value, 5 ) . "',
@@ -190,15 +197,38 @@ if ( $_REQUEST['attendance']
 
 		DBQuery( $sql );
 
-		if ($_REQUEST['table']=='0')
-			UpdateAttendanceDaily($student_id,$date);
+		if ( $_REQUEST['table'] == '0' )
+		{
+			UpdateAttendanceDaily( $student_id, $date );
+		}
 	}
-	$RET = DBGet(DBQuery("SELECT 'Y' AS COMPLETED FROM ATTENDANCE_COMPLETED WHERE STAFF_ID='".User('STAFF_ID')."' AND SCHOOL_DATE='".$date."' AND PERIOD_ID='".UserPeriod()."' AND TABLE_NAME='".$_REQUEST['table']."'"));
 
-	if (!count($RET))
-		DBQuery("INSERT INTO ATTENDANCE_COMPLETED (STAFF_ID,SCHOOL_DATE,PERIOD_ID,TABLE_NAME) values('".User('STAFF_ID')."','".$date."','".UserPeriod()."','".$_REQUEST['table']."')");
+	$completed_RET = DBGet( DBQuery( "SELECT 'Y' AS COMPLETED
+		FROM ATTENDANCE_COMPLETED
+		WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
+		AND SCHOOL_DATE='" . $date . "'
+		AND PERIOD_ID='" . UserPeriod() . "'
+		AND TABLE_NAME='" . $_REQUEST['table'] . "'" ) );
 
-	$current_RET = DBGet(DBQuery($current_Q),array(),array('STUDENT_ID'));
+	if ( ! count( $completed_RET ) )
+	{
+		DBQuery( "INSERT INTO ATTENDANCE_COMPLETED (STAFF_ID,SCHOOL_DATE,PERIOD_ID,TABLE_NAME)
+			values(
+			'" . User( 'STAFF_ID' ) . "',
+			'" . $date . "',
+			'" . UserPeriod() . "',
+			'" . $_REQUEST['table'] . "')" );
+
+		// Hook.
+		do_action( 'Attendance/TakeAttendance.php|insert_attendance' );
+	}
+	else
+	{
+		// Hook.
+		do_action( 'Attendance/TakeAttendance.php|update_attendance' );
+	}
+
+	$current_RET = DBGet( DBQuery( $current_Q ), array(), array( 'STUDENT_ID' ) );
 
 	// Unset attendance & redirect URL.
 	RedirectURL( 'attendance' );
@@ -214,6 +244,8 @@ $codes_RET = DBGet( DBQuery( "SELECT ID,TITLE,DEFAULT_CODE,STATE_CODE
 	" ORDER BY SORT_ORDER" ) );
 
 $columns = array();
+
+$extra['SELECT'] = isset( $extra['SELECT'] ) ? $extra['SELECT'] : '';
 
 foreach ( (array) $codes_RET as $code )
 {
@@ -272,9 +304,6 @@ $date_note .= AllowEdit() ? ' <span style="color:green" class="nobr">' .
 	_( 'You can edit this attendance' ) . '</span>' :
 	' <span style="color:red" class="nobr">' . _( 'You cannot edit this attendance' ) . '</span>';
 
-DrawHeader( PrepareDate( $date, '_date', false, array( 'submit' => true ) ) . $date_note );
-//DrawHeader($note);
-
 $completed_RET = DBGet( DBQuery( "SELECT 'Y' AS COMPLETED
 	FROM ATTENDANCE_COMPLETED
 	WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
@@ -287,6 +316,14 @@ if ( $completed_RET )
 	$note[] = button( 'check' ) . '&nbsp;' .
 		_( 'You already have taken attendance today for this period.' );
 }
+
+DrawHeader( PrepareDate( $date, '_date', false, array( 'submit' => true ) ) . $date_note );
+
+// Hook.
+do_action( 'Attendance/TakeAttendance.php|header' );
+
+
+echo ErrorMessage( $error );
 
 echo ErrorMessage( $note, 'note' );
 
@@ -351,7 +388,8 @@ function _makeRadio( $value, $title )
 		// 'T' => '#0000FF',
 	);
 
-	if ( $current_RET[ $THIS_RET['STUDENT_ID'] ][1]['ATTENDANCE_TEACHER_CODE'] == mb_substr( $title, 5 ) )
+	if ( isset( $current_RET[ $THIS_RET['STUDENT_ID'] ][1]['ATTENDANCE_TEACHER_CODE'] )
+		&& $current_RET[ $THIS_RET['STUDENT_ID'] ][1]['ATTENDANCE_TEACHER_CODE'] == mb_substr( $title, 5 ) )
 	{
 		if ( isset( $_REQUEST['LO_save'] ) )
 		{
@@ -397,7 +435,7 @@ function _makeRadioSelected( $value, $title )
 
 	$class_alt = isset( $classes_alt[ $value ] ) ? $classes_alt[ $value ] : '';
 
-	if ( $current_RET[ $THIS_RET['STUDENT_ID'] ][1]['ATTENDANCE_TEACHER_CODE'] != '' )
+	if ( ! empty( $current_RET[ $THIS_RET['STUDENT_ID'] ][1]['ATTENDANCE_TEACHER_CODE'] ) )
 	{
 		if ( $current_RET[ $THIS_RET['STUDENT_ID'] ][1]['ATTENDANCE_TEACHER_CODE'] == mb_substr( $title, 5 ) )
 		{
@@ -463,18 +501,31 @@ function _makeTipMessage( $full_name, $column )
 	return MakeStudentPhotoTipMessage( $THIS_RET['STUDENT_ID'], $full_name );
 }
 
-function makeCommentInput($student_id,$column)
-{	global $current_RET;
+function makeCommentInput( $student_id, $column )
+{
+	global $current_RET;
 
-	return TextInput($current_RET[ $student_id ][1]['COMMENT'],'comment['.$student_id.']','','maxlength="100" size="20"',true,true);
+	return TextInput(
+		( isset( $current_RET[ $student_id ][1]['COMMENT'] ) ?
+			$current_RET[ $student_id ][1]['COMMENT'] :
+			'' ),
+		'comment[' . $student_id . ']',
+		'',
+		'maxlength="100" size="20"',
+		true,
+		true
+	);
 }
 
-function makeAttendanceReason($student_id,$column)
-{	global $current_RET,$attendance_reason;
+function makeAttendanceReason( $student_id, $column )
+{
+	global $current_RET,
+		$attendance_reason;
 
-	if ($current_RET[ $student_id ][1]['ATTENDANCE_REASON'])
+	if ( ! empty( $current_RET[ $student_id ][1]['ATTENDANCE_REASON'] ) )
 	{
 		$attendance_reason = true;
+
 		return $current_RET[ $student_id ][1]['ATTENDANCE_REASON'];
 	}
 }

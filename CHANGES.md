@@ -10,6 +10,7 @@ Changes in 3.9-beta
 - Check Moodle URL and token are valid in plugins/Moodle/config.inc.php, thanks to @abogadeer
 - Fix #241 assignments of other teachers appear in StudentAssignments.fnc.php
 - SaveTemplate() $staff_id param: use 0 for default template in Template.fnc.php
+- Add insert_attendance, update_attendance & header action hooks in Actions.php & TakeAttendance.php
 
 Changes in 3.8
 --------------
