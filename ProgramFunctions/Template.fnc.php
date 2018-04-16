@@ -61,18 +61,18 @@ function GetTemplate( $modname = '', $staff_id = 0 ) {
  *
  * @param string  $template Temaplate text or HTML (use SanitizeHTML() first!).
  * @param string  $modname  Specify program name (optional) defaults to current program.
- * @param integer $staff_id User ID (optional), default to logged in User.
+ * @param integer $staff_id User ID (optional), defaults to logged in User, use 0 for default template.
  *
  * @return boolean False if no template found, else true if saved.
  */
-function SaveTemplate( $template, $modname = '', $staff_id = 0 )
+function SaveTemplate( $template, $modname = '', $staff_id = -1 )
 {
 	if ( ! $modname )
 	{
 		$modname = $_REQUEST['modname'];
 	}
 
-	if ( ! $staff_id )
+	if ( $staff_id < 0 )
 	{
 		$staff_id = User( 'STAFF_ID' );
 	}
@@ -92,7 +92,7 @@ function SaveTemplate( $template, $modname = '', $staff_id = 0 )
 	{
 		// Default template only, insert user template.
 		DBQuery( "INSERT INTO TEMPLATES (MODNAME,STAFF_ID,TEMPLATE)
-			VALUES('" . $_REQUEST['modname'] . "','" . User( 'STAFF_ID' ) . "',
+			VALUES('" . $_REQUEST['modname'] . "','" . $staff_id . "',
 			'" . $template . "')" );
 	}
 	else
@@ -101,8 +101,9 @@ function SaveTemplate( $template, $modname = '', $staff_id = 0 )
 		DBQuery( "UPDATE TEMPLATES
 			SET TEMPLATE='" . $template . "'
 			WHERE MODNAME='" . $_REQUEST['modname'] . "'
-			AND STAFF_ID='" . User( 'STAFF_ID' ) . "'" );
+			AND STAFF_ID='" . $staff_id . "'" );
 	}
 
 	return true;
 }
+
