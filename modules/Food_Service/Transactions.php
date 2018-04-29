@@ -51,12 +51,35 @@ function red($value)
 		return $value;
 }
 
-function is_money($value)
+function is_money( $value )
 {
-	if ( $value > 0) {
-		if (mb_strpos($value,'.')) return $value;
-		elseif ( $value >= 100) return $value/100;
-		else return $value;
+	if ( $value > 0 )
+	{
+		if ( ! mb_strpos( $value, '.' )
+			&& $value >= 100 )
+		{
+			// We deduce value was entered without decimal point, add it.
+			$value = $value / 100;
+		}
+
+		// Fix SQL error:
+		// A field with precision 9, scale 2 must round to an absolute value less than 10^7.
+		if ( ! mb_strpos( $value, '.' )
+			&& mb_strlen( $value ) > 7 )
+		{
+			return false;
+		}
+
+		if ( mb_strpos( $value, '.' )
+			&& $value > 9999999.99 )
+		{
+			return false;
+		}
+
+		return $value;
 	}
-	else return false;
+	else
+	{
+		return false;
+	}
 }

@@ -13,6 +13,7 @@ Changes in 3.9-beta
 - Add insert_attendance, update_attendance & header action hooks in Actions.php & TakeAttendance.php
 - Add $type param to AttendanceCodesTipMessage() in AttendanceCodes.fnc.php
 - Fix #246 SQL error when selecting "All Periods" (admin) in StudentSummary.php
+- Fix SQL error: A field with precision 9, scale 2 must round to an absolute value less than 10^7 in Transactions.php
 
 Changes in 3.8
 --------------
