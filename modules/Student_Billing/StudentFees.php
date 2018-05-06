@@ -181,6 +181,9 @@ if ( UserStudentID()
 	else
 		$options = array('center'=>false);
 
+	// Do hook.
+	do_action( 'Student_Billing/StudentFees.php|student_fees_header' );
+
 	ListOutput( $RET, $columns, 'Fee', 'Fees', $link, array(), $options );
 
 	if ( ! $_REQUEST['print_statements']

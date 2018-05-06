@@ -164,6 +164,13 @@ $RosarioActions = array();
 	/*'Attendance/TakeAttendance.php|insert_attendance' => array(),
 	'Attendance/TakeAttendance.php|update_attendance' => array(),
 	'Attendance/TakeAttendance.php|header' => array(),
+
+	/**
+	 * Student Fees Header.
+	 *
+	 * @since 3.9
+	 */
+	/*'Student_Billing/StudentFees.php|student_fees_header' => array(),
 );*/
 
 
