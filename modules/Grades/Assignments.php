@@ -2,6 +2,20 @@
 
 require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 
+if ( ! empty( $_REQUEST['assignment_id'] )
+	&& ! empty( $_REQUEST['marking_period_id'] ) )
+{
+	// Outside link: Assignment is in the current MP?
+	if ( $_REQUEST['marking_period_id'] != UserMP() )
+	{
+		// Reset current MarkingPeriod.
+		$_SESSION['UserMP'] = $_REQUEST['marking_period_id'];
+	}
+
+	RedirectURL( 'marking_period_id' );
+}
+
+
 DrawHeader( ProgramTitle() . ' - ' . GetMP( UserMP() ) );
 
 if ( ! UserCoursePeriod() )
@@ -330,7 +344,7 @@ echo ErrorMessage( $error );
 if ( ! $_REQUEST['modfunc'] )
 {
 	// Check assignment type ID is valid for current school & syear!
-	if ( $_REQUEST['assignment_type_id']
+	if ( ! empty( $_REQUEST['assignment_type_id'] )
 		&& $_REQUEST['assignment_type_id'] !== 'new' )
 	{
 		$assignment_type_RET = DBGet( DBQuery( "SELECT ASSIGNMENT_TYPE_ID
@@ -349,17 +363,19 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( ! empty( $_REQUEST['assignment_id'] )
 		&& $_REQUEST['assignment_id'] !== 'new'
-		&& empty( $_REQUEST['assignment_type_id'] ) || ! is_numeric( $_REQUEST['assignment_type_id'] ) )
+		&& ( empty( $_REQUEST['assignment_type_id'] )
+			|| ! is_numeric( $_REQUEST['assignment_type_id'] ) ) )
 	{
 		// We have an Assignment ID but no type ID.
 		// Try to find it back.
-		$assignment_type_RET = DBGet( DBQuery( "SELECT ASSIGNMENT_TYPE_ID
+		$assignment_type_RET = DBGet( DBQuery( "SELECT ASSIGNMENT_TYPE_ID,MARKING_PERIOD_ID
 			FROM GRADEBOOK_ASSIGNMENTS
 			WHERE (COURSE_ID=(SELECT COURSE_ID
 				FROM COURSE_PERIODS
 				WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 				OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
-			AND ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'" ) );
+			AND ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'
+			AND STAFF_ID='" . User( 'STAFF_ID' ) . "'" ) );
 
 		if ( ! $assignment_type_RET )
 		{

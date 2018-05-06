@@ -17,6 +17,7 @@ Changes in 3.9-beta
 - Fix Assignments columns for teacher list in Portal.php
 - Add link to Assignment to teacher list in Portal.php & Assignments.php
 - Mention current MP in program title in StudentAssignments.php, Grades.php & StudentGrades.php
+- Outside link: Assignment is in the current MP? in StudentAssignments.php, Portal.php & Assignments.php
 
 Changes in 3.8
 --------------

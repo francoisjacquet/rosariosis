@@ -13,6 +13,19 @@
 // Include Student Assignments functions.
 require_once 'modules/Grades/includes/StudentAssignments.fnc.php';
 
+if ( ! empty( $_REQUEST['assignment_id'] )
+	&& ! empty( $_REQUEST['marking_period_id'] ) )
+{
+	// Outside link: Assignment is in the current MP?
+	if ( $_REQUEST['marking_period_id'] != UserMP() )
+	{
+		// Reset current MarkingPeriod.
+		$_SESSION['UserMP'] = $_REQUEST['marking_period_id'];
+	}
+
+	RedirectURL( 'marking_period_id' );
+}
+
 DrawHeader( ProgramTitle() . ' - ' . GetMP( UserMP() ) );
 
 if ( isset( $_REQUEST['assignment_id'] )
