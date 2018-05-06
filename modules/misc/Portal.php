@@ -485,6 +485,8 @@ switch ( User( 'PROFILE' ) )
 			);
 		}
 
+		require_once 'modules/Grades/includes/StudentAssignments.fnc.php';
+
 		// FJ Portal Assignments.
 		$assignments_RET = DBGet( DBQuery( "SELECT a.ASSIGNMENT_ID AS ID,a.TITLE AS ASSIGNMENT_TITLE,
 			a.DUE_DATE,to_char(a.DUE_DATE,'Day') AS DAY,a.ASSIGNED_DATE,a.DESCRIPTION,a.STAFF_ID,
