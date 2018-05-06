@@ -13,7 +13,7 @@
 // Include Student Assignments functions.
 require_once 'modules/Grades/includes/StudentAssignments.fnc.php';
 
-DrawHeader( ProgramTitle() );
+DrawHeader( ProgramTitle() . ' - ' . GetMP( UserMP() ) );
 
 if ( isset( $_REQUEST['assignment_id'] )
 	&& $_REQUEST['assignment_id'] )

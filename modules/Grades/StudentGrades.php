@@ -9,7 +9,7 @@ require_once 'ProgramFunctions/_makeLetterGrade.fnc.php';
 
 $_ROSARIO['allow_edit'] = false;
 
-DrawHeader( ProgramTitle() );
+DrawHeader( ProgramTitle() . ' - ' . GetMP( UserMP() ) );
 
 Search( 'student_id' );
 

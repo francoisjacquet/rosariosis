@@ -8,7 +8,7 @@ require_once 'ProgramFunctions/_makeLetterGrade.fnc.php';
 
 require_once 'modules/Grades/includes/StudentAssignments.fnc.php';
 
-DrawHeader(_('Gradebook').' - '.ProgramTitle());
+DrawHeader( _( 'Gradebook' ) . ' - ' . ProgramTitle() . ' - ' . GetMP( UserMP() ) );
 
 // if running as a teacher program then rosario[allow_edit] will already be set according to admin permissions
 if ( !isset($_ROSARIO['allow_edit']))
@@ -19,7 +19,7 @@ $gradebook_config = ProgramUserConfig( 'Gradebook' );
 //$max_allowed = Preferences('ANOMALOUS_MAX','Gradebook')/100;
 $max_allowed = ( $gradebook_config['ANOMALOUS_MAX'] ? $gradebook_config['ANOMALOUS_MAX'] / 100 : 1 );
 
-if ( $_REQUEST['student_id'])
+if ( ! empty( $_REQUEST['student_id'] ) )
 {
 	if ( $_REQUEST['student_id'] !== UserStudentID() )
 	{
@@ -28,7 +28,7 @@ if ( $_REQUEST['student_id'])
 		//FJ bugfix SQL bug course period
 		/*if ( $_REQUEST['period'] && $_REQUEST['period']!=UserCoursePeriod())
 			$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];*/
-		if ( $_REQUEST['period'])
+		if ( ! empty( $_REQUEST['period'] ) )
 		{
 			list($CoursePeriod, $CoursePeriodSchoolPeriod) = explode('.', $_REQUEST['period']);
 
@@ -43,7 +43,7 @@ elseif ( UserStudentID() )
 	//FJ bugfix SQL bug course period
 	/*if ( $_REQUEST['period'] && $_REQUEST['period']!=UserCoursePeriod())
 		$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];*/
-	if ( $_REQUEST['period'] )
+	if ( ! empty( $_REQUEST['period'] ) )
 	{
 		list($CoursePeriod, $CoursePeriodSchoolPeriod) = explode('.', $_REQUEST['period']);
 
@@ -52,7 +52,7 @@ elseif ( UserStudentID() )
 	}
 }
 
-if ( $_REQUEST['period'] )
+if ( ! empty( $_REQUEST['period'] ) )
 {
 	//FJ bugfix SQL bug course period
 	/*if ( $_REQUEST['period']!=UserCoursePeriod())
@@ -64,7 +64,7 @@ if ( $_REQUEST['period'] )
 	{
 		$_SESSION['UserCoursePeriod'] = $CoursePeriod;
 
-		if ( $_REQUEST['student_id'])
+		if ( ! empty( $_REQUEST['student_id'] ) )
 		{
 			if ( $_REQUEST['student_id']!=UserStudentID())
 				SetUserStudentID($_REQUEST['student_id']);
@@ -213,8 +213,8 @@ if ( $_REQUEST['values']
 	unset( $current_RET );
 }
 
-$_SESSION['type_id'] = $_REQUEST['type_id'];
-$_SESSION['assignment_id'] = $_REQUEST['assignment_id'];
+$_SESSION['type_id'] = isset( $_REQUEST['type_id'] ) ? $_REQUEST['type_id'] : null;
+$_SESSION['assignment_id'] = isset( $_REQUEST['assignment_id'] ) ? $_REQUEST['assignment_id'] : null;
 
 $LO_options = array('search'=>false);
 
@@ -222,7 +222,7 @@ if (UserStudentID())
 {
 	$extra['WHERE'] = " AND s.STUDENT_ID='" . UserStudentID() . "'";
 
-	if ( ! $_REQUEST['type_id'] )
+	if ( empty( $_REQUEST['type_id'] ) )
 	{
 		$LO_columns = array( 'TYPE_TITLE' => _( 'Category' ) );
 	}
@@ -273,7 +273,7 @@ if (UserStudentID())
 
 	$extra['SELECT'] .= ',gg.POINTS,gg.COMMENT';
 
-	if ( ! $_REQUEST['type_id'])
+	if ( empty( $_REQUEST['type_id'] ) )
 	{
 		$extra['SELECT'] .= ',(SELECT TITLE FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID) AS TYPE_TITLE';
 
@@ -284,7 +284,7 @@ if (UserStudentID())
 
 	$extra['FROM'] = " JOIN GRADEBOOK_ASSIGNMENTS ga ON (ga.STAFF_ID=cp.TEACHER_ID AND ((ga.COURSE_ID=cp.COURSE_ID AND ga.STAFF_ID=cp.TEACHER_ID) OR ga.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID) AND ga.MARKING_PERIOD_ID='".UserMP()."'".($_REQUEST['assignment_id']=='all'?'':" AND ga.ASSIGNMENT_ID='".$_REQUEST['assignment_id']."'").($_REQUEST['type_id']?" AND ga.ASSIGNMENT_TYPE_ID='".$_REQUEST['type_id']."'":'').") LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.STUDENT_ID=s.STUDENT_ID AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID)";
 
-	if ( ! $_REQUEST['include_all'])
+	if ( empty( $_REQUEST['include_all'] ) )
 		$extra['WHERE'] .= " AND (gg.POINTS IS NOT NULL OR (ga.DUE_DATE IS NULL OR (".db_greatest('ssm.START_DATE','ss.START_DATE')."<=ga.DUE_DATE) AND (".db_least('ssm.END_DATE','ss.END_DATE')." IS NULL OR ".db_least('ssm.END_DATE','ss.END_DATE').">=ga.DUE_DATE)))".($_REQUEST['type_id']?" AND ga.ASSIGNMENT_TYPE_ID='".$_REQUEST['type_id']."'":'');
 
 	$extra['ORDER_BY'] = Preferences('ASSIGNMENT_SORTING','Gradebook')." DESC";
@@ -337,7 +337,7 @@ else
 
 			$column_title = $assignment['TITLE'];
 
-			if ( ! $_REQUEST['type_id'] )
+			if ( empty( $_REQUEST['type_id'] ) )
 			{
 				$column_title = $types_RET[$assignment['ASSIGNMENT_TYPE_ID']][1]['TITLE'] . '<br />' . $column_title;
 			}
@@ -352,7 +352,7 @@ else
 			$LO_columns['G' . $id] = $column_title;
 		}
 	}
-	elseif ( $_REQUEST['assignment_id'] )
+	elseif ( ! empty( $_REQUEST['assignment_id'] ) )
 	{
 		$extra['SELECT'] .= ",'" . $_REQUEST['assignment_id'] . "' AS POINTS,
 			'" . $_REQUEST['assignment_id'] . "' AS PERCENT_GRADE,
@@ -390,7 +390,7 @@ else
 			$extra['FROM'] = " JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID OR ga.COURSE_ID=cp.COURSE_ID AND ga.STAFF_ID=cp.TEACHER_ID) AND ga.MARKING_PERIOD_ID='".UserMP()."') LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.STUDENT_ID=s.STUDENT_ID AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID),GRADEBOOK_ASSIGNMENT_TYPES gt";
 			$extra['WHERE'] = " AND gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID AND gt.COURSE_ID=cp.COURSE_ID AND (gg.POINTS IS NOT NULL OR (ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE) OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID))".($_REQUEST['type_id']?" AND ga.ASSIGNMENT_TYPE_ID='".$_REQUEST['type_id']."'":'');
 
-			if ( ! $_REQUEST['include_all'])
+			if ( empty( $_REQUEST['include_all'] ) )
 				$extra['WHERE'] .=" AND (gg.POINTS IS NOT NULL OR ga.DUE_DATE IS NULL OR ((ga.DUE_DATE>=ss.START_DATE AND (ss.END_DATE IS NULL OR ga.DUE_DATE<=ss.END_DATE)) AND (ga.DUE_DATE>=ssm.START_DATE AND (ssm.END_DATE IS NULL OR ga.DUE_DATE<=ssm.END_DATE))))";
 
 			$extra['GROUP'] = "gt.ASSIGNMENT_TYPE_ID,gt.FINAL_GRADE_PERCENT,s.STUDENT_ID";
@@ -640,7 +640,7 @@ function _makeExtraAssnCols( $assignment_id, $column )
 			}
 			else
 			{
-				if ( $_REQUEST['include_all'] || ($current_RET[$THIS_RET['STUDENT_ID']][ $assignment_id ][1]['POINTS']!='' || ! $assignments_RET[ $assignment_id ][1]['DUE_EPOCH'] || $assignments_RET[ $assignment_id ][1]['DUE_EPOCH']>=$THIS_RET['START_EPOCH'] && (! $THIS_RET['END_EPOCH'] || $assignments_RET[ $assignment_id ][1]['DUE_EPOCH']<=$THIS_RET['END_EPOCH'])))
+				if ( ! empty( $_REQUEST['include_all'] || ($current_RET[$THIS_RET['STUDENT_ID']][ $assignment_id ][1]['POINTS']!='' || ! $assignments_RET[ $assignment_id ][1]['DUE_EPOCH'] || $assignments_RET[ $assignment_id ][1]['DUE_EPOCH']>=$THIS_RET['START_EPOCH'] && (! $THIS_RET['END_EPOCH'] || $assignments_RET[ $assignment_id ][1]['DUE_EPOCH']<=$THIS_RET['END_EPOCH'] ) )))
 				{
 					$total_points = $assignments_RET[ $assignment_id ][1]['POINTS'];
 
@@ -694,7 +694,7 @@ function _makeExtraAssnCols( $assignment_id, $column )
 			}
 			else
 			{
-				if ( $_REQUEST['include_all'] || ($current_RET[$THIS_RET['STUDENT_ID']][ $assignment_id ][1]['POINTS']!='' || ! $assignments_RET[ $assignment_id ][1]['DUE_EPOCH'] || $assignments_RET[ $assignment_id ][1]['DUE_EPOCH']>=$THIS_RET['START_EPOCH'] && (! $THIS_RET['END_EPOCH'] || $assignments_RET[ $assignment_id ][1]['DUE_EPOCH']<=$THIS_RET['END_EPOCH'])))
+				if ( ! empty( $_REQUEST['include_all'] || ($current_RET[$THIS_RET['STUDENT_ID']][ $assignment_id ][1]['POINTS']!='' || ! $assignments_RET[ $assignment_id ][1]['DUE_EPOCH'] || $assignments_RET[ $assignment_id ][1]['DUE_EPOCH']>=$THIS_RET['START_EPOCH'] && (! $THIS_RET['END_EPOCH'] || $assignments_RET[ $assignment_id ][1]['DUE_EPOCH']<=$THIS_RET['END_EPOCH'] ) )))
 				{
 					$total_points = $assignments_RET[ $assignment_id ][1]['POINTS'];
 					//FJ default points
@@ -723,7 +723,7 @@ function _makeExtraAssnCols( $assignment_id, $column )
 			}
 			else
 			{
-				if ( $_REQUEST['include_all'] || ($current_RET[$THIS_RET['STUDENT_ID']][ $assignment_id ][1]['POINTS']!='' || ! $assignments_RET[ $assignment_id ][1]['DUE_EPOCH'] || $assignments_RET[ $assignment_id ][1]['DUE_EPOCH']>=$THIS_RET['START_EPOCH'] && (! $THIS_RET['END_EPOCH'] || $assignments_RET[ $assignment_id ][1]['DUE_EPOCH']<=$THIS_RET['END_EPOCH'])))
+				if ( ! empty( $_REQUEST['include_all'] || ($current_RET[$THIS_RET['STUDENT_ID']][ $assignment_id ][1]['POINTS']!='' || ! $assignments_RET[ $assignment_id ][1]['DUE_EPOCH'] || $assignments_RET[ $assignment_id ][1]['DUE_EPOCH']>=$THIS_RET['START_EPOCH'] && (! $THIS_RET['END_EPOCH'] || $assignments_RET[ $assignment_id ][1]['DUE_EPOCH']<=$THIS_RET['END_EPOCH'] ) )))
 				{
 					$total_points = $assignments_RET[ $assignment_id ][1]['POINTS'];
 					//FJ default points
@@ -751,7 +751,7 @@ function _makeExtraAssnCols( $assignment_id, $column )
 			}
 			else
 			{
-				if ( $_REQUEST['include_all'] || ($current_RET[$THIS_RET['STUDENT_ID']][ $assignment_id ][1]['POINTS']!='' || ! $assignments_RET[ $assignment_id ][1]['DUE_EPOCH'] || $assignments_RET[ $assignment_id ][1]['DUE_EPOCH']>=$THIS_RET['START_EPOCH'] && (! $THIS_RET['END_EPOCH'] || $assignments_RET[ $assignment_id ][1]['DUE_EPOCH']<=$THIS_RET['END_EPOCH'])))
+				if ( ! empty( $_REQUEST['include_all'] || ($current_RET[$THIS_RET['STUDENT_ID']][ $assignment_id ][1]['POINTS']!='' || ! $assignments_RET[ $assignment_id ][1]['DUE_EPOCH'] || $assignments_RET[ $assignment_id ][1]['DUE_EPOCH']>=$THIS_RET['START_EPOCH'] && (! $THIS_RET['END_EPOCH'] || $assignments_RET[ $assignment_id ][1]['DUE_EPOCH']<=$THIS_RET['END_EPOCH'] ) )))
 				{
 					return TextInput(
 						$current_RET[ $THIS_RET['STUDENT_ID'] ][ $assignment_id ][1]['COMMENT'],
@@ -863,7 +863,7 @@ function _makeExtraCols( $assignment_id, $column )
 
 	$total_points = $assignments_RET[ $assignment_id ][1]['POINTS'];
 
-	if ( $_REQUEST['include_all'] || ($current_RET[$THIS_RET['STUDENT_ID']][ $assignment_id ][1]['POINTS']!='' || ! $assignments_RET[ $assignment_id ][1]['DUE_EPOCH'] || $assignments_RET[ $assignment_id ][1]['DUE_EPOCH']>=$THIS_RET['START_EPOCH'] && (! $THIS_RET['END_EPOCH'] || $assignments_RET[ $assignment_id ][1]['DUE_EPOCH']<=$THIS_RET['END_EPOCH'])))
+	if ( ! empty( $_REQUEST['include_all'] || ($current_RET[$THIS_RET['STUDENT_ID']][ $assignment_id ][1]['POINTS']!='' || ! $assignments_RET[ $assignment_id ][1]['DUE_EPOCH'] || $assignments_RET[ $assignment_id ][1]['DUE_EPOCH']>=$THIS_RET['START_EPOCH'] && (! $THIS_RET['END_EPOCH'] || $assignments_RET[ $assignment_id ][1]['DUE_EPOCH']<=$THIS_RET['END_EPOCH'] ) )))
 	{
 		//FJ default points
 		$points = $current_RET[$THIS_RET['STUDENT_ID']][ $assignment_id ][1]['POINTS'];

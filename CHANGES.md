@@ -16,6 +16,7 @@ Changes in 3.9-beta
 - Fix SQL error: A field with precision 9, scale 2 must round to an absolute value less than 10^7 in Transactions.php
 - Fix Assignments columns for teacher list in Portal.php
 - Add link to Assignment to teacher list in Portal.php & Assignments.php
+- Mention current MP in program title in StudentAssignments.php, Grades.php & StudentGrades.php
 
 Changes in 3.8
 --------------
