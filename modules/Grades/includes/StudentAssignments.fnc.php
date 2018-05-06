@@ -459,8 +459,16 @@ function MakeAssignmentTitle( $value, $column )
 		$value :
 		'<span title="' . $value . '">' . mb_substr( $value, 0, 33 ) . '...</span>';
 
-	$view_assignment_link = 'Modules.php?modname=Grades/StudentAssignments.php&assignment_id=' .
-		$THIS_RET['ASSIGNMENT_ID'];
+	if ( User( 'PROFILE' ) === 'teacher' )
+	{
+		$view_assignment_link = 'Modules.php?modname=Grades/Assignments.php&assignment_id=' .
+			$THIS_RET['ASSIGNMENT_ID'];
+	}
+	else
+	{
+		$view_assignment_link = 'Modules.php?modname=Grades/StudentAssignments.php&assignment_id=' .
+			$THIS_RET['ASSIGNMENT_ID'];
+	}
 
 	return '<a href="' . $view_assignment_link . '">' . $title . '</a>';
 }
