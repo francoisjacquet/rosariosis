@@ -347,6 +347,31 @@ if ( ! $_REQUEST['modfunc'] )
 		}
 	}
 
+	if ( ! empty( $_REQUEST['assignment_id'] )
+		&& $_REQUEST['assignment_id'] !== 'new'
+		&& empty( $_REQUEST['assignment_type_id'] ) || ! is_numeric( $_REQUEST['assignment_type_id'] ) )
+	{
+		// We have an Assignment ID but no type ID.
+		// Try to find it back.
+		$assignment_type_RET = DBGet( DBQuery( "SELECT ASSIGNMENT_TYPE_ID
+			FROM GRADEBOOK_ASSIGNMENTS
+			WHERE (COURSE_ID=(SELECT COURSE_ID
+				FROM COURSE_PERIODS
+				WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
+				OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
+			AND ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'" ) );
+
+		if ( ! $assignment_type_RET )
+		{
+			// Unset assignment & type IDs & redirect URL.
+			RedirectURL( array( 'assignment_type_id', 'assignment_id' ) );
+		}
+		else
+		{
+			$_REQUEST['assignment_type_id'] = $assignment_type_RET[1]['ASSIGNMENT_TYPE_ID'];
+		}
+	}
+
 	// ASSIGNMENT TYPES.
 	$assignment_types_sql = "SELECT ASSIGNMENT_TYPE_ID,TITLE,SORT_ORDER
 		FROM GRADEBOOK_ASSIGNMENT_TYPES

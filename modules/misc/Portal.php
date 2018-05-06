@@ -500,7 +500,7 @@ switch ( User( 'PROFILE' ) )
 			'DUE_DATE' => 'ProperDate',
 			/*'DAY' => '_eventDay',*/
 			'ASSIGNED_DATE' => 'ProperDate',
-			/*'DESCRIPTION' => 'makeTextarea',*/
+			'ASSIGNMENT_TITLE' => 'MakeAssignmentTitle',
 		) );
 
 		if ( $assignments_RET )
