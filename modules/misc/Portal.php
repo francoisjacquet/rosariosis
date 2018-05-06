@@ -133,8 +133,6 @@ $assignments_LO_columns = array(
 	'ASSIGNMENT_TITLE' => _( 'Assignment' ),
 	// 'DESCRIPTION' => _( 'Notes' ),
 	'COURSE' => _( 'Course' ),
-	'STAFF_ID' => _( 'Teacher' ),
-	'SUBMITTED' => _( 'Submitted' ),
 );
 
 if ( User( 'PROFILE' ) === 'student'

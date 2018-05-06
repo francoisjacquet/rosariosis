@@ -14,6 +14,7 @@ Changes in 3.9-beta
 - Add $type param to AttendanceCodesTipMessage() in AttendanceCodes.fnc.php
 - Fix #246 SQL error when selecting "All Periods" (admin) in StudentSummary.php
 - Fix SQL error: A field with precision 9, scale 2 must round to an absolute value less than 10^7 in Transactions.php
+- Fix Assignments columns for teacher list in Portal.php
 
 Changes in 3.8
 --------------
