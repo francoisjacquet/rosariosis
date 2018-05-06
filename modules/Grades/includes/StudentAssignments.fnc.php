@@ -461,13 +461,22 @@ function MakeAssignmentTitle( $value, $column )
 
 	if ( User( 'PROFILE' ) === 'teacher' )
 	{
-		$view_assignment_link = 'Modules.php?modname=Grades/Assignments.php&assignment_id=' .
-			$THIS_RET['ASSIGNMENT_ID'];
+		$view_assignment_link = 'Modules.php?modname=Grades/Assignments.php';
 	}
 	else
 	{
-		$view_assignment_link = 'Modules.php?modname=Grades/StudentAssignments.php&assignment_id=' .
-			$THIS_RET['ASSIGNMENT_ID'];
+		$view_assignment_link = 'Modules.php?modname=Grades/StudentAssignments.php';
+	}
+
+	if ( ! empty( $THIS_RET['ASSIGNMENT_ID'] ) )
+	{
+		$view_assignment_link .= '&assignment_id=' . $THIS_RET['ASSIGNMENT_ID'];
+	}
+
+	if ( ! empty( $THIS_RET['ASSIGNMENT_ID'] ) )
+	{
+		// @since 3.9 Add MP to outside links (see Portal), so current MP is correct.
+		$view_assignment_link .= '&marking_period_id=' . $THIS_RET['MARKING_PERIOD_ID'];
 	}
 
 	return '<a href="' . $view_assignment_link . '">' . $title . '</a>';
