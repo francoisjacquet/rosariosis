@@ -662,6 +662,19 @@ if ( ! $_REQUEST['modfunc'] )
 		echo '</form>';
 	}
 
+	if ( ! empty( $_REQUEST['assignment_id'] )
+		&& $_REQUEST['assignment_id'] !== 'new'
+		&& AllowUse( 'Grades/Grades.php' ) )
+	{
+		// Grades program link header.
+		$grades_program_link = '<a href="Modules.php?modname=Grades/Grades.php&type_id=' .
+			$_REQUEST['assignment_type_id'] .
+			'&assignment_id=' . $_REQUEST['assignment_id'] .'"><b>' .
+			_( 'Grades' ) . '</b></a>';
+
+		DrawHeader( $grades_program_link );
+	}
+
 	// DISPLAY THE MENU
 	$LO_options = array(
 		'save' => false,

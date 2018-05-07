@@ -19,6 +19,7 @@ Changes in 3.9-beta
 - Mention current MP in program title in StudentAssignments.php, Grades.php & StudentGrades.php
 - Outside link: Assignment is in the current MP? in StudentAssignments.php, Portal.php & Assignments.php
 - Add Student_Billing/StudentFees.php|student_fees_header action hook in StudentFees.php
+- Add Grades program link header in Assignments.php
 
 Changes in 3.8
 --------------
