@@ -606,17 +606,29 @@ function AddRequestedDates( $request_index, $add_to_post = '' )
 		$_REQUEST[ 'day_' . $request_index ]
 	);
 
-	$_REQUEST[ $request_index ] = array_replace_recursive(
-		(array) $_REQUEST[ $request_index ],
-		(array) $requested_dates
-	);
+	if ( is_array( $_REQUEST[ $request_index ] ) )
+	{
+		$_REQUEST[ $request_index ] = array_replace_recursive(
+			(array) $_REQUEST[ $request_index ],
+			(array) $requested_dates
+		);
+
+		if ( $add_to_post === 'post' )
+		{
+			$_POST[ $request_index ] = array_replace_recursive(
+				(array) $_POST[ $request_index ],
+				(array) $requested_dates
+			);
+		}
+
+		return;
+	}
+
+	$_REQUEST[ $request_index ] = $requested_dates;
 
 	if ( $add_to_post === 'post' )
 	{
-		$_POST[ $request_index ] = array_replace_recursive(
-			(array) $_POST[ $request_index ],
-			(array) $requested_dates
-		);
+		$_POST[ $request_index ] = $requested_dates;
 	}
 }
 
