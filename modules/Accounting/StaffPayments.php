@@ -19,29 +19,31 @@ if ( $_REQUEST['values']
 	&& AllowEdit()
 	&& UserStaffID() )
 {
-	foreach ( (array) $_REQUEST['values'] as $id => $columns)
+	foreach ( (array) $_REQUEST['values'] as $id => $columns )
 	{
 		if ( $id!='new')
 		{
 			$sql = "UPDATE ACCOUNTING_PAYMENTS SET ";
 
-			foreach ( (array) $columns as $column => $value)
+			foreach ( (array) $columns as $column => $value )
 			{
 				$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 			}
-			$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
-			DBQuery($sql);
+
+			$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . $id . "'";
+
+			DBQuery( $sql );
 		}
-		elseif ( $columns['AMOUNT'] !== ''
+		elseif ( $columns['AMOUNT'] != ''
 			&& $columns['PAYMENT_DATE'] )
 		{
-			$id = DBGet(DBQuery("SELECT ".db_seq_nextval('ACCOUNTING_PAYMENTS_SEQ').' AS ID'));
+			$id = DBGet( DBQuery( "SELECT " . db_seq_nextval( 'ACCOUNTING_PAYMENTS_SEQ' ) . ' AS ID' ) );
 			$id = $id[1]['ID'];
 
 			$sql = "INSERT INTO ACCOUNTING_PAYMENTS ";
 
 			$fields = 'ID,STAFF_ID,SYEAR,SCHOOL_ID,';
-			$values = "'".$id."','".UserStaffID()."','".UserSyear()."','".UserSchool()."',";
+			$values = "'" . $id . "','" . UserStaffID() . "','" . UserSyear() . "','" . UserSchool() . "',";
 
 			$go = 0;
 			foreach ( (array) $columns as $column => $value)

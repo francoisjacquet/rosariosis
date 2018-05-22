@@ -20,6 +20,7 @@ Changes in 3.9-beta
 - Outside link: Assignment is in the current MP? in StudentAssignments.php, Portal.php & Assignments.php
 - Add Student_Billing/StudentFees.php|student_fees_header action hook in StudentFees.php
 - Add Grades program link header in Assignments.php
+- Fix SQL error no AMOUNT when Print after Save Payments in StudentPayments.php & StaffPayments.php
 
 Changes in 3.8
 --------------
