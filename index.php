@@ -16,17 +16,16 @@ require_once 'Warehouse.php';
 if ( isset( $_REQUEST['modfunc'] )
 	&& $_REQUEST['modfunc'] === 'logout' )
 {
-	// FJ set logout page to old session locale.
-	$old_session_locale = $_SESSION['locale'];
+	// Redirect to index.php with same locale as old session & eventual reason & redirect to URL.
+	header( 'Location: index.php?locale=' . $_SESSION['locale'] .
+		( isset( $_REQUEST['reason'] ) ? '&reason=' . $_REQUEST['reason'] : '' ) .
+		( isset( $_REQUEST['redirect_to'] ) ?
+			'&redirect_to=' . urlencode( $_REQUEST['redirect_to'] ) . '&profile_id=' . User( 'PROFILE_ID' ) :
+			'' ) );
 
 	session_unset();
 
 	session_destroy();
-
-	// Redirect to index.php with same locale as old session & eventual reason & redirect to URL.
-	header( 'Location: index.php?locale=' . $old_session_locale .
-		( isset( $_REQUEST['reason'] ) ? '&reason=' . $_REQUEST['reason'] : '' ) .
-		( isset( $_REQUEST['redirect_to'] ) ? '&redirect_to=' . urlencode( $_REQUEST['redirect_to'] ) : '' ) );
 
 	exit;
 }
@@ -494,10 +493,13 @@ elseif ( ! isset( $_REQUEST['create_account'] ) )
 	 * Redirect to Modules.php URL after login.
 	 * Defaults to modname=misc/Portal.php.
 	 * Sanitize redirect_to.
+	 * Check profile ID, so we avoid HackingLog
+	 * when login with a less privileged user.
 	 *
 	 * @since 3.8
 	 */
-	$redirect_to = empty( $_REQUEST['redirect_to'] ) ?
+	$redirect_to = ( empty( $_REQUEST['redirect_to'] )
+		|| User( 'PROFILE_ID' ) != $_REQUEST['profile_id'] ) ?
 		'modname=misc/Portal.php' : // Fix #173 resend login form: redirect to Modules.php.
 		str_replace(
 			array( '&_ROSARIO_PDF=true', '&_ROSARIO_PDF', '&LO_save=1' ),
