@@ -10,11 +10,6 @@
 
 require_once 'Warehouse.php';
 
-if ( ! isset( $_REQUEST['bottomfunc'] ) )
-{
-	$_REQUEST['bottomfunc'] = false;
-}
-
 if ( isAJAX() )
 {
 	ETagCache( 'start' );
@@ -60,18 +55,15 @@ if ( $_REQUEST['bottomfunc'] === 'print' ) :
 // Inline Help.
 elseif ( $_REQUEST['bottomfunc'] === 'help' ) :
 
-	$help_translated = 'locale/' . $locale . '/Help.php';
-	$help_english = 'locale/en_US.utf8/Help.php';
-
-	if ( file_exists( $help_translated ) ) // FJ translated help.
-	{
-		require_once $help_translated;
-	}
-	else
-		require_once $help_english;
+	require_once 'Help_en.php';
 
 	// FJ add help for non-core modules.
 	$non_core_modules = array_diff( array_keys( $RosarioModules ), $RosarioCoreModules );
+
+	$help_english = 'Help_en.php';
+
+	// @deprecated since 3.9 use help text domain: help.po Gettext files.
+	$help_translated = 'Help_' . substr( $locale, 0, 2 ) . '.php';
 
 	foreach ( (array) $non_core_modules as $non_core_module )
 	{

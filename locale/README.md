@@ -14,6 +14,8 @@ locale/
 		LC_MESSAGES/
 			rosariosis.mo
 			rosariosis.po
+            help.mo
+            help.po
 ```
 Note: **fr_FR.utf8** is the name of the French locale.
 
@@ -32,7 +34,7 @@ Gettext & Poedit
 ----------------
 The localization system is `gettext`, and the `*.po` files can be edited using [Poedit](http://poedit.net/). To start (or complete) a translation, please follow [this tutorial](https://github.com/francoisjacquet/rosariosis/wiki/Localizing,-translate-RosarioSIS-with-Poedit).
 
-`.pot` file available in `locale/en_US.utf8/LC_MESSAGES/rosariosis.pot`
+`.pot` files are available in `locale/en_US.utf8/LC_MESSAGES/`
 
 
 Reference
@@ -42,7 +44,9 @@ A reference of the currently available translations, including their code, langu
 
 Help texts
 ----------
-Place a `Help.php` file inside your locale folder. The translated help texts will be used for the inline help and to generate Handbooks. Use the `locale/en_US.utf8/Help.php` file as a model.
+The `Help_en.php` file serves as a reference to generate the Gettext `help.pot` / `help.po` files
+and translate Help texts to your language.
+The Catalog should only reference the Help_en.php file and detect the `_help` function / source keyword.
 
 
 Flag icons

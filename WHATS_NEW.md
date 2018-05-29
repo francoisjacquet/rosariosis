@@ -2,6 +2,11 @@
 
 ## RosarioSIS Student Information System
 
+New in 3.9
+----------
+
+Translate Help texts with Poedit
+
 New in 3.8
 ----------
 
