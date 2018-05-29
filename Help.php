@@ -93,7 +93,7 @@ foreach ( (array) $help as $program => $value ) :
 
 		if ( ! $RosarioModules[ $modcat ] ) // Module not activated.
 		{
-			break;
+			continue;
 		}
 
 		if ( $modcat != $old_modcat

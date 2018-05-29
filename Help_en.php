@@ -37,6 +37,11 @@ function _help( $text, $domain = 'help' )
 
 	static $domains_bound = array();
 
+	if ( mb_strpos( $domain, 'help' ) )
+	{
+		$domain .= '_help';
+	}
+
 	if ( empty( $domains_bound[ $domain ] ) )
 	{
 		// Binds the messages domain to the locale folder.
