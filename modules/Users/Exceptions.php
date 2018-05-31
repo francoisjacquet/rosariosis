@@ -90,17 +90,22 @@ if ( $_REQUEST['modfunc'] === 'update'
 				elseif (count($exceptions_RET[ $modname ]) && ! $_REQUEST['can_edit'][str_replace('.','_',$modname)] && ! $_REQUEST['can_use'][str_replace('.','_',$modname)])
 					DBQuery("DELETE FROM STAFF_EXCEPTIONS WHERE USER_ID='".$user_id."' AND MODNAME='".$modname."'");
 
-				if ( $_REQUEST['can_edit'][str_replace('.','_',$modname)] || $_REQUEST['can_use'][str_replace('.','_',$modname)])
+				if ( ! empty( $_REQUEST['can_edit'][ str_replace( '.', '_', $modname ) ] )
+					|| ! empty( $_REQUEST['can_use'][ str_replace( '.', '_', $modname ) ] ) )
 				{
 					$update = "UPDATE STAFF_EXCEPTIONS SET ";
 
-					if ( $_REQUEST['can_edit'][str_replace('.','_',$modname)])
+					if ( ! empty( $_REQUEST['can_edit'][ str_replace( '.', '_', $modname ) ] ) )
+					{
 						$update .= "CAN_EDIT='Y',";
+					}
 					else
 						$update .= "CAN_EDIT=NULL,";
 
-					if ( $_REQUEST['can_use'][str_replace('.','_',$modname)])
+					if ( ! empty( $_REQUEST['can_use'][ str_replace( '.', '_', $modname ) ] ) )
+					{
 						$update .= "CAN_USE='Y'";
+					}
 					else
 						$update .= "CAN_USE=NULL";
 

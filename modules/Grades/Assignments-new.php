@@ -71,7 +71,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 							$sql = 'INSERT INTO GRADEBOOK_ASSIGNMENTS ';
 							$fields = "ASSIGNMENT_ID,STAFF_ID,MARKING_PERIOD_ID,";
 							$values = db_seq_nextval('GRADEBOOK_ASSIGNMENTS_SEQ').",'".User('STAFF_ID')."','".UserMP()."',";
-							if ( $_REQUEST['tab_id'])
+							if ( ! empty( $_REQUEST['tab_id'] ) )
 							{
 								$fields .= "ASSIGNMENT_TYPE_ID,";
 								$values .= "'".$_REQUEST['tab_id']."',";
@@ -168,9 +168,9 @@ if ( $_REQUEST['modfunc'] === 'remove' )
 if ( ! $_REQUEST['modfunc'] )
 {
 	$types_RET = DBGet(DBQuery("SELECT ASSIGNMENT_TYPE_ID,TITLE,SORT_ORDER,COLOR FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE STAFF_ID='".User('STAFF_ID')."' AND COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."') ORDER BY SORT_ORDER,TITLE"),array(),array('ASSIGNMENT_TYPE_ID'));
-	if ( $_REQUEST['tab_id'])
+	if ( ! empty( $_REQUEST['tab_id'] ) )
 	{
-		if ( $_REQUEST['tab_id']!='new' && ! $types_RET[$_REQUEST['tab_id']])
+		if ( $_REQUEST['tab_id']!='new' && ! $types_RET[$_REQUEST['tab_id']] )
 			if (count($types_RET))
 				$_REQUEST['tab_id'] = key($types_RET).'';
 			else
@@ -199,7 +199,7 @@ if ( ! $_REQUEST['modfunc'] )
 			"WHERE STAFF_ID='".User('STAFF_ID')."' AND (COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."') OR COURSE_PERIOD_ID='".UserCoursePeriod()."')".($_REQUEST['tab_id']?" AND ASSIGNMENT_TYPE_ID='".$_REQUEST['tab_id']."'":'').
 			" AND MARKING_PERIOD_ID='".UserMP()."' ORDER BY ".Preferences('ASSIGNMENT_SORTING','Gradebook')." DESC,ASSIGNMENT_ID DESC,TITLE";
 		$functions = array('TITLE' => '_makeAssnInput','POINTS' => '_makeAssnInput','ASSIGNED_DATE' => '_makeAssnInput','DUE_DATE' => '_makeAssnInput','COURSE_ID' => '_makeAssnInput','DESCRIPTION' => '_makeAssnInput','DEFAULT_POINTS' => '_makeAssnInput');
-		if ( $_REQUEST['allow_edit']=='Y' || ! $_REQUEST['tab_id'])
+		if ( $_REQUEST['allow_edit']=='Y' || ! $_REQUEST['tab_id'] )
 			$functions['ASSIGNMENT_TYPE_ID'] = '_makeAssnInput';
 		$LO_ret = DBGet(DBQuery($sql),$functions);
 
@@ -214,12 +214,12 @@ if ( ! $_REQUEST['modfunc'] )
 			'DESCRIPTION' => _( 'Description' )
 		);
 
-		if ( $_REQUEST['allow_edit']=='Y' || ! $_REQUEST['tab_id'])
+		if ( $_REQUEST['allow_edit']=='Y' || ! $_REQUEST['tab_id'] )
 			$LO_columns += array('ASSIGNMENT_TYPE_ID' => _('Type'));
 
 		$link['add']['html'] = array('TITLE'=>_makeAssnInput('','TITLE'),'POINTS'=>_makeAssnInput('','POINTS'),'DEFAULT_POINTS'=>_makeAssnInput('','DEFAULT_POINTS'),'ASSIGNED_DATE'=>_makeAssnInput('','ASSIGNED_DATE'),'DUE_DATE'=>_makeAssnInput('','DUE_DATE'),'COURSE_ID'=>_makeAssnInput('','COURSE_ID'),'DESCRIPTION'=>_makeAssnInput('','DESCRIPTION'));
 
-		if ( ! $_REQUEST['tab_id'])
+		if ( empty( $_REQUEST['tab_id'] ) )
 			$link['add']['html'] += array('ASSIGNMENT_TYPE_ID'=>_makeAssnInput('','ASSIGNMENT_TYPE_ID'));
 
 		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&tab_id='.$_REQUEST['tab_id'].'&allow_edit='.$_REQUEST['allow_edit'];

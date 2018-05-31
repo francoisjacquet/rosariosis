@@ -2,7 +2,9 @@
 //FJ move Attendance.php from functions/ to modules/Attendance/includes
 require_once 'modules/Attendance/includes/UpdateAttendanceDaily.fnc.php';
 
-if ( $_REQUEST['month_date'] && $_REQUEST['day_date'] && $_REQUEST['year_date'] )
+if ( ! empty( $_REQUEST['month_date'] )
+	&& ! empty( $_REQUEST['day_date'] )
+	&& ! empty( $_REQUEST['year_date'] ) )
 {
 	$date = $_REQUEST['year_date'] . '-' . $_REQUEST['month_date'] . '-' . $_REQUEST['day_date'];
 }
@@ -90,19 +92,29 @@ if (isset($_REQUEST['student_id']) && $_REQUEST['student_id']!='new')
 else
 {
 	$extra['WHERE'] = " AND EXISTS (SELECT '' FROM ATTENDANCE_PERIOD ap,ATTENDANCE_CODES ac WHERE ap.SCHOOL_DATE='".$date."' AND ap.STUDENT_ID=ssm.STUDENT_ID AND ap.ATTENDANCE_CODE=ac.ID AND ac.SCHOOL_ID=ssm.SCHOOL_ID AND ac.SYEAR=ssm.SYEAR ";
-	if (count($_REQUEST['codes']))
+
+	if ( isset( $_REQUEST['codes'] )
+		&& count( $_REQUEST['codes'] ) )
 	{
 		$REQ_codes = $_REQUEST['codes'];
-		foreach ( (array) $REQ_codes as $key => $value)
+
+		foreach ( (array) $REQ_codes as $key => $value )
 		{
 			if ( ! $value)
-				unset($REQ_codes[ $key ]);
-			elseif ( $value=='A')
+			{
+				unset( $REQ_codes[ $key ] );
+			}
+			elseif ( $value === 'A' )
+			{
 				$abs = true;
+			}
 		}
 	}
 	else
+	{
 		$abs = true;
+	}
+
 	if (count($REQ_codes) && ! $abs)
 	{
 		$extra['WHERE'] .= "AND ac.ID IN (";

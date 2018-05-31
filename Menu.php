@@ -89,7 +89,7 @@ if ( empty( $_ROSARIO['Menu'] ) )
 
 				// Default to first allowed program if default not allowed.
 				if ( ! isset( $_ROSARIO['Menu'][ $modcat ]['default'] )
-					|| ! $_ROSARIO['AllowUse'][ $_ROSARIO['Menu'][ $modcat ]['default'] ] )
+					|| empty( $_ROSARIO['AllowUse'][ $_ROSARIO['Menu'][ $modcat ]['default'] ] ) )
 				{
 					$_ROSARIO['Menu'][ $modcat ]['default'] = $program;
 				}

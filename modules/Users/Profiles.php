@@ -152,17 +152,22 @@ if ( $_REQUEST['modfunc'] === 'update'
 				elseif (count($exceptions_RET[ $modname ]) && ! $_REQUEST['can_edit'][str_replace('.','_',$modname)] && ! $_REQUEST['can_use'][str_replace('.','_',$modname)])
 					DBQuery("DELETE FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='".$_REQUEST['profile_id']."' AND MODNAME='".$modname."'");
 
-				if ( $_REQUEST['can_edit'][str_replace('.','_',$modname)] || $_REQUEST['can_use'][str_replace('.','_',$modname)])
+				if ( ! empty( $_REQUEST['can_edit'][ str_replace( '.', '_', $modname ) ] )
+					|| ! empty( $_REQUEST['can_use'][ str_replace( '.', '_', $modname ) ] ) )
 				{
 					$update = "UPDATE PROFILE_EXCEPTIONS SET ";
 
-					if ( $_REQUEST['can_edit'][str_replace('.','_',$modname)])
+					if ( ! empty( $_REQUEST['can_edit'][ str_replace( '.', '_', $modname ) ] ) )
+					{
 						$update .= "CAN_EDIT='Y',";
+					}
 					else
 						$update .= "CAN_EDIT=NULL,";
 
-					if ( $_REQUEST['can_use'][str_replace('.','_',$modname)])
+					if ( ! empty( $_REQUEST['can_use'][ str_replace( '.', '_', $modname ) ] ) )
+					{
 						$update .= "CAN_USE='Y'";
+					}
 					else
 						$update .= "CAN_USE=NULL";
 
@@ -195,7 +200,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 }
 
 if ( $_REQUEST['modfunc']
-	&& $_REQUEST['new_profile_title']
+	&& ! empty( $_REQUEST['new_profile_title'] )
 	&& AllowEdit() )
 {
 	$id = DBGet(DBQuery("SELECT ".db_seq_nextval('USER_PROFILES_SEQ')." AS ID"));

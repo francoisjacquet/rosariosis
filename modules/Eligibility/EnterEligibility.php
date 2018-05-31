@@ -112,7 +112,8 @@ if ( $_REQUEST['modfunc']=='gradebook')
 	}
 }
 
-if ( $_REQUEST['values'] && $_POST['values'])
+if ( ! empty( $_REQUEST['values'] )
+	&& ! empty( $_POST['values'] ) )
 {
 	$course_period_id = UserCoursePeriod();
 	foreach ( (array) $_REQUEST['values'] as $student_id => $value)

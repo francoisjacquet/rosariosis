@@ -50,7 +50,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		AND sr.COURSE_PERIOD_ID=p_cp.COURSE_PERIOD_ID
 		AND ('" . $date . "' BETWEEN sr.START_DATE AND sr.END_DATE " . $date_extra . ")";
 
-	if ( $_REQUEST['mp_id'] )
+	if ( ! empty( $_REQUEST['mp_id'] ) )
 	{
 		$extra['WHERE'] .= ' AND sr.MARKING_PERIOD_ID IN (' . GetAllMP(
 			GetMP( $_REQUEST['mp_id'], 'MP' ),

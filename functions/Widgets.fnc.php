@@ -225,7 +225,7 @@ function Widgets( $item, &$myextra = null )
 				break;
 			}
 
-			if ( $_REQUEST['w_course_period_id'] )
+			if ( ! empty( $_REQUEST['w_course_period_id'] ) )
 			{
 				// Course.
 				if ( $_REQUEST['w_course_period_id_which'] == 'course' )
@@ -299,7 +299,7 @@ function Widgets( $item, &$myextra = null )
 			}
 
 			// PART OF THIS IS DUPLICATED IN PrintRequests.php.
-			if ( $_REQUEST['request_course_id'] )
+			if ( ! empty( $_REQUEST['request_course_id'] ) )
 			{
 				$course = DBGet( DBQuery( "SELECT c.TITLE
 					FROM COURSES c
@@ -560,7 +560,7 @@ function Widgets( $item, &$myextra = null )
 					$_REQUEST['gpa_low'] = $temp;
 				}
 
-				if ( $_REQUEST['list_gpa'] )
+				if ( ! empty( $_REQUEST['list_gpa'] ) )
 				{
 					$extra['SELECT'] .= ',sms.CUM_WEIGHTED_FACTOR,sms.CUM_UNWEIGHTED_FACTOR';
 
@@ -790,7 +790,7 @@ function Widgets( $item, &$myextra = null )
 			$extra['search'] .= '</td><td>';
 
 			// FJ fix error Invalid argument supplied for foreach().
-			if ( ! $_REQUEST['search_modfunc'] )
+			if ( empty( $_REQUEST['search_modfunc'] ) )
 			{
 				$letter_grades_RET = DBGet( DBQuery( "SELECT rg.ID,rg.TITLE,rg.GRADE_SCALE_ID
 					FROM REPORT_CARD_GRADES rg,REPORT_CARD_GRADE_SCALES rs
@@ -930,7 +930,7 @@ function Widgets( $item, &$myextra = null )
 				break;
 			}
 
-			if ( $_REQUEST['activity_id'] )
+			if ( ! empty( $_REQUEST['activity_id'] ) )
 			{
 				$extra['FROM'] .= ",STUDENT_ELIGIBILITY_ACTIVITIES sea";
 
@@ -949,7 +949,7 @@ function Widgets( $item, &$myextra = null )
 				}
 			}
 
-			if ( ! $_REQUEST['search_modfunc'] )
+			if ( empty( $_REQUEST['search_modfunc'] ) )
 			{
 				$activities_RET = DBGet( DBQuery( "SELECT ID,TITLE
 					FROM ELIGIBILITY_ACTIVITIES
@@ -1063,7 +1063,7 @@ function Widgets( $item, &$myextra = null )
 				AND (PROFILE='admin' OR PROFILE='teacher')
 				ORDER BY LAST_NAME,FIRST_NAME,MIDDLE_NAME" ), array(), array( 'STAFF_ID' ) );
 
-			if ( $_REQUEST['discipline_reporter'] )
+			if ( ! empty( $_REQUEST['discipline_reporter'] ) )
 			{
 				if ( mb_strpos( $extra['FROM'], 'DISCIPLINE_REFERRALS' ) === false )
 				{
@@ -1305,15 +1305,15 @@ function Widgets( $item, &$myextra = null )
 
 						$extra['search'] .= '<input type="text" name="discipline[' . $category['ID'] . ']" size="24" maxlength="255" />';
 
-						if ( $_REQUEST['discipline'][$category['ID']] )
+						if ( ! empty( $_REQUEST['discipline'][ $category['ID'] ] ) )
 						{
 							$extra['WHERE'] .= " AND dr.CATEGORY_" . $category['ID'] .
-								" LIKE '" . $_REQUEST['discipline'][$category['ID']] . "%' ";
+								" LIKE '" . $_REQUEST['discipline'][ $category['ID'] ] . "%' ";
 
 							if ( ! $extra['NoSearchTerms'] )
 							{
 								$_ROSARIO['SearchTerms'] .= '<b>' . $category['TITLE'] . ': </b> ' .
-									$_REQUEST['discipline'][$category['ID']] . '<br />';
+									$_REQUEST['discipline'][ $category['ID'] ] . '<br />';
 							}
 						}
 
@@ -1323,7 +1323,7 @@ function Widgets( $item, &$myextra = null )
 
 						$extra['search'] .= '<input type="checkbox" name="discipline[' . $category['ID'] . ']" value="Y" />';
 
-						if ( $_REQUEST['discipline'][$category['ID']] )
+						if ( ! empty( $_REQUEST['discipline'][ $category['ID'] ] ) )
 						{
 							$extra['WHERE'] .= " AND dr.CATEGORY_" . $category['ID'] . "='Y' ";
 
@@ -1375,7 +1375,7 @@ function Widgets( $item, &$myextra = null )
 
 						$extra['search'] .= '</select>';
 
-						if ( $_REQUEST['discipline'][$category['ID']] )
+						if ( ! empty( $_REQUEST['discipline'][ $category['ID'] ] ) )
 						{
 							if ( $category['DATA_TYPE'] == 'multiple_radio'
 								|| $category['DATA_TYPE'] == 'select' )
@@ -1430,7 +1430,7 @@ function Widgets( $item, &$myextra = null )
 				$next_year_options[ $school['ID'] ] = $school['TITLE'];
 			}
 
-			if ( $_REQUEST['next_year'] )
+			if ( ! empty( $_REQUEST['next_year'] ) )
 			{
 				if ( $_REQUEST['next_year'] == '!' )
 				{
@@ -1474,7 +1474,7 @@ function Widgets( $item, &$myextra = null )
 				AND SCHOOL_ID='" . UserSchool() . "'
 				ORDER BY DEFAULT_CALENDAR ASC" ) );
 
-			if ( $_REQUEST['calendar'] )
+			if ( ! empty( $_REQUEST['calendar'] ) )
 			{
 				if ( $_REQUEST['calendar'] === '!' )
 				{
@@ -1486,7 +1486,6 @@ function Widgets( $item, &$myextra = null )
 				}
 				else
 				{
-
 					$where_not = ( $_REQUEST['calendar_not'] === 'Y' ? '!' : '' );
 
 					$extra['WHERE'] .= " AND ssm.CALENDAR_ID" . $where_not . "='" . $_REQUEST['calendar'] . "'";
@@ -1575,7 +1574,7 @@ function Widgets( $item, &$myextra = null )
 						ProperDate( $_REQUEST['enrolled_end'] ) . '<br />';
 				}
 			}
-			elseif ( $_REQUEST['enrolled_begin'] )
+			elseif ( ! empty( $_REQUEST['enrolled_begin'] ) )
 			{
 				$extra['WHERE'] .= " AND ssm.START_DATE>='" . $_REQUEST['enrolled_begin'] . "'";
 
@@ -1585,7 +1584,7 @@ function Widgets( $item, &$myextra = null )
 						ProperDate( $_REQUEST['enrolled_begin'] ) . '<br />';
 				}
 			}
-			elseif ( $_REQUEST['enrolled_end'] )
+			elseif ( ! empty( $_REQUEST['enrolled_end'] ) )
 			{
 				$extra['WHERE'] .= " AND ssm.START_DATE<='" . $_REQUEST['enrolled_end'] . "'";
 
@@ -1618,7 +1617,7 @@ function Widgets( $item, &$myextra = null )
 				break;
 			}
 
-			if ( $_REQUEST['rolled'] )
+			if ( ! empty( $_REQUEST['rolled'] ) )
 			{
 				$extra['WHERE'] .= " AND " . ( $_REQUEST['rolled'] == 'Y' ? '' : 'NOT ' ) . "exists
 					(SELECT ''
@@ -1703,7 +1702,7 @@ function Widgets( $item, &$myextra = null )
 				break;
 			}
 
-			if ( $_REQUEST['fsa_discount'] )
+			if ( ! empty( $_REQUEST['fsa_discount'] ) )
 			{
 				if ( ! mb_strpos($extra['FROM'], 'fssa' ) )
 				{
@@ -1751,7 +1750,7 @@ function Widgets( $item, &$myextra = null )
 				break;
 			}
 
-			if ( $_REQUEST['fsa_status'] )
+			if ( ! empty( $_REQUEST['fsa_status'] ) )
 			{
 				if ( ! mb_strpos( $extra['FROM'], 'fssa' ) )
 				{
@@ -1794,7 +1793,7 @@ function Widgets( $item, &$myextra = null )
 				break;
 			}
 
-			if ( $_REQUEST['fsa_barcode'] )
+			if ( ! empty( $_REQUEST['fsa_barcode'] ) )
 			{
 				if ( !mb_strpos( $extra['FROM'], 'fssa' ) )
 				{

@@ -18,12 +18,27 @@ DrawHeader(
 	)
 );
 
-if ( ! $_REQUEST['missing'] && ! $_REQUEST['negative'] && ! $_REQUEST['max_allowed'])
+if ( empty( $_REQUEST['missing'] )
+	&& empty( $_REQUEST['negative'] )
+	&& empty( $_REQUEST['max_allowed'] ) )
+{
 	$_REQUEST['missing'] = $_REQUEST['negative'] = $_REQUEST['max_allowed'] = 'Y';
-DrawHeader(_('Include').': <label>'.CheckBoxOnclick('missing').' '._('Missing Grades').'</label> &nbsp;<label>'.CheckBoxOnclick('negative').' '._('Excused and Negative Grades').'</label> &nbsp;<label>'.CheckBoxOnclick('max_allowed').' '.sprintf(_('Exceed %d%% and Extra Credit Grades'),($max_allowed*100)).'</label>');
+}
+
+DrawHeader(
+	_( 'Include' ) . ': <label>' .
+	CheckBoxOnclick( 'missing' ) . ' ' . _( 'Missing Grades' ) . '</label> &nbsp;<label>' .
+	CheckBoxOnclick( 'negative' ) . ' ' . _( 'Excused and Negative Grades' ) . '</label> &nbsp;<label>' .
+	CheckBoxOnclick( 'max_allowed' ) . ' ' .
+	sprintf(
+		_( 'Exceed %d%% and Extra Credit Grades' ),
+		( $max_allowed * 100 )
+	) . '</label>'
+);
+
 echo '</form>';
 
-if ( $_REQUEST['student_id'])
+if ( ! empty( $_REQUEST['student_id'] ) )
 {
 	if ( $_REQUEST['student_id']!=UserStudentID())
 	{
@@ -43,12 +58,12 @@ else
 			$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];
 	}
 }
-if ( $_REQUEST['period'])
+if ( ! empty( $_REQUEST['period'] ) )
 {
 	if ( $_REQUEST['period']!=UserCoursePeriod())
 	{
 		$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];
-		if ( $_REQUEST['student_id'])
+		if ( ! empty( $_REQUEST['student_id'] ) )
 		{
 			if ( $_REQUEST['student_id']!=UserStudentID())
 				SetUserStudentID($_REQUEST['student_id']);
@@ -67,15 +82,15 @@ $extra['FROM'] = " JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID=cp.COU
 $extra['WHERE'] .= ' AND (';
 
 // missing
-if ( $_REQUEST['missing'])
+if ( ! empty( $_REQUEST['missing'] ) )
 	$extra['WHERE'] .= 'gg.POINTS IS NULL AND ((ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE) OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID)) OR ';
 
 // excused or negative
-if ( $_REQUEST['negative'])
+if ( ! empty( $_REQUEST['negative'] ) )
 	$extra['WHERE'] .= 'gg.POINTS<0 OR ';
 
 // greater than max percent or extra credit
-if ( $_REQUEST['max_allowed'])
+if ( ! empty( $_REQUEST['max_allowed'] ) )
 	$extra['WHERE'] .= 'gg.POINTS>ga.POINTS*'.$max_allowed.' OR ';
 
 $extra['WHERE'] .= 'FALSE) AND gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID';
@@ -114,7 +129,7 @@ if ( $_REQUEST['include_all_courses']=='Y')
 	$columns += array('COURSE_TITLE' => _('Course'));
 }
 $columns += array('TYPE_TITLE' => _('Category'),'TITLE' => _('Assignment'),'COMMENT' => _('Comment'));
-if ( $_REQUEST['include_inactive'])
+if ( ! empty( $_REQUEST['include_inactive'] ) )
 	$columns += array('ACTIVE' => _('School Status'),'ACTIVE_SCHEDULE' => _('Course Status'));
 
 $modname = str_replace('AnomalousGrades','Grades',$_REQUEST['modname']);

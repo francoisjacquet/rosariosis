@@ -123,11 +123,14 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 		break;
 
 		case 'Students/Student.php|create_student_checks':
-			if ($_REQUEST['moodle_create_student'] && !MoodlePasswordCheck($_REQUEST['students']['PASSWORD']))
+			if ( ! empty( $_REQUEST['moodle_create_student'] )
+				&& ! MoodlePasswordCheck( $_REQUEST['students']['PASSWORD'] ) )
+			{
 				$error[] = _('Please enter a valid password');
+			}
 
 			//username, password, (email) required
-			if ( $_REQUEST['moodle_create_student']
+			if ( ! empty( $_REQUEST['moodle_create_student'] )
 				&& ( empty( $_REQUEST['students']['USERNAME'] )
 					|| empty( $_REQUEST['students'][ ROSARIO_STUDENTS_EMAIL_FIELD ] ) ) )
 			{
@@ -137,7 +140,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 		break;
 
 		case 'Students/Student.php|create_student':
-			if ( $_REQUEST['moodle_create_student'])
+			if ( ! empty( $_REQUEST['moodle_create_student'] ) )
 				Moodle($modname, 'core_user_create_users');
 
 		break;
@@ -148,13 +151,13 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 				if (($_REQUEST['moodle_create_student'] || IsMoodleStudent(UserStudentID())) && !MoodlePasswordCheck($_REQUEST['students']['PASSWORD']))
 					$error[] = _('Please enter a valid password');
 			}
-			elseif ($_REQUEST['moodle_create_student'])
+			elseif ( ! empty( $_REQUEST['moodle_create_student'] ) )
 				$error[] = _('Please enter a valid password');
 
 		break;
 
 		case 'Students/Student.php|update_student':
-			if ( $_REQUEST['moodle_create_student'])
+			if ( ! empty( $_REQUEST['moodle_create_student'] ) )
 			{
 				Moodle($modname, 'core_user_create_users');
 				//relate parent if exists
@@ -171,7 +174,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 		break;
 
 		case 'Students/Student.php|add_student_address':
-			if ($_REQUEST['values']['STUDENTS_JOIN_ADDRESS']['RESIDENCE'])
+			if ( ! empty( $_REQUEST['values']['STUDENTS_JOIN_ADDRESS']['RESIDENCE'] ) )
 				Moodle($modname, 'core_user_update_users');
 
 		break;
@@ -232,19 +235,24 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 		break;
 
 		case 'Users/User.php|create_user_checks':
-			if ($_REQUEST['moodle_create_user'] && !MoodlePasswordCheck($_REQUEST['staff']['PASSWORD']))
-				$error[] = _('Please enter a valid password');
+			if ( ! empty( $_REQUEST['moodle_create_user'] )
+				&& ! MoodlePasswordCheck( $_REQUEST['staff']['PASSWORD'] ) )
+			{
+				$error[] = _( 'Please enter a valid password' );
+			}
 
 			//username, email required
-			if ($_REQUEST['moodle_create_user'] && (empty($_REQUEST['staff']['USERNAME']) || empty($_REQUEST['staff']['EMAIL'])))
+			if ( ! empty( $_REQUEST['moodle_create_user'] )
+				&& ( empty( $_REQUEST['staff']['USERNAME'] )
+					|| empty( $_REQUEST['staff']['EMAIL'] ) ) )
 			{
-				$error[] = _('Please fill in the required fields');
+				$error[] = _( 'Please fill in the required fields' );
 			}
 
 		break;
 
 		case 'Users/User.php|create_user':
-			if ( $_REQUEST['moodle_create_user'] )
+			if ( ! empty( $_REQUEST['moodle_create_user'] ) )
 			{
 				Moodle($modname, 'core_user_create_users');
 				Moodle($modname, 'core_role_assign_roles');
@@ -258,13 +266,13 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 				if (($_REQUEST['moodle_create_user'] || IsMoodleUser(UserStaffID())) && !MoodlePasswordCheck($_REQUEST['staff']['PASSWORD']))
 					$error[] = _('Please enter a valid password');
 			}
-			elseif ($_REQUEST['moodle_create_user'])
+			elseif ( ! empty( $_REQUEST['moodle_create_user'] ) )
 				$error[] = _('Please enter a valid password');
 
 		break;
 
 		case 'Users/User.php|update_user':
-			if ( $_REQUEST['moodle_create_user'] )
+			if ( ! empty( $_REQUEST['moodle_create_user'] ) )
 			{
 				Moodle($modname, 'core_user_create_users');
 				Moodle($modname, 'core_role_assign_roles');
@@ -371,7 +379,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 		break;
 
 		case 'Scheduling/Courses.php|create_course_period':
-			if ( $_REQUEST['moodle_create_course_period'])
+			if ( ! empty( $_REQUEST['moodle_create_course_period'] ) )
 			{
 				Moodle($modname, 'core_course_create_courses');
 				Moodle($modname, 'core_role_assign_roles');
@@ -400,7 +408,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 				}
 			}
 			//this is an already created course period but not in Moodle yet TODO: TEST!!
-			elseif ($_REQUEST['moodle_create_course_period'])
+			elseif ( ! empty( $_REQUEST['moodle_create_course_period'] ) )
 			{
 				Moodle($modname, 'core_course_create_courses');
 				Moodle($modname, 'core_role_assign_roles');
@@ -462,7 +470,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 		case 'School_Setup/Calendar.php|create_calendar_event':
 			global $error;
 
-			if ($_REQUEST['MOODLE_PUBLISH_EVENT'])
+			if ( ! empty( $_REQUEST['MOODLE_PUBLISH_EVENT'] ) )
 			{
 				Moodle($modname, 'core_calendar_create_calendar_events');
 				if (!empty($error))
@@ -519,7 +527,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 		break;
 
 		case 'School_Setup/PortalNotes.php|create_portal_note':
-			if ($_REQUEST['MOODLE_PUBLISH_NOTE'])
+			if ( ! empty( $_REQUEST['MOODLE_PUBLISH_NOTE'] ) )
 				Moodle($modname, 'core_notes_create_notes');
 
 		break;

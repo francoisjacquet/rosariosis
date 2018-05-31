@@ -152,7 +152,7 @@ function StaffWidgets( $item, &$myextra = null )
 				break;
 			}
 
-			if ( $_REQUEST['permissions'] )
+			if ( ! empty( $_REQUEST['permissions'] ) )
 			{
 				$extra['WHERE'] .= " AND s.PROFILE_ID IS " . ( $_REQUEST['permissions'] == 'Y' ? 'NOT' : '' ) . " NULL
 					AND s.PROFILE!='none'";
@@ -237,7 +237,7 @@ function StaffWidgets( $item, &$myextra = null )
 				break;
 			}
 
-			if ( $_REQUEST['fsa_status'] )
+			if ( ! empty( $_REQUEST['fsa_status'] ) )
 			{
 				if ( !mb_strpos( $extra['FROM'], 'fssa' ) )
 				{
@@ -280,7 +280,7 @@ function StaffWidgets( $item, &$myextra = null )
 				break;
 			}
 
-			if ( $_REQUEST['fsa_barcode'] )
+			if ( ! empty( $_REQUEST['fsa_barcode'] ) )
 			{
 				if ( ! mb_strpos( $extra['FROM'], 'fssa' ) )
 				{
@@ -319,7 +319,7 @@ function StaffWidgets( $item, &$myextra = null )
 				break;
 			}
 
-			if ( $_REQUEST['fsa_exists'] )
+			if ( ! empty( $_REQUEST['fsa_exists'] ) )
 			{
 				$extra['WHERE'] .= ' AND ' . ( $_REQUEST['fsa_exists'] == 'N' ? 'NOT ' : '' ) . "EXISTS
 					(SELECT 'exists'

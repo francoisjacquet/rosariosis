@@ -193,7 +193,7 @@ elseif ( !is_numeric( $_REQUEST['assignment_id'] ) )
 		$total_points[$assignment['ASSIGNMENT_ID']] = $assignment['POINTS'];
 }
 // Assignment
-elseif ( $_REQUEST['assignment_id'] )
+elseif ( ! empty( $_REQUEST['assignment_id'] ) )
 {
 	$total_points = DBGet( DBQuery( "SELECT POINTS
 		FROM GRADEBOOK_ASSIGNMENTS
@@ -239,7 +239,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	echo '<br />';
 
-	if ( $_REQUEST['assignment_id'] )
+	if ( ! empty( $_REQUEST['assignment_id'] ) )
 	{
 		$tabs = array(
 			array(

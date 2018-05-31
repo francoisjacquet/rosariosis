@@ -280,23 +280,46 @@ if (isset($_REQUEST['student_id']) && $_REQUEST['student_id']!='new')
 else
 {
 	if ( $_REQUEST['expanded_view']!='true')
-		$extra['WHERE'] = $extra2['WHERE'] = " AND EXISTS (SELECT '' FROM $table ap,ATTENDANCE_CODES ac WHERE ap.SCHOOL_DATE='".$date."' AND ap.STUDENT_ID=ssm.STUDENT_ID AND ap.ATTENDANCE_CODE=ac.ID AND ac.SCHOOL_ID=ssm.SCHOOL_ID AND ac.SYEAR=ssm.SYEAR ".str_replace('TABLE_NAME','ac.TABLE_NAME',$extra_sql);
+	{
+		$extra['WHERE'] = $extra2['WHERE'] = " AND EXISTS (SELECT '' FROM " . DBEscapeIdentifier( $table ) . " ap,ATTENDANCE_CODES ac
+			WHERE ap.SCHOOL_DATE='" . $date . "'
+			AND ap.STUDENT_ID=ssm.STUDENT_ID
+			AND ap.ATTENDANCE_CODE=ac.ID
+			AND ac.SCHOOL_ID=ssm.SCHOOL_ID
+			AND ac.SYEAR=ssm.SYEAR " . str_replace( 'TABLE_NAME', 'ac.TABLE_NAME', $extra_sql );
+	}
 	else
-		$extra['WHERE'] = " AND EXISTS (SELECT '' FROM $table ap,ATTENDANCE_CODES ac WHERE ap.SCHOOL_DATE='".$date."' AND ap.STUDENT_ID=ssm.STUDENT_ID AND ap.ATTENDANCE_CODE=ac.ID AND ac.SCHOOL_ID=ssm.SCHOOL_ID AND ac.SYEAR=ssm.SYEAR ".str_replace('TABLE_NAME','ac.TABLE_NAME',$extra_sql);
+	{
+		$extra['WHERE'] = " AND EXISTS (SELECT '' FROM " . DBEscapeIdentifier( $table ) . " ap,ATTENDANCE_CODES ac
+			WHERE ap.SCHOOL_DATE='" . $date . "'
+			AND ap.STUDENT_ID=ssm.STUDENT_ID
+			AND ap.ATTENDANCE_CODE=ac.ID
+			AND ac.SCHOOL_ID=ssm.SCHOOL_ID
+			AND ac.SYEAR=ssm.SYEAR " . str_replace( 'TABLE_NAME', 'ac.TABLE_NAME', $extra_sql );
+	}
 
-	if (count($_REQUEST['codes']))
+	if ( isset( $_REQUEST['codes'] )
+		&& count( $_REQUEST['codes'] ) )
 	{
 		$REQ_codes = $_REQUEST['codes'];
-		foreach ( (array) $REQ_codes as $key => $value)
+
+		foreach ( (array) $REQ_codes as $key => $value )
 		{
-			if ( ! $value)
-				unset($REQ_codes[ $key ]);
+			if ( ! $value )
+			{
+				unset( $REQ_codes[ $key ] );
+			}
 			elseif ( $value=='A')
+			{
 				$abs = true;
+			}
 		}
 	}
 	else
+	{
 		$abs = ($_REQUEST['table']=='0'); //true;
+	}
+
 	if (count($REQ_codes) && ! $abs)
 	{
 		$extra['WHERE'] .= "AND ac.ID IN (";
@@ -325,7 +348,7 @@ else
 	$extra['WHERE'] .= ')';
 
 	// EXPANDED VIEW BREAKS THIS QUERY.  PLUS, PHONE IS ALREADY AN OPTION IN EXPANDED VIEW
-	if ( $_REQUEST['expanded_view']!='true' && !isset($_REQUEST['_ROSARIO_PDF']))
+	if ( $_REQUEST['expanded_view']!='true' && !isset($_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		$extra2['WHERE'] .= ')';
 		$extra2['SELECT_ONLY'] = 'ssm.STUDENT_ID,p.PERSON_ID,p.FIRST_NAME,p.LAST_NAME,p.MIDDLE_NAME,
