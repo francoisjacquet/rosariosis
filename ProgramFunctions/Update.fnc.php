@@ -92,6 +92,10 @@ function Update()
 		case version_compare( $from_version, '3.7-beta', '<' ) :
 
 			$return = _update37beta();
+
+		case version_compare( $from_version, '3.9', '<' ) :
+
+			$return = _update39();
 	}
 
 	// Update version in DB CONFIG table.
@@ -764,6 +768,39 @@ function _update37beta()
 	{
 		// Fix empty string to NULL using Posix escape string syntax (E + backslash).
 		DBQuery( "INSERT INTO config VALUES (0, 'DISPLAY_NAME', E'FIRST_NAME||coalesce(\' \'||MIDDLE_NAME||\' \',\' \')||LAST_NAME');" );
+	}
+
+	return $return;
+}
+
+
+/**
+ * Update to version 3.9
+ *
+ * 1. Add DISPLAY_NAME to CONFIG table for every school.
+ *
+ * Local function
+ *
+ * @since 3.9
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update39()
+{
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. Add DISPLAY_NAME to CONFIG table for every school.
+	 */
+	$display_name_added = DBGet( DBQuery( "SELECT 1 FROM CONFIG WHERE TITLE='DISPLAY_NAME'
+		AND SCHOOL_ID<>0" ) );
+
+	if ( ! $display_name_added )
+	{
+		// Fix empty string to NULL using Posix escape string syntax (E + backslash).
+		DBQuery( "INSERT INTO config SELECT DISTINCT ID, 'DISPLAY_NAME', E'FIRST_NAME||coalesce(\' \'||MIDDLE_NAME||\' \',\' \')||LAST_NAME' FROM schools;" );
 	}
 
 	return $return;

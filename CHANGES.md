@@ -21,6 +21,7 @@ Changes in 3.9-beta
 - Add Grades program link header in Assignments.php
 - Fix SQL error no AMOUNT when Print after Save Payments in StudentPayments.php & StaffPayments.php
 - Translate Help_en.php help texts in locale/[code].utf8/LC_MESSAGES/help.po & help.mo
+- Fix #244: Add DISPLAY_NAME to CONFIG table for every school in Configuration.php, rosariosis.sql & Update.fnc.php, sponsored by Asian Hope
 
 Changes in 3.8
 --------------

@@ -84,7 +84,7 @@ else
 
 						// Program Title, Program Name, Default Theme, Force Default Theme,
 						// Create User Account, Create Student Account, Student email field,
-						// Failed login attempts limit, Display Name.
+						// Failed login attempts limit.
 						$school_independant_values = array(
 							'TITLE',
 							'NAME',
@@ -95,7 +95,6 @@ else
 							'STUDENTS_EMAIL_FIELD',
 							'LIMIT_EXISTING_CONTACTS_ADDRESSES',
 							'FAILED_LOGIN_LIMIT',
-							'DISPLAY_NAME',
 						);
 
 						if ( in_array( $column, $school_independant_values ) )
