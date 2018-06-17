@@ -37,7 +37,8 @@ function Config( $item )
 		// If user logged in.
 		if ( UserSchool() > 0 )
 		{
-			$school_where = "SCHOOL_ID='" . UserSchool() . "' OR " . $school_where;
+			$school_where = "SCHOOL_ID='" . UserSchool() . "' OR " . $school_where .
+				" ORDER BY SCHOOL_ID DESC";
 		}
 
 		$_ROSARIO['Config'] = DBGet( DBQuery( "SELECT TITLE, CONFIG_VALUE
