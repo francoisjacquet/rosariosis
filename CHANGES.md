@@ -4,6 +4,7 @@
 Changes in 3.9.1
 ----------------
 - Fix UpdateAttendanceDaily() call when Updating in Administration.php
+- Fix "You are not currently in a marking period" error when recalculating daily attendance in UpdateAttendanceDaily.fnc.php
 
 Changes in 3.9
 --------------
