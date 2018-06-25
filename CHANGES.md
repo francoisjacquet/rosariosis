@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 3.9.1
+----------------
+- Fix UpdateAttendanceDaily() call when Updating in Administration.php
+
 Changes in 3.9
 --------------
 - Add FileInput() function in Inputs.php

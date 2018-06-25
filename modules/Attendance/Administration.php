@@ -170,20 +170,25 @@ if ( $_REQUEST['attendance']
 					DBQuery($sql);
 			}
 		}
-		UpdateAttendanceDaily($student_id,$date,($_REQUEST['attendance_day'][ $student_id ]['COMMENT']?$_REQUEST['attendance_day'][ $student_id ]['COMMENT']:false));
-		unset($_REQUEST['attendance_day'][ $student_id ]);
 	}
+
 	// TODO: can be optimized? Remove PERIOD_ID index.
 	$current_RET = DBGet(DBQuery($current_Q),array(),array('STUDENT_ID','PERIOD_ID'));
 
-	// Unset attendance & attendance day & redirect URL.
-	RedirectURL( array( 'attendance', 'attendance_day' ) );
+	// Unset attendance & redirect URL.
+	RedirectURL( 'attendance' );
 }
 
-if (count($_REQUEST['attendance_day']))
+if ( count( $_REQUEST['attendance_day'] ) )
 {
-	foreach ( (array) $_REQUEST['attendance_day'] as $student_id => $comment)
-		UpdateAttendanceDaily($student_id,$date,$comment['COMMENT']);
+	foreach ( (array) $_REQUEST['attendance_day'] as $student_id => $comment )
+	{
+		UpdateAttendanceDaily(
+			$student_id,
+			$date,
+			$comment['COMMENT']
+		);
+	}
 
 	// Unset attendance day & redirect URL.
 	RedirectURL( 'attendance_day' );
