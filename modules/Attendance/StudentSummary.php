@@ -153,9 +153,9 @@ else
 $extra['link']['FULL_NAME']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&day_start='.$_REQUEST['day_start'].'&day_end='.$_REQUEST['day_end'].'&month_start='.$_REQUEST['month_start'].'&month_end='.$_REQUEST['month_end'].'&year_start='.$_REQUEST['year_start'].'&year_end='.$_REQUEST['year_end'].'&period_id='.$_REQUEST['period_id'];
 $extra['link']['FULL_NAME']['variables'] = array('student_id' => 'STUDENT_ID');
 
-Search('student_id',$extra);
+Search( 'student_id', $extra );
 
-if (UserStudentID())
+if ( UserStudentID() )
 {
 	$name_RET = DBGet( DBQuery( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
 		FROM STUDENTS
@@ -163,53 +163,74 @@ if (UserStudentID())
 
 	DrawHeader( $name_RET[1]['FULL_NAME'] );
 
-	$absences_RET = DBGet(DBQuery("SELECT ap.STUDENT_ID,ap.PERIOD_ID,ap.SCHOOL_DATE,ac.SHORT_NAME,
+	$absences_RET = DBGet( DBQuery( "SELECT ap.STUDENT_ID,ap.PERIOD_ID,ap.SCHOOL_DATE,ac.SHORT_NAME,
 		ac.TITLE,ac.STATE_CODE,ad.STATE_VALUE,ad.COMMENT AS OFFICE_COMMENT,ap.COMMENT AS TEACHER_COMMENT
 	FROM ATTENDANCE_PERIOD ap,ATTENDANCE_DAY ad,ATTENDANCE_CODES ac
 	WHERE ap.STUDENT_ID=ad.STUDENT_ID
 	AND ap.SCHOOL_DATE=ad.SCHOOL_DATE
 	AND ap.ATTENDANCE_CODE=ac.ID
 	AND (ac.DEFAULT_CODE!='Y' OR ac.DEFAULT_CODE IS NULL)
-	AND ap.STUDENT_ID='".UserStudentID()."'
-	AND ap.SCHOOL_DATE BETWEEN '".$start_date."'
-	AND '".$end_date."'
-	AND ad.SYEAR='".UserSyear()."'
-	ORDER BY ap.SCHOOL_DATE"),array(),array('SCHOOL_DATE','PERIOD_ID'));
-	foreach ( (array) $absences_RET as $school_date => $absences)
+	AND ap.STUDENT_ID='" . UserStudentID() . "'
+	AND ap.SCHOOL_DATE BETWEEN '" . $start_date . "'
+	AND '" . $end_date . "'
+	AND ad.SYEAR='" . UserSyear() . "'
+	ORDER BY ap.SCHOOL_DATE" ), array(), array( 'SCHOOL_DATE', 'PERIOD_ID' ) );
+
+	foreach ( (array) $absences_RET as $school_date => $absences )
 	{
 		$i++;
-		$days_RET[ $i ]['SCHOOL_DATE'] = ProperDate($school_date);
-		$days_RET[ $i ]['DAILY'] = _makeStateValue($absences[key($absences)][1]['STATE_VALUE']);
-		$days_RET[ $i ]['OFFICE_COMMENT'] = $absences[key($absences)][1]['OFFICE_COMMENT'];
-		foreach ( (array) $absences as $period_id => $absence)
+
+		$days_RET[ $i ]['SCHOOL_DATE'] = ProperDate( $school_date );
+
+		$days_RET[ $i ]['DAILY'] = _makeStateValue( $absences[ key( $absences ) ][1]['STATE_VALUE'] );
+
+		$days_RET[ $i ]['OFFICE_COMMENT'] = $absences[ key( $absences ) ][1]['OFFICE_COMMENT'];
+
+		foreach ( (array) $absences as $period_id => $absence )
 		{
 			//$days_RET[ $i ][ $period_id ] =            $absence[1]['SHORT_NAME'];
-			$days_RET[ $i ][ $period_id ] = _makeColor($absence[1]['SHORT_NAME'],$absence[1]['TITLE'],$absence[1]['STATE_CODE']);
-			$days_RET[ $i ]['COMMENT_'.$period_id] = $absence[1]['TEACHER_COMMENT'];
+			$days_RET[ $i ][ $period_id ] = _makeColor(
+				$absence[1]['SHORT_NAME'],
+				$absence[1]['TITLE'],
+				$absence[1]['STATE_CODE']
+			);
+
+			$days_RET[ $i ][ 'COMMENT_' . $period_id ] = $absence[1]['TEACHER_COMMENT'];
 		}
 	}
 
 	//FJ multiple school periods for a course period
 	//$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.SHORT_NAME FROM SCHOOL_PERIODS sp,SCHEDULE s,COURSE_PERIODS cp WHERE sp.SCHOOL_ID='".UserSchool()."' AND sp.SYEAR='".UserSyear()."' AND s.STUDENT_ID='".UserStudentID()."' AND cp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID AND cp.PERIOD_ID=sp.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0 ORDER BY sp.SORT_ORDER"));
-	$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.SHORT_NAME
+	$periods_RET = DBGet( DBQuery( "SELECT sp.PERIOD_ID,sp.SHORT_NAME
 	FROM SCHOOL_PERIODS sp,SCHEDULE s,COURSE_PERIODS cp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
-	AND sp.SCHOOL_ID='".UserSchool()."'
-	AND sp.SYEAR='".UserSyear()."'
-	AND s.STUDENT_ID='".UserStudentID()."'
+	AND sp.SCHOOL_ID='" . UserSchool() . "'
+	AND sp.SYEAR='" . UserSyear() . "'
+	AND s.STUDENT_ID='" . UserStudentID() . "'
 	AND cp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID
 	AND cpsp.PERIOD_ID=sp.PERIOD_ID
 	AND position(',0,' IN cp.DOES_ATTENDANCE)>0
-	ORDER BY sp.SORT_ORDER"));
-	$columns['SCHOOL_DATE'] = _('Date');
-	$columns['DAILY'] = _('Present');
-	$columns['OFFICE_COMMENT'] = _('Office Comment');
-	foreach ( (array) $periods_RET as $period)
+	ORDER BY sp.SORT_ORDER" ) );
+
+	$columns['SCHOOL_DATE'] = _( 'Date' );
+
+	$columns['DAILY'] = _( 'Present' );
+
+	$columns['OFFICE_COMMENT'] = _( 'Office Comment' );
+
+	foreach ( (array) $periods_RET as $period )
 	{
-		$columns[$period['PERIOD_ID']] = $period['SHORT_NAME'];
-		$columns['COMMENT_'.$period['PERIOD_ID']] = $period['SHORT_NAME'].' '._('Comment');
+		$columns[ $period['PERIOD_ID'] ] = $period['SHORT_NAME'];
+		$columns[ 'COMMENT_' . $period['PERIOD_ID'] ] = $period['SHORT_NAME']
+			. ' ' . _( 'Comment' );
 	}
-	ListOutput($days_RET,$columns,'Day','Days');
+
+	ListOutput(
+		$days_RET,
+		$columns,
+		'Day',
+		'Days'
+	);
 }
 
 function _makeStateValue($value)
