@@ -263,7 +263,14 @@ if (isset($_REQUEST['student_id']) && $_REQUEST['student_id']!='new')
 		ORDER BY p.SORT_ORDER"),$functions);
 	}
 
-	$columns = array('PERIOD_TITLE' => _('Period'), 'COURSE' => _('Course'), 'ATTENDANCE_CODE' => _('Attendance Code'), 'ATTENDANCE_TEACHER_CODE' => _('Teacher\'s Entry'), 'ATTENDANCE_REASON' => _('Office Comment'), 'COMMENT' => _('Teacher Comment'));
+	$columns = array(
+		'PERIOD_TITLE' => _( 'Period' ),
+		'COURSE' => _( 'Course' ),
+		'ATTENDANCE_CODE' => _( 'Attendance Code' ),
+		'ATTENDANCE_TEACHER_CODE' => _( 'Teacher\'s Entry' ),
+		'ATTENDANCE_REASON' => _( 'Office Comment' ),
+		'COMMENT' => _( 'Teacher Comment' ),
+	);
 
 	echo '<form action="' .
 		PreparePHP_SELF( $_REQUEST ) .

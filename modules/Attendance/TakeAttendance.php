@@ -156,7 +156,11 @@ if (!isset($_ROSARIO['allow_edit']))
 	}
 }
 
-$current_Q = "SELECT ATTENDANCE_TEACHER_CODE,STUDENT_ID,ADMIN,COMMENT,COURSE_PERIOD_ID,ATTENDANCE_REASON
+$current_Q = "SELECT ATTENDANCE_TEACHER_CODE,STUDENT_ID,ADMIN,COMMENT,COURSE_PERIOD_ID,ATTENDANCE_REASON,
+	(SELECT COMMENT
+		FROM ATTENDANCE_DAY
+		WHERE STUDENT_ID=t.STUDENT_ID
+		AND SCHOOL_DATE='".$date."') AS DAILY_COMMENT
 	FROM " . DBEscapeIdentifier( $table ) . " t
 	WHERE SCHOOL_DATE='" . $date . "'
 	AND PERIOD_ID='" . UserPeriod() . "'" .
@@ -263,7 +267,7 @@ foreach ( (array) $codes_RET as $code )
 	$columns['CODE_' . $code['ID'] ] = $code['TITLE'];
 }
 
-$extra['SELECT'] .= ',s.STUDENT_ID AS COMMENT,s.STUDENT_ID AS ATTENDANCE_REASON';
+$extra['SELECT'] .= ',s.STUDENT_ID AS COMMENT,s.STUDENT_ID AS ATTENDANCE_REASON,s.STUDENT_ID AS DAILY_COMMENT';
 
 $columns += array(
 	'COMMENT' => _( 'Teacher Comment' ),
@@ -279,6 +283,8 @@ $extra['functions'] += array(
 	'FULL_NAME' => 'makePhotoTipMessage',
 	'COMMENT' => 'makeCommentInput',
 	'ATTENDANCE_REASON' => 'makeAttendanceReason',
+	// @since 3.9.1 Add Daily Comment column.
+	'DAILY_COMMENT' => 'makeDailyComment',
 );
 
 $extra['DATE'] = $date;
@@ -289,6 +295,14 @@ if ( $attendance_reason )
 {
 	$columns += array(
 		'ATTENDANCE_REASON' => _( 'Office Comment' ),
+	);
+}
+
+// @since 3.9.1 Add Daily Comment column.
+if ( $daily_comment )
+{
+	$columns += array(
+		'DAILY_COMMENT' => _( 'Day Comment' ),
 	);
 }
 
@@ -527,5 +541,19 @@ function makeAttendanceReason( $student_id, $column )
 		$attendance_reason = true;
 
 		return $current_RET[ $student_id ][1]['ATTENDANCE_REASON'];
+	}
+}
+
+// @since 3.9.1 Add Daily Comment column.
+function makeDailyComment( $student_id, $column )
+{
+	global $current_RET,
+		$daily_comment;
+
+	if ( ! empty( $current_RET[ $student_id ][1]['DAILY_COMMENT'] ) )
+	{
+		$daily_comment = true;
+
+		return $current_RET[ $student_id ][1]['DAILY_COMMENT'];
 	}
 }
