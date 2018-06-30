@@ -25,9 +25,9 @@ RosarioSIS was tested on:
 
 Minimum requirements: **PHP 5.3.2** & **PostgreSQL 8**
 
-[Installation directions for **Windows**](https://github.com/francoisjacquet/rosariosis/wiki/How-to-install-RosarioSIS-on-Windows)
+[Installation directions for **Windows**](https://gitlab.com/francoisjacquet/rosariosis/wikis/How-to-install-RosarioSIS-on-Windows)
 
-[Installation directions for **cPanel**](https://github.com/francoisjacquet/rosariosis/wiki/How-to-install-RosarioSIS-on-cPanel)
+[Installation directions for **cPanel**](https://gitlab.com/francoisjacquet/rosariosis/wikis/How-to-install-RosarioSIS-on-cPanel)
 
 
 Installing the package
@@ -150,4 +150,4 @@ Install instructions for Ubuntu 16.04:
 Additional configuration
 ------------------------
 
-[Quick Setup Guide](https://github.com/francoisjacquet/rosariosis/wiki/Quick-Setup-Guide)
+[Quick Setup Guide](https://gitlab.com/francoisjacquet/rosariosis/wikis/Quick-Setup-Guide)

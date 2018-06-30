@@ -182,7 +182,7 @@ Student Billing & Accounting
 
 Password Reset feature
 
-[MarkDown](https://github.com/francoisjacquet/rosariosis/wiki/Markdown-Cheatsheet) support for Large text fields
+[MarkDown](https://gitlab.com/francoisjacquet/rosariosis/wikis/Markdown-Cheatsheet) support for Large text fields
 
 Automatic database upgrade
 

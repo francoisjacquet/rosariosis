@@ -1,9 +1,9 @@
 UploadImage, a TinyMCE plugin
 =============================
 
-![screenshot](https://raw.githubusercontent.com/francoisjacquet/tinymce-uploadimage/master/screenshot.png)
+![screenshot](https://gitlab.com/francoisjacquet/tinymce-uploadimage/raw/master/screenshot.png)
 
-https://github.com/francoisjacquet/tinymce-uploadimage
+https://gitlab.com/francoisjacquet/tinymce-uploadimage
 
 Version 0.1 - January, 2017
 

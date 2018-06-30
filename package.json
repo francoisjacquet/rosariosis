@@ -5,7 +5,7 @@
   "license": "GPL-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/francoisjacquet/rosariosis"
+    "url": "https://gitlab.com/francoisjacquet/rosariosis"
   },
   "devDependencies": {
     "grunt": "~1.0.1",

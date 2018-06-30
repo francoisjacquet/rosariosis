@@ -2,9 +2,9 @@
 
 ## New Issue
 
-Before reporting an [issue](https://github.com/francoisjacquet/rosariosis/issues/), please consider the following recommendations:
+Before reporting an [issue](https://gitlab.com/francoisjacquet/rosariosis/issues/), please consider the following recommendations:
 
-1. Search [closed issues](https://github.com/francoisjacquet/rosariosis/issues?q=is%3Aissue+is%3Aclosed) or the [Wiki](https://github.com/francoisjacquet/rosariosis/wiki), your problem may already have been addressed. Please do not create **duplicates**.
+1. Search [closed issues](https://gitlab.com/francoisjacquet/rosariosis/issues?scope=all&utf8=%E2%9C%93&state=closed) or the [Wiki](https://gitlab.com/francoisjacquet/rosariosis/wikis), your problem may already have been addressed. Please do not create **duplicates**.
 
 2. Specify your RosarioSIS, PHP & PostgreSQL **versions**, along with the server & browser used.
 
@@ -14,13 +14,13 @@ Before reporting an [issue](https://github.com/francoisjacquet/rosariosis/issues
 
 5. RosarioSIS errors, bugs (PHP, SQL, JS errors) & design or logic errors are welcome.
 
-6. **Installation problems**: RosarioSIS has been succesfully installed on various environments; nevertheless, you may encounter errors [specific to your OS, PHP or PostgreSQL version or configuration](https://github.com/francoisjacquet/rosariosis/blob/mobile/INSTALL.md#rosariosis-student-information-system). For the same reasons, installation problems will likely not be solved here.
+6. **Installation problems**: RosarioSIS has been succesfully installed on various environments; nevertheless, you may encounter errors [specific to your OS, PHP or PostgreSQL version or configuration](https://gitlab.com/francoisjacquet/rosariosis/blob/mobile/INSTALL.md#rosariosis-student-information-system). For the same reasons, installation problems will likely not be solved here.
 
-7. **RosarioSIS use**: the Handbooks, the inline Help & the [Wiki](https://github.com/francoisjacquet/rosariosis/wiki) contain useful resources to help you get the most out of RosarioSIS. For all your questions about RosarioSIS use and school administration, you can discuss them in the [forum](https://www.rosariosis.org/forum/).
+7. **RosarioSIS use**: the Handbooks, the inline Help & the [Wiki](https://gitlab.com/francoisjacquet/rosariosis/wikis) contain useful resources to help you get the most out of RosarioSIS. For all your questions about RosarioSIS use and school administration, you can discuss them in the [forum](https://www.rosariosis.org/forum/).
 
 8. **Email support**: to get professional help with installation problems, or RosarioSIS configuration, please head to https://www.rosariosis.org/services/
 
-You have PHP web development skills? Please head to the next section & send a [pull request](https://help.github.com/articles/using-pull-requests/).
+You have PHP web development skills? Please head to the next section & send a [merge request](https://docs.gitlab.com/ee/gitlab-basics/add-merge-request.html).
 
 
 ## Contributing to RosarioSIS
@@ -35,9 +35,9 @@ Please head to the offical [Contribute page](https://www.rosariosis.org/contribu
 
 3. Quality Assurance: we use code linters & other [QA tools](http://phpqatools.org/)
 
-4. Testing: Activate [debug mode](https://github.com/francoisjacquet/rosariosis/blob/mobile/INSTALL.md#installing-the-package); for emails, we use [MailCatcher](http://mailcatcher.me/)
+4. Testing: Activate [debug mode](https://gitlab.com/francoisjacquet/rosariosis/blob/mobile/INSTALL.md#installing-the-package); for emails, we use [MailCatcher](http://mailcatcher.me/)
 
 ### Example Module
 
-Freely study and reuse the [Example module](https://github.com/francoisjacquet/rosariosis-module-example)
+Freely study and reuse the [Example module](https://gitlab.com/francoisjacquet/rosariosis-module-example)
 

@@ -368,7 +368,7 @@ Changes in 2.9.13
 Changes in 2.9.12
 -----------------
 **Warning**: consequently to commit 2eaee53c6e9f5d9e7bfa24be859e9c711de88b39
-please also upgrade the [Students Import](https://github.com/francoisjacquet/Students_Import) & [Reports](https://github.com/francoisjacquet/Reports) add-on modules.
+please also upgrade the [Students Import](https://gitlab.com/francoisjacquet/Students_Import) & [Reports](https://gitlab.com/francoisjacquet/Reports) add-on modules.
 
 - Order Schools list by title in Users/includes/General_Info.inc.php & Side.php (sponsored by Aptiris)
 - Add Open Sans CSS to stylesheet_wkhtmltopdf.css
@@ -1120,11 +1120,11 @@ Changes in 2.6
 Upgrade from 2.5.x
 ------------------
 - Execute the SQL commands to add the accounting module & the food service options, see https://gist.github.com/francoisjacquet/8cd6c3625a68628674a8
-- Add the Accounting module to the config.inc.php file, see https://github.com/francoisjacquet/rosariosis/blob/mobile/config.inc.sample.php#L40
+- Add the Accounting module to the config.inc.php file, see https://gitlab.com/francoisjacquet/rosariosis/blob/mobile/config.inc.sample.php#L40
 
 Note for developers
 -------------------
-- The default program to be loaded when a module is opened is not defined in the Search.php file anymore. Please update your custom modules' Menu.php file by adding the "default" entry, following this example https://github.com/francoisjacquet/rosariosis/blob/mobile/modules/Attendance/Menu.php#L3
+- The default program to be loaded when a module is opened is not defined in the Search.php file anymore. Please update your custom modules' Menu.php file by adding the "default" entry, following this example https://gitlab.com/francoisjacquet/rosariosis/blob/mobile/modules/Attendance/Menu.php#L3
 
 Changes in 2.5.8
 ----------------

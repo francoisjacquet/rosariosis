@@ -4234,7 +4234,7 @@ INSERT INTO report_card_grades VALUES (15, 2018, 1, 'N/A', 15, 0.00, NULL, NULL,
 --
 
 INSERT INTO resources VALUES (1, 1, 'Print Handbook', 'Help.php');
-INSERT INTO resources VALUES (2, 1, 'RosarioSIS Wiki', 'https://github.com/francoisjacquet/rosariosis/wiki');
+INSERT INTO resources VALUES (2, 1, 'RosarioSIS Wiki', 'https://gitlab.com/francoisjacquet/rosariosis/wikis');
 INSERT INTO resources VALUES (3, 1, 'RosarioSIS Forum', 'https://www.rosariosis.org/forum/');
 INSERT INTO resources VALUES (4, 1, 'Contribute to the Project', 'https://www.rosariosis.org/contribute/');
 

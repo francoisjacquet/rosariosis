@@ -85,8 +85,8 @@
 			return {
 				longname : 'Upload Image',
 				author : 'François Jacquet',
-				authorurl : 'https://github.com/francoisjacquet/tinymce-uploadimage',
-				infourl : 'https://github.com/francoisjacquet/tinymce-uploadimage/blob/master/README.md',
+				authorurl : 'https://gitlab.com/francoisjacquet/tinymce-uploadimage',
+				infourl : 'https://gitlab.com/francoisjacquet/tinymce-uploadimage/blob/master/README.md',
 				version : '0.1'
 			};
 		}

@@ -38,6 +38,6 @@ Grades
 
 ## Install
 
-Please follow [this tutorial](https://github.com/francoisjacquet/rosariosis/wiki/Moodle-integrator-setup)
+Please follow [this tutorial](https://gitlab.com/francoisjacquet/rosariosis/wikis/Moodle-integrator-setup)
 
 Requires Moodle **2.6** or higher & PHP `curl` & `xmlrpc` extensions.

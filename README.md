@@ -8,7 +8,7 @@ License
 
 RosarioSIS is "free" software released under the [GNU General Public License version 2](LICENSE).
 
-We welcome your [contributions](https://github.com/francoisjacquet/rosariosis/wiki/Contribute) to the project.
+We welcome your [contributions](https://gitlab.com/francoisjacquet/rosariosis/wikis/Contribute) to the project.
 
 
 Documentation
@@ -18,7 +18,7 @@ For installation directions, please refer to the [INSTALL.md](INSTALL.md) file.
 
 You need to read the above documentation prior to attempting any install.
 
-[Quick Setup Guide](https://github.com/francoisjacquet/rosariosis/wiki/Quick-Setup-Guide)
+[Quick Setup Guide](https://gitlab.com/francoisjacquet/rosariosis/wikis/Quick-Setup-Guide)
 
 
 Demo
