@@ -3644,7 +3644,7 @@ INSERT INTO custom_fields VALUES (200000011, 'textarea', 'Doctor''s Note Comment
 -- Data for Name: discipline_field_usage; Type: TABLE DATA; Schema: public; Owner: rosariosis
 --
 
-INSERT INTO discipline_field_usage VALUES (1, 3, 2018, 1, 'Parents Contacted By Teacher', '', 4);
+INSERT INTO discipline_field_usage VALUES (1, 3, 2018, 1, 'Parents Contacted by Teacher', '', 4);
 INSERT INTO discipline_field_usage VALUES (2, 4, 2018, 1, 'Parent Contacted by Administrator', '', 5);
 INSERT INTO discipline_field_usage VALUES (3, 6, 2018, 1, 'Comments', '', 6);
 INSERT INTO discipline_field_usage VALUES (4, 1, 2018, 1, 'Violation', 'Skipping Class

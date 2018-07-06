@@ -7,6 +7,8 @@ New in 3.9
 
 Translate Help texts with Poedit
 
+Translate database fields to Spanish or French
+
 New in 3.8
 ----------
 

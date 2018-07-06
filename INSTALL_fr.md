@@ -93,6 +93,9 @@ Vous êtes maintenant prêt pour installer la base de données de RosarioSIS. Si
 7. Importez le fichier SQL de RosarioSIS:
     `server$ psql -f REPERTOIRE_DINSTALLATION/rosariosis.sql rosariosis_db rosariosis_user`
 
+8. Importez le fichier SQL de traduction en français:
+    `server$ psql -f REPERTOIRE_DINSTALLATION/rosariosis_frs.sql rosariosis_db rosariosis_user`
+
 Aussi, vous devrez peut-être éditer le fichier [`pg_hba.conf`](http://www.postgresql.org/docs/current/static/auth-pg-hba-conf.html) afin d'autoriser la connexion d'utilisateur par mot de passe (`md5`):
 ```
 # "local" is for Unix domain socket connections only

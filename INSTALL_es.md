@@ -93,6 +93,9 @@ Ahora, está listo para configurar la base de datos de RosarioSIS. Si tiene acce
 7. Corra el archivo SQL de RosarioSIS:
     `server$ psql -f REPERTORIO_DE_INSTALACION/rosariosis.sql rosariosis_db rosariosis_user`
 
+8. Corra el archivo SQL de traducción al español:
+    `server$ psql -f REPERTORIO_DE_INSTALACION/rosariosis_es.sql rosariosis_db rosariosis_user`
+
 También, el archivo [`pg_hba.conf`](http://www.postgresql.org/docs/current/static/auth-pg-hba-conf.html) puede ser editado para activar la conexión de usuarios con contraseña (`md5`):
 ```
 # "local" is for Unix domain socket connections only

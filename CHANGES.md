@@ -6,6 +6,7 @@ Changes in 3.9.1
 - Fix UpdateAttendanceDaily() call when Updating in Administration.php
 - Fix "You are not currently in a marking period" error when recalculating daily attendance in UpdateAttendanceDaily.fnc.php
 - Add Daily Comment column in TakeAttendance.php, sponsored by Asian Hope
+- Translate database fields to Spanish or French in rosariosis_es.sql & rosariosis_fr.sql
 - Moving from github.com to gitlab.com, program wide
 
 Changes in 3.9
