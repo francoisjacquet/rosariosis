@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 3.9.2
+----------------
+- No button when printing PDF in Buttons.php
+
 Changes in 3.9.1
 ----------------
 - Fix UpdateAttendanceDaily() call when Updating in Administration.php

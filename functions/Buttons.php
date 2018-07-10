@@ -86,6 +86,7 @@ function button( $type, $text = '', $link = '', $class = '' )
  *
  * @since 3.8 $value parameter is optional
  * @since 3.8 $options parameter defaults to 'class="button-primary"'
+ * @since 3.9.2 No button when printing PDF
  *
  * @param  string $value   Button text. Defaults to _( 'Save' ) (optional).
  * @param  string $name    Button name attribute (optional).
@@ -95,7 +96,8 @@ function button( $type, $text = '', $link = '', $class = '' )
  */
 function SubmitButton( $value = '', $name = '', $options = 'class="button-primary"' )
 {
-	if ( AllowEdit() )
+	if ( AllowEdit()
+		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		if ( $value === '' )
 		{
@@ -117,6 +119,8 @@ function SubmitButton( $value = '', $name = '', $options = 'class="button-primar
  *
  * @example echo ResetButton( _( 'Cancel' ) );
  *
+ * @since 3.9.2 No button when printing PDF
+ *
  * @param  string $value   Button text.
  * @param  string $options Button options (optional).
  *
@@ -124,7 +128,8 @@ function SubmitButton( $value = '', $name = '', $options = 'class="button-primar
  */
 function ResetButton( $value, $options = '' )
 {
-	if ( AllowEdit() )
+	if ( AllowEdit()
+		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		return '<input type="reset" value="' . $value . '" ' . $options . ' />';
 	}
