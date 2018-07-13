@@ -373,8 +373,8 @@ function Widgets( $item, &$myextra = null )
 
 			if ( isset( $_REQUEST['absences_low'] )
 				&& is_numeric( $_REQUEST['absences_low'] )
-				&& is_numeric( $_REQUEST['absences_high'] )
-				&& isset( $_REQUEST['absences_high'] ) )
+				&& isset( $_REQUEST['absences_high'] )
+				&& is_numeric( $_REQUEST['absences_high'] ) )
 			{
 				if ( $_REQUEST['absences_low'] > $_REQUEST['absences_high'] )
 				{
@@ -739,8 +739,7 @@ function Widgets( $item, &$myextra = null )
 				break;
 			}
 
-			if ( isset( $_REQUEST['letter_grade'] )
-				&& count( $_REQUEST['letter_grade'] ) )
+			if ( ! empty( $_REQUEST['letter_grade'] ) )
 			{
 				$LetterGradeSearchTerms = '<b>' . ( $_REQUEST['letter_grade_exclude'] == 'Y' ?
 						_( 'Without' ) :
@@ -1300,9 +1299,9 @@ function Widgets( $item, &$myextra = null )
 				}*/
 			}
 
-			if ( ( isset( $_REQUEST['discipline'] ) && count( $_REQUEST['discipline'] )
-					|| isset( $_REQUEST['discipline_begin'] ) && count( $_REQUEST['discipline_begin'] )
-					|| isset( $_REQUEST['discipline_end'] ) && count( $_REQUEST['discipline_end'] ) )
+			if ( ( ! empty( $_REQUEST['discipline'] )
+					|| ! empty( $_REQUEST['discipline_begin'] )
+					|| ! empty( $_REQUEST['discipline_end'] ) )
 				&& mb_strpos( $extra['FROM'], 'DISCIPLINE_REFERRALS' ) === false )
 			{
 				$extra['WHERE'] .= ' AND dr.STUDENT_ID=ssm.STUDENT_ID
