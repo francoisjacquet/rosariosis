@@ -122,7 +122,7 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 
 				Search(
 					'staff_fields_all',
-					is_array( $extra['staff_fields'] ) ? $extra['staff_fields'] : array()
+					! empty( $extra['staff_fields'] ) ? $extra['staff_fields'] : array()
 				);
 
 				$staff_fields_all = ob_get_clean();
@@ -241,7 +241,13 @@ else
 
 	$extra['header_right'] = isset( $extra['header_right'] ) ? $extra['header_right'] : '';
 
-	if (count($staff_RET)>1 || $link['add'] || ! $link['FULL_NAME'] || $extra['columns_before'] || $extra['columns_after'] || ($extra['BackPrompt']==false && count($staff_RET)==0) || ($extra['Redirect']===false && count($staff_RET)==1))
+	if ( count( $staff_RET ) > 1
+		|| ! empty( $link['add'] )
+		|| ! $link['FULL_NAME']
+		|| ! empty( $extra['columns_before'] )
+		|| ! empty( $extra['columns_after'] )
+		|| ( empty( $extra['BackPrompt'] ) && count( $staff_RET ) == 0 )
+		|| ( $extra['Redirect'] === false && count( $staff_RET ) == 1 ) )
 	{
 		if ( ! isset( $_REQUEST['expanded_view'] ) || $_REQUEST['expanded_view'] !== 'true' )
 		{

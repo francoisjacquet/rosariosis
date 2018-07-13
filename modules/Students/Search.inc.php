@@ -14,11 +14,16 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 				unset( $_SESSION['student_id'] );
 			}
 
-			$_SESSION['Search_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back','advanced'));
-			if ( $_SESSION['Back_PHP_SELF']!='student')
+			$_SESSION['Search_PHP_SELF'] = PreparePHP_SELF(
+				$_SESSION['_REQUEST_vars'],
+				array( 'bottom_back','advanced' )
+			);
+
+			if ( $_SESSION['Back_PHP_SELF'] !== 'student' )
 			{
 				$_SESSION['Back_PHP_SELF'] = 'student';
-				unset($_SESSION['List_PHP_SELF']);
+
+				unset( $_SESSION['List_PHP_SELF'] );
 			}
 
 			echo '<br />';
@@ -121,7 +126,7 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 
 				Search(
 					'student_fields_all',
-					is_array( $extra['student_fields'] ) ? $extra['student_fields'] : array()
+					! empty( $extra['student_fields'] ) ? $extra['student_fields'] : array()
 				);
 
 				echo PopTable( 'footer' ) . '<br />';
@@ -245,7 +250,14 @@ else
 
 	$extra['header_right'] = isset( $extra['header_right'] ) ? $extra['header_right'] : '';
 
-	if (count($students_RET)>1 || $link['add'] || ! $link['FULL_NAME'] || $extra['columns_before'] || $extra['columns'] || $extra['columns_after'] || ($extra['BackPrompt']==false && count($students_RET)==0) || (($extra['Redirect']===false || $_REQUEST['address_group']) && count($students_RET)==1))
+	if ( count( $students_RET ) > 1
+		|| ! empty( $link['add'] )
+		|| ! $link['FULL_NAME']
+		|| ! empty( $extra['columns_before'] )
+		|| ! empty( $extra['columns'] )
+		|| ! empty( $extra['columns_after'] )
+		|| ( empty( $extra['BackPrompt'] ) && count( $students_RET ) == 0 )
+		|| ( ( $extra['Redirect'] === false || $_REQUEST['address_group'] ) && count( $students_RET ) == 1 ) )
 	{
 		if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		{

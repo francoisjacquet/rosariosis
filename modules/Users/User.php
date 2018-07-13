@@ -416,7 +416,8 @@ Remote IP: %s', $admin_username, User('NAME'), $ip);
 
 if ( basename( $_SERVER['PHP_SELF'] ) !== 'index.php' )
 {
-	if ( $_REQUEST['staff_id'] === 'new' )
+	if ( isset( $_REQUEST['staff_id'] )
+		&& $_REQUEST['staff_id'] === 'new' )
 	{
 		$_ROSARIO['HeaderIcon'] = 'modules/Users/icon.png';
 
@@ -476,10 +477,11 @@ if ( $_REQUEST['modfunc'] === 'delete'
 
 echo ErrorMessage( $error );
 
-Search( 'staff_id', $extra );
+Search( 'staff_id', ( isset( $extra ) ? $extra : array() ) );
 
 if ( ( UserStaffID()
-		|| $_REQUEST['staff_id'] === 'new' )
+		|| ( isset( $_REQUEST['staff_id'] )
+			&& $_REQUEST['staff_id'] === 'new' ) )
 	&& $_REQUEST['modfunc'] !== 'delete' )
 {
 	if ( $_REQUEST['staff_id'] !== 'new' )

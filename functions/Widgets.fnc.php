@@ -45,6 +45,11 @@ function Widgets( $item, &$myextra = null )
 		$extra['functions'] = array();
 	}
 
+	if ( ! isset( $extra['search'] ) )
+	{
+		$extra['search'] = '';
+	}
+
 	// If insufficient rights or already saved widget, exit.
 	if ( ( User('PROFILE') !== 'admin'
 			&& User( 'PROFILE' ) !== 'teacher' )
@@ -73,10 +78,10 @@ function Widgets( $item, &$myextra = null )
 
 			// Enrollment.
 			if ( $RosarioModules['Students']
-				&& ( ! $_ROSARIO['Widgets']['calendar']
-					|| ! $_ROSARIO['Widgets']['next_year']
-					|| ! $_ROSARIO['Widgets']['enrolled']
-					|| ! $_ROSARIO['Widgets']['rolled'] ) )
+				&& ( empty( $_ROSARIO['Widgets']['calendar'] )
+					|| empty( $_ROSARIO['Widgets']['next_year'] )
+					|| empty( $_ROSARIO['Widgets']['enrolled'] )
+					|| empty( $_ROSARIO['Widgets']['rolled'] ) ) )
 			{
 				$extra['search'] .= $widget_wrap_header( _( 'Enrollment' ) );
 
@@ -90,7 +95,7 @@ function Widgets( $item, &$myextra = null )
 
 			// Scheduling.
 			if ( $RosarioModules['Scheduling']
-				&& ! $_ROSARIO['Widgets']['course']
+				&& empty( $_ROSARIO['Widgets']['course'] )
 				&& User('PROFILE') == 'admin' )
 			{
 				$extra['search'] .= $widget_wrap_header( _( 'Scheduling' ) );
@@ -102,8 +107,8 @@ function Widgets( $item, &$myextra = null )
 
 			// Attendance.
 			if ( $RosarioModules['Attendance']
-				&& ( ! $_ROSARIO['Widgets']['absences']
-					|| ! $_ROSARIO['Widgets']['cp_absences'] ) )
+				&& ( empty( $_ROSARIO['Widgets']['absences'] )
+					|| empty( $_ROSARIO['Widgets']['cp_absences'] ) ) )
 			{
 				$extra['search'] .= $widget_wrap_header( _( 'Attendance' ) );
 
@@ -116,9 +121,9 @@ function Widgets( $item, &$myextra = null )
 
 			// Grades.
 			if ( $RosarioModules['Grades']
-				&& ( ! $_ROSARIO['Widgets']['gpa']
-					|| ! $_ROSARIO['Widgets']['class_rank']
-					|| ! $_ROSARIO['Widgets']['letter_grade'] ) )
+				&& ( empty( $_ROSARIO['Widgets']['gpa'] )
+					|| empty( $_ROSARIO['Widgets']['class_rank'] )
+					|| empty( $_ROSARIO['Widgets']['letter_grade'] ) ) )
 			{
 				$extra['search'] .= $widget_wrap_header( _( 'Grades' ) );
 
@@ -131,8 +136,8 @@ function Widgets( $item, &$myextra = null )
 
 			// Eligibility.
 			if ( $RosarioModules['Eligibility']
-				&& ( ! $_ROSARIO['Widgets']['eligibility']
-					|| ! $_ROSARIO['Widgets']['activity'] ) )
+				&& ( empty( $_ROSARIO['Widgets']['eligibility'] )
+					|| empty( $_ROSARIO['Widgets']['activity'] ) ) )
 			{
 				$extra['search'] .= $widget_wrap_header( _( 'Eligibility' ) );
 
@@ -144,10 +149,10 @@ function Widgets( $item, &$myextra = null )
 
 			// Food Service.
 			if ( $RosarioModules['Food_Service']
-				&& ( ! $_ROSARIO['Widgets']['fsa_balance']
-					|| ! $_ROSARIO['Widgets']['fsa_discount']
-					|| ! $_ROSARIO['Widgets']['fsa_status']
-					|| ! $_ROSARIO['Widgets']['fsa_barcode'] ) )
+				&& ( empty( $_ROSARIO['Widgets']['fsa_balance'] )
+					|| empty( $_ROSARIO['Widgets']['fsa_discount'] )
+					|| empty( $_ROSARIO['Widgets']['fsa_status'] )
+					|| empty( $_ROSARIO['Widgets']['fsa_barcode'] ) ) )
 			{
 				$extra['search'] .= $widget_wrap_header( _( 'Food Service' ) );
 
@@ -161,9 +166,9 @@ function Widgets( $item, &$myextra = null )
 
 			// Discipline.
 			if ( $RosarioModules['Discipline']
-				&& ( ! $_ROSARIO['Widgets']['reporter']
-					|| ! $_ROSARIO['Widgets']['incident_date']
-					|| ! $_ROSARIO['Widgets']['discipline_fields'] ) )
+				&& ( empty( $_ROSARIO['Widgets']['reporter'] )
+					|| empty( $_ROSARIO['Widgets']['incident_date'] )
+					|| empty( $_ROSARIO['Widgets']['discipline_fields'] ) ) )
 			{
 				$extra['search'] .= $widget_wrap_header( _( 'Discipline' ) );
 
@@ -176,7 +181,7 @@ function Widgets( $item, &$myextra = null )
 
 			// Student Billing.
 			if ( $RosarioModules['Student_Billing']
-				&& ( ! $_ROSARIO['Widgets']['balance'] )
+				&& ( empty( $_ROSARIO['Widgets']['balance'] ) )
 				&& AllowUse( 'Student_Billing/StudentFees.php' ) )
 			{
 				$extra['search'] .= $widget_wrap_header( _( 'Student Billing' ) );
@@ -361,8 +366,10 @@ function Widgets( $item, &$myextra = null )
 				break;
 			}
 
-			if ( is_numeric( $_REQUEST['absences_low'] )
-				&& is_numeric( $_REQUEST['absences_high'] ) )
+			if ( isset( $_REQUEST['absences_low'] )
+				&& is_numeric( $_REQUEST['absences_low'] )
+				&& is_numeric( $_REQUEST['absences_high'] )
+				&& isset( $_REQUEST['absences_high'] ) )
 			{
 				if ( $_REQUEST['absences_low'] > $_REQUEST['absences_high'] )
 				{
@@ -445,8 +452,11 @@ function Widgets( $item, &$myextra = null )
 				break;
 			}
 
-			if ( is_numeric( $_REQUEST['cp_absences_low'] )
+			if ( isset( $_REQUEST['cp_absences_low'] )
+				&& is_numeric( $_REQUEST['cp_absences_low'] )
+				&& isset( $_REQUEST['cp_absences_high'] )
 				&& is_numeric( $_REQUEST['cp_absences_high'] )
+				&& isset( $_REQUEST['w_course_period_id'] )
 				&& is_numeric( $_REQUEST['w_course_period_id'] ) )
 			{
 				if ( $_REQUEST['cp_absences_low'] > $_REQUEST['cp_absences_high'] )
@@ -550,7 +560,9 @@ function Widgets( $item, &$myextra = null )
 				break;
 			}
 
-			if ( is_numeric( $_REQUEST['gpa_low'] )
+			if ( isset( $_REQUEST['gpa_low'] )
+				&& is_numeric( $_REQUEST['gpa_low'] )
+				&& isset( $_REQUEST['gpa_high'] )
 				&& is_numeric( $_REQUEST['gpa_high'] ) )
 			{
 				if ( $_REQUEST['gpa_low'] > $_REQUEST['gpa_high'] )
@@ -636,7 +648,9 @@ function Widgets( $item, &$myextra = null )
 				break;
 			}
 
-			if ( is_numeric( $_REQUEST['class_rank_low'] )
+			if ( isset( $_REQUEST['class_rank_low'] )
+				&& is_numeric( $_REQUEST['class_rank_low'] )
+				&& isset( $_REQUEST['class_rank_high'] )
 				&& is_numeric( $_REQUEST['class_rank_high'] ) )
 			{
 				if ( $_REQUEST['class_rank_low'] > $_REQUEST['class_rank_high'] )
@@ -720,7 +734,8 @@ function Widgets( $item, &$myextra = null )
 				break;
 			}
 
-			if ( count( $_REQUEST['letter_grade'] ) )
+			if ( isset( $_REQUEST['letter_grade'] )
+				&& count( $_REQUEST['letter_grade'] ) )
 			{
 				$LetterGradeSearchTerms = '<b>' . ( $_REQUEST['letter_grade_exclude'] == 'Y' ?
 						_( 'Without' ) :
@@ -844,7 +859,8 @@ function Widgets( $item, &$myextra = null )
 				break;
 			}
 
-			if ( $_REQUEST['ineligible'] == 'Y' )
+			if ( isset( $_REQUEST['ineligible'] )
+				&& $_REQUEST['ineligible'] == 'Y' )
 			{
 				switch ( date( 'D' ) )
 				{
@@ -949,6 +965,8 @@ function Widgets( $item, &$myextra = null )
 				}
 			}
 
+			$activities_RET = array();
+
 			if ( empty( $_REQUEST['search_modfunc'] ) )
 			{
 				$activities_RET = DBGet( DBQuery( "SELECT ID,TITLE
@@ -1010,7 +1028,9 @@ function Widgets( $item, &$myextra = null )
 				break;
 			}
 
-			if ( is_numeric( $_REQUEST['balance_low'] )
+			if ( isset( $_REQUEST['balance_low'] )
+				&& is_numeric( $_REQUEST['balance_low'] )
+				&& isset( $_REQUEST['balance_high'] )
 				&& is_numeric( $_REQUEST['balance_high'] ) )
 			{
 				if ( $_REQUEST['balance_low'] > $_REQUEST['balance_high'] )
@@ -1275,9 +1295,9 @@ function Widgets( $item, &$myextra = null )
 				}*/
 			}
 
-			if ( ( count( $_REQUEST['discipline'] )
-					|| count( $_REQUEST['discipline_begin'] )
-					|| count( $_REQUEST['discipline_end'] ) )
+			if ( ( isset( $_REQUEST['discipline'] ) && count( $_REQUEST['discipline'] )
+					|| isset( $_REQUEST['discipline_begin'] ) && count( $_REQUEST['discipline_begin'] )
+					|| isset( $_REQUEST['discipline_end'] ) && count( $_REQUEST['discipline_end'] ) )
 				&& mb_strpos( $extra['FROM'], 'DISCIPLINE_REFERRALS' ) === false )
 			{
 				$extra['WHERE'] .= ' AND dr.STUDENT_ID=ssm.STUDENT_ID
@@ -1351,9 +1371,9 @@ function Widgets( $item, &$myextra = null )
 
 							if ( ! $extra['NoSearchTerms'] )
 							{
-								$_ROSARIO['SearchTerms'] .= '<b>' . $category['TITLE'] . ' ' . _('Between') . ': </b>' .
-									$_REQUEST['discipline_begin'][$category['ID']] . ' &amp; ' .
-									$_REQUEST['discipline_end'][$category['ID']].'<br />';
+								$_ROSARIO['SearchTerms'] .= '<b>' . $category['TITLE'] . ' ' . _( 'Between' ) . ': </b>' .
+									$_REQUEST['discipline_begin'][ $category['ID'] ] . ' &amp; ' .
+									$_REQUEST['discipline_end'][ $category['ID'] ] . '<br />';
 							}
 						}
 
@@ -1537,9 +1557,9 @@ function Widgets( $item, &$myextra = null )
 			}
 
 			// Verify enrolled begin date.
-			if ( $_REQUEST['month_enrolled_begin']
-				&& $_REQUEST['day_enrolled_begin']
-				&& $_REQUEST['year_enrolled_begin'] )
+			if ( ! empty( $_REQUEST['month_enrolled_begin'] )
+				&& ! empty( $_REQUEST['day_enrolled_begin'] )
+				&& ! empty( $_REQUEST['year_enrolled_begin'] ) )
 			{
 				$_REQUEST['enrolled_begin'] = RequestedDate(
 					$_REQUEST['year_enrolled_begin'],
@@ -1549,9 +1569,9 @@ function Widgets( $item, &$myextra = null )
 			}
 
 			// Verify enrolled end date.
-			if ( $_REQUEST['month_enrolled_end']
-				&& $_REQUEST['day_enrolled_end']
-				&& $_REQUEST['year_enrolled_end'] )
+			if ( ! empty( $_REQUEST['month_enrolled_end'] )
+				&& ! empty( $_REQUEST['day_enrolled_end'] )
+				&& ! empty( $_REQUEST['year_enrolled_end'] ) )
 			{
 				$_REQUEST['enrolled_end'] = RequestedDate(
 					$_REQUEST['year_enrolled_end'],
@@ -1560,8 +1580,8 @@ function Widgets( $item, &$myextra = null )
 				);
 			}
 
-			if ( $_REQUEST['enrolled_begin']
-				&& $_REQUEST['enrolled_end'] )
+			if ( ! empty( $_REQUEST['enrolled_begin'] )
+				&& ! empty( $_REQUEST['enrolled_end'] ) )
 			{
 				$extra['WHERE'] .= " AND ssm.START_DATE
 					BETWEEN '" . $_REQUEST['enrolled_begin'] .
@@ -1660,7 +1680,8 @@ function Widgets( $item, &$myextra = null )
 				break;
 			}
 
-			if ( is_numeric( $_REQUEST['fsa_balance'] ) )
+			if ( isset( $_REQUEST['fsa_balance'] )
+				&& is_numeric( $_REQUEST['fsa_balance'] ) )
 			{
 				if ( ! mb_strpos( $extra['FROM'], 'fssa' ) )
 				{
@@ -1686,7 +1707,7 @@ function Widgets( $item, &$myextra = null )
 			<table class="cellspacing-0"><tr><td>
 			<label class="sizep2">&lt; <input type="radio" name="fsa_bal_ge" value="" checked /></label>
 			</td><td rowspan="2">
-			<input type="text" name="fsa_balance" size="9" maxlength="9"' . ( $value ? ' value="' . $value . '"' : '' ) . ' />
+			<input type="text" name="fsa_balance" size="9" maxlength="9"' . ( isset( $value ) ? ' value="' . $value . '"' : '' ) . ' />
 			</td></tr><tr><td>
 			<label class="sizep2">&ge; <input type="radio" name="fsa_bal_ge" value="Y" /></label>
 			</td></tr></table>
@@ -1776,7 +1797,7 @@ function Widgets( $item, &$myextra = null )
 			$extra['search'] .= '<tr class="st"><td>' . _( 'Account Status' ) . '</td><td>
 			<select name="fsa_status">
 			<option value="">' . _( 'Not Specified' ) . '</option>
-			<option value="Active"' . ( $value == 'active' ? ' selected' : '' ) . '>' . _( 'Active' ) . '</option>
+			<option value="Active"' . ( isset( $value ) == 'active' ? ' selected' : '' ) . '>' . _( 'Active' ) . '</option>
 			<option value="Inactive">' . _( 'Inactive' ) . '</option>
 			<option value="Disabled">' . _( 'Disabled' ) . '</option>
 			<option value="Closed">' . _( 'Closed' ) . '</option>

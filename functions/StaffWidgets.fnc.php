@@ -44,6 +44,11 @@ function StaffWidgets( $item, &$myextra = null )
 		$extra['functions'] = array();
 	}
 
+	if ( ! isset( $extra['search'] ) )
+	{
+		$extra['search'] = '';
+	}
+
 	// If insufficient rights or already saved widget, exit.
 	if ( ( User('PROFILE') !== 'admin'
 			&& User( 'PROFILE' ) !== 'teacher' )
@@ -72,7 +77,7 @@ function StaffWidgets( $item, &$myextra = null )
 
 			// Users.
 			if ( $RosarioModules['Users']
-				&& ( ! $_ROSARIO['StaffWidgets']['permissions'] ) )
+				&& ( empty( $_ROSARIO['StaffWidgets']['permissions'] ) ) )
 			{
 				$extra['search'] .= $widget_wrap_header( _( 'Users' ) );
 
@@ -83,9 +88,9 @@ function StaffWidgets( $item, &$myextra = null )
 
 			// Food Service.
 			if ( $RosarioModules['Food_Service']
-				&& ( ! $_ROSARIO['StaffWidgets']['fsa_balance']
-					|| ! $_ROSARIO['StaffWidgets']['fsa_status']
-					|| ! $_ROSARIO['StaffWidgets']['fsa_barcode'] ) )
+				&& ( empty( $_ROSARIO['StaffWidgets']['fsa_balance'] )
+					|| empty( $_ROSARIO['StaffWidgets']['fsa_status'] )
+					|| empty( $_ROSARIO['StaffWidgets']['fsa_barcode'] ) ) )
 			{
 				$extra['search'] .= $widget_wrap_header( _( 'Food Service' ) );
 
@@ -99,7 +104,7 @@ function StaffWidgets( $item, &$myextra = null )
 
 			// Accounting.
 			if ( $RosarioModules['Accounting']
-				&& ( ! $_ROSARIO['Widgets']['staff_balance'] )
+				&& ( empty( $_ROSARIO['Widgets']['staff_balance'] ) )
 				&& AllowUse( 'Accounting/StaffBalances.php' ) )
 			{
 				$extra['search'] .= $widget_wrap_header( _( 'Accounting' ) );
@@ -165,11 +170,11 @@ function StaffWidgets( $item, &$myextra = null )
 			}
 
 			$extra['search'] .= '<tr class="st"><td>' .	_( 'Permissions' ) . '</td><td>
-			<label><input type="radio" name="permissions" value=""' . ( ! $value ? ' checked' : '' ) . '> ' .
+			<label><input type="radio" name="permissions" value=""' . ( empty( $value ) ? ' checked' : '' ) . '> ' .
 				_( 'All' ) . '</label> &nbsp;
-			<label><input type="radio" name="permissions" value="Y"' . ( $value == 'Y' ? ' checked' : '' ) . '> ' .
+			<label><input type="radio" name="permissions" value="Y"' . ( isset( $value ) && $value == 'Y' ? ' checked' : '' ) . '> ' .
 				_( 'Profile' ) . '</label> &nbsp;
-			<label><input type="radio" name="permissions" value="N"' . ( $value == 'N' ? ' checked' : '' ) . '> ' .
+			<label><input type="radio" name="permissions" value="N"' . ( isset( $value ) && $value == 'N' ? ' checked' : '' ) . '> ' .
 				_( 'Custom' ) . '</label>
 			</td></tr>';
 
@@ -189,7 +194,8 @@ function StaffWidgets( $item, &$myextra = null )
 				break;
 			}
 
-			if ( $_REQUEST['fsa_balance'] != '' )
+			if ( isset( $_REQUEST['fsa_balance'] )
+				&& $_REQUEST['fsa_balance'] != '' )
 			{
 				if ( ! mb_strpos( $extra['FROM'], 'fssa' ) )
 				{
@@ -214,7 +220,7 @@ function StaffWidgets( $item, &$myextra = null )
 			<label><span class="sizep2">&lt;</span>
 				<input type="radio" name="fsa_bal_ge" value="" checked /></label>
 			</td><td rowspan="2">
-			<input type="text" name="fsa_balance" size="9" maxlength="9"' . ( $value ? ' value="' . $value . '"' : '') . ' />
+			<input type="text" name="fsa_balance" size="9" maxlength="9"' . ( isset( $value ) ? ' value="' . $value . '"' : '') . ' />
 			</td></tr><tr><td>
 			<label><span class="sizep2">&ge;</span>
 				<input type="radio" name="fsa_bal_ge" value="Y" /></label>
@@ -239,7 +245,7 @@ function StaffWidgets( $item, &$myextra = null )
 
 			if ( ! empty( $_REQUEST['fsa_status'] ) )
 			{
-				if ( !mb_strpos( $extra['FROM'], 'fssa' ) )
+				if ( ! mb_strpos( $extra['FROM'], 'fssa' ) )
 				{
 					$extra['FROM'] .= ',FOOD_SERVICE_STAFF_ACCOUNTS fssa';
 
@@ -263,7 +269,7 @@ function StaffWidgets( $item, &$myextra = null )
 			$extra['search'] .= '<tr class="st"><td>' . _( 'Account Status' ) . '</td><td>
 			<select name="fsa_status">
 			<option value="">' . _( 'Not Specified' ) . '</option>
-			<option value="Active"' . ( $value == 'active' ? ' selected' : '' ) . '>' . _( 'Active' ) . '</option>
+			<option value="Active"' . ( isset( $value ) && $value == 'active' ? ' selected' : '' ) . '>' . _( 'Active' ) . '</option>
 			<option value="Inactive">' . _( 'Inactive' ) . '</option>
 			<option value="Disabled">' . _( 'Disabled' ) . '</option>
 			<option value="Closed">' . _( 'Closed' ) . '</option>
@@ -334,11 +340,11 @@ function StaffWidgets( $item, &$myextra = null )
 			}
 
 			$extra['search'] .= '<tr class="st"><td>' . _( 'Has Account' ) . '</td><td>
-			<label><input type="radio" name="fsa_exists" value=""' . ( ! $value ? ' checked' : '' ) . ' /> ' .
+			<label><input type="radio" name="fsa_exists" value=""' . ( empty( $value ) ? ' checked' : '' ) . ' /> ' .
 				_( 'All') . '</label> &nbsp;
-			<label><input type="radio" name="fsa_exists" value="Y"' . ( $value == 'Y' ? ' checked' : '' ).' /> '.
+			<label><input type="radio" name="fsa_exists" value="Y"' . ( isset( $value ) && $value == 'Y' ? ' checked' : '' ).' /> '.
 				_( 'Yes' ) . '</label> &nbsp;
-			<label><input type="radio" name="fsa_exists" value="N"' . ( $value == 'N' ? ' checked' : '' ) . ' /> '.
+			<label><input type="radio" name="fsa_exists" value="N"' . ( isset( $value ) && $value == 'N' ? ' checked' : '' ) . ' /> '.
 				_( 'No' ) . '</label>
 			</td></tr>';
 
@@ -353,7 +359,9 @@ function StaffWidgets( $item, &$myextra = null )
 				break;
 			}
 
-			if ( is_numeric( $_REQUEST['balance_low'] )
+			if ( isset( $_REQUEST['balance_low'] )
+				&& is_numeric( $_REQUEST['balance_low'] )
+				&& isset( $_REQUEST['balance_high'] )
 				&& is_numeric( $_REQUEST['balance_high'] ) )
 			{
 				if ( $_REQUEST['balance_low'] > $_REQUEST['balance_high'] )

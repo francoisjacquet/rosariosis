@@ -488,6 +488,20 @@ function Search( $type, $extra = null )
 			{
 				$TR_classes = '';
 
+				$category_default = array(
+					'text' => array(),
+					'numeric' => array(),
+					'select' => array(),
+					'autos' => array(),
+					'edits' => array(),
+					'exports' => array(),
+					'codeds' => array(),
+					'date' => array(),
+					'radio' => array(),
+				);
+
+				$category = array_replace_recursive( $category_default, (array) $category );
+
 				if ( $type === 'student_fields_all'
 					|| $type === 'staff_fields_all' )
 				{
