@@ -736,7 +736,7 @@ function makeContactInfo( $student_id, $column )
 			if ( $person[1]['PHONE'] )
 			{
 				$tipmsg .= '<tr><td>' . _( 'Home Phone' ) .
-				'</span></td><td>' . $person[1]['PHONE'] . '</td></tr>';
+				'</td><td>' . $person[1]['PHONE'] . '</td></tr>';
 			}
 
 			foreach ( (array) $person as $info )

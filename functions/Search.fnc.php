@@ -60,7 +60,7 @@ function Search( $type, $extra = null )
 				}
 			}
 			elseif ( ! UserStudentID()
-				|| $extra['new'] == true )
+				|| ! empty( $extra['new'] ) )
 			{
 				if ( UserStudentID() )
 				{
@@ -110,7 +110,7 @@ function Search( $type, $extra = null )
 				}
 			}
 			elseif ( ! UserStaffID()
-				|| ( isset( $extra['new'] ) && $extra['new'] == true ) )
+				|| ! empty( $extra['new'] ) )
 			{
 				if ( UserStaffID() )
 				{
@@ -167,10 +167,7 @@ function Search( $type, $extra = null )
 
 				foreach ( (array) $list as $value )
 				{
-					$checked = ( is_array( $extra ) ?
-						( $extra[ $value['ID'] ] ? ' checked' : '' ) :
-						( $extra == $value['ID'] ? ' checked' : '' )
-					);
+					$checked = ! empty( $extra[ $value['ID'] ] ) || $extra == $value['ID'] ? ' checked' : '';
 
 					echo '<label class="nobr">
 					<input type="checkbox" name="grades[' . $value['ID'] . ']" value="Y"' . $checked . ' />&nbsp;' .

@@ -247,7 +247,9 @@ else
 		|| ! empty( $extra['columns_before'] )
 		|| ! empty( $extra['columns_after'] )
 		|| ( empty( $extra['BackPrompt'] ) && count( $staff_RET ) == 0 )
-		|| ( $extra['Redirect'] === false && count( $staff_RET ) == 1 ) )
+		|| ( isset( $extra['Redirect'] )
+			&& $extra['Redirect'] === false
+			&& count( $staff_RET ) == 1 ) )
 	{
 		if ( ! isset( $_REQUEST['expanded_view'] ) || $_REQUEST['expanded_view'] !== 'true' )
 		{

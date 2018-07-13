@@ -50,6 +50,11 @@ function Widgets( $item, &$myextra = null )
 		$extra['search'] = '';
 	}
 
+	if ( ! isset( $extra['WHERE'] ) )
+	{
+		$extra['WHERE'] = '';
+	}
+
 	// If insufficient rights or already saved widget, exit.
 	if ( ( User('PROFILE') !== 'admin'
 			&& User( 'PROFILE' ) !== 'teacher' )

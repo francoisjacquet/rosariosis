@@ -109,7 +109,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 
 	// Copy calendar.
 	$message .= SelectInput(
-		$_REQUEST['calendar_id'],
+		empty( $_REQUEST['calendar_id'] ) ? '' : $_REQUEST['calendar_id'],
 		'copy_id',
 		_( 'Copy Calendar' ),
 		$copy_calendar_options,
@@ -209,8 +209,8 @@ if ( $_REQUEST['modfunc'] === 'create'
 	$message .= '</td></tr></table>';
 
 	$OK = Prompt(
-		$_REQUEST['calendar_id'] ?
-		sprintf( _( 'Recreate %s calendar' ), $prompt ) :
+		! empty( $_REQUEST['calendar_id'] ) ?
+		sprintf( _( 'Recreate %s calendar' ), $recreate_calendar['TITLE'] ) :
 		_( 'Create new calendar' ),
 		'',
 		$message
@@ -859,7 +859,7 @@ if ( ! $_REQUEST['modfunc'] )
 				continue;
 			}
 
-			if ( $calendar_RET[ $date ] )
+			if ( ! empty( $calendar_RET[ $date ] ) )
 			{
 				//if ( $minutes!='0' && $minutes!='')
 				//FJ fix bug MINUTES not numeric
@@ -977,12 +977,17 @@ if ( ! $_REQUEST['modfunc'] )
 			AND SYEAR='" . UserSyear() . "'
 			ORDER BY DEFAULT_CALENDAR ASC,TITLE" ) );
 
+		$defaults = 0;
+
 		foreach ( (array) $title_RET as $title )
 		{
-			$options[$title['CALENDAR_ID']] = $title['TITLE'] . ( $title['DEFAULT_CALENDAR']=='Y' ? ' (' . _( 'Default' ) . ')' : '' );
+			$options[ $title['CALENDAR_ID'] ] = $title['TITLE'] .
+				( $title['DEFAULT_CALENDAR'] === 'Y' ? ' (' . _( 'Default' ) . ')' : '' );
 
 			if ( $title['DEFAULT_CALENDAR'] === 'Y' )
+			{
 				$defaults++;
+			}
 		}
 
 		//FJ bugfix erase calendar onchange
@@ -1088,7 +1093,7 @@ if ( ! $_REQUEST['modfunc'] )
 </script>
 <?php
 
-	if ( $_REQUEST['_ROSARIO_PDF'] )
+	if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		// Landscape PDF.
 		$_SESSION['orientation'] = 'landscape';
@@ -1123,6 +1128,8 @@ if ( ! $_REQUEST['modfunc'] )
 		$block_options[ $block['BLOCK'] ] = $block['BLOCK'];
 	}
 
+	$return_counter = 0;
+
 	// Skip until first Day of Month
 	$skip = date( "w", $time );
 
@@ -1142,7 +1149,9 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$day_classes = '';
 
-		if ( $calendar_RET[ $date ][1]['MINUTES'] )
+		$calendar_date_has_minutes = ! empty( $calendar_RET[ $date ][1]['MINUTES'] );
+
+		if ( $calendar_date_has_minutes )
 		{
 			// Full School Day.
 			if ( $calendar_RET[ $date ][1]['MINUTES'] === '999' )
@@ -1168,9 +1177,9 @@ if ( ! $_REQUEST['modfunc'] )
 
 		// Hover CSS class.
 		if ( AllowEdit()
-			|| $calendar_RET[ $date ][1]['MINUTES']
-			|| count( $events_RET[ $date ] )
-			|| count( $assignments_RET[ $date ] ) )
+			|| $calendar_date_has_minutes
+			|| ! empty( $events_RET[ $date ] )
+			|| ! empty( $assignments_RET[ $date ] ) )
 		{
 			$day_inner_classes .= ' hover';
 		}
@@ -1181,8 +1190,8 @@ if ( ! $_REQUEST['modfunc'] )
 		$day_number_classes = 'number';
 
 		// Bold class
-		if ( count( $events_RET[ $date ] )
-			|| count( $assignments_RET[ $date ] ) )
+		if ( ! empty( $events_RET[ $date ] )
+			|| ! empty( $assignments_RET[ $date ] ) )
 		{
 			$day_number_classes .= ' bold';
 		}
@@ -1194,7 +1203,8 @@ if ( ! $_REQUEST['modfunc'] )
 		if ( AllowEdit() )
 		{
 			// Minutes
-			if ( $calendar_RET[ $date ][1]['MINUTES'] === '999' )
+			if ( $calendar_date_has_minutes
+				&& $calendar_RET[ $date ][1]['MINUTES'] === '999' )
 			{
 				//FJ icons
 				echo CheckboxInput(
@@ -1209,7 +1219,7 @@ if ( ! $_REQUEST['modfunc'] )
 					'title="' . _( 'All Day' ) . '"'
 				);
 			}
-			elseif ( $calendar_RET[ $date ][1]['MINUTES'] )
+			elseif ( $calendar_date_has_minutes )
 			{
 				echo TextInput( $calendar_RET[ $date ][1]['MINUTES'], "minutes[" . $date . "]", '', 'size=3' );
 			}
@@ -1238,8 +1248,10 @@ if ( ! $_REQUEST['modfunc'] )
 		echo '</td></tr>
 		<tr><td colspan="2" class="calendar-event valign-top">';
 
+		$events_date = isset( $events_RET[ $date ] ) ? : array();
+
 		// Events.
-		foreach ( (array) $events_RET[ $date ] as $event )
+		foreach ( (array) $events_date as $event )
 		{
 			$title = ( $event['TITLE'] ? $event['TITLE'] : '***' );
 
@@ -1252,8 +1264,10 @@ if ( ! $_REQUEST['modfunc'] )
 			'</div>';
 		}
 
+		$assignments_date = isset( $assignments_RET[ $date ] ) ? : array();
+
 		// Assignments.
-		foreach ( (array) $assignments_RET[ $date ] as $assignment )
+		foreach ( (array) $assignments_date as $assignment )
 		{
 			echo '<div class="calendar-event assignment' . ( $assignment['ASSIGNED'] == 'Y' ? ' assigned' : '' ) . '">' .
 				'<a href="#" onclick="CalEventPopup(popupURL + \'&assignment_id=' . $assignment['ID'] . '\'); return false;" title="' . htmlentities( $assignment['TITLE'] ) . '">' .

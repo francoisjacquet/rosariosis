@@ -19,7 +19,8 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 				array( 'bottom_back','advanced' )
 			);
 
-			if ( $_SESSION['Back_PHP_SELF'] !== 'student' )
+			if ( empty( $_SESSION['Back_PHP_SELF'] )
+				|| $_SESSION['Back_PHP_SELF'] !== 'student' )
 			{
 				$_SESSION['Back_PHP_SELF'] = 'student';
 
@@ -37,11 +38,11 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 				'&modfunc=' . $_REQUEST['modfunc'] .
 				'&search_modfunc=list&next_modname=' . $_REQUEST['next_modname'] .
 				'&advanced=' . ( ! empty( $_REQUEST['advanced'] ) ? $_REQUEST['advanced'] : '' ) .
-				$extra['action'] . '" method="GET">';
+				( ! empty( $extra['action'] ) ? $extra['action'] : '' ) . '" method="GET">';
 
 			echo '<table class="width-100p col1-align-right" id="general_table">';
 
-			Search( 'general_info', $extra['grades'] );
+			Search( 'general_info', ( isset( $extra['grades'] ) ? $extra['grades'] : array() ) );
 
 			if ( !isset( $extra ) )
 				$extra = array();
@@ -257,7 +258,10 @@ else
 		|| ! empty( $extra['columns'] )
 		|| ! empty( $extra['columns_after'] )
 		|| ( empty( $extra['BackPrompt'] ) && count( $students_RET ) == 0 )
-		|| ( ( $extra['Redirect'] === false || $_REQUEST['address_group'] ) && count( $students_RET ) == 1 ) )
+		|| ( ( isset( $extra['Redirect'] )
+				&& $extra['Redirect'] === false
+				|| ! empty( $_REQUEST['address_group'] ) )
+			&& count( $students_RET ) == 1 ) )
 	{
 		if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		{
