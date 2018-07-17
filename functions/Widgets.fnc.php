@@ -27,10 +27,21 @@ function Widgets( $item, &$myextra = null )
 		$_ROSARIO,
 		$RosarioModules;
 
-	if ( isset( $myextra ) )
+	if ( ! empty( $myextra ) )
 	{
 		$extra =& $myextra;
 	}
+
+	$extra_defaults = array(
+		'functions' => array(),
+		'search' => '',
+		'NoSearchTerms' => '',
+		'SELECT' => '',
+		'FROM' => '',
+		'WHERE' => '',
+	);
+
+	$extra = array_replace_recursive( $extra_defaults, (array) $extra );
 
 	// Save current widgets list inside $_ROSARIO['Widgets'] global var.
 	if ( ! isset( $_ROSARIO['Widgets'] )
@@ -39,27 +50,15 @@ function Widgets( $item, &$myextra = null )
 		$_ROSARIO['Widgets'] = array();
 	}
 
-	if ( ! isset( $extra['functions'] )
-		|| ! is_array( $extra['functions'] ) )
+	if ( ! isset( $_ROSARIO['SearchTerms'] ) )
 	{
-		$extra['functions'] = array();
-	}
-
-	if ( ! isset( $extra['search'] ) )
-	{
-		$extra['search'] = '';
-	}
-
-	if ( ! isset( $extra['WHERE'] ) )
-	{
-		$extra['WHERE'] = '';
+		$_ROSARIO['SearchTerms'] = '';
 	}
 
 	// If insufficient rights or already saved widget, exit.
-	if ( ( User('PROFILE') !== 'admin'
+	if ( ( User( 'PROFILE' ) !== 'admin'
 			&& User( 'PROFILE' ) !== 'teacher' )
-		|| ( isset( $_ROSARIO['Widgets'][ $item ] )
-			&& $_ROSARIO['Widgets'][ $item ] ) )
+		|| ! empty( $_ROSARIO['Widgets'][ $item ] ) )
 	{
 		return false;
 	}
@@ -1212,7 +1211,7 @@ function Widgets( $item, &$myextra = null )
 			<table class="cellspacing-0"><tr><td>
 			<span class="sizep2">&ge;</span>&nbsp;
 			</td><td>
-			' . PrepareDate( '', '_discipline_entry_begin', true, array( 'short' => true ) ).'
+			' . PrepareDate( date( 'Y-m' ) . '-01', '_discipline_entry_begin', true, array( 'short' => true ) ).'
 			</td></tr><tr><td>
 			<span class="sizep2">&le;</span>&nbsp;
 			</td><td>
