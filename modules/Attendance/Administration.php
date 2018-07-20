@@ -170,6 +170,18 @@ if ( $_REQUEST['attendance']
 					DBQuery($sql);
 			}
 		}
+
+		UpdateAttendanceDaily(
+			$student_id,
+			$date,
+			( $_REQUEST['attendance_day'][ $student_id ]['COMMENT'] ?
+				$_REQUEST['attendance_day'][ $student_id ]['COMMENT'] :
+				false
+			)
+		);
+
+		unset( $_REQUEST['attendance_day'][ $student_id ] );
+
 	}
 
 	// TODO: can be optimized? Remove PERIOD_ID index.
@@ -449,15 +461,20 @@ else
 }
 
 function _makeCodePulldown($value,$title)
-{	global $THIS_RET,$codes_RET,$current_RET,$current_schedule_RET,$current_schedule_Q;
+{
+	global $THIS_RET,
+		$codes_RET,
+		$current_RET,
+		$current_schedule_RET,
+		$current_schedule_Q;
 
-	if ( ! $current_schedule_RET[ $value ])
+	if ( ! $current_schedule_RET[ $value ] )
 	{
 		$current_schedule_RET[ $value ] = DBGet(DBQuery(str_replace('__student_id__',$value,$current_schedule_Q)),array(),array('PERIOD_ID'));
 		if ( ! $current_schedule_RET[ $value ])
 			$current_schedule_RET[ $value ] = true;
 	}
-	if ( $THIS_RET['COURSE'])
+	if ( ! empty( $THIS_RET['COURSE'] ) )
 	{
 		$period_id = $THIS_RET['PERIOD_ID'];
 		$code_title = 'TITLE';
@@ -468,7 +485,7 @@ function _makeCodePulldown($value,$title)
 		$code_title = 'SHORT_NAME';
 	}
 
-	if ( $current_schedule_RET[ $value ][ $period_id ])
+	if ( ! empty( $current_schedule_RET[ $value ][ $period_id ] ) )
 	{
 		foreach ( (array) $codes_RET as $code)
 			if ( $current_schedule_RET[ $value ][ $period_id ][1]['HALF_DAY']!='Y' || $code['STATE_CODE']!='H') // prune half day codes for half day courses
