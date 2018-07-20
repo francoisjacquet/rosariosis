@@ -2,7 +2,7 @@
 
 ## RosarioSIS Student Information System
 
-Version 3.9.1
+Version 3.9.2
 -------------
 
 NOTE: Before Installing RosarioSIS, you must read and agree to the included [license](LICENSE).
