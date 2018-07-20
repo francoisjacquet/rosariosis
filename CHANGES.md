@@ -4,6 +4,9 @@
 Changes in 3.9.2
 ----------------
 - No button when printing PDF in Buttons.php
+- Fix PHP Notice Undefined variable / index, program wide
+- Set default Incident Date in Widgets.fnc.php
+- Fix regression UpdateAttendanceDaily() call when Updating in Administration.php
 
 Changes in 3.9.1
 ----------------
