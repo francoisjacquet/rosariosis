@@ -1003,8 +1003,8 @@ if ( ( ! $_REQUEST['modfunc']
 
 				foreach ( (array) $days as $day )
 				{
-					if ( mb_strpos( $school_period['DAYS'], $day ) !== false
-						|| ( $new && $day != 'S' && $day != 'U' ) )
+					if ( ( $new && $day != 'S' && $day != 'U' )
+						|| mb_strpos( $school_period['DAYS'], $day ) !== false )
 					{
 						$value = 'Y';
 					}

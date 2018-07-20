@@ -144,6 +144,8 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 	{
 		$count = 0;
 
+		$display_zero = false;
+
 		if ( isset( $link['remove']['variables'] ) )
 		{
 			$remove = count( $link['remove']['variables'] );
@@ -704,7 +706,12 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			if ( isset( $link['add']['link'] ) && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			{
 				echo '<tr><td colspan="' . ( $remove ? $cols + 1 : $cols ) . '">' .
-					button( 'add', $link['add']['title'], $link['add']['link'] ) . '</td></tr>';
+					button(
+						'add',
+						isset( $link['add']['title'] ) ? $link['add']['title'] : '',
+						$link['add']['link']
+					) .
+					'</td></tr>';
 			}
 			elseif ( isset( $link['add']['span'] ) && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			{
@@ -751,7 +758,12 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		{
 			echo '<div class="center">' .
-				button( 'add', $link['add']['title'], $link['add']['link'] ) . '</div>';
+				button(
+					'add',
+					isset( $link['add']['title'] ) ? $link['add']['title'] : '',
+					$link['add']['link']
+				) .
+				'</div>';
 		}
 		elseif ( ( ! empty( $link['add']['html'] )
 				|| ! empty( $link['add']['span'] ) )

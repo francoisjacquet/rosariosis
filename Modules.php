@@ -99,6 +99,10 @@ if ( $allowed )
 	{
 		$_REQUEST['search_modfunc'] = 'list';
 	}
+	elseif ( ! isset( $_REQUEST['search_modfunc'] ) )
+	{
+		$_REQUEST['search_modfunc'] = '';
+	}
 
 	if ( substr( $modname, -4, 4 ) !== '.php'
 		|| strpos( $modname, '..' ) !== false

@@ -18,10 +18,12 @@ else
 
 if ( $_REQUEST['modfunc'] === 'save' )
 {
-	if ( count( $_REQUEST['period'] )
-		&& count( $_REQUEST['student'] )
-		&& count( $_REQUEST['dates'] ) )
+	if ( ! empty( $_REQUEST['period'] )
+		&& ! empty( $_REQUEST['student'] )
+		&& ! empty( $_REQUEST['dates'] ) )
 	{
+		$periods_list = '';
+
 		foreach ( (array) $_REQUEST['period'] as $period_id => $yes )
 		{
 			if ( $yes )
@@ -31,6 +33,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		}
 
 		$periods_list = '(' . mb_substr( $periods_list, 1 ) . ')';
+
+		$students_list = '';
 
 		foreach ( (array) $_REQUEST['student'] as $student_id => $yes )
 		{
@@ -179,24 +183,39 @@ if ( ! $_REQUEST['modfunc'] )
 //		echo '<th>S</th><th>M</th><th>T</th><th>W</th><th>Th</th><th>F</th><th>S</th></tr><tr>';
 		echo '<th>'.mb_substr(_('Sunday'),0,3).'</th><th>'.mb_substr(_('Monday'),0,3).'</th><th>'.mb_substr(_('Tuesday'),0,3).'</th><th>'.mb_substr(_('Wednesday'),0,3).'</th><th>'.mb_substr(_('Thursday'),0,3).'</th><th>'.mb_substr(_('Friday'),0,3).'</th><th>'.mb_substr(_('Saturday'),0,3).'</th></tr><tr>';
 		$calendar_RET = DBGet(DBQuery("SELECT SCHOOL_DATE FROM ATTENDANCE_CALENDAR WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND MINUTES!='0' AND EXTRACT(MONTH FROM SCHOOL_DATE)='".($_REQUEST['month']*1)."'"),array(),array('SCHOOL_DATE'));
-		for ( $i=1;$i<=$skip;$i++)
-			echo '<td></td>';
 
-		for ( $i=1;$i<=$last;$i++)
+		for ( $i = 1; $i <= $skip; $i++ )
 		{
-			$this_date = $_REQUEST['year'].'-'.$_REQUEST['month'].'-'.($i<10?'0'.$i:$i);
-			if ( ! $calendar_RET[ $this_date ])
+			echo '<td></td>';
+		}
+
+		for ( $i = 1; $i <= $last; $i++ )
+		{
+			$this_date = $_REQUEST['year'] . '-' . $_REQUEST['month'] . '-' . ( $i < 10 ? '0' . $i : $i );
+
+			if ( empty( $calendar_RET[ $this_date ] ) )
+			{
 				$disabled = ' DISABLED';
-			elseif (date('Y-m-d')==$this_date)
+			}
+			elseif ( date( 'Y-m-d' ) === $this_date )
+			{
 				$disabled = ' checked';
+			}
 			else
+			{
 				$disabled = '';
+			}
 
 			echo '<td><label>'.$i.'<input type="checkbox" name="dates['.$this_date.']" value="Y"'.$disabled.'></label></td>';
+
 			$skip++;
-			if ( $skip%7==0 && $i!=$last)
+
+			if ( $skip % 7 == 0 && $i != $last )
+			{
 				echo '</tr><tr>';
+			}
 		}
+
 		echo '</tr></table>';
 		echo '</td></tr></table>';
 

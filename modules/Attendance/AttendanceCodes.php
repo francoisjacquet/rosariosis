@@ -2,8 +2,10 @@
 
 DrawHeader( ProgramTitle() );
 
-if ( $_REQUEST['table']=='')
+if ( empty( $_REQUEST['table'] ) )
+{
 	$_REQUEST['table'] = '0';
+}
 
 if ( $_REQUEST['modfunc'] === 'update'
 	&& AllowEdit() )
@@ -244,16 +246,26 @@ function _makeSelectInput( $value, $name )
 	);
 }
 
-function _makeCheckBoxInput($value,$name)
-{	global $THIS_RET;
+function _makeCheckBoxInput( $value, $name )
+{
+	global $THIS_RET;
 
-	if ( $THIS_RET['ID'])
+	if ( $THIS_RET['ID'] )
+	{
 		$id = $THIS_RET['ID'];
+	}
 	else
 	{
 		$id = 'new';
-		$new = true;
 	}
 
-	return CheckBoxInput($value,'values['.$id.']['.$name.']','','',$new);
+	$new = ! $THIS_RET['ID'];
+
+	return CheckBoxInput(
+		$value,
+		'values[' . $id . '][' . $name . ']',
+		'',
+		'',
+		$new
+	);
 }
