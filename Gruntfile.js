@@ -80,6 +80,7 @@ module.exports = function(grunt) {
 						'assets/themes/WPadmin/css/colorbox.css',
 						'assets/themes/WPadmin/css/colors.css',
 						'assets/themes/WPadmin/css/font.css',
+						'assets/themes/WPadmin/css/icons.css',
 						'assets/themes/WPadmin/css/stylesheet.css',
 						'assets/themes/WPadmin/css/zresponsive.css',
 						'assets/themes/WPadmin/css/rtl.css'
@@ -87,6 +88,7 @@ module.exports = function(grunt) {
 					'assets/themes/WPadmin/stylesheet_wkhtmltopdf.css': [
 						'assets/themes/WPadmin/css/colors.css',
 						'assets/themes/WPadmin/css/font.css',
+						'assets/themes/WPadmin/css/icons.css',
 						'assets/themes/WPadmin/css/stylesheet.css',
 						'assets/themes/WPadmin/css/rtl.css',
 						'assets/themes/WPadmin/css/wkhtmltopdf.css'

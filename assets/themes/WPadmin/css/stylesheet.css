@@ -1184,3 +1184,17 @@ input[type=checkbox].toggle {
 	/*pointer-events: none;*/
 	cursor: default;
 }
+
+
+/* Dashboard */
+.dashboard-module-title {
+	font-weight: 400;
+	margin: 0.85em 0;
+}
+
+.dashboard-module-data {
+	padding-left: 8px;
+}
+.dashboard-module-title img {
+	vertical-align: middle;
+}

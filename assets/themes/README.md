@@ -6,11 +6,11 @@ Or select your preferred theme in _Users > My Preferences > Display Options_
 
 Every theme must have the following files:
 
-- _stylesheet.css_
-- _stylesheet\_wkhtmltopdf.css_
-- _logo.png_
-- _spinning.gif_
-- _btn/*.png_ (all the button images)
+- `stylesheet.css`
+- `stylesheet\_wkhtmltopdf.css`
+- `logo.png`
+- `spinning.gif`
+- `btn/*.png` (all the button images)
 
 Note:
 The _stylesheet_wkhtmltopdf.css_ file is the CSS file used by wkhtmltopdf.
@@ -21,29 +21,26 @@ Optional files:
 - _scripts.js_
 
 Note 2:
-Replace the modules icons in CSS (example for School Setup & Student icons):
+Module icons in CSS in your theme's `modules/` folder (example for Accounting & School Setup icons):
 
 ```css
-
-/* [place this snippet before media queries] */
-/* Hide default Module icons */
-.menu-top img,
-#body h2 img {
-	width:32px;
-	padding:32px 0 0 0;
-	height:0;
-	overflow:hidden;
-	background-size: contain;
-	background-position: center;
-	background-repeat: no-repeat;
+.module-icon.Accounting {
+	background-image: url("modules/Accounting.png");
 }
 
-/* Replace Module icons */
-img[src="modules/Food_Service/icon.png"]{
-	background-image:url("btn/back.png")
+.module-icon.School_Setup {
+	background-image: url("modules/School_Setup.png");
 }
-img[src="modules/School_Setup/icon.png"]{
-	background-image:url("btn/bus_button.png")
+```
+
+Or use the default WPadmin theme ones:
+
+```css
+.module-icon.Accounting {
+	background-image: url("../WPadmin/modules/Accounting.png");
 }
 
+.module-icon.School_Setup {
+	background-image: url("../WPadmin/modules/School_Setup.png");
+}
 ```
