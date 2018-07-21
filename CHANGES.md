@@ -8,6 +8,7 @@ Changes in 4.0-beta
 - New Module icons: moved from modules to theme in assets/themes/WPadmin/modules/
 - CSS Add modules icons & .module-icon class in assets/themes/WPadmin/css/icons.css & Gruntfile.js
 - Remove .HeaderIcon CSS class, add .module-icon class & use modcat as $\_ROSARIO['HeaderIcon'] value in DrawHeader.fnc.php, ProgramTitle.fnc.php, Side.php, Help.php & various programs
+- CSS Fixed responsive menu & footer in zresponsive.css & warehouse.js
 
 Changes in 3.9.2
 ----------------

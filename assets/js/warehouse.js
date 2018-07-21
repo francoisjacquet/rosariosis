@@ -363,8 +363,6 @@ var ajaxSuccess = function(data, target, url) {
 }
 
 var ajaxPrepare = function(target) {
-	if (scrollTop == 'Y' && target == '#body') body.scrollIntoView();
-
 	$(target + ' form').each(function () {
 		ajaxPostForm(this, false);
 	});
@@ -386,6 +384,14 @@ var ajaxPrepare = function(target) {
 
 		if ( screen.width > 767 ) {
 			fixedMenu();
+		} else {
+			// @todo Fix bw 736 & 767px width!!
+			$('#menu').addClass('hide');
+		}
+
+		if (scrollTop == 'Y') {
+			body.scrollIntoView();
+			$('#body').scrollTop(0);
 		}
 
 		popups.closeAll();

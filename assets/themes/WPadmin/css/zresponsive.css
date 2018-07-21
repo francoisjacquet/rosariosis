@@ -9,13 +9,20 @@
 @media only screen and (max-width:736px){
 	/*quick smartphone reset*/
 	.mod{
+		position: relative !important;
 		float:none !important;
 		clear:none !important;
-		width:auto !important;
 		margin-left:0 !important;
 		margin-right:0 !important;
-		position:relative !important;
 		border:0
+	}
+	#wrap {
+		height: 100%;
+		overflow: hidden;
+	}
+	#footer {
+		position: fixed !important;
+		top: 0;
 	}
 	#menu .logo{
 		max-width:130px;
@@ -24,13 +31,26 @@
 		float:right
 	}
 	#menu{
-		padding-bottom:0
+		position: fixed !important;
+		top: 38px;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		width: 100%;
+		overflow-y: scroll;
+		padding-bottom: 0;
+	}
+	.adminmenu {
+		margin-bottom: 5px;
 	}
 	.adminmenu a{
 		padding:2px 5px
 	}
 	.wp-submenu a{
 		padding:5px
+	}
+	#menu form {
+		padding: 5px;
 	}
 	.menu-top img{
 		height:30px
@@ -42,11 +62,18 @@
 		top: -1000em;
 	}
 	#body{
-		padding:0 2px
+		width:auto !important;
+		padding:0 5px;
+		padding-top: 38px;
+		box-sizing: border-box;
+		height: 100%;
+		overflow: scroll;
 	}
 	.header1 h2{
 		font-size:22px;
-		line-height:24px
+		line-height:24px;
+		padding-left: 42px;
+		text-indent: -42px;
 	}
 	#search input,#search select,#LO_search{
 		max-width:150px
