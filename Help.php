@@ -104,7 +104,7 @@ foreach ( (array) $help as $program => $value ) :
 			<?php
 				unset( $_ROSARIO['DrawHeader'] );
 
-				$_ROSARIO['HeaderIcon'] = 'modules/' . $modcat . '/icon.png';
+				$_ROSARIO['HeaderIcon'] = $modcat;
 
 				$modcat_echo = str_replace( '_', ' ',  $modcat );
 

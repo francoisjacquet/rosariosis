@@ -26,6 +26,13 @@ function ProgramTitle( $modname = '' )
 		$modname = $_REQUEST['modname'];
 	}
 
+	if ( $modname === 'misc/Portal.php' )
+	{
+		$_ROSARIO['HeaderIcon'] = 'misc';
+
+		return ParseMLField( Config( 'TITLE' ) );
+	}
+
 	// Generate Menu if needed.
 	if ( ! isset( $_ROSARIO['Menu'] ) )
 	{
@@ -48,23 +55,15 @@ function ProgramTitle( $modname = '' )
 			// Get right icon for Teacher Programs.
 			if ( mb_substr( $modname, 0, 25 ) === 'Users/TeacherPrograms.php' )
 			{
-				$_ROSARIO['HeaderIcon'] = 'modules/' .
-					mb_substr( $modname, 34, mb_strpos( $modname, '/', 34 ) - 34 ) .
-					'/icon.png';
+				$_ROSARIO['HeaderIcon'] = mb_substr( $modname, 34, mb_strpos( $modname, '/', 34 ) - 34 );
 			}
 			else
-				$_ROSARIO['HeaderIcon'] = 'modules/' . $modcat . '/icon.png';
+				$_ROSARIO['HeaderIcon'] = $modcat;
 		}
 
 		return $programs[ $modname ];
 	}
+
 	// Program not found!
-
-	if ( isset( $_ROSARIO['HeaderIcon'] )
-		&& $_ROSARIO['HeaderIcon'] !== false )
-	{
-		unset( $_ROSARIO['HeaderIcon'] );
-	}
-
 	return 'RosarioSIS';
 }

@@ -723,7 +723,7 @@ if ( ! isset( $_REQUEST['sidefunc'] )
 			$modcat_class = mb_strtolower( str_replace( '_', '-', $menu_i ) ); ?>
 		<li class="menu-module <?php echo $modcat_class; ?>">
 			<a href="Modules.php?modname=<?php echo $modcat_menu['default']; ?>" class="menu-top">
-				<img src="modules/<?php echo $menu_i; ?>/icon.png" alt="<?php echo $modcat_menu['title']; ?>" />&nbsp;<?php echo $modcat_menu['title']; ?>
+				<span class="module-icon <?php echo $menu_i; ?>"></span>&nbsp;<?php echo $modcat_menu['title']; ?>
 			</a>
 			<ul id="menu_<?php echo $menu_i; ?>" class="wp-submenu">
 			<?php

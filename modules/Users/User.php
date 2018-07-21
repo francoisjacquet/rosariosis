@@ -419,7 +419,7 @@ if ( basename( $_SERVER['PHP_SELF'] ) !== 'index.php' )
 	if ( isset( $_REQUEST['staff_id'] )
 		&& $_REQUEST['staff_id'] === 'new' )
 	{
-		$_ROSARIO['HeaderIcon'] = 'modules/Users/icon.png';
+		$_ROSARIO['HeaderIcon'] = 'Users';
 
 		DrawHeader( _( 'Add a User' ) );
 	}
@@ -431,7 +431,7 @@ if ( basename( $_SERVER['PHP_SELF'] ) !== 'index.php' )
 elseif ( ! UserStaffID() )
 {
 	// FJ create account.
-	$_ROSARIO['HeaderIcon'] = 'modules/Users/icon.png';
+	$_ROSARIO['HeaderIcon'] = 'Users';
 
 	DrawHeader( _( 'Create User Account' ) );
 }

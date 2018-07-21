@@ -5,9 +5,7 @@ if ( $_REQUEST['modfunc'] === 'redirect_take_attendance' )
 	_redirectTakeAttendance();
 }
 
-$_ROSARIO['HeaderIcon'] = 'modules/misc/icon.png';
-
-DrawHeader( ParseMLField( Config( 'TITLE' ) ) );
+DrawHeader( ProgramTitle() );
 
 DrawHeader( '<span id="salute"></span>' );
 
@@ -82,6 +80,11 @@ if ( $RosarioModules['Discipline'] )
 do_action( 'misc/Portal.php|portal_alerts' );
 
 echo ErrorMessage( $note, 'note' );
+
+require_once 'ProgramFunctions/Dashboard.fnc.php';
+
+// Dashboard.
+DashboardOutput();
 
 $portal_LO_options = array( 'save' => false, 'search' => false );
 

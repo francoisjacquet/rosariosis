@@ -387,7 +387,7 @@ if ( basename( $_SERVER['PHP_SELF'] ) !== 'index.php' )
 	if ( isset( $_REQUEST['student_id'] )
 		&& $_REQUEST['student_id'] === 'new' )
 	{
-		$_ROSARIO['HeaderIcon'] = 'modules/Students/icon.png';
+		$_ROSARIO['HeaderIcon'] = 'Students';
 
 		DrawHeader( _( 'Add a Student' ) );
 	}
@@ -399,7 +399,7 @@ if ( basename( $_SERVER['PHP_SELF'] ) !== 'index.php' )
 elseif ( ! UserStudentID() )
 {
 	// FJ create account.
-	$_ROSARIO['HeaderIcon'] = 'modules/Students/icon.png';
+	$_ROSARIO['HeaderIcon'] = 'Students';
 
 	DrawHeader( _( 'Create Student Account' ) );
 }

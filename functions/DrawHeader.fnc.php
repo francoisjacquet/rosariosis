@@ -41,13 +41,15 @@ function DrawHeader( $left, $right = '', $center = '' )
 		// Add H2 + Module icon to Primary Header.
 		if ( $_ROSARIO['DrawHeader'] === 'header1' )
 		{
+			$header_icon = '';
+
 			if ( isset( $_ROSARIO['HeaderIcon'] )
 				&& $_ROSARIO['HeaderIcon'] !== false )
 			{
-				$left = '<img src="' . $_ROSARIO['HeaderIcon'] . '" class="headerIcon" alt="Module icon" /> ' . $left;
+				$header_icon = '<span class="module-icon ' . $_ROSARIO['HeaderIcon'] . '"></span> ';
 			}
 
-			$left = '<h2>' . $left . '</h2>';
+			$left = '<h2>' . $header_icon . $left . '</h2>';
 		}
 
 		echo '<td class="' . $_ROSARIO['DrawHeader'] . '">' .
