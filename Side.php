@@ -723,7 +723,13 @@ if ( ! isset( $_REQUEST['sidefunc'] )
 			$modcat_class = mb_strtolower( str_replace( '_', '-', $menu_i ) ); ?>
 		<li class="menu-module <?php echo $modcat_class; ?>">
 			<a href="Modules.php?modname=<?php echo $modcat_menu['default']; ?>" class="menu-top">
-				<span class="module-icon <?php echo $menu_i; ?>"></span>&nbsp;<?php echo $modcat_menu['title']; ?>
+
+				<span class="module-icon <?php echo $menu_i; ?>"
+				<?php if ( ! in_array( $menu_i, $RosarioCoreModules ) ) :
+					// Modcat is addon module, set custom module icon. ?>
+					style="background-image: url(modules/<?php echo $menu_i; ?>/icon.png);"
+				<?php endif; ?>
+				></span>&nbsp;<?php echo $modcat_menu['title']; ?>
 			</a>
 			<ul id="menu_<?php echo $menu_i; ?>" class="wp-submenu">
 			<?php

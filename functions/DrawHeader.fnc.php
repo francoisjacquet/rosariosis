@@ -25,7 +25,8 @@
  */
 function DrawHeader( $left, $right = '', $center = '' )
 {
-	global $_ROSARIO;
+	global $_ROSARIO,
+		$RosarioCoreModules;
 
 	// Primary Header.
 	if ( ! isset( $_ROSARIO['DrawHeader'] )
@@ -46,7 +47,16 @@ function DrawHeader( $left, $right = '', $center = '' )
 			if ( isset( $_ROSARIO['HeaderIcon'] )
 				&& $_ROSARIO['HeaderIcon'] !== false )
 			{
-				$header_icon = '<span class="module-icon ' . $_ROSARIO['HeaderIcon'] . '"></span> ';
+				$header_icon = '<span class="module-icon ' . $_ROSARIO['HeaderIcon'] . '"';
+
+				if ( $_ROSARIO['HeaderIcon'] !== 'misc'
+					&& ! in_array( $_ROSARIO['HeaderIcon'], $RosarioCoreModules ) )
+				{
+					// Modcat is addon module, set custom module icon.
+					$header_icon .= ' style="background-image: url(modules/' . $_ROSARIO['HeaderIcon'] . '/icon.png);"';
+				}
+
+				$header_icon .= '></span> ';
 			}
 
 			$left = '<h2>' . $header_icon . $left . '</h2>';
