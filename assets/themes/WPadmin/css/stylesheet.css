@@ -454,7 +454,7 @@ label{
 
 
 .current-person{
-	padding:1px;
+	padding:1px 5px;
 	margin-top:5px;
 	font-weight:bold;
 }
@@ -559,10 +559,6 @@ h3 span{
 	/* Move .cellspacing-0 & width-100p directly here */
 	border-spacing: 0;
 	width: 100%;
-}
-.headerIcon{
-	height:32px;
-	vertical-align:bottom
 }
 .header1 h2{
 	font-family:'Open Sans', sans-serif;
