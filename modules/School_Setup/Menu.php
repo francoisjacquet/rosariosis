@@ -11,7 +11,7 @@
  */
 
 $menu['School_Setup']['admin'] = array(
-	'title' => _( 'School Setup' ),
+	'title' => _( 'School' ),
 	'default' => 'School_Setup/Calendar.php',
 	'School_Setup/PortalNotes.php' => _( 'Portal Notes' ),
 	'School_Setup/PortalPolls.php' => _( 'Portal Polls' ),

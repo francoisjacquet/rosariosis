@@ -5,13 +5,13 @@
  * @uses $menu global var
  *
  * @see  Menu.php in root folder
- * 
+ *
  * @package RosarioSIS
  * @subpackage modules
  */
 
 $menu['Eligibility']['admin'] = array(
-	'title' => _( 'Eligibility' ),
+	'title' => _( 'Activities' ),
 	'default' => 'Eligibility/Student.php',
 	'Eligibility/Student.php' => _( 'Student Screen' ),
 	'Eligibility/AddActivity.php' => _( 'Add Activity' ),
@@ -24,13 +24,13 @@ $menu['Eligibility']['admin'] = array(
 );
 
 $menu['Eligibility']['teacher'] = array(
-	'title' => _( 'Eligibility' ),
+	'title' => _( 'Activities' ),
 	'default' => 'Eligibility/EnterEligibility.php',
 	'Eligibility/EnterEligibility.php' => _( 'Enter Eligibility' )
 );
 
 $menu['Eligibility']['parent'] = array(
-	'title' => _( 'Eligibility' ),
+	'title' => _( 'Activities' ),
 	'default' => 'Eligibility/Student.php',
 	'Eligibility/Student.php' => _( 'Student Screen' ),
 	'Eligibility/StudentList.php' => _( 'Student List' )

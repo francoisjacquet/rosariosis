@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 4.0-beta
+-------------------
+- Rename School Setup module to School & Eligibility module to Activities in Menu.php
+
 Changes in 3.9.2
 ----------------
 - No button when printing PDF in Buttons.php
