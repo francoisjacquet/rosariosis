@@ -213,7 +213,7 @@ if ( User( 'PROFILE' ) === 'admin' ) :
 		'<ul>
 			<li>' . _help( '<i>Grades</i>: whether your school uses percent grades, letter grades or both. Will then hide the percent or letter grades accordingly.' ) . '</li>
 			<li>' . _help( '<i>Hide grade comment except for attendance period courses</i>: whether to hide grade comment for non attendance period courses' ) . '</li>
-			<li>' . _help( '<i>Allow Teachers to edit grades after grade posting period</i>: the grade posting period for each marking period is set in the School Setup > Marking Periods program' ) . '</li>
+			<li>' . _help( '<i>Allow Teachers to edit grades after grade posting period</i>: the grade posting period for each marking period is set in the School > Marking Periods program' ) . '</li>
 			<li>' . _help( '<i>Enable Anonymous Grade Statistics for Parents and Students / Administrators and Teachers</i>: the Anonymous Grade Statistics are displayed in the Student Grades program' ) . '</li>
 		</ul>
 	</li>

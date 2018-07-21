@@ -27,7 +27,7 @@ Schedule
 - Subjects, courses & course periods are automatically created, updated & deleted in Moodle
 - Automatically schedule or drop students from a course period in Moodle
 
-School Setup
+School
 
 - Calendar events are automatically added to & removed from the Moodle calendar
 - Portal notes are automatically created, updated & deleted in Moodle

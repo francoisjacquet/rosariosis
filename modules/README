@@ -1,7 +1,7 @@
 Place here the Modules you want to add to RosarioSIS.
 
 Activate them via:
-School Setup > School Configuration > Modules
+School > School Configuration > Modules
 
 Every module must have a Menu.php file.
 
