@@ -475,7 +475,7 @@ function _makeRadioSelected( $value, $title )
 	{
 		if ( isset( $_REQUEST['LO_save'] ) )
 		{
-			return _( 'Yes ');
+			return _( 'Yes' );
 		}
 		else
 		{
