@@ -5,6 +5,7 @@ Changes in 4.0-beta
 -------------------
 - Rename School Setup module to School & Eligibility module to Activities in Menu.php
 - Move CHANGES for version 1 and 2 in CHANGES_V1_2.md
+- New Module icons: moved from modules to theme in assets/themes/WPadmin/modules/
 
 Changes in 3.9.2
 ----------------

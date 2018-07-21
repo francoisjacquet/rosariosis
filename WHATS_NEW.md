@@ -2,12 +2,19 @@
 
 ## RosarioSIS Student Information System
 
+New in 4.0
+----------
+
+New Module icons: moved from modules to theme
+
+
 New in 3.9
 ----------
 
 Translate Help texts with Poedit
 
 Translate database fields to Spanish or French
+
 
 New in 3.8
 ----------
@@ -23,6 +30,7 @@ New in 3.7
 School Setup
 
 - School Configuration: Display Name, sponsored by @abogadeer
+
 
 New in 3.6
 ----------
