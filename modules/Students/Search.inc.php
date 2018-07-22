@@ -293,7 +293,10 @@ else
 		if ( ! empty( $extra['extra_header_left'] )
 			|| ! empty( $extra['extra_header_right'] ) )
 		{
-			DrawHeader( $extra['extra_header_left'], $extra['extra_header_right'] );
+			DrawHeader(
+				( empty( $extra['extra_header_left'] ) ? '' : $extra['extra_header_left'] ),
+				( empty( $extra['extra_header_right'] ) ? '' : $extra['extra_header_right'] )
+			);
 		}
 
 		if ( ! empty( $_ROSARIO['SearchTerms'] ) )
