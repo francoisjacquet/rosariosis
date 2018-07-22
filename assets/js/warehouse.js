@@ -382,10 +382,9 @@ var ajaxPrepare = function(target) {
 
 		openMenu();
 
-		if ( screen.width > 767 ) {
+		if ( screen.width > 736 ) {
 			fixedMenu();
 		} else {
-			// @todo Fix bw 736 & 767px width!!
 			$('#menu').addClass('hide');
 		}
 
