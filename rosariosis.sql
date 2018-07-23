@@ -3963,7 +3963,6 @@ INSERT INTO profile_exceptions VALUES (1, 'Attendance/FixDailyAttendance.php', '
 INSERT INTO profile_exceptions VALUES (1, 'Attendance/DuplicateAttendance.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Attendance/AttendanceCodes.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Users/TeacherPrograms.php&include=Attendance/TakeAttendance.php', 'Y', 'Y');
-INSERT INTO profile_exceptions VALUES (1, 'Grades/HonorRollSubject.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Eligibility/Student.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Eligibility/AddActivity.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Eligibility/StudentList.php', 'Y', 'Y');
@@ -4446,9 +4445,6 @@ INSERT INTO templates VALUES ('Grades/HonorRoll.php', 0, '<br /><br /><br />
 <div style="text-align: center;"><span style="font-size: xx-large;"><strong>__SCHOOL_ID__</strong><br /></span><br /><span style="font-size: xx-large;">We hereby recognize<br /><br /></span></div>
 <div style="text-align: center;"><span style="font-size: xx-large;"><strong>__FIRST_NAME__ __LAST_NAME__</strong><br /><br /></span></div>
 <div style="text-align: center;"><span style="font-size: xx-large;">Who has completed all the academic requirements for <br />Honor Roll</span></div>');
-INSERT INTO templates VALUES ('Grades/HonorRollSubject.php', 0, '<div style="text-align: center;"><br /><br /><strong><span style="font-size: xx-large;">__SCHOOL_ID__<br /></span></strong><br /><span style="font-size: xx-large;">We hereby recognize<br /><br /></span></div>
-<div style="text-align: center;"><strong><span style="font-size: xx-large;">__FIRST_NAME__ __LAST_NAME__<br /><br /></span></strong></div>
-<div style="text-align: center;"><span style="font-size: xx-large;">Who has completed all the academic requirements for Academic Excellence in <br />__SUBJECT__</span></div>');
 INSERT INTO templates VALUES ('Grades/Transcripts.php', 0, 'The Principal undersigned certify:
 That __FIRST_NAME__ __LAST_NAME__ attended at this school the following courses corresponding to grade __GRADE_ID__ in year __YEAR__ with the following grades and credit hours.
 __BLOCK2__');
