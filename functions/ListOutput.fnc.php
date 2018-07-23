@@ -394,27 +394,12 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		{
 			$start = 1;
 			$stop = $result_count;
-			if ( $cols>8 || $_REQUEST['expanded_view'])
+
+			if ( $cols > 8 || ! empty( $_REQUEST['expanded_view'] ) )
 			{
 				//FJ wkhtmltopdf
 				$_SESSION['orientation'] = 'landscape';
 			}
-
-			if ( $options['print'])
-			{
-				//FJ bug PDF
-				/*$html = explode('<div style="page-break-after: always;"></div>',mb_strtolower(ob_get_contents()));
-				$html = $html[count($html)-1];
-				echo '</td></tr></table>';
-				$br = (mb_substr_count($html,'<br />')) + (mb_substr_count($html,'</p>')) + (mb_substr_count($html,'</tr>')) + (mb_substr_count($html,'</h1>')) + (mb_substr_count($html,'</h2>')) + (mb_substr_count($html,'</h3>')) + (mb_substr_count($html,'</h4>')) + (mb_substr_count($html,'</h5>'));
-				if ( $br%2!=0)
-				{
-					$br++;
-					echo '<br />';
-				}*/
-			}
-			/*else
-				echo '</td></tr></table>';*/
 		}
 		// END MISC ---.
 	}
@@ -591,7 +576,8 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		for ( $i=$start;$i<=$stop;$i++)
 		{
 			$item = $result[ $i ];
-			if (isset($_REQUEST['_ROSARIO_PDF']) && $options['print'] && count($item))
+
+			if ( isset( $_REQUEST['_ROSARIO_PDF'] ) && count( $item ) )
 			{
 				//modify loop: use for instead of foreach
 				$key = array_keys($item);
