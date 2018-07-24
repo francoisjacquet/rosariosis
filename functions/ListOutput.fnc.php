@@ -628,12 +628,17 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			{
 				foreach ( (array) $column_names as $key => $value)
 				{
+					if ( $color === Preferences( 'HIGHLIGHT' ) )
+					{
+						echo '<td class="highlight">';
+					}
+					else
+					{
+						echo '<td>';
+					}
+
 					if ( !empty($link[ $key ]) && $item[ $key ]!==false && !isset($_REQUEST['_ROSARIO_PDF']))
 					{
-						if ( $color==Preferences('HIGHLIGHT'))
-							echo '<td class="highlight">';
-						else
-							echo '<td>';
 						if ( !empty($link[ $key ]['js']))
 						{
 							echo '<a href="#" onclick=\'popups.open("' . $link[ $key ]['link'];
@@ -662,23 +667,17 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 								echo ' '.$link[ $key ]['extra'];
 							echo '>';
 						}
-						echo $item[ $key ];
-						if ( ! $item[ $key ])
-							echo '***';
+
+						echo isset( $item[ $key ] ) ? $item[ $key ] : '***';
+
 						echo '</a>';
-						echo '</td>';
 					}
 					else
 					{
-						if ( $color==Preferences('HIGHLIGHT'))
-							echo '<td class="highlight">';
-						else
-							echo '<td>';
-						echo $item[ $key ];
-						if ( ! $item[ $key ])
-							echo '&nbsp;';
-						echo '</td>';
+						echo isset( $item[ $key ] ) ? $item[ $key ] : '&nbsp;';
 					}
+
+					echo '</td>';
 				}
 			}
 			echo '</tr>';
