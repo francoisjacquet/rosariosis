@@ -10,6 +10,7 @@ Changes in 4.0-beta
 - Remove .HeaderIcon CSS class, add .module-icon class & use modcat as $\_ROSARIO['HeaderIcon'] value in DrawHeader.fnc.php, ProgramTitle.fnc.php, Side.php, Help.php & various programs
 - CSS Fixed responsive menu & footer in zresponsive.css & warehouse.js
 - Remove Honor Roll by Subject program in HonorRollSubject.php, Menu.php & rosariosis.sql
+- Add by Subject option to Honor Roll program in HonorRoll.php & HonorRoll.fnc.php
 - Remove assets/Frames/ folder. Upload Frames directly inside program.
 
 Changes in 3.9.2

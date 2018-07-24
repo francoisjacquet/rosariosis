@@ -2,198 +2,46 @@
 
 require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 require_once 'ProgramFunctions/Template.fnc.php';
+require_once 'modules/Grades/includes/HonorRoll.fnc.php';
 
 if ( $_REQUEST['modfunc'] === 'save' )
 {
-	if (count($_REQUEST['st_arr']))
+	if ( count( $_REQUEST['st_arr'] ) )
 	{
-		if (empty($_REQUEST['list']))//certificate
+		if ( empty( $_REQUEST['subject_id'] ) )
 		{
-			$REQUEST_honor_roll_text = SanitizeHTML( $_POST['honor_roll_text'] );
-		}
-
-		$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
-
-		$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
-
-		$mp_RET = DBGet(DBQuery("SELECT TITLE,END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND MARKING_PERIOD_ID='".UserMP()."'"));
-
-		$extra['SELECT'] .= ",(SELECT SORT_ORDER FROM SCHOOL_GRADELEVELS WHERE ID=ssm.GRADE_ID) AS SORT_ORDER";
-		$extra['SELECT'] .= ",".db_case(array("exists(SELECT rg.GPA_VALUE
-		FROM STUDENT_REPORT_CARD_GRADES sg,COURSE_PERIODS cp,REPORT_CARD_GRADES rg
-		WHERE sg.STUDENT_ID=s.STUDENT_ID
-		AND cp.SYEAR=ssm.SYEAR
-		AND sg.SYEAR=ssm.SYEAR
-		AND sg.MARKING_PERIOD_ID='".UserMP()."'
-		AND cp.COURSE_PERIOD_ID=sg.COURSE_PERIOD_ID
-		AND cp.DOES_HONOR_ROLL='Y'
-		AND rg.GRADE_SCALE_ID=cp.GRADE_SCALE_ID
-		AND sg.REPORT_CARD_GRADE_ID=rg.ID
-		AND rg.GPA_VALUE<(SELECT HHR_GPA_VALUE FROM REPORT_CARD_GRADE_SCALES WHERE ID=rg.GRADE_SCALE_ID))",'true','NULL',"'Y'"))." AS HIGH_HONOR";
-
-		//$extra['SELECT'] .= ",(SELECT TITLE FROM SCHOOLS WHERE ID=ssm.SCHOOL_ID AND SYEAR=ssm.SYEAR) AS SCHOOL";
-		//$extra['SELECT'] .= ",(SELECT PRINCIPAL FROM SCHOOLS WHERE ID=ssm.SCHOOL_ID AND SYEAR=ssm.SYEAR) AS PRINCIPAL";
-		//FJ multiple school periods for a course period
-		//$extra['SELECT'] .= ",(SELECT coalesce(st.TITLE||' ',' ')||st.FIRST_NAME||coalesce(' '||st.MIDDLE_NAME||' ',' ')||st.LAST_NAME FROM STAFF st,COURSE_PERIODS cp,SCHOOL_PERIODS p,SCHEDULE ss WHERE st.STAFF_ID=cp.TEACHER_ID AND cp.PERIOD_id=p.PERIOD_ID AND p.ATTENDANCE='Y' AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='".UserSyear()."' AND ss.MARKING_PERIOD_ID IN (".GetAllMP('QTR',GetCurrentMP('QTR',DBDate(),false)).") AND (ss.START_DATE<='".DBDate()."' AND (ss.END_DATE>='".DBDate()."' OR ss.END_DATE IS NULL)) ORDER BY p.SORT_ORDER LIMIT 1) AS TEACHER";
-		$extra['SELECT'] .= ",(SELECT " . DisplayNameSQL( 'st' ) . "
-		FROM STAFF st,COURSE_PERIODS cp,SCHEDULE ss
-		WHERE st.STAFF_ID=cp.TEACHER_ID
-		AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID
-		AND ss.STUDENT_ID=s.STUDENT_ID
-		AND ss.SYEAR='".UserSyear()."'
-		AND ss.MARKING_PERIOD_ID IN (".GetAllMP('QTR',GetCurrentMP('QTR',DBDate(),false)).")
-		AND (ss.START_DATE<='".DBDate()."' AND (ss.END_DATE>='".DBDate()."' OR ss.END_DATE IS NULL)) LIMIT 1) AS TEACHER";
-
-		$extra['SELECT'] .= ",(SELECT cp.ROOM
-		FROM COURSE_PERIODS cp,SCHOOL_PERIODS p,SCHEDULE ss,COURSE_PERIOD_SCHOOL_PERIODS cpsp
-		WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
-		AND cpsp.PERIOD_id=p.PERIOD_ID AND p.ATTENDANCE='Y'
-		AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID
-		AND ss.STUDENT_ID=s.STUDENT_ID
-		AND ss.SYEAR='".UserSyear()."'
-		AND ss.MARKING_PERIOD_ID IN (".GetAllMP('QTR',GetCurrentMP('QTR',DBDate(),false)).")
-		AND (ss.START_DATE<='".DBDate()."' AND (ss.END_DATE>='".DBDate()."' OR ss.END_DATE IS NULL)) ORDER BY p.SORT_ORDER LIMIT 1) AS ROOM";
-
-		$extra['ORDER_BY'] = 'HIGH_HONOR,SORT_ORDER DESC,ROOM,FULL_NAME';
-
-		if ( ! empty( $_REQUEST['list'] ) )
-			$extra['group'] = array('HIGH_HONOR');
-
-		$RET = GetStuList($extra);
-
-		if ( ! empty( $_REQUEST['list'] ) )
-		{
-			$handle = PDFStart();
-			echo '<table class="center" style="width:80%;">';
-			echo '<tr class="center"><td colspan="6"><b>' .
-				sprintf(
-					_( '%s Honor Roll' ),
-					SchoolInfo( 'TITLE' )
-				) . ' </b> - ' . $mp_RET[1]['TITLE'] . ' - ' .
-				date( 'F j, Y', strtotime( $mp_RET[1]['END_DATE'] ) ) .
-			'</td></tr>';
-
-			echo '<tr class="center"><td colspan="6">&nbsp;</td></tr>';
-
-			foreach ( array('Y','') AS $high)
-			{
-				if ( $n = count($RET[ $high ]))
-				{
-					$n = (int) (($n+1)/2);
-					echo '<tr class="center"><td colspan="6" style="background-color:#C0C0C0;"><b>'.($high=='Y'?_('High Honor Roll'):_('Honor Roll')).'</b></td></tr>';
-
-					for ( $i=1; $i<=$n; $i++)
-					{
-						echo '<tr><td>&nbsp;</td>';
-						$student = $RET[ $high ][ $i ];
-
-						echo '<td>' . $student['FULL_NAME'] . '</td>
-							<td>' . $student['ROOM'] . '</td>';
-
-						echo '<td>&nbsp;</td>';
-
-						$student = $RET[ $high ][ $i + $n ];
-
-						echo '<td>' . $student['FULL_NAME'] . '</td>
-							<td>' . $student['ROOM'] . '</td></tr>';
-					}
-
-					echo '<tr class="center"><td colspan="6">&nbsp;</td></tr>';
-				}
-			}
-
-			echo '</table>';
-			PDFStop($handle);
+			HonorRollPDF(
+				$_REQUEST['st_arr'],
+				! empty( $_REQUEST['list'] ),
+				$_POST['honor_roll_text']
+			);
 		}
 		else
 		{
-			SaveTemplate( $REQUEST_honor_roll_text );
-
-			$no_margins = array( 'top' => 0, 'bottom' => 0, 'left' => 0, 'right' => 0 );
-
-			$pdf_options = array(
-				'css' => false,
-				'margins' => $no_margins,
+			HonorRollSubjectPDF(
+				$_REQUEST['st_arr'],
+				! empty( $_REQUEST['list'] ),
+				$_POST['honor_roll_text']
 			);
-
-			$handle = PDFStart( $pdf_options );
-
-			$_SESSION['orientation'] = 'landscape';
-
-			echo '<style type="text/css">
-				body {
-					margin:0;
-					padding:0;
-					width:100%;
-					height:100%;';
-
-			if ( ! empty( $_REQUEST['frame'] ) )
-			{
-				echo 'background:url(assets/Frames/' . $_REQUEST['frame'] . ') no-repeat;
-					background-size:100% 100%;';
-			}
-
-			echo '}</style>';
-
-			foreach ( (array) $RET as $student)
-			{
-				echo '<table style="margin:auto auto;">';
-
-				$honor_roll_text = $REQUEST_honor_roll_text;
-
-				$honor_roll_text = str_replace(array('__FULL_NAME__',
-				'__FIRST_NAME__',
-				'__LAST_NAME__',
-				'__MIDDLE_NAME__',
-				'__GRADE_ID__',
-				'__SCHOOL_ID__',
-				'__SUBJECT__'),
-				array($student['FULL_NAME'],
-				$student['FIRST_NAME'],
-				$student['LAST_NAME'],
-				$student['MIDDLE_NAME'],
-				$student['GRADE_ID'],
-				SchoolInfo( 'TITLE' ),
-				$_REQUEST['subject']),$honor_roll_text);
-
-				$honor_roll_text = ($student['HIGH_HONOR']=='Y'? str_replace(_('Honor Roll'),_('High Honor Roll'),$honor_roll_text) : $honor_roll_text);
-
-				echo '<tr><td>'.$honor_roll_text.'</td></tr></table>';
-
-				echo '<br /><table style="margin:auto auto; width:80%;">';
-
-				echo '<tr><td><span style="font-size:x-large;">'.$student['TEACHER'].'</span><br /><span style="font-size:medium;">'._('Teacher').'</span></td>';
-				echo '<td><span style="font-size:x-large;">'.$mp_RET[1]['TITLE'].'</span><br /><span style="font-size:medium;">'._('Marking Period').'</span></td></tr>';
-
-				echo '<tr><td><span style="font-size:x-large;">' .
-					SchoolInfo( 'PRINCIPAL' ) .
-					'</span><br />
-					<span style="font-size:medium;">' . _( 'Principal' ) . '</span></td>';
-
-				echo '<td><span style="font-size:x-large;">' .
-					ProperDate( $mp_RET[1]['END_DATE'] ) .
-					'</span><br />
-					<span style="font-size:medium;">' . _( 'Date' ) . '</span></td></tr>';
-
-				echo '</table></div>';
-
-				echo '<div style="page-break-after: always;"></div>';
-			}
-
-			PDFStop( $handle );
 		}
 	}
 	else
-		BackPrompt(_('You must choose at least one student.'));
+	{
+		BackPrompt( _( 'You must choose at least one student.' ) );
+	}
 }
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	DrawHeader(ProgramTitle());
+	DrawHeader( ProgramTitle() );
 
-	if ( $_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
-		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'&_ROSARIO_PDF=true" method="POST">';
+		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
+		'&modfunc=save&include_inactive=' .
+		( empty( $_REQUEST['include_inactive'] ) ? '' : $_REQUEST['include_inactive'] ) .
+		'&_ROSARIO_PDF=true" method="POST" enctype="multipart/form-data">';
+
 		$extra['header_right'] = SubmitButton( _( 'Create Honor Roll for Selected Students' ) );
 
 		$extra['extra_header_left'] = '<table>';
@@ -225,36 +73,9 @@ if ( ! $_REQUEST['modfunc'] )
 		$extra['extra_header_left'] .= '<td>__GRADE_ID__</td><td>= '._('Grade Level').'</td>';
 		$extra['extra_header_left'] .= '</tr></table></td></tr>';
 
-//FJ add frames choice
-		$frames = array();
-		if (is_dir('assets/Frames/'))
-			$frames = scandir('assets/Frames/');
+		$extra['extra_header_left'] .= HonorRollFrame();
 
-		//no frame first and checked
-		$extra['extra_header_left'] .= '<tr class="st">
-		<td style="vertical-align:top;">'._('Frame').'</td>
-		<td><div style="overflow-x:auto; height:160px;" id="framesList">
-			<table class="cellspacing-0"><tr>
-			<td class="image-radio-list" style="height: auto;"><label class="image-radio-list"><input type="radio" name="frame" value="" checked /> '._('No frame').'</label></td>';
-
-		//create radio list with thumbnails
-		$i = 1;
-		foreach ($frames as $frame)
-		{
-			//filter images
-			if ( in_array( mb_strtolower(mb_strrchr($frame, '.')), array('.jpg', '.jpeg', '.png', '.gif') ) )
-			{
-				//if ( $i % 5 == 0) //change table row each five thumbnails
-					//$extra['extra_header_left'] .= '</tr><tr>';
-				$extra['extra_header_left'] .= '<td class="image-radio-list"><label class="image-radio-list"><input type="radio" name="frame" value="'.$frame.'" /> <img src="assets/Frames/'.$frame.'" class="image-radio-list" title="'.UCWords(str_replace(array('_', '.jpg', '.jpeg', '.png', '.gif'),array(' ', ''), $frame)).'" /></label></td>';
-				$i++;
-			}
-		}
-
-		$extra['extra_header_left'] .= '</tr></table></div></td></tr></table>';
-
-		$extra['extra_header_left'] .= '<script>if (isTouchDevice()) {touchScroll(document.getElementById(\'framesList\'));}</script>';
-
+		$extra['extra_header_left'] .= '</table>';
 	}
 
 	$extra['new'] = true;
@@ -270,12 +91,10 @@ if ( ! $_REQUEST['modfunc'] )
 	$extra['options']['search'] = false;
 
 	Widgets('course');
-	MyWidgets('honor_roll');
 
-	if ( $for_news_web)
-		$extra['student_fields'] = array('search'=>"'".$for_news_web."'",'view'=>"'".$for_news_web."'");
+	HonorRollWidgets( 'honor_roll' );
 
-	Search('student_id',$extra);
+	Search( 'student_id', $extra );
 
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
@@ -290,124 +109,4 @@ function _makeChooseCheckbox($value,$title)
 		return '<input type="checkbox" name="st_arr[]" value="'.$value.'" checked />';
 	else
 		return '';
-}
-
-function MyWidgets($item)
-{	global $extra,$_ROSARIO;
-
-	switch ( $item)
-	{
-		case 'honor_roll':
-			if ( $_REQUEST['honor_roll']=='Y' && $_REQUEST['high_honor_roll']=='Y')
-			{
-				$extra['SELECT'] .= ",".db_case(array("exists(SELECT rg.GPA_VALUE
-				FROM STUDENT_REPORT_CARD_GRADES sg,COURSE_PERIODS cp,REPORT_CARD_GRADES rg
-				WHERE sg.STUDENT_ID=s.STUDENT_ID
-				AND cp.SYEAR=ssm.SYEAR
-				AND sg.SYEAR=ssm.SYEAR
-				AND sg.MARKING_PERIOD_ID='".UserMP()."'
-				AND cp.COURSE_PERIOD_ID=sg.COURSE_PERIOD_ID
-				AND cp.DOES_HONOR_ROLL='Y'
-				AND rg.GRADE_SCALE_ID=cp.GRADE_SCALE_ID
-				AND sg.REPORT_CARD_GRADE_ID=rg.ID
-				AND rg.GPA_VALUE<(SELECT HHR_GPA_VALUE FROM REPORT_CARD_GRADE_SCALES WHERE ID=rg.GRADE_SCALE_ID))",'true','NULL',"'".button('check')."'"))." AS HIGH_HONOR";
-
-				$extra['WHERE'] .=  " AND exists(SELECT ''
-				FROM STUDENT_REPORT_CARD_GRADES sg,COURSE_PERIODS cp
-				WHERE sg.STUDENT_ID=s.STUDENT_ID
-				AND cp.SYEAR=ssm.SYEAR
-				AND sg.SYEAR=ssm.SYEAR
-				AND sg.MARKING_PERIOD_ID='".UserMP()."'
-				AND cp.COURSE_PERIOD_ID=sg.COURSE_PERIOD_ID
-				AND cp.DOES_HONOR_ROLL='Y')";
-
-				$extra['WHERE'] .= " AND NOT exists(SELECT ''
-				FROM STUDENT_REPORT_CARD_GRADES sg,COURSE_PERIODS cp,REPORT_CARD_GRADES rg
-				WHERE sg.STUDENT_ID=s.STUDENT_ID
-				AND cp.SYEAR=ssm.SYEAR
-				AND sg.SYEAR=ssm.SYEAR
-				AND sg.MARKING_PERIOD_ID='".UserMP()."'
-				AND cp.COURSE_PERIOD_ID=sg.COURSE_PERIOD_ID
-				AND cp.DOES_HONOR_ROLL='Y'
-				AND rg.GRADE_SCALE_ID=cp.GRADE_SCALE_ID
-				AND sg.REPORT_CARD_GRADE_ID=rg.ID
-				AND rg.GPA_VALUE<(SELECT  HR_GPA_VALUE FROM REPORT_CARD_GRADE_SCALES WHERE ID=rg.GRADE_SCALE_ID))";
-
-				$extra['columns_after']['HIGH_HONOR'] = _('High Honor');
-
-				if ( ! $extra['NoSearchTerms'])
-					//FJ add translation
-					$_ROSARIO['SearchTerms'] .= '<b>'._('Honor Roll').' & '._('High Honor Roll').'</b><br />';
-			}
-			elseif ( $_REQUEST['honor_roll']=='Y')
-			{
-				$extra['WHERE'] .=  " AND exists(SELECT ''
-				FROM STUDENT_REPORT_CARD_GRADES sg,COURSE_PERIODS cp
-				WHERE sg.STUDENT_ID=s.STUDENT_ID
-				AND cp.SYEAR=ssm.SYEAR
-				AND sg.SYEAR=ssm.SYEAR
-				AND sg.MARKING_PERIOD_ID='".UserMP()."'
-				AND cp.COURSE_PERIOD_ID=sg.COURSE_PERIOD_ID
-				AND cp.DOES_HONOR_ROLL='Y')";
-
-				$extra['WHERE'] .= " AND NOT exists(SELECT ''
-				FROM STUDENT_REPORT_CARD_GRADES sg,COURSE_PERIODS cp,REPORT_CARD_GRADES rg
-				WHERE sg.STUDENT_ID=s.STUDENT_ID
-				AND cp.SYEAR=ssm.SYEAR
-				AND sg.SYEAR=ssm.SYEAR
-				AND sg.MARKING_PERIOD_ID='".UserMP()."'
-				AND cp.COURSE_PERIOD_ID=sg.COURSE_PERIOD_ID
-				AND cp.DOES_HONOR_ROLL='Y'
-				AND rg.GRADE_SCALE_ID=cp.GRADE_SCALE_ID
-				AND sg.REPORT_CARD_GRADE_ID=rg.ID
-				AND rg.GPA_VALUE<(SELECT  HR_GPA_VALUE FROM REPORT_CARD_GRADE_SCALES WHERE ID=rg.GRADE_SCALE_ID))";
-
-				$extra['WHERE'] .= " AND exists(SELECT ''
-				FROM STUDENT_REPORT_CARD_GRADES sg,COURSE_PERIODS cp,REPORT_CARD_GRADES rg
-				WHERE sg.STUDENT_ID=s.STUDENT_ID
-				AND cp.SYEAR=ssm.SYEAR
-				AND sg.SYEAR=ssm.SYEAR
-				AND sg.MARKING_PERIOD_ID='".UserMP()."'
-				AND cp.COURSE_PERIOD_ID=sg.COURSE_PERIOD_ID
-				AND cp.DOES_HONOR_ROLL='Y'
-				AND rg.GRADE_SCALE_ID=cp.GRADE_SCALE_ID
-				AND sg.REPORT_CARD_GRADE_ID=rg.ID
-				AND rg.GPA_VALUE<(SELECT HHR_GPA_VALUE FROM REPORT_CARD_GRADE_SCALES WHERE ID=rg.GRADE_SCALE_ID))";
-
-				if ( ! $extra['NoSearchTerms'])
-					$_ROSARIO['SearchTerms'] .= '<b>'._('Honor Roll').'</b><br />';
-			}
-			elseif ( $_REQUEST['high_honor_roll']=='Y')
-			{
-				$extra['WHERE'] .=  " AND exists(SELECT ''
-				FROM STUDENT_REPORT_CARD_GRADES sg,COURSE_PERIODS cp
-				WHERE sg.STUDENT_ID=s.STUDENT_ID
-				AND cp.SYEAR=ssm.SYEAR AND sg.SYEAR=ssm.SYEAR
-				AND sg.MARKING_PERIOD_ID='".UserMP()."'
-				AND cp.COURSE_PERIOD_ID=sg.COURSE_PERIOD_ID
-				AND cp.DOES_HONOR_ROLL='Y')";
-
-				$extra['WHERE'] .= " AND NOT exists(SELECT ''
-				FROM STUDENT_REPORT_CARD_GRADES sg,COURSE_PERIODS cp,REPORT_CARD_GRADES rg
-				WHERE sg.STUDENT_ID=s.STUDENT_ID
-				AND cp.SYEAR=ssm.SYEAR
-				AND sg.SYEAR=ssm.SYEAR
-				AND sg.MARKING_PERIOD_ID='".UserMP()."'
-				AND cp.COURSE_PERIOD_ID=sg.COURSE_PERIOD_ID
-				AND cp.DOES_HONOR_ROLL='Y'
-				AND rg.GRADE_SCALE_ID=cp.GRADE_SCALE_ID
-				AND sg.REPORT_CARD_GRADE_ID=rg.ID
-				AND rg.GPA_VALUE<(SELECT HHR_GPA_VALUE FROM REPORT_CARD_GRADE_SCALES WHERE ID=rg.GRADE_SCALE_ID))";
-
-				if ( ! $extra['NoSearchTerms'])
-					$_ROSARIO['SearchTerms'] .= '<b>'._('High Honor Roll').'</b><br />';
-			}
-
-			//FJ add <label> on checkbox
-			$extra['search'] .= '<tr>
-			<td>'._('Honor Roll').'</td>
-			<td><label><input type="checkbox" name="honor_roll" value="Y" checked /> '._('Honor').'</label> <label><input type="checkbox" name="high_honor_roll" value="Y" checked /> '._('High Honor').'</label></td>
-			</tr>';
-		break;
-	}
 }

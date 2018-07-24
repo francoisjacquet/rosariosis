@@ -736,6 +736,8 @@ if ( User( 'PROFILE' ) === 'admin' ) :
 
 <p>' . _help( 'You must first select a (group of) student(s) by using the "Find a Student" search screen. You can search for students who qualify for "Honor" or "High Honor" by checking the respective checkboxes. You can also search for students who have requested a specific course by clicking on the "Choose" link next to the search option "Course" and choosing a course from the popup window that appears.' ) . '</p>
 
+<p>' . _help( 'Alternatively, you can choose a Subject from the dropdown list on the "Find a Student" search screen to create honor roll lists or certificates by subject.' ) . '</p>
+
 <p>' . _help( 'Then, you can generate "Certificates" or a "List" of the qualifiers by selecting the right option at the top of the screen. The Certificate text can be personalized by editing it. Finally, click the "Create Honor Roll for Selected Students" button to generate the Honor Roll certificates or the List of qualifiers in a PDF format to print or email. Alternatively, you can click the "Download" icon to generate a spreadsheet of this data.' ) . '</p>';
 
 	$help['Grades/CalcGPA.php'] = '<p>' . _help( '<i>Calculate GPA</i> calculates and saves the GPA and class rank of each student in your school based upon their grades.' ) . '</p>
