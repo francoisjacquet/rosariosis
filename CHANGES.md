@@ -14,6 +14,7 @@ Changes in 4.0-beta
 - Remove assets/Frames/ folder. Upload Frames directly inside program.
 - CSS add .list-header class in ListOutput.fnc.php & stylesheet.css
 - Add List Before and After action hooks in ListOutput.fnc.php & Actions.php
+- CSS Use  linear gradient instead of background image for input buttons in colors.css
 
 Changes in 3.9.2
 ----------------

@@ -76,10 +76,18 @@ input[type=button]:hover,input[type=submit]:hover{
 }
 input[type="submit"], input[type="reset"], input[type="button"]{
 	background: #f2f2f2 url(white-grad.png) repeat-x scroll left top;
+	background:-ms-linear-gradient(top,#fff,#ededed);
+	background:-webkit-linear-gradient(top,#fff,#ededed);
+	background:-moz-linear-gradient(top,#fff,#ededed);
+	background: linear-gradient(top,#fff,#ededed);
 	text-shadow:rgba(255,255,255,1) 0 1px 0
 }
 input[type="submit"]:active, input[type="reset"]:active, input[type="button"]:active{
 	background: #eee url(white-grad-active.png) repeat-x scroll left top
+	background:-ms-linear-gradient(top,#ededed,#fff);
+	background:-webkit-linear-gradient(top,#ededed,#fff);
+	background:-moz-linear-gradient(top,#ededed,#fff);
+	background: linear-gradient(top,#ededed,#fff);
 }
 
 /* Primary button */
@@ -89,13 +97,21 @@ a.button-primary{
 	border-color: #15556b;
 	font-weight:bold;
 	color: #fff;
-	background: #21759B url(button-grad.png) repeat-x scroll left top;
-	text-shadow:rgba(0,0,0,.3) 0 -1px 0
+	background-image: url(button-grad.png); /* Opera */
+	background:-ms-linear-gradient(top,#298cba,#1d6385);
+	background:-webkit-linear-gradient(top,#298cba,#1d6385);
+	background:-moz-linear-gradient(top,#298cba,#1d6385);
+	background:linear-gradient(top,#298cba,#1d6385);
+	text-shadow:rgba(0,0,0,.3) 0 -1px 0;
 }
 input.button-primary:active,
 button.button-primary:active,
 a.button-primary:active{
-	background-image: url(button-grad-active.png);
+	background-image: url(button-grad-active.png); /* Opera */
+	background:-ms-linear-gradient(top,#1d6385,#298cba);
+	background:-webkit-linear-gradient(top,#1d6385,#298cba);
+	background:-moz-linear-gradient(top,#1d6385,#298cba);
+	background:linear-gradient(top,#1d6385,#298cba);
 }
 input.button-primary:hover,
 button.button-primary:hover,
