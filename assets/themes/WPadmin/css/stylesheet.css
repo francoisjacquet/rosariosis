@@ -295,6 +295,19 @@ sub,sup{
 	margin-top: 24px;
 }
 
+.list-header {
+	margin-bottom: 0;
+	border-bottom: solid 1px #f1f1f1;
+}
+
+.list-header + .postbox {
+	padding: 5px;
+	border-top:none;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	box-shadow: none;
+}
+
 
 div.error{
 	padding:0 .6em;

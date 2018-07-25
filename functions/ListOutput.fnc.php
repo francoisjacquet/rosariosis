@@ -406,8 +406,8 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 	// SEARCH BOX & MORE HEADERS ---.
 	if ( !empty($options['header']))
-		echo '<table class="postbox width-100p cellspacing-0" style="margin-bottom:0px; border-bottom:solid 1px #f1f1f1;"><thead><tr><th class="center">' . $options['header'] . '</th></tr></thead></table>
-			<div class="postbox" style="padding:5px; border-top:none; border-top-left-radius:0px; border-top-right-radius:0px; box-shadow: none;">';
+		echo '<table class="postbox width-100p cellspacing-0 list-header"><thead><tr><th class="center">' . $options['header'] . '</th></tr></thead></table>
+			<div class="postbox">';
 
 	$list_has_nav = false;
 
