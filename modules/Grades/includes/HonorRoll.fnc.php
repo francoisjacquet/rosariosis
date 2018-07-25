@@ -426,7 +426,7 @@ function HonorRollWidgets( $item )
 			elseif ( ! empty( $_REQUEST['honor_roll'] )
 				&& ! empty( $_REQUEST['high_honor_roll'] ) )
 			{
-				/*$extra['SELECT'] .= ",".db_case(array("exists(SELECT rg.GPA_VALUE
+				$extra['SELECT'] .= ",".db_case(array("exists(SELECT rg.GPA_VALUE
 				FROM STUDENT_REPORT_CARD_GRADES sg,COURSE_PERIODS cp,REPORT_CARD_GRADES rg
 				WHERE sg.STUDENT_ID=s.STUDENT_ID
 				AND cp.SYEAR=ssm.SYEAR
@@ -457,7 +457,7 @@ function HonorRollWidgets( $item )
 				AND cp.DOES_HONOR_ROLL='Y'
 				AND rg.GRADE_SCALE_ID=cp.GRADE_SCALE_ID
 				AND sg.REPORT_CARD_GRADE_ID=rg.ID
-				AND rg.GPA_VALUE<(SELECT  HR_GPA_VALUE FROM REPORT_CARD_GRADE_SCALES WHERE ID=rg.GRADE_SCALE_ID))";*/
+				AND rg.GPA_VALUE<(SELECT  HR_GPA_VALUE FROM REPORT_CARD_GRADE_SCALES WHERE ID=rg.GRADE_SCALE_ID))";
 
 				$extra['columns_after']['HIGH_HONOR'] = _( 'High Honor' );
 
