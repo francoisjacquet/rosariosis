@@ -2,6 +2,8 @@
 /**
  * Lists / Listings
  *
+ * @since 4.0 Add List Before and After action hooks
+ *
  * @package RosarioSIS
  * @subpackage functions
  */
@@ -317,6 +319,9 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			}
 		}
 	}
+
+	// List Before hook.
+	do_action( 'functions/ListOutput.fnc.php|list_before' );
 
 	// HANDLE SAVING THE LIST ---.
 	if ( $options['save']
@@ -807,6 +812,9 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		}
 	}
 	// END NO RESULTS, BUT HAS ADD FIELDS ---.
+
+	// List After hook.
+	do_action( 'functions/ListOutput.fnc.php|list_after' );
 }
 
 

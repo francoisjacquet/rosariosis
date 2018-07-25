@@ -13,6 +13,7 @@ Changes in 4.0-beta
 - Add by Subject option to Honor Roll program in HonorRoll.php & HonorRoll.fnc.php
 - Remove assets/Frames/ folder. Upload Frames directly inside program.
 - CSS add .list-header class in ListOutput.fnc.php & stylesheet.css
+- Add List Before and After action hooks in ListOutput.fnc.php & Actions.php
 
 Changes in 3.9.2
 ----------------
