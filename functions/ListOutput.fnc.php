@@ -491,9 +491,14 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			echo '<input type="text" id="LO_search" name="LO_search" value="' .
 				htmlspecialchars( str_replace( "''", "'", $LO_search ), ENT_QUOTES ) .
 				'" placeholder="' . _( 'Search' ) . '" onkeypress="LOSearch(event, this.value, \'' .
-					$search_URL . '\');" /><input type="button" value="' . _( 'Go' ) .
-				'" onclick="LOSearch(event, $(\'#LO_search\').val(), \'' .
-					$search_URL . '\');" /></td>';
+					$search_URL . '\');" />
+				<button type="image"
+				onclick="LOSearch(event, $(\'#LO_search\').val(), \'' .	$search_URL . '\');"
+				title="' . _( 'Search' ) . '">
+					<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/visualize.png" class="button" />
+				</button>';
+
+			echo '</td>';
 
 			$colspan++;
 		}
@@ -725,7 +730,9 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 				foreach ( (array) $column_names as $key => $value )
 				{
-					echo '<td>'.$link['add']['html'][ $key ].'</td>';
+					echo '<td>' .
+						( isset( $link['add']['html'][ $key ] ) ? $link['add']['html'][ $key ] : '' )
+						. '</td>';
 				}
 
 				echo '</tr>';
@@ -783,10 +790,14 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 				echo '<tbody><tr>';
 
-				if ( $link['add']['html']['remove'])
-					echo '<td>'.$link['add']['html']['remove'].'</td>';
+				if ( ! empty( $link['add']['html']['remove'] ) )
+				{
+					echo '<td>' . $link['add']['html']['remove'] . '</td>';
+				}
 				else
-					echo '<td>'.button('add').'</td>';
+				{
+					echo '<td>' . button( 'add' ) . '</td>';
+				}
 
 				foreach ( (array) $column_names as $key => $value)
 				{

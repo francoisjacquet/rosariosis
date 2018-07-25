@@ -299,7 +299,6 @@ sub,sup{
 	margin-bottom: 0;
 	border-bottom: solid 1px #f1f1f1;
 }
-
 .list-header + .postbox {
 	padding: 5px;
 	border-top:none;
@@ -308,6 +307,27 @@ sub,sup{
 	box-shadow: none;
 }
 
+#LO_search {
+	padding-right: 28px;
+	height: 24px;
+	width: 160px;
+	float: right;
+}
+
+#LO_search + button {
+	position: relative;
+	left: 158px;
+	top: 2px;
+	height: 24px;
+	width: 24px;
+	cursor: pointer;
+	border: 0;
+	background: none;
+	padding: 1px;
+}
+#LO_search + button img {
+	height: 22px;
+}
 
 div.error{
 	padding:0 .6em;
@@ -333,7 +353,7 @@ input[type=submit],input[type=reset],input[type=button]{
 	cursor:pointer;
 	border-width:1px;
 	border-style:solid;
-	border-radius:11px;
+	border-radius:3px;
 	-ms-box-sizing:content-box;
 	box-sizing:content-box;
 	/* Display button text on multiple lines if too long */
@@ -342,7 +362,7 @@ input[type=submit],input[type=reset],input[type=button]{
 .button-primary{
 	line-height:16px;
 	white-space:nowrap;
-	border-radius:10px
+	border-radius:3px
 }
 label{
 	vertical-align:middle

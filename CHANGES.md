@@ -15,6 +15,7 @@ Changes in 4.0-beta
 - CSS add .list-header class in ListOutput.fnc.php & stylesheet.css
 - Add List Before and After action hooks in ListOutput.fnc.php & Actions.php
 - CSS Use  linear gradient instead of background image for input buttons in colors.css
+- CSS Add LO search icon inside input in stylsheet.css & ListOutput.fnc.php
 
 Changes in 3.9.2
 ----------------
