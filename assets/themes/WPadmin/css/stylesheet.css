@@ -314,18 +314,11 @@ sub,sup{
 	float: right;
 }
 
-#LO_search + button {
+#LO_search + .button {
 	position: relative;
-	left: 158px;
-	top: 2px;
-	height: 24px;
-	width: 24px;
+	left: 157px;
+	top: 3px;
 	cursor: pointer;
-	border: 0;
-	background: none;
-	padding: 1px;
-}
-#LO_search + button img {
 	height: 22px;
 }
 

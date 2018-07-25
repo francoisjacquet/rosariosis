@@ -492,11 +492,9 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				htmlspecialchars( str_replace( "''", "'", $LO_search ), ENT_QUOTES ) .
 				'" placeholder="' . _( 'Search' ) . '" onkeypress="LOSearch(event, this.value, \'' .
 					$search_URL . '\');" />
-				<button type="image"
+				<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/visualize.png"
 				onclick="LOSearch(event, $(\'#LO_search\').val(), \'' .	$search_URL . '\');"
-				title="' . _( 'Search' ) . '">
-					<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/visualize.png" class="button" />
-				</button>';
+				class="button" title="' . _( 'Search' ) . '" />';
 
 			echo '</td>';
 

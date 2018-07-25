@@ -447,7 +447,7 @@ if (window.performance && window.performance.navigation.type == 2) {
 
 // ListOutput JS.
 var LOSearch = function( ev, val, url ) {
-	if ( ev.target.type === 'button' || ev.keyCode == 13 ) {
+	if ( ev.type === 'click' || ev.keyCode == 13 ) {
 		ev.preventDefault();
 		return ajaxLink( url + ( val ? '&LO_search=' + encodeURIComponent(val) : '' ) );
 	}
