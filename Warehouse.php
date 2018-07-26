@@ -470,7 +470,6 @@ function Warehouse( $mode )
 	<footer id="footer" class="mod">
 		<?php require_once 'Bottom.php'; // Include Bottom menu. ?>
 	</footer>
-	<div id="menuback" class="mod"></div>
 	<aside id="menu" class="mod">
 		<?php require_once 'Side.php'; // Include Side menu. ?>
 	</aside>

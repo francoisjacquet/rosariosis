@@ -5,19 +5,9 @@
  */
 
 /* Place side menu on the right */
-html[dir="RTL"] #menuback{
-	right: 0;
-	left: auto;
-}
 html[dir="RTL"] #menu{
 	float: right;
-}
-html[dir="RTL"] #menuback,#menu{
 	border-width:0 0 0 1px;
-}
-html[dir="RTL"] #menushadow{
-	left: 0;
-	right: auto;
 }
 
 html[dir="RTL"] #BottomButtonMenu {
@@ -77,8 +67,6 @@ html[dir=RTL] input[type=checkbox].toggle {
 }
 
 /* colors.css */
-html[dir="RTL"] #menushadow,
-html[dir="RTL"] #menuback,
 html[dir="RTL"] .menu-top:hover,
 html[dir="RTL"] .menu-top:focus,
 html[dir="RTL"] #selectedModuleLink + .wp-submenu{

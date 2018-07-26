@@ -537,5 +537,5 @@ var hideHelp = function() {
 }
 
 var expandMenu = function() {
-	$('#menu,#menuback').toggleClass('hide');
+	$('#menu').toggleClass('hide');
 }

@@ -306,7 +306,6 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 ?>
 <div id="menu-top">
 	<script><?php echo $addJavascripts; ?></script>
-	<div id="menushadow"></div>
 
 	<?php // User Information. ?>
 

@@ -39,6 +39,7 @@
 		width: 100%;
 		overflow-y: scroll;
 		padding-bottom: 0;
+		min-height: auto;
 	}
 	.adminmenu {
 		margin-bottom: 5px;

@@ -20,11 +20,11 @@ input[readonly]{
 body{
 	color: #111;
 }
-#menuback,#menu{
+#menu{
 	background: #ececec;
 	border-color: #ccc;
 }
-#menushadow, #menuback, .menu-top:hover, .menu-top:focus, #selectedModuleLink + .wp-submenu{
+#menu, .menu-top, .menu-top:hover, .menu-top:focus, #selectedModuleLink + .wp-submenu{
 	background-image:url(menu-shadow.png);
 	background-position:top right;
 	background-repeat:repeat-y;

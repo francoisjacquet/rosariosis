@@ -4,21 +4,13 @@
 	width:100%;
 	position:relative
 }
-#menuback,#menu{
-	width:205px
-}
 
 /*ScrollToFixed bug when menu hidden*/
 #menu.scroll-to-fixed-fixed.hide + div{
 	width:0!important
 }
-#menuback{
-	position:absolute;
-	top:0;
-	bottom:0;
-	left:0;
-}
-#menuback,#menu{
+#menu{
+	width:205px;
 	border-width:0 1px 0 0;
 	border-style:solid
 }
@@ -27,20 +19,10 @@
 	float:left;
 	overflow: visible;
 	z-index: 1 !important;
-}
-#menushadow{
-	position:absolute;
-	top:0;
-	right:0;
-	bottom:0;
-	width:6px;
-	/*z-index:20*/
+	min-height: 100vh; /* 100% of browser screen height */
 }
 #body{
 	margin-bottom:38px;
-}
-#menu{
-	padding-bottom:38px;
 }
 #footer{
 	clear:both;
@@ -1217,6 +1199,9 @@ input[type=checkbox].toggle {
 
 .dashboard-module-data {
 	padding-left: 8px;
+}
+.dashboard-module-data-tipmsg .legend-gray {
+	margin-bottom: 5px;
 }
 .dashboard-module-title img {
 	vertical-align: middle;
