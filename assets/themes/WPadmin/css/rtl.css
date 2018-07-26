@@ -115,16 +115,33 @@ html[dir="RTL"] table.col1-align-right > tbody > tr > td:first-child{
 	text-align:left;
 }
 
+/* List */
+html[dir="RTL"] #LO_search + .button {
+	left: 24px;
+}
+
+html[dir="RTL"] #LO_search {
+	padding-right: 2px;
+	padding-left: 28px;
+}
 
 @media only screen and (max-width:1023px){
 	/* Calendar responsive */
-	.calendar-day .hover:hover{
+	html[dir="RTL"] .calendar-day .hover:hover{
 		right:0;
 	}
 
 	/*fridays, saturdays*/
-	.calendar-day.thu-fri-sat .hover:hover{
+	html[dir="RTL"] .calendar-day.thu-fri-sat .hover:hover{
 		left:0;
 		right:auto;
+	}
+}
+
+/*mobile*/
+@media only screen and (max-width:736px){
+	html[dir="RTL"] .header1 h2{
+		padding-left: 0;
+		padding-right: 42px;
 	}
 }

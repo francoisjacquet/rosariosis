@@ -127,6 +127,11 @@
 	.password-reset {
 		padding-top: 0;
 	}
+
+	/* List */
+	#LO_search + .button {
+		left: 147px;
+	}
 }
 
 @media only screen and (max-width:1023px){

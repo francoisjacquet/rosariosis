@@ -320,6 +320,7 @@ sub,sup{
 	top: 3px;
 	cursor: pointer;
 	height: 22px;
+	float: right;
 }
 
 div.error{
