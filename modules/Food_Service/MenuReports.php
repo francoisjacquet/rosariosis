@@ -160,7 +160,7 @@ AND (s.SCHOOLS IS NULL OR position(','||'".UserSchool()."'||',' IN s.SCHOOLS)>0)
 GROUP BY ac.CALENDAR_ID"),array('ELLIGIBLE' => 'bump_dep','DAYS' => 'bump_dep'));
 //echo '<pre>'; var_dump($RET); echo '</pre>';
 
-$RET = DBGet(DBQuery("SELECT COUNT(DISTINCT STUDENT_ID) AS PARTICIPATED,'Student' AS TYPE,DISCOUNT
+$RET = DBGet(DBQuery("SELECT 1 AS PARTICIPATED,'Student' AS TYPE,DISCOUNT
 FROM FOOD_SERVICE_TRANSACTIONS
 WHERE SYEAR='".UserSyear()."'
 AND SHORT_NAME='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."'
@@ -168,7 +168,7 @@ AND TIMESTAMP BETWEEN '".$start_date."' AND date '".$end_date."' +1
 AND SCHOOL_ID='".UserSchool()."'
 GROUP BY STUDENT_ID,DISCOUNT"),array('PARTICIPATED' => 'bump_dep'));
 
-$RET = DBGet(DBQuery("SELECT COUNT(DISTINCT STAFF_ID) AS PARTICIPATED,'User' AS TYPE,'' AS DISCOUNT
+$RET = DBGet(DBQuery("SELECT 1 AS PARTICIPATED,'User' AS TYPE,'' AS DISCOUNT
 FROM FOOD_SERVICE_STAFF_TRANSACTIONS
 WHERE SYEAR='".UserSyear()."'
 AND SHORT_NAME='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."'
