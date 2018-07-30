@@ -17,6 +17,7 @@ Changes in 4.0-beta
 - CSS Use linear gradient instead of background image for input buttons in colors.css
 - CSS Add LO search icon inside input in stylsheet.css & ListOutput.fnc.php
 - Remove #menuback & #menushadow div in Side.php, Warehouse.php, warehouse.js, colors.css, rtl.css & stylesheet.css
+- Select distinct Participated STUDENT_ID & STAFF_ID in MenuReports.php
 
 Changes in 3.9.2
 ----------------

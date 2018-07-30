@@ -44,7 +44,11 @@ if ( empty( $end_date ) )
 
 DrawHeader(ProgramTitle());
 
-$menus_RET = DBGet(DBQuery("SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"),array(),array('MENU_ID'));
+$menus_RET = DBGet( DBQuery( "SELECT MENU_ID,TITLE
+	FROM FOOD_SERVICE_MENUS
+	WHERE SCHOOL_ID='" . UserSchool() . "'
+	ORDER BY SORT_ORDER" ), array(), array( 'MENU_ID' ) );
+
 if ( ! empty( $_REQUEST['menu_id'] ) )
 {
 	if ( $_REQUEST['menu_id']!='new')
@@ -75,24 +79,38 @@ else
 			ErrorMessage(array(_('There are no menus yet setup.')),'fatal');
 }
 
-$users = array('Student' => array('' => array('ELLIGIBLE' => 0,'PARTICIPATED' => 0),
-				'Reduced' => array('ELLIGIBLE' => 0,'PARTICIPATED' => 0),
-				'Free' => array('ELLIGIBLE' => 0,'PARTICIPATED' => 0)
-				),
-	       'User' => array('' => array('ELLIGIBLE' => 0,'PARTICIPATED' => 0)
-			     )
-	       );
+$users = array(
+	'Student' => array(
+		'' => array( 'ELLIGIBLE' => 0, 'PARTICIPATED' => 0 ),
+		'Reduced' => array( 'ELLIGIBLE' => 0,'PARTICIPATED' => 0 ),
+		'Free' => array( 'ELLIGIBLE' => 0,'PARTICIPATED' => 0 ),
+	),
+	'User' => array(
+		'' => array( 'ELLIGIBLE' => 0,'PARTICIPATED' => 0 ),
+	),
+);
 
-$users_totals = array('Student' => array('ELLIGIBLE' => 0,'PARTICIPATED' => 0),
-		      'User' => array('ELLIGIBLE' => 0,'PARTICIPATED' => 0),
-		      '' => array('ELLIGIBLE' => 0,'PARTICIPATED' => 0)
-		      );
+$users_totals = array(
+	'Student' => array( 'ELLIGIBLE' => 0,'PARTICIPATED' => 0 ),
+	'User' => array( 'ELLIGIBLE' => 0,'PARTICIPATED' => 0 ),
+	'' => array( 'ELLIGIBLE' => 0,'PARTICIPATED' => 0 ),
+);
 
-$users_columns = array('ELLIGIBLE' => _('Eligible'),'DAYS_POSSIBLE' => _('Days Possible'),'TOTAL_ELLIGIBLE' => _('Total Eligible'),'PARTICIPATED' => _('Participated'));
+$users_columns = array(
+	'ELLIGIBLE' => _( 'Eligible' ),
+	'DAYS_POSSIBLE' => _( 'Days Possible' ),
+	'TOTAL_ELLIGIBLE' => _( 'Total Eligible' ),
+	'PARTICIPATED' => _( 'Participated' ),
+);
 
-$items_RET = DBGet(DBQuery('SELECT SHORT_NAME,DESCRIPTION FROM FOOD_SERVICE_ITEMS WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER'));
+$items_RET = DBGet( DBQuery( "SELECT SHORT_NAME,DESCRIPTION
+	FROM FOOD_SERVICE_ITEMS
+	WHERE SCHOOL_ID='" . UserSchool() . "'
+	ORDER BY SORT_ORDER" ) );
+
 $items = array();
 $items_columns = array();
+
 foreach ( (array) $items_RET as $value)
 {
 	$items += array($value['SHORT_NAME'] => 0);
@@ -142,7 +160,7 @@ AND (s.SCHOOLS IS NULL OR position(','||'".UserSchool()."'||',' IN s.SCHOOLS)>0)
 GROUP BY ac.CALENDAR_ID"),array('ELLIGIBLE' => 'bump_dep','DAYS' => 'bump_dep'));
 //echo '<pre>'; var_dump($RET); echo '</pre>';
 
-$RET = DBGet(DBQuery("SELECT DISTINCT ON (STUDENT_ID) 'Student' AS TYPE, DISCOUNT,count(1) AS PARTICIPATED
+$RET = DBGet(DBQuery("SELECT COUNT(DISTINCT STUDENT_ID) AS PARTICIPATED,'Student' AS TYPE,DISCOUNT
 FROM FOOD_SERVICE_TRANSACTIONS
 WHERE SYEAR='".UserSyear()."'
 AND SHORT_NAME='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."'
@@ -150,7 +168,7 @@ AND TIMESTAMP BETWEEN '".$start_date."' AND date '".$end_date."' +1
 AND SCHOOL_ID='".UserSchool()."'
 GROUP BY STUDENT_ID,DISCOUNT"),array('PARTICIPATED' => 'bump_dep'));
 
-$RET = DBGet(DBQuery("SELECT DISTINCT ON (STAFF_ID) 'User' AS TYPE,'' AS DISCOUNT,count(1) AS PARTICIPATED
+$RET = DBGet(DBQuery("SELECT COUNT(DISTINCT STAFF_ID) AS PARTICIPATED,'User' AS TYPE,'' AS DISCOUNT
 FROM FOOD_SERVICE_STAFF_TRANSACTIONS
 WHERE SYEAR='".UserSyear()."'
 AND SHORT_NAME='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."'
