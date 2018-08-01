@@ -263,6 +263,7 @@ sub,sup{
 .list-nav,.list {
 	/* Move .width-100p here */
 	width: 100%;
+	border-spacing: 0;
 }
 .list-nav {
 	margin-top: 16px;
