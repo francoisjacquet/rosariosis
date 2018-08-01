@@ -14,17 +14,17 @@
 
 function fixedMenu() {
 
-	var menu = $( '#menu' ),
-	$window = $( window ),
-	body = $( '#body' ),
-	// Handle RTL languages (menu on the right).
-	leftOrRight = ( $( 'html' ).attr('dir') === 'RTL' ? 'right' : 'left' );
+	var menu = $('#menu'),
+		$window = $(window),
+		body = $('#body'),
+		// Handle RTL languages (menu on the right).
+		leftOrRight = ($('html').attr('dir') === 'RTL' ? 'right' : 'left');
 
 	var init = function() {
 		// It has not... perform the initialization
 		fixedMenu.init = typeof fixedMenu.init == 'undefined';
 
-		if ( fixedMenu.init ) {
+		if (fixedMenu.init) {
 
 			/**
 			 * Add ghost div after menu
@@ -32,30 +32,30 @@ function fixedMenu() {
 			 */
 			menu.after(
 				'<div style="display: none; width: ' + menu.outerWidth() +
-					'px; height: ' + menu.height() + 'px; float: ' +
-					leftOrRight + ';"></div>'
+				'px; height: ' + menu.height() + 'px; float: ' +
+				leftOrRight + ';"></div>'
 			);
 
 			/**
 			 * Case 3: Add fixedMenu check on resize
 			 */
-			$window.resize( fixedMenu );
+			$window.resize(fixedMenu);
 		}
 
 		/**
 		 * Case 1: body height > window height && menu height < body height
 		 * Add fix logic on scroll
 		 */
-		if ( body.height() > $window.height() &&
-			menu.height() < body.height() ) {
+		if (body.height() > $window.height() &&
+			menu.height() < body.height()) {
 
-			if ( fixedMenu.init ) {
+			if (fixedMenu.init) {
 
 				// Onload, eventually fix if not on top of page.
 				fixMenuLogic();
 			}
 
-			$window.scroll( fixMenuLogic );
+			$window.scroll(fixMenuLogic);
 		}
 		/**
 		 * Case 2: body height <= window height || menu height >= body height
@@ -64,7 +64,7 @@ function fixedMenu() {
 		else {
 			unfixMenu();
 
-			$window.unbind( 'scroll', fixMenuLogic );
+			$window.unbind('scroll', fixMenuLogic);
 		}
 
 	};
@@ -81,7 +81,7 @@ function fixedMenu() {
 	var fixMenuLogic = function() {
 		var windowHeight = $window.height();
 
-		if ( $window.scrollTop() + windowHeight > menu.outerHeight() ) {
+		if ($window.scrollTop() + windowHeight > menu.outerHeight()) {
 
 			/**
 			 * Fix Menu
@@ -96,12 +96,12 @@ function fixedMenu() {
 
 			var css = {
 				'position': 'fixed',
-				'bottom': ( bottom < 0 ? 0 : bottom ) + 'px'
+				'bottom': (bottom < 0 ? 0 : bottom) + 'px'
 			};
 
-			css[ leftOrRight ] = '0px';
+			css[leftOrRight] = '0px';
 
-			menu.css( css ).addClass( 'fixedmenu-fixed' ).next().show();
+			menu.css(css).addClass('fixedmenu-fixed').next().show();
 
 		} else {
 
@@ -119,14 +119,14 @@ function fixedMenu() {
 	 * Hide ghost div.
 	 */
 	var unfixMenu = function() {
-			var css = {
-				'position': '',
-				'bottom': ''
-			};
+		var css = {
+			'position': '',
+			'bottom': ''
+		};
 
-			css[ leftOrRight ] = '';
+		css[leftOrRight] = '';
 
-			menu.css( css ).removeClass( 'fixedmenu-fixed' ).next().hide();
+		menu.css(css).removeClass('fixedmenu-fixed').next().hide();
 	};
 
 	init();

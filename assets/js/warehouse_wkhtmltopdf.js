@@ -9,7 +9,7 @@
  * @since 2.9
  */
 
-window.onload = function(){
+window.onload = function() {
 	MarkDownToHTML();
 };
 
@@ -21,8 +21,7 @@ window.onload = function(){
  *
  * @uses showdown.js
  */
-function MarkDownToHTML()
-{
+function MarkDownToHTML() {
 	var sdc = new showdown.Converter({
 		tables: true,
 		simplifiedAutoLink: true,
@@ -31,9 +30,10 @@ function MarkDownToHTML()
 		literalMidWordUnderscores: true,
 	});
 
-	var els = document.getElementsByClassName('markdown-to-html'), i;
+	var els = document.getElementsByClassName('markdown-to-html'),
+		i;
 
-	for(i in els){
-		els[i].innerHTML = sdc.makeHtml( els[i].innerHTML );
+	for (i in els) {
+		els[i].innerHTML = sdc.makeHtml(els[i].innerHTML);
 	}
 }

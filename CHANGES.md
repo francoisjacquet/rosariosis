@@ -19,6 +19,7 @@ Changes in 4.0-beta
 - Remove #menuback & #menushadow div in Side.php, Warehouse.php, warehouse.js, colors.css, rtl.css & stylesheet.css
 - Select distinct Participated STUDENT_ID & STAFF_ID in MenuReports.php
 - Format CSS with JSBeautifier in themes/WPadmin/css/*.css
+- Format JS with JSBeautifier in assets/js/*.js
 
 Changes in 3.9.2
 ----------------
