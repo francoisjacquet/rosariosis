@@ -18,6 +18,7 @@ Changes in 4.0-beta
 - CSS Add LO search icon inside input in stylsheet.css & ListOutput.fnc.php
 - Remove #menuback & #menushadow div in Side.php, Warehouse.php, warehouse.js, colors.css, rtl.css & stylesheet.css
 - Select distinct Participated STUDENT_ID & STAFF_ID in MenuReports.php
+- Format CSS with JSBeautifier in themes/WPadmin/css/*.css
 
 Changes in 3.9.2
 ----------------

@@ -1,11 +1,9 @@
 /* Open Sans */
+
 @font-face {
 	font-family: 'Open Sans';
 	src: url('fonts/opensans/Regular.eot');
-	src: url('fonts/opensans/Regular.eot?#iefix') format('embedded-opentype'),
-		 url('fonts/opensans/Regular.woff') format('woff'),
-		 url('fonts/opensans/Regular.ttf') format('truetype'),
-		 url('fonts/opensans/Regular.svg#Open Sans') format('svg');
+	src: url('fonts/opensans/Regular.eot?#iefix') format('embedded-opentype'), url('fonts/opensans/Regular.woff') format('woff'), url('fonts/opensans/Regular.ttf') format('truetype'), url('fonts/opensans/Regular.svg#Open Sans') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -13,10 +11,7 @@
 @font-face {
 	font-family: 'Open Sans';
 	src: url('fonts/opensans/Italic.eot');
-	src: url('fonts/opensans/Italic.eot?#iefix') format('embedded-opentype'),
-		 url('fonts/opensans/Italic.woff') format('woff'),
-		 url('fonts/opensans/Italic.ttf') format('truetype'),
-		 url('fonts/opensans/Italic.svg#Open Sans') format('svg');
+	src: url('fonts/opensans/Italic.eot?#iefix') format('embedded-opentype'), url('fonts/opensans/Italic.woff') format('woff'), url('fonts/opensans/Italic.ttf') format('truetype'), url('fonts/opensans/Italic.svg#Open Sans') format('svg');
 	font-weight: normal;
 	font-style: italic;
 }
@@ -24,10 +19,7 @@
 @font-face {
 	font-family: 'Open Sans';
 	src: url('fonts/opensans/BoldItalic.eot');
-	src: url('fonts/opensans/BoldItalic.eot?#iefix') format('embedded-opentype'),
-		 url('fonts/opensans/BoldItalic.woff') format('woff'),
-		 url('fonts/opensans/BoldItalic.ttf') format('truetype'),
-		 url('fonts/opensans/BoldItalic.svg#Open Sans') format('svg');
+	src: url('fonts/opensans/BoldItalic.eot?#iefix') format('embedded-opentype'), url('fonts/opensans/BoldItalic.woff') format('woff'), url('fonts/opensans/BoldItalic.ttf') format('truetype'), url('fonts/opensans/BoldItalic.svg#Open Sans') format('svg');
 	font-weight: 700;
 	font-style: italic;
 }
@@ -35,10 +27,7 @@
 @font-face {
 	font-family: 'Open Sans';
 	src: url('fonts/opensans/Bold.eot');
-	src: url('fonts/opensans/Bold.eot?#iefix') format('embedded-opentype'),
-		 url('fonts/opensans/Bold.woff') format('woff'),
-		 url('fonts/opensans/Bold.ttf') format('truetype'),
-		 url('fonts/opensans/Bold.svg#Open Sans') format('svg');
+	src: url('fonts/opensans/Bold.eot?#iefix') format('embedded-opentype'), url('fonts/opensans/Bold.woff') format('woff'), url('fonts/opensans/Bold.ttf') format('truetype'), url('fonts/opensans/Bold.svg#Open Sans') format('svg');
 	font-weight: 700;
 	font-style: normal;
 }

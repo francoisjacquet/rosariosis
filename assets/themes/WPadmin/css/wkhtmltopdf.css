@@ -1,10 +1,11 @@
 /* wkhtmltopdf specific */
+
 * {
 	font-size: inherit;
 }
 
 small,
-small *{
+small * {
 	font-size: 14px;
 }
 
