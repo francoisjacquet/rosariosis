@@ -3878,7 +3878,6 @@ INSERT INTO moodlexrosario VALUES ('staff_id', 1, 2);
 
 INSERT INTO profile_exceptions VALUES (1, 'School_Setup/PortalNotes.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'School_Setup/Schools.php', 'Y', 'Y');
-INSERT INTO profile_exceptions VALUES (1, 'School_Setup/Schools.php&new_school=true', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'School_Setup/CopySchool.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'School_Setup/SchoolFields.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'School_Setup/MarkingPeriods.php', 'Y', 'Y');

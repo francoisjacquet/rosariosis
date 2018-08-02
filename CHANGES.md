@@ -20,6 +20,7 @@ Changes in 4.0-beta
 - Select distinct Participated STUDENT_ID & STAFF_ID in MenuReports.php
 - Format CSS with JSBeautifier in themes/WPadmin/css/*.css
 - Format JS with JSBeautifier in assets/js/*.js
+- Remove "Add a School" program in Schools.php, Menu.php, rosariosis.sql & Help_en.php
 
 Changes in 3.9.2
 ----------------

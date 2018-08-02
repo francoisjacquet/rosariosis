@@ -4,10 +4,10 @@
  *
  * @uses $menu global var
  *
- * @see  Menu.php in root folder
- *
  * @package RosarioSIS
  * @subpackage modules
+ *
+ * @see  Menu.php in root folder
  */
 
 $menu['School_Setup']['admin'] = array(
@@ -22,13 +22,12 @@ $menu['School_Setup']['admin'] = array(
 	'School_Setup/Rollover.php' => _( 'Rollover' ),
 	1 => _( 'School' ),
 	'School_Setup/Schools.php' => _( 'School Information' ),
-	'School_Setup/Schools.php&new_school=true' => _( 'Add a School' ),
 	'School_Setup/CopySchool.php' => _( 'Copy School' ),
 	'School_Setup/SchoolFields.php' => _( 'School Fields' ),
-	'School_Setup/Configuration.php'  => _( 'School Configuration' ),
+	'School_Setup/Configuration.php' => _( 'School Configuration' ),
 	2 => dgettext( 'Access_Log', _( 'Security' ) ),
 	'School_Setup/AccessLog.php' => _( 'Access Log' ),
-	'School_Setup/DatabaseBackup.php'  => _( 'Database Backup' ),
+	'School_Setup/DatabaseBackup.php' => _( 'Database Backup' ),
 );
 
 $menu['School_Setup']['teacher'] = array(
@@ -52,6 +51,5 @@ $menu['School_Setup']['parent'] = array(
 
 $exceptions['School_Setup'] = array(
 	'School_Setup/PortalNotes.php' => true,
-	'School_Setup/Schools.php&new_school=true' => true,
 	'School_Setup/Rollover.php' => true,
 );
