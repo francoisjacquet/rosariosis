@@ -9,7 +9,6 @@
 // Declare Error & Note & Warning global arrays.
 $note = $error = $warning = array();
 
-
 /**
  * Error Message
  *
@@ -30,9 +29,8 @@ $note = $error = $warning = array();
  *
  * @global string $print_data PDF print data
  *
- * @param  array  $errors     Array of errors or notes.
- * @param  string $code       error|fatal|note (optional). Defaults to 'error'.
- *
+ * @param  array  $errors Array of errors or notes.
+ * @param  string $code   error|fatal|note (optional). Defaults to 'error'.
  * @return string Error / Note Message, exits if 'fatal' code
  */
 function ErrorMessage( $errors, $code = 'error' )
@@ -46,16 +44,19 @@ function ErrorMessage( $errors, $code = 'error' )
 	$return = '';
 
 	// Error.
+
 	if ( $code === 'error'
 		|| $code === 'fatal' )
 	{
-		$return .= '<div class="error"><p>' . button( 'x' ) .'&nbsp;<b>' . _( 'Error' ) . ':</b> ';
+		$return .= '<div class="error"><p>' . button( 'x' ) . '&nbsp;<b>' . _( 'Error' ) . ':</b> ';
 	}
+
 	// Warning.
 	elseif ( $code === 'warning' )
 	{
 		$return .= '<div class="error"><p>' . button( 'warning' ) . '&nbsp;<b>' . _( 'Warning' ) . ':</b> ';
 	}
+
 	// Note / Update.
 	else
 	{
@@ -66,6 +67,7 @@ function ErrorMessage( $errors, $code = 'error' )
 	{
 		$return .= ( isset( $errors[0] ) ? $errors[0] : $errors[1] ) . '</p>';
 	}
+
 	// More than one error: list.
 	else
 	{
@@ -82,6 +84,7 @@ function ErrorMessage( $errors, $code = 'error' )
 	$return .= '</div>';
 
 	// Fatal error, display error and exit.
+
 	if ( $code === 'fatal' )
 	{
 		echo $return;
@@ -102,4 +105,76 @@ function ErrorMessage( $errors, $code = 'error' )
 	}
 
 	return $return;
+}
+
+/**
+ * Send Error by Email
+ * Send email to $RosarioErrorsAddress if set {@see config.inc.php}.
+ *
+ * @since 4.0
+ *
+ * @param array  $error Error messages. Optional.
+ * @param $title string Email title. Optional.
+ */
+function ErrorSendEmail( $error = array(), $title = 'PHP Fatal error' )
+{
+	global $RosarioErrorsAddress;
+
+	require_once dirname( __FILE__ ) . '/../ProgramFunctions/SendEmail.fnc.php';
+
+	if ( ! $error )
+	{
+		$last_error = error_get_last();
+
+		if ( $last_error['type'] !== 1 )
+		{
+			return false;
+		}
+
+		// Fatal error.
+		$error = array(
+			'PHP Fatal error: ' . $last_error['message'],
+			'File: ' . $last_error['file'],
+			'Line: ' . $last_error['line'],
+		);
+
+		if ( ROSARIO_DEBUG )
+		{
+			print_r( $error );
+		}
+	}
+
+	// Send email to $RosarioErrorsAddress if set {@see config.inc.php}.
+
+	if ( ! filter_var( $RosarioErrorsAddress, FILTER_VALIDATE_EMAIL ) )
+	{
+		return false;
+	}
+
+	if ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) )
+	{
+		$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+	}
+	else
+	{
+		$ip = $_SERVER['REMOTE_ADDR'];
+	}
+
+	$debug_backtrace = debug_backtrace();
+
+	$message = 'System: ' . ParseMLField( Config( 'TITLE' ) ) . "\n";
+	$message .= 'IP: ' . $ip . "\n";
+	$message .= 'Date: ' . date( 'Y-m-d H:i:s' ) . "\n";
+	$message .= 'User: ' . User( 'USERNAME' ) . "\n";
+	$message .= 'Page: ' . $_SERVER['PHP_SELF'] . "\n";
+	$message .= 'Query string: ' . $_SERVER['QUERY_STRING'] . "\n";
+
+	$message .= "\n\n" . 'Error: ' . "\n" . print_r( $error, true );
+	$message .= "\n\n" . 'Request Array: ' . "\n" . print_r( $_REQUEST, true );
+	$message .= "\n\n" . 'Session Array: ' . "\n" . print_r( $_SESSION, true );
+	$message .= "\n\n" . 'Debug Backtrace: ' . "\n" . print_r( $debug_backtrace, true );
+
+	SendEmail( $RosarioErrorsAddress, $title, $message );
+
+	return true;
 }

@@ -10,22 +10,21 @@
 /**
  * Establish DB connection
  *
- * @see config.inc.php file for globals definitions
- *
  * @global $DatabaseServer   Database server hostname
  * @global $DatabaseUsername Database username
  * @global $DatabasePassword Database password
  * @global $DatabaseName     Database name
  * @global $DatabasePort     Database port
+ * @see config.inc.php file for globals definitions
  *
  * @return PostgreSQL connection resource
  */
 function db_start()
 {
 	global $DatabaseServer,
-		$DatabaseUsername,
-		$DatabasePassword,
-		$DatabaseName,
+	$DatabaseUsername,
+	$DatabasePassword,
+	$DatabaseName,
 		$DatabasePort;
 
 	/**
@@ -55,6 +54,7 @@ function db_start()
 	$connection = pg_connect( $connectstring );
 
 	// Error code for both.
+
 	if ( $connection === false )
 	{
 		// TRANSLATION: do NOT translate these since error messages need to stay in English for technical support.
@@ -68,7 +68,6 @@ function db_start()
 	return $connection;
 }
 
-
 /**
  * This function connects, and does the passed query, then returns a result resource
  * Not receiving the return == unusable search.
@@ -77,8 +76,7 @@ function db_start()
  *
  * @since 3.7 INSERT INTO case to Replace empty strings ('') with NULL values.
  *
- * @param  string   $sql SQL statement.
- *
+ * @param  string   $sql       SQL statement.
  * @return resource PostgreSQL result resource
  */
 function DBQuery( $sql )
@@ -86,6 +84,7 @@ function DBQuery( $sql )
 	$connection = db_start();
 
 	// Replace empty strings ('') with NULL values.
+
 	if ( stripos( $sql, 'INSERT INTO ' ) !== false )
 	{
 		// Check for ( or , character before empty string ''.
@@ -121,13 +120,11 @@ function DBQuery( $sql )
 	return $result;
 }
 
-
 /**
  * Return next row
  *
  * @param  resource PostgreSQL result resource $result Result.
- *
- * @return array 	Next row in result set.
+ * @return array    	Next row in result set.
  */
 function db_fetch_row( $result )
 {
@@ -136,25 +133,21 @@ function db_fetch_row( $result )
 	return is_array( $return ) ? @array_change_key_case( $return, CASE_UPPER ) : $return;
 }
 
-
 /**
  * Returns code to go into SQL statement for accessing the next value of a sequence
  *
  * @param  string $seqname PostgreSQL sequence name.
- *
- * @return sting          nextval code
+ * @return sting  nextval code
  */
 function db_seq_nextval( $seqname )
 {
 	return "nextval('" . DBEscapeString( $seqname ) . "')";
 }
 
-
 /**
  * Start transaction
  *
  * @param  PostgreSQL connection resource $connection Connection.
- *
  * @return void
  */
 function db_trans_start( $connection )
@@ -162,13 +155,11 @@ function db_trans_start( $connection )
 	db_trans_query( $connection, 'BEGIN WORK' );
 }
 
-
 /**
  * Run query on transaction -- if failure, runs rollback
  *
  * @param  PostgreSQL connection resource $connection Connection.
- * @param  string                         $sql        SQL statement.
- *
+ * @param  string     $sql       SQL statement.
  * @return PostgreSQL result resource
  */
 function db_trans_query( $connection, $sql )
@@ -203,12 +194,10 @@ function db_trans_query( $connection, $sql )
 	return $result;
 }
 
-
 /**
  * Commit changes
  *
  * @param  PostgreSQL connection resource $connection Connection.
- *
  * @return void
  */
 function db_trans_commit( $connection )
@@ -216,16 +205,14 @@ function db_trans_commit( $connection )
 	pg_query( $connection, 'COMMIT' );
 }
 
-
 /**
  * Generate CASE-WHEN condition
  *
  * @example db_case( array( 'FAILED_LOGIN', "''", '1', 'FAILED_LOGIN+1' ) )
  * will return ' CASE WHEN FAILED_LOGIN  IS NULL THEN 1 ELSE FAILED_LOGIN+1 END '
  *
- * @param  array $array array( Column, IS, THEN, ELSE ).
- *
- * @return string       CASE-WHEN condition
+ * @param  array  $array    array( Column, IS, THEN, ELSE ).
+ * @return string CASE-WHEN condition
  */
 function db_case( $array )
 {
@@ -241,7 +228,7 @@ function db_case( $array )
 
 	for ( $i = 1; $i < $arr_count; $i++ )
 	{
-		$value = $array[ $i ];
+		$value = $array[$i];
 
 		if ( $value == "''"
 			&& mb_substr( $string, -1 ) == '=' )
@@ -277,43 +264,37 @@ function db_case( $array )
 	return $string;
 }
 
-
 // Greatest/least - builtin to postgres 8 but not 7.
 /**
  * GREATEST function
  *
- * @param  value $a A.
- * @param  value $b B.
- *
- * @return value    Greatest value
+ * @param  value $a       A.
+ * @param  value $b       B.
+ * @return value Greatest value
  */
 function db_greatest( $a, $b )
 {
 	return "GREATEST(" . $a . ", " . $b . ")";
 }
 
-
 /**
  * LEAST function
  *
- * @param  value $a A.
- * @param  value $b B.
- *
- * @return value    Smallest value
+ * @param  value $a       A.
+ * @param  value $b       B.
+ * @return value Smallest value
  */
 function db_least( $a, $b )
 {
 	return "LEAST(" . $a . ", " . $b . ")";
 }
 
-
 /**
  * Returns an array with the field names for the specified table as key with subkeys
  * of SIZE, TYPE, SCALE and NULL.  TYPE: varchar, numeric, etc.
  *
  * @param  string $table DB Table.
- *
- * @return array        Table properties
+ * @return array  Table properties
  */
 function db_properties( $table )
 {
@@ -329,50 +310,53 @@ function db_properties( $table )
 
 	while ( $row = db_fetch_row( $result ) )
 	{
-		$properties[ mb_strtoupper( $row['FIELD'] ) ]['TYPE'] = mb_strtoupper( $row['TYPE'] );
+		$properties[mb_strtoupper( $row['FIELD'] )]['TYPE'] = mb_strtoupper( $row['TYPE'] );
 
 		if ( mb_strtoupper( $row['TYPE'] ) == 'NUMERIC' )
 		{
-			$properties[ mb_strtoupper( $row['FIELD'] ) ]['SIZE'] = ( $row['LENGTHVAR'] >> 16 ) & 0xffff;
-			$properties[ mb_strtoupper( $row['FIELD'] ) ]['SCALE'] = ( $row['LENGTHVAR'] - 4 ) & 0xffff;
+			$properties[mb_strtoupper( $row['FIELD'] )]['SIZE'] = ( $row['LENGTHVAR'] >> 16 ) & 0xffff;
+			$properties[mb_strtoupper( $row['FIELD'] )]['SCALE'] = ( $row['LENGTHVAR'] - 4 ) & 0xffff;
 		}
 		else
 		{
 			if ( $row['LENGTH'] > 0 )
 			{
-				$properties[ mb_strtoupper( $row['FIELD'] ) ]['SIZE'] = $row['LENGTH'];
+				$properties[mb_strtoupper( $row['FIELD'] )]['SIZE'] = $row['LENGTH'];
 			}
 			elseif ( $row['LENGTHVAR'] > 0 )
 			{
-				$properties[ mb_strtoupper( $row['FIELD'] ) ]['SIZE'] = $row['LENGTHVAR'] - 4;
+				$properties[mb_strtoupper( $row['FIELD'] )]['SIZE'] = $row['LENGTHVAR'] - 4;
 			}
 		}
 
 		if ( $row['NOTNULL'] === 't' )
 		{
-			$properties[ mb_strtoupper( $row['FIELD'] ) ]['NULL'] = 'N';
+			$properties[mb_strtoupper( $row['FIELD'] )]['NULL'] = 'N';
 		}
 		else
-			$properties[ mb_strtoupper( $row['FIELD'] ) ]['NULL'] = 'Y';
+		{
+			$properties[mb_strtoupper( $row['FIELD'] )]['NULL'] = 'Y';
+		}
 	}
 
 	return $properties;
 }
 
-
 /**
  * Show SQL error message
- * Send notification email if $RosarioNotifyAddress set
+ * Send notification email if `$RosarioNotifyAddress` or `$RosarioErrorsAddress` set
  *
- * @global $RosarioNotifyAddress email for notifications
+ * @global string $RosarioNotifyAddress or $RosarioErrorsAddress email set in config.inc.php file
+ * @since 4.0 Uses ErrorSendEmail()
  *
- * @param  string $sql        SQL statement.
- * @param  string $failnote   Failure Notice.
- * @param  string $additional Additional Information.
+ * @param string $sql        SQL statement.
+ * @param string $failnote   Failure Notice.
+ * @param string $additional Additional Information.
  */
 function db_show_error( $sql, $failnote, $additional = '' )
 {
-	global $RosarioNotifyAddress;
+	global $RosarioNotifyAddress,
+		$RosarioErrorsAddress;
 
 	// TRANSLATION: do NOT translate these since error messages need to stay in English for technical support.
 	?>
@@ -380,9 +364,9 @@ function db_show_error( $sql, $failnote, $additional = '' )
 	<table class="postbox cellspacing-0" ' . $table_att . '>
 		<thead><tr><th class="center">
 			<?php echo function_exists( '_' ) ?
-				_( 'We have a problem, please contact technical support ...' ) :
-				// PHP gettext extension not loaded, and polyfill either (PHPCompatibility functions not loaded yet).
-				'We have a problem, please contact technical support ...'; ?>
+	_( 'We have a problem, please contact technical support ...' ) :
+	// PHP gettext extension not loaded, and polyfill either (PHPCompatibility functions not loaded yet).
+	'We have a problem, please contact technical support ...'; ?>
 		</th></tr></thead>
 	<tbody><tr><td class="popTable">
 		<table class="col1-align-right">
@@ -401,7 +385,7 @@ function db_show_error( $sql, $failnote, $additional = '' )
 		</table>
 	</td></tr></tbody></table>
 	<?php
-	// Something you have asked the system to do has thrown a database error.
+// Something you have asked the system to do has thrown a database error.
 	// A system administrator has been notified, and the problem will be fixed as soon as possible.
 	// It might be that changing the input parameters sent to this program will cause it to run properly.
 	// Thanks for your patience.
@@ -410,38 +394,28 @@ function db_show_error( $sql, $failnote, $additional = '' )
 	echo '<!-- SQL STATEMENT: ' . "\n\n" . $sql . "\n\n" . ' -->';
 
 	// Send notification email if $RosarioNotifyAddress set & functions loaded.
-	if ( filter_var( $RosarioNotifyAddress, FILTER_VALIDATE_EMAIL )
-		&& function_exists( 'ParseMLField' ) )
+	$db_error_email = ! empty( $RosarioErrorsAddress ) ? $RosarioErrorsAddress : $RosarioNotifyAddress;
+
+	if ( function_exists( 'ErrorSendEmail' ) )
 	{
-		// FJ add SendEmail function.
-		require_once 'ProgramFunctions/SendEmail.fnc.php';
+		$db_error = array(
+			'Failure Notice: ' . $failnote,
+			'Additional Info: ' . $additional,
+			$sql,
+		);
 
-		$debug_backtrace = debug_backtrace();
-
-		$message = 'System: ' . ParseMLField( Config( 'TITLE' ) ) . "\n";
-		$message .= 'Date: ' . date( 'm/d/Y h:i:s' ) . "\n";
-		$message .= 'Page: ' . $_SERVER['PHP_SELF'] . ' ' . ProgramTitle() . "\n\n";
-		$message .= 'Failure Notice: ' . $failnote . "\n";
-		$message .= 'Additional Info: ' . $additional . "\n";
-		$message .= "\n" . $sql . "\n";
-		$message .= "\n\n" . 'Request Array: ' . "\n" . print_r( $_REQUEST, true );
-		$message .= "\n\n" . 'Session Array: ' . "\n" . print_r( $_SESSION, true );
-		$message .= "\n\n" . 'Debug Backtrace: ' . "\n" . print_r( $debug_backtrace, true );
-
-		SendEmail( $RosarioNotifyAddress, 'Database Error', $message );
+		ErrorSendEmail( $db_error, 'Database Error' );
 	}
 
 	die();
 }
-
 
 /**
  * Escapes single quotes by using two for every one.
  *
  * @example $safe_string = DBEscapeString( $string );
  *
- * @param string $input Input string.
- *
+ * @param  string $input  Input string.
  * @return string escaped string
  */
 function DBEscapeString( $input )
@@ -450,20 +424,16 @@ function DBEscapeString( $input )
 	return pg_escape_string( $input );
 }
 
-
 /**
  * Escapes identifiers (table, column) using double quotes.
  * Security function for
  * when you HAVE to use a variable as an identifier.
  *
+ * @example $safe_sql = "SELECT COLUMN FROM " . DBEscapeIdentifier( $table ) . " WHERE " . DBEscapeIdentifier( $column ) . "='Y'";
+ * @uses pg_escape_identifier(), requires PHP 5.4.4+
  * @since 3.0
  *
- * @example $safe_sql = "SELECT COLUMN FROM " . DBEscapeIdentifier( $table ) . " WHERE " . DBEscapeIdentifier( $column ) . "='Y'";
- *
- * @uses pg_escape_identifier(), requires PHP 5.4.4+
- *
- * @param string $identifier SQL identifier (table, column).
- *
+ * @param  string $identifier SQL identifier (table, column).
  * @return string Escaped identifier.
  */
 function DBEscapeIdentifier( $identifier )

@@ -9,7 +9,7 @@ New Module icons: moved from modules to theme
 
 `config.inc.php`
 
-- `$RosarioErrorsAddress` optional variable to receive errors by email
+- `$RosarioErrorsAddress` optional variable to receive errors by email (PHP fatal, database, hacking attempts)
 
 
 New in 3.9
