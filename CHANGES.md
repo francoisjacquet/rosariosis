@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 3.9.3
+----------------
+- Fix Set default Incident Date for Referrals program only in Widgets.fnc.php
+
 Changes in 3.9.2
 ----------------
 - No button when printing PDF in Buttons.php
