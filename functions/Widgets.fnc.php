@@ -1207,11 +1207,19 @@ function Widgets( $item, &$myextra = null )
 				}
 			}
 
+			$discipline_entry_begin_default = '';
+
+			if ( $_REQUEST['modname'] === 'Discipline/Referrals.php' )
+			{
+				// Set default Incident Date for Referrals program only.
+				$discipline_entry_begin_default = date( 'Y-m' ) . '-01';
+			}
+
 			$extra['search'] .= '<tr class="st"><td>' . _( 'Incident Date' ) . '</td><td>
 			<table class="cellspacing-0"><tr><td>
 			<span class="sizep2">&ge;</span>&nbsp;
 			</td><td>
-			' . PrepareDate( date( 'Y-m' ) . '-01', '_discipline_entry_begin', true, array( 'short' => true ) ).'
+			' . PrepareDate( $discipline_entry_begin_default, '_discipline_entry_begin', true, array( 'short' => true ) ).'
 			</td></tr><tr><td>
 			<span class="sizep2">&le;</span>&nbsp;
 			</td><td>

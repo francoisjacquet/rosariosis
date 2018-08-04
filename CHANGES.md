@@ -24,6 +24,8 @@ Changes in 4.0-beta
 - Add $RosarioErrorsAddress optional config variable in INSTALL\*.md
 - Add ErrorSendEmail() function in ErrorMessage.fnc.php, HackingLog.fnc.php & database.inc.php
 - Send email on PHP fatal error in Warehouse.php
+- Set default Incident Date for Referrals program only in Widgets.fnc.php
+- TODO rename School Setup & Eligibility modules in addon modules, wiki, and website.
 
 Changes in 3.9.2
 ----------------
