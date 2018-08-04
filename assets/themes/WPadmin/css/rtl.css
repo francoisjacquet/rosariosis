@@ -76,6 +76,8 @@ html[dir=RTL] input[type=checkbox].toggle {
 
 /* colors.css */
 
+html[dir="RTL"] #menu,
+html[dir="RTL"] .menu-top,
 html[dir="RTL"] .menu-top:hover,
 html[dir="RTL"] .menu-top:focus,
 html[dir="RTL"] #selectedModuleLink + .wp-submenu {
