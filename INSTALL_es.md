@@ -45,7 +45,7 @@ Descomprima el archivo de RosarioSIS en un directorio accesible con el navegador
 - `$wkhtmltopdfPath` es el camino completo hacia wkhtmltopdf para la generación de PDF
 
 - `$DefaultSyear` es el año escolar por defecto, debe corresponder a la base de datos para poder entrar
-- `$RosarioNotifyAddress` es la dirección de email para recibir los errores y las notificaciones de nuevos administradores
+- `$RosarioNotifyAddress` es la dirección de email para recibir las notificaciones (nuevos administradores)
 - `$RosarioLocales` es una lista separada por comas de nombres de locales (lenguajes, ver la carpeta `locale/` para la lista de locales)
 
 #### Variables opcionales
@@ -60,6 +60,7 @@ Descomprima el archivo de RosarioSIS en un directorio accesible con el navegador
 - `$FileUploadsPath` camino hacia los archivos subidos
 - `$LocalePath` camino en donde los lenguajes están almacenados. Se debe reiniciar Apache después de cada cambio.
 - `$PNGQuantPath` camino hacia [PNGQuant](https://pngquant.org/) para la compresión de PNG.
+- `$RosarioErrorsAddress` es la dirección de email para recibir los errores (PHP fatal, base de datos, intentos de pirateo)
 - `$Timezone` define la zona horaria por defecto usada por la funciones de fecha y tiempo. Ver el [Listado de zonas horarias admitidas](http://php.net/manual/es/timezones.php).
 - `$ETagCache` pasar a `false` para desactivar le [cache ETag](https://es.wikipedia.org/wiki/HTTP_ETag) y desactivar el cache de sesión "privada". Ver [Sesiones y seguridad](https://secure.php.net/manual/es/session.security.php).
 

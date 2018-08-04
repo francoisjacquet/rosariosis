@@ -21,6 +21,7 @@ Changes in 4.0-beta
 - Format CSS with JSBeautifier in themes/WPadmin/css/*.css
 - Format JS with JSBeautifier in assets/js/*.js
 - Remove "Add a School" program in Schools.php, Menu.php, rosariosis.sql & Help_en.php
+- Add $RosarioErrorsAddress optional config variable in INSTALL\*.md, HackingLog.fnc.php & database.inc.php
 
 Changes in 3.9.2
 ----------------

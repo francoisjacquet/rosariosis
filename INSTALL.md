@@ -45,7 +45,7 @@ Unzip the RosarioSIS distribution to a directory that is accessible to your web 
 - `$wkhtmltopdfPath` is full path to wkhtmltopdf for PDF generation
 
 - `$DefaultSyear` is default school year, should match the database to be able to login
-- `$RosarioNotifyAddress` is the email address to send error and new administrator notifications to
+- `$RosarioNotifyAddress` is the email address to send notifications to (new administrator)
 - `$RosarioLocales` is a comma separated list of locale names (language packs, check the `locale/` folder for available locales)
 
 #### Optional variables
@@ -60,6 +60,7 @@ Unzip the RosarioSIS distribution to a directory that is accessible to your web 
 - `$FileUploadsPath` path to file uploads
 - `$LocalePath` path were the language packs are stored. You need to restart Apache at each change in this directory.
 - `$PNGQuantPath` path to [PNGQuant](https://pngquant.org/) for PNG compression.
+- `$RosarioErrorsAddress` is the email address to send errors to (PHP fatal, database, hacking)
 - `$Timezone` sets the default time zone used by date/time functions. See [List of Supported Timezones](http://php.net/manual/en/timezones.php).
 - `$ETagCache` set to `false` to deactivate the [ETag cache](https://en.wikipedia.org/wiki/HTTP_ETag) and disable "private" session cache. See [Sessions and security](https://secure.php.net/manual/en/session.security.php).
 

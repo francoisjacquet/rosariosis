@@ -7,6 +7,10 @@ New in 4.0
 
 New Module icons: moved from modules to theme
 
+`config.inc.php`
+
+- `$RosarioErrorsAddress` optional variable to receive errors by email
+
 
 New in 3.9
 ----------
