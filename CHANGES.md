@@ -23,6 +23,7 @@ Changes in 4.0-beta
 - Remove "Add a School" program in Schools.php, Menu.php, rosariosis.sql & Help_en.php
 - Add $RosarioErrorsAddress optional config variable in INSTALL\*.md
 - Add ErrorSendEmail() function in ErrorMessage.fnc.php, HackingLog.fnc.php & database.inc.php
+- Send email on PHP fatal error in Warehouse.php
 
 Changes in 3.9.2
 ----------------
