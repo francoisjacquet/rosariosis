@@ -25,7 +25,7 @@ Changes in 4.0-beta
 - Add ErrorSendEmail() function in ErrorMessage.fnc.php, HackingLog.fnc.php & database.inc.php
 - Send email on PHP fatal error in Warehouse.php
 - Set default Incident Date for Referrals program only in Widgets.fnc.php
-- TODO rename School Setup & Eligibility modules in addon modules, wiki, and website.
+- Add Dashboard* functions in ProgramFunctions/Dashboard.fnc.php & DashboardModule.fnc.php
 
 Changes in 3.9.2
 ----------------
@@ -33,6 +33,7 @@ Changes in 3.9.2
 - Fix PHP Notice Undefined variable / index, program wide
 - Set default Incident Date in Widgets.fnc.php
 - Fix regression UpdateAttendanceDaily() call when Updating in Administration.php
+- Fix Set default Incident Date for Referrals program only in Widgets.fnc.php
 
 Changes in 3.9.1
 ----------------
