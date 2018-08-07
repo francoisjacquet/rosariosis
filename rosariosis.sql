@@ -151,14 +151,22 @@ WHERE student_id = s_id and cast(marking_period_id as text) = mp_id;
             srcg.student_id, (srcg.marking_period_id::text)::int,
             sum(weighted_gp*credit_attempted/gp_scale) as sum_weighted_factors,
             sum(unweighted_gp*credit_attempted/gp_scale) as sum_unweighted_factors,
-            eg.short_name,
+            (select eg.short_name
+                from enroll_grade eg, marking_periods mp
+                where eg.student_id = s_id
+                and eg.syear = mp.syear
+                and eg.school_id = mp.school_id
+                and eg.start_date <= mp.end_date
+                and cast(mp.marking_period_id as text) = mp_id
+                order by eg.start_date desc
+                limit 1),
             sum( case when class_rank = 'Y' THEN weighted_gp*credit_attempted/gp_scale END ) as cr_weighted,
-        sum( case when class_rank = 'Y' THEN unweighted_gp*credit_attempted/gp_scale END ) as cr_unweighted,
+            sum( case when class_rank = 'Y' THEN unweighted_gp*credit_attempted/gp_scale END ) as cr_unweighted,
             sum(credit_attempted) as gp_credits,
             sum(case when class_rank = 'Y' THEN credit_attempted END) as cr_credits
-        from student_report_card_grades srcg join marking_periods mp on (cast(mp.marking_period_id as text) = srcg.marking_period_id) left outer join enroll_grade eg on (eg.student_id = srcg.student_id and eg.syear = mp.syear and eg.school_id = mp.school_id)
+        from student_report_card_grades srcg
         where srcg.student_id = s_id and cast(srcg.marking_period_id as text) = mp_id and not srcg.gp_scale = 0
-        group by srcg.student_id, srcg.marking_period_id, eg.short_name;
+        group by srcg.student_id, srcg.marking_period_id, short_name;
   END IF;
   RETURN 0;
 END
