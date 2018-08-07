@@ -5,6 +5,8 @@
 New in 4.0
 ----------
 
+Dashboard
+
 New Module icons: moved from modules to theme
 
 `config.inc.php`
