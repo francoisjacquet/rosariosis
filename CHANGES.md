@@ -27,6 +27,7 @@ Changes in 4.0-beta
 - Set default Incident Date for Referrals program only in Widgets.fnc.php
 - Add Dashboard* functions in ProgramFunctions/Dashboard.fnc.php & DashboardModule.fnc.php
 - Add modules data for dashboard in modules/\*/includes/Dashboard.inc.php
+- Move Updates for version 2 and 3 in UpdateV2_3.fnc.php
 
 Changes in 3.9.2
 ----------------
