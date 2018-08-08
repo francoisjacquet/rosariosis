@@ -28,6 +28,7 @@ Changes in 4.0-beta
 - Add Dashboard* functions in ProgramFunctions/Dashboard.fnc.php & DashboardModule.fnc.php
 - Add modules data for dashboard in modules/\*/includes/Dashboard.inc.php
 - Move Updates for version 2 and 3 in UpdateV2_3.fnc.php
+- Fix SQL error in calc_gpa_mp function on INSERT Final Grades for students with various enrollment records in rosariosis.sql & Update.fnc.php
 
 Changes in 3.9.2
 ----------------
