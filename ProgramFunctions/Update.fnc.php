@@ -31,7 +31,7 @@ function Update()
 	 * Prevent DB version update if new Update.fnc.php file has NOT been uploaded YET.
 	 * Update must be run once both new Warehouse.php & Update.fnc.php files are uploaded.
 	 */
-	if ( version_compare( '3.9.2', ROSARIO_VERSION, '<' ) )
+	if ( version_compare( '4.0-beta', ROSARIO_VERSION, '<' ) )
 	{
 		return false;
 	}
@@ -182,8 +182,7 @@ function _update40beta()
 
 	DROP FUNCTION create_language_plpgsql();
 
-	CREATE OR REPLACE FUNCTION calc_gpa_mp(integer, character varying) RETURNS integer
-		AS $_$
+	CREATE OR REPLACE FUNCTION calc_gpa_mp(integer, character varying) RETURNS integer AS $$
 	DECLARE
 		s_id ALIAS for $1;
 		mp_id ALIAS for $2;
@@ -241,7 +240,7 @@ function _update40beta()
 		END IF;
 		RETURN 0;
 	END
-	$_$
+	$$
 		LANGUAGE plpgsql;" );
 
 	return $return;
