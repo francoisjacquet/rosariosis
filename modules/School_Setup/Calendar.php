@@ -1248,7 +1248,7 @@ if ( ! $_REQUEST['modfunc'] )
 		echo '</td></tr>
 		<tr><td colspan="2" class="calendar-event valign-top">';
 
-		$events_date = isset( $events_RET[ $date ] ) ? : array();
+		$events_date = isset( $events_RET[ $date ] ) ? $events_RET[ $date ] : array();
 
 		// Events.
 		foreach ( (array) $events_date as $event )
