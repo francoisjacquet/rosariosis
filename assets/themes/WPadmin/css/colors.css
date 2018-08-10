@@ -66,6 +66,10 @@ body {
 	background-repeat: repeat-y;
 }
 
+.menu-inter {
+	border-color: #dfdfdf;
+}
+
 #footer {
 	background: #ececec;
 }
@@ -258,7 +262,11 @@ a,
 }
 
 .wp-submenu {
-	border-color: #dfdfdf #ccc
+	border-color: #dfdfdf #ccc;
+}
+
+.no-touch .menu-module:hover .wp-submenu {
+	box-shadow: 2px 2px 4px #ccc;
 }
 
 .wp-submenu a:hover,

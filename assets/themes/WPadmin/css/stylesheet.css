@@ -505,9 +505,10 @@ label {
 	padding: 0;
 	margin: 0;
 	overflow: hidden;
-	-webkit-transition: 0s top, 0s left;
-	transition: 0s top, 0s left;
+	-webkit-transition: 0s top, 0s left, 0s box-shadow;
+	transition: 0s top, 0s left, 0s box-shadow;
 	-webkit-transition-delay: .15s;
+	box-shadow: none;
 	transition-delay: .15s;
 	border-width: 1px;
 	border-style: solid;
@@ -554,13 +555,15 @@ label {
 	margin-top: 0 !important;
 	border: 0;
 	min-height: 0;
-	min-width: 205px
+	min-width: 205px;
+	box-shadow: none;
 }
 
 .menu-inter {
 	border-width: 1px 0 0;
 	border-style: solid;
-	padding: 2px 5px
+	padding: 0 5px 2px;
+	margin-top: 2px;
 }
 
 .adminmenu a {
@@ -1094,6 +1097,12 @@ div.st {
 	height: 80%;
 }
 
+#calendar > thead > tr > th {
+	font-size: 1.2em;
+	font-weight: 400;
+	line-height: 1.6;
+}
+
 .calendar-day {
 	min-width: 109px;
 	height: 96px;
@@ -1114,6 +1123,10 @@ div.st {
 
 .calendar-day .bold {
 	font-weight: bold
+}
+
+.calendar-day .number {
+	font-size: 1.2em;
 }
 
 .calendar-event div {

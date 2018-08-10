@@ -240,6 +240,8 @@
 	}
 	/*calendar*/
 	#calendar > thead > tr > th {
+		font-size: 1em;
+		line-height: 1.3;
 		overflow: hidden;
 		word-wrap: normal;
 		padding: 4px;
@@ -259,6 +261,9 @@
 	.calendar-day .hover:hover td,
 	.calendar-day .number {
 		display: table-cell;
+	}
+	.calendar-day .number {
+		font-size: 1em;
 	}
 	/*.calendar-day .hover:hover .calendar-event{
 		display:inherit;
