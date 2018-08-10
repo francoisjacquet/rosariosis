@@ -1237,9 +1237,13 @@ td.calendar-menu {
 .tooltip:before {
 	content: "i";
 	font-family: monospace;
-	font-size: 0.8em;
+	font-size: 0.85em;
 	font-weight: bold;
-	padding: 2px 5px;
+	width: 16px;
+	height: 16px;
+	line-height: 16px;
+	display: inline-block;
+	text-align: center;
 	border-radius: 50%;
 }
 
@@ -1248,15 +1252,15 @@ td.calendar-menu {
 	opacity: 0;
 	position: absolute;
 	bottom: 150%;
-	left: -55px;
-	width: 120px;
+	left: -90px;
+	width: 180px;
 	z-index: 999999;
 	display: inline-block;
-	padding: 3px 5px;
+	padding: 7px;
 	border-radius: 3px;
 	transition: opacity .3s;
 	text-align: left;
-	font-size: 0.9em;
+	font-size: 1em;
 	line-height: 1.5
 }
 

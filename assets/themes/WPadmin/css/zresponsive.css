@@ -116,10 +116,22 @@
 	.divPortalPoll {
 		min-width: 0
 	}
-	/*bigger tooltip*/
+	/*bigger tooltip i*/
 	.tooltip::before {
-		font-size: 1em;
-		padding: 3px 7px;
+		font-size: 0.9em;
+		width: 20px;
+		height: 20px;
+		line-height: 20px;
+	}
+	/* Smaller tooltip size */
+	.tooltip > i {
+		bottom: 150%;
+		left: -55px;
+		width: 120px;
+		padding: 5px;
+		border-radius: 3px;
+		font-size: 0.9em;
+		line-height: 1.5
 	}
 	/* Login, First login & Password Reset pages */
 	.login,
