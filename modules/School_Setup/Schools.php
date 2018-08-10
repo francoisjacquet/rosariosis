@@ -180,7 +180,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$schooldata['ADDRESS'],
 		'values[ADDRESS]',
 		_( 'Address' ),
-		'maxlength=100'
+		( 'maxlength=100' . ( empty( $schooldata['ADDRESS'] ) ? ' size=26' : '' ) )
 	) . '</td></tr>';
 
 	echo '<tr><td>' . TextInput(
@@ -193,13 +193,13 @@ if ( ! $_REQUEST['modfunc'] )
 		$schooldata['STATE'],
 		'values[STATE]',
 		_( 'State' ),
-		'maxlength=10'
+		'maxlength=10 size=5'
 	) . '</td><td>' .
 	TextInput(
 		$schooldata['ZIPCODE'],
 		'values[ZIPCODE]',
 		_( 'Zip' ),
-		'maxlength=10'
+		'maxlength=10 size=5'
 	) . '</td></tr>';
 
 	echo '<tr><td colspan="3">' . TextInput(
@@ -223,7 +223,7 @@ if ( ! $_REQUEST['modfunc'] )
 			$schooldata['WWW_ADDRESS'],
 			'values[WWW_ADDRESS]',
 			_( 'Website' ),
-			'maxlength=100'
+			( 'maxlength=100' . ( empty( $schooldata['WWW_ADDRESS'] ) ? ' size=26' : '' ) )
 		) . '</td></tr>';
 	}
 	else
