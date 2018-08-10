@@ -30,14 +30,7 @@ if ( ! function_exists( 'DashboardModule' ) )
 
 		if ( ! empty( $data ) )
 		{
-			$columns = 1;
-
-			if ( count( $data ) >= 10 )
-			{
-				$columns = 2;
-			}
-
-			$html .= DashboardModuleData( $data, $columns );
+			$html .= DashboardModuleData( $data );
 		}
 
 		if ( $html )
@@ -94,10 +87,10 @@ if ( ! function_exists( 'DashboardModuleData' ) )
 	 * @since 4.0
 	 *
 	 * @param  array  $data    Array containing values and their title as key.
-	 * @param  int    $columns Number of columns to display. Optional.
+	 * @param  int    $columns Number of columns to display. Optional. Defaults to 1 and 2 if data > 10.
 	 * @return string Module data HTML
 	 */
-	function DashboardModuleData( $data, $columns = 1 )
+	function DashboardModuleData( $data, $columns = 0 )
 	{
 		require_once 'ProgramFunctions/TipMessage.fnc.php';
 
@@ -117,13 +110,22 @@ if ( ! function_exists( 'DashboardModuleData' ) )
 
 		$message = '';
 
+		$data = array_filter( $data, function( $value ) {
+			return ! is_null( $value );
+		});
+
+		if ( $columns < 1 )
+		{
+			$columns = 1;
+
+			if ( count( $data ) >= 10 )
+			{
+				$columns = 2;
+			}
+		}
+
 		foreach ( $data as $title => $value )
 		{
-			if ( is_null( $value ) )
-			{
-				continue;
-			}
-
 			$message .= '<td><span class="legend-gray">' .
 				$title . '</span></td><td>' . $value . '</td>';
 
@@ -138,7 +140,8 @@ if ( ! function_exists( 'DashboardModuleData' ) )
 			return '<p class="dashboard-module-data">' . NoInput( $first_value, $first_key ) . '</p>';
 		}
 
-		$message = '<table class="dashboard-module-data-tipmsg widefat col1-align-right">' . $message . '</table>';
+		$message = '<table class="dashboard-module-data-tipmsg widefat col1-align-right"><tr>' .
+			$message . '</tr></table>';
 
 		$html = '<div class="dashboard-module-data">' .
 		MakeTipMessage( $message, $first_key, NoInput( $first_value, $first_key ) ) . '</div>';
