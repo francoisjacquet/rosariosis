@@ -34,7 +34,7 @@
 	}
 	#menu {
 		position: fixed !important;
-		top: 38px;
+		top: 40px;
 		left: 0;
 		right: 0;
 		bottom: 0;
@@ -71,7 +71,7 @@
 	}
 	#menu + #body {
 		overflow: scroll;
-		padding-top: 38px;
+		padding-top: 40px;
 		height: 100%;
 	}
 	.header1 h2 {

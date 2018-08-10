@@ -74,6 +74,10 @@ body {
 	background: #ececec;
 }
 
+#footerwrap {
+	border-color: #dfdfdf;
+}
+
 #footerhelp {
 	background: #fff;
 }
