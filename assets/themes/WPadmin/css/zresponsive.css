@@ -67,10 +67,12 @@
 	#body {
 		width: auto !important;
 		padding: 0 5px;
-		padding-top: 38px;
 		box-sizing: border-box;
-		height: 100%;
+	}
+	#menu + #body {
 		overflow: scroll;
+		padding-top: 38px;
+		height: 100%;
 	}
 	.header1 h2 {
 		font-size: 22px;
