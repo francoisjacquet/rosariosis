@@ -254,7 +254,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 
 	$id = $RET['ID'];
 
-	$category_id = $RET['CATEGORY_ID'];
+	$category_id = empty( $RET['CATEGORY_ID'] ) ? '' : $RET['CATEGORY_ID'];
 
 	if ( empty( $table )
 		|| ( empty( $id )

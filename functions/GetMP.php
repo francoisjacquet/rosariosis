@@ -39,7 +39,9 @@ function GetMP( $mp_id, $column = 'TITLE' )
 			AND SCHOOL_ID='" . UserSchool() . "'" ), array(), array( 'MARKING_PERIOD_ID' ) );
 	}
 
-	return $_ROSARIO['GetMP'][ $mp_id ][1][ $column ];
+	return empty( $_ROSARIO['GetMP'][ $mp_id ][1][ $column ] ) ?
+		'' :
+		$_ROSARIO['GetMP'][ $mp_id ][1][ $column ];
 }
 
 
@@ -253,7 +255,9 @@ function GetParentMP( $mp, $marking_period_id )
 		$parent_mp[ $mp ] = DBGet( DBQuery( $parent_SQL ), array(), array( 'MARKING_PERIOD_ID' ) );
 	}
 
-	return $parent_mp[ $mp ][ $marking_period_id ][1]['PARENT_ID'];
+	return empty( $parent_mp[ $mp ][ $marking_period_id ] ) ?
+		'' :
+		$parent_mp[ $mp ][ $marking_period_id ][1]['PARENT_ID'];
 }
 
 
