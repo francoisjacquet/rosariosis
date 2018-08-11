@@ -42,6 +42,8 @@ function Update()
 		return false;
 	}
 
+	require_once 'ProgramFunctions/UpdateV2_3.php';
+
 	$return = true;
 
 	switch ( true )
@@ -50,36 +52,29 @@ function Update()
 
 			$return = _update29alpha();
 
-
 		case version_compare( $from_version, '2.9.2', '<' ) :
 
 			$return = _update292();
-
 
 		case version_compare( $from_version, '2.9.5', '<' ) :
 
 			$return = _update295();
 
-
 		case version_compare( $from_version, '2.9.12', '<' ) :
 
 			$return = _update2912();
-
 
 		case version_compare( $from_version, '2.9.13', '<' ) :
 
 			$return = _update2913();
 
-
 		case version_compare( $from_version, '2.9.14', '<' ) :
 
 			$return = _update2914();
 
-
 		case version_compare( $from_version, '3.0', '<' ) :
 
 			$return = _update30();
-
 
 		case version_compare( $from_version, '3.1', '<' ) :
 
