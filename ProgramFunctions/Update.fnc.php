@@ -42,7 +42,7 @@ function Update()
 		return false;
 	}
 
-	require_once 'ProgramFunctions/UpdateV2_3.php';
+	require_once 'ProgramFunctions/UpdateV2_3.fnc.php';
 
 	$return = true;
 
