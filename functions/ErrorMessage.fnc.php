@@ -120,7 +120,9 @@ function ErrorSendEmail( $error = array(), $title = 'PHP Fatal error' )
 {
 	global $RosarioErrorsAddress;
 
-	require_once dirname( __FILE__ ) . '/../ProgramFunctions/SendEmail.fnc.php';
+	chdir( dirname( __FILE__ ) . '/../' );
+
+	require_once 'ProgramFunctions/SendEmail.fnc.php';
 
 	if ( ! $error )
 	{
@@ -162,10 +164,15 @@ function ErrorSendEmail( $error = array(), $title = 'PHP Fatal error' )
 
 	$debug_backtrace = debug_backtrace();
 
+	// User function would call ErrorMessage in an infinite loop if we are not logged in yet.
+	$username = empty( $_SESSION['STAFF_ID'] ) && empty( $_SESSION['STUDENT_ID'] ) ?
+		'[no user in session yet]' :
+		User( 'USERNAME' );
+
 	$message = 'System: ' . ParseMLField( Config( 'TITLE' ) ) . "\n";
 	$message .= 'IP: ' . $ip . "\n";
 	$message .= 'Date: ' . date( 'Y-m-d H:i:s' ) . "\n";
-	$message .= 'User: ' . User( 'USERNAME' ) . "\n";
+	$message .= 'User: ' . $username . "\n";
 	$message .= 'Page: ' . $_SERVER['PHP_SELF'] . "\n";
 	$message .= 'Query string: ' . $_SERVER['QUERY_STRING'] . "\n";
 
