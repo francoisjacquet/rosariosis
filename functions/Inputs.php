@@ -466,8 +466,8 @@ function TinyMCEInput( $value, $name, $title = '', $extra = '' )
 <script>
 	tinymce.init({
 		selector: '.tinymce',
-		plugins: 'link image uploadimage pagebreak paste table textcolor colorpicker code fullscreen hr media lists',
-		toolbar: "bold italic underline bullist numlist alignleft aligncenter alignright alignjustify link image uploadimage forecolor backcolor code fullscreen",
+		plugins: 'link image pagebreak paste table textcolor colorpicker code fullscreen hr media lists',
+		toolbar: "bold italic underline bullist numlist alignleft aligncenter alignright alignjustify link image forecolor backcolor code fullscreen",
 		menu: {
 			// file: {title: 'File', items: 'newdocument'},
 			edit: {title: 'Edit', items: 'undo redo | cut copy paste pastetext'},
