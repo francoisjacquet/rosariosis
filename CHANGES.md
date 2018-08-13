@@ -29,7 +29,8 @@ Changes in 4.0-beta
 - Add modules data for dashboard in modules/\*/includes/Dashboard.inc.php
 - Move Updates for version 2 and 3 in UpdateV2_3.fnc.php
 - Fix SQL error in calc_gpa_mp function on INSERT Final Grades for students with various enrollment records in rosariosis.sql & Update.fnc.php
-- Update TinyMCE to v4.8.0 in assts/js/tinymce/\*, Inputs.fnc.php & stylesheet.css
+- Update TinyMCE to v4.8.0 in assts/js/tinymce/, Inputs.fnc.php & stylesheet.css
+- Update Chosen to v1.8.7 in assets/js/chosen/
 
 Changes in 3.9.2
 ----------------
