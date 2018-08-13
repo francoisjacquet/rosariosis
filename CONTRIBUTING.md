@@ -12,7 +12,7 @@ Before reporting an [issue](https://gitlab.com/francoisjacquet/rosariosis/issues
 
 4. Attach a **screenshot**.
 
-5. RosarioSIS errors, bugs (PHP, SQL, JS errors) & design or logic errors are welcome.
+5. RosarioSIS errors, bugs (PHP, SQL, JS errors) & design or logic errors are welcome. _500 Internal Server Error_ messages can be found in the Apache `error.log` file.
 
 6. **Installation problems**: RosarioSIS has been succesfully installed on various environments; nevertheless, you may encounter errors [specific to your OS, PHP or PostgreSQL version or configuration](https://gitlab.com/francoisjacquet/rosariosis/blob/mobile/INSTALL.md#rosariosis-student-information-system). For the same reasons, installation problems will likely not be solved here.
 
