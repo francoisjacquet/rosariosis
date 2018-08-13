@@ -32,6 +32,7 @@ Changes in 4.0-beta
 - Update TinyMCE to v4.8.0 in assts/js/tinymce/, Inputs.fnc.php & stylesheet.css
 - Update Chosen to v1.8.7 in assets/js/chosen/
 - Update jQuery MiniColors to v2.3.1 in assets/js/jquery/minicolors/
+- Update jQuery Form to v4.2.2 in jquery.form.js & plugins.min.js
 
 Changes in 3.9.2
 ----------------
