@@ -31,6 +31,7 @@ Changes in 4.0-beta
 - Fix SQL error in calc_gpa_mp function on INSERT Final Grades for students with various enrollment records in rosariosis.sql & Update.fnc.php
 - Update TinyMCE to v4.8.0 in assts/js/tinymce/, Inputs.fnc.php & stylesheet.css
 - Update Chosen to v1.8.7 in assets/js/chosen/
+- Update jQuery MiniColors to v2.3.1 in assets/js/jquery/minicolors/
 
 Changes in 3.9.2
 ----------------
