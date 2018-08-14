@@ -45,7 +45,7 @@ if ( $_REQUEST['course_modfunc'] === 'search' )
 
 	echo '<table><tr><td><input type="text" name="search_term" value="' .
 		$_REQUEST['search_term'] . '" required autofocus /></td>
-		<td><input type="submit" value="' . _( 'Search' ) . '"></td></tr></table>';
+		<td>' . Buttons( _( 'Search' ) ) . '</td></tr></table>';
 
 	if ( $_REQUEST['modfunc'] === 'choose_course'
 		&& $_REQUEST['modname'] === 'Scheduling/Schedule.php' )

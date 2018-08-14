@@ -156,12 +156,13 @@ if ( $_REQUEST['modfunc'] === 'save' )
 if ( ! $_REQUEST['modfunc'] )
 
 {
-	DrawHeader(ProgramTitle());
+	DrawHeader( ProgramTitle() );
 
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'&_search_all_schools='.$_REQUEST['_search_all_schools'].(User('PROFILE')=='admin'?'&w_course_period_id_which='.$_REQUEST['w_course_period_id_which'].'&w_course_period_id='.$_REQUEST['w_course_period_id']:'').'&_ROSARIO_PDF=true" method="POST">';
-		$extra['header_right'] = '<input type="submit" value="'._('Create Labels for Selected Students').'" />';
+
+		$extra['header_right'] = Buttons( _( 'Create Labels for Selected Students' ) );
 
 		$extra['extra_header_left'] = '<table>';
 
@@ -227,7 +228,7 @@ if ( ! $_REQUEST['modfunc'] )
 	Search('student_id',$extra);
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<br /><div class="center"><input type="submit" value="'._('Create Labels for Selected Students').'" /></div>';
+		echo '<br /><div class="center">' . Buttons( _( 'Create Labels for Selected Students' ) ) . '</div>';
 		echo '</form>';
 	}
 }

@@ -105,7 +105,8 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		$_REQUEST['search_modfunc'] = 'select';
-		$extra['header_right'] = '<input type="submit" value="'._('Create Class Lists for Selected Course Periods').'" />';
+
+		$extra['header_right'] = Buttons( _( 'Create Class Lists for Selected Course Periods' ) );
 
 		$extra['extra_header_left'] = '<table><tr><td><label><input type="checkbox" name="include_inactive" value="Y"> '._('Include Inactive Students').'</label></td></tr></table>';
 
@@ -248,6 +249,6 @@ function mySearch($extra)
 
 	ListOutput($course_periods_RET,$LO_columns,'Course Period','Course Periods');
 
-	echo '<br /><div class="center"><input type="submit" value="'._('Create Class Lists for Selected Course Periods').'" /></div>';
+	echo '<br /><div class="center">' . Buttons( _( 'Create Class Lists for Selected Course Periods' ) ) . '</div>';
 	echo '</form>';
 }

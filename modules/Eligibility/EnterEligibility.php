@@ -146,11 +146,21 @@ if ( $today>$END_DAY || $today<$START_DAY || ($today==$START_DAY && date('Gi')<(
 }
 else
 {
-	DrawHeader('<a href="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=gradebook">'._('Use Gradebook Grades').'</a>','<input type="submit" value="'._('Save').'" />');
+	DrawHeader(
+		'<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=gradebook">' .
+			_( 'Use Gradebook Grades' ) . '</a>',
+		Buttons( _( 'Save' ) )
+	);
 
-	$LO_columns = array('FULL_NAME' => _('Student'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'GRADE_ID' => _('Grade Level')) + $columns;
-	ListOutput($stu_RET,$LO_columns,'Student','Students');
-	echo '<div class="center"><input type="submit" value="'._('Save').'" /></div>';
+	$LO_columns = array(
+		'FULL_NAME' => _( 'Student' ),
+		'STUDENT_ID' => sprintf( _( '%s ID' ), Config( 'NAME' ) ),
+		'GRADE_ID' => _( 'Grade Level' ),
+	) + $columns;
+
+	ListOutput( $stu_RET, $LO_columns, 'Student', 'Students' );
+
+	echo '<div class="center">' . Buttons( _( 'Save' ) ) . '</div>';
 }
 echo '</form>';
 
