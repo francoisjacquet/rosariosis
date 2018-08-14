@@ -1,8 +1,8 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
-Changes in 4.0-beta
--------------------
+Changes in 4.0-beta2
+--------------------
 - Rename School Setup module to School & Eligibility module to Activities in Menu.php
 - Move CHANGES for version 1 and 2 in CHANGES_V1_2.md
 - New Module icons: moved from modules to theme in assets/themes/WPadmin/modules/
@@ -33,6 +33,7 @@ Changes in 4.0-beta
 - Update Chosen to v1.8.7 in assets/js/chosen/
 - Update jQuery MiniColors to v2.3.1 in assets/js/jquery/minicolors/
 - Update jQuery Form to v4.2.2 in jquery.form.js & plugins.min.js
+- Fix SQL error when no quarters MP are setup yet in Schedule.inc.php
 
 Changes in 3.9.2
 ----------------

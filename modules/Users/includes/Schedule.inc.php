@@ -76,6 +76,12 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 	else
 		echo '<hr />';
 
+	if ( ! UserMP() )
+	{
+		// Fix SQL error when no quarters MP are setup yet.
+		ErrorMessage( array( _( 'No quarters found' ) ), 'fatal' );
+	}
+
 	$schedule_table_days = array('U'=>false,'M'=>false,'T'=>false,'W'=>false,'H'=>false,'F'=>false,'S'=>false);
 	//FJ days display to locale
 	$days_convert = array('U' => _('Sunday'),'M' => _('Monday'),'T' => _('Tuesday'),'W' => _('Wednesday'),'H' => _('Thursday'),'F' => _('Friday'),'S' => _('Saturday'));
