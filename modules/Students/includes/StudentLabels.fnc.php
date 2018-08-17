@@ -75,6 +75,12 @@ if ( ! function_exists( 'GetMailingLabelsFormHTML' ) )
 	 */
 	function GetMailingLabelsFormHTML()
 	{
+		// Do not Display Form if User cannot access Addresses & Contacts Student Info tab.
+		if ( ! AllowUse( 'Students/Student_php&category_id=3' ) )
+		{
+			return '';
+		}
+
 		$form = '<fieldset><legend><label><input type="radio" name="mailing_labels" value="Y" /> ' .
 		_( 'Address Labels' ) . '</label></legend>';
 
