@@ -3900,7 +3900,6 @@ INSERT INTO profile_exceptions VALUES (1, 'Students/AddUsers.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Students/AdvancedReport.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Students/AddDrop.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Students/Letters.php', 'Y', 'Y');
-INSERT INTO profile_exceptions VALUES (1, 'Students/MailingLabels.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Students/StudentLabels.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Students/PrintStudentInfo.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Students/StudentFields.php', 'Y', 'Y');

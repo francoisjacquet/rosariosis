@@ -5,7 +5,7 @@
  * @uses $menu global var
  *
  * @see  Menu.php in root folder
- * 
+ *
  * @package RosarioSIS
  * @subpackage modules
  */
@@ -23,7 +23,6 @@ $menu['Students']['admin'] = array(
 	//FJ add Student Breakdown
 	'Students/StudentBreakdown.php' => _( 'Student Breakdown' ),
 	'Students/Letters.php' => _( 'Print Letters' ),
-	'Students/MailingLabels.php' => _( 'Print Mailing Labels' ),
 	'Students/StudentLabels.php' => _( 'Print Student Labels' ),
 	'Students/PrintStudentInfo.php' => _( 'Print Student Info' ),
 	2 => _( 'Setup' ),

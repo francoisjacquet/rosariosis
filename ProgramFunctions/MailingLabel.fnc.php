@@ -43,6 +43,8 @@ function MailingLabel( $address_id )
 		AND sja.ADDRESS_ID='" . $address_id . "'
 		ORDER BY sjp.STUDENT_RELATION" ), array(), array( 'LAST_NAME' ) );
 
+		$return = '';
+
 		// People names.
 		foreach ( (array) $people_RET as $people )
 		{

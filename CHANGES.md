@@ -34,6 +34,7 @@ Changes in 4.0-beta2
 - Update jQuery MiniColors to v2.3.1 in assets/js/jquery/minicolors/
 - Update jQuery Form to v4.2.2 in jquery.form.js & plugins.min.js
 - Fix SQL error when no quarters MP are setup yet in Schedule.inc.php
+- Move "Print Mailing Labels" program into "Print Student Labels" in MailingLabels.php, StudentLabels.php, StudentLabels.fnc.php
 
 Changes in 3.9.2
 ----------------

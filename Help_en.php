@@ -352,17 +352,13 @@ if ( User( 'PROFILE' ) === 'admin' ):
 
 	<p>' . _help( 'To consult other time periods, change the dates in the top part of the page and click the "Go" button on the right of the end date.' ) . '</p>';
 
-	$help['Students/MailingLabels.php'] = '<p>' . _help( '<i>Print Mailing Labels</i> allows you to generate mailing labels for a group of students, parents or families.' ) . '</p>
-
-	<p>' . _help( 'You must first select a student by using the "Find a Student" search screen.' ) . '</p>
-
-	<p>' . _help( 'Then you can select to whom you wish to send the mailings. You can select to print the label with the student\'s name, using different formats, like "Smith, John Peter" (Last, Given, Middle) or "John Smith" (Given Last).' ) . '</p>';
-
 	$help['Students/StudentLabels.php'] = '<p>' . _help( '<i>Print Student Labels</i> allows you to generate labels for Student folders.' ) . '</p>
 
+	<p>' . _help( '<i>Print Mailing Labels</i> allows you to generate mailing labels for a group of students, parents or families.' ) . '</p>
+
 	<p>' . _help( 'You must first select a student by using the "Find a Student" search screen.' ) . '</p>
 
-	<p>' . _help( 'Then, select the students & what to print on the label: use the checkboxes on the left hand side of the student list to select the students, and use the options below the "Include on Labels" section to select what information you wish to include. You can select to print the label with the student\'s name, using different formats, like "Smith, John Peter" (Last, Given, Middle) or "John Smith" (Given Last). You can include the student\'s Attendance Teacher and Attendance Room on the folder label.' ) . '</p>';
+	<p>' . _help( 'Then, select the students & what to print on the label: use the checkboxes on the left hand side of the student list to select the students, and use the options below the "Include on Labels" section to select what information you wish to include. You can include the student\'s Attendance Teacher and Attendance Room on the folder label.' ) . '</p>';
 
 	$help['Students/PrintStudentInfo.php'] = '<p>' . _help( '<i>Print Student Info</i> will generate a multi-page report out of the information present in the Student Info tabs.' ) . '</p>
 
