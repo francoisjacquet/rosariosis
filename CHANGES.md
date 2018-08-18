@@ -44,6 +44,7 @@ Changes in 3.9.2
 - Fix regression UpdateAttendanceDaily() call when Updating in Administration.php
 - Fix Set default Incident Date for Referrals program only in Widgets.fnc.php
 - Fix Calendar Events display in Calendar.php
+- Hotfix PHP Parse error missing ) in conditions in Grades.php
 
 Changes in 3.9.1
 ----------------
