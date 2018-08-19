@@ -131,15 +131,13 @@ Installing [wkhtmltopdf](http://wkhtmltopdf.org/)
 
 Install instructions for Ubuntu 16.04:
 ```
-server$ wget https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.4/wkhtmltox-0.12.4_linux-generic-amd64.tar.xz
-server$ sudo tar --directory=/opt -xvf wkhtmltox-0.12.4_linux-generic-amd64.tar.xz
-server$ export PATH=$PATH:/opt/wkhtmltox/bin
-server$ sudo apt-get install libxrender-dev
+server$ wget https://downloads.wkhtmltopdf.org/0.12/0.12.5/wkhtmltox_0.12.5-1.xenial_amd64.deb
+server$ sudo dpkg -i wkhtmltox_0.12.5-1.xenial_amd64.deb
 ```
 
 Set path in `config.inc.php`:
 
-`$wkhtmltopdfPath = '/opt/wkhtmltox/bin/wkhtmltopdf';`
+`$wkhtmltopdfPath = '/usr/local/bin/wkhtmltopdf';`
 
 Activate PHP mail() function
 ----------------------------
