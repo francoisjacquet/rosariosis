@@ -36,7 +36,8 @@ Changes in 4.0-beta2
 - Fix SQL error when no quarters MP are setup yet in Schedule.inc.php
 - Move "Print Mailing Labels" program into "Print Student Labels" in MailingLabels.php, StudentLabels.php, StudentLabels.fnc.php
 - Remove profile_id param from redirect_to logout URL in index.php
-- Add "« Back" link to Portal or automatic redirection if has just logged in in HackingLog.fnc.php
+- Add "« Back" link to Portal or automatic redirection if has just logged in HackingLog.fnc.php
+- Add LAST_LOGIN column to Student user SQL in User.fnc.php
 
 Changes in 3.9.2
 ----------------
