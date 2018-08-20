@@ -35,6 +35,7 @@ Changes in 4.0-beta2
 - Update jQuery Form to v4.2.2 in jquery.form.js & plugins.min.js
 - Fix SQL error when no quarters MP are setup yet in Schedule.inc.php
 - Move "Print Mailing Labels" program into "Print Student Labels" in MailingLabels.php, StudentLabels.php, StudentLabels.fnc.php
+- Remove profile_id param from redirect_to logout URL in index.php
 
 Changes in 3.9.2
 ----------------

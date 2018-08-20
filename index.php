@@ -20,7 +20,7 @@ if ( isset( $_REQUEST['modfunc'] )
 	header( 'Location: index.php?locale=' . $_SESSION['locale'] .
 		( isset( $_REQUEST['reason'] ) ? '&reason=' . $_REQUEST['reason'] : '' ) .
 		( isset( $_REQUEST['redirect_to'] ) ?
-			'&redirect_to=' . urlencode( $_REQUEST['redirect_to'] ) . '&profile_id=' . User( 'PROFILE_ID' ) :
+			'&redirect_to=' . urlencode( $_REQUEST['redirect_to'] ) :
 			'' ) );
 
 	session_unset();
@@ -142,6 +142,9 @@ elseif ( isset( $_POST['USERNAME'] )
 	{
 		$_SESSION['STAFF_ID'] = $login_RET[1]['STAFF_ID'];
 
+		// Invalidate any active Student session.
+		unset( $_SESSION['STUDENT_ID'] );
+
 		$_SESSION['LAST_LOGIN'] = $login_RET[1]['LAST_LOGIN'];
 
 		$failed_login = $login_RET[1]['FAILED_LOGIN'];
@@ -228,6 +231,9 @@ elseif ( isset( $_POST['USERNAME'] )
 	elseif ( $student_RET )
 	{
 		$_SESSION['STUDENT_ID'] = $student_RET[1]['STUDENT_ID'];
+
+		// Invalidate any active User session.
+		unset( $_SESSION['STAFF_ID'] );
 
 		$_SESSION['LAST_LOGIN'] = $student_RET[1]['LAST_LOGIN'];
 
@@ -498,8 +504,7 @@ elseif ( ! isset( $_REQUEST['create_account'] ) )
 	 *
 	 * @since 3.8
 	 */
-	$redirect_to = ( empty( $_REQUEST['redirect_to'] )
-		|| User( 'PROFILE_ID' ) != $_REQUEST['profile_id'] ) ?
+	$redirect_to = empty( $_REQUEST['redirect_to'] ) ?
 		'modname=misc/Portal.php' : // Fix #173 resend login form: redirect to Modules.php.
 		str_replace(
 			array( '&_ROSARIO_PDF=true', '&_ROSARIO_PDF', '&LO_save=1' ),
