@@ -354,6 +354,12 @@ var ajaxPostForm = function(form, submit) {
 	if (target == '_top')
 		return true;
 
+	if (form.enctype === 'multipart/form-data' &&
+		!$(form).has('input[type="file"]').length) {
+		// IE9 fix, unset enctype="multipart/form-data" if no file input in form.
+		form.enctype = 'application/x-www-form-urlencoded';
+	}
+
 	var options = ajaxOptions(target, form.action, form);
 	if (submit) $(form).ajaxSubmit(options);
 	else $(form).ajaxForm(options);
@@ -361,6 +367,7 @@ var ajaxPostForm = function(form, submit) {
 }
 
 var ajaxSuccess = function(data, target, url) {
+
 	// Change URL after AJAX.
 	//http://stackoverflow.com/questions/5525890/how-to-change-url-after-an-ajax-request#5527095
 	$('#' + target).html(data);
