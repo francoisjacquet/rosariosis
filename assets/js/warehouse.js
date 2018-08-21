@@ -399,7 +399,7 @@ var ajaxPrepare = function(target) {
 		}
 
 		if (scrollTop == 'Y') {
-			body.scrollIntoView();
+			document.body.scrollIntoView();
 			$('#body').scrollTop(0);
 		}
 
