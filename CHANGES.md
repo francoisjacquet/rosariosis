@@ -11,6 +11,7 @@ Changes in 3.9.2
 - Fix Calendar Events display in Calendar.php
 - Hotfix PHP Parse error missing ) in condition in Grades.php
 - Hotifx JS IE9 error Object doesn't support property or method 'scrollIntoView' in warehouse.js
+- Hotfix JS IE9 unset enctype="multipart/form-data" if no file input in form in warehouse.js
 
 Changes in 3.9.1
 ----------------

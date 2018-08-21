@@ -354,6 +354,12 @@ var ajaxPostForm = function(form, submit) {
 	if (target == '_top')
 		return true;
 
+	if (form.enctype === 'multipart/form-data' &&
+		!$(form).has('input[type="file"]').length) {
+		// IE9 fix, unset enctype="multipart/form-data" if no file input in form.
+		form.enctype = 'application/x-www-form-urlencoded';
+	}
+
 	var options = ajaxOptions(target, form.action, form);
 	if (submit) $(form).ajaxSubmit(options);
 	else $(form).ajaxForm(options);
