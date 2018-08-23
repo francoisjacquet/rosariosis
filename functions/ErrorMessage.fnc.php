@@ -181,6 +181,12 @@ function ErrorSendEmail( $error = array(), $title = 'PHP Fatal error' )
 	$message .= "\n\n" . 'Session Array: ' . "\n" . print_r( $_SESSION, true );
 	$message .= "\n\n" . 'Debug Backtrace: ' . "\n" . print_r( $debug_backtrace, true );
 
+	if ( mb_strlen( $message ) !== mb_strlen( strip_tags( $message ) ) )
+	{
+		// Format message if has HTML tags.
+		$message = nl2br( $message );
+	}
+
 	SendEmail( $RosarioErrorsAddress, $title, $message );
 
 	return true;
