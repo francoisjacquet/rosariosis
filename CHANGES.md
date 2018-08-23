@@ -38,6 +38,7 @@ Changes in 4.0-beta2
 - Remove profile_id param from redirect_to logout URL in index.php
 - Add "« Back" link to Portal or automatic redirection if has just logged in HackingLog.fnc.php
 - Add LAST_LOGIN column to Student user SQL in User.fnc.php
+- Fix SQL error when no Payent mean is selected in Transactions.php
 
 Changes in 3.9.2
 ----------------
