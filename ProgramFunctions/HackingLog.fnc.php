@@ -30,9 +30,10 @@ function HackingLog()
 		exit;
 	}
 
+	// Use link target="_top" so we reload side menu.
 	$error[] = _( 'You\'re not allowed to use this program!' ) . ' ' .
 	_( 'This attempted violation has been logged and your IP address was captured.' ) . ' ' .
-	'<a href="' . $portal_url . '"><b>« ' . _( 'Back' ) . '</b></a>';
+	'<a href="' . $portal_url . '" target="_top"><b>« ' . _( 'Back' ) . '</b></a>';
 
 	ErrorSendEmail( $error, 'HACKING ATTEMPT' );
 
