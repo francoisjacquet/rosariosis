@@ -160,43 +160,13 @@ elseif ( isset( $_POST['USERNAME'] )
 
 			$_ROSARIO['page'] = 'first-login';
 
-			Warehouse( 'header' ); ?>
+			require_once 'ProgramFunctions/FirstLogin.fnc.php';
 
-	<form action="Modules.php?modname=misc/Portal.php" method="POST">
+			Warehouse( 'header' );
 
-	<?php PopTable( 'header', _( 'Confirm Successful Installation' ) ); ?>
+			echo FirstLoginForm();
 
-	<div class="center">
-		<h4>
-			<?php
-				echo sprintf(
-					_( 'You have successfully installed %s.' ),
-					ParseMLField( Config( 'TITLE' ) )
-				);
-			?>
-		</h4>
-		<p>
-			<?php
-				echo sprintf(
-					_( 'Check the %s page to spot remaining configuration problems.' ),
-					'<a href="diagnostic.php" target="_blank">diagnostic.php</a>'
-				);
-			?>
-		</p>
-		<br />
-		<?php echo Buttons( _( 'OK' ) ); ?>
-	</div>
-
-	<?php PopTable( 'footer' ); ?>
-
-	</form>
-<?php
 			Warehouse( 'footer' );
-
-			// Set Config( 'LOGIN' ) to Yes.
-			DBQuery( "UPDATE CONFIG
-				SET CONFIG_VALUE='Yes'
-				WHERE TITLE='LOGIN'" );
 
 			exit;
 
@@ -495,6 +465,15 @@ if ( empty( $_SESSION['STAFF_ID'] )
 // Successfully logged in, display Portal.
 elseif ( ! isset( $_REQUEST['create_account'] ) )
 {
+	if ( ! empty( $_POST['first_login'] )
+		&& Config( 'LOGIN' ) === 'No' )
+	{
+		require_once 'ProgramFunctions/FirstLogin.fnc.php';
+
+		// @since 4.0 First Login form.
+		$first_login = DoFirstLoginForm( $_REQUEST['first_login'] );
+	}
+
 	/**
 	 * Redirect to Modules.php URL after login.
 	 * Defaults to modname=misc/Portal.php.

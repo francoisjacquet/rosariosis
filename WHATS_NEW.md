@@ -13,6 +13,8 @@ New Module icons: moved from modules to theme
 
 - `$RosarioErrorsAddress` optional variable to receive errors by email (PHP fatal, database, hacking attempts)
 
+Set admin password on first login
+
 
 New in 3.9
 ----------
