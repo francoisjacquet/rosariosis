@@ -33,7 +33,7 @@ Please head to the offical [Contribute page](https://www.rosariosis.org/contribu
 
 2. [Comment your code](https://make.wordpress.org/core/handbook/best-practices/inline-documentation-standards/): we use PHPDoc.
 
-3. Quality Assurance: we use code linters & other [QA tools](http://phpqatools.org/)
+3. Quality Assurance: we use code linters & other [QA tools](https://phpqa.io/)
 
 4. Testing: Activate [debug mode](https://gitlab.com/francoisjacquet/rosariosis/blob/mobile/INSTALL.md#installing-the-package); for emails, we use [MailCatcher](http://mailcatcher.me/)
 
