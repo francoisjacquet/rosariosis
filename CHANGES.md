@@ -41,6 +41,7 @@ Changes in 4.0-beta2
 - Fix SQL error when no Payent mean is selected in Transactions.php
 - Add functions for First Login Form in index.php & FirstLogin.fnc.php
 - Set admin password on first login in FirstLogin.fnc.php
+- Remove deprecated GetRawPOSTvar() function in getRawPOSTvar.fnc.php
 
 Changes in 3.9.2
 ----------------
