@@ -714,7 +714,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 
 			if ( $_REQUEST['event_id'] !== 'new' )
 			{
-				echo SubmitButton( _( 'Delete' ), 'button' );
+				echo SubmitButton( _( 'Delete' ), 'button', '' );
 			}
 
 			echo '</td></tr>';
