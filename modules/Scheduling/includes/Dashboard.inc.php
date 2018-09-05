@@ -42,6 +42,14 @@ if ( ! function_exists( 'DashboardSchedulingAdmin' ) )
 	 */
 	function DashboardSchedulingAdmin()
 	{
+		$all_qtr_mp = GetAllMP( 'QTR', UserMP() );
+
+		// Fix SQL error when no Quarter MP.
+		if ( ! $all_qtr_mp )
+		{
+			return array();
+		}
+
 		$courses_RET = DBGet( DBQuery( "SELECT COUNT(COURSE_ID) AS COURSES_NB,
 			COUNT(DISTINCT SUBJECT_ID) AS SUBJECTS_NB
 		FROM COURSES
@@ -52,7 +60,7 @@ if ( ! function_exists( 'DashboardSchedulingAdmin' ) )
 		FROM COURSE_PERIODS
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
-		AND MARKING_PERIOD_ID IN(" . GetAllMP( 'QTR', UserMP() ) . ")" ) );
+		AND MARKING_PERIOD_ID IN(" . $all_qtr_mp . ")" ) );
 
 		$cp_mp_title = _( 'Course Periods' ) . ' (' . GetMP( UserMP(), 'SHORT_NAME' ) . ')';
 
