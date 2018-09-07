@@ -36,6 +36,8 @@ function Buttons( $submit_value, $reset_value = '' )
  *
  * @example echo button( 'x', '', '', 'bigger' );
  *
+ * @since 4.0 Allow for button files missing the "_button" suffix.
+ *
  * @param  string $type  [type]_button.png; ie. 'remove' will display the assets/themes/[user_theme]/btn/remove_button.png image.
  * @param  string $text  button text (optional).
  * @param  string $link  button link (optional).
@@ -62,6 +64,12 @@ function button( $type, $text = '', $link = '', $class = '' )
 	}
 
 	$button_file = 'assets/themes/' . Preferences( 'THEME' ) . '/btn/' . $type . '_button.png';
+
+	if ( ! file_exists( $button_file ) )
+	{
+		// Allow for button files missing the "_button" suffix.
+		$button_file = str_replace( '_button', '', $button_file );
+	}
 
 	$button .= '<img src="' . $button_file . '" class="button ' . $class . '" alt="' . ucfirst( str_replace( '_', ' ', $type ) ) . '" />';
 

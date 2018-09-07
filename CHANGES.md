@@ -42,6 +42,7 @@ Changes in 4.0-beta2
 - Add functions for First Login Form in index.php & FirstLogin.fnc.php
 - Set admin password on first login in FirstLogin.fnc.php
 - Remove deprecated GetRawPOSTvar() function in getRawPOSTvar.fnc.php
+- Allow for button files missing the "\_button" suffix in Buttons.php
 
 Changes in 3.9.2
 ----------------
