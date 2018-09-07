@@ -104,7 +104,7 @@ if ( ! function_exists( 'FirstLoginFormFields' ) )
 		{
 			// Set admin password on first login.
 			$fields[] = '<input type="text" name="first_login[ADMIN_PASSWORD]" id="first_login_ADMIN_PASSWORD"
-				size="25" maxlength="42" tabindex="1" value="admin" />' .
+				size="25" maxlength="42" minlength="5" tabindex="1" required />' .
 				FormatInputTitle( _( 'New Password' ), 'first_login_ADMIN_PASSWORD', true );
 		}
 
