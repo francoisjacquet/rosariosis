@@ -592,7 +592,7 @@ class Wkhtmltopdf
 		 * create HTML file
 		 */
 		file_put_contents($this->_headerHtml, (string)$header);
-		chmod($this->_filename, 0777);
+		chmod($this->_headerHtml, 0777);
 
 		$margins = $this->getMargins();
 
