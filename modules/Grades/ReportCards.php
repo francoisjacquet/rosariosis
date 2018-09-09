@@ -9,6 +9,13 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	{
 		$report_cards = ReportCardsGenerate( $_REQUEST['st_arr'], $_REQUEST['mp_arr'] );
 
+		/**
+		 * Report Cards array hook action.
+		 *
+		 * @since 4.0
+		 */
+		do_action( 'Grades/ReportCards.php|report_cards_html_array' );
+
 		if ( $report_cards )
 		{
 			// Insert page breaks

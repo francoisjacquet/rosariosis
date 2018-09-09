@@ -179,6 +179,13 @@ $RosarioActions = array();
 	 */
 	/*'functions/ListOutput.fnc.php|list_before' => array(),
 	'functions/ListOutput.fnc.php|list_after' => array(),
+
+	/**
+	 * Report Cards array.
+	 *
+	 * @since 4.0
+	 */
+	/*'Grades/ReportCards.php|report_cards_array' => array(),
 );*/
 
 

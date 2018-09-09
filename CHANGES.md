@@ -46,6 +46,7 @@ Changes in 4.0-beta3
 - Update French & Spanish translations in rosariosis.po
 - Format Credits: no 0 decimal in Courses.php
 - Define custom ReportCardsIncludeForm & ReportCardsGenerate functions in ReportCards.fnc.php
+- Add Report Cards array hook action in ReportCards.php
 
 Changes in 3.9.2
 ----------------
