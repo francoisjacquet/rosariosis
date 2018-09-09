@@ -44,6 +44,7 @@ Changes in 4.0-beta2
 - Remove deprecated GetRawPOSTvar() function in getRawPOSTvar.fnc.php
 - Allow for button files missing the "\_button" suffix in Buttons.php
 - Update French & Spanish translations in rosariosis.po
+- Format Credits: no 0 decimal in Courses.php
 
 Changes in 3.9.2
 ----------------
