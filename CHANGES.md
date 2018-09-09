@@ -43,6 +43,7 @@ Changes in 4.0-beta2
 - Set admin password on first login in FirstLogin.fnc.php
 - Remove deprecated GetRawPOSTvar() function in getRawPOSTvar.fnc.php
 - Allow for button files missing the "\_button" suffix in Buttons.php
+- Update French & Spanish translations in rosariosis.po
 
 Changes in 3.9.2
 ----------------
