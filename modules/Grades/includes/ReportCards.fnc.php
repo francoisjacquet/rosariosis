@@ -679,7 +679,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 					echo '<TABLE><TR>
 					<TD style="width:50px;"> &nbsp; </TD>
 					<TD style="width:300px;">' . $address[1]['MAILING_LABEL'] . '</TD>
-				</TR></TABLE>';
+					</TR></TABLE>';
 				}
 
 				echo '<BR />';
@@ -878,8 +878,6 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 					{
 						DrawHeader( $commentsB_txt );
 					}
-
-					echo '</TR></TABLE>';
 				}
 			}
 
