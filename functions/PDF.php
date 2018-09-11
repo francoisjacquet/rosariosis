@@ -78,7 +78,7 @@ function PDFStop( $handle )
 		return '';
 	}
 
-	$handle['orientation'] = empty( $_SESSION['orientation'] ) ? '' : $_SESSION['orientation'];
+	$handle['orientation'] = empty( $_SESSION['orientation'] ) ? $handle['orientation'] : $_SESSION['orientation'];
 
 	unset( $_SESSION['orientation'] );
 
