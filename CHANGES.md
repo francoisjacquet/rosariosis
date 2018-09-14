@@ -1,8 +1,8 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
-Changes in 4.0-beta3
---------------------
+Changes in 4.0
+--------------
 - Rename School Setup module to School & Eligibility module to Activities in Menu.php
 - Move CHANGES for version 1 and 2 in CHANGES_V1_2.md
 - New Module icons: moved from modules to theme in assets/themes/WPadmin/modules/
