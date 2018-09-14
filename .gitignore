@@ -235,6 +235,7 @@ modules/Messaging/
 modules/Example/
 plugins/Paypal_Registration
 plugins/PDF_Header_Footer
+plugins/Report_Cards_PDF_2_Copies_Landscape
 modules/Access_Log/
 modules/School_Inventory/
 modules/Graduation_Paths/
