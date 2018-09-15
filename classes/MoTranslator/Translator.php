@@ -318,10 +318,10 @@ class Translator
 	 * @uses eval
 	 *
 	 * @access private
-	 * @param n count
+	 * @param int n count
 	 * @return int array index of the right plural form
 	 */
-	private function selectString(int $n)
+	private function selectString($n)
 	{
 		if (!is_int($n)) {
 			throw new \InvalidArgumentException(

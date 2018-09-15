@@ -57,6 +57,7 @@ Changes in 3.9.2
 - Fix Set default Incident Date for Referrals program only in Widgets.fnc.php
 - Fix Calendar Events display in Calendar.php
 - Hotfix PHP Parse error missing ) in conditions in Grades.php
+- Fix PHP 5.4 error int argument in Translator.php
 
 Changes in 3.9.1
 ----------------
