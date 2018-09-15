@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-09 14:38+0200\n"
-"PO-Revision-Date: 2018-09-09 14:43+0200\n"
+"PO-Revision-Date: 2018-09-15 17:15+0200\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS\n"
 "Language: fr\n"
@@ -535,7 +535,7 @@ msgstr "Votre nouveau mot de passe est enregistré."
 
 #: ProgramFunctions/FirstLogin.fnc.php:68
 msgid "Confirm Successful Installation"
-msgstr "Confirmer Succès de l'Installation"
+msgstr "Installation Réussie"
 
 #: ProgramFunctions/FirstLogin.fnc.php:73
 #, php-format
