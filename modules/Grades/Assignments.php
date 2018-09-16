@@ -6,6 +6,7 @@ if ( ! empty( $_REQUEST['assignment_id'] )
 	&& ! empty( $_REQUEST['marking_period_id'] ) )
 {
 	// Outside link: Assignment is in the current MP?
+
 	if ( $_REQUEST['marking_period_id'] != UserMP() )
 	{
 		// Reset current MarkingPeriod.
@@ -14,7 +15,6 @@ if ( ! empty( $_REQUEST['assignment_id'] )
 
 	RedirectURL( 'marking_period_id' );
 }
-
 
 DrawHeader( ProgramTitle() . ' - ' . GetMP( UserMP() ) );
 
@@ -44,14 +44,16 @@ if ( isset( $_POST['tables'] )
 	foreach ( (array) $_REQUEST['tables'] as $id => $columns )
 	{
 		// FJ textarea fields MarkDown sanitize.
+
 		if ( isset( $columns['DESCRIPTION'] ) )
 		{
-			$columns['DESCRIPTION'] = SanitizeMarkDown( $_POST['tables'][ $id ]['DESCRIPTION'] );
+			$columns['DESCRIPTION'] = SanitizeMarkDown( $_POST['tables'][$id]['DESCRIPTION'] );
 		}
 
 		// FJ added SQL constraint TITLE & POINTS are not null.
-		if ( ( isset( $columns['TITLE'] )
-				&& $columns['TITLE'] === '' )
+
+		if (  ( isset( $columns['TITLE'] )
+			&& $columns['TITLE'] === '' )
 			|| ( isset( $columns['POINTS'] )
 				&& $columns['POINTS'] === '' ) )
 		{
@@ -60,9 +62,10 @@ if ( isset( $_POST['tables'] )
 
 		// FJ fix SQL bug invalid numeric data.
 		// FJ default points.
-		if ( ( isset( $columns['POINTS'] )
-				&& ( ! is_numeric( $columns['POINTS'] )
-					|| intval( $columns['POINTS'] ) < 0 ) )
+
+		if (  ( isset( $columns['POINTS'] )
+			&& ( ! is_numeric( $columns['POINTS'] )
+				|| intval( $columns['POINTS'] ) < 0 ) )
 			|| ( isset( $columns['DEFAULT_POINTS'] )
 				&& $columns['DEFAULT_POINTS'] !== ''
 				&& $columns['DEFAULT_POINTS'] !== '*'
@@ -73,6 +76,7 @@ if ( isset( $_POST['tables'] )
 		}
 
 		// FJ fix SQL bug invalid sort order.
+
 		if ( ! empty( $columns['SORT_ORDER'] )
 			&& ! is_numeric( $columns['SORT_ORDER'] ) )
 		{
@@ -94,8 +98,8 @@ if ( isset( $_POST['tables'] )
 
 			foreach ( (array) $columns as $column => $value )
 			{
-				if ( ( $column === 'DUE_DATE'
-						|| $column === 'ASSIGNED_DATE' )
+				if (  ( $column === 'DUE_DATE'
+					|| $column === 'ASSIGNED_DATE' )
 					&& $value !== '' )
 				{
 					if ( ! VerifyDate( $value ) )
@@ -105,23 +109,24 @@ if ( isset( $_POST['tables'] )
 				}
 				elseif ( $column == 'COURSE_ID'
 					&& $value == 'Y'
-					&& $table == 'GRADEBOOK_ASSIGNMENTS')
+					&& $table == 'GRADEBOOK_ASSIGNMENTS' )
 				{
 					$value = $course_id;
 					$sql .= 'COURSE_PERIOD_ID=NULL,';
 				}
 				elseif ( $column == 'COURSE_ID'
-					&& $table == 'GRADEBOOK_ASSIGNMENTS')
+					&& $table == 'GRADEBOOK_ASSIGNMENTS' )
 				{
 					$column = 'COURSE_PERIOD_ID';
 					$value = UserCoursePeriod();
 					$sql .= 'COURSE_ID=NULL,';
 				}
 				elseif ( $column == 'FINAL_GRADE_PERCENT'
-					&& $table == 'GRADEBOOK_ASSIGNMENT_TYPES')
+					&& $table == 'GRADEBOOK_ASSIGNMENT_TYPES' )
 				{
 					$value = preg_replace( '/[^0-9.]/', '', $value ) / 100;
 				}
+
 				// FJ default points.
 				elseif ( $column == 'DEFAULT_POINTS'
 					&& $value == '*'
@@ -134,18 +139,19 @@ if ( isset( $_POST['tables'] )
 			}
 
 			$sql = mb_substr( $sql, 0, -1 ) . " WHERE " .
-				DBEscapeIdentifier( mb_substr( $table, 10, -1 ) . '_ID' ) . "='" . $id . "'";
+			DBEscapeIdentifier( mb_substr( $table, 10, -1 ) . '_ID' ) . "='" . $id . "'";
 
 			$go = true;
 
 			$gradebook_assignment_update = true;
 		}
+
 		// New: check for Title.
 		elseif ( $columns['TITLE'] )
 		{
 			$sql = "INSERT INTO " . DBEscapeIdentifier( $table ) . " ";
 
-			if ( $table == 'GRADEBOOK_ASSIGNMENTS')
+			if ( $table == 'GRADEBOOK_ASSIGNMENTS' )
 			{
 				if ( $columns['ASSIGNMENT_TYPE_ID'] )
 				{
@@ -161,11 +167,11 @@ if ( isset( $_POST['tables'] )
 				$fields = "ASSIGNMENT_ID,ASSIGNMENT_TYPE_ID,STAFF_ID,MARKING_PERIOD_ID,";
 
 				$values = $id . ",'" . $_REQUEST['assignment_type_id'] . "','" .
-					User( 'STAFF_ID' ) . "','" . UserMP() . "',";
+				User( 'STAFF_ID' ) . "','" . UserMP() . "',";
 
 				$_REQUEST['assignment_id'] = $id;
 			}
-			elseif ( $table == 'GRADEBOOK_ASSIGNMENT_TYPES')
+			elseif ( $table == 'GRADEBOOK_ASSIGNMENT_TYPES' )
 			{
 				$id = DBGet( DBQuery( "SELECT " . db_seq_nextval( 'GRADEBOOK_ASSIGNMENT_TYPES_SEQ' ) . ' AS ID' ) );
 
@@ -182,7 +188,7 @@ if ( isset( $_POST['tables'] )
 
 			foreach ( (array) $columns as $column => $value )
 			{
-				if ( ( $column === 'DUE_DATE'
+				if (  ( $column === 'DUE_DATE'
 					|| $column === 'ASSIGNED_DATE' )
 					&& $value !== '' )
 				{
@@ -205,8 +211,9 @@ if ( isset( $_POST['tables'] )
 				elseif ( $column == 'FINAL_GRADE_PERCENT'
 					&& $table == 'GRADEBOOK_ASSIGNMENT_TYPES' )
 				{
-					$value = preg_replace('/[^0-9.]/','',$value) / 100;
+					$value = preg_replace( '/[^0-9.]/', '', $value ) / 100;
 				}
+
 				//FJ default points
 				elseif ( $column == 'DEFAULT_POINTS'
 					&& $value == '*'
@@ -253,6 +260,7 @@ if ( isset( $_POST['tables'] )
 }
 
 // DELETE
+
 if ( $_REQUEST['modfunc'] === 'delete' )
 {
 	if ( ! empty( $_REQUEST['assignment_id'] ) )
@@ -280,6 +288,7 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 			WHERE ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'" ) );
 
 		// Can't delete Assignment Type if has Assignments!
+
 		if ( $assignment_type_has_assignments )
 		{
 			// Do NOT translate, hacking prevention.
@@ -295,6 +304,7 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 	}
 
 	// Confirm Delete.
+
 	if ( DeletePrompt( $prompt_title ) )
 	{
 		DBQuery( $sql );
@@ -344,6 +354,7 @@ echo ErrorMessage( $error );
 if ( ! $_REQUEST['modfunc'] )
 {
 	// Check assignment type ID is valid for current school & syear!
+
 	if ( ! empty( $_REQUEST['assignment_type_id'] )
 		&& $_REQUEST['assignment_type_id'] !== 'new' )
 	{
@@ -409,6 +420,7 @@ if ( ! $_REQUEST['modfunc'] )
 			WHERE ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'" ) );
 
 		// Can't delete Assignment Type if has Assignments!
+
 		if ( $is_assignment
 			|| ! $assignment_type_has_assignments )
 		{
@@ -421,6 +433,7 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 
 	// ADDING & EDITING FORM.
+
 	if ( $_REQUEST['assignment_id']
 		&& $_REQUEST['assignment_id'] !== 'new' )
 	{
@@ -465,6 +478,7 @@ if ( ! $_REQUEST['modfunc'] )
 	elseif ( $_REQUEST['assignment_id'] === 'new' )
 	{
 		// FJ Add Warning if not in current Quarter.
+
 		if ( GetCurrentMP( 'QTR', DBDate(), false ) !== UserMP() )
 		{
 			$warning[] = _( 'You are not in the current Quarter.' );
@@ -475,7 +489,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$title = _( 'New Assignment' );
 		$new = true;
 	}
-	elseif ( $_REQUEST['assignment_type_id']=='new')
+	elseif ( $_REQUEST['assignment_type_id'] == 'new' )
 	{
 		$sql = "SELECT sum(FINAL_GRADE_PERCENT) AS TOTAL_PERCENT
 			FROM GRADEBOOK_ASSIGNMENT_TYPES
@@ -495,9 +509,9 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&assignment_type_id=' . $_REQUEST['assignment_type_id'];
 
-		if ( $_REQUEST['assignment_id'] !== 'new' ) {
-
-			echo '&assignment_id='.$_REQUEST['assignment_id'];
+		if ( $_REQUEST['assignment_id'] !== 'new' )
+		{
+			echo '&assignment_id=' . $_REQUEST['assignment_id'];
 		}
 
 		echo '&table=GRADEBOOK_ASSIGNMENTS" method="POST">';
@@ -517,7 +531,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		foreach ( (array) $types_RET as $type )
 		{
-			$assignment_type_options[ $type['ASSIGNMENT_TYPE_ID'] ] = $type['TITLE'];
+			$assignment_type_options[$type['ASSIGNMENT_TYPE_ID']] = $type['TITLE'];
 		}
 
 		$header .= '<td>' . SelectInput(
@@ -534,13 +548,14 @@ if ( ! $_REQUEST['modfunc'] )
 			$RET['POINTS'],
 			'tables[' . $_REQUEST['assignment_id'] . '][POINTS]',
 			_( 'Points' ) .
-				'<div class="tooltip"><i>' .
-					_( 'Enter 0 so you can give students extra credit' ) .
-				'</i></div>',
+			'<div class="tooltip"><i>' .
+			_( 'Enter 0 so you can give students extra credit' ) .
+			'</i></div>',
 			'required size=4 maxlength=4 min=0'
 		) . '</td>';
 
 		// FJ default points.
+
 		if ( $RET['DEFAULT_POINTS'] == '-1' )
 		{
 			$RET['DEFAULT_POINTS'] = '*';
@@ -550,19 +565,19 @@ if ( ! $_REQUEST['modfunc'] )
 			$RET['DEFAULT_POINTS'],
 			'tables[' . $_REQUEST['assignment_id'] . '][DEFAULT_POINTS]',
 			_( 'Default Points' ) .
-				'<div class="tooltip"><i>' .
-					_( 'Enter an asterisk (*) to excuse student' ) .
-				'</i></div>',
+			'<div class="tooltip"><i>' .
+			_( 'Enter an asterisk (*) to excuse student' ) .
+			'</i></div>',
 			' size=4 maxlength=4'
 		) . '</td>';
 
 		$header .= '</tr><tr class="st">';
 
-		$header .= '<td colspan="2">' . TextAreaInput($RET['DESCRIPTION'],'tables['.$_REQUEST['assignment_id'].'][DESCRIPTION]',_('Description')) . '</td>';
+		$header .= '<td colspan="2">' . TextAreaInput( $RET['DESCRIPTION'], 'tables[' . $_REQUEST['assignment_id'] . '][DESCRIPTION]', _( 'Description' ) ) . '</td>';
 
 		$header .= '</tr><tr class="st">';
 
-		$header .= '<td>' . CheckboxInput($RET['COURSE_ID'],'tables['.$_REQUEST['assignment_id'].'][COURSE_ID]',_('Apply to all Periods for this Course'),'',$_REQUEST['assignment_id']=='new') . '</td>';
+		$header .= '<td>' . CheckboxInput( $RET['COURSE_ID'], 'tables[' . $_REQUEST['assignment_id'] . '][COURSE_ID]', _( 'Apply to all Periods for this Course' ), '', $_REQUEST['assignment_id'] == 'new' ) . '</td>';
 
 		$header .= '<td>' . CheckboxInput(
 			$RET['SUBMISSION'],
@@ -574,9 +589,9 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$header .= '</tr><tr class="st">';
 
-		$header .= '<td>' . DateInput($new && Preferences('DEFAULT_ASSIGNED','Gradebook')=='Y'?DBDate():$RET['ASSIGNED_DATE'],'tables['.$_REQUEST['assignment_id'].'][ASSIGNED_DATE]',_('Assigned'),! $new) . '</td>';
+		$header .= '<td>' . DateInput( $new && Preferences( 'DEFAULT_ASSIGNED', 'Gradebook' ) == 'Y' ? DBDate() : $RET['ASSIGNED_DATE'], 'tables[' . $_REQUEST['assignment_id'] . '][ASSIGNED_DATE]', _( 'Assigned' ), ! $new ) . '</td>';
 
-		$header .= '<td>' . DateInput($new && Preferences('DEFAULT_DUE','Gradebook')=='Y'?DBDate():$RET['DUE_DATE'],'tables['.$_REQUEST['assignment_id'].'][DUE_DATE]',_('Due'),! $new) . '</td>';
+		$header .= '<td>' . DateInput( $new && Preferences( 'DEFAULT_DUE', 'Gradebook' ) == 'Y' ? DBDate() : $RET['DUE_DATE'], 'tables[' . $_REQUEST['assignment_id'] . '][DUE_DATE]', _( 'Due' ), ! $new ) . '</td>';
 
 		$header .= '</tr>';
 
@@ -600,11 +615,17 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 	elseif ( ! empty( $_REQUEST['assignment_type_id'] ) )
 	{
-		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&table=GRADEBOOK_ASSIGNMENT_TYPES';
-		if ( $_REQUEST['assignment_type_id']!='new')
-			echo '&assignment_type_id='.$_REQUEST['assignment_type_id'];
+		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&table=GRADEBOOK_ASSIGNMENT_TYPES';
+
+		if ( $_REQUEST['assignment_type_id'] != 'new' )
+		{
+			echo '&assignment_type_id=' . $_REQUEST['assignment_type_id'];
+		}
+
 		echo '" method="POST">';
-		DrawHeader($title,$delete_button.SubmitButton());
+
+		DrawHeader( $title, $delete_button . SubmitButton() );
+
 		$header .= '<table class="width-100p valign-top fixed-col">';
 		$header .= '<tr class="st">';
 
@@ -616,7 +637,7 @@ if ( ! $_REQUEST['modfunc'] )
 			'required'
 		) . '</td>';
 
-		if (Preferences('WEIGHT','Gradebook')=='Y')
+		if ( Preferences( 'WEIGHT', 'Gradebook' ) == 'Y' )
 		{
 			$header .= '<td>' . TextInput(
 				$RET['FINAL_GRADE_PERCENT'],
@@ -627,7 +648,7 @@ if ( ! $_REQUEST['modfunc'] )
 				'maxlength="5" size="4"'
 			) . '</td>';
 
-			$header .= '<td>' . NoInput($RET['TOTAL_PERCENT']==1?'100%':'<span style="color:red">'.(100*$RET['TOTAL_PERCENT']).'%</span>',_('Percent Total')) . '</td>';
+			$header .= '<td>' . NoInput( $RET['TOTAL_PERCENT'] == 1 ? '100%' : '<span style="color:red">' . ( 100 * $RET['TOTAL_PERCENT'] ) . '%</span>', _( 'Percent Total' ) ) . '</td>';
 		}
 
 		$header .= '<td>' . TextInput(
@@ -639,7 +660,7 @@ if ( ! $_REQUEST['modfunc'] )
 		/*$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666','#333366','#336633','purple','teal','firebrick','tan');
 		foreach ( (array) $colors as $color)
 		{
-			$color_select[ $color ] = array('<span style="background-color:'.$color.';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>','<span style="background-color:'.$color.';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>');
+		$color_select[ $color ] = array('<span style="background-color:'.$color.';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>','<span style="background-color:'.$color.';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>');
 		}
 
 		$header .= '<td>' .  RadioInput($RET['COLOR'],'tables['.$_REQUEST['assignment_type_id'].'][COLOR]',_('Color'),$color_select) . '</td>';*/
@@ -654,12 +675,13 @@ if ( ! $_REQUEST['modfunc'] )
 		$header .= '</tr></table>';
 	}
 	else
-		$header = false;
-
-	if ( $header)
 	{
-		DrawHeader($header);
-		echo '</form>';
+		$header = false;
+	}
+
+	if ( $header )
+	{
+		DrawHeader( $header );
 	}
 
 	if ( ! empty( $_REQUEST['assignment_id'] )
@@ -668,11 +690,19 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		// Grades program link header.
 		$grades_program_link = '<a href="Modules.php?modname=Grades/Grades.php&type_id=' .
-			$_REQUEST['assignment_type_id'] .
-			'&assignment_id=' . $_REQUEST['assignment_id'] .'"><b>' .
-			_( 'Grades' ) . '</b></a>';
+		$_REQUEST['assignment_type_id'] .
+		'&assignment_id=' . $_REQUEST['assignment_id'] . '"><b>' .
+		_( 'Grades' ) . '</b></a>';
 
 		DrawHeader( $grades_program_link );
+	}
+
+	// @since 4.1.
+	do_action( 'Grades/Assignments.php|header' );
+
+	if ( $header )
+	{
+		echo '</form>';
 	}
 
 	// DISPLAY THE MENU
@@ -683,15 +713,16 @@ if ( ! $_REQUEST['modfunc'] )
 		'responsive' => false,
 	);
 
-
-	if (count($types_RET))
+	if ( count( $types_RET ) )
 	{
 		if ( ! empty( $_REQUEST['assignment_type_id'] ) )
 		{
-			foreach ( (array) $types_RET as $key => $value)
+			foreach ( (array) $types_RET as $key => $value )
 			{
-				if ( $value['ASSIGNMENT_TYPE_ID']==$_REQUEST['assignment_type_id'])
-					$types_RET[ $key ]['row_color'] = Preferences('HIGHLIGHT');
+				if ( $value['ASSIGNMENT_TYPE_ID'] == $_REQUEST['assignment_type_id'] )
+				{
+					$types_RET[$key]['row_color'] = Preferences( 'HIGHLIGHT' );
+				}
 			}
 		}
 	}
@@ -722,47 +753,53 @@ if ( ! $_REQUEST['modfunc'] )
 
 	echo '</div>';
 
-
 	// ASSIGNMENTS
-	if ( $_REQUEST['assignment_type_id'] && $_REQUEST['assignment_type_id']!='new' && count($types_RET))
+
+	if ( $_REQUEST['assignment_type_id'] && $_REQUEST['assignment_type_id'] != 'new' && count( $types_RET ) )
 	{
 		$sql = "SELECT ASSIGNMENT_ID,TITLE,POINTS
 		FROM GRADEBOOK_ASSIGNMENTS
-		WHERE STAFF_ID='".User('STAFF_ID')."'
-		AND (COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."') OR COURSE_PERIOD_ID='".UserCoursePeriod()."')
-		AND ASSIGNMENT_TYPE_ID='".$_REQUEST['assignment_type_id']."'
-		AND MARKING_PERIOD_ID='".UserMP()."'
-		ORDER BY ".Preferences('ASSIGNMENT_SORTING','Gradebook')." DESC";
-		$QI = DBQuery($sql);
-		$assn_RET = DBGet($QI);
+		WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
+		AND (COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
+		AND ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'
+		AND MARKING_PERIOD_ID='" . UserMP() . "'
+		ORDER BY " . Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) . " DESC";
+		$QI = DBQuery( $sql );
+		$assn_RET = DBGet( $QI );
 
-		if (count($assn_RET))
+		if ( count( $assn_RET ) )
 		{
-			if ( $_REQUEST['assignment_id'] && $_REQUEST['assignment_id']!='new')
+			if ( $_REQUEST['assignment_id'] && $_REQUEST['assignment_id'] != 'new' )
 			{
-				foreach ( (array) $assn_RET as $key => $value)
+				foreach ( (array) $assn_RET as $key => $value )
 				{
-					if ( $value['ASSIGNMENT_ID']==$_REQUEST['assignment_id'])
-						$assn_RET[ $key ]['row_color'] = Preferences('HIGHLIGHT');
+					if ( $value['ASSIGNMENT_ID'] == $_REQUEST['assignment_id'] )
+					{
+						$assn_RET[$key]['row_color'] = Preferences( 'HIGHLIGHT' );
+					}
 				}
 			}
 		}
 
 		echo '<div class="st">';
-		$columns = array('TITLE' => _('Assignment'),'POINTS' => _('Points'));
+		$columns = array( 'TITLE' => _( 'Assignment' ), 'POINTS' => _( 'Points' ) );
 		$link = array();
-		$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&assignment_type_id='.$_REQUEST['assignment_type_id'];
-		$link['TITLE']['variables'] = array('assignment_id' => 'ASSIGNMENT_ID');
-		$link['add']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&assignment_type_id='.$_REQUEST['assignment_type_id'].'&assignment_id=new';
+		$link['TITLE']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&assignment_type_id=' . $_REQUEST['assignment_type_id'];
+		$link['TITLE']['variables'] = array( 'assignment_id' => 'ASSIGNMENT_ID' );
+		$link['add']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&assignment_type_id=' . $_REQUEST['assignment_type_id'] . '&assignment_id=new';
 		$link['add']['first'] = 5; // number before add link moves to top
 
-		ListOutput($assn_RET,$columns,'Assignment','Assignments',$link,array(),$LO_options);
+		ListOutput( $assn_RET, $columns, 'Assignment', 'Assignments', $link, array(), $LO_options );
 
 		echo '</div>';
 	}
 }
 
-function _makePercent($value,$column)
+/**
+ * @param $value
+ * @param $column
+ */
+function _makePercent( $value, $column )
 {
-	return number_format($value*100,2).'%';
+	return number_format( $value * 100, 2 ) . '%';
 }

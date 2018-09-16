@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 4.1
+--------------
+- Add Assignments header action hook in Assignments.php
+
 Changes in 4.0
 --------------
 - Rename School Setup module to School & Eligibility module to Activities in Menu.php

@@ -186,6 +186,13 @@ $RosarioActions = array();
 	 * @since 4.0
 	 */
 	/*'Grades/ReportCards.php|report_cards_array' => array(),
+
+	/**
+	 * Assignments header.
+	 *
+	 * @since 4.1
+	 */
+	/*'Grades/Assignments.php|header' => array(),
 );*/
 
 
