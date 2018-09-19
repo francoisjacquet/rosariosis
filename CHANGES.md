@@ -4,6 +4,7 @@
 Changes in 4.1
 --------------
 - Add Assignments header action hook in Assignments.php
+- Add icon before module title in Profiles.php & Exceptions.php
 
 Changes in 4.0
 --------------
