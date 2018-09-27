@@ -5,6 +5,7 @@ Changes in 4.1
 --------------
 - Add Assignments header action hook in Assignments.php
 - Add icon before module title in Profiles.php & Exceptions.php
+- Grade posting date inputs are required when "Graded" is checked in MarkingPeriods.php
 
 Changes in 4.0
 --------------

@@ -453,30 +453,27 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$header .= '<td><table class="width-100p"><tr>';
 
-	$js_onclick_post_dates_required = '';
+	// @since 4.1 Grade posting date inputs are required when "Graded" is checked.
+	$header .= '<script>var mpGradedOnclickPostDatesRequired = function(el) {
+		var dates = ["month", "day", "year"],
+			dateStartInput,
+			dateEndInput;
 
-	if ( $_REQUEST['marking_period_id'] === 'new' )
-	{
-		// @since 4.1 Grade posting date inputs are required when "Graded" is checked.
-		$header .= '<script>var mpGradedOnclickPostDatesRequired = function(el) {
-			var dates = ["month", "day", "year"],
-				dateStartInput,
-				dateEndInput;
+		for (var i=0,max=dates.length; i<max; i++) {
+			dateStartInput = document.getElementsByName( dates[i] + "_tables[' . $_REQUEST['marking_period_id'] .
+			'][POST_START_DATE]" )[0];
+			dateEndInput = document.getElementsByName( dates[i] + "_tables[' . $_REQUEST['marking_period_id'] .
+			'][POST_END_DATE]" )[0];
 
-			for (var i=0,max=dates.length; i<max; i++) {
-				dateStartInput = document.getElementsByName( dates[i] + "_tables[new][POST_START_DATE]" )[0];
-				dateEndInput = document.getElementsByName( dates[i] + "_tables[new][POST_END_DATE]" )[0];
+			dateStartInput.required = dateEndInput.required = el.checked;
+		}
 
-				dateStartInput.required = dateEndInput.required = el.checked;
-			}
+		// Add .legend-red CSS class to label if input is required/
+		$(dateStartInput).parent().nextAll(".legend-gray").toggleClass("legend-red", el.checked);
+		$(dateEndInput).parent().nextAll(".legend-gray").toggleClass("legend-red", el.checked);
+	};</script>';
 
-			// Add .legend-red CSS class to label if input is required/
-			$(dateStartInput).parent().nextAll(".legend-gray").toggleClass("legend-red", el.checked);
-			$(dateEndInput).parent().nextAll(".legend-gray").toggleClass("legend-red", el.checked);
-		};</script>';
-
-		$js_onclick_post_dates_required = 'onclick="mpGradedOnclickPostDatesRequired( this );"';
-	}
+	$js_onclick_post_dates_required = 'onclick="mpGradedOnclickPostDatesRequired( this );"';
 
 	$header .= '<td>' . CheckboxInput(
 		$RET['DOES_GRADES'],
