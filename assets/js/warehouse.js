@@ -165,7 +165,11 @@ var GetMDConverter = function() {
 			simplifiedAutoLink: true,
 			parseImgDimensions: true,
 			tasklists: true,
-			literalMidWordUnderscores: true
+			literalMidWordUnderscores: true,
+			literalMidWordAsterisks: true,
+			simpleLineBreaks: true,
+			openLinksInNewWindow: true,
+			excludeTrailingPunctuationFromURLs: true
 		});
 	}
 

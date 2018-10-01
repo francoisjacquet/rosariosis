@@ -6,6 +6,7 @@ Changes in 4.1
 - Add Assignments header action hook in Assignments.php
 - Add icon before module title in Profiles.php & Exceptions.php
 - Grade posting date inputs are required when "Graded" is checked in MarkingPeriods.php
+- Upgrade showdown to version 1.7.6 in assets/js/showdown/ & warehouse.js
 
 Changes in 4.0
 --------------
