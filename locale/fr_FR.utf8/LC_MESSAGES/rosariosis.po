@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-09 14:38+0200\n"
-"PO-Revision-Date: 2018-09-15 17:15+0200\n"
+"PO-Revision-Date: 2018-10-09 22:06+0200\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS\n"
 "Language: fr\n"
@@ -561,7 +561,7 @@ msgstr "Vous n'êtes pas autorisé à utiliser ce programme !"
 #: ProgramFunctions/HackingLog.fnc.php:35
 msgid ""
 "This attempted violation has been logged and your IP address was captured."
-msgstr "Cette temptative a été consignée et votre adresse IP enregistrée."
+msgstr "Cette tentative a été consignée et votre adresse IP enregistrée."
 
 #: ProgramFunctions/HackingLog.fnc.php:36
 msgid "Back"
