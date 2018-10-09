@@ -215,6 +215,9 @@ function StudentAssignmentSubmissionOutput( $assignment_id )
 			<div class="markdown-to-html">' . $assignment['DESCRIPTION'] . '</div>' );
 	}
 
+	// @since 4.1 Submission header action hook.
+	do_action( 'Grades/includes/StudentAssignments.fnc.php|submission_header' );
+
 	if ( ! $assignment['SUBMISSION'] )
 	{
 		return false;
@@ -450,36 +453,51 @@ function StudentAssignmentsListOutput()
 }
 
 
-function MakeAssignmentTitle( $value, $column )
+if ( ! function_exists( 'MakeAssignmentTitle' ) )
 {
-	global $THIS_RET;
-
-	// Truncate value to 36 chars.
-	$title = mb_strlen( $value ) <= 36 ?
-		$value :
-		'<span title="' . $value . '">' . mb_substr( $value, 0, 33 ) . '...</span>';
-
-	if ( User( 'PROFILE' ) === 'teacher' )
+	/**
+	 * Make Assignment title and link.
+	 *
+	 * @since 4.1 Override this function in your custom module or plugin.
+	 *
+	 * @global $THIS_RET current row from DBGet.
+	 *
+	 * @param string $value  Title value.
+	 * @param string $column Column, 'TITLE'.
+	 *
+	 * @return Title and link.
+	 */
+	function MakeAssignmentTitle( $value, $column )
 	{
-		$view_assignment_link = 'Modules.php?modname=Grades/Assignments.php';
-	}
-	else
-	{
-		$view_assignment_link = 'Modules.php?modname=Grades/StudentAssignments.php';
-	}
+		global $THIS_RET;
 
-	if ( ! empty( $THIS_RET['ASSIGNMENT_ID'] ) )
-	{
-		$view_assignment_link .= '&assignment_id=' . $THIS_RET['ASSIGNMENT_ID'];
-	}
+		// Truncate value to 36 chars.
+		$title = mb_strlen( $value ) <= 36 ?
+			$value :
+			'<span title="' . $value . '">' . mb_substr( $value, 0, 33 ) . '...</span>';
 
-	if ( ! empty( $THIS_RET['ASSIGNMENT_ID'] ) )
-	{
-		// @since 3.9 Add MP to outside links (see Portal), so current MP is correct.
-		$view_assignment_link .= '&marking_period_id=' . $THIS_RET['MARKING_PERIOD_ID'];
-	}
+		if ( User( 'PROFILE' ) === 'teacher' )
+		{
+			$view_assignment_link = 'Modules.php?modname=Grades/Assignments.php';
+		}
+		else
+		{
+			$view_assignment_link = 'Modules.php?modname=Grades/StudentAssignments.php';
+		}
 
-	return '<a href="' . $view_assignment_link . '">' . $title . '</a>';
+		if ( ! empty( $THIS_RET['ASSIGNMENT_ID'] ) )
+		{
+			$view_assignment_link .= '&assignment_id=' . $THIS_RET['ASSIGNMENT_ID'];
+		}
+
+		if ( ! empty( $THIS_RET['ASSIGNMENT_ID'] ) )
+		{
+			// @since 3.9 Add MP to outside links (see Portal), so current MP is correct.
+			$view_assignment_link .= '&marking_period_id=' . $THIS_RET['MARKING_PERIOD_ID'];
+		}
+
+		return '<a href="' . $view_assignment_link . '">' . $title . '</a>';
+	}
 }
 
 

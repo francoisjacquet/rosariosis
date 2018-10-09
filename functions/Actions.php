@@ -188,11 +188,12 @@ $RosarioActions = array();
 	/*'Grades/ReportCards.php|report_cards_array' => array(),
 
 	/**
-	 * Assignments header.
+	 * Assignments & Assignment Submission header.
 	 *
 	 * @since 4.1
 	 */
 	/*'Grades/Assignments.php|header' => array(),
+	'Grades/includes/StudentAssignments.fnc.php|submission_header' => array(),
 );*/
 
 
