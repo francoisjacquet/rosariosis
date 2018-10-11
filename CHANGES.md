@@ -8,6 +8,7 @@ Changes in 4.1
 - Grade posting date inputs are required when "Graded" is checked in MarkingPeriods.php
 - Upgrade showdown to version 1.7.6 in assets/js/showdown/ & warehouse.js
 - Add Assignments & Assignment Submission header action hook in StudentAssignments.php
+- Fix SQL error when no MPs in calcSeats0.fnc.php
 
 Changes in 4.0
 --------------
