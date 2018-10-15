@@ -9,6 +9,7 @@ Changes in 4.1
 - Upgrade showdown to version 1.7.6 in assets/js/showdown/ & warehouse.js
 - Add Assignments & Assignment Submission header action hook in StudentAssignments.php
 - Fix SQL error when no MPs in calcSeats0.fnc.php
+- Format Credits: no 0 decimal in Transcripts.php
 
 Changes in 4.0
 --------------
