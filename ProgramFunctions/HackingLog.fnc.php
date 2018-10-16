@@ -12,6 +12,7 @@
  *
  * @global string $RosarioNotifyAddress or $RosarioErrorsAddress email set in config.inc.php file
  * @since 4.0 Uses ErrorSendEmail() & "« Back" link to Portal or automatic redirection if has just logged in.
+ * @since 4.1 Redirect automatically to Portal after 5 seconds.
  *
  * @return string outputs error message and exit
  */
@@ -29,6 +30,16 @@ function HackingLog()
 
 		exit;
 	}
+
+	// Redirect automatically to Portal after 5 seconds.
+	// Menu will reload so it will not contain any link to not allowed programs.
+	?>
+	<script>
+		setTimeout( function(){
+			window.location.href = <?php echo json_encode( $portal_url ); ?>;
+		}, 5000);
+	</script>
+	<?php
 
 	// Use link target="_top" so we reload side menu.
 	$error[] = _( 'You\'re not allowed to use this program!' ) . ' ' .

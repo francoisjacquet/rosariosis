@@ -10,6 +10,7 @@ Changes in 4.1
 - Add Assignments & Assignment Submission header action hook in StudentAssignments.php
 - Fix SQL error when no MPs in calcSeats0.fnc.php
 - Format Credits: no 0 decimal in Transcripts.php
+- Redirect automatically to Portal after 5 seconds in HackingLog.fnc.php
 
 Changes in 4.0
 --------------
