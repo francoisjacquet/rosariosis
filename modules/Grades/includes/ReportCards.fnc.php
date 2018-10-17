@@ -563,6 +563,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 			$student_name_grade_RET = DBGet( DBQuery( "SELECT " . DisplayNameSQL() . " AS FULL_NAME,ssm.GRADE_ID
 			FROM STUDENTS s JOIN STUDENT_ENROLLMENT ssm ON (ssm.STUDENT_ID=s.STUDENT_ID)
 			WHERE s.STUDENT_ID='" . $student_id . "'
+			AND ssm.SYEAR='" . UserSyear() . "'
 			LIMIT 1" ) );
 
 			$student_full_name = $student_name_grade_RET[1]['FULL_NAME'];

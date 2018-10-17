@@ -11,6 +11,7 @@ Changes in 4.1
 - Fix SQL error when no MPs in calcSeats0.fnc.php
 - Format Credits: no 0 decimal in Transcripts.php
 - Redirect automatically to Portal after 5 seconds in HackingLog.fnc.php
+- Fix #257 SQL get current year Grade Level in Reportcards.fnc.php, thanks to @solida
 
 Changes in 4.0
 --------------
