@@ -7,11 +7,16 @@ if ( !isset($FS_IconsPath))
 //FJ Food Service icons functions
 
 //used in MenuItems.php, ServeMenus.php & Kiosk.php
-function makeIcon($value,$name,$height='30')
-{	global $FS_IconsPath;
+function makeIcon( $value, $name, $width = '36' )
+{
+	global $FS_IconsPath;
 
-	if ( $value)
-		return '<img src="'.$FS_IconsPath.$value.'" height="'.$height.'" />';
+	if ( $value )
+	{
+		return '<img src="' . $FS_IconsPath . $value . '" width="' . $width . '" />';
+	}
 	else
+	{
 		return '&nbsp;';
+	}
 }

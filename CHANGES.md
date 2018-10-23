@@ -1,6 +1,11 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 4.2
+--------------
+- CSS fix responsive image height in stylesheet.css
+- HTML Use width attribute for icon images in index.php, MenuItems.php & FS_Icons.inc.php
+
 Changes in 4.1
 --------------
 - Add Assignments header action hook in Assignments.php

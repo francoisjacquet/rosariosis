@@ -369,7 +369,7 @@ if ( empty( $_SESSION['STAFF_ID'] )
 			<?php foreach ( $RosarioLocales as $loc ) : ?>
 
 				<a href="index.php?locale=<?php echo $loc; ?>" title="<?php echo str_replace( '.utf8', '', $loc ); ?>">
-					<img src="locale/<?php echo $loc; ?>/flag.png" height="32" />
+					<img src="locale/<?php echo $loc; ?>/flag.png" width="32" />
 				</a>&nbsp;
 
 			<?php endforeach; ?>
