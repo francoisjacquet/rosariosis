@@ -6,6 +6,7 @@ Changes in 4.2
 - CSS fix responsive image height in stylesheet.css
 - HTML Use width attribute for icon images in index.php, MenuItems.php & FS_Icons.inc.php
 - CSS Fix tooltip displaying over side menu in stylesheet.css
+- Add Assignment Grades Submission column action hook in StudentAssignments.fnc.php
 
 Changes in 4.1
 --------------

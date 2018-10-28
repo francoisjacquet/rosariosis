@@ -9,11 +9,11 @@
 require_once 'ProgramFunctions/FileUpload.fnc.php';
 
 // Assignments Files upload path global.
+
 if ( ! isset( $AssignmentsFilesPath ) )
 {
 	$AssignmentsFilesPath = 'assets/AssignmentsFiles/';
 }
-
 
 /**
  * Submit Student Assignment
@@ -22,16 +22,14 @@ if ( ! isset( $AssignmentsFilesPath ) )
  *
  * @example $submitted = StudentAssignmentSubmit( $_REQUEST['assignment_id'], $error );
  *
- * @since 2.9
- *
  * @uses GetAssignment()
  * @uses GetAssignmentsFilesPath()
  * @uses FileUpload()
  * @uses SanitizeHTML()
+ * @since 2.9
  *
- * @param string $assignment_id Assignment ID.
- * @param array  $error         Global errors array.
- *
+ * @param  string  $assignment_id Assignment ID.
+ * @param  array   $error         Global errors array.
  * @return boolean False if error(s), else true.
  */
 function StudentAssignmentSubmit( $assignment_id, &$error )
@@ -66,7 +64,8 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 	$assignments_path = GetAssignmentsFilesPath( $assignment['STAFF_ID'] );
 
 	// Check if file submitted.
-	if ( isset( $_FILES[ 'submission_file' ] ) )
+
+	if ( isset( $_FILES['submission_file'] ) )
 	{
 		$student_name_RET = DBGet( DBQuery( "SELECT " . DisplayNameSQL() . " AS NAME
 			FROM STUDENTS
@@ -118,6 +117,7 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 
 	// Save assignment submission.
 	// Update or insert?
+
 	if ( $old_submission )
 	{
 		// Update.
@@ -129,6 +129,7 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 	else
 	{
 		// If no file & no message.
+
 		if ( $message = ''
 			&& ! $files )
 		{
@@ -146,20 +147,17 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 	return empty( $error );
 }
 
-
 /**
  * Student Assignment details
  * & Submission form.
  *
  * @example echo StudentAssignmentSubmission( $_REQUEST['assignment_id'] );
  *
- * @since 2.9
- *
  * @uses GetAssignmentSubmission()
  * @uses TinyMCEInput()
+ * @since 2.9
  *
- * @param string $assignment_id Assignment ID.
- *
+ * @param  string  $assignment_id Assignment ID.
  * @return boolean true if can submit, else false.
  */
 function StudentAssignmentSubmissionOutput( $assignment_id )
@@ -245,8 +243,9 @@ function StudentAssignmentSubmissionOutput( $assignment_id )
 	}
 
 	// Check if Assignment can be submitted (TODAY <= DUE_DATE) or (!DUE_DATE && TODAY > User MP END_DATE).
-	if ( ( $assignment['DUE_DATE']
-			&& DBDate() > $assignment['DUE_DATE'] )
+
+	if (  ( $assignment['DUE_DATE']
+		&& DBDate() > $assignment['DUE_DATE'] )
 		|| ( ! $assignment['DUE_DATE']
 			&& DBDate() > GetMP( UserMP(), 'END_DATE' ) ) )
 	{
@@ -278,8 +277,8 @@ function StudentAssignmentSubmissionOutput( $assignment_id )
 
 	// Input div onclick only if old file.
 	DrawHeader( $old_file ?
-			$old_file . $file_html :
-			$file_html,
+		$old_file . $file_html :
+		$file_html,
 		$old_file ? NoInput( $old_date, _( 'Submission date' ) ) : ''
 	);
 
@@ -291,8 +290,6 @@ function StudentAssignmentSubmissionOutput( $assignment_id )
 	return true;
 }
 
-
-
 /**
  * Get Assignment details from DB.
  *
@@ -300,20 +297,23 @@ function StudentAssignmentSubmissionOutput( $assignment_id )
  *
  * @since 2.9
  *
- * @param string $assignment_id Assignment ID.
- *
+ * @param  string        $assignment_id Assignment ID.
  * @return boolean|array Assignment details array or false.
  */
 function GetAssignment( $assignment_id )
 {
+	/**
+	 * @var array
+	 */
 	static $assignment = array();
 
-	if ( isset( $assignment[ $assignment_id ] ) )
+	if ( isset( $assignment[$assignment_id] ) )
 	{
-		return $assignment[ $assignment_id ];
+		return $assignment[$assignment_id];
 	}
 
 	// Check Assignment ID is int > 0.
+
 	if ( ! $assignment_id
 		|| (string) (int) $assignment_id !== $assignment_id
 		|| $assignment_id < 1 )
@@ -342,16 +342,20 @@ function GetAssignment( $assignment_id )
 
 	$assignment_RET = DBGet( DBQuery( $assignment_sql ), array(), array( 'ASSIGNMENT_ID' ) );
 
-	$assignment[ $assignment_id ] = isset( $assignment_RET[ $assignment_id ] ) ?
-		$assignment_RET[ $assignment_id ][1] : false;
+	$assignment[$assignment_id] = isset( $assignment_RET[$assignment_id] ) ?
+	$assignment_RET[$assignment_id][1] : false;
 
-	return $assignment[ $assignment_id ];
+	return $assignment[$assignment_id];
 }
 
-
+/**
+ * @param $assignment_id
+ * @param $student_id
+ */
 function GetAssignmentSubmission( $assignment_id, $student_id )
 {
 	// Check Assignment ID is int > 0 & Student ID.
+
 	if ( ! $assignment_id
 		|| (string) (int) $assignment_id !== $assignment_id
 		|| $assignment_id < 1
@@ -370,18 +374,15 @@ function GetAssignmentSubmission( $assignment_id, $student_id )
 	return isset( $submission_RET[1] ) ? $submission_RET[1] : false;
 }
 
-
 /**
  * Get `AssignmentsFiles/` folder full path
  *
  * @example $assignments_path = GetAssignmentsFilesPath( $assignment['STAFF_ID'] );
  *
+ * @global $AssignmentsFilesPath
  * @since 2.9
  *
- * @global $AssignmentsFilesPath
- *
- * @param string $teacher_id Teacher ID.
- *
+ * @param  string $teacher_id                                                                Teacher ID.
  * @return string AssignmentsFiles/[School_Year]/Quarter[1,2,3,4...]/Teacher[teacher_ID]/
  */
 function GetAssignmentsFilesPath( $teacher_id )
@@ -394,10 +395,9 @@ function GetAssignmentsFilesPath( $teacher_id )
 	}
 
 	// File path = AssignmentsFiles/[School_Year]/Quarter[1,2,3,4...]/Teacher[teacher_ID]/.
+
 	return $AssignmentsFilesPath . UserSyear() . '/Quarter' . UserMP() . '/Teacher' . $teacher_id . '/';
 }
-
-
 
 function StudentAssignmentsListOutput()
 {
@@ -452,20 +452,17 @@ function StudentAssignmentsListOutput()
 	return true;
 }
 
-
 if ( ! function_exists( 'MakeAssignmentTitle' ) )
 {
 	/**
 	 * Make Assignment title and link.
 	 *
+	 * @global $THIS_RET current row from DBGet.
 	 * @since 4.1 Override this function in your custom module or plugin.
 	 *
-	 * @global $THIS_RET current row from DBGet.
-	 *
-	 * @param string $value  Title value.
-	 * @param string $column Column, 'TITLE'.
-	 *
-	 * @return Title and link.
+	 * @param  string $value  Title value.
+	 * @param  string $column Column, 'TITLE'.
+	 * @return Title  and link.
 	 */
 	function MakeAssignmentTitle( $value, $column )
 	{
@@ -473,8 +470,8 @@ if ( ! function_exists( 'MakeAssignmentTitle' ) )
 
 		// Truncate value to 36 chars.
 		$title = mb_strlen( $value ) <= 36 ?
-			$value :
-			'<span title="' . $value . '">' . mb_substr( $value, 0, 33 ) . '...</span>';
+		$value :
+		'<span title="' . $value . '">' . mb_substr( $value, 0, 33 ) . '...</span>';
 
 		if ( User( 'PROFILE' ) === 'teacher' )
 		{
@@ -500,7 +497,11 @@ if ( ! function_exists( 'MakeAssignmentTitle' ) )
 	}
 }
 
-
+/**
+ * @param $value
+ * @param $column
+ * @return mixed
+ */
 function MakeAssignmentDueDate( $value, $column = 'DUE_DATE' )
 {
 	$due_date = ProperDate( $value );
@@ -515,7 +516,11 @@ function MakeAssignmentDueDate( $value, $column = 'DUE_DATE' )
 	return $due_date;
 }
 
-
+/**
+ * @param $value
+ * @param $column
+ * @return mixed
+ */
 function MakeAssignmentSubmitted( $value, $column )
 {
 	global $THIS_RET;
@@ -529,18 +534,32 @@ function MakeAssignmentSubmitted( $value, $column )
 }
 
 
+/**
+ * Make Student Assignment Submission View
+ *
+ * DBGet callback
+ *
+ * @since 4.2
+ *
+ * @param string $value
+ * @param string $column 'SUBMISSION'
+ * @return string Column HTML.
+ */
 function MakeStudentAssignmentSubmissionView( $value, $column )
 {
-	global $THIS_RET;
-
-	if ( $value !== 'Y' )
-	{
-		return '';
-	}
+	global $THIS_RET,
+		$submission_column_html;
 
 	$student_id = UserStudentID() ? UserStudentID() : $THIS_RET['STUDENT_ID'];
 
 	$submission = GetAssignmentSubmission( $THIS_RET['ASSIGNMENT_ID'], $student_id );
+
+	$submission_column_html = button( 'x' );
+
+	if ( $value !== 'Y' )
+	{
+		$submission_column_html = '';
+	}
 
 	if ( $submission )
 	{
@@ -552,24 +571,37 @@ function MakeStudentAssignmentSubmissionView( $value, $column )
 
 		$date = ProperDateTime( $data['date'], 'short' );
 
-		$html = '<a class="colorboxinline" href="#submission' . $THIS_RET['ASSIGNMENT_ID'] . '-' . $student_id . '">
+		$submission_column_html = '<a class="colorboxinline" href="#submission' . $THIS_RET['ASSIGNMENT_ID'] . '-' . $student_id . '">
 		<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/visualize.png" class="button bigger" /> ' .
 		_( 'View Online' ) . '</a>';
 
-		$html .= '<div class="hide">
-			<div id="submission' . $THIS_RET['ASSIGNMENT_ID'] . '-' . $student_id. '">' .
-			NoInput( $date, _( 'Submission date' ) ) . '<br />' .
-			NoInput( GetAssignmentFileLink( $file ), _( 'File' ) ) .
-			$message . FormatInputTitle( _( 'Message' ), '', false, '' ) .
+		$submission_column_html .= '<div class="hide">
+			<div id="submission' . $THIS_RET['ASSIGNMENT_ID'] . '-' . $student_id . '">' .
+		NoInput( $date, _( 'Submission date' ) ) . '<br />' .
+		NoInput( GetAssignmentFileLink( $file ), _( 'File' ) ) .
+		$message . FormatInputTitle( _( 'Message' ), '', false, '' ) .
 			'</div></div>';
 
-		return $html;
+		return $submission_column_html;
 	}
 
-	return button( 'x' );
+	/**
+	 * Do action hook
+	 * Assignment Grades Submission column.
+	 *
+	 * Submission Column HTML is a global var so it can be filtered.
+	 *
+	 * @since 4.2
+	 */
+	do_action( 'Grades/includes/StudentAssignments.fnc.php|grades_submission_column' );
+
+	return $submission_column_html;
 }
 
 
+/**
+ * @param $file_path
+ */
 function GetAssignmentFileLink( $file_path )
 {
 	if ( ! file_exists( $file_path ) )

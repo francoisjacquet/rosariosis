@@ -194,6 +194,14 @@ $RosarioActions = array();
 	 */
 	/*'Grades/Assignments.php|header' => array(),
 	'Grades/includes/StudentAssignments.fnc.php|submission_header' => array(),
+
+	/**
+	 * Assignment Grades Submission column.
+	 *
+	 * @since 4.2
+	 */
+	/*'Grades/Assignments.php|header' => array(),
+	'Grades/includes/StudentAssignments.fnc.php|grades_submission_column' => array(),
 );*/
 
 
