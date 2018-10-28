@@ -5,6 +5,7 @@ Changes in 4.2
 --------------
 - CSS fix responsive image height in stylesheet.css
 - HTML Use width attribute for icon images in index.php, MenuItems.php & FS_Icons.inc.php
+- CSS Fix tooltip displaying over side menu in stylesheet.css
 
 Changes in 4.1
 --------------

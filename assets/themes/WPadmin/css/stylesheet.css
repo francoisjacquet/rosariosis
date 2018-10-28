@@ -1244,7 +1244,7 @@ td.calendar-menu {
 /* Tooltip */
 
 .tooltip {
-	position: relative;
+	position: absolute;
 	display: inline-block;
 	margin-left: 5px;
 	cursor: help
@@ -1270,7 +1270,7 @@ td.calendar-menu {
 	bottom: 150%;
 	left: -90px;
 	width: 180px;
-	z-index: 999999;
+	z-index: 999;
 	display: inline-block;
 	padding: 7px;
 	border-radius: 3px;
