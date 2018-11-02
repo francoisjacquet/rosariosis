@@ -32,7 +32,7 @@
 #footer {
 	clear: both;
 	position: fixed;
-	z-index: 99999;
+	z-index: 99;
 	bottom: 0;
 	left: 0;
 	height: 40px;
@@ -1403,11 +1403,6 @@ input[type=checkbox].toggle {
 .markdown-to-html img {
 	/* Responsive image for TinyMCE & Markdown HTML. */
 	height: auto;
-}
-
-.mce-tinymce.mce-fullscreen {
-	/* Fullscreen above bottom menu */
-	z-index: 100000;
 }
 
 /* Chosen select: add 15px to original width so Chosen options ALL fit */
