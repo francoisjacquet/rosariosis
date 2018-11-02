@@ -7,6 +7,7 @@ Changes in 4.2
 - HTML Use width attribute for icon images in index.php, MenuItems.php & FS_Icons.inc.php
 - CSS Fix tooltip displaying over side menu in stylesheet.css
 - Add Assignment Grades Submission column action hook in StudentAssignments.fnc.php
+- CSS TinyMCE Fullscreen above bottom menu & "Insert/Edit image" popup too large on mobile devices in stylesheet.css
 
 Changes in 4.1
 --------------

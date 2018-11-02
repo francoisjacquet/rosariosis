@@ -1405,6 +1405,11 @@ input[type=checkbox].toggle {
 	height: auto;
 }
 
+.mce-tinymce.mce-fullscreen {
+	/* Fullscreen above bottom menu */
+	z-index: 100000;
+}
+
 /* Chosen select: add 15px to original width so Chosen options ALL fit */
 
 .chosen-select {
