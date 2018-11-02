@@ -1039,6 +1039,7 @@ div.updated .button {
 
 #BottomButtonMenu {
 	height: 32px;
+	line-height: 28px;
 	float: left;
 }
 
