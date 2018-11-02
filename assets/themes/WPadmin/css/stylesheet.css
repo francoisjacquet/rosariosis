@@ -2,7 +2,6 @@
 	height: auto;
 	min-height: 100%;
 	width: 100%;
-	position: relative
 }
 
 /*ScrollToFixed bug when menu hidden*/
@@ -42,8 +41,7 @@
 
 #footerwrap {
 	height: 32px;
-	padding-top: 3px;
-	padding-bottom: 3px;
+	padding: 3px;
 	text-align: center;
 	border-width: 1px 0;
 	border-style: solid;
