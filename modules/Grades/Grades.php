@@ -8,6 +8,14 @@ require_once 'ProgramFunctions/_makeLetterGrade.fnc.php';
 
 require_once 'modules/Grades/includes/StudentAssignments.fnc.php';
 
+$_REQUEST['include_inactive'] = empty( $_REQUEST['include_inactive'] ) ? '' : $_REQUEST['include_inactive'];
+
+$_REQUEST['include_all'] = empty( $_REQUEST['include_all'] ) ? '' : $_REQUEST['include_all'];
+
+$_REQUEST['type_id'] = empty( $_REQUEST['type_id'] ) ? '' : $_REQUEST['type_id'];
+
+$_REQUEST['assignment_id'] = empty( $_REQUEST['assignment_id'] ) ? '' : $_REQUEST['assignment_id'];
+
 DrawHeader( _( 'Gradebook' ) . ' - ' . ProgramTitle() . ' - ' . GetMP( UserMP() ) );
 
 // if running as a teacher program then rosario[allow_edit] will already be set according to admin permissions
@@ -135,8 +143,8 @@ if ( UserStudentID()
 	$_REQUEST['assignment_id'] = 'all';
 }
 
-if ( $_REQUEST['values']
-	&& $_POST['values']
+if ( ! empty( $_REQUEST['values'] )
+	&& ! empty( $_POST['values'] )
 	// Fix use weak comparison "==" operator as $_SESSION['type_id'] maybe null.
 	 && $_SESSION['type_id'] == $_REQUEST['type_id']
 	&& $_SESSION['assignment_id'] == $_REQUEST['assignment_id'] )
@@ -242,8 +250,8 @@ if ( $_REQUEST['values']
 	unset( $current_RET );
 }
 
-$_SESSION['type_id'] = isset( $_REQUEST['type_id'] ) ? $_REQUEST['type_id'] : null;
-$_SESSION['assignment_id'] = isset( $_REQUEST['assignment_id'] ) ? $_REQUEST['assignment_id'] : null;
+$_SESSION['type_id'] = ! empty( $_REQUEST['type_id'] ) ? $_REQUEST['type_id'] : null;
+$_SESSION['assignment_id'] = ! empty( $_REQUEST['assignment_id'] ) ? $_REQUEST['assignment_id'] : null;
 
 $LO_options = array( 'search' => false );
 
@@ -390,7 +398,7 @@ else
 	}
 	elseif ( ! empty( $_REQUEST['assignment_id'] ) )
 	{
-		$extra['SELECT'] .= ",'" . $_REQUEST['assignment_id'] . "' AS POINTS,
+		$extra['SELECT'] = ",'" . $_REQUEST['assignment_id'] . "' AS POINTS,
 			'" . $_REQUEST['assignment_id'] . "' AS PERCENT_GRADE,
 			'" . $_REQUEST['assignment_id'] . "' AS LETTER_GRADE,
 			'" . $_REQUEST['assignment_id'] . "' AS COMMENT,
@@ -524,7 +532,7 @@ $assignment_select .= '</select>';
 
 // echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&student_id='.UserStudentID().'" method="POST">';
 
-echo '<form action="' . PreparePHP_SELF() . '" method="POST">';
+echo '<form action="' . PreparePHP_SELF( array(), array( 'values' ) ) . '" method="POST">';
 
 $tabs = array( array(
 	'title' => _( 'All' ),
@@ -640,8 +648,8 @@ function _makeTipMessage( $full_name, $column )
 }
 
 /**
- * @param $assignment_id
- * @param $column
+ * @param  $assignment_id
+ * @param  $column
  * @return mixed
  */
 function _makeExtraAssnCols( $assignment_id, $column )
