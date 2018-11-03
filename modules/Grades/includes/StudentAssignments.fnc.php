@@ -447,7 +447,19 @@ function StudentAssignmentsListOutput()
 		'SUBMITTED' => _( 'Submitted' ),
 	);
 
-	ListOutput( $assignments_RET, $columns, _( 'Assignment' ), _( 'Assignments' ) );
+	$LO_options = array(
+		'save' => false,
+	);
+
+	ListOutput(
+		$assignments_RET,
+		$columns,
+		_( 'Assignment' ),
+		_( 'Assignments' ),
+		array(),
+		array(),
+		$LO_options
+	);
 
 	return true;
 }
