@@ -268,52 +268,14 @@ if ( ! $_REQUEST['modfunc']
 
 				case 'multiple_checkbox':
 
-					$multiple_value = ( $RET[ 'CATEGORY_' . $category['ID'] ] != '' ) ?
-						str_replace( '||', ', ', mb_substr( $RET[ 'CATEGORY_' . $category['ID'] ], 2, -2 ) ) :
-						'-';
-
-					if ( ! AllowEdit()
-					 	|| isset( $_REQUEST['_ROSARIO_PDF'] ) )
-					{
-						echo $multiple_value;
-
-						break;
-					}
-
 					$options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS'] ) );
 
-					$multiple_html = '<table class="cellpadding-5"><tr class="st">';
-
-					$i = 0;
-
-					foreach ( (array) $options as $option )
-					{
-						$i++;
-
-						if ( $i % 3 == 0 )
-						{
-							$multiple_html .= '</tr><tr class="st">';
-						}
-
-						$multiple_html .= '<td><label>
-							<input type="checkbox" name="values[CATEGORY_' . $category['ID'] . '][]"
-								value="' . htmlspecialchars( $option, ENT_QUOTES ) . '"' .
-								( $option != '' && mb_strpos( $RET[ 'CATEGORY_' . $category['ID'] ], $option ) !== false ? ' checked' : '' ) . ' />&nbsp;' .
-							( $option != '' ? $option : '-' ) .
-						'</label></td>';
-					}
-
-					$multiple_html .= '</tr></table>';
-
-					$id = GetInputID( 'values[CATEGORY_' . $category['ID'] . ']' );
-
-					$ftitle = FormatInputTitle( $category['TITLE'] );
-
-					echo InputDivOnclick(
-						$id,
-						$multiple_html . str_replace( '<br />' , '', $ftitle ),
-						$multiple_value,
-						$ftitle
+					// @since 4.2
+					echo MultipleCheckboxInput(
+						$RET[ 'CATEGORY_' . $category['ID'] ],
+						'values[CATEGORY_' . $category['ID'] . '][]',
+						$category['TITLE'],
+						$category['SELECT_OPTIONS']
 					);
 
 				break;

@@ -8,6 +8,7 @@ Changes in 4.2
 - CSS Fix tooltip displaying over side menu in stylesheet.css
 - Add Assignment Grades Submission column action hook in StudentAssignments.fnc.php
 - CSS TinyMCE Fullscreen above bottom menu & "Insert/Edit image" popup too large on mobile devices in stylesheet.css
+- Add MultipleCheckboxInput() function in Inputs.php & Referrals.php
 
 Changes in 4.1
 --------------

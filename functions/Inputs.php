@@ -608,6 +608,86 @@ function CheckboxInput( $value, $name, $title = '', $checked = '', $new = false,
 
 
 /**
+ * Multiple Checkbox Input
+ * Do not forget to add '[]' (array) after your input name.
+ *
+ * @since 4.2
+ *
+ * @example CheckboxInput( $value, 'values[' . $id . '][' . $name . '][]' );
+ *
+ * @uses GetInputID() to generate ID from name
+ * @uses InputDivOnclick()
+ *       if ( AllowEdit() && !isset( $_REQUEST['_ROSARIO_PDF'] ) && ! $new && $div )
+ * @uses InputDivOnclick()
+ *
+ * @param  string  $value   Input value(s), delimited by 2 pipes. For example: '||Value1||Value2||'.
+ * @param  string  $name    Input name.
+ * @param  string  $title   Input title (optional). Defaults to ''.
+ * @param  array   $options Input options: array( option_value => option_text ).
+ * @param  string  $extra   Extra HTML attributes added to the input. (optional).
+ * @param  boolean $div     Is input wrapped into <div onclick>? (optional). Defaults to true.
+ *
+ * @return string  Inputs HTML
+ */
+function MultipleCheckboxInput( $value, $name, $title, $options, $extra = '', $div = true )
+{
+	$id = GetInputID( $name );
+
+	$required = $value == '' && mb_strpos( $extra, 'required' ) !== false;
+
+	$ftitle = FormatInputTitle( $title, $id, $required );
+
+	$multiple_value = ( $value != '' ) ?
+		str_replace( '||', ', ', mb_substr( $value, 2, -2 ) ) :
+		'-';
+
+	if ( ! AllowEdit()
+	 	|| isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
+		return $multiple_value . $ftitle;
+	}
+
+	$multiple_html = '<table class="cellpadding-5"><tr class="st">';
+
+	$i = 0;
+
+	foreach ( (array) $options as $option )
+	{
+		if ( $i++ % 3 == 0 )
+		{
+			$multiple_html .= '</tr><tr class="st">';
+		}
+
+		$multiple_html .= '<td><label>
+			<input type="checkbox" name="' . $name . '"
+				value="' . htmlspecialchars( $option, ENT_QUOTES ) . '" ' . $extra . ' ' .
+				( $option != '' && mb_strpos( $value, $option ) !== false ? ' checked' : '' ) . ' />&nbsp;' .
+			( $option != '' ? $option : '-' ) .
+		'</label></td>';
+	}
+
+	$multiple_html .= '</tr></table>';
+
+	$multiple_html .= $ftitle;
+
+	if ( $value != ''
+		&& $div )
+	{
+		$return = InputDivOnclick(
+			$id,
+			$multiple_html . str_replace( '<br />' , '', $ftitle ),
+			$multiple_value,
+			$ftitle
+		);
+	}
+	else
+		$return = $multiple_html;
+
+	return $return;
+}
+
+
+/**
  * Select Input
  *
  * @example SelectInput( $value, 'values[' . $id . '][' . $name . ']', '', $options, 'N/A', $extra )
@@ -641,7 +721,7 @@ function SelectInput( $value, $name, $title = '', $options = array(), $allow_na 
 	// Mab - append current val to select list if not in list.
 	if ( $value != ''
 		&& ( ! is_array( $options )
-			|| !array_key_exists( $value, $options ) ) )
+			|| ! array_key_exists( $value, $options ) ) )
 	{
 		$options[ $value ] = array( $value, '<span style="color:red">' . $value . '</span>' );
 	}
@@ -974,7 +1054,7 @@ function RadioInput( $value, $name, $title = '', $options, $allow_na = 'N/A', $e
 	// mab - append current val to select list if not in list
 	if ( $value != ''
 		&& ( ! is_array( $options )
-			|| !array_key_exists( $value, $options ) ) )
+			|| ! array_key_exists( $value, $options ) ) )
 	{
 		$options[ $value ] = array( $value, '<span style="color:red">' . $value . '</span>' );
 	}
@@ -982,7 +1062,7 @@ function RadioInput( $value, $name, $title = '', $options, $allow_na = 'N/A', $e
 	if ( AllowEdit()
 		&& !isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
-		$table = '<table class="cellspacing-0 cellpadding-5" ' . $extra . '><tr class="center">';
+		$table = '<table class="cellspacing-0 cellpadding-5"><tr class="st">';
 
 		if ( $allow_na !== false )
 		{
