@@ -124,13 +124,13 @@ img {
 	height: auto;
 }
 
-td,
-textarea {
+td {
 	line-height: inherit
 }
 
 input,
-select {
+select,
+textarea {
 	line-height: 1.231
 }
 
