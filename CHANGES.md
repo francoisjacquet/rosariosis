@@ -9,6 +9,7 @@ Changes in 4.2
 - Add Assignment Grades Submission column action hook in StudentAssignments.fnc.php
 - CSS TinyMCE Fullscreen above bottom menu & "Insert/Edit image" popup too large on mobile devices in stylesheet.css
 - Add MultipleCheckboxInput() function in Inputs.php & Referrals.php
+- Fix \_help gettext function so it works with add-on modules and plugins in Help_en.php
 
 Changes in 4.1
 --------------
