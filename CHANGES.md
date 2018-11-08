@@ -10,6 +10,7 @@ Changes in 4.2
 - CSS TinyMCE Fullscreen above bottom menu & "Insert/Edit image" popup too large on mobile devices in stylesheet.css
 - Add MultipleCheckboxInput() function in Inputs.php & Referrals.php
 - Fix \_help gettext function so it works with add-on modules and plugins in Help_en.php
+- SQL CONFIG table: Change config_value column type to text in rosariosis.sql & Update.fnc.php
 
 Changes in 4.1
 --------------

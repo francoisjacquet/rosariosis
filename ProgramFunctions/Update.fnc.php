@@ -95,6 +95,10 @@ function Update()
 		case version_compare( $from_version, '4.0-beta', '<' ) :
 
 			$return = _update40beta();
+
+		case version_compare( $from_version, '4.2-beta', '<' ) :
+
+			$return = _update42beta();
 	}
 
 	// Update version in DB CONFIG table.
@@ -237,6 +241,39 @@ function _update40beta()
 	END
 	$$
 		LANGUAGE plpgsql;" );
+
+	return $return;
+}
+
+
+/**
+ * Update to version 4.2
+ *
+ * 1. CONFIG table:
+ * Change config_value column type to text
+ * Was character varying(2550) which could prevent saving rich text with base64 images
+ * in case there is an issue with the image upload.
+ *
+ * Local function
+ *
+ * @since 4.2
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update42beta()
+{
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. CONFIG table:
+	 * Change config_value column type to text
+	 * Was character varying(2550) which could prevent saving rich text with base64 images
+	 * in case there is an issue with the image upload.
+	 */
+	DBQuery( "ALTER TABLE config
+		ALTER COLUMN config_value TYPE text;" );
 
 	return $return;
 }
