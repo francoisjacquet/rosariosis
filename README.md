@@ -24,7 +24,7 @@ You need to read the above documentation prior to attempting any install.
 Demo
 ----
 
-You can try RosarioSIS and access the [online demonstration](https://www.rosariosis.org/demonstration/) from the project website.
+You can try RosarioSIS and access the [online demonstration](https://www.rosariosis.org/demo/) from the project website.
 
 
 About RosarioSIS
