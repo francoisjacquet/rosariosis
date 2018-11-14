@@ -395,7 +395,7 @@ var ajaxPrepare = function(target) {
 	});
 
 	var h3 = $('#body h3.title').first().text();
-	document.title = $('#body h2').text() + (h3 ? ' | ' + h3 : '');
+	document.title = $('#body h2').first().text() + (h3 ? ' | ' + h3 : '');
 
 	submenuOffset();
 
