@@ -53,7 +53,8 @@ if ( ! function_exists( 'DashboardFoodServiceAdmin' ) )
 			AND SHORT_NAME=(SELECT TITLE
 				FROM FOOD_SERVICE_MENUS
 				WHERE SCHOOL_ID='" . UserSchool() . "'
-				ORDER BY SORT_ORDER)
+				ORDER BY SORT_ORDER
+				LIMIT 1)
 			AND SCHOOL_ID='" . UserSchool() . "'
 			GROUP BY TRANSACTION_DATE,STUDENT_ID
 			ORDER BY TRANSACTION_DATE DESC
@@ -67,7 +68,8 @@ if ( ! function_exists( 'DashboardFoodServiceAdmin' ) )
 			AND SHORT_NAME=(SELECT TITLE
 				FROM FOOD_SERVICE_MENUS
 				WHERE SCHOOL_ID='" . UserSchool() . "'
-				ORDER BY SORT_ORDER)
+				ORDER BY SORT_ORDER
+				LIMIT 1)
 			AND SCHOOL_ID='" . UserSchool() . "'
 			GROUP BY TRANSACTION_DATE,STAFF_ID
 			ORDER BY TRANSACTION_DATE DESC
