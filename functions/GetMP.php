@@ -323,6 +323,8 @@ function GetChildrenMP( $mp, $marking_period_id = '0' )
 
 				foreach ( (array) $qtr_RET as $sem => $qtrs )
 				{
+					$children_mp[ $mp ][ $sem ] = '';
+
 					foreach ( (array) $qtrs as $qtr )
 					{
 						$children_mp[ $mp ][ $sem ] .= ",'" . $qtr['MARKING_PERIOD_ID'] . "'";
@@ -349,6 +351,8 @@ function GetChildrenMP( $mp, $marking_period_id = '0' )
 
 				foreach ( (array) $pro_RET as $qtr => $pros )
 				{
+					$children_mp[ $mp ][ $qtr ] = '';
+
 					foreach ( (array) $pros as $pro )
 					{
 						$children_mp[ $mp ][ $qtr ] .= ",'" . $pro['MARKING_PERIOD_ID'] . "'";
@@ -361,7 +365,9 @@ function GetChildrenMP( $mp, $marking_period_id = '0' )
 		}
 	}
 
-	return $children_mp[ $mp ][ $marking_period_id ];
+	return isset( $children_mp[ $mp ][ $marking_period_id ] ) ?
+		$children_mp[ $mp ][ $marking_period_id ] :
+		'';
 }
 
 
