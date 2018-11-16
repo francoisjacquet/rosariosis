@@ -213,6 +213,7 @@ pip-log.txt
 
 # Node
 node_modules
+package-lock.json
 
 # phpdoc
 phpdoc-cache*
@@ -240,6 +241,7 @@ modules/Access_Log/
 modules/School_Inventory/
 modules/Graduation_Paths/
 modules/Email/
+modules/Email_Parents/
 modules/Student_Billing_Premium/
 modules/Quiz/
 plugins/TinyMCE_Record_Audio_Video
