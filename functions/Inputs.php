@@ -613,7 +613,7 @@ function CheckboxInput( $value, $name, $title = '', $checked = '', $new = false,
  *
  * @since 4.2
  *
- * @example CheckboxInput( $value, 'values[' . $id . '][' . $name . '][]' );
+ * @example MultipleCheckboxInput( $value, 'values[' . $id . '][' . $name . '][]' );
  *
  * @uses GetInputID() to generate ID from name
  * @uses InputDivOnclick()
