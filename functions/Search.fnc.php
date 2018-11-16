@@ -197,7 +197,7 @@ function Search( $type, $extra = null )
 					$id = $grade_level['ID'];
 
 					echo '<option value="' . $id . '"' . ( $extra == $id ? ' selected' : '' ) . '>' .
-						$value['TITLE'] . '</option>';
+						$grade_level['TITLE'] . '</option>';
 				}
 
 				echo '</select></td></tr>';
