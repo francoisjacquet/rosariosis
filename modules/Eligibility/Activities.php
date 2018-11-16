@@ -6,45 +6,50 @@ DrawHeader( ProgramTitle() );
 AddRequestedDates( 'values', 'post' );
 
 if ( $_REQUEST['modfunc'] === 'update'
-	&& isset( $_POST['values'] )
-	&& count( $_POST['values'] )
+	&& ! empty( $_POST['values'] )
 	&& AllowEdit() )
 {
-	foreach ( (array) $_REQUEST['values'] as $id => $columns)
+	foreach ( (array) $_REQUEST['values'] as $id => $columns )
 	{
-		if ( $id!='new')
+		if ( $id != 'new' )
 		{
 			$sql = "UPDATE ELIGIBILITY_ACTIVITIES SET ";
 
-			foreach ( (array) $columns as $column => $value)
+			foreach ( (array) $columns as $column => $value )
 			{
 				$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 			}
-			$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
-			DBQuery($sql);
+
+			$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . $id . "'";
+			DBQuery( $sql );
 		}
+
 		// New: check for Title
 		elseif ( $columns['TITLE'] )
 		{
 			$sql = "INSERT INTO ELIGIBILITY_ACTIVITIES ";
 
 			$fields = 'ID,SCHOOL_ID,SYEAR,';
-			$values = db_seq_nextval('ELIGIBILITY_ACTIVITIES_SEQ').",'".UserSchool()."','".UserSyear()."',";
+			$values = db_seq_nextval( 'ELIGIBILITY_ACTIVITIES_SEQ' ) . ",'" . UserSchool() . "','" . UserSyear() . "',";
 
 			$go = 0;
-			foreach ( (array) $columns as $column => $value)
+
+			foreach ( (array) $columns as $column => $value )
 			{
-				if ( !empty($value) || $value=='0')
+				if ( ! empty( $value ) || $value == '0' )
 				{
 					$fields .= DBEscapeIdentifier( $column ) . ',';
 					$values .= "'" . $value . "',";
 					$go = true;
 				}
 			}
+
 			$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
 
-			if ( $go)
-				DBQuery($sql);
+			if ( $go )
+			{
+				DBQuery( $sql );
+			}
 		}
 	}
 
@@ -67,7 +72,11 @@ if ( $_REQUEST['modfunc'] === 'remove'
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	$sql = "SELECT ID,TITLE,START_DATE,END_DATE FROM ELIGIBILITY_ACTIVITIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY TITLE";
+	$sql = "SELECT ID,TITLE,START_DATE,END_DATE
+	FROM ELIGIBILITY_ACTIVITIES
+	WHERE SYEAR='" . UserSyear() . "'
+	AND SCHOOL_ID='" . UserSchool() . "'
+	ORDER BY TITLE";
 
 	$activities_RET = DBGet(
 		DBQuery( $sql ),
@@ -90,22 +99,31 @@ if ( ! $_REQUEST['modfunc'] )
 		'END_DATE' => _makeDateInput( '', 'END_DATE' ),
 	);
 
-	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';
+	$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove';
 
-	$link['remove']['variables'] = array('id' => 'ID');
+	$link['remove']['variables'] = array( 'id' => 'ID' );
 
-	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
+	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update" method="POST">';
 	DrawHeader( '', SubmitButton() );
-	ListOutput($activities_RET,$columns,'Activity','Activities',$link);
+	ListOutput( $activities_RET, $columns, 'Activity', 'Activities', $link );
 	echo '<div class="center">' . SubmitButton() . '</div>';
 	echo '</form>';
 }
 
+/**
+ * @param $value
+ * @param $name
+ */
 function _makeTextInput( $value, $name )
 {
 	global $THIS_RET;
 
 	$extra = '';
+
+	if ( $name === 'TITLE' )
+	{
+		$extra .= ' maxlength=100';
+	}
 
 	if ( $THIS_RET['ID'] )
 	{
@@ -119,11 +137,20 @@ function _makeTextInput( $value, $name )
 	else
 	{
 		$id = 'new';
+
+		if ( $name === 'TITLE' )
+		{
+			$extra .= ' size=20';
+		}
 	}
 
 	return TextInput( $value, 'values[' . $id . '][' . $name . ']', '', $extra );
 }
 
+/**
+ * @param $value
+ * @param $name
+ */
 function _makeDateInput( $value, $name )
 {
 	global $THIS_RET;
