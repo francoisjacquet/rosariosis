@@ -536,7 +536,7 @@ if ( ! $_REQUEST['modfunc'] )
 			( empty( $RET['TITLE'] ) ? '' : $RET['TITLE'] ),
 			'tables[' . $_REQUEST['assignment_id'] . '][TITLE]',
 			_( 'Title' ),
-			'required'
+			'required maxlength=100' . ( empty( $RET['TITLE'] ) ? ' size=20' : '' )
 		) . '</td>';
 
 		foreach ( (array) $types_RET as $type )
@@ -675,7 +675,7 @@ if ( ! $_REQUEST['modfunc'] )
 			( empty( $RET['TITLE'] ) ? '' : $RET['TITLE'] ),
 			'tables[' . $_REQUEST['assignment_type_id'] . '][TITLE]',
 			_( 'Title' ),
-			'required'
+			'required maxlength=100' . ( empty( $RET['TITLE'] ) ? ' size=20' : '' )
 		) . '</td>';
 
 		if ( Preferences( 'WEIGHT', 'Gradebook' ) == 'Y' )
