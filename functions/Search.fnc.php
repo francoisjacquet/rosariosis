@@ -146,14 +146,14 @@ function Search( $type, $extra = null )
 				</td></tr>';
 
 			// Grade Level.
-			$list = DBGet( DBQuery( "SELECT ID,TITLE,SHORT_NAME
+			$grade_levels_RET = DBGet( DBQuery( "SELECT ID,TITLE,SHORT_NAME
 				FROM SCHOOL_GRADELEVELS
 				WHERE SCHOOL_ID='" . UserSchool() . "'
 				ORDER BY SORT_ORDER" ) );
 
 			if ( isset( $_REQUEST['advanced'] )
 				&& $_REQUEST['advanced'] === 'Y'
-				|| is_array( $extra ) )
+				|| ! empty( $extra ) && is_array( $extra ) )
 			{
 				echo '<tr><td>' . _( 'Grade Levels' ) . '</td>
 				<td><label class="nobr"><input type="checkbox" name="grades_not" value="Y" />&nbsp;' .
@@ -165,13 +165,15 @@ function Search( $type, $extra = null )
 
 				$i = 0;
 
-				foreach ( (array) $list as $value )
+				foreach ( (array) $grade_levels_RET as $grade_level )
 				{
-					$checked = ! empty( $extra[ $value['ID'] ] ) || $extra == $value['ID'] ? ' checked' : '';
+					$id = $grade_level['ID'];
+
+					$checked = ! empty( $extra[ $id ] ) || $extra == $id ? ' checked' : '';
 
 					echo '<label class="nobr">
-					<input type="checkbox" name="grades[' . $value['ID'] . ']" value="Y"' . $checked . ' />&nbsp;' .
-						$value['SHORT_NAME'] . '</label> &nbsp;';
+					<input type="checkbox" name="grades[' . $id . ']" value="Y"' . $checked . ' />&nbsp;' .
+						$grade_level['SHORT_NAME'] . '</label> &nbsp;';
 
 					$i++;
 
@@ -190,9 +192,11 @@ function Search( $type, $extra = null )
 				<select name="grade" id="grade">
 				<option value="">' . _( 'Not Specified' ) . '</option>';
 
-				foreach ( (array) $list as $value )
+				foreach ( (array) $grade_levels_RET as $grade_level )
 				{
-					echo '<option value="' . $value['ID'] . '"' . ( $extra == $value['ID'] ? ' selected' : '' ) . '>' .
+					$id = $grade_level['ID'];
+
+					echo '<option value="' . $id . '"' . ( $extra == $id ? ' selected' : '' ) . '>' .
 						$value['TITLE'] . '</option>';
 				}
 
