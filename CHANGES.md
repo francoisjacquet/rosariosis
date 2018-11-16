@@ -11,6 +11,7 @@ Changes in 4.2
 - Add MultipleCheckboxInput() function in Inputs.php & Referrals.php
 - Fix \_help gettext function so it works with add-on modules and plugins in Help_en.php
 - SQL CONFIG table: Change config_value column type to text in rosariosis.sql & Update.fnc.php
+- SQL fix more than one row returned by a subquery error in Food_Service/includes/Dashboard.inc.php
 
 Changes in 4.1
 --------------

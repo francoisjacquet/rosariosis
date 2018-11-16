@@ -50,10 +50,6 @@ if ( ! function_exists( 'DashboardFoodServiceAdmin' ) )
 			TO_CHAR(" . DBEscapeIdentifier( 'TIMESTAMP' ) . ",'YYYY-MM-DD') AS TRANSACTION_DATE
 			FROM FOOD_SERVICE_TRANSACTIONS
 			WHERE SYEAR='" . UserSyear() . "'
-			AND SHORT_NAME=(SELECT TITLE
-				FROM FOOD_SERVICE_MENUS
-				WHERE SCHOOL_ID='" . UserSchool() . "'
-				ORDER BY SORT_ORDER)
 			AND SCHOOL_ID='" . UserSchool() . "'
 			GROUP BY TRANSACTION_DATE,STUDENT_ID
 			ORDER BY TRANSACTION_DATE DESC
@@ -64,10 +60,6 @@ if ( ! function_exists( 'DashboardFoodServiceAdmin' ) )
 			TO_CHAR(" . DBEscapeIdentifier( 'TIMESTAMP' ) . ",'YYYY-MM-DD') AS TRANSACTION_DATE
 			FROM FOOD_SERVICE_STAFF_TRANSACTIONS
 			WHERE SYEAR='" . UserSyear() . "'
-			AND SHORT_NAME=(SELECT TITLE
-				FROM FOOD_SERVICE_MENUS
-				WHERE SCHOOL_ID='" . UserSchool() . "'
-				ORDER BY SORT_ORDER)
 			AND SCHOOL_ID='" . UserSchool() . "'
 			GROUP BY TRANSACTION_DATE,STAFF_ID
 			ORDER BY TRANSACTION_DATE DESC
