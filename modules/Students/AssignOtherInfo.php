@@ -55,7 +55,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 			}
 		}
 
-		foreach ( (array) $_REQUEST['student'] as $student_id => $yes)
+		foreach ( (array) $_REQUEST['student'] as $student_id )
 		{
 			if ( $yes=='Y')
 			{
@@ -359,21 +359,13 @@ if ( ! $_REQUEST['modfunc'] )
 	//Widgets('course');
 	//Widgets('absences');
 
-	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.checked,\'student\');"><A>');
+	$extra['functions'] = array('CHECKBOX' => 'MakeChooseCheckbox');
+	$extra['columns_before'] = array('CHECKBOX' => MakeChooseCheckbox( '', 'STUDENT_ID', 'student' ) );
 	$extra['new'] = true;
 
 	Search('student_id',$extra);
 	if ( $_REQUEST['search_modfunc']=='list')
 		echo '<br /><div class="center">' . SubmitButton() . '</div></form>';
-}
-
-
-function _makeChooseCheckbox( $value, $title = '' )
-{
-	global $THIS_RET;
-
-	return '<input type="checkbox" name="student[' . $THIS_RET['STUDENT_ID'] . ']" value="Y" />';
 }
 
 function _makeTextInput( $column, $numeric = false )

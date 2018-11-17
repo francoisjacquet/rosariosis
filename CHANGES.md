@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 4.3
+--------------
+- Add MakeChooseCheckbox() function in Inputs.php
+
 Changes in 4.2
 --------------
 - CSS fix responsive image height in stylesheet.css

@@ -81,9 +81,9 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
 
-	$extra['functions'] = array( 'CHECKBOX' => '_makeChooseCheckbox' );
+	$extra['functions'] = array( 'CHECKBOX' => 'MakeChooseCheckbox' );
 
-	$extra['columns_before'] = array( 'CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.checked,\'st_arr\');"><A>' );
+	$extra['columns_before'] = array( 'CHECKBOX' => MakeChooseCheckbox( 'Y', '', 'st_arr' ) );
 
 	$extra['options']['search'] = false;
 
@@ -96,13 +96,4 @@ if ( ! $_REQUEST['modfunc'] )
 		echo '<br /><div class="center">' . Buttons( _( 'Create Labels for Selected Students' ) ) . '</div>';
 		echo '</form>';
 	}
-}
-
-/**
- * @param $value
- * @param $title
- */
-function _makeChooseCheckbox( $value, $title )
-{
-	return '<input type="checkbox" name="st_arr[]" value="' . $value . '" checked />';
 }

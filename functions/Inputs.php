@@ -1505,3 +1505,53 @@ function InputDivOnclick( $id, $input_html, $value, $input_ftitle )
 
 	return $div_onclick;
 }
+
+
+/**
+ * Make Choose Checkbox
+ *
+ * Use in extra columns for ListOutput
+ *
+ * DBGet() callback
+ * AND use first, to set controller checkbox & default checked value & $THIS_RET column if need be.
+ *
+ * @since 4.3
+ *
+ * First, set controller:
+ * @example $extra['columns_before'] = array( 'CHECKBOX' => MakeChooseCheckbox( '', 'STUDENT_ID', 'student' ) );
+ * Then, use as DBGet() callback:
+ * @example $extra['functions'] = array( 'CHECKBOX' => 'MakeChooseCheckbox' );
+ *
+ * @param string $value           DB value or checked ('Y').
+ * @param string $column          Current DBGet column or $THIS_RET column to use (optional).
+ * @param string $controller_name Controller name (set first only), ie. 'student' will give 'student[1]' (optional).
+ */
+function MakeChooseCheckbox( $value, $column = '', $controller_name = '' )
+{
+	global $THIS_RET;
+
+	static $controller_column,
+		$name,
+		$checked;
+
+	if ( ! empty( $controller_name ) )
+	{
+		$controller_column = $column;
+
+		$name = $controller_name;
+
+		$checked = $value === 'Y';
+
+		return '</a><input type="checkbox" value="Y" name="controller"
+			onclick="checkAll(this.form,this.checked,\'' . $controller_name .'\');"' .
+			( $checked ? ' checked' : '' ) . ' /><a>';
+	}
+
+	if ( ! empty( $controller_column ) )
+	{
+		$value = isset( $THIS_RET[ $controller_column ] ) ? $THIS_RET[ $controller_column ] : '';
+	}
+
+	return '<input type="checkbox" name="' . $name . '[]" value="' . $value . '"' .
+		( $checked ? ' checked' : '' ) . ' />';
+}

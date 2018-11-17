@@ -176,8 +176,8 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
-	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.checked,\'st_arr\');"><A>');
+	$extra['functions'] = array('CHECKBOX' => 'MakeChooseCheckbox');
+	$extra['columns_before'] = array('CHECKBOX' => MakeChooseCheckbox( 'Y', '', 'st_arr' ));
 	$extra['options']['search'] = false;
 
 	Search('student_id',$extra);
@@ -251,11 +251,6 @@ function _removeSpaces($value,$column)
 		$value = ''.ProperDate($value).'';
 
 	return str_replace(' ','&nbsp;',str_replace('&','&amp;',$value));
-}
-
-function _makeChooseCheckbox($value,$title)
-{
-	return '<input type="checkbox" name="st_arr[]" value="'.$value.'" checked />';
 }
 
 function _Percent($num,$decimals=2)

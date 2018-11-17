@@ -274,8 +274,8 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$extra['link'] = array( 'FULL_NAME' => false );
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
-	$extra['functions'] = array( 'CHECKBOX' => '_makeChooseCheckbox' );
-	$extra['columns_before'] = array( 'CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.checked,\'st_arr\');" /><A>' );
+	$extra['functions'] = array( 'CHECKBOX' => 'MakeChooseCheckbox' );
+	$extra['columns_before'] = array( 'CHECKBOX' => MakeChooseCheckbox( 'Y', '', 'st_arr' ) );
 	$extra['options']['search'] = false;
 	$extra['new'] = true;
 
@@ -309,14 +309,6 @@ function _grade_id( $value )
 	return $value;
 }
 
-/**
- * @param $value
- * @param $title
- */
-function _makeChooseCheckbox( $value, $title )
-{
-	return '<input type="checkbox" name="st_arr[]" value="' . $value . '" checked />';
-}
 
 /**
  * @param $categories_RET

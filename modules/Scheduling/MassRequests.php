@@ -13,7 +13,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				WHERE COURSE_ID='" . $_REQUEST['MassRequests.php']['course_id'] . "'
 				AND SYEAR='" . UserSyear() . "'" ), array(), array( 'STUDENT_ID' ) );
 
-			foreach ( (array) $_REQUEST['student'] as $student_id => $yes )
+			foreach ( (array) $_REQUEST['student'] as $student_id )
 			{
 				if ( $current_RET[ $student_id ] )
 				{
@@ -137,8 +137,8 @@ if ( ! $_REQUEST['modfunc'] )
 		unset($_SESSION['MassRequests.php']);
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",CAST (NULL AS CHAR(1)) AS CHECKBOX";
-	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.checked,\'student\');"><A>');
+	$extra['functions'] = array('CHECKBOX' => 'MakeChooseCheckbox');
+	$extra['columns_before'] = array('CHECKBOX' => MakeChooseCheckbox( '', 'STUDENT_ID', 'student' ) );
 	$extra['new'] = true;
 
 	Widgets('request');
@@ -167,10 +167,4 @@ if ( $_REQUEST['modfunc']=='choose_course')
 		echo '<script>opener.document.getElementById("course_div").innerHTML = '.json_encode($course_title).'; window.close();</script>';
 
 	}
-}
-
-function _makeChooseCheckbox($value,$title)
-{	global $THIS_RET;
-
-	return '<input type="checkbox" name="student['.$THIS_RET['STUDENT_ID'].']" value="Y">';
 }

@@ -16,7 +16,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 			if ( $due_date )
 			{
-				foreach ( (array) $_REQUEST['student'] as $student_id => $yes)
+				foreach ( (array) $_REQUEST['student'] as $student_id )
 				{
 						$sql = "INSERT INTO BILLING_FEES (STUDENT_ID,ID,TITLE,AMOUNT,SYEAR,SCHOOL_ID,ASSIGNED_DATE,DUE_DATE,COMMENTS)
 									values('".$student_id."',".db_seq_nextval('BILLING_FEES_SEQ').",'".$_REQUEST['title']."','".preg_replace('/[^0-9.-]/','',$_REQUEST['amount'])."','".UserSyear()."','".UserSchool()."','".DBDate()."','".$due_date."','".$_REQUEST['comments']."')";
@@ -79,8 +79,8 @@ if ( ! $_REQUEST['modfunc'] )
 {
 	$extra['link'] = array( 'FULL_NAME' => false );
 	$extra['SELECT'] = ",NULL AS CHECKBOX";
-	$extra['functions'] = array( 'CHECKBOX' => '_makeChooseCheckbox' );
-	$extra['columns_before'] = array( 'CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.checked,\'student\');"><A>' );
+	$extra['functions'] = array( 'CHECKBOX' => 'MakeChooseCheckbox' );
+	$extra['columns_before'] = array( 'CHECKBOX' => MakeChooseCheckbox( '', 'STUDENT_ID', 'student' )  );
 	$extra['new'] = true;
 
 
@@ -91,10 +91,4 @@ if ( ! $_REQUEST['modfunc'] )
 		echo '<br /><div class="center">' . SubmitButton( _( 'Add Fee to Selected Students' ) ) . '</div>';
 		echo '</form>';
 	}
-}
-
-function _makeChooseCheckbox($value,$title)
-{	global $THIS_RET;
-
-	return '<input type="checkbox" name="student['.$THIS_RET['STUDENT_ID'].']" value="Y" />';
 }

@@ -74,7 +74,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 								AND (('" . $start_date . "'	BETWEEN START_DATE AND END_DATE OR END_DATE IS NULL)
 									AND '" . $start_date . "'>=START_DATE)" ), array(), array( 'STUDENT_ID' ) );
 
-							foreach ( (array) $_REQUEST['student'] as $student_id => $yes )
+							foreach ( (array) $_REQUEST['student'] as $student_id )
 							{
 								if ( $current_RET[ $student_id ] )
 								{
@@ -183,9 +183,9 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$extra['SELECT'] = ",CAST (NULL AS CHAR(1)) AS CHECKBOX";
 
-	$extra['functions'] = array( 'CHECKBOX' => '_makeChooseCheckbox' );
+	$extra['functions'] = array( 'CHECKBOX' => 'MakeChooseCheckbox' );
 
-	$extra['columns_before'] = array( 'CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.checked,\'student\');"><A>' );
+	$extra['columns_before'] = array( 'CHECKBOX' => MakeChooseCheckbox( '', 'STUDENT_ID', 'student' )  );
 
 	$extra['new'] = true;
 
@@ -244,11 +244,4 @@ if ( $_REQUEST['modfunc'] === 'choose_course' )
 		// Close popup.
 		echo '<script>window.close();</script>';
 	}
-}
-
-function _makeChooseCheckbox( $value, $title )
-{
-	global $THIS_RET;
-
-	return '<input type="checkbox" name="student[' . $THIS_RET['STUDENT_ID'] . ']" value="Y" />';
 }

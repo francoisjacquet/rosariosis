@@ -10,7 +10,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 		&& is_array( $_REQUEST['student'] ) )
 	{
 		$current_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS_JOIN_USERS WHERE STAFF_ID='".UserStaffID()."'"),array(),array('STUDENT_ID'));
-		foreach ( (array) $_REQUEST['student'] as $student_id => $yes)
+		foreach ( (array) $_REQUEST['student'] as $student_id )
 		{
 			if ( ! $current_RET[ $student_id ])
 			{
@@ -104,8 +104,8 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$extra['link'] = array('FULL_NAME'=>false);
 		$extra['SELECT'] = ",CAST (NULL AS CHAR(1)) AS CHECKBOX";
-		$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
-		$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.checked,\'student\');"><A>');
+		$extra['functions'] = array('CHECKBOX' => 'MakeChooseCheckbox');
+		$extra['columns_before'] = array('CHECKBOX' => MakeChooseCheckbox( '', 'STUDENT_ID', 'student' ) );
 		$extra['new'] = true;
 		$extra['options']['search'] = false;
 
@@ -117,10 +117,4 @@ if ( ! $_REQUEST['modfunc'] )
 		if ( $_REQUEST['search_modfunc']=='list')
 			echo '<br /><div class="center">' . SubmitButton( _( 'Add Selected Students' ) ) . '</div></form>';
 	}
-}
-
-function _makeChooseCheckbox($value,$title)
-{	global $THIS_RET;
-
-	return '<input type="checkbox" name="student['.$THIS_RET['STUDENT_ID'].']" value="Y">';
 }

@@ -10,7 +10,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 		&& is_array( $_REQUEST['staff'] ) )
 	{
 		$current_RET = DBGet(DBQuery("SELECT STAFF_ID FROM STUDENTS_JOIN_USERS WHERE STUDENT_ID='".UserStudentID()."'"),array(),array('STAFF_ID'));
-		foreach ( (array) $_REQUEST['staff'] as $staff_id => $yes)
+		foreach ( (array) $_REQUEST['staff'] as $staff_id )
 		{
 			if ( ! $current_RET[ $staff_id ])
 			{
@@ -89,8 +89,8 @@ if ( ! $_REQUEST['modfunc'] )
 			unset($extra);
 			$extra['link'] = array('FULL_NAME'=>false);
 			$extra['SELECT'] = ",CAST (NULL AS CHAR(1)) AS CHECKBOX";
-			$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
-			$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.checked,\'staff\');" /><A>');
+			$extra['functions'] = array('CHECKBOX' => 'MakeChooseCheckbox');
+			$extra['columns_before'] = array('CHECKBOX' => MakeChooseCheckbox( '', 'STAFF_ID', 'staff' ));
 			$extra['new'] = true;
 			$extra['options']['search'] = false;
 			$extra['profile'] = 'parent';
@@ -103,10 +103,4 @@ if ( ! $_REQUEST['modfunc'] )
 		if ( $_REQUEST['search_modfunc']=='list')
 			echo '<br /><div class="center">' . SubmitButton( _( 'Add Selected Parents' ) ) . '</div></form>';
 	}
-}
-
-function _makeChooseCheckbox($value,$title)
-{	global $THIS_RET;
-
-	return '<input type="checkbox" name="staff['.$THIS_RET['STAFF_ID'].']" value="Y" />';
 }

@@ -310,8 +310,8 @@ function mySearch($type,$extra='')
 		}
 		//$sql .= ' ORDER BY sp.PERIOD_ID';
 
-		$course_periods_RET = DBGet(DBQuery($sql),array('COURSE_PERIOD_ID' => '_makeChooseCheckbox'));
-		$LO_columns = array('COURSE_PERIOD_ID' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.checked,\'cp_arr\');" checked /><A>','TITLE' => _('Course Period'));
+		$course_periods_RET = DBGet(DBQuery($sql),array('COURSE_PERIOD_ID' => 'MakeChooseCheckbox'));
+		$LO_columns = array('COURSE_PERIOD_ID' => MakeChooseCheckbox( 'Y', '', 'cp_arr' ),'TITLE' => _('Course Period'));
 
 		if ( empty( $_REQUEST['LO_save'] ) && ! $extra['suppress_save'] )
 		{
@@ -330,9 +330,4 @@ function mySearch($type,$extra='')
 		echo '<input type="hidden" name="relation">';
 		ListOutput($course_periods_RET,$LO_columns,'Course Period','Course Periods');
 	}
-}
-
-function _makeChooseCheckbox($value,$title)
-{
-	return '<input type="checkbox" name="cp_arr[]" value="'.$value.'" checked />';
 }
