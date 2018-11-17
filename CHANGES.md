@@ -4,6 +4,7 @@
 Changes in 4.3
 --------------
 - Add MakeChooseCheckbox() function in Inputs.php
+- Add FoodServiceReminderOutput() function in Reminders.php
 
 Changes in 4.2
 --------------

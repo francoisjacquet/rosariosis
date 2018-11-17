@@ -1,43 +1,195 @@
 <?php
-if ( ! empty( $_REQUEST['type'] ) )
-	$_SESSION['FSA_type'] = $_REQUEST['type'];
-else
-	$_SESSION['_REQUEST_vars']['type'] = $_REQUEST['type'] = $_SESSION['FSA_type'];
 
-if ( $_REQUEST['modfunc']!='save')
+if ( ! empty( $_REQUEST['type'] ) )
+{
+	$_SESSION['FSA_type'] = $_REQUEST['type'];
+}
+else
+{
+	$_SESSION['_REQUEST_vars']['type'] = $_REQUEST['type'] = $_SESSION['FSA_type'];
+}
+
+if ( $_REQUEST['modfunc'] != 'save' )
 {
 	$header = '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&type=student">' .
 		( ! isset( $_REQUEST['type'] ) || $_REQUEST['type'] === 'student' ?
-			'<b>' . _( 'Students' ) . '</b>' : _( 'Students' ) ) . '</a>';
+		'<b>' . _( 'Students' ) . '</b>' : _( 'Students' ) ) . '</a>';
 
 	$header .= ' | <a href="Modules.php?modname=' . $_REQUEST['modname'] . '&type=staff">' .
 		( isset( $_REQUEST['type'] ) && $_REQUEST['type'] === 'staff' ?
-			'<b>' . _( 'Users' ) . '</b>' : _( 'Users' ) ) . '</a>';
+		'<b>' . _( 'Users' ) . '</b>' : _( 'Users' ) ) . '</a>';
 
-	DrawHeader(($_REQUEST['type']=='staff' ? _('User') : _('Student')).' &minus; '.ProgramTitle());
-	User('PROFILE')=='student'?'':DrawHeader($header);
+	DrawHeader(  ( $_REQUEST['type'] == 'staff' ? _( 'User' ) : _( 'Student' ) ) . ' &minus; ' . ProgramTitle() );
+	User( 'PROFILE' ) == 'student' ? '' : DrawHeader( $header );
 }
-require_once 'modules/Food_Service/'.($_REQUEST['type']=='staff' ? 'Users' : 'Students').'/Reminders.php';
 
-function _makeChooseCheckbox($value,$title)
+require_once 'modules/Food_Service/' . ( $_REQUEST['type'] == 'staff' ? 'Users' : 'Students' ) . '/Reminders.php';
+
+/**
+ * Make Choose Checkbox
+ *
+ * Local function
+ * DBGet() callback
+ *
+ * @uses MakeChooseCheckbox
+ *
+ * @param  string $value  STUDENT_ID or STAFF_ID value.
+ * @param  string $column 'CHECKBOX'.
+ *
+ * @return string Checkbox or empty string if balance above Warning / Minimum amounts and Positive
+ */
+function _makeChooseCheckbox( $value, $column )
 {
 	global $THIS_RET;
 
-	return '<input type="checkbox" name="st_arr[]" value="'.$value.'"'.($THIS_RET['WARNING']||$THIS_RET['NEGATIVE']||$THIS_RET['MINIMUM']?' checked />':'');
+	if ( $THIS_RET['WARNING'] || $THIS_RET['NEGATIVE'] || $THIS_RET['MINIMUM'] )
+	{
+		return MakeChooseCheckbox( $value, $column );
+	}
+	else
+	{
+		return '';
+	}
 }
 
-function x($value)
+/**
+ * @param $value
+ */
+function x( $value )
 {
-	if ( $value)
-		return button('x');
+	if ( $value )
+	{
+		return button( 'x' );
+	}
 	else
+	{
 		return '&nbsp;';
+	}
 }
 
-function red($value)
+/**
+ * @param $value
+ * @return mixed
+ */
+function red( $value )
 {
-	if ( $value<0)
-		return '<span style="color:red">'.$value.'</span>';
+	if ( $value < 0 )
+	{
+		return '<span style="color:red">' . $value . '</span>';
+	}
 	else
+	{
 		return $value;
+	}
+}
+
+
+/**
+ * Food Service Reminder Output
+ *
+ * @since 4.3
+ * Before 4.3, a reminder() function was used and duplicated in both Students/ & Users/ programs.
+ *
+ * @param  array $user         User (staff or student) info.
+ * @param  float $target       Target amount.
+ * @param  array $last_deposit Last deposit DATE & AMOUNT.
+ * @param  float $payment      Payment amount.
+ * @param  string $note        Note to user.
+ * @param  array  $xstudents   Other students on this account (optional).
+ */
+function FoodServiceReminderOutput( $user, $target, $last_deposit, $payment, $note, $xstudents = array() )
+{
+	echo '<h2 class="center">' . ( $_REQUEST['year_end'] === 'Y' ? _( 'Year End' ) . ' ' : '' ) . _( 'Lunch Payment Reminder' ) . '</h2>';
+	echo '<h3 class="center">' . $user['SCHOOL'] . '</h3>';
+
+	echo '<table class="width-100p fixed-col">';
+	echo '<tr><td>';
+
+	echo NoInput(
+		$user['FULL_NAME'],
+		( empty( $user['STUDENT_ID'] ) ? $user['STAFF_ID'] : $user['STUDENT_ID'] )
+	);
+
+	if ( count( $xstudents ) )
+	{
+		echo '<br />' . _( 'Other students on this account' ) . ':';
+
+		foreach ( (array) $xstudents as $xstudent )
+		{
+			echo '<br />&nbsp;&nbsp;' . $xstudent['FULL_NAME'];
+		}
+	}
+
+	echo '</td><td>';
+
+	if ( ! empty( $user['GRADE'] ) )
+	{
+		echo NoInput( $user['GRADE'], _( 'Grade Level' ) );
+	}
+	echo '</td><td>';
+
+	if ( ! empty( $user['TEACHER'] ) )
+	{
+		echo NoInput( $user['TEACHER'], _( 'Teacher' ) );
+	}
+	echo '</td></tr>';
+
+
+	echo '<tr><td>';
+	echo NoInput( ProperDate( DBDate() ), _( 'Date' ) );
+
+	echo '</td><td>';
+	echo NoInput(
+		( $last_deposit ? $last_deposit['DATE'] : _( 'None' ) ),
+		_( 'Date of Last Deposit' )
+	);
+
+	echo '</td><td>';
+	echo NoInput(
+		( $last_deposit ? Currency( $last_deposit['AMOUNT'] ) : _( 'None' ) ),
+		_( 'Amount of Last Deposit' )
+	);
+	echo '</td></tr>';
+
+
+	echo '<tr><td>';
+	echo NoInput(
+		( $user['BALANCE'] < 0 ? '<b>' . Currency( $user['BALANCE'] ) . '</b>' : Currency( $user['BALANCE'] ) ),
+		_( 'Balance' )
+	);
+
+	echo '</td><td>';
+	echo '<b>' . NoInput(
+		Currency( $payment ),
+		( $_REQUEST['year_end'] === 'Y' ? _( 'Requested Payment' ) : _( 'Mimimum Payment' ) )
+	) . ' </b>';
+
+	echo '</td><td>';
+	if ( ! empty( $user['ACCOUNT_ID'] ) )
+	{
+		echo NoInput( $user['ACCOUNT_ID'], _( 'Account ID' ) );
+	}
+	elseif ( ! empty( $user['PROFILE'] ) )
+	{
+		echo NoInput( _( ucfirst( $staff['PROFILE'] ) ), _( 'Profile' ) );
+	}
+	echo '</td></tr></table>';
+
+	if ( ! empty( $user['FIRST_NAME'] ) )
+	{
+		$note = str_replace( '%N', $user['FIRST_NAME'], $note );
+	}
+
+	// $note = str_replace( '%F', $user['FIRST_NAME'], $note );
+
+	$note = str_replace(
+		array( '%g', '%h' ),
+		array( 'he/she', 'his/her' ),
+		$note
+	);
+
+	$note = str_replace( '%P', Currency( $payment ), $note );
+	$note = str_replace( '%T', Currency( $target ), $note );
+
+	echo '<p>' . $note . '</p>';
 }
