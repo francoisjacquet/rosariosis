@@ -1703,13 +1703,13 @@ function Widgets( $item, &$myextra = null )
 
 				$extra['FROM'] .= ",FOOD_SERVICE_ACCOUNTS fsa";
 				$extra['WHERE'] .= " AND fsa.ACCOUNT_ID=fssa.ACCOUNT_ID
-					AND fsa.BALANCE" . ( $_REQUEST['fsa_bal_ge'] == 'Y' ? '>=' : '<' ) .
+					AND fsa.BALANCE" . ( empty( $_REQUEST['fsa_bal_ge'] ) ? '<' : '>=' ) .
 					"'" . round(  $_REQUEST['fsa_balance'], 2 ) . "'";
 
 				if ( ! $extra['NoSearchTerms'] )
 				{
 					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Food Service Balance' ) . ': </b> ' .
-						'<span class="sizep2">' . ($_REQUEST['fsa_bal_ge'] == 'Y' ? '&ge;' : '&lt;' ) . '</span>' .
+						'<span class="sizep2">' . ( empty( $_REQUEST['fsa_bal_ge'] ) ? '&lt;' : '&ge;' ) . '</span>' .
 						number_format( $_REQUEST['fsa_balance'], 2 ) . '<br />';
 				}
 			}
