@@ -100,7 +100,13 @@ function red( $value )
 function FoodServiceReminderOutput( $user, $target, $last_deposit, $payment, $note, $xstudents = array() )
 {
 	echo '<h2 class="center">' . ( $_REQUEST['year_end'] === 'Y' ? _( 'Year End' ) . ' ' : '' ) . _( 'Lunch Payment Reminder' ) . '</h2>';
-	echo '<h3 class="center">' . $user['SCHOOL'] . '</h3>';
+
+	if ( empty( $user['SCHOOL_TITLE'] ) )
+	{
+		$user['SCHOOL_TITLE'] = SchoolInfo( 'TITLE' );
+	}
+
+	echo '<h3 class="center">' . $user['SCHOOL_TITLE'] . '</h3>';
 
 	echo '<table class="width-100p fixed-col">';
 	echo '<tr><td>';
@@ -122,9 +128,9 @@ function FoodServiceReminderOutput( $user, $target, $last_deposit, $payment, $no
 
 	echo '</td><td>';
 
-	if ( ! empty( $user['GRADE'] ) )
+	if ( ! empty( $user['GRADE_ID'] ) )
 	{
-		echo NoInput( $user['GRADE'], _( 'Grade Level' ) );
+		echo NoInput( $user['GRADE_ID'], _( 'Grade Level' ) );
 	}
 	echo '</td><td>';
 
@@ -171,7 +177,14 @@ function FoodServiceReminderOutput( $user, $target, $last_deposit, $payment, $no
 	}
 	elseif ( ! empty( $user['PROFILE'] ) )
 	{
-		echo NoInput( _( ucfirst( $staff['PROFILE'] ) ), _( 'Profile' ) );
+		$profiles = array(
+			'admin' => _( 'Administrator' ),
+			'teacher' => _( 'Teacher' ),
+			'parent' => _( 'Parent' ),
+			'none' => _( 'No Access' ),
+		);
+
+		echo NoInput( $profiles[ $user['PROFILE'] ], _( 'Profile' ) );
 	}
 	echo '</td></tr></table>';
 
