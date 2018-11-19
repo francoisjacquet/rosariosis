@@ -39,5 +39,5 @@ Please head to the offical [Contribute page](https://www.rosariosis.org/contribu
 
 ### Example Module
 
-Freely study and reuse the [Example module](https://gitlab.com/francoisjacquet/rosariosis-module-example)
+Freely study and reuse the [Example module](https://gitlab.com/francoisjacquet/Example)
 
