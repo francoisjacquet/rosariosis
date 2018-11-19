@@ -1,5 +1,7 @@
 <?php
 
+require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
+
 if ( ! isset( $_REQUEST['last_year'] ) )
 {
 	$_REQUEST['last_year'] = '';
@@ -294,6 +296,13 @@ if ( $_REQUEST['tables']
 
 				if ( ! (  ( isset( $columns['TITLE'] ) && empty( $columns['TITLE'] ) ) || ( $table_name == 'COURSE_PERIODS' && (  ( isset( $columns['SHORT_NAME'] ) && empty( $columns['SHORT_NAME'] ) ) || ( isset( $columns['TEACHER_ID'] ) && empty( $columns['TEACHER_ID'] ) ) ) ) || ( mb_strpos( $id, 'new' ) !== false && ! empty( $columns['PERIOD_ID'] ) && ! isset( $columns['DAYS'] ) ) ) )
 				{
+					if ( $table_name === 'COURSES'
+						&& $columns['DESCRIPTION'] )
+					{
+						// Sanitize Course Description HTML. Get data from $_POST as it has HTML tags.
+						$columns['DESCRIPTION'] = SanitizeHTML( $_POST['tables']['COURSES'][ $id ]['DESCRIPTION'] );
+					}
+
 					if ( $columns['TOTAL_SEATS'] && ! is_numeric( $columns['TOTAL_SEATS'] ) )
 					{
 						$columns['TOTAL_SEATS'] = preg_replace( '/[^0-9]+/', '', $columns['TOTAL_SEATS'] );
@@ -1400,10 +1409,7 @@ if (  ( ! $_REQUEST['modfunc']
 		{
 			if ( $_REQUEST['course_id'] != 'new' )
 			{
-				// FJ add Credit Hours to Courses.
-				//$sql = "SELECT TITLE,SHORT_NAME,GRADE_LEVEL
-
-				$RET = DBGet( DBQuery( "SELECT TITLE,SHORT_NAME,GRADE_LEVEL,CREDIT_HOURS
+				$RET = DBGet( DBQuery( "SELECT TITLE,SHORT_NAME,GRADE_LEVEL,CREDIT_HOURS,DESCRIPTION
 					FROM COURSES
 					WHERE COURSE_ID='" . $_REQUEST['course_id'] . "'" ) );
 
@@ -1450,7 +1456,14 @@ if (  ( ! $_REQUEST['modfunc']
 				'tables[COURSES][' . $_REQUEST['course_id'] . '][CREDIT_HOURS]',
 				_( 'Credit Hours' ),
 				'maxlength=7 size=7'
-			) . '</td>';
+			) . '</td></tr>';
+
+			// Add Description (TinyMCE input) to Course.
+			$header .= '<tr class="st"><td colspan="3">' . TinyMCEInput(
+				$RET['DESCRIPTION'],
+				'tables[COURSES][' . $_REQUEST['course_id'] . '][DESCRIPTION]',
+				_( 'Description' )
+			) . '</td></tr>';
 
 			//FJ SQL error column "subject_id" specified more than once
 			/*if ( $_REQUEST['modfunc']!='choose_course')
