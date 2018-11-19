@@ -99,6 +99,10 @@ function Update()
 		case version_compare( $from_version, '4.2-beta', '<' ) :
 
 			$return = _update42beta();
+
+		case version_compare( $from_version, '4.3-beta', '<' ) :
+
+			$return = _update43beta();
 	}
 
 	// Update version in DB CONFIG table.
@@ -274,6 +278,40 @@ function _update42beta()
 	 */
 	DBQuery( "ALTER TABLE config
 		ALTER COLUMN config_value TYPE text;" );
+
+	return $return;
+}
+
+
+/**
+ * Update to version 4.3
+ *
+ * 1. COURSES table: Add DESCRIPTION column.
+ *
+ * Local function
+ *
+ * @since 4.3
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update43beta()
+{
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. COURSES table: Add DESCRIPTION column.
+	 */
+	$description_column_exists = DBGet( DBQuery( "SELECT 1 FROM pg_attribute
+		WHERE attrelid = (SELECT oid FROM pg_class WHERE relname = 'courses')
+		AND attname = 'description';" ) );
+
+	if ( ! $description_column_exists )
+	{
+		DBQuery( "ALTER TABLE ONLY courses
+			ADD COLUMN description text;" );
+	}
 
 	return $return;
 }

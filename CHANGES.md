@@ -5,6 +5,7 @@ Changes in 4.3
 --------------
 - Add MakeChooseCheckbox() function in Inputs.php
 - Add FoodServiceReminderOutput() function in Reminders.php
+- SQL COURSES table: Add DESCRIPTION column in Update.fnc.php
 
 Changes in 4.2
 --------------
