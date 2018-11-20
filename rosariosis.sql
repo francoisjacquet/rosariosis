@@ -920,7 +920,8 @@ CREATE TABLE courses (
     title character varying(100) NOT NULL,
     short_name character varying(25),
     rollover_id numeric,
-    credit_hours numeric(6,2)
+    credit_hours numeric(6,2),
+    description text
 );
 
 
