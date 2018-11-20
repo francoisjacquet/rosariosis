@@ -8,6 +8,7 @@ Changes in 4.3
 - SQL COURSES table: Add DESCRIPTION column in Update.fnc.php
 - Add Description (TinyMCE input) to Course in Courses.php
 - Add DESCRIPTION column to COURSES table + when rolling Courses in rosariosis.sql & Rollover.php
+- Add missing GP_PASSING_VALUE column when rolling Report Card Grade Scales in Rollover.php
 
 Changes in 4.2
 --------------
