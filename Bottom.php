@@ -153,62 +153,9 @@ elseif ( $_REQUEST['bottomfunc'] === 'print' ) :
 // Inline Help.
 elseif ( $_REQUEST['bottomfunc'] === 'help' ) :
 
-	require_once 'Help_en.php';
+	require_once 'ProgramFunctions/Help.fnc.php';
 
-	// FJ add help for non-core modules.
-	$non_core_modules = array_diff( array_keys( $RosarioModules ), $RosarioCoreModules );
-
-	$help_english = 'Help_en.php';
-
-	// @deprecated since 3.9 use help text domain: help.po Gettext files.
-	$help_translated = 'Help_' . substr( $locale, 0, 2 ) . '.php';
-
-	foreach ( (array) $non_core_modules as $non_core_module )
-	{
-		$non_core_dir = 'modules/' . $non_core_module . '/';
-
-		if ( file_exists( $non_core_dir . $help_translated ) ) // FJ translated help.
-		{
-			require_once $non_core_dir . $help_translated;
-		}
-		elseif ( file_exists( $non_core_dir . $help_english ) )
-		{
-			require_once $non_core_dir . $help_english;
-		}
-	}
-
-	$help_text = '';
-
-	if ( ! empty( $_REQUEST['modname'] ) )
-	{
-		foreach ( (array) $help as $program => $help_txt )
-		{
-			// FJ fix bug URL Modules.php?modname=Student_Billing/Statements.php&_ROSARIO_PDF.
-			if ( $_REQUEST['modname'] === $program ||
-				( mb_strpos( $program, $_REQUEST['modname'] ) === 0
-					&& mb_strpos( $_SERVER['QUERY_STRING'], $program ) === 21 ) )
-			{
-				$help_text = $help_txt;
-			}
-		}
-	}
-
-	// Get default help text.
-	if ( empty( $help_text ) )
-	{
-		$help_text = $help['default'];
-	}
-
-	if ( User('PROFILE') == 'student' )
-	{
-		$help_text = str_replace(
-			'your child',
-			'yourself',
-			str_replace( 'your child\'s', 'your', $help_text )
-		);
-	}
-
-	$help_text = str_replace( 'RosarioSIS', Config( 'NAME' ), $help_text );
+	$help_text = GetHelpText( $_REQUEST['modname'] );
 
 	echo $help_text;
 

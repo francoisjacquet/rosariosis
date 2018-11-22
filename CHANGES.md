@@ -9,6 +9,7 @@ Changes in 4.3
 - Add Description (TinyMCE input) to Course in Courses.php
 - Add DESCRIPTION column to COURSES table + when rolling Courses in rosariosis.sql & Rollover.php
 - Add missing GP_PASSING_VALUE column when rolling Report Card Grade Scales in Rollover.php
+- Add HelpLoad, GetHelpText, & GetHelpTextRaw functions in Help.fnc.php
 
 Changes in 4.2
 --------------

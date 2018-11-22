@@ -11,29 +11,9 @@
 
 require_once 'Warehouse.php';
 
-require_once 'Help_en.php';
+require_once 'ProgramFunctions/Help.fnc.php';
 
-// FJ add help for non-core modules.
-$non_core_modules = array_diff( array_keys( $RosarioModules ), $RosarioCoreModules );
-
-$help_english = 'Help_en.php';
-
-// @deprecated since 3.9 use help text domain: help.po Gettext files.
-$help_translated = 'Help_' . substr( $locale, 0, 2 ) . '.php';
-
-foreach ( (array) $non_core_modules as $non_core_module )
-{
-	$non_core_dir = 'modules/' . $non_core_module . '/';
-
-	if ( file_exists( $non_core_dir . $help_translated ) ) // FJ translated help.
-	{
-		require_once $non_core_dir . $help_translated;
-	}
-	elseif ( file_exists( $non_core_dir . $help_english ) )
-	{
-		require_once $non_core_dir . $help_english;
-	}
-}
+$help = HelpLoad();
 
 switch ( User( 'PROFILE' ) )
 {
@@ -142,20 +122,10 @@ foreach ( (array) $help as $program => $value ) :
 			<td class="header2">
 
 <?php
-	if ( User( 'PROFILE' ) == 'student' )
-	{
-		// Note: for other languages, this is hard to translate.
-		// Please use the general term "student" instead of child!
-		$value = str_replace(
-			'your child',
-			'yourself',
-			str_replace( 'your child\'s', 'your', $value )
-		);
-	}
 
-	$value = str_replace( 'RosarioSIS', Config( 'NAME' ), $value );
+	$help_text = GetHelpText( $program );
 
-	echo $value;
+	echo $help_text;
 ?>
 
 			</td>

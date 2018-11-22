@@ -17,68 +17,6 @@
  * @author François Jacquet
  */
 
-/**
- * Gettext translation function for Help texts.
- * Registers domain on first run.
- *
- * @since  3.9
- *
- * @param  string $text      Text to translate.
- * @param  string $domain    Gettext domain, defaults to 'help'. For add-ons, use the module / plugin name / folder.
- * @return string Translated help text.
- */
-function _help( $text, $domain = 'help' )
-{
-	global $LocalePath;
-
-	static $domains_bound = array();
-
-	$addon = $domain;
-
-	if ( $domain !== 'help'
-		&& ! mb_strpos( $domain, 'help' ) )
-	{
-		$domain .= '_help';
-	}
-
-	if ( empty( $domains_bound[$domain] ) )
-	{
-		$locale_path = $LocalePath;
-
-		if ( $addon !== 'help' )
-		{
-			$locale_path = 'modules/' . $addon . '/locale';
-
-			if ( ! file_exists( $locale_path ) )
-			{
-				// Is plugin?
-				$locale_path = 'plugins/' . $addon . '/locale';
-
-				if ( ! file_exists( $locale_path ) )
-				{
-					return $text;
-				}
-			}
-		}
-
-		// Binds the messages domain to the locale folder.
-		bindtextdomain( $domain, $locale_path );
-
-		if ( function_exists( '_bindtextdomain' ) )
-		{
-			// Correctly bind domain when MoTranslator is in use.
-			_bindtextdomain( $domain, $locale_path );
-		}
-
-		// Ensures text returned is utf-8, quite often this is iso-8859-1 by default.
-		bind_textdomain_codeset( $domain, 'UTF-8' );
-
-		$domains_bound[$domain] = true;
-	}
-
-	return dgettext( $domain, $text );
-}
-
 // DEFAULT.
 if ( User( 'PROFILE' ) === 'admin' ):
 
