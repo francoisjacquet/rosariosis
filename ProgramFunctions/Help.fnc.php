@@ -10,9 +10,15 @@
 /**
  * Gettext translation function for Help texts.
  * Registers domain on first run.
+ * Adds "_help" suffix to add-ons domain.
+ *
+ * Add-ons, Poedit files: locale/[locale_code]/LC_MESSAGES/My_Addon_Folder_help.po
+ * @example _help( 'My add-on help text.', 'My_Addon_Folder' );
  *
  * @since  3.9
  * @since  4.3 Moved from Help_en.php to ProgramFunctions/Help.fnc.php
+ *
+ * @uses HelpBindTextDomain()
  *
  * @param  string $text      Text to translate.
  * @param  string $domain    Gettext domain, defaults to 'help'. For add-ons, use the module / plugin name / folder.
@@ -20,55 +26,82 @@
  */
 function _help( $text, $domain = 'help' )
 {
+	$bound = HelpBindTextDomain( $domain );
+
+	if ( ! $bound )
+	{
+		return $text;
+	}
+
+	// Add "_help" suffix to add-ons domain.
+	$addon_safe_domain = ( mb_strpos( $domain, '_help' ) ? $domain : $domain . '_help' );
+
+	return dgettext( $domain, $text );
+}
+
+
+/**
+ * Help bind text domain
+ *
+ * @since 4.3
+ *
+ * @param string $domain Help text domain / add-on folder.
+ *
+ * @return boolean True if text domain boud.
+ */
+function HelpBindTextDomain( $domain )
+{
 	global $LocalePath;
 
 	static $domains_bound = array();
 
+	$locale_path = $LocalePath;
+
 	$addon = $domain;
 
-	if ( $domain !== 'help'
-		&& ! mb_strpos( $domain, 'help' ) )
+	// Add "_help" suffix to add-ons domain.
+	$domain = ( mb_strpos( $domain, '_help' ) ? $domain : $domain . '_help' );
+
+	if ( isset( $domains_bound[$domain] ) )
 	{
-		$domain .= '_help';
+		return $domains_bound[$domain];
 	}
 
-	if ( empty( $domains_bound[$domain] ) )
+	if ( $addon !== 'help' )
 	{
-		$locale_path = $LocalePath;
+		$locale_path = 'modules/' . $addon . '/locale';
 
-		if ( $addon !== 'help' )
+		if ( ! file_exists( $locale_path ) )
 		{
-			$locale_path = 'modules/' . $addon . '/locale';
+			// Is plugin?
+			$locale_path = 'plugins/' . $addon . '/locale';
 
 			if ( ! file_exists( $locale_path ) )
 			{
-				// Is plugin?
-				$locale_path = 'plugins/' . $addon . '/locale';
+				$domains_bound[$domain] = false;
 
-				if ( ! file_exists( $locale_path ) )
-				{
-					return $text;
-				}
+				return false;
 			}
 		}
-
-		// Binds the messages domain to the locale folder.
-		bindtextdomain( $domain, $locale_path );
-
-		if ( function_exists( '_bindtextdomain' ) )
-		{
-			// Correctly bind domain when MoTranslator is in use.
-			_bindtextdomain( $domain, $locale_path );
-		}
-
-		// Ensures text returned is utf-8, quite often this is iso-8859-1 by default.
-		bind_textdomain_codeset( $domain, 'UTF-8' );
-
-		$domains_bound[$domain] = true;
 	}
 
-	return dgettext( $domain, $text );
+	// Binds the messages domain to the locale folder.
+	bindtextdomain( $domain, $locale_path );
+
+	if ( function_exists( '_bindtextdomain' ) )
+	{
+		// Correctly bind domain when MoTranslator is in use.
+		_bindtextdomain( $domain, $locale_path );
+	}
+
+	// Ensures text returned is utf-8, quite often this is iso-8859-1 by default.
+	bind_textdomain_codeset( $domain, 'UTF-8' );
+
+	$domains_bound[$domain] = true;
+
+	return true;
 }
+
 
 
 /**
