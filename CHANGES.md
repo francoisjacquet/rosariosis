@@ -10,6 +10,7 @@ Changes in 4.3
 - Add DESCRIPTION column to COURSES table + when rolling Courses in rosariosis.sql & Rollover.php
 - Add missing GP_PASSING_VALUE column when rolling Report Card Grade Scales in Rollover.php
 - Add HelpLoad, GetHelpText, & GetHelpTextRaw functions in Help.fnc.php
+- Performance: static DB $connection in database.inc.php
 
 Changes in 4.2
 --------------

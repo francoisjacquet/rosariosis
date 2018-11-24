@@ -22,9 +22,9 @@
 function db_start()
 {
 	global $DatabaseServer,
-	$DatabaseUsername,
-	$DatabasePassword,
-	$DatabaseName,
+		$DatabaseUsername,
+		$DatabasePassword,
+		$DatabaseName,
 		$DatabasePort;
 
 	/**
@@ -75,13 +75,19 @@ function db_start()
  * @example $processable_results = DBQuery( "SELECT * FROM students" );
  *
  * @since 3.7 INSERT INTO case to Replace empty strings ('') with NULL values.
+ * @since 4.3 Performance: static DB $connection.
  *
  * @param  string   $sql       SQL statement.
  * @return resource PostgreSQL result resource
  */
 function DBQuery( $sql )
 {
-	$connection = db_start();
+	static $connection;
+
+	if ( ! isset( $connection ) )
+	{
+		$connection = db_start();
+	}
 
 	// Replace empty strings ('') with NULL values.
 
