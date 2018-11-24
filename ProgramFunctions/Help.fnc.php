@@ -34,9 +34,9 @@ function _help( $text, $domain = 'help' )
 	}
 
 	// Add "_help" suffix to add-ons domain.
-	$addon_safe_domain = ( mb_strpos( $domain, '_help' ) ? $domain : $domain . '_help' );
+	$addon_safe_domain = mb_strpos( $domain, 'help' ) === false ? $domain . '_help' : $domain;
 
-	return dgettext( $domain, $text );
+	return dgettext( $addon_safe_domain, $text );
 }
 
 
@@ -60,7 +60,7 @@ function HelpBindTextDomain( $domain )
 	$addon = $domain;
 
 	// Add "_help" suffix to add-ons domain.
-	$domain = ( mb_strpos( $domain, '_help' ) ? $domain : $domain . '_help' );
+	$domain = mb_strpos( $domain, 'help' ) === false ? $domain . '_help' : $domain;
 
 	if ( isset( $domains_bound[$domain] ) )
 	{
@@ -179,6 +179,8 @@ function GetHelpText( $modname )
 	// Get default help text.
 	if ( empty( $help_text ) )
 	{
+		$help = HelpLoad();
+
 		$help_text = $help['default'];
 	}
 
