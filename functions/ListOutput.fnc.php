@@ -507,7 +507,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 	if ( $result_count > 0 )
 	{
-		echo '<div style="overflow-x:auto;"><table class="list widefat' .
+		echo '<div class="list-wrapper"><table class="list widefat' .
 			( $options['responsive'] && ! isset( $_REQUEST['_ROSARIO_PDF'] ) ? ' rt' : '' ) .
 			( ! $list_has_nav ? ' list-no-nav' : '' ) . '">';
 		echo '<thead><tr>';

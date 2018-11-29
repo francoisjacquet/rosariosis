@@ -13,4 +13,12 @@ body {
 	color: #000;
 }
 
+/* Lists */
+
+.list-wrapper {
+	/* Fix wkhtmltopdf issue where table header overlaps first row */
+	/* @link https://www.rosariosis.org/forum/d/91-print-row-in-table-header-overflow-wkhtmltopdf */
+	overflow-x: visible;
+}
+
 /* TODO: move PDF.php inline CSS here #pdf */

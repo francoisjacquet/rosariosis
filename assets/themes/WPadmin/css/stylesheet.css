@@ -353,6 +353,10 @@ select,
 
 /* Lists */
 
+.list-wrapper {
+	overflow-x: auto;
+}
+
 .list-nav,
 .list {
 	/* Move .width-100p here */

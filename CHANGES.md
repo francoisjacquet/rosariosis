@@ -11,6 +11,8 @@ Changes in 4.3
 - Add missing GP_PASSING_VALUE column when rolling Report Card Grade Scales in Rollover.php
 - Add HelpBindTextDomain, HelpLoad, GetHelpText, & GetHelpTextRaw functions in Help.fnc.php
 - Performance: static DB $connection in database.inc.php
+- Add list-wrapper CSS class in ListOutput.fnc.php
+- CSS Fix wkhtmltopdf issue where table header overlaps first row in wkhtmltopdf.css
 
 Changes in 4.2
 --------------
