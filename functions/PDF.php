@@ -56,6 +56,7 @@ function PDFStart( $options = array() )
  * Renders HTML if not wkhtmltopdf
  *
  * @since 3.4 Handle HTML header & footer.
+ * @since 4.3 CSS Add .wkhtmltopdf-header, .wkhtmltopdf-footer, .wkhtmltopdf-portrait & .wkhtmltopdf-landscape classes
  *
  * @global string $wkhtmltopdfPath
  * @global string $wkhtmltopdfAssetsPath
@@ -93,11 +94,12 @@ function PDFStop( $handle )
 	$dir_RTL = in_array( $lang_2_chars, $RTL_languages ) ? ' dir="RTL"' : '';
 
 	// Page width.
-	$page_width = '994'; // Originally 1024px.
+	// @see wkhtmltopdf.css.
+	$orientation_class = 'wkhtmltopdf-portrait'; // 994px, originally 1024px.
 
 	if ( $handle['orientation'] === 'landscape' )
 	{
-		$page_width = '1405'; // Originally 1448px.
+		$orientation_class = 'wkhtmltopdf-landscape'; // 1405px, originally 1448px.
 	}
 
 	// Page title.
@@ -127,7 +129,7 @@ function PDFStop( $handle )
 	$_html['head'] .= '<title>' . $page_title . '</title>
 		</head>
 		<body>
-			<div style="width:' . $page_width . 'px" id="pdf">';
+			<div class="wkhtmltopdf-body-wrapper ' . $width_orientation_class . '" id="pdf">';
 
 	$_html['foot'] = '</div>
 		</body>
@@ -201,9 +203,10 @@ function PDFStop( $handle )
 					// Fix HTML header not showing, remove CSS width & height 100%.
 					$header_html = str_replace(
 						'<html',
-						'<html style="width: auto; height: auto;"',
+						'<html class="wkhtmltopdf-header"',
 						$_html['head']
-						) .	$header_html . $_html['foot'];
+					) .
+					$header_html . $_html['foot'];
 				}
 
 				$wkhtmltopdf->setHeaderHtml( $header_html );
@@ -219,9 +222,10 @@ function PDFStop( $handle )
 					// Fix HTML footer, remove CSS width & height 100%.
 					$footer_html = str_replace(
 						'<html',
-						'<html style="width: auto; height: auto;"',
+						'<html class="wkhtmltopdf-footer"',
 						$_html['head']
-						) .	$footer_html . $_html['foot'];
+					) .
+					$footer_html . $_html['foot'];
 				}
 
 				$wkhtmltopdf->setFooterHtml( $footer_html );

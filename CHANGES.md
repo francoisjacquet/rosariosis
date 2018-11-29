@@ -13,6 +13,7 @@ Changes in 4.3
 - Performance: static DB $connection in database.inc.php
 - Add list-wrapper CSS class in ListOutput.fnc.php
 - CSS Fix wkhtmltopdf issue where table header overlaps first row in wkhtmltopdf.css
+- CSS Add .wkhtmltopdf-header, .wkhtmltopdf-footer, .wkhtmltopdf-portrait & .wkhtmltopdf-landscape classes in PDF.php & wkhtmltopdf.css
 
 Changes in 4.2
 --------------

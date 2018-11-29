@@ -21,4 +21,18 @@ body {
 	overflow-x: visible;
 }
 
-/* TODO: move PDF.php inline CSS here #pdf */
+/* @since 4.3 */
+
+.wkhtmltopdf-header,
+.wkhtmltopdf-footer {
+	width: auto;
+	height: auto;
+}
+
+.wkhtmltopdf-portrait {
+	width: 994px;
+}
+
+.wkhtmltopdf-landscape {
+	width: 1405px;
+}
