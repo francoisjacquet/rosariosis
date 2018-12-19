@@ -255,6 +255,13 @@ if ( $_REQUEST['modfunc'] === 'save'
 					$student_list .= str_replace( '&nbsp;', ' ', $student['FULL_NAME'] ) . "\r";
 				}
 
+				$substitutions = array(
+					'__PARENT_NAME__' => $staff['NAME'],
+					'__ASSOCIATED_STUDENTS__' => $student_list,
+					'__SCHOOL_ID__' => SchoolInfo( 'TITLE' ),
+					'__USERNAME__' => $staff['USERNAME'],
+					'__PASSWORD__' => $password,
+				);
 
 				$msg = SubstitutionsTextMake( $substitutions, $message[$account] );
 
