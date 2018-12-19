@@ -8,6 +8,7 @@ require_once 'ProgramFunctions/SendEmail.fnc.php';
 DrawHeader( ProgramTitle() );
 
 // Remove current student.
+
 if ( UserStudentID() )
 {
 	unset( $_SESSION['student_id'] );
@@ -26,37 +27,44 @@ if ( UserStudentID() )
 $email_column = ''; //example: 'a.CUSTOM_2'
 
 //save $email_column var in SESSION
-if (isset($_SESSION['email_column']) && empty($email_column))
-	$email_column = $_SESSION['email_column'];
-elseif (isset($_POST['email_column']))
-	$email_column = $_SESSION['email_column'] = $_POST['email_column'];
 
-if (empty($email_column))
+if ( isset( $_SESSION['email_column'] ) && empty( $email_column ) )
 {
-	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
+	$email_column = $_SESSION['email_column'];
+}
+elseif ( isset( $_POST['email_column'] ) )
+{
+	$email_column = $_SESSION['email_column'] = $_POST['email_column'];
+}
+
+if ( empty( $email_column ) )
+{
+	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
 
 	//get Student / Address fields
-	$student_columns = DBGet(DBQuery("SELECT 's.CUSTOM_' || f.ID AS COLUMN, f.TITLE, c.TITLE AS CATEGORY FROM CUSTOM_FIELDS f, STUDENT_FIELD_CATEGORIES c WHERE f.TYPE='text' AND c.ID=f.CATEGORY_ID ORDER BY f.CATEGORY_ID, f.SORT_ORDER"));
-	$address_columns = DBGet(DBQuery("SELECT 'a.CUSTOM_' || f.ID AS COLUMN, f.TITLE, c.TITLE AS CATEGORY FROM ADDRESS_FIELDS f, ADDRESS_FIELD_CATEGORIES c WHERE f.TYPE='text' AND c.ID=f.CATEGORY_ID ORDER BY f.CATEGORY_ID, f.SORT_ORDER"));
+	$student_columns = DBGet( DBQuery( "SELECT 's.CUSTOM_' || f.ID AS COLUMN, f.TITLE, c.TITLE AS CATEGORY FROM CUSTOM_FIELDS f, STUDENT_FIELD_CATEGORIES c WHERE f.TYPE='text' AND c.ID=f.CATEGORY_ID ORDER BY f.CATEGORY_ID, f.SORT_ORDER" ) );
+	$address_columns = DBGet( DBQuery( "SELECT 'a.CUSTOM_' || f.ID AS COLUMN, f.TITLE, c.TITLE AS CATEGORY FROM ADDRESS_FIELDS f, ADDRESS_FIELD_CATEGORIES c WHERE f.TYPE='text' AND c.ID=f.CATEGORY_ID ORDER BY f.CATEGORY_ID, f.SORT_ORDER" ) );
 
 	//display SELECT input
-	$select_html = _('Select Parents email field').': <select id="email_column" name="email_column">';
+	$select_html = _( 'Select Parents email field' ) . ': <select id="email_column" name="email_column">';
 
-	$select_html .= '<optgroup label="'.htmlspecialchars(_('Student Fields')).'">';
-	foreach ( (array) $student_columns as $student_column)
+	$select_html .= '<optgroup label="' . htmlspecialchars( _( 'Student Fields' ) ) . '">';
+
+	foreach ( (array) $student_columns as $student_column )
 	{
-		$select_html .= '<option value="'.$student_column['COLUMN'].'">'.ParseMLField($student_column['CATEGORY']).' - '.ParseMLField($student_column['TITLE']).'</option>';
+		$select_html .= '<option value="' . $student_column['COLUMN'] . '">' . ParseMLField( $student_column['CATEGORY'] ) . ' - ' . ParseMLField( $student_column['TITLE'] ) . '</option>';
 	}
 
-	$select_html .= '</optgroup><optgroup label="'.htmlspecialchars(_('Address Fields')).'">';
-	foreach ( (array) $address_columns as $address_column)
+	$select_html .= '</optgroup><optgroup label="' . htmlspecialchars( _( 'Address Fields' ) ) . '">';
+
+	foreach ( (array) $address_columns as $address_column )
 	{
-		$select_html .= '<option value="'.$address_column['COLUMN'].'">'.ParseMLField($address_column['CATEGORY']).' - '.ParseMLField($address_column['TITLE']).'</option>';
+		$select_html .= '<option value="' . $address_column['COLUMN'] . '">' . ParseMLField( $address_column['CATEGORY'] ) . ' - ' . ParseMLField( $address_column['TITLE'] ) . '</option>';
 	}
 
 	$select_html .= '</optgroup></select>';
 
-	DrawHeader('','',$select_html);
+	DrawHeader( '', '', $select_html );
 
 	echo '<br /><div class="center">' . SubmitButton( _( 'Select Parents email field' ) ) . '</div>';
 	echo '</form>';
@@ -69,9 +77,7 @@ if (empty($email_column))
 // Parent users are created with the following profile id. '3' is the default 'parent' profile.
 $profile_id = '3';
 
-
 // end of user configuration
-
 
 if ( $_REQUEST['modfunc'] === 'save'
 	&& AllowEdit() )
@@ -94,11 +100,10 @@ if ( $_REQUEST['modfunc'] === 'save'
 		ErrorMessage( $error, 'fatal' );
 	}
 
-
 	// new for when parent account was created new
 	// old for when parent account was existing
-	$subject['new'] = _('New Parent Account');
-	$subject['old'] = _('Updated Parent Account');
+	$subject['new'] = _( 'New Parent Account' );
+	$subject['old'] = _( 'Updated Parent Account' );
 
 	// FJ add Template.
 	$createparentstext = $_REQUEST['inputcreateparentstext_new'] .
@@ -106,21 +111,21 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 	SaveTemplate( $createparentstext );
 
-	$message['new'] = str_replace("''", "'", $_REQUEST['inputcreateparentstext_new']);
-	$message['old'] = str_replace("''", "'", $_REQUEST['inputcreateparentstext_old']);
+	$message['new'] = str_replace( "''", "'", $_REQUEST['inputcreateparentstext_new'] );
+	$message['old'] = str_replace( "''", "'", $_REQUEST['inputcreateparentstext_old'] );
 
-	if (count($_REQUEST['student']))
+	if ( count( $_REQUEST['student'] ) )
 	{
-		$st_list = '\''.implode('\',\'',$_REQUEST['student']).'\'';
+		$st_list = "'" . implode( "','", $_REQUEST['student'] ) . "'";
 
-		$extra['SELECT'] = ",lower(".$email_column.") AS EMAIL";
-		$extra['SELECT'] .= ",(SELECT STAFF_ID FROM STAFF WHERE lower(EMAIL)=lower(".$email_column.") AND PROFILE='parent' AND SYEAR=ssm.SYEAR) AS STAFF_ID";
-		$extra['WHERE'] = " AND s.STUDENT_ID IN (".$st_list.")";
-		$extra['group'] = array('EMAIL');
+		$extra['SELECT'] = ",lower(" . $email_column . ") AS EMAIL";
+		$extra['SELECT'] .= ",(SELECT STAFF_ID FROM STAFF WHERE lower(EMAIL)=lower(" . $email_column . ") AND PROFILE='parent' AND SYEAR=ssm.SYEAR) AS STAFF_ID";
+		$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
+		$extra['group'] = array( 'EMAIL' );
 		$extra['addr'] = true;
 		$extra['STUDENTS_JOIN_ADDRESS'] = "AND sam.RESIDENCE='Y'";
 
-		$RET = GetStuList($extra);
+		$RET = GetStuList( $extra );
 		//echo '<pre>'; var_dump($RET); echo '</pre>';
 
 		foreach ( (array) $RET as $email => $students )
@@ -129,9 +134,9 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 			$student_id = $students[1]['STUDENT_ID'];
 
-			if ( ! $students[1]['STAFF_ID'])
+			if ( ! $students[1]['STAFF_ID'] )
 			{
-				if ( ! empty( $_REQUEST['contact'][ $student_id ] ) )
+				if ( ! empty( $_REQUEST['contact'][$student_id] ) )
 				{
 					// Username = email.
 					$tmp_username = $username = mb_strtolower( trim( $students[1]['EMAIL'] ) );
@@ -144,6 +149,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 					$i = 1;
 
 					// If username already exists.
+
 					while ( DBGet( DBQuery( $username_exists_sql ) ) )
 					{
 						$username = $tmp_username . $i++;
@@ -151,7 +157,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 					$user = DBGet( DBQuery( "SELECT FIRST_NAME,MIDDLE_NAME,LAST_NAME
 						FROM PEOPLE
-						WHERE PERSON_ID='" . $_REQUEST['contact'][ $student_id ] . "'" ) );
+						WHERE PERSON_ID='" . $_REQUEST['contact'][$student_id] . "'" ) );
 
 					$user = $user[1];
 
@@ -221,113 +227,127 @@ if ( $_REQUEST['modfunc'] === 'save'
 				$account = 'old';
 			}
 
-			if ( $id)
+			if ( $id )
 			{
 				$staff = $staff[1];
 				$student_list = '';
-				foreach ( (array) $students as $student)
-				{
-					//join users to students
-					if ( ! $test_email)
-					{
-						$sql = "INSERT INTO STUDENTS_JOIN_USERS (STAFF_ID,STUDENT_ID) values ('".$id."','".$student['STUDENT_ID']."')";
-						DBQuery($sql);
 
-						//hook
-						do_action('Custom/CreateParents.php|user_assign_role');
+				foreach ( (array) $students as $student )
+				{
+					// Fix SQL error, check if student not already associated!
+					$parent_associated_to_student_RET = DBGet( DBQuery( "SELECT 1
+						FROM STUDENTS_JOIN_USERS
+						WHERE STAFF_ID'" . $id . "'
+						AND STUDENT_ID'" . $student['STUDENT_ID'] . "'" ) );
+
+					if ( ! $test_email
+						&& ! $parent_associated_to_student_RET )
+					{
+						// Join user to student.
+						DBQuery( "INSERT INTO STUDENTS_JOIN_USERS (STAFF_ID,STUDENT_ID)
+							VALUES ('" . $id . "','" . $student['STUDENT_ID'] . "')" );
+
+						// Hook.
+						do_action( 'Custom/CreateParents.php|user_assign_role' );
 					}
-					$student_list .= str_replace('&nbsp;',' ',$student['FULL_NAME'])."\r";
+
+					$student_list .= str_replace( '&nbsp;', ' ', $student['FULL_NAME'] ) . "\r";
 				}
 
-				$msg = str_replace('__ASSOCIATED_STUDENTS__',$student_list,$message[ $account ]);
-				$msg = str_replace('__SCHOOL_ID__',SchoolInfo('TITLE'),$msg);
-				$msg = str_replace('__PARENT_NAME__',$staff['NAME'],$msg);
-				$msg = str_replace('__USERNAME__',$staff['USERNAME'],$msg);
-				$msg = str_replace('__PASSWORD__',$password,$msg);
+				$msg = str_replace( '__ASSOCIATED_STUDENTS__', $student_list, $message[$account] );
+				$msg = str_replace( '__SCHOOL_ID__', SchoolInfo( 'TITLE' ), $msg );
+				$msg = str_replace( '__PARENT_NAME__', $staff['NAME'], $msg );
+				$msg = str_replace( '__USERNAME__', $staff['USERNAME'], $msg );
+				$msg = str_replace( '__PASSWORD__', $password, $msg );
 
-				$to = empty($test_email) ? $students[1]['EMAIL'] : $test_email;
+				$to = empty( $test_email ) ? $students[1]['EMAIL'] : $test_email;
 
-				$result = SendEmail( $to, $subject[ $account ], $msg, $reply_to );
+				$result = SendEmail( $to, $subject[$account], $msg, $reply_to );
 
-				$RET[ $email ][1]['PARENT'] = $staff['NAME'];
-				$RET[ $email ][1]['USERNAME'] = $staff['USERNAME'];
-				$RET[ $email ][1]['PASSWORD'] = (empty($password)?'':$password);
+				$RET[$email][1]['PARENT'] = $staff['NAME'];
+				$RET[$email][1]['USERNAME'] = $staff['USERNAME'];
+				$RET[$email][1]['PASSWORD'] = ( empty( $password ) ? '' : $password );
 
-				if ( $result)
-					$RET[ $email ][1]['RESULT'] = _('Success');
+				if ( $result )
+				{
+					$RET[$email][1]['RESULT'] = _( 'Success' );
+				}
 				else
-					$RET[ $email ][1]['RESULT'] = _('Fail');
+				{
+					$RET[$email][1]['RESULT'] = _( 'Fail' );
+				}
 			}
 			else
-				$RET[ $email ][1]['RESULT'] = _('Fail');
+			{
+				$RET[$email][1]['RESULT'] = _( 'Fail' );
+			}
 		}
 
-		$columns = array('FULL_NAME' => _('Student'),'PARENT' => _('Parent'),'USERNAME' => _('Username'),'PASSWORD' => _('Password'),'EMAIL' => _('Email'),'RESULT' => _('Result'));
-		ListOutput($RET,$columns,'Creation Result','Creation Results',false,array('EMAIL'));
+		$columns = array( 'FULL_NAME' => _( 'Student' ), 'PARENT' => _( 'Parent' ), 'USERNAME' => _( 'Username' ), 'PASSWORD' => _( 'Password' ), 'EMAIL' => _( 'Email' ), 'RESULT' => _( 'Result' ) );
+		ListOutput( $RET, $columns, 'Creation Result', 'Creation Results', false, array( 'EMAIL' ) );
 	}
 	else
 	{
-		$error[] = _('You must choose at least one student.');
+		$error[] = _( 'You must choose at least one student.' );
 
 		// Unset modfunc & redirect URL.
 		RedirectURL( 'modfunc' );
 	}
 
 	//reset $email_column var
-	unset($_SESSION['email_column'], $email_column);
+	unset( $_SESSION['email_column'], $email_column );
 }
 
 echo ErrorMessage( $error );
 
-if (! $_REQUEST['modfunc'] && !empty($email_column))
+if ( ! $_REQUEST['modfunc'] && ! empty( $email_column ) )
 {
-	if ( $_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc'] == 'list' )
 	{
-		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
+		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save" method="POST">';
 		$extra['header_right'] = SubmitButton( _( 'Create Parent Accounts for Selected Students' ) );
 
 		$extra['extra_header_left'] = '<table>';
-
 
 		$template = GetTemplate();
 
 		list( $template_new, $template_old ) = explode( '__BLOCK2__', $template );
 
 		$extra['extra_header_left'] .= '<tr class="st"><td>&nbsp;</td><td>' .
-			'<textarea name="inputcreateparentstext_new" cols="100" rows="5">' .
-			$template_new . '</textarea>' .
-			FormatInputTitle(
-				_( 'New Parent Account' ) . ' - ' . _( 'Email Text' ),
-				'inputcreateparentstext_new'
-			) . '</td></tr>';
+		'<textarea name="inputcreateparentstext_new" cols="100" rows="5">' .
+		$template_new . '</textarea>' .
+		FormatInputTitle(
+			_( 'New Parent Account' ) . ' - ' . _( 'Email Text' ),
+			'inputcreateparentstext_new'
+		) . '</td></tr>';
 
 		$extra['extra_header_left'] .= '<tr class="st"><td>&nbsp;</td><td>' .
-			'<textarea name="inputcreateparentstext_old" cols="100" rows="5">' .
-			$template_old . '</textarea>' .
-			FormatInputTitle(
-				_( 'Updated Parent Account' ) . ' - ' . _( 'Email Text' ),
-				'inputcreateparentstext_old'
-			) . '</td></tr>';
+		'<textarea name="inputcreateparentstext_old" cols="100" rows="5">' .
+		$template_old . '</textarea>' .
+		FormatInputTitle(
+			_( 'Updated Parent Account' ) . ' - ' . _( 'Email Text' ),
+			'inputcreateparentstext_old'
+		) . '</td></tr>';
 
-		$extra['extra_header_left'] .= '<tr class="st"><td class="valign-top">'._('Substitutions').':</td><td><table><tr class="st">';
-		$extra['extra_header_left'] .= '<td>__PARENT_NAME__</td><td>= '._('Parent Name').'</td><td>&nbsp;</td>';
-		$extra['extra_header_left'] .= '<td>__ASSOCIATED_STUDENTS__</td><td>= '._('Associated Students').'</td>';
+		$extra['extra_header_left'] .= '<tr class="st"><td class="valign-top">' . _( 'Substitutions' ) . ':</td><td><table><tr class="st">';
+		$extra['extra_header_left'] .= '<td>__PARENT_NAME__</td><td>= ' . _( 'Parent Name' ) . '</td><td>&nbsp;</td>';
+		$extra['extra_header_left'] .= '<td>__ASSOCIATED_STUDENTS__</td><td>= ' . _( 'Associated Students' ) . '</td>';
 		$extra['extra_header_left'] .= '</tr><tr class="st">';
-		$extra['extra_header_left'] .= '<td>__USERNAME__</td><td>= '._('Username').'</td><td>&nbsp;</td>';
-		$extra['extra_header_left'] .= '<td>__PASSWORD__</td><td>= '._('Password').'</td>';
+		$extra['extra_header_left'] .= '<td>__USERNAME__</td><td>= ' . _( 'Username' ) . '</td><td>&nbsp;</td>';
+		$extra['extra_header_left'] .= '<td>__PASSWORD__</td><td>= ' . _( 'Password' ) . '</td>';
 		$extra['extra_header_left'] .= '</tr><tr class="st">';
-		$extra['extra_header_left'] .= '<td>__SCHOOL_ID__</td><td>= '._('School').'</td><td colspan="3">&nbsp;</td>';
+		$extra['extra_header_left'] .= '<td>__SCHOOL_ID__</td><td>= ' . _( 'School' ) . '</td><td colspan="3">&nbsp;</td>';
 		$extra['extra_header_left'] .= '</tr></table></td></tr>';
 
 		$extra['extra_header_left'] .= '<tr class="st"><td class="valign-top">' .
-			_( 'Test Mode' ) . ':' . '</td><td>' .
-			TextInput(
-				'',
-				'test_email',
-				_( 'Email' ),
-				'',
-				false
-			) . '</td></tr>';
+		_( 'Test Mode' ) . ':' . '</td><td>' .
+		TextInput(
+			'',
+			'test_email',
+			_( 'Email' ),
+			'',
+			false
+		) . '</td></tr>';
 
 		$extra['extra_header_left'] .= '</table>';
 	}
@@ -335,28 +355,40 @@ if (! $_REQUEST['modfunc'] && !empty($email_column))
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX,lower($email_column) AS EMAIL,s.STUDENT_ID AS CONTACT";
 	$extra['SELECT'] .= ",(SELECT STAFF_ID FROM STAFF WHERE lower(EMAIL)=lower($email_column) AND PROFILE='parent' AND SYEAR=ssm.SYEAR) AS STAFF_ID";
 	//$extra['WHERE'] = " AND $email_column IS NOT NULL";
-	$extra['WHERE'] .= " AND NOT EXISTS (SELECT '' FROM STUDENTS_JOIN_USERS sju,STAFF st WHERE sju.STUDENT_ID=s.STUDENT_ID AND st.STAFF_ID=sju.STAFF_ID AND SYEAR='".UserSyear()."')";
+	$extra['WHERE'] .= " AND NOT EXISTS (SELECT '' FROM STUDENTS_JOIN_USERS sju,STAFF st WHERE sju.STUDENT_ID=s.STUDENT_ID AND st.STAFF_ID=sju.STAFF_ID AND SYEAR='" . UserSyear() . "')";
 
-	$extra['link'] = array('FULL_NAME'=>false);
-	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox','CONTACT' => '_makeContactSelect');
-	$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.checked,\'student\');" /><A>');
-	$extra['columns_after'] = array('EMAIL' => _('Email'),'CONTACT' => _('Contact'));
-	$extra['LO_group'] = $extra['group'] = array('EMAIL');
+	$extra['link'] = array( 'FULL_NAME' => false );
+	$extra['functions'] = array( 'CHECKBOX' => '_makeChooseCheckbox', 'CONTACT' => '_makeContactSelect' );
+	$extra['columns_before'] = array( 'CHECKBOX' => MakeChooseCheckbox( '', '', 'student' ) );
+	$extra['columns_after'] = array( 'EMAIL' => _( 'Email' ), 'CONTACT' => _( 'Contact' ) );
+	$extra['LO_group'] = $extra['group'] = array( 'EMAIL' );
 	$extra['addr'] = true;
 	$extra['SELECT'] .= ",a.ADDRESS_ID";
 	$extra['STUDENTS_JOIN_ADDRESS'] .= " AND sam.RESIDENCE='Y'";
 
-	Search('student_id',$extra);
+	Search( 'student_id', $extra );
 
-	if ( $_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc'] == 'list' )
 	{
 		echo '<br /><div class="center">' . SubmitButton( _( 'Create Parent Accounts for Selected Students' ) ) . '</div>';
 		echo '</form>';
 	}
 }
 
-function _makeChooseCheckbox($value,$title)
-{	global $THIS_RET;
+/**
+ * Make Choose Checkbox
+ *
+ * Local function
+ * DBGet() callback
+ *
+ * @param  string $value  STUDENT_ID value.
+ * @param  string $column 'CHECKBOX'.
+ *
+ * @return string Checkbox or empty string if no Email or has no Parents
+ */
+function _makeChooseCheckbox( $value, $column )
+{
+	global $THIS_RET;
 
 	if ( empty( $THIS_RET['STAFF_ID'] ) )
 	{
@@ -368,15 +400,26 @@ function _makeChooseCheckbox($value,$title)
 			ORDER BY sjp.STUDENT_RELATION" ) );
 	}
 	else
+	{
 		$has_parents = true;
+	}
 
 	if ( filter_var( $THIS_RET['EMAIL'], FILTER_VALIDATE_EMAIL )
 		&& $has_parents )
-		return '<input type="checkbox" name="student['.$value.']" value="'.$value.'" />';
+	{
+		return MakeChooseCheckbox( $value, $column );
+	}
 	else
+	{
 		return '';
+	}
 }
 
+/**
+ * @param $value
+ * @param $column
+ * @return mixed
+ */
 function _makeContactSelect( $value, $column )
 {
 	global $THIS_RET;
@@ -399,13 +442,14 @@ function _makeContactSelect( $value, $column )
 			STAFF_ID='" . $THIS_RET['STAFF_ID'] . "'" ) );
 	}
 
-	if (count($RET))
+	if ( count( $RET ) )
 	{
 		$checked = ' checked';
 		$return = '<table class="cellspacing-0">';
-		foreach ( (array) $RET as $contact)
+
+		foreach ( (array) $RET as $contact )
 		{
-			$return .= '<tr><td>'.($contact['PERSON_ID']?'<input type="radio" name="contact['.$value.']" value='.$contact['PERSON_ID'].$checked.' />':'&nbsp;').'</td>';
+			$return .= '<tr><td>' . ( $contact['PERSON_ID'] ? '<input type="radio" name="contact[' . $value . ']" value=' . $contact['PERSON_ID'] . $checked . ' />' : '&nbsp;' ) . '</td>';
 
 			$return .= '<td>' . DisplayName(
 				$contact['FIRST_NAME'],
@@ -413,10 +457,12 @@ function _makeContactSelect( $value, $column )
 				$contact['MIDDLE_NAME']
 			) . '</td>';
 
-			$return .= '<td>('.$contact['STUDENT_RELATION'].')</td></tr>';
+			$return .= '<td>(' . $contact['STUDENT_RELATION'] . ')</td></tr>';
 			$checked = '';
 		}
+
 		$return .= '</table>';
 	}
+
 	return $return;
 }

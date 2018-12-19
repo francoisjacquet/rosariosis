@@ -15,6 +15,7 @@ Changes in 4.3
 - CSS Fix wkhtmltopdf issue where table header overlaps first row in wkhtmltopdf.css
 - CSS Add .wkhtmltopdf-header, .wkhtmltopdf-footer, .wkhtmltopdf-portrait & .wkhtmltopdf-landscape classes in PDF.php & wkhtmltopdf.css
 - Fix SQL error for FOOD_SERVICE_ACCOUNT table when adding student reusing deleted student ID in Student.php
+- Fix SQL error when Parent user exists and is already associated to student in CreateParents.php
 
 Changes in 4.2
 --------------
