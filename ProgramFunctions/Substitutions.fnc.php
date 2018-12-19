@@ -44,7 +44,10 @@ function SubstitutionsInput( $substitutions )
 		$div
 	);
 
-	$code = ' <code id="substitutions_code_' . $id . '">' . key( $substitutions ) . '</code>';
+	$code_value = key( $substitutions );
+
+	$code = ' <input id="substitutions_code_' . $id . '" type="text" readonly size="' . ( strlen( $code_value ) - 1 ) .
+		'" value="' . $code_value . '" autocomplete="off" />';
 
 	$copy_button = '<input id="substitutions_button_' . $id . '" type="button" value="' . _( 'Copy' ) . '" />';
 
@@ -64,24 +67,27 @@ function SubstitutionsInput( $substitutions )
 
 			var select = event.target,
 				codeValue = select.options[ select.selectedIndex ].value,
-				code = $('#substitutions_code_' + <?php echo json_encode( $id ); ?>);
+				code = $('#substitutions_code_' + <?php echo $id; ?>);
 
 			// Update code with corresponding selected input value.
-			code.html( codeValue );
+			code.val( codeValue );
+
+			code.attr( 'size', codeValue.length - 1 );
 		};
 
 		var substitutionsCopyCode = function(event) {
 
-			var code = $('#substitutions_code_' + <?php echo json_encode( $id ); ?>),
-				codeValue = code.html();
+			var code = $('#substitutions_code_' + <?php echo $id; ?>);
+
+			code.focus().select();
 
 			// Copy code into clipboard.
-			// @todo!!
+			document.execCommand("copy");
 		};
 
 		// Set select onchange & button onclick functions.
-		$('#substitutions_input_' + <?php echo json_encode( $id ); ?>).change(substitutionsUpdateCode);
-		$('#substitutions_button_' + <?php echo json_encode( $id ); ?>).click(substitutionsCopyCode);
+		$('#substitutions_input_' + <?php echo $id; ?>).change(substitutionsUpdateCode);
+		$('#substitutions_button_' + <?php echo $id; ?>).click(substitutionsCopyCode);
 	</script>
 
 	<?php
