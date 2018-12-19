@@ -441,6 +441,9 @@ if ( $_REQUEST['modfunc'] === 'delete'
 		DBQuery( "DELETE FROM STUDENTS
 			WHERE STUDENT_ID='" . UserStudentID() . "'" );
 
+		DBQuery( "DELETE FROM FOOD_SERVICE_ACCOUNTS
+			WHERE ACCOUNT_ID='" . UserStudentID() . "'" );
+
 		// Hook.
 		do_action( 'Students/Student.php|delete_student' );
 

@@ -14,6 +14,7 @@ Changes in 4.3
 - Add list-wrapper CSS class in ListOutput.fnc.php
 - CSS Fix wkhtmltopdf issue where table header overlaps first row in wkhtmltopdf.css
 - CSS Add .wkhtmltopdf-header, .wkhtmltopdf-footer, .wkhtmltopdf-portrait & .wkhtmltopdf-landscape classes in PDF.php & wkhtmltopdf.css
+- Fix SQL error for FOOD_SERVICE_ACCOUNT table when adding student reusing deleted student ID in Student.php
 
 Changes in 4.2
 --------------
