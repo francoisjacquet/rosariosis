@@ -1,6 +1,7 @@
 <?php
 
 require_once 'ProgramFunctions/Template.fnc.php';
+require_once 'ProgramFunctions/Substitutions.fnc.php';
 require_once 'ProgramFunctions/SendEmail.fnc.php';
 
 // This script will automatically create parent accounts and associate students based on an email address which is part of the student record.
@@ -254,11 +255,8 @@ if ( $_REQUEST['modfunc'] === 'save'
 					$student_list .= str_replace( '&nbsp;', ' ', $student['FULL_NAME'] ) . "\r";
 				}
 
-				$msg = str_replace( '__ASSOCIATED_STUDENTS__', $student_list, $message[$account] );
-				$msg = str_replace( '__SCHOOL_ID__', SchoolInfo( 'TITLE' ), $msg );
-				$msg = str_replace( '__PARENT_NAME__', $staff['NAME'], $msg );
-				$msg = str_replace( '__USERNAME__', $staff['USERNAME'], $msg );
-				$msg = str_replace( '__PASSWORD__', $password, $msg );
+
+				$msg = SubstitutionsTextMake( $substitutions, $message[$account] );
 
 				$to = empty( $test_email ) ? $students[1]['EMAIL'] : $test_email;
 
@@ -313,7 +311,7 @@ if ( ! $_REQUEST['modfunc'] && ! empty( $email_column ) )
 
 		list( $template_new, $template_old ) = explode( '__BLOCK2__', $template );
 
-		$extra['extra_header_left'] .= '<tr class="st"><td>&nbsp;</td><td>' .
+		$extra['extra_header_left'] .= '<tr class="st"><td>' .
 		'<textarea name="inputcreateparentstext_new" cols="100" rows="5">' .
 		$template_new . '</textarea>' .
 		FormatInputTitle(
@@ -321,7 +319,7 @@ if ( ! $_REQUEST['modfunc'] && ! empty( $email_column ) )
 			'inputcreateparentstext_new'
 		) . '</td></tr>';
 
-		$extra['extra_header_left'] .= '<tr class="st"><td>&nbsp;</td><td>' .
+		$extra['extra_header_left'] .= '<tr class="st"><td>' .
 		'<textarea name="inputcreateparentstext_old" cols="100" rows="5">' .
 		$template_old . '</textarea>' .
 		FormatInputTitle(
@@ -329,18 +327,19 @@ if ( ! $_REQUEST['modfunc'] && ! empty( $email_column ) )
 			'inputcreateparentstext_old'
 		) . '</td></tr>';
 
-		$extra['extra_header_left'] .= '<tr class="st"><td class="valign-top">' . _( 'Substitutions' ) . ':</td><td><table><tr class="st">';
-		$extra['extra_header_left'] .= '<td>__PARENT_NAME__</td><td>= ' . _( 'Parent Name' ) . '</td><td>&nbsp;</td>';
-		$extra['extra_header_left'] .= '<td>__ASSOCIATED_STUDENTS__</td><td>= ' . _( 'Associated Students' ) . '</td>';
-		$extra['extra_header_left'] .= '</tr><tr class="st">';
-		$extra['extra_header_left'] .= '<td>__USERNAME__</td><td>= ' . _( 'Username' ) . '</td><td>&nbsp;</td>';
-		$extra['extra_header_left'] .= '<td>__PASSWORD__</td><td>= ' . _( 'Password' ) . '</td>';
-		$extra['extra_header_left'] .= '</tr><tr class="st">';
-		$extra['extra_header_left'] .= '<td>__SCHOOL_ID__</td><td>= ' . _( 'School' ) . '</td><td colspan="3">&nbsp;</td>';
-		$extra['extra_header_left'] .= '</tr></table></td></tr>';
+		$substitutions = array(
+			'__PARENT_NAME__' => _( 'Parent Name' ),
+			'__ASSOCIATED_STUDENTS__' => _( 'Associated Students' ),
+			'__SCHOOL_ID__' => _( 'School' ),
+			'__USERNAME__' => _( 'Username' ),
+			'__PASSWORD__' => _( 'Password' ),
+		);
 
 		$extra['extra_header_left'] .= '<tr class="st"><td class="valign-top">' .
-		_( 'Test Mode' ) . ':' . '</td><td>' .
+			SubstitutionsInput( $substitutions ) .
+		'</td></tr>';
+
+		$extra['extra_header_left'] .= '<tr class="st"><td>' . _( 'Test Mode' ) . ':<br />' .
 		TextInput(
 			'',
 			'test_email',
