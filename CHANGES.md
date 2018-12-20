@@ -17,6 +17,7 @@ Changes in 4.3
 - Fix SQL error for FOOD_SERVICE_ACCOUNT table when adding student reusing deleted student ID in Student.php
 - Fix SQL error when Parent user exists and is already associated to student in CreateParents.php
 - Add SubstitutionsInput & SubstitutionsTextMake functions in Substitutions.fnc.php
+- Add referrer to ErrorSendEmail() in ErrorMessage.fnc.php
 
 Changes in 4.2
 --------------

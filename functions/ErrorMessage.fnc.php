@@ -175,6 +175,7 @@ function ErrorSendEmail( $error = array(), $title = 'PHP Fatal error' )
 	$message .= 'User: ' . $username . "\n";
 	$message .= 'Page: ' . $_SERVER['PHP_SELF'] . "\n";
 	$message .= 'Query string: ' . $_SERVER['QUERY_STRING'] . "\n";
+	$message .= 'Referrer: ' . $_SERVER['HTTP_REFERER'] . "\n";
 
 	$message .= "\n\n" . 'Error: ' . "\n" . print_r( $error, true );
 	$message .= "\n\n" . 'Request Array: ' . "\n" . print_r( $_REQUEST, true );
