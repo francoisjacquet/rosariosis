@@ -2,6 +2,16 @@
 
 ## RosarioSIS Student Information System
 
+New in 4.3
+----------
+
+Scheduling
+
+- Courses: Description (content or summary)
+
+[Quiz](https://www.rosariosis.org/quiz-module/) module
+
+
 New in 4.0
 ----------
 
