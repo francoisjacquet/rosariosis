@@ -1,6 +1,7 @@
 <?php
 
 require_once 'ProgramFunctions/Template.fnc.php';
+require_once 'ProgramFunctions/Substitutions.fnc.php';
 
 if ( $_REQUEST['modfunc'] === 'save' )
 {
@@ -258,7 +259,21 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					{
 						echo '<tr><td colspan="4">';
 						echo '<br /><span style="font-size:x-large;" class="center">' . _( 'Studies Certificate' ) . '<br /></span>';
-						$certificateText[0] = str_replace( array( '__SSECURITY__', '__FULL_NAME__', '__FIRST_NAME__', '__LAST_NAME__', '__MIDDLE_NAME__', '__GRADE_ID__', '__NEXT_GRADE_ID__', '__YEAR__', '__SCHOOL_ID__' ), array( $student_data['SSECURITY'], $student_data['FULL_NAME'], $student_data['FIRST_NAME'], $student_data['LAST_NAME'], $student_data['MIDDLE_NAME'], $student_data['GRADE_LEVEL'], $student_data['NEXT_GRADE_LEVEL'], $syear, $school_info['TITLE'] ), $certificateText[0] );
+
+						$substitutions = array(
+							'__SSECURITY__' => $student_data['SSECURITY'],
+							'__FULL_NAME__' => $student_data['FULL_NAME'],
+							'__LAST_NAME__' => $student_data['LAST_NAME'],
+							'__FIRST_NAME__' => $student_data['FIRST_NAME'],
+							'__MIDDLE_NAME__' => $student_data['MIDDLE_NAME'],
+							'__GRADE_ID__' => $student_data['GRADE_LEVEL'],
+							'__NEXT_GRADE_ID__' => $student_data['NEXT_GRADE_LEVEL'],
+							'__SCHOOL_ID__' => $school_info['TITLE'],
+							'__YEAR__' => $syear,
+						);
+
+						$certificateText[0] = SubstitutionsTextMake( $substitutions, $certificateText[0] );
+
 						echo '<span>' . nl2br( trim( $certificateText[0] ) ) . '</span>';
 						echo '</td></tr>';
 					}
@@ -476,9 +491,10 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$extra['header_right'] = Buttons( _( 'Create Transcripts for Selected Students' ) );
 
-		$extra['extra_header_left'] = '<table>';
+		$extra['extra_header_left'] = '<table class="width-100p">';
 
-		$extra['extra_header_left'] .= '<tr><td colspan="2"><b>' . _( 'Include on Transcript' ) . ':</b><input type="hidden" name="SCHOOL_ID" value="' . UserSchool() . '"><br /></td></tr>';
+		$extra['extra_header_left'] .= '<tr><td colspan="2"><b>' . _( 'Include on Transcript' ) .
+		'</b><input type="hidden" name="SCHOOL_ID" value="' . UserSchool() . '" /><br /></td></tr>';
 
 		// FJ history grades & previous school years in Transripts.
 
@@ -498,7 +514,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 			if ( $syear_history_RET )
 			{
-				$extra['extra_header_left'] .= '<tr class="st"><td>' . _( 'School Years' ) . ':</td><td>';
+				$extra['extra_header_left'] .= '<tr class="st"><td>';
 
 				$syoptions[UserSyear()] = FormatSyear( UserSyear(), Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) );
 
@@ -516,48 +532,50 @@ if ( ! $_REQUEST['modfunc'] )
 				$extra['extra_header_left'] .= ChosenSelectInput(
 					UserSyear(),
 					'syear_arr[]',
-					'',
+					_( 'School Years' ),
 					$syoptions,
 					false,
 					$syextra,
 					false
 				);
 
-				$extra['extra_header_left'] .= '</td>';
+				$extra['extra_header_left'] .= '<hr /></td></tr>';
 			}
 		}
 
 		$mp_types = DBGet( DBQuery( "SELECT DISTINCT MP_TYPE FROM MARKING_PERIODS WHERE NOT MP_TYPE IS NULL AND SCHOOL_ID='" . UserSchool() . "'" ), array(), array() );
-		$extra['extra_header_left'] .= '<tr class="st"><td style="vertical-align:top;">' . _( 'Marking Periods' ) . ':</td><td><table><tr class="st"><td  style="vertical-align:top;"><table>';
+		$extra['extra_header_left'] .= '<tr class="st"><td class="valign-top">';
 
 		//FJ add translation
-		$marking_periods_locale = array( 'Year' => _( 'Year' ), 'Semester' => _( 'Semester' ), 'Quarter' => _( 'Quarter' ) );
+		$marking_periods_locale = array(
+			'Year' => _( 'Year' ),
+			'Semester' => _( 'Semester' ),
+			'Quarter' => _( 'Quarter' ),
+		);
 
 		foreach ( (array) $mp_types as $mp_type )
 		{
-			$extra['extra_header_left'] .= '<tr>';
 			//FJ add <label> on checkbox
-			$extra['extra_header_left'] .= '<td><label><input type="checkbox" name="mp_type_arr[]" value="' . $mp_type['MP_TYPE'] . '"> ' . $marking_periods_locale[ucwords( $mp_type['MP_TYPE'] )] . '</label></td>';
-			$extra['extra_header_left'] .= '</tr>';
+			$extra['extra_header_left'] .= '<label><input type="checkbox" name="mp_type_arr[]" value="' . $mp_type['MP_TYPE'] . '"> ' . $marking_periods_locale[ucwords( $mp_type['MP_TYPE'] )] . '</label> ';
 		}
 
-		$extra['extra_header_left'] .= '</table></td>';
-		$extra['extra_header_left'] .= '<td style="vertical-align:top;">' . _( 'Other Options' ) . ':</td>';
-		$extra['extra_header_left'] .= '<td><table>';
+		$extra['extra_header_left'] .= FormatInputTitle( _( 'Marking Periods' ) ) . '<hr /></td></tr>';
+
+		$extra['extra_header_left'] .= '<tr class="st"><td class="valign-top">';
 
 		//FJ add Show Grades option
-		$extra['extra_header_left'] .= '<tr><td><label><input type="checkbox" name="showgrades" value="1" checked /> ' . _( 'Grades' ) . '</label></td></tr>';
+		$extra['extra_header_left'] .= '<label><input type="checkbox" name="showgrades" value="1" checked /> ' . _( 'Grades' ) . '</label>';
 
-		$extra['extra_header_left'] .= '<tr><td><label><input type="checkbox" name="showstudentpic" value="1"> ' . _( 'Student Photo' ) . '</label></td></tr>';
+		$extra['extra_header_left'] .= '<br /><br /><label><input type="checkbox" name="showstudentpic" value="1"> ' . _( 'Student Photo' ) . '</label>';
 
 		//FJ add Show Comments option
-		$extra['extra_header_left'] .= '<tr><td><label><input type="checkbox" name="showmpcomments" value="1"> ' . _( 'Comments' ) . '</label></td></tr>';
+		$extra['extra_header_left'] .= '<br /><br /><label><input type="checkbox" name="showmpcomments" value="1"> ' . _( 'Comments' ) . '</label>';
 
 		//FJ add Show Credits option
-		$extra['extra_header_left'] .= '<tr><td><label><input type="checkbox" name="showcredits" value="1" checked /> ' . _( 'Credits' ) . '</label></td></tr>';
+		$extra['extra_header_left'] .= '<br /><br /><label><input type="checkbox" name="showcredits" value="1" checked /> ' . _( 'Credits' ) . '</label>';
 
 		//FJ add Show Credit Hours option
-		$extra['extra_header_left'] .= '<tr><td><label><input type="checkbox" name="showcredithours" value="1"> ' . _( 'Credit Hours' ) . '</label></td></tr>';
+		$extra['extra_header_left'] .= '<br /><br /><label><input type="checkbox" name="showcredithours" value="1"> ' . _( 'Credit Hours' ) . '</label>';
 
 		//FJ limit Cetificate to admin
 
@@ -566,14 +584,8 @@ if ( ! $_REQUEST['modfunc'] )
 			//FJ add Show Studies Certificate option
 			$field_SSECURITY = ParseMLArray( DBGet( DBQuery( "SELECT TITLE FROM CUSTOM_FIELDS WHERE ID = 200000003" ) ), 'TITLE' );
 
-			$extra['extra_header_left'] .= '<tr><td><label><input type="checkbox" name="showcertificate" value="1" onclick=\'javascript: document.getElementById("divcertificatetext").style.display="block"; document.getElementById("inputcertificatetext").focus();\'> ' . _( 'Studies Certificate' ) . '</label></td></tr>';
+			$extra['extra_header_left'] .= '<br /><br /><label><input type="checkbox" name="showcertificate" autocomplete="off" value="1" onclick=\'javascript: document.getElementById("divcertificatetext").style.display="block"; document.getElementById("inputcertificatetext").focus();\'> ' . _( 'Studies Certificate' ) . '</label>';
 		}
-
-		//$extra['extra_header_left'] .= '<tr><td><input type=checkbox name=showsat value=1>SAT Scores</td></tr>';
-		$extra['extra_header_left'] .= '</table>';
-
-		$extra['extra_header_left'] .= '</td><td></td></tr></table></tr>';
-		$extra['extra_header_left'] .= '</table>';
 
 		//FJ limit Cetificate to admin
 
@@ -581,33 +593,35 @@ if ( ! $_REQUEST['modfunc'] )
 		{
 			//FJ add Show Studies Certificate option
 			$extra['extra_header_left'] .= '<div id="divcertificatetext" style="display:none">
-				<textarea id="inputcertificatetext" name="inputcertificatetext" cols="100" rows="5">' .
+				<br /><textarea id="inputcertificatetext" name="inputcertificatetext" cols="100" rows="5">' .
 			GetTemplate() .
 			'</textarea>' .
 			FormatInputTitle(
-				_( 'Certificate Studies Text' ),
+				_( 'Studies Certificate Text' ),
 				'inputcertificatetext'
 			);
 
-			$extra['extra_header_left'] .= '<table><tr><td style="text-align:right; vertical-align: top;">' . _( 'Substitutions' ) . ':</td><td><table><tr>';
+			$substitutions = array(
+				'__SSECURITY__' => $field_SSECURITY[1]['TITLE'],
+				'__FULL_NAME__' => _( 'Display Name' ),
+				'__LAST_NAME__' => _( 'Last Name' ),
+				'__FIRST_NAME__' => _( 'First Name' ),
+				'__MIDDLE_NAME__' =>  _( 'Middle Name' ),
+				'__GRADE_ID__' => _( 'Grade Level' ),
+				'__NEXT_GRADE_ID__' => _( 'Next Grade' ),
+				'__SCHOOL_ID__' => _( 'School' ),
+				'__YEAR__' => _( 'School Year' ),
+				'__BLOCK2__' => _( 'Text Block 2' ),
+			);
 
-			$extra['extra_header_left'] .= '<td>__SSECURITY__</td><td>= ' . $field_SSECURITY[1]['TITLE'] . '</td><td colspan="3">&nbsp;</td>';
-			$extra['extra_header_left'] .= '</tr><tr>';
-			$extra['extra_header_left'] .= '<td>__FULL_NAME__</td><td>= ' . _( 'Display Name' ) . '</td><td>&nbsp;</td>';
-			$extra['extra_header_left'] .= '<td>__LAST_NAME__</td><td>= ' . _( 'Last Name' ) . '</td>';
-			$extra['extra_header_left'] .= '</tr><tr>';
-			$extra['extra_header_left'] .= '<td>__FIRST_NAME__</td><td>= ' . _( 'First Name' ) . '</td><td>&nbsp;</td>';
-			$extra['extra_header_left'] .= '<td>__MIDDLE_NAME__</td><td>= ' . _( 'Middle Name' ) . '</td>';
-			$extra['extra_header_left'] .= '</tr><tr>';
-			$extra['extra_header_left'] .= '<td>__GRADE_ID__</td><td>= ' . _( 'Grade Level' ) . '</td><td>&nbsp;</td>';
-			$extra['extra_header_left'] .= '<td>__NEXT_GRADE_ID__</td><td>= ' . _( 'Next Grade' ) . '</td>';
-			$extra['extra_header_left'] .= '</tr><tr>';
-			$extra['extra_header_left'] .= '<td>__SCHOOL_ID__</td><td>= ' . _( 'School' ) . '</td><td>&nbsp;</td>';
-			$extra['extra_header_left'] .= '<td>__YEAR__</td><td>= ' . _( 'School Year' ) . '</td>';
-			$extra['extra_header_left'] .= '</tr><tr>';
-			$extra['extra_header_left'] .= '<td>__BLOCK2__</td><td>= ' . _( 'Text Block 2' ) . '</td><td colspan="3">&nbsp;</td>';
-			$extra['extra_header_left'] .= '</tr></table></td></tr></table></div>';
+			$extra['extra_header_left'] .= '<table><tr class="st"><td class="valign-top">' .
+				SubstitutionsInput( $substitutions ) .
+			'</td></tr>';
+
+			$extra['extra_header_left'] .= '</table></div>';
 		}
+
+		$extra['extra_header_left'] .= '</td></tr></table>';
 	}
 
 	$extra['new'] = true;

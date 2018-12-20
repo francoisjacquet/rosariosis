@@ -14,7 +14,7 @@
  */
 function HonorRollPDF( $student_array, $is_list, $honor_roll_text )
 {
-	$student_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
+	$student_list = "'" . implode( "','", $student_array ) . "'";
 
 	$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $student_list . ")";
 
@@ -154,27 +154,16 @@ function HonorRollPDF( $student_array, $is_list, $honor_roll_text )
 		{
 			echo '<table style="margin:auto auto;">';
 
-			$honor_roll_text = $REQUEST_honor_roll_text;
-
-			$honor_roll_text = str_replace(
-				array(
-					'__FULL_NAME__',
-					'__FIRST_NAME__',
-					'__LAST_NAME__',
-					'__MIDDLE_NAME__',
-					'__GRADE_ID__',
-					'__SCHOOL_ID__',
-				),
-				array(
-					$student['FULL_NAME'],
-					$student['FIRST_NAME'],
-					$student['LAST_NAME'],
-					$student['MIDDLE_NAME'],
-					$student['GRADE_ID'],
-					SchoolInfo( 'TITLE' )
-				),
-				$honor_roll_text
+			$substitutions = array(
+				'__FULL_NAME__' => $student['FULL_NAME'],
+				'__FIRST_NAME__' => $student['FIRST_NAME'],
+				'__LAST_NAME__' => $student['LAST_NAME'],
+				'__MIDDLE_NAME__' => $student['MIDDLE_NAME'],
+				'__GRADE_ID__' => $student['GRADE_ID'],
+				'__SCHOOL_ID__' => SchoolInfo( 'TITLE' ),
 			);
+
+			$honor_roll_text = SubstitutionsTextMake( $substitutions, $REQUEST_honor_roll_text );
 
 			$honor_roll_text = ( $student['HIGH_HONOR'] === 'Y' ?
 				str_replace( _( 'Honor Roll' ), _( 'High Honor Roll' ), $honor_roll_text ) :
@@ -317,29 +306,17 @@ function HonorRollSubjectPDF( $student_array, $is_list, $honor_roll_text )
 		{
 			echo '<table style="margin:auto auto;">';
 
-			$honor_roll_text = $REQUEST_honor_roll_text;
-
-			$honor_roll_text = str_replace(
-				array(
-					'__FULL_NAME__',
-					'__FIRST_NAME__',
-					'__LAST_NAME__',
-					'__MIDDLE_NAME__',
-					'__GRADE_ID__',
-					'__SCHOOL_ID__',
-					'__SUBJECT__',
-				),
-				array(
-					$student['FULL_NAME'],
-					$student['FIRST_NAME'],
-					$student['LAST_NAME'],
-					$student['MIDDLE_NAME'],
-					$student['GRADE_ID'],
-					SchoolInfo( 'TITLE' ),
-					$subject_RET[1]['TITLE'],
-				),
-				$honor_roll_text
+			$substitutions = array(
+				'__FULL_NAME__' => $student['FULL_NAME'],
+				'__FIRST_NAME__' => $student['FIRST_NAME'],
+				'__LAST_NAME__' => $student['LAST_NAME'],
+				'__MIDDLE_NAME__' => $student['MIDDLE_NAME'],
+				'__GRADE_ID__' => $student['GRADE_ID'],
+				'__SCHOOL_ID__' => SchoolInfo( 'TITLE' ),
+				'__SUBJECT__' => $subject_RET[1]['TITLE'],
 			);
+
+			$honor_roll_text = SubstitutionsTextMake( $substitutions, $REQUEST_honor_roll_text );
 
 			echo '<tr><td>' . $honor_roll_text . '</td></tr></table>';
 
@@ -616,9 +593,7 @@ function HonorRollFrame( $frame_file = array() )
 		return $base64;
 	}
 
-	$html = '<tr class="st">
-	<td style="vertical-align:top;">' . _( 'Frame' ) . '</td>
-	<td>' .
+	$html = '<tr class="st"><td>' .
 	FileInput(
 		'frame',
 		_( 'Frame' ) . ' (.jpg, .png, .gif)',

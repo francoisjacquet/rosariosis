@@ -2,6 +2,7 @@
 
 require_once 'ProgramFunctions/Template.fnc.php';
 require_once 'ProgramFunctions/SendEmail.fnc.php';
+require_once 'ProgramFunctions/Substitutions.fnc.php';
 
 // This was a quick hack to email parents who were assigned accounts but had never logged in
 // Warning: the passwords associated to the accounts will be reset
@@ -127,7 +128,7 @@ if ( ! $_REQUEST['modfunc'] || $_REQUEST['search_modfunc'] === 'list' )
 		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save" method="POST">';
 		$extra['header_right'] = SubmitButton( _( 'Notify Selected Parents' ) );
 
-		$extra['extra_header_left'] = '<table>';
+		$extra['extra_header_left'] = '<table class="width-100p">';
 
 		$template = GetTemplate();
 
@@ -149,14 +150,14 @@ if ( ! $_REQUEST['modfunc'] || $_REQUEST['search_modfunc'] === 'list' )
 
 		$extra['extra_header_left'] .= '<tr class="st"><td class="valign-top">' .
 			SubstitutionsInput( $substitutions ) .
-		'</td></tr>';
+		'<hr /></td></tr>';
 
 		$extra['extra_header_left'] .= '<tr class="st"><td>' . _( 'Test Mode' ) . ':<br />' .
 		TextInput(
 			'',
 			'test_email',
 			_( 'Email' ),
-			'',
+			'size="24"',
 			false
 		) . '</td></tr>';
 

@@ -2,6 +2,8 @@
 
 require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 require_once 'ProgramFunctions/Template.fnc.php';
+require_once 'ProgramFunctions/Substitutions.fnc.php';
+
 require_once 'modules/Grades/includes/HonorRoll.fnc.php';
 
 if ( $_REQUEST['modfunc'] === 'save' )
@@ -38,40 +40,45 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
 		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
-		'&modfunc=save&include_inactive=' .
-		( empty( $_REQUEST['include_inactive'] ) ? '' : $_REQUEST['include_inactive'] ) .
-		'&_ROSARIO_PDF=true" method="POST" enctype="multipart/form-data">';
+			'&modfunc=save&include_inactive=' .
+			( empty( $_REQUEST['include_inactive'] ) ? '' : $_REQUEST['include_inactive'] ) .
+			'&_ROSARIO_PDF=true" method="POST" enctype="multipart/form-data">';
 
 		$extra['header_right'] = SubmitButton( _( 'Create Honor Roll for Selected Students' ) );
 
-		$extra['extra_header_left'] = '<table>';
+		$extra['extra_header_left'] = '<table class="width-100p">';
 
 		//FJ add <label> on radio
-		$extra['extra_header_left'] .= '<tr><td><label><input type="radio" name="list" value="list"> '._('List').'</label></td></tr>';
+		$extra['extra_header_left'] .= '<tr><td><label><input type="radio" name="list" value="list"> ' . _( 'List' ) . '</label></td></tr>';
 
-		$extra['extra_header_left'] .= '<tr><td><label><input type="radio" name="list" value="" checked /> '._('Certificates').':</label></td></tr>';
+		$extra['extra_header_left'] .= '<tr><td><label><input type="radio" name="list" value="" checked /> ' . _( 'Certificates' ) . ':</label></td></tr>';
 
 		//FJ add TinyMCE to the textarea
-		$extra['extra_header_left'] .= '<tr><td>&nbsp;</td></tr>
-		<tr class="st"><td class="valign-top">' . _( 'Text' ) . '</td>
-		<td class="width-100p">' .
+		$extra['extra_header_left'] .= '<tr class="st"><td>' .
 		TinyMCEInput(
 			GetTemplate(),
 			'honor_roll_text',
-			'',
+			_( 'Text' ),
 			'class="tinymce-horizontal"'
 		) . '</td></tr>';
 
-		$extra['extra_header_left'] .= '<tr class="st"><td class="valign-top">'._('Substitutions').':</td><td><table><tr class="st">';
-		$extra['extra_header_left'] .= '<td>__FULL_NAME__</td><td>= '._( 'Display Name' ).'</td><td>&nbsp;</td>';
-		$extra['extra_header_left'] .= '<td>__LAST_NAME__</td><td>= '._('Last Name').'</td></tr>';
+		$substitutions = array(
+			'__FULL_NAME__' => _( 'Display Name' ),
+			'__LAST_NAME__' => _( 'Last Name' ),
+			'__FIRST_NAME__' => _( 'First Name' ),
+			'__MIDDLE_NAME__' =>  _( 'Middle Name' ),
+			'__SCHOOL_ID__' => _( 'School' ),
+			'__GRADE_ID__' => _( 'Grade Level' ),
+		);
 
-		$extra['extra_header_left'] .= '<tr class="st"><td>__FIRST_NAME__</td><td>= '._('First Name').'</td><td>&nbsp;</td>';
-		$extra['extra_header_left'] .= '<td>__MIDDLE_NAME__</td><td>= '._('Middle Name').'</td></tr>';
+		if ( ! empty( $_REQUEST['subject_id'] ) )
+		{
+			$substitutions['__SUBJECT__'] = _( 'Subject' );
+		}
 
-		$extra['extra_header_left'] .= '<tr class="st"><td>__SCHOOL_ID__</td><td>= '._('School').'</td><td>&nbsp;</td>';
-		$extra['extra_header_left'] .= '<td>__GRADE_ID__</td><td>= '._('Grade Level').'</td>';
-		$extra['extra_header_left'] .= '</tr></table></td></tr>';
+		$extra['extra_header_left'] .= '<tr class="st"><td class="valign-top">' .
+			SubstitutionsInput( $substitutions ) .
+		'<hr /></td></tr>';
 
 		$extra['extra_header_left'] .= HonorRollFrame();
 
@@ -80,33 +87,51 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$extra['new'] = true;
 
-	if ( !isset($_REQUEST['_ROSARIO_PDF']))
+	if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
-		$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
-		$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.checked,\'st_arr\');"><A>');
+		$extra['functions'] = array( 'CHECKBOX' => 'MakeChooseCheckbox' );
+		$extra['columns_before'] = array( 'CHECKBOX' => MakeChooseCheckbox( '', '', 'st_arr' ) );
 	}
 
-	$extra['link'] = array('FULL_NAME'=>false);
+	$extra['link'] = array( 'FULL_NAME' => false );
 	$extra['options']['search'] = false;
 
-	Widgets('course');
+	Widgets( 'course' );
 
 	HonorRollWidgets( 'honor_roll' );
 
 	Search( 'student_id', $extra );
 
-	if ( $_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
 		echo '<br /><div class="center">' . SubmitButton( _( 'Create Honor Roll for Selected Students' ) ) . '</div>';
 		echo '</form>';
 	}
 }
 
-function _makeChooseCheckbox($value,$title)
+/**
+ * Make Choose Checkbox
+ *
+ * Local function
+ * DBGet() callback
+ *
+ * @uses MakChooseCheckbox
+ *
+ * @param  string $value  STUDENT_ID value.
+ * @param  string $column 'CHECKBOX'.
+ *
+ * @return string Checkbox or empty string if no (High) Honor Roll requested.
+ */
+function _makeChooseCheckbox( $value, $column )
 {
-	if ( $_REQUEST['honor_roll']=='Y' || $_REQUEST['high_honor_roll']=='Y')
-		return '<input type="checkbox" name="st_arr[]" value="'.$value.'" checked />';
+	if ( $_REQUEST['honor_roll'] === 'Y'
+		|| $_REQUEST['high_honor_roll'] === 'Y' )
+	{
+		return MakeChooseCheckbox( $value, $column );
+	}
 	else
+	{
 		return '';
+	}
 }
