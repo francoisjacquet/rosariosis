@@ -5,6 +5,7 @@ require_once 'modules/Attendance/includes/UpdateAttendanceDaily.fnc.php';
 DrawHeader( ProgramTitle() );
 
 // set date
+
 if ( isset( $_REQUEST['month_date'] )
 	&& isset( $_REQUEST['day_date'] )
 	&& isset( $_REQUEST['year_date'] ) )
@@ -17,9 +18,9 @@ if ( isset( $_REQUEST['month_date'] )
 }
 else
 {
-	$_REQUEST['day_date'] = date('d');
-	$_REQUEST['month_date'] = date('m');
-	$_REQUEST['year_date'] = date('Y');
+	$_REQUEST['day_date'] = date( 'd' );
+	$_REQUEST['month_date'] = date( 'm' );
+	$_REQUEST['year_date'] = date( 'Y' );
 
 	$date = $_REQUEST['year_date'] . '-' . $_REQUEST['month_date'] . '-' . $_REQUEST['day_date'];
 }
@@ -52,13 +53,13 @@ if ( isset( $cp_title_RET[1]['TITLE'] ) )
 	DrawHeader( $cp_title_RET[1]['TITLE'] );
 }
 
-if (count($categories_RET)==0)
+if ( count( $categories_RET ) == 0 )
 {
-	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&table='.$_REQUEST['table'].'" method="POST">';
-	DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)));
+	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&table=' . $_REQUEST['table'] . '" method="POST">';
+	DrawHeader( PrepareDate( $date, '_date', false, array( 'submit' => true ) ) );
 	echo '</form>';
 
-	ErrorMessage(array(_('You cannot take attendance for this course period.')),'fatal');
+	ErrorMessage( array( _( 'You cannot take attendance for this course period.' ) ), 'fatal' );
 }
 
 if ( ! isset( $_REQUEST['table'] )
@@ -78,43 +79,46 @@ else
 
 //FJ days numbered
 //FJ multiple school periods for a course period
-if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
+
+if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 {
-	$course_RET = DBGET(DBQuery("SELECT cp.HALF_DAY
+	$course_RET = DBGET( DBQuery( "SELECT cp.HALF_DAY
 	FROM ATTENDANCE_CALENDAR acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp, COURSE_PERIOD_SCHOOL_PERIODS cpsp
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
-	AND acc.SYEAR='".UserSyear()."'
+	AND acc.SYEAR='" . UserSyear() . "'
 	AND cp.SCHOOL_ID=acc.SCHOOL_ID
 	AND cp.SYEAR=acc.SYEAR
-	AND acc.SCHOOL_DATE='".$date."'
+	AND acc.SCHOOL_DATE='" . $date . "'
 	AND cp.CALENDAR_ID=acc.CALENDAR_ID
-	AND cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID='".UserCoursePeriodSchoolPeriod()."'
+	AND cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID='" . UserCoursePeriodSchoolPeriod() . "'
 	AND cp.MARKING_PERIOD_ID IN (SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE (MP='FY' OR MP='SEM' OR MP='QTR')
 	AND SCHOOL_ID=acc.SCHOOL_ID
 	AND acc.SCHOOL_DATE BETWEEN START_DATE AND END_DATE)
 	AND sp.PERIOD_ID=cpsp.PERIOD_ID
 	AND (sp.BLOCK IS NULL AND position(substring('MTWHFSU' FROM cast(
-		(SELECT CASE COUNT(school_date)% ".SchoolInfo('NUMBER_DAYS_ROTATION')." WHEN 0 THEN ".SchoolInfo('NUMBER_DAYS_ROTATION')." ELSE COUNT(school_date)% ".SchoolInfo('NUMBER_DAYS_ROTATION')." END AS day_number
+		(SELECT CASE COUNT(school_date)% " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " WHEN 0 THEN " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " ELSE COUNT(school_date)% " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " END AS day_number
 		FROM attendance_calendar
 		WHERE school_date>=(SELECT start_date FROM school_marking_periods WHERE start_date<=acc.SCHOOL_DATE AND end_date>=acc.SCHOOL_DATE AND mp='QTR' AND SCHOOL_ID=acc.SCHOOL_ID)
 		AND school_date<=acc.SCHOOL_DATE
 		AND SCHOOL_ID=acc.SCHOOL_ID)
 	AS INT) FOR 1) IN cpsp.DAYS)>0 OR sp.BLOCK IS NOT NULL AND acc.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK)
-	AND position(',".$_REQUEST['table'].",' IN cp.DOES_ATTENDANCE)>0"));
-} else {
-	$course_RET = DBGET(DBQuery("SELECT cp.HALF_DAY
+	AND position('," . $_REQUEST['table'] . ",' IN cp.DOES_ATTENDANCE)>0" ) );
+}
+else
+{
+	$course_RET = DBGET( DBQuery( "SELECT cp.HALF_DAY
 	FROM ATTENDANCE_CALENDAR acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp, COURSE_PERIOD_SCHOOL_PERIODS cpsp
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
-	AND acc.SYEAR='".UserSyear()."'
+	AND acc.SYEAR='" . UserSyear() . "'
 	AND cp.SCHOOL_ID=acc.SCHOOL_ID
 	AND cp.SYEAR=acc.SYEAR
-	AND acc.SCHOOL_DATE='".$date."'
+	AND acc.SCHOOL_DATE='" . $date . "'
 	AND cp.CALENDAR_ID=acc.CALENDAR_ID
-	AND cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID='".UserCoursePeriodSchoolPeriod()."'
+	AND cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID='" . UserCoursePeriodSchoolPeriod() . "'
 	AND cp.MARKING_PERIOD_ID IN (SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE (MP='FY' OR MP='SEM' OR MP='QTR') AND SCHOOL_ID=acc.SCHOOL_ID AND acc.SCHOOL_DATE BETWEEN START_DATE AND END_DATE)
 	AND sp.PERIOD_ID=cpsp.PERIOD_ID
 	AND (sp.BLOCK IS NULL AND position(substring('UMTWHFS' FROM cast(extract(DOW FROM acc.SCHOOL_DATE) AS INT)+1 FOR 1) IN cpsp.DAYS)>0 OR sp.BLOCK IS NOT NULL AND acc.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK)
-	AND position(',".$_REQUEST['table'].",' IN cp.DOES_ATTENDANCE)>0"));
+	AND position('," . $_REQUEST['table'] . ",' IN cp.DOES_ATTENDANCE)>0" ) );
 }
 
 // Instead of displaying a fatal error which could confuse user, display a warning and exit.
@@ -122,14 +126,14 @@ $fatal_warning = array();
 
 if ( ! count( $course_RET ) )
 {
-	$fatal_warning[] = _('You cannot take attendance for this period on this day.');
+	$fatal_warning[] = _( 'You cannot take attendance for this period on this day.' );
 }
 
 $qtr_id = GetCurrentMP( 'QTR', $date, false );
 
 if ( ! $qtr_id )
 {
-	$fatal_warning[] = _('The selected date is not in a school quarter.');
+	$fatal_warning[] = _( 'The selected date is not in a school quarter.' );
 }
 
 if ( $fatal_warning )
@@ -148,9 +152,10 @@ if ( $fatal_warning )
 
 	echo '</form>';
 
-	ErrorMessage( $fatal_warning, 'warning' );
+	echo ErrorMessage( $fatal_warning, 'warning' );
 
 	// Code portion taken from ErrorMessage function.
+
 	if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		Warehouse( 'footer' );
@@ -166,22 +171,22 @@ if ( $fatal_warning )
 	exit;
 }
 
-
 // If running as a teacher program then rosario[allow_edit] will already be set according to admin permissions.
-if (!isset($_ROSARIO['allow_edit']))
+
+if ( ! isset( $_ROSARIO['allow_edit'] ) )
 {
 	// Allow teacher edit if selected date is in the current quarter or in the corresponding grade posting period.
-	$current_qtr_id = GetCurrentMP('QTR',DBDate(),false);
+	$current_qtr_id = GetCurrentMP( 'QTR', DBDate(), false );
 
 	$time = strtotime( DBDate() );
 
-	if ( ($current_qtr_id
-			&& $qtr_id == $current_qtr_id
-			|| GetMP( $qtr_id, 'POST_START_DATE' )
-			&& DBDate() <= GetMP( $qtr_id, 'POST_END_DATE' ) )
-		&& ( !ProgramConfig( 'attendance', 'ATTENDANCE_EDIT_DAYS_BEFORE' )
+	if (  ( $current_qtr_id
+		&& $qtr_id == $current_qtr_id
+		|| GetMP( $qtr_id, 'POST_START_DATE' )
+		&& DBDate() <= GetMP( $qtr_id, 'POST_END_DATE' ) )
+		&& ( ! ProgramConfig( 'attendance', 'ATTENDANCE_EDIT_DAYS_BEFORE' )
 			|| strtotime( $date ) <= $time + ProgramConfig( 'attendance', 'ATTENDANCE_EDIT_DAYS_BEFORE' ) * 86400 )
-		&& ( !ProgramConfig( 'attendance', 'ATTENDANCE_EDIT_DAYS_AFTER' )
+		&& ( ! ProgramConfig( 'attendance', 'ATTENDANCE_EDIT_DAYS_AFTER' )
 			|| strtotime( $date ) >= $time - ProgramConfig( 'attendance', 'ATTENDANCE_EDIT_DAYS_AFTER' ) * 86400 ) )
 	{
 		$_ROSARIO['allow_edit'] = true;
@@ -192,43 +197,47 @@ $current_Q = "SELECT ATTENDANCE_TEACHER_CODE,STUDENT_ID,ADMIN,COMMENT,COURSE_PER
 	(SELECT COMMENT
 		FROM ATTENDANCE_DAY
 		WHERE STUDENT_ID=t.STUDENT_ID
-		AND SCHOOL_DATE='".$date."') AS DAILY_COMMENT
+		AND SCHOOL_DATE='" . $date . "') AS DAILY_COMMENT
 	FROM " . DBEscapeIdentifier( $table ) . " t
 	WHERE SCHOOL_DATE='" . $date . "'
 	AND PERIOD_ID='" . UserPeriod() . "'" .
 	( $table == 'LUNCH_PERIOD' ? " AND TABLE_NAME='" . $_REQUEST['table'] . "'" : '' );
 
-$current_RET = DBGet(DBQuery($current_Q),array(),array('STUDENT_ID'));
+$current_RET = DBGet( DBQuery( $current_Q ), array(), array( 'STUDENT_ID' ) );
 
 if ( ! empty( $_REQUEST['attendance'] )
 	&& ! empty( $_POST['attendance'] ) )
 {
 	foreach ( (array) $_REQUEST['attendance'] as $student_id => $value )
 	{
-		if ( ! empty( $current_RET[ $student_id ] ) )
+		if ( ! empty( $current_RET[$student_id] ) )
 		{
 			$sql = "UPDATE " . DBEscapeIdentifier( $table ) .
-				" SET ATTENDANCE_TEACHER_CODE='" . mb_substr( $value, 5 ) . "',
+			" SET ATTENDANCE_TEACHER_CODE='" . mb_substr( $value, 5 ) . "',
 				COURSE_PERIOD_ID='" . UserCoursePeriod() . "'";
 
-			if ($current_RET[ $student_id ][1]['ADMIN']!='Y')
-				$sql .= ",ATTENDANCE_CODE='".mb_substr($value,5)."'";
+			if ( $current_RET[$student_id][1]['ADMIN'] != 'Y' )
+			{
+				$sql .= ",ATTENDANCE_CODE='" . mb_substr( $value, 5 ) . "'";
+			}
 
-			if ( ! empty( $_REQUEST['comment'][ $student_id ] ) )
-				$sql .= ",COMMENT='".trim($_REQUEST['comment'][ $student_id ])."'";
+			if ( ! empty( $_REQUEST['comment'][$student_id] ) )
+			{
+				$sql .= ",COMMENT='" . trim( $_REQUEST['comment'][$student_id] ) . "'";
+			}
 
-			$sql .= " WHERE SCHOOL_DATE='".$date."' AND PERIOD_ID='".UserPeriod()."' AND STUDENT_ID='".$student_id."'";
+			$sql .= " WHERE SCHOOL_DATE='" . $date . "' AND PERIOD_ID='" . UserPeriod() . "' AND STUDENT_ID='" . $student_id . "'";
 		}
 		else
 		{
 			$sql = "INSERT INTO " . DBEscapeIdentifier( $table ) .
-				" (STUDENT_ID,SCHOOL_DATE,MARKING_PERIOD_ID,PERIOD_ID,COURSE_PERIOD_ID,
+			" (STUDENT_ID,SCHOOL_DATE,MARKING_PERIOD_ID,PERIOD_ID,COURSE_PERIOD_ID,
 					ATTENDANCE_CODE,ATTENDANCE_TEACHER_CODE,COMMENT" .
-					( $table == 'LUNCH_PERIOD' ? ',TABLE_NAME' : '' ) . ")
+			( $table == 'LUNCH_PERIOD' ? ',TABLE_NAME' : '' ) . ")
 				values('" . $student_id . "','" . $date . "','" . $qtr_id . "','" . UserPeriod() .
-					"','" . UserCoursePeriod() . "','" . mb_substr( $value, 5 ) . "','" .
-					mb_substr( $value, 5 ) . "','" . $_REQUEST['comment'][ $student_id ] . "'" .
-					( $table == 'LUNCH_PERIOD' ? ",'" . $_REQUEST['table'] . "'" : '' ) . ")";
+			"','" . UserCoursePeriod() . "','" . mb_substr( $value, 5 ) . "','" .
+			mb_substr( $value, 5 ) . "','" . $_REQUEST['comment'][$student_id] . "'" .
+				( $table == 'LUNCH_PERIOD' ? ",'" . $_REQUEST['table'] . "'" : '' ) . ")";
 		}
 
 		DBQuery( $sql );
@@ -289,14 +298,14 @@ foreach ( (array) $codes_RET as $code )
 
 	if ( $code['DEFAULT_CODE'] == 'Y' )
 	{
-		$extra['functions']['CODE_' . $code['ID'] ] = '_makeRadioSelected';
+		$extra['functions']['CODE_' . $code['ID']] = '_makeRadioSelected';
 	}
 	else
 	{
-		$extra['functions']['CODE_' . $code['ID'] ] = '_makeRadio';
+		$extra['functions']['CODE_' . $code['ID']] = '_makeRadio';
 	}
 
-	$columns['CODE_' . $code['ID'] ] = $code['TITLE'];
+	$columns['CODE_' . $code['ID']] = $code['TITLE'];
 }
 
 $extra['SELECT'] .= ',s.STUDENT_ID AS COMMENT,s.STUDENT_ID AS ATTENDANCE_REASON,s.STUDENT_ID AS DAILY_COMMENT';
@@ -331,6 +340,7 @@ if ( $attendance_reason )
 }
 
 // @since 3.9.1 Add Daily Comment column.
+
 if ( $daily_comment )
 {
 	$columns += array(
@@ -344,11 +354,11 @@ echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
 DrawHeader( '', SubmitButton() );
 
 $date_note = $date != DBDate() ? ' <span style="color:red" class="nobr">' .
-	_( 'The selected date is not today' ) . '</span> |' : '';
+_( 'The selected date is not today' ) . '</span> |' : '';
 
 $date_note .= AllowEdit() ? ' <span style="color:green" class="nobr">' .
-	_( 'You can edit this attendance' ) . '</span>' :
-	' <span style="color:red" class="nobr">' . _( 'You cannot edit this attendance' ) . '</span>';
+_( 'You can edit this attendance' ) . '</span>' :
+' <span style="color:red" class="nobr">' . _( 'You cannot edit this attendance' ) . '</span>';
 
 $completed_RET = DBGet( DBQuery( "SELECT 'Y' AS COMPLETED
 	FROM ATTENDANCE_COMPLETED
@@ -360,14 +370,13 @@ $completed_RET = DBGet( DBQuery( "SELECT 'Y' AS COMPLETED
 if ( $completed_RET )
 {
 	$note[] = button( 'check' ) . '&nbsp;' .
-		_( 'You already have taken attendance today for this period.' );
+	_( 'You already have taken attendance today for this period.' );
 }
 
 DrawHeader( PrepareDate( $date, '_date', false, array( 'submit' => true ) ) . $date_note );
 
 // Hook.
 do_action( 'Attendance/TakeAttendance.php|header' );
-
 
 echo ErrorMessage( $error );
 
@@ -384,8 +393,8 @@ foreach ( (array) $categories_RET as $category )
 	$tabs[] = array(
 		'title' => ParseMLField( $category['TITLE'] ),
 		'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=' . $category['ID'] .
-			'&month_date=' . $_REQUEST['month_date'] . '&day_date=' . $_REQUEST['day_date'] .
-			'&year_date=' . $_REQUEST['year_date'],
+		'&month_date=' . $_REQUEST['month_date'] . '&day_date=' . $_REQUEST['day_date'] .
+		'&year_date=' . $_REQUEST['year_date'],
 	);
 }
 
@@ -396,15 +405,15 @@ if ( count( $categories_RET ) )
 		'search' => false,
 		'header' => WrapTabs(
 			$tabs,
-			'Modules.php?modname=' . $_REQUEST['modname'] . '&table='.$_REQUEST['table'] .
-				'&month_date=' . $_REQUEST['month_date'] . '&day_date=' . $_REQUEST['day_date'] .
-				'&year_date=' . $_REQUEST['year_date']
+			'Modules.php?modname=' . $_REQUEST['modname'] . '&table=' . $_REQUEST['table'] .
+			'&month_date=' . $_REQUEST['month_date'] . '&day_date=' . $_REQUEST['day_date'] .
+			'&year_date=' . $_REQUEST['year_date']
 		),
 	);
 }
 else
 {
-    $LO_options = array();
+	$LO_options = array();
 }
 
 echo '<br />';
@@ -422,6 +431,10 @@ ListOutput(
 echo '<br /><div class="center">' . SubmitButton() . '</div>';
 echo '</form>';
 
+/**
+ * @param $value
+ * @param $title
+ */
 function _makeRadio( $value, $title )
 {
 	global $THIS_RET,
@@ -434,8 +447,8 @@ function _makeRadio( $value, $title )
 		// 'T' => '#0000FF',
 	);
 
-	if ( isset( $current_RET[ $THIS_RET['STUDENT_ID'] ][1]['ATTENDANCE_TEACHER_CODE'] )
-		&& $current_RET[ $THIS_RET['STUDENT_ID'] ][1]['ATTENDANCE_TEACHER_CODE'] == mb_substr( $title, 5 ) )
+	if ( isset( $current_RET[$THIS_RET['STUDENT_ID']][1]['ATTENDANCE_TEACHER_CODE'] )
+		&& $current_RET[$THIS_RET['STUDENT_ID']][1]['ATTENDANCE_TEACHER_CODE'] == mb_substr( $title, 5 ) )
 	{
 		if ( isset( $_REQUEST['LO_save'] ) )
 		{
@@ -443,7 +456,7 @@ function _makeRadio( $value, $title )
 		}
 		else
 		{
-			$class = isset( $classes[ $value ] ) ? $classes[ $value ] : '';
+			$class = isset( $classes[$value] ) ? $classes[$value] : '';
 
 			return '<div class="attendance-code ' . $class . '">
 				<input type="radio" name="attendance[' . $THIS_RET['STUDENT_ID'] . ']"
@@ -458,6 +471,10 @@ function _makeRadio( $value, $title )
 	}
 }
 
+/**
+ * @param $value
+ * @param $title
+ */
 function _makeRadioSelected( $value, $title )
 {
 	global $THIS_RET,
@@ -470,7 +487,7 @@ function _makeRadioSelected( $value, $title )
 		// 'T' => '#0000FF',
 	);
 
-	$class = isset( $classes[ $value ] ) ? $classes[ $value ] : '';
+	$class = isset( $classes[$value] ) ? $classes[$value] : '';
 
 	$classes_alt = array(
 		'P' => 'present-alt',
@@ -479,11 +496,11 @@ function _makeRadioSelected( $value, $title )
 		// 'T' => '#DDDDFF',
 	);
 
-	$class_alt = isset( $classes_alt[ $value ] ) ? $classes_alt[ $value ] : '';
+	$class_alt = isset( $classes_alt[$value] ) ? $classes_alt[$value] : '';
 
-	if ( ! empty( $current_RET[ $THIS_RET['STUDENT_ID'] ][1]['ATTENDANCE_TEACHER_CODE'] ) )
+	if ( ! empty( $current_RET[$THIS_RET['STUDENT_ID']][1]['ATTENDANCE_TEACHER_CODE'] ) )
 	{
-		if ( $current_RET[ $THIS_RET['STUDENT_ID'] ][1]['ATTENDANCE_TEACHER_CODE'] == mb_substr( $title, 5 ) )
+		if ( $current_RET[$THIS_RET['STUDENT_ID']][1]['ATTENDANCE_TEACHER_CODE'] == mb_substr( $title, 5 ) )
 		{
 			if ( isset( $_REQUEST['LO_save'] ) )
 			{
@@ -518,24 +535,19 @@ function _makeRadioSelected( $value, $title )
 	}
 }
 
-
 /**
  * Make Tip Message containing Student Photo
  * Local function
  *
  * Callback for DBGet() column formatting
  *
- * @deprecated since 3.8, see GetStuList.fnc.php makePhotoTipMessage()
- *
  * @uses MakeStudentPhotoTipMessage()
- *
- * @see ProgramFunctions/TipMessage.fnc.php
- *
  * @global $THIS_RET, see DBGet()
+ * @deprecated since 3.8, see GetStuList.fnc.php makePhotoTipMessage()
+ * @see ProgramFunctions/TipMessage.fnc.php
  *
  * @param  string $full_name Student Full Name
  * @param  string $column    'FULL_NAME'
- *
  * @return string Student Full Name + Tip Message containing Student Photo
  */
 function _makeTipMessage( $full_name, $column )
@@ -547,13 +559,17 @@ function _makeTipMessage( $full_name, $column )
 	return MakeStudentPhotoTipMessage( $THIS_RET['STUDENT_ID'], $full_name );
 }
 
+/**
+ * @param $student_id
+ * @param $column
+ */
 function makeCommentInput( $student_id, $column )
 {
 	global $current_RET;
 
 	return TextInput(
-		( isset( $current_RET[ $student_id ][1]['COMMENT'] ) ?
-			$current_RET[ $student_id ][1]['COMMENT'] :
+		( isset( $current_RET[$student_id][1]['COMMENT'] ) ?
+			$current_RET[$student_id][1]['COMMENT'] :
 			'' ),
 		'comment[' . $student_id . ']',
 		'',
@@ -563,29 +579,39 @@ function makeCommentInput( $student_id, $column )
 	);
 }
 
+/**
+ * @param $student_id
+ * @param $column
+ * @return mixed
+ */
 function makeAttendanceReason( $student_id, $column )
 {
 	global $current_RET,
 		$attendance_reason;
 
-	if ( ! empty( $current_RET[ $student_id ][1]['ATTENDANCE_REASON'] ) )
+	if ( ! empty( $current_RET[$student_id][1]['ATTENDANCE_REASON'] ) )
 	{
 		$attendance_reason = true;
 
-		return $current_RET[ $student_id ][1]['ATTENDANCE_REASON'];
+		return $current_RET[$student_id][1]['ATTENDANCE_REASON'];
 	}
 }
 
 // @since 3.9.1 Add Daily Comment column.
+/**
+ * @param $student_id
+ * @param $column
+ * @return mixed
+ */
 function makeDailyComment( $student_id, $column )
 {
 	global $current_RET,
 		$daily_comment;
 
-	if ( ! empty( $current_RET[ $student_id ][1]['DAILY_COMMENT'] ) )
+	if ( ! empty( $current_RET[$student_id][1]['DAILY_COMMENT'] ) )
 	{
 		$daily_comment = true;
 
-		return $current_RET[ $student_id ][1]['DAILY_COMMENT'];
+		return $current_RET[$student_id][1]['DAILY_COMMENT'];
 	}
 }
