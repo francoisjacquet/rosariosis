@@ -116,29 +116,61 @@ if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 	AND (sp.BLOCK IS NULL AND position(substring('UMTWHFS' FROM cast(extract(DOW FROM acc.SCHOOL_DATE) AS INT)+1 FOR 1) IN cpsp.DAYS)>0 OR sp.BLOCK IS NOT NULL AND acc.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK)
 	AND position(',".$_REQUEST['table'].",' IN cp.DOES_ATTENDANCE)>0"));
 }
-if (count($course_RET)==0)
-{
-	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&table='.$_REQUEST['table'].'" method="POST">';
-	DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)));
-	echo '</form>';
 
-	ErrorMessage(array(_('You cannot take attendance for this period on this day.')),'fatal');
+// Instead of displaying a fatal error which could confuse user, display a warning and exit.
+$fatal_warning = array();
+
+if ( ! count( $course_RET ) )
+{
+	$fatal_warning[] = _('You cannot take attendance for this period on this day.');
 }
 
-$qtr_id = GetCurrentMP('QTR',$date,false);
-if (! $qtr_id)
-{
-	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&table='.$_REQUEST['table'].'" method="POST">';
-	DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)));
-	echo '</form>';
+$qtr_id = GetCurrentMP( 'QTR', $date, false );
 
-	ErrorMessage(array(_('The selected date is not in a school quarter.')),'fatal');
+if ( ! $qtr_id )
+{
+	$fatal_warning[] = _('The selected date is not in a school quarter.');
 }
 
-// if running as a teacher program then rosario[allow_edit] will already be set according to admin permissions
+if ( $fatal_warning )
+{
+	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
+		'&table=' . $_REQUEST['table'] . '" method="POST">';
+
+	DrawHeader(
+		PrepareDate(
+			$date,
+			'_date',
+			false,
+			array( 'submit' => true )
+		)
+	);
+
+	echo '</form>';
+
+	ErrorMessage( $fatal_warning, 'warning' );
+
+	// Code portion taken from ErrorMessage function.
+	if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
+		Warehouse( 'footer' );
+	}
+	else
+	{
+		// FJ force PDF on fatal error.
+		global $print_data;
+
+		PDFStop( $print_data );
+	}
+
+	exit;
+}
+
+
+// If running as a teacher program then rosario[allow_edit] will already be set according to admin permissions.
 if (!isset($_ROSARIO['allow_edit']))
 {
-	// allow teacher edit if selected date is in the current quarter or in the corresponding grade posting period
+	// Allow teacher edit if selected date is in the current quarter or in the corresponding grade posting period.
 	$current_qtr_id = GetCurrentMP('QTR',DBDate(),false);
 
 	$time = strtotime( DBDate() );

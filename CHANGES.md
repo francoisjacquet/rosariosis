@@ -20,6 +20,7 @@ Changes in 4.3
 - Use Substitutions functions in CreateParents.php, NotifyParents.php, HonorRoll.php, HonorRoll.fnc.php, Transcripts.php & Letters.php
 - Add referrer to ErrorSendEmail() in ErrorMessage.fnc.php
 - Improve User Permissions program warning & translations in Exceptions.php
+- Instead of displaying a fatal error which could confuse user, display a warning and exit in TakeAttendance.php
 
 Changes in 4.2
 --------------
