@@ -463,23 +463,28 @@ function _makeContactSelect( $value, $column )
 	if ( count( $RET ) )
 	{
 		$checked = ' checked';
-		$return = '<table class="cellspacing-0">';
+
+		$i = 0;
 
 		foreach ( (array) $RET as $contact )
 		{
-			$return .= '<tr><td>' . ( $contact['PERSON_ID'] ? '<input type="radio" name="contact[' . $value . ']" value=' . $contact['PERSON_ID'] . $checked . ' />' : '&nbsp;' ) . '</td>';
+			$return .= ( $contact['PERSON_ID'] ? '<label><input type="radio" name="contact[' . $value . ']" value=' . $contact['PERSON_ID'] . $checked . ' /> ' : '&nbsp; ' );
 
-			$return .= '<td>' . DisplayName(
+			$return .= DisplayName(
 				$contact['FIRST_NAME'],
 				$contact['LAST_NAME'],
 				$contact['MIDDLE_NAME']
-			) . '</td>';
+			);
 
-			$return .= '<td>(' . $contact['STUDENT_RELATION'] . ')</td></tr>';
+			$return .= ' (' . $contact['STUDENT_RELATION'] . ')';
+
+			if ( $contact['PERSON_ID'] )
+			{
+				$return .= '</label>&nbsp; ';
+			}
+
 			$checked = '';
 		}
-
-		$return .= '</table>';
 	}
 
 	return $return;
