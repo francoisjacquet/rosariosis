@@ -284,7 +284,7 @@ Vos identifiants:
 Nom d''utilisateur: __USERNAME__
 Mot de passe: __PASSWORD__
 
-Un lien vers le site du Logiciel de Gestion Scolaire et les instructions pour y accéder sont disponibles sur le ste de l''école.__BLOCK2__Cher __PARENT_NAME__,
+Un lien vers le site du Logiciel de Gestion Scolaire et les instructions pour y accéder sont disponibles sur le site de l''école.__BLOCK2__Cher __PARENT_NAME__,
 
 Les élèves suivants ont été associé à votre compte Parent dans le Logiciel de Gestion Scolaire:
 __ASSOCIATED_STUDENTS__'
@@ -300,7 +300,7 @@ Vos identifiants:
 Nom d''utilisateur: __USERNAME__
 Mot de passe: __PASSWORD__
 
-Un lien vers le site du Logiciel de Gestion Scolaire et les instructions pour y accéder sont disponibles sur le ste de l''école.'
+Un lien vers le site du Logiciel de Gestion Scolaire et les instructions pour y accéder sont disponibles sur le site de l''école.'
 WHERE modname='Custom/NotifyParents.php';
 
 
