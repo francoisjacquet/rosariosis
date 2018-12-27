@@ -24,6 +24,7 @@ Changes in 4.3
 - CSS add .teacher-programs-wrapper class in TeacherPrograms.php, stylesheet.css, zresponsive.css & colors.css
 - Fix GetMailingLabelsFormHTML AllowUse check in StudentLabels.fnc.php
 - Add Help texts & translations for Create Parent Users program in Help_en.php & help.po
+- Group SQL inserts & deletes in AddActivity.php, MassDrops.php, MassAssignFees.php & MassAssignPayments.php
 
 Changes in 4.2
 --------------
