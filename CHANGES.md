@@ -23,6 +23,7 @@ Changes in 4.3
 - Instead of displaying a fatal error which could confuse user, display a warning and exit in TakeAttendance.php
 - CSS add .teacher-programs-wrapper class in TeacherPrograms.php, stylesheet.css, zresponsive.css & colors.css
 - Fix GetMailingLabelsFormHTML AllowUse check in StudentLabels.fnc.php
+- Add Help texts & translations for Create Parent Users program in Help_en.php & help.po
 
 Changes in 4.2
 --------------

@@ -327,6 +327,22 @@ if ( User( 'PROFILE' ) === 'admin' ):
 
 	<p>' . _help( 'Click on the Download icon at the top of the list to export the report to an Excel spreadsheet.' ) . '</p>';
 
+	$help['Custom/CreateParents.php'] = '<p>' . _help( '<i>Create Parent Users</i> will let you create Parent accounts from the Contact information recorded for each Student.' ) . '</p>
+
+	<p>' . _help( 'You must first select the Field where parent email addresses are stored. The drop down list contains Student and Address fields ("Text" type only).' ) . '</p>
+
+	<p>' . _help( 'You can create a new Email text field using the <i>Student Fields</i> or <i>Address Fields</i> programs.' ) . '</p>
+
+	<p>' . _help( 'You then must select a student by using the "Find a Student" search screen.' ) . '</p>
+
+	<p>' . _help( 'The list of students will show the parent name and email. Students will have a checkbox only if a valid email address was found in the email field.' ) . '</p>
+
+	<p>' . _help( 'Customize the email content sent to parents using the large text boxes and substitution codes above the list.' ) . '</p>
+
+	<p>' . _help( 'To test the Parent Users creation and check the email content, you can enter your email address in the Test Mode field.' ) . '</p>
+
+	<p>' . _help( 'Click the "Create Parent Accounts for the Selected Students" button.' ) . '</p>';
+
 	$help['Students/StudentFields.php'] = $help['Students/PeopleFields.php'] = $help['Students/AddressFields.php'] = '<p>' . _help( '<i>Data Fields</i> allows you to setup your school\'s custom data fields. These fields are used to store information about a student in the "General Info" tab / "Addresses & Contacts" tab or a custom tab of the student screen.' ) . '</p>
 
 	<p>' . _help( 'Data Field Categories' ) . '</p>
