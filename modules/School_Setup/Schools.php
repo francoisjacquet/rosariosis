@@ -147,15 +147,16 @@ if ( ! $_REQUEST['modfunc'] )
 	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update" method="POST">';
 
 	//FJ delete school only if more than one school
-	$delete_button = $_SESSION['SchoolData']['SCHOOLS_NB'] > 1;
+	$delete_button = $_SESSION['SchoolData']['SCHOOLS_NB'] > 1 ?
+		SubmitButton( _( 'Delete' ), 'button', '' ) :
+		'';
 
 	// FJ fix bug: no save button if not admin.
 	if ( User( 'PROFILE' ) === 'admin' && AllowEdit() )
 	{
 		DrawHeader(
 			'',
-			SubmitButton( _( 'Save' ), 'button' ) .
-			( $delete_button ? SubmitButton( _( 'Delete' ), 'button', '' ) : '' )
+			$delete_button . SubmitButton( _( 'Save' ), 'button' )
 		);
 	}
 
