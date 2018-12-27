@@ -30,7 +30,7 @@ $note = $error = $warning = array();
  * @global string $print_data PDF print data
  *
  * @param  array  $errors Array of errors or notes.
- * @param  string $code   error|fatal|note (optional). Defaults to 'error'.
+ * @param  string $code   error|fatal|warning|note (optional). Defaults to 'error'.
  * @return string Error / Note Message, exits if 'fatal' code
  */
 function ErrorMessage( $errors, $code = 'error' )
@@ -48,24 +48,24 @@ function ErrorMessage( $errors, $code = 'error' )
 	if ( $code === 'error'
 		|| $code === 'fatal' )
 	{
-		$return .= '<div class="error"><p>' . button( 'x' ) . '&nbsp;<b>' . _( 'Error' ) . ':</b> ';
+		$return .= '<div class="error"><p>' . button( 'x', _( 'Error' ) );
 	}
 
 	// Warning.
 	elseif ( $code === 'warning' )
 	{
-		$return .= '<div class="error"><p>' . button( 'warning' ) . '&nbsp;<b>' . _( 'Warning' ) . ':</b> ';
+		$return .= '<div class="error"><p>' . button( 'warning', _( 'Warning' ) );
 	}
 
 	// Note / Update.
 	else
 	{
-		$return .= '<div class="updated"><p><b>' . _( 'Note' ) . ':</b> ';
+		$return .= '<div class="updated"><p><b>' . _( 'Note' ) . '</b>';
 	}
 
 	if ( count( $errors ) === 1 )
 	{
-		$return .= ( isset( $errors[0] ) ? $errors[0] : $errors[1] ) . '</p>';
+		$return .= ': ' . ( isset( $errors[0] ) ? $errors[0] : $errors[1] ) . '</p>';
 	}
 
 	// More than one error: list.
