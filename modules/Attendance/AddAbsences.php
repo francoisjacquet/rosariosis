@@ -24,36 +24,16 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		&& ! empty( $_REQUEST['student'] )
 		&& ! empty( $_REQUEST['dates'] ) )
 	{
-		$periods_list = '';
+		$periods_list = "'" . implode( "','", array_keys( $_REQUEST['period'] ) ) . "'";
 
-		foreach ( (array) $_REQUEST['period'] as $period_id => $yes )
-		{
-			if ( $yes )
-			{
-				$periods_list .= ",'" . $period_id . "'";
-			}
-		}
-
-		$periods_list = '(' . mb_substr( $periods_list, 1 ) . ')';
-
-		$students_list = '';
-
-		foreach ( (array) $_REQUEST['student'] as $student_id => $yes )
-		{
-			if ( $yes )
-			{
-				$students_list .= ",'" . $student_id . "'";
-			}
-		}
-
-		$students_list = '(' . mb_substr( $students_list, 1 ) . ')';
+		$students_list = "'" . implode( "','", $_REQUEST['student'] ) . "'";
 
 		$current_RET = DBGet( DBQuery( "SELECT STUDENT_ID,PERIOD_ID,SCHOOL_DATE
 		FROM ATTENDANCE_PERIOD
 		WHERE EXTRACT(MONTH FROM SCHOOL_DATE)='" . ( $_REQUEST['month'] * 1 ) . "'
 		AND EXTRACT(YEAR FROM SCHOOL_DATE)='" . $_REQUEST['year'] . "'
-		AND PERIOD_ID IN " . $periods_list . "
-		AND STUDENT_ID IN " . $students_list ), array(), array( 'STUDENT_ID', 'SCHOOL_DATE', 'PERIOD_ID' ) );
+		AND PERIOD_ID IN (" . $periods_list . ")
+		AND STUDENT_ID IN (" . $students_list . ")" ), array(), array( 'STUDENT_ID', 'SCHOOL_DATE', 'PERIOD_ID' ) );
 
 		$state_code = DBGet( DBQuery( "SELECT STATE_CODE
 			FROM ATTENDANCE_CODES
@@ -61,7 +41,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 		$state_code = $state_code[1]['STATE_CODE'];
 
-		foreach ( (array) $_REQUEST['student'] as $student_id => $yes )
+		foreach ( (array) $_REQUEST['student'] as $student_id )
 		{
 			foreach ( (array) $_REQUEST['dates'] as $date => $yes )
 			{
@@ -298,9 +278,11 @@ if ( ! $_REQUEST['modfunc'] )
 	Widgets( 'course' );
 	Widgets( 'absences' );
 
-	$extra['functions'] = array( 'CHECKBOX' => '_makeChooseCheckbox' );
+	$extra['functions'] = array( 'CHECKBOX' => 'MakeChooseCheckbox' );
 
-	$extra['columns_before'] = array( 'CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.checked,\'student\');" /><A>' );
+	$extra['columns_before'] = array(
+		'CHECKBOX' => MakeChooseCheckbox( '', 'STUDENT_ID', 'student' ),
+	);
 
 	$extra['new'] = true;
 
@@ -310,15 +292,4 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		echo '<br /><div class="center">' . SubmitButton( _( 'Add Absences to Selected Students' ) ) . '</div></form>';
 	}
-}
-
-/**
- * @param $value
- * @param $title
- */
-function _makeChooseCheckbox( $value, $title )
-{
-	global $THIS_RET;
-
-	return '<input type="checkbox" name="student[' . $THIS_RET['STUDENT_ID'] . ']" value="Y" />';
 }

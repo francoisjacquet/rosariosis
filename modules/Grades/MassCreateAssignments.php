@@ -458,6 +458,12 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		if ( $_REQUEST['assignment_type'] === 'new' )
 		{
+			$columns = array(
+				'COURSE_ID' => MakeChooseCheckbox( 'Y', '', 'c_arr' ),
+				'TITLE' => _( 'Title' ),
+				'SUBJECT' => _( 'Subject' ),
+			);
+
 			// Display the courses list.
 			// Fix SQL error when course has no periods.
 			$courses_RET = DBGet( DBQuery( "SELECT c.COURSE_ID,
@@ -474,13 +480,7 @@ if ( ! $_REQUEST['modfunc'] )
 					AND cp.SYEAR=c.SYEAR
 					AND cp.COURSE_ID=c.COURSE_ID)
 				ORDER BY cs.TITLE, c.TITLE" ),
-				array( 'COURSE_ID' => '_makeChooseCheckbox', 'MARKING_PERIOD_ID' => 'GetMP' )
-			);
-
-			$columns = array(
-				'COURSE_ID' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.checked,\'c_arr\');" checked /><a>',
-				'TITLE' => _( 'Title' ),
-				'SUBJECT' => _( 'Subject' ),
+				array( 'COURSE_ID' => 'MakeChooseCheckbox', 'MARKING_PERIOD_ID' => 'GetMP' )
 			);
 
 			ListOutput(
@@ -503,6 +503,14 @@ if ( ! $_REQUEST['modfunc'] )
 				AND gat.COURSE_ID=cp2.COURSE_ID
 				AND cp2.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . "))";
 
+			$columns = array(
+				'COURSE_PERIOD_ID' => MakeChooseCheckbox( 'Y', '', 'cp_arr' ),
+				'TITLE' => _( 'Title' ),
+				'COURSE' => _( 'Course' ),
+				'MARKING_PERIOD_ID' => _( 'Marking Period' ),
+				// 'SUBJECT' => _( 'Subject' ),
+			);
+
 			// Display the course periods list.
 			$course_periods_RET = DBGet( DBQuery( "SELECT cp.COURSE_PERIOD_ID, cp.TITLE,
 				c.TITLE AS COURSE, cs.TITLE AS SUBJECT, cp.MARKING_PERIOD_ID
@@ -516,15 +524,7 @@ if ( ! $_REQUEST['modfunc'] )
 				AND cp.COURSE_ID=c.COURSE_ID
 				AND cs.SUBJECT_ID=c.SUBJECT_ID" . $course_periods_limit_sql .
 				" ORDER BY COURSE, cp.SHORT_NAME" ),
-				array( 'COURSE_PERIOD_ID' => '_makeChooseCheckbox', 'MARKING_PERIOD_ID' => 'GetMP' )
-			);
-
-			$columns = array(
-				'COURSE_PERIOD_ID' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.checked,\'cp_arr\');" checked /><a>',
-				'TITLE' => _( 'Title' ),
-				'COURSE' => _( 'Course' ),
-				'MARKING_PERIOD_ID' => _( 'Marking Period' ),
-				// 'SUBJECT' => _( 'Subject' ),
+				array( 'COURSE_PERIOD_ID' => 'MakeChooseCheckbox', 'MARKING_PERIOD_ID' => 'GetMP' )
 			);
 
 			ListOutput(
@@ -538,29 +538,4 @@ if ( ! $_REQUEST['modfunc'] )
 		echo '<div class="center">' . $submit_button . '</div>';
 		echo '</form>';
 	}
-}
-
-
-/**
- * Make choose checkbox
- *
- * DBGet() callback.
- *
- * Local function.
- *
- * @param  string $value Course Period ID.
- * @param  string $title 'COURSE_PERIOD_ID' or 'COURSE_ID'.
- *
- * @return string        Checkbox to choose Course (Period). Checked by default.
- */
-function _makeChooseCheckbox( $value, $title )
-{
-	$name = 'cp_arr[]';
-
-	if ( $title === 'COURSE_ID' )
-	{
-		$name = 'c_arr[]';
-	}
-
-	return '<input type="checkbox" name="' . $name . '" value="' . $value . '" checked />';
 }
