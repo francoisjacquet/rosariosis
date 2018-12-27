@@ -165,7 +165,7 @@ if ( UserStaffID() )
 		),
 	);
 
-	echo '<div class="width-100p" style="border:1px solid; padding: 1px;">';
+	echo '<div class="teacher-programs-wrapper">';
 
 	//FJ security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
 	//FJ Bugfix $_REQUEST['include'] 2 times in links
@@ -177,6 +177,8 @@ if ( UserStaffID() )
 	}
 	else
 	{
+		$_ROSARIO['HeaderIcon'] = true;
+
 		require_once 'modules/' . $REQUEST_include;
 	}
 

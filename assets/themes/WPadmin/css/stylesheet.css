@@ -1451,3 +1451,13 @@ input[type=checkbox].toggle {
 .dashboard-module-title img {
 	vertical-align: middle;
 }
+
+/* Teacher Programs */
+
+.teacher-programs-wrapper {
+	border-size: 2px;
+	border-style: dashed;
+	padding: 7px;
+	width: 100%;
+	margin-left: -9px;
+}

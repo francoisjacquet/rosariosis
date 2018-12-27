@@ -470,6 +470,12 @@ hr {
 	background: #444
 }
 
+/* Teacher Programs */
+
+.teacher-programs-wrapper {
+	border-color: #dfdfdf;
+}
+
 /*responsive tables*/
 
 @media only screen and (max-width: 1023px) {
