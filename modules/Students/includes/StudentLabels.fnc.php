@@ -76,7 +76,7 @@ if ( ! function_exists( 'GetMailingLabelsFormHTML' ) )
 	function GetMailingLabelsFormHTML()
 	{
 		// Do not Display Form if User cannot access Addresses & Contacts Student Info tab.
-		if ( ! AllowUse( 'Students/Student_php&category_id=3' ) )
+		if ( ! AllowUse( 'Students/Student.php&category_id=3' ) )
 		{
 			return '';
 		}
