@@ -57,47 +57,44 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 		foreach ( (array) $_REQUEST['student'] as $student_id )
 		{
-			if ( $yes == 'Y' )
+			$students .= ",'" . $student_id . "'";
+			$students_count++;
+
+			//enrollment: update only the LAST enrollment record
+
+			if ( $grade_id != '' )
 			{
-				$students .= ",'" . $student_id . "'";
-				$students_count++;
+				DBQuery( "UPDATE STUDENT_ENROLLMENT SET GRADE_ID='" . $grade_id . "' WHERE ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' AND STUDENT_ID='" . $student_id . "' ORDER BY START_DATE DESC LIMIT 1)" );
+			}
 
-				//enrollment: update only the LAST enrollment record
+			if ( $next_school != '' )
+			{
+				DBQuery( "UPDATE STUDENT_ENROLLMENT SET NEXT_SCHOOL='" . $next_school . "' WHERE ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' AND STUDENT_ID='" . $student_id . "' ORDER BY START_DATE DESC LIMIT 1)" );
+			}
 
-				if ( $grade_id != '' )
+			if ( $calendar )
+			{
+				DBQuery( "UPDATE STUDENT_ENROLLMENT SET CALENDAR_ID='" . $calendar . "' WHERE ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' AND STUDENT_ID='" . $student_id . "' ORDER BY START_DATE DESC LIMIT 1)" );
+			}
+
+			if ( $start_date != '' )
+			{
+				//FJ check if student already enrolled on that date when updating START_DATE
+				$found_RET = DBGet( DBQuery( "SELECT ID FROM STUDENT_ENROLLMENT WHERE STUDENT_ID='" . $student_id . "' AND SYEAR='" . UserSyear() . "' AND '" . $start_date . "' BETWEEN START_DATE AND END_DATE" ) );
+
+				if ( count( $found_RET ) )
 				{
-					DBQuery( "UPDATE STUDENT_ENROLLMENT SET GRADE_ID='" . $grade_id . "' WHERE ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' AND STUDENT_ID='" . $student_id . "' ORDER BY START_DATE DESC LIMIT 1)" );
+					$error[] = _( 'The student is already enrolled on that date, and cannot be enrolled a second time on the date you specified. Please fix, and try enrolling the student again.' );
 				}
-
-				if ( $next_school != '' )
+				else
 				{
-					DBQuery( "UPDATE STUDENT_ENROLLMENT SET NEXT_SCHOOL='" . $next_school . "' WHERE ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' AND STUDENT_ID='" . $student_id . "' ORDER BY START_DATE DESC LIMIT 1)" );
+					DBQuery( "UPDATE STUDENT_ENROLLMENT SET START_DATE='" . $start_date . "' WHERE ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' AND STUDENT_ID='" . $student_id . "' ORDER BY START_DATE DESC LIMIT 1)" );
 				}
+			}
 
-				if ( $calendar )
-				{
-					DBQuery( "UPDATE STUDENT_ENROLLMENT SET CALENDAR_ID='" . $calendar . "' WHERE ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' AND STUDENT_ID='" . $student_id . "' ORDER BY START_DATE DESC LIMIT 1)" );
-				}
-
-				if ( $start_date != '' )
-				{
-					//FJ check if student already enrolled on that date when updating START_DATE
-					$found_RET = DBGet( DBQuery( "SELECT ID FROM STUDENT_ENROLLMENT WHERE STUDENT_ID='" . $student_id . "' AND SYEAR='" . UserSyear() . "' AND '" . $start_date . "' BETWEEN START_DATE AND END_DATE" ) );
-
-					if ( count( $found_RET ) )
-					{
-						$error[] = _( 'The student is already enrolled on that date, and cannot be enrolled a second time on the date you specified. Please fix, and try enrolling the student again.' );
-					}
-					else
-					{
-						DBQuery( "UPDATE STUDENT_ENROLLMENT SET START_DATE='" . $start_date . "' WHERE ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' AND STUDENT_ID='" . $student_id . "' ORDER BY START_DATE DESC LIMIT 1)" );
-					}
-				}
-
-				if ( $enrollment_code != '' )
-				{
-					DBQuery( "UPDATE STUDENT_ENROLLMENT SET ENROLLMENT_CODE='" . $enrollment_code . "' WHERE ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' AND STUDENT_ID='" . $student_id . "' ORDER BY START_DATE DESC LIMIT 1)" );
-				}
+			if ( $enrollment_code != '' )
+			{
+				DBQuery( "UPDATE STUDENT_ENROLLMENT SET ENROLLMENT_CODE='" . $enrollment_code . "' WHERE ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' AND STUDENT_ID='" . $student_id . "' ORDER BY START_DATE DESC LIMIT 1)" );
 			}
 		}
 
