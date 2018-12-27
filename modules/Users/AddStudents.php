@@ -9,23 +9,27 @@ if ( $_REQUEST['modfunc'] === 'save'
 	if ( isset( $_REQUEST['student'] )
 		&& is_array( $_REQUEST['student'] ) )
 	{
-		$current_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS_JOIN_USERS WHERE STAFF_ID='".UserStaffID()."'"),array(),array('STUDENT_ID'));
+		$current_RET = DBGet( DBQuery( "SELECT STUDENT_ID FROM STUDENTS_JOIN_USERS WHERE STAFF_ID='" . UserStaffID() . "'" ), array(), array( 'STUDENT_ID' ) );
+
 		foreach ( (array) $_REQUEST['student'] as $student_id )
 		{
-			if ( ! $current_RET[ $student_id ])
+			if ( ! $current_RET[$student_id] )
 			{
-				$sql = "INSERT INTO STUDENTS_JOIN_USERS (STUDENT_ID,STAFF_ID) values('".$student_id."','".UserStaffID()."')";
+				$sql = "INSERT INTO STUDENTS_JOIN_USERS (STUDENT_ID,STAFF_ID) values('" . $student_id . "','" . UserStaffID() . "')";
 
-				DBQuery($sql);
+				DBQuery( $sql );
 
 				//hook
-				do_action('Users/AddStudents.php|user_assign_role');
+				do_action( 'Users/AddStudents.php|user_assign_role' );
 			}
 		}
-		$note[] = _('The selected user\'s profile now includes access to the selected students.');
+
+		$note[] = _( 'The selected user\'s profile now includes access to the selected students.' );
 	}
 	else
-		$error[] = _('You must choose at least one student.');
+	{
+		$error[] = _( 'You must choose at least one student.' );
+	}
 
 	// Unset modfunc & redirect URL.
 	RedirectURL( 'modfunc' );
@@ -58,11 +62,13 @@ if ( ! $_REQUEST['modfunc'] )
 {
 	if ( UserStaffID() )
 	{
-		$profile = DBGet(DBQuery("SELECT PROFILE FROM STAFF WHERE STAFF_ID='".UserStaffID()."'"));
-		if ( $profile[1]['PROFILE']!='parent')
-			unset($_SESSION['staff_id']);
-	}
+		$profile = DBGet( DBQuery( "SELECT PROFILE FROM STAFF WHERE STAFF_ID='" . UserStaffID() . "'" ) );
 
+		if ( $profile[1]['PROFILE'] != 'parent' )
+		{
+			unset( $_SESSION['staff_id'] );
+		}
+	}
 
 	if ( ! UserStaffID() )
 	{
@@ -81,11 +87,11 @@ if ( ! $_REQUEST['modfunc'] )
 		Search( 'staff_id', $extra );
 	}
 
-	if (UserStaffID())
+	if ( UserStaffID() )
 	{
-		if ( $_REQUEST['search_modfunc']=='list')
+		if ( $_REQUEST['search_modfunc'] == 'list' )
 		{
-			echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
+			echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save" method="POST">';
 			DrawHeader( '', SubmitButton( _( 'Add Selected Students' ) ) );
 		}
 
@@ -96,25 +102,29 @@ if ( ! $_REQUEST['modfunc'] )
 			WHERE s.STUDENT_ID=u.STUDENT_ID
 			AND u.STAFF_ID='" . UserStaffID() . "'" ) );
 
-		$link['remove'] = array('link' => 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete','variables' => array('student_id_remove' => 'STUDENT_ID'));
+		$link['remove'] = array( 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete', 'variables' => array( 'student_id_remove' => 'STUDENT_ID' ) );
 
-		ListOutput($current_RET,array('FULL_NAME' => _('Students')),'Student','Students',$link,array(),array('search'=>false));
+		ListOutput( $current_RET, array( 'FULL_NAME' => _( 'Students' ) ), 'Student', 'Students', $link, array(), array( 'search' => false ) );
 
 		echo '</td></tr><tr><td>';
 
-		$extra['link'] = array('FULL_NAME'=>false);
+		$extra['link'] = array( 'FULL_NAME' => false );
 		$extra['SELECT'] = ",CAST (NULL AS CHAR(1)) AS CHECKBOX";
-		$extra['functions'] = array('CHECKBOX' => 'MakeChooseCheckbox');
-		$extra['columns_before'] = array('CHECKBOX' => MakeChooseCheckbox( '', 'STUDENT_ID', 'student' ) );
+		$extra['functions'] = array( 'CHECKBOX' => 'MakeChooseCheckbox' );
+		$extra['columns_before'] = array( 'CHECKBOX' => MakeChooseCheckbox( '', 'STUDENT_ID', 'student' ) );
 		$extra['new'] = true;
 		$extra['options']['search'] = false;
 
-		if (AllowEdit())
-			Search('student_id',$extra);
+		if ( AllowEdit() )
+		{
+			Search( 'student_id', $extra );
+		}
 
 		echo '</td></tr></table>';
 
-		if ( $_REQUEST['search_modfunc']=='list')
+		if ( $_REQUEST['search_modfunc'] == 'list' )
+		{
 			echo '<br /><div class="center">' . SubmitButton( _( 'Add Selected Students' ) ) . '</div></form>';
+		}
 	}
 }
