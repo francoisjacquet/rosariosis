@@ -358,19 +358,30 @@ if ( ! $_REQUEST['modfunc'] && ! empty( $email_column ) )
 		$extra['extra_header_left'] .= '</table>';
 	}
 
-	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX,lower($email_column) AS EMAIL,s.STUDENT_ID AS CONTACT";
-	$extra['SELECT'] .= ",(SELECT STAFF_ID FROM STAFF WHERE lower(EMAIL)=lower($email_column) AND PROFILE='parent' AND SYEAR=ssm.SYEAR) AS STAFF_ID";
-	//$extra['WHERE'] = " AND $email_column IS NOT NULL";
-	$extra['WHERE'] .= " AND NOT EXISTS (SELECT '' FROM STUDENTS_JOIN_USERS sju,STAFF st WHERE sju.STUDENT_ID=s.STUDENT_ID AND st.STAFF_ID=sju.STAFF_ID AND SYEAR='" . UserSyear() . "')";
+	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX,lower(" . $email_column . ") AS EMAIL,s.STUDENT_ID AS CONTACT";
+	$extra['SELECT'] .= ",(SELECT STAFF_ID FROM STAFF WHERE lower(EMAIL)=lower(" . $email_column . ") AND PROFILE='parent' AND SYEAR=ssm.SYEAR) AS STAFF_ID";
+	$extra['SELECT'] .= ",(SELECT 1
+		FROM STUDENTS_JOIN_USERS sju,STAFF st
+		WHERE sju.STUDENT_ID=s.STUDENT_ID
+		AND st.STAFF_ID=sju.STAFF_ID
+		AND st.SYEAR='" . UserSyear() . "'
+		AND lower(st.EMAIL)=lower(" . $email_column . ")) AS HAS_ASSOCIATED_PARENTS";
+	//$extra['WHERE'] = " AND " . $email_column . " IS NOT NULL";
 
 	$extra['link'] = array( 'FULL_NAME' => false );
-	$extra['functions'] = array( 'CHECKBOX' => '_makeChooseCheckbox', 'CONTACT' => '_makeContactSelect' );
+	$extra['functions'] = array(
+		'CHECKBOX' => '_makeChooseCheckbox',
+		'CONTACT' => '_makeContactSelect',
+		'EMAIL' => '_makeEmail',
+	);
 	$extra['columns_before'] = array( 'CHECKBOX' => MakeChooseCheckbox( '', '', 'student' ) );
 	$extra['columns_after'] = array( 'EMAIL' => _( 'Email' ), 'CONTACT' => _( 'Contact' ) );
 	$extra['LO_group'] = $extra['group'] = array( 'EMAIL' );
 	$extra['addr'] = true;
 	$extra['SELECT'] .= ",a.ADDRESS_ID";
 	$extra['STUDENTS_JOIN_ADDRESS'] .= " AND sam.RESIDENCE='Y'";
+
+	$extra['search_title'] = _( 'Students having Contacts' );
 
 	Search( 'student_id', $extra );
 
@@ -411,7 +422,8 @@ function _makeChooseCheckbox( $value, $column )
 	}
 
 	if ( filter_var( $THIS_RET['EMAIL'], FILTER_VALIDATE_EMAIL )
-		&& $has_parents )
+		&& $has_parents
+		&& ! $THIS_RET['HAS_ASSOCIATED_PARENTS'] )
 	{
 		return MakeChooseCheckbox( $value, $column );
 	}
@@ -468,6 +480,48 @@ function _makeContactSelect( $value, $column )
 		}
 
 		$return .= '</table>';
+	}
+
+	return $return;
+}
+
+
+/**
+ * Make Email address
+ *
+ * Local function
+ * DBGet() callback
+ *
+ * @since 4.3
+ *
+ * @param  string $value  Contact email address.
+ * @param  string $column 'EMAIL'.
+ * @return string         Email address or red cross plus link to Student Info program.
+ */
+function _makeEmail( $value, $column )
+{
+	global $THIS_RET;
+
+	if ( filter_var( $value, FILTER_VALIDATE_EMAIL )
+		|| isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
+		return $value;
+	}
+
+	if ( ! $value )
+	{
+		$return = button( 'x' );
+	}
+	else
+	{
+		$return = '<span style="color:red">' . $value . '</span>';
+	}
+
+	if ( AllowEdit( 'Students/Student.php' ) )
+	{
+		// Link to User Info program.
+		$return .= ' <a href="Modules.php?modname=Students/Student.php&student_id=' . $THIS_RET['STUDENT_ID'] . '">' .
+			_( 'Student Info' ) . '</a>';
 	}
 
 	return $return;

@@ -166,13 +166,17 @@ if ( ! $_REQUEST['modfunc'] || $_REQUEST['search_modfunc'] === 'list' )
 
 	$extra['SELECT'] = ",s.STAFF_ID AS CHECKBOX,s.USERNAME,s.EMAIL";
 
-	$extra['SELECT'] .= ",(SELECT count(st.STUDENT_ID) FROM STUDENTS st,STUDENT_ENROLLMENT sse,STUDENTS_JOIN_USERS sju WHERE sju.STAFF_ID=s.STAFF_ID AND st.STUDENT_ID=sju.STUDENT_ID AND sse.STUDENT_ID=sju.STUDENT_ID AND sse.SYEAR='" . UserSyear() . "' AND sse.END_DATE IS NULL) AS ASSOCIATED";
+	$extra['SELECT'] .= ",(SELECT COUNT(st.STUDENT_ID) FROM STUDENTS st,STUDENT_ENROLLMENT sse,STUDENTS_JOIN_USERS sju WHERE sju.STAFF_ID=s.STAFF_ID AND st.STUDENT_ID=sju.STUDENT_ID AND sse.STUDENT_ID=sju.STUDENT_ID AND sse.SYEAR='" . UserSyear() . "' AND sse.END_DATE IS NULL) AS ASSOCIATED";
 
 	$extra['WHERE'] = " AND s.LAST_LOGIN IS NULL";
 
-	$extra['functions'] = array( 'CHECKBOX' => 'MakeChooseCheckbox' );
+	$extra['functions'] = array(
+		'CHECKBOX' => '_makeChooseCheckbox',
+		'ASSOCIATED' => '_makeAssociated',
+		'EMAIL' => '_makeEmail',
+	);
 
-	$extra['columns_before'] = array( 'CHECKBOX' => _makeChooseCheckbox( '', '', 'staff' ) );
+	$extra['columns_before'] = array( 'CHECKBOX' => MakeChooseCheckbox( '', '', 'staff' ) );
 
 	$extra['columns_after'] = array(
 		'ASSOCIATED' => _( 'Associated Students' ),
@@ -224,4 +228,81 @@ function _makeChooseCheckbox( $value, $column )
 	{
 		return '';
 	}
+}
+
+
+/**
+ * Make Associated Students
+ *
+ * Local function
+ * DBGet() callback
+ *
+ * @since 4.3
+ *
+ * @param  string $value  Number of Associated students.
+ * @param  string $column 'ASSOCIATED'.
+ * @return string         Number or 0 in red plus link to Associate Students with Parents program.
+ */
+function _makeAssociated( $value, $column )
+{
+	global $THIS_RET;
+
+	if ( $value > 0
+		|| isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
+		return $value;
+	}
+
+	$link = '';
+
+	if ( AllowEdit( 'Users/AddStudents.php' ) )
+	{
+		// Link to Associate Students with Parents program.
+		$link = ' <a href="Modules.php?modname=Users/AddStudents.php&staff_id=' . $THIS_RET['STAFF_ID'] . '">' .
+			_( 'Associate Students with Parents' ) . '</a>';
+	}
+
+	return '<span style="color:red">' . $value . '</span>' . $link;
+}
+
+
+/**
+ * Make Email address
+ *
+ * Local function
+ * DBGet() callback
+ *
+ * @since 4.3
+ *
+ * @param  string $value  Parent email address.
+ * @param  string $column 'EMAIL'.
+ * @return string         Email address or red cross plus link to User Info program.
+ */
+function _makeEmail( $value, $column )
+{
+	global $THIS_RET;
+
+	if ( filter_var( $value, FILTER_VALIDATE_EMAIL )
+		|| isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
+		return $value;
+	}
+
+	if ( ! $value )
+	{
+		$return = button( 'x' );
+	}
+	else
+	{
+		$return = '<span style="color:red">' . $value . '</span>';
+	}
+
+	if ( AllowEdit( 'Users/User.php' ) )
+	{
+		// Link to User Info program.
+		$return .= ' <a href="Modules.php?modname=Users/User.php&staff_id=' . $THIS_RET['STAFF_ID'] . '">' .
+			_( 'User Info' ) . '</a>';
+	}
+
+	return $return;
 }

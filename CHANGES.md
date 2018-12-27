@@ -25,6 +25,7 @@ Changes in 4.3
 - Fix GetMailingLabelsFormHTML AllowUse check in StudentLabels.fnc.php
 - Add Help texts & translations for Create Parent Users program in Help_en.php & help.po
 - Group SQL inserts & deletes in AddActivity.php, MassDrops.php, MassAssignFees.php & MassAssignPayments.php
+- Add \_makeEmail & \_makeAssociated functions in CreateParents.php & NotifiyParents.php
 
 Changes in 4.2
 --------------
