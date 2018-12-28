@@ -312,7 +312,7 @@ if ( ! $_REQUEST['modfunc'] && ! empty( $email_column ) )
 		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save" method="POST">';
 		$extra['header_right'] = SubmitButton( _( 'Create Parent Accounts for Selected Students' ) );
 
-		$extra['extra_header_left'] = '<table>';
+		$extra['extra_header_left'] = '<table class="width-100p">';
 
 		$template = GetTemplate();
 
