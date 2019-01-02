@@ -60,6 +60,7 @@ function MarkDownToHTML( $md, $column = '' )
  *          $_REQUEST['values']['textarea'] = SanitizeMarkDown( $_POST['values']['textarea'] );
  *
  * @since   2.9
+ * @since   4.3 Prevent XSS.
  *
  * @global object $security
  * @global object $markdownify
@@ -112,7 +113,10 @@ function SanitizeMarkDown( $md )
 		}
 
 		// HTML to Markdown.
-		$return = $markdownify->parseString( $sanitized_html );
+		$html_sanitized_md = $markdownify->parseString( $sanitized_html );
+
+		// Prevent XSS: Sanitize the newly created MarkDown text.
+		$return = $security->xss_clean( $html_sanitized_md );
 	}
 	else
 	{

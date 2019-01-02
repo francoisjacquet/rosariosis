@@ -26,6 +26,7 @@ Changes in 4.3
 - Add Help texts & translations for Create Parent Users program in Help_en.php & help.po
 - Group SQL inserts & deletes in AddActivity.php, MassDrops.php, MassAssignFees.php & MassAssignPayments.php
 - Add \_makeEmail & \_makeAssociated functions in CreateParents.php & NotifiyParents.php
+- Fix #259 Prevent XSS: Sanitize the newly created MarkDown text in MarkDownHTML.fnc.php, thanks to @DustinBorn
 
 Changes in 4.2
 --------------
