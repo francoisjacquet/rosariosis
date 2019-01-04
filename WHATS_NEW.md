@@ -11,6 +11,8 @@ Scheduling
 
 [Quiz](https://www.rosariosis.org/quiz-module/) module
 
+Security enhanced
+
 
 New in 4.0
 ----------
