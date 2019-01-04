@@ -211,6 +211,12 @@ function SanitizeHTML( $html, $image_path = '' )
 
 	$sanitized_html = $security->xss_clean( $html_no_base64 );
 
+	if ( ROSARIO_DEBUG )
+	{
+		echo 'Sanitized HTML:<br />';
+		var_dump( $sanitized_html );
+	}
+
 	/**
 	 * Convert single quotes to HTML entities
 	 *
