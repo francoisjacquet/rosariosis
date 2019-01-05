@@ -360,7 +360,7 @@ if ( UserStaffID()
 				elseif ( $file !== 'default'
 					&& $file !== 'title' )
 				{
-					echo '<tr><td colspan="3" class="center"><b>- ' . $title . ' -</b></td></tr>';
+					echo '<tr><td colspan="3">' . $title . '</td></tr>';
 				}
 			}
 
