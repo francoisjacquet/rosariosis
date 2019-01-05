@@ -27,6 +27,7 @@ Changes in 4.3
 - Group SQL inserts & deletes in AddActivity.php, MassDrops.php, MassAssignFees.php & MassAssignPayments.php
 - Add \_makeEmail & \_makeAssociated functions in CreateParents.php & NotifiyParents.php
 - Fix #259 Prevent XSS: Sanitize the newly created MarkDown text in MarkDownHTML.fnc.php, thanks to @DustinBorn
+- Reload menu now so it does not contain links to disallowed programs in HackingLog.fnc.php
 
 Changes in 4.2
 --------------
@@ -441,5 +442,5 @@ Changes in 3.0
 - Update French & Spanish translations
 
 
-### Old verions CHANGES
-- [CHANGES for version 1 and 2](CHANGES_V1_2.md).
+### Old versions CHANGES
+- [CHANGES for versions 1 and 2](CHANGES_V1_2.md).
