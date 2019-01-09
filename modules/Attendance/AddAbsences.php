@@ -103,16 +103,25 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 					if ( $course_period_id && ! ( $course_periods_RET[$period_id][1]['COURSE_PERIOD_ID'] == 'Y' && $state_code == 'H' ) )
 					{
-						if ( ! $current_RET[$student_id][$date][$period_id] )
+						if ( empty( $current_RET[$student_id][$date][$period_id] ) )
 						{
-							$sql = "INSERT INTO ATTENDANCE_PERIOD (STUDENT_ID,SCHOOL_DATE,PERIOD_ID,MARKING_PERIOD_ID,COURSE_PERIOD_ID,ATTENDANCE_CODE,ATTENDANCE_REASON,ADMIN)
-										values('" . $student_id . "','" . $date . "','" . $period_id . "','" . $current_mp . "','" . $course_period_id . "','" . $_REQUEST['absence_code'] . "','" . $_REQUEST['absence_reason'] . "','Y')";
+							$sql = "INSERT INTO ATTENDANCE_PERIOD
+							(STUDENT_ID,SCHOOL_DATE,PERIOD_ID,MARKING_PERIOD_ID,COURSE_PERIOD_ID,ATTENDANCE_CODE,ATTENDANCE_REASON,ADMIN)
+							VALUES('" . $student_id . "','" . $date . "','" . $period_id . "','" .
+							$current_mp . "','" . $course_period_id . "','" . $_REQUEST['absence_code'] . "','" .
+							$_REQUEST['absence_reason'] . "','Y')";
+
 							DBQuery( $sql );
 						}
 						else
 						{
-							$sql = "UPDATE ATTENDANCE_PERIOD SET ATTENDANCE_CODE='" . $_REQUEST['absence_code'] . "',ATTENDANCE_REASON='" . $_REQUEST['absence_reason'] . "',ADMIN='Y',COURSE_PERIOD_ID='" . $course_period_id . "'
-								WHERE STUDENT_ID='" . $student_id . "' AND SCHOOL_DATE='" . $date . "' AND PERIOD_ID='" . $period_id . "'";
+							$sql = "UPDATE ATTENDANCE_PERIOD
+							SET ATTENDANCE_CODE='" . $_REQUEST['absence_code'] . "',ATTENDANCE_REASON='" .
+							$_REQUEST['absence_reason'] . "',ADMIN='Y',COURSE_PERIOD_ID='" . $course_period_id . "'
+							WHERE STUDENT_ID='" . $student_id . "'
+							AND SCHOOL_DATE='" . $date . "'
+							AND PERIOD_ID='" . $period_id . "'";
+
 							DBQuery( $sql );
 						}
 					}
