@@ -61,7 +61,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					AND (ac.BLOCK=sp.BLOCK OR sp.BLOCK IS NULL)
 					AND s.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
 					AND s.STUDENT_ID='" . $student_id . "'
-					AND cpsp.PERIOD_ID IN " . $periods_list . "
+					AND cpsp.PERIOD_ID IN (" . $periods_list . ")
 					AND position(',0,' IN cp.DOES_ATTENDANCE)>0
 					AND (ac.SCHOOL_DATE BETWEEN s.START_DATE AND s.END_DATE OR (s.END_DATE IS NULL AND ac.SCHOOL_DATE>=s.START_DATE))
 					AND position(substring('MTWHFSU' FROM cast(
@@ -84,7 +84,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 						AND (ac.BLOCK=sp.BLOCK OR sp.BLOCK IS NULL)
 						AND s.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
 						AND s.STUDENT_ID='" . $student_id . "'
-						AND cpsp.PERIOD_ID IN $periods_list
+						AND cpsp.PERIOD_ID IN (" . $periods_list . ")
 						AND position(',0,' IN cp.DOES_ATTENDANCE)>0
 						AND (ac.SCHOOL_DATE BETWEEN s.START_DATE AND s.END_DATE OR (s.END_DATE IS NULL AND ac.SCHOOL_DATE>=s.START_DATE))
 						AND position(substring('UMTWHFS' FROM cast(extract(DOW FROM ac.SCHOOL_DATE) AS INT)+1 FOR 1) IN cpsp.DAYS)>0 AND s.MARKING_PERIOD_ID IN ($all_mp)" ), array(), array( 'PERIOD_ID' ) );

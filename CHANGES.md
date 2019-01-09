@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 4.3.1
+----------------
+- Fix SQL syntax error in AddAbsences.php
+
 Changes in 4.3
 --------------
 - Add MakeChooseCheckbox() function in Inputs.php
