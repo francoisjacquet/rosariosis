@@ -17,7 +17,7 @@
  * @package RosarioSIS
  */
 
-define( 'ROSARIO_VERSION', '4.3' );
+define( 'ROSARIO_VERSION', '4.3.1' );
 
 /**
  * Include config.inc.php file.
@@ -534,6 +534,21 @@ break;
 			?>
 </body></html>
 <?php endif;
+
+			if ( ! isPopup() ):
+
+				require_once 'ProgramFunctions/Help.fnc.php';
+
+				// Check if module has help (not default).
+				//$has_help_text = GetHelpTextRaw( $_REQUEST['modname'] );
+
+				/*if ( $has_help_text )
+				{
+					var_dump($_REQUEST['modname']);
+					echo 'Has Help!!!';
+				}*/
+
+			endif;
 
 			else: // Other pages (not modules).
 
