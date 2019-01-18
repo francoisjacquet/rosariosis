@@ -1330,11 +1330,17 @@ input[type=checkbox].toggle {
 .login,
 .first-login,
 .password-reset {
-	padding: 64px 2px;
 	height: auto;
 }
 
-.password-reset {
+.login #body,
+.first-login #body,
+.password-reset #body {
+	padding: 64px 2px;
+	margin-bottom: 0;
+}
+
+.password-reset #body {
 	padding-top: 0;
 }
 
@@ -1455,4 +1461,34 @@ input[type=checkbox].toggle {
 	padding: 7px;
 	width: 100%;
 	margin-left: -9px;
+}
+
+/* Password Input */
+
+.password-strength-bars {
+	/*height: 6px;*/
+	line-height: 6px;
+}
+
+.password-toggle {
+	float: right;
+	margin-left: -28px;
+	margin-top: 5px;
+	position: relative;
+	z-index: 2;
+	cursor: pointer;
+}
+
+.password-hide {
+	display: none;
+}
+
+.password-strength-bars span {
+	display: inline-block;
+	width: 18%;
+	width: calc( 20% - 6px);
+	line-height: 6px;
+	height: 4px;
+	padding: 1px;
+	visibility: hidden;
 }

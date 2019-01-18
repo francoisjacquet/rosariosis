@@ -476,6 +476,23 @@ hr {
 	border-color: #dfdfdf;
 }
 
+/* Password Input */
+
+/* @link http://clrs.cc/ */
+
+.password-strength-bars span {
+	background-color: #FF4136;
+}
+
+.password-strength-bars .score2 {
+	background-color: #FF851B;
+}
+
+.password-strength-bars .score3,
+.password-strength-bars .score4 {
+	background-color: #2ECC40;
+}
+
 /*responsive tables*/
 
 @media only screen and (max-width: 1023px) {
