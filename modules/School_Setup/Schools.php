@@ -156,7 +156,8 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		DrawHeader(
 			'',
-			$delete_button . SubmitButton( _( 'Save' ), 'button' )
+			// Leave Delete button AFTER the Save one so info are saved on Enter keypress.
+			SubmitButton( _( 'Save' ), 'button' ) . $delete_button
 		);
 	}
 

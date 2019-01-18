@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 4.3.2
+----------------
+- Leave Delete button AFTER the Save one so info are saved on Enter keypress in Schools.php
+
 Changes in 4.3.1
 ----------------
 - Fix SQL syntax error in AddAbsences.php
