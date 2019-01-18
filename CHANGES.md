@@ -1,6 +1,11 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 4.4-beta
+-------------------
+- Add Warehouse Header hook in Warehouse.php
+- Add DBQuery after hook in database.inc.php
+
 Changes in 4.3.1
 ----------------
 - Fix SQL syntax error in AddAbsences.php

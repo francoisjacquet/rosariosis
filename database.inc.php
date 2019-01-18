@@ -76,6 +76,7 @@ function db_start()
  *
  * @since 3.7 INSERT INTO case to Replace empty strings ('') with NULL values.
  * @since 4.3 Performance: static DB $connection.
+ * @since 4.3 Do DBQuery after action hook.
  *
  * @param  string   $sql       SQL statement.
  * @return resource PostgreSQL result resource
@@ -122,6 +123,9 @@ function DBQuery( $sql )
 		// TRANSLATION: do NOT translate these since error messages need to stay in English for technical support.
 		db_show_error( $sql, 'DB Execute Failed.', $errstring );
 	}
+
+	// Do DBQuery after action hook.
+	do_action( 'database.inc.php|dbquery_after', $sql, $result );
 
 	return $result;
 }

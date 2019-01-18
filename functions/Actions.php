@@ -202,6 +202,20 @@ $RosarioActions = array();
 	 */
 	/*'Grades/Assignments.php|header' => array(),
 	'Grades/includes/StudentAssignments.fnc.php|grades_submission_column' => array(),
+
+	/**
+	 * Do DBQuery after action hook.
+	 *
+	 * @since 4.4
+	 */
+	/*'database.inc.php|dbquery_after' => array(),
+
+	/**
+	 * Warehouse Header.
+	 *
+	 * @since 4.4
+	 */
+	/*'Warehouse.php|header' => array(),
 );*/
 
 

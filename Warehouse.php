@@ -375,6 +375,10 @@ function _LoadAddons( $addons, $folder )
  *
  * @example  Warehouse( 'header' );
  *
+ * @since 3.8 Warehouse header head hook
+ * @since 3.8 Warehouse footer hook
+ * @since 4.4 Warehouse header hook
+ *
  * @global $_ROSARIO  Uses $_ROSARIO['ProgramLoaded']
  *
  * @uses isPopup()
@@ -447,7 +451,7 @@ function Warehouse( $mode )
 	<script src="assets/js/jscalendar/lang/calendar-<?php echo file_exists( 'assets/js/jscalendar/lang/calendar-' . $lang_2_chars . '.js' ) ? $lang_2_chars : 'en'; ?>.js"></script>
 	<script>var scrollTop = "<?php echo Preferences( 'SCROLL_TOP' ); ?>";</script>
 		<?php
-/**
+			/**
 			 * Hook.
 			 *
 			 * Add your extra module/plugin JS and/or CSS (dependencies) to HTML head here.
@@ -468,14 +472,13 @@ function Warehouse( $mode )
 </head>
 <body class="<?php echo $_ROSARIO['page']; ?>">
 <?php
-
 			if ( $_ROSARIO['page'] === 'modules' ):
 				// If popup window, verify it is an actual popup.
 
 				if ( isPopup() ):
 				?>
 				<script>if(window == top  && (!window.opener)) window.location.href = "Modules.php?modname=misc/Portal.php";</script>
-							<?php else: ?>
+				<?php else: ?>
 <div id="wrap">
 	<footer id="footer" class="mod">
 		<?php require_once 'Bottom.php'; // Include Bottom menu. ?>
@@ -485,8 +488,17 @@ function Warehouse( $mode )
 	</aside>
 
 <?php
-endif;
+				endif;
 			endif;
+
+			/**
+			 * Hook.
+			 *
+			 * Add your extra module/plugin HTML to body here.
+			 *
+			 * @since 4.4
+			 */
+			do_action( 'Warehouse.php|header' );
 			?>
 	<div id="body" tabindex="0" role="main" class="mod">
 <?php
@@ -537,7 +549,7 @@ break;
 
 			if ( ! isPopup() ):
 
-				require_once 'ProgramFunctions/Help.fnc.php';
+				// require_once 'ProgramFunctions/Help.fnc.php';
 
 				// Check if module has help (not default).
 				//$has_help_text = GetHelpTextRaw( $_REQUEST['modname'] );
