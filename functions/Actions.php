@@ -204,7 +204,7 @@ $RosarioActions = array();
 	'Grades/includes/StudentAssignments.fnc.php|grades_submission_column' => array(),
 
 	/**
-	 * Do DBQuery after action hook.
+	 * DBQuery after.
 	 *
 	 * @since 4.4
 	 */

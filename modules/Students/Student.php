@@ -119,6 +119,12 @@ if ( $_REQUEST['modfunc'] === 'update'
 				$required_error = true;
 			}
 
+			if ( mbstrlen( $_REQUEST['staff']['USERNAME'] ) > 100 )
+			{
+				// Limit Username to 100 characters.
+				$_REQUEST['staff']['USERNAME'] = mb_substr( $_REQUEST['staff']['USERNAME'], 0, 100 );
+			}
+
 			// Check if trying to hack enrollment.
 			if ( isset( $_REQUEST['month_values']['STUDENT_ENROLLMENT'] )
 				|| count( $_REQUEST['values']['STUDENT_ENROLLMENT'] ) > 1 )

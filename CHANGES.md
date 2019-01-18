@@ -5,6 +5,7 @@ Changes in 4.4-beta
 -------------------
 - Add Warehouse Header hook in Warehouse.php
 - Add DBQuery after hook in database.inc.php
+- Limit Username to 100 characters in User.php & Student.php
 
 Changes in 4.3.1
 ----------------
