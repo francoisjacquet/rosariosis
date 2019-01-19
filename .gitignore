@@ -245,4 +245,5 @@ modules/Email_Parents/
 modules/Email_Students/
 modules/Student_Billing_Premium/
 modules/Quiz/
+modules/Audit/
 plugins/TinyMCE_Record_Audio_Video
