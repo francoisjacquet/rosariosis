@@ -522,8 +522,18 @@ break;
 		ajaxLink( 'Side.php?sidefunc=update' );
 	}
 </script>
-<?php	// If not AJAX request.
+<?php
+			/**
+			 * Hook.
+			 *
+			 * Add your extra module/plugin JS (dependencies) to HTML footer here.
+			 *
+			 * @since 3.8
+			 * @since 4.4 Hook always runs (no conditions).
+			 */
+			do_action( 'Warehouse.php|footer' );
 
+			// If not AJAX request.
 			if ( ! isAJAX() ):
 			?>
 	</div><!-- #body -->
@@ -535,14 +545,6 @@ break;
 	</div><!-- #wrap -->
 			<?php endif;
 
-			/**
-			 * Hook.
-			 *
-			 * Add your extra module/plugin JS (dependencies) to HTML footer here.
-			 *
-			 * @since 3.8
-			 */
-			do_action( 'Warehouse.php|footer' );
 			?>
 </body></html>
 <?php endif;
@@ -564,15 +566,6 @@ break;
 
 			else: // Other pages (not modules).
 
-				/**
-				 * Hook.
-				 *
-				 * Add your extra module/plugin JS (dependencies) to HTML footer here.
-				 * $_ROSARIO['page'] !== 'modules' case!
-				 *
-				 * @since 3.8
-				 */
-				do_action( 'Warehouse.php|footer' );
 				?>
 		</div><!-- #body -->
 	</body></html>
