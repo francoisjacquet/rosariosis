@@ -87,7 +87,7 @@ if ( ! $_REQUEST['modfunc'] )
 	echo '</form>';
 
 	// Format DB data.
-	$alllogs_functions = array(
+	$access_logs_functions = array(
 		'STATUS' => '_makeAccessLogStatus', // Translate status.
 		'PROFILE' => '_makeAccessLogProfile', // Translate profile.
 		'USERNAME' => '_makeAccessLogUsername', // Add link to user info.
@@ -95,19 +95,19 @@ if ( ! $_REQUEST['modfunc'] )
 		'USER_AGENT' => '_makeAccessLogUserAgent', // Display Browser & OS.
 	);
 
-	$alllogs_RET = DBGet( DBQuery( "SELECT
+	$access_logs_RET = DBGet( DBQuery( "SELECT
 		DISTINCT USERNAME,PROFILE,LOGIN_TIME,IP_ADDRESS,STATUS,USER_AGENT
 		FROM ACCESS_LOG
 		WHERE LOGIN_TIME >='" . $start_date . "'
 		AND LOGIN_TIME <='" . $end_date . ' 23:59:59' . "'
-		ORDER BY LOGIN_TIME DESC" ), $alllogs_functions );
+		ORDER BY LOGIN_TIME DESC" ), $access_logs_functions );
 
 	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete" method="POST">';
 
-	DrawHeader( '', SubmitButton( _( 'Clear Log' ) ) );
+	DrawHeader( '', SubmitButton( _( 'Clear Log' ), '', '' ) );
 
 	ListOutput(
-		$alllogs_RET,
+		$access_logs_RET,
 		array(
 			'LOGIN_TIME' => _( 'Date' ),
 			'USERNAME' => _( 'Username' ),
@@ -122,8 +122,6 @@ if ( ! $_REQUEST['modfunc'] )
 		array(),
 		array( 'count' => true, 'save' => true )
 	);
-
-	echo '<div class="center">' . SubmitButton( _( 'Clear Log' ) ) . '</div>';
 
 	echo '</form>';
 
