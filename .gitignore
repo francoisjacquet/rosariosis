@@ -221,7 +221,7 @@ phpdoc/
 /php
 
 #RosarioSIS
-/phpcompatinfo*
+meta/
 /config.inc.php
 assets/FileUploads/
 assets/AssignmentsFiles/
