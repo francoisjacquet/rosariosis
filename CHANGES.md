@@ -12,7 +12,7 @@ Changes in 4.3.2
 ----------------
 - Leave Delete button AFTER the Save one so info are saved on Enter keypress in Schools.php
 
-Changes in 4.3.1
+Changes in 4.3.2
 ----------------
 - Fix SQL syntax error in AddAbsences.php
 
