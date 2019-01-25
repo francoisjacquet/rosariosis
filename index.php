@@ -453,7 +453,7 @@ if ( empty( $_SESSION['STAFF_ID'] )
 		</p>
 		<p class="center size-1">
 			&copy; 2004-2009 <a href="http://www.centresis.org" noreferrer>The Miller Group &amp; Learners Circle</a>
-			<br />&copy; 2012-2018 <a href="https://www.rosariosis.org" noreferrer>RosarioSIS</a>
+			<br />&copy; 2012-2019 <a href="https://www.rosariosis.org" noreferrer>RosarioSIS</a>
 		</p>
 	</div>
 
