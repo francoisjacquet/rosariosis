@@ -228,10 +228,15 @@ else
 	$name_link['FULL_NAME']['link'] = 'Modules.php?modname='.$_REQUEST['next_modname'];
 	$name_link['FULL_NAME']['variables'] = array('staff_id' => 'STAFF_ID');
 
-	if (isset($extra['link']) && is_array($extra['link']))
-		$link = $extra['link'] + $name_link;
+	if ( isset( $extra['link'] )
+		&& is_array( $extra['link'] ) )
+	{
+		$link = array_replace_recursive( $name_link, $extra['link'] );
+	}
 	else
+	{
 		$link = $name_link;
+	}
 
 	if (isset($extra['columns_before']) && is_array($extra['columns_before']))
 		$columns = $extra['columns_before'] + $columns;

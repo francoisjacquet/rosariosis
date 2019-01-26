@@ -233,10 +233,15 @@ else
 		$name_link['FULL_NAME']['variables']['school_id'] = 'SCHOOL_ID';
 	}
 
-	if (isset($extra['link']) && is_array($extra['link']))
-		$link = $extra['link'] + $name_link;
+	if ( isset( $extra['link'] )
+		&& is_array( $extra['link'] ) )
+	{
+		$link = array_replace_recursive( $name_link, $extra['link'] );
+	}
 	else
+	{
 		$link = $name_link;
+	}
 
 	if (isset($extra['columns']) && is_array($extra['columns']))
 		$columns = $extra['columns'];
