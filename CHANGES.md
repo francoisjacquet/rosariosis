@@ -8,6 +8,7 @@ Changes in 4.4-beta
 - Limit Username to 100 characters in User.php & Student.php
 - Leave Delete button AFTER the Save one so info are saved on Enter keypress in Schools.php
 - JS Adjust Side.php submenu bottom offset when footer menu is on top in warehouse.js
+- Do not check allowed tables, sanitize table name instead in Fields.fnc.php
 
 Changes in 4.3.2
 ----------------

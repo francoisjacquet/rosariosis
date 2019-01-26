@@ -640,6 +640,8 @@ function MakeFieldType( $value, $column = '' )
  *
  * @example $_REQUEST['staff'] = FilterCustomFieldsMarkdown( 'STAFF_FIELDS', 'staff' );
  *
+ * @since 4.4 Do not check allowed tables, sanitize table name instead.
+ *
  * @uses SanitizeMarkDown()
  *
  * @param string $table           Custom fields TABLE name.
@@ -651,13 +653,13 @@ function MakeFieldType( $value, $column = '' )
 function FilterCustomFieldsMarkdown( $table, $request_index, $request_index_2 = '' )
 {
 	// Please add your TABLE here.
-	$allowed_tables = array(
+	/*$allowed_tables = array(
 		'CUSTOM_FIELDS',
 		'ADDRESS_FIELDS',
 		'PEOPLE_FIELDS',
 		'STAFF_FIELDS',
 		'SCHOOL_FIELDS',
-	);
+	);*/
 
 	if ( ! $request_index_2 )
 	{
@@ -673,10 +675,13 @@ function FilterCustomFieldsMarkdown( $table, $request_index, $request_index_2 = 
 	}
 
 	if ( ! $table
-		|| ! in_array( (string) $table, $allowed_tables ) )
+		/*|| ! in_array( (string) $table, $allowed_tables )*/ )
 	{
 		return $request_values;
 	}
+
+	// Sanitize table name: only alphanumeric & underscore characters.
+	$table = preg_replace( "/[^a-zA-Z0-9_]+/", '', $table );
 
 	// FJ textarea fields MarkDown sanitize.
 	$textarea_RET = DBGet( DBQuery( "SELECT ID
