@@ -675,20 +675,13 @@ function Search( $type, $extra = null )
 				{
 					$name = 'cust[' . $col['COLUMN_NAME'] . ']';
 
-					$id = GetInputID( $name );
-
 					echo '<tr class="' . $TR_classes . '"><td>' . $col['TITLE'] . '</td>
-					<td><table class="cellspacing-0">
-					<tr><td><label for="' . $id . '">' . _( 'All' ) . '</label></td>
-					<td><label for="' . $id . '_Y">' . _( 'Yes' ) . '</label></td>
-					<td><label for="' . $id . '_N">' . _( 'No' ) . '</label></td></tr>
-					<tr class="center"><td>
-					<input name="' . $name . '" id="' . $id . '" type="radio" value="" checked />
-					</td><td>
-					<input name="' . $name . '" id="' . $id . '_Y" type="radio" value="Y" />
-					</td><td>
-					<input name="' . $name . '" id="' . $id . '_N" type="radio" value="N" />
-					</td></tr></table></td></tr>';
+					<td><label><input name="' . $name . '" type="radio" value="" checked /> ' .
+					_( 'All' ) . '</label> &nbsp;
+					<label><input name="' . $name . '" type="radio" value="Y" /> ' .
+					_( 'Yes' ) . '</label> &nbsp;
+					<label><input name="' . $name . '" type="radio" value="N" /> ' .
+					_( 'No' ) . '</label></td></tr>';
 				}
 
 				if ( $type === 'student_fields_all'
