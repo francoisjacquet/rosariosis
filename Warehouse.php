@@ -121,7 +121,14 @@ $cookie_path = dirname( $_SERVER['SCRIPT_NAME'] ) === DIRECTORY_SEPARATOR ?
 '/' :
 dirname( $_SERVER['SCRIPT_NAME'] ) . '/';
 
-session_set_cookie_params( 0, $cookie_path, '', false, true );
+session_set_cookie_params(
+	0,
+	$cookie_path,
+	'',
+	//  Cookie secure flag for https.
+	( ( ! empty( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] !== 'off' ) || $_SERVER['SERVER_PORT'] == 443 ),
+	true
+);
 
 session_cache_limiter( 'nocache' );
 

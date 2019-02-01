@@ -10,6 +10,7 @@ Changes in 4.4-beta
 - JS Adjust Side.php submenu bottom offset when footer menu is on top in warehouse.js
 - Do not check allowed tables, sanitize table name instead in Fields.fnc.php
 - Fix extra link when FULL_NAME overridden in Search.inc.php
+- Cookie secure flag for https in Warehouse.php
 
 Changes in 4.3.2
 ----------------
