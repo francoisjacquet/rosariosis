@@ -71,7 +71,8 @@ function SendEmail( $to, $subject, $message, $reply_to = null, $cc = null, $atta
 		FILTER_SANITIZE_EMAIL
 	));
 
-	if ( ! $phpmailer->From )
+	if ( ! $phpmailer->From
+		|| $phpmailer->From === 'root@localhost' )
 	{
 		// Set Email address to send from: RosarioSIS <rosariosis@yourdomain.com>.
 		$phpmailer->From = $programname . '@' . $sitename;

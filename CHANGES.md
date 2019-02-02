@@ -11,6 +11,7 @@ Changes in 4.4-beta
 - Do not check allowed tables, sanitize table name instead in Fields.fnc.php
 - Fix extra link when FULL_NAME overridden in Search.inc.php
 - Cookie secure flag for https in Warehouse.php
+- Override default From in SendEmail.fnc.php
 
 Changes in 4.3.2
 ----------------
