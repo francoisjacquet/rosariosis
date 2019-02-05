@@ -39,10 +39,12 @@ if ( empty( $end_date ) )
 }
 
 echo '<form action="' . PreparePHP_SELF() . '" method="POST">';
+
 DrawHeader(
 	_( 'Timeframe' ) . ': ' . PrepareDate( $start_date, '_start' ) . ' ' .
-	_( 'to' ) . ' ' . PrepareDate( $end_date, '_end' ) .
-	' <input type="submit" value="' . _( 'Go' ) . '">' );
+	_( 'to' ) . ' ' . PrepareDate( $end_date, '_end' ) . ' ' .
+	SubmitButton( _( 'Go' ) ) );
+
 echo '</form>';
 
 $enrollment_RET = DBGet( DBQuery( "SELECT se.START_DATE AS START_DATE,NULL AS END_DATE,se.START_DATE AS DATE,se.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,sch.TITLE
