@@ -615,7 +615,7 @@ else
 		else
 			$category_title = ParseMLField( $category );
 
-		echo '<table class="widefat"><tr>
+		echo '<table class="widefat width-100p"><tr>
 				<th colspan="2">' . $category_title . '</th>
 			</tr><tr>';
 
