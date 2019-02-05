@@ -12,6 +12,7 @@ Changes in 4.4-beta
 - Fix extra link when FULL_NAME overridden in Search.inc.php
 - Cookie secure flag for https in Warehouse.php
 - Override default From in SendEmail.fnc.php
+- Remove Go button (useless) in StudentBreakdown.php
 
 Changes in 4.3.2
 ----------------

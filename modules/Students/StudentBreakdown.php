@@ -214,7 +214,7 @@ if ( ! $_REQUEST['modfunc'] )
 	) ) . '">' . _( 'Advanced' ) . '</a>';
 
 
-	DrawHeader( $select . $advanced_link, SubmitButton( _( 'Go' ) ) );
+	DrawHeader( $select . $advanced_link );
 
 	if ( isset( $_ROSARIO['SearchTerms'] )
 		&& !empty( $_ROSARIO['SearchTerms'] ) )
