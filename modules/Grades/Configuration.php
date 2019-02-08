@@ -4,9 +4,14 @@ DrawHeader( _( 'Gradebook' ) . ' - ' . ProgramTitle() );
 
 if ( ! empty( $_REQUEST['values'] ) )
 {
-	DBQuery("DELETE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".User('STAFF_ID')."' AND PROGRAM='Gradebook'");
 	foreach ( (array) $_REQUEST['values'] as $title => $value)
-		DBQuery("INSERT INTO PROGRAM_USER_CONFIG (USER_ID,PROGRAM,TITLE,VALUE) values('".User('STAFF_ID')."','Gradebook','".$title."','".str_replace('%','',$value)."')");
+	{
+		ProgramUserConfig(
+			'gradebook',
+			$title,
+			str_replace('%','',$value)
+		);
+	}
 
 	$note[] = button( 'check' ) . '&nbsp;' . _( 'The gradebook configuration has been modified.' );
 }
