@@ -42,9 +42,7 @@ if ( ! function_exists( 'DoFirstLoginForm' ) )
 		}
 
 		// Set Config( 'LOGIN' ) to Yes.
-		DBQuery( "UPDATE CONFIG
-			SET CONFIG_VALUE='Yes'
-			WHERE TITLE='LOGIN'" );
+		Config( 'LOGIN', 'Yes' );
 
 		return $return;
 	}

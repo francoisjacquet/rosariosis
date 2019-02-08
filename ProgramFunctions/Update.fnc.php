@@ -106,9 +106,7 @@ function Update()
 	}
 
 	// Update version in DB CONFIG table.
-	DBGet( DBQuery( "UPDATE CONFIG
-		SET CONFIG_VALUE='" . ROSARIO_VERSION . "'
-		WHERE TITLE='VERSION'" ) );
+	Config( 'VERSION', ROSARIO_VERSION );
 
 	return $return;
 }

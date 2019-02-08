@@ -14,6 +14,7 @@ Changes in 4.4-beta
 - Override default From in SendEmail.fnc.php
 - Remove Go button (useless) in StudentBreakdown.php
 - Add $value param to INSERT or UPDATE for Config, ProgramConfig & ProgramUserConfig functions in Config.fnc.php
+- Use Config() for UPDATE in FirstLogin.fnc.php, Update.fnc.php
 
 Changes in 4.3.2
 ----------------
