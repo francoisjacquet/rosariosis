@@ -50,14 +50,15 @@ function Config( $item, $value = null )
 
 	if ( ! is_null( $value ) )
 	{
-		if ( ! isset( $_ROSARIO['Config'][ (string) $item ][1]['CONFIG_VALUE'] ) )
+
+		if ( ! isset( $_ROSARIO['Config'][ (string) $item ][1]['TITLE'] ) )
 		{
 			// Insert value (does not exist).
 			DBQuery( "INSERT INTO CONFIG (CONFIG_VALUE,TITLE,SCHOOL_ID)
 				VALUES('" . $value . "','" . $item . "','" .
 				( UserSchool() > 0 ? UserSchool() : '0' ) . "')" );
 		}
-		elseif ( $value !== $_ROSARIO['Config'][ (string) $item ][1]['CONFIG_VALUE'] )
+		elseif ( $value != $_ROSARIO['Config'][ (string) $item ][1]['CONFIG_VALUE'] )
 		{
 			// Update value (different from current value).
 			DBQuery( "UPDATE CONFIG
@@ -115,7 +116,7 @@ function ProgramConfig( $program, $item = 'all', $value = null )
 	if ( ! is_null( $value )
 		&& $item !== 'all' )
 	{
-		if ( ! isset( $_ROSARIO['ProgramConfig'][ (string) $program ][ (string) $item ][1]['VALUE'] ) )
+		if ( ! isset( $_ROSARIO['ProgramConfig'][ (string) $program ][ (string) $item ][1]['TITLE'] ) )
 		{
 			// Insert value (does not exist).
 			DBQuery( "INSERT INTO PROGRAM_CONFIG (VALUE,PROGRAM,TITLE,SCHOOL_ID,SYEAR)
@@ -124,7 +125,7 @@ function ProgramConfig( $program, $item = 'all', $value = null )
 
 			$_ROSARIO['ProgramConfig'][ (string) $program ][ (string) $item ][1]['TITLE'] = $item;
 		}
-		elseif ( $value !== $_ROSARIO['ProgramConfig'][ (string) $program ][ (string) $item ][1]['VALUE'] )
+		elseif ( $value != $_ROSARIO['ProgramConfig'][ (string) $program ][ (string) $item ][1]['VALUE'] )
 		{
 			// Update value (different from current value).
 			DBQuery( "UPDATE PROGRAM_CONFIG
@@ -201,14 +202,14 @@ function ProgramUserConfig( $program, $staff_id = 0, $values = null )
 	{
 		foreach ( $values as $title => $value )
 		{
-			if ( ! isset( $program_config[ $program ][ $staff_id ][ $title ] ) )
+			if ( ! array_key_exists( $title, $program_config[ $program ][ $staff_id ] ) )
 			{
 				// Insert value (does not exist).
 				DBQuery( "INSERT INTO PROGRAM_USER_CONFIG (VALUE,PROGRAM,TITLE,USER_ID)
 					VALUES('" . $value . "','" . $program . "','" . $title . "','" .
 					$staff_id . "')" );
 			}
-			elseif ( $value !== $program_config[ $program ][ $staff_id ][ $title ] )
+			elseif ( $value != $program_config[ $program ][ $staff_id ][ $title ] )
 			{
 				// Update value (different from current value).
 				DBQuery( "UPDATE PROGRAM_USER_CONFIG
