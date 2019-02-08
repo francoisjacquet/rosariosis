@@ -10,15 +10,15 @@ DrawHeader( ProgramTitle() );
 
 $configuration_link = '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '">' .
 	( ! isset( $_REQUEST['tab'] ) ?
-		'<b>' . _( 'Configuration' ) . '</b>' : _( 'Configuration' ) ) . '</a>';
+	'<b>' . _( 'Configuration' ) . '</b>' : _( 'Configuration' ) ) . '</a>';
 
 $modules_link = '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&tab=modules">' .
 	( isset( $_REQUEST['tab'] ) && $_REQUEST['tab'] === 'modules' ?
-		'<b>' . _( 'Modules' ) . '</b>' : _( 'Modules' ) ) . '</a>';
+	'<b>' . _( 'Modules' ) . '</b>' : _( 'Modules' ) ) . '</a>';
 
 $plugins_link = '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&tab=plugins">' .
 	( isset( $_REQUEST['tab'] ) && $_REQUEST['tab'] === 'plugins' ?
-		'<b>' . _( 'Plugins' ) . '</b>' : _( 'Plugins' ) ) . '</a>';
+	'<b>' . _( 'Plugins' ) . '</b>' : _( 'Plugins' ) ) . '</a>';
 
 if ( AllowEdit() )
 {
@@ -42,6 +42,7 @@ else
 	if ( $_REQUEST['modfunc'] === 'update' )
 	{
 		// FJ upload school logo.
+
 		if ( $_FILES['LOGO_FILE']
 			&& AllowEdit() )
 		{
@@ -106,8 +107,8 @@ else
 
 			if ( $updated )
 			{
-				$note[] = button( 'check' ) .'&nbsp;' .
-					_( 'The school configuration has been modified.' );
+				$note[] = button( 'check' ) . '&nbsp;' .
+				_( 'The school configuration has been modified.' );
 			}
 
 			if ( $numeric_error )
@@ -127,25 +128,31 @@ else
 
 	if ( ! $_REQUEST['modfunc'] )
 	{
-		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST" enctype="multipart/form-data">';
+		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update" method="POST" enctype="multipart/form-data">';
 
-		if (AllowEdit())
+		if ( AllowEdit() )
+		{
 			DrawHeader( '', SubmitButton() );
+		}
 
-		if ( !empty($note))
-			echo ErrorMessage($note, 'note');
+		if ( ! empty( $note ) )
+		{
+			echo ErrorMessage( $note, 'note' );
+		}
 
-		if ( !empty($error))
-			echo ErrorMessage($error, 'error');
+		if ( ! empty( $error ) )
+		{
+			echo ErrorMessage( $error, 'error' );
+		}
 
 		echo '<br />';
-		PopTable('header',SchoolInfo('TITLE'));
+		PopTable( 'header', SchoolInfo( 'TITLE' ) );
 
-		echo '<fieldset><legend>'.ParseMLField(Config('TITLE')).'</legend><table>';
+		echo '<fieldset><legend>' . ParseMLField( Config( 'TITLE' ) ) . '</legend><table>';
 
-		echo '<tr><td>'.MLTextInput(Config('TITLE'),'values[CONFIG][TITLE]',_('Program Title')).'</td></tr>';
+		echo '<tr><td>' . MLTextInput( Config( 'TITLE' ), 'values[CONFIG][TITLE]', _( 'Program Title' ) ) . '</td></tr>';
 
-		echo '<tr><td>'.TextInput(Config('NAME'),'values[CONFIG][NAME]',_('Program Name'),'required').'</td></tr>';
+		echo '<tr><td>' . TextInput( Config( 'NAME' ), 'values[CONFIG][NAME]', _( 'Program Name' ), 'required' ) . '</td></tr>';
 
 		// FJ add Default Theme to Configuration.
 		echo '<tr><td><table class="width-100p"><tr>';
@@ -159,7 +166,7 @@ else
 			$theme_name = str_replace( 'assets/themes/', '', $theme );
 
 			echo '<td><label><input type="radio" name="values[CONFIG][THEME]" value="' . $theme_name . '"' .
-				( ( Config( 'THEME' ) === $theme_name ) ? ' checked' : '' ) . '> ' .
+				(  ( Config( 'THEME' ) === $theme_name ) ? ' checked' : '' ) . '> ' .
 				$theme_name . '</label></td>';
 
 			if ( ++$count % 3 == 0 )
@@ -188,12 +195,12 @@ else
 		echo '<tr><td><fieldset><legend>' . _( 'Registration' ) . '</legend><table>';
 
 		echo '<tr><td>' . CheckboxInput(
-			Config('CREATE_USER_ACCOUNT'),
+			Config( 'CREATE_USER_ACCOUNT' ),
 			'values[CONFIG][CREATE_USER_ACCOUNT]',
 			_( 'Create User Account' ) .
-				'<div class="tooltip"><i>' .
-					_( 'New users will be added with the No Access profile' ) .
-				'</i></div>',
+			'<div class="tooltip"><i>' .
+			_( 'New users will be added with the No Access profile' ) .
+			'</i></div>',
 			'',
 			false,
 			button( 'check' ),
@@ -204,9 +211,9 @@ else
 			Config( 'CREATE_STUDENT_ACCOUNT' ),
 			'values[CONFIG][CREATE_STUDENT_ACCOUNT]',
 			_( 'Create Student Account' ) .
-				'<div class="tooltip"><i>' .
-					_( 'New students will be added as Inactive students' ) .
-				'</i></div>',
+			'<div class="tooltip"><i>' .
+			_( 'New students will be added as Inactive students' ) .
+			'</i></div>',
 			'',
 			false,
 			button( 'check' ),
@@ -222,7 +229,7 @@ else
 
 		foreach ( (array) $students_email_field_RET as $field )
 		{
-			$students_email_field_options[ str_replace( 'custom_', '', $field['ID'] ) ] = ParseMLField( $field['TITLE'] );
+			$students_email_field_options[str_replace( 'custom_', '', $field['ID'] )] = ParseMLField( $field['TITLE'] );
 		}
 
 		echo '<tr><td>' . SelectInput(
@@ -243,9 +250,9 @@ else
 			Config( 'FAILED_LOGIN_LIMIT' ),
 			'values[CONFIG][FAILED_LOGIN_LIMIT]',
 			_( 'Failed Login Attempts Limit' ) .
-				'<div class="tooltip"><i>' .
-				_( 'Leave the field blank to always allow' ) .
-				'</i></div>',
+			'<div class="tooltip"><i>' .
+			_( 'Leave the field blank to always allow' ) .
+			'</i></div>',
 			'type=number maxlength=2 size=2 min=2 max=99'
 		) . '</td></tr>';
 
@@ -276,30 +283,30 @@ else
 		echo '<br /><fieldset><legend>' . _( 'School' ) . '</legend><table>';
 
 		//FJ school year over one/two calendar years format
-		echo '<tr><td>'.CheckboxInput(Config('SCHOOL_SYEAR_OVER_2_YEARS'), 'values[CONFIG][SCHOOL_SYEAR_OVER_2_YEARS]', _('School year over two calendar years'), '', false, button('check'), button('x')).'</td></tr>';
+		echo '<tr><td>' . CheckboxInput( Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ), 'values[CONFIG][SCHOOL_SYEAR_OVER_2_YEARS]', _( 'School year over two calendar years' ), '', false, button( 'check' ), button( 'x' ) ) . '</td></tr>';
 
 		// FJ upload school logo.
 		echo '<tr><td>' . ( file_exists( 'assets/school_logo_' . UserSchool() . '.jpg' ) ?
 			'<br /><img src="assets/school_logo_' . UserSchool() . '.jpg?cache_killer=' . rand() .
 			'" style="max-width:225px; max-height:225px;" /><br />' : '' ) .
-			FileInput(
-				'LOGO_FILE',
-				_( 'School logo' ) . ' (.jpg, .png, .gif)',
-				'accept="image/*"'
-			) . '</td></tr>';
+		FileInput(
+			'LOGO_FILE',
+			_( 'School logo' ) . ' (.jpg, .png, .gif)',
+			'accept="image/*"'
+		) . '</td></tr>';
 
 		//FJ currency
-		echo '<tr><td>'.TextInput(Config('CURRENCY'),'values[CONFIG][CURRENCY]',_('Currency Symbol'),'maxlength=3 size=3').'</td></tr>';
+		echo '<tr><td>' . TextInput( Config( 'CURRENCY' ), 'values[CONFIG][CURRENCY]', _( 'Currency Symbol' ), 'maxlength=3 size=3' ) . '</td></tr>';
 
 		echo '</table></fieldset>';
 
-		if ( $RosarioModules['Students'])
+		if ( $RosarioModules['Students'] )
 		{
-			echo '<br /><fieldset><legend>'._('Students').'</legend><table>';
+			echo '<br /><fieldset><legend>' . _( 'Students' ) . '</legend><table>';
 
-			echo '<tr><td>'.CheckboxInput(Config('STUDENTS_USE_MAILING'), 'values[CONFIG][STUDENTS_USE_MAILING]',_('Display Mailing Address'), '', false, button('check'), button('x')).'</td></tr>';
+			echo '<tr><td>' . CheckboxInput( Config( 'STUDENTS_USE_MAILING' ), 'values[CONFIG][STUDENTS_USE_MAILING]', _( 'Display Mailing Address' ), '', false, button( 'check' ), button( 'x' ) ) . '</td></tr>';
 
-			echo '<tr><td>'.CheckboxInput(
+			echo '<tr><td>' . CheckboxInput(
 				ProgramConfig( 'students', 'STUDENTS_USE_BUS' ),
 				'values[PROGRAM_CONFIG][students][STUDENTS_USE_BUS]',
 				_( 'Check Bus Pickup / Dropoff by default' ),
@@ -309,7 +316,7 @@ else
 				button( 'x' )
 			) . '</td></tr>';
 
-			echo '<tr><td>'.CheckboxInput(
+			echo '<tr><td>' . CheckboxInput(
 				ProgramConfig( 'students', 'STUDENTS_USE_CONTACT' ),
 				'values[PROGRAM_CONFIG][students][STUDENTS_USE_CONTACT]',
 				_( 'Enable Legacy Contact Information' ),
@@ -370,7 +377,7 @@ else
 				button( 'x' )
 			) . '</td></tr>';
 
-			echo '<tr><td>'.CheckboxInput(
+			echo '<tr><td>' . CheckboxInput(
 				ProgramConfig( 'grades', 'GRADES_TEACHER_ALLOW_EDIT' ),
 				'values[PROGRAM_CONFIG][grades][GRADES_TEACHER_ALLOW_EDIT]',
 				_( 'Allow Teachers to edit grades after grade posting period' ),
@@ -380,7 +387,7 @@ else
 				button( 'x' )
 			) . '</td></tr>';
 
-			echo '<tr><td>'.CheckboxInput(
+			echo '<tr><td>' . CheckboxInput(
 				ProgramConfig( 'grades', 'GRADES_DO_STATS_STUDENTS_PARENTS' ),
 				'values[PROGRAM_CONFIG][grades][GRADES_DO_STATS_STUDENTS_PARENTS]',
 				_( 'Enable Anonymous Grade Statistics for Parents and Students' ),
@@ -390,7 +397,7 @@ else
 				button( 'x' )
 			) . '</td></tr>';
 
-			echo '<tr><td>'.CheckboxInput(
+			echo '<tr><td>' . CheckboxInput(
 				ProgramConfig( 'grades', 'GRADES_DO_STATS_ADMIN_TEACHERS' ),
 				'values[PROGRAM_CONFIG][grades][GRADES_DO_STATS_ADMIN_TEACHERS]',
 				_( 'Enable Anonymous Grade Statistics for Administrators and Teachers' ),
@@ -403,19 +410,19 @@ else
 			echo '</table></fieldset>';
 		}
 
-		if ( $RosarioModules['Attendance'])
+		if ( $RosarioModules['Attendance'] )
 		{
-			echo '<br /><fieldset><legend>'._('Attendance').'</legend><table>';
+			echo '<br /><fieldset><legend>' . _( 'Attendance' ) . '</legend><table>';
 
-			echo '<tr><td>'.TextInput(Config('ATTENDANCE_FULL_DAY_MINUTES'),'values[CONFIG][ATTENDANCE_FULL_DAY_MINUTES]',_('Minutes in a Full School Day'),'maxlength=3 size=3 min=0').'</td></tr>';
+			echo '<tr><td>' . TextInput( Config( 'ATTENDANCE_FULL_DAY_MINUTES' ), 'values[CONFIG][ATTENDANCE_FULL_DAY_MINUTES]', _( 'Minutes in a Full School Day' ), 'maxlength=3 size=3 min=0' ) . '</td></tr>';
 
 			echo '<tr><td>' . TextInput(
 				ProgramConfig( 'attendance', 'ATTENDANCE_EDIT_DAYS_BEFORE' ),
 				'values[PROGRAM_CONFIG][attendance][ATTENDANCE_EDIT_DAYS_BEFORE]',
 				_( 'Number of days before the school date teachers can edit attendance' ) .
-					'<div class="tooltip"><i>' .
-						_( 'Leave the field blank to always allow' ) .
-					'</i></div>',
+				'<div class="tooltip"><i>' .
+				_( 'Leave the field blank to always allow' ) .
+				'</i></div>',
 				'maxlength=2 size=2 min=0'
 			) . '</td></tr>';
 
@@ -423,34 +430,34 @@ else
 				ProgramConfig( 'attendance', 'ATTENDANCE_EDIT_DAYS_AFTER' ),
 				'values[PROGRAM_CONFIG][attendance][ATTENDANCE_EDIT_DAYS_AFTER]',
 				_( 'Number of days after the school date teachers can edit attendance' ) .
-					'<div class="tooltip"><i>' .
-						_( 'Leave the field blank to always allow' ) .
-					'</i></div>',
+				'<div class="tooltip"><i>' .
+				_( 'Leave the field blank to always allow' ) .
+				'</i></div>',
 				'maxlength=2 size=2 min=0'
 			) . '</td></tr>';
 
 			echo '</table></fieldset>';
 		}
 
-		if ( $RosarioModules['Food_Service'])
+		if ( $RosarioModules['Food_Service'] )
 		{
-			echo '<br /><fieldset><legend>'._('Food Service').'</legend><table>';
+			echo '<br /><fieldset><legend>' . _( 'Food Service' ) . '</legend><table>';
 
-			echo '<tr><td>'.TextInput(
+			echo '<tr><td>' . TextInput(
 				ProgramConfig( 'food_service', 'FOOD_SERVICE_BALANCE_WARNING' ),
 				'values[PROGRAM_CONFIG][food_service][FOOD_SERVICE_BALANCE_WARNING]',
 				_( 'Food Service Balance minimum amount for warning' ),
 				'maxlength=10 size=5 required'
 			) . '</td></tr>';
 
-			echo '<tr><td>'.TextInput(
+			echo '<tr><td>' . TextInput(
 				ProgramConfig( 'food_service', 'FOOD_SERVICE_BALANCE_MINIMUM' ),
 				'values[PROGRAM_CONFIG][food_service][FOOD_SERVICE_BALANCE_MINIMUM]',
 				_( 'Food Service Balance minimum amount' ),
 				'maxlength=10 size=5 required'
 			) . '</td></tr>';
 
-			echo '<tr><td>'.TextInput(
+			echo '<tr><td>' . TextInput(
 				ProgramConfig( 'food_service', 'FOOD_SERVICE_BALANCE_TARGET' ),
 				'values[PROGRAM_CONFIG][food_service][FOOD_SERVICE_BALANCE_TARGET]',
 				_( 'Food Service Balance target amount' ),
@@ -460,14 +467,16 @@ else
 			echo '</table></fieldset>';
 		}
 
-		PopTable('footer');
-		if (AllowEdit())
-			echo '<br /><div class="center">' . SubmitButton() . '</div>';
-		echo '</form>';
+		PopTable( 'footer' );
 
+		if ( AllowEdit() )
+		{
+			echo '<br /><div class="center">' . SubmitButton() . '</div>';
+		}
+
+		echo '</form>';
 	}
 }
-
 
 /**
  * Theme live update.
@@ -484,8 +493,7 @@ else
  * @param  string  $new_theme New theme name / directory.
  * @param  string  $old_theme Old theme name / directory.
  * @param  boolean $default   Is default theme (Configuration.php) or Preferred theme (Preferences.php)?
- *
- * @return boolean            False if has not changed, else true.
+ * @return boolean False if has not changed, else true.
  */
 function _themeLiveUpdate( $new_theme, $old_theme, $default = true )
 {
@@ -504,6 +512,7 @@ function _themeLiveUpdate( $new_theme, $old_theme, $default = true )
 	}
 
 	// If not Forcing theme, update admin Preferred theme too.
+
 	if ( $default
 		&& ! Config( 'THEME_FORCE' )
 		&& Preferences( 'THEME' ) !== $new_theme )
