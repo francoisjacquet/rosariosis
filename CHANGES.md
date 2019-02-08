@@ -13,6 +13,7 @@ Changes in 4.4-beta
 - Cookie secure flag for https in Warehouse.php
 - Override default From in SendEmail.fnc.php
 - Remove Go button (useless) in StudentBreakdown.php
+- Add $value param to INSERT or UPDATE for Config, ProgramConfig & ProgramUserConfig functions in Config.fnc.php
 
 Changes in 4.3.2
 ----------------
