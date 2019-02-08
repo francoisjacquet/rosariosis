@@ -43,7 +43,7 @@ else
 	{
 		// FJ upload school logo.
 
-		if ( $_FILES['LOGO_FILE']
+		if ( ! empty( $_FILES['LOGO_FILE'] )
 			&& AllowEdit() )
 		{
 			ImageUpload(
