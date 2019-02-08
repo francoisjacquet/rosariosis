@@ -202,7 +202,7 @@ function ProgramUserConfig( $program, $staff_id = 0, $values = null )
 	{
 		foreach ( $values as $title => $value )
 		{
-			if ( ! array_key_exists( $title, $program_config[ $program ][ $staff_id ] ) )
+			if ( ! array_key_exists( $title, (array) $program_config[ $program ][ $staff_id ] ) )
 			{
 				// Insert value (does not exist).
 				DBQuery( "INSERT INTO PROGRAM_USER_CONFIG (VALUE,PROGRAM,TITLE,USER_ID)
@@ -215,7 +215,7 @@ function ProgramUserConfig( $program, $staff_id = 0, $values = null )
 				DBQuery( "UPDATE PROGRAM_USER_CONFIG
 					SET VALUE='" . $value . "'
 					WHERE TITLE='" . $title . "'
-					AND USER_ID='" . UserSchool() . "'" );
+					AND USER_ID='" . $staff_id . "'" );
 			}
 
 			$program_config[ $program ][ $staff_id ][ $title ] = $value;
