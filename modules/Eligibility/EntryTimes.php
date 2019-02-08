@@ -1,11 +1,6 @@
 <?php
-// GET ALL THE CONFIG ITEMS FOR ELIGIBILITY
-$eligibility_config = ProgramConfig( 'eligibility' );
 
-foreach ( (array) $eligibility_config as $value )
-{
-	${$value[1]['TITLE']} = $value[1]['VALUE'];
-}
+DrawHeader(ProgramTitle());
 
 if ( ! empty( $_REQUEST['values'] ) )
 {
@@ -19,28 +14,20 @@ if ( ! empty( $_REQUEST['values'] ) )
 
 	if ( $start<=$end)
 	{
-		foreach ( (array) $_REQUEST['values'] as $key => $value)
+		foreach ( (array) $_REQUEST['values'] as $title => $value)
 		{
-			if ( isset( ${$key} ) )
-				DBQuery("UPDATE PROGRAM_CONFIG SET VALUE='".$value."' WHERE PROGRAM='eligibility' AND TITLE='".$key."' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'");
-			else
-				DBQuery("INSERT INTO PROGRAM_CONFIG (SYEAR,SCHOOL_ID,PROGRAM,TITLE,VALUE) values('".UserSyear()."','".UserSchool()."','eligibility','".$key."','".$value."')");
+			ProgramConfig( 'eligibility', $title, $value );
 		}
-	}
-
-	unset( $_ROSARIO['ProgramConfig'] ); // update ProgramConfig var
-
-	// UPDATE ALL THE CONFIG ITEMS FOR ELIGIBILITY
-	$eligibility_config = ProgramConfig( 'eligibility' );
-
-	foreach ( (array) $eligibility_config as $value )
-	{
-		${$value[1]['TITLE']} = $value[1]['VALUE'];
 	}
 }
 
-DrawHeader(ProgramTitle());
-echo '<br />';
+// GET ALL THE CONFIG ITEMS FOR ELIGIBILITY.
+$eligibility_config = ProgramConfig( 'eligibility' );
+
+foreach ( (array) $eligibility_config as $value )
+{
+	${$value[1]['TITLE']} = $value[1]['VALUE'];
+}
 
 $days = array(_('Sunday'),_('Monday'),_('Tuesday'),_('Wednesday'),_('Thursday'),_('Friday'),_('Saturday'));
 
