@@ -55,94 +55,70 @@ else
 			);
 		}
 
-		if ( $_REQUEST['values']
+		if ( ! empty( $_REQUEST['values'] )
 			&& $_POST['values']
 			&& AllowEdit() )
 		{
-			if ((empty($_REQUEST['values']['PROGRAM_CONFIG']['ATTENDANCE_EDIT_DAYS_BEFORE'])
-				|| is_numeric($_REQUEST['values']['PROGRAM_CONFIG']['ATTENDANCE_EDIT_DAYS_BEFORE']))
-			&& (empty($_REQUEST['values']['PROGRAM_CONFIG']['ATTENDANCE_EDIT_DAYS_AFTER'])
-				|| is_numeric($_REQUEST['values']['PROGRAM_CONFIG']['ATTENDANCE_EDIT_DAYS_AFTER']))
-			&& (!isset($_REQUEST['values']['PROGRAM_CONFIG']['FOOD_SERVICE_BALANCE_WARNING'])
-				|| is_numeric($_REQUEST['values']['PROGRAM_CONFIG']['FOOD_SERVICE_BALANCE_WARNING']))
-			&& (!isset($_REQUEST['values']['PROGRAM_CONFIG']['FOOD_SERVICE_BALANCE_MINIMUM'])
-				|| is_numeric($_REQUEST['values']['PROGRAM_CONFIG']['FOOD_SERVICE_BALANCE_MINIMUM']))
-			&& (!isset($_REQUEST['values']['PROGRAM_CONFIG']['FOOD_SERVICE_BALANCE_TARGET'])
-				|| is_numeric($_REQUEST['values']['PROGRAM_CONFIG']['FOOD_SERVICE_BALANCE_TARGET']))
-			&& (empty($_REQUEST['values']['CONFIG']['FAILED_LOGIN_LIMIT'])
-				|| is_numeric($_REQUEST['values']['CONFIG']['FAILED_LOGIN_LIMIT'])))
+			foreach ( (array) $_REQUEST['values']['CONFIG'] as $column => $value )
 			{
-				$sql = '';
-				if ( isset( $_REQUEST['values']['CONFIG'] )
-					&& is_array( $_REQUEST['values']['CONFIG'] ) )
+				$numeric_values = array(
+					'FAILED_LOGIN_LIMIT',
+				);
+
+				if ( in_array( $value, $numeric_values )
+					&& ! is_numeric( $value ) )
 				{
-					foreach ( (array) $_REQUEST['values']['CONFIG'] as $column => $value )
-					{
-						$sql .= "UPDATE CONFIG SET
-							CONFIG_VALUE='" . $value . "'
-							WHERE TITLE='" . $column . "'";
+					$numeric_error = true;
 
-						// Program Title, Program Name, Default Theme, Force Default Theme,
-						// Create User Account, Create Student Account, Student email field,
-						// Failed login attempts limit.
-						$school_independant_values = array(
-							'TITLE',
-							'NAME',
-							'THEME',
-							'THEME_FORCE',
-							'CREATE_USER_ACCOUNT',
-							'CREATE_STUDENT_ACCOUNT',
-							'STUDENTS_EMAIL_FIELD',
-							'LIMIT_EXISTING_CONTACTS_ADDRESSES',
-							'FAILED_LOGIN_LIMIT',
-						);
-
-						if ( in_array( $column, $school_independant_values ) )
-						{
-							$sql .= " AND SCHOOL_ID='0';";
-						}
-						else
-						{
-							$sql .= " AND SCHOOL_ID='" . UserSchool() . "';";
-						}
-					}
+					continue;
 				}
 
-				if ( isset( $_REQUEST['values']['PROGRAM_CONFIG'] )
-					&& is_array( $_REQUEST['values']['PROGRAM_CONFIG'] ) )
-				{
-					foreach ( (array) $_REQUEST['values']['PROGRAM_CONFIG'] as $column => $value )
-					{
-						$sql .= "UPDATE PROGRAM_CONFIG SET
-							VALUE='" . $value . "'
-							WHERE TITLE='" . $column . "'
-							AND SCHOOL_ID='" . UserSchool() . "'
-							AND SYEAR='" . UserSyear() . "';";
-					}
-				}
+				Config( $column, $value );
 
-				if ( $sql != '' )
-				{
-					DBQuery( $sql );
-
-					$note[] = button( 'check' ) .'&nbsp;' .
-						_( 'The school configuration has been modified.' );
-				}
-
-
-				$old_theme = Config( 'THEME' );
-
-				unset( $_ROSARIO['Config'] ); // update Config var
-
-				unset( $_ROSARIO['ProgramConfig'] ); // update ProgramConfig var
-
-				// Theme changed? Update it live!
-				ThemeLiveUpdate( Config( 'THEME' ), $old_theme );
+				$updated = true;
 			}
-			else
+
+			foreach ( (array) $_REQUEST['values']['PROGRAM_CONFIG'] as $program => $columns )
+			{
+				foreach ( (array) $columns as $column => $value )
+				{
+					$numeric_values = array(
+						'ATTENDANCE_EDIT_DAYS_BEFORE',
+						'ATTENDANCE_EDIT_DAYS_AFTER',
+						'FOOD_SERVICE_BALANCE_WARNING',
+						'FOOD_SERVICE_BALANCE_MINIMUM',
+						'FOOD_SERVICE_BALANCE_TARGET',
+					);
+
+					if ( in_array( $value, $numeric_values )
+						&& ! is_numeric( $value ) )
+					{
+						$numeric_error = true;
+
+						continue;
+					}
+
+					ProgramConfig( $program, $column, $value );
+
+					$updated = true;
+				}
+			}
+
+			if ( $updated )
+			{
+				$note[] = button( 'check' ) .'&nbsp;' .
+					_( 'The school configuration has been modified.' );
+			}
+
+			if ( $numeric_error )
 			{
 				$error[] = _( 'Please enter valid Numeric data.' );
 			}
+
+			$old_theme = Config( 'THEME' );
+
+			// Theme changed? Update it live!
+			ThemeLiveUpdate( Config( 'THEME' ), $old_theme );
 		}
 
 		// Unset modfunc & values & redirect URL.
@@ -325,7 +301,7 @@ else
 
 			echo '<tr><td>'.CheckboxInput(
 				ProgramConfig( 'students', 'STUDENTS_USE_BUS' ),
-				'values[PROGRAM_CONFIG][STUDENTS_USE_BUS]',
+				'values[PROGRAM_CONFIG][students][STUDENTS_USE_BUS]',
 				_( 'Check Bus Pickup / Dropoff by default' ),
 				'',
 				false,
@@ -335,7 +311,7 @@ else
 
 			echo '<tr><td>'.CheckboxInput(
 				ProgramConfig( 'students', 'STUDENTS_USE_CONTACT' ),
-				'values[PROGRAM_CONFIG][STUDENTS_USE_CONTACT]',
+				'values[PROGRAM_CONFIG][students][STUDENTS_USE_CONTACT]',
 				_( 'Enable Legacy Contact Information' ),
 				'',
 				false,
@@ -345,7 +321,7 @@ else
 
 			echo '<tr><td>' . CheckboxInput(
 				ProgramConfig( 'students', 'STUDENTS_SEMESTER_COMMENTS' ),
-				'values[PROGRAM_CONFIG][STUDENTS_SEMESTER_COMMENTS]',
+				'values[PROGRAM_CONFIG][students][STUDENTS_SEMESTER_COMMENTS]',
 				_( 'Use Semester Comments instead of Quarter Comments' ),
 				'',
 				false,
@@ -378,7 +354,7 @@ else
 
 			echo '<tr><td>' . SelectInput(
 				ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ),
-				'values[PROGRAM_CONFIG][GRADES_DOES_LETTER_PERCENT]',
+				'values[PROGRAM_CONFIG][grades][GRADES_DOES_LETTER_PERCENT]',
 				_( 'Grades' ),
 				$grades_options,
 				false
@@ -386,7 +362,7 @@ else
 
 			echo '<tr><td>' . CheckboxInput(
 				ProgramConfig( 'grades', 'GRADES_HIDE_NON_ATTENDANCE_COMMENT' ),
-				'values[PROGRAM_CONFIG][GRADES_HIDE_NON_ATTENDANCE_COMMENT]',
+				'values[PROGRAM_CONFIG][grades][GRADES_HIDE_NON_ATTENDANCE_COMMENT]',
 				_( 'Hide grade comment except for attendance period courses' ),
 				'',
 				false,
@@ -396,7 +372,7 @@ else
 
 			echo '<tr><td>'.CheckboxInput(
 				ProgramConfig( 'grades', 'GRADES_TEACHER_ALLOW_EDIT' ),
-				'values[PROGRAM_CONFIG][GRADES_TEACHER_ALLOW_EDIT]',
+				'values[PROGRAM_CONFIG][grades][GRADES_TEACHER_ALLOW_EDIT]',
 				_( 'Allow Teachers to edit grades after grade posting period' ),
 				'',
 				false,
@@ -406,7 +382,7 @@ else
 
 			echo '<tr><td>'.CheckboxInput(
 				ProgramConfig( 'grades', 'GRADES_DO_STATS_STUDENTS_PARENTS' ),
-				'values[PROGRAM_CONFIG][GRADES_DO_STATS_STUDENTS_PARENTS]',
+				'values[PROGRAM_CONFIG][grades][GRADES_DO_STATS_STUDENTS_PARENTS]',
 				_( 'Enable Anonymous Grade Statistics for Parents and Students' ),
 				'',
 				false,
@@ -416,7 +392,7 @@ else
 
 			echo '<tr><td>'.CheckboxInput(
 				ProgramConfig( 'grades', 'GRADES_DO_STATS_ADMIN_TEACHERS' ),
-				'values[PROGRAM_CONFIG][GRADES_DO_STATS_ADMIN_TEACHERS]',
+				'values[PROGRAM_CONFIG][grades][GRADES_DO_STATS_ADMIN_TEACHERS]',
 				_( 'Enable Anonymous Grade Statistics for Administrators and Teachers' ),
 				'',
 				false,
@@ -435,7 +411,7 @@ else
 
 			echo '<tr><td>' . TextInput(
 				ProgramConfig( 'attendance', 'ATTENDANCE_EDIT_DAYS_BEFORE' ),
-				'values[PROGRAM_CONFIG][ATTENDANCE_EDIT_DAYS_BEFORE]',
+				'values[PROGRAM_CONFIG][attendance][ATTENDANCE_EDIT_DAYS_BEFORE]',
 				_( 'Number of days before the school date teachers can edit attendance' ) .
 					'<div class="tooltip"><i>' .
 						_( 'Leave the field blank to always allow' ) .
@@ -445,7 +421,7 @@ else
 
 			echo '<tr><td>' . TextInput(
 				ProgramConfig( 'attendance', 'ATTENDANCE_EDIT_DAYS_AFTER' ),
-				'values[PROGRAM_CONFIG][ATTENDANCE_EDIT_DAYS_AFTER]',
+				'values[PROGRAM_CONFIG][attendance][ATTENDANCE_EDIT_DAYS_AFTER]',
 				_( 'Number of days after the school date teachers can edit attendance' ) .
 					'<div class="tooltip"><i>' .
 						_( 'Leave the field blank to always allow' ) .
@@ -462,21 +438,21 @@ else
 
 			echo '<tr><td>'.TextInput(
 				ProgramConfig( 'food_service', 'FOOD_SERVICE_BALANCE_WARNING' ),
-				'values[PROGRAM_CONFIG][FOOD_SERVICE_BALANCE_WARNING]',
+				'values[PROGRAM_CONFIG][food_service][FOOD_SERVICE_BALANCE_WARNING]',
 				_( 'Food Service Balance minimum amount for warning' ),
 				'maxlength=10 size=5 required'
 			) . '</td></tr>';
 
 			echo '<tr><td>'.TextInput(
 				ProgramConfig( 'food_service', 'FOOD_SERVICE_BALANCE_MINIMUM' ),
-				'values[PROGRAM_CONFIG][FOOD_SERVICE_BALANCE_MINIMUM]',
+				'values[PROGRAM_CONFIG][food_service][FOOD_SERVICE_BALANCE_MINIMUM]',
 				_( 'Food Service Balance minimum amount' ),
 				'maxlength=10 size=5 required'
 			) . '</td></tr>';
 
 			echo '<tr><td>'.TextInput(
 				ProgramConfig( 'food_service', 'FOOD_SERVICE_BALANCE_TARGET' ),
-				'values[PROGRAM_CONFIG][FOOD_SERVICE_BALANCE_TARGET]',
+				'values[PROGRAM_CONFIG][food_service][FOOD_SERVICE_BALANCE_TARGET]',
 				_( 'Food Service Balance target amount' ),
 				'maxlength=10 size=5 required'
 			) . '</td></tr>';
