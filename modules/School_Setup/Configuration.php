@@ -60,6 +60,8 @@ else
 			&& $_POST['values']
 			&& AllowEdit() )
 		{
+			$updated = $numeric_error = false;
+
 			foreach ( (array) $_REQUEST['values']['CONFIG'] as $column => $value )
 			{
 				$numeric_values = array(
