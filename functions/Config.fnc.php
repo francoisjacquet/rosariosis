@@ -121,6 +121,8 @@ function ProgramConfig( $program, $item = 'all', $value = null )
 			DBQuery( "INSERT INTO PROGRAM_CONFIG (VALUE,PROGRAM,TITLE,SCHOOL_ID,SYEAR)
 				VALUES('" . $value . "','" . $program . "','" . $item . "','" .
 				UserSchool() . "','" . UserSyear() . "'" );
+
+			$_ROSARIO['ProgramConfig'][ (string) $program ][ (string) $item ][1]['TITLE'] = $item;
 		}
 		elseif ( $value !== $_ROSARIO['ProgramConfig'][ (string) $program ][ (string) $item ][1]['VALUE'] )
 		{
@@ -153,7 +155,7 @@ function ProgramConfig( $program, $item = 'all', $value = null )
  * Program User Config
  * To get all config options at once
  * If you want only one option, prefer `Preferences()`
- * Insert or update value if passed as argument.
+ * Insert or update values if passed as argument.
  *
  * @example $gradebook_config = ProgramUserConfig( 'Gradebook' );
  *
@@ -161,15 +163,15 @@ function ProgramConfig( $program, $item = 'all', $value = null )
  * @see PROGRAM_USER_CONFIG table
  *
  * @since 2.9
- * @since 4.4 Add $value param to INSERT or UPDATE.
+ * @since 4.4 Add $values param to INSERT or UPDATE.
  *
  * @param string  $program  Gradebook|WidgetsSearch|StaffWidgetsSearch|
  * @param integer $staff_id Staff ID (optional). Defaults to User( 'STAFF_ID' ).
- * @param string $value     Value to INSERT or UPDATE. Defaults to null.
+ * @param array   $values   Values to INSERT or UPDATE. Defaults to null.
  *
  * @return array Program User Config, associative array( '[title]' => '[value]' ).
  */
-function ProgramUserConfig( $program, $staff_id = 0, $value = null )
+function ProgramUserConfig( $program, $staff_id = 0, $values = null )
 {
 	static $program_config;
 
@@ -195,25 +197,28 @@ function ProgramUserConfig( $program, $staff_id = 0, $value = null )
 		}
 	}
 
-	if ( ! is_null( $value ) )
+	if ( is_array( $values ) )
 	{
-		if ( ! isset( $program_config[ $program ][ $staff_id ][ $title ] ) )
+		foreach ( $values as $title => $value )
 		{
-			// Insert value (does not exist).
-			DBQuery( "INSERT INTO PROGRAM_USER_CONFIG (VALUE,PROGRAM,TITLE,USER_ID)
-				VALUES('" . $value . "','" . $program . "','" . $title . "','" .
-				$staff_id . "'" );
-		}
-		elseif ( $value !== $program_config[ $program ][ $staff_id ][ $title ] )
-		{
-			// Update value (different from current value).
-			DBQuery( "UPDATE PROGRAM_USER_CONFIG
-				SET VALUE='" . $value . "'
-				WHERE TITLE='" . $title . "'
-				AND USER_ID='" . UserSchool() . "'" );
-		}
+			if ( ! isset( $program_config[ $program ][ $staff_id ][ $title ] ) )
+			{
+				// Insert value (does not exist).
+				DBQuery( "INSERT INTO PROGRAM_USER_CONFIG (VALUE,PROGRAM,TITLE,USER_ID)
+					VALUES('" . $value . "','" . $program . "','" . $title . "','" .
+					$staff_id . "'" );
+			}
+			elseif ( $value !== $program_config[ $program ][ $staff_id ][ $title ] )
+			{
+				// Update value (different from current value).
+				DBQuery( "UPDATE PROGRAM_USER_CONFIG
+					SET VALUE='" . $value . "'
+					WHERE TITLE='" . $title . "'
+					AND USER_ID='" . UserSchool() . "'" );
+			}
 
-		$program_config[ $program ][ $staff_id ][ $title ] = $value;
+			$program_config[ $program ][ $staff_id ][ $title ] = $value;
+		}
 	}
 
 	return $program_config[ $program ][ $staff_id ];
