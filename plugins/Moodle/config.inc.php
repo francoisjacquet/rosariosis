@@ -22,38 +22,42 @@ if ( ! empty( $_REQUEST['save'] ) )
 		&& AllowEdit() )
 	{
 		// Update PROGRAM_CONFIG table.
-		if ( ( empty( $_REQUEST['values']['PROGRAM_CONFIG']['MOODLE_PARENT_ROLE_ID'] )
-				|| is_numeric( $_REQUEST['values']['PROGRAM_CONFIG']['MOODLE_PARENT_ROLE_ID'] ) )
-			&& ( empty( $_REQUEST['values']['PROGRAM_CONFIG']['ROSARIO_STUDENTS_EMAIL_FIELD_ID'] )
-				|| ( is_numeric( $_REQUEST['values']['PROGRAM_CONFIG']['ROSARIO_STUDENTS_EMAIL_FIELD_ID'] )
-					|| $_REQUEST['values']['PROGRAM_CONFIG']['ROSARIO_STUDENTS_EMAIL_FIELD_ID'] === 'USERNAME' ) ) )
+		$updated = $numeric_error = false;
+
+		foreach ( (array) $_REQUEST['values']['PROGRAM_CONFIG'] as $program => $columns )
 		{
-			$sql = '';
-
-			if ( isset( $_REQUEST['values']['PROGRAM_CONFIG'] )
-				&& is_array( $_REQUEST['values']['PROGRAM_CONFIG'] ) )
+			foreach ( (array) $columns as $column => $value )
 			{
-				foreach ( (array) $_REQUEST['values']['PROGRAM_CONFIG'] as $column => $value )
+				$numeric_values = array(
+					'MOODLE_PARENT_ROLE_ID',
+					'ROSARIO_STUDENTS_EMAIL_FIELD_ID',
+				);
+
+				if ( in_array( $value, $numeric_values )
+					&& ! is_numeric( $value ) )
 				{
-					$sql .= "UPDATE PROGRAM_CONFIG SET ";
-					$sql .= "VALUE='" . $value . "' WHERE TITLE='" . $column . "'";
-					$sql .= " AND SCHOOL_ID='" . UserSchool() . "'
-						AND SYEAR='" . UserSyear() . "';";
+					if ( $column !== 'ROSARIO_STUDENTS_EMAIL_FIELD_ID'
+						|| $value !== 'USERNAME' )
+					{
+						$numeric_error = true;
+
+						continue;
+					}
 				}
+
+				ProgramConfig( $program, $column, $value );
+
+				$updated = true;
 			}
-
-			if ( $sql !== '' )
-			{
-				DBQuery( $sql );
-
-				$note[] = button( 'check' ) . '&nbsp;' .
-					_( 'The plugin configuration has been modified.' );
-			}
-
-			// Reset ProgramConfig var.
-			unset( $_ROSARIO['ProgramConfig'] );
 		}
-		else
+
+		if ( $updated )
+		{
+			$note[] = button( 'check' ) . '&nbsp;' .
+				_( 'The plugin configuration has been modified.' );
+		}
+
+		if ( $numeric_error )
 		{
 			$error[] = _( 'Please enter valid Numeric data.' );
 		}
@@ -95,7 +99,7 @@ if ( empty( $_REQUEST['save'] ) )
 	// URL.
 	echo '<table><tr><td>' . TextInput(
 		ProgramConfig( 'moodle', 'MOODLE_URL' ),
-		'values[PROGRAM_CONFIG][MOODLE_URL]',
+		'values[PROGRAM_CONFIG][moodle][MOODLE_URL]',
 		_( 'Moodle URL' ),
 		'size=29 placeholder=http://localhost/moodle'
 	) .	'</td></tr>';
@@ -113,7 +117,7 @@ if ( empty( $_REQUEST['save'] ) )
 	// Token.
 	echo '<tr><td>' . TextInput(
 		$token,
-		'values[PROGRAM_CONFIG][MOODLE_TOKEN]',
+		'values[PROGRAM_CONFIG][moodle][MOODLE_TOKEN]',
 		_( 'Moodle Token' ),
 		'maxlength=32 size=29 placeholder=d6c51ea6ffd9857578722831bcb070e1'
 	) . '</td></tr>';
@@ -121,7 +125,7 @@ if ( empty( $_REQUEST['save'] ) )
 	// Parent Role ID.
 	echo '<tr><td>' . TextInput(
 		ProgramConfig( 'moodle', 'MOODLE_PARENT_ROLE_ID' ),
-		'values[PROGRAM_CONFIG][MOODLE_PARENT_ROLE_ID]',
+		'values[PROGRAM_CONFIG][moodle][MOODLE_PARENT_ROLE_ID]',
 		_( 'Moodle Parent Role ID' ),
 		'maxlength=2 size=2 min=0 placeholder=10'
 	) . '</td></tr>';
@@ -141,7 +145,7 @@ if ( empty( $_REQUEST['save'] ) )
 
 	echo '<tr><td>' . SelectInput(
 		ProgramConfig( 'moodle', 'ROSARIO_STUDENTS_EMAIL_FIELD_ID' ),
-		'values[PROGRAM_CONFIG][ROSARIO_STUDENTS_EMAIL_FIELD_ID]',
+		'values[PROGRAM_CONFIG][moodle][ROSARIO_STUDENTS_EMAIL_FIELD_ID]',
 		sprintf( _( 'Student email field' ), Config( 'NAME' ) ),
 		$students_email_field_options,
 		'N/A'
