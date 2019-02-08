@@ -1708,20 +1708,18 @@ function Widgets( $item, &$myextra = null )
 
 				if ( ! $extra['NoSearchTerms'] )
 				{
-					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Food Service Balance' ) . ': </b> ' .
+					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Food Service Balance' ) . ' </b> ' .
 						'<span class="sizep2">' . ( empty( $_REQUEST['fsa_bal_ge'] ) ? '&lt;' : '&ge;' ) . '</span>' .
 						number_format( $_REQUEST['fsa_balance'], 2 ) . '<br />';
 				}
 			}
 
 			$extra['search'] .= '<tr class="st"><td>' . _( 'Balance' ) . '</td><td>
-			<table class="cellspacing-0"><tr><td>
-			<label class="sizep2">&lt; <input type="radio" name="fsa_bal_ge" value="" checked /></label>
-			</td><td rowspan="2">
-			<input type="text" name="fsa_balance" size="9" maxlength="9"' . ( isset( $value ) ? ' value="' . $value . '"' : '' ) . ' />
-			</td></tr><tr><td>
-			<label class="sizep2">&ge; <input type="radio" name="fsa_bal_ge" value="Y" /></label>
-			</td></tr></table>
+			<label class="sizep2">
+				<input type="radio" name="fsa_bal_ge" value="" checked /> &lt;</label>&nbsp;
+			<label  class="sizep2">
+				<input type="radio" name="fsa_bal_ge" value="Y" /> &ge;</label>
+			<input type="text" name="fsa_balance" size="7" maxlength="9"' . ( isset( $value ) ? ' value="' . $value . '"' : '') . ' />
 			</td></tr>';
 
 		break;
