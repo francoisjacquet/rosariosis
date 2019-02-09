@@ -387,6 +387,8 @@ function Search( $type, $extra = null )
 			}
 			elseif ( $type === 'student_fields' )
 			{
+				$i = isset( $i ) ? $i : 0;
+
 				if ( Preferences( 'USERNAME', 'StudentFieldsSearch' ) === 'Y' )
 				{
 					// Add USername to Find a User form.
