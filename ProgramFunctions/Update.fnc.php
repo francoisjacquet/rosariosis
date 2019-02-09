@@ -322,8 +322,9 @@ function _update43beta()
 /**
  * Update to version 4.4
  *
- * 1. GRADEBOOK_ASSIGNMENTS table: Change DESCRIPTION column type to text.
- * 2. GRADEBOOK_ASSIGNMENTS table: Convert DESCRIPTION values from MarkDown to HTML.
+ * 1. GRADEBOOK_ASSIGNMENTS table: Add FILE column.
+ * 2. GRADEBOOK_ASSIGNMENTS table: Change DESCRIPTION column type to text.
+ * 3. GRADEBOOK_ASSIGNMENTS table: Convert DESCRIPTION values from MarkDown to HTML.
  *
  * Local function
  *
@@ -341,6 +342,13 @@ function _update44beta()
 
 	/**
 	 * 1. GRADEBOOK_ASSIGNMENTS table:
+	 * Add FILE column
+	 */
+	DBQuery( "ALTER TABLE gradebook_assignments
+		ADD COLUMN file TYPE character varying(1000);" );
+
+	/**
+	 * 2. GRADEBOOK_ASSIGNMENTS table:
 	 * Change DESCRIPTION column type to text
 	 * Was character varying(1000) which could prevent saving rich text with base64 images
 	 */
@@ -348,7 +356,7 @@ function _update44beta()
 		ALTER COLUMN description TYPE text;" );
 
 	/**
-	 * 2. GRADEBOOK_ASSIGNMENTS table:
+	 * 3. GRADEBOOK_ASSIGNMENTS table:
 	 * Convert DESCRIPTION values from MarkDown to HTML.
 	 */
 	$assignments_RET = DBGet( DBQuery( "SELECT assignment_id,description
@@ -363,19 +371,18 @@ function _update44beta()
 
 	foreach ( (array) $assignments_RET as $assignment )
 	{
-		$description_html = MarkDownToHTML( $assignment[1]['DESCRIPTION'] );
+		$description_html = MarkDownToHTML( $assignment['DESCRIPTION'] );
 
 		$assignments_update_sql .= sprintf(
 			$assignment_update_sql,
 			DBEscapeString( $description_html ),
-			$assignment[1]['ASSIGNMENT_ID']
+			$assignment['ASSIGNMENT_ID']
 		);
 	}
 
 	if ( $assignments_update_sql )
 	{
-		var_dump($assignments_update_sql);exit;
-		DBQuery( $assignment_update_sql );
+		DBQuery( $assignments_update_sql );
 	}
 
 	return $return;

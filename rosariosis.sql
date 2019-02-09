@@ -1743,6 +1743,7 @@ CREATE TABLE gradebook_assignments (
     due_date date,
     points numeric NOT NULL,
     description text,
+    file character varying(1000),
     default_points numeric,
     submission character varying(1)
 );
