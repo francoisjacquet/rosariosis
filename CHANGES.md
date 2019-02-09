@@ -22,6 +22,7 @@ Changes in 4.4-beta
 - GRADEBOOK_ASSIGNMENTS table: Convert DESCRIPTION values from MarkDown to HTML.
 - Change Description field for TinyMCE input in Assignments.php
 - Add UploadAssignmentTeacherFile function & Adapt function for Teachers in StudentAssignments.fnc.php
+- Add File Attached upload & download in Assignments.php
 
 Changes in 4.3.2
 ----------------
