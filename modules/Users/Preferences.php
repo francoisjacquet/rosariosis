@@ -10,10 +10,6 @@ if ( ! empty( $_REQUEST['values'] )
 	{
 		$current_password = str_replace("''","'",$_REQUEST['values']['current']);
 		$new_password = str_replace("''","'",$_REQUEST['values']['new']);
-		$verify_password = str_replace("''","'",$_REQUEST['values']['verify']);
-
-		if ( $new_password != $verify_password )
-			$error[] = _( 'Your new passwords did not match.' );
 
 		//hook
 		do_action( 'Users/Preferences.php|update_password_checks' );
@@ -48,13 +44,6 @@ if ( ! empty( $_REQUEST['values'] )
 	}
 	else
 	{
-		$current_RET = DBGet( DBQuery( "SELECT TITLE,VALUE,PROGRAM
-			FROM PROGRAM_USER_CONFIG
-			WHERE USER_ID='" . User( 'STAFF_ID' ) . "'
-			AND PROGRAM IN ('Preferences','StudentFieldsSearch','StudentFieldsView',
-				'WidgetsSearch','StaffFieldsSearch','StaffFieldsView','StaffWidgetsSearch')" ),
-			array(), array( 'PROGRAM','TITLE' ) );
-
 		if ( $_REQUEST['tab']=='student_listing' && $_REQUEST['values']['Preferences']['SEARCH']!='Y')
 			$_REQUEST['values']['Preferences']['SEARCH'] = 'N';
 
@@ -70,34 +59,9 @@ if ( ! empty( $_REQUEST['values'] )
 		if ( $_REQUEST['tab']=='display_options' && $_REQUEST['values']['Preferences']['SCROLL_TOP']!='Y')
 			$_REQUEST['values']['Preferences']['SCROLL_TOP'] = 'N';
 
-		if ( $_REQUEST['tab']=='student_fields' || $_REQUEST['tab']=='widgets' || $_REQUEST['tab']=='staff_fields' || $_REQUEST['tab']=='staff_widgets')
+		foreach ( (array) $_REQUEST['values'] as $program => $values)
 		{
-			DBQuery("DELETE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".User('STAFF_ID')."' AND PROGRAM".($_REQUEST['tab']=='student_fields'?" IN ('StudentFieldsSearch','StudentFieldsView')":($_REQUEST['tab']=='widgets'?"='WidgetsSearch'":($_REQUEST['tab']=='staff_fields'?" IN ('StaffFieldsSearch','StaffFieldsView')":"='StaffWidgetsSearch'"))));
-
-			foreach ( (array) $_REQUEST['values'] as $program => $values)
-			{
-				if (is_array($values))
-					foreach ( (array) $values as $name => $value)
-					{
-						if (isset($value))
-							DBQuery("INSERT INTO PROGRAM_USER_CONFIG (USER_ID,PROGRAM,TITLE,VALUE) values('".User('STAFF_ID')."','".$program."','".$name."','".$value."')");
-					}
-			}
-		}
-		else
-		{
-			foreach ( (array) $_REQUEST['values'] as $program => $values)
-			{
-				foreach ( (array) $values as $name => $value)
-				{
-					if ( ! $current_RET[ $program ][ $name ] && $value!='')
-						DBQuery("INSERT INTO PROGRAM_USER_CONFIG (USER_ID,PROGRAM,TITLE,VALUE) values('".User('STAFF_ID')."','".$program."','".$name."','".$value."')");
-					elseif ( $value!='')
-						DBQuery("UPDATE PROGRAM_USER_CONFIG SET VALUE='".$value."' WHERE USER_ID='".User('STAFF_ID')."' AND PROGRAM='".$program."' AND TITLE='".$name."'");
-					else
-						DBQuery("DELETE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".User('STAFF_ID')."' AND PROGRAM='".$program."' AND TITLE='".$name."'");
-				}
-			}
+			ProgramUserConfig( $program, 0, $values );
 		}
 
 		$note[] = button( 'check' ) . '&nbsp;' . _( 'Your preferences were saved.' );
@@ -495,30 +459,13 @@ if ( ! $_REQUEST['modfunc'] )
 		//FJ password fields are required
 		echo '<table class="cellpadding-5"><tr><td>';
 
-		$id = GetInputID( 'values[current]' );
-
 		// Current Password
-		echo '<input type="password" name="values[current]" id="' . $id . '" required />' .
-			FormatInputTitle( _( 'Current Password' ), $id );
+		echo PasswordInput( '', 'values[current]', _( 'Current Password' ), 'required strength' );
 
 		echo '</td></tr><tr><td>';
 
-		$id = GetInputID( 'values[new]' );
-
-		// New Password
-		echo '<input type="password" name="values[new]" id="' . $id . '" required />' .
-			FormatInputTitle(
-				_( 'New Password' ),
-				$id
-			);
-
-		echo '</td></tr><tr><td>';
-
-		$id = GetInputID( 'values[verify]' );
-
-		// Verify New Password
-		echo '<input type="password" name="values[verify]" id="' . $id . '" required />' .
-			FormatInputTitle( _( 'Verify New Password' ), $id );
+		// New Password.
+		echo PasswordInput( '', 'values[new]', _( 'New Password' ), 'required strength' );
 
 		echo '</td></tr></table>';
 	}

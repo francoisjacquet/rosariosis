@@ -16,7 +16,7 @@ Changes in 4.4-beta
 - Add $value param to INSERT or UPDATE for Config, ProgramConfig & ProgramUserConfig functions in Config.fnc.php
 - Use Config() for UPDATE in FirstLogin.fnc.php, Update.fnc.php
 - Use ProgramConfig() for UPDATE in Configuration.php, EntryTimes.php, Moodle/config.inc.php
-- Use ProgramUserConfig() for UPDATE in Grades/Configuration.php
+- Use ProgramUserConfig() for UPDATE in Grades/Configuration.php, Preferences.php
 
 Changes in 4.3.2
 ----------------
