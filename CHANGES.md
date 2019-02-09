@@ -25,6 +25,7 @@ Changes in 4.4-beta
 - Add File Attached upload & download in Assignments.php
 - Add PasswordInput() function in Inputs.php
 - Add PasswordStrength jQuery plugin in jquery-passwordstrength.js & plugins.min.js
+- JS Add zxcvbn (password strength estimator) in zxcvbn.js
 
 Changes in 4.3.2
 ----------------
