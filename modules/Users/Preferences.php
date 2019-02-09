@@ -497,7 +497,7 @@ if ( ! $_REQUEST['modfunc'] )
 		echo '<table class="cellpadding-5"><tr><td>';
 
 		// Current Password
-		echo PasswordInput( '', 'values[current]', _( 'Current Password' ), 'required strength' );
+		echo PasswordInput( '', 'values[current]', _( 'Current Password' ), 'required' );
 
 		echo '</td></tr><tr><td>';
 
