@@ -313,3 +313,33 @@ function _update43beta()
 
 	return $return;
 }
+
+
+/**
+ * Update to version 4.4
+ *
+ * 1. GRADEBOOK_ASSIGNMENTS table: Change DESCRIPTION column type to text.
+ * 2. GRADEBOOK_ASSIGNMENTS table: Convert DESCRIPTION values to HTML.
+ *
+ * Local function
+ *
+ * @since 4.4
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update44beta()
+{
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. GRADEBOOK_ASSIGNMENTS table:
+	 * Change DESCRIPTION column type to text
+	 * Was character varying(1000) which could prevent saving rich text with base64 images
+	 */
+	DBQuery( "ALTER TABLE gradebook_assignments
+		ALTER COLUMN description TYPE text;" );
+
+	return $return;
+}
