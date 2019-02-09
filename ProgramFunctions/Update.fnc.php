@@ -344,8 +344,15 @@ function _update44beta()
 	 * 1. GRADEBOOK_ASSIGNMENTS table:
 	 * Add FILE column
 	 */
-	DBQuery( "ALTER TABLE gradebook_assignments
-		ADD COLUMN file TYPE character varying(1000);" );
+	$file_column_exists = DBGet( DBQuery( "SELECT 1 FROM pg_attribute
+		WHERE attrelid = (SELECT oid FROM pg_class WHERE relname = 'gradebook_assignments')
+		AND attname = 'file';" ) );
+
+	if ( ! $file_column_exists )
+	{
+		DBQuery( "ALTER TABLE ONLY gradebook_assignments
+			ADD COLUMN file character varying(1000);" );
+	}
 
 	/**
 	 * 2. GRADEBOOK_ASSIGNMENTS table:
