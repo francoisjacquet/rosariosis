@@ -296,6 +296,7 @@ function StudentAssignmentSubmissionOutput( $assignment_id )
  * @example $assignment = GetAssignment( $assignment_id );
  *
  * @since 2.9
+ * @since 4.4 Adapt function for Teachers (no Student).
  *
  * @param  string        $assignment_id Assignment ID.
  * @return boolean|array Assignment details array or false.
@@ -314,23 +315,33 @@ function GetAssignment( $assignment_id )
 
 	// Check Assignment ID is int > 0.
 
-	if ( ! $assignment_id
-		|| (string) (int) $assignment_id !== $assignment_id
-		|| $assignment_id < 1 )
+	if ( $assignment_id < 1 )
 	{
 		return false;
 	}
 
+	$where_user = "1";
+
+
+	if ( User( 'PROFILE' ) === 'teacher' )
+	{
+		$where_user = "s.STAFF_ID='" . User( 'STAFF_ID' ) . "'";
+	}
+	elseif ( UserStudentID() )
+	{
+		$where_user = "ss.STUDENT_ID='" . UserStudentID() . "'
+			AND ss.SYEAR='" . UserSyear() . "'
+			AND ss.SCHOOL_ID='" . UserSchool() . "'
+			AND ss.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . ")";
+	}
+
 	$assignment_sql = "SELECT ga.ASSIGNMENT_ID, ga.STAFF_ID, ga.COURSE_PERIOD_ID, ga.COURSE_ID,
 		ga.TITLE, ga.ASSIGNED_DATE, ga.DUE_DATE, ga.POINTS,
-		ga.DESCRIPTION, ga.SUBMISSION, c.TITLE AS COURSE_TITLE,
+		ga.DESCRIPTION, ga.FILE, ga.SUBMISSION, c.TITLE AS COURSE_TITLE,
 		gat.TITLE AS ASSIGNMENT_TYPE_TITLE, gat.COLOR AS ASSIGNMENT_TYPE_COLOR
-		FROM GRADEBOOK_ASSIGNMENTS ga, SCHEDULE ss, COURSES c, GRADEBOOK_ASSIGNMENT_TYPES gat
-		WHERE ss.STUDENT_ID='" . UserStudentID() . "'
-		AND ss.SYEAR='" . UserSyear() . "'
-		AND ss.SCHOOL_ID='" . UserSchool() . "'
-		AND ss.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . ")
-		AND ga.ASSIGNMENT_ID='" . $assignment_id . "'
+		FROM GRADEBOOK_ASSIGNMENTS ga, SCHEDULE ss, STAFF s, COURSES c, GRADEBOOK_ASSIGNMENT_TYPES gat
+		WHERE " . $where_user .
+		" AND ga.ASSIGNMENT_ID='" . $assignment_id . "'
 		AND (ga.COURSE_PERIOD_ID IS NULL OR ss.COURSE_PERIOD_ID=ga.COURSE_PERIOD_ID)
 		AND (ga.COURSE_ID IS NULL OR ss.COURSE_ID=ga.COURSE_ID)
 		AND (ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE)
@@ -398,6 +409,57 @@ function GetAssignmentsFilesPath( $teacher_id )
 
 	return $AssignmentsFilesPath . UserSyear() . '/Quarter' . UserMP() . '/Teacher' . $teacher_id . '/';
 }
+
+
+/**
+ * Upload Assignment Teacher File
+ * Delete any existing file.
+ *
+ * @since 4.4
+ *
+ * @param int    $teacher_id    Teacher staff ID.
+ * @param int    $assignment_id Assignment ID.
+ * @param string $file_input_id File input ID.
+ *
+ * @return string File full path.
+ */
+function UploadAssignmentTeacherFile( $assignment_id, $teacher_id, $file_input_id )
+{
+	global $error;
+
+	$assignment = GetAssignment( $assignment_id );
+
+	if ( ! $assignment )
+	{
+		return '';
+	}
+
+	// Filename = [course_title]_[assignment_ID].ext.
+	$file_name_no_ext = no_accents( $assignment['COURSE_TITLE'] . '_' . $assignment_id );
+
+	if ( ! empty( $assignment['FILE'] )
+		&& file_exists( $assignment['FILE'] ) )
+	{
+		// Delete existing Assignment File.
+		unlink( $assignment['FILE'] );
+	}
+
+	$assignments_path = GetAssignmentsFilesPath( User( 'STAFF_ID' ) );
+
+	// Upload file to AssignmentsFiles/[School_Year]/Teacher[teacher_ID]/Quarter[1,2,3,4...]/.
+	$file = FileUpload(
+		$file_input_id,
+		$assignments_path,
+		FileExtensionWhiteList(),
+		0,
+		$error,
+		'',
+		$file_name_no_ext
+	);
+
+	return $file;
+}
+
 
 function StudentAssignmentsListOutput()
 {

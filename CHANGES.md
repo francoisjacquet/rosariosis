@@ -21,6 +21,7 @@ Changes in 4.4-beta
 - GRADEBOOK_ASSIGNMENTS table: Change DESCRIPTION column type to text in rosariosis.sql & Update.fnc.php
 - GRADEBOOK_ASSIGNMENTS table: Convert DESCRIPTION values from MarkDown to HTML.
 - Change Description field for TinyMCE input in Assignments.php
+- Add UploadAssignmentTeacherFile function & Adapt function for Teachers in StudentAssignments.fnc.php
 
 Changes in 4.3.2
 ----------------
