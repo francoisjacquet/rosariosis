@@ -1,15 +1,15 @@
 <?php
 require_once 'ProgramFunctions/Theme.fnc.php';
 
-DrawHeader(ProgramTitle());
+DrawHeader( ProgramTitle() );
 
 if ( ! empty( $_REQUEST['values'] )
 	&& ! empty( $_POST['values'] ) )
 {
-	if ( $_REQUEST['tab']=='password')
+	if ( $_REQUEST['tab'] == 'password' )
 	{
-		$current_password = str_replace("''","'",$_REQUEST['values']['current']);
-		$new_password = str_replace("''","'",$_REQUEST['values']['new']);
+		$current_password = str_replace( "''", "'", $_REQUEST['values']['current'] );
+		$new_password = str_replace( "''", "'", $_REQUEST['values']['new'] );
 
 		//hook
 		do_action( 'Users/Preferences.php|update_password_checks' );
@@ -17,23 +17,43 @@ if ( ! empty( $_REQUEST['values'] )
 		if ( ! $error )
 		{
 			//FJ enable password change for students
-			if (User('PROFILE')=='student')
-				$password_RET = DBGet(DBQuery("SELECT PASSWORD FROM STUDENTS WHERE STUDENT_ID='".UserStudentID()."'"));
+
+			if ( User( 'PROFILE' ) == 'student' )
+			{
+				$password_RET = DBGet( DBQuery( "SELECT PASSWORD
+					FROM STUDENTS
+					WHERE STUDENT_ID='" . UserStudentID() . "'" ) );
+			}
 			else
-				$password_RET = DBGet(DBQuery("SELECT PASSWORD FROM STAFF WHERE STAFF_ID='".User('STAFF_ID')."' AND SYEAR='".UserSyear()."'"));
+			{
+				$password_RET = DBGet( DBQuery( "SELECT PASSWORD
+					FROM STAFF
+					WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
+					AND SYEAR='" . UserSyear() . "'" ) );
+			}
 
 			//FJ add password encryption
 			//if (mb_strtolower($password_RET[1]['PASSWORD'])!=mb_strtolower($current_password))
-			if ( !match_password($password_RET[1]['PASSWORD'],$current_password))
+
+			if ( ! match_password( $password_RET[1]['PASSWORD'], $current_password ) )
+			{
 				$error[] = _( 'Your current password was incorrect.' );
+			}
 			else
 			{
-
-//				DBQuery("UPDATE STAFF SET PASSWORD='".$new_password."' WHERE STAFF_ID='".User('STAFF_ID')."' AND SYEAR='".UserSyear()."'");
-				if (User('PROFILE')=='student')
-					DBQuery("UPDATE STUDENTS SET PASSWORD='".encrypt_password($new_password)."' WHERE STUDENT_ID='".UserStudentID()."'");
+				if ( User( 'PROFILE' ) == 'student' )
+				{
+					DBQuery( "UPDATE STUDENTS
+						SET PASSWORD='" . encrypt_password( $new_password ) . "'
+						WHERE STUDENT_ID='" . UserStudentID() . "'" );
+				}
 				else
-					DBQuery("UPDATE STAFF SET PASSWORD='".encrypt_password($new_password)."' WHERE STAFF_ID='".User('STAFF_ID')."' AND SYEAR='".UserSyear()."'");
+				{
+					DBQuery( "UPDATE STAFF
+						SET PASSWORD='" . encrypt_password( $new_password ) . "'
+						WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
+						AND SYEAR='" . UserSyear() . "'" );
+				}
 
 				$note[] = _( 'Your new password was saved.' );
 
@@ -44,22 +64,32 @@ if ( ! empty( $_REQUEST['values'] )
 	}
 	else
 	{
-		if ( $_REQUEST['tab']=='student_listing' && $_REQUEST['values']['Preferences']['SEARCH']!='Y')
+		if ( $_REQUEST['tab'] == 'student_listing' && $_REQUEST['values']['Preferences']['SEARCH'] != 'Y' )
+		{
 			$_REQUEST['values']['Preferences']['SEARCH'] = 'N';
+		}
 
-		if ( $_REQUEST['tab']=='student_listing' && User('PROFILE')=='admin' && $_REQUEST['values']['Preferences']['DEFAULT_FAMILIES']!='Y')
+		if ( $_REQUEST['tab'] == 'student_listing' && User( 'PROFILE' ) == 'admin' && $_REQUEST['values']['Preferences']['DEFAULT_FAMILIES'] != 'Y' )
+		{
 			$_REQUEST['values']['Preferences']['DEFAULT_FAMILIES'] = 'N';
+		}
 
-		if ( $_REQUEST['tab']=='student_listing' && User('PROFILE')=='admin' && $_REQUEST['values']['Preferences']['DEFAULT_ALL_SCHOOLS']!='Y')
+		if ( $_REQUEST['tab'] == 'student_listing' && User( 'PROFILE' ) == 'admin' && $_REQUEST['values']['Preferences']['DEFAULT_ALL_SCHOOLS'] != 'Y' )
+		{
 			$_REQUEST['values']['Preferences']['DEFAULT_ALL_SCHOOLS'] = 'N';
+		}
 
-		if ( $_REQUEST['tab']=='display_options' && $_REQUEST['values']['Preferences']['HIDE_ALERTS']!='Y')
+		if ( $_REQUEST['tab'] == 'display_options' && $_REQUEST['values']['Preferences']['HIDE_ALERTS'] != 'Y' )
+		{
 			$_REQUEST['values']['Preferences']['HIDE_ALERTS'] = 'N';
+		}
 
-		if ( $_REQUEST['tab']=='display_options' && $_REQUEST['values']['Preferences']['SCROLL_TOP']!='Y')
+		if ( $_REQUEST['tab'] == 'display_options' && $_REQUEST['values']['Preferences']['SCROLL_TOP'] != 'Y' )
+		{
 			$_REQUEST['values']['Preferences']['SCROLL_TOP'] = 'N';
+		}
 
-		foreach ( (array) $_REQUEST['values'] as $program => $values)
+		foreach ( (array) $_REQUEST['values'] as $program => $values )
 		{
 			ProgramUserConfig( $program, 0, $values );
 		}
@@ -84,7 +114,7 @@ RedirectURL( 'search_modfunc' );
 
 echo ErrorMessage( $error );
 
-echo ErrorMessage( $note,'note' );
+echo ErrorMessage( $note, 'note' );
 
 if ( ! $_REQUEST['modfunc'] )
 {
@@ -93,14 +123,16 @@ if ( ! $_REQUEST['modfunc'] )
 		WHERE USER_ID='" . User( 'STAFF_ID' ) . "'
 		AND PROGRAM IN ('Preferences','StudentFieldsSearch','StudentFieldsView',
 			'WidgetsSearch','StaffFieldsSearch','StaffFieldsView','StaffWidgetsSearch')" ),
-		array(), array( 'PROGRAM','TITLE' ) );
+		array(), array( 'PROGRAM', 'TITLE' ) );
 
 	if ( empty( $_REQUEST['tab'] ) )
 	//FJ enable password change for students
-		//$_REQUEST['tab'] = 'display_options';
+	//$_REQUEST['tab'] = 'display_options';
+	{
 		$_REQUEST['tab'] = 'password';
+	}
 
-	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&amp;tab='.$_REQUEST['tab'].'" method="POST">';
+	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&amp;tab=' . $_REQUEST['tab'] . '" method="POST">';
 	DrawHeader( '', Buttons( _( 'Save' ) ) );
 	echo '<br />';
 
@@ -120,7 +152,7 @@ if ( ! $_REQUEST['modfunc'] )
 			),
 			array(
 				'title' => _( 'Student Listing' ),
-				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&amp;tab=student_listing'
+				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&amp;tab=student_listing',
 			),
 			array(
 				'title' => _( 'Password' ),
@@ -145,7 +177,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 			$tabs[] = array(
 				'title' => _( 'User Widgets' ),
-				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] .'&amp;tab=staff_widgets',
+				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&amp;tab=staff_widgets',
 			);
 		}
 	}
@@ -172,6 +204,7 @@ if ( ! $_REQUEST['modfunc'] )
 			),
 		);
 	}
+
 	// FJ enable password change for students.
 	else
 	{
@@ -203,6 +236,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$extra = '';
 
 	// Student Listing tab
+
 	if ( $_REQUEST['tab'] === 'student_listing' )
 	{
 		echo '<table class="cellpadding-5"><tr><td>';
@@ -228,7 +262,7 @@ if ( ! $_REQUEST['modfunc'] )
 			array(
 				'Tab' => _( 'Tab-Delimited (Excel)' ),
 				'CSV' => 'CSV (OpenOffice / LibreOffice) (UTF-8)', // Do not Translate
-				'XML' => 'XML' // Do not Translate
+				'XML' => 'XML', // Do not Translate
 			),
 			$allow_na,
 			$extra,
@@ -279,6 +313,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 			// FJ if only one school, no Search All Schools option.
 			// Restrict Search All Schools to user schools.
+
 			if ( SchoolInfo( 'SCHOOLS_NB' ) > 1
 				&& ( ! trim( User( 'SCHOOLS' ), ',' )
 					|| mb_substr_count( User( 'SCHOOLS' ), ',' ) > 2 ) )
@@ -298,6 +333,7 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 
 	// Display Options tab.
+
 	if ( $_REQUEST['tab'] === 'display_options' )
 	{
 		echo '<table class="cellpadding-5"><tr><td>';
@@ -310,7 +346,7 @@ if ( ! $_REQUEST['modfunc'] )
 		{
 			$theme_name = str_replace( 'assets/themes/', '', $theme );
 
-			$theme_options[ $theme_name ] = $theme_name;
+			$theme_options[$theme_name] = $theme_name;
 		}
 
 		$theme_value = Preferences( 'THEME' );
@@ -359,7 +395,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		foreach ( (array) $month_keys as $month_key )
 		{
-			$month_options[ $month_key ] = mb_convert_case(
+			$month_options[$month_key] = mb_convert_case(
 				iconv( '', 'UTF-8', strftime( $month_key ) ),
 				MB_CASE_TITLE,
 				"UTF-8"
@@ -425,6 +461,7 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 
 	// Pint Options tab
+
 	if ( $_REQUEST['tab'] === 'print_options' )
 	{
 		echo '<table class="cellpadding-5"><tr><td>';
@@ -471,6 +508,7 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 
 	// Student Fields tab.
+
 	if ( $_REQUEST['tab'] === 'student_fields' )
 	{
 		$custom_fields_sql = "SELECT sfc.TITLE AS CATEGORY,cf.ID,cf.TITLE,cf.TYPE,
@@ -479,10 +517,10 @@ if ( ! $_REQUEST['modfunc'] )
 			WHERE sfc.ID=cf.CATEGORY_ID
 			AND (SELECT CAN_USE
 				FROM " .
-				( User( 'PROFILE_ID' ) ?
-					"PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
-					"STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'" ) .
-				" AND MODNAME='Students/Student.php&category_id='||cf.CATEGORY_ID)='Y'
+			( User( 'PROFILE_ID' ) ?
+			"PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
+			"STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'" ) .
+			" AND MODNAME='Students/Student.php&category_id='||cf.CATEGORY_ID)='Y'
 			ORDER BY sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER,cf.TITLE";
 
 		$custom_fields_RET = DBGet(
@@ -507,10 +545,10 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$general_info_category_title = $general_info_category_title_RET[1]['TITLE'];
 
-		if ( ! isset( $custom_fields_RET[ $general_info_category_title ] ) )
+		if ( ! isset( $custom_fields_RET[$general_info_category_title] ) )
 		{
 			// Empty General Info category.
-			$custom_fields_RET[ $general_info_category_title ] = array();
+			$custom_fields_RET[$general_info_category_title] = array();
 		}
 
 		$THIS_RET['ID'] = 'USERNAME';
@@ -523,22 +561,22 @@ if ( ! $_REQUEST['modfunc'] )
 		);
 
 		// Add Username to General Info fields.
-		$custom_fields_RET[ $general_info_category_title ] = array_merge(
+		$custom_fields_RET[$general_info_category_title] = array_merge(
 			array( $username_field ),
-			$custom_fields_RET[ $general_info_category_title ]
+			$custom_fields_RET[$general_info_category_title]
 		);
 
 		$THIS_RET['ID'] = 'CONTACT_INFO';
 		$custom_fields_RET[-1][1] = array(
-			'CATEGORY' => '<b>' . _( 'Contact Information') . '</b>',
+			'CATEGORY' => '<b>' . _( 'Contact Information' ) . '</b>',
 			'ID' => 'CONTACT_INFO',
-			'TITLE' => button( 'down_phone', '', '', 'bigger' )  . ' ' . _( 'Contact Information' ),
+			'TITLE' => button( 'down_phone', '', '', 'bigger' ) . ' ' . _( 'Contact Information' ),
 			'DISPLAY' => _make( '', 'DISPLAY' ),
 		);
 
 		$THIS_RET['ID'] = 'HOME_PHONE';
 		$custom_fields_RET[-1][] = array(
-			'CATEGORY' => '<b>' . _( 'Contact Information') . '</b>',
+			'CATEGORY' => '<b>' . _( 'Contact Information' ) . '</b>',
 			'ID' => 'HOME_PHONE',
 			'TITLE' => _( 'Home Phone Number' ),
 			'DISPLAY' => _make( '', 'DISPLAY' ),
@@ -554,7 +592,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$THIS_RET['ID'] = 'ALL_CONTACTS';
 		$custom_fields_RET[-1][] = array(
-			'CATEGORY' => '<b>' . _( 'Contact Information') . '</b>',
+			'CATEGORY' => '<b>' . _( 'Contact Information' ) . '</b>',
 			'ID' => 'ALL_CONTACTS',
 			'TITLE' => _( 'All Contacts' ),
 			'DISPLAY' => _make( '', 'DISPLAY' ),
@@ -570,17 +608,18 @@ if ( ! $_REQUEST['modfunc'] )
 		$custom_fields_RET[0][] = array(
 			'CATEGORY' => '<b>' . _( 'Addresses' ) . '</b>',
 			'ID' => 'ADDRESS',
-			'TITLE'=> button( 'house', '', '', 'bigger' )  . ' ' . _( 'Residence' ),
+			'TITLE' => button( 'house', '', '', 'bigger' ) . ' ' . _( 'Residence' ),
 			'DISPLAY' => _makeAddress( 'RESIDENCE' ),
 		);
 
 		//FJ disable mailing address display
+
 		if ( Config( 'STUDENTS_USE_MAILING' ) )
 		{
 			$custom_fields_RET[0][] = array(
 				'CATEGORY' => '<b>' . _( 'Addresses' ) . '</b>',
 				'ID' => 'ADDRESS',
-				'TITLE'=> button( 'mailbox', '', '', 'bigger' )  . ' ' . _( 'Mailing' ),
+				'TITLE' => button( 'mailbox', '', '', 'bigger' ) . ' ' . _( 'Mailing' ),
 				'DISPLAY' => _makeAddress( 'MAILING' ),
 			);
 		}
@@ -588,14 +627,14 @@ if ( ! $_REQUEST['modfunc'] )
 		$custom_fields_RET[0][] = array(
 			'CATEGORY' => '<b>' . _( 'Addresses' ) . '</b>',
 			'ID' => 'ADDRESS',
-			'TITLE'=> button( 'bus', '', '', 'bigger')  . ' ' . _( 'Bus Pickup' ),
+			'TITLE' => button( 'bus', '', '', 'bigger' ) . ' ' . _( 'Bus Pickup' ),
 			'DISPLAY' => _makeAddress( 'BUS_PICKUP' ),
 		);
 
 		$custom_fields_RET[0][] = array(
 			'CATEGORY' => '<b>' . _( 'Addresses' ) . '</b>',
 			'ID' => 'ADDRESS',
-			'TITLE'=> button( 'bus', '', '', 'bigger' )  . ' ' . _( 'Bus Dropoff' ),
+			'TITLE' => button( 'bus', '', '', 'bigger' ) . ' ' . _( 'Bus Dropoff' ),
 			'DISPLAY' => _makeAddress( 'BUS_DROPOFF' ),
 		);
 
@@ -630,50 +669,72 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 
 	// Widgets tab.
+
 	if ( $_REQUEST['tab'] === 'widgets' )
 	{
 		$widgets = array();
 
 		if ( $RosarioModules['Students'] )
-			$widgets += array('calendar' => _( 'Calendar' ),'next_year' => _( 'Next School Year' ) );
+		{
+			$widgets += array( 'calendar' => _( 'Calendar' ), 'next_year' => _( 'Next School Year' ) );
+		}
 
-		if ( $RosarioModules['Scheduling'] && User('PROFILE')=='admin')
-			$widgets = array('course' => _( 'Course' ),'request' => _( 'Request' ) );
+		if ( $RosarioModules['Scheduling'] && User( 'PROFILE' ) == 'admin' )
+		{
+			$widgets = array( 'course' => _( 'Course' ), 'request' => _( 'Request' ) );
+		}
 
 		if ( $RosarioModules['Attendance'] )
-			$widgets += array('absences' => _( 'Days Absent' ) );
+		{
+			$widgets += array( 'absences' => _( 'Days Absent' ) );
+		}
 
 		if ( $RosarioModules['Grades'] )
-			$widgets += array('gpa' => _( 'GPA' ),'class_rank' => _( 'Class Rank' ),'letter_grade' => _( 'Grade' ) );
+		{
+			$widgets += array( 'gpa' => _( 'GPA' ), 'class_rank' => _( 'Class Rank' ), 'letter_grade' => _( 'Grade' ) );
+		}
 
 		if ( $RosarioModules['Eligibility'] )
-			$widgets += array('eligibility' => _( 'Eligibility' ),'activity' => _( 'Activity' ) );
+		{
+			$widgets += array( 'eligibility' => _( 'Eligibility' ), 'activity' => _( 'Activity' ) );
+		}
 
 		if ( $RosarioModules['Food_Service'] )
-			$widgets += array('fsa_balance' => _( 'Food Service Balance' ),'fsa_discount' => _( 'Food Service Discount' ),'fsa_status' => _( 'Food Service Status' ),'fsa_barcode' => _( 'Food Service Barcode' ) );
+		{
+			$widgets += array(
+				'fsa_balance' => _( 'Food Service Balance' ),
+				'fsa_discount' => _( 'Food Service Discount' ),
+				'fsa_status' => _( 'Food Service Status' ),
+				'fsa_barcode' => _( 'Food Service Barcode' ),
+			);
+		}
 
 		if ( $RosarioModules['Discipline'] )
-			$widgets += array('discipline' => _( 'Discipline' ) );
+		{
+			$widgets += array( 'discipline' => _( 'Discipline' ) );
+		}
 
 		if ( $RosarioModules['Student_Billing'] )
-			$widgets += array('balance' => _( 'Student Billing Balance' ) );
+		{
+			$widgets += array( 'balance' => _( 'Student Billing Balance' ) );
+		}
 
 		$widgets_RET[0] = array();
 
 		foreach ( (array) $widgets as $widget => $title )
 		{
 			$THIS_RET['ID'] = $widget;
-			$widgets_RET[] = array('ID' => $widget,'TITLE' => $title,'WIDGET' => _make( '', 'WIDGET' ) );
+			$widgets_RET[] = array( 'ID' => $widget, 'TITLE' => $title, 'WIDGET' => _make( '', 'WIDGET' ) );
 		}
 
-		unset($widgets_RET[0]);
+		unset( $widgets_RET[0] );
 
 		echo '<input type="hidden" name="values[WidgetsSearch]" />';
 
-		$columns = array('TITLE' => _( 'Widget' ),'WIDGET' => _( 'Search' ) );
+		$columns = array( 'TITLE' => _( 'Widget' ), 'WIDGET' => _( 'Search' ) );
 
 		//FJ no responsive table
-		$LO_options = array('responsive' => false);
+		$LO_options = array( 'responsive' => false );
 
 		ListOutput(
 			$widgets_RET,
@@ -687,6 +748,7 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 
 	// Staff Fields tab.
+
 	if ( $_REQUEST['tab'] === 'staff_fields'
 		&& User( 'PROFILE' ) === 'admin' )
 	{
@@ -696,10 +758,10 @@ if ( ! $_REQUEST['modfunc'] )
 			WHERE sfc.ID=cf.CATEGORY_ID
 			AND (SELECT CAN_USE
 				FROM " .
-				( User( 'PROFILE_ID' ) ?
-					"PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
-					"STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'" ) .
-				" AND MODNAME='Users/User.php&category_id='||cf.CATEGORY_ID)='Y'
+			( User( 'PROFILE_ID' ) ?
+			"PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
+			"STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'" ) .
+			" AND MODNAME='Users/User.php&category_id='||cf.CATEGORY_ID)='Y'
 			ORDER BY sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER,cf.TITLE";
 
 		$custom_fields_RET = DBGet(
@@ -724,20 +786,20 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$general_info_category_title = $general_info_category_title_RET[1]['TITLE'];
 
-		if ( isset( $custom_fields_RET[ $general_info_category_title ] ) )
+		if ( isset( $custom_fields_RET[$general_info_category_title] ) )
 		{
-			$i = count( $custom_fields_RET[ $general_info_category_title ] );
+			$i = count( $custom_fields_RET[$general_info_category_title] );
 		}
 		else
 		{
 			$i = 1;
 
 			// Empty General Info category.
-			$custom_fields_RET[ $general_info_category_title ] = array();
+			$custom_fields_RET[$general_info_category_title] = array();
 		}
 
 		$THIS_RET['ID'] = 'EMAIL';
-		$custom_fields_RET[1][ $i++ ] = array(
+		$custom_fields_RET[1][$i++] = array(
 			'CATEGORY' => '<b>' . ParseMLField( $general_info_category_title ) . '</b>',
 			'ID' => 'EMAIL',
 			'TITLE' => _( 'Email Address' ),
@@ -746,7 +808,7 @@ if ( ! $_REQUEST['modfunc'] )
 		);
 
 		$THIS_RET['ID'] = 'PHONE';
-		$custom_fields_RET[1][ $i++ ] = array(
+		$custom_fields_RET[1][$i++] = array(
 			'CATEGORY' => '<b>' . ParseMLField( $general_info_category_title ) . '</b>',
 			'ID' => 'HOME_PHONE',
 			'TITLE' => _( 'Phone Number' ),
@@ -777,31 +839,44 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 
 	// Staff Widgets tab
+
 	if ( $_REQUEST['tab'] === 'staff_widgets'
-		&& User('PROFILE') === 'admin' )
+		&& User( 'PROFILE' ) === 'admin' )
 	{
 		$widgets = array();
-		if ( $RosarioModules['Users'])
-			$widgets += array('permissions' => _( 'Permissions' ) );
-		if ( $RosarioModules['Food_Service'])
-			$widgets += array('fsa_balance' => _( 'Food Service Balance' ),'fsa_status' => _( 'Food Service Status' ),'fsa_barcode' => _( 'Food Service Barcode' ) );
+
+		if ( $RosarioModules['Users'] )
+		{
+			$widgets += array( 'permissions' => _( 'Permissions' ) );
+		}
+
+		if ( $RosarioModules['Food_Service'] )
+		{
+			$widgets += array(
+				'fsa_balance' => _( 'Food Service Balance' ),
+				'fsa_status' => _( 'Food Service Status' ),
+				'fsa_barcode' => _( 'Food Service Barcode' ),
+			);
+		}
 
 		$widgets_RET[0] = array();
-		foreach ( (array) $widgets as $widget => $title)
+
+		foreach ( (array) $widgets as $widget => $title )
 		{
 			$THIS_RET['ID'] = $widget;
-			$widgets_RET[] = array('ID' => $widget,'TITLE' => $title,'STAFF_WIDGET' => _make( '', 'STAFF_WIDGET' ) );
+			$widgets_RET[] = array( 'ID' => $widget, 'TITLE' => $title, 'STAFF_WIDGET' => _make( '', 'STAFF_WIDGET' ) );
 		}
-		unset($widgets_RET[0]);
+
+		unset( $widgets_RET[0] );
 
 		echo '<input type="hidden" name="values[StaffWidgetsSearch]" />';
-		$columns = array('TITLE' => _( 'Widget' ),'STAFF_WIDGET' => _( 'Search' ) );
+		$columns = array( 'TITLE' => _( 'Widget' ), 'STAFF_WIDGET' => _( 'Search' ) );
 		//FJ no responsive table
-		$LO_options = array('responsive' => false);
-		ListOutput($widgets_RET,$columns,'.','.',array(),array(),$LO_options);
+		$LO_options = array( 'responsive' => false );
+		ListOutput( $widgets_RET, $columns, '.', '.', array(), array(), $LO_options );
 	}
 
-	if ( !in_array( $_REQUEST['tab'], array( 'student_fields', 'staff_fields' ) ) )
+	if ( ! in_array( $_REQUEST['tab'], array( 'student_fields', 'staff_fields' ) ) )
 	{
 		PopTable( 'footer' );
 	}
@@ -810,10 +885,16 @@ if ( ! $_REQUEST['modfunc'] )
 	echo '</form>';
 }
 
-function _make($value,$name)
-{	global $THIS_RET,$current_RET;
+/**
+ * @param $value
+ * @param $name
+ */
+function _make( $value, $name )
+{
+	global $THIS_RET, $current_RET;
 
 	// No Search checkbox for textarea fields.
+
 	if ( isset( $THIS_RET['TYPE'] )
 		&& $THIS_RET['TYPE'] === 'textarea'
 		&& mb_strpos( $name, 'SEARCH' ) !== false )
@@ -824,41 +905,53 @@ function _make($value,$name)
 	switch ( $name )
 	{
 		case 'SEARCH':
-			if ( $current_RET['StudentFieldsSearch'][ $THIS_RET['ID'] ] )
-				$checked = ' checked';
-			return '<input type="checkbox" name="values[StudentFieldsSearch][' . $THIS_RET['ID'] . ']" value="Y"'.$checked.' />';
+			$checked = empty( $current_RET['StudentFieldsSearch'][$THIS_RET['ID']] ) ? '' : ' checked';
+
+			return '<input type="checkbox" name="values[StudentFieldsSearch][' . $THIS_RET['ID'] .
+			']" value="Y"' . $checked . ' />';
 
 		case 'DISPLAY':
-			if ( $current_RET['StudentFieldsView'][ $THIS_RET['ID'] ] )
-				$checked = ' checked';
-			return '<input type="checkbox" name="values[StudentFieldsView][' . $THIS_RET['ID'] . ']" value="Y"'.$checked.' />';
+			$checked = empty( $current_RET['StudentFieldsView'][$THIS_RET['ID']] ) ? '' : ' checked';
+
+			return '<input type="checkbox" name="values[StudentFieldsView][' . $THIS_RET['ID'] .
+			']" value="Y"' . $checked . ' />';
 
 		case 'WIDGET':
-			if ( $current_RET['WidgetsSearch'][ $THIS_RET['ID'] ] )
-				$checked = ' checked';
-			return '<input type="checkbox" name="values[WidgetsSearch][' . $THIS_RET['ID'] . ']" value="Y"'.$checked.' />';
+			$checked = empty( $current_RET['WidgetsSearch'][$THIS_RET['ID']] ) ? '' : ' checked';
+
+			return '<input type="checkbox" name="values[WidgetsSearch][' . $THIS_RET['ID'] .
+			']" value="Y"' . $checked . ' />';
 
 		case 'STAFF_SEARCH':
-			if ( $current_RET['StaffFieldsSearch'][ $THIS_RET['ID'] ] )
-				$checked = ' checked';
-			return '<input type="checkbox" name="values[StaffFieldsSearch][' . $THIS_RET['ID'] . ']" value="Y"'.$checked.' />';
+			$checked = empty( $current_RET['StaffFieldsSearch'][$THIS_RET['ID']] ) ? '' : ' checked';
+
+			return '<input type="checkbox" name="values[StaffFieldsSearch][' . $THIS_RET['ID'] .
+			']" value="Y"' . $checked . ' />';
 
 		case 'STAFF_DISPLAY':
-			if ( $current_RET['StaffFieldsView'][ $THIS_RET['ID'] ] )
-				$checked = ' checked';
-			return '<input type="checkbox" name="values[StaffFieldsView][' . $THIS_RET['ID'] . ']" value="Y"'.$checked.' />';
+			$checked = empty( $current_RET['StaffFieldsView'][$THIS_RET['ID']] ) ? '' : ' checked';
+
+			return '<input type="checkbox" name="values[StaffFieldsView][' . $THIS_RET['ID'] .
+			']" value="Y"' . $checked . ' />';
 
 		case 'STAFF_WIDGET':
-			if ( $current_RET['StaffWidgetsSearch'][ $THIS_RET['ID'] ] )
-				$checked = ' checked';
-			return '<input type="checkbox" name="values[StaffWidgetsSearch][' . $THIS_RET['ID'] . ']" value="Y"'.$checked.' />';
+			$checked = empty( $current_RET['StaffWidgetsSearch'][$THIS_RET['ID']] ) ? '' : ' checked';
+
+			return '<input type="checkbox" name="values[StaffWidgetsSearch][' . $THIS_RET['ID'] .
+			']" value="Y"' . $checked . ' />';
 	}
 }
 
-function _makeAddress($value)
-{	global $current_RET;
+/**
+ * @param $value
+ */
+function _makeAddress( $value )
+{
+	global $current_RET;
 
-	if ( $current_RET['StudentFieldsView']['ADDRESS'][1]['VALUE']==$value || (! $current_RET['StudentFieldsView']['ADDRESS'][1]['VALUE'] && $value==''))
-		$checked = ' checked';
-	return '<input type="radio" name="values[StudentFieldsView][ADDRESS]" value="'.$value.'"'.$checked.'>';
+	$checked = ( empty( $current_RET['StudentFieldsView']['ADDRESS'][1]['VALUE'] ) && $value == '' )
+	|| ( ! empty( $current_RET['StudentFieldsView']['ADDRESS'][1]['VALUE'] ) == $value
+		&& $current_RET['StudentFieldsView']['ADDRESS'][1]['VALUE'] == $value ) ? ' checked' : '';
+
+	return '<input type="radio" name="values[StudentFieldsView][ADDRESS]" value="' . $value . '"' . $checked . ' />';
 }
