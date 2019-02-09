@@ -24,6 +24,7 @@ Changes in 4.4-beta
 - Add UploadAssignmentTeacherFile function & Adapt function for Teachers in StudentAssignments.fnc.php
 - Add File Attached upload & download in Assignments.php
 - Add PasswordInput() function in Inputs.php
+- Add PasswordStrength jQuery plugin in jquery-passwordstrength.js & plugins.min.js
 
 Changes in 4.3.2
 ----------------

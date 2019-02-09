@@ -17,7 +17,8 @@ module.exports = function(grunt) {
 			},
 			css: {
 				files: ['assets/themes/WPadmin/css/*.css'],
-				tasks: ['cssmin'],/*'autoprefixer', */
+				tasks: ['cssmin'],
+				/*'autoprefixer', */
 				options: {
 					livereload: true
 				},
@@ -58,7 +59,8 @@ module.exports = function(grunt) {
 						'assets/js/colorbox/jquery.colorbox-min.js',
 						'assets/js/showdown/showdown.min.js',
 						'assets/js/jquery-fixedmenu/jquery-fixedmenu.js',
-						'assets/js/jquery-captcha/jquery-captcha.js'
+						'assets/js/jquery-captcha/jquery-captcha.js',
+						'assets/js/jquery-passwordstrength/jquery-passwordstrength.js',
 					]
 				}
 			}
@@ -106,7 +108,7 @@ module.exports = function(grunt) {
 			target: {
 				// Target-specific file lists and/or options go here
 				files: {
-					'phpdoc/functions': ['functions/*.php','ProgramFunctions/*.php']
+					'phpdoc/functions': ['functions/*.php', 'ProgramFunctions/*.php']
 					// 'doc/second': []
 				}
 			},
@@ -124,5 +126,5 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-phpdoc');
 
 	// Default task(s).
-	grunt.registerTask( 'default', ['watch'] );
+	grunt.registerTask('default', ['watch']);
 };
