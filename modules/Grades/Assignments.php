@@ -1,6 +1,7 @@
 <?php
 
 require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
+require_once 'modules/Grades/includes/StudentAssignments.fnc.php';
 
 $_REQUEST['assignment_id'] = isset( $_REQUEST['assignment_id'] ) ? $_REQUEST['assignment_id'] : '';
 
@@ -87,7 +88,7 @@ if ( isset( $_POST['tables'] )
 
 		if ( $id !== 'new' )
 		{
-			if ( $columns['ASSIGNMENT_TYPE_ID']
+			if ( ! empty( $columns['ASSIGNMENT_TYPE_ID'] )
 				&& $columns['ASSIGNMENT_TYPE_ID'] != $_REQUEST['assignment_type_id'] )
 			{
 				$_REQUEST['assignment_type_id'] = $columns['ASSIGNMENT_TYPE_ID'];
@@ -141,7 +142,7 @@ if ( isset( $_POST['tables'] )
 			}
 
 			$sql = mb_substr( $sql, 0, -1 ) . " WHERE " .
-			DBEscapeIdentifier( mb_substr( $table, 10, -1 ) . '_ID' ) . "='" . $id . "'";
+			DBEscapeIdentifier( mb_substr( $table, 10, -1 ) . '_ID' ) . "='" . $id . "';";
 
 			$go = true;
 
@@ -234,12 +235,30 @@ if ( isset( $_POST['tables'] )
 				}
 			}
 
-			$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
+			$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ');';
 		}
 
 		if ( ! $error && $go )
 		{
 			DBQuery( $sql );
+
+			// Check if file submitted.
+
+			if ( isset( $_FILES['assignment_file'] ) )
+			{
+				$file = UploadAssignmentTeacherFile(
+					$id,
+					User( 'STAFF_ID' ),
+					'assignment_file'
+				);
+
+				if ( $file )
+				{
+					DBQuery( "UPDATE GRADEBOOK_ASSIGNMENTS
+						SET FILE='" . $file . "'
+						WHERE ASSIGNMENT_ID='" . $id . "';" );
+				}
+			}
 
 			if ( $table === 'GRADEBOOK_ASSIGNMENTS' )
 			{
@@ -278,6 +297,10 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 		{
 			$prompt_title = _( 'Assignment as well as the associated Grades' );
 		}
+
+		$assignment_file_RET = DBGet( DBQuery( "SELECT FILE
+			FROM GRADEBOOK_GRADES
+			WHERE ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'" ) );
 
 		$sql = "DELETE
 			FROM GRADEBOOK_ASSIGNMENTS
@@ -338,6 +361,13 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 		{
 			DBQuery( "DELETE FROM GRADEBOOK_GRADES
 				WHERE ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'" );
+
+			if ( ! empty( $assignment_file_RET[1]['FILE'] )
+				&& file_exists( $assignment_file_RET[1]['FILE'] ) )
+			{
+				// Delete File Attached.
+				unlink( $assignment_file_RET[1]['FILE'] );
+			}
 
 			// Hook.
 			do_action( 'Grades/Assignments.php|delete_assignment' );
@@ -444,7 +474,7 @@ if ( ! $_REQUEST['modfunc'] )
 		&& $_REQUEST['assignment_id'] !== 'new' )
 	{
 		$sql = "SELECT ASSIGNMENT_TYPE_ID,TITLE,ASSIGNED_DATE,DUE_DATE,POINTS,COURSE_ID,
-					DESCRIPTION,DEFAULT_POINTS,SUBMISSION,
+					DESCRIPTION,FILE,DEFAULT_POINTS,SUBMISSION,
 				CASE WHEN DUE_DATE<ASSIGNED_DATE THEN 'Y' ELSE NULL END AS DATE_ERROR,
 				CASE WHEN ASSIGNED_DATE>(SELECT END_DATE
 					FROM SCHOOL_MARKING_PERIODS
@@ -592,6 +622,31 @@ if ( ! $_REQUEST['modfunc'] )
 			'tables[' . $_REQUEST['assignment_id'] . '][DESCRIPTION]',
 			_( 'Description' )
 		) . '</td>';
+
+		$header .= '</tr><tr class="st">';
+
+		$header .= '<td>' . FileInput(
+			'assignment_file',
+			_( 'Attached File' )
+		) . '</td>';
+
+		$file_download = '';
+
+		if ( file_exists( $RET['FILE'] ) )
+		{
+			$file_name = mb_substr( mb_strrchr( $RET['FILE'], '/' ), 1 );
+
+			$file_size = HumanFilesize( filesize( $RET['FILE'] ) );
+
+			$file_download = button(
+				'download',
+				_( 'Download' ),
+				'"' . $RET['FILE'] . '" target="_blank" title="' . $file_name . ' (' . $file_size . ')"',
+				'bigger'
+			);
+		}
+
+		$header .= '<td>' . $file_download . '</td>';
 
 		$header .= '</tr><tr class="st">';
 
