@@ -788,7 +788,9 @@ div.underline-dots {
 
 textarea {
 	width: 100%;
-	min-width: 280px
+	min-width: 280px;
+	/* Max width: 1024px for PDF */
+	max-width: 1024px;
 }
 
 /* MarkDown */
@@ -1472,11 +1474,13 @@ input[type=checkbox].toggle {
 
 .password-toggle {
 	float: right;
-	margin-left: -28px;
+	margin-left: -22px;
 	margin-top: 5px;
-	position: relative;
-	z-index: 2;
 	cursor: pointer;
+	z-index: 2;
+	position: relative;
+	margin-right: 3px;
+	background: #fff;
 }
 
 .password-hide {
@@ -1486,7 +1490,7 @@ input[type=checkbox].toggle {
 .password-strength-bars span {
 	display: inline-block;
 	width: 18%;
-	width: calc( 20% - 6px);
+	width: calc( 20% - 8px);
 	line-height: 6px;
 	height: 4px;
 	padding: 1px;
