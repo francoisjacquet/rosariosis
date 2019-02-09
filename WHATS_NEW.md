@@ -2,6 +2,14 @@
 
 ## RosarioSIS Student Information System
 
+New in 4.4
+----------
+
+Grades
+
+- Assignments: file upload & rich text description, sponsored by Santa Cecilia school
+
+
 New in 4.3
 ----------
 
