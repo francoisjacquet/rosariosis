@@ -174,12 +174,6 @@ if ( $_REQUEST['modfunc'] === 'update'
 				$required_error = true;
 			}
 
-			if ( mb_strlen( $_REQUEST['staff']['USERNAME'] ) > 100 )
-			{
-				// Limit Username to 100 characters.
-				$_REQUEST['staff']['USERNAME'] = mb_substr( $_REQUEST['staff']['USERNAME'], 0, 100 );
-			}
-
 			// Check if trying to hack profile (would result in an SQL error).
 			if ( isset( $_REQUEST['staff']['PROFILE'] ) )
 			{
