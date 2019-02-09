@@ -45,11 +45,11 @@ if ( isset( $_POST['tables'] )
 
 	foreach ( (array) $_REQUEST['tables'] as $id => $columns )
 	{
-		// FJ textarea fields MarkDown sanitize.
+		// FJ textarea fields HTML sanitize.
 
 		if ( isset( $columns['DESCRIPTION'] ) )
 		{
-			$columns['DESCRIPTION'] = SanitizeMarkDown( $_POST['tables'][$id]['DESCRIPTION'] );
+			$columns['DESCRIPTION'] = SanitizeHTML( $_POST['tables'][$id]['DESCRIPTION'] );
 		}
 
 		// FJ added SQL constraint TITLE & POINTS are not null.
@@ -587,7 +587,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$header .= '</tr><tr class="st">';
 
-		$header .= '<td colspan="2">' . TextAreaInput(
+		$header .= '<td colspan="2">' . TinyMCEInput(
 			( empty( $RET['DESCRIPTION'] ) ? '' : $RET['DESCRIPTION'] ),
 			'tables[' . $_REQUEST['assignment_id'] . '][DESCRIPTION]',
 			_( 'Description' )
