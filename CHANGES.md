@@ -23,6 +23,7 @@ Changes in 4.4-beta
 - Change Description field for TinyMCE input in Assignments.php
 - Add UploadAssignmentTeacherFile function & Adapt function for Teachers in StudentAssignments.fnc.php
 - Add File Attached upload & download in Assignments.php
+- Add PasswordInput() function in Inputs.php
 
 Changes in 4.3.2
 ----------------

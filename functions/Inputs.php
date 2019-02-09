@@ -141,6 +141,108 @@ function TextInput( $value, $name, $title = '', $extra = '', $div = true )
 
 
 /**
+ * Password Input
+ *
+ * @example echo Password( '****', 'PASSWORD', _( 'Password' ), 'required' );
+ *
+ * @since 4.4
+ *
+ * @uses GetInputID() to generate ID from name
+ * @uses FormatInputTitle() to format title
+ * @uses InputDivOnclick()
+ *       if ( AllowEdit() && !isset( $_REQUEST['_ROSARIO_PDF'] ) && $value != '' && $div )
+ * @uses TextInput
+ *
+ * @param  string  $value Input value.
+ * @param  string  $name  Input name.
+ * @param  string  $title Input title (optional). Defaults to ''.
+ * @param  string  $extra Extra HTML attributes. Pass 'strength' to display strength indicator.
+ * @param  boolean $div   Is input wrapped into <div onclick>? (optional). Defaults to true.
+ *
+ * @return string  Input HTML
+ */
+function PasswordInput( $value, $name, $title = '', $extra = '', $div = true )
+{
+	$id = GetInputID( $name );
+
+	$required = $value == '' && mb_strpos( $extra, 'required' ) !== false;
+
+	$ftitle = FormatInputTitle( $title, $id, $required, '' );
+
+	// mab - support array style $option values
+	$display_val = is_array( $value ) ? $value[1] : $value;
+
+	$value = is_array( $value ) ? $value[0] : $value;
+
+	if ( AllowEdit()
+		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
+		// Default input size.
+		if ( $value === ''
+			&& mb_strpos( $extra, 'size=' ) === false )
+		{
+			$extra .= ' size="20"';
+		}
+
+		$extra .= ' type="password" autocomplete="off"';
+
+		$input = TextInput( $value, $name, '', $extra, false );
+
+		$lock_icons = button( 'unlocked', '', '', 'password-toggle password-show' ) .
+			button( 'locked', '', '', 'password-toggle password-hide' );
+
+		$password_strength_bars = '';
+
+		$min_required_strength = 0;
+
+		if ( mb_strpos( $extra, 'strength' ) !== false )
+		{
+			$password_strength_bars = '<div class="password-strength-bars">
+				<span class="score0"></span>
+				<span class="score1"></span>
+				<span class="score2"></span>
+				<span class="score3"></span>
+				<span class="score4"></span>
+			</div>';
+
+			// @todo Get from Config();
+			$min_required_strength = 3;
+		}
+
+		ob_start();
+
+		// Call our jQuery PasswordStrength plugin based on zxcvbn.
+		?>
+		<script>
+			$('#' + <?php echo json_encode( $id ); ?>).passwordStrength(<?php echo (int) $min_required_strength; ?>);
+		</script>
+		<?php
+		$password_strength_js = ob_get_clean();
+
+		$input .= $lock_icons . $password_strength_bars . $ftitle . $password_strength_js;
+
+		if ( trim( $value ) == ''
+			|| ! $div )
+		{
+			$return = $input;
+		}
+		else
+		{
+			$return = InputDivOnclick(
+				$id,
+				$input,
+				( $value != '' ? $display_val : '-' ),
+				$ftitle
+			);
+		}
+	}
+	else
+		$return = ( $value != '' ? $display_val : '-' ) . $ftitle;
+
+	return $return;
+}
+
+/**
  * Multi Languages Text Input
  *
  * @example MLTextInput( Config( 'TITLE' ), 'values[CONFIG][TITLE]', _( 'Program Title' ) )
