@@ -18,6 +18,7 @@ Changes in 4.4-beta
 - Use ProgramConfig() for UPDATE in Configuration.php, EntryTimes.php, Moodle/config.inc.php
 - Use ProgramUserConfig() for UPDATE in Grades/Configuration.php, Preferences.php
 - GRADEBOOK_ASSIGNMENTS table: Change DESCRIPTION column type to text in rosariosis.sql & Update.fnc.php
+- GRADEBOOK_ASSIGNMENTS table: Convert DESCRIPTION values from MarkDown to HTML.
 
 Changes in 4.3.2
 ----------------

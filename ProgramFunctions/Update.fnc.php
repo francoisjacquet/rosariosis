@@ -103,6 +103,10 @@ function Update()
 		case version_compare( $from_version, '4.3-beta', '<' ) :
 
 			$return = _update43beta();
+
+		case version_compare( $from_version, '4.4-beta', '<' ) :
+
+			$return = _update44beta();
 	}
 
 	// Update version in DB CONFIG table.
@@ -319,7 +323,7 @@ function _update43beta()
  * Update to version 4.4
  *
  * 1. GRADEBOOK_ASSIGNMENTS table: Change DESCRIPTION column type to text.
- * 2. GRADEBOOK_ASSIGNMENTS table: Convert DESCRIPTION values to HTML.
+ * 2. GRADEBOOK_ASSIGNMENTS table: Convert DESCRIPTION values from MarkDown to HTML.
  *
  * Local function
  *
@@ -331,6 +335,8 @@ function _update44beta()
 {
 	_isCallerUpdate( debug_backtrace() );
 
+	require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
+
 	$return = true;
 
 	/**
@@ -340,6 +346,37 @@ function _update44beta()
 	 */
 	DBQuery( "ALTER TABLE gradebook_assignments
 		ALTER COLUMN description TYPE text;" );
+
+	/**
+	 * 2. GRADEBOOK_ASSIGNMENTS table:
+	 * Convert DESCRIPTION values from MarkDown to HTML.
+	 */
+	$assignments_RET = DBGet( DBQuery( "SELECT assignment_id,description
+		FROM gradebook_assignments
+		WHERE description IS NOT NULL;" ) );
+
+	$assignment_update_sql = "UPDATE GRADEBOOK_ASSIGNMENTS
+		SET DESCRIPTION='%s'
+		WHERE ASSIGNMENT_ID='%d';";
+
+	$assignments_update_sql = '';
+
+	foreach ( (array) $assignments_RET as $assignment )
+	{
+		$description_html = MarkDownToHTML( $assignment[1]['DESCRIPTION'] );
+
+		$assignments_update_sql .= sprintf(
+			$assignment_update_sql,
+			DBEscapeString( $description_html ),
+			$assignment[1]['ASSIGNMENT_ID']
+		);
+	}
+
+	if ( $assignments_update_sql )
+	{
+		var_dump($assignments_update_sql);exit;
+		DBQuery( $assignment_update_sql );
+	}
 
 	return $return;
 }
