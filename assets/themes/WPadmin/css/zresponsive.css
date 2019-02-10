@@ -85,6 +85,13 @@
 	#LO_search {
 		max-width: 150px
 	}
+	#LO_search {
+		float: left;
+	}
+	#LO_search + .button {
+		left: -28px;
+		float: left;
+	}
 	#modulesBody textarea {
 		width: 100% !important
 	}
@@ -143,10 +150,6 @@
 	}
 	.password-reset {
 		padding-top: 0;
-	}
-	/* List */
-	#LO_search + .button {
-		left: 147px;
 	}
 	/* TinyMCE "Insert/Edit image" popup too large on mobile devices */
 	.mce-container .mce-dropzone {
