@@ -80,7 +80,9 @@ input[type=checkbox],
 input[type=radio] {
 	margin-bottom: 0;
 	margin-right: 0;
-	vertical-align: -10%
+	vertical-align: -15%;
+	height: 16px;
+	width: 16px;
 }
 
 input[type=number] {
@@ -131,7 +133,14 @@ td {
 input,
 select,
 textarea {
-	line-height: 1.231
+	line-height: 1.3;
+	margin: 1px 1px 1px 0;
+	padding: 3px;
+}
+
+select {
+	padding: 0 3px;
+	height: 26px
 }
 
 a,
@@ -167,21 +176,9 @@ dd {
 	margin-bottom: 6px
 }
 
-textarea,
-input,
-select {
-	margin: 2px 2px 2px 0;
-	padding: 2px
-}
-
 small,
 small * {
 	font-size: 14px;
-}
-
-select {
-	padding: 0 2px;
-	height: 23px
 }
 
 h1,
@@ -702,7 +699,7 @@ h3 span {
 
 .underline-dots .button {
 	vertical-align: baseline;
-	height: 15px
+	height: 16px;
 }
 
 #body {
@@ -782,8 +779,8 @@ div.underline-dots {
 .underline-dots,
 .checkbox-label,
 .no-input-value {
-	line-height: 27px;
-	margin: 5px 0
+	line-height: 28px;
+	padding-bottom: 1px;
 }
 
 textarea {

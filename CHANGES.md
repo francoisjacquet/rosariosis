@@ -26,6 +26,7 @@ Changes in 4.4-beta
 - Add PasswordInput() function in Inputs.php
 - Add PasswordStrength jQuery plugin in jquery-passwordstrength.js & plugins.min.js
 - JS Add zxcvbn (password strength estimator) in zxcvbn.js
+- CSS bigger input (checkbox, select) size in stylesheet.css
 
 Changes in 4.3.2
 ----------------
