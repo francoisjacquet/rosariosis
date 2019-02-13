@@ -167,7 +167,14 @@ function PasswordInput( $value, $name, $title = '', $extra = '', $div = true )
 
 	$required = $value == '' && mb_strpos( $extra, 'required' ) !== false;
 
-	$ftitle = FormatInputTitle( $title, $id, $required, '' );
+	$strength = ( mb_strpos( $extra, 'strength' ) !== false );
+
+	$ftitle = FormatInputTitle(
+		$title,
+		$id,
+		$required,
+		$strength ? '' : '<br />'
+	);
 
 	// mab - support array style $option values
 	$display_val = is_array( $value ) ? $value[1] : $value;
@@ -195,7 +202,7 @@ function PasswordInput( $value, $name, $title = '', $extra = '', $div = true )
 
 		$min_required_strength = 0;
 
-		if ( mb_strpos( $extra, 'strength' ) !== false )
+		if ( $strength )
 		{
 			$password_strength_bars = '<div class="password-strength-bars">
 				<span class="score0"></span>
