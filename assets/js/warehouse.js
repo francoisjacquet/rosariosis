@@ -448,6 +448,8 @@ window.onload = function() {
 				$('#menu').scrollTop($('#menu')[0].scrollTop - Math.abs($(this).offset().top) - this.scrollHeight);
 			}
 
+			fixedMenu();
+
 			return false;
 		});
 	}

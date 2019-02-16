@@ -47,10 +47,10 @@ function fixedMenu() {
 			 * Add fix logic on scroll
 			 */
 			$window.scroll(fixMenuLogic);
-
-			// Onload, eventually fix if not on top of page.
-			fixMenuLogic();
 		}
+
+		// Onload, eventually fix if not on top of page.
+		fixMenuLogic();
 	};
 
 
