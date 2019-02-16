@@ -401,6 +401,10 @@ var ajaxPrepare = function(target) {
 
 		openMenu();
 
+		if (screen.width < 735) {
+			$('#menu').addClass('hide');
+		}
+
 		document.body.scrollIntoView();
 		$('#body').scrollTop(0);
 
@@ -462,8 +466,6 @@ window.onload = function() {
 		fixedMenu();
 
 		submenuOffset();
-	} else {
-		$('#menu').addClass('hide');
 	}
 
 	ajaxPrepare('body');
