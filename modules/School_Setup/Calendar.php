@@ -1075,7 +1075,6 @@ if ( ! $_REQUEST['modfunc'] )
 			FROM GRADEBOOK_ASSIGNMENTS a
 			WHERE a.STAFF_ID='" . User( 'STAFF_ID' ) . "'
 			AND a.DUE_DATE BETWEEN '" . $first_day_month . "' AND '" . $last_day_month . "'";
-
 	}
 
 	if ( isset( $assignments_SQL ) )
@@ -1264,7 +1263,7 @@ if ( ! $_REQUEST['modfunc'] )
 			'</div>';
 		}
 
-		$assignments_date = isset( $assignments_RET[ $date ] ) ? : array();
+		$assignments_date = isset( $assignments_RET[ $date ] ) ? $assignments_RET[ $date ] : array();
 
 		// Assignments.
 		foreach ( (array) $assignments_date as $assignment )

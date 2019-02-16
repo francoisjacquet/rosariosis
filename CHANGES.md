@@ -31,6 +31,10 @@ Changes in 4.4-beta
 - JS Open submenu on touch (mobile & tablet) in warehouse.js
 - Remove scrollTop / SCROLL_TOP setting in warehouse.js, Warehouse.php, User.fnc.php & Preferences.php
 
+Changes in 4.3.3
+----------------
+- Fix Assignments day display in Calendar.php
+
 Changes in 4.3.2
 ----------------
 - Leave Delete button AFTER the Save one so info are saved on Enter keypress in Schools.php
