@@ -524,7 +524,6 @@ function submenuOffset() {
 
 		offsetTop += ($("#footer").css('bottom') != '0px' ? window.innerHeight : 0);
 		moveup = offsetTop - $(this).offset().top - submenu.outerHeight();
-		console.log($("#footer").css('bottom'), offsetTop, $(this).offset().top, submenu.outerHeight(), moveup);
 		submenu.css("margin-top", (moveup < 0 ? moveup : 0) + 'px');
 	});
 }
