@@ -31,6 +31,7 @@ Changes in 4.4-beta
 - JS Open submenu on touch (mobile & tablet) in warehouse.js
 - Remove scrollTop / SCROLL_TOP setting in warehouse.js, Warehouse.php, User.fnc.php & Preferences.php
 - SQL Fix Portal Assignments schedule dates for parent & student in Portal.php
+- TODO add Config option for Password strength in Configuration.php
 
 Changes in 4.3.3
 ----------------
