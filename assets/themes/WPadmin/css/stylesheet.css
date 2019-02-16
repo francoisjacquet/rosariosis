@@ -794,6 +794,12 @@ textarea {
 
 /* MarkDown */
 
+.md-preview {
+	min-width: 280px;
+	/* Max width: 1024px for PDF */
+	max-width: 1024px;
+}
+
 .md-preview > .tab {
 	border-width: 1px;
 	border-bottom: 0;
