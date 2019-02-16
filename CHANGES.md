@@ -27,6 +27,8 @@ Changes in 4.4-beta
 - Add PasswordStrength jQuery plugin in jquery-passwordstrength.js & plugins.min.js
 - JS Add zxcvbn (password strength estimator) in zxcvbn.js
 - CSS bigger input (checkbox, select) size in stylesheet.css
+- JS Load once on page load & always check height on resize & scroll in jquery-fixedmenu.js
+- JS Open submenu on touch (mobile & tablet) in warehouse.js
 
 Changes in 4.3.2
 ----------------

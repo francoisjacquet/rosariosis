@@ -548,6 +548,8 @@ label {
 	width: auto;
 }
 
+/* @since 4.4 Open submenu on touch (mobile & tablet), see warehouse.js */
+
 #selectedModuleLink + .wp-submenu {
 	transition-delay: 0s;
 	z-index: 1;
