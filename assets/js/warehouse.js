@@ -446,7 +446,9 @@ window.onload = function() {
 				$('#menu').scrollTop($('#menu')[0].scrollTop - Math.abs($(this).offset().top) - this.scrollHeight);
 			}
 
-			fixedMenu();
+			if (screen.width > 736) {
+				fixedMenu();
+			}
 
 			return false;
 		});
