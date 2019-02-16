@@ -30,6 +30,7 @@ Changes in 4.4-beta
 - JS Load once on page load & always check height on resize & scroll in jquery-fixedmenu.js
 - JS Open submenu on touch (mobile & tablet) in warehouse.js
 - Remove scrollTop / SCROLL_TOP setting in warehouse.js, Warehouse.php, User.fnc.php & Preferences.php
+- SQL Fix Portal Assignments schedule dates for parent & student in Portal.php
 
 Changes in 4.3.3
 ----------------
