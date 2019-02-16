@@ -116,7 +116,11 @@
 		box-sizing: border-box
 	}
 	table.col1-align-right > tbody > tr.st > td:first-child {
-		text-align: left
+		text-align: left;
+		border-bottom: none;
+	}
+	table.col1-align-right > tbody > tr.st > td:nth-child(2) {
+		border-top: none;
 	}
 	.fixed-col {
 		table-layout: auto;
