@@ -350,11 +350,17 @@ function setMLvalue(id, loc, value){
 		}
 
 		$return .= '</div>';
+
+		$title_break = '';
 	}
 	else
+	{
 		$return .= ParseMLField( $value );
 
-	$return .= FormatInputTitle( $title, '', false, '' );
+		$title_break = '<br />';
+	}
+
+	$return .= FormatInputTitle( $title, '', false, $title_break );
 
 	return $return;
 }
