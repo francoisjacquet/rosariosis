@@ -1422,7 +1422,7 @@ function CheckCaptcha()
  *
  * @since 3.8.1
  *
- * @example FileInput( 'values[new][FILE]', _( 'Attached File' ), 'required' )
+ * @example FileInput( 'values[new][FILE]', _( 'File' ), 'required' )
  *
  * @uses GetInputID() to generate ID from name
  * @uses FormatInputTitle() to format title

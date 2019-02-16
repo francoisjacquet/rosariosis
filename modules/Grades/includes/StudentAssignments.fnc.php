@@ -212,6 +212,12 @@ function StudentAssignmentSubmissionOutput( $assignment_id )
 		DrawHeader( _( 'Description' ) . ':<br />'. $assignment['DESCRIPTION'] );
 	}
 
+	if ( $assignment['FILE'] )
+	{
+		// @since 4.4 Assignment File.
+		DrawHeader( _( 'File' ) . ': ' . GetAssignmentFileLink( $assignment['FILE'] ) );
+	}
+
 	// @since 4.1 Submission header action hook.
 	do_action( 'Grades/includes/StudentAssignments.fnc.php|submission_header' );
 
@@ -275,9 +281,8 @@ function StudentAssignmentSubmissionOutput( $assignment_id )
 	$file_html = FileInput( $file_id, _( 'File' ) );
 
 	// Input div onclick only if old file.
-	DrawHeader( $old_file ?
-		$old_file . $file_html :
-		$file_html,
+	DrawHeader(
+		$old_file ? $old_file . '<br />' . $file_html : $file_html,
 		$old_file ? NoInput( $old_date, _( 'Submission date' ) ) : ''
 	);
 

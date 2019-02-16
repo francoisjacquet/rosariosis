@@ -625,46 +625,13 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$header .= '</tr><tr class="st">';
 
-		$header .= '<td>' . FileInput(
+		$file_download = GetAssignmentFileLink( $RET['FILE'] );
+
+		$header .= '<td colspan="2">' . ( $file_download ? $file_download . '<br />' : '' ) .
+		FileInput(
 			'assignment_file',
-			_( 'Attached File' )
-		) . '</td>';
-
-		$file_download = '';
-
-		if ( file_exists( $RET['FILE'] ) )
-		{
-			$file_name = mb_substr( mb_strrchr( $RET['FILE'], '/' ), 1 );
-
-			$file_size = HumanFilesize( filesize( $RET['FILE'] ) );
-
-			$file_download = button(
-				'download',
-				_( 'Download' ),
-				'"' . $RET['FILE'] . '" target="_blank" title="' . $file_name . ' (' . $file_size . ')"',
-				'bigger'
-			);
-		}
-
-		$header .= '<td>' . $file_download . '</td>';
-
-		$header .= '</tr><tr class="st">';
-
-		$header .= '<td>' . CheckboxInput(
-			( empty( $RET['COURSE_ID'] ) ? '' : $RET['COURSE_ID'] ),
-			'tables[' . $_REQUEST['assignment_id'] . '][COURSE_ID]',
-			_( 'Apply to all Periods for this Course' ),
-			'',
-			$_REQUEST['assignment_id'] == 'new'
-		) . '</td>';
-
-		$header .= '<td>' . CheckboxInput(
-			( empty( $RET['SUBMISSION'] ) ? '' : $RET['SUBMISSION'] ),
-			'tables[' . $_REQUEST['assignment_id'] . '][SUBMISSION]',
-			_( 'Enable Assignment Submission' ),
-			'',
-			$_REQUEST['assignment_id'] == 'new'
-		) . '</td>';
+			_( 'File' )
+		) . '<hr /></td>';
 
 		$header .= '</tr><tr class="st">';
 
@@ -677,6 +644,16 @@ if ( ! $_REQUEST['modfunc'] )
 			! $new
 		) . '</td>';
 
+		$header .= '<td>' . CheckboxInput(
+			( empty( $RET['COURSE_ID'] ) ? '' : $RET['COURSE_ID'] ),
+			'tables[' . $_REQUEST['assignment_id'] . '][COURSE_ID]',
+			_( 'Apply to all Periods for this Course' ),
+			'',
+			$_REQUEST['assignment_id'] == 'new'
+		) . '</td>';
+
+		$header .= '</tr><tr class="st">';
+
 		$header .= '<td>' . DateInput(
 			$new && Preferences( 'DEFAULT_DUE', 'Gradebook' ) == 'Y' ?
 				DBDate() :
@@ -684,6 +661,14 @@ if ( ! $_REQUEST['modfunc'] )
 			'tables[' . $_REQUEST['assignment_id'] . '][DUE_DATE]',
 			_( 'Due' ),
 			! $new
+		) . '</td>';
+
+		$header .= '<td>' . CheckboxInput(
+			( empty( $RET['SUBMISSION'] ) ? '' : $RET['SUBMISSION'] ),
+			'tables[' . $_REQUEST['assignment_id'] . '][SUBMISSION]',
+			_( 'Enable Assignment Submission' ),
+			'',
+			$_REQUEST['assignment_id'] == 'new'
 		) . '</td>';
 
 		$header .= '</tr>';
