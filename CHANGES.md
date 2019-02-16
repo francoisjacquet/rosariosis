@@ -4,6 +4,7 @@
 Changes in 4.3.3
 ----------------
 - Fix Assignments day display in Calendar.php
+- SQL Fix Portal Assignments schedule dates for parent & student in Portal.php
 
 Changes in 4.3.2
 ----------------
