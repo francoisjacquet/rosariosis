@@ -434,7 +434,7 @@ function TextAreaInput( $value, $name, $title = '', $extra = '', $div = true, $t
 		$textarea =  ( $type === 'markdown' ? MarkDownInputPreview( $id ) : '' ) .
 			'<textarea id="' . $id . '" name="' . $name . '" ' . $extra . '>' .
 			$value . '</textarea>' .
-			( $type !== 'text' ? str_replace( '<br />', '', $ftitle ) : $ftitle );
+			( $type === 'tinymce' ? str_replace( '<br />', '', $ftitle ) : $ftitle );
 
 		if ( $value == ''
 			|| ! $div )
