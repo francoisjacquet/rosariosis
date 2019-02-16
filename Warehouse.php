@@ -456,7 +456,6 @@ function Warehouse( $mode )
 	<script src="assets/js/plugins.min.js?v=<?php echo ROSARIO_VERSION; ?>"></script>
 	<script src="assets/js/warehouse.min.js?v=<?php echo ROSARIO_VERSION; ?>"></script>
 	<script src="assets/js/jscalendar/lang/calendar-<?php echo file_exists( 'assets/js/jscalendar/lang/calendar-' . $lang_2_chars . '.js' ) ? $lang_2_chars : 'en'; ?>.js"></script>
-	<script>var scrollTop = "<?php echo Preferences( 'SCROLL_TOP' ); ?>";</script>
 		<?php
 			/**
 			 * Hook.

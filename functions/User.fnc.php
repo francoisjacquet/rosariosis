@@ -141,7 +141,6 @@ function Preferences( $item, $program = 'Preferences' )
 		'DEFAULT_ALL_SCHOOLS' => 'N',
 		'ASSIGNMENT_SORTING' => 'ASSIGNMENT_ID',
 		'ANOMALOUS_MAX' => '100',
-		'SCROLL_TOP' => 'Y',
 		'PAGE_SIZE' => 'A4',
 		'HIDE_ALERTS' => 'N',
 		'DEFAULT_FAMILIES' => 'N',

@@ -84,11 +84,6 @@ if ( ! empty( $_REQUEST['values'] )
 			$_REQUEST['values']['Preferences']['HIDE_ALERTS'] = 'N';
 		}
 
-		if ( $_REQUEST['tab'] == 'display_options' && $_REQUEST['values']['Preferences']['SCROLL_TOP'] != 'Y' )
-		{
-			$_REQUEST['values']['Preferences']['SCROLL_TOP'] = 'N';
-		}
-
 		foreach ( (array) $_REQUEST['values'] as $program => $values )
 		{
 			ProgramUserConfig( $program, 0, $values );
@@ -442,17 +437,6 @@ if ( ! $_REQUEST['modfunc'] )
 			Preferences( 'HIDE_ALERTS' ),
 			'values[Preferences][HIDE_ALERTS]',
 			_( 'Disable login alerts' ),
-			'',
-			$new
-		);
-
-		echo '</td></tr><tr><td>';
-
-		// Automatically scroll to top of the page
-		echo CheckboxInput(
-			Preferences( 'SCROLL_TOP' ),
-			'values[Preferences][SCROLL_TOP]',
-			_( 'Automatically scroll to top of the page' ),
 			'',
 			$new
 		);

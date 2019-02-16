@@ -401,10 +401,8 @@ var ajaxPrepare = function(target) {
 
 		openMenu();
 
-		if (scrollTop == 'Y') {
-			document.body.scrollIntoView();
-			$('#body').scrollTop(0);
-		}
+		document.body.scrollIntoView();
+		$('#body').scrollTop(0);
 
 		popups.closeAll();
 

@@ -29,6 +29,7 @@ Changes in 4.4-beta
 - CSS bigger input (checkbox, select) size in stylesheet.css
 - JS Load once on page load & always check height on resize & scroll in jquery-fixedmenu.js
 - JS Open submenu on touch (mobile & tablet) in warehouse.js
+- Remove scrollTop / SCROLL_TOP setting in warehouse.js, Warehouse.php, User.fnc.php & Preferences.php
 
 Changes in 4.3.2
 ----------------
