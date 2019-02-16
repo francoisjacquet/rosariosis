@@ -209,8 +209,7 @@ function StudentAssignmentSubmissionOutput( $assignment_id )
 	if ( $assignment['DESCRIPTION'] )
 	{
 		// Description.
-		DrawHeader( _( 'Description' ) . ':<br />
-			<div class="markdown-to-html">' . $assignment['DESCRIPTION'] . '</div>' );
+		DrawHeader( _( 'Description' ) . ':<br />'. $assignment['DESCRIPTION'] );
 	}
 
 	// @since 4.1 Submission header action hook.
