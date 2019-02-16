@@ -1264,7 +1264,7 @@ if ( ! $_REQUEST['modfunc'] )
 			'</div>';
 		}
 
-		$assignments_date = isset( $assignments_RET[ $date ] ) ? : array();
+		$assignments_date = isset( $assignments_RET[ $date ] ) ? $assignments_RET[ $date ] : array();
 
 		// Assignments.
 		foreach ( (array) $assignments_date as $assignment )
