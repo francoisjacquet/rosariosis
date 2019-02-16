@@ -454,7 +454,7 @@ function TextAreaInput( $value, $name, $title = '', $extra = '', $div = true, $t
 	else
 	{
 		$return = $display_val .
-			( $type === 'markdown' ? str_replace( '<br />', '', $ftitle ) : $ftitle );
+			( $type !== 'text' ? str_replace( '<br />', '', $ftitle ) : $ftitle );
 	}
 
 	return $return;
