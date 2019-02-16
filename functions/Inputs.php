@@ -535,6 +535,12 @@ function TinyMCEInput( $value, $name, $title = '', $extra = '' )
 
 	$textarea = TextAreaInput( $value, $name, $title, $extra , $div, $type );
 
+	if ( ! AllowEdit()
+		|| isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
+		return $textarea;
+	}
+
 	if ( $wrapper )
 	{
 		$textarea = $wrapper . $textarea . '</div>';
@@ -542,8 +548,7 @@ function TinyMCEInput( $value, $name, $title = '', $extra = '' )
 
 	$tinymce_js = '';
 
-	if ( ! $js_included
-		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	if ( ! $js_included )
 	{
 		$tinymce_language = '';
 
