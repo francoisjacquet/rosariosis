@@ -148,7 +148,7 @@ echo TextInput(
 
 echo '</td><td>';
 
-echo TextInput(
+echo PasswordInput(
 	( ! $staff['PASSWORD']
 		|| $_REQUEST['moodle_create_user'] ? '' : str_repeat( '*', 8 ) ),
 	'staff[PASSWORD]',
@@ -160,7 +160,7 @@ echo TextInput(
 		'</i></div>' :
 		''
 		),
-	'size=12 maxlength=42 autocomplete=off' . ( $required ? ' required' : '' ),
+	'maxlength="42" tabindex="2" strength' . ( $required ? ' required' : '' ),
 	( $_REQUEST['moodle_create_user'] ? false : true )
 );
 

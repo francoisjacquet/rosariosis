@@ -143,7 +143,7 @@ function TextInput( $value, $name, $title = '', $extra = '', $div = true )
 /**
  * Password Input
  *
- * @example echo Password( '****', 'PASSWORD', _( 'Password' ), 'required' );
+ * @example echo PasswordInput( '****', 'PASSWORD', _( 'Password' ), 'required strength' );
  *
  * @since 4.4
  *
@@ -172,8 +172,7 @@ function PasswordInput( $value, $name, $title = '', $extra = '', $div = true )
 	$ftitle = FormatInputTitle(
 		$title,
 		$id,
-		$required,
-		$strength ? '' : '<br />'
+		$required
 	);
 
 	// mab - support array style $option values
@@ -190,10 +189,14 @@ function PasswordInput( $value, $name, $title = '', $extra = '', $div = true )
 		{
 			$extra .= ' size="20"';
 		}
+		elseif ( mb_strpos( $extra, 'size=' ) === false )
+		{
+			$extra .= ' size="' . ( strlen( $value ) + 5 ) . '"';
+		}
 
 		$extra .= ' type="password" autocomplete="off"';
 
-		$input = TextInput( $value, $name, '', $extra, false );
+		$input = TextInput( '', $name, '', $extra, false );
 
 		$lock_icons = button( 'unlocked', '', '', 'password-toggle password-show' ) .
 			button( 'locked', '', '', 'password-toggle password-hide' );
@@ -227,6 +230,8 @@ function PasswordInput( $value, $name, $title = '', $extra = '', $div = true )
 		$password_strength_js = ob_get_clean();
 
 		$input .= $lock_icons . $password_strength_bars . $ftitle . $password_strength_js;
+
+		$input = '<div class="password-input-wrapper">' . $input . '</div>';
 
 		if ( trim( $value ) == ''
 			|| ! $div )

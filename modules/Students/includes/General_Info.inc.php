@@ -127,18 +127,19 @@ echo TextInput(
 
 echo '</td><td>';
 
-echo TextInput(
+echo PasswordInput(
 	( ! $student['PASSWORD']
 		|| $_REQUEST['moodle_create_student'] ? '' : str_repeat( '*', 8 ) ),
 	'students[PASSWORD]',
 	_( 'Password' ) .
 		( $_REQUEST['moodle_create_student']
-			|| $old_student_in_moodle ?
+		|| $old_student_in_moodle ?
 		'<div class="tooltip"><i>' .
 			_( 'The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character' ) .
 		'</i></div>' :
-		'' ),
-	'autocomplete=off' . ( $required ? ' required' : '' ),
+		''
+		),
+	'maxlength="42" strength' . ( $required ? ' required' : '' ),
 	( $_REQUEST['moodle_create_student'] ? false : true )
 );
 

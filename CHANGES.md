@@ -25,17 +25,18 @@ Changes in 4.4-beta
 - Add File Attached upload & download in Assignments.php
 - Add PasswordInput() function in Inputs.php
 - Add PasswordStrength jQuery plugin in jquery-passwordstrength.js & plugins.min.js
+- Use PasswordInput() function in both General_Info.inc.php
 - JS Add zxcvbn (password strength estimator) in zxcvbn.js
 - CSS bigger input (checkbox, select) size in stylesheet.css
 - JS Load once on page load & always check height on resize & scroll in jquery-fixedmenu.js
 - JS Open submenu on touch (mobile & tablet) in warehouse.js
 - Remove scrollTop / SCROLL_TOP setting in warehouse.js, Warehouse.php, User.fnc.php & Preferences.php
-- SQL Fix Portal Assignments schedule dates for parent & student in Portal.php
 - TODO add Config option for Password strength in Configuration.php
 
 Changes in 4.3.3
 ----------------
 - Fix Assignments day display in Calendar.php
+- SQL Fix Portal Assignments schedule dates for parent & student in Portal.php
 
 Changes in 4.3.2
 ----------------

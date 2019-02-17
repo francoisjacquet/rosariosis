@@ -1472,9 +1472,18 @@ input[type=checkbox].toggle {
 
 /* Password Input */
 
+.password-input-wrapper {
+	display: inline-block;
+}
+
 .password-strength-bars {
 	/*height: 6px;*/
-	line-height: 6px;
+	line-height: 5px;
+	font-size: 5px;
+}
+
+.password-strength-bars + br {
+	display: none;
 }
 
 .password-toggle {
@@ -1494,10 +1503,15 @@ input[type=checkbox].toggle {
 
 .password-strength-bars span {
 	display: inline-block;
-	width: 18%;
-	width: calc( 20% - 8px);
-	line-height: 6px;
-	height: 4px;
-	padding: 1px;
+	width: 19%;
+	width: calc( 20% - 3px);
+	line-height: 5px;
+	height: 5px;
+	padding: 0 1px;
 	visibility: hidden;
+}
+
+.password-strength-bars ~ label {
+	display: inline-block;
+	margin-top: -2px;
 }
