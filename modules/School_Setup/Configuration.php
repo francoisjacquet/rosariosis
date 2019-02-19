@@ -251,7 +251,7 @@ else
 		echo '<tr><td><fieldset><legend>' . _( 'Security' ) . '</legend><table>';
 
 		// Failed login ban if >= X failed attempts within 10 minutes.
-		echo '<tr><td colspan="2">' . TextInput(
+		echo '<tr><td>' . TextInput(
 			Config( 'FAILED_LOGIN_LIMIT' ),
 			'values[CONFIG][FAILED_LOGIN_LIMIT]',
 			_( 'Failed Login Attempts Limit' ) .
@@ -263,11 +263,11 @@ else
 
 		// Password Strength.
 		// @since 4.4.
-		echo '<tr><td colspan="2">' . TextInput(
+		echo '<tr><td>' . TextInput(
 			Config( 'PASSWORD_STRENGTH' ),
 			'values[CONFIG][PASSWORD_STRENGTH]',
 			'',
-			'type=number maxlength=1 min=0 max=4 style="width:200px;"',
+			'type=number maxlength=1 min=0 max=4 style="width:196px;"',
 			false
 		);
 
@@ -275,7 +275,7 @@ else
 
 		// Password strength bars, hang tight.
 		?>
-		<div class="password-strength-bars">
+		<div class="password-strength-bars" style="width:200px;">
 			<span class="score0"></span>
 			<span class="score1"></span>
 			<span class="score2"></span>
