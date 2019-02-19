@@ -299,7 +299,7 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 		}
 
 		$assignment_file_RET = DBGet( DBQuery( "SELECT FILE
-			FROM GRADEBOOK_GRADES
+			FROM GRADEBOOK_ASSIGNMENTS
 			WHERE ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'" ) );
 
 		$sql = "DELETE
