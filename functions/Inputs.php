@@ -203,9 +203,10 @@ function PasswordInput( $value, $name, $title = '', $extra = '', $div = true )
 
 		$password_strength_bars = '';
 
-		$min_required_strength = 0;
+		$min_required_strength = Config( 'PASSWORD_STRENGTH' );
 
-		if ( $strength )
+		if ( $strength
+			&& $min_required_strength )
 		{
 			$password_strength_bars = '<div class="password-strength-bars">
 				<span class="score0"></span>
@@ -214,9 +215,6 @@ function PasswordInput( $value, $name, $title = '', $extra = '', $div = true )
 				<span class="score3"></span>
 				<span class="score4"></span>
 			</div>';
-
-			// @todo Get from Config();
-			$min_required_strength = 3;
 		}
 
 		ob_start();
@@ -224,7 +222,11 @@ function PasswordInput( $value, $name, $title = '', $extra = '', $div = true )
 		// Call our jQuery PasswordStrength plugin based on zxcvbn.
 		?>
 		<script>
-			$('#' + <?php echo json_encode( $id ); ?>).passwordStrength(<?php echo (int) $min_required_strength; ?>);
+			$('#' + <?php echo json_encode( $id ); ?>).passwordStrength(
+				<?php echo (int) $min_required_strength; ?>,
+				// Error message when trying to submit the form.
+				_( 'Your password must be stronger.' )
+			);
 		</script>
 		<?php
 		$password_strength_js = ob_get_clean();

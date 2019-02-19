@@ -107,6 +107,10 @@ function Update()
 		case version_compare( $from_version, '4.4-beta', '<' ) :
 
 			$return = _update44beta();
+
+		case version_compare( $from_version, '4.4-beta2', '<' ) :
+
+			$return = _update44beta2();
 	}
 
 	// Update version in DB CONFIG table.
@@ -390,6 +394,37 @@ function _update44beta()
 	if ( $assignments_update_sql )
 	{
 		DBQuery( $assignments_update_sql );
+	}
+
+	return $return;
+}
+
+
+/**
+ * Update to version 4.4
+ *
+ * 1. Add PASSWORD_STRENGTH to CONFIG table.
+ *
+ * Local function
+ *
+ * @since 4.4
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update44beta2()
+{
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. Add VERSION to PASSWORD_STRENGTH table.
+	 */
+	$version_added = DBGet( DBQuery( "SELECT 1 FROM CONFIG WHERE TITLE='PASSWORD_STRENGTH'" ) );
+
+	if ( ! $version_added )
+	{
+		DBQuery( "INSERT INTO config VALUES (0, 'PASSWORD_STRENGTH', '1');" );
 	}
 
 	return $return;
