@@ -4,7 +4,7 @@
  * Indicate password strength to user based on the zxcvbn JS library results.
  * Also adds reveal / hide password routine to input.
  *
- * @example passwordStrength( '#password', 3 );
+ * @example $('#password').passwordStrength( 3, 'Your password must be stronger.' );
  *
  * @link https://francoisjacquet.gitlab.io/password-strength-zxcvbn-js
  *
@@ -13,7 +13,7 @@
  * @since 4.4
  */
 
-$.fn.passwordStrength = function(minStrength) {
+$.fn.passwordStrength = function(minStrength, requiredText) {
 
 	var $password = this;
 
@@ -54,9 +54,11 @@ $.fn.passwordStrength = function(minStrength) {
 		if (!checkPassword()) {
 			e.preventDefault();
 
+			requiredText = requiredText || 'Password must be stronger.';
+
 			// Check Password failed (min score > score), do not send form.
 			$password.focus();
-			$password[0].setCustomValidity('Password must be stronger.');
+			$password[0].setCustomValidity(requiredText);
 		} else {
 			$password[0].setCustomValidity('');
 		}
