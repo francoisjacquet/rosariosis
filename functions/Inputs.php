@@ -225,7 +225,7 @@ function PasswordInput( $value, $name, $title = '', $extra = '', $div = true )
 			$('#' + <?php echo json_encode( $id ); ?>).passwordStrength(
 				<?php echo (int) $min_required_strength; ?>,
 				// Error message when trying to submit the form.
-				_( 'Your password must be stronger.' )
+				<?php echo json_encode( _( 'Your password must be stronger.' ) ); ?>
 			);
 		</script>
 		<?php
