@@ -66,6 +66,7 @@ else
 			{
 				$numeric_values = array(
 					'FAILED_LOGIN_LIMIT',
+					'PASSWORD_STRENGTH',
 				);
 
 				if ( in_array( $value, $numeric_values )
@@ -242,13 +243,13 @@ else
 			'N/A'
 		) . '</td></tr>';
 
-		echo '</td></tr></table></fieldset>';
+		echo '</table></fieldset>';
 
 		// FJ add Security to Configuration.
 		echo '<tr><td><fieldset><legend>' . _( 'Security' ) . '</legend><table>';
 
 		// Failed login ban if >= X failed attempts within 10 minutes.
-		echo '<tr><td colspan="3">' . TextInput(
+		echo '<tr><td colspan="2">' . TextInput(
 			Config( 'FAILED_LOGIN_LIMIT' ),
 			'values[CONFIG][FAILED_LOGIN_LIMIT]',
 			_( 'Failed Login Attempts Limit' ) .
@@ -258,7 +259,55 @@ else
 			'type=number maxlength=2 size=2 min=2 max=99'
 		) . '</td></tr>';
 
-		echo '</td></tr></table></fieldset>';
+		// Password Strength.
+		// @since 4.4.
+		echo '<tr><td colspan="2">' . TextInput(
+			Config( 'PASSWORD_STRENGTH' ),
+			'values[CONFIG][PASSWORD_STRENGTH]',
+			'',
+			'type=number maxlength=1 min=0 max=4 style="width:200px;"'
+		);
+
+		$password_strength_input_id = GetInputID( 'values[CONFIG][PASSWORD_STRENGTH]' );
+
+		// Password strength bars, hang tight.
+		?>
+		<div class="password-strength-bars">
+			<span class="score0"></span>
+			<span class="score1"></span>
+			<span class="score2"></span>
+			<span class="score3"></span>
+			<span class="score4"></span>
+		</div>
+		<script>
+			var passwordStrengthBarsScore = function(input) {
+				var $input = ( typeof input === 'string' ? $( '#' + input ) : $( this ) ),
+					score = $input.val();
+
+				$input.nextAll('.password-strength-bars').children('span').each(function(i, el) {
+					$(el).css('visibility', ( i <= score ? 'visible' : 'hidden' ) );
+				});
+			};
+
+			var passwordStrengthInputId = <?php echo json_encode( $password_strength_input_id ); ?>;
+
+			passwordStrengthBarsScore(passwordStrengthInputId);
+			$('#' + passwordStrengthInputId ).change(passwordStrengthBarsScore);
+		</script>
+		<?php
+
+		echo FormatInputTitle(
+			_( 'Password Strength' ) .
+			'<div class="tooltip"><i>' .
+			_( 'Minimum password strength required.' ) . ' ' .
+			_( 'Set to 0 to disable.' ) .
+			'</i></div>',
+			$password_strength_input_id,
+			false,
+			''
+		) .	'</td></tr>';
+
+		echo '</table></fieldset>';
 
 		// Display Name.
 		// @link https://www.w3.org/International/questions/qa-personal-names

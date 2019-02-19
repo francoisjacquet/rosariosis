@@ -28,6 +28,7 @@ Changes in 4.4-beta
 - Use PasswordInput() function in both General_Info.inc.php
 - JS Add zxcvbn (password strength estimator) in zxcvbn.js
 - Add PASSWORD_STRENGTH to CONFIG table in Update.fnc.php & rosariosis.sql
+- Add Password Strength & strength bars to Security in Configuration.php
 - CSS bigger input (checkbox, select) size in stylesheet.css
 - JS Load once on page load & always check height on resize & scroll in jquery-fixedmenu.js
 - JS Open submenu on touch (mobile & tablet) in warehouse.js
