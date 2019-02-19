@@ -28,12 +28,13 @@ if ( ! empty( $_REQUEST['save'] ) )
 		{
 			foreach ( (array) $columns as $column => $value )
 			{
-				$numeric_values = array(
+				$numeric_columns = array(
 					'MOODLE_PARENT_ROLE_ID',
 					'ROSARIO_STUDENTS_EMAIL_FIELD_ID',
 				);
 
-				if ( in_array( $value, $numeric_values )
+				if ( in_array( $column, $numeric_columns )
+					&& $value != ''
 					&& ! is_numeric( $value ) )
 				{
 					if ( $column !== 'ROSARIO_STUDENTS_EMAIL_FIELD_ID'

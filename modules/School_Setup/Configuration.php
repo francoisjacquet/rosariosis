@@ -64,12 +64,13 @@ else
 
 			foreach ( (array) $_REQUEST['values']['CONFIG'] as $column => $value )
 			{
-				$numeric_values = array(
+				$numeric_columns = array(
 					'FAILED_LOGIN_LIMIT',
 					'PASSWORD_STRENGTH',
 				);
 
-				if ( in_array( $value, $numeric_values )
+				if ( in_array( $column, $numeric_columns )
+					&& $value != ''
 					&& ! is_numeric( $value ) )
 				{
 					$numeric_error = true;
@@ -86,7 +87,7 @@ else
 			{
 				foreach ( (array) $columns as $column => $value )
 				{
-					$numeric_values = array(
+					$numeric_columns = array(
 						'ATTENDANCE_EDIT_DAYS_BEFORE',
 						'ATTENDANCE_EDIT_DAYS_AFTER',
 						'FOOD_SERVICE_BALANCE_WARNING',
@@ -94,7 +95,8 @@ else
 						'FOOD_SERVICE_BALANCE_TARGET',
 					);
 
-					if ( in_array( $value, $numeric_values )
+					if ( in_array( $column, $numeric_columns )
+						&& $value != ''
 						&& ! is_numeric( $value ) )
 					{
 						$numeric_error = true;
@@ -265,7 +267,8 @@ else
 			Config( 'PASSWORD_STRENGTH' ),
 			'values[CONFIG][PASSWORD_STRENGTH]',
 			'',
-			'type=number maxlength=1 min=0 max=4 style="width:200px;"'
+			'type=number maxlength=1 min=0 max=4 style="width:200px;"',
+			false
 		);
 
 		$password_strength_input_id = GetInputID( 'values[CONFIG][PASSWORD_STRENGTH]' );
