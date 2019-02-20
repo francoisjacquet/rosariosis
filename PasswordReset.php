@@ -218,55 +218,44 @@ if ( isset( $_REQUEST['h'] )
 		{
 			// Verify new password if any.
 			if ( isset( $_POST['PASSWORD'] )
-				&& $_REQUEST['PASSWORD'] !== ''
-				&& isset( $_POST['VERIFY'] )
-				&& $_REQUEST['VERIFY'] !== '' )
+				&& $_REQUEST['PASSWORD'] !== '' )
 			{
-				if ( $_REQUEST['PASSWORD'] === $_REQUEST['VERIFY'] )
+				$new_password = str_replace( "''", "'", $_REQUEST['PASSWORD'] );
+
+				if ( $user_type === 'staff' )
 				{
-					$new_password = str_replace( "''", "'", $_REQUEST['PASSWORD'] );
+					// Update password.
+					DBQuery( "UPDATE STAFF SET PASSWORD='" .
+						encrypt_password( $new_password ) . "'
+						WHERE STAFF_ID='" . $user_id . "'
+						AND SYEAR='" . Config( 'SYEAR' ) . "'" );
 
-					if ( $user_type === 'staff' )
+					// If admin, send notification email to server admin.
+					if ( $user_profile == 1 )
 					{
-						// Update password.
-						DBQuery( "UPDATE STAFF SET PASSWORD='" .
-							encrypt_password( $new_password ) . "'
-							WHERE STAFF_ID='" . $user_id . "'
-							AND SYEAR='" . Config( 'SYEAR' ) . "'" );
-
-						// If admin, send notification email to server admin.
-						if ( $user_profile == 1 )
-						{
-							_notifyServerAdminPasswordReset( $user_id );
-						}
+						_notifyServerAdminPasswordReset( $user_id );
 					}
-					elseif ( $user_type === 'student' )
-					{
-						// Update password.
-						DBQuery( "UPDATE STUDENTS SET PASSWORD='" .
-							encrypt_password( $new_password ) . "'
-							WHERE STUDENT_ID='" . $user_id . "'" );
-					}
-
-					unset(
-						$_POST['PASSWORD'],
-						$_REQUEST['PASSWORD'],
-						$_POST['VERIFY'],
-						$_REQUEST['VERIFY']
-					);
-
-					unset( $_SESSION['USERNAME'] );
-					unset( $_SESSION['STAFF_ID'] );
-
-					// Redirect to login page.
-					header( 'Location: index.php' );
-
-					exit;
 				}
-				else
+				elseif ( $user_type === 'student' )
 				{
-					$error[] = _( 'Your new passwords did not match.' );
+					// Update password.
+					DBQuery( "UPDATE STUDENTS SET PASSWORD='" .
+						encrypt_password( $new_password ) . "'
+						WHERE STUDENT_ID='" . $user_id . "'" );
 				}
+
+				unset(
+					$_POST['PASSWORD'],
+					$_REQUEST['PASSWORD']
+				);
+
+				unset( $_SESSION['USERNAME'] );
+				unset( $_SESSION['STAFF_ID'] );
+
+				// Redirect to login page.
+				header( 'Location: index.php' );
+
+				exit;
 			}
 
 			_passwordResetForm( $_REQUEST['h'], $user_id );
@@ -294,7 +283,7 @@ if ( ! Config( 'STUDENTS_EMAIL_FIELD' ) )
 _printPageHead( _( 'Forgot your password?' ) );
 
 ?>
-<form action="PasswordReset.php" method="POST">
+<form action="PasswordReset.php" method="POST" target="_top">
 
 	<?php PopTable( 'header', _( 'Forgot your password?' ) ); ?>
 
@@ -447,6 +436,8 @@ function _currentPageURL()
 
 function _passwordResetForm( $hash, $user_id )
 {
+	global $_ROSARIO;
+
 	if ( ! $hash
 		|| ! $user_id )
 	{
@@ -456,18 +447,24 @@ function _passwordResetForm( $hash, $user_id )
 	_printPageHead( _( 'Reset your password' ) );
 
 	?>
-	<form action="PasswordReset.php" method="POST">
+	<form action="PasswordReset.php" method="POST" target="_top">
 
 		<input type="hidden" name="h" value="<?php echo $hash; ?>" />
 
 		<?php PopTable( 'header', _( 'Reset your password' ) ); ?>
 
-			<input type="password" name="PASSWORD" id="PASSWORD" size="25" maxlength="42" tabindex="1" required />
-			<?php echo FormatInputTitle( _( 'New Password' ), 'PASSWORD', true ); ?>
+			<?php
+			$_ROSARIO['allow_edit'] = true;
 
-			<br />
-			<input type="password" name="VERIFY" id="VERIFY" size="25" maxlength="42" tabindex="2" required />
-			<?php echo FormatInputTitle( _( 'Verify New Password' ), 'VERIFY', true ); ?>
+			echo PasswordInput(
+				'',
+				'PASSWORD',
+				_( 'New Password' ),
+				'strength maxlength="42" tabindex="1"'
+			);
+
+			$_ROSARIO['allow_edit'] = false;
+			?>
 
 			<br />
 			<div class="center"><?php echo Buttons( _( 'Submit' ) ); ?></div>

@@ -1,7 +1,7 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
-Changes in 4.4-beta
+Changes in 4.4-beta2
 -------------------
 - Add Warehouse Header hook in Warehouse.php
 - Add DBQuery after hook in database.inc.php
@@ -26,6 +26,7 @@ Changes in 4.4-beta
 - Add PasswordInput() function in Inputs.php
 - Add PasswordStrength jQuery plugin in jquery-passwordstrength.js & plugins.min.js
 - Use PasswordInput() function in both General_Info.inc.php
+- Use PasswordInput() & remove Verifiy New Password in PasswordReset.php
 - JS Add zxcvbn (password strength estimator) in zxcvbn.js
 - Add PASSWORD_STRENGTH to CONFIG table in Update.fnc.php & rosariosis.sql
 - Add Password Strength & strength bars to Security in Configuration.php
@@ -33,7 +34,6 @@ Changes in 4.4-beta
 - JS Load once on page load & always check height on resize & scroll in jquery-fixedmenu.js
 - JS Open submenu on touch (mobile & tablet) in warehouse.js
 - Remove scrollTop / SCROLL_TOP setting in warehouse.js, Warehouse.php, User.fnc.php & Preferences.php
-- TODO add Config option for Password strength in Configuration.php
 
 Changes in 4.3.3
 ----------------

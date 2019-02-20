@@ -451,7 +451,8 @@ function Warehouse( $mode )
 	<?php
 
 			if ( $_ROSARIO['page'] === 'modules'
-				|| $_ROSARIO['page'] === 'create-account' ): ?>
+				|| $_ROSARIO['page'] === 'create-account'
+				|| $_ROSARIO['page'] === 'password-reset' ): ?>
 	<script src="assets/js/jquery.js"></script>
 	<script src="assets/js/plugins.min.js?v=<?php echo ROSARIO_VERSION; ?>"></script>
 	<script src="assets/js/warehouse.min.js?v=<?php echo ROSARIO_VERSION; ?>"></script>
