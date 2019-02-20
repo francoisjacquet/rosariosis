@@ -461,7 +461,9 @@ function TextAreaInput( $value, $name, $title = '', $extra = '', $div = true, $t
 	else
 	{
 		$return = $display_val .
-			( $type !== 'text' ? str_replace( '<br />', '', $ftitle ) : $ftitle );
+			( $type === 'text' && $display_val !== '-' ?
+				str_replace( '<br />', '', $ftitle ) :
+				$ftitle );
 	}
 
 	return $return;
@@ -505,8 +507,6 @@ function TinyMCEInput( $value, $name, $title = '', $extra = '' )
 
 	$div = false;
 
-	$type = 'tinymce';
-
 	$wrapper = '';
 
 	if ( mb_strpos( (string) $extra, 'class=' ) === false )
@@ -540,7 +540,7 @@ function TinyMCEInput( $value, $name, $title = '', $extra = '' )
 		$extra = str_replace( 'required', '', $extra );
 	}
 
-	$textarea = TextAreaInput( $value, $name, $title, $extra , $div, $type );
+	$textarea = TextAreaInput( $value, $name, $title, $extra , $div, 'tinymce' );
 
 	if ( ! AllowEdit()
 		|| isset( $_REQUEST['_ROSARIO_PDF'] ) )
