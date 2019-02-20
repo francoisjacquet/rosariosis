@@ -9,6 +9,7 @@ Grades
 
 - Assignments: file upload & rich text description, sponsored by Santa Cecilia school
 
+[Email Students](https://www.rosariosis.org/email-students-module/) module
 
 New in 4.3
 ----------
