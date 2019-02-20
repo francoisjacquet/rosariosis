@@ -34,7 +34,7 @@ $.fn.passwordStrength = function(minStrength, requiredText) {
 		var result = zxcvbn(password),
 			score = result.score;
 
-		// console.log(result);
+		// console.log(result, (minStrength <= score));
 
 		$password.nextAll('.password-strength-bars').children('span').each(function(i, el) {
 			// console.log(i, el);
@@ -49,14 +49,13 @@ $.fn.passwordStrength = function(minStrength, requiredText) {
 	};
 
 
-	var submitCheck = function(e) {
+	var inputCheck = function(e) {
 
 		if (!checkPassword()) {
-			e.preventDefault();
 
 			requiredText = requiredText || 'Password must be stronger.';
 
-			// Check Password failed (min score > score), do not send form.
+			// Check Password failed (min score > score).
 			$password.focus();
 			$password[0].setCustomValidity(requiredText);
 		} else {
@@ -85,7 +84,8 @@ $.fn.passwordStrength = function(minStrength, requiredText) {
 		// zxcvbn.js is loaded.
 		$password.keyup(checkPassword);
 
-		$($password[0].form).submit(submitCheck);
+		// Do not use submit event here!
+		$password.on('input propertychange', inputCheck);
 	};
 
 	/**
