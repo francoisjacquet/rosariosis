@@ -1224,10 +1224,11 @@ if ( ! $_REQUEST['modfunc'] )
 			}
 			else
 			{
-				echo '<input type="checkbox" name="all_day[' . $date . ']" value="Y" title="' . _( 'All Day' ) . '" />&nbsp;';
+				echo '<input type="checkbox" name="all_day[' . $date . ']" value="Y" title="' .
+					_( 'All Day' ) . '" />&nbsp;';
 
-				//FJ fix bug MINUTES not numeric
-				echo '<input type="number" min="1" max="998" name="minutes[' . $date . ']" size="3" title="' . _( 'Minutes' ) . '" />';
+				echo '<input type="number" min="1" max="998" name="minutes[' . $date . ']" size="3" title="' .
+					_( 'Minutes' ) . '" /><br />';
 			}
 		}
 
