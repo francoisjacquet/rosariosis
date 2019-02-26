@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 4.3.4
+----------------
+- Fix Course Periods SQL query in Grades/TeacherCompletion.php
+
 Changes in 4.3.3
 ----------------
 - Fix Assignments day display in Calendar.php

@@ -16,12 +16,12 @@ if ( empty( $_REQUEST['mp'] )
 	$_REQUEST['mp'] = UserMP();
 }
 
-$periods_RET = DBGet( "SELECT PERIOD_ID,TITLE
+$periods_RET = DBGet( DBQuery( "SELECT PERIOD_ID,TITLE
 	FROM SCHOOL_PERIODS
 	WHERE SCHOOL_ID='" . UserSchool() . "'
 	AND SYEAR='" . UserSyear() . "'
 	AND EXISTS (SELECT '' FROM COURSE_PERIODS WHERE PERIOD_ID=school_periods.PERIOD_ID)
-	ORDER BY SORT_ORDER", array(), array( 'PERIOD_ID' ) );
+	ORDER BY SORT_ORDER" ), array(), array( 'PERIOD_ID' ) );
 
 $period_select = '<select name="period" onChange="ajaxPostForm(this.form,true);"><option value="">' . _( 'All' ) . '</option>';
 
