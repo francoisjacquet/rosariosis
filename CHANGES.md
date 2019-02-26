@@ -5,7 +5,6 @@ Changes in 4.4-beta2
 -------------------
 - Add Warehouse Header hook in Warehouse.php
 - Add DBQuery after hook in database.inc.php
-- Limit Username to 100 characters in User.php & Student.php
 - Leave Delete button AFTER the Save one so info are saved on Enter keypress in Schools.php
 - JS Adjust Side.php submenu bottom offset when footer menu is on top in warehouse.js
 - Do not check allowed tables, sanitize table name instead in Fields.fnc.php
@@ -34,6 +33,10 @@ Changes in 4.4-beta2
 - JS Load once on page load & always check height on resize & scroll in jquery-fixedmenu.js
 - JS Open submenu on touch (mobile & tablet) in warehouse.js
 - Remove scrollTop / SCROLL_TOP setting in warehouse.js, Warehouse.php, User.fnc.php & Preferences.php
+
+Changes in 4.3.4
+----------------
+- Fix Course Periods SQL query in Grades/TeacherCompletion.php
 
 Changes in 4.3.3
 ----------------

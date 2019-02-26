@@ -8,20 +8,27 @@ $sem = GetParentMP( 'SEM', UserMP() );
 $fy = GetParentMP( 'FY', $sem );
 $pros = GetChildrenMP( 'PRO', UserMP() );
 
+$all_mp = GetAllMP( 'PRO', UserMP() );
+
 // If the UserMP has been changed, the REQUESTed MP may not work.
 
 if ( empty( $_REQUEST['mp'] )
-	|| mb_strpos( $str = "'" . UserMP() . "','" . $sem . "','" . $fy . "'," . $pros, "'" . $_REQUEST['mp'] . "'" ) === false )
+	|| mb_strpos( $all_mp, "'" . $_REQUEST['mp'] . "'" ) === false )
 {
 	$_REQUEST['mp'] = UserMP();
 }
 
-$periods_RET = DBGet( "SELECT PERIOD_ID,TITLE
-	FROM SCHOOL_PERIODS
-	WHERE SCHOOL_ID='" . UserSchool() . "'
-	AND SYEAR='" . UserSyear() . "'
-	AND EXISTS (SELECT '' FROM COURSE_PERIODS WHERE PERIOD_ID=school_periods.PERIOD_ID)
-	ORDER BY SORT_ORDER", array(), array( 'PERIOD_ID' ) );
+$periods_RET = DBGet( DBQuery( "SELECT sp.PERIOD_ID,sp.TITLE
+	FROM SCHOOL_PERIODS sp
+	WHERE sp.SCHOOL_ID='" . UserSchool() . "'
+	AND sp.SYEAR='" . UserSyear() . "'
+	AND EXISTS (SELECT 1
+		FROM COURSE_PERIODS cp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
+		WHERE cpsp.PERIOD_ID=sp.PERIOD_ID
+		AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
+		AND cp.SCHOOL_ID='" . UserSchool() . "'
+		AND cp.SYEAR='" . UserSyear() . "')
+	ORDER BY sp.SORT_ORDER" ), array(), array( 'PERIOD_ID' ) );
 
 $period_select = '<select name="period" onChange="ajaxPostForm(this.form,true);"><option value="">' . _( 'All' ) . '</option>';
 
