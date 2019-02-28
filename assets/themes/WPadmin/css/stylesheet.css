@@ -1503,7 +1503,7 @@ input[type=checkbox].toggle {
 
 .password-strength-bars span {
 	display: inline-block;
-	width: 19%;
+	width: 18.5%;
 	width: calc( 20% - 3px);
 	line-height: 5px;
 	height: 5px;
