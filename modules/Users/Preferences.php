@@ -477,6 +477,10 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( $_REQUEST['tab'] === 'password' )
 	{
+		$allow_edit_tmp = AllowEdit();
+
+		$_ROSARIO['allow_edit'] = true;
+
 		//FJ password fields are required
 		echo '<table class="cellpadding-5"><tr><td>';
 
@@ -489,6 +493,8 @@ if ( ! $_REQUEST['modfunc'] )
 		echo PasswordInput( '', 'values[new]', _( 'New Password' ), 'required strength' );
 
 		echo '</td></tr></table>';
+
+		$_ROSARIO['allow_edit'] = $allow_edit_tmp;
 	}
 
 	// Student Fields tab.
