@@ -1,8 +1,8 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
-Changes in 4.4-beta2
--------------------
+Changes in 4.4
+--------------
 - Add Warehouse Header hook in Warehouse.php
 - Add DBQuery after hook in database.inc.php
 - Leave Delete button AFTER the Save one so info are saved on Enter keypress in Schools.php
