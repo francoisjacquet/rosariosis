@@ -328,17 +328,14 @@ function GetAssignment( $assignment_id )
 
 	if ( User( 'PROFILE' ) === 'teacher' )
 	{
-		$where_user = "s.STAFF_ID='" . User( 'STAFF_ID' ) . "'
-			AND s.SYEAR='" . UserSyear() . "'
-			AND s.CURRENT_SCHOOL_ID='" . UserSchool() . "'
+		$where_user = "WHERE ga.STAFF_ID='" . User( 'STAFF_ID' ) . "'
+			AND c.COURSE_ID=gat.COURSE_ID
 			AND (ga.COURSE_PERIOD_ID IS NULL OR ga.COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
-			AND (ga.COURSE_ID IS NULL OR ga.COURSE_ID=(SELECT cp.COURSE_ID
-				FROM COURSE_PERIODS cp
-				WHERE cp.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'))";
+			AND (ga.COURSE_ID IS NULL OR ga.COURSE_ID=c.COURSE_ID)";
 	}
 	elseif ( UserStudentID() )
 	{
-		$where_user = "ss.STUDENT_ID='" . UserStudentID() . "'
+		$where_user = ",SCHEDULE ss WHERE ss.STUDENT_ID='" . UserStudentID() . "'
 			AND ss.SYEAR='" . UserSyear() . "'
 			AND ss.SCHOOL_ID='" . UserSchool() . "'
 			AND ss.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . ")
@@ -355,8 +352,8 @@ function GetAssignment( $assignment_id )
 		ga.TITLE, ga.ASSIGNED_DATE, ga.DUE_DATE, ga.POINTS,
 		ga.DESCRIPTION, ga.FILE, ga.SUBMISSION, c.TITLE AS COURSE_TITLE,
 		gat.TITLE AS ASSIGNMENT_TYPE_TITLE, gat.COLOR AS ASSIGNMENT_TYPE_COLOR
-		FROM GRADEBOOK_ASSIGNMENTS ga,SCHEDULE ss,STAFF s,COURSES c,GRADEBOOK_ASSIGNMENT_TYPES gat
-		WHERE " . $where_user .
+		FROM GRADEBOOK_ASSIGNMENTS ga,COURSES c,GRADEBOOK_ASSIGNMENT_TYPES gat
+		" . $where_user .
 		" AND ga.ASSIGNMENT_ID='" . $assignment_id . "'
 		AND gat.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID"; // Why not?
 
