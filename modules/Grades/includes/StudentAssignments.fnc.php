@@ -330,7 +330,11 @@ function GetAssignment( $assignment_id )
 	{
 		$where_user = "s.STAFF_ID='" . User( 'STAFF_ID' ) . "'
 			AND s.SYEAR='" . UserSyear() . "'
-			AND s.CURRENT_SCHOOL_ID='" . UserSchool() . "'";
+			AND s.CURRENT_SCHOOL_ID='" . UserSchool() . "'
+			AND (ga.COURSE_PERIOD_ID IS NULL OR ga.COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
+			AND (ga.COURSE_ID IS NULL OR ga.COURSE_ID=(SELECT cp.COURSE_ID
+				FROM COURSE_PERIODS cp
+				WHERE cp.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'))";
 	}
 	elseif ( UserStudentID() )
 	{
