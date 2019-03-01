@@ -1,14 +1,9 @@
 <?php
 
 require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
+require_once 'modules/School_Setup/includes/CalendarDay.inc.php';
 
 DrawHeader( ProgramTitle() );
-
-// FJ days numbered.
-if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) > 0 )
-{
-	require_once 'modules/School_Setup/includes/DayToNumber.inc.php';
-}
 
 // Set Month.
 if ( ! isset( $_REQUEST['month'] )
@@ -23,9 +18,6 @@ if ( ! isset( $_REQUEST['year'] )
 {
 	$_REQUEST['year'] = date( 'Y' );
 }
-
-// Set Time = First Day of Month.
-$time = mktime( 0, 0, 0, $_REQUEST['month'], 1, $_REQUEST['year'] );
 
 // Create / Recreate Calendar.
 if ( $_REQUEST['modfunc'] === 'create'
@@ -816,7 +808,7 @@ if ( $_REQUEST['modfunc'] === 'list_events' )
 	echo '</form>';
 }
 
-// Display Calendar View
+// Display Calendar View.
 if ( ! $_REQUEST['modfunc'] )
 {
 
@@ -829,12 +821,9 @@ if ( ! $_REQUEST['modfunc'] )
 		$last--;
 	}
 
-	$first_day_month = date( 'Y-m-d', $time );
+	$first_day_month = $_REQUEST['year'] . '-' . $_REQUEST['month'] . '-01';
 
-	$last_day_month = date(
-		'Y-m-d',
-		mktime( 0, 0, 0, $_REQUEST['month'], $last, $_REQUEST['year'] )
-	);
+	$last_day_month = $_REQUEST['year'] . '-' . $_REQUEST['month'] . '-' . $last;
 
 	$calendar_SQL = "SELECT SCHOOL_DATE,MINUTES,BLOCK
 		FROM ATTENDANCE_CALENDAR
@@ -849,7 +838,8 @@ if ( ! $_REQUEST['modfunc'] )
 	$update_calendar = false;
 
 	// Update School Day minutes
-	if ( isset( $_REQUEST['minutes'] ) )
+	if ( AllowEdit()
+		&& isset( $_REQUEST['minutes'] ) )
 	{
 		foreach ( (array) $_REQUEST['minutes'] as $date => $minutes )
 		{
@@ -900,7 +890,8 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 
 	// Update All day school.
-	if ( isset( $_REQUEST['all_day'] ) )
+	if ( AllowEdit()
+		&& isset( $_REQUEST['all_day'] ) )
 	{
 		foreach ( (array) $_REQUEST['all_day'] as $date => $yes )
 		{
@@ -938,8 +929,9 @@ if ( ! $_REQUEST['modfunc'] )
 		RedirectURL( 'all_day' );
 	}
 
-	// Update Blocks
-	if ( isset( $_REQUEST['blocks'] ) )
+	// Update Blocks.
+	if ( AllowEdit()
+		&& isset( $_REQUEST['blocks'] ) )
 	{
 		foreach ( (array) $_REQUEST['blocks'] as $date => $block )
 		{
@@ -965,7 +957,6 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		$calendar_RET = DBGet( DBQuery( $calendar_SQL ), array(), array( 'SCHOOL_DATE' ) );
 	}
-
 
 	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
 
@@ -1083,7 +1074,9 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 
 	if ( isset( $assignments_SQL ) )
+	{
 		$assignments_RET = DBGet( DBQuery( $assignments_SQL ), array(), array( 'SCHOOL_DATE' ) );
+	}
 
 	// Calendar Events onclick popup
 	$popup_URL = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=detail&year=' . $_REQUEST['year'] . '&month=' . $_REQUEST['month'];
@@ -1117,25 +1110,10 @@ if ( ! $_REQUEST['modfunc'] )
 
 	echo '</tr></thead><tbody><tr>';
 
-	// Get Blocks
-	$blocks_RET = DBGet( DBQuery( "SELECT DISTINCT BLOCK
-		FROM SCHOOL_PERIODS
-		WHERE SYEAR='" . UserSyear() . "'
-		AND SCHOOL_ID='" . UserSchool() . "'
-		AND BLOCK IS NOT NULL
-		ORDER BY BLOCK" ) );
-
-	$block_options = array();
-
-	foreach ( (array) $blocks_RET as $block )
-	{
-		$block_options[ $block['BLOCK'] ] = $block['BLOCK'];
-	}
-
 	$return_counter = 0;
 
-	// Skip until first Day of Month
-	$skip = date( "w", $time );
+	// Skip until first Day of Month.
+	$skip = date( "w", strtotime( $first_day_month ) );
 
 	if ( $skip )
 	{
@@ -1144,171 +1122,70 @@ if ( ! $_REQUEST['modfunc'] )
 		$return_counter = $skip;
 	}
 
-	// Days
+	// Days.
 	for ( $i = 1; $i <= $last; $i++ )
 	{
-		$day_time = mktime( 0, 0, 0, $_REQUEST['month'], $i, $_REQUEST['year'] );
+		$date = $_REQUEST['year'] . '-' . $_REQUEST['month'] . '-' . $i;
 
-		$date = date( 'Y-m-d', $day_time );
+		$minutes = $calendar_RET[ $date ][1]['MINUTES'];
 
-		$day_classes = '';
+		$events_date = isset( $events_RET[ $date ] ) ? $events_RET[ $date ] : array();
 
-		$calendar_date_has_minutes = ! empty( $calendar_RET[ $date ][1]['MINUTES'] );
+		$assignments_date = isset( $assignments_RET[ $date ] ) ? $assignments_RET[ $date ] : array();
 
-		if ( $calendar_date_has_minutes )
-		{
-			// Full School Day.
-			if ( $calendar_RET[ $date ][1]['MINUTES'] === '999' )
-			{
-				$day_classes .= ' full';
-			}
-			// Minutes School Day.
-			else
-				$day_classes .= ' minutes';
-		}
-		// No School Day.
-		else
-			$day_classes .= ' no-school';
+		$day_classes = CalendarDayClasses( $date, $minutes );
 
-		// Thursdays, Fridays, Saturdays.
-		if ( ($return_counter + 1) % 7 === 0
-			|| ($return_counter + 1) % 7 > 4 )
-		{
-			$day_classes .= ' thu-fri-sat';
-		}
+		$day_inner_classes = CalendarDayClasses(
+			$date,
+			$minutes,
+			$events_date,
+			$assignments_date,
+			'inner'
+		);
 
-		$day_inner_classes = '';
-
-		// Hover CSS class.
-		if ( AllowEdit()
-			|| $calendar_date_has_minutes
-			|| ! empty( $events_RET[ $date ] )
-			|| ! empty( $assignments_RET[ $date ] ) )
-		{
-			$day_inner_classes .= ' hover';
-		}
+		$day_number_classes = CalendarDayClasses(
+			$date,
+			$minutes,
+			$events_date,
+			$assignments_date,
+			'number'
+		);
 
 		echo '<td class="calendar-day' . $day_classes . '">
 			<table class="' . $day_inner_classes . '"><tr>';
 
-		$day_number_classes = 'number';
 
-		// Bold class
-		if ( ! empty( $events_RET[ $date ] )
-			|| ! empty( $assignments_RET[ $date ] ) )
-		{
-			$day_number_classes .= ' bold';
-		}
-
-		// Calendar Day number
+		// Calendar Day number.
 		echo '<td class="' . $day_number_classes . '">' . $i . '</td>
 		<td class="width-100p align-right">';
 
-		if ( AllowEdit() )
-		{
-			// Minutes
-			if ( $calendar_date_has_minutes
-				&& $calendar_RET[ $date ][1]['MINUTES'] === '999' )
-			{
-				//FJ icons
-				echo CheckboxInput(
-					$calendar_RET[ $date ],
-					"all_day[" . $date . "]",
-					'',
-					'',
-					false,
-					button( 'check' ),
-					'',
-					true,
-					'title="' . _( 'All Day' ) . '"'
-				);
-			}
-			elseif ( $calendar_date_has_minutes )
-			{
-				echo TextInput( $calendar_RET[ $date ][1]['MINUTES'], "minutes[" . $date . "]", '', 'size=3' );
-			}
-			else
-			{
-				echo '<input type="checkbox" name="all_day[' . $date . ']" value="Y" title="' .
-					_( 'All Day' ) . '" />&nbsp;';
+		echo CalendarDayMinutesHTML( $date, $minutes );
 
-				echo '<input type="number" min="1" max="998" name="minutes[' . $date . ']" size="3" title="' .
-					_( 'Minutes' ) . '" /><br />';
-			}
-		}
+		$block = empty( $calendar_RET[ $date ][1]['BLOCK'] ) ? '' : $calendar_RET[ $date ][1]['BLOCK'];
 
-		// Blocks
-		if ( count( $blocks_RET )
-			&& ( $calendar_RET[ $date ][1]['BLOCK']
-				|| User( 'PROFILE' ) === 'admin' ) )
-		{
-			echo SelectInput(
-				$calendar_RET[ $date ][1]['BLOCK'],
-				"blocks[" . $date . "]",
-				'',
-				$block_options
-			);
-		}
+		echo CalendarDayBlockHTML( $date, $minutes, $block );
 
 		echo '</td></tr>
-		<tr><td colspan="2" class="calendar-event valign-top">';
+			<tr><td colspan="2" class="calendar-event valign-top">';
 
-		$events_date = isset( $events_RET[ $date ] ) ? $events_RET[ $date ] : array();
+		echo CalendarDayEventsHTML( $date, $events_date );
 
-		// Events.
-		foreach ( (array) $events_date as $event )
-		{
-			$title = ( $event['TITLE'] ? $event['TITLE'] : '***' );
+		echo CalendarDayAssignmentsHTML( $date, $assignments_date );
 
-			echo '<div>' .
-				( AllowEdit() || $event['DESCRIPTION'] ?
-					'<a href="#" onclick="CalEventPopup(popupURL + \'&event_id=' . $event['ID'] . '\'); return false;" title="' . htmlentities( $title ) . '">' .
-					$title . '</a>'
-					: '<span title="' . htmlentities( $title ) . '">' . $title . '</span>'
-				) .
-			'</div>';
-		}
+		echo '</td></tr><tr>';
 
-		$assignments_date = isset( $assignments_RET[ $date ] ) ? $assignments_RET[ $date ] : array();
+		echo CalendarDayNewAssignmentHTML( $date, $assignments_date );
 
-		// Assignments.
-		foreach ( (array) $assignments_date as $assignment )
-		{
-			echo '<div class="calendar-event assignment' . ( $assignment['ASSIGNED'] == 'Y' ? ' assigned' : '' ) . '">' .
-				'<a href="#" onclick="CalEventPopup(popupURL + \'&assignment_id=' . $assignment['ID'] . '\'); return false;" title="' . htmlentities( $assignment['TITLE'] ) . '">' .
-					$assignment['TITLE'] .
-				'</a>
-			</div>';
-		}
+		echo CalendarDayRotationNumberHTML( $date, $minutes );
 
-		echo '</td></tr>';
-
-		if ( AllowEdit() )
-		{
-			// New Event
-			echo '<td style="vertical-align:bottom;">' .
-				button(
-					'add',
-					'',
-					'"#" onclick="CalEventPopup(popupURL + \'&school_date=' . $date . '&event_id=new\'); return false;" title="' . htmlentities( _( 'New Event' ) ) . '"'
-				) .
-			'</td>';
-		}
-
-		//FJ Days Numbered
-		if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) > 0 )
-		{
-			echo '<td class="align-right" style="vertical-align:bottom;">' .
-				( ( $dayNumber = dayToNumber( $day_time ) ) ? _( 'Day' ) . '&nbsp;' . $dayNumber : '&nbsp;' ) .
-			'</td>';
-		}
-
-		echo '</table></td>';
+		echo '</tr></table></td>';
 
 		$return_counter++;
 
 		if ( $return_counter % 7 === 0 )
+		{
 			echo '</tr><tr>';
+		}
 	}
 
 	// Skip from Last Day of Month until end of Calendar
