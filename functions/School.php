@@ -23,20 +23,13 @@ function UpdateSchoolArray( $school_id = null )
 		$school_id = UserSchool();
 	}
 
-	$_SESSION['SchoolData'] = DBGet( DBQuery( "SELECT *
+	$_SESSION['SchoolData'] = DBGet( "SELECT *,
+		(SELECT COUNT(*) FROM SCHOOLS WHERE SYEAR = '" . UserSyear() . "') AS SCHOOLS_NB
 		FROM SCHOOLS
 		WHERE ID = '" . (int) $school_id . "'
-		AND SYEAR = '" . UserSyear() . "'" ) );
+		AND SYEAR = '" . UserSyear() . "'" );
 
 	$_SESSION['SchoolData'] = $_SESSION['SchoolData'][1];
-
-	// FJ if only one school, no Search All Schools option.
-	$schools_nb = DBGet( DBQuery( "SELECT COUNT(*)
-		AS SCHOOLS_NB
-		FROM SCHOOLS
-		WHERE SYEAR = '" . UserSyear() . "';" ) );
-
-	$_SESSION['SchoolData']['SCHOOLS_NB'] = $schools_nb[1]['SCHOOLS_NB'];
 }
 
 
