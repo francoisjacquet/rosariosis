@@ -326,7 +326,6 @@ function GetAssignment( $assignment_id )
 
 	$where_user = "1";
 
-
 	if ( User( 'PROFILE' ) === 'teacher' )
 	{
 		$where_user = "s.STAFF_ID='" . User( 'STAFF_ID' ) . "'";
@@ -336,18 +335,18 @@ function GetAssignment( $assignment_id )
 		$where_user = "ss.STUDENT_ID='" . UserStudentID() . "'
 			AND ss.SYEAR='" . UserSyear() . "'
 			AND ss.SCHOOL_ID='" . UserSchool() . "'
-			AND ss.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . ")";
+			AND ss.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . ")
+			AND (ga.COURSE_PERIOD_ID IS NULL OR ss.COURSE_PERIOD_ID=ga.COURSE_PERIOD_ID)
+			AND (ga.COURSE_ID IS NULL OR ss.COURSE_ID=ga.COURSE_ID)";
 	}
 
 	$assignment_sql = "SELECT ga.ASSIGNMENT_ID, ga.STAFF_ID, ga.COURSE_PERIOD_ID, ga.COURSE_ID,
 		ga.TITLE, ga.ASSIGNED_DATE, ga.DUE_DATE, ga.POINTS,
 		ga.DESCRIPTION, ga.FILE, ga.SUBMISSION, c.TITLE AS COURSE_TITLE,
 		gat.TITLE AS ASSIGNMENT_TYPE_TITLE, gat.COLOR AS ASSIGNMENT_TYPE_COLOR
-		FROM GRADEBOOK_ASSIGNMENTS ga, SCHEDULE ss, STAFF s, COURSES c, GRADEBOOK_ASSIGNMENT_TYPES gat
+		FROM GRADEBOOK_ASSIGNMENTS ga,SCHEDULE ss,STAFF s,COURSES c,GRADEBOOK_ASSIGNMENT_TYPES gat
 		WHERE " . $where_user .
 		" AND ga.ASSIGNMENT_ID='" . $assignment_id . "'
-		AND (ga.COURSE_PERIOD_ID IS NULL OR ss.COURSE_PERIOD_ID=ga.COURSE_PERIOD_ID)
-		AND (ga.COURSE_ID IS NULL OR ss.COURSE_ID=ga.COURSE_ID)
 		AND (ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE)
 		AND ( ga.DUE_DATE IS NULL
 			OR ( ga.DUE_DATE>=ss.START_DATE
