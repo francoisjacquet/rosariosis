@@ -31,7 +31,10 @@
  * $array[10101][402345][1] = array('COURSE_ID' => '10101','COURSE_PERIOD_ID' => '402345')
  * Use with parcimony!
  *
- * @example $column_RET = DBGet( DBQuery( "SELECT column FROM table;" ) );
+ * @example $table_RET = DBGet( DBQuery( "SELECT column FROM table;" ) );
+ *
+ * @since 4.5 Can omit DBQuery call.
+ * @example $table_RET = DBGet( "SELECT column FROM table;" );
  *
  * @global array    $THIS_RET  Current row of the query result
  *
@@ -63,6 +66,13 @@ function DBGet( $QI, $functions = array(), $index = array() )
 	$s = ( $index_count ? array() : 0 );
 
 	$results = array();
+
+	if ( is_string( $QI )
+		&& stripos( $QI, 'SELECT ' ) === 0 )
+	{
+		// Can omit DBQuery call.
+		$QI = DBQuery( $QI );
+	}
 
 	while ( $RET = db_fetch_row( $QI ) )
 	{

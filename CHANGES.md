@@ -5,6 +5,7 @@ Changes in 4.5
 --------------
 - Add Calendar header hook in Calendar.php
 - Add Calendar Day functions in CalendarDay.inc.php & Calendar.php
+- Can omit DBQuery call in DBGet.fnc.php
 
 Changes in 4.4
 --------------
