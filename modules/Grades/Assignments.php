@@ -238,8 +238,7 @@ if ( isset( $_POST['tables'] )
 			$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ');';
 		}
 
-		if ( ! $error
-			&& ( $go || ( $id && isset( $_FILES['assignment_file'] ) ) ) )
+		if ( ! $error && $go )
 		{
 			DBQuery( $sql );
 
