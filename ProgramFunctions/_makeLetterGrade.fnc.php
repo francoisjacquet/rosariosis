@@ -46,9 +46,9 @@ function _makeLetterGrade( $percent, $course_period_id = 0, $staff_id = 0, $ret 
 	// Save courses in $_ROSARIO['_makeLetterGrade']['courses'] global var.
 	if ( ! isset( $_ROSARIO['_makeLetterGrade']['courses'][ $course_period_id ] ) )
 	{
-		$_ROSARIO['_makeLetterGrade']['courses'][ $course_period_id ] = DBGet( DBQuery( "SELECT DOES_BREAKOFF,GRADE_SCALE_ID
+		$_ROSARIO['_makeLetterGrade']['courses'][ $course_period_id ] = DBGet( "SELECT DOES_BREAKOFF,GRADE_SCALE_ID
 			FROM COURSE_PERIODS
-			WHERE COURSE_PERIOD_ID='" . $course_period_id . "'" ) );
+			WHERE COURSE_PERIOD_ID='" . $course_period_id . "'" );
 	}
 
 	$does_breakoff = $_ROSARIO['_makeLetterGrade']['courses'][ $course_period_id ][1]['DOES_BREAKOFF'];
@@ -85,12 +85,12 @@ function _makeLetterGrade( $percent, $course_period_id = 0, $staff_id = 0, $ret 
 	// Save grades in $_ROSARIO['_makeLetterGrade']['grades'] global var.
 	if ( ! isset( $_ROSARIO['_makeLetterGrade']['grades'][ $grade_scale_id ] ) )
 	{
-		$_ROSARIO['_makeLetterGrade']['grades'][ $grade_scale_id ] = DBGet( DBQuery( "SELECT TITLE,ID,BREAK_OFF,COMMENT
+		$_ROSARIO['_makeLetterGrade']['grades'][ $grade_scale_id ] = DBGet( "SELECT TITLE,ID,BREAK_OFF,COMMENT
 			FROM REPORT_CARD_GRADES
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND GRADE_SCALE_ID='" . $grade_scale_id . "'
-			ORDER BY BREAK_OFF IS NOT NULL DESC,BREAK_OFF DESC,SORT_ORDER" ) );
+			ORDER BY BREAK_OFF IS NOT NULL DESC,BREAK_OFF DESC,SORT_ORDER" );
 	}
 
 	// Fix error invalid input syntax for type numeric

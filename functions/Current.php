@@ -143,7 +143,7 @@ function SetUserStaffID( $staff_id )
 			if ( $staff_id !== User( 'STAFF_ID' ) )
 			{
 				// Get teacher's related parents, include parents of inactive students.
-				$is_related_parent = DBGet( DBQuery( "SELECT 1
+				$is_related_parent = DBGet( "SELECT 1
 					FROM STAFF s
 					WHERE s.SYEAR='" . UserSyear() . "'
 					AND (s.SCHOOLS LIKE '%," . UserSchool() . ",%' OR s.SCHOOLS IS NULL OR s.SCHOOLS='')
@@ -156,7 +156,7 @@ function SetUserStaffID( $staff_id )
 						AND _ss.STUDENT_ID=_sem.STUDENT_ID
 						AND _ss.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'
 					))
-					AND s.STAFF_ID='" . $staff_id . "'" ), array(), array( 'STAFF_ID' ) );
+					AND s.STAFF_ID='" . $staff_id . "'", array(), array( 'STAFF_ID' ) );
 
 				if ( ! $is_related_parent )
 				{
@@ -169,10 +169,10 @@ function SetUserStaffID( $staff_id )
 		case 'admin':
 
 			// Check $staff_id is in current Year.
-			$is_admin_staff = DBGet( DBQuery( "SELECT SCHOOLS
+			$is_admin_staff = DBGet( "SELECT SCHOOLS
 				FROM STAFF
 				WHERE STAFF_ID='" . $staff_id . "'
-				AND SYEAR='" . UserSyear() . "'" ) );
+				AND SYEAR='" . UserSyear() . "'" );
 
 			if ( ! $is_admin_staff )
 			{
@@ -263,14 +263,14 @@ function SetUserStudentID( $student_id )
 		case 'parent':
 
 			// Get parent's related students.
-			$is_related_student = DBGet( DBQuery( "SELECT 1
+			$is_related_student = DBGet( "SELECT 1
 				FROM STUDENTS s,STUDENTS_JOIN_USERS sju,STUDENT_ENROLLMENT se
 				WHERE s.STUDENT_ID=sju.STUDENT_ID
 				AND sju.STAFF_ID='" . User( 'STAFF_ID' ) . "'
 				AND se.SYEAR='" . UserSyear() . "'
 				AND se.STUDENT_ID=sju.STUDENT_ID
 				AND ('" . DBDate() . "'>=se.START_DATE AND ('" . DBDate() . "'<=se.END_DATE OR se.END_DATE IS NULL))
-				AND sju.STUDENT_ID='" . $student_id . "'" ) );
+				AND sju.STUDENT_ID='" . $student_id . "'" );
 
 			if ( ! $is_related_student )
 			{
@@ -281,7 +281,7 @@ function SetUserStudentID( $student_id )
 		case 'teacher':
 
 			// Get teacher's related students, include inactive students.
-			$is_related_student = DBGet( DBQuery( "SELECT 1
+			$is_related_student = DBGet( "SELECT 1
 				FROM STUDENTS s
 				JOIN SCHEDULE ss ON (ss.STUDENT_ID=s.STUDENT_ID
 					AND ss.SYEAR='" . UserSyear() . "'
@@ -302,7 +302,7 @@ function SetUserStudentID( $student_id )
 						AND SYEAR=ssm.SYEAR
 						ORDER BY START_DATE DESC
 						LIMIT 1))
-				AND s.STUDENT_ID='" . $student_id . "'" ) );
+				AND s.STUDENT_ID='" . $student_id . "'" );
 
 			if ( ! $is_related_student )
 			{
@@ -313,11 +313,11 @@ function SetUserStudentID( $student_id )
 		case 'admin':
 
 			// Check $student_id is in current Year & School.
-			$is_admin_student = DBGet( DBQuery( "SELECT 1
+			$is_admin_student = DBGet( "SELECT 1
 				FROM STUDENT_ENROLLMENT
 				WHERE STUDENT_ID='" . $student_id . "'
 				AND SCHOOL_ID='" . UserSchool() . "'
-				AND SYEAR='" . UserSyear() . "'" ) );
+				AND SYEAR='" . UserSyear() . "'" );
 
 			if ( ! $is_admin_student )
 			{

@@ -668,10 +668,10 @@ function _makeStartInput( $value, $column )
 	{
 		$id = 'new';
 
-		$default = DBGet( DBQuery( "SELECT min(SCHOOL_DATE) AS START_DATE
+		$default = DBGet( "SELECT min(SCHOOL_DATE) AS START_DATE
 			FROM ATTENDANCE_CALENDAR
 			WHERE SYEAR='" . UserSyear() . "'
-			AND SCHOOL_ID='" . UserSchool() . "'" ) );
+			AND SCHOOL_ID='" . UserSchool() . "'" );
 
 		$default = $default[1]['START_DATE'];
 
@@ -692,11 +692,11 @@ function _makeStartInput( $value, $column )
 
 	if ( ! $add_codes )
 	{
-		$options_RET = DBGet( DBQuery( "SELECT ID,TITLE AS TITLE
+		$options_RET = DBGet( "SELECT ID,TITLE AS TITLE
 			FROM STUDENT_ENROLLMENT_CODES
 			WHERE SYEAR='" . UserSyear() . "'
 			AND TYPE='Add'
-			ORDER BY SORT_ORDER" ) );
+			ORDER BY SORT_ORDER" );
 
 		foreach ( (array) $options_RET as $option )
 		{
@@ -757,11 +757,11 @@ function _makeEndInput( $value, $column )
 
 	if ( ! $drop_codes )
 	{
-		$options_RET = DBGet( DBQuery( "SELECT ID,TITLE AS TITLE
+		$options_RET = DBGet( "SELECT ID,TITLE AS TITLE
 			FROM STUDENT_ENROLLMENT_CODES
 			WHERE SYEAR='" . UserSyear() . "'
 			AND TYPE='Drop'
-			ORDER BY SORT_ORDER" ) );
+			ORDER BY SORT_ORDER" );
 
 		foreach ( (array) $options_RET as $option )
 		{
@@ -812,9 +812,9 @@ function _makeSchoolInput( $value, $column )
 	if ( ! isset( $schools )
 		|| ! is_array( $schools ) )
 	{
-		$schools = DBGet( DBQuery( "SELECT ID,TITLE
+		$schools = DBGet( "SELECT ID,TITLE
 			FROM SCHOOLS
-			WHERE SYEAR='" . UserSyear() . "'" ), array(), array( 'ID' ) );
+			WHERE SYEAR='" . UserSyear() . "'", array(), array( 'ID' ) );
 	}
 
 	foreach ( (array) $schools as $sid => $school )

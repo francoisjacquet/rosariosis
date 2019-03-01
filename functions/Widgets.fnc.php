@@ -200,7 +200,7 @@ function Widgets( $item, &$myextra = null )
 		// User Widgets (configured in My Preferences).
 		case 'user':
 
-			/*$widgets_RET = DBGet( DBQuery( "SELECT TITLE
+			/*$widgets_RET = DBGet( "SELECT TITLE
 				FROM PROGRAM_USER_CONFIG
 				WHERE USER_ID='" . User( 'STAFF_ID' ) . "'
 				AND PROGRAM='WidgetsSearch'" .
@@ -209,7 +209,7 @@ function Widgets( $item, &$myextra = null )
 						implode( "','", array_keys( $_ROSARIO['Widgets'] ) ) .
 					"')" :
 					'' )
-				) );*/
+				);*/
 
 			$user_widgets = ProgramUserConfig( 'WidgetsSearch' );
 
@@ -239,10 +239,10 @@ function Widgets( $item, &$myextra = null )
 				// Course.
 				if ( $_REQUEST['w_course_period_id_which'] == 'course' )
 				{
-					$course = DBGet( DBQuery( "SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,cp.COURSE_ID
+					$course = DBGet( "SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,cp.COURSE_ID
 						FROM COURSE_PERIODS cp,COURSES c
 						WHERE c.COURSE_ID=cp.COURSE_ID
-						AND cp.COURSE_PERIOD_ID='" . $_REQUEST['w_course_period_id'] . "'" ) );
+						AND cp.COURSE_PERIOD_ID='" . $_REQUEST['w_course_period_id'] . "'" );
 
 					$extra['FROM'] .= ",SCHEDULE w_ss";
 
@@ -275,10 +275,10 @@ function Widgets( $item, &$myextra = null )
 							AND w_ss.END_DATE
 							OR w_ss.END_DATE IS NULL)";
 
-					$course = DBGet( DBQuery( "SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,cp.COURSE_ID
+					$course = DBGet( "SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,cp.COURSE_ID
 						FROM COURSE_PERIODS cp,COURSES c
 						WHERE c.COURSE_ID=cp.COURSE_ID
-						AND cp.COURSE_PERIOD_ID='" . $_REQUEST['w_course_period_id'] . "'" ) );
+						AND cp.COURSE_PERIOD_ID='" . $_REQUEST['w_course_period_id'] . "'" );
 
 					if ( ! $extra['NoSearchTerms'] )
 					{
@@ -310,9 +310,9 @@ function Widgets( $item, &$myextra = null )
 			// PART OF THIS IS DUPLICATED IN PrintRequests.php.
 			if ( ! empty( $_REQUEST['request_course_id'] ) )
 			{
-				$course = DBGet( DBQuery( "SELECT c.TITLE
+				$course = DBGet( "SELECT c.TITLE
 					FROM COURSES c
-					WHERE c.COURSE_ID='" . $_REQUEST['request_course_id'] . "'" ) );
+					WHERE c.COURSE_ID='" . $_REQUEST['request_course_id'] . "'" );
 
 				// Request.
 				if ( ! isset( $_REQUEST['missing_request_course'] )
@@ -745,10 +745,10 @@ function Widgets( $item, &$myextra = null )
 						_( 'With' ) ) .
 					' ' . _( 'Report Card Grade' ) . ': </b>';
 
-				$letter_grades_RET = DBGet( DBQuery( "SELECT ID,TITLE
+				$letter_grades_RET = DBGet( "SELECT ID,TITLE
 					FROM REPORT_CARD_GRADES
 					WHERE SCHOOL_ID='" . UserSchool() . "'
-					AND SYEAR='" . UserSyear() . "'"), array(), array( 'ID' ) );
+					AND SYEAR='" . UserSyear() . "'", array(), array( 'ID' ) );
 
 				foreach ( (array) $_REQUEST['letter_grade'] as $grade => $yes )
 				{
@@ -810,7 +810,7 @@ function Widgets( $item, &$myextra = null )
 			// FJ fix error Invalid argument supplied for foreach().
 			if ( empty( $_REQUEST['search_modfunc'] ) )
 			{
-				$letter_grades_RET = DBGet( DBQuery( "SELECT rg.ID,rg.TITLE,rg.GRADE_SCALE_ID
+				$letter_grades_RET = DBGet( "SELECT rg.ID,rg.TITLE,rg.GRADE_SCALE_ID
 					FROM REPORT_CARD_GRADES rg,REPORT_CARD_GRADE_SCALES rs
 					WHERE rg.SCHOOL_ID='" . UserSchool() . "'
 					AND rg.SYEAR='" . UserSyear() . "'
@@ -821,7 +821,7 @@ function Widgets( $item, &$myextra = null )
 							FROM COURSE_PERIODS
 							WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')" :
 					'' ) .
-					" ORDER BY rs.SORT_ORDER,rs.ID,rg.BREAK_OFF IS NOT NULL DESC,rg.BREAK_OFF DESC,rg.SORT_ORDER" ),
+					" ORDER BY rs.SORT_ORDER,rs.ID,rg.BREAK_OFF IS NOT NULL DESC,rg.BREAK_OFF DESC,rg.SORT_ORDER",
 					array(), array( 'GRADE_SCALE_ID' ) );
 
 				$j = 0;
@@ -957,9 +957,9 @@ function Widgets( $item, &$myextra = null )
 					AND sea.SYEAR=ssm.SYEAR
 					AND sea.ACTIVITY_ID='" . $_REQUEST['activity_id'] . "'";
 
-				$activity = DBGet( DBQuery( "SELECT TITLE
+				$activity = DBGet( "SELECT TITLE
 					FROM ELIGIBILITY_ACTIVITIES
-					WHERE ID='" . $_REQUEST['activity_id'] . "'" ) );
+					WHERE ID='" . $_REQUEST['activity_id'] . "'" );
 
 				if ( ! $extra['NoSearchTerms'] )
 				{
@@ -972,10 +972,10 @@ function Widgets( $item, &$myextra = null )
 
 			if ( empty( $_REQUEST['search_modfunc'] ) )
 			{
-				$activities_RET = DBGet( DBQuery( "SELECT ID,TITLE
+				$activities_RET = DBGet( "SELECT ID,TITLE
 					FROM ELIGIBILITY_ACTIVITIES
 					WHERE SCHOOL_ID='" . UserSchool() . "'
-					AND SYEAR='" . UserSyear() . "'" ) );
+					AND SYEAR='" . UserSyear() . "'" );
 			}
 
 			$select = '<select name="activity_id">
@@ -1079,12 +1079,12 @@ function Widgets( $item, &$myextra = null )
 				break;
 			}
 
-			$users_RET = DBGet( DBQuery( "SELECT STAFF_ID," . DisplayNameSQL() . " AS FULL_NAME
+			$users_RET = DBGet( "SELECT STAFF_ID," . DisplayNameSQL() . " AS FULL_NAME
 				FROM STAFF
 				WHERE SYEAR='" . UserSyear() . "'
 				AND (SCHOOLS IS NULL OR SCHOOLS LIKE '%," . UserSchool() . ",%')
 				AND (PROFILE='admin' OR PROFILE='teacher')
-				ORDER BY LAST_NAME,FIRST_NAME,MIDDLE_NAME" ), array(), array( 'STAFF_ID' ) );
+				ORDER BY LAST_NAME,FIRST_NAME,MIDDLE_NAME", array(), array( 'STAFF_ID' ) );
 
 			if ( ! empty( $_REQUEST['discipline_reporter'] ) )
 			{
@@ -1318,13 +1318,13 @@ function Widgets( $item, &$myextra = null )
 				$extra['FROM'] .= ',DISCIPLINE_REFERRALS dr ';
 			}
 
-			$categories_RET = DBGet( DBQuery( "SELECT f.ID,u.TITLE,f.DATA_TYPE,u.SELECT_OPTIONS
+			$categories_RET = DBGet( "SELECT f.ID,u.TITLE,f.DATA_TYPE,u.SELECT_OPTIONS
 				FROM DISCIPLINE_FIELDS f,DISCIPLINE_FIELD_USAGE u
 				WHERE u.DISCIPLINE_FIELD_ID=f.ID
 				AND u.SYEAR='" . UserSyear() . "'
 				AND u.SCHOOL_ID='" . UserSchool() . "'
 				AND f.DATA_TYPE!='textarea'
-				AND f.DATA_TYPE!='date'" ) );
+				AND f.DATA_TYPE!='date'" );
 
 			foreach ( (array) $categories_RET as $category )
 			{
@@ -1443,10 +1443,10 @@ function Widgets( $item, &$myextra = null )
 				break;
 			}
 
-			$schools_RET = DBGet( DBQuery( "SELECT ID,TITLE
+			$schools_RET = DBGet( "SELECT ID,TITLE
 				FROM SCHOOLS
 				WHERE ID!='" . UserSchool() . "'
-				AND SYEAR='" . UserSyear() . "'" ) );
+				AND SYEAR='" . UserSyear() . "'" );
 
 			$next_year_options = array(
 				'' => _( 'N/A' ),
@@ -1499,11 +1499,11 @@ function Widgets( $item, &$myextra = null )
 				break;
 			}
 
-			$calendars_RET = DBGet( DBQuery( "SELECT CALENDAR_ID,TITLE
+			$calendars_RET = DBGet( "SELECT CALENDAR_ID,TITLE
 				FROM ATTENDANCE_CALENDARS
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'
-				ORDER BY DEFAULT_CALENDAR ASC" ) );
+				ORDER BY DEFAULT_CALENDAR ASC" );
 
 			if ( ! empty( $_REQUEST['calendar'] ) )
 			{

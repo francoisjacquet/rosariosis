@@ -33,11 +33,11 @@ if ( isset( $_POST['email'] )
 	}
 	else
 	{
-		$user_RET = DBGet( DBQuery( "SELECT STAFF_ID AS ID, EMAIL, USERNAME, 'staff' AS USER_TYPE
+		$user_RET = DBGet( "SELECT STAFF_ID AS ID, EMAIL, USERNAME, 'staff' AS USER_TYPE
 			FROM STAFF
 			WHERE LOWER(EMAIL)=LOWER('" . $_REQUEST['email'] . "')
 			AND SYEAR='" . Config( 'SYEAR' ) . "'
-			LIMIT 1" ) );
+			LIMIT 1" );
 
 		if ( ! $user_RET
 			&& Config( 'STUDENTS_EMAIL_FIELD' ) )
@@ -58,7 +58,7 @@ if ( isset( $_POST['email'] )
 
 			if ( $custom_field )
 			{
-				$user_RET = DBGet( DBQuery( "SELECT s.STUDENT_ID AS ID, s.USERNAME, 'student' AS USER_TYPE,
+				$user_RET = DBGet( "SELECT s.STUDENT_ID AS ID, s.USERNAME, 'student' AS USER_TYPE,
 					s." . $custom_field . " AS EMAIL
 					FROM STUDENTS s, STUDENT_ENROLLMENT ssm
 					WHERE LOWER(s." . $custom_field . ")=LOWER('" . $_REQUEST['email'] . "')
@@ -67,7 +67,7 @@ if ( isset( $_POST['email'] )
 					AND ('" . DBDate() . "'>=ssm.START_DATE
 					AND (ssm.END_DATE IS NULL
 						OR '" . DBDate() . "'<=ssm.END_DATE ) )
-					LIMIT 1" ) );
+					LIMIT 1" );
 			}
 		}
 
@@ -127,11 +127,11 @@ if ( isset( $_REQUEST['h'] )
 	&& mb_substr( $_REQUEST['h'], 0, 3 ) == '$6$' )
 {
 	// Select Staff where last login > now.
-	$staff_RET = DBGet( DBQuery( "SELECT STAFF_ID AS ID, USERNAME, PASSWORD, EMAIL,
+	$staff_RET = DBGet( "SELECT STAFF_ID AS ID, USERNAME, PASSWORD, EMAIL,
 		" . DisplayNameSQL() . " AS FULL_NAME, LAST_LOGIN, PROFILE_ID
 		FROM STAFF
 		WHERE LAST_LOGIN > CURRENT_TIMESTAMP
-		AND SYEAR='" . Config( 'SYEAR' ) . "'" ) );
+		AND SYEAR='" . Config( 'SYEAR' ) . "'" );
 
 	$student_RET = array();
 
@@ -154,7 +154,7 @@ if ( isset( $_REQUEST['h'] )
 		if ( $custom_field )
 		{
 			// Select Students where last login > now & enrolled.
-			$student_RET = DBGet( DBQuery( "SELECT s.STUDENT_ID AS ID, s.USERNAME, s.PASSWORD,
+			$student_RET = DBGet( "SELECT s.STUDENT_ID AS ID, s.USERNAME, s.PASSWORD,
 				s." . $custom_field . " AS EMAIL,
 				" . DisplayNameSQL( 's' ) . " AS FULL_NAME, s.LAST_LOGIN
 				FROM STUDENTS s, STUDENT_ENROLLMENT se
@@ -163,7 +163,7 @@ if ( isset( $_REQUEST['h'] )
 				AND se.STUDENT_ID=s.STUDENT_ID
 				AND ('" . DBDate() . "'>=se.START_DATE
 					AND ('" . DBDate() . "'<=se.END_DATE
-						OR se.END_DATE IS NULL ) )" ) );
+						OR se.END_DATE IS NULL ) )" );
 		}
 	}
 
@@ -324,11 +324,11 @@ function _sendPasswordResetEmail( $user_id, $user_type = 'staff', $email )
 	if ( $user_type === 'staff' )
 	{
 		// Get Staff email, password.
-		$staff_RET = DBGet( DBQuery( "SELECT USERNAME, PASSWORD,
+		$staff_RET = DBGet( "SELECT USERNAME, PASSWORD,
 			" . DisplayNameSQL() . " AS FULL_NAME
 			FROM STAFF
 			WHERE STAFF_ID='" . $user_id . "'
-			AND SYEAR='" . Config( 'SYEAR' ) . "'" ) );
+			AND SYEAR='" . Config( 'SYEAR' ) . "'" );
 
 		$username = $staff_RET[1]['USERNAME'];
 
@@ -339,7 +339,7 @@ function _sendPasswordResetEmail( $user_id, $user_type = 'staff', $email )
 	elseif ( $user_type === 'student' )
 	{
 		// Get Student username, password, name.
-		$student_RET = DBGet( DBQuery( "SELECT USERNAME,PASSWORD,
+		$student_RET = DBGet( "SELECT USERNAME,PASSWORD,
 			" . DisplayNameSQL( 's' ) . " AS FULL_NAME
 			FROM STUDENTS s,STUDENT_ENROLLMENT ssm
 			WHERE s.STUDENT_ID='" . $user_id . "'
@@ -347,7 +347,7 @@ function _sendPasswordResetEmail( $user_id, $user_type = 'staff', $email )
 			AND ssm.SYEAR='" . Config( 'SYEAR' ) . "'
 			AND ('" . DBDate() . "'>=ssm.START_DATE
 			AND (ssm.END_DATE IS NULL
-				OR '" . DBDate() . "'<=ssm.END_DATE ) )" ) );
+				OR '" . DBDate() . "'<=ssm.END_DATE ) )" );
 
 		$username = $student_RET[1]['USERNAME'];
 
@@ -363,8 +363,8 @@ function _sendPasswordResetEmail( $user_id, $user_type = 'staff', $email )
 	}
 
 	// Last login = now + 2 hours.
-	$last_login_RET = DBGet( DBQuery( "SELECT
-		CAST(CURRENT_TIMESTAMP + INTERVAL '2 hours' AS TIMESTAMP(0)) AS LAST_LOGIN" ) );
+	$last_login_RET = DBGet( "SELECT
+		CAST(CURRENT_TIMESTAMP + INTERVAL '2 hours' AS TIMESTAMP(0)) AS LAST_LOGIN" );
 
 	$last_login = $last_login_RET[1]['LAST_LOGIN'];
 
@@ -507,10 +507,10 @@ function _notifyServerAdminPasswordReset( $user_id )
 		return false;
 	}
 
-	$staff_RET = DBGet( DBQuery( "SELECT USERNAME," . DisplayNameSQL() . " AS FULL_NAME,PROFILE
+	$staff_RET = DBGet( "SELECT USERNAME," . DisplayNameSQL() . " AS FULL_NAME,PROFILE
 		FROM STAFF
 		WHERE STAFF_ID='" . $user_id . "'
-		AND SYEAR='" . Config( 'SYEAR' ) . "'" ) );
+		AND SYEAR='" . Config( 'SYEAR' ) . "'" );
 
 	// FJ add SendEmail function.
 	require_once 'ProgramFunctions/SendEmail.fnc.php';

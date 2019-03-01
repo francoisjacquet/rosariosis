@@ -62,7 +62,7 @@ function GetStaffList( &$extra = array() )
 		$extra['columns_after']['FAILED_LOGIN'] = _( 'Failed Login' );
 		$functions['FAILED_LOGIN'] = 'makeLogin';
 
-		$view_fields_RET = DBGet( DBQuery( "SELECT cf.ID,cf.TYPE,cf.TITLE
+		$view_fields_RET = DBGet( "SELECT cf.ID,cf.TYPE,cf.TITLE
 			FROM STAFF_FIELDS cf
 			WHERE ((SELECT VALUE
 				FROM PROGRAM_USER_CONFIG
@@ -74,7 +74,7 @@ function GetStaffList( &$extra = array() )
 					''
 				) .
 			")
-			ORDER BY cf.SORT_ORDER,cf.TITLE" ) );
+			ORDER BY cf.SORT_ORDER,cf.TITLE" );
 
 		foreach ( (array) $view_fields_RET as $field )
 		{
@@ -87,11 +87,11 @@ function GetStaffList( &$extra = array() )
 		}
 
 		// User Fields: search Email Address & Phone.
-		$view_other_RET = DBGet( DBQuery( "SELECT TITLE,VALUE
+		$view_other_RET = DBGet( "SELECT TITLE,VALUE
 			FROM PROGRAM_USER_CONFIG
 			WHERE PROGRAM='StaffFieldsView'
 			AND TITLE IN ('EMAIL','PHONE')
-			AND USER_ID='" . User( 'STAFF_ID' ) . "'"), array(), array( 'TITLE' ) );
+			AND USER_ID='" . User( 'STAFF_ID' ) . "'", array(), array( 'TITLE' ) );
 
 		if ( $view_other_RET['EMAIL'][1]['VALUE'] === 'Y' )
 		{
@@ -122,10 +122,10 @@ function GetStaffList( &$extra = array() )
 
 		if ( ! empty( $extra['staff_fields']['view'] ) )
 		{
-			$view_fields_RET = DBGet( DBQuery( "SELECT cf.ID,cf.TYPE,cf.TITLE
+			$view_fields_RET = DBGet( "SELECT cf.ID,cf.TYPE,cf.TITLE
 				FROM STAFF_FIELDS cf
 				WHERE cf.ID IN (" . $extra['staff_fields']['view'] . ")
-				ORDER BY cf.SORT_ORDER,cf.TITLE" ) );
+				ORDER BY cf.SORT_ORDER,cf.TITLE" );
 
 			foreach ( (array) $view_fields_RET as $field )
 			{
@@ -163,7 +163,7 @@ function GetStaffList( &$extra = array() )
 		$extra['WHERE'] .= '))';
 	}
 
-	$profiles_RET = DBGet( DBQuery( "SELECT * FROM USER_PROFILES" ), array(), array( 'ID' ) );
+	$profiles_RET = DBGet( "SELECT * FROM USER_PROFILES", array(), array( 'ID' ) );
 
 	$sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 			s.PROFILE,s.PROFILE_ID,s.STAFF_ID,s.SCHOOLS " . $extra['SELECT'] .

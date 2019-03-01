@@ -146,10 +146,10 @@ function Search( $type, $extra = null )
 				</td></tr>';
 
 			// Grade Level.
-			$grade_levels_RET = DBGet( DBQuery( "SELECT ID,TITLE,SHORT_NAME
+			$grade_levels_RET = DBGet( "SELECT ID,TITLE,SHORT_NAME
 				FROM SCHOOL_GRADELEVELS
 				WHERE SCHOOL_ID='" . UserSchool() . "'
-				ORDER BY SORT_ORDER" ) );
+				ORDER BY SORT_ORDER" );
 
 			if ( isset( $_REQUEST['advanced'] )
 				&& $_REQUEST['advanced'] === 'Y'
@@ -351,9 +351,9 @@ function Search( $type, $extra = null )
 			if ( $type === 'student_fields_all' )
 			{
 				// Student Fields: search Username.
-				$general_info_category_title_RET = DBGet( DBQuery( "SELECT sfc.TITLE
+				$general_info_category_title_RET = DBGet( "SELECT sfc.TITLE
 					FROM STUDENT_FIELD_CATEGORIES sfc
-					WHERE sfc.ID=1" ) );
+					WHERE sfc.ID=1" );
 
 				$general_info_category_title = ParseMLField( $general_info_category_title_RET[1]['TITLE'] );
 
@@ -405,9 +405,9 @@ function Search( $type, $extra = null )
 			elseif ( $type === 'staff_fields_all' )
 			{
 				// User Fields: search Email Address & Phone.
-				$general_info_category_title_RET = DBGet( DBQuery( "SELECT sfc.TITLE
+				$general_info_category_title_RET = DBGet( "SELECT sfc.TITLE
 					FROM STAFF_FIELD_CATEGORIES sfc
-					WHERE sfc.ID=1" ) );
+					WHERE sfc.ID=1" );
 
 				$general_info_category_title = ParseMLField( $general_info_category_title_RET[1]['TITLE'] );
 

@@ -42,11 +42,11 @@ function ThemeLiveUpdate( $new_theme, $old_theme, $default = true )
 	{
 		// Check if loaded stylesheet is the same as the new one.
 		// Get the value from DB as Preferences() value is overridden by THEME_FORCE!
-		$real_user_preferred_theme = DBGet( DBQuery( "SELECT VALUE
+		$real_user_preferred_theme = DBGet( "SELECT VALUE
 			FROM PROGRAM_USER_CONFIG
 			WHERE USER_ID='" . User( 'STAFF_ID' ) . "'
 			AND PROGRAM='Preferences'
-			AND TITLE='THEME'" ) );
+			AND TITLE='THEME'" );
 
 		if ( ! $real_user_preferred_theme
 			|| $real_user_preferred_theme[1]['VALUE'] === $new_theme )

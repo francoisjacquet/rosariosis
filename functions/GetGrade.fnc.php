@@ -28,8 +28,8 @@ function GetGrade( $grade, $column = 'TITLE' )
 
 	if ( ! $grades )
 	{
-		$grades = DBGet( DBQuery( "SELECT ID,TITLE,SHORT_NAME,SORT_ORDER,NEXT_GRADE_ID
-			FROM SCHOOL_GRADELEVELS" ), array(), array( 'ID' ) );
+		$grades = DBGet( "SELECT ID,TITLE,SHORT_NAME,SORT_ORDER,NEXT_GRADE_ID
+			FROM SCHOOL_GRADELEVELS", array(), array( 'ID' ) );
 	}
 
 	$extra = '';

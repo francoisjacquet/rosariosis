@@ -105,7 +105,7 @@ function GetStuList( &$extra = array() )
 			$extra['columns_after'] = array();
 		}
 
-		$view_fields_RET = DBGet( DBQuery( "SELECT cf.ID,cf.TYPE,cf.TITLE
+		$view_fields_RET = DBGet( "SELECT cf.ID,cf.TYPE,cf.TITLE
 			FROM CUSTOM_FIELDS cf
 			WHERE ((SELECT VALUE
 				FROM PROGRAM_USER_CONFIG
@@ -115,21 +115,21 @@ function GetStuList( &$extra = array() )
 				( $extra['student_fields']['view'] ?
 					" OR cf.ID IN (" . $extra['student_fields']['view'] . ")" :
 					'' ) . ")
-			ORDER BY cf.SORT_ORDER,cf.TITLE" ) );
+			ORDER BY cf.SORT_ORDER,cf.TITLE" );
 
-		$view_address_RET = DBGet( DBQuery( "SELECT VALUE
+		$view_address_RET = DBGet( "SELECT VALUE
 			FROM PROGRAM_USER_CONFIG
 			WHERE PROGRAM='StudentFieldsView'
 			AND TITLE='ADDRESS'
-			AND USER_ID='" . User( 'STAFF_ID' ) . "'" ) );
+			AND USER_ID='" . User( 'STAFF_ID' ) . "'" );
 
 		$view_address_RET = $view_address_RET[1]['VALUE'];
 
-		$view_other_RET = DBGet( DBQuery( "SELECT TITLE,VALUE
+		$view_other_RET = DBGet( "SELECT TITLE,VALUE
 			FROM PROGRAM_USER_CONFIG
 			WHERE PROGRAM='StudentFieldsView'
 			AND TITLE IN ('USERNAME','CONTACT_INFO','HOME_PHONE','GUARDIANS','ALL_CONTACTS')
-			AND USER_ID='" . User( 'STAFF_ID' ) . "'"), array(), array( 'TITLE' ) );
+			AND USER_ID='" . User( 'STAFF_ID' ) . "'", array(), array( 'TITLE' ) );
 
 		if ( ! $view_fields_RET
 			&& ! $view_address_RET
@@ -143,9 +143,9 @@ function GetStuList( &$extra = array() )
 				+ $extra['columns_after'];
 
 			// Add Gender + Ethnicity fields if exist.
-			$custom_fields_RET = DBGet( DBQuery( "SELECT ID,TITLE,TYPE
+			$custom_fields_RET = DBGet( "SELECT ID,TITLE,TYPE
 				FROM CUSTOM_FIELDS
-				WHERE ID IN (200000000, 200000001)" ) );
+				WHERE ID IN (200000000, 200000001)" );
 
 			$select = '';
 
@@ -369,10 +369,10 @@ function GetStuList( &$extra = array() )
 				$extra['columns_after'] = array();
 			}
 
-			$view_fields_RET = DBGet( DBQuery( "SELECT cf.ID,cf.TYPE,cf.TITLE
+			$view_fields_RET = DBGet( "SELECT cf.ID,cf.TYPE,cf.TITLE
 				FROM CUSTOM_FIELDS cf
 				WHERE cf.ID IN (" . $extra['student_fields']['view'] . ")
-				ORDER BY cf.SORT_ORDER,cf.TITLE" ) );
+				ORDER BY cf.SORT_ORDER,cf.TITLE" );
 
 			foreach ( (array) $view_fields_RET as $field )
 			{
@@ -939,13 +939,13 @@ function makeParents( $student_id, $column )
 		$constraint .= " AND sjp.CUSTODY='Y'";
 	}
 
-	$people_RET = DBGet( DBQuery( "SELECT p.PERSON_ID,p.FIRST_NAME,p.LAST_NAME,p.MIDDLE_NAME,
+	$people_RET = DBGet( "SELECT p.PERSON_ID,p.FIRST_NAME,p.LAST_NAME,p.MIDDLE_NAME,
 		sjp.CUSTODY,sjp.EMERGENCY
 		FROM STUDENTS_JOIN_PEOPLE sjp,PEOPLE p
 		WHERE sjp.PERSON_ID=p.PERSON_ID
 		AND sjp.STUDENT_ID='" . $student_id . "'
 		AND sjp.ADDRESS_ID='" . $THIS_RET['ADDRESS_ID'] . "'" . $constraint .
-		" ORDER BY sjp.CUSTODY,sjp.STUDENT_RELATION,p.LAST_NAME,p.FIRST_NAME" ) );
+		" ORDER BY sjp.CUSTODY,sjp.STUDENT_RELATION,p.LAST_NAME,p.FIRST_NAME" );
 
 	if ( ! $people_RET )
 	{
@@ -1013,9 +1013,9 @@ function DeCodeds( $value, $column, $table = 'auto' )
 
 	if ( ! isset( $decodeds[ $column ] ) )
 	{
-		$RET = DBGet( DBQuery( "SELECT TYPE,SELECT_OPTIONS
+		$RET = DBGet( "SELECT TYPE,SELECT_OPTIONS
 			FROM " . DBEscapeIdentifier( $table . '_FIELDS' ) .
-			" WHERE ID='" . $field[1] . "'" ) );
+			" WHERE ID='" . $field[1] . "'" );
 
 		if ( $RET[1]['TYPE'] == 'codeds'
 			|| $RET[1]['TYPE'] == 'exports' )

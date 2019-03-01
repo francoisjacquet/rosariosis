@@ -52,15 +52,15 @@ function AllowEdit( $modname = false )
 		{
 			if ( User( 'PROFILE_ID' ) )
 			{
-				$_ROSARIO['AllowEdit'] = DBGet( DBQuery( "SELECT MODNAME
+				$_ROSARIO['AllowEdit'] = DBGet( "SELECT MODNAME
 					FROM PROFILE_EXCEPTIONS
-					WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "' AND CAN_EDIT='Y'" ), array(), array( 'MODNAME' ) );
+					WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "' AND CAN_EDIT='Y'", array(), array( 'MODNAME' ) );
 			}
 			else
 			{
-				$_ROSARIO['AllowEdit'] = DBGet( DBQuery( "SELECT MODNAME
+				$_ROSARIO['AllowEdit'] = DBGet( "SELECT MODNAME
 					FROM STAFF_EXCEPTIONS
-					WHERE USER_ID='" . User( 'STAFF_ID' ) . "' AND CAN_EDIT='Y'"), array(), array( 'MODNAME' ) );
+					WHERE USER_ID='" . User( 'STAFF_ID' ) . "' AND CAN_EDIT='Y'", array(), array( 'MODNAME' ) );
 			}
 		}
 
@@ -107,15 +107,15 @@ function AllowUse( $modname = false )
 	{
 		if ( User( 'PROFILE_ID' ) != '' ) // Beware, '0' is student!
 		{
-			$_ROSARIO['AllowUse'] = DBGet( DBQuery( "SELECT MODNAME
+			$_ROSARIO['AllowUse'] = DBGet( "SELECT MODNAME
 				FROM PROFILE_EXCEPTIONS
-				WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "' AND CAN_USE='Y'"), array(), array( 'MODNAME' ) );
+				WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "' AND CAN_USE='Y'", array(), array( 'MODNAME' ) );
 		}
 		else
 		{
-			$_ROSARIO['AllowUse'] = DBGet( DBQuery( "SELECT MODNAME
+			$_ROSARIO['AllowUse'] = DBGet( "SELECT MODNAME
 				FROM STAFF_EXCEPTIONS
-				WHERE USER_ID='" . User( 'STAFF_ID' ) . "' AND CAN_USE='Y'" ), array(), array( 'MODNAME' ) );
+				WHERE USER_ID='" . User( 'STAFF_ID' ) . "' AND CAN_USE='Y'", array(), array( 'MODNAME' ) );
 		}
 	}
 

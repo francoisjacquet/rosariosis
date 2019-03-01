@@ -68,27 +68,27 @@ if ( isset( $_REQUEST['sidefunc'] )
 			// Search User in next SchoolYear.
 			if ( $old_syear == UserSyear() - 1 )
 			{
-				$new_staff_id_RET = DBGet( DBQuery( "SELECT STAFF_ID
+				$new_staff_id_RET = DBGet( "SELECT STAFF_ID
 					FROM STAFF
-					WHERE ROLLOVER_ID='" . UserStaffID() . "'" ) );
+					WHERE ROLLOVER_ID='" . UserStaffID() . "'" );
 			}
 			// Search User in previous SchoolYear.
 			elseif ( $old_syear == UserSyear() + 1 )
 			{
-				$new_staff_id_RET = DBGet( DBQuery( "SELECT ROLLOVER_ID AS STAFF_ID
+				$new_staff_id_RET = DBGet( "SELECT ROLLOVER_ID AS STAFF_ID
 					FROM STAFF WHERE
-					STAFF_ID='" . UserStaffID() . "'" ) );
+					STAFF_ID='" . UserStaffID() . "'" );
 			}
 			// More than 1 year difference, search User by USERNAME... (could have changed).
 			else
 			{
-				$new_staff_id_RET = DBGet( DBQuery( "SELECT STAFF_ID
+				$new_staff_id_RET = DBGet( "SELECT STAFF_ID
 					FROM STAFF
 					WHERE USERNAME=
 						(SELECT USERNAME
 							FROM STAFF
 							WHERE STAFF_ID='" . UserStaffID() . "')
-					AND SYEAR='" . UserSyear() . "'" ) );
+					AND SYEAR='" . UserSyear() . "'" );
 			}
 
 			if ( $new_staff_id_RET
@@ -145,12 +145,12 @@ if ( isset( $_REQUEST['sidefunc'] )
 		// If current student.
 		if ( UserStudentID() )
 		{
-			$is_student_scheduled = DBGet( DBQuery( "SELECT 'SCHEDULED'
+			$is_student_scheduled = DBGet( "SELECT 'SCHEDULED'
 				FROM SCHEDULE
 				WHERE STUDENT_ID='" . UserStudentID() . "'
 				AND COURSE_PERIOD_ID='" . UserCoursePeriod() . "'
 				AND '" . DBDate() . "'>=START_DATE
-				AND ('" . DBDate() . "'<=END_DATE OR END_DATE IS NULL)" ) );
+				AND ('" . DBDate() . "'<=END_DATE OR END_DATE IS NULL)" );
 
 			// If student not scheduled in new CoursePeriod, remove.
 			if ( ! count( $is_student_scheduled ) )
@@ -325,11 +325,11 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 
 			$schools = mb_substr( str_replace( ',', "','", User( 'SCHOOLS' ) ), 2, -2 );
 
-			$schools_RET = DBGet( DBQuery( "SELECT ID,TITLE,SHORT_NAME
+			$schools_RET = DBGet( "SELECT ID,TITLE,SHORT_NAME
 				FROM SCHOOLS
 				WHERE SYEAR='" . UserSyear() . "'" .
 				( $schools ? " AND ID IN (" . $schools . ")" : '' ) .
-				" ORDER BY TITLE" ) );
+				" ORDER BY TITLE" );
 
 			// Set current School.
 			if ( ! UserSchool() )
@@ -357,7 +357,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 		// Student SELECT (Parents only).
 		if ( User( 'PROFILE' ) === 'parent' ) :
 
-			$students_RET = DBGet( DBQuery( "SELECT sju.STUDENT_ID,
+			$students_RET = DBGet( "SELECT sju.STUDENT_ID,
 				" . DisplayNameSQL( 's' ) . " AS FULL_NAME,se.SCHOOL_ID
 				FROM STUDENTS s,STUDENTS_JOIN_USERS sju,STUDENT_ENROLLMENT se
 				WHERE s.STUDENT_ID=sju.STUDENT_ID
@@ -366,7 +366,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 				AND se.STUDENT_ID=sju.STUDENT_ID
 				AND ('" . DBDate() . "'>=se.START_DATE
 					AND ('" . DBDate() . "'<=se.END_DATE
-						OR se.END_DATE IS NULL ) )" ) );
+						OR se.END_DATE IS NULL ) )" );
 
 			// Set current Student.
 			if ( ! UserStudentID() )
@@ -398,9 +398,9 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 			// Set current School.
 			if ( ! UserSchool() )
 			{
-				$schools_RET = DBGet( DBQuery("SELECT ID,TITLE
+				$schools_RET = DBGet( "SELECT ID,TITLE
 					FROM SCHOOLS
-					WHERE SYEAR='" . UserSyear() . "' LIMIT 1" ) );
+					WHERE SYEAR='" . UserSyear() . "' LIMIT 1" );
 
 				$_SESSION['UserSchool'] = $schools_RET[1]['ID'];
 			}
@@ -445,12 +445,12 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 		</span>
 
 		<?php // MarkingPeriod SELECT.
-		$RET = DBGet( DBQuery( "SELECT MARKING_PERIOD_ID,TITLE
+		$RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE
 			FROM SCHOOL_MARKING_PERIODS
 			WHERE MP='QTR'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
-			ORDER BY SORT_ORDER" ) );
+			ORDER BY SORT_ORDER" );
 		?>
 
 		<span class="br-after">
@@ -501,7 +501,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 
 			// FJ multiple school periods for a course period.
 			//$QI = DBQuery("SELECT cp.PERIOD_ID,cp.COURSE_PERIOD_ID,sp.TITLE,sp.SHORT_NAME,cp.MARKING_PERIOD_ID,cp.DAYS,c.TITLE AS COURSE_TITLE FROM COURSE_PERIODS cp, SCHOOL_PERIODS sp,COURSES c WHERE c.COURSE_ID=cp.COURSE_ID AND cp.PERIOD_ID=sp.PERIOD_ID AND cp.SYEAR='".UserSyear()."' AND cp.SCHOOL_ID='".UserSchool()."' AND cp.TEACHER_ID='".User('STAFF_ID')."' AND cp.MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).") ORDER BY sp.SORT_ORDER");
-			$cp_RET = DBGet( DBQuery( "SELECT cpsp.PERIOD_ID,cp.COURSE_PERIOD_ID,cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID,sp.TITLE,sp.SHORT_NAME,cp.MARKING_PERIOD_ID,cpsp.DAYS,c.TITLE AS COURSE_TITLE, cp.SHORT_NAME AS CP_SHORT_NAME
+			$cp_RET = DBGet( "SELECT cpsp.PERIOD_ID,cp.COURSE_PERIOD_ID,cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID,sp.TITLE,sp.SHORT_NAME,cp.MARKING_PERIOD_ID,cpsp.DAYS,c.TITLE AS COURSE_TITLE, cp.SHORT_NAME AS CP_SHORT_NAME
 				FROM COURSE_PERIODS cp,SCHOOL_PERIODS sp,COURSES c,COURSE_PERIOD_SCHOOL_PERIODS cpsp
 				WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 				AND c.COURSE_ID=cp.COURSE_ID
@@ -510,17 +510,17 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 				AND cp.SCHOOL_ID='" . UserSchool() . "'
 				AND cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "'
 				AND cp.MARKING_PERIOD_ID IN (" . $all_MP . ")
-				ORDER BY cp.SHORT_NAME, sp.SORT_ORDER" ) );
+				ORDER BY cp.SHORT_NAME, sp.SORT_ORDER" );
 
 			/**
 			 * Get the Full Year marking period id
 			 * there should be exactly one fy marking period per school.
 			 */
-			$fy_RET = DBGet( DBQuery( "SELECT MARKING_PERIOD_ID
+			$fy_RET = DBGet( "SELECT MARKING_PERIOD_ID
 				FROM SCHOOL_MARKING_PERIODS
 				WHERE MP='FY'
 				AND SYEAR='" . UserSyear() . "'
-				AND SCHOOL_ID='" . UserSchool() . "'" ) );
+				AND SCHOOL_ID='" . UserSchool() . "'" );
 
 			// Set current CoursePeriod after login.
 			if ( ! UserCoursePeriod()
@@ -654,9 +654,9 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 		&& ( User( 'PROFILE' ) === 'admin'
 			|| User( 'PROFILE' ) === 'teacher' ) ) :
 
-		$current_student_RET = DBGet( DBQuery( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
+		$current_student_RET = DBGet( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
 			FROM STUDENTS
-			WHERE STUDENT_ID='" . UserStudentID() . "'" ) ); ?>
+			WHERE STUDENT_ID='" . UserStudentID() . "'" ); ?>
 
 		<div class="current-person student">
 			<a href="Side.php?sidefunc=update&amp;side_student_id=new" target="menu-top" title="<?php echo _( 'Clear working student' ); ?>">
@@ -678,9 +678,9 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 		&& ( User( 'PROFILE' ) === 'admin'
 			|| User( 'PROFILE' ) === 'teacher' ) ) :
 
-		$current_user_RET = DBGet( DBQuery( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
+		$current_user_RET = DBGet( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
 			FROM STAFF
-			WHERE STAFF_ID='" . UserStaffID() . "'" ) ); ?>
+			WHERE STAFF_ID='" . UserStaffID() . "'" ); ?>
 
 		<div class="current-person <?php echo ( UserStaffID() == User( 'STAFF_ID' ) ? 'self' : 'staff' ); ?>">
 			<a href="Side.php?sidefunc=update&amp;side_staff_id=new" target="menu-top" title="<?php echo _( 'Clear working user' ); ?>">

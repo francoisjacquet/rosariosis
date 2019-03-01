@@ -56,10 +56,10 @@ elseif ( isset( $_POST['USERNAME'] )
 	unset( $_REQUEST['USERNAME'], $_POST['USERNAME'] );
 
 	// Lookup for user $username in DB.
-	$login_RET = DBGet( DBQuery( "SELECT USERNAME,PROFILE,STAFF_ID,LAST_LOGIN,FAILED_LOGIN,PASSWORD
+	$login_RET = DBGet( "SELECT USERNAME,PROFILE,STAFF_ID,LAST_LOGIN,FAILED_LOGIN,PASSWORD
 	FROM STAFF
 	WHERE SYEAR='" . Config( 'SYEAR' ) . "'
-	AND UPPER(USERNAME)=UPPER('" . $username . "')" ) );
+	AND UPPER(USERNAME)=UPPER('" . $username . "')" );
 
 	if ( $login_RET
 		&& match_password( $login_RET[1]['PASSWORD'], $_REQUEST['PASSWORD'] ) )
@@ -72,14 +72,14 @@ elseif ( isset( $_POST['USERNAME'] )
 	if ( ! $login_RET )
 	{
 		// Lookup for student $username in DB.
-		$student_RET = DBGet( DBQuery( "SELECT s.USERNAME,s.STUDENT_ID,s.LAST_LOGIN,
+		$student_RET = DBGet( "SELECT s.USERNAME,s.STUDENT_ID,s.LAST_LOGIN,
 			s.FAILED_LOGIN,s.PASSWORD,se.START_DATE
 			FROM STUDENTS s,STUDENT_ENROLLMENT se
 			WHERE se.STUDENT_ID=s.STUDENT_ID
 			AND se.SYEAR='" . Config( 'SYEAR' ) . "'
 			AND CURRENT_DATE>=se.START_DATE
 			AND (CURRENT_DATE<=se.END_DATE OR se.END_DATE IS NULL)
-			AND UPPER(s.USERNAME)=UPPER('" . $username . "')" ) );
+			AND UPPER(s.USERNAME)=UPPER('" . $username . "')" );
 
 		if ( $student_RET
 			&& match_password( $student_RET[1]['PASSWORD'], $_REQUEST['PASSWORD'] ) )
@@ -89,13 +89,13 @@ elseif ( isset( $_POST['USERNAME'] )
 		else
 		{
 			// Student may be inactive or not verified, see below for corresponding errors.
-			$student_RET = DBGet( DBQuery( "SELECT s.USERNAME,s.STUDENT_ID,
+			$student_RET = DBGet( "SELECT s.USERNAME,s.STUDENT_ID,
 				s.LAST_LOGIN,s.FAILED_LOGIN,se.START_DATE,s.PASSWORD
 			FROM STUDENTS s,STUDENT_ENROLLMENT se
 			WHERE se.STUDENT_ID=s.STUDENT_ID
 			AND se.SYEAR='" . Config( 'SYEAR' ) . "'
 			AND (CURRENT_DATE<=se.END_DATE OR se.END_DATE IS NULL)
-			AND UPPER(s.USERNAME)=UPPER('" . $username . "')" ) );
+			AND UPPER(s.USERNAME)=UPPER('" . $username . "')" );
 
 			if ( ! $student_RET
 				|| ! match_password( $student_RET[1]['PASSWORD'], $_REQUEST['PASSWORD'] ) )
@@ -112,14 +112,14 @@ elseif ( isset( $_POST['USERNAME'] )
 	if ( Config( 'FAILED_LOGIN_LIMIT' ) )
 	{
 		// Failed login ban if >= X failed attempts within 10 minutes.
-		$failed_login_RET = DBGet( DBQuery( "SELECT
+		$failed_login_RET = DBGet( "SELECT
 			COUNT(CASE WHEN STATUS IS NULL OR STATUS='B' THEN 1 END) AS FAILED_COUNT,
 			COUNT(CASE WHEN STATUS='B' THEN 1 END) AS BANNED_COUNT
 			FROM ACCESS_LOG
 			WHERE LOGIN_TIME > (CURRENT_TIMESTAMP - INTERVAL '10 minutes')
 			AND USER_AGENT='" . DBEscapeString( $_SERVER['HTTP_USER_AGENT'] ) . "'
 			AND IP_ADDRESS='" . ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ?
-				$_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'] ) . "'" ) );
+				$_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'] ) . "'" );
 
 		if ( $failed_login_RET[1]['BANNED_COUNT']
 			|| $failed_login_RET[1]['FAILED_COUNT'] >= Config( 'FAILED_LOGIN_LIMIT' ) )

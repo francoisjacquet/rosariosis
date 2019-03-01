@@ -31,7 +31,7 @@ function MailingLabel( $address_id )
 
 	if ( ! isset( $mailing_labels[ $address_id ][ $student_id ] ) )
 	{
-		$people_RET = DBGet( DBQuery( "SELECT p.FIRST_NAME,p.MIDDLE_NAME,p.LAST_NAME,
+		$people_RET = DBGet( "SELECT p.FIRST_NAME,p.MIDDLE_NAME,p.LAST_NAME,
 		coalesce(a.MAIL_ADDRESS,a.ADDRESS) AS ADDRESS,coalesce(a.MAIL_CITY,a.CITY) AS CITY,
 		coalesce(a.MAIL_STATE,a.STATE) AS STATE,coalesce(a.MAIL_ZIPCODE,a.ZIPCODE) AS ZIPCODE
 		FROM ADDRESS a JOIN STUDENTS_JOIN_ADDRESS sja ON (a.ADDRESS_ID=sja.ADDRESS_ID)
@@ -41,7 +41,7 @@ function MailingLabel( $address_id )
 		LEFT OUTER JOIN PEOPLE p ON (p.PERSON_ID=sjp.PERSON_ID)
 		WHERE sja.STUDENT_ID='" . $student_id . "'
 		AND sja.ADDRESS_ID='" . $address_id . "'
-		ORDER BY sjp.STUDENT_RELATION" ), array(), array( 'LAST_NAME' ) );
+		ORDER BY sjp.STUDENT_RELATION", array(), array( 'LAST_NAME' ) );
 
 		$return = '';
 

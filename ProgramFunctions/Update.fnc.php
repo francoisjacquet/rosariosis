@@ -309,9 +309,9 @@ function _update43beta()
 	/**
 	 * 1. COURSES table: Add DESCRIPTION column.
 	 */
-	$description_column_exists = DBGet( DBQuery( "SELECT 1 FROM pg_attribute
+	$description_column_exists = DBGet( "SELECT 1 FROM pg_attribute
 		WHERE attrelid = (SELECT oid FROM pg_class WHERE relname = 'courses')
-		AND attname = 'description';" ) );
+		AND attname = 'description';" );
 
 	if ( ! $description_column_exists )
 	{
@@ -348,9 +348,9 @@ function _update44beta()
 	 * 1. GRADEBOOK_ASSIGNMENTS table:
 	 * Add FILE column
 	 */
-	$file_column_exists = DBGet( DBQuery( "SELECT 1 FROM pg_attribute
+	$file_column_exists = DBGet( "SELECT 1 FROM pg_attribute
 		WHERE attrelid = (SELECT oid FROM pg_class WHERE relname = 'gradebook_assignments')
-		AND attname = 'file';" ) );
+		AND attname = 'file';" );
 
 	if ( ! $file_column_exists )
 	{
@@ -370,9 +370,9 @@ function _update44beta()
 	 * 3. GRADEBOOK_ASSIGNMENTS table:
 	 * Convert DESCRIPTION values from MarkDown to HTML.
 	 */
-	$assignments_RET = DBGet( DBQuery( "SELECT assignment_id,description
+	$assignments_RET = DBGet( "SELECT assignment_id,description
 		FROM gradebook_assignments
-		WHERE description IS NOT NULL;" ) );
+		WHERE description IS NOT NULL;" );
 
 	$assignment_update_sql = "UPDATE GRADEBOOK_ASSIGNMENTS
 		SET DESCRIPTION='%s'
@@ -420,7 +420,7 @@ function _update44beta2()
 	/**
 	 * 1. Add VERSION to PASSWORD_STRENGTH table.
 	 */
-	$version_added = DBGet( DBQuery( "SELECT 1 FROM CONFIG WHERE TITLE='PASSWORD_STRENGTH'" ) );
+	$version_added = DBGet( "SELECT 1 FROM CONFIG WHERE TITLE='PASSWORD_STRENGTH'" );
 
 	if ( ! $version_added )
 	{

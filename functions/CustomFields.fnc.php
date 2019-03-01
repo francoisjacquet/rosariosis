@@ -71,9 +71,9 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 		|| ( isset( $_REQUEST['cust_null'] )
 			&& count( (array) $_REQUEST['cust_null'] ) ) )
 	{
-		$fields = ParseMLArray( DBGet( DBQuery( "SELECT TITLE,'CUSTOM_'||ID AS COLUMN,
+		$fields = ParseMLArray( DBGet( "SELECT TITLE,'CUSTOM_'||ID AS COLUMN,
 			TYPE,SELECT_OPTIONS
-			FROM " . ( $type === 'staff' ? 'STAFF' : 'CUSTOM' ) . "_FIELDS" ),
+			FROM " . ( $type === 'staff' ? 'STAFF' : 'CUSTOM' ) . "_FIELDS",
 			array(), array( 'COLUMN' )	), 'TITLE' );
 
 		if ( $type === 'staff' )

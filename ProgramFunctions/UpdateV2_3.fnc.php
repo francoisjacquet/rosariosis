@@ -34,7 +34,7 @@ function _update29alpha()
 	/**
 	 * 1. Add VERSION to CONFIG table.
 	 */
-	$version_added = DBGet( DBQuery( "SELECT 1 FROM CONFIG WHERE TITLE='VERSION'" ) );
+	$version_added = DBGet( "SELECT 1 FROM CONFIG WHERE TITLE='VERSION'" );
 
 	if ( ! $version_added )
 	{
@@ -45,7 +45,7 @@ function _update29alpha()
 	/**
 	 * 2. Add STUDENTS_EMAIL_FIELD to CONFIG table.
 	 */
-	$students_email_field_added = DBGet( DBQuery( "SELECT 1 FROM CONFIG WHERE TITLE='STUDENTS_EMAIL_FIELD'" ) );
+	$students_email_field_added = DBGet( "SELECT 1 FROM CONFIG WHERE TITLE='STUDENTS_EMAIL_FIELD'" );
 
 	if ( ! $students_email_field_added )
 	{
@@ -83,10 +83,10 @@ function _update29alpha()
 	 * 		'comment' => 'comment1',
 	 * )
 	 */
-	$comments_RET = DBGet( DBQuery( "SELECT SYEAR, MARKING_PERIOD_ID, STUDENT_ID, COMMENT
+	$comments_RET = DBGet( "SELECT SYEAR, MARKING_PERIOD_ID, STUDENT_ID, COMMENT
 		FROM STUDENT_MP_COMMENTS
 		WHERE COMMENT IS NOT NULL
-		AND COMMENT!=''" ) );
+		AND COMMENT!=''" );
 
 	if ( is_array( $comments_RET )
 		&& ! unserialize( $comments_RET[0]['COMMENT'] ) )
@@ -135,8 +135,8 @@ function _update29alpha()
 
 
 	// 5. Create school_fields_seq Sequence.
-	$sequence_exists = DBGet( DBQuery( "SELECT 1 FROM pg_class
-		WHERE relname = 'school_fields_seq'" ) );
+	$sequence_exists = DBGet( "SELECT 1 FROM pg_class
+		WHERE relname = 'school_fields_seq'" );
 
 	if ( ! $sequence_exists )
 	{
@@ -162,10 +162,10 @@ function _update29alpha()
 		data text
 	);");
 
-	$sa_constraint_exists = DBGet( DBQuery( "SELECT 1
+	$sa_constraint_exists = DBGet( "SELECT 1
 		FROM information_schema.constraint_column_usage
 		WHERE table_name = 'student_assignments'
-		AND constraint_name = 'student_assignments_pkey'" ) );
+		AND constraint_name = 'student_assignments_pkey'" );
 
 	if ( ! $sa_constraint_exists )
 	{
@@ -173,9 +173,9 @@ function _update29alpha()
 			ADD CONSTRAINT student_assignments_pkey PRIMARY KEY (assignment_id, student_id);" );
 	}
 
-	$submission_column_exists = DBGet( DBQuery( "SELECT 1 FROM pg_attribute
+	$submission_column_exists = DBGet( "SELECT 1 FROM pg_attribute
 		WHERE attrelid = (SELECT oid FROM pg_class WHERE relname = 'gradebook_assignments')
-		AND attname = 'submission';" ) );
+		AND attname = 'submission';" );
 
 	if ( ! $submission_column_exists )
 	{
@@ -183,10 +183,10 @@ function _update29alpha()
 			ADD COLUMN submission character varying(1);" );
 	}
 
-	$sa_exceptions_exists = DBGet( DBQuery( "SELECT 1
+	$sa_exceptions_exists = DBGet( "SELECT 1
 		FROM profile_exceptions
 		WHERE profile_id IN (0,3)
-		AND modname='Grades/StudentAssignments.php'" ) );
+		AND modname='Grades/StudentAssignments.php'" );
 
 	if ( ! $sa_exceptions_exists )
 	{
@@ -220,9 +220,9 @@ function _update292()
 	 * 1. Add GP_PASSING_VALUE to REPORT_CARD_GRADE_SCALES table
 	 * & Set minimum passing grade to '0' for already present scales.
 	 */
-	$gppassingvalue_column_exists = DBGet( DBQuery( "SELECT 1 FROM pg_attribute
+	$gppassingvalue_column_exists = DBGet( "SELECT 1 FROM pg_attribute
 		WHERE attrelid = (SELECT oid FROM pg_class WHERE relname = 'report_card_grade_scales')
-		AND attname = 'gp_passing_value';" ) );
+		AND attname = 'gp_passing_value';" );
 
 	if ( ! $gppassingvalue_column_exists )
 	{
@@ -257,8 +257,8 @@ function _update295()
 	/**
 	 * 1. Add LIMIT_EXISTING_CONTACTS_ADDRESSES to CONFIG table.
 	 */
-	$limit_existing_contacts_addresses_field_added = DBGet( DBQuery( "SELECT 1 FROM CONFIG
-		WHERE TITLE='LIMIT_EXISTING_CONTACTS_ADDRESSES'" ) );
+	$limit_existing_contacts_addresses_field_added = DBGet( "SELECT 1 FROM CONFIG
+		WHERE TITLE='LIMIT_EXISTING_CONTACTS_ADDRESSES'" );
 
 	if ( ! $limit_existing_contacts_addresses_field_added )
 	{
@@ -289,8 +289,8 @@ function _update2912()
 	/**
 	 * 1. Add THEME_FORCE to CONFIG table.
 	 */
-	$theme_force_field_added = DBGet( DBQuery( "SELECT 1 FROM CONFIG
-		WHERE TITLE='THEME_FORCE'" ) );
+	$theme_force_field_added = DBGet( "SELECT 1 FROM CONFIG
+		WHERE TITLE='THEME_FORCE'" );
 
 	if ( ! $theme_force_field_added )
 	{
@@ -323,18 +323,18 @@ function _update2913()
 	/**
 	 * 1. Add Users/User.php&category_id=1&schools to profile_exceptions table.
 	 */
-	$admin_profiles_RET = DBGet( DBQuery( "SELECT id
+	$admin_profiles_RET = DBGet( "SELECT id
 		FROM profile_exceptions, user_profiles
-		WHERE profile='admin'" ) );
+		WHERE profile='admin'" );
 
 	foreach ( (array) $admin_profiles_RET as $admin_profile )
 	{
 		$profile_id = $admin_profile['ID'];
 
-		$as_profile_exceptions_exists = DBGet( DBQuery( "SELECT 1
+		$as_profile_exceptions_exists = DBGet( "SELECT 1
 			FROM profile_exceptions
 			WHERE profile_id='" . $profile_id . "'
-			AND modname='Users/User.php&category_id=1&schools'" ) );
+			AND modname='Users/User.php&category_id=1&schools'" );
 
 		if ( ! $as_profile_exceptions_exists )
 		{
@@ -346,14 +346,14 @@ function _update2913()
 	/**
 	 * 2. Add Users/User.php&category_id=1&schools to staff_exceptions table.
 	 */
-	$as_staff_exceptions_exists = DBGet( DBQuery( "SELECT 1
+	$as_staff_exceptions_exists = DBGet( "SELECT 1
 		FROM staff_exceptions
-		WHERE modname='Users/User.php&category_id=1&schools'" ) );
+		WHERE modname='Users/User.php&category_id=1&schools'" );
 
 	// Check if we have staff_exceptions.
-	$staff_exceptions_user_ids = DBGet( DBQuery( "SELECT user_id
+	$staff_exceptions_user_ids = DBGet( "SELECT user_id
 		FROM staff_exceptions
-		WHERE modname='Users/User.php&category_id=1'" ) );
+		WHERE modname='Users/User.php&category_id=1'" );
 
 	if ( ! $as_staff_exceptions_exists
 		&& $staff_exceptions_user_ids )
@@ -393,9 +393,9 @@ function _update2914()
 	/**
 	 * 1. Add SELECT_OPTIONS column to SCHOOL_FIELDS table.
 	 */
-	$select_options_column_exists = DBGet( DBQuery( "SELECT 1 FROM pg_attribute
+	$select_options_column_exists = DBGet( "SELECT 1 FROM pg_attribute
 		WHERE attrelid = (SELECT oid FROM pg_class WHERE relname = 'school_fields')
-		AND attname = 'select_options';" ) );
+		AND attname = 'select_options';" );
 
 	if ( ! $select_options_column_exists )
 	{
@@ -406,18 +406,18 @@ function _update2914()
 	/**
 	 * 2. Add Users/User.php&category_id=1&user_profile to profile_exceptions table.
 	 */
-	$admin_profiles_RET = DBGet( DBQuery( "SELECT id
+	$admin_profiles_RET = DBGet( "SELECT id
 		FROM user_profiles
-		WHERE profile='admin'" ) );
+		WHERE profile='admin'" );
 
 	foreach ( (array) $admin_profiles_RET as $admin_profile )
 	{
 		$profile_id = $admin_profile['ID'];
 
-		$up_profile_exceptions_exists = DBGet( DBQuery( "SELECT 1
+		$up_profile_exceptions_exists = DBGet( "SELECT 1
 			FROM profile_exceptions
 			WHERE profile_id='" . $profile_id . "'
-			AND modname='Users/User.php&category_id=1&user_profile'" ) );
+			AND modname='Users/User.php&category_id=1&user_profile'" );
 
 		if ( ! $up_profile_exceptions_exists )
 		{
@@ -429,14 +429,14 @@ function _update2914()
 	/**
 	 * 3. Add Users/User.php&category_id=1&user_profile to staff_exceptions table.
 	 */
-	$up_staff_exceptions_exists = DBGet( DBQuery( "SELECT 1
+	$up_staff_exceptions_exists = DBGet( "SELECT 1
 		FROM staff_exceptions
-		WHERE modname='Users/User.php&category_id=1&user_profile'" ) );
+		WHERE modname='Users/User.php&category_id=1&user_profile'" );
 
 	// Check if we have staff_exceptions.
-	$staff_exceptions_user_ids = DBGet( DBQuery( "SELECT user_id
+	$staff_exceptions_user_ids = DBGet( "SELECT user_id
 		FROM staff_exceptions
-		WHERE modname='Users/User.php&category_id=1'" ) );
+		WHERE modname='Users/User.php&category_id=1'" );
 
 	if ( ! $up_staff_exceptions_exists
 		&& $staff_exceptions_user_ids )
@@ -475,9 +475,9 @@ function _update30()
 	/**
 	 * 1. Add ACCESS_LOG table.
 	 */
-	$access_log_table_exists = DBGet( DBQuery( "SELECT 1
+	$access_log_table_exists = DBGet( "SELECT 1
 		FROM pg_catalog.pg_tables
-		WHERE tablename  = 'access_log'" ) );
+		WHERE tablename  = 'access_log'" );
 
 	if ( ! $access_log_table_exists )
 	{
@@ -493,9 +493,9 @@ function _update30()
 	} else {
 
 		// Add user_agent column.
-		$user_agent_column_exists = DBGet( DBQuery( "SELECT 1 FROM pg_attribute
+		$user_agent_column_exists = DBGet( "SELECT 1 FROM pg_attribute
 			WHERE attrelid = (SELECT oid FROM pg_class WHERE relname = 'access_log')
-			AND attname = 'user_agent';" ) );
+			AND attname = 'user_agent';" );
 
 		if ( ! $user_agent_column_exists )
 		{
@@ -562,18 +562,18 @@ function _update31()
 	/**
 	 * 3. Add Grades/MassCreateAssignments.php to profile_exceptions table.
 	 */
-	$admin_profiles_RET = DBGet( DBQuery( "SELECT id
+	$admin_profiles_RET = DBGet( "SELECT id
 		FROM user_profiles
-		WHERE profile='admin'" ) );
+		WHERE profile='admin'" );
 
 	foreach ( (array) $admin_profiles_RET as $admin_profile )
 	{
 		$profile_id = $admin_profile['ID'];
 
-		$mca_profile_exceptions_exists = DBGet( DBQuery( "SELECT 1
+		$mca_profile_exceptions_exists = DBGet( "SELECT 1
 			FROM profile_exceptions
 			WHERE profile_id='" . $profile_id . "'
-			AND modname='Grades/MassCreateAssignments.php'" ) );
+			AND modname='Grades/MassCreateAssignments.php'" );
 
 		if ( ! $mca_profile_exceptions_exists )
 		{
@@ -606,8 +606,8 @@ function _update35()
 	/**
 	 * 1. Add FAILED_LOGIN_LIMIT to CONFIG table.
 	 */
-	$failed_login_limit_added = DBGet( DBQuery( "SELECT 1 FROM CONFIG
-		WHERE TITLE='FAILED_LOGIN_LIMIT'" ) );
+	$failed_login_limit_added = DBGet( "SELECT 1 FROM CONFIG
+		WHERE TITLE='FAILED_LOGIN_LIMIT'" );
 
 	if ( ! $failed_login_limit_added )
 	{
@@ -638,7 +638,7 @@ function _update37beta()
 	/**
 	 * 1. Add DISPLAY_NAME to CONFIG table.
 	 */
-	$display_name_added = DBGet( DBQuery( "SELECT 1 FROM CONFIG WHERE TITLE='DISPLAY_NAME'" ) );
+	$display_name_added = DBGet( "SELECT 1 FROM CONFIG WHERE TITLE='DISPLAY_NAME'" );
 
 	if ( ! $display_name_added )
 	{
@@ -670,8 +670,8 @@ function _update39()
 	/**
 	 * 1. Add DISPLAY_NAME to CONFIG table for every school.
 	 */
-	$display_name_added = DBGet( DBQuery( "SELECT 1 FROM CONFIG WHERE TITLE='DISPLAY_NAME'
-		AND SCHOOL_ID<>0" ) );
+	$display_name_added = DBGet( "SELECT 1 FROM CONFIG WHERE TITLE='DISPLAY_NAME'
+		AND SCHOOL_ID<>0" );
 
 	if ( ! $display_name_added )
 	{

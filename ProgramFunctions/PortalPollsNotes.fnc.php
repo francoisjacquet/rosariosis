@@ -18,14 +18,14 @@ if ( !isset($PortalNotesFilesPath))
 function PortalPollsVote( $poll_id, $votes_array )
 {
 	// Get poll:
-	$poll_RET = DBGet( DBQuery( "SELECT EXCLUDED_USERS, VOTES_NUMBER, DISPLAY_VOTES
+	$poll_RET = DBGet( "SELECT EXCLUDED_USERS, VOTES_NUMBER, DISPLAY_VOTES
 		FROM PORTAL_POLLS
-		WHERE ID='" . $poll_id . "'" ) );
+		WHERE ID='" . $poll_id . "'" );
 
-	$poll_questions_RET = DBGet( DBQuery( "SELECT ID, QUESTION, OPTIONS, VOTES
+	$poll_questions_RET = DBGet( "SELECT ID, QUESTION, OPTIONS, VOTES
 		FROM PORTAL_POLL_QUESTIONS
 		WHERE PORTAL_POLL_ID='" . $poll_id . "'
-		ORDER BY ID" ) );
+		ORDER BY ID" );
 
 	if ( ! $poll_RET || ! $poll_questions_RET )
 	{
@@ -142,16 +142,16 @@ function PortalPollsDisplay( $value, $name )
 	$poll_id = $THIS_RET['ID'];
 
 	// Get poll:
-	$poll_RET = DBGet( DBQuery( "SELECT EXCLUDED_USERS,VOTES_NUMBER,DISPLAY_VOTES
+	$poll_RET = DBGet( "SELECT EXCLUDED_USERS,VOTES_NUMBER,DISPLAY_VOTES
 		FROM PORTAL_POLLS
-		WHERE ID='" . $poll_id . "'" ) );
+		WHERE ID='" . $poll_id . "'" );
 
 	require_once 'ProgramFunctions/Linkify.fnc.php';
 
-	$poll_questions_RET = DBGet( DBQuery( "SELECT ID,QUESTION,OPTIONS,TYPE,VOTES
+	$poll_questions_RET = DBGet( "SELECT ID,QUESTION,OPTIONS,TYPE,VOTES
 		FROM PORTAL_POLL_QUESTIONS
 		WHERE PORTAL_POLL_ID='" . $poll_id . "'
-		ORDER BY ID" ), array( 'OPTIONS' => 'Linkify' ) );
+		ORDER BY ID", array( 'OPTIONS' => 'Linkify' ) );
 
 	if ( ! $poll_RET || ! $poll_questions_RET )
 	{
@@ -434,12 +434,12 @@ function makePublishingVisibleTo( $profiles, $THIS_RET, $id )
 	<tr class="st">';
 
 	// FJ Portal Polls add students teacher.
-	$teachers_RET = DBGet( DBQuery( "SELECT STAFF_ID," . DisplayNameSQL() . " AS FULL_NAME
+	$teachers_RET = DBGet( "SELECT STAFF_ID," . DisplayNameSQL() . " AS FULL_NAME
 	FROM STAFF
 	WHERE (SCHOOLS IS NULL OR STRPOS(SCHOOLS,'," . UserSchool() . ",')>0)
 	AND SYEAR='" . UserSyear() . "'
 	AND PROFILE='teacher'
-	ORDER BY LAST_NAME,FIRST_NAME" ) );
+	ORDER BY LAST_NAME,FIRST_NAME" );
 
 	$teachers = array();
 

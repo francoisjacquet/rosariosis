@@ -119,14 +119,14 @@ function StaffWidgets( $item, &$myextra = null )
 		// User Widgets (configured in My Preferences).
 		case 'user':
 
-			/*$widgets_RET = DBGet( DBQuery( "SELECT TITLE
+			/*$widgets_RET = DBGet( "SELECT TITLE
 				FROM PROGRAM_USER_CONFIG
 				WHERE USER_ID='" . User( 'STAFF_ID' ) . "'
 				AND PROGRAM='StaffWidgetsSearch'" .
 				( count( $_ROSARIO['StaffWidgets'] ) ?
 					"AND TITLE NOT IN ('" . implode( "','", array_keys( $_ROSARIO['StaffWidgets'] ) ) . "')" :
 					''
-				) ) );*/
+				) );*/
 
 			$user_widgets = ProgramUserConfig( 'StaffWidgetsSearch' );
 

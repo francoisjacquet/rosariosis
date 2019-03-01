@@ -34,10 +34,10 @@ function GetTemplate( $modname = '', $staff_id = 0 ) {
 		$staff_id = User( 'STAFF_ID' );
 	}
 
-	$template_RET = DBGet( DBQuery( "SELECT TEMPLATE,STAFF_ID
+	$template_RET = DBGet( "SELECT TEMPLATE,STAFF_ID
 		FROM TEMPLATES
 		WHERE MODNAME='" . $modname . "'
-		AND STAFF_ID IN(0,'" . $staff_id . "')" ), array(), array( 'STAFF_ID' ) );
+		AND STAFF_ID IN(0,'" . $staff_id . "')", array(), array( 'STAFF_ID' ) );
 
 	if ( ! $template_RET )
 	{
@@ -77,10 +77,10 @@ function SaveTemplate( $template, $modname = '', $staff_id = -1 )
 		$staff_id = User( 'STAFF_ID' );
 	}
 
-	$is_template_update = DBGet( DBQuery( "SELECT STAFF_ID
+	$is_template_update = DBGet( "SELECT STAFF_ID
 		FROM TEMPLATES
 		WHERE MODNAME='" . $modname . "'
-		AND STAFF_ID IN(0,'" . $staff_id . "')" ), array(), array( 'STAFF_ID' ) );
+		AND STAFF_ID IN(0,'" . $staff_id . "')", array(), array( 'STAFF_ID' ) );
 
 	if ( ! $is_template_update )
 	{

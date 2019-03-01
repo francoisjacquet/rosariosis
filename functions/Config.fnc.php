@@ -41,9 +41,9 @@ function Config( $item, $value = null )
 			// General (for every school) Config is stored with SCHOOL_ID=0.
 			"SCHOOL_ID='0'";
 
-		$_ROSARIO['Config'] = DBGet( DBQuery( "SELECT TITLE,CONFIG_VALUE,SCHOOL_ID
+		$_ROSARIO['Config'] = DBGet( "SELECT TITLE,CONFIG_VALUE,SCHOOL_ID
 			FROM CONFIG
-			WHERE " . $school_where ), array(), array( 'TITLE' ) );
+			WHERE " . $school_where, array(), array( 'TITLE' ) );
 
 		$_ROSARIO['Config']['SYEAR'][1]['CONFIG_VALUE'] = $DefaultSyear;
 	}
@@ -107,10 +107,10 @@ function ProgramConfig( $program, $item = 'all', $value = null )
 
 	if ( ! isset( $_ROSARIO['ProgramConfig'][ (string) $program ] ) )
 	{
-		$_ROSARIO['ProgramConfig'] = DBGet( DBQuery( "SELECT PROGRAM,TITLE,VALUE
+		$_ROSARIO['ProgramConfig'] = DBGet( "SELECT PROGRAM,TITLE,VALUE
 			FROM PROGRAM_CONFIG
 			WHERE SYEAR='" . UserSyear() . "'
-			AND SCHOOL_ID='" . UserSchool() . "'" ), array(), array( 'PROGRAM', 'TITLE' ) );
+			AND SCHOOL_ID='" . UserSchool() . "'", array(), array( 'PROGRAM', 'TITLE' ) );
 	}
 
 	if ( ! is_null( $value )
@@ -185,10 +185,10 @@ function ProgramUserConfig( $program, $staff_id = 0, $values = null )
 
 	if ( ! isset( $program_config[ $program ][ $staff_id ] ) )
 	{
-		$config_RET = DBGet( DBQuery( "SELECT TITLE,VALUE
+		$config_RET = DBGet( "SELECT TITLE,VALUE
 			FROM PROGRAM_USER_CONFIG
 			WHERE USER_ID='" . $staff_id . "'
-			AND PROGRAM='" . $program . "'" ), array(), array( 'TITLE' ) );
+			AND PROGRAM='" . $program . "'", array(), array( 'TITLE' ) );
 
 		$program_config[ $program ][ $staff_id ] = null;
 

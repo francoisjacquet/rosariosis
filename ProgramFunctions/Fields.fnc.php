@@ -38,7 +38,7 @@ function AddDBField( $table, $sequence, $type )
 		return '';
 	}
 
-	$id = DBGet( DBQuery( 'SELECT ' . db_seq_nextval( $sequence ) . ' AS ID ' ) );
+	$id = DBGet( 'SELECT ' . db_seq_nextval( $sequence ) . ' AS ID ' );
 
 	$id = $id[1]['ID'];
 
@@ -196,9 +196,9 @@ function DeleteDBFieldCategory( $table, $id )
 	$fields_table = $table === 'STUDENTS' ? 'CUSTOM' : $table;
 
 	// Delete all fields in Category.
-	$fields = DBGet( DBQuery( "SELECT ID
+	$fields = DBGet( "SELECT ID
 		FROM " . DBEscapeIdentifier( $fields_table . '_FIELDS' ) .
-		" WHERE CATEGORY_ID='" . (int) $id . "'" ) );
+		" WHERE CATEGORY_ID='" . (int) $id . "'" );
 
 	foreach ( (array) $fields as $field )
 	{
@@ -388,9 +388,9 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 		if ( $category_id )
 		{
 			// CATEGORIES.
-			$categories_RET = DBGet( DBQuery( "SELECT ID,TITLE,SORT_ORDER
+			$categories_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER
 				FROM " . DBEscapeIdentifier( $table . '_FIELD_CATEGORIES' ) .
-				" ORDER BY SORT_ORDER,TITLE" ) );
+				" ORDER BY SORT_ORDER,TITLE" );
 
 			foreach ( (array) $categories_RET as $type )
 			{
@@ -684,9 +684,9 @@ function FilterCustomFieldsMarkdown( $table, $request_index, $request_index_2 = 
 	$table = preg_replace( "/[^a-zA-Z0-9_]+/", '', $table );
 
 	// FJ textarea fields MarkDown sanitize.
-	$textarea_RET = DBGet( DBQuery( "SELECT ID
+	$textarea_RET = DBGet( "SELECT ID
 		FROM " . DBEscapeIdentifier( $table ) . "
-		WHERE TYPE='textarea'") );
+		WHERE TYPE='textarea'" );
 
 	if ( ! $textarea_RET )
 	{
@@ -740,8 +740,8 @@ function CheckRequiredCustomFields( $table, $request_values )
 		return false;
 	}
 
-	$required_RET = DBGet( DBQuery( "SELECT ID FROM " . DBEscapeIdentifier( $table ) . "
-		WHERE REQUIRED='Y'" ) );
+	$required_RET = DBGet( "SELECT ID FROM " . DBEscapeIdentifier( $table ) . "
+		WHERE REQUIRED='Y'" );
 
 	foreach ( (array) $required_RET as $required )
 	{

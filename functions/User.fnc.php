@@ -119,10 +119,10 @@ function Preferences( $item, $program = 'Preferences' )
 	if ( User( 'STAFF_ID' )
 		&& ! isset( $_ROSARIO['Preferences'][ $program ] ) )
 	{
-		$_ROSARIO['Preferences'][ $program ] = DBGet( DBQuery( "SELECT TITLE,VALUE
+		$_ROSARIO['Preferences'][ $program ] = DBGet( "SELECT TITLE,VALUE
 			FROM PROGRAM_USER_CONFIG
 			WHERE USER_ID='" . User( 'STAFF_ID' ) . "'
-			AND PROGRAM='" . $program . "'" ), array(), array( 'TITLE' ) );
+			AND PROGRAM='" . $program . "'", array(), array( 'TITLE' ) );
 	}
 
 	// FJ add Default Theme to Configuration.

@@ -32,11 +32,11 @@ function GetMP( $mp_id, $column = 'TITLE' )
 
 	if ( ! isset( $_ROSARIO['GetMP'] ) )
 	{
-		$_ROSARIO['GetMP'] = DBGet( DBQuery( "SELECT MARKING_PERIOD_ID,TITLE,POST_START_DATE,
+		$_ROSARIO['GetMP'] = DBGet( "SELECT MARKING_PERIOD_ID,TITLE,POST_START_DATE,
 			POST_END_DATE,MP,SORT_ORDER,SHORT_NAME,START_DATE,END_DATE,DOES_GRADES,DOES_COMMENTS
 			FROM SCHOOL_MARKING_PERIODS
 			WHERE SYEAR='" . UserSyear() . "'
-			AND SCHOOL_ID='" . UserSchool() . "'" ), array(), array( 'MARKING_PERIOD_ID' ) );
+			AND SCHOOL_ID='" . UserSchool() . "'", array(), array( 'MARKING_PERIOD_ID' ) );
 	}
 
 	return empty( $_ROSARIO['GetMP'][ $mp_id ][1][ $column ] ) ?
@@ -64,11 +64,11 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 	if ( $marking_period_id == 0 )
 	{
 		// There should be exactly one FY marking period.
-		$fy_RET = DBGet( DBQuery( "SELECT MARKING_PERIOD_ID
+		$fy_RET = DBGet( "SELECT MARKING_PERIOD_ID
 			FROM SCHOOL_MARKING_PERIODS
 			WHERE MP='FY'
 			AND SYEAR='" . UserSyear() . "'
-			AND SCHOOL_ID='" . UserSchool() . "'" ) );
+			AND SCHOOL_ID='" . UserSchool() . "'" );
 
 		$marking_period_id = $fy_RET[1]['MARKING_PERIOD_ID'];
 
@@ -85,11 +85,11 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 		$error_no_qtr = array( _( 'No quarters found' ) );
 
 		// There should be exactly one FY marking period.
-		$fy_RET = DBGet( DBQuery( "SELECT MARKING_PERIOD_ID
+		$fy_RET = DBGet( "SELECT MARKING_PERIOD_ID
 			FROM SCHOOL_MARKING_PERIODS
 			WHERE MP='FY'
 			AND SYEAR='" . UserSyear() . "'
-			AND SCHOOL_ID='" . UserSchool() . "'" ) );
+			AND SCHOOL_ID='" . UserSchool() . "'" );
 
 		$fy = $fy_RET[1]['MARKING_PERIOD_ID'];
 
@@ -343,11 +343,11 @@ function GetChildrenMP( $mp, $marking_period_id = '0' )
 
 			case 'PRO':
 
-				$pro_RET = DBGet( DBQuery( "SELECT MARKING_PERIOD_ID,PARENT_ID
+				$pro_RET = DBGet( "SELECT MARKING_PERIOD_ID,PARENT_ID
 					FROM SCHOOL_MARKING_PERIODS
 					WHERE MP='PRO'
 					AND SYEAR='" . UserSyear() . "'
-					AND SCHOOL_ID='" . UserSchool() . "'"), array(), array( 'PARENT_ID' ) );
+					AND SCHOOL_ID='" . UserSchool() . "'", array(), array( 'PARENT_ID' ) );
 
 				foreach ( (array) $pro_RET as $qtr => $pros )
 				{
@@ -391,12 +391,12 @@ function GetCurrentMP( $mp, $date, $error = true )
 	if ( is_null( $current_mp )
 		|| ! isset( $current_mp[ $date ][ $mp ] ) )
 	{
-		$current_mp[ $date ][ $mp ] = DBGet( DBQuery( "SELECT MARKING_PERIOD_ID
+		$current_mp[ $date ][ $mp ] = DBGet( "SELECT MARKING_PERIOD_ID
 			FROM SCHOOL_MARKING_PERIODS
 			WHERE MP='" . $mp . "'
 			AND '" . $date . "' BETWEEN START_DATE AND END_DATE
 			AND SYEAR='" . UserSyear() . "'
-			AND SCHOOL_ID='" . UserSchool() . "'" ) );
+			AND SCHOOL_ID='" . UserSchool() . "'" );
 	}
 
 	if ( isset( $current_mp[ $date ][ $mp ][1]['MARKING_PERIOD_ID'] ) )
