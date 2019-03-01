@@ -328,7 +328,9 @@ function GetAssignment( $assignment_id )
 
 	if ( User( 'PROFILE' ) === 'teacher' )
 	{
-		$where_user = "s.STAFF_ID='" . User( 'STAFF_ID' ) . "'";
+		$where_user = "s.STAFF_ID='" . User( 'STAFF_ID' ) . "'
+			AND s.SYEAR='" . UserSyear() . "'
+			AND s.CURRENT_SCHOOL_ID='" . UserSchool() . "'";
 	}
 	elseif ( UserStudentID() )
 	{
@@ -337,7 +339,12 @@ function GetAssignment( $assignment_id )
 			AND ss.SCHOOL_ID='" . UserSchool() . "'
 			AND ss.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . ")
 			AND (ga.COURSE_PERIOD_ID IS NULL OR ss.COURSE_PERIOD_ID=ga.COURSE_PERIOD_ID)
-			AND (ga.COURSE_ID IS NULL OR ss.COURSE_ID=ga.COURSE_ID)";
+			AND (ga.COURSE_ID IS NULL OR ss.COURSE_ID=ga.COURSE_ID)
+			AND (ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE)
+			AND ( ga.DUE_DATE IS NULL
+				OR ( ga.DUE_DATE>=ss.START_DATE
+					AND ( ss.END_DATE IS NULL OR ga.DUE_DATE<=ss.END_DATE ) ) )
+			AND c.COURSE_ID=ss.COURSE_ID";
 	}
 
 	$assignment_sql = "SELECT ga.ASSIGNMENT_ID, ga.STAFF_ID, ga.COURSE_PERIOD_ID, ga.COURSE_ID,
@@ -347,11 +354,6 @@ function GetAssignment( $assignment_id )
 		FROM GRADEBOOK_ASSIGNMENTS ga,SCHEDULE ss,STAFF s,COURSES c,GRADEBOOK_ASSIGNMENT_TYPES gat
 		WHERE " . $where_user .
 		" AND ga.ASSIGNMENT_ID='" . $assignment_id . "'
-		AND (ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE)
-		AND ( ga.DUE_DATE IS NULL
-			OR ( ga.DUE_DATE>=ss.START_DATE
-				AND ( ss.END_DATE IS NULL OR ga.DUE_DATE<=ss.END_DATE ) ) )
-		AND c.COURSE_ID=ss.COURSE_ID
 		AND gat.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID"; // Why not?
 
 	$assignment_RET = DBGet( DBQuery( $assignment_sql ), array(), array( 'ASSIGNMENT_ID' ) );
