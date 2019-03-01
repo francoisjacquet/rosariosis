@@ -4,6 +4,7 @@
 Changes in 4.5
 --------------
 - Add Calendar header hook in Calendar.php
+- Add Calendar Day functions in CalendarDay.inc.php
 
 Changes in 4.4
 --------------
