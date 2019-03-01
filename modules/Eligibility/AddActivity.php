@@ -10,7 +10,10 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		{
 			// FJ fix bug add the same activity more than once
 			// $current_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENT_ELIGIBILITY_ACTIVITIES WHERE ACTIVITY_ID='".$_SESSION['activity_id']."' AND SYEAR='".UserSyear()."'"),array(),array('STUDENT_ID'));
-			$current_RET = DBGet( DBQuery( "SELECT STUDENT_ID FROM STUDENT_ELIGIBILITY_ACTIVITIES WHERE ACTIVITY_ID='" . $_REQUEST['activity_id'] . "' AND SYEAR='" . UserSyear() . "'" ), array(), array( 'STUDENT_ID' ) );
+			$current_RET = DBGet( "SELECT STUDENT_ID
+				FROM STUDENT_ELIGIBILITY_ACTIVITIES
+				WHERE ACTIVITY_ID='" . $_REQUEST['activity_id'] . "'
+				AND SYEAR='" . UserSyear() . "'", array(), array( 'STUDENT_ID' ) );
 
 			// Group SQL inserts.
 			$sql = '';
@@ -58,7 +61,10 @@ if ( $_REQUEST['search_modfunc'] == 'list' )
 //FJ css WPadmin
 	echo '<table class="postbox center col1-align-right"><tr><td>' . _( 'Activity' ) . '</td>';
 	echo '<td>';
-	$activities_RET = DBGet( DBQuery( "SELECT ID,TITLE FROM ELIGIBILITY_ACTIVITIES WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "'" ) );
+	$activities_RET = DBGet( "SELECT ID,TITLE
+		FROM ELIGIBILITY_ACTIVITIES
+		WHERE SYEAR='" . UserSyear() . "'
+		AND SCHOOL_ID='" . UserSchool() . "'" );
 	echo '<select name="activity_id"><option value="">' . _( 'N/A' ) . '</option>';
 
 	if ( count( $activities_RET ) )

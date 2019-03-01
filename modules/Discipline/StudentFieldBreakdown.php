@@ -18,10 +18,10 @@ if ( isset( $_REQUEST['day_start'] )
 
 if ( empty( $start_date ) )
 {
-	$min_date = DBGet( DBQuery( "SELECT min(SCHOOL_DATE) AS MIN_DATE
+	$min_date = DBGet( "SELECT min(SCHOOL_DATE) AS MIN_DATE
 		FROM ATTENDANCE_CALENDAR
 		WHERE SYEAR='" . UserSyear() . "'
-		AND SCHOOL_ID='" . UserSchool() . "'" ) );
+		AND SCHOOL_ID='" . UserSchool() . "'" );
 
 	if ( $min_date
 		&& $min_date[1]['MIN_DATE'] )
@@ -84,8 +84,8 @@ if ( $_REQUEST['modfunc'] === 'search' )
 if ( isset( $_REQUEST['field_id'] )
 	&& !empty( $_REQUEST['field_id'] ) )
 {
-	$fields_RET = DBGet( DBQuery( "SELECT TITLE,SELECT_OPTIONS AS OPTIONS,TYPE
-		FROM CUSTOM_FIELDS WHERE ID='" . $_REQUEST['field_id'] . "'" ) );
+	$fields_RET = DBGet( "SELECT TITLE,SELECT_OPTIONS AS OPTIONS,TYPE
+		FROM CUSTOM_FIELDS WHERE ID='" . $_REQUEST['field_id'] . "'" );
 
 	if ( $fields_RET[1]['OPTIONS'] ) // Fixes array( 0 => '' ) when no options
 		$fields_RET[1]['OPTIONS'] = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $fields_RET[1]['OPTIONS'] ) );
@@ -105,13 +105,13 @@ if ( isset( $_REQUEST['field_id'] )
 		if ( in_array( $fields_RET[1]['TYPE'], array( 'autos', 'edits' ) ) )
 		{
 			// add values found in current year
-			$options_RET = DBGet( DBQuery( "SELECT DISTINCT s.CUSTOM_" . intval( $_REQUEST['field_id'] ) . ",upper(s.CUSTOM_" . intval( $_REQUEST['field_id'] ) . ") AS KEY
+			$options_RET = DBGet( "SELECT DISTINCT s.CUSTOM_" . intval( $_REQUEST['field_id'] ) . ",upper(s.CUSTOM_" . intval( $_REQUEST['field_id'] ) . ") AS KEY
 				FROM STUDENTS s,STUDENT_ENROLLMENT sse
 				WHERE sse.STUDENT_ID=s.STUDENT_ID
 				AND (sse.SYEAR='" . UserSyear() . "')
 				AND s.CUSTOM_" . intval( $_REQUEST['field_id'] ) . " IS NOT NULL
 				AND s.CUSTOM_" . intval( $_REQUEST['field_id'] ) . " != ''
-				ORDER BY KEY" ) );
+				ORDER BY KEY" );
 
 			foreach ( (array) $options_RET as $option )
 			{
@@ -231,13 +231,13 @@ if ( ! $_REQUEST['modfunc'] )
 {
 	echo '<form action="' . PreparePHP_SELF( $_REQUEST ) . '" method="GET">';
 
-	$fields_RET = DBGet( DBQuery( "SELECT ID,TITLE,SELECT_OPTIONS AS OPTIONS,CATEGORY_ID
+	$fields_RET = DBGet( "SELECT ID,TITLE,SELECT_OPTIONS AS OPTIONS,CATEGORY_ID
 		FROM CUSTOM_FIELDS
 		WHERE TYPE NOT IN ('textarea','text','date','log','holder')
-		ORDER BY SORT_ORDER,TITLE" ), array(), array( 'CATEGORY_ID' ) );
+		ORDER BY SORT_ORDER,TITLE", array(), array( 'CATEGORY_ID' ) );
 
-	$categories_RET = DBGet( DBQuery( "SELECT ID,TITLE
-		FROM STUDENT_FIELD_CATEGORIES" ), array(), array( 'ID' ) );
+	$categories_RET = DBGet( "SELECT ID,TITLE
+		FROM STUDENT_FIELD_CATEGORIES", array(), array( 'ID' ) );
 
 	$select = '<select name=field_id onchange="ajaxPostForm(this.form,true);">';
 

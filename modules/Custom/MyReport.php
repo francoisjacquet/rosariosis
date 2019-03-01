@@ -6,15 +6,15 @@ if ( ! $_REQUEST['modfunc'] )
 {
 	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
-		$custom_fields_RET = DBGet( DBQuery( "SELECT ID,TITLE,TYPE
+		$custom_fields_RET = DBGet( "SELECT ID,TITLE,TYPE
 			FROM CUSTOM_FIELDS
-			WHERE ID IN (200000000, 200000001)" ) );
+			WHERE ID IN (200000000, 200000001)" );
 
-		$address_fields_RET = DBGet( DBQuery( "SELECT ID,TITLE,TYPE
-			FROM ADDRESS_FIELDS" ) );
+		$address_fields_RET = DBGet( "SELECT ID,TITLE,TYPE
+			FROM ADDRESS_FIELDS" );
 
-		$people_fields_RET = DBGet( DBQuery( "SELECT ID,TITLE,TYPE
-			FROM PEOPLE_FIELDS" ) );
+		$people_fields_RET = DBGet( "SELECT ID,TITLE,TYPE
+			FROM PEOPLE_FIELDS" );
 
 		foreach ( (array) $custom_fields_RET as $field )
 		{
@@ -193,10 +193,10 @@ function _makeTV( $value, $column )
 
 	if ( $THIS_RET['PERSON_ID'] !== $person_id )
 	{
-		$person_RET = DBGet( DBQuery( "SELECT TITLE,VALUE
+		$person_RET = DBGet( "SELECT TITLE,VALUE
 			FROM PEOPLE_JOIN_CONTACTS
 			WHERE PERSON_ID='" . $THIS_RET['PERSON_ID'] . "'
-			LIMIT 10" ) );
+			LIMIT 10" );
 
 		if ( count( $person_RET ) > $maxTV )
 		{

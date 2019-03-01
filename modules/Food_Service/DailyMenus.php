@@ -32,7 +32,7 @@ else
 		ErrorMessage(array(_('There are no calendars yet setup.')),'fatal');
 }
 
-$menus_RET = DBGet(DBQuery('SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER'),array(),array('MENU_ID'));
+$menus_RET = DBGet( 'SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER',array(),array('MENU_ID'));
 if ( empty( $_REQUEST['menu_id'] ) )
 	if ( ! $_SESSION['FSA_menu_id'])
 		if (count($menus_RET))

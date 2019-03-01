@@ -9,7 +9,7 @@ DrawHeader( ProgramTitle() );
 {
 	$_SESSION['UserSyear'] = Config( 'SYEAR' );
 
-	$student_RET = DBGet( DBQuery( "SELECT sju.STUDENT_ID,
+	$student_RET = DBGet( "SELECT sju.STUDENT_ID,
 		s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,se.SCHOOL_ID
 		FROM STUDENTS s,STUDENTS_JOIN_USERS sju, STUDENT_ENROLLMENT se
 		WHERE s.STUDENT_ID=sju.STUDENT_ID
@@ -17,7 +17,7 @@ DrawHeader( ProgramTitle() );
 		AND se.SYEAR='" . UserSyear() . "'
 		AND se.STUDENT_ID=sju.STUDENT_ID
 		AND (('" . DBDate() . "' BETWEEN se.START_DATE AND se.END_DATE OR se.END_DATE IS NULL)
-		AND '" . DBDate() . "'>=se.START_DATE)" ) );
+		AND '" . DBDate() . "'>=se.START_DATE)" );
 
 	// Note: do not use SetUserStudentID() here as this is safe.
 	$_SESSION['student_id'] = $student_RET[1]['STUDENT_ID'];
@@ -63,7 +63,7 @@ if ( isset( $_REQUEST['values'] )
 		if ( $columns['ADDRESS']
 			&& ! isset( $inserted_addresses[ $address_key ] ) )
 		{
-			$address_RET = DBGet( DBQuery( "SELECT " . db_seq_nextval( 'ADDRESS_SEQ' ) . ' AS ADDRESS_ID' ) );
+			$address_RET = DBGet( "SELECT " . db_seq_nextval( 'ADDRESS_SEQ' ) . ' AS ADDRESS_ID' );
 
 			$address_id[ $key ] = $address_RET[1]['ADDRESS_ID'];
 
@@ -152,7 +152,7 @@ if ( isset( $_REQUEST['values'] )
 			continue;
 		}
 
-		$person_id = DBGet( DBQuery( "SELECT " . db_seq_nextval( 'PEOPLE_SEQ' ) . ' AS PERSON_ID' ) );
+		$person_id = DBGet( "SELECT " . db_seq_nextval( 'PEOPLE_SEQ' ) . ' AS PERSON_ID' );
 
 		$person_id = $person_id[1]['PERSON_ID'];
 
@@ -267,9 +267,9 @@ if ( isset( $_REQUEST['values'] )
 		// FJ add SendEmail function.
 		require_once 'ProgramFunctions/SendEmail.fnc.php';
 
-		$student_RET = DBGet( DBQuery( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
+		$student_RET = DBGet( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
 			FROM STUDENTS
-			WHERE STUDENT_ID='" . UserStudentID() . "'" ) );
+			WHERE STUDENT_ID='" . UserStudentID() . "'" );
 
 		$message = sprintf(
 			_( 'New Registration %s (%d) has been registered by %s.' ),
@@ -286,9 +286,9 @@ if ( isset( $_REQUEST['values'] )
 	$_SESSION['_REQUEST_vars']['values'] = false;
 }
 
-$addresses_RET = DBGet( DBQuery( "SELECT COUNT(*) AS COUNT
+$addresses_RET = DBGet( "SELECT COUNT(*) AS COUNT
 	FROM STUDENTS_JOIN_ADDRESS
-	WHERE STUDENT_ID='" . UserStudentID() . "'" ) );
+	WHERE STUDENT_ID='" . UserStudentID() . "'" );
 
 // Registration check.
 if ( $addresses_RET[1]['COUNT'] > 0 )
@@ -467,8 +467,8 @@ echo '<br />' . _makeInput( 'values[PEOPLE][8][extra][Cell]', _( 'Cell Phone' ),
 
 echo '</td></tr></table>';
 
-$custom_fields_RET = DBGet( DBQuery( "SELECT ID,TITLE,TYPE,SELECT_OPTIONS
-	FROM CUSTOM_FIELDS" ), array(), array( 'ID' ) );
+$custom_fields_RET = DBGet( "SELECT ID,TITLE,TYPE,SELECT_OPTIONS
+	FROM CUSTOM_FIELDS", array(), array( 'ID' ) );
 
 $student_dataquery = '';
 
@@ -522,9 +522,9 @@ if ( isset( $custom_fields_RET['200000009'] )
 	$student_dataquery .= ', CUSTOM_200000009';
 }
 
-$student_RET = DBGet( DBQuery( "SELECT " . DisplayNameSQL() . " AS FULL_NAME" . $student_dataquery . "
+$student_RET = DBGet( "SELECT " . DisplayNameSQL() . " AS FULL_NAME" . $student_dataquery . "
 	FROM STUDENTS
-	WHERE STUDENT_ID='" . UserStudentID() . "'" ) );
+	WHERE STUDENT_ID='" . UserStudentID() . "'" );
 
 $student = $student_RET[1];
 
@@ -644,9 +644,9 @@ if ( array_key_exists( 'CUSTOM_200000000', $student ) )
 echo '</td></tr></table>';*/
 
 // Medical.
-$medical_fields_category_RET = DBGet( DBQuery( "SELECT TITLE
+$medical_fields_category_RET = DBGet( "SELECT TITLE
 	FROM STUDENT_FIELD_CATEGORIES
-	WHERE ID='2'" ) );
+	WHERE ID='2'" );
 
 if ( isset( $medical_fields_category_RET[1]['TITLE'] ) )
 {

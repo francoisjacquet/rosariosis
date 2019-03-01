@@ -31,7 +31,7 @@ foreach ( (array) $schools_RET as $syear => $schools)
 		$schools_select[ $syear ][$school['ID']] = $school['TITLE'];
 //echo '<pre>'; var_dump($schools_select); echo '</pre>';
 
-$students_RET = DBGet( DBQuery( "SELECT fst.TRANSACTION_ID,fst.ACCOUNT_ID,fst.SYEAR," .
+$students_RET = DBGet( "SELECT fst.TRANSACTION_ID,fst.ACCOUNT_ID,fst.SYEAR," .
 	db_case( array(
 		'fst.STUDENT_ID',
 		"''",
@@ -39,12 +39,12 @@ $students_RET = DBGet( DBQuery( "SELECT fst.TRANSACTION_ID,fst.ACCOUNT_ID,fst.SY
 		"(SELECT " . DisplayNameSQL() . " FROM STUDENTS WHERE STUDENT_ID=fst.STUDENT_ID)"
 	) ) . " AS FULL_NAME,fst.ACCOUNT_ID AS STUDENTS,fst.SCHOOL_ID
 	FROM FOOD_SERVICE_TRANSACTIONS
-	fst WHERE fst.SCHOOL_ID IS NULL" ), array( 'STUDENTS' => '_students', 'SCHOOL_ID' => '_make_school' ) );
+	fst WHERE fst.SCHOOL_ID IS NULL", array( 'STUDENTS' => '_students', 'SCHOOL_ID' => '_make_school' ) );
 
-$staff_RET = DBGet( DBQuery( "SELECT fst.TRANSACTION_ID,fst.STAFF_ID,fst.SYEAR,
+$staff_RET = DBGet( "SELECT fst.TRANSACTION_ID,fst.STAFF_ID,fst.SYEAR,
 	(SELECT " . DisplayNameSQL() . " FROM STAFF WHERE STAFF_ID=fst.STAFF_ID) AS FULL_NAME,fst.SCHOOL_ID
 	FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst
-	WHERE fst.SCHOOL_ID IS NULL" ), array( 'SCHOOL_ID' => '_make_staff_school' ) );
+	WHERE fst.SCHOOL_ID IS NULL", array( 'SCHOOL_ID' => '_make_staff_school' ) );
 
 //echo '<pre>'; var_dump($students_RET); echo '</pre>';
 //echo '<pre>'; var_dump($users_RET); echo '</pre>';

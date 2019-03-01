@@ -24,7 +24,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		);
 
 		// Check Social Security + Gender fields exists before adding them to SELECT.
-		$custom_RET = DBGet( DBQuery( "SELECT TITLE,ID FROM CUSTOM_FIELDS WHERE ID IN ('200000000','200000003')" ), array(), array( 'ID' ) );
+		$custom_RET = DBGet( "SELECT TITLE,ID
+			FROM CUSTOM_FIELDS
+			WHERE ID IN ('200000000','200000003')", array(), array( 'ID' ) );
 
 		$extra['SELECT'] = ",ssm.CALENDAR_ID,ssm.START_DATE,ssm.END_DATE";
 
@@ -63,7 +65,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 			foreach ( (array) $RET as $student )
 			{
-				$calendar_RET = DBGet( DBquery( "SELECT CASE WHEN
+				$calendar_RET = DBGet( "SELECT CASE WHEN
 					MINUTES>=" . Config( 'ATTENDANCE_FULL_DAY_MINUTES' ) .
 							" THEN '1.0' ELSE '0.5' END AS POS,
 					trim(leading '0' from to_char(SCHOOL_DATE,'MM')) AS MON,
@@ -71,11 +73,11 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					FROM ATTENDANCE_CALENDAR
 					WHERE CALENDAR_ID='" . $student['CALENDAR_ID'] . "'
 					AND SCHOOL_DATE>='" . $student['START_DATE'] . "'" .
-					( $student['END_DATE'] ? " AND SCHOOL_DATE<='" . $student['END_DATE'] . "'" : '' ) ),
+					( $student['END_DATE'] ? " AND SCHOOL_DATE<='" . $student['END_DATE'] . "'" : '' ),
 					array(),
 					array( 'MON', 'DAY' ) );
 
-				$attendance_RET = DBGet( DBQuery( "SELECT
+				$attendance_RET = DBGet( "SELECT
 					trim(leading '0' from to_char(ap.SCHOOL_DATE,'MM')) AS MON,
 					trim(leading '0' from to_char(ap.SCHOOL_DATE,'DD')) AS DAY,
 					ac.STATE_CODE,
@@ -86,7 +88,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					AND sp.SCHOOL_ID='" . UserSchool() . "'
 					AND sp.SYEAR='" . UserSyear() . "'
 					AND ac.ID=ap.ATTENDANCE_CODE
-					AND sp.ATTENDANCE='Y'" ), array(), array( 'MON', 'DAY' ) );
+					AND sp.ATTENDANCE='Y'", array(), array( 'MON', 'DAY' ) );
 				//echo '<pre>'; var_dump($calendar_RET); echo '</pre>';
 
 				echo '<table class="width-100p"><tr><td class="center">
@@ -151,11 +153,11 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 				$abs_tot = $pos_tot = 0;
 
-				$FY_dates = DBGet( DBQuery( "SELECT START_DATE,END_DATE
+				$FY_dates = DBGet( "SELECT START_DATE,END_DATE
 				FROM SCHOOL_MARKING_PERIODS
 				WHERE MP='FY'
 				AND SYEAR='" . UserSyear() . "'
-				AND SCHOOL_ID='" . UserSchool() . "'" ) );
+				AND SCHOOL_ID='" . UserSchool() . "'" );
 
 				$first_month = explode( '-', $FY_dates[1]['START_DATE'] );
 				$first_month = (int) $first_month[1];

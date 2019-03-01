@@ -44,41 +44,41 @@ if ( ! function_exists( 'DashboardAccountingAdmin' ) )
 	{
 		$general_balance = 0;
 
-		$incomes_RET = DBGet( DBQuery( "SELECT TO_CHAR(ASSIGNED_DATE,'YYYY-MM') AS YEAR_MONTH,
+		$incomes_RET = DBGet( "SELECT TO_CHAR(ASSIGNED_DATE,'YYYY-MM') AS YEAR_MONTH,
 			SUM(AMOUNT) AS TOTAL_INCOMES
 			FROM ACCOUNTING_INCOMES
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			GROUP BY YEAR_MONTH
 			ORDER BY YEAR_MONTH DESC
-			LIMIT 3" ), array(), array( 'YEAR_MONTH' ) );
+			LIMIT 3", array(), array( 'YEAR_MONTH' ) );
 
-		$expenses_RET = DBGet( DBQuery( "SELECT TO_CHAR(PAYMENT_DATE,'YYYY-MM') AS YEAR_MONTH,
+		$expenses_RET = DBGet( "SELECT TO_CHAR(PAYMENT_DATE,'YYYY-MM') AS YEAR_MONTH,
 			SUM(CASE WHEN STAFF_ID IS NULL THEN AMOUNT END) AS TOTAL_EXPENSES
 			FROM ACCOUNTING_PAYMENTS
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			GROUP BY YEAR_MONTH
 			ORDER BY YEAR_MONTH DESC
-			LIMIT 3" ), array(), array( 'YEAR_MONTH' ) );
+			LIMIT 3", array(), array( 'YEAR_MONTH' ) );
 
-		$staff_payments_RET = DBGet( DBQuery( "SELECT TO_CHAR(PAYMENT_DATE,'YYYY-MM') AS YEAR_MONTH,
+		$staff_payments_RET = DBGet( "SELECT TO_CHAR(PAYMENT_DATE,'YYYY-MM') AS YEAR_MONTH,
 			SUM(CASE WHEN STAFF_ID IS NOT NULL THEN AMOUNT END) AS TOTAL_STAFF
 			FROM ACCOUNTING_PAYMENTS
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			GROUP BY YEAR_MONTH
 			ORDER BY YEAR_MONTH DESC
-			LIMIT 3" ), array(), array( 'YEAR_MONTH' ) );
+			LIMIT 3", array(), array( 'YEAR_MONTH' ) );
 
-		$student_payments_RET = DBGet( DBQuery( "SELECT TO_CHAR(PAYMENT_DATE,'YYYY-MM') AS YEAR_MONTH,
+		$student_payments_RET = DBGet( "SELECT TO_CHAR(PAYMENT_DATE,'YYYY-MM') AS YEAR_MONTH,
 			SUM(AMOUNT) AS TOTAL_STUDENT_PAYMENTS
 			FROM BILLING_PAYMENTS
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			GROUP BY YEAR_MONTH
 			ORDER BY YEAR_MONTH DESC
-			LIMIT 3" ), array(), array( 'YEAR_MONTH' ) );
+			LIMIT 3", array(), array( 'YEAR_MONTH' ) );
 
 		$accounting_RET = array_replace_recursive( $incomes_RET, $expenses_RET, $staff_payments_RET, $student_payments_RET );
 

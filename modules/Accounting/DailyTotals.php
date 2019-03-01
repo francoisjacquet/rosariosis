@@ -48,7 +48,7 @@ echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&accounting=
 $header_checkboxes = '<label><input type="checkbox" value="true" name="accounting" id="accounting" ' .
 	( ! isset( $_REQUEST['accounting'] )
 		|| $_REQUEST['accounting'] == 'true' ? 'checked ' : '' ) . '/> ' .
-	_( 'Expense' ) . ' & ' . _( 'Income' ) . '</label>&nbsp; ';	
+	_( 'Expense' ) . ' & ' . _( 'Income' ) . '</label>&nbsp; ';
 
 $header_checkboxes .= '<label><input type="checkbox" value="true" name="staff_payroll" id="staff_payroll" ' .
 	( ! empty( $_REQUEST['staff_payroll'] ) ? 'checked ' : '' ) . '/> ' .
@@ -73,26 +73,26 @@ echo '</form>';
 if ( ! isset( $_REQUEST['accounting'] )
 	|| $_REQUEST['accounting'] == 'true' )
 {
-	$accounting_payments = DBGet( DBQuery( "SELECT sum(AMOUNT) AS AMOUNT
+	$accounting_payments = DBGet( "SELECT sum(AMOUNT) AS AMOUNT
 		FROM ACCOUNTING_PAYMENTS
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		AND PAYMENT_DATE BETWEEN '" . $start_date . "'
 		AND '" . $end_date . "'
-		AND STAFF_ID IS NULL" ) );
+		AND STAFF_ID IS NULL" );
 
-	$accounting_incomes = DBGet( DBQuery( "SELECT sum(f.AMOUNT) AS AMOUNT
+	$accounting_incomes = DBGet( "SELECT sum(f.AMOUNT) AS AMOUNT
 		FROM ACCOUNTING_INCOMES f
-		WHERE f.SYEAR='" . UserSyear() . "' 
-		AND f.SCHOOL_ID='" . UserSchool() . "' 
+		WHERE f.SYEAR='" . UserSyear() . "'
+		AND f.SCHOOL_ID='" . UserSchool() . "'
 		AND f.ASSIGNED_DATE BETWEEN '" . $start_date . "'
-		AND '" . $end_date . "'" ) );
+		AND '" . $end_date . "'" );
 }
 
 // Staff salaries.
 if ( ! empty( $_REQUEST['staff_payroll'] ) )
 {
-	$staffpayroll_payments = DBGet( DBQuery( "SELECT sum(p.AMOUNT) AS AMOUNT
+	$staffpayroll_payments = DBGet( "SELECT sum(p.AMOUNT) AS AMOUNT
 		FROM ACCOUNTING_PAYMENTS p, STAFF s
 		WHERE p.SYEAR='" . UserSyear() . "'
 		AND s.SYEAR=p.SYEAR
@@ -100,35 +100,35 @@ if ( ! empty( $_REQUEST['staff_payroll'] ) )
 		AND p.PAYMENT_DATE BETWEEN '" . $start_date . "'
 		AND '" . $end_date . "'
 		AND p.STAFF_ID=s.STAFF_ID
-		AND p.SYEAR=s.SYEAR" ) );
+		AND p.SYEAR=s.SYEAR" );
 
-	$staffpayroll_incomes = DBGet( DBQuery( "SELECT sum(f.AMOUNT) AS AMOUNT
+	$staffpayroll_incomes = DBGet( "SELECT sum(f.AMOUNT) AS AMOUNT
 		FROM ACCOUNTING_SALARIES f, STAFF s
-		WHERE f.SYEAR='" . UserSyear() . "' 
+		WHERE f.SYEAR='" . UserSyear() . "'
 		AND s.SYEAR=f.SYEAR
 		AND f.SCHOOL_ID='" . UserSchool() . "'
 		AND f.ASSIGNED_DATE BETWEEN '" . $start_date . "'
 		AND '" . $end_date . "'
 		AND f.STAFF_ID=s.STAFF_ID
-		AND f.SYEAR=s.SYEAR" ) );
+		AND f.SYEAR=s.SYEAR" );
 }
 
 // Student Billing.
 if ( ! empty( $_REQUEST['student_billing'] )
 	&& $RosarioModules['Student_Billing'] )
 {
-	$billing_payments = DBGet( DBQuery( "SELECT sum(AMOUNT) AS AMOUNT
+	$billing_payments = DBGet( "SELECT sum(AMOUNT) AS AMOUNT
 		FROM BILLING_PAYMENTS
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		AND PAYMENT_DATE BETWEEN '" . $start_date . "'
-		AND '" . $end_date . "'" ) );
+		AND '" . $end_date . "'" );
 
-	$billing_fees = DBGet( DBQuery( "SELECT sum(f.AMOUNT) AS AMOUNT
+	$billing_fees = DBGet( "SELECT sum(f.AMOUNT) AS AMOUNT
 		FROM BILLING_FEES f
 		WHERE f.SCHOOL_ID='" . UserSchool() . "'
 		AND f.ASSIGNED_DATE BETWEEN '" . $start_date . "'
-		AND '" . $end_date . "'" ) );
+		AND '" . $end_date . "'" );
 }
 
 echo '<br />';

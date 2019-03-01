@@ -43,8 +43,17 @@ if ( empty( $email_column ) )
 	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
 
 	//get Student / Address fields
-	$student_columns = DBGet( DBQuery( "SELECT 's.CUSTOM_' || f.ID AS COLUMN, f.TITLE, c.TITLE AS CATEGORY FROM CUSTOM_FIELDS f, STUDENT_FIELD_CATEGORIES c WHERE f.TYPE='text' AND c.ID=f.CATEGORY_ID ORDER BY f.CATEGORY_ID, f.SORT_ORDER" ) );
-	$address_columns = DBGet( DBQuery( "SELECT 'a.CUSTOM_' || f.ID AS COLUMN, f.TITLE, c.TITLE AS CATEGORY FROM ADDRESS_FIELDS f, ADDRESS_FIELD_CATEGORIES c WHERE f.TYPE='text' AND c.ID=f.CATEGORY_ID ORDER BY f.CATEGORY_ID, f.SORT_ORDER" ) );
+	$student_columns = DBGet( "SELECT 's.CUSTOM_' || f.ID AS COLUMN, f.TITLE, c.TITLE AS CATEGORY
+		FROM CUSTOM_FIELDS f, STUDENT_FIELD_CATEGORIES c
+		WHERE f.TYPE='text'
+		AND c.ID=f.CATEGORY_ID
+		ORDER BY f.CATEGORY_ID, f.SORT_ORDER" );
+
+	$address_columns = DBGet( "SELECT 'a.CUSTOM_' || f.ID AS COLUMN, f.TITLE, c.TITLE AS CATEGORY
+		FROM ADDRESS_FIELDS f, ADDRESS_FIELD_CATEGORIES c
+		WHERE f.TYPE='text'
+		AND c.ID=f.CATEGORY_ID
+		ORDER BY f.CATEGORY_ID, f.SORT_ORDER" );
 
 	//display SELECT input
 	$select_html = _( 'Select Parents email field' ) . ': <select id="email_column" name="email_column">';
@@ -156,9 +165,9 @@ if ( $_REQUEST['modfunc'] === 'save'
 						$username = $tmp_username . $i++;
 					}
 
-					$user = DBGet( DBQuery( "SELECT FIRST_NAME,MIDDLE_NAME,LAST_NAME
+					$user = DBGet( "SELECT FIRST_NAME,MIDDLE_NAME,LAST_NAME
 						FROM PEOPLE
-						WHERE PERSON_ID='" . $_REQUEST['contact'][$student_id] . "'" ) );
+						WHERE PERSON_ID='" . $_REQUEST['contact'][$student_id] . "'" );
 
 					$user = $user[1];
 
@@ -172,7 +181,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 					if ( ! $test_email )
 					{
 						// Get Staff ID.
-						$id = DBGet( DBQuery( 'SELECT ' . db_seq_nextval( 'STAFF_SEQ' ) . ' AS SEQ_ID' ) );
+						$id = DBGet( 'SELECT ' . db_seq_nextval( 'STAFF_SEQ' ) . ' AS SEQ_ID' );
 						$id = $id[1]['SEQ_ID'];
 
 						// FJ add password encryption.
@@ -192,10 +201,10 @@ if ( $_REQUEST['modfunc'] === 'save'
 						// Hook.
 						do_action( 'Custom/CreateParents.php|create_user' );
 
-						$staff = DBGet( DBquery( "SELECT " . DisplayNameSQL() . " AS NAME,
+						$staff = DBGet( "SELECT " . DisplayNameSQL() . " AS NAME,
 							USERNAME,PASSWORD
 							FROM STAFF
-							WHERE STAFF_ID='" . $id . "'" ) );
+							WHERE STAFF_ID='" . $id . "'" );
 					}
 					else
 					{
@@ -220,10 +229,10 @@ if ( $_REQUEST['modfunc'] === 'save'
 			{
 				$id = $students[1]['STAFF_ID'];
 
-				$staff = DBGet( DBquery( "SELECT " . DisplayNameSQL() . " AS NAME,
+				$staff = DBGet( "SELECT " . DisplayNameSQL() . " AS NAME,
 					USERNAME,PASSWORD
 					FROM STAFF
-					WHERE STAFF_ID='" . $id . "'" ) );
+					WHERE STAFF_ID='" . $id . "'" );
 
 				$account = 'old';
 			}
@@ -236,10 +245,10 @@ if ( $_REQUEST['modfunc'] === 'save'
 				foreach ( (array) $students as $student )
 				{
 					// Fix SQL error, check if student not already associated!
-					$parent_associated_to_student_RET = DBGet( DBQuery( "SELECT 1
+					$parent_associated_to_student_RET = DBGet( "SELECT 1
 						FROM STUDENTS_JOIN_USERS
 						WHERE STAFF_ID'" . $id . "'
-						AND STUDENT_ID'" . $student['STUDENT_ID'] . "'" ) );
+						AND STUDENT_ID'" . $student['STUDENT_ID'] . "'" );
 
 					if ( ! $test_email
 						&& ! $parent_associated_to_student_RET )
@@ -409,12 +418,12 @@ function _makeChooseCheckbox( $value, $column )
 
 	if ( empty( $THIS_RET['STAFF_ID'] ) )
 	{
-		$has_parents = DBGet( DBQuery( "SELECT 1
+		$has_parents = DBGet( "SELECT 1
 			FROM STUDENTS_JOIN_PEOPLE sjp,PEOPLE p
 			WHERE p.PERSON_ID=sjp.PERSON_ID
 			AND sjp.STUDENT_ID='" . $value . "'
 			AND sjp.ADDRESS_ID='" . $THIS_RET['ADDRESS_ID'] . "'
-			ORDER BY sjp.STUDENT_RELATION" ) );
+			ORDER BY sjp.STUDENT_RELATION" );
 	}
 	else
 	{
@@ -444,20 +453,20 @@ function _makeContactSelect( $value, $column )
 
 	if ( ! $THIS_RET['STAFF_ID'] )
 	{
-		$RET = DBGet( DBQuery( "SELECT sjp.PERSON_ID,sjp.STUDENT_RELATION,
+		$RET = DBGet( "SELECT sjp.PERSON_ID,sjp.STUDENT_RELATION,
 			p.FIRST_NAME,p.LAST_NAME,p.MIDDLE_NAME
 		FROM STUDENTS_JOIN_PEOPLE sjp,PEOPLE p
 		WHERE p.PERSON_ID=sjp.PERSON_ID
 		AND sjp.STUDENT_ID='" . $value . "'
 		AND sjp.ADDRESS_ID='" . $THIS_RET['ADDRESS_ID'] . "'
-		ORDER BY sjp.STUDENT_RELATION" ) );
+		ORDER BY sjp.STUDENT_RELATION" );
 	}
 	else
 	{
-		$RET = DBGet( DBQuery( "SELECT '' AS PERSON_ID,STAFF_ID AS STUDENT_RELATION,
+		$RET = DBGet( "SELECT '' AS PERSON_ID,STAFF_ID AS STUDENT_RELATION,
 			FIRST_NAME,LAST_NAME,MIDDLE_NAME
 			FROM STAFF WHERE
-			STAFF_ID='" . $THIS_RET['STAFF_ID'] . "'" ) );
+			STAFF_ID='" . $THIS_RET['STAFF_ID'] . "'" );
 	}
 
 	if ( count( $RET ) )

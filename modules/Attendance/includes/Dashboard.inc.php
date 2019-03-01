@@ -45,7 +45,7 @@ if ( ! function_exists( 'DashboardAttendanceAdmin' ) )
 		$absences_today = 0;
 
 		// Absences by day.
-		$absences_RET = DBGet( DBQuery( "SELECT SCHOOL_DATE,
+		$absences_RET = DBGet( "SELECT SCHOOL_DATE,
 		SUM(CASE WHEN STATE_VALUE='0.0' THEN 1 END) AS ABSENT,
 		SUM(CASE WHEN STATE_VALUE='0.5' THEN 1 END) AS HALF_DAY
 		FROM ATTENDANCE_DAY ad,STUDENT_ENROLLMENT ssm
@@ -57,7 +57,7 @@ if ( ! function_exists( 'DashboardAttendanceAdmin' ) )
 		AND ssm.END_DATE IS NULL OR SCHOOL_DATE<=ssm.END_DATE
 		GROUP BY SCHOOL_DATE
 		ORDER BY SCHOOL_DATE DESC
-		LIMIT 7" ) );
+		LIMIT 7" );
 
 		if ( ! empty( $absences_RET[1] )
 			&& $absences_RET[1]['SCHOOL_DATE'] === DBDate() )

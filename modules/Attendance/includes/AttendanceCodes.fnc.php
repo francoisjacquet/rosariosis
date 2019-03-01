@@ -108,13 +108,13 @@ function AttendanceCodesTipMessage( $type = '' )
 			$type_where = " AND TYPE='" . $type . "' ";
 		}
 
-		$attendance_codes_RET = DBGet( DBQuery( "SELECT ID,DEFAULT_CODE,STATE_CODE,SHORT_NAME,TITLE
+		$attendance_codes_RET = DBGet( "SELECT ID,DEFAULT_CODE,STATE_CODE,SHORT_NAME,TITLE
 		FROM ATTENDANCE_CODES
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		AND TABLE_NAME='0'" .
 		$type_where .
-		" ORDER BY TABLE_NAME,SORT_ORDER" ) );
+		" ORDER BY TABLE_NAME,SORT_ORDER" );
 	}
 
 	foreach ( (array) $attendance_codes_RET as $attendance_code )

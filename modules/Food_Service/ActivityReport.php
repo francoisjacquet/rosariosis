@@ -83,15 +83,15 @@ $transaction_items = array(
 	'' => array( 1 => array( 'DESCRIPTION' => 'n/s', 'COUNT' => 0, 'AMOUNT' => 0 ) ),
 );
 
-$menus_RET = DBGet( DBQuery( "SELECT TITLE
+$menus_RET = DBGet( "SELECT TITLE
 	FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID='" . UserSchool() . "'
-	ORDER BY SORT_ORDER" ) );
+	ORDER BY SORT_ORDER" );
 
 // echo '<pre>'; var_dump($menus_RET); echo '</pre>';
-$items = DBGet( DBQuery( "SELECT SHORT_NAME,DESCRIPTION,0 AS COUNT
+$items = DBGet( "SELECT SHORT_NAME,DESCRIPTION,0 AS COUNT
 	FROM FOOD_SERVICE_ITEMS
 	WHERE SCHOOL_ID='" . UserSchool() . "'
-	ORDER BY SORT_ORDER" ), array(), array( 'SHORT_NAME' ) );
+	ORDER BY SORT_ORDER", array(), array( 'SHORT_NAME' ) );
 
 // echo '<pre>'; var_dump($items); echo '</pre>';
 

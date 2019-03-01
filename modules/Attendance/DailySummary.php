@@ -64,10 +64,10 @@ if ( $_REQUEST['attendance']
 		}
 	}
 
-	$current_RET = DBGet( DBQuery( "SELECT ATTENDANCE_TEACHER_CODE,ATTENDANCE_CODE,
+	$current_RET = DBGet( "SELECT ATTENDANCE_TEACHER_CODE,ATTENDANCE_CODE,
 		ATTENDANCE_REASON,STUDENT_ID,ADMIN,COURSE_PERIOD_ID
 		FROM ATTENDANCE_PERIOD
-		WHERE SCHOOL_DATE='" . $date . "'" ), array(), array( 'STUDENT_ID', 'COURSE_PERIOD_ID' ) );
+		WHERE SCHOOL_DATE='" . $date . "'", array(), array( 'STUDENT_ID', 'COURSE_PERIOD_ID' ) );
 
 	// Unset attendance & redirect URL.
 	RedirectURL( 'attendance' );
@@ -115,12 +115,12 @@ if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')==
 		{
 			//FJ multiple school periods for a course period
 			//$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp WHERE sp.SYEAR='".UserSyear()."' AND sp.SCHOOL_ID='".UserSchool()."' AND (SELECT count(1) FROM COURSE_PERIODS WHERE position(',0,' IN DOES_ATTENDANCE)>0 AND PERIOD_ID=sp.PERIOD_ID AND SYEAR=sp.SYEAR AND SCHOOL_ID=sp.SCHOOL_ID)>0 ORDER BY sp.SORT_ORDER"));
-			$periods_RET = DBGet( DBQuery( "SELECT sp.PERIOD_ID,sp.TITLE
+			$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE
 			FROM SCHOOL_PERIODS sp
 			WHERE sp.SYEAR='" . UserSyear() . "'
 			AND sp.SCHOOL_ID='" . UserSchool() . "'
 			AND (SELECT count(1) FROM COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0 AND cpsp.PERIOD_ID=sp.PERIOD_ID AND cp.SYEAR=sp.SYEAR AND cp.SCHOOL_ID=sp.SCHOOL_ID)>0
-			ORDER BY sp.SORT_ORDER" ) );
+			ORDER BY sp.SORT_ORDER" );
 
 			foreach ( (array) $periods_RET as $period )
 			{
@@ -133,12 +133,12 @@ if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')==
 		{
 			//FJ multiple school periods for a course period
 			//$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp,COURSE_PERIODS cp WHERE position(',0,' IN cp.DOES_ATTENDANCE)>0 AND sp.PERIOD_ID=cp.PERIOD_ID AND cp.COURSE_PERIOD_ID='".UserCoursePeriod()."'"));
-			$periods_RET = DBGet( DBQuery( "SELECT sp.PERIOD_ID,sp.TITLE
+			$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE
 			FROM SCHOOL_PERIODS sp,COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp
 			WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 			AND position(',0,' IN cp.DOES_ATTENDANCE)>0
 			AND sp.PERIOD_ID=cpsp.PERIOD_ID
-			AND cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID='" . UserCoursePeriodSchoolPeriod() . "'" ) );
+			AND cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID='" . UserCoursePeriodSchoolPeriod() . "'" );
 
 			if ( $periods_RET )
 			{
@@ -203,11 +203,11 @@ if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')==
 	);
 }
 
-$cal_RET = DBGet( DBQuery( "SELECT DISTINCT SCHOOL_DATE,'_'||to_char(SCHOOL_DATE,'yyyymmdd') AS SHORT_DATE
+$cal_RET = DBGet( "SELECT DISTINCT SCHOOL_DATE,'_'||to_char(SCHOOL_DATE,'yyyymmdd') AS SHORT_DATE
 	FROM ATTENDANCE_CALENDAR
 	WHERE SCHOOL_ID='" . UserSchool() . "'
 	AND SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
-	ORDER BY SCHOOL_DATE" ) );
+	ORDER BY SCHOOL_DATE" );
 
 //FJ bugfix bug when Back to Student Search
 //if (UserStudentID() || $_REQUEST['student_id'] || User('PROFILE')=='parent')
@@ -268,12 +268,12 @@ if ( $_REQUEST['student_id'] || User( 'PROFILE' ) === 'parent' )
 			'PERIOD_ID' => '0',
 		);
 
-		$attendance_RET = DBGet( DBQuery( "SELECT ad.SCHOOL_DATE,'0' AS PERIOD_ID,
+		$attendance_RET = DBGet( "SELECT ad.SCHOOL_DATE,'0' AS PERIOD_ID,
 			ad.STATE_VALUE AS STATE_CODE," .
 			db_case( array( 'ad.STATE_VALUE', "'0.0'", "'A'", "'1.0'", "'P'", "'H'" ) ) . " AS SHORT_NAME
 			FROM ATTENDANCE_DAY ad
 			WHERE ad.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
-			AND ad.STUDENT_ID='" . UserStudentID() . "'" ), array(), array( 'SCHOOL_DATE', 'PERIOD_ID' ) );
+			AND ad.STUDENT_ID='" . UserStudentID() . "'", array(), array( 'SCHOOL_DATE', 'PERIOD_ID' ) );
 	}
 
 	$i = 0;
@@ -416,11 +416,11 @@ function _makeColor( $value, $column )
 	{
 		if ( empty( $attendance_codes_RET ) )
 		{
-			$attendance_codes_RET = DBGet( DBQuery( "SELECT ID,DEFAULT_CODE,STATE_CODE,SHORT_NAME,TITLE
+			$attendance_codes_RET = DBGet( "SELECT ID,DEFAULT_CODE,STATE_CODE,SHORT_NAME,TITLE
 				FROM ATTENDANCE_CODES
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'
-				AND TABLE_NAME='0'" ), array(), array( 'ID' ) );
+				AND TABLE_NAME='0'", array(), array( 'ID' ) );
 		}
 
 		return MakeAttendanceCode(
@@ -445,11 +445,11 @@ function makeCodePulldown( $value, $student_id, $date )
 
 	if ( empty( $attendance_codes_RET ) )
 	{
-		$attendance_codes_RET = DBGet( DBQuery( "SELECT ID,DEFAULT_CODE,STATE_CODE,SHORT_NAME
+		$attendance_codes_RET = DBGet( "SELECT ID,DEFAULT_CODE,STATE_CODE,SHORT_NAME
 			FROM ATTENDANCE_CODES
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
-			AND TABLE_NAME='0'" ), array(), array( 'ID' ) );
+			AND TABLE_NAME='0'", array(), array( 'ID' ) );
 	}
 
 	if ( empty( $attendance_code_options ) )

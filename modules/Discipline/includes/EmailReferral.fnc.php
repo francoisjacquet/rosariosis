@@ -30,24 +30,24 @@ function EmailReferral( $referral_id, $emails )
 	else
 		return false;
 
-	$referral_RET = DBGet( DBQuery( "SELECT *
+	$referral_RET = DBGet( "SELECT *
 		FROM DISCIPLINE_REFERRALS
-		WHERE ID='" . $referral_id . "'" . $where ) );
+		WHERE ID='" . $referral_id . "'" . $where );
 
-	$categories_RET = DBGet( DBQuery( "SELECT f.ID,u.TITLE,u.SELECT_OPTIONS,f.DATA_TYPE,u.SORT_ORDER
+	$categories_RET = DBGet( "SELECT f.ID,u.TITLE,u.SELECT_OPTIONS,f.DATA_TYPE,u.SORT_ORDER
 		FROM DISCIPLINE_FIELDS f,DISCIPLINE_FIELD_USAGE u
 		WHERE u.DISCIPLINE_FIELD_ID=f.ID
 		AND u.SCHOOL_ID='" . UserSchool() . "'
 		AND u.SYEAR='" . UserSyear() . "'
-		ORDER BY " . db_case( array( 'DATA_TYPE', "'textarea'", "'1'", "'0'" ) ) . ",SORT_ORDER"), array(), array( 'ID' ) );
+		ORDER BY " . db_case( array( 'DATA_TYPE', "'textarea'", "'1'", "'0'" ) ) . ",SORT_ORDER", array(), array( 'ID' ) );
 
 	if ( count( $referral_RET ) )
 	{
 		$referral = $referral_RET[1];
 
-		$student_RET = DBGet( DBQuery( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
+		$student_RET = DBGet( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
 			FROM STUDENTS
-			WHERE STUDENT_ID='" . $referral['STUDENT_ID'] . "'" ) );
+			WHERE STUDENT_ID='" . $referral['STUDENT_ID'] . "'" );
 
 
 		$student = _( 'Student' ) . ': ' . $student_RET[1]['FULL_NAME'] . ' (' . $referral['STUDENT_ID'] . ')';

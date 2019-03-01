@@ -48,7 +48,7 @@ if ( isset( $_POST['values'] )
 {
 	$sql = "INSERT INTO DISCIPLINE_REFERRALS ";
 
-	$referral_id_RET = DBGet( DBQuery( "SELECT " . db_seq_nextval( 'DISCIPLINE_REFERRALS_SEQ' ) . " AS ID;" ) );
+	$referral_id_RET = DBGet( "SELECT " . db_seq_nextval( 'DISCIPLINE_REFERRALS_SEQ' ) . " AS ID;" );
 
 	$referral_id = $referral_id_RET[1]['ID'];
 
@@ -161,18 +161,18 @@ if (UserStudentID() && $_REQUEST['student_id'])
 	echo '<br />';
 	PopTable('header',ProgramTitle());
 
-	$categories_RET = DBGet( DBQuery( "SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS
+	$categories_RET = DBGet( "SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS
 		FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du
 		WHERE du.SYEAR='" . UserSyear() . "'
 		AND du.SCHOOL_ID='" . UserSchool() . "'
 		AND du.DISCIPLINE_FIELD_ID=df.ID
-		ORDER BY du.SORT_ORDER" ) );
+		ORDER BY du.SORT_ORDER" );
 
 	echo '<table class="width-100p">';
 
-	$student_name_RET = DBGet( DBQuery( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
+	$student_name_RET = DBGet( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
 		FROM STUDENTS
-		WHERE STUDENT_ID='" . UserStudentID() . "'" ) );
+		WHERE STUDENT_ID='" . UserStudentID() . "'" );
 
 	echo '<tr><td>' . NoInput(
 		MakeStudentPhotoTipMessage( UserStudentID(), $student_name_RET[1]['FULL_NAME'] ),
@@ -181,13 +181,13 @@ if (UserStudentID() && $_REQUEST['student_id'])
 
 	echo '<tr><td>';
 
-	$users_RET = DBGet( DBQuery( "SELECT STAFF_ID," . DisplayNameSQL() . " AS FULL_NAME,
+	$users_RET = DBGet( "SELECT STAFF_ID," . DisplayNameSQL() . " AS FULL_NAME,
 		EMAIL,PROFILE
 		FROM STAFF
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOLS LIKE '%," . UserSchool() . ",%'
 		AND PROFILE IN ('admin','teacher')
-		ORDER BY FULL_NAME" ) );
+		ORDER BY FULL_NAME" );
 
 	$users_options = array();
 

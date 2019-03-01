@@ -162,7 +162,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	$menus_RET = DBGet( DBQuery( 'SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY SORT_ORDER' ), array(), array( 'MENU_ID' ) );
+	$menus_RET = DBGet( 'SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY SORT_ORDER', array(), array( 'MENU_ID' ) );
 
 	if ( ! empty( $_REQUEST['tab_id'] ) )
 	{
@@ -218,7 +218,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( $_REQUEST['tab_id'] != 'new' )
 	{
-		$items_RET = DBGet( DBQuery( 'SELECT ITEM_ID,DESCRIPTION FROM FOOD_SERVICE_ITEMS WHERE SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY SORT_ORDER' ) );
+		$items_RET = DBGet( 'SELECT ITEM_ID,DESCRIPTION FROM FOOD_SERVICE_ITEMS WHERE SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY SORT_ORDER' );
 		$items_select = array();
 
 		foreach ( (array) $items_RET as $item )
@@ -226,7 +226,7 @@ if ( ! $_REQUEST['modfunc'] )
 			$items_select += array( $item['ITEM_ID'] => $item['DESCRIPTION'] );
 		}
 
-		$categories_RET = DBGet( DBQuery( 'SELECT CATEGORY_ID,TITLE FROM FOOD_SERVICE_CATEGORIES WHERE MENU_ID=\'' . $_REQUEST['tab_id'] . '\' ORDER BY SORT_ORDER' ) );
+		$categories_RET = DBGet( 'SELECT CATEGORY_ID,TITLE FROM FOOD_SERVICE_CATEGORIES WHERE MENU_ID=\'' . $_REQUEST['tab_id'] . '\' ORDER BY SORT_ORDER' );
 		$categories_select = array();
 
 		foreach ( (array) $categories_RET as $category )
@@ -268,7 +268,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 			if ( UserStudentID() )
 			{
-				$discount = DBGet( DBQuery( 'SELECT DISCOUNT FROM FOOD_SERVICE_STUDENT_ACCOUNTS WHERE STUDENT_ID=\'' . UserStudentID() . '\'' ) );
+				$discount = DBGet( 'SELECT DISCOUNT FROM FOOD_SERVICE_STUDENT_ACCOUNTS WHERE STUDENT_ID=\'' . UserStudentID() . '\'' );
 				$discount = $discount[1]['DISCOUNT'];
 
 				if ( $discount == 'Reduced' )

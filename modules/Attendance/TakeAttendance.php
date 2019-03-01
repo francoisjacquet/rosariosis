@@ -26,7 +26,7 @@ else
 }
 
 //FJ bugfix SQL bug more than one row returned by a subquery
-$categories_RET = DBGet( DBQuery( "SELECT '0' AS ID,'" . DBEscapeString( _( 'Attendance' ) ) . "' AS TITLE,0,NULL AS SORT_ORDER
+$categories_RET = DBGet( "SELECT '0' AS ID,'" . DBEscapeString( _( 'Attendance' ) ) . "' AS TITLE,0,NULL AS SORT_ORDER
 	WHERE position(',0,' IN
 		(SELECT DOES_ATTENDANCE
 		FROM COURSE_PERIODS
@@ -41,11 +41,11 @@ $categories_RET = DBGet( DBQuery( "SELECT '0' AS ID,'" . DBEscapeString( _( 'Att
 		FROM COURSE_PERIODS
 		WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 	)>0
-	ORDER BY 3,SORT_ORDER,TITLE" ) );
+	ORDER BY 3,SORT_ORDER,TITLE" );
 
-$cp_title_RET = DBGet( DBQuery( "SELECT TITLE
+$cp_title_RET = DBGet( "SELECT TITLE
 	FROM COURSE_PERIODS
-	WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" ) );
+	WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" );
 
 if ( isset( $cp_title_RET[1]['TITLE'] ) )
 {
@@ -82,7 +82,7 @@ else
 
 if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 {
-	$course_RET = DBGet( DBQuery( "SELECT cp.HALF_DAY
+	$course_RET = DBGet( "SELECT cp.HALF_DAY
 	FROM ATTENDANCE_CALENDAR acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp, COURSE_PERIOD_SCHOOL_PERIODS cpsp
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 	AND acc.SYEAR='" . UserSyear() . "'
@@ -102,11 +102,11 @@ if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 		AND school_date<=acc.SCHOOL_DATE
 		AND SCHOOL_ID=acc.SCHOOL_ID)
 	AS INT) FOR 1) IN cpsp.DAYS)>0 OR sp.BLOCK IS NOT NULL AND acc.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK)
-	AND position('," . $_REQUEST['table'] . ",' IN cp.DOES_ATTENDANCE)>0" ) );
+	AND position('," . $_REQUEST['table'] . ",' IN cp.DOES_ATTENDANCE)>0" );
 }
 else
 {
-	$course_RET = DBGet( DBQuery( "SELECT cp.HALF_DAY
+	$course_RET = DBGet( "SELECT cp.HALF_DAY
 	FROM ATTENDANCE_CALENDAR acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp, COURSE_PERIOD_SCHOOL_PERIODS cpsp
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 	AND acc.SYEAR='" . UserSyear() . "'
@@ -118,7 +118,7 @@ else
 	AND cp.MARKING_PERIOD_ID IN (SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE (MP='FY' OR MP='SEM' OR MP='QTR') AND SCHOOL_ID=acc.SCHOOL_ID AND acc.SCHOOL_DATE BETWEEN START_DATE AND END_DATE)
 	AND sp.PERIOD_ID=cpsp.PERIOD_ID
 	AND (sp.BLOCK IS NULL AND position(substring('UMTWHFS' FROM cast(extract(DOW FROM acc.SCHOOL_DATE) AS INT)+1 FOR 1) IN cpsp.DAYS)>0 OR sp.BLOCK IS NOT NULL AND acc.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK)
-	AND position('," . $_REQUEST['table'] . ",' IN cp.DOES_ATTENDANCE)>0" ) );
+	AND position('," . $_REQUEST['table'] . ",' IN cp.DOES_ATTENDANCE)>0" );
 }
 
 // Instead of displaying a fatal error which could confuse user, display a warning and exit.
@@ -248,12 +248,12 @@ if ( ! empty( $_REQUEST['attendance'] )
 		}
 	}
 
-	$completed_RET = DBGet( DBQuery( "SELECT 'Y' AS COMPLETED
+	$completed_RET = DBGet( "SELECT 'Y' AS COMPLETED
 		FROM ATTENDANCE_COMPLETED
 		WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND SCHOOL_DATE='" . $date . "'
 		AND PERIOD_ID='" . UserPeriod() . "'
-		AND TABLE_NAME='" . $_REQUEST['table'] . "'" ) );
+		AND TABLE_NAME='" . $_REQUEST['table'] . "'" );
 
 	if ( ! count( $completed_RET ) )
 	{
@@ -279,14 +279,14 @@ if ( ! empty( $_REQUEST['attendance'] )
 	RedirectURL( 'attendance' );
 }
 
-$codes_RET = DBGet( DBQuery( "SELECT ID,TITLE,DEFAULT_CODE,STATE_CODE
+$codes_RET = DBGet( "SELECT ID,TITLE,DEFAULT_CODE,STATE_CODE
 	FROM ATTENDANCE_CODES
 	WHERE SCHOOL_ID='" . UserSchool() . "'
 	AND SYEAR='" . UserSyear() . "'
 	AND TYPE='teacher'
 	AND TABLE_NAME='" . $_REQUEST['table'] . "'" .
 	( $_REQUEST['table'] == '0' && $course_RET[1]['HALF_DAY'] ? " AND STATE_CODE!='H'" : '' ) .
-	" ORDER BY SORT_ORDER" ) );
+	" ORDER BY SORT_ORDER" );
 
 $columns = array();
 
@@ -360,12 +360,12 @@ $date_note .= AllowEdit() ? ' <span style="color:green" class="nobr">' .
 _( 'You can edit this attendance' ) . '</span>' :
 ' <span style="color:red" class="nobr">' . _( 'You cannot edit this attendance' ) . '</span>';
 
-$completed_RET = DBGet( DBQuery( "SELECT 'Y' AS COMPLETED
+$completed_RET = DBGet( "SELECT 'Y' AS COMPLETED
 	FROM ATTENDANCE_COMPLETED
 	WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 	AND SCHOOL_DATE='" . $date . "'
 	AND PERIOD_ID='" . UserPeriod() . "'
-	AND TABLE_NAME='" . $_REQUEST['table'] . "'" ) );
+	AND TABLE_NAME='" . $_REQUEST['table'] . "'" );
 
 if ( $completed_RET )
 {

@@ -91,19 +91,19 @@ if ( ! empty( $_REQUEST['period_id'] ) )
 	{
 		if ( User( 'PROFILE' ) === 'teacher' )
 		{
-			$period_ids_RET = DBGet( DBQuery( "SELECT PERIOD_ID
+			$period_ids_RET = DBGet( "SELECT PERIOD_ID
 				FROM COURSE_PERIOD_SCHOOL_PERIODS
 				WHERE COURSE_PERIOD_ID IN (SELECT COURSE_PERIOD_ID
 					FROM COURSE_PERIOD_SCHOOL_PERIODS
-					WHERE COURSE_PERIOD_SCHOOL_PERIODS_ID='" . UserCoursePeriodSchoolPeriod() . "')" ) );
+					WHERE COURSE_PERIOD_SCHOOL_PERIODS_ID='" . UserCoursePeriodSchoolPeriod() . "')" );
 		}
 		else
 		{
-			$period_ids_RET = DBGet( DBQuery( "SELECT PERIOD_ID
+			$period_ids_RET = DBGet( "SELECT PERIOD_ID
 				FROM SCHOOL_PERIODS
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'
-				ORDER BY SORT_ORDER" ) );
+				ORDER BY SORT_ORDER" );
 		}
 
 		$period_ids_list = array();
@@ -157,13 +157,13 @@ Search( 'student_id', $extra );
 
 if ( UserStudentID() )
 {
-	$name_RET = DBGet( DBQuery( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
+	$name_RET = DBGet( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
 		FROM STUDENTS
-		WHERE STUDENT_ID='" . UserStudentID() . "'" ) );
+		WHERE STUDENT_ID='" . UserStudentID() . "'" );
 
 	DrawHeader( $name_RET[1]['FULL_NAME'] );
 
-	$absences_RET = DBGet( DBQuery( "SELECT ap.STUDENT_ID,ap.PERIOD_ID,ap.SCHOOL_DATE,ac.SHORT_NAME,
+	$absences_RET = DBGet( "SELECT ap.STUDENT_ID,ap.PERIOD_ID,ap.SCHOOL_DATE,ac.SHORT_NAME,
 		ac.TITLE,ac.STATE_CODE,ad.STATE_VALUE,ad.COMMENT AS OFFICE_COMMENT,ap.COMMENT AS TEACHER_COMMENT
 	FROM ATTENDANCE_PERIOD ap,ATTENDANCE_DAY ad,ATTENDANCE_CODES ac
 	WHERE ap.STUDENT_ID=ad.STUDENT_ID
@@ -174,7 +174,7 @@ if ( UserStudentID() )
 	AND ap.SCHOOL_DATE BETWEEN '" . $start_date . "'
 	AND '" . $end_date . "'
 	AND ad.SYEAR='" . UserSyear() . "'
-	ORDER BY ap.SCHOOL_DATE" ), array(), array( 'SCHOOL_DATE', 'PERIOD_ID' ) );
+	ORDER BY ap.SCHOOL_DATE", array(), array( 'SCHOOL_DATE', 'PERIOD_ID' ) );
 
 	foreach ( (array) $absences_RET as $school_date => $absences )
 	{
@@ -201,7 +201,7 @@ if ( UserStudentID() )
 
 	//FJ multiple school periods for a course period
 	//$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.SHORT_NAME FROM SCHOOL_PERIODS sp,SCHEDULE s,COURSE_PERIODS cp WHERE sp.SCHOOL_ID='".UserSchool()."' AND sp.SYEAR='".UserSyear()."' AND s.STUDENT_ID='".UserStudentID()."' AND cp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID AND cp.PERIOD_ID=sp.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0 ORDER BY sp.SORT_ORDER"));
-	$periods_RET = DBGet( DBQuery( "SELECT sp.PERIOD_ID,sp.SHORT_NAME
+	$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.SHORT_NAME
 	FROM SCHOOL_PERIODS sp,SCHEDULE s,COURSE_PERIODS cp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 	AND sp.SCHOOL_ID='" . UserSchool() . "'
@@ -210,7 +210,7 @@ if ( UserStudentID() )
 	AND cp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID
 	AND cpsp.PERIOD_ID=sp.PERIOD_ID
 	AND position(',0,' IN cp.DOES_ATTENDANCE)>0
-	ORDER BY sp.SORT_ORDER" ) );
+	ORDER BY sp.SORT_ORDER" );
 
 	$columns['SCHOOL_DATE'] = _( 'Date' );
 

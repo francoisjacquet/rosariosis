@@ -28,16 +28,16 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 		$students_list = "'" . implode( "','", $_REQUEST['student'] ) . "'";
 
-		$current_RET = DBGet( DBQuery( "SELECT STUDENT_ID,PERIOD_ID,SCHOOL_DATE
+		$current_RET = DBGet( "SELECT STUDENT_ID,PERIOD_ID,SCHOOL_DATE
 		FROM ATTENDANCE_PERIOD
 		WHERE EXTRACT(MONTH FROM SCHOOL_DATE)='" . ( $_REQUEST['month'] * 1 ) . "'
 		AND EXTRACT(YEAR FROM SCHOOL_DATE)='" . $_REQUEST['year'] . "'
 		AND PERIOD_ID IN (" . $periods_list . ")
-		AND STUDENT_ID IN (" . $students_list . ")" ), array(), array( 'STUDENT_ID', 'SCHOOL_DATE', 'PERIOD_ID' ) );
+		AND STUDENT_ID IN (" . $students_list . ")", array(), array( 'STUDENT_ID', 'SCHOOL_DATE', 'PERIOD_ID' ) );
 
-		$state_code = DBGet( DBQuery( "SELECT STATE_CODE
+		$state_code = DBGet( "SELECT STATE_CODE
 			FROM ATTENDANCE_CODES
-			WHERE ID='" . $_REQUEST['absence_code'] . "'" ) );
+			WHERE ID='" . $_REQUEST['absence_code'] . "'" );
 
 		$state_code = $state_code[1]['STATE_CODE'];
 
@@ -52,7 +52,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 				if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 				{
-					$course_periods_RET = DBGet( DBQuery( "SELECT s.COURSE_PERIOD_ID,cpsp.PERIOD_ID,cp.HALF_DAY
+					$course_periods_RET = DBGet( "SELECT s.COURSE_PERIOD_ID,cpsp.PERIOD_ID,cp.HALF_DAY
 					FROM SCHEDULE s,COURSE_PERIODS cp,ATTENDANCE_CALENDAR ac,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
 					WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 					AND sp.PERIOD_ID=cpsp.PERIOD_ID
@@ -72,11 +72,11 @@ if ( $_REQUEST['modfunc'] === 'save' )
 						AND SCHOOL_ID=ac.SCHOOL_ID)
 					AS INT) FOR 1) IN cpsp.DAYS)>0
 					AND s.MARKING_PERIOD_ID IN (" . $all_mp . ")
-					AND ac.SCHOOL_ID=s.SCHOOL_ID" ), array(), array( 'PERIOD_ID' ) );
+					AND ac.SCHOOL_ID=s.SCHOOL_ID", array(), array( 'PERIOD_ID' ) );
 				}
 				else
 				{
-					$course_periods_RET = DBGet( DBQuery( "SELECT s.COURSE_PERIOD_ID,cpsp.PERIOD_ID,cp.HALF_DAY
+					$course_periods_RET = DBGet( "SELECT s.COURSE_PERIOD_ID,cpsp.PERIOD_ID,cp.HALF_DAY
 						FROM SCHEDULE s,COURSE_PERIODS cp,ATTENDANCE_CALENDAR ac,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
 						WHERE sp.PERIOD_ID=cpsp.PERIOD_ID
 						AND ac.SCHOOL_DATE='" . $date . "'
@@ -87,7 +87,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 						AND cpsp.PERIOD_ID IN (" . $periods_list . ")
 						AND position(',0,' IN cp.DOES_ATTENDANCE)>0
 						AND (ac.SCHOOL_DATE BETWEEN s.START_DATE AND s.END_DATE OR (s.END_DATE IS NULL AND ac.SCHOOL_DATE>=s.START_DATE))
-						AND position(substring('UMTWHFS' FROM cast(extract(DOW FROM ac.SCHOOL_DATE) AS INT)+1 FOR 1) IN cpsp.DAYS)>0 AND s.MARKING_PERIOD_ID IN ($all_mp)" ), array(), array( 'PERIOD_ID' ) );
+						AND position(substring('UMTWHFS' FROM cast(extract(DOW FROM ac.SCHOOL_DATE) AS INT)+1 FOR 1) IN cpsp.DAYS)>0 AND s.MARKING_PERIOD_ID IN ($all_mp)", array(), array( 'PERIOD_ID' ) );
 				}
 
 				//echo '<pre>'; var_dump($course_periods_RET); echo '</pre>';
@@ -170,12 +170,12 @@ if ( ! $_REQUEST['modfunc'] )
 
 		//FJ multiple school periods for a course period
 		//$periods_RET = DBGet(DBQuery("SELECT SHORT_NAME,PERIOD_ID FROM SCHOOL_PERIODS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND EXISTS (SELECT '' FROM COURSE_PERIODS WHERE PERIOD_ID=SCHOOL_PERIODS.PERIOD_ID AND position(',0,' IN DOES_ATTENDANCE)>0) ORDER BY SORT_ORDER"));
-		$periods_RET = DBGet( DBQuery( "SELECT SHORT_NAME,PERIOD_ID
+		$periods_RET = DBGet( "SELECT SHORT_NAME,PERIOD_ID
 		FROM SCHOOL_PERIODS
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		AND EXISTS (SELECT '' FROM COURSE_PERIOD_SCHOOL_PERIODS cpsp, COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND cpsp.PERIOD_ID=SCHOOL_PERIODS.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0)
-		ORDER BY SORT_ORDER" ) );
+		ORDER BY SORT_ORDER" );
 
 		foreach ( (array) $periods_RET as $period )
 		{
@@ -186,11 +186,11 @@ if ( ! $_REQUEST['modfunc'] )
 
 		echo '<tr><td>' . _( 'Absence Code' ) . '</td><td><select name="absence_code">';
 
-		$codes_RET = DBGet( DBQuery( "SELECT TITLE,ID
+		$codes_RET = DBGet( "SELECT TITLE,ID
 			FROM ATTENDANCE_CODES
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
-			AND TABLE_NAME='0'" ) );
+			AND TABLE_NAME='0'" );
 
 		foreach ( (array) $codes_RET as $code )
 		{
@@ -237,12 +237,12 @@ if ( ! $_REQUEST['modfunc'] )
 		'</th><th>' . mb_substr( _( 'Saturday' ), 0, 3 ) .
 		'</th></tr><tr>';
 
-		$calendar_RET = DBGet( DBQuery( "SELECT SCHOOL_DATE
+		$calendar_RET = DBGet( "SELECT SCHOOL_DATE
 			FROM ATTENDANCE_CALENDAR
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND MINUTES!='0'
-			AND EXTRACT(MONTH FROM SCHOOL_DATE)='" . ( $_REQUEST['month'] * 1 ) . "'" ), array(), array( 'SCHOOL_DATE' ) );
+			AND EXTRACT(MONTH FROM SCHOOL_DATE)='" . ( $_REQUEST['month'] * 1 ) . "'", array(), array( 'SCHOOL_DATE' ) );
 
 		for ( $i = 1; $i <= $skip; $i++ )
 		{

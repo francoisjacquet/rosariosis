@@ -77,13 +77,13 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	}
 }
 
-$categories_RET = DBGet( DBQuery( "SELECT df.ID,du.TITLE
+$categories_RET = DBGet( "SELECT df.ID,du.TITLE
 	FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du
 	WHERE df.DATA_TYPE!='textarea'
 	AND du.SYEAR='" . UserSyear() . "'
 	AND du.SCHOOL_ID='" . UserSchool() . "'
 	AND du.DISCIPLINE_FIELD_ID=df.ID
-	ORDER BY du.SORT_ORDER" ) );
+	ORDER BY du.SORT_ORDER" );
 
 Widgets( 'reporter' );
 Widgets( 'incident_date' );
@@ -161,31 +161,31 @@ if ( ! $_REQUEST['modfunc']
 		echo '<br />';
 		PopTable( 'header', _( 'Referral' ) );
 
-		$categories_RET = DBGet( DBQuery("SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS
+		$categories_RET = DBGet( "SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS
 			FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du
 			WHERE du.SYEAR='" . UserSyear() . "'
 			AND du.SCHOOL_ID='" . UserSchool() . "'
 			AND du.DISCIPLINE_FIELD_ID=df.ID
-			ORDER BY du.SORT_ORDER" ) );
+			ORDER BY du.SORT_ORDER" );
 
 		echo '<table class="width-100p">';
 
-		$student_name_RET = DBGet( DBQuery( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
+		$student_name_RET = DBGet( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
 			FROM STUDENTS
-			WHERE STUDENT_ID='" . $RET['STUDENT_ID'] . "'" ) );
+			WHERE STUDENT_ID='" . $RET['STUDENT_ID'] . "'" );
 
 		echo '<tr><td>' . NoInput(
 			MakeStudentPhotoTipMessage( $RET['STUDENT_ID'], $student_name_RET[1]['FULL_NAME'] ),
 			_( 'Student' )
 		) . '</td></tr>';
 
-		$users_RET = DBGet( DBQuery( "SELECT STAFF_ID," . DisplayNameSQL() . " AS FULL_NAME,
+		$users_RET = DBGet( "SELECT STAFF_ID," . DisplayNameSQL() . " AS FULL_NAME,
 			EMAIL,PROFILE
 			FROM STAFF
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOLS LIKE '%," . UserSchool() . ",%'
 			AND PROFILE IN ('admin','teacher')
-			ORDER BY FULL_NAME" ) );
+			ORDER BY FULL_NAME" );
 
 		$users_options = array();
 

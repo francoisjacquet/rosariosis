@@ -56,11 +56,11 @@ else
 }
 
 
-$periods_RET = DBGet( DBQuery( "SELECT PERIOD_ID,TITLE
+$periods_RET = DBGet( "SELECT PERIOD_ID,TITLE
 	FROM SCHOOL_PERIODS
 	WHERE SCHOOL_ID='" . UserSchool() . "'
 	AND SYEAR='" . UserSyear() . "'
-	ORDER BY SORT_ORDER" ) );
+	ORDER BY SORT_ORDER" );
 
 $period_select =  '<select name="period"><option value="">' . _( 'All' ) . '</option>';
 foreach ( (array) $periods_RET as $period )
@@ -74,10 +74,10 @@ $period_select .= '</select>';
 
 echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
 
-$begin_year = DBGet( DBQuery( "SELECT min(date_part('epoch',SCHOOL_DATE)) as SCHOOL_DATE
+$begin_year = DBGet( "SELECT min(date_part('epoch',SCHOOL_DATE)) as SCHOOL_DATE
 	FROM ATTENDANCE_CALENDAR
 	WHERE SCHOOL_ID='" . UserSchool() . "'
-	AND SYEAR='" . UserSyear() . "'" ) );
+	AND SYEAR='" . UserSyear() . "'" );
 
 $begin_year = $begin_year[1]['SCHOOL_DATE'];
 

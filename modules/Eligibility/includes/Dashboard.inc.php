@@ -42,12 +42,12 @@ if ( ! function_exists( 'DashboardEligibilityAdmin' ) )
 	 */
 	function DashboardEligibilityAdmin()
 	{
-		$activities_RET = DBGet( DBQuery( "SELECT COUNT(ID) AS ACTIVITIES_NB
+		$activities_RET = DBGet( "SELECT COUNT(ID) AS ACTIVITIES_NB
 		FROM ELIGIBILITY_ACTIVITIES
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		AND START_DATE<=CURRENT_DATE
-		AND END_DATE>=CURRENT_DATE" ) );
+		AND END_DATE>=CURRENT_DATE" );
 
 		$data = array(
 			_( 'Activities' ) => $activities_RET[1]['ACTIVITIES_NB'],
@@ -61,7 +61,7 @@ if ( ! function_exists( 'DashboardEligibilityAdmin' ) )
 			return array();
 		}
 
-		$activity_students_RET = DBGet( DBQuery( "SELECT TITLE,
+		$activity_students_RET = DBGet( "SELECT TITLE,
 		COUNT(sea.STUDENT_ID) AS STUDENTS_NB
 		FROM ELIGIBILITY_ACTIVITIES ea, STUDENT_ELIGIBILITY_ACTIVITIES sea
 		WHERE ea.SYEAR='" . UserSyear() . "'
@@ -72,7 +72,7 @@ if ( ! function_exists( 'DashboardEligibilityAdmin' ) )
 		AND ea.ID=sea.ACTIVITY_ID
 		GROUP BY ea.TITLE
 		ORDER BY STUDENTS_NB
-		LIMIT 10" ) );
+		LIMIT 10" );
 
 		foreach ( (array) $activity_students_RET as $activity )
 		{

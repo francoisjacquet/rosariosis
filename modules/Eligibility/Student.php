@@ -13,11 +13,11 @@ if ( $_REQUEST['modfunc'] === 'add'
 	&& AllowEdit() )
 {
 	// FJ fix bug add the same activity more than once.
-	$activity_RET = DBGet( DBQuery( "SELECT ACTIVITY_ID
+	$activity_RET = DBGet( "SELECT ACTIVITY_ID
 		FROM STUDENT_ELIGIBILITY_ACTIVITIES
 		WHERE STUDENT_ID='" . UserStudentID() . "'
 		AND ACTIVITY_ID='" . $_REQUEST['new_activity'] . "'
-		AND SYEAR='" . UserSyear() . "'" ) );
+		AND SYEAR='" . UserSyear() . "'" );
 
 	if (count($activity_RET))
 		echo ErrorMessage(array(_('The activity you selected is already assigned to this student!')));

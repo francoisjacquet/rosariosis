@@ -18,10 +18,10 @@ if ( isset( $_REQUEST['day_start'] )
 
 if ( empty( $start_date ) )
 {
-	$min_date = DBGet( DBQuery( "SELECT min(SCHOOL_DATE) AS MIN_DATE
+	$min_date = DBGet( "SELECT min(SCHOOL_DATE) AS MIN_DATE
 		FROM ATTENDANCE_CALENDAR
 		WHERE SYEAR='" . UserSyear() . "'
-		AND SCHOOL_ID='" . UserSchool() . "'" ) );
+		AND SCHOOL_ID='" . UserSchool() . "'" );
 
 	if ( $min_date
 		&& $min_date[1]['MIN_DATE'] )
@@ -94,12 +94,12 @@ if ( $_REQUEST['modfunc'] === 'search' )
 if ( isset( $_REQUEST['category_id'] )
 	&& ! empty( $_REQUEST['category_id'] ) )
 {
-	$category_RET = DBGet( DBQuery( "SELECT du.TITLE,du.SELECT_OPTIONS,df.DATA_TYPE
+	$category_RET = DBGet( "SELECT du.TITLE,du.SELECT_OPTIONS,df.DATA_TYPE
 		FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du
 		WHERE df.ID='" . $_REQUEST['category_id'] . "'
 		AND du.DISCIPLINE_FIELD_ID=df.ID
 		AND du.SYEAR='" . UserSyear() . "'
-		AND du.SCHOOL_ID='" . UserSchool() . "'" ) );
+		AND du.SCHOOL_ID='" . UserSchool() . "'" );
 
 	$category_RET[1]['SELECT_OPTIONS'] = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category_RET[1]['SELECT_OPTIONS'] ) );
 
@@ -400,13 +400,13 @@ if ( ! $_REQUEST['modfunc'] )
 {
 	echo '<form action="' . PreparePHP_SELF( $_REQUEST ) . '" method="GET">';
 
-	$categories_RET = DBGet( DBQuery( "SELECT df.ID,du.TITLE,du.SELECT_OPTIONS
+	$categories_RET = DBGet( "SELECT df.ID,du.TITLE,du.SELECT_OPTIONS
 		FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du
 		WHERE df.DATA_TYPE NOT IN ('textarea','text','date')
 		AND du.SYEAR='" . UserSyear() . "'
 		AND du.SCHOOL_ID='" . UserSchool() . "'
 		AND du.DISCIPLINE_FIELD_ID=df.ID
-		ORDER BY du.SORT_ORDER" ) );
+		ORDER BY du.SORT_ORDER" );
 
 	$select_options = array();
 

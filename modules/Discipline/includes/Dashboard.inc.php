@@ -44,14 +44,14 @@ if ( ! function_exists( 'DashboardDisciplineAdmin' ) )
 	{
 		$referrals_nb = 0;
 
-		$referrals_RET = DBGet( DBQuery( "SELECT TO_CHAR(ENTRY_DATE,'YYYY-MM') AS YEAR_MONTH,
+		$referrals_RET = DBGet( "SELECT TO_CHAR(ENTRY_DATE,'YYYY-MM') AS YEAR_MONTH,
 		COUNT(ID) AS REFERRALS_NB
 		FROM DISCIPLINE_REFERRALS
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		GROUP BY YEAR_MONTH
 		ORDER BY YEAR_MONTH DESC
-		LIMIT 10" ) );
+		LIMIT 10" );
 
 		if ( ! empty( $referrals_RET[1] )
 			&& $referrals_RET[1]['YEAR_MONTH'] === date( 'Y-m' ) )
