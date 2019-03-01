@@ -216,6 +216,13 @@ $RosarioActions = array();
 	 * @since 4.4
 	 */
 	/*'Warehouse.php|header' => array(),
+
+	/**
+	 * Calendar Header.
+	 *
+	 * @since 4.5
+	 */
+	/*'School_Setup/Calendar.php|header' => array(),
 );*/
 
 

@@ -1024,7 +1024,12 @@ if ( ! $_REQUEST['modfunc'] )
 	);
 
 	if ( $links )
+	{
 		DrawHeader( $links );
+	}
+
+	// @since 4.5 Calendars header hook.
+	do_action( 'School_Setup/Calendar.php|header' );
 
 	if ( AllowEdit()
 		&& $defaults != 1 )

@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 4.5
+--------------
+- Add Calendar header hook in Calendar.php
+
 Changes in 4.4
 --------------
 - Add Warehouse Header hook in Warehouse.php
