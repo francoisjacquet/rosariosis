@@ -45,7 +45,7 @@ if ( ! function_exists( 'DashboardFoodServiceAdmin' ) )
 		$meals_today = 0;
 
 		// Meals served.
-		$meals_RET = DBGet( DBQuery( "SELECT
+		$meals_RET = DBGet( "SELECT
 			COUNT(DISTINCT STUDENT_ID) AS PARTICIPATED,
 			TO_CHAR(" . DBEscapeIdentifier( 'TIMESTAMP' ) . ",'YYYY-MM-DD') AS TRANSACTION_DATE
 			FROM FOOD_SERVICE_TRANSACTIONS
@@ -53,9 +53,9 @@ if ( ! function_exists( 'DashboardFoodServiceAdmin' ) )
 			AND SCHOOL_ID='" . UserSchool() . "'
 			GROUP BY TRANSACTION_DATE,STUDENT_ID
 			ORDER BY TRANSACTION_DATE DESC
-			LIMIT 7" ), array(), array( 'TRANSACTION_DATE' ) );
+			LIMIT 7", array(), array( 'TRANSACTION_DATE' ) );
 
-		$meals_staff_RET = DBGet( DBQuery( "SELECT
+		$meals_staff_RET = DBGet( "SELECT
 			COUNT(DISTINCT STAFF_ID) AS PARTICIPATED,
 			TO_CHAR(" . DBEscapeIdentifier( 'TIMESTAMP' ) . ",'YYYY-MM-DD') AS TRANSACTION_DATE
 			FROM FOOD_SERVICE_STAFF_TRANSACTIONS
@@ -63,7 +63,7 @@ if ( ! function_exists( 'DashboardFoodServiceAdmin' ) )
 			AND SCHOOL_ID='" . UserSchool() . "'
 			GROUP BY TRANSACTION_DATE,STAFF_ID
 			ORDER BY TRANSACTION_DATE DESC
-			LIMIT 7" ), array(), array( 'TRANSACTION_DATE' ) );
+			LIMIT 7", array(), array( 'TRANSACTION_DATE' ) );
 
 		if ( ! empty( $meals_RET[date( 'Y-m-d' )] ) )
 		{

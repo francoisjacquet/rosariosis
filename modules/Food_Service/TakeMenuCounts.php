@@ -32,7 +32,7 @@ if ( !trim($course_RET[1]['DOES_FS_COUNTS'],','))
 // the following query is for when doea_fs_counts is a comma quoted string of meal_id's, ex. ,1,2,4,
 //$menus_RET = DBGet(DBQuery('SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\''.UserSchool().'\' AND MENU_ID IN ('.trim($course_RET[1]['DOES_FS_COUNTS'],',').') ORDER BY SORT_ORDER'),array(),array('MENU_ID'));
 // use all meal_id's for now
-$menus_RET = DBGet(DBQuery('SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER'),array(),array('MENU_ID'));
+$menus_RET = DBGet( 'SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER',array(),array('MENU_ID'));
 //echo '<pre>'; var_dump($menus_RET); echo '</pre>';
 if ( empty( $_REQUEST['menu_id'] ) )
 	if ( ! $_SESSION['FSA_menu_id'] || ! $menus_RET[$_SESSION['FSA_menu_id']])
@@ -109,7 +109,7 @@ if ( !isset($_ROSARIO['allow_edit']))
 	}
 }
 
-$current_RET = DBGet(DBQuery('SELECT ITEM_ID FROM FOOD_SERVICE_COMPLETED WHERE STAFF_ID=\''.User('STAFF_ID').'\' AND SCHOOL_DATE=\''.$date.'\' AND PERIOD_ID=\''.UserPeriod().'\' AND MENU_ID=\''.$_REQUEST['menu_id'].'\''),array(),array('ITEM_ID'));
+$current_RET = DBGet( 'SELECT ITEM_ID FROM FOOD_SERVICE_COMPLETED WHERE STAFF_ID=\''.User('STAFF_ID').'\' AND SCHOOL_DATE=\''.$date.'\' AND PERIOD_ID=\''.UserPeriod().'\' AND MENU_ID=\''.$_REQUEST['menu_id'].'\'',array(),array('ITEM_ID'));
 //echo '<pre>'; var_dump($current_RET); echo '</pre>';
 if ( $_REQUEST['values']
 	&& $_POST['values'] )
@@ -140,7 +140,7 @@ if ( $_REQUEST['values']
 if ( $date != DBDate())
 	$date_note = ' <span style="color:red">'._('The selected date is not today').'</span>';
 
-$completed = DBGet(DBQuery('SELECT count(\'Y\') AS COMPLETED FROM FOOD_SERVICE_COMPLETED WHERE STAFF_ID=\''.User('STAFF_ID').'\' AND SCHOOL_DATE=\''.$date.'\' AND PERIOD_ID=\''.UserPeriod().'\' AND MENU_ID=\''.$_REQUEST['menu_id'].'\''));
+$completed = DBGet( 'SELECT count(\'Y\') AS COMPLETED FROM FOOD_SERVICE_COMPLETED WHERE STAFF_ID=\''.User('STAFF_ID').'\' AND SCHOOL_DATE=\''.$date.'\' AND PERIOD_ID=\''.UserPeriod().'\' AND MENU_ID=\''.$_REQUEST['menu_id'].'\'');
 
 if ( $completed[1]['COMPLETED'])
 	$note[] = button('check')._('You have taken lunch counts today for this period.');
@@ -150,7 +150,7 @@ DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)).$date_note,Sub
 
 echo ErrorMessage( $note, 'note' );
 
-$meal_RET = DBGet(DBQuery('SELECT DESCRIPTION FROM CALENDAR_EVENTS WHERE SYEAR='.UserSyear().' AND SCHOOL_ID='.UserSchool().' AND SCHOOL_DATE=\''.$date.'\' AND TITLE=\''.$menus_RET[$_REQUEST['menu_id']][1]['TITLE'].'\''));
+$meal_RET = DBGet( 'SELECT DESCRIPTION FROM CALENDAR_EVENTS WHERE SYEAR='.UserSyear().' AND SCHOOL_ID='.UserSchool().' AND SCHOOL_DATE=\''.$date.'\' AND TITLE=\''.$menus_RET[$_REQUEST['menu_id']][1]['TITLE'].'\'' );
 
 if ( $meal_RET)
 {
@@ -160,7 +160,7 @@ if ( $meal_RET)
 	echo '</td></tr></table><hr />';
 }
 
-$items_RET = DBGet(DBQuery('SELECT fsi.ITEM_ID,fsi.DESCRIPTION,fsmi.DOES_COUNT,(SELECT COUNT FROM FOOD_SERVICE_COMPLETED WHERE STAFF_ID=\''.User('STAFF_ID').'\' AND SCHOOL_DATE=\''.$date.'\' AND PERIOD_ID=\''.UserPeriod().'\' AND ITEM_ID=fsi.ITEM_ID AND MENU_ID=fsmi.MENU_ID) AS COUNT FROM FOOD_SERVICE_ITEMS fsi,FOOD_SERVICE_MENU_ITEMS fsmi WHERE fsmi.MENU_ID=\''.$_REQUEST['menu_id'].'\' AND fsi.ITEM_ID=fsmi.ITEM_ID AND fsmi.DOES_COUNT IS NOT NULL ORDER BY fsmi.SORT_ORDER'),array('COUNT' => 'makeTextInput'));
+$items_RET = DBGet( 'SELECT fsi.ITEM_ID,fsi.DESCRIPTION,fsmi.DOES_COUNT,(SELECT COUNT FROM FOOD_SERVICE_COMPLETED WHERE STAFF_ID=\''.User('STAFF_ID').'\' AND SCHOOL_DATE=\''.$date.'\' AND PERIOD_ID=\''.UserPeriod().'\' AND ITEM_ID=fsi.ITEM_ID AND MENU_ID=fsmi.MENU_ID) AS COUNT FROM FOOD_SERVICE_ITEMS fsi,FOOD_SERVICE_MENU_ITEMS fsmi WHERE fsmi.MENU_ID=\''.$_REQUEST['menu_id'].'\' AND fsi.ITEM_ID=fsmi.ITEM_ID AND fsmi.DOES_COUNT IS NOT NULL ORDER BY fsmi.SORT_ORDER',array('COUNT' => 'makeTextInput'));
 
 echo '<table class="width-100p"><tr><td style="width:50%;">';
 $LO_columns = array('DESCRIPTION' => _('Item'),'COUNT' => _('Count'));

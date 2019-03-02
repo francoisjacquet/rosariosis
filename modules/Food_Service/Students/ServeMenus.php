@@ -75,12 +75,12 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 
 if (UserStudentID() && ! $_REQUEST['modfunc'])
 {
-	$student = DBGet( DBQuery( "SELECT s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
+	$student = DBGet( "SELECT s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 	fsa.ACCOUNT_ID,fsa.STATUS,fsa.DISCOUNT,fsa.BARCODE,
 	(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fsa.ACCOUNT_ID) AS BALANCE
 	FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fsa
 	WHERE s.STUDENT_ID='" . UserStudentID() . "'
-	AND fsa.STUDENT_ID=s.STUDENT_ID" ) );
+	AND fsa.STUDENT_ID=s.STUDENT_ID" );
 
 	$student = $student[1];
 
@@ -101,7 +101,7 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 		echo '<table class="width-100p">';
 		echo '<tr class="st"><td class="width-100p valign-top">';
 
-		$RET = DBGet(DBQuery('SELECT fsti.DESCRIPTION,fsti.AMOUNT FROM FOOD_SERVICE_TRANSACTIONS fst,FOOD_SERVICE_TRANSACTION_ITEMS fsti WHERE fst.ACCOUNT_ID=\''.$student['ACCOUNT_ID'].'\' AND fst.STUDENT_ID=\''.UserStudentID().'\' AND fst.SYEAR=\''.UserSyear().'\' AND fst.SHORT_NAME=\''.$menus_RET[$_REQUEST['menu_id']][1]['TITLE'].'\' AND fst.TIMESTAMP BETWEEN CURRENT_DATE AND \'tomorrow\' AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID'));
+		$RET = DBGet( 'SELECT fsti.DESCRIPTION,fsti.AMOUNT FROM FOOD_SERVICE_TRANSACTIONS fst,FOOD_SERVICE_TRANSACTION_ITEMS fsti WHERE fst.ACCOUNT_ID=\''.$student['ACCOUNT_ID'].'\' AND fst.STUDENT_ID=\''.UserStudentID().'\' AND fst.SYEAR=\''.UserSyear().'\' AND fst.SHORT_NAME=\''.$menus_RET[$_REQUEST['menu_id']][1]['TITLE'].'\' AND fst.TIMESTAMP BETWEEN CURRENT_DATE AND \'tomorrow\' AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID');
 
 		$columns = array('DESCRIPTION' => _('Item'),'AMOUNT' => _('Amount'));
         $singular = sprintf(_('Earlier %s Sale'),$menus_RET[$_REQUEST['menu_id']][1]['TITLE']);

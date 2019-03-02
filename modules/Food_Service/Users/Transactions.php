@@ -7,14 +7,14 @@ if ( $_REQUEST['values']
 	if ( UserStaffID()
 		&& AllowEdit() )
 	{
-		//$existing_account = DBGet(DBQuery('SELECT \'exists\' FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID='.UserStaffID()));
+		//$existing_account = DBGet( 'SELECT \'exists\' FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID='.UserStaffID() );
 		//if ( !count($existing_account))
 		//	BackPrompt('That user does not have a Meal Account. Choose a different username and try again.');
 
 		if (  ( $_REQUEST['values']['TYPE'] == 'Deposit' || $_REQUEST['values']['TYPE'] == 'Credit' || $_REQUEST['values']['TYPE'] == 'Debit' ) && ( $amount = is_money( $_REQUEST['values']['AMOUNT'] ) ) )
 		{
 			// get next transaction id
-			$id = DBGet( DBQuery( "SELECT " . db_seq_nextval( 'FOOD_SERVICE_STAFF_TRANSACTIONS_SEQ' ) . " AS SEQ_ID " ) );
+			$id = DBGet( "SELECT " . db_seq_nextval( 'FOOD_SERVICE_STAFF_TRANSACTIONS_SEQ' ) . " AS SEQ_ID " );
 			$id = $id[1]['SEQ_ID'];
 
 			$full_description = DBEscapeString( _( $_REQUEST['values']['OPTION'] ) ) . ' ' . $_REQUEST['values']['DESCRIPTION'];
@@ -56,11 +56,11 @@ echo ErrorMessage( $error );
 if ( UserStaffID()
 	&& ! $_REQUEST['modfunc'] )
 {
-	$staff = DBGet( DBQuery( "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
+	$staff = DBGet( "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 	(SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS ACCOUNT_ID,
 	(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE
 	FROM STAFF s
-	WHERE s.STAFF_ID='" . UserStaffID() . "'" ) );
+	WHERE s.STAFF_ID='" . UserStaffID() . "'" );
 
 	$staff = $staff[1];
 
@@ -75,12 +75,12 @@ if ( UserStaffID()
 
 	if ( $staff['ACCOUNT_ID'] && $staff['BALANCE'] != '' )
 	{
-		$RET = DBGet( DBQuery( "SELECT fst.TRANSACTION_ID,fst.DESCRIPTION AS TYPE,fsti.DESCRIPTION,fsti.AMOUNT
+		$RET = DBGet( "SELECT fst.TRANSACTION_ID,fst.DESCRIPTION AS TYPE,fsti.DESCRIPTION,fsti.AMOUNT
 		FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst,FOOD_SERVICE_STAFF_TRANSACTION_ITEMS fsti
 		WHERE fst.SYEAR='" . UserSyear() . "'
 		AND fst.STAFF_ID='" . UserStaffID() . "'
 		AND fst.TIMESTAMP BETWEEN CURRENT_DATE AND CURRENT_DATE+1
-		AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID" ) );
+		AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID" );
 
 		// TODO: code duplication!
 		/**

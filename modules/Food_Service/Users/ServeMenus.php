@@ -24,7 +24,7 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 		$items_RET = DBGet(DBQuery("SELECT DESCRIPTION,SHORT_NAME,PRICE_STAFF FROM FOOD_SERVICE_ITEMS WHERE SCHOOL_ID='".UserSchool()."'"),array(),array('SHORT_NAME'));
 
 		// get next transaction id
-		$id = DBGet(DBQuery('SELECT '.db_seq_nextval('FOOD_SERVICE_STAFF_TRANSACTIONS_SEQ').' AS SEQ_ID'));
+		$id = DBGet( 'SELECT '.db_seq_nextval('FOOD_SERVICE_STAFF_TRANSACTIONS_SEQ').' AS SEQ_ID' );
 		$id = $id[1]['SEQ_ID'];
 
 		$item_id = 0;
@@ -62,11 +62,11 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 if ( UserStaffID()
 	&& ! $_REQUEST['modfunc'] )
 {
-	$staff = DBGet( DBQuery( "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
+	$staff = DBGet( "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 	(SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS ACCOUNT_ID,
 	(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE
 	FROM STAFF s
-	WHERE s.STAFF_ID='" . UserStaffID() . "'" ) );
+	WHERE s.STAFF_ID='" . UserStaffID() . "'" );
 
 	$staff = $staff[1];
 

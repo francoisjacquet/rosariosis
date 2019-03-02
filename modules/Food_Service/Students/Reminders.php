@@ -99,7 +99,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 			if ( $homeroom )
 			{
-				$teacher = DBGet( DBQuery( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,cs.TITLE
+				$teacher = DBGet( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,cs.TITLE
 				FROM STAFF s,SCHEDULE sch,COURSE_PERIODS cp,COURSES c,COURSE_SUBJECTS cs
 				WHERE s.STAFF_ID=cp.TEACHER_ID
 				AND sch.STUDENT_ID='" . $student['STUDENT_ID'] . "'
@@ -108,7 +108,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				AND c.SUBJECT_ID=cs.SUBJECT_ID
 				AND cs.TITLE='" . $homeroom . "'
 				AND sch.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
-				AND sch.SYEAR='" . UserSyear() . "'" ) );
+				AND sch.SYEAR='" . UserSyear() . "'" );
 			}
 			else
 			{
@@ -116,7 +116,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				/*$teacher = DBGet(DBQuery("SELECT s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,cs.TITLE
 				FROM STAFF s,SCHEDULE sch,COURSE_PERIODS cp,COURSES c,COURSE_SUBJECTS cs,SCHOOL_PERIODS sp
 				WHERE s.STAFF_ID=cp.TEACHER_ID AND sch.STUDENT_ID='".$student['STUDENT_ID']."' AND cp.COURSE_ID=sch.COURSE_ID AND c.COURSE_ID=cp.COURSE_ID AND c.SUBJECT_ID=cs.SUBJECT_ID AND sp.PERIOD_ID=cp.PERIOD_ID AND sp.ATTENDANCE='Y' AND sch.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND sch.SYEAR='".UserSyear()."'"));*/
-				$teacher = DBGet( DBQuery( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,cs.TITLE
+				$teacher = DBGet( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,cs.TITLE
 				FROM STAFF s,SCHEDULE sch,COURSE_PERIODS cp,COURSES c,COURSE_SUBJECTS cs,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
 				WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 				AND s.STAFF_ID=cp.TEACHER_ID
@@ -127,12 +127,12 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				AND sp.PERIOD_ID=cpsp.PERIOD_ID
 				AND sp.ATTENDANCE='Y'
 				AND sch.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
-				AND sch.SYEAR='" . UserSyear() . "'" ) );
+				AND sch.SYEAR='" . UserSyear() . "'" );
 			}
 
 			$student['TEACHER'] = $teacher[1]['FULL_NAME'];
 
-			$xstudents = DBGet( DBQuery( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME
+			$xstudents = DBGet( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME
 			FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa
 			WHERE fssa.ACCOUNT_ID='" . $student['ACCOUNT_ID'] . "'
 			AND s.STUDENT_ID=fssa.STUDENT_ID
@@ -141,14 +141,14 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				FROM STUDENT_ENROLLMENT
 				WHERE STUDENT_ID=s.STUDENT_ID
 				AND SYEAR='" . UserSyear() . "'
-				AND (START_DATE<=CURRENT_DATE AND (END_DATE IS NULL OR CURRENT_DATE<=END_DATE)))" ) );
+				AND (START_DATE<=CURRENT_DATE AND (END_DATE IS NULL OR CURRENT_DATE<=END_DATE)))" );
 
-			$last_deposit = DBGet( DBQuery( "SELECT (SELECT sum(AMOUNT) FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,to_char(fst.TIMESTAMP,'YYYY-MM-DD') AS DATE
+			$last_deposit = DBGet( "SELECT (SELECT sum(AMOUNT) FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,to_char(fst.TIMESTAMP,'YYYY-MM-DD') AS DATE
 			FROM FOOD_SERVICE_TRANSACTIONS fst
 			WHERE fst.SHORT_NAME='DEPOSIT'
 			AND fst.ACCOUNT_ID='" . $student['ACCOUNT_ID'] . "'
 			AND SYEAR='" . UserSyear() . "'
-			ORDER BY fst.TRANSACTION_ID DESC LIMIT 1" ), array( 'DATE' => 'ProperDate' ) );
+			ORDER BY fst.TRANSACTION_ID DESC LIMIT 1", array( 'DATE' => 'ProperDate' ) );
 			$last_deposit = $last_deposit[1];
 
 			if ( $_REQUEST['year_end'] === 'Y' )

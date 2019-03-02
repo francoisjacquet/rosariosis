@@ -14,10 +14,10 @@ if ( $_REQUEST['modfunc'] === 'update' )
 			$RET = DBGet(DBQuery("SELECT ACCOUNT_ID FROM FOOD_SERVICE_STUDENT_ACCOUNTS WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."' AND STUDENT_ID!='".UserStudentID()."'"));
 			if ( $RET)
 			{
-				$student_RET = DBGet( DBQuery( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME
+				$student_RET = DBGet( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME
 					FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa
 					WHERE s.STUDENT_ID=fssa.STUDENT_ID
-					AND fssa.ACCOUNT_ID='" . $RET[1]['ACCOUNT_ID'] . "'" ) );
+					AND fssa.ACCOUNT_ID='" . $RET[1]['ACCOUNT_ID'] . "'" );
 
 				$question = _("Are you sure you want to assign that barcode?");
 				$message = sprintf(_("That barcode is already assigned to Student <b>%s</b>."),$student_RET[1]['FULL_NAME']).' '._("Hit OK to reassign it to the current student or Cancel to cancel all changes.");
@@ -27,9 +27,9 @@ if ( $_REQUEST['modfunc'] === 'update' )
 				$RET = DBGet(DBQuery("SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."'"));
 				if ( $RET)
 				{
-					$staff_RET = DBGet( DBQuery( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
+					$staff_RET = DBGet( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
 						FROM STAFF
-						WHERE STAFF_ID='" . $RET[1]['STAFF_ID'] . "'" ) );
+						WHERE STAFF_ID='" . $RET[1]['STAFF_ID'] . "'" );
 
 					$question = _("Are you sure you want to assign that barcode?");
 					$message = sprintf(_("That barcode is already assigned to User <b>%s</b>."),$staff_RET[1]['FULL_NAME']).' '._("Hit OK to reassign it to the current student or Cancel to cancel all changes.");
@@ -103,7 +103,7 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 	$student = $student[1];
 
 	// Find other students associated with the same account.
-	$xstudents = DBGet( DBQuery( "SELECT s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME
+	$xstudents = DBGet( "SELECT s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME
 	FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa
 	WHERE fssa.ACCOUNT_ID='" . $student['ACCOUNT_ID'] . "'
 	AND s.STUDENT_ID=fssa.STUDENT_ID
@@ -113,7 +113,7 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 		FROM STUDENT_ENROLLMENT
 		WHERE STUDENT_ID=s.STUDENT_ID
 		AND SYEAR='" . UserSyear() . "'
-		AND (START_DATE<=CURRENT_DATE AND (END_DATE IS NULL OR CURRENT_DATE<=END_DATE)))" ) ) );
+		AND (START_DATE<=CURRENT_DATE AND (END_DATE IS NULL OR CURRENT_DATE<=END_DATE)))" ) );
 
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 

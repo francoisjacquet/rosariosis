@@ -7,13 +7,15 @@ if ( $_REQUEST['values']
 	if ( UserStudentID()
 		&& AllowEdit() )
 	{
-		$account_id = DBGet( DBQuery( "SELECT ACCOUNT_ID FROM FOOD_SERVICE_STUDENT_ACCOUNTS WHERE STUDENT_ID='" . UserStudentID() . "'" ) );
+		$account_id = DBGet( "SELECT ACCOUNT_ID
+			FROM FOOD_SERVICE_STUDENT_ACCOUNTS
+			WHERE STUDENT_ID='" . UserStudentID() . "'" );
 		$account_id = $account_id[1]['ACCOUNT_ID'];
 
 		if (  ( $_REQUEST['values']['TYPE'] == 'Deposit' || $_REQUEST['values']['TYPE'] == 'Credit' || $_REQUEST['values']['TYPE'] == 'Debit' ) && ( $amount = is_money( $_REQUEST['values']['AMOUNT'] ) ) )
 		{
 			// get next transaction id
-			$id = DBGet( DBQuery( "SELECT " . db_seq_nextval( 'FOOD_SERVICE_TRANSACTIONS_SEQ' ) . " AS SEQ_ID " ) );
+			$id = DBGet( "SELECT " . db_seq_nextval( 'FOOD_SERVICE_TRANSACTIONS_SEQ' ) . " AS SEQ_ID " );
 			$id = $id[1]['SEQ_ID'];
 
 			$full_description = DBEscapeString( _( $_REQUEST['values']['OPTION'] ) ) . ' ' . $_REQUEST['values']['DESCRIPTION'];
@@ -68,12 +70,12 @@ echo ErrorMessage( $error );
 if ( UserStudentID()
 	&& ! $_REQUEST['modfunc'] )
 {
-	$student = DBGet( DBQuery( "SELECT s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
+	$student = DBGet( "SELECT s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 	fsa.ACCOUNT_ID,fsa.STATUS,
 	(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fsa.ACCOUNT_ID) AS BALANCE
 	FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fsa
 	WHERE s.STUDENT_ID='" . UserStudentID() . "'
-	AND fsa.STUDENT_ID=s.STUDENT_ID" ) );
+	AND fsa.STUDENT_ID=s.STUDENT_ID" );
 
 	$student = $student[1];
 
@@ -86,13 +88,13 @@ if ( UserStudentID()
 
 	if ( $student['BALANCE'] != '' )
 	{
-		$RET = DBGet( DBQuery( "SELECT fst.TRANSACTION_ID,fst.DESCRIPTION AS TYPE,fsti.DESCRIPTION,fsti.AMOUNT
+		$RET = DBGet( "SELECT fst.TRANSACTION_ID,fst.DESCRIPTION AS TYPE,fsti.DESCRIPTION,fsti.AMOUNT
 		FROM FOOD_SERVICE_TRANSACTIONS fst,FOOD_SERVICE_TRANSACTION_ITEMS fsti
 		WHERE fst.SYEAR='" . UserSyear() . "'
 		AND fst.ACCOUNT_ID='" . $student['ACCOUNT_ID'] . "'
 		AND (fst.STUDENT_ID IS NULL OR fst.STUDENT_ID='" . UserStudentID() . "')
 		AND fst.TIMESTAMP BETWEEN CURRENT_DATE AND CURRENT_DATE+1
-		AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID" ) );
+		AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID" );
 
 		// TODO: code duplication!
 		/**

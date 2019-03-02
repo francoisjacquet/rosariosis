@@ -13,11 +13,11 @@ Search('staff_id',$extra);
 
 if (UserStaffID() && ! $_REQUEST['modfunc'])
 {
-	$staff = DBGet( DBQuery( "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
+	$staff = DBGet( "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 		(SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS ACCOUNT_ID,
 		(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE
 		FROM STAFF s
-		WHERE s.STAFF_ID='" . UserStaffID() . "'" ) );
+		WHERE s.STAFF_ID='" . UserStaffID() . "'" );
 
 	$staff = $staff[1];
 
@@ -41,7 +41,7 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 
 		if ( $_REQUEST['detailed_view']=='true')
 		{
-            $RET = DBGet( DBQuery( "SELECT fst.TRANSACTION_ID AS TRANS_ID,fst.TRANSACTION_ID,
+            $RET = DBGet( "SELECT fst.TRANSACTION_ID AS TRANS_ID,fst.TRANSACTION_ID,
 			(SELECT sum(AMOUNT) FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
 			fst.STAFF_ID,fst.BALANCE,fst.TIMESTAMP AS DATE,fst.DESCRIPTION," .
 			db_case( array(
@@ -55,7 +55,7 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 			AND fst.SYEAR='" . UserSyear() . "'
 			AND fst.TIMESTAMP BETWEEN '" . $start_date . "'	AND date '" . $end_date . "' +1".
 			$where . "
-			ORDER BY fst.TRANSACTION_ID DESC" ), array( 'DATE' => 'ProperDateTime', 'BALANCE' => 'red' ) );
+			ORDER BY fst.TRANSACTION_ID DESC", array( 'DATE' => 'ProperDateTime', 'BALANCE' => 'red' ) );
 
 			foreach ( (array) $RET as $RET_key => $RET_val) {
 				$RET[ $RET_key ]=array_map('types_locale', $RET_val);
@@ -64,7 +64,7 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 			// get details of each transaction
 			foreach ( (array) $RET as $key => $value)
 			{
-				$tmpRET = DBGet(DBQuery('SELECT TRANSACTION_ID AS TRANS_ID,* FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID=\''.$value['TRANSACTION_ID'].'\''));
+				$tmpRET = DBGet( 'SELECT TRANSACTION_ID AS TRANS_ID,* FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID=\''.$value['TRANSACTION_ID'].'\'');
 
 				foreach ( (array) $tmpRET as $RET_key => $RET_val) {
 					$tmpRET[ $RET_key ]=array_map('options_locale', $RET_val);

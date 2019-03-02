@@ -19,12 +19,12 @@ Search('student_id',$extra);
 
 if (UserStudentID() && ! $_REQUEST['modfunc'])
 {
-	$student = DBGet( DBQuery( "SELECT s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
+	$student = DBGet( "SELECT s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 	fsa.ACCOUNT_ID,fsa.STATUS,
 	(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fsa.ACCOUNT_ID) AS BALANCE
 	FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fsa
 	WHERE s.STUDENT_ID='" . UserStudentID() . "'
-	AND fsa.STUDENT_ID=s.STUDENT_ID" ) );
+	AND fsa.STUDENT_ID=s.STUDENT_ID" );
 
 	$student = $student[1];
 
@@ -70,7 +70,7 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 
 		if ( $_REQUEST['detailed_view']=='true')
 		{
-			$RET = DBGet( DBQuery( "SELECT fst.TRANSACTION_ID AS TRANS_ID,fst.TRANSACTION_ID,
+			$RET = DBGet( "SELECT fst.TRANSACTION_ID AS TRANS_ID,fst.TRANSACTION_ID,
 			fst.STUDENT_ID,fst.DISCOUNT,
 			(SELECT sum(AMOUNT) FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
 			fst.BALANCE,fst.TIMESTAMP AS DATE,fst.DESCRIPTION," .
@@ -91,7 +91,7 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 			AND SYEAR='" . UserSyear() . "'
 			AND fst.TIMESTAMP BETWEEN '" . $start_date . "' AND date '" . $end_date . "' +1".
 			$where . "
-			ORDER BY fst.TRANSACTION_ID DESC" ), array( 'DATE' => 'ProperDateTime', 'BALANCE' => 'red' ) );
+			ORDER BY fst.TRANSACTION_ID DESC", array( 'DATE' => 'ProperDateTime', 'BALANCE' => 'red' ) );
 
 			foreach ( (array) $RET as $RET_key => $RET_val) {
 				$RET[ $RET_key ]=array_map('types_locale', $RET_val);

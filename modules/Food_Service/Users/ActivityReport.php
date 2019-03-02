@@ -23,7 +23,7 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 
 	if ( $_REQUEST['detailed_view']=='true')
 	{
-	    $RET = DBGet( DBQuery( "SELECT fst.TRANSACTION_ID AS TRANS_ID,fst.TRANSACTION_ID,
+	    $RET = DBGet( "SELECT fst.TRANSACTION_ID AS TRANS_ID,fst.TRANSACTION_ID,
 		fst.SHORT_NAME,fst.STAFF_ID,
 		(SELECT sum(AMOUNT) FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
 		fst.BALANCE,fst.TIMESTAMP AS DATE,fst.DESCRIPTION," .
@@ -43,7 +43,7 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 		WHERE SYEAR='" . UserSyear() . "'
 		AND fst.TIMESTAMP BETWEEN '" . $date . "' AND date '" . $date . "' +1
 		AND SCHOOL_ID='" . UserSchool() . "'" . $where . "
-		ORDER BY " . ( $_REQUEST['by_name'] ? "FULL_NAME," : '' ) . "fst.TRANSACTION_ID DESC" ), array( 'DATE' => 'ProperDateTime', 'SHORT_NAME' => 'bump_count' ) );
+		ORDER BY " . ( $_REQUEST['by_name'] ? "FULL_NAME," : '' ) . "fst.TRANSACTION_ID DESC", array( 'DATE' => 'ProperDateTime', 'SHORT_NAME' => 'bump_count' ) );
 
 		foreach ( (array) $RET as $RET_key => $RET_val) {
 			$RET[ $RET_key ]=array_map('types_locale', $RET_val);
@@ -88,7 +88,7 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 	}
 	else
 	{
-	    $RET = DBGet( DBQuery( "SELECT fst.TRANSACTION_ID,fst.SHORT_NAME,fst.STAFF_ID,
+	    $RET = DBGet( "SELECT fst.TRANSACTION_ID,fst.SHORT_NAME,fst.STAFF_ID,
 		(SELECT sum(AMOUNT) FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
 		fst.BALANCE,fst.TIMESTAMP AS DATE,fst.DESCRIPTION," .
 		db_case( array(
@@ -101,7 +101,7 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 		WHERE SYEAR='" . UserSyear() . "'
 		AND fst.TIMESTAMP BETWEEN '" . $date . "' AND date '" . $date . "' +1
 		AND SCHOOL_ID='" . UserSchool() . "'" . $where . "
-		ORDER BY " . ( $_REQUEST['by_name'] ? "FULL_NAME," : '' ) . "fst.TRANSACTION_ID DESC" ), array( 'DATE' => 'ProperDateTime', 'SHORT_NAME' => 'bump_count' ) );
+		ORDER BY " . ( $_REQUEST['by_name'] ? "FULL_NAME," : '' ) . "fst.TRANSACTION_ID DESC", array( 'DATE' => 'ProperDateTime', 'SHORT_NAME' => 'bump_count' ) );
 
 		$columns = array(
 			'TRANSACTION_ID' => _( 'ID' ),
@@ -122,12 +122,12 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 		$type_select .= '<option value="'.$short_name.'"'.($_REQUEST['type_select']==$short_name ? ' selected' : '').'>'.$type['DESCRIPTION'].'</option>';
 	$type_select .= '</select></span>';
 
-	$staff_RET = DBGet( DBquery( "SELECT STAFF_ID," . DisplayNameSQL() . " AS FULL_NAME
+	$staff_RET = DBGet( "SELECT STAFF_ID," . DisplayNameSQL() . " AS FULL_NAME
 		FROM STAFF
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOLS LIKE '%," . UserSchool() . ",%'
 		AND PROFILE='admin'
-		ORDER BY LAST_NAME" ) );
+		ORDER BY LAST_NAME" );
 
 	$staff_select = '<span class="nobr">'._('User').' <select name=staff_select><option value="">'._('Not Specified').'</option>';
 	foreach ( (array) $staff_RET as $staff)

@@ -25,12 +25,12 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	{
 		$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
 
-		$staffs = DBGet( DBQuery( "SELECT s.FIRST_NAME," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
+		$staffs = DBGet( "SELECT s.FIRST_NAME," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 			s.PROFILE,fsa.STATUS,fsa.BALANCE,s.STAFF_ID
 			FROM STAFF s,FOOD_SERVICE_STAFF_ACCOUNTS fsa
 			WHERE s.STAFF_ID IN (" . $st_list . ")
 			AND fsa.STAFF_ID=s.STAFF_ID
-			AND s.SYEAR='" . UserSyear() . "'" ) );
+			AND s.SYEAR='" . UserSyear() . "'" );
 
 		$handle = PDFStart();
 
@@ -68,14 +68,14 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				echo '<div style="page-break-after: always;"></div>';
 			}
 
-			$last_deposit = DBGet( DBQuery( "SELECT
+			$last_deposit = DBGet( "SELECT
 			(SELECT sum(AMOUNT) FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
 			to_char(fst.TIMESTAMP,'YYYY-MM-DD') AS DATE
 			FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst
 			WHERE fst.SHORT_NAME='DEPOSIT'
 			AND fst.STAFF_ID='" . $staff['STAFF_ID'] . "'
 			AND SYEAR='" . UserSyear() . "'
-			ORDER BY fst.TRANSACTION_ID DESC LIMIT 1" ), array( 'DATE' => 'ProperDate' ) );
+			ORDER BY fst.TRANSACTION_ID DESC LIMIT 1", array( 'DATE' => 'ProperDate' ) );
 			$last_deposit = $last_deposit[1];
 
 			$staff['SCHOOL_TITLE'] = SchoolInfo( 'TITLE' );
