@@ -69,11 +69,11 @@ if ( $_REQUEST['modfunc'] === 'remove'
 }
 
 // Check we have 1 and only one Rollover default code.
-$rollover_default_RET = DBGet( DBQuery( "SELECT ID
+$rollover_default_RET = DBGet( "SELECT ID
 	FROM STUDENT_ENROLLMENT_CODES
 	WHERE SYEAR='" . UserSyear() . "'
 	AND TYPE='Add'
-	AND DEFAULT_CODE='Y'" ) );
+	AND DEFAULT_CODE='Y'" );
 
 if ( ! $rollover_default_RET
 	|| count( $rollover_default_RET ) !== 1 )

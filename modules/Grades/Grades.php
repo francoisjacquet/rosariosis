@@ -95,7 +95,7 @@ if ( ! empty( $_REQUEST['period'] ) )
 	}
 }
 
-$types_RET = DBGet( DBQuery( "SELECT ASSIGNMENT_TYPE_ID,TITLE,FINAL_GRADE_PERCENT,COLOR
+$types_RET = DBGet( "SELECT ASSIGNMENT_TYPE_ID,TITLE,FINAL_GRADE_PERCENT,COLOR
 FROM GRADEBOOK_ASSIGNMENT_TYPES gt
 WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 AND COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
@@ -103,7 +103,7 @@ AND (SELECT count(1) FROM GRADEBOOK_ASSIGNMENTS WHERE STAFF_ID=gt.STAFF_ID
 AND ((COURSE_ID=gt.COURSE_ID AND STAFF_ID=gt.STAFF_ID) OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 AND MARKING_PERIOD_ID='" . UserMP() . "'
 AND ASSIGNMENT_TYPE_ID=gt.ASSIGNMENT_TYPE_ID)>0
-ORDER BY SORT_ORDER,TITLE" ), array(), array( 'ASSIGNMENT_TYPE_ID' ) );
+ORDER BY SORT_ORDER,TITLE", array(), array( 'ASSIGNMENT_TYPE_ID' ) );
 //echo '<pre>'; var_dump($types_RET); echo '</pre>';
 
 if ( $_REQUEST['type_id']
@@ -114,14 +114,14 @@ if ( $_REQUEST['type_id']
 }
 
 //FJ default points
-$assignments_RET = DBGet( DBQuery( "SELECT ASSIGNMENT_ID,ASSIGNMENT_TYPE_ID,TITLE,POINTS,ASSIGNED_DATE,DUE_DATE,DEFAULT_POINTS,extract(EPOCH FROM DUE_DATE) AS DUE_EPOCH,
+$assignments_RET = DBGet( "SELECT ASSIGNMENT_ID,ASSIGNMENT_TYPE_ID,TITLE,POINTS,ASSIGNED_DATE,DUE_DATE,DEFAULT_POINTS,extract(EPOCH FROM DUE_DATE) AS DUE_EPOCH,
 CASE WHEN (ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ASSIGNED_DATE) AND (DUE_DATE IS NULL OR CURRENT_DATE>=DUE_DATE) OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=gradebook_assignments.MARKING_PERIOD_ID) THEN 'Y' ELSE NULL END AS DUE
 FROM GRADEBOOK_ASSIGNMENTS
 WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 AND ((COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') AND STAFF_ID='" . User( 'STAFF_ID' ) . "') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 AND MARKING_PERIOD_ID='" . UserMP() . "'" . ( $_REQUEST['type_id'] ? "
 AND ASSIGNMENT_TYPE_ID='" . $_REQUEST['type_id'] . "'" : '' ) . "
-ORDER BY " . Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) . " DESC,ASSIGNMENT_ID DESC,TITLE" ), array(), array( 'ASSIGNMENT_ID' ) );
+ORDER BY " . Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) . " DESC,ASSIGNMENT_ID DESC,TITLE", array(), array( 'ASSIGNMENT_ID' ) );
 //echo '<pre>'; var_dump($assignments_RET); echo '</pre>';
 
 // when changing course periods the assignment_id will be wrong except for '' (totals) and 'all'
@@ -153,35 +153,35 @@ if ( ! empty( $_REQUEST['values'] )
 
 	if ( UserStudentID() )
 	{
-		$current_RET[UserStudentID()] = DBGet( DBQuery( "SELECT g.ASSIGNMENT_ID
+		$current_RET[UserStudentID()] = DBGet( "SELECT g.ASSIGNMENT_ID
 			FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a
 			WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID
 			AND a.MARKING_PERIOD_ID='" . UserMP() . "'
 			AND g.STUDENT_ID='" . UserStudentID() . "'
 			AND g.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" .
 			( $_REQUEST['assignment_id'] === 'all' ? '' :
-				" AND g.ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'" ) ),
+				" AND g.ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'" ),
 			array(),
 			array( 'ASSIGNMENT_ID' )
 		);
 	}
 	elseif ( $_REQUEST['assignment_id'] === 'all' )
 	{
-		$current_RET = DBGet( DBQuery( "SELECT g.STUDENT_ID,g.ASSIGNMENT_ID,g.POINTS
+		$current_RET = DBGet( "SELECT g.STUDENT_ID,g.ASSIGNMENT_ID,g.POINTS
 			FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a
 			WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID
 			AND a.MARKING_PERIOD_ID='" . UserMP() . "'
-			AND g.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" ),
+			AND g.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'",
 			array(),
 			array( 'STUDENT_ID', 'ASSIGNMENT_ID' )
 		);
 	}
 	else
 	{
-		$current_RET = DBGet( DBQuery( "SELECT STUDENT_ID,POINTS,COMMENT,ASSIGNMENT_ID
+		$current_RET = DBGet( "SELECT STUDENT_ID,POINTS,COMMENT,ASSIGNMENT_ID
 			FROM GRADEBOOK_GRADES
 			WHERE ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'
-			AND COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" ),
+			AND COURSE_PERIOD_ID='" . UserCoursePeriod() . "'",
 			array(),
 			array( 'STUDENT_ID', 'ASSIGNMENT_ID' )
 		);
@@ -296,13 +296,13 @@ if ( UserStudentID() )
 		'assignment_id' => 'ASSIGNMENT_ID',
 	);
 
-	$current_RET[UserStudentID()] = DBGet( DBQuery( "SELECT g.ASSIGNMENT_ID
+	$current_RET[UserStudentID()] = DBGet( "SELECT g.ASSIGNMENT_ID
 	FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a
 	WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID
 	AND a.MARKING_PERIOD_ID='" . UserMP() . "'
 	AND g.STUDENT_ID='" . UserStudentID() . "'
 	AND g.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" .
-		( $_REQUEST['assignment_id'] == 'all' ? '' : " AND g.ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'" ) ), array(), array( 'ASSIGNMENT_ID' ) );
+		( $_REQUEST['assignment_id'] == 'all' ? '' : " AND g.ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'" ), array(), array( 'ASSIGNMENT_ID' ) );
 
 	$count_assignments = count( $assignments_RET );
 
@@ -363,7 +363,7 @@ else
 
 	if ( $_REQUEST['assignment_id'] == 'all' )
 	{
-		$current_RET = DBGet( DBQuery( "SELECT g.STUDENT_ID,g.ASSIGNMENT_ID,g.POINTS FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID AND a.MARKING_PERIOD_ID='" . UserMP() . "' AND g.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" . ( $_REQUEST['type_id'] ? " AND a.ASSIGNMENT_TYPE_ID='" . $_REQUEST['type_id'] . "'" : '' ) ), array(), array( 'STUDENT_ID', 'ASSIGNMENT_ID' ) );
+		$current_RET = DBGet( "SELECT g.STUDENT_ID,g.ASSIGNMENT_ID,g.POINTS FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID AND a.MARKING_PERIOD_ID='" . UserMP() . "' AND g.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" . ( $_REQUEST['type_id'] ? " AND a.ASSIGNMENT_TYPE_ID='" . $_REQUEST['type_id'] . "'" : '' ), array(), array( 'STUDENT_ID', 'ASSIGNMENT_ID' ) );
 		$count_extra = array( 'SELECT_ONLY' => 'ssm.STUDENT_ID' );
 		$count_students = GetStuList( $count_extra );
 		$count_students = count( $count_students );
@@ -423,7 +423,7 @@ else
 			'SUBMISSION' => _( 'Submission' ),
 		);
 
-		$current_RET = DBGet( DBQuery( "SELECT STUDENT_ID,POINTS,COMMENT,ASSIGNMENT_ID FROM GRADEBOOK_GRADES WHERE ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "' AND COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" ), array(), array( 'STUDENT_ID', 'ASSIGNMENT_ID' ) );
+		$current_RET = DBGet( "SELECT STUDENT_ID,POINTS,COMMENT,ASSIGNMENT_ID FROM GRADEBOOK_GRADES WHERE ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "' AND COURSE_PERIOD_ID='" . UserCoursePeriod() . "'", array(), array( 'STUDENT_ID', 'ASSIGNMENT_ID' ) );
 	}
 	else
 	{

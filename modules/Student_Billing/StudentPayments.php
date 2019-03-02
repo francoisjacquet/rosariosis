@@ -35,7 +35,7 @@ if ( $_REQUEST['values']
 		elseif ( $columns['AMOUNT'] != ''
 			&& $columns['PAYMENT_DATE'] )
 		{
-			$id = DBGet( DBQuery( "SELECT " . db_seq_nextval( 'BILLING_PAYMENTS_SEQ' ) . ' AS ID' ) );
+			$id = DBGet( "SELECT " . db_seq_nextval( 'BILLING_PAYMENTS_SEQ' ) . ' AS ID' );
 			$id = $id[1]['ID'];
 
 			$sql = "INSERT INTO BILLING_PAYMENTS ";
@@ -91,9 +91,9 @@ if ( $_REQUEST['modfunc'] === 'refund'
 {
 	if ( DeletePrompt( _( 'Payment' ), _( 'Refund' ) ) )
 	{
-		$payment_RET = DBGet( DBQuery( "SELECT COMMENTS,AMOUNT
+		$payment_RET = DBGet( "SELECT COMMENTS,AMOUNT
 			FROM BILLING_PAYMENTS
-			WHERE ID='" . $_REQUEST['id'] . "'" ) );
+			WHERE ID='" . $_REQUEST['id'] . "'" );
 
 		DBQuery( "INSERT INTO BILLING_PAYMENTS (ID,SYEAR,SCHOOL_ID,STUDENT_ID,AMOUNT,
 			PAYMENT_DATE,COMMENTS,REFUNDED_PAYMENT_ID)
@@ -127,19 +127,19 @@ if ( UserStudentID()
 		'LUNCH_PAYMENT' => '_lunchInput',
 	);
 
-	$refunded_payments_RET = DBGet( DBQuery( "SELECT '' AS REMOVE,ID,REFUNDED_PAYMENT_ID,
+	$refunded_payments_RET = DBGet( "SELECT '' AS REMOVE,ID,REFUNDED_PAYMENT_ID,
 		AMOUNT,PAYMENT_DATE,COMMENTS
 		FROM BILLING_PAYMENTS
 		WHERE STUDENT_ID='" . UserStudentID() . "'
 		AND SYEAR='" . UserSyear() . "'
-		AND (REFUNDED_PAYMENT_ID IS NOT NULL)" ), $functions, array( 'REFUNDED_PAYMENT_ID' ) );
+		AND (REFUNDED_PAYMENT_ID IS NOT NULL)", $functions, array( 'REFUNDED_PAYMENT_ID' ) );
 
-	$payments_RET = DBGet( DBQuery( "SELECT '' AS REMOVE,ID,REFUNDED_PAYMENT_ID,
+	$payments_RET = DBGet( "SELECT '' AS REMOVE,ID,REFUNDED_PAYMENT_ID,
 		AMOUNT,PAYMENT_DATE,COMMENTS,LUNCH_PAYMENT
 		FROM BILLING_PAYMENTS
 		WHERE STUDENT_ID='" . UserStudentID() . "'
 		AND SYEAR='" . UserSyear() . "'
-		AND (REFUNDED_PAYMENT_ID IS NULL OR REFUNDED_PAYMENT_ID='') ORDER BY ID" ), $functions );
+		AND (REFUNDED_PAYMENT_ID IS NULL OR REFUNDED_PAYMENT_ID='') ORDER BY ID", $functions );
 
 	$i = 1;
 	$RET = array();
@@ -220,10 +220,10 @@ if ( UserStudentID()
 
 	echo '<br />';
 
-	$fees_total = DBGet( DBQuery( "SELECT SUM(f.AMOUNT) AS TOTAL
+	$fees_total = DBGet( "SELECT SUM(f.AMOUNT) AS TOTAL
 		FROM BILLING_FEES f
 		WHERE f.STUDENT_ID='" . UserStudentID() . "'
-		AND f.SYEAR='" . UserSyear() . "'" ) );
+		AND f.SYEAR='" . UserSyear() . "'" );
 
 	$table = '<table class="align-right"><tr>
 		<td>' . _( 'Total from Fees' ) . ': </td>

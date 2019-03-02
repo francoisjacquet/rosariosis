@@ -80,7 +80,11 @@ if ( $_REQUEST['modfunc'] === 'save'
 			if ( $start_date != '' )
 			{
 				//FJ check if student already enrolled on that date when updating START_DATE
-				$found_RET = DBGet( DBQuery( "SELECT ID FROM STUDENT_ENROLLMENT WHERE STUDENT_ID='" . $student_id . "' AND SYEAR='" . UserSyear() . "' AND '" . $start_date . "' BETWEEN START_DATE AND END_DATE" ) );
+				$found_RET = DBGet( "SELECT ID
+					FROM STUDENT_ENROLLMENT
+					WHERE STUDENT_ID='" . $student_id . "'
+					AND SYEAR='" . UserSyear() . "'
+					AND '" . $start_date . "' BETWEEN START_DATE AND END_DATE" );
 
 				if ( count( $found_RET ) )
 				{
@@ -144,18 +148,18 @@ if ( ! $_REQUEST['modfunc'] )
 
 		if ( ! empty( $_REQUEST['category_id'] ) )
 		{
-			$fields_RET = DBGet( DBQuery( "SELECT ID,TITLE,TYPE,SELECT_OPTIONS
+			$fields_RET = DBGet( "SELECT ID,TITLE,TYPE,SELECT_OPTIONS
 				FROM CUSTOM_FIELDS
-				WHERE CATEGORY_ID='" . $_REQUEST['category_id'] . "'" ), array(), array( 'TYPE' ) );
+				WHERE CATEGORY_ID='" . $_REQUEST['category_id'] . "'", array(), array( 'TYPE' ) );
 		}
 		else
 		{
-			$fields_RET = DBGet( DBQuery( "SELECT ID,TITLE,TYPE,SELECT_OPTIONS
-				FROM CUSTOM_FIELDS" ), array(), array( 'TYPE' ) );
+			$fields_RET = DBGet( "SELECT ID,TITLE,TYPE,SELECT_OPTIONS
+				FROM CUSTOM_FIELDS", array(), array( 'TYPE' ) );
 		}
 
-		$categories_RET = DBGet( DBQuery( "SELECT ID,TITLE
-			FROM STUDENT_FIELD_CATEGORIES" ) );
+		$categories_RET = DBGet( "SELECT ID,TITLE
+			FROM STUDENT_FIELD_CATEGORIES" );
 
 		//FJ css WPadmin
 		echo '<div class="center">';
@@ -296,10 +300,10 @@ if ( ! $_REQUEST['modfunc'] )
 
 		if ( ! $_REQUEST['category_id'] || $_REQUEST['category_id'] == '1' )
 		{
-			$gradelevels_RET = DBGet( DBQuery( "SELECT ID,TITLE
+			$gradelevels_RET = DBGet( "SELECT ID,TITLE
 				FROM SCHOOL_GRADELEVELS
 				WHERE SCHOOL_ID='" . UserSchool() . "'
-				ORDER BY SORT_ORDER" ) );
+				ORDER BY SORT_ORDER" );
 
 			$options = array();
 
@@ -311,10 +315,10 @@ if ( ! $_REQUEST['modfunc'] )
 			echo '<tr class="st"><td><b>' . _( 'Grade Level' ) . '</b></td>
 			<td>' . _makeSelectInput( 'GRADE_ID', $options ) . '</td></tr>';
 
-			$schools_RET = DBGet( DBQuery( "SELECT ID,TITLE
+			$schools_RET = DBGet( "SELECT ID,TITLE
 				FROM SCHOOLS
 				WHERE ID!='" . UserSchool() . "'
-				AND SYEAR='" . UserSyear() . "'" ) );
+				AND SYEAR='" . UserSyear() . "'" );
 
 			$options = array(
 				UserSchool() => _( 'Next grade at current school' ),
@@ -330,11 +334,11 @@ if ( ! $_REQUEST['modfunc'] )
 			echo '<tr class="st"><td><b>' . _( 'Rolling / Retention Options' ) . '</b></td>
 			<td>' . _makeSelectInput( 'NEXT_SCHOOL', $options ) . '</td></tr>';
 
-			$calendars_RET = DBGet( DBQuery( "SELECT CALENDAR_ID,DEFAULT_CALENDAR,TITLE
+			$calendars_RET = DBGet( "SELECT CALENDAR_ID,DEFAULT_CALENDAR,TITLE
 				FROM ATTENDANCE_CALENDARS
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'
-				ORDER BY DEFAULT_CALENDAR ASC" ) );
+				ORDER BY DEFAULT_CALENDAR ASC" );
 
 			$options = array();
 
@@ -346,11 +350,11 @@ if ( ! $_REQUEST['modfunc'] )
 			echo '<tr class="st"><td><b>' . _( 'Calendar' ) . '</b></td>
 			<td>' . _makeSelectInput( 'CALENDAR_ID', $options ) . '</td></tr>';
 
-			$enrollment_codes_RET = DBGet( DBQuery( "SELECT ID,TITLE AS TITLE
+			$enrollment_codes_RET = DBGet( "SELECT ID,TITLE AS TITLE
 				FROM STUDENT_ENROLLMENT_CODES
 				WHERE SYEAR='" . UserSyear() . "'
 				AND TYPE='Add'
-				ORDER BY SORT_ORDER" ) );
+				ORDER BY SORT_ORDER" );
 
 			$options = array();
 

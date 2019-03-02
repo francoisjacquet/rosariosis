@@ -9,7 +9,9 @@ if ( $_REQUEST['modfunc'] === 'save'
 	if ( isset( $_REQUEST['student'] )
 		&& is_array( $_REQUEST['student'] ) )
 	{
-		$current_RET = DBGet( DBQuery( "SELECT STUDENT_ID FROM STUDENTS_JOIN_USERS WHERE STAFF_ID='" . UserStaffID() . "'" ), array(), array( 'STUDENT_ID' ) );
+		$current_RET = DBGet( "SELECT STUDENT_ID
+			FROM STUDENTS_JOIN_USERS
+			WHERE STAFF_ID='" . UserStaffID() . "'", array(), array( 'STUDENT_ID' ) );
 
 		foreach ( (array) $_REQUEST['student'] as $student_id )
 		{
@@ -62,7 +64,7 @@ if ( ! $_REQUEST['modfunc'] )
 {
 	if ( UserStaffID() )
 	{
-		$profile = DBGet( DBQuery( "SELECT PROFILE FROM STAFF WHERE STAFF_ID='" . UserStaffID() . "'" ) );
+		$profile = DBGet( "SELECT PROFILE FROM STAFF WHERE STAFF_ID='" . UserStaffID() . "'" );
 
 		if ( $profile[1]['PROFILE'] != 'parent' )
 		{
@@ -97,10 +99,10 @@ if ( ! $_REQUEST['modfunc'] )
 
 		echo '<table class="center"><tr><td>';
 
-		$current_RET = DBGet( DBQuery( "SELECT u.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME
+		$current_RET = DBGet( "SELECT u.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME
 			FROM STUDENTS_JOIN_USERS u,STUDENTS s
 			WHERE s.STUDENT_ID=u.STUDENT_ID
-			AND u.STAFF_ID='" . UserStaffID() . "'" ) );
+			AND u.STAFF_ID='" . UserStaffID() . "'" );
 
 		$link['remove'] = array( 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete', 'variables' => array( 'student_id_remove' => 'STUDENT_ID' ) );
 

@@ -22,10 +22,10 @@ if ( isset( $_REQUEST['month_date'] )
 // default date
 else
 {
-	$min_date = DBGet( DBQuery( "SELECT min(SCHOOL_DATE) AS MIN_DATE
+	$min_date = DBGet( "SELECT min(SCHOOL_DATE) AS MIN_DATE
 		FROM ATTENDANCE_CALENDAR
 		WHERE SYEAR='" . UserSyear() . "'
-		AND SCHOOL_ID='" . UserSchool() . "'" ) );
+		AND SCHOOL_ID='" . UserSchool() . "'" );
 
 	// if today < first attendance day
 	if ( count( $min_date )
@@ -92,11 +92,11 @@ if ( $_REQUEST['modfunc'] === 'modify'
 
 		if ( $columns['START_DATE'] || $columns['END_DATE'])
 		{
-			$start_end_RET = DBGet( DBQuery( "SELECT START_DATE,END_DATE
+			$start_end_RET = DBGet( "SELECT START_DATE,END_DATE
 				FROM SCHEDULE
 				WHERE STUDENT_ID='" . UserStudentID() . "'
 				AND COURSE_PERIOD_ID='" . $course_period_id . "'
-				AND END_DATE<START_DATE" ) );
+				AND END_DATE<START_DATE" );
 
 			// User is asked if he wants absences and grades to be deleted.
 			if (count($start_end_RET))

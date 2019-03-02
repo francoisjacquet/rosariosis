@@ -67,9 +67,9 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 
 	if ( isset( $_FILES['submission_file'] ) )
 	{
-		$student_name_RET = DBGet( DBQuery( "SELECT " . DisplayNameSQL() . " AS NAME
+		$student_name_RET = DBGet( "SELECT " . DisplayNameSQL() . " AS NAME
 			FROM STUDENTS
-			WHERE STUDENT_ID='" . UserStudentID() . "'" ) );
+			WHERE STUDENT_ID='" . UserStudentID() . "'" );
 
 		$student_name = $student_name_RET[1]['NAME'];
 

@@ -20,16 +20,16 @@ if ( ! empty( $_REQUEST['values'] )
 
 			if ( User( 'PROFILE' ) == 'student' )
 			{
-				$password_RET = DBGet( DBQuery( "SELECT PASSWORD
+				$password_RET = DBGet( "SELECT PASSWORD
 					FROM STUDENTS
-					WHERE STUDENT_ID='" . UserStudentID() . "'" ) );
+					WHERE STUDENT_ID='" . UserStudentID() . "'" );
 			}
 			else
 			{
-				$password_RET = DBGet( DBQuery( "SELECT PASSWORD
+				$password_RET = DBGet( "SELECT PASSWORD
 					FROM STAFF
 					WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
-					AND SYEAR='" . UserSyear() . "'" ) );
+					AND SYEAR='" . UserSyear() . "'" );
 			}
 
 			//FJ add password encryption
@@ -113,11 +113,11 @@ echo ErrorMessage( $note, 'note' );
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	$current_RET = DBGet( DBQuery( "SELECT TITLE,VALUE,PROGRAM
+	$current_RET = DBGet( "SELECT TITLE,VALUE,PROGRAM
 		FROM PROGRAM_USER_CONFIG
 		WHERE USER_ID='" . User( 'STAFF_ID' ) . "'
 		AND PROGRAM IN ('Preferences','StudentFieldsSearch','StudentFieldsView',
-			'WidgetsSearch','StaffFieldsSearch','StaffFieldsView','StaffWidgetsSearch')" ),
+			'WidgetsSearch','StaffFieldsSearch','StaffFieldsView','StaffWidgetsSearch')",
 		array(), array( 'PROGRAM', 'TITLE' ) );
 
 	if ( empty( $_REQUEST['tab'] ) )
@@ -529,9 +529,9 @@ if ( ! $_REQUEST['modfunc'] )
 		}
 
 		// Student Fields: search Username.
-		$general_info_category_title_RET = DBGet( DBQuery( "SELECT sfc.TITLE
+		$general_info_category_title_RET = DBGet( "SELECT sfc.TITLE
 			FROM STUDENT_FIELD_CATEGORIES sfc
-			WHERE sfc.ID=1" ) );
+			WHERE sfc.ID=1" );
 
 		$general_info_category_title = $general_info_category_title_RET[1]['TITLE'];
 
@@ -770,9 +770,9 @@ if ( ! $_REQUEST['modfunc'] )
 		}
 
 		// User Fields: search Email Address & Phone.
-		$general_info_category_title_RET = DBGet( DBQuery( "SELECT sfc.TITLE
+		$general_info_category_title_RET = DBGet( "SELECT sfc.TITLE
 			FROM STAFF_FIELD_CATEGORIES sfc
-			WHERE sfc.ID=1" ) );
+			WHERE sfc.ID=1" );
 
 		$general_info_category_title = $general_info_category_title_RET[1]['TITLE'];
 

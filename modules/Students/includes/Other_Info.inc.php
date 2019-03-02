@@ -1,14 +1,14 @@
 <?php
 require_once 'ProgramFunctions/StudentsUsersInfo.fnc.php';
 
-$columns_RET = DBGet( DBQuery( "SELECT COLUMNS
+$columns_RET = DBGet( "SELECT COLUMNS
 	FROM STUDENT_FIELD_CATEGORIES
-	WHERE ID='" . $_REQUEST['category_id'] . "'" ) );
+	WHERE ID='" . $_REQUEST['category_id'] . "'" );
 
-$fields_RET = DBGet( DBQuery( "SELECT ID,TITLE,TYPE,SELECT_OPTIONS,DEFAULT_SELECTION,REQUIRED
+$fields_RET = DBGet( "SELECT ID,TITLE,TYPE,SELECT_OPTIONS,DEFAULT_SELECTION,REQUIRED
 	FROM CUSTOM_FIELDS
 	WHERE CATEGORY_ID='" . $_REQUEST['category_id'] . "'
-	ORDER BY SORT_ORDER,TITLE" ) );
+	ORDER BY SORT_ORDER,TITLE" );
 
 $fields_RET = ParseMLArray( $fields_RET, 'TITLE' );
 
@@ -16,9 +16,9 @@ $value = array();
 
 if ( UserStudentID() )
 {
-	$custom_RET = DBGet( DBQuery( "SELECT *
+	$custom_RET = DBGet( "SELECT *
 		FROM STUDENTS
-		WHERE STUDENT_ID='" . UserStudentID() . "'" ) );
+		WHERE STUDENT_ID='" . UserStudentID() . "'" );
 
 	$value = $custom_RET[1];
 }

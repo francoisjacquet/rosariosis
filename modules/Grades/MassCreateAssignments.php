@@ -86,9 +86,9 @@ if ( isset( $_POST['tables'] )
 			{
 				$c_list = "'" . implode( "','", $_REQUEST['c_arr'] ) . "'";
 
-				$assignment_courses_teachers_RET = DBGet( DBQuery( "SELECT DISTINCT COURSE_ID,TEACHER_ID
+				$assignment_courses_teachers_RET = DBGet( "SELECT DISTINCT COURSE_ID,TEACHER_ID
 				FROM COURSE_PERIODS
-				WHERE COURSE_ID IN (" . $c_list . ")" ), array(), array( 'COURSE_ID' ) );
+				WHERE COURSE_ID IN (" . $c_list . ")", array(), array( 'COURSE_ID' ) );
 			}
 
 			$fields = "ASSIGNMENT_TYPE_ID,"; // COURSE_ID,STAFF_ID added for each Course below.
@@ -162,7 +162,7 @@ if ( isset( $_POST['tables'] )
 
 				$fields_final = $fields . 'ASSIGNMENT_TYPE_ID,STAFF_ID,COURSE_PERIOD_ID,';
 
-				$assignment_type_teacher_RET = DBGet( DBQuery( "SELECT ASSIGNMENT_TYPE_ID, STAFF_ID
+				$assignment_type_teacher_RET = DBGet( "SELECT ASSIGNMENT_TYPE_ID, STAFF_ID
 				FROM GRADEBOOK_ASSIGNMENT_TYPES
 				WHERE COURSE_ID=(SELECT COURSE_ID
 					FROM COURSE_PERIODS
@@ -171,7 +171,7 @@ if ( isset( $_POST['tables'] )
 					AND SCHOOL_ID='" . UserSchool() . "'
 					LIMIT 1)
 				AND TITLE='" . $_REQUEST['assignment_type'] . "'
-				LIMIT 1" ) );
+				LIMIT 1" );
 
 				if ( ! $assignment_type_teacher_RET )
 				{
@@ -245,13 +245,13 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( isset( $_REQUEST['assignment_type'] )
 		&& $_REQUEST['assignment_type'] !== 'new' )
 	{
-		$assignment_type_RET = DBGet( DBQuery( "SELECT ASSIGNMENT_TYPE_ID
+		$assignment_type_RET = DBGet( "SELECT ASSIGNMENT_TYPE_ID
 			FROM GRADEBOOK_ASSIGNMENT_TYPES
 			WHERE COURSE_ID IN (SELECT COURSE_ID
 				FROM COURSE_PERIODS
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "')
-			AND TITLE='" . $_REQUEST['assignment_type'] . "'" ) );
+			AND TITLE='" . $_REQUEST['assignment_type'] . "'" );
 
 		if ( ! $assignment_type_RET )
 		{
@@ -466,7 +466,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 			// Display the courses list.
 			// Fix SQL error when course has no periods.
-			$courses_RET = DBGet( DBQuery( "SELECT c.COURSE_ID,
+			$courses_RET = DBGet( "SELECT c.COURSE_ID,
 				c.TITLE,cs.TITLE AS SUBJECT
 				FROM COURSES c, COURSE_SUBJECTS cs
 				WHERE c.SCHOOL_ID='" . UserSchool() . "'
@@ -479,7 +479,7 @@ if ( ! $_REQUEST['modfunc'] )
 					WHERE cp.SCHOOL_ID=c.SCHOOL_ID
 					AND cp.SYEAR=c.SYEAR
 					AND cp.COURSE_ID=c.COURSE_ID)
-				ORDER BY cs.TITLE, c.TITLE" ),
+				ORDER BY cs.TITLE, c.TITLE",
 				array( 'COURSE_ID' => 'MakeChooseCheckbox', 'MARKING_PERIOD_ID' => 'GetMP' )
 			);
 
@@ -512,7 +512,7 @@ if ( ! $_REQUEST['modfunc'] )
 			);
 
 			// Display the course periods list.
-			$course_periods_RET = DBGet( DBQuery( "SELECT cp.COURSE_PERIOD_ID, cp.TITLE,
+			$course_periods_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID, cp.TITLE,
 				c.TITLE AS COURSE, cs.TITLE AS SUBJECT, cp.MARKING_PERIOD_ID
 				FROM COURSE_PERIODS cp, COURSES c, COURSE_SUBJECTS cs
 				WHERE cp.SCHOOL_ID='" . UserSchool() . "'
@@ -523,7 +523,7 @@ if ( ! $_REQUEST['modfunc'] )
 				AND cs.SYEAR=c.SYEAR
 				AND cp.COURSE_ID=c.COURSE_ID
 				AND cs.SUBJECT_ID=c.SUBJECT_ID" . $course_periods_limit_sql .
-				" ORDER BY COURSE, cp.SHORT_NAME" ),
+				" ORDER BY COURSE, cp.SHORT_NAME",
 				array( 'COURSE_PERIOD_ID' => 'MakeChooseCheckbox', 'MARKING_PERIOD_ID' => 'GetMP' )
 			);
 

@@ -23,9 +23,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 			if ( $drop_date )
 			{
-				$course_mp = DBGet( DBQuery( "SELECT MARKING_PERIOD_ID
+				$course_mp = DBGet( "SELECT MARKING_PERIOD_ID
 					FROM COURSE_PERIODS
-					WHERE COURSE_PERIOD_ID='" . $_SESSION['MassDrops.php']['course_period_id'] . "'" ) );
+					WHERE COURSE_PERIOD_ID='" . $_SESSION['MassDrops.php']['course_period_id'] . "'" );
 
 				$course_mp = $course_mp[1]['MARKING_PERIOD_ID'];
 				$course_mp_table = GetMP( $course_mp, 'MP' );
@@ -34,9 +34,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				{
 					$mp_table = GetMP( $_REQUEST['marking_period_id'], 'MP' );
 					//$current_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM SCHEDULE WHERE COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."' AND SYEAR='".UserSyear()."' AND (('".$start_date."' BETWEEN START_DATE AND END_DATE OR END_DATE IS NULL) AND '".$start_date."'>=START_DATE)"),array(),array('STUDENT_ID'));
-					$current_RET = DBGet( DBQuery( "SELECT STUDENT_ID
+					$current_RET = DBGet( "SELECT STUDENT_ID
 						FROM SCHEDULE
-						WHERE COURSE_PERIOD_ID='" . $_SESSION['MassDrops.php']['course_period_id'] . "' " ) );
+						WHERE COURSE_PERIOD_ID='" . $_SESSION['MassDrops.php']['course_period_id'] . "' " );
 
 					foreach ( (array) $_REQUEST['student'] as $student_id )
 					{
@@ -49,11 +49,11 @@ if ( $_REQUEST['modfunc'] === 'save' )
 								AND COURSE_PERIOD_ID='" . $_SESSION['MassDrops.php']['course_period_id'] . "'" );
 
 							//$start_end_RET = DBGet(DBQuery("SELECT START_DATE,END_DATE FROM SCHEDULE WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."' AND END_DATE<START_DATE"));
-							$start_end_RET = DBGet( DBQuery( "SELECT START_DATE,END_DATE
+							$start_end_RET = DBGet( "SELECT START_DATE,END_DATE
 								FROM SCHEDULE
 								WHERE STUDENT_ID='" . $student_id . "'
 								AND COURSE_PERIOD_ID='" . $_SESSION['MassDrops.php']['course_period_id'] . "'
-								AND END_DATE<START_DATE" ) );
+								AND END_DATE<START_DATE" );
 
 							//User is asked if he wants absences and grades to be deleted
 
@@ -167,15 +167,15 @@ if ( $_REQUEST['modfunc'] != 'choose_course' )
 
 		if ( $_SESSION['MassDrops.php'] )
 		{
-			$course_title = DBGet( DBQuery( "SELECT TITLE
+			$course_title = DBGet( "SELECT TITLE
 				FROM COURSES
-				WHERE COURSE_ID='" . $_SESSION['MassDrops.php']['course_id'] . "'" ) );
+				WHERE COURSE_ID='" . $_SESSION['MassDrops.php']['course_id'] . "'" );
 
 			$course_title = $course_title[1]['TITLE'];
 
-			$period_title = DBGet( DBQuery( "SELECT TITLE
+			$period_title = DBGet( "SELECT TITLE
 				FROM COURSE_PERIODS
-				WHERE COURSE_PERIOD_ID='" . $_SESSION['MassDrops.php']['course_period_id'] . "'" ) );
+				WHERE COURSE_PERIOD_ID='" . $_SESSION['MassDrops.php']['course_period_id'] . "'" );
 
 			$period_title = $period_title[1]['TITLE'];
 
@@ -192,13 +192,13 @@ if ( $_REQUEST['modfunc'] != 'choose_course' )
 		echo '<tr class="st"><td>' . _( 'Marking Period' ) . '</td><td>';
 		echo '<select name=marking_period_id>';
 
-		$mp_RET = DBGet( DBQuery( "SELECT MARKING_PERIOD_ID,TITLE," .
+		$mp_RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE," .
 			db_case( array( 'MP', "'FY'", "'0'", "'SEM'", "'1'", "'QTR'", "'2'" ) ) . " AS TBL
 			FROM SCHOOL_MARKING_PERIODS
 			WHERE (MP='FY' OR MP='SEM' OR MP='QTR')
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
-			ORDER BY TBL,SORT_ORDER" ) );
+			ORDER BY TBL,SORT_ORDER" );
 
 		foreach ( (array) $mp_RET as $mp )
 		{
@@ -252,15 +252,15 @@ if ( $_REQUEST['modfunc'] === 'choose_course' )
 		$_SESSION['MassDrops.php']['course_id'] = isset( $_REQUEST['course_id'] ) ? $_REQUEST['course_id'] : null;
 		$_SESSION['MassDrops.php']['course_period_id'] = isset( $_REQUEST['course_period_id'] ) ? $_REQUEST['course_period_id'] : null;
 
-		$course_title = DBGet( DBQuery( "SELECT TITLE
+		$course_title = DBGet( "SELECT TITLE
 			FROM COURSES
-			WHERE COURSE_ID='" . $_SESSION['MassDrops.php']['course_id'] . "'" ) );
+			WHERE COURSE_ID='" . $_SESSION['MassDrops.php']['course_id'] . "'" );
 
 		$course_title = $course_title[1]['TITLE'];
 
-		$period_title = DBGet( DBQuery( "SELECT TITLE
+		$period_title = DBGet( "SELECT TITLE
 			FROM COURSE_PERIODS
-			WHERE COURSE_PERIOD_ID='" . $_SESSION['MassDrops.php']['course_period_id'] . "'" ) );
+			WHERE COURSE_PERIOD_ID='" . $_SESSION['MassDrops.php']['course_period_id'] . "'" );
 
 		$period_title = $period_title[1]['TITLE'];
 

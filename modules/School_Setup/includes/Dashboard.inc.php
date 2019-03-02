@@ -48,7 +48,7 @@ if ( ! function_exists( 'DashboardSchoolSetupAdmin' ) )
 	{
 		$start_date = date( 'Y-m-d', time() - 60 * 60 * 24 );
 
-		$access_log_RET = DBGet( DBQuery( "SELECT
+		$access_log_RET = DBGet( "SELECT
 		COUNT(USERNAME) AS LOGIN_RECORDS,
 		SUM(CASE WHEN PROFILE='admin' THEN 1 END) AS LOGIN_ADMIN,
 		SUM(CASE WHEN PROFILE='teacher' THEN 1 END) AS LOGIN_TEACHER,
@@ -57,7 +57,7 @@ if ( ! function_exists( 'DashboardSchoolSetupAdmin' ) )
 		SUM(CASE WHEN STATUS IS NULL OR STATUS='B' THEN 1 END) AS LOGIN_FAIL
 		FROM ACCESS_LOG
 		WHERE LOGIN_TIME >='" . $start_date . "'
-		AND LOGIN_TIME <='" . DBDate() . ' 23:59:59' . "'" ) );
+		AND LOGIN_TIME <='" . DBDate() . ' 23:59:59' . "'" );
 
 		$login_records = (int) $access_log_RET[1]['LOGIN_RECORDS'];
 

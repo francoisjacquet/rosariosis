@@ -160,7 +160,7 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 	else
 	{
-		$course_period_RET = DBGet(DBQuery('SELECT GRADE_SCALE_ID,DOES_BREAKOFF,TEACHER_ID,COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID=\''.UserCoursePeriod().'\''));
+		$course_period_RET = DBGet( 'SELECT GRADE_SCALE_ID,DOES_BREAKOFF,TEACHER_ID,COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID=\''.UserCoursePeriod().'\'' );
 		if ( ! $course_period_RET[1]['GRADE_SCALE_ID'])
 			ErrorMessage(array(_('This course is not graded.')),'fatal');
 		$subjects_RET = DBGet(DBQuery("SELECT TITLE FROM COURSE_SUBJECTS WHERE SUBJECT_ID='".$course_period_RET[1]['SUBJECT_ID']."'"));

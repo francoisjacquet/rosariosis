@@ -11,9 +11,9 @@ DrawHeader( _( 'Teacher Programs' ) . ' - ' . ProgramTitle( $_REQUEST['modname']
 
 if ( UserStaffID() )
 {
-	$profile = DBGet( DBQuery( "SELECT PROFILE
+	$profile = DBGet( "SELECT PROFILE
 		FROM STAFF
-		WHERE STAFF_ID='" . UserStaffID() . "'" ) );
+		WHERE STAFF_ID='" . UserStaffID() . "'" );
 
 	if ( $profile[1]['PROFILE'] !== 'teacher' )
 	{
@@ -41,7 +41,7 @@ if ( UserStaffID() )
 	}
 	else
 	{
-		$RET = DBGet( DBQuery( "SELECT cpsp.PERIOD_ID,cp.COURSE_PERIOD_ID,cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID,
+		$RET = DBGet( "SELECT cpsp.PERIOD_ID,cp.COURSE_PERIOD_ID,cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID,
 		sp.TITLE,sp.SHORT_NAME,cp.MARKING_PERIOD_ID,cpsp.DAYS,c.TITLE AS COURSE_TITLE,cp.SHORT_NAME AS CP_SHORT_NAME
 		FROM COURSE_PERIODS cp,SCHOOL_PERIODS sp,COURSES c,COURSE_PERIOD_SCHOOL_PERIODS cpsp
 		WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
@@ -51,16 +51,15 @@ if ( UserStaffID() )
 		AND cp.SCHOOL_ID='" . UserSchool() . "'
 		AND cp.TEACHER_ID='" . UserStaffID() . "'
 		AND cp.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . ")
-		ORDER BY cp.SHORT_NAME, sp.SORT_ORDER" ) );
+		ORDER BY cp.SHORT_NAME, sp.SORT_ORDER" );
 	}
 
 	// Get the fy marking period id, there should be exactly one fy marking period.
-	$fy_RET = DBGet( DBQuery( "SELECT MARKING_PERIOD_ID
+	$fy_RET = DBGet( "SELECT MARKING_PERIOD_ID
 		FROM SCHOOL_MARKING_PERIODS
 		WHERE MP='FY'
 		AND SYEAR='" . UserSyear() . "'
-		AND SCHOOL_ID='" . UserSchool() . "'"
-	) );
+		AND SCHOOL_ID='" . UserSchool() . "'" );
 
 	if ( ! empty( $_REQUEST['period'] ) )
 	{

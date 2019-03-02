@@ -18,10 +18,10 @@ function HonorRollPDF( $student_array, $is_list, $honor_roll_text )
 
 	$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $student_list . ")";
 
-	$mp_RET = DBGet( DBQuery( "SELECT TITLE,END_DATE
+	$mp_RET = DBGet( "SELECT TITLE,END_DATE
 		FROM SCHOOL_MARKING_PERIODS
 		WHERE MP='QTR'
-		AND MARKING_PERIOD_ID='" . UserMP() . "'" ) );
+		AND MARKING_PERIOD_ID='" . UserMP() . "'" );
 
 	$extra['SELECT'] = ",(SELECT SORT_ORDER FROM SCHOOL_GRADELEVELS WHERE ID=ssm.GRADE_ID) AS SORT_ORDER";
 
@@ -212,16 +212,16 @@ function HonorRollSubjectPDF( $student_array, $is_list, $honor_roll_text )
 
 	$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $student_list . ")";
 
-	$mp_RET = DBGet( DBQuery( "SELECT TITLE,END_DATE
+	$mp_RET = DBGet( "SELECT TITLE,END_DATE
 		FROM SCHOOL_MARKING_PERIODS
 		WHERE MP='QTR'
-		AND MARKING_PERIOD_ID='" . UserMP() . "'" ) );
+		AND MARKING_PERIOD_ID='" . UserMP() . "'" );
 
-	$subject_RET = DBGet( DBQuery( "SELECT TITLE
+	$subject_RET = DBGet( "SELECT TITLE
 		FROM COURSE_SUBJECTS
 		WHERE SUBJECT_ID='" . $_REQUEST['subject_id'] . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
-		AND SYEAR='" . UserSyear() . "'" ) );
+		AND SYEAR='" . UserSyear() . "'" );
 
 	$extra['SELECT'] = ",(SELECT SORT_ORDER FROM SCHOOL_GRADELEVELS WHERE ID=ssm.GRADE_ID) AS SORT_ORDER";
 
@@ -387,11 +387,11 @@ function HonorRollWidgets( $item )
 
 				if ( ! $extra['NoSearchTerms'] )
 				{
-					$subject_RET = DBGet( DBQuery( "SELECT TITLE
+					$subject_RET = DBGet( "SELECT TITLE
 						FROM COURSE_SUBJECTS
 						WHERE SUBJECT_ID='" . $_REQUEST['subject_id'] . "'
 						AND SCHOOL_ID='" . UserSchool() . "'
-						AND SYEAR='" . UserSyear() . "'" ) );
+						AND SYEAR='" . UserSyear() . "'" );
 
 					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Honor Roll by Subject' ) . ':</b> ' .
 						$subject_RET[1]['TITLE'];

@@ -88,7 +88,7 @@ if ( isset( $_POST['values'] )
 		}
 		else
 		{
-			$id = DBGet(DBQuery('SELECT '.db_seq_nextval('ADDRESS_SEQ').' as SEQ_ID'));
+			$id = DBGet( 'SELECT '.db_seq_nextval('ADDRESS_SEQ').' as SEQ_ID' );
 			$id = $id[1]['SEQ_ID'];
 
 			$sql = "INSERT INTO ADDRESS ";
@@ -156,7 +156,7 @@ if ( isset( $_POST['values'] )
 		}
 		else
 		{
-			$id = DBGet(DBQuery('SELECT '.db_seq_nextval('PEOPLE_SEQ').' as SEQ_ID'));
+			$id = DBGet( 'SELECT '.db_seq_nextval('PEOPLE_SEQ').' as SEQ_ID' );
 			$id = $id[1]['SEQ_ID'];
 
 			$sql = "INSERT INTO PEOPLE ";
@@ -316,7 +316,7 @@ echo ErrorMessage( $error );
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	$addresses_RET = DBGet( DBQuery( "SELECT a.ADDRESS_ID, sjp.STUDENT_RELATION,a.ADDRESS,
+	$addresses_RET = DBGet( "SELECT a.ADDRESS_ID, sjp.STUDENT_RELATION,a.ADDRESS,
 		a.CITY,a.STATE,a.ZIPCODE,a.PHONE,a.MAIL_ADDRESS,a.MAIL_CITY,a.MAIL_STATE,a.MAIL_ZIPCODE,
 		sjp.CUSTODY,sja.MAILING,sja.RESIDENCE,sja.BUS_PICKUP,sja.BUS_DROPOFF," .
 		db_case( array( 'a.ADDRESS_ID', "'0'", '1', '0' ) ) . "AS SORT_ORDER
@@ -337,7 +337,7 @@ if ( ! $_REQUEST['modfunc'] )
 		FROM STUDENTS_JOIN_PEOPLE sjp
 		WHERE sjp.STUDENT_ID=sja.STUDENT_ID
 		AND sjp.ADDRESS_ID=a.ADDRESS_ID)
-	ORDER BY SORT_ORDER,RESIDENCE,CUSTODY,STUDENT_RELATION" ), array(), array( 'ADDRESS_ID' ) );
+	ORDER BY SORT_ORDER,RESIDENCE,CUSTODY,STUDENT_RELATION", array(), array( 'ADDRESS_ID' ) );
 
 	//echo '<pre>'; var_dump($addresses_RET); echo '</pre>';
 
@@ -360,12 +360,12 @@ if ( ! $_REQUEST['modfunc'] )
 			{
 
 			// Find other students associated with this address.
-			$xstudents = DBGet( DBQuery( "SELECT s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
+			$xstudents = DBGet( "SELECT s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 				RESIDENCE,BUS_PICKUP,BUS_DROPOFF,MAILING
 				FROM STUDENTS s,STUDENTS_JOIN_ADDRESS sja
 				WHERE s.STUDENT_ID=sja.STUDENT_ID
 				AND sja.ADDRESS_ID='" . $address_id . "'
-				AND sja.STUDENT_ID!='" . UserStudentID() . "'" ) );
+				AND sja.STUDENT_ID!='" . UserStudentID() . "'" );
 
 			if ( $xstudents )
 			{
@@ -546,13 +546,13 @@ if ( ! $_REQUEST['modfunc'] )
 
 			echo ($_REQUEST['address_id']=='0'?_('Contacts without an Address'):_('Contacts at this Address')).'</th></tr>';
 
-			$contacts_RET = DBGet( DBQuery( "SELECT p.PERSON_ID,p.FIRST_NAME,p.MIDDLE_NAME,p.LAST_NAME,
+			$contacts_RET = DBGet( "SELECT p.PERSON_ID,p.FIRST_NAME,p.MIDDLE_NAME,p.LAST_NAME,
 				sjp.CUSTODY,sjp.EMERGENCY,sjp.STUDENT_RELATION
 				FROM PEOPLE p,STUDENTS_JOIN_PEOPLE sjp
 				WHERE p.PERSON_ID=sjp.PERSON_ID
 				AND sjp.STUDENT_ID='" . UserStudentID() . "'
 				AND sjp.ADDRESS_ID='" . $_REQUEST['address_id'] . "'
-				ORDER BY sjp.STUDENT_RELATION" ) );
+				ORDER BY sjp.STUDENT_RELATION" );
 
 			$i = 1;
 			if (count($contacts_RET))
@@ -587,13 +587,13 @@ if ( ! $_REQUEST['modfunc'] )
 					$images = '';
 
 					// Find other students associated with this person.
-					$xstudents = DBGet( DBQuery( "SELECT s.STUDENT_ID,
+					$xstudents = DBGet( "SELECT s.STUDENT_ID,
 						" . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 						STUDENT_RELATION,CUSTODY,EMERGENCY
 						FROM STUDENTS s,STUDENTS_JOIN_PEOPLE sjp
 						WHERE s.STUDENT_ID=sjp.STUDENT_ID
 						AND sjp.PERSON_ID='" . $contact['PERSON_ID'] . "'
-						AND sjp.STUDENT_ID!='" . UserStudentID() . "'" ) );
+						AND sjp.STUDENT_ID!='" . UserStudentID() . "'" );
 
 					if ( $xstudents )
 					{
@@ -853,14 +853,14 @@ if ( ! $_REQUEST['modfunc'] )
 					AND se.SCHOOL_ID='" . UserSchool() . "')";
 			}
 
-			$addresses_RET = DBGet( DBQuery( "SELECT ADDRESS_ID,ADDRESS,CITY,STATE,ZIPCODE
+			$addresses_RET = DBGet( "SELECT ADDRESS_ID,ADDRESS,CITY,STATE,ZIPCODE
 				FROM ADDRESS
 				WHERE ADDRESS_ID!='0'
 				AND ADDRESS_ID NOT IN (SELECT ADDRESS_ID
 					FROM STUDENTS_JOIN_ADDRESS
 					WHERE STUDENT_ID='" . UserStudentID() . "')" .
 				$limit_current_school_sql .
-				" ORDER BY ADDRESS,CITY,STATE,ZIPCODE" ) );
+				" ORDER BY ADDRESS,CITY,STATE,ZIPCODE" );
 
 			$address_select = array();
 
@@ -954,9 +954,9 @@ if ( ! $_REQUEST['modfunc'] )
 					button( 'emergency', '', '', 'bigger' ) . ' ' . _( 'Emergency' ) .
 					'</td></tr>';
 
-					$info_RET = DBGet( DBQuery( "SELECT ID,TITLE,VALUE
+					$info_RET = DBGet( "SELECT ID,TITLE,VALUE
 						FROM PEOPLE_JOIN_CONTACTS
-						WHERE PERSON_ID='" . $_REQUEST['person_id'] . "'" ) );
+						WHERE PERSON_ID='" . $_REQUEST['person_id'] . "'" );
 
 					$info_options = _makeAutoSelect(
 						'TITLE',
@@ -1151,7 +1151,7 @@ if ( ! $_REQUEST['modfunc'] )
 						AND se.SCHOOL_ID='" . UserSchool() . "')";
 				}
 
-				$people_RET = DBGet( DBQuery( "SELECT DISTINCT p.PERSON_ID,
+				$people_RET = DBGet( "SELECT DISTINCT p.PERSON_ID,
 					p.FIRST_NAME,p.LAST_NAME,p.MIDDLE_NAME
 					FROM PEOPLE p,STUDENTS_JOIN_PEOPLE sjp
 					WHERE sjp.PERSON_ID=p.PERSON_ID
@@ -1160,7 +1160,7 @@ if ( ! $_REQUEST['modfunc'] )
 						FROM STUDENTS_JOIN_PEOPLE
 						WHERE STUDENT_ID='" . UserStudentID() . "')" .
 					$limit_current_school_sql .
-					" ORDER BY LAST_NAME,FIRST_NAME" ) );
+					" ORDER BY LAST_NAME,FIRST_NAME" );
 
 				$people_select = array();
 
@@ -1308,11 +1308,11 @@ function _makeAutoSelect( $column, $table, $values = '', $options = array() )
 		}
 
 		// Add values already in table
-		$options_RET = DBGet( DBQuery( "SELECT DISTINCT " . DBEscapeIdentifier( $column ) .
+		$options_RET = DBGet( "SELECT DISTINCT " . DBEscapeIdentifier( $column ) .
 			",upper(" . DBEscapeIdentifier( $column ) . ") AS SORT_KEY
 			FROM " . DBEscapeIdentifier( $table ) .
 			$limit_current_school_sql .
-			" ORDER BY SORT_KEY" ) );
+			" ORDER BY SORT_KEY" );
 
 		foreach ( (array) $options_RET as $option )
 		{

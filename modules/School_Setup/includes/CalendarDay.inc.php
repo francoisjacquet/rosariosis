@@ -213,12 +213,12 @@ function CalendarDayBlockHTMLDefault( $date, $minutes, $day_block )
 	if ( is_null( $block_options ) )
 	{
 		// Get Blocks
-		$blocks_RET = DBGet( DBQuery( "SELECT DISTINCT BLOCK
+		$blocks_RET = DBGet( "SELECT DISTINCT BLOCK
 			FROM SCHOOL_PERIODS
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND BLOCK IS NOT NULL
-			ORDER BY BLOCK" ) );
+			ORDER BY BLOCK" );
 
 		$block_options = array();
 

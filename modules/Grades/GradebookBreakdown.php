@@ -21,10 +21,10 @@ if ( !isset( $_REQUEST['chart_type'] )
 
 //FJ fix errors relation «course_weights» doesnt exist & columns c.grad_subject_id & cp.does_grades & cp.does_gpa do not exist
 //$course_id = DBGet(DBQuery("SELECT c.GRAD_SUBJECT_ID,cp.COURSE_ID,cp.TITLE,c.TITLE AS COURSE_TITLE,c.SHORT_NAME AS COURSE_NUM,cw.CREDITS,cw.GPA_MULTIPLIER,cp.DOES_GRADES,cp.GRADE_SCALE_ID,cp.DOES_GPA as AFFECTS_GPA FROM COURSE_PERIODS cp,COURSES c,COURSE_WEIGHTS cw WHERE cw.COURSE_ID=cp.COURSE_ID AND cw.COURSE_WEIGHT=cp.COURSE_WEIGHT AND c.COURSE_ID=cp.COURSE_ID AND cp.COURSE_PERIOD_ID='".UserCoursePeriod()."'"));
-$course_id = DBGet( DBQuery( "SELECT cp.COURSE_ID,cp.TITLE,c.TITLE AS COURSE_TITLE,c.SHORT_NAME AS COURSE_NUM,cp.GRADE_SCALE_ID
+$course_id = DBGet( "SELECT cp.COURSE_ID,cp.TITLE,c.TITLE AS COURSE_TITLE,c.SHORT_NAME AS COURSE_NUM,cp.GRADE_SCALE_ID
 	FROM COURSE_PERIODS cp,COURSES c
 	WHERE c.COURSE_ID=cp.COURSE_ID
-	AND cp.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" ) );
+	AND cp.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" );
 
 if ( !isset( $course_id[1]['GRADE_SCALE_ID'] ) )
 	ErrorMessage( array( _( 'This course is not graded.' ) ), 'fatal' );
@@ -35,12 +35,12 @@ $course_id = $course_id[1]['COURSE_ID'];
 
 //FJ fix error column scale_id doesnt exist
 //$grades_RET = DBGet(DBQuery("SELECT ID,TITLE FROM REPORT_CARD_GRADES WHERE SCALE_ID='".$grade_scale_id."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
-$grades_RET = DBGet( DBQuery( "SELECT ID,TITLE,GPA_VALUE
+$grades_RET = DBGet( "SELECT ID,TITLE,GPA_VALUE
 	FROM REPORT_CARD_GRADES
 	WHERE GRADE_SCALE_ID='" . $grade_scale_id . "'
 	AND SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'
-	ORDER BY SORT_ORDER DESC" ) );
+	ORDER BY SORT_ORDER DESC" );
 
 $grades = array();
 
@@ -57,13 +57,13 @@ $sql = "SELECT ASSIGNMENT_TYPE_ID,TITLE
 
 $types_RET = DBGet( DBQuery( $sql ) );
 
-$assignments_RET = DBGet( DBQuery( "SELECT ASSIGNMENT_ID,TITLE,POINTS
+$assignments_RET = DBGet( "SELECT ASSIGNMENT_ID,TITLE,POINTS
 	FROM GRADEBOOK_ASSIGNMENTS
 	WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 	AND ((COURSE_ID='" . $course_id . "'
 	AND STAFF_ID='".User('STAFF_ID')."') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 	AND MARKING_PERIOD_ID='" . UserMP() . "'
-	ORDER BY " . Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) . " DESC" ) );
+	ORDER BY " . Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) . " DESC" );
 
 $assignment_select .= '<select name="assignment_id" id="assignment_id" onchange="ajaxPostForm(this.form, true)">';
 
@@ -117,7 +117,7 @@ if ( $_REQUEST['assignment_id'] === 'totals' )
 {
 	$title = _( 'Grade' );
 
-	$current_RET = DBGet( DBQuery( "SELECT g.STUDENT_ID,
+	$current_RET = DBGet( "SELECT g.STUDENT_ID,
 		sum(" . db_case( array( 'g.POINTS', "'-1'", "'0'", 'g.POINTS' ) ) . ") AS POINTS,
 		sum(" . db_case( array( 'g.POINTS', "'-1'", "'0'", 'a.POINTS' ) ) . ") AS TOTAL_POINTS
 		FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a
@@ -125,11 +125,11 @@ if ( $_REQUEST['assignment_id'] === 'totals' )
 		AND a.MARKING_PERIOD_ID='" . UserMP() . "'
 		AND g.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'
 		AND (a.COURSE_PERIOD_ID='" . UserCoursePeriod() . "' OR a.COURSE_ID='" . $course_id . "')
-		GROUP BY g.STUDENT_ID"), array(), array( 'STUDENT_ID' ) );
+		GROUP BY g.STUDENT_ID", array(), array( 'STUDENT_ID' ) );
 
 	if ( Preferences( 'WEIGHT', 'Gradebook' ) === 'Y' )
 	{
-		$percent_RET = DBGet( DBQuery( "SELECT gt.ASSIGNMENT_TYPE_ID,gg.STUDENT_ID," .
+		$percent_RET = DBGet( "SELECT gt.ASSIGNMENT_TYPE_ID,gg.STUDENT_ID," .
 			db_case(array(
 				"sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ) ) . ")",
 				"'0'",
@@ -143,7 +143,7 @@ if ( $_REQUEST['assignment_id'] === 'totals' )
 			AND ga.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . ")
 			AND gg.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'
 			AND gt.COURSE_ID='" . $course_id . "'
-			GROUP BY gg.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID,gt.FINAL_GRADE_PERCENT"),
+			GROUP BY gg.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID,gt.FINAL_GRADE_PERCENT",
 		array(),
 		array( 'STUDENT_ID', 'ASSIGNMENT_TYPE_ID' ) );
 	}
@@ -156,7 +156,7 @@ elseif ( !is_numeric( $_REQUEST['assignment_id'] ) )
 {
 	$type_id = mb_substr( $_REQUEST['assignment_id'], 6 );
 
-	$current_RET = DBGet( DBQuery( "SELECT g.STUDENT_ID,
+	$current_RET = DBGet( "SELECT g.STUDENT_ID,
 		sum(" . db_case( array( 'g.POINTS', "'-1'", "'0'", 'g.POINTS' ) ) . ") AS POINTS,
 		sum(" . db_case( array( 'g.POINTS', "'-1'", "'0'", 'a.POINTS' ) ) . ") AS TOTAL_POINTS
 		FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a
@@ -165,11 +165,11 @@ elseif ( !is_numeric( $_REQUEST['assignment_id'] ) )
 		AND g.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'
 		AND (a.COURSE_PERIOD_ID='" . UserCoursePeriod() . "' OR a.COURSE_ID='" . $course_id . "')
 		AND a.ASSIGNMENT_TYPE_ID='" . $type_id . "'
-		GROUP BY g.STUDENT_ID" ), array(), array( 'STUDENT_ID' ) );
+		GROUP BY g.STUDENT_ID", array(), array( 'STUDENT_ID' ) );
 
 	if ( Preferences( 'WEIGHT', 'Gradebook' ) === 'Y' )
 	{
-		$percent_RET = DBGet( DBQuery( "SELECT gt.ASSIGNMENT_TYPE_ID,gg.STUDENT_ID," .
+		$percent_RET = DBGet( "SELECT gt.ASSIGNMENT_TYPE_ID,gg.STUDENT_ID," .
 			db_case( array(
 				"sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ) ) . ")",
 				"'0'",
@@ -184,7 +184,7 @@ elseif ( !is_numeric( $_REQUEST['assignment_id'] ) )
 			AND ga.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . ")
 			AND gg.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'
 			AND gt.COURSE_ID='" . $course_id . "'
-			GROUP BY gg.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID,gt.FINAL_GRADE_PERCENT"),
+			GROUP BY gg.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID,gt.FINAL_GRADE_PERCENT",
 		array(),
 		array( 'STUDENT_ID', 'ASSIGNMENT_TYPE_ID' ) );
 	}
@@ -195,16 +195,16 @@ elseif ( !is_numeric( $_REQUEST['assignment_id'] ) )
 // Assignment
 elseif ( ! empty( $_REQUEST['assignment_id'] ) )
 {
-	$total_points = DBGet( DBQuery( "SELECT POINTS
+	$total_points = DBGet( "SELECT POINTS
 		FROM GRADEBOOK_ASSIGNMENTS
-		WHERE ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'" ) );
+		WHERE ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'" );
 
 	$total_points = $total_points[1]['POINTS'];
 
-	$current_RET = DBGet( DBQuery( "SELECT STUDENT_ID,POINTS,COMMENT,ASSIGNMENT_ID
+	$current_RET = DBGet( "SELECT STUDENT_ID,POINTS,COMMENT,ASSIGNMENT_ID
 		FROM GRADEBOOK_GRADES
 		WHERE ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'
-		AND COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" ),
+		AND COURSE_PERIOD_ID='" . UserCoursePeriod() . "'",
 	array(),
 	array( 'STUDENT_ID', 'ASSIGNMENT_ID' ) );
 }

@@ -82,9 +82,9 @@ if ( $_REQUEST['modfunc'] === 'waive'
 {
 	if ( DeletePrompt( _( 'Fee' ), _( 'Waive' ) ) )
 	{
-		$fee_RET = DBGet( DBQuery( "SELECT TITLE,AMOUNT
+		$fee_RET = DBGet( "SELECT TITLE,AMOUNT
 			FROM BILLING_FEES
-			WHERE ID='" . $_REQUEST['id'] . "'" ) );
+			WHERE ID='" . $_REQUEST['id'] . "'" );
 
 		DBQuery( "INSERT INTO BILLING_FEES (ID,SYEAR,SCHOOL_ID,TITLE,AMOUNT,WAIVED_FEE_ID,
 			STUDENT_ID,ASSIGNED_DATE,COMMENTS)
@@ -117,20 +117,20 @@ if ( UserStudentID()
 		'AMOUNT' => '_makeFeesAmount',
 	);
 
-	$waived_fees_RET = DBGet( DBQuery( "SELECT '' AS REMOVE,f.ID,f.TITLE,f.ASSIGNED_DATE,
+	$waived_fees_RET = DBGet( "SELECT '' AS REMOVE,f.ID,f.TITLE,f.ASSIGNED_DATE,
 		f.DUE_DATE,f.COMMENTS,f.AMOUNT,f.WAIVED_FEE_ID
 		FROM BILLING_FEES f
 		WHERE f.STUDENT_ID='" . UserStudentID() . "'
 		AND f.SYEAR='" . UserSyear() . "'
-		AND f.WAIVED_FEE_ID IS NOT NULL" ), $functions, array( 'WAIVED_FEE_ID' ) );
+		AND f.WAIVED_FEE_ID IS NOT NULL", $functions, array( 'WAIVED_FEE_ID' ) );
 
-	$fees_RET = DBGet( DBQuery( "SELECT '' AS REMOVE,f.ID,f.TITLE,f.ASSIGNED_DATE,
+	$fees_RET = DBGet( "SELECT '' AS REMOVE,f.ID,f.TITLE,f.ASSIGNED_DATE,
 		f.DUE_DATE,f.COMMENTS,f.AMOUNT,f.WAIVED_FEE_ID
 		FROM BILLING_FEES f
 		WHERE f.STUDENT_ID='" . UserStudentID() . "'
 		AND f.SYEAR='" . UserSyear() . "'
 		AND (f.WAIVED_FEE_ID IS NULL OR f.WAIVED_FEE_ID='')
-		ORDER BY f.ASSIGNED_DATE" ), $functions );
+		ORDER BY f.ASSIGNED_DATE", $functions );
 
 	$i = 1;
 	$RET = array();

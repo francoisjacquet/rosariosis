@@ -26,7 +26,7 @@ if ( ! isset( $menu ) )
 
 if ( UserStaffID() )
 {
-	$profile = DBGet( DBQuery( "SELECT PROFILE_ID,PROFILE FROM STAFF WHERE STAFF_ID='" . UserStaffID() . "'" ) );
+	$profile = DBGet( "SELECT PROFILE_ID,PROFILE FROM STAFF WHERE STAFF_ID='" . UserStaffID() . "'" );
 
 	if ( $profile[1]['PROFILE_ID'] || $profile[1]['PROFILE'] == 'none' )
 	{
@@ -38,16 +38,23 @@ StaffWidgets( 'permissions_N' );
 Search( 'staff_id', $extra );
 
 $user_id = UserStaffID();
-$profile = DBGet( DBQuery( "SELECT PROFILE FROM STAFF WHERE STAFF_ID='" . $user_id . "'" ) );
+
+$profile = DBGet( "SELECT PROFILE
+	FROM STAFF
+	WHERE STAFF_ID='" . $user_id . "'" );
+
 $xprofile = $profile[1]['PROFILE'];
-$exceptions_RET = DBGet( DBQuery( "SELECT MODNAME,CAN_USE,CAN_EDIT FROM STAFF_EXCEPTIONS WHERE USER_ID='" . $user_id . "'" ), array(), array( 'MODNAME' ) );
+
+$exceptions_RET = DBGet( "SELECT MODNAME,CAN_USE,CAN_EDIT
+	FROM STAFF_EXCEPTIONS
+	WHERE USER_ID='" . $user_id . "'", array(), array( 'MODNAME' ) );
 
 if ( $_REQUEST['modfunc'] === 'update'
 	&& AllowEdit()
 	&& UserStaffID() )
 {
 	$tmp_menu = $menu;
-	$categories_RET = DBGet( DBQuery( "SELECT ID,TITLE FROM STUDENT_FIELD_CATEGORIES" ) );
+	$categories_RET = DBGet( "SELECT ID,TITLE FROM STUDENT_FIELD_CATEGORIES" );
 
 	foreach ( (array) $categories_RET as $category )
 	{
@@ -55,7 +62,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 		$tmp_menu['Students'][$xprofile][$file] = ' &nbsp; &nbsp; &rsaquo; ' . $category['TITLE'];
 	}
 
-	$categories_RET = DBGet( DBQuery( "SELECT ID,TITLE FROM STAFF_FIELD_CATEGORIES" ) );
+	$categories_RET = DBGet( "SELECT ID,TITLE FROM STAFF_FIELD_CATEGORIES" );
 
 	foreach ( (array) $categories_RET as $category )
 	{
@@ -138,7 +145,9 @@ if ( $_REQUEST['modfunc'] === 'update'
 		}
 	}
 
-	$exceptions_RET = DBGet( DBQuery( "SELECT MODNAME,CAN_USE,CAN_EDIT FROM STAFF_EXCEPTIONS WHERE USER_ID='" . $user_id . "'" ), array(), array( 'MODNAME' ) );
+	$exceptions_RET = DBGet( "SELECT MODNAME,CAN_USE,CAN_EDIT
+		FROM STAFF_EXCEPTIONS
+		WHERE USER_ID='" . $user_id . "'", array(), array( 'MODNAME' ) );
 
 	unset( $tmp_menu );
 
@@ -149,9 +158,9 @@ if ( $_REQUEST['modfunc'] === 'update'
 if ( UserStaffID()
 	&& ! $_REQUEST['modfunc'] )
 {
-	$staff_RET = DBGet( DBQuery( "SELECT " . DisplayNameSQL() . " AS FULL_NAME,PROFILE,PROFILE_ID
+	$staff_RET = DBGet( "SELECT " . DisplayNameSQL() . " AS FULL_NAME,PROFILE,PROFILE_ID
 		FROM STAFF
-		WHERE STAFF_ID='" . UserStaffID() . "'" ) );
+		WHERE STAFF_ID='" . UserStaffID() . "'" );
 
 	if ( ! $staff_RET[1]['PROFILE_ID'] )
 	{
@@ -249,7 +258,9 @@ if ( UserStaffID()
 					if ( $modcat === 'Students'
 						&& $file === 'Students/Student.php' )
 					{
-						$categories_RET = DBGet( DBQuery( "SELECT ID,TITLE FROM STUDENT_FIELD_CATEGORIES ORDER BY SORT_ORDER,TITLE" ) );
+						$categories_RET = DBGet( "SELECT ID,TITLE
+							FROM STUDENT_FIELD_CATEGORIES
+							ORDER BY SORT_ORDER,TITLE" );
 
 						foreach ( (array) $categories_RET as $category )
 						{
@@ -288,10 +299,10 @@ if ( UserStaffID()
 							$categories_profiles_where .= " OR PARENT='Y'";
 						}
 
-						$categories_RET = DBGet( DBQuery( "SELECT ID,TITLE
+						$categories_RET = DBGet( "SELECT ID,TITLE
 						FROM STAFF_FIELD_CATEGORIES
 						WHERE " . $categories_profiles_where .
-							" ORDER BY SORT_ORDER,TITLE" ) );
+							" ORDER BY SORT_ORDER,TITLE" );
 
 						foreach ( (array) $categories_RET as $category )
 						{
@@ -378,9 +389,9 @@ if ( UserStaffID()
 	}
 	else
 	{
-		$profile_title = DBGet( DBQuery( "SELECT TITLE
+		$profile_title = DBGet( "SELECT TITLE
 		FROM USER_PROFILES
-		WHERE ID='" . $staff_RET[1]['PROFILE_ID'] . "'" ) );
+		WHERE ID='" . $staff_RET[1]['PROFILE_ID'] . "'" );
 
 		echo '<br />';
 

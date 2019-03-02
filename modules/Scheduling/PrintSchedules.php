@@ -110,7 +110,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			);
 		}
 
-		$schedule_table_RET = DBGet( DBQuery( "SELECT cp.ROOM,cs.TITLE,sp.TITLE AS SCHOOL_PERIOD,
+		$schedule_table_RET = DBGet( "SELECT cp.ROOM,cs.TITLE,sp.TITLE AS SCHOOL_PERIOD,
 		cpsp.DAYS,stu.STUDENT_ID," . DisplayNameSQL( 'sta' ) . " AS FULL_NAME
 	FROM COURSE_PERIODS cp,COURSES c,SCHOOLS s,SCHOOL_PERIODS sp,
 		COURSE_PERIOD_SCHOOL_PERIODS cpsp,STUDENTS stu,SCHEDULE sr,STAFF sta,COURSE_SUBJECTS cs
@@ -129,8 +129,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	AND cp.TEACHER_ID=sta.STAFF_ID
 	AND sr.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
 	AND ('" . $date . "' BETWEEN sr.START_DATE AND sr.END_DATE " . $date_extra . ")
-	AND sp.LENGTH <= " . ( Config( 'ATTENDANCE_FULL_DAY_MINUTES' ) / 2 ) . "
-	ORDER BY sp.SORT_ORDER" ), array( 'DAYS' => '_GetDays' ), array( 'STUDENT_ID', 'SCHOOL_PERIOD' ) );
+	AND sp.LENGTH <= " . ( Config( 'ATTENDANCE_FULL_DAY_MINUTES' ) / 2 ) ."
+	ORDER BY sp.SORT_ORDER", array( 'DAYS' => '_GetDays' ), array( 'STUDENT_ID', 'SCHOOL_PERIOD' ) );
 		// FJ note the "sp.LENGTH <= (Config('ATTENDANCE_FULL_DAY_MINUTES') / 2)" condition
 		// to remove Full Day and Half Day school periods from the schedule table!
 
@@ -301,7 +301,12 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( $_REQUEST['search_modfunc'] == 'list' )
 	{
-		$mp_RET = DBGet( DBQuery( "SELECT MARKING_PERIOD_ID,TITLE," . db_case( array( 'MP', "'FY'", "'0'", "'SEM'", "'1'", "'QTR'", "'2'" ) ) . " AS TBL FROM SCHOOL_MARKING_PERIODS WHERE (MP='FY' OR MP='SEM' OR MP='QTR') AND SCHOOL_ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "' ORDER BY TBL,SORT_ORDER" ) );
+		$mp_RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE," . db_case( array( 'MP', "'FY'", "'0'", "'SEM'", "'1'", "'QTR'", "'2'" ) ) . " AS TBL
+			FROM SCHOOL_MARKING_PERIODS
+			WHERE (MP='FY' OR MP='SEM' OR MP='QTR')
+			AND SCHOOL_ID='" . UserSchool() . "'
+			AND SYEAR='" . UserSyear() . "'
+			ORDER BY TBL,SORT_ORDER" );
 		$mp_select = '<select name="mp_id"><option value="">' . _( 'N/A' );
 
 		foreach ( (array) $mp_RET as $mp )

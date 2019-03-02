@@ -7,12 +7,12 @@ function _makeFeesRemove( $value, $column )
 
 	if ( ! $waived_fees_RET )
 	{
-		$waived_fees_RET = DBGet( DBQuery( "SELECT f.WAIVED_FEE_ID
+		$waived_fees_RET = DBGet( "SELECT f.WAIVED_FEE_ID
 			FROM BILLING_FEES f
 			WHERE f.STUDENT_ID='" . UserStudentID() . "'
 			AND f.WAIVED_FEE_ID IS NOT NULL
 			AND f.SYEAR='" . UserSyear() . "'
-			AND f.SCHOOL_ID='" . UserSchool() . "'" ), array(), array( 'WAIVED_FEE_ID' ) );
+			AND f.SCHOOL_ID='" . UserSchool() . "'", array(), array( 'WAIVED_FEE_ID' ) );
 	}
 
 	if ( ! $THIS_RET['WAIVED_FEE_ID'] && ! $waived_fees_RET[ $THIS_RET['ID'] ] )
@@ -44,12 +44,12 @@ function _makePaymentsRemove( $value, $column )
 
 	if ( ! $refunded_payments_RET )
 	{
-		$refunded_payments_RET = DBGet( DBQuery( "SELECT p.REFUNDED_PAYMENT_ID
+		$refunded_payments_RET = DBGet( "SELECT p.REFUNDED_PAYMENT_ID
 			FROM BILLING_PAYMENTS p
 			WHERE p.STUDENT_ID='" . UserStudentID() . "'
 			AND (p.REFUNDED_PAYMENT_ID IS NOT NULL AND p.REFUNDED_PAYMENT_ID!='')
 			AND p.SYEAR='" . UserSyear() . "'
-			AND p.SCHOOL_ID='" . UserSchool() . "'" ), array(), array( 'REFUNDED_PAYMENT_ID' ) );
+			AND p.SCHOOL_ID='" . UserSchool() . "'", array(), array( 'REFUNDED_PAYMENT_ID' ) );
 	}
 
 	if ( ! $THIS_RET['REFUNDED_PAYMENT_ID']

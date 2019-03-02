@@ -43,7 +43,7 @@ if ( ! function_exists( 'DashboardStudentsAdmin' ) )
 	{
 		$students_nb = 0;
 
-		$students_RET = DBGet( DBQuery( "SELECT
+		$students_RET = DBGet( "SELECT
 		sgl.SHORT_NAME AS GRADELEVEL,
 		SUM(CASE WHEN se.GRADE_ID=sgl.ID THEN 1 END) AS STUDENTS_NB
 		FROM STUDENT_ENROLLMENT se, SCHOOL_GRADELEVELS sgl
@@ -54,7 +54,7 @@ if ( ! function_exists( 'DashboardStudentsAdmin' ) )
 		AND sgl.SCHOOL_ID='" . UserSchool() . "'
 		AND se.GRADE_ID=sgl.ID
 		GROUP BY sgl.SHORT_NAME,sgl.SORT_ORDER
-		ORDER BY sgl.SORT_ORDER" ) );
+		ORDER BY sgl.SORT_ORDER" );
 
 		$students_gradelevel_data = array();
 
@@ -77,14 +77,14 @@ if ( ! function_exists( 'DashboardStudentsAdmin' ) )
 
 		$data += $students_gradelevel_data;
 
-		$inactive_students_RET = DBGet( DBQuery( "SELECT
+		$inactive_students_RET = DBGet( "SELECT
 		SUM(CASE WHEN CURRENT_DATE<START_DATE OR CURRENT_DATE>END_DATE THEN 1 END) AS STUDENTS_NB
 		FROM STUDENT_ENROLLMENT
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		GROUP BY START_DATE
 		ORDER BY START_DATE DESC
-		LIMIT 1" ) );
+		LIMIT 1" );
 
 		$data[_( 'Inactive' )] = $inactive_students_RET[1]['STUDENTS_NB'];
 

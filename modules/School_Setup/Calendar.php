@@ -23,16 +23,16 @@ if ( ! isset( $_REQUEST['year'] )
 if ( $_REQUEST['modfunc'] === 'create'
 	&& AllowEdit() )
 {
-	$fy_RET = DBGet( DBQuery( "SELECT START_DATE,END_DATE
+	$fy_RET = DBGet( "SELECT START_DATE,END_DATE
 		FROM SCHOOL_MARKING_PERIODS
 		WHERE MP='FY'
 		AND SCHOOL_ID='" . UserSchool() . "'
-		AND SYEAR='" . UserSyear() . "'" ) );
+		AND SYEAR='" . UserSyear() . "'" );
 
 	$fy = $fy_RET[1];
 
 	// Get Calendars Info.
-	$title_RET = DBGet( DBQuery( "SELECT ac.CALENDAR_ID,ac.TITLE,ac.DEFAULT_CALENDAR,ac.SCHOOL_ID,
+	$title_RET = DBGet( "SELECT ac.CALENDAR_ID,ac.TITLE,ac.DEFAULT_CALENDAR,ac.SCHOOL_ID,
 		(SELECT coalesce(SHORT_NAME,TITLE)
 			FROM SCHOOLS
 			WHERE SYEAR=ac.SYEAR
@@ -47,7 +47,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 		WHERE ac.SYEAR='" . UserSyear() . "'
 		AND s.STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND (s.SCHOOLS IS NULL OR position(','||ac.SCHOOL_ID||',' IN s.SCHOOLS)>0)
-		ORDER BY " . db_case( array( 'ac.SCHOOL_ID', "'" . UserSchool() . "'", 0, 'ac.SCHOOL_ID' ) ) . ",ac.DEFAULT_CALENDAR ASC,ac.TITLE" ) );
+		ORDER BY " . db_case( array( 'ac.SCHOOL_ID', "'" . UserSchool() . "'", 0, 'ac.SCHOOL_ID' ) ) . ",ac.DEFAULT_CALENDAR ASC,ac.TITLE" );
 
 	// Prepare table for Copy Calendar & add ' (Default)' mention.
 	$copy_calendar_options = array();
@@ -218,7 +218,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 		}
 		else
 		{
-			$calendar_id = DBGet( DBQuery( "SELECT " . db_seq_nextval( 'CALENDARS_SEQ' ) . " AS CALENDAR_ID " ) );
+			$calendar_id = DBGet( "SELECT " . db_seq_nextval( 'CALENDARS_SEQ' ) . " AS CALENDAR_ID " );
 
 			$calendar_id = $calendar_id[1]['CALENDAR_ID'];
 		}
@@ -400,11 +400,11 @@ if ( $_REQUEST['modfunc'] === 'delete_calendar'
 		DBQuery( "DELETE FROM ATTENDANCE_CALENDARS
 			WHERE CALENDAR_ID='" . $_REQUEST['calendar_id'] . "'" );
 
-		$default_RET = DBGet( DBQuery( "SELECT CALENDAR_ID
+		$default_RET = DBGet( "SELECT CALENDAR_ID
 			FROM ATTENDANCE_CALENDARS
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
-			AND DEFAULT_CALENDAR='Y'" ) );
+			AND DEFAULT_CALENDAR='Y'" );
 
 		// Unset modfunc & calendar ID & redirect URL.
 		RedirectURL( array( 'modfunc', 'calendar_id' ) );
@@ -414,9 +414,9 @@ if ( $_REQUEST['modfunc'] === 'delete_calendar'
 // Set non admin Current Calendar
 if ( User( 'PROFILE' ) !== 'admin' )
 {
-	$course_RET = DBGet( DBQuery( "SELECT CALENDAR_ID
+	$course_RET = DBGet( "SELECT CALENDAR_ID
 		FROM COURSE_PERIODS
-		WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" ) );
+		WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" );
 
 	if ( isset( $course_RET[1]['CALENDAR_ID'] ) )
 	{
@@ -428,11 +428,11 @@ if ( User( 'PROFILE' ) !== 'admin' )
 if ( ! isset( $_REQUEST['calendar_id'] )
 	|| intval( $_REQUEST['calendar_id'] ) < 1 )
 {
-	$default_RET = DBGet( DBQuery( "SELECT CALENDAR_ID
+	$default_RET = DBGet( "SELECT CALENDAR_ID
 		FROM ATTENDANCE_CALENDARS
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
-		AND DEFAULT_CALENDAR='Y'" ) );
+		AND DEFAULT_CALENDAR='Y'" );
 
 	if ( $default_RET )
 	{
@@ -440,10 +440,10 @@ if ( ! isset( $_REQUEST['calendar_id'] )
 	}
 	else
 	{
-		$calendars_RET = DBGet( DBQuery( "SELECT CALENDAR_ID
+		$calendars_RET = DBGet( "SELECT CALENDAR_ID
 			FROM ATTENDANCE_CALENDARS
 			WHERE SYEAR='" . UserSyear() . "'
-			AND SCHOOL_ID='" . UserSchool() . "'" ) );
+			AND SCHOOL_ID='" . UserSchool() . "'" );
 
 		if ( $calendars_RET )
 		{
@@ -521,7 +521,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 
 					$fields = 'ID,SYEAR,SCHOOL_ID,';
 
-					$calendar_event_RET = DBGet( DBQuery( "SELECT " . db_seq_nextval( 'CALENDAR_EVENTS_SEQ' ) . ' AS CALENDAR_EVENT_ID ' ) );
+					$calendar_event_RET = DBGet( "SELECT " . db_seq_nextval( 'CALENDAR_EVENTS_SEQ' ) . ' AS CALENDAR_EVENT_ID ' );
 
 					$calendar_event_id = $calendar_event_RET[1]['CALENDAR_EVENT_ID'];
 
@@ -602,9 +602,9 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 		{
 			if ( $_REQUEST['event_id'] !== 'new' )
 			{
-				$RET = DBGet( DBQuery( "SELECT TITLE,DESCRIPTION,SCHOOL_DATE
+				$RET = DBGet( "SELECT TITLE,DESCRIPTION,SCHOOL_DATE
 					FROM CALENDAR_EVENTS
-					WHERE ID='" . $_REQUEST['event_id'] . "'" ) );
+					WHERE ID='" . $_REQUEST['event_id'] . "'" );
 
 				$title = $RET[1]['TITLE'];
 			}
@@ -622,14 +622,14 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 		elseif ( ! empty( $_REQUEST['assignment_id'] ) )
 		{
 			//FJ add assigned date
-			$RET = DBGet( DBQuery( "SELECT a.TITLE,a.STAFF_ID,a.DUE_DATE AS SCHOOL_DATE,
+			$RET = DBGet( "SELECT a.TITLE,a.STAFF_ID,a.DUE_DATE AS SCHOOL_DATE,
 				a.DESCRIPTION,a.ASSIGNED_DATE,c.TITLE AS COURSE,a.SUBMISSION
 				FROM GRADEBOOK_ASSIGNMENTS a,COURSES c
 				WHERE (a.COURSE_ID=c.COURSE_ID
 					OR c.COURSE_ID=(SELECT cp.COURSE_ID
 						FROM COURSE_PERIODS cp
 						WHERE cp.COURSE_PERIOD_ID=a.COURSE_PERIOD_ID))
-				AND a.ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'") );
+				AND a.ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'" );
 
 			$title = $RET[1]['TITLE'];
 
@@ -739,10 +739,10 @@ if ( $_REQUEST['modfunc'] === 'list_events' )
 	}
 	else
 	{
-		$min_date = DBGet( DBQuery( "SELECT min(SCHOOL_DATE) AS MIN_DATE
+		$min_date = DBGet( "SELECT min(SCHOOL_DATE) AS MIN_DATE
 			FROM ATTENDANCE_CALENDAR
 			WHERE SYEAR='" . UserSyear() . "'
-			AND SCHOOL_ID='" . UserSchool() . "'" ) );
+			AND SCHOOL_ID='" . UserSchool() . "'" );
 
 		if ( isset( $min_date[1]['MIN_DATE'] ) )
 		{
@@ -764,10 +764,10 @@ if ( $_REQUEST['modfunc'] === 'list_events' )
 	}
 	else
 	{
-		$max_date = DBGet( DBQuery( "SELECT max(SCHOOL_DATE) AS MAX_DATE
+		$max_date = DBGet( "SELECT max(SCHOOL_DATE) AS MAX_DATE
 			FROM ATTENDANCE_CALENDAR
 			WHERE SYEAR='" . UserSyear() . "'
-			AND SCHOOL_ID='" . UserSchool() . "'" ) );
+			AND SCHOOL_ID='" . UserSchool() . "'" );
 
 		if ( isset( $max_date[1]['MAX_DATE'] ) )
 		{
@@ -791,11 +791,11 @@ if ( $_REQUEST['modfunc'] === 'list_events' )
 
 	$functions = array( 'SCHOOL_DATE' => 'ProperDate', 'DESCRIPTION' => 'makeTextarea' );
 
-	$events_RET = DBGet( DBQuery( "SELECT ID,SCHOOL_DATE,TITLE,DESCRIPTION
+	$events_RET = DBGet( "SELECT ID,SCHOOL_DATE,TITLE,DESCRIPTION
 		FROM CALENDAR_EVENTS
 		WHERE SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
 		AND SYEAR='" . UserSyear() . "'
-		AND SCHOOL_ID='" . UserSchool() . "'"), $functions );
+		AND SCHOOL_ID='" . UserSchool() . "'", $functions );
 
 	$column_names = array(
 		'SCHOOL_DATE' => _( 'Date' ),
@@ -963,10 +963,10 @@ if ( ! $_REQUEST['modfunc'] )
 	// Admin Headers
 	if ( AllowEdit() )
 	{
-		$title_RET = DBGet( DBQuery( "SELECT CALENDAR_ID,TITLE,DEFAULT_CALENDAR
+		$title_RET = DBGet( "SELECT CALENDAR_ID,TITLE,DEFAULT_CALENDAR
 			FROM ATTENDANCE_CALENDARS WHERE SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
-			ORDER BY DEFAULT_CALENDAR ASC,TITLE" ) );
+			ORDER BY DEFAULT_CALENDAR ASC,TITLE" );
 
 		$defaults = 0;
 
@@ -1042,12 +1042,12 @@ if ( ! $_REQUEST['modfunc'] )
 	echo '<br />';
 
 	// Get Events
-	$events_RET = DBGet( DBQuery( "SELECT ID,SCHOOL_DATE,TITLE,DESCRIPTION
+	$events_RET = DBGet( "SELECT ID,SCHOOL_DATE,TITLE,DESCRIPTION
 		FROM CALENDAR_EVENTS
 		WHERE SCHOOL_DATE BETWEEN '" . $first_day_month . "'
 		AND '" . $last_day_month . "'
 		AND SYEAR='" . UserSyear() . "'
-		AND SCHOOL_ID='" . UserSchool() . "'" ), array(), array( 'SCHOOL_DATE' ) );
+		AND SCHOOL_ID='" . UserSchool() . "'", array(), array( 'SCHOOL_DATE' ) );
 
 	// Get Assignments
 	$assignments_RET = null;

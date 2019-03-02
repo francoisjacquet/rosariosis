@@ -119,10 +119,10 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( $_REQUEST['id']
 		&& $_REQUEST['id'] !== 'new' )
 	{
-		$RET = DBGet( DBQuery( "SELECT ID,(SELECT NULL) AS CATEGORY_ID,TITLE,TYPE,
+		$RET = DBGet( "SELECT ID,(SELECT NULL) AS CATEGORY_ID,TITLE,TYPE,
 			SELECT_OPTIONS,DEFAULT_SELECTION,SORT_ORDER,REQUIRED
 			FROM SCHOOL_FIELDS
-			WHERE ID='" . $_REQUEST['id'] . "'" ) );
+			WHERE ID='" . $_REQUEST['id'] . "'" );
 
 		$RET = $RET[1];
 
@@ -144,9 +144,9 @@ if ( ! $_REQUEST['modfunc'] )
 
 	// DISPLAY THE MENU.
 	// FIELDS.
-	$fields_RET = DBGet( DBQuery( "SELECT ID,TITLE,TYPE,SORT_ORDER
+	$fields_RET = DBGet( "SELECT ID,TITLE,TYPE,SORT_ORDER
 		FROM SCHOOL_FIELDS
-		ORDER BY SORT_ORDER,TITLE" ), array( 'TYPE' => 'MakeFieldType' ) );
+		ORDER BY SORT_ORDER,TITLE", array( 'TYPE' => 'MakeFieldType' ) );
 
 	echo '<div class="st">';
 

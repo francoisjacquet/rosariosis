@@ -96,12 +96,12 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 		$return .= '<TD></TD></TR></TABLE></TD></TR>';
 
 		// FJ get the title instead of the short marking period name.
-		$mps_RET = DBGet( DBQuery( "SELECT PARENT_ID,MARKING_PERIOD_ID,SHORT_NAME,TITLE
+		$mps_RET = DBGet( "SELECT PARENT_ID,MARKING_PERIOD_ID,SHORT_NAME,TITLE
 			FROM SCHOOL_MARKING_PERIODS
 			WHERE MP='QTR'
 			AND SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
-			ORDER BY SORT_ORDER" ), array(), array( 'PARENT_ID' ) );
+			ORDER BY SORT_ORDER", array(), array( 'PARENT_ID' ) );
 
 		// Marking Periods.
 		$return .= '<TR class="st"><TD>' . _( 'Marking Periods' ) . ':</TD><TD>
@@ -221,9 +221,9 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 		if ( $_REQUEST['elements']['comments'] === 'Y' )
 		{
 			// Gender field.
-			$gender_field_RET = DBGet( DBQuery( "SELECT ID,TYPE
+			$gender_field_RET = DBGet( "SELECT ID,TYPE
 			FROM CUSTOM_FIELDS
-			WHERE ID=200000000" ), array(), array( 'ID' ) );
+			WHERE ID=200000000", array(), array( 'ID' ) );
 
 			if ( $gender_field_RET
 				&& $gender_field_RET['200000000'][1]['TYPE'] === 'select' )
@@ -279,17 +279,17 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 			//echo '<pre>'; print_r($comments_RET); echo '</pre>'; exit;
 
-			$all_commentsA_RET = DBGet( DBQuery( "SELECT ID,TITLE,SORT_ORDER
+			$all_commentsA_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER
 			FROM REPORT_CARD_COMMENTS
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
 			AND COURSE_ID IS NOT NULL
 			AND COURSE_ID='0'
-			ORDER BY SORT_ORDER,ID" ), array(), array( 'ID' ) );
+			ORDER BY SORT_ORDER,ID", array(), array( 'ID' ) );
 
 			// FJ get color for Course specific categories & get comment scale.
 			//$commentsA_RET = DBGet(DBQuery("SELECT ID,TITLE,SORT_ORDER FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND COURSE_ID IS NOT NULL AND COURSE_ID!='0'"),array(),array('ID'));
-			$commentsA_RET = DBGet( DBQuery( "SELECT c.ID,c.TITLE,c.SORT_ORDER,cc.COLOR,
+			$commentsA_RET = DBGet( "SELECT c.ID,c.TITLE,c.SORT_ORDER,cc.COLOR,
 				cs.TITLE AS SCALE_TITLE
 			FROM REPORT_CARD_COMMENTS c, REPORT_CARD_COMMENT_CATEGORIES cc,
 				REPORT_CARD_COMMENT_CODE_SCALES cs
@@ -302,13 +302,13 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 			AND cc.COURSE_ID=c.COURSE_ID
 			AND cc.ID=c.CATEGORY_ID
 			AND cs.SCHOOL_ID=c.SCHOOL_ID
-			AND cs.ID=c.SCALE_ID" ), array(), array( 'ID' ) );
+			AND cs.ID=c.SCALE_ID", array(), array( 'ID' ) );
 
-			$commentsB_RET = DBGet( DBQuery( "SELECT ID,TITLE,SORT_ORDER
+			$commentsB_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER
 			FROM REPORT_CARD_COMMENTS
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
-			AND COURSE_ID IS NULL" ), array(), array( 'ID' ) );
+			AND COURSE_ID IS NULL", array(), array( 'ID' ) );
 		}
 
 		// Mailing Labels.
@@ -338,7 +338,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 		//FJ limit code scales to the ones in current SYEAR in REPORT_CARD_COMMENTS
 		//$comment_codes_RET = DBGet(DBQuery("SELECT cc.TITLE,cc.COMMENT,cs.TITLE AS SCALE_TITLE,cs.COMMENT AS SCALE_COMMENT FROM REPORT_CARD_COMMENT_CODES cc, REPORT_CARD_COMMENT_CODE_SCALES cs WHERE cc.SCHOOL_ID='".UserSchool()."' AND cs.ID=cc.SCALE_ID ORDER BY cs.SORT_ORDER,cs.ID,cc.SORT_ORDER,cc.ID"));
-		$comment_codes_RET = DBGet( DBQuery( "SELECT cs.ID AS SCALE_ID,cc.TITLE,cc.COMMENT,
+		$comment_codes_RET = DBGet( "SELECT cs.ID AS SCALE_ID,cc.TITLE,cc.COMMENT,
 			cs.TITLE AS SCALE_TITLE,cs.COMMENT AS SCALE_COMMENT
 		FROM REPORT_CARD_COMMENT_CODES cc, REPORT_CARD_COMMENT_CODE_SCALES cs
 		WHERE cc.SCHOOL_ID='" . UserSchool() . "'
@@ -348,7 +348,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 			WHERE c.SYEAR='" . UserSyear() . "'
 			AND c.SCHOOL_ID=cc.SCHOOL_ID
 			AND c.SCALE_ID IS NOT NULL)
-		ORDER BY cs.SORT_ORDER,cs.ID,cc.SORT_ORDER,cc.ID" ) );
+		ORDER BY cs.SORT_ORDER,cs.ID,cc.SORT_ORDER,cc.ID" );
 
 		// ListOutput columns.
 		$LO_columns = array( 'COURSE_TITLE' => _( 'Course' ) );
@@ -560,11 +560,11 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 			}
 
 			// Optimization: Student Full Name & Grade Level.
-			$student_name_grade_RET = DBGet( DBQuery( "SELECT " . DisplayNameSQL() . " AS FULL_NAME,ssm.GRADE_ID
+			$student_name_grade_RET = DBGet( "SELECT " . DisplayNameSQL() . " AS FULL_NAME,ssm.GRADE_ID
 			FROM STUDENTS s JOIN STUDENT_ENROLLMENT ssm ON (ssm.STUDENT_ID=s.STUDENT_ID)
 			WHERE s.STUDENT_ID='" . $student_id . "'
 			AND ssm.SYEAR='" . UserSyear() . "'
-			LIMIT 1" ) );
+			LIMIT 1" );
 
 			$student_full_name = $student_name_grade_RET[1]['FULL_NAME'];
 
@@ -703,7 +703,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 					// FJ limit comment scales to the ones used in student's courses.
 					$course_periods_list = implode( array_keys( $course_periods ), ',' );
 
-					$student_comment_scales_RET = DBGet( DBQuery( "SELECT cs.ID
+					$student_comment_scales_RET = DBGet( "SELECT cs.ID
 					FROM REPORT_CARD_COMMENT_CODE_SCALES cs
 					WHERE cs.ID IN
 						(SELECT c.SCALE_ID
@@ -715,7 +715,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 							OR c.COURSE_ID=0)
 						AND c.SCHOOL_ID=cs.SCHOOL_ID
 						AND c.SYEAR='" . UserSyear() . "')
-					AND cs.SCHOOL_ID='" . UserSchool() . "'" ), array(), array( 'ID' ) );
+					AND cs.SCHOOL_ID='" . UserSchool() . "'", array(), array( 'ID' ) );
 
 					$student_comment_scales = array_keys( $student_comment_scales_RET );
 
@@ -1190,12 +1190,12 @@ function _getOtherAttendanceCodes()
 	if ( ! $other_attendance_codes )
 	{
 		// Get Other Attendance Codes.
-		$other_attendance_codes = DBGet( DBQuery( "SELECT SHORT_NAME,ID,TITLE
+		$other_attendance_codes = DBGet( "SELECT SHORT_NAME,ID,TITLE
 			FROM ATTENDANCE_CODES
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND (DEFAULT_CODE!='Y' OR DEFAULT_CODE IS NULL)
-			AND TABLE_NAME='0'" ), array(), array( 'ID' ) );
+			AND TABLE_NAME='0'", array(), array( 'ID' ) );
 	}
 
 	return $other_attendance_codes;

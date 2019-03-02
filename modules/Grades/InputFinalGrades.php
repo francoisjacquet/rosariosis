@@ -28,13 +28,13 @@ if ( empty( $course_period_id ) )
 //FJ add Credit Hours
 //FJ add explicit type cast
 //$course_RET = DBGet(DBQuery("SELECT cp.COURSE_ID,c.TITLE as COURSE_NAME, cp.TITLE, cp.GRADE_SCALE_ID, credit($course_period_id, '".$_REQUEST['mp']."') AS CREDITS, (SELECT ATTENDANCE FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID) AS ATTENDANCE FROM COURSE_PERIODS cp, COURSES c WHERE cp.COURSE_ID = c.COURSE_ID AND cp.COURSE_PERIOD_ID='".$course_period_id."'"));
-$course_RET = DBGet( DBQuery( "SELECT cp.COURSE_ID,c.TITLE AS COURSE_NAME,cp.TITLE,
+$course_RET = DBGet( "SELECT cp.COURSE_ID,c.TITLE AS COURSE_NAME,cp.TITLE,
 	cp.GRADE_SCALE_ID, credit(CAST(" . $course_period_id . " AS integer),
 	CAST( '" . $_REQUEST['mp'] . "' AS character varying)) AS CREDITS,
 	DOES_CLASS_RANK AS CLASS_RANK,c.CREDIT_HOURS
 	FROM COURSE_PERIODS cp,COURSES c
 	WHERE cp.COURSE_ID=c.COURSE_ID
-	AND cp.COURSE_PERIOD_ID='" . $course_period_id . "'" ) );
+	AND cp.COURSE_PERIOD_ID='" . $course_period_id . "'" );
 
 if ( ! $course_RET[1]['GRADE_SCALE_ID'] )
 {
@@ -45,29 +45,29 @@ $course_title = $course_RET[1]['TITLE'];
 $grade_scale_id = $course_RET[1]['GRADE_SCALE_ID'];
 $course_id = $course_RET[1]['COURSE_ID'];
 
-$current_RET = DBGet( DBQuery( "SELECT g.STUDENT_ID,g.REPORT_CARD_GRADE_ID,g.GRADE_PERCENT,
+$current_RET = DBGet( "SELECT g.STUDENT_ID,g.REPORT_CARD_GRADE_ID,g.GRADE_PERCENT,
 	g.REPORT_CARD_COMMENT_ID,g.COMMENT
 	FROM STUDENT_REPORT_CARD_GRADES g,COURSE_PERIODS cp
 	WHERE cp.COURSE_PERIOD_ID=g.COURSE_PERIOD_ID
 	AND cp.COURSE_PERIOD_ID='" . $course_period_id . "'
-	AND g.MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'" ), array(), array( 'STUDENT_ID' ) );
+	AND g.MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'", array(), array( 'STUDENT_ID' ) );
 
-$current_completed = count( DBGet( DBQuery( "SELECT ''
+$current_completed = count( DBGet( "SELECT ''
 	FROM GRADES_COMPLETED
 	WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 	AND MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'
-	AND COURSE_PERIOD_ID='" . $course_period_id . "'" ) ) );
+	AND COURSE_PERIOD_ID='" . $course_period_id . "'" ) );
 
-$grades_RET = DBGet( DBQuery( "SELECT rcg.ID,rcg.TITLE,rcg.GPA_VALUE AS WEIGHTED_GP,
+$grades_RET = DBGet( "SELECT rcg.ID,rcg.TITLE,rcg.GPA_VALUE AS WEIGHTED_GP,
 	rcg.UNWEIGHTED_GP,gs.GP_SCALE,gs.GP_PASSING_VALUE
 	FROM REPORT_CARD_GRADES rcg, REPORT_CARD_GRADE_SCALES gs
 	WHERE rcg.grade_scale_id = gs.id
 	AND rcg.SYEAR='" . UserSyear() . "'
 	AND rcg.SCHOOL_ID='" . UserSchool() . "'
 	AND rcg.GRADE_SCALE_ID='" . $grade_scale_id . "'
-	ORDER BY rcg.BREAK_OFF IS NOT NULL DESC,rcg.BREAK_OFF DESC,rcg.SORT_ORDER" ), array(), array( 'ID' ) );
+	ORDER BY rcg.BREAK_OFF IS NOT NULL DESC,rcg.BREAK_OFF DESC,rcg.SORT_ORDER", array(), array( 'ID' ) );
 
-$categories_RET = DBGet( DBQuery( "SELECT rc.ID,rc.TITLE,rc.COLOR,1,rc.SORT_ORDER
+$categories_RET = DBGet( "SELECT rc.ID,rc.TITLE,rc.COLOR,1,rc.SORT_ORDER
 	FROM REPORT_CARD_COMMENT_CATEGORIES rc
 	WHERE rc.COURSE_ID='".$course_id."'
 	AND (SELECT count(1)
@@ -88,7 +88,7 @@ $categories_RET = DBGet( DBQuery( "SELECT rc.ID,rc.TITLE,rc.COLOR,1,rc.SORT_ORDE
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		AND COURSE_ID IS NULL
 		AND SYEAR='" . UserSyear() . "')>0
-	ORDER BY 4,SORT_ORDER" ), array(), array( 'ID' ) );
+	ORDER BY 4,SORT_ORDER", array(), array( 'ID' ) );
 
 if ( $_REQUEST['tab_id'] == ''
 	|| ! $categories_RET[ $_REQUEST['tab_id'] ] )
@@ -96,10 +96,10 @@ if ( $_REQUEST['tab_id'] == ''
 	$_REQUEST['tab_id'] = key($categories_RET).'';
 }
 
-$comment_codes_RET = DBGet( DBQuery( "SELECT SCALE_ID,TITLE,SHORT_NAME,COMMENT
+$comment_codes_RET = DBGet( "SELECT SCALE_ID,TITLE,SHORT_NAME,COMMENT
 	FROM REPORT_CARD_COMMENT_CODES
 	WHERE SCHOOL_ID='" . UserSchool() . "'
-	ORDER BY SORT_ORDER,ID" ), array(), array( 'SCALE_ID' ) );
+	ORDER BY SORT_ORDER,ID", array(), array( 'SCALE_ID' ) );
 
 $commentsA_select = array();
 
@@ -115,21 +115,21 @@ foreach ( (array) $comment_codes_RET as $scale_id => $codes )
 
 if ( $_REQUEST['tab_id'] == '-1' )
 {
-	$commentsB_RET = DBGet( DBQuery( "SELECT ID,TITLE,SORT_ORDER
+	$commentsB_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER
 		FROM REPORT_CARD_COMMENTS
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		AND SYEAR='" . UserSyear() . "'
 		AND COURSE_ID IS NULL
-		ORDER BY SORT_ORDER" ), array(), array( 'ID' ) );
+		ORDER BY SORT_ORDER", array(), array( 'ID' ) );
 
-	$current_commentsB_RET = DBGet( DBQuery( "SELECT g.STUDENT_ID,g.REPORT_CARD_COMMENT_ID
+	$current_commentsB_RET = DBGet( "SELECT g.STUDENT_ID,g.REPORT_CARD_COMMENT_ID
 		FROM STUDENT_REPORT_CARD_COMMENTS g,COURSE_PERIODS cp
 		WHERE cp.COURSE_PERIOD_ID=g.COURSE_PERIOD_ID
 		AND cp.COURSE_PERIOD_ID='" . $course_period_id . "'
 		AND g.MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'
 		AND g.REPORT_CARD_COMMENT_ID IN (SELECT ID
 			FROM REPORT_CARD_COMMENTS
-			WHERE COURSE_ID IS NULL)" ), array(), array( 'STUDENT_ID' ) );
+			WHERE COURSE_ID IS NULL)", array(), array( 'STUDENT_ID' ) );
 	$max_current_commentsB = 0;
 
 	foreach ( (array) $current_commentsB_RET as $comments)
@@ -138,39 +138,39 @@ if ( $_REQUEST['tab_id'] == '-1' )
 }
 elseif ( $_REQUEST['tab_id'] == '0' )
 {
-	$commentsA_RET = DBGet( DBQuery( "SELECT ID,TITLE,SCALE_ID
+	$commentsA_RET = DBGet( "SELECT ID,TITLE,SCALE_ID
 		FROM REPORT_CARD_COMMENTS
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		AND SYEAR='" . UserSyear() . "'
 		AND COURSE_ID='0'
-		ORDER BY SORT_ORDER" ) );
+		ORDER BY SORT_ORDER" );
 
-	$current_commentsA_RET = DBGet( DBQuery( "SELECT g.STUDENT_ID,g.REPORT_CARD_COMMENT_ID,g.COMMENT
+	$current_commentsA_RET = DBGet( "SELECT g.STUDENT_ID,g.REPORT_CARD_COMMENT_ID,g.COMMENT
 		FROM STUDENT_REPORT_CARD_COMMENTS g,COURSE_PERIODS cp
 		WHERE cp.COURSE_PERIOD_ID=g.COURSE_PERIOD_ID
 		AND cp.COURSE_PERIOD_ID='" . $course_period_id . "'
 		AND g.MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'
 		AND g.REPORT_CARD_COMMENT_ID IN (SELECT ID
-			FROM REPORT_CARD_COMMENTS WHERE COURSE_ID='0')" ), array(), array( 'STUDENT_ID', 'REPORT_CARD_COMMENT_ID' ) );
+			FROM REPORT_CARD_COMMENTS WHERE COURSE_ID='0')", array(), array( 'STUDENT_ID', 'REPORT_CARD_COMMENT_ID' ) );
 }
 elseif ( ! empty( $_REQUEST['tab_id'] ) )
 {
-	$commentsA_RET = DBGet( DBQuery( "SELECT ID,TITLE,SCALE_ID
+	$commentsA_RET = DBGet( "SELECT ID,TITLE,SCALE_ID
 		FROM REPORT_CARD_COMMENTS
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		AND SYEAR='" . UserSyear() . "'
 		AND COURSE_ID='" . $course_id . "'
 		AND CATEGORY_ID='" . $_REQUEST['tab_id'] . "'
-		ORDER BY SORT_ORDER" ) );
+		ORDER BY SORT_ORDER" );
 
-	$current_commentsA_RET = DBGet( DBQuery( "SELECT g.STUDENT_ID,g.REPORT_CARD_COMMENT_ID,g.COMMENT
+	$current_commentsA_RET = DBGet( "SELECT g.STUDENT_ID,g.REPORT_CARD_COMMENT_ID,g.COMMENT
 		FROM STUDENT_REPORT_CARD_COMMENTS g,COURSE_PERIODS cp
 		WHERE cp.COURSE_PERIOD_ID=g.COURSE_PERIOD_ID
 		AND cp.COURSE_PERIOD_ID='" . $course_period_id . "'
 		AND g.MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'
 		AND g.REPORT_CARD_COMMENT_ID IN (SELECT ID
 			FROM REPORT_CARD_COMMENTS
-			WHERE CATEGORY_ID='" . $_REQUEST['tab_id'] . "')" ), array(), array( 'STUDENT_ID', 'REPORT_CARD_COMMENT_ID' ) );
+			WHERE CATEGORY_ID='" . $_REQUEST['tab_id'] . "')", array(), array( 'STUDENT_ID', 'REPORT_CARD_COMMENT_ID' ) );
 }
 
 $grades_select = array('' => '');
@@ -195,9 +195,9 @@ if ( $_REQUEST['modfunc'] === 'gradebook' )
 	{
 		$gradebook_config = ProgramUserConfig( 'Gradebook' );
 
-		$_ROSARIO['_makeLetterGrade']['courses'][ $course_period_id ] = DBGet( DBQuery( "SELECT DOES_BREAKOFF,GRADE_SCALE_ID
+		$_ROSARIO['_makeLetterGrade']['courses'][ $course_period_id ] = DBGet( "SELECT DOES_BREAKOFF,GRADE_SCALE_ID
 			FROM COURSE_PERIODS
-			WHERE COURSE_PERIOD_ID='" . $course_period_id . "'" ) );
+			WHERE COURSE_PERIOD_ID='" . $course_period_id . "'" );
 
 		require_once 'ProgramFunctions/_makeLetterGrade.fnc.php';
 
@@ -302,7 +302,7 @@ if ( $_REQUEST['modfunc'] === 'gradebook' )
 		{
 			if (GetMP($_REQUEST['mp'],'MP')=='SEM')
 			{
-				$mp_RET = DBGet( DBQuery( "SELECT MARKING_PERIOD_ID,'Y' AS DOES_GRADES
+				$mp_RET = DBGet( "SELECT MARKING_PERIOD_ID,'Y' AS DOES_GRADES
 				FROM SCHOOL_MARKING_PERIODS
 				WHERE MP='QTR'
 				AND PARENT_ID='" . $_REQUEST['mp'] . "'
@@ -310,12 +310,12 @@ if ( $_REQUEST['modfunc'] === 'gradebook' )
 				SELECT MARKING_PERIOD_ID,NULL AS DOES_GRADES
 				FROM SCHOOL_MARKING_PERIODS
 				WHERE MP='SEM'
-				AND MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'" ) );
+				AND MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'" );
 				$prefix = 'SEM-';
 			}
 			else
 			{
-				$mp_RET = DBGet( DBQuery( "SELECT q.MARKING_PERIOD_ID,'Y' AS DOES_GRADES
+				$mp_RET = DBGet( "SELECT q.MARKING_PERIOD_ID,'Y' AS DOES_GRADES
 				FROM SCHOOL_MARKING_PERIODS q,SCHOOL_MARKING_PERIODS s
 				WHERE q.MP='QTR'
 				AND s.MP='SEM'
@@ -330,7 +330,7 @@ if ( $_REQUEST['modfunc'] === 'gradebook' )
 				SELECT MARKING_PERIOD_ID,NULL AS DOES_GRADES
 				FROM SCHOOL_MARKING_PERIODS
 				WHERE MP='FY'
-				AND MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'" ) );
+				AND MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'" );
 				$prefix = 'FY-';
 			}
 
@@ -346,10 +346,10 @@ if ( $_REQUEST['modfunc'] === 'gradebook' )
 
 			$mps = mb_substr( $mps, 0, -1 );
 
-			$percents_RET = DBGet( DBQuery( "SELECT STUDENT_ID,GRADE_PERCENT,MARKING_PERIOD_ID
+			$percents_RET = DBGet( "SELECT STUDENT_ID,GRADE_PERCENT,MARKING_PERIOD_ID
 				FROM STUDENT_REPORT_CARD_GRADES
 				WHERE COURSE_PERIOD_ID='" . $course_period_id . "'
-				AND MARKING_PERIOD_ID IN (" . $mps . ")" ), array(), array( 'STUDENT_ID' ) );
+				AND MARKING_PERIOD_ID IN (" . $mps . ")", array(), array( 'STUDENT_ID' ) );
 
 			foreach ( (array) $percents_RET as $student_id => $percents )
 			{
@@ -396,11 +396,11 @@ if ( $_REQUEST['modfunc'] === 'grades' )
 	{
 		require_once 'ProgramFunctions/_makePercentGrade.fnc.php';
 
-		$import_RET = DBGet( DBQuery( "SELECT g.STUDENT_ID,g.REPORT_CARD_GRADE_ID,g.GRADE_PERCENT
+		$import_RET = DBGet( "SELECT g.STUDENT_ID,g.REPORT_CARD_GRADE_ID,g.GRADE_PERCENT
 			FROM STUDENT_REPORT_CARD_GRADES g,COURSE_PERIODS cp
 			WHERE cp.COURSE_PERIOD_ID=g.COURSE_PERIOD_ID
 			AND cp.COURSE_PERIOD_ID='" . $course_period_id . "'
-			AND g.MARKING_PERIOD_ID='" . $_REQUEST['prev_mp'] . "'" ), array(), array( 'STUDENT_ID' ) );
+			AND g.MARKING_PERIOD_ID='" . $_REQUEST['prev_mp'] . "'", array(), array( 'STUDENT_ID' ) );
 
 		foreach ( (array) $import_RET as $student_id => $grade )
 		{
@@ -486,9 +486,9 @@ if ( $_REQUEST['values']
 	$completed = true;
 
 	//FJ add precision to year weighted GPA if not year course period.
-	$course_period_mp = DBGet( DBQuery( "SELECT MP
+	$course_period_mp = DBGet( "SELECT MP
 		FROM COURSE_PERIODS
-		WHERE COURSE_PERIOD_ID='" . $course_period_id . "'" ) );
+		WHERE COURSE_PERIOD_ID='" . $course_period_id . "'" );
 
 	$course_period_mp = $course_period_mp[1]['MP'];
 
@@ -1028,12 +1028,12 @@ if ( !isset($_REQUEST['_ROSARIO_PDF']))
 		else
 			$where = " AND CATEGORY_ID='" . $_REQUEST['tab_id'] . "'";
 
-		$commentsAbis_RET = DBGet( DBQuery( "SELECT ID,TITLE,SCALE_ID
+		$commentsAbis_RET = DBGet( "SELECT ID,TITLE,SCALE_ID
 			FROM REPORT_CARD_COMMENTS
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'" .
 			$where . "
-			ORDER BY SORT_ORDER" ), array(), array( 'SCALE_ID' ) );
+			ORDER BY SORT_ORDER", array(), array( 'SCALE_ID' ) );
 
 		foreach ( (array) $commentsAbis_RET as $scale_id => $commentsAbis )
 		{

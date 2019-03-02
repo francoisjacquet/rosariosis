@@ -33,13 +33,13 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			$RET = GetStuList( $extra );
 		}
 
-		$t_grades = DBGet( DBQuery( "SELECT *
+		$t_grades = DBGet( "SELECT *
 			FROM transcript_grades
 			WHERE student_id IN (" . $st_list . ")
 			AND mp_type in (" . $mp_type_list . ")
 			AND school_id='" . $school_id . "'
 			AND syear in (" . $syear_list . ")
-			ORDER BY mp_type, end_date" ), array(), array( 'STUDENT_ID', 'SYEAR', 'MARKING_PERIOD_ID' ) );
+			ORDER BY mp_type, end_date", array(), array( 'STUDENT_ID', 'SYEAR', 'MARKING_PERIOD_ID' ) );
 
 		if ( count( $t_grades ) && count( $RET ) )
 		{
@@ -74,7 +74,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			s.MIDDLE_NAME,
 			" . DisplayNameSQL( 's' ) . " AS FULL_NAME";
 
-			$custom_fields_RET = DBGet( DBQuery( "SELECT ID,TITLE,TYPE FROM CUSTOM_FIELDS WHERE ID IN (200000000, 200000003, 200000004)" ), array(), array( 'ID' ) );
+			$custom_fields_RET = DBGet( "SELECT ID,TITLE,TYPE
+				FROM CUSTOM_FIELDS WHERE ID IN (200000000, 200000003, 200000004)", array(), array( 'ID' ) );
 
 			if ( $custom_fields_RET['200000000'] && $custom_fields_RET['200000000'][1]['TYPE'] == 'select' )
 			{
@@ -132,7 +133,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 			echo '<style type="text/css"> * {font-size:large; line-height:1.2;} </style>';
 
-			$school_info = DBGet( DBQuery( 'select * from schools where syear = ' . UserSyear() . ' AND id = ' . $school_id ) );
+			$school_info = DBGet( 'select * from schools where syear = ' . UserSyear() . ' AND id = ' . $school_id );
 			$school_info = $school_info[1];
 
 			foreach ( (array) $t_grades as $student_id => $t_sgrades )
@@ -500,7 +501,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		if ( User( 'PROFILE' ) === 'admin' )
 		{
-			$syear_history_RET = DBGet( DBQuery( "SELECT DISTINCT SYEAR
+			$syear_history_RET = DBGet( "SELECT DISTINCT SYEAR
 				FROM HISTORY_MARKING_PERIODS
 				WHERE SYEAR<>'" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'
@@ -508,7 +509,7 @@ if ( ! $_REQUEST['modfunc'] )
 				FROM SCHOOL_MARKING_PERIODS
 				WHERE SYEAR<>'" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'
-				ORDER BY SYEAR DESC" ) );
+				ORDER BY SYEAR DESC" );
 
 			// If History School Years or previous school years.
 
@@ -543,7 +544,10 @@ if ( ! $_REQUEST['modfunc'] )
 			}
 		}
 
-		$mp_types = DBGet( DBQuery( "SELECT DISTINCT MP_TYPE FROM MARKING_PERIODS WHERE NOT MP_TYPE IS NULL AND SCHOOL_ID='" . UserSchool() . "'" ), array(), array() );
+		$mp_types = DBGet( "SELECT DISTINCT MP_TYPE
+			FROM MARKING_PERIODS
+			WHERE NOT MP_TYPE IS NULL
+			AND SCHOOL_ID='" . UserSchool() . "'", array(), array() );
 		$extra['extra_header_left'] .= '<tr class="st"><td class="valign-top">';
 
 		//FJ add translation
@@ -582,7 +586,9 @@ if ( ! $_REQUEST['modfunc'] )
 		if ( User( 'PROFILE' ) == 'admin' )
 		{
 			//FJ add Show Studies Certificate option
-			$field_SSECURITY = ParseMLArray( DBGet( DBQuery( "SELECT TITLE FROM CUSTOM_FIELDS WHERE ID = 200000003" ) ), 'TITLE' );
+			$field_SSECURITY = ParseMLArray( DBGet( "SELECT TITLE
+				FROM CUSTOM_FIELDS
+				WHERE ID = 200000003" ), 'TITLE' );
 
 			$extra['extra_header_left'] .= '<br /><br /><label><input type="checkbox" name="showcertificate" autocomplete="off" value="1" onclick=\'javascript: document.getElementById("divcertificatetext").style.display="block"; document.getElementById("inputcertificatetext").focus();\'> ' . _( 'Studies Certificate' ) . '</label>';
 		}

@@ -74,7 +74,7 @@ if ( isset( $_POST['tables'] )
 					// New Category.
 					elseif ( $table === 'PEOPLE_FIELD_CATEGORIES' )
 					{
-						$id = DBGet( DBQuery( 'SELECT ' . db_seq_nextval( 'PEOPLE_FIELD_CATEGORIES_SEQ' ) . ' AS ID ' ) );
+						$id = DBGet( 'SELECT ' . db_seq_nextval( 'PEOPLE_FIELD_CATEGORIES_SEQ' ) . ' AS ID ' );
 
 						$id = $id[1]['ID'];
 
@@ -155,13 +155,13 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( $_REQUEST['id']
 		&& $_REQUEST['id'] !== 'new' )
 	{
-		$RET = DBGet( DBQuery( "SELECT ID,CATEGORY_ID,TITLE,TYPE,SELECT_OPTIONS,
+		$RET = DBGet( "SELECT ID,CATEGORY_ID,TITLE,TYPE,SELECT_OPTIONS,
 			DEFAULT_SELECTION,SORT_ORDER,REQUIRED,
 			(SELECT TITLE
 				FROM PEOPLE_FIELD_CATEGORIES
 				WHERE ID=CATEGORY_ID) AS CATEGORY_TITLE
 			FROM PEOPLE_FIELDS
-			WHERE ID='" . $_REQUEST['id'] . "'" ) );
+			WHERE ID='" . $_REQUEST['id'] . "'" );
 
 		$RET = $RET[1];
 
@@ -171,9 +171,9 @@ if ( ! $_REQUEST['modfunc'] )
 		&& $_REQUEST['category_id'] !== 'new'
 		&& $_REQUEST['id'] !== 'new' )
 	{
-		$RET = DBGet( DBQuery( "SELECT ID AS CATEGORY_ID,TITLE,CUSTODY,EMERGENCY,SORT_ORDER
+		$RET = DBGet( "SELECT ID AS CATEGORY_ID,TITLE,CUSTODY,EMERGENCY,SORT_ORDER
 			FROM PEOPLE_FIELD_CATEGORIES
-			WHERE ID='" . $_REQUEST['category_id'] . "'" ) );
+			WHERE ID='" . $_REQUEST['category_id'] . "'" );
 
 		$RET = $RET[1];
 
@@ -234,9 +234,9 @@ if ( ! $_REQUEST['modfunc'] )
 	);
 
 	// CATEGORIES.
-	$categories_RET = DBGet( DBQuery( "SELECT ID,TITLE,SORT_ORDER
+	$categories_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER
 		FROM PEOPLE_FIELD_CATEGORIES
-		ORDER BY SORT_ORDER,TITLE" ) );
+		ORDER BY SORT_ORDER,TITLE" );
 
 	// DISPLAY THE MENU.
 	echo '<div class="st">';
@@ -250,10 +250,10 @@ if ( ! $_REQUEST['modfunc'] )
 		&& $_REQUEST['category_id'] !=='new'
 		&& $categories_RET )
 	{
-		$fields_RET = DBGet( DBQuery( "SELECT ID,TITLE,TYPE,SORT_ORDER
+		$fields_RET = DBGet( "SELECT ID,TITLE,TYPE,SORT_ORDER
 			FROM PEOPLE_FIELDS
 			WHERE CATEGORY_ID='" . $_REQUEST['category_id'] . "'
-			ORDER BY SORT_ORDER,TITLE" ), array( 'TYPE' => 'MakeFieldType' ) );
+			ORDER BY SORT_ORDER,TITLE", array( 'TYPE' => 'MakeFieldType' ) );
 
 		echo '<div class="st">';
 

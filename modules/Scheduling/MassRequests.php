@@ -8,10 +8,10 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		if ( isset( $_REQUEST['student'] )
 			&& is_array( $_REQUEST['student'] ) )
 		{
-			$current_RET = DBGet( DBQuery( "SELECT STUDENT_ID
+			$current_RET = DBGet( "SELECT STUDENT_ID
 				FROM SCHEDULE_REQUESTS
 				WHERE COURSE_ID='" . $_REQUEST['MassRequests.php']['course_id'] . "'
-				AND SYEAR='" . UserSyear() . "'" ), array(), array( 'STUDENT_ID' ) );
+				AND SYEAR='" . UserSyear() . "'", array(), array( 'STUDENT_ID' ) );
 
 			foreach ( (array) $_REQUEST['student'] as $student_id )
 			{
@@ -86,12 +86,12 @@ if ( $_REQUEST['modfunc']!='choose_course')
 		echo '<table><tr class="st"><td>'._('Teacher').'</td><td><select name="with_teacher_id"><option value="">'._('N/A').'</option>';
 		//FJ fix bug teacher's schools is NULL
 		//$teachers_RET = DBGet(DBQuery("SELECT STAFF_ID,LAST_NAME,FIRST_NAME,MIDDLE_NAME FROM STAFF WHERE SCHOOLS LIKE '%,".UserSchool().",%' AND SYEAR='".UserSyear()."' AND PROFILE='teacher' ORDER BY LAST_NAME,FIRST_NAME"));
-		$teachers_RET = DBGet( DBQuery( "SELECT STAFF_ID," . DisplayNameSQL() . " AS FULL_NAME
+		$teachers_RET = DBGet( "SELECT STAFF_ID," . DisplayNameSQL() . " AS FULL_NAME
 			FROM STAFF
 			WHERE (SCHOOLS LIKE '%," . UserSchool() . ",%' OR SCHOOLS IS NULL)
 			AND SYEAR='" . UserSyear() . "'
 			AND PROFILE='teacher'
-			ORDER BY LAST_NAME,FIRST_NAME" ) );
+			ORDER BY LAST_NAME,FIRST_NAME" );
 
 		foreach ( (array) $teachers_RET as $teacher )
 		{

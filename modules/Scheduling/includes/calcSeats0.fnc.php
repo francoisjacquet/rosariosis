@@ -17,7 +17,7 @@ function calcSeats0( $period, $date = '' )
 
 	$all_mp = GetAllMP( GetMP( $mp, 'MP' ), $mp );
 
-	$seats = DBGet( DBQuery( "SELECT
+	$seats = DBGet( "SELECT
 		max((SELECT count(1)
 		FROM SCHEDULE ss JOIN STUDENT_ENROLLMENT sem ON (sem.STUDENT_ID=ss.STUDENT_ID AND sem.SYEAR=ss.SYEAR)
 		WHERE ss.COURSE_PERIOD_ID='" . $period['COURSE_PERIOD_ID'] . "'
@@ -34,7 +34,7 @@ function calcSeats0( $period, $date = '' )
 			"'" . GetMP( $mp, 'START_DATE' ) . "'",
 			'CURRENT_DATE',
 		) )
-	) . " AND '" . GetMP( $mp, 'END_DATE' ) . "'" ) );
+	) . " AND '" . GetMP( $mp, 'END_DATE' ) . "'" );
 
 	return $seats[1]['FILLED_SEATS'];
 }

@@ -21,12 +21,22 @@ if ( $_REQUEST['modfunc'] === 'save'
 		if ( count( $RET ) )
 		{
 			require_once 'ProgramFunctions/StudentsUsersInfo.fnc.php';
-			$categories_RET = DBGet( DBQuery( "SELECT ID,TITLE,INCLUDE FROM STUDENT_FIELD_CATEGORIES ORDER BY SORT_ORDER,TITLE" ), array(), array( 'ID' ) );
+			$categories_RET = DBGet( "SELECT ID,TITLE,INCLUDE
+				FROM STUDENT_FIELD_CATEGORIES
+				ORDER BY SORT_ORDER,TITLE", array(), array( 'ID' ) );
 
 			// get the address and contacts custom fields, create the select lists and expand select and codeds options
-			$address_categories_RET = DBGet( DBQuery( "SELECT c.ID AS CATEGORY_ID,c.TITLE AS CATEGORY_TITLE,c.RESIDENCE,c.MAILING,c.BUS,f.ID,f.TITLE,f.TYPE,f.SELECT_OPTIONS,f.DEFAULT_SELECTION,f.REQUIRED FROM ADDRESS_FIELD_CATEGORIES c,ADDRESS_FIELDS f WHERE f.CATEGORY_ID=c.ID ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE" ), array(), array( 'CATEGORY_ID' ) );
+			$address_categories_RET = DBGet( "SELECT c.ID AS CATEGORY_ID,c.TITLE AS CATEGORY_TITLE,
+				c.RESIDENCE,c.MAILING,c.BUS,f.ID,f.TITLE,f.TYPE,f.SELECT_OPTIONS,f.DEFAULT_SELECTION,f.REQUIRED
+				FROM ADDRESS_FIELD_CATEGORIES c,ADDRESS_FIELDS f
+				WHERE f.CATEGORY_ID=c.ID
+				ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE", array(), array( 'CATEGORY_ID' ) );
 
-			$people_categories_RET = DBGet( DBQuery( "SELECT c.ID AS CATEGORY_ID,c.TITLE AS CATEGORY_TITLE,c.CUSTODY,c.EMERGENCY,f.ID,f.TITLE,f.TYPE,f.SELECT_OPTIONS,f.DEFAULT_SELECTION,f.REQUIRED FROM PEOPLE_FIELD_CATEGORIES c,PEOPLE_FIELDS f WHERE f.CATEGORY_ID=c.ID ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE" ), array(), array( 'CATEGORY_ID' ) );
+			$people_categories_RET = DBGet( "SELECT c.ID AS CATEGORY_ID,c.TITLE AS CATEGORY_TITLE,
+				c.CUSTODY,c.EMERGENCY,f.ID,f.TITLE,f.TYPE,f.SELECT_OPTIONS,f.DEFAULT_SELECTION,f.REQUIRED
+				FROM PEOPLE_FIELD_CATEGORIES c,PEOPLE_FIELDS f
+				WHERE f.CATEGORY_ID=c.ID
+				ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE", array(), array( 'CATEGORY_ID' ) );
 
 			explodeCustom( $address_categories_RET, $address_custom, 'a' );
 			explodeCustom( $people_categories_RET, $people_custom, 'p' );
@@ -81,19 +91,24 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 					echo '<br />';
 
-					$addresses_RET = DBGet( DBQuery( "SELECT a.ADDRESS_ID,sjp.STUDENT_RELATION,a.ADDRESS,a.CITY,a.STATE,a.ZIPCODE,a.PHONE,a.MAIL_ADDRESS,a.MAIL_CITY,a.MAIL_STATE,A.MAIL_ZIPCODE,  sjp.CUSTODY,sja.MAILING,sja.RESIDENCE,sja.BUS_PICKUP,sja.BUS_DROPOFF," . db_case( array( 'a.ADDRESS_ID', "'0'", '1', '0' ) ) . "AS SORT_ORDER" . $address_custom . "
-				FROM ADDRESS a,STUDENTS_JOIN_ADDRESS sja,STUDENTS_JOIN_PEOPLE sjp
-				WHERE a.ADDRESS_ID=sja.ADDRESS_ID
-				AND sja.STUDENT_ID='" . UserStudentID() . "'
-				AND a.ADDRESS_ID=sjp.ADDRESS_ID
-				AND sjp.STUDENT_ID=sja.STUDENT_ID
-				UNION
-				SELECT a.ADDRESS_ID,'No Contacts' AS STUDENT_RELATION,a.ADDRESS,a.CITY,a.STATE,a.ZIPCODE,a.PHONE,a.MAIL_ADDRESS,a.MAIL_CITY,a.MAIL_STATE,A.MAIL_ZIPCODE,'' AS CUSTODY,sja.MAILING,sja.RESIDENCE,sja.BUS_PICKUP,sja.BUS_DROPOFF," . db_case( array( 'a.ADDRESS_ID', "'0'", '1', '0' ) ) . "AS SORT_ORDER" . $address_custom . "
-				FROM ADDRESS a,STUDENTS_JOIN_ADDRESS sja
-				WHERE a.ADDRESS_ID=sja.ADDRESS_ID
-				AND sja.STUDENT_ID='" . UserStudentID() . "'
-				AND NOT EXISTS (SELECT '' FROM STUDENTS_JOIN_PEOPLE sjp WHERE sjp.STUDENT_ID=sja.STUDENT_ID AND sjp.ADDRESS_ID=a.ADDRESS_ID)
-				ORDER BY SORT_ORDER,RESIDENCE,CUSTODY,STUDENT_RELATION" ) );
+					$addresses_RET = DBGet( "SELECT a.ADDRESS_ID,sjp.STUDENT_RELATION,a.ADDRESS,
+						a.CITY,a.STATE,a.ZIPCODE,a.PHONE,a.MAIL_ADDRESS,a.MAIL_CITY,a.MAIL_STATE,
+						A.MAIL_ZIPCODE,sjp.CUSTODY,sja.MAILING,sja.RESIDENCE,sja.BUS_PICKUP,
+						sja.BUS_DROPOFF," . db_case( array( 'a.ADDRESS_ID', "'0'", '1', '0' ) ) . "AS SORT_ORDER" . $address_custom .
+						"FROM ADDRESS a,STUDENTS_JOIN_ADDRESS sja,STUDENTS_JOIN_PEOPLE sjp
+						WHERE a.ADDRESS_ID=sja.ADDRESS_ID
+						AND sja.STUDENT_ID='" . UserStudentID() . "'
+						AND a.ADDRESS_ID=sjp.ADDRESS_ID
+						AND sjp.STUDENT_ID=sja.STUDENT_ID
+						UNION
+						SELECT a.ADDRESS_ID,'No Contacts' AS STUDENT_RELATION,a.ADDRESS,a.CITY,a.STATE,a.ZIPCODE,a.PHONE,a.MAIL_ADDRESS,a.MAIL_CITY,a.MAIL_STATE,A.MAIL_ZIPCODE,'' AS CUSTODY,sja.MAILING,sja.RESIDENCE,sja.BUS_PICKUP,sja.BUS_DROPOFF," . db_case( array( 'a.ADDRESS_ID', "'0'", '1', '0' ) ) . " AS SORT_ORDER" . $address_custom . "
+						FROM ADDRESS a,STUDENTS_JOIN_ADDRESS sja
+						WHERE a.ADDRESS_ID=sja.ADDRESS_ID
+						AND sja.STUDENT_ID='" . UserStudentID() . "'
+						AND NOT EXISTS (SELECT '' FROM STUDENTS_JOIN_PEOPLE sjp
+							WHERE sjp.STUDENT_ID=sja.STUDENT_ID
+							AND sjp.ADDRESS_ID=a.ADDRESS_ID)
+						ORDER BY SORT_ORDER,RESIDENCE,CUSTODY,STUDENT_RELATION" );
 
 					$address_previous = "x";
 
@@ -117,13 +132,13 @@ if ( $_REQUEST['modfunc'] === 'save'
 								echo '</table>';
 							}
 
-							$contacts_RET = DBGet( DBQuery( "SELECT p.PERSON_ID,p.FIRST_NAME,
+							$contacts_RET = DBGet( "SELECT p.PERSON_ID,p.FIRST_NAME,
 							p.MIDDLE_NAME,p.LAST_NAME,sjp.CUSTODY,sjp.EMERGENCY,
 							sjp.STUDENT_RELATION" . $people_custom . "
 							FROM PEOPLE p,STUDENTS_JOIN_PEOPLE sjp
 							WHERE p.PERSON_ID=sjp.PERSON_ID
 							AND sjp.STUDENT_ID='" . UserStudentID() . "'
-							AND sjp.ADDRESS_ID='" . $address['ADDRESS_ID'] . "'" ) );
+							AND sjp.ADDRESS_ID='" . $address['ADDRESS_ID'] . "'" );
 
 							foreach ( (array) $contacts_RET as $contact )
 							{
@@ -135,9 +150,9 @@ if ( $_REQUEST['modfunc'] === 'save'
 									( $contact['STUDENT_RELATION'] ? ': ' . $contact['STUDENT_RELATION'] : '' ) .
 									' &nbsp;</b><br />';
 
-								$info_RET = DBGet( DBQuery( "SELECT ID,TITLE,VALUE
+								$info_RET = DBGet( "SELECT ID,TITLE,VALUE
 								FROM PEOPLE_JOIN_CONTACTS
-								WHERE PERSON_ID='" . $contact['PERSON_ID'] . "'" ) );
+								WHERE PERSON_ID='" . $contact['PERSON_ID'] . "'" );
 
 								echo '<table>';
 
@@ -251,14 +266,23 @@ if ( ! $_REQUEST['modfunc'] )
 
 		if ( User( 'PROFILE_ID' ) )
 		{
-			$can_use_RET = DBGet( DBQuery( "SELECT MODNAME FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "' AND CAN_USE='Y'" ), array(), array( 'MODNAME' ) );
+			$can_use_RET = DBGet( "SELECT MODNAME
+				FROM PROFILE_EXCEPTIONS
+				WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'
+				AND CAN_USE='Y'", array(), array( 'MODNAME' ) );
 		}
 		else
 		{
-			$can_use_RET = DBGet( DBQuery( "SELECT MODNAME FROM STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "' AND CAN_USE='Y'" ), array(), array( 'MODNAME' ) );
+			$can_use_RET = DBGet( "SELECT MODNAME
+				FROM STAFF_EXCEPTIONS
+				WHERE USER_ID='" . User( 'STAFF_ID' ) . "'
+				AND CAN_USE='Y'", array(), array( 'MODNAME' ) );
 		}
 
-		$categories_RET = DBGet( DBQuery( "SELECT ID,TITLE,INCLUDE FROM STUDENT_FIELD_CATEGORIES ORDER BY SORT_ORDER,TITLE" ) );
+		$categories_RET = DBGet( "SELECT ID,TITLE,INCLUDE
+			FROM STUDENT_FIELD_CATEGORIES
+			ORDER BY SORT_ORDER,TITLE" );
+
 		$extra['extra_header_right'] = '<table>';
 
 		foreach ( (array) $categories_RET as $category )

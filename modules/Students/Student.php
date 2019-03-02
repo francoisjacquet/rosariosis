@@ -37,9 +37,9 @@ else
 	}
 	else
 	{
-		$category_include = DBGet( DBQuery( "SELECT INCLUDE
+		$category_include = DBGet( "SELECT INCLUDE
 			FROM STUDENT_FIELD_CATEGORIES
-			WHERE ID='" . $_REQUEST['category_id'] . "'" ) );
+			WHERE ID='" . $_REQUEST['category_id'] . "'" );
 
 		if ( count( $category_include ) )
 		{
@@ -70,9 +70,9 @@ if ( User( 'PROFILE' ) !== 'admin' )
 		$can_edit_from_where = " FROM STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'";
 	}
 
-	$can_edit_RET = DBGet( DBQuery( "SELECT MODNAME " . $can_edit_from_where .
+	$can_edit_RET = DBGet( "SELECT MODNAME " . $can_edit_from_where .
 		" AND MODNAME='Students/Student.php&category_id=" . $category_id . "'
-		AND CAN_EDIT='Y'" ) );
+		AND CAN_EDIT='Y'" );
 
 	if ( $can_edit_RET )
 	{
@@ -135,14 +135,14 @@ if ( $_REQUEST['modfunc'] === 'update'
 		}
 
 		// Check username unicity.
-		$existing_username = DBGet( DBQuery( "SELECT 'exists'
+		$existing_username = DBGet( "SELECT 'exists'
 			FROM STAFF
 			WHERE USERNAME='" . $_REQUEST['students']['USERNAME'] . "'
 			AND SYEAR='" . UserSyear() . "'
 			UNION SELECT 'exists'
 			FROM STUDENTS
 			WHERE USERNAME='" . $_REQUEST['students']['USERNAME'] . "'
-			AND STUDENT_ID!='" . UserStudentID() . "'" ) );
+			AND STUDENT_ID!='" . UserStudentID() . "'" );
 
 		if (count($existing_username))
 		{
@@ -236,9 +236,9 @@ if ( $_REQUEST['modfunc'] === 'update'
 			{
 				if ( ( $student_id = (int)$_REQUEST['assign_student_id'] ) > 0 )
 				{
-					if ( count( DBGet( DBQuery( "SELECT STUDENT_ID
+					if ( count( DBGet( "SELECT STUDENT_ID
 							FROM STUDENTS
-							WHERE STUDENT_ID='" . $student_id . "'" ) ) ) )
+							WHERE STUDENT_ID='" . $student_id . "'" ) ) )
 					{
 						$error[] = sprintf( _( 'That %s ID is already taken. Please select a different one.'), Config( 'NAME' ) );
 					}
@@ -255,7 +255,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				if ( !isset($student_id))
 					do
 					{
-						$student_id = DBGet(DBQuery('SELECT '.db_seq_nextval('STUDENTS_SEQ').' AS STUDENT_ID'));
+						$student_id = DBGet( 'SELECT '.db_seq_nextval('STUDENTS_SEQ').' AS STUDENT_ID' );
 						$student_id = $student_id[1]['STUDENT_ID'];
 					}
 					while (count(DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS WHERE STUDENT_ID='".$student_id."'"))));
@@ -491,10 +491,10 @@ if ( ( UserStudentID()
 
 	//FJ General_Info only for new student
 	//$categories_RET = DBGet(DBQuery("SELECT ID,TITLE,INCLUDE FROM STUDENT_FIELD_CATEGORIES ORDER BY SORT_ORDER,TITLE"));
-	$categories_RET = DBGet( DBQuery( "SELECT ID,TITLE,INCLUDE
+	$categories_RET = DBGet( "SELECT ID,TITLE,INCLUDE
 		FROM STUDENT_FIELD_CATEGORIES
 		WHERE " . ( $_REQUEST['student_id'] !== 'new' ? 'TRUE' : "ID='1'" ) .
-		" ORDER BY SORT_ORDER,TITLE" ) );
+		" ORDER BY SORT_ORDER,TITLE" );
 
 	if ( $_REQUEST['modfunc'] !== 'delete_medical'
 		&& $_REQUEST['modfunc'] !== 'delete_address'
@@ -517,11 +517,11 @@ if ( ( UserStudentID()
 			$student = DBGet( DBQuery( $sql ) );
 			$student = $student[1];
 
-			$school = DBGet( DBQuery( "SELECT SCHOOL_ID,GRADE_ID
+			$school = DBGet( "SELECT SCHOOL_ID,GRADE_ID
 				FROM STUDENT_ENROLLMENT
 				WHERE STUDENT_ID='" . UserStudentID() . "'
 				AND SYEAR='" . UserSyear() . "'
-				AND ('" . DBDate() . "' BETWEEN START_DATE AND END_DATE OR END_DATE IS NULL)" ) );
+				AND ('" . DBDate() . "' BETWEEN START_DATE AND END_DATE OR END_DATE IS NULL)" );
 		}
 
 		$delete_button = '';
@@ -536,7 +536,7 @@ if ( ( UserStudentID()
 				&& AllowEdit() )
 			{
 				// Can't delete Student if has Schedule, Attendance, or Grades records.
-				$student_records_RET = DBGet( DBQuery( "SELECT (SELECT 1
+				$student_records_RET = DBGet( "SELECT (SELECT 1
 						FROM SCHEDULE
 						WHERE STUDENT_ID='" . UserStudentID() . "' LIMIT 1) AS HAS_SCHEDULE,
 					(SELECT 1
@@ -544,7 +544,7 @@ if ( ( UserStudentID()
 						WHERE STUDENT_ID='" . UserStudentID() . "' LIMIT 1) AS HAS_ATTENDANCE,
 					(SELECT 1
 						FROM STUDENT_REPORT_CARD_GRADES
-						WHERE STUDENT_ID='" . UserStudentID() . "' LIMIT 1) AS HAS_GRADES" ) );
+						WHERE STUDENT_ID='" . UserStudentID() . "' LIMIT 1) AS HAS_GRADES" );
 
 				if ( ! $student_records_RET
 					|| ( ! $student_records_RET[1]['HAS_SCHEDULE']

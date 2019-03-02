@@ -47,7 +47,7 @@ DrawHeader(
 
 echo '</form>';
 
-$enrollment_RET = DBGet( DBQuery( "SELECT se.START_DATE AS START_DATE,NULL AS END_DATE,se.START_DATE AS DATE,se.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,sch.TITLE
+$enrollment_RET = DBGet( "SELECT se.START_DATE AS START_DATE,NULL AS END_DATE,se.START_DATE AS DATE,se.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,sch.TITLE
 FROM STUDENT_ENROLLMENT se,STUDENTS s,SCHOOLS sch
 WHERE s.STUDENT_ID=se.STUDENT_ID
 AND se.START_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
@@ -58,7 +58,7 @@ FROM STUDENT_ENROLLMENT se,STUDENTS s,SCHOOLS sch
 WHERE s.STUDENT_ID=se.STUDENT_ID
 AND se.END_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
 AND sch.ID=se.SCHOOL_ID
-ORDER BY DATE DESC" ), array( 'START_DATE' => 'ProperDate', 'END_DATE' => 'ProperDate' ) );
+ORDER BY DATE DESC", array( 'START_DATE' => 'ProperDate', 'END_DATE' => 'ProperDate' ) );
 
 $columns = array(
 	'FULL_NAME' => _( 'Student' ),

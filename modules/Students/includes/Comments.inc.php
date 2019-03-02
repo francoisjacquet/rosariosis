@@ -27,12 +27,11 @@ if ( AllowEdit()
 			'comment' => $comment,
 		) );
 
-		$existing_RET = DBGet( DBQuery( "SELECT STUDENT_ID, COMMENT
+		$existing_RET = DBGet( "SELECT STUDENT_ID, COMMENT
 			FROM STUDENT_MP_COMMENTS
 			WHERE STUDENT_ID='" . UserStudentID() . "'
 			AND SYEAR='" . UserSyear() . "'
-			AND MARKING_PERIOD_ID='" . $comments_MP . "'"
-		) );
+			AND MARKING_PERIOD_ID='" . $comments_MP . "'" );
 
 		if ( isset( $existing_RET[1]['COMMENT'] ) )
 		{
@@ -71,11 +70,11 @@ if ( AllowEdit()
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	$comments_RET = DBGet( DBQuery( "SELECT COMMENT
+	$comments_RET = DBGet( "SELECT COMMENT
 		FROM STUDENT_MP_COMMENTS
 		WHERE STUDENT_ID='" . UserStudentID() . "'
 		AND SYEAR='" . UserSyear() . "'
-		AND MARKING_PERIOD_ID='" . $comments_MP . "'" ) );
+		AND MARKING_PERIOD_ID='" . $comments_MP . "'" );
 
 	?>
 
@@ -113,7 +112,7 @@ if ( ! $_REQUEST['modfunc'] )
 				}
 				else
 				{
-					$staff_name_RET = DBGet( DBQuery( "SELECT " . DisplayNameSQL() . " AS NAME
+					$staff_name_RET = DBGet( "SELECT " . DisplayNameSQL() . " AS NAME
 						FROM STAFF
 						WHERE SYEAR='" . UserSyear() . "'
 						AND USERNAME=(
@@ -121,7 +120,7 @@ if ( ! $_REQUEST['modfunc'] )
 							FROM STAFF
 							WHERE SYEAR='" . Config( 'SYEAR' ) . "'
 							AND STAFF_ID='" . $id . "'
-						)" ) );
+						)" );
 
 					$staff_name[ $id ] = $staff_name_RET[1]['NAME'];
 				}

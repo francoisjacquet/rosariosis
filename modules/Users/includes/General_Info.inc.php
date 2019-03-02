@@ -233,10 +233,10 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 
 	if ( $_REQUEST['staff_id'] !== 'new' )
 	{
-		$permissions_RET = DBGet( DBQuery( "SELECT ID,TITLE
+		$permissions_RET = DBGet( "SELECT ID,TITLE
 			FROM USER_PROFILES
 			WHERE PROFILE='" . $staff['PROFILE'] . "'
-			ORDER BY ID" ) );
+			ORDER BY ID" );
 
 		foreach ( (array) $permissions_RET as $permission )
 		{
@@ -279,10 +279,10 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 	//FJ remove Schools for Parents
 	if ( $staff['PROFILE'] !== 'parent' )
 	{
-		$schools_RET = DBGet( DBQuery( "SELECT ID,TITLE
+		$schools_RET = DBGet( "SELECT ID,TITLE
 			FROM SCHOOLS
 			WHERE SYEAR='" . UserSyear() . "'
-			ORDER BY TITLE" ) );
+			ORDER BY TITLE" );
 
 		unset( $options );
 

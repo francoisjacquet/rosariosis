@@ -9,12 +9,12 @@ $functions = array(
 
 unset( $THIS_RET );
 
-$enrollment_RET = DBGet( DBQuery( "SELECT e.ID,e.ENROLLMENT_CODE,e.START_DATE,e.DROP_CODE,e.END_DATE,
+$enrollment_RET = DBGet( "SELECT e.ID,e.ENROLLMENT_CODE,e.START_DATE,e.DROP_CODE,e.END_DATE,
 		e.END_DATE AS END,e.SCHOOL_ID,e.NEXT_SCHOOL,e.CALENDAR_ID,e.GRADE_ID
 	FROM STUDENT_ENROLLMENT e
 	WHERE e.STUDENT_ID='" . UserStudentID() . "'
 	AND e.SYEAR='" . UserSyear() . "'
-	ORDER BY e.START_DATE" ), $functions );
+	ORDER BY e.START_DATE", $functions );
 
 $add = true;
 
@@ -43,10 +43,10 @@ $columns = array(
 	'SCHOOL_ID' => _( 'School' ),
 );
 
-$schools_RET = DBGet( DBQuery( "SELECT ID,TITLE
+$schools_RET = DBGet( "SELECT ID,TITLE
 	FROM SCHOOLS
 	WHERE ID!='" . UserSchool() . "'
-	AND SYEAR='" . UserSyear() . "'" ) );
+	AND SYEAR='" . UserSyear() . "'" );
 
 $next_school_options = array(
 	UserSchool() => _( 'Next grade at current school' ),
@@ -59,11 +59,11 @@ foreach ( (array) $schools_RET as $school )
 	$next_school_options[ $school['ID'] ] = $school['TITLE'];
 }
 
-$calendars_RET = DBGet( DBQuery( "SELECT CALENDAR_ID,DEFAULT_CALENDAR,TITLE
+$calendars_RET = DBGet( "SELECT CALENDAR_ID,DEFAULT_CALENDAR,TITLE
 	FROM ATTENDANCE_CALENDARS
 	WHERE SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'
-	ORDER BY DEFAULT_CALENDAR ASC" ) );
+	ORDER BY DEFAULT_CALENDAR ASC" );
 
 $calendar_options = array();
 
@@ -72,10 +72,10 @@ foreach ( (array) $calendars_RET as $calendar )
 	$calendar_options[ $calendar['CALENDAR_ID'] ] = $calendar['TITLE'];
 }
 
-$gradelevels_RET = DBGet( DBQuery( "SELECT ID,TITLE
+$gradelevels_RET = DBGet( "SELECT ID,TITLE
 	FROM SCHOOL_GRADELEVELS
 	WHERE SCHOOL_ID='" . UserSchool() . "'
-	ORDER BY SORT_ORDER" ) );
+	ORDER BY SORT_ORDER" );
 
 $gradelevel_options = array();
 

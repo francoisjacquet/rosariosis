@@ -63,10 +63,10 @@ if ( ! $_REQUEST['modfunc'] )
 		'COMMENTS' => '_makeComments',
 	);
 
-	$med_RET = DBGet( DBQuery( "SELECT ID,TYPE,MEDICAL_DATE,COMMENTS
+	$med_RET = DBGet( "SELECT ID,TYPE,MEDICAL_DATE,COMMENTS
 		FROM STUDENT_MEDICAL
 		WHERE STUDENT_ID='" . UserStudentID() . "'
-		ORDER BY MEDICAL_DATE,TYPE" ), $functions );
+		ORDER BY MEDICAL_DATE,TYPE", $functions );
 
 	$columns = array(
 		'TYPE' => '',
@@ -100,10 +100,10 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$functions = array('TITLE' => '_makeComments');
 
-	$med_RET = DBGet( DBQuery( "SELECT ID,TITLE
+	$med_RET = DBGet( "SELECT ID,TITLE
 		FROM STUDENT_MEDICAL_ALERTS
 		WHERE STUDENT_ID='" . UserStudentID() . "'
-		ORDER BY ID" ), $functions );
+		ORDER BY ID", $functions );
 
 	$columns = array( 'TITLE' => _( 'Medical Alert' ) );
 
@@ -139,10 +139,10 @@ if ( ! $_REQUEST['modfunc'] )
 			'COMMENTS' => '_makeComments',
 		);
 
-		$med_RET = DBGet( DBQuery( "SELECT ID,SCHOOL_DATE,TIME_IN,TIME_OUT,REASON,RESULT,COMMENTS
+		$med_RET = DBGet( "SELECT ID,SCHOOL_DATE,TIME_IN,TIME_OUT,REASON,RESULT,COMMENTS
 			FROM STUDENT_MEDICAL_VISITS
 			WHERE STUDENT_ID='" . UserStudentID() . "'
-			ORDER BY SCHOOL_DATE" ), $functions );
+			ORDER BY SCHOOL_DATE", $functions );
 
 		$columns = array(
 			'SCHOOL_DATE' => _( 'Date' ),

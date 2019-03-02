@@ -18,7 +18,7 @@ if ( empty( $_REQUEST['mp'] )
 	$_REQUEST['mp'] = UserMP();
 }
 
-$periods_RET = DBGet( DBQuery( "SELECT sp.PERIOD_ID,sp.TITLE
+$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE
 	FROM SCHOOL_PERIODS sp
 	WHERE sp.SCHOOL_ID='" . UserSchool() . "'
 	AND sp.SYEAR='" . UserSyear() . "'
@@ -28,7 +28,7 @@ $periods_RET = DBGet( DBQuery( "SELECT sp.PERIOD_ID,sp.TITLE
 		AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
 		AND cp.SCHOOL_ID='" . UserSchool() . "'
 		AND cp.SYEAR='" . UserSyear() . "')
-	ORDER BY sp.SORT_ORDER" ), array(), array( 'PERIOD_ID' ) );
+	ORDER BY sp.SORT_ORDER", array(), array( 'PERIOD_ID' ) );
 
 $period_select = '<select name="period" onChange="ajaxPostForm(this.form,true);"><option value="">' . _( 'All' ) . '</option>';
 
@@ -89,7 +89,7 @@ AND cp.SYEAR='".UserSyear()."' AND cp.SCHOOL_ID='".UserSchool()."' AND s.PROFILE
 ".(($_REQUEST['period'])?" AND cp.PERIOD_ID='".$_REQUEST['period']."'":'')."
 ORDER BY FULL_NAME";*/
 
-$RET = DBGet( DBQuery( "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,sp.TITLE,cpsp.PERIOD_ID,cp.TITLE AS COURSE_TITLE,
+$RET = DBGet( "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,sp.TITLE,cpsp.PERIOD_ID,cp.TITLE AS COURSE_TITLE,
 	(SELECT 'Y'
 		FROM GRADES_COMPLETED ac
 		WHERE ac.STAFF_ID=cp.TEACHER_ID
@@ -105,7 +105,7 @@ $RET = DBGet( DBQuery( "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_
 	AND cp.SCHOOL_ID='" . UserSchool() . "'
 	AND s.PROFILE='teacher'" .
 	( $_REQUEST['period'] ? " AND cpsp.PERIOD_ID='" . $_REQUEST['period'] . "'" : '' ) .
-	" ORDER BY FULL_NAME" ), array(), array( 'STAFF_ID' ) );
+	" ORDER BY FULL_NAME", array(), array( 'STAFF_ID' ) );
 
 if ( empty( $_REQUEST['period'] ) )
 {

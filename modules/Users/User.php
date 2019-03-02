@@ -31,7 +31,7 @@ else
 	}
 	else
 	{
-		$category_include = DBGet(DBQuery("SELECT INCLUDE FROM STAFF_FIELD_CATEGORIES WHERE ID='".$_REQUEST['category_id']."'"));
+		$category_include = DBGet( "SELECT INCLUDE FROM STAFF_FIELD_CATEGORIES WHERE ID='".$_REQUEST['category_id']."'" );
 
 		if (count($category_include))
 		{
@@ -59,9 +59,9 @@ if ( User( 'PROFILE' ) !== 'admin' )
 		$can_edit_from_where = " FROM STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'";
 	}
 
-	$can_edit_RET = DBGet( DBQuery( "SELECT MODNAME " . $can_edit_from_where .
+	$can_edit_RET = DBGet( "SELECT MODNAME " . $can_edit_from_where .
 		" AND MODNAME='Users/User.phpp&category_id=" . $category_id . "'
-		AND CAN_EDIT='Y'" ) );
+		AND CAN_EDIT='Y'" );
 
 	if ( $can_edit_RET )
 	{
@@ -188,7 +188,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 		}
 
 		//check username unicity
-		$existing_username = DBGet(DBQuery("SELECT 'exists' FROM STAFF WHERE USERNAME='".$_REQUEST['staff']['USERNAME']."' AND SYEAR='".UserSyear()."' AND STAFF_ID!='".UserStaffID()."' UNION SELECT 'exists' FROM STUDENTS WHERE USERNAME='".$_REQUEST['staff']['USERNAME']."'"));
+		$existing_username = DBGet( "SELECT 'exists' FROM STAFF WHERE USERNAME='".$_REQUEST['staff']['USERNAME']."' AND SYEAR='".UserSyear()."' AND STAFF_ID!='".UserStaffID()."' UNION SELECT 'exists' FROM STUDENTS WHERE USERNAME='".$_REQUEST['staff']['USERNAME']."'" );
 		if (count($existing_username))
 		{
 			$error[] = _('A user with that username already exists. Choose a different username and try again.');
@@ -200,7 +200,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 			//hook
 			do_action('Users/User.php|update_user_checks');
 
-			$profile_RET = DBGet(DBQuery("SELECT PROFILE,PROFILE_ID,USERNAME FROM STAFF WHERE STAFF_ID='".UserStaffID()."'"));
+			$profile_RET = DBGet( "SELECT PROFILE,PROFILE_ID,USERNAME FROM STAFF WHERE STAFF_ID='".UserStaffID()."'" );
 
 			if (isset($_REQUEST['staff']['PROFILE']) && $_REQUEST['staff']['PROFILE']!=$profile_RET[1]['PROFILE_ID'])
 			{
@@ -223,7 +223,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 			if ( ! $error )
 			{
 				$sql = "UPDATE STAFF SET ";
-				$fields_RET = DBGet(DBQuery("SELECT ID,TYPE FROM STAFF_FIELDS ORDER BY SORT_ORDER"), array(), array('ID'));
+				$fields_RET = DBGet( "SELECT ID,TYPE FROM STAFF_FIELDS ORDER BY SORT_ORDER", array(), array('ID'));
 				$go = false;
 				foreach ( (array) $_REQUEST['staff'] as $column_name => $value)
 				{
@@ -300,7 +300,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 			if ( ! $error )
 			{
-				$staff_id = DBGet(DBQuery('SELECT '.db_seq_nextval('STAFF_SEQ').' AS STAFF_ID'));
+				$staff_id = DBGet( 'SELECT '.db_seq_nextval('STAFF_SEQ').' AS STAFF_ID' );
 				$staff_id = $staff_id[1]['STAFF_ID'];
 
 				$sql = "INSERT INTO STAFF ";
@@ -313,7 +313,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 					$values = "'".Config('SYEAR')."'".mb_substr($values,mb_strpos($values,','))."'none',";
 				}
 
-				$fields_RET = DBGet(DBQuery("SELECT ID,TYPE FROM STAFF_FIELDS ORDER BY SORT_ORDER"), array(), array('ID'));
+				$fields_RET = DBGet( "SELECT ID,TYPE FROM STAFF_FIELDS ORDER BY SORT_ORDER", array(), array('ID'));
 				foreach ( (array) $_REQUEST['staff'] as $column => $value)
 				{
 					if ( !empty($value) || $value=='0')
@@ -538,26 +538,26 @@ if ( ( UserStaffID()
 
 	if ( User( 'PROFILE_ID' ) )
 	{
-		$can_use_RET = DBGet( DBQuery( "SELECT MODNAME
+		$can_use_RET = DBGet( "SELECT MODNAME
 			FROM PROFILE_EXCEPTIONS
 			WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'
-			AND CAN_USE='Y'" ), array(), array( 'MODNAME' ) );
+			AND CAN_USE='Y'", array(), array( 'MODNAME' ) );
 	}
 	else
 	{
-		$can_use_RET = DBGet( DBQuery( "SELECT MODNAME
+		$can_use_RET = DBGet( "SELECT MODNAME
 			FROM STAFF_EXCEPTIONS
 			WHERE USER_ID='" . User( 'STAFF_ID' ) . "'
-			AND CAN_USE='Y'" ), array(), array( 'MODNAME' ) );
+			AND CAN_USE='Y'", array(), array( 'MODNAME' ) );
 	}
 
 	//FJ create account
 	if (basename($_SERVER['PHP_SELF'])=='index.php')
 		$can_use_RET['Users/User.php&category_id=1'] = true;
 
-	$profile = DBGet(DBQuery("SELECT PROFILE FROM STAFF WHERE STAFF_ID='".UserStaffID()."'"));
+	$profile = DBGet( "SELECT PROFILE FROM STAFF WHERE STAFF_ID='".UserStaffID()."'" );
 	$profile = $profile[1]['PROFILE'];
-	$categories_RET = DBGet(DBQuery("SELECT ID,TITLE,INCLUDE FROM STAFF_FIELD_CATEGORIES WHERE ".($profile?mb_strtoupper($profile).'=\'Y\'':'ID=\'1\'')." ORDER BY SORT_ORDER,TITLE"));
+	$categories_RET = DBGet( "SELECT ID,TITLE,INCLUDE FROM STAFF_FIELD_CATEGORIES WHERE ".($profile?mb_strtoupper($profile).'=\'Y\'':'ID=\'1\'')." ORDER BY SORT_ORDER,TITLE" );
 
 	foreach ( (array) $categories_RET as $category)
 	{

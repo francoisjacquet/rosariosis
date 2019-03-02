@@ -29,10 +29,10 @@ if ( ! function_exists( 'GetStudentLabelsFormHTML' ) )
 				&& $_REQUEST['w_course_period_id_which'] === 'course_period'
 				&& ! empty( $_REQUEST['w_course_period_id'] ) )
 			{
-				$course_RET = DBGet( DBQuery( "SELECT " . DisplayNameSQL( 's' ) . " AS TEACHER,cp.ROOM
+				$course_RET = DBGet( "SELECT " . DisplayNameSQL( 's' ) . " AS TEACHER,cp.ROOM
 				FROM STAFF s,COURSE_PERIODS cp
 				WHERE s.STAFF_ID=cp.TEACHER_ID
-				AND cp.COURSE_PERIOD_ID='" . $_REQUEST['w_course_period_id'] . "'" ) );
+				AND cp.COURSE_PERIOD_ID='" . $_REQUEST['w_course_period_id'] . "'" );
 
 				$form .= '<br /><label><input type="checkbox" name="teacher" value="Y"> ' .
 				_( 'Teacher' ) . ' (' . $course_RET[1]['TEACHER'] . ')</label>';

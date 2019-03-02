@@ -34,8 +34,14 @@ if ( isset( $_REQUEST['profile_id'] )
 
 if ( $_REQUEST['profile_id'] !== false )
 {
-	$exceptions_RET = DBGet( DBQuery( "SELECT PROFILE_ID,MODNAME,CAN_USE,CAN_EDIT FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . $_REQUEST['profile_id'] . "'" ), array(), array( 'MODNAME' ) );
-	$profile_RET = DBGet( DBQuery( "SELECT PROFILE FROM USER_PROFILES WHERE ID='" . $_REQUEST['profile_id'] . "'" ) );
+	$exceptions_RET = DBGet( "SELECT PROFILE_ID,MODNAME,CAN_USE,CAN_EDIT
+		FROM PROFILE_EXCEPTIONS
+		WHERE PROFILE_ID='" . $_REQUEST['profile_id'] . "'", array(), array( 'MODNAME' ) );
+
+	$profile_RET = DBGet( "SELECT PROFILE
+		FROM USER_PROFILES
+		WHERE ID='" . $_REQUEST['profile_id'] . "'" );
+
 	$xprofile = $profile_RET[1]['PROFILE'];
 
 	if ( $xprofile === 'student' )
@@ -55,9 +61,9 @@ if ( $_REQUEST['modfunc'] === 'delete'
 	{
 		$_REQUEST['profile_id'] = (int) $_REQUEST['profile_id'];
 
-		$profile_RET = DBGet( DBQuery( "SELECT TITLE
+		$profile_RET = DBGet( "SELECT TITLE
 			FROM USER_PROFILES
-			WHERE ID='" . $_REQUEST['profile_id'] . "'" ) );
+			WHERE ID='" . $_REQUEST['profile_id'] . "'" );
 	}
 	else // bad profile ID
 	{
@@ -108,7 +114,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 {
 	$tmp_menu = $menu;
 
-	$categories_RET = DBGet( DBQuery( "SELECT ID,TITLE FROM STUDENT_FIELD_CATEGORIES" ) );
+	$categories_RET = DBGet( "SELECT ID,TITLE FROM STUDENT_FIELD_CATEGORIES" );
 
 	foreach ( (array) $categories_RET as $category )
 	{
@@ -116,7 +122,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 		$tmp_menu['Students'][$xprofile][$file] = ' &nbsp; &nbsp; &rsaquo; ' . $category['TITLE'];
 	}
 
-	$categories_RET = DBGet( DBQuery( "SELECT ID,TITLE FROM STAFF_FIELD_CATEGORIES" ) );
+	$categories_RET = DBGet( "SELECT ID,TITLE FROM STAFF_FIELD_CATEGORIES" );
 
 	foreach ( (array) $categories_RET as $category )
 	{
@@ -202,9 +208,9 @@ if ( $_REQUEST['modfunc'] === 'update'
 		}
 	}
 
-	$exceptions_RET = DBGet( DBQuery( "SELECT MODNAME,CAN_USE,CAN_EDIT
+	$exceptions_RET = DBGet( "SELECT MODNAME,CAN_USE,CAN_EDIT
 		FROM PROFILE_EXCEPTIONS
-		WHERE PROFILE_ID='" . $_REQUEST['profile_id'] . "'" ), array(), array( 'MODNAME' ) );
+		WHERE PROFILE_ID='" . $_REQUEST['profile_id'] . "'", array(), array( 'MODNAME' ) );
 
 	unset( $tmp_menu );
 
@@ -227,7 +233,7 @@ if ( $_REQUEST['modfunc']
 	&& ! empty( $_REQUEST['new_profile_title'] )
 	&& AllowEdit() )
 {
-	$id = DBGet( DBQuery( "SELECT " . db_seq_nextval( 'USER_PROFILES_SEQ' ) . " AS ID" ) );
+	$id = DBGet( "SELECT " . db_seq_nextval( 'USER_PROFILES_SEQ' ) . " AS ID" );
 	$id = $id[1]['ID'];
 	$exceptions_RET = array();
 
@@ -258,7 +264,7 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 	echo '<table class="widefat">';
 
 	//$profiles_RET = DBGet(DBQuery("SELECT ID,TITLE,PROFILE FROM USER_PROFILES"));
-	$profiles_RET = DBGet( DBQuery( "SELECT ID,TITLE,PROFILE FROM USER_PROFILES ORDER BY ID" ),
+	$profiles_RET = DBGet( "SELECT ID,TITLE,PROFILE FROM USER_PROFILES ORDER BY ID",
 		array(),
 		array( 'PROFILE', 'ID' )
 	);
@@ -412,7 +418,9 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 					if ( $modcat === 'Students'
 						&& $file === 'Students/Student.php' )
 					{
-						$categories_RET = DBGet( DBQuery( "SELECT ID,TITLE FROM STUDENT_FIELD_CATEGORIES ORDER BY SORT_ORDER,TITLE" ) );
+						$categories_RET = DBGet( "SELECT ID,TITLE
+							FROM STUDENT_FIELD_CATEGORIES
+							ORDER BY SORT_ORDER,TITLE" );
 
 						foreach ( (array) $categories_RET as $category )
 						{
@@ -452,10 +460,10 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 							$categories_profiles_where .= " OR PARENT='Y'";
 						}
 
-						$categories_RET = DBGet( DBQuery( "SELECT ID,TITLE
+						$categories_RET = DBGet( "SELECT ID,TITLE
 							FROM STAFF_FIELD_CATEGORIES
 							WHERE " . $categories_profiles_where .
-							" ORDER BY SORT_ORDER,TITLE" ) );
+							" ORDER BY SORT_ORDER,TITLE" );
 
 						foreach ( (array) $categories_RET as $category )
 						{

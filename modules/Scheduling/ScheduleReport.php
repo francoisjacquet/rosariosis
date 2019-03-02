@@ -14,11 +14,11 @@ if ( $_REQUEST['modfunc'] !== 'students' )
 // Check if Subject ID is valid for current school & syear!
 if ( isset( $_REQUEST['subject_id'] ) )
 {
-	$subject_RET = DBGet( DBQuery( "SELECT SUBJECT_ID
+	$subject_RET = DBGet( "SELECT SUBJECT_ID
 		FROM COURSE_SUBJECTS
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		AND SYEAR='" . UserSyear() . "'
-		AND SUBJECT_ID='" . $_REQUEST['subject_id'] . "'" ) );
+		AND SUBJECT_ID='" . $_REQUEST['subject_id'] . "'" );
 
 	if ( ! $subject_RET )
 	{
@@ -30,9 +30,9 @@ if ( isset( $_REQUEST['subject_id'] ) )
 
 if ( ! empty( $_REQUEST['subject_id'] ) )
 {
-	$subject_RET = DBGet( DBQuery( "SELECT TITLE
+	$subject_RET = DBGet( "SELECT TITLE
 		FROM COURSE_SUBJECTS
-		WHERE SUBJECT_ID='" . $_REQUEST['subject_id'] . "'" ) );
+		WHERE SUBJECT_ID='" . $_REQUEST['subject_id'] . "'" );
 
 	//FJ add translation
 	$header .= '<a href="Modules.php?modname=' . $_REQUEST['modname'] .
@@ -49,9 +49,9 @@ if ( ! empty( $_REQUEST['subject_id'] ) )
 
 		$location = 'courses';
 
-		$course_RET = DBGet( DBQuery( "SELECT TITLE
+		$course_RET = DBGet( "SELECT TITLE
 			FROM COURSES
-			WHERE COURSE_ID='" . $_REQUEST['course_id'] . "'" ) );
+			WHERE COURSE_ID='" . $_REQUEST['course_id'] . "'" );
 
 		$header .= ' &rsaquo; <a href="Modules.php?modname=' . $_REQUEST['modname'] .
 			'&modfunc=students&subject_id=' . $_REQUEST['subject_id'] .
@@ -79,11 +79,11 @@ if ( ! empty( $_REQUEST['subject_id'] ) )
 echo '</form>';
 
 // SUBJECTS ----
-$subject_RET = DBGet( DBQuery( "SELECT s.SUBJECT_ID,s.TITLE
+$subject_RET = DBGet( "SELECT s.SUBJECT_ID,s.TITLE
 	FROM COURSE_SUBJECTS s
 	WHERE s.SYEAR='" . UserSyear() . "'
 	AND s.SCHOOL_ID='" . UserSchool() . "'
-	ORDER BY s.SORT_ORDER,s.TITLE" ) );
+	ORDER BY s.SORT_ORDER,s.TITLE" );
 
 if ( count( $subject_RET ) && $_REQUEST['subject_id'] )
 {
@@ -400,7 +400,7 @@ function calcSeats1($period,&$total_seats,&$filled_seats)
 
 		$mp = trim( $mp, "'" );
 
-		$seats = DBGet( DBQuery( "SELECT max((SELECT count(1)
+		$seats = DBGet( "SELECT max((SELECT count(1)
 			FROM SCHEDULE ss
 			JOIN STUDENT_ENROLLMENT sem ON (sem.STUDENT_ID=ss.STUDENT_ID AND sem.SYEAR=ss.SYEAR)
 			WHERE ss.COURSE_PERIOD_ID='" . $period['COURSE_PERIOD_ID'] . "'
@@ -415,7 +415,7 @@ function calcSeats1($period,&$total_seats,&$filled_seats)
 			'TRUE',
 			"'" . GetMP( $mp, 'START_DATE' ) . "'",
 			'CURRENT_DATE'
-		) ) . " AND '" . GetMP( $mp, 'END_DATE' ) . "'" ) );
+		) ) . " AND '" . GetMP( $mp, 'END_DATE' ) . "'" );
 
 		if ( ! empty( $_REQUEST['include_child_mps'] ) )
 		{

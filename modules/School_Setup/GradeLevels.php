@@ -181,7 +181,10 @@ function _makeGradeInput( $value, $name )
 
 	if ( ! $grades )
 	{
-		$grades_RET = DBGet( DBQuery( "SELECT ID,TITLE FROM SCHOOL_GRADELEVELS WHERE SCHOOL_ID='" . UserSchool() . "' ORDER BY SORT_ORDER" ) );
+		$grades_RET = DBGet( "SELECT ID,TITLE
+			FROM SCHOOL_GRADELEVELS
+			WHERE SCHOOL_ID='" . UserSchool() . "'
+			ORDER BY SORT_ORDER" );
 
 		if ( count( $grades_RET ) )
 		{

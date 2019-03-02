@@ -110,12 +110,12 @@ echo ErrorMessage( $error );
 if ( ! $_REQUEST['modfunc'] )
 {
 	// Remove Used for Attendance column, unused.
-	$periods_RET = DBGet( DBQuery( "SELECT PERIOD_ID,TITLE,SHORT_NAME,SORT_ORDER,LENGTH,
+	$periods_RET = DBGet( "SELECT PERIOD_ID,TITLE,SHORT_NAME,SORT_ORDER,LENGTH,
 		START_TIME,END_TIME,BLOCK
 		FROM SCHOOL_PERIODS
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
-		ORDER BY SORT_ORDER" ),
+		ORDER BY SORT_ORDER",
 	array(
 		'TITLE' => '_makeTextInput',
 		'SHORT_NAME' => '_makeTextInput',

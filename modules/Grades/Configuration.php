@@ -17,7 +17,7 @@ echo ErrorMessage( $note, 'note' );
 
 $gradebook_config = ProgramUserConfig( 'Gradebook' );
 
-$grades = DBGet( DBQuery( "SELECT cp.TITLE AS CP_TITLE,c.TITLE AS COURSE_TITLE,cp.COURSE_PERIOD_ID,rcg.TITLE,rcg.ID
+$grades = DBGet( "SELECT cp.TITLE AS CP_TITLE,c.TITLE AS COURSE_TITLE,cp.COURSE_PERIOD_ID,rcg.TITLE,rcg.ID
 FROM REPORT_CARD_GRADES rcg,COURSE_PERIODS cp,COURSES c
 WHERE cp.COURSE_ID=c.COURSE_ID
 AND cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "'
@@ -27,7 +27,7 @@ AND cp.SYEAR='" . UserSyear() . "'
 AND rcg.GRADE_SCALE_ID=cp.GRADE_SCALE_ID
 AND cp.GRADE_SCALE_ID IS NOT NULL
 AND DOES_BREAKOFF='Y'
-ORDER BY rcg.BREAK_OFF IS NOT NULL DESC,rcg.BREAK_OFF DESC,rcg.SORT_ORDER DESC" ), array(), array( 'COURSE_PERIOD_ID' ) );
+ORDER BY rcg.BREAK_OFF IS NOT NULL DESC,rcg.BREAK_OFF DESC,rcg.SORT_ORDER DESC", array(), array( 'COURSE_PERIOD_ID' ) );
 
 echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
 
@@ -111,11 +111,11 @@ if ( $RosarioModules['Eligibility'] )
 	echo '</fieldset><br />';
 }
 
-$comment_codes_RET = DBGet( DBQuery( "SELECT rccs.ID,rccs.TITLE,rccc.TITLE AS CODE_TITLE
+$comment_codes_RET = DBGet( "SELECT rccs.ID,rccs.TITLE,rccc.TITLE AS CODE_TITLE
 FROM REPORT_CARD_COMMENT_CODE_SCALES rccs,REPORT_CARD_COMMENT_CODES rccc
 WHERE rccs.SCHOOL_ID='" . UserSchool() . "'
 AND rccc.SCALE_ID=rccs.ID
-ORDER BY rccc.SORT_ORDER,rccs.SORT_ORDER,rccs.ID,rccc.ID" ), array(), array( 'ID' ) );
+ORDER BY rccc.SORT_ORDER,rccs.SORT_ORDER,rccs.ID,rccc.ID", array(), array( 'ID' ) );
 
 if ( $comment_codes_RET )
 {
@@ -195,26 +195,26 @@ if ( count( $grades ) )
 	echo '</fieldset><br />';
 }
 
-$year = DBGet( DBQuery( "SELECT TITLE,MARKING_PERIOD_ID,DOES_GRADES
+$year = DBGet( "SELECT TITLE,MARKING_PERIOD_ID,DOES_GRADES
 	FROM SCHOOL_MARKING_PERIODS
 	WHERE MP='FY'
 	AND SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'
-	ORDER BY SORT_ORDER" ) );
+	ORDER BY SORT_ORDER" );
 
-$semesters = DBGet( DBQuery( "SELECT TITLE,MARKING_PERIOD_ID,DOES_GRADES
+$semesters = DBGet( "SELECT TITLE,MARKING_PERIOD_ID,DOES_GRADES
 	FROM SCHOOL_MARKING_PERIODS
 	WHERE MP='SEM'
 	AND SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'
-	ORDER BY SORT_ORDER" ) );
+	ORDER BY SORT_ORDER" );
 
-$quarters = DBGet( DBQuery( "SELECT TITLE,MARKING_PERIOD_ID,PARENT_ID,DOES_GRADES
+$quarters = DBGet( "SELECT TITLE,MARKING_PERIOD_ID,PARENT_ID,DOES_GRADES
 	FROM SCHOOL_MARKING_PERIODS
 	WHERE MP='QTR'
 	AND SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'
-	ORDER BY SORT_ORDER" ), array(), array( 'PARENT_ID' ) );
+	ORDER BY SORT_ORDER", array(), array( 'PARENT_ID' ) );
 
 echo '<fieldset>';
 echo '<legend>' . _( 'Final Grading Percentages' ) . '</legend>';

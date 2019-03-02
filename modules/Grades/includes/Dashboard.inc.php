@@ -44,12 +44,12 @@ if ( ! function_exists( 'DashboardGradesAdmin' ) )
 	 */
 	function DashboardGradesAdmin()
 	{
-		$gpa_RET = DBGet( DBQuery( "SELECT ROUND(AVG(CUM_WEIGHTED_GPA)) AS CUM_WEIGHTED_GPA,
+		$gpa_RET = DBGet( "SELECT ROUND(AVG(CUM_WEIGHTED_GPA)) AS CUM_WEIGHTED_GPA,
 		ROUND(AVG(UNWEIGHTED_GPA)) AS CUM_UNWEIGHTED_GPA
 		FROM TRANSCRIPT_GRADES
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
-		AND MARKING_PERIOD_ID='" . UserMP() . "'" ) );
+		AND MARKING_PERIOD_ID='" . UserMP() . "'" );
 
 		// GPA for MP, if graded.
 		$gpa = 0;
@@ -61,14 +61,14 @@ if ( ! function_exists( 'DashboardGradesAdmin' ) )
 		{
 			// PostgreSQL version >= 8.4 required for ARRAY_TO_STRING() function.
 			// Assignments.
-			$assignments_RET = DBGet( DBQuery( "SELECT COUNT(ASSIGNMENT_ID) AS ASSIGNMENTS_NB,
+			$assignments_RET = DBGet( "SELECT COUNT(ASSIGNMENT_ID) AS ASSIGNMENTS_NB,
 			ARRAY_TO_STRING(ARRAY_AGG(ASSIGNMENT_ID), ',') AS ASSIGNMENTS_LIST,
 			DUE_DATE
 			FROM GRADEBOOK_ASSIGNMENTS
 			WHERE MARKING_PERIOD_ID='" . UserMP() . "'
 			GROUP BY DUE_DATE
 			ORDER BY DUE_DATE DESC
-			LIMIT 7" ) );
+			LIMIT 7" );
 
 			$assignments_today = 0;
 
@@ -100,10 +100,10 @@ if ( ! function_exists( 'DashboardGradesAdmin' ) )
 			}
 
 			// Assignments submissions.
-			$submissions_RET = DBGet( DBQuery( "SELECT " .
+			$submissions_RET = DBGet( "SELECT " .
 			implode( ',', $sql_submissions ) .
 			" FROM STUDENT_ASSIGNMENTS
-			GROUP BY STUDENT_ID" ) );
+			GROUP BY STUDENT_ID" );
 
 			foreach ( $assignments_RET as $assignments )
 			{
@@ -132,14 +132,14 @@ if ( ! function_exists( 'DashboardGradesAdmin' ) )
 			$label => ( $gpa ? number_format( $gpa, 2 ) : _( 'N/A' ) ),
 		);
 
-		$gpa_gradelevel_RET = DBGet( DBQuery( "SELECT ROUND(AVG(CUM_WEIGHTED_GPA)) AS CUM_WEIGHTED_GPA,
+		$gpa_gradelevel_RET = DBGet( "SELECT ROUND(AVG(CUM_WEIGHTED_GPA)) AS CUM_WEIGHTED_GPA,
 		ROUND(AVG(UNWEIGHTED_GPA)) AS CUM_UNWEIGHTED_GPA,
 		GRADE_LEVEL_SHORT
 		FROM TRANSCRIPT_GRADES
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		AND MARKING_PERIOD_ID='" . UserMP() . "'
-		GROUP BY GRADE_LEVEL_SHORT" ), array(), array( 'GRADE_LEVEL_SHORT' ) );
+		GROUP BY GRADE_LEVEL_SHORT", array(), array( 'GRADE_LEVEL_SHORT' ) );
 
 		foreach ( (array) $gpa_gradelevel_RET as $gradelevel => $gpa_gradelevel )
 		{

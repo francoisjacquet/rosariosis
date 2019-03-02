@@ -41,9 +41,9 @@ if ( $_REQUEST['modfunc'] === 'update' )
 			{
 				$sql = "UPDATE SCHOOLS SET ";
 
-				$fields_RET = DBGet( DBQuery( "SELECT ID,TYPE
+				$fields_RET = DBGet( "SELECT ID,TYPE
 					FROM SCHOOL_FIELDS
-					ORDER BY SORT_ORDER" ), array(), array( 'ID' ) );
+					ORDER BY SORT_ORDER", array(), array( 'ID' ) );
 
 				$go = 0;
 
@@ -121,7 +121,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 			RedirectURL( 'modfunc' );
 
 			//set current school to one of the remaining schools
-			$first_remaining_school = DBGet( DBQuery( "SELECT ID FROM SCHOOLS WHERE SYEAR = '" . UserSyear() . "' LIMIT 1" ) );
+			$first_remaining_school = DBGet( "SELECT ID FROM SCHOOLS WHERE SYEAR = '" . UserSyear() . "' LIMIT 1" );
 			$_SESSION['UserSchool'] = $first_remaining_school[1]['ID'];
 
 			UpdateSchoolArray( UserSchool() );
@@ -140,7 +140,12 @@ if ( ! $_REQUEST['modfunc'] )
 
 	echo ErrorMessage( $error, 'error' );
 
-	$schooldata = DBGet( DBQuery( "SELECT ID,TITLE,ADDRESS,CITY,STATE,ZIPCODE,PHONE,PRINCIPAL,WWW_ADDRESS,SCHOOL_NUMBER,REPORTING_GP_SCALE,SHORT_NAME,NUMBER_DAYS_ROTATION FROM SCHOOLS WHERE ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "'" ) );
+	$schooldata = DBGet( "SELECT ID,TITLE,ADDRESS,CITY,STATE,ZIPCODE,PHONE,PRINCIPAL,WWW_ADDRESS,
+		SCHOOL_NUMBER,REPORTING_GP_SCALE,SHORT_NAME,NUMBER_DAYS_ROTATION
+		FROM SCHOOLS
+		WHERE ID='" . UserSchool() . "'
+		AND SYEAR='" . UserSyear() . "'" );
+
 	$schooldata = $schooldata[1];
 	$school_name = SchoolInfo( 'TITLE' );
 
@@ -285,9 +290,9 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 
 	// FJ add School Fields.
-	$fields_RET = DBGet( DBQuery( "SELECT ID,TITLE,TYPE,SELECT_OPTIONS,DEFAULT_SELECTION,REQUIRED
+	$fields_RET = DBGet( "SELECT ID,TITLE,TYPE,SELECT_OPTIONS,DEFAULT_SELECTION,REQUIRED
 		FROM SCHOOL_FIELDS
-		ORDER BY SORT_ORDER,TITLE" ) );
+		ORDER BY SORT_ORDER,TITLE" );
 
 	$fields_RET = ParseMLArray( $fields_RET, 'TITLE' );
 
@@ -298,10 +303,10 @@ if ( ! $_REQUEST['modfunc'] )
 
 	foreach ( (array) $fields_RET as $field )
 	{
-		$value_custom = DBGet( DBQuery( "SELECT CUSTOM_" . $field['ID'] . "
+		$value_custom = DBGet( "SELECT CUSTOM_" . $field['ID'] . "
 			FROM SCHOOLS
 			WHERE ID='" . UserSchool() . "'
-			AND SYEAR='" . UserSyear() . "'" ) );
+			AND SYEAR='" . UserSyear() . "'" );
 
 		$value_custom = $value_custom[1]['CUSTOM_' . $field['ID']];
 

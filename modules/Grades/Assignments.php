@@ -26,9 +26,9 @@ if ( ! UserCoursePeriod() )
 	echo ErrorMessage( array( _( 'No courses assigned to teacher.' ) ), 'fatal' );
 }
 
-$course_id = DBGet( DBQuery( "SELECT COURSE_ID
+$course_id = DBGet( "SELECT COURSE_ID
 	FROM COURSE_PERIODS
-	WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" ) );
+	WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" );
 
 $course_id = $course_id[1]['COURSE_ID'];
 
@@ -163,7 +163,7 @@ if ( isset( $_POST['tables'] )
 					unset( $columns['ASSIGNMENT_TYPE_ID'] );
 				}
 
-				$id = DBGet( DBQuery( "SELECT " . db_seq_nextval( 'GRADEBOOK_ASSIGNMENTS_SEQ' ) . ' AS ID' ) );
+				$id = DBGet( "SELECT " . db_seq_nextval( 'GRADEBOOK_ASSIGNMENTS_SEQ' ) . ' AS ID' );
 
 				$id = $id[1]['ID'];
 
@@ -176,7 +176,7 @@ if ( isset( $_POST['tables'] )
 			}
 			elseif ( $table == 'GRADEBOOK_ASSIGNMENT_TYPES' )
 			{
-				$id = DBGet( DBQuery( "SELECT " . db_seq_nextval( 'GRADEBOOK_ASSIGNMENT_TYPES_SEQ' ) . ' AS ID' ) );
+				$id = DBGet( "SELECT " . db_seq_nextval( 'GRADEBOOK_ASSIGNMENT_TYPES_SEQ' ) . ' AS ID' );
 
 				$id = $id[1]['ID'];
 
@@ -289,18 +289,18 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 		// Assignment.
 		$prompt_title = _( 'Assignment' );
 
-		$assignment_has_grades = DBGet( DBQuery( "SELECT 1
+		$assignment_has_grades = DBGet( "SELECT 1
 			FROM GRADEBOOK_GRADES
-			WHERE ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'" ) );
+			WHERE ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'" );
 
 		if ( $assignment_has_grades )
 		{
 			$prompt_title = _( 'Assignment as well as the associated Grades' );
 		}
 
-		$assignment_file_RET = DBGet( DBQuery( "SELECT FILE
+		$assignment_file_RET = DBGet( "SELECT FILE
 			FROM GRADEBOOK_ASSIGNMENTS
-			WHERE ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'" ) );
+			WHERE ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'" );
 
 		$sql = "DELETE
 			FROM GRADEBOOK_ASSIGNMENTS
@@ -308,9 +308,9 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 	}
 	else
 	{
-		$assignment_type_has_assignments = DBGet( DBQuery( "SELECT 1
+		$assignment_type_has_assignments = DBGet( "SELECT 1
 			FROM GRADEBOOK_ASSIGNMENTS
-			WHERE ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'" ) );
+			WHERE ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'" );
 
 		// Can't delete Assignment Type if has Assignments!
 
@@ -336,9 +336,9 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 
 		if ( empty( $_REQUEST['assignment_id'] ) )
 		{
-			$assignments_RET = DBGet( DBQuery( "SELECT ASSIGNMENT_ID
+			$assignments_RET = DBGet( "SELECT ASSIGNMENT_ID
 				FROM GRADEBOOK_ASSIGNMENTS
-				WHERE ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'" ) );
+				WHERE ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'" );
 
 			foreach ( (array) $assignments_RET as $assignment_id )
 			{
@@ -390,12 +390,12 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( ! empty( $_REQUEST['assignment_type_id'] )
 		&& $_REQUEST['assignment_type_id'] !== 'new' )
 	{
-		$assignment_type_RET = DBGet( DBQuery( "SELECT ASSIGNMENT_TYPE_ID
+		$assignment_type_RET = DBGet( "SELECT ASSIGNMENT_TYPE_ID
 			FROM GRADEBOOK_ASSIGNMENT_TYPES
 			WHERE COURSE_ID=(SELECT COURSE_ID
 				FROM COURSE_PERIODS
 				WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
-			AND ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'" ) );
+			AND ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'" );
 
 		if ( ! $assignment_type_RET )
 		{
@@ -411,14 +411,14 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		// We have an Assignment ID but no type ID.
 		// Try to find it back.
-		$assignment_type_RET = DBGet( DBQuery( "SELECT ASSIGNMENT_TYPE_ID,MARKING_PERIOD_ID
+		$assignment_type_RET = DBGet( "SELECT ASSIGNMENT_TYPE_ID,MARKING_PERIOD_ID
 			FROM GRADEBOOK_ASSIGNMENTS
 			WHERE (COURSE_ID=(SELECT COURSE_ID
 				FROM COURSE_PERIODS
 				WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 				OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 			AND ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'
-			AND STAFF_ID='" . User( 'STAFF_ID' ) . "'" ) );
+			AND STAFF_ID='" . User( 'STAFF_ID' ) . "'" );
 
 		if ( ! $assignment_type_RET )
 		{
@@ -449,9 +449,9 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		$is_assignment = $_REQUEST['assignment_id'];
 
-		$assignment_type_has_assignments = DBGet( DBQuery( "SELECT 1
+		$assignment_type_has_assignments = DBGet( "SELECT 1
 			FROM GRADEBOOK_ASSIGNMENTS
-			WHERE ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'" ) );
+			WHERE ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'" );
 
 		// Can't delete Assignment Type if has Assignments!
 

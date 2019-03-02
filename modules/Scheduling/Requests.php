@@ -4,11 +4,11 @@ if ( $_REQUEST['modfunc'] === 'XMLHttpRequest' )
 {
 	header( "Content-Type: text/xml\n\n" );
 
-	$courses_RET = DBGet( DBQuery( "SELECT c.COURSE_ID,c.TITLE FROM COURSES c WHERE " .
+	$courses_RET = DBGet( "SELECT c.COURSE_ID,c.TITLE FROM COURSES c WHERE " .
 		( $_REQUEST['subject_id'] ? "c.SUBJECT_ID='" . (int) $_REQUEST['subject_id'] . "' AND " : '' ) .
 		"UPPER(c.TITLE) LIKE '" . mb_strtoupper( $_REQUEST['course_title'] ) .
 		"%' AND c.SYEAR='" . UserSyear() .
-		"' AND c.SCHOOL_ID='" . UserSchool() . "'" ) );
+		"' AND c.SCHOOL_ID='" . UserSchool() . "'" );
 
 	echo '<?phpxml version="1.0" standalone="yes"?><courses>';
 
@@ -38,9 +38,9 @@ if ( User( 'PROFILE' ) !== 'admin'
 		$can_edit_from_where = " FROM STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'";
 	}
 
-	$can_edit_RET = DBGet( DBQuery( "SELECT MODNAME " . $can_edit_from_where .
+	$can_edit_RET = DBGet( "SELECT MODNAME " . $can_edit_from_where .
 		" AND MODNAME='Scheduling/Requests.php'
-		AND CAN_EDIT='Y'" ) );
+		AND CAN_EDIT='Y'" );
 
 	if ( $can_edit_RET )
 	{
@@ -102,9 +102,9 @@ if ( $_REQUEST['modfunc'] === 'add' )
 	{
 		$course_id = $_REQUEST['course'];
 
-		$subject_id = DBGet( DBQuery( "SELECT SUBJECT_ID
+		$subject_id = DBGet( "SELECT SUBJECT_ID
 			FROM COURSES
-			WHERE COURSE_ID='" . $course_id . "'" ) );
+			WHERE COURSE_ID='" . $course_id . "'" );
 
 		$subject_id = $subject_id[1]['SUBJECT_ID'];
 
@@ -181,12 +181,12 @@ function processRequest()
 		'WITH_PERIOD_ID' => '_makePeriod',
 	);
 
-	$requests_RET = DBGet( DBQuery( "SELECT r.REQUEST_ID,c.TITLE as COURSE,r.COURSE_ID,
+	$requests_RET = DBGet( "SELECT r.REQUEST_ID,c.TITLE as COURSE,r.COURSE_ID,
 		r.MARKING_PERIOD_ID,r.WITH_TEACHER_ID,r.NOT_TEACHER_ID,r.WITH_PERIOD_ID,r.NOT_PERIOD_ID
 		FROM SCHEDULE_REQUESTS r,COURSES c
 		WHERE r.COURSE_ID=c.COURSE_ID
 		AND r.SYEAR='" . UserSyear() . "'
-		AND r.STUDENT_ID='" . UserStudentID() . "'" ), $functions );
+		AND r.STUDENT_ID='" . UserStudentID() . "'", $functions );
 
 	$columns = array(
 		'COURSE' => _( 'Course' ),
@@ -195,10 +195,10 @@ function processRequest()
 	);
 
 	// $link['add']['html'] = array('COURSE_ID'=>_makeCourse('','COURSE_ID'),'WITH_TEACHER_ID'=>_makeTeacher('','WITH_TEACHER_ID'),'WITH_PERIOD_ID'=>_makePeriod('','WITH_PERIOD_ID'),'MARKING_PERIOD_ID'=>_makeMP('','MARKING_PERIOD_ID'));
-	$subjects_RET = DBGet( DBQuery( "SELECT SUBJECT_ID,TITLE
+	$subjects_RET = DBGet( "SELECT SUBJECT_ID,TITLE
 		FROM COURSE_SUBJECTS
 		WHERE SYEAR='" . UserSyear() . "'
-		AND SCHOOL_ID='" . UserSchool() . "'" ) );
+		AND SCHOOL_ID='" . UserSchool() . "'" );
 
 	$subjects = '<select name="subject_id" onchange="document.getElementById(\'courses_div\').innerHTML = \'\';SendXMLRequest(this.form.subject_id.options[this.form.subject_id.selectedIndex].value,this.form.course_title.value);">';
 	$subjects .= '<option value="">' . _( 'All Subjects' ) . '</option>';
@@ -250,11 +250,11 @@ function _makeTeacher( $value, $column )
 {
 	global $THIS_RET;
 
-	$teachers_RET = DBGet( DBQuery( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,
+	$teachers_RET = DBGet( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 		s.STAFF_ID AS TEACHER_ID
 		FROM STAFF s,COURSE_PERIODS cp
 		WHERE s.STAFF_ID=cp.TEACHER_ID
-		AND cp.COURSE_ID='" . $THIS_RET['COURSE_ID'] . "'" ) );
+		AND cp.COURSE_ID='" . $THIS_RET['COURSE_ID'] . "'" );
 
 	$options = array();
 
@@ -289,11 +289,11 @@ function _makePeriod( $value, $column )
 
 	// FJ multiple school periods for a course period.
 	// $periods_RET = DBGet(DBQuery("SELECT p.TITLE,p.PERIOD_ID FROM SCHOOL_PERIODS p,COURSE_PERIODS cp WHERE p.PERIOD_ID=cp.PERIOD_ID AND cp.COURSE_ID='".$THIS_RET['COURSE_ID']."'"));
-	$periods_RET = DBGet( DBQuery( "SELECT p.TITLE,p.PERIOD_ID
+	$periods_RET = DBGet( "SELECT p.TITLE,p.PERIOD_ID
 		FROM SCHOOL_PERIODS p,COURSE_PERIODS cp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
 		WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 		AND p.PERIOD_ID=cpsp.PERIOD_ID
-		AND cp.COURSE_ID='" . $THIS_RET['COURSE_ID'] . "'" ) );
+		AND cp.COURSE_ID='" . $THIS_RET['COURSE_ID'] . "'" );
 
 	$options = array();
 

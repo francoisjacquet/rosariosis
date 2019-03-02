@@ -8,12 +8,19 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 		//FJ multiple school periods for a course period
 		//$course_periods_RET = DBGet(DBQuery("SELECT cp.COURSE_PERIOD_ID,cp.TITLE,TEACHER_ID,cp.MARKING_PERIOD_ID,cp.MP FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID IN ($cp_list) ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID)"));
-		$course_periods_RET = DBGet( DBQuery( "SELECT cp.COURSE_PERIOD_ID,cp.TITLE,TEACHER_ID,cp.MARKING_PERIOD_ID,cp.MP FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID IN (" . $cp_list . ") ORDER BY cp.SHORT_NAME,cp.TITLE" ) );
+		$course_periods_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,cp.TITLE,TEACHER_ID,cp.MARKING_PERIOD_ID,cp.MP
+			FROM COURSE_PERIODS cp
+			WHERE cp.COURSE_PERIOD_ID IN (" . $cp_list . ")
+			ORDER BY cp.SHORT_NAME,cp.TITLE" );
 		//echo '<pre>'; var_dump($course_periods_RET); echo '</pre>';
 
 		if ( $_REQUEST['include_teacher'] == 'Y' )
 		{
-			$teachers_RET = DBGet( DBQuery( "SELECT STAFF_ID,LAST_NAME,FIRST_NAME,ROLLOVER_ID FROM STAFF WHERE STAFF_ID IN (SELECT TEACHER_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID IN (" . $cp_list . "))" ), array(), array( 'STAFF_ID' ) );
+			$teachers_RET = DBGet( "SELECT STAFF_ID,LAST_NAME,FIRST_NAME,ROLLOVER_ID
+				FROM STAFF
+				WHERE STAFF_ID IN (SELECT TEACHER_ID
+					FROM COURSE_PERIODS
+					WHERE COURSE_PERIOD_ID IN (" . $cp_list . "))", array(), array( 'STAFF_ID' ) );
 		}
 
 		//echo '<pre>'; var_dump($teachers_RET); echo '</pre>';
@@ -50,7 +57,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 						AND s.STUDENT_ID=ss.STUDENT_ID)";
 
 					// Do NOT use GetStuList() otherwise limited to UserStudentID().
-					$RET = DBGet( DBQuery( "SELECT s.STUDENT_ID,s.LAST_NAME,s.FIRST_NAME
+					$RET = DBGet( "SELECT s.STUDENT_ID,s.LAST_NAME,s.FIRST_NAME
 						FROM STUDENTS s
 						JOIN STUDENT_ENROLLMENT ssm ON (ssm.STUDENT_ID=s.STUDENT_ID
 							AND ssm.SYEAR='" . UserSyear() . "'
@@ -59,7 +66,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 								AND (ssm.END_DATE IS NULL OR '" . DBDate() . "'<=ssm.END_DATE)))" .
 						$extra['FROM'] .
 						"WHERE TRUE" . $extra['WHERE'] .
-						" ORDER BY " . $extra['ORDER_BY'] ) );
+						" ORDER BY " . $extra['ORDER_BY'] );
 				}
 				elseif ( User( 'PROFILE' ) == 'teacher' )
 				{
@@ -246,12 +253,12 @@ function mySearch( $type, $extra = '' )
 
 		echo '<table>';
 
-		$RET = DBGet( DBQuery( "SELECT STAFF_ID," . DisplayNameSQL() . " AS FULL_NAME
+		$RET = DBGet( "SELECT STAFF_ID," . DisplayNameSQL() . " AS FULL_NAME
 			FROM STAFF
 			WHERE PROFILE='teacher'
 			AND (SCHOOLS IS NULL OR position('," . UserSchool() . ",' IN SCHOOLS)>0)
 			AND SYEAR='" . UserSyear() . "'
-			ORDER BY FULL_NAME" ) );
+			ORDER BY FULL_NAME" );
 
 		echo '<tr class="st"><td>' . _( 'Teacher' ) . '</td><td>';
 
@@ -264,7 +271,12 @@ function mySearch( $type, $extra = '' )
 
 		echo '</select></td></tr>';
 
-		$RET = DBGet( DBQuery( "SELECT SUBJECT_ID,TITLE FROM COURSE_SUBJECTS WHERE SCHOOL_ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "' ORDER BY TITLE" ) );
+		$RET = DBGet( "SELECT SUBJECT_ID,TITLE
+			FROM COURSE_SUBJECTS
+			WHERE SCHOOL_ID='" . UserSchool() . "'
+			AND SYEAR='" . UserSyear() . "'
+			ORDER BY TITLE" );
+
 		echo '<tr class="st"><td>' . _( 'Subject' ) . '</td><td>';
 
 		echo '<select name="subject_id"><option value="">' . _( 'N/A' ) . '</option>';
@@ -276,7 +288,12 @@ function mySearch( $type, $extra = '' )
 
 		echo '</select></td></tr>';
 
-		$RET = DBGet( DBQuery( "SELECT PERIOD_ID,TITLE FROM SCHOOL_PERIODS WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' ORDER BY SORT_ORDER" ) );
+		$RET = DBGet( "SELECT PERIOD_ID,TITLE
+			FROM SCHOOL_PERIODS
+			WHERE SYEAR='" . UserSyear() . "'
+			AND SCHOOL_ID='" . UserSchool() . "'
+			ORDER BY SORT_ORDER" );
+
 		echo '<tr class="st"><td>' . _( 'Period' ) . '</td><td>';
 
 		echo '<select name="period_id"><option value="">' . _( 'N/A' ) . '</option>';

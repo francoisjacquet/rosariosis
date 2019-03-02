@@ -107,10 +107,10 @@ echo ErrorMessage( $error );
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	$comment_scales_RET = DBGet( DBQuery( "SELECT ID,TITLE
+	$comment_scales_RET = DBGet( "SELECT ID,TITLE
 		FROM REPORT_CARD_COMMENT_CODE_SCALES
 		WHERE SCHOOL_ID='" . UserSchool() . "'
-		ORDER BY SORT_ORDER,ID" ), array(), array( 'ID' ) );
+		ORDER BY SORT_ORDER,ID", array(), array( 'ID' ) );
 
 	if ( $_REQUEST['tab_id'] == ''
 		|| $_REQUEST['tab_id'] !== 'new'

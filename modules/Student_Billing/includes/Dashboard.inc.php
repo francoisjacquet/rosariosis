@@ -45,23 +45,23 @@ if ( ! function_exists( 'DashboardStudentBillingAdmin' ) )
 		$balance = 0;
 
 		// Limit Results to Months between User MP Start & End Date.
-		$fees_RET = DBGet( DBQuery( "SELECT TO_CHAR(ASSIGNED_DATE,'YYYY-MM') AS YEAR_MONTH,
+		$fees_RET = DBGet( "SELECT TO_CHAR(ASSIGNED_DATE,'YYYY-MM') AS YEAR_MONTH,
 			SUM(AMOUNT) AS TOTAL_FEES
 			FROM BILLING_FEES
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			GROUP BY YEAR_MONTH
 			ORDER BY YEAR_MONTH DESC
-			LIMIT 4" ), array(), array( 'YEAR_MONTH' ) );
+			LIMIT 4", array(), array( 'YEAR_MONTH' ) );
 
-		$payments_RET = DBGet( DBQuery( "SELECT TO_CHAR(PAYMENT_DATE,'YYYY-MM') AS YEAR_MONTH,
+		$payments_RET = DBGet( "SELECT TO_CHAR(PAYMENT_DATE,'YYYY-MM') AS YEAR_MONTH,
 			SUM(AMOUNT) AS TOTAL_PAYMENTS
 			FROM BILLING_PAYMENTS
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			GROUP BY YEAR_MONTH
 			ORDER BY YEAR_MONTH DESC
-			LIMIT 4" ), array(), array( 'YEAR_MONTH' ) );
+			LIMIT 4", array(), array( 'YEAR_MONTH' ) );
 
 		$fees_payments_RET = array_replace_recursive( $fees_RET, $payments_RET );
 

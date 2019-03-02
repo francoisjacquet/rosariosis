@@ -169,10 +169,10 @@ else
 
 	echo '<table class="create-account width-100p valign-top fixed-col"><tr class="st"><td>';
 
-	$schools_RET = DBGet( DBQuery( "SELECT ID, TITLE
+	$schools_RET = DBGet( "SELECT ID, TITLE
 		FROM SCHOOLS
 		WHERE SYEAR='" . UserSyear() . "'
-		ORDER BY ID" ) );
+		ORDER BY ID" );
 
 	$school_options = array();
 

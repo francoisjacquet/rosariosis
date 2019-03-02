@@ -77,12 +77,12 @@ $grouped_SQL = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,s.STAFF_ID,g.R
 
 $grouped_RET = DBGet( DBQuery( $grouped_SQL ), array(), array( 'STAFF_ID', 'REPORT_CARD_GRADE_ID' ) );
 
-$grades_RET = DBGet( DBQuery( "SELECT rg.ID,rg.TITLE,rg.GPA_VALUE
+$grades_RET = DBGet( "SELECT rg.ID,rg.TITLE,rg.GPA_VALUE
 	FROM REPORT_CARD_GRADES rg,REPORT_CARD_GRADE_SCALES rs
 	WHERE rg.SCHOOL_ID='" . UserSchool() . "'
 	AND rg.SYEAR='" . UserSyear() . "'
 	AND rs.ID=rg.GRADE_SCALE_ID
-	ORDER BY rs.SORT_ORDER,rs.ID,rg.BREAK_OFF IS NOT NULL DESC,rg.BREAK_OFF DESC,rg.SORT_ORDER" ) );
+	ORDER BY rs.SORT_ORDER,rs.ID,rg.BREAK_OFF IS NOT NULL DESC,rg.BREAK_OFF DESC,rg.SORT_ORDER" );
 
 //FJ jqplot charts
 if ( $grouped_RET )

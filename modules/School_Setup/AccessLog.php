@@ -95,12 +95,12 @@ if ( ! $_REQUEST['modfunc'] )
 		'USER_AGENT' => '_makeAccessLogUserAgent', // Display Browser & OS.
 	);
 
-	$access_logs_RET = DBGet( DBQuery( "SELECT
+	$access_logs_RET = DBGet( "SELECT
 		DISTINCT USERNAME,PROFILE,LOGIN_TIME,IP_ADDRESS,STATUS,USER_AGENT
 		FROM ACCESS_LOG
 		WHERE LOGIN_TIME >='" . $start_date . "'
 		AND LOGIN_TIME <='" . $end_date . ' 23:59:59' . "'
-		ORDER BY LOGIN_TIME DESC" ), $access_logs_functions );
+		ORDER BY LOGIN_TIME DESC", $access_logs_functions );
 
 	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete" method="POST">';
 

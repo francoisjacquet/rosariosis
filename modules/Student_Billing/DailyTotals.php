@@ -50,19 +50,19 @@ DrawHeader( '<b>' . _( 'Report Timeframe' ) . ': </b>' .
 
 echo '</form>';
 
-$billing_payments = DBGet( DBQuery( "SELECT sum(AMOUNT) AS AMOUNT
+$billing_payments = DBGet( "SELECT sum(AMOUNT) AS AMOUNT
 	FROM BILLING_PAYMENTS
 	WHERE SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'
 	AND PAYMENT_DATE BETWEEN '" . $start_date . "'
-	AND '" . $end_date . "'" ) );
+	AND '" . $end_date . "'" );
 
-$billing_fees = DBGet( DBQuery( "SELECT sum(f.AMOUNT) AS AMOUNT
+$billing_fees = DBGet( "SELECT sum(f.AMOUNT) AS AMOUNT
 	FROM BILLING_FEES f
 	WHERE  f.SYEAR='" . UserSyear() . "'
 	AND f.SCHOOL_ID='" . UserSchool() . "'
 	AND f.ASSIGNED_DATE BETWEEN '" . $start_date . "'
-	AND '" . $end_date . "'" ) );
+	AND '" . $end_date . "'" );
 
 echo '<br />';
 

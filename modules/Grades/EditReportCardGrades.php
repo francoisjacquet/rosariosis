@@ -36,10 +36,10 @@ if ( UserStudentID() )
 		if ( ! empty( $_REQUEST['new_sms'] ) )
 		{
 			// FJ fix SQL bug when marking period already exist.
-			$sms_RET = DBGet( DBQuery( "SELECT *
+			$sms_RET = DBGet( "SELECT *
 				FROM STUDENT_MP_STATS
 				WHERE STUDENT_ID='" . $student_id . "'
-				AND MARKING_PERIOD_ID='" . $_REQUEST['new_sms'] . "'" ) );
+				AND MARKING_PERIOD_ID='" . $_REQUEST['new_sms'] . "'" );
 
 			if ( empty( $sms_RET ) )
 			{
@@ -82,9 +82,9 @@ if ( UserStudentID() )
 					$sql = 'INSERT INTO STUDENT_REPORT_CARD_GRADES ';
 
 					// FJ fix bug SQL SYEAR=NULL.
-					$syear = DBGet( DBQuery( "SELECT SYEAR
+					$syear = DBGet( "SELECT SYEAR
 						FROM MARKING_PERIODS
-						WHERE MARKING_PERIOD_ID='" . $mp_id . "'" ) );
+						WHERE MARKING_PERIOD_ID='" . $mp_id . "'" );
 
 					$syear = $syear[1]['SYEAR'];
 
@@ -167,9 +167,9 @@ if ( UserStudentID() )
 
 	if ( ! $_REQUEST['modfunc'] )
 	{
-		$student_RET = DBGet( DBQuery( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
+		$student_RET = DBGet( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
 			FROM STUDENTS
-			WHERE STUDENT_ID='" . $student_id . "'" ) );
+			WHERE STUDENT_ID='" . $student_id . "'" );
 
 		$student = $student_RET[1];
 
@@ -262,11 +262,11 @@ if ( UserStudentID() )
 		{
 			$syear = UserSyear();
 
-			$mp_RET = DBGet( DBQuery( "SELECT MARKING_PERIOD_ID,SYEAR,TITLE,POST_END_DATE
+			$mp_RET = DBGet( "SELECT MARKING_PERIOD_ID,SYEAR,TITLE,POST_END_DATE
 				FROM MARKING_PERIODS
 				WHERE SCHOOL_ID='" . UserSchool() . "'
 				AND SYEAR BETWEEN '" . sprintf( '%d', $syear - 5 ) . "' AND '" . $syear . "'
-				ORDER BY POST_END_DATE DESC" ) );
+				ORDER BY POST_END_DATE DESC" );
 
 			if ( $mp_RET )
 			{
@@ -327,10 +327,10 @@ if ( UserStudentID() )
 			);
 
 			// MP has Course Periods?
-			$mp_has_course_periods = DBGet( DBQuery( "SELECT COUNT(COURSE_PERIOD_ID)
+			$mp_has_course_periods = DBGet( "SELECT COUNT(COURSE_PERIOD_ID)
 				FROM COURSE_PERIODS
 				WHERE MARKING_PERIOD_ID='" . $mp_id . "'
-				AND SCHOOL_ID='" . UserSchool() . "'" ) );
+				AND SCHOOL_ID='" . UserSchool() . "'" );
 
 			if ( $mp_has_course_periods )
 			{
@@ -407,11 +407,11 @@ if ( UserStudentID() )
 			// FJ SQL error fix: operator does not exist: character varying = integer, add explicit type casts.
 			// $sql = 'SELECT * FROM student_report_card_grades WHERE STUDENT_ID = '.$student_id.' AND MARKING_PERIOD_ID = '.$mp_id.' ORDER BY ID';
 
-			$student_grades_RET = DBGet( DBQuery( "SELECT *
+			$student_grades_RET = DBGet( "SELECT *
 				FROM STUDENT_REPORT_CARD_GRADES
 				WHERE STUDENT_ID='" . $student_id . "'
 				AND cast(MARKING_PERIOD_ID as integer)='" . $mp_id . "'
-				ORDER BY ID" ), $functions );
+				ORDER BY ID", $functions );
 
 			ListOutput( $student_grades_RET, $LO_columns, '.', '.', $link, array(), $LO_options );
 		}
@@ -516,14 +516,14 @@ function _makeSelectInput( $value, $name )
 		$options = array();
 
 		// Get MP Course Periods.
-		$mp_course_periods_RET = DBGet( DBQuery( "SELECT COURSE_PERIOD_ID,TITLE
+		$mp_course_periods_RET = DBGet( "SELECT COURSE_PERIOD_ID,TITLE
 			FROM COURSE_PERIODS
 			WHERE SYEAR=(SELECT SYEAR
 				FROM SCHOOL_MARKING_PERIODS
 				WHERE MARKING_PERIOD_ID='" . $mp_id . "')
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND GRADE_SCALE_ID IS NOT NULL
-			ORDER BY COURSE_ID,TITLE" ) );
+			ORDER BY COURSE_ID,TITLE" );
 
 		foreach ( (array) $mp_course_periods_RET as $mp_course_period )
 		{
