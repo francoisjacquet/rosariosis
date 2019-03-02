@@ -7,11 +7,11 @@ function core_role_assign_roles_object()
 {
 	//first, gather the necessary variables
 	global $student_id;
-	
-	
+
+
 	//then, convert variables for the Moodle object:
 /*
-list of ( 
+list of (
 	object {
 		roleid int   //Role to assign to the user
 		userid int   //The user that is going to be assigned
@@ -19,11 +19,11 @@ list of (
 		contextlevel string  Optional //The context level to assign the user role in
 				                      (block, course, coursecat, system, user, module)
 		instanceid int  Optional //The Instance id of item where the role needs to be assigned
-	} 
+	}
 )*/
 
 	//gather the Moodle user ID
-	$userid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".UserStaffID()."' AND \"column\"='staff_id'"));
+	$userid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".UserStaffID()."' AND \"column\"='staff_id'" );
 	if (count($userid))
 	{
 		$userid = (int)$userid[1]['MOODLE_ID'];
@@ -32,9 +32,9 @@ list of (
 	{
 		return null;
 	}
-	
+
 	//gather the Moodle student ID
-	$studentid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$student_id."' AND \"column\"='student_id'"));
+	$studentid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$student_id."' AND \"column\"='student_id'" );
 	if (count($studentid))
 	{
 		$studentid = (int)$studentid[1]['MOODLE_ID'];
@@ -56,7 +56,7 @@ list of (
 					'instanceid' => $instanceid,
 				)
 			);
-	
+
 	return array($assignments);
 }
 
@@ -73,11 +73,11 @@ function core_role_unassign_roles_object()
 {
 	//first, gather the necessary variables
 	global $_REQUEST;
-	
-	
+
+
 	//then, convert variables for the Moodle object:
 /*
-list of ( 
+list of (
 	object {
 		roleid int   //Role to assign to the user
 		userid int   //The user that is going to be assigned
@@ -85,10 +85,10 @@ list of (
 		contextlevel string  Optional //The context level to unassign the user role in
 		+                                    (block, course, coursecat, system, user, module)
 		instanceid int  Optional //The Instance id of item where the role needs to be unassigned
-	} 
+	}
 )*/
 	//gather the Moodle user ID
-	$userid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".UserStaffID()."' AND \"column\"='staff_id'"));
+	$userid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".UserStaffID()."' AND \"column\"='staff_id'" );
 	if (count($userid))
 	{
 		$userid = (int)$userid[1]['MOODLE_ID'];
@@ -97,9 +97,9 @@ list of (
 	{
 		return null;
 	}
- 
+
 	//gather the Moodle student ID
-	$studentid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_REQUEST['student_id_remove']."' AND \"column\"='student_id'"));
+	$studentid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_REQUEST['student_id_remove']."' AND \"column\"='student_id'" );
 	if (count($studentid))
 	{
 		$studentid = (int)$studentid[1]['MOODLE_ID'];
@@ -121,7 +121,7 @@ list of (
 							'instanceid' => $instanceid,
 						)
 					);
-	
+
 	return array($unassignments);
 }
 

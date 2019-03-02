@@ -7,11 +7,11 @@ function core_course_create_courses_object()
 {
 	//first, gather the necessary variables
 	global $rolled_course_period, $next_syear;
-	
-	
+
+
 	//then, convert variables for the Moodle object:
 /*
-list of ( 
+list of (
 	object {
 		fullname string   //full name
 		shortname string   //course short name
@@ -38,7 +38,7 @@ list of (
 		completionnotify int  Optionnel //1: yes 0: no
 		lang string  Optionnel //forced course language
 		forcetheme string  Optionnel //name of the force theme
-	} 
+	}
 )
 */
 
@@ -51,9 +51,9 @@ list of (
 	//add the year to the course name
 	$fullname = FormatSyear($next_syear,Config('SCHOOL_SYEAR_OVER_2_YEARS')).$mp_short_name.' - '.$rolled_course_period['SHORT_NAME'];
 	$shortname = $rolled_course_period['SHORT_NAME'];
-	
+
 	//get the Moodle category
-	$categoryid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$rolled_course_period['COURSE_ID']."' AND \"column\"='course_id'"));
+	$categoryid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$rolled_course_period['COURSE_ID']."' AND \"column\"='course_id'" );
 	if (count($categoryid))
 	{
 		$categoryid = (int)$categoryid[1]['MOODLE_ID'];
@@ -62,7 +62,7 @@ list of (
 	{
 		return null;
 	}
-	
+
 	$idnumber = (string)$rolled_course_period['COURSE_PERIOD_ID'];
 	$summaryformat = 1;
 	$format = 'weeks';
@@ -77,7 +77,7 @@ list of (
 	$groupmode = 0;
 	$groupmodeforce = 0;
 	$defaultgroupingid = 0;
-		
+
 	$courses = array(
 				array(
 					'fullname' => $fullname,
@@ -98,7 +98,7 @@ list of (
 					'defaultgroupingid' => $defaultgroupingid,
 				)
 			);
-	
+
 	return array($courses);
 }
 
@@ -107,16 +107,16 @@ function core_course_create_courses_response($response)
 {
 	//first, gather the necessary variables
 	global $rolled_course_period;
-	
+
 	//then, save the ID in the moodlexrosario cross-reference table:
 /*
-list of ( 
+list of (
 	object {
 		id int   //course id
 		shortname string   //short name
-	} 
+	}
 )*/
-	
+
 	DBQuery("INSERT INTO MOODLEXROSARIO (\"column\", rosario_id, moodle_id) VALUES ('course_period_id', '".$rolled_course_period['COURSE_PERIOD_ID']."', ".$response[0]['id'].")");
 	return null;
 }
@@ -127,11 +127,11 @@ function core_role_assign_roles_object()
 {
 	//first, gather the necessary variables
 	global $rolled_course_period;
-	
-	
+
+
 	//then, convert variables for the Moodle object:
 /*
-list of ( 
+list of (
 	object {
 		roleid int   //Role to assign to the user
 		userid int   //The user that is going to be assigned
@@ -139,14 +139,14 @@ list of (
 		contextlevel string  Optional //The context level to assign the user role in
 				                      (block, course, coursecat, system, user, module)
 		instanceid int  Optional //The Instance id of item where the role needs to be assigned
-	} 
+	}
 )*/
 
 	//teacher's roleid = teacher = 3
 	$roleid = 3;
-	
+
 	//get the Moodle user ID
-	$userid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$rolled_course_period['TEACHER_ID']."' AND \"column\"='staff_id'"));
+	$userid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$rolled_course_period['TEACHER_ID']."' AND \"column\"='staff_id'" );
 	if (count($userid))
 	{
 		$userid = (int)$userid[1]['MOODLE_ID'];
@@ -155,9 +155,9 @@ list of (
 	{
 		return null;
 	}
-	
+
 	//gather the Moodle course ID
-	$courseid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$rolled_course_period['COURSE_PERIOD_ID']."' AND \"column\"='course_period_id'"));
+	$courseid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$rolled_course_period['COURSE_PERIOD_ID']."' AND \"column\"='course_period_id'" );
 	if (count($courseid))
 	{
 		$courseid = (int)$courseid[1]['MOODLE_ID'];
@@ -178,7 +178,7 @@ list of (
 					'instanceid' => $instanceid,
 				)
 			);
-	
+
 	return array($assignments);
 }
 
@@ -198,7 +198,7 @@ function core_role_unassign_roles_object()
 
 	//then, convert variables for the Moodle object:
 /*
-list of ( 
+list of (
 	object {
 		roleid int   //Role to assign to the user
 		userid int   //The user that is going to be assigned
@@ -206,10 +206,10 @@ list of (
 		contextlevel string  Optional //The context level to unassign the user role in
 		+                                    (block, course, coursecat, system, user, module)
 		instanceid int  Optional //The Instance id of item where the role needs to be unassigned
-	} 
+	}
 )*/
 	//gather the Moodle user ID
-	$userid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$cp_teacher_id."' AND \"column\"='staff_id'"));
+	$userid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$cp_teacher_id."' AND \"column\"='staff_id'" );
 	if (count($userid))
 	{
 		$userid = (int)$userid[1]['MOODLE_ID'];
@@ -257,7 +257,7 @@ function core_course_delete_courses_object()
 
 	//then, convert variables for the Moodle object:
 /*
-list of ( 
+list of (
 	int   //course ID
 )*/
 

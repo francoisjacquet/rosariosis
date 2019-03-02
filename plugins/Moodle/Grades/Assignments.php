@@ -38,7 +38,7 @@ list of (
 	$format = 1;
 
 	//gather the Moodle course ID
-	$courseid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".UserCoursePeriod()."' AND \"column\"='course_period_id'"));
+	$courseid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".UserCoursePeriod()."' AND \"column\"='course_period_id'" );
 	if (count($courseid))
 	{
 		$courseid = (int)$courseid[1]['MOODLE_ID'];
@@ -147,7 +147,7 @@ list of (
 	if (!empty($id))
 		$assignment_id = $id;
 
-	$eventid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$assignment_id."' AND \"column\"='assignment_id'"));
+	$eventid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$assignment_id."' AND \"column\"='assignment_id'" );
 
 	if (count($eventid))
 	{
@@ -181,7 +181,7 @@ function core_calendar_delete_calendar_events_response($response)
 	{
 		$assignment_id = $id;
 		//get the Gradebook Assignment columns needed by the core_calendar_create_calendar_events function
-		$gradebook_assignment = DBGet(DBQuery("SELECT ASSIGNED_DATE, DUE_DATE, DESCRIPTION, TITLE FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_ID='".$id."'"));
+		$gradebook_assignment = DBGet( "SELECT ASSIGNED_DATE, DUE_DATE, DESCRIPTION, TITLE FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_ID='".$id."'" );
 		$columns = $gradebook_assignment[1];
 	}
 

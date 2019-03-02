@@ -33,7 +33,7 @@ list of (
 	elseif ( $table_name=='COURSES')
 	{
 		//get the Moodle parent category
-		$parent = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_REQUEST['subject_id']."' AND \"column\"='subject_id'"));
+		$parent = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_REQUEST['subject_id']."' AND \"column\"='subject_id'" );
 		if (count($parent))
 		{
 			$parent = (int)$parent[1]['MOODLE_ID'];
@@ -127,7 +127,7 @@ list of (
 		$column = 'subject_id';
 		$rosario_id = $_REQUEST['subject_id'];
 	}
-	$id = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$rosario_id."' AND \"column\"='".$column."'"));
+	$id = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$rosario_id."' AND \"column\"='".$column."'" );
 	if (count($id))
 	{
 		$id = (int)$id[1]['MOODLE_ID'];
@@ -171,7 +171,7 @@ function core_course_delete_categories_object()
 		$column = 'subject_id';
 		$rosario_id = $_REQUEST['subject_id'];
 	}
-	$id = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$rosario_id."' AND \"column\"='".$column."'"));
+	$id = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$rosario_id."' AND \"column\"='".$column."'" );
 	if (count($id))
 	{
 		$id = (int)$id[1]['MOODLE_ID'];
@@ -271,7 +271,7 @@ list of (
 	$shortname = $columns['SHORT_NAME'];
 
 	//get the Moodle category
-	$categoryid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_REQUEST['course_id']."' AND \"column\"='course_id'"));
+	$categoryid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_REQUEST['course_id']."' AND \"column\"='course_id'" );
 	if (count($categoryid))
 	{
 		$categoryid = (int)$categoryid[1]['MOODLE_ID'];
@@ -368,7 +368,7 @@ list of (
 	$roleid = 3;
 
 	//get the Moodle user ID
-	$userid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$columns['TEACHER_ID']."' AND \"column\"='staff_id'"));
+	$userid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$columns['TEACHER_ID']."' AND \"column\"='staff_id'" );
 	if (count($userid))
 	{
 		$userid = (int)$userid[1]['MOODLE_ID'];
@@ -379,7 +379,7 @@ list of (
 	}
 
 	//gather the Moodle course ID
-	$courseid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_REQUEST['course_period_id']."' AND \"column\"='course_period_id'"));
+	$courseid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_REQUEST['course_period_id']."' AND \"column\"='course_period_id'" );
 	if (count($courseid))
 	{
 		$courseid = (int)$courseid[1]['MOODLE_ID'];
@@ -416,7 +416,7 @@ function core_role_assign_roles_response($response)
 function core_course_delete_courses_object()
 {
 	//gather the Moodle course ID
-	$id = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_REQUEST['course_period_id']."' AND \"column\"='course_period_id'"));
+	$id = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_REQUEST['course_period_id']."' AND \"column\"='course_period_id'" );
 	if (count($id))
 	{
 		$id = (int)$id[1]['MOODLE_ID'];
@@ -469,7 +469,7 @@ list of (
 	}
 )*/
 	//gather the Moodle user ID
-	$userid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$current[1]['TEACHER_ID']."' AND \"column\"='staff_id'"));
+	$userid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$current[1]['TEACHER_ID']."' AND \"column\"='staff_id'" );
 	if (count($userid))
 	{
 		$userid = (int)$userid[1]['MOODLE_ID'];
@@ -483,7 +483,7 @@ list of (
 	$roleid = 3;
 
 	//gather the Moodle course period ID
-	$courseperiodid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_REQUEST['course_period_id']."' AND \"column\"='course_period_id'"));
+	$courseperiodid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_REQUEST['course_period_id']."' AND \"column\"='course_period_id'" );
 	if (count($courseperiodid))
 	{
 		$courseperiodid = (int)$courseperiodid[1]['MOODLE_ID'];
@@ -566,7 +566,7 @@ list of (
 	$fullname = FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS')).' - '.$base_title;
 
 	//get the Moodle course ID
-	$moodle_id = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_REQUEST['course_period_id']."' AND \"column\"='course_period_id'"));
+	$moodle_id = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_REQUEST['course_period_id']."' AND \"column\"='course_period_id'" );
 	if (count($moodle_id))
 	{
 		$moodle_id = (int)$moodle_id[1]['MOODLE_ID'];

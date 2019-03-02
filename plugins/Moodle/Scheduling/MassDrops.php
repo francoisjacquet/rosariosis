@@ -7,11 +7,11 @@ function core_role_unassign_roles_object()
 {
 	//first, gather the necessary variables
 	global $student_id, $_SESSION;
-	
-	
+
+
 	//then, convert variables for the Moodle object:
 /*
-list of ( 
+list of (
 	object {
 		roleid int   //Role to assign to the user
 		userid int   //The user that is going to be assigned
@@ -19,10 +19,10 @@ list of (
 		contextlevel string  Optional //The context level to unassign the user role in
 		+                                    (block, course, coursecat, system, user, module)
 		instanceid int  Optional //The Instance id of item where the role needs to be unassigned
-	} 
+	}
 )*/
 	//gather the Moodle user ID
-	$userid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$student_id."' AND \"column\"='student_id'"));
+	$userid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$student_id."' AND \"column\"='student_id'" );
 	if (count($userid))
 	{
 		$userid = (int)$userid[1]['MOODLE_ID'];
@@ -36,7 +36,7 @@ list of (
 	$roleid = 5;
 
 	//gather the Moodle course period ID
-	$courseperiodid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_SESSION['MassDrops.php']['course_period_id']."' AND \"column\"='course_period_id'"));
+	$courseperiodid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_SESSION['MassDrops.php']['course_period_id']."' AND \"column\"='course_period_id'" );
 	if (count($courseperiodid))
 	{
 		$courseperiodid = (int)$courseperiodid[1]['MOODLE_ID'];
@@ -51,7 +51,7 @@ list of (
 
 	$contextlevel = 'course';
 	$instanceid = $courseperiodid;
-	
+
 	$unassignments = array(
 						array(
 							'roleid' => $roleid,
@@ -60,7 +60,7 @@ list of (
 							'instanceid' => $instanceid,
 						)
 					);
-	
+
 	return array($unassignments);
 }
 

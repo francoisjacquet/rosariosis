@@ -109,7 +109,7 @@ list of (
 )*/
 
 	//gather the Moodle user ID
-	$userid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$id."' AND \"column\"='staff_id'"));
+	$userid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$id."' AND \"column\"='staff_id'" );
 	if (count($userid))
 	{
 		$userid = (int)$userid[1]['MOODLE_ID'];
@@ -120,7 +120,7 @@ list of (
 	}
 
 	//gather the Moodle student ID
-	$studentid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$student['STUDENT_ID']."' AND \"column\"='student_id'"));
+	$studentid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$student['STUDENT_ID']."' AND \"column\"='student_id'" );
 	if (count($studentid))
 	{
 		$studentid = (int)$studentid[1]['MOODLE_ID'];

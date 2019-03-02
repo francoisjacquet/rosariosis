@@ -180,7 +180,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 		break;
 
 		case 'Students/Student.php|update_student_address':
-			$residence = DBGet(DBQuery("SELECT RESIDENCE FROM STUDENTS_JOIN_ADDRESS WHERE ADDRESS_ID='".$_REQUEST['address_id']."'"));
+			$residence = DBGet( "SELECT RESIDENCE FROM STUDENTS_JOIN_ADDRESS WHERE ADDRESS_ID='".$_REQUEST['address_id']."'" );
 
 			if ($residence[1]['RESIDENCE'] == 'Y')
 				Moodle($modname, 'core_user_update_users');
@@ -218,7 +218,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 
 				//3) verify the users have not been rolled yet:
 				$users_rolled = false;
-				if (count(DBGet(DBQuery("SELECT 'ROLLED' FROM STAFF WHERE SYEAR='".(UserSyear()+1)."'"))))
+				if (count(DBGet( "SELECT 'ROLLED' FROM STAFF WHERE SYEAR='".(UserSyear()+1)."'")))
 					$users_rolled = true;
 
 				if ( ( $_REQUEST['staff_id'] === 'new'
@@ -484,7 +484,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 		case 'School_Setup/Calendar.php|update_calendar_event':
 			global $error;
 
-			$isMoodleEvent = count(DBGet(DBQuery("SELECT 1 FROM moodlexrosario WHERE rosario_id='".$_REQUEST['event_id']."' AND \"column\"='calendar_event_id'")));
+			$isMoodleEvent = count(DBGet( "SELECT 1 FROM moodlexrosario WHERE rosario_id='".$_REQUEST['event_id']."' AND \"column\"='calendar_event_id'"));
 
 			if ($isMoodleEvent)
 			{
@@ -562,7 +562,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 				DBQuery("UPDATE MOODLEXROSARIO SET ROSARIO_ID=(SELECT ROLLOVER_ID FROM COURSES WHERE COURSE_ID=ROSARIO_ID) WHERE exists(SELECT * FROM COURSES WHERE COURSE_ID=ROSARIO_ID AND ROLLOVER_ID IS NOT NULL AND SYEAR='".$next_syear."') AND \"column\"='course_id'");
 
 				//COURSE_PERIOD_ID
-				$course_periods_RET = DBGet(DBQuery("SELECT mxc.MOODLE_ID AS CP_MOODLE_ID, cp.TEACHER_ID FROM COURSE_PERIODS cp, MOODLEXROSARIO mxc WHERE cp.SYEAR='".$next_syear."' AND cp.SCHOOL_ID='".UserSchool()."' AND cp.ROLLOVER_ID IS NOT NULL AND cp.ROLLOVER_ID=mxc.ROSARIO_ID AND mxc.\"column\"='course_period_id'"));
+				$course_periods_RET = DBGet( "SELECT mxc.MOODLE_ID AS CP_MOODLE_ID, cp.TEACHER_ID FROM COURSE_PERIODS cp, MOODLEXROSARIO mxc WHERE cp.SYEAR='".$next_syear."' AND cp.SCHOOL_ID='".UserSchool()."' AND cp.ROLLOVER_ID IS NOT NULL AND cp.ROLLOVER_ID=mxc.ROSARIO_ID AND mxc.\"column\"='course_period_id'" );
 
 				foreach ( (array) $course_periods_RET as $reset_course_period)
 				{
@@ -583,7 +583,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 		case 'School_Setup/Rollover.php|rollover_staff':
 			global $next_syear;
 
-			$staff_RET = DBGet(DBQuery("SELECT STAFF_ID,ROLLOVER_ID FROM STAFF WHERE SYEAR='".$next_syear."' AND ROLLOVER_ID IS NOT NULL"));
+			$staff_RET = DBGet( "SELECT STAFF_ID,ROLLOVER_ID FROM STAFF WHERE SYEAR='".$next_syear."' AND ROLLOVER_ID IS NOT NULL" );
 
 			foreach ( (array) $staff_RET as $value)
 				DBQuery("UPDATE MOODLEXROSARIO SET ROSARIO_ID='".$value['STAFF_ID']."' WHERE ROSARIO_ID='".$value['ROLLOVER_ID']."' AND \"column\"='staff_id'");
@@ -593,7 +593,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 		case 'School_Setup/Rollover.php|rollover_course_subjects':
 			global $next_syear;
 
-			$course_subjects_RET = DBGet(DBQuery("SELECT SUBJECT_ID,ROLLOVER_ID FROM COURSE_SUBJECTS WHERE SYEAR='".$next_syear."' AND SCHOOL_ID='".UserSchool()."' AND ROLLOVER_ID IS NOT NULL"));
+			$course_subjects_RET = DBGet( "SELECT SUBJECT_ID,ROLLOVER_ID FROM COURSE_SUBJECTS WHERE SYEAR='".$next_syear."' AND SCHOOL_ID='".UserSchool()."' AND ROLLOVER_ID IS NOT NULL" );
 
 			foreach ( (array) $course_subjects_RET as $value)
 				DBQuery("UPDATE MOODLEXROSARIO SET ROSARIO_ID='".$value['SUBJECT_ID']."' WHERE ROSARIO_ID='".$value['ROLLOVER_ID']."' AND \"column\"='subject_id'");
@@ -603,7 +603,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 		case 'School_Setup/Rollover.php|rollover_courses':
 			global $next_syear;
 
-			$courses_RET = DBGet(DBQuery("SELECT COURSE_ID,ROLLOVER_ID FROM COURSES WHERE SYEAR='".$next_syear."' AND SCHOOL_ID='".UserSchool()."' AND ROLLOVER_ID IS NOT NULL"));
+			$courses_RET = DBGet( "SELECT COURSE_ID,ROLLOVER_ID FROM COURSES WHERE SYEAR='".$next_syear."' AND SCHOOL_ID='".UserSchool()."' AND ROLLOVER_ID IS NOT NULL" );
 
 			foreach ( (array) $courses_RET as $value)
 				DBQuery("UPDATE MOODLEXROSARIO SET ROSARIO_ID='".$value['COURSE_ID']."' WHERE ROSARIO_ID='".$value['ROLLOVER_ID']."' AND \"column\"='course_id'");
@@ -613,7 +613,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 		case 'School_Setup/Rollover.php|rollover_course_periods':
 			global $next_syear, $rolled_course_period;
 
-			$course_periods_RET = DBGet(DBQuery("SELECT cp.COURSE_PERIOD_ID, cp.COURSE_ID, cp.SHORT_NAME, cp.MARKING_PERIOD_ID, cp.TEACHER_ID FROM COURSE_PERIODS cp, MOODLEXROSARIO mxc WHERE cp.SYEAR='".$next_syear."' AND cp.SCHOOL_ID='".UserSchool()."' AND cp.ROLLOVER_ID IS NOT NULL AND cp.ROLLOVER_ID=mxc.ROSARIO_ID AND mxc.\"column\"='course_period_id'"));
+			$course_periods_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID, cp.COURSE_ID, cp.SHORT_NAME, cp.MARKING_PERIOD_ID, cp.TEACHER_ID FROM COURSE_PERIODS cp, MOODLEXROSARIO mxc WHERE cp.SYEAR='".$next_syear."' AND cp.SCHOOL_ID='".UserSchool()."' AND cp.ROLLOVER_ID IS NOT NULL AND cp.ROLLOVER_ID=mxc.ROSARIO_ID AND mxc.\"column\"='course_period_id'" );
 
 			foreach ( (array) $course_periods_RET as $rolled_course_period)
 			{
@@ -660,20 +660,20 @@ function MoodlePasswordCheck($password)
 
 function IsMoodleStudent($student_id)
 {
-	return count(DBGet(DBQuery("SELECT 1 FROM moodlexrosario WHERE rosario_id='".$student_id."' AND \"column\"='student_id'")));
+	return count(DBGet( "SELECT 1 FROM moodlexrosario WHERE rosario_id='".$student_id."' AND \"column\"='student_id'") );
 }
 
 function IsMoodleUser($staff_id)
 {
-	return count(DBGet(DBQuery("SELECT 1 FROM moodlexrosario WHERE rosario_id='".$staff_id."' AND \"column\"='staff_id'")));
+	return count(DBGet( "SELECT 1 FROM moodlexrosario WHERE rosario_id='".$staff_id."' AND \"column\"='staff_id'") );
 }
 
 function IsMoodleCourse($course_id)
 {
-	return count(DBGet(DBQuery("SELECT 1 FROM moodlexrosario WHERE rosario_id='".$course_id."' AND \"column\"='course_id'")));
+	return count(DBGet( "SELECT 1 FROM moodlexrosario WHERE rosario_id='".$course_id."' AND \"column\"='course_id'") );
 }
 
 function IsMoodleCoursePeriod($course_period_id)
 {
-	return count(DBGet(DBQuery("SELECT 1 FROM moodlexrosario WHERE rosario_id='".$course_period_id."' AND \"column\"='course_period_id'")));
+	return count(DBGet( "SELECT 1 FROM moodlexrosario WHERE rosario_id='".$course_period_id."' AND \"column\"='course_period_id'") );
 }

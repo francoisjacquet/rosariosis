@@ -97,7 +97,7 @@ function core_user_update_users_object()
 
 	//gather the Moodle user ID
 	$rosario_id = UserStaffID();
-	$moodle_id = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$rosario_id."' AND \"column\"='staff_id'"));
+	$moodle_id = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$rosario_id."' AND \"column\"='staff_id'" );
 	if (count($moodle_id))
 	{
 		$moodle_id = (double)$moodle_id[1]['MOODLE_ID'];
@@ -183,7 +183,7 @@ function core_user_delete_users_object()
 {
 	//gather the Moodle user ID
 	$rosario_id = UserStaffID();
-	$moodle_id = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$rosario_id."' AND \"column\"='staff_id'"));
+	$moodle_id = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$rosario_id."' AND \"column\"='staff_id'" );
 	if (count($moodle_id))
 	{
 		$moodle_id = (int)$moodle_id[1]['MOODLE_ID'];
@@ -240,7 +240,7 @@ list of (
 )*/
 
 	//gather the Moodle user ID
-	$userid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".(!empty($staff_id) ? $staff_id : UserStaffID())."' AND \"column\"='staff_id'"));
+	$userid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".(!empty($staff_id) ? $staff_id : UserStaffID())."' AND \"column\"='staff_id'" );
 	if (count($userid))
 	{
 		$userid = (int)$userid[1]['MOODLE_ID'];
@@ -334,7 +334,7 @@ list of (
 	}
 )*/
 	//gather the Moodle user ID
-	$userid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".UserStaffID()."' AND \"column\"='staff_id'"));
+	$userid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".UserStaffID()."' AND \"column\"='staff_id'" );
 	if (count($userid))
 	{
 		$userid = (int)$userid[1]['MOODLE_ID'];
@@ -417,7 +417,7 @@ filecontent = base64_encode
 	$rosario_id = $_POST['userId'];
 	//gather the Moodle user ID
 	$column = (mb_strpos($_POST['modname'], 'Users') !== false ? 'staff_id' : 'student_id');
-	$instanceid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$rosario_id."' AND \"column\"='".$column."'"));
+	$instanceid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$rosario_id."' AND \"column\"='".$column."'" );
 	if (count($instanceid))
 	{
 		$instanceid = (int)$instanceid[1]['MOODLE_ID'];

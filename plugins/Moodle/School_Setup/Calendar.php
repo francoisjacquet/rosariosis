@@ -6,10 +6,10 @@ function core_calendar_create_calendar_events_object()
 {
 	//first, gather the necessary variables
 	global $_REQUEST;
-	
+
 	//then, convert variables for the Moodle object:
 /*
-list of ( 
+list of (
 	  //event
 	object {
 		name string   //event name
@@ -23,14 +23,14 @@ list of (
 		timeduration int  Default to "0" //time duration (in minutes)
 		visible int  Default to "1" //visible
 		sequence int  Default to "1" //sequence
-	} 
+	}
 )
 */
 	//update_calendar_event
 	if ( $_REQUEST['event_id']!='new')
 	{
 		//get calendar event title & description
-		$calendar_event = DBGet(DBQuery("SELECT TITLE, DESCRIPTION FROM CALENDAR_EVENTS WHERE ID='".$_REQUEST['event_id']."'"));
+		$calendar_event = DBGet( "SELECT TITLE, DESCRIPTION FROM CALENDAR_EVENTS WHERE ID='".$_REQUEST['event_id']."'" );
 	}
 
 	if ( empty($_REQUEST['values']['TITLE']))
@@ -47,7 +47,7 @@ list of (
 	$courseid = 1;
 	$eventtype = 'site';
 	$timestart = strtotime($_REQUEST['values']['SCHOOL_DATE']);
-	
+
 	$events = array(
 				array(
 					'name' => $name,
@@ -58,7 +58,7 @@ list of (
 					'eventtype' => $eventtype,
 				)
 			);
-	
+
 	return array($events);
 }
 
@@ -67,11 +67,11 @@ function core_calendar_create_calendar_events_response($response)
 {
 	//first, gather the necessary variables
 	global $calendar_event_id, $_REQUEST;
-	
+
 	//then, save the ID in the moodlexrosario cross-reference table if no error:
 /*
 object {
-	events list of ( 
+	events list of (
 		  //event
 		object {
 			id int   //event id
@@ -92,17 +92,17 @@ object {
 			sequence int   //sequence
 			timemodified int   //time modified
 			subscriptionid int  Optional //Subscription id
-		} 
+		}
 		)warnings  Optional //list of warnings
-		list of ( 
+		list of (
 		  //warning
 		object {
 			item string  Optional //item
 			itemid int  Optional //item id
 			warningcode string   //the warning code can be used by the client app to implement specific behaviour
 			message string   //untranslated english message to explain the warning
-		} 
-)} 
+		}
+)}
 */
 	if (is_array($response['warnings'][0]))
 	{
@@ -112,10 +112,10 @@ object {
 
 		return false;
 	}
-	
+
 	if (empty($calendar_event_id)) //case: update event
 		$calendar_event_id = $_REQUEST['event_id'];
-		
+
 	DBQuery("INSERT INTO MOODLEXROSARIO (\"column\", rosario_id, moodle_id) VALUES ('calendar_event_id', '".$calendar_event_id."', ".$response['events'][0]['id'].")");
 	return null;
 }
@@ -126,20 +126,20 @@ function core_calendar_delete_calendar_events_object()
 {
 	//first, gather the necessary variables
 	global $_REQUEST;
-	
+
 	//then, convert variables for the Moodle object:
 /*
-list of ( 
+list of (
 	  //List of events to delete
 	object {
 		eventid int   //Event ID
 		repeat int   //Delete comeplete series if repeated event
-	} 
+	}
 )
 */
-	
+
 	//gather the Moodle Event ID
-	$eventid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_REQUEST['event_id']."' AND \"column\"='calendar_event_id'"));
+	$eventid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_REQUEST['event_id']."' AND \"column\"='calendar_event_id'" );
 	if (count($eventid))
 	{
 		$eventid = (int)$eventid[1]['MOODLE_ID'];
@@ -149,14 +149,14 @@ list of (
 		return null;
 	}
 	$repeat = 0;
-	
+
 	$events = array(
 				array(
 					'eventid' => $eventid,
 					'repeat' => $repeat,
 				)
 			);
-	
+
 	return array($events);
 }
 
@@ -165,11 +165,11 @@ function core_calendar_delete_calendar_events_response($response)
 {
 	//first, gather the necessary variables
 	global $_REQUEST;
-	
+
 	$rosario_id = $_REQUEST['event_id'];
-	
+
 	//delete the reference the moodlexrosario cross-reference table:
 	DBQuery("DELETE FROM MOODLEXROSARIO WHERE \"column\" = 'calendar_event_id' AND rosario_id = '".$rosario_id."'");
-	
+
 	return null;
 }

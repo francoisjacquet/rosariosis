@@ -132,10 +132,10 @@ if ( empty( $_REQUEST['save'] ) )
 	) . '</td></tr>';
 
 	// Students email Field ID.
-	$students_email_field_RET = DBGet( DBQuery( "SELECT ID, TITLE
+	$students_email_field_RET = DBGet( "SELECT ID, TITLE
 		FROM CUSTOM_FIELDS
 		WHERE TYPE='text'
-		AND CATEGORY_ID=1" ) );
+		AND CATEGORY_ID=1" );
 
 	$students_email_field_options = array( 'USERNAME' => _( 'Username' ) );
 
