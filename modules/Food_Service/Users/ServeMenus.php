@@ -24,8 +24,7 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 		$items_RET = DBGet( "SELECT DESCRIPTION,SHORT_NAME,PRICE_STAFF FROM FOOD_SERVICE_ITEMS WHERE SCHOOL_ID='".UserSchool()."'",array(),array('SHORT_NAME'));
 
 		// get next transaction id
-		$id = DBGet( 'SELECT '.db_seq_nextval('FOOD_SERVICE_STAFF_TRANSACTIONS_SEQ').' AS SEQ_ID' );
-		$id = $id[1]['SEQ_ID'];
+		$id = DBSeqNextID( 'FOOD_SERVICE_STAFF_TRANSACTIONS_SEQ' );
 
 		$item_id = 0;
 		foreach ( (array) $_SESSION['FSA_sale'] as $item_sn)

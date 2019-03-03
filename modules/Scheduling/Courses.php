@@ -567,29 +567,29 @@ if ( $_REQUEST['tables']
 
 						if ( $table_name == 'COURSE_SUBJECTS' )
 						{
-							$id = DBGet( "SELECT " . db_seq_nextval( 'COURSE_SUBJECTS_SEQ' ) . ' AS ID' );
+							$id = DBSeqNextID( 'COURSE_SUBJECTS_SEQ' );
 							$fields = 'SUBJECT_ID,SCHOOL_ID,SYEAR,';
-							$values = "'" . $id[1]['ID'] . "','" . UserSchool() . "','" . UserSyear() . "',";
-							$_REQUEST['subject_id'] = $id[1]['ID'];
+							$values = "'" . $id . "','" . UserSchool() . "','" . UserSyear() . "',";
+							$_REQUEST['subject_id'] = $id;
 						}
 						elseif ( $table_name == 'COURSES' )
 						{
-							$id = DBGet( "SELECT " . db_seq_nextval( 'COURSES_SEQ' ) . ' AS ID' );
+							$id = DBSeqNextID( 'COURSES_SEQ' );
 							$fields = 'COURSE_ID,SUBJECT_ID,SCHOOL_ID,SYEAR,';
-							$values = "'" . $id[1]['ID'] . "','" . $_REQUEST['subject_id'] . "','" . UserSchool() . "','" . UserSyear() . "',";
+							$values = "'" . $id . "','" . $_REQUEST['subject_id'] . "','" . UserSchool() . "','" . UserSyear() . "',";
 							/*					$fields = 'COURSE_ID,SCHOOL_ID,SYEAR,';
-							$values = "'".$id[1]['ID']."','".UserSchool()."','".UserSyear()."',";*/
-							$_REQUEST['course_id'] = $id[1]['ID'];
+							$values = "'".$id."','".UserSchool()."','".UserSyear()."',";*/
+							$_REQUEST['course_id'] = $id;
 						}
 						elseif ( $table_name == 'COURSE_PERIODS' )
 						{
-							$id = DBGet( "SELECT " . db_seq_nextval( 'COURSE_PERIODS_SEQ' ) . ' AS ID' );
+							$id = DBSeqNextID( 'COURSE_PERIODS_SEQ' );
 
 							$fields = 'SYEAR,SCHOOL_ID,COURSE_PERIOD_ID,COURSE_ID,TITLE,FILLED_SEATS,';
 
 							if ( ! isset( $columns['PARENT_ID'] ) )
 							{
-								$columns['PARENT_ID'] = $id[1]['ID'];
+								$columns['PARENT_ID'] = $id;
 							}
 
 							$mp_title = '';
@@ -624,8 +624,8 @@ if ( $_REQUEST['tables']
 							//FJ remove teacher's middle name to gain space
 							$base_title = DBEscapeString( $base_title . GetTeacher( $columns['TEACHER_ID'] ) );
 
-							$values = "'" . UserSyear() . "','" . UserSchool() . "','" . $id[1]['ID'] . "','" . $_REQUEST['course_id'] . "','" . $base_title . "','0',";
-							$_REQUEST['course_period_id'] = $id[1]['ID'];
+							$values = "'" . UserSyear() . "','" . UserSchool() . "','" . $id . "','" . $_REQUEST['course_id'] . "','" . $base_title . "','0',";
+							$_REQUEST['course_period_id'] = $id;
 						}
 
 						//FJ multiple school period for a course period

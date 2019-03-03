@@ -63,9 +63,7 @@ if ( isset( $_REQUEST['values'] )
 		if ( $columns['ADDRESS']
 			&& ! isset( $inserted_addresses[ $address_key ] ) )
 		{
-			$address_RET = DBGet( "SELECT " . db_seq_nextval( 'ADDRESS_SEQ' ) . ' AS ADDRESS_ID' );
-
-			$address_id[ $key ] = $address_RET[1]['ADDRESS_ID'];
+			$address_id[ $key ] = DBSeqNextID( 'ADDRESS_SEQ' );
 
 			if ( $key == 1 )
 			{
@@ -78,7 +76,7 @@ if ( isset( $_REQUEST['values'] )
 					'BUS_DROPOFF' => ProgramConfig( 'students', 'STUDENTS_USE_BUS' ),
 				);
 
-				$address_id[2] = $address_RET[1]['ADDRESS_ID'];
+				$address_id[2] = $address_id[ $key ];
 			}
 			else
 			{
@@ -152,9 +150,7 @@ if ( isset( $_REQUEST['values'] )
 			continue;
 		}
 
-		$person_id = DBGet( "SELECT " . db_seq_nextval( 'PEOPLE_SEQ' ) . ' AS PERSON_ID' );
-
-		$person_id = $person_id[1]['PERSON_ID'];
+		$person_id = DBSeqNextID( 'PEOPLE_SEQ' );
 
 		foreach ( (array) $person['extra'] as $column => $value )
 		{

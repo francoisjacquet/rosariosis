@@ -163,9 +163,7 @@ if ( isset( $_POST['tables'] )
 					unset( $columns['ASSIGNMENT_TYPE_ID'] );
 				}
 
-				$id = DBGet( "SELECT " . db_seq_nextval( 'GRADEBOOK_ASSIGNMENTS_SEQ' ) . ' AS ID' );
-
-				$id = $id[1]['ID'];
+				$id = DBSeqNextID( 'GRADEBOOK_ASSIGNMENTS_SEQ' );
 
 				$fields = "ASSIGNMENT_ID,ASSIGNMENT_TYPE_ID,STAFF_ID,MARKING_PERIOD_ID,";
 
@@ -176,9 +174,7 @@ if ( isset( $_POST['tables'] )
 			}
 			elseif ( $table == 'GRADEBOOK_ASSIGNMENT_TYPES' )
 			{
-				$id = DBGet( "SELECT " . db_seq_nextval( 'GRADEBOOK_ASSIGNMENT_TYPES_SEQ' ) . ' AS ID' );
-
-				$id = $id[1]['ID'];
+				$id = DBSeqNextID( 'GRADEBOOK_ASSIGNMENT_TYPES_SEQ' );
 
 				$fields = "ASSIGNMENT_TYPE_ID,STAFF_ID,COURSE_ID,";
 

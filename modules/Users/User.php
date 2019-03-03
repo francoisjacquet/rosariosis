@@ -300,8 +300,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 			if ( ! $error )
 			{
-				$staff_id = DBGet( 'SELECT '.db_seq_nextval('STAFF_SEQ').' AS STAFF_ID' );
-				$staff_id = $staff_id[1]['STAFF_ID'];
+				$staff_id = DBSeqNextID( 'STAFF_SEQ' );
 
 				$sql = "INSERT INTO STAFF ";
 				$fields = 'SYEAR,STAFF_ID,';

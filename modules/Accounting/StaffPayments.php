@@ -37,8 +37,7 @@ if ( $_REQUEST['values']
 		elseif ( $columns['AMOUNT'] != ''
 			&& $columns['PAYMENT_DATE'] )
 		{
-			$id = DBGet( "SELECT " . db_seq_nextval( 'ACCOUNTING_PAYMENTS_SEQ' ) . ' AS ID' );
-			$id = $id[1]['ID'];
+			$id = DBSeqNextID( 'ACCOUNTING_PAYMENTS_SEQ' );
 
 			$sql = "INSERT INTO ACCOUNTING_PAYMENTS ";
 

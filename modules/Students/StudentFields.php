@@ -92,9 +92,7 @@ if ( isset( $_POST['tables'] )
 					// New Category.
 					elseif ( $table === 'STUDENT_FIELD_CATEGORIES' )
 					{
-						$id = DBGet( 'SELECT ' . db_seq_nextval( 'STUDENT_FIELD_CATEGORIES_SEQ' ) . ' AS ID ' );
-
-						$id = $id[1]['ID'];
+						$id = DBSeqNextID( 'STUDENT_FIELD_CATEGORIES_SEQ' );
 
 						$fields = "ID,";
 

@@ -88,8 +88,7 @@ if ( isset( $_POST['values'] )
 		}
 		else
 		{
-			$id = DBGet( 'SELECT '.db_seq_nextval('ADDRESS_SEQ').' as SEQ_ID' );
-			$id = $id[1]['SEQ_ID'];
+			$id = DBSeqNextID( 'ADDRESS_SEQ' );
 
 			$sql = "INSERT INTO ADDRESS ";
 
@@ -156,8 +155,7 @@ if ( isset( $_POST['values'] )
 		}
 		else
 		{
-			$id = DBGet( 'SELECT '.db_seq_nextval('PEOPLE_SEQ').' as SEQ_ID' );
-			$id = $id[1]['SEQ_ID'];
+			$id = DBSeqNextID( 'PEOPLE_SEQ' );
 
 			$sql = "INSERT INTO PEOPLE ";
 

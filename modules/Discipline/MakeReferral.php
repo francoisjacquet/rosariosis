@@ -48,9 +48,7 @@ if ( isset( $_POST['values'] )
 {
 	$sql = "INSERT INTO DISCIPLINE_REFERRALS ";
 
-	$referral_id_RET = DBGet( "SELECT " . db_seq_nextval( 'DISCIPLINE_REFERRALS_SEQ' ) . " AS ID;" );
-
-	$referral_id = $referral_id_RET[1]['ID'];
+	$referral_id = DBSeqNextID( 'DISCIPLINE_REFERRALS_SEQ' );
 
 	$fields = "ID,SYEAR,SCHOOL_ID,STUDENT_ID,";
 	$values = $referral_id . ",'" . UserSyear() . "','" . UserSchool() . "','" . UserStudentID() . "',";

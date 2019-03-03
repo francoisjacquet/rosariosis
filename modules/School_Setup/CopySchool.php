@@ -48,9 +48,7 @@ if ( $go
 	&& isset( $_REQUEST['tables'] )
 	&& count( $_REQUEST['tables'] ) )
 {
-	$id = DBGet( "SELECT " . db_seq_nextval( 'SCHOOLS_SEQ' ) . " AS ID" );
-
-	$id = $id[1]['ID'];
+	$id = DBSeqNextID( 'SCHOOLS_SEQ' );
 
 	DBQuery( "INSERT INTO SCHOOLS (ID,SYEAR,TITLE,REPORTING_GP_SCALE)
 		values('" . $id . "','" . UserSyear() . "','" . $_REQUEST['title'] . "',
