@@ -154,6 +154,23 @@ function db_seq_nextval( $seqname )
 	return "nextval('" . DBEscapeString( $seqname ) . "')";
 }
 
+
+/**
+ * DB sequence next ID
+ *
+ * @example $id = DBSeqNext( 'PEOPLE_SEQ' );
+ *
+ * @param string $seqname Sequence name.
+ *
+ * @return int Next ID.
+ */
+function DBSeqNext( $seqname )
+{
+	$seq_next_RET = DBGet( "SELECT " . db_seq_nextval( $seqname ) . ' AS ID' );
+
+	return $seq_next_RET[1]['ID'];
+}
+
 /**
  * Start transaction
  *
@@ -274,30 +291,6 @@ function db_case( $array )
 	return $string;
 }
 
-// Greatest/least - builtin to postgres 8 but not 7.
-/**
- * GREATEST function
- *
- * @param  value $a       A.
- * @param  value $b       B.
- * @return value Greatest value
- */
-function db_greatest( $a, $b )
-{
-	return "GREATEST(" . $a . ", " . $b . ")";
-}
-
-/**
- * LEAST function
- *
- * @param  value $a       A.
- * @param  value $b       B.
- * @return value Smallest value
- */
-function db_least( $a, $b )
-{
-	return "LEAST(" . $a . ", " . $b . ")";
-}
 
 /**
  * Returns an array with the field names for the specified table as key with subkeys
