@@ -328,7 +328,7 @@ if ( UserStudentID() )
 
 	if ( empty( $_REQUEST['include_all'] ) )
 	{
-		$extra['WHERE'] .= " AND (gg.POINTS IS NOT NULL OR (ga.DUE_DATE IS NULL OR (" . db_greatest( 'ssm.START_DATE', 'ss.START_DATE' ) . "<=ga.DUE_DATE) AND (" . db_least( 'ssm.END_DATE', 'ss.END_DATE' ) . " IS NULL OR " . db_least( 'ssm.END_DATE', 'ss.END_DATE' ) . ">=ga.DUE_DATE)))" . ( $_REQUEST['type_id'] ? " AND ga.ASSIGNMENT_TYPE_ID='" . $_REQUEST['type_id'] . "'" : '' );
+		$extra['WHERE'] .= " AND (gg.POINTS IS NOT NULL OR (ga.DUE_DATE IS NULL OR (GREATEST(ssm.START_DATE,ss.START_DATE)<=ga.DUE_DATE) AND (LEAST(ssm.END_DATE,ss.END_DATE) IS NULL OR LEAST(ssm.END_DATE,ss.END_DATE)>=ga.DUE_DATE)))" . ( $_REQUEST['type_id'] ? " AND ga.ASSIGNMENT_TYPE_ID='" . $_REQUEST['type_id'] . "'" : '' );
 	}
 
 	$extra['ORDER_BY'] = Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) . " DESC";
@@ -368,7 +368,7 @@ else
 		$count_students = GetStuList( $count_extra );
 		$count_students = count( $count_students );
 
-		$extra['SELECT'] = ",extract(EPOCH FROM " . db_greatest( 'ssm.START_DATE', 'ss.START_DATE' ) . ") AS START_EPOCH,extract(EPOCH FROM " . db_least( 'ssm.END_DATE', 'ss.END_DATE' ) . ") AS END_EPOCH";
+		$extra['SELECT'] = ",extract(EPOCH FROM GREATEST(ssm.START_DATE, ss.START_DATE)) AS START_EPOCH,extract(EPOCH FROM LEAST(ssm.END_DATE, ss.END_DATE)) AS END_EPOCH";
 		$extra['functions'] = array();
 
 		foreach ( (array) $assignments_RET as $id => $assignment )
@@ -407,7 +407,7 @@ else
 				AND ga.SUBMISSION='Y') AS SUBMISSION,
 			'" . $_REQUEST['assignment_id'] . "' AS ASSIGNMENT_ID";
 
-		$extra['SELECT'] .= ",extract(EPOCH FROM " . db_greatest( 'ssm.START_DATE', 'ss.START_DATE' ) . ") AS START_EPOCH,extract(EPOCH FROM " . db_least( 'ssm.END_DATE', 'ss.END_DATE' ) . ") AS END_EPOCH";
+		$extra['SELECT'] .= ",extract(EPOCH FROM GREATEST(ssm.START_DATE, ss.START_DATE)) AS START_EPOCH,extract(EPOCH FROM LEAST(ssm.END_DATE,ss.END_DATE)) AS END_EPOCH";
 
 		$extra['functions'] = array(
 			'POINTS' => '_makeExtraAssnCols',
@@ -446,7 +446,7 @@ else
 			//echo '<pre>'; var_dump($points_RET); echo '</pre>';
 
 			unset( $extra );
-			$extra['SELECT'] = ",extract(EPOCH FROM " . db_greatest( 'ssm.START_DATE', 'ss.START_DATE' ) . ") AS START_EPOCH,extract(EPOCH FROM " . db_least( 'ssm.END_DATE', 'ss.END_DATE' ) . ") AS END_EPOCH,'' AS POINTS,'' AS PERCENT_GRADE,'' AS LETTER_GRADE";
+			$extra['SELECT'] = ",extract(EPOCH FROM GREATEST(ssm.START_DATE,ss.START_DATE)) AS START_EPOCH,extract(EPOCH FROM LEAST(ssm.END_DATE,ss.END_DATE)) AS END_EPOCH,'' AS POINTS,'' AS PERCENT_GRADE,'' AS LETTER_GRADE";
 			$extra['functions'] = array( 'POINTS' => '_makeExtraAssnCols', 'PERCENT_GRADE' => '_makeExtraAssnCols', 'LETTER_GRADE' => '_makeExtraAssnCols' );
 
 			$LO_columns['POINTS'] = _( 'Points' );

@@ -7,6 +7,7 @@ Changes in 4.5
 - Add Calendar Day functions in CalendarDay.inc.php & Calendar.php
 - Can omit DBQuery call in DBGet.fnc.php
 - Add DBSeqNextID() function in database.inc.php
+- Remove db_greatest() & db_least() in database.inc.php & Grades.php
 
 Changes in 4.4
 --------------
