@@ -156,20 +156,21 @@ function db_seq_nextval( $seqname )
 
 
 /**
- * DB sequence next ID
+ * DB Sequence Next ID
  *
- * @example $id = DBSeqNext( 'PEOPLE_SEQ' );
+ * @example $id = DBSeqNextID( 'PEOPLE_SEQ' );
  *
  * @param string $seqname Sequence name.
  *
  * @return int Next ID.
  */
-function DBSeqNext( $seqname )
+function DBSeqNextID( $seqname )
 {
 	$seq_next_RET = DBGet( "SELECT " . db_seq_nextval( $seqname ) . ' AS ID' );
 
 	return $seq_next_RET[1]['ID'];
 }
+
 
 /**
  * Start transaction
