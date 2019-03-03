@@ -43,7 +43,7 @@ $start_date =  date( 'Y-m-d', time() - ( $today - $START_DAY ) * 60 * 60 * 24 );
 
 $end_date =  date( 'Y-m-d', time() + ( $END_DAY - $today ) * 60 * 60 * 24 );
 
-$current_RET = DBGet(DBQuery("SELECT ELIGIBILITY_CODE,STUDENT_ID FROM ELIGIBILITY WHERE SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND COURSE_PERIOD_ID='".UserCoursePeriod()."'"),array(),array('STUDENT_ID'));
+$current_RET = DBGet( "SELECT ELIGIBILITY_CODE,STUDENT_ID FROM ELIGIBILITY WHERE SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND COURSE_PERIOD_ID='".UserCoursePeriod()."'",array(),array('STUDENT_ID'));
 
 if ( $_REQUEST['modfunc']=='gradebook')
 {
@@ -52,13 +52,13 @@ if ( $_REQUEST['modfunc']=='gradebook')
 	require_once 'ProgramFunctions/_makeLetterGrade.fnc.php';
 
 	$course_period_id = UserCoursePeriod();
-	$course_id = DBGet(DBQuery("SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."'"));
+	$course_id = DBGet( "SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."'" );
 	$course_id = $course_id[1]['COURSE_ID'];
 
-	$grades_RET = DBGet(DBQuery("SELECT ID,TITLE,GPA_VALUE FROM REPORT_CARD_GRADES WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"),array(),array('ID'));
+	$grades_RET = DBGet( "SELECT ID,TITLE,GPA_VALUE FROM REPORT_CARD_GRADES WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'",array(),array('ID'));
 
 	if ( $gradebook_config['WEIGHT']=='Y')
-		$points_RET = DBGet(DBQuery("SELECT DISTINCT ON (s.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID) s.STUDENT_ID, gt.ASSIGNMENT_TYPE_ID,sum(".db_case(array('gg.POINTS',"'-1'","'0'",'gg.POINTS')).") AS PARTIAL_POINTS,sum(".db_case(array('gg.POINTS',"'-1'","'0'",'ga.POINTS')).") AS PARTIAL_TOTAL, gt.FINAL_GRADE_PERCENT
+		$points_RET = DBGet( "SELECT DISTINCT ON (s.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID) s.STUDENT_ID, gt.ASSIGNMENT_TYPE_ID,sum(".db_case(array('gg.POINTS',"'-1'","'0'",'gg.POINTS')).") AS PARTIAL_POINTS,sum(".db_case(array('gg.POINTS',"'-1'","'0'",'ga.POINTS')).") AS PARTIAL_TOTAL, gt.FINAL_GRADE_PERCENT
 		FROM STUDENTS s
 		JOIN SCHEDULE ss ON (ss.STUDENT_ID=s.STUDENT_ID AND ss.COURSE_PERIOD_ID='".$course_period_id."')
 		JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID OR ga.COURSE_ID='".$course_id."' AND ga.STAFF_ID='".User('STAFF_ID')."') AND ga.MARKING_PERIOD_ID".($gradebook_config['ELIGIBILITY_CUMULITIVE']=='Y'?" IN (".GetChildrenMP('SEM',UserMP()).")":"='".UserMP()."'").")
@@ -68,16 +68,16 @@ if ( $_REQUEST['modfunc']=='gradebook')
 		AND gt.COURSE_ID='".$course_id."'
 		AND ((ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE)
 		AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE) OR gg.POINTS IS NOT NULL)
-		GROUP BY s.STUDENT_ID,ss.START_DATE,gt.ASSIGNMENT_TYPE_ID,gt.FINAL_GRADE_PERCENT"),array(),array('STUDENT_ID'));
+		GROUP BY s.STUDENT_ID,ss.START_DATE,gt.ASSIGNMENT_TYPE_ID,gt.FINAL_GRADE_PERCENT",array(),array('STUDENT_ID'));
 	else
-		$points_RET = DBGet(DBQuery("SELECT DISTINCT ON (s.STUDENT_ID) s.STUDENT_ID,'-1' AS ASSIGNMENT_TYPE_ID,sum(".db_case(array('gg.POINTS',"'-1'","'0'",'gg.POINTS')).") AS PARTIAL_POINTS,sum(".db_case(array('gg.POINTS',"'-1'","'0'",'ga.POINTS')).") AS PARTIAL_TOTAL,'1' AS FINAL_GRADE_PERCENT
+		$points_RET = DBGet( "SELECT DISTINCT ON (s.STUDENT_ID) s.STUDENT_ID,'-1' AS ASSIGNMENT_TYPE_ID,sum(".db_case(array('gg.POINTS',"'-1'","'0'",'gg.POINTS')).") AS PARTIAL_POINTS,sum(".db_case(array('gg.POINTS',"'-1'","'0'",'ga.POINTS')).") AS PARTIAL_TOTAL,'1' AS FINAL_GRADE_PERCENT
 		FROM STUDENTS s
 		JOIN SCHEDULE ss ON (ss.STUDENT_ID=s.STUDENT_ID AND ss.COURSE_PERIOD_ID='".$course_period_id."')
 		JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID OR ga.COURSE_ID='".$course_id."' AND ga.STAFF_ID='".User('STAFF_ID')."') AND ga.MARKING_PERIOD_ID".($gradebook_config['ELIGIBILITY_CUMULITIVE']=='Y'?" IN (".GetChildrenMP('SEM',UserMP()).")":"='".UserMP()."'").")
 		LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.STUDENT_ID=s.STUDENT_ID AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID)
 		WHERE ((ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE)
 		AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE) OR gg.POINTS IS NOT NULL)
-		GROUP BY s.STUDENT_ID,ss.START_DATE"),array(),array('STUDENT_ID'));
+		GROUP BY s.STUDENT_ID,ss.START_DATE",array(),array('STUDENT_ID'));
 
 	if (count($points_RET))
 	{
@@ -108,7 +108,7 @@ if ( $_REQUEST['modfunc']=='gradebook')
 				$sql = "INSERT INTO ELIGIBILITY (STUDENT_ID,SCHOOL_DATE,SYEAR,PERIOD_ID,COURSE_PERIOD_ID,ELIGIBILITY_CODE) values('".$student_id."','".DBDate()."','".UserSyear()."','".UserPeriod()."','".$course_period_id."','".$code."')";
 			DBQuery($sql);
 		}
-		$current_RET = DBGet(DBQuery("SELECT ELIGIBILITY_CODE,STUDENT_ID FROM ELIGIBILITY WHERE SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND COURSE_PERIOD_ID='".UserCoursePeriod()."'"),array(),array('STUDENT_ID'));
+		$current_RET = DBGet( "SELECT ELIGIBILITY_CODE,STUDENT_ID FROM ELIGIBILITY WHERE SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND COURSE_PERIOD_ID='".UserCoursePeriod()."'",array(),array('STUDENT_ID'));
 	}
 }
 
@@ -124,11 +124,11 @@ if ( ! empty( $_REQUEST['values'] )
 			$sql = "INSERT INTO ELIGIBILITY (STUDENT_ID,SCHOOL_DATE,SYEAR,PERIOD_ID,COURSE_PERIOD_ID,ELIGIBILITY_CODE) values('".$student_id."','".DBDate()."','".UserSyear()."','".UserPeriod()."','".$course_period_id."','".$value."')";
 		DBQuery($sql);
 	}
-	$RET = DBGet(DBQuery("SELECT 'completed' AS COMPLETED FROM ELIGIBILITY_COMPLETED WHERE STAFF_ID='".User('STAFF_ID')."' AND SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND PERIOD_ID='".UserPeriod()."'"));
+	$RET = DBGet( "SELECT 'completed' AS COMPLETED FROM ELIGIBILITY_COMPLETED WHERE STAFF_ID='".User('STAFF_ID')."' AND SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND PERIOD_ID='".UserPeriod()."'" );
 	if ( !count($RET))
 		DBQuery("INSERT INTO ELIGIBILITY_COMPLETED (STAFF_ID,SCHOOL_DATE,PERIOD_ID) values('".User('STAFF_ID')."','".DBDate()."','".UserPeriod()."')");
 
-	$current_RET = DBGet(DBQuery("SELECT ELIGIBILITY_CODE,STUDENT_ID FROM ELIGIBILITY WHERE SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND PERIOD_ID='".UserPeriod()."'"),array(),array('STUDENT_ID'));
+	$current_RET = DBGet( "SELECT ELIGIBILITY_CODE,STUDENT_ID FROM ELIGIBILITY WHERE SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND PERIOD_ID='".UserPeriod()."'",array(),array('STUDENT_ID'));
 }
 
 $extra['SELECT'] .= ",'' AS PASSING,'' AS BORDERLINE,'' AS FAILING,'' AS INCOMPLETE";

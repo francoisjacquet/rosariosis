@@ -73,7 +73,7 @@ if ( $_REQUEST['modfunc']!='choose_course')
 
 		if ( $_SESSION['MassRequests.php'])
 		{
-			$course_title = DBGet(DBQuery("SELECT TITLE FROM COURSES WHERE COURSE_ID='".$_SESSION['MassRequests.php']['course_id']."'"));
+			$course_title = DBGet( "SELECT TITLE FROM COURSES WHERE COURSE_ID='".$_SESSION['MassRequests.php']['course_id']."'" );
 			$course_title = $course_title[1]['TITLE'];
 
 			echo $course_title;
@@ -85,7 +85,7 @@ if ( $_REQUEST['modfunc']!='choose_course')
 
 		echo '<table><tr class="st"><td>'._('Teacher').'</td><td><select name="with_teacher_id"><option value="">'._('N/A').'</option>';
 		//FJ fix bug teacher's schools is NULL
-		//$teachers_RET = DBGet(DBQuery("SELECT STAFF_ID,LAST_NAME,FIRST_NAME,MIDDLE_NAME FROM STAFF WHERE SCHOOLS LIKE '%,".UserSchool().",%' AND SYEAR='".UserSyear()."' AND PROFILE='teacher' ORDER BY LAST_NAME,FIRST_NAME"));
+		//$teachers_RET = DBGet( "SELECT STAFF_ID,LAST_NAME,FIRST_NAME,MIDDLE_NAME FROM STAFF WHERE SCHOOLS LIKE '%,".UserSchool().",%' AND SYEAR='".UserSyear()."' AND PROFILE='teacher' ORDER BY LAST_NAME,FIRST_NAME" );
 		$teachers_RET = DBGet( "SELECT STAFF_ID," . DisplayNameSQL() . " AS FULL_NAME
 			FROM STAFF
 			WHERE (SCHOOLS LIKE '%," . UserSchool() . ",%' OR SCHOOLS IS NULL)
@@ -100,7 +100,7 @@ if ( $_REQUEST['modfunc']!='choose_course')
 
 		echo '</select></td></tr><tr class="st"><td>'._('Period').'</td><td><select name="with_period_id"><option value="">'._('N/A').'</option>';
 
-		$periods_RET = DBGet(DBQuery("SELECT PERIOD_ID,TITLE FROM SCHOOL_PERIODS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' ORDER BY SORT_ORDER"));
+		$periods_RET = DBGet( "SELECT PERIOD_ID,TITLE FROM SCHOOL_PERIODS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' ORDER BY SORT_ORDER" );
 
 		foreach ( (array) $periods_RET as $period)
 			echo '<option value="'.$period['PERIOD_ID'].'">'.$period['TITLE'].'</option>';
@@ -161,7 +161,7 @@ if ( $_REQUEST['modfunc']=='choose_course')
 		$_SESSION['MassRequests.php']['subject_id'] = isset( $_REQUEST['subject_id'] ) ? $_REQUEST['subject_id'] : null;
 		$_SESSION['MassRequests.php']['course_id'] = isset( $_REQUEST['course_id'] ) ? $_REQUEST['course_id'] : null;
 
-		$course_title = DBGet(DBQuery("SELECT TITLE FROM COURSES WHERE COURSE_ID='".$_SESSION['MassRequests.php']['course_id']."'"));
+		$course_title = DBGet( "SELECT TITLE FROM COURSES WHERE COURSE_ID='".$_SESSION['MassRequests.php']['course_id']."'" );
 		$course_title = $course_title[1]['TITLE'];
 
 		echo '<script>opener.document.getElementById("course_div").innerHTML = '.json_encode($course_title).'; window.close();</script>';

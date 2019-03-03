@@ -20,13 +20,13 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 	elseif ( $_REQUEST['submit']['save']
 		&& count( $_SESSION['FSA_sale'] ) )
 	{
-		$student = DBGet(DBQuery("SELECT ACCOUNT_ID,DISCOUNT FROM FOOD_SERVICE_STUDENT_ACCOUNTS WHERE STUDENT_ID='".UserStudentID()."'"));
+		$student = DBGet( "SELECT ACCOUNT_ID,DISCOUNT FROM FOOD_SERVICE_STUDENT_ACCOUNTS WHERE STUDENT_ID='".UserStudentID()."'" );
 		$student = $student[1];
 
-		$items_RET = DBGet(DBQuery("SELECT DESCRIPTION,SHORT_NAME,PRICE,PRICE_REDUCED,PRICE_FREE FROM FOOD_SERVICE_ITEMS WHERE SCHOOL_ID='".UserSchool()."'"),array(),array('SHORT_NAME'));
+		$items_RET = DBGet( "SELECT DESCRIPTION,SHORT_NAME,PRICE,PRICE_REDUCED,PRICE_FREE FROM FOOD_SERVICE_ITEMS WHERE SCHOOL_ID='".UserSchool()."'",array(),array('SHORT_NAME'));
 
 		// get next transaction id
-		$id = DBGet(DBQuery("SELECT ".db_seq_nextval('FOOD_SERVICE_TRANSACTIONS_SEQ')." AS SEQ_ID "));
+		$id = DBGet( "SELECT ".db_seq_nextval('FOOD_SERVICE_TRANSACTIONS_SEQ')." AS SEQ_ID " );
 		$id = $id[1]['SEQ_ID'];
 
 		$item_id = 0;
@@ -116,7 +116,7 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 		echo '</td></tr>';
 		echo '<tr><td class="width-100p valign-top">';
 
-		$items_RET = DBGet(DBQuery("SELECT fsi.SHORT_NAME,fsi.DESCRIPTION,fsi.PRICE,fsi.PRICE_REDUCED,fsi.PRICE_FREE,fsi.ICON
+		$items_RET = DBGet( "SELECT fsi.SHORT_NAME,fsi.DESCRIPTION,fsi.PRICE,fsi.PRICE_REDUCED,fsi.PRICE_FREE,fsi.ICON
 		FROM FOOD_SERVICE_ITEMS fsi,FOOD_SERVICE_MENU_ITEMS fsmi
 		WHERE fsmi.MENU_ID='".$_REQUEST['menu_id']."'
 		AND fsi.ITEM_ID=fsmi.ITEM_ID

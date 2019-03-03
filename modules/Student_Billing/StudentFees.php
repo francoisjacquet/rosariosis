@@ -196,7 +196,7 @@ if ( UserStudentID()
 
 	if ( empty( $_REQUEST['print_statements'] ) )
 	{
-		$payments_total = DBGet(DBQuery("SELECT SUM(p.AMOUNT) AS TOTAL FROM BILLING_PAYMENTS p WHERE p.STUDENT_ID='".UserStudentID()."' AND p.SYEAR='".UserSyear()."'"));
+		$payments_total = DBGet( "SELECT SUM(p.AMOUNT) AS TOTAL FROM BILLING_PAYMENTS p WHERE p.STUDENT_ID='".UserStudentID()."' AND p.SYEAR='".UserSyear()."'" );
 
 		$table = '<table class="align-right"><tr><td>'._('Total from Fees').': '.'</td><td>'.Currency($fees_total).'</td></tr>';
 

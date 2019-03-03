@@ -16,7 +16,7 @@ if ( isset( $_POST['values'] )
 
 	$go = 0;
 
-	$categories_RET = DBGet(DBQuery("SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du WHERE du.SYEAR='".UserSyear()."' AND du.SCHOOL_ID='".UserSchool()."' AND du.DISCIPLINE_FIELD_ID=df.ID ORDER BY du.SORT_ORDER"), array(), array('ID'));
+	$categories_RET = DBGet( "SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du WHERE du.SYEAR='".UserSyear()."' AND du.SCHOOL_ID='".UserSchool()."' AND du.DISCIPLINE_FIELD_ID=df.ID ORDER BY du.SORT_ORDER", array(), array('ID'));
 
 	foreach ( (array) $_REQUEST['values'] as $column_name => $value)
 	{
@@ -148,7 +148,7 @@ if ( ! $_REQUEST['modfunc']
 			AND SCHOOL_ID='" . UserSchool() . "'";
 	}
 
-	$RET = DBGet(DBQuery("SELECT * FROM DISCIPLINE_REFERRALS WHERE ID='".$_REQUEST['referral_id']."'" . $where));
+	$RET = DBGet( "SELECT * FROM DISCIPLINE_REFERRALS WHERE ID='".$_REQUEST['referral_id']."'" . $where );
 
 	if (count($RET))
 	{

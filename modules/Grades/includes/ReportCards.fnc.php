@@ -288,7 +288,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 			ORDER BY SORT_ORDER,ID", array(), array( 'ID' ) );
 
 			// FJ get color for Course specific categories & get comment scale.
-			//$commentsA_RET = DBGet(DBQuery("SELECT ID,TITLE,SORT_ORDER FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND COURSE_ID IS NOT NULL AND COURSE_ID!='0'"),array(),array('ID'));
+			//$commentsA_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND COURSE_ID IS NOT NULL AND COURSE_ID!='0'",array(),array('ID'));
 			$commentsA_RET = DBGet( "SELECT c.ID,c.TITLE,c.SORT_ORDER,cc.COLOR,
 				cs.TITLE AS SCALE_TITLE
 			FROM REPORT_CARD_COMMENTS c, REPORT_CARD_COMMENT_CATEGORIES cc,
@@ -337,7 +337,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 		}
 
 		//FJ limit code scales to the ones in current SYEAR in REPORT_CARD_COMMENTS
-		//$comment_codes_RET = DBGet(DBQuery("SELECT cc.TITLE,cc.COMMENT,cs.TITLE AS SCALE_TITLE,cs.COMMENT AS SCALE_COMMENT FROM REPORT_CARD_COMMENT_CODES cc, REPORT_CARD_COMMENT_CODE_SCALES cs WHERE cc.SCHOOL_ID='".UserSchool()."' AND cs.ID=cc.SCALE_ID ORDER BY cs.SORT_ORDER,cs.ID,cc.SORT_ORDER,cc.ID"));
+		//$comment_codes_RET = DBGet( "SELECT cc.TITLE,cc.COMMENT,cs.TITLE AS SCALE_TITLE,cs.COMMENT AS SCALE_COMMENT FROM REPORT_CARD_COMMENT_CODES cc, REPORT_CARD_COMMENT_CODE_SCALES cs WHERE cc.SCHOOL_ID='".UserSchool()."' AND cs.ID=cc.SCALE_ID ORDER BY cs.SORT_ORDER,cs.ID,cc.SORT_ORDER,cc.ID" );
 		$comment_codes_RET = DBGet( "SELECT cs.ID AS SCALE_ID,cc.TITLE,cc.COMMENT,
 			cs.TITLE AS SCALE_TITLE,cs.COMMENT AS SCALE_COMMENT
 		FROM REPORT_CARD_COMMENT_CODES cc, REPORT_CARD_COMMENT_CODE_SCALES cs

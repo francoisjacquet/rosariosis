@@ -99,7 +99,7 @@ if ( UserStudentID()
 		$end_date =  date( 'Y-m-d', $start_time + 60 * 60 * 24 * 6 );
 	}
 
-	$begin_year = DBGet(DBQuery("SELECT min(date_part('epoch',SCHOOL_DATE)) as SCHOOL_DATE FROM ATTENDANCE_CALENDAR WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
+	$begin_year = DBGet( "SELECT min(date_part('epoch',SCHOOL_DATE)) as SCHOOL_DATE FROM ATTENDANCE_CALENDAR WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'" );
 	$begin_year = $begin_year[1]['SCHOOL_DATE'];
 	if (is_null($begin_year))
 		ErrorMessage(array(_('There are no calendars yet setup.')), 'fatal');
@@ -120,15 +120,15 @@ if ( UserStudentID()
 
 	echo '</form>';
 
-	$RET = DBGet(DBQuery("SELECT em.STUDENT_ID,em.ACTIVITY_ID,ea.TITLE,ea.START_DATE,ea.END_DATE
+	$RET = DBGet( "SELECT em.STUDENT_ID,em.ACTIVITY_ID,ea.TITLE,ea.START_DATE,ea.END_DATE
 	FROM ELIGIBILITY_ACTIVITIES ea,STUDENT_ELIGIBILITY_ACTIVITIES em
 	WHERE em.SYEAR='".UserSyear()."'
 	AND em.STUDENT_ID='".UserStudentID()."'
 	AND em.SYEAR=ea.SYEAR
 	AND em.ACTIVITY_ID=ea.ID
-	ORDER BY ea.START_DATE"),array('START_DATE' => 'ProperDate','END_DATE' => 'ProperDate'));
+	ORDER BY ea.START_DATE",array('START_DATE' => 'ProperDate','END_DATE' => 'ProperDate'));
 
-	$activities_RET = DBGet(DBQuery("SELECT ID,TITLE FROM ELIGIBILITY_ACTIVITIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
+	$activities_RET = DBGet( "SELECT ID,TITLE FROM ELIGIBILITY_ACTIVITIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'" );
 	if (count($activities_RET))
 	{
 		foreach ( (array) $activities_RET as $value)
@@ -147,14 +147,14 @@ if ( UserStudentID()
 	ListOutput($RET,$columns,'Activity','Activities',$link);
 	echo '</form>';
 
-	$RET = DBGet(DBQuery("SELECT e.ELIGIBILITY_CODE,c.TITLE as COURSE_TITLE
+	$RET = DBGet( "SELECT e.ELIGIBILITY_CODE,c.TITLE as COURSE_TITLE
 	FROM ELIGIBILITY e,COURSES c,COURSE_PERIODS cp
 	WHERE e.STUDENT_ID='".UserStudentID()."'
 	AND e.SYEAR='".UserSyear()."'
 	AND e.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
 	AND cp.COURSE_ID=c.COURSE_ID
 	AND e.SCHOOL_DATE BETWEEN '".$start_date."'
-	AND '".$end_date."'"),array('ELIGIBILITY_CODE' => '_makeLower'));
+	AND '".$end_date."'",array('ELIGIBILITY_CODE' => '_makeLower'));
 	$columns = array('COURSE_TITLE' => _('Course'),'ELIGIBILITY_CODE' => _('Grade'));
 	ListOutput($RET,$columns,'Course','Courses');
 }

@@ -162,7 +162,7 @@ $types_columns = $items_columns;
 
 $type_select = '<select name="type_select" onchange="ajaxPostForm(this.form,true);"><option value=participation' . ( 'sales' == $_REQUEST['type_select'] ? '' : ' selected' ) . '>' . _( 'Participation' ) . '</option><option value="sales"' . ( 'sales' == $_REQUEST['type_select'] ? ' selected' : '' ) . '>' . _( 'Sales' ) . '</option></select>';
 
-//$calendars_RET = DBGet(DBQuery("SELECT acs.CALENDAR_ID,(SELECT count(1) FROM ATTENDANCE_CALENDAR WHERE CALENDAR_ID=acs.CALENDAR_ID AND SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."') AS DAY_COUNT FROM ATTENDANCE_CALENDARS acs WHERE acs.SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
+//$calendars_RET = DBGet( "SELECT acs.CALENDAR_ID,(SELECT count(1) FROM ATTENDANCE_CALENDAR WHERE CALENDAR_ID=acs.CALENDAR_ID AND SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."') AS DAY_COUNT FROM ATTENDANCE_CALENDARS acs WHERE acs.SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'" );
 
 $RET = DBGet( "SELECT 'Student' AS TYPE, fssa.DISCOUNT,count(1) AS DAYS,(SELECT count(1)
 	FROM ATTENDANCE_CALENDAR

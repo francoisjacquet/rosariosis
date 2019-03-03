@@ -7,7 +7,7 @@ DrawHeader( ProgramTitle() );
 // Add eventual Dates to $_REQUEST['values'].
 AddRequestedDates( 'values', 'post' );
 
-$profiles_RET = DBGet(DBQuery("SELECT ID,TITLE FROM USER_PROFILES ORDER BY ID"));
+$profiles_RET = DBGet( "SELECT ID,TITLE FROM USER_PROFILES ORDER BY ID" );
 
 if ( $_REQUEST['modfunc'] === 'update'
 	&& ( ( $_REQUEST['profiles']
@@ -16,7 +16,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 			&& $_POST['values'] ) )
 	&& AllowEdit() )
 {
-	$polls_RET = DBGet(DBQuery("SELECT ID FROM PORTAL_POLLS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
+	$polls_RET = DBGet( "SELECT ID FROM PORTAL_POLLS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'" );
 
 	foreach ( (array) $polls_RET as $poll_id)
 	{
@@ -113,7 +113,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				$sql = "INSERT INTO PORTAL_POLLS ";
 				$sql_question = "INSERT INTO PORTAL_POLL_QUESTIONS ";
 				$fields = 'ID,SCHOOL_ID,SYEAR,PUBLISHED_DATE,PUBLISHED_USER,';
-				$portal_poll_RET = DBGet(DBQuery("SELECT ".db_seq_nextval('PORTAL_POLLS_SEQ').' AS PORTAL_POLL_ID'));
+				$portal_poll_RET = DBGet( "SELECT ".db_seq_nextval('PORTAL_POLLS_SEQ').' AS PORTAL_POLL_ID' );
 				$portal_poll_id = $portal_poll_RET[1]['PORTAL_POLL_ID'];
 				//$values = db_seq_nextval('PORTAL_POLLS_SEQ').",'".UserSchool()."','".UserSyear()."',CURRENT_TIMESTAMP,'".User('STAFF_ID')."',";
 				$values = $portal_poll_id.",'".UserSchool()."','".UserSyear()."',CURRENT_TIMESTAMP,'".User('STAFF_ID')."',";
@@ -128,7 +128,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 						{
 							$go_question = 0;
 							$fields_question = 'ID,PORTAL_POLL_ID,';
-							$portal_poll_question_RET = DBGet(DBQuery("SELECT ".db_seq_nextval('PORTAL_POLL_QUESTIONS_SEQ').' AS PORTAL_POLL_QUESTION_ID'));
+							$portal_poll_question_RET = DBGet( "SELECT ".db_seq_nextval('PORTAL_POLL_QUESTIONS_SEQ').' AS PORTAL_POLL_QUESTION_ID' );
 							$portal_poll_question_id = $portal_poll_question_RET[1]['PORTAL_POLL_QUESTION_ID'];
 							$values_question = $portal_poll_question_id.",".$portal_poll_id.",";
 							foreach ( (array) $value as $col => $val)
@@ -354,8 +354,8 @@ function _makePollVotes($value,$name)
 	if ( $THIS_RET['ID'])
 	{
 		$poll_id = $THIS_RET['ID'];
-		$poll_questions_RET = DBGet(DBQuery("SELECT QUESTION, VOTES, OPTIONS FROM PORTAL_POLL_QUESTIONS WHERE PORTAL_POLL_ID='".$poll_id."'"));
-		$votes_display_RET = DBGet(DBQuery("SELECT DISPLAY_VOTES FROM PORTAL_POLLS WHERE ID='".$poll_id."'"));
+		$poll_questions_RET = DBGet( "SELECT QUESTION, VOTES, OPTIONS FROM PORTAL_POLL_QUESTIONS WHERE PORTAL_POLL_ID='".$poll_id."'" );
+		$votes_display_RET = DBGet( "SELECT DISPLAY_VOTES FROM PORTAL_POLLS WHERE ID='".$poll_id."'" );
 		if (empty($value))
 			return CheckboxInput($votes_display_RET[1]['DISPLAY_VOTES'],"values[".$poll_id."][DISPLAY_VOTES]",_('Results Display'));
 

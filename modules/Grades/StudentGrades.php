@@ -17,8 +17,8 @@ if ( UserStudentID()
 	&& ! $_REQUEST['modfunc'] )
 {
 //FJ multiple school periods for a course period
-/*$courses_RET = DBGet(DBQuery("SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,cp.COURSE_PERIOD_ID,cp.COURSE_ID,cp.TEACHER_ID AS STAFF_ID FROM SCHEDULE s,COURSE_PERIODS cp,COURSES c WHERE s.SYEAR='".UserSyear()."' AND cp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID AND s.MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).") AND ('".DBDate()."'>=s.START_DATE AND (s.END_DATE IS NULL OR '".DBDate()."'<=s.END_DATE)) AND s.STUDENT_ID='".UserStudentID()."' AND cp.GRADE_SCALE_ID IS NOT NULL".(User('PROFILE')=='teacher'?' AND cp.TEACHER_ID=\''.User('STAFF_ID').'\'':'')." AND c.COURSE_ID=cp.COURSE_ID ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID)"),array(),array('COURSE_PERIOD_ID'));*/
-$courses_RET = DBGet(DBQuery("SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,cp.COURSE_PERIOD_ID,cp.COURSE_ID,cp.TEACHER_ID AS STAFF_ID
+/*$courses_RET = DBGet( "SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,cp.COURSE_PERIOD_ID,cp.COURSE_ID,cp.TEACHER_ID AS STAFF_ID FROM SCHEDULE s,COURSE_PERIODS cp,COURSES c WHERE s.SYEAR='".UserSyear()."' AND cp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID AND s.MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).") AND ('".DBDate()."'>=s.START_DATE AND (s.END_DATE IS NULL OR '".DBDate()."'<=s.END_DATE)) AND s.STUDENT_ID='".UserStudentID()."' AND cp.GRADE_SCALE_ID IS NOT NULL".(User('PROFILE')=='teacher'?' AND cp.TEACHER_ID=\''.User('STAFF_ID').'\'':'')." AND c.COURSE_ID=cp.COURSE_ID ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID)",array(),array('COURSE_PERIOD_ID'));*/
+$courses_RET = DBGet( "SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,cp.COURSE_PERIOD_ID,cp.COURSE_ID,cp.TEACHER_ID AS STAFF_ID
 FROM SCHEDULE s,COURSE_PERIODS cp,COURSES c
 WHERE s.SYEAR='".UserSyear()."'
 AND cp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID
@@ -29,7 +29,7 @@ AND s.STUDENT_ID='".UserStudentID()."'
 AND cp.GRADE_SCALE_ID IS NOT NULL".
 (User('PROFILE')=='teacher'?' AND cp.TEACHER_ID=\''.User('STAFF_ID').'\'':'')."
 AND c.COURSE_ID=cp.COURSE_ID
-ORDER BY cp.SHORT_NAME, cp.TITLE"),array(),array('COURSE_PERIOD_ID'));
+ORDER BY cp.SHORT_NAME, cp.TITLE",array(),array('COURSE_PERIOD_ID'));
 //echo '<pre>'; var_dump($courses_RET); echo '</pre>';
 
 if ( $_REQUEST['id']
@@ -78,7 +78,7 @@ if ( empty( $_REQUEST['id'] ) )
 			$course_id = $course['COURSE_ID'];
 			$course_title = $course['TITLE'];
 			//echo $staff_id.'+'.$course_id.'+'.$course_period_id.'+'.$course_title.'|';
-			$assignments_RET = DBGet(DBQuery("SELECT ASSIGNMENT_ID,TITLE,POINTS FROM GRADEBOOK_ASSIGNMENTS WHERE STAFF_ID='".$staff_id."' AND (COURSE_ID='".$course_id."' OR COURSE_PERIOD_ID='".$course_period_id."') AND MARKING_PERIOD_ID='".UserMP()."' ORDER BY DUE_DATE DESC,ASSIGNMENT_ID"));
+			$assignments_RET = DBGet( "SELECT ASSIGNMENT_ID,TITLE,POINTS FROM GRADEBOOK_ASSIGNMENTS WHERE STAFF_ID='".$staff_id."' AND (COURSE_ID='".$course_id."' OR COURSE_PERIOD_ID='".$course_period_id."') AND MARKING_PERIOD_ID='".UserMP()."' ORDER BY DUE_DATE DESC,ASSIGNMENT_ID" );
 			//echo '<pre>'; var_dump($assignments_RET); echo '</pre>';
 
 			$gradebook_config[ $staff_id ] = ProgramUserConfig( 'Gradebook', $staff_id );
@@ -262,7 +262,7 @@ else
 		}
 
 		//FJ assigments appear after assigned date and not due date
-		$assignments_RET = DBGet(DBQuery("SELECT ga.ASSIGNMENT_ID,gg.POINTS,gg.COMMENT,ga.TITLE,ga.DESCRIPTION,ga.ASSIGNED_DATE,ga.DUE_DATE,ga.POINTS AS POINTS_POSSIBLE,at.TITLE AS CATEGORY
+		$assignments_RET = DBGet( "SELECT ga.ASSIGNMENT_ID,gg.POINTS,gg.COMMENT,ga.TITLE,ga.DESCRIPTION,ga.ASSIGNED_DATE,ga.DUE_DATE,ga.POINTS AS POINTS_POSSIBLE,at.TITLE AS CATEGORY
 		FROM GRADEBOOK_ASSIGNMENTS ga
 		LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.COURSE_PERIOD_ID='".$course['COURSE_PERIOD_ID']."' AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.STUDENT_ID='".UserStudentID()."'),
 		GRADEBOOK_ASSIGNMENT_TYPES at
@@ -271,13 +271,13 @@ else
 		AND at.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID
 		AND ((ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE+".round($gradebook_config[ $staff_id ]['LATENCY']).") OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID) OR gg.POINTS IS NOT NULL)
 		AND (ga.POINTS!='0' OR gg.POINTS IS NOT NULL AND gg.POINTS!='-1')
-		ORDER BY ga.ASSIGNMENT_ID DESC"), array( 'TITLE' => '_makeTipAssignment' ) );
+		ORDER BY ga.ASSIGNMENT_ID DESC", array( 'TITLE' => '_makeTipAssignment' ) );
 		//echo '<pre>'; var_dump($assignments_RET); echo '</pre>';
 		if (count($assignments_RET))
 		{
 			if ( $do_stats && $_REQUEST['do_stats'])
 				//FJ bugfix broken statistics, MIN calculus when gg.POINTS is NULL
-				$all_RET = DBGet(DBQuery("SELECT ga.ASSIGNMENT_ID,
+				$all_RET = DBGet( "SELECT ga.ASSIGNMENT_ID,
 				min(".db_case(array('gg.POINTS',"'-1'",'ga.POINTS',db_case(array('gg.POINTS',"''",'0','gg.POINTS')))).") AS MIN,
 				max(".db_case(array('gg.POINTS',"'-1'",'0','gg.POINTS')).") AS MAX,
 				".db_case(array("sum(".db_case(array('gg.POINTS',"'-1'",'0','1')).")","'0'","'0'","sum(".db_case(array('gg.POINTS',"'-1'",'0','gg.POINTS')).") / sum(".db_case(array('gg.POINTS',"'-1'",'0','1')).")"))." AS AVG,
@@ -292,7 +292,7 @@ else
 				AND at.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID
 				AND ((ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE+".round($gradebook_config[ $staff_id ]['LATENCY']).") OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID) OR g.POINTS IS NOT NULL)
 				AND ga.POINTS!='0'
-				GROUP BY ga.ASSIGNMENT_ID"),array(),array('ASSIGNMENT_ID'));
+				GROUP BY ga.ASSIGNMENT_ID",array(),array('ASSIGNMENT_ID'));
 			//echo '<pre>'; var_dump($all_RET); echo '</pre>';
 
 			$LO_columns = array('TITLE' => _('Title'),'CATEGORY' => _('Category'),'POINTS' => _('Points / Possible'));

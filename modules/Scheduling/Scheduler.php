@@ -40,10 +40,10 @@ if ( $ok )
 	set_time_limit(0);
 
 	// get the fy marking period id, there should be exactly one fy marking period
-	$fy_id = DBGet(DBQuery("SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
+	$fy_id = DBGet( "SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'" );
 	$fy_id = $fy_id[1]['MARKING_PERIOD_ID'];
 
-	$custom_fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE FROM CUSTOM_FIELDS WHERE ID=200000000"),array(),array('ID'));
+	$custom_fields_RET = DBGet( "SELECT ID,TITLE,TYPE FROM CUSTOM_FIELDS WHERE ID=200000000",array(),array('ID'));
 	if ( $custom_fields_RET['200000000'] && $custom_fields_RET['200000000'][1]['TYPE'] == 'select')
 		$sql_gender = ',s.CUSTOM_200000000 as GENDER';
 	else
@@ -62,14 +62,14 @@ if ( $ok )
 	if ( $_REQUEST['delete']=='Y' && count($requests_RET)>0)
 		DBQuery("DELETE FROM SCHEDULE WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND (SCHEDULER_LOCK!='Y' OR SCHEDULER_LOCK IS NULL)");
 
-	$periods_RET = DBGet(DBQuery("SELECT COURSE_PERIOD_ID,MARKING_PERIOD_ID,MP,TOTAL_SEATS,CALENDAR_ID FROM COURSE_PERIODS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
+	$periods_RET = DBGet( "SELECT COURSE_PERIOD_ID,MARKING_PERIOD_ID,MP,TOTAL_SEATS,CALENDAR_ID FROM COURSE_PERIODS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'" );
 	foreach ( (array) $periods_RET as $period)
 	{
 		$seats = calcSeats0($period);
 		DBQuery("UPDATE COURSE_PERIODS SET FILLED_SEATS='".$seats."' WHERE COURSE_PERIOD_ID='".$period['COURSE_PERIOD_ID']."'");
 	}
 
-	$count = DBGet(DBQuery("SELECT count(*) as count from schedule WHERE SCHOOL_ID='".UserSchool()."'"));
+	$count = DBGet( "SELECT count(*) as count from schedule WHERE SCHOOL_ID='".UserSchool()."'" );
 
 	//FJ multiple school periods for a course period
 	//$sql = "SELECT PARENT_ID,COURSE_PERIOD_ID,COURSE_ID,COURSE_ID AS COURSE,GENDER_RESTRICTION,PERIOD_ID,DAYS,TEACHER_ID,MARKING_PERIOD_ID,MP,COALESCE(TOTAL_SEATS,0)-COALESCE(FILLED_SEATS,0) AS AVAILABLE_SEATS,(SELECT COUNT(*) FROM COURSE_PERIODS cp2 WHERE cp2.COURSE_ID=cp.COURSE_ID) AS SECTIONS FROM COURSE_PERIODS cp ORDER BY SECTIONS,AVAILABLE_SEATS";
@@ -95,7 +95,7 @@ if ( $ok )
 
 	$cp_course_RET = DBGet(DBQuery($sql),array(),array('COURSE'));
 
-	$mps_RET = DBGet(DBQuery("SELECT PARENT_ID,MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"),array(),array('PARENT_ID','MARKING_PERIOD_ID'));
+	$mps_RET = DBGet( "SELECT PARENT_ID,MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'",array(),array('PARENT_ID','MARKING_PERIOD_ID'));
 
 	// GET FILLED/LOCKED REQUESTS
 	//FJ multiple school periods for a course period

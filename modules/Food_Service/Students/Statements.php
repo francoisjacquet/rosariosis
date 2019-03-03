@@ -29,7 +29,7 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 	$student = $student[1];
 
 	// Find other students associated with the same account.
-	$xstudents = DBGet(DBQuery("SELECT s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME
+	$xstudents = DBGet( "SELECT s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME
 	FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa
 	WHERE fssa.ACCOUNT_ID='" . $student['ACCOUNT_ID'] . "'
 	AND s.STUDENT_ID=fssa.STUDENT_ID
@@ -38,7 +38,7 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 		FROM STUDENT_ENROLLMENT
 		WHERE STUDENT_ID=s.STUDENT_ID
 		AND SYEAR='" . UserSyear() . "'
-		AND (START_DATE<=CURRENT_DATE AND (END_DATE IS NULL OR CURRENT_DATE<=END_DATE)))" ) );
+		AND (START_DATE<=CURRENT_DATE AND (END_DATE IS NULL OR CURRENT_DATE<=END_DATE)))" );
 
 	if (count($xstudents))
 	{
@@ -99,7 +99,7 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 			// get details of each transaction
 			foreach ( (array) $RET as $key => $value)
 			{
-				$tmpRET = DBGet(DBQuery("SELECT TRANSACTION_ID AS TRANS_ID,* FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID='".$value['TRANSACTION_ID']."'"));
+				$tmpRET = DBGet( "SELECT TRANSACTION_ID AS TRANS_ID,* FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID='".$value['TRANSACTION_ID']."'" );
 //FJ add translation
 				foreach ( (array) $tmpRET as $RET_key => $RET_val) {
 					$tmpRET[ $RET_key ]=array_map('options_locale', $RET_val);
@@ -134,14 +134,14 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 		}
 		else
 		{
-			$RET = DBGet(DBQuery("SELECT fst.TRANSACTION_ID,fst.DISCOUNT,(SELECT sum(AMOUNT) FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
+			$RET = DBGet( "SELECT fst.TRANSACTION_ID,fst.DISCOUNT,(SELECT sum(AMOUNT) FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
 			fst.BALANCE,fst.TIMESTAMP AS DATE,fst.DESCRIPTION
 			FROM FOOD_SERVICE_TRANSACTIONS fst
 			WHERE fst.ACCOUNT_ID='".$student['ACCOUNT_ID']."'
 			AND SYEAR='".UserSyear()."'
 			AND fst.TIMESTAMP BETWEEN '".$start_date."'
 			AND date '".$end_date."'+1 ".$where."
-			ORDER BY fst.TRANSACTION_ID DESC"),array('DATE' => 'ProperDateTime','BALANCE' => 'red'));
+			ORDER BY fst.TRANSACTION_ID DESC",array('DATE' => 'ProperDateTime','BALANCE' => 'red'));
 
 			$columns = array(
 				'TRANSACTION_ID' => _( 'ID' ),

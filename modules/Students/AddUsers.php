@@ -9,7 +9,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 	if ( isset( $_REQUEST['staff'] )
 		&& is_array( $_REQUEST['staff'] ) )
 	{
-		$current_RET = DBGet(DBQuery("SELECT STAFF_ID FROM STUDENTS_JOIN_USERS WHERE STUDENT_ID='".UserStudentID()."'"),array(),array('STAFF_ID'));
+		$current_RET = DBGet( "SELECT STAFF_ID FROM STUDENTS_JOIN_USERS WHERE STUDENT_ID='".UserStudentID()."'",array(),array('STAFF_ID'));
 		foreach ( (array) $_REQUEST['staff'] as $staff_id )
 		{
 			if ( ! $current_RET[ $staff_id ])

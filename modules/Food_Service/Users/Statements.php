@@ -97,7 +97,7 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 		}
 		else
 		{
-			$RET = DBGet(DBQuery("SELECT fst.TRANSACTION_ID,
+			$RET = DBGet( "SELECT fst.TRANSACTION_ID,
 			(SELECT sum(AMOUNT) FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
 			fst.BALANCE,fst.TIMESTAMP AS DATE,fst.DESCRIPTION
 			FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst
@@ -105,7 +105,7 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 			AND SYEAR='".UserSyear()."'
 			AND fst.TIMESTAMP BETWEEN '".$start_date."' AND date '".$end_date."' +1".
 			$where."
-			ORDER BY fst.TRANSACTION_ID DESC"),array('DATE' => 'ProperDateTime','BALANCE' => 'red'));
+			ORDER BY fst.TRANSACTION_ID DESC",array('DATE' => 'ProperDateTime','BALANCE' => 'red'));
 
 			$columns = array(
 				'TRANSACTION_ID' => _( 'ID' ),

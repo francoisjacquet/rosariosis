@@ -33,7 +33,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				if ( $course_mp_table == 'FY' || $course_mp == $_REQUEST['marking_period_id'] || mb_strpos( GetChildrenMP( $course_mp_table, $course_mp ), "'" . $_REQUEST['marking_period_id'] . "'" ) !== false )
 				{
 					$mp_table = GetMP( $_REQUEST['marking_period_id'], 'MP' );
-					//$current_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM SCHEDULE WHERE COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."' AND SYEAR='".UserSyear()."' AND (('".$start_date."' BETWEEN START_DATE AND END_DATE OR END_DATE IS NULL) AND '".$start_date."'>=START_DATE)"),array(),array('STUDENT_ID'));
+					//$current_RET = DBGet( "SELECT STUDENT_ID FROM SCHEDULE WHERE COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."' AND SYEAR='".UserSyear()."' AND (('".$start_date."' BETWEEN START_DATE AND END_DATE OR END_DATE IS NULL) AND '".$start_date."'>=START_DATE)",array(),array('STUDENT_ID'));
 					$current_RET = DBGet( "SELECT STUDENT_ID
 						FROM SCHEDULE
 						WHERE COURSE_PERIOD_ID='" . $_SESSION['MassDrops.php']['course_period_id'] . "' " );
@@ -48,7 +48,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 								WHERE STUDENT_ID='" . $student_id . "'
 								AND COURSE_PERIOD_ID='" . $_SESSION['MassDrops.php']['course_period_id'] . "'" );
 
-							//$start_end_RET = DBGet(DBQuery("SELECT START_DATE,END_DATE FROM SCHEDULE WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."' AND END_DATE<START_DATE"));
+							//$start_end_RET = DBGet( "SELECT START_DATE,END_DATE FROM SCHEDULE WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."' AND END_DATE<START_DATE" );
 							$start_end_RET = DBGet( "SELECT START_DATE,END_DATE
 								FROM SCHEDULE
 								WHERE STUDENT_ID='" . $student_id . "'

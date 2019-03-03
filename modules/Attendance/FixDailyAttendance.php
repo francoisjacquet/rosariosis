@@ -17,7 +17,7 @@ if (Prompt(_('Confirm'),_('When do you want to recalculate the daily attendance?
 	flush();
 	set_time_limit(0);
 
-	$current_RET = DBGet(DBQuery("SELECT DISTINCT SCHOOL_DATE FROM ATTENDANCE_CALENDAR WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"),array(),array('SCHOOL_DATE'));
+	$current_RET = DBGet( "SELECT DISTINCT SCHOOL_DATE FROM ATTENDANCE_CALENDAR WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'",array(),array('SCHOOL_DATE'));
 	$students_RET = GetStuList();
 
 	$begin = mktime(0,0,0,MonthNWswitch ( $_REQUEST['month_min'],'to_num'),$_REQUEST['day_min']*1,$_REQUEST['year_min']) + 43200;

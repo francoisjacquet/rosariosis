@@ -165,7 +165,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 			if (count($_REQUEST['students']) && ! $error )
 			{
 				$sql = "UPDATE STUDENTS SET ";
-				$fields_RET = DBGet(DBQuery("SELECT ID,TYPE FROM CUSTOM_FIELDS ORDER BY SORT_ORDER"), array(), array('ID'));
+				$fields_RET = DBGet( "SELECT ID,TYPE FROM CUSTOM_FIELDS ORDER BY SORT_ORDER", array(), array('ID'));
 				$go = false;
 				foreach ( (array) $_REQUEST['students'] as $column => $value)
 				{
@@ -258,13 +258,13 @@ if ( $_REQUEST['modfunc'] === 'update'
 						$student_id = DBGet( 'SELECT '.db_seq_nextval('STUDENTS_SEQ').' AS STUDENT_ID' );
 						$student_id = $student_id[1]['STUDENT_ID'];
 					}
-					while (count(DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS WHERE STUDENT_ID='".$student_id."'"))));
+					while ( count( DBGet( "SELECT STUDENT_ID FROM STUDENTS WHERE STUDENT_ID='".$student_id."'" ) ) );
 
 				$sql = "INSERT INTO STUDENTS ";
 				$fields = 'STUDENT_ID,';
 				$values = "'".$student_id."',";
 
-				$fields_RET = DBGet(DBQuery("SELECT ID,TYPE FROM CUSTOM_FIELDS ORDER BY SORT_ORDER"), array(), array('ID'));
+				$fields_RET = DBGet( "SELECT ID,TYPE FROM CUSTOM_FIELDS ORDER BY SORT_ORDER", array(), array('ID'));
 				foreach ( (array) $_REQUEST['students'] as $column => $value)
 				{
 					if ( !empty($value) || $value=='0')
@@ -490,7 +490,7 @@ if ( ( UserStudentID()
 	}
 
 	//FJ General_Info only for new student
-	//$categories_RET = DBGet(DBQuery("SELECT ID,TITLE,INCLUDE FROM STUDENT_FIELD_CATEGORIES ORDER BY SORT_ORDER,TITLE"));
+	//$categories_RET = DBGet( "SELECT ID,TITLE,INCLUDE FROM STUDENT_FIELD_CATEGORIES ORDER BY SORT_ORDER,TITLE" );
 	$categories_RET = DBGet( "SELECT ID,TITLE,INCLUDE
 		FROM STUDENT_FIELD_CATEGORIES
 		WHERE " . ( $_REQUEST['student_id'] !== 'new' ? 'TRUE' : "ID='1'" ) .

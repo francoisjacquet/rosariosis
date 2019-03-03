@@ -263,7 +263,7 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 
 	echo '<table class="widefat">';
 
-	//$profiles_RET = DBGet(DBQuery("SELECT ID,TITLE,PROFILE FROM USER_PROFILES"));
+	//$profiles_RET = DBGet( "SELECT ID,TITLE,PROFILE FROM USER_PROFILES" );
 	$profiles_RET = DBGet( "SELECT ID,TITLE,PROFILE FROM USER_PROFILES ORDER BY ID",
 		array(),
 		array( 'PROFILE', 'ID' )

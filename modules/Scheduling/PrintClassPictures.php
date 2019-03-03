@@ -7,7 +7,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		$cp_list = "'" . implode( "','", $_REQUEST['cp_arr'] ) . "'";
 
 		//FJ multiple school periods for a course period
-		//$course_periods_RET = DBGet(DBQuery("SELECT cp.COURSE_PERIOD_ID,cp.TITLE,TEACHER_ID,cp.MARKING_PERIOD_ID,cp.MP FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID IN ($cp_list) ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID)"));
+		//$course_periods_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,cp.TITLE,TEACHER_ID,cp.MARKING_PERIOD_ID,cp.MP FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID IN ($cp_list) ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID)" );
 		$course_periods_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,cp.TITLE,TEACHER_ID,cp.MARKING_PERIOD_ID,cp.MP
 			FROM COURSE_PERIODS cp
 			WHERE cp.COURSE_PERIOD_ID IN (" . $cp_list . ")

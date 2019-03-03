@@ -9,7 +9,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		if ( count( $_REQUEST['student'] ) )
 		{
 			// FJ fix bug add the same activity more than once
-			// $current_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENT_ELIGIBILITY_ACTIVITIES WHERE ACTIVITY_ID='".$_SESSION['activity_id']."' AND SYEAR='".UserSyear()."'"),array(),array('STUDENT_ID'));
+			// $current_RET = DBGet( "SELECT STUDENT_ID FROM STUDENT_ELIGIBILITY_ACTIVITIES WHERE ACTIVITY_ID='".$_SESSION['activity_id']."' AND SYEAR='".UserSyear()."'",array(),array('STUDENT_ID'));
 			$current_RET = DBGet( "SELECT STUDENT_ID
 				FROM STUDENT_ELIGIBILITY_ACTIVITIES
 				WHERE ACTIVITY_ID='" . $_REQUEST['activity_id'] . "'

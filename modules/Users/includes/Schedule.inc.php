@@ -19,7 +19,13 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 
 	// preload GetMP cache with all schools
 	if ( $_REQUEST['all_schools']=='Y')
-		$_ROSARIO['GetMP'] = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE,POST_START_DATE,POST_END_DATE,MP,SORT_ORDER,SHORT_NAME,START_DATE,END_DATE,DOES_GRADES,DOES_COMMENTS FROM SCHOOL_MARKING_PERIODS WHERE SYEAR='".UserSyear()."'"),array(),array('MARKING_PERIOD_ID'));
+		$_ROSARIO['GetMP'] = DBGet( "SELECT MARKING_PERIOD_ID,TITLE,POST_START_DATE,POST_END_DATE,
+			MP,SORT_ORDER,SHORT_NAME,START_DATE,END_DATE,DOES_GRADES,DOES_COMMENTS
+			FROM SCHOOL_MARKING_PERIODS
+			WHERE SYEAR='" . UserSyear() . "'",
+			array(),
+			array( 'MARKING_PERIOD_ID' )
+		);
 
 	//$columns = array('TITLE' => _('Course'),'PERIOD_ID' => _('Period'),'ROOM' => _('Room'),'MARKING_PERIOD_ID' => _('Marking Period'));
 	$columns = array('TITLE' => _('Course'),'COURSE_PERIOD' => _('Course Period'),'ROOM' => _('Room'),'MARKING_PERIOD_ID' => _('Marking Period'));
@@ -31,8 +37,8 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 	else
 		$group = array();
 
-	/*$schedule_RET = DBGet(DBQuery("SELECT cp.PERIOD_ID,cp.ROOM,c.TITLE,cp.MARKING_PERIOD_ID,cp.SCHOOL_ID,s.TITLE AS SCHOOL FROM COURSE_PERIODS cp,COURSES c,SCHOOLS s WHERE cp.COURSE_ID=c.COURSE_ID AND cp.TEACHER_ID='".UserStaffID()."' AND cp.SYEAR='".UserSyear()."'".($_REQUEST['all_schools']=='Y'?'':" AND cp.SCHOOL_ID='".UserSchool()."'")." AND s.ID=cp.SCHOOL_ID AND s.SYEAR=cp.SYEAR ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID)"),array('PERIOD_ID' => 'GetPeriod','MARKING_PERIOD_ID' => 'GetMP'),$group);*/
-	$schedule_RET = DBGet(DBQuery("SELECT cp.TITLE AS COURSE_PERIOD,cp.ROOM,c.TITLE,cp.MARKING_PERIOD_ID,cp.SCHOOL_ID,s.TITLE AS SCHOOL
+	/*$schedule_RET = DBGet( "SELECT cp.PERIOD_ID,cp.ROOM,c.TITLE,cp.MARKING_PERIOD_ID,cp.SCHOOL_ID,s.TITLE AS SCHOOL FROM COURSE_PERIODS cp,COURSES c,SCHOOLS s WHERE cp.COURSE_ID=c.COURSE_ID AND cp.TEACHER_ID='".UserStaffID()."' AND cp.SYEAR='".UserSyear()."'".($_REQUEST['all_schools']=='Y'?'':" AND cp.SCHOOL_ID='".UserSchool()."'")." AND s.ID=cp.SCHOOL_ID AND s.SYEAR=cp.SYEAR ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID)",array('PERIOD_ID' => 'GetPeriod','MARKING_PERIOD_ID' => 'GetMP'),$group);*/
+	$schedule_RET = DBGet( "SELECT cp.TITLE AS COURSE_PERIOD,cp.ROOM,c.TITLE,cp.MARKING_PERIOD_ID,cp.SCHOOL_ID,s.TITLE AS SCHOOL
 	FROM COURSE_PERIODS cp,COURSES c,SCHOOLS s
 	WHERE cp.COURSE_ID=c.COURSE_ID
 	AND cp.TEACHER_ID='".UserStaffID()."'
@@ -40,7 +46,7 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 	($_REQUEST['all_schools']=='Y'?'':" AND cp.SCHOOL_ID='".UserSchool()."'")."
 	AND s.ID=cp.SCHOOL_ID
 	AND s.SYEAR=cp.SYEAR
-	ORDER BY cp.SHORT_NAME,cp.TITLE"),array('MARKING_PERIOD_ID' => 'GetMP'),$group);
+	ORDER BY cp.SHORT_NAME,cp.TITLE",array('MARKING_PERIOD_ID' => 'GetMP'),$group);
 
 	if ( $_REQUEST['all_schools'] == 'Y' )
 	{
@@ -89,7 +95,7 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 	if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 		$days_convert = array('U' => _('Day').' 7','M' => _('Day').' 1','T' => _('Day').' 2','W' => _('Day').' 3','H' => _('Day').' 4','F' => _('Day').' 5','S' => _('Day').' 6');
 
-	$schedule_table_RET = DBGet(DBQuery("SELECT cp.ROOM,cp.SHORT_NAME,c.TITLE,sp.TITLE AS SCHOOL_PERIOD,cpsp.DAYS
+	$schedule_table_RET = DBGet( "SELECT cp.ROOM,cp.SHORT_NAME,c.TITLE,sp.TITLE AS SCHOOL_PERIOD,cpsp.DAYS
 	FROM COURSE_PERIODS cp,COURSES c,SCHOOLS s,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
 	WHERE cp.COURSE_ID=c.COURSE_ID
 	AND cp.TEACHER_ID='".UserStaffID()."'
@@ -101,7 +107,7 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 	AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
 	AND cp.MARKING_PERIOD_ID IN ((SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'), '".UserMP()."')
 	AND sp.LENGTH <= ".(Config('ATTENDANCE_FULL_DAY_MINUTES') / 2)."
-	ORDER BY sp.SORT_ORDER"),array('DAYS' => '_GetDays'),array('SCHOOL_PERIOD'));
+	ORDER BY sp.SORT_ORDER",array('DAYS' => '_GetDays'),array('SCHOOL_PERIOD'));
 	//FJ note the "sp.LENGTH < (Config('ATTENDANCE_FULL_DAY_MINUTES') / 2)" condition to remove Full Day and Half Day school periods from the schedule table!
 
 	$columns = array('SCHOOL_PERIOD' => _('Periods'));

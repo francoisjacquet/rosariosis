@@ -11,7 +11,7 @@ if ( ! empty( $_REQUEST['month_date'] )
 else
 	$date = DBDate();
 
-$current_RET = DBGet(DBQuery("SELECT ATTENDANCE_TEACHER_CODE,ATTENDANCE_CODE,ATTENDANCE_REASON,STUDENT_ID,ADMIN,COURSE_PERIOD_ID FROM ATTENDANCE_PERIOD WHERE SCHOOL_DATE='".$date."'"),array(),array('STUDENT_ID','COURSE_PERIOD_ID'));
+$current_RET = DBGet( "SELECT ATTENDANCE_TEACHER_CODE,ATTENDANCE_CODE,ATTENDANCE_REASON,STUDENT_ID,ADMIN,COURSE_PERIOD_ID FROM ATTENDANCE_PERIOD WHERE SCHOOL_DATE='".$date."'",array(),array('STUDENT_ID','COURSE_PERIOD_ID'));
 if ( $_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 {
 	foreach ( (array) $_REQUEST['attendance'] as $student_id => $values)
@@ -30,7 +30,7 @@ if ( $_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 			}
 			else
 			{
-				$period_id = DBGet(DBQuery("SELECT PERIOD_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$period."'"));
+				$period_id = DBGet( "SELECT PERIOD_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$period."'" );
 				$period_id = $period_id[1]['PERIOD_ID'];
 
 				$sql = "INSERT INTO ATTENDANCE_PERIOD ";
@@ -56,14 +56,14 @@ if ( $_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 		}
 		UpdateAttendanceDaily($student_id,$date);
 	}
-	$current_RET = DBGet(DBQuery("SELECT ATTENDANCE_TEACHER_CODE,ATTENDANCE_CODE,ATTENDANCE_REASON,STUDENT_ID,ADMIN,COURSE_PERIOD_ID FROM ATTENDANCE_PERIOD WHERE SCHOOL_DATE='".$date."'"),array(),array('STUDENT_ID','COURSE_PERIOD_ID'));
+	$current_RET = DBGet( "SELECT ATTENDANCE_TEACHER_CODE,ATTENDANCE_CODE,ATTENDANCE_REASON,STUDENT_ID,ADMIN,COURSE_PERIOD_ID FROM ATTENDANCE_PERIOD WHERE SCHOOL_DATE='".$date."'",array(),array('STUDENT_ID','COURSE_PERIOD_ID'));
 
 	// Unset attendance & redirect URL.
 	RedirectURL( 'attendance' );
 }
 
-$codes_RET = DBGet(DBQuery("SELECT ID,SHORT_NAME,TITLE FROM ATTENDANCE_CODES WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
-$periods_RET = DBGet(DBQuery("SELECT PERIOD_ID,SHORT_NAME,TITLE FROM SCHOOL_PERIODS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' ORDER BY SORT_ORDER"));
+$codes_RET = DBGet( "SELECT ID,SHORT_NAME,TITLE FROM ATTENDANCE_CODES WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'" );
+$periods_RET = DBGet( "SELECT PERIOD_ID,SHORT_NAME,TITLE FROM SCHOOL_PERIODS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' ORDER BY SORT_ORDER" );
 
 if (isset($_REQUEST['student_id']) && $_REQUEST['student_id']!='new')
 {
@@ -71,17 +71,21 @@ if (isset($_REQUEST['student_id']) && $_REQUEST['student_id']!='new')
 		SetUserStudentID($_REQUEST['student_id']);
 
 	$functions = array('ATTENDANCE_CODE' => '_makeCodePulldown','ATTENDANCE_TEACHER_CODE' => '_makeCode','ATTENDANCE_REASON' => '_makeReasonInput');
-	$schedule_RET = DBGet(DBQuery("SELECT
-										s.STUDENT_ID,c.TITLE AS COURSE,cp.PERIOD_ID,cp.COURSE_PERIOD_ID,p.TITLE AS PERIOD_TITLE,
-										'' AS ATTENDANCE_CODE,'' AS ATTENDANCE_TEACHER_CODE,'' AS ATTENDANCE_REASON
-									FROM
-										SCHEDULE s,COURSES c,COURSE_PERIODS cp,SCHOOL_PERIODS p
-									WHERE
-										s.SYEAR='".UserSyear()."' AND s.SCHOOL_ID='".UserSchool()."' AND s.MARKING_PERIOD_ID IN (".GetAllMP('QTR',GetCurrentMP('QTR',$date)).")
-										AND s.COURSE_ID=c.COURSE_ID
-										AND s.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND cp.PERIOD_ID=p.PERIOD_ID AND cp.DOES_ATTENDANCE='Y'
-										AND s.STUDENT_ID='".$_REQUEST['student_id']."' AND ('".$date."' BETWEEN s.START_DATE AND s.END_DATE OR s.END_DATE IS NULL)
-									ORDER BY p.SORT_ORDER"),$functions);
+
+	$schedule_RET = DBGet( "SELECT s.STUDENT_ID,c.TITLE AS COURSE,cp.PERIOD_ID,cp.COURSE_PERIOD_ID,
+	p.TITLE AS PERIOD_TITLE,'' AS ATTENDANCE_CODE,'' AS ATTENDANCE_TEACHER_CODE,'' AS ATTENDANCE_REASON
+	FROM SCHEDULE s,COURSES c,COURSE_PERIODS cp,SCHOOL_PERIODS p
+	WHERE s.SYEAR='".UserSyear()."'
+	AND s.SCHOOL_ID='".UserSchool()."'
+	AND s.MARKING_PERIOD_ID IN (".GetAllMP('QTR',GetCurrentMP('QTR',$date)).")
+	AND s.COURSE_ID=c.COURSE_ID
+	AND s.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
+	AND cp.PERIOD_ID=p.PERIOD_ID
+	AND cp.DOES_ATTENDANCE='Y'
+	AND s.STUDENT_ID='".$_REQUEST['student_id']."'
+	AND ('".$date."' BETWEEN s.START_DATE AND s.END_DATE OR s.END_DATE IS NULL)
+	ORDER BY p.SORT_ORDER",$functions);
+
 	$columns = array('PERIOD_TITLE' => _('Period'),'COURSE' => _('Course'),'ATTENDANCE_CODE' => _('Attendance Code'),'ATTENDANCE_TEACHER_CODE' => _('Teacher\'s Entry'),'ATTENDANCE_REASON' => _('Comments'));
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=student&student_id='.$_REQUEST['student_id'].'" method="POST">';
 	DrawHeader(ProgramTitle(),'<input type="submit" value="'._('Update').'" />');
@@ -124,7 +128,7 @@ else
 	}
 	elseif ( $abs)
 	{
-		$RET = DBGet(DBQuery("SELECT ID FROM ATTENDANCE_CODES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND (DEFAULT_CODE!='Y' OR DEFAULT_CODE IS NULL)"));
+		$RET = DBGet( "SELECT ID FROM ATTENDANCE_CODES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND (DEFAULT_CODE!='Y' OR DEFAULT_CODE IS NULL)" );
 		if (count($RET))
 		{
 			$extra['WHERE'] .= "AND ac.ID IN (";
@@ -187,7 +191,7 @@ function _makeCodePulldown($value,$title)
 
 	if ( !isset($current_schedule_RET[$THIS_RET['STUDENT_ID']]) || !is_array($current_schedule_RET[$THIS_RET['STUDENT_ID']]))
 	{
-		$current_schedule_RET[$THIS_RET['STUDENT_ID']] = DBGet(DBQuery("SELECT cp.PERIOD_ID,cp.COURSE_PERIOD_ID
+		$current_schedule_RET[$THIS_RET['STUDENT_ID']] = DBGet( "SELECT cp.PERIOD_ID,cp.COURSE_PERIOD_ID
 		FROM SCHEDULE s,COURSE_PERIODS cp
 		WHERE s.STUDENT_ID='".$THIS_RET['STUDENT_ID']."'
 		AND s.SYEAR='".UserSyear()."'
@@ -195,7 +199,7 @@ function _makeCodePulldown($value,$title)
 		AND cp.COURSE_PERIOD_ID = s.COURSE_PERIOD_ID
 		AND cp.DOES_ATTENDANCE='Y'
 		AND s.MARKING_PERIOD_ID IN (".GetAllMP('QTR',GetCurrentMP('QTR',$date)).")
-		AND ('".$date."' BETWEEN s.START_DATE AND s.END_DATE OR s.END_DATE IS NULL)"),array(),array('PERIOD_ID'));
+		AND ('".$date."' BETWEEN s.START_DATE AND s.END_DATE OR s.END_DATE IS NULL)",array(),array('PERIOD_ID'));
 		if ( ! $current_schedule_RET[$THIS_RET['STUDENT_ID']])
 			$current_schedule_RET[$THIS_RET['STUDENT_ID']] = array();
 	}
@@ -264,7 +268,7 @@ function _makeCodeSearch($value='')
 function _makeStateValue($value,$name)
 {	global $THIS_RET,$date;
 
-	$value = DBGet(DBQuery("SELECT STATE_VALUE FROM ATTENDANCE_DAY WHERE STUDENT_ID='".$THIS_RET['STUDENT_ID']."' AND SCHOOL_DATE='".$date."'"));
+	$value = DBGet( "SELECT STATE_VALUE FROM ATTENDANCE_DAY WHERE STUDENT_ID='".$THIS_RET['STUDENT_ID']."' AND SCHOOL_DATE='".$date."'" );
 	$value  = $value[1]['STATE_VALUE'];
 
 	if ( $value=='0.0')

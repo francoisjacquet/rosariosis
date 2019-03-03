@@ -20,7 +20,7 @@ if ( !isset( $_REQUEST['chart_type'] )
 
 
 //FJ fix errors relation «course_weights» doesnt exist & columns c.grad_subject_id & cp.does_grades & cp.does_gpa do not exist
-//$course_id = DBGet(DBQuery("SELECT c.GRAD_SUBJECT_ID,cp.COURSE_ID,cp.TITLE,c.TITLE AS COURSE_TITLE,c.SHORT_NAME AS COURSE_NUM,cw.CREDITS,cw.GPA_MULTIPLIER,cp.DOES_GRADES,cp.GRADE_SCALE_ID,cp.DOES_GPA as AFFECTS_GPA FROM COURSE_PERIODS cp,COURSES c,COURSE_WEIGHTS cw WHERE cw.COURSE_ID=cp.COURSE_ID AND cw.COURSE_WEIGHT=cp.COURSE_WEIGHT AND c.COURSE_ID=cp.COURSE_ID AND cp.COURSE_PERIOD_ID='".UserCoursePeriod()."'"));
+//$course_id = DBGet( "SELECT c.GRAD_SUBJECT_ID,cp.COURSE_ID,cp.TITLE,c.TITLE AS COURSE_TITLE,c.SHORT_NAME AS COURSE_NUM,cw.CREDITS,cw.GPA_MULTIPLIER,cp.DOES_GRADES,cp.GRADE_SCALE_ID,cp.DOES_GPA as AFFECTS_GPA FROM COURSE_PERIODS cp,COURSES c,COURSE_WEIGHTS cw WHERE cw.COURSE_ID=cp.COURSE_ID AND cw.COURSE_WEIGHT=cp.COURSE_WEIGHT AND c.COURSE_ID=cp.COURSE_ID AND cp.COURSE_PERIOD_ID='".UserCoursePeriod()."'" );
 $course_id = DBGet( "SELECT cp.COURSE_ID,cp.TITLE,c.TITLE AS COURSE_TITLE,c.SHORT_NAME AS COURSE_NUM,cp.GRADE_SCALE_ID
 	FROM COURSE_PERIODS cp,COURSES c
 	WHERE c.COURSE_ID=cp.COURSE_ID
@@ -34,7 +34,7 @@ $grade_scale_id = $course_id[1]['GRADE_SCALE_ID'];
 $course_id = $course_id[1]['COURSE_ID'];
 
 //FJ fix error column scale_id doesnt exist
-//$grades_RET = DBGet(DBQuery("SELECT ID,TITLE FROM REPORT_CARD_GRADES WHERE SCALE_ID='".$grade_scale_id."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
+//$grades_RET = DBGet( "SELECT ID,TITLE FROM REPORT_CARD_GRADES WHERE SCALE_ID='".$grade_scale_id."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER" );
 $grades_RET = DBGet( "SELECT ID,TITLE,GPA_VALUE
 	FROM REPORT_CARD_GRADES
 	WHERE GRADE_SCALE_ID='" . $grade_scale_id . "'

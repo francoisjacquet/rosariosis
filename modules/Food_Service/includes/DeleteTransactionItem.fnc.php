@@ -15,10 +15,10 @@ function DeleteTransactionItem($transaction_id,$item_id,$type='student')
 		$sql3 = "DELETE FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID='".$transaction_id."' AND ITEM_ID='".$item_id."'";
 	}
 	DBQuery('BEGIN; '.$sql1.'; '.$sql2.'; '.$sql3.'; COMMIT');
-	
+
 	//FJ if no more transaction items, delete transaction
-	$trans_items_RET = DBGet(DBQuery("SELECT ITEM_ID FROM ".($type=='staff' ? "FOOD_SERVICE_STAFF_TRANSACTION_ITEMS" :  "FOOD_SERVICE_TRANSACTION_ITEMS")." WHERE TRANSACTION_ID='".$transaction_id."'"));
-	
+	$trans_items_RET = DBGet( "SELECT ITEM_ID FROM ".($type=='staff' ? "FOOD_SERVICE_STAFF_TRANSACTION_ITEMS" :  "FOOD_SERVICE_TRANSACTION_ITEMS")." WHERE TRANSACTION_ID='".$transaction_id."'" );
+
 	if (empty($trans_items_RET))
 	{
 		require_once 'modules/Food_Service/includes/DeleteTransaction.fnc.php';

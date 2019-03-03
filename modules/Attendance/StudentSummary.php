@@ -46,8 +46,8 @@ if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')==
 	if ( !UserStudentID() && ! $_REQUEST['student_id'])
 	{
 		//FJ multiple school periods for a course period
-		//$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp WHERE sp.SYEAR='".UserSyear()."' AND sp.SCHOOL_ID='".UserSchool()."' AND EXISTS(SELECT '' FROM COURSE_PERIODS cp WHERE cp.PERIOD_ID=sp.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0".(User('PROFILE')=='teacher'?" AND cp.PERIOD_ID='".UserPeriod()."'":'').") ORDER BY sp.SORT_ORDER"));
-		$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.TITLE
+		//$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp WHERE sp.SYEAR='".UserSyear()."' AND sp.SCHOOL_ID='".UserSchool()."' AND EXISTS(SELECT '' FROM COURSE_PERIODS cp WHERE cp.PERIOD_ID=sp.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0".(User('PROFILE')=='teacher'?" AND cp.PERIOD_ID='".UserPeriod()."'":'').") ORDER BY sp.SORT_ORDER" );
+		$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE
 		FROM SCHOOL_PERIODS sp
 		WHERE sp.SYEAR='".UserSyear()."'
 		AND sp.SCHOOL_ID='".UserSchool()."'
@@ -58,7 +58,7 @@ if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')==
 			AND cpsp.PERIOD_ID=sp.PERIOD_ID
 			AND position(',0,' IN cp.DOES_ATTENDANCE)>0
 			".(User('PROFILE')=='teacher'?" AND cp.COURSE_PERIOD_ID IN (SELECT COURSE_PERIOD_ID FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE COURSE_PERIOD_SCHOOL_PERIODS_ID='".UserCoursePeriodSchoolPeriod()."')":'').")
-		ORDER BY sp.SORT_ORDER"));
+		ORDER BY sp.SORT_ORDER" );
 
 		$period_select = '<select name="period_id" onchange="ajaxPostForm(this.form,true);"><option value="">'._('Daily').'</option>';
 		if (count($periods_RET))
@@ -124,7 +124,7 @@ if ( ! empty( $_REQUEST['period_id'] ) )
 						AND ap.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND ac.SYEAR=ssm.SYEAR) AS STATE_ABS";
 
 	$extra['columns_after']['STATE_ABS'] = _('State Abs');
-	$codes_RET = DBGet(DBQuery("SELECT ID,TITLE FROM ATTENDANCE_CODES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND TABLE_NAME='0' AND (DEFAULT_CODE!='Y' OR DEFAULT_CODE IS NULL)"));
+	$codes_RET = DBGet( "SELECT ID,TITLE FROM ATTENDANCE_CODES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND TABLE_NAME='0' AND (DEFAULT_CODE!='Y' OR DEFAULT_CODE IS NULL)" );
 
 	if (count($codes_RET)>1)
 	{
@@ -200,7 +200,7 @@ if ( UserStudentID() )
 	}
 
 	//FJ multiple school periods for a course period
-	//$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.SHORT_NAME FROM SCHOOL_PERIODS sp,SCHEDULE s,COURSE_PERIODS cp WHERE sp.SCHOOL_ID='".UserSchool()."' AND sp.SYEAR='".UserSyear()."' AND s.STUDENT_ID='".UserStudentID()."' AND cp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID AND cp.PERIOD_ID=sp.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0 ORDER BY sp.SORT_ORDER"));
+	//$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.SHORT_NAME FROM SCHOOL_PERIODS sp,SCHEDULE s,COURSE_PERIODS cp WHERE sp.SCHOOL_ID='".UserSchool()."' AND sp.SYEAR='".UserSyear()."' AND s.STUDENT_ID='".UserStudentID()."' AND cp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID AND cp.PERIOD_ID=sp.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0 ORDER BY sp.SORT_ORDER" );
 	$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.SHORT_NAME
 	FROM SCHOOL_PERIODS sp,SCHEDULE s,COURSE_PERIODS cp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID

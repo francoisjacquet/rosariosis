@@ -29,7 +29,7 @@ if ( $_REQUEST['values']
 		elseif ( $columns['AMOUNT'] !== ''
 			&& $columns['PAYMENT_DATE'] )
 		{
-			$id = DBGet(DBQuery("SELECT ".db_seq_nextval('ACCOUNTING_PAYMENTS_SEQ').' AS ID'));
+			$id = DBGet( "SELECT ".db_seq_nextval('ACCOUNTING_PAYMENTS_SEQ').' AS ID' );
 			$id = $id[1]['ID'];
 
 			$sql = "INSERT INTO ACCOUNTING_PAYMENTS ";
@@ -89,7 +89,7 @@ if ( ! $_REQUEST['modfunc'] )
 		'COMMENTS' => '_makePaymentsTextInput',
 	);
 
-	$payments_RET = DBGet(DBQuery("SELECT '' AS REMOVE,ID,AMOUNT,PAYMENT_DATE,COMMENTS FROM ACCOUNTING_PAYMENTS WHERE SYEAR='".UserSyear()."' AND STAFF_ID IS NULL AND SCHOOL_ID='".UserSchool()."' ORDER BY ID"),$functions);
+	$payments_RET = DBGet( "SELECT '' AS REMOVE,ID,AMOUNT,PAYMENT_DATE,COMMENTS FROM ACCOUNTING_PAYMENTS WHERE SYEAR='".UserSyear()."' AND STAFF_ID IS NULL AND SCHOOL_ID='".UserSchool()."' ORDER BY ID",$functions);
 	$i = 1;
 	$RET = array();
 	foreach ( (array) $payments_RET as $payment)
@@ -136,7 +136,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	echo '<br />';
 
-	$incomes_total = DBGet(DBQuery("SELECT SUM(f.AMOUNT) AS TOTAL FROM ACCOUNTING_INCOMES f WHERE f.SYEAR='".UserSyear()."' AND f.SCHOOL_ID='".UserSchool()."'"));
+	$incomes_total = DBGet( "SELECT SUM(f.AMOUNT) AS TOTAL FROM ACCOUNTING_INCOMES f WHERE f.SYEAR='".UserSyear()."' AND f.SCHOOL_ID='".UserSchool()."'" );
 
 	$table = '<table class="align-right"><tr><td>'._('Total from Incomes').': '.'</td><td>'.Currency($incomes_total[1]['TOTAL']).'</td></tr>';
 
@@ -149,7 +149,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( $RosarioModules['Student_Billing'])
 	{
-		$student_payments_total = DBGet(DBQuery("SELECT SUM(p.AMOUNT) AS TOTAL FROM BILLING_PAYMENTS p WHERE p.SYEAR='".UserSyear()."' AND p.SCHOOL_ID='".UserSchool()."'"));
+		$student_payments_total = DBGet( "SELECT SUM(p.AMOUNT) AS TOTAL FROM BILLING_PAYMENTS p WHERE p.SYEAR='".UserSyear()."' AND p.SCHOOL_ID='".UserSchool()."'" );
 
 		$table .= '<tr><td>& '._('Total from Student Payments').': '.'</td><td>'.Currency($student_payments_total[1]['TOTAL']).'</td></tr>';
 	}
@@ -158,7 +158,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$table .= '<tr><td>'._('Less').': '._('Total from Expenses').': '.'</td><td>'.Currency($payments_total).'</td></tr>';
 
-	$Staff_payments_total = DBGet(DBQuery("SELECT SUM(p.AMOUNT) AS TOTAL FROM ACCOUNTING_PAYMENTS p WHERE p.STAFF_ID IS NOT NULL AND p.SYEAR='".UserSyear()."' AND p.SCHOOL_ID='".UserSchool()."'"));
+	$Staff_payments_total = DBGet( "SELECT SUM(p.AMOUNT) AS TOTAL FROM ACCOUNTING_PAYMENTS p WHERE p.STAFF_ID IS NOT NULL AND p.SYEAR='".UserSyear()."' AND p.SCHOOL_ID='".UserSchool()."'" );
 
 	$table .= '<tr><td>& '._('Total from Staff Payments').': '.'</td><td>'.Currency($Staff_payments_total[1]['TOTAL']).'</td></tr>';
 

@@ -23,7 +23,7 @@ if ( $_REQUEST['values']
 			// New: check for Title.
 			elseif ( $columns['TITLE'] )
 			{
-				$id = DBGet(DBQuery("SELECT ".db_seq_nextval('DISCIPLINE_FIELDS_SEQ').' AS ID'));
+				$id = DBGet( "SELECT ".db_seq_nextval('DISCIPLINE_FIELDS_SEQ').' AS ID' );
 				$id = $id[1]['ID'];
 				$sql = "INSERT INTO DISCIPLINE_FIELDS ";
 

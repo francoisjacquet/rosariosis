@@ -23,7 +23,7 @@ if ( empty( $date ) )
 
 DrawHeader(ProgramTitle());
 
-$course_RET = DBGet(DBQuery("SELECT DOES_FS_COUNTS,DAYS,CALENDAR_ID,MP,MARKING_PERIOD_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."'"));
+$course_RET = DBGet( "SELECT DOES_FS_COUNTS,DAYS,CALENDAR_ID,MP,MARKING_PERIOD_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."'" );
 //echo '<pre>'; var_dump($course_RET); echo '</pre>';
 
 if ( !trim($course_RET[1]['DOES_FS_COUNTS'],','))
@@ -49,11 +49,11 @@ if ( $course_RET[1]['CALENDAR_ID'])
 	$calendar_id = $course_RET[1]['CALENDAR_ID'];
 else
 {
-	$calendar_id = DBGet(DBQuery("SELECT CALENDAR_ID FROM ATTENDANCE_CALENDARS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND DEFAULT_CALENDAR='Y'"));
+	$calendar_id = DBGet( "SELECT CALENDAR_ID FROM ATTENDANCE_CALENDARS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND DEFAULT_CALENDAR='Y'" );
 	$calendar_id = $calendar_id['CALENDAR_ID'];
 }
 
-$calendar_RET = DBGet(DBQuery("SELECT MINUTES FROM ATTENDANCE_CALENDAR WHERE CALENDAR_ID='".$calendar_id."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND SCHOOL_DATE='".$date."'"));
+$calendar_RET = DBGet( "SELECT MINUTES FROM ATTENDANCE_CALENDAR WHERE CALENDAR_ID='".$calendar_id."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND SCHOOL_DATE='".$date."'" );
 //echo '<pre>'; var_dump($calendar_RET); echo '</pre>';
 
 if ( ! $calendar_RET[1]['MINUTES'])

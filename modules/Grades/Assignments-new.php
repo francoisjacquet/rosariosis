@@ -149,7 +149,7 @@ if ( $_REQUEST['modfunc'] === 'remove' )
 		}
 		else
 		{
-			$assignments_RET = DBGet(DBQuery("SELECT ASSIGNMENT_ID FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_TYPE_ID='" . $_REQUEST['id'] . "'"));
+			$assignments_RET = DBGet( "SELECT ASSIGNMENT_ID FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_TYPE_ID='" . $_REQUEST['id'] . "'" );
 
 			if (count($assignments_RET))
 			{
@@ -167,7 +167,7 @@ if ( $_REQUEST['modfunc'] === 'remove' )
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	$types_RET = DBGet(DBQuery("SELECT ASSIGNMENT_TYPE_ID,TITLE,SORT_ORDER,COLOR FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE STAFF_ID='".User('STAFF_ID')."' AND COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."') ORDER BY SORT_ORDER,TITLE"),array(),array('ASSIGNMENT_TYPE_ID'));
+	$types_RET = DBGet( "SELECT ASSIGNMENT_TYPE_ID,TITLE,SORT_ORDER,COLOR FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE STAFF_ID='".User('STAFF_ID')."' AND COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."') ORDER BY SORT_ORDER,TITLE",array(),array('ASSIGNMENT_TYPE_ID'));
 	if ( ! empty( $_REQUEST['tab_id'] ) )
 	{
 		if ( $_REQUEST['tab_id']!='new' && ! $types_RET[$_REQUEST['tab_id']] )

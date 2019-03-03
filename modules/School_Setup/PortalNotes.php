@@ -8,7 +8,7 @@ DrawHeader( ProgramTitle() );
 // Add eventual Dates to $_REQUEST['values'].
 AddRequestedDates( 'values', 'post' );
 
-$profiles_RET = DBGet(DBQuery("SELECT ID,TITLE FROM USER_PROFILES ORDER BY ID"));
+$profiles_RET = DBGet( "SELECT ID,TITLE FROM USER_PROFILES ORDER BY ID" );
 
 if ( $_REQUEST['modfunc'] === 'update'
 	&& ( ( $_REQUEST['profiles']
@@ -17,7 +17,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 			&& $_POST['values'] ) )
 	&& AllowEdit() )
 {
-	$notes_RET = DBGet(DBQuery("SELECT ID FROM PORTAL_NOTES WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
+	$notes_RET = DBGet( "SELECT ID FROM PORTAL_NOTES WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'" );
 
 	foreach ( (array) $notes_RET as $note_id )
 	{
@@ -105,7 +105,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				//FJ file attached to portal notes
 				$fields = 'ID,SCHOOL_ID,SYEAR,PUBLISHED_DATE,PUBLISHED_USER,';
 
-				$portal_note_RET = DBGet(DBQuery("SELECT ".db_seq_nextval('PORTAL_NOTES_SEQ').' AS PORTAL_NOTE_ID'));
+				$portal_note_RET = DBGet( "SELECT ".db_seq_nextval('PORTAL_NOTES_SEQ').' AS PORTAL_NOTE_ID' );
 				$portal_note_id = $portal_note_RET[1]['PORTAL_NOTE_ID'];
 
 				//$values = db_seq_nextval('PORTAL_NOTES_SEQ').",'".UserSchool()."','".UserSyear()."',CURRENT_TIMESTAMP,'".User('STAFF_ID')."',";
@@ -166,7 +166,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	if ( DeletePrompt( _( 'Note' ) ) )
 	{
 		// FJ file attached to portal notes.
-		$file_to_remove = DBGet(DBQuery("SELECT FILE_ATTACHED FROM PORTAL_NOTES WHERE ID='" . $_REQUEST['id'] . "'"));
+		$file_to_remove = DBGet( "SELECT FILE_ATTACHED FROM PORTAL_NOTES WHERE ID='" . $_REQUEST['id'] . "'" );
 		@unlink($file_to_remove[1]['FILE_ATTACHED']);
 		DBQuery("DELETE FROM PORTAL_NOTES WHERE ID='" . $_REQUEST['id'] . "'");
 

@@ -98,7 +98,7 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 		'COMMENTS' => '_makePaymentsTextInput',
 	);
 
-	$payments_RET = DBGet(DBQuery("SELECT '' AS REMOVE,ID,AMOUNT,PAYMENT_DATE,COMMENTS FROM ACCOUNTING_PAYMENTS WHERE STAFF_ID='".UserStaffID()."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY ID"),$functions);
+	$payments_RET = DBGet( "SELECT '' AS REMOVE,ID,AMOUNT,PAYMENT_DATE,COMMENTS FROM ACCOUNTING_PAYMENTS WHERE STAFF_ID='".UserStaffID()."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY ID",$functions);
 	$i = 1;
 	$RET = array();
 	foreach ( (array) $payments_RET as $payment)
@@ -145,7 +145,7 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 
 	echo '<br />';
 
-	$salaries_total = DBGet(DBQuery("SELECT SUM(f.AMOUNT) AS TOTAL FROM ACCOUNTING_SALARIES f WHERE f.STAFF_ID='".UserStaffID()."' AND f.SYEAR='".UserSyear()."' AND f.SCHOOL_ID='".UserSchool()."'"));
+	$salaries_total = DBGet( "SELECT SUM(f.AMOUNT) AS TOTAL FROM ACCOUNTING_SALARIES f WHERE f.STAFF_ID='".UserStaffID()."' AND f.SYEAR='".UserSyear()."' AND f.SCHOOL_ID='".UserSchool()."'" );
 
 	$table = '<table class="align-right"><tr><td>'._('Total from Salaries').': '.'</td><td>'.Currency($salaries_total[1]['TOTAL']).'</td></tr>';
 

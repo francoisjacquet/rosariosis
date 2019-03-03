@@ -2,7 +2,7 @@
 require_once 'ProgramFunctions/_makeLetterGrade.fnc.php';
 
 $course_period_id = UserCoursePeriod();
-$course_id = DBGet(DBQuery("SELECT cp.COURSE_ID,c.TITLE FROM COURSE_PERIODS cp,COURSES c WHERE c.COURSE_ID=cp.COURSE_ID AND cp.COURSE_PERIOD_ID='".$course_period_id."'"));
+$course_id = DBGet( "SELECT cp.COURSE_ID,c.TITLE FROM COURSE_PERIODS cp,COURSES c WHERE c.COURSE_ID=cp.COURSE_ID AND cp.COURSE_PERIOD_ID='".$course_period_id."'" );
 $course_title = $course_id[1]['TITLE'];
 $course_id = $course_id[1]['COURSE_ID'];
 

@@ -61,7 +61,7 @@ if ( $_REQUEST['search_modfunc']
 	$tmp_PHP_SELF = PreparePHP_SELF();
 	echo '<form action="'.$tmp_PHP_SELF.'" method="POST">';
 
-	$begin_year = DBGet(DBQuery("SELECT min(date_part('epoch',SCHOOL_DATE)) as SCHOOL_DATE FROM ATTENDANCE_CALENDAR WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
+	$begin_year = DBGet( "SELECT min(date_part('epoch',SCHOOL_DATE)) as SCHOOL_DATE FROM ATTENDANCE_CALENDAR WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'" );
 	$begin_year = $begin_year[1]['SCHOOL_DATE'];
 	if (is_null($begin_year))
 		ErrorMessage(array(_('There are no calendars yet setup.')), 'fatal');

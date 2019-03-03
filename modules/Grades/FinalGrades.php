@@ -100,17 +100,17 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		// GET THE COMMENTS
 		if ( $_REQUEST['elements']['comments']=='Y')
 		{
-			//$comments_RET = DBGet(DBQuery("SELECT ID,TITLE,SORT_ORDER FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"),array(),array('ID'));
+			//$comments_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'",array(),array('ID'));
 			//FJ get color for Course specific categories & get comment scale
-			$comments_RET = DBGet(DBQuery("SELECT c.ID,c.TITLE,c.SORT_ORDER,cc.COLOR,cs.TITLE AS SCALE_TITLE
+			$comments_RET = DBGet( "SELECT c.ID,c.TITLE,c.SORT_ORDER,cc.COLOR,cs.TITLE AS SCALE_TITLE
 			FROM REPORT_CARD_COMMENTS c
 			LEFT OUTER JOIN REPORT_CARD_COMMENT_CATEGORIES cc ON (cc.SYEAR=c.SYEAR AND cc.SCHOOL_ID=c.SCHOOL_ID AND cc.ID=c.CATEGORY_ID)
 			LEFT OUTER JOIN REPORT_CARD_COMMENT_CODE_SCALES cs ON (cs.SCHOOL_ID=c.SCHOOL_ID AND cs.ID=c.SCALE_ID)
 			WHERE c.SCHOOL_ID='".UserSchool()."'
-			AND c.SYEAR='".UserSyear()."'"),array(),array('ID'));
+			AND c.SYEAR='".UserSyear()."'",array(),array('ID'));
 
 			//FJ add columns for All Courses comments
-			$all_commentsA_RET = DBGet(DBQuery("SELECT ID,TITLE,SORT_ORDER FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND COURSE_ID IS NOT NULL AND COURSE_ID='0' ORDER BY SORT_ORDER,ID"),array(),array('ID'));
+			$all_commentsA_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND COURSE_ID IS NOT NULL AND COURSE_ID='0' ORDER BY SORT_ORDER,ID",array(),array('ID'));
 
 		}
 
@@ -273,7 +273,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			//Display comment codes tooltips
 			if ( !isset($_REQUEST['_ROSARIO_PDF']) && $_REQUEST['elements']['comments']=='Y')
 			{
-				$commentsB_RET = DBGet(DBQuery("SELECT ID,TITLE,SORT_ORDER FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND COURSE_ID IS NULL ORDER BY SORT_ORDER"),array(),array('ID'));
+				$commentsB_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND COURSE_ID IS NULL ORDER BY SORT_ORDER",array(),array('ID'));
 
 				if ( $commentsB_RET )
 				{
@@ -303,7 +303,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				$cp_list = '\''.implode('\',\'',$cp_list).'\'';
 
 				//FJ limit comment scales to the ones used in students' courses
-				$students_comment_scales_RET = DBGet(DBQuery("SELECT cs.ID
+				$students_comment_scales_RET = DBGet( "SELECT cs.ID
 				FROM REPORT_CARD_COMMENT_CODE_SCALES cs
 				WHERE cs.ID IN
 					(SELECT c.SCALE_ID
@@ -311,18 +311,18 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					WHERE (c.COURSE_ID IN(SELECT COURSE_ID FROM SCHEDULE WHERE STUDENT_ID IN (".$st_list.") AND COURSE_PERIOD_ID IN(".$cp_list.")) OR c.COURSE_ID=0)
 					AND c.SCHOOL_ID=cs.SCHOOL_ID
 					AND c.SYEAR='".UserSyear()."')
-				AND cs.SCHOOL_ID='".UserSchool()."'"), array(), array('ID'));
+				AND cs.SCHOOL_ID='".UserSchool()."'", array(), array('ID'));
 				$students_comment_scales = array_keys($students_comment_scales_RET);
 
 				//FJ add Comment Scales tipmessage
 				$comment_codes_RET = null;
 				if (count($students_comment_scales))
 				{
-					$comment_codes_RET = DBGet(DBQuery("SELECT cc.SCALE_ID,cc.TITLE,cc.SHORT_NAME,cc.COMMENT,cs.TITLE AS SCALE_TITLE
+					$comment_codes_RET = DBGet( "SELECT cc.SCALE_ID,cc.TITLE,cc.SHORT_NAME,cc.COMMENT,cs.TITLE AS SCALE_TITLE
 					FROM REPORT_CARD_COMMENT_CODES cc, REPORT_CARD_COMMENT_CODE_SCALES cs
 					WHERE cs.ID IN (".implode($students_comment_scales, ',').")
 					AND cs.ID=cc.SCALE_ID
-					ORDER BY cs.SORT_ORDER"),array(),array('SCALE_ID'));
+					ORDER BY cs.SORT_ORDER",array(),array('SCALE_ID'));
 				}
 
 				if ( $comment_codes_RET )
@@ -349,7 +349,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				}
 
 				//FJ add Course-specific comments tipmessage
-				$commentsA_RET = DBGet(DBQuery("SELECT cs.TITLE AS SCALE_TITLE,c.TITLE,c.SORT_ORDER,COLOR,co.COURSE_ID,co.TITLE AS COURSE_TITLE
+				$commentsA_RET = DBGet( "SELECT cs.TITLE AS SCALE_TITLE,c.TITLE,c.SORT_ORDER,COLOR,co.COURSE_ID,co.TITLE AS COURSE_TITLE
 				FROM REPORT_CARD_COMMENTS c, REPORT_CARD_COMMENT_CATEGORIES cc, COURSES co, REPORT_CARD_COMMENT_CODE_SCALES cs
 				WHERE (c.COURSE_ID IN(SELECT COURSE_ID FROM SCHEDULE WHERE STUDENT_ID IN (".$st_list.") AND COURSE_PERIOD_ID IN(".$cp_list.")))
 				AND c.SYEAR='".UserSyear()."'
@@ -357,7 +357,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				AND c.CATEGORY_ID=cc.ID
 				AND co.COURSE_ID=c.COURSE_ID
 				AND c.SCALE_ID=cs.ID
-				ORDER BY c.SORT_ORDER"), array(), array('COURSE_ID'));
+				ORDER BY c.SORT_ORDER", array(), array('COURSE_ID'));
 
 				if ( $commentsA_RET )
 				{
@@ -464,7 +464,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$extra['extra_header_left'] .= '</table></td></tr>';
 
 		//FJ get the title instead of the short marking period name
-		$mps_RET = DBGet(DBQuery("SELECT PARENT_ID,MARKING_PERIOD_ID,SHORT_NAME,TITLE FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"),array(),array('PARENT_ID'));
+		$mps_RET = DBGet( "SELECT PARENT_ID,MARKING_PERIOD_ID,SHORT_NAME,TITLE FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER",array(),array('PARENT_ID'));
 
 		$extra['extra_header_left'] .= '<tr class="st"><td>'._('Marking Periods').':</td><td><table><tr><td><table>';
 
@@ -534,10 +534,10 @@ if ( ! $_REQUEST['modfunc'] )
 function _makeComments($value,$column)
 {	global $THIS_RET;
 
-	return DBGet(DBQuery("SELECT COURSE_PERIOD_ID,REPORT_CARD_COMMENT_ID,COMMENT,
+	return DBGet( "SELECT COURSE_PERIOD_ID,REPORT_CARD_COMMENT_ID,COMMENT,
 	(SELECT SORT_ORDER FROM REPORT_CARD_COMMENTS WHERE REPORT_CARD_COMMENT_ID=ID) AS SORT_ORDER
 	FROM STUDENT_REPORT_CARD_COMMENTS
 	WHERE STUDENT_ID='".$THIS_RET['STUDENT_ID']."'
 	AND COURSE_PERIOD_ID='".$THIS_RET['COURSE_PERIOD_ID']."'
-	AND MARKING_PERIOD_ID='".$value."' ORDER BY SORT_ORDER"));
+	AND MARKING_PERIOD_ID='".$value."' ORDER BY SORT_ORDER" );
 }

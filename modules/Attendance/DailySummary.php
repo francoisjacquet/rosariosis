@@ -114,7 +114,7 @@ if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')==
 		if ( User( 'PROFILE' ) === 'admin' )
 		{
 			//FJ multiple school periods for a course period
-			//$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp WHERE sp.SYEAR='".UserSyear()."' AND sp.SCHOOL_ID='".UserSchool()."' AND (SELECT count(1) FROM COURSE_PERIODS WHERE position(',0,' IN DOES_ATTENDANCE)>0 AND PERIOD_ID=sp.PERIOD_ID AND SYEAR=sp.SYEAR AND SCHOOL_ID=sp.SCHOOL_ID)>0 ORDER BY sp.SORT_ORDER"));
+			//$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp WHERE sp.SYEAR='".UserSyear()."' AND sp.SCHOOL_ID='".UserSchool()."' AND (SELECT count(1) FROM COURSE_PERIODS WHERE position(',0,' IN DOES_ATTENDANCE)>0 AND PERIOD_ID=sp.PERIOD_ID AND SYEAR=sp.SYEAR AND SCHOOL_ID=sp.SCHOOL_ID)>0 ORDER BY sp.SORT_ORDER" );
 			$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE
 			FROM SCHOOL_PERIODS sp
 			WHERE sp.SYEAR='" . UserSyear() . "'
@@ -132,7 +132,7 @@ if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')==
 		else
 		{
 			//FJ multiple school periods for a course period
-			//$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp,COURSE_PERIODS cp WHERE position(',0,' IN cp.DOES_ATTENDANCE)>0 AND sp.PERIOD_ID=cp.PERIOD_ID AND cp.COURSE_PERIOD_ID='".UserCoursePeriod()."'"));
+			//$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp,COURSE_PERIODS cp WHERE position(',0,' IN cp.DOES_ATTENDANCE)>0 AND sp.PERIOD_ID=cp.PERIOD_ID AND cp.COURSE_PERIOD_ID='".UserCoursePeriod()."'" );
 			$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE
 			FROM SCHOOL_PERIODS sp,COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp
 			WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID

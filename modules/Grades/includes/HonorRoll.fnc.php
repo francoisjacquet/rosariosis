@@ -512,7 +512,7 @@ function HonorRollWidgets( $item )
 				}
 			}
 
-			$subjects_RET = DBGet(DBQuery("SELECT SUBJECT_ID,TITLE FROM COURSE_SUBJECTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
+			$subjects_RET = DBGet( "SELECT SUBJECT_ID,TITLE FROM COURSE_SUBJECTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'" );
 
 			$select = '<select name="subject_id">
 				<option value="">' . _( 'N/A' ) . '</option>';

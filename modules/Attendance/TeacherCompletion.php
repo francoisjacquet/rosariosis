@@ -23,7 +23,7 @@ else
 }
 
 DrawHeader(ProgramTitle());
-$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM ATTENDANCE_CODE_CATEGORIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER,TITLE"));
+$categories_RET = DBGet( "SELECT ID,TITLE FROM ATTENDANCE_CODE_CATEGORIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER,TITLE" );
 if ( $_REQUEST['table']=='')
 	$_REQUEST['table'] = '0';
 $category_select = "<select name=table onChange='ajaxPostForm(this.form,true);'><option value='0'".($_REQUEST['table']=='0'?' selected':'').">"._('Attendance')."</option>";

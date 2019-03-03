@@ -6,7 +6,7 @@ if ( empty( $_REQUEST['course_period_id'] ) )
 	include 'modules/Scheduling/Courses.php';
 else
 {
-	$course_title = DBGet(DBQuery("SELECT TITLE FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."'"));
+	$course_title = DBGet( "SELECT TITLE FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."'" );
 	$course_title = $course_title[1]['TITLE'] . '<input type="hidden" name="w_'.($_REQUEST['last_year']=='true'?'ly_':'').'course_period_id" value="'.$_REQUEST['course_period_id'].'" />';
 
 //FJ add <label> on radio

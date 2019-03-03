@@ -5,7 +5,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	{
 		$cp_list = '\''.implode('\',\'',$_REQUEST['cp_arr']).'\'';
 
-		$extra['DATE'] = DBGet(DBQuery("SELECT min(SCHOOL_DATE) AS START_DATE FROM ATTENDANCE_CALENDAR WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
+		$extra['DATE'] = DBGet( "SELECT min(SCHOOL_DATE) AS START_DATE FROM ATTENDANCE_CALENDAR WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'" );
 		$extra['DATE'] = $extra['DATE'][1]['START_DATE'];
 
 		if ( ! $extra['DATE']
@@ -15,7 +15,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		}
 
 		// get the fy marking period id, there should be exactly one fy marking period
-		$fy_id = DBGet(DBQuery("SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
+		$fy_id = DBGet( "SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'" );
 		$fy_id = $fy_id[1]['MARKING_PERIOD_ID'];
 
 		//FJ multiple school periods for a course period
@@ -149,7 +149,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		echo '</select></td></tr>';
 
-		$RET = DBGet(DBQuery("SELECT SUBJECT_ID,TITLE FROM COURSE_SUBJECTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' ORDER BY TITLE"));
+		$RET = DBGet( "SELECT SUBJECT_ID,TITLE FROM COURSE_SUBJECTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' ORDER BY TITLE" );
 		echo '<tr class="st"><td>'._('Subject').'</td><td>';
 		echo '<select name="subject_id"><option value="">'._('N/A').'</option>';
 
@@ -158,7 +158,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		echo '</select></td></tr>';
 
-		$RET = DBGet(DBQuery("SELECT PERIOD_ID,TITLE FROM SCHOOL_PERIODS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
+		$RET = DBGet( "SELECT PERIOD_ID,TITLE FROM SCHOOL_PERIODS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER" );
 		echo '<tr class="st"><td>'._('Period').'</td><td>';
 		echo '<select name="period_id"><option value="">'._('N/A').'</option>';
 

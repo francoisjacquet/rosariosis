@@ -24,7 +24,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 	RedirectURL( array( 'modfunc', 'staff', 'student' ) );
 }
 
-$schools_RET = DBGet(DBQuery("SELECT ID,SYEAR,TITLE FROM SCHOOLS"),array(),array('SYEAR'));
+$schools_RET = DBGet( "SELECT ID,SYEAR,TITLE FROM SCHOOLS",array(),array('SYEAR'));
 //echo '<pre>'; var_dump($schools_RET); echo '</pre>';
 foreach ( (array) $schools_RET as $syear => $schools)
 	foreach ( (array) $schools as $school)
@@ -60,7 +60,7 @@ echo '</form>';
 
 function _students($value,$column)
 {
-	$RET = DBGet(DBQuery("SELECT s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fsa WHERE s.STUDENT_ID=fsa.STUDENT_ID AND fsa.ACCOUNT_ID='".$value."'"));
+	$RET = DBGet( "SELECT s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fsa WHERE s.STUDENT_ID=fsa.STUDENT_ID AND fsa.ACCOUNT_ID='".$value."'" );
 	foreach ( (array) $RET as $student)
 		$ret .= $student['FULL_NAME'].'<br />';
 	$ret = mb_substr($ret,0,-4);

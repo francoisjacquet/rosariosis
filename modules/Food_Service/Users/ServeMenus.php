@@ -21,7 +21,7 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 	elseif ( $_REQUEST['submit']['save']
 		&& count( $_SESSION['FSA_sale'] ) )
 	{
-		$items_RET = DBGet(DBQuery("SELECT DESCRIPTION,SHORT_NAME,PRICE_STAFF FROM FOOD_SERVICE_ITEMS WHERE SCHOOL_ID='".UserSchool()."'"),array(),array('SHORT_NAME'));
+		$items_RET = DBGet( "SELECT DESCRIPTION,SHORT_NAME,PRICE_STAFF FROM FOOD_SERVICE_ITEMS WHERE SCHOOL_ID='".UserSchool()."'",array(),array('SHORT_NAME'));
 
 		// get next transaction id
 		$id = DBGet( 'SELECT '.db_seq_nextval('FOOD_SERVICE_STAFF_TRANSACTIONS_SEQ').' AS SEQ_ID' );
@@ -87,13 +87,13 @@ if ( UserStaffID()
 		echo '<table class="width-100p">';
 		echo '<tr class="st"><td class="width-100p valign-top">';
 
-		$RET = DBGet(DBQuery("SELECT fsti.DESCRIPTION,fsti.AMOUNT
+		$RET = DBGet( "SELECT fsti.DESCRIPTION,fsti.AMOUNT
 		FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst,FOOD_SERVICE_STAFF_TRANSACTION_ITEMS fsti
 		WHERE fst.STAFF_ID='".UserStaffID()."'
 		AND fst.SYEAR='".UserSyear()."'
 		AND fst.SHORT_NAME='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."'
 		AND fst.TIMESTAMP BETWEEN CURRENT_DATE AND CURRENT_DATE+1
-		AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID"));
+		AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID" );
 
 		$columns = array('DESCRIPTION' => _('Item'),'AMOUNT' => _('Amount'));
 		$singular = sprintf(_('Earlier %s Sale'),$menus_RET[$_REQUEST['menu_id']][1]['TITLE']);
@@ -111,13 +111,13 @@ if ( UserStaffID()
 		echo '</td></tr>';
 		echo '<tr><td class="width-100p valign-top">';
 
-		$items_RET = DBGet(DBQuery("SELECT fsi.SHORT_NAME,fsi.DESCRIPTION,fsi.PRICE_STAFF,fsi.ICON
+		$items_RET = DBGet( "SELECT fsi.SHORT_NAME,fsi.DESCRIPTION,fsi.PRICE_STAFF,fsi.ICON
 		FROM FOOD_SERVICE_ITEMS fsi,FOOD_SERVICE_MENU_ITEMS fsmi
 		WHERE fsmi.MENU_ID='".$_REQUEST['menu_id']."'
 		AND fsi.ITEM_ID=fsmi.ITEM_ID
 		AND fsmi.CATEGORY_ID IS NOT NULL
 		AND fsi.SCHOOL_ID='".UserSchool()."'
-		ORDER BY fsi.SORT_ORDER"),array('ICON' => 'makeIcon'),array('SHORT_NAME'));
+		ORDER BY fsi.SORT_ORDER",array('ICON' => 'makeIcon'),array('SHORT_NAME'));
 		$items = array();
 		foreach ( (array) $items_RET as $sn => $item)
 			$items += array($sn => $item[1]['DESCRIPTION']);

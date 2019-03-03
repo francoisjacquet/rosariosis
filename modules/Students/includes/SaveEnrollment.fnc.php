@@ -31,7 +31,11 @@ function SaveEnrollment()
 				$found_RET = 1;
 
 				if ( $date )
-					$found_RET = DBGet(DBQuery("SELECT ID FROM STUDENT_ENROLLMENT WHERE STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."' AND '".$date."' BETWEEN START_DATE AND END_DATE"));
+					$found_RET = DBGet( "SELECT ID
+						FROM STUDENT_ENROLLMENT
+						WHERE STUDENT_ID='" . UserStudentID() . "'
+						AND SYEAR='" . UserSyear() . "'
+						AND '" . $date . "' BETWEEN START_DATE AND END_DATE" );
 
 				if ( $found_RET )
 				{

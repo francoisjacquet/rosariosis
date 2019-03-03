@@ -182,7 +182,7 @@ if ( UserStudentID()
 	DrawHeader((AllowUse('Scheduling/PrintSchedules.php') ? '<a href="'.$printSchedulesLinkhref.'" target="_blank" id="printSchedulesLink">' : '')._('Print Schedule').(AllowUse('Scheduling/PrintSchedules.php') ? '</a>' : '') . (AllowUse('Scheduling/PrintSchedules.php') ? ' &nbsp;<label><input type="checkbox" id="horizontalFormat" name="horizontalFormat" value="Y" onchange="horizontalFormatSwitch();" /> '._('Horizontal Format').'</label>'.' <label><input name="schedule_table" type="radio" value="Yes" checked onchange="timeTableSwitch();" />&nbsp;'._('Table').'</label> '.'<label><input name="schedule_table" id="schedule_table" type="radio" value="No" onchange="timeTableSwitch();" />&nbsp;'._('List').'</label>' : ''));
 
 	// get the fy marking period id, there should be exactly one fy marking period
-	$fy_id = DBGet(DBQuery("SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
+	$fy_id = DBGet( "SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'" );
 	$fy_id = $fy_id[1]['MARKING_PERIOD_ID'];
 
 	//FJ multiple school periods for a course period
@@ -237,8 +237,8 @@ if ( UserStudentID()
 
 	$columns = array('TITLE' => _('Course'),'PERIOD_PULLDOWN' => _('Period').' '._('Days').' - '._('Short Name').' - '._('Teacher'),'ROOM' => _('Room'),'COURSE_MARKING_PERIOD_ID' => _('Term'),'SCHEDULER_LOCK' => '<img src="assets/themes/'. Preferences('THEME') .'/btn/locked.png"  class="button bigger">','START_DATE' => _('Enrolled'),'END_DATE' => _('Dropped'));
 	/*//FJ multiple school periods for a course period
-	//$days_RET = DBGet(DBQuery("SELECT DISTINCT DAYS FROM COURSE_PERIODS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
-	$days_RET = DBGet(DBQuery("SELECT DISTINCT cpsp.DAYS FROM COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND cp.SCHOOL_ID='".UserSchool()."' AND cp.SYEAR='".UserSyear()."'"));
+	//$days_RET = DBGet( "SELECT DISTINCT DAYS FROM COURSE_PERIODS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'" );
+	$days_RET = DBGet( "SELECT DISTINCT cpsp.DAYS FROM COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND cp.SCHOOL_ID='".UserSchool()."' AND cp.SYEAR='".UserSyear()."'" );
 	if (count($days_RET)==1)
 		unset($columns['DAYS']);
 
@@ -277,7 +277,7 @@ if ( UserStudentID()
 		$extra['WHERE'] = " AND s.STUDENT_ID='".UserStudentID()."'";
 		$extra['FROM'] .= ',SCHEDULE_REQUESTS sr,COURSES c';
 
-		$custom_fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE FROM CUSTOM_FIELDS WHERE ID=200000000"),array(),array('ID'));
+		$custom_fields_RET = DBGet( "SELECT ID,TITLE,TYPE FROM CUSTOM_FIELDS WHERE ID=200000000",array(),array('ID'));
 
 		if ( $custom_fields_RET['200000000'] && $custom_fields_RET['200000000'][1]['TYPE'] == 'select')
 			$extra['SELECT'] .= ',s.CUSTOM_200000000,c.TITLE AS COURSE,sr.SUBJECT_ID,sr.COURSE_ID,sr.WITH_TEACHER_ID,sr.NOT_TEACHER_ID,sr.WITH_PERIOD_ID,sr.NOT_PERIOD_ID,\'0\' AS AVAILABLE_SEATS,(SELECT count(*) AS SECTIONS FROM COURSE_PERIODS cp WHERE cp.COURSE_ID=sr.COURSE_ID AND (cp.GENDER_RESTRICTION=\'N\' OR cp.GENDER_RESTRICTION=substring(s.CUSTOM_200000000,1,1)) AND (sr.WITH_TEACHER_ID IS NULL OR sr.WITH_TEACHER_ID=cp.TEACHER_ID) AND (sr.NOT_TEACHER_ID IS NULL OR sr.NOT_TEACHER_ID!=cp.TEACHER_ID)) AS SECTIONS ';
@@ -317,11 +317,11 @@ if ( $_REQUEST['modfunc']=='choose_course')
 	else
 	{
 		//FJ multiple school periods for a course period
-		$mp_RET = DBGet(DBQuery("SELECT cp.COURSE_PERIOD_ID,cp.MARKING_PERIOD_ID,cp.MP,
+		$mp_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,cp.MARKING_PERIOD_ID,cp.MP,
 			cpsp.DAYS,cpsp.PERIOD_ID,cp.MARKING_PERIOD_ID,cp.TOTAL_SEATS,cp.CALENDAR_ID
 			FROM COURSE_PERIODS cp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
 			WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
-			AND cp.COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."'"));
+			AND cp.COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."'" );
 
 		if ( ! empty( $_REQUEST['course_marking_period_id'] ) )
 		{
@@ -339,20 +339,20 @@ if ( $_REQUEST['modfunc']=='choose_course')
 
 		// the course being scheduled has start date of $date but no end date by default, and scheduled into the course marking period by default
 		// if marking periods overlap and dates overlap (already scheduled course does not end or ends after $date) then not okay
-		$current_RET = DBGet(DBQuery("SELECT COURSE_PERIOD_ID FROM SCHEDULE WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_ID='".$_REQUEST['course_id']."' AND MARKING_PERIOD_ID IN (".$mps.") AND (END_DATE IS NULL OR '".DBDate()."'<=END_DATE)"));
+		$current_RET = DBGet( "SELECT COURSE_PERIOD_ID FROM SCHEDULE WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_ID='".$_REQUEST['course_id']."' AND MARKING_PERIOD_ID IN (".$mps.") AND (END_DATE IS NULL OR '".DBDate()."'<=END_DATE)" );
 		if (count($current_RET))
 			$warnings[] = _('This student is already scheduled into this course.');
 
 		//FJ multiple school periods for a course period
 		//if marking periods overlap and same period and same day then not okay
-		//$period_RET = DBGet(DBQuery("SELECT cp.DAYS FROM SCHEDULE s,COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID AND s.STUDENT_ID='".UserStudentID()."' AND cp.PERIOD_ID='".$mp_RET[1]['PERIOD_ID']."' AND s.MARKING_PERIOD_ID IN (".$mps.") AND (s.END_DATE IS NULL OR '".DBDate()."'<=s.END_DATE)"));
-		$period_RET = DBGet(DBQuery("SELECT cpsp.DAYS
+		//$period_RET = DBGet( "SELECT cp.DAYS FROM SCHEDULE s,COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID AND s.STUDENT_ID='".UserStudentID()."' AND cp.PERIOD_ID='".$mp_RET[1]['PERIOD_ID']."' AND s.MARKING_PERIOD_ID IN (".$mps.") AND (s.END_DATE IS NULL OR '".DBDate()."'<=s.END_DATE)" );
+		$period_RET = DBGet( "SELECT cpsp.DAYS
 		FROM SCHEDULE s,COURSE_PERIOD_SCHOOL_PERIODS cpsp
 		WHERE cpsp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID
 		AND s.STUDENT_ID='".UserStudentID()."'
 		AND cpsp.PERIOD_ID='".$mp_RET[1]['PERIOD_ID']."'
 		AND s.MARKING_PERIOD_ID IN (".$mps.")
-		AND (s.END_DATE IS NULL OR '".DBDate()."'<=s.END_DATE)"));
+		AND (s.END_DATE IS NULL OR '".DBDate()."'<=s.END_DATE)" );
 
 		$days_conflict = false;
 		foreach ( (array) $period_RET as $existing)
@@ -433,8 +433,8 @@ function _makePeriodSelect($course_period_id,$column)
 {	global $THIS_RET,$fy_id;
 
 	//FJ multiple school periods for a course period
-	//$orders_RET = DBGet(DBQuery("SELECT COURSE_PERIOD_ID,PARENT_ID,TITLE,MARKING_PERIOD_ID,MP,CALENDAR_ID,(SELECT SHORT_NAME FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID=cp.PARENT_ID) AS PARENT,TOTAL_SEATS FROM COURSE_PERIODS cp WHERE COURSE_ID='".$THIS_RET['COURSE_ID']."' ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID),TITLE"));
-	$orders_RET = DBGet(DBQuery("SELECT COURSE_PERIOD_ID,PARENT_ID,TITLE,MARKING_PERIOD_ID,MP,CALENDAR_ID,(SELECT SHORT_NAME FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID=cp.PARENT_ID) AS PARENT,TOTAL_SEATS FROM COURSE_PERIODS cp WHERE COURSE_ID='".$THIS_RET['COURSE_ID']."' ORDER BY SHORT_NAME,TITLE"));
+	//$orders_RET = DBGet( "SELECT COURSE_PERIOD_ID,PARENT_ID,TITLE,MARKING_PERIOD_ID,MP,CALENDAR_ID,(SELECT SHORT_NAME FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID=cp.PARENT_ID) AS PARENT,TOTAL_SEATS FROM COURSE_PERIODS cp WHERE COURSE_ID='".$THIS_RET['COURSE_ID']."' ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID),TITLE" );
+	$orders_RET = DBGet( "SELECT COURSE_PERIOD_ID,PARENT_ID,TITLE,MARKING_PERIOD_ID,MP,CALENDAR_ID,(SELECT SHORT_NAME FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID=cp.PARENT_ID) AS PARENT,TOTAL_SEATS FROM COURSE_PERIODS cp WHERE COURSE_ID='".$THIS_RET['COURSE_ID']."' ORDER BY SHORT_NAME,TITLE" );
 
 	foreach ( (array) $orders_RET as $value)
 	{
@@ -459,8 +459,8 @@ function _makeMPSelect($mp_id,$name)
 
 	if ( ! $_ROSARIO['_makeMPSelect'])
 	{
-		$semesters_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE,NULL AS PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='SEM' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
-		$quarters_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE,PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
+		$semesters_RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE,NULL AS PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='SEM' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER" );
+		$quarters_RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE,PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER" );
 
 		$_ROSARIO['_makeMPSelect'][ $fy_id ][1] = array('MARKING_PERIOD_ID' => $fy_id,'TITLE' => _('Full Year'),'PARENT_ID' => '');
 		foreach ( (array) $semesters_RET as $sem)

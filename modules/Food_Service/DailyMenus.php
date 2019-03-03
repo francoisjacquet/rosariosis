@@ -20,12 +20,12 @@ $time = mktime(0,0,0,$_REQUEST['month'],1,$_REQUEST['year']);
 $time_last = mktime(0,0,0,$_REQUEST['month'],$last,$_REQUEST['year']);
 
 // use the dafault calendar
-$default_RET = DBGet(DBQuery("SELECT CALENDAR_ID FROM ATTENDANCE_CALENDARS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND DEFAULT_CALENDAR='Y'"));
+$default_RET = DBGet( "SELECT CALENDAR_ID FROM ATTENDANCE_CALENDARS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND DEFAULT_CALENDAR='Y'" );
 if (count($default_RET))
 	$calendar_id = $default_RET[1]['CALENDAR_ID'];
 else
 {
-	$calendars_RET = DBGet(DBQuery("SELECT CALENDAR_ID FROM ATTENDANCE_CALENDARS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
+	$calendars_RET = DBGet( "SELECT CALENDAR_ID FROM ATTENDANCE_CALENDARS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'" );
 	if (count($calendars_RET))
 		$calendar_id = $calendars_RET[1]['CALENDAR_ID'];
 	else
@@ -49,12 +49,12 @@ if ( $_REQUEST['submit']['save']
 	&& $_POST['food_service']
 	&& AllowEdit() )
 {
-	$events_RET = DBGet(DBQuery("SELECT ID,SCHOOL_DATE
+	$events_RET = DBGet( "SELECT ID,SCHOOL_DATE
 	FROM CALENDAR_EVENTS
 	WHERE SCHOOL_DATE BETWEEN '" . date( 'Y-m-d', $time )."' AND '" . date( 'Y-m-d', $time_last ) . "'
 	AND SYEAR='".UserSyear()."'
 	AND SCHOOL_ID='".UserSchool()."'
-	AND TITLE='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."'"),array(),array('SCHOOL_DATE'));
+	AND TITLE='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."'",array(),array('SCHOOL_DATE'));
 	//echo '<pre>'; var_dump($events_RET); echo '</pre>';
 
 	foreach ( (array) $_REQUEST['food_service'] as $school_date => $description)
@@ -75,12 +75,12 @@ if ( $_REQUEST['submit']['save']
 
 if ( ! empty( $_REQUEST['submit']['print'] ) )
 {
-	$events_RET = DBGet(DBQuery("SELECT TITLE,DESCRIPTION,SCHOOL_DATE
+	$events_RET = DBGet( "SELECT TITLE,DESCRIPTION,SCHOOL_DATE
 	FROM CALENDAR_EVENTS
 	WHERE SCHOOL_DATE BETWEEN '" . date( 'Y-m-d', $time )."' AND '" . date( 'Y-m-d', $time_last ) . "'
 	AND SYEAR='".UserSyear()."'
 	AND SCHOOL_ID='".UserSchool()."'
-	AND (TITLE='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."' OR TITLE='No School')"),array(),array('SCHOOL_DATE'));
+	AND (TITLE='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."' OR TITLE='No School')",array(),array('SCHOOL_DATE'));
 
 	$skip = date("w",$time);
 
@@ -191,7 +191,7 @@ else
 {
 	if (AllowEdit())
 	{
-		$description_RET = DBGet(DBQuery("SELECT DISTINCT DESCRIPTION FROM CALENDAR_EVENTS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND TITLE='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."' AND DESCRIPTION IS NOT NULL ORDER BY DESCRIPTION"));
+		$description_RET = DBGet( "SELECT DISTINCT DESCRIPTION FROM CALENDAR_EVENTS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND TITLE='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."' AND DESCRIPTION IS NOT NULL ORDER BY DESCRIPTION" );
 		if (count($description_RET))
 		{
 			$description_select = '<option value="">'._('or select previous meal').'</option>';
@@ -201,22 +201,22 @@ else
 		}
 	}
 
-	$calendar_RET = DBGet(DBQuery("SELECT SCHOOL_DATE
+	$calendar_RET = DBGet( "SELECT SCHOOL_DATE
 	FROM ATTENDANCE_CALENDAR
 	WHERE SCHOOL_DATE BETWEEN '" . date( 'Y-m-d', $time )."' AND '" . date( 'Y-m-d', $time_last ) . "'
 	AND SYEAR='".UserSyear()."'
 	AND SCHOOL_ID='".UserSchool()."'
 	AND CALENDAR_ID='".$calendar_id."'
 	AND MINUTES>0
-	ORDER BY SCHOOL_DATE"),array(),array('SCHOOL_DATE'));
+	ORDER BY SCHOOL_DATE",array(),array('SCHOOL_DATE'));
 
-	$events_RET = DBGet(DBQuery("SELECT ID,TITLE,DESCRIPTION,SCHOOL_DATE
+	$events_RET = DBGet( "SELECT ID,TITLE,DESCRIPTION,SCHOOL_DATE
 	FROM CALENDAR_EVENTS
 	WHERE SCHOOL_DATE BETWEEN '" . date( 'Y-m-d', $time )."' AND '" . date( 'Y-m-d', $time_last ) . "'
 	AND SYEAR='".UserSyear()."'
 	AND SCHOOL_ID='".UserSchool()."'
 	AND TITLE='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."'
-	ORDER BY SCHOOL_DATE"),array('DESCRIPTION' => 'makeDescriptionInput','SCHOOL_DATE' => 'ProperDate'));
+	ORDER BY SCHOOL_DATE",array('DESCRIPTION' => 'makeDescriptionInput','SCHOOL_DATE' => 'ProperDate'));
 
 	$events_RET[0] = array(); // make sure indexing from 1
 

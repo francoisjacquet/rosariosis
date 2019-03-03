@@ -206,16 +206,16 @@ if ( count( $_REQUEST['attendance_day'] ) )
 	RedirectURL( 'attendance_day' );
 }
 
-$codes_RET = DBGet(DBQuery("SELECT ID,SHORT_NAME,TITLE,STATE_CODE FROM ATTENDANCE_CODES WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND TABLE_NAME='".$_REQUEST['table']."'"));
+$codes_RET = DBGet( "SELECT ID,SHORT_NAME,TITLE,STATE_CODE FROM ATTENDANCE_CODES WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND TABLE_NAME='".$_REQUEST['table']."'" );
 
-$periods_RET = DBGet(DBQuery("SELECT PERIOD_ID,SHORT_NAME,TITLE
+$periods_RET = DBGet( "SELECT PERIOD_ID,SHORT_NAME,TITLE
 FROM SCHOOL_PERIODS
 WHERE SCHOOL_ID='".UserSchool()."'
 AND SYEAR='".UserSyear()."'
 AND EXISTS (SELECT '' FROM COURSE_PERIODS WHERE PERIOD_ID=SCHOOL_PERIODS.PERIOD_ID AND position(',".$_REQUEST['table'].",' IN DOES_ATTENDANCE)>0)
-ORDER BY SORT_ORDER"));
+ORDER BY SORT_ORDER" );
 
-$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM ATTENDANCE_CODE_CATEGORIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
+$categories_RET = DBGet( "SELECT ID,TITLE FROM ATTENDANCE_CODE_CATEGORIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'" );
 
 if (count($categories_RET))
 {
@@ -241,7 +241,7 @@ if (isset($_REQUEST['student_id']) && $_REQUEST['student_id']!='new')
 	//FJ multiple school periods for a course period
 	if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 	{
-		$schedule_RET = DBGet(DBQuery("SELECT
+		$schedule_RET = DBGet( "SELECT
 		s.STUDENT_ID,c.TITLE AS COURSE,cpsp.PERIOD_ID,cp.COURSE_PERIOD_ID,p.TITLE AS PERIOD_TITLE,
 		s.STUDENT_ID AS ATTENDANCE_CODE,s.STUDENT_ID AS ATTENDANCE_TEACHER_CODE,s.STUDENT_ID AS ATTENDANCE_REASON,s.STUDENT_ID AS COMMENT
 		FROM SCHEDULE s,COURSES c,COURSE_PERIODS cp,SCHOOL_PERIODS p,ATTENDANCE_CALENDAR ac, COURSE_PERIOD_SCHOOL_PERIODS cpsp
@@ -257,9 +257,9 @@ if (isset($_REQUEST['student_id']) && $_REQUEST['student_id']!='new')
 			AND school_date<='".$date."' AND SCHOOL_ID=s.SCHOOL_ID) AS INT) FOR 1)
 		IN cpsp.DAYS)>0
 		AND ac.CALENDAR_ID=cp.CALENDAR_ID AND ac.SCHOOL_DATE='".$date."' AND ac.MINUTES!='0'
-		ORDER BY p.SORT_ORDER"),$functions);
+		ORDER BY p.SORT_ORDER",$functions);
 	} else {
-		$schedule_RET = DBGet(DBQuery("SELECT
+		$schedule_RET = DBGet( "SELECT
 		s.STUDENT_ID,c.TITLE AS COURSE,cpsp.PERIOD_ID,cp.COURSE_PERIOD_ID,p.TITLE AS PERIOD_TITLE,
 		s.STUDENT_ID AS ATTENDANCE_CODE,s.STUDENT_ID AS ATTENDANCE_TEACHER_CODE,s.STUDENT_ID AS ATTENDANCE_REASON,s.STUDENT_ID AS COMMENT
 		FROM SCHEDULE s,COURSES c,COURSE_PERIODS cp,SCHOOL_PERIODS p,ATTENDANCE_CALENDAR ac, COURSE_PERIOD_SCHOOL_PERIODS cpsp
@@ -272,7 +272,7 @@ if (isset($_REQUEST['student_id']) && $_REQUEST['student_id']!='new')
 		AND ('".$date."' BETWEEN s.START_DATE AND s.END_DATE OR (s.END_DATE IS NULL AND '".$date."'>=s.START_DATE))
 		AND position(substring('UMTWHFS' FROM cast(extract(DOW FROM cast('".$date."' AS DATE)) AS INT)+1 FOR 1) IN cpsp.DAYS)>0
 		AND ac.CALENDAR_ID=cp.CALENDAR_ID AND ac.SCHOOL_DATE='".$date."' AND ac.MINUTES!='0'
-		ORDER BY p.SORT_ORDER"),$functions);
+		ORDER BY p.SORT_ORDER",$functions);
 	}
 
 	$columns = array(
@@ -356,7 +356,7 @@ else
 	}
 	elseif ( $abs)
 	{
-		$RET = DBGet(DBQuery("SELECT ID FROM ATTENDANCE_CODES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND (DEFAULT_CODE!='Y' OR DEFAULT_CODE IS NULL) AND TABLE_NAME='".$_REQUEST['table']."'"));
+		$RET = DBGet( "SELECT ID FROM ATTENDANCE_CODES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND (DEFAULT_CODE!='Y' OR DEFAULT_CODE IS NULL) AND TABLE_NAME='".$_REQUEST['table']."'" );
 		if (count($RET))
 		{
 			$extra['WHERE'] .= "AND ac.ID IN (";

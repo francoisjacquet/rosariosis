@@ -23,7 +23,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 		{
 			if ( ! empty( $_REQUEST['food_service']['BARCODE'] ) )
 			{
-				$RET = DBGet(DBQuery("SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."' AND STAFF_ID!='".UserStaffID()."'"));
+				$RET = DBGet( "SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."' AND STAFF_ID!='".UserStaffID()."'" );
 				if ( $RET)
 				{
 					$staff_RET = DBGet( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
@@ -35,7 +35,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 				}
 				else
 				{
-					$RET = DBGet(DBQuery("SELECT ACCOUNT_ID FROM FOOD_SERVICE_STUDENT_ACCOUNTS WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."'"));
+					$RET = DBGet( "SELECT ACCOUNT_ID FROM FOOD_SERVICE_STUDENT_ACCOUNTS WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."'" );
 					if ( $RET)
 					{
 						$student_RET = DBGet( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME

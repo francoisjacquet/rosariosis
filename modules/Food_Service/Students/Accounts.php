@@ -11,7 +11,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 	{
 		if ( ! empty( $_REQUEST['food_service']['BARCODE'] ) )
 		{
-			$RET = DBGet(DBQuery("SELECT ACCOUNT_ID FROM FOOD_SERVICE_STUDENT_ACCOUNTS WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."' AND STUDENT_ID!='".UserStudentID()."'"));
+			$RET = DBGet( "SELECT ACCOUNT_ID FROM FOOD_SERVICE_STUDENT_ACCOUNTS WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."' AND STUDENT_ID!='".UserStudentID()."'" );
 			if ( $RET)
 			{
 				$student_RET = DBGet( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME
@@ -24,7 +24,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 			}
 			else
 			{
-				$RET = DBGet(DBQuery("SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."'"));
+				$RET = DBGet( "SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."'" );
 				if ( $RET)
 				{
 					$staff_RET = DBGet( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
@@ -93,12 +93,12 @@ echo ErrorMessage( $error );
 
 if (UserStudentID() && ! $_REQUEST['modfunc'])
 {
-	$student = DBGet(DBQuery("SELECT s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
+	$student = DBGet( "SELECT s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 		fssa.ACCOUNT_ID,fssa.STATUS,fssa.DISCOUNT,fssa.BARCODE,
 		(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fssa.ACCOUNT_ID) AS BALANCE
 		FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa
 		WHERE s.STUDENT_ID='" . UserStudentID() . "'
-		AND fssa.STUDENT_ID=s.STUDENT_ID" ) );
+		AND fssa.STUDENT_ID=s.STUDENT_ID" );
 
 	$student = $student[1];
 
@@ -113,7 +113,7 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 		FROM STUDENT_ENROLLMENT
 		WHERE STUDENT_ID=s.STUDENT_ID
 		AND SYEAR='" . UserSyear() . "'
-		AND (START_DATE<=CURRENT_DATE AND (END_DATE IS NULL OR CURRENT_DATE<=END_DATE)))" ) );
+		AND (START_DATE<=CURRENT_DATE AND (END_DATE IS NULL OR CURRENT_DATE<=END_DATE)))" );
 
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 

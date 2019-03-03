@@ -125,7 +125,7 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 
 	$tabs = array(array('title' => _('Attendance'),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&table=0'));
-	$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM ATTENDANCE_CODE_CATEGORIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
+	$categories_RET = DBGet( "SELECT ID,TITLE FROM ATTENDANCE_CODE_CATEGORIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'" );
 	foreach ( (array) $categories_RET as $category)
 		$tabs[] = array('title' => $category['TITLE'],'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&table='.$category['ID']);
 

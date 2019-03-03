@@ -52,7 +52,7 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 		foreach ( (array) $RET as $key => $value)
 		{
 			// get details of each transaction
-			$tmpRET = DBGet(DBQuery("SELECT TRANSACTION_ID AS TRANS_ID,*,'".$value['SHORT_NAME']."' AS TRANSACTION_SHORT_NAME FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID='".$value['TRANSACTION_ID']."'"),array('SHORT_NAME' => 'bump_items_count'));
+			$tmpRET = DBGet( "SELECT TRANSACTION_ID AS TRANS_ID,*,'".$value['SHORT_NAME']."' AS TRANSACTION_SHORT_NAME FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID='".$value['TRANSACTION_ID']."'",array('SHORT_NAME' => 'bump_items_count'));
 
 	//FJ add translation
 			foreach ( (array) $tmpRET as $RET_key => $RET_val) {

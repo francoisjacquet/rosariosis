@@ -271,7 +271,7 @@ if ( $_REQUEST['modfunc'] === 'course_periods'
 // LIST STUDENTS ----
 if ( $_REQUEST['modfunc']=='students')
 {
-	$custom_fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE FROM CUSTOM_FIELDS WHERE ID=200000004 AND TYPE='date'"),array(),array('ID'));
+	$custom_fields_RET = DBGet( "SELECT ID,TITLE,TYPE FROM CUSTOM_FIELDS WHERE ID=200000004 AND TYPE='date'",array(),array('ID'));
 
 	$sql_birthdate = '';
 
