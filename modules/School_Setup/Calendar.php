@@ -1121,7 +1121,7 @@ if ( ! $_REQUEST['modfunc'] )
 	// Days.
 	for ( $i = 1; $i <= $last; $i++ )
 	{
-		$date = $_REQUEST['year'] . '-' . $_REQUEST['month'] . '-' . $i;
+		$date = $_REQUEST['year'] . '-' . $_REQUEST['month'] . '-' . str_pad( $i, 2, '0', STR_PAD_LEFT );
 
 		$minutes = $calendar_RET[ $date ][1]['MINUTES'];
 
