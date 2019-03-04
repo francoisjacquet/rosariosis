@@ -116,6 +116,8 @@ if ( empty( $_REQUEST['bottomfunc'] ) ) : ?>
 // Print PDF.
 elseif ( $_REQUEST['bottomfunc'] === 'print' ) :
 
+	$_REQUEST = $_SESSION['_REQUEST_vars'];
+
 	if ( ! empty( $_REQUEST['expanded_view'] ) )
 	{
 		$_SESSION['orientation'] = 'landscape';
@@ -123,10 +125,6 @@ elseif ( $_REQUEST['bottomfunc'] === 'print' ) :
 
 	// FJ call PDFStart to generate Print PDF.
 	$print_data = PDFStart();
-
-	$_REQUEST = $_SESSION['_REQUEST_vars'];
-
-	$_REQUEST['_ROSARIO_PDF'] = true;
 
 	$modname = $_REQUEST['modname'];
 
