@@ -38,9 +38,7 @@ function AddDBField( $table, $sequence, $type )
 		return '';
 	}
 
-	$id = DBGet( 'SELECT ' . db_seq_nextval( $sequence ) . ' AS ID ' );
-
-	$id = $id[1]['ID'];
+	$id = DBSeqNextID( $sequence );
 
 	$fields = 'ID,CATEGORY_ID,';
 
