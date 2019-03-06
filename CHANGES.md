@@ -8,6 +8,7 @@ Changes in 4.5
 - Can omit DBQuery call in DBGet.fnc.php
 - Add DBSeqNextID() function in database.inc.php
 - Remove db_greatest() & db_least() in database.inc.php & Grades.php
+- Add DBGetOne() function in DBGet.fnc.php
 
 Changes in 4.4
 --------------
@@ -433,7 +434,7 @@ Changes in 3.1.2
 Changes in 3.1.1
 ----------------
 - Fix memory error: rework SQL query in MassCreateAssignments.php
-- Fix Save $_REQUEST vars in session: if not printing PDF in Modules.php
+- Fix Save $\_REQUEST vars in session: if not printing PDF in Modules.php
 
 Changes in 3.1
 --------------

@@ -168,3 +168,28 @@ function DBGet( $QI, $functions = array(), $index = array() )
 
 	return $results;
 }
+
+
+/**
+ * DB Get One
+ * Get one (first) column (& row) value from database.
+ *
+ * @since 4.5
+ *
+ * @example $school_year = DBGetOne( "SELECT SYEAR FROM TABLE WHERE SYEAR='2019'" );
+ *
+ * @param string $sql_select SQL SELECT query.
+ *
+ * @return string null or DB value.
+ */
+function DBGetOne( $sql_select )
+{
+	$RET = DBGet( $sql_select );
+
+	if ( empty( $RET[1] ) )
+	{
+		return null;
+	}
+
+	return first( $RET[1] );
+}
