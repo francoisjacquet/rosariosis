@@ -1178,6 +1178,8 @@ function RadioInput( $value, $name, $title = '', $options, $allow_na = 'N/A', $e
 
 	$ftitle = FormatInputTitle( $title, $id, $required );
 
+	$ftitle_nobr = FormatInputTitle( $title, $id, $required, '' );
+
 	// mab - append current val to select list if not in list
 	if ( $value != ''
 		&& ( ! is_array( $options )
@@ -1218,7 +1220,7 @@ function RadioInput( $value, $name, $title = '', $options, $allow_na = 'N/A', $e
 
 		$table .= '</tr></table>';
 
-		$table .= $ftitle;
+		$table .= $ftitle_nobr;
 
 		if ( $value != ''
 			&& $div )
