@@ -292,7 +292,7 @@ if (UserStudentID() && $_REQUEST['student_id'])
 					'',
 					'values[CATEGORY_' . $category['ID'] . ']',
 					$category['TITLE'],
-					'size=9 maxlength=18'
+					'type="number" min="-999999999999999999" max="999999999999999999"'
 				);
 
 			break;
