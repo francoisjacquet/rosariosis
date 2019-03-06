@@ -31,6 +31,11 @@ function MakeTipMessage( $message, $title, $label )
 {
 	static $tip_msg_ID = 1;
 
+	if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
+		return '<div class="tipmsg-label">' . $label . '</div>';
+	}
+
 	$tip_msg = '<script>var tipmsg' . $tip_msg_ID . '=[' .
 		json_encode( (string) $title ) . ',' .
 		json_encode( (string) $message ) . '];</script>';
@@ -71,7 +76,7 @@ function MakeStudentPhotoTipMessage( $student_id, $title )
 		&& ( file_exists( ( $picture_path = $StudentPicturesPath . UserSyear() . '/' . $student_id . '.jpg' ) )
 			|| file_exists( ( $picture_path = $StudentPicturesPath . ( UserSyear() - 1 ) . '/' . $student_id . '.jpg' ) ) ) )
 	{
-		return makeTipMessage( '<img src="' . $picture_path . '" width="150" />', $title, $title );
+		return MakeTipMessage( '<img src="' . $picture_path . '" width="150" />', $title, $title );
 	}
 	else
 		return $title;
@@ -107,7 +112,7 @@ function MakeUserPhotoTipMessage( $staff_id, $title )
 		&& ( file_exists( ( $picture_path = $UserPicturesPath . UserSyear() . '/' . $staff_id . '.jpg' ) )
 			|| file_exists( ( $picture_path = $UserPicturesPath . ( UserSyear() - 1 ) . '/' . $staff_id . '.jpg' ) ) ) )
 	{
-		return makeTipMessage( '<img src="' . $picture_path . '" width="150" />', $title, $title );
+		return MakeTipMessage( '<img src="' . $picture_path . '" width="150" />', $title, $title );
 	}
 	else
 		return $title;
