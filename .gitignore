@@ -249,4 +249,5 @@ modules/Quiz/
 modules/Audit/
 plugins/TinyMCE_Record_Audio_Video
 plugins/Calendar_Schedule_View
+plugins/Discipline_Score
 modules/Library
