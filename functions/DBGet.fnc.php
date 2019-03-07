@@ -191,5 +191,5 @@ function DBGetOne( $sql_select )
 		return null;
 	}
 
-	return first( $RET[1] );
+	return reset( $RET[1] );
 }
