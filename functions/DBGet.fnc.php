@@ -184,12 +184,9 @@ function DBGet( $QI, $functions = array(), $index = array() )
  */
 function DBGetOne( $sql_select )
 {
-	$RET = DBGet( $sql_select );
+	$QI = DBQuery( $sql_select );
 
-	if ( empty( $RET[1] ) )
-	{
-		return null;
-	}
+	$RET = db_fetch_row( $QI );
 
-	return reset( $RET[1] );
+	return reset( $RET );
 }
