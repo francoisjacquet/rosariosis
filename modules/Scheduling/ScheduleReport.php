@@ -333,7 +333,7 @@ if ( $_REQUEST['modfunc']=='students')
 
 	$sql .= ' ORDER BY s.LAST_NAME,s.FIRST_NAME';
 
-	$RET = DBGet(DBQuery($sql),array('GRADE_ID' => 'GetGrade') + $function_birthdate);
+	$RET = DBGet( $sql,array('GRADE_ID' => 'GetGrade') + $function_birthdate);
 
 	$link = array();
 

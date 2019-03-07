@@ -275,7 +275,7 @@ if ( ! $_REQUEST['modfunc'] )
 		if (User('PROFILE')=='admin')
 			$tabs[] = array('title'=>button('add','','','smaller'),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&tab_id=new');
 	}
-	$LO_ret = DBGet(DBQuery($sql),$functions);
+	$LO_ret = DBGet( $sql,$functions);
 
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&course_id='.$_REQUEST['course_id'].'&tab_id='.$_REQUEST['tab_id'].'" method="POST">';
 	DrawHeader($subject_select.' : '.$course_select,SubmitButton());

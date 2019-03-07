@@ -107,7 +107,7 @@ if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 	ORDER BY s.START_DATE ASC";
 }
 // TODO: can be optimized? Remove PERIOD_ID index.
-$current_RET = DBGet(DBQuery($current_Q),array(),array('STUDENT_ID','PERIOD_ID'));
+$current_RET = DBGet( $current_Q,array(),array('STUDENT_ID','PERIOD_ID'));
 
 if ( $_REQUEST['attendance']
 	&& $_POST['attendance']
@@ -117,7 +117,7 @@ if ( $_REQUEST['attendance']
 	{
 		if ( ! $current_schedule_RET[ $student_id ])
 		{
-			$current_schedule_RET[ $student_id ] = DBGet(DBQuery(str_replace('__student_id__',$student_id,$current_schedule_Q)),array(),array('PERIOD_ID'));
+			$current_schedule_RET[ $student_id ] = DBGet( str_replace('__student_id__',$student_id,$current_schedule_Q),array(),array('PERIOD_ID'));
 			if ( ! $current_schedule_RET[ $student_id ])
 				$current_schedule_RET[ $student_id ] = true;
 		}
@@ -185,7 +185,7 @@ if ( $_REQUEST['attendance']
 	}
 
 	// TODO: can be optimized? Remove PERIOD_ID index.
-	$current_RET = DBGet(DBQuery($current_Q),array(),array('STUDENT_ID','PERIOD_ID'));
+	$current_RET = DBGet( $current_Q,array(),array('STUDENT_ID','PERIOD_ID'));
 
 	// Unset attendance & redirect URL.
 	RedirectURL( 'attendance' );
@@ -470,7 +470,7 @@ function _makeCodePulldown($value,$title)
 
 	if ( ! $current_schedule_RET[ $value ] )
 	{
-		$current_schedule_RET[ $value ] = DBGet(DBQuery(str_replace('__student_id__',$value,$current_schedule_Q)),array(),array('PERIOD_ID'));
+		$current_schedule_RET[ $value ] = DBGet( str_replace('__student_id__',$value,$current_schedule_Q),array(),array('PERIOD_ID'));
 		if ( ! $current_schedule_RET[ $value ])
 			$current_schedule_RET[ $value ] = true;
 	}

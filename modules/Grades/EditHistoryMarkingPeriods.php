@@ -106,7 +106,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';//&mp_id=$mp_id";
 	$link['remove']['variables'] = array('id' => 'MARKING_PERIOD_ID');
 	$link['add']['html']['remove'] = button('add');
-	$LO_ret = DBGet(DBQuery($sql),$functions);
+	$LO_ret = DBGet( $sql,$functions);
 
 	ListOutput($LO_ret,$LO_columns,'History Marking Period','History Marking Periods',$link,array(),array('count'=>true,'download'=>false,'search'=>false));
 

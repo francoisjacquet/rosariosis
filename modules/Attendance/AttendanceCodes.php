@@ -162,7 +162,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$tabs[] = array('title'=>button('add', '', '', 'smaller'),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&table=new');
 	}
-	$LO_ret = DBGet(DBQuery($sql),$functions);
+	$LO_ret = DBGet( $sql,$functions);
 
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&table='.$_REQUEST['table'].'" method="POST">';
 	DrawHeader( '', SubmitButton() );

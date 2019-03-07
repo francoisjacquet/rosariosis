@@ -92,7 +92,7 @@ if ( ! isset( $_REQUEST['accounting'] )
 	AND '".$end_date."'
 	AND STAFF_ID IS NULL";
 
-	$payments_RET = DBGet(DBQuery($payments_SQL),$extra['functions']);
+	$payments_RET = DBGet( $payments_SQL,$extra['functions']);
 
 	foreach ( (array) $payments_RET as $payment)
 	{

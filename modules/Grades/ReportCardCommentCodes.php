@@ -171,7 +171,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$subject = 'Comment Code Scales';
 	}
-	$LO_ret = DBGet(DBQuery($sql),$functions);
+	$LO_ret = DBGet( $sql,$functions);
 
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&tab_id='.$_REQUEST['tab_id'].'" method="POST">';
 	DrawHeader( '', SubmitButton() );

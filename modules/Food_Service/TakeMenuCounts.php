@@ -30,7 +30,7 @@ if ( !trim($course_RET[1]['DOES_FS_COUNTS'],','))
 	ErrorMessage(array(_('You cannot take meal counts for this period.')),'fatal');
 
 // the following query is for when doea_fs_counts is a comma quoted string of meal_id's, ex. ,1,2,4,
-//$menus_RET = DBGet(DBQuery('SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\''.UserSchool().'\' AND MENU_ID IN ('.trim($course_RET[1]['DOES_FS_COUNTS'],',').') ORDER BY SORT_ORDER'),array(),array('MENU_ID'));
+//$menus_RET = DBGet( 'SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\''.UserSchool().'\' AND MENU_ID IN ('.trim($course_RET[1]['DOES_FS_COUNTS'],',').') ORDER BY SORT_ORDER'),array(),array('MENU_ID'));
 // use all meal_id's for now
 $menus_RET = DBGet( 'SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER',array(),array('MENU_ID'));
 //echo '<pre>'; var_dump($menus_RET); echo '</pre>';

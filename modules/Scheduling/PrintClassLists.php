@@ -231,7 +231,7 @@ function mySearch($extra)
 	//$sql .= ' ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID)';
 	$sql .= ' ORDER BY cp.SHORT_NAME,cp.TITLE';
 
-	$course_periods_RET = DBGet(DBQuery($sql));
+	$course_periods_RET = DBGet( $sql );
 	$LO_columns = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.checked,\'cp_arr\');"><A>','TITLE' => _('Course Period'));
 
 	if ( empty( $_REQUEST['LO_save'] ) && ! $extra['suppress_save'] )

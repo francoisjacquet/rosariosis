@@ -201,7 +201,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$functions = array('TITLE' => '_makeAssnInput','POINTS' => '_makeAssnInput','ASSIGNED_DATE' => '_makeAssnInput','DUE_DATE' => '_makeAssnInput','COURSE_ID' => '_makeAssnInput','DESCRIPTION' => '_makeAssnInput','DEFAULT_POINTS' => '_makeAssnInput');
 		if ( $_REQUEST['allow_edit']=='Y' || ! $_REQUEST['tab_id'] )
 			$functions['ASSIGNMENT_TYPE_ID'] = '_makeAssnInput';
-		$LO_ret = DBGet(DBQuery($sql),$functions);
+		$LO_ret = DBGet( $sql,$functions);
 
 		$LO_columns = array(
 			'TITLE' => _( 'Title' ),
@@ -237,7 +237,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$functions = array('TITLE' => '_makeTypeInput','SORT_ORDER' => '_makeTypeInput','COLOR' => '_makeColorInput');
 		if (Preferences('WEIGHT','Gradebook')=='Y')
 			$functions['FINAL_GRADE_PERCENT'] = '_makeTypeInput';
-		$LO_ret = DBGet(DBQuery($sql),$functions);
+		$LO_ret = DBGet( $sql,$functions);
 
 		$LO_columns = array('TITLE' => _('Type'));
 

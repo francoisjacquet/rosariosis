@@ -59,7 +59,7 @@ $sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,sp.TITLE,cpsp.PERIOD_I
 	( ( $_REQUEST['period'] ) ? " AND cpsp.PERIOD_ID='" . $_REQUEST['period'] . "'" : '' ) .
 	" AND position('" . $day . "' in cpsp.DAYS)>0";
 
-$RET = DBGet(DBQuery($sql),array(),array('STAFF_ID','PERIOD_ID'));
+$RET = DBGet( $sql,array(),array('STAFF_ID','PERIOD_ID'));
 
 $menus_RET = DBGet( 'SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER',array(),array('MENU_ID'));
 if ( empty( $_REQUEST['menu_id'] ) )
@@ -87,7 +87,7 @@ if (count($RET))
 		{
 			//$sql = 'SELECT (SELECT DESCRIPTION FROM FOOD_SERVICE_LUNCH_ITEMS WHERE ITEM_ID=ac.ITEM_ID) AS DESCRIPTION,(SELECT SORT_ORDER FROM FOOD_SERVICE_MENU_ITEMS WHERE ITEM_ID=ac.ITEM_ID AND MENU_ID=\''.$_REQUEST['menu_id'].'\') AS SORT_ORDER,ac.SHORT_NAME,ac.COUNT FROM FOOD_SERVICE_COMPLETED ac WHERE ac.STAFF_ID=\''.$staff_id.'\' AND ac.SCHOOL_DATE=\''.$date.'\' AND ac.PERIOD_ID=\''.$period_id.'\' ORDER BY SORT_ORDER';
 			$sql = 'SELECT fsi.DESCRIPTION,fsi.SHORT_NAME,ac.COUNT FROM FOOD_SERVICE_COMPLETED ac,FOOD_SERVICE_ITEMS fsi WHERE ac.STAFF_ID=\''.$staff_id.'\' AND ac.SCHOOL_DATE=\''.$date.'\' AND ac.PERIOD_ID=\''.$period_id.'\' AND ac.MENU_ID=\''.$_REQUEST['menu_id'].'\' AND fsi.ITEM_ID=ac.ITEM_ID ORDER BY fsi.SORT_ORDER';
-			$items_RET = DBGet(DBQuery($sql));
+			$items_RET = DBGet( $sql );
 			if ( $items_RET) {
 				$color = 'FFFFFF';
 
