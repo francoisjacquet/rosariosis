@@ -117,13 +117,11 @@ function GetStuList( &$extra = array() )
 					'' ) . ")
 			ORDER BY cf.SORT_ORDER,cf.TITLE" );
 
-		$view_address_RET = DBGet( "SELECT VALUE
+		$view_address_RET = DBGetOne( "SELECT VALUE
 			FROM PROGRAM_USER_CONFIG
 			WHERE PROGRAM='StudentFieldsView'
 			AND TITLE='ADDRESS'
 			AND USER_ID='" . User( 'STAFF_ID' ) . "'" );
-
-		$view_address_RET = $view_address_RET[1]['VALUE'];
 
 		$view_other_RET = DBGet( "SELECT TITLE,VALUE
 			FROM PROGRAM_USER_CONFIG

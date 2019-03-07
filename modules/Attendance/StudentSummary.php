@@ -157,11 +157,11 @@ Search( 'student_id', $extra );
 
 if ( UserStudentID() )
 {
-	$name_RET = DBGet( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
+	$full_name = DBGetOne( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
 		FROM STUDENTS
 		WHERE STUDENT_ID='" . UserStudentID() . "'" );
 
-	DrawHeader( $name_RET[1]['FULL_NAME'] );
+	DrawHeader( $full_name );
 
 	$absences_RET = DBGet( "SELECT ap.STUDENT_ID,ap.PERIOD_ID,ap.SCHOOL_DATE,ac.SHORT_NAME,
 		ac.TITLE,ac.STATE_CODE,ad.STATE_VALUE,ad.COMMENT AS OFFICE_COMMENT,ap.COMMENT AS TEACHER_COMMENT

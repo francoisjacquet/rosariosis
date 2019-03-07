@@ -35,11 +35,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		AND PERIOD_ID IN (" . $periods_list . ")
 		AND STUDENT_ID IN (" . $students_list . ")", array(), array( 'STUDENT_ID', 'SCHOOL_DATE', 'PERIOD_ID' ) );
 
-		$state_code = DBGet( "SELECT STATE_CODE
+		$state_code = DBGetOne( "SELECT STATE_CODE
 			FROM ATTENDANCE_CODES
 			WHERE ID='" . $_REQUEST['absence_code'] . "'" );
-
-		$state_code = $state_code[1]['STATE_CODE'];
 
 		foreach ( (array) $_REQUEST['student'] as $student_id )
 		{

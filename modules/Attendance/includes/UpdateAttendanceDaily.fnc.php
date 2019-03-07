@@ -54,9 +54,7 @@ function UpdateAttendanceDaily( $student_id, $date = '', $comment = false )
 		AND s.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', GetCurrentMP( 'QTR', $date, false ) ) . ")";
 	}
 
-	$RET = DBGet( $sql );
-
-	$total = $RET[1]['TOTAL'];
+	$total = DBGetOne( $sql );
 
 	if ( $total==0)
 		return;
@@ -66,18 +64,18 @@ function UpdateAttendanceDaily( $student_id, $date = '', $comment = false )
 			WHERE ap.STUDENT_ID='".$student_id."' AND ap.SCHOOL_DATE='".$date."' AND ap.PERIOD_ID=sp.PERIOD_ID AND ac.ID = ap.ATTENDANCE_CODE AND ac.STATE_CODE='A'
 			AND sp.SYEAR='".UserSyear()."'";
 
-	$RET = DBGet( $sql );
+	$total_absent = DBGetOne( $sql );
 
-	$total -= $RET[1]['TOTAL'];
+	$total -= $total_absent;
 
 	$sql = "SELECT sum(sp.LENGTH) AS TOTAL
 			FROM ATTENDANCE_PERIOD ap,SCHOOL_PERIODS sp,ATTENDANCE_CODES ac
 			WHERE ap.STUDENT_ID='".$student_id."' AND ap.SCHOOL_DATE='".$date."' AND ap.PERIOD_ID=sp.PERIOD_ID AND ac.ID = ap.ATTENDANCE_CODE AND ac.STATE_CODE='H'
 			AND sp.SYEAR='".UserSyear()."'";
 
-	$RET = DBGet( $sql );
+	$total_half_day = DBGetOne( $sql );
 
-	$total -= $RET[1]['TOTAL']*.5;
+	$total -= $total_half_day*.5;
 
 	if ( $total >= Config('ATTENDANCE_FULL_DAY_MINUTES'))
 		$length = '1.0';

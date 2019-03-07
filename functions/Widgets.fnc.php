@@ -957,14 +957,14 @@ function Widgets( $item, &$myextra = null )
 					AND sea.SYEAR=ssm.SYEAR
 					AND sea.ACTIVITY_ID='" . $_REQUEST['activity_id'] . "'";
 
-				$activity = DBGet( "SELECT TITLE
+				$activity_title = DBGetOne( "SELECT TITLE
 					FROM ELIGIBILITY_ACTIVITIES
 					WHERE ID='" . $_REQUEST['activity_id'] . "'" );
 
 				if ( ! $extra['NoSearchTerms'] )
 				{
 					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Activity' ) . ': </b>' .
-						$activity[1]['TITLE'] . '<br />';
+						$activity_title . '<br />';
 				}
 			}
 

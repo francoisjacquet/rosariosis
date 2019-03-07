@@ -134,32 +134,45 @@ if ( ! $_REQUEST['modfunc'] )
 
 	echo '<br />';
 
-	$payments_total = DBGet( "SELECT SUM(p.AMOUNT) AS TOTAL FROM ACCOUNTING_PAYMENTS p WHERE p.STAFF_ID IS NULL AND p.SYEAR='".UserSyear()."' AND p.SCHOOL_ID='".UserSchool()."'" );
+	$payments_total = DBGetOne( "SELECT SUM(p.AMOUNT) AS TOTAL
+		FROM ACCOUNTING_PAYMENTS p
+		WHERE p.STAFF_ID IS NULL
+		AND p.SYEAR='".UserSyear()."'
+		AND p.SCHOOL_ID='".UserSchool()."'" );
 
 	$table = '<table class="align-right"><tr><td>'._('Total from Incomes').': '.'</td><td>'.Currency($incomes_total).'</td></tr>';
 
-	$table .= '<tr><td>'._('Less').': '._('Total from Expenses').': '.'</td><td>'.Currency($payments_total[1]['TOTAL']).'</td></tr>';
+	$table .= '<tr><td>'._('Less').': '._('Total from Expenses').': '.'</td><td>'.Currency($payments_total).'</td></tr>';
 
-	$table .= '<tr><td>'._('Balance').': <b>'.'</b></td><td><b id="update_balance">'.Currency(($incomes_total-$payments_total[1]['TOTAL'])).'</b></td></tr>';
+	$table .= '<tr><td>'._('Balance').': <b>'.'</b></td><td><b id="update_balance">'.Currency(($incomes_total-$payments_total)).'</b></td></tr>';
 
 	//add General Balance
 	$table .= '<tr><td colspan="2"><hr /></td></tr><tr><td>'._('Total from Incomes').': '.'</td><td>'.Currency($incomes_total).'</td></tr>';
 
 	if ( $RosarioModules['Student_Billing'])
 	{
-		$student_payments_total = DBGet( "SELECT SUM(p.AMOUNT) AS TOTAL FROM BILLING_PAYMENTS p WHERE p.SYEAR='".UserSyear()."' AND p.SCHOOL_ID='".UserSchool()."'" );
-		$table .= '<tr><td>& '._('Total from Student Payments').': '.'</td><td>'.Currency($student_payments_total[1]['TOTAL']).'</td></tr>';
+		$student_payments_total = DBGetOne( "SELECT SUM(p.AMOUNT) AS TOTAL
+			FROM BILLING_PAYMENTS p
+			WHERE p.SYEAR='".UserSyear()."'
+			AND p.SCHOOL_ID='".UserSchool()."'" );
+
+		$table .= '<tr><td>& '._('Total from Student Payments').': '.'</td><td>'.Currency($student_payments_total).'</td></tr>';
 	}
 	else
 		$student_payments_total[1]['TOTAL'] = 0;
 
-	$table .= '<tr><td>'._('Less').': '._('Total from Expenses').': '.'</td><td>'.Currency($payments_total[1]['TOTAL']).'</td></tr>';
+	$table .= '<tr><td>'._('Less').': '._('Total from Expenses').': '.'</td><td>'.Currency($payments_total).'</td></tr>';
 
-	$Staff_payments_total = DBGet( "SELECT SUM(p.AMOUNT) AS TOTAL FROM ACCOUNTING_PAYMENTS p WHERE p.STAFF_ID IS NOT NULL AND p.SYEAR='".UserSyear()."' AND p.SCHOOL_ID='".UserSchool()."'" );
-	$table .= '<tr><td>& '._('Total from Staff Payments').': '.'</td><td>'.Currency($Staff_payments_total[1]['TOTAL']).'</td></tr>';
+	$staff_payments_total = DBGetOne( "SELECT SUM(p.AMOUNT) AS TOTAL
+		FROM ACCOUNTING_PAYMENTS p
+		WHERE p.STAFF_ID IS NOT NULL
+		AND p.SYEAR='".UserSyear()."'
+		AND p.SCHOOL_ID='".UserSchool()."'" );
+
+	$table .= '<tr><td>& '._('Total from Staff Payments').': '.'</td><td>'.Currency($staff_payments_total).'</td></tr>';
 
 	$table .= '<tr><td>' . _( 'General Balance' ) . ': </td>
-		<td><b id="update_balance">' . Currency( ( $incomes_total + $student_payments_total[1]['TOTAL'] - $payments_total[1]['TOTAL'] - $Staff_payments_total[1]['TOTAL'] ) ) .
+		<td><b id="update_balance">' . Currency( ( $incomes_total + $student_payments_total - $payments_total - $staff_payments_total ) ) .
 		'</b></td></tr></table>';
 
 	DrawHeader( $table );

@@ -30,8 +30,7 @@ if ( $_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 			}
 			else
 			{
-				$period_id = DBGet( "SELECT PERIOD_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$period."'" );
-				$period_id = $period_id[1]['PERIOD_ID'];
+				$period_id = DBGetOne( "SELECT PERIOD_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$period."'" );
 
 				$sql = "INSERT INTO ATTENDANCE_PERIOD ";
 
@@ -268,8 +267,10 @@ function _makeCodeSearch($value='')
 function _makeStateValue($value,$name)
 {	global $THIS_RET,$date;
 
-	$value = DBGet( "SELECT STATE_VALUE FROM ATTENDANCE_DAY WHERE STUDENT_ID='".$THIS_RET['STUDENT_ID']."' AND SCHOOL_DATE='".$date."'" );
-	$value  = $value[1]['STATE_VALUE'];
+	$value = DBGetOne( "SELECT STATE_VALUE
+		FROM ATTENDANCE_DAY
+		WHERE STUDENT_ID='".$THIS_RET['STUDENT_ID']."'
+		AND SCHOOL_DATE='".$date."'" );
 
 	if ( $value=='0.0')
 		return 'None';

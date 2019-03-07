@@ -73,7 +73,7 @@ echo '</form>';
 if ( ! isset( $_REQUEST['accounting'] )
 	|| $_REQUEST['accounting'] == 'true' )
 {
-	$accounting_payments = DBGet( "SELECT sum(AMOUNT) AS AMOUNT
+	$accounting_payments = DBGetOne( "SELECT sum(AMOUNT) AS AMOUNT
 		FROM ACCOUNTING_PAYMENTS
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
@@ -81,7 +81,7 @@ if ( ! isset( $_REQUEST['accounting'] )
 		AND '" . $end_date . "'
 		AND STAFF_ID IS NULL" );
 
-	$accounting_incomes = DBGet( "SELECT sum(f.AMOUNT) AS AMOUNT
+	$accounting_incomes = DBGetOne( "SELECT sum(f.AMOUNT) AS AMOUNT
 		FROM ACCOUNTING_INCOMES f
 		WHERE f.SYEAR='" . UserSyear() . "'
 		AND f.SCHOOL_ID='" . UserSchool() . "'
@@ -92,7 +92,7 @@ if ( ! isset( $_REQUEST['accounting'] )
 // Staff salaries.
 if ( ! empty( $_REQUEST['staff_payroll'] ) )
 {
-	$staffpayroll_payments = DBGet( "SELECT sum(p.AMOUNT) AS AMOUNT
+	$staffpayroll_payments = DBGetOne( "SELECT sum(p.AMOUNT) AS AMOUNT
 		FROM ACCOUNTING_PAYMENTS p, STAFF s
 		WHERE p.SYEAR='" . UserSyear() . "'
 		AND s.SYEAR=p.SYEAR
@@ -102,7 +102,7 @@ if ( ! empty( $_REQUEST['staff_payroll'] ) )
 		AND p.STAFF_ID=s.STAFF_ID
 		AND p.SYEAR=s.SYEAR" );
 
-	$staffpayroll_incomes = DBGet( "SELECT sum(f.AMOUNT) AS AMOUNT
+	$staffpayroll_incomes = DBGetOne( "SELECT sum(f.AMOUNT) AS AMOUNT
 		FROM ACCOUNTING_SALARIES f, STAFF s
 		WHERE f.SYEAR='" . UserSyear() . "'
 		AND s.SYEAR=f.SYEAR
@@ -117,14 +117,14 @@ if ( ! empty( $_REQUEST['staff_payroll'] ) )
 if ( ! empty( $_REQUEST['student_billing'] )
 	&& $RosarioModules['Student_Billing'] )
 {
-	$billing_payments = DBGet( "SELECT sum(AMOUNT) AS AMOUNT
+	$billing_payments = DBGetOne( "SELECT sum(AMOUNT) AS AMOUNT
 		FROM BILLING_PAYMENTS
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		AND PAYMENT_DATE BETWEEN '" . $start_date . "'
 		AND '" . $end_date . "'" );
 
-	$billing_fees = DBGet( "SELECT sum(f.AMOUNT) AS AMOUNT
+	$billing_fees = DBGetOne( "SELECT sum(f.AMOUNT) AS AMOUNT
 		FROM BILLING_FEES f
 		WHERE f.SCHOOL_ID='" . UserSchool() . "'
 		AND f.ASSIGNED_DATE BETWEEN '" . $start_date . "'
@@ -144,12 +144,12 @@ if ( ! isset( $_REQUEST['accounting'] )
 	|| $_REQUEST['accounting'] == 'true' )
 {
 	echo '<tr><td>' . _( 'Expenses' ) . ': ' .
-		'</td><td>' . Currency( $accounting_payments[1]['AMOUNT'] ) . '</td></tr>';
+		'</td><td>' . Currency( $accounting_payments ) . '</td></tr>';
 
 	echo '<tr><td>' . _( 'Less' ) . ': ' . _( 'Incomes' ) . ': ' .
-		'</td><td>' . Currency( $accounting_incomes[1]['AMOUNT'] ) . '</td></tr>';
+		'</td><td>' . Currency( $accounting_incomes ) . '</td></tr>';
 
-	$total += $accounting_payments[1]['AMOUNT'] - $accounting_incomes[1]['AMOUNT'];
+	$total += $accounting_payments - $accounting_incomes;
 }
 
 
@@ -157,12 +157,12 @@ if ( ! isset( $_REQUEST['accounting'] )
 if ( ! empty( $_REQUEST['staff_payroll'] ) )
 {
 	echo '<tr><td>' . _( 'Salaries' ) . ': ' .
-		'</td><td>' . Currency( $staffpayroll_payments[1]['AMOUNT'] ) . '</td></tr>';
+		'</td><td>' . Currency( $staffpayroll_payments ) . '</td></tr>';
 
 	echo '<tr><td>' . _( 'Less' ) . ': ' . _( 'Staff Payments' ) . ': ' .
-		'</td><td>' . Currency( $staffpayroll_incomes[1]['AMOUNT'] ) . '</td></tr>';
+		'</td><td>' . Currency( $staffpayroll_incomes ) . '</td></tr>';
 
-	$total += $staffpayroll_payments[1]['AMOUNT'] - $staffpayroll_incomes[1]['AMOUNT'];
+	$total += $staffpayroll_payments - $staffpayroll_incomes;
 }
 
 // Student Billing.
@@ -170,12 +170,12 @@ if ( ! empty( $_REQUEST['student_billing'] )
 	&& $RosarioModules['Student_Billing'] )
 {
 	echo '<tr><td>' . _( 'Student Payments' ) . ': ' .
-		'</td><td>' . Currency( $billing_payments[1]['AMOUNT'] ) . '</td></tr>';
+		'</td><td>' . Currency( $billing_payments ) . '</td></tr>';
 
 	echo '<tr><td>' . _( 'Less' ) . ': ' . _( 'Fees' ) . ': ' .
-		'</td><td>' . Currency( $billing_fees[1]['AMOUNT'] ) . '</td></tr>';
+		'</td><td>' . Currency( $billing_fees ) . '</td></tr>';
 
-	$total += $billing_payments[1]['AMOUNT'] - $billing_fees[1]['AMOUNT'];
+	$total += $billing_payments - $billing_fees;
 }
 
 echo '<tr><td><b>' . _( 'Total' ) . ': ' . '</b></td>' .

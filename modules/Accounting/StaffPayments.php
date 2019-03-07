@@ -144,14 +144,18 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 
 	echo '<br />';
 
-	$salaries_total = DBGet( "SELECT SUM(f.AMOUNT) AS TOTAL FROM ACCOUNTING_SALARIES f WHERE f.STAFF_ID='".UserStaffID()."' AND f.SYEAR='".UserSyear()."' AND f.SCHOOL_ID='".UserSchool()."'" );
+	$salaries_total = DBGetOne( "SELECT SUM(f.AMOUNT) AS TOTAL
+		FROM ACCOUNTING_SALARIES f
+		WHERE f.STAFF_ID='".UserStaffID()."'
+		AND f.SYEAR='".UserSyear()."'
+		AND f.SCHOOL_ID='".UserSchool()."'" );
 
-	$table = '<table class="align-right"><tr><td>'._('Total from Salaries').': '.'</td><td>'.Currency($salaries_total[1]['TOTAL']).'</td></tr>';
+	$table = '<table class="align-right"><tr><td>'._('Total from Salaries').': '.'</td><td>'.Currency($salaries_total).'</td></tr>';
 
 	$table .= '<tr><td>'._('Less').': '._('Total from Staff Payments').': '.'</td><td>'.Currency($payments_total).'</td></tr>';
 
 	$table .= '<tr><td>' . _( 'Balance' ) . ': </td>
-		<td><b>' . Currency( ( $salaries_total[1]['TOTAL'] - $payments_total ), 'CR' ) .
+		<td><b>' . Currency( ( $salaries_total - $payments_total ), 'CR' ) .
 		'</b></td></tr></table>';
 
 	DrawHeader( $table );

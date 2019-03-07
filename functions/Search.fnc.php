@@ -351,11 +351,9 @@ function Search( $type, $extra = null )
 			if ( $type === 'student_fields_all' )
 			{
 				// Student Fields: search Username.
-				$general_info_category_title_RET = DBGet( "SELECT sfc.TITLE
+				$general_info_category_title = ParseMLField( DBGetOne( "SELECT sfc.TITLE
 					FROM STUDENT_FIELD_CATEGORIES sfc
-					WHERE sfc.ID=1" );
-
-				$general_info_category_title = ParseMLField( $general_info_category_title_RET[1]['TITLE'] );
+					WHERE sfc.ID=1" ) );
 
 				if ( isset( $categories_RET[1] ) )
 				{
@@ -405,11 +403,9 @@ function Search( $type, $extra = null )
 			elseif ( $type === 'staff_fields_all' )
 			{
 				// User Fields: search Email Address & Phone.
-				$general_info_category_title_RET = DBGet( "SELECT sfc.TITLE
+				$general_info_category_title = ParseMLField( DBGetOne( "SELECT sfc.TITLE
 					FROM STAFF_FIELD_CATEGORIES sfc
-					WHERE sfc.ID=1" );
-
-				$general_info_category_title = ParseMLField( $general_info_category_title_RET[1]['TITLE'] );
+					WHERE sfc.ID=1" ) );
 
 				if ( isset( $categories_RET[1] ) )
 				{
