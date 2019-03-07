@@ -36,14 +36,18 @@ if ( isset( $_POST['tables'] )
 				{
 					$include_file_path = 'modules/' . $columns['INCLUDE'] . '.inc.php';
 
-					if ( ! file_exists( $include_file_path ) )
+					// @since 4.5 Include Student/User Info tab from custom plugin.
+					$plugins_include_file_path = 'plugins/' . $columns['INCLUDE'] . '.inc.php';
+
+					if ( ! file_exists( $include_file_path )
+						&& ! file_exists( $plugins_include_file_path ) )
 					{
 						// File does not exist: reset + error.
 						unset( $columns['INCLUDE'] );
 
 						$error[] = sprintf(
 							_( 'The include file was not found: "%s"' ),
-							$include_file_path
+							$include_file_path . ', ' . $plugins_include_file_path
 						);
 					}
 				}

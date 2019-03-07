@@ -9,7 +9,7 @@ Changes in 4.5
 - Add DBSeqNextID() function in database.inc.php
 - Remove db_greatest() & db_least() in database.inc.php & Grades.php
 - Add DBGetOne() function in DBGet.fnc.php
-- Include Student/User Info tab from custom plugin in Student.php, User.php,
+- Include Student/User Info tab from custom plugin in Student.php, StudentFields.php, User.php, UserFields.php
 
 Changes in 4.4
 --------------
