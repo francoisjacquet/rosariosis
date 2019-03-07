@@ -393,14 +393,24 @@ Remote IP: %s', $admin_username, User('NAME'), $ip);
 
 	}
 
-	if ( !in_array( $include, $categories ) )
+	if ( ! in_array( $include, $categories ) )
 	{
-		if ( !mb_strpos( $include, '/' ) )
+		if ( ! mb_strpos( $include, '/' ) )
 		{
 			require 'modules/Users/includes/' . $include . '.inc.php';
 		}
-		else
-			require 'modules/' . $include . '.inc.php';
+		else // ex.: Food Service, custom module or plugin.
+		{
+			if ( file_exists( 'plugins/' . $include . '.inc.php' ) )
+			{
+				// @since 4.5 Include Student/User Info tab from custom plugin.
+				require 'plugins/' . $include . '.inc.php';
+			}
+			else
+			{
+				require 'modules/' . $include . '.inc.php';
+			}
+		}
 	}
 
 	if ( $error && !UserStaffID())

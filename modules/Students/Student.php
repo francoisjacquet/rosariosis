@@ -343,15 +343,23 @@ if ( $_REQUEST['modfunc'] === 'update'
 		}
 	}
 
-	if ( !in_array( $include, $categories ) )
+	if ( ! in_array( $include, $categories ) )
 	{
-		if ( !mb_strpos( $include, '/' ) )
+		if ( ! mb_strpos( $include, '/' ) )
 		{
 			require 'modules/Students/includes/' . $include . '.inc.php';
 		}
-		else // ex.: Food Service
+		else // ex.: Food Service, custom module or plugin.
 		{
-			require 'modules/' . $include . '.inc.php';
+			if ( file_exists( 'plugins/' . $include . '.inc.php' ) )
+			{
+				// @since 4.5 Include Student/User Info tab from custom plugin.
+				require 'plugins/' . $include . '.inc.php';
+			}
+			else
+			{
+				require 'modules/' . $include . '.inc.php';
+			}
 		}
 	}
 
