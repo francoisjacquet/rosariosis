@@ -628,7 +628,15 @@ if ( ( UserStudentID()
 			}
 			else
 			{
-				require 'modules/' . $include . '.inc.php';
+				if ( file_exists( 'plugins/' . $include . '.inc.php' ) )
+				{
+					// @since 4.5 Include Student/User Info tab from custom plugin.
+					require 'plugins/' . $include . '.inc.php';
+				}
+				else
+				{
+					require 'modules/' . $include . '.inc.php';
+				}
 
 				$separator = '<hr />';
 
@@ -648,7 +656,15 @@ if ( ( UserStudentID()
 		}
 		else
 		{
-			require 'modules/' . $include . '.inc.php';
+			if ( file_exists( 'plugins/' . $include . '.inc.php' ) )
+			{
+				// @since 4.5 Include Student/User Info tab from custom plugin.
+				require 'plugins/' . $include . '.inc.php';
+			}
+			else
+			{
+				require 'modules/' . $include . '.inc.php';
+			}
 
 			$separator = '<hr />';
 
