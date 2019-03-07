@@ -75,7 +75,7 @@ $grouped_SQL = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,s.STAFF_ID,g.R
 	AND cp.SYEAR='" . UserSyear() . "'
 	AND g.MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'";
 
-$grouped_RET = DBGet( DBQuery( $grouped_SQL ), array(), array( 'STAFF_ID', 'REPORT_CARD_GRADE_ID' ) );
+$grouped_RET = DBGet( $grouped_SQL, array(), array( 'STAFF_ID', 'REPORT_CARD_GRADE_ID' ) );
 
 $grades_RET = DBGet( "SELECT rg.ID,rg.TITLE,rg.GPA_VALUE
 	FROM REPORT_CARD_GRADES rg,REPORT_CARD_GRADE_SCALES rs

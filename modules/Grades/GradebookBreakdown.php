@@ -55,7 +55,7 @@ $sql = "SELECT ASSIGNMENT_TYPE_ID,TITLE
 	AND COURSE_ID='" . $course_id . "'
 	ORDER BY TITLE";
 
-$types_RET = DBGet( DBQuery( $sql ) );
+$types_RET = DBGet( $sql );
 
 $assignments_RET = DBGet( "SELECT ASSIGNMENT_ID,TITLE,POINTS
 	FROM GRADEBOOK_ASSIGNMENTS

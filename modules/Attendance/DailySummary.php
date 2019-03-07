@@ -251,7 +251,7 @@ if ( $_REQUEST['student_id'] || User( 'PROFILE' ) === 'parent' )
 
 		$sql .= " ORDER BY sp.SORT_ORDER";
 
-		$schedule_RET = DBGet( DBQuery( $sql ) );
+		$schedule_RET = DBGet( $sql );
 
 		$sql = "SELECT ap.SCHOOL_DATE,ap.PERIOD_ID,ac.SHORT_NAME,ac.STATE_CODE,ac.DEFAULT_CODE,ac.TITLE
 			FROM ATTENDANCE_PERIOD ap,ATTENDANCE_CODES ac
@@ -259,7 +259,7 @@ if ( $_REQUEST['student_id'] || User( 'PROFILE' ) === 'parent' )
 			AND ap.ATTENDANCE_CODE=ac.ID
 			AND ap.STUDENT_ID='" . UserStudentID() . "'";
 
-		$attendance_RET = DBGet( DBQuery( $sql ), array(), array( 'SCHOOL_DATE', 'PERIOD_ID' ) );
+		$attendance_RET = DBGet( $sql, array(), array( 'SCHOOL_DATE', 'PERIOD_ID' ) );
 	}
 	else
 	{
@@ -406,8 +406,8 @@ function _makeColor( $value, $column )
 
 	if ( empty( $att_RET[ $THIS_RET['STUDENT_ID'] ] ) )
 	{
-		$att_RET[ $THIS_RET['STUDENT_ID'] ] = DBGet( DBQuery( $att_sql .
-			"'" . $THIS_RET['STUDENT_ID'] . "'" ), array(), array( 'SHORT_DATE' ) );
+		$att_RET[ $THIS_RET['STUDENT_ID'] ] = DBGet( $att_sql .
+			"'" . $THIS_RET['STUDENT_ID'] . "'", array(), array( 'SHORT_DATE' ) );
 	}
 
 	$att = $att_RET[ $THIS_RET['STUDENT_ID'] ][ $column ][1];

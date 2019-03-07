@@ -119,7 +119,7 @@ if ( isset( $_REQUEST['sidefunc'] )
 			 * OR remove Student if not enrolled in new SchoolYear.
 			 */
 			if ( User( 'PROFILE' ) === 'teacher'
-				|| ! count( DBGet( DBQuery( $is_student_enrolled_sql ) ) ) )
+				|| ! count( DBGet( $is_student_enrolled_sql ) ) )
 			{
 				$unset_student = true;
 			}
@@ -431,7 +431,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 
 		$sql .= " ORDER BY sy.SYEAR DESC";
 
-		$years_RET = DBGet( DBQuery( $sql ) ); ?>
+		$years_RET = DBGet( $sql ); ?>
 
 		<span class="br-after">
 			<label for="syear" class="a11y-hidden"><?php echo _( 'School Year' ); ?></label>

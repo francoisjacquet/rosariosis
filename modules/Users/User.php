@@ -502,7 +502,7 @@ if ( ( UserStaffID()
 		FROM STAFF s
 		WHERE s.STAFF_ID='" . UserStaffID() . "'";
 
-		$staff = DBGet( DBQuery( $sql ) );
+		$staff = DBGet( $sql );
 
 		$staff = $staff[1];
 	}

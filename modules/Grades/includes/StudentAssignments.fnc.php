@@ -357,7 +357,7 @@ function GetAssignment( $assignment_id )
 		" AND ga.ASSIGNMENT_ID='" . $assignment_id . "'
 		AND gat.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID"; // Why not?
 
-	$assignment_RET = DBGet( DBQuery( $assignment_sql ), array(), array( 'ASSIGNMENT_ID' ) );
+	$assignment_RET = DBGet( $assignment_sql, array(), array( 'ASSIGNMENT_ID' ) );
 
 	$assignment[$assignment_id] = isset( $assignment_RET[$assignment_id] ) ?
 	$assignment_RET[$assignment_id][1] : false;
@@ -386,7 +386,7 @@ function GetAssignmentSubmission( $assignment_id, $student_id )
 		WHERE ASSIGNMENT_ID='" . $assignment_id . "'
 		AND STUDENT_ID='" . $student_id . "'";
 
-	$submission_RET = DBGet( DBQuery( $submission_sql ) );
+	$submission_RET = DBGet( $submission_sql );
 
 	return isset( $submission_RET[1] ) ? $submission_RET[1] : false;
 }

@@ -436,7 +436,7 @@ if ( ! $_REQUEST['modfunc'] )
 			WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 	ORDER BY SORT_ORDER,TITLE";
 
-	$types_RET = DBGet( DBQuery( $assignment_types_sql ) );
+	$types_RET = DBGet( $assignment_types_sql );
 
 	$delete_button = '';
 
@@ -481,7 +481,7 @@ if ( ! $_REQUEST['modfunc'] )
 				FROM GRADEBOOK_ASSIGNMENTS
 				WHERE ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'";
 
-		$RET = DBGet( DBQuery( $sql ) );
+		$RET = DBGet( $sql );
 
 		$RET = $RET[1];
 
@@ -501,7 +501,7 @@ if ( ! $_REQUEST['modfunc'] )
 				FROM GRADEBOOK_ASSIGNMENT_TYPES at
 				WHERE at.ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'";
 
-		$RET = DBGet( DBQuery( $sql ), array( 'FINAL_GRADE_PERCENT' => '_makePercent' ) );
+		$RET = DBGet( $sql, array( 'FINAL_GRADE_PERCENT' => '_makePercent' ) );
 
 		$RET = $RET[1];
 
@@ -530,7 +530,7 @@ if ( ! $_REQUEST['modfunc'] )
 				WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 			AND STAFF_ID='" . User( 'STAFF_ID' ) . "'";
 
-		$RET = DBGet( DBQuery( $sql ), array( 'FINAL_GRADE_PERCENT' => '_makePercent' ) );
+		$RET = DBGet( $sql, array( 'FINAL_GRADE_PERCENT' => '_makePercent' ) );
 
 		$RET = $RET[1];
 

@@ -64,13 +64,11 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 	if ( $marking_period_id == 0 )
 	{
 		// There should be exactly one FY marking period.
-		$fy_RET = DBGet( "SELECT MARKING_PERIOD_ID
+		$marking_period_id = DBGetOne( "SELECT MARKING_PERIOD_ID
 			FROM SCHOOL_MARKING_PERIODS
 			WHERE MP='FY'
 			AND SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'" );
-
-		$marking_period_id = $fy_RET[1]['MARKING_PERIOD_ID'];
 
 		$mp = 'FY';
 	}
@@ -85,13 +83,11 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 		$error_no_qtr = array( _( 'No quarters found' ) );
 
 		// There should be exactly one FY marking period.
-		$fy_RET = DBGet( "SELECT MARKING_PERIOD_ID
+		$fy = DBGetOne( "SELECT MARKING_PERIOD_ID
 			FROM SCHOOL_MARKING_PERIODS
 			WHERE MP='FY'
 			AND SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'" );
-
-		$fy = $fy_RET[1]['MARKING_PERIOD_ID'];
 
 		$sem_SQL = "SELECT MARKING_PERIOD_ID
 			FROM SCHOOL_MARKING_PERIODS s
@@ -112,10 +108,10 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 		if ( $mp === 'PRO'
 			|| $mp === 'QTR' )
 		{
-			$qtr_RET = DBGet( DBQuery( $qtr_SQL ) );
+			$qtr_RET = DBGet( $qtr_SQL );
 		}
 		else
-			$qtr_RET = DBGet( DBQuery( $qtr_SQL ), array(), array( 'PARENT_ID' ) );
+			$qtr_RET = DBGet( $qtr_SQL, array(), array( 'PARENT_ID' ) );
 
 		// FJ Fatal error if no quarters.
 		if ( ! $qtr_RET )
@@ -167,7 +163,7 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 					}
 				}
 
-				$sem_RET = DBGet( DBQuery( $sem_SQL ) );
+				$sem_RET = DBGet( $sem_SQL );
 
 				foreach ( (array) $sem_RET as $sem )
 				{
@@ -193,7 +189,7 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 					}
 				}
 
-				$sem_RET = DBGet( DBQuery( $sem_SQL ) );
+				$sem_RET = DBGet( $sem_SQL );
 
 				foreach ( (array) $sem_RET as $sem )
 				{
@@ -252,7 +248,7 @@ function GetParentMP( $mp, $marking_period_id )
 				return false;
 		}
 
-		$parent_mp[ $mp ] = DBGet( DBQuery( $parent_SQL ), array(), array( 'MARKING_PERIOD_ID' ) );
+		$parent_mp[ $mp ] = DBGet( $parent_SQL, array(), array( 'MARKING_PERIOD_ID' ) );
 	}
 
 	return empty( $parent_mp[ $mp ][ $marking_period_id ] ) ?
@@ -299,7 +295,7 @@ function GetChildrenMP( $mp, $marking_period_id = '0' )
 		{
 			case 'FY':
 
-				$qtr_RET = DBGet( DBQuery( $qtr_SQL ), array(), array( 'PARENT_ID' ) );
+				$qtr_RET = DBGet( $qtr_SQL, array(), array( 'PARENT_ID' ) );
 
 				foreach ( (array) $qtr_RET as $sem => $qtrs )
 				{
@@ -319,7 +315,7 @@ function GetChildrenMP( $mp, $marking_period_id = '0' )
 
 			case 'SEM':
 
-				$qtr_RET = DBGet( DBQuery( $qtr_SQL ), array(), array( 'PARENT_ID' ) );
+				$qtr_RET = DBGet( $qtr_SQL, array(), array( 'PARENT_ID' ) );
 
 				foreach ( (array) $qtr_RET as $sem => $qtrs )
 				{

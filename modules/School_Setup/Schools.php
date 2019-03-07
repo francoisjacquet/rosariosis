@@ -458,7 +458,7 @@ if ( ! $_REQUEST['modfunc'] )
 						AND s." . $col_name . " != ''
 						ORDER BY SORT_KEY";
 
-					$options_RET = DBGet( DBQuery( $sql_options ) );
+					$options_RET = DBGet( $sql_options );
 
 					// Add the 'new' option, is also the separator.
 					$select_options['---'] = '-' . _( 'Edit' ) . '-';

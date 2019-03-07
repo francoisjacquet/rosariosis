@@ -829,7 +829,7 @@ if ( ! $_REQUEST['modfunc'] )
 		AND SCHOOL_ID='" . UserSchool() . "'
 		AND CALENDAR_ID='" . $_REQUEST['calendar_id'] . "'";
 
-	$calendar_RET = DBGet( DBQuery( $calendar_SQL ), array(), array( 'SCHOOL_DATE' ) );
+	$calendar_RET = DBGet( $calendar_SQL, array(), array( 'SCHOOL_DATE' ) );
 
 	$update_calendar = false;
 
@@ -951,7 +951,7 @@ if ( ! $_REQUEST['modfunc'] )
 	// Update Calendar RET
 	if ( $update_calendar )
 	{
-		$calendar_RET = DBGet( DBQuery( $calendar_SQL ), array(), array( 'SCHOOL_DATE' ) );
+		$calendar_RET = DBGet( $calendar_SQL, array(), array( 'SCHOOL_DATE' ) );
 	}
 
 	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
@@ -1071,7 +1071,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( isset( $assignments_SQL ) )
 	{
-		$assignments_RET = DBGet( DBQuery( $assignments_SQL ), array(), array( 'SCHOOL_DATE' ) );
+		$assignments_RET = DBGet( $assignments_SQL, array(), array( 'SCHOOL_DATE' ) );
 	}
 
 	// Calendar Events onclick popup

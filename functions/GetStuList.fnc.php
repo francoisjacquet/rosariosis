@@ -687,7 +687,7 @@ function GetStuList( &$extra = array() )
 	$group = ( isset( $extra['group'] ) ? $extra['group'] : array() );
 
 	// Execute Query & return.
-	return DBGet( DBQuery( $sql ), $functions, $group );
+	return DBGet( $sql, $functions, $group );
 }
 
 

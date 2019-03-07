@@ -278,7 +278,7 @@ function _makeAutoSelectInput( $column, $name, $request )
 				ORDER BY KEY";
 		}
 
-		$options_RET = DBGet( DBQuery( $options_SQL ) );
+		$options_RET = DBGet( $options_SQL );
 
 		foreach ( (array) $options_RET as $option )
 		{

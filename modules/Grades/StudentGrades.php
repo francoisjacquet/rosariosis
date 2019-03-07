@@ -110,12 +110,12 @@ if ( empty( $_REQUEST['id'] ) )
 			if ( $do_stats
 				&& $_REQUEST['do_stats'] )
 			{
-				$all_RET = DBGet( DBQuery( $sql ), array(), array( 'STUDENT_ID' ) );
+				$all_RET = DBGet( $sql, array(), array( 'STUDENT_ID' ) );
 
 				$points_RET = $all_RET[ UserStudentID() ];
 			}
 			else
-				 $points_RET = DBGet( DBQuery( $sql ) );
+				 $points_RET = DBGet( $sql );
 			//echo '<pre>'; var_dump($points_RET); echo '</pre>';
 			//echo '<pre>'; var_dump($all_RET); echo '</pre>';
 

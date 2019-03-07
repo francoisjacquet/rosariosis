@@ -408,7 +408,7 @@ if ( ! $_REQUEST['modfunc'] )
 		AND SCHOOL_ID='" . UserSchool() . "')
 	ORDER BY TITLE";
 
-	$types_RET = DBGet( DBQuery( $assignment_types_sql ) );
+	$types_RET = DBGet( $assignment_types_sql );
 
 	if ( $_REQUEST['assignment_type'] !== 'new' )
 	{

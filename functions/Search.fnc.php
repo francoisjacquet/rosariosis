@@ -629,7 +629,7 @@ function Search( $type, $extra = null )
 								ORDER BY KEY";
 						}
 
-						$options_RET = DBGet( DBQuery( $sql_options ) );
+						$options_RET = DBGet( $sql_options );
 
 						// Add the 'new' option, is also the separator.
 						echo '<option value="---">-' . _( 'Edit' ) . '-</option>';

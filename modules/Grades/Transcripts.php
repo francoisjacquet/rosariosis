@@ -125,9 +125,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			LEFT OUTER JOIN students_join_address sja ON (sja.student_id=s.student_id)
 			LEFT OUTER JOIN address a ON (a.address_id=sja.address_id) ";
 
-			$students_data = DBGet( DBQuery( $students_dataquery .
+			$students_data = DBGet( $students_dataquery .
 				' WHERE s.student_id IN (' . $st_list . ')
-				ORDER BY LAST_NAME,FIRST_NAME' ), array(), array( 'STUDENT_ID' ) );
+				ORDER BY LAST_NAME,FIRST_NAME', array(), array( 'STUDENT_ID' ) );
 
 			$handle = PDFStart();
 

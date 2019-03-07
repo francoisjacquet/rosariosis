@@ -214,7 +214,7 @@ function GetStaffList( &$extra = array() )
 		$functions += (array) $extra['functions'];
 	}
 
-	return DBGet( DBQuery( $sql ), $functions );
+	return DBGet( $sql, $functions );
 }
 
 

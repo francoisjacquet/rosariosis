@@ -189,7 +189,7 @@ if ( UserStudentID() )
 		AND mp.school_id='" . UserSchool() . "'
 		ORDER BY posted";
 
-		$g_RET = DBGet( DBQuery( $g_sql ) );
+		$g_RET = DBGet( $g_sql );
 
 		$last_posted = null;
 		$g_mp = array(); // Grade marking_periods.

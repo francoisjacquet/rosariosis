@@ -488,7 +488,7 @@ if ( ( UserStudentID()
 			AND MODNAME LIKE 'Students/Student.php%'";
 	}
 
-	$can_use_RET = DBGet( DBQuery( $can_use_sql ), array(), array( 'MODNAME' ) );
+	$can_use_RET = DBGet( $can_use_sql, array(), array( 'MODNAME' ) );
 
 	// FJ create account.
 	if ( basename( $_SERVER['PHP_SELF'] ) === 'index.php' )
@@ -521,7 +521,7 @@ if ( ( UserStudentID()
 			FROM STUDENTS s
 			WHERE s.STUDENT_ID='" . UserStudentID() . "'";
 
-			$student = DBGet( DBQuery( $sql ) );
+			$student = DBGet( $sql );
 			$student = $student[1];
 
 			$school = DBGet( "SELECT SCHOOL_ID,GRADE_ID

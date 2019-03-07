@@ -160,7 +160,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 					// If username already exists.
 
-					while ( DBGet( DBQuery( $username_exists_sql ) ) )
+					while ( DBGet( $username_exists_sql ) )
 					{
 						$username = $tmp_username . $i++;
 					}

@@ -49,7 +49,7 @@ function User( $item )
 					WHERE SYEAR='" . Config( 'SYEAR' ) . "'
 					AND STAFF_ID='" . $_SESSION['STAFF_ID'] . "')";
 
-			$_ROSARIO['User'] = DBGet( DBQuery( $sql ) );
+			$_ROSARIO['User'] = DBGet( $sql );
 		}
 		// Get Student Info.
 		elseif ( ! empty( $_SESSION['STUDENT_ID'] ) )
@@ -63,7 +63,7 @@ function User( $item )
 				AND se.STUDENT_ID=s.STUDENT_ID
 				ORDER BY se.END_DATE DESC LIMIT 1";
 
-			$_ROSARIO['User'] = DBGet( DBQuery( $sql ) );
+			$_ROSARIO['User'] = DBGet( $sql );
 
 			if ( $_ROSARIO['User'][1]['SCHOOL_ID'] !== UserSchool() )
 			{

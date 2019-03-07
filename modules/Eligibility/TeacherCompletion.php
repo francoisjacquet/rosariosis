@@ -128,7 +128,7 @@ $sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,sp.TITLE,cpsp.PERIOD_I
 		AND ac.PERIOD_ID=sp.PERIOD_ID
 		AND ac.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "')";
 
-$RET = DBGet( DBQuery( $sql ), array(), array( 'STAFF_ID', 'PERIOD_ID' ) );
+$RET = DBGet( $sql, array(), array( 'STAFF_ID', 'PERIOD_ID' ) );
 
 $i = 0;
 

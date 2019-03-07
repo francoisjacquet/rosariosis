@@ -127,7 +127,7 @@ function _update29alpha()
 
 		if ( $SQL_updt_coms )
 		{
-			DBGet( DBQuery( $SQL_updt_coms ) );
+			DBGet( $SQL_updt_coms );
 		}
 	}
 	else

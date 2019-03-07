@@ -292,7 +292,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$tabs[] = array( 'title' => button( 'add', '', '', 'smaller' ), 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=new' );
 	}
 
-	$LO_ret = DBGet( DBQuery( $sql ), $functions );
+	$LO_ret = DBGet( $sql, $functions );
 	//echo '<pre>'; var_dump($LO_ret); echo '</pre>';
 
 	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update&tab_id=' . $_REQUEST['tab_id'] . '" method="POST">';

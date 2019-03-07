@@ -117,7 +117,7 @@ if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 		ORDER BY FULL_NAME";
 }
 
-$RET = DBGet( DBQuery( $sql ), array(), array( 'STAFF_ID' ) );
+$RET = DBGet( $sql, array(), array( 'STAFF_ID' ) );
 
 if ( ! isset( $_REQUEST['period'] )
 	|| ! $_REQUEST['period'] )

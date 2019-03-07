@@ -169,7 +169,7 @@ function SetUserStaffID( $staff_id )
 		case 'admin':
 
 			// Check $staff_id is in current Year.
-			$is_admin_staff = DBGet( "SELECT SCHOOLS
+			$admin_schools = DBGetOne( "SELECT SCHOOLS
 				FROM STAFF
 				WHERE STAFF_ID='" . $staff_id . "'
 				AND SYEAR='" . UserSyear() . "'" );
@@ -180,7 +180,7 @@ function SetUserStaffID( $staff_id )
 			}
 
 			if ( ! trim( User( 'SCHOOLS' ), ',' )
-				|| ! trim( $is_admin_staff[1]['SCHOOLS'], ',' ) )
+				|| ! trim( $admin_schools, ',' ) )
 			{
 				// (Current) User is assigned to "All Schools".
 				break;
@@ -193,7 +193,7 @@ function SetUserStaffID( $staff_id )
 
 			foreach ( (array) $user_schools as $user_school )
 			{
-				if ( mb_strpos( $is_admin_staff[1]['SCHOOLS'], ',' . $user_school . ',' ) !== false )
+				if ( mb_strpos( $admin_schools, ',' . $user_school . ',' ) !== false )
 				{
 					// School in common found.
 					$isHack = false;

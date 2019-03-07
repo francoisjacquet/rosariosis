@@ -54,7 +54,7 @@ function UpdateAttendanceDaily( $student_id, $date = '', $comment = false )
 		AND s.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', GetCurrentMP( 'QTR', $date, false ) ) . ")";
 	}
 
-	$RET = DBGet( DBQuery( $sql ) );
+	$RET = DBGet( $sql );
 
 	$total = $RET[1]['TOTAL'];
 
@@ -66,7 +66,7 @@ function UpdateAttendanceDaily( $student_id, $date = '', $comment = false )
 			WHERE ap.STUDENT_ID='".$student_id."' AND ap.SCHOOL_DATE='".$date."' AND ap.PERIOD_ID=sp.PERIOD_ID AND ac.ID = ap.ATTENDANCE_CODE AND ac.STATE_CODE='A'
 			AND sp.SYEAR='".UserSyear()."'";
 
-	$RET = DBGet( DBQuery( $sql ) );
+	$RET = DBGet( $sql );
 
 	$total -= $RET[1]['TOTAL'];
 
@@ -75,7 +75,7 @@ function UpdateAttendanceDaily( $student_id, $date = '', $comment = false )
 			WHERE ap.STUDENT_ID='".$student_id."' AND ap.SCHOOL_DATE='".$date."' AND ap.PERIOD_ID=sp.PERIOD_ID AND ac.ID = ap.ATTENDANCE_CODE AND ac.STATE_CODE='H'
 			AND sp.SYEAR='".UserSyear()."'";
 
-	$RET = DBGet(DBQuery($sql));
+	$RET = DBGet( $sql );
 
 	$total -= $RET[1]['TOTAL']*.5;
 

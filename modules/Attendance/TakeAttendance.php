@@ -203,7 +203,7 @@ $current_Q = "SELECT ATTENDANCE_TEACHER_CODE,STUDENT_ID,ADMIN,COMMENT,COURSE_PER
 	AND PERIOD_ID='" . UserPeriod() . "'" .
 	( $table == 'LUNCH_PERIOD' ? " AND TABLE_NAME='" . $_REQUEST['table'] . "'" : '' );
 
-$current_RET = DBGet( DBQuery( $current_Q ), array(), array( 'STUDENT_ID' ) );
+$current_RET = DBGet( $current_Q, array(), array( 'STUDENT_ID' ) );
 
 if ( ! empty( $_REQUEST['attendance'] )
 	&& ! empty( $_POST['attendance'] ) )
@@ -273,7 +273,7 @@ if ( ! empty( $_REQUEST['attendance'] )
 		do_action( 'Attendance/TakeAttendance.php|update_attendance' );
 	}
 
-	$current_RET = DBGet( DBQuery( $current_Q ), array(), array( 'STUDENT_ID' ) );
+	$current_RET = DBGet( $current_Q, array(), array( 'STUDENT_ID' ) );
 
 	// Unset attendance & redirect URL.
 	RedirectURL( 'attendance' );
