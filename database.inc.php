@@ -166,9 +166,11 @@ function db_seq_nextval( $seqname )
  */
 function DBSeqNextID( $seqname )
 {
-	$seq_next_RET = DBGet( "SELECT " . db_seq_nextval( $seqname ) . ' AS ID' );
+	$QI = DBQuery( "SELECT " . db_seq_nextval( $seqname ) . ' AS ID' );
 
-	return $seq_next_RET[1]['ID'];
+	$seq_next_RET = db_fetch_row( $QI );
+
+	return $seq_next_RET['ID'];
 }
 
 
