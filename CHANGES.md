@@ -10,6 +10,7 @@ Changes in 4.5
 - Remove db_greatest() & db_least() in database.inc.php & Grades.php
 - Add DBGetOne() function in DBGet.fnc.php
 - Include Student/User Info tab from custom plugin in Student.php, StudentFields.php, User.php, UserFields.php
+- Format Numeric field display in ReferralLog.fnc.php
 
 Changes in 4.4
 --------------

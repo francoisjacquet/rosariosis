@@ -222,31 +222,34 @@ function ReferralLogsGenerate( $extra )
 
 				$field_type = $fields_RET[mb_substr( $column, 9 )][1]['DATA_TYPE'];
 
-				if ( $field_type !== 'textarea' )
-				{
-					$title_txt = '<b>' . $fields_RET[mb_substr( $column, 9 )][1]['TITLE'] . ': </b> ';
+				$value = $referral[ $column ];
 
-					// CHECKBOX fields
-					if ( $field_type === 'checkbox' )
-					{
-						DrawHeader( $title_txt .
-							( $referral[ $column ] === 'Y' ?
-								button( 'check', '', '', 'bigger' ) :
-								button( 'x', '', '', 'bigger' ) ) );
-					}
-					// Multiple checkbox fields
-					elseif ( $field_type === 'multiple_checkbox' )
-					{
-						DrawHeader( $title_txt .
-							str_replace( '||', ', ', mb_substr( $referral[ $column ], 2, -2 ) ) );
-					}
-					// Others
-					else
-						DrawHeader( $title_txt . $referral[ $column ] );
+				if ( $field_type === 'textarea' )
+				{
+					// TEXTEAREA fields.
+					DrawHeader( MarkDownToHTML( $value ) );
+
+					continue;
 				}
-				// TEXTEAREA fields
-				else
-					DrawHeader( MarkDownToHTML( $referral[ $column ] ) );
+
+				$title_txt = '<b>' . $fields_RET[mb_substr( $column, 9 )][1]['TITLE'] . ': </b> ';
+
+				if ( $field_type === 'checkbox' )
+				{
+					// CHECKBOX fields.
+					$value = button( ( $value === 'Y' ? 'check' : 'x' ) );
+				}
+				elseif ( $field_type === 'multiple_checkbox' )
+				{
+					// Multiple checkbox fields
+					$value = str_replace( '||', ', ', mb_substr( $value, 2, -2 ) );
+				}
+				elseif ( $field_type === 'numeric' )
+				{
+					$value = mb_strpos( $value, '.' ) === false ? $value : rtrim( rtrim( $value, '0' ), '.' );
+				}
+
+				DrawHeader( $title_txt . $value );
 			}
 
 			echo '<BR />';
