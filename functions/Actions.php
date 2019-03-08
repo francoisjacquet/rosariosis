@@ -223,6 +223,13 @@ $RosarioActions = array();
 	 * @since 4.5
 	 */
 	/*'School_Setup/Calendar.php|header' => array(),
+
+	/**
+	 * Report Cards Header.
+	 *
+	 * @since 4.5
+	 */
+	/*'Grades/ReportCards.php|header' => array(),
 );*/
 
 

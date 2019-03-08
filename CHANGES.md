@@ -11,6 +11,7 @@ Changes in 4.5
 - Add DBGetOne() function in DBGet.fnc.php
 - Include Student/User Info tab from custom plugin in Student.php, StudentFields.php, User.php, UserFields.php
 - Format Numeric field display in ReferralLog.fnc.php
+- Add Report Cards header action hook in ReportCards.php
 
 Changes in 4.4
 --------------

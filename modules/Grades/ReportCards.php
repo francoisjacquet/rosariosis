@@ -53,6 +53,9 @@ if ( ! $_REQUEST['modfunc'] )
 		$extra['header_right'] = Buttons( _( 'Create Report Cards for Selected Students' ) );
 
 		$extra['extra_header_left'] = ReportCardsIncludeForm();
+
+		// @since 4.5 Add Report Cards header action hook.
+		do_action( 'Grades/ReportCards.php|header' );
 	}
 
 	$extra['new'] = true;
