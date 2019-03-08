@@ -230,6 +230,13 @@ $RosarioActions = array();
 	 * @since 4.5
 	 */
 	/*'Grades/ReportCards.php|header' => array(),
+
+	/**
+	 * Report Cards PDF Header.
+	 *
+	 * @since 4.5
+	 */
+	/*'Grades/includes/ReportCards.fnc.php|pdf_header' => array(),
 );*/
 
 

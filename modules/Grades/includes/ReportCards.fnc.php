@@ -655,6 +655,9 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 					$count_lines++;
 				}
 
+				// @since 4.5 Add Report Cards PDF header action hook.
+				do_action( 'Grades/includes/ReportCards.fnc.php|pdf_header' );
+
 				// FJ add school logo.
 
 				if ( file_exists( $logo_pic ) )
