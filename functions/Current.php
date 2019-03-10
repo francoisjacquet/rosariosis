@@ -174,11 +174,6 @@ function SetUserStaffID( $staff_id )
 				WHERE STAFF_ID='" . $staff_id . "'
 				AND SYEAR='" . UserSyear() . "'" );
 
-			if ( ! $is_admin_staff )
-			{
-				$isHack = true;
-			}
-
 			if ( ! trim( User( 'SCHOOLS' ), ',' )
 				|| ! trim( $admin_schools, ',' ) )
 			{
