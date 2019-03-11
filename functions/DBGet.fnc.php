@@ -180,13 +180,13 @@ function DBGet( $QI, $functions = array(), $index = array() )
  *
  * @param string $sql_select SQL SELECT query.
  *
- * @return string null or DB value.
+ * @return string False or DB value.
  */
 function DBGetOne( $sql_select )
 {
 	$QI = DBQuery( $sql_select );
 
-	$RET = db_fetch_row( $QI );
+	$RET = (array) db_fetch_row( $QI );
 
 	return reset( $RET );
 }
