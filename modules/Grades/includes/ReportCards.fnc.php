@@ -191,6 +191,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 	 * @example $report_cards = ReportCardsGenerate( $_REQUEST['st_arr'], $_REQUEST['mp_arr'] );
 	 *
 	 * @since 4.0 Define your custom function in your addon module or plugin.
+	 * @since 4.5 Add Report Cards PDF header action hook.
 	 *
 	 * @uses _makeTeacher() see below
 	 *
@@ -200,7 +201,8 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 	 */
 	function ReportCardsGenerate( $student_array, $mp_array )
 	{
-		global $_ROSARIO;
+		global $_ROSARIO,
+			$count_lines;
 
 		if ( empty( $student_array )
 			|| empty( $mp_array ) )
@@ -656,7 +658,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 				}
 
 				// @since 4.5 Add Report Cards PDF header action hook.
-				do_action( 'Grades/includes/ReportCards.fnc.php|pdf_header' );
+				do_action( 'Grades/includes/ReportCards.fnc.php|pdf_header', $student_id );
 
 				// FJ add school logo.
 
