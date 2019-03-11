@@ -13,6 +13,7 @@ Changes in 4.5
 - Format Numeric field display in ReferralLog.fnc.php
 - Add Report Cards header action hook in ReportCards.php
 - Add Report Cards PDF header action hook in ReportCards.fnc.php
+- HTML add autocomplete="off" to select inputs in Side.php
 
 Changes in 4.4
 --------------

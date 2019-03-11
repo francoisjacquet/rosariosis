@@ -343,7 +343,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 
 			<span class="br-after">
 				<label for="school" class="a11y-hidden"><?php echo _( 'School' ); ?></label>
-				<select name="school" id="school" onChange="ajaxPostForm(this.form,true);">
+				<select name="school" id="school" autocomplete="off" onChange="ajaxPostForm(this.form,true);">
 			<?php foreach ( (array) $schools_RET as $school ) : ?>
 				<option value="<?php echo $school['ID']; ?>"<?php echo ( ( UserSchool() == $school['ID'] ) ? ' selected' : '' ); ?>><?php
 					echo ( $school['SHORT_NAME'] ? $school['SHORT_NAME'] : $school['TITLE'] );
@@ -378,7 +378,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 
 			<span class="br-after">
 				<label for="student_id" class="a11y-hidden"><?php echo _( 'Student' ); ?></label>
-				<select name="student_id" id="student_id" onChange="ajaxPostForm(this.form,true);">
+				<select name="student_id" id="student_id" autocomplete="off" onChange="ajaxPostForm(this.form,true);">
 			<?php foreach ( (array) $students_RET as $student ) : ?>
 				<option value="<?php echo $student['STUDENT_ID']; ?>"<?php echo ( ( UserStudentID() == $student['STUDENT_ID'] ) ? ' selected' : '' ); ?>><?php
 					echo $student['FULL_NAME'];
@@ -435,7 +435,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 
 		<span class="br-after">
 			<label for="syear" class="a11y-hidden"><?php echo _( 'School Year' ); ?></label>
-			<select name="syear" id="syear" onChange="ajaxPostForm(this.form,true);">
+			<select name="syear" id="syear" autocomplete="off" onChange="ajaxPostForm(this.form,true);">
 		<?php foreach ( (array) $years_RET as $year ) : ?>
 			<option value="<?php echo $year['SYEAR']; ?>"<?php echo ( ( UserSyear() == $year['SYEAR'] ) ? ' selected' : '' ); ?>><?php
 				echo FormatSyear( $year['SYEAR'], Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) );
@@ -455,7 +455,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 
 		<span class="br-after">
 			<label for="mp" class="a11y-hidden"><?php echo _( 'Marking Period' ); ?></label>
-			<select name="mp" id="mp" onChange="ajaxPostForm(this.form,true);">
+			<select name="mp" id="mp" autocomplete="off" onChange="ajaxPostForm(this.form,true);">
 		<?php if ( count( $RET ) ) :
 
 			$mp_array = array();
@@ -530,7 +530,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 				$_SESSION['UserCoursePeriodSchoolPeriod'] = $cp_RET[1]['COURSE_PERIOD_SCHOOL_PERIODS_ID'];
 			} ?>
 
-			<select name="period" onChange="ajaxPostForm(this.form,true);">
+			<select name="period" id="period" autocomplete="off" onChange="ajaxPostForm(this.form,true);">
 			<?php $optgroup = $current_cp_found = false;
 
 			foreach ( (array) $cp_RET as $period )
