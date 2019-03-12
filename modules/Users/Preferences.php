@@ -20,22 +20,19 @@ if ( ! empty( $_REQUEST['values'] )
 
 			if ( User( 'PROFILE' ) == 'student' )
 			{
-				$password_RET = DBGet( "SELECT PASSWORD
+				$password = DBGetOne( "SELECT PASSWORD
 					FROM STUDENTS
 					WHERE STUDENT_ID='" . UserStudentID() . "'" );
 			}
 			else
 			{
-				$password_RET = DBGet( "SELECT PASSWORD
+				$password = DBGetOne( "SELECT PASSWORD
 					FROM STAFF
 					WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 					AND SYEAR='" . UserSyear() . "'" );
 			}
 
-			//FJ add password encryption
-			//if (mb_strtolower($password_RET[1]['PASSWORD'])!=mb_strtolower($current_password))
-
-			if ( ! match_password( $password_RET[1]['PASSWORD'], $current_password ) )
+			if ( ! match_password( $password, $current_password ) )
 			{
 				$error[] = _( 'Your current password was incorrect.' );
 			}
@@ -529,11 +526,9 @@ if ( ! $_REQUEST['modfunc'] )
 		}
 
 		// Student Fields: search Username.
-		$general_info_category_title_RET = DBGet( "SELECT sfc.TITLE
+		$general_info_category_title = DBGetOne( "SELECT sfc.TITLE
 			FROM STUDENT_FIELD_CATEGORIES sfc
 			WHERE sfc.ID=1" );
-
-		$general_info_category_title = $general_info_category_title_RET[1]['TITLE'];
 
 		if ( ! isset( $custom_fields_RET[$general_info_category_title] ) )
 		{
@@ -770,11 +765,9 @@ if ( ! $_REQUEST['modfunc'] )
 		}
 
 		// User Fields: search Email Address & Phone.
-		$general_info_category_title_RET = DBGet( "SELECT sfc.TITLE
+		$general_info_category_title = DBGetOne( "SELECT sfc.TITLE
 			FROM STAFF_FIELD_CATEGORIES sfc
 			WHERE sfc.ID=1" );
-
-		$general_info_category_title = $general_info_category_title_RET[1]['TITLE'];
 
 		if ( isset( $custom_fields_RET[$general_info_category_title] ) )
 		{

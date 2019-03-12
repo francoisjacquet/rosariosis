@@ -97,12 +97,12 @@ function core_user_update_users_object()
 
 	//gather the Moodle user ID
 	$rosario_id = UserStaffID();
-	$moodle_id = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$rosario_id."' AND \"column\"='staff_id'" );
-	if (count($moodle_id))
-	{
-		$moodle_id = (double)$moodle_id[1]['MOODLE_ID'];
-	}
-	else
+	$moodle_id = (double) DBGetOne( "SELECT moodle_id
+		FROM moodlexrosario
+		WHERE rosario_id='".$rosario_id."'
+		AND \"column\"='staff_id'" );
+
+	if (empty($moodle_id))
 	{
 		return null;
 	}
@@ -183,12 +183,12 @@ function core_user_delete_users_object()
 {
 	//gather the Moodle user ID
 	$rosario_id = UserStaffID();
-	$moodle_id = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$rosario_id."' AND \"column\"='staff_id'" );
-	if (count($moodle_id))
-	{
-		$moodle_id = (int)$moodle_id[1]['MOODLE_ID'];
-	}
-	else
+	$moodle_id = (int) DBGetOne( "SELECT moodle_id
+		FROM moodlexrosario
+		WHERE rosario_id='".$rosario_id."'
+		AND \"column\"='staff_id'" );
+
+	if (empty($moodle_id))
 	{
 		return null;
 	}
@@ -240,12 +240,12 @@ list of (
 )*/
 
 	//gather the Moodle user ID
-	$userid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".(!empty($staff_id) ? $staff_id : UserStaffID())."' AND \"column\"='staff_id'" );
-	if (count($userid))
-	{
-		$userid = (int)$userid[1]['MOODLE_ID'];
-	}
-	else
+	$userid = (int) DBGetOne( "SELECT moodle_id
+		FROM moodlexrosario
+		WHERE rosario_id='".(!empty($staff_id) ? $staff_id : UserStaffID())."'
+		AND \"column\"='staff_id'" );
+
+	if (empty($userid))
 	{
 		return null;
 	}
@@ -334,12 +334,12 @@ list of (
 	}
 )*/
 	//gather the Moodle user ID
-	$userid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".UserStaffID()."' AND \"column\"='staff_id'" );
-	if (count($userid))
-	{
-		$userid = (int)$userid[1]['MOODLE_ID'];
-	}
-	else
+	$userid = (int) DBGetOne( "SELECT moodle_id
+		FROM moodlexrosario
+		WHERE rosario_id='".UserStaffID()."'
+		AND \"column\"='staff_id'" );
+
+	if (empty($userid))
 	{
 		return null;
 	}
@@ -417,12 +417,13 @@ filecontent = base64_encode
 	$rosario_id = $_POST['userId'];
 	//gather the Moodle user ID
 	$column = (mb_strpos($_POST['modname'], 'Users') !== false ? 'staff_id' : 'student_id');
-	$instanceid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$rosario_id."' AND \"column\"='".$column."'" );
-	if (count($instanceid))
-	{
-		$instanceid = (int)$instanceid[1]['MOODLE_ID'];
-	}
-	else
+
+	$instanceid = (int) DBGetOne( "SELECT moodle_id
+		FROM moodlexrosario
+		WHERE rosario_id='".$rosario_id."'
+		AND \"column\"='".$column."'" );
+
+	if (empty($instanceid))
 	{
 		return null;
 	}

@@ -68,21 +68,21 @@ if ( isset( $_REQUEST['sidefunc'] )
 			// Search User in next SchoolYear.
 			if ( $old_syear == UserSyear() - 1 )
 			{
-				$new_staff_id_RET = DBGet( "SELECT STAFF_ID
+				$new_staff_id = DBGetOne( "SELECT STAFF_ID
 					FROM STAFF
 					WHERE ROLLOVER_ID='" . UserStaffID() . "'" );
 			}
 			// Search User in previous SchoolYear.
 			elseif ( $old_syear == UserSyear() + 1 )
 			{
-				$new_staff_id_RET = DBGet( "SELECT ROLLOVER_ID AS STAFF_ID
+				$new_staff_id = DBGetOne( "SELECT ROLLOVER_ID AS STAFF_ID
 					FROM STAFF WHERE
 					STAFF_ID='" . UserStaffID() . "'" );
 			}
 			// More than 1 year difference, search User by USERNAME... (could have changed).
 			else
 			{
-				$new_staff_id_RET = DBGet( "SELECT STAFF_ID
+				$new_staff_id = DBGetOne( "SELECT STAFF_ID
 					FROM STAFF
 					WHERE USERNAME=
 						(SELECT USERNAME
@@ -91,10 +91,9 @@ if ( isset( $_REQUEST['sidefunc'] )
 					AND SYEAR='" . UserSyear() . "'" );
 			}
 
-			if ( $new_staff_id_RET
-				&& $new_staff_id_RET[1]['STAFF_ID'] )
+			if ( $new_staff_id )
 			{
-				SetUserStaffID( $new_staff_id_RET[1]['STAFF_ID'] );
+				SetUserStaffID( $new_staff_id );
 
 				// Remove staff_id from URL.
 				unset( $_SESSION['_REQUEST_vars']['staff_id'] );
@@ -516,11 +515,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 			 * Get the Full Year marking period id
 			 * there should be exactly one fy marking period per school.
 			 */
-			$fy_RET = DBGet( "SELECT MARKING_PERIOD_ID
-				FROM SCHOOL_MARKING_PERIODS
-				WHERE MP='FY'
-				AND SYEAR='" . UserSyear() . "'
-				AND SCHOOL_ID='" . UserSchool() . "'" );
+			$fy_id = GetFullYearMP();
 
 			// Set current CoursePeriod after login.
 			if ( ! UserCoursePeriod()
@@ -606,7 +601,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 
 				$mp_text = '';
 
-				if ( $period['MARKING_PERIOD_ID'] != $fy_RET[1]['MARKING_PERIOD_ID'] )
+				if ( $period['MARKING_PERIOD_ID'] != $fy_id )
 				{
 					$mp_text = GetMP( $period['MARKING_PERIOD_ID'], 'SHORT_NAME' ) . ' - ';
 				}
@@ -654,7 +649,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 		&& ( User( 'PROFILE' ) === 'admin'
 			|| User( 'PROFILE' ) === 'teacher' ) ) :
 
-		$current_student_RET = DBGet( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
+		$current_student_name = DBGetOne( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
 			FROM STUDENTS
 			WHERE STUDENT_ID='" . UserStudentID() . "'" ); ?>
 
@@ -664,10 +659,10 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 			</a>
 			<?php if ( AllowUse( 'Students/Student.php' ) ) : ?>
 				<a href="Modules.php?modname=Students/Student.php&amp;student_id=<?php echo UserStudentID(); ?>" title="<?php echo _( 'Student Info' ); ?>">
-					<?php echo $current_student_RET[1]['FULL_NAME']; ?>
+					<?php echo $current_student_name; ?>
 				</a>
 			<?php else : ?>
-				<?php echo $current_student_RET[1]['FULL_NAME']; ?>
+				<?php echo $current_student_name; ?>
 			<?php endif; ?>
 		</div>
 
@@ -678,7 +673,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 		&& ( User( 'PROFILE' ) === 'admin'
 			|| User( 'PROFILE' ) === 'teacher' ) ) :
 
-		$current_user_RET = DBGet( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
+		$current_user_name = DBGetOne( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
 			FROM STAFF
 			WHERE STAFF_ID='" . UserStaffID() . "'" ); ?>
 
@@ -688,10 +683,10 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 			</a>
 			<?php if ( AllowUse( 'Users/User.php' ) ) : ?>
 				<a href="Modules.php?modname=Users/User.php&amp;staff_id=<?php echo UserStaffID(); ?>" title="<?php echo _( 'User Info' ); ?>">
-					<?php echo $current_user_RET[1]['FULL_NAME']; ?>
+					<?php echo $current_user_name; ?>
 				</a>
 			<?php else : ?>
-				<?php echo $current_user_RET[1]['FULL_NAME']; ?>
+				<?php echo $current_user_name; ?>
 			<?php endif; ?>
 		</div>
 

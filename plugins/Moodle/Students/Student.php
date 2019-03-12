@@ -100,12 +100,12 @@ function core_user_update_users_object()
 
 	//gather the Moodle user ID
 	$rosario_id = UserStudentID();
-	$moodle_id = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$rosario_id."' AND \"column\"='student_id'" );
-	if (count($moodle_id))
-	{
-		$moodle_id = (double)$moodle_id[1]['MOODLE_ID'];
-	}
-	else
+	$moodle_id = (int) DBGetOne( "SELECT moodle_id
+		FROM moodlexrosario
+		WHERE rosario_id='".$rosario_id."'
+		AND \"column\"='student_id'" );
+
+	if (empty($moodle_id))
 	{
 		return null;
 	}
@@ -218,23 +218,23 @@ list of (
 
 	//gather the Moodle user ID
 	$student_id = UserStudentID();
-	$userid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id=(SELECT STAFF_ID FROM STUDENTS_JOIN_USERS WHERE STUDENT_ID='".$student_id."' LIMIT 1) AND \"column\"='staff_id'" );
-	if (count($userid))
-	{
-		$userid = (int)$userid[1]['MOODLE_ID'];
-	}
-	else
+	$userid = (int) DBGetOne( "SELECT moodle_id
+		FROM moodlexrosario
+		WHERE rosario_id=(SELECT STAFF_ID FROM STUDENTS_JOIN_USERS WHERE STUDENT_ID='".$student_id."' LIMIT 1)
+		AND \"column\"='staff_id'" );
+
+	if (empty($userid))
 	{
 		return null;
 	}
 
 	//gather the Moodle student ID
-	$studentid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$student_id."' AND \"column\"='student_id'" );
-	if (count($studentid))
-	{
-		$studentid = (int)$studentid[1]['MOODLE_ID'];
-	}
-	else
+	$studentid = (int) DBGetOne( "SELECT moodle_id
+		FROM moodlexrosario
+		WHERE rosario_id='".$student_id."'
+		AND \"column\"='student_id'" );
+
+	if (empty($studentid))
 	{
 		return null;
 	}
@@ -303,12 +303,12 @@ filecontent = base64_encode
 	$rosario_id = $_POST['userId'];
 	//gather the Moodle user ID
 	$column = (mb_strpos($_POST['modname'], 'Users') !== false ? 'staff_id' : 'student_id');
-	$instanceid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$rosario_id."' AND \"column\"='".$column."'" );
-	if (count($instanceid))
-	{
-		$instanceid = (int)$instanceid[1]['MOODLE_ID'];
-	}
-	else
+	$instanceid = (int) DBGetOne( "SELECT moodle_id
+		FROM moodlexrosario
+		WHERE rosario_id='".$rosario_id."'
+		AND \"column\"='".$column."'" );
+
+	if (empty($instanceid))
 	{
 		return null;
 	}

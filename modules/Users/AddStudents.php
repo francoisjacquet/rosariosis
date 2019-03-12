@@ -64,9 +64,11 @@ if ( ! $_REQUEST['modfunc'] )
 {
 	if ( UserStaffID() )
 	{
-		$profile = DBGet( "SELECT PROFILE FROM STAFF WHERE STAFF_ID='" . UserStaffID() . "'" );
+		$profile = DBGetOne( "SELECT PROFILE
+			FROM STAFF
+			WHERE STAFF_ID='" . UserStaffID() . "'" );
 
-		if ( $profile[1]['PROFILE'] != 'parent' )
+		if ( $profile !== 'parent' )
 		{
 			unset( $_SESSION['staff_id'] );
 		}

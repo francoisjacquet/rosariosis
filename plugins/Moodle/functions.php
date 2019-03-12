@@ -180,10 +180,14 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 		break;
 
 		case 'Students/Student.php|update_student_address':
-			$residence = DBGet( "SELECT RESIDENCE FROM STUDENTS_JOIN_ADDRESS WHERE ADDRESS_ID='".$_REQUEST['address_id']."'" );
+			$residence = DBGetOne( "SELECT RESIDENCE
+				FROM STUDENTS_JOIN_ADDRESS
+				WHERE ADDRESS_ID='".$_REQUEST['address_id']."'" );
 
-			if ($residence[1]['RESIDENCE'] == 'Y')
+			if ( $residence == 'Y' )
+			{
 				Moodle($modname, 'core_user_update_users');
+			}
 
 		break;
 

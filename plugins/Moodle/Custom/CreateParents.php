@@ -108,24 +108,24 @@ list of (
 	}
 )*/
 
-	//gather the Moodle user ID
-	$userid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$id."' AND \"column\"='staff_id'" );
-	if (count($userid))
-	{
-		$userid = (int)$userid[1]['MOODLE_ID'];
-	}
-	else
+	// Gather the Moodle user ID.
+	$userid = (int) DBGetOne( "SELECT moodle_id
+		FROM moodlexrosario
+		 WHERE rosario_id='".$id."'
+		 AND \"column\"='staff_id'" );
+
+	if ( empty( $userid ) )
 	{
 		return null;
 	}
 
-	//gather the Moodle student ID
-	$studentid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$student['STUDENT_ID']."' AND \"column\"='student_id'" );
-	if (count($studentid))
-	{
-		$studentid = (int)$studentid[1]['MOODLE_ID'];
-	}
-	else
+	// Gather the Moodle student ID.
+	$studentid = DBGetOne( "SELECT moodle_id
+		FROM moodlexrosario
+		WHERE rosario_id='".$student['STUDENT_ID']."'
+		AND \"column\"='student_id'" );
+
+	if ( empty( $studentid ) )
 	{
 		return null;
 	}
@@ -135,13 +135,13 @@ list of (
 	$instanceid = $studentid;
 
 	$assignments = array(
-						array(
-							'roleid' => $roleid,
-							'userid' => $userid,
-							'contextlevel' => $contextlevel,
-							'instanceid' => $instanceid,
-						)
-					);
+		array(
+			'roleid' => $roleid,
+			'userid' => $userid,
+			'contextlevel' => $contextlevel,
+			'instanceid' => $instanceid,
+		)
+	);
 
 	return array($assignments);
 }

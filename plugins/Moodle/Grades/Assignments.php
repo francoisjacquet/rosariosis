@@ -38,12 +38,12 @@ list of (
 	$format = 1;
 
 	//gather the Moodle course ID
-	$courseid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".UserCoursePeriod()."' AND \"column\"='course_period_id'" );
-	if (count($courseid))
-	{
-		$courseid = (int)$courseid[1]['MOODLE_ID'];
-	}
-	else
+	$courseid = (int) DBGetOne( "SELECT moodle_id
+		FROM moodlexrosario
+		WHERE rosario_id='".UserCoursePeriod()."'
+		AND \"column\"='course_period_id'" );
+
+	if (empty($courseid))
 	{
 		return null;
 	}
@@ -147,16 +147,16 @@ list of (
 	if (!empty($id))
 		$assignment_id = $id;
 
-	$eventid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$assignment_id."' AND \"column\"='assignment_id'" );
+	$eventid = (int) DBGetOne( "SELECT moodle_id
+		FROM moodlexrosario
+		WHERE rosario_id='".$assignment_id."'
+		AND \"column\"='assignment_id'" );
 
-	if (count($eventid))
-	{
-		$eventid = (int)$eventid[1]['MOODLE_ID'];
-	}
-	else
+	if (empty($eventid))
 	{
 		return null;
 	}
+
 	$repeat = 0;
 
 	$events = array(

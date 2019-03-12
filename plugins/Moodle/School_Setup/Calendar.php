@@ -139,12 +139,12 @@ list of (
 */
 
 	//gather the Moodle Event ID
-	$eventid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_REQUEST['event_id']."' AND \"column\"='calendar_event_id'" );
-	if (count($eventid))
-	{
-		$eventid = (int)$eventid[1]['MOODLE_ID'];
-	}
-	else
+	$eventid = (int) DBGetOne( "SELECT moodle_id
+		FROM moodlexrosario
+		WHERE rosario_id='".$_REQUEST['event_id']."'
+		AND \"column\"='calendar_event_id'" );
+
+	if (empty($eventid))
 	{
 		return null;
 	}

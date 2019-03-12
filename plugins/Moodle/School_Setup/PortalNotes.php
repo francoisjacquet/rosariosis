@@ -22,12 +22,12 @@ list of (
 */
 
 	//gather the Moodle user ID
-	$userid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_SESSION['STAFF_ID']."' AND \"column\"='staff_id'" );
-	if (count($userid))
-	{
-		$userid = (int)$userid[1]['MOODLE_ID'];
-	}
-	else
+	$userid = (int) DBGetOne( "SELECT moodle_id
+		FROM moodlexrosario
+		WHERE rosario_id='".$_SESSION['STAFF_ID']."'
+		AND \"column\"='staff_id'" );
+
+	if (empty($userid))
 	{
 		return null;
 	}
@@ -97,12 +97,12 @@ function core_notes_delete_notes_object()
 */
 
 	//gather the Moodle note ID
-	$noteid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_REQUEST['id']."' AND \"column\"='portal_note_id'" );
-	if (count($noteid))
-	{
-		$noteid = (int)$noteid[1]['MOODLE_ID'];
-	}
-	else
+	$noteid = (int) DBGetOne( "SELECT moodle_id
+		FROM moodlexrosario
+		WHERE rosario_id='".$_REQUEST['id']."'
+		AND \"column\"='portal_note_id'" );
+
+	if (empty($noteid))
 	{
 		return null;
 	}
@@ -169,12 +169,12 @@ list of (
 */
 	//gather the Moodle note ID
 	$rosario_id = $id;
-	$moodle_id = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$rosario_id."' AND \"column\"='portal_note_id'" );
-	if (count($moodle_id))
-	{
-		$moodle_id = (int)$moodle_id[1]['MOODLE_ID'];
-	}
-	else
+	$moodle_id = (int) DBGetOne( "SELECT moodle_id
+		FROM moodlexrosario
+		WHERE rosario_id='".$rosario_id."'
+		AND \"column\"='portal_note_id'" );
+
+	if (empty($moodle_id))
 	{
 		return null;
 	}

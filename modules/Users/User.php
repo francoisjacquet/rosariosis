@@ -564,8 +564,10 @@ if ( ( UserStaffID()
 	if (basename($_SERVER['PHP_SELF'])=='index.php')
 		$can_use_RET['Users/User.php&category_id=1'] = true;
 
-	$profile = DBGet( "SELECT PROFILE FROM STAFF WHERE STAFF_ID='".UserStaffID()."'" );
-	$profile = $profile[1]['PROFILE'];
+	$profile = DBGetOne( "SELECT PROFILE
+		FROM STAFF WHERE
+		STAFF_ID='".UserStaffID()."'" );
+
 	$categories_RET = DBGet( "SELECT ID,TITLE,INCLUDE FROM STAFF_FIELD_CATEGORIES WHERE ".($profile?mb_strtoupper($profile).'=\'Y\'':'ID=\'1\'')." ORDER BY SORT_ORDER,TITLE" );
 
 	foreach ( (array) $categories_RET as $category)

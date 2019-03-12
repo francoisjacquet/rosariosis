@@ -389,7 +389,7 @@ if ( UserStaffID()
 	}
 	else
 	{
-		$profile_title = DBGet( "SELECT TITLE
+		$profile_title = DBGetOne( "SELECT TITLE
 		FROM USER_PROFILES
 		WHERE ID='" . $staff_RET[1]['PROFILE_ID'] . "'" );
 
@@ -398,7 +398,7 @@ if ( UserStaffID()
 		$warning[] = sprintf(
 			_( '%s is assigned to the profile %s.' ),
 			$staff_RET[1]['FULL_NAME'],
-			'"' . _( $profile_title[1]['TITLE'] ) . '"'
+			'"' . _( $profile_title ) . '"'
 		);
 
 		$warning[] = sprintf( _( 'To assign permissions to this user, either change the permissions for this profile using the %s setup or change this user to a user with custom permissions by using %s.' ), ( AllowUse( 'Users/Profiles.php' ) ? '<a href="Modules.php?modname=Users/Profiles.php">' : '' ) . _( 'Profiles' ) . ( AllowUse( 'Users/Profiles.php' ) ? '</a>' : '' ), ( AllowUse( 'Users/User.php' ) ? '<a href="Modules.php?modname=Users/User.php">' : '' ) . _( 'General Info' ) . ( AllowUse( 'Users/User.php' ) ? '</a>' : '' ) );

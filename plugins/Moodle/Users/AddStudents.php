@@ -23,23 +23,23 @@ list of (
 )*/
 
 	//gather the Moodle user ID
-	$userid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".UserStaffID()."' AND \"column\"='staff_id'" );
-	if (count($userid))
-	{
-		$userid = (int)$userid[1]['MOODLE_ID'];
-	}
-	else
+	$userid = (int) DBGetOne( "SELECT moodle_id
+		FROM moodlexrosario
+		WHERE rosario_id='".UserStaffID()."'
+		AND \"column\"='staff_id'" );
+
+	if (empty($userid))
 	{
 		return null;
 	}
 
 	//gather the Moodle student ID
-	$studentid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$student_id."' AND \"column\"='student_id'" );
-	if (count($studentid))
-	{
-		$studentid = (int)$studentid[1]['MOODLE_ID'];
-	}
-	else
+	$studentid = (int) DBGetOne( "SELECT moodle_id
+		FROM moodlexrosario
+		WHERE rosario_id='".$student_id."'
+		AND \"column\"='student_id'" );
+
+	if (empty($studentid))
 	{
 		return null;
 	}
@@ -88,23 +88,23 @@ list of (
 	}
 )*/
 	//gather the Moodle user ID
-	$userid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".UserStaffID()."' AND \"column\"='staff_id'" );
-	if (count($userid))
-	{
-		$userid = (int)$userid[1]['MOODLE_ID'];
-	}
-	else
+	$userid = (int) DBGetOne( "SELECT moodle_id
+		FROM moodlexrosario
+		WHERE rosario_id='".UserStaffID()."'
+		AND \"column\"='staff_id'" );
+
+	if (empty($userid))
 	{
 		return null;
 	}
 
 	//gather the Moodle student ID
-	$studentid = DBGet( "SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_REQUEST['student_id_remove']."' AND \"column\"='student_id'" );
-	if (count($studentid))
-	{
-		$studentid = (int)$studentid[1]['MOODLE_ID'];
-	}
-	else
+	$studentid = (int) DBGetOne( "SELECT moodle_id
+		FROM moodlexrosario
+		WHERE rosario_id='".$_REQUEST['student_id_remove']."'
+		AND \"column\"='student_id'" );
+
+	if (empty($studentid))
 	{
 		return null;
 	}
