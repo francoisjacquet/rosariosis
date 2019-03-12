@@ -46,6 +46,24 @@ function GetMP( $mp_id, $column = 'TITLE' )
 
 
 /**
+ * Get Full Year MP ID
+ *
+ * @since 4.5
+ *
+ * @return null or FY MP ID.
+ */
+function GetFullYearMP()
+{
+	return DBGetOne( "SELECT MARKING_PERIOD_ID
+		FROM SCHOOL_MARKING_PERIODS
+		WHERE MP='FY'
+		AND SCHOOL_ID='" . UserSchool() . "'
+		AND SYEAR='" . UserSyear() . "'
+		ORDER BY SORT_ORDER" );
+}
+
+
+/**
  * Get All Marking Periods
  *
  * Returns FY,[SEM,...],[QTR,...],[PRO,...] IDs.
@@ -63,12 +81,7 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 
 	if ( $marking_period_id == 0 )
 	{
-		// There should be exactly one FY marking period.
-		$marking_period_id = DBGetOne( "SELECT MARKING_PERIOD_ID
-			FROM SCHOOL_MARKING_PERIODS
-			WHERE MP='FY'
-			AND SYEAR='" . UserSyear() . "'
-			AND SCHOOL_ID='" . UserSchool() . "'" );
+		$marking_period_id = GetFullYearMP();
 
 		$mp = 'FY';
 	}
@@ -82,12 +95,7 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 	{
 		$error_no_qtr = array( _( 'No quarters found' ) );
 
-		// There should be exactly one FY marking period.
-		$fy = DBGetOne( "SELECT MARKING_PERIOD_ID
-			FROM SCHOOL_MARKING_PERIODS
-			WHERE MP='FY'
-			AND SYEAR='" . UserSyear() . "'
-			AND SCHOOL_ID='" . UserSchool() . "'" );
+		$fy = GetFullYearMP();
 
 		$sem_SQL = "SELECT MARKING_PERIOD_ID
 			FROM SCHOOL_MARKING_PERIODS s
