@@ -31,12 +31,18 @@ $eligibility_config = ProgramConfig( 'eligibility' );
 
 foreach ( (array) $eligibility_config as $value )
 {
-	${
-		$value[1]['TITLE']}
-	= $value[1]['VALUE'];
+	${$value[1]['TITLE']} = $value[1]['VALUE'];
 }
 
-$days = array( _( 'Sunday' ), _( 'Monday' ), _( 'Tuesday' ), _( 'Wednesday' ), _( 'Thursday' ), _( 'Friday' ), _( 'Saturday' ) );
+$days = array(
+	_( 'Sunday' ),
+	_( 'Monday' ),
+	_( 'Tuesday' ),
+	_( 'Wednesday' ),
+	_( 'Thursday' ),
+	_( 'Friday' ),
+	_( 'Saturday' ),
+);
 
 for ( $i = 0; $i < 7; $i++ )
 {
