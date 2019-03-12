@@ -67,11 +67,9 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 
 	if ( isset( $_FILES['submission_file'] ) )
 	{
-		$student_name_RET = DBGet( "SELECT " . DisplayNameSQL() . " AS NAME
+		$student_name = DBGetOne( "SELECT " . DisplayNameSQL() . " AS NAME
 			FROM STUDENTS
 			WHERE STUDENT_ID='" . UserStudentID() . "'" );
-
-		$student_name = $student_name_RET[1]['NAME'];
 
 		// Filename = [course_title]_[assignment_ID]_[student_name]_[timestamp].ext.
 		$file_name_no_ext = no_accents( $assignment['COURSE_TITLE'] . '_' . $assignment_id . '_' .

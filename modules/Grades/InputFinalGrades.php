@@ -486,11 +486,9 @@ if ( $_REQUEST['values']
 	$completed = true;
 
 	//FJ add precision to year weighted GPA if not year course period.
-	$course_period_mp = DBGet( "SELECT MP
+	$course_period_mp = DBGetOne( "SELECT MP
 		FROM COURSE_PERIODS
 		WHERE COURSE_PERIOD_ID='" . $course_period_id . "'" );
-
-	$course_period_mp = $course_period_mp[1]['MP'];
 
 	foreach ( (array) $_REQUEST['values'] as $student_id => $columns )
 	{

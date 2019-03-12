@@ -82,11 +82,9 @@ if ( UserStudentID() )
 					$sql = 'INSERT INTO STUDENT_REPORT_CARD_GRADES ';
 
 					// FJ fix bug SQL SYEAR=NULL.
-					$syear = DBGet( "SELECT SYEAR
+					$syear = DBGetOne( "SELECT SYEAR
 						FROM MARKING_PERIODS
 						WHERE MARKING_PERIOD_ID='" . $mp_id . "'" );
-
-					$syear = $syear[1]['SYEAR'];
 
 					//$fields = 'ID, SCHOOL_ID, STUDENT_ID, MARKING_PERIOD_ID, ';
 					$fields = 'ID,SCHOOL_ID,STUDENT_ID,MARKING_PERIOD_ID,SYEAR,';

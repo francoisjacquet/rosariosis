@@ -23,11 +23,10 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 			if ( $drop_date )
 			{
-				$course_mp = DBGet( "SELECT MARKING_PERIOD_ID
+				$course_mp = DBGetOne( "SELECT MARKING_PERIOD_ID
 					FROM COURSE_PERIODS
 					WHERE COURSE_PERIOD_ID='" . $_SESSION['MassDrops.php']['course_period_id'] . "'" );
 
-				$course_mp = $course_mp[1]['MARKING_PERIOD_ID'];
 				$course_mp_table = GetMP( $course_mp, 'MP' );
 
 				if ( $course_mp_table == 'FY' || $course_mp == $_REQUEST['marking_period_id'] || mb_strpos( GetChildrenMP( $course_mp_table, $course_mp ), "'" . $_REQUEST['marking_period_id'] . "'" ) !== false )
@@ -167,17 +166,13 @@ if ( $_REQUEST['modfunc'] != 'choose_course' )
 
 		if ( $_SESSION['MassDrops.php'] )
 		{
-			$course_title = DBGet( "SELECT TITLE
+			$course_title = DBGetOne( "SELECT TITLE
 				FROM COURSES
 				WHERE COURSE_ID='" . $_SESSION['MassDrops.php']['course_id'] . "'" );
 
-			$course_title = $course_title[1]['TITLE'];
-
-			$period_title = DBGet( "SELECT TITLE
+			$period_title = DBGetOne( "SELECT TITLE
 				FROM COURSE_PERIODS
 				WHERE COURSE_PERIOD_ID='" . $_SESSION['MassDrops.php']['course_period_id'] . "'" );
-
-			$period_title = $period_title[1]['TITLE'];
 
 			echo $course_title . '<br />' . $period_title;
 		}
@@ -252,18 +247,15 @@ if ( $_REQUEST['modfunc'] === 'choose_course' )
 		$_SESSION['MassDrops.php']['course_id'] = isset( $_REQUEST['course_id'] ) ? $_REQUEST['course_id'] : null;
 		$_SESSION['MassDrops.php']['course_period_id'] = isset( $_REQUEST['course_period_id'] ) ? $_REQUEST['course_period_id'] : null;
 
-		$course_title = DBGet( "SELECT TITLE
+		$course_title = DBGetOne( "SELECT TITLE
 			FROM COURSES
 			WHERE COURSE_ID='" . $_SESSION['MassDrops.php']['course_id'] . "'" );
 
-		$course_title = $course_title[1]['TITLE'];
-
-		$period_title = DBGet( "SELECT TITLE
+		$period_title = DBGetOne( "SELECT TITLE
 			FROM COURSE_PERIODS
 			WHERE COURSE_PERIOD_ID='" . $_SESSION['MassDrops.php']['course_period_id'] . "'" );
 
-		$period_title = $period_title[1]['TITLE'];
-
-		echo '<script>opener.document.getElementById("course_div").innerHTML = ' . json_encode( $course_title . '<br />' . $period_title ) . '; window.close();</script>';
+		echo '<script>opener.document.getElementById("course_div").innerHTML = ' .
+			json_encode( $course_title . '<br />' . $period_title ) . '; window.close();</script>';
 	}
 }

@@ -18,15 +18,14 @@ if ( isset( $_REQUEST['day_start'] )
 
 if ( empty( $start_date ) )
 {
-	$min_date = DBGet( "SELECT min(SCHOOL_DATE) AS MIN_DATE
+	$min_date = DBGetOne( "SELECT min(SCHOOL_DATE) AS MIN_DATE
 		FROM ATTENDANCE_CALENDAR
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'" );
 
-	if ( $min_date
-		&& $min_date[1]['MIN_DATE'] )
+	if ( $min_date )
 	{
-		$start_date = $min_date[1]['MIN_DATE'];
+		$start_date = $min_date;
 	}
 	else
 		$start_date = date( 'Y-m' ) . '-01';

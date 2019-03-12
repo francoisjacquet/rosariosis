@@ -74,12 +74,10 @@ $period_select .= '</select>';
 
 echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
 
-$begin_year = DBGet( "SELECT min(date_part('epoch',SCHOOL_DATE)) as SCHOOL_DATE
+$begin_year = DBGetOne( "SELECT min(date_part('epoch',SCHOOL_DATE)) AS SCHOOL_DATE
 	FROM ATTENDANCE_CALENDAR
 	WHERE SCHOOL_ID='" . UserSchool() . "'
 	AND SYEAR='" . UserSyear() . "'" );
-
-$begin_year = $begin_year[1]['SCHOOL_DATE'];
 
 if ( $start
 	&& $begin_year )

@@ -102,11 +102,9 @@ if ( $_REQUEST['modfunc'] === 'add' )
 	{
 		$course_id = $_REQUEST['course'];
 
-		$subject_id = DBGet( "SELECT SUBJECT_ID
+		$subject_id = DBGetOne( "SELECT SUBJECT_ID
 			FROM COURSES
 			WHERE COURSE_ID='" . $course_id . "'" );
-
-		$subject_id = $subject_id[1]['SUBJECT_ID'];
 
 		DBQuery( "INSERT INTO SCHEDULE_REQUESTS (REQUEST_ID,SYEAR,SCHOOL_ID,STUDENT_ID,SUBJECT_ID,COURSE_ID)
 			SELECT " . db_seq_nextval( 'SCHEDULE_REQUESTS_SEQ' ) . ",'" .

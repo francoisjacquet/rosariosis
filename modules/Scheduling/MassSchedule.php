@@ -213,17 +213,13 @@ if ( $_REQUEST['modfunc'] === 'choose_course' )
 	}
 	else
 	{
-		$course_title_RET = DBGet( "SELECT TITLE
+		$course_title = DBGetOne( "SELECT TITLE
 			FROM COURSES
 			WHERE COURSE_ID='" . $_REQUEST['course_id'] . "'" );
 
-		$course_title = $course_title_RET[1]['TITLE'];
-
-		$period_title_RET = DBGet( "SELECT TITLE
+		$period_title = DBGetOne( "SELECT TITLE
 			FROM COURSE_PERIODS
 			WHERE COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'" );
-
-		$period_title = $period_title_RET[1]['TITLE'];
 
 		// Add course period if not already chosen...
 		if ( ! isset( $_SESSION['MassSchedule.php'][ $_REQUEST['course_period_id'] ] ) )

@@ -260,16 +260,31 @@ if ( ! $_REQUEST['modfunc'] )
 
 		if ( User( 'PROFILE' ) == 'admin' || User( 'PROFILE' ) == 'teacher' )
 		{
-			$LO_columns = array( 'DESCRIPTION' => _( 'Item Description' ), 'SHORT_NAME' => _( 'Short Name' ), 'ICON' => _( 'Icon' ), 'SORT_ORDER' => _( 'Sort Order' ), 'PRICE' => _( 'Student Price' ), 'PRICE_REDUCED' => _( 'Reduced Price' ), 'PRICE_FREE' => _( 'Free Price' ), 'PRICE_STAFF' => _( 'Staff Price' ) );
+			$LO_columns = array(
+				'DESCRIPTION' => _( 'Item Description' ),
+				'SHORT_NAME' => _( 'Short Name' ),
+				'ICON' => _( 'Icon' ),
+				'SORT_ORDER' => _( 'Sort Order' ),
+				'PRICE' => _( 'Student Price' ),
+				'PRICE_REDUCED' => _( 'Reduced Price' ),
+				'PRICE_FREE' => _( 'Free Price' ),
+				'PRICE_STAFF' => _( 'Staff Price' ),
+			);
 		}
 		else
 		{
-			$LO_columns = array( 'DESCRIPTION' => _( 'Item Description' ), 'SHORT_NAME' => _( 'Short Name' ), 'ICON' => _( 'Icon' ), 'PRICE' => _( 'Student Price' ) );
+			$LO_columns = array(
+				'DESCRIPTION' => _( 'Item Description' ),
+				'SHORT_NAME' => _( 'Short Name' ),
+				'ICON' => _( 'Icon' ),
+				'PRICE' => _( 'Student Price' ),
+			);
 
 			if ( UserStudentID() )
 			{
-				$discount = DBGet( 'SELECT DISCOUNT FROM FOOD_SERVICE_STUDENT_ACCOUNTS WHERE STUDENT_ID=\'' . UserStudentID() . '\'' );
-				$discount = $discount[1]['DISCOUNT'];
+				$discount = DBGetOne( "SELECT DISCOUNT
+					FROM FOOD_SERVICE_STUDENT_ACCOUNTS
+					WHERE STUDENT_ID='" . UserStudentID() . "'" );
 
 				if ( $discount == 'Reduced' )
 				{

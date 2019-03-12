@@ -26,11 +26,9 @@ if ( ! UserCoursePeriod() )
 	echo ErrorMessage( array( _( 'No courses assigned to teacher.' ) ), 'fatal' );
 }
 
-$course_id = DBGet( "SELECT COURSE_ID
+$course_id = DBGetOne( "SELECT COURSE_ID
 	FROM COURSE_PERIODS
 	WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" );
-
-$course_id = $course_id[1]['COURSE_ID'];
 
 $_ROSARIO['allow_edit'] = true;
 //unset($_SESSION['_REQUEST_vars']['assignment_type_id']);
@@ -294,7 +292,7 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 			$prompt_title = _( 'Assignment as well as the associated Grades' );
 		}
 
-		$assignment_file_RET = DBGet( "SELECT FILE
+		$assignment_file = DBGetOne( "SELECT FILE
 			FROM GRADEBOOK_ASSIGNMENTS
 			WHERE ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'" );
 
@@ -358,11 +356,11 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 			DBQuery( "DELETE FROM GRADEBOOK_GRADES
 				WHERE ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'" );
 
-			if ( ! empty( $assignment_file_RET[1]['FILE'] )
-				&& file_exists( $assignment_file_RET[1]['FILE'] ) )
+			if ( ! empty( $assignment_file )
+				&& file_exists( $assignment_file ) )
 			{
 				// Delete File Attached.
-				unlink( $assignment_file_RET[1]['FILE'] );
+				unlink( $assignment_file );
 			}
 
 			// Hook.

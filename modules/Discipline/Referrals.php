@@ -170,12 +170,12 @@ if ( ! $_REQUEST['modfunc']
 
 		echo '<table class="width-100p">';
 
-		$student_name_RET = DBGet( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
+		$student_full_name = DBGetOne( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
 			FROM STUDENTS
 			WHERE STUDENT_ID='" . $RET['STUDENT_ID'] . "'" );
 
 		echo '<tr><td>' . NoInput(
-			MakeStudentPhotoTipMessage( $RET['STUDENT_ID'], $student_name_RET[1]['FULL_NAME'] ),
+			MakeStudentPhotoTipMessage( $RET['STUDENT_ID'], $student_full_name ),
 			_( 'Student' )
 		) . '</td></tr>';
 

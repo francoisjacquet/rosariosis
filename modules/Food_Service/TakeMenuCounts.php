@@ -150,13 +150,18 @@ DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)).$date_note,Sub
 
 echo ErrorMessage( $note, 'note' );
 
-$meal_RET = DBGet( 'SELECT DESCRIPTION FROM CALENDAR_EVENTS WHERE SYEAR='.UserSyear().' AND SCHOOL_ID='.UserSchool().' AND SCHOOL_DATE=\''.$date.'\' AND TITLE=\''.$menus_RET[$_REQUEST['menu_id']][1]['TITLE'].'\'' );
+$meal_description = DBGetOne( "SELECT DESCRIPTION
+	FROM CALENDAR_EVENTS
+	WHERE SYEAR='" . UserSyear() . "'
+	AND SCHOOL_ID='" . UserSchool() . "'
+	AND SCHOOL_DATE='" . $date . "'
+	AND TITLE='" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "'" );
 
-if ( $meal_RET)
+if ( $meal_description )
 {
 	echo '<table class="width-100p">';
 	echo '<tr><td class="center">';
-	echo '<b>Today\'s '.$menus_RET[$_REQUEST['menu_id']][1]['TITLE'].':</b> '.$meal_RET[1]['DESCRIPTION'];
+	echo '<b>Today\'s '.$menus_RET[$_REQUEST['menu_id']][1]['TITLE'].':</b> '.$meal_description;
 	echo '</td></tr></table><hr />';
 }
 

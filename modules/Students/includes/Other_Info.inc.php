@@ -1,7 +1,7 @@
 <?php
 require_once 'ProgramFunctions/StudentsUsersInfo.fnc.php';
 
-$columns_RET = DBGet( "SELECT COLUMNS
+$columns = DBGetOne( "SELECT COLUMNS
 	FROM STUDENT_FIELD_CATEGORIES
 	WHERE ID='" . $_REQUEST['category_id'] . "'" );
 
@@ -38,7 +38,7 @@ $i = 1;
  *
  * @var int
  */
-$per_row = $columns_RET[1]['COLUMNS'] ? (int)$columns_RET[1]['COLUMNS'] : 3;
+$per_row = $columns ? (int) $columns : 3;
 
 foreach ( (array) $fields_RET as $field )
 {

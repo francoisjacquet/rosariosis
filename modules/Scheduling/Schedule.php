@@ -22,30 +22,25 @@ if ( isset( $_REQUEST['month_date'] )
 // default date
 else
 {
-	$min_date = DBGet( "SELECT min(SCHOOL_DATE) AS MIN_DATE
+	$min_date = DBGetOne( "SELECT min(SCHOOL_DATE) AS MIN_DATE
 		FROM ATTENDANCE_CALENDAR
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'" );
 
-	// if today < first attendance day
-	if ( count( $min_date )
-		&& DBDate() < $min_date[1]['MIN_DATE'] )
-	{
-		$date = $min_date[1]['MIN_DATE'];
+	$date = DBDate();
 
-		$_REQUEST['day_date'] = date( 'd', strtotime( $date ) );
-		$_REQUEST['month_date'] = date( 'm', strtotime( $date ) );
-		$_REQUEST['year_date'] = date( 'Y', strtotime( $date ) );
-	}
-	// today
-	else
+	// If today < first attendance day.
+	if ( $min_date
+		&& $date < $min_date )
 	{
-		$_REQUEST['day_date'] = date( 'd' );
-		$_REQUEST['month_date'] = date( 'm' );
-		$_REQUEST['year_date'] = date( 'Y' );
-
-		$date = $_REQUEST['year_date'] . '-' . $_REQUEST['month_date'] . '-' . $_REQUEST['day_date'];
+		$date = $min_date;
 	}
+
+	$date_exploded = ExplodeDate( $date );
+
+	$_REQUEST['day_date'] = $date_exploded['day'];
+	$_REQUEST['month_date'] = $date_exploded['month'];
+	$_REQUEST['year_date'] = $date_exploded['year'];
 }
 
 $_SESSION['_REQUEST_vars']['modfunc'] = false;

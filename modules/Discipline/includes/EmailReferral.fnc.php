@@ -45,12 +45,12 @@ function EmailReferral( $referral_id, $emails )
 	{
 		$referral = $referral_RET[1];
 
-		$student_RET = DBGet( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
+		$student_full_name = DBGetOne( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
 			FROM STUDENTS
 			WHERE STUDENT_ID='" . $referral['STUDENT_ID'] . "'" );
 
 
-		$student = _( 'Student' ) . ': ' . $student_RET[1]['FULL_NAME'] . ' (' . $referral['STUDENT_ID'] . ')';
+		$student = _( 'Student' ) . ': ' . $student_full_name . ' (' . $referral['STUDENT_ID'] . ')';
 
 		$date = _( 'Date' ) . ': ' . strip_tags( ProperDate( $referral['ENTRY_DATE'] ) );
 

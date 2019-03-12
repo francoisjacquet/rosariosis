@@ -11,33 +11,49 @@ if ( $_REQUEST['modfunc'] === 'update' )
 	{
 		if ( ! empty( $_REQUEST['food_service']['BARCODE'] ) )
 		{
-			$RET = DBGet( "SELECT ACCOUNT_ID FROM FOOD_SERVICE_STUDENT_ACCOUNTS WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."' AND STUDENT_ID!='".UserStudentID()."'" );
-			if ( $RET)
+			$question = _( 'Are you sure you want to assign that barcode?' );
+
+			$account_id = DBGetOne( "SELECT ACCOUNT_ID
+				FROM FOOD_SERVICE_STUDENT_ACCOUNTS
+				WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."'
+				AND STUDENT_ID!='".UserStudentID()."'" );
+
+			if ( $account_id )
 			{
-				$student_RET = DBGet( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME
+				$student_full_name = DBGetOne( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME
 					FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa
 					WHERE s.STUDENT_ID=fssa.STUDENT_ID
-					AND fssa.ACCOUNT_ID='" . $RET[1]['ACCOUNT_ID'] . "'" );
+					AND fssa.ACCOUNT_ID='" . $account_id . "'" );
 
-				$question = _("Are you sure you want to assign that barcode?");
-				$message = sprintf(_("That barcode is already assigned to Student <b>%s</b>."),$student_RET[1]['FULL_NAME']).' '._("Hit OK to reassign it to the current student or Cancel to cancel all changes.");
+
+				$message = sprintf(
+					_("That barcode is already assigned to Student <b>%s</b>."),
+					$student_full_name
+				).' '.
+				_("Hit OK to reassign it to the current student or Cancel to cancel all changes.");
 			}
 			else
 			{
-				$RET = DBGet( "SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."'" );
-				if ( $RET)
-				{
-					$staff_RET = DBGet( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
-						FROM STAFF
-						WHERE STAFF_ID='" . $RET[1]['STAFF_ID'] . "'" );
+				$account_id = DBGetOne( "SELECT STAFF_ID
+					FROM FOOD_SERVICE_STAFF_ACCOUNTS
+					WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."'" );
 
-					$question = _("Are you sure you want to assign that barcode?");
-					$message = sprintf(_("That barcode is already assigned to User <b>%s</b>."),$staff_RET[1]['FULL_NAME']).' '._("Hit OK to reassign it to the current student or Cancel to cancel all changes.");
+				if ( $account_id)
+				{
+					$staff_full_name = DBGetOne( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
+						FROM STAFF
+						WHERE STAFF_ID='" . $account_id . "'" );
+
+					$message = sprintf(
+						_("That barcode is already assigned to User <b>%s</b>."),
+						$staff_full_name
+					).' '.
+					_("Hit OK to reassign it to the current student or Cancel to cancel all changes.");
 				}
 			}
 		}
 
-		if ( ! $RET
+		if ( ! $account_id
 			|| Prompt( 'Confirm', $question, $message ) )
 		{
 			if ( ! isset( $_REQUEST['food_service']['ACCOUNT_ID'] )

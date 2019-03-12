@@ -120,9 +120,10 @@ if ( $_REQUEST['modfunc'] === 'update' )
 			// Unset modfunc & redirect URL.
 			RedirectURL( 'modfunc' );
 
-			//set current school to one of the remaining schools
-			$first_remaining_school = DBGet( "SELECT ID FROM SCHOOLS WHERE SYEAR = '" . UserSyear() . "' LIMIT 1" );
-			$_SESSION['UserSchool'] = $first_remaining_school[1]['ID'];
+			// Set current school to one of the remaining schools.
+			$_SESSION['UserSchool'] = DBGetOne( "SELECT ID
+				FROM SCHOOLS
+				WHERE SYEAR = '" . UserSyear() . "' LIMIT 1" );
 
 			UpdateSchoolArray( UserSchool() );
 		}

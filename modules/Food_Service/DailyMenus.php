@@ -19,20 +19,35 @@ while (!checkdate($_REQUEST['month'],$last,$_REQUEST['year']))
 $time = mktime(0,0,0,$_REQUEST['month'],1,$_REQUEST['year']);
 $time_last = mktime(0,0,0,$_REQUEST['month'],$last,$_REQUEST['year']);
 
-// use the dafault calendar
-$default_RET = DBGet( "SELECT CALENDAR_ID FROM ATTENDANCE_CALENDARS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND DEFAULT_CALENDAR='Y'" );
-if (count($default_RET))
-	$calendar_id = $default_RET[1]['CALENDAR_ID'];
+// Use default calendar.
+$default_calendar_id = DBGetOne( "SELECT CALENDAR_ID
+	FROM ATTENDANCE_CALENDARS
+	WHERE SYEAR='" . UserSyear() . "'
+	AND SCHOOL_ID='" . UserSchool() . "'
+	AND DEFAULT_CALENDAR='Y'" );
+
+if ( $default_calendar_id )
+{
+	$calendar_id = $default_calendar_id;
+}
 else
 {
-	$calendars_RET = DBGet( "SELECT CALENDAR_ID FROM ATTENDANCE_CALENDARS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'" );
-	if (count($calendars_RET))
-		$calendar_id = $calendars_RET[1]['CALENDAR_ID'];
-	else
-		ErrorMessage(array(_('There are no calendars yet setup.')),'fatal');
+	$calendar_id = DBGetOne( "SELECT CALENDAR_ID
+		FROM ATTENDANCE_CALENDARS
+		WHERE SYEAR='" . UserSyear() . "'
+		AND SCHOOL_ID='" . UserSchool() . "'" );
+
+	if ( ! $calendar_id )
+	{
+		ErrorMessage( array( _( 'There are no calendars yet setup.' ) ), 'fatal' );
+	}
 }
 
-$menus_RET = DBGet( 'SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER',array(),array('MENU_ID'));
+$menus_RET = DBGet( "SELECT MENU_ID,TITLE
+	FROM FOOD_SERVICE_MENUS
+	WHERE SCHOOL_ID='" . UserSchool() . "'
+	ORDER BY SORT_ORDER", array(), array( 'MENU_ID' ) );
+
 if ( empty( $_REQUEST['menu_id'] ) )
 	if ( ! $_SESSION['FSA_menu_id'])
 		if (count($menus_RET))

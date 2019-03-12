@@ -195,11 +195,9 @@ elseif ( !is_numeric( $_REQUEST['assignment_id'] ) )
 // Assignment
 elseif ( ! empty( $_REQUEST['assignment_id'] ) )
 {
-	$total_points = DBGet( "SELECT POINTS
+	$total_points = DBGetOne( "SELECT POINTS
 		FROM GRADEBOOK_ASSIGNMENTS
 		WHERE ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'" );
-
-	$total_points = $total_points[1]['POINTS'];
 
 	$current_RET = DBGet( "SELECT STUDENT_ID,POINTS,COMMENT,ASSIGNMENT_ID
 		FROM GRADEBOOK_GRADES

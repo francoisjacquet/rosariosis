@@ -168,12 +168,12 @@ if (UserStudentID() && $_REQUEST['student_id'])
 
 	echo '<table class="width-100p">';
 
-	$student_name_RET = DBGet( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
+	$student_full_name = DBGetOne( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
 		FROM STUDENTS
 		WHERE STUDENT_ID='" . UserStudentID() . "'" );
 
 	echo '<tr><td>' . NoInput(
-		MakeStudentPhotoTipMessage( UserStudentID(), $student_name_RET[1]['FULL_NAME'] ),
+		MakeStudentPhotoTipMessage( UserStudentID(), $student_full_name ),
 		_( 'Student' )
 	) . '</td></tr>';
 

@@ -50,14 +50,14 @@ DrawHeader( '<b>' . _( 'Report Timeframe' ) . ': </b>' .
 
 echo '</form>';
 
-$billing_payments = DBGet( "SELECT sum(AMOUNT) AS AMOUNT
+$billing_payments = DBGetOne( "SELECT sum(AMOUNT) AS AMOUNT
 	FROM BILLING_PAYMENTS
 	WHERE SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'
 	AND PAYMENT_DATE BETWEEN '" . $start_date . "'
 	AND '" . $end_date . "'" );
 
-$billing_fees = DBGet( "SELECT sum(f.AMOUNT) AS AMOUNT
+$billing_fees = DBGetOne( "SELECT sum(f.AMOUNT) AS AMOUNT
 	FROM BILLING_FEES f
 	WHERE  f.SYEAR='" . UserSyear() . "'
 	AND f.SCHOOL_ID='" . UserSchool() . "'
@@ -71,13 +71,13 @@ PopTable( 'header', _( 'Totals' ) );
 echo '<table class="cellspacing-5 align-right">';
 
 echo '<tr><td>' . _( 'Payments' ) . ': ' .
-	'</td><td>' . Currency( $billing_payments[1]['AMOUNT'] ) . '</td></tr>';
+	'</td><td>' . Currency( $billing_payments ) . '</td></tr>';
 
 echo '<tr><td>' . _( 'Less' ) . ': ' . _( 'Fees' ) . ': ' .
-	'</td><td>' . Currency( $billing_fees[1]['AMOUNT'] ) . '</td></tr>';
+	'</td><td>' . Currency( $billing_fees ) . '</td></tr>';
 
 echo '<tr><td><b>' . _( 'Total' ) . ': ' . '</b></td>' .
-	'<td><b>' . Currency( ( $billing_payments[1]['AMOUNT'] - $billing_fees[1]['AMOUNT'] ) ) . '</b></td></tr>';
+	'<td><b>' . Currency( ( $billing_payments - $billing_fees ) ) . '</b></td></tr>';
 
 echo '</table>';
 

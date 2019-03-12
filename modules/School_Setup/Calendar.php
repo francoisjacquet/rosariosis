@@ -409,43 +409,44 @@ if ( $_REQUEST['modfunc'] === 'delete_calendar'
 	}
 }
 
-// Set non admin Current Calendar
-if ( User( 'PROFILE' ) !== 'admin' )
+// Set non admin Current Calendar.
+if ( User( 'PROFILE' ) !== 'admin'
+	&& UserCoursePeriod() )
 {
-	$course_RET = DBGet( "SELECT CALENDAR_ID
+	$calendar_id = DBGetOne( "SELECT CALENDAR_ID
 		FROM COURSE_PERIODS
 		WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" );
 
-	if ( isset( $course_RET[1]['CALENDAR_ID'] ) )
+	if ( $calendar_id )
 	{
-		$_REQUEST['calendar_id'] = $course_RET[1]['CALENDAR_ID'];
+		$_REQUEST['calendar_id'] = $calendar_id;
 	}
 }
 
-// Set Current Calendar
+// Set Current Calendar.
 if ( ! isset( $_REQUEST['calendar_id'] )
 	|| intval( $_REQUEST['calendar_id'] ) < 1 )
 {
-	$default_RET = DBGet( "SELECT CALENDAR_ID
+	$default_calendar_id = DBGetOne( "SELECT CALENDAR_ID
 		FROM ATTENDANCE_CALENDARS
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		AND DEFAULT_CALENDAR='Y'" );
 
-	if ( $default_RET )
+	if ( $default_calendar_id )
 	{
-		$_REQUEST['calendar_id'] = $default_RET[1]['CALENDAR_ID'];
+		$_REQUEST['calendar_id'] = $default_calendar_id;
 	}
 	else
 	{
-		$calendars_RET = DBGet( "SELECT CALENDAR_ID
+		$calendar_id = DBGetOne( "SELECT CALENDAR_ID
 			FROM ATTENDANCE_CALENDARS
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'" );
 
-		if ( $calendars_RET )
+		if ( $calendar_id )
 		{
-			$_REQUEST['calendar_id'] = $calendars_RET[1]['CALENDAR_ID'];
+			$_REQUEST['calendar_id'] = $calendar_id;
 		}
 		else
 			$no_calendars_error[] = _( 'There are no calendars setup yet.' );

@@ -77,7 +77,7 @@ if ( ! function_exists( 'DashboardStudentsAdmin' ) )
 
 		$data += $students_gradelevel_data;
 
-		$inactive_students_RET = DBGet( "SELECT
+		$inactive_students = DBGetOne( "SELECT
 		SUM(CASE WHEN CURRENT_DATE<START_DATE OR CURRENT_DATE>END_DATE THEN 1 END) AS STUDENTS_NB
 		FROM STUDENT_ENROLLMENT
 		WHERE SYEAR='" . UserSyear() . "'
@@ -86,7 +86,7 @@ if ( ! function_exists( 'DashboardStudentsAdmin' ) )
 		ORDER BY START_DATE DESC
 		LIMIT 1" );
 
-		$data[_( 'Inactive' )] = $inactive_students_RET[1]['STUDENTS_NB'];
+		$data[_( 'Inactive' )] = $inactive_students;
 
 		return $data;
 	}

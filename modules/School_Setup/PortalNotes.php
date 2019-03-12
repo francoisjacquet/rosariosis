@@ -165,8 +165,16 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	if ( DeletePrompt( _( 'Note' ) ) )
 	{
 		// FJ file attached to portal notes.
-		$file_to_remove = DBGet( "SELECT FILE_ATTACHED FROM PORTAL_NOTES WHERE ID='" . $_REQUEST['id'] . "'" );
-		@unlink($file_to_remove[1]['FILE_ATTACHED']);
+		$file_to_remove = DBGetOne( "SELECT FILE_ATTACHED
+			FROM PORTAL_NOTES
+			WHERE ID='" . $_REQUEST['id'] . "'" );
+
+		if ( $file_to_remove
+			&& file_exists( $file_to_remove ) )
+		{
+			unlink( $file_to_remove );
+		}
+
 		DBQuery("DELETE FROM PORTAL_NOTES WHERE ID='" . $_REQUEST['id'] . "'");
 
 		//hook

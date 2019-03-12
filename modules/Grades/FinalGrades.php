@@ -176,12 +176,12 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				}
 
 				// Optimization: Student Full Name.
-				$student_name_RET = DBGet( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME
+				$student_full_name = DBGetOne( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME
 					FROM STUDENTS s
 					WHERE s.STUDENT_ID='" . $student_id . "'
 					LIMIT 1" );
 
-				$grades_RET[ $i + 1 ]['FULL_NAME'] = $student_name_RET[1]['FULL_NAME'];
+				$grades_RET[ $i + 1 ]['FULL_NAME'] = $student_full_name;
 
 				if ( $name_tipmessage )
 				{

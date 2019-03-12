@@ -2,7 +2,7 @@
 /**
  * Calculate the number of filled seats in a course period
  *
- * used in MassSchedule.php, Schedule.php, Scheduler.php & UnfilledRequests.php
+ * Used in Courses.php, MassSchedule.php, Schedule.php, Scheduler.php & UnfilledRequests.php
  *
  * @since 4.1 Fix SQL error when no MPs
  *
@@ -17,7 +17,7 @@ function calcSeats0( $period, $date = '' )
 
 	$all_mp = GetAllMP( GetMP( $mp, 'MP' ), $mp );
 
-	$seats = DBGet( "SELECT
+	$filled_seats = DBGetOne( "SELECT
 		max((SELECT count(1)
 		FROM SCHEDULE ss JOIN STUDENT_ENROLLMENT sem ON (sem.STUDENT_ID=ss.STUDENT_ID AND sem.SYEAR=ss.SYEAR)
 		WHERE ss.COURSE_PERIOD_ID='" . $period['COURSE_PERIOD_ID'] . "'
@@ -36,5 +36,5 @@ function calcSeats0( $period, $date = '' )
 		) )
 	) . " AND '" . GetMP( $mp, 'END_DATE' ) . "'" );
 
-	return $seats[1]['FILLED_SEATS'];
+	return $filled_seats;
 }

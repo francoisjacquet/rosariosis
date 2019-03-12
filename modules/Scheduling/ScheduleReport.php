@@ -30,7 +30,7 @@ if ( isset( $_REQUEST['subject_id'] ) )
 
 if ( ! empty( $_REQUEST['subject_id'] ) )
 {
-	$subject_RET = DBGet( "SELECT TITLE
+	$subject_title = DBGetOne( "SELECT TITLE
 		FROM COURSE_SUBJECTS
 		WHERE SUBJECT_ID='" . $_REQUEST['subject_id'] . "'" );
 
@@ -40,7 +40,7 @@ if ( ! empty( $_REQUEST['subject_id'] ) )
 		&rsaquo; <a href="Modules.php?modname=' . $_REQUEST['modname'] .
 		'&modfunc=courses&subject_id=' . $_REQUEST['subject_id'] .
 		'&include_child_mps=' . $_REQUEST['include_child_mps'] . '">' .
-		$subject_RET[1]['TITLE'] . '</a>';
+		$subject_title . '</a>';
 
 	if ( ! empty( $_REQUEST['course_id'] ) )
 	{

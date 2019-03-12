@@ -196,14 +196,17 @@ if ( UserStudentID()
 
 	if ( empty( $_REQUEST['print_statements'] ) )
 	{
-		$payments_total = DBGet( "SELECT SUM(p.AMOUNT) AS TOTAL FROM BILLING_PAYMENTS p WHERE p.STUDENT_ID='".UserStudentID()."' AND p.SYEAR='".UserSyear()."'" );
+		$payments_total = DBGetOne( "SELECT SUM(p.AMOUNT) AS TOTAL
+			FROM BILLING_PAYMENTS p
+			WHERE p.STUDENT_ID='".UserStudentID()."'
+			AND p.SYEAR='".UserSyear()."'" );
 
 		$table = '<table class="align-right"><tr><td>'._('Total from Fees').': '.'</td><td>'.Currency($fees_total).'</td></tr>';
 
-		$table .= '<tr><td>'._('Less').': '._('Total from Payments').': '.'</td><td>'.Currency($payments_total[1]['TOTAL']).'</td></tr>';
+		$table .= '<tr><td>'._('Less').': '._('Total from Payments').': '.'</td><td>'.Currency($payments_total).'</td></tr>';
 
 		$table .= '<tr><td>' . _( 'Balance' ) . ': </td>
-			<td><b>' . Currency( ( $fees_total - $payments_total[1]['TOTAL'] ), 'CR' ) .
+			<td><b>' . Currency( ( $fees_total - $payments_total ), 'CR' ) .
 			'</b></td></tr></table>';
 
 		DrawHeader( $table );

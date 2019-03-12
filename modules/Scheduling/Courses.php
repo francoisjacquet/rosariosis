@@ -451,7 +451,10 @@ if ( $_REQUEST['tables']
 
 							foreach ( $other_school_p as $school_p )
 							{
-								$school_p_title = DBGet( "SELECT TITLE FROM SCHOOL_PERIODS WHERE PERIOD_ID='" . $school_p['PERIOD_ID'] . "' AND SCHOOL_ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "'" );
+								$school_p_title = DBGetOne( "SELECT TITLE
+									FROM SCHOOL_PERIODS
+									WHERE PERIOD_ID='" . $school_p['PERIOD_ID'] . "'
+									AND SCHOOL_ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "'" );
 
 								//FJ days display to locale
 								$nb_days = mb_strlen( $school_p['DAYS'] );
@@ -464,11 +467,11 @@ if ( $_REQUEST['tables']
 
 								if ( mb_strlen( $school_p['DAYS'] ) < 5 )
 								{
-									$periods_title .= $school_p_title[1]['TITLE'] . $columns_DAYS_locale . ' - ';
+									$periods_title .= $school_p_title . $columns_DAYS_locale . ' - ';
 								}
 								else
 								{
-									$periods_title .= $school_p_title[1]['TITLE'] . ' - ';
+									$periods_title .= $school_p_title . ' - ';
 								}
 							}
 
@@ -492,7 +495,7 @@ if ( $_REQUEST['tables']
 									$columns_DAYS_locale .= mb_substr( $days_convert[mb_substr( $columns['DAYS'], $i, 1 )], 0, 3 ) . '.';
 								}
 
-								$period = DBGet( "SELECT sp.TITLE
+								$school_period_title = DBGetOne( "SELECT sp.TITLE
 									FROM SCHOOL_PERIODS sp, COURSE_PERIOD_SCHOOL_PERIODS cpsp
 									WHERE sp.PERIOD_ID=cpsp.PERIOD_ID
 									AND cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID='" . $id . "'
@@ -501,11 +504,11 @@ if ( $_REQUEST['tables']
 
 								if ( mb_strlen( $columns['DAYS'] ) < 5 )
 								{
-									$title = $period[1]['TITLE'] . $columns_DAYS_locale . ' - ' . $periods_title . $base_title;
+									$title = $school_period_title . $columns_DAYS_locale . ' - ' . $periods_title . $base_title;
 								}
 								else
 								{
-									$title = $period[1]['TITLE'] . ' - ' . $periods_title . $base_title;
+									$title = $school_period_title . ' - ' . $periods_title . $base_title;
 								}
 							}
 							else
@@ -661,7 +664,7 @@ if ( $_REQUEST['tables']
 								$columns_DAYS_locale .= mb_substr( $days_convert[mb_substr( $columns['DAYS'], $i, 1 )], 0, 3 ) . '.';
 							}
 
-							$period = DBGet( "SELECT TITLE
+							$school_period_title = DBGetOne( "SELECT TITLE
 								FROM SCHOOL_PERIODS
 								WHERE PERIOD_ID='" . $columns['PERIOD_ID'] . "'
 								AND SCHOOL_ID='" . UserSchool() . "'
@@ -669,11 +672,11 @@ if ( $_REQUEST['tables']
 
 							if ( mb_strlen( $columns['DAYS'] ) < 5 )
 							{
-								$title_add = $period[1]['TITLE'] . $columns_DAYS_locale;
+								$title_add = $school_period_title . $columns_DAYS_locale;
 							}
 							else
 							{
-								$title_add = $period[1]['TITLE'];
+								$title_add = $school_period_title;
 							}
 
 							DBQuery( "UPDATE COURSE_PERIODS SET TITLE=COALESCE('" . $title_add . "'||' - '||TITLE) WHERE COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'" );
@@ -1778,24 +1781,32 @@ if ( $_REQUEST['modname'] === 'Scheduling/Courses.php'
 	&& $_REQUEST['modfunc'] === 'choose_course'
 	&& $_REQUEST['course_period_id'] )
 {
-	$course_title = DBGet( "SELECT TITLE
+	$course_title = DBGetOne( "SELECT TITLE
 		FROM COURSE_PERIODS
 		WHERE COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'" );
 
-	$course_title = $course_title[1]['TITLE'] .
-		'<input type="hidden" name="tables[parent_id]" value="' . $_REQUEST['course_period_id'] . '">';
+	$html_to_escape = $course_title .
+		'<input type="hidden" name="tables[parent_id]" value="' . $_REQUEST['course_period_id'] . '" />';
 
 	echo '<script>opener.document.getElementById("' .
 	( $_REQUEST['last_year'] === 'true' ? 'ly_' : '' ) . 'course_div").innerHTML=' .
-	json_encode( $course_title ) . '; window.close();</script>';
+	json_encode( $html_to_escape ) . '; window.close();</script>';
 }
 
 /**
+ * Calculate available seats for course period.
+ *
+ * @uses calcSeats0() to get filled seats.
+ *
  * @param $periods
  * @param $date
+ *
+ * @return string Available seats - filled seats.
  */
 function calcSeats1( &$periods, $date )
 {
+	require_once 'modules/Scheduling/includes/calcSeats0.fnc.php';
+
 	foreach ( (array) $periods as $key => $period )
 	{
 		if ( ! empty( $_REQUEST['include_child_mps'] ) )
@@ -1830,29 +1841,23 @@ function calcSeats1( &$periods, $date )
 
 				if ( $period['AVAILABLE_SEATS'] )
 				{
-					$seats = DBGet( "SELECT
-						max((SELECT count(1)
-						FROM SCHEDULE ss JOIN STUDENT_ENROLLMENT sem ON (sem.STUDENT_ID=ss.STUDENT_ID AND sem.SYEAR=ss.SYEAR)
-						WHERE ss.COURSE_PERIOD_ID='" . $period['COURSE_PERIOD_ID'] . "'
-						AND (ss.MARKING_PERIOD_ID='" . $mp . "' OR ss.MARKING_PERIOD_ID IN (" . GetAllMP( GetMP( $mp, 'MP' ), $mp ) . "))
-						AND (ac.SCHOOL_DATE>=ss.START_DATE
-						AND (ss.END_DATE IS NULL OR ac.SCHOOL_DATE<=ss.END_DATE))
-						AND (ac.SCHOOL_DATE>=sem.START_DATE
-						AND (sem.END_DATE IS NULL OR ac.SCHOOL_DATE<=sem.END_DATE)))) AS FILLED_SEATS
-					FROM ATTENDANCE_CALENDAR ac
-					WHERE ac.CALENDAR_ID='" . $period['CALENDAR_ID'] . "'
-					AND ac.SCHOOL_DATE BETWEEN '" . $date . "'
-					AND '" . GetMP( $mp, 'END_DATE' ) . "'" );
+					$period['MARKING_PERIOD_ID'] = $mp;
 
-					if ( $seats[1]['FILLED_SEATS'] != '' )
+					$filled_seats = calcSeats0( $period, $date );
+
+					if ( $filled_seats != '' )
 					{
 						if ( ! empty( $_REQUEST['include_child_mps'] ) )
 						{
-							$periods[$key]['AVAILABLE_SEATS'] .= '<a href=' . $link . '>' . ( GetMP( $mp, 'SHORT_NAME' ) ? GetMP( $mp, 'SHORT_NAME' ) : GetMP( $mp ) ) . '(' . ( $period['AVAILABLE_SEATS'] - $seats[1]['FILLED_SEATS'] ) . ')</a> | ';
+							$periods[$key]['AVAILABLE_SEATS'] .= '<a href=' . $link . '>' .
+							( GetMP( $mp, 'SHORT_NAME' ) ?
+								GetMP( $mp, 'SHORT_NAME' ) :
+								GetMP( $mp ) ) .
+							'(' . ( $period['AVAILABLE_SEATS'] - $filled_seats ) . ')</a> | ';
 						}
 						else
 						{
-							$periods[$key]['AVAILABLE_SEATS'] = $period['AVAILABLE_SEATS'] - $seats[1]['FILLED_SEATS'];
+							$periods[$key]['AVAILABLE_SEATS'] = $period['AVAILABLE_SEATS'] - $filled_seats;
 						}
 					}
 				}
@@ -1860,7 +1865,11 @@ function calcSeats1( &$periods, $date )
 				{
 					if ( ! empty( $_REQUEST['include_child_mps'] ) )
 					{
-						$periods[$key]['AVAILABLE_SEATS'] .= '<a href=' . $link . '>' . ( GetMP( $mp, 'SHORT_NAME' ) ? GetMP( $mp, 'SHORT_NAME' ) : GetMP( $mp ) ) . '</a> | ';
+						$periods[$key]['AVAILABLE_SEATS'] .= '<a href=' . $link . '>' .
+						( GetMP( $mp, 'SHORT_NAME' ) ?
+							GetMP( $mp, 'SHORT_NAME' ) :
+							GetMP( $mp ) ) .
+						'</a> | ';
 					}
 					else
 					{

@@ -26,24 +26,22 @@ function dayToNumber( $date )
 	}
 
 	// Quarter start date.
-	$begin_quarter_RET = DBGet( "SELECT start_date
+	$begin_quarter_date = DBGetOne( "SELECT start_date
 		FROM school_marking_periods
 		WHERE start_date<='" . $date . "'
 		AND end_date>='" . $date . "'
 		AND mp='QTR'
 		AND school_id='" . $school_id . "'" );
 
-	if ( empty( $begin_quarter_RET ) )
+	if ( empty( $begin_quarter_date ) )
 	{
 		return false;
 	}
 
-	$begin_quarter = $begin_quarter_RET[1]['START_DATE'];
-
 	// Number of school days since the beginning of the quarter.
 	$school_days_RET = DBGet( "SELECT COUNT(school_date) AS school_days
 		FROM attendance_calendar
-		WHERE school_date>='" . $begin_quarter . "'
+		WHERE school_date>='" . $begin_quarter_date . "'
 		AND school_date<='" . $date . "'
 		AND school_id='" . $school_id . "'" );
 

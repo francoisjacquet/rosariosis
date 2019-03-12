@@ -56,7 +56,7 @@ if ( ! function_exists( 'DashboardSchedulingAdmin' ) )
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'" );
 
-		$cp_RET = DBGet( "SELECT COUNT(COURSE_PERIOD_ID) AS COURSE_PERIODS_NB
+		$cp_nb = DBGetOne( "SELECT COUNT(COURSE_PERIOD_ID) AS COURSE_PERIODS_NB
 		FROM COURSE_PERIODS
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
@@ -67,7 +67,7 @@ if ( ! function_exists( 'DashboardSchedulingAdmin' ) )
 		$data = array(
 			_( 'Courses' ) => $courses_RET[1]['COURSES_NB'],
 			ngettext( 'Subject', 'Subjects', $courses_RET[1]['SUBJECTS_NB'] ) => $courses_RET[1]['SUBJECTS_NB'],
-			$cp_mp_title => $cp_RET[1]['COURSE_PERIODS_NB'],
+			$cp_mp_title => $cp_nb,
 		);
 
 		return $data;

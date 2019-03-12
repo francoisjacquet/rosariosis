@@ -42,7 +42,7 @@ if ( ! function_exists( 'DashboardEligibilityAdmin' ) )
 	 */
 	function DashboardEligibilityAdmin()
 	{
-		$activities_RET = DBGet( "SELECT COUNT(ID) AS ACTIVITIES_NB
+		$activities_nb = DBGetOne( "SELECT COUNT(ID) AS ACTIVITIES_NB
 		FROM ELIGIBILITY_ACTIVITIES
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
@@ -50,11 +50,11 @@ if ( ! function_exists( 'DashboardEligibilityAdmin' ) )
 		AND END_DATE>=CURRENT_DATE" );
 
 		$data = array(
-			_( 'Activities' ) => $activities_RET[1]['ACTIVITIES_NB'],
+			_( 'Activities' ) => $activities_nb,
 		);
 
 		// Activities this week.
-		$activities_nb = (int) $activities_RET[1]['ACTIVITIES_NB'];
+		$activities_nb = (int) $activities_nb;
 
 		if ( ! $activities_nb )
 		{

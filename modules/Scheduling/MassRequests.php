@@ -73,13 +73,14 @@ if ( $_REQUEST['modfunc']!='choose_course')
 
 		if ( $_SESSION['MassRequests.php'])
 		{
-			$course_title = DBGet( "SELECT TITLE FROM COURSES WHERE COURSE_ID='".$_SESSION['MassRequests.php']['course_id']."'" );
-			$course_title = $course_title[1]['TITLE'];
+			$course_title = DBGetOne( "SELECT TITLE
+				FROM COURSES
+				WHERE COURSE_ID='".$_SESSION['MassRequests.php']['course_id']."'" );
 
 			echo $course_title;
 		}
 
-		echo '</div>'.'<a href="#" onclick=\'window.open("Modules.php?modname='.$_REQUEST['modname'].'&modfunc=choose_course","","scrollbars=yes,resizable=yes,width=800,height=400");\'>'._('Choose a Course').'</a></td></tr>';
+		echo '</div><a href="#" onclick=\'window.open("Modules.php?modname='.$_REQUEST['modname'].'&modfunc=choose_course","","scrollbars=yes,resizable=yes,width=800,height=400");\'>'._('Choose a Course').'</a></td></tr>';
 
 		echo '<tr><td>'._('With').'</td><td>';
 
@@ -161,10 +162,11 @@ if ( $_REQUEST['modfunc']=='choose_course')
 		$_SESSION['MassRequests.php']['subject_id'] = isset( $_REQUEST['subject_id'] ) ? $_REQUEST['subject_id'] : null;
 		$_SESSION['MassRequests.php']['course_id'] = isset( $_REQUEST['course_id'] ) ? $_REQUEST['course_id'] : null;
 
-		$course_title = DBGet( "SELECT TITLE FROM COURSES WHERE COURSE_ID='".$_SESSION['MassRequests.php']['course_id']."'" );
-		$course_title = $course_title[1]['TITLE'];
+		$course_title = DBGetOne( "SELECT TITLE
+			FROM COURSES
+			WHERE COURSE_ID='".$_SESSION['MassRequests.php']['course_id']."'" );
 
-		echo '<script>opener.document.getElementById("course_div").innerHTML = '.json_encode($course_title).'; window.close();</script>';
-
+		echo '<script>opener.document.getElementById("course_div").innerHTML = '.
+			json_encode($course_title).'; window.close();</script>';
 	}
 }

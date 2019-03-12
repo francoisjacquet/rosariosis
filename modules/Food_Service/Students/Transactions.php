@@ -7,10 +7,9 @@ if ( $_REQUEST['values']
 	if ( UserStudentID()
 		&& AllowEdit() )
 	{
-		$account_id = DBGet( "SELECT ACCOUNT_ID
+		$account_id = DBGetOne( "SELECT ACCOUNT_ID
 			FROM FOOD_SERVICE_STUDENT_ACCOUNTS
 			WHERE STUDENT_ID='" . UserStudentID() . "'" );
-		$account_id = $account_id[1]['ACCOUNT_ID'];
 
 		if (  ( $_REQUEST['values']['TYPE'] == 'Deposit' || $_REQUEST['values']['TYPE'] == 'Credit' || $_REQUEST['values']['TYPE'] == 'Debit' ) && ( $amount = is_money( $_REQUEST['values']['AMOUNT'] ) ) )
 		{

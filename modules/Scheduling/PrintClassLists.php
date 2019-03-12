@@ -5,8 +5,10 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	{
 		$cp_list = '\''.implode('\',\'',$_REQUEST['cp_arr']).'\'';
 
-		$extra['DATE'] = DBGet( "SELECT min(SCHOOL_DATE) AS START_DATE FROM ATTENDANCE_CALENDAR WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'" );
-		$extra['DATE'] = $extra['DATE'][1]['START_DATE'];
+		$extra['DATE'] = DBGetOne( "SELECT min(SCHOOL_DATE) AS START_DATE
+			FROM ATTENDANCE_CALENDAR
+			WHERE SYEAR='".UserSyear()."'
+			AND SCHOOL_ID='".UserSchool()."'" );
 
 		if ( ! $extra['DATE']
 			|| DBDate() > $extra['DATE'] )
@@ -14,9 +16,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			$extra['DATE'] = DBDate();
 		}
 
-		// get the fy marking period id, there should be exactly one fy marking period
-		$fy_id = DBGet( "SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'" );
-		$fy_id = $fy_id[1]['MARKING_PERIOD_ID'];
+		$fy_id = GetFullYearMP();
 
 		//FJ multiple school periods for a course period
 		//FJ add subject areas

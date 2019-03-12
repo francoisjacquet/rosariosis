@@ -349,19 +349,33 @@ function _makeOptionsInputs($value,$name)
 }
 
 function _makePollVotes($value,$name)
-{	global $THIS_RET;
+{
+	global $THIS_RET;
 
 	if ( $THIS_RET['ID'])
 	{
 		$poll_id = $THIS_RET['ID'];
 		$poll_questions_RET = DBGet( "SELECT QUESTION, VOTES, OPTIONS FROM PORTAL_POLL_QUESTIONS WHERE PORTAL_POLL_ID='".$poll_id."'" );
-		$votes_display_RET = DBGet( "SELECT DISPLAY_VOTES FROM PORTAL_POLLS WHERE ID='".$poll_id."'" );
-		if (empty($value))
-			return CheckboxInput($votes_display_RET[1]['DISPLAY_VOTES'],"values[".$poll_id."][DISPLAY_VOTES]",_('Results Display'));
 
-		return '<div>'.CheckboxInput($votes_display_RET[1]['DISPLAY_VOTES'],"values[".$poll_id."][DISPLAY_VOTES]",_('Results Display')).'</div><div style="float:left;">'.PortalPollsVotesDisplay($poll_id, true, $poll_questions_RET,$value).'</div>';
+		$display_votes = DBGetOne( "SELECT DISPLAY_VOTES
+			FROM PORTAL_POLLS
+			WHERE ID='" . $poll_id . "'" );
+
+		$checkbox = CheckboxInput(
+			$display_votes,
+			'values[' . $poll_id . '][DISPLAY_VOTES]',
+			_( 'Results Display' )
+		);
+
+		if ( empty( $value ) )
+		{
+			return $checkbox;
+		}
+
+		return '<div>' . $checkbox . '</div><div style="float:left;">'.
+		PortalPollsVotesDisplay($poll_id, true, $poll_questions_RET,$value).
+		'</div>';
 	}
-	else
-		return CheckboxInput('',"values[new][DISPLAY_VOTES]",_('Results Display'),'',true);
 
+	return CheckboxInput('',"values[new][DISPLAY_VOTES]",_('Results Display'),'',true);
 }
