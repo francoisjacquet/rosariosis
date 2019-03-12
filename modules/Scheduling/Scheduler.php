@@ -39,9 +39,7 @@ if ( $ok )
 	flush();
 	set_time_limit(0);
 
-	// get the fy marking period id, there should be exactly one fy marking period
-	$fy_id = DBGet( "SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'" );
-	$fy_id = $fy_id[1]['MARKING_PERIOD_ID'];
+	$fy_id = GetFullYearMP();
 
 	$custom_fields_RET = DBGet( "SELECT ID,TITLE,TYPE FROM CUSTOM_FIELDS WHERE ID=200000000",array(),array('ID'));
 	if ( $custom_fields_RET['200000000'] && $custom_fields_RET['200000000'][1]['TYPE'] == 'select')

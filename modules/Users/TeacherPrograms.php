@@ -11,11 +11,11 @@ DrawHeader( _( 'Teacher Programs' ) . ' - ' . ProgramTitle( $_REQUEST['modname']
 
 if ( UserStaffID() )
 {
-	$profile = DBGet( "SELECT PROFILE
+	$profile = DBGetOne( "SELECT PROFILE
 		FROM STAFF
 		WHERE STAFF_ID='" . UserStaffID() . "'" );
 
-	if ( $profile[1]['PROFILE'] !== 'teacher' )
+	if ( $profile !== 'teacher' )
 	{
 		unset( $_SESSION['staff_id'] );
 	}
@@ -54,12 +54,7 @@ if ( UserStaffID() )
 		ORDER BY cp.SHORT_NAME, sp.SORT_ORDER" );
 	}
 
-	// Get the fy marking period id, there should be exactly one fy marking period.
-	$fy_RET = DBGet( "SELECT MARKING_PERIOD_ID
-		FROM SCHOOL_MARKING_PERIODS
-		WHERE MP='FY'
-		AND SYEAR='" . UserSyear() . "'
-		AND SCHOOL_ID='" . UserSchool() . "'" );
+	$fy_id = GetFullYearMP();
 
 	if ( ! empty( $_REQUEST['period'] ) )
 	{
@@ -125,8 +120,18 @@ if ( UserStaffID() )
 		}
 
 		//FJ add subject areas
-		//$period_select .= '<option value="'.$period['COURSE_PERIOD_ID'].'.'.$period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'"'.$selected.'>'.$period['SHORT_NAME'].(mb_strlen($period['DAYS'])<5?' ('.$period_DAYS_locale.')':'').($period['MARKING_PERIOD_ID']!=$fy_RET[1]['MARKING_PERIOD_ID']?' '.GetMP($period['MARKING_PERIOD_ID'],'SHORT_NAME'):'').' - '.$period['CP_SHORT_NAME'].'</option>';
-		$period_select .= '<option value="' . $period['COURSE_PERIOD_ID'] . '.' . $period['COURSE_PERIOD_SCHOOL_PERIODS_ID'] . '"' . $selected . '>' . $period['TITLE'] . ( mb_strlen( $period['DAYS'] ) < 5 ? ( mb_strlen( $period['DAYS'] ) < 2 ? ' ' . _( 'Day' ) . ' ' . $period_DAYS_locale . ' - ' : ' ' . _( 'Days' ) . ' ' . $period_DAYS_locale . ' - ' ) : ' - ' ) . ( $period['MARKING_PERIOD_ID'] != $fy_RET[1]['MARKING_PERIOD_ID'] ? GetMP( $period['MARKING_PERIOD_ID'], 'SHORT_NAME' ) . ' - ' : '' ) . $period['CP_SHORT_NAME'] . '</option>';
+		//$period_select .= '<option value="'.$period['COURSE_PERIOD_ID'].'.'.$period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'"'.$selected.'>'.$period['SHORT_NAME'].(mb_strlen($period['DAYS'])<5?' ('.$period_DAYS_locale.')':'').($period['MARKING_PERIOD_ID']!=$fy_id?' '.GetMP($period['MARKING_PERIOD_ID'],'SHORT_NAME'):'').' - '.$period['CP_SHORT_NAME'].'</option>';
+		$period_select .= '<option value="' . $period['COURSE_PERIOD_ID'] . '.' . $period['COURSE_PERIOD_SCHOOL_PERIODS_ID'] . '"' . $selected . '>' .
+		$period['TITLE'] .
+		( mb_strlen( $period['DAYS'] ) < 5 ?
+			( mb_strlen( $period['DAYS'] ) < 2 ?
+				' ' . _( 'Day' ) . ' ' . $period_DAYS_locale . ' - ' :
+				' ' . _( 'Days' ) . ' ' . $period_DAYS_locale . ' - ' ) :
+			' - ' ) .
+		( $period['MARKING_PERIOD_ID'] != $fy_id ?
+			GetMP( $period['MARKING_PERIOD_ID'], 'SHORT_NAME' ) . ' - ' :
+			'' ) .
+		$period['CP_SHORT_NAME'] . '</option>';
 	}
 
 	if ( ! $found )

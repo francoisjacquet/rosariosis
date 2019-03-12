@@ -3,10 +3,9 @@
 DrawHeader( ProgramTitle() );
 
 // Default MP ID to Full Year.
-if ( ! isset( $_REQUEST['marking_period_id'] )
-	|| empty( $_REQUEST['marking_period_id'] ) )
+if ( empty( $_REQUEST['marking_period_id'] ) )
 {
-	$_REQUEST['marking_period_id'] = _getMPFullYear();
+	$_REQUEST['marking_period_id'] = GetFullYearMP() ? GetFullYearMP() : 'new';
 
 	$_REQUEST['mp_term'] = 'FY';
 }
@@ -370,7 +369,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		if ( ! $marking_period_RET )
 		{
-			$_REQUEST['marking_period_id'] = _getMPFullYear();
+			$_REQUEST['marking_period_id'] = GetFullYearMP() ? GetFullYearMP() : 'new';
 
 			$_REQUEST['mp_term'] = 'FY';
 
@@ -730,24 +729,5 @@ if ( ! $_REQUEST['modfunc'] )
 				echo '</div>';
 			}
 		}
-	}
-}
-
-
-function _getMPFullYear()
-{
-	$fy_RET = DBGet( "SELECT MARKING_PERIOD_ID
-		FROM SCHOOL_MARKING_PERIODS
-		WHERE MP='FY'
-		AND SCHOOL_ID='" . UserSchool() . "'
-		AND SYEAR='" . UserSyear() . "' ORDER BY SORT_ORDER" );
-
-	if ( count( $fy_RET ) )
-	{
-		return $fy_RET[1]['MARKING_PERIOD_ID'];
-	}
-	else
-	{
-		return 'new';
 	}
 }
