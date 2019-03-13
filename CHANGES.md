@@ -16,6 +16,7 @@ Changes in 4.5
 - HTML add autocomplete="off" to select inputs in Side.php
 - Add GetFullYearMP() function in GetMP.php
 - Reorganize screen layout & fix list search & order in PrintClassLists.php
+- Remove autocomplete for checkboxes & use stackable div responsive layout in Export.php
 
 Changes in 4.4
 --------------

@@ -599,7 +599,7 @@ else
 
 	DrawHeader( '<ol><span id="names_div"></span></ol>' );
 
-	echo '<table><tr class="st"><td class="valign-top"><br />';
+	echo '<div class="st"><br />';
 
 	// Left side of the screen
 	PopTable( 'header', _( 'Fields' ) );
@@ -671,7 +671,7 @@ else
 
 			echo $addJS .
 				'<label>
-					<input type="checkbox" onclick=\'addHTML(field' . $field . ',"names_div",false);
+					<input type="checkbox" autocomplete="off" onclick=\'addHTML(field' . $field . ',"names_div",false);
 						addHTML(fielddiv'.$field.',"fields_div",false);
 						this.disabled=true\' />&nbsp;' . ParseMLField( $title ) .
 				'</label>';
@@ -714,21 +714,17 @@ else
 
 	PopTable( 'footer' );
 
-	echo '</td><td class="valign-top">';
+	echo '</div><div class="st">';
 
-	// Bottom of the screen: Course Periods list
 	if ( $Search
 		&& function_exists( $Search ) )
 	{
-		echo '</td></tr></table>';
-
 		$Search( $extra );
 	}
-	// Right side of the screen: Find a Student form
 	else
 	{
 		Search( 'student_id', $extra );
-
-		echo '</td></tr></table>';
 	}
+
+	echo '</div>';
 }
