@@ -29,7 +29,7 @@ $extra['extra_search'] .= '<script>
 		}
 	</script>';
 
-$extra['action'] .= '" onsubmit="exportSubmit();"';
+$extra['action'] .= '" onsubmit="exportSubmit();';
 
 $extra['new'] = true;
 
