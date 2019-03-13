@@ -121,7 +121,7 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 		AND fsi.ITEM_ID=fsmi.ITEM_ID
 		AND fsmi.CATEGORY_ID IS NOT NULL
 		AND fsi.SCHOOL_ID='".UserSchool()."'
-		ORDER BY fsi.SORT_ORDER"),array('ICON' => 'makeIcon'),array('SHORT_NAME'));
+		ORDER BY fsi.SORT_ORDER",array('ICON' => 'makeIcon'),array('SHORT_NAME'));
 		$items = array();
 		foreach ( (array) $items_RET as $sn => $item)
 			$items += array($sn => $item[1]['DESCRIPTION']);
