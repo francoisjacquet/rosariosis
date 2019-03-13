@@ -95,23 +95,31 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		BackPrompt(_('You must choose at least one course period.'));
 }
 
-if ( ! $_REQUEST['modfunc'] )
+if ( ! $_REQUEST['modfunc']
+	|| $_REQUEST['modfunc']=='list' )
 {
 	DrawHeader(ProgramTitle());
 
 	if (User('PROFILE')!='admin')
-		$_REQUEST['search_modfunc'] = 'list';
+		$_REQUEST['modfunc'] = 'list';
 
-	if ( $_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['modfunc']=='list')
 	{
-		$_REQUEST['search_modfunc'] = 'select';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&search_modfunc=list&_ROSARIO_PDF=true'.$extra['action'].'" method="POST" name="search">';
 
-		$extra['header_right'] = Buttons( _( 'Create Class Lists for Selected Course Periods' ) );
+		$submit_button = Buttons( _( 'Create Class Lists for Selected Course Periods' ) );
 
-		$extra['extra_header_left'] = '<table><tr><td><label><input type="checkbox" name="include_inactive" value="Y"> '._('Include Inactive Students').'</label></td></tr></table>';
+		DrawHeader(
+			'<label><input type="checkbox" name="include_inactive" value="Y" /> '.
+			_('Include Inactive Students').'</label>',
+			$submit_button
+		);
 
 		$Search = 'mySearch';
 		require 'modules/misc/Export.php';
+
+		echo '<br style="clear: both;" /><div class="center">' . $submit_button . '</div>';
+		echo '</form>';
 	}
 	else
 	{
@@ -129,7 +137,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		PopTable('header',_('Find a Course'));
 
-		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&search_modfunc=list&next_modname='.$_REQUEST['next_modname'].'" method="POST">';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=list" method="POST">';
 
 		echo '<table>';
 
@@ -182,10 +190,6 @@ if ( ! $_REQUEST['modfunc'] )
 
 function mySearch($extra)
 {
-	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&search_modfunc=list&_ROSARIO_PDF=true'.$extra['action'].'" method="POST" name="search">';
-
-	DrawHeader('',$extra['header_right']);
-	DrawHeader($extra['extra_header_left'],$extra['extra_header_right']);
 	echo '<table>'.$extra['extra_search'].'</table>';
 
 	$sql = 'SELECT \'<input type="checkbox" name="cp_arr[]" value="\'||cp.COURSE_PERIOD_ID||\'">\' AS CHECKBOX,cp.TITLE FROM COURSE_PERIODS cp';
@@ -247,8 +251,15 @@ function mySearch($extra)
 		echo '<script>ajaxLink("Bottom.php"); old_modname="";</script>';
 	}
 
-	ListOutput($course_periods_RET,$LO_columns,'Course Period','Course Periods');
-
-	echo '<br /><div class="center">' . Buttons( _( 'Create Class Lists for Selected Course Periods' ) ) . '</div>';
-	echo '</form>';
+	ListOutput(
+		$course_periods_RET,
+		$LO_columns,
+		'Course Period',
+		'Course Periods',
+		array(),
+		array(),
+		array(
+			'save' => '0',
+		)
+	);
 }

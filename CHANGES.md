@@ -15,6 +15,7 @@ Changes in 4.5
 - Add Report Cards PDF header action hook in ReportCards.fnc.php
 - HTML add autocomplete="off" to select inputs in Side.php
 - Add GetFullYearMP() function in GetMP.php
+- Reorganize screen layout & fix list search & order in PrintClassLists.php
 
 Changes in 4.4
 --------------
