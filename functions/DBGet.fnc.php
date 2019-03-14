@@ -68,7 +68,7 @@ function DBGet( $QI, $functions = array(), $index = array() )
 	$results = array();
 
 	if ( is_string( $QI )
-		&& stripos( $QI, 'SELECT ' ) === 0 )
+		&& stripos( $QI, 'SELECT' ) === 0 )
 	{
 		// Can omit DBQuery call.
 		$QI = DBQuery( $QI );
