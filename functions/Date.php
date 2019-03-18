@@ -484,22 +484,69 @@ function ExplodeDate( $date )
  * for example, 2015-02-31 will return 2015-02-28
  *
  * @since 2.9
+ * @since 4.5 Recursive function: use request index and default value.
  *
  * @example RequestedDate( $year, $month, $day );
+ * @example $date_end = RequestedDate( 'end', DBDate() );
+ * @example $date = RequestedDate( 'date', DBDate(), 'set' );
  *
- * @param  string $year  Requested year.
- * @param  string $month Requested month.
- * @param  string $day   Requested day.
+ * @param  string $year_or_request_index Requested year.
+ * @param  string $month_or_default      Requested month or default date.
+ * @param  string $day_or_mode           Requested day or mode: [empty]|add|set.
  *
- * @return string Empty string if malformed/incomplete date or date
+ * @return string Empty string if malformed/incomplete date or date or default.
  */
-function RequestedDate( $year, $month, $day )
+function RequestedDate( $year_or_request_index, $month_or_default, $day_or_mode = '' )
 {
+	if ( $day_or_mode === ''
+		|| $day_or_mode === 'add'
+		|| $day_or_mode === 'set' )
+	{
+		$request_index = $year_or_request_index;
+
+		$default = $month_or_default;
+
+		$mode = $day_or_mode;
+
+		if (  isset( $_REQUEST['day_' . $request_index ] )
+			&& isset( $_REQUEST['month_' . $request_index ] )
+			&& isset( $_REQUEST['year_' . $request_index ] ) )
+		{
+			return RequestedDate(
+				$_REQUEST['year_' . $request_index ],
+				$_REQUEST['month_' . $request_index ],
+				$_REQUEST['day_' . $request_index ]
+			);
+		}
+
+		if ( $mode === 'set'
+			&& VerifyDate( $default ) )
+		{
+			$exploded_date = ExplodeDate( $default );
+
+			$_REQUEST['year_' . $request_index ] = $exploded_date['year'];
+			$_REQUEST['month_' . $request_index ] = $exploded_date['month'];
+			$_REQUEST['day_' . $request_index ] = $exploded_date['day'];
+		}
+
+		if ( $mode === 'add' )
+		{
+			$REQUEST[ $request_index ] = $default;
+		}
+
+		return $default;
+	}
+
+	$year = $year_or_request_index;
+
+	$month = $month_or_default;
+
+	$day = $day_or_mode;
+
 	$date = $year . '-' . $month . '-' . $day;
 
 	/**
-	 * Verify first this is a well-formed / complete date:
-	 * YYYY-MM-DD
+	 * Verify first this is an ISO date: YYYY-MM-DD
 	 * Day between 1 and 31
 	 * Month between 1 and 12
 	 * Year between 1000 and 9999
@@ -512,18 +559,16 @@ function RequestedDate( $year, $month, $day )
 		|| (int) $year < 1000
 		|| (int) $year > 9999 )
 	{
-		$date = '';
+		return '';
 	}
-	else
-	{
-		// Correct date if day does not exist in month.
-		while ( ! VerifyDate( $date )
-			&& $day > 0 )
-		{
-			$day--;
 
-			$date = $year . '-' . $month . '-' . $day;
-		}
+	// Correct date if day does not exist in month.
+	while ( ! checkdate( $month, $day, $year )
+		&& $day > 0 )
+	{
+		$day--;
+
+		$date = $year . '-' . $month . '-' . $day;
 	}
 
 	return $date;
