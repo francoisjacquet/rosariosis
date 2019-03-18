@@ -491,7 +491,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			echo '<input type="text" id="LO_search" name="LO_search" value="' .
 				htmlspecialchars( str_replace( "''", "'", $LO_search ), ENT_QUOTES ) .
 				'" placeholder="' . _( 'Search' ) . '" onkeypress="LOSearch(event, this.value, \'' .
-					$search_URL . '\');" />
+					$search_URL . '\');" autocomplete="off" />
 				<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/visualize.png"
 				onclick="LOSearch(event, $(\'#LO_search\').val(), \'' .	$search_URL . '\');"
 				class="button" title="' . _( 'Search' ) . '" />';
