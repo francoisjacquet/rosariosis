@@ -4,11 +4,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 {
 	if ( count( $_REQUEST['student'] ) && AllowEdit() )
 	{
-		$date = RequestedDate(
-			$_REQUEST['year_date'],
-			$_REQUEST['month_date'],
-			$_REQUEST['day_date']
-		);
+		$date = RequestedDate( 'date', '' );
 
 		// FJ fix SQL bug invalid amount.
 

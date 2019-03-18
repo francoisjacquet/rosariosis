@@ -20,7 +20,7 @@ Changes in 4.5
 - Add referral to various students at once in MakeReferral.php, sponsored by Santa Cecilia school
 - Fix Discipline Referrals portal alert requested dates in Widgets.fnc.php
 - RequestedDate() Recursive function: use request index and default value in Date.php
-- Set start & end dates using new RequestedDate() function parameters, program wide
+- Set start, end & other dates using new RequestedDate() function parameters, program wide
 
 Changes in 4.4
 --------------

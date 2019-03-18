@@ -9,11 +9,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 		if ( is_numeric( $_REQUEST['amount'] ) )
 		{
-			$due_date = RequestedDate(
-				$_REQUEST['year_due'],
-				$_REQUEST['month_due'],
-				$_REQUEST['day_due']
-			);
+			$due_date = RequestedDate( 'due', '' );
 
 			if ( $due_date )
 			{

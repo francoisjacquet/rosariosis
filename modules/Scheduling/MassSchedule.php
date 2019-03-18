@@ -22,11 +22,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 	{
 		if ( ! empty( $_REQUEST['student'] ) )
 		{
-			$start_date = RequestedDate(
-				$_REQUEST['year_start'],
-				$_REQUEST['month_start'],
-				$_REQUEST['day_start']
-			);
+			$start_date = RequestedDate( 'start', '' );
 
 			if ( $start_date )
 			{

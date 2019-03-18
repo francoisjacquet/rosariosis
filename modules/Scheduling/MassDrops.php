@@ -15,11 +15,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		if ( isset( $_REQUEST['student'] )
 			&& is_array( $_REQUEST['student'] ) )
 		{
-			$drop_date = RequestedDate(
-				$_REQUEST['year_drop'],
-				$_REQUEST['month_drop'],
-				$_REQUEST['day_drop']
-			);
+			$drop_date = RequestedDate( 'drop', '' );
 
 			if ( $drop_date )
 			{

@@ -100,30 +100,9 @@ function ReferralLogsGenerate( $extra )
 	}
 
 	// Get eventual Incident Date timeframe
-	$start_date = $end_date = '';
+	$start_date = RequestedDate( 'discipline_entry_begin', '' );
 
-	// Get eventual Incident Date timeframe
-	if ( isset( $_REQUEST['month_discipline_entry_begin'] )
-		&& isset( $_REQUEST['day_discipline_entry_begin'] )
-		&& isset( $_REQUEST['year_discipline_entry_begin'] ) )
-	{
-		$start_date = RequestedDate(
-			$_REQUEST['year_discipline_entry_begin'],
-			$_REQUEST['month_discipline_entry_begin'],
-			$_REQUEST['day_discipline_entry_begin']
-		);
-
-		if ( isset( $_REQUEST['month_discipline_entry_end'] )
-			&& isset( $_REQUEST['day_discipline_entry_end'] )
-			&& isset( $_REQUEST['year_discipline_entry_end'] ) )
-		{
-			$end_date = RequestedDate(
-				$_REQUEST['year_discipline_entry_end'],
-				$_REQUEST['month_discipline_entry_end'],
-				$_REQUEST['day_discipline_entry_end']
-			);
-		}
- 	}
+	$end_date = RequestedDate( 'discipline_entry_end', '' );
 
 	foreach ( (array) $_REQUEST['elements'] as $column => $yes )
 	{

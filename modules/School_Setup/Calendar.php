@@ -269,21 +269,13 @@ if ( $_REQUEST['modfunc'] === 'create'
 
 			$weekdays_list = "'" . implode( "','", $weekdays_list ) . "'";
 
+			$date_min = RequestedDate( 'min', '' );
+
+			$date_max = RequestedDate( 'max', '' );
+
 			if ( $_REQUEST['calendar_id']
 				&& $_REQUEST['calendar_id'] === $_REQUEST['copy_id'] )
 			{
-				$date_min = RequestedDate(
-					$_REQUEST['year_min'],
-					$_REQUEST['month_min'],
-					$_REQUEST['day_min']
-				);
-
-				$date_max = RequestedDate(
-					$_REQUEST['year_max'],
-					$_REQUEST['month_max'],
-					$_REQUEST['day_max']
-				);
-
 				DBQuery( "DELETE FROM ATTENDANCE_CALENDAR
 					WHERE CALENDAR_ID='" . $calendar_id . "'
 					AND (SCHOOL_DATE NOT BETWEEN '" . $date_min . "' AND '" . $date_max . "'
@@ -312,33 +304,11 @@ if ( $_REQUEST['modfunc'] === 'create'
 						WHERE CALENDAR_ID='" . $_REQUEST['copy_id'] . "'
 						AND extract(DOW FROM SCHOOL_DATE) IN (" . $weekdays_list . ")";
 
-				// FJ bugfix SQL bug empty school dates.
-				if ( isset( $_REQUEST['day_min'] )
-					&& isset( $_REQUEST['month_min'] )
-					&& isset( $_REQUEST['year_min'] )
-					&& isset( $_REQUEST['day_max'] )
-					&& isset( $_REQUEST['month_max'] )
-					&& isset( $_REQUEST['year_max'] ) )
+				if ( $date_min && $date_max )
 				{
-					$date_min = RequestedDate(
-						$_REQUEST['year_min'],
-						$_REQUEST['month_min'],
-						$_REQUEST['day_min']
-					);
-
-					$date_max = RequestedDate(
-						$_REQUEST['year_max'],
-						$_REQUEST['month_max'],
-						$_REQUEST['day_max']
-					);
-
-					if ( ! empty( $date_min )
-						&& ! empty( $date_max ) )
-					{
-						$create_calendar_sql .= " AND SCHOOL_DATE
-							BETWEEN '" . $date_min . "'
-							AND '" . $date_max . "'";
-					}
+					$create_calendar_sql .= " AND SCHOOL_DATE
+						BETWEEN '" . $date_min . "'
+						AND '" . $date_max . "'";
 				}
 
 				$create_calendar_sql .= ")";
@@ -458,16 +428,7 @@ unset( $_SESSION['_REQUEST_vars']['calendar_id'] );
 // Event / Assignment details
 if ( $_REQUEST['modfunc'] === 'detail' )
 {
-	if ( isset( $_REQUEST['month_values']['SCHOOL_DATE'] )
-		&& isset( $_REQUEST['day_values']['SCHOOL_DATE'] )
-		&& isset( $_REQUEST['year_values']['SCHOOL_DATE'] ) )
-	{
-		$_REQUEST['values']['SCHOOL_DATE'] = RequestedDate(
-			$_REQUEST['year_values']['SCHOOL_DATE'],
-			$_REQUEST['month_values']['SCHOOL_DATE'],
-			$_REQUEST['day_values']['SCHOOL_DATE']
-		);
-	}
+	AddRequestedDates( 'values' );
 
 	if ( $_POST['button'] === _( 'Save' )
 		&& AllowEdit() )
@@ -724,17 +685,9 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 // List Events
 if ( $_REQUEST['modfunc'] === 'list_events' )
 {
-	if ( $_REQUEST['day_start']
-		&& $_REQUEST['month_start']
-		&& $_REQUEST['year_start'] )
-	{
-		$start_date = RequestedDate(
-			$_REQUEST['year_start'],
-			$_REQUEST['month_start'],
-			$_REQUEST['day_start']
-		);
-	}
-	else
+	$start_date = RequestedDate( 'start', '' );
+
+	if ( ! $start_date )
 	{
 		$min_date = DBGet( "SELECT min(SCHOOL_DATE) AS MIN_DATE
 			FROM ATTENDANCE_CALENDAR
@@ -749,17 +702,9 @@ if ( $_REQUEST['modfunc'] === 'list_events' )
 			$start_date = date( 'Y-m' ) . '-01';
 	}
 
-	if ( $_REQUEST['day_end']
-		&& $_REQUEST['month_end']
-		&& $_REQUEST['year_end'] )
-	{
-		$end_date = RequestedDate(
-			$_REQUEST['year_end'],
-			$_REQUEST['month_end'],
-			$_REQUEST['day_end']
-		);
-	}
-	else
+	$end_date = RequestedDate( 'end', '' );
+
+	if ( ! $end_date )
 	{
 		$max_date = DBGet( "SELECT max(SCHOOL_DATE) AS MAX_DATE
 			FROM ATTENDANCE_CALENDAR

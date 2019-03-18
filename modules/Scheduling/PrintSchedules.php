@@ -8,16 +8,10 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 		$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
 
-		if ( ! empty( $_REQUEST['day_include_active_date'] )
-			&& ! empty( $_REQUEST['month_include_active_date'] )
-			&& ! empty( $_REQUEST['year_include_active_date'] ) )
-		{
-			$date = RequestedDate(
-				$_REQUEST['year_include_active_date'],
-				$_REQUEST['month_include_active_date'],
-				$_REQUEST['day_include_active_date']
-			);
+		$date = RequestedDate( 'include_active_date', '' );
 
+		if ( $date )
+		{
 			$date_extra = "OR ('" . $date . "'>=sr.START_DATE
 			AND sr.END_DATE IS NULL)";
 		}

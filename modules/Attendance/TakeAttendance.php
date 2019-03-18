@@ -4,26 +4,8 @@ require_once 'modules/Attendance/includes/UpdateAttendanceDaily.fnc.php';
 
 DrawHeader( ProgramTitle() );
 
-// set date
-
-if ( isset( $_REQUEST['month_date'] )
-	&& isset( $_REQUEST['day_date'] )
-	&& isset( $_REQUEST['year_date'] ) )
-{
-	$date = RequestedDate(
-		$_REQUEST['year_date'],
-		$_REQUEST['month_date'],
-		$_REQUEST['day_date']
-	);
-}
-else
-{
-	$_REQUEST['day_date'] = date( 'd' );
-	$_REQUEST['month_date'] = date( 'm' );
-	$_REQUEST['year_date'] = date( 'Y' );
-
-	$date = $_REQUEST['year_date'] . '-' . $_REQUEST['month_date'] . '-' . $_REQUEST['day_date'];
-}
+// Set date.
+$date = RequestedDate( 'date', DBDate(), 'set' );
 
 //FJ bugfix SQL bug more than one row returned by a subquery
 $categories_RET = DBGet( "SELECT '0' AS ID,'" . DBEscapeString( _( 'Attendance' ) ) . "' AS TITLE,0,NULL AS SORT_ORDER
@@ -393,7 +375,7 @@ foreach ( (array) $categories_RET as $category )
 	$tabs[] = array(
 		'title' => ParseMLField( $category['TITLE'] ),
 		'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=' . $category['ID'] .
-		'&month_date=' . $_REQUEST['month_date'] . '&day_date=' . $_REQUEST['day_date'] .
+		'&date=' . $_REQUEST['month_date'] . '&day_date=' . $_REQUEST['day_date'] .
 		'&year_date=' . $_REQUEST['year_date'],
 	);
 }

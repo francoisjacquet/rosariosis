@@ -8,19 +8,9 @@ require_once 'modules/Scheduling/includes/calcSeats0.fnc.php';
 
 DrawHeader( ProgramTitle() );
 
-// date
-if ( isset( $_REQUEST['month_date'] )
-	&& isset( $_REQUEST['day_date'] )
-	&& isset( $_REQUEST['year_date'] ) )
-{
-	$date = RequestedDate(
-		$_REQUEST['year_date'],
-		$_REQUEST['month_date'],
-		$_REQUEST['day_date']
-	);
-}
-// default date
-else
+$date = RequestedDate( 'date', '' );
+
+if ( ! $date )
 {
 	$min_date = DBGetOne( "SELECT min(SCHOOL_DATE) AS MIN_DATE
 		FROM ATTENDANCE_CALENDAR

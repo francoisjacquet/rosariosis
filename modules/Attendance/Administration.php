@@ -4,31 +4,14 @@ require_once 'modules/Attendance/includes/UpdateAttendanceDaily.fnc.php';
 
 DrawHeader( ProgramTitle() );
 
-// set date
-if ( isset( $_REQUEST['month_date'] )
-	&& isset( $_REQUEST['day_date'] )
-	&& isset( $_REQUEST['year_date'] ) )
-{
-	$date = RequestedDate(
-		$_REQUEST['year_date'],
-		$_REQUEST['month_date'],
-		$_REQUEST['day_date']
-	);
+// Set date.
+$date = RequestedDate( 'date', DBDate(), 'set' );
 
-	if ( $_SESSION['Administration.php']['date']
-		&& $_SESSION['Administration.php']['date'] !== $date )
-	{
-		// Unset attendance & attendance day & redirect URL.
-		RedirectURL( array( 'attendance', 'attendance_day' ) );
-	}
-}
-else
+if ( $_SESSION['Administration.php']['date']
+	&& $_SESSION['Administration.php']['date'] !== $date )
 {
-	$date = DBDate();
-
-	$_REQUEST['day_date'] = date('d');
-	$_REQUEST['month_date'] = date('m');
-	$_REQUEST['year_date'] = date('Y');
+	// Unset attendance & attendance day & redirect URL.
+	RedirectURL( array( 'attendance', 'attendance_day' ) );
 }
 
 if ( $_REQUEST['table']=='')
