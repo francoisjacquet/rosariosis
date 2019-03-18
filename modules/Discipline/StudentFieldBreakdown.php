@@ -4,17 +4,8 @@ require_once 'ProgramFunctions/Charts.fnc.php';
 
 DrawHeader( ProgramTitle() );
 
-// set start date
-if ( isset( $_REQUEST['day_start'] )
-	&& isset( $_REQUEST['month_start'] )
-	&& isset( $_REQUEST['year_start'] ) )
-{
-	$start_date = RequestedDate(
-		$_REQUEST['year_start'],
-		$_REQUEST['month_start'],
-		$_REQUEST['day_start']
-	);
-}
+// Set start date.
+$start_date = RequestedDate( 'start', '' );
 
 if ( empty( $start_date ) )
 {
@@ -29,25 +20,10 @@ if ( empty( $start_date ) )
 	}
 	else
 		$start_date = date( 'Y-m' ) . '-01';
-
 }
 
-// set end date
-if ( isset( $_REQUEST['day_end'] )
-	&& isset( $_REQUEST['month_end'] )
-	&& isset( $_REQUEST['year_end'] ) )
-{
-	$end_date = RequestedDate(
-		$_REQUEST['year_end'],
-		$_REQUEST['month_end'],
-		$_REQUEST['day_end']
-	);
-}
-
-if ( empty( $end_date ) )
-{
-	$end_date = DBDate();
-}
+// Set end date.
+$end_date = RequestedDate( 'end', DBDate() );
 
 $chart_types = array( 'column', 'pie', 'list' );
 

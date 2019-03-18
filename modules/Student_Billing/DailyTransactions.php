@@ -2,39 +2,11 @@
 
 DrawHeader( ProgramTitle() );
 
-// set start date
-if ( isset( $_REQUEST['day_start'] )
-	&& isset( $_REQUEST['month_start'] )
-	&& isset( $_REQUEST['year_start'] ) )
-{
-	$start_date = RequestedDate(
-		$_REQUEST['year_start'],
-		$_REQUEST['month_start'],
-		$_REQUEST['day_start']
-	);
-}
+// Set start date.
+$start_date = RequestedDate( 'start', date( 'Y-m' ) . '-01' );
 
-if ( empty( $start_date ) )
-{
-	$start_date = date( 'Y-m' ) . '-01';
-}
-
-// set end date
-if ( isset( $_REQUEST['day_end'] )
-	&& isset( $_REQUEST['month_end'] )
-	&& isset( $_REQUEST['year_end'] ) )
-{
-	$end_date = RequestedDate(
-		$_REQUEST['year_end'],
-		$_REQUEST['month_end'],
-		$_REQUEST['day_end']
-	);
-}
-
-if ( empty( $end_date ) )
-{
-	$end_date = DBDate();
-}
+// Set end date.
+$end_date = RequestedDate( 'end', DBDate() );
 
 echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 DrawHeader('<b>'._('Report Timeframe').': </b>'.PrepareDate($start_date,'_start').' - '.PrepareDate($end_date,'_end').' <input type="submit" value="'._('Go').'" />');

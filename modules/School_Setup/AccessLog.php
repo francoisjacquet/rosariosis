@@ -16,46 +16,11 @@ require_once 'ProgramFunctions/UserAgent.fnc.php';
 
 DrawHeader( ProgramTitle() );
 
-// Requested start date.
-if ( isset( $_REQUEST['day_start'] )
-	&& isset( $_REQUEST['month_start'] )
-	&& isset( $_REQUEST['year_start'] ) )
-{
-	$start_date = RequestedDate(
-		$_REQUEST['year_start'],
-		$_REQUEST['month_start'],
-		$_REQUEST['day_start']
-	);
-}
+// Set start date.
+$start_date = RequestedDate( 'start', date( 'Y-m-d', time() - 60 * 60 * 24 ) );
 
-if ( ! isset( $start_date )
-	|| ! $start_date )
-{
-	// Set start date as the 1st of the month.
-	// $start_date = date( 'Y-m' ) . '-01';
-
-	// Set start date as yesterday, prevents having long list on first load.
-	$start_date = date( 'Y-m-d', time() - 60 * 60 * 24 );
-}
-
-// Requested end date.
-if ( isset( $_REQUEST['day_end'] )
-	&& isset( $_REQUEST['month_end'] )
-	&& isset( $_REQUEST['year_end'] ) )
-{
-	$end_date = RequestedDate(
-		$_REQUEST['year_end'],
-		$_REQUEST['month_end'],
-		$_REQUEST['day_end']
-	);
-}
-
-if ( ! isset( $end_date )
-	|| ! $end_date )
-{
-	//  Set end date as current day.
-	$end_date = DBDate();
-}
+// Set end date.
+$end_date = RequestedDate( 'end', DBDate() );
 
 
 if ( $_REQUEST['modfunc'] === 'delete' )

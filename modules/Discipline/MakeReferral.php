@@ -5,41 +5,11 @@ require_once 'ProgramFunctions/TipMessage.fnc.php';
 
 DrawHeader( ProgramTitle() );
 
-// set start date
+// Set start date.
+$start_date = RequestedDate( 'start', date( 'Y-m' ) . '-01' );
 
-if ( isset( $_REQUEST['day_start'] )
-	&& isset( $_REQUEST['month_start'] )
-	&& isset( $_REQUEST['year_start'] ) )
-{
-	$start_date = RequestedDate(
-		$_REQUEST['year_start'],
-		$_REQUEST['month_start'],
-		$_REQUEST['day_start']
-	);
-}
-
-if ( empty( $start_date ) )
-{
-	$start_date = date( 'Y-m' ) . '-01';
-}
-
-// set end date
-
-if ( isset( $_REQUEST['day_end'] )
-	&& isset( $_REQUEST['month_end'] )
-	&& isset( $_REQUEST['year_end'] ) )
-{
-	$end_date = RequestedDate(
-		$_REQUEST['year_end'],
-		$_REQUEST['month_end'],
-		$_REQUEST['day_end']
-	);
-}
-
-if ( empty( $end_date ) )
-{
-	$end_date = DBDate();
-}
+// Set end date.
+$end_date = RequestedDate( 'end', DBDate() );
 
 // Add eventual Dates to $_REQUEST['values'].
 AddRequestedDates( 'values', 'post' );

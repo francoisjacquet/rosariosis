@@ -1,39 +1,11 @@
 <?php
 DrawHeader(ProgramTitle($_REQUEST['modname'].(!empty($_REQUEST['list_by_day']) ? '&list_by_day='.$_REQUEST['list_by_day'] : '')));
 
-// set start date
-if ( isset( $_REQUEST['day_start'] )
-	&& isset( $_REQUEST['month_start'] )
-	&& isset( $_REQUEST['year_start'] ) )
-{
-	$start_date = RequestedDate(
-		$_REQUEST['year_start'],
-		$_REQUEST['month_start'],
-		$_REQUEST['day_start']
-	);
-}
+// Set start date.
+$start_date = RequestedDate( 'start', date( 'Y-m' ) . '-01' );
 
-if ( empty( $start_date ) )
-{
-	$start_date = date( 'Y-m' ) . '-01';
-}
-
-// set end date
-if ( isset( $_REQUEST['day_end'] )
-	&& isset( $_REQUEST['month_end'] )
-	&& isset( $_REQUEST['year_end'] ) )
-{
-	$end_date = RequestedDate(
-		$_REQUEST['year_end'],
-		$_REQUEST['month_end'],
-		$_REQUEST['day_end']
-	);
-}
-
-if ( empty( $end_date ) )
-{
-	$end_date = DBDate();
-}
+// Set end date.
+$end_date = RequestedDate( 'end', DBDate() );
 
 // Advanced Search.
 if ( $_REQUEST['modfunc'] === 'search' )
