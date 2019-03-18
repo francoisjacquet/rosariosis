@@ -501,11 +501,21 @@ function Search( $type, $extra = null )
 
 				$category = array_replace_recursive( $category_default, (array) $category );
 
+				foreach ( $category as $cols )
+				{
+					if ( ! empty( $cols[1]['CATEGORY_TITLE'] ) )
+					{
+						$category_title = $cols[1]['CATEGORY_TITLE'];
+
+						break;
+					}
+				}
+
 				if ( $type === 'student_fields_all'
 					|| $type === 'staff_fields_all' )
 				{
 					echo '<a onclick="switchMenu(this); return false;" href="#" class="switchMenu">
-					<b>' . $category[ key( $category ) ][1]['CATEGORY_TITLE'] . '</b></a>
+					<b>' . $category_title . '</b></a>
 					<br />
 					<table class="widefat width-100p col1-align-right hide">';
 
