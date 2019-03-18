@@ -17,6 +17,7 @@ Changes in 4.5
 - Add GetFullYearMP() function in GetMP.php
 - Reorganize screen layout & fix list search & order in PrintClassLists.php
 - Remove autocomplete for checkboxes & use stackable div responsive layout in Export.php
+- Add referral to various students at once in MakeReferral.php, sponsored by Santa Cecilia school
 
 Changes in 4.4
 --------------
