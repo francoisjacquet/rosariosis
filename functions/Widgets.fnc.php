@@ -1135,31 +1135,14 @@ function Widgets( $item, &$myextra = null )
 				break;
 			}
 
-			$discipline_entry_begin = $discipline_entry_end = '';
+			AddRequestedDates( 'discipline_entry_begin' );
+			AddRequestedDates( 'discipline_entry_end' );
 
-			// Verify begin date.
-			if ( isset( $_REQUEST['month_discipline_entry_begin'] )
-				&& isset( $_REQUEST['day_discipline_entry_begin'] )
-				&& isset( $_REQUEST['year_discipline_entry_begin'] ) )
-			{
-				$discipline_entry_begin = RequestedDate(
-					$_REQUEST['year_discipline_entry_begin'],
-					$_REQUEST['month_discipline_entry_begin'],
-					$_REQUEST['day_discipline_entry_begin']
-				);
-			}
+			$discipline_entry_begin = empty( $_REQUEST['discipline_entry_begin'] ) ?
+				'' : $_REQUEST['discipline_entry_begin'];
 
-			// Verify end date.
-			if ( isset( $_REQUEST['month_discipline_entry_end'] )
-				&& isset( $_REQUEST['day_discipline_entry_end'] )
-				&& isset( $_REQUEST['year_discipline_entry_end'] ) )
-			{
-				$discipline_entry_end = RequestedDate(
-					$_REQUEST['year_discipline_entry_end'],
-					$_REQUEST['month_discipline_entry_end'],
-					$_REQUEST['day_discipline_entry_end']
-				);
-			}
+			$discipline_entry_end = empty( $_REQUEST['discipline_entry_end'] ) ?
+				'' : $_REQUEST['discipline_entry_end'];
 
 			if ( ( $discipline_entry_begin
 					|| $discipline_entry_end )

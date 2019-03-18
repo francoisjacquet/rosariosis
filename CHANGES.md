@@ -18,6 +18,7 @@ Changes in 4.5
 - Reorganize screen layout & fix list search & order in PrintClassLists.php
 - Remove autocomplete for checkboxes & use stackable div responsive layout in Export.php
 - Add referral to various students at once in MakeReferral.php, sponsored by Santa Cecilia school
+- Fix Discipline Referrals portal alert requested dates in Widgets.fnc.php
 
 Changes in 4.4
 --------------
