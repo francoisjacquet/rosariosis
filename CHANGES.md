@@ -23,7 +23,7 @@ Changes in 4.5
 - Set start, end & other dates using new RequestedDate() function parameters, program wide
 - Move headers to StudentAssignmentDrawHeaders() function in StudentAssignments.fnc.php
 - Move assignment details from Tip message to Colorbox popup in StudentGrades.php
-- Remove \_makeTextInput() & use \_makeCommentsInput() function instead in ReportCardComments.php
+- Remove \_makeTextInput() & use \_makeCommentsInput() function instead in ReportCardComments.php & ReportCardCommentCodes.php
 
 Changes in 4.4
 --------------

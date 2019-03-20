@@ -160,7 +160,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$comment_scale_select[$id] = $comment_scale[1]['TITLE'];
 	}
 
-	if ( $_REQUEST['tab_id'] != 'new' )
+	if ( $_REQUEST['tab_id'] !== 'new' )
 	{
 		$sql = "SELECT *
 		FROM REPORT_CARD_COMMENT_CODES
@@ -200,7 +200,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$link['remove']['variables'] = array( 'id' => _( 'ID' ) );
 		$link['add']['html']['remove'] = button( 'add' );
 
-		if ( User( 'PROFILE' ) == 'admin' )
+		if ( User( 'PROFILE' ) === 'admin' )
 		{
 			$tabs[] = array(
 				'title' => button( 'add', '', '', 'smaller' ),
@@ -218,9 +218,9 @@ if ( ! $_REQUEST['modfunc'] )
 		ORDER BY SORT_ORDER,ID';
 
 		$functions = array(
-			'TITLE' => '_makeTextInput',
-			'COMMENT' => '_makeTextInput',
-			'SORT_ORDER' => '_makeTextInput',
+			'TITLE' => '_makeCommentsInput',
+			'COMMENT' => '_makeCommentsInput',
+			'SORT_ORDER' => '_makeCommentsInput',
 		);
 
 		$LO_columns = array(
@@ -230,11 +230,11 @@ if ( ! $_REQUEST['modfunc'] )
 		);
 
 		$link['add']['html'] = array(
-			'TITLE' => _makeTextInput( '', 'TITLE' ),
-			'COMMENT' => _makeTextInput( '', 'COMMENT' ),
-			'HHR_GPA_VALUE' => _makeCommentsInput( '', 'HHR_GPA_VALUE' ),
-			'HR_GPA_VALUE' => _makeCommentsInput( '', 'HR_GPA_VALUE' ),
-			'SORT_ORDER' => _makeTextInput( '', 'SORT_ORDER' ),
+			'TITLE' => _makeCommentsInput( '', 'TITLE' ),
+			'COMMENT' => _makeCommentsInput( '', 'COMMENT' ),
+			/*'HHR_GPA_VALUE' => _makeCommentsInput( '', 'HHR_GPA_VALUE' ),
+			'HR_GPA_VALUE' => _makeCommentsInput( '', 'HR_GPA_VALUE' ),*/
+			'SORT_ORDER' => _makeCommentsInput( '', 'SORT_ORDER' ),
 		);
 
 		$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove&tab_id=new';
@@ -287,9 +287,18 @@ if ( ! $_REQUEST['modfunc'] )
 	echo '</td></tr></table></form>';
 }
 
+
 /**
- * @param $value
- * @param $name
+ * Make Comments input
+ * Select, and Text inputs
+ *
+ * Local function
+ * DBGet() callback
+ *
+ * @param string $value  Column value.
+ * @param string $column Column name.
+ *
+ * @return Input HTML.
  */
 function _makeCommentsInput( $value, $name )
 {
@@ -317,7 +326,7 @@ function _makeCommentsInput( $value, $name )
 	}
 	elseif ( $name === 'COMMENT' )
 	{
-		$extra = 'size=15 maxlength=100';
+		$extra = 'size=20 maxlength=100';
 	}
 	elseif ( $name === 'SHORT_NAME' )
 	{
@@ -327,55 +336,20 @@ function _makeCommentsInput( $value, $name )
 	{
 		$extra = 'size=3 maxlength=5';
 	}
-	else
-	{
-		$extra = 'size=5 maxlength=5';
-	}
-
-	if ( $name === 'TITLE'
-		&& $id !== 'new' )
-	{
-		$extra .= ' required';
-	}
-
-	return TextInput(
-		$value,
-		'values[' . $id . '][' . $name . ']',
-		'',
-		$extra
-	);
-}
-
-/**
- * @param $value
- * @param $name
- */
-function _makeTextInput( $value, $name )
-{
-	global $THIS_RET;
-
-	if ( $THIS_RET['ID'] )
-	{
-		$id = $THIS_RET['ID'];
-	}
-	else
-	{
-		$id = 'new';
-	}
-
-	if ( $name === 'TITLE' )
+	elseif ( $name === 'TITLE' )
 	{
 		$extra = 'size=15 maxlength=25';
+
+		if ( $_REQUEST['tab_id'] !== 'new' )
+		{
+			$extra = 'size=5 maxlength=5';
+		}
 
 		if ( $id !== 'new' )
 		{
 			$extra .= ' required';
 		}
 	}
-	elseif ( $name === 'COMMENT' )
-	{
-		$extra = 'size=15 maxlength=100';
-	}
 	else
 	{
 		$extra = 'size=5 maxlength=5';
@@ -388,3 +362,4 @@ function _makeTextInput( $value, $name )
 		$extra
 	);
 }
+
