@@ -155,6 +155,8 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
  * @uses TinyMCEInput()
  * @since 2.9
  *
+ * @since 4.5 Move headers to StudentAssignmentDrawHeaders() function
+ *
  * @param  string  $assignment_id Assignment ID.
  * @return boolean true if can submit, else false.
  */
@@ -171,50 +173,7 @@ function StudentAssignmentSubmissionOutput( $assignment_id )
 		echo ErrorMessage( $error, 'fatal' );
 	}
 
-	// Past due, in red.
-	$due_date = MakeAssignmentDueDate( $assignment['DUE_DATE'] );
-
-	// Display Assignment details.
-	// Due date - Assigned date.
-	DrawHeader(
-		_( 'Due Date' ) . ': <b>' . $due_date . '</b>',
-		_( 'Assigned Date' ) . ': <b>' . ProperDate( $assignment['ASSIGNED_DATE'] ) . '</b>'
-	);
-
-	// Course - Teacher.
-	DrawHeader(
-		_( 'Course Title' ) . ': <b>' . $assignment['COURSE_TITLE'] . '</b>',
-		_( 'Teacher' ) . ': <b>' . GetTeacher( $assignment['STAFF_ID'] ) . '</b>'
-	);
-
-	$type_color = '';
-
-	if ( $assignment['ASSIGNMENT_TYPE_COLOR'] )
-	{
-		$type_color = '<span style="background-color: ' .
-			$assignment['ASSIGNMENT_TYPE_COLOR'] . ';">&nbsp;</span>&nbsp;';
-	}
-
-	// Title - Type.
-	DrawHeader(
-		_( 'Title' ) . ': <b>' . $assignment['TITLE'],
-		_( 'Assignment Type' ) . ': <b>' . $type_color . $assignment['ASSIGNMENT_TYPE_TITLE'] . '</b>'
-	);
-
-	// Points.
-	DrawHeader( _( 'Points' ) . ': <b>' . $assignment['POINTS'] . '</b>' );
-
-	if ( $assignment['DESCRIPTION'] )
-	{
-		// Description.
-		DrawHeader( _( 'Description' ) . ':<br />'. $assignment['DESCRIPTION'] );
-	}
-
-	if ( $assignment['FILE'] )
-	{
-		// @since 4.4 Assignment File.
-		DrawHeader( _( 'File' ) . ': ' . GetAssignmentFileLink( $assignment['FILE'] ) );
-	}
+	StudentAssignmentDrawHeaders( $assignment );
 
 	// @since 4.1 Submission header action hook.
 	do_action( 'Grades/includes/StudentAssignments.fnc.php|submission_header' );
@@ -292,6 +251,73 @@ function StudentAssignmentSubmissionOutput( $assignment_id )
 	return true;
 }
 
+
+/**
+ * Student Assignment Draw Headers with details
+ *
+ * @since 4.5
+ *
+ * @param array $assignment Assignment details array
+ */
+function StudentAssignmentDrawHeaders( $assignment )
+{
+	if ( ! $assignment
+		|| ! is_array( $assignment ) )
+	{
+		return;
+	}
+
+	// Past due, in red.
+	$due_date = $assignment['DUE_DATE'] ? MakeAssignmentDueDate( $assignment['DUE_DATE'] ) : _( 'N/A' );
+
+	$assigned_date = $assignment['ASSIGNED_DATE'] ? ProperDate( $assignment['ASSIGNED_DATE'] ) : _( 'N/A' );
+
+	// Display Assignment details.
+	// Due date - Assigned date.
+	DrawHeader(
+		_( 'Due Date' ) . ': <b>' . $due_date . '</b>',
+		_( 'Assigned Date' ) . ': <b>' . $assigned_date . '</b>'
+	);
+
+	// Course - Teacher.
+	DrawHeader(
+		_( 'Course Title' ) . ': <b>' . $assignment['COURSE_TITLE'] . '</b>',
+		_( 'Teacher' ) . ': <b>' . GetTeacher( $assignment['STAFF_ID'] ) . '</b>'
+	);
+
+	$type_color = '';
+
+	if ( $assignment['ASSIGNMENT_TYPE_COLOR'] )
+	{
+		$type_color = '<span style="background-color: ' .
+			$assignment['ASSIGNMENT_TYPE_COLOR'] . ';">&nbsp;</span>&nbsp;';
+	}
+
+	// Title - Type.
+	DrawHeader(
+		_( 'Title' ) . ': <b>' . $assignment['TITLE'],
+		_( 'Category' ) . ': <b>' . $type_color . $assignment['CATEGORY'] . '</b>'
+	);
+
+	// @since 4.4 Assignment File.
+	$file_header = $assignment['FILE'] ?
+		_( 'File' ) . ': ' . GetAssignmentFileLink( $assignment['FILE'] ) :
+		'';
+
+	// Points.
+	DrawHeader(
+		_( 'Points' ) . ': <b>' . $assignment['POINTS'] . '</b>',
+		$file_header
+	);
+
+	if ( $assignment['DESCRIPTION'] )
+	{
+		// Description.
+		DrawHeader( _( 'Description' ) . ':<br />'. $assignment['DESCRIPTION'] );
+	}
+}
+
+
 /**
  * Get Assignment details from DB.
  *
@@ -349,7 +375,7 @@ function GetAssignment( $assignment_id )
 	$assignment_sql = "SELECT ga.ASSIGNMENT_ID, ga.STAFF_ID, ga.COURSE_PERIOD_ID, ga.COURSE_ID,
 		ga.TITLE, ga.ASSIGNED_DATE, ga.DUE_DATE, ga.POINTS,
 		ga.DESCRIPTION, ga.FILE, ga.SUBMISSION, c.TITLE AS COURSE_TITLE,
-		gat.TITLE AS ASSIGNMENT_TYPE_TITLE, gat.COLOR AS ASSIGNMENT_TYPE_COLOR
+		gat.TITLE AS CATEGORY, gat.COLOR AS ASSIGNMENT_TYPE_COLOR
 		FROM GRADEBOOK_ASSIGNMENTS ga,COURSES c,GRADEBOOK_ASSIGNMENT_TYPES gat
 		" . $where_user .
 		" AND ga.ASSIGNMENT_ID='" . $assignment_id . "'

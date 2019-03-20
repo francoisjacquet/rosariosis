@@ -21,6 +21,7 @@ Changes in 4.5
 - Fix Discipline Referrals portal alert requested dates in Widgets.fnc.php
 - RequestedDate() Recursive function: use request index and default value in Date.php
 - Set start, end & other dates using new RequestedDate() function parameters, program wide
+- Move headers to StudentAssignmentDrawHeaders() function in StudentAssignments.fnc.php
 
 Changes in 4.4
 --------------
