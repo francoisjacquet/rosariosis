@@ -288,7 +288,9 @@ if ( UserStudentID()
 		}
 		else
 		{
-			DrawHeader( _( 'There are no grades available for this student.' ) );
+			$warning[] = _( 'There are no grades available for this student.' );
+
+			echo ErrorMessage( $warning, 'warning' );
 		}
 	}
 	else
@@ -336,7 +338,10 @@ if ( UserStudentID()
 			}
 
 			//FJ assigments appear after assigned date and not due date
-			$assignments_RET = DBGet( "SELECT ga.ASSIGNMENT_ID,gg.POINTS,gg.COMMENT,ga.TITLE,ga.DESCRIPTION,ga.ASSIGNED_DATE,ga.DUE_DATE,ga.POINTS AS POINTS_POSSIBLE,at.TITLE AS CATEGORY
+			$assignments_RET = DBGet( "SELECT ga.ASSIGNMENT_ID,gg.POINTS,gg.COMMENT,ga.TITLE,
+				ga.DESCRIPTION,ga.ASSIGNED_DATE,ga.DUE_DATE,ga.POINTS AS POINTS_POSSIBLE,
+				at.TITLE AS CATEGORY,at.COLOR AS ASSIGNMENT_TYPE_COLOR,ga.STAFF_ID,ga.FILE,
+				ga.COURSE_ID,'" . $course['COURSE_TITLE'] . "' AS COURSE_TITLE
 			FROM GRADEBOOK_ASSIGNMENTS ga
 			LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.COURSE_PERIOD_ID='" . $course['COURSE_PERIOD_ID'] . "' AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.STUDENT_ID='" . UserStudentID() . "'),
 			GRADEBOOK_ASSIGNMENT_TYPES at
@@ -376,7 +381,11 @@ if ( UserStudentID()
 
 				//echo '<pre>'; var_dump($all_RET); echo '</pre>';
 
-				$LO_columns = array( 'TITLE' => _( 'Title' ), 'CATEGORY' => _( 'Category' ), 'POINTS' => _( 'Points / Possible' ) );
+				$LO_columns = array(
+					'TITLE' => _( 'Title' ),
+					'CATEGORY' => _( 'Category' ),
+					'POINTS' => _( 'Points / Possible' ),
+				);
 
 				if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) >= 0 )
 				{
@@ -507,67 +516,66 @@ if ( UserStudentID()
 			}
 			elseif ( $_REQUEST['id'] !== 'all' )
 			{
-				DrawHeader( _( 'There are no grades available for this student.' ) );
+				$warning[] = _( 'There are no grades available for this student.' );
+
+				echo ErrorMessage( $warning, 'warning' );
 			}
 		}
 	}
 }
 
+
 /**
- * Make Assignment Tip Message
+ * Make Assignment Details
+ *
+ * @since 4.5 Move assignment details from Tip message to Colorbox popup
+ * @uses StudentAssignmentDrawHeaders()
  *
  * @param  string $value     Assignment Title
  * @param  string $column    'TITLE'
- * @return string Assignment Tip Message
+ * @return string Assignment Details inside Popup
  */
 function _makeTipAssignment( $value, $column )
 {
 	global $THIS_RET;
 
-	if ( ! function_exists( 'makeTipMessage' ) )
+	if ( ! function_exists( 'StudentAssignmentDrawHeaders' ) )
 	{
-		require_once 'ProgramFunctions/TipMessage.fnc.php';
+		// Include Student Assignments functions.
+		require_once 'modules/Grades/includes/StudentAssignments.fnc.php';
 	}
 
 	if (  ( $THIS_RET['DESCRIPTION']
 		|| $THIS_RET['ASSIGNED_DATE']
 		|| $THIS_RET['DUE_DATE'] )
-		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+		&& ! isset( $_REQUEST['_ROSARIO_PDF'] )
+		&& empty( $_REQUEST['LO_save'] ) )
 	{
-		$tipmsg = '<table class="width-100p cellspacing-0"><tr>';
+		$colorbox_id = 'ASSIGNMENT_' . $THIS_RET['ASSIGNMENT_ID'];
 
-		if ( $THIS_RET['DESCRIPTION'] )
-		{
-			$tipmsg .= '<tr><td>' . _( 'Description' ) . '</td><td>' .
-			nl2br( $THIS_RET['DESCRIPTION'] ) . '</td></tr>';
-		}
+		$colorbox = '<div style="display:none;"><div id="' . $colorbox_id . '">';
 
-		if ( $THIS_RET['ASSIGNED_DATE'] )
-		{
-			$tipmsg .= '<tr><td>' . _( 'Assigned' ) . '</td><td>' .
-			ProperDate( $THIS_RET['ASSIGNED_DATE'] ) . '</td></tr>';
-		}
+		// Format Assignment columns for StudentAssignmentDrawHeaders function.
+		$assignment = $THIS_RET;
 
-		if ( $THIS_RET['DUE_DATE'] )
-		{
-			$tipmsg .= '<tr><td>' . _( 'Due' ) . '</td><td>' .
-			ProperDate( $THIS_RET['DUE_DATE'] ) . '</td></tr>';
-		}
+		$assignment['POINTS'] = $assignment['POINTS_POSSIBLE'];
 
-		$tipmsg .= '</table>';
+		ob_start();
 
-		$tip_title = makeTipMessage(
-			$tipmsg,
-			_( 'Details' ),
-			$value
-		);
+		StudentAssignmentDrawHeaders( $assignment );
+
+		$colorbox .= ob_get_clean();
+
+		$colorbox .= '</div></div>';
+
+		$colorbox .= '<a class="colorboxinline" href="#' . $colorbox_id . '">' . $value . '</a>';
 	}
 	else
 	{
-		$tip_title = $value;
+		$colorbox = $value;
 	}
 
-	return $tip_title;
+	return $colorbox;
 }
 
 //FJ fix error Missing argument 2 & 3 & 4 & 5

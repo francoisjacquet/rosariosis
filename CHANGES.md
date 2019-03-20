@@ -22,6 +22,7 @@ Changes in 4.5
 - RequestedDate() Recursive function: use request index and default value in Date.php
 - Set start, end & other dates using new RequestedDate() function parameters, program wide
 - Move headers to StudentAssignmentDrawHeaders() function in StudentAssignments.fnc.php
+- Move assignment details from Tip message to Colorbox popup in StudentGrades.php
 
 Changes in 4.4
 --------------
