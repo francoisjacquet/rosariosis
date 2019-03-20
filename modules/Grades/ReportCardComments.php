@@ -275,8 +275,8 @@ if ( ! $_REQUEST['modfunc'] )
 			ORDER BY SORT_ORDER";
 
 		$functions = array(
-			'TITLE' => '_makeTextInput',
-			'SORT_ORDER' => '_makeTextInput',
+			'TITLE' => '_makeCommentsInput',
+			'SORT_ORDER' => '_makeCommentsInput',
 			'COLOR' => '_makeColorInput',
 		);
 
@@ -287,8 +287,8 @@ if ( ! $_REQUEST['modfunc'] )
 		);
 
 		$link['add']['html'] = array(
-			'TITLE' => _makeTextInput( '', 'TITLE' ),
-			'SORT_ORDER' => _makeTextInput( '', 'SORT_ORDER' ),
+			'TITLE' => _makeCommentsInput( '', 'TITLE' ),
+			'SORT_ORDER' => _makeCommentsInput( '', 'SORT_ORDER' ),
 			'COLOR' => _makeColorInput( '', 'COLOR' ),
 		);
 
@@ -313,12 +313,12 @@ if ( ! $_REQUEST['modfunc'] )
 		AND COURSE_ID IS NULL
 		ORDER BY SORT_ORDER";
 
-		$functions = array( 'TITLE' => '_makeTextInput', 'SORT_ORDER' => '_makeTextInput' );
+		$functions = array( 'TITLE' => '_makeCommentsInput', 'SORT_ORDER' => '_makeCommentsInput' );
 		$LO_columns = array( 'TITLE' => _( 'Comment' ), 'SORT_ORDER' => _( 'Sort Order' ) );
 
 		$link['add']['html'] = array(
-			'TITLE' => _makeTextInput( '', 'TITLE' ),
-			'SORT_ORDER' => _makeTextInput( '', 'SORT_ORDER' ),
+			'TITLE' => _makeCommentsInput( '', 'TITLE' ),
+			'SORT_ORDER' => _makeCommentsInput( '', 'SORT_ORDER' ),
 		);
 
 		$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] .
@@ -445,41 +445,16 @@ if ( ! $_REQUEST['modfunc'] )
 }
 
 /**
- * @param $value
- * @param $name
- */
-function _makeTextInput( $value, $name )
-{
-	global $THIS_RET;
-
-	if ( $THIS_RET['ID'] )
-	{
-		$id = $THIS_RET['ID'];
-	}
-	else
-	{
-		$id = 'new';
-	}
-
-	$extra = '';
-
-	if ( $name === 'TITLE'
-		&& $id !== 'new' )
-	{
-		$extra .= ' required';
-	}
-
-	return TextInput(
-		$value,
-		'values[' . $id . '][' . $name . ']',
-		'',
-		$extra
-	);
-}
-
-/**
- * @param $value
- * @param $name
+ * Make Comments input
+ * Select, and Text inputs
+ *
+ * Local function
+ * DBGet() callback
+ *
+ * @param string $value  Column value.
+ * @param string $column Column name.
+ *
+ * @return Input HTML.
  */
 function _makeCommentsInput( $value, $name )
 {
@@ -521,13 +496,19 @@ function _makeCommentsInput( $value, $name )
 
 	if ( $name === 'SORT_ORDER' )
 	{
-		$extra .= ' size=5 maxlength=5';
+		$extra .= ' size=3 maxlength=5';
 	}
 
-	if ( $name === 'TITLE'
-		&& $id !== 'new' )
+	if ( $name === 'TITLE' )
 	{
-		$extra .= ' required';
+		if ( $id !== 'new' )
+		{
+			$extra .= ' required';
+		}
+		else
+		{
+			$extra .= ' size=20';
+		}
 	}
 
 	return TextInput(
@@ -563,13 +544,6 @@ function _makeColorInput( $value, $column )
 	{
 		$id = 'new';
 	}
-
-	/*$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666','#333366','#336633','purple','teal','firebrick','tan');
-	foreach ( (array) $colors as $color)
-	{
-	$color_select[ $color ] = array('<span style="background-color:'.$color.'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>','<span style="background-color:'.$color.';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>');
-	}
-	return RadioInput($value,'values[' . $id . '][' . $name . ']','',$color_select);*/
 
 	return ColorInput(
 		$value,
