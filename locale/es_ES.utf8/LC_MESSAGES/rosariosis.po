@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-18 16:25+0100\n"
-"PO-Revision-Date: 2019-03-18 16:29+0100\n"
+"PO-Revision-Date: 2019-03-20 18:02+0100\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS\n"
 "Language: es\n"
@@ -5221,7 +5221,7 @@ msgstr "No se debe entregar"
 #: modules/Grades/ReportCardComments.php:98
 #: modules/Grades/ReportCardComments.php:107
 msgid "Report Card Comment"
-msgstr "Comentarios del Boletín de Calificaciones"
+msgstr "Comentarios del Boletín"
 
 #: modules/Grades/ReportCardCommentCodes.php:88
 #: modules/Grades/ReportCardGrades.php:95
@@ -5246,7 +5246,7 @@ msgstr "Aún no hay cursos configurados"
 
 #: modules/Grades/ReportCardComments.php:84
 msgid "Report Card Comment Category"
-msgstr "Categoría de Comentarios del Boletín de Calificaciones"
+msgstr "Categoría de Comentarios del Boletín"
 
 #: modules/Grades/ReportCardComments.php:210
 msgid "Comment Category"
@@ -6457,7 +6457,7 @@ msgstr "Calificaciones del Boletín de Calificaciones"
 
 #: modules/School_Setup/CopySchool.php:8 modules/School_Setup/Rollover.php:3
 msgid "Report Card Comment Codes"
-msgstr "Códigos de Comentarios del Boletín de Calificaciones"
+msgstr "Códigos de Comentarios del Boletín"
 
 #: modules/School_Setup/CopySchool.php:9 modules/School_Setup/Rollover.php:7
 msgid "Eligibility Activities"
