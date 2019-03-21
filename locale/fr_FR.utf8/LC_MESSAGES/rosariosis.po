@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-18 16:33+0100\n"
-"PO-Revision-Date: 2019-03-20 18:02+0100\n"
+"PO-Revision-Date: 2019-03-20 19:05+0100\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS\n"
 "Language: fr\n"
@@ -5501,7 +5501,7 @@ msgstr "Explication des Codes de Commentaires"
 #: modules/Grades/includes/ReportCards.fnc.php:998
 #, php-format
 msgid "Absences in %s"
-msgstr "Absences en %s"
+msgstr "Absences au %s"
 
 #: modules/Grades/includes/ReportCards.fnc.php:1025
 msgid "Absences this year"
