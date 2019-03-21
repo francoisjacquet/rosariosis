@@ -1135,14 +1135,9 @@ function Widgets( $item, &$myextra = null )
 				break;
 			}
 
-			AddRequestedDates( 'discipline_entry_begin' );
-			AddRequestedDates( 'discipline_entry_end' );
+			$discipline_entry_begin = RequestedDate( 'discipline_entry_begin', $_REQUEST['discipline_entry_begin'] );
 
-			$discipline_entry_begin = empty( $_REQUEST['discipline_entry_begin'] ) ?
-				'' : $_REQUEST['discipline_entry_begin'];
-
-			$discipline_entry_end = empty( $_REQUEST['discipline_entry_end'] ) ?
-				'' : $_REQUEST['discipline_entry_end'];
+			$discipline_entry_end = RequestedDate( 'discipline_entry_end', $_REQUEST['discipline_entry_end'] );
 
 			if ( ( $discipline_entry_begin
 					|| $discipline_entry_end )
