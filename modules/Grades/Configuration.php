@@ -100,11 +100,15 @@ echo '<tr><td>' . CheckboxInput(
 	_( 'Due Date defaults to today' )
 ) . '</td></tr>';
 
-echo '<tr><td>' . CheckboxInput(
-	$gradebook_config['LETTER_GRADE_ALL'],
-	'values[LETTER_GRADE_ALL]',
-	_( 'Hide letter grades for all gradebook assignments' )
-) . '</td></tr>';
+if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) <= 0 )
+{
+	// Global Config allows for Letter grades.
+	echo '<tr><td>' . CheckboxInput(
+		$gradebook_config['LETTER_GRADE_ALL'],
+		'values[LETTER_GRADE_ALL]',
+		_( 'Hide letter grades for all gradebook assignments' )
+	) . '</td></tr>';
+}
 
 echo '<tr><td><hr />' . TextInput(
 	$gradebook_config['LETTER_GRADE_MIN'],

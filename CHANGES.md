@@ -26,6 +26,7 @@ Changes in 4.5
 - Remove \_makeTextInput() & use \_makeCommentsInput() function instead in ReportCardComments.php & ReportCardCommentCodes.php
 - Fix Referrals Multiple Checkbox Input options in Referrals.php
 - Use SelectInput, RadioInput, CheckboxInput & TextInput functions in Grades/Configuration.php
+- Show Hide letter grades for all gradebook assignments option only if Global Config allows for Letter grades in Grades/Configuration.php
 - Hide letter grades for all gradebook assignments in Grades.php
 
 Changes in 4.4
