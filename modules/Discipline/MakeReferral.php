@@ -313,27 +313,13 @@ if ( ! $_REQUEST['modfunc'] )
 				case 'multiple_checkbox':
 					$options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS'] ) );
 
-					echo '<table class="cellpadding-5"><tr class="st">';
-
-					$i = 0;
-
-					foreach ( (array) $options as $option )
-					{
-						if ( $i++ % 3 == 0 )
-						{
-							echo '</tr><tr class="st">';
-						}
-
-						echo '<td><label>
-							<input type="checkbox" name="values[CATEGORY_' . $category['ID'] . '][]"
-								value="' . htmlspecialchars( $option, ENT_QUOTES ) . '" />&nbsp;' .
-							( $option != '' ? $option : '-' ) .
-							'</label></td>';
-					}
-
-					echo '</tr></table>';
-
-					echo FormatInputTitle( $category['TITLE'], '', false, '' );
+					// @since 4.2
+					echo MultipleCheckboxInput(
+						'',
+						'values[CATEGORY_' . $category['ID'] . '][]',
+						$category['TITLE'],
+						$options
+					);
 
 					break;
 
