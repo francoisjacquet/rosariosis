@@ -275,7 +275,7 @@ if ( ! $_REQUEST['modfunc']
 						$RET[ 'CATEGORY_' . $category['ID'] ],
 						'values[CATEGORY_' . $category['ID'] . '][]',
 						$category['TITLE'],
-						$category['SELECT_OPTIONS']
+						$options
 					);
 
 				break;
