@@ -158,7 +158,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$sql = "SELECT NULL AS REMOVE,du.ID AS USAGE_ID,df.ID,COALESCE(du.TITLE,df.TITLE) AS TITLE,du.SORT_ORDER,df.DATA_TYPE,du.SELECT_OPTIONS
 	FROM DISCIPLINE_FIELDS df LEFT
 	OUTER JOIN DISCIPLINE_FIELD_USAGE du ON (du.DISCIPLINE_FIELD_ID=df.ID AND du.SYEAR='".UserSyear()."' AND du.SCHOOL_ID='".UserSchool()."')
-	ORDER BY du.ID,du.SORT_ORDER";
+	ORDER BY du.SORT_ORDER,du.ID";
 	$QI = DBQuery($sql);
 	$referrals_RET = DBGet($QI,array('REMOVE' => '_makeRemove','TITLE' => '_makeTextInput','SORT_ORDER' => '_makeTextInput','DATA_TYPE' => '_makeType','SELECT_OPTIONS' => '_makeTextAreaInput'));
 
