@@ -25,6 +25,7 @@ Changes in 4.5
 - Move assignment details from Tip message to Colorbox popup in StudentGrades.php
 - Remove \_makeTextInput() & use \_makeCommentsInput() function instead in ReportCardComments.php & ReportCardCommentCodes.php
 - Fix Referrals Multiple Checkbox Input options in Referrals.php
+- Use RadioInput, CheckboxInput & TextInput functions in Grades/Configuration.php
 
 Changes in 4.4
 --------------
