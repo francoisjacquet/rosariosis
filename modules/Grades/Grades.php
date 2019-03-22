@@ -286,7 +286,10 @@ if ( UserStudentID() )
 
 	if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) <= 0 )
 	{
-		$LO_columns['LETTER_GRADE'] = _( 'Letter' );
+		if ( $gradebook_config['LETTER_GRADE_ALL'] != 'Y' )
+		{
+			$LO_columns['LETTER_GRADE'] = _( 'Letter' );
+		}
 	}
 
 	$link['TITLE']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&include_inactive=' . $_REQUEST['include_inactive'] . '&include_all=' . $_REQUEST['include_all'];
@@ -466,7 +469,11 @@ else
 
 		if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) <= 0 )
 		{
-			$LO_columns['LETTER_GRADE'] = _( 'Letter' );
+			if ( empty( $_REQUEST['assignment_id'] )
+				|| $gradebook_config['LETTER_GRADE_ALL'] != 'Y' )
+			{
+				$LO_columns['LETTER_GRADE'] = _( 'Letter' );
+			}
 		}
 	}
 
