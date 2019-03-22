@@ -158,20 +158,31 @@ ORDER BY rccc.SORT_ORDER,rccs.SORT_ORDER,rccs.ID,rccc.ID", array(), array( 'ID' 
 
 if ( $comment_codes_RET )
 {
-	echo '<fieldset><legend>' . _( 'Final Grades' ) . '</legend><table class="col1-align-right">';
+	echo '<fieldset><legend>' . _( 'Final Grades' ) . '</legend><table>';
 
 	foreach ( (array) $comment_codes_RET as $id => $comments )
 	{
-		echo '<tr><td><select name="values[COMMENT_' . $id . ']><option value="">' . _( 'N/A' ) . '';
+		$select_options = array();
 
-		foreach ( (array) $comments as $key => $val )
+		$value = '';
+
+		foreach ( (array) $comments as $comment )
 		{
-			echo '<option value="' . $val['CODE_TITLE'] . '"' .
-				( $val['CODE_TITLE'] == $gradebook_config['COMMENT_' . $id] ? ' selected' : '' ) . '>' .
-				$val['CODE_TITLE'];
+			$select_options[ $comment['CODE_TITLE'] ] = $comment['CODE_TITLE'];
+
+			if ( $comment['CODE_TITLE'] == $gradebook_config['COMMENT_' . $id] )
+			{
+				$value = $comment['CODE_TITLE'];
+			}
 		}
 
-		echo '</select></td><td>' . sprintf( _( 'Default %s comment code' ), $comments[1]['TITLE'] ) . '</td></tr>';
+		echo '<tr><td>' . SelectInput(
+			$value,
+			'values[COMMENT_' . $id . ']',
+			sprintf( _( 'Default %s comment code' ), $comments[1]['TITLE'] ),
+			$select_options,
+			'N/A'
+		) . '</td></tr>';
 	}
 
 	echo '</table></fieldset><br />';
