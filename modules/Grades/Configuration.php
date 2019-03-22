@@ -265,25 +265,33 @@ foreach ( (array) $semesters as $sem )
 {
 	if ( $sem['DOES_GRADES'] === 'Y' )
 	{
-		$table = '<table>';
-		$table .= '<tr class="st"><td><span class="legend-gray">' . $sem['TITLE'] . '</span>&nbsp;</td>';
+		$table = '<table class="cellpadding-5">';
+		$table .= '<tr class="st"><td style="vertical-align: bottom;"><span class="legend-gray">' .
+			$sem['TITLE'] . '</span>&nbsp;</td>';
+
 		$total = 0;
 
 		foreach ( (array) $quarters[$sem['MARKING_PERIOD_ID']] as $qtr )
 		{
-			$table .= '<td><span class="nobr">' . $qtr['TITLE'] . '&nbsp;</span><br />';
+			$value = array(
+				$gradebook_config['SEM-' . $qtr['MARKING_PERIOD_ID']],
+				$gradebook_config['SEM-' . $qtr['MARKING_PERIOD_ID']] . '%'
+			);
 
-			$table .= '<span class="nobr">
-				<input type="text" name="values[SEM-' . $qtr['MARKING_PERIOD_ID'] . ']" value="' .
-				$gradebook_config['SEM-' . $qtr['MARKING_PERIOD_ID']] .
-				'" size="3" maxlength="6" />%</span></td>';
+			$table .= '<td>' . TextInput(
+				$value,
+				'values[SEM-' . $qtr['MARKING_PERIOD_ID'] . ']',
+				$qtr['TITLE'],
+				'size="3" maxlength="6"'
+			) . '</td>';
 
 			$total += $gradebook_config['SEM-' . $qtr['MARKING_PERIOD_ID']];
 		}
 
 		if ( $total != 100 )
 		{
-			$table .= '<td><span class="legend-red">' . _( 'Total' ) . ' &#8800; 100%!</span></td>';
+			$table .= '<td style="vertical-align: bottom;"><span class="legend-red">' .
+				_( 'Total' ) . ' &#8800; 100%!</span></td>';
 		}
 
 		$table .= '</tr></table>';
@@ -294,20 +302,27 @@ foreach ( (array) $semesters as $sem )
 
 if ( $year[1]['DOES_GRADES'] === 'Y' )
 {
-	$table = '<table>';
-	$table .= '<tr class="st"><td><span class="legend-gray;">' . $year[1]['TITLE'] . '</span>&nbsp;</td>';
+	$table = '<table class="cellpadding-5">';
+	$table .= '<tr class="st"><td style="vertical-align: bottom;"><span class="legend-gray">' .
+		$year[1]['TITLE'] . '</span>&nbsp;</td>';
+
 	$total = 0;
 
 	foreach ( (array) $semesters as $sem )
 	{
 		foreach ( (array) $quarters[$sem['MARKING_PERIOD_ID']] as $qtr )
 		{
-			$table .= '<td><span class="nobr">' . $qtr['TITLE'] . '&nbsp;</span><br />';
+			$value = array(
+				$gradebook_config['FY-' . $qtr['MARKING_PERIOD_ID']],
+				$gradebook_config['FY-' . $qtr['MARKING_PERIOD_ID']] . '%'
+			);
 
-			$table .= '<span class="nobr">
-				<input type="text" name="values[FY-' . $qtr['MARKING_PERIOD_ID'] . ']" value="' .
-				$gradebook_config['FY-' . $qtr['MARKING_PERIOD_ID']] .
-				'" size="3" maxlength="6" />%</span></td>';
+			$table .= '<td>' . TextInput(
+				$value,
+				'values[SEM-' . $qtr['MARKING_PERIOD_ID'] . ']',
+				$qtr['TITLE'],
+				'size="3" maxlength="6"'
+			) . '</td>';
 
 			$total += $gradebook_config['FY-' . $qtr['MARKING_PERIOD_ID']];
 		}
@@ -324,7 +339,8 @@ if ( $year[1]['DOES_GRADES'] === 'Y' )
 
 	if ( $total != 100 )
 	{
-		$table .= '<td><span class="legend-red">' . _( 'Total' ) . ' &#8800; 100%!</span></td>';
+		$table .= '<td style="vertical-align: bottom;"><span class="legend-red">' .
+			_( 'Total' ) . ' &#8800; 100%!</span></td>';
 	}
 
 	$table .= '</tr></table>';
