@@ -4,6 +4,7 @@
 Changes in 4.4.1
 ----------------
 - Fix Referrals Multiple Checkbox Input options in Referrals.php
+- Fix MultipleCheckboxInput() title was displayed twice in Inputs.php
 
 Changes in 4.4
 --------------
