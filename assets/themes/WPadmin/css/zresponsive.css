@@ -181,7 +181,7 @@
 	.rt thead {
 		display: block;
 		float: left;
-		max-width: 130px;
+		max-width: 160px;
 	}
 	.rt tbody {
 		display: block;
@@ -201,6 +201,8 @@
 	.rt th,
 	.rt th a {
 		font-size: 14px;
+		white-space: nowrap;
+		text-overflow: ellipsis;
 	}
 	.rt tbody tr {
 		display: inline-block;
@@ -318,12 +320,13 @@
 		width: 210px;
 		float: right;
 	}
-	/* Show List sorting icons */
-	.widefat th a[href*="LO_dir=1"]:after {
-		content: "\25b4";
+	/* Hide List sorting icons */
+	.widefat th a[href*="LO_dir"]:after {
+		content: "";
+		padding-left: 0;
 	}
-	.widefat th a[href*="LO_dir=-1"]:after {
-		content: "\25be";
+	.widefat th a[href*="LO_dir"]:hover:after {
+		content: "";
 	}
 }
 
@@ -346,18 +349,14 @@
 	select {
 		max-width: 260px
 	}
-	/* Hide List sorting icons to gain space */
-	.widefat th a[href*="LO_dir"]:after {
-		content: "";
-		padding-left: 0;
-	}
-	.widefat th a[href*="LO_dir"]:hover:after {
-		content: "";
-	}
 	/* Teacher Programs */
 	.teacher-programs-wrapper {
 		padding: 1%;
 		width: 98%;
 		margin-left: -1%;
+	}
+	/*responsive tables*/
+	.rt thead {
+		max-width: 130px;
 	}
 }
