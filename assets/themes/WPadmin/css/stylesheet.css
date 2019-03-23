@@ -69,6 +69,11 @@ select {
 	max-width: 100%
 }
 
+#search input,
+#search select {
+	max-width: 217px;
+}
+
 input[type=text],
 input[type=password],
 textarea {
