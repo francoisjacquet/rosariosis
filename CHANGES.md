@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 4.4.1
+----------------
+- Fix Referrals Multiple Checkbox Input options in Referrals.php
+
 Changes in 4.4
 --------------
 - Add Warehouse Header hook in Warehouse.php
