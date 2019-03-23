@@ -795,14 +795,14 @@ function MultipleCheckboxInput( $value, $name, $title, $options, $extra = '', $d
 
 	$multiple_html .= '</tr></table>';
 
-	$multiple_html .= $ftitle;
+	$multiple_html .= str_replace( '<br />' , '', $ftitle );
 
 	if ( $value != ''
 		&& $div )
 	{
 		$return = InputDivOnclick(
 			$id,
-			$multiple_html . str_replace( '<br />' , '', $ftitle ),
+			$multiple_html,
 			$multiple_value,
 			$ftitle
 		);
