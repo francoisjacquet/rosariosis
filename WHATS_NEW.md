@@ -2,6 +2,11 @@
 
 ## RosarioSIS Student Information System
 
+New in 4.5
+----------
+
+[Library](https://www.rosariosis.org/library-module/) module
+
 New in 4.4
 ----------
 
