@@ -154,8 +154,8 @@ if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')==
 
 	echo '<form action="' . $PHP_tmp_SELF . '" method="GET">';
 
-	DrawHeader( _( 'Timeframe' ) . ': ' . PrepareDate( $start_date, '_start' ) . ' ' .
-		_( 'to' ) . ' ' . PrepareDate( $end_date, '_end' ) . ' ' .
+	DrawHeader( _( 'Timeframe' ) . ': ' . PrepareDate( $start_date, '_start', false ) . ' ' .
+		_( 'to' ) . ' ' . PrepareDate( $end_date, '_end', false ) . ' ' .
 		Buttons( _( 'Go' ) ),
 		$period_select
 	);

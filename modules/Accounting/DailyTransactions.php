@@ -28,8 +28,8 @@ if ( $RosarioModules['Student_Billing'] )
 DrawHeader( $header_checkboxes, '' );
 
 DrawHeader( '<b>' . _( 'Report Timeframe' ) . ': </b>' .
-	PrepareDate( $start_date, '_start' ) . ' - ' .
-	PrepareDate( $end_date, '_end' ), SubmitButton( _( 'Go' ) ) );
+	PrepareDate( $start_date, '_start', false ) . ' - ' .
+	PrepareDate( $end_date, '_end', false ), SubmitButton( _( 'Go' ) ) );
 
 echo '</form>';
 

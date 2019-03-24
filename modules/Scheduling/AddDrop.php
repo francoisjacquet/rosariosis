@@ -11,8 +11,8 @@ $end_date = RequestedDate( 'end', DBDate() );
 echo '<form action="' . PreparePHP_SELF() . '" method="GET">';
 
 DrawHeader(
-	_( 'Timeframe' ) . ':' . PrepareDate( $start_date, '_start' ) . ' ' .
-	_( 'to' ) . ' ' . PrepareDate( $end_date, '_end' ) .
+	_( 'Timeframe' ) . ': ' . PrepareDate( $start_date, '_start', false ) . ' ' .
+	_( 'to' ) . ' ' . PrepareDate( $end_date, '_end', false ) .
 	SubmitButton( _( 'Go' ) ) );
 
 echo '</form>';

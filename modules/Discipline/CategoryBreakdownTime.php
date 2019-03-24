@@ -5,7 +5,7 @@ require_once 'ProgramFunctions/Charts.fnc.php';
 DrawHeader( ProgramTitle() );
 
 // Set start date.
-$start_date = RequestedDate( 'start', '' );
+$start_date = RequestedDate( 'start', '', 'set' );
 
 if ( empty( $start_date ) )
 {
@@ -23,7 +23,7 @@ if ( empty( $start_date ) )
 }
 
 // Set end date.
-$end_date = RequestedDate( 'end', DBDate() );
+$end_date = RequestedDate( 'end', DBDate(), 'set' );
 
 $chart_types = array( 'column', 'list' );
 
@@ -414,12 +414,12 @@ if ( ! $_REQUEST['modfunc'] )
 		<input type="radio" name="timeframe" value="SYEAR"' . ( $_REQUEST['timeframe'] === 'SYEAR' ? ' checked' : '' ) . '>&nbsp;' . _( 'School Year' ) .
 	'</label>';
 
-	DrawHeader( '<b>' . _( 'Timeframe' ) . ': </b> ' . $timeframe_radio);
+	DrawHeader( '<b>' . _( 'Timeframe' ) . ': </b> ' . $timeframe_radio );
 
 	DrawHeader(
 		'<b>' . _( 'Report Timeframe' ) . ': </b>' .
-			PrepareDate( $start_date, '_start' ) . ' - ' .
-			PrepareDate( $end_date, '_end' ) .
+			PrepareDate( $start_date, '_start', false ) . ' - ' .
+			PrepareDate( $end_date, '_end', false ) .
 			$advanced_link,
 		SubmitButton( _( 'Go' ) )
 	);
