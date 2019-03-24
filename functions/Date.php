@@ -512,11 +512,16 @@ function RequestedDate( $year_or_request_index, $month_or_default, $day_or_mode 
 			&& isset( $_REQUEST['month_' . $request_index ] )
 			&& isset( $_REQUEST['year_' . $request_index ] ) )
 		{
-			return RequestedDate(
+			$requested_date = RequestedDate(
 				$_REQUEST['year_' . $request_index ],
 				$_REQUEST['month_' . $request_index ],
 				$_REQUEST['day_' . $request_index ]
 			);
+
+			if ( ! empty( $requested_date ) )
+			{
+				return $requested_date;
+			}
 		}
 
 		if ( $mode === 'set'
