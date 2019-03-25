@@ -428,16 +428,6 @@ function _makeColorInput( $value, $column )
 	else
 		$id = 'new';
 
-	/*if ( ! $color_select )
-	{
-		$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666','#333366','#336633','purple','teal','firebrick','tan');
-		foreach ( (array) $colors as $color)
-		{
-			$color_select[ $color ] = array('<table class="cellspacing-0"><tr><td style="width:100%; background-color:'.$color.'">&nbsp;</td></tr></table>','<table class="cellspacing-0"><tr><td style="background-color:'.$color.'; width:30px">&nbsp;</td></tr></table>');
-		}
-	}
-	return RadioInput($value,"values[ $id ][COLOR]",'',$color_select);*/
-
 	return ColorInput(
 		$value,
 		'values[' . $id . '][' . $column . ']',
