@@ -180,6 +180,14 @@ if ( isset( $_POST['tables'] )
 
 				$values = $id . ",'" . User( 'STAFF_ID' ) . "','" . $course_id . "',";
 
+				// Set CREATED_AT to Quarter start_date if current date not in Quarter.
+				if ( GetCurrentMP( 'QTR', DBDate(), false ) !== UserMP() )
+				{
+					$fields .= "CREATED_AT,";
+
+					$values .= "'" . GetMP( UserMP(), 'START_DATE' ) . "',";
+				}
+
 				$_REQUEST['assignment_type_id'] = $id;
 			}
 
@@ -381,6 +389,15 @@ echo ErrorMessage( $error );
 
 if ( ! $_REQUEST['modfunc'] )
 {
+	$hide_previous_assignment_types_sql = '';
+
+	if ( $gradebook_config['HIDE_PREVIOUS_ASSIGNMENT_TYPES'] )
+	{
+		// @since 4.5 Hide previous quarters assignment types.
+		$hide_previous_assignment_types_sql = " AND CREATED_AT>='" . GetMP( UserMP(), 'START_DATE' ) . "'
+			AND CREATED_AT<='" . GetMP( UserMP(), 'END_DATE' ) . "'";
+	}
+
 	// Check assignment type ID is valid for current school & syear & quarter!
 
 	if ( ! empty( $_REQUEST['assignment_type_id'] )
@@ -391,13 +408,8 @@ if ( ! $_REQUEST['modfunc'] )
 			WHERE COURSE_ID=(SELECT COURSE_ID
 				FROM COURSE_PERIODS
 				WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
-			AND ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'";
-
-		if ( $gradebook_config['HIDE_PREVIOUS_ASSIGNMENT_TYPES'] )
-		{
-			// @since 4.5 Hide previous quarters assignment types.
-			$assignment_type_sql .= " AND CREATED_AT>='" . GetMP( UserMP(), 'START_DATE' ) . "'";
-		}
+			AND ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'" .
+			$hide_previous_assignment_types_sql;
 
 		$assignment_type_RET = DBGet( $assignment_type_sql );
 
@@ -441,16 +453,9 @@ if ( ! $_REQUEST['modfunc'] )
 		WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND COURSE_ID=(SELECT COURSE_ID
 			FROM COURSE_PERIODS
-			WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')";
-
-	if ( $gradebook_config['HIDE_PREVIOUS_ASSIGNMENT_TYPES'] )
-	{
-		// @since 4.5 Hide previous quarters assignment types.
-		$assignment_types_sql .= " AND CREATED_AT>='" . GetMP( UserMP(), 'START_DATE' ) . "'
-			";
-	}
-
-	$assignment_types_sql .= " ORDER BY SORT_ORDER,TITLE";
+			WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')" .
+		$hide_previous_assignment_types_sql .
+		" ORDER BY SORT_ORDER,TITLE";
 
 	$types_RET = DBGet( $assignment_types_sql );
 
@@ -486,16 +491,16 @@ if ( ! $_REQUEST['modfunc'] )
 		&& $_REQUEST['assignment_id'] !== 'new' )
 	{
 		$sql = "SELECT ASSIGNMENT_TYPE_ID,TITLE,ASSIGNED_DATE,DUE_DATE,POINTS,COURSE_ID,
-					DESCRIPTION,FILE,DEFAULT_POINTS,SUBMISSION,
-				CASE WHEN DUE_DATE<ASSIGNED_DATE THEN 'Y' ELSE NULL END AS DATE_ERROR,
-				CASE WHEN ASSIGNED_DATE>(SELECT END_DATE
-					FROM SCHOOL_MARKING_PERIODS
-					WHERE MARKING_PERIOD_ID='" . UserMP() . "') THEN 'Y' ELSE NULL END AS ASSIGNED_ERROR,
-				CASE WHEN DUE_DATE>(SELECT END_DATE+1
-					FROM SCHOOL_MARKING_PERIODS
-					WHERE MARKING_PERIOD_ID='" . UserMP() . "') THEN 'Y' ELSE NULL END AS DUE_ERROR
-				FROM GRADEBOOK_ASSIGNMENTS
-				WHERE ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'";
+			DESCRIPTION,FILE,DEFAULT_POINTS,SUBMISSION,
+		CASE WHEN DUE_DATE<ASSIGNED_DATE THEN 'Y' ELSE NULL END AS DATE_ERROR,
+		CASE WHEN ASSIGNED_DATE>(SELECT END_DATE
+			FROM SCHOOL_MARKING_PERIODS
+			WHERE MARKING_PERIOD_ID='" . UserMP() . "') THEN 'Y' ELSE NULL END AS ASSIGNED_ERROR,
+		CASE WHEN DUE_DATE>(SELECT END_DATE+1
+			FROM SCHOOL_MARKING_PERIODS
+			WHERE MARKING_PERIOD_ID='" . UserMP() . "') THEN 'Y' ELSE NULL END AS DUE_ERROR
+		FROM GRADEBOOK_ASSIGNMENTS
+		WHERE ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'";
 
 		$RET = DBGet( $sql );
 
@@ -507,17 +512,19 @@ if ( ! $_REQUEST['modfunc'] )
 		&& $_REQUEST['assignment_type_id'] !== 'new'
 		&& $_REQUEST['assignment_id'] !== 'new' )
 	{
-		$sql = "SELECT at.TITLE,at.FINAL_GRADE_PERCENT,SORT_ORDER,COLOR,
-				(SELECT sum(FINAL_GRADE_PERCENT)
-					FROM GRADEBOOK_ASSIGNMENT_TYPES
-					WHERE COURSE_ID=(SELECT COURSE_ID
-						FROM COURSE_PERIODS
-						WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
-						AND STAFF_ID='" . User( 'STAFF_ID' ) . "') AS TOTAL_PERCENT
-				FROM GRADEBOOK_ASSIGNMENT_TYPES at
-				WHERE at.ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'";
+		$assignment_type_sql = "SELECT at.TITLE,at.FINAL_GRADE_PERCENT,SORT_ORDER,COLOR,
+		(SELECT sum(FINAL_GRADE_PERCENT)
+			FROM GRADEBOOK_ASSIGNMENT_TYPES
+			WHERE COURSE_ID=(SELECT COURSE_ID
+				FROM COURSE_PERIODS
+				WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
+				AND STAFF_ID='" . User( 'STAFF_ID' ) . "'" .
+		$hide_previous_assignment_types_sql .
+		") AS TOTAL_PERCENT
+		FROM GRADEBOOK_ASSIGNMENT_TYPES at
+		WHERE at.ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'";
 
-		$RET = DBGet( $sql, array( 'FINAL_GRADE_PERCENT' => '_makePercent' ) );
+		$RET = DBGet( $assignment_type_sql, array( 'FINAL_GRADE_PERCENT' => '_makePercent' ) );
 
 		$RET = $RET[1];
 
@@ -539,14 +546,15 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 	elseif ( $_REQUEST['assignment_type_id'] == 'new' )
 	{
-		$sql = "SELECT sum(FINAL_GRADE_PERCENT) AS TOTAL_PERCENT
+		$assignment_type_sql = "SELECT sum(FINAL_GRADE_PERCENT) AS TOTAL_PERCENT
 			FROM GRADEBOOK_ASSIGNMENT_TYPES
 			WHERE COURSE_ID=(SELECT COURSE_ID
 				FROM COURSE_PERIODS
 				WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
-			AND STAFF_ID='" . User( 'STAFF_ID' ) . "'";
+			AND STAFF_ID='" . User( 'STAFF_ID' ) . "'" .
+			$hide_previous_assignment_types_sql;
 
-		$RET = DBGet( $sql, array( 'FINAL_GRADE_PERCENT' => '_makePercent' ) );
+		$RET = DBGet( $assignment_type_sql, array( 'FINAL_GRADE_PERCENT' => '_makePercent' ) );
 
 		$RET = $RET[1];
 
