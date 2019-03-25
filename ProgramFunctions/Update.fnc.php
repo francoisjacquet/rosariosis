@@ -111,6 +111,10 @@ function Update()
 		case version_compare( $from_version, '4.4-beta2', '<' ) :
 
 			$return = _update44beta2();
+
+		case version_compare( $from_version, '4.5-beta', '<' ) :
+
+			$return = _update45beta();
 	}
 
 	// Update version in DB CONFIG table.
@@ -425,6 +429,40 @@ function _update44beta2()
 	if ( ! $version_added )
 	{
 		DBQuery( "INSERT INTO config VALUES (0, 'PASSWORD_STRENGTH', '1');" );
+	}
+
+	return $return;
+}
+
+
+/**
+ * Update to version 4.5
+ *
+ * 1. GRADEBOOK_ASSIGNMENT_TYPES table: Add CREATED_AT column.
+ *
+ * Local function
+ *
+ * @since 4.5
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update45beta()
+{
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. GRADEBOOK_ASSIGNMENT_TYPES table: Add CREATED_AT column.
+	 */
+	$created_at_column_exists = DBGet( "SELECT 1 FROM pg_attribute
+		WHERE attrelid = (SELECT oid FROM pg_class WHERE relname = 'gradebook_assignment_types')
+		AND attname = 'created_at';" );
+
+	if ( ! $created_at_column_exists )
+	{
+		DBQuery( "ALTER TABLE ONLY gradebook_assignment_types
+			ADD COLUMN created_at timestamp DEFAULT current_timestamp;" );
 	}
 
 	return $return;
