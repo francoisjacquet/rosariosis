@@ -2,6 +2,7 @@
 
 require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 require_once 'ProgramFunctions/TipMessage.fnc.php';
+require_once 'modules/Discipline/includes/Referral.fnc.php';
 
 DrawHeader( ProgramTitle() );
 
@@ -210,151 +211,11 @@ if ( ! $_REQUEST['modfunc']
 
 		foreach ( (array) $categories_RET as $category )
 		{
-			echo '<tr><td>';
-
-			switch ( $category['DATA_TYPE'] )
-			{
-				case 'text':
-
-					echo TextInput(
-						$RET['CATEGORY_' . $category['ID'] ],
-						'values[CATEGORY_' . $category['ID'] . ']',
-						$category['TITLE']
-					);
-
-				break;
-
-				case 'numeric':
-
-					echo TextInput(
-						$RET['CATEGORY_' . $category['ID'] ],
-						'values[CATEGORY_' . $category['ID'] . ']',
-						$category['TITLE'],
-						'size=9 maxlength=18'
-					);
-
-				break;
-
-				case 'textarea':
-
-					echo TextAreaInput(
-						$RET['CATEGORY_' . $category['ID'] ],
-						'values[CATEGORY_' . $category['ID'] . ']',
-						$category['TITLE'],
-						'maxlength=5000 rows=4 cols=30'
-					);
-
-				break;
-
-				case 'checkbox':
-
-					echo CheckboxInput(
-						$RET['CATEGORY_' . $category['ID'] ],
-						'values[CATEGORY_' . $category['ID'] . ']',
-						$category['TITLE']
-					);
-
-				break;
-
-				case 'date':
-
-					echo DateInput(
-						$RET['CATEGORY_' . $category['ID'] ],
-						'values[CATEGORY_' . $category['ID'] . ']',
-						$category['TITLE']
-					);
-
-				break;
-
-				case 'multiple_checkbox':
-
-					$options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS'] ) );
-
-					// @since 4.2
-					echo MultipleCheckboxInput(
-						$RET[ 'CATEGORY_' . $category['ID'] ],
-						'values[CATEGORY_' . $category['ID'] . '][]',
-						$category['TITLE'],
-						$options
-					);
-
-				break;
-
-				case 'multiple_radio':
-
-					$multiple_value = ( $RET[ 'CATEGORY_' . $category['ID'] ] != '' ) ?
-						$RET[ 'CATEGORY_' . $category['ID'] ] :
-						'-';
-
-					if ( ! AllowEdit()
-					 	|| isset( $_REQUEST['_ROSARIO_PDF'] ) )
-					{
-						echo $multiple_value;
-
-						break;
-					}
-
-					$options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS'] ) );
-
-					$multiple_html = '<table class="cellpadding-5"><tr class="st">';
-
-					$i = 0;
-
-					foreach ( (array) $options as $option )
-					{
-						$i++;
-
-						if ( $i % 3 == 0 )
-						{
-							$multiple_html .= '</tr><tr class="st">';
-						}
-
-						$multiple_html .= '<td><label>
-							<input type="radio" name="values[CATEGORY_' . $category['ID'] . ']"
-								value="' . htmlspecialchars( $option, ENT_QUOTES ) . '"' .
-								( $RET['CATEGORY_' . $category['ID'] ] == $option ? ' checked' : '' ) . '>&nbsp;' .
-							( $option != '' ? $option : '-' ) .
-						'</label></td>';
-					}
-
-					$multiple_html .= '</tr></table>';
-
-					$id = GetInputID( 'values[CATEGORY_' . $category['ID'] . ']' );
-
-					$ftitle = FormatInputTitle( $category['TITLE'] );
-
-					echo InputDivOnclick(
-						$id,
-						$multiple_html . str_replace( '<br />' , '', $ftitle ),
-						$multiple_value,
-						$ftitle
-					);
-
-				break;
-
-				case 'select':
-
-					$options = array();
-
-					$select_options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS'] ) );
-
-					foreach ( (array) $select_options as $option )
-					{
-						$options[ $option ] = $option;
-					}
-
-					echo SelectInput(
-						$RET[ 'CATEGORY_' . $category['ID'] ],
-						'values[CATEGORY_' . $category['ID'] . ']',
-						$category['TITLE'],
-						$options,
-						'N/A'
-					);
-
-				break;
-			}
-
-			echo '</td></tr>';
+			echo '<tr><td>' . ReferralInput(
+				$category,
+				$RET['CATEGORY_' . $category['ID'] ],
+				false
+			) . '</td></tr>';
 		}
 
 		echo '</table>';

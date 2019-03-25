@@ -31,6 +31,7 @@ Changes in 4.5
 - Update GRADEBOOK_ASSIGNMENT_TYPES table: set CREATED_AT in Update.fnc.php
 - Add "Hide assignment types for previous quarters" option in Grades/Configuration.php, MassCreateAssignments.php & Assignments.php, sponsored by Santa Cecilia school
 - Spanish translation: "bimestre" => "trimestre" in es_ES.utf8/rosariosis.po & help.po
+- Add ReferralInput() function in Referral.fnc.php, MakeReferral.php & Referrals.php
 
 Changes in 4.4.1
 ----------------
