@@ -32,6 +32,7 @@ Changes in 4.5
 - Add "Hide assignment types for previous quarters" option in Grades/Configuration.php, MassCreateAssignments.php & Assignments.php, sponsored by Santa Cecilia school
 - Spanish translation: "bimestre" => "trimestre" in es_ES.utf8/rosariosis.po & help.po
 - Add ReferralInput() function in Referral.fnc.php, MakeReferral.php & Referrals.php
+- Add Referral Input action hook in Actions.php & Referral.fnc.php
 
 Changes in 4.4.1
 ----------------

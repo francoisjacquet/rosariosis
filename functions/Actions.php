@@ -237,6 +237,13 @@ $RosarioActions = array();
 	 * @since 4.5
 	 */
 	/*'Grades/includes/ReportCards.fnc.php|pdf_header' => array(),
+
+	/**
+	 * Referral Input.
+	 *
+	 * @since 4.5
+	 */
+	/*'Discipline/includes/Referral.fnc.php|referral_input' => array(),
 );*/
 
 

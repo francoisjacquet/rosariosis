@@ -146,5 +146,9 @@ function ReferralInput( $category, $value = '', $new = true )
 			$_ROSARIO['ReferralInput'] = '';
 	}
 
+	// @since 4.5 Referral Input action hook.
+	// Filter $_ROSARIO['ReferralInput'] global.
+	do_action( 'Discipline/includes/Referral.fnc.php|referral_input', $category );
+
 	return $_ROSARIO['ReferralInput'];
 }
