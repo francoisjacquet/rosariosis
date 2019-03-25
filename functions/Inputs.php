@@ -1189,19 +1189,28 @@ function RadioInput( $value, $name, $title = '', $options, $allow_na = 'N/A', $e
 	}
 
 	if ( AllowEdit()
-		&& !isset( $_REQUEST['_ROSARIO_PDF'] ) )
+		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		$table = '<table class="cellspacing-0 cellpadding-5"><tr class="st">';
+
+		$i = 0;
 
 		if ( $allow_na !== false )
 		{
 			$table .= '<td><label><input type="radio" name="' . $name . '" value=""' .
 				( $value == '' ? ' checked' : '' ) . ' ' . $extra . ' /> ' .
 				( $allow_na === 'N/A' ? _( 'N/A' ) : $allow_na ) . '</label></td>';
+
+			$i++;
 		}
 
 		foreach ( (array) $options as $key => $val )
 		{
+			if ( $i++ % 3 == 0 )
+			{
+				$table .= '</tr><tr class="st">';
+			}
+
 			$checked = '';
 
 			$key .= '';
