@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-25 14:37+0100\n"
-"PO-Revision-Date: 2019-03-25 14:37+0100\n"
+"PO-Revision-Date: 2019-03-25 18:55+0100\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS\n"
 "Language: fr\n"
@@ -4638,7 +4638,7 @@ msgstr "Pourcentage de la Note Définitive"
 
 #: modules/Grades/Assignments.php:743
 msgid "Percent Total"
-msgstr "Pourcentage du Total"
+msgstr "Pourcentage Total"
 
 #: modules/Grades/Assignments.php:824 modules/Grades/ReportCardGrades.php:176
 msgid "Order"
