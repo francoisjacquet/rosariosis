@@ -110,6 +110,12 @@ if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) <= 0 )
 	) . '</td></tr>';
 }
 
+echo '<tr><td>' . CheckboxInput(
+	$gradebook_config['HIDE_PREVIOUS_ASSIGNMENT_TYPES'],
+	'values[HIDE_PREVIOUS_ASSIGNMENT_TYPES]',
+	_( 'Hide previous quarters assignment types' )
+) . '</td></tr>';
+
 echo '<tr><td><hr />' . TextInput(
 	$gradebook_config['LETTER_GRADE_MIN'],
 	'values[LETTER_GRADE_MIN]',

@@ -26,6 +26,8 @@ if ( ! UserCoursePeriod() )
 	echo ErrorMessage( array( _( 'No courses assigned to teacher.' ) ), 'fatal' );
 }
 
+$gradebook_config = ProgramUserConfig( 'Gradebook' );
+
 $course_id = DBGetOne( "SELECT COURSE_ID
 	FROM COURSE_PERIODS
 	WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" );
@@ -379,17 +381,25 @@ echo ErrorMessage( $error );
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	// Check assignment type ID is valid for current school & syear!
+	// Check assignment type ID is valid for current school & syear & quarter!
 
 	if ( ! empty( $_REQUEST['assignment_type_id'] )
 		&& $_REQUEST['assignment_type_id'] !== 'new' )
 	{
-		$assignment_type_RET = DBGet( "SELECT ASSIGNMENT_TYPE_ID
+		$assignment_type_sql = "SELECT ASSIGNMENT_TYPE_ID
 			FROM GRADEBOOK_ASSIGNMENT_TYPES
 			WHERE COURSE_ID=(SELECT COURSE_ID
 				FROM COURSE_PERIODS
 				WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
-			AND ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'" );
+			AND ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'";
+
+		if ( $gradebook_config['HIDE_PREVIOUS_ASSIGNMENT_TYPES'] )
+		{
+			// Hide previous quarters assignment types.
+			$assignment_type_sql .= " AND CREATED_AT>='" . GetMP( UserMP(), 'START_DATE' ) . "'";
+		}
+
+		$assignment_type_RET = DBGet( $assignment_type_sql );
 
 		if ( ! $assignment_type_RET )
 		{
@@ -431,8 +441,15 @@ if ( ! $_REQUEST['modfunc'] )
 		WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND COURSE_ID=(SELECT COURSE_ID
 			FROM COURSE_PERIODS
-			WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
-	ORDER BY SORT_ORDER,TITLE";
+			WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')";
+
+	if ( $gradebook_config['HIDE_PREVIOUS_ASSIGNMENT_TYPES'] )
+	{
+		// Hide previous quarters assignment types.
+		$assignment_types_sql .= " AND CREATED_AT>='" . GetMP( UserMP(), 'START_DATE' ) . "'";
+	}
+
+	$assignment_types_sql .= " ORDER BY SORT_ORDER,TITLE";
 
 	$types_RET = DBGet( $assignment_types_sql );
 

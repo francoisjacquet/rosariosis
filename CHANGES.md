@@ -29,6 +29,7 @@ Changes in 4.5
 - Hide letter grades for all gradebook assignments in Grades.php
 - GRADEBOOK_ASSIGNMENT_TYPES table: Add CREATED_AT column in rosariosis.sql & Update.fnc.php
 - Update GRADEBOOK_ASSIGNMENT_TYPES table: set CREATED_AT in Update.fnc.php
+- Add "Hide assignment types for previous quarters" option in Grades/Configuration.php & Assignments.php, sponsored by Santa Cecilia school
 
 Changes in 4.4.1
 ----------------
