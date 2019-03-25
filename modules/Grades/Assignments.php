@@ -395,7 +395,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		if ( $gradebook_config['HIDE_PREVIOUS_ASSIGNMENT_TYPES'] )
 		{
-			// Hide previous quarters assignment types.
+			// @since 4.5 Hide previous quarters assignment types.
 			$assignment_type_sql .= " AND CREATED_AT>='" . GetMP( UserMP(), 'START_DATE' ) . "'";
 		}
 
@@ -445,8 +445,9 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( $gradebook_config['HIDE_PREVIOUS_ASSIGNMENT_TYPES'] )
 	{
-		// Hide previous quarters assignment types.
-		$assignment_types_sql .= " AND CREATED_AT>='" . GetMP( UserMP(), 'START_DATE' ) . "'";
+		// @since 4.5 Hide previous quarters assignment types.
+		$assignment_types_sql .= " AND CREATED_AT>='" . GetMP( UserMP(), 'START_DATE' ) . "'
+			";
 	}
 
 	$assignment_types_sql .= " ORDER BY SORT_ORDER,TITLE";

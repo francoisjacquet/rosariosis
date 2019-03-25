@@ -400,12 +400,18 @@ if ( ! $_REQUEST['modfunc'] )
 
 	// DISPLAY THE MENU
 	// ASSIGNMENT TYPES.
+	// @since 4.5 Hide previous quarters assignment types.
 	$assignment_types_sql = "SELECT DISTINCT TITLE
 	FROM GRADEBOOK_ASSIGNMENT_TYPES
 	WHERE COURSE_ID IN (SELECT COURSE_ID
 		FROM COURSE_PERIODS
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "')
+	AND (CREATED_AT>='" . GetMP( UserMP(), 'START_DATE' ) . "'
+		OR STAFF_ID NOT IN (SELECT USER_ID
+			FROM PROGRAM_USER_CONFIG
+			WHERE TITLE='HIDE_PREVIOUS_ASSIGNMENT_TYPES'
+			AND VALUE='Y'))
 	ORDER BY TITLE";
 
 	$types_RET = DBGet( $assignment_types_sql );
