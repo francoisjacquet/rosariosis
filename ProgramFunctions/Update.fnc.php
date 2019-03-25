@@ -439,6 +439,7 @@ function _update44beta2()
  * Update to version 4.5
  *
  * 1. GRADEBOOK_ASSIGNMENT_TYPES table: Add CREATED_AT column.
+ * 2. Update GRADEBOOK_ASSIGNMENT_TYPES table: set CREATED_AT.
  *
  * Local function
  *
@@ -464,6 +465,12 @@ function _update45beta()
 		DBQuery( "ALTER TABLE ONLY gradebook_assignment_types
 			ADD COLUMN created_at timestamp DEFAULT current_timestamp;" );
 	}
+
+	/**
+	 * 2. Update GRADEBOOK_ASSIGNMENT_TYPES table: set CREATED_AT.
+	 */
+	DBQuery( "UPDATE gradebook_assignment_types
+		SET created_at=current_timestamp;" );
 
 	return $return;
 }

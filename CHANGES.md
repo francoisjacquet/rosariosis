@@ -28,6 +28,7 @@ Changes in 4.5
 - Show Hide letter grades for all gradebook assignments option only if Global Config allows for Letter grades in Grades/Configuration.php
 - Hide letter grades for all gradebook assignments in Grades.php
 - GRADEBOOK_ASSIGNMENT_TYPES table: Add CREATED_AT column in rosariosis.sql & Update.fnc.php
+- Update GRADEBOOK_ASSIGNMENT_TYPES table: set CREATED_AT in Update.fnc.php
 
 Changes in 4.4.1
 ----------------
