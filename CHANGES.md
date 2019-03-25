@@ -30,6 +30,7 @@ Changes in 4.5
 - GRADEBOOK_ASSIGNMENT_TYPES table: Add CREATED_AT column in rosariosis.sql & Update.fnc.php
 - Update GRADEBOOK_ASSIGNMENT_TYPES table: set CREATED_AT in Update.fnc.php
 - Add "Hide assignment types for previous quarters" option in Grades/Configuration.php, MassCreateAssignments.php & Assignments.php, sponsored by Santa Cecilia school
+- Spanish translation: "bimestre" => "trimestre" in es_ES.utf8/rosariosis.po & help.po
 
 Changes in 4.4.1
 ----------------
