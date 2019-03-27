@@ -72,15 +72,11 @@ function ReferralInput( $category, $value = '', $new = true )
 
 		case 'date':
 
-			if ( $new )
-			{
-				$value = DBDate();
-			}
-
 			$_ROSARIO['ReferralInput'] = DateInput(
 				$value,
-				'_values[CATEGORY_' . $category['ID'] . ']',
-				$category['TITLE']
+				'values[CATEGORY_' . $category['ID'] . ']',
+				$category['TITLE'],
+				! $new
 			);
 
 			break;

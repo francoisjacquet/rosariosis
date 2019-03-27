@@ -27,6 +27,7 @@ if ( isset( $_POST['values'] )
 
 			//FJ check numeric fields
 			if ( $column_data_type === 'numeric'
+				&& $value !== ''
 				&& ! is_numeric( $value ) )
 			{
 				$error[] = _( 'Please enter valid Numeric data.' );
@@ -237,11 +238,11 @@ if ( ! $_REQUEST['modfunc']
 	}
 }
 
-echo ErrorMessage( $error );
-
 if ( empty( $_REQUEST['referral_id'] )
 	&& ! $_REQUEST['modfunc'] )
 {
+	echo ErrorMessage( $error );
+
 	Search( 'student_id', $extra );
 }
 

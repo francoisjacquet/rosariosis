@@ -33,6 +33,7 @@ Changes in 4.5
 - Spanish translation: "bimestre" => "trimestre" in es_ES.utf8/rosariosis.po & help.po
 - Add ReferralInput() function in Referral.fnc.php, MakeReferral.php & Referrals.php
 - Add Referral Input action hook in Actions.php & Referral.fnc.php
+- Fix DateInput name (was not saved) & error when empty Number input  in Referral.fnc.php & Referrals.php
 
 Changes in 4.4.1
 ----------------
