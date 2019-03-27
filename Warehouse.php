@@ -498,6 +498,9 @@ function Warehouse( $mode )
 				endif;
 			endif;
 
+			?>
+	<div id="body" tabindex="0" role="main" class="mod">
+<?php
 			/**
 			 * Hook.
 			 *
@@ -506,10 +509,8 @@ function Warehouse( $mode )
 			 * @since 4.4
 			 */
 			do_action( 'Warehouse.php|header' );
-			?>
-	<div id="body" tabindex="0" role="main" class="mod">
-<?php
-break;
+
+		break;
 
 		// Footer HTML.
 		case 'footer':
