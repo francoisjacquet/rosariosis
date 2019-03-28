@@ -34,6 +34,8 @@ Changes in 4.5
 - Add ReferralInput() function in Referral.fnc.php, MakeReferral.php & Referrals.php
 - Add Referral Input action hook in Actions.php & Referral.fnc.php
 - Fix DateInput name (was not saved) & error when empty Number input  in Referral.fnc.php & Referrals.php
+- Add Rollover After action hook in Rollover.php
+- Deprecate School_Setup/Rollover.php|rollover_[table] action hooks in Rollover.php & Moodle/functions.php
 
 Changes in 4.4.1
 ----------------

@@ -71,7 +71,7 @@ $table_list .= '</table><br />'
 . '<br /><br />' . _( 'Greyed items have already have data in the next school year (They might have been rolled).' )
 . '<br /><br />' . _( 'Rolling greyed items will delete already existing data in the next school year.' );
 
-//hook
+// Hook.
 do_action( 'School_Setup/Rollover.php|rollover_warnings' );
 
 DrawHeader( ProgramTitle() );
@@ -102,13 +102,16 @@ if ( Prompt(
 			{
 				foreach ( (array) $_REQUEST['tables'] as $table => $value )
 				{
-					//hook
+					// Hook.
 					do_action( 'School_Setup/Rollover.php|rollover_checks' );
 
 					if ( ! $error )
 					{
 						Rollover( $table );
 					}
+
+					// @since 4.5 Rollover After action hook.
+					do_action('School_Setup/Rollover.php|rollover_after');
 				}
 			}
 		}
@@ -231,7 +234,7 @@ function Rollover( $table )
 				FROM STAFF
 				WHERE SYEAR='" . UserSyear() . "'" );
 
-			//hook
+			// @depreacted since 4.5 user School_Setup/Rollover.php|rollover_after action hook!
 			do_action( 'School_Setup/Rollover.php|rollover_staff' );
 
 			DBQuery( "INSERT INTO PROGRAM_USER_CONFIG (USER_ID,PROGRAM,TITLE,VALUE)
@@ -402,7 +405,7 @@ function Rollover( $table )
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
 
-			//hook
+			// @depreacted since 4.5 user School_Setup/Rollover.php|rollover_after action hook!
 			do_action( 'School_Setup/Rollover.php|rollover_course_subjects' );
 
 			// ROLL COURSES
@@ -416,7 +419,7 @@ function Rollover( $table )
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
 
-			//hook
+			// @depreacted since 4.5 user School_Setup/Rollover.php|rollover_after action hook!
 			do_action( 'School_Setup/Rollover.php|rollover_courses' );
 
 			// ROLL COURSE_PERIODS
@@ -473,7 +476,7 @@ function Rollover( $table )
 					AND SCHOOL_ID='" . UserSchool() . "'" );
 			}
 
-			//hook
+			// @depreacted since 4.5 user School_Setup/Rollover.php|rollover_after action hook!
 			do_action( 'School_Setup/Rollover.php|rollover_course_periods' );
 
 			//FJ multiple school periods for a course period
@@ -495,6 +498,7 @@ function Rollover( $table )
 				WHERE cp.SYEAR='" . UserSyear() . "'
 				AND cp.SCHOOL_ID='" . UserSchool() . "'
 				AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID" );
+
 			break;
 
 		case 'STUDENT_ENROLLMENT':
