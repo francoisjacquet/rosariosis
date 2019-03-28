@@ -81,9 +81,13 @@ $RosarioActions = array();
 
 	'School_Setup/Rollover.php|rollover_warnings' => array(),
 	'School_Setup/Rollover.php|rollover_checks' => array(),
+	// @depreacted since 4.5 user School_Setup/Rollover.php|rollover_after action hook!
 	'School_Setup/Rollover.php|rollover_staff' => array(),
+	// @depreacted since 4.5 user School_Setup/Rollover.php|rollover_after action hook!
 	'School_Setup/Rollover.php|rollover_course_subjects' => array(),
+	// @depreacted since 4.5 user School_Setup/Rollover.php|rollover_after action hook!
 	'School_Setup/Rollover.php|rollover_courses' => array(),
+	// @depreacted since 4.5 user School_Setup/Rollover.php|rollover_after action hook!
 	'School_Setup/Rollover.php|rollover_course_periods' => array(),
 
 	/**
@@ -244,6 +248,13 @@ $RosarioActions = array();
 	 * @since 4.5
 	 */
 	/*'Discipline/includes/Referral.fnc.php|referral_input' => array(),
+
+	/**
+	 * Rollover After.
+	 *
+	 * @since 4.5
+	 */
+	/*'School_Setup/Rollover.php|rollover_after' => array(),
 );*/
 
 
