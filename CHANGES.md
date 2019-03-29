@@ -27,8 +27,7 @@ Changes in 4.5
 - Use SelectInput, RadioInput, CheckboxInput & TextInput functions in Grades/Configuration.php
 - Show Hide letter grades for all gradebook assignments option only if Global Config allows for Letter grades in Grades/Configuration.php
 - Hide letter grades for all gradebook assignments in Grades.php
-- GRADEBOOK_ASSIGNMENT_TYPES table: Add CREATED_AT column in rosariosis.sql & Update.fnc.php
-- Update GRADEBOOK_ASSIGNMENT_TYPES table: set CREATED_AT in Update.fnc.php
+- GRADEBOOK_ASSIGNMENT_TYPES table: Add CREATED_MP column in rosariosis.sql & Update.fnc.php
 - Add "Hide assignment types for previous quarters" option in Grades/Configuration.php, MassCreateAssignments.php & Assignments.php, sponsored by Santa Cecilia school
 - Spanish translation: "bimestre" => "trimestre" in es_ES.utf8/rosariosis.po & help.po
 - Add ReferralInput() function in Referral.fnc.php, MakeReferral.php & Referrals.php

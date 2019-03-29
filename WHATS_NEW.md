@@ -7,7 +7,8 @@ New in 4.5
 
 Grades
 
-- Gradebook Configuration: "Hide previous quarters assignment types" option, sponsored by Santa Cecilia school
+- Gradebook Configuration: "Hide previous quarters assignment types" option, sponsored by Santa Cecilia school.
+Note: Will only work for newly created Assignment Types.
 
 [Library](https://www.rosariosis.org/library-module/) module
 

@@ -112,9 +112,9 @@ function Update()
 
 			$return = _update44beta2();
 
-		case version_compare( $from_version, '4.5-beta', '<' ) :
+		case version_compare( $from_version, '4.5-beta2', '<' ) :
 
-			$return = _update45beta();
+			$return = _update45beta2();
 	}
 
 	// Update version in DB CONFIG table.
@@ -438,8 +438,7 @@ function _update44beta2()
 /**
  * Update to version 4.5
  *
- * 1. GRADEBOOK_ASSIGNMENT_TYPES table: Add CREATED_AT column.
- * 2. Update GRADEBOOK_ASSIGNMENT_TYPES table: set CREATED_AT.
+ * 1. GRADEBOOK_ASSIGNMENT_TYPES table: Add CREATED_MP column.
  *
  * Local function
  *
@@ -447,27 +446,27 @@ function _update44beta2()
  *
  * @return boolean false if update failed or if not called by Update(), else true
  */
-function _update45beta()
+function _update45beta2()
 {
 	_isCallerUpdate( debug_backtrace() );
 
 	$return = true;
 
 	/**
-	 * 1. GRADEBOOK_ASSIGNMENT_TYPES table: Add CREATED_AT column.
+	 * 1. GRADEBOOK_ASSIGNMENT_TYPES table: Add CREATED_MP column.
 	 */
 	$created_at_column_exists = DBGet( "SELECT 1 FROM pg_attribute
 		WHERE attrelid = (SELECT oid FROM pg_class WHERE relname = 'gradebook_assignment_types')
-		AND attname = 'created_at';" );
+		AND attname = 'created_mp';" );
 
 	if ( ! $created_at_column_exists )
 	{
 		DBQuery( "ALTER TABLE ONLY gradebook_assignment_types
-			ADD COLUMN created_at timestamp DEFAULT current_timestamp;" );
+			ADD COLUMN created_mp integer;" );
 	}
 
 	/**
-	 * 2. Update GRADEBOOK_ASSIGNMENT_TYPES table: set CREATED_AT.
+	 * 2. Update GRADEBOOK_ASSIGNMENT_TYPES table: set CREATED_MP.
 	 */
 	DBQuery( "UPDATE gradebook_assignment_types
 		SET created_at=current_timestamp;" );

@@ -1701,7 +1701,7 @@ CREATE TABLE gradebook_assignment_types (
     final_grade_percent numeric(6,5),
     sort_order numeric,
     color character varying(30),
-    created_at timestamp DEFAULT current_timestamp
+    created_mp integer
 );
 
 

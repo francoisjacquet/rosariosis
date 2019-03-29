@@ -176,17 +176,11 @@ if ( isset( $_POST['tables'] )
 			{
 				$id = DBSeqNextID( 'GRADEBOOK_ASSIGNMENT_TYPES_SEQ' );
 
-				$fields = "ASSIGNMENT_TYPE_ID,STAFF_ID,COURSE_ID,";
+				$fields = "ASSIGNMENT_TYPE_ID,STAFF_ID,COURSE_ID,CREATED_MP,";
 
-				$values = $id . ",'" . User( 'STAFF_ID' ) . "','" . $course_id . "',";
+				$values = $id . ",'" . User( 'STAFF_ID' ) . "','" . $course_id . "','" . UserMP() . "',";
 
-				// Set CREATED_AT to Quarter start_date if current date not in Quarter.
-				if ( GetCurrentMP( 'QTR', DBDate(), false ) !== UserMP() )
-				{
-					$fields .= "CREATED_AT,";
-
-					$values .= "'" . GetMP( UserMP(), 'START_DATE' ) . "',";
-				}
+				$values .= "'" . GetMP( UserMP(), 'START_DATE' ) . "',";
 
 				$_REQUEST['assignment_type_id'] = $id;
 			}
@@ -394,8 +388,7 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( $gradebook_config['HIDE_PREVIOUS_ASSIGNMENT_TYPES'] )
 	{
 		// @since 4.5 Hide previous quarters assignment types.
-		$hide_previous_assignment_types_sql = " AND CREATED_AT>='" . GetMP( UserMP(), 'START_DATE' ) . "'
-			AND CREATED_AT<='" . GetMP( UserMP(), 'END_DATE' ) . "'";
+		$hide_previous_assignment_types_sql = " AND CREATED_MP='" . UserMP() . "' OR CREATED_MP IS NULL";
 	}
 
 	// Check assignment type ID is valid for current school & syear & quarter!
