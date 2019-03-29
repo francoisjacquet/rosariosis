@@ -180,8 +180,6 @@ if ( isset( $_POST['tables'] )
 
 				$values = $id . ",'" . User( 'STAFF_ID' ) . "','" . $course_id . "','" . UserMP() . "',";
 
-				$values .= "'" . GetMP( UserMP(), 'START_DATE' ) . "',";
-
 				$_REQUEST['assignment_type_id'] = $id;
 			}
 
