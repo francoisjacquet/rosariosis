@@ -465,11 +465,5 @@ function _update45beta2()
 			ADD COLUMN created_mp integer;" );
 	}
 
-	/**
-	 * 2. Update GRADEBOOK_ASSIGNMENT_TYPES table: set CREATED_MP.
-	 */
-	DBQuery( "UPDATE gradebook_assignment_types
-		SET created_at=current_timestamp;" );
-
 	return $return;
 }
