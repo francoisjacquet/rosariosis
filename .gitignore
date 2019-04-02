@@ -252,3 +252,6 @@ plugins/Calendar_Schedule_View
 plugins/Discipline_Score*
 modules/Library
 modules/Email_Alerts*
+modules/Reports*
+modules/Staff_Parents_Import*
+plugins/Email_SMTP*
