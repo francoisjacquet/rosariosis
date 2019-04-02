@@ -164,7 +164,7 @@ if ( isset( $_POST['tables'] )
 					AND SYEAR='" . UserSyear() . "'
 					AND SCHOOL_ID='" . UserSchool() . "'
 					LIMIT 1)
-				AND TITLE='" . $_REQUEST['assignment_type'] . "'
+				AND TRIM(TITLE)='" . $_REQUEST['assignment_type'] . "'
 				LIMIT 1" );
 
 				if ( ! $assignment_type_teacher_RET )
