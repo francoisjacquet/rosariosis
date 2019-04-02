@@ -35,6 +35,8 @@ Changes in 4.5
 - Fix DateInput name (was not saved) & error when empty Number input  in Referral.fnc.php & Referrals.php
 - Add Rollover After action hook in Rollover.php
 - Deprecate School_Setup/Rollover.php|rollover_[table] action hooks in Rollover.php & Moodle/functions.php
+- Change Description field for TinyMCE input in MassCreateAssignments.php
+- Trim Assignment Type title before grouping them in MassCreateAssignments.php
 
 Changes in 4.4.1
 ----------------

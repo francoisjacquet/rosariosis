@@ -15,10 +15,10 @@ if ( isset( $_POST['tables'] )
 
 	foreach ( (array) $_REQUEST['tables'] as $id => $columns )
 	{
-		// FJ textarea fields MarkDown sanitize.
+		// FJ textarea fields HTML sanitize.
 		if ( isset( $columns['DESCRIPTION'] ) )
 		{
-			$columns['DESCRIPTION'] = SanitizeMarkDown( $_POST['tables'][ $id ]['DESCRIPTION'] );
+			$columns['DESCRIPTION'] = SanitizeHTML( $_POST['tables'][ $id ]['DESCRIPTION'] );
 		}
 
 		// FJ added SQL constraint TITLE & POINTS are not null.
@@ -50,12 +50,6 @@ if ( isset( $_POST['tables'] )
 		{
 			$error[] = _( 'Please enter a valid Sort Order.' );
 		}*/
-
-		// FJ textarea fields MarkDown sanitize.
-		if ( isset( $columns['DESCRIPTION'] ) )
-		{
-			$columns['DESCRIPTION'] = SanitizeMarkDown( $_POST['tables'][ $id ]['DESCRIPTION'] );
-		}
 
 		if ( $table === 'GRADEBOOK_ASSIGNMENTS' )
 		{
@@ -251,7 +245,7 @@ if ( ! $_REQUEST['modfunc'] )
 				FROM COURSE_PERIODS
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "')
-			AND TITLE='" . $_REQUEST['assignment_type'] . "'" );
+			AND TRIM(TITLE)='" . $_REQUEST['assignment_type'] . "'" );
 
 		if ( ! $assignment_type_RET )
 		{
@@ -312,7 +306,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$header .= '</tr><tr class="st">';
 
-		$header .= '<td colspan="2">' . TextAreaInput(
+		$header .= '<td colspan="2">' . TinyMCEInput(
 			'',
 			'tables[new][DESCRIPTION]',
 			_( 'Description' )
@@ -401,7 +395,7 @@ if ( ! $_REQUEST['modfunc'] )
 	// DISPLAY THE MENU
 	// ASSIGNMENT TYPES.
 	// @since 4.5 Hide previous quarters assignment types.
-	$assignment_types_sql = "SELECT DISTINCT TITLE
+	$assignment_types_sql = "SELECT DISTINCT TRIM(TITLE) AS TITLE
 	FROM GRADEBOOK_ASSIGNMENT_TYPES
 	WHERE COURSE_ID IN (SELECT COURSE_ID
 		FROM COURSE_PERIODS
@@ -505,7 +499,7 @@ if ( ! $_REQUEST['modfunc'] )
 					FROM COURSE_PERIODS
 					WHERE SYEAR='" . UserSyear() . "'
 					AND SCHOOL_ID='" . UserSchool() . "')
-				AND gat.TITLE='" . $_REQUEST['assignment_type'] . "'
+				AND TRIM(gat.TITLE)='" . $_REQUEST['assignment_type'] . "'
 				AND gat.COURSE_ID=cp2.COURSE_ID
 				AND cp2.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . "))";
 
