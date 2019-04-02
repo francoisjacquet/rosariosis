@@ -274,7 +274,7 @@ if ( ! $_REQUEST['modfunc'] )
 			'',
 			'tables[new][TITLE]',
 			_( 'Title' ),
-			'required'
+			'required maxlength=100 size=20'
 		) . '</td>';
 
 		$header .= '<td>' . NoInput(
@@ -314,6 +314,13 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$header .= '</tr><tr class="st">';
 
+		$header .= '<td>' . DateInput(
+			DBDate(),
+			'tables[new][ASSIGNED_DATE]',
+			_( 'Assigned' ),
+			false
+		) . '</td>';
+
 		$header .= '<td>' . CheckboxInput(
 			'',
 			'tables[new][SUBMISSION]',
@@ -322,16 +329,7 @@ if ( ! $_REQUEST['modfunc'] )
 			true
 		) . '</td>';
 
-		$header .= '<td></td>';
-
 		$header .= '</tr><tr class="st">';
-
-		$header .= '<td>' . DateInput(
-			DBDate(),
-			'tables[new][ASSIGNED_DATE]',
-			_( 'Assigned' ),
-			false
-		) . '</td>';
 
 		$header .= '<td>' . DateInput(
 			'',
@@ -362,7 +360,7 @@ if ( ! $_REQUEST['modfunc'] )
 			'',
 			'tables[new][TITLE]',
 			_( 'Title' ),
-			'required'
+			'required maxlength=100 size=20'
 		) . '</td>';
 
 		$header .= '<td>' . TextInput(
