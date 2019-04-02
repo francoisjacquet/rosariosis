@@ -32,10 +32,6 @@ $menu['Grades']['admin'] = array(
 	3 => _( 'Utilities' ),
 	'Grades/EditReportCardGrades.php' => _( 'Edit Student Grades' ),
 	'Grades/MassCreateAssignments.php' => _( 'Mass Create Assignments' ),
-	4 => _( 'Teacher Programs' ),
-	'Users/TeacherPrograms.php&include=Grades/InputFinalGrades.php' => _( 'Input Final Grades' ),
-	'Users/TeacherPrograms.php&include=Grades/Grades.php' => _( 'Gradebook Grades' ),
-	'Users/TeacherPrograms.php&include=Grades/AnomalousGrades.php' => _( 'Anomalous Grades' )
 );
 
 $menu['Grades']['teacher'] = array(

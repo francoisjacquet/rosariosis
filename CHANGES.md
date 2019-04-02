@@ -37,6 +37,7 @@ Changes in 4.5
 - Deprecate School_Setup/Rollover.php|rollover_[table] action hooks in Rollover.php & Moodle/functions.php
 - Change Description field for TinyMCE input in MassCreateAssignments.php
 - Trim Assignment Type title before grouping them in MassCreateAssignments.php
+- Remove Teacher Programs from Attendance & Grades menus in Menu.php
 
 Changes in 4.4.1
 ----------------

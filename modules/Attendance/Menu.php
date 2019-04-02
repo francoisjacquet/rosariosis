@@ -5,7 +5,7 @@
  * @uses $menu global var
  *
  * @see  Menu.php in root folder
- * 
+ *
  * @package RosarioSIS
  * @subpackage modules
  */
@@ -26,8 +26,6 @@ $menu['Attendance']['admin'] = array(
 	'Attendance/DuplicateAttendance.php' => _( 'Delete Duplicate Attendance' ),
 	3 => _( 'Setup' ),
 	'Attendance/AttendanceCodes.php' => _( 'Attendance Codes' ),
-	4 => _( 'Teacher Programs' ),
-	'Users/TeacherPrograms.php&include=Attendance/TakeAttendance.php' => _( 'Take Attendance' )
 );
 
 $menu['Attendance']['teacher'] = array(
@@ -46,9 +44,11 @@ $menu['Attendance']['parent'] = array(
 );
 
 if ( $RosarioModules['Users'] )
+{
 	$menu['Users']['admin'] += array(
-		'Users/TeacherPrograms.php&include=Attendance/TakeAttendance.php' => _( 'Take Attendance' )
+		'Users/TeacherPrograms.php&include=Attendance/TakeAttendance.php' => _( 'Take Attendance' ),
 	);
+}
 
 $exceptions['Attendance'] = array(
 	'Attendance/AddAbsences.php' => true

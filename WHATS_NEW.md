@@ -9,6 +9,10 @@ Grades
 
 - Gradebook Configuration: "Hide previous quarters assignment types" option, sponsored by Santa Cecilia school.
 Note: Will only work for newly created Assignment Types.
+- Remove Teacher Programs (still available from Users menu)
+
+Attendance
+- Remove Teacher Programs (still available from Users menu)
 
 [Library](https://www.rosariosis.org/library-module/) module
 
