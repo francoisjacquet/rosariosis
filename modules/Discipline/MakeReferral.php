@@ -326,7 +326,7 @@ if (UserStudentID() && $_REQUEST['student_id'])
 
 				echo DateInput(
 					DBDate(),
-					'_values[CATEGORY_' . $category['ID'] . ']',
+					'values[CATEGORY_' . $category['ID'] . ']',
 					$category['TITLE']
 				);
 
