@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 4.4.2
+----------------
+- Fix Password input do not check Strength case in Inputs.php
+
 Changes in 4.4.1
 ----------------
 - Fix Referrals Multiple Checkbox Input options in Referrals.php
