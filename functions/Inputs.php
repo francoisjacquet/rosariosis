@@ -203,7 +203,7 @@ function PasswordInput( $value, $name, $title = '', $extra = '', $div = true )
 
 		$password_strength_bars = '';
 
-		$min_required_strength = Config( 'PASSWORD_STRENGTH' );
+		$min_required_strength = $strength ? Config( 'PASSWORD_STRENGTH' ) : 0;
 
 		if ( $strength
 			&& $min_required_strength )

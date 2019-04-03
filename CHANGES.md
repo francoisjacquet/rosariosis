@@ -39,6 +39,10 @@ Changes in 4.5
 - Trim Assignment Type title before grouping them in MassCreateAssignments.php
 - Remove Teacher Programs from Attendance & Grades menus in Menu.php
 
+Changes in 4.4.2
+----------------
+- Fix Password input do not check Strength case in Inputs.php
+
 Changes in 4.4.1
 ----------------
 - Fix Referrals Multiple Checkbox Input options in Referrals.php
