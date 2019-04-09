@@ -458,21 +458,25 @@ function Warehouse( $mode )
 	<script src="assets/js/warehouse.min.js?v=<?php echo ROSARIO_VERSION; ?>"></script>
 	<script src="assets/js/jscalendar/lang/calendar-<?php echo file_exists( 'assets/js/jscalendar/lang/calendar-' . $lang_2_chars . '.js' ) ? $lang_2_chars : 'en'; ?>.js"></script>
 		<?php
-			/**
-			 * Hook.
-			 *
-			 * Add your extra module/plugin JS and/or CSS (dependencies) to HTML head here.
-			 *
-			 * @since 3.8
-			 */
-			do_action( 'Warehouse.php|header_head' );
 
 			// Add scripts.js file from theme if any found.
 
 			if ( file_exists( 'assets/themes/' . Preferences( 'THEME' ) . '/scripts.js' ) ): ?>
 		<script src="assets/themes/<?php echo Preferences( 'THEME' ); ?>/scripts.js"></script>
 		<?php endif;
-			endif;?>
+			endif;
+
+			/**
+			 * Hook.
+			 *
+			 * Add your extra module/plugin JS and/or CSS (dependencies) to HTML head here.
+			 *
+			 * @since 3.8
+			 *
+			 * @since 4.5.1 Move Header head action hook outisde page condition.
+			 */
+			do_action( 'Warehouse.php|header_head' );
+		?>
 	<noscript>
 		<meta http-equiv="REFRESH" content="0;url=index.php?modfunc=logout&amp;reason=javascript" />
 	</noscript>

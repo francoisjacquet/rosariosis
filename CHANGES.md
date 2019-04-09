@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 4.5.1
+----------------
+- Move Header head action hook outisde page condition in Warehouse.php
+
 Changes in 4.5
 --------------
 - Add Calendar header hook in Calendar.php
