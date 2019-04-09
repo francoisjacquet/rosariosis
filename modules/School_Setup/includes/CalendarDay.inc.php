@@ -239,7 +239,7 @@ function CalendarDayBlockHTMLDefault( $date, $minutes, $day_block )
 			"blocks[" . $date . "]",
 			'',
 			$block_options,
-			( isset( $_REQUEST['_ROSARIO_PDF'] ) ? '' : 'N/A' )
+			( isset( $_REQUEST['_ROSARIO_PDF'] ) || ! AllowEdit() ? '' : 'N/A' )
 		);
 	}
 
