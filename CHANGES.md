@@ -4,6 +4,7 @@
 Changes in 4.5.1
 ----------------
 - Move Header head action hook outisde page condition in Warehouse.php
+- Fix SQL error, do not allow N/A in Timeframe date inputs in Calendar.php
 
 Changes in 4.5
 --------------

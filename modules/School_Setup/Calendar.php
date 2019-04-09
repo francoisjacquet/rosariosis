@@ -725,8 +725,8 @@ if ( $_REQUEST['modfunc'] === 'list_events' )
 
 	DrawHeader(
 		_( 'Timeframe' ) . ': ' .
-		PrepareDate( $start_date, '_start' ) . ' ' .
-		_( 'to' ) . ' ' . PrepareDate( $end_date, '_end' ) . ' ' .
+		PrepareDate( $start_date, '_start', false ) . ' ' .
+		_( 'to' ) . ' ' . PrepareDate( $end_date, '_end', false ) . ' ' .
 		Buttons( _( 'Go' ) )
 	);
 
