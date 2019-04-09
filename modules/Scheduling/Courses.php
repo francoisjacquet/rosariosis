@@ -1133,7 +1133,9 @@ if (  ( ! $_REQUEST['modfunc']
 						'tables[COURSE_PERIOD_SCHOOL_PERIODS][' . $school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'] . '][DAYS][' . $day . ']',
 						$days_convert[$day],
 						'',
-						true
+						true,
+						button( 'check' ),
+						button( 'x' )
 					) . '&nbsp;</td>';
 
 					if ( $value )
