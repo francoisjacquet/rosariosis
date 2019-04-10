@@ -358,7 +358,7 @@ if ( empty( $_SESSION['STAFF_ID'] )
 
 	<img src="assets/themes/<?php echo Config( 'THEME' ); ?>/logo.png" class="logo center" alt="Logo" />
 	<h4 class="center"><?php echo ParseMLField( Config( 'TITLE' ) ); ?></h4>
-	<form name="loginform" method="post" action="index.php">
+	<form name="loginform" id="loginform" method="post" action="index.php">
 	<table class="cellspacing-0 width-100p">
 
 	<?php // Choose language.

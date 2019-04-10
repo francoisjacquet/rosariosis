@@ -1018,8 +1018,8 @@ img.image-radio-list {
 
 /* Login form */
 
-.login form input[type=text],
-.login form input[type=password] {
+.login #loginform input[type=text],
+.login #loginform input[type=password] {
 	font-weight: 200;
 	font-size: 20px;
 	width: 100%;
