@@ -92,7 +92,7 @@ function SaveTemplate( $template, $modname = '', $staff_id = -1 )
 	{
 		// Default template only, insert user template.
 		DBQuery( "INSERT INTO TEMPLATES (MODNAME,STAFF_ID,TEMPLATE)
-			VALUES('" . $_REQUEST['modname'] . "','" . $staff_id . "',
+			VALUES('" . $modname . "','" . $staff_id . "',
 			'" . $template . "')" );
 	}
 	else
@@ -100,7 +100,7 @@ function SaveTemplate( $template, $modname = '', $staff_id = -1 )
 		// Update user template.
 		DBQuery( "UPDATE TEMPLATES
 			SET TEMPLATE='" . $template . "'
-			WHERE MODNAME='" . $_REQUEST['modname'] . "'
+			WHERE MODNAME='" . $modname . "'
 			AND STAFF_ID='" . $staff_id . "'" );
 	}
 
