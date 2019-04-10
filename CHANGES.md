@@ -9,6 +9,7 @@ Changes in 4.5.1
 - Upload photo when no other fields are posted in Student.php & User.php
 - Make makeProfile() function reusable & better display in GetStaffList.fnc.php
 - Fix SaveTemplate dynamic modname in Template.fnc.php
+- Allow associative $options array for MultipleCheckboxInput() in Inputs.php
 
 Changes in 4.5
 --------------
