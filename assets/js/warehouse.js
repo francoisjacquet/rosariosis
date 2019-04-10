@@ -471,11 +471,13 @@ window.onload = function() {
 	ajaxPrepare('body');
 
 	// Load body after browser history.
-	if (history.pushState) window.setTimeout(function() {
-		window.addEventListener('popstate', function(e) {
-			ajaxLink(document.URL);
-		}, false);
-	}, 1);
+	if (history.pushState) window.setTimeout(ajaxPopState(), 1);
+};
+
+var ajaxPopState = function() {
+	window.addEventListener('popstate', function(e) {
+		ajaxLink(document.URL);
+	}, false);
 };
 
 // onunload: Fix for Firefox to execute Javascript on history back.
@@ -484,8 +486,9 @@ window.onunload = function() {};
 // Check if logged in.
 // http://stackoverflow.com/questions/6359327/detect-back-button-click-in-browser
 if (window.performance && window.performance.navigation.type == 2) {
-	if (document.URL.indexOf('Modules.php?'))
+	if (document.URL.indexOf('Modules.php?') != -1) {
 		window.location.href = 'index.php?modfunc=logout';
+	}
 }
 
 // ListOutput JS.
