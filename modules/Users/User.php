@@ -144,7 +144,8 @@ if ( $_REQUEST['modfunc'] === 'update'
 	}
 
 	if ( isset( $_POST['staff'] )
-		&& count( $_POST['staff'] ) )
+		&& count( $_POST['staff'] )
+		|| ! empty( $_FILES['photo'] ) )
 	{
 		$required_error = false;
 
@@ -374,7 +375,7 @@ Remote IP: %s', $admin_username, User('NAME'), $ip);
 		}
 
 		if ( UserStaffID()
-			&& $_FILES['photo'] )
+			&& ! empty( $_FILES['photo'] ) )
 		{
 			// $new_photo_file = FileUpload('photo', $UserPicturesPath.UserSyear().'/', array('.jpg', '.jpeg'), 2, $error, '.jpg', UserStaffID());
 

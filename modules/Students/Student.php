@@ -89,7 +89,8 @@ if ( $_REQUEST['modfunc'] === 'update'
 	if ( ( isset( $_POST['students'] )
 			&& count( $_POST['students'] ) )
 		|| ( isset( $_POST['values'] )
-			&& count( $_POST['values'] ) ) )
+			&& count( $_POST['values'] ) )
+		|| ! empty( $_FILES['photo'] ) )
 	{
 		$required_error = false;
 
@@ -324,8 +325,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 		}
 
 		if ( UserStudentID()
-			&& isset( $_FILES['photo'] )
-			&& is_array( $_FILES['photo'] ) )
+			&& ! empty( $_FILES['photo'] ) )
 		{
 			// $new_photo_file = FileUpload('photo', $StudentPicturesPath.UserSyear().'/', array('.jpg', '.jpeg'), 2, $error, '.jpg', UserStudentID());
 

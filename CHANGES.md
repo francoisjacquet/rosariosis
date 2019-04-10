@@ -6,6 +6,7 @@ Changes in 4.5.1
 - Move Header head action hook outisde page condition in Warehouse.php
 - Fix SQL error, do not allow N/A in Timeframe date inputs in Calendar.php
 - JS Add ajaxPopState() function & Fix logout when back button & URL is Modules.php in warehouse.js
+- Upload photo when no other fields are posted in Student.php & User.php
 
 Changes in 4.5
 --------------
