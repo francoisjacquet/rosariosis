@@ -7,6 +7,7 @@ Changes in 4.5.1
 - Fix SQL error, do not allow N/A in Timeframe date inputs in Calendar.php
 - JS Add ajaxPopState() function & Fix logout when back button & URL is Modules.php in warehouse.js
 - Upload photo when no other fields are posted in Student.php & User.php
+- Make makeProfile() function reusable & better display in GetStaffList.fnc.php
 
 Changes in 4.5
 --------------

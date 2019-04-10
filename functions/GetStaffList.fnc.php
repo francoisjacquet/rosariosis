@@ -163,8 +163,6 @@ function GetStaffList( &$extra = array() )
 		$extra['WHERE'] .= '))';
 	}
 
-	$profiles_RET = DBGet( "SELECT * FROM USER_PROFILES", array(), array( 'ID' ) );
-
 	$sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 			s.PROFILE,s.PROFILE_ID,s.STAFF_ID,s.SCHOOLS " . $extra['SELECT'] .
 			" FROM STAFF s " . $extra['FROM'] .
@@ -365,8 +363,17 @@ function appendStaffSQL( $sql, $extra = array() )
 	return $sql;
 }
 
-function makeProfile($value)
-{	global $THIS_RET,$profiles_RET;
+function makeProfile( $value, $column = 'PROFILE' )
+{
+	global $THIS_RET;
+
+	static $profiles_RET;
+
+	if ( empty( $profiles_RET ) )
+	{
+		$profiles_RET = DBGet( "SELECT ID,PROFILE,TITLE
+			FROM USER_PROFILES", array(), array( 'ID' ) );
+	}
 
 	if ( $value=='admin')
 		$return = _('Administrator');
@@ -378,10 +385,21 @@ function makeProfile($value)
 		$return = _('No Access');
 	else $return = $value;
 
-	if ( $THIS_RET['PROFILE_ID'])
-		$return .= ' / '.($profiles_RET[$THIS_RET['PROFILE_ID']]?$profiles_RET[$THIS_RET['PROFILE_ID']][1]['TITLE']:'<span style="color:red">'.$THIS_RET['PROFILE_ID'].'</span>');
+	if ( $THIS_RET['PROFILE_ID'] )
+	{
+		if ( $THIS_RET['PROFILE_ID'] <= 3 )
+		{
+			return $return;
+		}
+
+		$return .= ' / ' . ( $profiles_RET[$THIS_RET['PROFILE_ID']] ?
+			$profiles_RET[$THIS_RET['PROFILE_ID']][1]['TITLE'] :
+			'<span style="color:red">' . $THIS_RET['PROFILE_ID'] . '</span>' );
+	}
 	elseif ( $value!='none')
+	{
 		$return .= _( ' w/Custom' );
+	}
 
 	return $return;
 }
