@@ -354,6 +354,7 @@ function db_properties( $table )
  *
  * @global string $RosarioNotifyAddress or $RosarioErrorsAddress email set in config.inc.php file
  * @since 4.0 Uses ErrorSendEmail()
+ * @since 4.6 Show SQL query.
  *
  * @param string $sql        SQL statement.
  * @param string $failnote   Failure Notice.
@@ -367,37 +368,36 @@ function db_show_error( $sql, $failnote, $additional = '' )
 	// TRANSLATION: do NOT translate these since error messages need to stay in English for technical support.
 	?>
 	<br />
-	<table class="postbox cellspacing-0" ' . $table_att . '>
+	<table class="postbox cellspacing-0">
 		<thead><tr><th class="center">
-			<?php echo function_exists( '_' ) ?
+			<h3><?php echo function_exists( '_' ) ?
 	_( 'We have a problem, please contact technical support ...' ) :
 	// PHP gettext extension not loaded, and polyfill either (PHPCompatibility functions not loaded yet).
-	'We have a problem, please contact technical support ...'; ?>
+	'We have a problem, please contact technical support ...'; ?></h3>
 		</th></tr></thead>
 	<tbody><tr><td class="popTable">
 		<table class="col1-align-right">
 			<tr>
 				<td><b>Date:</b></td>
-				<td><pre><?php echo date( 'm/d/Y h:i:s' ); ?></pre></td>
+				<td><?php echo date( 'm/d/Y H:i:s' ); ?></td>
 			</tr>
 			<tr>
 				<td><b>Failure Notice:</b></td>
-				<td><pre><?php echo $failnote; ?></pre></td>
+				<td><?php echo $failnote; ?></td>
 			</tr>
 			<tr>
 				<td><b>Additional Information:</b></td>
 				<td><?php echo $additional; ?></td>
 			</tr>
+			<tr>
+				<td><b>SQL query:</b></td>
+				<td><pre class="size-1" style="max-width: 65vw; overflow: auto;">
+					<?php echo str_replace( "\t\t", '', $sql ); ?>
+				</pre></td>
+			</tr>
 		</table>
 	</td></tr></tbody></table>
 	<?php
-// Something you have asked the system to do has thrown a database error.
-	// A system administrator has been notified, and the problem will be fixed as soon as possible.
-	// It might be that changing the input parameters sent to this program will cause it to run properly.
-	// Thanks for your patience.
-
-	// Dump SQL statement in an HTML comment.
-	echo '<!-- SQL STATEMENT: ' . "\n\n" . $sql . "\n\n" . ' -->';
 
 	// Send notification email if $RosarioNotifyAddress set & functions loaded.
 	$db_error_email = ! empty( $RosarioErrorsAddress ) ? $RosarioErrorsAddress : $RosarioNotifyAddress;

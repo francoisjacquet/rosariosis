@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 4.6
+--------------
+- Show SQL query & format in db_show_error() in database.inc.php
+
 Changes in 4.5.1
 ----------------
 - Move Header head action hook outisde page condition in Warehouse.php
