@@ -1036,6 +1036,7 @@ img.image-radio-list {
 .BottomButton {
 	line-height: 32px;
 	margin-right: 8px;
+	display: inline-block;
 }
 
 .BottomButton span {
@@ -1334,7 +1335,18 @@ input[type=checkbox].toggle {
 /* Accessibility (a11y) */
 
 .a11y-hidden {
-	display: none;
+	position: absolute !important;
+	clip: rect(1px 1px 1px 1px);
+	/* IE6, IE7 */
+	clip: rect(1px, 1px, 1px, 1px);
+}
+
+#footerwrap a.a11y-hidden:active,
+#footerwrap a.a11y-hidden:focus {
+	clip: auto !important;
+	position: absolute;
+	text-decoration: underline;
+	left: 9%;
 }
 
 /* Login, First login & Password Reset pages */

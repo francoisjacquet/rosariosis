@@ -4,6 +4,7 @@
 Changes in 4.6
 --------------
 - Show SQL query & format in db_show_error() in database.inc.php
+- CSS display accessibility link on focus in stylesheet.css
 
 Changes in 4.5.1
 ----------------
