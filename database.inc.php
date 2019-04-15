@@ -376,24 +376,18 @@ function db_show_error( $sql, $failnote, $additional = '' )
 	'We have a problem, please contact technical support ...'; ?></h3>
 		</th></tr></thead>
 	<tbody><tr><td class="popTable">
-		<table class="col1-align-right">
+		<table>
 			<tr>
-				<td><b>Date:</b></td>
-				<td><?php echo date( 'm/d/Y H:i:s' ); ?></td>
+				<td><?php echo date( 'm/d/Y H:i:s' ); ?><br />
+					<span class="legend-gray">Date</span></td>
 			</tr>
 			<tr>
-				<td><b>Failure Notice:</b></td>
-				<td><?php echo $failnote; ?></td>
+				<td><?php echo $failnote; ?> <?php echo $additional; ?><br />
+					<span class="legend-gray">Failure Notice</span></td>
 			</tr>
 			<tr>
-				<td><b>Additional Information:</b></td>
-				<td><?php echo $additional; ?></td>
-			</tr>
-			<tr>
-				<td><b>SQL query:</b></td>
-				<td><pre class="size-1" style="max-width: 65vw; overflow: auto;">
-					<?php echo str_replace( "\t\t", '', $sql ); ?>
-				</pre></td>
+				<td><pre class="size-1" style="max-width: 65vw; overflow: auto;"><?php echo str_replace( "\t\t", '', $sql ); ?></pre>
+					<span class="legend-gray">SQL query</span></td>
 			</tr>
 		</table>
 	</td></tr></tbody></table>
