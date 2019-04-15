@@ -267,6 +267,7 @@ var ajaxOptions = function(target, url, form) {
 
 				url += (url.indexOf('?') != -1 ? '&' : '?') + getStr;
 			}
+
 			ajaxSuccess(data, target, url);
 		},
 		error: function(xhr, status, error) {
@@ -371,6 +372,11 @@ var ajaxPostForm = function(form, submit) {
 }
 
 var ajaxSuccess = function(data, target, url) {
+
+	if (target == 'body') {
+		// Reset focus after AJAX so "Skip to main content" a11y link has focus first.
+		$('html').focus();
+	}
 
 	// Change URL after AJAX.
 	//http://stackoverflow.com/questions/5525890/how-to-change-url-after-an-ajax-request#5527095

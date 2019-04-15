@@ -6,6 +6,7 @@ Changes in 4.6
 - Show SQL query & format in db_show_error() in database.inc.php
 - CSS display accessibility link on focus in stylesheet.css
 - Accessibility: Add "Skip to main content" link in Bottom.php
+- JS Reset focus after AJAX so "Skip to main content" a11y link has focus first in warehouse.js
 
 Changes in 4.5.1
 ----------------
