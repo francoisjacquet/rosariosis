@@ -66,6 +66,7 @@ if ( ! function_exists( 'DashboardGradesAdmin' ) )
 			DUE_DATE
 			FROM GRADEBOOK_ASSIGNMENTS
 			WHERE MARKING_PERIOD_ID='" . UserMP() . "'
+			AND DUE_DATE IS NOT NULL
 			GROUP BY DUE_DATE
 			ORDER BY DUE_DATE DESC
 			LIMIT 7" );
@@ -78,6 +79,8 @@ if ( ! function_exists( 'DashboardGradesAdmin' ) )
 				// Assignments due today.
 				$assignments_today = (int) $assignments_RET[1]['ASSIGNMENTS_NB'];
 			}
+
+			$assignments_data = array();
 
 			$assignments_data[ _( 'Assignments' ) ] = $assignments_today;
 
@@ -94,7 +97,7 @@ if ( ! function_exists( 'DashboardGradesAdmin' ) )
 			}
 
 			if ( ! $assignments_today
-				&& count( $assignments_today ) < 2 )
+				&& count( $assignments_data ) < 2 )
 			{
 				return array();
 			}
