@@ -3,7 +3,7 @@
 if ( $_REQUEST['modfunc'] === 'save'
 	&& AllowEdit() )
 {
-	if ( count( $_REQUEST['st_arr'] ) )
+	if ( ! empty( $_REQUEST['st_arr'] ) )
 	{
 		$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
 
@@ -18,7 +18,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 		$RET = GetStuList( $extra );
 
-		if ( count( $RET ) )
+		if ( ! empty( $RET ) )
 		{
 			require_once 'ProgramFunctions/StudentsUsersInfo.fnc.php';
 			$categories_RET = DBGet( "SELECT ID,TITLE,INCLUDE

@@ -29,7 +29,7 @@ if ( $_REQUEST['modfunc'] !== 'delete'
 		UserSyear() - 1 :
 		UserSyear() ) . "'" );
 
-	if ( count( $subjects_RET ) == 1 )
+	if ( count( (array) $subjects_RET ) == 1 )
 	{
 		$_REQUEST['subject_id'] = $subjects_RET[1]['SUBJECT_ID'];
 	}
@@ -1072,7 +1072,7 @@ if (  ( ! $_REQUEST['modfunc']
 
 				//FJ add new school period to existing course period.
 
-				if ( ! $new && $i > count( $RET2 ) )
+				if ( ! $new && $i > count( (array) $RET2 ) )
 				{
 					$new = true;
 					$not_really_new = true;
@@ -1178,11 +1178,11 @@ if (  ( ! $_REQUEST['modfunc']
 				}
 
 				if ( ! AllowEdit()
-					&& $i === count( $RET2 ) )
+					&& $i === count( (array) $RET2 ) )
 				{
 					break;
 				}
-			} while ( $i <= count( $RET2 ) );
+			} while ( $i <= count( (array) $RET2 ) );
 
 			if ( AllowEdit() )
 			{
@@ -1401,7 +1401,7 @@ if (  ( ! $_REQUEST['modfunc']
 					WHERE PARENT_ID='" . $_REQUEST['course_period_id'] . "'
 					AND COURSE_PERIOD_ID!='" . $_REQUEST['course_period_id'] . "'" );
 
-				if ( count( $children ) )
+				if ( ! empty( $children ) )
 				{
 					$parent = _( 'N/A' );
 				}
@@ -1591,7 +1591,7 @@ if (  ( ! $_REQUEST['modfunc']
 		'">' . _( 'Search' ) . '</a>&nbsp;'
 	);
 
-	if ( count( $subjects_RET )
+	if ( ! empty( $subjects_RET )
 		&& $_REQUEST['subject_id'] )
 	{
 		foreach ( (array) $subjects_RET as $key => $value )
@@ -1644,7 +1644,7 @@ if (  ( ! $_REQUEST['modfunc']
 			WHERE SUBJECT_ID='" . $_REQUEST['subject_id'] . "'
 			ORDER BY TITLE" );
 
-		if ( count( $courses_RET )
+		if ( ! empty( $courses_RET )
 			&& $_REQUEST['course_id'] )
 		{
 			foreach ( (array) $courses_RET as $key => $value )
@@ -1721,7 +1721,7 @@ if (  ( ! $_REQUEST['modfunc']
 			//if ( $_REQUEST['modname']=='Scheduling/Schedule.php')
 			calcSeats1( $periods_RET, $date );
 
-			if ( count( $periods_RET )
+			if ( ! empty( $periods_RET )
 				&& $_REQUEST['course_period_id'] )
 			{
 				foreach ( (array) $periods_RET as $key => $value )

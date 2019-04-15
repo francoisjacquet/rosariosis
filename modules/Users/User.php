@@ -33,7 +33,7 @@ else
 	{
 		$category_include = DBGet( "SELECT INCLUDE FROM STAFF_FIELD_CATEGORIES WHERE ID='".$_REQUEST['category_id']."'" );
 
-		if (count($category_include))
+		if (! empty( $category_include ))
 		{
 			$include = $category_include[1]['INCLUDE'];
 
@@ -143,8 +143,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 		}
 	}
 
-	if ( isset( $_POST['staff'] )
-		&& count( $_POST['staff'] )
+	if ( ! empty( $_POST['staff'] )
 		|| ! empty( $_FILES['photo'] ) )
 	{
 		$required_error = false;
@@ -189,8 +188,16 @@ if ( $_REQUEST['modfunc'] === 'update'
 		}
 
 		//check username unicity
-		$existing_username = DBGet( "SELECT 'exists' FROM STAFF WHERE USERNAME='".$_REQUEST['staff']['USERNAME']."' AND SYEAR='".UserSyear()."' AND STAFF_ID!='".UserStaffID()."' UNION SELECT 'exists' FROM STUDENTS WHERE USERNAME='".$_REQUEST['staff']['USERNAME']."'" );
-		if (count($existing_username))
+		$existing_username = DBGet( "SELECT 'exists'
+			FROM STAFF
+			WHERE USERNAME='".$_REQUEST['staff']['USERNAME']."'
+			AND SYEAR='".UserSyear()."'
+			AND STAFF_ID!='".UserStaffID()."'
+			UNION SELECT 'exists'
+			FROM STUDENTS
+			WHERE USERNAME='".$_REQUEST['staff']['USERNAME']."'" );
+
+		if (! empty( $existing_username ))
 		{
 			$error[] = _('A user with that username already exists. Choose a different username and try again.');
 		}

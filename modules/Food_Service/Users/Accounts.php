@@ -19,7 +19,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 			}
 			//unset($_REQUEST['submit']);
 		}
-		elseif ( count( $_REQUEST['food_service'] ) )
+		elseif ( ! empty( $_REQUEST['food_service'] ) )
 		{
 			if ( ! empty( $_REQUEST['food_service']['BARCODE'] ) )
 			{

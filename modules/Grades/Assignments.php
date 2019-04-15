@@ -39,8 +39,7 @@ $_ROSARIO['allow_edit'] = true;
 // Add eventual Dates to $_REQUEST['tables'].
 AddRequestedDates( 'tables', 'post' );
 
-if ( isset( $_POST['tables'] )
-	&& count( $_POST['tables'] ) )
+if ( ! empty( $_POST['tables'] ) )
 {
 	$table = $_REQUEST['table'];
 
@@ -797,7 +796,7 @@ if ( ! $_REQUEST['modfunc'] )
 		'responsive' => false,
 	);
 
-	if ( count( $types_RET ) )
+	if ( ! empty( $types_RET ) )
 	{
 		if ( ! empty( $_REQUEST['assignment_type_id'] ) )
 		{
@@ -839,7 +838,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	// ASSIGNMENTS
 
-	if ( $_REQUEST['assignment_type_id'] && $_REQUEST['assignment_type_id'] != 'new' && count( $types_RET ) )
+	if ( $_REQUEST['assignment_type_id'] && $_REQUEST['assignment_type_id'] != 'new' && ! empty( $types_RET ) )
 	{
 		$sql = "SELECT ASSIGNMENT_ID,TITLE,POINTS
 		FROM GRADEBOOK_ASSIGNMENTS
@@ -851,7 +850,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$QI = DBQuery( $sql );
 		$assn_RET = DBGet( $QI );
 
-		if ( count( $assn_RET ) )
+		if ( ! empty( $assn_RET ) )
 		{
 			if ( $_REQUEST['assignment_id'] && $_REQUEST['assignment_id'] != 'new' )
 			{

@@ -41,7 +41,7 @@ else
 			FROM STUDENT_FIELD_CATEGORIES
 			WHERE ID='" . $_REQUEST['category_id'] . "'" );
 
-		if ( count( $category_include ) )
+		if ( ! empty( $category_include ) )
 		{
 			$include = $category_include[1]['INCLUDE'];
 
@@ -86,10 +86,8 @@ if ( $_REQUEST['modfunc'] === 'update'
 	// Add eventual Dates to $_REQUEST['students'].
 	AddRequestedDates( 'students', 'post' );
 
-	if ( ( isset( $_POST['students'] )
-			&& count( $_POST['students'] ) )
-		|| ( isset( $_POST['values'] )
-			&& count( $_POST['values'] ) )
+	if ( ! empty( $_POST['students'] )
+		|| ! empty( $_POST['values'] )
 		|| ! empty( $_FILES['photo'] ) )
 	{
 		$required_error = false;
@@ -122,7 +120,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 			// Check if trying to hack enrollment.
 			if ( isset( $_REQUEST['month_values']['STUDENT_ENROLLMENT'] )
-				|| count( $_REQUEST['values']['STUDENT_ENROLLMENT'] ) > 1 )
+				|| count( (array) $_REQUEST['values']['STUDENT_ENROLLMENT'] ) > 1 )
 			{
 				require_once 'ProgramFunctions/HackingLog.fnc.php';
 
@@ -145,7 +143,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 			WHERE USERNAME='" . $_REQUEST['students']['USERNAME'] . "'
 			AND STUDENT_ID!='" . UserStudentID() . "'" );
 
-		if (count($existing_username))
+		if (! empty( $existing_username ))
 		{
 			$error[] = _('A user with that username already exists. Choose a different username and try again.');
 		}
@@ -157,13 +155,13 @@ if ( $_REQUEST['modfunc'] === 'update'
 			do_action('Students/Student.php|update_student_checks');
 
 			// update enrollment
-			if (count($_REQUEST['values']) && ! $error )
+			if (! empty( $_REQUEST['values'] ) && ! $error )
 			{
 				require_once 'modules/Students/includes/SaveEnrollment.fnc.php';
 				SaveEnrollment();
 			}
 
-			if (count($_REQUEST['students']) && ! $error )
+			if (! empty( $_REQUEST['students'] ) && ! $error )
 			{
 				$sql = "UPDATE STUDENTS SET ";
 				$fields_RET = DBGet( "SELECT ID,TYPE FROM CUSTOM_FIELDS ORDER BY SORT_ORDER", array(), array('ID'));
@@ -237,7 +235,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 			{
 				if ( ( $student_id = (int)$_REQUEST['assign_student_id'] ) > 0 )
 				{
-					if ( count( DBGet( "SELECT STUDENT_ID
+					if ( ! empty( DBGet( "SELECT STUDENT_ID
 							FROM STUDENTS
 							WHERE STUDENT_ID='" . $student_id . "'" ) ) )
 					{
@@ -258,7 +256,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 					{
 						$student_id = DBSeqNextID( 'STUDENTS_SEQ' );
 					}
-					while ( count( DBGet( "SELECT STUDENT_ID FROM STUDENTS WHERE STUDENT_ID='".$student_id."'" ) ) );
+					while ( ! empty( DBGet( "SELECT STUDENT_ID FROM STUDENTS WHERE STUDENT_ID='".$student_id."'" ) ) );
 
 				$sql = "INSERT INTO STUDENTS ";
 				$fields = 'STUDENT_ID,';

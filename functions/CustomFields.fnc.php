@@ -65,11 +65,10 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 	$cust_end = isset( $_REQUEST['cust_end'] ) ? $_REQUEST['cust_end'] : null;
 
 	// Get custom (staff) fields.
-	if ( count( $cust )
-		|| count( $cust_begin )
-		|| count( $cust_end )
-		|| ( isset( $_REQUEST['cust_null'] )
-			&& count( (array) $_REQUEST['cust_null'] ) ) )
+	if ( ! empty( $cust )
+		|| ! empty( $cust_begin )
+		|| ! empty( $cust_end )
+		|| ! empty( $_REQUEST['cust_null'] ) )
 	{
 		$fields = ParseMLArray( DBGet( "SELECT TITLE,'CUSTOM_'||ID AS COLUMN,
 			TYPE,SELECT_OPTIONS

@@ -12,7 +12,7 @@ if ( User( 'PROFILE' ) === 'teacher' )
 if ( $_REQUEST['modfunc'] === 'save'
 	&& AllowEdit() )
 {
-	if ( count( $_REQUEST['st_arr'] ) )
+	if ( ! empty( $_REQUEST['st_arr'] ) )
 	{
 		// FJ bypass strip_tags on the $_REQUEST vars.
 		$REQUEST_letter_text = SanitizeHTML( $_POST['letter_text'] );
@@ -73,7 +73,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 		$RET = GetStuList( $extra );
 
-		if ( count( $RET ) )
+		if ( ! empty( $RET ) )
 		{
 			SaveTemplate( $REQUEST_letter_text );
 

@@ -2,7 +2,7 @@
 
 if ( $_REQUEST['modfunc'] === 'save' )
 {
-	if ( count( $_REQUEST['student'] ) && AllowEdit() )
+	if ( ! empty( $_REQUEST['student'] ) && AllowEdit() )
 	{
 		$date = RequestedDate( 'date', '' );
 

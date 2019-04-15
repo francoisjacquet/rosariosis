@@ -365,7 +365,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 			$LO_columns['ABSENCES'] = _( 'Absences' );
 		}
 
-		if ( count( $mp_array ) > 2 )
+		if ( count( (array) $mp_array ) > 2 )
 		{
 			$mp_TITLE = 'SHORT_NAME';
 		}
@@ -399,7 +399,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 			$comments_arr = array();
 
-			$comments_arr_key = count( $all_commentsA_RET ) > 0;
+			$comments_arr_key = ! empty( $all_commentsA_RET );
 
 			unset( $grades_RET );
 
@@ -542,8 +542,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 			if ( $_REQUEST['mailing_labels'] === 'Y' )
 			{
-				if ( isset( $addresses_RET[$student_id] )
-					&& count( $addresses_RET[$student_id] ) )
+				if ( ! empty( $addresses_RET[$student_id] ) )
 				{
 					$addresses = $addresses_RET[$student_id];
 				}
@@ -696,7 +695,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 				if ( $_REQUEST['elements']['comments'] === 'Y'
 					&& ( $comments_arr_key
-						|| count( $comments_arr ) ) )
+						|| ! empty( $comments_arr ) ) )
 				{
 					$gender = mb_substr( $mps[key( $mps )][1]['GENDER'], 0, 1 );
 

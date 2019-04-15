@@ -30,7 +30,7 @@ else
 
 	$RET = GetStuList($extra);
 
-	if (count($RET))
+	if (! empty( $RET ))
 	{
 		$__DBINC_NO_SQLSHOW = true;
 		$handle = PDFStart();

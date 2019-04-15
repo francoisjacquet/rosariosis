@@ -52,7 +52,7 @@ $current_RET = DBGet( "SELECT g.STUDENT_ID,g.REPORT_CARD_GRADE_ID,g.GRADE_PERCEN
 	AND cp.COURSE_PERIOD_ID='" . $course_period_id . "'
 	AND g.MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'", array(), array( 'STUDENT_ID' ) );
 
-$current_completed = count( DBGet( "SELECT ''
+$current_completed = count( (array) DBGet( "SELECT 1
 	FROM GRADES_COMPLETED
 	WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 	AND MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'
@@ -133,8 +133,8 @@ if ( $_REQUEST['tab_id'] == '-1' )
 	$max_current_commentsB = 0;
 
 	foreach ( (array) $current_commentsB_RET as $comments)
-		if (count($comments)>$max_current_commentsB)
-			$max_current_commentsB = count($comments);
+		if (count( $comments )>$max_current_commentsB)
+			$max_current_commentsB = count( $comments );
 }
 elseif ( $_REQUEST['tab_id'] == '0' )
 {
@@ -261,7 +261,7 @@ if ( $_REQUEST['modfunc'] === 'gradebook' )
 
 			unset( $extra );
 
-			if ( count( $points_RET ) )
+			if ( ! empty( $points_RET ) )
 			{
 				foreach ( (array) $points_RET as $student_id => $student )
 				{
@@ -860,8 +860,8 @@ if ( $_REQUEST['values']
 		$max_current_commentsB = 0;
 
 		foreach ( (array) $current_commentsB_RET as $comments)
-			if (count($comments)>$max_current_commentsB)
-				$max_current_commentsB = count($comments);
+			if (count( $comments )>$max_current_commentsB)
+				$max_current_commentsB = count( $comments );
 	}
 	elseif ( $_REQUEST['tab_id']=='0')
 	{
@@ -882,7 +882,11 @@ if ( $_REQUEST['values']
 		AND g.REPORT_CARD_COMMENT_ID IN (SELECT ID FROM REPORT_CARD_COMMENTS WHERE CATEGORY_ID='".$_REQUEST['tab_id']."')",array(),array('STUDENT_ID','REPORT_CARD_COMMENT_ID'));
 	}
 
-	$current_completed = count(DBGet( "SELECT '' FROM GRADES_COMPLETED WHERE STAFF_ID='".User('STAFF_ID')."' AND MARKING_PERIOD_ID='".$_REQUEST['mp']."' AND COURSE_PERIOD_ID='".$course_period_id."'" ));
+	$current_completed = count( (array) DBGet( "SELECT 1
+		FROM GRADES_COMPLETED
+		WHERE STAFF_ID='".User('STAFF_ID' )."'.
+		AND MARKING_PERIOD_ID='".$_REQUEST['mp']."'
+		AND COURSE_PERIOD_ID='".$course_period_id."'" ) );
 
 	// Unset values & redirect URL.
 	RedirectURL( 'values' );
@@ -978,7 +982,7 @@ if (GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y')
 		$extra['functions'] += array('CB'.$i => '_makeCommentsB');
 	}
 
-	if (count($commentsB_select) && AllowEdit())
+	if (! empty( $commentsB_select ) && AllowEdit())
 	{
 		$extra['SELECT'] .= ',\''.$i.'\' AS CB'.$i;
 		$extra['functions'] += array('CB'.$i => '_makeCommentsB');
@@ -992,7 +996,7 @@ $extra['DATE'] = GetMP($_REQUEST['mp'],'END_DATE');
 
 $stu_RET = GetStuList($extra);
 
-echo '<form action="Modules.php?modname='.$_REQUEST['modname'].(count($categories_RET)&&GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y'?'&tab_id='.$_REQUEST['tab_id']:'').'" method="POST">';
+echo '<form action="Modules.php?modname='.$_REQUEST['modname'].(! empty( $categories_RET )&&GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y'?'&tab_id='.$_REQUEST['tab_id']:'').'" method="POST">';
 
 if ( !isset($_REQUEST['_ROSARIO_PDF']))
 {
@@ -1013,7 +1017,7 @@ if ( !isset($_REQUEST['_ROSARIO_PDF']))
 	}
 
 	//FJ add All Courses & Course-specific comments scales tipmessage
-	elseif (count($commentsA_RET))
+	elseif (! empty( $commentsA_RET ))
 	{
 		$tipmessage = '';
 
@@ -1124,7 +1128,7 @@ if (GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y')
 	for ( $i=1; $i<=$max_current_commentsB; $i++)
 		$LO_columns += array('CB'.$i=>sprintf(_('Comment %d'),$i));
 
-	if (count($commentsB_select) && AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
+	if (! empty( $commentsB_select ) && AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 		$LO_columns += array('CB'.$i => _('Add Comment'));
 }
 
@@ -1138,7 +1142,7 @@ foreach ( (array) $categories_RET as $id => $category)
 
 $LO_options = array('save'=>false,'search'=>false);
 
-if (count($categories_RET) && GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y')
+if (! empty( $categories_RET ) && GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y')
 {
 	$LO_options['header'] = WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&mp='.$_REQUEST['mp'].'&tab_id='.$_REQUEST['tab_id']);
 

@@ -10,11 +10,11 @@ if ( ! empty( $_REQUEST['menu_id'] ) )
 	if ( $_REQUEST['menu_id']!='new')
 		if ( $menus_RET[$_REQUEST['menu_id']])
 			$_SESSION['FSA_menu_id'] = $_REQUEST['menu_id'];
-		elseif (count($menus_RET))
+		elseif (! empty( $menus_RET ))
 			$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'] = key($menus_RET);
 		else
 			ErrorMessage(array(_('There are no menus yet setup.')),'fatal');
-	elseif (count($menus_RET))
+	elseif (! empty( $menus_RET ))
 		$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'] = key($menus_RET);
 	else
 		ErrorMessage(array(_('There are no menus yet setup.')),'fatal');
@@ -24,12 +24,12 @@ else
 	if ( $_SESSION['FSA_menu_id'])
 		if ( $menus_RET[$_SESSION['FSA_menu_id']])
 			$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'];
-		elseif (count($menus_RET))
+		elseif (! empty( $menus_RET ))
 			$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'] = key($menus_RET);
 		else
 			ErrorMessage(array(_('There are no menus yet setup.')),'fatal');
 	else
-		if (count($menus_RET))
+		if (! empty( $menus_RET ))
 			$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'] = key($menus_RET);
 		else
 			ErrorMessage(array(_('There are no menus yet setup.')),'fatal');
@@ -63,7 +63,7 @@ echo '<br />';
 
 echo '<div class="center">' . WrapTabs($meals,'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$_REQUEST['menu_id']) . '</div>';
 
-if (count($items_RET))
+if (! empty( $items_RET ))
 {
 	$per_row = ceil(sqrt(count($items_RET)));
 //FJ css WPadmin

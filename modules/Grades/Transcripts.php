@@ -5,8 +5,8 @@ require_once 'ProgramFunctions/Substitutions.fnc.php';
 
 if ( $_REQUEST['modfunc'] === 'save' )
 {
-	if ( count( $_REQUEST['mp_type_arr'] )
-		&& count( $_REQUEST['st_arr'] ) )
+	if ( ! empty( $_REQUEST['mp_type_arr'] )
+		&& ! empty( $_REQUEST['st_arr'] ) )
 	{
 		// Limit School & Year to current ones if not admin.
 		$syear_list = ( User( 'PROFILE' ) === 'admin' && $_REQUEST['syear_arr'] ?
@@ -41,7 +41,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			AND syear in (" . $syear_list . ")
 			ORDER BY mp_type, end_date", array(), array( 'STUDENT_ID', 'SYEAR', 'MARKING_PERIOD_ID' ) );
 
-		if ( count( $t_grades ) && count( $RET ) )
+		if ( ! empty( $t_grades ) && ! empty( $RET ) )
 		{
 			$syear = ( User( 'PROFILE' ) === 'admin' && $_REQUEST['syear_arr'] ?
 				$_REQUEST['syear_arr'][0] :

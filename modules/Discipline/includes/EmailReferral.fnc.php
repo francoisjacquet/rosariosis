@@ -41,7 +41,7 @@ function EmailReferral( $referral_id, $emails )
 		AND u.SYEAR='" . UserSyear() . "'
 		ORDER BY " . db_case( array( 'DATA_TYPE', "'textarea'", "'1'", "'0'" ) ) . ",SORT_ORDER", array(), array( 'ID' ) );
 
-	if ( count( $referral_RET ) )
+	if ( ! empty( $referral_RET ) )
 	{
 		$referral = $referral_RET[1];
 

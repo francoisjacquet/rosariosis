@@ -6,7 +6,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 {
 	if ( ! empty( $_REQUEST['activity_id'] ) )
 	{
-		if ( count( $_REQUEST['student'] ) )
+		if ( ! empty( $_REQUEST['student'] ) )
 		{
 			// FJ fix bug add the same activity more than once
 			// $current_RET = DBGet( "SELECT STUDENT_ID FROM STUDENT_ELIGIBILITY_ACTIVITIES WHERE ACTIVITY_ID='".$_SESSION['activity_id']."' AND SYEAR='".UserSyear()."'",array(),array('STUDENT_ID'));
@@ -67,12 +67,9 @@ if ( $_REQUEST['search_modfunc'] == 'list' )
 		AND SCHOOL_ID='" . UserSchool() . "'" );
 	echo '<select name="activity_id"><option value="">' . _( 'N/A' ) . '</option>';
 
-	if ( count( $activities_RET ) )
+	foreach ( (array) $activities_RET as $activity )
 	{
-		foreach ( (array) $activities_RET as $activity )
-		{
-			echo '<option value="' . $activity['ID'] . '">' . $activity['TITLE'] . '</option>';
-		}
+		echo '<option value="' . $activity['ID'] . '">' . $activity['TITLE'] . '</option>';
 	}
 
 	echo '</select>';

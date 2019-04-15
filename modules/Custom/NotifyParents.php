@@ -35,7 +35,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 	$message = str_replace( "''", "'", $_REQUEST['inputnotifyparentstext'] );
 
-	if ( count( $_REQUEST['staff'] ) )
+	if ( ! empty( $_REQUEST['staff'] ) )
 	{
 		$st_list = "'" . implode( "','", $_REQUEST['staff'] ) . "'";
 

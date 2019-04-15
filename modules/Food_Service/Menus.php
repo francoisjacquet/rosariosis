@@ -116,7 +116,7 @@ if ( ! $_REQUEST['modfunc'] )
 		if ( $_REQUEST['tab_id']!='new')
 			if ( $menus_RET[$_REQUEST['tab_id']])
 				$_SESSION['FSA_menu_id'] = $_REQUEST['tab_id'];
-			elseif (count($menus_RET))
+			elseif (! empty( $menus_RET ))
 				$_REQUEST['tab_id'] = $_SESSION['FSA_menu_id'] = key($menus_RET);
 			else
 				$_REQUEST['tab_id'] = 'new';
@@ -126,12 +126,12 @@ if ( ! $_REQUEST['modfunc'] )
 		if ( $_SESSION['FSA_menu_id'])
 			if ( $menus_RET[$_SESSION['FSA_menu_id']])
 				$_REQUEST['tab_id'] = $_SESSION['FSA_menu_id'];
-			elseif (count($menus_RET))
+			elseif (! empty( $menus_RET ))
 				$_REQUEST['tab_id'] = $_SESSION['FSA_menu_id'] = key($menus_RET);
 			else
 				$_REQUEST['tab_id'] = 'new';
 		else
-			if (count($menus_RET))
+			if (! empty( $menus_RET ))
 				$_REQUEST['tab_id'] = $_SESSION['FSA_menu_id'] = key($menus_RET);
 			else
 				$_REQUEST['tab_id'] = 'new';

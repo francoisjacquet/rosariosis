@@ -43,7 +43,7 @@ $_ROSARIO['allow_edit'] = true;
 
 echo '<fieldset><legend>' . _( 'Assignments' ) . '</legend><table>';
 
-if ( count( $grades ) )
+if ( ! empty( $grades ) )
 {
 	//if ( ! $gradebook_config['ROUNDING'])
 	//	$gradebook_config['ROUNDING'] = 'NORMAL';
@@ -209,7 +209,7 @@ $grades[ $course_period_id ][ $i ] = $grades[ $course_period_id ][ $i ]['TITLE']
 
 //$grades = array('A+','A','A-','B+','B','B-','C+','C','C-','D+','D','D-','F');
 
-if ( count( $grades ) )
+if ( ! empty( $grades ) )
 {
 	echo '<fieldset><legend>' . _( 'Score Breakoff Points' ) . '</legend><table>';
 

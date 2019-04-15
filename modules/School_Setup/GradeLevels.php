@@ -186,12 +186,9 @@ function _makeGradeInput( $value, $name )
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			ORDER BY SORT_ORDER" );
 
-		if ( count( $grades_RET ) )
+		foreach ( (array) $grades_RET as $grade )
 		{
-			foreach ( (array) $grades_RET as $grade )
-			{
-				$grades[$grade['ID']] = $grade['TITLE'];
-			}
+			$grades[$grade['ID']] = $grade['TITLE'];
 		}
 	}
 

@@ -17,7 +17,7 @@ else
 
 	$RET = GetStaffList($extra);
 
-	if (count($RET))
+	if (! empty( $RET ))
 	{
 		$SESSION_staff_id_save = UserStaffID();
 		$handle = PDFStart();

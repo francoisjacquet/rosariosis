@@ -97,7 +97,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$i++;
 	}
 
-	if (count($RET) && ! $_REQUEST['print_statements'] && AllowEdit())
+	if (! empty( $RET ) && ! $_REQUEST['print_statements'] && AllowEdit())
 		$columns = array('REMOVE' => '');
 	else
 		$columns = array();

@@ -122,7 +122,7 @@ if ( ! $_REQUEST['modfunc'] )
 			|| $_REQUEST['tab_id'] !== 'new'
 			&& empty( $grade_scales_RET[ $_REQUEST['tab_id'] ] ) )
 		{
-			if ( count( $grade_scales_RET ) )
+			if ( ! empty( $grade_scales_RET ) )
 			{
 				$_REQUEST['tab_id'] = key( $grade_scales_RET ) . '';
 			}

@@ -19,7 +19,7 @@ if ( $_REQUEST['modfunc'] === 'add'
 		AND ACTIVITY_ID='" . $_REQUEST['new_activity'] . "'
 		AND SYEAR='" . UserSyear() . "'" );
 
-	if (count($activity_RET))
+	if (! empty( $activity_RET ))
 		echo ErrorMessage(array(_('The activity you selected is already assigned to this student!')));
 	else
 		DBQuery("INSERT INTO STUDENT_ELIGIBILITY_ACTIVITIES (STUDENT_ID,ACTIVITY_ID,SYEAR) values('".UserStudentID()."','".$_REQUEST['new_activity']."','".UserSyear()."')");
@@ -132,10 +132,10 @@ if ( UserStudentID()
 	ORDER BY ea.START_DATE",array('START_DATE' => 'ProperDate','END_DATE' => 'ProperDate'));
 
 	$activities_RET = DBGet( "SELECT ID,TITLE FROM ELIGIBILITY_ACTIVITIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'" );
-	if (count($activities_RET))
+
+	foreach ( (array) $activities_RET as $value)
 	{
-		foreach ( (array) $activities_RET as $value)
-			$activities[$value['ID']] = $value['TITLE'];
+		$activities[$value['ID']] = $value['TITLE'];
 	}
 
 	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&start_date='.$_REQUEST['start_date'];

@@ -233,7 +233,7 @@ function _make( $value, $column )
 			break;
 
 		case 'GRADE_ID':
-			return GetGrade( $value ) . ( count( $cal_days ) > 1 ? ' - ' . $calendars_RET[$THIS_RET['CALENDAR_ID']][1]['TITLE'] : '' );
+			return GetGrade( $value ) . ( count( (array) $cal_days ) > 1 ? ' - ' . $calendars_RET[$THIS_RET['CALENDAR_ID']][1]['TITLE'] : '' );
 	}
 }
 

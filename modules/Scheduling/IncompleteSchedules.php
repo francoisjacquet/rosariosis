@@ -54,7 +54,7 @@ else
 	$bad_students[0] = array();
 	foreach ( (array) $students_RET as $student)
 	{
-		if (count($schedule_RET[$student['STUDENT_ID']])!=count($periods_RET))
+		if (count( (array) $schedule_RET[$student['STUDENT_ID']] )!=count( (array) $periods_RET ))
 			$bad_students[] = $student;
 	}
 	if ( !isset($extra['columns_after']) || !is_array($extra['columns_after']))

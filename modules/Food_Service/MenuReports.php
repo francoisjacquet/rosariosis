@@ -21,7 +21,7 @@ if ( ! empty( $_REQUEST['menu_id'] ) )
 		{
 			$_SESSION['FSA_menu_id'] = $_REQUEST['menu_id'];
 		}
-		elseif ( count( $menus_RET ) )
+		elseif ( ! empty( $menus_RET ) )
 		{
 			$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'] = key( $menus_RET );
 		}
@@ -30,7 +30,7 @@ if ( ! empty( $_REQUEST['menu_id'] ) )
 			ErrorMessage( array( _( 'There are no menus yet setup.' ) ), 'fatal' );
 		}
 	}
-	elseif ( count( $menus_RET ) )
+	elseif ( ! empty( $menus_RET ) )
 	{
 		$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'] = key( $menus_RET );
 	}
@@ -47,7 +47,7 @@ else
 		{
 			$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'];
 		}
-		elseif ( count( $menus_RET ) )
+		elseif ( ! empty( $menus_RET ) )
 		{
 			$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'] = key( $menus_RET );
 		}
@@ -56,7 +56,7 @@ else
 			ErrorMessage( array( _( 'There are no menus yet setup.' ) ), 'fatal' );
 		}
 	}
-	elseif ( count( $menus_RET ) )
+	elseif ( ! empty( $menus_RET ) )
 	{
 		$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'] = key( $menus_RET );
 	}

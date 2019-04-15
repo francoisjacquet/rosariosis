@@ -57,7 +57,7 @@ if ( $ok )
 
 	$requests_RET = DBGet( $sql,array(),array('REQUEST_ID'));
 
-	if ( $_REQUEST['delete']=='Y' && count($requests_RET)>0)
+	if ( $_REQUEST['delete']=='Y' && ! empty( $requests_RET ))
 		DBQuery("DELETE FROM SCHEDULE WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND (SCHEDULER_LOCK!='Y' OR SCHEDULER_LOCK IS NULL)");
 
 	$periods_RET = DBGet( "SELECT COURSE_PERIOD_ID,MARKING_PERIOD_ID,MP,TOTAL_SEATS,CALENDAR_ID FROM COURSE_PERIODS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'" );
@@ -135,7 +135,7 @@ if ( $ok )
 
 	$last_percent = 0;
 	$completed = 0;
-	$requests_count = count($requests_RET);
+	$requests_count = count( (array) $requests_RET );
 //FJ fix error Warning: Invalid argument supplied for foreach()
 	$unfilled = array();
 	foreach ( (array) $requests_RET as $request_id => $request)
@@ -286,43 +286,41 @@ function _scheduleRequest($request,$not_parent_id=false)
 {	global $cp_parent_RET,$cp_course_RET,$schedule,$filled;
 
 	$possible = array();
-	if (count($cp_course_RET[$request['COURSE_ID']]))
+	foreach ( (array) $cp_course_RET[$request['COURSE_ID']] as $course_period)
 	{
-		foreach ( (array) $cp_course_RET[$request['COURSE_ID']] as $course_period)
+		foreach ( (array) $cp_parent_RET[$course_period['COURSE_PERIOD_ID']] as $slice)
 		{
-			foreach ( (array) $cp_parent_RET[$course_period['COURSE_PERIOD_ID']] as $slice)
+			// ALREADY SCHEDULED HERE
+			if ( $slice['PARENT_ID']==$not_parent_id)
+				continue 2;
+
+			// NO SEATS
+			if ( $slice['AVAILABLE_SEATS']<=0)
+				continue 2;
+
+			// SLICE VIOLATES GENDER RESTRICTION
+			if ( $slice['GENDER_RESTRICTION']!='N' && $slice['GENDER_RESTRICTION']!=mb_substr($request['GENDER'],0,1))
+				continue 2;
+
+			// PARENT VIOLATES TEACHER / PERIOD REQUESTS
+			if ( $slice['PARENT_ID']==$slice['COURSE_PERIOD_ID'] && (($request['WITH_TEACHER_ID']!='' && $slice['TEACHER_ID']!=$request['WITH_TEACHER_ID']) || ($request['WITH_PERIOD_ID'] && $slice['PERIOD_ID']!=$request['WITH_PERIOD_ID']) || ($request['NOT_TEACHER_ID'] && $slice['TEACHER_ID']==$request['NOT_TEACHER_ID']) || ($request['NOT_PERIOD_ID'] && $slice['PERIOD_ID']==$request['NOT_PERIOD_ID'])))
+				continue 2;
+
+			if ( !empty($schedule[$request['STUDENT_ID']][$slice['PERIOD_ID']]))
 			{
-				// ALREADY SCHEDULED HERE
-				if ( $slice['PARENT_ID']==$not_parent_id)
-					continue 2;
-
-				// NO SEATS
-				if ( $slice['AVAILABLE_SEATS']<=0)
-					continue 2;
-
-				// SLICE VIOLATES GENDER RESTRICTION
-				if ( $slice['GENDER_RESTRICTION']!='N' && $slice['GENDER_RESTRICTION']!=mb_substr($request['GENDER'],0,1))
-					continue 2;
-
-				// PARENT VIOLATES TEACHER / PERIOD REQUESTS
-				if ( $slice['PARENT_ID']==$slice['COURSE_PERIOD_ID'] && (($request['WITH_TEACHER_ID']!='' && $slice['TEACHER_ID']!=$request['WITH_TEACHER_ID']) || ($request['WITH_PERIOD_ID'] && $slice['PERIOD_ID']!=$request['WITH_PERIOD_ID']) || ($request['NOT_TEACHER_ID'] && $slice['TEACHER_ID']==$request['NOT_TEACHER_ID']) || ($request['NOT_PERIOD_ID'] && $slice['PERIOD_ID']==$request['NOT_PERIOD_ID'])))
-					continue 2;
-
-				if ( !empty($schedule[$request['STUDENT_ID']][$slice['PERIOD_ID']]))
+				// SHOULD LOOK FOR COMPATIBLE CP's IF NOT THE COMPLETE WEEK/YEAR
+				foreach ( (array) $schedule[$request['STUDENT_ID']][$slice['PERIOD_ID']] as $existing_slice)
 				{
-					// SHOULD LOOK FOR COMPATIBLE CP's IF NOT THE COMPLETE WEEK/YEAR
-					foreach ( (array) $schedule[$request['STUDENT_ID']][$slice['PERIOD_ID']] as $existing_slice)
-					{
-						if ( $existing_slice['PARENT_ID']!=$not_parent_id && _isConflict($existing_slice,$slice))
-							continue 3;
-					}
+					if ( $existing_slice['PARENT_ID']!=$not_parent_id && _isConflict($existing_slice,$slice))
+						continue 3;
 				}
 			}
-			// No conflict
-			$possible[] = $course_period;
 		}
+		// No conflict
+		$possible[] = $course_period;
 	}
-	if (count($possible))
+
+	if (! empty( $possible ))
 	{
 		// IF THIS COURSE IS BEING SCHEDULED A SECOND TIME, DELETE THE ORIGINAL ONE
 		if ( $not_parent_id)
@@ -356,7 +354,7 @@ function _moveRequest($request,$not_request=false,$not_parent_id=false)
 	if ( ! $not_request || !is_array($not_request))
 		$not_request = array();
 
-	if (count($cp_course_RET[$request['COURSE_ID']]))
+	if (! empty( $cp_course_RET[$request['COURSE_ID']] ))
 	{
 		foreach ( (array) $cp_course_RET[$request['COURSE_ID']] as $course_period)
 		{
@@ -457,7 +455,7 @@ function _scheduleBest($request,$possible)
 {	global $cp_parent_RET,$schedule;
 
 	$best = $possible[0];
-	if (count($possible)>1)
+	if (count( (array) $possible )>1)
 	{
 		foreach ( (array) $possible as $course_period)
 		{

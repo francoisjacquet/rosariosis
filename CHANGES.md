@@ -7,6 +7,7 @@ Changes in 4.6
 - CSS display accessibility link on focus in stylesheet.css
 - Accessibility: Add "Skip to main content" link in Bottom.php
 - JS Reset focus after AJAX so "Skip to main content" a11y link has focus first in warehouse.js
+- PHP 7.3 compat: use count() for array variables only, program wide
 
 Changes in 4.5.1
 ----------------

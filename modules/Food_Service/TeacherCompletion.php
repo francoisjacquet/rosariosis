@@ -46,7 +46,7 @@ $menus_RET = DBGet( 'SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_I
 if ( empty( $_REQUEST['menu_id'] ) )
 {
 	if ( ! $_SESSION['FSA_menu_id'])
-		if (count($menus_RET))
+		if (! empty( $menus_RET ))
 			$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'] = key($menus_RET);
 		else
 			ErrorMessage(array('There are no menus yet setup.'),'fatal');
@@ -58,7 +58,7 @@ else
 	$_SESSION['FSA_menu_id'] = $_REQUEST['menu_id'];
 
 $totals = array(array());
-if (count($RET))
+if (! empty( $RET ))
 {
 	foreach ( (array) $RET as $staff_id => $periods)
 	{
@@ -104,7 +104,7 @@ DrawHeader(PrepareDate($date,'_date').' : '.$period_select.' : <input type=submi
 echo '</form>';
 
 echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=add&menu_id='.$_REQUEST['menu_id'].'" method="POST">';
-if (count($menus_RET)>1)
+if (count( (array) $menus_RET )>1)
 {
 	$tabs = array();
 	foreach ( (array) $menus_RET as $id => $menu)

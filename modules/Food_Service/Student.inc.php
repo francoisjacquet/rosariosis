@@ -6,7 +6,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 {
 	if ( UserStudentID()
 		&& AllowEdit()
-		&& count( $_REQUEST['food_service'] ) )
+		&& ! empty( $_REQUEST['food_service'] ) )
 	{
 		$sql = "UPDATE FOOD_SERVICE_STUDENT_ACCOUNTS SET ";
 
@@ -72,7 +72,7 @@ if ( ! $_REQUEST['modfunc']
 	}
 
 	// warn if other students associated with the same account
-	if ( count( $xstudents ) )
+	if ( ! empty( $xstudents ) )
 	{
 		$warning = _( 'Other students associated with the same account' ) . ':<br />';
 

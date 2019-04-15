@@ -6,8 +6,8 @@ if ( $_REQUEST['modfunc'] === 'update' )
 {
 	if ( UserStudentID()
 		&& AllowEdit()
-		&& count( $_REQUEST['food_service'] )
-		&& count( $_POST['food_service'] ) )
+		&& ! empty( $_REQUEST['food_service'] )
+		&& ! empty( $_POST['food_service'] ) )
 	{
 		if ( ! empty( $_REQUEST['food_service']['BARCODE'] ) )
 		{
@@ -176,7 +176,7 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 	}
 
 	// warn if other students associated with the same account
-	if ( count( $xstudents ) )
+	if ( ! empty( $xstudents ) )
 	{
 		$warning = _( 'Other students associated with the same account' ) . ':<br />';
 

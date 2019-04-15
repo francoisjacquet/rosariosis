@@ -423,7 +423,7 @@ if ( ! function_exists( 'MailingLabelsPDF' ) )
 
 		$cols = 0;
 		$rows = 0;
-		$RET_count = count( $RET );
+		$RET_count = count( (array) $RET );
 
 		for ( $i = -(  ( $_REQUEST['start_row'] - 1 ) * $max_cols + $_REQUEST['start_col'] - 1 ); $i < $RET_count; $i++ )
 		{

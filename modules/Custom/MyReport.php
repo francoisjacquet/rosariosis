@@ -198,7 +198,7 @@ function _makeTV( $value, $column )
 			WHERE PERSON_ID='" . $THIS_RET['PERSON_ID'] . "'
 			LIMIT 10" );
 
-		if ( count( $person_RET ) > $maxTV )
+		if ( count( (array) $person_RET ) > $maxTV )
 		{
 			$maxTV = count( $person_RET );
 		}

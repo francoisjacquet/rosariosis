@@ -172,7 +172,7 @@ if ( ! $_REQUEST['modfunc'] )
 			{
 				$_SESSION['FSA_menu_id'] = $_REQUEST['tab_id'];
 			}
-			elseif ( count( $menus_RET ) )
+			elseif ( ! empty( $menus_RET ) )
 			{
 				$_REQUEST['tab_id'] = $_SESSION['FSA_menu_id'] = key( $menus_RET );
 			}
@@ -190,7 +190,7 @@ if ( ! $_REQUEST['modfunc'] )
 			{
 				$_REQUEST['tab_id'] = $_SESSION['FSA_menu_id'];
 			}
-			elseif ( count( $menus_RET ) )
+			elseif ( ! empty( $menus_RET ) )
 			{
 				$_REQUEST['tab_id'] = $_SESSION['FSA_menu_id'] = key( $menus_RET );
 			}
@@ -199,7 +199,7 @@ if ( ! $_REQUEST['modfunc'] )
 				$_REQUEST['tab_id'] = 'new';
 			}
 		}
-		elseif ( count( $menus_RET ) )
+		elseif ( ! empty( $menus_RET ) )
 		{
 			$_REQUEST['tab_id'] = $_SESSION['FSA_menu_id'] = key( $menus_RET );
 		}

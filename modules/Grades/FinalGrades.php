@@ -33,8 +33,8 @@ elseif ( $_REQUEST['delete_cancel']
 
 if ( $_REQUEST['modfunc'] === 'save' )
 {
-	if ( count( $_REQUEST['mp_arr'] )
-		&& count( $_REQUEST['st'] ) )
+	if ( ! empty( $_REQUEST['mp_arr'] )
+		&& ! empty( $_REQUEST['st'] ) )
 	{
 
 		$mp_list = "'" . implode( "','", $_REQUEST['mp_arr'] ) . "'";
@@ -114,7 +114,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 		}
 
-		if (count($RET))
+		if (! empty( $RET ))
 		{
 			$columns = array('FULL_NAME' => _('Student'),'COURSE_TITLE' => _('Course'));
 
@@ -262,7 +262,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				}
 			}
 
-			if (count($_REQUEST['mp_arr'])==1 && AllowEdit())
+			if (count( (array) $_REQUEST['mp_arr'] )==1 && AllowEdit())
 			{
 				$link['remove']['link'] = PreparePHP_SELF($_REQUEST,array('delete_cancel'),array('modfunc' => 'delete'));
 				$link['remove']['variables'] = array('student_id' => 'STUDENT_ID',
@@ -316,7 +316,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 				//FJ add Comment Scales tipmessage
 				$comment_codes_RET = null;
-				if (count($students_comment_scales))
+				if (! empty( $students_comment_scales ))
 				{
 					$comment_codes_RET = DBGet( "SELECT cc.SCALE_ID,cc.TITLE,cc.SHORT_NAME,cc.COMMENT,cs.TITLE AS SCALE_TITLE
 					FROM REPORT_CARD_COMMENT_CODES cc, REPORT_CARD_COMMENT_CODE_SCALES cs

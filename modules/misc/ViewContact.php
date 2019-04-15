@@ -29,8 +29,8 @@ PopTable(
 		)
 );
 
-if ( count( $contacts_RET )
-	|| count( $fields_RET ) )
+if ( ! empty( $contacts_RET )
+	|| ! empty( $fields_RET ) )
 {
 	echo '<table class="widefat width-100p">';
 

@@ -307,7 +307,7 @@ if ( UserStudentID() )
 	AND g.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" .
 		( $_REQUEST['assignment_id'] == 'all' ? '' : " AND g.ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'" ), array(), array( 'ASSIGNMENT_ID' ) );
 
-	$count_assignments = count( $assignments_RET );
+	$count_assignments = count( (array) $assignments_RET );
 
 	$extra['SELECT'] = ",ga.ASSIGNMENT_TYPE_ID,ga.ASSIGNMENT_ID,ga.TITLE,ga.POINTS AS TOTAL_POINTS,
 		ga.SUBMISSION,'' AS PERCENT_GRADE,'' AS LETTER_GRADE,
@@ -369,7 +369,7 @@ else
 		$current_RET = DBGet( "SELECT g.STUDENT_ID,g.ASSIGNMENT_ID,g.POINTS FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID AND a.MARKING_PERIOD_ID='" . UserMP() . "' AND g.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" . ( $_REQUEST['type_id'] ? " AND a.ASSIGNMENT_TYPE_ID='" . $_REQUEST['type_id'] . "'" : '' ), array(), array( 'STUDENT_ID', 'ASSIGNMENT_ID' ) );
 		$count_extra = array( 'SELECT_ONLY' => 'ssm.STUDENT_ID' );
 		$count_students = GetStuList( $count_extra );
-		$count_students = count( $count_students );
+		$count_students = count( (array) $count_students );
 
 		$extra['SELECT'] = ",extract(EPOCH FROM GREATEST(ssm.START_DATE, ss.START_DATE)) AS START_EPOCH,extract(EPOCH FROM LEAST(ssm.END_DATE, ss.END_DATE)) AS END_EPOCH";
 		$extra['functions'] = array();
@@ -430,7 +430,7 @@ else
 	}
 	else
 	{
-		if ( count( $assignments_RET ) )
+		if ( ! empty( $assignments_RET ) )
 		{
 			//FJ default points
 			$extra['SELECT_ONLY'] = "s.STUDENT_ID, gt.ASSIGNMENT_TYPE_ID,sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", "''", db_case( array( 'ga.DEFAULT_POINTS', "'-1'", "'0'", 'ga.DEFAULT_POINTS' ) ), 'gg.POINTS' ) ) . ") AS PARTIAL_POINTS,sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", "''", db_case( array( 'ga.DEFAULT_POINTS', "'-1'", "'0'", 'ga.POINTS' ) ), 'ga.POINTS' ) ) . ") AS PARTIAL_TOTAL,gt.FINAL_GRADE_PERCENT";
@@ -678,7 +678,7 @@ function _makeExtraAssnCols( $assignment_id, $column )
 				//FJ default points
 				$total_use_default_points = false;
 
-				if ( count( $points_RET[$THIS_RET['STUDENT_ID']] ) )
+				if ( ! empty( $points_RET[$THIS_RET['STUDENT_ID']] ) )
 				{
 					foreach ( (array) $points_RET[$THIS_RET['STUDENT_ID']] as $partial_points )
 					{
@@ -745,7 +745,7 @@ function _makeExtraAssnCols( $assignment_id, $column )
 			{
 				$total = $total_percent = 0;
 
-				if ( count( $points_RET[$THIS_RET['STUDENT_ID']] ) )
+				if ( ! empty( $points_RET[$THIS_RET['STUDENT_ID']] ) )
 				{
 					foreach ( (array) $points_RET[$THIS_RET['STUDENT_ID']] as $partial_points )
 					{

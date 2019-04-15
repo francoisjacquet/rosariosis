@@ -2,7 +2,7 @@
 
 if ( $_REQUEST['modfunc'] === 'save' )
 {
-	if ( count( $_REQUEST['cp_arr'] ) )
+	if ( ! empty( $_REQUEST['cp_arr'] ) )
 	{
 		$cp_list = "'" . implode( "','", $_REQUEST['cp_arr'] ) . "'";
 
@@ -89,7 +89,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 				//echo '<pre>'; var_dump($RET); echo '</pre>';
 
-				if ( count( $RET ) )
+				if ( ! empty( $RET ) )
 				{
 					$no_students_backprompt = false;
 

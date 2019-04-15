@@ -23,7 +23,7 @@ else
 
 	$students_RET = GetStuList( $extra );
 
-	if ( count( $students_RET ) )
+	if ( ! empty( $students_RET ) )
 	{
 		$SESSION_student_id_save = UserStudentID();
 

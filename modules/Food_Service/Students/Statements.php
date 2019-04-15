@@ -40,7 +40,7 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 		AND SYEAR='" . UserSyear() . "'
 		AND (START_DATE<=CURRENT_DATE AND (END_DATE IS NULL OR CURRENT_DATE<=END_DATE)))" );
 
-	if (count($xstudents))
+	if (! empty( $xstudents ))
 	{
 		$student_select = _('Student').' <select name="student_select"><option value="">'._('Not Specified').'</option>';
 		$student_select .= '<option value="'.$student['STUDENT_ID'].'"'.($_REQUEST['student_select']==$student['STUDENT_ID'] ? ' selected' : '').'>'.$student['FULL_NAME'].'</option>';

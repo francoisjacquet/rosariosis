@@ -137,7 +137,7 @@ if ( ! $_REQUEST['modfunc'] )
 		|| $_REQUEST['tab_id'] !== 'new'
 		&& empty( $comment_scales_RET[$_REQUEST['tab_id']] ) )
 	{
-		if ( count( $comment_scales_RET ) )
+		if ( ! empty( $comment_scales_RET ) )
 		{
 			$_REQUEST['tab_id'] = key( $comment_scales_RET ) . '';
 		}

@@ -7,7 +7,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 	if ( UserStaffID()
 		&& AllowEdit() )
 	{
-		if (count($_REQUEST['food_service']))
+		if (! empty( $_REQUEST['food_service'] ))
 		{
 			$sql = "UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET ";
 			foreach ( (array) $_REQUEST['food_service'] as $column_name => $value)

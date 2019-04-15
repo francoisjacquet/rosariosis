@@ -2,7 +2,7 @@
 
 if ( $_REQUEST['modfunc'] === 'save' )
 {
-	if ( count( $_REQUEST['student'] )
+	if ( ! empty( $_REQUEST['student'] )
 		&& AllowEdit() )
 	{
 		//FJ fix SQL bug invalid amount

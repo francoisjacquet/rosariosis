@@ -33,7 +33,7 @@ if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')==
 		ORDER BY sp.SORT_ORDER" );
 
 		$period_select = '<select name="period_id" onchange="ajaxPostForm(this.form,true);"><option value="">'._('Daily').'</option>';
-		if (count($periods_RET))
+		if (! empty($periods_RET))
 		{
 			//FJ All periods
 			if (count($periods_RET) > 1)
@@ -98,7 +98,7 @@ if ( ! empty( $_REQUEST['period_id'] ) )
 	$extra['columns_after']['STATE_ABS'] = _('State Abs');
 	$codes_RET = DBGet( "SELECT ID,TITLE FROM ATTENDANCE_CODES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND TABLE_NAME='0' AND (DEFAULT_CODE!='Y' OR DEFAULT_CODE IS NULL)" );
 
-	if (count($codes_RET)>1)
+	if (! empty($codes_RET) && count($codes_RET)>1)
 	{
 		foreach ( (array) $codes_RET as $code)
 		{

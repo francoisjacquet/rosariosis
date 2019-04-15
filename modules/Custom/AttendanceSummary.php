@@ -2,7 +2,7 @@
 
 if ( $_REQUEST['modfunc'] === 'save' )
 {
-	if ( count( $_REQUEST['st_arr'] ) )
+	if ( ! empty( $_REQUEST['st_arr'] ) )
 	{
 		$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
 
@@ -48,7 +48,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 		$RET = GetStuList( $extra );
 
-		if ( count( $RET ) )
+		if ( ! empty( $RET ) )
 		{
 			//change orientation to landscape
 			$_SESSION['orientation'] = 'landscape';

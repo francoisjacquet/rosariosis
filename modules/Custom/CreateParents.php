@@ -124,7 +124,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 	$message['new'] = str_replace( "''", "'", $_REQUEST['inputcreateparentstext_new'] );
 	$message['old'] = str_replace( "''", "'", $_REQUEST['inputcreateparentstext_old'] );
 
-	if ( count( $_REQUEST['student'] ) )
+	if ( ! empty( $_REQUEST['student'] ) )
 	{
 		$st_list = "'" . implode( "','", $_REQUEST['student'] ) . "'";
 
@@ -172,7 +172,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 					$user = $user[1];
 
 					//FJ change parent password generation
-					//$password = $passwords[rand(0,count($passwords)-1)];
+					//$password = $passwords[rand(0,count( $passwords )-1)];
 					$password = $username . rand( 100, 999 );
 
 					// FJ Moodle integrator / password.
@@ -468,7 +468,7 @@ function _makeContactSelect( $value, $column )
 			STAFF_ID='" . $THIS_RET['STAFF_ID'] . "'" );
 	}
 
-	if ( count( $RET ) )
+	if ( ! empty( $RET ) )
 	{
 		$checked = ' checked';
 

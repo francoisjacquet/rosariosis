@@ -70,7 +70,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 		$profile_RET = null;
 	}
 
-	if ( count( $profile_RET ) )
+	if ( ! empty( $profile_RET ) )
 	{
 		$go = Prompt(
 			_( 'Confirm Delete' ),
@@ -167,11 +167,11 @@ if ( $_REQUEST['modfunc'] === 'update'
 					&& $modname !== 'default'
 					&& $modname !== 'title' )
 				{
-					if ( ! count( $exceptions_RET[$modname] ) && ( $_REQUEST['can_edit'][str_replace( '.', '_', $modname )] || $_REQUEST['can_use'][str_replace( '.', '_', $modname )] ) )
+					if ( empty( $exceptions_RET[$modname] ) && ( $_REQUEST['can_edit'][str_replace( '.', '_', $modname )] || $_REQUEST['can_use'][str_replace( '.', '_', $modname )] ) )
 					{
 						DBQuery( "INSERT INTO PROFILE_EXCEPTIONS (PROFILE_ID,MODNAME) values('" . $_REQUEST['profile_id'] . "','" . $modname . "')" );
 					}
-					elseif ( count( $exceptions_RET[$modname] ) && ! $_REQUEST['can_edit'][str_replace( '.', '_', $modname )] && ! $_REQUEST['can_use'][str_replace( '.', '_', $modname )] )
+					elseif ( ! empty( $exceptions_RET[$modname] ) && ! $_REQUEST['can_edit'][str_replace( '.', '_', $modname )] && ! $_REQUEST['can_use'][str_replace( '.', '_', $modname )] )
 					{
 						DBQuery( "DELETE FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . $_REQUEST['profile_id'] . "' AND MODNAME='" . $modname . "'" );
 					}

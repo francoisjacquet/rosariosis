@@ -98,7 +98,7 @@ if ( Prompt(
 			&& (  ( ! $_REQUEST['tables']['COURSES']
 				&& $exists_RET['COURSES'][1]['COUNT'] < 1 ) ) ) )
 		{
-			if ( count( $_REQUEST['tables'] ) )
+			if ( ! empty( $_REQUEST['tables'] ) )
 			{
 				foreach ( (array) $_REQUEST['tables'] as $table => $value )
 				{

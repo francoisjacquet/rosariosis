@@ -10,8 +10,8 @@ if ( $_REQUEST['modfunc'] === 'save'
 	// Add eventual Dates to $_REQUEST['values'].
 	AddRequestedDates( 'values', 'post' );
 
-	if ( count( $_POST['values'] )
-		&& count( $_POST['student'] ) )
+	if ( ! empty( $_POST['values'] )
+		&& ! empty( $_POST['student'] ) )
 	{
 		if ( $_REQUEST['values']['GRADE_ID'] != '' )
 		{
@@ -86,7 +86,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 					AND SYEAR='" . UserSyear() . "'
 					AND '" . $start_date . "' BETWEEN START_DATE AND END_DATE" );
 
-				if ( count( $found_RET ) )
+				if ( ! empty( $found_RET ) )
 				{
 					$error[] = _( 'The student is already enrolled on that date, and cannot be enrolled a second time on the date you specified. Please fix, and try enrolling the student again.' );
 				}

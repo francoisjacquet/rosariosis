@@ -23,7 +23,7 @@ if ( UserStudentID() )
 	$value = $custom_RET[1];
 }
 
-if ( count( $fields_RET ) )
+if ( ! empty( $fields_RET ) )
 {
 	echo $separator;
 

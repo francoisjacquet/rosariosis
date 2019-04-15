@@ -44,8 +44,7 @@ Search('student_id',$extra);
 AddRequestedDates( 'schedule', 'post' );
 
 if ( $_REQUEST['modfunc'] === 'modify'
-	&& isset( $_REQUEST['schedule'] )
-	&& count( $_REQUEST['schedule'] )
+	&& ! empty( $_REQUEST['schedule'] )
 	&& AllowEdit() )
 {
 	foreach ( (array) $_REQUEST['schedule'] as $course_period_id => $start_dates)
@@ -84,7 +83,7 @@ if ( $_REQUEST['modfunc'] === 'modify'
 				AND END_DATE<START_DATE" );
 
 			// User is asked if he wants absences and grades to be deleted.
-			if (count($start_end_RET))
+			if (! empty( $start_end_RET ))
 			{
 				$delete_ok = DeletePrompt(
 					_( 'Student\'s Absences and Grades' ),
@@ -325,7 +324,7 @@ if ( $_REQUEST['modfunc']=='choose_course')
 		// the course being scheduled has start date of $date but no end date by default, and scheduled into the course marking period by default
 		// if marking periods overlap and dates overlap (already scheduled course does not end or ends after $date) then not okay
 		$current_RET = DBGet( "SELECT COURSE_PERIOD_ID FROM SCHEDULE WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_ID='".$_REQUEST['course_id']."' AND MARKING_PERIOD_ID IN (".$mps.") AND (END_DATE IS NULL OR '".DBDate()."'<=END_DATE)" );
-		if (count($current_RET))
+		if (! empty( $current_RET ))
 			$warnings[] = _('This student is already scheduled into this course.');
 
 		//FJ multiple school periods for a course period

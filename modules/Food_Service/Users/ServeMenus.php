@@ -19,7 +19,7 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 		}
 	}
 	elseif ( $_REQUEST['submit']['save']
-		&& count( $_SESSION['FSA_sale'] ) )
+		&& ! empty( $_SESSION['FSA_sale'] ) )
 	{
 		$items_RET = DBGet( "SELECT DESCRIPTION,SHORT_NAME,PRICE_STAFF FROM FOOD_SERVICE_ITEMS WHERE SCHOOL_ID='".UserSchool()."'",array(),array('SHORT_NAME'));
 

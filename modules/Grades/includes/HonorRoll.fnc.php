@@ -517,10 +517,9 @@ function HonorRollWidgets( $item )
 			$select = '<select name="subject_id">
 				<option value="">' . _( 'N/A' ) . '</option>';
 
-			if (count($subjects_RET))
+			foreach ( (array) $subjects_RET as $subject)
 			{
-				foreach ( (array) $subjects_RET as $subject)
-					$select .= '<option value="'.$subject['SUBJECT_ID'].'">'.$subject['TITLE'].'</option>';
+				$select .= '<option value="'.$subject['SUBJECT_ID'].'">'.$subject['TITLE'].'</option>';
 			}
 
 			$select .= '</select>';

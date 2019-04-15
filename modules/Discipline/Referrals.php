@@ -9,8 +9,7 @@ DrawHeader( ProgramTitle() );
 // Add eventual Dates to $_REQUEST['values'].
 AddRequestedDates( 'values', 'post' );
 
-if ( isset( $_POST['values'] )
-	&& count( $_POST['values'] )
+if ( ! empty( $_POST['values'] )
 	&& AllowEdit() )
 {
 	$sql = "UPDATE DISCIPLINE_REFERRALS SET ";
@@ -152,7 +151,7 @@ if ( ! $_REQUEST['modfunc']
 
 	$RET = DBGet( "SELECT * FROM DISCIPLINE_REFERRALS WHERE ID='".$_REQUEST['referral_id']."'" . $where );
 
-	if (count($RET))
+	if (! empty( $RET ))
 	{
 		$RET = $RET[1];
 

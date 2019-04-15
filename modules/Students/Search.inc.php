@@ -256,17 +256,17 @@ else
 
 	$extra['header_right'] = isset( $extra['header_right'] ) ? $extra['header_right'] : '';
 
-	if ( count( $students_RET ) > 1
+	if ( count( (array) $students_RET ) > 1
 		|| ! empty( $link['add'] )
 		|| ! $link['FULL_NAME']
 		|| ! empty( $extra['columns_before'] )
 		|| ! empty( $extra['columns'] )
 		|| ! empty( $extra['columns_after'] )
-		|| ( empty( $extra['BackPrompt'] ) && count( $students_RET ) == 0 )
+		|| ( empty( $extra['BackPrompt'] ) && empty( $students_RET ) )
 		|| ( ( isset( $extra['Redirect'] )
 				&& $extra['Redirect'] === false
 				|| ! empty( $_REQUEST['address_group'] ) )
-			&& count( $students_RET ) == 1 ) )
+			&& count( (array) $students_RET ) == 1 ) )
 	{
 		if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		{
@@ -374,12 +374,11 @@ else
 			}
 		}
 	}
-	elseif (count($students_RET)==1)
+	elseif ( count( (array) $students_RET )==1)
 	{
-		if (count($link['FULL_NAME']['variables']))
+		foreach ( (array) $link['FULL_NAME']['variables'] as $var => $val)
 		{
-			foreach ( (array) $link['FULL_NAME']['variables'] as $var => $val)
-				$_REQUEST[ $var ] = $students_RET['1'][ $val ];
+			$_REQUEST[ $var ] = $students_RET['1'][ $val ];
 		}
 
 		if ( ! is_array( $students_RET[1]['STUDENT_ID'] ) )

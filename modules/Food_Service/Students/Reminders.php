@@ -23,7 +23,7 @@ $year_end_note = _( '%N\'s lunch account is getting low.  It\'s estimated that %
 
 if ( $_REQUEST['modfunc'] === 'save' )
 {
-	if ( count( $_REQUEST['st_arr'] ) )
+	if ( ! empty( $_REQUEST['st_arr'] ) )
 	{
 		$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
 

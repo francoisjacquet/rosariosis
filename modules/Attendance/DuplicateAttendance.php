@@ -2,7 +2,7 @@
 
 DrawHeader( ProgramTitle() );
 
-if (count($_REQUEST['mp_arr']))
+if (! empty( $_REQUEST['mp_arr'] ))
 {
 	foreach ( (array) $_REQUEST['mp_arr'] as $mp )
 	{
@@ -116,7 +116,7 @@ if ( isset( $_REQUEST['search_modfunc'] )
 	$startrow = $endrow - $rows_per_page;
 
 	//echo "Startrow: $startrow  Endrow: $endrow <br />";
-	if (count($RET))
+	if (! empty( $RET ))
 	{
 
 		unset($extra);

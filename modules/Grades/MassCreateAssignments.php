@@ -9,7 +9,7 @@ AddRequestedDates( 'tables', 'post' );
 
 // TODO: add Warning before create!!
 if ( isset( $_POST['tables'] )
-	&& count( $_POST['tables'] ) )
+	&& ! empty( $_POST['tables'] ) )
 {
 	$table = isset( $_REQUEST['table'] ) ? $_REQUEST['table'] : null;
 

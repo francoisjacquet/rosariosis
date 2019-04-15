@@ -9,8 +9,7 @@ AddRequestedDates( 'values', 'post' );
 
 if ( $_REQUEST['modfunc'] === 'update' )
 {
-	if ( isset( $_POST['values'] )
-		&& count( $_POST['values'] ) )
+	if ( ! empty( $_POST['values'] ) )
 	{
 		foreach ( (array) $_REQUEST['values'] as $id => $columns)
 		{
@@ -151,7 +150,7 @@ if ( $_REQUEST['modfunc'] === 'remove' )
 		{
 			$assignments_RET = DBGet( "SELECT ASSIGNMENT_ID FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_TYPE_ID='" . $_REQUEST['id'] . "'" );
 
-			if (count($assignments_RET))
+			if (! empty( $assignments_RET ))
 			{
 				foreach ( (array) $assignments_RET as $assignment_id)
 					DBQuery("DELETE FROM GRADEBOOK_GRADES WHERE ASSIGNMENT_ID='".$assignment_id['ASSIGNMENT_ID']."'");
@@ -171,16 +170,16 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( ! empty( $_REQUEST['tab_id'] ) )
 	{
 		if ( $_REQUEST['tab_id']!='new' && ! $types_RET[$_REQUEST['tab_id']] )
-			if (count($types_RET))
+			if (! empty( $types_RET ))
 				$_REQUEST['tab_id'] = key($types_RET).'';
 			else
 				$_REQUEST['tab_id'] = 'new';
 	}
 	else
-		if ( !count($types_RET))
+		if (empty( $types_RET ))
 			$_REQUEST['tab_id'] = 'new';
 
-	if (count($types_RET))
+	if (! empty( $types_RET ))
 		$tabs = array(array('title' => _('All'),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=&allow_edit='.$_REQUEST['allow_edit']));
 	foreach ( (array) $types_RET as $id => $type)
 	{

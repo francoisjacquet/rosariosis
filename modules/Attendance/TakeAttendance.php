@@ -35,7 +35,7 @@ if ( $cp_title )
 	DrawHeader( $cp_title );
 }
 
-if ( count( $categories_RET ) == 0 )
+if ( empty(  $categories_RET  ) )
 {
 	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&table=' . $_REQUEST['table'] . '" method="POST">';
 	DrawHeader( PrepareDate( $date, '_date', false, array( 'submit' => true ) ) );
@@ -106,7 +106,7 @@ else
 // Instead of displaying a fatal error which could confuse user, display a warning and exit.
 $fatal_warning = array();
 
-if ( ! count( $course_RET ) )
+if ( empty( $course_RET ) )
 {
 	$fatal_warning[] = _( 'You cannot take attendance for this period on this day.' );
 }
@@ -237,7 +237,7 @@ if ( ! empty( $_REQUEST['attendance'] )
 		AND PERIOD_ID='" . UserPeriod() . "'
 		AND TABLE_NAME='" . $_REQUEST['table'] . "'" );
 
-	if ( ! count( $completed_RET ) )
+	if ( empty( $completed_RET ) )
 	{
 		DBQuery( "INSERT INTO ATTENDANCE_COMPLETED (STAFF_ID,SCHOOL_DATE,PERIOD_ID,TABLE_NAME)
 			values(
@@ -380,7 +380,7 @@ foreach ( (array) $categories_RET as $category )
 	);
 }
 
-if ( count( $categories_RET ) )
+if ( ! empty( $categories_RET ) )
 {
 	$LO_options = array(
 		'download' => false,

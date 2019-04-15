@@ -141,7 +141,7 @@ if ( ! $_REQUEST['modfunc'] )
 	); // 'ATTENDANCE'=>_makeCheckboxInput('','ATTENDANCE'),'START_TIME'=>_makeTimeInput('','START_TIME'),'END_TIME'=>_makeTimeInput('','END_TIME')
 
 	// Do NOT delete last Period.
-	if ( count( $periods_RET ) > 1 )
+	if ( count( (array) $periods_RET ) > 1 )
 	{
 		$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove';
 		$link['remove']['variables'] = array( 'id' => 'PERIOD_ID' );

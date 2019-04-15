@@ -156,7 +156,7 @@ if ( UserStudentID()
 		$i++;
 	}
 
-	if ( count( $RET )
+	if ( ! empty( $RET )
 		&& ! $_REQUEST['print_statements']
 		&& AllowEdit() )
 	{

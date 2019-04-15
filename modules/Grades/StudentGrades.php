@@ -69,7 +69,7 @@ if ( UserStudentID()
 			$LO_columns += array( 'BAR1' => _( 'Grade Range' ), 'BAR2' => _( 'Class Rank' ) );
 		}
 
-		if ( count( $courses_RET ) )
+		if ( ! empty( $courses_RET ) )
 		{
 			$LO_ret = array( 0 => array() );
 
@@ -138,7 +138,7 @@ if ( UserStudentID()
 				//echo '<pre>'; var_dump($points_RET); echo '</pre>';
 				//echo '<pre>'; var_dump($all_RET); echo '</pre>';
 
-				if ( count( $points_RET ) )
+				if ( ! empty( $points_RET ) )
 				{
 					$total = $total_percent = 0;
 					$ungraded = 0;
@@ -356,7 +356,7 @@ if ( UserStudentID()
 			ORDER BY ga.ASSIGNMENT_ID DESC", array( 'TITLE' => '_makeTipAssignment' ) );
 			//echo '<pre>'; var_dump($assignments_RET); echo '</pre>';
 
-			if ( count( $assignments_RET ) )
+			if ( ! empty( $assignments_RET ) )
 			{
 				if ( $do_stats && $_REQUEST['do_stats'] )
 				//FJ bugfix broken statistics, MIN calculus when gg.POINTS is NULL

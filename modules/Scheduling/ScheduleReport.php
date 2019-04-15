@@ -85,7 +85,7 @@ $subject_RET = DBGet( "SELECT s.SUBJECT_ID,s.TITLE
 	AND s.SCHOOL_ID='" . UserSchool() . "'
 	ORDER BY s.SORT_ORDER,s.TITLE" );
 
-if ( count( $subject_RET ) && $_REQUEST['subject_id'] )
+if ( ! empty( $subject_RET ) && $_REQUEST['subject_id'] )
 {
 	foreach ( (array) $subject_RET as $key => $value)
 	{
@@ -144,7 +144,7 @@ if ( $_REQUEST['modfunc'] === 'courses'
 
 	$RET = calcSeats($_RET,array('COURSE_ID','TITLE','COUNT_REQUESTS'));
 
-	if (count($RET) && $_REQUEST['course_id'])
+	if (! empty( $RET ) && $_REQUEST['course_id'])
 	{
 		foreach ( (array) $RET as $key => $value)
 		{
@@ -226,7 +226,7 @@ if ( $_REQUEST['modfunc'] === 'course_periods'
 		$RET[ $key ] += $value;
 	}
 
-	if (count($RET) && $_REQUEST['course_period_id'])
+	if (! empty( $RET ) && $_REQUEST['course_period_id'])
 	{
 		foreach ( (array) $RET as $key => $value)
 		{

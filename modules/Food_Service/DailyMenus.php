@@ -50,7 +50,7 @@ $menus_RET = DBGet( "SELECT MENU_ID,TITLE
 
 if ( empty( $_REQUEST['menu_id'] ) )
 	if ( ! $_SESSION['FSA_menu_id'])
-		if (count($menus_RET))
+		if (! empty( $menus_RET ))
 			$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'] = key($menus_RET);
 		else
 			ErrorMessage(array(_('There are no menus yet setup.')),'fatal');
@@ -156,7 +156,7 @@ if ( ! empty( $_REQUEST['submit']['print'] ) )
 
 		$day_inner_classes = 'width-100p';
 
-		if ( count( $events_RET[ $date ] ) )
+		if ( ! empty( $events_RET[ $date ] ) )
 		{
 			$day_inner_classes .= ' hover';
 		}
@@ -164,19 +164,19 @@ if ( ! empty( $_REQUEST['submit']['print'] ) )
 		$day_number_classes = 'number';
 
 		// Bold class
-		if ( count( $events_RET[ $date ] )
-			|| count( $assignments_RET[ $date ] ) )
+		if ( ! empty( $events_RET[ $date ] )
+			|| ! empty( $assignments_RET[ $date ] ) )
 		{
 			$day_number_classes .= ' bold';
 		}
 
-		echo '<td class="calendar-day' . $day_classes . '" style="background-color:' . ( count( $events_RET[ $date ] ) ? '#ffaaaa;' : '#fff' ) . '">
+		echo '<td class="calendar-day' . $day_classes . '" style="background-color:' . ( ! empty( $events_RET[ $date ] ) ? '#ffaaaa;' : '#fff' ) . '">
 			<table class="' . $day_inner_classes . '">
 				<tr><td class="' . $day_number_classes . '">' . $i . '</td></tr>';
 
 		echo '<tr><td class="calendar-menu">';
 
-		if (count($events_RET[ $date ]))
+		if (! empty( $events_RET[ $date ] ))
 		{
 			foreach ( (array) $events_RET[ $date ] as $event)
 			{
@@ -207,7 +207,7 @@ else
 	if (AllowEdit())
 	{
 		$description_RET = DBGet( "SELECT DISTINCT DESCRIPTION FROM CALENDAR_EVENTS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND TITLE='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."' AND DESCRIPTION IS NOT NULL ORDER BY DESCRIPTION" );
-		if (count($description_RET))
+		if (! empty( $description_RET ))
 		{
 			$description_select = '<option value="">'._('or select previous meal').'</option>';
 			foreach ( (array) $description_RET as $description)

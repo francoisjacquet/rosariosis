@@ -297,7 +297,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$fields_RET = ParseMLArray( $fields_RET, 'TITLE' );
 
-	if ( count( $fields_RET ) )
+	if ( ! empty( $fields_RET ) )
 	{
 		echo '<tr><td colspan="3"><hr /></td></tr>';
 	}
@@ -436,7 +436,7 @@ if ( ! $_REQUEST['modfunc'] )
 					|| $field['TYPE'] === 'edits' )
 				{
 					if ( $value_custom === '---'
-						|| count( $select_options ) <= 1 )
+						|| count( (array) $select_options ) <= 1 )
 					{
 						// FJ new option.
 						echo TextInput(

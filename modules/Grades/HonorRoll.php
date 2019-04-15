@@ -8,7 +8,7 @@ require_once 'modules/Grades/includes/HonorRoll.fnc.php';
 
 if ( $_REQUEST['modfunc'] === 'save' )
 {
-	if ( count( $_REQUEST['st_arr'] ) )
+	if ( ! empty( $_REQUEST['st_arr'] ) )
 	{
 		if ( empty( $_REQUEST['subject_id'] ) )
 		{

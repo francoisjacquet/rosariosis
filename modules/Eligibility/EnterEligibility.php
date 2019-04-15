@@ -79,7 +79,7 @@ if ( $_REQUEST['modfunc']=='gradebook')
 		AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE) OR gg.POINTS IS NOT NULL)
 		GROUP BY s.STUDENT_ID,ss.START_DATE",array(),array('STUDENT_ID'));
 
-	if (count($points_RET))
+	if (! empty( $points_RET ))
 	{
 		foreach ( (array) $points_RET as $student_id => $student)
 		{
@@ -125,7 +125,7 @@ if ( ! empty( $_REQUEST['values'] )
 		DBQuery($sql);
 	}
 	$RET = DBGet( "SELECT 'completed' AS COMPLETED FROM ELIGIBILITY_COMPLETED WHERE STAFF_ID='".User('STAFF_ID')."' AND SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND PERIOD_ID='".UserPeriod()."'" );
-	if ( !count($RET))
+	if ( ! empty( $RET ))
 		DBQuery("INSERT INTO ELIGIBILITY_COMPLETED (STAFF_ID,SCHOOL_DATE,PERIOD_ID) values('".User('STAFF_ID')."','".DBDate()."','".UserPeriod()."')");
 
 	$current_RET = DBGet( "SELECT ELIGIBILITY_CODE,STUDENT_ID FROM ELIGIBILITY WHERE SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND PERIOD_ID='".UserPeriod()."'",array(),array('STUDENT_ID'));

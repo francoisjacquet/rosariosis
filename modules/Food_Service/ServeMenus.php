@@ -41,7 +41,7 @@ $menus_RET = DBGet( 'SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_I
 if ( empty( $_REQUEST['menu_id'] ) )
 {
 	if ( ! $_SESSION['FSA_menu_id'])
-		if (count($menus_RET))
+		if (! empty( $menus_RET ))
 			$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'] = key($menus_RET);
 		else
 			ErrorMessage(array(_('There are no menus yet setup.')),'fatal');

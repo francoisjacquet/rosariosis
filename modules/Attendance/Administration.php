@@ -174,7 +174,7 @@ if ( $_REQUEST['attendance']
 	RedirectURL( 'attendance' );
 }
 
-if ( count( $_REQUEST['attendance_day'] ) )
+if ( ! empty( $_REQUEST['attendance_day'] ) )
 {
 	foreach ( (array) $_REQUEST['attendance_day'] as $student_id => $comment )
 	{
@@ -200,7 +200,7 @@ ORDER BY SORT_ORDER" );
 
 $categories_RET = DBGet( "SELECT ID,TITLE FROM ATTENDANCE_CODE_CATEGORIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'" );
 
-if (count($categories_RET))
+if (! empty( $categories_RET ))
 {
 	$tmp_PHP_SELF = PreparePHP_SELF( $_REQUEST, array( 'table', 'codes' ) );
 
@@ -305,8 +305,7 @@ else
 			AND ac.SYEAR=ssm.SYEAR " . str_replace( 'TABLE_NAME', 'ac.TABLE_NAME', $extra_sql );
 	}
 
-	if ( isset( $_REQUEST['codes'] )
-		&& count( $_REQUEST['codes'] ) )
+	if ( ! empty( $_REQUEST['codes'] ) )
 	{
 		$REQ_codes = $_REQUEST['codes'];
 
@@ -327,7 +326,7 @@ else
 		$abs = ($_REQUEST['table']=='0'); //true;
 	}
 
-	if (count($REQ_codes) && ! $abs)
+	if (! empty( $REQ_codes ) && ! $abs)
 	{
 		$extra['WHERE'] .= "AND ac.ID IN (";
 		foreach ( (array) $REQ_codes as $code)
@@ -340,7 +339,7 @@ else
 	elseif ( $abs)
 	{
 		$RET = DBGet( "SELECT ID FROM ATTENDANCE_CODES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND (DEFAULT_CODE!='Y' OR DEFAULT_CODE IS NULL) AND TABLE_NAME='".$_REQUEST['table']."'" );
-		if (count($RET))
+		if (! empty( $RET ))
 		{
 			$extra['WHERE'] .= "AND ac.ID IN (";
 			foreach ( (array) $RET as $code)
@@ -511,7 +510,7 @@ function _makeCodeSearch($value='')
 	$return = '<select name=codes[]><option value="">'._('All').'</option>';
 	if ( $_REQUEST['table']=='0')
 		$return .= '<option value="A"'.(($value=='A')?' selected':'').'>'._('Not Present').'</option>';
-	if (count($codes_RET))
+	if (! empty( $codes_RET ))
 	{
 		foreach ( (array) $codes_RET as $code)
 			$return .= '<option value="'.$code['ID'].'"'.($value==$code['ID']?' selected':'').'>'.$code['TITLE'].'</option>';

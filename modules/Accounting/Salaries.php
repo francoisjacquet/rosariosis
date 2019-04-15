@@ -89,7 +89,7 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 		$i++;
 	}
 
-	if (count($RET) && ! $_REQUEST['print_statements'] && AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
+	if (! empty( $RET ) && ! $_REQUEST['print_statements'] && AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 		$columns = array('REMOVE' => '');
 	else
 		$columns = array();

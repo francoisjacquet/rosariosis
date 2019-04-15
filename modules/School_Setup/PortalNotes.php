@@ -26,7 +26,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 		foreach ( array('admin','teacher','parent') as $profile_id)
 			if ( ! empty( $_REQUEST['profiles'][ $note_id ][ $profile_id ] ) )
 				$_REQUEST['values'][ $note_id ]['PUBLISHED_PROFILES'] .= ','.$profile_id;
-		if (count($_REQUEST['profiles'][ $note_id ]))
+		if (! empty( $_REQUEST['profiles'][ $note_id ] ))
 		{
 			foreach ( (array) $profiles_RET as $profile)
 			{

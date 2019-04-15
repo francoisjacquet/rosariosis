@@ -2,7 +2,7 @@
 
 if ( $_REQUEST['modfunc'] === 'save' )
 {
-	if ( count( $_REQUEST['st_arr'] ) )
+	if ( ! empty( $_REQUEST['st_arr'] ) )
 	{
 		$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
 
@@ -138,7 +138,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			}
 		}
 
-		if ( count( $RET ) )
+		if ( ! empty( $RET ) )
 		{
 			$handle = PDFStart();
 
@@ -416,7 +416,7 @@ function _schedule_table_RET( $schedule_table_RET )
 				continue;
 			}
 
-			if ( count( $schedule_table_day ) == 1 )
+			if ( count( (array) $schedule_table_day ) == 1 )
 			{
 				$schedule_table_body[$i][$day_key] = str_replace( array( '<td>', '</td>' ), '', $schedule_table_day[0] );
 			}

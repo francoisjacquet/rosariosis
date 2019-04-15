@@ -52,7 +52,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 							//User is asked if he wants absences and grades to be deleted
 
-							if ( count( $start_end_RET ) )
+							if ( ! empty( $start_end_RET ) )
 							{
 								//if user clicked Cancel or OK or Display Prompt
 

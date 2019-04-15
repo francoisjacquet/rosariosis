@@ -196,7 +196,7 @@ if ( ! $_REQUEST['modfunc'] )
 		}
 	}
 
-	if ( count( $referrals_RET ) )
+	if ( ! empty( $referrals_RET ) )
 	{
 		$columns = array( 'REMOVE' => '' );
 	}

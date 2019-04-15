@@ -97,7 +97,7 @@ else
 	$extra['WHERE'] = " AND EXISTS (SELECT '' FROM ATTENDANCE_PERIOD ap,ATTENDANCE_CODES ac WHERE ap.SCHOOL_DATE='".$date."' AND ap.STUDENT_ID=ssm.STUDENT_ID AND ap.ATTENDANCE_CODE=ac.ID AND ac.SCHOOL_ID=ssm.SCHOOL_ID AND ac.SYEAR=ssm.SYEAR ";
 
 	if ( isset( $_REQUEST['codes'] )
-		&& count( $_REQUEST['codes'] ) )
+		&& ! empty( $_REQUEST['codes'] ) )
 	{
 		$REQ_codes = $_REQUEST['codes'];
 
@@ -118,7 +118,7 @@ else
 		$abs = true;
 	}
 
-	if (count($REQ_codes) && ! $abs)
+	if (! empty( $REQ_codes ) && ! $abs)
 	{
 		$extra['WHERE'] .= "AND ac.ID IN (";
 		foreach ( (array) $REQ_codes as $code)
@@ -128,7 +128,7 @@ else
 	elseif ( $abs)
 	{
 		$RET = DBGet( "SELECT ID FROM ATTENDANCE_CODES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND (DEFAULT_CODE!='Y' OR DEFAULT_CODE IS NULL)" );
-		if (count($RET))
+		if (! empty( $RET ))
 		{
 			$extra['WHERE'] .= "AND ac.ID IN (";
 			foreach ( (array) $RET as $code)
@@ -249,7 +249,7 @@ function _makeCodeSearch($value='')
 {	global $codes_RET,$code_search_selected;
 
 	$return = '<select name=codes[]><option value="">All</option><option value="A"'.(($value=='A')?' selected':'').'>NP</option>';
-	if (count($codes_RET))
+	if (! empty( $codes_RET ))
 	{
 		foreach ( (array) $codes_RET as $code)
 		{

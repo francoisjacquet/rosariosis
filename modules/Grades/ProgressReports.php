@@ -10,7 +10,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 {
 	$gradebook_config = ProgramUserConfig( 'Gradebook' );
 
-	if ( count( $_REQUEST['st_arr'] ) )
+	if ( ! empty( $_REQUEST['st_arr'] ) )
 	{
 
 	$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
@@ -21,7 +21,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 	$RET = GetStuList( $extra );
 
-	if ( count( $RET ) )
+	if ( ! empty( $RET ) )
 	{
 		$LO_columns = array('TITLE' => _('Assignment'));
 

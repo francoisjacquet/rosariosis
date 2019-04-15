@@ -17,7 +17,7 @@ $menus_RET = DBGet( 'SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_I
 //echo '<pre>'; var_dump($menus_RET); echo '</pre>';
 if ( empty( $_REQUEST['menu_id'] ) )
 	if ( ! $_SESSION['FSA_menu_id'] || ! $menus_RET[$_SESSION['FSA_menu_id']])
-		if (count($menus_RET))
+		if (! empty( $menus_RET ))
 			$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'] = key($menus_RET);
 		else
 			ErrorMessage(array(_('You cannot take meal counts for this period.')),'fatal');
@@ -121,7 +121,12 @@ if ( $_REQUEST['values']
 if ( $date != DBDate())
 	$date_note = ' <span style="color:red">'._('The selected date is not today').'</span>';
 
-$completed = DBGet( 'SELECT count(\'Y\') AS COMPLETED FROM FOOD_SERVICE_COMPLETED WHERE STAFF_ID=\''.User('STAFF_ID').'\' AND SCHOOL_DATE=\''.$date.'\' AND PERIOD_ID=\''.UserPeriod().'\' AND MENU_ID=\''.$_REQUEST['menu_id'].'\'');
+$completed = DBGet( "SELECT count('Y') AS COMPLETED
+	FROM FOOD_SERVICE_COMPLETED
+	WHERE STAFF_ID='".User('STAFF_ID')."'
+	AND SCHOOL_DATE='".$date."'
+	AND PERIOD_ID='".UserPeriod()."'
+	AND MENU_ID='".$_REQUEST['menu_id']."'");
 
 if ( $completed[1]['COMPLETED'])
 	$note[] = button('check')._('You have taken lunch counts today for this period.');
@@ -151,7 +156,7 @@ $items_RET = DBGet( 'SELECT fsi.ITEM_ID,fsi.DESCRIPTION,fsmi.DOES_COUNT,(SELECT 
 echo '<table class="width-100p"><tr><td style="width:50%;">';
 $LO_columns = array('DESCRIPTION' => _('Item'),'COUNT' => _('Count'));
 
-	if (count($menus_RET)>1)
+	if (count( (array) $menus_RET )>1)
 	{
 		$tabs = array();
 		foreach ( (array) $menus_RET as $id => $meal)

@@ -105,11 +105,11 @@ if ( $_REQUEST['modfunc'] === 'update'
 				&& $modname !== 'default'
 				&& $modname !== 'title' )
 			{
-				if ( ! count( $exceptions_RET[$modname] ) && ( $_REQUEST['can_edit'][str_replace( '.', '_', $modname )] || $_REQUEST['can_use'][str_replace( '.', '_', $modname )] ) )
+				if ( empty( $exceptions_RET[$modname] ) && ( $_REQUEST['can_edit'][str_replace( '.', '_', $modname )] || $_REQUEST['can_use'][str_replace( '.', '_', $modname )] ) )
 				{
 					DBQuery( "INSERT INTO STAFF_EXCEPTIONS (USER_ID,MODNAME) values('" . $user_id . "','" . $modname . "')" );
 				}
-				elseif ( count( $exceptions_RET[$modname] ) && ! $_REQUEST['can_edit'][str_replace( '.', '_', $modname )] && ! $_REQUEST['can_use'][str_replace( '.', '_', $modname )] )
+				elseif ( ! empty( $exceptions_RET[$modname] ) && ! $_REQUEST['can_edit'][str_replace( '.', '_', $modname )] && ! $_REQUEST['can_use'][str_replace( '.', '_', $modname )] )
 				{
 					DBQuery( "DELETE FROM STAFF_EXCEPTIONS WHERE USER_ID='" . $user_id . "' AND MODNAME='" . $modname . "'" );
 				}

@@ -84,7 +84,7 @@ foreach ( (array) $gradelevels_RET as $gradelevel )
 	$gradelevel_options[ $gradelevel['ID'] ] = $gradelevel['TITLE'];
 }
 
-if ( $_REQUEST['student_id']!='new' && count($enrollment_RET))
+if ( $_REQUEST['student_id']!='new' && ! empty( $enrollment_RET ))
 {
 	$id = $enrollment_RET[count($enrollment_RET)]['ID'];
 

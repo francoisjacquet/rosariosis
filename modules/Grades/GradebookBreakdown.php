@@ -230,7 +230,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$RET = GetStuList();
 
-	if ( !count( $RET ) )
+	if ( empty( $RET ) )
 		echo ErrorMessage( array( _( 'No Students were found.' ) ), 'fatal' );
 
 	DrawHeader( $assignment_select, SubmitButton( _( 'Go' ) ) );
@@ -343,7 +343,7 @@ function _makeGrade( $value, $column )
 		&& ! $_REQUEST['student_id'] )
 	{
 		if ( Preferences( 'WEIGHT', 'Gradebook' ) === 'Y'
-			&& count( $percent_RET[$THIS_RET['STUDENT_ID']] ) )
+			&& ! empty( $percent_RET[$THIS_RET['STUDENT_ID']] ) )
 		{
 			$total = 0;
 

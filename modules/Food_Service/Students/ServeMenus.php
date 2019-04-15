@@ -18,7 +18,7 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 		}
 	}
 	elseif ( $_REQUEST['submit']['save']
-		&& count( $_SESSION['FSA_sale'] ) )
+		&& ! empty( $_SESSION['FSA_sale'] ) )
 	{
 		$student = DBGet( "SELECT ACCOUNT_ID,DISCOUNT FROM FOOD_SERVICE_STUDENT_ACCOUNTS WHERE STUDENT_ID='".UserStudentID()."'" );
 		$student = $student[1];

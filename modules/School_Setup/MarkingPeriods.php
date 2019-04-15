@@ -40,7 +40,7 @@ AddRequestedDates( 'tables', 'post' );
 
 // UPDATING
 if ( isset( $_POST['tables'] )
-	&& count( $_POST['tables'] )
+	&& ! empty( $_POST['tables'] )
 	&& AllowEdit() )
 {
 	foreach ( (array) $_REQUEST['tables'] as $id => $columns )
@@ -235,7 +235,7 @@ if ( isset( $_POST['tables'] )
 			AND SYEAR='" . UserSyear() . "'" .
 			( $id !== 'new' ? " AND MARKING_PERIOD_ID!='" . $id . "'" : '' ) );
 
-		if ( count( $dates_RET ) )
+		if ( ! empty( $dates_RET ) )
 		{
 			$error[] = sprintf(
 				_( 'The beginning and end dates you specified for this marking period overlap with those of "%s".' ),
@@ -246,7 +246,7 @@ if ( isset( $_POST['tables'] )
 			$go = false;
 		}
 
-		if ( count( $posting_RET ) )
+		if ( ! empty( $posting_RET ) )
 		{
 			$error[] = sprintf(
 				_( 'The grade posting dates you specified for this marking period overlap with those of "%s".' ),
@@ -559,7 +559,7 @@ if ( ! $_REQUEST['modfunc'] )
 		AND SCHOOL_ID='" . UserSchool() . "'
 		AND SYEAR='" . UserSyear() . "' ORDER BY SORT_ORDER" );
 
-	if ( count( $fy_RET ) )
+	if ( ! empty( $fy_RET ) )
 	{
 		if ( ! empty( $_REQUEST['mp_term'] ) )
 		{
@@ -584,7 +584,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$link['TITLE']['variables'] = array( 'marking_period_id' => 'MARKING_PERIOD_ID' );
 
-	if ( !count( $fy_RET ) )
+	if ( empty( $fy_RET ) )
 		$link['add']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&mp_term=FY&marking_period_id=new';
 
 	ListOutput( $fy_RET, $columns, 'Year', 'Years', $link, array(), $LO_options );
@@ -606,7 +606,7 @@ if ( ! $_REQUEST['modfunc'] )
 			AND PARENT_ID='" . $_REQUEST['year_id'] . "'
 			ORDER BY SORT_ORDER" );
 
-		if ( count( $sem_RET ) )
+		if ( ! empty( $sem_RET ) )
 		{
 			if ( ! empty( $_REQUEST['mp_term'] ) )
 			{
@@ -651,7 +651,7 @@ if ( ! $_REQUEST['modfunc'] )
 				AND PARENT_ID='" . $_REQUEST['semester_id'] . "'
 				ORDER BY SORT_ORDER" );
 
-			if ( count( $qtr_RET ) )
+			if ( ! empty( $qtr_RET ) )
 			{
 				if ( ( $_REQUEST['mp_term'] === 'QTR'
 					&& $_REQUEST['marking_period_id'] !== 'new' )
@@ -697,7 +697,7 @@ if ( ! $_REQUEST['modfunc'] )
 					AND PARENT_ID='" . $_REQUEST['quarter_id'] . "'
 					ORDER BY SORT_ORDER" );
 
-				if ( count( $pro_RET ) )
+				if ( ! empty( $pro_RET ) )
 				{
 					if ( ( $_REQUEST['mp_term'] === 'PRO'
 						&& $_REQUEST['marking_period_id'] !== 'new' ) )

@@ -246,15 +246,15 @@ else
 
 	$extra['header_right'] = isset( $extra['header_right'] ) ? $extra['header_right'] : '';
 
-	if ( count( $staff_RET ) > 1
+	if ( count( (array) $staff_RET ) > 1
 		|| ! empty( $link['add'] )
 		|| ! $link['FULL_NAME']
 		|| ! empty( $extra['columns_before'] )
 		|| ! empty( $extra['columns_after'] )
-		|| ( empty( $extra['BackPrompt'] ) && count( $staff_RET ) == 0 )
+		|| ( empty( $extra['BackPrompt'] ) && empty( $staff_RET ) )
 		|| ( isset( $extra['Redirect'] )
 			&& $extra['Redirect'] === false
-			&& count( $staff_RET ) == 1 ) )
+			&& count( (array) $staff_RET ) == 1 ) )
 	{
 		if ( ! isset( $_REQUEST['expanded_view'] ) || $_REQUEST['expanded_view'] !== 'true' )
 		{
@@ -310,13 +310,10 @@ else
 			( isset( $extra['options'] ) ? $extra['options'] : array() )
 		);
 	}
-	elseif (count($staff_RET)==1)
+	elseif ( count( (array) $staff_RET )==1)
 	{
-		if (count($link['FULL_NAME']['variables']))
-		{
-			foreach ( (array) $link['FULL_NAME']['variables'] as $var => $val)
-				$_REQUEST[ $var ] = $staff_RET['1'][ $val ];
-		}
+		foreach ( (array) $link['FULL_NAME']['variables'] as $var => $val)
+			$_REQUEST[ $var ] = $staff_RET['1'][ $val ];
 
 		if ( ! is_array( $staff_RET[1]['STAFF_ID'] ) )
 		{
