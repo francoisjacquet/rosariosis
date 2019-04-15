@@ -19,6 +19,9 @@ if ( isAJAX() )
 if ( empty( $_REQUEST['bottomfunc'] ) ) : ?>
 
 	<div id="footerwrap">
+		<a href="#body" class="a11y-hidden BottomButton">
+			<?php echo _( 'Skip to main content' ); // Accessibility link to skip menus. ?>
+		</a>
 		<a id="BottomButtonMenu" href="#" onclick="expandMenu(); return false;" title="<?php echo _( 'Menu' ); ?>" class="BottomButton">
 			<span><?php echo _( 'Menu' ); ?></span>
 		</a>
