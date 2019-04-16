@@ -39,8 +39,7 @@ if ( $_REQUEST['marking_period_id'] === 'new' )
 AddRequestedDates( 'tables', 'post' );
 
 // UPDATING
-if ( isset( $_POST['tables'] )
-	&& ! empty( $_POST['tables'] )
+if ( ! empty( $_POST['tables'] )
 	&& AllowEdit() )
 {
 	foreach ( (array) $_REQUEST['tables'] as $id => $columns )

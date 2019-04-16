@@ -45,7 +45,6 @@ $go = Prompt(
 );
 
 if ( $go
-	&& isset( $_REQUEST['tables'] )
 	&& ! empty( $_REQUEST['tables'] ) )
 {
 	$id = DBSeqNextID( 'SCHOOLS_SEQ' );
