@@ -115,6 +115,10 @@ function Update()
 		case version_compare( $from_version, '4.5-beta2', '<' ) :
 
 			$return = _update45beta2();
+
+		case version_compare( $from_version, '4.6-beta', '<' ) :
+
+			$return = _update46beta();
 	}
 
 	// Update version in DB CONFIG table.
@@ -496,7 +500,7 @@ function _update46beta()
 	if ( ! $comment_column_exists )
 	{
 		DBQuery( "ALTER TABLE ONLY eligibility_activities
-			ADD COLUMN created_mp text;" );
+			ADD COLUMN comment text;" );
 	}
 
 	return $return;
