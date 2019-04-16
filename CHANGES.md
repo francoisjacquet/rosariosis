@@ -9,6 +9,7 @@ Changes in 4.6
 - JS Reset focus after AJAX so "Skip to main content" a11y link has focus first in warehouse.js
 - PHP 7.3 compat: use count() for array variables only, program wide
 - SQL ELIGIBILITY_ACTIVITIES table: Add COMMENT column in Update.fnc.php & rosariosis.sql
+- Add Comment column to Activities list in Activities.php
 
 Changes in 4.5.1
 ----------------

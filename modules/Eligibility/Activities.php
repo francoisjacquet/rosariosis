@@ -72,7 +72,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	$sql = "SELECT ID,TITLE,START_DATE,END_DATE
+	$sql = "SELECT ID,TITLE,START_DATE,END_DATE,COMMENT
 	FROM ELIGIBILITY_ACTIVITIES
 	WHERE SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'
@@ -84,6 +84,7 @@ if ( ! $_REQUEST['modfunc'] )
 			'TITLE' => '_makeTextInput',
 			'START_DATE' => '_makeDateInput',
 			'END_DATE' => '_makeDateInput',
+			'COMMENT' => '_makeTextInput',
 		)
 	);
 
@@ -91,12 +92,14 @@ if ( ! $_REQUEST['modfunc'] )
 		'TITLE' => _( 'Title' ),
 		'START_DATE' => _( 'Begins' ),
 		'END_DATE' => _( 'Ends' ),
+		'COMMENT' => _( 'Comment' ),
 	);
 
 	$link['add']['html'] = array(
 		'TITLE' => _makeTextInput( '', 'TITLE' ),
 		'START_DATE' => _makeDateInput( '', 'START_DATE' ),
 		'END_DATE' => _makeDateInput( '', 'END_DATE' ),
+		'COMMENT' => _makeTextInput( '', 'COMMENT' ),
 	);
 
 	$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove';
@@ -104,10 +107,12 @@ if ( ! $_REQUEST['modfunc'] )
 	$link['remove']['variables'] = array( 'id' => 'ID' );
 
 	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update" method="POST">';
+
 	DrawHeader( '', SubmitButton() );
+
 	ListOutput( $activities_RET, $columns, 'Activity', 'Activities', $link );
-	echo '<div class="center">' . SubmitButton() . '</div>';
-	echo '</form>';
+
+	echo '<div class="center">' . SubmitButton() . '</div></form>';
 }
 
 /**
@@ -137,11 +142,11 @@ function _makeTextInput( $value, $name )
 	else
 	{
 		$id = 'new';
+	}
 
-		if ( $name === 'TITLE' )
-		{
-			$extra .= ' size=20';
-		}
+	if ( ! $value )
+	{
+		$extra .= ' size=20';
 	}
 
 	return TextInput( $value, 'values[' . $id . '][' . $name . ']', '', $extra );
