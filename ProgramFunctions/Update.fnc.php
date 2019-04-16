@@ -467,3 +467,37 @@ function _update45beta2()
 
 	return $return;
 }
+
+
+/**
+ * Update to version 4.6
+ *
+ * 1. ELIGIBILITY_ACTIVITIES table: Add COMMENT column.
+ *
+ * Local function
+ *
+ * @since 4.6
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update46beta()
+{
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. ELIGIBILITY_ACTIVITIES table: Add COMMENT column.
+	 */
+	$comment_column_exists = DBGet( "SELECT 1 FROM pg_attribute
+		WHERE attrelid = (SELECT oid FROM pg_class WHERE relname = 'eligibility_activities')
+		AND attname = 'comment';" );
+
+	if ( ! $comment_column_exists )
+	{
+		DBQuery( "ALTER TABLE ONLY eligibility_activities
+			ADD COLUMN created_mp text;" );
+	}
+
+	return $return;
+}

@@ -1275,7 +1275,8 @@ CREATE TABLE eligibility_activities (
     school_id numeric,
     title character varying(100),
     start_date date,
-    end_date date
+    end_date date,
+    comment text
 );
 
 
