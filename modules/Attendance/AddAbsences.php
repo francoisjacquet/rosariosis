@@ -295,7 +295,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	Search( 'student_id', $extra );
 
-	if ( $_REQUEST['search_modfunc'] == 'list' )
+	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
 		echo '<br /><div class="center">' . SubmitButton( _( 'Add Absences to Selected Students' ) ) . '</div></form>';
 	}

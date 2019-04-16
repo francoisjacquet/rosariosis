@@ -293,7 +293,7 @@ if ( ! $_REQUEST['modfunc'] )
 {
 	DrawHeader( ProgramTitle() );
 
-	if ( $_REQUEST['search_modfunc'] == 'list' )
+	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
 		$mp_RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE," . db_case( array( 'MP', "'FY'", "'0'", "'SEM'", "'1'", "'QTR'", "'2'" ) ) . " AS TBL
 			FROM SCHOOL_MARKING_PERIODS
@@ -352,7 +352,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	Search( 'student_id', $extra );
 
-	if ( $_REQUEST['search_modfunc'] == 'list' )
+	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
 		echo '<br /><div class="center">' . Buttons( _( 'Create Schedules for Selected Students' ) ) . '</div>';
 		echo '</form>';

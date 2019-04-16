@@ -3,9 +3,9 @@
 require_once 'ProgramFunctions/FileUpload.fnc.php';
 require_once 'ProgramFunctions/Fields.fnc.php';
 
-if (User('PROFILE')!='admin' && User('PROFILE')!='teacher' && $_REQUEST['student_id'] && $_REQUEST['student_id']!=UserStudentID() && $_REQUEST['student_id']!='new')
+if ( User( 'PROFILE' ) !== 'admin' && User( 'PROFILE' ) !== 'teacher' && $_REQUEST['student_id'] && $_REQUEST['student_id'] != UserStudentID() && $_REQUEST['student_id'] !== 'new' )
 {
-	if (User('USERNAME'))
+	if ( User( 'USERNAME' ) )
 	{
 		require_once 'ProgramFunctions/HackingLog.fnc.php';
 		HackingLog();
@@ -31,9 +31,9 @@ else
 {
 	$category_id = $_REQUEST['category_id'];
 
-	if (in_array($_REQUEST['category_id'], array_keys($categories)))
+	if ( in_array( $_REQUEST['category_id'], array_keys( $categories ) ) )
 	{
-		$include = $categories[ $category_id ];
+		$include = $categories[$category_id];
 	}
 	else
 	{
@@ -50,6 +50,7 @@ else
 				$include = $categories['Other_Info'];
 			}
 		}
+
 		//FJ Prevent $_REQUEST['category_id'] hacking
 		else
 		{
@@ -60,6 +61,7 @@ else
 }
 
 // Allow update for Parents, Students & Teachers if have Edit permissions.
+
 if ( User( 'PROFILE' ) !== 'admin' )
 {
 	$can_edit_from_where = " FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'";
@@ -93,8 +95,11 @@ if ( $_REQUEST['modfunc'] === 'update'
 		$required_error = false;
 
 		//FJ fix SQL bug FIRST_NAME, LAST_NAME is null
-		if ((isset($_REQUEST['students']['FIRST_NAME']) && empty($_REQUEST['students']['FIRST_NAME'])) || (isset($_REQUEST['students']['LAST_NAME']) && empty($_REQUEST['students']['LAST_NAME'])))
+
+		if (  ( isset( $_REQUEST['students']['FIRST_NAME'] ) && empty( $_REQUEST['students']['FIRST_NAME'] ) ) || ( isset( $_REQUEST['students']['LAST_NAME'] ) && empty( $_REQUEST['students']['LAST_NAME'] ) ) )
+		{
 			$required_error = true;
+		}
 
 		// FJ other fields required.
 		$required_error = $required_error || CheckRequiredCustomFields( 'CUSTOM_FIELDS', $_REQUEST['students'] );
@@ -103,15 +108,18 @@ if ( $_REQUEST['modfunc'] === 'update'
 		$_REQUEST['students'] = FilterCustomFieldsMarkdown( 'CUSTOM_FIELDS', 'students' );
 
 		// FJ create account.
+
 		if ( basename( $_SERVER['PHP_SELF'] ) === 'index.php' )
 		{
 			// Check Captcha.
+
 			if ( ! CheckCaptcha() )
 			{
 				$error[] = _( 'Captcha' );
 			}
 
 			// Username & password required.
+
 			if ( empty( $_REQUEST['students']['USERNAME'] )
 				|| empty( $_REQUEST['students']['PASSWORD'] ) )
 			{
@@ -119,6 +127,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 			}
 
 			// Check if trying to hack enrollment.
+
 			if ( isset( $_REQUEST['month_values']['STUDENT_ENROLLMENT'] )
 				|| count( (array) $_REQUEST['values']['STUDENT_ENROLLMENT'] ) > 1 )
 			{
@@ -143,52 +152,56 @@ if ( $_REQUEST['modfunc'] === 'update'
 			WHERE USERNAME='" . $_REQUEST['students']['USERNAME'] . "'
 			AND STUDENT_ID!='" . UserStudentID() . "'" );
 
-		if (! empty( $existing_username ))
+		if ( ! empty( $existing_username ) )
 		{
-			$error[] = _('A user with that username already exists. Choose a different username and try again.');
+			$error[] = _( 'A user with that username already exists. Choose a different username and try again.' );
 		}
 
-		if (UserStudentID() && ! $error )
+		if ( UserStudentID() && ! $error )
 		{
-
 			//hook
-			do_action('Students/Student.php|update_student_checks');
+			do_action( 'Students/Student.php|update_student_checks' );
 
 			// update enrollment
-			if (! empty( $_REQUEST['values'] ) && ! $error )
+
+			if ( ! empty( $_REQUEST['values'] ) && ! $error )
 			{
 				require_once 'modules/Students/includes/SaveEnrollment.fnc.php';
 				SaveEnrollment();
 			}
 
-			if (! empty( $_REQUEST['students'] ) && ! $error )
+			if ( ! empty( $_REQUEST['students'] ) && ! $error )
 			{
 				$sql = "UPDATE STUDENTS SET ";
-				$fields_RET = DBGet( "SELECT ID,TYPE FROM CUSTOM_FIELDS ORDER BY SORT_ORDER", array(), array('ID'));
+				$fields_RET = DBGet( "SELECT ID,TYPE FROM CUSTOM_FIELDS ORDER BY SORT_ORDER", array(), array( 'ID' ) );
 				$go = false;
-				foreach ( (array) $_REQUEST['students'] as $column => $value)
+
+				foreach ( (array) $_REQUEST['students'] as $column => $value )
 				{
-					if (1)//!empty($value) || $value=='0')
+					if ( 1 ) //!empty($value) || $value=='0')
 					{
 						//FJ check numeric fields
-						if ( $fields_RET[str_replace('CUSTOM_','',$column)][1]['TYPE'] == 'numeric' && $value!='' && !is_numeric($value))
+
+						if ( $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] == 'numeric' && $value != '' && ! is_numeric( $value ) )
 						{
-							$error[] = _('Please enter valid Numeric data.');
+							$error[] = _( 'Please enter valid Numeric data.' );
 							continue;
 						}
 
 						if ( ! is_array( $value ) )
 						{
 							//FJ add password encryption
-							if ( $column!=='PASSWORD')
+
+							if ( $column !== 'PASSWORD' )
 							{
-								$sql .= $column."='".str_replace('&#39;',"''",$value)."',";
+								$sql .= $column . "='" . str_replace( '&#39;', "''", $value ) . "',";
 								$go = true;
 							}
-							if ( $column=='PASSWORD' && !empty($value) && $value!==str_repeat('*',8))
+
+							if ( $column == 'PASSWORD' && ! empty( $value ) && $value !== str_repeat( '*', 8 ) )
 							{
-								$value = str_replace("''","'",$value);
-								$sql .= $column."='".encrypt_password($value)."',";
+								$value = str_replace( "''", "'", $value );
+								$sql .= $column . "='" . encrypt_password( $value ) . "',";
 								$go = true;
 							}
 						}
@@ -216,109 +229,121 @@ if ( $_REQUEST['modfunc'] === 'update'
 						}
 					}
 				}
-				$sql = mb_substr($sql,0,-1) . " WHERE STUDENT_ID='".UserStudentID()."'";
 
-				if ( $go)
+				$sql = mb_substr( $sql, 0, -1 ) . " WHERE STUDENT_ID='" . UserStudentID() . "'";
+
+				if ( $go )
 				{
-					DBQuery($sql);
+					DBQuery( $sql );
 
 					//hook
-					do_action('Students/Student.php|update_student');
+					do_action( 'Students/Student.php|update_student' );
 				}
 			}
-
 		}
 		elseif ( ! $error ) //new student
 		{
 			if ( isset( $_REQUEST['assign_student_id'] )
 				&& $_REQUEST['assign_student_id'] !== '' )
 			{
-				if ( ( $student_id = (int)$_REQUEST['assign_student_id'] ) > 0 )
+				if (  ( $student_id = (int) $_REQUEST['assign_student_id'] ) > 0 )
 				{
 					if ( ! empty( DBGet( "SELECT STUDENT_ID
 							FROM STUDENTS
 							WHERE STUDENT_ID='" . $student_id . "'" ) ) )
 					{
-						$error[] = sprintf( _( 'That %s ID is already taken. Please select a different one.'), Config( 'NAME' ) );
+						$error[] = sprintf( _( 'That %s ID is already taken. Please select a different one.' ), Config( 'NAME' ) );
 					}
 				}
 				else
+				{
 					$error[] = _( 'Please enter valid Numeric data.' );
+				}
 			}
 
 			//hook
-			do_action('Students/Student.php|create_student_checks');
+			do_action( 'Students/Student.php|create_student_checks' );
 
 			if ( ! $error )
 			{
-				if ( !isset($student_id))
+				if ( ! isset( $student_id ) )
+				{
 					do
 					{
 						$student_id = DBSeqNextID( 'STUDENTS_SEQ' );
-					}
-					while ( ! empty( DBGet( "SELECT STUDENT_ID FROM STUDENTS WHERE STUDENT_ID='".$student_id."'" ) ) );
+					} while ( ! empty( DBGet( "SELECT STUDENT_ID FROM STUDENTS WHERE STUDENT_ID='" . $student_id . "'" ) ) );
+				}
 
 				$sql = "INSERT INTO STUDENTS ";
 				$fields = 'STUDENT_ID,';
-				$values = "'".$student_id."',";
+				$values = "'" . $student_id . "',";
 
-				$fields_RET = DBGet( "SELECT ID,TYPE FROM CUSTOM_FIELDS ORDER BY SORT_ORDER", array(), array('ID'));
-				foreach ( (array) $_REQUEST['students'] as $column => $value)
+				$fields_RET = DBGet( "SELECT ID,TYPE FROM CUSTOM_FIELDS ORDER BY SORT_ORDER", array(), array( 'ID' ) );
+
+				foreach ( (array) $_REQUEST['students'] as $column => $value )
 				{
-					if ( !empty($value) || $value=='0')
+					if ( ! empty( $value ) || $value == '0' )
 					{
 						//FJ check numeric fields
-						if ( $fields_RET[str_replace('CUSTOM_','',$column)][1]['TYPE'] == 'numeric' && $value!='' && !is_numeric($value))
+
+						if ( $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] == 'numeric' && $value != '' && ! is_numeric( $value ) )
 						{
-							$error[] = _('Please enter valid Numeric data.');
+							$error[] = _( 'Please enter valid Numeric data.' );
 							continue;
 						}
 
 						$fields .= DBEscapeIdentifier( $column ) . ',';
-						if ( !is_array($value))
+
+						if ( ! is_array( $value ) )
 						{
 							//FJ add password encryption
-							if ( $column!=='PASSWORD')
+
+							if ( $column !== 'PASSWORD' )
+							{
 								$values .= "'" . $value . "',";
+							}
 							else
 							{
-								$value = str_replace("''","'",$value);
-								$values .= "'".encrypt_password($value)."',";
+								$value = str_replace( "''", "'", $value );
+								$values .= "'" . encrypt_password( $value ) . "',";
 							}
 						}
 						else
 						{
 							$values .= "'||";
-							foreach ( (array) $value as $val)
+
+							foreach ( (array) $value as $val )
 							{
-								if ( $val)
-									$values .= $val.'||';
+								if ( $val )
+								{
+									$values .= $val . '||';
+								}
 							}
+
 							$values .= "',";
 						}
 					}
 				}
 
 				$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
-				DBQuery($sql);
+				DBQuery( $sql );
 
 				// create default food service account for this student
-				$sql = "INSERT INTO FOOD_SERVICE_ACCOUNTS (ACCOUNT_ID,BALANCE,TRANSACTION_ID) values('".$student_id."','0.00','0')";
-				DBQuery($sql);
+				$sql = "INSERT INTO FOOD_SERVICE_ACCOUNTS (ACCOUNT_ID,BALANCE,TRANSACTION_ID) values('" . $student_id . "','0.00','0')";
+				DBQuery( $sql );
 
 				// associate with default food service account and assign other defaults
-				$sql = "INSERT INTO FOOD_SERVICE_STUDENT_ACCOUNTS (STUDENT_ID,DISCOUNT,BARCODE,ACCOUNT_ID) values('".$student_id."','','','".$student_id."')";
-				DBQuery($sql);
+				$sql = "INSERT INTO FOOD_SERVICE_STUDENT_ACCOUNTS (STUDENT_ID,DISCOUNT,BARCODE,ACCOUNT_ID) values('" . $student_id . "','','','" . $student_id . "')";
+				DBQuery( $sql );
 
 				// create enrollment
 				require_once 'modules/Students/includes/SaveEnrollment.fnc.php';
 				SaveEnrollment();
 
-				SetUserStudentID($_REQUEST['student_id'] = $student_id);
+				SetUserStudentID( $_REQUEST['student_id'] = $student_id );
 
 				//hook
-				do_action('Students/Student.php|create_student');
-
+				do_action( 'Students/Student.php|create_student' );
 			}
 		}
 
@@ -380,11 +405,11 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 	// SHOULD THIS BE HERE???
 	/*if ( !UserStudentID() )
-		unset( $_REQUEST['values'] );
+unset( $_REQUEST['values'] );
 
-	$_SESSION['_REQUEST_vars']['modfunc'] = false;
-	unset( $_SESSION['_REQUEST_vars']['students'] );
-	unset( $_SESSION['_REQUEST_vars']['values'] );*/
+$_SESSION['_REQUEST_vars']['modfunc'] = false;
+unset( $_SESSION['_REQUEST_vars']['students'] );
+unset( $_SESSION['_REQUEST_vars']['values'] );*/
 }
 
 if ( basename( $_SERVER['PHP_SELF'] ) !== 'index.php' )
@@ -415,12 +440,11 @@ else
 	do_action( 'Students/Student.php|account_created' );
 
 	// Return to index.
-?>
+	?>
 	<script>window.location.href = "index.php?modfunc=logout&reason=account_created";</script>
 <?php
-	exit;
+exit;
 }
-
 
 if ( $_REQUEST['modfunc'] === 'delete'
 	&& basename( $_SERVER['PHP_SELF'] ) !== 'index.php'
@@ -463,11 +487,12 @@ echo ErrorMessage( $error );
 
 Search( 'student_id' );
 
-if ( ( UserStudentID()
-		|| isset( $_REQUEST['student_id'] ) && $_REQUEST['student_id'] === 'new' )
+if (  ( UserStudentID()
+	|| isset( $_REQUEST['student_id'] ) && $_REQUEST['student_id'] === 'new' )
 	&& $_REQUEST['modfunc'] !== 'delete' )
 {
 	// MODNAME LIKE 'Students/Student.php%'.
+
 	if ( User( 'PROFILE_ID' )
 		|| User( 'PROFILE' ) === 'student' )
 	{
@@ -489,6 +514,7 @@ if ( ( UserStudentID()
 	$can_use_RET = DBGet( $can_use_sql, array(), array( 'MODNAME' ) );
 
 	// FJ create account.
+
 	if ( basename( $_SERVER['PHP_SELF'] ) === 'index.php' )
 	{
 		$can_use_RET['Students/Student.php&category_id=1'] = true;
@@ -534,7 +560,7 @@ if ( ( UserStudentID()
 		if ( basename( $_SERVER['PHP_SELF'] ) !== 'index.php' )
 		{
 			$form_action = 'Modules.php?modname=' . $_REQUEST['modname'] .
-				'&category_id=' . $category_id . '&student_id=' . UserStudentID() . '&modfunc=update';
+			'&category_id=' . $category_id . '&student_id=' . UserStudentID() . '&modfunc=update';
 
 			if ( UserStudentID()
 				&& User( 'PROFILE' ) === 'admin'
@@ -574,7 +600,7 @@ if ( ( UserStudentID()
 
 		if ( $_REQUEST['student_id'] !== 'new' )
 		{
-			$name = $student['FULL_NAME'] . ' - ' .	$student['STUDENT_ID'];
+			$name = $student['FULL_NAME'] . ' - ' . $student['STUDENT_ID'];
 		}
 
 		DrawHeader( $name, $delete_button . SubmitButton() );
@@ -584,21 +610,21 @@ if ( ( UserStudentID()
 
 		foreach ( (array) $categories_RET as $category )
 		{
-			if ( $can_use_RET['Students/Student.php&category_id=' . $category['ID'] ] )
+			if ( $can_use_RET['Students/Student.php&category_id=' . $category['ID']] )
 			{
 				//FJ Remove $_REQUEST['include']
 				/*if ( $category['ID']=='1')
-					$include = 'General_Info';
+				$include = 'General_Info';
 				elseif ( $category['ID']=='3')
-					$include = 'Address';
+				$include = 'Address';
 				elseif ( $category['ID']=='2')
-					$include = 'Medical';
+				$include = 'Medical';
 				elseif ( $category['ID']=='4')
-					$include = 'Comments';
+				$include = 'Comments';
 				elseif ( $category['INCLUDE'])
-					$include = $category['INCLUDE'];
+				$include = $category['INCLUDE'];
 				else
-					$include = 'Other_Info';*/
+				$include = 'Other_Info';*/
 
 				$tabs[] = array(
 					'title' => $category['TITLE'],
@@ -610,7 +636,7 @@ if ( ( UserStudentID()
 		}
 
 		$_ROSARIO['selected_tab'] = 'Modules.php?modname=' . $_REQUEST['modname'] .
-			'&category_id=' . $category_id . '&student_id=' . UserStudentID();
+		'&category_id=' . $category_id . '&student_id=' . UserStudentID();
 
 		echo '<br />';
 
@@ -618,7 +644,7 @@ if ( ( UserStudentID()
 
 		$PopTable_opened = true;
 
-		if ( $can_use_RET['Students/Student.php&category_id=' . $category_id ] )
+		if ( $can_use_RET['Students/Student.php&category_id=' . $category_id] )
 		{
 			if ( ! mb_strpos( $include, '/' ) )
 			{
@@ -641,12 +667,13 @@ if ( ( UserStudentID()
 				require_once 'modules/Students/includes/Other_Info.inc.php';
 			}
 		}
-		echo PopTable('footer');
+
+		echo PopTable( 'footer' );
 
 		echo '<br /><div class="center">' . SubmitButton() . '</div>';
 		echo '</form>';
 	}
-	elseif ( $can_use_RET['Students/Student.php&category_id=' . $category_id ] )
+	elseif ( $can_use_RET['Students/Student.php&category_id=' . $category_id] )
 	{
 		if ( ! mb_strpos( $include, '/' ) )
 		{

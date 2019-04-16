@@ -23,7 +23,7 @@ if ( ! function_exists( 'GetStudentLabelsFormHTML' ) )
 
 		$form .= '<span>' . _( 'Include On Labels' ) . ':</span>';
 
-		if ( User( 'PROFILE' ) == 'admin' )
+		if ( User( 'PROFILE' ) === 'admin' )
 		{
 			if ( ! empty( $_REQUEST['w_course_period_id_which'] )
 				&& $_REQUEST['w_course_period_id_which'] === 'course_period'

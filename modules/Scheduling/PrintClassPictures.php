@@ -42,7 +42,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 				$extra = array( 'SELECT_ONLY' => 's.STUDENT_ID,s.LAST_NAME,s.FIRST_NAME', 'ORDER_BY' => 's.LAST_NAME,s.FIRST_NAME,s.MIDDLE_NAME', 'MP' => $course_period['MARKING_PERIOD_ID'], 'MPTable' => $course_period['MP'] );
 
-				if ( User( 'PROFILE' ) == 'student' || User( 'PROFILE' ) == 'parent' )
+				if ( User( 'PROFILE' ) === 'student' || User( 'PROFILE' ) === 'parent' )
 				{
 					// FJ prevent course period ID hacking.
 					$extra['WHERE'] .= " AND '" . UserStudentID() . "' IN
@@ -68,11 +68,11 @@ if ( $_REQUEST['modfunc'] === 'save' )
 						"WHERE TRUE" . $extra['WHERE'] .
 						" ORDER BY " . $extra['ORDER_BY'] );
 				}
-				elseif ( User( 'PROFILE' ) == 'teacher' )
+				elseif ( User( 'PROFILE' ) === 'teacher' )
 				{
 					$extra['WHERE'] .= " AND '" . User( 'STAFF_ID' ) . "'=(SELECT TEACHER_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')";
 				}
-				elseif ( User( 'PROFILE' ) == 'admin' )
+				elseif ( User( 'PROFILE' ) === 'admin' )
 				{
 					$extra['WHERE'] .= " AND s.STUDENT_ID IN
 					(SELECT STUDENT_ID
@@ -191,12 +191,12 @@ if ( ! $_REQUEST['modfunc'] )
 {
 	DrawHeader( ProgramTitle() );
 
-	if ( User( 'PROFILE' ) != 'admin' )
+	if ( User( 'PROFILE' ) !== 'admin' )
 	{
 		$_REQUEST['search_modfunc'] = 'list';
 	}
 
-	if ( $_REQUEST['search_modfunc'] == 'list' )
+	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
 		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save&_ROSARIO_PDF=true" method="POST">';
 
@@ -208,7 +208,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$extra['extra_header_left'] .= '<tr class="st"><td><label><input type="checkbox" name="include_teacher" value="Y" checked /> ' . _( 'Include Teacher' ) . '</label></td>';
 		$extra['extra_header_left'] .= '<td><label><input type="checkbox" name="last_year" value="Y"> ' . _( 'Use Last Year\'s if Missing' ) . '</label></td></tr>';
 
-		if ( User( 'PROFILE' ) == 'admin' || User( 'PROFILE' ) == 'teacher' )
+		if ( User( 'PROFILE' ) === 'admin' || User( 'PROFILE' ) === 'teacher' )
 		{
 			$extra['extra_header_left'] .= '<tr><td colspan="3"><label><input type="checkbox" name="include_inactive" value="Y"> ' . _( 'Include Inactive Students' ) . '</label></td></tr>';
 		}
@@ -218,7 +218,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	mySearch( 'course_period', $extra );
 
-	if ( $_REQUEST['search_modfunc'] == 'list' )
+	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
 		echo '<br /><div class="center">' . Buttons( _( 'Create Class Pictures for Selected Course Periods' ) ) . '</div>';
 		echo '</form>';
@@ -321,7 +321,7 @@ function mySearch( $type, $extra = '' )
 		DrawHeader( '', $extra['header_right'] );
 		DrawHeader( $extra['extra_header_left'], $extra['extra_header_right'] );
 
-		if ( User( 'PROFILE' ) == 'admin' )
+		if ( User( 'PROFILE' ) === 'admin' )
 		{
 			if ( ! empty( $_REQUEST['teacher_id'] ) )
 			{
@@ -363,7 +363,7 @@ function mySearch( $type, $extra = '' )
 			//$sql = "SELECT cp.COURSE_PERIOD_ID,cp.TITLE,sp.ATTENDANCE FROM COURSE_PERIODS cp,SCHOOL_PERIODS sp$from WHERE cp.SCHOOL_ID='".UserSchool()."' AND cp.SYEAR='".UserSyear()."' AND sp.PERIOD_ID=cp.PERIOD_ID$where";
 			$sql = "SELECT cp.COURSE_PERIOD_ID,cp.TITLE FROM COURSE_PERIODS cp$from WHERE cp.SCHOOL_ID='" . UserSchool() . "' AND cp.SYEAR='" . UserSyear() . "'$where";
 		}
-		elseif ( User( 'PROFILE' ) == 'teacher' )
+		elseif ( User( 'PROFILE' ) === 'teacher' )
 		{
 			//FJ multiple school periods for a course period
 			//$sql = "SELECT cp.COURSE_PERIOD_ID,cp.TITLE,sp.ATTENDANCE FROM COURSE_PERIODS cp,SCHOOL_PERIODS sp WHERE cp.SCHOOL_ID='".UserSchool()."' AND cp.SYEAR='".UserSyear()."' AND cp.TEACHER_ID='".User('STAFF_ID')."' AND sp.PERIOD_ID=cp.PERIOD_ID";
@@ -391,7 +391,7 @@ function mySearch( $type, $extra = '' )
 				unset( $_SESSION['Search_PHP_SELF'] );
 			}
 
-			if ( User( 'PROFILE' ) == 'admin' || User( 'PROFILE' ) == 'teacher' )
+			if ( User( 'PROFILE' ) === 'admin' || User( 'PROFILE' ) === 'teacher' )
 			{
 				echo '<script>ajaxLink("Bottom.php"); old_modname="";</script>';
 			}

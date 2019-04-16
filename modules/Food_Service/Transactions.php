@@ -1,31 +1,35 @@
 <?php
 
 if ( ! empty( $_REQUEST['type'] ) )
-	$_SESSION['FSA_type'] = $_REQUEST['type'];
-else
-	$_SESSION['_REQUEST_vars']['type'] = $_REQUEST['type'] = $_SESSION['FSA_type'];
-
-/*if ( $_REQUEST['type']=='staff')
 {
-	$tabcolor_s = '#DFDFDF'; $textcolor_s = '#999999';
-	$tabcolor_u = Preferences('HEADER'); $textcolor_u = '#FFFFFF';
+	$_SESSION['FSA_type'] = $_REQUEST['type'];
 }
 else
 {
-	$tabcolor_s = Preferences('HEADER'); $textcolor_s = '#FFFFFF';
-	$tabcolor_u = '#DFDFDF'; $textcolor_u = '#999999';
+	$_SESSION['_REQUEST_vars']['type'] = $_REQUEST['type'] = $_SESSION['FSA_type'];
+}
+
+/*if ( $_REQUEST['type']=='staff')
+{
+$tabcolor_s = '#DFDFDF'; $textcolor_s = '#999999';
+$tabcolor_u = Preferences('HEADER'); $textcolor_u = '#FFFFFF';
+}
+else
+{
+$tabcolor_s = Preferences('HEADER'); $textcolor_s = '#FFFFFF';
+$tabcolor_u = '#DFDFDF'; $textcolor_u = '#999999';
 }*/
 
 $header = '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&type=student">' .
 	( ! isset( $_REQUEST['type'] ) || $_REQUEST['type'] === 'student' ?
-		'<b>' . _( 'Students' ) . '</b>' : _( 'Students' ) ) . '</a>';
+	'<b>' . _( 'Students' ) . '</b>' : _( 'Students' ) ) . '</a>';
 
 $header .= ' | <a href="Modules.php?modname=' . $_REQUEST['modname'] . '&type=staff">' .
 	( isset( $_REQUEST['type'] ) && $_REQUEST['type'] === 'staff' ?
-		'<b>' . _( 'Users' ) . '</b>' : _( 'Users' ) ) . '</a>';
+	'<b>' . _( 'Users' ) . '</b>' : _( 'Users' ) ) . '</a>';
 
-DrawHeader(($_REQUEST['type']=='staff'?_('User'):_('Student')).' &minus; '.ProgramTitle());
-User('PROFILE')=='student'?'':DrawHeader($header);
+DrawHeader(  ( $_REQUEST['type'] == 'staff' ? _( 'User' ) : _( 'Student' ) ) . ' &minus; ' . ProgramTitle() );
+User( 'PROFILE' ) === 'student' ? '' : DrawHeader( $header );
 
 if ( $_REQUEST['modfunc'] === 'delete'
 	&& AllowEdit() )
@@ -41,16 +45,28 @@ if ( $_REQUEST['modfunc'] === 'delete'
 	}
 }
 
-require_once 'modules/Food_Service/'.($_REQUEST['type']=='staff'?'Users':'Students').'/Transactions.php';
+require_once 'modules/Food_Service/' . ( $_REQUEST['type'] == 'staff' ? 'Users' : 'Students' ) . '/Transactions.php';
 
-function red($value)
+/**
+ * @param $value
+ * @return mixed
+ */
+function red( $value )
 {
-	if ( $value<0)
-		return '<span style="color:red">'.$value.'</span>';
+	if ( $value < 0 )
+	{
+		return '<span style="color:red">' . $value . '</span>';
+	}
 	else
+	{
 		return $value;
+	}
 }
 
+/**
+ * @param $value
+ * @return mixed
+ */
 function is_money( $value )
 {
 	if ( $value > 0 )
@@ -64,6 +80,7 @@ function is_money( $value )
 
 		// Fix SQL error:
 		// A field with precision 9, scale 2 must round to an absolute value less than 10^7.
+
 		if ( ! mb_strpos( $value, '.' )
 			&& mb_strlen( $value ) > 7 )
 		{

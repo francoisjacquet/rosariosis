@@ -13,7 +13,8 @@ if ( $_REQUEST['modfunc'] === 'update' )
 		foreach ( (array) $_REQUEST['values'] as $id => $columns )
 		{
 			// FJ fix SQL bug invalid numeric data.
-			if ( ( empty( $columns['SORT_ORDER'] ) || is_numeric( $columns['SORT_ORDER'] ) )
+
+			if (  ( empty( $columns['SORT_ORDER'] ) || is_numeric( $columns['SORT_ORDER'] ) )
 				&& ( empty( $columns['BREAK_OFF'] ) || is_numeric( $columns['BREAK_OFF'] ) )
 				&& ( empty( $columns['GPA_VALUE'] ) || is_numeric( $columns['GPA_VALUE'] ) )
 				&& ( empty( $columns['UNWEIGHTED_GP'] ) || is_numeric( $columns['UNWEIGHTED_GP'] ) )
@@ -23,54 +24,74 @@ if ( $_REQUEST['modfunc'] === 'update' )
 				&& ( empty( $columns['HHR_GPA_VALUE'] ) || is_numeric( $columns['HHR_GPA_VALUE'] ) )
 				&& ( empty( $columns['HRS_GPA_VALUE'] ) || is_numeric( $columns['HRS_GPA_VALUE'] ) ) )
 			{
-				if ( $id!='new')
+				if ( $id !== 'new' )
 				{
-					if ( $_REQUEST['tab_id']!='new')
+					if ( $_REQUEST['tab_id'] !== 'new' )
+					{
 						$sql = "UPDATE REPORT_CARD_GRADES SET ";
+					}
 					else
+					{
 						$sql = "UPDATE REPORT_CARD_GRADE_SCALES SET ";
+					}
 
-					foreach ( (array) $columns as $column => $value)
+					foreach ( (array) $columns as $column => $value )
+					{
 						$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
+					}
 
-					if ( $_REQUEST['tab_id']!='new')
-						$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
+					if ( $_REQUEST['tab_id'] !== 'new' )
+					{
+						$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . $id . "'";
+					}
 					else
-						$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
-					DBQuery($sql);
+					{
+						$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . $id . "'";
+					}
+
+					DBQuery( $sql );
 				}
+
 				// New: check for Title
 				elseif ( $columns['TITLE'] )
 				{
-					if ( $_REQUEST['tab_id']!='new')
+					if ( $_REQUEST['tab_id'] !== 'new' )
 					{
 						$sql = 'INSERT INTO REPORT_CARD_GRADES ';
 						$fields = 'ID,SCHOOL_ID,SYEAR,GRADE_SCALE_ID,';
-						$values = db_seq_nextval('REPORT_CARD_GRADES_SEQ').',\''.UserSchool().'\',\''.UserSyear().'\',\''.$_REQUEST['tab_id'].'\',';
+						$values = db_seq_nextval( 'REPORT_CARD_GRADES_SEQ' ) . ',\'' . UserSchool() . '\',\'' . UserSyear() . '\',\'' . $_REQUEST['tab_id'] . '\',';
 					}
 					else
 					{
 						$sql = 'INSERT INTO REPORT_CARD_GRADE_SCALES ';
 						$fields = 'ID,SCHOOL_ID,SYEAR,';
-						$values = db_seq_nextval('REPORT_CARD_GRADE_SCALES_SEQ').',\''.UserSchool().'\',\''.UserSyear().'\',';
+						$values = db_seq_nextval( 'REPORT_CARD_GRADE_SCALES_SEQ' ) . ',\'' . UserSchool() . '\',\'' . UserSyear() . '\',';
 					}
 
 					$go = false;
-					foreach ( (array) $columns as $column => $value)
-						if ( !empty($value) || $value=='0')
+
+					foreach ( (array) $columns as $column => $value )
+					{
+						if ( ! empty( $value ) || $value == '0' )
 						{
 							$fields .= DBEscapeIdentifier( $column ) . ',';
 							$values .= "'" . $value . "',";
 							$go = true;
 						}
+					}
+
 					$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
 
-					if ( $go)
-						DBQuery($sql);
+					if ( $go )
+					{
+						DBQuery( $sql );
+					}
 				}
 			}
 			else
+			{
 				$error[] = _( 'Please enter valid Numeric data.' );
+			}
 		}
 	}
 
@@ -81,7 +102,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 if ( $_REQUEST['modfunc'] === 'remove'
 	&& AllowEdit() )
 {
-	if ( $_REQUEST['tab_id']!='new')
+	if ( $_REQUEST['tab_id'] !== 'new' )
 	{
 		if ( DeletePrompt( _( 'Report Card Grade' ) ) )
 		{
@@ -110,7 +131,7 @@ echo ErrorMessage( $error );
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	if (User('PROFILE')=='admin')
+	if ( User( 'PROFILE' ) === 'admin' )
 	{
 		$grade_scales_RET = DBGet( "SELECT ID,TITLE
 			FROM REPORT_CARD_GRADE_SCALES
@@ -120,7 +141,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		if ( $_REQUEST['tab_id'] == ''
 			|| $_REQUEST['tab_id'] !== 'new'
-			&& empty( $grade_scales_RET[ $_REQUEST['tab_id'] ] ) )
+			&& empty( $grade_scales_RET[$_REQUEST['tab_id']] ) )
 		{
 			if ( ! empty( $grade_scales_RET ) )
 			{
@@ -134,30 +155,37 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 	else
 	{
-		$course_period_RET = DBGet( 'SELECT GRADE_SCALE_ID,DOES_BREAKOFF,TEACHER_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID=\''.UserCoursePeriod().'\'' );
-		if ( ! $course_period_RET[1]['GRADE_SCALE_ID'])
-			ErrorMessage(array(_('This course is not graded.')),'fatal');
-		$grade_scales_RET = DBGet( 'SELECT ID,TITLE FROM REPORT_CARD_GRADE_SCALES WHERE ID=\''.$course_period_RET[1]['GRADE_SCALE_ID'].'\'',array(),array('ID'));
-		if ( $course_period_RET[1]['DOES_BREAKOFF']=='Y')
+		$course_period_RET = DBGet( 'SELECT GRADE_SCALE_ID,DOES_BREAKOFF,TEACHER_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID=\'' . UserCoursePeriod() . '\'' );
+
+		if ( ! $course_period_RET[1]['GRADE_SCALE_ID'] )
+		{
+			ErrorMessage( array( _( 'This course is not graded.' ) ), 'fatal' );
+		}
+
+		$grade_scales_RET = DBGet( 'SELECT ID,TITLE FROM REPORT_CARD_GRADE_SCALES WHERE ID=\'' . $course_period_RET[1]['GRADE_SCALE_ID'] . '\'', array(), array( 'ID' ) );
+
+		if ( $course_period_RET[1]['DOES_BREAKOFF'] == 'Y' )
 		{
 			$teacher_id = $course_period_RET[1]['TEACHER_ID'];
 
 			$gradebook_config = ProgramUserConfig( 'Gradebook', $teacher_id );
 		}
-		$_REQUEST['tab_id'] = key($grade_scales_RET).'';
+
+		$_REQUEST['tab_id'] = key( $grade_scales_RET ) . '';
 	}
 
 	$tabs = array();
 	$grade_scale_select = array();
-	foreach ( (array) $grade_scales_RET as $id => $grade_scale)
+
+	foreach ( (array) $grade_scales_RET as $id => $grade_scale )
 	{
-		$tabs[] = array('title' => $grade_scale[1]['TITLE'],'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$id);
-		$grade_scale_select[ $id ] = $grade_scale[1]['TITLE'];
+		$tabs[] = array( 'title' => $grade_scale[1]['TITLE'], 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=' . $id );
+		$grade_scale_select[$id] = $grade_scale[1]['TITLE'];
 	}
 
 	if ( $_REQUEST['tab_id'] !== 'new' )
 	{
-		$sql = 'SELECT * FROM REPORT_CARD_GRADES WHERE GRADE_SCALE_ID=\''.$_REQUEST['tab_id'].'\' AND SYEAR=\''.UserSyear().'\' AND SCHOOL_ID=\''.UserSchool().'\' ORDER BY BREAK_OFF IS NOT NULL DESC,BREAK_OFF DESC, SORT_ORDER';
+		$sql = 'SELECT * FROM REPORT_CARD_GRADES WHERE GRADE_SCALE_ID=\'' . $_REQUEST['tab_id'] . '\' AND SYEAR=\'' . UserSyear() . '\' AND SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY BREAK_OFF IS NOT NULL DESC,BREAK_OFF DESC, SORT_ORDER';
 
 		$functions = array(
 			'TITLE' => '_makeTextInput',
@@ -177,10 +205,10 @@ if ( ! $_REQUEST['modfunc'] )
 			'COMMENT' => _( 'Comment' ),
 		);
 
-		if (User('PROFILE')=='admin' && AllowEdit())
+		if ( User( 'PROFILE' ) === 'admin' && AllowEdit() )
 		{
-			$functions += array('GRADE_SCALE_ID' => '_makeGradesInput');
-			$LO_columns += array('GRADE_SCALE_ID' => _('Grade Scale'));
+			$functions += array( 'GRADE_SCALE_ID' => '_makeGradesInput' );
+			$LO_columns += array( 'GRADE_SCALE_ID' => _( 'Grade Scale' ) );
 		}
 
 		$link['add']['html'] = array(
@@ -192,9 +220,9 @@ if ( ! $_REQUEST['modfunc'] )
 			'COMMENT' => _makeTextInput( '', 'COMMENT' ),
 		);
 
-		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&tab_id='.$_REQUEST['tab_id'];
-		$link['remove']['variables'] = array('id' => 'ID');
-		$link['add']['html']['remove'] = button('add');
+		$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove&tab_id=' . $_REQUEST['tab_id'];
+		$link['remove']['variables'] = array( 'id' => 'ID' );
+		$link['add']['html']['remove'] = button( 'add' );
 
 		if ( User( 'PROFILE' ) === 'admin' )
 		{
@@ -244,23 +272,24 @@ if ( ! $_REQUEST['modfunc'] )
 			'SORT_ORDER' => _makeTextInput( '', 'SORT_ORDER' ),
 		);
 
-		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&tab_id=new';
-		$link['remove']['variables'] = array('id' => 'ID');
-		$link['add']['html']['remove'] = button('add');
+		$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove&tab_id=new';
+		$link['remove']['variables'] = array( 'id' => 'ID' );
+		$link['add']['html']['remove'] = button( 'add' );
 
 		$tabs[] = array(
 			'title' => button( 'add', '', '', 'smaller' ),
 			'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=new',
 		);
 	}
-	$LO_ret = DBGet( $sql,$functions);
 
-	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&tab_id='.$_REQUEST['tab_id'].'" method="POST">';
+	$LO_ret = DBGet( $sql, $functions );
+
+	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update&tab_id=' . $_REQUEST['tab_id'] . '" method="POST">';
 	DrawHeader( '', SubmitButton() );
 	echo '<br />';
 
-	$LO_options = array('search'=>false,
-		'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$_REQUEST['tab_id']));
+	$LO_options = array( 'search' => false,
+		'header' => WrapTabs( $tabs, 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=' . $_REQUEST['tab_id'] ) );
 
 	if ( $_REQUEST['tab_id'] !== 'new' )
 	{
@@ -275,11 +304,15 @@ if ( ! $_REQUEST['modfunc'] )
 	echo '</form>';
 }
 
+/**
+ * @param $value
+ * @param $name
+ */
 function _makeGradesInput( $value, $name )
 {
 	global $THIS_RET,
-		$grade_scale_select,
-		$teacher_id,
+	$grade_scale_select,
+	$teacher_id,
 		$gradebook_config;
 
 	if ( $THIS_RET['ID'] )
@@ -308,12 +341,12 @@ function _makeGradesInput( $value, $name )
 	}
 	elseif ( $name === 'BREAK_OFF'
 		&& $teacher_id
-		&& isset( $gradebook_config[ UserCoursePeriod() . '-' . $THIS_RET['ID'] ] )
-		&& $gradebook_config[ UserCoursePeriod() . '-' . $THIS_RET['ID'] ] != '' )
+		&& isset( $gradebook_config[UserCoursePeriod() . '-' . $THIS_RET['ID']] )
+		&& $gradebook_config[UserCoursePeriod() . '-' . $THIS_RET['ID']] != '' )
 	{
 		// Breakoff configured by Teacher.
 		return '<span style="color:blue">' .
-			$gradebook_config[ UserCoursePeriod() . '-' . $THIS_RET['ID'] ] . '%</span>';
+			$gradebook_config[UserCoursePeriod() . '-' . $THIS_RET['ID']] . '%</span>';
 	}
 	else
 	{
@@ -321,7 +354,7 @@ function _makeGradesInput( $value, $name )
 
 		if ( $value )
 		{
-			$value = number_format ( (float) $value, 2, '.', '' );
+			$value = number_format( (float) $value, 2, '.', '' );
 		}
 	}
 
@@ -340,6 +373,10 @@ function _makeGradesInput( $value, $name )
 	);
 }
 
+/**
+ * @param $value
+ * @param $name
+ */
 function _makeTextInput( $value, $name )
 {
 	global $THIS_RET;

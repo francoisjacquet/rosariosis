@@ -10,45 +10,54 @@ if ( $_REQUEST['modfunc'] === 'update'
 	foreach ( (array) $_REQUEST['values'] as $id => $columns )
 	{
 		//FJ fix SQL bug invalid sort order
-		if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
+
+		if ( empty( $columns['SORT_ORDER'] ) || is_numeric( $columns['SORT_ORDER'] ) )
 		{
-			if ( $id!='new')
+			if ( $id !== 'new' )
 			{
 				$sql = "UPDATE STUDENT_ENROLLMENT_CODES SET ";
 
-				foreach ( (array) $columns as $column => $value)
+				foreach ( (array) $columns as $column => $value )
 				{
 					$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 				}
-				$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
-				DBQuery($sql);
+
+				$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . $id . "'";
+				DBQuery( $sql );
 			}
+
 			// New: check for Title.
 			elseif ( $columns['TITLE'] )
 			{
 				$sql = "INSERT INTO STUDENT_ENROLLMENT_CODES ";
 
 				$fields = 'ID,SYEAR,';
-				$values = db_seq_nextval('STUDENT_ENROLLMENT_CODES_SEQ').",'".UserSyear()."',";
+				$values = db_seq_nextval( 'STUDENT_ENROLLMENT_CODES_SEQ' ) . ",'" . UserSyear() . "',";
 
 				$go = 0;
-				foreach ( (array) $columns as $column => $value)
+
+				foreach ( (array) $columns as $column => $value )
 				{
-					if ( !empty($value) || $value=='0')
+					if ( ! empty( $value ) || $value == '0' )
 					{
 						$fields .= DBEscapeIdentifier( $column ) . ',';
 						$values .= "'" . $value . "',";
 						$go = true;
 					}
 				}
+
 				$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
 
-				if ( $go)
-					DBQuery($sql);
+				if ( $go )
+				{
+					DBQuery( $sql );
+				}
 			}
 		}
 		else
-			$error[] = _('Please enter a valid Sort Order.');
+		{
+			$error[] = _( 'Please enter a valid Sort Order.' );
+		}
 	}
 
 	// Unset modfunc & redirect URL.
@@ -88,23 +97,27 @@ echo ErrorMessage( $warning, 'warning' );
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	$sql = "SELECT ID,TITLE,SHORT_NAME,TYPE,DEFAULT_CODE,SORT_ORDER FROM STUDENT_ENROLLMENT_CODES WHERE SYEAR='".UserSyear()."' ORDER BY SORT_ORDER,TITLE";
-	$QI = DBQuery($sql);
-	$codes_RET = DBGet($QI,array('TITLE' => '_makeTextInput','SHORT_NAME' => '_makeTextInput','TYPE' => '_makeSelectInput','DEFAULT_CODE' => '_makeCheckBoxInput','SORT_ORDER' => '_makeTextInput'));
+	$sql = "SELECT ID,TITLE,SHORT_NAME,TYPE,DEFAULT_CODE,SORT_ORDER FROM STUDENT_ENROLLMENT_CODES WHERE SYEAR='" . UserSyear() . "' ORDER BY SORT_ORDER,TITLE";
+	$QI = DBQuery( $sql );
+	$codes_RET = DBGet( $QI, array( 'TITLE' => '_makeTextInput', 'SHORT_NAME' => '_makeTextInput', 'TYPE' => '_makeSelectInput', 'DEFAULT_CODE' => '_makeCheckBoxInput', 'SORT_ORDER' => '_makeTextInput' ) );
 
-	$columns = array('TITLE' => _('Title'),'SHORT_NAME' => _('Short Name'),'TYPE' => _('Type'),'DEFAULT_CODE' => _('Rollover Default'),'SORT_ORDER' => _('Sort Order'));
-	$link['add']['html'] = array('TITLE'=>_makeTextInput('','TITLE'),'SHORT_NAME'=>_makeTextInput('','SHORT_NAME'),'TYPE'=>_makeSelectInput('','TYPE'),'DEFAULT_CODE'=>_makeCheckBoxInput('','DEFAULT_CODE'),'SORT_ORDER'=>_makeTextInput('','SORT_ORDER'));
-	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';
-	$link['remove']['variables'] = array('id' => _('ID'));
+	$columns = array( 'TITLE' => _( 'Title' ), 'SHORT_NAME' => _( 'Short Name' ), 'TYPE' => _( 'Type' ), 'DEFAULT_CODE' => _( 'Rollover Default' ), 'SORT_ORDER' => _( 'Sort Order' ) );
+	$link['add']['html'] = array( 'TITLE' => _makeTextInput( '', 'TITLE' ), 'SHORT_NAME' => _makeTextInput( '', 'SHORT_NAME' ), 'TYPE' => _makeSelectInput( '', 'TYPE' ), 'DEFAULT_CODE' => _makeCheckBoxInput( '', 'DEFAULT_CODE' ), 'SORT_ORDER' => _makeTextInput( '', 'SORT_ORDER' ) );
+	$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove';
+	$link['remove']['variables'] = array( 'id' => _( 'ID' ) );
 
-	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
+	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update" method="POST">';
 	DrawHeader( '', SubmitButton() );
 
-	ListOutput($codes_RET,$columns,'Enrollment Code','Enrollment Codes',$link);
+	ListOutput( $codes_RET, $columns, 'Enrollment Code', 'Enrollment Codes', $link );
 	echo '<div class="center">' . SubmitButton() . '</div>';
 	echo '</form>';
 }
 
+/**
+ * @param $value
+ * @param $name
+ */
 function _makeTextInput( $value, $name )
 {
 	global $THIS_RET;
@@ -139,6 +152,10 @@ function _makeTextInput( $value, $name )
 	return TextInput( $value, 'values[' . $id . '][' . $name . ']', '', $extra );
 }
 
+/**
+ * @param $value
+ * @param $name
+ */
 function _makeSelectInput( $value, $name )
 {
 	global $THIS_RET;
@@ -166,6 +183,10 @@ function _makeSelectInput( $value, $name )
 	);
 }
 
+/**
+ * @param $value
+ * @param $name
+ */
 function _makeCheckBoxInput( $value, $name )
 {
 	global $THIS_RET;

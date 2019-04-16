@@ -9,22 +9,26 @@ if ( $_REQUEST['modfunc'] === 'save'
 	if ( isset( $_REQUEST['staff'] )
 		&& is_array( $_REQUEST['staff'] ) )
 	{
-		$current_RET = DBGet( "SELECT STAFF_ID FROM STUDENTS_JOIN_USERS WHERE STUDENT_ID='".UserStudentID()."'",array(),array('STAFF_ID'));
+		$current_RET = DBGet( "SELECT STAFF_ID FROM STUDENTS_JOIN_USERS WHERE STUDENT_ID='" . UserStudentID() . "'", array(), array( 'STAFF_ID' ) );
+
 		foreach ( (array) $_REQUEST['staff'] as $staff_id )
 		{
-			if ( ! $current_RET[ $staff_id ])
+			if ( ! $current_RET[$staff_id] )
 			{
-				$sql = "INSERT INTO STUDENTS_JOIN_USERS (STAFF_ID,STUDENT_ID) values('".$staff_id."','".UserStudentID()."')";
-				DBQuery($sql);
+				$sql = "INSERT INTO STUDENTS_JOIN_USERS (STAFF_ID,STUDENT_ID) values('" . $staff_id . "','" . UserStudentID() . "')";
+				DBQuery( $sql );
 
 				//hook
-				do_action('Students/AddUsers.php|user_assign_role');
+				do_action( 'Students/AddUsers.php|user_assign_role' );
 			}
 		}
-		$note[] = _('The selected user\'s profile now includes access to the selected students.');
+
+		$note[] = _( 'The selected user\'s profile now includes access to the selected students.' );
 	}
 	else
-		$error[] = _('You must choose at least one user');
+	{
+		$error[] = _( 'You must choose at least one user' );
+	}
 
 	// Unset modfunc & redirect URL.
 	RedirectURL( 'modfunc' );
@@ -49,23 +53,25 @@ if ( $_REQUEST['modfunc'] === 'delete'
 	}
 }
 
-echo ErrorMessage( $note,'note' );
+echo ErrorMessage( $note, 'note' );
 
 echo ErrorMessage( $error );
 
 if ( ! $_REQUEST['modfunc'] )
 {
 	$extra['SELECT'] = ",(SELECT count(u.STAFF_ID) FROM STUDENTS_JOIN_USERS u,STAFF st WHERE u.STUDENT_ID=s.STUDENT_ID AND st.STAFF_ID=u.STAFF_ID AND st.SYEAR=ssm.SYEAR) AS ASSOCIATED";
-	$extra['columns_after'] = array('ASSOCIATED' => '# '._('Associated'));
+	$extra['columns_after'] = array( 'ASSOCIATED' => '# ' . _( 'Associated' ) );
 
-	if ( !UserStudentID())
-		Search('student_id',$extra);
-
-	if (UserStudentID())
+	if ( ! UserStudentID() )
 	{
-		if ( $_REQUEST['search_modfunc']=='list')
+		Search( 'student_id', $extra );
+	}
+
+	if ( UserStudentID() )
+	{
+		if ( $_REQUEST['search_modfunc'] === 'list' )
 		{
-			echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
+			echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save" method="POST">';
 			DrawHeader( '', SubmitButton( _( 'Add Selected Parents' ) ) );
 		}
 
@@ -78,29 +84,31 @@ if ( ! $_REQUEST['modfunc'] )
 			AND u.STUDENT_ID='" . UserStudentID() . "'
 			AND s.SYEAR='" . UserSyear() . "'", array( 'LAST_LOGIN' => 'makeLogin' ) );
 
-		$link['remove'] = array('link' => 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete','variables' => array('staff_id_remove' => 'STAFF_ID'));
+		$link['remove'] = array( 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete', 'variables' => array( 'staff_id_remove' => 'STAFF_ID' ) );
 
-		ListOutput($current_RET,array('FULL_NAME' => _('Parents'),'LAST_LOGIN' => _('Last Login')),'Associated Parent','Associated Parents',$link,array(),array('search'=>false));
+		ListOutput( $current_RET, array( 'FULL_NAME' => _( 'Parents' ), 'LAST_LOGIN' => _( 'Last Login' ) ), 'Associated Parent', 'Associated Parents', $link, array(), array( 'search' => false ) );
 
 		echo '</td></tr><tr><td>';
 
-		if (AllowEdit())
+		if ( AllowEdit() )
 		{
-			unset($extra);
-			$extra['link'] = array('FULL_NAME'=>false);
+			unset( $extra );
+			$extra['link'] = array( 'FULL_NAME' => false );
 			$extra['SELECT'] = ",CAST (NULL AS CHAR(1)) AS CHECKBOX";
-			$extra['functions'] = array('CHECKBOX' => 'MakeChooseCheckbox');
-			$extra['columns_before'] = array('CHECKBOX' => MakeChooseCheckbox( '', 'STAFF_ID', 'staff' ));
+			$extra['functions'] = array( 'CHECKBOX' => 'MakeChooseCheckbox' );
+			$extra['columns_before'] = array( 'CHECKBOX' => MakeChooseCheckbox( '', 'STAFF_ID', 'staff' ) );
 			$extra['new'] = true;
 			$extra['options']['search'] = false;
 			$extra['profile'] = 'parent';
 
-			Search('staff_id',$extra);
+			Search( 'staff_id', $extra );
 		}
 
 		echo '</td></tr></table>';
 
-		if ( $_REQUEST['search_modfunc']=='list')
+		if ( $_REQUEST['search_modfunc'] === 'list' )
+		{
 			echo '<br /><div class="center">' . SubmitButton( _( 'Add Selected Parents' ) ) . '</div></form>';
+		}
 	}
 }

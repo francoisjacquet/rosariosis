@@ -2,7 +2,7 @@
 
 if ( empty( $_REQUEST['search_modfunc'] ) )
 {
-	//if (UserStudentID() && User('PROFILE')!='parent' && User('PROFILE')!='student' && ($_REQUEST['modname']!='Students/Search.php' || $_REQUEST['student_id']=='new'))
+	//if (UserStudentID() && User( 'PROFILE' ) !== 'parent' && User( 'PROFILE' ) !== 'student' && ($_REQUEST['modname']!='Students/Search.php' || $_REQUEST['student_id']=='new'))
 	switch (User('PROFILE'))
 	{
 		case 'admin':
@@ -172,13 +172,13 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 		break;
 	}
 }
-//if ( $_REQUEST['search_modfunc']=='list')
+//if ( $_REQUEST['search_modfunc']=== 'list')
 else
 {
 	if ( empty( $_REQUEST['next_modname'] ) )
 		$_REQUEST['next_modname'] = 'Students/Student.php';
 
-	if (User('PROFILE')=='admin' || User('PROFILE')=='teacher')
+	if (User( 'PROFILE' ) === 'admin' || User( 'PROFILE' ) === 'teacher')
 	{
 		if ( !isset($extra))
 			$extra = array();

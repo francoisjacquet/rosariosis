@@ -8,7 +8,6 @@ if ( $_REQUEST['modfunc'] !== 'backup' )
 if ( $_REQUEST['modfunc'] === 'backup'
 	&& isset( $_REQUEST['_ROSARIO_PDF'] ) )
 {
-
 	// FJ code inspired by phpPgAdmin.
 	putenv( 'PGHOST=' . $DatabaseServer );
 	putenv( 'PGPORT=' . $DatabasePort );
@@ -24,7 +23,7 @@ if ( $_REQUEST['modfunc'] === 'backup'
 
 	if ( empty( $version ) )
 	{
-		$error[] = sprintf('The path to the database dump utility specified in the configuration file is wrong! (%s)', $pg_dumpPath);
+		$error[] = sprintf( 'The path to the database dump utility specified in the configuration file is wrong! (%s)', $pg_dumpPath );
 
 		ErrorMessage( $error, 'fatal' );
 	}
@@ -39,7 +38,7 @@ if ( $_REQUEST['modfunc'] === 'backup'
 	header( "Content-Type: $ctype" );
 
 	$filename = Config( 'NAME' ) . '_database_backup_' . date( 'Y.m.d' ) . '.sql';
-	$header="Content-Disposition: attachment; filename=" . $filename . ";";
+	$header = "Content-Disposition: attachment; filename=" . $filename . ";";
 
 	header( $header );
 	header( "Content-Transfer-Encoding: binary" );
@@ -57,13 +56,12 @@ if ( $_REQUEST['modfunc'] === 'backup'
 if ( ! $_REQUEST['modfunc'] )
 {
 	echo '<br />';
-	PopTable('header',_('Database Backup'));
-	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=backup&_ROSARIO_PDF=true" method="POST">';
+	PopTable( 'header', _( 'Database Backup' ) );
+	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=backup&_ROSARIO_PDF=true" method="POST">';
 	echo '<br />';
-	echo _('Download backup files periodically in case of system failure.');
+	echo _( 'Download backup files periodically in case of system failure.' );
 	echo '<br /><br />';
 	echo '<div class="center">' . SubmitButton( _( 'Download Backup File' ) ) . '</div>';
 	echo '</form>';
-	PopTable('footer');
+	PopTable( 'footer' );
 }
-

@@ -7,50 +7,49 @@ foreach ( (array) $eligibility_config as $value )
 	${$value[1]['TITLE']} = $value[1]['VALUE'];
 }
 
-switch (date('D'))
+switch ( date( 'D' ) )
 {
 	case 'Mon':
-	$today = 1;
-	break;
+		$today = 1;
+		break;
 	case 'Tue':
-	$today = 2;
-	break;
+		$today = 2;
+		break;
 	case 'Wed':
-	$today = 3;
-	break;
+		$today = 3;
+		break;
 	case 'Thu':
-	$today = 4;
-	break;
+		$today = 4;
+		break;
 	case 'Fri':
-	$today = 5;
-	break;
+		$today = 5;
+		break;
 	case 'Sat':
-	$today = 6;
-	break;
+		$today = 6;
+		break;
 	case 'Sun':
-	$today = 7;
-	break;
+		$today = 7;
+		break;
 }
 
-$start = time() - ($today-$START_DAY)*60*60*24;
+$start = time() - ( $today - $START_DAY ) * 60 * 60 * 24;
 
 if ( empty( $_REQUEST['start_date'] ) )
 {
 	$start_time = $start;
 
-	$start_date =  date( 'Y-m-d', $start_time );
+	$start_date = date( 'Y-m-d', $start_time );
 
-	$end_date =  date( 'Y-m-d', DBDate() );
+	$end_date = date( 'Y-m-d', DBDate() );
 }
 else
 {
 	$start_time = $_REQUEST['start_date'];
 
-	$start_date =  date( 'Y-m-d', $start_time );
+	$start_date = date( 'Y-m-d', $start_time );
 
-	$end_date =  date( 'Y-m-d', $start_time + 60 * 60 * 24 * 7 );
+	$end_date = date( 'Y-m-d', $start_time + 60 * 60 * 24 * 7 );
 }
-
 
 DrawHeader( ProgramTitle() );
 
@@ -59,21 +58,26 @@ if ( $_REQUEST['search_modfunc']
 	|| User( 'PROFILE' ) === 'student' )
 {
 	$tmp_PHP_SELF = PreparePHP_SELF();
-	echo '<form action="'.$tmp_PHP_SELF.'" method="POST">';
+	echo '<form action="' . $tmp_PHP_SELF . '" method="POST">';
 
 	$begin_year = DBGetOne( "SELECT min(date_part('epoch',SCHOOL_DATE)) AS SCHOOL_DATE
 		FROM ATTENDANCE_CALENDAR
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		AND SYEAR='" . UserSyear() . "'" );
 
-	if (is_null($begin_year))
-		ErrorMessage(array(_('There are no calendars yet setup.')), 'fatal');
+	if ( is_null( $begin_year ) )
+	{
+		ErrorMessage( array( _( 'There are no calendars yet setup.' ) ), 'fatal' );
+	}
 
-	$date_select = '<option value="'.$start.'">'.ProperDate( date( 'Y-m-d', $start)).' - '.ProperDate( DBDate() ).'</option>';
-	for ( $i=$start-(60*60*24*7);$i>=$begin_year;$i-=(60*60*24*7))
-		$date_select .= '<option value="'.$i.'"'.(($i+86400>=$start_time && $i-86400<=$start_time)?' selected':'').'>'.ProperDate( date( 'Y-m-d', $i)).' - '.ProperDate( date( 'Y-m-d', ($i+1+(($END_DAY-$START_DAY))*60*60*24))).'</option>';
+	$date_select = '<option value="' . $start . '">' . ProperDate( date( 'Y-m-d', $start ) ) . ' - ' . ProperDate( DBDate() ) . '</option>';
 
-	$date_select = '<select name="start_date">' . $date_select .'</select>';
+	for ( $i = $start - ( 60 * 60 * 24 * 7 ); $i >= $begin_year; $i -= ( 60 * 60 * 24 * 7 ) )
+	{
+		$date_select .= '<option value="' . $i . '"' . (  ( $i + 86400 >= $start_time && $i - 86400 <= $start_time ) ? ' selected' : '' ) . '>' . ProperDate( date( 'Y-m-d', $i ) ) . ' - ' . ProperDate( date( 'Y-m-d', ( $i + 1 + (  ( $END_DAY - $START_DAY ) ) * 60 * 60 * 24 ) ) ) . '</option>';
+	}
+
+	$date_select = '<select name="start_date">' . $date_select . '</select>';
 
 	DrawHeader( $date_select . ' ' . Buttons( _( 'Go' ) ) );
 
@@ -82,14 +86,14 @@ if ( $_REQUEST['search_modfunc']
 
 $extra['SELECT'] = ",e.ELIGIBILITY_CODE,c.TITLE as COURSE_TITLE";
 $extra['FROM'] = ",ELIGIBILITY e,COURSES c,COURSE_PERIODS cp";
-$extra['WHERE'] = "AND e.STUDENT_ID=ssm.STUDENT_ID AND e.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND cp.COURSE_ID=c.COURSE_ID AND e.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."'";
+$extra['WHERE'] = "AND e.STUDENT_ID=ssm.STUDENT_ID AND e.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND cp.COURSE_ID=c.COURSE_ID AND e.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'";
 
-$extra['functions'] = array('ELIGIBILITY_CODE' => '_makeLower');
-$extra['group']	= array('STUDENT_ID');
+$extra['functions'] = array( 'ELIGIBILITY_CODE' => '_makeLower' );
+$extra['group'] = array( 'STUDENT_ID' );
 
-Widgets('eligibility');
-Widgets('activity');
-Widgets('course');
+Widgets( 'eligibility' );
+Widgets( 'activity' );
+Widgets( 'course' );
 
 if ( ! $_REQUEST['search_modfunc']
 	&& User( 'PROFILE' ) !== 'parent'
@@ -97,7 +101,7 @@ if ( ! $_REQUEST['search_modfunc']
 {
 	$extra['new'] = true;
 
-	Search('student_id', $extra );
+	Search( 'student_id', $extra );
 }
 else
 {
@@ -119,6 +123,9 @@ else
 	);
 }
 
+/**
+ * @param $word
+ */
 function _makeLower( $word )
 {
 	return ucwords( mb_strtolower( $word ) );

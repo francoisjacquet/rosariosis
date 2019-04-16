@@ -9,20 +9,27 @@ if ( $_REQUEST['modfunc'] === 'update' )
 
 	foreach ( (array) $_REQUEST['values'] as $id => $columns )
 	{
-		if ( $id!='new')
+		if ( $id !== 'new' )
 		{
 			$sql = "UPDATE history_marking_periods SET ";
 
-			foreach ( (array) $columns as $column => $value)
+			foreach ( (array) $columns as $column => $value )
+			{
 				$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
+			}
 
-			if ( $_REQUEST['tab_id']!='new')
-				$sql = mb_substr($sql,0,-1) . " WHERE MARKING_PERIOD_ID='".$id."'";
+			if ( $_REQUEST['tab_id'] !== 'new' )
+			{
+				$sql = mb_substr( $sql, 0, -1 ) . " WHERE MARKING_PERIOD_ID='" . $id . "'";
+			}
 			else
-				$sql = mb_substr($sql,0,-1) . " WHERE MARKING_PERIOD_ID='".$id."'";
+			{
+				$sql = mb_substr( $sql, 0, -1 ) . " WHERE MARKING_PERIOD_ID='" . $id . "'";
+			}
 
-			DBQuery($sql);
+			DBQuery( $sql );
 		}
+
 		// New: check for Title.
 		elseif ( $columns['NAME'] )
 		{
@@ -31,6 +38,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 			$values = "NEXTVAL('MARKING_PERIOD_SEQ'),'" . UserSchool() . "',";
 
 			$go = false;
+
 			foreach ( (array) $columns as $column => $value )
 			{
 				if ( ! empty( $value )
@@ -45,7 +53,9 @@ if ( $_REQUEST['modfunc'] === 'update' )
 			$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
 
 			if ( $go )
-				DBQuery($sql);
+			{
+				DBQuery( $sql );
+			}
 		}
 	}
 
@@ -70,13 +80,13 @@ if ( $_REQUEST['modfunc'] === 'remove' )
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&tab_id='.$_REQUEST['tab_id'].'&mp_id='.$mp_id.'" method="POST">';
+	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update&tab_id=' . $_REQUEST['tab_id'] . '&mp_id=' . $mp_id . '" method="POST">';
 
 	DrawHeader( '', SubmitButton() );
 
 	echo '<br />';
 
-	$sql = 'SELECT * FROM history_marking_periods WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY POST_END_DATE';
+	$sql = 'SELECT * FROM history_marking_periods WHERE SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY POST_END_DATE';
 
 	$functions = array(
 		'MP_TYPE' => '_makeSelectInput',
@@ -103,17 +113,21 @@ if ( ! $_REQUEST['modfunc'] )
 		'SYEAR' => _makeSchoolYearSelectInput( '', 'SYEAR' ),
 	);
 
-	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';//&mp_id=$mp_id";
-	$link['remove']['variables'] = array('id' => 'MARKING_PERIOD_ID');
-	$link['add']['html']['remove'] = button('add');
-	$LO_ret = DBGet( $sql,$functions);
+	$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove'; //&mp_id=$mp_id";
+	$link['remove']['variables'] = array( 'id' => 'MARKING_PERIOD_ID' );
+	$link['add']['html']['remove'] = button( 'add' );
+	$LO_ret = DBGet( $sql, $functions );
 
-	ListOutput($LO_ret,$LO_columns,'History Marking Period','History Marking Periods',$link,array(),array('count'=>true,'download'=>false,'search'=>false));
+	ListOutput( $LO_ret, $LO_columns, 'History Marking Period', 'History Marking Periods', $link, array(), array( 'count' => true, 'download' => false, 'search' => false ) );
 
 	echo '<div class="center">' . SubmitButton() . '</div>';
 	echo '</form>';
 }
 
+/**
+ * @param $value
+ * @param $name
+ */
 function _makeTextInput( $value, $name )
 {
 	global $THIS_RET;
@@ -149,6 +163,10 @@ function _makeTextInput( $value, $name )
 	);
 }
 
+/**
+ * @param $value
+ * @param $name
+ */
 function _makeDateInput( $value, $name )
 {
 	global $THIS_RET;
@@ -171,17 +189,24 @@ function _makeDateInput( $value, $name )
 	);
 }
 
-function _makeSelectInput($value,$name)
-{    global $THIS_RET;
+/**
+ * @param $value
+ * @param $name
+ */
+function _makeSelectInput( $value, $name )
+{
+	global $THIS_RET;
 
-	if ( $THIS_RET['MARKING_PERIOD_ID'])
+	if ( $THIS_RET['MARKING_PERIOD_ID'] )
 	{
 		$id = $THIS_RET['MARKING_PERIOD_ID'];
 	}
 	else
+	{
 		$id = 'new';
+	}
 
-	$options = array('year' => _('Year'), 'semester' => _('Semester'), 'quarter' => _('Quarter'));
+	$options = array( 'year' => _( 'Year' ), 'semester' => _( 'Semester' ), 'quarter' => _( 'Quarter' ) );
 
 	return SelectInput(
 		trim( $value ),
@@ -192,22 +217,32 @@ function _makeSelectInput($value,$name)
 	);
 }
 
+/**
+ * @param $value
+ * @param $name
+ */
 function _makeSchoolYearSelectInput( $value, $name )
 {
 	global $THIS_RET;
 
 	if ( $THIS_RET['MARKING_PERIOD_ID'] )
+	{
 		$id = $THIS_RET['MARKING_PERIOD_ID'];
+	}
 	else
+	{
 		$id = 'new';
+	}
 
 	$options = array();
 
 	$years = range( UserSyear() - 5, UserSyear() );
 
 	foreach ( (array) $years as $year )
-		//FJ school year over one/two calendar years format
-		$options[ $year ] = FormatSyear( $year, Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) );
+	//FJ school year over one/two calendar years format
+	{
+		$options[$year] = FormatSyear( $year, Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) );
+	}
 
 	return SelectInput(
 		trim( $value ),

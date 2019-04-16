@@ -11,50 +11,49 @@ foreach ( (array) $eligibility_config as $value )
 	${$value[1]['TITLE']} = $value[1]['VALUE'];
 }
 
-switch (date('D'))
+switch ( date( 'D' ) )
 {
 	case 'Mon':
-	$today = 1;
-	break;
+		$today = 1;
+		break;
 	case 'Tue':
-	$today = 2;
-	break;
+		$today = 2;
+		break;
 	case 'Wed':
-	$today = 3;
-	break;
+		$today = 3;
+		break;
 	case 'Thu':
-	$today = 4;
-	break;
+		$today = 4;
+		break;
 	case 'Fri':
-	$today = 5;
-	break;
+		$today = 5;
+		break;
 	case 'Sat':
-	$today = 6;
-	break;
+		$today = 6;
+		break;
 	case 'Sun':
-	$today = 7;
-	break;
+		$today = 7;
+		break;
 }
 
-$start = time() - ($today-$START_DAY)*60*60*24;
+$start = time() - ( $today - $START_DAY ) * 60 * 60 * 24;
 
 if ( empty( $_REQUEST['start_date'] ) )
 {
 	$start_time = $start;
 
-	$start_date =  date( 'Y-m-d', $start_time );
+	$start_date = date( 'Y-m-d', $start_time );
 
-	$end_date =  date( 'Y-m-d', DBDate() );
+	$end_date = date( 'Y-m-d', DBDate() );
 }
 else
 {
 	$start_time = $_REQUEST['start_date'];
 
-	$start_date =  date( 'Y-m-d', $start_time );
+	$start_date = date( 'Y-m-d', $start_time );
 
-	$end_date =  date( 'Y-m-d', $start_time + 60 * 60 * 24 * 7 );
+	$end_date = date( 'Y-m-d', $start_time + 60 * 60 * 24 * 7 );
 }
-
 
 $periods_RET = DBGet( "SELECT PERIOD_ID,TITLE
 	FROM SCHOOL_PERIODS
@@ -62,7 +61,8 @@ $periods_RET = DBGet( "SELECT PERIOD_ID,TITLE
 	AND SYEAR='" . UserSyear() . "'
 	ORDER BY SORT_ORDER" );
 
-$period_select =  '<select name="period"><option value="">' . _( 'All' ) . '</option>';
+$period_select = '<select name="period"><option value="">' . _( 'All' ) . '</option>';
+
 foreach ( (array) $periods_RET as $period )
 {
 	$period_select .= '<option value="' . $period['PERIOD_ID'] . '"' .
@@ -83,14 +83,14 @@ if ( $start
 	&& $begin_year )
 {
 	$date_select = '<option value="' . $start . '">' .
-		ProperDate( date( 'Y-m-d', $start ) ) . ' - ' . ProperDate( DBDate() ) . '</option>';
+	ProperDate( date( 'Y-m-d', $start ) ) . ' - ' . ProperDate( DBDate() ) . '</option>';
 
-	for ( $i = $start - ( 60*60*24*7 ); $i >= $begin_year; $i -= ( 60*60*24*7 ) )
+	for ( $i = $start - ( 60 * 60 * 24 * 7 ); $i >= $begin_year; $i -= ( 60 * 60 * 24 * 7 ) )
 	{
 		$date_select .= '<option value="' . $i . '"' .
-			( ( $i + 86400 >= $start_time && $i - 86400 <= $start_time ) ? ' selected' : '' ) . '>' .
-			ProperDate( date( 'Y-m-d', $i ) ) . ' - ' .
-			ProperDate( date( 'Y-m-d', ( $i + 1 + ( ( $END_DAY - $START_DAY ) ) *60*60*24 ) ) ) . '</option>';
+		(  ( $i + 86400 >= $start_time && $i - 86400 <= $start_time ) ? ' selected' : '' ) . '>' .
+		ProperDate( date( 'Y-m-d', $i ) ) . ' - ' .
+		ProperDate( date( 'Y-m-d', ( $i + 1 + (  ( $END_DAY - $START_DAY ) ) * 60 * 60 * 24 ) ) ) . '</option>';
 	}
 }
 
@@ -101,14 +101,14 @@ echo '</form>';
 
 //FJ multiple school periods for a course period
 /*$sql = "SELECT s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,sp.TITLE,cp.PERIOD_ID,s.STAFF_ID
-		FROM STAFF s,COURSE_PERIODS cp,SCHOOL_PERIODS sp
-		WHERE
-			sp.PERIOD_ID = cp.PERIOD_ID
-			AND cp.TEACHER_ID=s.STAFF_ID AND cp.MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).")
-			AND cp.SYEAR='".UserSyear()."' AND cp.SCHOOL_ID='".UserSchool()."' AND s.PROFILE='teacher'
-			".(($_REQUEST['period'])?" AND cp.PERIOD_ID='".$_REQUEST['period']."'":'')."
-			AND NOT EXISTS (SELECT '' FROM ELIGIBILITY_COMPLETED ac WHERE ac.STAFF_ID=cp.TEACHER_ID AND ac.PERIOD_ID = sp.PERIOD_ID AND ac.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."')
-		";*/
+FROM STAFF s,COURSE_PERIODS cp,SCHOOL_PERIODS sp
+WHERE
+sp.PERIOD_ID = cp.PERIOD_ID
+AND cp.TEACHER_ID=s.STAFF_ID AND cp.MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).")
+AND cp.SYEAR='".UserSyear()."' AND cp.SCHOOL_ID='".UserSchool()."' AND s.PROFILE='teacher'
+".(($_REQUEST['period'])?" AND cp.PERIOD_ID='".$_REQUEST['period']."'":'')."
+AND NOT EXISTS (SELECT '' FROM ELIGIBILITY_COMPLETED ac WHERE ac.STAFF_ID=cp.TEACHER_ID AND ac.PERIOD_ID = sp.PERIOD_ID AND ac.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."')
+";*/
 $sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,sp.TITLE,cpsp.PERIOD_ID,
 	s.STAFF_ID,cp.TITLE AS CP_TITLE
 	FROM STAFF s,COURSE_PERIODS cp,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
@@ -133,7 +133,7 @@ $i = 0;
 foreach ( (array) $RET as $staff_id => $periods )
 {
 	$i++;
-	$staff_RET[ $i ]['FULL_NAME'] = $periods[ key( $periods ) ][1]['FULL_NAME'];
+	$staff_RET[$i]['FULL_NAME'] = $periods[key( $periods )][1]['FULL_NAME'];
 
 	if ( empty( $_REQUEST['period'] ) )
 	{
@@ -141,7 +141,7 @@ foreach ( (array) $RET as $staff_id => $periods )
 		{
 			if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			{
-				$staff_RET[ $i ][ $period_id ] = _( 'No' );
+				$staff_RET[$i][$period_id] = _( 'No' );
 
 				continue;
 			}
@@ -153,13 +153,12 @@ foreach ( (array) $RET as $staff_id => $periods )
 				$cp_titles[] = $course_period['CP_TITLE'];
 			}
 
-			$staff_RET[ $i ][ $period_id ] = MakeTipMessage(
-					implode( '<br /><br />', $cp_titles ),
-					_( 'Course Periods' ),
-					button( 'x' )
+			$staff_RET[$i][$period_id] = MakeTipMessage(
+				implode( '<br /><br />', $cp_titles ),
+				_( 'Course Periods' ),
+				button( 'x' )
 			);
 		}
-
 	}
 }
 
@@ -169,7 +168,7 @@ if ( empty( $_REQUEST['period'] ) )
 {
 	foreach ( (array) $periods_RET as $period )
 	{
-		$columns[ $period['PERIOD_ID'] ] = $period['TITLE'];
+		$columns[$period['PERIOD_ID']] = $period['TITLE'];
 	}
 }
 

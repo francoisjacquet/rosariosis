@@ -12,7 +12,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 		if ( empty( $columns['SORT_ORDER'] ) || is_numeric( $columns['SORT_ORDER'] ) )
 		{
-			if ( $id != 'new' )
+			if ( $id !== 'new' )
 			{
 				$sql = "UPDATE SCHOOL_GRADELEVELS SET ";
 

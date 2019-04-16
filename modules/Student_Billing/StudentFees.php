@@ -17,43 +17,52 @@ if ( $_REQUEST['values']
 	// Add eventual Dates to $_REQUEST['values'].
 	AddRequestedDates( 'values', 'post' );
 
-	foreach ( (array) $_REQUEST['values'] as $id => $columns)
+	foreach ( (array) $_REQUEST['values'] as $id => $columns )
 	{
-		if ( $id!='new')
+		if ( $id !== 'new' )
 		{
 			$sql = "UPDATE BILLING_FEES SET ";
 
-			foreach ( (array) $columns as $column => $value)
+			foreach ( (array) $columns as $column => $value )
 			{
 				$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 			}
-			$sql = mb_substr($sql,0,-1) . " WHERE STUDENT_ID='".UserStudentID()."' AND ID='".$id."'";
-			DBQuery($sql);
+
+			$sql = mb_substr( $sql, 0, -1 ) . " WHERE STUDENT_ID='" . UserStudentID() . "' AND ID='" . $id . "'";
+			DBQuery( $sql );
 		}
+
 		// New: check for Title.
 		elseif ( $columns['TITLE'] )
 		{
 			$sql = "INSERT INTO BILLING_FEES ";
 
 			$fields = 'ID,STUDENT_ID,SCHOOL_ID,SYEAR,ASSIGNED_DATE,';
-			$values = db_seq_nextval('BILLING_FEES_SEQ').",'".UserStudentID()."','".UserSchool()."','".UserSyear()."','".DBDate()."',";
+			$values = db_seq_nextval( 'BILLING_FEES_SEQ' ) . ",'" . UserStudentID() . "','" . UserSchool() . "','" . UserSyear() . "','" . DBDate() . "',";
 
 			$go = 0;
-			foreach ( (array) $columns as $column => $value)
+
+			foreach ( (array) $columns as $column => $value )
 			{
-				if ( !empty($value) || $value=='0')
+				if ( ! empty( $value ) || $value == '0' )
 				{
-					if ( $column=='AMOUNT')
-						$value = preg_replace('/[^0-9.-]/','',$value);
+					if ( $column == 'AMOUNT' )
+					{
+						$value = preg_replace( '/[^0-9.-]/', '', $value );
+					}
+
 					$fields .= DBEscapeIdentifier( $column ) . ',';
 					$values .= "'" . $value . "',";
 					$go = true;
 				}
 			}
+
 			$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
 
-			if ( $go)
-				DBQuery($sql);
+			if ( $go )
+			{
+				DBQuery( $sql );
+			}
 		}
 	}
 
@@ -89,15 +98,15 @@ if ( $_REQUEST['modfunc'] === 'waive'
 		DBQuery( "INSERT INTO BILLING_FEES (ID,SYEAR,SCHOOL_ID,TITLE,AMOUNT,WAIVED_FEE_ID,
 			STUDENT_ID,ASSIGNED_DATE,COMMENTS)
 			VALUES (" .
-				db_seq_nextval( 'BILLING_FEES_SEQ' ) . ",'" .
-				UserSyear() . "','" .
-				UserSchool() . "','" .
-				DBEscapeString( $fee_RET[1]['TITLE'] . " " . _( 'Waiver' )  ) . "','" .
-				( $fee_RET[1]['AMOUNT'] * -1 ) . "','" .
-				$_REQUEST['id'] . "','" .
-				UserStudentID() . "','" .
-				DBDate() . "','" .
-				DBEscapeString( _( 'Waiver' ) ) . "')" );
+			db_seq_nextval( 'BILLING_FEES_SEQ' ) . ",'" .
+			UserSyear() . "','" .
+			UserSchool() . "','" .
+			DBEscapeString( $fee_RET[1]['TITLE'] . " " . _( 'Waiver' ) ) . "','" .
+			( $fee_RET[1]['AMOUNT'] * -1 ) . "','" .
+			$_REQUEST['id'] . "','" .
+			UserStudentID() . "','" .
+			DBDate() . "','" .
+			DBEscapeString( _( 'Waiver' ) ) . "')" );
 
 		// Unset modfunc & ID & redirect URL.
 		RedirectURL( array( 'modfunc', 'id' ) );
@@ -134,21 +143,28 @@ if ( UserStudentID()
 
 	$i = 1;
 	$RET = array();
-	foreach ( (array) $fees_RET as $fee)
+
+	foreach ( (array) $fees_RET as $fee )
 	{
-		$RET[ $i ] = $fee;
-		if ( $waived_fees_RET[$fee['ID']])
+		$RET[$i] = $fee;
+
+		if ( $waived_fees_RET[$fee['ID']] )
 		{
 			$i++;
-			$RET[ $i ] = ($waived_fees_RET[$fee['ID']][1] + array('row_color' => '00FF66'));
+			$RET[$i] = ( $waived_fees_RET[$fee['ID']][1] + array( 'row_color' => '00FF66' ) );
 		}
+
 		$i++;
 	}
 
-	if (! empty( $RET ) && ! $_REQUEST['print_statements'] && AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
-		$columns = array('REMOVE' => '');
+	if ( ! empty( $RET ) && ! $_REQUEST['print_statements'] && AllowEdit() && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
+		$columns = array( 'REMOVE' => '' );
+	}
 	else
+	{
 		$columns = array();
+	}
 
 	$columns += array(
 		'TITLE' => _( 'Fee' ),
@@ -172,14 +188,20 @@ if ( UserStudentID()
 
 	if ( empty( $_REQUEST['print_statements'] ) )
 	{
-		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
+		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
 		//DrawStudentHeader();
-		if (AllowEdit())
+
+		if ( AllowEdit() )
+		{
 			DrawHeader( '', SubmitButton() );
+		}
+
 		$options = array();
 	}
 	else
-		$options = array('center'=>false);
+	{
+		$options = array( 'center' => false );
+	}
 
 	// Do hook.
 	do_action( 'Student_Billing/StudentFees.php|student_fees_header' );
@@ -198,15 +220,15 @@ if ( UserStudentID()
 	{
 		$payments_total = DBGetOne( "SELECT SUM(p.AMOUNT) AS TOTAL
 			FROM BILLING_PAYMENTS p
-			WHERE p.STUDENT_ID='".UserStudentID()."'
-			AND p.SYEAR='".UserSyear()."'" );
+			WHERE p.STUDENT_ID='" . UserStudentID() . "'
+			AND p.SYEAR='" . UserSyear() . "'" );
 
-		$table = '<table class="align-right"><tr><td>'._('Total from Fees').': '.'</td><td>'.Currency($fees_total).'</td></tr>';
+		$table = '<table class="align-right"><tr><td>' . _( 'Total from Fees' ) . ': ' . '</td><td>' . Currency( $fees_total ) . '</td></tr>';
 
-		$table .= '<tr><td>'._('Less').': '._('Total from Payments').': '.'</td><td>'.Currency($payments_total).'</td></tr>';
+		$table .= '<tr><td>' . _( 'Less' ) . ': ' . _( 'Total from Payments' ) . ': ' . '</td><td>' . Currency( $payments_total ) . '</td></tr>';
 
 		$table .= '<tr><td>' . _( 'Balance' ) . ': </td>
-			<td><b>' . Currency( ( $fees_total - $payments_total ), 'CR' ) .
+			<td><b>' . Currency(  ( $fees_total - $payments_total ), 'CR' ) .
 			'</b></td></tr></table>';
 
 		DrawHeader( $table );

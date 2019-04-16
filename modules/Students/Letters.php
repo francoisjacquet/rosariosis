@@ -28,7 +28,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 		$extra['SELECT'] .= ",s.FIRST_NAME AS NICK_NAME";
 
-		if ( User( 'PROFILE' ) == 'admin' )
+		if ( User( 'PROFILE' ) === 'admin' )
 		{
 			if ( $_REQUEST['w_course_period_id_which'] == 'course_period' && $_REQUEST['w_course_period_id'] )
 			{
@@ -131,7 +131,7 @@ if ( ! $_REQUEST['modfunc'] )
 {
 	DrawHeader( ProgramTitle() );
 
-	if ( $_REQUEST['search_modfunc'] == 'list' )
+	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
 		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save&include_inactive=' . $_REQUEST['include_inactive'] . '&_search_all_schools=' . $_REQUEST['_search_all_schools'] . '&_ROSARIO_PDF=true" method="POST">';
 
@@ -184,7 +184,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	Search( 'student_id', $extra );
 
-	if ( $_REQUEST['search_modfunc'] == 'list' )
+	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
 		echo '<br /><div class="center">' .
 		SubmitButton( _( 'Print Letters for Selected Students' ) ) . '</div></form>';

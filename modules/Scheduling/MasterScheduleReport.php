@@ -7,30 +7,44 @@ FROM COURSE_PERIODS cp,COURSES c,COURSE_SUBJECTS cs,COURSE_PERIOD_SCHOOL_PERIODS
 WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 AND cs.SUBJECT_ID=c.SUBJECT_ID
 AND cp.COURSE_ID=c.COURSE_ID
-AND cp.SYEAR='".UserSyear()."'
-AND cp.SCHOOL_ID='".UserSchool()."'
-ORDER BY SUBJECT_TITLE,COURSE,cpsp.PERIOD_ID",array('PERIOD_ID' => '_getPeriod','TEACHER_ID' => 'GetTeacher','MARKING_PERIOD_ID' => '_makeMP'),array('COURSE'));
+AND cp.SYEAR='" . UserSyear() . "'
+AND cp.SCHOOL_ID='" . UserSchool() . "'
+ORDER BY SUBJECT_TITLE,COURSE,cpsp.PERIOD_ID", array( 'PERIOD_ID' => '_getPeriod', 'TEACHER_ID' => 'GetTeacher', 'MARKING_PERIOD_ID' => '_makeMP' ), array( 'COURSE' ) );
 
-$columns = array('SUBJECT_TITLE' => _('Subject'),'COURSE' => _('Course'),'PERIOD_ID' => _('Period'),'TEACHER_ID' => _('Teacher'),'ROOM' => _('Room'),'SEATS' => _('Seats'),'MARKING_PERIOD_ID' => _('Marking Period'));
+$columns = array( 'SUBJECT_TITLE' => _( 'Subject' ), 'COURSE' => _( 'Course' ), 'PERIOD_ID' => _( 'Period' ), 'TEACHER_ID' => _( 'Teacher' ), 'ROOM' => _( 'Room' ), 'SEATS' => _( 'Seats' ), 'MARKING_PERIOD_ID' => _( 'Marking Period' ) );
 
-DrawHeader(ProgramTitle());
-ListOutput($sections_RET,$columns,'Course','Courses',array(),array(array('COURSE','SUBJECT_TITLE')));
+DrawHeader( ProgramTitle() );
+ListOutput( $sections_RET, $columns, 'Course', 'Courses', array(), array( array( 'COURSE', 'SUBJECT_TITLE' ) ) );
 
-function _makeMP($marking_period_id,$column)
+/**
+ * @param $marking_period_id
+ * @param $column
+ * @return mixed
+ */
+function _makeMP( $marking_period_id, $column )
 {
-	if ( ! $mp_title = GetMP($marking_period_id,'TITLE'))
+	if ( ! $mp_title = GetMP( $marking_period_id, 'TITLE' ) )
+	{
 		$mp_title = $marking_period_id;
+	}
+
 	return $mp_title;
 }
 
-function _getPeriod($period_id,$title='')
-{	static $periods_RET;
+/**
+ * @param $period_id
+ * @param $title
+ * @return mixed
+ */
+function _getPeriod( $period_id, $title = '' )
+{
+	static $periods_RET;
 
-	if (empty($periods_RET))
+	if ( empty( $periods_RET ) )
 	{
-		$sql = "SELECT TITLE, PERIOD_ID FROM SCHOOL_PERIODS WHERE SYEAR='".UserSyear()."'";
-		$periods_RET = DBGet( $sql,array(),array('PERIOD_ID'));
+		$sql = "SELECT TITLE, PERIOD_ID FROM SCHOOL_PERIODS WHERE SYEAR='" . UserSyear() . "'";
+		$periods_RET = DBGet( $sql, array(), array( 'PERIOD_ID' ) );
 	}
 
-	return $periods_RET[ $period_id ][1]['TITLE'];
+	return $periods_RET[$period_id][1]['TITLE'];
 }

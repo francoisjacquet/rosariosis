@@ -315,7 +315,7 @@ echo ErrorMessage( $error );
 
 if ( ! $_REQUEST['modfunc'] && ! empty( $email_column ) )
 {
-	if ( $_REQUEST['search_modfunc'] == 'list' )
+	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
 		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save" method="POST">';
 		$extra['header_right'] = SubmitButton( _( 'Create Parent Accounts for Selected Students' ) );
@@ -393,7 +393,7 @@ if ( ! $_REQUEST['modfunc'] && ! empty( $email_column ) )
 
 	Search( 'student_id', $extra );
 
-	if ( $_REQUEST['search_modfunc'] == 'list' )
+	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
 		echo '<br /><div class="center">' . SubmitButton( _( 'Create Parent Accounts for Selected Students' ) ) . '</div>';
 		echo '</form>';

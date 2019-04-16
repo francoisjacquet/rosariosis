@@ -708,7 +708,7 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&table=GRADEBOOK_ASSIGNMENT_TYPES';
 
-		if ( $_REQUEST['assignment_type_id'] != 'new' )
+		if ( $_REQUEST['assignment_type_id'] !== 'new' )
 		{
 			echo '&assignment_type_id=' . $_REQUEST['assignment_type_id'];
 		}
@@ -838,7 +838,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	// ASSIGNMENTS
 
-	if ( $_REQUEST['assignment_type_id'] && $_REQUEST['assignment_type_id'] != 'new' && ! empty( $types_RET ) )
+	if ( $_REQUEST['assignment_type_id'] && $_REQUEST['assignment_type_id'] !== 'new' && ! empty( $types_RET ) )
 	{
 		$sql = "SELECT ASSIGNMENT_ID,TITLE,POINTS
 		FROM GRADEBOOK_ASSIGNMENTS
@@ -852,7 +852,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		if ( ! empty( $assn_RET ) )
 		{
-			if ( $_REQUEST['assignment_id'] && $_REQUEST['assignment_id'] != 'new' )
+			if ( $_REQUEST['assignment_id'] && $_REQUEST['assignment_id'] !== 'new' )
 			{
 				foreach ( (array) $assn_RET as $key => $value )
 				{

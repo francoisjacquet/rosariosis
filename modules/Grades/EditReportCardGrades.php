@@ -13,6 +13,7 @@ if ( UserStudentID() )
 	$tab_id = ! empty( $_REQUEST['tab_id'] ) ? $_REQUEST['tab_id'] : 'grades';
 
 	// FJ fix bug no delete MP.
+
 	if ( $_REQUEST['modfunc'] === 'update'
 		&& $_REQUEST['removemp']
 		&& $_REQUEST['new_sms']
@@ -32,7 +33,6 @@ if ( UserStudentID() )
 	if ( $_REQUEST['modfunc'] === 'update'
 		&& ! $_REQUEST['removemp'] )
 	{
-
 		if ( ! empty( $_REQUEST['new_sms'] ) )
 		{
 			// FJ fix SQL bug when marking period already exist.
@@ -61,9 +61,10 @@ if ( UserStudentID() )
 		foreach ( (array) $_REQUEST['values'] as $id => $columns )
 		{
 			// FJ fix SQL bug when text data entered, data verification.
-			if ((empty($columns['GRADE_PERCENT']) || is_numeric($columns['GRADE_PERCENT'])) && (empty($columns['GP_SCALE']) || is_numeric($columns['GP_SCALE'])) && (empty($columns['UNWEIGHTED_GP']) || is_numeric($columns['UNWEIGHTED_GP'])) && (empty($columns['WEIGHTED_GP']) || is_numeric($columns['WEIGHTED_GP'])) && (empty($columns['CREDIT_EARNED']) || is_numeric($columns['CREDIT_EARNED'])) && (empty($columns['CREDIT_ATTEMPTED']) || is_numeric($columns['CREDIT_ATTEMPTED'])))
+
+			if (  ( empty( $columns['GRADE_PERCENT'] ) || is_numeric( $columns['GRADE_PERCENT'] ) ) && ( empty( $columns['GP_SCALE'] ) || is_numeric( $columns['GP_SCALE'] ) ) && ( empty( $columns['UNWEIGHTED_GP'] ) || is_numeric( $columns['UNWEIGHTED_GP'] ) ) && ( empty( $columns['WEIGHTED_GP'] ) || is_numeric( $columns['WEIGHTED_GP'] ) ) && ( empty( $columns['CREDIT_EARNED'] ) || is_numeric( $columns['CREDIT_EARNED'] ) ) && ( empty( $columns['CREDIT_ATTEMPTED'] ) || is_numeric( $columns['CREDIT_ATTEMPTED'] ) ) )
 			{
-				if ( $id != 'new' )
+				if ( $id !== 'new' )
 				{
 					$sql = "UPDATE student_report_card_grades SET ";
 
@@ -76,6 +77,7 @@ if ( UserStudentID() )
 
 					DBQuery( $sql );
 				}
+
 				// New: check for Title.
 				elseif ( $columns['COURSE_TITLE'] )
 				{
@@ -91,7 +93,7 @@ if ( UserStudentID() )
 
 					//$values = db_seq_nextval('student_report_card_grades_seq').','.UserSchool().", $student_id, $mp_id, ";
 					$values = db_seq_nextval( 'student_report_card_grades_seq' ) . ",'" .
-						UserSchool() . "','" . $student_id . "','" . $mp_id . "','" . $syear . "',";
+					UserSchool() . "','" . $student_id . "','" . $mp_id . "','" . $syear . "',";
 
 					if ( ! $columns['GP_SCALE'] )
 					{
@@ -111,7 +113,9 @@ if ( UserStudentID() )
 							$columns['CREDIT_EARNED'] = 1;
 						}
 						else
+						{
 							$columns['CREDIT_EARNED'] = 0;
+						}
 					}
 
 					if ( ! $columns['CLASS_RANK'] )
@@ -141,7 +145,9 @@ if ( UserStudentID() )
 				}
 			}
 			else
+			{
 				$error[] = _( 'Please enter valid Numeric data.' );
+			}
 		}
 
 		// Unset modfunc & redirect URL.
@@ -191,7 +197,7 @@ if ( UserStudentID() )
 
 		$last_posted = null;
 		$g_mp = array(); // Grade marking_periods.
-		$grecs = array();  // Grade records.
+		$grecs = array(); // Grade records.
 
 		if ( $g_RET )
 		{
@@ -202,7 +208,7 @@ if ( UserStudentID() )
 					$mp_id = $g_rec['MP_ID'];
 				}
 
-				$g_mp[ $g_rec['MP_ID'] ] = array(
+				$g_mp[$g_rec['MP_ID']] = array(
 					'schoolyear' => formatSyear( $g_rec['SYEAR'], Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) ),
 					'mp_name' => $g_rec['MP_NAME'],
 					'grade_level' => $g_rec['GRADE_LEVEL'],
@@ -212,12 +218,14 @@ if ( UserStudentID() )
 					'unweighted_gpa' => $g_rec['UNWEIGHTED_GPA'],
 					'cr_weighted' => $g_rec['CR_WEIGHTED'],
 					'cr_unweighted' => $g_rec['CR_UNWEIGHTED'],
-					'gpa' => $g_rec['GPA']
+					'gpa' => $g_rec['GPA'],
 				);
 			}
 		}
 		else
+		{
 			$mp_id = "0";
+		}
 
 		$mp_select = '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
 			'&tab_id=' . $tab_id . '" method="POST">';
@@ -227,13 +235,13 @@ if ( UserStudentID() )
 		foreach ( $g_mp as $id => $mp_array )
 		{
 			$mp_select .= '<option value="' . $id . '"' . ( $id == $mp_id ? ' selected' : '' ) . '>' .
-				$mp_array['schoolyear'] . ' ' . $mp_array['mp_name'] . ', ' .
-				_( 'Grade Level' ) . ' ' . $mp_array['grade_level'] .
+			$mp_array['schoolyear'] . ' ' . $mp_array['mp_name'] . ', ' .
+			_( 'Grade Level' ) . ' ' . $mp_array['grade_level'] .
 				'</option>';
 		}
 
 		$mp_select .= '<option value="0" ' . ( $mp_id == '0' ? ' selected' : '' ) . '>' .
-			_( 'Add another marking period' ) .
+		_( 'Add another marking period' ) .
 			'</option>';
 
 		$mp_select .= '</select></form>';
@@ -249,12 +257,12 @@ if ( UserStudentID() )
 
 		echo PopTable( 'header', $displayname );
 
-		echo '<table style="border-collapse:separate; border-spacing:6px;"><tr><td colspan="3" class="center">'._('Marking Period Statistics').'</td></tr><tr><td>'._('GPA').'</td><td>'._('Weighted').': '.sprintf('%0.3f',$g_mp[ $mp_id ]['weighted_gpa']).'</td><td>'._('Unweighted').": ".sprintf('%0.3f',$g_mp[ $mp_id ]['unweighted_gpa']).'</td></tr>';
-		echo '<tr><td>'._('Class Rank GPA').'</td><td>'._('Weighted').': '.sprintf('%0.3f',$g_mp[ $mp_id ]['cr_weighted']).'</td><td>'._('Unweighted').': '.sprintf('%0.3f',$g_mp[ $mp_id ]['cr_unweighted']).'</td></tr></table>';
+		echo '<table style="border-collapse:separate; border-spacing:6px;"><tr><td colspan="3" class="center">' . _( 'Marking Period Statistics' ) . '</td></tr><tr><td>' . _( 'GPA' ) . '</td><td>' . _( 'Weighted' ) . ': ' . sprintf( '%0.3f', $g_mp[$mp_id]['weighted_gpa'] ) . '</td><td>' . _( 'Unweighted' ) . ": " . sprintf( '%0.3f', $g_mp[$mp_id]['unweighted_gpa'] ) . '</td></tr>';
+		echo '<tr><td>' . _( 'Class Rank GPA' ) . '</td><td>' . _( 'Weighted' ) . ': ' . sprintf( '%0.3f', $g_mp[$mp_id]['cr_weighted'] ) . '</td><td>' . _( 'Unweighted' ) . ': ' . sprintf( '%0.3f', $g_mp[$mp_id]['cr_unweighted'] ) . '</td></tr></table>';
 
 		echo PopTable( 'footer' ) . '<br />';
 
-		$sms_grade_level = TextInput($g_mp[ $mp_id ]['grade_level'],"SMS_GRADE_LEVEL",_('Grade Level'),'size=3 maxlength=3');
+		$sms_grade_level = TextInput( $g_mp[$mp_id]['grade_level'], "SMS_GRADE_LEVEL", _( 'Grade Level' ), 'size=3 maxlength=3' );
 
 		if ( $mp_id == "0" )
 		{
@@ -272,7 +280,7 @@ if ( UserStudentID() )
 
 				foreach ( $mp_RET as $id => $mp )
 				{
-					$mp_options[ $mp['MARKING_PERIOD_ID'] ] = formatSyear(
+					$mp_options[$mp['MARKING_PERIOD_ID']] = formatSyear(
 						$mp['SYEAR'],
 						Config( 'SCHOOL_SYEAR_OVER_2_YEARS' )
 					) . ', ' . $mp['TITLE'];
@@ -337,6 +345,7 @@ if ( UserStudentID() )
 			}
 
 			// Build forms based on tab selected.
+
 			if ( $tab_id == 'grades' )
 			{
 				$functions = array(
@@ -421,11 +430,15 @@ if ( UserStudentID() )
 			echo SubmitButton( _( 'Remove Marking Period' ), 'removemp' );
 		}
 
-		echo SubmitButton().'</div>';
+		echo SubmitButton() . '</div>';
 		echo '</form>';
 	}
 }
 
+/**
+ * @param $value
+ * @param $name
+ */
 function _makeTextInput( $value, $name )
 {
 	global $THIS_RET;
@@ -462,6 +475,7 @@ function _makeTextInput( $value, $name )
 	{
 		$extra = 'size=1 maxlength=1';
 	}
+
 	//elseif ( $name=='GP_VALUE')
 	//    $extra = 'size=5 maxlength=5';
 	//elseif ( $name=='UNWEIGHTED_GP_VALUE')
@@ -479,7 +493,6 @@ function _makeTextInput( $value, $name )
 	);
 }
 
-
 /**
  * Make Select Input
  * Used to select Course Periods,
@@ -491,13 +504,16 @@ function _makeTextInput( $value, $name )
  *
  * @param  string $value Course Period ID.
  * @param  string $name  'COURSE_PERIOD_ID' column.
- * @return string        Select input or Course Period title.
+ * @return string Select input or Course Period title.
  */
 function _makeSelectInput( $value, $name )
 {
 	global $THIS_RET,
 		$mp_id;
 
+	/**
+	 * @var mixed
+	 */
 	static $options = null;
 
 	if ( $THIS_RET['ID'] )
@@ -525,15 +541,15 @@ function _makeSelectInput( $value, $name )
 
 		foreach ( (array) $mp_course_periods_RET as $mp_course_period )
 		{
-			$options[ $mp_course_period['COURSE_PERIOD_ID'] ] = $mp_course_period['TITLE'];
+			$options[$mp_course_period['COURSE_PERIOD_ID']] = $mp_course_period['TITLE'];
 		}
 	}
 
 	if ( $id !== 'new'
-		&& isset( $options[ $value ] ) )
+		&& isset( $options[$value] ) )
 	{
 		// Return Course Period title, no Select input.
-		return $options[ $value ];
+		return $options[$value];
 	}
 
 	// Select input only for new Grades or when Course Period not found.
@@ -550,7 +566,10 @@ function _makeSelectInput( $value, $name )
 	);
 }
 
-
+/**
+ * @param $value
+ * @param $name
+ */
 function _makeCheckBoxInput( $value, $name )
 {
 	global $THIS_RET;

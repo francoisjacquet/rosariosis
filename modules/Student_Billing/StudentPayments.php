@@ -43,27 +43,35 @@ if ( $_REQUEST['values']
 			$values = "'" . $id . "','" . UserStudentID() . "','" . UserSyear() . "','" . UserSchool() . "',";
 
 			$go = 0;
-			foreach ( (array) $columns as $column => $value)
+
+			foreach ( (array) $columns as $column => $value )
 			{
-				if ( !empty($value) || $value=='0')
+				if ( ! empty( $value ) || $value == '0' )
 				{
-					if ( $column=='AMOUNT')
+					if ( $column == 'AMOUNT' )
 					{
-						$value = preg_replace('/[^0-9.-]/','',$value);
+						$value = preg_replace( '/[^0-9.-]/', '', $value );
 
 						//FJ fix SQL bug invalid amount
-						if ( !is_numeric($value))
+
+						if ( ! is_numeric( $value ) )
+						{
 							$value = 0;
+						}
 					}
+
 					$fields .= DBEscapeIdentifier( $column ) . ',';
 					$values .= "'" . $value . "',";
 					$go = true;
 				}
 			}
+
 			$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
 
-			if ( $go)
-				DBQuery($sql);
+			if ( $go )
+			{
+				DBQuery( $sql );
+			}
 		}
 	}
 
@@ -97,14 +105,14 @@ if ( $_REQUEST['modfunc'] === 'refund'
 		DBQuery( "INSERT INTO BILLING_PAYMENTS (ID,SYEAR,SCHOOL_ID,STUDENT_ID,AMOUNT,
 			PAYMENT_DATE,COMMENTS,REFUNDED_PAYMENT_ID)
 			VALUES(" .
-				db_seq_nextval( 'BILLING_PAYMENTS_SEQ' ) . ",'" .
-				UserSyear() . "','" .
-				UserSchool() . "','" .
-				UserStudentID() . "','" .
-				( $payment_RET[1]['AMOUNT'] * -1 ) . "','" .
-				DBDate() . "','" .
-				DBEscapeString( $payment_RET[1]['COMMENTS'] . " " . _( 'Refund' ) ) . "','" .
-				$_REQUEST['id'] . "')" );
+			db_seq_nextval( 'BILLING_PAYMENTS_SEQ' ) . ",'" .
+			UserSyear() . "','" .
+			UserSchool() . "','" .
+			UserStudentID() . "','" .
+			( $payment_RET[1]['AMOUNT'] * -1 ) . "','" .
+			DBDate() . "','" .
+			DBEscapeString( $payment_RET[1]['COMMENTS'] . " " . _( 'Refund' ) ) . "','" .
+			$_REQUEST['id'] . "')" );
 
 		// Unset modfunc & ID & redirect URL.
 		RedirectURL( array( 'modfunc', 'id' ) );
@@ -145,12 +153,12 @@ if ( UserStudentID()
 
 	foreach ( (array) $payments_RET as $payment )
 	{
-		$RET[ $i ] = $payment;
+		$RET[$i] = $payment;
 
-		if ( $refunded_payments_RET[ $payment['ID'] ] )
+		if ( $refunded_payments_RET[$payment['ID']] )
 		{
 			$i++;
-			$RET[ $i ] = ( $refunded_payments_RET[ $payment['ID'] ][1] + array( 'row_color' => 'FF0000' ) );
+			$RET[$i] = ( $refunded_payments_RET[$payment['ID']][1] + array( 'row_color' => 'FF0000' ) );
 		}
 
 		$i++;
@@ -163,7 +171,9 @@ if ( UserStudentID()
 		$columns = array( 'REMOVE' => '' );
 	}
 	else
+	{
 		$columns = array();
+	}
 
 	$columns += array(
 		'AMOUNT' => _( 'Amount' ),
@@ -177,9 +187,9 @@ if ( UserStudentID()
 	{
 		$link['add']['html'] = array(
 			'REMOVE' => button( 'add' ),
-			'AMOUNT' => _makePaymentsTextInput( '','AMOUNT' ),
+			'AMOUNT' => _makePaymentsTextInput( '', 'AMOUNT' ),
 			'PAYMENT_DATE' => _makePaymentsDateInput( DBDate(), 'PAYMENT_DATE' ),
-			'COMMENTS' => _makePaymentsTextInput( '','COMMENTS' ),
+			'COMMENTS' => _makePaymentsTextInput( '', 'COMMENTS' ),
 			'LUNCH_PAYMENT' => _lunchInput( '', 'LUNCH_PAYMENT' ),
 		);
 	}
@@ -196,7 +206,9 @@ if ( UserStudentID()
 		$options = array();
 	}
 	else
+	{
 		$options = array( 'center' => false, 'add' => false );
+	}
 
 	// Do hook.
 	do_action( 'Student_Billing/StudentPayments.php|student_payments_header' );
@@ -232,7 +244,7 @@ if ( UserStudentID()
 		<td>' . Currency( $payments_total ) . '</td></tr>';
 
 	$table .= '<tr><td>' . _( 'Balance' ) . ': </td>
-		<td><b>' . Currency( ( $fees_total - $payments_total ), 'CR' ) . '</b></td>
+		<td><b>' . Currency(  ( $fees_total - $payments_total ), 'CR' ) . '</b></td>
 		</tr></table>';
 
 	DrawHeader( $table );

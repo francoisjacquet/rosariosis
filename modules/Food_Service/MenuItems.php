@@ -17,7 +17,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 
 				if ( empty( $columns['SORT_ORDER'] ) || is_numeric( $columns['SORT_ORDER'] ) )
 				{
-					if ( $id != 'new' )
+					if ( $id !== 'new' )
 					{
 						//FJ fix SQL bug PRICE_STAFF & PRICE not null
 						//FJ fix SQL bug PRICE_FREE & PRICE_REDUCED numeric
@@ -28,7 +28,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 								&& ( empty( $columns['PRICE_STAFF'] ) || is_numeric( $columns['PRICE_STAFF'] ) )
 								&& ( empty( $columns['PRICE'] ) || is_numeric( $columns['PRICE'] ) ) ) )
 						{
-							if ( $_REQUEST['tab_id'] != 'new' )
+							if ( $_REQUEST['tab_id'] !== 'new' )
 							{
 								$sql = "UPDATE FOOD_SERVICE_MENU_ITEMS SET ";
 							}
@@ -45,7 +45,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 								$go = true;
 							}
 
-							if ( $_REQUEST['tab_id'] != 'new' )
+							if ( $_REQUEST['tab_id'] !== 'new' )
 							{
 								$sql = mb_substr( $sql, 0, -1 ) . " WHERE MENU_ITEM_ID='" . $id . "'";
 							}
@@ -66,7 +66,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 					}
 					else
 					{
-						if ( $_REQUEST['tab_id'] != 'new' )
+						if ( $_REQUEST['tab_id'] !== 'new' )
 						{
 							$sql = 'INSERT INTO FOOD_SERVICE_MENU_ITEMS ';
 							$fields = 'MENU_ITEM_ID,MENU_ID,SCHOOL_ID,';
@@ -135,7 +135,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 if ( $_REQUEST['modfunc'] === 'remove'
 	&& AllowEdit() )
 {
-	if ( $_REQUEST['tab_id'] != 'new' )
+	if ( $_REQUEST['tab_id'] !== 'new' )
 	{
 		if ( DeletePrompt( _( 'Meal Item' ) ) )
 		{
@@ -166,7 +166,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( ! empty( $_REQUEST['tab_id'] ) )
 	{
-		if ( $_REQUEST['tab_id'] != 'new' )
+		if ( $_REQUEST['tab_id'] !== 'new' )
 		{
 			if ( $menus_RET[$_REQUEST['tab_id']] )
 			{
@@ -216,7 +216,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$tabs[] = array( 'title' => $menu[1]['TITLE'], 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=' . $id );
 	}
 
-	if ( $_REQUEST['tab_id'] != 'new' )
+	if ( $_REQUEST['tab_id'] !== 'new' )
 	{
 		$items_RET = DBGet( 'SELECT ITEM_ID,DESCRIPTION FROM FOOD_SERVICE_ITEMS WHERE SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY SORT_ORDER' );
 		$items_select = array();
@@ -258,7 +258,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$sql = 'SELECT * FROM FOOD_SERVICE_ITEMS fsmi WHERE SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY SORT_ORDER';
 		$functions = array( 'DESCRIPTION' => 'makeTextInput', 'SHORT_NAME' => 'makeTextInput', 'ICON' => 'makeSelectInput', 'SORT_ORDER' => 'makeTextInput', 'PRICE' => 'makeTextInput', 'PRICE_REDUCED' => 'makeTextInput', 'PRICE_FREE' => 'makeTextInput', 'PRICE_STAFF' => 'makeTextInput' );
 
-		if ( User( 'PROFILE' ) == 'admin' || User( 'PROFILE' ) == 'teacher' )
+		if ( User( 'PROFILE' ) === 'admin' || User( 'PROFILE' ) === 'teacher' )
 		{
 			$LO_columns = array(
 				'DESCRIPTION' => _( 'Item Description' ),
@@ -320,7 +320,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$extra = array( 'save' => false, 'search' => false,
 		'header' => WrapTabs( $tabs, 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=' . $_REQUEST['tab_id'] ) );
 
-	if ( $_REQUEST['tab_id'] != 'new' )
+	if ( $_REQUEST['tab_id'] !== 'new' )
 	{
 		ListOutput( $LO_ret, $LO_columns, $singular, $plural, $link, array(), $extra );
 	}

@@ -58,7 +58,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			//FJ add Show Credit Hours option
 			$showCreditHours = isset( $_REQUEST['showcredithours'] ) ? $_REQUEST['showcredithours'] : null;
 			//FJ add Show Studies Certificate option
-			$showCertificate = User( 'PROFILE' ) == 'admin' && $_REQUEST['showcertificate'];
+			$showCertificate = User( 'PROFILE' ) === 'admin' && $_REQUEST['showcertificate'];
 
 			if ( $showCertificate )
 			{
@@ -484,7 +484,7 @@ if ( ! $_REQUEST['modfunc'] )
 {
 	DrawHeader( ProgramTitle() );
 
-	if ( $_REQUEST['search_modfunc'] == 'list' )
+	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
 		//FJ include gentranscript.php in Transcripts.php
 		//echo '<form action="modules/Grades/gentranscript.php" method="POST">';
@@ -583,7 +583,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		//FJ limit Cetificate to admin
 
-		if ( User( 'PROFILE' ) == 'admin' )
+		if ( User( 'PROFILE' ) === 'admin' )
 		{
 			//FJ add Show Studies Certificate option
 			$field_SSECURITY = ParseMLArray( DBGet( "SELECT TITLE
@@ -595,7 +595,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		//FJ limit Cetificate to admin
 
-		if ( User( 'PROFILE' ) == 'admin' )
+		if ( User( 'PROFILE' ) === 'admin' )
 		{
 			//FJ add Show Studies Certificate option
 			$extra['extra_header_left'] .= '<div id="divcertificatetext" style="display:none">
@@ -648,7 +648,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	Search( 'student_id', $extra );
 
-	if ( $_REQUEST['search_modfunc'] == 'list' )
+	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
 		echo '<br /><div class="center">' . Buttons( _( 'Create Transcripts for Selected Students' ) ) . '</div>';
 		echo '</form>';

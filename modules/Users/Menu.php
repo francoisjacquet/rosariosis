@@ -5,7 +5,7 @@
  * @uses $menu global var
  *
  * @see  Menu.php in root folder
- * 
+ *
  * @package RosarioSIS
  * @subpackage modules
  */
@@ -39,7 +39,7 @@ $menu['Users']['parent'] = array(
 );
 
 // FJ enable password change for students
-if ( User( 'PROFILE' ) == 'student' )
+if ( User( 'PROFILE' ) === 'student' )
 	unset( $menu['Users']['parent']['Users/User.php'] );
 
 $exceptions['Users'] = array(

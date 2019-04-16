@@ -12,7 +12,7 @@ if ( $_REQUEST['values']
 
 		if ( empty( $columns['SORT_ORDER'] ) || is_numeric( $columns['SORT_ORDER'] ) )
 		{
-			if ( $id != 'new' )
+			if ( $id !== 'new' )
 			{
 				$sql = "UPDATE DISCIPLINE_FIELD_USAGE SET ";
 

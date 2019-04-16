@@ -59,7 +59,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	echo ErrorMessage( $note, 'note' );
 
-	if ( $_REQUEST['search_modfunc'] == 'list' )
+	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
 		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save" method="POST">';
 		DrawHeader( '', SubmitButton( _( 'Add Fee to Selected Students' ) ) );

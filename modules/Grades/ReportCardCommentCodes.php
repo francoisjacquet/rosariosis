@@ -33,7 +33,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 						$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 					}
 
-					if ( $_REQUEST['tab_id'] != 'new' )
+					if ( $_REQUEST['tab_id'] !== 'new' )
 					{
 						$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . $id . "'";
 					}
@@ -48,7 +48,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 				// New: check for Title
 				elseif ( $columns['TITLE'] )
 				{
-					if ( $_REQUEST['tab_id'] != 'new' )
+					if ( $_REQUEST['tab_id'] !== 'new' )
 					{
 						$sql = 'INSERT INTO REPORT_CARD_COMMENT_CODES ';
 						$fields = 'ID,SCHOOL_ID,SCALE_ID,';
@@ -95,7 +95,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 if ( $_REQUEST['modfunc'] === 'remove'
 	&& AllowEdit() )
 {
-	if ( $_REQUEST['tab_id'] != 'new' )
+	if ( $_REQUEST['tab_id'] !== 'new' )
 	{
 		if ( DeletePrompt( _( 'Report Card Comment' ) ) )
 		{
@@ -181,7 +181,7 @@ if ( ! $_REQUEST['modfunc'] )
 			'SORT_ORDER' => _( 'Sort Order' ),
 		);
 
-		if ( User( 'PROFILE' ) == 'admin' && AllowEdit() )
+		if ( User( 'PROFILE' ) === 'admin' && AllowEdit() )
 		{
 			$functions += array( 'SCALE_ID' => '_makeCommentsInput' );
 			$LO_columns += array( 'SCALE_ID' => _( 'Comment Scale' ) );

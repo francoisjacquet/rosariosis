@@ -821,9 +821,9 @@ function _makeSchoolInput( $value, $column )
 	}
 
 	// Mab - allow school to be edited if illegal value.
-	if ( $_REQUEST['student_id'] != 'new' )
+	if ( $_REQUEST['student_id'] !== 'new' )
 	{
-		if ( $id != 'new' )
+		if ( $id !== 'new' )
 		{
 			if ( is_array( $schools[ $value ] ) )
 			{

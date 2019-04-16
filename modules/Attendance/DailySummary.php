@@ -46,8 +46,8 @@ if ( $_REQUEST['attendance']
 }
 
 //FJ bugfix bug when Back to Student Search
-//if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || UserStudentID() || User('PROFILE')=='parent' || User('PROFILE')=='student')
-if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')=='parent' || User('PROFILE')=='student')
+//if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || UserStudentID() || User( 'PROFILE' ) === 'parent' || User( 'PROFILE' ) === 'student')
+if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User( 'PROFILE' ) === 'parent' || User( 'PROFILE' ) === 'student')
 {
 	if ( User( 'PROFILE' ) === 'student' )
 	{
@@ -182,7 +182,7 @@ $cal_RET = DBGet( "SELECT DISTINCT SCHOOL_DATE,'_'||to_char(SCHOOL_DATE,'yyyymmd
 	ORDER BY SCHOOL_DATE" );
 
 //FJ bugfix bug when Back to Student Search
-//if (UserStudentID() || $_REQUEST['student_id'] || User('PROFILE')=='parent')
+//if (UserStudentID() || $_REQUEST['student_id'] || User( 'PROFILE' ) === 'parent')
 if ( $_REQUEST['student_id'] || User( 'PROFILE' ) === 'parent' )
 {
 	if ( ! empty( $_REQUEST['period_id'] ) )

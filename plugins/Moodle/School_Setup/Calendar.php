@@ -27,7 +27,7 @@ list of (
 )
 */
 	//update_calendar_event
-	if ( $_REQUEST['event_id']!='new')
+	if ( $_REQUEST['event_id']!== 'new')
 	{
 		//get calendar event title & description
 		$calendar_event = DBGet( "SELECT TITLE, DESCRIPTION FROM CALENDAR_EVENTS WHERE ID='".$_REQUEST['event_id']."'" );

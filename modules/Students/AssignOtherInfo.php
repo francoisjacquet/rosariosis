@@ -140,7 +140,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$extra['link'] = array( 'FULL_NAME' => false );
 	$extra['SELECT'] = ",CAST (NULL AS CHAR(1)) AS CHECKBOX";
 
-	if ( $_REQUEST['search_modfunc'] == 'list' )
+	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
 		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save" method="POST">';
 		DrawHeader( '', SubmitButton() );
@@ -390,7 +390,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	Search( 'student_id', $extra );
 
-	if ( $_REQUEST['search_modfunc'] == 'list' )
+	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
 		echo '<br /><div class="center">' . SubmitButton() . '</div></form>';
 	}

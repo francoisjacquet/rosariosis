@@ -16,8 +16,8 @@ Search( 'student_id' );
 if ( UserStudentID()
 	&& ! $_REQUEST['modfunc'] )
 {
-//FJ multiple school periods for a course period
-	/*$courses_RET = DBGet( "SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,cp.COURSE_PERIOD_ID,cp.COURSE_ID,cp.TEACHER_ID AS STAFF_ID FROM SCHEDULE s,COURSE_PERIODS cp,COURSES c WHERE s.SYEAR='".UserSyear()."' AND cp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID AND s.MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).") AND ('".DBDate()."'>=s.START_DATE AND (s.END_DATE IS NULL OR '".DBDate()."'<=s.END_DATE)) AND s.STUDENT_ID='".UserStudentID()."' AND cp.GRADE_SCALE_ID IS NOT NULL".(User('PROFILE')=='teacher'?' AND cp.TEACHER_ID=\''.User('STAFF_ID').'\'':'')." AND c.COURSE_ID=cp.COURSE_ID ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID)",array(),array('COURSE_PERIOD_ID'));*/
+	//FJ multiple school periods for a course period
+	/*$courses_RET = DBGet( "SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,cp.COURSE_PERIOD_ID,cp.COURSE_ID,cp.TEACHER_ID AS STAFF_ID FROM SCHEDULE s,COURSE_PERIODS cp,COURSES c WHERE s.SYEAR='".UserSyear()."' AND cp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID AND s.MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).") AND ('".DBDate()."'>=s.START_DATE AND (s.END_DATE IS NULL OR '".DBDate()."'<=s.END_DATE)) AND s.STUDENT_ID='".UserStudentID()."' AND cp.GRADE_SCALE_ID IS NOT NULL".(User( 'PROFILE' ) === 'teacher'?' AND cp.TEACHER_ID=\''.User('STAFF_ID').'\'':'')." AND c.COURSE_ID=cp.COURSE_ID ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID)",array(),array('COURSE_PERIOD_ID'));*/
 	$courses_RET = DBGet( "SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,cp.COURSE_PERIOD_ID,cp.COURSE_ID,cp.TEACHER_ID AS STAFF_ID
 	FROM SCHEDULE s,COURSE_PERIODS cp,COURSES c
 	WHERE s.SYEAR='" . UserSyear() . "'
@@ -27,7 +27,7 @@ if ( UserStudentID()
 	AND (s.END_DATE IS NULL OR '" . DBDate() . "'<=s.END_DATE))
 	AND s.STUDENT_ID='" . UserStudentID() . "'
 	AND cp.GRADE_SCALE_ID IS NOT NULL" .
-			( User( 'PROFILE' ) == 'teacher' ? ' AND cp.TEACHER_ID=\'' . User( 'STAFF_ID' ) . '\'' : '' ) . "
+		( User( 'PROFILE' ) === 'teacher' ? ' AND cp.TEACHER_ID=\'' . User( 'STAFF_ID' ) . '\'' : '' ) . "
 	AND c.COURSE_ID=cp.COURSE_ID
 	ORDER BY cp.SHORT_NAME, cp.TITLE", array(), array( 'COURSE_PERIOD_ID' ) );
 //echo '<pre>'; var_dump($courses_RET); echo '</pre>';
@@ -218,7 +218,7 @@ if ( UserStudentID()
 						//$bargraph1 = bargraph1($percent===false?true:$percent,$min_percent,$avg_percent,$max_percent,1);
 						$bargraph1 = bargraph1(
 							$percent === false ?
-								true : _makeLetterGrade( $percent, $course_period_id, $staff_id ),
+							true : _makeLetterGrade( $percent, $course_period_id, $staff_id ),
 							_makeLetterGrade( $min_percent, $course_period_id, $staff_id ),
 							_makeLetterGrade( $avg_percent, $course_period_id, $staff_id ),
 							_makeLetterGrade( $max_percent, $course_period_id, $staff_id ),
@@ -271,9 +271,9 @@ if ( UserStudentID()
 			$link = array(
 				'TITLE' => array(
 					'link' => 'Modules.php?modname=' . $_REQUEST['modname'] .
-						( $do_stats ? '&do_stats=' . $_REQUEST['do_stats'] : '' ),
-					'variables' => array( 'id' => 'ID' )
-				)
+					( $do_stats ? '&do_stats=' . $_REQUEST['do_stats'] : '' ),
+					'variables' => array( 'id' => 'ID' ),
+				),
 			);
 
 			ListOutput(
@@ -493,13 +493,13 @@ if ( UserStudentID()
 						0,
 						mb_strpos( str_replace( ' - ', ' ^ ', $course['TITLE'] ), '^' )
 					) .
-					'</b> - ' . mb_substr(
-						$course['TITLE'],
-						mb_strrpos( str_replace( ' - ', ' ^ ', $course['TITLE'] ), '^' ) + 2
-					),
-					'<a href="Modules.php?modname=' . $_REQUEST['modname'] .
-					( $do_stats ? '&do_stats=' . $_REQUEST['do_stats'] : '' ) . '">' .
-					_( 'Back to Totals' ) . '</a>' );
+						'</b> - ' . mb_substr(
+							$course['TITLE'],
+							mb_strrpos( str_replace( ' - ', ' ^ ', $course['TITLE'] ), '^' ) + 2
+						),
+						'<a href="Modules.php?modname=' . $_REQUEST['modname'] .
+						( $do_stats ? '&do_stats=' . $_REQUEST['do_stats'] : '' ) . '">' .
+						_( 'Back to Totals' ) . '</a>' );
 				}
 
 				unset( $LO_ret[0] );
@@ -524,12 +524,11 @@ if ( UserStudentID()
 	}
 }
 
-
 /**
  * Make Assignment Details
  *
- * @since 4.5 Move assignment details from Tip message to Colorbox popup
  * @uses StudentAssignmentDrawHeaders()
+ * @since 4.5 Move assignment details from Tip message to Colorbox popup
  *
  * @param  string $value     Assignment Title
  * @param  string $column    'TITLE'

@@ -149,7 +149,7 @@ echo ErrorMessage( $note, 'note' );
 
 if ( $_REQUEST['modfunc'] != 'choose_course' )
 {
-	if ( $_REQUEST['search_modfunc'] == 'list' )
+	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
 		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save" method="POST">';
 		DrawHeader( '', SubmitButton( _( 'Drop Course for Selected Students' ) ) );
@@ -224,7 +224,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	Search( 'student_id', $extra );
 
-	if ( $_REQUEST['search_modfunc'] == 'list' )
+	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
 		echo '<br /><div class="center">' . SubmitButton( _( 'Drop Course for Selected Students' ) ) . '</div>';
 		echo '</form>';

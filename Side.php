@@ -487,7 +487,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 		</span>
 
 		<?php // CoursePeriod SELECT (Teachers only).
-		if ( User( 'PROFILE' ) == 'teacher' ) : ?>
+		if ( User( 'PROFILE' ) === 'teacher' ) : ?>
 
 
 		<?php // Error if no quarters.

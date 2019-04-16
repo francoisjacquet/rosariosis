@@ -307,7 +307,7 @@ function appendStaffSQL( $sql, $extra = array() )
 	if ( isset( $_REQUEST['profile'] )
 		&& $_REQUEST['profile'] !== '' )
 	{
-		if ( User( 'PROFILE' ) == 'admin' )
+		if ( User( 'PROFILE' ) === 'admin' )
 		{
 			$options = array(
 				'admin' => _( 'Administrator' ),

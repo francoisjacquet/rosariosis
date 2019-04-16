@@ -17,6 +17,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 				// Unset modfunc & redirect URL.
 				RedirectURL( 'modfunc' );
 			}
+
 			//unset($_REQUEST['submit']);
 		}
 		elseif ( ! empty( $_REQUEST['food_service'] ) )
@@ -27,8 +28,8 @@ if ( $_REQUEST['modfunc'] === 'update' )
 
 				$account_id = DBGetOne( "SELECT STAFF_ID
 					FROM FOOD_SERVICE_STAFF_ACCOUNTS
-					WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."'
-					AND STAFF_ID!='".UserStaffID()."'" );
+					WHERE BARCODE='" . trim( $_REQUEST['food_service']['BARCODE'] ) . "'
+					AND STAFF_ID!='" . UserStaffID() . "'" );
 
 				if ( $account_id )
 				{
@@ -37,16 +38,16 @@ if ( $_REQUEST['modfunc'] === 'update' )
 						WHERE STAFF_ID='" . $account_id . "'" );
 
 					$message = sprintf(
-						_("That barcode is already assigned to User <b>%s</b>."),
+						_( "That barcode is already assigned to User <b>%s</b>." ),
 						$staff_full_name
-					).' '.
-					_("Hit OK to reassign it to the current user or Cancel to cancel all changes.");
+					) . ' ' .
+					_( "Hit OK to reassign it to the current user or Cancel to cancel all changes." );
 				}
 				else
 				{
 					$account_id = DBGetOne( "SELECT ACCOUNT_ID
 						FROM FOOD_SERVICE_STUDENT_ACCOUNTS
-						WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."'" );
+						WHERE BARCODE='" . trim( $_REQUEST['food_service']['BARCODE'] ) . "'" );
 
 					if ( $account_id )
 					{
@@ -56,10 +57,10 @@ if ( $_REQUEST['modfunc'] === 'update' )
 							AND fssa.ACCOUNT_ID='" . $account_id . "'" );
 
 						$message = sprintf(
-							_("That barcode is already assigned to Student <b>%s</b>."),
+							_( "That barcode is already assigned to Student <b>%s</b>." ),
 							$student_full_name
-						).' '.
-						_("Hit OK to reassign it to the user student or Cancel to cancel all changes.");
+						) . ' ' .
+						_( "Hit OK to reassign it to the user student or Cancel to cancel all changes." );
 					}
 				}
 			}
@@ -68,13 +69,18 @@ if ( $_REQUEST['modfunc'] === 'update' )
 				|| Prompt( 'Confirm', $question, $message ) )
 			{
 				$sql = 'UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET ';
-				foreach ( (array) $_REQUEST['food_service'] as $column_name => $value)
+
+				foreach ( (array) $_REQUEST['food_service'] as $column_name => $value )
+				{
 					$sql .= DBEscapeIdentifier( $column_name ) . "='" . trim( $value ) . "',";
-				$sql = mb_substr($sql,0,-1)." WHERE STAFF_ID='".UserStaffID()."'";
+				}
+
+				$sql = mb_substr( $sql, 0, -1 ) . " WHERE STAFF_ID='" . UserStaffID() . "'";
+
 				if ( ! empty( $_REQUEST['food_service']['BARCODE'] ) )
 				{
-					DBQuery("UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET BARCODE=NULL WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."'");
-					DBQuery("UPDATE FOOD_SERVICE_STUDENT_ACCOUNTS SET BARCODE=NULL WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."'");
+					DBQuery( "UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET BARCODE=NULL WHERE BARCODE='" . trim( $_REQUEST['food_service']['BARCODE'] ) . "'" );
+					DBQuery( "UPDATE FOOD_SERVICE_STUDENT_ACCOUNTS SET BARCODE=NULL WHERE BARCODE='" . trim( $_REQUEST['food_service']['BARCODE'] ) . "'" );
 				}
 
 				DBQuery( $sql );
@@ -110,7 +116,7 @@ if ( $_REQUEST['modfunc'] === 'create' )
 		}
 
 		$sql = 'INSERT INTO FOOD_SERVICE_STAFF_ACCOUNTS (' . mb_substr( $fields, 0, -1 ) .
-			') VALUES (' . mb_substr( $values, 0, -1 ) . ')';
+		') VALUES (' . mb_substr( $values, 0, -1 ) . ')';
 
 		DBQuery( $sql );
 	}
@@ -119,19 +125,19 @@ if ( $_REQUEST['modfunc'] === 'create' )
 	RedirectURL( array( 'modfunc', 'food_service' ) );
 }
 
-StaffWidgets('fsa_balance');
-StaffWidgets('fsa_status');
-StaffWidgets('fsa_barcode');
-StaffWidgets('fsa_exists_Y');
+StaffWidgets( 'fsa_balance' );
+StaffWidgets( 'fsa_status' );
+StaffWidgets( 'fsa_barcode' );
+StaffWidgets( 'fsa_exists_Y' );
 
 $extra['SELECT'] .= ",(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE";
 $extra['SELECT'] .= ",(SELECT coalesce(STATUS,'" . DBEscapeString( _( 'Active' ) ) . "') FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS STATUS";
-$extra['functions'] += array('BALANCE' => 'red');
-$extra['columns_after'] = array('BALANCE' => _('Balance'),'STATUS' => _('Status'));
+$extra['functions'] += array( 'BALANCE' => 'red' );
+$extra['columns_after'] = array( 'BALANCE' => _( 'Balance' ), 'STATUS' => _( 'Status' ) );
 
-Search('staff_id',$extra);
+Search( 'staff_id', $extra );
 
-if (UserStaffID() && ! $_REQUEST['modfunc'])
+if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 {
 	$staff = DBGet( "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 	(SELECT s.STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS ACCOUNT_ID,
@@ -143,9 +149,9 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 
 	$staff = $staff[1];
 
-	if ( $staff['ACCOUNT_ID'])
+	if ( $staff['ACCOUNT_ID'] )
 	{
-		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
+		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update" method="POST">';
 
 		DrawHeader(
 			'',
@@ -158,18 +164,19 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 	}
 	else
 	{
-		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=create" method="POST">';
+		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=create" method="POST">';
 		DrawHeader( '', SubmitButton( _( 'Create Account' ) ) );
 	}
 
 	echo '<br />';
-	PopTable('header',_('Account Information'),'width="100%"');
+	PopTable( 'header', _( 'Account Information' ), 'width="100%"' );
 
 	echo '<table class="width-100p valign-top fixed-col"><tr><td>';
 
 	echo NoInput( $staff['FULL_NAME'], $staff['STAFF_ID'] );
 
 	// warn if other users associated with the same account
+
 	if ( ! $staff['ACCOUNT_ID'] )
 	{
 		echo '<br />' . MakeTipMessage(
@@ -188,15 +195,15 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 
 	echo '<table class="width-100p valign-top fixed-col"><tr><td>';
 
-	$options = array('Inactive' => _('Inactive'),'Disabled' => _('Disabled'),'Closed' => _('Closed'));
-	echo ($staff['ACCOUNT_ID']?SelectInput($staff['STATUS'],'food_service[STATUS]',_('Status'),$options,_('Active')):NoInput('-',_('Status')));
+	$options = array( 'Inactive' => _( 'Inactive' ), 'Disabled' => _( 'Disabled' ), 'Closed' => _( 'Closed' ) );
+	echo ( $staff['ACCOUNT_ID'] ? SelectInput( $staff['STATUS'], 'food_service[STATUS]', _( 'Status' ), $options, _( 'Active' ) ) : NoInput( '-', _( 'Status' ) ) );
 	echo '</td>';
 	echo '<td>';
-	echo ($staff['ACCOUNT_ID']?TextInput($staff['BARCODE'],'food_service[BARCODE]',_('Barcode'),'size=12 maxlength=25'):NoInput('-',_('Barcode')));
+	echo ( $staff['ACCOUNT_ID'] ? TextInput( $staff['BARCODE'], 'food_service[BARCODE]', _( 'Barcode' ), 'size=12 maxlength=25' ) : NoInput( '-', _( 'Barcode' ) ) );
 	echo '</td>';
 	echo '</tr></table>';
 
-	PopTable('footer');
+	PopTable( 'footer' );
 
 	echo '<br /><div class="center">' . SubmitButton() . '</div>';
 	echo '</form>';

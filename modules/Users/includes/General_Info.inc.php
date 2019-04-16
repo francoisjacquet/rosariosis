@@ -2,26 +2,27 @@
 echo '<table class="general-info width-100p valign-top fixed-col"><tr class="st"><td rowspan="4">';
 
 // IMAGE.
+
 if ( AllowEdit()
-	&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) ) :
+	&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) ):
 ?>
 	<a href="#" onclick="$('.user-photo-form,.user-photo').toggle(); return false;"><?php
-		echo button( 'add', '', '', 'smaller' ) . '&nbsp;' . _( 'User Photo' );
-	?></a><br />
+echo button( 'add', '', '', 'smaller' ) . '&nbsp;' . _( 'User Photo' );
+?></a><br />
 	<div class="user-photo-form hide"><?php
-		echo FileInput(
-			'photo',
-			_( 'User Photo' ) . ' (.jpg, .png, .gif)',
-			'accept="image/*"'
-		);
-	?></div>
+echo FileInput(
+	'photo',
+	_( 'User Photo' ) . ' (.jpg, .png, .gif)',
+	'accept="image/*"'
+);
+?></div>
 <?php endif;
 
-if ( $_REQUEST['staff_id']!='new' && ($file = @fopen($picture_path=$UserPicturesPath.UserSyear().'/'.UserStaffID().'.jpg','r')) || ($file = @fopen($picture_path=$UserPicturesPath.(UserSyear()-1).'/'.UserStaffID().'.jpg','r'))):
-	fclose($file);
-?>
-	<img src="<?php echo $picture_path.(!empty($new_photo_file)? '?cacheKiller='.rand():''); ?>" class="user-photo" />
-<?php endif;
+if ( $_REQUEST['staff_id'] !== 'new' && ( $file = @fopen( $picture_path = $UserPicturesPath . UserSyear() . '/' . UserStaffID() . '.jpg', 'r' ) ) || ( $file = @fopen( $picture_path = $UserPicturesPath . ( UserSyear() - 1 ) . '/' . UserStaffID() . '.jpg', 'r' ) ) ):
+	fclose( $file );
+	?>
+		<img src="<?php echo $picture_path . ( ! empty( $new_photo_file ) ? '?cacheKiller=' . rand() : '' ); ?>" class="user-photo" />
+	<?php endif;
 // END IMAGE
 
 echo '</td><td colspan="2">';
@@ -43,7 +44,7 @@ $suffixes_array = array(
 	'V' => _( 'V' ),
 );
 
-if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
+if ( AllowEdit() && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 {
 	$div = false;
 
@@ -153,21 +154,20 @@ echo PasswordInput(
 		|| $_REQUEST['moodle_create_user'] ? '' : str_repeat( '*', 8 ) ),
 	'staff[PASSWORD]',
 	_( 'Password' ) .
-		( $_REQUEST['moodle_create_user']
+	( $_REQUEST['moodle_create_user']
 		|| $old_user_in_moodle ?
 		'<div class="tooltip"><i>' .
-			_( 'The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character' ) .
+		_( 'The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character' ) .
 		'</i></div>' :
 		''
-		),
+	),
 	'maxlength="42" tabindex="2" strength' . ( $required ? ' required' : '' ),
 	( $_REQUEST['moodle_create_user'] ? false : true )
 );
 
 echo '</td></tr><tr class="st"><td colspan="2">';
 
-echo NoInput(makeLogin($staff['LAST_LOGIN']),_('Last Login'));
-
+echo NoInput( makeLogin( $staff['LAST_LOGIN'] ), _( 'Last Login' ) );
 
 echo '</td></tr></table><hr />';
 
@@ -181,12 +181,13 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 		'admin' => _( 'Administrator' ),
 		'teacher' => _( 'Teacher' ),
 		'parent' => _( 'Parent' ),
-		'none' => _( 'No Access' )
+		'none' => _( 'No Access' ),
 	);
 
 	$admin_user_profile_restriction = false;
 
 	// Admin USer Profile restriction.
+
 	if ( User( 'PROFILE' ) === 'admin'
 		&& AllowEdit()
 		&& ! AllowEdit( 'Users/User.php&category_id=1&user_profile' ) )
@@ -202,7 +203,7 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 			$profile_options = array(
 				'teacher' => _( 'Teacher' ),
 				'parent' => _( 'Parent' ),
-				'none' => _( 'No Access' )
+				'none' => _( 'No Access' ),
 			);
 		}
 
@@ -240,13 +241,15 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 
 		foreach ( (array) $permissions_RET as $permission )
 		{
-			$permissions_options[ $permission['ID'] ] = _( $permission['TITLE'] );
+			$permissions_options[$permission['ID']] = _( $permission['TITLE'] );
 		}
 
 		$na = _( 'Custom' );
 	}
 	else
+	{
 		$na = _( 'Default' );
+	}
 
 	echo SelectInput(
 		$staff['PROFILE_ID'],
@@ -263,10 +266,11 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 	{
 		// Add link to User Permissions.
 		echo '<div><a href="Modules.php?modname=Users/Exceptions.php">' .
-			_( 'User Permissions' ) . '</a></div>';
+		_( 'User Permissions' ) . '</a></div>';
 	}
 
 	// Admin User Profile restriction.
+
 	if ( $admin_user_profile_restriction
 		&& $_REQUEST['staff_id'] !== 'new' )
 	{
@@ -277,6 +281,7 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 	echo '</td><td>';
 
 	//FJ remove Schools for Parents
+
 	if ( $staff['PROFILE'] !== 'parent' )
 	{
 		$schools_RET = DBGet( "SELECT ID,TITLE
@@ -291,6 +296,7 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 			$admin_schools_restriction = false;
 
 			// Admin Schools restriction.
+
 			if ( User( 'PROFILE' ) === 'admin'
 				&& AllowEdit()
 				&& ! AllowEdit( 'Users/User.php&category_id=1&schools' ) )
@@ -354,6 +360,7 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 			{
 				echo $schools_html . str_replace( '<br />', '', $title );
 			}
+
 			// Admin Schools restriction.
 			elseif ( $_REQUEST['staff_id'] === 'new'
 				&& $admin_schools_restriction )
@@ -368,14 +375,17 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 			}
 
 			// Admin Schools restriction.
+
 			if ( $admin_schools_restriction )
 			{
 				// Reactivate AllowEdit.
 				$_ROSARIO['allow_edit'] = true;
 			}
 		}
+
 		//echo SelectInput($staff['SCHOOL_ID'],'staff[SCHOOL_ID]','School',$options,'All Schools');
 	}
+
 	echo '</td></tr>';
 }
 
@@ -387,11 +397,12 @@ echo TextInput(
 	'staff[EMAIL]',
 	_( 'Email Address' ),
 	'type="email" pattern="[^ @]*@[^ @]*" size=12 maxlength=100' .
-		( $_REQUEST['moodle_create_user'] || $old_user_in_moodle ? ' required' : '' ),
+	( $_REQUEST['moodle_create_user'] || $old_user_in_moodle ? ' required' : '' ),
 	( $_REQUEST['moodle_create_user'] ? false : true )
 );
 
 // FJ create account.
+
 if ( basename( $_SERVER['PHP_SELF'] ) === 'index.php' )
 {
 	echo '</td><td>';
@@ -409,6 +420,7 @@ echo TextInput(
 );
 
 // FJ create account.
+
 if ( basename( $_SERVER['PHP_SELF'] ) === 'index.php' )
 {
 	echo '</td><td>';

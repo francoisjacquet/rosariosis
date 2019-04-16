@@ -20,7 +20,7 @@ if ( $_REQUEST['modfunc'] != 'save' )
 		'<b>' . _( 'Users' ) . '</b>' : _( 'Users' ) ) . '</a>';
 
 	DrawHeader(  ( $_REQUEST['type'] == 'staff' ? _( 'User' ) : _( 'Student' ) ) . ' &minus; ' . ProgramTitle() );
-	User( 'PROFILE' ) == 'student' ? '' : DrawHeader( $header );
+	User( 'PROFILE' ) === 'student' ? '' : DrawHeader( $header );
 }
 
 require_once 'modules/Food_Service/' . ( $_REQUEST['type'] == 'staff' ? 'Users' : 'Students' ) . '/Reminders.php';

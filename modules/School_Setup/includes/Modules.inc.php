@@ -6,64 +6,69 @@
 // Core modules cannot be deleted
 /* var defined in Warehouse.php
 $RosarioCoreModules = array(
-	'School_Setup',
-	'Students',
-	'Users',
-	'Scheduling',
-	'Grades',
-	'Attendance',
-	'Eligibility',
-	'Discipline',
-	'Accounting',
-	'Student_Billing',
-	'Food_Service',
-	'Resources',
-	'Custom'
+'School_Setup',
+'Students',
+'Users',
+'Scheduling',
+'Grades',
+'Attendance',
+'Eligibility',
+'Discipline',
+'Accounting',
+'Student_Billing',
+'Food_Service',
+'Resources',
+'Custom'
 );*/
 
 // Core modules that will generate errors if deactivated
 $always_activated = array(
-	'School_Setup'
+	'School_Setup',
 );
 
 $directories_bypass = array(
-	'modules/misc'
+	'modules/misc',
 );
 
 //hacking protections
-if (isset($_REQUEST['module']) && strpos($_REQUEST['module'], '..') !== false)
+
+if ( isset( $_REQUEST['module'] ) && strpos( $_REQUEST['module'], '..' ) !== false )
 {
 	require_once 'ProgramFunctions/HackingLog.fnc.php';
 	HackingLog();
 }
 
-
 if ( $_REQUEST['modfunc'] === 'delete'
 	&& AllowEdit() )
 {
-	if (DeletePrompt(_('Module')))
+	if ( DeletePrompt( _( 'Module' ) ) )
 	{
 		//verify if not in $always_activated & not in $RosarioCoreModules but in $RosarioModules
-		if ( !in_array($_REQUEST['module'], $always_activated) && !in_array($_REQUEST['module'], $RosarioCoreModules) && in_array($_REQUEST['module'], array_keys($RosarioModules)) && $RosarioModules[$_REQUEST['module']] == false)
+
+		if ( ! in_array( $_REQUEST['module'], $always_activated ) && ! in_array( $_REQUEST['module'], $RosarioCoreModules ) && in_array( $_REQUEST['module'], array_keys( $RosarioModules ) ) && $RosarioModules[$_REQUEST['module']] == false )
 		{
 			//delete module: execute delete.sql script
-			if (file_exists('modules/'.$_REQUEST['module'].'/delete.sql'))
+
+			if ( file_exists( 'modules/' . $_REQUEST['module'] . '/delete.sql' ) )
 			{
-				$delete_sql = file_get_contents('modules/'.$_REQUEST['module'].'/delete.sql');
-				DBQuery($delete_sql);
+				$delete_sql = file_get_contents( 'modules/' . $_REQUEST['module'] . '/delete.sql' );
+				DBQuery( $delete_sql );
 			}
 
 			//update $RosarioModules
-			unset($RosarioModules[$_REQUEST['module']]);
+			unset( $RosarioModules[$_REQUEST['module']] );
 
 			//save $RosarioModules
 			_saveRosarioModules();
 
-			if (is_dir('modules/'.$_REQUEST['module']))
+			if ( is_dir( 'modules/' . $_REQUEST['module'] ) )
 			{
 				//remove files & dir
-				if ( !_delTree('modules/'.$_REQUEST['module']))
-					$error[] = _('Files not eraseable.');
+
+				if ( ! _delTree( 'modules/' . $_REQUEST['module'] ) )
+				{
+					$error[] = _( 'Files not eraseable.' );
+				}
 			}
 		}
 
@@ -75,10 +80,11 @@ if ( $_REQUEST['modfunc'] === 'delete'
 if ( $_REQUEST['modfunc'] === 'deactivate'
 	&& AllowEdit() )
 {
-	if (DeletePrompt(_('Module'),_('Deactivate')))
+	if ( DeletePrompt( _( 'Module' ), _( 'Deactivate' ) ) )
 	{
 		//verify if not in $always_activated  & activated
-		if ( !in_array($_REQUEST['module'], $always_activated) && in_array($_REQUEST['module'], array_keys($RosarioModules)) && $RosarioModules[$_REQUEST['module']] == true)
+
+		if ( ! in_array( $_REQUEST['module'], $always_activated ) && in_array( $_REQUEST['module'], array_keys( $RosarioModules ) ) && $RosarioModules[$_REQUEST['module']] == true )
 		{
 			//update $RosarioModules
 			$RosarioModules[$_REQUEST['module']] = false;
@@ -91,9 +97,10 @@ if ( $_REQUEST['modfunc'] === 'deactivate'
 		}
 
 		//verify module dir exists
+
 		if ( ! file_exists( 'modules/' . $_REQUEST['module'] . '/Menu.php' ) )
 		{
-			$error[] = _('Incomplete or inexistant module.');
+			$error[] = _( 'Incomplete or inexistant module.' );
 		}
 
 		// Unset modfunc & module & redirect URL.
@@ -107,35 +114,42 @@ if ( $_REQUEST['modfunc'] === 'activate'
 	$update_RosarioModules = false;
 
 	//verify not already in $RosarioModules
-	if ( !in_array($_REQUEST['module'], array_keys($RosarioModules)))
+
+	if ( ! in_array( $_REQUEST['module'], array_keys( $RosarioModules ) ) )
 	{
 		//verify directory exists
-		if ( file_exists('modules/' . $_REQUEST['module'] . '/Menu.php' ) )
+
+		if ( file_exists( 'modules/' . $_REQUEST['module'] . '/Menu.php' ) )
 		{
 			//install module: execute install.sql script
-			if (file_exists('modules/'.$_REQUEST['module'].'/install.sql'))
+
+			if ( file_exists( 'modules/' . $_REQUEST['module'] . '/install.sql' ) )
 			{
-				$install_sql = file_get_contents('modules/'.$_REQUEST['module'].'/install.sql');
-				DBQuery($install_sql);
+				$install_sql = file_get_contents( 'modules/' . $_REQUEST['module'] . '/install.sql' );
+				DBQuery( $install_sql );
 			}
 
 			$update_RosarioModules = true;
 		}
 		else
-			$error[] = _('Incomplete or inexistant module.');
+		{
+			$error[] = _( 'Incomplete or inexistant module.' );
+		}
 	}
+
 	//verify in $RosarioModules
-	elseif ( $RosarioModules[$_REQUEST['module']] == false && is_dir('modules/'.$_REQUEST['module']))
+	elseif ( $RosarioModules[$_REQUEST['module']] == false && is_dir( 'modules/' . $_REQUEST['module'] ) )
 	{
 		$update_RosarioModules = true;
 	}
+
 	//no module dir
 	elseif ( ! file_exists( 'modules/' . $_REQUEST['module'] . '/Menu.php' ) )
 	{
-		$error[] = _('Incomplete or inexistant module.');
+		$error[] = _( 'Incomplete or inexistant module.' );
 	}
 
-	if ( $update_RosarioModules)
+	if ( $update_RosarioModules )
 	{
 		//update $RosarioModules
 		$RosarioModules[$_REQUEST['module']] = true;
@@ -151,66 +165,82 @@ if ( $_REQUEST['modfunc'] === 'activate'
 	RedirectURL( array( 'modfunc', 'module' ) );
 }
 
-
 if ( ! $_REQUEST['modfunc'] )
 {
-
 	echo ErrorMessage( $error );
 
-	$modules_RET = array('');
-	foreach ( (array) $RosarioModules as $module_title => $activated)
+	$modules_RET = array( '' );
+
+	foreach ( (array) $RosarioModules as $module_title => $activated )
 	{
 		$THIS_RET = array();
-		$THIS_RET['DELETE'] = _makeDelete($module_title,$activated);
-		$THIS_RET['TITLE'] = _makeReadMe($module_title,$activated);
-		$THIS_RET['ACTIVATED'] = _makeActivated($activated);
+		$THIS_RET['DELETE'] = _makeDelete( $module_title, $activated );
+		$THIS_RET['TITLE'] = _makeReadMe( $module_title, $activated );
+		$THIS_RET['ACTIVATED'] = _makeActivated( $activated );
 
 		$modules_RET[] = $THIS_RET;
 
-		$directories_bypass[] = 'modules/'.$module_title;
+		$directories_bypass[] = 'modules/' . $module_title;
 	}
 
 	// scan plugins/ folder for uninstalled plugins
-	$modules = array_diff(glob('modules/*', GLOB_ONLYDIR), $directories_bypass);
+	$modules = array_diff( glob( 'modules/*', GLOB_ONLYDIR ), $directories_bypass );
 
-	foreach ($modules as $module)
+	foreach ( $modules as $module )
 	{
-		$module_title = str_replace('modules/', '', $module);
+		$module_title = str_replace( 'modules/', '', $module );
 
 		$THIS_RET = array();
-		$THIS_RET['DELETE'] = _makeDelete($module_title);
-		$THIS_RET['TITLE'] = _makeReadMe($module_title);
-		$THIS_RET['ACTIVATED'] = _makeActivated(false);
+		$THIS_RET['DELETE'] = _makeDelete( $module_title );
+		$THIS_RET['TITLE'] = _makeReadMe( $module_title );
+		$THIS_RET['ACTIVATED'] = _makeActivated( false );
 
 		$modules_RET[] = $THIS_RET;
 	}
 
-	$columns = array('DELETE' => '','TITLE' => _('Title'),'ACTIVATED' => _('Activated'));
+	$columns = array( 'DELETE' => '', 'TITLE' => _( 'Title' ), 'ACTIVATED' => _( 'Activated' ) );
 
-	unset($modules_RET[0]);
+	unset( $modules_RET[0] );
 
-	ListOutput($modules_RET,$columns,'Module','Modules');
+	ListOutput( $modules_RET, $columns, 'Module', 'Modules' );
 }
 
-function _makeActivated($activated)
+/**
+ * @param $activated
+ * @return mixed
+ */
+function _makeActivated( $activated )
 {
-	if ( $activated)
-		$return = button('check');
-	else
-		$return = button('x');
-
-	if (isset($_REQUEST['LO_save']))
+	if ( $activated )
 	{
-		if ( $activated)
-			$return = _('Yes');
+		$return = button( 'check' );
+	}
+	else
+	{
+		$return = button( 'x' );
+	}
+
+	if ( isset( $_REQUEST['LO_save'] ) )
+	{
+		if ( $activated )
+		{
+			$return = _( 'Yes' );
+		}
 		else
-			$return = _('No');
+		{
+			$return = _( 'No' );
+		}
 	}
 
 	return $return;
 }
 
-function _makeDelete($module_title,$activated=null)
+/**
+ * @param $module_title
+ * @param $activated
+ * @return mixed
+ */
+function _makeDelete( $module_title, $activated = null )
 {
 	global $RosarioModules, $always_activated, $RosarioCoreModules;
 
@@ -223,9 +253,9 @@ function _makeDelete($module_title,$activated=null)
 
 	if ( $activated )
 	{
-		if ( !in_array($module_title, $always_activated))
+		if ( ! in_array( $module_title, $always_activated ) )
 		{
-			$return = button('remove',_('Deactivate'),'"Modules.php?modname='.$_REQUEST['modname'].'&tab=modules&modfunc=deactivate&module='.$module_title.'"');
+			$return = button( 'remove', _( 'Deactivate' ), '"Modules.php?modname=' . $_REQUEST['modname'] . '&tab=modules&modfunc=deactivate&module=' . $module_title . '"' );
 		}
 	}
 	else
@@ -239,6 +269,7 @@ function _makeDelete($module_title,$activated=null)
 			);
 
 			// If not core module & already installed, delete link.
+
 			if ( ! in_array( $module_title, $always_activated )
 				&& ! in_array( $module_title, $RosarioCoreModules )
 				&& in_array( $module_title, array_keys( $RosarioModules ) ) )
@@ -253,29 +284,40 @@ function _makeDelete($module_title,$activated=null)
 		else
 		{
 			$return = '<span style="color:red">' .
-				sprintf( _( '%s file missing or wrong permissions.' ), 'Menu.php' ) . '</span>';
+			sprintf( _( '%s file missing or wrong permissions.' ), 'Menu.php' ) . '</span>';
 		}
 	}
 
 	return $return;
 }
 
-function _makeReadMe($module_title,$activated=null)
+/**
+ * @param $module_title
+ * @param $activated
+ * @return mixed
+ */
+function _makeReadMe( $module_title, $activated = null )
 {
 	global $RosarioCoreModules;
 
 	//format & translate module title
-	if ( !in_array($module_title, $RosarioCoreModules) && $activated)
-		$module_title_echo = dgettext($module_title, str_replace('_', ' ', $module_title));
+
+	if ( ! in_array( $module_title, $RosarioCoreModules ) && $activated )
+	{
+		$module_title_echo = dgettext( $module_title, str_replace( '_', ' ', $module_title ) );
+	}
 	else
-		$module_title_echo = _(str_replace('_', ' ', $module_title));
+	{
+		$module_title_echo = _( str_replace( '_', ' ', $module_title ) );
+	}
 
 	$readme_path = 'modules/' . $module_title . '/README';
 
 	//if README.md file, display in Colorbox
-	if ( !isset( $_REQUEST['_ROSARIO_PDF'] )
+
+	if ( ! isset( $_REQUEST['_ROSARIO_PDF'] )
 		&& ( file_exists( $readme_path )
-			|| ( ( $readme_path = $readme_path . '.md' )
+			|| (  ( $readme_path = $readme_path . '.md' )
 				&& file_exists( $readme_path ) ) ) )
 	{
 		// Get README.md content.
@@ -291,7 +333,9 @@ function _makeReadMe($module_title,$activated=null)
 			$module_title_echo . '</a>';
 	}
 	else
+	{
 		$return = $module_title_echo;
+	}
 
 	return $return;
 }
@@ -300,9 +344,9 @@ function _saveRosarioModules()
 {
 	global $RosarioModules;
 
-	$MODULES = DBEscapeString(serialize($RosarioModules));
+	$MODULES = DBEscapeString( serialize( $RosarioModules ) );
 
-	DBQuery("UPDATE config SET config_value='".$MODULES."' WHERE title='MODULES'");
+	DBQuery( "UPDATE config SET config_value='" . $MODULES . "' WHERE title='MODULES'" );
 
 	return true;
 }
@@ -316,7 +360,6 @@ function _reloadMenu()
 	return true;
 }
 
-
 /**
  * Delete Tree
  * Recursively delete a directory and its files.
@@ -325,10 +368,9 @@ function _reloadMenu()
  * no files are deleted & `false` is returned.
  * Dry run is always performed first.
  *
- * @param  string $dir  Directory to delete.
- * @param  string $mode delete|dryrun Mode (optional). Defaults to 'delete'.
- *
- * @return boolean      true on success, else false.
+ * @param  string  $dir  Directory to delete.
+ * @param  string  $mode delete|dryrun Mode (optional). Defaults to 'delete'.
+ * @return boolean true on success, else false.
  */
 function _delTree( $dir, $mode = 'delete' )
 {

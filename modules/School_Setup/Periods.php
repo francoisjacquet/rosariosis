@@ -275,7 +275,7 @@ function _makeTimeInput( $value, $name )
 		false
 	) . '</td></tr></table>';
 
-	if ( $id != 'new'
+	if ( $id !== 'new'
     	&& $value )
 	{
 		return InputDivOnclick(

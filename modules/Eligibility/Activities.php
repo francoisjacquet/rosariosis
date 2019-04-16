@@ -11,7 +11,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 {
 	foreach ( (array) $_REQUEST['values'] as $id => $columns )
 	{
-		if ( $id != 'new' )
+		if ( $id !== 'new' )
 		{
 			$sql = "UPDATE ELIGIBILITY_ACTIVITIES SET ";
 

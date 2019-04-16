@@ -46,22 +46,19 @@ if ( ! empty( $failed_login ) )
 switch ( User( 'PROFILE' ) )
 {
 	case 'admin':
-
 		$welcome .= '<br />' . _( 'You are an <b>Administrator</b> on the system.' );
 
-	break;
+		break;
 
 	case 'teacher':
-
 		$welcome .= '<br />' . _( 'You are a <b>Teacher</b> on the system.' );
 
-	break;
+		break;
 
 	case 'parent':
-
 		$welcome .= '<br />' . _( 'You are a <b>Parent</b> on the system.' );
 
-	break;
+		break;
 
 	default:
 
@@ -71,6 +68,7 @@ switch ( User( 'PROFILE' ) )
 DrawHeader( $welcome );
 
 // Discipline alerts.
+
 if ( $RosarioModules['Discipline'] )
 {
 	require_once 'modules/Discipline/includes/PortalAlerts.fnc.php';
@@ -113,7 +111,7 @@ $missing_attendance_LO_columns = array(
 	'TITLE' => _( 'Period' ) . ' ' . _( 'Days' ) . ' - ' . _( 'Short Name' ) . ' - ' . _( 'Teacher' ),
 );
 
-if ( User( 'PROFILE') !== 'student'
+if ( User( 'PROFILE' ) !== 'student'
 	|| SchoolInfo( 'SCHOOLS_NB' ) > 1 )
 {
 	// More than 1 school, display School column.
@@ -146,12 +144,9 @@ if ( User( 'PROFILE' ) === 'student'
 	$assignments_LO_columns['SUBMITTED'] = _( 'Submitted' );
 }
 
-
 switch ( User( 'PROFILE' ) )
 {
 	case 'admin':
-
-
 		$PHPCheck = PHPCheck();
 
 		if ( ! empty( $PHPCheck ) )
@@ -161,8 +156,8 @@ switch ( User( 'PROFILE' ) )
 
 		require_once 'ProgramFunctions/PortalPollsNotes.fnc.php';
 //FJ file attached to portal notes
-//FJ fix bug Portal Notes not displayed when pn.START_DATE IS NULL
-//        $notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,'<b>'||pn.TITLE||'</b>' AS TITLE,pn.CONTENT FROM PORTAL_NOTES pn,SCHOOLS s,STAFF st WHERE pn.SYEAR='" . UserSyear() . "' AND pn.START_DATE<=CURRENT_DATE AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND st.STAFF_ID='" . User( 'STAFF_ID' ) . "' AND (st.SCHOOLS IS NULL OR position(','||pn.SCHOOL_ID||',' IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',admin,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(','||st.PROFILE_ID||',' IN pn.PUBLISHED_PROFILES)>0) AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC",array('PUBLISHED_DATE' => 'ProperDate','CONTENT' => '_formatContent'));
+		//FJ fix bug Portal Notes not displayed when pn.START_DATE IS NULL
+		//        $notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,'<b>'||pn.TITLE||'</b>' AS TITLE,pn.CONTENT FROM PORTAL_NOTES pn,SCHOOLS s,STAFF st WHERE pn.SYEAR='" . UserSyear() . "' AND pn.START_DATE<=CURRENT_DATE AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND st.STAFF_ID='" . User( 'STAFF_ID' ) . "' AND (st.SCHOOLS IS NULL OR position(','||pn.SCHOOL_ID||',' IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',admin,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(','||st.PROFILE_ID||',' IN pn.PUBLISHED_PROFILES)>0) AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC",array('PUBLISHED_DATE' => 'ProperDate','CONTENT' => '_formatContent'));
 		$notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,'<b>'||pn.TITLE||'</b>' AS TITLE,pn.CONTENT,pn.FILE_ATTACHED,pn.ID
 		FROM PORTAL_NOTES pn,SCHOOLS s,STAFF st
 		WHERE pn.SYEAR='" . UserSyear() . "'
@@ -174,11 +169,11 @@ switch ( User( 'PROFILE' ) )
 		AND s.ID=pn.SCHOOL_ID
 		AND s.SYEAR=pn.SYEAR
 		ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC",
-		array(
-			'PUBLISHED_DATE' => 'ProperDate',
-			'CONTENT' => 'makeTextarea',
-			'FILE_ATTACHED' => 'makeFileAttached',
-		) );
+			array(
+				'PUBLISHED_DATE' => 'ProperDate',
+				'CONTENT' => 'makeTextarea',
+				'FILE_ATTACHED' => 'makeFileAttached',
+			) );
 
 		if ( $notes_RET )
 		{
@@ -203,7 +198,7 @@ switch ( User( 'PROFILE' ) )
 		AND (st.SCHOOLS IS NULL OR position(','||pp.SCHOOL_ID||',' IN st.SCHOOLS)>0)
 		AND (st.PROFILE_ID IS NULL AND position(',admin,' IN pp.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(','||st.PROFILE_ID||',' IN pp.PUBLISHED_PROFILES)>0)
 		AND s.ID=pp.SCHOOL_ID AND s.SYEAR=pp.SYEAR
-		ORDER BY pp.SORT_ORDER,pp.PUBLISHED_DATE DESC",array('PUBLISHED_DATE' => 'ProperDate','OPTIONS' => 'PortalPollsDisplay'));
+		ORDER BY pp.SORT_ORDER,pp.PUBLISHED_DATE DESC", array( 'PUBLISHED_DATE' => 'ProperDate', 'OPTIONS' => 'PortalPollsDisplay' ) );
 
 		if ( $polls_RET )
 		{
@@ -230,7 +225,7 @@ switch ( User( 'PROFILE' ) )
 		ORDER BY ce.SCHOOL_DATE,s.TITLE", array(
 			'SCHOOL_DATE' => 'ProperDate',
 			'DAY' => '_eventDay',
-			'DESCRIPTION' => 'makeTextarea'
+			'DESCRIPTION' => 'makeTextarea',
 		) );
 
 		if ( $events_RET )
@@ -248,23 +243,24 @@ switch ( User( 'PROFILE' ) )
 
 		//RSSOutput(USER('PROFILE'));
 
-		if (Preferences('HIDE_ALERTS')!='Y')
+		if ( Preferences( 'HIDE_ALERTS' ) != 'Y' )
 		{
-		// warn if missing attendances
-		$categories_RET = DBGet( "SELECT '0' AS ID,'Attendance' AS TITLE,0,NULL AS SORT_ORDER UNION
+			// warn if missing attendances
+			$categories_RET = DBGet( "SELECT '0' AS ID,'Attendance' AS TITLE,0,NULL AS SORT_ORDER UNION
 			SELECT ID,TITLE,1,SORT_ORDER
 			FROM ATTENDANCE_CODE_CATEGORIES
 			WHERE SYEAR='" . UserSyear() . "'
-			AND SCHOOL_ID='".UserSchool()."'
+			AND SCHOOL_ID='" . UserSchool() . "'
 			ORDER BY 3,SORT_ORDER" );
 
-		foreach ( (array) $categories_RET as $category )
-		{
-			// FJ days numbered.
-			// FJ multiple school periods for a course period.
-			if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
+			foreach ( (array) $categories_RET as $category )
 			{
-				$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,
+				// FJ days numbered.
+				// FJ multiple school periods for a course period.
+
+				if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
+				{
+					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,
 					s.TITLE AS SCHOOL,acc.SCHOOL_DATE,cp.TITLE,
 					'" . $category['ID'] . "' AS CATEGORY_ID,
 					cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID
@@ -298,8 +294,10 @@ switch ( User( 'PROFILE' ) )
 				AND s.ID=acc.SCHOOL_ID
 				AND s.SYEAR=acc.SYEAR
 				ORDER BY cp.TITLE,acc.SCHOOL_DATE", array( 'SCHOOL_DATE' => '_makeTakeAttendanceLink' ), array( 'COURSE_PERIOD_ID' ) );
-			} else {
-				$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,
+				}
+				else
+				{
+					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,
 					s.TITLE AS SCHOOL,acc.SCHOOL_DATE,cp.TITLE,
 					'" . $category['ID'] . "' AS CATEGORY_ID,
 					cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID
@@ -327,23 +325,23 @@ switch ( User( 'PROFILE' ) )
 				AND s.ID=acc.SCHOOL_ID
 				AND s.SYEAR=acc.SYEAR
 				ORDER BY cp.TITLE,acc.SCHOOL_DATE", array( 'SCHOOL_DATE' => '_makeTakeAttendanceLink' ), array( 'COURSE_PERIOD_ID' ) );
-			}
+				}
 
-			if ( $missing_attendance_RET )
-			{
-				echo ErrorMessage( array( _( 'Teachers have missing attendance data' ) ), 'warning' );
+				if ( $missing_attendance_RET )
+				{
+					echo ErrorMessage( array( _( 'Teachers have missing attendance data' ) ), 'warning' );
 
-				ListOutput(
-					$missing_attendance_RET,
-					$missing_attendance_LO_columns,
-					'Course Period with missing attendance data',
-					'Course Periods with missing attendance data',
-					array(),
-					array( 'COURSE_PERIOD_ID' ),
-					$portal_LO_options
-				);
+					ListOutput(
+						$missing_attendance_RET,
+						$missing_attendance_LO_columns,
+						'Course Period with missing attendance data',
+						'Course Periods with missing attendance data',
+						array(),
+						array( 'COURSE_PERIOD_ID' ),
+						$portal_LO_options
+					);
+				}
 			}
-		}
 		}
 
 		if ( $RosarioModules['Food_Service']
@@ -387,7 +385,7 @@ switch ( User( 'PROFILE' ) )
 
 			if ( $RET )
 			{
-				echo ErrorMessage(array(sprintf(_('Some students have food service balances below %1.2f' ),$FS_config['FOOD_SERVICE_BALANCE_MINIMUM'][1]['VALUE'])), 'warning');
+				echo ErrorMessage( array( sprintf( _( 'Some students have food service balances below %1.2f' ), $FS_config['FOOD_SERVICE_BALANCE_MINIMUM'][1]['VALUE'] ) ), 'warning' );
 
 				ListOutput(
 					$RET,
@@ -405,14 +403,13 @@ switch ( User( 'PROFILE' ) )
 			}
 		}
 
-		echo '<p>&nbsp;'._('Happy administrating...').'</p>';
-	break;
+		echo '<p>&nbsp;' . _( 'Happy administrating...' ) . '</p>';
+		break;
 
 	case 'teacher':
-
 		require_once 'ProgramFunctions/PortalPollsNotes.fnc.php';
 //FJ fix bug Portal Notes not displayed when pn.START_DATE IS NULL
-//        $notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,'<b>'||pn.TITLE||'</b>' AS TITLE,pn.CONTENT FROM PORTAL_NOTES pn,SCHOOLS s,STAFF st WHERE pn.SYEAR='" . UserSyear() . "' AND pn.START_DATE<=CURRENT_DATE AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND st.STAFF_ID='" . User( 'STAFF_ID' ) . "' AND (st.SCHOOLS IS NULL OR position(','||pn.SCHOOL_ID||',' IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',teacher,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(','||st.PROFILE_ID||',' IN pn.PUBLISHED_PROFILES)>0) AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC",array('PUBLISHED_DATE' => 'ProperDate','CONTENT' => '_formatContent'));
+		//        $notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,'<b>'||pn.TITLE||'</b>' AS TITLE,pn.CONTENT FROM PORTAL_NOTES pn,SCHOOLS s,STAFF st WHERE pn.SYEAR='" . UserSyear() . "' AND pn.START_DATE<=CURRENT_DATE AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND st.STAFF_ID='" . User( 'STAFF_ID' ) . "' AND (st.SCHOOLS IS NULL OR position(','||pn.SCHOOL_ID||',' IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',teacher,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(','||st.PROFILE_ID||',' IN pn.PUBLISHED_PROFILES)>0) AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC",array('PUBLISHED_DATE' => 'ProperDate','CONTENT' => '_formatContent'));
 		$notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,'<b>'||pn.TITLE||'</b>' AS TITLE,pn.CONTENT,pn.FILE_ATTACHED,pn.ID
 		FROM PORTAL_NOTES pn,SCHOOLS s,STAFF st
 		WHERE pn.SYEAR='" . UserSyear() . "'
@@ -424,7 +421,7 @@ switch ( User( 'PROFILE' ) )
 		AND position(','||st.PROFILE_ID||',' IN pn.PUBLISHED_PROFILES)>0)
 		AND s.ID=pn.SCHOOL_ID
 		AND s.SYEAR=pn.SYEAR
-		ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC",array('PUBLISHED_DATE' => 'ProperDate','CONTENT' => 'makeTextarea','FILE_ATTACHED' => 'makeFileAttached'));
+		ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC", array( 'PUBLISHED_DATE' => 'ProperDate', 'CONTENT' => 'makeTextarea', 'FILE_ATTACHED' => 'makeFileAttached' ) );
 
 		if ( $notes_RET )
 		{
@@ -451,7 +448,7 @@ switch ( User( 'PROFILE' ) )
 		AND position(','||st.PROFILE_ID||',' IN pp.PUBLISHED_PROFILES)>0)
 		AND s.ID=pp.SCHOOL_ID
 		AND s.SYEAR=pp.SYEAR
-		ORDER BY pp.SORT_ORDER,pp.PUBLISHED_DATE DESC",array('PUBLISHED_DATE' => 'ProperDate','OPTIONS' => 'PortalPollsDisplay'));
+		ORDER BY pp.SORT_ORDER,pp.PUBLISHED_DATE DESC", array( 'PUBLISHED_DATE' => 'ProperDate', 'OPTIONS' => 'PortalPollsDisplay' ) );
 
 		if ( $polls_RET )
 		{
@@ -477,7 +474,7 @@ switch ( User( 'PROFILE' ) )
 		ORDER BY ce.SCHOOL_DATE,s.TITLE", array(
 			'SCHOOL_DATE' => 'ProperDate',
 			'DAY' => '_eventDay',
-			'DESCRIPTION' => 'makeTextarea'
+			'DESCRIPTION' => 'makeTextarea',
 		) );
 
 		if ( $events_RET )
@@ -506,12 +503,12 @@ switch ( User( 'PROFILE' ) )
 		AND (a.ASSIGNED_DATE<=CURRENT_DATE OR a.ASSIGNED_DATE IS NULL)
 		AND a.DUE_DATE>=CURRENT_DATE
 		ORDER BY a.DUE_DATE,a.TITLE",
-		array(
-			'DUE_DATE' => 'ProperDate',
-			/*'DAY' => '_eventDay',*/
-			'ASSIGNED_DATE' => 'ProperDate',
-			'ASSIGNMENT_TITLE' => 'MakeAssignmentTitle',
-		) );
+			array(
+				'DUE_DATE' => 'ProperDate',
+				/*'DAY' => '_eventDay',*/
+				'ASSIGNED_DATE' => 'ProperDate',
+				'ASSIGNMENT_TITLE' => 'MakeAssignmentTitle',
+			) );
 
 		if ( $assignments_RET )
 		{
@@ -528,19 +525,21 @@ switch ( User( 'PROFILE' ) )
 
 		//RSSOutput(USER('PROFILE'));
 
-		if (Preferences('HIDE_ALERTS')!='Y')
+		if ( Preferences( 'HIDE_ALERTS' ) != 'Y' )
 		{
 			// warn if missing attendances
 			$categories_RET = DBGet( "SELECT '0' AS ID,'Attendance' AS TITLE,0,NULL AS SORT_ORDER UNION
 				SELECT ID,TITLE,1,SORT_ORDER
 				FROM ATTENDANCE_CODE_CATEGORIES
 				WHERE SYEAR='" . UserSyear() . "'
-				AND SCHOOL_ID='".UserSchool()."'
+				AND SCHOOL_ID='" . UserSchool() . "'
 				ORDER BY 3,SORT_ORDER" );
-			foreach ( (array) $categories_RET as $category)
+
+			foreach ( (array) $categories_RET as $category )
 			{
 				// FJ days numbered.
 				// FJ multiple school periods for a course period.
+
 				if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 				{
 					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,
@@ -574,7 +573,9 @@ switch ( User( 'PROFILE' ) )
 					AND NOT exists(SELECT '' FROM ATTENDANCE_COMPLETED ac WHERE ac.SCHOOL_DATE=acc.SCHOOL_DATE AND ac.STAFF_ID=cp.TEACHER_ID AND ac.PERIOD_ID=cpsp.PERIOD_ID AND TABLE_NAME='" . $category['ID'] . "')
 					AND position('," . $category['ID'] . ",' IN cp.DOES_ATTENDANCE)>0
 					ORDER BY cp.TITLE,acc.SCHOOL_DATE", array( 'SCHOOL_DATE' => '_makeTakeAttendanceLink' ), array( 'COURSE_PERIOD_ID' ) );
-				} else {
+				}
+				else
+				{
 					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,
 						acc.SCHOOL_DATE,cp.TITLE,
 						'" . $category['ID'] . "' AS CATEGORY_ID,
@@ -618,7 +619,7 @@ switch ( User( 'PROFILE' ) )
 			}
 		}
 
-		if ( $RosarioModules['Food_Service'] && Preferences('HIDE_ALERTS')!='Y')
+		if ( $RosarioModules['Food_Service'] && Preferences( 'HIDE_ALERTS' ) != 'Y' )
 		{
 			// warn if negative food service balance
 			$staff = DBGet( "SELECT (SELECT STATUS FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS STATUS,
@@ -627,18 +628,19 @@ switch ( User( 'PROFILE' ) )
 				WHERE s.STAFF_ID='" . User( 'STAFF_ID' ) . "'" );
 			$staff = $staff[1];
 
-			if ( $staff['BALANCE'] && $staff['BALANCE']<0)
-				echo ErrorMessage(array(sprintf(_('You have a <b>negative</b> food service balance of <span style="color:red">%s</span>' ),$staff['BALANCE'])), 'warning');
+			if ( $staff['BALANCE'] && $staff['BALANCE'] < 0 )
+			{
+				echo ErrorMessage( array( sprintf( _( 'You have a <b>negative</b> food service balance of <span style="color:red">%s</span>' ), $staff['BALANCE'] ) ), 'warning' );
+			}
 		}
 
-		echo '<p>&nbsp;'._('Happy teaching...').'</p>';
-	break;
+		echo '<p>&nbsp;' . _( 'Happy teaching...' ) . '</p>';
+		break;
 
 	case 'parent':
-
 		require_once 'ProgramFunctions/PortalPollsNotes.fnc.php';
 //FJ fix bug Portal Notes not displayed when pn.START_DATE IS NULL
-//        $notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,pn.TITLE,pn.CONTENT FROM PORTAL_NOTES pn,SCHOOLS s,STAFF st WHERE pn.SYEAR='" . UserSyear() . "' AND pn.START_DATE<=CURRENT_DATE AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND st.STAFF_ID='" . User( 'STAFF_ID' ) . "' AND pn.SCHOOL_ID IN (SELECT DISTINCT SCHOOL_ID FROM STUDENTS_JOIN_USERS sju, STUDENT_ENROLLMENT se WHERE sju.STAFF_ID='" . User( 'STAFF_ID' ) . "' AND se.SYEAR=pn.SYEAR AND se.STUDENT_ID=sju.STUDENT_ID AND se.START_DATE<=CURRENT_DATE AND (se.END_DATE>=CURRENT_DATE OR se.END_DATE IS NULL)) AND (st.SCHOOLS IS NULL OR position(','||pn.SCHOOL_ID||',' IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',parent,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(','||st.PROFILE_ID||',' IN pn.PUBLISHED_PROFILES)>0) AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC",array('PUBLISHED_DATE' => 'ProperDate','CONTENT' => '_formatContent'));
+		//        $notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,pn.TITLE,pn.CONTENT FROM PORTAL_NOTES pn,SCHOOLS s,STAFF st WHERE pn.SYEAR='" . UserSyear() . "' AND pn.START_DATE<=CURRENT_DATE AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND st.STAFF_ID='" . User( 'STAFF_ID' ) . "' AND pn.SCHOOL_ID IN (SELECT DISTINCT SCHOOL_ID FROM STUDENTS_JOIN_USERS sju, STUDENT_ENROLLMENT se WHERE sju.STAFF_ID='" . User( 'STAFF_ID' ) . "' AND se.SYEAR=pn.SYEAR AND se.STUDENT_ID=sju.STUDENT_ID AND se.START_DATE<=CURRENT_DATE AND (se.END_DATE>=CURRENT_DATE OR se.END_DATE IS NULL)) AND (st.SCHOOLS IS NULL OR position(','||pn.SCHOOL_ID||',' IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',parent,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(','||st.PROFILE_ID||',' IN pn.PUBLISHED_PROFILES)>0) AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC",array('PUBLISHED_DATE' => 'ProperDate','CONTENT' => '_formatContent'));
 		$notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,pn.TITLE,pn.CONTENT,pn.FILE_ATTACHED,pn.ID
 		FROM PORTAL_NOTES pn,SCHOOLS s,STAFF st
 		WHERE pn.SYEAR='" . UserSyear() . "'
@@ -650,7 +652,7 @@ switch ( User( 'PROFILE' ) )
 		AND (st.PROFILE_ID IS NULL AND position(',parent,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(','||st.PROFILE_ID||',' IN pn.PUBLISHED_PROFILES)>0)
 		AND s.ID=pn.SCHOOL_ID
 		AND s.SYEAR=pn.SYEAR
-		ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC",array('PUBLISHED_DATE' => 'ProperDate','CONTENT' => 'makeTextarea','FILE_ATTACHED' => 'makeFileAttached'));
+		ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC", array( 'PUBLISHED_DATE' => 'ProperDate', 'CONTENT' => 'makeTextarea', 'FILE_ATTACHED' => 'makeFileAttached' ) );
 
 		if ( $notes_RET )
 		{
@@ -677,7 +679,7 @@ switch ( User( 'PROFILE' ) )
 		AND position(','||st.PROFILE_ID||',' IN pp.PUBLISHED_PROFILES)>0)
 		AND s.ID=pp.SCHOOL_ID
 		AND s.SYEAR=pp.SYEAR
-		ORDER BY pp.SORT_ORDER,pp.PUBLISHED_DATE DESC",array('PUBLISHED_DATE' => 'ProperDate','OPTIONS' => 'PortalPollsDisplay'));
+		ORDER BY pp.SORT_ORDER,pp.PUBLISHED_DATE DESC", array( 'PUBLISHED_DATE' => 'ProperDate', 'OPTIONS' => 'PortalPollsDisplay' ) );
 
 		if ( $polls_RET )
 		{
@@ -702,7 +704,7 @@ switch ( User( 'PROFILE' ) )
 		ORDER BY ce.SCHOOL_DATE,s.TITLE", array(
 			'SCHOOL_DATE' => 'ProperDate',
 			'DAY' => '_eventDay',
-			'DESCRIPTION' => 'makeTextarea'
+			'DESCRIPTION' => 'makeTextarea',
 		) );
 
 		if ( $events_RET )
@@ -719,6 +721,7 @@ switch ( User( 'PROFILE' ) )
 		}
 
 		// FJ Portal Assignments.
+
 		if ( AllowUse( 'Grades/StudentAssignments.php' ) )
 		{
 			require_once 'modules/Grades/includes/StudentAssignments.fnc.php';
@@ -740,14 +743,14 @@ switch ( User( 'PROFILE' ) )
 			AND (a.ASSIGNED_DATE<=CURRENT_DATE OR a.ASSIGNED_DATE IS NULL)
 			AND a.DUE_DATE>=CURRENT_DATE
 			ORDER BY a.DUE_DATE,a.TITLE",
-			array(
-				'DUE_DATE' => 'MakeAssignmentDueDate',
-				/*'DAY' => '_eventDay',*/
-				/*'DESCRIPTION' => 'makeTextarea',*/
-				'STAFF_ID' => 'GetTeacher',
-				'SUBMITTED' => 'MakeAssignmentSubmitted',
-				'ASSIGNMENT_TITLE' => 'MakeAssignmentTitle',
-			) );
+				array(
+					'DUE_DATE' => 'MakeAssignmentDueDate',
+					/*'DAY' => '_eventDay',*/
+					/*'DESCRIPTION' => 'makeTextarea',*/
+					'STAFF_ID' => 'GetTeacher',
+					'SUBMITTED' => 'MakeAssignmentSubmitted',
+					'ASSIGNMENT_TITLE' => 'MakeAssignmentTitle',
+				) );
 
 			if ( $assignments_RET )
 			{
@@ -813,28 +816,29 @@ switch ( User( 'PROFILE' ) )
 				WHERE s.STAFF_ID='" . User( 'STAFF_ID' ) . "'" );
 			$staff = $staff[1];
 
-			if ( $staff['BALANCE'] && $staff['BALANCE']<0)
-				echo ErrorMessage(array(sprintf(_('You have a <b>negative</b> food service balance of <span style="color:red">%s</span>' ),Currency($staff['BALANCE']))), 'warning');
+			if ( $staff['BALANCE'] && $staff['BALANCE'] < 0 )
+			{
+				echo ErrorMessage( array( sprintf( _( 'You have a <b>negative</b> food service balance of <span style="color:red">%s</span>' ), Currency( $staff['BALANCE'] ) ) ), 'warning' );
+			}
 		}
 
-		echo '<p>&nbsp;'._('Happy parenting...').'</p>';
-	break;
+		echo '<p>&nbsp;' . _( 'Happy parenting...' ) . '</p>';
+		break;
 
 	case 'student':
-
 		require_once 'ProgramFunctions/PortalPollsNotes.fnc.php';
 //FJ fix bug Portal Notes not displayed when pn.START_DATE IS NULL
-//        $notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,pn.TITLE,pn.CONTENT FROM PORTAL_NOTES pn,SCHOOLS s WHERE pn.SYEAR='" . UserSyear() . "' AND pn.START_DATE<=CURRENT_DATE AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND pn.SCHOOL_ID='".UserSchool()."' AND  position(',0,' IN pn.PUBLISHED_PROFILES)>0 AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC",array('PUBLISHED_DATE' => 'ProperDate','CONTENT' => '_formatContent'));
+		//        $notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,pn.TITLE,pn.CONTENT FROM PORTAL_NOTES pn,SCHOOLS s WHERE pn.SYEAR='" . UserSyear() . "' AND pn.START_DATE<=CURRENT_DATE AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND pn.SCHOOL_ID='".UserSchool()."' AND  position(',0,' IN pn.PUBLISHED_PROFILES)>0 AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC",array('PUBLISHED_DATE' => 'ProperDate','CONTENT' => '_formatContent'));
 		$notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,pn.TITLE,pn.CONTENT,pn.FILE_ATTACHED,pn.ID
 		FROM PORTAL_NOTES pn,SCHOOLS s
 		WHERE pn.SYEAR='" . UserSyear() . "'
 		AND (pn.START_DATE<=CURRENT_DATE OR pn.START_DATE IS NULL)
 		AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL)
-		AND pn.SCHOOL_ID='".UserSchool()."'
+		AND pn.SCHOOL_ID='" . UserSchool() . "'
 		AND position(',0,' IN pn.PUBLISHED_PROFILES)>0
 		AND s.ID=pn.SCHOOL_ID
 		AND s.SYEAR=pn.SYEAR
-		ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC",array('PUBLISHED_DATE' => 'ProperDate','CONTENT' => 'makeTextarea','FILE_ATTACHED' => 'makeFileAttached'));
+		ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC", array( 'PUBLISHED_DATE' => 'ProperDate', 'CONTENT' => 'makeTextarea', 'FILE_ATTACHED' => 'makeFileAttached' ) );
 
 		if ( $notes_RET )
 		{
@@ -856,12 +860,12 @@ switch ( User( 'PROFILE' ) )
 		WHERE pp.SYEAR='" . UserSyear() . "'
 		AND (pp.START_DATE<=CURRENT_DATE OR pp.START_DATE IS NULL)
 		AND (pp.END_DATE>=CURRENT_DATE OR pp.END_DATE IS NULL)
-		AND pp.SCHOOL_ID='".UserSchool()."'
+		AND pp.SCHOOL_ID='" . UserSchool() . "'
 		AND position(',0,' IN pp.PUBLISHED_PROFILES)>0
 		AND s.ID=pp.SCHOOL_ID
 		AND s.SYEAR=pp.SYEAR
-		AND (pp.STUDENTS_TEACHER_ID IS NULL OR pp.STUDENTS_TEACHER_ID IN (SELECT cp.TEACHER_ID FROM SCHEDULE sch, COURSE_PERIODS cp WHERE sch.SYEAR='" . UserSyear() . "' AND sch.SCHOOL_ID='".UserSchool()."' AND sch.STUDENT_ID='".UserStudentID()."' AND sch.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID))
-		ORDER BY pp.SORT_ORDER,pp.PUBLISHED_DATE DESC",array('PUBLISHED_DATE' => 'ProperDate','OPTIONS' => 'PortalPollsDisplay'));
+		AND (pp.STUDENTS_TEACHER_ID IS NULL OR pp.STUDENTS_TEACHER_ID IN (SELECT cp.TEACHER_ID FROM SCHEDULE sch, COURSE_PERIODS cp WHERE sch.SYEAR='" . UserSyear() . "' AND sch.SCHOOL_ID='" . UserSchool() . "' AND sch.STUDENT_ID='" . UserStudentID() . "' AND sch.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID))
+		ORDER BY pp.SORT_ORDER,pp.PUBLISHED_DATE DESC", array( 'PUBLISHED_DATE' => 'ProperDate', 'OPTIONS' => 'PortalPollsDisplay' ) );
 
 		if ( $polls_RET )
 		{
@@ -883,7 +887,7 @@ switch ( User( 'PROFILE' ) )
 		AND SCHOOL_ID='" . UserSchool() . "'", array(
 			'SCHOOL_DATE' => 'ProperDate',
 			'DAY' => '_eventDay',
-			'DESCRIPTION' => 'makeTextarea'
+			'DESCRIPTION' => 'makeTextarea',
 		) );
 
 		if ( $events_RET )
@@ -900,6 +904,7 @@ switch ( User( 'PROFILE' ) )
 		}
 
 		// FJ Portal Assignments.
+
 		if ( AllowUse( 'Grades/StudentAssignments.php' ) )
 		{
 			require_once 'modules/Grades/includes/StudentAssignments.fnc.php';
@@ -921,14 +926,14 @@ switch ( User( 'PROFILE' ) )
 			AND (a.ASSIGNED_DATE<=CURRENT_DATE OR a.ASSIGNED_DATE IS NULL)
 			AND a.DUE_DATE>=CURRENT_DATE
 			ORDER BY a.DUE_DATE,a.TITLE",
-			array(
-				'DUE_DATE' => 'MakeAssignmentDueDate',
-				/*'DAY' => '_eventDay',*/
-				/*'DESCRIPTION' => 'makeTextarea',*/
-				'STAFF_ID' => 'GetTeacher',
-				'SUBMITTED' => 'MakeAssignmentSubmitted',
-				'ASSIGNMENT_TITLE' => 'MakeAssignmentTitle',
-			) );
+				array(
+					'DUE_DATE' => 'MakeAssignmentDueDate',
+					/*'DAY' => '_eventDay',*/
+					/*'DESCRIPTION' => 'makeTextarea',*/
+					'STAFF_ID' => 'GetTeacher',
+					'SUBMITTED' => 'MakeAssignmentSubmitted',
+					'ASSIGNMENT_TITLE' => 'MakeAssignmentTitle',
+				) );
 
 			if ( $assignments_RET )
 			{
@@ -946,31 +951,45 @@ switch ( User( 'PROFILE' ) )
 
 		//RSSOutput(USER('PROFILE'));
 
-		echo '<p>&nbsp;'._('Happy learning...').'</p>';
-	break;
+		echo '<p>&nbsp;' . _( 'Happy learning...' ) . '</p>';
+		break;
 }
 
-
-function PHPCheck() {
+/**
+ * @return mixed
+ */
+function PHPCheck()
+{
 	$ret = array();
 
 	//FJ check PHP version
-	if (version_compare(PHP_VERSION, '5.3.2') == -1)
+
+	if ( version_compare( PHP_VERSION, '5.3.2' ) == -1 )
+	{
 		$ret[] = 'RosarioSIS requires PHP 5.3.2 to run, your version is : ' . PHP_VERSION;
+	}
 
-	if ((bool)ini_get('safe_mode'))
+	if ( (bool) ini_get( 'safe_mode' ) )
+	{
 		$ret[] = 'safe_mode is set to On in your PHP configuration.';
+	}
 
-	if (mb_strpos(ini_get('disable_functions' ),'passthru')!==false)
+	if ( mb_strpos( ini_get( 'disable_functions' ), 'passthru' ) !== false )
+	{
 		$ret[] = 'passthru is disabled in your PHP configuration.';
+	}
 
 	return $ret;
 }
 
-function _eventDay( $string, $key ) {
+/**
+ * @param $string
+ * @param $key
+ */
+function _eventDay( $string, $key )
+{
 	return _( trim( $string ) );
 }
-
 
 /**
  * Make Take Attendance link
@@ -981,7 +1000,6 @@ function _eventDay( $string, $key ) {
  *
  * @param  string $value  School date.
  * @param  string $column 'SCHOOL_DATE'.
- *
  * @return string Proper school date + take attendance link.
  */
 function _makeTakeAttendanceLink( $value, $column )
@@ -1036,15 +1054,13 @@ function _makeTakeAttendanceLink( $value, $column )
 	return '<a href="' . $take_attendance_redirect_url . '">' . $proper_date . '</a>';
 }
 
-
 /**
  * Redirect to Take Attendance program.
  * Redirect from Portal,
  * in case current School, SYear, MP, CP or Period are wrong.
  *
- * @since 3.6
- *
  * @see _makeTakeAttendanceLink
+ * @since 3.6
  *
  * @return bool False if hack or wrong parameters, else 302 redirection.
  */

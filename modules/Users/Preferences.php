@@ -18,7 +18,7 @@ if ( ! empty( $_REQUEST['values'] )
 		{
 			//FJ enable password change for students
 
-			if ( User( 'PROFILE' ) == 'student' )
+			if ( User( 'PROFILE' ) === 'student' )
 			{
 				$password = DBGetOne( "SELECT PASSWORD
 					FROM STUDENTS
@@ -38,7 +38,7 @@ if ( ! empty( $_REQUEST['values'] )
 			}
 			else
 			{
-				if ( User( 'PROFILE' ) == 'student' )
+				if ( User( 'PROFILE' ) === 'student' )
 				{
 					DBQuery( "UPDATE STUDENTS
 						SET PASSWORD='" . encrypt_password( $new_password ) . "'
@@ -66,12 +66,12 @@ if ( ! empty( $_REQUEST['values'] )
 			$_REQUEST['values']['Preferences']['SEARCH'] = 'N';
 		}
 
-		if ( $_REQUEST['tab'] == 'student_listing' && User( 'PROFILE' ) == 'admin' && $_REQUEST['values']['Preferences']['DEFAULT_FAMILIES'] != 'Y' )
+		if ( $_REQUEST['tab'] == 'student_listing' && User( 'PROFILE' ) === 'admin' && $_REQUEST['values']['Preferences']['DEFAULT_FAMILIES'] != 'Y' )
 		{
 			$_REQUEST['values']['Preferences']['DEFAULT_FAMILIES'] = 'N';
 		}
 
-		if ( $_REQUEST['tab'] == 'student_listing' && User( 'PROFILE' ) == 'admin' && $_REQUEST['values']['Preferences']['DEFAULT_ALL_SCHOOLS'] != 'Y' )
+		if ( $_REQUEST['tab'] == 'student_listing' && User( 'PROFILE' ) === 'admin' && $_REQUEST['values']['Preferences']['DEFAULT_ALL_SCHOOLS'] != 'Y' )
 		{
 			$_REQUEST['values']['Preferences']['DEFAULT_ALL_SCHOOLS'] = 'N';
 		}
@@ -664,7 +664,7 @@ if ( ! $_REQUEST['modfunc'] )
 			$widgets += array( 'calendar' => _( 'Calendar' ), 'next_year' => _( 'Next School Year' ) );
 		}
 
-		if ( $RosarioModules['Scheduling'] && User( 'PROFILE' ) == 'admin' )
+		if ( $RosarioModules['Scheduling'] && User( 'PROFILE' ) === 'admin' )
 		{
 			$widgets = array( 'course' => _( 'Course' ), 'request' => _( 'Request' ) );
 		}

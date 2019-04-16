@@ -124,7 +124,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	if ( User( 'PROFILE' ) == 'admin' )
+	if ( User( 'PROFILE' ) === 'admin' )
 	{
 		$subjects_RET = DBGet( "SELECT SUBJECT_ID,TITLE
 			FROM COURSE_SUBJECTS
@@ -238,7 +238,7 @@ if ( ! $_REQUEST['modfunc'] )
 	SELECT -1,'" . _( 'General' ) . "',NULL,3,NULL,(SELECT count(1) FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='" . UserSchool() . "' AND COURSE_ID IS NULL AND SYEAR='" . UserSyear() . "')
 	ORDER BY 4,SORT_ORDER", array(), array( 'ID' ) );
 
-	if ( $_REQUEST['tab_id'] == '' || $_REQUEST['tab_id'] != 'new' && ! $categories_RET[$_REQUEST['tab_id']] )
+	if ( $_REQUEST['tab_id'] == '' || $_REQUEST['tab_id'] !== 'new' && ! $categories_RET[$_REQUEST['tab_id']] )
 	//$_REQUEST['tab_id'] = key($categories_RET).'';
 	{
 		$_REQUEST['tab_id'] = '-1';
@@ -328,7 +328,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$link['remove']['variables'] = array( 'id' => 'ID' );
 		$link['add']['html']['remove'] = button( 'add' );
 
-		if ( User( 'PROFILE' ) == 'admin' )
+		if ( User( 'PROFILE' ) === 'admin' )
 		{
 			$tabs[] = array(
 				'title' => button( 'add', '', '', 'smaller' ),
@@ -380,7 +380,7 @@ if ( ! $_REQUEST['modfunc'] )
 			WHERE CATEGORY_ID='" . $_REQUEST['tab_id'] . "'
 			ORDER BY SORT_ORDER,TITLE";
 
-			if ( User( 'PROFILE' ) == 'admin' && AllowEdit() )
+			if ( User( 'PROFILE' ) === 'admin' && AllowEdit() )
 			{
 				$functions += array( 'CATEGORY_ID' => '_makeCommentsInput' );
 				$LO_columns += array( 'CATEGORY_ID' => _( 'Category' ) );
@@ -400,7 +400,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$link['remove']['variables'] = array( 'id' => 'ID' );
 		$link['add']['html']['remove'] = button( 'add' );
 
-		if ( User( 'PROFILE' ) == 'admin' )
+		if ( User( 'PROFILE' ) === 'admin' )
 		{
 			$tabs[] = array(
 				'title' => button( 'add', '', '', 'smaller' ),

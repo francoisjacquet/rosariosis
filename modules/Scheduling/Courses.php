@@ -343,7 +343,7 @@ if ( $_REQUEST['tables']
 						}
 					}
 
-					// if ( $id!='new')
+					// if ( $id!== 'new')
 
 					if ( mb_strpos( $id, 'new' ) === false )
 					{
@@ -1426,7 +1426,7 @@ if (  ( ! $_REQUEST['modfunc']
 		}
 		elseif ( ! empty( $_REQUEST['course_id'] ) )
 		{
-			if ( $_REQUEST['course_id'] != 'new' )
+			if ( $_REQUEST['course_id'] !== 'new' )
 			{
 				$RET = DBGet( "SELECT TITLE,SHORT_NAME,GRADE_LEVEL,CREDIT_HOURS,DESCRIPTION
 					FROM COURSES

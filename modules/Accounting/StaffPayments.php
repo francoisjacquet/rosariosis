@@ -1,8 +1,10 @@
 <?php
 require_once 'modules/Accounting/functions.inc.php';
 
-if (User('PROFILE')=='teacher')//limit to teacher himself
-	$_REQUEST['staff_id'] = User('STAFF_ID');
+if ( User( 'PROFILE' ) === 'teacher' ) //limit to teacher himself
+{
+	$_REQUEST['staff_id'] = User( 'STAFF_ID' );
+}
 
 if ( empty( $_REQUEST['print_statements'] ) )
 {
@@ -21,7 +23,7 @@ if ( $_REQUEST['values']
 {
 	foreach ( (array) $_REQUEST['values'] as $id => $columns )
 	{
-		if ( $id!='new')
+		if ( $id !== 'new' )
 		{
 			$sql = "UPDATE ACCOUNTING_PAYMENTS SET ";
 
@@ -45,27 +47,35 @@ if ( $_REQUEST['values']
 			$values = "'" . $id . "','" . UserStaffID() . "','" . UserSyear() . "','" . UserSchool() . "',";
 
 			$go = 0;
-			foreach ( (array) $columns as $column => $value)
+
+			foreach ( (array) $columns as $column => $value )
 			{
-				if ( !empty($value) || $value=='0')
+				if ( ! empty( $value ) || $value == '0' )
 				{
-					if ( $column=='AMOUNT')
+					if ( $column == 'AMOUNT' )
 					{
-						$value = preg_replace('/[^0-9.-]/','',$value);
+						$value = preg_replace( '/[^0-9.-]/', '', $value );
 
 						//FJ fix SQL bug invalid amount
-						if ( !is_numeric($value))
+
+						if ( ! is_numeric( $value ) )
+						{
 							$value = 0;
+						}
 					}
+
 					$fields .= DBEscapeIdentifier( $column ) . ',';
 					$values .= "'" . $value . "',";
 					$go = true;
 				}
 			}
+
 			$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
 
-			if ( $go)
-				DBQuery($sql);
+			if ( $go )
+			{
+				DBQuery( $sql );
+			}
 		}
 	}
 
@@ -86,7 +96,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	}
 }
 
-if (UserStaffID() && ! $_REQUEST['modfunc'])
+if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 {
 	$payments_total = 0;
 
@@ -97,19 +107,24 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 		'COMMENTS' => '_makePaymentsTextInput',
 	);
 
-	$payments_RET = DBGet( "SELECT '' AS REMOVE,ID,AMOUNT,PAYMENT_DATE,COMMENTS FROM ACCOUNTING_PAYMENTS WHERE STAFF_ID='".UserStaffID()."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY ID",$functions);
+	$payments_RET = DBGet( "SELECT '' AS REMOVE,ID,AMOUNT,PAYMENT_DATE,COMMENTS FROM ACCOUNTING_PAYMENTS WHERE STAFF_ID='" . UserStaffID() . "' AND SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' ORDER BY ID", $functions );
 	$i = 1;
 	$RET = array();
-	foreach ( (array) $payments_RET as $payment)
+
+	foreach ( (array) $payments_RET as $payment )
 	{
-		$RET[ $i ] = $payment;
+		$RET[$i] = $payment;
 		$i++;
 	}
 
-	if (! empty( $RET ) && ! $_REQUEST['print_statements'] && AllowEdit())
-		$columns = array('REMOVE' => '');
+	if ( ! empty( $RET ) && ! $_REQUEST['print_statements'] && AllowEdit() )
+	{
+		$columns = array( 'REMOVE' => '' );
+	}
 	else
+	{
 		$columns = array();
+	}
 
 	$columns += array(
 		'AMOUNT' => _( 'Amount' ),
@@ -128,34 +143,38 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 		);
 	}
 
-	if ( ! $_REQUEST['print_statements'] && AllowEdit())
+	if ( ! $_REQUEST['print_statements'] && AllowEdit() )
 	{
-		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
+		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
 		DrawHeader( '', SubmitButton() );
 		$options = array();
 	}
 	else
-		$options = array('center'=>false,'add'=>false);
+	{
+		$options = array( 'center' => false, 'add' => false );
+	}
 
-	ListOutput($RET,$columns,'Payment','Payments',$link,array(),$options);
+	ListOutput( $RET, $columns, 'Payment', 'Payments', $link, array(), $options );
 
-	if ( ! $_REQUEST['print_statements'] && AllowEdit())
+	if ( ! $_REQUEST['print_statements'] && AllowEdit() )
+	{
 		echo '<div class="center">' . SubmitButton() . '</div>';
+	}
 
 	echo '<br />';
 
 	$salaries_total = DBGetOne( "SELECT SUM(f.AMOUNT) AS TOTAL
 		FROM ACCOUNTING_SALARIES f
-		WHERE f.STAFF_ID='".UserStaffID()."'
-		AND f.SYEAR='".UserSyear()."'
-		AND f.SCHOOL_ID='".UserSchool()."'" );
+		WHERE f.STAFF_ID='" . UserStaffID() . "'
+		AND f.SYEAR='" . UserSyear() . "'
+		AND f.SCHOOL_ID='" . UserSchool() . "'" );
 
-	$table = '<table class="align-right"><tr><td>'._('Total from Salaries').': '.'</td><td>'.Currency($salaries_total).'</td></tr>';
+	$table = '<table class="align-right"><tr><td>' . _( 'Total from Salaries' ) . ': ' . '</td><td>' . Currency( $salaries_total ) . '</td></tr>';
 
-	$table .= '<tr><td>'._('Less').': '._('Total from Staff Payments').': '.'</td><td>'.Currency($payments_total).'</td></tr>';
+	$table .= '<tr><td>' . _( 'Less' ) . ': ' . _( 'Total from Staff Payments' ) . ': ' . '</td><td>' . Currency( $payments_total ) . '</td></tr>';
 
 	$table .= '<tr><td>' . _( 'Balance' ) . ': </td>
-		<td><b>' . Currency( ( $salaries_total - $payments_total ), 'CR' ) .
+		<td><b>' . Currency(  ( $salaries_total - $payments_total ), 'CR' ) .
 		'</b></td></tr></table>';
 
 	DrawHeader( $table );

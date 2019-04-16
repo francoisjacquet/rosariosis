@@ -7,26 +7,30 @@ $start_date = RequestedDate( 'start', date( 'Y-m' ) . '-01', 'set' );
 $end_date = RequestedDate( 'end', DBDate(), 'set' );
 
 if ( ! empty( $_REQUEST['type'] ) )
+{
 	$_SESSION['FSA_type'] = $_REQUEST['type'];
+}
 else
+{
 	$_SESSION['_REQUEST_vars']['type'] = $_REQUEST['type'] = $_SESSION['FSA_type'];
+}
 
 $header = '<a href="Modules.php?modname=' . $_REQUEST['modname'] .
 	'&day_start=' . $_REQUEST['day_start'] . '&month_start=' . $_REQUEST['month_start'] . '&year_start=' . $_REQUEST['year_start'] .
 	'&day_end=' . $_REQUEST['day_end'] . '&month_end=' . $_REQUEST['month_end'] . '&year_end=' . $_REQUEST['year_end'] .
 	'&type=student">' .
 	( ! isset( $_REQUEST['type'] ) || $_REQUEST['type'] === 'student' ?
-		'<b>' . _( 'Students' ) . '</b>' : _( 'Students' ) ) . '</a>';
+	'<b>' . _( 'Students' ) . '</b>' : _( 'Students' ) ) . '</a>';
 
-$header .= ' | <a href="Modules.php?modname='.$_REQUEST['modname'] .
+$header .= ' | <a href="Modules.php?modname=' . $_REQUEST['modname'] .
 	'&day_start=' . $_REQUEST['day_start'] . '&month_start=' . $_REQUEST['month_start'] . '&year_start=' . $_REQUEST['year_start'] .
 	'&day_end=' . $_REQUEST['day_end'] . '&month_end=' . $_REQUEST['month_end'] . '&year_end=' . $_REQUEST['year_end'] .
 	'&type=staff">' .
 	( isset( $_REQUEST['type'] ) && $_REQUEST['type'] === 'staff' ?
-		'<b>' . _( 'Users' ) . '</b>' : _( 'Users' ) ) . '</a>';
+	'<b>' . _( 'Users' ) . '</b>' : _( 'Users' ) ) . '</a>';
 
-DrawHeader(($_REQUEST['type']=='staff'?_('User'):_('Student')).' &minus; '.ProgramTitle());
-User('PROFILE')=='student'?'':DrawHeader($header);
+DrawHeader(  ( $_REQUEST['type'] == 'staff' ? _( 'User' ) : _( 'Student' ) ) . ' &minus; ' . ProgramTitle() );
+User( 'PROFILE' ) === 'student' ? '' : DrawHeader( $header );
 
 if ( $_REQUEST['modfunc'] === 'delete'
 	&& AllowEdit() )
@@ -58,39 +62,70 @@ if ( $_REQUEST['modfunc'] === 'delete'
 	}
 }
 
+$types = array( 'DEPOSIT' => _( 'Deposit' ), 'CREDIT' => _( 'Credit' ), 'DEBIT' => _( 'Debit' ) );
+$menus_RET = DBGet( 'SELECT TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY SORT_ORDER' );
 
-$types = array('DEPOSIT' => _('Deposit'),'CREDIT' => _('Credit'),'DEBIT' => _('Debit'));
-$menus_RET = DBGet( 'SELECT TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER');
+$type_select = _( 'Type' ) . ': <select name=type_select><option value=\'\'>' . _( 'Not Specified' ) . '</option>';
 
-$type_select = _('Type').': <select name=type_select><option value=\'\'>'._('Not Specified').'</option>';
-foreach ( (array) $types as $short_name => $type)
-	$type_select .= '<option value="'.$short_name.'"'.($_REQUEST['type_select']==$short_name ? ' selected' : '').'>'.$type.'</option>';
-foreach ( (array) $menus_RET as $menu)
-	$type_select .= '<option value="'.$menu['TITLE'].'"'.($_REQUEST['type_select']==$menu['TITLE'] ? ' selected' : '').'>'.$menu['TITLE'].'</option>';
+foreach ( (array) $types as $short_name => $type )
+{
+	$type_select .= '<option value="' . $short_name . '"' . ( $_REQUEST['type_select'] == $short_name ? ' selected' : '' ) . '>' . $type . '</option>';
+}
+
+foreach ( (array) $menus_RET as $menu )
+{
+	$type_select .= '<option value="' . $menu['TITLE'] . '"' . ( $_REQUEST['type_select'] == $menu['TITLE'] ? ' selected' : '' ) . '>' . $menu['TITLE'] . '</option>';
+}
+
 $type_select .= '</select>';
 
 //FJ add translation
-function types_locale($type) {
-	$types = array('Deposit' => _('Deposit'),'Credit' => _('Credit'),'Debit' => _('Debit'));
-	if (array_key_exists($type, $types)) {
-		return $types[ $type ];
+/**
+ * @param $type
+ * @return mixed
+ */
+function types_locale( $type )
+{
+	$types = array( 'Deposit' => _( 'Deposit' ), 'Credit' => _( 'Credit' ), 'Debit' => _( 'Debit' ) );
+
+	if ( array_key_exists( $type, $types ) )
+	{
+		return $types[$type];
 	}
+
 	return $type;
 }
-function options_locale($option) {
-	$options = array('Cash ' => _('Cash'),'Check' => _('Check'),'Credit Card' => _('Credit Card'),'Debit Card' => _('Debit Card'),'Transfer' => _('Transfer'));
-	if (array_key_exists($option, $options)) {
-		return $options[ $option ];
+
+/**
+ * @param $option
+ * @return mixed
+ */
+function options_locale( $option )
+{
+	$options = array( 'Cash ' => _( 'Cash' ), 'Check' => _( 'Check' ), 'Credit Card' => _( 'Credit Card' ), 'Debit Card' => _( 'Debit Card' ), 'Transfer' => _( 'Transfer' ) );
+
+	if ( array_key_exists( $option, $options ) )
+	{
+		return $options[$option];
 	}
+
 	return $option;
 }
-require_once 'modules/Food_Service/'.($_REQUEST['type']=='staff'?'Users':'Students').'/Statements.php';
 
+require_once 'modules/Food_Service/' . ( $_REQUEST['type'] == 'staff' ? 'Users' : 'Students' ) . '/Statements.php';
 
-function red($value)
+/**
+ * @param $value
+ * @return mixed
+ */
+function red( $value )
 {
-	if ( $value<0)
-		return '<span style="color:red">'.$value.'</span>';
+	if ( $value < 0 )
+	{
+		return '<span style="color:red">' . $value . '</span>';
+	}
 	else
+	{
 		return $value;
+	}
 }

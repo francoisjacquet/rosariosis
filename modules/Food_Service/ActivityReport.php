@@ -21,7 +21,7 @@ $header .= ' | <a href="Modules.php?modname='.$_REQUEST['modname'] .
 		'<b>' . _( 'Users' ) . '</b>' : _( 'Users' ) ) . '</a>';
 
 DrawHeader(($_REQUEST['type']=='staff' ? _('User') : _('Student')).' &minus; '.ProgramTitle());
-User('PROFILE')=='student'?'':DrawHeader($header);
+User( 'PROFILE' ) === 'student'?'':DrawHeader($header);
 
 if ( $_REQUEST['modfunc'] === 'delete'
 	&& AllowEdit() )

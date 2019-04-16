@@ -47,7 +47,7 @@ if ( ! $_REQUEST['modfunc']
 
 	echo '<table class="width-100p valign-top fixed-col"><tr><td>';
 
-	echo NoInput(($student['BALANCE']<0?'<span style="color:red">':'').$student['BALANCE'].($student['BALANCE']<0?'</span>':''),_('Balance'));
+	echo NoInput(  ( $student['BALANCE'] < 0 ? '<span style="color:red">' : '' ) . $student['BALANCE'] . ( $student['BALANCE'] < 0 ? '</span>' : '' ), _( 'Balance' ) );
 
 	echo '</td></tr></table>';
 	echo '<hr />';
@@ -62,6 +62,7 @@ if ( ! $_REQUEST['modfunc']
 	);
 
 	// warn if account non-existent (balance query failed)
+
 	if ( $student['BALANCE'] == '' )
 	{
 		echo MakeTipMessage(
@@ -72,6 +73,7 @@ if ( ! $_REQUEST['modfunc']
 	}
 
 	// warn if other students associated with the same account
+
 	if ( ! empty( $xstudents ) )
 	{
 		$warning = _( 'Other students associated with the same account' ) . ':<br />';
@@ -89,14 +91,14 @@ if ( ! $_REQUEST['modfunc']
 	}
 
 	echo '</td>';
-	$options = array('Inactive' => _('Inactive'),'Disabled' => _('Disabled'),'Closed' => _('Closed'));
-	echo '<td>'.SelectInput($student['STATUS'],'food_service[STATUS]',_('Status'),$options,_('Active')).'</td>';
+	$options = array( 'Inactive' => _( 'Inactive' ), 'Disabled' => _( 'Disabled' ), 'Closed' => _( 'Closed' ) );
+	echo '<td>' . SelectInput( $student['STATUS'], 'food_service[STATUS]', _( 'Status' ), $options, _( 'Active' ) ) . '</td>';
 	echo '</tr><tr>';
 
 	$options = array( 'Reduced' => _( 'Reduced' ), 'Free' => _( 'Free' ) );
 
-	echo '<td>'.SelectInput($student['DISCOUNT'],'food_service[DISCOUNT]',_('Discount'),$options,_('Full')).'</td>';
-	echo '<td>'.TextInput($student['BARCODE'],'food_service[BARCODE]',_('Barcode'),'size=12 maxlength=25').'</td>';
+	echo '<td>' . SelectInput( $student['DISCOUNT'], 'food_service[DISCOUNT]', _( 'Discount' ), $options, _( 'Full' ) ) . '</td>';
+	echo '<td>' . TextInput( $student['BARCODE'], 'food_service[BARCODE]', _( 'Barcode' ), 'size=12 maxlength=25' ) . '</td>';
 	echo '</tr>';
 	echo '</table>';
 }

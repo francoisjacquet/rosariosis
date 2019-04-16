@@ -16,58 +16,74 @@ if ( $_REQUEST['modfunc'] === 'update'
 		foreach ( (array) $_REQUEST['values'] as $id => $columns )
 		{
 			// FJ fix SQL bug invalid sort order.
-			if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
+
+			if ( empty( $columns['SORT_ORDER'] ) || is_numeric( $columns['SORT_ORDER'] ) )
 			{
-				if ( $columns['DEFAULT_CODE']=='Y')
-					DBQuery("UPDATE ATTENDANCE_CODES SET DEFAULT_CODE=NULL WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND TABLE_NAME='".$_REQUEST['table']."'");
-
-				if ( $id!='new')
+				if ( $columns['DEFAULT_CODE'] == 'Y' )
 				{
-					if ( $_REQUEST['table']!='new')
-						$sql = "UPDATE ATTENDANCE_CODES SET ";
-					else
-						$sql = "UPDATE ATTENDANCE_CODE_CATEGORIES SET ";
-
-					foreach ( (array) $columns as $column => $value)
-						$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-
-					$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
-					DBQuery($sql);
+					DBQuery( "UPDATE ATTENDANCE_CODES SET DEFAULT_CODE=NULL WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' AND TABLE_NAME='" . $_REQUEST['table'] . "'" );
 				}
+
+				if ( $id !== 'new' )
+				{
+					if ( $_REQUEST['table'] !== 'new' )
+					{
+						$sql = "UPDATE ATTENDANCE_CODES SET ";
+					}
+					else
+					{
+						$sql = "UPDATE ATTENDANCE_CODE_CATEGORIES SET ";
+					}
+
+					foreach ( (array) $columns as $column => $value )
+					{
+						$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
+					}
+
+					$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . $id . "'";
+					DBQuery( $sql );
+				}
+
 				// New: check for Title
 				elseif ( $columns['TITLE'] )
 				{
-					if ( $_REQUEST['table']!='new')
+					if ( $_REQUEST['table'] !== 'new' )
 					{
 						$sql = "INSERT INTO ATTENDANCE_CODES ";
 						$fields = 'ID,SCHOOL_ID,SYEAR,TABLE_NAME,';
-						$values = db_seq_nextval('ATTENDANCE_CODES_SEQ').",'".UserSchool()."','".UserSyear()."','".$_REQUEST['table']."',";
+						$values = db_seq_nextval( 'ATTENDANCE_CODES_SEQ' ) . ",'" . UserSchool() . "','" . UserSyear() . "','" . $_REQUEST['table'] . "',";
 					}
 					else
 					{
 						$sql = "INSERT INTO ATTENDANCE_CODE_CATEGORIES ";
 						$fields = 'ID,SCHOOL_ID,SYEAR,';
-						$values = db_seq_nextval('ATTENDANCE_CODE_CATEGORIES_SEQ').",'".UserSchool()."','".UserSyear()."',";
+						$values = db_seq_nextval( 'ATTENDANCE_CODE_CATEGORIES_SEQ' ) . ",'" . UserSchool() . "','" . UserSyear() . "',";
 					}
 
 					$go = false;
-					foreach ( (array) $columns as $column => $value)
+
+					foreach ( (array) $columns as $column => $value )
 					{
-						if (isset($value) && $value!='')
+						if ( isset( $value ) && $value != '' )
 						{
 							$fields .= DBEscapeIdentifier( $column ) . ',';
 							$values .= "'" . $value . "',";
 							$go = true;
 						}
 					}
+
 					$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
 
-					if ( $go)
-						DBQuery($sql);
+					if ( $go )
+					{
+						DBQuery( $sql );
+					}
 				}
 			}
 			else
-				$error[] = _('Please enter a valid Sort Order.');
+			{
+				$error[] = _( 'Please enter a valid Sort Order.' );
+			}
 		}
 	}
 
@@ -78,11 +94,11 @@ if ( $_REQUEST['modfunc'] === 'update'
 if ( $_REQUEST['modfunc'] === 'remove'
 	&& AllowEdit() )
 {
-	if ( $_REQUEST['table']!='new')
+	if ( $_REQUEST['table'] !== 'new' )
 	{
 		if ( DeletePrompt( _( 'Attendance Code' ) ) )
 		{
-			DBQuery("DELETE FROM ATTENDANCE_CODES WHERE ID='" . $_REQUEST['id'] . "'");
+			DBQuery( "DELETE FROM ATTENDANCE_CODES WHERE ID='" . $_REQUEST['id'] . "'" );
 
 			// Unset modfunc & ID & redirect URL.
 			RedirectURL( array( 'modfunc', 'id' ) );
@@ -117,66 +133,77 @@ echo ErrorMessage( $error );
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	if ( $_REQUEST['table']!=='new')
+	if ( $_REQUEST['table'] !== 'new' )
 	{
-		$sql = "SELECT ID,TITLE,SHORT_NAME,TYPE,DEFAULT_CODE,STATE_CODE,SORT_ORDER FROM ATTENDANCE_CODES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND TABLE_NAME='".$_REQUEST['table']."' ORDER BY SORT_ORDER,TITLE";
-		$QI = DBQuery($sql);
-		$attendance_codes_RET = DBGet($QI,array('TITLE' => '_makeTextInput','SHORT_NAME' => '_makeTextInput','SORT_ORDER' => '_makeTextInput','TYPE' => '_makeSelectInput','STATE_CODE' => '_makeSelectInput','DEFAULT_CODE' => '_makeCheckBoxInput'));
+		$sql = "SELECT ID,TITLE,SHORT_NAME,TYPE,DEFAULT_CODE,STATE_CODE,SORT_ORDER FROM ATTENDANCE_CODES WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' AND TABLE_NAME='" . $_REQUEST['table'] . "' ORDER BY SORT_ORDER,TITLE";
+		$QI = DBQuery( $sql );
+		$attendance_codes_RET = DBGet( $QI, array( 'TITLE' => '_makeTextInput', 'SHORT_NAME' => '_makeTextInput', 'SORT_ORDER' => '_makeTextInput', 'TYPE' => '_makeSelectInput', 'STATE_CODE' => '_makeSelectInput', 'DEFAULT_CODE' => '_makeCheckBoxInput' ) );
 	}
 
-	$tabs = array(array('title' => _('Attendance'),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&table=0'));
-	$categories_RET = DBGet( "SELECT ID,TITLE FROM ATTENDANCE_CODE_CATEGORIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'" );
-	foreach ( (array) $categories_RET as $category)
-		$tabs[] = array('title' => $category['TITLE'],'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&table='.$category['ID']);
+	$tabs = array( array( 'title' => _( 'Attendance' ), 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=0' ) );
+	$categories_RET = DBGet( "SELECT ID,TITLE FROM ATTENDANCE_CODE_CATEGORIES WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "'" );
 
-	if ( $_REQUEST['table']!='new')
+	foreach ( (array) $categories_RET as $category )
 	{
-		$sql = "SELECT ID,TITLE,SHORT_NAME,TYPE,DEFAULT_CODE,STATE_CODE,SORT_ORDER FROM ATTENDANCE_CODES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND TABLE_NAME='".$_REQUEST['table']."' ORDER BY SORT_ORDER,TITLE";
-		$functions = array('TITLE' => '_makeTextInput','SHORT_NAME' => '_makeTextInput','SORT_ORDER' => '_makeTextInput','TYPE' => '_makeSelectInput','DEFAULT_CODE' => '_makeCheckBoxInput');
-		$LO_columns = array('TITLE' => _('Title'),'SHORT_NAME' => _('Short Name'),'SORT_ORDER' => _('Sort Order'),'TYPE' => _('Type'),'DEFAULT_CODE' => _('Default for Teacher'));
-		if ( $_REQUEST['table']=='0')
+		$tabs[] = array( 'title' => $category['TITLE'], 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=' . $category['ID'] );
+	}
+
+	if ( $_REQUEST['table'] !== 'new' )
+	{
+		$sql = "SELECT ID,TITLE,SHORT_NAME,TYPE,DEFAULT_CODE,STATE_CODE,SORT_ORDER FROM ATTENDANCE_CODES WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' AND TABLE_NAME='" . $_REQUEST['table'] . "' ORDER BY SORT_ORDER,TITLE";
+		$functions = array( 'TITLE' => '_makeTextInput', 'SHORT_NAME' => '_makeTextInput', 'SORT_ORDER' => '_makeTextInput', 'TYPE' => '_makeSelectInput', 'DEFAULT_CODE' => '_makeCheckBoxInput' );
+		$LO_columns = array( 'TITLE' => _( 'Title' ), 'SHORT_NAME' => _( 'Short Name' ), 'SORT_ORDER' => _( 'Sort Order' ), 'TYPE' => _( 'Type' ), 'DEFAULT_CODE' => _( 'Default for Teacher' ) );
+
+		if ( $_REQUEST['table'] == '0' )
 		{
 			$functions['STATE_CODE'] = '_makeSelectInput';
-			$LO_columns['STATE_CODE'] = _('State Code');
+			$LO_columns['STATE_CODE'] = _( 'State Code' );
 		}
 
-		$link['add']['html'] = array('TITLE'=>_makeTextInput('','TITLE'),'SHORT_NAME'=>_makeTextInput('','SHORT_NAME'),'SORT_ORDER'=>_makeTextInput('','SORT_ORDER'),'TYPE'=>_makeSelectInput('','TYPE'),'DEFAULT_CODE'=>_makeCheckBoxInput('','DEFAULT_CODE'));
+		$link['add']['html'] = array( 'TITLE' => _makeTextInput( '', 'TITLE' ), 'SHORT_NAME' => _makeTextInput( '', 'SHORT_NAME' ), 'SORT_ORDER' => _makeTextInput( '', 'SORT_ORDER' ), 'TYPE' => _makeSelectInput( '', 'TYPE' ), 'DEFAULT_CODE' => _makeCheckBoxInput( '', 'DEFAULT_CODE' ) );
 
-		if ( $_REQUEST['table']=='0')
-			$link['add']['html']['STATE_CODE'] = _makeSelectInput('','STATE_CODE');
+		if ( $_REQUEST['table'] == '0' )
+		{
+			$link['add']['html']['STATE_CODE'] = _makeSelectInput( '', 'STATE_CODE' );
+		}
 
-		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&table='.$_REQUEST['table'];
-		$link['remove']['variables'] = array('id' => 'ID');
+		$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove&table=' . $_REQUEST['table'];
+		$link['remove']['variables'] = array( 'id' => 'ID' );
 
-		$tabs[] = array('title'=>button('add', '', '', 'smaller'),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&table=new');
+		$tabs[] = array( 'title' => button( 'add', '', '', 'smaller' ), 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=new' );
 	}
 	else
 	{
-		$sql = "SELECT ID,TITLE,SORT_ORDER FROM ATTENDANCE_CODE_CATEGORIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER,TITLE";
-		$functions = array('TITLE' => '_makeTextInput','SORT_ORDER' => '_makeTextInput');
-		$LO_columns = array('TITLE' => _('Title'),'SORT_ORDER' => _('Sort Order'));
+		$sql = "SELECT ID,TITLE,SORT_ORDER FROM ATTENDANCE_CODE_CATEGORIES WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' ORDER BY SORT_ORDER,TITLE";
+		$functions = array( 'TITLE' => '_makeTextInput', 'SORT_ORDER' => '_makeTextInput' );
+		$LO_columns = array( 'TITLE' => _( 'Title' ), 'SORT_ORDER' => _( 'Sort Order' ) );
 
-		$link['add']['html'] = array('TITLE'=>_makeTextInput('','TITLE'),'SORT_ORDER'=>_makeTextInput('','SORT_ORDER'));
-		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&table=new';
-		$link['remove']['variables'] = array('id' => 'ID');
+		$link['add']['html'] = array( 'TITLE' => _makeTextInput( '', 'TITLE' ), 'SORT_ORDER' => _makeTextInput( '', 'SORT_ORDER' ) );
+		$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove&table=new';
+		$link['remove']['variables'] = array( 'id' => 'ID' );
 
-		$tabs[] = array('title'=>button('add', '', '', 'smaller'),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&table=new');
+		$tabs[] = array( 'title' => button( 'add', '', '', 'smaller' ), 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=new' );
 	}
-	$LO_ret = DBGet( $sql,$functions);
 
-	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&table='.$_REQUEST['table'].'" method="POST">';
+	$LO_ret = DBGet( $sql, $functions );
+
+	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update&table=' . $_REQUEST['table'] . '" method="POST">';
 	DrawHeader( '', SubmitButton() );
 	echo '<br />';
 
 //FJ css WPadmin
-	$LO_options = array('count'=>false,'download'=>false,'search'=>false,'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&table='.$_REQUEST['table']));
+	$LO_options = array( 'count' => false, 'download' => false, 'search' => false, 'header' => WrapTabs( $tabs, 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=' . $_REQUEST['table'] ) );
 //	ListOutput($LO_ret,$LO_columns,'.','.',$link,array(),array('count'=>false,'download'=>false,'search'=>false));
-	ListOutput($LO_ret,$LO_columns,'.','.',$link,array(),$LO_options);
+	ListOutput( $LO_ret, $LO_columns, '.', '.', $link, array(), $LO_options );
 
 	echo '<br /><div class="center">' . SubmitButton() . '</div>';
 	echo '</form>';
 }
 
+/**
+ * @param $value
+ * @param $name
+ */
 function _makeTextInput( $value, $name )
 {
 	global $THIS_RET;
@@ -208,6 +235,10 @@ function _makeTextInput( $value, $name )
 	return TextInput( $value, 'values[' . $id . '][' . $name . ']', '', $extra );
 }
 
+/**
+ * @param $value
+ * @param $name
+ */
 function _makeSelectInput( $value, $name )
 {
 	global $THIS_RET;
@@ -246,6 +277,10 @@ function _makeSelectInput( $value, $name )
 	);
 }
 
+/**
+ * @param $value
+ * @param $name
+ */
 function _makeCheckBoxInput( $value, $name )
 {
 	global $THIS_RET;
