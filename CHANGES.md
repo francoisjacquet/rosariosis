@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 4.5.2
+----------------
+- Fix SQL error when only month with RequestedDate() in Date.php
+
 Changes in 4.5.1
 ----------------
 - Move Header head action hook outisde page condition in Warehouse.php
