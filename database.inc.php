@@ -125,7 +125,7 @@ function DBQuery( $sql )
 	}
 
 	// Do DBQuery after action hook.
-	do_action( 'database.inc.php|dbquery_after', $sql, $result );
+	do_action( 'database.inc.php|dbquery_after', array( $sql, $result ) );
 
 	return $result;
 }
