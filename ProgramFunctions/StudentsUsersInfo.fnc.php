@@ -42,7 +42,7 @@ function _makeTextInput( $column, $name, $request )
 	{
 		$value[ $column ] = str_replace( '.00', '', $value[ $column ] );
 
-		$options = 'size=9 maxlength=18';
+		$options = 'type="number" step="any"';
 	}
 	elseif ( Config( 'STUDENTS_EMAIL_FIELD' ) === str_replace( 'CUSTOM_', '', $column ) )
 	{
@@ -141,7 +141,7 @@ function _makeSelectInput( $column, $name, $request )
 		$div = true;
 	}
 
-	$select_options = array();
+	$select_options = $options = array();
 
 	if ( $field['SELECT_OPTIONS'] )
 	{
@@ -430,14 +430,14 @@ function _makeTextAreaInput( $column, $name, $request )
  *
  * @return string          Files Input
  */
-function _makeFilesInput( $column, $name, $request )
+function _makeFilesInput( $column, $name, $request, $remove_url = '' )
 {
 	global $value,
 		$field;
 
 	$div = true;
 
-	$file_paths = @unserialize( $value[ $column ] );
+	$file_paths = explode( '||', trim( $value[ $column ], '||' ) );
 
 	$files = array();
 
@@ -452,19 +452,52 @@ function _makeFilesInput( $column, $name, $request )
 
 		$file_size = HumanFilesize( filesize( $file_path ) );
 
-		$files[] = button(
+		// Truncate file name if > 36 chars.
+		$file_name_display = mb_strlen( $file_name ) <= 36 ?
+			$file_name :
+			mb_substr( $file_name, 0, 30 ) . '..' . mb_strrchr( $file_name, '.' );
+
+		$file = button(
 			'download',
-			$file_name,
-			'"' . $file_path . '" target="_blank" title="' . $file_size . '"',
+			$file_name_display,
+			'"' . $file_path . '" target="_blank" title="' . $file_name . ' (' . $file_size . ')"',
 			'bigger'
+		);
+
+		if ( AllowEdit() && $remove_url )
+		{
+			$file = button(
+				'remove',
+				'',
+				'"' . $remove_url . urlencode( $file_name ) . '" title="' . _( 'Delete' ) . '"'
+			) . '&nbsp;' . $file;
+		}
+
+		$files[] = $file;
+	}
+
+	$files_html = '';
+
+	if ( $files )
+	{
+		$files_html = '<table class="widefat width-100p"><tbody><tr><td>' .
+			implode( '</td></tr><tr><td>', $files ) . '</td></tr></tbody></table>';
+	}
+
+	$required = $field['REQUIRED'] == 'Y' && AllowEdit() && ! $files;
+
+	if ( AllowEdit() )
+	{
+		$files_html .= FileInput(
+			$request . $column,
+			'',
+			( $required ? ' required': '' )
 		);
 	}
 
-	return implode( '<br />', $files ) . FileInput(
-		$request . '[' . $column . ']',
-		$name,
-		( $field['REQUIRED'] == 'Y' ? ' required': '' )
-	);
+	$files_html .= FormatInputTitle( $name, $request . $column, $required, ( AllowEdit() ? '<br />' : '' ) );
+
+	return $files_html;
 }
 
 
