@@ -332,6 +332,76 @@ function ImageUpload( $input, $target_dim = array(), $path = '', $ext_white_list
 
 
 /**
+ * Files field Upload and Update
+ * Upload custom Files field & update corresponding DB table.
+ * Input name must BEGIN with $request, for example: "valuesCUSTOM_3".
+ *
+ * @since 4.6
+ *
+ * @example FilesUploadUpdate( 'SCHOOLS', 'values',	$FileUploadsPath . 'school_' . UserSchool() . '/' );
+ *
+ * @uses FileUpload()
+ *
+ * @param string $table   DB Table name.
+ * @param string $request Request part of the input name.
+ * @param string $path    Path, folder where the files will be uploaded to.
+ *
+ * @return string Empty or last file full path.
+ */
+function FilesUploadUpdate( $table, $request, $path )
+{
+	global $error;
+
+	if ( ! $table
+		|| ! $path
+		|| empty( $_FILES ) )
+	{
+		return '';
+	}
+
+	foreach ( $_FILES as $input => $file )
+	{
+		if ( mb_strpos( $input, $request ) !== 0 )
+		{
+			// Input name must BEGIN with $request, for example: "valuesCUSTOM_3".
+			continue;
+		}
+
+		$file_name_no_ext = no_accents( mb_substr(
+			$_FILES[ $input ]['name'],
+			0,
+			mb_strrpos( $_FILES[ $input ]['name'], '.' )
+		) );
+
+		$file_name_no_ext .= '_' . date( 'Y-m-d_His' );
+
+		$new_file = FileUpload(
+			$input,
+			$path,
+			FileExtensionWhiteList(),
+			0,
+			$error,
+			'',
+			$file_name_no_ext
+		);
+
+		if ( $new_file )
+		{
+			$value_append = $new_file . '||';
+
+			$column = str_replace( $request, '', $input );
+
+			DBQuery( "UPDATE " . DBEscapeIdentifier( $table ) . "
+				SET " . DBEscapeIdentifier( $column ) . "=" .
+				DBEscapeIdentifier( $column ) . "||'" . DBEscapeString( $value_append ) . "'" );
+		}
+	}
+
+	return $new_file;
+}
+
+
+/**
  * Removes accents from string.
  * Also replaces spaces and chars other than point, dashes & numbers
  * with underscores '_'.

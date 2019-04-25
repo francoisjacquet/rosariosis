@@ -14,6 +14,7 @@ Changes in 4.6
 - Use StudentUsersInfo \_make\*Input functions in Schools.php
 - Add \_makeFilesInput() function & $options_RET parameter to \_makeAutoSelectInput() in StudentsUsersInfo.fnc.php
 - Add Files input type in Schools.php, Other_Fields.inc.php & Other_Info.inc.php, sponsored by Santa Cecilia school
+- Add FilesUploadUpdate() function in FileUpload.fnc.php
 
 Changes in 4.5.2
 ----------------
