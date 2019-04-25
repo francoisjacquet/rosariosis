@@ -36,6 +36,11 @@ function AllowEdit( $modname = false )
 
 		if ( ! $modname )
 		{
+			if ( ! isset( $_REQUEST['modname'] ) )
+			{
+				return false;
+			}
+
 			$modname = $_REQUEST['modname'];
 		}
 
