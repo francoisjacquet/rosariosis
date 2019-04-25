@@ -390,6 +390,12 @@ if ( ! $_REQUEST['modfunc'] )
 				echo _makeSelectInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], 'values' );
 
 				break;
+
+			case 'files':
+
+				echo _makeFilesInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], 'values' );
+
+				break;
 		}
 
 		echo '</td></tr>';

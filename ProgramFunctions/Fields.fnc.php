@@ -11,11 +11,13 @@
  * Add Field to DB Table
  * And create INDEX
  *
+ * @since 4.6 Add Files type
+ *
  * @example $_REQUEST['id'] = AddDBField( 'SCHOOLS', 'school_fields_seq', $columns['TYPE'] );
  *
  * @param string  $table    DB Table name.
  * @param string  $sequence DB Sequence name.
- * @param string  $type     Field Type: radio|text|exports|select|autos|edits|codeds|multiple|numeric|date|textarea.
+ * @param string  $type     Field Type: radio|text|exports|select|autos|edits|codeds|multiple|numeric|date|textarea|files.
  *
  * @return string Field ID or empty string
  */
@@ -91,6 +93,14 @@ function AddDBField( $table, $sequence, $type )
 			$sql_type = 'VARCHAR(5000)';
 
 			// FJ SQL bugfix index row size exceeds maximum 2712 for index.
+			$create_index = false;
+
+		break;
+
+		case 'files':
+
+			$sql_type = 'TEXT';
+
 			$create_index = false;
 
 		break;
@@ -218,6 +228,8 @@ function DeleteDBFieldCategory( $table, $id )
 /**
  * Get Field or Field Category Form
  *
+ * @since 4.6 Add Files type.
+ *
  * @example echo GetFieldsForm( 'STUDENT', $title, $RET, $extra_fields );
  *
  * @example echo GetFieldsForm(
@@ -225,7 +237,7 @@ function DeleteDBFieldCategory( $table, $id )
  *              $title,
  *              $RET,
  *              null,
- *              array( 'text' => _( 'Text' ), 'numeric' => _( 'Number' ), 'date' => _( 'Date' ), 'textarea' => _( 'Long Text' ) )
+ *              array( 'text' => _( 'Text' ), 'numeric' => _( 'Number' ), 'date' => _( 'Date' ), 'textarea' => _( 'Long Text' ), 'files' => _( 'Files' ) )
  *          );
  *
  * @uses DrawHeader()
@@ -338,6 +350,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 				'radio' => _( 'Checkbox' ),
 				'numeric' => _( 'Number' ),
 				'date' => _( 'Date' ),
+				'files' => _( 'Files' ),
 			);
 		}
 
@@ -607,6 +620,8 @@ function FieldsMenuOutput( $RET, $id, $category_id = '0' )
  *
  * @see Can be called through DBGet()'s functions parameter
  *
+ * @since 4.6 Add Files type.
+ *
  * @param  string $value  Field Type value.
  * @param  string $column 'TYPE' (optional). Defaults to ''.
  *
@@ -626,6 +641,7 @@ function MakeFieldType( $value, $column = '' )
 		'radio' => _( 'Checkbox' ),
 		'numeric' => _( 'Number' ),
 		'date' => _( 'Date' ),
+		'files' => _( 'Files' ),
 	);
 
 	return isset( $type_options[ $value ] ) ? $type_options[ $value ] : $value;

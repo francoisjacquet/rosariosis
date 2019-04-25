@@ -57,24 +57,24 @@ foreach ( (array) $fields_RET as $field )
 
 			echo _makeTextInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], 'staff' );
 
-		break;
+			break;
 
 		case 'autos':
 		case 'edits':
 
 			echo _makeAutoSelectInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], 'staff' );
 
-		break;
+			break;
 
 			echo _makeTextInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], 'staff' );
 
-		break;
+			break;
 
 		case 'date':
 
 			echo _makeDateInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], 'staff' );
 
-		break;
+			break;
 
 		case 'exports':
 		case 'codeds':
@@ -82,19 +82,19 @@ foreach ( (array) $fields_RET as $field )
 
 			echo _makeSelectInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], 'staff' );
 
-		break;
+			break;
 
 		case 'multiple':
 
 			echo _makeMultipleInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], 'staff' );
 
-		break;
+			break;
 
 		case 'radio':
 
 			echo _makeCheckboxInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], 'staff' );
 
-		break;
+			break;
 
 		case 'textarea':
 
@@ -111,7 +111,13 @@ foreach ( (array) $fields_RET as $field )
 
 			echo _makeTextAreaInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], 'staff' );
 
-		break;
+			break;
+
+		case 'files':
+
+			echo _makeFilesInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], 'values' );
+
+			break;
 	}
 
 	echo '</td>';
