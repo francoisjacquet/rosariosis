@@ -187,16 +187,19 @@ function _makeSelectInput( $column, $name, $request )
 /**
  * Make Auto Select Input
  *
+ * @since 4.6 Add $options_RET parameter.
+ *
  * @global array  $value
  * @global array  $field
  *
- * @param  string $column  Field column.
- * @param  string $name    Field name.
- * @param  string $request students|staff|values[PEOPLE]|values[ADDRESS].
+ * @param  string $column      Field column.
+ * @param  string $name        Field name.
+ * @param  string $request     students|staff|values[PEOPLE]|values[ADDRESS].
+ * @param  array  $options_RET Options array (optional).
  *
  * @return string          Auto Select Input
  */
-function _makeAutoSelectInput( $column, $name, $request )
+function _makeAutoSelectInput( $column, $name, $request, $options_RET = array() )
 {
 	global $value,
 		$field;
@@ -271,21 +274,24 @@ function _makeAutoSelectInput( $column, $name, $request )
 		}
 		elseif ( $request === 'staff' )
 		{
-			$options_SQL = "SELECT DISTINCT s.CUSTOM_" . $field['ID'] . ",upper(s.CUSTOM_".$field['ID'].") AS KEY
+			$options_SQL = "SELECT DISTINCT s.CUSTOM_" . $field['ID'] . ",upper(s.CUSTOM_" . $field['ID'] . ") AS SORT_KEY
 				FROM STAFF s
 				WHERE (s.SYEAR='" . UserSyear() . "' OR s.SYEAR='" . ( UserSyear() - 1 ) . "')
 				AND s.CUSTOM_" . $field['ID'] . " IS NOT NULL
-				ORDER BY KEY";
+				ORDER BY SORT_KEY";
 		}
 
-		$options_RET = DBGet( $options_SQL );
+		if ( empty( $options_RET ) )
+		{
+			$options_RET = DBGet( $options_SQL );
+		}
 
 		foreach ( (array) $options_RET as $option )
 		{
 			$option_value = $option[ 'CUSTOM_' . $field['ID'] ];
 
 			if ( $option_value != ''
-				&& ! $options[ $option_value ] )
+				&& ! isset( $options[ $option_value ] ) )
 			{
 				$options[ $option_value ] = array(
 					$option_value,
@@ -406,6 +412,58 @@ function _makeTextAreaInput( $column, $name, $request )
 		$name,
 		'maxlength=5000' . ( $field['REQUIRED'] == 'Y' ? ' required': '' ),
 		$div
+	);
+}
+
+
+/**
+ * Make Files Input
+ *
+ * @since 4.6
+ *
+ * @global array  $value
+ * @global array  $field
+ *
+ * @param  string $column  Field column.
+ * @param  string $name    Field name.
+ * @param  string $request students|staff|values[PEOPLE]|values[ADDRESS].
+ *
+ * @return string          Files Input
+ */
+function _makeFilesInput( $column, $name, $request )
+{
+	global $value,
+		$field;
+
+	$div = true;
+
+	$file_paths = @unserialize( $value[ $column ] );
+
+	$files = array();
+
+	foreach ( (array) $file_paths as $file_path )
+	{
+		if ( ! file_exists( $file_path ) )
+		{
+			continue;
+		}
+
+		$file_name = mb_substr( mb_strrchr( $file_path, '/' ), 1 );
+
+		$file_size = HumanFilesize( filesize( $file_path ) );
+
+		$files[] = button(
+			'download',
+			$file_name,
+			'"' . $file_path . '" target="_blank" title="' . $file_size . '"',
+			'bigger'
+		);
+	}
+
+	return implode( '<br />', $files ) . FileInput(
+		$request . '[' . $column . ']',
+		$name,
+		( $field['REQUIRED'] == 'Y' ? ' required': '' )
 	);
 }
 
