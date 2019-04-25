@@ -3,11 +3,13 @@
 if ( empty( $_REQUEST['search_modfunc'] ) )
 {
 	//if (UserStudentID() && User( 'PROFILE' ) !== 'parent' && User( 'PROFILE' ) !== 'student' && ($_REQUEST['modname']!='Students/Search.php' || $_REQUEST['student_id']=='new'))
-	switch (User('PROFILE'))
+
+	switch ( User( 'PROFILE' ) )
 	{
 		case 'admin':
 		case 'teacher':
 			//if ( $_SESSION['student_id'] && ($_REQUEST['modname']!='Students/Search.php' || $_REQUEST['student_id']=='new'))
+
 			if ( UserStudentID()
 				&& $_REQUEST['student_id'] === 'new' )
 			{
@@ -16,7 +18,7 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 
 			$_SESSION['Search_PHP_SELF'] = PreparePHP_SELF(
 				$_SESSION['_REQUEST_vars'],
-				array( 'bottom_back','advanced' )
+				array( 'bottom_back', 'advanced' )
 			);
 
 			if ( empty( $_SESSION['Back_PHP_SELF'] )
@@ -44,18 +46,19 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 
 			Search( 'general_info', ( isset( $extra['grades'] ) ? $extra['grades'] : array() ) );
 
-			if ( !isset( $extra ) )
+			if ( ! isset( $extra ) )
+			{
 				$extra = array();
+			}
 
 			Widgets( 'user', $extra );
 
 			Search(
 				'student_fields',
 				isset( $extra['student_fields'] ) && is_array( $extra['student_fields'] ) ?
-					$extra['student_fields'] :
-					array()
+				$extra['student_fields'] :
+				array()
 			);
-
 
 			echo '</table><div class="center">';
 
@@ -67,23 +70,24 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 			if ( User( 'PROFILE' ) === 'admin' )
 			{
 				echo '<label><input type="checkbox" name="address_group" value="Y"' .
-					( Preferences( 'DEFAULT_FAMILIES' ) == 'Y' ? ' checked' : '' ) . '>&nbsp;' .
-					_( 'Group by Family' ) . '</label><br />';
+				( Preferences( 'DEFAULT_FAMILIES' ) == 'Y' ? ' checked' : '' ) . '>&nbsp;' .
+				_( 'Group by Family' ) . '</label><br />';
 
 				// FJ if only one school, no Search All Schools option.
 				// Restrict Search All Schools to user schools.
+
 				if ( SchoolInfo( 'SCHOOLS_NB' ) > 1
 					&& ( ! trim( User( 'SCHOOLS' ), ',' )
 						|| mb_substr_count( User( 'SCHOOLS' ), ',' ) > 2 ) )
 				{
 					echo '<label><input type="checkbox" name="_search_all_schools" value="Y"' .
-						( Preferences( 'DEFAULT_ALL_SCHOOLS' ) == 'Y' ? ' checked' : '' ) . '>&nbsp;' .
-						_( 'Search All Schools' ) . '</label><br />';
+					( Preferences( 'DEFAULT_ALL_SCHOOLS' ) == 'Y' ? ' checked' : '' ) . '>&nbsp;' .
+					_( 'Search All Schools' ) . '</label><br />';
 				}
 			}
 
 			echo '<label><input type="checkbox" name="include_inactive" value="Y">&nbsp;' .
-				_( 'Include Inactive Students' ) . '</label><br />';
+			_( 'Include Inactive Students' ) . '</label><br />';
 
 			echo '<br />' . Buttons( _( 'Submit' ), _( 'Reset' ) ) . '</div><br />';
 
@@ -132,57 +136,70 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 
 				echo PopTable( 'footer' ) . '<br />';
 
-				echo '<a href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced' => 'N')).'">'._('Basic Search').'</a>';
+				echo '<a href="' . PreparePHP_SELF( $_REQUEST, array(), array( 'advanced' => 'N' ) ) . '">' .
+					_( 'Basic Search' ) . '</a>';
 			}
 			else
-				echo '<br /><a href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced' => 'Y')).'">'._('Advanced Search').'</a>';
+			{
+				echo '<br /><a href="' . PreparePHP_SELF( $_REQUEST, array(), array( 'advanced' => 'Y' ) ) . '">' .
+					_( 'Advanced Search' ) . '</a>';
+			}
 
 			echo '</form>';
 
 			// Update Bottom.php.
 			$bottom_url = 'Bottom.php?modname=' . $_REQUEST['modname'];
 
-			echo '<script>ajaxLink(' .  json_encode( $bottom_url ) . '); old_modname="";</script>';
+			echo '<script>ajaxLink(' . json_encode( $bottom_url ) . '); old_modname="";</script>';
 
 			PopTable( 'footer' );
 
-		break;
+			break;
 
 		case 'parent':
 		case 'student':
 
 			echo '<br />';
 
-			PopTable('header',_('Search'));
+			PopTable( 'header', _( 'Search' ) );
 
-			echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&search_modfunc=list&next_modname='.$_REQUEST['next_modname'].$extra['action'].'" method="POST">';
+			echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=' . $_REQUEST['modfunc'] .
+				'&search_modfunc=list&next_modname=' . $_REQUEST['next_modname'] . $extra['action'] . '" method="POST">';
 			echo '<table>';
 
-			if ( $extra['search'])
+			if ( $extra['search'] )
+			{
 				echo $extra['search'];
+			}
 
 			echo '<tr><td colspan="2" class="center"><br />';
 
-			echo Buttons(_('Submit'),_('Reset'));
+			echo Buttons( _( 'Submit' ), _( 'Reset' ) );
 
 			echo '</td></tr></table></form>';
 
 			PopTable( 'footer' );
 
-		break;
+			break;
 	}
 }
+
 //if ( $_REQUEST['search_modfunc']=== 'list')
 else
 {
 	if ( empty( $_REQUEST['next_modname'] ) )
-		$_REQUEST['next_modname'] = 'Students/Student.php';
-
-	if (User( 'PROFILE' ) === 'admin' || User( 'PROFILE' ) === 'teacher')
 	{
-		if ( !isset($extra))
+		$_REQUEST['next_modname'] = 'Students/Student.php';
+	}
+
+	if ( User( 'PROFILE' ) === 'admin' || User( 'PROFILE' ) === 'teacher' )
+	{
+		if ( ! isset( $extra ) )
+		{
 			$extra = array();
-		Widgets('user',$extra);
+		}
+
+		Widgets( 'user', $extra );
 	}
 
 	if ( empty( $extra['NoSearchTerms'] ) )
@@ -203,7 +220,7 @@ else
 	if ( ! empty( $_REQUEST['address_group'] ) )
 	{
 		$extra['SELECT'] .= ",coalesce((SELECT ADDRESS_ID FROM STUDENTS_JOIN_ADDRESS WHERE STUDENT_ID=ssm.STUDENT_ID AND RESIDENCE='Y' LIMIT 1),-ssm.STUDENT_ID) AS FAMILY_ID";
-		$extra['group'] = $extra['LO_group'] = array('FAMILY_ID');
+		$extra['group'] = $extra['LO_group'] = array( 'FAMILY_ID' );
 	}
 
 	$students_RET = GetStuList( $extra );
@@ -215,7 +232,7 @@ else
 		{
 			foreach ( (array) $students_RET as $id => $student_RET )
 			{
-				$students_RET[ $id ] = $extra['array_function']( $student_RET );
+				$students_RET[$id] = $extra['array_function']( $student_RET );
 			}
 		}
 		else
@@ -224,8 +241,8 @@ else
 		}
 	}
 
-	$name_link['FULL_NAME']['link'] = 'Modules.php?modname='.$_REQUEST['next_modname'];
-	$name_link['FULL_NAME']['variables'] = array('student_id' => 'STUDENT_ID');
+	$name_link['FULL_NAME']['link'] = 'Modules.php?modname=' . $_REQUEST['next_modname'];
+	$name_link['FULL_NAME']['variables'] = array( 'student_id' => 'STUDENT_ID' );
 
 	if ( isset( $_REQUEST['_search_all_schools'] )
 		&& $_REQUEST['_search_all_schools'] === 'Y' )
@@ -243,16 +260,24 @@ else
 		$link = $name_link;
 	}
 
-	if (isset($extra['columns']) && is_array($extra['columns']))
+	if ( isset( $extra['columns'] ) && is_array( $extra['columns'] ) )
+	{
 		$columns = $extra['columns'];
+	}
 	else
-		$columns = array('FULL_NAME' => _('Student'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'GRADE_ID' => _('Grade Level'));
+	{
+		$columns = array( 'FULL_NAME' => _( 'Student' ), 'STUDENT_ID' => sprintf( _( '%s ID' ), Config( 'NAME' ) ), 'GRADE_ID' => _( 'Grade Level' ) );
+	}
 
-	if (isset($extra['columns_before']) && is_array($extra['columns_before']))
+	if ( isset( $extra['columns_before'] ) && is_array( $extra['columns_before'] ) )
+	{
 		$columns = $extra['columns_before'] + $columns;
+	}
 
-	if (isset($extra['columns_after']) && is_array($extra['columns_after']))
+	if ( isset( $extra['columns_after'] ) && is_array( $extra['columns_after'] ) )
+	{
 		$columns += $extra['columns_after'];
+	}
 
 	$extra['header_right'] = isset( $extra['header_right'] ) ? $extra['header_right'] : '';
 
@@ -263,9 +288,9 @@ else
 		|| ! empty( $extra['columns'] )
 		|| ! empty( $extra['columns_after'] )
 		|| ( empty( $extra['BackPrompt'] ) && empty( $students_RET ) )
-		|| ( ( isset( $extra['Redirect'] )
-				&& $extra['Redirect'] === false
-				|| ! empty( $_REQUEST['address_group'] ) )
+		|| (  ( isset( $extra['Redirect'] )
+			&& $extra['Redirect'] === false
+			|| ! empty( $_REQUEST['address_group'] ) )
 			&& count( (array) $students_RET ) == 1 ) )
 	{
 		if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
@@ -273,27 +298,27 @@ else
 			if ( ! isset( $_REQUEST['expanded_view'] ) || $_REQUEST['expanded_view'] !== 'true' )
 			{
 				$header_left = '<a href="' . PreparePHP_SELF( $_REQUEST, array(), array( 'expanded_view' => 'true' ) ) . '">' .
-					_( 'Expanded View' ) . '</a>';
+				_( 'Expanded View' ) . '</a>';
 			}
 			else
 			{
 				$header_left = '<a href="' . PreparePHP_SELF( $_REQUEST, array(), array( 'expanded_view' => 'false' ) ) . '">' .
-					_( 'Original View' ) . '</a>';
+				_( 'Original View' ) . '</a>';
 			}
 
 			if ( empty( $_REQUEST['address_group'] ) )
 			{
 				$header_left .= ' | <a href="' . PreparePHP_SELF( $_REQUEST, array(), array( 'address_group' => 'Y' ) ) . '">' .
-					_( 'Group by Family' ) . '</a>';
+				_( 'Group by Family' ) . '</a>';
 			}
 			else
 			{
 				$header_left .= ' | <a href="' . PreparePHP_SELF( $_REQUEST, array(), array( 'address_group' => '' ) ) . '">' .
-					_( 'Ungroup by Family' ) . '</a>';
+				_( 'Ungroup by Family' ) . '</a>';
 			}
 		}
 
-		DrawHeader($header_left,$extra['header_right']);
+		DrawHeader( $header_left, $extra['header_right'] );
 
 		if ( ! empty( $extra['extra_header_left'] )
 			|| ! empty( $extra['extra_header_right'] ) )
@@ -311,12 +336,12 @@ else
 
 		if ( empty( $_REQUEST['LO_save'] ) && empty( $extra['suppress_save'] ) )
 		{
-			$_SESSION['List_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back'));
+			$_SESSION['List_PHP_SELF'] = PreparePHP_SELF( $_SESSION['_REQUEST_vars'], array( 'bottom_back' ) );
 
-			if ( $_SESSION['Back_PHP_SELF']!='student')
+			if ( $_SESSION['Back_PHP_SELF'] != 'student' )
 			{
 				$_SESSION['Back_PHP_SELF'] = 'student';
-				unset($_SESSION['Search_PHP_SELF']);
+				unset( $_SESSION['Search_PHP_SELF'] );
 			}
 
 			if ( User( 'PROFILE' ) === 'admin'
@@ -325,7 +350,7 @@ else
 				// Update Bottom.php.
 				$bottom_url = 'Bottom.php?modname=' . $_REQUEST['modname'] . '&search_modfunc=list';
 
-				echo '<script>ajaxLink(' .  json_encode( $bottom_url ) . '); old_modname="";</script>';
+				echo '<script>ajaxLink(' . json_encode( $bottom_url ) . '); old_modname="";</script>';
 			}
 		}
 
@@ -348,6 +373,7 @@ else
 		else
 		{
 			//FJ override "Student" if extra singular/plural set
+
 			if ( ! empty( $extra['singular'] ) && ! empty( $extra['plural'] ) )
 			{
 				ListOutput(
@@ -374,16 +400,16 @@ else
 			}
 		}
 	}
-	elseif ( count( (array) $students_RET )==1)
+	elseif ( count( (array) $students_RET ) == 1 )
 	{
-		foreach ( (array) $link['FULL_NAME']['variables'] as $var => $val)
+		foreach ( (array) $link['FULL_NAME']['variables'] as $var => $val )
 		{
-			$_REQUEST[ $var ] = $students_RET['1'][ $val ];
+			$_REQUEST[$var] = $students_RET['1'][$val];
 		}
 
 		if ( ! is_array( $students_RET[1]['STUDENT_ID'] ) )
 		{
-			if ( $students_RET[1]['SCHOOL_ID']!= UserSchool() )
+			if ( $students_RET[1]['SCHOOL_ID'] != UserSchool() )
 			{
 				$_SESSION['UserSchool'] = $students_RET[1]['SCHOOL_ID'];
 			}
@@ -398,28 +424,37 @@ else
 		{
 			$modname = $_REQUEST['next_modname'];
 
-			if (mb_strpos($modname,'?'))
-				$modname = mb_substr($_REQUEST['next_modname'],0,mb_strpos($_REQUEST['next_modname'],'?'));
+			if ( mb_strpos( $modname, '?' ) )
+			{
+				$modname = mb_substr( $_REQUEST['next_modname'], 0, mb_strpos( $_REQUEST['next_modname'], '?' ) );
+			}
 
-			if (mb_strpos($modname,'&'))
-				$modname = mb_substr($_REQUEST['next_modname'],0,mb_strpos($_REQUEST['next_modname'],'&'));
+			if ( mb_strpos( $modname, '&' ) )
+			{
+				$modname = mb_substr( $_REQUEST['next_modname'], 0, mb_strpos( $_REQUEST['next_modname'], '&' ) );
+			}
 
 			if ( ! empty( $_REQUEST['modname'] ) )
+			{
 				$_REQUEST['modname'] = $modname;
+			}
 
 			//FJ security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
-			if (mb_substr($modname, -4, 4)!='.php' || mb_strpos($modname, '..')!==false || !is_file('modules/'.$modname))
+
+			if ( mb_substr( $modname, -4, 4 ) != '.php' || mb_strpos( $modname, '..' ) !== false || ! is_file( 'modules/' . $modname ) )
 			{
 				require_once 'ProgramFunctions/HackingLog.fnc.php';
 				HackingLog();
 			}
 			else
-				require_once 'modules/'.$modname;
+			{
+				require_once 'modules/' . $modname;
+			}
 		}
 	}
 	else
 	{
-		DrawHeader('',$extra['header_right']);
+		DrawHeader( '', $extra['header_right'] );
 
 		if ( ! empty( $extra['extra_header_left'] )
 			|| ! empty( $extra['extra_header_right'] ) )
@@ -429,6 +464,6 @@ else
 
 		DrawHeader( mb_substr( $_ROSARIO['SearchTerms'], 0, -6 ) );
 
-		echo ErrorMessage(array(_('No Students were found.')));
+		echo ErrorMessage( array( _( 'No Students were found.' ) ) );
 	}
 }
