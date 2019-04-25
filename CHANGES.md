@@ -11,6 +11,7 @@ Changes in 4.6
 - SQL ELIGIBILITY_ACTIVITIES table: Add COMMENT column in Update.fnc.php & rosariosis.sql
 - Add Comment column to Activities list in Activities.php
 - Format PHP code, program wide
+- Use StudentUsersInfo \_make\*Input functions in Schools.php
 
 Changes in 4.5.2
 ----------------

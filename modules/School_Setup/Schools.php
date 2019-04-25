@@ -52,7 +52,10 @@ if ( $_REQUEST['modfunc'] === 'update' )
 					if ( ! is_array( $value ) )
 					{
 						//FJ check numeric fields
-						if ( $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] == 'numeric' && $value != '' && ! is_numeric( $value ) )
+						if ( ! empty( $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] )
+							&& $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] == 'numeric'
+							&& $value != ''
+							&& ! is_numeric( $value ) )
 						{
 							$error[] = _( 'Please enter valid Numeric data.' );
 							continue;
@@ -390,112 +393,31 @@ if ( ! $_REQUEST['modfunc'] )
 
 				break;
 
-			case 'select':
 			case 'autos':
 			case 'edits':
-			case 'codeds':
+				// Global.
+				$value = array( 'CUSTOM_' . $field['ID'] => $value_custom );
+
+				$sql_options = "SELECT DISTINCT s.CUSTOM_" . $field['ID'] . ",upper(s.CUSTOM_" . $field['ID'] . ") AS SORT_KEY
+					FROM SCHOOLS s
+					WHERE (s.SYEAR='" . UserSyear() . "' OR s.SYEAR='" . ( UserSyear() - 1 ) . "')
+					AND s.CUSTOM_" . $field['ID'] . " IS NOT NULL
+					AND s.CUSTOM_" . $field['ID'] . " != ''
+					ORDER BY SORT_KEY";
+
+				$options_RET = DBGet( $sql_options );
+
+				echo _makeAutoSelectInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], 'values', $options_RET );
+
+				break;
+
 			case 'exports':
-				$options = $select_options = array();
+			case 'codeds':
+			case 'select':
+				// Global.
+				$value = array( 'CUSTOM_' . $field['ID'] => $value_custom );
 
-				$col_name = 'CUSTOM_' . $field['ID'];
-
-				if ( $field['SELECT_OPTIONS'] )
-				{
-					$options = explode(
-						"\r",
-						str_replace( array( "\r\n", "\n" ), "\r", $field['SELECT_OPTIONS'] )
-					);
-				}
-
-				foreach ( (array) $options as $option )
-				{
-					$value = $option;
-
-					// Exports specificities.
-					if ( $field['TYPE'] === 'exports' )
-					{
-						$option = explode( '|', $option );
-
-						$option = $value = $option[0];
-					}
-					// Codeds specificities.
-					elseif ( $field['TYPE'] === 'codeds' )
-					{
-						list( $value, $option ) = explode( '|', $option );
-					}
-
-					if ( $value !== ''
-						&& $option !== '' )
-					{
-						$select_options[$value] = $option;
-					}
-				}
-
-				// Get autos / edits pull-down edited options.
-				if ( $field['TYPE'] === 'autos'
-					|| $field['TYPE'] === 'edits' )
-				{
-					if ( $value_custom === '---'
-						|| count( (array) $select_options ) <= 1 )
-					{
-						// FJ new option.
-						echo TextInput(
-							$value_custom === '---' ?
-							array( '---', '<span style="color:red">-' . _( 'Edit' ) . '-</span>' ) :
-							$value_custom,
-							'values[CUSTOM_' . $field['ID'] . ']',
-							$title_custom,
-							( $field['REQUIRED'] === 'Y' ? 'required' : '' ),
-							$div
-						);
-
-						break;
-					}
-
-					$sql_options = "SELECT DISTINCT s." . $col_name . ",upper(s." . $col_name . ") AS SORT_KEY
-						FROM SCHOOLS s
-						WHERE (s.SYEAR='" . UserSyear() . "' OR s.SYEAR='" . ( UserSyear() - 1 ) . "')
-						AND s." . $col_name . " IS NOT NULL
-						AND s." . $col_name . " != ''
-						ORDER BY SORT_KEY";
-
-					$options_RET = DBGet( $sql_options );
-
-					// Add the 'new' option, is also the separator.
-					$select_options['---'] = '-' . _( 'Edit' ) . '-';
-
-					foreach ( (array) $options_RET as $option )
-				{
-						$option_value = $option[$col_name];
-
-						if ( ! isset( $select_options[$option_value] ) )
-					{
-							$select_options[$option_value] = '<span style="color:blue">' .
-								$option_value . '</span>';
-						}
-					}
-
-					// Make sure the current value is in the list.
-					if ( $value_custom != ''
-						&& ! isset( $select_options[$value_custom] ) )
-				{
-						$select_options[$value_custom] = array(
-							$value_custom,
-							'<span style="color:' . ( $field['TYPE'] === 'autos' ? 'blue' : 'green' ) . '">' .
-							$value_custom . '</span>',
-						);
-					}
-				}
-
-				echo SelectInput(
-					$value_custom,
-					'values[CUSTOM_' . $field['ID'] . ']',
-					$title_custom,
-					$select_options,
-					'N/A',
-					( $field['REQUIRED'] ? ' required' : '' ),
-					$div
-				);
+				echo _makeSelectInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], 'values' );
 
 				break;
 		}
