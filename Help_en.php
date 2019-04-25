@@ -202,6 +202,7 @@ if ( User( 'PROFILE' ) === 'admin' ):
 	<li>' . _help( '"Checkbox" fields create checkboxes. When checked it means "yes" and when un-checked "no".' ) . '</li>
 	<li>' . _help( '"Number" fields create text fields that stores only numeric values.' ) . '</li>
 	<li>' . _help( '"Date" field creates pull-downs fields to pick a date from.' ) . '</li>
+	<li>' . _help( '"Files" field creates upload file field. Files can be later be downloaded and deleted.' ) . '</li>
 	</ul>
 	<p>' . _help( 'The "Required" checkbox, if checked, will make that field required so an error will be displayed if the field is empty when saving the page.' ) . '</p>
 
@@ -368,6 +369,7 @@ if ( User( 'PROFILE' ) === 'admin' ):
 	<li>' . _help( '"Checkbox" fields create checkboxes. When checked it means "yes" and when un-checked "no".' ) . '</li>
 	<li>' . _help( '"Number" fields create text fields that stores only numeric values.' ) . '</li>
 	<li>' . _help( '"Date" field creates pull-downs fields to pick a date from.' ) . '</li>
+	<li>' . _help( '"Files" field creates upload file field. Files can be later be downloaded and deleted.' ) . '</li>
 	</ul>
 	<p>' . _help( 'The "Required" checkbox, if checked, will make that field required so an error will be displayed if the field is empty when saving the page.' ) . '</p>
 
@@ -500,6 +502,7 @@ if ( User( 'PROFILE' ) === 'admin' ):
 	<li>' . _help( '"Checkbox" fields create checkboxes. When checked it means "yes" and when un-checked "no".' ) . '</li>
 	<li>' . _help( '"Number" fields create text fields that stores only numeric values.' ) . '</li>
 	<li>' . _help( '"Date" field creates pull-downs fields to pick a date from.' ) . '</li>
+	<li>' . _help( '"Files" field creates upload file field. Files can be later be downloaded and deleted.' ) . '</li>
 	</ul>
 	<p>' . _help( 'The "Required" checkbox, if checked, will make that field required so an error will be displayed if the field is empty when saving the page.' ) . '</p>
 
