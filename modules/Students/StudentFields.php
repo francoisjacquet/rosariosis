@@ -10,7 +10,9 @@ require_once 'ProgramFunctions/Fields.fnc.php';
 
 DrawHeader( ProgramTitle() );
 
-//$_ROSARIO['allow_edit'] = true;
+$_REQUEST['id'] = isset( $_REQUEST['id'] ) ? $_REQUEST['id'] : '';
+
+$_REQUEST['category_id'] = isset( $_REQUEST['category_id'] ) ? $_REQUEST['category_id'] : '';
 
 if ( isset( $_POST['tables'] )
 	&& is_array( $_POST['tables'] )
@@ -189,6 +191,8 @@ if ( $_REQUEST['modfunc'] === 'delete'
 if ( ! $_REQUEST['modfunc'] )
 {
 	echo ErrorMessage( $error );
+
+	$RET = array();
 
 	// ADDING & EDITING FORM.
 	if ( $_REQUEST['id']
