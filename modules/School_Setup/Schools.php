@@ -305,14 +305,16 @@ if ( ! $_REQUEST['modfunc'] )
 		echo '<tr><td colspan="3"><hr /></td></tr>';
 	}
 
+	$custom_RET = DBGet( "SELECT *
+		FROM SCHOOLS
+		WHERE ID='" . UserSchool() . "'
+		AND SYEAR='" . UserSyear() . "'" );
+
+	$value = $custom_RET[1];
+
 	foreach ( (array) $fields_RET as $field )
 	{
-		$value_custom = DBGet( "SELECT CUSTOM_" . $field['ID'] . "
-			FROM SCHOOLS
-			WHERE ID='" . UserSchool() . "'
-			AND SYEAR='" . UserSyear() . "'" );
-
-		$value_custom = $value_custom[1]['CUSTOM_' . $field['ID']];
+		$value_custom = isset( $value['CUSTOM_' . $field['ID']] ) ? $value['CUSTOM_' . $field['ID']] : '';
 
 		$div = true;
 
@@ -325,47 +327,21 @@ if ( ! $_REQUEST['modfunc'] )
 		switch ( $field['TYPE'] )
 		{
 			case 'text':
-				echo TextInput(
-					$value_custom,
-					'values[CUSTOM_' . $field['ID'] . ']',
-					$title_custom,
-					'maxlength=255' . ( $field['REQUIRED'] ? ' required' : '' ),
-					$div
-				);
-
-				break;
-
 			case 'numeric':
-				echo TextInput(
-					$value_custom,
-					'values[CUSTOM_' . $field['ID'] . ']',
-					$title_custom,
-					'size=9 maxlength=18' . ( $field['REQUIRED'] ? ' required' : '' ),
-					$div
-				);
+
+				echo _makeTextInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], 'values' );
 
 				break;
 
 			case 'date':
-				echo DateInput(
-					$value_custom,
-					'values[CUSTOM_' . $field['ID'] . ']',
-					$title_custom,
-					$div,
-					true,
-					$field['REQUIRED']
-				);
+
+				echo _makeDateInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], 'values' );
 
 				break;
 
 			case 'textarea':
-				echo TextAreaInput(
-					$value_custom,
-					'values[CUSTOM_' . $field['ID'] . ']',
-					$title_custom,
-					'maxlength=5000' . ( $field['REQUIRED'] ? ' required' : '' ),
-					$div
-				);
+
+				echo _makeTextAreaInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], 'values' );
 
 				break;
 
@@ -386,8 +362,6 @@ if ( ! $_REQUEST['modfunc'] )
 				break;
 
 			case 'multiple':
-				// Global.
-				$value = array( 'CUSTOM_' . $field['ID'] => $value_custom );
 
 				echo _makeMultipleInput( 'CUSTOM_' . $field['ID'], $title_custom, 'values' );
 
@@ -395,8 +369,6 @@ if ( ! $_REQUEST['modfunc'] )
 
 			case 'autos':
 			case 'edits':
-				// Global.
-				$value = array( 'CUSTOM_' . $field['ID'] => $value_custom );
 
 				$sql_options = "SELECT DISTINCT s.CUSTOM_" . $field['ID'] . ",upper(s.CUSTOM_" . $field['ID'] . ") AS SORT_KEY
 					FROM SCHOOLS s
@@ -414,8 +386,6 @@ if ( ! $_REQUEST['modfunc'] )
 			case 'exports':
 			case 'codeds':
 			case 'select':
-				// Global.
-				$value = array( 'CUSTOM_' . $field['ID'] => $value_custom );
 
 				echo _makeSelectInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], 'values' );
 
