@@ -403,7 +403,7 @@ function TextAreaInput( $value, $name, $title = '', $extra = '', $div = true, $t
 
 	$ftitle = FormatInputTitle( $title, $id, $required );
 
-	if ( $value !== '' )
+	if ( $value != '' )
 	{
 		if ( $type === 'markdown' )
 		{

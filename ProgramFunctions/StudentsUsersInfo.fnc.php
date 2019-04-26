@@ -494,8 +494,12 @@ function _makeFilesInput( $column, $name, $request, $remove_url = '' )
 			( $required ? ' required': '' )
 		);
 	}
+	elseif ( ! $files )
+	{
+		$files_html = '-';
+	}
 
-	$files_html .= FormatInputTitle( $name, $request . $column, $required, ( AllowEdit() ? '<br />' : '' ) );
+	$files_html .= FormatInputTitle( $name, $request . $column, $required, ( AllowEdit() || ! $files ? '<br />' : '' ) );
 
 	return $files_html;
 }
