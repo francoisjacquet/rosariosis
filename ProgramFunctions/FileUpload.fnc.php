@@ -392,8 +392,10 @@ function FilesUploadUpdate( $table, $request, $path )
 			$column = str_replace( $request, '', $input );
 
 			DBQuery( "UPDATE " . DBEscapeIdentifier( $table ) . "
-				SET " . DBEscapeIdentifier( $column ) . "=" .
-				DBEscapeIdentifier( $column ) . "||'" . DBEscapeString( $value_append ) . "'" );
+				SET " . DBEscapeIdentifier( $column ) . "=COALESCE(" .
+				DBEscapeIdentifier( $column ) . ",'')||'" . DBEscapeString( $value_append ) . "'
+				WHERE ID='" . UserSchool() . "'
+				AND SYEAR='" . UserSyear() . "'" );
 		}
 	}
 
