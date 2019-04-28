@@ -61,6 +61,7 @@ module.exports = function(grunt) {
 						'assets/js/jquery-fixedmenu/jquery-fixedmenu.js',
 						'assets/js/jquery-captcha/jquery-captcha.js',
 						'assets/js/jquery-passwordstrength/jquery-passwordstrength.js',
+						'assets/js/jquery-formnavigation/jquery-formnavigation.js',
 					]
 				}
 			}
