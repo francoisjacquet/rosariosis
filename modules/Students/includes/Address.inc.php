@@ -316,8 +316,10 @@ if ( $_REQUEST['modfunc'] === 'delete_address'
 
 			if ( empty( DBGet( "SELECT '' FROM STUDENTS_JOIN_PEOPLE WHERE PERSON_ID='" . $_REQUEST['person_id'] . "'" ) ) )
 			{
-				DBQuery( "DELETE FROM PEOPLE WHERE PERSON_ID='" . $_REQUEST['person_id'] . "'" );
-				DBQuery( "DELETE FROM PEOPLE_JOIN_CONTACTS WHERE PERSON_ID='" . $_REQUEST['person_id'] . "'" );
+				$delete_sql = "DELETE FROM PEOPLE WHERE PERSON_ID='" . $_REQUEST['person_id'] . "';";
+				$delete_sql .= "DELETE FROM PEOPLE_JOIN_CONTACTS WHERE PERSON_ID='" . $_REQUEST['person_id'] . "';";
+
+				DBQuery( $delete_sql );
 			}
 
 			if ( $_REQUEST['address_id'] == '0' && empty( DBGet( "SELECT '' FROM STUDENTS_JOIN_PEOPLE WHERE ADDRESS_ID='0' AND STUDENT_ID='" . UserStudentID() . "'" ) ) )

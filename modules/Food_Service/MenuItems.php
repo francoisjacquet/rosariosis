@@ -149,11 +149,13 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	}
 	elseif ( DeletePrompt( _( 'Item' ) ) )
 	{
-		DBQuery( "DELETE FROM FOOD_SERVICE_MENU_ITEMS
-			WHERE ITEM_ID='" . $_REQUEST['item_id'] . "'" );
+		$delete_sql = "DELETE FROM FOOD_SERVICE_MENU_ITEMS
+			WHERE ITEM_ID='" . $_REQUEST['item_id'] . "';";
 
-		DBQuery( "DELETE FROM FOOD_SERVICE_ITEMS
-			WHERE ITEM_ID='" . $_REQUEST['item_id'] . "'" );
+		$delete_sql .= "DELETE FROM FOOD_SERVICE_ITEMS
+			WHERE ITEM_ID='" . $_REQUEST['item_id'] . "';";
+
+		DBQuery( $delete_sql );
 
 		// Unset modfunc & item ID & redirect URL.
 		RedirectURL( array( 'modfunc', 'item_id' ) );

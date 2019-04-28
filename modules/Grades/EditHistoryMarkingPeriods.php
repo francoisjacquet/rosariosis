@@ -67,11 +67,13 @@ if ( $_REQUEST['modfunc'] === 'remove' )
 {
 	if ( DeletePrompt( _( 'History Marking Period' ) ) )
 	{
-		DBQuery( "DELETE FROM history_marking_periods
-			WHERE MARKING_PERIOD_ID='" . $_REQUEST['id'] . "'" );
+		$delete_sql = "DELETE FROM history_marking_periods
+			WHERE MARKING_PERIOD_ID='" . $_REQUEST['id'] . "';";
 
-		DBQuery( "DELETE FROM student_report_card_grades
-			WHERE MARKING_PERIOD_ID='" . $_REQUEST['id'] . "'" );
+		$delete_sql .= "DELETE FROM student_report_card_grades
+			WHERE MARKING_PERIOD_ID='" . $_REQUEST['id'] . "';";
+
+		DBQuery( $delete_sql );
 
 		// Unset modfunc & ID & redirect URL.
 		RedirectURL( array( 'modfunc', 'id' ) );

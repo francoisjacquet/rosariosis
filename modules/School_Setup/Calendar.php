@@ -362,11 +362,13 @@ if ( $_REQUEST['modfunc'] === 'delete_calendar'
 {
 	if ( DeletePrompt( _( 'Calendar' ) ) )
 	{
-		DBQuery( "DELETE FROM ATTENDANCE_CALENDAR
-			WHERE CALENDAR_ID='" . $_REQUEST['calendar_id'] . "'" );
+		$delete_sql = "DELETE FROM ATTENDANCE_CALENDAR
+			WHERE CALENDAR_ID='" . $_REQUEST['calendar_id'] . "';";
 
-		DBQuery( "DELETE FROM ATTENDANCE_CALENDARS
-			WHERE CALENDAR_ID='" . $_REQUEST['calendar_id'] . "'" );
+		$delete_sql .= "DELETE FROM ATTENDANCE_CALENDARS
+			WHERE CALENDAR_ID='" . $_REQUEST['calendar_id'] . "';";
+
+		DBQuery( $delete_sql );
 
 		$default_RET = DBGet( "SELECT CALENDAR_ID
 			FROM ATTENDANCE_CALENDARS

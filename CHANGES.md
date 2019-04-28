@@ -16,6 +16,7 @@ Changes in 4.6
 - Add Files input type in Schools.php, Student.php, Other_Fields.inc.php & Other_Info.inc.php, sponsored by Santa Cecilia school
 - Add FilesUploadUpdate() function in FileUpload.fnc.php
 - JS Navigate form inputs vertically using tab key in Grades.php & InputFinalGrades.php
+- Performance Run multiple DELETE SQL queries at once, progam wide
 
 Changes in 4.5.2
 ----------------

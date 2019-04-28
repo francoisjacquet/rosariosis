@@ -91,11 +91,13 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	{
 		if ( DeletePrompt( _( 'Report Card Comment Category' ) ) )
 		{
-			DBQuery( "DELETE FROM REPORT_CARD_COMMENTS
-				WHERE CATEGORY_ID='" . $_REQUEST['id'] . "'" );
+			$delete_sql = "DELETE FROM REPORT_CARD_COMMENTS
+				WHERE CATEGORY_ID='" . $_REQUEST['id'] . "';";
 
-			DBQuery( "DELETE FROM REPORT_CARD_COMMENT_CATEGORIES
-				WHERE ID='" . $_REQUEST['id'] . "'" );
+			$delete_sql .= "DELETE FROM REPORT_CARD_COMMENT_CATEGORIES
+				WHERE ID='" . $_REQUEST['id'] . "';";
+
+			DBQuery( $delete_sql );
 
 			// Unset modfunc & ID & redirect URL.
 			RedirectURL( array( 'modfunc', 'id' ) );

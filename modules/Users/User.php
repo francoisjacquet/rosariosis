@@ -515,17 +515,19 @@ if ( $_REQUEST['modfunc'] === 'delete'
 {
 	if ( DeletePrompt( _( 'User' ) ) )
 	{
-		DBQuery( "DELETE FROM PROGRAM_USER_CONFIG
-			WHERE USER_ID='" . UserStaffID() . "'" );
+		$delete_sql = "DELETE FROM PROGRAM_USER_CONFIG
+			WHERE USER_ID='" . UserStaffID() . "';";
 
-		DBQuery( "DELETE FROM STAFF_EXCEPTIONS
-			WHERE USER_ID='" . UserStaffID() . "'" );
+		$delete_sql .= "DELETE FROM STAFF_EXCEPTIONS
+			WHERE USER_ID='" . UserStaffID() . "';";
 
-		DBQuery( "DELETE FROM STUDENTS_JOIN_USERS
-			WHERE STAFF_ID='" . UserStaffID() . "'" );
+		$delete_sql .= "DELETE FROM STUDENTS_JOIN_USERS
+			WHERE STAFF_ID='" . UserStaffID() . "';";
 
-		DBQuery( "DELETE FROM STAFF
-			WHERE STAFF_ID='" . UserStaffID() . "'" );
+		$delete_sql .= "DELETE FROM STAFF
+			WHERE STAFF_ID='" . UserStaffID() . "';";
+
+		DBQuery( $delete_sql );
 
 		// Hook.
 		do_action( 'Users/User.php|delete_user' );

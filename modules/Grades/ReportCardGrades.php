@@ -115,11 +115,13 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	}
 	elseif ( DeletePrompt( _( 'Report Card Grading Scale' ) ) )
 	{
-		DBQuery( "DELETE FROM REPORT_CARD_GRADES
-			WHERE GRADE_SCALE_ID='" . $_REQUEST['id'] . "'" );
+		$delete_sql = "DELETE FROM REPORT_CARD_GRADES
+			WHERE GRADE_SCALE_ID='" . $_REQUEST['id'] . "';";
 
-		DBQuery( "DELETE FROM REPORT_CARD_GRADE_SCALES
-			WHERE ID='" . $_REQUEST['id'] . "'" );
+		$delete_sql .= "DELETE FROM REPORT_CARD_GRADE_SCALES
+			WHERE ID='" . $_REQUEST['id'] . "';";
+
+		DBQuery( $delete_sql );
 
 		// Unset modfunc & ID & redirect URL.
 		RedirectURL( array( 'modfunc', 'id' ) );

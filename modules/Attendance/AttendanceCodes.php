@@ -106,11 +106,13 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	}
 	elseif ( DeletePrompt( _( 'Category' ) ) )
 	{
-		DBQuery( "DELETE FROM ATTENDANCE_CODE_CATEGORIES
-			WHERE ID='" . $_REQUEST['id'] . "'" );
+		$delete_sql = "DELETE FROM ATTENDANCE_CODE_CATEGORIES
+			WHERE ID='" . $_REQUEST['id'] . "';";
 
-		DBQuery( "DELETE FROM ATTENDANCE_CODES
-			WHERE TABLE_NAME='" . $_REQUEST['id'] . "'" );
+		$delete_sql .= "DELETE FROM ATTENDANCE_CODES
+			WHERE TABLE_NAME='" . $_REQUEST['id'] . "';";
+
+		DBQuery( $delete_sql );
 
 		DBQuery( "UPDATE COURSE_PERIODS
 			SET DOES_ATTENDANCE=replace(DOES_ATTENDANCE,'," . $_REQUEST['id'] . ",',',')

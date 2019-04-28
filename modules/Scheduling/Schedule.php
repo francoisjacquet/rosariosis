@@ -105,10 +105,12 @@ if ( $_REQUEST['modfunc'] === 'modify'
 
 						if ( ! isset( $_REQUEST['delete_cancel'] ) )
 						{
-							DBQuery( "DELETE FROM GRADEBOOK_GRADES WHERE STUDENT_ID='" . UserStudentID() . "' AND COURSE_PERIOD_ID='" . $course_period_id . "'" );
-							DBQuery( "DELETE FROM STUDENT_REPORT_CARD_GRADES WHERE STUDENT_ID='" . UserStudentID() . "' AND COURSE_PERIOD_ID='" . $course_period_id . "'" );
-							DBQuery( "DELETE FROM STUDENT_REPORT_CARD_COMMENTS WHERE STUDENT_ID='" . UserStudentID() . "' AND COURSE_PERIOD_ID='" . $course_period_id . "'" );
-							DBQuery( "DELETE FROM ATTENDANCE_PERIOD WHERE STUDENT_ID='" . UserStudentID() . "' AND COURSE_PERIOD_ID='" . $course_period_id . "'" );
+							$delete_sql = "DELETE FROM GRADEBOOK_GRADES WHERE STUDENT_ID='" . UserStudentID() . "' AND COURSE_PERIOD_ID='" . $course_period_id . "';";
+							$delete_sql .= "DELETE FROM STUDENT_REPORT_CARD_GRADES WHERE STUDENT_ID='" . UserStudentID() . "' AND COURSE_PERIOD_ID='" . $course_period_id . "';";
+							$delete_sql .= "DELETE FROM STUDENT_REPORT_CARD_COMMENTS WHERE STUDENT_ID='" . UserStudentID() . "' AND COURSE_PERIOD_ID='" . $course_period_id . "';";
+							$delete_sql .= "DELETE FROM ATTENDANCE_PERIOD WHERE STUDENT_ID='" . UserStudentID() . "' AND COURSE_PERIOD_ID='" . $course_period_id . "';";
+
+							DBQuery( $delete_sql );
 						}
 
 						//else simply delete schedule entry

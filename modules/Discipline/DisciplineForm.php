@@ -124,11 +124,13 @@ if ( $_REQUEST['modfunc'] === 'delete'
 	{
 		$id = isset( $_REQUEST['id'] ) ? $_REQUEST['id'] : null;
 
-		DBQuery( "DELETE FROM DISCIPLINE_FIELDS
-			WHERE ID='" . $id . "'" );
+		$delete_sql = "DELETE FROM DISCIPLINE_FIELDS
+			WHERE ID='" . $id . "';";
 
-		DBQuery( "DELETE FROM DISCIPLINE_FIELD_USAGE
-			WHERE DISCIPLINE_FIELD_ID='" . $id . "'" );
+		$delete_sql .= "DELETE FROM DISCIPLINE_FIELD_USAGE
+			WHERE DISCIPLINE_FIELD_ID='" . $id . "';";
+
+		DBQuery( $delete_sql );
 
 		$column_name = DBEscapeIdentifier( 'CATEGORY_' . $id );
 

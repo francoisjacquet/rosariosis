@@ -214,16 +214,18 @@ function Rollover( $table )
 						AND SYEAR='" . $next_syear . "')" );
 			}
 
-			DBQuery( "DELETE FROM STUDENTS_JOIN_USERS
-				WHERE STAFF_ID IN (SELECT STAFF_ID FROM STAFF WHERE SYEAR='" . $next_syear . "')" );
+			$delete_sql = "DELETE FROM STUDENTS_JOIN_USERS
+				WHERE STAFF_ID IN (SELECT STAFF_ID FROM STAFF WHERE SYEAR='" . $next_syear . "');";
 
-			DBQuery( "DELETE FROM STAFF_EXCEPTIONS
-				WHERE USER_ID IN (SELECT STAFF_ID FROM STAFF WHERE SYEAR='" . $next_syear . "')" );
+			$delete_sql .= "DELETE FROM STAFF_EXCEPTIONS
+				WHERE USER_ID IN (SELECT STAFF_ID FROM STAFF WHERE SYEAR='" . $next_syear . "');";
 
-			DBQuery( "DELETE FROM PROGRAM_USER_CONFIG
-				WHERE USER_ID IN (SELECT STAFF_ID FROM STAFF WHERE SYEAR='" . $next_syear . "')" );
+			$delete_sql .= "DELETE FROM PROGRAM_USER_CONFIG
+				WHERE USER_ID IN (SELECT STAFF_ID FROM STAFF WHERE SYEAR='" . $next_syear . "');";
 
-			DBQuery( "DELETE FROM STAFF WHERE SYEAR='" . $next_syear . "'" );
+			$delete_sql .= "DELETE FROM STAFF WHERE SYEAR='" . $next_syear . "';";
+
+			DBQuery( $delete_sql );
 
 			DBQuery( "INSERT INTO STAFF (STAFF_ID,SYEAR,CURRENT_SCHOOL_ID,TITLE,FIRST_NAME,
 				LAST_NAME,MIDDLE_NAME,NAME_SUFFIX,USERNAME,PASSWORD,PHONE,EMAIL,PROFILE,
@@ -288,13 +290,15 @@ function Rollover( $table )
 
 		case 'ATTENDANCE_CODES':
 
-			DBQuery( "DELETE FROM ATTENDANCE_CODE_CATEGORIES
+			$delete_sql = "DELETE FROM ATTENDANCE_CODE_CATEGORIES
 				WHERE SYEAR='" . $next_syear . "'
-				AND SCHOOL_ID='" . UserSchool() . "'" );
+				AND SCHOOL_ID='" . UserSchool() . "';";
 
-			DBQuery( "DELETE FROM ATTENDANCE_CODES
+			$delete_sql .= "DELETE FROM ATTENDANCE_CODES
 				WHERE SYEAR='" . $next_syear . "'
-				AND SCHOOL_ID='" . UserSchool() . "'" );
+				AND SCHOOL_ID='" . UserSchool() . "';";
+
+			DBQuery( $delete_sql );
 
 			DBQuery( "INSERT INTO ATTENDANCE_CODE_CATEGORIES (ID,SYEAR,SCHOOL_ID,TITLE,SORT_ORDER,ROLLOVER_ID)
 				SELECT " . db_seq_nextval( 'ATTENDANCE_CODE_CATEGORIES_SEQ' ) . ",SYEAR+1,SCHOOL_ID,TITLE,SORT_ORDER,ID
@@ -377,24 +381,26 @@ function Rollover( $table )
 
 		case 'COURSES':
 
-			DBQuery( "DELETE FROM COURSE_SUBJECTS
+			$delete_sql = "DELETE FROM COURSE_SUBJECTS
 				WHERE SYEAR='" . $next_syear . "'
-				AND SCHOOL_ID='" . UserSchool() . "'" );
+				AND SCHOOL_ID='" . UserSchool() . "';";
 
-			DBQuery( "DELETE FROM COURSES
+			$delete_sql .= "DELETE FROM COURSES
 				WHERE SYEAR='" . $next_syear . "'
-				AND SCHOOL_ID='" . UserSchool() . "'" );
+				AND SCHOOL_ID='" . UserSchool() . "';";
 
-			DBQuery( "DELETE FROM COURSE_PERIOD_SCHOOL_PERIODS cpsp
+			$delete_sql .= "DELETE FROM COURSE_PERIOD_SCHOOL_PERIODS cpsp
 				WHERE EXISTS (SELECT COURSE_PERIOD_ID
 					FROM COURSE_PERIODS cp
 					WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 					AND cp.SYEAR='" . $next_syear . "'
-					AND cp.SCHOOL_ID='" . UserSchool() . "');" );
+					AND cp.SCHOOL_ID='" . UserSchool() . "');";
 
-			DBQuery( "DELETE FROM COURSE_PERIODS
+			$delete_sql .= "DELETE FROM COURSE_PERIODS
 				WHERE SYEAR='" . $next_syear . "'
-				AND SCHOOL_ID='" . UserSchool() . "'" );
+				AND SCHOOL_ID='" . UserSchool() . "';";
+
+			DBQuery( $delete_sql );
 
 			// ROLL COURSE_SUBJECTS
 			DBQuery( "INSERT INTO COURSE_SUBJECTS (SYEAR,SCHOOL_ID,SUBJECT_ID,TITLE,SHORT_NAME,
@@ -593,13 +599,15 @@ function Rollover( $table )
 
 		case 'REPORT_CARD_GRADES':
 
-			DBQuery( "DELETE FROM REPORT_CARD_GRADE_SCALES
+			$delete_sql = "DELETE FROM REPORT_CARD_GRADE_SCALES
 				WHERE SYEAR='" . $next_syear . "'
-				AND SCHOOL_ID='" . UserSchool() . "'" );
+				AND SCHOOL_ID='" . UserSchool() . "';";
 
-			DBQuery( "DELETE FROM REPORT_CARD_GRADES
+			$delete_sql .= "DELETE FROM REPORT_CARD_GRADES
 				WHERE SYEAR='" . $next_syear . "'
-				AND SCHOOL_ID='" . UserSchool() . "'" );
+				AND SCHOOL_ID='" . UserSchool() . "';";
+
+			DBQuery( $delete_sql );
 
 			DBQuery( "INSERT INTO REPORT_CARD_GRADE_SCALES (ID,SYEAR,SCHOOL_ID,TITLE,COMMENT,
 				HR_GPA_VALUE,HHR_GPA_VALUE,SORT_ORDER,ROLLOVER_ID,GP_SCALE,HRS_GPA_VALUE,GP_PASSING_VALUE)
@@ -624,13 +632,15 @@ function Rollover( $table )
 
 		case 'REPORT_CARD_COMMENTS':
 
-			DBQuery( "DELETE FROM REPORT_CARD_COMMENT_CATEGORIES
+			$delete_sql = "DELETE FROM REPORT_CARD_COMMENT_CATEGORIES
 				WHERE SYEAR='" . $next_syear . "'
-				AND SCHOOL_ID='" . UserSchool() . "'" );
+				AND SCHOOL_ID='" . UserSchool() . "';";
 
-			DBQuery( "DELETE FROM REPORT_CARD_COMMENTS
+			$delete_sql .= "DELETE FROM REPORT_CARD_COMMENTS
 				WHERE SYEAR='" . $next_syear . "'
-				AND SCHOOL_ID='" . UserSchool() . "'" );
+				AND SCHOOL_ID='" . UserSchool() . "';";
+
+			DBQuery( $delete_sql );
 
 			DBQuery( "INSERT INTO REPORT_CARD_COMMENT_CATEGORIES (ID,SYEAR,SCHOOL_ID,TITLE,
 				SORT_ORDER,COURSE_ID,ROLLOVER_ID)

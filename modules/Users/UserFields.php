@@ -174,11 +174,13 @@ if ( $_REQUEST['modfunc'] === 'delete'
 			DeleteDBFieldCategory( 'STAFF', $_REQUEST['category_id'] );
 
 			// Remove from profiles and permissions.
-			DBQuery( "DELETE FROM PROFILE_EXCEPTIONS
-				WHERE MODNAME='Users/User.php&category_id=" . $_REQUEST['category_id'] . "'" );
+			$delete_sql = "DELETE FROM PROFILE_EXCEPTIONS
+				WHERE MODNAME='Users/User.php&category_id=" . $_REQUEST['category_id'] . "';";
 
-			DBQuery( "DELETE FROM STAFF_EXCEPTIONS
-				WHERE MODNAME='Users/User.php&category_id=" . $_REQUEST['category_id'] . "'" );
+			$delete_sql .= "DELETE FROM STAFF_EXCEPTIONS
+				WHERE MODNAME='Users/User.php&category_id=" . $_REQUEST['category_id'] . "';";
+
+			DBQuery( $delete_sql );
 
 			// Unset modfunc & category ID & redirect URL.
 			RedirectURL( array( 'modfunc', 'category_id' ) );

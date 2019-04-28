@@ -477,23 +477,25 @@ if ( $_REQUEST['modfunc'] === 'delete'
 	{
 		// Do not try to delete Grades, Attendance, or Schedule records
 		// in case records exist, we must keep them.
-		DBQuery( "DELETE FROM STUDENTS_JOIN_ADDRESS
-			WHERE STUDENT_ID='" . UserStudentID() . "'" );
+		$delete_sql = "DELETE FROM STUDENTS_JOIN_ADDRESS
+			WHERE STUDENT_ID='" . UserStudentID() . "';";
 
-		DBQuery( "DELETE FROM STUDENTS_JOIN_PEOPLE
-			WHERE STUDENT_ID='" . UserStudentID() . "'" );
+		$delete_sql .= "DELETE FROM STUDENTS_JOIN_PEOPLE
+			WHERE STUDENT_ID='" . UserStudentID() . "';";
 
-		DBQuery( "DELETE FROM STUDENTS_JOIN_USERS
-			WHERE STUDENT_ID='" . UserStudentID() . "'" );
+		$delete_sql .= "DELETE FROM STUDENTS_JOIN_USERS
+			WHERE STUDENT_ID='" . UserStudentID() . "';";
 
-		DBQuery( "DELETE FROM STUDENT_ENROLLMENT
-			WHERE STUDENT_ID='" . UserStudentID() . "'" );
+		$delete_sql .= "DELETE FROM STUDENT_ENROLLMENT
+			WHERE STUDENT_ID='" . UserStudentID() . "';";
 
-		DBQuery( "DELETE FROM STUDENTS
-			WHERE STUDENT_ID='" . UserStudentID() . "'" );
+		$delete_sql .= "DELETE FROM STUDENTS
+			WHERE STUDENT_ID='" . UserStudentID() . "';";
 
-		DBQuery( "DELETE FROM FOOD_SERVICE_ACCOUNTS
-			WHERE ACCOUNT_ID='" . UserStudentID() . "'" );
+		$delete_sql .= "DELETE FROM FOOD_SERVICE_ACCOUNTS
+			WHERE ACCOUNT_ID='" . UserStudentID() . "';";
+
+		DBQuery( $delete_sql );
 
 		// Hook.
 		do_action( 'Students/Student.php|delete_student' );

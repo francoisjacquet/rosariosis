@@ -112,11 +112,13 @@ if ( $_REQUEST['modfunc'] === 'remove'
 			SET SCALE_ID=NULL
 			WHERE SCALE_ID='" . $_REQUEST['id'] . "'" );
 
-		DBQuery( "DELETE FROM REPORT_CARD_COMMENT_CODES
-			WHERE SCALE_ID='" . $_REQUEST['id'] . "'" );
+		$delete_sql = "DELETE FROM REPORT_CARD_COMMENT_CODES
+			WHERE SCALE_ID='" . $_REQUEST['id'] . "';";
 
-		DBQuery( "DELETE FROM REPORT_CARD_COMMENT_CODE_SCALES
-			WHERE ID='" . $_REQUEST['id'] . "'" );
+		$delete_sql .= "DELETE FROM REPORT_CARD_COMMENT_CODE_SCALES
+			WHERE ID='" . $_REQUEST['id'] . "';";
+
+		DBQuery( $delete_sql );
 
 		// Unset modfunc & ID & redirect URL.
 		RedirectURL( array( 'modfunc', 'id' ) );

@@ -10,17 +10,19 @@ if ( $_REQUEST['modfunc'] === 'delete'
 {
 	if ( DeletePrompt( _( 'Final Grade' ) ) )
 	{
-		DBQuery( "DELETE FROM STUDENT_REPORT_CARD_GRADES
+		$delete_sql = "DELETE FROM STUDENT_REPORT_CARD_GRADES
 			WHERE SYEAR='" . UserSyear() . "'
 			AND STUDENT_ID='" . $_REQUEST['student_id'] . "'
 			AND COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'
-			AND MARKING_PERIOD_ID='" . $_REQUEST['marking_period_id'] . "'" );
+			AND MARKING_PERIOD_ID='" . $_REQUEST['marking_period_id'] . "';";
 
-		DBQuery( "DELETE FROM STUDENT_REPORT_CARD_COMMENTS
+		$delete_sql .= "DELETE FROM STUDENT_REPORT_CARD_COMMENTS
 			WHERE SYEAR='" . UserSyear() . "'
 			AND STUDENT_ID='" . $_REQUEST['student_id'] . "'
 			AND COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'
-			AND MARKING_PERIOD_ID='" . $_REQUEST['marking_period_id'] . "'" );
+			AND MARKING_PERIOD_ID='" . $_REQUEST['marking_period_id'] . "';";
+
+		DBQuery( $delete_sql );
 
 		$_REQUEST['modfunc'] = 'save';
 	}

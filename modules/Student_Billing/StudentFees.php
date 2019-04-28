@@ -75,11 +75,13 @@ if ( $_REQUEST['modfunc'] === 'remove'
 {
 	if ( DeletePrompt( _( 'Fee' ) ) )
 	{
-		DBQuery( "DELETE FROM BILLING_FEES
-			WHERE ID='" . $_REQUEST['id'] . "'" );
+		$delete_sql = "DELETE FROM BILLING_FEES
+			WHERE ID='" . $_REQUEST['id'] . "';";
 
-		DBQuery( "DELETE FROM BILLING_FEES
-			WHERE WAIVED_FEE_ID='" . $_REQUEST['id'] . "'" );
+		$delete_sql .= "DELETE FROM BILLING_FEES
+			WHERE WAIVED_FEE_ID='" . $_REQUEST['id'] . "';";
+
+		DBQuery( $delete_sql );
 
 		// Unset modfunc & ID & redirect URL.
 		RedirectURL( array( 'modfunc', 'id' ) );

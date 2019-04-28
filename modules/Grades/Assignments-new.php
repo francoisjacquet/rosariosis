@@ -183,24 +183,28 @@ if ( $_REQUEST['modfunc'] === 'remove' )
 	{
 		if ( $_REQUEST['tab_id'] !== 'new' )
 		{
-			DBQuery( "DELETE FROM GRADEBOOK_GRADES WHERE ASSIGNMENT_ID='" . $_REQUEST['id'] . "'" );
-			DBQuery( "DELETE FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_ID='" . $_REQUEST['id'] . "'" );
+			$delete_sql = "DELETE FROM GRADEBOOK_GRADES WHERE ASSIGNMENT_ID='" . $_REQUEST['id'] . "';";
+			$delete_sql .= "DELETE FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_ID='" . $_REQUEST['id'] . "';";
 		}
 		else
 		{
 			$assignments_RET = DBGet( "SELECT ASSIGNMENT_ID FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_TYPE_ID='" . $_REQUEST['id'] . "'" );
 
+			$delete_sql = '';
+
 			if ( ! empty( $assignments_RET ) )
 			{
 				foreach ( (array) $assignments_RET as $assignment_id )
 				{
-					DBQuery( "DELETE FROM GRADEBOOK_GRADES WHERE ASSIGNMENT_ID='" . $assignment_id['ASSIGNMENT_ID'] . "'" );
+					$delete_sql .= "DELETE FROM GRADEBOOK_GRADES WHERE ASSIGNMENT_ID='" . $assignment_id['ASSIGNMENT_ID'] . "';";
 				}
 			}
 
-			DBQuery( "DELETE FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_TYPE_ID='" . $_REQUEST['id'] . "'" );
-			DBQuery( "DELETE FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE ASSIGNMENT_TYPE_ID='" . $_REQUEST['id'] . "'" );
+			$delete_sql .= "DELETE FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_TYPE_ID='" . $_REQUEST['id'] . "';";
+			$delete_sql .= "DELETE FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE ASSIGNMENT_TYPE_ID='" . $_REQUEST['id'] . "';";
 		}
+
+		DBQuery( $delete_sql );
 
 		// Unset modfunc & ID & redirect URL.
 		RedirectURL( array( 'modfunc', 'id' ) );
