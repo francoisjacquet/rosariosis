@@ -8,6 +8,9 @@ require_once 'modules/Scheduling/includes/calcSeats0.fnc.php';
 
 DrawHeader( ProgramTitle() );
 
+$_REQUEST['include_inactive'] = isset( $_REQUEST['include_inactive'] ) ? $_REQUEST['include_inactive'] : '';
+$_REQUEST['include_seats'] = isset( $_REQUEST['include_seats'] ) ? $_REQUEST['include_seats'] : '';
+
 $date = RequestedDate( 'date', '' );
 
 if ( ! $date )
@@ -616,7 +619,8 @@ function VerifySchedule( &$schedule )
 					else
 					// if different periods then okay
 
-					if ( $schedule[$i]['PERIOD_ID'] == $schedule[$j]['PERIOD_ID'] )
+					if ( ! empty( $schedule[$i]['PERIOD_ID'] )
+						&& $schedule[$i]['PERIOD_ID'] == $schedule[$j]['PERIOD_ID'] )
 					// should not be enrolled in the same period on the same day
 
 					{
