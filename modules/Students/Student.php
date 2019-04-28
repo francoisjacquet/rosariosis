@@ -356,17 +356,23 @@ if ( $_REQUEST['modfunc'] === 'update'
 				$FileUploadsPath . 'Student/' . UserStudentID() . '/'
 			);
 
-			$uploaded = FilesUploadUpdate(
-				'PEOPLE',
-				'valuesPEOPLE',
-				$FileUploadsPath . 'Student/' . UserStudentID() . '/'
-			);
+			if ( ! empty( $_REQUEST['person_id'] ) )
+			{
+				$uploaded = FilesUploadUpdate(
+					'PEOPLE',
+					'valuesPEOPLE',
+					$FileUploadsPath . 'Contact/' . $_REQUEST['person_id'] . '/'
+				);
+			}
 
-			$uploaded = FilesUploadUpdate(
-				'ADDRESS',
-				'valuesADDRESS',
-				$FileUploadsPath . 'Student/' . UserStudentID() . '/'
-			);
+			if ( ! empty( $_REQUEST['address_id'] ) )
+			{
+				$uploaded = FilesUploadUpdate(
+					'ADDRESS',
+					'valuesADDRESS',
+					$FileUploadsPath . 'Address/' . $_REQUEST['address_id'] . '/'
+				);
+			}
 		}
 
 		if ( UserStudentID()
@@ -507,13 +513,54 @@ if ( $_REQUEST['modfunc'] === 'delete'
 	}
 }
 
+if ( $_REQUEST['modfunc'] === 'remove_file'
+	&& basename( $_SERVER['PHP_SELF'] ) !== 'index.php'
+	&& AllowEdit() )
+{
+	if ( DeletePrompt( _( 'File' ) ) )
+	{
+		$column = DBEscapeIdentifier( 'CUSTOM_' . $_REQUEST['id'] );
+
+		if ( ! empty( $_REQUEST['person_id'] ) )
+		{
+			$file = $FileUploadsPath . 'People/' . $_REQUEST['person_id'] . '/' . $_REQUEST['filename'];
+
+			DBQuery( "UPDATE PEOPLE SET " . $column . "=REPLACE(" . $column . ", '" . DBEscapeString( $file ) . "||', '')
+				WHERE PERSON_ID='" . $_REQUEST['person_id'] . "'" );
+		}
+		elseif ( ! empty( $_REQUEST['address_id'] ) )
+		{
+			$file = $FileUploadsPath . 'Address/' . $_REQUEST['address_id'] . '/' . $_REQUEST['filename'];
+
+			DBQuery( "UPDATE ADDRESS SET " . $column . "=REPLACE(" . $column . ", '" . DBEscapeString( $file ) . "||', '')
+				WHERE ADDRESS_ID='" . $_REQUEST['address_id'] . "'" );
+		}
+		else
+		{
+			$file = $FileUploadsPath . 'Student/' . UserStudentID() . '/' . $_REQUEST['filename'];
+
+			DBQuery( "UPDATE STUDENTS SET " . $column . "=REPLACE(" . $column . ", '" . DBEscapeString( $file ) . "||', '')
+				WHERE STUDENT_ID='" . UserStudentID() . "'" );
+		}
+
+		if ( file_exists( $file ) )
+		{
+			unset( $file );
+		}
+
+		// Unset modfunc, id, filename & redirect URL.
+		RedirectURL( array( 'modfunc', 'id', 'filename' ) );
+	}
+}
+
 echo ErrorMessage( $error );
 
 Search( 'student_id' );
 
 if (  ( UserStudentID()
 	|| isset( $_REQUEST['student_id'] ) && $_REQUEST['student_id'] === 'new' )
-	&& $_REQUEST['modfunc'] !== 'delete' )
+	&& $_REQUEST['modfunc'] !== 'delete'
+	&& $_REQUEST['modfunc'] !== 'remove_file' )
 {
 	// MODNAME LIKE 'Students/Student.php%'.
 

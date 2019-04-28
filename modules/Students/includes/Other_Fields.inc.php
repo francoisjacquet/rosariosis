@@ -63,7 +63,16 @@ foreach ( (array) $fields_RET as $field )
 
 		case 'files':
 
-			echo _makeFilesInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], 'values' );
+			$request_no_array = str_replace( array( '[', ']' ), '', $request );
+
+			echo _makeFilesInput(
+				'CUSTOM_' . $field['ID'],
+				$field['TITLE'],
+				$request_no_array,
+				'Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $_REQUEST['category_id'] .
+					'&address_id=' . $_REQUEST['address_id'] . '&person_id=' . $_REQUEST['person_id'] .
+					'&modfunc=remove_file&id=' . $field['ID'] . '&filename='
+			);
 
 			break;
 	}
