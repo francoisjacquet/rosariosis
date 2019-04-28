@@ -2,8 +2,11 @@
  * jQuery formNavigation plugin
  *
  * Navigate form inputs using arrow keys, and vertically using tab key.
+ * Note: will not work with <select> inputs (ie: Input Final Grades form).
  *
  * @example $('.list-wrapper .list').formNavigation();
+ *
+ * @since 4.6
  *
  * Based on formNavigation https://github.com/omichelsen/FormNavigation
  * @link https://stackoverflow.com/questions/38575817/set-tabindex-in-vertical-order-of-columns
@@ -48,7 +51,7 @@
           $tr = $(this).closest('tr'),
           $tb = $(this).closest('tbody');
 
-        // Vertical navigation using tab as OP wanted.
+        // Vertical navigation using tab.
         if (e.which === 9 && !e.shiftKey) {
           // Navigate forward.
           if ($tr.next().find('input').length > 0) {
