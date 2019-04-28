@@ -627,11 +627,23 @@ else
 	);
 }
 
-// @since 4.6 Use jQuery formNavigation plugin.
-// Navigate form inputs using arrow keys, and vertically using tab key.
+// @since 4.6 Navigate form inputs vertically using tab key.
+// @link https://stackoverflow.com/questions/38575817/set-tabindex-in-vertical-order-of-columns
 ?>
-<script src="assets/js/jquery-formnavigation/jquery-formnavigation.min.js"></script>
-<script>$('.list-wrapper .list').formNavigation();</script>
+<script>
+	function fixVerticalTabindex(selector) {
+		var tabindex = 1;
+		$(selector).each(function(i, tbl) {
+			$(tbl).find('tr').first().find('td').each(function(clmn, el) {
+				$(tbl).find('tr td:nth-child(' + (clmn + 1) + ') input').each(function(j, input) {
+					$(input).attr('tabindex', tabindex++);
+				});
+			});
+		});
+	}
+
+	fixVerticalTabindex('.list-wrapper .list tbody');
+</script>
 <?php
 
 echo $_REQUEST['assignment_id'] ? '<br /><div class="center">' . SubmitButton() . '</div>' : '';
