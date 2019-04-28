@@ -1,5 +1,6 @@
 <?php
 
+require_once 'ProgramFunctions/FileUpload.fnc.php';
 require_once 'ProgramFunctions/Fields.fnc.php';
 require_once 'ProgramFunctions/StudentsUsersInfo.fnc.php';
 
@@ -13,8 +14,9 @@ if ( $_REQUEST['modfunc'] === 'update' )
 	if ( $_REQUEST['button'] === _( 'Save' )
 		&& AllowEdit() )
 	{
-		if ( $_REQUEST['values']
-			&& $_POST['values'] )
+		if ( ! empty( $_REQUEST['values'] )
+			&& ! empty( $_POST['values'] )
+			|| ! empty( $_FILES ) )
 		{
 			// FJ other fields required.
 			$required_error = CheckRequiredCustomFields( 'SCHOOL_FIELDS', $_REQUEST['values'] );
@@ -88,10 +90,23 @@ if ( $_REQUEST['modfunc'] === 'update' )
 						$go = true;
 					}
 				}
+
 				$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "'";
+
 				if ( $go )
 				{
 					DBQuery( $sql );
+					$note[] = button( 'check' ) . '&nbsp;' . _( 'This school has been modified.' );
+				}
+
+				$uploaded = FilesUploadUpdate(
+					'SCHOOLS',
+					'values',
+					$FileUploadsPath . 'Schools/' . UserSchool() . '/'
+				);
+
+				if ( ! $go && $uploaded )
+				{
 					$note[] = button( 'check' ) . '&nbsp;' . _( 'This school has been modified.' );
 				}
 
@@ -109,16 +124,18 @@ if ( $_REQUEST['modfunc'] === 'update' )
 	{
 		if ( DeletePrompt( _( 'School' ) ) )
 		{
-			DBQuery( "DELETE FROM SCHOOLS WHERE ID='" . UserSchool() . "'" );
-			DBQuery( "DELETE FROM SCHOOL_GRADELEVELS WHERE SCHOOL_ID='" . UserSchool() . "'" );
-			DBQuery( "DELETE FROM ATTENDANCE_CALENDAR WHERE SCHOOL_ID='" . UserSchool() . "'" );
-			DBQuery( "DELETE FROM SCHOOL_PERIODS WHERE SCHOOL_ID='" . UserSchool() . "'" );
-			DBQuery( "DELETE FROM SCHOOL_MARKING_PERIODS WHERE SCHOOL_ID='" . UserSchool() . "'" );
-			DBQuery( "UPDATE STAFF SET CURRENT_SCHOOL_ID=NULL WHERE CURRENT_SCHOOL_ID='" . UserSchool() . "'" );
-			DBQuery( "UPDATE STAFF SET SCHOOLS=replace(SCHOOLS,'," . UserSchool() . ",',',')" );
+			$delete_sql = "DELETE FROM SCHOOLS WHERE ID='" . UserSchool() . "';";
+			$delete_sql .= "DELETE FROM SCHOOL_GRADELEVELS WHERE SCHOOL_ID='" . UserSchool() . "';";
+			$delete_sql .= "DELETE FROM ATTENDANCE_CALENDAR WHERE SCHOOL_ID='" . UserSchool() . "';";
+			$delete_sql .= "DELETE FROM SCHOOL_PERIODS WHERE SCHOOL_ID='" . UserSchool() . "';";
+			$delete_sql .= "DELETE FROM SCHOOL_MARKING_PERIODS WHERE SCHOOL_ID='" . UserSchool() . "';";
+			$delete_sql .= "UPDATE STAFF SET CURRENT_SCHOOL_ID=NULL WHERE CURRENT_SCHOOL_ID='" . UserSchool() . "';";
+			$delete_sql .= "UPDATE STAFF SET SCHOOLS=replace(SCHOOLS,'," . UserSchool() . ",',',');";
 			//FJ add School Configuration
-			DBQuery( "DELETE FROM CONFIG WHERE SCHOOL_ID='" . UserSchool() . "'" );
-			DBQuery( "DELETE FROM PROGRAM_CONFIG WHERE SCHOOL_ID='" . UserSchool() . "'" );
+			$delete_sql .= "DELETE FROM CONFIG WHERE SCHOOL_ID='" . UserSchool() . "';";
+			$delete_sql .= "DELETE FROM PROGRAM_CONFIG WHERE SCHOOL_ID='" . UserSchool() . "';";
+
+			DBQuery( $delete_sql );
 
 			// Unset modfunc & redirect URL.
 			RedirectURL( 'modfunc' );
@@ -138,6 +155,29 @@ if ( $_REQUEST['modfunc'] === 'update' )
 	}
 }
 
+if ( $_REQUEST['modfunc'] === 'remove_file'
+	&& AllowEdit() )
+{
+	if ( DeletePrompt( _( 'File' ) ) )
+	{
+		$column = DBEscapeIdentifier( 'CUSTOM_' . $_REQUEST['id'] );
+
+		$file = $FileUploadsPath . 'Schools/' . UserSchool() . '/' . $_REQUEST['filename'];
+
+		DBQuery( "UPDATE SCHOOLS SET " . $column . "=REPLACE(" . $column . ", '" . DBEscapeString( $file ) . "||', '')
+			WHERE ID='" . UserSchool() . "'
+			AND SYEAR='" . UserSyear() . "'" );
+
+		if ( file_exists( $file ) )
+		{
+			unset( $file );
+		}
+
+		// Unset modfunc, id, filename & redirect URL.
+		RedirectURL( array( 'modfunc', 'id', 'filename' ) );
+	}
+}
+
 if ( ! $_REQUEST['modfunc'] )
 {
 	echo ErrorMessage( $note, 'note' );
@@ -153,7 +193,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$schooldata = $schooldata[1];
 	$school_name = SchoolInfo( 'TITLE' );
 
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update" method="POST">';
+	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update" method="POST" enctype="multipart/form-data">';
 
 	//FJ delete school only if more than one school
 	$delete_button = $_SESSION['SchoolData']['SCHOOLS_NB'] > 1 ?
@@ -393,7 +433,12 @@ if ( ! $_REQUEST['modfunc'] )
 
 			case 'files':
 
-				echo _makeFilesInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], 'values' );
+				echo _makeFilesInput(
+					'CUSTOM_' . $field['ID'],
+					$field['TITLE'],
+					'values',
+					'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove_file&id=' . $field['ID'] . '&filename='
+				);
 
 				break;
 		}
