@@ -627,6 +627,13 @@ else
 	);
 }
 
+// @since 4.6 Use jQuery formNavigation plugin.
+// Navigate form inputs using arrow keys, and vertically using tab key.
+?>
+<script src="assets/js/jquery-formnavigation/jquery-formnavigation.min.js"></script>
+<script>$('.list-wrapper .list').formNavigation();</script>
+<?php
+
 echo $_REQUEST['assignment_id'] ? '<br /><div class="center">' . SubmitButton() . '</div>' : '';
 echo '</form>';
 
