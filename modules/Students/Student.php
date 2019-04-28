@@ -90,7 +90,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 	if ( ! empty( $_POST['students'] )
 		|| ! empty( $_POST['values'] )
-		|| ! empty( $_FILES['photo'] ) )
+		|| ! empty( $_FILES ) )
 	{
 		$required_error = false;
 
@@ -345,6 +345,28 @@ if ( $_REQUEST['modfunc'] === 'update'
 				//hook
 				do_action( 'Students/Student.php|create_student' );
 			}
+		}
+
+		if ( UserStudentID()
+			&& ! empty( $_FILES ) )
+		{
+			$uploaded = FilesUploadUpdate(
+				'STUDENTS',
+				'students',
+				$FileUploadsPath . 'Student/' . UserStudentID() . '/'
+			);
+
+			$uploaded = FilesUploadUpdate(
+				'PEOPLE',
+				'valuesPEOPLE',
+				$FileUploadsPath . 'Student/' . UserStudentID() . '/'
+			);
+
+			$uploaded = FilesUploadUpdate(
+				'ADDRESS',
+				'valuesADDRESS',
+				$FileUploadsPath . 'Student/' . UserStudentID() . '/'
+			);
 		}
 
 		if ( UserStudentID()
