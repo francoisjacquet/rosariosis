@@ -338,7 +338,7 @@ function ImageUpload( $input, $target_dim = array(), $path = '', $ext_white_list
  *
  * @since 4.6
  *
- * @example FilesUploadUpdate( 'SCHOOLS', 'values',	$FileUploadsPath . 'school_' . UserSchool() . '/' );
+ * @example FilesUploadUpdate( 'SCHOOLS', 'values',	$FileUploadsPath . 'Schools/' . UserSchool() . '/' );
  *
  * @uses FileUpload()
  *
@@ -391,11 +391,31 @@ function FilesUploadUpdate( $table, $request, $path )
 
 			$column = str_replace( $request, '', $input );
 
+			if ( $table === 'SCHOOLS' )
+			{
+				$where_sql = "ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "'";
+			}
+			elseif ( $table === 'STUDENTS' )
+			{
+				$where_sql = "STUDENT_ID='" . UserStudentID() . "'";
+			}
+			elseif ( $table === 'ADDRESS' )
+			{
+				$where_sql = "ADDRESS_ID='" . $_REQUEST['address_id'] . "'";
+			}
+			elseif ( $table === 'PEOPLE' )
+			{
+				$where_sql = "PERSON_ID='" . $_REQUEST['person_id'] . "'";
+			}
+			elseif ( $table === 'STAFF' )
+			{
+				$where_sql = "STAFF_ID='" . UserStaffID() . "'";
+			}
+
 			DBQuery( "UPDATE " . DBEscapeIdentifier( $table ) . "
 				SET " . DBEscapeIdentifier( $column ) . "=COALESCE(" .
 				DBEscapeIdentifier( $column ) . ",'')||'" . DBEscapeString( $value_append ) . "'
-				WHERE ID='" . UserSchool() . "'
-				AND SYEAR='" . UserSyear() . "'" );
+				WHERE " . $where_sql );
 		}
 	}
 
