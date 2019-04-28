@@ -480,7 +480,7 @@ function _makeFilesInput( $column, $name, $request, $remove_url = '' )
 
 	if ( $files )
 	{
-		$files_html = '<table class="widefat width-100p"><tbody><tr><td>' .
+		$files_html = '<table class="widefat"><tbody><tr><td>' .
 			implode( '</td></tr><tr><td>', $files ) . '</td></tr></tbody></table>';
 	}
 
