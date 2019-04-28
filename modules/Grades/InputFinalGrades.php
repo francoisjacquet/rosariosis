@@ -1325,7 +1325,7 @@ function _makeTipMessage( $full_name, $column )
  */
 function _makeLetterPercent( $student_id, $column )
 {
-	global $current_RET, $import_RET, $grades_select, $student_count, $tabindex;
+	global $current_RET, $import_RET, $grades_select, $student_count;
 
 	if ( $import_RET[$student_id] )
 	{
@@ -1343,7 +1343,6 @@ function _makeLetterPercent( $student_id, $column )
 	if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		$student_count++;
-		$tabindex = $student_count;
 
 		if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) < 0 )
 		{
@@ -1353,7 +1352,7 @@ function _makeLetterPercent( $student_id, $column )
 				'',
 				$grades_select,
 				false,
-				'tabindex="' . $tabindex . '"',
+				'',
 				$div
 			);
 		}
@@ -1363,7 +1362,7 @@ function _makeLetterPercent( $student_id, $column )
 				$select_percent == '' ? '' : $select_percent . '%',
 				'values[' . $student_id . '][percent]',
 				'',
-				'size=5 tabindex=' . $tabindex,
+				'size=5',
 				$div
 			);
 		}
@@ -1382,13 +1381,13 @@ function _makeLetterPercent( $student_id, $column )
 					'',
 					$grades_select,
 					false,
-					'tabindex="' . $tabindex . '"',
+					'',
 					false
 				) . ' ' . TextInput(
 					$select_percent != '' ? $select_percent . '%' : '',
 					'values[' . $student_id . '][percent]',
 					'',
-					'size="5" tabindex="' . ( $tabindex += 100 ) . '"',
+					'size="5"',
 					false
 				) . '</span>';
 
@@ -1410,13 +1409,13 @@ function _makeLetterPercent( $student_id, $column )
 					'',
 					$grades_select,
 					false,
-					'tabindex="' . $tabindex . '"',
+					'',
 					false
 				) . ' ' . TextInput(
 					$select_percent != '' ? $select_percent . '%' : ( $select_grade ? '%' : '' ),
 					'values[' . $student_id . '][percent]',
 					'',
-					'size="5" tabindex="' . ( $tabindex += 100 ) . '"',
+					'size="5"',
 					false
 				) . '</span>';
 			}
@@ -1448,7 +1447,7 @@ function _makeLetterPercent( $student_id, $column )
  */
 function _makeComment( $value, $column )
 {
-	global $THIS_RET, $current_RET, $import_comments_RET, $tabindex;
+	global $THIS_RET, $current_RET, $import_comments_RET;
 
 	if ( $import_comments_RET[$THIS_RET['STUDENT_ID']] )
 	{
@@ -1463,7 +1462,7 @@ function _makeComment( $value, $column )
 
 	if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
-		$return = TextInput( $select, "values[$THIS_RET[STUDENT_ID]][comment]", '', 'size=20 maxlength=255 tabindex=' . ( $tabindex += 100 ), $div );
+		$return = TextInput( $select, "values[$THIS_RET[STUDENT_ID]][comment]", '', 'size=20 maxlength=255', $div );
 	}
 	else
 	{
@@ -1480,7 +1479,7 @@ function _makeComment( $value, $column )
  */
 function _makeCommentsA( $value, $column )
 {
-	global $THIS_RET, $current_commentsA_RET, $import_commentsA_RET, $commentsA_select, $tabindex;
+	global $THIS_RET, $current_commentsA_RET, $import_commentsA_RET, $commentsA_select;
 
 	if ( $import_commentsA_RET[$THIS_RET['STUDENT_ID']][$value] )
 	{
@@ -1503,7 +1502,7 @@ function _makeCommentsA( $value, $column )
 
 	if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
-		$return = SelectInput( $select, 'values[' . $THIS_RET['STUDENT_ID'] . '][commentsA][' . $value . ']', '', $commentsA_select[$THIS_RET['CAC' . $value]], _( 'N/A' ), 'tabindex=' . ( $tabindex += 100 ), $div );
+		$return = SelectInput( $select, 'values[' . $THIS_RET['STUDENT_ID'] . '][commentsA][' . $value . ']', '', $commentsA_select[$THIS_RET['CAC' . $value]], _( 'N/A' ), '', $div );
 	}
 	else
 	{
@@ -1525,8 +1524,7 @@ function _makeCommentsB( $value, $column )
 	$import_commentsB_RET,
 	$commentsB_RET,
 	$max_current_commentsB,
-	$commentsB_select,
-		$tabindex;
+	$commentsB_select;
 
 	if ( $import_commentsB_RET[$THIS_RET['STUDENT_ID']][$value] )
 	{
@@ -1555,11 +1553,11 @@ function _makeCommentsB( $value, $column )
 	{
 		if ( $value > $max_current_commentsB )
 		{
-			$return = SelectInput( '', 'values[' . $THIS_RET['STUDENT_ID'] . '][commentsB][' . $value . ']', '', $commentsB_select, _( 'N/A' ), 'tabindex=' . ( $tabindex += 100 ) );
+			$return = SelectInput( '', 'values[' . $THIS_RET['STUDENT_ID'] . '][commentsB][' . $value . ']', '', $commentsB_select, _( 'N/A' ) );
 		}
 		elseif ( $import_commentsB_RET[$THIS_RET['STUDENT_ID']][$value] || isset( $current_commentsB_RET[$THIS_RET['STUDENT_ID']][$value] ) )
 		{
-			$return = SelectInput( $select, 'values[' . $THIS_RET['STUDENT_ID'] . '][commentsB][' . $value . ']', '', $commentsB_select, _( 'N/A' ), 'tabindex=' . ( $tabindex += 100 ), $div );
+			$return = SelectInput( $select, 'values[' . $THIS_RET['STUDENT_ID'] . '][commentsB][' . $value . ']', '', $commentsB_select, _( 'N/A' ), '', $div );
 		}
 		else
 		{
