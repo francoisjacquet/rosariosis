@@ -17,6 +17,7 @@ Changes in 4.6
 - Add FilesUploadUpdate() function in FileUpload.fnc.php
 - JS Navigate form inputs vertically using tab key in Grades.php & InputFinalGrades.php
 - Performance Run multiple DELETE SQL queries at once, progam wide
+- Merge Address Fields & Contact Fields programs with Student Fields program in StudentFields.php, AddressFields.php, PeopleFields.php & Menu.php
 
 Changes in 4.5.2
 ----------------

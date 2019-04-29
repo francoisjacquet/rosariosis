@@ -1,6 +1,6 @@
 <?php
 /**
- * People Fields
+ * Address Fields
  *
  * @package RosarioSIS
  * @subpackage modules
@@ -56,7 +56,7 @@ if ( isset( $_POST['tables'] )
 					$sql = 'INSERT INTO ' . $table . ' ';
 
 					// New Field.
-					if ( $table === 'PEOPLE_FIELDS' )
+					if ( $table === 'ADDRESS_FIELDS' )
 					{
 						if ( isset( $columns['CATEGORY_ID'] ) )
 						{
@@ -65,16 +65,16 @@ if ( isset( $_POST['tables'] )
 							unset( $columns['CATEGORY_ID'] );
 						}
 
-						$_REQUEST['id'] = AddDBField( 'PEOPLE', 'people_fields_seq', $columns['TYPE'] );
+						$_REQUEST['id'] = AddDBField( 'ADDRESS', 'address_fields_seq', $columns['TYPE'] );
 
 						$fields = 'ID,CATEGORY_ID,';
 
 						$values = $_REQUEST['id'] . ",'" . $_REQUEST['category_id'] . "',";
 					}
 					// New Category.
-					elseif ( $table === 'PEOPLE_FIELD_CATEGORIES' )
+					elseif ( $table === 'ADDRESS_FIELD_CATEGORIES' )
 					{
-						$id = DBSeqNextID( 'PEOPLE_FIELD_CATEGORIES_SEQ' );
+						$id = DBSeqNextID( 'ADDRESS_FIELD_CATEGORIES_SEQ' );
 
 						$fields = "ID,";
 
@@ -123,9 +123,9 @@ if ( $_REQUEST['modfunc'] === 'delete'
 	if ( isset( $_REQUEST['id'] )
 		&& intval( $_REQUEST['id'] ) > 0 )
 	{
-		if ( DeletePrompt( _( 'Contact Field' ) ) )
+		if ( DeletePrompt( _( 'Address Field' ) ) )
 		{
-			DeleteDBField( 'PEOPLE', $_REQUEST['id'] );
+			DeleteDBField( 'ADDRESS', $_REQUEST['id'] );
 
 			// Unset modfunc & ID & redirect URL.
 			RedirectURL( array( 'modfunc', 'id' ) );
@@ -134,10 +134,10 @@ if ( $_REQUEST['modfunc'] === 'delete'
 	elseif ( isset( $_REQUEST['category_id'] )
 		&& intval( $_REQUEST['category_id'] ) > 0 )
 	{
-		if ( DeletePrompt( _( 'Contact Field Category' ) . ' ' .
+		if ( DeletePrompt( _( 'Address Field Category' ) . ' ' .
 				_( 'and all fields in the category' ) ) )
 		{
-			DeleteDBFieldCategory( 'PEOPLE', $_REQUEST['category_id'] );
+			DeleteDBFieldCategory( 'ADDRESS', $_REQUEST['category_id'] );
 
 			// Unset modfunc & category ID & redirect URL.
 			RedirectURL( array( 'modfunc', 'category_id' ) );
@@ -149,6 +149,9 @@ if ( ! $_REQUEST['modfunc'] )
 {
 	echo ErrorMessage( $error );
 
+	// Category menu: student|address|contact.
+	DrawHeader( _fieldsCategoryMenu( $_REQUEST['category'] ) );
+
 	// ADDING & EDITING FORM.
 	if ( $_REQUEST['id']
 		&& $_REQUEST['id'] !== 'new' )
@@ -156,9 +159,9 @@ if ( ! $_REQUEST['modfunc'] )
 		$RET = DBGet( "SELECT ID,CATEGORY_ID,TITLE,TYPE,SELECT_OPTIONS,
 			DEFAULT_SELECTION,SORT_ORDER,REQUIRED,
 			(SELECT TITLE
-				FROM PEOPLE_FIELD_CATEGORIES
+				FROM ADDRESS_FIELD_CATEGORIES
 				WHERE ID=CATEGORY_ID) AS CATEGORY_TITLE
-			FROM PEOPLE_FIELDS
+			FROM ADDRESS_FIELDS
 			WHERE ID='" . $_REQUEST['id'] . "'" );
 
 		$RET = $RET[1];
@@ -169,8 +172,8 @@ if ( ! $_REQUEST['modfunc'] )
 		&& $_REQUEST['category_id'] !== 'new'
 		&& $_REQUEST['id'] !== 'new' )
 	{
-		$RET = DBGet( "SELECT ID AS CATEGORY_ID,TITLE,CUSTODY,EMERGENCY,SORT_ORDER
-			FROM PEOPLE_FIELD_CATEGORIES
+		$RET = DBGet( "SELECT ID AS CATEGORY_ID,TITLE,RESIDENCE,MAILING,BUS,SORT_ORDER
+			FROM ADDRESS_FIELD_CATEGORIES
 			WHERE ID='" . $_REQUEST['category_id'] . "'" );
 
 		$RET = $RET[1];
@@ -179,7 +182,7 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 	elseif ( $_REQUEST['id'] === 'new' )
 	{
-		$title = _( 'New Contact Field' );
+		$title = _( 'New Address Field' );
 
 		$RET['ID'] = 'new';
 
@@ -187,53 +190,62 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 	elseif ( $_REQUEST['category_id'] === 'new' )
 	{
-		$title = _( 'New Contact Field Category' );
+		$title = _( 'New Address Field Category' );
 
 		$RET['CATEGORY_ID'] = 'new';
 	}
 
+	$extra_fields = array( '<input type="hidden" name="category" value="address" />' );
+
 	if ( $_REQUEST['category_id']
 		&& ! $_REQUEST['id'] )
 	{
-		$extra_fields = array(
-			'<table class="width-100p cellspacing-0"><tr class="st"><td>' .
+		$extra_fields[] = '<table class="width-100p cellspacing-0"><tr class="st"><td>' .
 			CheckboxInput(
-				$RET['CUSTODY'],
-				'tables[' . $_REQUEST['category_id'] . '][CUSTODY]',
-				_( 'Custody' ),
+				$RET['RESIDENCE'],
+				'tables[' . $_REQUEST['category_id'] . '][RESIDENCE]',
+				_( 'Residence' ),
 				'',
 				$_REQUEST['category_id'] === 'new',
 				button( 'check' ),
 				button( 'x' )
 			) . '</td><td>' .
 			CheckboxInput(
-				$RET['EMERGENCY'],
-				'tables[' . $_REQUEST['category_id'] . '][EMERGENCY]',
-				_( 'Emergency' ),
+				$RET['MAILING'],
+				'tables[' . $_REQUEST['category_id'] . '][MAILING]',
+				_( 'Mailing' ),
+				'',
+				$_REQUEST['category_id'] === 'new',
+				button( 'check' ),
+				button( 'x' )
+			) . '</td><td>' .
+			CheckboxInput(
+				$RET['BUS'],
+				'tables[' . $_REQUEST['category_id'] . '][BUS]',
+				_( 'Bus' ),
 				'',
 				$_REQUEST['category_id'] === 'new',
 				button( 'check' ),
 				button( 'x' )
 			) . '</td></tr></table>' .
 			FormatInputTitle(
-				_( 'Note: All unchecked means applies to all contacts' ),
+				_( 'Note: All unchecked means applies to all addresses' ),
 				'',
 				false,
 				''
-			)
-		);
+			);
 	}
 
 	echo GetFieldsForm(
-		'PEOPLE',
+		'ADDRESS',
 		$title,
 		$RET,
-		isset( $extra_fields ) ? $extra_fields : array()
+		$extra_fields
 	);
 
 	// CATEGORIES.
 	$categories_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER
-		FROM PEOPLE_FIELD_CATEGORIES
+		FROM ADDRESS_FIELD_CATEGORIES
 		ORDER BY SORT_ORDER,TITLE" );
 
 	// DISPLAY THE MENU.
@@ -249,7 +261,7 @@ if ( ! $_REQUEST['modfunc'] )
 		&& $categories_RET )
 	{
 		$fields_RET = DBGet( "SELECT ID,TITLE,TYPE,SORT_ORDER
-			FROM PEOPLE_FIELDS
+			FROM ADDRESS_FIELDS
 			WHERE CATEGORY_ID='" . $_REQUEST['category_id'] . "'
 			ORDER BY SORT_ORDER,TITLE", array( 'TYPE' => 'MakeFieldType' ) );
 

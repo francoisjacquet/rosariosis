@@ -344,7 +344,7 @@ if ( User( 'PROFILE' ) === 'admin' ):
 
 	<p>' . _help( 'Click the "Create Parent Accounts for the Selected Students" button.' ) . '</p>';
 
-	$help['Students/StudentFields.php'] = $help['Students/PeopleFields.php'] = $help['Students/AddressFields.php'] = '<p>' . _help( '<i>Data Fields</i> allows you to setup your school\'s custom data fields. These fields are used to store information about a student in the "General Info" tab / "Addresses & Contacts" tab or a custom tab of the student screen.' ) . '</p>
+	$help['Students/StudentFields.php'] = '<p>' . _help( '<i>Data Fields</i> allows you to setup your school\'s custom data fields. These fields are used to store information about a student in the "General Info" tab / "Addresses & Contacts" tab or a custom tab of the student screen.' ) . '</p>
 
 	<p>' . _help( 'Data Field Categories' ) . '</p>
 

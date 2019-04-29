@@ -3908,8 +3908,6 @@ INSERT INTO profile_exceptions VALUES (1, 'Students/Letters.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Students/StudentLabels.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Students/PrintStudentInfo.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Students/StudentFields.php', 'Y', 'Y');
-INSERT INTO profile_exceptions VALUES (1, 'Students/AddressFields.php', 'Y', 'Y');
-INSERT INTO profile_exceptions VALUES (1, 'Students/PeopleFields.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Students/EnrollmentCodes.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Students/Student.php&category_id=1', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Students/Student.php&category_id=3', 'Y', 'Y');
