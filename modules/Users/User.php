@@ -153,7 +153,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 	}
 
 	if ( ! empty( $_POST['staff'] )
-		|| ! empty( $_FILES['photo'] ) )
+		|| ! empty( $_FILES ) )
 	{
 		$required_error = false;
 
@@ -425,6 +425,16 @@ Remote IP: %s', $admin_username, User( 'NAME' ), $ip );
 		}
 
 		if ( UserStaffID()
+			&& ! empty( $_FILES ) )
+		{
+			$uploaded = FilesUploadUpdate(
+				'STAFF',
+				'staff',
+				$FileUploadsPath . 'User/' . UserStaffID() . '/'
+			);
+		}
+
+		if ( UserStaffID()
 			&& ! empty( $_FILES['photo'] ) )
 		{
 			// $new_photo_file = FileUpload('photo', $UserPicturesPath.UserSyear().'/', array('.jpg', '.jpeg'), 2, $error, '.jpg', UserStaffID());
@@ -539,6 +549,29 @@ if ( $_REQUEST['modfunc'] === 'delete'
 	}
 }
 
+if ( $_REQUEST['modfunc'] === 'remove_file'
+	&& basename( $_SERVER['PHP_SELF'] ) !== 'index.php'
+	&& AllowEdit() )
+{
+	if ( DeletePrompt( _( 'File' ) ) )
+	{
+		$column = DBEscapeIdentifier( 'CUSTOM_' . $_REQUEST['id'] );
+
+		$file = $FileUploadsPath . 'User/' . UserStaffID() . '/' . $_REQUEST['filename'];
+
+		DBQuery( "UPDATE STAFF SET " . $column . "=REPLACE(" . $column . ", '" . DBEscapeString( $file ) . "||', '')
+			WHERE STAFF_ID='" . UserStaffID() . "'" );
+
+		if ( file_exists( $file ) )
+		{
+			unset( $file );
+		}
+
+		// Unset modfunc, id, filename & redirect URL.
+		RedirectURL( array( 'modfunc', 'id', 'filename' ) );
+	}
+}
+
 echo ErrorMessage( $error );
 
 Search( 'staff_id', ( isset( $extra ) ? $extra : array() ) );
@@ -546,7 +579,8 @@ Search( 'staff_id', ( isset( $extra ) ? $extra : array() ) );
 if (  ( UserStaffID()
 	|| ( isset( $_REQUEST['staff_id'] )
 		&& $_REQUEST['staff_id'] === 'new' ) )
-	&& $_REQUEST['modfunc'] !== 'delete' )
+	&& $_REQUEST['modfunc'] !== 'delete'
+	&& $_REQUEST['modfunc'] !== 'remove_file' )
 {
 	if ( $_REQUEST['staff_id'] !== 'new' )
 	{

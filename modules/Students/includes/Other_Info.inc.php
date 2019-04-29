@@ -144,7 +144,9 @@ foreach ( (array) $fields_RET as $field )
 				'CUSTOM_' . $field['ID'],
 				$field['TITLE'],
 				'students',
-				'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove_file&id=' . $field['ID'] . '&filename='
+				'Modules.php?modname=' . $_REQUEST['modname'] .
+				'&category_id=' . $_REQUEST['category_id'] . '&student_id=' . $_REQUEST['student_id'] .
+				'&modfunc=remove_file&id=' . $field['ID'] . '&filename='
 			);
 
 			break;

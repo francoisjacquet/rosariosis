@@ -115,7 +115,14 @@ foreach ( (array) $fields_RET as $field )
 
 		case 'files':
 
-			echo _makeFilesInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], 'values' );
+			echo _makeFilesInput(
+				'CUSTOM_' . $field['ID'],
+				$field['TITLE'],
+				'staff',
+				'Modules.php?modname=' . $_REQUEST['modname'] .
+				'&category_id=' . $_REQUEST['category_id'] . '&staff_id=' . $_REQUEST['staff_id'] .
+				'&modfunc=remove_file&id=' . $field['ID'] . '&filename='
+			);
 
 			break;
 	}

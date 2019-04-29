@@ -13,7 +13,7 @@ Changes in 4.6
 - Format PHP code, program wide
 - Use StudentUsersInfo \_make\*Input functions in Schools.php
 - Add \_makeFilesInput() function & $options_RET parameter to \_makeAutoSelectInput() in StudentsUsersInfo.fnc.php
-- Add Files input type in Schools.php, Student.php, Other_Fields.inc.php & Other_Info.inc.php, sponsored by Santa Cecilia school
+- Add Files input type in Schools.php, Student.php, User.php, Other_Fields.inc.php & Other_Info.inc.php
 - Add FilesUploadUpdate() function in FileUpload.fnc.php
 - JS Navigate form inputs vertically using tab key in Grades.php & InputFinalGrades.php
 - Performance Run multiple DELETE SQL queries at once, progam wide
