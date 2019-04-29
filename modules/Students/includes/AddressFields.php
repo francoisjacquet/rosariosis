@@ -189,12 +189,11 @@ if ( ! $_REQUEST['modfunc'] )
 		$RET['CATEGORY_ID'] = 'new';
 	}
 
-	$extra_fields = array( '<input type="hidden" name="category" value="address" />' );
-
 	if ( $_REQUEST['category_id']
 		&& ! $_REQUEST['id'] )
 	{
-		$extra_fields[] = '<table class="width-100p cellspacing-0"><tr class="st"><td>' .
+		$extra_fields = array(
+			'<table class="width-100p cellspacing-0"><tr class="st"><td>' .
 			CheckboxInput(
 				$RET['RESIDENCE'],
 				'tables[' . $_REQUEST['category_id'] . '][RESIDENCE]',
@@ -227,14 +226,15 @@ if ( ! $_REQUEST['modfunc'] )
 				'',
 				false,
 				''
-			);
+			)
+		);
 	}
 
 	echo GetFieldsForm(
 		'ADDRESS',
 		$title,
 		$RET,
-		$extra_fields
+		isset( $extra_fields ) ? $extra_fields : array()
 	);
 
 	// CATEGORIES.

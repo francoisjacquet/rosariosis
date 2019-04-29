@@ -234,17 +234,15 @@ if ( ! $_REQUEST['modfunc'] )
 		$RET['CATEGORY_ID'] = 'new';
 	}
 
-	$extra_fields = array( '<input type="hidden" name="category" value="student" />' );
-
 	if ( $_REQUEST['category_id']
 		&& ! $_REQUEST['id'] )
 	{
-		$extra_fields[] = TextInput(
+		$extra_fields = array( TextInput(
 			$RET['COLUMNS'],
 			'tables[' . $_REQUEST['category_id'] . '][COLUMNS]',
 			_( 'Display Columns' ),
 			'size=5'
-		);
+		) );
 
 		if ( $_REQUEST['category_id'] > 4
 			|| $_REQUEST['category_id'] === 'new' )
@@ -262,7 +260,7 @@ if ( ! $_REQUEST['modfunc'] )
 		'STUDENT',
 		$title,
 		$RET,
-		$extra_fields
+		isset( $extra_fields ) ? $extra_fields : array()
 	);
 
 	// CATEGORIES.
