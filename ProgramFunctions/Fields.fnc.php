@@ -276,7 +276,12 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 
 	$new = $id === 'new' || $category_id === 'new';
 
-	$form = '<form action="Modules.php?modname=' . $_REQUEST['modname'];
+	$form = '<form action="';
+
+	$form .= PreparePHP_SELF(
+		array(),
+		array( 'category_id', 'id', 'table', 'ML_tables' )
+	);
 
 	if ( $category_id
 		&& $category_id !== 'new' )
@@ -570,7 +575,10 @@ function FieldsMenuOutput( $RET, $id, $category_id = '0' )
 
 	$LO_link = array();
 
-	$LO_link['TITLE']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'];
+	$LO_link['TITLE']['link'] = PreparePHP_SELF(
+		array(),
+		array( 'category_id', 'id', 'table', 'ML_tables' )
+	);
 
 	if ( $category_id )
 	{
@@ -579,7 +587,10 @@ function FieldsMenuOutput( $RET, $id, $category_id = '0' )
 
 	$LO_link['TITLE']['variables'] = array( ( ! $category_id && $category_id !== false ? 'category_id' : 'id' ) => 'ID' );
 
-	$LO_link['add']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=';
+	$LO_link['add']['link'] = PreparePHP_SELF(
+		array(),
+		array( 'category_id', 'id', 'table', 'ML_tables' )
+	) . '&category_id=';
 
 	$LO_link['add']['link'] .= $category_id || $category_id === false ? $category_id . '&id=new' : 'new';
 
