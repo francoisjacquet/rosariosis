@@ -6,12 +6,6 @@
  * @subpackage modules
  */
 
-require_once 'ProgramFunctions/Fields.fnc.php';
-
-DrawHeader( ProgramTitle() );
-
-//$_ROSARIO['allow_edit'] = true;
-
 if ( isset( $_POST['tables'] )
 	&& is_array( $_POST['tables'] )
 	&& AllowEdit() )

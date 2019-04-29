@@ -10,6 +10,8 @@
 
 require_once 'ProgramFunctions/Fields.fnc.php';
 
+DrawHeader( ProgramTitle() );
+
 $_REQUEST['id'] = isset( $_REQUEST['id'] ) ? $_REQUEST['id'] : '';
 
 $_REQUEST['category_id'] = isset( $_REQUEST['category_id'] ) ? $_REQUEST['category_id'] : '';

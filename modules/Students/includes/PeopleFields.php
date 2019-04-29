@@ -6,8 +6,6 @@
  * @subpackage modules
  */
 
-DrawHeader( ProgramTitle() );
-
 if ( isset( $_POST['tables'] )
 	&& is_array( $_POST['tables'] )
 	&& AllowEdit() )
