@@ -2,6 +2,22 @@
 
 ## RosarioSIS Student Information System
 
+New in 4.6
+----------
+
+School, Students & Users
+- Fields: new "Files" Data Type, sponsored by Santa Cecilia school.
+
+Students
+- Student Fields: Merge Address Fields & Contact Fields programs with Student Fields program
+
+Installation Poll
+
+[Public Pages](https://www.rosariosis.org/public-pages-plugin/) plugin
+
+[Email Alerts](https://www.rosariosis.org/email-alerts-module/) module, sponsored by Santa Cecilia school.
+
+
 New in 4.5
 ----------
 
@@ -16,6 +32,7 @@ Attendance
 
 [Library](https://www.rosariosis.org/library-module/) module
 
+
 New in 4.4
 ----------
 
@@ -24,6 +41,7 @@ Grades
 - Assignments: file upload & rich text description, sponsored by Santa Cecilia school
 
 [Email Students](https://www.rosariosis.org/email-students-module/) module
+
 
 New in 4.3
 ----------
