@@ -18,6 +18,7 @@ Changes in 4.6
 - JS Navigate form inputs vertically using tab key in Grades.php & InputFinalGrades.php
 - Performance Run multiple DELETE SQL queries at once, progam wide
 - Merge Address Fields & Contact Fields programs with Student Fields program in StudentFields.php, AddressFields.php, PeopleFields.php & Menu.php
+- Add FirstLoginPoll() function in FirstLogin.fnc.php
 
 Changes in 4.5.2
 ----------------
