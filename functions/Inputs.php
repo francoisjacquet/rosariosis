@@ -282,9 +282,6 @@ function MLTextInput( $value, $name, $title = '', $extra = '', $div = true )
 	global $RosarioLocales,
 		$locale;
 
-	// Mab - support array style $option values.
-	$display_val = is_array( $value ) ? $value[1] : $value;
-
 	$value = is_array( $value ) ? $value[0] : $value;
 
 	if ( count( $RosarioLocales ) < 2 )

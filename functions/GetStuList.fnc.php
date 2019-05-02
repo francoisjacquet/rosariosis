@@ -382,21 +382,9 @@ function GetStuList( &$extra = array() )
 				{
 					$functions[ $field_key ] = 'makeEmail';
 				}
-				elseif ( $field['TYPE'] === 'date' )
+				else
 				{
-					$functions[ $field_key ] = 'ProperDate';
-				}
-				elseif ( $field['TYPE'] === 'numeric' )
-				{
-					$functions[ $field_key ] = 'removeDot00';
-				}
-				elseif ( $field['TYPE'] === 'codeds' )
-				{
-					$functions[ $field_key ] = 'DeCodeds';
-				}
-				elseif ( $field['TYPE'] === 'exports' )
-				{
-					$functions[ $field_key ] = 'DeCodeds';
+					$functions[ $field_key ] = makeFieldTypeFunction( $field['TYPE'] );
 				}
 
 				$select .= ',s.' . $field_key;
@@ -1193,7 +1181,7 @@ function appendSQL( $sql, $extra = array() )
 			'SELECT_OPTIONS' => null,
 		);
 
-		$sql .= SearchField( $last_name, 'where', 'student', $extra );
+		$sql .= SearchField( $last_name, 'student', $extra );
 	}
 
 	// First Name.
@@ -1208,7 +1196,7 @@ function appendSQL( $sql, $extra = array() )
 			'SELECT_OPTIONS' => null,
 		);
 
-		$sql .= SearchField( $first_name, 'where', 'student', $extra );
+		$sql .= SearchField( $first_name, 'student', $extra );
 	}
 
 	// Grade Level.

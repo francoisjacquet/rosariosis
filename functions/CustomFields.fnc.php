@@ -9,12 +9,9 @@
 /**
  * Custom (staff) fields query
  * Call in an SQL statement to select students / staff based on custom fields
- * Also sets $_ROSARIO['SearchTerms'] to display search terms
  *
  * @example Use in the where section of the query:
  *          $extra['WHERE'] .= CustomFields( 'where' );
- *
- * @global array  $_ROSARIO Sets $_ROSARIO['SearchTerms']
  *
  * @uses SearchField()
  *
@@ -26,8 +23,6 @@
  */
 function CustomFields( $location, $type = 'student', $extra = array() )
 {
-	global $_ROSARIO;
-
 	$return = '';
 
 	// If location === 'from', return.

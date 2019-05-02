@@ -285,7 +285,7 @@ function appendStaffSQL( $sql, $extra = array() )
 			'SELECT_OPTIONS' => null,
 		);
 
-		$sql .= SearchField( $last_name, 'where', 'staff', $extra );
+		$sql .= SearchField( $last_name, 'staff', $extra );
 	}
 
 	// First Name.
@@ -300,7 +300,7 @@ function appendStaffSQL( $sql, $extra = array() )
 			'SELECT_OPTIONS' => null,
 		);
 
-		$sql .= SearchField( $first_name, 'where', 'staff', $extra );
+		$sql .= SearchField( $first_name, 'staff', $extra );
 	}
 
 	// Profile.
@@ -350,7 +350,7 @@ function appendStaffSQL( $sql, $extra = array() )
 			'SELECT_OPTIONS' => null,
 		);
 
-		$sql .= SearchField( $username, 'where', 'staff', $extra );
+		$sql .= SearchField( $username, 'staff', $extra );
 	}
 
 	if ( $search_terms )

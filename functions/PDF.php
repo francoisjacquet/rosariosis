@@ -129,7 +129,7 @@ function PDFStop( $handle )
 	$_html['head'] .= '<title>' . $page_title . '</title>
 		</head>
 		<body>
-			<div class="wkhtmltopdf-body-wrapper ' . $width_orientation_class . '" id="pdf">';
+			<div class="wkhtmltopdf-body-wrapper ' . $orientation_class . '" id="pdf">';
 
 	$_html['foot'] = '</div>
 		</body>

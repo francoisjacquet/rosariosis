@@ -1068,7 +1068,7 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 
 		$output = '<?xml version="1.0" encoding="UTF-8"?>' . "\n" . '<' . $elements . '>' . "\n";
 
-		foreach ( (array) $formatted_result as $line_number => $result_line )
+		foreach ( (array) $formatted_result as $result_line )
 		{
 			$output .= "\t" . '<' . $element . '>' . "\n";
 
