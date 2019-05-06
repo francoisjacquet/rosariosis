@@ -400,10 +400,11 @@ if ( ! $_REQUEST['modfunc'] )
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "')
 	AND (CREATED_MP='" . UserMP() . "'
-		OR STAFF_ID NOT IN (SELECT USER_ID
+		OR NOT EXISTS(SELECT USER_ID
 			FROM PROGRAM_USER_CONFIG
 			WHERE TITLE='HIDE_PREVIOUS_ASSIGNMENT_TYPES'
-			AND VALUE='Y'))
+			AND VALUE='Y'
+			AND STAFF_ID=USER_ID))
 	ORDER BY TITLE";
 
 	$types_RET = DBGet( $assignment_types_sql );
