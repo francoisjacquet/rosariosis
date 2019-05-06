@@ -153,14 +153,8 @@ function ErrorSendEmail( $error = array(), $title = 'PHP Fatal error' )
 		return false;
 	}
 
-	if ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) )
-	{
-		$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-	}
-	else
-	{
-		$ip = $_SERVER['REMOTE_ADDR'];
-	}
+	$ip = isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ?
+		$_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
 
 	$debug_backtrace = debug_backtrace();
 

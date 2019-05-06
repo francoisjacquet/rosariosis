@@ -699,48 +699,39 @@ function makeContactInfo( $student_id, $column )
 
 	$tipmsg = '';
 
-	if ( isset( $contacts_RET[ $student_id ] ) )
+	foreach ( (array) $contacts_RET[ $student_id ] as $person )
 	{
-		foreach ( (array) $contacts_RET[ $student_id ] as $person )
+		if ( ! $person[1]['FIRST_NAME'] && ! $person[1]['LAST_NAME'] )
 		{
-			if ( $person[1]['FIRST_NAME'] || $person[1]['LAST_NAME'] )
-			{
-				$tipmsg .= $person[1]['STUDENT_RELATION'] . ': ' .
-					DisplayName(
-						$person[1]['FIRST_NAME'],
-						$person[1]['LAST_NAME'],
-						$person[1]['MIDDLE_NAME']
-					) . '<br />';
-			}
-			else
-			{
-				continue;
-			}
-
-			$tipmsg .= '<table class="width-100p cellspacing-0">';
-
-			if ( $person[1]['PHONE'] )
-			{
-				$tipmsg .= '<tr><td>' . _( 'Home Phone' ) .
-				'</td><td>' . $person[1]['PHONE'] . '</td></tr>';
-			}
-
-			foreach ( (array) $person as $info )
-			{
-				if ( $info['TITLE']
-					|| $info['VALUE'] )
-				{
-					$tipmsg .= '<tr><td>' . $info['TITLE'] .
-					'</td><td>' . $info['VALUE'] . '</td></tr>';
-				}
-			}
-
-			$tipmsg .= '</table>';
+			continue;
 		}
-	}
-	else
-	{
-		// $tipmsg = _( 'This student has no contact information.' );
+
+		$tipmsg .= $person[1]['STUDENT_RELATION'] . ': ' .
+			DisplayName(
+				$person[1]['FIRST_NAME'],
+				$person[1]['LAST_NAME'],
+				$person[1]['MIDDLE_NAME']
+			) . '<br />';
+
+		$tipmsg .= '<table class="width-100p cellspacing-0">';
+
+		if ( $person[1]['PHONE'] )
+		{
+			$tipmsg .= '<tr><td>' . _( 'Home Phone' ) .
+			'</td><td>' . $person[1]['PHONE'] . '</td></tr>';
+		}
+
+		foreach ( (array) $person as $info )
+		{
+			if ( $info['TITLE']
+				|| $info['VALUE'] )
+			{
+				$tipmsg .= '<tr><td>' . $info['TITLE'] .
+				'</td><td>' . $info['VALUE'] . '</td></tr>';
+			}
+		}
+
+		$tipmsg .= '</table>';
 	}
 
 	if ( ! $tipmsg )
@@ -911,13 +902,13 @@ function makeParents( $student_id, $column )
 
 	if ( $_ROSARIO['makeParents'] )
 	{
+		$constraint = " AND sjp.STUDENT_RELATION IS NULL";
+
 		if ( $_ROSARIO['makeParents'] != '!' )
 		{
 			$constraint = " AND (lower(sjp.STUDENT_RELATION) LIKE '" .
 				mb_strtolower( $_ROSARIO['makeParents'] ) . "%')";
 		}
-		else
-			$constraint = " AND sjp.STUDENT_RELATION IS NULL";
 	}
 
 	if ( $view_other_RET['ALL_CONTACTS'][1]['VALUE'] != 'Y' )
@@ -940,6 +931,8 @@ function makeParents( $student_id, $column )
 
 	foreach ( (array) $people_RET as $person )
 	{
+		$img = '';
+
 		// FJ PrintClassLists with all contacts.
 		if ( $person['CUSTODY'] == 'Y' )
 		{
@@ -949,8 +942,6 @@ function makeParents( $student_id, $column )
 		{
 			$img = 'emergency';
 		}
-		else
-			$img = '';
 
 		$parents .= '<div>' . ( ! empty( $img ) ? button( $img ) .'&nbsp;' : '' );
 

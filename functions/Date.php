@@ -363,12 +363,9 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 
 		if ( $allow_na )
 		{
-			if ( $date_exploded['year'] < 1 )
-			{
-				$return .= '<option value="" selected>' . _( 'N/A' );
-			}
-			else
-				$return .= '<option value="">' . _( 'N/A' );
+			$return .= $date_exploded['year'] < 1 ?
+					'<option value="" selected>' . _( 'N/A' ) :
+					'<option value="">' . _( 'N/A' );
 		}
 
 		for ( $i = $begin; $i <= $end; $i++ )
@@ -702,8 +699,8 @@ function MonthNWSwitch( $month, $direction = 'both' )
 		{
 			return $month;
 		}
-		else
-			return __mnwswitch_char2num( $month );
+
+		return __mnwswitch_char2num( $month );
 	}
 	// To characters.
 	elseif ( $direction === 'tochar' )
@@ -712,17 +709,15 @@ function MonthNWSwitch( $month, $direction = 'both' )
 		{
 			return $month;
 		}
-		else
-			return __mnwswitch_num2char( $month );
+
+		return __mnwswitch_num2char( $month );
 	}
 	// Both.
-	else
-	{
-		$month = __mnwswitch_num2char( $month );
-		$month = __mnwswitch_char2num( $month );
 
-		return $month;
-	}
+	$month = __mnwswitch_num2char( $month );
+	$month = __mnwswitch_char2num( $month );
+
+	return $month;
 }
 
 

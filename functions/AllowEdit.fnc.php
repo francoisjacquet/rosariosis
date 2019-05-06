@@ -26,58 +26,50 @@ function AllowEdit( $modname = false )
 {
 	global $_ROSARIO;
 
-	if ( User( 'PROFILE' ) === 'admin' )
+	if ( User( 'PROFILE' ) !== 'admin' )
 	{
-		if ( ! $modname
-			&& isset( $_ROSARIO['allow_edit'] ) )
-		{
-			return $_ROSARIO['allow_edit'];
-		}
-
-		if ( ! $modname )
-		{
-			if ( ! isset( $_REQUEST['modname'] ) )
-			{
-				return false;
-			}
-
-			$modname = $_REQUEST['modname'];
-		}
-
-		// Student / User Info tabs.
-		if ( ( $modname === 'Students/Student.php'
-			|| $modname === 'Users/User.php' )
-			&& isset( $_REQUEST['category_id'] ) )
-		{
-			$modname = $modname . '&category_id=' . $_REQUEST['category_id'];
-		}
-
-		// Get CAN_EDIT programs from database
-		if ( ! isset( $_ROSARIO['AllowEdit'] ) )
-		{
-			if ( User( 'PROFILE_ID' ) )
-			{
-				$_ROSARIO['AllowEdit'] = DBGet( "SELECT MODNAME
-					FROM PROFILE_EXCEPTIONS
-					WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "' AND CAN_EDIT='Y'", array(), array( 'MODNAME' ) );
-			}
-			else
-			{
-				$_ROSARIO['AllowEdit'] = DBGet( "SELECT MODNAME
-					FROM STAFF_EXCEPTIONS
-					WHERE USER_ID='" . User( 'STAFF_ID' ) . "' AND CAN_EDIT='Y'", array(), array( 'MODNAME' ) );
-			}
-		}
-
-		if ( isset( $_ROSARIO['AllowEdit'][ $modname ] ) )
-		{
-			return true;
-		}
-		else
-			return false;
-	}
-	else
 		return ! empty( $_ROSARIO['allow_edit'] );
+	}
+
+	if ( ! $modname
+		&& isset( $_ROSARIO['allow_edit'] ) )
+	{
+		return $_ROSARIO['allow_edit'];
+	}
+
+	if ( ! $modname )
+	{
+		if ( ! isset( $_REQUEST['modname'] ) )
+		{
+			return false;
+		}
+
+		$modname = $_REQUEST['modname'];
+	}
+
+	// Student / User Info tabs.
+	if ( ( $modname === 'Students/Student.php'
+		|| $modname === 'Users/User.php' )
+		&& isset( $_REQUEST['category_id'] ) )
+	{
+		$modname = $modname . '&category_id=' . $_REQUEST['category_id'];
+	}
+
+	// Get CAN_EDIT programs from database
+	if ( ! isset( $_ROSARIO['AllowEdit'] ) )
+	{
+		$from_where_sql = User( 'PROFILE_ID' ) ?
+			"FROM PROFILE_EXCEPTIONS
+			WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
+			"FROM STAFF_EXCEPTIONS
+			WHERE USER_ID='" . User( 'STAFF_ID' ) . "'";
+
+		$_ROSARIO['AllowEdit'] = DBGet( "SELECT MODNAME " .
+			$from_where_sql .
+			" AND CAN_EDIT='Y'", array(), array( 'MODNAME' ) );
+	}
+
+	return isset( $_ROSARIO['AllowEdit'][ $modname ] );
 }
 
 

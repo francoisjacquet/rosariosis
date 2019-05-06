@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 4.7
+--------------
+- Clean code: remove else when not necessary in functions/*
+
 Changes in 4.6
 --------------
 - Show SQL query & format in db_show_error() in database.inc.php
