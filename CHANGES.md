@@ -9,6 +9,7 @@ Changes in 4.7
 - Add \_update47beta(), Convert "Edit Pull-Down" fields to "Auto Pull-Down" in Update.fnc.php
 - Remove "Coded Pull-Down" field type, program wide
 - Convert "Coded Pull-Down" fields to "Export Pull-Down" in Update.fnc.php
+- Change Pull-Down (Auto & Export), Select Multiple from Options, Text, Long Text columns type to text in Update.fnc.php & Fields.fnc.php & rosariosis.sql
 
 Changes in 4.6
 --------------

@@ -3237,18 +3237,18 @@ CREATE TABLE students (
     password character varying(106),
     last_login timestamp(0) without time zone,
     failed_login numeric,
-    custom_200000000 character varying(255),
-    custom_200000001 character varying(255),
-    custom_200000002 character varying(255),
-    custom_200000003 character varying(255),
+    custom_200000000 text,
+    custom_200000001 text,
+    custom_200000002 text,
+    custom_200000003 text,
     custom_200000004 date,
-    custom_200000005 character varying(255),
-    custom_200000006 character varying(255),
-    custom_200000007 character varying(255),
-    custom_200000008 character varying(255),
-    custom_200000009 character varying(2052),
+    custom_200000005 text,
+    custom_200000006 text,
+    custom_200000007 text,
+    custom_200000008 text,
+    custom_200000009 text,
     custom_200000010 character(1),
-    custom_200000011 character varying(2052)
+    custom_200000011 text
 );
 
 

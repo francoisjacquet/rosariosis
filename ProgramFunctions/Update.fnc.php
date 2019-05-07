@@ -520,6 +520,9 @@ function _update46beta()
  * 2. Convert "Coded Pull-Down" fields to "Export Pull-Down":
  * ADDRESS_FIELDS, CUSTOM_FIELDS, PEOPLE_FIELDS, SCHOOL_FIELDS & STAFF_FIELDS tables
  *
+ * 3. Change Pull-Down (Auto & Export), Select Multiple from Options, Text, Long Text columns type to text:
+ * ADDRESS, STUDENTS, PEOPLE, SCHOOLS & STAFF tables
+ *
  * Local function
  *
  * @since 4.7
@@ -555,6 +558,59 @@ function _update47beta()
 	$sql_convert_fields .= "UPDATE STAFF_FIELDS SET TYPE='codeds' WHERE TYPE='exports';";
 
 	DBQuery( $sql_convert_fields );
+
+	$sql_fields_column_type = '';
+
+	/**
+	 * 3. Change Pull-Down (Auto & Export), Select Multiple from Options, Text, Long Text columns type to text:
+	 * ADDRESS, STUDENTS, PEOPLE, SCHOOLS & STAFF tables
+	 */
+	$types = "'select','autos','exports','multiple','text','textarea'";
+
+	$fields_column_RET = DBGet( "SELECT ID FROM ADDRESS_FIELDS WHERE TYPE IN(" . $types . ")" );
+
+	foreach ( (array) $fields_column_RET as $field_column )
+	{
+		$sql_fields_column_type .= "ALTER TABLE ADDRESS
+			ALTER COLUMN " . DBEscapeIdentifier( 'CUSTOM_' . $field_column['ID'] ) . " TYPE text;";
+	}
+
+	$fields_column_RET = DBGet( "SELECT ID FROM CUSTOM_FIELDS WHERE TYPE IN(" . $types . ")" );
+
+	foreach ( (array) $fields_column_RET as $field_column )
+	{
+		$sql_fields_column_type .= "ALTER TABLE STUDENTS
+			ALTER COLUMN " . DBEscapeIdentifier( 'CUSTOM_' . $field_column['ID'] ) . " TYPE text;";
+	}
+
+	$fields_column_RET = DBGet( "SELECT ID FROM PEOPLE_FIELDS WHERE TYPE IN(" . $types . ")" );
+
+	foreach ( (array) $fields_column_RET as $field_column )
+	{
+		$sql_fields_column_type .= "ALTER TABLE PEOPLE
+			ALTER COLUMN " . DBEscapeIdentifier( 'CUSTOM_' . $field_column['ID'] ) . " TYPE text;";
+	}
+
+	$fields_column_RET = DBGet( "SELECT ID FROM SCHOOL_FIELDS WHERE TYPE IN(" . $types . ")" );
+
+	foreach ( (array) $fields_column_RET as $field_column )
+	{
+		$sql_fields_column_type .= "ALTER TABLE SCHOOLS
+			ALTER COLUMN " . DBEscapeIdentifier( 'CUSTOM_' . $field_column['ID'] ) . " TYPE text;";
+	}
+
+	$fields_column_RET = DBGet( "SELECT ID FROM STAFF_FIELDS WHERE TYPE IN(" . $types . ")" );
+
+	foreach ( (array) $fields_column_RET as $field_column )
+	{
+		$sql_fields_column_type .= "ALTER TABLE STAFF
+			ALTER COLUMN " . DBEscapeIdentifier( 'CUSTOM_' . $field_column['ID'] ) . " TYPE text;";
+	}
+
+	if ( $sql_fields_column_type )
+	{
+		DBQuery( $sql_fields_column_type );
+	}
 
 	return $return;
 }

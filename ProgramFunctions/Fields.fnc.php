@@ -54,18 +54,13 @@ function AddDBField( $table, $sequence, $type )
 
 		break;
 
+		case 'multiple':
 		case 'text':
 		case 'exports':
 		case 'select':
 		case 'autos':
 
-			$sql_type = 'VARCHAR(255)';
-
-		break;
-
-		case 'multiple':
-
-			$sql_type = 'VARCHAR(1000)';
+			$sql_type = 'TEXT';
 
 		break;
 
@@ -82,14 +77,6 @@ function AddDBField( $table, $sequence, $type )
 		break;
 
 		case 'textarea':
-
-			$sql_type = 'VARCHAR(5000)';
-
-			// FJ SQL bugfix index row size exceeds maximum 2712 for index.
-			$create_index = false;
-
-		break;
-
 		case 'files':
 
 			$sql_type = 'TEXT';
