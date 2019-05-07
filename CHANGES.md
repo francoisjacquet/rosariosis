@@ -6,6 +6,7 @@ Changes in 4.7
 - Clean code: remove else when not necessary in functions/*
 - SQL use NOT EXISTS(SELECT...) instead of NOT IN(SELECT...) in MassCreateAssignments.php
 - Remove "Edit Pull-Down" field type, program wide
+- Add \_update47beta(), Convert "Edit Pull-Down" fields to "Auto Pull-Down" in Update.fnc.php
 
 Changes in 4.6
 --------------

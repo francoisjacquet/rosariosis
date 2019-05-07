@@ -119,6 +119,10 @@ function Update()
 		case version_compare( $from_version, '4.6-beta', '<' ) :
 
 			$return = _update46beta();
+
+		case version_compare( $from_version, '4.7-beta', '<' ) :
+
+			$return = _update47beta();
 	}
 
 	// Update version in DB CONFIG table.
@@ -502,6 +506,40 @@ function _update46beta()
 		DBQuery( "ALTER TABLE ONLY eligibility_activities
 			ADD COLUMN comment text;" );
 	}
+
+	return $return;
+}
+
+
+/**
+ * Update to version 4.7
+ *
+ * 1. Convert "Edit Pull-Down" fields to "Auto Pull-Down":
+ * ADDRESS_FIELDS, CUSTOM_FIELDS, PEOPLE_FIELDS, SCHOOL_FIELDS & STAFF_FIELDS tables
+ *
+ * Local function
+ *
+ * @since 4.7
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update47beta()
+{
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. Convert "Edit Pull-Down" fields to "Auto Pull-Down":
+	 * ADDRESS_FIELDS, CUSTOM_FIELDS, PEOPLE_FIELDS, SCHOOL_FIELDS & STAFF_FIELDS tables
+	 */
+	$sql_convert_fields = "UPDATE ADDRESS_FIELDS SET TYPE='autos' WHERE TYPE='edits';";
+	$sql_convert_fields .= "UPDATE CUSTOM_FIELDS SET TYPE='autos' WHERE TYPE='edits';";
+	$sql_convert_fields .= "UPDATE PEOPLE_FIELDS SET TYPE='autos' WHERE TYPE='edits';";
+	$sql_convert_fields .= "UPDATE SCHOOL_FIELDS SET TYPE='autos' WHERE TYPE='edits';";
+	$sql_convert_fields .= "UPDATE STAFF_FIELDS SET TYPE='autos' WHERE TYPE='edits';";
+
+	DBQuery( $sql_convert_fields );
 
 	return $return;
 }
