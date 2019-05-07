@@ -423,7 +423,6 @@ if ( ! $_REQUEST['modfunc'] )
 				break;
 
 			case 'exports':
-			case 'codeds':
 			case 'select':
 
 				echo _makeSelectInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], 'values' );

@@ -206,18 +206,17 @@ if ( ! $_REQUEST['modfunc'] )
 			}
 		}
 
-		// Merge select, autos, edits, exports & codeds
+		// Merge select, autos, exports
 		// (same or similar SELECT output).
-		$fields_RET['select_autos_edits_exports_codeds'] = array_merge(
+		$fields_RET['select_autos_exports'] = array_merge(
 			(array) $fields_RET['select'],
 			(array) $fields_RET['autos'],
-			(array) $fields_RET['exports'],
-			(array) $fields_RET['codeds']
+			(array) $fields_RET['exports']
 		);
 
 		// Select.
 
-		foreach ( (array) $fields_RET['select_autos_edits_exports_codeds'] as $field )
+		foreach ( (array) $fields_RET['select_autos_exports'] as $field )
 		{
 			$options = $select_options = array();
 
@@ -242,12 +241,6 @@ if ( ! $_REQUEST['modfunc'] )
 					$option = explode( '|', $option );
 
 					$option = $value = $option[0];
-				}
-
-				// Codeds specificities.
-				elseif ( $field['TYPE'] === 'codeds' )
-				{
-					list( $value, $option ) = explode( '|', $option );
 				}
 
 				if ( $value !== ''

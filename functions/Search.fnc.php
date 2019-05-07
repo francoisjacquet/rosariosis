@@ -493,7 +493,6 @@ function Search( $type, $extra = null )
 					'select' => array(),
 					'autos' => array(),
 					'exports' => array(),
-					'codeds' => array(),
 					'date' => array(),
 					'radio' => array(),
 				);
@@ -550,15 +549,14 @@ function Search( $type, $extra = null )
 
 				// Merge select, autos, edits, exports & codeds
 				// (same or similar SELECT output).
-				$category['select_autos_edits_exports_codeds'] = array_merge(
+				$category['select_autos_exports'] = array_merge(
 					(array) $category['select'],
 					(array) $category['autos'],
-					(array) $category['exports'],
-					(array) $category['codeds']
+					(array) $category['exports']
 				);
 
 				// Select.
-				foreach ( (array) $category['select_autos_edits_exports_codeds'] as $col )
+				foreach ( (array) $category['select_autos_exports'] as $col )
 				{
 					$options = array();
 
@@ -592,11 +590,6 @@ function Search( $type, $extra = null )
 							$option = explode( '|', $option );
 
 							$option = $value = $option[0];
-						}
-						// Codeds specificities.
-						elseif ( $col['TYPE'] === 'codeds' )
-						{
-							list( $value, $option ) = explode( '|', $option );
 						}
 
 						if ( $value !== ''
@@ -894,8 +887,6 @@ function SearchField( $field, $type = 'student', $extra = array() )
 
 		// Export Pull-Down.
 		case 'exports':
-		// Coded Pull-Down.
-		case 'codeds':
 
 			// No Value.
 			if ( $value === '!' )
@@ -922,14 +913,6 @@ function SearchField( $field, $type = 'student', $extra = array() )
 							&& $value == $option[0] )
 						{
 							$value = $option[0];
-							break;
-						}
-						// Codeds.
-						elseif ( $option[0] !== ''
-							&& $option[1] !== ''
-							&& $value == $option[0] )
-						{
-							$value = $option[1];
 							break;
 						}
 					}

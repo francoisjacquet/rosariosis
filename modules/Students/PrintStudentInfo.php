@@ -347,7 +347,7 @@ function explodeCustom( &$categories_RET, &$custom, $prefix )
 		{
 			$custom .= ',' . $prefix . '.CUSTOM_' . $field['ID'];
 
-			if ( $field['TYPE'] == 'select' || $field['TYPE'] == 'codeds' )
+			if ( $field['TYPE'] == 'select' )
 			{
 				$select_options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $field['SELECT_OPTIONS'] ) );
 
@@ -355,19 +355,7 @@ function explodeCustom( &$categories_RET, &$custom, $prefix )
 
 				foreach ( (array) $select_options as $option )
 				{
-					if ( $field['TYPE'] == 'codeds' )
-					{
-						$option = explode( '|', $option );
-
-						if ( $option[0] != '' && $option[1] != '' )
-						{
-							$options[$option[0]] = $option[1];
-						}
-					}
-					else
-					{
-						$options[$option] = $option;
-					}
+					$options[$option] = $option;
 				}
 
 				$categories_RET[$id][$i]['SELECT_OPTIONS'] = $options;

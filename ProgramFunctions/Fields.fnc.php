@@ -63,12 +63,6 @@ function AddDBField( $table, $sequence, $type )
 
 		break;
 
-		case 'codeds':
-
-			$sql_type = 'VARCHAR(15)';
-
-		break;
-
 		case 'multiple':
 
 			$sql_type = 'VARCHAR(1000)';
@@ -345,7 +339,6 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 			$type_options = array(
 				'select' => _( 'Pull-Down' ),
 				'autos' => _( 'Auto Pull-Down' ),
-				'codeds' => _( 'Coded Pull-Down' ),
 				'exports' => _( 'Export Pull-Down' ),
 				'multiple' => _( 'Select Multiple from Options' ),
 				'text' => _( 'Text' ),
@@ -423,16 +416,16 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 		$header .= '</tr><tr class="st">';
 
 		// Select Options TextArea field.
-		if ( in_array( $RET['TYPE'], array( 'autos', 'select', 'codeds', 'multiple', 'exports' ) )
+		if ( in_array( $RET['TYPE'], array( 'autos', 'select', 'multiple', 'exports' ) )
 			|| ( $new
 				&& array_intersect(
 					array_keys( $type_options ),
-					array( 'autos', 'select', 'codeds', 'multiple', 'exports' ) ) ) )
+					array( 'autos', 'select', 'multiple', 'exports' ) ) ) )
 		{
 			$header .= '<td colspan="3">' . TextAreaInput(
 				$RET['SELECT_OPTIONS'],
 				'tables[' . $id . '][SELECT_OPTIONS]',
-				_( 'Pull-Down' ) . '/' . _( 'Auto Pull-Down' ) . '/' . _( 'Coded Pull-Down' ) . '/' .
+				_( 'Pull-Down' ) . '/' . _( 'Auto Pull-Down' ) . '/' . _( 'Export Pull-Down' ) . '/' .
 				_( 'Select Multiple from Options' ) .
 				'<div class="tooltip"><i>' . _( 'One per line' ) . '</i></div>',
 				'rows=7 cols=40',
@@ -640,7 +633,6 @@ function MakeFieldType( $value, $column = '' )
 	$type_options = array(
 		'select' => _( 'Pull-Down' ),
 		'autos' => _( 'Auto Pull-Down' ),
-		'codeds' => _( 'Coded Pull-Down' ),
 		'exports' => _( 'Export Pull-Down' ),
 		'multiple' => _( 'Select Multiple from Options' ),
 		'text' => _( 'Text' ),

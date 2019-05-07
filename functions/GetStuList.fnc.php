@@ -153,9 +153,8 @@ function GetStuList( &$extra = array() )
 					'CUSTOM_' . $field['ID'] => ParseMLField( $field['TITLE'] ) )
 					+ $extra['columns_after'];
 
-				// If gender and ethnicity are converted to codeds or exports type.
-				if ( $field['TYPE'] == 'codeds'
-					|| $field['TYPE'] == 'exports' )
+				// If gender and ethnicity are converted to exports type.
+				if ( $field['TYPE'] === 'exports' )
 				{
 					$functions['CUSTOM_' . $field['ID']] = 'DeCodeds';
 				}
@@ -994,8 +993,7 @@ function DeCodeds( $value, $column, $table = 'auto' )
 			FROM " . DBEscapeIdentifier( $table . '_FIELDS' ) .
 			" WHERE ID='" . $field[1] . "'" );
 
-		if ( $RET[1]['TYPE'] == 'codeds'
-			|| $RET[1]['TYPE'] == 'exports' )
+		if ( $RET[1]['TYPE'] === 'exports' )
 		{
 			$select_options = array();
 
@@ -1020,46 +1018,23 @@ function DeCodeds( $value, $column, $table = 'auto' )
 			$decodeds[ $column ] = true;
 	}
 
-	if ( $decodeds[ $column ]['TYPE'] == 'codeds' )
+	if ( $value == '' )
 	{
-		if ( $value == '' )
-		{
-			return '';
-		}
+		return '';
+	}
 
-		if ( $decodeds[ $column ]['SELECT_OPTIONS'][ $value ] != '' )
+	if ( $decodeds[ $column ]['SELECT_OPTIONS'][ $value ] != '' )
+	{
+		if ( $_REQUEST['_ROSARIO_PDF']
+			&& $_REQUEST['LO_save'] )
 		{
-			if ( $_REQUEST['_ROSARIO_PDF']
-				&& $_REQUEST['LO_save'] )
-			{
-				return $value;
-			}
-			else
-				return $decodeds[ $column ]['SELECT_OPTIONS'][ $value ];
+			return $decodeds[ $column ]['SELECT_OPTIONS'][ $value ];
 		}
 		else
-			return '<span style="color:red">' . $value . '</span>';
+			return $value;
 	}
-	elseif ( $decodeds[ $column ]['TYPE'] == 'exports' )
-	{
-		if ( $value == '' )
-		{
-			return '';
-		}
 
-		if ( $decodeds[ $column ]['SELECT_OPTIONS'][ $value ] != '' )
-		{
-			if ( $_REQUEST['_ROSARIO_PDF']
-				&& $_REQUEST['LO_save'] )
-			{
-				return $decodeds[ $column ]['SELECT_OPTIONS'][ $value ];
-			}
-			else
-				return $value;
-		}
-		else
-			return '<span style="color:red">' . $value . '</span>';
-	}
+	return '<span style="color:red">' . $value . '</span>';
 }
 
 

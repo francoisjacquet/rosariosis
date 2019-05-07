@@ -35,7 +35,6 @@ foreach ( (array) $fields_RET as $field )
 			break;
 
 		case 'exports':
-		case 'codeds':
 		case 'select':
 
 			echo _makeSelectInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], $request );

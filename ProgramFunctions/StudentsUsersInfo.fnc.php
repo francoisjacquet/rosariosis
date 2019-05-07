@@ -150,15 +150,7 @@ function _makeSelectInput( $column, $name, $request )
 
 	foreach ( (array) $select_options as $option )
 	{
-		if ( $field['TYPE'] === 'codeds' )
-		{
-			$option = explode( '|', $option );
-
-			if ( $option[0] != ''
-				&& $option[1] != '' )
-				$options[$option[0]] = $option[1];
-		}
-		elseif ( $field['TYPE'] === 'exports' )
+		if ( $field['TYPE'] === 'exports' )
 		{
 			$option = explode( '|', $option );
 
