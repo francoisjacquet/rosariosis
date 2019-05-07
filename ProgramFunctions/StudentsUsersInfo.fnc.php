@@ -49,7 +49,7 @@ function _makeTextInput( $column, $name, $request )
 		$options = 'maxlength=255 type="email" pattern="[^ @]*@[^ @]*" placeholder="' . _( 'Email' ) . '"';
 	}
 	else
-		$options = 'maxlength=255';
+		$options = 'maxlength=1000';
 
 	// FJ text field is required.
 	$options .= $field['REQUIRED'] === 'Y' ? ' required' : '';
@@ -396,12 +396,12 @@ function _makeTextAreaInput( $column, $name, $request )
 		$div = true;
 
 	// FJ text area is required.
-	// FJ textarea field maxlength=5000.
+	// FJ textarea field maxlength=50000 (soft limit).
 	return TextAreaInput(
 		$value[ $column ],
 		$request . '[' . $column . ']',
 		$name,
-		'maxlength=5000' . ( $field['REQUIRED'] == 'Y' ? ' required': '' ),
+		'maxlength=50000' . ( $field['REQUIRED'] == 'Y' ? ' required': '' ),
 		$div
 	);
 }

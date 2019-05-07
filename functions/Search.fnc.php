@@ -530,7 +530,7 @@ function Search( $type, $extra = null )
 					echo '<tr class="' . $TR_classes . '"><td>
 					<label for="' . $id . '">' . $col['TITLE'] . '</label>
 					</td><td>
-					<input type="text" name="' . $name . '" id="' . $id . '" size="24" maxlength="255" />
+					<input type="text" name="' . $name . '" id="' . $id . '" size="24" maxlength="1000" />
 					</td></tr>';
 				}
 

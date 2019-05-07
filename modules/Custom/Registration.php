@@ -658,7 +658,7 @@ if ( array_key_exists( 'CUSTOM_200000006', $student ) )
 		'students[CUSTOM_200000006]',
 		ParseMLField( $custom_fields_RET['200000006'][1]['TITLE'] ),
 		$student['CUSTOM_200000006'],
-		'size="30" maxlength="255"'
+		'size="30" maxlength="1000"'
 	);
 }
 
@@ -671,7 +671,7 @@ if ( array_key_exists( 'CUSTOM_200000007', $student ) )
 		'students[CUSTOM_200000007]',
 		ParseMLField( $custom_fields_RET['200000007'][1]['TITLE'] ),
 		$student['CUSTOM_200000007'],
-		'size="15" maxlength="255"'
+		'size="15" maxlength="1000"'
 	);
 }
 
@@ -684,7 +684,7 @@ if ( array_key_exists( 'CUSTOM_200000008', $student ) )
 		'students[CUSTOM_200000008]',
 		ParseMLField( $custom_fields_RET['200000008'][1]['TITLE'] ),
 		$student['CUSTOM_200000008'],
-		'size="30" maxlength="255"'
+		'size="30" maxlength="1000"'
 	);
 }
 

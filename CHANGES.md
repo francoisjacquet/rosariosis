@@ -10,6 +10,7 @@ Changes in 4.7
 - Remove "Coded Pull-Down" field type, program wide
 - Convert "Coded Pull-Down" fields to "Export Pull-Down" in Update.fnc.php
 - Change Pull-Down (Auto & Export), Select Multiple from Options, Text, Long Text columns type to text in Update.fnc.php & Fields.fnc.php & rosariosis.sql
+- Custom fields input maxlength: 50000 for textarea, 1000 for text in StudentsUsersInfo.fnc.php, Search.fnc.php, Registration.php
 
 Changes in 4.6
 --------------
