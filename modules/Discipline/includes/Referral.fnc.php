@@ -31,7 +31,7 @@ function ReferralInput( $category, $value = '', $new = true )
 				$value,
 				'values[CATEGORY_' . $category['ID'] . ']',
 				$category['TITLE'],
-				'maxlength=255'
+				'maxlength=1000'
 			);
 
 			break;
@@ -53,7 +53,7 @@ function ReferralInput( $category, $value = '', $new = true )
 				$value,
 				'values[CATEGORY_' . $category['ID'] . ']',
 				$category['TITLE'],
-				'maxlength=5000 rows=4 cols=30'
+				'maxlength=5000 rows=4 cols=30' // @deprecated in 4.7-beta use maxlength=50000.
 			);
 
 			break;

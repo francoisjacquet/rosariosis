@@ -76,7 +76,7 @@ if ( $_REQUEST['values']
 					case 'multiple_radio':
 					case 'multiple_checkbox':
 					case 'select':
-						DBQuery( "ALTER TABLE DISCIPLINE_REFERRALS ADD CATEGORY_" . $id . " VARCHAR(1000)" );
+						DBQuery( "ALTER TABLE DISCIPLINE_REFERRALS ADD CATEGORY_" . $id . " TEXT" );
 						break;
 
 					case 'numeric':
@@ -88,7 +88,7 @@ if ( $_REQUEST['values']
 						break;
 
 					case 'textarea':
-						DBQuery( "ALTER TABLE DISCIPLINE_REFERRALS ADD CATEGORY_" . $id . " VARCHAR(5000)" );
+						DBQuery( "ALTER TABLE DISCIPLINE_REFERRALS ADD CATEGORY_" . $id . " TEXT" );
 						$create_index = false; //FJ SQL bugfix index row size exceeds maximum 2712 for index
 						break;
 				}
