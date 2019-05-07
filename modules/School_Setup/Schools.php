@@ -408,7 +408,6 @@ if ( ! $_REQUEST['modfunc'] )
 				break;
 
 			case 'autos':
-			case 'edits':
 
 				$sql_options = "SELECT DISTINCT s.CUSTOM_" . $field['ID'] . ",upper(s.CUSTOM_" . $field['ID'] . ") AS SORT_KEY
 					FROM SCHOOLS s

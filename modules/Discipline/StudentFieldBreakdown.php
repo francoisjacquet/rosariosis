@@ -74,10 +74,10 @@ if ( isset( $_REQUEST['field_id'] )
 		AND dr.SCHOOL_ID=ssm.SCHOOL_ID
 		AND dr.ENTRY_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "' ";
 
-	if ( in_array( $fields_RET[1]['TYPE'], array( 'select', 'autos', 'edits', 'exports' ) ) )
+	if ( in_array( $fields_RET[1]['TYPE'], array( 'select', 'autos', 'exports' ) ) )
 	{
 		// autos & edits pull-down fields
-		if ( in_array( $fields_RET[1]['TYPE'], array( 'autos', 'edits' ) ) )
+		if ( $fields_RET[1]['TYPE'] === 'autos' )
 		{
 			// add values found in current year
 			$options_RET = DBGet( "SELECT DISTINCT s.CUSTOM_" . intval( $_REQUEST['field_id'] ) . ",upper(s.CUSTOM_" . intval( $_REQUEST['field_id'] ) . ") AS KEY

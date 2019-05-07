@@ -60,7 +60,6 @@ foreach ( (array) $fields_RET as $field )
 			break;
 
 		case 'autos':
-		case 'edits':
 
 			echo _makeAutoSelectInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], 'staff' );
 

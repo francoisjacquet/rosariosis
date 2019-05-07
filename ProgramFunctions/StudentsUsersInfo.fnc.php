@@ -236,8 +236,7 @@ function _makeAutoSelectInput( $column, $name, $request, $options_RET = array() 
 	// Add the 'new' option, is also the separator.
 	$options['---'] = '-' . _( 'Edit' ) . '-';
 
-	if ( ( $field['TYPE'] === 'autos'
-			|| $field['TYPE'] === 'edits' )
+	if ( $field['TYPE'] === 'autos'
 		&& AllowEdit() ) // We don't really need the select list if we can't edit anyway.
 	{
 		// Add values found in current and previous year.

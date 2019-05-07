@@ -41,10 +41,10 @@ if ( isset( $_REQUEST['field_id'] )
 
 	$extra = array();
 
-	if ( in_array( $fields_RET[1]['TYPE'], array( 'select', 'autos', 'edits', 'exports' ) ) )
+	if ( in_array( $fields_RET[1]['TYPE'], array( 'select', 'autos', 'exports' ) ) )
 	{
-		// autos & edits pull-down fields
-		if ( in_array( $fields_RET[1]['TYPE'], array( 'autos', 'edits' ) ) )
+		// Autos pull-down fields
+		if ( $fields_RET[1]['TYPE'] === 'autos' )
 		{
 			// add values found in current year
 			$options_RET = DBGet( "SELECT DISTINCT s.CUSTOM_" . intval( $_REQUEST['field_id'] ) . ",upper(s.CUSTOM_" . intval( $_REQUEST['field_id'] ) . ") AS KEY

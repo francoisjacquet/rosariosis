@@ -58,7 +58,6 @@ function AddDBField( $table, $sequence, $type )
 		case 'exports':
 		case 'select':
 		case 'autos':
-		case 'edits':
 
 			$sql_type = 'VARCHAR(255)';
 
@@ -346,7 +345,6 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 			$type_options = array(
 				'select' => _( 'Pull-Down' ),
 				'autos' => _( 'Auto Pull-Down' ),
-				'edits' => _( 'Edit Pull-Down' ),
 				'codeds' => _( 'Coded Pull-Down' ),
 				'exports' => _( 'Export Pull-Down' ),
 				'multiple' => _( 'Select Multiple from Options' ),
@@ -361,15 +359,14 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 
 		if ( ! $new )
 		{
-			// Mab - allow changing between select and autos and edits and text and exports.
-			if ( in_array( $RET['TYPE'], array( 'select', 'autos', 'edits', 'text', 'exports' ) ) )
+			// Mab - allow changing between select and autos and text and exports.
+			if ( in_array( $RET['TYPE'], array( 'select', 'autos', 'text', 'exports' ) ) )
 			{
 				$type_options = array_intersect_key(
 					$type_options,
 					array(
 						'select' => _( 'Pull-Down' ),
 						'autos' => _( 'Auto Pull-Down' ),
-						'edits' => _( 'Edit Pull-Down' ),
 						'exports' => _( 'Export Pull-Down' ),
 						'text' => _( 'Text' ),
 					)
@@ -426,11 +423,11 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 		$header .= '</tr><tr class="st">';
 
 		// Select Options TextArea field.
-		if ( in_array( $RET['TYPE'], array( 'autos', 'edits', 'select', 'codeds', 'multiple', 'exports' ) )
+		if ( in_array( $RET['TYPE'], array( 'autos', 'select', 'codeds', 'multiple', 'exports' ) )
 			|| ( $new
 				&& array_intersect(
 					array_keys( $type_options ),
-					array( 'autos', 'edits', 'select', 'codeds', 'multiple', 'exports' ) ) ) )
+					array( 'autos', 'select', 'codeds', 'multiple', 'exports' ) ) ) )
 		{
 			$header .= '<td colspan="3">' . TextAreaInput(
 				$RET['SELECT_OPTIONS'],
@@ -643,7 +640,6 @@ function MakeFieldType( $value, $column = '' )
 	$type_options = array(
 		'select' => _( 'Pull-Down' ),
 		'autos' => _( 'Auto Pull-Down' ),
-		'edits' => _( 'Edit Pull-Down' ),
 		'codeds' => _( 'Coded Pull-Down' ),
 		'exports' => _( 'Export Pull-Down' ),
 		'multiple' => _( 'Select Multiple from Options' ),

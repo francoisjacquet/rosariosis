@@ -211,7 +211,6 @@ if ( ! $_REQUEST['modfunc'] )
 		$fields_RET['select_autos_edits_exports_codeds'] = array_merge(
 			(array) $fields_RET['select'],
 			(array) $fields_RET['autos'],
-			(array) $fields_RET['edits'],
 			(array) $fields_RET['exports'],
 			(array) $fields_RET['codeds']
 		);
@@ -258,11 +257,9 @@ if ( ! $_REQUEST['modfunc'] )
 				}
 			}
 
-			// Get autos / edits pull-down edited options.
-
-			if ( $field['TYPE'] === 'autos'
-				|| $field['TYPE'] === 'edits' )
+			if ( $field['TYPE'] === 'autos' )
 			{
+				// Get autos pull-down edited options.
 				$sql_options = "SELECT DISTINCT s." . $col_name . ",upper(s." . $col_name . ") AS SORT_KEY
 					FROM STUDENTS s,STUDENT_ENROLLMENT sse
 					WHERE sse.STUDENT_ID=s.STUDENT_ID

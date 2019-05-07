@@ -492,7 +492,6 @@ function Search( $type, $extra = null )
 					'numeric' => array(),
 					'select' => array(),
 					'autos' => array(),
-					'edits' => array(),
 					'exports' => array(),
 					'codeds' => array(),
 					'date' => array(),
@@ -554,7 +553,6 @@ function Search( $type, $extra = null )
 				$category['select_autos_edits_exports_codeds'] = array_merge(
 					(array) $category['select'],
 					(array) $category['autos'],
-					(array) $category['edits'],
 					(array) $category['exports'],
 					(array) $category['codeds']
 				);
@@ -608,14 +606,12 @@ function Search( $type, $extra = null )
 						}
 					}
 
-					// Edits specificities.
-					if ( $col['TYPE'] === 'edits' )
+					if ( $col['TYPE'] === 'autos' )
+					{
+						// Autos specificities.
 						echo '<option value="~">' . _( 'Other Value' ) . '</option>';
 
-					// Get autos / edits pull-down edited options.
-					if ( $col['TYPE'] === 'autos'
-						|| $col['TYPE'] === 'edits' )
-					{
+						// Get autos edited options.
 						if ( mb_strpos( $type, 'student' ) !== false )
 						{
 							$sql_options = "SELECT DISTINCT s." . $col_name . ",upper(s." . $col_name . ") AS SORT_KEY
@@ -950,8 +946,6 @@ function SearchField( $field, $type = 'student', $extra = array() )
 		case 'select':
 		// Auto Pull-Down.
 		case 'autos':
-		// Edit Pull-Down.
-		case 'edits':
 
 			// No Value.
 			if ( $value === '!' )
@@ -963,8 +957,8 @@ function SearchField( $field, $type = 'student', $extra = array() )
 
 				return ' AND (' . $sql_col . "='' OR " . $sql_col . " IS NULL) ";
 			}
-			// Other Value (Edit Pull-Down only).
-			elseif ( $field['TYPE'] == 'edits'
+			// Other Value.
+			elseif ( $field['TYPE'] == 'autos'
 				&& $value === '~' )
 			{
 				if ( ! $no_search_terms )
