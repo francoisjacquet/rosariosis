@@ -8,6 +8,7 @@ Changes in 4.7
 - Remove "Edit Pull-Down" field type, program wide
 - Add \_update47beta(), Convert "Edit Pull-Down" fields to "Auto Pull-Down" in Update.fnc.php
 - Remove "Coded Pull-Down" field type, program wide
+- Convert "Coded Pull-Down" fields to "Export Pull-Down" in Update.fnc.php
 
 Changes in 4.6
 --------------

@@ -517,6 +517,9 @@ function _update46beta()
  * 1. Convert "Edit Pull-Down" fields to "Auto Pull-Down":
  * ADDRESS_FIELDS, CUSTOM_FIELDS, PEOPLE_FIELDS, SCHOOL_FIELDS & STAFF_FIELDS tables
  *
+ * 2. Convert "Coded Pull-Down" fields to "Export Pull-Down":
+ * ADDRESS_FIELDS, CUSTOM_FIELDS, PEOPLE_FIELDS, SCHOOL_FIELDS & STAFF_FIELDS tables
+ *
  * Local function
  *
  * @since 4.7
@@ -538,6 +541,18 @@ function _update47beta()
 	$sql_convert_fields .= "UPDATE PEOPLE_FIELDS SET TYPE='autos' WHERE TYPE='edits';";
 	$sql_convert_fields .= "UPDATE SCHOOL_FIELDS SET TYPE='autos' WHERE TYPE='edits';";
 	$sql_convert_fields .= "UPDATE STAFF_FIELDS SET TYPE='autos' WHERE TYPE='edits';";
+
+	DBQuery( $sql_convert_fields );
+
+	/**
+	 * 2. Convert "Coded Pull-Down" fields to "Export Pull-Down":
+	 * ADDRESS_FIELDS, CUSTOM_FIELDS, PEOPLE_FIELDS, SCHOOL_FIELDS & STAFF_FIELDS tables
+	 */
+	$sql_convert_fields = "UPDATE ADDRESS_FIELDS SET TYPE='codeds' WHERE TYPE='exports';";
+	$sql_convert_fields .= "UPDATE CUSTOM_FIELDS SET TYPE='codeds' WHERE TYPE='exports';";
+	$sql_convert_fields .= "UPDATE PEOPLE_FIELDS SET TYPE='codeds' WHERE TYPE='exports';";
+	$sql_convert_fields .= "UPDATE SCHOOL_FIELDS SET TYPE='codeds' WHERE TYPE='exports';";
+	$sql_convert_fields .= "UPDATE STAFF_FIELDS SET TYPE='codeds' WHERE TYPE='exports';";
 
 	DBQuery( $sql_convert_fields );
 
