@@ -458,7 +458,7 @@ function TextAreaInput( $value, $name, $title = '', $extra = '', $div = true, $t
 	else
 	{
 		$return = $display_val .
-			( $type === 'text' && $display_val !== '-' ?
+			( $type !== 'text' && $display_val !== '-' ?
 				str_replace( '<br />', '', $ftitle ) :
 				$ftitle );
 	}
