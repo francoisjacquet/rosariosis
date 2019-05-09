@@ -5,8 +5,12 @@
 New in 4.7
 ----------
 
+School, Students & Users
+- Fields: "Edit Pull-Down" & "Coded Pull-Down" are converted to "Auto Pull-Down" & "Export Pull-Down" Data Types.
+
 Grades
 - GPA / MP List: program removed
+
 
 New in 4.6
 ----------
