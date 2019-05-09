@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 4.6.1
+-----------------
+- SQL Fix more than one row returned by a subquery error in HonorRoll.fnc.php
+
 Changes in 4.6
 --------------
 - Show SQL query & format in db_show_error() in database.inc.php
