@@ -1,10 +1,13 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
-Changes in 4.6.1
------------------
-- SQL Fix more than one row returned by a subquery error in HonorRoll.fnc.php
+Changes in 4.6.2
+----------------
 - SQL Fix error, regression after PHP 7.3 compat in InputFinalGrades.php
+
+Changes in 4.6.1
+----------------
+- SQL Fix more than one row returned by a subquery error in HonorRoll.fnc.php
 
 Changes in 4.6
 --------------
