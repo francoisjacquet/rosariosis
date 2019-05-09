@@ -2,7 +2,7 @@
 
 ## RosarioSIS Student Information System
 
-Versión 4.6
+Versión 4.6.1
 -------------
 
 NOTA: Antes de instalar RosarioSIS, debe leer y aprobar la [licencia](LICENSE) incluida.
