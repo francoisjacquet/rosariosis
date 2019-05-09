@@ -2,6 +2,12 @@
 
 ## RosarioSIS Student Information System
 
+New in 4.7
+----------
+
+Grades
+- GPA / MP List: program removed
+
 New in 4.6
 ----------
 

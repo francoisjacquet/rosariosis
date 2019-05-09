@@ -3951,7 +3951,6 @@ INSERT INTO profile_exceptions VALUES (1, 'Grades/TeacherCompletion.php', 'Y', '
 INSERT INTO profile_exceptions VALUES (1, 'Grades/GradeBreakdown.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Grades/FinalGrades.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Grades/GPARankList.php', 'Y', 'Y');
-INSERT INTO profile_exceptions VALUES (1, 'Grades/GPAMPList.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Grades/ReportCardGrades.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Grades/ReportCardComments.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Grades/ReportCardCommentCodes.php', 'Y', 'Y');
