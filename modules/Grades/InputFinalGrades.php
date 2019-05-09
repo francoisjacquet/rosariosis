@@ -992,7 +992,7 @@ if ( $_REQUEST['values']
 
 	$current_completed = count( (array) DBGet( "SELECT 1
 		FROM GRADES_COMPLETED
-		WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'.
+		WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'
 		AND COURSE_PERIOD_ID='" . $course_period_id . "'" ) );
 

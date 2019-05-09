@@ -14,8 +14,12 @@ Changes in 4.7
 - Set select, text, multiple, textarea columns type to text in Disciplineform.php, Referral.fnc.php
 - Remove GPA / MP List program in GPAMPList.php, Menu.php & rosariosis.sql
 
+Changes in 4.6.2
+----------------
+- SQL Fix error, regression after PHP 7.3 compat in InputFinalGrades.php
+
 Changes in 4.6.1
------------------
+----------------
 - SQL Fix more than one row returned by a subquery error in HonorRoll.fnc.php
 
 Changes in 4.6
