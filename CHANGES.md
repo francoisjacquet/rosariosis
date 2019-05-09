@@ -13,6 +13,10 @@ Changes in 4.7
 - Custom fields input maxlength: 50000 for textarea, 1000 for text in StudentsUsersInfo.fnc.php, Search.fnc.php, Registration.php
 - Set select, text, multiple, textarea columns type to text in Disciplineform.php, Referral.fnc.php
 
+Changes in 4.6.1
+-----------------
+- SQL Fix more than one row returned by a subquery error in HonorRoll.fnc.php
+
 Changes in 4.6
 --------------
 - Show SQL query & format in db_show_error() in database.inc.php

@@ -25,16 +25,7 @@ function HonorRollPDF( $student_array, $is_list, $honor_roll_text )
 
 	$extra['SELECT'] = ",(SELECT SORT_ORDER FROM SCHOOL_GRADELEVELS WHERE ID=ssm.GRADE_ID) AS SORT_ORDER";
 
-	$extra['SELECT'] .= ",(SELECT HHR_GPA_VALUE FROM REPORT_CARD_GRADE_SCALES WHERE ID=1) AS HHR_GPA_VALUE,(SELECT rg.GPA_VALUE
-	FROM STUDENT_REPORT_CARD_GRADES sg,COURSE_PERIODS cp,REPORT_CARD_GRADES rg
-	WHERE sg.STUDENT_ID=s.STUDENT_ID
-	AND cp.SYEAR=ssm.SYEAR
-	AND sg.SYEAR=ssm.SYEAR
-	AND sg.MARKING_PERIOD_ID='" . UserMP() . "'
-	AND cp.COURSE_PERIOD_ID=sg.COURSE_PERIOD_ID
-	AND cp.DOES_HONOR_ROLL='Y'
-	AND rg.GRADE_SCALE_ID=cp.GRADE_SCALE_ID
-	AND sg.REPORT_CARD_GRADE_ID=rg.ID) AS GPA_VALUE,(SELECT NULL<'9') AS RESULT," . db_case( array( "exists(SELECT rg.GPA_VALUE
+	$extra['SELECT'] .= "," . db_case( array( "exists(SELECT rg.GPA_VALUE
 	FROM STUDENT_REPORT_CARD_GRADES sg,COURSE_PERIODS cp,REPORT_CARD_GRADES rg
 	WHERE sg.STUDENT_ID=s.STUDENT_ID
 	AND cp.SYEAR=ssm.SYEAR
@@ -129,7 +120,7 @@ function HonorRollPDF( $student_array, $is_list, $honor_roll_text )
 
 		$frame_image_css = '';
 
-		if ( ! empty( $_FILES['frame'] ) )
+		if ( ! empty( $_FILES['frame']['name'] ) )
 		{
 			$base64_frame_image = HonorRollFrame( $_FILES['frame'] );
 
