@@ -627,6 +627,7 @@ function _update47beta()
  *
  * 1. Add CLASS_RANK_CALCULATE_MPS to CONFIG table.
  * 2. SQL performance: rewrite set_class_rank_mp() function.
+ * 3. SQL move calc_cum_gpa_mp() function into t_update_mp_stats() trigger.
  *
  * Local function
  *
@@ -729,6 +730,60 @@ function _update47beta2()
 	END;
 	$_$
 		LANGUAGE plpgsql;" );
+
+
+	/**
+	 * 3. SQL move calc_cum_gpa_mp() function into t_update_mp_stats() trigger.
+	 * Create plpgsql language first if does not exist.
+	 */
+	DBQuery( "CREATE FUNCTION create_language_plpgsql()
+	RETURNS BOOLEAN AS $$
+		CREATE LANGUAGE plpgsql;
+		SELECT TRUE;
+	$$ LANGUAGE SQL;
+
+	SELECT CASE WHEN NOT
+		(
+			SELECT  TRUE AS exists
+			FROM    pg_language
+			WHERE   lanname = 'plpgsql'
+			UNION
+			SELECT  FALSE AS exists
+			ORDER BY exists DESC
+			LIMIT 1
+		)
+	THEN
+		create_language_plpgsql()
+	ELSE
+		FALSE
+	END AS plpgsql_created;
+
+	DROP FUNCTION create_language_plpgsql();
+
+	CREATE OR REPLACE FUNCTION t_update_mp_stats() RETURNS  \"trigger\"
+	    AS $$
+	begin
+
+	  IF tg_op = 'DELETE' THEN
+	    PERFORM calc_gpa_mp(OLD.student_id::int, OLD.marking_period_id::varchar);
+	    PERFORM calc_cum_gpa(OLD.marking_period_id::varchar, OLD.student_id::int);
+	    PERFORM calc_cum_cr_gpa(OLD.marking_period_id::varchar, OLD.student_id::int);
+
+	  ELSE
+	    --IF tg_op = 'INSERT' THEN
+	        --we need to do stuff here to gather other information since it's a new record.
+	    --ELSE
+	        --if report_card_grade_id changes, then we need to reset gp values
+	    --  IF NOT NEW.report_card_grade_id = OLD.report_card_grade_id THEN
+	            --
+	    PERFORM calc_gpa_mp(NEW.student_id::int, NEW.marking_period_id::varchar);
+	    PERFORM calc_cum_gpa(NEW.marking_period_id::varchar, NEW.student_id::int);
+	    PERFORM calc_cum_cr_gpa(NEW.marking_period_id::varchar, NEW.student_id::int);
+	  END IF;
+	  return NULL;
+	end
+	$$
+	    LANGUAGE plpgsql;" );
 
 	return $return;
 }

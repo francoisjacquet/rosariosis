@@ -84,28 +84,6 @@ END;
 $_$;
 
 
---modif Francois: fix calc_cum_gpa_mp()
---
--- Name: calc_cum_gpa_mp(character varying); Type: FUNCTION; Schema: public; Owner: postgres
---
-
-CREATE OR REPLACE FUNCTION calc_cum_gpa_mp(character varying) RETURNS integer
-    AS $_$DECLARE
-  mp_id ALIAS for $1;
-  mpinfo marking_periods%ROWTYPE;
-  s student_mp_stats%ROWTYPE;
-BEGIN
-  FOR s in select student_id from student_mp_stats where cast(marking_period_id as text) = mp_id LOOP
-
-    PERFORM calc_cum_gpa(mp_id, s.student_id);
-    PERFORM calc_cum_cr_gpa(mp_id, s.student_id);
-  END LOOP;
-  RETURN 1;
-END;
-
-$_$
-    LANGUAGE plpgsql;
-
 --modif Francois: fix calc_gpa_mp() + credit()
 --
 -- Name: calc_gpa_mp(integer, character varying); Type: FUNCTION; Schema: public; Owner: postgres
@@ -258,12 +236,15 @@ $_$
 -- Name: t_update_mp_stats(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
-CREATE FUNCTION t_update_mp_stats() RETURNS "trigger"
+CREATE OR REPLACE FUNCTION t_update_mp_stats() RETURNS "trigger"
     AS $$
 begin
 
   IF tg_op = 'DELETE' THEN
-    perform calc_gpa_mp(OLD.student_id::int, OLD.marking_period_id::varchar);
+    PERFORM calc_gpa_mp(OLD.student_id::int, OLD.marking_period_id::varchar);
+    PERFORM calc_cum_gpa(OLD.marking_period_id::varchar, OLD.student_id::int);
+    PERFORM calc_cum_cr_gpa(OLD.marking_period_id::varchar, OLD.student_id::int);
+
   ELSE
     --IF tg_op = 'INSERT' THEN
         --we need to do stuff here to gather other information since it's a new record.
@@ -271,7 +252,9 @@ begin
         --if report_card_grade_id changes, then we need to reset gp values
     --  IF NOT NEW.report_card_grade_id = OLD.report_card_grade_id THEN
             --
-    perform calc_gpa_mp(NEW.student_id::int, NEW.marking_period_id::varchar);
+    PERFORM calc_gpa_mp(NEW.student_id::int, NEW.marking_period_id::varchar);
+    PERFORM calc_cum_gpa(NEW.marking_period_id::varchar, NEW.student_id::int);
+    PERFORM calc_cum_cr_gpa(NEW.marking_period_id::varchar, NEW.student_id::int);
   END IF;
   return NULL;
 end

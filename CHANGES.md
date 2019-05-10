@@ -17,6 +17,7 @@ Changes in 4.7
 - Add ClassRankMaybeCalculate(), ClassRankCalculateAJAX() & ClassRankCalculateAddMP() in ClassRank.inc.php
 - Automatic Class Rank calculation in EditReportCardGrades.php, GPARankList.php, InputFinalGrades.php, Transcripts.php
 - SQL performance: rewrite set_class_rank_mp() function in rosariosis.sql & Update.fnc.php
+- SQL remove calc_cum_gpa_mp() function & include it in t_update_mp_stats() trigger in rosariosis.sql & Update.fnc.php
 
 Changes in 4.6.2
 ----------------
