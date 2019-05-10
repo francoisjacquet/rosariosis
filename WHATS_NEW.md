@@ -10,6 +10,7 @@ School, Students & Users
 
 Grades
 - GPA / MP List: program removed
+- Calculate GPA: program removed, automatic GPA & Class Rank calculation
 
 
 New in 4.6

@@ -695,12 +695,6 @@ if ( User( 'PROFILE' ) === 'admin' ):
 
 	<p>' . _help( 'Then, you can generate "Certificates" or a "List" of the qualifiers by selecting the right option at the top of the screen. The Certificate text can be personalized by editing it. Finally, click the "Create Honor Roll for Selected Students" button to generate the Honor Roll certificates or the List of qualifiers in a PDF format to print or email. Alternatively, you can click the "Download" icon to generate a spreadsheet of this data.' ) . '</p>';
 
-	$help['Grades/CalcGPA.php'] = '<p>' . _help( '<i>Calculate GPA</i> calculates and saves the GPA and class rank of each student in your school based upon their grades.' ) . '</p>
-
-	<p>' . _help( 'You must confirm your intention to calculate GPA. Here, you can also specify for which marking period the GPA is calculated. The GPA is calculated using the "Base grading scale" specified in the school setup.' ) . '</p>
-
-	<p>' . _help( 'The Calculate GPA program calculates the weighted GPA earned per course by multiplying the GPA value of the grade earned by the GPA multiplier of the course weight. Then, it divides that value by the number you specified as the base for your weighted scale. For unweighted GPA, the Calculate GPA program simply takes the GPA value of the grade the student earned. After finding the GPA points earned for each course, the program averages these values to determine the student\'s to-date GPA. It then sorts these values to determine the class rank. If more than one student has the same GPA, they will share a position in class rank.' ) . '</p>';
-
 	$help['Grades/Transcripts.php'] = '<p>' . _help( '<i>Transcripts</i> is a utility that allows you to print transcripts for any number of students.' ) . '</p>
 
 	<p>' . _help( 'You can search for students who are enrolled in a specific course by clicking the "Choose" link next to the "Course" search option and choosing a course from the popup window that appears. You can also limit your search based on weighted/unweighted GPA, class rank, and letter grade by filling in the upper and lower bounds of the GPA and class rank range and checking the desired letter grade checkboxes. For example, this allows you to search for all students in the top ten of their class, all students who are failing, or all students who have failed at least one course in the marking periods selected.' ) . '</p>

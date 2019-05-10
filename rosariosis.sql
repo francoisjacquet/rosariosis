@@ -3913,7 +3913,6 @@ INSERT INTO profile_exceptions VALUES (1, 'Scheduling/Courses.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Scheduling/Scheduler.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Grades/ReportCards.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Grades/HonorRoll.php', 'Y', 'Y');
-INSERT INTO profile_exceptions VALUES (1, 'Grades/CalcGPA.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Grades/FixGPA.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Grades/Transcripts.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Grades/StudentGrades.php', 'Y', 'Y');

@@ -15,7 +15,6 @@ $menu['Grades']['admin'] = array(
 	'default' => 'Grades/GPARankList.php',
 	'Grades/ReportCards.php' => _( 'Report Cards' ),
 	'Grades/HonorRoll.php' => _( 'Honor Roll' ),
-	'Grades/CalcGPA.php' => _( 'Calculate GPA' ),
 	'Grades/Transcripts.php' => _( 'Transcripts' ),
 	1 => _( 'Reports' ),
 	'Grades/StudentGrades.php' => _( 'Student Grades' ),
