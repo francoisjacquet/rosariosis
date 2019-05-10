@@ -15,6 +15,7 @@ Changes in 4.7
 - Remove GPA / MP List program in GPAMPList.php, Menu.php & rosariosis.sql
 - Add CLASS_RANK_CALCULATE_MPS to CONFIG table in Update.fnc.php & rosariosis.sql
 - Add ClassRankMaybeCalculate(), ClassRankCalculateAJAX() & ClassRankCalculateAddMP() in ClassRank.inc.php
+- Automatic Class Rank calculation in EditReportCardGrades.php, GPARankList.php, InputFinalGrades.php, Transcripts.php
 
 Changes in 4.6.2
 ----------------

@@ -1,5 +1,8 @@
 <?php
 
+// Should be included first, in case modfunc is Class Rank Calculate AJAX.
+require_once 'modules/Grades/includes/ClassRank.inc.php';
+
 require_once 'ProgramFunctions/Template.fnc.php';
 require_once 'ProgramFunctions/Substitutions.fnc.php';
 
@@ -548,6 +551,7 @@ if ( ! $_REQUEST['modfunc'] )
 			FROM MARKING_PERIODS
 			WHERE NOT MP_TYPE IS NULL
 			AND SCHOOL_ID='" . UserSchool() . "'", array(), array() );
+
 		$extra['extra_header_left'] .= '<tr class="st"><td class="valign-top">';
 
 		//FJ add translation
@@ -652,5 +656,17 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		echo '<br /><div class="center">' . Buttons( _( 'Create Transcripts for Selected Students' ) ) . '</div>';
 		echo '</form>';
+
+		// SYear & Semester MPs only, including History MPs.
+		$mps_RET = DBGet( "SELECT MARKING_PERIOD_ID
+			FROM MARKING_PERIODS
+			WHERE SCHOOL_ID='" . UserSchool() . "'
+			AND MP_TYPE IN ('semseter','year')" );
+
+		foreach ( (array) $mps_RET as $mp )
+		{
+			// @since 4.7 Automatic Class Rank calculation.
+			ClassRankMaybeCalculate( $mp['MARKING_PERIOD_ID'] );
+		}
 	}
 }

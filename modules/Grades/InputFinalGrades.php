@@ -1,5 +1,7 @@
 <?php
 
+require_once 'modules/Grades/includes/ClassRank.inc.php';
+
 require_once 'ProgramFunctions/TipMessage.fnc.php';
 
 DrawHeader( ProgramTitle() );
@@ -636,6 +638,9 @@ if ( $_REQUEST['values']
 
 			if ( $sql )
 			{
+				// Reset Class Rank based on current CP Does Class Rank parameter.
+				$sql .= ",CLASS_RANK='" . $course_RET[1]['CLASS_RANK'] . "'";
+
 				$sql = "UPDATE STUDENT_REPORT_CARD_GRADES
 					SET " . $sql . "
 					WHERE STUDENT_ID='" . $student_id . "'
@@ -714,7 +719,7 @@ if ( $_REQUEST['values']
 				$percent = $grade = $letter = $weighted = $unweighted = $scale = $gp_passing = '';
 			}
 
-//FJ fix bug SQL ID=NULL
+			//FJ fix bug SQL ID=NULL
 			//FJ add CLASS_RANK
 			//FJ add Credit Hours
 			$sql = "INSERT INTO STUDENT_REPORT_CARD_GRADES (
@@ -939,19 +944,30 @@ if ( $_REQUEST['values']
 		}
 	}
 
+	// @since 4.7 Automatic Class Rank calculation.
+	ClassRankCalculateAddMP( $_REQUEST['mp'] );
+
 	if ( $completed )
 	{
 		if ( ! $current_completed )
 		{
-			DBQuery( "INSERT INTO GRADES_COMPLETED (STAFF_ID,MARKING_PERIOD_ID,COURSE_PERIOD_ID) values('" . User( 'STAFF_ID' ) . "','" . $_REQUEST['mp'] . "','" . $course_period_id . "')" );
+			DBQuery( "INSERT INTO GRADES_COMPLETED (STAFF_ID,MARKING_PERIOD_ID,COURSE_PERIOD_ID)
+				values('" . User( 'STAFF_ID' ) . "','" . $_REQUEST['mp'] . "','" . $course_period_id . "')" );
 		}
 	}
 	elseif ( $current_completed )
 	{
-		DBQuery( "DELETE FROM GRADES_COMPLETED WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "' AND MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "' AND COURSE_PERIOD_ID='" . $course_period_id . "'" );
+		DBQuery( "DELETE FROM GRADES_COMPLETED
+			WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
+			AND MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'
+			AND COURSE_PERIOD_ID='" . $course_period_id . "'" );
 	}
 
-	$current_RET = DBGet( "SELECT g.STUDENT_ID,g.REPORT_CARD_GRADE_ID,g.GRADE_PERCENT,g.REPORT_CARD_COMMENT_ID,g.COMMENT FROM STUDENT_REPORT_CARD_GRADES g WHERE g.COURSE_PERIOD_ID='" . $course_period_id . "' AND g.MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'", array(), array( 'STUDENT_ID' ) );
+	$current_RET = DBGet( "SELECT g.STUDENT_ID,g.REPORT_CARD_GRADE_ID,g.GRADE_PERCENT,
+		g.REPORT_CARD_COMMENT_ID,g.COMMENT
+		FROM STUDENT_REPORT_CARD_GRADES g
+		WHERE g.COURSE_PERIOD_ID='" . $course_period_id . "'
+		AND g.MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'", array(), array( 'STUDENT_ID' ) );
 
 	if ( $_REQUEST['tab_id'] == '-1' )
 	{

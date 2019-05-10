@@ -1,5 +1,7 @@
 <?php
 
+require_once 'modules/Grades/includes/ClassRank.inc.php';
+
 DrawHeader( ProgramTitle() );
 
 Search( 'student_id' );
@@ -66,7 +68,7 @@ if ( UserStudentID() )
 			{
 				if ( $id !== 'new' )
 				{
-					$sql = "UPDATE student_report_card_grades SET ";
+					$sql = "UPDATE STUDENT_REPORT_CARD_GRADES SET ";
 
 					foreach ( (array) $columns as $column => $value )
 					{
@@ -76,6 +78,8 @@ if ( UserStudentID() )
 					$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . $id . "'";
 
 					DBQuery( $sql );
+
+					$go = true;
 				}
 
 				// New: check for Title.
@@ -91,8 +95,10 @@ if ( UserStudentID() )
 					//$fields = 'ID, SCHOOL_ID, STUDENT_ID, MARKING_PERIOD_ID, ';
 					$fields = 'ID,SCHOOL_ID,STUDENT_ID,MARKING_PERIOD_ID,SYEAR,';
 
+					$id = DBSeqNextID( 'student_report_card_grades_seq' );
+
 					//$values = db_seq_nextval('student_report_card_grades_seq').','.UserSchool().", $student_id, $mp_id, ";
-					$values = db_seq_nextval( 'student_report_card_grades_seq' ) . ",'" .
+					$values = $id . ",'" .
 					UserSchool() . "','" . $student_id . "','" . $mp_id . "','" . $syear . "',";
 
 					if ( ! $columns['GP_SCALE'] )
@@ -143,6 +149,12 @@ if ( UserStudentID() )
 						DBQuery( $sql );
 					}
 				}
+
+				if ( $go )
+				{
+					// @since 4.7 Automatic Class Rank calculation.
+					ClassRankCalculateAddMP( $mp_id );
+				}
 			}
 			else
 			{
@@ -158,8 +170,14 @@ if ( UserStudentID() )
 	{
 		if ( DeletePrompt( _( 'Student Grade' ) ) )
 		{
-			DBQuery( "DELETE FROM student_report_card_grades
+			DBQuery( "DELETE FROM STUDENT_REPORT_CARD_GRADES
 				WHERE ID='" . $_REQUEST['id'] . "'" );
+
+			if ( $mp_id )
+			{
+				// @since 4.7 Automatic Class Rank calculation.
+				ClassRankCalculateAddMP( $mp_id );
+			}
 
 			// Unset modfunc & ID & redirect URL.
 			RedirectURL( array( 'modfunc', 'id' ) );
