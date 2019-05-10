@@ -220,46 +220,32 @@ CREATE OR REPLACE FUNCTION set_class_rank_mp(character varying) RETURNS integer
 DECLARE
     mp_id alias for $1;
 BEGIN
-update student_mp_stats set cum_rank = rank.rank, class_size = rank.class_size  from
-(
-select
-mp.syear, mp.marking_period_id, sgm.student_id, se.grade_id, sgm.cum_cr_weighted_factor
-,
- (select count(*)+1
-   from student_mp_stats sgm3
-   where sgm3.cum_cr_weighted_factor > sgm.cum_cr_weighted_factor
-     and sgm3.marking_period_id = mp.marking_period_id
-     and sgm3.student_id in (select distinct sgm2.student_id
-                            from student_mp_stats sgm2, student_enrollment se2
-                            where sgm2.student_id = se2.student_id
-                              and sgm2.marking_period_id = mp.marking_period_id
-                              and se2.grade_id = se.grade_id
-                              and se2.syear = se.syear)
-) as rank,
-
- (select count(*)
-   from student_mp_stats sgm4
-   where
-     sgm4.marking_period_id = mp.marking_period_id
-     and sgm4.student_id in (select distinct sgm5.student_id
-                            from student_mp_stats sgm5, student_enrollment se3
-                            where sgm5.student_id = se3.student_id
-                              and sgm5.marking_period_id = mp.marking_period_id
-                              and se3.grade_id = se.grade_id
-                              and se3.syear = se.syear)
-) as class_size
-
-
-from student_enrollment se, student_mp_stats sgm, marking_periods mp
-
-where
-se.student_id = sgm.student_id
-and sgm.marking_period_id = mp.marking_period_id
-and cast(mp.marking_period_id as text) = mp_id
-and se.syear = mp.syear
-and not sgm.cum_cr_weighted_factor is null
-order by grade_id, rank ) as rank
-
+update student_mp_stats
+set cum_rank = rank.rank, class_size = rank.class_size
+from (select mp.marking_period_id, sgm.student_id,
+    (select count(*)+1
+        from student_mp_stats sgm3
+        where sgm3.cum_cr_weighted_factor > sgm.cum_cr_weighted_factor
+        and sgm3.marking_period_id = mp.marking_period_id
+        and sgm3.student_id in (select distinct sgm2.student_id
+            from student_mp_stats sgm2, student_enrollment se2
+            where sgm2.student_id = se2.student_id
+            and sgm2.marking_period_id = mp.marking_period_id
+            and se2.grade_id = se.grade_id)) as rank,
+    (select count(*)
+        from student_mp_stats sgm4
+        where sgm4.marking_period_id = mp.marking_period_id
+        and sgm4.student_id in (select distinct sgm5.student_id
+            from student_mp_stats sgm5, student_enrollment se3
+            where sgm5.student_id = se3.student_id
+            and sgm5.marking_period_id = mp.marking_period_id
+            and se3.grade_id = se.grade_id)) as class_size
+    from student_enrollment se, student_mp_stats sgm, marking_periods mp
+    where se.student_id = sgm.student_id
+    and sgm.marking_period_id = mp.marking_period_id
+    and cast(mp.marking_period_id as text) = mp_id
+    and se.syear = mp.syear
+    and not sgm.cum_cr_weighted_factor is null) as rank
 where student_mp_stats.marking_period_id = rank.marking_period_id
 and student_mp_stats.student_id = rank.student_id;
 RETURN 1;
