@@ -123,6 +123,10 @@ function Update()
 		case version_compare( $from_version, '4.7-beta', '<' ) :
 
 			$return = _update47beta();
+
+		case version_compare( $from_version, '4.7-beta2', '<' ) :
+
+			$return = _update47beta2();
 	}
 
 	// Update version in DB CONFIG table.
@@ -430,11 +434,11 @@ function _update44beta2()
 	$return = true;
 
 	/**
-	 * 1. Add VERSION to PASSWORD_STRENGTH table.
+	 * 1. Add PASSWORD_STRENGTH to CONFIG table.
 	 */
-	$version_added = DBGet( "SELECT 1 FROM CONFIG WHERE TITLE='PASSWORD_STRENGTH'" );
+	$password_strength_added = DBGet( "SELECT 1 FROM CONFIG WHERE TITLE='PASSWORD_STRENGTH'" );
 
-	if ( ! $version_added )
+	if ( ! $password_strength_added )
 	{
 		DBQuery( "INSERT INTO config VALUES (0, 'PASSWORD_STRENGTH', '1');" );
 	}
@@ -547,6 +551,7 @@ function _update47beta()
 
 	DBQuery( $sql_convert_fields );
 
+
 	/**
 	 * 2. Convert "Coded Pull-Down" fields to "Export Pull-Down":
 	 * ADDRESS_FIELDS, CUSTOM_FIELDS, PEOPLE_FIELDS, SCHOOL_FIELDS & STAFF_FIELDS tables
@@ -560,6 +565,7 @@ function _update47beta()
 	DBQuery( $sql_convert_fields );
 
 	$sql_fields_column_type = '';
+
 
 	/**
 	 * 3. Change Pull-Down (Auto & Export), Select Multiple from Options, Text, Long Text columns type to text:
@@ -610,6 +616,51 @@ function _update47beta()
 	if ( $sql_fields_column_type )
 	{
 		DBQuery( $sql_fields_column_type );
+	}
+
+	return $return;
+}
+
+
+/**
+ * Update to version 4.7
+ *
+ * 1. Add CLASS_RANK_CALCULATE_MPS to CONFIG table.
+ *
+ * Local function
+ *
+ * @since 4.7
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update47beta2()
+{
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. Add CLASS_RANK_CALCULATE_MPS to CONFIG table.
+	 */
+	$class_rank_added = DBGet( "SELECT 1 FROM CONFIG WHERE TITLE='CLASS_RANK_CALCULATE_MPS'" );
+
+	if ( ! $class_rank_added )
+	{
+		$schools_RET = DBGet( "SELECT ID FROM SCHOOLS;" );
+
+		foreach ( (array) $schools_RET as $school )
+		{
+			$mps_RET = DBGet( "SELECT MARKING_PERIOD_ID
+				FROM MARKING_PERIODS
+				WHERE SCHOOL_ID='" . $school['ID'] . "'", array(), array( 'MARKING_PERIOD_ID' ) );
+
+			$mps = array_keys( $mps_RET );
+
+			$class_rank_mps = '|' . implode( '||', $mps ) . '|';
+
+			DBQuery( "INSERT INTO config
+				VALUES('" . $school['ID'] . "','CLASS_RANK_CALCULATE_MPS','" . $class_rank_mps . "';" );
+		}
 	}
 
 	return $return;

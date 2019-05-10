@@ -13,6 +13,7 @@ Changes in 4.7
 - Custom fields input maxlength: 50000 for textarea, 1000 for text in StudentsUsersInfo.fnc.php, Search.fnc.php, Registration.php
 - Set select, text, multiple, textarea columns type to text in Disciplineform.php, Referral.fnc.php
 - Remove GPA / MP List program in GPAMPList.php, Menu.php & rosariosis.sql
+- Add CLASS_RANK_CALCULATE_MPS to CONFIG table in Update.fnc.php & rosariosis.sql
 
 Changes in 4.6.2
 ----------------
