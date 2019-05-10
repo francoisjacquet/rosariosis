@@ -661,7 +661,7 @@ function _update47beta2()
 			$class_rank_mps = '|' . implode( '||', $mps ) . '|';
 
 			DBQuery( "INSERT INTO config
-				VALUES('" . $school['ID'] . "','CLASS_RANK_CALCULATE_MPS','" . $class_rank_mps . "';" );
+				VALUES('" . $school['ID'] . "','CLASS_RANK_CALCULATE_MPS','" . $class_rank_mps . "');" );
 		}
 	}
 
@@ -694,7 +694,7 @@ function _update47beta2()
 	DROP FUNCTION create_language_plpgsql();
 
 	CREATE OR REPLACE FUNCTION set_class_rank_mp(character varying) RETURNS integer
-		AS $_$
+		AS $$
 	DECLARE
 		mp_id alias for $1;
 	BEGIN
@@ -728,7 +728,7 @@ function _update47beta2()
 	and student_mp_stats.student_id = rank.student_id;
 	RETURN 1;
 	END;
-	$_$
+	$$
 		LANGUAGE plpgsql;" );
 
 
