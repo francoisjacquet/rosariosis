@@ -154,7 +154,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	DrawHeader( '', SubmitButton() );
 
-	ListOutput( $periods_RET, $columns, 'Period', 'Periods', $link );
+	ListOutput( $periods_RET, $columns, 'Period', 'Periods' );
 
 	echo '<div class="center">' . SubmitButton() . '</div>';
 	echo '</form>';
@@ -298,6 +298,8 @@ function _makeTimeInput( $value, $name )
  *
  * Local function
  * DBGet() callback
+ *
+ * @since 4.7
  *
  * @param  string $value  Value.
  * @param  string $column Column name, 'REMOVE'.
