@@ -117,7 +117,9 @@ if ( User( 'PROFILE' ) === 'admin' ):
 
 	<p>' . _help( 'To modify a period, click on any of the period\'s information, change the value, and click the "Save" button.' ) . '</p>
 
-	<p>' . _help( 'To delete a period, click the delete icon (-) next to the period you want to delete. You will be asked to confirm the deletion.' ) . '</p>';
+	<p>' . _help( 'To delete a period, click the delete icon (-) next to the period you want to delete. You will be asked to confirm the deletion.' ) . '</p>
+
+	<p>' . _help( 'Note: it is not possible to delete a period already associated to course periods.' ) . '</p>';
 
 	$help['School_Setup/GradeLevels.php'] = '<p>' . _help( '<i>Grade Levels</i> allows you to setup your school\'s grade levels.' ) . '</p>
 
