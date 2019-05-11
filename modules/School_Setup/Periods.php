@@ -111,12 +111,20 @@ if ( ! $_REQUEST['modfunc'] )
 {
 	// Remove Used for Attendance column, unused.
 	$periods_RET = DBGet( "SELECT PERIOD_ID,TITLE,SHORT_NAME,SORT_ORDER,LENGTH,
-		START_TIME,END_TIME,BLOCK
-		FROM SCHOOL_PERIODS
+		START_TIME,END_TIME,BLOCK,
+		(SELECT 1
+			FROM COURSE_PERIOD_SCHOOL_PERIODS cpsp,COURSE_PERIODS cp
+			WHERE cpsp.PERIOD_ID=sp.PERIOD_ID
+			AND cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
+			AND cp.SYEAR='" . UserSyear() . "'
+			AND cp.SCHOOL_ID='" . UserSchool() . "'
+			LIMIT 1) AS REMOVE
+		FROM SCHOOL_PERIODS sp
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		ORDER BY SORT_ORDER",
 	array(
+		'REMOVE' => '_makeRemoveButton',
 		'TITLE' => '_makeTextInput',
 		'SHORT_NAME' => '_makeTextInput',
 		'SORT_ORDER' => '_makeTextInput',
@@ -125,6 +133,7 @@ if ( ! $_REQUEST['modfunc'] )
 	) ); //	'ATTENDANCE' => '_makeCheckboxInput','START_TIME' => '_makeTimeInput','END_TIME' => '_makeTimeInput'
 
 	$columns = array(
+		'REMOVE' => '',
 		'TITLE' => _( 'Title' ),
 		'SHORT_NAME' => _( 'Short Name' ),
 		'SORT_ORDER' => _( 'Sort Order' ),
@@ -133,19 +142,13 @@ if ( ! $_REQUEST['modfunc'] )
 	); // 'ATTENDANCE' => _('Used for Attendance'),'START_TIME' => _('Start Time'),'END_TIME' => _('End Time'));
 
 	$link['add']['html'] = array(
+		'REMOVE' => _makeRemoveButton( '', 'REMOVE' ),
 		'TITLE' => _makeTextInput( '', 'TITLE' ),
 		'SHORT_NAME' => _makeTextInput( '', 'SHORT_NAME' ),
 		'LENGTH' => _makeTextInput( '', 'LENGTH' ),
 		'SORT_ORDER' => _makeTextInput( '', 'SORT_ORDER' ),
 		'BLOCK' => _makeTextInput( '', 'BLOCK' ),
 	); // 'ATTENDANCE'=>_makeCheckboxInput('','ATTENDANCE'),'START_TIME'=>_makeTimeInput('','START_TIME'),'END_TIME'=>_makeTimeInput('','END_TIME')
-
-	// Do NOT delete last Period.
-	if ( count( (array) $periods_RET ) > 1 )
-	{
-		$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove';
-		$link['remove']['variables'] = array( 'id' => 'PERIOD_ID' );
-	}
 
 	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update" method="POST">';
 
@@ -287,4 +290,37 @@ function _makeTimeInput( $value, $name )
 	}
 	else
 		return $time_html;
+}
+
+
+/**
+ * Make Remove button
+ *
+ * Local function
+ * DBGet() callback
+ *
+ * @param  string $value  Value.
+ * @param  string $column Column name, 'REMOVE'.
+ *
+ * @return string Remove button or add button or none if existing Course Periods use this School Period.
+ */
+function _makeRemoveButton( $value, $column )
+{
+	global $THIS_RET;
+
+	if ( empty( $THIS_RET['PERIOD_ID'] ) )
+	{
+		return button( 'add' );
+	}
+
+	if ( $value )
+	{
+		// Do NOT remove School Period as existing Course Periods use it.
+		return '';
+	}
+
+	$button_link .= 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove&id=' .
+		urlencode( $THIS_RET['PERIOD_ID'] );
+
+	return button( 'remove', '', '"' . $button_link . '"' );
 }
