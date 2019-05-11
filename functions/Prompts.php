@@ -21,10 +21,8 @@
 function DeletePrompt( $title, $action = 'Delete', $remove_modfunc_on_cancel = true )
 {
 	// Display prompt.
-	if ( ( ! isset( $_REQUEST['delete_ok'] )
-			|| empty( $_REQUEST['delete_ok'] ) )
-		&&  ( ! isset( $_REQUEST['delete_cancel'] )
-			|| empty( $_REQUEST['delete_cancel'] ) ) )
+	if ( empty( $_REQUEST['delete_ok'] )
+		&& empty( $_REQUEST['delete_cancel'] ) )
 	{
 		// Set default action text.
 		if ( $action === 'Delete' )
@@ -87,8 +85,7 @@ function DeletePrompt( $title, $action = 'Delete', $remove_modfunc_on_cancel = t
 function Prompt( $title = 'Confirm', $question = '', $message = '' )
 {
 	// Display prompt.
-	if ( ! isset( $_REQUEST['delete_ok'] )
-		|| empty( $_REQUEST['delete_ok'] ) )
+	if ( empty( $_REQUEST['delete_ok'] ) )
 	{
 		// Set default title.
 		if ( $title === 'Confirm' )
