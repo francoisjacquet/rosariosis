@@ -119,7 +119,7 @@ if ( User( 'PROFILE' ) === 'admin' ):
 
 	<p>' . _help( 'To delete a period, click the delete icon (-) next to the period you want to delete. You will be asked to confirm the deletion.' ) . '</p>
 
-	<p>' . _help( 'Note: it is not possible to delete a period already associated to course periods.' ) . '</p>';
+	<p>' . _help( 'Note: a period cannot be deleted once it is associated to a course period.' ) . '</p>';
 
 	$help['School_Setup/GradeLevels.php'] = '<p>' . _help( '<i>Grade Levels</i> allows you to setup your school\'s grade levels.' ) . '</p>
 
@@ -653,7 +653,9 @@ if ( User( 'PROFILE' ) === 'admin' ):
 
 	<p>' . _help( 'To change any of these three things, click on the item you want to change, and click on whatever value you want to change in the grey area above the lists. Then, change the value and click the "Save" button.' ) . '</p>
 
-	<p>' . _help( 'Finally, to delete something, select it by clicking on its title on the list and click the "Delete" button at the top of the screen. You will be asked to confirm the deletion.' ) . '</p>';
+	<p>' . _help( 'Finally, to delete something, select it by clicking on its title on the list and click the "Delete" button at the top of the screen. You will be asked to confirm the deletion.' ) . '</p>
+
+	<p>' . _help( 'Note: a course period cannot be deleted once it has students enrolled.' ) . '</p>';
 
 	$help['Scheduling/Scheduler.php'] = '<p>' . _help( '<i>Run Scheduler</i> schedules every student at your school according to the requests entered for them.' ) . '</p>
 

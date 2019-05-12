@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS Help\n"
-"POT-Creation-Date: 2019-05-11 21:09+0200\n"
-"PO-Revision-Date: 2019-05-11 21:14+0200\n"
+"POT-Creation-Date: 2019-05-12 13:06+0200\n"
+"PO-Revision-Date: 2019-05-12 13:11+0200\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS <info@rosariosis.org>\n"
 "Language: es_ES\n"
@@ -445,9 +445,8 @@ msgstr ""
 
 #: Help_en.php:122
 msgid ""
-"Note: it is not possible to delete a period already associated to course "
-"periods."
-msgstr "Nota: no es posible suprimir una hora ya asociada con clases."
+"Note: a period cannot be deleted once it is associated to a course period."
+msgstr "Nota: una hora no se puede suprimir una vez asociada con una clase."
 
 #: Help_en.php:124
 msgid "<i>Grade Levels</i> allows you to setup your school's grade levels."
@@ -1368,8 +1367,8 @@ msgstr ""
 "<i>Imprimir Etiquetas de Correo</i> le permite generar etiquetas de correo "
 "para los estudiantes, los padres o las familias."
 
-#: Help_en.php:313 Help_en.php:319 Help_en.php:325 Help_en.php:668
-#: Help_en.php:772
+#: Help_en.php:313 Help_en.php:319 Help_en.php:325 Help_en.php:670
+#: Help_en.php:774
 msgid ""
 "You must first select a student by using the \"Find a Student\" search "
 "screen."
@@ -2118,7 +2117,7 @@ msgstr ""
 "el semestre o periodo intermedio actual en el menú desplegable en la parte "
 "superior de la pantalla."
 
-#: Help_en.php:513 Help_en.php:798
+#: Help_en.php:513 Help_en.php:800
 msgid ""
 "Once you are in the correct marking period, you can enter student grades by "
 "selecting the earned grade for each student and entering comments as "
@@ -2143,7 +2142,7 @@ msgstr ""
 "clic sobre el enlace «Obtener las Calificaciones del Libro de "
 "Calificaciones.» de arriba."
 
-#: Help_en.php:517 Help_en.php:802
+#: Help_en.php:517 Help_en.php:804
 msgid ""
 "If the marking period you are in is a Progress Period, when clicking on the "
 "\"Get Gradebook Grades\" link, the gades taken in account will be limited to "
@@ -2270,7 +2269,7 @@ msgstr ""
 "calcular la elegibilidad de cada estudiante haciendo clic sobre el enlace "
 "«Usar la Calificaciones del Libro de Calificaciones» de arriba."
 
-#: Help_en.php:535 Help_en.php:1014
+#: Help_en.php:535 Help_en.php:1016
 msgid ""
 "You must enter eligibility each week during the timeframe specified by your "
 "school's administration."
@@ -2777,7 +2776,7 @@ msgstr ""
 "<i>Solicitudes Vacantes</i> es un reporte de las solicitudes no completadas "
 "de un grupo de estudiantes."
 
-#: Help_en.php:636 Help_en.php:724
+#: Help_en.php:636 Help_en.php:726
 msgid ""
 "You must first select a (group of) student(s) by using the \"Find a Student"
 "\" search screen."
@@ -2889,6 +2888,11 @@ msgstr ""
 "pantalla. Se le preguntará si desea confirmar la eliminación."
 
 #: Help_en.php:658
+msgid "Note: a course period cannot be deleted once it has students enrolled."
+msgstr ""
+"Nota: una clase no se puede suprimir cuando tiene estudiantes inscritos."
+
+#: Help_en.php:660
 msgid ""
 "<i>Run Scheduler</i> schedules every student at your school according to the "
 "requests entered for them."
@@ -2896,7 +2900,7 @@ msgstr ""
 "<i>Correr Programador</i> servicio cada estudiante en la institución "
 "siguiendo las solicitudes entradas para ellos."
 
-#: Help_en.php:660
+#: Help_en.php:662
 msgid ""
 "You first must confirm the Scheduler run. Here, you can also choose to run "
 "the scheduler in \"Test Mode\" which will not save the student schedules."
@@ -2905,7 +2909,7 @@ msgstr ""
 "escoger correr el Programador en «Modo de Prueba» que no guardara los "
 "horarios de los estudiantes."
 
-#: Help_en.php:662
+#: Help_en.php:664
 msgid ""
 "Once the scheduler has run, which could take several minutes, it will notify "
 "you of any conflicts. The Scheduler output will also tell you if any course "
@@ -2917,15 +2921,15 @@ msgstr ""
 "Una vez que el programador ha corrido, lo que puede tomar algunos minutos, "
 "le mostrara las Solicitudes Vacantes."
 
-#: Help_en.php:666
+#: Help_en.php:668
 msgid "<i>Schedule</i> is a display of the student's course schedule."
 msgstr "<i>Horario Estudiante</i> muestra el horario de los estudiantes."
 
-#: Help_en.php:673
+#: Help_en.php:675
 msgid "<i>Schedule</i> is a display of your child's course schedule."
 msgstr "<i>Horario Estudiante</i> muestra el horario de sus estudiantes."
 
-#: Help_en.php:680
+#: Help_en.php:682
 msgid ""
 "<i>Report Cards</i> is a utility that allows you to print report cards for "
 "any number of students."
@@ -2933,7 +2937,7 @@ msgstr ""
 "<i>Boletines de Calificaciones</i> le permite imprimir boletines de "
 "calificaciones para cualquier número de estudiantes."
 
-#: Help_en.php:682 Help_en.php:702 Help_en.php:720
+#: Help_en.php:684 Help_en.php:704 Help_en.php:722
 msgid ""
 "You can search for students who are enrolled in a specific course by "
 "clicking the \"Choose\" link next to the \"Course\" search option and "
@@ -2952,7 +2956,7 @@ msgstr ""
 "Avanzada. Por ejemplo, usted puede buscar los 10 mejores estudiantes de una "
 "clase, los estudiantes que fallan."
 
-#: Help_en.php:684
+#: Help_en.php:686
 msgid ""
 "Also, you can choose to print the report cards with mailing labels. The "
 "report cards will have mailing labels positioned in such a way as to be "
@@ -2966,7 +2970,7 @@ msgstr ""
 "carta puede ser impreza por estudiante si el estudiante tiene padres "
 "residiendo en mas de una dirección."
 
-#: Help_en.php:686 Help_en.php:849
+#: Help_en.php:688 Help_en.php:851
 msgid ""
 "Before printing the report cards, you must select which marking periods to "
 "display on the report card by checking desired marking period checkboxes."
@@ -2974,7 +2978,7 @@ msgstr ""
 "Antes de imprimir los boletines, usted debe seleccionar cual periodo a "
 "calificar será en el boletín, marcando las casillas de los periodos deseados."
 
-#: Help_en.php:688
+#: Help_en.php:690
 msgid ""
 "The report cards will be automatically downloaded to your computer in the "
 "printable PDF format when you click the \"Create Report Cards for Selected "
@@ -2984,21 +2988,21 @@ msgstr ""
 "cuando usted presione el botón «Crear Boletín de Calificaciones para los "
 "Estudiantes Seleccionados»."
 
-#: Help_en.php:690
+#: Help_en.php:692
 msgid ""
 "<i>Honor Roll</i> allows you to create honor roll lists or certificates."
 msgstr ""
 "<i>Cuadro de Honor</i> le permite crear listas o certificados de cuadro de "
 "honor."
 
-#: Help_en.php:692
+#: Help_en.php:694
 msgid ""
 "The Honor Roll GPA values are setup via the Grades > Grading Scales program."
 msgstr ""
 "Los valores de promedio del Cuadro de Honor se configuran en el programa "
 "Calificaciones &gt; Escalas de Calificaciones."
 
-#: Help_en.php:694
+#: Help_en.php:696
 msgid ""
 "You must first select a (group of) student(s) by using the \"Find a Student"
 "\" search screen. You can search for students who qualify for \"Honor\" or "
@@ -3015,7 +3019,7 @@ msgstr ""
 "de las opción de búsqueda «Curso» y escogiendo un curso desde la ventana "
 "emergente que aparece."
 
-#: Help_en.php:696
+#: Help_en.php:698
 msgid ""
 "Alternatively, you can choose a Subject from the dropdown list on the \"Find "
 "a Student\" search screen to create honor roll lists or certificates by "
@@ -3025,7 +3029,7 @@ msgstr ""
 "de la pantalla de búsqueda \"Encontrar un Estudiante\" al fin de crear "
 "Cuadros de Honor por materia."
 
-#: Help_en.php:698
+#: Help_en.php:700
 msgid ""
 "Then, you can generate \"Certificates\" or a \"List\" of the qualifiers by "
 "selecting the right option at the top of the screen. The Certificate text "
@@ -3043,7 +3047,7 @@ msgstr ""
 "se puede dar clic sobre el icono \"Descargar\" para generar un archivo Excel "
 "de estos datos."
 
-#: Help_en.php:700
+#: Help_en.php:702
 msgid ""
 "<i>Transcripts</i> is a utility that allows you to print transcripts for any "
 "number of students."
@@ -3051,7 +3055,7 @@ msgstr ""
 "<i>Expedientes Académicos</i> le permite imprimir expedientes académicos "
 "para cualquier número de estudiantes."
 
-#: Help_en.php:704 Help_en.php:855
+#: Help_en.php:706 Help_en.php:857
 msgid ""
 "Before printing the transcripts, you must select which marking periods to "
 "display on the transcript by checking desired marking period checkboxes."
@@ -3061,7 +3065,7 @@ msgstr ""
 "calificar. También puede escoger incluir la foto del estudiante o los "
 "comentarios asociados a cada curso."
 
-#: Help_en.php:706 Help_en.php:857
+#: Help_en.php:708 Help_en.php:859
 msgid ""
 "The transcripts will be automatically downloaded to your computer in the "
 "printable PDF format when you click the \"Submit\" button."
@@ -3070,7 +3074,7 @@ msgstr ""
 "cuando usted presione el botón «Crear Expedientes Académicos para los "
 "Estudiantes Seleccionados»."
 
-#: Help_en.php:708
+#: Help_en.php:710
 msgid ""
 "<i>Teacher Completion</i> is a report that shows which teachers have not "
 "entered grades for any given marking period."
@@ -3078,7 +3082,7 @@ msgstr ""
 "<i>Control Docente</i> es un reporte que muestra cuales docentes no han "
 "entrado las calificaciones de cualquier periodo a calificar."
 
-#: Help_en.php:710
+#: Help_en.php:712
 msgid ""
 "The red checks indicate that a teacher has failed to enter the current "
 "marking period's grades for that period."
@@ -3086,7 +3090,7 @@ msgstr ""
 "Las cruces rojas indican que el docente no ha entrado las calificaciones del "
 "periodo a calificar actual para esta hora."
 
-#: Help_en.php:712
+#: Help_en.php:714
 msgid ""
 "You can select the current quarter, semester from the pull-down menu at the "
 "top of the screen. To change the current quarter, change the marking period "
@@ -3099,7 +3103,7 @@ msgstr ""
 "izquierdo. Usted también puede mostrar solamente una hora escogiéndola en el "
 "menú desplegable en la parte superior de la pantalla."
 
-#: Help_en.php:714
+#: Help_en.php:716
 msgid ""
 "<i>Grade Breakdown</i> is a report that shows the number of each grade that "
 "a teacher gave."
@@ -3107,7 +3111,7 @@ msgstr ""
 "<i>Análisis de Note</i> es un reporte que muestra el número de cada "
 "calificación que un docente dio."
 
-#: Help_en.php:716
+#: Help_en.php:718
 msgid ""
 "You can select the current quarter, semester from the pull-down menu at the "
 "top of the screen. To change the current quarter, change the marking period "
@@ -3118,14 +3122,14 @@ msgstr ""
 "actual, usa el menú desplegable de los periodos a calificar en el marco "
 "izquierdo."
 
-#: Help_en.php:718
+#: Help_en.php:720
 msgid ""
 "<i>Student Grades</i> allows you to view the grades earned by a student."
 msgstr ""
 "<i>Calificaciones de los Estudiantes</i> le permite ver las calificaciones "
 "de cualquier número de estudiantes."
 
-#: Help_en.php:722
+#: Help_en.php:724
 msgid ""
 "<i>Final Grades</i> allows you to view the final grades earned by any number "
 "of students."
@@ -3133,7 +3137,7 @@ msgstr ""
 "<i>Calificaciones Finales</i> le permite ver las calificaciones finales de "
 "cualquier número de estudiantes."
 
-#: Help_en.php:726
+#: Help_en.php:728
 msgid ""
 "Then, select what you would like to include on the Grade List: \"Teacher\", "
 "\"Comments\" and \"Year-to-date Daily Absences\" are pre-checked by default. "
@@ -3146,7 +3150,7 @@ msgstr ""
 "por favor. No olvide marcar los Períodos a Calificar que desea incluir en la "
 "Lista de Calificaciones."
 
-#: Help_en.php:728
+#: Help_en.php:730
 msgid ""
 "From the search result, you can select any number of students. You can "
 "select all the students in the list by checking the checkbox in the column "
@@ -3156,13 +3160,13 @@ msgstr ""
 "número de estudiantes. Usted puede seleccionar todos los estudiantes de la "
 "lista marcando la casilla en el encabezado de la lista."
 
-#: Help_en.php:730
+#: Help_en.php:732
 msgid "Finally, click the \"Create Grade Lists for Selected Students\" button."
 msgstr ""
 "Finalmente, presione el botón \"Crear Listas de Calificaciones para los "
 "Estudiantes Seleccionados\"."
 
-#: Help_en.php:732
+#: Help_en.php:734
 msgid ""
 "Please note that if you select only ONE marking period, you will be able to "
 "delete Final Grades by clicking the (-) icon on the left hand side of the "
@@ -3173,7 +3177,7 @@ msgstr ""
 "icono \"-\" en la parte izquierda de la pantalla, y luego confirmar su "
 "elección."
 
-#: Help_en.php:734
+#: Help_en.php:736
 msgid ""
 "<i>GPA / Class Rank List</i> is a report that shows the unweighted GPA, "
 "weighted GPA, and class rank of each student at your school."
@@ -3182,7 +3186,7 @@ msgstr ""
 "promedio ponderado, no ponderado, y puesto en la clase de cada estudiante en "
 "su institución."
 
-#: Help_en.php:736
+#: Help_en.php:738
 msgid ""
 "As with any list in RosarioSIS, you can sort by any value displayed by "
 "clicking on the coresponding column heading. For example, you can sort by "
@@ -3193,7 +3197,7 @@ msgstr ""
 "haciendo clic sobre el titulo de la columna en el encabezado. Por ejemplo, "
 "usted puede ordenar por grado haciendo clic sobre «Grado» en el encabezado."
 
-#: Help_en.php:738
+#: Help_en.php:740
 msgid ""
 "<i>Grading Scales</i> allows you to setup your school's report card grades. "
 "Report card grades are used in the Input Final Grades program by teachers "
@@ -3209,7 +3213,7 @@ msgstr ""
 "letra así como comentarios de calificación que un docente puede escoger al "
 "momento de entrar las calificaciones."
 
-#: Help_en.php:740
+#: Help_en.php:742
 msgid ""
 "To add a report card grade, fill in the grade's title, GPA value, and sort "
 "order in the empty fields at the bottom of the grades list and click the "
@@ -3219,7 +3223,7 @@ msgstr ""
 "de la calificación, el valor de promedio y la orden en los campos vacillos "
 "al final de la lista de alificaciones y presione el boton «Guardar»."
 
-#: Help_en.php:742
+#: Help_en.php:744
 msgid ""
 "To add a comment, enter the new comment's title in the empty field at the "
 "bottom of the comments list."
@@ -3227,7 +3231,7 @@ msgstr ""
 "Para agregar un comentario, entre el título del nuevo comentario en el campo "
 "al final de la lista de comentarios."
 
-#: Help_en.php:744
+#: Help_en.php:746
 msgid ""
 "To modify either type of grade, click on any of the grade's information, "
 "change the value, and click the \"Save\" button."
@@ -3236,7 +3240,7 @@ msgstr ""
 "información de la calificación, cambie el valor, y haga clic sobre el boton "
 "«Guardar»."
 
-#: Help_en.php:746
+#: Help_en.php:748
 msgid ""
 "To delete either type of grade, click the delete icon (-) next to the grade "
 "you want to delete. You will be asked to confirm the deletion."
@@ -3245,7 +3249,7 @@ msgstr ""
 "eliminar (-) al lado de la calificación que quiere eliminar. Se le "
 "preguntará si desea confirmar la eliminación."
 
-#: Help_en.php:748
+#: Help_en.php:750
 msgid ""
 "To add or edit a grade scale, first click the plus icon (+) tab. For each "
 "grade scale you should adjust their scale value, minimum passing grade "
@@ -3257,7 +3261,7 @@ msgstr ""
 "obtener los créditos), así que varios mínimos de promedio para los cuadros "
 "de honor."
 
-#: Help_en.php:750
+#: Help_en.php:752
 msgid ""
 "<i>Report Card Comments</i> allows you to setup your school's report card "
 "comments, for each course or for all courses."
@@ -3266,7 +3270,7 @@ msgstr ""
 "boletín de calificaciones de su institución, para cada curso o todos los "
 "cursos."
 
-#: Help_en.php:752
+#: Help_en.php:754
 msgid ""
 "The \"All Courses\" tab is where you create Comments that apply to All "
 "Courses, for example to grade conduct, or a quality of the students that all "
@@ -3279,7 +3283,7 @@ msgstr ""
 "es donde se crean los otros comentarios, específicamente las pestañas de "
 "comentarios y los comentarios propios a un curso."
 
-#: Help_en.php:754
+#: Help_en.php:756
 msgid ""
 "The \"General\" tab contains the comments that are added when entering "
 "students' grades in the \"Input Final Grades\" program. Teachers can use the "
@@ -3302,7 +3306,7 @@ msgstr ""
 "Preparar\" sera traducido por \"Juan Viene a su Clase sin Preparar\" en el "
 "boletín de Juan Rodriguez."
 
-#: Help_en.php:756
+#: Help_en.php:758
 msgid ""
 "The \"All Courses\" tab allows you to create Comments that apply to All "
 "Courses. Enter the Comment name and associate it to a \"Code Scale"
@@ -3319,7 +3323,7 @@ msgstr ""
 "Cursos\". La columna mostrara un menú desplegable con los códigos de "
 "comentarios de la escala asociada."
 
-#: Help_en.php:758
+#: Help_en.php:760
 msgid ""
 "To create course-specific comments, first select a course by using the pull-"
 "downs at the top of the page. Then click on the tab with the (+) icon to "
@@ -3344,7 +3348,7 @@ msgstr ""
 "esta categoría. Las columnas mostraran un menú desplegable con los códigos "
 "de comentarios de la escalas asociadas."
 
-#: Help_en.php:760
+#: Help_en.php:762
 msgid ""
 "<i>Comment Codes</i> allows you to create comment scales that will generate "
 "pull-down menus of grading codes in the Input Final Grades program. Then, "
@@ -3356,7 +3360,7 @@ msgstr ""
 "Entrar Calificaciones Finales. Luego, estos códigos estarán expuestos junto "
 "con el comentario asociado en el Boletín de Calificaciones."
 
-#: Help_en.php:762
+#: Help_en.php:764
 msgid ""
 "To create a new Comment Scale, click on the tab with the (+) icon. Give a "
 "name to your comment scale, add an optional comment and then click \"Save\". "
@@ -3375,7 +3379,7 @@ msgstr ""
 "aquí el código), \"Nombre Corto\" y \"Comentario\" (leyenda del código, la "
 "cual aparecerá en el Boletín de Calificaciones)."
 
-#: Help_en.php:764
+#: Help_en.php:766
 msgid ""
 "<i>History Marking Periods</i> allows you to create marking periods for past "
 "years grades."
@@ -3383,7 +3387,7 @@ msgstr ""
 "<i>Períodos a Calificar Históricos</i> le permite crear períodos a calificar "
 "para calificaciones de los años pasados."
 
-#: Help_en.php:766
+#: Help_en.php:768
 msgid ""
 "Use this program first if you want to enter past years grades into "
 "RosarioSIS that were given before installing RosarioSIS, or if you want to "
@@ -3397,7 +3401,7 @@ msgstr ""
 "período a calificar histórico agregado, usted podrá seleccionarlo en el "
 "programa Editar Calificaciones del Estudiante."
 
-#: Help_en.php:768
+#: Help_en.php:770
 msgid ""
 "Please note that the \"Grade Post Date\" field determines the order of the "
 "history marking periods when entering grades or generating the Transcript "
@@ -3410,7 +3414,7 @@ msgstr ""
 "entonces debería ser entrada correctamente. También, cada período a "
 "calificar histórico se crea una sola vez."
 
-#: Help_en.php:770
+#: Help_en.php:772
 msgid ""
 "<i>Edit Student Grades</i> allows you to enter the past years grades of a "
 "student or the grades of a transferred student."
@@ -3419,7 +3423,7 @@ msgstr ""
 "calificaciones de los años pasados de un estudiante o de un estudiante "
 "transferido."
 
-#: Help_en.php:774
+#: Help_en.php:776
 msgid ""
 "Now, for the selected student, add the marking period (typically an history "
 "marking period you have created via the History Marking Periods program) "
@@ -3432,7 +3436,7 @@ msgstr ""
 "\"Nuevo Período Académico\". Luego, entre el Grado para el estudiante "
 "seleccionado y presione \"Guardar\"."
 
-#: Help_en.php:776
+#: Help_en.php:778
 msgid ""
 "You can add the student grades via the \"Grades\" tab. Enter the \"Course "
 "Name\" and the grades associated, then click \"Save\". Please note that you "
@@ -3443,7 +3447,7 @@ msgstr ""
 "presione \"Guardar\". Por favor note que se puede usar una escala de "
 "calificaciones propia para los cálculos de promedio."
 
-#: Help_en.php:778
+#: Help_en.php:780
 msgid ""
 "RosarioSIS needs credits to calculate the GPA. Please check the \"Credits\" "
 "tab and adjust the credits for each course as needed."
@@ -3451,7 +3455,7 @@ msgstr ""
 "RosarioSIS necesita créditos para calcular el promedio. Por favor consulte "
 "la pestaña \"Créditos\" y ajuste los créditos de cada curso como debe ser."
 
-#: Help_en.php:780
+#: Help_en.php:782
 msgid ""
 "<i>Mass Create Assignments</i> allows you to create assignments for multiple "
 "courses at once. There are two tiers involved with assignments: assignment "
@@ -3460,7 +3464,7 @@ msgstr ""
 "<i>Tareas para Varias Clases</i> le permite crear tareas para varios clases "
 "a la vez. Existen tipos de tarea y tareas."
 
-#: Help_en.php:782
+#: Help_en.php:784
 msgid ""
 "You will probably have assignment types called \"Homework\", \"Tests\", and "
 "perhaps \"Quizzes\". Assignment types are set for every period of a given "
@@ -3469,7 +3473,7 @@ msgstr ""
 "Usted tendrá probablemente tipos de tarea llamados «Trabajo», «Quiz», o "
 "«Previa». Los tipos de tarea se crean para cada clase de un mismo curso."
 
-#: Help_en.php:784
+#: Help_en.php:786
 msgid ""
 "To add an assignment type, click on the Add icon (+) in the assignment type "
 "column. Then, fill in the information in the fields above the list of "
@@ -3482,7 +3486,7 @@ msgstr ""
 "pantalla y presione el botón «Crear el Tipo de Tarea para los Cursos "
 "Seleccionados»."
 
-#: Help_en.php:786
+#: Help_en.php:788
 msgid ""
 "If you set the \"Percent of Final Grade\", teachers will see it only if they "
 "have checked the \"Weight Grades\" checkbox in their Gradebook Configuration."
@@ -3491,7 +3495,7 @@ msgstr ""
 "ver solamente si han marcado la casilla \"Ponderar Calificaciones\" en la "
 "Configuración de sus Libro de Calificaciones."
 
-#: Help_en.php:788
+#: Help_en.php:790
 msgid ""
 "To add an assignment, click on the desired assignment type in the assignment "
 "type column. Then, fill in the information in the fields above the list of "
@@ -3504,12 +3508,12 @@ msgstr ""
 "lista. Seleccione las clases deseadas en la lista en la parte inferior de la "
 "pantalla y presione el botón «Crear la Tarea para las Clases Seleccionadas»."
 
-#: Help_en.php:790 Help_en.php:818
+#: Help_en.php:792 Help_en.php:820
 msgid ""
 "If you enter 0 \"Points\", this will let you give Students Extra Credit."
 msgstr "Si entra 0 \"Puntos\", podrá dar Puntos Extra a los Estudiantes."
 
-#: Help_en.php:792
+#: Help_en.php:794
 msgid ""
 "If you check \"Enable Assignment Submission\", Students (or Parents) can "
 "submit the assignment (upload a file and/or leave a message). Submissions "
@@ -3524,7 +3528,7 @@ msgstr ""
 "abiertas hasta el fin del trimestre. Luego, los docentes podrán consultar "
 "las entregas en el programa \"Calificaciones\"."
 
-#: Help_en.php:796
+#: Help_en.php:798
 msgid ""
 "<i>Input Final Grades</i> allows you to enter quarter, semester or progress "
 "period grades for all your students in the current period. By default, this "
@@ -3542,7 +3546,7 @@ msgstr ""
 "semestre o período intermedio actual en el menú desplegable en la parte "
 "superior de la pantalla."
 
-#: Help_en.php:800
+#: Help_en.php:802
 msgid ""
 "If you are using the Gradebook, you can have RosarioSIS calculate each "
 "student's quarter grades by clicking on the \"Use Gradebook Grades\" link at "
@@ -3553,13 +3557,13 @@ msgstr ""
 "calificación del trimestre haciendo clic sobre el enlace Obtener la "
 "Calificaciones del Libro de Calificaciones.» de arriba."
 
-#: Help_en.php:804
+#: Help_en.php:806
 msgid "<i>Configuration</i> allows you to configure the gradebook."
 msgstr ""
 "<i>Libro de Calificaciones - Configuración</i> le permite configurar el "
 "libro de calificaciones."
 
-#: Help_en.php:806
+#: Help_en.php:808
 msgid ""
 "You can configure the gradebook to round scores up, down, or normally. "
 "Normal rounding would round 19.5 to 20 but 19.4 to 19."
@@ -3569,7 +3573,7 @@ msgstr ""
 "las tareas, calcular Elegibilidad usando las calificaciones, y los "
 "porcentajes de la calificación final del semestre."
 
-#: Help_en.php:808
+#: Help_en.php:810
 msgid ""
 "You can also configure the score breakoff points for each letter grade. For "
 "example, if you set the score breakoff points for A+, A, and A- to 99, 91, "
@@ -3583,7 +3587,7 @@ msgstr ""
 "estudiante teniendo desde 91% hasta 98% tendrá la calificación A. El "
 "porcentaje límite para la calificación F debería ser 0."
 
-#: Help_en.php:810
+#: Help_en.php:812
 msgid ""
 "Finally, you can also configure the final grading percentages of each "
 "semester. These values are used when averaging the quarter grades to "
@@ -3594,7 +3598,7 @@ msgstr ""
 "promedio de las calificaciones de cada trimestre para la calificación del "
 "semestre."
 
-#: Help_en.php:812
+#: Help_en.php:814
 msgid ""
 "<i>Assignments</i> allows you to setup your assignments. There are two tiers "
 "involved with assignments: assignment types and assignments."
@@ -3602,7 +3606,7 @@ msgstr ""
 "<i>Tareas</i> le permite configurar sus tareas. Existen tipos de tarea y "
 "tareas."
 
-#: Help_en.php:814
+#: Help_en.php:816
 msgid ""
 "You will probably have assignment types called \"Homework\", \"Tests\", and "
 "perhaps \"Quizzes\". Assignment types are set for every period on which you "
@@ -3613,7 +3617,7 @@ msgstr ""
 "«Previa». Los tipos de tarea se crean para cada clase de un mismo curso. Si "
 "entra 0 \"Puntos\", podrá dar Puntos Extra a los Estudiantes."
 
-#: Help_en.php:816
+#: Help_en.php:818
 msgid ""
 "To add an assignment type or an assignment, click on the Add icon (+) in the "
 "column corresponding to what you want to add. Then, fill in the information "
@@ -3624,7 +3628,7 @@ msgstr ""
 "la columna deseada. Luego, llene los datos en los campos arriba de las "
 "listas y presione el botón «Guardar»."
 
-#: Help_en.php:820
+#: Help_en.php:822
 msgid ""
 "If you check \"Apply to all Periods for this Course\", the assignment will "
 "be added for each period for which you teach a specific course, in the same "
@@ -3634,7 +3638,7 @@ msgstr ""
 "será asignada a cada clase del curso que usted tiene, de la misma manera que "
 "están agregados los tipos de tarea."
 
-#: Help_en.php:822
+#: Help_en.php:824
 msgid ""
 "If you check \"Enable Assignment Submission\", Students (or Parents) can "
 "submit the assignment (upload a file and/or leave a message). Submissions "
@@ -3649,7 +3653,7 @@ msgstr ""
 "abiertas hasta el fin del trimestre. Luego, podrá consultar las entregas en "
 "el programa \"Calificaciones\"."
 
-#: Help_en.php:824
+#: Help_en.php:826
 msgid ""
 "To change an assignment or type, click on the assignment or type you want to "
 "modify and click on the value you want to change in the grey area above the "
@@ -3661,7 +3665,7 @@ msgstr ""
 "la parte superior de las listas de tareas y tipos. Luego, cambie el dato y "
 "presione el botón «Guardar»."
 
-#: Help_en.php:826
+#: Help_en.php:828
 msgid ""
 "Finally, to delete an item, select it by clicking on its title on the list "
 "and click the \"Delete\" button at the top of the screen. You will be asked "
@@ -3671,7 +3675,7 @@ msgstr ""
 "sobre su titulo en la lista y presione el botón «Eliminar». Se le preguntará "
 "si desea confirmar la eliminación."
 
-#: Help_en.php:828
+#: Help_en.php:830
 msgid ""
 "<i>Grades</i> allows you to input assignment grades for all your students in "
 "the current period. By default, this program will list the students in your "
@@ -3684,7 +3688,7 @@ msgstr ""
 "primera clase. Usted puede cambiar la clase actual en el menú desplegable "
 "del marco izquierdo."
 
-#: Help_en.php:830
+#: Help_en.php:832
 msgid ""
 "Once you have chosen the correct period, you will see the total points and "
 "cumulative grade for each student in your class. You can view the grades for "
@@ -3705,7 +3709,7 @@ msgstr ""
 "cambiar las calificaciones, presione el botón «Guardar» en la parte superior "
 "de la pantalla."
 
-#: Help_en.php:832
+#: Help_en.php:834
 msgid ""
 "You can also view and change all the grades for a single student by clicking "
 "on the student's name in the list. Input grades in the same way that you did "
@@ -3714,7 +3718,7 @@ msgstr ""
 "Usted también puede ver y cambiar todas las calificaciones de un estudiante "
 "haciendo clic sobre su nombre en la lista."
 
-#: Help_en.php:834
+#: Help_en.php:836
 msgid ""
 "<i>Progress Reports</i> is a utility that allows you to print progress "
 "reports for any number of students."
@@ -3722,7 +3726,7 @@ msgstr ""
 "<i>Libro de Calificaciones - Reportes de Progreso</i> le permite imprimir "
 "reportes de progreso para cualquier número de estudiantes."
 
-#: Help_en.php:836
+#: Help_en.php:838
 msgid ""
 "You can choose to print the progress reports with mailing labels. The "
 "progress reports will have mailing labels positioned in such a way as to be "
@@ -3736,7 +3740,7 @@ msgstr ""
 "carta puede ser impreza por estudiante si el estudiante tiene padres "
 "residiendo en mas de una dirección."
 
-#: Help_en.php:838
+#: Help_en.php:840
 msgid ""
 "The progress reports will be automatically downloaded to your computer in "
 "the printable PDF format when you click the \"Submit\" button."
@@ -3745,7 +3749,7 @@ msgstr ""
 "cuando usted presione el botón «Crear Reportes de Progreso para los "
 "Estudiantes Seleccionados»."
 
-#: Help_en.php:840
+#: Help_en.php:842
 msgid ""
 "<i>Anomalous Grades</i> is a report that will help you to keep track of "
 "missing, inappropriate and excused grades. The grades appearing on this "
@@ -3762,7 +3766,7 @@ msgstr ""
 "mostradas. La columna \"Problema\" indica la razon por la cual la "
 "calificación es irregular."
 
-#: Help_en.php:842
+#: Help_en.php:844
 msgid ""
 "You can select the class using the course period pull-down in the left menu. "
 "You can also select which type of \"anomalous\" grades you wish the report "
@@ -3772,7 +3776,7 @@ msgstr ""
 "izquierdo. Usted puede tambien seleccionar cual tipo de calificación con "
 "anomalía quiere que reporte muestra."
 
-#: Help_en.php:847
+#: Help_en.php:849
 msgid ""
 "<i>Report Cards</i> is a utility that allows you to print report cards for "
 "your child."
@@ -3780,7 +3784,7 @@ msgstr ""
 "<i>Boletines de Calificaciones</i> le permite imprimir boletines de "
 "calificaciones para su estudiante."
 
-#: Help_en.php:851
+#: Help_en.php:853
 msgid ""
 "The report cards will be automatically downloaded to your computer in the "
 "printable PDF format when you click the \"Submit\" button."
@@ -3789,7 +3793,7 @@ msgstr ""
 "calificar estarán en el boletín marcando las casillas de los periodos a "
 "calificar deseados."
 
-#: Help_en.php:853
+#: Help_en.php:855
 msgid ""
 "<i>Transcripts</i> is a utility that allows you to print transcripts for "
 "your child."
@@ -3797,11 +3801,11 @@ msgstr ""
 "<i>Expedientes Académicos</i> le permite imprimir expedientes académicos "
 "para su estudiante."
 
-#: Help_en.php:859
+#: Help_en.php:861
 msgid "<i>Assignments</i> allows you to view your child's assignments."
 msgstr "<i>Tareas</i> le permite consultar las tareas de su estudiante."
 
-#: Help_en.php:861
+#: Help_en.php:863
 msgid ""
 "In the detailed view of an assignment, you will be able to submit an "
 "assignment if allowed by the teacher. To this effect, you will be given the "
@@ -3811,7 +3815,7 @@ msgstr ""
 "lo permite. A tal efecto, encontrará la posibilidad de subir un archivo y/o "
 "de dejar un mensaje."
 
-#: Help_en.php:863
+#: Help_en.php:865
 msgid ""
 "Assignment submissions are opened until the due date. If no due date has "
 "been set, submissions are open until the end of the quarter."
@@ -3820,7 +3824,7 @@ msgstr ""
 "ninguna fecha de plazo ha sido definida, las entregas están abiertas hasta "
 "el fin del trimestre."
 
-#: Help_en.php:865 Help_en.php:869
+#: Help_en.php:867 Help_en.php:871
 msgid ""
 "You can change the marking period using the dropdown list available in the "
 "left frame."
@@ -3828,14 +3832,14 @@ msgstr ""
 "Se puede cambiar el periodo a calificar en el menú desplegable del marco "
 "izquierdo."
 
-#: Help_en.php:867
+#: Help_en.php:869
 msgid ""
 "<i>Gradebook Grades</i> allows you to view the grades earned by your child."
 msgstr ""
 "<i>Calificaciones del Libro</i> le permite ver las calificaciones de su "
 "estudiante."
 
-#: Help_en.php:871
+#: Help_en.php:873
 msgid ""
 "<i>GPA / Class Rank</i> is a report that shows the unweighted GPA, weighted "
 "GPA, and class rank of your child."
@@ -3843,7 +3847,7 @@ msgstr ""
 "<i>Promedio / Puesto en la Clase</i> es un reporte que muestra el promedio "
 "ponderado y no ponderado, y el puesto en la clase de su estudiante."
 
-#: Help_en.php:878
+#: Help_en.php:880
 msgid ""
 "<i>Administration</i> allows you to view and change the student attendance "
 "records for any given day."
@@ -3851,7 +3855,7 @@ msgstr ""
 "<i>Administración</i> le permite ver y cambiar los registros de asistencia "
 "de cualquier día."
 
-#: Help_en.php:880
+#: Help_en.php:882
 msgid ""
 "To change the student's attendance status for any period, click on the "
 "current value and select the short name of the attendance code you would "
@@ -3879,7 +3883,7 @@ msgstr ""
 "código de asistencia haciendo clic sobre el icono «+» al lado del menú "
 "desplegable de los códigos de asistencia."
 
-#: Help_en.php:882
+#: Help_en.php:884
 msgid ""
 "You can alter the date displayed by clicking on the date on the upper left-"
 "hand side of the screen and changing it to the desired date."
@@ -3887,7 +3891,7 @@ msgstr ""
 "Usted puede cambiar la fecha mostrada haciendo clic sobre la fecha en la "
 "parte superior izquierda de la pantalla y cambiándola por la fecha deseada."
 
-#: Help_en.php:884
+#: Help_en.php:886
 msgid ""
 "After making changes to the attendance codes displayed or the current date, "
 "click the \"Update\" button to refresh the screen with the new parameters."
@@ -3895,7 +3899,7 @@ msgstr ""
 "Después de cambiar el código de asistencia o la fecha, presione el botón "
 "«Actualizar» para refrescar la pantalla con los nuevos parámetros."
 
-#: Help_en.php:886
+#: Help_en.php:888
 msgid ""
 "You can also view the attendance code assigned to the student by the teacher "
 "as well as view and enter a comment for each period by clicking on the "
@@ -3905,7 +3909,7 @@ msgstr ""
 "también ver y entrar un comentario para cada hora haciendo clic sobre el "
 "nombre del estudiante."
 
-#: Help_en.php:888
+#: Help_en.php:890
 msgid ""
 "Clicking on \"Current Student\" on the top of the screen will display the "
 "day's attendance records for the current student displayed in the left frame."
@@ -3914,7 +3918,7 @@ msgstr ""
 "pantalla mostrara los registros de asistencia del día para el estudiante "
 "actual presente en el marco izquierdo."
 
-#: Help_en.php:890
+#: Help_en.php:892
 msgid ""
 "<i>Add Absences</i> allows you to add an absence to a group of students in "
 "one action."
@@ -3922,7 +3926,7 @@ msgstr ""
 "<i>Agregar Ausencias</i> le permite agregar una ausencia a un grupo de "
 "estudiantes de una vez."
 
-#: Help_en.php:892
+#: Help_en.php:894
 msgid ""
 "First, search for students. Notice that you can search for students who are "
 "enrolled in a specific course or are in a certain activity. This can be "
@@ -3933,7 +3937,7 @@ msgstr ""
 "Primero, busca estudiantes. Note que usted puede buscar para estudiantes que "
 "están tomando un curso específico o están en una actividad especial."
 
-#: Help_en.php:894
+#: Help_en.php:896
 msgid ""
 "From the search result, you can select any number of students. You can "
 "select all the students in the list by checking the checkbox in the column "
@@ -3950,7 +3954,7 @@ msgstr ""
 "fecha. Finalmente, presione el botón «Guardar» en la parte superior de la "
 "pantalla."
 
-#: Help_en.php:896
+#: Help_en.php:898
 msgid ""
 "<i>Average Daily Attendance</i> is a report that shows the number of "
 "students, days possible, the number of student days present, the number of "
@@ -3966,7 +3970,7 @@ msgstr ""
 "promedio, y el número de estudiantes ausentes por día promedio. Estos "
 "números están para cada grado."
 
-#: Help_en.php:898 Help_en.php:902
+#: Help_en.php:900 Help_en.php:904
 msgid ""
 "You can alter the date range displayed by changing the date pull-down menus "
 "at the top of the screen and clicking the \"Go\" button. You can also limit "
@@ -3978,7 +3982,7 @@ msgstr ""
 "puede limitar los números buscando por sexo o cualquier campo de dato "
 "haciendo clic sobre el enlace «Avanzado»."
 
-#: Help_en.php:900
+#: Help_en.php:902
 msgid ""
 "<i>Average Daily Attendance by Day</i> is a report that shows the number of "
 "students, days possible, the number of student days present, the number of "
@@ -3992,7 +3996,7 @@ msgstr ""
 "día promedio, y el número de estudiantes ausentes por día promedio. Estos "
 "números están para cada grado."
 
-#: Help_en.php:904
+#: Help_en.php:906
 msgid ""
 "<i>Attendance Chart</i> is a report that shows the daily attendance status "
 "of any number of students for every date during any timeframe."
@@ -4000,7 +4004,7 @@ msgstr ""
 "<i>Gráfico de Asistencia</i> es un reporte que muestra la asistencia diaria "
 "de cualquier número de estudiantes para cada día de un transcurso."
 
-#: Help_en.php:906 Help_en.php:950
+#: Help_en.php:908 Help_en.php:952
 msgid ""
 "After searching for students, you can alter the date range by changing the "
 "date pull-down menus at the top of the screen and clicking the \"Go\" "
@@ -4015,7 +4019,7 @@ msgstr ""
 "con un código de color. Rojo significa ausente todo el día, amarillo "
 "significa ausente medio día y verde significa presente todo el día."
 
-#: Help_en.php:908 Help_en.php:952
+#: Help_en.php:910 Help_en.php:954
 msgid ""
 "You can see the attendance records for each period for any student by "
 "clicking on a student's name from the list. Here, the absence code is "
@@ -4025,7 +4029,7 @@ msgstr ""
 "estudiante haciendo clic sobre el nombre del estudiante. Aquí, el código "
 "está en la casilla de color."
 
-#: Help_en.php:910 Help_en.php:954
+#: Help_en.php:912 Help_en.php:956
 msgid ""
 "<i>Student Summary</i> is a report that shows the days for which a student "
 "has an absence."
@@ -4033,7 +4037,7 @@ msgstr ""
 "<i>Resumen de la Ausencia</i> es un reporte que muestra los días por lo "
 "cuales un estudiante tiene una ausencia."
 
-#: Help_en.php:912 Help_en.php:956
+#: Help_en.php:914 Help_en.php:958
 msgid ""
 "After selecting a student, you can alter the date range by changing the date "
 "pull-down menus at the top of the screen and clicking the \"Go\" button. The "
@@ -4047,7 +4051,7 @@ msgstr ""
 "para cada hora de cada día con ausencia. Una cruz roja indica una ausencia "
 "por la hora correspondiente."
 
-#: Help_en.php:914
+#: Help_en.php:916
 msgid ""
 "<i>Teacher Completion</i> is a report that shows which teachers have not "
 "entered attendance for any given day."
@@ -4055,7 +4059,7 @@ msgstr ""
 "<i>Control Docente</i> es un reporte que muestra cuales docentes no han "
 "tomado la asistencia para cualquier día."
 
-#: Help_en.php:916
+#: Help_en.php:918
 msgid ""
 "The red checks indicate that a teacher has failed to enter the current day's "
 "attendance for that period."
@@ -4063,7 +4067,7 @@ msgstr ""
 "Las cruces rojas indican que un docente no entró la asistencia del día para "
 "este periodo."
 
-#: Help_en.php:918
+#: Help_en.php:920
 msgid ""
 "You can select the current date from the pull-down menu at the top of the "
 "screen. You can also show only one period by choosing that period from the "
@@ -4075,7 +4079,7 @@ msgstr ""
 "escogiendola en el menú desplegable de las horas en la parte superior de la "
 "pantalla."
 
-#: Help_en.php:920
+#: Help_en.php:922
 msgid ""
 "<i>Recalculate Daily Attendance</i> is a utility to recalculate the daily "
 "attendance for a specific time-frame."
@@ -4083,7 +4087,7 @@ msgstr ""
 "<i>Recalcular Asistencia Diaria</i> es una utilidad para recalcular la "
 "asistencia diaria de un transcurso especifico."
 
-#: Help_en.php:922
+#: Help_en.php:924
 msgid ""
 "Select the time-frame and click \"OK\". All attendance will be then "
 "calculated for whole day/half day. Please select a shorter time-frame if the "
@@ -4095,7 +4099,7 @@ msgstr ""
 "corto si el sistema se congela. Usando esta utilidad podrá evitar problemas "
 "relacionados con la asistencia faltante de las clases."
 
-#: Help_en.php:924
+#: Help_en.php:926
 msgid ""
 "<i>Delete Duplicate Attendance</i> is a utility to spot and delete any "
 "attendance that was taken for a student AFTER their enrollment drop date."
@@ -4104,7 +4108,7 @@ msgstr ""
 "eliminar cualquier asistencia tomada para un estudiante DESPUÉS de su fecha "
 "de retiro."
 
-#: Help_en.php:926
+#: Help_en.php:928
 msgid ""
 "In case a student is retro-actively dropped from a course, but attendance "
 "has already been taken by teachers or administrators for dates after the "
@@ -4114,7 +4118,7 @@ msgstr ""
 "curso, pero la asistencia ya ha sido tomada por docentes o administradores "
 "para fechas posteriores a la fecha de retiro."
 
-#: Help_en.php:928
+#: Help_en.php:930
 msgid ""
 "<i>Attendance Codes</i> allows you to setup your school's attendance codes. "
 "Attendance codes are used in the teacher's \"Take Attendance\" program (as "
@@ -4127,7 +4131,7 @@ msgstr ""
 "de Asistencia) y especifican si el estudiante estaba presente o no durante "
 "la hora y si no, la razón."
 
-#: Help_en.php:930
+#: Help_en.php:932
 msgid ""
 "To add an attendance code, fill in the attendance code's title, short name, "
 "type, and state code. Select whether or not the code should be a teacher's "
@@ -4145,7 +4149,7 @@ msgstr ""
 "un docente no será capaz de seleccionarlo desde su servicio «Tomar "
 "Asistencia»."
 
-#: Help_en.php:932
+#: Help_en.php:934
 msgid ""
 "To modify an attendance code, click on any of the attendance code's "
 "information, change the value, and click the \"Save\" button."
@@ -4153,7 +4157,7 @@ msgstr ""
 "Para cambiar un código de asistencia, haga clic sobre cualquier dato del "
 "código de asistencia, cambie el dato, y presione el botón «Guardar»."
 
-#: Help_en.php:934
+#: Help_en.php:936
 msgid ""
 "To delete an attendance code, click the delete icon (-) next to the "
 "attendance code you want to delete. You will be asked to confirm the "
@@ -4163,7 +4167,7 @@ msgstr ""
 "del código de asistencia que quiere eliminar. Se le preguntará si desea "
 "confirmar la eliminación."
 
-#: Help_en.php:936
+#: Help_en.php:938
 msgid ""
 "<i>Attendance Summary</i> is a report that shows a day by day record of each "
 "student's attendance over the school year in one table."
@@ -4172,7 +4176,7 @@ msgstr ""
 "por día de la asistencia de cada estudiante para todo el año escolar en un "
 "tablero."
 
-#: Help_en.php:938
+#: Help_en.php:940
 msgid ""
 "You must first select a (group of) student(s) by using the \"Find a Student"
 "\" search screen. You can search for students who have requested a specific "
@@ -4185,7 +4189,7 @@ msgstr ""
 "enlace «Escoger» al lado de la opción de búsqueda «Curso» y escogiendo un "
 "curso desde la ventana emergente que aparece."
 
-#: Help_en.php:940
+#: Help_en.php:942
 msgid ""
 "From the search result, you can select any number of students. You can "
 "select all the students in the list by checking the checkbox in the column "
@@ -4199,7 +4203,7 @@ msgstr ""
 "seleccionar los estudiantes, presione \"Crear Reporte de Asistencia para los "
 "Estudiantes Seleccionados\" para generar el reporte en formato PDF."
 
-#: Help_en.php:944
+#: Help_en.php:946
 msgid ""
 "<i>Take Attendance</i> allows you to enter period attendance for all your "
 "students in the current period. By default, this program will list the "
@@ -4211,7 +4215,7 @@ msgstr ""
 "estudiantes de su primera clase. Usted puede cambiar la clase actual en el "
 "menú desplegable en el marco izquierdo."
 
-#: Help_en.php:946
+#: Help_en.php:948
 msgid ""
 "Once you are in the correct period, you can enter attendance by selecting "
 "the attendance code corresponding to each student. Once you have entered "
@@ -4223,7 +4227,7 @@ msgstr ""
 "usted ha tomado la asistencia para todos sus estudiantes, presione el botón "
 "«Guardar» en la parte superior de la pantalla."
 
-#: Help_en.php:948
+#: Help_en.php:950
 msgid ""
 "<i>Daily Summary</i> is a report that shows the daily attendance status of "
 "any number of students for every date during any timeframe."
@@ -4231,7 +4235,7 @@ msgstr ""
 "<i>Gráfico de Asistencia</i> es un reporte que muestra la asistencia diaria "
 "de cualquier número de estudiantes para cada día de un transcurso."
 
-#: Help_en.php:961
+#: Help_en.php:963
 msgid ""
 "<i>Daily Summary</i> is a report that shows the daily attendance status of "
 "your child during any timeframe."
@@ -4239,7 +4243,7 @@ msgstr ""
 "<i>Resumen de la Ausencia</i> es un reporte que muestra los días por lo "
 "cuales un estudiante tiene una ausencia."
 
-#: Help_en.php:963
+#: Help_en.php:965
 msgid ""
 "You can alter the date range by changing the date pull-down menus at the top "
 "of the screen and clicking the \"Go\" button. The list shows your child's "
@@ -4254,7 +4258,7 @@ msgstr ""
 "para cada hora de cada día con ausencia. Una cruz roja indica una ausencia "
 "por la hora correspondiente."
 
-#: Help_en.php:970
+#: Help_en.php:972
 msgid ""
 "<i>Student Screen</i> is a display of the student's activities and the "
 "current timeframe's eligibility grades. The program also allows you to add "
@@ -4264,7 +4268,7 @@ msgstr ""
 "calificaciones de elegibilidad del transcurso actual. El servicio le permite "
 "también de agregar y eliminar actividades del estudiante."
 
-#: Help_en.php:972
+#: Help_en.php:974
 msgid ""
 "You must first select a student by using the \"Find a Student\" search "
 "screen. You can search for students who are enrolled in a specific course by "
@@ -4280,7 +4284,7 @@ msgstr ""
 "también puede buscar estudiantes que toman una actividad especifica y "
 "estudiantes que están inelegibles actualmente."
 
-#: Help_en.php:974
+#: Help_en.php:976
 msgid ""
 "To add an activity to the student, select the desired activity from the "
 "activity pull-down next to the add icon (+) and click the \"Add\" button."
@@ -4288,7 +4292,7 @@ msgstr ""
 "Para agregar una actividad a un estudiante, seleccione la actividad deseada "
 "en el menú desplegable al lado del icono «+» y presione el botón «Agregar»."
 
-#: Help_en.php:976
+#: Help_en.php:978
 msgid ""
 "To drop an activity, click on the delete icon (-) next to the activity you "
 "want to drop."
@@ -4296,7 +4300,7 @@ msgstr ""
 "Para suprimir una actividad, haga clic en el icono \"-\" al lado de la "
 "actividad."
 
-#: Help_en.php:978
+#: Help_en.php:980
 msgid ""
 "You can specify the desired eligibility timeframe by choosing the desired "
 "timeframe from the pull-down menu at the top of the screen. These timeframes "
@@ -4306,7 +4310,7 @@ msgstr ""
 "deseadas en el menú desplegable en la parte superior de la pantalla. Estos "
 "periodos se configuran en el servicio «Tiempos de Entrada»."
 
-#: Help_en.php:980
+#: Help_en.php:982
 msgid ""
 "<i>Add Activity</i> allows you to add an activity to a group of students in "
 "one action."
@@ -4314,7 +4318,7 @@ msgstr ""
 "<i>Agregar Actividad</i> le permite agregar una actividad a un grupo de "
 "estudiantes de una vez."
 
-#: Help_en.php:982
+#: Help_en.php:984
 msgid ""
 "First, search for students. Notice that you can search for students who are "
 "in a certain activity or course. From the search result, you can select any "
@@ -4333,12 +4337,12 @@ msgstr ""
 "superior de la pantalla. Finalmente, presione el botón «Agregar la Actividad "
 "a los Estudiantes Seleccionados»."
 
-#: Help_en.php:984
+#: Help_en.php:986
 msgid "<i>Activities</i> allows you to setup your school's activities."
 msgstr ""
 "<i>Actividades</i> le permite configurar las actividades de su institución."
 
-#: Help_en.php:986
+#: Help_en.php:988
 msgid ""
 "To add an activity, fill in the activity's title, beginning date, and ending "
 "date in the empty fields at the bottom of the activities list and click the "
@@ -4347,7 +4351,7 @@ msgstr ""
 "Para agregar una actividad, llene su titulo, fecha de comienzo y fecha de "
 "fin en los campos vacíos al fin de la lista y presione el botón «Guardar»."
 
-#: Help_en.php:988
+#: Help_en.php:990
 msgid ""
 "To modify an activity, click on any of the activity's information, change "
 "the value, and click the \"Save\" button."
@@ -4355,7 +4359,7 @@ msgstr ""
 "Para modificar una actividad, haga clic sobre cualquier dato de la "
 "actividad, cambie el dato, y presione el botón «Guardar»."
 
-#: Help_en.php:990
+#: Help_en.php:992
 msgid ""
 "To delete an activity, click the delete icon (-) next to the activity you "
 "want to delete. You will be asked to confirm the deletion."
@@ -4364,7 +4368,7 @@ msgstr ""
 "actividad que quiere eliminar. Se le preguntará si desea confirmar la "
 "eliminación."
 
-#: Help_en.php:992
+#: Help_en.php:994
 msgid ""
 "<i>Entry Times</i> allows you to setup the weekly timeframe in which "
 "teachers can enter eligibility. Teachers must enter eligibility every week "
@@ -4377,7 +4381,7 @@ msgstr ""
 "servicio «Entrar Elegibilidad» como en la mayor parte de los reportes de "
 "elegibilidad."
 
-#: Help_en.php:994
+#: Help_en.php:996
 msgid ""
 "To change the timeframe, simply change the upper and lower bounds of the "
 "timeframe and click the \"Save\" button."
@@ -4385,7 +4389,7 @@ msgstr ""
 "Para cambiar el periodo, simplemente cambie las fechas y presione el botón "
 "«Guardar»."
 
-#: Help_en.php:996
+#: Help_en.php:998
 msgid ""
 "<i>Student List</i> is a report that shows every course and eligibility "
 "grade assigned to any number of students."
@@ -4393,7 +4397,7 @@ msgstr ""
 "<i>Lista de Estudiante</i> es un reporte que muestra cada curso y "
 "calificación de elegibilidad asignado a cualquier número de estudiantes."
 
-#: Help_en.php:998
+#: Help_en.php:1000
 msgid ""
 "After searching for students, you can specify the eligibility timeframe you "
 "want to view. These timeframes are setup in the \"Entry Times\" program."
@@ -4402,7 +4406,7 @@ msgstr ""
 "elegibilidad que quiere ver. Estos transcursos se configuran en el servicio "
 "«Tiempos de Entrada»."
 
-#: Help_en.php:1000
+#: Help_en.php:1002
 msgid ""
 "<i>Teacher Completion</i> is a report that shows which teachers have not "
 "entered eligibility for any given date range. The date range is set in the "
@@ -4412,7 +4416,7 @@ msgstr ""
 "entrado la elegibilidad para cualquier transcurso. Este transcurso se "
 "configura en el servicio «Tiempos de Entrada»."
 
-#: Help_en.php:1002
+#: Help_en.php:1004
 msgid ""
 "The red checks indicate that a teacher has failed to enter the current date "
 "range's eligibility for that period."
@@ -4420,7 +4424,7 @@ msgstr ""
 "La cruz roja indica que el docente no entró la elegibilidad del periodo "
 "actual para esta hora."
 
-#: Help_en.php:1004
+#: Help_en.php:1006
 msgid ""
 "You can select the current date range from the pull-down menu at the top of "
 "the screen. You can also show only one period by choosing that period from "
@@ -4434,7 +4438,7 @@ msgstr ""
 "Después de seleccionar un transcurso o una hora, presione el botón «Ir» para "
 "refrescar la lista."
 
-#: Help_en.php:1008
+#: Help_en.php:1010
 msgid ""
 "<i>Enter Eligibility</i> allows you to enter eligibility grades for all your "
 "students in the current period. By default, this program will list the "
@@ -4446,7 +4450,7 @@ msgstr ""
 "servicio lista los estudiantes de su primera clase. Usted puede cambiar la "
 "clase actual en el menú desplegable del marco izquierdo."
 
-#: Help_en.php:1010
+#: Help_en.php:1012
 msgid ""
 "Once you are in the correct period, you can enter eligibility grades by "
 "selecting the eligibility code corresponding to each student. Once you have "
@@ -4458,7 +4462,7 @@ msgstr ""
 "usted ha entrado la elegibilidad para todos sus estudiantes, presione el "
 "botón «Guardar» en la parte superior de la pantalla."
 
-#: Help_en.php:1012
+#: Help_en.php:1014
 msgid ""
 "If you are using the Gradebook, you can have RosarioSIS calculate each "
 "student's eligibility grades by clicking on the \"Use Gradebook Grades\" "
@@ -4469,7 +4473,7 @@ msgstr ""
 "elegibilidad de cada estudiante haciendo clic sobre el enlace «Usar la "
 "Calificaciones del Libro de Calificaciones» de arriba."
 
-#: Help_en.php:1019
+#: Help_en.php:1021
 msgid ""
 "<i>Student Screen</i> is a display of your child's activities and the "
 "current timeframe's eligibility grades."
@@ -4477,7 +4481,7 @@ msgstr ""
 "<i>Pantalla Estudiante</i> muestra las actividades de su estudiante y las "
 "calificaciones de elegibilidad del transcurso actual."
 
-#: Help_en.php:1021
+#: Help_en.php:1023
 msgid ""
 "You can specify the eligibility timeframe you want to view by choosing the "
 "desired timeframe from the pull-down menu at the top of the screen. "
@@ -4487,7 +4491,7 @@ msgstr ""
 "las fechas en el menú desplegable en la parte superior de la pantalla. La "
 "elegibilidad está entrada cada semana."
 
-#: Help_en.php:1023
+#: Help_en.php:1025
 msgid ""
 "<i>Student List</i> is a report that shows every course and eligibility "
 "grade assigned to your child."
@@ -4495,7 +4499,7 @@ msgstr ""
 "<i>Lista de Estudiante</i> es un reporte que muestra todas las "
 "calificaciones y las calificaciones de elegibilidad de su estudiante."
 
-#: Help_en.php:1025
+#: Help_en.php:1027
 msgid ""
 "You can specify the eligibility timeframe you want to view by choosing the "
 "timeframe from the pull-down menu at the top of the screen and clicking the "
@@ -4505,6 +4509,11 @@ msgstr ""
 "escogiendo las fechas en el menú desplegable en la parte superior de la "
 "pantalla y presionando el botón «Ir». La elegibilidad está entrada cada "
 "semana."
+
+#~ msgid ""
+#~ "Note: it is not possible to delete a period already associated to course "
+#~ "periods."
+#~ msgstr "Nota: no es posible suprimir una hora ya asociada con clases."
 
 #~ msgid ""
 #~ "\"Pull-Down\" fields create menus from which you can select one option. "

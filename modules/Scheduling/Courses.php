@@ -800,31 +800,6 @@ if ( $_REQUEST['modfunc'] === 'delete'
 		$delete_sql[] = "DELETE FROM COURSE_SUBJECTS
 			WHERE SUBJECT_ID='" . $_REQUEST['subject_id'] . "'";
 
-		$courses = DBGet( "SELECT COURSE_ID
-			FROM COURSES
-			WHERE SUBJECT_ID='" . $_REQUEST['subject_id'] . "'" );
-
-		foreach ( (array) $courses as $course )
-		{
-			$delete_sql[] = "DELETE FROM COURSES
-				WHERE COURSE_ID='" . $course['COURSE_ID'] . "'";
-
-			$delete_sql[] = "UPDATE COURSE_PERIODS
-				SET PARENT_ID=NULL
-				WHERE PARENT_ID IN (SELECT COURSE_PERIOD_ID
-					FROM COURSE_PERIODS
-					WHERE COURSE_ID='" . $course['COURSE_ID'] . "')";
-
-			$delete_sql[] = "DELETE FROM COURSE_PERIODS
-				WHERE COURSE_ID='" . $course['COURSE_ID'] . "'";
-
-			$delete_sql[] = "DELETE FROM SCHEDULE
-				WHERE COURSE_ID='" . $course['COURSE_ID'] . "'";
-
-			$delete_sql[] = "DELETE FROM SCHEDULE_REQUESTS
-				WHERE COURSE_ID='" . $course['COURSE_ID'] . "'";
-		}
-
 		$unset_get = 'subject_id';
 	}
 
@@ -938,6 +913,17 @@ if (  ( ! $_REQUEST['modfunc']
 					ORDER BY COURSE_PERIOD_SCHOOL_PERIODS_ID" );
 
 				$new = false;
+
+				$has_student_enrolled = DBGetOne( "SELECT 1
+					FROM SCHEDULE
+					WHERE COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'
+					AND SYEAR='" . UserSyear() . "'
+					AND SCHOOL_ID='" . UserSchool() . "'" );
+
+				if ( $has_student_enrolled )
+				{
+					$delete_button = '';
+				}
 			}
 			else
 			{
@@ -947,9 +933,9 @@ if (  ( ! $_REQUEST['modfunc']
 
 				$title = $RET[1]['TITLE'] . ' - ' . _( 'New Course Period' );
 
-				unset( $delete_button );
-
 				$RET = array();
+
+				$delete_button = '';
 
 				$checked = 'CHECKED';
 
@@ -1227,7 +1213,7 @@ if (  ( ! $_REQUEST['modfunc']
 					}
 				</script>
 				<?php
-}
+			}
 
 			$header .= '<tr class="st"><td colspan="2">';
 
@@ -1420,9 +1406,6 @@ if (  ( ! $_REQUEST['modfunc']
 			'<span class="legend-gray">' . _( 'Parent Course Period' ) . '</span></td>';
 
 			$header .= '</tr></table>';
-
-			DrawHeader( $header );
-			//echo '</form>';
 		}
 		elseif ( ! empty( $_REQUEST['course_id'] ) )
 		{
@@ -1435,6 +1418,15 @@ if (  ( ! $_REQUEST['modfunc']
 				$RET = $RET[1];
 
 				$title = $RET['TITLE'];
+
+				$has_course_periods = DBGetOne( "SELECT 1
+					FROM COURSE_PERIODS
+					WHERE COURSE_ID='" . $_REQUEST['course_id'] . "'" );
+
+				if ( $has_course_periods )
+				{
+					$delete_button = '';
+				}
 			}
 			else
 			{
@@ -1444,26 +1436,27 @@ if (  ( ! $_REQUEST['modfunc']
 
 				$title = $RET[1]['TITLE'] . ' - ' . _( 'New Course' );
 
-				unset( $delete_button );
+				$RET = array();
 
-				unset( $RET );
+				$delete_button = '';
 			}
 
 			echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&subject_id=' . $_REQUEST['subject_id'] . '&course_id=' . $_REQUEST['course_id'] . '" method="POST">';
+
 			DrawHeader( $title, $delete_button . SubmitButton() );
-			$header .= '<table class="width-100p valign-top">';
-			$header .= '<tr class="st">';
+
+			$header .= '<table class="width-100p valign-top"><tr class="st">';
 
 			//FJ title required
 			$header .= '<td>' . TextInput(
-				$RET['TITLE'],
+				( empty( $RET['TITLE'] ) ? '' : $RET['TITLE'] ),
 				'tables[COURSES][' . $_REQUEST['course_id'] . '][TITLE]',
 				_( 'Title' ),
 				'required maxlength=100 size=20'
 			) . '</td>';
 
 			$header .= '<td>' . TextInput(
-				$RET['SHORT_NAME'],
+				( empty( $RET['SHORT_NAME'] ) ? '' : $RET['SHORT_NAME'] ),
 				'tables[COURSES][' . $_REQUEST['course_id'] . '][SHORT_NAME]',
 				_( 'Short Name' ),
 				'maxlength=25'
@@ -1471,7 +1464,7 @@ if (  ( ! $_REQUEST['modfunc']
 
 			//FJ add Credit Hours to Courses
 			$header .= '<td>' . TextInput(
-				$RET['CREDIT_HOURS'],
+				( empty( $RET['CREDIT_HOURS'] ) ? '' : $RET['CREDIT_HOURS'] ),
 				'tables[COURSES][' . $_REQUEST['course_id'] . '][CREDIT_HOURS]',
 				_( 'Credit Hours' ),
 				'maxlength=7 size=7'
@@ -1479,7 +1472,7 @@ if (  ( ! $_REQUEST['modfunc']
 
 			// Add Description (TinyMCE input) to Course.
 			$header .= '<tr class="st"><td colspan="3">' . TinyMCEInput(
-				$RET['DESCRIPTION'],
+				( empty( $RET['DESCRIPTION'] ) ? '' : $RET['DESCRIPTION'] ),
 				'tables[COURSES][' . $_REQUEST['course_id'] . '][DESCRIPTION]',
 				_( 'Description' )
 			) . '</td></tr>';
@@ -1493,10 +1486,6 @@ if (  ( ! $_REQUEST['modfunc']
 			$header .= '<td>' . SelectInput($RET['SUBJECT_ID']?$RET['SUBJECT_ID']:$_REQUEST['subject_id'],'tables[COURSES]['.$_REQUEST['course_id'].'][SUBJECT_ID]',_('Subject'),$options,false) . '</td>';
 			}*/
 			$header .= '</tr></table>';
-
-			DrawHeader( $header );
-
-			echo '</form>';
 		}
 		elseif ( ! empty( $_REQUEST['subject_id'] ) )
 		{
@@ -1509,40 +1498,50 @@ if (  ( ! $_REQUEST['modfunc']
 				$RET = $RET[1];
 
 				$title = $RET['TITLE'];
+
+				$has_courses = DBGetOne( "SELECT 1
+					FROM COURSES
+					WHERE SUBJECT_ID='" . $_REQUEST['subject_id'] . "'" );
+
+				if ( $has_courses )
+				{
+					$delete_button = '';
+				}
 			}
 			else
 			{
 				$title = _( 'New Subject' );
 
-				unset( $delete_button );
+				$delete_button = '';
 			}
 
 			echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&subject_id=' . $_REQUEST['subject_id'] . '" method="POST">';
+
 			DrawHeader( $title, $delete_button . SubmitButton() );
-			$header .= '<table class="width-100p valign-top fixed-col">';
-			$header .= '<tr class="st">';
+
+			$header .= '<table class="width-100p valign-top fixed-col"><tr class="st">';
 
 			//FJ title required
 			$header .= '<td>' . TextInput(
-				$RET['TITLE'],
+				( empty( $RET['TITLE'] ) ? '' : $RET['TITLE'] ),
 				'tables[COURSE_SUBJECTS][' . $_REQUEST['subject_id'] . '][TITLE]',
 				_( 'Title' ),
 				'required maxlength=100 size=20'
 			) . '</td>';
 
 			$header .= '<td>' . TextInput(
-				$RET['SORT_ORDER'],
+				( empty( $RET['SORT_ORDER'] ) ? '' : $RET['SORT_ORDER'] ),
 				'tables[COURSE_SUBJECTS][' . $_REQUEST['subject_id'] . '][SORT_ORDER]',
 				_( 'Sort Order' ),
 				'maxlength=3 size=5'
 			) . '</td>';
 
 			$header .= '</tr></table>';
-
-			DrawHeader( $header );
-
-			echo '</form>';
 		}
+
+		DrawHeader( $header );
+
+		echo '</form>';
 	}
 
 	// DISPLAY THE MENU.

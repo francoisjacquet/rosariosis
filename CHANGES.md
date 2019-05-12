@@ -19,7 +19,8 @@ Changes in 4.7
 - SQL performance: rewrite set_class_rank_mp() function in rosariosis.sql & Update.fnc.php
 - SQL remove calc_cum_gpa_mp() function & include it in t_update_mp_stats() trigger in rosariosis.sql & Update.fnc.php
 - Remove Calculate GPA program in CalcGPA.php, Menu.php, Help_en.php & rosariosis.sql
-- Do NOT remove School Period as existing Course Periods use it in Periods.php
+- Do NOT remove School Period once associated to Course Periods in Periods.php
+- Do NOT remove Course Period once has Student enrolled in Courses.php
 
 Changes in 4.6.2
 ----------------
