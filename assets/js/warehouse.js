@@ -194,10 +194,7 @@ var MarkDownInputPreview = function(input_id) {
 	// MD preview = Input size.
 	if (!md_prev.is(":visible")) {
 
-		md_prev.css({
-			'height': input.css('height'),
-			'width': input.css('width')
-		});
+		md_prev.css('height', input.css('height'));
 		//md_prev.parent('.md-preview').css({'max-width': input.css('width')});
 	}
 
