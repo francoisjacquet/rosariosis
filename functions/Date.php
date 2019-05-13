@@ -313,6 +313,9 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 		}
 
 		$return .= '</select>';
+
+		$return .= '<label for="monthSelect' . $_ROSARIO['PrepareDate'] . '" class="a11y-hidden">' .
+			_( 'Month' ) . '</label>';
 	}
 
 	// DAY  ---------------.
@@ -341,6 +344,9 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 		}
 
 		$return .= '</select>';
+
+		$return .= '<label for="daySelect' . $_ROSARIO['PrepareDate'] . '" class="a11y-hidden">' .
+			_( 'Day' ) . '</label>';
 	}
 
 	// YEAR  ---------------.
@@ -374,12 +380,15 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 		}
 
 		$return .= '</select>';
+
+		$return .= '<label for="yearSelect' . $_ROSARIO['PrepareDate'] . '" class="a11y-hidden">' .
+			_( 'Year' ) . '</label>';
 	}
 
 	// CALENDAR  ---------------.
 	if ( $options['C'] )
 	{
-		$return .= '<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/calendar.png" title="' . _( 'Open calendar' ) . '" class="button cal" id="trigger' . $_ROSARIO['PrepareDate'] . '" />';
+		$return .= '<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/calendar.png" title="' . _( 'Open calendar' ) . '" class="button cal" alt="' . _( 'Open calendar' ) . '" id="trigger' . $_ROSARIO['PrepareDate'] . '" />';
 	}
 
 	// NOBR on date input.
