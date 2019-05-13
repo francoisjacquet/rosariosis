@@ -931,7 +931,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$links = SelectInput(
 			$_REQUEST['calendar_id'],
 			'calendar_id',
-			'',
+			'<span class="a11y-hidden">' . _( 'Calendar' ) . '</span>',
 			$options,
 			false,
 			' onchange="ajaxLink(' . $calendar_onchange_URL . ' + document.getElementById(\'calendar_id\').value);" ',

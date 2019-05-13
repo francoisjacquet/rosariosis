@@ -143,33 +143,40 @@ function CalendarDayMinutesHTMLDefault( $date, $minutes )
 		return $html;
 	}
 
+	$div = ! empty( $minutes );
+
 	// Minutes.
-	if ( ! empty( $minutes )
-		&& $minutes === '999' )
+	if ( empty( $minutes ) && ! isset( $_REQUEST['_ROSARIO_PDF'] )
+		|| $minutes === '999' )
 	{
 		$html .= CheckboxInput(
 			$minutes,
 			'all_day[' . $date . ']',
-			'',
+			'<span class="a11y-hidden">' . _( 'All Day' ) . '</span>',
 			'',
 			false,
 			button( 'check' ),
 			'',
-			true,
+			$div,
 			'title="' . _( 'All Day' ) . '"'
 		);
-	}
-	elseif ( ! empty( $minutes ) )
-	{
-		$html .= TextInput( $minutes, "minutes[" . $date . "]", '', 'size=3' );
-	}
-	elseif ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
-	{
-		$html .= '<input type="checkbox" name="all_day[' . $date . ']" value="Y" title="' .
-			_( 'All Day' ) . '" />&nbsp;';
 
-		$html .= '<input type="number" min="1" max="998" name="minutes[' . $date . ']" size="3" title="' .
-			_( 'Minutes' ) . '" />';
+		if ( empty( $minutes ) )
+		{
+			$html .= '&nbsp;';
+		}
+	}
+
+	if ( empty( $minutes ) && ! isset( $_REQUEST['_ROSARIO_PDF'] )
+		|| $minutes !== '999' )
+	{
+		$html .= TextInput(
+			$minutes,
+			'minutes[' . $date . ']',
+			'<span class="a11y-hidden">' . _( 'Minutes' ) . '</span>',
+			'size="3" type="number" min="1" max="998" title="' . _( 'Minutes' ) . '"',
+			$div
+		);
 	}
 
 	return $html;
@@ -236,8 +243,8 @@ function CalendarDayBlockHTMLDefault( $date, $minutes, $day_block )
 	{
 		$html .= SelectInput(
 			$day_block,
-			"blocks[" . $date . "]",
-			'',
+			'blocks[' . $date . ']',
+			'<span class="a11y-hidden">' . _( 'Block' ) . '</span>',
 			$block_options,
 			( isset( $_REQUEST['_ROSARIO_PDF'] ) || ! AllowEdit() ? '' : 'N/A' )
 		);
