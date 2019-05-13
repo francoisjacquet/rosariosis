@@ -490,7 +490,12 @@ function _makeFilesInput( $column, $name, $request, $remove_url = '' )
 		$files_html = '-';
 	}
 
-	$files_html .= FormatInputTitle( $name, $request . $column, $required, ( AllowEdit() || ! $files ? '<br />' : '' ) );
+	$files_html .= FormatInputTitle(
+		$name,
+		( AllowEdit() ? $request . $column : '' ),
+		$required,
+		( AllowEdit() || ! $files ? '<br />' : '' )
+	);
 
 	return $files_html;
 }

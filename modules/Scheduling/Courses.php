@@ -1132,9 +1132,7 @@ if (  ( ! $_REQUEST['modfunc']
 
 				$days_html .= '</tr></table>';
 
-				$days_id = 'days' . $i;
-
-				$days_title = FormatInputTitle( _( 'Meeting Days' ), $days_id, empty( $school_period['DAYS'] ) );
+				$days_title = FormatInputTitle( _( 'Meeting Days' ), '', empty( $school_period['DAYS'] ) );
 
 				if ( $new == false )
 				{
@@ -1142,7 +1140,7 @@ if (  ( ! $_REQUEST['modfunc']
 					$days_html = '<input type="hidden" value="" name="tables[COURSE_PERIOD_SCHOOL_PERIODS][' . $school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'] . '][DAYS][' . $day . ']" />' . $days_html;
 
 					$header .= InputDivOnclick(
-						$days_id,
+						'days' . $i,
 						$days_html . str_replace( '<br />', '', $days_title ),
 						implode( ' ', $day_titles ),
 						$days_title
@@ -1258,7 +1256,7 @@ if (  ( ! $_REQUEST['modfunc']
 
 			$attendance_html .= '</tr></table>';
 
-			$attendance_title = FormatInputTitle( _( 'Takes Attendance' ), 'attendance', false, '' );
+			$attendance_title = FormatInputTitle( _( 'Takes Attendance' ), '', false, '' );
 
 			$header .= $attendance_html . $attendance_title;
 
