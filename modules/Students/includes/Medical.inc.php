@@ -69,7 +69,7 @@ if ( ! $_REQUEST['modfunc'] )
 		ORDER BY MEDICAL_DATE,TYPE", $functions );
 
 	$columns = array(
-		'TYPE' => '',
+		'TYPE' => '<span class="a11y-hidden">' . _( 'Type' ) . '</span>',
 		'MEDICAL_DATE' => _( 'Date' ),
 		'COMMENTS' => _( 'Comments' ),
 	);

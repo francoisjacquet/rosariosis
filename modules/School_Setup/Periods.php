@@ -133,7 +133,7 @@ if ( ! $_REQUEST['modfunc'] )
 	) ); //	'ATTENDANCE' => '_makeCheckboxInput','START_TIME' => '_makeTimeInput','END_TIME' => '_makeTimeInput'
 
 	$columns = array(
-		'REMOVE' => '',
+		'REMOVE' => '<span class="a11y-hidden">' . _( 'Delete' ) . '</span>',
 		'TITLE' => _( 'Title' ),
 		'SHORT_NAME' => _( 'Short Name' ),
 		'SORT_ORDER' => _( 'Sort Order' ),

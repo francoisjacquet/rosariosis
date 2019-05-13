@@ -168,7 +168,7 @@ if ( UserStudentID()
 		&& ! $_REQUEST['print_statements']
 		&& AllowEdit() )
 	{
-		$columns = array( 'REMOVE' => '' );
+		$columns = array( 'REMOVE' => '<span class="a11y-hidden">' . _( 'Delete' ) . '</span>' );
 	}
 	else
 	{

@@ -7,6 +7,7 @@ Changes in 4.8
 - Accessibility: use onfocus instead of onclick in Inputs.php
 - Accessibility: hidden input title using .a11y-hidden class in Inputs.php, Calendar.php, CalendarDay.inc.php
 - Accessibility: add hidden input label using .a11y-hidden class in Date.php, ListOutput.fnc.php
+- Accessibility: add hidden column title using .a11y-hidden class, program wide
 
 Changes in 4.7
 --------------

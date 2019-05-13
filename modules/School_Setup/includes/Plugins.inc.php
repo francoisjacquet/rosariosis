@@ -189,7 +189,12 @@ if ( ! $_REQUEST['modfunc'] )
 		$plugins_RET[] = $THIS_RET;
 	}
 
-	$columns = array( 'DELETE' => '', 'TITLE' => _( 'Title' ), 'ACTIVATED' => _( 'Activated' ), 'CONFIGURATION' => _( 'Configuration' ) );
+	$columns = array(
+		'DELETE' => '<span class="a11y-hidden">' . _( 'Delete' ) . '</span>',
+		'TITLE' => _( 'Title' ),
+		'ACTIVATED' => _( 'Activated' ),
+		'CONFIGURATION' => _( 'Configuration' ),
+	);
 
 	unset( $plugins_RET[0] );
 

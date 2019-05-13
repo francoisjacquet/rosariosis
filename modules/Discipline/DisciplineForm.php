@@ -200,7 +200,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( ! empty( $referrals_RET ) )
 	{
-		$columns = array( 'REMOVE' => '' );
+		$columns = array( 'REMOVE' => '<span class="a11y-hidden">' . _( 'Delete' ) . '</span>' );
 	}
 	else
 	{

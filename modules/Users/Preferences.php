@@ -627,7 +627,7 @@ if ( ! $_REQUEST['modfunc'] )
 			|| User( 'PROFILE' ) === 'teacher' )
 		{
 			$columns = array(
-				'CATEGORY' => '',
+				'CATEGORY' => '<span class="a11y-hidden">' . _( 'Category' ) . '</span>',
 				'TITLE' => _( 'Field' ),
 				'SEARCH' => _( 'Search' ),
 				'DISPLAY' => _( 'Expanded View' ),
@@ -636,7 +636,7 @@ if ( ! $_REQUEST['modfunc'] )
 		else
 		{
 			$columns = array(
-				'CATEGORY' => '',
+				'CATEGORY' => '<span class="a11y-hidden">' . _( 'Category' ) . '</span>',
 				'TITLE' => _( 'Field' ),
 				'DISPLAY' => _( 'Expanded View' ),
 			);
@@ -803,7 +803,7 @@ if ( ! $_REQUEST['modfunc'] )
 			<input type="hidden" name="values[StaffFieldsView]" />';
 
 		$columns = array(
-			'CATEGORY' => '',
+			'CATEGORY' => '<span class="a11y-hidden">' . _( 'Category' ) . '</span>',
 			'TITLE' => _( 'Field' ),
 			'STAFF_SEARCH' => _( 'Search' ),
 			'STAFF_DISPLAY' => _( 'Expanded View' ),

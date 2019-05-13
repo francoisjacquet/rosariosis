@@ -12,8 +12,10 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 }
 else
 {
-//FJ add translation
-	$columns = array( 'COURSE_TITLE' => _( 'Course' ), 'WITH_FULL_NAME' => '' );
+	$columns = array(
+		'COURSE_TITLE' => _( 'Course' ),
+		'WITH_FULL_NAME' => '<span class="a11y-hidden">' . _( 'Request' ) . '</span>',
+	);
 
 	$extra['SELECT'] .= ",c.TITLE AS COURSE_TITLE,srp.PRIORITY,srp.MARKING_PERIOD_ID,srp.WITH_TEACHER_ID,srp.NOT_TEACHER_ID,srp.WITH_PERIOD_ID,srp.NOT_PERIOD_ID,'' AS WITH_FULL_NAME";
 	$extra['FROM'] .= ',COURSES c,SCHEDULE_REQUESTS srp';
