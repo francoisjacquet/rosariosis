@@ -21,7 +21,7 @@ echo FileInput(
 if ( $_REQUEST['student_id'] !== 'new' && ( $file = @fopen( $picture_path = $StudentPicturesPath . UserSyear() . '/' . UserStudentID() . '.jpg', 'r' ) ) || ( $file = @fopen( $picture_path = $StudentPicturesPath . ( UserSyear() - 1 ) . '/' . UserStudentID() . '.jpg', 'r' ) ) ):
 	fclose( $file );
 	?>
-			<img src="<?php echo $picture_path . ( ! empty( $new_photo_file ) ? '?cacheKiller=' . rand() : '' ); ?>" class="user-photo" />
+			<img src="<?php echo $picture_path . ( ! empty( $new_photo_file ) ? '?cacheKiller=' . rand() : '' ); ?>" class="user-photo" alt="<?php echo htmlspecialchars( _( 'Student Photo' ), ENT_QUOTES ); ?>" />
 		<?php endif;
 // END IMAGE.
 

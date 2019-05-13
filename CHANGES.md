@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 4.8
+--------------
+- Accessibility: add alt attribute to images in Bottom.php, General_Info.inc.php
+
 Changes in 4.7
 --------------
 - Clean code: remove else when not necessary in functions/*
