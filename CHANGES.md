@@ -4,6 +4,8 @@
 Changes in 4.8
 --------------
 - Accessibility: add alt attribute to images in Bottom.php, General_Info.inc.php
+- Accessibility: use onfocus instead of onclick in Inputs.php
+- Accessibility: hidden input title using .a11y-hidden class in Inputs.php
 
 Changes in 4.7
 --------------

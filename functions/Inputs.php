@@ -33,40 +33,36 @@ function DateInput( $value, $name, $title = '', $div = true, $allow_na = true, $
 
 	$ftitle = FormatInputTitle( $title, '', $value == '' && $required );
 
-	if ( AllowEdit()
-		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	if ( ! AllowEdit()
+		|| isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
-		$options = array();
-
-		//FJ date field is required
-		if ( $required )
-		{
-			$options['required'] = true;
-		}
-
-		if ( $value == ''
-			|| ! $div )
-		{
-			$return = PrepareDate( $value, '_' . $name, $allow_na, $options ) . $ftitle;
-		}
-		else
-		{
-			$options = $options + array( 'Y' => 1, 'M' => 1, 'D' => 1 );
-
-			$input = PrepareDate( $value, '_' . $name, $allow_na, $options ) . $ftitle;
-
-			$return = InputDivOnclick(
-				$id,
-				$input,
-				( $value != '' ? ProperDate( $value ) : '-' ),
-				$ftitle
-			);
-		}
+		return ( $value != '' ? ProperDate( $value ) : '-' ) . FormatInputTitle( $title );
 	}
-	else
-		$return = ( $value != '' ? ProperDate( $value ) : '-' ) . $ftitle;
 
-	return $return;
+	$options = array();
+
+	//FJ date field is required
+	if ( $required )
+	{
+		$options['required'] = true;
+	}
+
+	if ( $value == ''
+		|| ! $div )
+	{
+		return PrepareDate( $value, '_' . $name, $allow_na, $options ) . $ftitle;
+	}
+
+	$options = $options + array( 'Y' => 1, 'M' => 1, 'D' => 1 );
+
+	$input = PrepareDate( $value, '_' . $name, $allow_na, $options ) . $ftitle;
+
+	return InputDivOnclick(
+		$id,
+		$input,
+		( $value != '' ? ProperDate( $value ) : '-' ),
+		FormatInputTitle( $title )
+	);
 }
 
 
@@ -94,49 +90,43 @@ function TextInput( $value, $name, $title = '', $extra = '', $div = true )
 
 	$required = $value == '' && mb_strpos( $extra, 'required' ) !== false;
 
-	$ftitle = FormatInputTitle( $title, $id, $required );
-
 	// mab - support array style $option values
 	$display_val = is_array( $value ) ? $value[1] : $value;
 
 	$value = is_array( $value ) ? $value[0] : $value;
 
-	if ( AllowEdit()
-		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	if ( ! AllowEdit()
+		|| isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
-		// Input size / length based on value number of chars
-		if ( mb_strpos( $extra, 'size=' ) === false )
-		{
-			// Max size is 32 (more or less 300px)
-			$extra .= $value != '' ? ' size="' . min( mb_strlen( $value ), 32 ) . '"' : ' size="10"';
-		}
-
-		// Specify input type via $extra (email,...).
-		$type = mb_strpos( $extra, 'type=' ) === false ? 'type="text"' : '';
-
-		$input = '<input ' . $type . ' id="' . $id . '" name="' . $name . '" ' .
-			( $value || $value === '0' ? 'value="' . htmlspecialchars( $value, ENT_QUOTES ) . '"' : '' ) .
-			' ' . $extra . ' />' . $ftitle;
-
-		if ( trim( $value ) == ''
-			|| ! $div )
-		{
-			$return = $input;
-		}
-		else
-		{
-			$return = InputDivOnclick(
-				$id,
-				$input,
-				( $value != '' ? $display_val : '-' ),
-				$ftitle
-			);
-		}
+		return ( $value != '' ? $display_val : '-' ) . FormatInputTitle( $title );
 	}
-	else
-		$return = ( $value != '' ? $display_val : '-' ) . $ftitle;
 
-	return $return;
+	// Input size / length based on value number of chars
+	if ( mb_strpos( $extra, 'size=' ) === false )
+	{
+		// Max size is 32 (more or less 300px)
+		$extra .= $value != '' ? ' size="' . min( mb_strlen( $value ), 32 ) . '"' : ' size="10"';
+	}
+
+	// Specify input type via $extra (email,...).
+	$type = mb_strpos( $extra, 'type=' ) === false ? 'type="text"' : '';
+
+	$input = '<input ' . $type . ' id="' . $id . '" name="' . $name . '" ' .
+		( $value || $value === '0' ? 'value="' . htmlspecialchars( $value, ENT_QUOTES ) . '"' : '' ) .
+		' ' . $extra . ' />' . FormatInputTitle( $title, $id, $required );
+
+	if ( trim( $value ) == ''
+		|| ! $div )
+	{
+		return $input;
+	}
+
+	return InputDivOnclick(
+		$id,
+		$input,
+		( $value != '' ? $display_val : '-' ),
+		FormatInputTitle( $title )
+	);
 }
 
 
@@ -169,91 +159,82 @@ function PasswordInput( $value, $name, $title = '', $extra = '', $div = true )
 
 	$strength = ( mb_strpos( $extra, 'strength' ) !== false );
 
-	$ftitle = FormatInputTitle(
-		$title,
-		$id,
-		$required
-	);
-
 	// mab - support array style $option values
 	$display_val = is_array( $value ) ? $value[1] : $value;
 
 	$value = is_array( $value ) ? $value[0] : $value;
 
-	if ( AllowEdit()
-		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	if ( ! AllowEdit()
+		|| isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
-		// Default input size.
-		if ( $value === ''
-			&& mb_strpos( $extra, 'size=' ) === false )
-		{
-			$extra .= ' size="20"';
-		}
-		elseif ( mb_strpos( $extra, 'size=' ) === false )
-		{
-			$extra .= ' size="' . ( strlen( $value ) + 5 ) . '"';
-		}
-
-		$extra .= ' type="password" autocomplete="off"';
-
-		$input = TextInput( '', $name, '', $extra, false );
-
-		$lock_icons = button( 'unlocked', '', '', 'password-toggle password-show' ) .
-			button( 'locked', '', '', 'password-toggle password-hide' );
-
-		$password_strength_bars = '';
-
-		$min_required_strength = $strength ? Config( 'PASSWORD_STRENGTH' ) : 0;
-
-		if ( $strength
-			&& $min_required_strength )
-		{
-			$password_strength_bars = '<div class="password-strength-bars">
-				<span class="score0"></span>
-				<span class="score1"></span>
-				<span class="score2"></span>
-				<span class="score3"></span>
-				<span class="score4"></span>
-			</div>';
-		}
-
-		ob_start();
-
-		// Call our jQuery PasswordStrength plugin based on zxcvbn.
-		?>
-		<script>
-			$('#' + <?php echo json_encode( $id ); ?>).passwordStrength(
-				<?php echo (int) $min_required_strength; ?>,
-				// Error message when trying to submit the form.
-				<?php echo json_encode( _( 'Your password must be stronger.' ) ); ?>
-			);
-		</script>
-		<?php
-		$password_strength_js = ob_get_clean();
-
-		$input .= $lock_icons . $password_strength_bars . $ftitle . $password_strength_js;
-
-		$input = '<div class="password-input-wrapper">' . $input . '</div>';
-
-		if ( trim( $value ) == ''
-			|| ! $div )
-		{
-			$return = $input;
-		}
-		else
-		{
-			$return = InputDivOnclick(
-				$id,
-				$input,
-				( $value != '' ? $display_val : '-' ),
-				$ftitle
-			);
-		}
+		return ( $value != '' ? $display_val : '-' ) . FormatInputTitle( $title );
 	}
-	else
-		$return = ( $value != '' ? $display_val : '-' ) . $ftitle;
 
-	return $return;
+	// Default input size.
+	if ( $value === ''
+		&& mb_strpos( $extra, 'size=' ) === false )
+	{
+		$extra .= ' size="20"';
+	}
+	elseif ( mb_strpos( $extra, 'size=' ) === false )
+	{
+		$extra .= ' size="' . ( strlen( $value ) + 5 ) . '"';
+	}
+
+	$extra .= ' type="password" autocomplete="off"';
+
+	$input = TextInput( '', $name, '', $extra, false );
+
+	$lock_icons = button( 'unlocked', '', '', 'password-toggle password-show' ) .
+		button( 'locked', '', '', 'password-toggle password-hide' );
+
+	$password_strength_bars = '';
+
+	$min_required_strength = $strength ? Config( 'PASSWORD_STRENGTH' ) : 0;
+
+	if ( $strength
+		&& $min_required_strength )
+	{
+		$password_strength_bars = '<div class="password-strength-bars">
+			<span class="score0"></span>
+			<span class="score1"></span>
+			<span class="score2"></span>
+			<span class="score3"></span>
+			<span class="score4"></span>
+		</div>';
+	}
+
+	ob_start();
+
+	// Call our jQuery PasswordStrength plugin based on zxcvbn.
+	?>
+	<script>
+		$('#' + <?php echo json_encode( $id ); ?>).passwordStrength(
+			<?php echo (int) $min_required_strength; ?>,
+			// Error message when trying to submit the form.
+			<?php echo json_encode( _( 'Your password must be stronger.' ) ); ?>
+		);
+	</script>
+	<?php
+	$password_strength_js = ob_get_clean();
+
+	$input .= $lock_icons . $password_strength_bars .
+		FormatInputTitle(	$title,	$id, $required ) . $password_strength_js;
+
+	$input = '<div class="password-input-wrapper">' . $input . '</div>';
+
+	if ( trim( $value ) == ''
+		|| ! $div )
+	{
+		return $input;
+	}
+
+	return InputDivOnclick(
+		$id,
+		$input,
+		( $value != '' ? $display_val : '-' ),
+		FormatInputTitle( $title )
+	);
 }
 
 /**
@@ -400,6 +381,8 @@ function TextAreaInput( $value, $name, $title = '', $extra = '', $div = true, $t
 
 	$ftitle = FormatInputTitle( $title, $id, $required );
 
+	$ftitle_nobr = FormatInputTitle( $title, $id, $required, '' );
+
 	if ( $value != '' )
 	{
 		if ( $type === 'markdown' )
@@ -417,53 +400,43 @@ function TextAreaInput( $value, $name, $title = '', $extra = '', $div = true, $t
 	else
 		$display_val = '-';
 
-	if ( AllowEdit()
-		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	if ( ! AllowEdit()
+		|| isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
-		// Columns.
-		/*if ( mb_strpos( $extra, 'cols' ) === false )
-		{
-			$extra .= ' cols=30';
-			$cols = 30;
-		}
-		else
-			$cols = mb_substr( $extra, mb_strpos( $extra, 'cols' ) + 5, 2 ) *1;*/
+		return $display_val . ( $type !== 'text' && $display_val !== '-' ? $ftitle_nobr : $ftitle );
+	}
 
-		// Rows.
-		if ( mb_strpos( $extra, 'rows' ) === false )
-		{
-			$extra .= ' rows=4';
-		}
-
-		$textarea =  ( $type === 'markdown' ? MarkDownInputPreview( $id ) : '' ) .
-			'<textarea id="' . $id . '" name="' . $name . '" ' . $extra . '>' .
-			$value . '</textarea>' .
-			( $type === 'tinymce' ? str_replace( '<br />', '', $ftitle ) : $ftitle );
-
-		if ( $value == ''
-			|| ! $div )
-		{
-			$return = $textarea;
-		}
-		else
-		{
-			$return = InputDivOnclick(
-				$id,
-				$textarea,
-				$display_val,
-				$ftitle
-			);
-		}
+	// Columns.
+	/*if ( mb_strpos( $extra, 'cols' ) === false )
+	{
+		$extra .= ' cols=30';
+		$cols = 30;
 	}
 	else
+		$cols = mb_substr( $extra, mb_strpos( $extra, 'cols' ) + 5, 2 ) *1;*/
+
+	// Rows.
+	if ( mb_strpos( $extra, 'rows' ) === false )
 	{
-		$return = $display_val .
-			( $type !== 'text' && $display_val !== '-' ?
-				str_replace( '<br />', '', $ftitle ) :
-				$ftitle );
+		$extra .= ' rows=4';
 	}
 
-	return $return;
+	$textarea =  ( $type === 'markdown' ? MarkDownInputPreview( $id ) : '' ) .
+		'<textarea id="' . $id . '" name="' . $name . '" ' . $extra . '>' .
+		$value . '</textarea>' . ( $type === 'tinymce' ? $ftitle_nobr : $ftitle );
+
+	if ( $value == ''
+		|| ! $div )
+	{
+		return $textarea;
+	}
+
+	return InputDivOnclick(
+		$id,
+		$textarea,
+		$display_val,
+		FormatInputTitle( $title )
+	);
 }
 
 
@@ -760,8 +733,6 @@ function MultipleCheckboxInput( $value, $name, $title, $options, $extra = '', $d
 
 	$required = $value == '' && mb_strpos( $extra, 'required' ) !== false;
 
-	$ftitle = FormatInputTitle( $title, $id, $required );
-
 	$multiple_value = ( $value != '' ) ?
 		str_replace( '||', ', ', mb_substr( $value, 2, -2 ) ) :
 		'-';
@@ -769,7 +740,7 @@ function MultipleCheckboxInput( $value, $name, $title, $options, $extra = '', $d
 	if ( ! AllowEdit()
 	 	|| isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
-		return $multiple_value . $ftitle;
+		return $multiple_value . FormatInputTitle( $title );
 	}
 
 	$multiple_html = '<table class="cellpadding-5"><tr class="st">';
@@ -797,9 +768,7 @@ function MultipleCheckboxInput( $value, $name, $title, $options, $extra = '', $d
 		'</label></td>';
 	}
 
-	$multiple_html .= '</tr></table>';
-
-	$multiple_html .= str_replace( '<br />' , '', $ftitle );
+	$multiple_html .= '</tr></table>' . FormatInputTitle( $title, $id, $required, '' );
 
 	if ( $value != ''
 		&& $div )
@@ -808,7 +777,7 @@ function MultipleCheckboxInput( $value, $name, $title, $options, $extra = '', $d
 			$id,
 			$multiple_html,
 			$multiple_value,
-			$ftitle
+			FormatInputTitle( $title )
 		);
 	}
 	else
@@ -843,8 +812,6 @@ function SelectInput( $value, $name, $title = '', $options = array(), $allow_na 
 	$id = GetInputID( $name );
 
 	$required = $value == '' && mb_strpos( $extra, 'required' ) !== false;
-
-	$ftitle = FormatInputTitle( $title, $id, $required );
 
 	// Mab - support array style $option values.
 	$value = is_array( $value ) ? $value[0] : $value;
@@ -884,9 +851,7 @@ function SelectInput( $value, $name, $title = '', $options = array(), $allow_na 
 				$selected . '>' . ( is_array( $val ) ? $val[0] : $val ) . '</option>';
 		}
 
-		$select .= '</select>';
-
-		$select .= $ftitle;
+		$select .= '</select>' . FormatInputTitle( $title, $id, $required );
 
 		if ( $value != ''
 			&& $div )
@@ -895,7 +860,7 @@ function SelectInput( $value, $name, $title = '', $options = array(), $allow_na 
 				$id,
 				$select,
 				( is_array( $options[ $value ] ) ? $options[ $value ][1] : $options[ $value ] ),
-				$ftitle
+				FormatInputTitle( $title )
 			);
 		}
 		else
@@ -916,7 +881,7 @@ function SelectInput( $value, $name, $title = '', $options = array(), $allow_na 
 				$display_val = '-';
 		}
 
-		$return = $display_val . $ftitle;
+		$return = $display_val . FormatInputTitle( $title );
 	}
 
 	return $return;
@@ -971,8 +936,6 @@ function MLSelectInput( $value, $name, $title = '', $options, $allow_na = 'N/A',
 
 	$required = $value == '' && mb_strpos( $extra, 'required' ) !== false;
 
-	$ftitle = FormatInputTitle( $title, $id, $required );
-
 	// Mab - append current val to select list if not in list.
 	if ( $value != ''
 		&& ( ! is_array( $options )
@@ -1010,9 +973,7 @@ function MLSelectInput( $value, $name, $title = '', $options, $allow_na = 'N/A',
 				$selected . '>' . $val_locale . '</option>';
 		}
 
-		$select .= '</select>';
-
-		$select .= $ftitle;
+		$select .= '</select>' . FormatInputTitle( $title, $id, $required );
 
 		if ( $value != ''
 			&& $div )
@@ -1024,7 +985,7 @@ function MLSelectInput( $value, $name, $title = '', $options, $allow_na = 'N/A',
 					( is_array( $options[ $value ] ) ? $options[ $value ][1] : $options[ $value ] ),
 					$locale
 				),
-				$ftitle
+				FormatInputTitle( $title )
 			);
 		}
 		else
@@ -1047,7 +1008,7 @@ function MLSelectInput( $value, $name, $title = '', $options, $allow_na = 'N/A',
 		else
 			$display_val = ParseMLField( $display_val, $locale );
 
-		$return = $display_val . $ftitle;
+		$return = $display_val . FormatInputTitle( $title );
 	}
 
 	return $return;
@@ -1180,8 +1141,6 @@ function RadioInput( $value, $name, $title = '', $options, $allow_na = 'N/A', $e
 
 	$required = $value == '' && mb_strpos( $extra, 'required' ) !== false;
 
-	$ftitle = FormatInputTitle( $title, $id, $required );
-
 	$ftitle_nobr = FormatInputTitle( $title, $id, $required, '' );
 
 	// mab - append current val to select list if not in list
@@ -1242,7 +1201,7 @@ function RadioInput( $value, $name, $title = '', $options, $allow_na = 'N/A', $e
 				$id,
 				$table,
 				is_array( $options[ $value ] ) ? $options[ $value ][1] : $options[ $value ],
-				$ftitle
+				FormatInputTitle( $title )
 			);
 		}
 		else
@@ -1263,7 +1222,7 @@ function RadioInput( $value, $name, $title = '', $options, $allow_na = 'N/A', $e
 				$display_val = '-';
 		}
 
-		$return = $display_val . $ftitle;
+		$return = $display_val . FormatInputTitle( $title );
 	}
 
 	return $return;
@@ -1302,65 +1261,61 @@ function ColorInput( $value, $name, $title = '', $type = 'hidden', $extra = '', 
 
 	$required = $value == '' && mb_strpos( $extra, 'required' ) !== false;
 
-	$ftitle = FormatInputTitle( $title, $id, $required );
-
 	$color_rect = '<div style="background-color:' . $value . '; width:30px; height:20px;"></div>';
 
-	if ( AllowEdit()
-		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	if ( ! AllowEdit()
+		|| isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
-		$js = '';
+		return $color_rect . FormatInputTitle( $title );
+	}
 
-		if ( ! $included )
-		{
-			ob_start();
-			?>
-			<!-- MiniColors -->
-			<link rel="stylesheet" href="assets/js/jquery-minicolors/jquery.minicolors.css" />
-			<script src="assets/js/jquery-minicolors/jquery.minicolors.js"></script>
-			<script>$(document).ready(function(){
-				$('.minicolors').each(function(){
-					$(this).minicolors({
-						position: $(this).attr('data-position') || 'bottom left'
-					});
-				});
-			});</script>
-			<?php
-			$js = ob_get_clean();
+	$js = '';
 
-			$included = true;
-		}
-
+	if ( ! $included )
+	{
 		ob_start();
 		?>
-		<input type="<?php echo $type; ?>" name="<?php echo $name; ?>" id="<?php echo $id; ?>"
-			class="minicolors" value="<?php echo $value; ?>" <?php echo $extra; ?> />
+		<!-- MiniColors -->
+		<link rel="stylesheet" href="assets/js/jquery-minicolors/jquery.minicolors.css" />
+		<script src="assets/js/jquery-minicolors/jquery.minicolors.js"></script>
+		<script>$(document).ready(function(){
+			$('.minicolors').each(function(){
+				$(this).minicolors({
+					position: $(this).attr('data-position') || 'bottom left'
+				});
+			});
+		});</script>
 		<?php
+		$js = ob_get_clean();
 
-		$color = ob_get_clean() . $ftitle;
-
-		if ( $value != ''
-			&& $div )
-		{
-			$return = $js . InputDivOnclick(
-				$id,
-				$color,
-				$color_rect,
-				$ftitle .
-				'<script>$("#div' . $id . '").on("click", function(){
-					$("#' . $id . '").minicolors({
-						position: $("#' . $id . '").attr("data-position") || "bottom left"
-					});
-				});</script>'
-			);
-		}
-		else
-			$return = $js . $color;
+		$included = true;
 	}
-	else
-		$return = $color_rect . $ftitle;
 
-	return $return;
+	ob_start();
+	?>
+	<input type="<?php echo $type; ?>" name="<?php echo $name; ?>" id="<?php echo $id; ?>"
+		class="minicolors" value="<?php echo $value; ?>" <?php echo $extra; ?> />
+	<?php
+
+	$color = ob_get_clean() . FormatInputTitle( $title, $id, $required );
+
+	if ( $value != ''
+		&& $div )
+	{
+		return $js . InputDivOnclick(
+			$id,
+			$color,
+			$color_rect,
+			FormatInputTitle( $title ) .
+			'<script>$("#div' . $id . '").on("click", function(){
+				$("#' . $id . '").minicolors({
+					position: $("#' . $id . '").attr("data-position") || "bottom left"
+				});
+			});</script>'
+		);
+	}
+
+	return $js . $color;
 }
 
 
@@ -1597,9 +1552,18 @@ function FormatInputTitle( $title, $id = '', $required = false, $break = '<br />
 		return '';
 	}
 
-	$class = $required && AllowEdit() ? 'legend-red' : 'legend-gray';
+	if ( mb_strpos( $title, 'a11y-hidden' ) !== false )
+	{
+		// Accessibility hidden title: force break to empty string.
+		$break = '';
+	}
+	else
+	{
+		// Not hidden, add legend class color.
+		$class = $required && AllowEdit() ? 'legend-red' : 'legend-gray';
 
-	$title = '<span class="' . $class . '">' . $title . '</span>';
+		$title = '<span class="' . $class . '">' . $title . '</span>';
+	}
 
 	// Add label only if id attribute given
 	if ( $id !== '' )
@@ -1639,7 +1603,7 @@ function InputDivOnclick( $id, $input_html, $value, $input_ftitle )
 	$value = $value == '' ? '-' : $value;
 
 	$div_onclick .= '<div id="div' . $id . '">
-		<div class="onclick" onclick=\'addHTML(html' . $id . ',"div' . $id . '",true); $("#' . $id . '").focus();\'>' .
+		<div class="onclick" tabindex="0" onfocus=\'addHTML(html' . $id . ',"div' . $id . '",true); $("#' . $id . '").focus();\'>' .
 		( mb_strpos( $value, '<div' ) === 0 ?
 			'<div class="underline-dots">' . $value . '</div>' :
 			'<span class="underline-dots">' . $value . '</span>' ) .
