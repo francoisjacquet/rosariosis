@@ -450,7 +450,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			'&amp;LO_save=' . $options['save'] .
 			'&amp;_ROSARIO_PDF=true" target="_blank"><img src="assets/themes/' .
 			Preferences( 'THEME' ) . '/btn/download.png" class="alignImg" title="' .
-			_( 'Export list' ) . '" /></a>';
+			_( 'Export list' ) . '" alt="' . _( 'Export list' ) . '" /></a>';
 		}
 
 		echo '</td>';
@@ -472,8 +472,9 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			'" placeholder="' . _( 'Search' ) . '" onkeypress="LOSearch(event, this.value, \'' .
 			$search_URL . '\');" autocomplete="off" />
 				<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/visualize.png"
-				onclick="LOSearch(event, $(\'#LO_search\').val(), \'' . $search_URL . '\');"
-				class="button" title="' . _( 'Search' ) . '" />';
+				onfocus="LOSearch(event, $(\'#LO_search\').val(), \'' . $search_URL . '\');"
+				class="button" alt="" />
+				<label for="LO_search" class="a11y-hidden">' . _( 'Search' ) . '</label>';
 
 			echo '</td>';
 
