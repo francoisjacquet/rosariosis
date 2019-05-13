@@ -3,11 +3,12 @@
 
 Changes in 4.8
 --------------
-- Accessibility: add alt attribute to images in Bottom.php, General_Info.inc.php, ListOutput.fnc.php
+- Accessibility: add alt attribute to images, program wide
 - Accessibility: use onfocus instead of onclick in Inputs.php
 - Accessibility: hidden input title using .a11y-hidden class in Inputs.php, Calendar.php, CalendarDay.inc.php
 - Accessibility: add hidden input label using .a11y-hidden class in Date.php, ListOutput.fnc.php
 - Accessibility: add hidden column title using .a11y-hidden class, program wide
+- Add language in flag title if php-intl extension active in index.php
 
 Changes in 4.7
 --------------

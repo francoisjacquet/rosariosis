@@ -366,10 +366,13 @@ if ( empty( $_SESSION['STAFF_ID'] )
 
 		<tr>
 			<td>
-			<?php foreach ( $RosarioLocales as $loc ) : ?>
+			<?php foreach ( $RosarioLocales as $loc ) :
+				$language = function_exists( 'locale_get_display_language' ) ?
+					ucfirst( locale_get_display_language( $loc, $locale ) ) :
+					str_replace( '.utf8', '', $loc ); ?>
 
-				<a href="index.php?locale=<?php echo $loc; ?>" title="<?php echo str_replace( '.utf8', '', $loc ); ?>">
-					<img src="locale/<?php echo $loc; ?>/flag.png" width="32" />
+				<a href="index.php?locale=<?php echo $loc; ?>" title="<?php echo htmlspecialchars( $language, ENT_QUOTES ); ?>">
+					<img src="locale/<?php echo $loc; ?>/flag.png" width="32" alt="<?php echo htmlspecialchars( $language, ENT_QUOTES ); ?>" />
 				</a>&nbsp;
 
 			<?php endforeach; ?>
@@ -383,7 +386,7 @@ if ( empty( $_SESSION['STAFF_ID'] )
 		<tr>
 			<td>
 				<label>
-					<input type="text" name="USERNAME" id="USERNAME" size="20" maxlength="100" tabindex="1" required autofocus />
+					<input type="text" name="USERNAME" id="USERNAME" size="20" maxlength="100" required autofocus />
 					<?php echo _( 'Username' ); ?>
 				</label>
 			</td>
@@ -391,7 +394,7 @@ if ( empty( $_SESSION['STAFF_ID'] )
 		<tr>
 			<td>
 				<label>
-					<input type="password" name="PASSWORD" id="PASSWORD" size="20" maxlength="42" tabindex="2" required />
+					<input type="password" name="PASSWORD" id="PASSWORD" size="20" maxlength="42" required />
 					<?php echo _( 'Password' ); ?>
 				</label>
 				<div class="align-right">
