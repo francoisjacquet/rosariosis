@@ -400,8 +400,10 @@ var ajaxPrepare = function(target) {
 		touchScroll(e.tBodies[0]);
 	});
 
-	var h3 = $('#body h3.title').first().text();
-	document.title = $('#body h2').first().text() + (h3 ? ' | ' + h3 : '');
+	var h3 = $('#body h3.title').first().text(),
+		h2 = $('#body h2').first().text();
+
+	document.title = (h2 && h3 ? h2 + ' | ' + h3 : h2 + h3);
 
 	if (target == '#body' || target == 'body') {
 
