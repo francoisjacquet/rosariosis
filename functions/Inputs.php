@@ -403,7 +403,9 @@ function TextAreaInput( $value, $name, $title = '', $extra = '', $div = true, $t
 	if ( ! AllowEdit()
 		|| isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
-		return $display_val . ( $type !== 'text' && $display_val !== '-' ? $ftitle_nobr : $ftitle );
+		return $display_val . ( $type !== 'text' && $display_val !== '-' ?
+			FormatInputTitle( $title, '', false, '' ) :
+			FormatInputTitle( $title ) );
 	}
 
 	// Columns.
