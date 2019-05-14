@@ -9,7 +9,7 @@ Changes in 4.8
 - Accessibility: add hidden input label using .a11y-hidden class in Date.php, ListOutput.fnc.php
 - Accessibility: add hidden column title using .a11y-hidden class, program wide
 - Accessibility: Fix FormatInputTitle() to avoid <label> when not relevant, program wide
-- Add language in flag title if php-intl extension active in index.php
+- Add language in flag title if php-intl extension active in index.php, Inputs.php
 
 Changes in 4.7
 --------------

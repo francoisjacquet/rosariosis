@@ -319,7 +319,11 @@ function setMLvalue(id, loc, value){
 
 		foreach ( (array) $RosarioLocales as $key => $loc )
 		{
-			$return .= '<label><img src="locale/' . $loc . '/flag.png" class="button bigger" /> ';
+			$language = function_exists( 'locale_get_display_language' ) ?
+				ucfirst( locale_get_display_language( $loc, $locale ) ) :
+				str_replace( '.utf8', '', $loc );
+
+			$return .= '<label><img src="locale/' . $loc . '/flag.png" class="button bigger" alt="' . htmlspecialchars( $language, ENT_QUOTES ) . '" title="' . htmlspecialchars( $language, ENT_QUOTES ) . '" /> ';
 
 			//$return .= TextInput(ParseMLField($value, $loc),'ML_'.$name.'['.$loc.']','',$extra." onchange=\"javascript:setMLvalue('".$name."','".($id==0?'':$loc)."',this.value);\"",false);
 			$return .= TextInput(
@@ -623,8 +627,8 @@ function MarkDownInputPreview( $input_id )
 
 		<a href="#" onclick="MarkDownInputPreview('<?php echo $input_id; ?>'); return false;" class="tab"><?php echo _( 'Preview' ); ?></a>
 
-		<a href="https://gitlab.com/francoisjacquet/rosariosis/wikis/Markdown-Cheatsheet" title="<?php echo _( 'Mastering MarkDown' ); ?>" target="_blank" class="md-link">
-			<img class="button" src="assets/themes/<?php echo Preferences( 'THEME' ); ?>/btn/md_button.png" />
+		<a href="https://gitlab.com/francoisjacquet/rosariosis/wikis/Markdown-Cheatsheet" title="<?php echo htmlspecialchars( _( 'Mastering MarkDown' ), ENT_QUOTES ); ?>" target="_blank" class="md-link">
+			<img class="button" src="assets/themes/<?php echo Preferences( 'THEME' ); ?>/btn/md_button.png" alt="<?php echo htmlspecialchars( _( 'Mastering MarkDown' ), ENT_QUOTES ); ?>" />
 		</a>
 		<div class="markdown-to-html" id="divMDPreview<?php echo $input_id; ?>"><?php echo _( 'Nothing to preview.' ); ?></div>
 	</div>
