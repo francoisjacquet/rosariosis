@@ -498,7 +498,8 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		if ( $remove
 			&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		{
-			echo '<th>&nbsp;</th>';
+			echo '<th><span class="a11y-hidden">' . _( 'Delete' ) . '</span></th>';
+
 			$i++;
 		}
 
@@ -793,7 +794,9 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 					echo ' center';
 				}
 
-				echo '"><thead><tr><th>&nbsp;</th>';
+				echo '"><thead><tr>';
+
+				echo '<th><span class="a11y-hidden">' . _( 'Delete' ) . '</span></th>';
 
 				foreach ( (array) $column_names as $key => $value )
 				{
