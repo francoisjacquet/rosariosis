@@ -10,6 +10,7 @@ Changes in 4.8
 - Accessibility: add hidden column title using .a11y-hidden class, program wide
 - Accessibility: Fix FormatInputTitle() to avoid <label> when not relevant, program wide
 - Add language in flag title if php-intl extension active in index.php, Inputs.php
+- Remove allowed fields table check in Fields.fnc.php
 
 Changes in 4.7
 --------------

@@ -24,18 +24,17 @@
 function AddDBField( $table, $sequence, $type )
 {
 	// Please add your TABLE here.
-	$allowed_tables = array(
+	/*$allowed_tables = array(
 		'STUDENTS',
 		'ADDRESS',
 		'PEOPLE',
 		'STAFF',
 		'SCHOOLS',
-	);
+	);*/
 
 	if ( ! AllowEdit()
 		|| empty( $table )
-		|| empty( $type )
-		|| ! in_array( $table, $allowed_tables ) )
+		|| empty( $type ) )
 	{
 		return '';
 	}
@@ -115,19 +114,18 @@ function AddDBField( $table, $sequence, $type )
 function DeleteDBField( $table, $id )
 {
 	// Please add your TABLE here.
-	$allowed_tables = array(
+	/*$allowed_tables = array(
 		'STUDENTS',
 		'ADDRESS',
 		'PEOPLE',
 		'STAFF',
 		'SCHOOLS',
-	);
+	);*/
 
 	if ( ! AllowEdit()
 		|| empty( $table )
 		|| empty( $id )
-		|| (string) (int) $id !== $id
-		|| ! in_array( $table, $allowed_tables ) )
+		|| (string) (int) $id !== $id )
 	{
 		return false;
 	}
@@ -165,18 +163,17 @@ function DeleteDBField( $table, $id )
 function DeleteDBFieldCategory( $table, $id )
 {
 	// Please add your TABLE here.
-	$allowed_tables = array(
+	/*$allowed_tables = array(
 		'STUDENTS',
 		'ADDRESS',
 		'PEOPLE',
 		'STAFF',
-	);
+	);*/
 
 	if ( ! AllowEdit()
 		|| empty( $table )
 		|| empty( $id )
-		|| (string) (int) $id !== $id
-		|| ! in_array( $table, $allowed_tables ) )
+		|| (string) (int) $id !== $id )
 	{
 		return false;
 	}
@@ -234,13 +231,13 @@ function DeleteDBFieldCategory( $table, $id )
 function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), $type_options = null )
 {
 	// Please add your TABLE here.
-	$allowed_tables = array(
+	/*$allowed_tables = array(
 		'STUDENT',
 		'ADDRESS',
 		'PEOPLE',
 		'STAFF',
 		'SCHOOL',
-	);
+	);*/
 
 	$id = $RET['ID'];
 
@@ -248,8 +245,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 
 	if ( empty( $table )
 		|| ( empty( $id )
-			&& empty( $category_id ) )
-		|| ! in_array( $table, $allowed_tables ) )
+			&& empty( $category_id ) ) )
 	{
 		return '';
 	}
@@ -415,7 +411,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 				_( 'Pull-Down' ) . '/' . _( 'Auto Pull-Down' ) . '/' . _( 'Export Pull-Down' ) . '/' .
 				_( 'Select Multiple from Options' ) .
 				'<div class="tooltip"><i>' . _( 'One per line' ) . '</i></div>',
-				'rows=7 cols=40',
+				'rows=5 cols=40',
 				true,
 				false
 			) . '</td>';
@@ -726,16 +722,15 @@ function FilterCustomFieldsMarkdown( $table, $request_index, $request_index_2 = 
 function CheckRequiredCustomFields( $table, $request_values )
 {
 	// Please add your TABLE here.
-	$allowed_tables = array(
+	/*$allowed_tables = array(
 		'CUSTOM_FIELDS',
 		'ADDRESS_FIELDS',
 		'PEOPLE_FIELDS',
 		'STAFF_FIELDS',
 		'SCHOOL_FIELDS',
-	);
+	);*/
 
-	if ( empty( $table )
-		|| ! in_array( $table, $allowed_tables ) )
+	if ( empty( $table ) )
 	{
 		return false;
 	}
