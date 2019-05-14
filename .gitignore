@@ -251,6 +251,7 @@ plugins/TinyMCE_Record_Audio_Video
 plugins/Calendar_Schedule_View
 plugins/Discipline_Score*
 modules/Library
+modules/Library_Premium*
 modules/Email_Alerts*
 modules/Reports*
 modules/Staff_Parents_Import*
