@@ -411,6 +411,10 @@ function FilesUploadUpdate( $table, $request, $path )
 			{
 				$where_sql = "STAFF_ID='" . UserStaffID() . "'";
 			}
+			elseif ( $table === 'LIBRARY_DOCUMENTS' )
+			{
+				$where_sql = "ID='" . $_REQUEST['id'] . "'";
+			}
 
 			DBQuery( "UPDATE " . DBEscapeIdentifier( $table ) . "
 				SET " . DBEscapeIdentifier( $column ) . "=COALESCE(" .
