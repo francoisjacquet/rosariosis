@@ -1272,7 +1272,7 @@ function ColorInput( $value, $name, $title = '', $type = 'hidden', $extra = '', 
 	if ( ! AllowEdit()
 		|| isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
-		return $color_rect . FormatInputTitle( $title );
+		return $color_rect . FormatInputTitle( $title, '', '', '' );
 	}
 
 	$js = '';
@@ -1609,7 +1609,7 @@ function InputDivOnclick( $id, $input_html, $value, $input_ftitle )
 	$value = $value == '' ? '-' : $value;
 
 	$div_onclick .= '<div id="div' . $id . '">
-		<div class="onclick" tabindex="0" onfocus=\'addHTML(html' . $id . ',"div' . $id . '",true); $("#' . $id . '").focus();\'>' .
+		<div class="onclick" tabindex="0" onfocus=\'addHTML(html' . $id . ',"div' . $id . '",true); $("#' . $id . '").click().focus();\'>' .
 		( mb_strpos( $value, '<div' ) === 0 ?
 			'<div class="underline-dots">' . $value . '</div>' :
 			'<span class="underline-dots">' . $value . '</span>' ) .
