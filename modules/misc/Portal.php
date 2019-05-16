@@ -79,6 +79,8 @@ do_action( 'misc/Portal.php|portal_alerts' );
 
 echo ErrorMessage( $note, 'note' );
 
+echo ErrorMessage( $warning, 'warning' );
+
 require_once 'ProgramFunctions/Dashboard.fnc.php';
 
 // Dashboard.
