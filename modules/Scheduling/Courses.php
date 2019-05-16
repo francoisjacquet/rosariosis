@@ -49,7 +49,7 @@ if ( $_REQUEST['course_modfunc'] === 'search' )
 
 	echo '<form name="search" action="Modules.php?modname=' . $_REQUEST['modname'] .
 		'&modfunc=' . $_REQUEST['modfunc'] . '&course_modfunc=search&last_year=' .
-		$_REQUEST['last_year'] . '" method="POST">';
+		$_REQUEST['last_year'] . '" method="GET">';
 
 	echo '<table><tr><td><input type="text" name="search_term" value="' .
 	$_REQUEST['search_term'] . '" required autofocus /></td>
