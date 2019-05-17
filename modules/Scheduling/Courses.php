@@ -1,6 +1,7 @@
 <?php
 
 require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
+require_once 'modules/Scheduling/includes/Courses.fnc.php';
 
 if ( ! isset( $_REQUEST['last_year'] ) )
 {
@@ -923,6 +924,15 @@ if (  ( ! $_REQUEST['modfunc']
 				if ( $has_student_enrolled )
 				{
 					$delete_button = '';
+				}
+
+				// Check for Course Period Teacher conflict.
+				if ( User( 'PROFILE' ) === 'admin'
+					&& CoursePeriodTeacherConflictCheck( $RET['TEACHER_ID'] ) )
+				{
+					$warning[] = _( 'Conflict: Teacher already scheduled for this period.' );
+
+					echo ErrorMessage( $warning, 'warning' );
 				}
 			}
 			else

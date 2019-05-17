@@ -11,6 +11,7 @@ Changes in 4.8
 - Accessibility: Fix FormatInputTitle() to avoid <label> when not relevant, program wide
 - Add language in flag title if php-intl extension active in index.php, Inputs.php
 - Remove allowed fields table check in Fields.fnc.php
+- Check for Course Period Teacher conflict in Courses.php & Courses.fnc.php
 
 Changes in 4.7
 --------------
