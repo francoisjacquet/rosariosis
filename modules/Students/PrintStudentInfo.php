@@ -222,7 +222,16 @@ if ( $_REQUEST['modfunc'] === 'save'
 						}
 						else
 						{
-							require 'modules/' . $category[1]['INCLUDE'] . '.inc.php';
+							if ( file_exists( 'plugins/' . $category[1]['INCLUDE'] . '.inc.php' ) )
+							{
+								// @since 4.5 Include Student/User Info tab from custom plugin.
+								require 'plugins/' . $category[1]['INCLUDE'] . '.inc.php';
+							}
+							else
+							{
+								require 'modules/' . $category[1]['INCLUDE'] . '.inc.php';
+							}
+
 							$separator = '<hr />';
 							require 'modules/Students/includes/Other_Info.inc.php';
 						}

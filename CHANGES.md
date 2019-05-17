@@ -33,6 +33,7 @@ Changes in 4.7
 - Remove Calculate GPA program in CalcGPA.php, Menu.php, Help_en.php & rosariosis.sql
 - Do NOT remove School Period once associated to Course Periods in Periods.php
 - Do NOT remove Course Period once has Student enrolled in Courses.php
+- Fix PHP error Include Student/User Info tab from custom plugin in PrintStudentInfo.php
 
 Changes in 4.6.2
 ----------------
