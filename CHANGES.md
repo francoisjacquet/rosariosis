@@ -13,6 +13,10 @@ Changes in 4.8
 - Remove allowed fields table check in Fields.fnc.php
 - Check for Course Period Teacher conflict in Courses.php & Courses.fnc.php
 
+Changes in 4.7.1
+----------------
+- Fix PHP fatal error "Can't use function return value in write context" (PHP 5.4) in Student.php & Address.inc.php
+
 Changes in 4.7
 --------------
 - Clean code: remove else when not necessary in functions/*
