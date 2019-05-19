@@ -248,9 +248,9 @@ if ( $_REQUEST['modfunc'] === 'update'
 			{
 				if (  ( $student_id = (int) $_REQUEST['assign_student_id'] ) > 0 )
 				{
-					if ( ! empty( DBGet( "SELECT STUDENT_ID
-							FROM STUDENTS
-							WHERE STUDENT_ID='" . $student_id . "'" ) ) )
+					if ( DBGetOne( "SELECT STUDENT_ID
+						FROM STUDENTS
+						WHERE STUDENT_ID='" . $student_id . "'" ) )
 					{
 						$error[] = sprintf( _( 'That %s ID is already taken. Please select a different one.' ), Config( 'NAME' ) );
 					}
@@ -271,14 +271,19 @@ if ( $_REQUEST['modfunc'] === 'update'
 					do
 					{
 						$student_id = DBSeqNextID( 'STUDENTS_SEQ' );
-					} while ( ! empty( DBGet( "SELECT STUDENT_ID FROM STUDENTS WHERE STUDENT_ID='" . $student_id . "'" ) ) );
+					}
+					while ( ! DBGetOne( "SELECT STUDENT_ID
+						FROM STUDENTS
+						WHERE STUDENT_ID='" . $student_id . "'" ) );
 				}
 
 				$sql = "INSERT INTO STUDENTS ";
 				$fields = 'STUDENT_ID,';
 				$values = "'" . $student_id . "',";
 
-				$fields_RET = DBGet( "SELECT ID,TYPE FROM CUSTOM_FIELDS ORDER BY SORT_ORDER", array(), array( 'ID' ) );
+				$fields_RET = DBGet( "SELECT ID,TYPE
+					FROM CUSTOM_FIELDS
+					ORDER BY SORT_ORDER", array(), array( 'ID' ) );
 
 				foreach ( (array) $_REQUEST['students'] as $column => $value )
 				{
