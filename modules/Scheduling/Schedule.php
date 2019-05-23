@@ -224,8 +224,16 @@ DrawHeader(  ( AllowUse( 'Scheduling/PrintSchedules.php' ) ? '<a href="' . $prin
 	//$sql .= " ORDER BY sp.SORT_ORDER,s.MARKING_PERIOD_ID";
 	$sql .= " ORDER BY cp.SHORT_NAME,s.MARKING_PERIOD_ID";
 
-	$QI = DBQuery( $sql );
-	$schedule_RET = DBGet( $QI, array( 'PERIOD_PULLDOWN' => '_makePeriodSelect', 'COURSE_MARKING_PERIOD_ID' => '_makeMPSelect', 'SCHEDULER_LOCK' => '_makeLock', 'START_DATE' => '_makeDate', 'END_DATE' => '_makeDate' ) );
+	$schedule_RET = DBGet(
+		$sql,
+		array(
+			'PERIOD_PULLDOWN' => '_makePeriodSelect',
+			'COURSE_MARKING_PERIOD_ID' => '_makeMPSelect',
+			'SCHEDULER_LOCK' => '_makeLock',
+			'START_DATE' => '_makeDate',
+			'END_DATE' => '_makeDate',
+		)
+	);
 
 	//FJ bugfix SQL bug $_SESSION['student_id'] is not set
 	$link['add']['link'] = '# onclick=\'popups.open(
@@ -239,7 +247,18 @@ DrawHeader(  ( AllowUse( 'Scheduling/PrintSchedules.php' ) ? '<a href="' . $prin
 
 	$link['add']['title'] = _( 'Add a Course' );
 
-	$columns = array( 'TITLE' => _( 'Course' ), 'PERIOD_PULLDOWN' => _( 'Period' ) . ' ' . _( 'Days' ) . ' - ' . _( 'Short Name' ) . ' - ' . _( 'Teacher' ), 'ROOM' => _( 'Room' ), 'COURSE_MARKING_PERIOD_ID' => _( 'Term' ), 'SCHEDULER_LOCK' => '<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/locked.png"  class="button bigger">', 'START_DATE' => _( 'Enrolled' ), 'END_DATE' => _( 'Dropped' ) );
+	$columns = array(
+		'TITLE' => _( 'Course' ),
+		'PERIOD_PULLDOWN' => _( 'Period' ) . ' ' . _( 'Days' ) . ' - ' . _( 'Short Name' ) . ' - ' . _( 'Teacher' ),
+		'ROOM' => _( 'Room' ),
+		'COURSE_MARKING_PERIOD_ID' => _( 'Term' ),
+		'SCHEDULER_LOCK' => '<img src="assets/themes/' . Preferences( 'THEME' ) .
+			'/btn/locked.png" class="button bigger" alt="' . _( 'Locked' ) . '">' .
+			'<span class="a11y-hidden">' . _( 'Locked' ) . '</span>',
+		'START_DATE' => _( 'Enrolled' ),
+		'END_DATE' => _( 'Dropped' ),
+	);
+
 	/*//FJ multiple school periods for a course period
 	//$days_RET = DBGet( "SELECT DISTINCT DAYS FROM COURSE_PERIODS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'" );
 	$days_RET = DBGet( "SELECT DISTINCT cpsp.DAYS FROM COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND cp.SCHOOL_ID='".UserSchool()."' AND cp.SYEAR='".UserSyear()."'" );
@@ -432,11 +451,11 @@ function _makeLock( $value, $column )
 			$return = "<script>function switchLock(el,lockid){
 				if (el.src.indexOf('unlocked')==-1) {
 					el.src = el.src.replace('locked', 'unlocked');
-					el.title = " . json_encode( _( 'Unlocked' ) ) . "
+					el.title = el.alt = " . json_encode( _( 'Unlocked' ) ) . "
 					document.getElementById(lockid).value='';
 				} else {
 					el.src = el.src.replace('unlocked', 'locked');
-					el.title = " . json_encode( _( 'Locked' ) ) . "
+					el.title = el.alt = " . json_encode( _( 'Locked' ) ) . "
 					document.getElementById(lockid).value='Y';
 				}
 			}</script>";
@@ -451,7 +470,9 @@ function _makeLock( $value, $column )
 
 	return $return . '<img src="assets/themes/' .
 	Preferences( 'THEME' ) . '/btn/' . ( $value == 'Y' ? 'locked' : 'unlocked' ) .
-		'.png" title="' . ( $value == 'Y' ? _( 'Locked' ) : _( 'Unlocked' ) ) . '"class="button bigger" style="cursor: pointer;"' .
+		'.png" title="' . ( $value == 'Y' ? _( 'Locked' ) : _( 'Unlocked' ) ) . '"
+		alt="' . ( $value == 'Y' ? _( 'Locked' ) : _( 'Unlocked' ) ) . '"
+		class="button bigger" style="cursor: pointer;"' .
 		( AllowEdit() ? ' onclick="switchLock(this, \'' . $lock_id . '\');" />
 			<input type="hidden" name="schedule[' . $THIS_RET['COURSE_PERIOD_ID'] . '][' . $THIS_RET['START_DATE'] . '][SCHEDULER_LOCK]" id="' . $lock_id . '" value="' . $value . '" />' :
 		' />' );
