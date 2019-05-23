@@ -210,7 +210,7 @@ function mySearch( $extra )
 {
 	echo '<table>' . $extra['extra_search'] . '</table>';
 
-	$sql = 'SELECT \'<input type="checkbox" name="cp_arr[]" value="\'||cp.COURSE_PERIOD_ID||\'">\' AS CHECKBOX,cp.TITLE FROM COURSE_PERIODS cp';
+	$sql = "SELECT '' AS CHECKBOX,cp.TITLE,cp.COURSE_PERIOD_ID FROM COURSE_PERIODS cp";
 
 	if ( User( 'PROFILE' ) === 'admin' )
 	{
@@ -250,23 +250,31 @@ function mySearch( $extra )
 		if ( ! empty( $_REQUEST['period_id'] ) )
 		{
 			$from .= ',COURSE_PERIOD_SCHOOL_PERIODS cpsp';
-			$where .= " AND cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND cpsp.PERIOD_ID='" . $_REQUEST['period_id'] . "'";
+			$where .= " AND cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
+				AND cpsp.PERIOD_ID='" . $_REQUEST['period_id'] . "'";
 			//$where .= " AND cp.PERIOD_ID='".$_REQUEST['period_id']."'";
 		}
 
-		$sql .= "$from WHERE cp.SCHOOL_ID='" . UserSchool() . "' AND cp.SYEAR='" . UserSyear() . "'$where";
+		$sql .= $from . " WHERE cp.SCHOOL_ID='" . UserSchool() . "'
+			AND cp.SYEAR='" . UserSyear() . "'" . $where;
 	}
 	else // teacher
 	{
-		$sql .= " WHERE cp.SCHOOL_ID='" . UserSchool() . "' AND cp.SYEAR='" . UserSyear() . "' AND cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "'";
+		$sql .= " WHERE cp.SCHOOL_ID='" . UserSchool() . "'
+			AND cp.SYEAR='" . UserSyear() . "'
+			AND cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "'";
 	}
 
 	//FJ multiple school periods for a course period
 	//$sql .= ' ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID)';
 	$sql .= ' ORDER BY cp.SHORT_NAME,cp.TITLE';
 
-	$course_periods_RET = DBGet( $sql );
-	$LO_columns = array( 'CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.checked,\'cp_arr\');"><A>', 'TITLE' => _( 'Course Period' ) );
+	$LO_columns = array(
+		'CHECKBOX' => MakeChooseCheckbox( '', 'COURSE_PERIOD_ID', 'cp_arr' ),
+		'TITLE' => _( 'Course Period' ),
+	);
+
+	$course_periods_RET = DBGet( $sql, array( 'CHECKBOX' => 'MakeChooseCheckbox' ) );
 
 	if ( empty( $_REQUEST['LO_save'] ) && ! $extra['suppress_save'] )
 	{
