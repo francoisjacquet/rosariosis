@@ -36,7 +36,7 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 		// Open table.
 		$return = '<TABLE>';
 
-		$return .= '<TR><TD colspan="2"><b>' . $include_on_title . ':</b></TD></TR>';
+		$return .= '<TR><TD colspan="2"><b>' . $include_on_title . '</b></TD></TR>';
 
 		$return .= '<TR class="st"><TD></TD><TD><TABLE><TR>';
 
@@ -69,28 +69,30 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 
 		// Other Attendance Year-to-date.
 		$return .= '<TD><label><INPUT type="checkbox" name="elements[ytd_tardies]" value="Y" /> ' .
-		_( 'Other Attendance Year-to-date' ) . ':</label> <SELECT name="ytd_tardies_code">';
+		_( 'Other Attendance Year-to-date' ) . ':</label> <SELECT name="ytd_tardies_code" id="ytd_tardies_code">';
 
 		foreach ( (array) $other_attendance_codes as $code )
 		{
 			$return .= '<OPTION value="' . $code[1]['ID'] . '">' . $code[1]['TITLE'] . '</OPTION>';
 		}
 
-		$return .= '</SELECT></TD>';
+		$return .= '</SELECT>
+			<label for="ytd_tardies_code" class="a11y-hidden">' . _( 'Attendance Codes' ) . '</label></TD>';
 
 		// Other Attendance this quarter.
 		$return .= '<TD><label><INPUT type="checkbox" name="elements[mp_tardies]" value="Y" /> ' .
-		_( 'Other Attendance this quarter' ) . ':</label> <SELECT name="mp_tardies_code">';
+		_( 'Other Attendance this quarter' ) . ':</label> <SELECT name="mp_tardies_code" id="mp_tardies_code">';
 
 		foreach ( (array) $other_attendance_codes as $code )
 		{
 			$return .= '<OPTION value="' . $code[1]['ID'] . '">' . $code[1]['TITLE'] . '</OPTION>';
 		}
 
-		$return .= '</SELECT></TD></TR><TR class="st">';
+		$return .= '</SELECT>
+			<label for="mp_tardies_code" class="a11y-hidden">' . _( 'Attendance Codes' ) . '</label></TD></TR>';
 
 		// Period-by-period absences.
-		$return .= '<TD><label><INPUT type="checkbox" name="elements[period_absences]" value="Y" /> ' .
+		$return .= '<TR class="st"><TD><label><INPUT type="checkbox" name="elements[period_absences]" value="Y" /> ' .
 		_( 'Period-by-period absences' ) . '</label></TD>';
 
 		$return .= '<TD></TD></TR></TABLE></TD></TR>';
