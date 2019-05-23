@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-17 16:47+0200\n"
-"PO-Revision-Date: 2019-05-17 16:48+0200\n"
+"POT-Creation-Date: 2019-05-23 17:35+0200\n"
+"PO-Revision-Date: 2019-05-23 17:35+0200\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS\n"
 "Language: fr\n"
@@ -207,7 +207,7 @@ msgstr "Parent"
 #: modules/School_Setup/includes/Dashboard.inc.php:71
 #: modules/Student_Billing/DailyTransactions.php:54
 #: modules/Students/AddDrop.php:34 modules/Students/Search.inc.php:269
-#: modules/Students/Search.inc.php:394 modules/Students/Student.php:482
+#: modules/Students/Search.inc.php:394 modules/Students/Student.php:487
 #: modules/Users/AddStudents.php:111 modules/misc/Export.php:458
 #: modules/misc/Portal.php:395 modules/misc/Portal.php:399
 #: modules/misc/Portal.php:800 modules/misc/Portal.php:806
@@ -316,7 +316,7 @@ msgstr "Tableau de Bord"
 #: modules/Student_Billing/StudentPayments.php:171
 #: modules/Student_Billing/functions.inc.php:34
 #: modules/Student_Billing/functions.inc.php:72
-#: modules/Students/Student.php:659 modules/Users/User.php:623
+#: modules/Students/Student.php:664 modules/Users/User.php:623
 msgid "Delete"
 msgstr "Effacer"
 
@@ -741,9 +741,9 @@ msgstr "Lien \"Embed\""
 #: ProgramFunctions/StudentsUsersInfo.fnc.php:326 functions/Search.fnc.php:630
 #: modules/Grades/Assignments-new.php:345
 #: modules/Students/AssignOtherInfo.php:267
-#: modules/Students/includes/Address.inc.php:1129
-#: modules/Students/includes/Address.inc.php:1416
-#: modules/Students/includes/Address.inc.php:1589
+#: modules/Students/includes/Address.inc.php:1182
+#: modules/Students/includes/Address.inc.php:1477
+#: modules/Students/includes/Address.inc.php:1650
 msgid "Edit"
 msgstr "Modifier"
 
@@ -930,22 +930,27 @@ msgstr "Jours"
 msgid "No courses found"
 msgstr "Aucun cours trouvé"
 
-#: Side.php:657
+#: Side.php:642 modules/Eligibility/TeacherCompletion.php:158
+#: modules/Scheduling/includes/Dashboard.inc.php:65
+msgid "Course Periods"
+msgstr "Classes"
+
+#: Side.php:658
 msgid "Clear working student"
 msgstr "Enlever l'élève courant"
 
-#: Side.php:661 modules/Custom/CreateParents.php:537
+#: Side.php:662 modules/Custom/CreateParents.php:537
 #: modules/Students/Menu.php:16 modules/Students/Menu.php:36
 #: modules/Students/Menu.php:47 modules/Students/PrintStudentInfo.php:64
 #: modules/Students/PrintStudentInfo.php:68
 msgid "Student Info"
 msgstr "Informations Élève"
 
-#: Side.php:681
+#: Side.php:682
 msgid "Clear working user"
 msgstr "Enlever l'utilisateur courant"
 
-#: Side.php:685 modules/Custom/NotifyParents.php:304 modules/Users/Menu.php:16
+#: Side.php:686 modules/Custom/NotifyParents.php:304 modules/Users/Menu.php:16
 #: modules/Users/Menu.php:30 modules/Users/Menu.php:37
 msgid "User Info"
 msgstr "Informations Utilisateur"
@@ -1174,8 +1179,8 @@ msgstr "ID Utilisateur"
 #: modules/School_Setup/Configuration.php:322
 #: modules/School_Setup/Configuration.php:323
 #: modules/School_Setup/Configuration.php:324 modules/Students/Letters.php:154
-#: modules/Students/includes/Address.inc.php:1009
-#: modules/Students/includes/Address.inc.php:1182
+#: modules/Students/includes/Address.inc.php:1062
+#: modules/Students/includes/Address.inc.php:1235
 #: modules/Students/includes/General_Info.inc.php:52
 #: modules/Users/includes/General_Info.inc.php:78 modules/misc/Export.php:162
 #: modules/misc/Export.php:473
@@ -1195,8 +1200,8 @@ msgstr "Nom"
 #: modules/School_Setup/Configuration.php:322
 #: modules/School_Setup/Configuration.php:323
 #: modules/School_Setup/Configuration.php:324 modules/Students/Letters.php:155
-#: modules/Students/includes/Address.inc.php:999
-#: modules/Students/includes/Address.inc.php:1171
+#: modules/Students/includes/Address.inc.php:1052
+#: modules/Students/includes/Address.inc.php:1224
 #: modules/Students/includes/General_Info.inc.php:38
 #: modules/Users/includes/General_Info.inc.php:64 modules/misc/Export.php:160
 #: modules/misc/Export.php:471
@@ -1223,9 +1228,9 @@ msgid " w/Custom"
 msgstr " custom"
 
 #: functions/GetStuList.fnc.php:137
-#: modules/Students/includes/Address.inc.php:909
-#: modules/Students/includes/Address.inc.php:913
-#: modules/Students/includes/Address.inc.php:930 modules/misc/Export.php:189
+#: modules/Students/includes/Address.inc.php:962
+#: modules/Students/includes/Address.inc.php:966
+#: modules/Students/includes/Address.inc.php:983 modules/misc/Export.php:189
 #: modules/misc/Export.php:498
 msgid "Mailing Address"
 msgstr "Adresse Postale"
@@ -1233,8 +1238,8 @@ msgstr "Adresse Postale"
 #: functions/GetStuList.fnc.php:138 functions/GetStuList.fnc.php:306
 #: modules/Custom/MyReport.php:110 modules/Custom/Registration.php:376
 #: modules/Custom/Registration.php:412 modules/School_Setup/Schools.php:240
-#: modules/Students/includes/Address.inc.php:835
-#: modules/Students/includes/Address.inc.php:919 modules/misc/Export.php:177
+#: modules/Students/includes/Address.inc.php:888
+#: modules/Students/includes/Address.inc.php:972 modules/misc/Export.php:177
 #: modules/misc/Export.php:499 modules/misc/Export.php:511
 msgid "City"
 msgstr "Ville"
@@ -1242,8 +1247,8 @@ msgstr "Ville"
 #: functions/GetStuList.fnc.php:139 functions/GetStuList.fnc.php:307
 #: modules/Custom/MyReport.php:111 modules/Custom/Registration.php:379
 #: modules/Custom/Registration.php:414 modules/School_Setup/Schools.php:246
-#: modules/Students/includes/Address.inc.php:844
-#: modules/Students/includes/Address.inc.php:921 modules/misc/Export.php:178
+#: modules/Students/includes/Address.inc.php:897
+#: modules/Students/includes/Address.inc.php:974 modules/misc/Export.php:178
 #: modules/misc/Export.php:501 modules/misc/Export.php:512
 msgid "State"
 msgstr "Département"
@@ -1255,8 +1260,8 @@ msgstr "Code Postal"
 
 #: functions/GetStuList.fnc.php:305 functions/Search.fnc.php:144
 #: modules/Custom/Registration.php:409 modules/School_Setup/Schools.php:233
-#: modules/Students/includes/Address.inc.php:336
-#: modules/Students/includes/Address.inc.php:819 modules/misc/Export.php:497
+#: modules/Students/includes/Address.inc.php:371
+#: modules/Students/includes/Address.inc.php:872 modules/misc/Export.php:497
 msgid "Address"
 msgstr "Adresse"
 
@@ -1337,8 +1342,8 @@ msgid "Course Status"
 msgstr "Statut Cours"
 
 #: functions/GetStuList.fnc.php:741
-#: modules/Students/includes/Address.inc.php:302
-#: modules/Students/includes/Address.inc.php:988
+#: modules/Students/includes/Address.inc.php:326
+#: modules/Students/includes/Address.inc.php:1041
 #: modules/Users/Preferences.php:556 modules/Users/Preferences.php:558
 #: modules/Users/Preferences.php:564 modules/Users/Preferences.php:572
 #: modules/Users/Preferences.php:580
@@ -1485,6 +1490,14 @@ msgstr "Sélectionner Options"
 msgid "Maximum file size: %01.0fMb"
 msgstr "Taille maximum du fichier %01.2fMo"
 
+#: functions/Inputs.php:1665 functions/Search.fnc.php:162
+msgid "Check All"
+msgstr "Tout Cocher"
+
+#: functions/Inputs.php:1680
+msgid "Select"
+msgstr "Sélectionner"
+
 #: functions/ListOutput.fnc.php:11 modules/Attendance/AttendanceCodes.php:199
 #: modules/Food_Service/MenuReports.php:354
 #: modules/Grades/EditReportCardGrades.php:441
@@ -1600,10 +1613,6 @@ msgstr "Niveaux Scolaires"
 #: functions/Widgets.fnc.php:1524
 msgid "Not"
 msgstr "Pas"
-
-#: functions/Search.fnc.php:162
-msgid "Check All"
-msgstr "Tout Cocher"
 
 #: functions/Search.fnc.php:193 functions/StaffWidgets.fnc.php:267
 #: functions/Widgets.fnc.php:982 functions/Widgets.fnc.php:1115
@@ -2211,7 +2220,7 @@ msgid "Create User Account"
 msgstr "Créer un Compte Utilisateur"
 
 #: index.php:426 modules/School_Setup/Configuration.php:218
-#: modules/Students/Student.php:462
+#: modules/Students/Student.php:467
 msgid "Create Student Account"
 msgstr "Créer un Compte Élève"
 
@@ -2842,7 +2851,7 @@ msgstr "Les enregistrements redondants on été suprimés."
 #: modules/Scheduling/PrintSchedules.php:288
 #: modules/Student_Billing/MassAssignFees.php:47
 #: modules/Student_Billing/MassAssignPayments.php:46
-#: modules/Students/Letters.php:126 modules/Students/PrintStudentInfo.php:244
+#: modules/Students/Letters.php:126 modules/Students/PrintStudentInfo.php:253
 #: modules/Students/StudentLabels.php:9 modules/Users/AddStudents.php:33
 msgid "You must choose at least one student."
 msgstr "Vous devez choisir au moins un élève."
@@ -2886,7 +2895,7 @@ msgstr "Aucun Duplicat Trouvé"
 #: modules/Scheduling/PrintRequests.php:80
 #: modules/Scheduling/PrintSchedules.php:283
 #: modules/Student_Billing/Statements.php:83 modules/Students/Letters.php:121
-#: modules/Students/PrintStudentInfo.php:239
+#: modules/Students/PrintStudentInfo.php:248
 #: modules/Students/Search.inc.php:467 modules/Students/StudentLabels.php:30
 msgid "No Students were found."
 msgstr "Aucun élève n'a été trouvé."
@@ -3174,7 +3183,7 @@ msgid "Test Mode"
 msgstr "Mode Test"
 
 #: modules/Custom/CreateParents.php:386
-#: modules/Students/includes/Address.inc.php:313
+#: modules/Students/includes/Address.inc.php:337
 msgid "Contact"
 msgstr "Contact"
 
@@ -3218,8 +3227,8 @@ msgid "Group by Family"
 msgstr "Grouper par Famille"
 
 #: modules/Custom/MyReport.php:109 modules/Custom/Registration.php:373
-#: modules/Students/includes/Address.inc.php:825
-#: modules/Students/includes/Address.inc.php:917 modules/misc/Export.php:176
+#: modules/Students/includes/Address.inc.php:878
+#: modules/Students/includes/Address.inc.php:970 modules/misc/Export.php:176
 #: modules/misc/Export.php:510
 msgid "Street"
 msgstr "Rue"
@@ -3227,7 +3236,7 @@ msgstr "Rue"
 #: modules/Custom/MyReport.php:113 modules/Custom/Registration.php:384
 #: modules/Custom/Registration.php:419 modules/Grades/Transcripts.php:243
 #: modules/School_Setup/Schools.php:259
-#: modules/Students/includes/Address.inc.php:861
+#: modules/Students/includes/Address.inc.php:914
 msgid "Phone"
 msgstr "Téléphone"
 
@@ -3255,7 +3264,7 @@ msgid "Person Name"
 msgstr "Nom de la Personne"
 
 #: modules/Custom/MyReport.php:153
-#: modules/Students/includes/Address.inc.php:1146
+#: modules/Students/includes/Address.inc.php:1199
 msgid "Value"
 msgstr "Valeur"
 
@@ -3340,8 +3349,8 @@ msgstr "Vos informations"
 #: modules/School_Setup/Configuration.php:320
 #: modules/School_Setup/Configuration.php:321
 #: modules/School_Setup/Configuration.php:324 modules/Students/Letters.php:156
-#: modules/Students/includes/Address.inc.php:1004
-#: modules/Students/includes/Address.inc.php:1177
+#: modules/Students/includes/Address.inc.php:1057
+#: modules/Students/includes/Address.inc.php:1230
 #: modules/Students/includes/General_Info.inc.php:45
 #: modules/Users/includes/General_Info.inc.php:71 modules/misc/Export.php:163
 #: modules/misc/Export.php:474
@@ -3372,8 +3381,8 @@ msgstr "Votre adresse"
 
 #: modules/Custom/Registration.php:381 modules/Custom/Registration.php:416
 #: modules/School_Setup/Schools.php:252
-#: modules/Students/includes/Address.inc.php:853
-#: modules/Students/includes/Address.inc.php:923
+#: modules/Students/includes/Address.inc.php:906
+#: modules/Students/includes/Address.inc.php:976
 msgid "Zip"
 msgstr "Code postal"
 
@@ -3496,9 +3505,9 @@ msgstr "Utiliser pour cette école"
 #: modules/School_Setup/Periods.php:87 modules/School_Setup/Rooms.php:66
 #: modules/School_Setup/SchoolFields.php:88 modules/School_Setup/Schools.php:39
 #: modules/School_Setup/Schools.php:62 modules/Students/Student.php:187
-#: modules/Students/Student.php:260 modules/Students/Student.php:291
-#: modules/Students/includes/Address.inc.php:66
-#: modules/Students/includes/Address.inc.php:162
+#: modules/Students/Student.php:260 modules/Students/Student.php:296
+#: modules/Students/includes/Address.inc.php:83
+#: modules/Students/includes/Address.inc.php:181
 #: modules/Students/includes/AddressFields.php:106
 #: modules/Students/includes/PeopleFields.php:106
 #: modules/Students/includes/StudentFields.php:140 modules/Users/User.php:268
@@ -3690,11 +3699,6 @@ msgstr "Ajouter"
 #: modules/Eligibility/Student.php:158
 msgid "Starts"
 msgstr "Commence"
-
-#: modules/Eligibility/TeacherCompletion.php:158
-#: modules/Scheduling/includes/Dashboard.inc.php:65
-msgid "Course Periods"
-msgstr "Classes"
 
 #: modules/Eligibility/TeacherCompletion.php:178
 msgid "Teacher who hasn't entered eligibility"
@@ -3888,8 +3892,8 @@ msgstr "ou sélectionner le repas précédent"
 #: modules/Grades/MassCreateAssignments.php:312
 #: modules/Grades/includes/StudentAssignments.fnc.php:316
 #: modules/Scheduling/Courses.php:1485 modules/School_Setup/Calendar.php:747
-#: modules/Students/includes/Address.inc.php:1152
-#: modules/Students/includes/Address.inc.php:1159 modules/misc/Portal.php:108
+#: modules/Students/includes/Address.inc.php:1205
+#: modules/Students/includes/Address.inc.php:1212 modules/misc/Portal.php:108
 msgid "Description"
 msgstr "Description"
 
@@ -4454,7 +4458,7 @@ msgstr "Problème"
 
 #: modules/Grades/AnomalousGrades.php:144
 #: modules/Grades/EditHistoryMarkingPeriods.php:104
-#: modules/Students/includes/Address.inc.php:1017
+#: modules/Students/includes/Address.inc.php:1070
 #: modules/Students/includes/General_Info.inc.php:89
 #: modules/Students/includes/General_Info.inc.php:98
 #: modules/Users/Preferences.php:241
@@ -4506,7 +4510,7 @@ msgstr "Points Bonus"
 #: modules/Grades/MassCreateAssignments.php:30
 #: modules/Scheduling/Courses.php:724 modules/School_Setup/SchoolFields.php:85
 #: modules/School_Setup/Schools.php:26 modules/Students/Student.php:142
-#: modules/Students/includes/Address.inc.php:290
+#: modules/Students/includes/Address.inc.php:314
 #: modules/Students/includes/AddressFields.php:103
 #: modules/Students/includes/PeopleFields.php:103
 #: modules/Students/includes/StudentFields.php:137 modules/Users/User.php:203
@@ -4637,7 +4641,7 @@ msgstr "Entrer 0 pour pouvoir donner des points bonus aux élèves"
 #: modules/Grades/includes/StudentAssignments.fnc.php:238
 #: modules/Grades/includes/StudentAssignments.fnc.php:304
 #: modules/Grades/includes/StudentAssignments.fnc.php:685
-#: modules/School_Setup/Schools.php:161 modules/Students/Student.php:520
+#: modules/School_Setup/Schools.php:161 modules/Students/Student.php:525
 #: modules/Users/User.php:556
 msgid "File"
 msgstr "Fichier"
@@ -5305,7 +5309,7 @@ msgid "Teachers who enter grades for %s"
 msgstr "Enseignants qui saisissent les notes pour %s"
 
 #: modules/Grades/Transcripts.php:174
-#: modules/Students/includes/Address.inc.php:530
+#: modules/Students/includes/Address.inc.php:583
 msgid "No Address"
 msgstr "Pas d'Adresse"
 
@@ -7005,7 +7009,7 @@ msgstr "Votre Nom"
 msgid "Your Room"
 msgstr "Votre Salle de Classe"
 
-#: modules/Students/Menu.php:17 modules/Students/Student.php:450
+#: modules/Students/Menu.php:17 modules/Students/Student.php:455
 msgid "Add a Student"
 msgstr "Ajouter un Élève"
 
@@ -7045,8 +7049,8 @@ msgstr "Codes d'Inscription"
 msgid "Associated Parents"
 msgstr "Parents Associés"
 
-#: modules/Students/PrintStudentInfo.php:259
-#: modules/Students/PrintStudentInfo.php:319
+#: modules/Students/PrintStudentInfo.php:268
+#: modules/Students/PrintStudentInfo.php:328
 msgid "Print Info for Selected Students"
 msgstr "Imprimer les Informations pour les Élèves Sélectionnés"
 
@@ -7111,109 +7115,109 @@ msgstr "Champs Contact"
 msgid "Create Labels for Selected Students"
 msgstr "Créer des Étiquettes pour les Élèves Sélectionnés"
 
-#: modules/Students/includes/Address.inc.php:374
+#: modules/Students/includes/Address.inc.php:427
 msgid "No Contact"
 msgstr "Pas de Contact"
 
-#: modules/Students/includes/Address.inc.php:449
+#: modules/Students/includes/Address.inc.php:502
 msgid "Other students associated with this address"
 msgstr "Autres élèves associés à cette adresse"
 
-#: modules/Students/includes/Address.inc.php:547
+#: modules/Students/includes/Address.inc.php:600
 msgid "This student doesn't have an address."
 msgstr "Cet élève n'a pas d'adresse."
 
-#: modules/Students/includes/Address.inc.php:562
+#: modules/Students/includes/Address.inc.php:615
 msgid "Add a <b>New</b> Address"
 msgstr "Ajouter une <b>Nouvelle</b> Adresse"
 
-#: modules/Students/includes/Address.inc.php:572
+#: modules/Students/includes/Address.inc.php:625
 msgid "Add an <b>Existing</b> Address"
 msgstr "Ajouter une Adresse <b>Existante</b>"
 
-#: modules/Students/includes/Address.inc.php:585
+#: modules/Students/includes/Address.inc.php:638
 msgid "Add a <b>New</b> Contact<br />without an Address"
 msgstr "Ajouter un <b>Nouveau</b> Contact<br /> sans Adresse"
 
-#: modules/Students/includes/Address.inc.php:598
+#: modules/Students/includes/Address.inc.php:651
 msgid "Add an <b>Existing</b> Contact<br />without an Address"
 msgstr "Ajouter un Contact <b>Existant</b><br /> sans Adresse"
 
-#: modules/Students/includes/Address.inc.php:614
+#: modules/Students/includes/Address.inc.php:667
 msgid "Contacts without an Address"
 msgstr "Contact sans Adresse"
 
-#: modules/Students/includes/Address.inc.php:614
+#: modules/Students/includes/Address.inc.php:667
 msgid "Contacts at this Address"
 msgstr "Contacts à cette Adresse"
 
-#: modules/Students/includes/Address.inc.php:700
+#: modules/Students/includes/Address.inc.php:753
 msgid "Other students associated with this person"
 msgstr "Autres élèves associés à cette personne"
 
-#: modules/Students/includes/Address.inc.php:732
+#: modules/Students/includes/Address.inc.php:785
 msgid "There are no contacts without an address."
 msgstr "Il n'y a pas de contact sans adresse."
 
-#: modules/Students/includes/Address.inc.php:732
+#: modules/Students/includes/Address.inc.php:785
 msgid "There are no contacts at this address."
 msgstr "Il n'y a pas de contact à cette adresse."
 
-#: modules/Students/includes/Address.inc.php:750
+#: modules/Students/includes/Address.inc.php:803
 msgid "Add a <b>New</b> Contact"
 msgstr "Ajouter un <b>Nouveau</b> Contact"
 
-#: modules/Students/includes/Address.inc.php:765
+#: modules/Students/includes/Address.inc.php:818
 msgid "Add an <b>Existing</b> Contact"
 msgstr "Ajouter un Contact <b>Existant</b>"
 
-#: modules/Students/includes/Address.inc.php:874
+#: modules/Students/includes/Address.inc.php:927
 msgid "Map It"
 msgstr "Cartographier"
 
-#: modules/Students/includes/Address.inc.php:899
+#: modules/Students/includes/Address.inc.php:952
 #: modules/Students/includes/AddressFields.php:200
 #: modules/Students/includes/StudentLabels.fnc.php:97
 #: modules/Users/Preferences.php:596 modules/misc/Export.php:627
 msgid "Residence"
 msgstr "Domicile"
 
-#: modules/Students/includes/Address.inc.php:901
+#: modules/Students/includes/Address.inc.php:954
 #: modules/Users/Preferences.php:615 modules/misc/Export.php:645
 msgid "Bus Pickup"
 msgstr "Ramassage Car Scolaire"
 
-#: modules/Students/includes/Address.inc.php:903
+#: modules/Students/includes/Address.inc.php:956
 #: modules/Users/Preferences.php:622 modules/misc/Export.php:651
 msgid "Bus Dropoff"
 msgstr "Dépose Car Scolaire"
 
-#: modules/Students/includes/Address.inc.php:913
+#: modules/Students/includes/Address.inc.php:966
 msgid "If different than above"
 msgstr "Ci différent de ci-dessus"
 
-#: modules/Students/includes/Address.inc.php:966
+#: modules/Students/includes/Address.inc.php:1019
 msgid "Select Address"
 msgstr "Choisir une Adresse"
 
-#: modules/Students/includes/Address.inc.php:1020
-#: modules/Students/includes/Address.inc.php:1190 modules/misc/Export.php:696
+#: modules/Students/includes/Address.inc.php:1073
+#: modules/Students/includes/Address.inc.php:1243 modules/misc/Export.php:697
 msgid "Relation"
 msgstr "Lien"
 
-#: modules/Students/includes/Address.inc.php:1032
-#: modules/Students/includes/Address.inc.php:1196
+#: modules/Students/includes/Address.inc.php:1085
+#: modules/Students/includes/Address.inc.php:1249
 #: modules/Students/includes/PeopleFields.php:200
 msgid "Custody"
 msgstr "Garde"
 
-#: modules/Students/includes/Address.inc.php:1045
-#: modules/Students/includes/Address.inc.php:1200
+#: modules/Students/includes/Address.inc.php:1098
+#: modules/Students/includes/Address.inc.php:1253
 #: modules/Students/includes/PeopleFields.php:209
 msgid "Emergency"
 msgstr "Urgence"
 
-#: modules/Students/includes/Address.inc.php:1278
+#: modules/Students/includes/Address.inc.php:1335
 msgid "Select Person"
 msgstr "Choisir une Personne"
 
