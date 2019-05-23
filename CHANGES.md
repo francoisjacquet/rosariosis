@@ -13,6 +13,7 @@ Changes in 4.8
 - Add language in flag title if php-intl extension active in index.php, Inputs.php
 - Remove allowed fields table check in Fields.fnc.php
 - Check for Course Period Teacher conflict in Courses.php & Courses.fnc.php
+- Group Assignments by Type inside dropdown in Grades.php
 
 Changes in 4.7.1
 ----------------

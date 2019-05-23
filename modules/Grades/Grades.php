@@ -491,7 +491,8 @@ $type_onchange_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
 	( UserStudentID() ? '&student_id=' . UserStudentID() : '' ) .
 	"&type_id='";
 
-$type_select = '<select name="type_id" onchange="ajaxLink(' . $type_onchange_URL . ' + this.options[selectedIndex].value);">';
+$type_select = '<select name="type_id" id="type_id" onchange="ajaxLink(' .
+	$type_onchange_URL . ' + this.options[selectedIndex].value);">';
 
 $type_select .= '<option value=""' . ( ! $_REQUEST['type_id'] ? ' selected' : '' ) . '>' .
 _( 'All' ) .
@@ -504,7 +505,7 @@ foreach ( (array) $types_RET as $id => $type )
 		'</option>';
 }
 
-$type_select .= '</select>';
+$type_select .= '</select><label for="type_id" class="a11y-hidden">' . _( 'Assignment Types' ) . '</label>';
 
 $assignment_onchange_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
 	'&include_inactive=' . $_REQUEST['include_inactive'] .
@@ -512,7 +513,8 @@ $assignment_onchange_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
 	'&type_id=' . $_REQUEST['type_id'] .
 	"&assignment_id='";
 
-$assignment_select = '<select name="assignment_id" onchange="ajaxLink(' . $assignment_onchange_URL . ' + this.options[selectedIndex].value);">';
+$assignment_select = '<select name="assignment_id" id="assignment_id" onchange="ajaxLink(' .
+	$assignment_onchange_URL . ' + this.options[selectedIndex].value);">';
 
 $assignment_select .= '<option value="">' . _( 'Totals' ) . '</option>';
 
@@ -525,17 +527,34 @@ if ( UserStudentID() && $_REQUEST['assignment_id'] === 'all' )
 	$assignment_select .= '<option value="all" selected>' . $stu_RET[1]['FULL_NAME'] . '</option>';
 }
 
+$optgroup = '';
+
 foreach ( (array) $assignments_RET as $id => $assignment )
 {
+	if ( empty( $_REQUEST['type_id'] )
+		&& $optgroup !== $types_RET[$assignment[1]['ASSIGNMENT_TYPE_ID']][1]['TITLE'] )
+	{
+		if ( $optgroup )
+		{
+			$assignment_select .= '</optgroup>';
+		}
+
+		$optgroup = $types_RET[$assignment[1]['ASSIGNMENT_TYPE_ID']][1]['TITLE'];
+
+		$assignment_select .= '<optgroup label="' . htmlspecialchars( $optgroup ) . '">';
+	}
+
 	$assignment_select .= '<option value="' . $id . '"' .
 		( $_REQUEST['assignment_id'] == $id ? ' selected' : '' ) . '>' .
-		( $_REQUEST['type_id'] ?
-		'' :
-		$types_RET[$assignment[1]['ASSIGNMENT_TYPE_ID']][1]['TITLE'] . ' - ' ) .
 		$assignment[1]['TITLE'] . '</option>';
 }
 
-$assignment_select .= '</select>';
+if ( $assignments_RET )
+{
+	$assignment_select .= '</optgroup>';
+}
+
+$assignment_select .= '</select><label for="assignment_id" class="a11y-hidden">' . _( 'Assignments' ) . '</label>';
 
 // echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&student_id='.UserStudentID().'" method="POST">';
 
@@ -745,15 +764,19 @@ function _makeExtraAssnCols( $assignment_id, $column )
 
 //					return '<table cellspacing=0 cellpadding=1><tr><td>'.TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex).'</td><td>&nbsp;/&nbsp;</td><td>'.$total_points.'</td></tr></table>';
 
+					$name = 'values[' . $THIS_RET['STUDENT_ID'] . '][' . $assignment_id . '][POINTS]';
+
+					$id = GetInputID( $name );
+
 					return '<span' . ( $div ? ' class="span-grade-points"' : '' ) . '>' .
 					TextInput(
 						$points,
-						'values[' . $THIS_RET['STUDENT_ID'] . '][' . $assignment_id . '][POINTS]',
+						$name,
 						'',
 						' size=2 maxlength=7',
 						$div
 					) . '</span>
-						<span>&nbsp;/&nbsp;' . $total_points . '</span>';
+						<label for="' . $id . '">&nbsp;/&nbsp;' . $total_points . '</label>';
 				}
 			}
 
