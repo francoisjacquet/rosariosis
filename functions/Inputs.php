@@ -1659,9 +1659,10 @@ function MakeChooseCheckbox( $value, $column = '', $controller_name = '' )
 			return $checked ? 'x' : '';
 		}
 
-		return '</a><input type="checkbox" value="Y" name="controller"
+		return '</a><input type="checkbox" value="Y" name="controller" id="controller"
 			onclick="checkAll(this.form,this.checked,\'' . $controller_name .'\');"' .
-			( $checked ? ' checked' : '' ) . ' /><a>';
+			( $checked ? ' checked' : '' ) . ' />
+			<label for="controller" class="a11y-hidden">' . _( 'Check All' ) . '</label><a>';
 	}
 
 	if ( ! empty( $controller_column ) )
@@ -1674,6 +1675,7 @@ function MakeChooseCheckbox( $value, $column = '', $controller_name = '' )
 		return $checked ? 'x' : '';
 	}
 
-	return '<input type="checkbox" name="' . $name . '[]" value="' . $value . '"' .
-		( $checked ? ' checked' : '' ) . ' />';
+	return '<label><input type="checkbox" name="' . $name . '[]" value="' . $value . '"' .
+		( $checked ? ' checked' : '' ) . ' /><span class="a11y-hidden">' .
+		_( 'Select' ) . '</span></label>';
 }
