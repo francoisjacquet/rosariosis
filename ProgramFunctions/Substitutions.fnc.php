@@ -49,6 +49,8 @@ function SubstitutionsInput( $substitutions )
 	$code = ' <input id="substitutions_code_' . $id . '" type="text" readonly size="' . ( strlen( $code_value ) - 1 ) .
 		'" value="' . $code_value . '" autocomplete="off" />';
 
+	$code .= '<label for="substitutions_code_' . $id . '" class="a11y-hidden">' . _( 'Code' ) . '</label>';
+
 	$copy_button = '<input id="substitutions_button_' . $id . '" type="button" value="' . _( 'Copy' ) . '" />';
 
 	$tooltip_html = '<div class="tooltip"><i>' .
