@@ -1636,7 +1636,7 @@ function InputDivOnclick( $id, $input_html, $value, $input_ftitle )
  *
  * @param string $value           DB value or checked ('Y').
  * @param string $column          Current DBGet column or $THIS_RET column to use (optional).
- * @param string $controller_name Controller name (set first only), ie. 'student' will give 'student[1]' (optional).
+ * @param string $controller_name Controller name (set first only), ie. 'student' will give 'student[]' (optional).
  */
 function MakeChooseCheckbox( $value, $column = '', $controller_name = '' )
 {
