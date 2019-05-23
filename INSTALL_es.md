@@ -62,7 +62,7 @@ Descomprima el archivo de RosarioSIS en un directorio accesible con el navegador
 - `$PNGQuantPath` camino hacia [PNGQuant](https://pngquant.org/) para la compresión de PNG.
 - `$RosarioErrorsAddress` es la dirección de email para recibir los errores (PHP fatal, base de datos, intentos de pirateo)
 - `$Timezone` define la zona horaria por defecto usada por la funciones de fecha y tiempo. Ver el [Listado de zonas horarias admitidas](http://php.net/manual/es/timezones.php).
-- `$ETagCache` pasar a `false` para desactivar le [cache ETag](https://es.wikipedia.org/wiki/HTTP_ETag) y desactivar el cache de sesión "privada". Ver [Sesiones y seguridad](https://secure.php.net/manual/es/session.security.php).
+- `$ETagCache` pasar a `false` para desactivar el [caché ETag](https://es.wikipedia.org/wiki/HTTP_ETag) y desactivar el caché de sesión "privada". Ver [Sesiones y seguridad](https://secure.php.net/manual/es/session.security.php).
 
   [Modo debug: añadir la linea siguiente para activarlo]
 - `define( 'ROSARIO_DEBUG', true );`
