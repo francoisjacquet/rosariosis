@@ -693,7 +693,8 @@ else
 
 				$select .= '</select>';
 
-				echo '&nbsp;-&nbsp;' . _( 'Relation' ) . ':&nbsp;' . $select;
+				echo '&nbsp;-&nbsp;<label for="relation">' .
+					_( 'Relation' ) . ':</label>&nbsp;' . $select;
 			}
 
 			echo '</td>';
