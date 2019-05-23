@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-23 17:35+0200\n"
-"PO-Revision-Date: 2019-05-23 17:35+0200\n"
+"PO-Revision-Date: 2019-05-23 18:49+0200\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS\n"
 "Language: fr\n"
@@ -5887,7 +5887,7 @@ msgstr "Inclure l'Enseignant"
 
 #: modules/Scheduling/PrintClassPictures.php:209
 msgid "Use Last Year's if Missing"
-msgstr "Prendre Celle de l'An Dernier si Manquante"
+msgstr "Utiliser celle de l'année dernière si manquante"
 
 #: modules/Scheduling/PrintRequests.php:102
 msgid "Not With"
