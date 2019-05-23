@@ -1019,7 +1019,7 @@ if ( $_REQUEST['values']
 $mps_onchange_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
 	'&include_inactive=' . $_REQUEST['include_inactive'] . "&mp='";
 
-$mps_select .= '<select name="mp" onchange="ajaxLink(' . $mps_onchange_URL . ' + this.options[selectedIndex].value);">';
+$mps_select .= '<select name="mp_select" id="mp_select" onchange="ajaxLink(' . $mps_onchange_URL . ' + this.options[selectedIndex].value);">';
 
 if ( $pros != '' )
 {
@@ -1048,7 +1048,8 @@ if ( $_REQUEST['mp'] == UserMP()
 	$allow_edit = true;
 }
 
-$mps_select .= '<option value="' . UserMP() . '"' . (  ( UserMP() == $_REQUEST['mp'] ) ? ' selected' : '' ) . ">" . GetMP( UserMP() ) . "</option>";
+$mps_select .= '<option value="' . UserMP() . '"' . ( UserMP() == $_REQUEST['mp'] ? ' selected' : '' ) . '>' .
+	GetMP( UserMP() ) . '</option>';
 
 if ( $_REQUEST['mp'] == $sem
 	&& GetMP( $sem, 'POST_START_DATE' )
@@ -1060,7 +1061,8 @@ if ( $_REQUEST['mp'] == $sem
 
 if ( GetMP( $sem, 'DOES_GRADES' ) == 'Y' )
 {
-	$mps_select .= '<option value="' . $sem . '"' . (  ( $sem == $_REQUEST['mp'] ) ? ' selected' : '' ) . ">" . GetMP( $sem ) . "</option>";
+	$mps_select .= '<option value="' . $sem . '"' . ( $sem == $_REQUEST['mp'] ? ' selected' : '' ) . '>' .
+		GetMP( $sem ) . '</option>';
 }
 
 if ( $_REQUEST['mp'] == $fy
@@ -1073,10 +1075,11 @@ if ( $_REQUEST['mp'] == $fy
 
 if ( GetMP( $fy, 'DOES_GRADES' ) == 'Y' )
 {
-	$mps_select .= '<option value="' . $fy . '"' . (  ( $fy == $_REQUEST['mp'] ) ? ' selected' : '' ) . ">" . GetMP( $fy ) . "</option>";
+	$mps_select .= '<option value="' . $fy . '"' . ( $fy == $_REQUEST['mp'] ? ' selected' : '' ) . '>' .
+		GetMP( $fy ) . '</option>';
 }
 
-$mps_select .= '</select>';
+$mps_select .= '</select><label for="mp_select" class="a11y-hidden">' . _( 'Marking Period' ) . '</label>';
 
 // modif Francois: add Grade posting dates (see Marking periods) limitation for teachers:
 $grade_posting_RET = DBGet( "SELECT 1 FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "' AND (POST_START_DATE IS NULL OR POST_START_DATE<=CURRENT_DATE) AND (POST_END_DATE IS NULL OR POST_END_DATE>=CURRENT_DATE)" );
