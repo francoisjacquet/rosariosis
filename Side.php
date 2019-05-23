@@ -639,6 +639,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 			}
 			?>
 			</select>
+			<label for="period" class="a11y-hidden"><?php echo _( 'Course Periods' ); ?></label>
 
 		<?php endif; ?>
 
