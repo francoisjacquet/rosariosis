@@ -215,12 +215,12 @@ function StaffWidgets( $item, &$myextra = null )
 				}
 			}
 
-			$extra['search'] .= '<tr class="st"><td>' . _( 'Balance' ) . '</td><td>
+			$extra['search'] .= '<tr class="st"><td><label for="fsa_balance">' . _( 'Balance' ) . '</label></td><td>
 			<label class="sizep2">
 				<input type="radio" name="fsa_bal_ge" value="" checked /> &lt;</label>&nbsp;
 			<label  class="sizep2">
 				<input type="radio" name="fsa_bal_ge" value="Y" /> &ge;</label>
-			<input type="text" name="fsa_balance" size="7" maxlength="9"' . ( isset( $value ) ? ' value="' . $value . '"' : '') . ' />
+			<input type="text" name="fsa_balance" id="fsa_balance" size="7" maxlength="9"' . ( isset( $value ) ? ' value="' . $value . '"' : '') . ' />
 			</td></tr>';
 
 		break;
@@ -262,8 +262,8 @@ function StaffWidgets( $item, &$myextra = null )
 				}
 			}
 
-			$extra['search'] .= '<tr class="st"><td>' . _( 'Account Status' ) . '</td><td>
-			<select name="fsa_status">
+			$extra['search'] .= '<tr class="st"><td><label for="fsa_status">' . _( 'Account Status' ) . '</label></td><td>
+			<select name="fsa_status" id="fsa_status">
 			<option value="">' . _( 'Not Specified' ) . '</option>
 			<option value="Active"' . ( isset( $value ) && $value == 'active' ? ' selected' : '' ) . '>' . _( 'Active' ) . '</option>
 			<option value="Inactive">' . _( 'Inactive' ) . '</option>
@@ -300,8 +300,8 @@ function StaffWidgets( $item, &$myextra = null )
 				}
 			}
 
-			$extra['search'] .= '<tr class="st"><td>' . _( 'Barcode' ) . '</td><td>
-			<input type="text" name="fsa_barcode" size="15" maxlength="50" />
+			$extra['search'] .= '<tr class="st"><td><label for="fsa_barcode">' . _( 'Barcode' ) . '</label></td><td>
+			<input type="text" name="fsa_barcode" id="fsa_barcode" size="15" maxlength="50" />
 			</td></tr>';
 
 		break;
