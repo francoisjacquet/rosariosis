@@ -301,7 +301,8 @@ if ( ! $_REQUEST['modfunc'] )
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
 			ORDER BY TBL,SORT_ORDER" );
-		$mp_select = '<select name="mp_id"><option value="">' . _( 'N/A' );
+
+		$mp_select = '<select name="mp_id" id="mp_id"><option value="">' . _( 'N/A' );
 
 		foreach ( (array) $mp_RET as $mp )
 		{
@@ -314,8 +315,9 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$extra['header_right'] = Buttons( _( 'Create Schedules for Selected Students' ) );
 
-		$extra['extra_header_left'] = '<table class="cellpadding-5">';
-		$extra['extra_header_left'] .= '<tr class="st"><td>' . _( 'Marking Period' ) . '</td><td>' . $mp_select . '</td></tr>';
+		$extra['extra_header_left'] = '<table class="cellpadding-5 col1-align-right">';
+		$extra['extra_header_left'] .= '<tr class="st"><td><label for="mp_id">' . _( 'Marking Period' ) .
+			'</label></td><td>' . $mp_select . '</td></tr>';
 		$extra['extra_header_left'] .= '<tr class="st"><td>' . _( 'Include only courses active as of' ) .
 		'</td><td>' . PrepareDate( '', '_include_active_date' ) . '</td></tr>';
 
