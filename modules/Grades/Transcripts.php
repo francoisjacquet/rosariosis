@@ -15,6 +15,13 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	{
 		$transcripts = TranscriptsGenerate( $_REQUEST['st_arr'], $_REQUEST['mp_type_arr'], $_REQUEST['syear_arr'] );
 
+		/**
+		 * Report Cards array hook action.
+		 *
+		 * @since 4.8
+		 */
+		do_action( 'Grades/Transcripts.php|transcripts_html_array' );
+
 		if ( $transcripts )
 		{
 			$transcripts_html = '<style type="text/css"> * {font-size:large; line-height:1.2;} </style>';

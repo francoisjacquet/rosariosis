@@ -236,6 +236,13 @@ $RosarioActions = array();
 	/*'Grades/ReportCards.php|header' => array(),
 
 	/**
+	 * Report Cards PDF HTML array.
+	 *
+	 * @since 4.5
+	 */
+	/*'Grades/ReportCards.php|report_cards_html_array' => array(),
+
+	/**
 	 * Report Cards PDF Header.
 	 *
 	 * @since 4.5
@@ -262,6 +269,13 @@ $RosarioActions = array();
 	 * @since 4.8
 	 */
 	/*'Grades/Transcripts.php|header' => array(),
+
+	/**
+	 * Transcripts PDF HTML array.
+	 *
+	 * @since 4.5
+	 */
+	/*'Grades/Transcripts.php|transcripts_html_array' => array(),
 );*/
 
 
