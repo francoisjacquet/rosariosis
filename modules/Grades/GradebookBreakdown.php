@@ -114,7 +114,8 @@ foreach ( (array) $assignments_RET as $assignment )
 		'</option>';
 }
 
-$assignment_select .= '</select>';
+$assignment_select .= '</select>
+	<label for="assignment_id" class="a11y-hidden">' . _( 'Assignments' ) . '</label>';
 
 $extra['SELECT_ONLY'] .= "ssm.STUDENT_ID,'' AS LETTER_GRADE";
 

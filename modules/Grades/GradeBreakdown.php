@@ -5,10 +5,9 @@ require_once 'ProgramFunctions/Charts.fnc.php';
 DrawHeader( ProgramTitle() );
 
 // Set Marking Period
-if ( !isset( $_REQUEST['mp'] )
-	|| empty( $_REQUEST['mp'] ) )
+if ( empty( $_REQUEST['mp_id'] ) )
 {
-	$_REQUEST['mp'] = UserMP();
+	$_REQUEST['mp_id'] = UserMP();
 }
 
 $chart_types = array( 'line', 'list' );
@@ -47,7 +46,7 @@ $mps_RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,0,SORT_ORDER
 
 echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="GET">';
 
-$mp_select = '<select name="mp" onchange="ajaxPostForm(this.form,true);">';
+$mp_select = '<select name="mp_id" id="mp_id" onchange="ajaxPostForm(this.form,true);">';
 
 foreach ( (array) $mps_RET as $mp )
 {
@@ -55,12 +54,13 @@ foreach ( (array) $mps_RET as $mp )
     	|| $mp['MARKING_PERIOD_ID'] === UserMP() )
     {
         $mp_select .= '<option value="' . $mp['MARKING_PERIOD_ID'] . '"' .
-        	( $mp['MARKING_PERIOD_ID'] === $_REQUEST['mp'] ? ' selected' : '' ) . '>' .
+        	( $mp['MARKING_PERIOD_ID'] === $_REQUEST['mp_id'] ? ' selected' : '' ) . '>' .
         	( $UserMPTitle = $mp['TITLE'] ) . '</option>';
 	}
 }
 
-$mp_select .= '</select>';
+$mp_select .= '</select>
+	<label for="mp_id" class="a11y-hidden">' . _( 'Marking Periods' ) . '</label>';
 
 DrawHeader( $mp_select );
 
@@ -73,7 +73,7 @@ $grouped_SQL = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,s.STAFF_ID,g.R
 	AND cp.SYEAR=s.SYEAR
 	AND cp.SYEAR=g.SYEAR
 	AND cp.SYEAR='" . UserSyear() . "'
-	AND g.MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'";
+	AND g.MARKING_PERIOD_ID='" . $_REQUEST['mp_id'] . "'";
 
 $grouped_RET = DBGet( $grouped_SQL, array(), array( 'STAFF_ID', 'REPORT_CARD_GRADE_ID' ) );
 
@@ -97,7 +97,7 @@ if ( $grouped_RET )
 	);
 
 	// Allow Column chart only if grades count <=20
-	if ( count( $grades_RET ) <= 20 )
+	if ( empty( $grades_RET ) || count( $grades_RET ) <= 20 )
 	{
 		$tabs[] = array(
 			'title' => _( 'Column' ),
@@ -138,7 +138,8 @@ if ( $grouped_RET )
 			{
 				$j++;
 
-				$teachers_RET[ $j ][ $staff_id ] = count( $grades[$grade['ID']] );
+				$teachers_RET[ $j ][ $staff_id ] = empty( $grades[$grade['ID']] ) ?
+					0 : count( $grades[$grade['ID']] );
 			}
 		}
 
@@ -165,7 +166,8 @@ if ( $grouped_RET )
 				else
 					$chartData[0][] = $grade['GPA_VALUE'];
 
-				$chartData[1][] = count( $grades[$grade['ID']] );
+				$chartData[1][] = empty( $grades[$grade['ID']] ) ?
+					0 : count( $grades[$grade['ID']] );
 			}
 
 			if ( $_REQUEST['chart_type'] === 'column' )
