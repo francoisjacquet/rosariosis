@@ -2,6 +2,7 @@
 
 // Should be included first, in case modfunc is Class Rank Calculate AJAX.
 require_once 'modules/Grades/includes/ClassRank.inc.php';
+require_once 'modules/Grades/includes/Transcripts.fnc.php';
 
 require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 require_once 'ProgramFunctions/Template.fnc.php';
@@ -470,142 +471,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$extra['header_right'] = Buttons( _( 'Create Transcripts for Selected Students' ) );
 
-		$extra['extra_header_left'] = '<table class="width-100p">';
-
-		$extra['extra_header_left'] .= '<tr><td colspan="2"><b>' . _( 'Include on Transcript' ) .
-		'</b><input type="hidden" name="SCHOOL_ID" value="' . UserSchool() . '" /><br /></td></tr>';
-
-		// FJ history grades & previous school years in Transripts.
-
-		if ( User( 'PROFILE' ) === 'admin' )
-		{
-			$syear_history_RET = DBGet( "SELECT DISTINCT SYEAR
-				FROM HISTORY_MARKING_PERIODS
-				WHERE SYEAR<>'" . UserSyear() . "'
-				AND SCHOOL_ID='" . UserSchool() . "'
-				UNION SELECT DISTINCT SYEAR
-				FROM SCHOOL_MARKING_PERIODS
-				WHERE SYEAR<>'" . UserSyear() . "'
-				AND SCHOOL_ID='" . UserSchool() . "'
-				ORDER BY SYEAR DESC" );
-
-			// If History School Years or previous school years.
-
-			if ( $syear_history_RET )
-			{
-				$extra['extra_header_left'] .= '<tr class="st"><td>';
-
-				$syoptions[UserSyear()] = FormatSyear( UserSyear(), Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) );
-
-				// Chosen Multiple select input.
-				$syextra = 'multiple';
-
-				foreach ( (array) $syear_history_RET as $syear_history )
-				{
-					$syoptions[$syear_history['SYEAR']] = FormatSyear(
-						$syear_history['SYEAR'],
-						Config( 'SCHOOL_SYEAR_OVER_2_YEARS' )
-					);
-				}
-
-				$extra['extra_header_left'] .= ChosenSelectInput(
-					UserSyear(),
-					'syear_arr[]',
-					_( 'School Years' ),
-					$syoptions,
-					false,
-					$syextra,
-					false
-				);
-
-				$extra['extra_header_left'] .= '<hr /></td></tr>';
-			}
-		}
-
-		$mp_types = DBGet( "SELECT DISTINCT MP_TYPE
-			FROM MARKING_PERIODS
-			WHERE NOT MP_TYPE IS NULL
-			AND SCHOOL_ID='" . UserSchool() . "'", array(), array() );
-
-		$extra['extra_header_left'] .= '<tr class="st"><td class="valign-top">';
-
-		//FJ add translation
-		$marking_periods_locale = array(
-			'Year' => _( 'Year' ),
-			'Semester' => _( 'Semester' ),
-			'Quarter' => _( 'Quarter' ),
-		);
-
-		foreach ( (array) $mp_types as $mp_type )
-		{
-			//FJ add <label> on checkbox
-			$extra['extra_header_left'] .= '<label><input type="checkbox" name="mp_type_arr[]" value="' . $mp_type['MP_TYPE'] . '"> ' . $marking_periods_locale[ucwords( $mp_type['MP_TYPE'] )] . '</label> ';
-		}
-
-		$extra['extra_header_left'] .= FormatInputTitle( _( 'Marking Periods' ) ) . '<hr /></td></tr>';
-
-		$extra['extra_header_left'] .= '<tr class="st"><td class="valign-top">';
-
-		//FJ add Show Grades option
-		$extra['extra_header_left'] .= '<label><input type="checkbox" name="showgrades" value="1" checked /> ' . _( 'Grades' ) . '</label>';
-
-		$extra['extra_header_left'] .= '<br /><br /><label><input type="checkbox" name="showstudentpic" value="1"> ' . _( 'Student Photo' ) . '</label>';
-
-		//FJ add Show Comments option
-		$extra['extra_header_left'] .= '<br /><br /><label><input type="checkbox" name="showmpcomments" value="1"> ' . _( 'Comments' ) . '</label>';
-
-		//FJ add Show Credits option
-		$extra['extra_header_left'] .= '<br /><br /><label><input type="checkbox" name="showcredits" value="1" checked /> ' . _( 'Credits' ) . '</label>';
-
-		//FJ add Show Credit Hours option
-		$extra['extra_header_left'] .= '<br /><br /><label><input type="checkbox" name="showcredithours" value="1"> ' . _( 'Credit Hours' ) . '</label>';
-
-		//FJ limit Cetificate to admin
-
-		if ( User( 'PROFILE' ) === 'admin' )
-		{
-			//FJ add Show Studies Certificate option
-			$field_SSECURITY = ParseMLArray( DBGet( "SELECT TITLE
-				FROM CUSTOM_FIELDS
-				WHERE ID = 200000003" ), 'TITLE' );
-
-			$extra['extra_header_left'] .= '<br /><br /><label><input type="checkbox" name="showcertificate" autocomplete="off" value="1" onclick=\'javascript: document.getElementById("divcertificatetext").style.display="block"; document.getElementById("inputcertificatetext").focus();\'> ' . _( 'Studies Certificate' ) . '</label>';
-		}
-
-		//FJ limit Cetificate to admin
-
-		if ( User( 'PROFILE' ) === 'admin' )
-		{
-			//FJ add Show Studies Certificate option
-			$extra['extra_header_left'] .= '<div id="divcertificatetext" style="display:none">';
-
-			$extra['extra_header_left'] .= TinyMCEInput(
-				GetTemplate(),
-				'inputcertificatetext',
-				_( 'Studies Certificate Text' )
-			);
-
-			$substitutions = array(
-				'__SSECURITY__' => $field_SSECURITY[1]['TITLE'],
-				'__FULL_NAME__' => _( 'Display Name' ),
-				'__LAST_NAME__' => _( 'Last Name' ),
-				'__FIRST_NAME__' => _( 'First Name' ),
-				'__MIDDLE_NAME__' =>  _( 'Middle Name' ),
-				'__GRADE_ID__' => _( 'Grade Level' ),
-				'__NEXT_GRADE_ID__' => _( 'Next Grade' ),
-				'__SCHOOL_ID__' => _( 'School' ),
-				'__YEAR__' => _( 'School Year' ),
-				'__BLOCK2__' => _( 'Text Block 2' ),
-			);
-
-			$extra['extra_header_left'] .= '<table><tr class="st"><td class="valign-top">' .
-				SubstitutionsInput( $substitutions ) .
-			'</td></tr>';
-
-			$extra['extra_header_left'] .= '</table></div>';
-		}
-
-		$extra['extra_header_left'] .= '</td></tr></table>';
+		$extra['extra_header_left'] = TranscriptsIncludeForm();
 	}
 
 	$extra['new'] = true;
