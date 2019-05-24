@@ -4423,7 +4423,7 @@ INSERT INTO templates VALUES ('Grades/HonorRoll.php', 0, '<br /><br /><br />
 <div style="text-align: center;"><span style="font-size: xx-large;"><strong>__FIRST_NAME__ __LAST_NAME__</strong><br /><br /></span></div>
 <div style="text-align: center;"><span style="font-size: xx-large;">Who has completed all the academic requirements for <br />Honor Roll</span></div>');
 INSERT INTO templates VALUES ('Grades/Transcripts.php', 0, '<h2 style="text-align: center;">Studies Certificate</h2>
-<p>The Principal undersigned certify:</p>
+<p>The Principal here undersigned certifies:</p>
 <p>That __FIRST_NAME__ __LAST_NAME__ attended at this school the following courses corresponding to grade __GRADE_ID__ in year __YEAR__ with the following grades and credit hours.</p>
 <p>__BLOCK2__</p>
 <p>&nbsp;</p>
