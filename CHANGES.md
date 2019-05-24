@@ -15,6 +15,7 @@ Changes in 4.8
 - Check for Course Period Teacher conflict in Courses.php & Courses.fnc.php
 - Group Assignments by Type inside dropdown in Grades.php
 - JS Fix infinite loop when exporting to image in Charts.fnc.php & jquery.jqplot.js
+- JS optimize jqplotToColorBox() function in jquery.jqplottocolorbox.js
 
 Changes in 4.7.1
 ----------------
