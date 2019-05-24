@@ -255,6 +255,13 @@ $RosarioActions = array();
 	 * @since 4.5
 	 */
 	/*'School_Setup/Rollover.php|rollover_after' => array(),
+
+	/**
+	 * Transcripts Header.
+	 *
+	 * @since 4.8
+	 */
+	/*'Grades/Transcripts.php|header' => array(),
 );*/
 
 

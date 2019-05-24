@@ -472,6 +472,9 @@ if ( ! $_REQUEST['modfunc'] )
 		$extra['header_right'] = Buttons( _( 'Create Transcripts for Selected Students' ) );
 
 		$extra['extra_header_left'] = TranscriptsIncludeForm();
+
+		// @since 4.8 Add Transcripts header action hook.
+		do_action( 'Grades/Transcripts.php|header' );
 	}
 
 	$extra['new'] = true;

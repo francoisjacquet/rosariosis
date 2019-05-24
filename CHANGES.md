@@ -19,6 +19,7 @@ Changes in 4.8
 - Use TinyMCE input for Studies Certificate text in Transcripts.php
 - Move Studies Certificate title and Signatures HTML to Template in Transcripts.php, rosariosis.sql, rosariosis_es.sql & rosariosis_fr.sql
 - Add TranscriptsIncludeForm() function in Transcripts.fnc.php & Transcripts.php
+- Add Transcripts header action hook in Transcripts.php
 
 Changes in 4.7.1
 ----------------
