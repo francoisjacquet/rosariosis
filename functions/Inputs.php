@@ -774,7 +774,7 @@ function MultipleCheckboxInput( $value, $name, $title, $options, $extra = '', $d
 		'</label></td>';
 	}
 
-	$multiple_html .= '</tr></table>' . FormatInputTitle( $title, $id, $required, '' );
+	$multiple_html .= '</tr></table>' . FormatInputTitle( $title, '', $required, '' );
 
 	if ( $value != ''
 		&& $div )
@@ -1147,8 +1147,6 @@ function RadioInput( $value, $name, $title = '', $options, $allow_na = 'N/A', $e
 
 	$required = $value == '' && mb_strpos( $extra, 'required' ) !== false;
 
-	$ftitle_nobr = FormatInputTitle( $title, $id, $required, '' );
-
 	// mab - append current val to select list if not in list
 	if ( $value != ''
 		&& ( ! is_array( $options )
@@ -1198,7 +1196,7 @@ function RadioInput( $value, $name, $title = '', $options, $allow_na = 'N/A', $e
 
 		$table .= '</tr></table>';
 
-		$table .= $ftitle_nobr;
+		$table .= FormatInputTitle( $title, '', $required, '' );
 
 		if ( $value != ''
 			&& $div )
