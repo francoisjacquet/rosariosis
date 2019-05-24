@@ -13,6 +13,14 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	if ( ! empty( $_REQUEST['mp_type_arr'] )
 		&& ! empty( $_REQUEST['st_arr'] ) )
 	{
+		if ( ! empty( $_REQUEST['showcertificate'] ) )
+		{
+			// FJ bypass strip_tags on the $_REQUEST vars.
+			$REQUEST_inputcertificatetext = SanitizeHTML( $_POST['inputcertificatetext'] );
+
+			SaveTemplate( $REQUEST_inputcertificatetext );
+		}
+
 		$transcripts = TranscriptsGenerate( $_REQUEST['st_arr'], $_REQUEST['mp_type_arr'], $_REQUEST['syear_arr'] );
 
 		/**

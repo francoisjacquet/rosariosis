@@ -276,6 +276,20 @@ $RosarioActions = array();
 	 * @since 4.5
 	 */
 	/*'Grades/Transcripts.php|transcripts_html_array' => array(),
+
+	/**
+	 * Transcript PDF Header.
+	 *
+	 * @since 4.8
+	 */
+	/*'Grades/includes/Transcripts.fnc.php|pdf_header' => array(),
+
+	/**
+	 * Transcript PDF Footer.
+	 *
+	 * @since 4.8
+	 */
+	/*'Grades/includes/Transcripts.fnc.php|pdf_footer' => array(),
 );*/
 
 

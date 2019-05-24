@@ -188,8 +188,7 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 	 */
 	function TranscriptsGenerate( $student_array, $mp_type_array, $syear_array )
 	{
-		global $_ROSARIO,
-			$count_lines;
+		global $_ROSARIO;
 
 		if ( empty( $student_array )
 			|| empty( $mp_type_array ) )
@@ -238,57 +237,28 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 			$_REQUEST['syear_arr'][0] :
 			UserSyear() );
 
-		$show = array();
-
-		$show['studentpic'] = isset( $_REQUEST['showstudentpic'] ) ? $_REQUEST['showstudentpic'] : '';
-
-		$show['sat'] = isset( $_REQUEST['showsat'] ) ? $_REQUEST['showsat'] : '';
-
-		$show['grades'] = isset( $_REQUEST['showgrades'] ) ? $_REQUEST['showgrades'] : '';
-
-		$show['mpcomments'] = isset( $_REQUEST['showmpcomments'] ) ? $_REQUEST['showmpcomments'] : '';
-
-		$show['credits'] = isset( $_REQUEST['showcredits'] ) ? $_REQUEST['showcredits'] : '';
-
-		$show['credithours'] = isset( $_REQUEST['showcredithours'] ) ? $_REQUEST['showcredithours'] : '';
-
-		$show['certificate'] = User( 'PROFILE' ) === 'admin' && ! empty( $_REQUEST['showcertificate'] );
+		$show = array(
+			'studentpic' => ! empty( $_REQUEST['showstudentpic'] ),
+			'sat' => ! empty( $_REQUEST['showsat'] ),
+			'grades' => ! empty( $_REQUEST['showgrades'] ),
+			'mpcomments' => ! empty( $_REQUEST['showmpcomments'] ),
+			'credits' => ! empty( $_REQUEST['showcredits'] ),
+			'credithours' => ! empty( $_REQUEST['showcredithours'] ),
+			'certificate' => ( User( 'PROFILE' ) === 'admin' && ! empty( $_REQUEST['showcertificate'] ) ),
+		);
 
 		if ( $show['certificate'] )
 		{
-			// FJ bypass strip_tags on the $_REQUEST vars.
-			$REQUEST_inputcertificatetext = SanitizeHTML( $_POST['inputcertificatetext'] );
-
-			SaveTemplate( $REQUEST_inputcertificatetext );
+			$certificate_template = GetTemplate();
 
 			$block2 = '__BLOCK2__';
 
-			if ( mb_strpos( $REQUEST_inputcertificatetext, '<p>__BLOCK2__</p>' ) !== false )
+			if ( mb_strpos( $certificate_template, '<p>__BLOCK2__</p>' ) !== false )
 			{
 				$block2 = '<p>__BLOCK2__</p>';
 			}
 
-			$certificate_texts = explode( $block2, $REQUEST_inputcertificatetext );
-		}
-
-		$custom_fields_RET = DBGet( "SELECT ID,TITLE,TYPE
-			FROM CUSTOM_FIELDS WHERE ID IN (200000000, 200000003, 200000004)", array(), array( 'ID' ) );
-
-		if ( $custom_fields_RET['200000000']
-			&& $custom_fields_RET['200000000'][1]['TYPE'] == 'select' )
-		{
-			$students_dataquery .= ", s.custom_200000000 as gender";
-		}
-
-		if ( $custom_fields_RET['200000003'] )
-		{
-			$students_dataquery .= ", s.custom_200000003 as ssecurity";
-		}
-
-		if ( $custom_fields_RET['200000004']
-			&& $custom_fields_RET['200000004'][1]['TYPE'] == 'date' )
-		{
-			$students_dataquery .= ", s.custom_200000004 as birthdate";
+			$certificate_texts = explode( $block2, $certificate_template );
 		}
 
 		$students_data = _getTranscriptsStudents( $st_list, $syear );
@@ -306,8 +276,12 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 		{
 			$student = $students_data[$student_id][1];
 
+			$student['ID'] = $student_id;
+
 			foreach ( (array) $t_sgrades as $syear => $mps )
 			{
+				$certificate_block1 = '';
+
 				if ( $show['certificate'] )
 				{
 					$substitutions = array(
@@ -330,136 +304,9 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 					}
 				}
 
-				$transcript = '<table class="width-100p"><tr class="valign-top"><td>';
+				$student['SYEAR'] = $syear;
 
-
-				if ( $show['studentpic'] )
-				{
-					//Student Photo.
-					$stu_pic = $StudentPicturesPath . Config( 'SYEAR' ) . '/' . $student_id . '.jpg';
-					$stu_pic2 = $StudentPicturesPath . $syear . '/' . $student_id . '.jpg';
-					$picwidth = 70;
-
-					if ( file_exists( $stu_pic ) )
-					{
-						$transcript .= '<img src="' . $stu_pic . '" width="' . $picwidth . '" />';
-					}
-					elseif ( file_exists( $stu_pic2 ) )
-					{
-						$transcript .= '<img src="' . $stu_pic2 . '" width="' . $picwidth . '" />';
-					}
-					else
-					{
-						$transcript .= '&nbsp;';
-					}
-				}
-
-				// Student Info.
-				$transcript .= '</td><td><span style="font-size:x-large;">' . $student['FULL_NAME'] . '<br /></span>';
-
-				// Translate "No Address".
-				$transcript .= '<span>' . ( $student['ADDRESS'] === 'No Address' ?
-					_( 'No Address' ) : $student['ADDRESS'] ) . '<br /></span>';
-
-				$transcript .= '<span>' . $student['CITY'] .
-					( ! empty( $student['STATE'] ) ? ', ' . $student['STATE'] : '' ) .
-					( ! empty( $student['ZIPCODE'] ) ? '  ' . $student['ZIPCODE'] : '' ) . '</span>';
-
-				$transcript .= '<table class="cellspacing-0 cellpadding-5" style="margin-top:10px;"><tr>';
-
-				if ( $custom_fields_RET['200000004']
-					&& $custom_fields_RET['200000004'][1]['TYPE'] == 'date' )
-				{
-					$transcript .= '<td style="border:solid black; border-width:1px 0 1px 1px;">' .
-						ParseMLField( $custom_fields_RET['200000004'][1]['TITLE'] ) . '</td>';
-				}
-
-				if ( $custom_fields_RET['200000000']
-					&& $custom_fields_RET['200000000'][1]['TYPE'] == 'select' )
-				{
-					$transcript .= '<td style="border:solid black; border-width:1px 0 1px 1px;">' .
-						ParseMLField( $custom_fields_RET['200000000'][1]['TITLE'] ) . '</td>';
-				}
-
-				$transcript .= '<td style="border:solid black; border-width:1px;">' .
-					_( 'Grade Level' ) . '</td></tr><tr>';
-
-				if ( $custom_fields_RET['200000004']
-					&& $custom_fields_RET['200000004'][1]['TYPE'] == 'date' )
-				{
-					$dob = explode( '-', $student['BIRTHDATE'] );
-
-					if ( ! empty( $dob ) )
-					{
-						$transcript .= '<td class="center">' . $dob[1] . '/' . $dob[2] . '/' . $dob[0] . '</td>';
-					}
-					else
-					{
-						$transcript .= '<td>&nbsp;</td>';
-					}
-				}
-
-				if ( $custom_fields_RET['200000000']
-					&& $custom_fields_RET['200000000'][1]['TYPE'] == 'select' )
-				{
-					$transcript .= '<td class="center">' . $student['GENDER'] . '</td>';
-				}
-
-				if ( empty( $student['GRADE_LEVEL'] ) )
-				{
-					// FJ history grades in Transripts.
-					$student['GRADE_LEVEL'] = $mps[key( $mps )][1]['GRADE_LEVEL_SHORT'];
-				}
-
-				$transcript .= '<td class="center">' . $student['GRADE_LEVEL'] . '</td></tr></table></td>';
-
-				// School logo.
-				$logo_pic = 'assets/school_logo_' . UserSchool() . '.jpg';
-				$picwidth = 120;
-
-				$transcript .= '<td style="width:' . $picwidth . 'px;">';
-
-				if ( file_exists( $logo_pic ) )
-				{
-					$transcript .= '<img src="' . $logo_pic . '" width="' . $picwidth . '" />';
-				}
-
-				// School Info.
-				$transcript .= '</td><td style="width:384px;">';
-
-				$transcript .= '<span style="font-size:x-large;">' . $school_info['TITLE'] . '<br /></span>';
-
-				$transcript .= '<span>' . $school_info['ADDRESS'] . '<br /></span>';
-
-				$transcript .= '<span>' . $school_info['CITY'] .
-					( ! empty( $school_info['STATE'] ) ? ', ' . $school_info['STATE'] : '' ) .
-					( ! empty( $school_info['ZIPCODE'] ) ? '  ' . $school_info['ZIPCODE'] : '' ) . '<br /></span>';
-
-				if ( $school_info['PHONE'] )
-				{
-					$transcript .= '<span>' . _( 'Phone' ) . ': ' . $school_info['PHONE'] . '<br /></span>';
-				}
-
-				if ( $school_info['WWW_ADDRESS'] )
-				{
-					$transcript .= '<span>' . _( 'Website' ) . ': ' . $school_info['WWW_ADDRESS'] . '<br /></span>';
-				}
-
-				if ( $school_info['SCHOOL_NUMBER'] )
-				{
-					$transcript .= '<span>' . _( 'School Number' ) . ': ' . $school_info['SCHOOL_NUMBER'] .
-						'<br /><br /></span>';
-				}
-
-				$transcript .= '<span>' . $school_info['PRINCIPAL'] . '<br /></span></td></tr>';
-
-				if ( $show['certificate'] )
-				{
-					// Certificate Text block 1.
-					$transcript .= '<tr><td colspan="4"><br />' . $certificate_block1 . '</td></tr>';
-				}
-
-				$transcript .= '</table>';
+				$transcript = TranscriptPDFHeader( $student, $school_info, $certificate_block1 );
 
 				// Generate ListOutput friendly array.
 				$grades_RET = array();
@@ -548,69 +395,22 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 				unset( $grades_RET[0] );
 				//var_dump($grades_RET);exit;
 
-				$transcript .= '<br />';
-
 				ob_start();
 
 				ListOutput( $grades_RET, $columns, '.', '.', false );
 
 				$transcript .= ob_get_clean();
 
-				// School Year.
-				$transcript .= '<table class="width-100p"><tr><td><span><br />' .
-					_( 'School Year' ) . ': ' .
-					FormatSyear( $syear, Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) ) . '</span></td></tr>';
+				$last_grade = $show['grades'] ? array() : $grade;
 
-				// GPA and/or Class Rank.
-
-				if ( $show['grades']
-					&& $grade['MP_TYPE'] !== 'quarter'
-					&& ( ! empty( $grade['CUM_WEIGHTED_GPA'] ) || ! empty( $grade['CUM_RANK'] ) ) )
+				if ( $show['credits'] )
 				{
-					$transcript .= '<tr><td><span>';
+					$last_grade['total_credit_earned'] = $total_credit_earned;
 
-					if ( ! empty( $grade['CUM_WEIGHTED_GPA'] ) )
-					{
-						$transcript .= sprintf(
-							_( 'GPA' ) . ': %01.2f / %01.0f',
-							$grade['CUM_WEIGHTED_GPA'],
-							$grade['SCHOOL_SCALE'] );
-
-						if ( ! empty( $grade['CUM_RANK'] ) )
-						{
-							$transcript .= ' &ndash; ';
-						}
-					}
-
-					if ( ! empty( $grade['CUM_RANK'] ) )
-					{
-						$transcript .= _( 'Class Rank' ) . ': ' . $grade['CUM_RANK'] .
-							' / ' . $grade['CLASS_SIZE'] . '</span>';
-					}
-
-					$transcript .= '</span></td></tr>';
+					$last_grade['total_credit_attempted'] = $total_credit_attempted;
 				}
 
-				if ( $show['credits']
-					&& $total_credit_attempted > 0 )
-				{
-					// Total Credits.
-					$transcript .= '<tr><td><span>';
-					$transcript .= _( 'Total' ) . ' ' . _( 'Credit' ) . ': ' .
-					_( 'Credit Attempted' ) . ': ' . (float) $total_credit_attempted .
-					' &ndash; ' . _( 'Credit Earned' ) . ': ' . (float) $total_credit_earned;
-					$transcript .= '</span></td></tr>';
-				}
-
-				if ( $show['certificate'] && ! empty( $certificate_block2 ) )
-				{
-					// Certificate Text block 2.
-					$transcript .= '<tr><td><br />' . $certificate_block2 . '</td></tr>';
-				}
-
-				$transcript .= '</table>';
-
-				$transcript .= '</td></tr></table>';
+				$transcript .= TranscriptPDFFooter( $student, $last_grade, $certificate_block2 );
 
 				$transcripts[] = $transcript;
 			}
@@ -620,7 +420,260 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 	}
 }
 
+if ( ! function_exists( 'TranscriptPDFHeader' ) )
+{
+	/**
+	 * Transcripts PDF Header HTML
+	 * Contains Student info & pic on the left,
+	 * School info and logo on the right.
+	 * And certificate block 1.
+	 *
+	 * @since 4.8 Add Transcript PDF header action hook (before certificate text).
+	 *
+	 * @param array  $student          Student data.
+	 * @param array  $school_info      School Info.
+	 * @param string $certificate_text Certificate text, block 1 only (optional).
+	 *
+	 * @return string Transcripts PDF Header HTML.
+	 */
+	function TranscriptPDFHeader( $student, $school_info, $certificate_text = '' )
+	{
+		static $custom_fields_RET = null;
 
+		if ( ! $student
+			|| ! $school_info )
+		{
+			return '';
+		}
+
+		if ( is_null( $custom_fields_RET ) )
+		{
+			$custom_fields_RET = DBGet( "SELECT ID,TITLE,TYPE
+				FROM CUSTOM_FIELDS
+				WHERE ID IN (200000000, 200000003, 200000004)", array(), array( 'ID' ) );
+		}
+
+		$header = '<table class="width-100p"><tr class="valign-top"><td>';
+
+		if ( ! empty( $_REQUEST['showstudentpic'] ) )
+		{
+			//Student Photo.
+			$stu_pic = $StudentPicturesPath . Config( 'SYEAR' ) . '/' . $student['ID'] . '.jpg';
+			$stu_pic2 = $StudentPicturesPath . $student['SYEAR'] . '/' . $student['ID'] . '.jpg';
+			$picwidth = 70;
+
+			if ( file_exists( $stu_pic ) )
+			{
+				$header .= '<img src="' . $stu_pic . '" width="' . $picwidth . '" />';
+			}
+			elseif ( file_exists( $stu_pic2 ) )
+			{
+				$header .= '<img src="' . $stu_pic2 . '" width="' . $picwidth . '" />';
+			}
+			else
+			{
+				$header .= '&nbsp;';
+			}
+		}
+
+		// Student Info.
+		$header .= '</td><td><span style="font-size:x-large;">' . $student['FULL_NAME'] . '<br /></span>';
+
+		// Translate "No Address".
+		$header .= '<span>' . ( $student['ADDRESS'] === 'No Address' ?
+			_( 'No Address' ) : $student['ADDRESS'] ) . '<br /></span>';
+
+		$header .= '<span>' . $student['CITY'] .
+			( ! empty( $student['STATE'] ) ? ', ' . $student['STATE'] : '' ) .
+			( ! empty( $student['ZIPCODE'] ) ? '  ' . $student['ZIPCODE'] : '' ) . '</span>';
+
+		$header .= '<table class="cellspacing-0 cellpadding-5" style="margin-top:10px;"><tr>';
+
+		if ( isset( $student['BIRTHDATE'] ) )
+		{
+			$header .= '<td style="border:solid black; border-width:1px 0 1px 1px;">' .
+				ParseMLField( $custom_fields_RET['200000004'][1]['TITLE'] ) . '</td>';
+		}
+
+		if ( isset( $student['GENDER'] ) )
+		{
+			$header .= '<td style="border:solid black; border-width:1px 0 1px 1px;">' .
+				ParseMLField( $custom_fields_RET['200000000'][1]['TITLE'] ) . '</td>';
+		}
+
+		$header .= '<td style="border:solid black; border-width:1px;">' .
+			_( 'Grade Level' ) . '</td></tr><tr>';
+
+		if ( isset( $student['BIRTHDATE'] ) )
+		{
+			$dob = explode( '-', $student['BIRTHDATE'] );
+
+			if ( ! empty( $dob ) )
+			{
+				$header .= '<td class="center">' . $dob[1] . '/' . $dob[2] . '/' . $dob[0] . '</td>';
+			}
+			else
+			{
+				$header .= '<td>&nbsp;</td>';
+			}
+		}
+
+		if ( isset( $student['GENDER'] ) )
+		{
+			$header .= '<td class="center">' . $student['GENDER'] . '</td>';
+		}
+
+		if ( empty( $student['GRADE_LEVEL'] ) )
+		{
+			// FJ history grades in Transripts.
+			$student['GRADE_LEVEL'] = $mps[key( $mps )][1]['GRADE_LEVEL_SHORT'];
+		}
+
+		$header .= '<td class="center">' . $student['GRADE_LEVEL'] . '</td></tr></table></td>';
+
+		// School logo.
+		$logo_pic = 'assets/school_logo_' . UserSchool() . '.jpg';
+		$picwidth = 120;
+
+		$header .= '<td style="width:' . $picwidth . 'px;">';
+
+		if ( file_exists( $logo_pic ) )
+		{
+			$header .= '<img src="' . $logo_pic . '" width="' . $picwidth . '" />';
+		}
+
+		// School Info.
+		$header .= '</td><td style="width:384px;">';
+
+		$header .= '<span style="font-size:x-large;">' . $school_info['TITLE'] . '<br /></span>';
+
+		$header .= '<span>' . $school_info['ADDRESS'] . '<br /></span>';
+
+		$header .= '<span>' . $school_info['CITY'] .
+			( ! empty( $school_info['STATE'] ) ? ', ' . $school_info['STATE'] : '' ) .
+			( ! empty( $school_info['ZIPCODE'] ) ? '  ' . $school_info['ZIPCODE'] : '' ) . '<br /></span>';
+
+		if ( $school_info['PHONE'] )
+		{
+			$header .= '<span>' . _( 'Phone' ) . ': ' . $school_info['PHONE'] . '<br /></span>';
+		}
+
+		if ( $school_info['WWW_ADDRESS'] )
+		{
+			$header .= '<span>' . _( 'Website' ) . ': ' . $school_info['WWW_ADDRESS'] . '<br /></span>';
+		}
+
+		if ( $school_info['SCHOOL_NUMBER'] )
+		{
+			$header .= '<span>' . _( 'School Number' ) . ': ' . $school_info['SCHOOL_NUMBER'] .
+				'<br /><br /></span>';
+		}
+
+		$header .= '<span>' . $school_info['PRINCIPAL'] . '<br /></span></td></tr>';
+
+		// @since 4.8 Add Transcripts PDF header action hook.
+		do_action( 'Grades/includes/Transcripts.fnc.php|pdf_header', $student['ID'] );
+
+		if ( $certificate_text )
+		{
+			// Certificate Text block 1.
+			$header .= '<tr><td colspan="4"><br />' . $certificate_text . '</td></tr>';
+		}
+
+		$header .= '</table>';
+
+		$header .= '<br />';
+
+		return $header;
+	}
+}
+
+if ( ! function_exists( 'TranscriptPDFFooter' ) )
+{
+	/**
+	 * Transcripts PDF Footer HTML
+	 * Contains School Year, GPA, Class Rank, Total Credit
+	 * Certificate block 2 below.
+	 *
+	 * @since 4.8 Add Transcript PDF footer action hook, before Certificate block 2.
+	 *
+	 * @param array  $student          Student data.
+	 * @param array  $school_info      School Info.
+	 * @param string $certificate_text Certificate text, block 1 only (optional).
+	 *
+	 * @return string Transcripts PDF Header HTML.
+	 */
+	function TranscriptPDFFooter( $student, $last_grade, $certificate_text = '' )
+	{
+		// School Year.
+		$footer = '<table class="width-100p"><tr><td><span><br />' .
+			_( 'School Year' ) . ': ' .
+			FormatSyear( $student['SYEAR'], Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) ) . '</span></td></tr>';
+
+		// GPA and/or Class Rank.
+
+		if ( $last_grade
+			&& $last_grade['MP_TYPE'] !== 'quarter'
+			&& ( ! empty( $last_grade['CUM_WEIGHTED_GPA'] ) || ! empty( $last_grade['CUM_RANK'] ) ) )
+		{
+			$footer .= '<tr><td><span>';
+
+			if ( ! empty( $last_grade['CUM_WEIGHTED_GPA'] ) )
+			{
+				$footer .= sprintf(
+					_( 'GPA' ) . ': %01.2f / %01.0f',
+					$last_grade['CUM_WEIGHTED_GPA'],
+					$last_grade['SCHOOL_SCALE'] );
+
+				if ( ! empty( $last_grade['CUM_RANK'] ) )
+				{
+					$footer .= ' &ndash; ';
+				}
+			}
+
+			if ( ! empty( $last_grade['CUM_RANK'] ) )
+			{
+				$footer .= _( 'Class Rank' ) . ': ' . $grade['CUM_RANK'] .
+					' / ' . $grade['CLASS_SIZE'] . '</span>';
+			}
+
+			$footer .= '</span></td></tr>';
+		}
+
+		if ( $last_grade['total_credit_attempted'] > 0 )
+		{
+			// Total Credits.
+			$footer .= '<tr><td><span>';
+			$footer .= _( 'Total' ) . ' ' . _( 'Credit' ) . ': ' .
+			_( 'Credit Attempted' ) . ': ' . (float) $last_grade['total_credit_attempted'] .
+			' &ndash; ' . _( 'Credit Earned' ) . ': ' . (float) $last_grade['total_credit_earned'];
+			$footer .= '</span></td></tr>';
+		}
+
+		// @since 4.8 Add Transcripts PDF footer action hook.
+		do_action( 'Grades/includes/Transcripts.fnc.php|pdf_footer', $student['ID'] );
+
+		if ( ! empty( $certificate_text ) )
+		{
+			// Certificate Text block 2.
+			$footer .= '<tr><td><br />' . $certificate_text . '</td></tr>';
+		}
+
+		$footer .= '</table>';
+
+		return $footer;
+	}
+}
+
+/**
+ * Get Transcripts Students data from DB
+ *
+ * @since 4.8
+ *
+ * @param  string $st_list Student IDs list.
+ * @param  string $syear   School Year.
+ * @return array           Students data.
+ */
 function _getTranscriptsStudents( $st_list, $syear )
 {
 	$students_dataquery = "SELECT
@@ -631,7 +684,8 @@ function _getTranscriptsStudents( $st_list, $syear )
 	" . DisplayNameSQL( 's' ) . " AS FULL_NAME";
 
 	$custom_fields_RET = DBGet( "SELECT ID,TITLE,TYPE
-		FROM CUSTOM_FIELDS WHERE ID IN (200000000, 200000003, 200000004)", array(), array( 'ID' ) );
+		FROM CUSTOM_FIELDS
+		WHERE ID IN (200000000, 200000003, 200000004)", array(), array( 'ID' ) );
 
 	if ( $custom_fields_RET['200000000']
 		&& $custom_fields_RET['200000000'][1]['TYPE'] == 'select' )
