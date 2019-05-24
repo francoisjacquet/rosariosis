@@ -77,7 +77,7 @@ if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User( 'PROFILE' )
 
 	$PHP_tmp_SELF = PreparePHP_SELF( $_REQUEST, $remove_request_params );
 
-	$period_select = '<select name="period_id" onchange="ajaxPostForm(this.form,true);">
+	$period_select = '<select name="period_id" id="period_id" onchange="ajaxPostForm(this.form,true);">
 		<option value=""' . ( empty( $_REQUEST['period_id'] ) ? ' selected' : '' ) . '>' .
 		_( 'Daily' ) . '</option>';
 
@@ -150,7 +150,8 @@ if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User( 'PROFILE' )
 		}
 	}
 
-	$period_select .= '</select>';
+	$period_select .= '</select>
+		<label for="period_id" class="a11y-hidden">' . _( 'Periods' ) . '</label>';
 
 	echo '<form action="' . $PHP_tmp_SELF . '" method="GET">';
 

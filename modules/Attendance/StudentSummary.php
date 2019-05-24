@@ -33,7 +33,8 @@ if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User( 'PROFILE' )
 			" . ( User( 'PROFILE' ) === 'teacher' ? " AND cp.COURSE_PERIOD_ID IN (SELECT COURSE_PERIOD_ID FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE COURSE_PERIOD_SCHOOL_PERIODS_ID='" . UserCoursePeriodSchoolPeriod() . "')" : '' ) . ")
 		ORDER BY sp.SORT_ORDER" );
 
-		$period_select = '<select name="period_id" onchange="ajaxPostForm(this.form,true);"><option value="">' . _( 'Daily' ) . '</option>';
+		$period_select = '<select name="period_id" id="period_id" onchange="ajaxPostForm(this.form,true);">
+			<option value="">' . _( 'Daily' ) . '</option>';
 
 		if ( ! empty( $periods_RET ) )
 		{
@@ -50,7 +51,8 @@ if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User( 'PROFILE' )
 			}
 		}
 
-		$period_select .= '</select>';
+		$period_select .= '</select>
+			<label for="period_id" class="a11y-hidden">' . _( 'Periods' ) . '</label>';
 	}
 
 	echo '<form action="' . PreparePHP_SELF() . '" method="GET">';
