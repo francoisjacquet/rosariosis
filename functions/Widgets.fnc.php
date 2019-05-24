@@ -1733,8 +1733,8 @@ function Widgets( $item, &$myextra = null )
 				}
 			}
 
-			$extra['search'] .= '<tr class="st"><td>' . _( 'Discount' ) . '</td><td>
-			<select name="fsa_discount">
+			$extra['search'] .= '<tr class="st"><td><label for="fsa_discount">' . _( 'Discount' ) . '</label></td><td>
+			<select name="fsa_discount" id="fsa_discount">
 			<option value="">' . _( 'Not Specified' ) . '</option>
 			<option value="Full">' . _( 'Full' ) . '</option>
 			<option value="Reduced">' . _( 'Reduced' ) . '</option>
@@ -1781,8 +1781,8 @@ function Widgets( $item, &$myextra = null )
 				}
 			}
 
-			$extra['search'] .= '<tr class="st"><td>' . _( 'Account Status' ) . '</td><td>
-			<select name="fsa_status">
+			$extra['search'] .= '<tr class="st"><td><label for="fsa_status">' . _( 'Account Status' ) . '</label></td><td>
+			<select name="fsa_status" id="fsa_status">
 			<option value="">' . _( 'Not Specified' ) . '</option>
 			<option value="Active"' . ( isset( $value ) == 'active' ? ' selected' : '' ) . '>' . _( 'Active' ) . '</option>
 			<option value="Inactive">' . _( 'Inactive' ) . '</option>
@@ -1819,10 +1819,9 @@ function Widgets( $item, &$myextra = null )
 				}
 			}
 
-			$extra['search'] .= '<tr class="st"><td>
-			' . _( 'Barcode' ) . '
-			</td><td>
-			<input type="text" name="fsa_barcode" size="15" maxlength="50" />
+			$extra['search'] .= '<tr class="st"><td><label for="fsa_barcode">' . _( 'Barcode' ) .
+			'</label></td><td>
+			<input type="text" name="fsa_barcode" id="fsa_barcode" size="15" maxlength="50" />
 			</td></tr>';
 
 		break;
@@ -1853,8 +1852,8 @@ function Widgets( $item, &$myextra = null )
 				}
 			}
 
-			$extra['search'] .= '<tr class="st"><td>' . _( 'Account ID' ) . '</td><td>
-			<input type="text" name="fsa_account_id" size="3" maxlength="10" />
+			$extra['search'] .= '<tr class="st"><td><label for="fsa_account_id">' . _( 'Account ID' ) . '</label></td><td>
+			<input type="text" name="fsa_account_id" id="fsa_account_id" size="4" maxlength="10" />
 			</td></tr>';
 
 		break;
