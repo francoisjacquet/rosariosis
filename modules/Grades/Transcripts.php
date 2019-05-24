@@ -3,6 +3,7 @@
 // Should be included first, in case modfunc is Class Rank Calculate AJAX.
 require_once 'modules/Grades/includes/ClassRank.inc.php';
 
+require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 require_once 'ProgramFunctions/Template.fnc.php';
 require_once 'ProgramFunctions/Substitutions.fnc.php';
 
@@ -65,9 +66,19 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 			if ( $showCertificate )
 			{
-				SaveTemplate( $_REQUEST['inputcertificatetext'] );
+				// FJ bypass strip_tags on the $_REQUEST vars.
+				$REQUEST_inputcertificatetext = SanitizeHTML( $_POST['inputcertificatetext'] );
 
-				$certificateText = explode( '__BLOCK2__', $_REQUEST['inputcertificatetext'] );
+				SaveTemplate( $REQUEST_inputcertificatetext );
+
+				$block2 = '__BLOCK2__';
+
+				if ( mb_strpos( $REQUEST_inputcertificatetext, '<p>__BLOCK2__</p>' ) !== false )
+				{
+					$block2 = '<p>__BLOCK2__</p>';
+				}
+
+				$certificate_texts = explode( $block2, $REQUEST_inputcertificatetext );
 			}
 
 			$students_dataquery = "SELECT
@@ -141,9 +152,31 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 			foreach ( (array) $t_grades as $student_id => $t_sgrades )
 			{
+				$student_data = $students_data[$student_id][1];
+
 				foreach ( (array) $t_sgrades as $syear => $mps )
 				{
-					$student_data = $students_data[$student_id][1];
+					if ( $showCertificate )
+					{
+						$substitutions = array(
+							'__SSECURITY__' => $student_data['SSECURITY'],
+							'__FULL_NAME__' => $student_data['FULL_NAME'],
+							'__LAST_NAME__' => $student_data['LAST_NAME'],
+							'__FIRST_NAME__' => $student_data['FIRST_NAME'],
+							'__MIDDLE_NAME__' => $student_data['MIDDLE_NAME'],
+							'__GRADE_ID__' => $student_data['GRADE_LEVEL'],
+							'__NEXT_GRADE_ID__' => $student_data['NEXT_GRADE_LEVEL'],
+							'__SCHOOL_ID__' => $school_info['TITLE'],
+							'__YEAR__' => $syear,
+						);
+
+						$certificate_block1 = SubstitutionsTextMake( $substitutions, $certificate_texts[0] );
+
+						if ( ! empty( $certificate_texts[1] ) )
+						{
+							$certificate_block2 = SubstitutionsTextMake( $substitutions, $certificate_texts[1] );
+						}
+					}
 
 					echo '<table class="width-100p"><tr class="valign-top"><td>';
 					//Student Photo
@@ -261,25 +294,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 					if ( $showCertificate )
 					{
-						echo '<tr><td colspan="4">';
-						echo '<br /><span style="font-size:x-large;" class="center">' . _( 'Studies Certificate' ) . '<br /></span>';
-
-						$substitutions = array(
-							'__SSECURITY__' => $student_data['SSECURITY'],
-							'__FULL_NAME__' => $student_data['FULL_NAME'],
-							'__LAST_NAME__' => $student_data['LAST_NAME'],
-							'__FIRST_NAME__' => $student_data['FIRST_NAME'],
-							'__MIDDLE_NAME__' => $student_data['MIDDLE_NAME'],
-							'__GRADE_ID__' => $student_data['GRADE_LEVEL'],
-							'__NEXT_GRADE_ID__' => $student_data['NEXT_GRADE_LEVEL'],
-							'__SCHOOL_ID__' => $school_info['TITLE'],
-							'__YEAR__' => $syear,
-						);
-
-						$certificateText[0] = SubstitutionsTextMake( $substitutions, $certificateText[0] );
-
-						echo '<span>' . nl2br( trim( $certificateText[0] ) ) . '</span>';
-						echo '</td></tr>';
+						echo '<tr><td colspan="4"><br />' . $certificate_block1 . '</td></tr>';
 					}
 
 					echo '</table>';
@@ -415,54 +430,14 @@ if ( $_REQUEST['modfunc'] === 'save' )
 						echo '</span></td></tr>';
 					}
 
-					//Certificate Text block 2
+					// Certificate Text block 2.
 
-					if ( $showCertificate && ! empty( $certificateText[1] ) )
+					if ( $showCertificate && ! empty( $certificate_block2 ) )
 					{
-						$certificateText[1] = str_replace(
-							array(
-								'__SSECURITY__',
-								'__FULL_NAME__',
-								'__FIRST_NAME__',
-								'__LAST_NAME__',
-								'__MIDDLE_NAME__',
-								'__GRADE_ID__',
-								'__NEXT_GRADE_ID__',
-								'__YEAR__',
-								'__SCHOOL_ID__',
-							),
-							array(
-								$student_data['SSECURITY'],
-								$student_data['FULL_NAME'],
-								$student_data['FIRST_NAME'],
-								$student_data['LAST_NAME'],
-								$student_data['MIDDLE_NAME'],
-								$student_data['GRADE_LEVEL'],
-								$student_data['NEXT_GRADE_LEVEL'],
-								$syear,
-								$school_info['TITLE'],
-							),
-							$certificateText[1]
-						);
-
-						echo '<tr><td><br /><span>' . nl2br( trim( $certificateText[1] ) ) . '</span></td></tr>';
+						echo '<tr><td><br />' . $certificate_block2 . '</td></tr>';
 					}
 
 					echo '</table>';
-
-					//Signatures
-					echo '<br /><br /><br /><table class="width-100p" style="border-collapse:separate; border-spacing: 40px;"><tr><td style="width:50%;">';
-					echo '<table class="width-100p"><tr><td style="border-top:solid black 1px;" class="center"><span style="font-size:x-small;">' . _( 'Signature' ) . '<br /><br /><br /></span></td></tr>';
-					echo '<tr><td style="border-top:solid black 1px;" class="center"><span style="font-size:x-small;">' . _( 'Title' ) . '</span></td></tr></table>';
-					echo '</td><td style="width:50%;">';
-
-					//FJ add second signature for the certificate
-
-					if ( $showCertificate )
-					{
-						echo '<table class="width-100p"><tr><td style="border-top:solid black 1px;" class="center"><span style="font-size:x-small;">' . _( 'Signature' ) . '<br /><br /><br /></span></td></tr>';
-						echo '<tr><td style="border-top:solid black 1px;" class="center"><span style="font-size:x-small;">' . _( 'Title' ) . '</span></td></tr></table>';
-					}
 
 					echo '</td></tr></table>';
 
@@ -602,13 +577,12 @@ if ( ! $_REQUEST['modfunc'] )
 		if ( User( 'PROFILE' ) === 'admin' )
 		{
 			//FJ add Show Studies Certificate option
-			$extra['extra_header_left'] .= '<div id="divcertificatetext" style="display:none">
-				<br /><textarea id="inputcertificatetext" name="inputcertificatetext" cols="100" rows="5">' .
-			GetTemplate() .
-			'</textarea>' .
-			FormatInputTitle(
-				_( 'Studies Certificate Text' ),
-				'inputcertificatetext'
+			$extra['extra_header_left'] .= '<div id="divcertificatetext" style="display:none">';
+
+			$extra['extra_header_left'] .= TinyMCEInput(
+				GetTemplate(),
+				'inputcertificatetext',
+				_( 'Studies Certificate Text' )
 			);
 
 			$substitutions = array(

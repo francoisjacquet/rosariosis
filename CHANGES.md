@@ -16,6 +16,7 @@ Changes in 4.8
 - Group Assignments by Type inside dropdown in Grades.php
 - JS Fix infinite loop when exporting to image in Charts.fnc.php & jquery.jqplot.js
 - JS optimize jqplotToColorBox() function in jquery.jqplottocolorbox.js
+- Use TinyMCE input for Studies Certificate text in Transcripts.php
 
 Changes in 4.7.1
 ----------------
