@@ -230,10 +230,21 @@ SET template='<div style="text-align: center;">__CLIPART__<br /><br /><strong><s
 WHERE modname='Grades/HonorRollSubject.php';
 
 UPDATE templates
-SET template='La suscrita Rectora y Secretaria certifican:
-Que __FIRST_NAME__ __LAST_NAME__ identificada con D.I. __SSECURITY__ cursó en este plantel los estudios correspondientes al grado __GRADE_ID__ durante el año __YEAR__ con las calificaciones e intensidad horaria que a continuación detallamos.
-__BLOCK2__
-El Estudiante es promovido a grado __NEXT_GRADE_ID__.'
+SET template='<h2 style="text-align: center;">Certificado de Estudios</h2>
+<p>La suscrita Rectora y Secretaria certifican:</p>
+<p>Que __FIRST_NAME__ __LAST_NAME__ identificada con D.I. __SSECURITY__ cursó en este plantel los estudios correspondientes al grado __GRADE_ID__ durante el año __YEAR__ con las calificaciones e intensidad horaria que a continuación detallamos.</p>
+<p>El Estudiante es promovido a grado __NEXT_GRADE_ID__.</p>
+<p>__BLOCK2__</p>
+<p>&nbsp;</p>
+<table style="border-collapse: collapse; width: 100%;" border="0" cellpadding="10"><tbody><tr>
+<td style="width: 50%; text-align: center;"><hr />
+<p>Firma</p>
+<p>&nbsp;</p><hr />
+<p>Título</p></td>
+<td style="width: 50%; text-align: center;"><hr />
+<p>Firma</p>
+<p>&nbsp;</p><hr />
+<p>Título</p></td></tr></tbody></table>'
 WHERE modname='Grades/Transcripts.php';
 
 UPDATE templates

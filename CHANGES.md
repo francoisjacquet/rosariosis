@@ -17,6 +17,7 @@ Changes in 4.8
 - JS Fix infinite loop when exporting to image in Charts.fnc.php & jquery.jqplot.js
 - JS optimize jqplotToColorBox() function in jquery.jqplottocolorbox.js
 - Use TinyMCE input for Studies Certificate text in Transcripts.php
+- Move Studies Certificate title and Signatures HTML to Template in Transcripts.php, rosariosis.sql, rosariosis_es.sql & rosariosis_fr.sql
 
 Changes in 4.7.1
 ----------------

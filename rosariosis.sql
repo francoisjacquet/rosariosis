@@ -4422,9 +4422,20 @@ INSERT INTO templates VALUES ('Grades/HonorRoll.php', 0, '<br /><br /><br />
 <div style="text-align: center;"><span style="font-size: xx-large;"><strong>__SCHOOL_ID__</strong><br /></span><br /><span style="font-size: xx-large;">We hereby recognize<br /><br /></span></div>
 <div style="text-align: center;"><span style="font-size: xx-large;"><strong>__FIRST_NAME__ __LAST_NAME__</strong><br /><br /></span></div>
 <div style="text-align: center;"><span style="font-size: xx-large;">Who has completed all the academic requirements for <br />Honor Roll</span></div>');
-INSERT INTO templates VALUES ('Grades/Transcripts.php', 0, 'The Principal undersigned certify:
-That __FIRST_NAME__ __LAST_NAME__ attended at this school the following courses corresponding to grade __GRADE_ID__ in year __YEAR__ with the following grades and credit hours.
-__BLOCK2__');
+INSERT INTO templates VALUES ('Grades/Transcripts.php', 0, '<h2 style="text-align: center;">Studies Certificate</h2>
+<p>The Principal undersigned certify:</p>
+<p>That __FIRST_NAME__ __LAST_NAME__ attended at this school the following courses corresponding to grade __GRADE_ID__ in year __YEAR__ with the following grades and credit hours.</p>
+<p>__BLOCK2__</p>
+<p>&nbsp;</p>
+<table style="border-collapse: collapse; width: 100%;" border="0" cellpadding="10"><tbody><tr>
+<td style="width: 50%; text-align: center;"><hr />
+<p>Signature</p>
+<p>&nbsp;</p><hr />
+<p>Title</p></td>
+<td style="width: 50%; text-align: center;"><hr />
+<p>Signature</p>
+<p>&nbsp;</p><hr />
+<p>Title</p></td></tr></tbody></table>');
 INSERT INTO templates VALUES ('Custom/CreateParents.php', 0, 'Dear __PARENT_NAME__,
 
 A parent account for the __SCHOOL_ID__ has been created to access school information and student information for the following students:
