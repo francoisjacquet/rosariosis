@@ -188,39 +188,47 @@ function jqPlotChart( $type, $data, $title, $save_image = true )
 
 	ob_start(); ?>
 
-	<script>
-		$(function(){
-			window.setTimeout(function () {
-				var plot<?php echo $chartID; ?>data = <?php echo $chartData; ?>;
-
-				<?php if ( isset( $ticks ) ) : ?>
-				var plot<?php echo $chartID; ?>ticks = <?php echo $ticks; ?>;
-				<?php endif; ?>
-
-				/* FJ responsive labels: limit label to 15 char max. */
-				if (screen.width < 648)
-				{
-					/* Pie Chart labels */
-					if ( $.jqplot.PieRenderer )
-						for ( var i=0; i < plot<?php echo $chartID; ?>data[0].length; i++ )
-							plot<?php echo $chartID; ?>data[0][i][0] = plot<?php echo $chartID; ?>data[0][i][0].substr(0, 12);
-
-					/* Column Chart ticks */
-					if ( $.jqplot.CanvasAxisTickRenderer )
-						for ( var i=0; i < plot<?php echo $chartID; ?>ticks.length; i++ )
-							plot<?php echo $chartID; ?>ticks[i] = plot<?php echo $chartID; ?>ticks[i].substr(0, 20);
-				}
-
-				var plot<?php echo $chartID; ?> = $.jqplot(
-					<?php echo json_encode( 'chart' . $chartID ); ?>,
-					plot<?php echo $chartID; ?>data,
-					{<?php echo $chartOptions; ?>
-					title: <?php echo json_encode( $title ); ?>
-				});
-			}, 500);
-		});
-	</script>
 	<div id="chart<?php echo $chartID; ?>" class="chart"></div>
+	<script>
+		function deferJqPlot(method) {
+			if ($.jqplot) {
+				method();
+			} else {
+				setTimeout(function() { deferJqPlot(method); }, 50);
+			}
+		}
+
+		plot<?php echo $chartID; ?>Init = function () {
+			var plot<?php echo $chartID; ?>data = <?php echo $chartData; ?>;
+
+			<?php if ( isset( $ticks ) ) : ?>
+			var plot<?php echo $chartID; ?>ticks = <?php echo $ticks; ?>;
+			<?php endif; ?>
+
+			/* FJ responsive labels: limit label to 15 char max. */
+			if (screen.width < 648)
+			{
+				/* Pie Chart labels */
+				if ( $.jqplot.PieRenderer )
+					for ( var i=0; i < plot<?php echo $chartID; ?>data[0].length; i++ )
+						plot<?php echo $chartID; ?>data[0][i][0] = plot<?php echo $chartID; ?>data[0][i][0].substr(0, 12);
+
+				/* Column Chart ticks */
+				if ( $.jqplot.CanvasAxisTickRenderer )
+					for ( var i=0; i < plot<?php echo $chartID; ?>ticks.length; i++ )
+						plot<?php echo $chartID; ?>ticks[i] = plot<?php echo $chartID; ?>ticks[i].substr(0, 20);
+			}
+
+			var plot<?php echo $chartID; ?> = $.jqplot(
+				<?php echo json_encode( 'chart' . $chartID ); ?>,
+				plot<?php echo $chartID; ?>data,
+				{<?php echo $chartOptions; ?>
+				title: <?php echo json_encode( $title ); ?>
+			});
+		};
+
+		deferJqPlot( plot<?php echo $chartID; ?>Init );
+	</script>
 
 <?php $chart .= ob_get_clean();
 
@@ -238,6 +246,8 @@ function jqPlotChart( $type, $data, $title, $save_image = true )
 /**
  * Include jqPlot JS & CSS once
  *
+ * @since 4.8 JS Fix infinite loop when exporting to image.
+ *
  * @return string jqPlot JS & CSS or empty string if already included
  */
 function includejqPlotOnce()
@@ -254,7 +264,7 @@ function includejqPlotOnce()
 	ob_start(); ?>
 
 	<!--[if lt IE 9]><script src="assets/js/jqplot/excanvas.min.js"></script><![endif]-->
-	<script src="assets/js/jqplot/jquery.jqplot.min.js"></script>
+	<script src="assets/js/jqplot/jquery.jqplot.min.js?v=4.8"></script>
 	<link rel="stylesheet" type="text/css" href="assets/js/jqplot/jquery.jqplot.min.css" />
 
 	<?php return ob_get_clean();
@@ -355,13 +365,17 @@ function includejqPlotToColorBoxOnce()
 
 	ob_start(); ?>
 
-	<script src="assets/js/jquery.jqplottocolorbox.js"></script>
+	<script src="assets/js/jquery.jqplottocolorbox.js?v=4.8"></script>
 	<script>
-		$(function(){
-			window.setTimeout(function () {
+		function deferJqPlotToColorBox() {
+			if (window.jqplotToColorBox) {
 				jqplotToColorBox( <?php echo json_encode( _( 'Right Click to Save Image As...' ) ); ?> );
-			}, 800);
-		});
+			} else {
+				setTimeout(function() { deferJqPlotToColorBox(); }, 50);
+			}
+		}
+
+		deferJqPlotToColorBox();
 	</script>
 
 	<?php return ob_get_clean();

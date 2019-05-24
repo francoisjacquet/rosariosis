@@ -9139,7 +9139,9 @@
 
             for (var i=0; i<wl; i++) {
                 w += words[i];
-                if (context.measureText(w).width > tagwidth) {
+                // FJ JS Fix infinite loop when exporting to image
+                // @link https://github.com/jqPlot/jqPlot/pull/17
+                if (context.measureText(w).width > tagwidth && w.length > words[i].length) {
                     breaks.push(i);
                     w = '';
                     i--;
