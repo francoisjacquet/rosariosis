@@ -34,68 +34,64 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 		}
 
 		// Open table.
-		$return = '<TABLE>';
-
-		$return .= '<TR><TD colspan="2"><b>' . $include_on_title . '</b></TD></TR>';
-
-		$return .= '<TR class="st"><TD></TD><TD><TABLE><TR>';
+		$return = '<table class="width-100p"><tr><td colspan="2"><b>' . $include_on_title .
+			'</b></td></tr><tr><td colspan="2"><table class="cellpadding-5"><tr class="st">';
 
 		// Teacher.
-		$return .= '<TD><label><INPUT type="checkbox" name="elements[teacher]" value="Y" checked /> ' .
-		_( 'Teacher' ) . '</label></TD>';
-
-		$return .= '<TD></TD></TR><TR class="st">';
+		$return .= '<td><label><input type="checkbox" name="elements[teacher]" value="Y" checked /> ' .
+		_( 'Teacher' ) . '</label></td>';
 
 		// Comments.
-		$return .= '<TD><label><INPUT type="checkbox" name="elements[comments]" value="Y" checked /> ' .
-		_( 'Comments' ) . '</label></TD>';
+		$return .= '<td><label><input type="checkbox" name="elements[comments]" value="Y" checked /> ' .
+		_( 'Comments' ) . '</label></td>';
+
+		$return .= '</tr><tr class="st">';
 
 		// Percents.
-		$return .= '<TD><label><INPUT type="checkbox" name="elements[percents]" value="Y"> ' .
-		_( 'Percents' ) . '</label></TD>';
-
-		$return .= '</TR><TR class="st">';
+		$return .= '<td><label><input type="checkbox" name="elements[percents]" value="Y"> ' .
+		_( 'Percents' ) . '</label></td>';
 
 		// Year-to-date Daily Absences.
-		$return .= '<TD><label><INPUT type="checkbox" name="elements[ytd_absences]" value="Y" checked /> ' .
-		_( 'Year-to-date Daily Absences' ) . '</label></TD>';
+		$return .= '<td><label><input type="checkbox" name="elements[ytd_absences]" value="Y" checked /> ' .
+		_( 'Year-to-date Daily Absences' ) . '</label></td>';
+
+		$return .= '</tr><tr class="st">';
 
 		// Daily Absences this quarter.
-		$return .= '<TD><label><INPUT type="checkbox" name="elements[mp_absences]" value="Y"' .
+		$return .= '<td><label><input type="checkbox" name="elements[mp_absences]" value="Y"' .
 		( GetMP( UserMP(), 'SORT_ORDER' ) != 1 ? ' checked' : '' ) . ' /> ' .
-		_( 'Daily Absences this quarter' ) . '</label></TD>';
-
-		$return .= '</TR><TR class="st">';
-
-		// Other Attendance Year-to-date.
-		$return .= '<TD><label><INPUT type="checkbox" name="elements[ytd_tardies]" value="Y" /> ' .
-		_( 'Other Attendance Year-to-date' ) . ':</label> <SELECT name="ytd_tardies_code" id="ytd_tardies_code">';
-
-		foreach ( (array) $other_attendance_codes as $code )
-		{
-			$return .= '<OPTION value="' . $code[1]['ID'] . '">' . $code[1]['TITLE'] . '</OPTION>';
-		}
-
-		$return .= '</SELECT>
-			<label for="ytd_tardies_code" class="a11y-hidden">' . _( 'Attendance Codes' ) . '</label></TD>';
-
-		// Other Attendance this quarter.
-		$return .= '<TD><label><INPUT type="checkbox" name="elements[mp_tardies]" value="Y" /> ' .
-		_( 'Other Attendance this quarter' ) . ':</label> <SELECT name="mp_tardies_code" id="mp_tardies_code">';
-
-		foreach ( (array) $other_attendance_codes as $code )
-		{
-			$return .= '<OPTION value="' . $code[1]['ID'] . '">' . $code[1]['TITLE'] . '</OPTION>';
-		}
-
-		$return .= '</SELECT>
-			<label for="mp_tardies_code" class="a11y-hidden">' . _( 'Attendance Codes' ) . '</label></TD></TR>';
+		_( 'Daily Absences this quarter' ) . '</label></td>';
 
 		// Period-by-period absences.
-		$return .= '<TR class="st"><TD><label><INPUT type="checkbox" name="elements[period_absences]" value="Y" /> ' .
-		_( 'Period-by-period absences' ) . '</label></TD>';
+		$return .= '<td><label><input type="checkbox" name="elements[period_absences]" value="Y" /> ' .
+		_( 'Period-by-period absences' ) . '</label></td>';
 
-		$return .= '<TD></TD></TR></TABLE></TD></TR>';
+		$return .= '</tr><tr class="st">';
+
+		// Other Attendance Year-to-date.
+		$return .= '<td><label><input type="checkbox" name="elements[ytd_tardies]" value="Y" /> ' .
+		_( 'Other Attendance Year-to-date' ) . ':</label> <select name="ytd_tardies_code" id="ytd_tardies_code">';
+
+		foreach ( (array) $other_attendance_codes as $code )
+		{
+			$return .= '<option value="' . $code[1]['ID'] . '">' . $code[1]['TITLE'] . '</option>';
+		}
+
+		$return .= '</select>
+			<label for="ytd_tardies_code" class="a11y-hidden">' . _( 'Attendance Codes' ) . '</label></td>';
+		// Other Attendance this quarter.
+		$return .= '<td><label><input type="checkbox" name="elements[mp_tardies]" value="Y" /> ' .
+		_( 'Other Attendance this quarter' ) . ':</label> <select name="mp_tardies_code" id="mp_tardies_code">';
+
+		foreach ( (array) $other_attendance_codes as $code )
+		{
+			$return .= '<option value="' . $code[1]['ID'] . '">' . $code[1]['TITLE'] . '</option>';
+		}
+
+		$return .= '</select>
+			<label for="mp_tardies_code" class="a11y-hidden">' . _( 'Attendance Codes' ) . '</label></td></tr>';
+
+		$return .= '</tr></table></td></tr>';
 
 		// FJ get the title instead of the short marking period name.
 		$mps_RET = DBGet( "SELECT PARENT_ID,MARKING_PERIOD_ID,SHORT_NAME,TITLE
@@ -106,12 +102,11 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 			ORDER BY SORT_ORDER", array(), array( 'PARENT_ID' ) );
 
 		// Marking Periods.
-		$return .= '<TR class="st"><TD>' . _( 'Marking Periods' ) . ':</TD><TD>
-			<TABLE><TR><TD><TABLE>';
+		$return .= '<tr class="st"><td colspan="2"><hr /><table class="cellpadding-5">';
 
 		foreach ( (array) $mps_RET as $sem => $quarters )
 		{
-			$return .= '<TR class="st">';
+			$return .= '<tr class="st">';
 
 			foreach ( (array) $quarters as $qtr )
 			{
@@ -125,47 +120,47 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 					{
 						if ( GetMP( $pro, 'DOES_GRADES' ) === 'Y' )
 						{
-							$return .= '<TD><label>
-								<INPUT type="checkbox" name="mp_arr[]" value="' . $pro . '" /> ' .
-							GetMP( $pro, 'TITLE' ) . '</label></TD>';
+							$return .= '<td><label>
+								<input type="checkbox" name="mp_arr[]" value="' . $pro . '" /> ' .
+							GetMP( $pro, 'TITLE' ) . '</label></td>';
 						}
 					}
 				}
 
-				$return .= '<TD><label>
-					<INPUT type="checkbox" name="mp_arr[]" value="' . $qtr['MARKING_PERIOD_ID'] . '" /> ' .
-					$qtr['TITLE'] . '</label></TD>';
+				$return .= '<td><label>
+					<input type="checkbox" name="mp_arr[]" value="' . $qtr['MARKING_PERIOD_ID'] . '" /> ' .
+					$qtr['TITLE'] . '</label></td>';
 			}
 
 			if ( GetMP( $sem, 'DOES_GRADES' ) === 'Y' )
 			{
-				$return .= '<TD><label>
-					<INPUT type="checkbox" name="mp_arr[]" value="' . $sem . '" /> ' .
-				GetMP( $sem, 'TITLE' ) . '</label></TD>';
+				$return .= '<td><label>
+					<input type="checkbox" name="mp_arr[]" value="' . $sem . '" /> ' .
+				GetMP( $sem, 'TITLE' ) . '</label></td>';
 			}
 
-			$return .= '</TR>';
+			$return .= '</tr>';
 		}
-
-		$return .= '</TABLE></TD>';
 
 		if ( $sem )
 		{
 			$fy = GetParentMP( 'FY', $sem );
 
-			$return .= '<TD><TABLE><TR>';
+			$return .= '<tr>';
 
 			if ( GetMP( $fy, 'DOES_GRADES' ) === 'Y' )
 			{
-				$return .= '<TD><label>
-					<INPUT type="checkbox" name="mp_arr[]" value="' . $fy . '" /> ' .
-				GetMP( $fy, 'TITLE' ) . '</label></TD>';
+				$return .= '<td><label>
+					<input type="checkbox" name="mp_arr[]" value="' . $fy . '" /> ' .
+				GetMP( $fy, 'TITLE' ) . '</label></td>';
 			}
 
-			$return .= '</TR></TABLE></TD>';
+			$return .= '</tr>';
 		}
 
-		$return .= '</TD></TR></TABLE></TD></TR>';
+		$return .= '</table>' .
+			FormatInputTitle( _( 'Marking Periods' ), '', false, '' ) .
+			'<hr /></td></tr>';
 
 		if ( $mailing_labels )
 		{
@@ -173,11 +168,14 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 			Widgets( 'mailing_labels' );
 		}
 
-		$return .= $extra['search'];
+		if ( $extra['search'] )
+		{
+			$return .= '<tr><td><table>' . $extra['search'] . '</table></td></tr>';
+		}
 
 		$extra['search'] = '';
 
-		$return .= '</TABLE>';
+		$return .= '</table>';
 
 		return $return;
 	}
@@ -589,11 +587,11 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 				if ( file_exists( $logo_pic ) )
 				{
-					echo '<TABLE class="width-100p"><TR>
-					<TD style="width:' . $picwidth . 'px;">
+					echo '<table class="width-100p"><tr>
+					<td style="width:' . $picwidth . 'px;">
 						<img src="' . $logo_pic . '" width="' . $picwidth . '" />
-					</TD>
-					<TD>';
+					</td>
+					<td>';
 				}
 
 				// Headers.
@@ -665,7 +663,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 				if ( file_exists( $logo_pic ) )
 				{
-					echo '</TD></TR></TABLE>';
+					echo '</td></tr></table>';
 
 					$count_lines++;
 				}
@@ -683,10 +681,10 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 						echo '<BR />';
 					}
 
-					echo '<TABLE><TR>
-					<TD style="width:50px;"> &nbsp; </TD>
-					<TD style="width:300px;">' . $address[1]['MAILING_LABEL'] . '</TD>
-					</TR></TABLE>';
+					echo '<table><tr>
+					<td style="width:50px;"> &nbsp; </td>
+					<td style="width:300px;">' . $address[1]['MAILING_LABEL'] . '</td>
+					</tr></table>';
 				}
 
 				echo '<BR />';
@@ -748,24 +746,24 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 									{
 										if ( $i > 1 )
 										{
-											$comment_sc_txt .= '</TR></TABLE></li>';
+											$comment_sc_txt .= '</tr></table></li>';
 										}
 
 										$comment_sc_txt .= '<li>' . $comment['SCALE_TITLE'] .
 											( ! empty( $comment['SCALE_COMMENT'] ) ?
 											', ' . $comment['SCALE_COMMENT'] :
 											'' ) .
-											'<BR /><TABLE class="width-100p"><TR>';
+											'<BR /><table class="width-100p"><tr>';
 
 										$i = 4;
 									}
 									else
 									{
-										$comment_sc_txt .= '</TR><TR>';
+										$comment_sc_txt .= '</tr><tr>';
 									}
 								}
 
-								$comment_sc_txt .= '<TD>(' . $comment['TITLE'] . ') ' . $comment['COMMENT'] . '</TD>';
+								$comment_sc_txt .= '<td>(' . $comment['TITLE'] . ') ' . $comment['COMMENT'] . '</td>';
 
 								$comment_sc_display = true;
 
@@ -774,7 +772,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 						}
 					}
 
-					$comment_sc_txt .= '</TR></TABLE></li></ul>';
+					$comment_sc_txt .= '</tr></table></li></ul>';
 
 					$course_title = '';
 
@@ -784,7 +782,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 					$commentsB_displayed = array();
 
-					$commentsB_txt = _( 'General Comments' ) . '<BR /><TABLE class="width-100p"><TR>';
+					$commentsB_txt = _( 'General Comments' ) . '<BR /><table class="width-100p"><tr>';
 
 					$commentsA_txt = _( 'Course-specific Comments' ) . '<BR /><ul>';
 
@@ -801,17 +799,17 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 									{
 										if ( $i > 1 )
 										{
-											$commentsA_txt .= '</TR></TABLE></li>';
+											$commentsA_txt .= '</tr></table></li>';
 										}
 
 										$commentsA_txt .= '<li>' . $comment_course_title .
-											'<BR /><TABLE class="width-100p"><TR>';
+											'<BR /><table class="width-100p"><tr>';
 
 										$i = 3;
 									}
 									else
 									{
-										$commentsA_txt .= '</TR><TR>';
+										$commentsA_txt .= '</tr><tr>';
 									}
 								}
 
@@ -826,7 +824,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 									$color_html = '';
 								}
 
-								$commentsA_txt .= '<TD style="width:50%;">' . $color_html .
+								$commentsA_txt .= '<td style="width:50%;">' . $color_html .
 								$commentsA_RET[$comment][1]['SORT_ORDER'] . ': ' .
 								str_replace(
 									array_keys( $personalizations ),
@@ -835,7 +833,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 								) .
 								( $color_html ? '</span>' : '' ) .
 								' (' . _( 'Comment Scale' ) . ': ' .
-									$commentsA_RET[$comment][1]['SCALE_TITLE'] . ')' . '</TD>';
+									$commentsA_RET[$comment][1]['SCALE_TITLE'] . ')' . '</td>';
 
 								$commentsA_display = true;
 
@@ -847,16 +845,16 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 							{
 								if ( $j++ % 2 == 0 )
 								{
-									$commentsB_txt .= '</TR><TR>';
+									$commentsB_txt .= '</tr><tr>';
 								}
 
-								$commentsB_txt .= '<TD style="width:50%;">' .
+								$commentsB_txt .= '<td style="width:50%;">' .
 								$commentsB_RET[$comment][1]['SORT_ORDER'] . ': ' .
 								str_replace(
 									array_keys( $personalizations ),
 									$personalizations,
 									$commentsB_RET[$comment][1]['TITLE']
-								) . '</TD>';
+								) . '</td>';
 
 								$commentsB_display = true;
 
@@ -865,9 +863,9 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 						}
 					}
 
-					$commentsB_txt .= '</TR></TABLE>';
+					$commentsB_txt .= '</tr></table>';
 
-					$commentsA_txt .= '</TR></TABLE></li></ul>';
+					$commentsA_txt .= '</tr></table></li></ul>';
 
 					echo '<b>' . _( 'Explanation of Comment Codes' ) . '</b>';
 
