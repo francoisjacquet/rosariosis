@@ -396,7 +396,7 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 
 				ListOutput( $grades_RET, $columns, '.', '.', false );
 
-				$last_grade = $show['grades'] ? array() : $grade;
+				$last_grade = $show['grades'] ? $grade : array();
 
 				if ( $show['credits'] )
 				{
@@ -638,7 +638,7 @@ if ( ! function_exists( 'TranscriptPDFFooter' ) )
 		}
 
 		// @since 4.8 Add Transcripts PDF footer action hook.
-		do_action( 'Grades/includes/Transcripts.fnc.php|pdf_footer', $student['ID'] );
+		do_action( 'Grades/includes/Transcripts.fnc.php|pdf_footer', array( $student['ID'], $last_grade ) );
 
 		if ( ! empty( $certificate_text ) )
 		{
