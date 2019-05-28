@@ -269,7 +269,10 @@ function Search( $type, $extra = null )
 				WHERE SCHOOL_ID='" . UserSchool() . "'
 				ORDER BY SORT_ORDER" );
 
-			echo '<tr id="student_grade_level_row" class="hide"><td>
+			// Do not hide in case first Profile is "Parent".
+			$maybe_hide = key( $options ) === 'parent' ? '' : ' class="hide"';
+
+			echo '<tr id="student_grade_level_row"' . $maybe_hide . '><td>
 				<label for="student_grade_level">' . _( 'Student Grade Level' ) . '</label></td>
 				<td><select name="student_grade_level" id="student_grade_level">
 				<option value="">' . _( 'Not Specified' ) . '</option>';
