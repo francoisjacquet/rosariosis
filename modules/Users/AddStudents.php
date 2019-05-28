@@ -17,9 +17,8 @@ if ( $_REQUEST['modfunc'] === 'save'
 		{
 			if ( ! $current_RET[$student_id] )
 			{
-				$sql = "INSERT INTO STUDENTS_JOIN_USERS (STUDENT_ID,STAFF_ID) values('" . $student_id . "','" . UserStaffID() . "')";
-
-				DBQuery( $sql );
+				DBQuery( "INSERT INTO STUDENTS_JOIN_USERS (STUDENT_ID,STAFF_ID)
+					VALUES('" . $student_id . "','" . UserStaffID() . "')" );
 
 				//hook
 				do_action( 'Users/AddStudents.php|user_assign_role' );
@@ -106,9 +105,25 @@ if ( ! $_REQUEST['modfunc'] )
 			WHERE s.STUDENT_ID=u.STUDENT_ID
 			AND u.STAFF_ID='" . UserStaffID() . "'" );
 
-		$link['remove'] = array( 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete', 'variables' => array( 'student_id_remove' => 'STUDENT_ID' ) );
+		$link['remove'] = array(
+			'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete',
+			'variables' => array( 'student_id_remove' => 'STUDENT_ID' ),
+		);
 
-		ListOutput( $current_RET, array( 'FULL_NAME' => _( 'Students' ) ), 'Student', 'Students', $link, array(), array( 'search' => false ) );
+		$link['FULL_NAME'] = array(
+			'link' => 'Modules.php?modname=Students/Student.php',
+			'variables' => array( 'student_id' => 'STUDENT_ID' ),
+		);
+
+		ListOutput(
+			$current_RET,
+			array( 'FULL_NAME' => _( 'Students' ) ),
+			'Student',
+			'Students',
+			$link,
+			array(),
+			array( 'search' => false )
+		);
 
 		echo '</td></tr><tr><td>';
 

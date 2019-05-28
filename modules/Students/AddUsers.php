@@ -9,14 +9,16 @@ if ( $_REQUEST['modfunc'] === 'save'
 	if ( isset( $_REQUEST['staff'] )
 		&& is_array( $_REQUEST['staff'] ) )
 	{
-		$current_RET = DBGet( "SELECT STAFF_ID FROM STUDENTS_JOIN_USERS WHERE STUDENT_ID='" . UserStudentID() . "'", array(), array( 'STAFF_ID' ) );
+		$current_RET = DBGet( "SELECT STAFF_ID
+			FROM STUDENTS_JOIN_USERS
+			WHERE STUDENT_ID='" . UserStudentID() . "'", array(), array( 'STAFF_ID' ) );
 
 		foreach ( (array) $_REQUEST['staff'] as $staff_id )
 		{
 			if ( ! $current_RET[$staff_id] )
 			{
-				$sql = "INSERT INTO STUDENTS_JOIN_USERS (STAFF_ID,STUDENT_ID) values('" . $staff_id . "','" . UserStudentID() . "')";
-				DBQuery( $sql );
+				DBQuery( "INSERT INTO STUDENTS_JOIN_USERS (STAFF_ID,STUDENT_ID)
+					VALUES('" . $staff_id . "','" . UserStudentID() . "')" );
 
 				//hook
 				do_action( 'Students/AddUsers.php|user_assign_role' );
@@ -72,6 +74,7 @@ if ( ! $_REQUEST['modfunc'] )
 		if ( $_REQUEST['search_modfunc'] === 'list' )
 		{
 			echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save" method="POST">';
+
 			DrawHeader( '', SubmitButton( _( 'Add Selected Parents' ) ) );
 		}
 
@@ -84,9 +87,25 @@ if ( ! $_REQUEST['modfunc'] )
 			AND u.STUDENT_ID='" . UserStudentID() . "'
 			AND s.SYEAR='" . UserSyear() . "'", array( 'LAST_LOGIN' => 'makeLogin' ) );
 
-		$link['remove'] = array( 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete', 'variables' => array( 'staff_id_remove' => 'STAFF_ID' ) );
+		$link['remove'] = array(
+			'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete',
+			'variables' => array( 'staff_id_remove' => 'STAFF_ID' ),
+		);
 
-		ListOutput( $current_RET, array( 'FULL_NAME' => _( 'Parents' ), 'LAST_LOGIN' => _( 'Last Login' ) ), 'Associated Parent', 'Associated Parents', $link, array(), array( 'search' => false ) );
+		$link['FULL_NAME'] = array(
+			'link' => 'Modules.php?modname=Users/User.php',
+			'variables' => array( 'staff_id' => 'STAFF_ID' ),
+		);
+
+		ListOutput(
+			$current_RET,
+			array( 'FULL_NAME' => _( 'Parents' ), 'LAST_LOGIN' => _( 'Last Login' ) ),
+			'Associated Parent',
+			'Associated Parents',
+			$link,
+			array(),
+			array( 'search' => false )
+		);
 
 		echo '</td></tr><tr><td>';
 
