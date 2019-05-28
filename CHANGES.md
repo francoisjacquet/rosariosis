@@ -24,6 +24,7 @@ Changes in 4.8
 - Add Transcripts PDF HTML array action hook in Transcripts.php
 - Add TranscriptPDFHeader() & TranscriptPDFFooter() functions in Transcripts.fnc.php
 - Add Transcript PDF Header & Footer action hooks in Transcripts.fnc.php
+- Search Parents by Student Grade Level in Search.fnc.php & GetStaffList.fnc.php, sponsored by Santa Cecilia school
 
 Changes in 4.7.1
 ----------------

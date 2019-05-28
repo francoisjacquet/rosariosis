@@ -1,5 +1,6 @@
 <?php
 
+// @since 4.8 Search Parents by Student Grade Level.
 function GetStaffList( &$extra = array() )
 {
 	global $profiles_RET;
@@ -335,6 +336,33 @@ function appendStaffSQL( $sql, $extra = array() )
 
 			$search_terms .= '<b>' . _( 'Profile' ) . ':</b> ' .
 				$options[ $_REQUEST['profile'] ] . '<br />';
+
+			if ( ! empty( $_REQUEST['student_grade_level'] )
+				&& $_REQUEST['profile'] === 'parent' )
+			{
+				// @since 4.8 Search Parents by Student Grade Level.
+				$sql .= " AND s.STAFF_ID IN(SELECT _sju.STAFF_ID
+					FROM STUDENTS_JOIN_USERS _sju,STUDENT_ENROLLMENT _sem
+					WHERE _sem.STUDENT_ID=_sju.STUDENT_ID
+					AND _sem.SYEAR='" . UserSyear() . "'
+					AND _sem.GRADE_ID='" . $_REQUEST['student_grade_level'] . "'";
+
+				if ( $_REQUEST['include_inactive'] !== 'Y' )
+				{
+					$sql .= " AND ('" . DBDate() . "'>=_sem.START_DATE
+						AND ('" . DBDate() . "'<=_sem.END_DATE OR _sem.END_DATE IS NULL))";
+				}
+
+				$sql .= ")";
+
+				$student_grade_level = DBGetOne( "SELECT TITLE
+					FROM SCHOOL_GRADELEVELS
+					WHERE SCHOOL_ID='" . UserSchool() . "'
+					AND ID='" . $_REQUEST['student_grade_level'] . "'" );
+
+				$search_terms .= '<b>' . _( 'Student Grade Level' ) . ':</b> ' .
+					$student_grade_level . '<br />';
+			}
 		}
 	}
 

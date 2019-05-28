@@ -13,6 +13,8 @@
  *
  * @example Search( 'staff_id' ); // Display Find a User form or Search users if submitted
  *
+ * @since 4.8 Search Parents by Student Grade Level.
+ *
  * @see Users & Students modules Search.inc.php files
  *
  * @global $_ROSARIO Used in Search.inc.php
@@ -252,7 +254,7 @@ function Search( $type, $extra = null )
 			}
 
 			echo '<tr><td><label for="profile">' . _( 'Profile' ) . '</label></td>
-				<td><select name="profile" id="profile">';
+				<td><select name="profile" id="profile" onchange="_selectStudentGradeLevel(this);" autocomplete="off">';
 
 			foreach ( (array) $options as $key => $val )
 			{
@@ -260,6 +262,34 @@ function Search( $type, $extra = null )
 			}
 
 			echo '</select></td></tr>';
+
+			// @since 4.8 Search Parents by Student Grade Level.
+			$grade_levels_RET = DBGet( "SELECT ID,TITLE,SHORT_NAME
+				FROM SCHOOL_GRADELEVELS
+				WHERE SCHOOL_ID='" . UserSchool() . "'
+				ORDER BY SORT_ORDER" );
+
+			echo '<tr id="student_grade_level_row" class="hide"><td>
+				<label for="student_grade_level">' . _( 'Student Grade Level' ) . '</label></td>
+				<td><select name="student_grade_level" id="student_grade_level">
+				<option value="">' . _( 'Not Specified' ) . '</option>';
+
+			foreach ( (array) $grade_levels_RET as $grade_level )
+			{
+				echo '<option value="' . $grade_level['ID'] . '">' .
+					$grade_level['TITLE'] . '</option>';
+			}
+
+			echo '</select></td></tr>';
+
+			// Show Student Grade Level when selected Profile is "Parent".
+			echo '<script>
+				var _selectStudentGradeLevel = function( select ) {
+					var show = select.options[ select.selectedIndex ].value === "parent";
+
+					return $("#student_grade_level_row").toggle( show );
+				};
+			</script>';
 
 		break;
 
