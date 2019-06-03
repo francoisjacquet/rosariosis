@@ -297,11 +297,17 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 				&& ( $table !== 'STAFF'
 					|| $category_id > 2 ) ) ) ) // Don't Delete first 2 User Fields Categories.
 	{
-		$delete_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
-			'&modfunc=delete&category_id=' . $category_id .
-			'&id=' . $id . "'";
+		$delete_url = PreparePHP_SELF(
+			array(),
+			array( 'table', 'ML_tables' ),
+			array(
+				'modfunc' => 'delete',
+				'category_id' => $category_id,
+				'id' => $id,
+			)
+		);
 
-		$delete_button = '<input type="button" value="' . _( 'Delete' ) . '" onClick="ajaxLink(' . $delete_URL . ');" /> ';
+		$delete_button = '<input type="button" value="' . _( 'Delete' ) . '" onClick="ajaxLink(\'' . $delete_url . '\');" /> ';
 	}
 
 	ob_start();
