@@ -27,6 +27,7 @@ Changes in 4.8
 - Search Parents by Student Grade Level in Search.fnc.php & GetStaffList.fnc.php, sponsored by Santa Cecilia school
 - Add link to associated Student / Parent Info in AddStudents.php & AddUsers.php
 - Add Remove Access program in Custom/RemoveAccess.php
+- Update default school year to 2019 in rosariosis.sql & config.inc.sample.php
 
 Changes in 4.7.1
 ----------------
