@@ -4074,6 +4074,7 @@ INSERT INTO profile_exceptions VALUES (0, 'Users/Preferences.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (1, 'Custom/MyReport.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Custom/CreateParents.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Custom/NotifyParents.php', 'Y', 'Y');
+INSERT INTO profile_exceptions VALUES (1, 'Custom/RemoveAccess.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Custom/AttendanceSummary.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (0, 'Custom/Registration.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (3, 'Custom/Registration.php', 'Y', NULL);

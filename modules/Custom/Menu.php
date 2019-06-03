@@ -17,6 +17,7 @@ if ( $RosarioModules['Students'] )
 		3 => _( 'Utilities' ),
 		'Custom/MyReport.php' => _( 'My Report' ),
 		'Custom/CreateParents.php' => _( 'Create Parent Users' ),
+		'Custom/RemoveAccess.php' => _( 'Remove Access' ),
 	);
 
 	$exceptions['Students'] += array(

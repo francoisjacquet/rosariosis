@@ -2,6 +2,20 @@
 
 ## RosarioSIS Student Information System
 
+New in 4.8
+----------
+
+Students
+- Remove Access: new Custom program, sponsored by Santa Cecilia school.
+
+Grades
+- Transcripts: use rich text (TinyMCE) input for Studies Certificate text, hardcoded "Studies Certificate" title and Signtures placeholders removed.
+
+Accessibility improved
+
+[Calendar Schedule View](https://www.rosariosis.org/calendar-schedule-view-plugin/) plugin, sponsored by Revamp Consulting.
+
+
 New in 4.7
 ----------
 
