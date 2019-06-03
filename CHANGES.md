@@ -29,6 +29,10 @@ Changes in 4.8
 - Add Remove Access program in Custom/RemoveAccess.php
 - Update default school year to 2019 in rosariosis.sql & config.inc.sample.php
 
+Changes in 4.7.2
+----------------
+- Fix #266 Address & People Fields Delete URL in Fields.fnc.php
+
 Changes in 4.7.1
 ----------------
 - Fix PHP fatal error "Can't use function return value in write context" (PHP 5.4) in Student.php & Address.inc.php
