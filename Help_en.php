@@ -344,6 +344,20 @@ if ( User( 'PROFILE' ) === 'admin' ):
 
 	<p>' . _help( 'Click the "Create Parent Accounts for the Selected Students" button.' ) . '</p>';
 
+	$help['Custom/RemoveAccess.php'] = '<p>' . _help( '<i>Remove Access</i> will let you remove access for students and their associated parents.' ) . '</p>
+
+	<p>' . _help( 'To grant access for students and their associated parents, click the "Grant Access" link.' ) . '</p>
+
+	<p>' . _help( 'You then must select a student by using the "Students with Access" search screen.' ) . '</p>
+
+	<p>' . _help( 'The list of students will show the student username. Only students having a username and a password set will be displayed in the list.' ) . '</p>
+
+	<p>' . _help( 'Customize the username prefix you want to add so students cannot guess it.' ) . '</p>
+
+	<p>' . _help( 'Check the "Remove Access for Associated Parents" checkbox if you wish to set those parents\' profile to No Access.' ) . '</p>
+
+	<p>' . _help( 'Click the "Remove Access for Selected Students" button.' ) . '</p>';
+
 	$help['Students/StudentFields.php'] = '<p>' . _help( '<i>Data Fields</i> allows you to setup your school\'s custom data fields. These fields are used to store information about a student in the "General Info" tab / "Addresses & Contacts" tab or a custom tab of the student screen.' ) . '</p>
 
 	<p>' . _help( 'Data Field Categories' ) . '</p>
