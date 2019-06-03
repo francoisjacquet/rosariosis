@@ -129,8 +129,15 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( $accessfunc === 'grant' )
 	{
-		// Student not already being blocked.
-		$extra['WHERE'] .= " AND s.USERNAME LIKE '" . DBEscapeString( $username_prefix_add ) . "%'";
+		if ( ! $username_prefix_add )
+		{
+			$extra['WHERE'] .= " AND s.USERNAME LIKE 'no_username_prefix_set...%'";
+		}
+		else
+		{
+			// Student already being blocked.
+			$extra['WHERE'] .= " AND s.USERNAME LIKE '" . DBEscapeString( $username_prefix_add ) . "%'";
+		}
 	}
 	elseif ( $username_prefix_add )
 	{
