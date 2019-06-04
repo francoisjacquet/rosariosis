@@ -1,6 +1,11 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 4.9
+--------------
+- Only display Categories having fields in AssignOtherInfo.php
+- Accessibility: add missing input label in AssignOtherInfo.php
+
 Changes in 4.8
 --------------
 - Accessibility: add alt attribute to images, program wide
