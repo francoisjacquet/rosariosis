@@ -28,6 +28,7 @@ Changes in 4.8
 - Add link to associated Student / Parent Info in AddStudents.php & AddUsers.php
 - Add Remove Access program in Custom/RemoveAccess.php
 - Update default school year to 2019 in rosariosis.sql & config.inc.sample.php
+- Set User ID & Student ID inputs maxlength to 5000 in Search.fnc.php
 
 Changes in 4.7.2
 ----------------

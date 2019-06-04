@@ -140,7 +140,7 @@ function Search( $type, $extra = null )
 
 			echo '<tr><td><label for="stuid">' . sprintf( _( '%s ID' ), Config( 'NAME' ) ) .
 				'</label></td><td>
-				<input type="text" name="stuid" id="stuid" size="24" maxlength="50" />
+				<input type="text" name="stuid" id="stuid" size="24" maxlength="5000" />
 				</td></tr>';
 
 			echo '<tr><td><label for="addr">' . _( 'Address' ) . '</label></td><td>
@@ -220,7 +220,7 @@ function Search( $type, $extra = null )
 
 			echo '<tr><td><label for="usrid">' . _( 'User ID' ) .
 				'</label></td><td>
-				<input type="text" name="usrid" id="usrid" size="24" maxlength="50" />
+				<input type="text" name="usrid" id="usrid" size="24" maxlength="5000" />
 				</td></tr>';
 
 			echo '<tr><td><label for="username">' . _( 'Username' ) .
@@ -405,7 +405,7 @@ function Search( $type, $extra = null )
 						$categories_RET[1] = array();
 					}
 
-					// Add USername to Staff General Info.
+					// Add Username to Staff General Info.
 					$categories_RET[1]['text'][ $i++ ] = array(
 						'ID' => '1',
 						'CATEGORY_TITLE' => $general_info_category_title,
