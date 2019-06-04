@@ -35,7 +35,7 @@ Please head to the offical [Contribute page](https://www.rosariosis.org/contribu
 
 3. Quality Assurance: we use code linters & other [QA tools](https://phpqa.io/)
 
-4. Testing: Activate [debug mode](https://gitlab.com/francoisjacquet/rosariosis/blob/mobile/INSTALL.md#installing-the-package); for emails, we use [MailCatcher](http://mailcatcher.me/)
+4. Testing: Activate [debug mode](https://gitlab.com/francoisjacquet/rosariosis/blob/mobile/INSTALL.md#optional-variables); for emails, we use [MailCatcher](http://mailcatcher.me/)
 
 ### Example Module
 

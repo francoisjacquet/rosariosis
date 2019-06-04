@@ -14,10 +14,10 @@ locale/
 		LC_MESSAGES/
 			rosariosis.mo
 			rosariosis.po
-            help.mo
-            help.po
+			help.mo
+			help.po
 ```
-Note: **fr_FR.utf8** is the name of the French locale.
+Note: **fr_FR.utf8** is the French locale code.
 
 
 Install
