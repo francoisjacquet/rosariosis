@@ -127,6 +127,10 @@ function Update()
 		case version_compare( $from_version, '4.7-beta2', '<' ) :
 
 			$return = _update47beta2();
+
+		case version_compare( $from_version, '4.9-beta', '<' ) :
+
+			$return = _update49beta();
 	}
 
 	// Update version in DB CONFIG table.
@@ -784,6 +788,40 @@ function _update47beta2()
 	end
 	$$
 	    LANGUAGE plpgsql;" );
+
+	return $return;
+}
+
+
+/**
+ * Update to version 4.9
+ *
+ * 1. PROGRAM_CONFIG table: Add Allow Teachers to edit gradebook grades for past quarters option.
+ *
+ * Local function
+ *
+ * @since 4.9
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update49beta()
+{
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. PROGRAM_CONFIG table: Add Allow Teachers to edit gradebook grades for past quarters option.
+	 */
+	$config_option_exists = DBGet( "SELECT 1 FROM PROGRAM_CONFIG
+		WHERE TITLE='GRADES_GRADEBOOK_TEACHER_ALLOW_EDIT';" );
+
+	if ( ! $config_option_exists )
+	{
+		DBQuery( "INSERT INTO PROGRAM_CONFIG (VALUE,PROGRAM,TITLE,SCHOOL_ID,SYEAR)
+			SELECT 'Y','grades','GRADES_GRADEBOOK_TEACHER_ALLOW_EDIT',ID,SYEAR
+			FROM SCHOOLS;" );
+	}
 
 	return $return;
 }

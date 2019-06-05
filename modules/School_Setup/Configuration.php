@@ -442,6 +442,16 @@ else
 			) . '</td></tr>';
 
 			echo '<tr><td>' . CheckboxInput(
+				ProgramConfig( 'grades', 'GRADES_GRADEBOOK_TEACHER_ALLOW_EDIT' ),
+				'values[PROGRAM_CONFIG][grades][GRADES_GRADEBOOK_TEACHER_ALLOW_EDIT]',
+				_( 'Allow Teachers to edit gradebook grades for past quarters' ),
+				'',
+				false,
+				button( 'check' ),
+				button( 'x' )
+			) . '</td></tr>';
+
+			echo '<tr><td>' . CheckboxInput(
 				ProgramConfig( 'grades', 'GRADES_DO_STATS_STUDENTS_PARENTS' ),
 				'values[PROGRAM_CONFIG][grades][GRADES_DO_STATS_STUDENTS_PARENTS]',
 				_( 'Enable Anonymous Grade Statistics for Parents and Students' ),
