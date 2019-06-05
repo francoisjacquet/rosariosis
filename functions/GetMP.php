@@ -378,7 +378,7 @@ function GetChildrenMP( $mp, $marking_period_id = '0' )
 /**
  * Get Current Marking Period ID
  *
- * Exist with Fatal error if No Marking Period found
+ * Exit with Fatal error if No Marking Period found
  *
  * @example GetCurrentMP( 'QTR', $date, false );
  *
