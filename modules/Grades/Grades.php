@@ -20,7 +20,10 @@ DrawHeader( _( 'Gradebook' ) . ' - ' . ProgramTitle() . ' - ' . GetMP( UserMP() 
 
 // if running as a teacher program then rosario[allow_edit] will already be set according to admin permissions
 
-if ( ! isset( $_ROSARIO['allow_edit'] ) )
+if ( ! isset( $_ROSARIO['allow_edit'] )
+	// Do not allow edit past quarter grades for Teachers according to Program Config.
+	&& ProgramConfig( 'grades', 'GRADES_GRADEBOOK_TEACHER_ALLOW_EDIT' )
+	&& GetCurrentMP( 'QTR', DBDate(), false ) == UserMP() )
 {
 	$_ROSARIO['allow_edit'] = true;
 }
@@ -603,6 +606,13 @@ if ( $_REQUEST['assignment_id'] && $_REQUEST['assignment_id'] != 'all' )
 	$due = $assignments_RET[$_REQUEST['assignment_id']][1]['DUE'];
 
 	DrawHeader( '<b>' . _( 'Assigned Date' ) . ':</b> ' . ( $assigned_date ? ProperDate( $assigned_date ) : _( 'N/A' ) ) . ', <b>' . _( 'Due Date' ) . ':</b> ' . ( $due_date ? ProperDate( $due_date ) : _( 'N/A' ) ) . ( $due ? ' - <b>' . _( 'Assignment is Due' ) . '</b>' : '' ) );
+}
+
+if ( ! $_ROSARIO['allow_edit']
+	&& ! empty( $_REQUEST['student_id'] )
+	|| ! empty( $_REQUEST['assignment_id'] ) )
+{
+	DrawHeader( '<span style="color:red">' . _( 'You can not edit these grades.' ) . '</span>' );
 }
 
 $LO_options['header'] = WrapTabs(
