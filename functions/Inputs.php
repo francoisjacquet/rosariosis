@@ -1607,7 +1607,7 @@ function InputDivOnclick( $id, $input_html, $value, $input_ftitle )
 	$value = $value == '' ? '-' : $value;
 
 	$div_onclick .= '<div id="div' . $id . '">
-		<div class="onclick" tabindex="0" onfocus=\'addHTML(html' . $id . ',"div' . $id . '",true); $("#' . $id . '").click().focus();\'>' .
+		<div class="onclick" tabindex="0" onfocus=\'addHTML(html' . $id . ',"div' . $id . '",true); $("#' . $id . '").focus();\'>' .
 		( mb_strpos( $value, '<div' ) === 0 ?
 			'<div class="underline-dots">' . $value . '</div>' :
 			'<span class="underline-dots">' . $value . '</span>' ) .
