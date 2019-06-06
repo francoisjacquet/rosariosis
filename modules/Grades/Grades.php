@@ -22,8 +22,9 @@ DrawHeader( _( 'Gradebook' ) . ' - ' . ProgramTitle() . ' - ' . GetMP( UserMP() 
 
 if ( ! isset( $_ROSARIO['allow_edit'] )
 	// Do not allow edit past quarter grades for Teachers according to Program Config.
-	&& ProgramConfig( 'grades', 'GRADES_GRADEBOOK_TEACHER_ALLOW_EDIT' )
-	&& GetCurrentMP( 'QTR', DBDate(), false ) == UserMP() )
+	&& ( ProgramConfig( 'grades', 'GRADES_GRADEBOOK_TEACHER_ALLOW_EDIT' )
+		|| GetCurrentMP( 'QTR', DBDate(), false ) == UserMP()
+		|| GetMP( 'END_DATE' ) > DBDate() ) )
 {
 	$_ROSARIO['allow_edit'] = true;
 }
@@ -609,8 +610,8 @@ if ( $_REQUEST['assignment_id'] && $_REQUEST['assignment_id'] != 'all' )
 }
 
 if ( ! $_ROSARIO['allow_edit']
-	&& ! empty( $_REQUEST['student_id'] )
-	|| ! empty( $_REQUEST['assignment_id'] ) )
+	&& ( ! empty( $_REQUEST['student_id'] )
+		|| ! empty( $_REQUEST['assignment_id'] ) ) )
 {
 	DrawHeader( '<span style="color:red">' . _( 'You can not edit these grades.' ) . '</span>' );
 }
