@@ -472,7 +472,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			'" placeholder="' . _( 'Search' ) . '" onkeypress="LOSearch(event, this.value, \'' .
 			$search_URL . '\');" autocomplete="off" />
 				<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/visualize.png"
-				onfocus="LOSearch(event, $(\'#LO_search\').val(), \'' . $search_URL . '\');"
+				onclick="LOSearch(event, $(\'#LO_search\').val(), \'' . $search_URL . '\');"
 				class="button" alt="" />
 				<label for="LO_search" class="a11y-hidden">' . _( 'Search' ) . '</label>';
 
