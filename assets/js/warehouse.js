@@ -201,6 +201,8 @@ var MarkDownInputPreview = function(input_id) {
 	// Toggle MD preview & Input.
 	md_prev.toggle();
 	input.toggle();
+	input.next('br').toggle();
+
 	// Disable Write / Preview tab.
 	md_prev.siblings('.tab').toggleClass('disabled');
 }
