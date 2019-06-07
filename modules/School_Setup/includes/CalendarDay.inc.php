@@ -239,7 +239,7 @@ function CalendarDayBlockHTMLDefault( $date, $minutes, $day_block )
 
 	// Blocks.
 	if ( $day_block
-		|| ( User( 'PROFILE' ) === 'admin' && ! empty( $minutes ) ) )
+		|| ( User( 'PROFILE' ) === 'admin' && ! empty( $minutes ) && $block_options ) )
 	{
 		$html .= SelectInput(
 			$day_block,
