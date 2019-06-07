@@ -439,9 +439,10 @@ function Widgets( $item, &$myextra = null )
 				<input type="radio" name="absences_term" value="QTR" />&nbsp;' .
 				GetMP( UserMP(), 'SHORT_NAME' ) .
 			'</label>
-			</td><td>' . _( 'Between' ) .
-			' <input type="text" name="absences_low" size="3" maxlength="3" /> &amp; ' .
-			'<input type="text" name="absences_high" size="3" maxlength="3" />
+			</td><td><label>' . _( 'Between' ) .
+			' <input type="text" name="absences_low" size="3" maxlength="3" /></label>' .
+			' <label>&amp; ' .
+			'<input type="text" name="absences_high" size="3" maxlength="3" /><label>
 			</td></tr>';
 
 		break;
@@ -549,9 +550,10 @@ function Widgets( $item, &$myextra = null )
 				<input type="radio" name="cp_absences_term" value="QTR" />&nbsp;' .
 				GetMP( UserMP(), 'SHORT_NAME' ) .
 			'</label>
-			</td><td>' . _( 'Between' ) .
-			' <input type="text" name="cp_absences_low" size="3" maxlength="3" /> &amp;' .
-			' <input type="text" name="cp_absences_high" size="3" maxlength="3" />
+			</td><td><label>' . _( 'Between' ) .
+			' <input type="text" name="cp_absences_low" size="3" maxlength="3" /></label>' .
+			' <label>&amp;' .
+			' <input type="text" name="cp_absences_high" size="3" maxlength="3" /></label>
 			</td></tr>';
 
 		break;
@@ -637,9 +639,10 @@ function Widgets( $item, &$myextra = null )
 					'</label>';
 			}
 
-			$extra['search'] .= '</td><td>' . _( 'Between' ) .
-			' <input type="text" name="gpa_low" size="3" maxlength="5" /> &amp;' .
-			' <input type="text" name="gpa_high" size="3" maxlength="5" />
+			$extra['search'] .= '</td><td><label>' . _( 'Between' ) .
+			' <input type="text" name="gpa_low" size="3" maxlength="5" /></label>' .
+			' <label>&amp;' .
+			' <input type="text" name="gpa_high" size="3" maxlength="5" /></label>
 			</td></tr>';
 
 		break;
@@ -722,10 +725,10 @@ function Widgets( $item, &$myextra = null )
 				}
 			}
 
-			$extra['search'] .= '</td><td>
-			' . _( 'Between' ) .
-			' <input type="text" name="class_rank_low" size="3" maxlength="5" /> &amp;' .
-			' <input type="text" name="class_rank_high" size="3" maxlength="5" />
+			$extra['search'] .= '</td><td><label>' . _( 'Between' ) .
+			' <input type="text" name="class_rank_low" size="3" maxlength="5" /></label>' .
+			' <label>&amp;' .
+			' <input type="text" name="class_rank_high" size="3" maxlength="5" /></label>
 			</td></tr>';
 
 		break;
@@ -978,7 +981,7 @@ function Widgets( $item, &$myextra = null )
 					AND SYEAR='" . UserSyear() . "'" );
 			}
 
-			$select = '<select name="activity_id">
+			$select = '<select name="activity_id" id="activity_id">
 				<option value="">' . _( 'Not Specified' ) . '</option>';
 
 			foreach ( (array) $activities_RET as $activity )
@@ -988,9 +991,9 @@ function Widgets( $item, &$myextra = null )
 
 			$select .= '</select>';
 
-			$extra['search'] .= '<tr class="st"><td>' .
+			$extra['search'] .= '<tr class="st"><td><label for="activity_id">' .
 			_( 'Activity' ) .
-			'</td><td>' .
+			'</label></td><td>' .
 			$select .
 			'</td></tr>';
 
@@ -1063,10 +1066,10 @@ function Widgets( $item, &$myextra = null )
 				}
 			}
 
-			$extra['search'] .= '<tr class="st"><td>' . _( 'Balance' ) . '</td><td>
-			' . _( 'Between' ) .
-			' <input type="text" name="balance_low" size="5" maxlength="10" /> &amp;' .
-			' <input type="text" name="balance_high" size="5" maxlength="10" />
+			$extra['search'] .= '<tr class="st"><td>' . _( 'Balance' ) . '</td><td><label>' . _( 'Between' ) .
+			' <input type="text" name="balance_low" size="5" maxlength="10" /></label>' .
+			' <label>&amp;' .
+			' <input type="text" name="balance_high" size="5" maxlength="10" /></label>
 			</td></tr>';
 
 		break;
@@ -1108,10 +1111,9 @@ function Widgets( $item, &$myextra = null )
 				}
 			}
 
-			$extra['search'] .= '<tr class="st"><td>
-			' . _( 'Reporter' ) . '
-			</td><td>
-			<select name="discipline_reporter">
+			$extra['search'] .= '<tr class="st"><td><label for="discipline_reporter">' .
+			_( 'Reporter' ) . '</label></td><td>
+			<select name="discipline_reporter" id="discipline_reporter">
 				<option value="">' . _( 'Not Specified' ) . '</option>';
 
 			foreach ( (array) $users_RET as $id => $user )
@@ -1306,13 +1308,26 @@ function Widgets( $item, &$myextra = null )
 
 			foreach ( (array) $categories_RET as $category )
 			{
-				$extra['search'] .= '<tr class="st"><td>' . $category['TITLE'] . '</td><td>';
+				$input_name = 'discipline[' . $category['ID'] . ']';
+
+				if ( $category['DATA_TYPE'] !== 'numeric' )
+				{
+					$input_id = GetInputID( $input_name );
+
+					$extra['search'] .= '<tr class="st"><td><label for="' . $input_id . '">' .
+						$category['TITLE'] . '</label></td><td>';
+				}
+				else
+				{
+					$extra['search'] .= '<tr class="st"><td>' . $category['TITLE'] . '</td><td>';
+				}
 
 				switch ( $category['DATA_TYPE'] )
 				{
 					case 'text':
 
-						$extra['search'] .= '<input type="text" name="discipline[' . $category['ID'] . ']" size="24" maxlength="255" />';
+						$extra['search'] .= '<input type="text" name="' . $input_name .
+							'" id="' . $input_id . '" size="24" maxlength="255" />';
 
 						if ( ! empty( $_REQUEST['discipline'][ $category['ID'] ] ) )
 						{
@@ -1330,7 +1345,8 @@ function Widgets( $item, &$myextra = null )
 
 					case 'checkbox':
 
-						$extra['search'] .= '<input type="checkbox" name="discipline[' . $category['ID'] . ']" value="Y" />';
+						$extra['search'] .= '<input type="checkbox" name="' . $input_name .
+							'" id="' . $input_id . '" value="Y" />';
 
 						if ( ! empty( $_REQUEST['discipline'][ $category['ID'] ] ) )
 						{
@@ -1347,9 +1363,12 @@ function Widgets( $item, &$myextra = null )
 
 					case 'numeric':
 
-						$extra['search'] .= _( 'Between' ) .
-							' <input type="text" name="discipline_begin[' . $category['ID'] . ']" size="3" maxlength="11" /> &amp;' .
-							' <input type="text" name="discipline_end[' . $category['ID'] . ']" size="3" maxlength="11" />';
+						$extra['search'] .= '<label>' . _( 'Between' ) .
+							' <input type="text" name="discipline_begin[' . $category['ID'] .
+								']" size="3" maxlength="11" /></label>' .
+							' <label>&amp;' .
+							' <input type="text" name="discipline_end[' . $category['ID'] .
+								']" size="3" maxlength="11" /></label>';
 
 						if ( $_REQUEST['discipline_begin'][ $category['ID'] ]
 							&& $_REQUEST['discipline_end'][ $category['ID'] ] )
@@ -1374,7 +1393,7 @@ function Widgets( $item, &$myextra = null )
 
 						$category['SELECT_OPTIONS'] = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS'] ) );
 
-						$extra['search'] .= '<select name="discipline[' . $category['ID'] . ']">
+						$extra['search'] .= '<select name="' . $input_name . '" id="' . $input_id . '">
 							<option value="">' . _( 'N/A' ) . '</option>';
 
 						foreach ( (array) $category['SELECT_OPTIONS'] as $option )
@@ -1457,8 +1476,8 @@ function Widgets( $item, &$myextra = null )
 				}
 			}
 
-			$extra['search'] .= '<tr class="st"><td>' . _( 'Next Year' ) . '</td><td>
-			<select name="next_year">';
+			$extra['search'] .= '<tr class="st"><td><label for="next_year">' . _( 'Next Year' ) . '</label></td><td>
+			<select name="next_year" id="next_year">';
 
 			foreach ( (array) $next_year_options as $id => $option )
 			{
@@ -1519,11 +1538,11 @@ function Widgets( $item, &$myextra = null )
 				}
 			}
 
-			$extra['search'] .= '<tr class="st"><td>' . _( 'Calendar' ) . '</td><td>
+			$extra['search'] .= '<tr class="st"><td><label for="calendar_input">' . _( 'Calendar' ) . '</label></td><td>
 			<label>
 				<input type="checkbox" name="calendar_not" value="Y" /> ' . _( 'Not' ) .
 			'</label>
-			<select name="calendar">
+			<select name="calendar" id="calendar_input">
 				<option value="">' . _( 'N/A' ) . '</option>
 				<option value="!">' . _( 'No Value' ) . '</option>';
 
@@ -1692,12 +1711,13 @@ function Widgets( $item, &$myextra = null )
 				}
 			}
 
-			$extra['search'] .= '<tr class="st"><td>' . _( 'Balance' ) . '</td><td>
+			$extra['search'] .= '<tr class="st"><td><label for="fsa_balance">' . _( 'Balance' ) . '</label></td><td>
 			<label class="sizep2">
 				<input type="radio" name="fsa_bal_ge" value="" checked /> &lt;</label>&nbsp;
 			<label  class="sizep2">
 				<input type="radio" name="fsa_bal_ge" value="Y" /> &ge;</label>
-			<input type="text" name="fsa_balance" size="7" maxlength="9"' . ( isset( $value ) ? ' value="' . $value . '"' : '') . ' />
+			<input type="text" name="fsa_balance" id="fsa_balance" size="7" maxlength="9"' .
+				( isset( $value ) ? ' value="' . $value . '"' : '') . ' />
 			</td></tr>';
 
 		break;
