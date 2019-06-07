@@ -5,6 +5,8 @@
 New in 4.8
 ----------
 
+Default School Year: 2019
+
 Students
 - Remove Access: new Custom program, sponsored by Santa Cecilia school.
 
