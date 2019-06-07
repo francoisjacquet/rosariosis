@@ -317,6 +317,7 @@ function Search( $type, $extra = null )
 					WHERE PROGRAM='StaffFieldsSearch'
 					AND TITLE=cast(cf.ID AS TEXT)
 					AND USER_ID='" . User( 'STAFF_ID' ) . "' AND VALUE='Y')
+				AND cf.TYPE<>'files'
 				ORDER BY sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER,cf.TITLE";
 			}
 			elseif ( $type === 'staff_fields' )
@@ -353,6 +354,7 @@ function Search( $type, $extra = null )
 					AND TITLE=cast(cf.ID AS TEXT)
 					AND USER_ID='" . User( 'STAFF_ID' ) . "'
 					AND VALUE='Y')
+				AND cf.TYPE<>'files'
 				ORDER BY sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER,cf.TITLE";
 			}
 			else

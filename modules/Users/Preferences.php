@@ -508,6 +508,7 @@ if ( ! $_REQUEST['modfunc'] )
 			"PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
 			"STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'" ) .
 			" AND MODNAME='Students/Student.php&category_id='||cf.CATEGORY_ID)='Y'
+			AND cf.TYPE<>'files'
 			ORDER BY sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER,cf.TITLE";
 
 		$custom_fields_RET = DBGet(
@@ -747,6 +748,7 @@ if ( ! $_REQUEST['modfunc'] )
 			"PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
 			"STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'" ) .
 			" AND MODNAME='Users/User.php&category_id='||cf.CATEGORY_ID)='Y'
+			AND cf.TYPE<>'files'
 			ORDER BY sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER,cf.TITLE";
 
 		$custom_fields_RET = DBGet(
