@@ -255,6 +255,7 @@ modules/Library_Premium*
 modules/Email_Alerts*
 modules/Reports*
 modules/Staff_Parents_Import*
+modules/Timetable_Import*
 plugins/Email_SMTP*
 plugins/Public_Pages*
 plugins/Custom_Transcripts*
