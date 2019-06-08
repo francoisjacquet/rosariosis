@@ -273,7 +273,7 @@ $RosarioActions = array();
 	/**
 	 * Transcripts PDF HTML array.
 	 *
-	 * @since 4.5
+	 * @since 4.8
 	 */
 	/*'Grades/Transcripts.php|transcripts_html_array' => array(),
 
