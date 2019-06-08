@@ -947,8 +947,6 @@ if (  ( ! $_REQUEST['modfunc']
 
 				$delete_button = '';
 
-				$checked = 'CHECKED';
-
 				$new = true;
 			}
 
@@ -1223,160 +1221,40 @@ if (  ( ! $_REQUEST['modfunc']
 				<?php
 			}
 
-			$header .= '<tr class="st"><td colspan="2">';
+			$cp_inputs = CoursePeriodOptionInputs(
+				$RET,
+				'tables[COURSE_PERIODS][' . $_REQUEST['course_period_id'] . ']',
+				$new
+			);
 
-			$categories_RET = DBGet( "SELECT '0' AS ID,'" . _( 'Attendance' ) . "' AS TITLE
-				UNION SELECT ID,TITLE
-				FROM ATTENDANCE_CODE_CATEGORIES
-				WHERE SYEAR='" . UserSyear() . "'
-				AND SCHOOL_ID='" . UserSchool() . "'" );
+			// Takes Attendance.
+			$header .= '<tr class="st"><td colspan="2">' . $cp_inputs[0];
 
-			$attendance_html = '<table class="cellspacing-0 width-100p"><tr class="st">';
+			// Affects Honor Roll.
+			$header .= '</td><td colspan="2">' . $cp_inputs[1] . '</td>';
 
-			$attendance_cat = array();
+			// Affects Class Rank.
+			$header .= '<td colspan="2">' . $cp_inputs[2] . '</td>';
 
-			$i = 0;
+			// Gender Restriction.
+			$header .= '</tr><tr class="st"><td colspan="2">' . $cp_inputs[3] . '</td>';
 
-			foreach ( (array) $categories_RET as $category )
-			{
-				if ( $i % 2 === 0 )
-				{
-					$attendance_html .= '</tr><tr class="st">';
-				}
+			// Grading Scale.
+			$header .= '<td colspan="2">' . $cp_inputs[4] . '</td>';
 
-				if ( mb_strpos( $RET['DOES_ATTENDANCE'], ',' . $category['ID'] . ',' ) !== false )
-				{
-					$value = 'Y';
-				}
-				else
-				{
-					$value = '';
-				}
+			// Credits.
+			$header .= '<td>' . $cp_inputs[5] . '</td>';
 
-				$attendance_html .= '<td>' . CheckboxInput(
-					$value,
-					'tables[COURSE_PERIODS][' . $_REQUEST['course_period_id'] . '][DOES_ATTENDANCE][' . $category['ID'] . ']',
-					$category['TITLE'],
-					'',
-					true
-				) . '&nbsp;</td>';
+			// Calendar.
+			$header .= '<td>' . $cp_inputs[6] . '</td>';
 
-				$i++;
-			}
-
-			$attendance_html .= '</tr></table>';
-
-			$attendance_title = FormatInputTitle( _( 'Takes Attendance' ), '', false, '' );
-
-			$header .= $attendance_html . $attendance_title;
-
-			$header .= '</td><td colspan="2">' . CheckboxInput(
-				$RET['DOES_HONOR_ROLL'],
-				'tables[COURSE_PERIODS][' . $_REQUEST['course_period_id'] . '][DOES_HONOR_ROLL]',
-				_( 'Affects Honor Roll' ),
-				$checked,
-				$new,
-				button( 'check' ),
-				button( 'x' )
-			) . '</td>';
-
-			$header .= '<td colspan="2">' . CheckboxInput(
-				$RET['DOES_CLASS_RANK'],
-				'tables[COURSE_PERIODS][' . $_REQUEST['course_period_id'] . '][DOES_CLASS_RANK]',
-				_( 'Affects Class Rank' ),
-				$checked,
-				$new,
-				button( 'check' ),
-				button( 'x' )
-			) . '</td>';
-
-			$header .= '</tr><tr class="st"><td colspan="2">' . SelectInput(
-				$RET['GENDER_RESTRICTION'],
-				'tables[COURSE_PERIODS][' . $_REQUEST['course_period_id'] . '][GENDER_RESTRICTION]',
-				_( 'Gender Restriction' ),
-				array(
-					'N' => _( 'None' ),
-					'M' => _( 'Male' ),
-					'F' => _( 'Female' ),
-				),
-				false
-			) . '</td>';
-
-			$options_RET = DBGet( "SELECT TITLE,ID
-				FROM REPORT_CARD_GRADE_SCALES
-				WHERE SYEAR='" . UserSyear() . "'
-				AND SCHOOL_ID='" . UserSchool() . "'" );
-
-			$options = array();
-
-			foreach ( (array) $options_RET as $option )
-			{
-				$options[$option['ID']] = $option['TITLE'];
-			}
-
-			$header .= '<td colspan="2">' . SelectInput(
-				$RET['GRADE_SCALE_ID'],
-				'tables[COURSE_PERIODS][' . $_REQUEST['course_period_id'] . '][GRADE_SCALE_ID]',
-				_( 'Grading Scale' ),
-				$options,
-				_( 'Not Graded' )
-			) . '</td>';
-
-			// bjj Added to handle credits.
-			$header .= '<td>' . TextInput(
-				is_null( $RET['CREDITS'] ) ? '1' : (float) $RET['CREDITS'],
-				'tables[COURSE_PERIODS][' . $_REQUEST['course_period_id'] . '][CREDITS]',
-				_( 'Credits' ),
-				'size=4 maxlength=5',
-				( is_null( $RET['CREDITS'] ) ? false : true )
-			) . '</td>';
-
-			$options_RET = DBGet( "SELECT TITLE,CALENDAR_ID
-				FROM ATTENDANCE_CALENDARS
-				WHERE SYEAR='" . UserSyear() . "'
-				AND SCHOOL_ID='" . UserSchool() . "'
-				ORDER BY DEFAULT_CALENDAR ASC,TITLE" );
-
-			$options = array();
-
-			foreach ( (array) $options_RET as $option )
-			{
-				$options[$option['CALENDAR_ID']] = $option['TITLE'];
-			}
-
-			$header .= '<td>' . SelectInput(
-				$RET['CALENDAR_ID'],
-				'tables[COURSE_PERIODS][' . $_REQUEST['course_period_id'] . '][CALENDAR_ID]',
-				_( 'Calendar' ),
-				$options,
-				false,
-				'required'
-			) . '</td>';
-
-			// BJJ Parent course select was here...  moved it down.
 			$header .= '</tr><tr class="st">';
 
-			//$header .= '<td>' . CheckboxInput($RET['HOUSE_RESTRICTION'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][HOUSE_RESTRICTION]','Restricts House','',$new) . '</td>';
+			// Half Day.
+			$header .= '<td>' . $cp_inputs[7] . '</td>';
 
-			$header .= '<td>' . CheckboxInput(
-				$RET['HALF_DAY'],
-				'tables[COURSE_PERIODS][' . $_REQUEST['course_period_id'] . '][HALF_DAY]',
-				_( 'Half Day' ),
-				$checked,
-				$new,
-				button( 'check' ),
-				button( 'x' )
-			) . '</td>';
-
-			$header .= '<td colspan="3">' . CheckboxInput(
-				$RET['DOES_BREAKOFF'],
-				'tables[COURSE_PERIODS][' . $_REQUEST['course_period_id'] . '][DOES_BREAKOFF]',
-				_( 'Allow Teacher Grade Scale' ),
-				$checked,
-				$new,
-				button( 'check' ),
-				button( 'x' )
-			) . '</td>';
+			// Allow Teacher Grade Scale.
+			$header .= '<td colspan="3">' . $cp_inputs[8] . '</td>';
 
 			if ( $_REQUEST['course_period_id'] !== 'new'
 				&& $RET['PARENT_ID'] !== $_REQUEST['course_period_id'] )
