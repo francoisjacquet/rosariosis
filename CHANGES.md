@@ -10,6 +10,10 @@ Changes in 4.9
 - Do not search custom Fields of the Files type in Search.fnc.php & Preferences.php
 - Move Course Period option inputs + Takes Attendance input to functions in Courses.php & Courses.fnc.php
 
+Changes in 4.8.1
+----------------
+- Fix regression from 4.7 cannot add new Period in Periods.php
+
 Changes in 4.8
 --------------
 - Accessibility: add alt attribute to images, program wide

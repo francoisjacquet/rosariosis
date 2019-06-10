@@ -154,7 +154,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	DrawHeader( '', SubmitButton() );
 
-	ListOutput( $periods_RET, $columns, 'Period', 'Periods' );
+	ListOutput( $periods_RET, $columns, 'Period', 'Periods', $link );
 
 	echo '<div class="center">' . SubmitButton() . '</div>';
 	echo '</form>';
