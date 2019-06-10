@@ -382,40 +382,16 @@ if ( $_REQUEST['tables']
 
 						if ( $table_name == 'COURSE_PERIOD_SCHOOL_PERIODS' )
 						{
-							$other_school_p = DBGet( "SELECT PERIOD_ID,DAYS FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE " . $where['COURSE_PERIODS'] . "='" . $_REQUEST['course_period_id'] . "' AND " . $where[$table_name] . "<>'" . $id . "'" );
-
 							if ( in_array( $columns['PERIOD_ID'], $temp_PERIOD_ID ) ) //prevent repeat periods
 							{
 								continue;
 							}
 
-							$periods_title = '';
-
-							foreach ( $other_school_p as $school_p )
-							{
-								$school_p_title = DBGetOne( "SELECT TITLE
-									FROM SCHOOL_PERIODS
-									WHERE PERIOD_ID='" . $school_p['PERIOD_ID'] . "'
-									AND SCHOOL_ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "'" );
-
-								//FJ days display to locale
-								$nb_days = mb_strlen( $school_p['DAYS'] );
-								$columns_DAYS_locale = $nb_days > 1 ? ' ' . _( 'Days' ) . ' ' : ( $nb_days == 0 ? '' : ' ' . _( 'Day' ) . ' ' );
-
-								for ( $i = 0; $i < $nb_days; $i++ )
-								{
-									$columns_DAYS_locale .= mb_substr( $days_convert[mb_substr( $school_p['DAYS'], $i, 1 )], 0, 3 ) . '.';
-								}
-
-								if ( mb_strlen( $school_p['DAYS'] ) < 5 )
-								{
-									$periods_title .= $school_p_title . $columns_DAYS_locale . ' - ';
-								}
-								else
-								{
-									$periods_title .= $school_p_title . ' - ';
-								}
-							}
+							$title_add = CoursePeriodSchoolPeriodsTitlePartGenerate(
+								$id,
+								$_REQUEST['course_period_id'],
+								$columns
+							);
 
 							if ( empty( $base_title ) )
 							{
@@ -423,42 +399,21 @@ if ( $_REQUEST['tables']
 									FROM COURSE_PERIODS
 									WHERE COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'" );
 
-								$base_title = mb_substr( $current_cp[1]['TITLE'], mb_strpos( $current_cp[1]['TITLE'], ( GetMP( $current_cp[1]['MARKING_PERIOD_ID'], 'MP' ) != 'FY' ? GetMP( $current_cp[1]['MARKING_PERIOD_ID'], 'SHORT_NAME' ) : $current_cp[1]['SHORT_NAME'] ) ) );
+								$base_title = mb_substr(
+									$current_cp[1]['TITLE'],
+									mb_strpos(
+										$current_cp[1]['TITLE'],
+										( GetMP( $current_cp[1]['MARKING_PERIOD_ID'], 'MP' ) != 'FY' ?
+											GetMP( $current_cp[1]['MARKING_PERIOD_ID'], 'SHORT_NAME' ) :
+											$current_cp[1]['SHORT_NAME'] )
+									)
+								);
 							}
 
-							if ( ! empty( $columns['DAYS'] ) )
-							{
-								//FJ days display to locale
-								$nb_days = mb_strlen( $columns['DAYS'] );
-								$columns_DAYS_locale = $nb_days > 1 ? ' ' . _( 'Days' ) . ' ' : ( $nb_days == 0 ? '' : ' ' . _( 'Day' ) . ' ' );
+							$title = $title_add . $base_title;
 
-								for ( $i = 0; $i < $nb_days; $i++ )
-								{
-									$columns_DAYS_locale .= mb_substr( $days_convert[mb_substr( $columns['DAYS'], $i, 1 )], 0, 3 ) . '.';
-								}
-
-								$school_period_title = DBGetOne( "SELECT sp.TITLE
-									FROM SCHOOL_PERIODS sp, COURSE_PERIOD_SCHOOL_PERIODS cpsp
-									WHERE sp.PERIOD_ID=cpsp.PERIOD_ID
-									AND cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID='" . $id . "'
-									AND sp.SCHOOL_ID='" . UserSchool() . "'
-									AND sp.SYEAR='" . UserSyear() . "'" );
-
-								if ( mb_strlen( $columns['DAYS'] ) < 5 )
-								{
-									$title = $school_period_title . $columns_DAYS_locale . ' - ' . $periods_title . $base_title;
-								}
-								else
-								{
-									$title = $school_period_title . ' - ' . $periods_title . $base_title;
-								}
-							}
-							else
-							{
-								$title = $periods_title . $base_title;
-							}
-
-							DBQuery( "UPDATE COURSE_PERIODS SET TITLE='" . $title . "'
+							DBQuery( "UPDATE COURSE_PERIODS
+								SET TITLE='" . $title . "'
 								WHERE COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'" );
 
 							if ( empty( $columns['DAYS'] ) ) //delete school period
@@ -587,31 +542,15 @@ if ( $_REQUEST['tables']
 							$fields = 'COURSE_PERIOD_SCHOOL_PERIODS_ID,COURSE_PERIOD_ID,';
 							$values = "nextval('COURSE_PERIOD_SCHOOL_PERIODS_SEQ'),'" . $_REQUEST['course_period_id'] . "',";
 
-							//FJ days display to locale
-							$nb_days = mb_strlen( $columns['DAYS'] );
-							$columns_DAYS_locale = $nb_days > 1 ? ' ' . _( 'Days' ) . ' ' : ( $nb_days == 0 ? '' : ' ' . _( 'Day' ) . ' ' );
+							$title_add = CoursePeriodSchoolPeriodsTitlePartGenerate(
+								0,
+								$_REQUEST['course_period_id'],
+								$columns
+							);
 
-							for ( $i = 0; $i < $nb_days; $i++ )
-							{
-								$columns_DAYS_locale .= mb_substr( $days_convert[mb_substr( $columns['DAYS'], $i, 1 )], 0, 3 ) . '.';
-							}
-
-							$school_period_title = DBGetOne( "SELECT TITLE
-								FROM SCHOOL_PERIODS
-								WHERE PERIOD_ID='" . $columns['PERIOD_ID'] . "'
-								AND SCHOOL_ID='" . UserSchool() . "'
-								AND SYEAR='" . UserSyear() . "'" );
-
-							if ( mb_strlen( $columns['DAYS'] ) < 5 )
-							{
-								$title_add = $school_period_title . $columns_DAYS_locale;
-							}
-							else
-							{
-								$title_add = $school_period_title;
-							}
-
-							DBQuery( "UPDATE COURSE_PERIODS SET TITLE=COALESCE('" . $title_add . "'||' - '||TITLE) WHERE COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'" );
+							DBQuery( "UPDATE COURSE_PERIODS
+								SET TITLE=COALESCE('" . $title_add . "'||TITLE)
+								WHERE COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'" );
 						}
 
 						$go = 0;

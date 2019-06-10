@@ -255,7 +255,7 @@ function CoursePeriodOptionInputs( $course_period_RET, $array, $new )
 
 /**
  * Generate Course Period Title
- * Use the CoursePeriodSchoolPeriodsTitleGenerate() function to complete title!
+ * Use the CoursePeriodSchoolPeriodsTitlePartGenerate() function to complete title!
  *
  * @since 4.9
  *
@@ -337,4 +337,121 @@ function CoursePeriodTitleGenerate( $cp_id, $columns )
 	}
 
 	return $periods_title . $base_title;
+}
+
+
+/**
+ * Generate Course Period School Periods title part
+ *
+ * @since 4.9
+ *
+ * @param integer $cpsp_id Course Period School Period ID, set to 0 on INSERT.
+ * @param integer $cp_id   Course Period ID.
+ * @param array   $columns Course Period School Period columns and values array.
+ *
+ * @return string Course Period School Periods title part
+ */
+function CoursePeriodSchoolPeriodsTitlePartGenerate( $cpsp_id, $cp_id, $columns )
+{
+	// FJ days display to locale.
+	$days_convert = array(
+		'U' => _( 'Sunday' ),
+		'M' => _( 'Monday' ),
+		'T' => _( 'Tuesday' ),
+		'W' => _( 'Wednesday' ),
+		'H' => _( 'Thursday' ),
+		'F' => _( 'Friday' ),
+		'S' => _( 'Saturday' ),
+	);
+
+	if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
+	{
+		// FJ days numbered.
+		$days_convert = array(
+			'U' => '7',
+			'M' => '1',
+			'T' => '2',
+			'W' => '3',
+			'H' => '4',
+			'F' => '5',
+			'S' => '6',
+		);
+	}
+
+	$other_school_p = DBGet( "SELECT PERIOD_ID,DAYS
+		FROM COURSE_PERIOD_SCHOOL_PERIODS
+		WHERE COURSE_PERIOD_ID='" . $cp_id . "'
+		AND COURSE_PERIOD_SCHOOL_PERIODS_ID<>'" . $cpsp_id . "'" );
+
+	$periods_title = '';
+
+	foreach ( $other_school_p as $school_p )
+	{
+		$school_p_title = DBGetOne( "SELECT TITLE
+			FROM SCHOOL_PERIODS
+			WHERE PERIOD_ID='" . $school_p['PERIOD_ID'] . "'
+			AND SCHOOL_ID='" . UserSchool() . "'
+			AND SYEAR='" . UserSyear() . "'" );
+
+		if ( mb_strlen( $school_p['DAYS'] ) >= 5 )
+		{
+			$periods_title .= $school_p_title . ' - ';
+
+			continue;
+		}
+
+		$nb_days = mb_strlen( $school_p['DAYS'] );
+
+		// $columns_days_locale = $nb_days > 1 ? ' ' . _( 'Days' ) . ' ' :	( $nb_days == 0 ? '' : ' ' . _( 'Day' ) . ' ' );
+		$columns_days_locale = ' ';
+
+		for ( $i = 0; $i < $nb_days; $i++ )
+		{
+			$columns_days_locale .= mb_substr( $days_convert[mb_substr( $school_p['DAYS'], $i, 1 )], 0, 3 ) . '.';
+		}
+
+		$periods_title .= $school_p_title . $columns_days_locale . ' - ';
+	}
+
+	if ( empty( $columns['DAYS'] ) )
+	{
+		return $periods_title;
+	}
+
+	if ( $cpsp_id )
+	{
+		$school_period_title = DBGetOne( "SELECT sp.TITLE
+			FROM SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
+			WHERE sp.PERIOD_ID=cpsp.PERIOD_ID
+			AND cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID='" . $cpsp_id . "'
+			AND sp.SCHOOL_ID='" . UserSchool() . "'
+			AND sp.SYEAR='" . UserSyear() . "'" );
+	}
+	else
+	{
+		$school_period_title = DBGetOne( "SELECT TITLE
+			FROM SCHOOL_PERIODS
+			WHERE PERIOD_ID='" . $columns['PERIOD_ID'] . "'
+			AND SCHOOL_ID='" . UserSchool() . "'
+			AND SYEAR='" . UserSyear() . "'" );
+	}
+
+	if ( mb_strlen( $columns['DAYS'] ) >= 5 )
+	{
+		return $school_period_title . ' - ' . $periods_title;
+	}
+
+	$nb_days = mb_strlen( $columns['DAYS'] );
+
+	// $columns_days_locale = $nb_days > 1 ? ' ' . _( 'Days' ) . ' ' : ( $nb_days == 0 ? '' : ' ' . _( 'Day' ) . ' ' );
+	$columns_days_locale = ' ';
+
+	for ( $i = 0; $i < $nb_days; $i++ )
+	{
+		$columns_days_locale .= mb_substr( $days_convert[mb_substr( $columns['DAYS'], $i, 1 )], 0, 3 ) . '.';
+	}
+
+	$title = $school_period_title . $columns_days_locale . ' - ' . $periods_title;
+
+	return $title;
 }

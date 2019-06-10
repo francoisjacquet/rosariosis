@@ -10,6 +10,8 @@ Changes in 4.9
 - Do not search custom Fields of the Files type in Search.fnc.php & Preferences.php
 - Move Course Period option inputs + Takes Attendance input to functions in Courses.php & Courses.fnc.php
 - Move Course Period title generation to function in Courses.php & Courses.fnc.php
+- Move Course Period School Periods title part generation to function in Courses.php & Courses.fnc.php
+- Remove "Days" mention in Course Period School Periods title part  in Courses.fnc.php
 
 Changes in 4.8.1
 ----------------
