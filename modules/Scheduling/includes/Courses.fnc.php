@@ -251,3 +251,90 @@ function CoursePeriodOptionInputs( $course_period_RET, $array, $new )
 
 	return $inputs;
 }
+
+
+/**
+ * Generate Course Period Title
+ * Use the CoursePeriodSchoolPeriodsTitleGenerate() function to complete title!
+ *
+ * @since 4.9
+ *
+ * @param integer $cp_id   Course Period ID, set to 0 on INSERT.
+ * @param array   $columns Course Period columns and values array.
+ *
+ * @return string Course Period Title.
+ */
+function CoursePeriodTitleGenerate( $cp_id, $columns )
+{
+	if ( empty( $cp_id )
+		&& empty( $columns ) )
+	{
+		return '';
+	}
+
+	if ( $cp_id )
+	{
+		$current = DBGet( "SELECT TEACHER_ID,MARKING_PERIOD_ID,
+			SHORT_NAME,TITLE
+			FROM COURSE_PERIODS
+			WHERE COURSE_PERIOD_ID='" . $cp_id . "'" );
+	}
+
+	if ( isset( $columns['TEACHER_ID'] ) )
+	{
+		$staff_id = $columns['TEACHER_ID'];
+	}
+	else
+	{
+		$staff_id = $current[1]['TEACHER_ID'];
+	}
+
+	if ( isset( $columns['MARKING_PERIOD_ID'] ) )
+	{
+		$marking_period_id = $columns['MARKING_PERIOD_ID'];
+	}
+	else
+	{
+		$marking_period_id = $current[1]['MARKING_PERIOD_ID'];
+	}
+
+	if ( isset( $columns['SHORT_NAME'] ) )
+	{
+		$short_name = $columns['SHORT_NAME'];
+	}
+	else
+	{
+		$short_name = $current[1]['SHORT_NAME'];
+	}
+
+	$mp_title = '';
+
+	if ( GetMP( $marking_period_id, 'MP' ) != 'FY' )
+	{
+		$mp_title = GetMP( $marking_period_id, 'SHORT_NAME' ) . ' - ';
+	}
+
+	$base_title = $mp_title . $short_name . ' - ';
+
+	$base_title = DBEscapeString( $base_title . GetTeacher( $staff_id ) );
+
+	$periods_title = '';
+
+	if ( $current )
+	{
+		// Get missing part of the title before short name:
+		$base_title_pos = mb_strpos(
+			$current[1]['TITLE'],
+			( GetMP( $current[1]['MARKING_PERIOD_ID'], 'MP' ) !== 'FY' ?
+				GetMP( $current[1]['MARKING_PERIOD_ID'], 'SHORT_NAME' ) :
+				$current[1]['SHORT_NAME'] )
+		);
+
+		if ( $base_title_pos != 0 )
+		{
+			$periods_title = mb_substr( $current[1]['TITLE'], 0, $base_title_pos );
+		}
+	}
+
+	return $periods_title . $base_title;
+}

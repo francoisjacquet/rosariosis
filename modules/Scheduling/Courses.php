@@ -357,68 +357,9 @@ if ( $_REQUEST['tables']
 
 						if ( $table_name == 'COURSE_PERIODS' )
 						{
-							//$current = DBGet( "SELECT TEACHER_ID,PERIOD_ID,MARKING_PERIOD_ID,DAYS,SHORT_NAME FROM COURSE_PERIODS WHERE ".$where[ $table_name ]."='".$id."'" );
-							$current = DBGet( "SELECT TEACHER_ID,MARKING_PERIOD_ID,
-								SHORT_NAME,TITLE
-								FROM COURSE_PERIODS
-								WHERE " . $where[$table_name] . "='" . $id . "'" );
+							$cp_title = CoursePeriodTitleGenerate( $id, $columns );
 
-							if ( isset( $columns['TEACHER_ID'] ) )
-							{
-								$staff_id = $columns['TEACHER_ID'];
-							}
-							else
-							{
-								$staff_id = $current[1]['TEACHER_ID'];
-							}
-
-							if ( isset( $columns['MARKING_PERIOD_ID'] ) )
-							{
-								$marking_period_id = $columns['MARKING_PERIOD_ID'];
-							}
-							else
-							{
-								$marking_period_id = $current[1]['MARKING_PERIOD_ID'];
-							}
-
-							if ( $columns['SHORT_NAME'] )
-							{
-								$short_name = $columns['SHORT_NAME'];
-							}
-							else
-							{
-								$short_name = $current[1]['SHORT_NAME'];
-							}
-
-							$mp_title = '';
-
-							if ( GetMP( $marking_period_id, 'MP' ) != 'FY' )
-							{
-								$mp_title = GetMP( $marking_period_id, 'SHORT_NAME' ) . ' - ';
-							}
-
-							$base_title = $mp_title . $short_name . ' - ';
-
-							// $base_title = str_replace("'","''",$base_title.$teacher[1]['FIRST_NAME'].' '.$teacher[1]['MIDDLE_NAME'].' '.$teacher[1]['LAST_NAME']);
-							// FJ remove teacher's middle name to gain space.
-							$base_title = DBEscapeString( $base_title . GetTeacher( $staff_id ) );
-
-							$periods_title = '';
-
-							// Get missing part of the title before short name:
-							$base_title_pos = mb_strpos(
-								$current[1]['TITLE'],
-								( GetMP( $current[1]['MARKING_PERIOD_ID'], 'MP' ) !== 'FY' ?
-									GetMP( $current[1]['MARKING_PERIOD_ID'], 'SHORT_NAME' ) :
-									$current[1]['SHORT_NAME'] )
-							);
-
-							if ( $base_title_pos != 0 )
-							{
-								$periods_title = mb_substr( $current[1]['TITLE'], 0, $base_title_pos );
-							}
-
-							$sql .= "TITLE='" . $periods_title . $base_title . "',";
+							$sql .= "TITLE='" . $cp_title . "',";
 
 							if ( isset( $columns['MARKING_PERIOD_ID'] ) )
 							{
@@ -517,7 +458,8 @@ if ( $_REQUEST['tables']
 								$title = $periods_title . $base_title;
 							}
 
-							DBQuery( "UPDATE COURSE_PERIODS SET TITLE='" . $title . "' WHERE COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'" );
+							DBQuery( "UPDATE COURSE_PERIODS SET TITLE='" . $title . "'
+								WHERE COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'" );
 
 							if ( empty( $columns['DAYS'] ) ) //delete school period
 							{
@@ -612,23 +554,12 @@ if ( $_REQUEST['tables']
 								{
 									$columns['MP'] = 'QTR';
 								}
-
-								if ( GetMP( $columns['MARKING_PERIOD_ID'], 'MP' ) != 'FY' )
-								{
-									$mp_title = GetMP( $columns['MARKING_PERIOD_ID'], 'SHORT_NAME' ) . ' - ';
-								}
 							}
 
-							if ( $columns['SHORT_NAME'] )
-							{
-								$base_title = $mp_title . $columns['SHORT_NAME'] . ' - ';
-							}
-
-							//$base_title = str_replace("'","''",$base_title.$teacher[1]['FIRST_NAME'].' '.$teacher[1]['MIDDLE_NAME'].' '.$teacher[1]['LAST_NAME']);
-							//FJ remove teacher's middle name to gain space
-							$base_title = DBEscapeString( $base_title . GetTeacher( $columns['TEACHER_ID'] ) );
+							$base_title = CoursePeriodTitleGenerate( 0, $columns );
 
 							$values = "'" . UserSyear() . "','" . UserSchool() . "','" . $id . "','" . $_REQUEST['course_id'] . "','" . $base_title . "','0',";
+
 							$_REQUEST['course_period_id'] = $id;
 						}
 
@@ -806,10 +737,9 @@ if ( $_REQUEST['modfunc'] === 'delete'
 
 	if ( DeletePrompt( $table ) )
 	{
-		foreach ( (array) $delete_sql as $delete_query )
-		{
-			DBQuery( $delete_query );
-		}
+		$delete_queries = implode( ';', $delete_sql );
+
+		DBQuery( $delete_queries );
 
 		if ( ! empty( $_REQUEST['course_period_id'] ) )
 		{

@@ -9,6 +9,7 @@ Changes in 4.9
 - Accessibility: add missing input label in Widgets.fnc.php
 - Do not search custom Fields of the Files type in Search.fnc.php & Preferences.php
 - Move Course Period option inputs + Takes Attendance input to functions in Courses.php & Courses.fnc.php
+- Move Course Period title generation to function in Courses.php & Courses.fnc.php
 
 Changes in 4.8.1
 ----------------
