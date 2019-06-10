@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 4.8.1
+----------------
+- Fix regression from 4.7 cannot add new Period in Periods.php
+
 Changes in 4.8
 --------------
 - Accessibility: add alt attribute to images, program wide
