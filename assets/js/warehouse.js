@@ -393,7 +393,14 @@ var ajaxPrepare = function(target) {
 		ajaxPostForm(this, false);
 	});
 
-	if (target == '#menu' && window.modname) openMenu(modname);
+	if (target == '#menu') {
+		if (window.modname) {
+			openMenu(modname);
+		}
+		if (screen.width > 736) {
+			submenuOffset();
+		}
+	}
 
 	if (isTouchDevice()) $('.rt').each(function(i, e) {
 		touchScroll(e.tBodies[0]);
