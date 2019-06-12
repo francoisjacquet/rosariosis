@@ -14,6 +14,10 @@ Changes in 4.9
 - Remove "Days" mention in Course Period School Periods title part  in Courses.fnc.php
 - JS fix submenu offset after (de)activating Module or Plugin in warehouse.js
 
+Changes in 4.8.2
+----------------
+- Fix PHP error do_action() not defined when $Timezone set in Warehouse.php
+
 Changes in 4.8.1
 ----------------
 - Fix regression from 4.7 cannot add new Period in Periods.php

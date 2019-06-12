@@ -80,18 +80,6 @@ if ( ! isset( $LocalePath ) )
 	$LocalePath = 'locale';
 }
 
-if ( isset( $Timezone ) )
-{
-	// Time zone.
-	// Sets the default time zone used by all date/time functions.
-
-	if ( date_default_timezone_set( $Timezone ) )
-	{
-		// If valid PHP timezone_identifier, should be OK for Postgres.
-		DBQuery( "SET TIMEZONE TO '" . $Timezone . "'" );
-	}
-}
-
 if ( ! isset( $ETagCache ) )
 {
 	// ETag cache system.
@@ -106,6 +94,18 @@ $functions = glob( 'functions/*.php' );
 foreach ( $functions as $function )
 {
 	require_once $function;
+}
+
+if ( isset( $Timezone ) )
+{
+	// Time zone.
+	// Sets the default time zone used by all date/time functions.
+
+	if ( date_default_timezone_set( $Timezone ) )
+	{
+		// If valid PHP timezone_identifier, should be OK for Postgres.
+		DBQuery( "SET TIMEZONE TO '" . $Timezone . "'" );
+	}
 }
 
 // Send email on PHP fatal error.
