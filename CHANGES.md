@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 4.8.2
+----------------
+- Fix PHP error do_action() not defined when $Timezone set in Warehouse.php
+
 Changes in 4.8.1
 ----------------
 - Fix regression from 4.7 cannot add new Period in Periods.php
