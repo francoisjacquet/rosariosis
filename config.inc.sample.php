@@ -69,7 +69,6 @@ $DefaultSyear = '2019';
 
 /**
  * Notify email address where to send
- * error,
  * new administrator,
  * new registration notifications
  *
