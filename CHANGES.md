@@ -13,6 +13,7 @@ Changes in 4.9
 - Move Course Period School Periods title part generation to function in Courses.php & Courses.fnc.php
 - Remove "Days" mention in Course Period School Periods title part  in Courses.fnc.php
 - JS fix submenu offset after (de)activating Module or Plugin in warehouse.js
+- Fix SQL error when SHORT_NAME already in use in MenuItems.php
 
 Changes in 4.8.2
 ----------------
