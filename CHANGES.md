@@ -14,6 +14,7 @@ Changes in 4.9
 - Remove "Days" mention in Course Period School Periods title part  in Courses.fnc.php
 - JS fix submenu offset after (de)activating Module or Plugin in warehouse.js
 - Fix SQL error when SHORT_NAME already in use in MenuItems.php
+- Fix SQL error cast Staff ID to int in Config.fnc.php
 
 Changes in 4.8.2
 ----------------
