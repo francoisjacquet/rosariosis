@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 4.8.3
+----------------
+- Add Install RosarioSIS database script in InstallDatabase.php
+
 Changes in 4.8.2
 ----------------
 - Fix PHP error do_action() not defined when $Timezone set in Warehouse.php
