@@ -40,6 +40,35 @@ $config_table_exists = db_fetch_row( $result );
 if ( $result !== false
 	&& $config_table_exists )
 {
+	if ( ! empty( $_POST['lang'] ) )
+	{
+		if ( $_POST['lang'] === 'fr'
+			&& file_exists( 'rosariosis_fr.sql' ) )
+		{
+			$rosariosis_sql = file_get_contents( 'rosariosis_fr.sql' );
+		}
+		elseif ( $_POST['lang'] === 'es'
+			&& file_exists( 'rosariosis_es.sql' ) )
+		{
+			$rosariosis_sql = file_get_contents( 'rosariosis_es.sql' );
+		}
+
+		// Run SQL queries. Do not use DBQuery() as it will not work.
+		$result = @pg_exec( $connection, $rosariosis_sql );
+
+		if ( $result === false )
+		{
+			$errstring = pg_last_error( $connection );
+
+			// TRANSLATION: do NOT translate these since error messages need to stay in English for technical support.
+			db_show_error( $rosariosis_sql, 'DB Execute Failed.', $errstring );
+		}
+		else
+		{
+			die( 'Success: database translated. <a href="index.php">Access RosarioSIS</a>' );
+		}
+	}
+
 	die( 'Database already installed.' );
 }
 
@@ -49,20 +78,6 @@ if ( ! file_exists( 'rosariosis.sql' ) )
 }
 
 $rosariosis_sql = file_get_contents( 'rosariosis.sql' );
-
-if ( ! empty( $_GET['lang'] ) )
-{
-	if ( $_GET['lang'] === 'fr'
-		&& file_exists( 'rosariosis_fr.sql' ) )
-	{
-		$rosariosis_sql .= file_get_contents( 'rosariosis_fr.sql' );
-	}
-	elseif ( $_GET['lang'] === 'es'
-		&& file_exists( 'rosariosis_es.sql' ) )
-	{
-		$rosariosis_sql .= file_get_contents( 'rosariosis_es.sql' );
-	}
-}
 
 // Run SQL queries. Do not use DBQuery() as it will not work.
 $result = @pg_exec( $connection, $rosariosis_sql );
@@ -76,5 +91,18 @@ if ( $result === false )
 }
 else
 {
-	die( 'Success: database installed.' );
+	?>
+	<form method="POST">
+		Translate database to
+		<select name="lang">
+			<option value="es">Spanish</option>
+			<option value="fr">French</option>
+		</select>
+		<br />
+		<input type="submit" value="Submit" />
+		<br />
+	</form>
+	<?php
+
+	die( 'Success: database installed. <a href="index.php">Access RosarioSIS</a>' );
 }
