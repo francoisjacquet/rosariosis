@@ -16,6 +16,10 @@ Changes in 4.9
 - Fix SQL error when SHORT_NAME already in use in MenuItems.php
 - Fix SQL error cast Staff ID to int in Config.fnc.php
 
+Changes in 4.8.3
+----------------
+- Add Install RosarioSIS database script in InstallDatabase.php
+
 Changes in 4.8.2
 ----------------
 - Fix PHP error do_action() not defined when $Timezone set in Warehouse.php
