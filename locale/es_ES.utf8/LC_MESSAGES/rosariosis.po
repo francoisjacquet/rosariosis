@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-06-05 16:59+0200\n"
-"PO-Revision-Date: 2019-06-05 17:00+0200\n"
+"PO-Revision-Date: 2019-06-19 15:17+0200\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS\n"
 "Language: es\n"
@@ -2283,7 +2283,7 @@ msgstr "%s versión %s"
 msgid "Expense"
 msgid_plural "Expenses"
 msgstr[0] "Gasto"
-msgstr[1] "Gasto"
+msgstr[1] "Gastos"
 
 #: modules/Accounting/DailyTotals.php:23
 #: modules/Accounting/DailyTransactions.php:15
@@ -2421,7 +2421,7 @@ msgstr "Pago del Personal"
 msgid "Salary"
 msgid_plural "Salaries"
 msgstr[0] "Salario"
-msgstr[1] "Salario"
+msgstr[1] "Salarios"
 
 #: modules/Accounting/DailyTransactions.php:128
 msgid "Staff"
