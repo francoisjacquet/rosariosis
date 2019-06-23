@@ -19,6 +19,7 @@ Changes in 4.9
 Changes in 4.8.3
 ----------------
 - Add Install RosarioSIS database script in InstallDatabase.php
+- Check before first login in InstallDatabase.php
 
 Changes in 4.8.2
 ----------------

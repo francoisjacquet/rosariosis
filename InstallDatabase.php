@@ -40,7 +40,14 @@ $config_table_exists = db_fetch_row( $result );
 if ( $result !== false
 	&& $config_table_exists )
 {
-	if ( ! empty( $_POST['lang'] ) )
+	$result = @pg_exec( $connection, "SELECT CONFIG_VALUE
+	FROM CONFIG
+	WHERE TITLE='LOGIN';" );
+
+	$config_login = db_fetch_row( $result );
+
+	if ( ! empty( $_POST['lang'] )
+		&& $config_login['CONFIG_VALUE'] === 'No' )
 	{
 		if ( $_POST['lang'] === 'fr'
 			&& file_exists( 'rosariosis_fr.sql' ) )
