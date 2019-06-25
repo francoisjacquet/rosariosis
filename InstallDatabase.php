@@ -5,12 +5,6 @@
  * Please create your database first
  * and then fill in the details in the config.inc.php file.
  *
- * Install database and translate to French:
- * @example InstallDatabase.php?lang=fr
- *
- * Install database and translate to Spanish:
- * @example InstallDatabase.php?lang=es
- *
  * @since 4.8.3
  */
 
