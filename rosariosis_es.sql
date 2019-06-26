@@ -147,19 +147,19 @@ SET title='Semestre 2', short_name='S2'
 WHERE marking_period_id=3;
 
 UPDATE school_marking_periods
-SET title='Bimestre 1', short_name='B1'
+SET title='Trimestre 1', short_name='T1'
 WHERE marking_period_id=4;
 
 UPDATE school_marking_periods
-SET title='Bimestre 2', short_name='B2'
+SET title='Trimestre 2', short_name='T2'
 WHERE marking_period_id=5;
 
 UPDATE school_marking_periods
-SET title='Bimestre 3', short_name='B3'
+SET title='Trimestre 3', short_name='T3'
 WHERE marking_period_id=6;
 
 UPDATE school_marking_periods
-SET title='Bimestre 4', short_name='B4'
+SET title='Trimestre 4', short_name='T4'
 WHERE marking_period_id=7;
 
 
