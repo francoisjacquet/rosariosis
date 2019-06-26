@@ -16,6 +16,10 @@ Changes in 4.9
 - Fix SQL error when SHORT_NAME already in use in MenuItems.php
 - Fix SQL error cast Staff ID to int in Config.fnc.php
 
+Changes in 4.8.5
+----------------
+- Fix Course Period choose checkbox in PrintClassPictures.php
+
 Changes in 4.8.4
 ----------------
 - Fix regression other MP grades not saved in InputFinalGrades.php

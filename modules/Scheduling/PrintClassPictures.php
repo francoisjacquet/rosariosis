@@ -378,8 +378,9 @@ function mySearch( $type, $extra = '' )
 
 		//$sql .= ' ORDER BY sp.PERIOD_ID';
 
-		$course_periods_RET = DBGet( $sql, array( 'COURSE_PERIOD_ID' => 'MakeChooseCheckbox' ) );
 		$LO_columns = array( 'COURSE_PERIOD_ID' => MakeChooseCheckbox( 'Y', '', 'cp_arr' ), 'TITLE' => _( 'Course Period' ) );
+
+		$course_periods_RET = DBGet( $sql, array( 'COURSE_PERIOD_ID' => 'MakeChooseCheckbox' ) );
 
 		if ( empty( $_REQUEST['LO_save'] ) && ! $extra['suppress_save'] )
 		{
