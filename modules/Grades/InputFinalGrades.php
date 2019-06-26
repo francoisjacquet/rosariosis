@@ -1133,7 +1133,10 @@ $extra['DATE'] = GetMP( $_REQUEST['mp'], 'END_DATE' );
 
 $stu_RET = GetStuList( $extra );
 
-echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . ( ! empty( $categories_RET ) && GetMP( $_REQUEST['mp'], 'DOES_COMMENTS' ) == 'Y' ? '&tab_id=' . $_REQUEST['tab_id'] : '' ) . '" method="POST">';
+echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
+	( ! empty( $categories_RET ) && GetMP( $_REQUEST['mp'], 'DOES_COMMENTS' ) == 'Y' ?
+		'&tab_id=' . $_REQUEST['tab_id'] : '' ) .
+	'&mp=' . $_REQUEST['mp'] . '" method="POST">';
 
 if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 {
