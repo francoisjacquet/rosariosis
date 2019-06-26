@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 4.8.5
+----------------
+- Fix Course Period choose checkbox in PrintClassPictures.php
+
 Changes in 4.8.4
 ----------------
 - Fix regression other MP grades not saved in InputFinalGrades.php
