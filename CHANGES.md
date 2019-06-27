@@ -15,6 +15,7 @@ Changes in 4.9
 - JS fix submenu offset after (de)activating Module or Plugin in warehouse.js
 - Fix SQL error when SHORT_NAME already in use in MenuItems.php
 - Fix SQL error cast Staff ID to int in Config.fnc.php
+- Fix #269 Grades dashboard: display Assignments total in Dashboard.inc.php
 
 Changes in 4.8.5
 ----------------

@@ -68,21 +68,14 @@ if ( ! function_exists( 'DashboardGradesAdmin' ) )
 			WHERE MARKING_PERIOD_ID='" . UserMP() . "'
 			AND DUE_DATE IS NOT NULL
 			GROUP BY DUE_DATE
-			ORDER BY DUE_DATE DESC
+			ORDER BY DUE_DATE ASC
 			LIMIT 7" );
-
-			$assignments_today = 0;
-
-			if ( ! empty( $assignments_RET[1] )
-				&& $assignments_RET[1]['DUE_DATE'] === DBDate() )
-			{
-				// Assignments due today.
-				$assignments_today = (int) $assignments_RET[1]['ASSIGNMENTS_NB'];
-			}
 
 			$assignments_data = array();
 
-			$assignments_data[ _( 'Assignments' ) ] = $assignments_today;
+			$assignments_total = 0;
+
+			$assignments_data[ _( 'Assignments' ) ] = 0;
 
 			$sql_submissions = array();
 
@@ -92,15 +85,19 @@ if ( ! function_exists( 'DashboardGradesAdmin' ) )
 
 				$assignments_data[ $proper_date ] = $assignments['ASSIGNMENTS_NB'];
 
+				$assignments_total += $assignments['ASSIGNMENTS_NB'];
+
 				$sql_submissions[] = "SUM(CASE WHEN ASSIGNMENT_ID IN (" . $assignments['ASSIGNMENTS_LIST'] .
 					") THEN 1 END) AS " . DBEscapeIdentifier( $assignments['DUE_DATE'] );
 			}
 
-			if ( ! $assignments_today
+			if ( ! $assignments_total
 				&& count( $assignments_data ) < 2 )
 			{
 				return array();
 			}
+
+			$assignments_data[ _( 'Assignments' ) ] = $assignments_total;
 
 			// Assignments submissions.
 			$submissions_RET = DBGet( "SELECT " .
