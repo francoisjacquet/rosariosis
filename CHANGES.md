@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 4.8.6
+----------------
+- Fix regression since 4.5 cannot save Teacher Programs Permissions in Profiles.php & Exceptions.php
+
 Changes in 4.8.5
 ----------------
 - Fix Course Period choose checkbox in PrintClassPictures.php
