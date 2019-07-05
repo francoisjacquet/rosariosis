@@ -144,19 +144,6 @@ if ( $_REQUEST['modfunc'] === 'update'
 		}
 	}
 
-	//FJ fix SQL bug TeacherPrograms inserted twice as in Users and other categories
-
-	foreach ( (array) $tmp_menu['Users'] as $profile => $modname_array )
-	{
-		foreach ( $modname_array as $modname => $title )
-		{
-			if ( mb_strpos( $modname, 'TeacherPrograms' ) !== false )
-			{
-				unset( $tmp_menu['Users'][$profile][$modname] );
-			}
-		}
-	}
-
 	if ( isset( $_POST['can_use'] ) )
 	{
 		foreach ( (array) $tmp_menu as $modcat => $profiles )

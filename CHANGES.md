@@ -17,6 +17,10 @@ Changes in 4.9
 - Fix SQL error cast Staff ID to int in Config.fnc.php
 - Fix #269 Grades dashboard: display Assignments total in Dashboard.inc.php
 
+Changes in 4.8.6
+----------------
+- Fix regression since 4.5 cannot save Teacher Programs Permissions in Profiles.php & Exceptions.php
+
 Changes in 4.8.5
 ----------------
 - Fix Course Period choose checkbox in PrintClassPictures.php
