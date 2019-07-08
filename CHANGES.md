@@ -16,6 +16,7 @@ Changes in 4.9
 - Fix SQL error when SHORT_NAME already in use in MenuItems.php
 - Fix SQL error cast Staff ID to int in Config.fnc.php
 - Fix #269 Grades dashboard: display Assignments total in Dashboard.inc.php
+- Fix month_date URL param for Attendance category tab link in TakeAttendance.php
 
 Changes in 4.8.6
 ----------------

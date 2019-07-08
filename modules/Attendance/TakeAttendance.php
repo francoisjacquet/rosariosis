@@ -375,7 +375,7 @@ foreach ( (array) $categories_RET as $category )
 	$tabs[] = array(
 		'title' => ParseMLField( $category['TITLE'] ),
 		'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=' . $category['ID'] .
-		'&date=' . $_REQUEST['month_date'] . '&day_date=' . $_REQUEST['day_date'] .
+		'&month_date=' . $_REQUEST['month_date'] . '&day_date=' . $_REQUEST['day_date'] .
 		'&year_date=' . $_REQUEST['year_date'],
 	);
 }
