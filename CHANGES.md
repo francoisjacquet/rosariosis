@@ -17,6 +17,7 @@ Changes in 4.9
 - Fix SQL error cast Staff ID to int in Config.fnc.php
 - Fix #269 Grades dashboard: display Assignments total in Dashboard.inc.php
 - Fix month_date URL param for Attendance category tab link in TakeAttendance.php
+- Add Comments column to Grades in EditReportCardGrades.php, sponsored by ITS Japón school
 
 Changes in 4.8.6
 ----------------

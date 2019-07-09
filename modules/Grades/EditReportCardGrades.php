@@ -275,8 +275,29 @@ if ( UserStudentID() )
 
 		echo PopTable( 'header', $displayname );
 
-		echo '<table style="border-collapse:separate; border-spacing:6px;"><tr><td colspan="3" class="center">' . _( 'Marking Period Statistics' ) . '</td></tr><tr><td>' . _( 'GPA' ) . '</td><td>' . _( 'Weighted' ) . ': ' . sprintf( '%0.3f', $g_mp[$mp_id]['weighted_gpa'] ) . '</td><td>' . _( 'Unweighted' ) . ": " . sprintf( '%0.3f', $g_mp[$mp_id]['unweighted_gpa'] ) . '</td></tr>';
-		echo '<tr><td>' . _( 'Class Rank GPA' ) . '</td><td>' . _( 'Weighted' ) . ': ' . sprintf( '%0.3f', $g_mp[$mp_id]['cr_weighted'] ) . '</td><td>' . _( 'Unweighted' ) . ': ' . sprintf( '%0.3f', $g_mp[$mp_id]['cr_unweighted'] ) . '</td></tr></table>';
+		echo '<fieldset><legend>' . _( 'Marking Period Statistics' ) . '</legend>';
+
+		echo '<table class="cellpadding-5"><tr><td>' . _( 'GPA' ) . '</td><td>' .
+			NoInput(
+				sprintf( '%0.3f', $g_mp[$mp_id]['weighted_gpa'] ),
+				_( 'Weighted' )
+			) . '</td><td>' .
+			NoInput(
+				sprintf( '%0.3f', $g_mp[$mp_id]['unweighted_gpa'] ),
+				_( 'Unweighted' )
+			) . '</td></tr>';
+
+		echo '<tr><td>' . _( 'Class Rank GPA' ) . '</td><td>' .
+			NoInput(
+				sprintf( '%0.3f', $g_mp[$mp_id]['cr_weighted'] ),
+				_( 'Weighted' )
+			) . '</td><td>' .
+			NoInput(
+				sprintf( '%0.3f', $g_mp[$mp_id]['cr_unweighted'] ),
+				_( 'Unweighted' )
+			) . '</td></tr></table>';
+
+		echo '</fieldset>';
 
 		echo PopTable( 'footer' ) . '<br />';
 
@@ -374,6 +395,7 @@ if ( UserStudentID() )
 					'WEIGHTED_GP' => '_makeTextInput',
 					'UNWEIGHTED_GP' => '_makeTextInput',
 					'GP_SCALE' => '_makeTextInput',
+					'COMMENT' => '_makeTextInput',
 				);
 
 				$LO_columns += array(
@@ -382,6 +404,7 @@ if ( UserStudentID() )
 					'WEIGHTED_GP' => _( 'Grade Points' ),
 					'UNWEIGHTED_GP' => _( 'Unweighted Grade Points' ),
 					'GP_SCALE' => _( 'Grade Scale' ),
+					'COMMENT' => _( 'Comments' ),
 				);
 
 				$link['add']['html'] = array(
@@ -392,6 +415,7 @@ if ( UserStudentID() )
 					'WEIGHTED_GP' => _makeTextInput( '', 'WEIGHTED_GP' ),
 					'UNWEIGHTED_GP' => _makeTextInput( '', 'UNWEIGHTED_GP' ),
 					'GP_SCALE' => _makeTextInput( SchoolInfo( 'REPORTING_GP_SCALE' ), 'GP_SCALE' ),
+					'COMMENT' => _makeTextInput( '', 'COMMENT' ),
 				);
 			}
 			else
@@ -472,22 +496,26 @@ function _makeTextInput( $value, $name )
 
 	if ( $name === 'COURSE_TITLE' )
 	{
-		$extra = 'size=15 maxlength=50';
+		$extra = 'size=13 maxlength=50';
 
 		if ( $id !== 'new' )
 		{
 			$extra .= ' required';
 		}
 	}
+	elseif ( $name === 'COMMENT' )
+	{
+		$extra = 'size=13 maxlength=255';
+	}
 	elseif ( $name === 'GRADE_PERCENT' )
 	{
-		$extra = 'size=6 maxlength=6';
+		$extra = 'size=4 maxlength=6';
 	}
 	elseif ( $name === 'GRADE_LETTER'
 		|| $name === 'WEIGHTED_GP'
 		|| $name === 'UNWEIGHTED_GP' )
 	{
-		$extra = 'size=5 maxlength=5';
+		$extra = 'size=3 maxlength=5';
 	}
 	elseif ( $name === 'CLASS_RANK' )
 	{
@@ -499,7 +527,7 @@ function _makeTextInput( $value, $name )
 	//elseif ( $name=='UNWEIGHTED_GP_VALUE')
 	else
 	{
-		$extra = 'size=5 maxlength=10';
+		$extra = 'size=4 maxlength=10';
 	}
 
 	return TextInput(
