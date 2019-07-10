@@ -259,3 +259,4 @@ modules/Timetable_Import*
 plugins/Email_SMTP*
 plugins/Public_Pages*
 plugins/Custom_Transcripts*
+plugins/Setup_Assistant*
