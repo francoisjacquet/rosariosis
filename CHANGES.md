@@ -18,6 +18,7 @@ Changes in 4.9
 - Fix #269 Grades dashboard: display Assignments total in Dashboard.inc.php
 - Fix month_date URL param for Attendance category tab link in TakeAttendance.php
 - Add Comments column to Grades in EditReportCardGrades.php, sponsored by ITS Japón school
+- CSS fix calendar below FlatSIS theme top menu in calendar-blue.css
 
 Changes in 4.8.6
 ----------------
