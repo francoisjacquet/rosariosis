@@ -75,7 +75,3 @@ if ( $RosarioModules['Users'] )
 		'Users/TeacherPrograms.php&include=Grades/AnomalousGrades.php' => _( 'Anomalous Grades' ),
 	);
 }
-
-$exceptions['Grades'] = array(
-	'Grades/CalcGPA.php' => true,
-);
