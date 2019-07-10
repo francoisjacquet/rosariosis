@@ -2,6 +2,12 @@
 
 ## RosarioSIS Student Information System
 
+New in 4.9
+----------
+
+[Discipline Score](https://www.rosariosis.org/discipline-score-plugin/) plugin
+
+
 New in 4.8
 ----------
 
