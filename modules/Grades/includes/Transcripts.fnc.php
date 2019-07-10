@@ -272,6 +272,7 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 		{
 			$student = $students_data[$student_id][1];
 
+
 			$student['ID'] = $student_id;
 
 			foreach ( (array) $t_sgrades as $syear => $mps )
@@ -280,6 +281,12 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 				ob_start();
 
 				$certificate_block1 = '';
+
+				if ( empty( $student['GRADE_LEVEL'] ) )
+				{
+					// FJ history grades in Transripts.
+					$student['GRADE_LEVEL'] = $mps[key( $mps )][1]['GRADE_LEVEL_SHORT'];
+				}
 
 				if ( $show['certificate'] )
 				{
@@ -515,12 +522,6 @@ if ( ! function_exists( 'TranscriptPDFHeader' ) )
 		if ( isset( $student['GENDER'] ) )
 		{
 			echo '<td class="center">' . $student['GENDER'] . '</td>';
-		}
-
-		if ( empty( $student['GRADE_LEVEL'] ) )
-		{
-			// FJ history grades in Transripts.
-			$student['GRADE_LEVEL'] = $mps[key( $mps )][1]['GRADE_LEVEL_SHORT'];
 		}
 
 		echo '<td class="center">' . $student['GRADE_LEVEL'] . '</td></tr></table></td>';
