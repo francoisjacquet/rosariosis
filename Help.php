@@ -88,7 +88,7 @@ foreach ( (array) $help as $program => $value ) :
 
 				$modcat_echo = str_replace( '_', ' ',  $modcat );
 
-				echo DrawHeader( _( $modcat_echo ) );
+				DrawHeader( _( $modcat_echo ) );
 			?>
 			<hr />
 

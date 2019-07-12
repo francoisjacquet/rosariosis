@@ -67,7 +67,7 @@ Search( 'student_id', $extra );
 
 if ( $_REQUEST['search_modfunc'] === 'list' )
 {
-	echo DrawHeader( _( 'Total of Balances' ) . ' = ' . number_format( $total, 2 ) );
+	DrawHeader( _( 'Total of Balances' ) . ' = ' . number_format( $total, 2 ) );
 }
 
 /**
