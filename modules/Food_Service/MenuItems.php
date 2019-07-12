@@ -77,7 +77,8 @@ if ( $_REQUEST['modfunc'] === 'update' )
 						$error[] = _( 'Please enter valid Numeric data.' );
 					}
 				}
-				else
+				elseif ( ! empty( $columns['DESCRIPTION'] )
+					&& ! empty( $columns['SHORT_NAME'] ) )
 				{
 					if ( $_REQUEST['tab_id'] !== 'new' )
 					{
@@ -411,6 +412,13 @@ function makeTextInput( $value, $name )
 	else
 	{
 		$extra = 'size=6 maxlength=8';
+	}
+
+	if ( $id !== 'new'
+		&& ( $name === 'DESCRIPTION'
+			|| $name === 'SHORT_NAME' ) )
+	{
+		$extra .= ' required';
 	}
 
 	return TextInput( $value, 'values[' . $id . '][' . $name . ']', '', $extra );
