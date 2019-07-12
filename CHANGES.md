@@ -20,6 +20,7 @@ Changes in 4.9
 - Add Comments column to Grades in EditReportCardGrades.php, sponsored by ITS Japón school
 - CSS fix calendar below FlatSIS theme top menu in calendar-blue.css
 - Fix Grade Level for history grades in Transcripts.fnc.php
+- Fix regression since 3.9.2 Advanced Student Search not working for Student Info program in Widgets.fnc.php
 
 Changes in 4.8.6
 ----------------

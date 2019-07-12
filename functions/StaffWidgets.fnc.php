@@ -27,6 +27,7 @@ function StaffWidgets( $item, &$myextra = null )
 		$_ROSARIO,
 		$RosarioModules;
 
+	// Do not use `! empty()` here.
 	if ( isset( $myextra ) )
 	{
 		$extra =& $myextra;

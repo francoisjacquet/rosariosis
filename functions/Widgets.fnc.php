@@ -27,7 +27,8 @@ function Widgets( $item, &$myextra = null )
 		$_ROSARIO,
 		$RosarioModules;
 
-	if ( ! empty( $myextra ) )
+	// Do not use `! empty()` here.
+	if ( isset( $myextra ) )
 	{
 		$extra =& $myextra;
 	}
