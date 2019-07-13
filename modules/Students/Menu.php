@@ -14,6 +14,7 @@ $menu['Students']['admin'] = array(
 	'title' => _( 'Students' ),
 	'default' => 'Students/Student.php',
 	'Students/Student.php' => _( 'Student Info' ),
+	// Note: Do NOT merge with Student Info. We'd lose Profile permission to Add.
 	'Students/Student.php&include=General_Info&student_id=new' => _( 'Add a Student' ),
 	'Students/AssignOtherInfo.php' => _( 'Group Assign Student Info' ),
 	'Students/AddUsers.php' => _( 'Associate Parents with Students' ),
