@@ -3,7 +3,7 @@
 
 Changes in 4.9.1
 ----------------
-- Fix #219 Parents & Teachers can Edit User Info
+- Fix #219 Parents & Teachers can Edit User Info in User.php
 
 Changes in 4.9
 --------------
