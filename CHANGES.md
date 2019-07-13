@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 4.9.1
+----------------
+- Fix #219 Parents & Teachers can Edit User Info
+
 Changes in 4.9
 --------------
 - Only display Categories having fields in AssignOtherInfo.php

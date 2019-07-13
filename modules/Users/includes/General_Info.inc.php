@@ -186,9 +186,10 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 
 	$admin_user_profile_restriction = false;
 
-	// Admin USer Profile restriction.
+	// Admin User Profile restriction.
 
-	if ( User( 'PROFILE' ) === 'admin'
+	if ( User( 'PROFILE' ) !== 'admin'
+		|| User( 'PROFILE' ) === 'admin'
 		&& AllowEdit()
 		&& ! AllowEdit( 'Users/User.php&category_id=1&user_profile' ) )
 	{
@@ -206,14 +207,6 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 				'none' => _( 'No Access' ),
 			);
 		}
-
-		$admin_user_profile_restriction = true;
-	}
-	elseif ( User( 'PROFILE' ) !== 'admin'
-		&& $_ROSARIO['allow_edit'] )
-	{
-		// Temporarily deactivate AllowEdit for Parents & Teachers.
-		$_ROSARIO['allow_edit'] = false;
 
 		$admin_user_profile_restriction = true;
 	}
@@ -296,8 +289,8 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 			$admin_schools_restriction = false;
 
 			// Admin Schools restriction.
-
-			if ( User( 'PROFILE' ) === 'admin'
+			if ( User( 'PROFILE' ) !== 'admin'
+				|| User( 'PROFILE' ) === 'admin'
 				&& AllowEdit()
 				&& ! AllowEdit( 'Users/User.php&category_id=1&schools' ) )
 			{

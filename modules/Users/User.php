@@ -64,7 +64,7 @@ if ( User( 'PROFILE' ) !== 'admin' )
 	}
 
 	$can_edit_RET = DBGet( "SELECT MODNAME " . $can_edit_from_where .
-		" AND MODNAME='Users/User.phpp&category_id=" . $category_id . "'
+		" AND MODNAME='Users/User.php&category_id=" . $category_id . "'
 		AND CAN_EDIT='Y'" );
 
 	if ( $can_edit_RET )
