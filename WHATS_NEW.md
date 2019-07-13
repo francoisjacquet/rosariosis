@@ -5,6 +5,9 @@
 New in 4.9
 ----------
 
+Users
+- Profiles: Teachers & Parents can edit User Info tabs.
+
 [Timetable Import](https://www.rosariosis.org/timetable-import-module/) module
 
 [Discipline Score](https://www.rosariosis.org/discipline-score-plugin/) plugin
