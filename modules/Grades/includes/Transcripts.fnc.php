@@ -28,7 +28,11 @@ if ( ! function_exists( 'TranscriptsIncludeForm' ) )
 
 		$return = '<table class="width-100p">';
 
-		$return .= '<tr><td colspan="2"><b>' . _( 'Include on Transcript' ) .
+		$include_on_title = ( $include_on_title === 'Include on Transcript' ?
+			_( 'Include on Transcript' ) :
+			$include_on_title );
+
+		$return .= '<tr><td colspan="2"><b>' . $include_on_title .
 		'</b><input type="hidden" name="SCHOOL_ID" value="' . UserSchool() . '" /><br /></td></tr>';
 
 		// FJ history grades & previous school years in Transripts.
