@@ -7,6 +7,8 @@ Changes in 5.0
 - SQL Remove DISCIPLINE_CATEGORIES table in rosariosis.sql & Rollover.php
 - SQL Move PRIMARY KEY to CREATE TABLE in rosariosis.sql
 - SQL Remove UNIQUE & INDEX constraints for PRIMARY KEY in rosariosis.sql
+- SQL Add CREATED_AT & UPDATED_AT columns to every table in rosariosis.sql
+- SQL Add set_updated_at() function & set_updated_at trigger in rosariosis.sql
 
 Changes in 4.9.1
 ----------------

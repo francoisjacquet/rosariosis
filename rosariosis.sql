@@ -262,6 +262,23 @@ $$
     LANGUAGE plpgsql;
 
 
+--
+-- Set updated_at column
+-- @link https://stackoverflow.com/questions/36934518/postgresql-trigger-for-all-tables-that-include-create-date
+-- @link https://stackoverflow.com/questions/9556474/how-do-i-automatically-update-a-timestamp-in-postgresql
+--
+CREATE OR REPLACE FUNCTION set_updated_at() RETURNS trigger AS $$
+BEGIN
+  IF row(NEW.*) IS DISTINCT FROM row(OLD.*) THEN
+    NEW.updated_at := CURRENT_TIMESTAMP;
+    RETURN NEW;
+  ELSE
+    RETURN OLD;
+  END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -277,7 +294,9 @@ CREATE TABLE access_log (
     login_time timestamp(0) without time zone,
     ip_address character varying(50),
     user_agent text,
-    status character varying(50)
+    status character varying(50),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -294,7 +313,9 @@ CREATE TABLE accounting_incomes (
     title character varying(255),
     amount numeric,
     school_id integer,
-    syear numeric(4,0)
+    syear numeric(4,0),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -336,7 +357,9 @@ CREATE TABLE accounting_salaries (
     title character varying(255),
     amount numeric,
     school_id integer,
-    syear numeric(4,0)
+    syear numeric(4,0),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -370,13 +393,15 @@ SELECT pg_catalog.setval('accounting_salaries_seq', 1, false);
 --
 
 CREATE TABLE accounting_payments (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     syear numeric(4,0) NOT NULL,
     school_id integer NOT NULL,
     staff_id integer,
     amount numeric NOT NULL,
     payment_date date,
-    comments character varying(255)
+    comments character varying(255),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -424,7 +449,9 @@ CREATE TABLE address (
     mail_zipcode character varying(10),
     address character varying(255),
     mail_address character varying(255),
-    phone character varying(30)
+    phone character varying(30),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -440,7 +467,9 @@ CREATE TABLE address_field_categories (
     sort_order numeric,
     residence character(1),
     mailing character(1),
-    bus character(1)
+    bus character(1),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -479,7 +508,9 @@ CREATE TABLE address_fields (
     select_options character varying(10000),
     category_id integer,
     required character varying(1),
-    default_selection character varying(255)
+    default_selection character varying(255),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -537,7 +568,9 @@ CREATE TABLE attendance_calendar (
     school_date date NOT NULL,
     minutes numeric,
     block character varying(10),
-    calendar_id integer NOT NULL
+    calendar_id integer NOT NULL,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -551,9 +584,11 @@ CREATE TABLE attendance_calendars (
     school_id integer,
     title character varying(100),
     syear numeric(4,0),
-    calendar_id integer NOT NULL,
+    calendar_id integer PRIMARY KEY,
     default_calendar character varying(1),
-    rollover_id integer
+    rollover_id integer,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -569,7 +604,9 @@ CREATE TABLE attendance_code_categories (
     school_id integer,
     title character varying(255),
     sort_order numeric,
-    rollover_id integer
+    rollover_id integer,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -610,7 +647,9 @@ CREATE TABLE attendance_codes (
     state_code character varying(1),
     default_code character varying(1),
     table_name numeric,
-    sort_order numeric
+    sort_order numeric,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -645,7 +684,9 @@ CREATE TABLE attendance_completed (
     staff_id integer NOT NULL,
     school_date date NOT NULL,
     period_id integer NOT NULL,
-    table_name numeric NOT NULL
+    table_name numeric NOT NULL,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -662,7 +703,9 @@ CREATE TABLE attendance_day (
     state_value numeric(2,1),
     syear numeric(4,0),
     marking_period_id integer,
-    comment character varying(255)
+    comment character varying(255),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -682,7 +725,9 @@ CREATE TABLE attendance_period (
     admin character varying(1),
     course_period_id integer,
     marking_period_id integer,
-    comment character varying(100)
+    comment character varying(100),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -703,7 +748,8 @@ CREATE TABLE billing_fees (
     school_id integer,
     syear numeric(4,0),
     waived_fee_id integer,
-    old_id integer
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -735,7 +781,7 @@ SELECT pg_catalog.setval('billing_fees_seq', 1, false);
 --
 
 CREATE TABLE billing_payments (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     syear numeric(4,0) NOT NULL,
     school_id integer NOT NULL,
     student_id integer NOT NULL,
@@ -743,7 +789,9 @@ CREATE TABLE billing_payments (
     payment_date date,
     comments character varying(255),
     refunded_payment_id integer,
-    lunch_payment character varying(1)
+    lunch_payment character varying(1),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -780,7 +828,9 @@ CREATE TABLE calendar_events (
     school_id integer,
     school_date date,
     title character varying(50),
-    description character varying(500)
+    description character varying(500),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -835,7 +885,9 @@ SELECT pg_catalog.setval('calendars_seq', 1, true);
 CREATE TABLE config (
     school_id integer NOT NULL,
     title character varying(100),
-    config_value text
+    config_value text,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -870,7 +922,9 @@ CREATE TABLE course_periods (
     does_breakoff character varying(1),
     rollover_id integer,
     grade_scale_id integer,
-    credits numeric
+    credits numeric,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -890,7 +944,9 @@ CREATE TABLE courses (
     short_name character varying(25),
     rollover_id integer,
     credit_hours numeric(6,2),
-    description text
+    description text,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -911,10 +967,12 @@ CREATE VIEW course_details AS
 --
 
 CREATE TABLE course_period_school_periods (
-    course_period_school_periods_id integer NOT NULL,
+    course_period_school_periods_id integer PRIMARY KEY,
     course_period_id integer NOT NULL,
     period_id integer NOT NULL,
-    days character varying(7)
+    days character varying(7),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -973,7 +1031,9 @@ CREATE TABLE course_subjects (
     title character varying(100) NOT NULL,
     short_name character varying(25),
     sort_order numeric,
-    rollover_id integer
+    rollover_id integer,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -1035,7 +1095,9 @@ CREATE TABLE custom_fields (
     select_options character varying(10000),
     category_id integer,
     required character varying(1),
-    default_selection character varying(255)
+    default_selection character varying(255),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -1073,7 +1135,9 @@ CREATE TABLE discipline_field_usage (
     school_id integer NOT NULL,
     title character varying(255),
     select_options character varying(10000),
-    sort_order numeric
+    sort_order numeric,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -1109,7 +1173,9 @@ CREATE TABLE discipline_fields (
     title character varying(255) NOT NULL,
     short_name character varying(20),
     data_type character varying(30) NOT NULL,
-    column_name character varying(255) NOT NULL
+    column_name character varying(255) NOT NULL,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -1153,7 +1219,9 @@ CREATE TABLE discipline_referrals (
     category_3 character varying(1),
     category_4 character varying(1000),
     category_5 character varying(1000),
-    category_6 character varying(5000)
+    category_6 character varying(5000),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -1190,7 +1258,9 @@ CREATE TABLE eligibility (
     school_date date,
     period_id integer,
     eligibility_code character varying(20),
-    course_period_id integer
+    course_period_id integer,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -1207,7 +1277,9 @@ CREATE TABLE eligibility_activities (
     title character varying(100),
     start_date date,
     end_date date,
-    comment text
+    comment text,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -1241,7 +1313,9 @@ SELECT pg_catalog.setval('eligibility_activities_seq', 3, true);
 CREATE TABLE eligibility_completed (
     staff_id integer NOT NULL,
     school_date date NOT NULL,
-    period_id integer NOT NULL
+    period_id integer NOT NULL,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -1257,7 +1331,9 @@ CREATE TABLE school_gradelevels (
     short_name character varying(2),
     title character varying(50),
     next_grade_id integer,
-    sort_order numeric
+    sort_order numeric,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -1270,7 +1346,9 @@ CREATE TABLE school_gradelevels (
 CREATE TABLE student_assignments (
     assignment_id integer NOT NULL,
     student_id integer NOT NULL,
-    data text
+    data text,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -1292,7 +1370,9 @@ CREATE TABLE student_enrollment (
     drop_code integer,
     next_school integer,
     calendar_id integer,
-    last_school integer
+    last_school integer,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -1322,7 +1402,9 @@ COMMENT ON VIEW enroll_grade IS 'Provides enrollment dates and grade levels';
 CREATE TABLE food_service_accounts (
     account_id integer PRIMARY KEY,
     balance numeric(9,2) NOT NULL,
-    transaction_id integer
+    transaction_id integer,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -1337,7 +1419,9 @@ CREATE TABLE food_service_categories (
     school_id integer NOT NULL,
     menu_id integer NOT NULL,
     title character varying(25),
-    sort_order numeric
+    sort_order numeric,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -1378,7 +1462,9 @@ CREATE TABLE food_service_items (
     price numeric(9,2) NOT NULL,
     price_reduced numeric(9,2),
     price_free numeric(9,2),
-    price_staff numeric(9,2) NOT NULL
+    price_staff numeric(9,2) NOT NULL,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -1416,7 +1502,9 @@ CREATE TABLE food_service_menu_items (
     item_id integer NOT NULL,
     category_id integer,
     sort_order numeric,
-    does_count character varying(1)
+    does_count character varying(1),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -1451,7 +1539,9 @@ CREATE TABLE food_service_menus (
     menu_id integer PRIMARY KEY,
     school_id integer NOT NULL,
     title character varying(25) NOT NULL,
-    sort_order numeric
+    sort_order numeric,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -1487,7 +1577,9 @@ CREATE TABLE food_service_staff_accounts (
     status character varying(25),
     barcode character varying(50),
     balance numeric(9,2) NOT NULL,
-    transaction_id integer
+    transaction_id integer,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -1502,7 +1594,9 @@ CREATE TABLE food_service_staff_transaction_items (
     transaction_id integer NOT NULL,
     amount numeric(9,2),
     short_name character varying(25),
-    description character varying(50)
+    description character varying(50),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -1521,7 +1615,9 @@ CREATE TABLE food_service_staff_transactions (
     "timestamp" timestamp(0) without time zone,
     short_name character varying(25),
     description character varying(50),
-    seller_id integer
+    seller_id integer,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -1557,7 +1653,9 @@ CREATE TABLE food_service_student_accounts (
     account_id integer NOT NULL,
     discount character varying(25),
     status character varying(25),
-    barcode character varying(50)
+    barcode character varying(50),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -1573,7 +1671,9 @@ CREATE TABLE food_service_transaction_items (
     amount numeric(9,2),
     discount character varying(25),
     short_name character varying(25),
-    description character varying(50)
+    description character varying(50),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -1594,7 +1694,9 @@ CREATE TABLE food_service_transactions (
     "timestamp" timestamp(0) without time zone,
     short_name character varying(25),
     description character varying(50),
-    seller_id integer
+    seller_id integer,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -1633,7 +1735,9 @@ CREATE TABLE gradebook_assignment_types (
     final_grade_percent numeric(6,5),
     sort_order numeric,
     color character varying(30),
-    created_mp integer
+    created_mp integer,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -1678,7 +1782,9 @@ CREATE TABLE gradebook_assignments (
     description text,
     file character varying(1000),
     default_points numeric,
-    submission character varying(1)
+    submission character varying(1),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -1715,7 +1821,9 @@ CREATE TABLE gradebook_grades (
     course_period_id integer NOT NULL,
     assignment_id integer NOT NULL,
     points numeric(6,2),
-    comment character varying(100)
+    comment character varying(100),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -1728,7 +1836,9 @@ CREATE TABLE gradebook_grades (
 CREATE TABLE grades_completed (
     staff_id integer NOT NULL,
     marking_period_id character varying(10) NOT NULL,
-    course_period_id integer NOT NULL
+    course_period_id integer NOT NULL,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -1746,7 +1856,9 @@ CREATE TABLE history_marking_periods (
     post_end_date date,
     school_id integer,
     syear integer,
-    marking_period_id integer PRIMARY KEY
+    marking_period_id integer PRIMARY KEY,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -1767,7 +1879,9 @@ CREATE TABLE lunch_period (
     course_period_id integer,
     marking_period_id integer,
     comment character varying(100),
-    table_name numeric
+    table_name numeric,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -1813,7 +1927,9 @@ CREATE TABLE school_marking_periods (
     post_end_date date,
     does_grades character varying(1),
     does_comments character varying(1),
-    rollover_id integer
+    rollover_id integer,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -1836,7 +1952,9 @@ CREATE VIEW marking_periods AS
 CREATE TABLE moodlexrosario (
     "column" character varying(100) NOT NULL,
     rosario_id integer NOT NULL,
-    moodle_id integer NOT NULL
+    moodle_id integer NOT NULL,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -1850,7 +1968,9 @@ CREATE TABLE people (
     person_id integer PRIMARY KEY,
     last_name character varying(50) NOT NULL,
     first_name character varying(50) NOT NULL,
-    middle_name character varying(50)
+    middle_name character varying(50),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -1865,7 +1985,9 @@ CREATE TABLE people_field_categories (
     title character varying(1000),
     sort_order numeric,
     custody character(1),
-    emergency character(1)
+    emergency character(1),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -1904,7 +2026,9 @@ CREATE TABLE people_fields (
     select_options character varying(10000),
     category_id integer,
     required character varying(1),
-    default_selection character varying(255)
+    default_selection character varying(255),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -1939,7 +2063,9 @@ CREATE TABLE people_join_contacts (
     id integer PRIMARY KEY,
     person_id integer,
     title character varying(100),
-    value character varying(100)
+    value character varying(100),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -2003,7 +2129,9 @@ CREATE TABLE portal_notes (
     start_date date,
     end_date date,
     published_profiles character varying(255),
-    file_attached character varying(270)
+    file_attached character varying(270),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -2040,7 +2168,9 @@ CREATE TABLE portal_poll_questions (
     question character varying(255),
     type character varying(20),
     options character varying(5000),
-    votes character varying(255)
+    votes character varying(255),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -2072,7 +2202,7 @@ SELECT pg_catalog.setval('portal_poll_questions_seq', 1, false);
 --
 
 CREATE TABLE portal_polls (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     school_id integer,
     syear numeric(4,0),
     title character varying(255),
@@ -2085,7 +2215,9 @@ CREATE TABLE portal_polls (
     end_date date,
     published_profiles character varying(255),
     students_teacher_id integer,
-    excluded_users text
+    excluded_users text,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -2117,10 +2249,12 @@ SELECT pg_catalog.setval('portal_polls_seq', 1, false);
 --
 
 CREATE TABLE profile_exceptions (
-    profile_id integer,
+    profile_id integer NOT NULL,
     modname character varying(255),
     can_use character varying(1),
-    can_edit character varying(1)
+    can_edit character varying(1),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -2135,7 +2269,9 @@ CREATE TABLE program_config (
     school_id integer,
     program character varying(255),
     title character varying(100),
-    value character varying(2550)
+    value character varying(2550),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -2150,7 +2286,9 @@ CREATE TABLE program_user_config (
     program character varying(255),
     title character varying(100),
     value character varying(100),
-    school_id integer
+    school_id integer,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -2168,7 +2306,9 @@ CREATE TABLE report_card_comment_categories (
     sort_order numeric,
     title character varying(1000),
     rollover_id integer,
-    color character varying(30)
+    color character varying(30),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -2205,7 +2345,9 @@ CREATE TABLE report_card_comment_code_scales (
     title character varying(25),
     comment character varying(100),
     sort_order numeric,
-    rollover_id integer
+    rollover_id integer,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -2243,7 +2385,9 @@ CREATE TABLE report_card_comment_codes (
     title character varying(5) NOT NULL,
     short_name character varying(100),
     comment character varying(100),
-    sort_order numeric
+    sort_order numeric,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -2282,7 +2426,9 @@ CREATE TABLE report_card_comments (
     category_id integer,
     scale_id integer,
     sort_order numeric,
-    title character varying(5000)
+    title character varying(5000),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -2325,7 +2471,9 @@ CREATE TABLE report_card_grade_scales (
     rollover_id integer,
     gp_scale numeric(10,3),
     gp_passing_value numeric(10,3),
-    hrs_gpa_value numeric
+    hrs_gpa_value numeric,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -2366,7 +2514,9 @@ CREATE TABLE report_card_grades (
     break_off numeric,
     comment character varying(1000),
     grade_scale_id integer,
-    unweighted_gp numeric
+    unweighted_gp numeric,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -2398,10 +2548,12 @@ SELECT pg_catalog.setval('report_card_grades_seq', 15, true);
 --
 
 CREATE TABLE resources (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     school_id integer NOT NULL,
     title character varying(256),
-    link character varying(1000)
+    link character varying(1000),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -2441,7 +2593,9 @@ CREATE TABLE schedule (
     mp character varying(3),
     marking_period_id integer,
     scheduler_lock character varying(1),
-    id integer
+    id integer,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -2463,7 +2617,9 @@ CREATE TABLE schedule_requests (
     with_teacher_id integer,
     not_teacher_id integer,
     with_period_id integer,
-    not_period_id integer
+    not_period_id integer,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -2522,7 +2678,9 @@ CREATE TABLE school_fields (
     sort_order numeric,
     select_options character varying(1000),
     required character varying(1),
-    default_selection character varying(255)
+    default_selection character varying(255),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -2607,7 +2765,9 @@ CREATE TABLE school_periods (
     end_time character varying(10),
     block character varying(10),
     attendance character varying(1),
-    rollover_id integer
+    rollover_id integer,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -2652,7 +2812,9 @@ CREATE TABLE schools (
     school_number character varying(50),
     short_name character varying(25),
     reporting_gp_scale numeric(10,3),
-    number_days_rotation numeric(1,0)
+    number_days_rotation numeric(1,0),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -2702,7 +2864,9 @@ CREATE TABLE staff (
     last_login timestamp(0) without time zone,
     failed_login integer,
     profile_id integer,
-    rollover_id integer
+    rollover_id integer,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -2716,7 +2880,9 @@ CREATE TABLE staff_exceptions (
     user_id integer NOT NULL,
     modname character varying(255),
     can_use character varying(1),
-    can_edit character varying(1)
+    can_edit character varying(1),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -2735,7 +2901,9 @@ CREATE TABLE staff_field_categories (
     admin character(1),
     teacher character(1),
     parent character(1),
-    "none" character(1)
+    "none" character(1),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -2774,7 +2942,9 @@ CREATE TABLE staff_fields (
     select_options character varying(10000),
     category_id integer,
     required character varying(1),
-    default_selection character varying(255)
+    default_selection character varying(255),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -2829,7 +2999,9 @@ SELECT pg_catalog.setval('staff_seq', 3, true);
 CREATE TABLE student_eligibility_activities (
     syear numeric(4,0),
     student_id integer,
-    activity_id integer
+    activity_id integer,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -2840,13 +3012,15 @@ CREATE TABLE student_eligibility_activities (
 --
 
 CREATE TABLE student_enrollment_codes (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     syear numeric(4,0),
     title character varying(100),
     short_name character varying(10),
     type character varying(4),
     default_code character varying(1),
-    sort_order numeric
+    sort_order numeric,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -2903,7 +3077,9 @@ CREATE TABLE student_field_categories (
     title character varying(1000) NOT NULL,
     sort_order numeric,
     columns numeric(4,0),
-    include character varying(100)
+    include character varying(100),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -2939,7 +3115,9 @@ CREATE TABLE student_medical (
     student_id integer,
     type character varying(25),
     medical_date date,
-    comments character varying(100)
+    comments character varying(100),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -2952,7 +3130,9 @@ CREATE TABLE student_medical (
 CREATE TABLE student_medical_alerts (
     id integer PRIMARY KEY,
     student_id integer,
-    title character varying(100)
+    title character varying(100),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -3012,7 +3192,9 @@ CREATE TABLE student_medical_visits (
     time_out character varying(20),
     reason character varying(100),
     result character varying(100),
-    comments character varying(255)
+    comments character varying(255),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -3047,7 +3229,9 @@ CREATE TABLE student_mp_comments (
     student_id integer NOT NULL,
     syear numeric(4,0) NOT NULL,
     marking_period_id integer NOT NULL,
-    comment text
+    comment text,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -3079,7 +3263,9 @@ CREATE TABLE student_mp_stats (
     credit_earned numeric,
     gp_credits numeric,
     cr_credits numeric,
-    comments character varying(75)
+    comments character varying(75),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -3096,7 +3282,9 @@ CREATE TABLE student_report_card_comments (
     course_period_id integer NOT NULL,
     report_card_comment_id integer NOT NULL,
     comment character varying(5),
-    marking_period_id character varying(10) NOT NULL
+    marking_period_id character varying(10) NOT NULL,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -3127,7 +3315,9 @@ CREATE TABLE student_report_card_grades (
     id integer PRIMARY KEY,
     school character varying(255),
     class_rank character varying(1),
-    credit_hours numeric(6,2)
+    credit_hours numeric(6,2),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -3179,7 +3369,9 @@ CREATE TABLE students (
     custom_200000008 text,
     custom_200000009 text,
     custom_200000010 character(1),
-    custom_200000011 text
+    custom_200000011 text,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -3203,7 +3395,9 @@ CREATE TABLE students_join_address (
     residence character varying(1),
     bus character varying(1),
     bus_pickup character varying(1),
-    bus_dropoff character varying(1)
+    bus_dropoff character varying(1),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -3241,7 +3435,9 @@ CREATE TABLE students_join_people (
     address_id integer,
     custody character varying(1),
     emergency character varying(1),
-    student_relation character varying(100)
+    student_relation character varying(100),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -3274,7 +3470,9 @@ SELECT pg_catalog.setval('students_join_people_seq', 1, true);
 
 CREATE TABLE students_join_users (
     student_id integer NOT NULL,
-    staff_id integer NOT NULL
+    staff_id integer NOT NULL,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -3308,7 +3506,9 @@ SELECT pg_catalog.setval('students_seq', 1, true);
 CREATE TABLE templates (
     modname character varying(255) NOT NULL,
     staff_id integer NOT NULL,
-    template text
+    template text,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -3366,9 +3566,11 @@ CREATE VIEW transcript_grades AS
 --
 
 CREATE TABLE user_profiles (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     profile character varying(30),
-    title character varying(100)
+    title character varying(100),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
 );
 
 
@@ -5328,6 +5530,27 @@ CREATE INDEX students_join_people_ind1 ON students_join_people USING btree (stud
 --
 
 CREATE TRIGGER srcg_mp_stats_update AFTER INSERT OR DELETE OR UPDATE ON student_report_card_grades FOR EACH ROW EXECUTE PROCEDURE t_update_mp_stats();
+
+
+--
+-- Name: srcg_mp_stats_update; Type: TRIGGER; Schema: public; Owner: rosariosis
+--
+
+DO $$
+DECLARE
+    t text;
+BEGIN
+    FOR t IN
+        SELECT table_name FROM information_schema.columns
+        WHERE column_name = 'updated_at'
+    LOOP
+        EXECUTE format('CREATE TRIGGER set_updated_at
+            BEFORE UPDATE ON %I
+            FOR EACH ROW EXECUTE PROCEDURE set_updated_at()',
+            t);
+    END LOOP;
+END;
+$$ LANGUAGE plpgsql;
 
 
 
