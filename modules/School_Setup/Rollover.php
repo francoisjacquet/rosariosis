@@ -30,7 +30,7 @@ if ( $RosarioModules['Food_Service'] )
 if ( $RosarioModules['Discipline'] )
 //FJ discipline_field_usage rollover
 {
-	$tables += array(  /*'DISCIPLINE_CATEGORIES' => _('Referral Form'), */'DISCIPLINE_FIELD_USAGE' => _( 'Referral Form' ) );
+	$tables += array( 'DISCIPLINE_FIELD_USAGE' => _( 'Referral Form' ) );
 }
 
 $table_list = '<table style="float: left">';
@@ -664,7 +664,6 @@ function Rollover( $table )
 			break;
 
 		case 'ELIGIBILITY_ACTIVITIES':
-		case 'DISCIPLINE_CATEGORIES':
 		case 'DISCIPLINE_FIELD_USAGE':
 
 			DBQuery( "DELETE FROM " . DBEscapeIdentifier( $table ) . "
