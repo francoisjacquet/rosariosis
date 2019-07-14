@@ -4654,714 +4654,714 @@ INSERT INTO user_profiles VALUES (3, 'parent', 'Parent');
 -- Name: accounting_payments_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX accounting_payments_ind1 ON accounting_payments USING btree (staff_id);
+CREATE INDEX accounting_payments_ind1 ON accounting_payments (staff_id);
 
 
 --
 -- Name: accounting_payments_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX accounting_payments_ind2 ON accounting_payments USING btree (amount);
+CREATE INDEX accounting_payments_ind2 ON accounting_payments (amount);
 
 
 --
 -- Name: address_3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX address_3 ON address USING btree (zipcode);
+CREATE INDEX address_3 ON address (zipcode);
 
 
 --
 -- Name: address_4; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX address_4 ON address USING btree (street);
+CREATE INDEX address_4 ON address (street);
 
 
 --
 -- Name: address_desc_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX address_desc_ind2 ON custom_fields USING btree (type);
+CREATE INDEX address_desc_ind2 ON custom_fields (type);
 
 
 --
 -- Name: address_fields_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX address_fields_ind3 ON custom_fields USING btree (category_id);
+CREATE INDEX address_fields_ind3 ON custom_fields (category_id);
 
 
 --
 -- Name: attendance_code_categories_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX attendance_code_categories_ind2 ON attendance_code_categories USING btree (syear, school_id);
+CREATE INDEX attendance_code_categories_ind2 ON attendance_code_categories (syear, school_id);
 
 
 --
 -- Name: attendance_codes_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX attendance_codes_ind2 ON attendance_codes USING btree (syear, school_id);
+CREATE INDEX attendance_codes_ind2 ON attendance_codes (syear, school_id);
 
 
 --
 -- Name: attendance_codes_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX attendance_codes_ind3 ON attendance_codes USING btree (short_name);
+CREATE INDEX attendance_codes_ind3 ON attendance_codes (short_name);
 
 
 --
 -- Name: attendance_period_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX attendance_period_ind1 ON attendance_period USING btree (student_id);
+CREATE INDEX attendance_period_ind1 ON attendance_period (student_id);
 
 
 --
 -- Name: attendance_period_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX attendance_period_ind2 ON attendance_period USING btree (period_id);
+CREATE INDEX attendance_period_ind2 ON attendance_period (period_id);
 
 
 --
 -- Name: attendance_period_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX attendance_period_ind3 ON attendance_period USING btree (attendance_code);
+CREATE INDEX attendance_period_ind3 ON attendance_period (attendance_code);
 
 
 --
 -- Name: attendance_period_ind4; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX attendance_period_ind4 ON attendance_period USING btree (school_date);
+CREATE INDEX attendance_period_ind4 ON attendance_period (school_date);
 
 
 --
 -- Name: attendance_period_ind5; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX attendance_period_ind5 ON attendance_period USING btree (attendance_code);
+CREATE INDEX attendance_period_ind5 ON attendance_period (attendance_code);
 
 
 --
 -- Name: billing_payments_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX billing_payments_ind1 ON billing_payments USING btree (student_id);
+CREATE INDEX billing_payments_ind1 ON billing_payments (student_id);
 
 
 --
 -- Name: billing_payments_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX billing_payments_ind2 ON billing_payments USING btree (amount);
+CREATE INDEX billing_payments_ind2 ON billing_payments (amount);
 
 
 --
 -- Name: billing_payments_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX billing_payments_ind3 ON billing_payments USING btree (refunded_payment_id);
+CREATE INDEX billing_payments_ind3 ON billing_payments (refunded_payment_id);
 
 
 --
 -- Name: course_periods_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX course_periods_ind1 ON course_periods USING btree (syear);
+CREATE INDEX course_periods_ind1 ON course_periods (syear);
 
 
 --
 -- Name: course_periods_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX course_periods_ind2 ON course_periods USING btree (course_id, syear, school_id);
+CREATE INDEX course_periods_ind2 ON course_periods (course_id, syear, school_id);
 
 
 --
 -- Name: course_periods_ind5; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX course_periods_ind5 ON course_periods USING btree (parent_id);
+CREATE INDEX course_periods_ind5 ON course_periods (parent_id);
 
 
 --
 -- Name: course_subjects_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX course_subjects_ind1 ON course_subjects USING btree (syear, school_id, subject_id);
+CREATE INDEX course_subjects_ind1 ON course_subjects (syear, school_id, subject_id);
 
 
 --
 -- Name: courses_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX courses_ind1 ON courses USING btree (course_id, syear);
+CREATE INDEX courses_ind1 ON courses (course_id, syear);
 
 
 --
 -- Name: courses_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX courses_ind2 ON courses USING btree (subject_id);
+CREATE INDEX courses_ind2 ON courses (subject_id);
 
 
 --
 -- Name: custom_desc_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX custom_desc_ind2 ON custom_fields USING btree (type);
+CREATE INDEX custom_desc_ind2 ON custom_fields (type);
 
 
 --
 -- Name: custom_fields_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX custom_fields_ind3 ON custom_fields USING btree (category_id);
+CREATE INDEX custom_fields_ind3 ON custom_fields (category_id);
 
 
 --
 -- Name: eligibility_activities_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX eligibility_activities_ind1 ON eligibility_activities USING btree (school_id, syear);
+CREATE INDEX eligibility_activities_ind1 ON eligibility_activities (school_id, syear);
 
 
 --
 -- Name: eligibility_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX eligibility_ind1 ON eligibility USING btree (student_id, course_period_id, school_date);
+CREATE INDEX eligibility_ind1 ON eligibility (student_id, course_period_id, school_date);
 
 
 --
 -- Name: food_service_categories_title; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE UNIQUE INDEX food_service_categories_title ON food_service_categories USING btree (school_id, menu_id, title);
+CREATE UNIQUE INDEX food_service_categories_title ON food_service_categories (school_id, menu_id, title);
 
 
 --
 -- Name: food_service_items_short_name; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE UNIQUE INDEX food_service_items_short_name ON food_service_items USING btree (school_id, short_name);
+CREATE UNIQUE INDEX food_service_items_short_name ON food_service_items (school_id, short_name);
 
 
 --
 -- Name: food_service_menus_title; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE UNIQUE INDEX food_service_menus_title ON food_service_menus USING btree (school_id, title);
+CREATE UNIQUE INDEX food_service_menus_title ON food_service_menus (school_id, title);
 
 
 --
 -- Name: food_service_staff_transaction_items_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX food_service_staff_transaction_items_ind1 ON food_service_staff_transaction_items USING btree (transaction_id);
+CREATE INDEX food_service_staff_transaction_items_ind1 ON food_service_staff_transaction_items (transaction_id);
 
 
 --
 -- Name: food_service_transaction_items_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX food_service_transaction_items_ind1 ON food_service_transaction_items USING btree (transaction_id);
+CREATE INDEX food_service_transaction_items_ind1 ON food_service_transaction_items (transaction_id);
 
 
 --
 -- Name: gradebook_assignment_types_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX gradebook_assignment_types_ind1 ON gradebook_assignments USING btree (staff_id, course_id);
+CREATE INDEX gradebook_assignment_types_ind1 ON gradebook_assignments (staff_id, course_id);
 
 
 --
 -- Name: gradebook_assignments_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX gradebook_assignments_ind1 ON gradebook_assignments USING btree (staff_id, marking_period_id);
+CREATE INDEX gradebook_assignments_ind1 ON gradebook_assignments (staff_id, marking_period_id);
 
 
 --
 -- Name: gradebook_assignments_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX gradebook_assignments_ind2 ON gradebook_assignments USING btree (course_id, course_period_id);
+CREATE INDEX gradebook_assignments_ind2 ON gradebook_assignments (course_id, course_period_id);
 
 
 --
 -- Name: gradebook_assignments_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX gradebook_assignments_ind3 ON gradebook_assignments USING btree (assignment_type_id);
+CREATE INDEX gradebook_assignments_ind3 ON gradebook_assignments (assignment_type_id);
 
 
 --
 -- Name: gradebook_grades_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX gradebook_grades_ind1 ON gradebook_grades USING btree (assignment_id);
+CREATE INDEX gradebook_grades_ind1 ON gradebook_grades (assignment_id);
 
 
 --
 -- Name: history_marking_period_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX history_marking_period_ind1 ON history_marking_periods USING btree (school_id);
+CREATE INDEX history_marking_period_ind1 ON history_marking_periods (school_id);
 
 
 --
 -- Name: history_marking_period_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX history_marking_period_ind2 ON history_marking_periods USING btree (syear);
+CREATE INDEX history_marking_period_ind2 ON history_marking_periods (syear);
 
 
 --
 -- Name: history_marking_period_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX history_marking_period_ind3 ON history_marking_periods USING btree (mp_type);
+CREATE INDEX history_marking_period_ind3 ON history_marking_periods (mp_type);
 
 
 --
 -- Name: lunch_period_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX lunch_period_ind1 ON lunch_period USING btree (student_id);
+CREATE INDEX lunch_period_ind1 ON lunch_period (student_id);
 
 
 --
 -- Name: lunch_period_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX lunch_period_ind2 ON lunch_period USING btree (period_id);
+CREATE INDEX lunch_period_ind2 ON lunch_period (period_id);
 
 
 --
 -- Name: lunch_period_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX lunch_period_ind3 ON lunch_period USING btree (attendance_code);
+CREATE INDEX lunch_period_ind3 ON lunch_period (attendance_code);
 
 
 --
 -- Name: lunch_period_ind4; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX lunch_period_ind4 ON lunch_period USING btree (school_date);
+CREATE INDEX lunch_period_ind4 ON lunch_period (school_date);
 
 
 --
 -- Name: lunch_period_ind5; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX lunch_period_ind5 ON lunch_period USING btree (attendance_code);
+CREATE INDEX lunch_period_ind5 ON lunch_period (attendance_code);
 
 
 --
 -- Name: name; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX name ON students USING btree (last_name, first_name, middle_name);
+CREATE INDEX name ON students (last_name, first_name, middle_name);
 
 
 --
 -- Name: people_1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX people_1 ON people USING btree (last_name, first_name);
+CREATE INDEX people_1 ON people (last_name, first_name);
 
 
 --
 -- Name: people_3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX people_3 ON people USING btree (person_id, last_name, first_name, middle_name);
+CREATE INDEX people_3 ON people (person_id, last_name, first_name, middle_name);
 
 
 --
 -- Name: people_desc_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX people_desc_ind2 ON custom_fields USING btree (type);
+CREATE INDEX people_desc_ind2 ON custom_fields (type);
 
 
 --
 -- Name: people_fields_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX people_fields_ind3 ON custom_fields USING btree (category_id);
+CREATE INDEX people_fields_ind3 ON custom_fields (category_id);
 
 
 --
 -- Name: people_join_contacts_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX people_join_contacts_ind1 ON people_join_contacts USING btree (person_id);
+CREATE INDEX people_join_contacts_ind1 ON people_join_contacts (person_id);
 
 
 --
 -- Name: program_config_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX program_config_ind1 ON program_config USING btree (program, school_id, syear);
+CREATE INDEX program_config_ind1 ON program_config (program, school_id, syear);
 
 
 --
 -- Name: program_user_config_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX program_user_config_ind1 ON program_user_config USING btree (user_id, program);
+CREATE INDEX program_user_config_ind1 ON program_user_config (user_id, program);
 
 
 --
 -- Name: relations_meets_2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX relations_meets_2 ON students_join_people USING btree (person_id);
+CREATE INDEX relations_meets_2 ON students_join_people (person_id);
 
 
 --
 -- Name: relations_meets_6; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX relations_meets_6 ON students_join_people USING btree (custody, emergency);
+CREATE INDEX relations_meets_6 ON students_join_people (custody, emergency);
 
 
 --
 -- Name: report_card_comment_categories_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX report_card_comment_categories_ind1 ON report_card_comment_categories USING btree (syear, school_id);
+CREATE INDEX report_card_comment_categories_ind1 ON report_card_comment_categories (syear, school_id);
 
 
 --
 -- Name: report_card_comment_codes_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX report_card_comment_codes_ind1 ON report_card_comment_codes USING btree (school_id);
+CREATE INDEX report_card_comment_codes_ind1 ON report_card_comment_codes (school_id);
 
 
 --
 -- Name: report_card_comments_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX report_card_comments_ind1 ON report_card_comments USING btree (syear, school_id);
+CREATE INDEX report_card_comments_ind1 ON report_card_comments (syear, school_id);
 
 
 --
 -- Name: report_card_grades_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX report_card_grades_ind1 ON report_card_grades USING btree (syear, school_id);
+CREATE INDEX report_card_grades_ind1 ON report_card_grades (syear, school_id);
 
 
 --
 -- Name: schedule_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX schedule_ind1 ON schedule USING btree (course_id);
+CREATE INDEX schedule_ind1 ON schedule (course_id);
 
 
 --
 -- Name: schedule_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX schedule_ind2 ON schedule USING btree (course_period_id);
+CREATE INDEX schedule_ind2 ON schedule (course_period_id);
 
 
 --
 -- Name: schedule_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX schedule_ind3 ON schedule USING btree (student_id, marking_period_id, start_date, end_date);
+CREATE INDEX schedule_ind3 ON schedule (student_id, marking_period_id, start_date, end_date);
 
 
 --
 -- Name: schedule_ind4; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX schedule_ind4 ON schedule USING btree (syear, school_id);
+CREATE INDEX schedule_ind4 ON schedule (syear, school_id);
 
 
 --
 -- Name: schedule_requests_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX schedule_requests_ind1 ON schedule_requests USING btree (student_id, course_id, syear, school_id);
+CREATE INDEX schedule_requests_ind1 ON schedule_requests (student_id, course_id, syear, school_id);
 
 
 --
 -- Name: schedule_requests_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX schedule_requests_ind2 ON schedule_requests USING btree (syear, school_id);
+CREATE INDEX schedule_requests_ind2 ON schedule_requests (syear, school_id);
 
 
 --
 -- Name: schedule_requests_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX schedule_requests_ind3 ON schedule_requests USING btree (course_id, syear, school_id);
+CREATE INDEX schedule_requests_ind3 ON schedule_requests (course_id, syear, school_id);
 
 
 --
 -- Name: schedule_requests_ind4; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX schedule_requests_ind4 ON schedule_requests USING btree (with_teacher_id);
+CREATE INDEX schedule_requests_ind4 ON schedule_requests (with_teacher_id);
 
 
 --
 -- Name: schedule_requests_ind5; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX schedule_requests_ind5 ON schedule_requests USING btree (not_teacher_id);
+CREATE INDEX schedule_requests_ind5 ON schedule_requests (not_teacher_id);
 
 
 --
 -- Name: schedule_requests_ind6; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX schedule_requests_ind6 ON schedule_requests USING btree (with_period_id);
+CREATE INDEX schedule_requests_ind6 ON schedule_requests (with_period_id);
 
 
 --
 -- Name: schedule_requests_ind7; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX schedule_requests_ind7 ON schedule_requests USING btree (not_period_id);
+CREATE INDEX schedule_requests_ind7 ON schedule_requests (not_period_id);
 
 
 --
 -- Name: school_desc_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX school_desc_ind2 ON school_fields USING btree (type);
+CREATE INDEX school_desc_ind2 ON school_fields (type);
 
 
 --
 -- Name: school_gradelevels_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX school_gradelevels_ind1 ON school_gradelevels USING btree (school_id);
+CREATE INDEX school_gradelevels_ind1 ON school_gradelevels (school_id);
 
 
 --
 -- Name: school_marking_periods_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX school_marking_periods_ind1 ON school_marking_periods USING btree (parent_id);
+CREATE INDEX school_marking_periods_ind1 ON school_marking_periods (parent_id);
 
 
 --
 -- Name: school_marking_periods_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX school_marking_periods_ind2 ON school_marking_periods USING btree (syear, school_id, start_date, end_date);
+CREATE INDEX school_marking_periods_ind2 ON school_marking_periods (syear, school_id, start_date, end_date);
 
 
 --
 -- Name: school_periods_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX school_periods_ind1 ON school_periods USING btree (period_id, syear);
+CREATE INDEX school_periods_ind1 ON school_periods (period_id, syear);
 
 
 --
 -- Name: schools_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX schools_ind1 ON schools USING btree (syear);
+CREATE INDEX schools_ind1 ON schools (syear);
 
 
 --
 -- Name: staff_desc_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX staff_desc_ind2 ON staff_fields USING btree (type);
+CREATE INDEX staff_desc_ind2 ON staff_fields (type);
 
 
 --
 -- Name: staff_fields_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX staff_fields_ind3 ON staff_fields USING btree (category_id);
+CREATE INDEX staff_fields_ind3 ON staff_fields (category_id);
 
 
 --
 -- Name: staff_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX staff_ind1 ON staff USING btree (staff_id, syear);
+CREATE INDEX staff_ind1 ON staff (staff_id, syear);
 
 
 --
 -- Name: staff_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX staff_ind2 ON staff USING btree (last_name, first_name);
+CREATE INDEX staff_ind2 ON staff (last_name, first_name);
 
 
 --
 -- Name: staff_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX staff_ind3 ON staff USING btree (schools);
+CREATE INDEX staff_ind3 ON staff (schools);
 
 
 --
 -- Name: staff_ind4; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE UNIQUE INDEX staff_ind4 ON staff USING btree (username, syear);
+CREATE UNIQUE INDEX staff_ind4 ON staff (username, syear);
 
 
 --
 -- Name: stu_addr_meets_2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX stu_addr_meets_2 ON students_join_address USING btree (address_id);
+CREATE INDEX stu_addr_meets_2 ON students_join_address (address_id);
 
 
 --
 -- Name: stu_addr_meets_3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX stu_addr_meets_3 ON students_join_address USING btree (primary_residence);
+CREATE INDEX stu_addr_meets_3 ON students_join_address (primary_residence);
 
 
 --
 -- Name: stu_addr_meets_4; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX stu_addr_meets_4 ON students_join_address USING btree (legal_residence);
+CREATE INDEX stu_addr_meets_4 ON students_join_address (legal_residence);
 
 
 --
 -- Name: student_eligibility_activities_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX student_eligibility_activities_ind1 ON student_eligibility_activities USING btree (student_id);
+CREATE INDEX student_eligibility_activities_ind1 ON student_eligibility_activities (student_id);
 
 
 --
 -- Name: student_enrollment_1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX student_enrollment_1 ON student_enrollment USING btree (student_id, enrollment_code);
+CREATE INDEX student_enrollment_1 ON student_enrollment (student_id, enrollment_code);
 
 
 --
 -- Name: student_enrollment_2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX student_enrollment_2 ON student_enrollment USING btree (grade_id);
+CREATE INDEX student_enrollment_2 ON student_enrollment (grade_id);
 
 
 --
 -- Name: student_enrollment_3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX student_enrollment_3 ON student_enrollment USING btree (syear, student_id, school_id, grade_id);
+CREATE INDEX student_enrollment_3 ON student_enrollment (syear, student_id, school_id, grade_id);
 
 
 --
 -- Name: student_enrollment_6; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX student_enrollment_6 ON student_enrollment USING btree (start_date, end_date);
+CREATE INDEX student_enrollment_6 ON student_enrollment (start_date, end_date);
 
 
 --
 -- Name: student_enrollment_7; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX student_enrollment_7 ON student_enrollment USING btree (school_id);
+CREATE INDEX student_enrollment_7 ON student_enrollment (school_id);
 
 
 --
 -- Name: student_medical_alerts_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX student_medical_alerts_ind1 ON student_medical_alerts USING btree (student_id);
+CREATE INDEX student_medical_alerts_ind1 ON student_medical_alerts (student_id);
 
 
 --
 -- Name: student_medical_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX student_medical_ind1 ON student_medical USING btree (student_id);
+CREATE INDEX student_medical_ind1 ON student_medical (student_id);
 
 
 --
 -- Name: student_medical_visits_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX student_medical_visits_ind1 ON student_medical_visits USING btree (student_id);
+CREATE INDEX student_medical_visits_ind1 ON student_medical_visits (student_id);
 
 
 --
 -- Name: student_report_card_comments_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX student_report_card_comments_ind1 ON student_report_card_comments USING btree (school_id);
+CREATE INDEX student_report_card_comments_ind1 ON student_report_card_comments (school_id);
 
 
 --
 -- Name: student_report_card_grades_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX student_report_card_grades_ind1 ON student_report_card_grades USING btree (school_id);
+CREATE INDEX student_report_card_grades_ind1 ON student_report_card_grades (school_id);
 
 
 --
 -- Name: student_report_card_grades_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX student_report_card_grades_ind2 ON student_report_card_grades USING btree (student_id);
+CREATE INDEX student_report_card_grades_ind2 ON student_report_card_grades (student_id);
 
 
 --
 -- Name: student_report_card_grades_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX student_report_card_grades_ind3 ON student_report_card_grades USING btree (course_period_id);
+CREATE INDEX student_report_card_grades_ind3 ON student_report_card_grades (course_period_id);
 
 
 --
 -- Name: student_report_card_grades_ind4; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX student_report_card_grades_ind4 ON student_report_card_grades USING btree (marking_period_id);
+CREATE INDEX student_report_card_grades_ind4 ON student_report_card_grades (marking_period_id);
 
 
 --
 -- Name: students_join_address_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX students_join_address_ind1 ON students_join_address USING btree (student_id);
+CREATE INDEX students_join_address_ind1 ON students_join_address (student_id);
 
 
 --
 -- Name: students_join_address_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX students_join_address_ind2 ON students_join_address USING btree (id, student_id, address_id);
+CREATE INDEX students_join_address_ind2 ON students_join_address (id, student_id, address_id);
 
 
 --
 -- Name: students_join_people_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE INDEX students_join_people_ind1 ON students_join_people USING btree (student_id);
+CREATE INDEX students_join_people_ind1 ON students_join_people (student_id);
 
 
 --
