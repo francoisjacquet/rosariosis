@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 5.0
+--------------
+- Use integer column type instead of numeric in rosariosis.sql
+
 Changes in 4.9.1
 ----------------
 - Fix #219 Parents & Teachers can Edit User Info in User.php

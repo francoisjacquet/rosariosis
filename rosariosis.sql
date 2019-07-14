@@ -290,11 +290,11 @@ CREATE TABLE access_log (
 CREATE TABLE accounting_incomes (
     assigned_date date,
     comments character varying(255),
-    id numeric,
+    id integer NOT NULL,
     title character varying(255),
     amount numeric,
-    school_id numeric,
-    syear numeric
+    school_id integer,
+    syear numeric(4,0)
 );
 
 
@@ -328,15 +328,15 @@ SELECT pg_catalog.setval('accounting_incomes_seq', 1, false);
 --
 
 CREATE TABLE accounting_salaries (
-    staff_id numeric NOT NULL,
+    staff_id integer NOT NULL,
     assigned_date date,
     due_date date,
     comments character varying(255),
-    id numeric,
+    id integer NOT NULL,
     title character varying(255),
     amount numeric,
-    school_id numeric,
-    syear numeric
+    school_id integer,
+    syear numeric(4,0)
 );
 
 
@@ -370,10 +370,10 @@ SELECT pg_catalog.setval('accounting_salaries_seq', 1, false);
 --
 
 CREATE TABLE accounting_payments (
-    id numeric NOT NULL,
-    syear numeric NOT NULL,
-    school_id numeric NOT NULL,
-    staff_id numeric,
+    id integer NOT NULL,
+    syear numeric(4,0) NOT NULL,
+    school_id integer NOT NULL,
+    staff_id integer,
     amount numeric NOT NULL,
     payment_date date,
     comments character varying(255)
@@ -410,7 +410,7 @@ SELECT pg_catalog.setval('accounting_payments_seq', 1, false);
 --
 
 CREATE TABLE address (
-    address_id numeric(10,0) NOT NULL,
+    address_id integer NOT NULL,
     house_no numeric(5,0),
     direction character varying(2),
     street character varying(30),
@@ -435,7 +435,7 @@ CREATE TABLE address (
 --
 
 CREATE TABLE address_field_categories (
-    id numeric NOT NULL,
+    id integer NOT NULL,
     title character varying(1000) NOT NULL,
     sort_order numeric,
     residence character(1),
@@ -472,12 +472,12 @@ SELECT pg_catalog.setval('address_field_categories_seq', 1, false);
 --
 
 CREATE TABLE address_fields (
-    id numeric NOT NULL,
+    id integer NOT NULL,
     type character varying(10) NOT NULL,
     title character varying(1000) NOT NULL,
     sort_order numeric,
     select_options character varying(10000),
-    category_id numeric,
+    category_id integer,
     required character varying(1),
     default_selection character varying(255)
 );
@@ -533,11 +533,11 @@ SELECT pg_catalog.setval('address_seq', 1, true);
 
 CREATE TABLE attendance_calendar (
     syear numeric(4,0) NOT NULL,
-    school_id numeric NOT NULL,
+    school_id integer NOT NULL,
     school_date date NOT NULL,
     minutes numeric,
     block character varying(10),
-    calendar_id numeric NOT NULL
+    calendar_id integer NOT NULL
 );
 
 
@@ -548,12 +548,12 @@ CREATE TABLE attendance_calendar (
 --
 
 CREATE TABLE attendance_calendars (
-    school_id numeric,
+    school_id integer,
     title character varying(100),
     syear numeric(4,0),
-    calendar_id numeric NOT NULL,
+    calendar_id integer NOT NULL,
     default_calendar character varying(1),
-    rollover_id numeric
+    rollover_id integer
 );
 
 
@@ -564,12 +564,12 @@ CREATE TABLE attendance_calendars (
 --
 
 CREATE TABLE attendance_code_categories (
-    id numeric,
+    id integer NOT NULL,
     syear numeric(4,0),
-    school_id numeric,
+    school_id integer,
     title character varying(255),
     sort_order numeric,
-    rollover_id numeric
+    rollover_id integer
 );
 
 
@@ -601,9 +601,9 @@ SELECT pg_catalog.setval('attendance_code_categories_seq', 1, false);
 --
 
 CREATE TABLE attendance_codes (
-    id numeric NOT NULL,
+    id integer NOT NULL,
     syear numeric(4,0),
-    school_id numeric,
+    school_id integer,
     title character varying(100),
     short_name character varying(10),
     type character varying(10),
@@ -642,9 +642,9 @@ SELECT pg_catalog.setval('attendance_codes_seq', 4, true);
 --
 
 CREATE TABLE attendance_completed (
-    staff_id numeric NOT NULL,
+    staff_id integer NOT NULL,
     school_date date NOT NULL,
-    period_id numeric NOT NULL,
+    period_id integer NOT NULL,
     table_name numeric NOT NULL
 );
 
@@ -656,12 +656,12 @@ CREATE TABLE attendance_completed (
 --
 
 CREATE TABLE attendance_day (
-    student_id numeric NOT NULL,
+    student_id integer NOT NULL,
     school_date date NOT NULL,
     minutes_present numeric,
     state_value numeric(2,1),
     syear numeric(4,0),
-    marking_period_id numeric,
+    marking_period_id integer,
     comment character varying(255)
 );
 
@@ -673,15 +673,15 @@ CREATE TABLE attendance_day (
 --
 
 CREATE TABLE attendance_period (
-    student_id numeric NOT NULL,
+    student_id integer NOT NULL,
     school_date date NOT NULL,
-    period_id numeric NOT NULL,
-    attendance_code numeric,
-    attendance_teacher_code numeric,
+    period_id integer NOT NULL,
+    attendance_code integer,
+    attendance_teacher_code integer,
     attendance_reason character varying(100),
     admin character varying(1),
-    course_period_id numeric,
-    marking_period_id numeric,
+    course_period_id integer,
+    marking_period_id integer,
     comment character varying(100)
 );
 
@@ -693,17 +693,17 @@ CREATE TABLE attendance_period (
 --
 
 CREATE TABLE billing_fees (
-    student_id numeric NOT NULL,
+    student_id integer NOT NULL,
     assigned_date date,
     due_date date,
     comments character varying(255),
-    id numeric,
+    id integer NOT NULL,
     title character varying(255),
     amount numeric,
-    school_id numeric,
-    syear numeric,
-    waived_fee_id numeric,
-    old_id numeric
+    school_id integer,
+    syear numeric(4,0),
+    waived_fee_id integer,
+    old_id integer
 );
 
 
@@ -735,14 +735,14 @@ SELECT pg_catalog.setval('billing_fees_seq', 1, false);
 --
 
 CREATE TABLE billing_payments (
-    id numeric NOT NULL,
-    syear numeric NOT NULL,
-    school_id numeric NOT NULL,
-    student_id numeric NOT NULL,
+    id integer NOT NULL,
+    syear numeric(4,0) NOT NULL,
+    school_id integer NOT NULL,
+    student_id integer NOT NULL,
     amount numeric NOT NULL,
     payment_date date,
     comments character varying(255),
-    refunded_payment_id numeric,
+    refunded_payment_id integer,
     lunch_payment character varying(1)
 );
 
@@ -775,9 +775,9 @@ SELECT pg_catalog.setval('billing_payments_seq', 1, false);
 --
 
 CREATE TABLE calendar_events (
-    id numeric NOT NULL,
+    id integer NOT NULL,
     syear numeric(4,0),
-    school_id numeric,
+    school_id integer,
     school_date date,
     title character varying(50),
     description character varying(500)
@@ -833,7 +833,7 @@ SELECT pg_catalog.setval('calendars_seq', 1, true);
 --
 
 CREATE TABLE config (
-    school_id numeric NOT NULL,
+    school_id integer NOT NULL,
     title character varying(100),
     config_value text
 );
@@ -847,14 +847,14 @@ CREATE TABLE config (
 
 CREATE TABLE course_periods (
     syear numeric(4,0) NOT NULL,
-    school_id numeric NOT NULL,
-    course_period_id numeric NOT NULL,
-    course_id numeric NOT NULL,
+    school_id integer NOT NULL,
+    course_period_id integer NOT NULL,
+    course_id integer NOT NULL,
     title character varying(255),
     short_name character varying(25) NOT NULL,
     mp character varying(3),
-    marking_period_id numeric,
-    teacher_id numeric NOT NULL,
+    marking_period_id integer,
+    teacher_id integer NOT NULL,
     room character varying(10),
     total_seats numeric,
     filled_seats numeric,
@@ -864,12 +864,12 @@ CREATE TABLE course_periods (
     gender_restriction character varying(1),
     house_restriction character varying(1),
     availability numeric,
-    parent_id numeric,
-    calendar_id numeric,
+    parent_id integer,
+    calendar_id integer,
     half_day character varying(1),
     does_breakoff character varying(1),
-    rollover_id numeric,
-    grade_scale_id numeric,
+    rollover_id integer,
+    grade_scale_id integer,
     credits numeric
 );
 
@@ -882,13 +882,13 @@ CREATE TABLE course_periods (
 
 CREATE TABLE courses (
     syear numeric(4,0) NOT NULL,
-    course_id numeric NOT NULL,
-    subject_id numeric NOT NULL,
-    school_id numeric NOT NULL,
-    grade_level numeric,
+    course_id integer NOT NULL,
+    subject_id integer NOT NULL,
+    school_id integer NOT NULL,
+    grade_level integer,
     title character varying(100) NOT NULL,
     short_name character varying(25),
-    rollover_id numeric,
+    rollover_id integer,
     credit_hours numeric(6,2),
     description text
 );
@@ -911,9 +911,9 @@ CREATE VIEW course_details AS
 --
 
 CREATE TABLE course_period_school_periods (
-    course_period_school_periods_id numeric NOT NULL,
-    course_period_id numeric NOT NULL,
-    period_id numeric NOT NULL,
+    course_period_school_periods_id integer NOT NULL,
+    course_period_id integer NOT NULL,
+    period_id integer NOT NULL,
     days character varying(7)
 );
 
@@ -968,12 +968,12 @@ SELECT pg_catalog.setval('course_periods_seq', 1, true);
 
 CREATE TABLE course_subjects (
     syear numeric(4,0),
-    school_id numeric,
-    subject_id numeric NOT NULL,
+    school_id integer,
+    subject_id integer NOT NULL,
     title character varying(100) NOT NULL,
     short_name character varying(25),
     sort_order numeric,
-    rollover_id numeric
+    rollover_id integer
 );
 
 
@@ -1028,12 +1028,12 @@ SELECT pg_catalog.setval('courses_seq', 1, true);
 --
 
 CREATE TABLE custom_fields (
-    id numeric NOT NULL,
+    id integer NOT NULL,
     type character varying(10) NOT NULL,
     title character varying(1000) NOT NULL,
     sort_order numeric,
     select_options character varying(10000),
-    category_id numeric,
+    category_id integer,
     required character varying(1),
     default_selection character varying(255)
 );
@@ -1063,52 +1063,14 @@ SELECT pg_catalog.setval('custom_seq', 1, true);
 
 
 --
--- Name: discipline_categories; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE TABLE discipline_categories (
-    id numeric,
-    syear numeric(4,0),
-    school_id numeric,
-    title character varying(255),
-    sort_order numeric,
-    type character varying(30),
-    options character varying(10000)
-);
-
-
-
-
---
--- Name: discipline_categories_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE discipline_categories_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: discipline_categories_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('discipline_categories_seq', 1, false);
-
-
---
 -- Name: discipline_field_usage; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE discipline_field_usage (
-    id numeric NOT NULL,
-    discipline_field_id numeric NOT NULL,
-    syear numeric NOT NULL,
-    school_id numeric NOT NULL,
+    id integer NOT NULL,
+    discipline_field_id integer NOT NULL,
+    syear numeric(4,0) NOT NULL,
+    school_id integer NOT NULL,
     title character varying(255),
     select_options character varying(10000),
     sort_order numeric
@@ -1143,7 +1105,7 @@ SELECT pg_catalog.setval('discipline_field_usage_seq', 6, true);
 --
 
 CREATE TABLE discipline_fields (
-    id numeric NOT NULL,
+    id integer NOT NULL,
     title character varying(255) NOT NULL,
     short_name character varying(20),
     data_type character varying(30) NOT NULL,
@@ -1179,11 +1141,11 @@ SELECT pg_catalog.setval('discipline_fields_seq', 6, true);
 --
 
 CREATE TABLE discipline_referrals (
-    id numeric NOT NULL,
-    syear numeric NOT NULL,
-    student_id numeric NOT NULL,
-    school_id numeric NOT NULL,
-    staff_id numeric,
+    id integer NOT NULL,
+    syear numeric(4,0) NOT NULL,
+    student_id integer NOT NULL,
+    school_id integer NOT NULL,
+    staff_id integer,
     entry_date date,
     referral_date date,
     category_1 character varying(1000),
@@ -1223,12 +1185,12 @@ SELECT pg_catalog.setval('discipline_referrals_seq', 1, false);
 --
 
 CREATE TABLE eligibility (
-    student_id numeric,
+    student_id integer,
     syear numeric(4,0),
     school_date date,
-    period_id numeric,
+    period_id integer,
     eligibility_code character varying(20),
-    course_period_id numeric
+    course_period_id integer
 );
 
 
@@ -1239,9 +1201,9 @@ CREATE TABLE eligibility (
 --
 
 CREATE TABLE eligibility_activities (
-    id numeric NOT NULL,
+    id integer NOT NULL,
     syear numeric(4,0),
-    school_id numeric,
+    school_id integer,
     title character varying(100),
     start_date date,
     end_date date,
@@ -1277,9 +1239,9 @@ SELECT pg_catalog.setval('eligibility_activities_seq', 3, true);
 --
 
 CREATE TABLE eligibility_completed (
-    staff_id numeric NOT NULL,
+    staff_id integer NOT NULL,
     school_date date NOT NULL,
-    period_id numeric NOT NULL
+    period_id integer NOT NULL
 );
 
 
@@ -1290,11 +1252,11 @@ CREATE TABLE eligibility_completed (
 --
 
 CREATE TABLE school_gradelevels (
-    id numeric NOT NULL,
-    school_id numeric NOT NULL,
+    id integer NOT NULL,
+    school_id integer NOT NULL,
     short_name character varying(2),
     title character varying(50),
-    next_grade_id numeric,
+    next_grade_id integer,
     sort_order numeric
 );
 
@@ -1306,8 +1268,8 @@ CREATE TABLE school_gradelevels (
 --
 
 CREATE TABLE student_assignments (
-    assignment_id numeric NOT NULL,
-    student_id numeric NOT NULL,
+    assignment_id integer NOT NULL,
+    student_id integer NOT NULL,
     data text
 );
 
@@ -1319,18 +1281,18 @@ CREATE TABLE student_assignments (
 --
 
 CREATE TABLE student_enrollment (
-    id numeric NOT NULL,
+    id integer NOT NULL,
     syear numeric(4,0),
-    school_id numeric,
-    student_id numeric,
-    grade_id numeric,
+    school_id integer,
+    student_id integer REFERENCES students(student_id),
+    grade_id integer,
     start_date date,
     end_date date,
-    enrollment_code numeric,
-    drop_code numeric,
-    next_school numeric,
-    calendar_id numeric,
-    last_school numeric
+    enrollment_code integer,
+    drop_code integer,
+    next_school integer,
+    calendar_id integer,
+    last_school integer
 );
 
 
@@ -1358,9 +1320,9 @@ COMMENT ON VIEW enroll_grade IS 'Provides enrollment dates and grade levels';
 --
 
 CREATE TABLE food_service_accounts (
-    account_id numeric NOT NULL,
+    account_id integer NOT NULL,
     balance numeric(9,2) NOT NULL,
-    transaction_id numeric
+    transaction_id integer
 );
 
 
@@ -1371,9 +1333,9 @@ CREATE TABLE food_service_accounts (
 --
 
 CREATE TABLE food_service_categories (
-    category_id numeric NOT NULL,
-    school_id numeric NOT NULL,
-    menu_id numeric NOT NULL,
+    category_id integer NOT NULL,
+    school_id integer NOT NULL,
+    menu_id integer NOT NULL,
     title character varying(25),
     sort_order numeric
 );
@@ -1407,8 +1369,8 @@ SELECT pg_catalog.setval('food_service_categories_seq', 1, true);
 --
 
 CREATE TABLE food_service_items (
-    item_id numeric NOT NULL,
-    school_id numeric NOT NULL,
+    item_id integer NOT NULL,
+    school_id integer NOT NULL,
     short_name character varying(25),
     sort_order numeric,
     description character varying(25),
@@ -1448,11 +1410,11 @@ SELECT pg_catalog.setval('food_service_items_seq', 4, true);
 --
 
 CREATE TABLE food_service_menu_items (
-    menu_item_id numeric NOT NULL,
-    school_id numeric NOT NULL,
-    menu_id numeric NOT NULL,
-    item_id numeric NOT NULL,
-    category_id numeric,
+    menu_item_id integer NOT NULL,
+    school_id integer NOT NULL,
+    menu_id integer NOT NULL,
+    item_id integer NOT NULL,
+    category_id integer,
     sort_order numeric,
     does_count character varying(1)
 );
@@ -1486,8 +1448,8 @@ SELECT pg_catalog.setval('food_service_menu_items_seq', 4, true);
 --
 
 CREATE TABLE food_service_menus (
-    menu_id numeric NOT NULL,
-    school_id numeric NOT NULL,
+    menu_id integer NOT NULL,
+    school_id integer NOT NULL,
     title character varying(25) NOT NULL,
     sort_order numeric
 );
@@ -1521,11 +1483,11 @@ SELECT pg_catalog.setval('food_service_menus_seq', 1, true);
 --
 
 CREATE TABLE food_service_staff_accounts (
-    staff_id numeric NOT NULL,
+    staff_id integer NOT NULL,
     status character varying(25),
     barcode character varying(50),
     balance numeric(9,2) NOT NULL,
-    transaction_id numeric
+    transaction_id integer
 );
 
 
@@ -1536,8 +1498,8 @@ CREATE TABLE food_service_staff_accounts (
 --
 
 CREATE TABLE food_service_staff_transaction_items (
-    item_id numeric NOT NULL,
-    transaction_id numeric NOT NULL,
+    item_id integer NOT NULL,
+    transaction_id integer NOT NULL,
     amount numeric(9,2),
     short_name character varying(25),
     description character varying(50)
@@ -1551,15 +1513,15 @@ CREATE TABLE food_service_staff_transaction_items (
 --
 
 CREATE TABLE food_service_staff_transactions (
-    transaction_id numeric NOT NULL,
-    staff_id numeric NOT NULL,
-    school_id numeric,
+    transaction_id integer NOT NULL,
+    staff_id integer NOT NULL,
+    school_id integer,
     syear numeric(4,0),
     balance numeric(9,2),
     "timestamp" timestamp(0) without time zone,
     short_name character varying(25),
     description character varying(50),
-    seller_id numeric
+    seller_id integer
 );
 
 
@@ -1591,8 +1553,8 @@ SELECT pg_catalog.setval('food_service_staff_transactions_seq', 1, true);
 --
 
 CREATE TABLE food_service_student_accounts (
-    student_id numeric NOT NULL,
-    account_id numeric NOT NULL,
+    student_id integer NOT NULL,
+    account_id integer NOT NULL,
     discount character varying(25),
     status character varying(25),
     barcode character varying(50)
@@ -1606,8 +1568,8 @@ CREATE TABLE food_service_student_accounts (
 --
 
 CREATE TABLE food_service_transaction_items (
-    item_id numeric NOT NULL,
-    transaction_id numeric NOT NULL,
+    item_id integer NOT NULL,
+    transaction_id integer NOT NULL,
     amount numeric(9,2),
     discount character varying(25),
     short_name character varying(25),
@@ -1622,17 +1584,17 @@ CREATE TABLE food_service_transaction_items (
 --
 
 CREATE TABLE food_service_transactions (
-    transaction_id numeric NOT NULL,
-    account_id numeric NOT NULL,
-    student_id numeric,
-    school_id numeric,
+    transaction_id integer NOT NULL,
+    account_id integer NOT NULL,
+    student_id integer,
+    school_id integer,
     syear numeric(4,0),
     discount character varying(25),
     balance numeric(9,2),
     "timestamp" timestamp(0) without time zone,
     short_name character varying(25),
     description character varying(50),
-    seller_id numeric
+    seller_id integer
 );
 
 
@@ -1664,9 +1626,9 @@ SELECT pg_catalog.setval('food_service_transactions_seq', 1, true);
 --
 
 CREATE TABLE gradebook_assignment_types (
-    assignment_type_id numeric NOT NULL,
-    staff_id numeric,
-    course_id numeric,
+    assignment_type_id integer NOT NULL,
+    staff_id integer,
+    course_id integer,
     title character varying(100) NOT NULL,
     final_grade_percent numeric(6,5),
     sort_order numeric,
@@ -1703,12 +1665,12 @@ SELECT pg_catalog.setval('gradebook_assignment_types_seq', 1, false);
 --
 
 CREATE TABLE gradebook_assignments (
-    assignment_id numeric NOT NULL,
-    staff_id numeric,
-    marking_period_id numeric,
-    course_period_id numeric,
-    course_id numeric,
-    assignment_type_id numeric NOT NULL,
+    assignment_id integer NOT NULL,
+    staff_id integer,
+    marking_period_id integer,
+    course_period_id integer,
+    course_id integer,
+    assignment_type_id integer NOT NULL,
     title character varying(100) NOT NULL,
     assigned_date date,
     due_date date,
@@ -1748,10 +1710,10 @@ SELECT pg_catalog.setval('gradebook_assignments_seq', 1, true);
 --
 
 CREATE TABLE gradebook_grades (
-    student_id numeric NOT NULL,
-    period_id numeric,
-    course_period_id numeric NOT NULL,
-    assignment_id numeric NOT NULL,
+    student_id integer NOT NULL,
+    period_id integer,
+    course_period_id integer NOT NULL,
+    assignment_id integer NOT NULL,
     points numeric(6,2),
     comment character varying(100)
 );
@@ -1764,9 +1726,9 @@ CREATE TABLE gradebook_grades (
 --
 
 CREATE TABLE grades_completed (
-    staff_id numeric NOT NULL,
+    staff_id integer NOT NULL,
     marking_period_id character varying(10) NOT NULL,
-    course_period_id numeric NOT NULL
+    course_period_id integer NOT NULL
 );
 
 
@@ -1795,15 +1757,15 @@ CREATE TABLE history_marking_periods (
 --
 
 CREATE TABLE lunch_period (
-    student_id numeric NOT NULL,
+    student_id integer NOT NULL,
     school_date date NOT NULL,
-    period_id numeric NOT NULL,
-    attendance_code numeric,
-    attendance_teacher_code numeric,
+    period_id integer NOT NULL,
+    attendance_code integer,
+    attendance_teacher_code integer,
     attendance_reason character varying(100),
     admin character varying(1),
-    course_period_id numeric,
-    marking_period_id numeric,
+    course_period_id integer,
+    marking_period_id integer,
     comment character varying(100),
     table_name numeric
 );
@@ -1837,11 +1799,11 @@ SELECT pg_catalog.setval('marking_period_seq', 11, true);
 --
 
 CREATE TABLE school_marking_periods (
-    marking_period_id numeric NOT NULL,
+    marking_period_id integer NOT NULL,
     syear numeric(4,0),
     mp character varying(3) NOT NULL,
-    school_id numeric,
-    parent_id numeric,
+    school_id integer,
+    parent_id integer,
     title character varying(50),
     short_name character varying(10),
     sort_order numeric,
@@ -1851,7 +1813,7 @@ CREATE TABLE school_marking_periods (
     post_end_date date,
     does_grades character varying(1),
     does_comments character varying(1),
-    rollover_id numeric
+    rollover_id integer
 );
 
 
@@ -1873,8 +1835,8 @@ CREATE VIEW marking_periods AS
 
 CREATE TABLE moodlexrosario (
     "column" character varying(100) NOT NULL,
-    rosario_id numeric NOT NULL,
-    moodle_id numeric NOT NULL
+    rosario_id integer NOT NULL,
+    moodle_id integer NOT NULL
 );
 
 
@@ -1885,7 +1847,7 @@ CREATE TABLE moodlexrosario (
 --
 
 CREATE TABLE people (
-    person_id numeric(10,0) NOT NULL,
+    person_id integer NOT NULL,
     last_name character varying(50) NOT NULL,
     first_name character varying(50) NOT NULL,
     middle_name character varying(50)
@@ -1899,7 +1861,7 @@ CREATE TABLE people (
 --
 
 CREATE TABLE people_field_categories (
-    id numeric NOT NULL,
+    id integer NOT NULL,
     title character varying(1000),
     sort_order numeric,
     custody character(1),
@@ -1935,12 +1897,12 @@ SELECT pg_catalog.setval('people_field_categories_seq', 1, false);
 --
 
 CREATE TABLE people_fields (
-    id numeric NOT NULL,
+    id integer NOT NULL,
     type character varying(10),
     title character varying(1000),
     sort_order numeric,
     select_options character varying(10000),
-    category_id numeric,
+    category_id integer,
     required character varying(1),
     default_selection character varying(255)
 );
@@ -1974,8 +1936,8 @@ SELECT pg_catalog.setval('people_fields_seq', 1, true);
 --
 
 CREATE TABLE people_join_contacts (
-    id numeric NOT NULL,
-    person_id numeric,
+    id integer NOT NULL,
+    person_id integer,
     title character varying(100),
     value character varying(100)
 );
@@ -2030,13 +1992,13 @@ SELECT pg_catalog.setval('people_seq', 1, true);
 --
 
 CREATE TABLE portal_notes (
-    id numeric NOT NULL,
-    school_id numeric,
+    id integer NOT NULL,
+    school_id integer,
     syear numeric(4,0),
     title character varying(255),
     content character varying(5000),
     sort_order numeric,
-    published_user numeric,
+    published_user integer,
     published_date timestamp(0) without time zone,
     start_date date,
     end_date date,
@@ -2073,8 +2035,8 @@ SELECT pg_catalog.setval('portal_notes_seq', 1, false);
 --
 
 CREATE TABLE portal_poll_questions (
-    id numeric NOT NULL,
-    portal_poll_id numeric NOT NULL,
+    id integer NOT NULL,
+    portal_poll_id integer NOT NULL,
     question character varying(255),
     type character varying(20),
     options character varying(5000),
@@ -2110,19 +2072,19 @@ SELECT pg_catalog.setval('portal_poll_questions_seq', 1, false);
 --
 
 CREATE TABLE portal_polls (
-    id numeric NOT NULL,
-    school_id numeric,
+    id integer NOT NULL,
+    school_id integer,
     syear numeric(4,0),
     title character varying(255),
-    votes_number numeric,
+    votes_number integer,
     display_votes character varying(1),
     sort_order numeric,
-    published_user numeric,
+    published_user integer,
     published_date timestamp(0) without time zone,
     start_date date,
     end_date date,
     published_profiles character varying(255),
-    students_teacher_id numeric,
+    students_teacher_id integer,
     excluded_users text
 );
 
@@ -2155,7 +2117,7 @@ SELECT pg_catalog.setval('portal_polls_seq', 1, false);
 --
 
 CREATE TABLE profile_exceptions (
-    profile_id numeric,
+    profile_id integer,
     modname character varying(255),
     can_use character varying(1),
     can_edit character varying(1)
@@ -2170,7 +2132,7 @@ CREATE TABLE profile_exceptions (
 
 CREATE TABLE program_config (
     syear numeric(4,0),
-    school_id numeric,
+    school_id integer,
     program character varying(255),
     title character varying(100),
     value character varying(2550)
@@ -2184,11 +2146,11 @@ CREATE TABLE program_config (
 --
 
 CREATE TABLE program_user_config (
-    user_id numeric NOT NULL,
+    user_id integer NOT NULL,
     program character varying(255),
     title character varying(100),
     value character varying(100),
-    school_id numeric
+    school_id integer
 );
 
 
@@ -2199,13 +2161,13 @@ CREATE TABLE program_user_config (
 --
 
 CREATE TABLE report_card_comment_categories (
-    id numeric NOT NULL,
+    id integer NOT NULL,
     syear numeric(4,0),
-    school_id numeric,
-    course_id numeric,
+    school_id integer,
+    course_id integer,
     sort_order numeric,
     title character varying(1000),
-    rollover_id numeric,
+    rollover_id integer,
     color character varying(30)
 );
 
@@ -2238,12 +2200,12 @@ SELECT pg_catalog.setval('report_card_comment_categories_seq', 1, true);
 --
 
 CREATE TABLE report_card_comment_code_scales (
-    id numeric NOT NULL,
-    school_id numeric NOT NULL,
+    id integer NOT NULL,
+    school_id integer NOT NULL,
     title character varying(25),
     comment character varying(100),
     sort_order numeric,
-    rollover_id numeric
+    rollover_id integer
 );
 
 
@@ -2275,9 +2237,9 @@ SELECT pg_catalog.setval('report_card_comment_code_scales_seq', 1, false);
 --
 
 CREATE TABLE report_card_comment_codes (
-    id numeric NOT NULL,
-    school_id numeric NOT NULL,
-    scale_id numeric NOT NULL,
+    id integer NOT NULL,
+    school_id integer NOT NULL,
+    scale_id integer NOT NULL,
     title character varying(5) NOT NULL,
     short_name character varying(100),
     comment character varying(100),
@@ -2313,12 +2275,12 @@ SELECT pg_catalog.setval('report_card_comment_codes_seq', 1, false);
 --
 
 CREATE TABLE report_card_comments (
-    id numeric NOT NULL,
+    id integer NOT NULL,
     syear numeric(4,0),
-    school_id numeric,
-    course_id numeric,
-    category_id numeric,
-    scale_id numeric,
+    school_id integer,
+    course_id integer,
+    category_id integer,
+    scale_id integer,
     sort_order numeric,
     title character varying(5000)
 );
@@ -2352,15 +2314,15 @@ SELECT pg_catalog.setval('report_card_comments_seq', 3, true);
 --
 
 CREATE TABLE report_card_grade_scales (
-    id numeric NOT NULL,
+    id integer NOT NULL,
     syear numeric(4,0),
-    school_id numeric NOT NULL,
+    school_id integer NOT NULL,
     title character varying(300),
     comment character varying(1000),
     hhr_gpa_value numeric,
     hr_gpa_value numeric,
     sort_order numeric,
-    rollover_id numeric,
+    rollover_id integer,
     gp_scale numeric(10,3),
     gp_passing_value numeric(10,3),
     hrs_gpa_value numeric
@@ -2395,15 +2357,15 @@ SELECT pg_catalog.setval('report_card_grade_scales_seq', 1, true);
 --
 
 CREATE TABLE report_card_grades (
-    id numeric NOT NULL,
+    id integer NOT NULL,
     syear numeric(4,0),
-    school_id numeric,
+    school_id integer,
     title character varying(100),
     sort_order numeric,
     gpa_value numeric,
     break_off numeric,
     comment character varying(1000),
-    grade_scale_id numeric,
+    grade_scale_id integer,
     unweighted_gp numeric
 );
 
@@ -2436,8 +2398,8 @@ SELECT pg_catalog.setval('report_card_grades_seq', 15, true);
 --
 
 CREATE TABLE resources (
-    id numeric NOT NULL,
-    school_id numeric NOT NULL,
+    id integer NOT NULL,
+    school_id integer NOT NULL,
     title character varying(256),
     link character varying(1000)
 );
@@ -2468,18 +2430,18 @@ SELECT pg_catalog.setval('resources_seq', 3, true);
 
 CREATE TABLE schedule (
     syear numeric(4,0) NOT NULL,
-    school_id numeric,
-    student_id numeric NOT NULL,
+    school_id integer,
+    student_id integer NOT NULL,
     start_date date NOT NULL,
     end_date date,
     modified_date date,
     modified_by character varying(255),
-    course_id numeric NOT NULL,
-    course_period_id numeric NOT NULL,
+    course_id integer NOT NULL,
+    course_period_id integer NOT NULL,
     mp character varying(3),
-    marking_period_id numeric,
+    marking_period_id integer,
     scheduler_lock character varying(1),
-    id numeric
+    id integer
 );
 
 
@@ -2491,17 +2453,17 @@ CREATE TABLE schedule (
 
 CREATE TABLE schedule_requests (
     syear numeric(4,0),
-    school_id numeric,
-    request_id numeric NOT NULL,
-    student_id numeric,
-    subject_id numeric,
-    course_id numeric,
-    marking_period_id numeric,
+    school_id integer,
+    request_id integer NOT NULL,
+    student_id integer,
+    subject_id integer,
+    course_id integer,
+    marking_period_id integer,
     priority numeric,
-    with_teacher_id numeric,
-    not_teacher_id numeric,
-    with_period_id numeric,
-    not_period_id numeric
+    with_teacher_id integer,
+    not_teacher_id integer,
+    with_period_id integer,
+    not_period_id integer
 );
 
 
@@ -2554,7 +2516,7 @@ SELECT pg_catalog.setval('schedule_seq', 1, false);
 --
 
 CREATE TABLE school_fields (
-    id numeric NOT NULL,
+    id integer NOT NULL,
     type character varying(10) NOT NULL,
     title character varying(1000) NOT NULL,
     sort_order numeric,
@@ -2634,9 +2596,9 @@ SELECT pg_catalog.setval('school_gradelevels_seq', 9, true);
 --
 
 CREATE TABLE school_periods (
-    period_id numeric NOT NULL,
+    period_id integer NOT NULL,
     syear numeric(4,0),
-    school_id numeric,
+    school_id integer,
     sort_order numeric,
     title character varying(100),
     short_name character varying(10),
@@ -2645,7 +2607,7 @@ CREATE TABLE school_periods (
     end_time character varying(10),
     block character varying(10),
     attendance character varying(1),
-    rollover_id numeric
+    rollover_id integer
 );
 
 
@@ -2678,7 +2640,7 @@ SELECT pg_catalog.setval('school_periods_seq', 11, true);
 
 CREATE TABLE schools (
     syear numeric(4,0) NOT NULL,
-    id numeric NOT NULL,
+    id integer NOT NULL,
     title character varying(100),
     address character varying(100),
     city character varying(100),
@@ -2723,8 +2685,8 @@ SELECT pg_catalog.setval('schools_seq', 1, true);
 
 CREATE TABLE staff (
     syear numeric(4,0),
-    staff_id numeric NOT NULL,
-    current_school_id numeric,
+    staff_id integer NOT NULL,
+    current_school_id integer,
     title character varying(5),
     first_name character varying(100) NOT NULL,
     last_name character varying(100) NOT NULL,
@@ -2738,9 +2700,9 @@ CREATE TABLE staff (
     homeroom character varying(5),
     schools character varying(255),
     last_login timestamp(0) without time zone,
-    failed_login numeric,
-    profile_id numeric,
-    rollover_id numeric
+    failed_login integer,
+    profile_id integer,
+    rollover_id integer
 );
 
 
@@ -2751,7 +2713,7 @@ CREATE TABLE staff (
 --
 
 CREATE TABLE staff_exceptions (
-    user_id numeric NOT NULL,
+    user_id integer NOT NULL,
     modname character varying(255),
     can_use character varying(1),
     can_edit character varying(1)
@@ -2765,7 +2727,7 @@ CREATE TABLE staff_exceptions (
 --
 
 CREATE TABLE staff_field_categories (
-    id numeric NOT NULL,
+    id integer NOT NULL,
     title character varying(1000) NOT NULL,
     sort_order numeric,
     columns numeric(4,0),
@@ -2805,12 +2767,12 @@ SELECT pg_catalog.setval('staff_field_categories_seq', 3, true);
 --
 
 CREATE TABLE staff_fields (
-    id numeric NOT NULL,
+    id integer NOT NULL,
     type character varying(10) NOT NULL,
     title character varying(1000) NOT NULL,
     sort_order numeric,
     select_options character varying(10000),
-    category_id numeric,
+    category_id integer,
     required character varying(1),
     default_selection character varying(255)
 );
@@ -2866,8 +2828,8 @@ SELECT pg_catalog.setval('staff_seq', 3, true);
 
 CREATE TABLE student_eligibility_activities (
     syear numeric(4,0),
-    student_id numeric,
-    activity_id numeric
+    student_id integer,
+    activity_id integer
 );
 
 
@@ -2878,7 +2840,7 @@ CREATE TABLE student_eligibility_activities (
 --
 
 CREATE TABLE student_enrollment_codes (
-    id numeric,
+    id integer NOT NULL,
     syear numeric(4,0),
     title character varying(100),
     short_name character varying(10),
@@ -2937,7 +2899,7 @@ SELECT pg_catalog.setval('student_enrollment_seq', 1, true);
 --
 
 CREATE TABLE student_field_categories (
-    id numeric NOT NULL,
+    id integer NOT NULL,
     title character varying(1000) NOT NULL,
     sort_order numeric,
     columns numeric(4,0),
@@ -2973,8 +2935,8 @@ SELECT pg_catalog.setval('student_field_categories_seq', 5, true);
 --
 
 CREATE TABLE student_medical (
-    id numeric NOT NULL,
-    student_id numeric,
+    id integer NOT NULL,
+    student_id integer,
     type character varying(25),
     medical_date date,
     comments character varying(100)
@@ -2988,8 +2950,8 @@ CREATE TABLE student_medical (
 --
 
 CREATE TABLE student_medical_alerts (
-    id numeric NOT NULL,
-    student_id numeric,
+    id integer NOT NULL,
+    student_id integer,
     title character varying(100)
 );
 
@@ -3043,8 +3005,8 @@ SELECT pg_catalog.setval('student_medical_seq', 1, false);
 --
 
 CREATE TABLE student_medical_visits (
-    id numeric NOT NULL,
-    student_id numeric,
+    id integer NOT NULL,
+    student_id integer,
     school_date date,
     time_in character varying(20),
     time_out character varying(20),
@@ -3082,9 +3044,9 @@ SELECT pg_catalog.setval('student_medical_visits_seq', 1, false);
 --
 
 CREATE TABLE student_mp_comments (
-    student_id numeric NOT NULL,
+    student_id integer NOT NULL,
     syear numeric(4,0) NOT NULL,
-    marking_period_id numeric NOT NULL,
+    marking_period_id integer NOT NULL,
     comment text
 );
 
@@ -3129,10 +3091,10 @@ CREATE TABLE student_mp_stats (
 
 CREATE TABLE student_report_card_comments (
     syear numeric(4,0) NOT NULL,
-    school_id numeric,
-    student_id numeric NOT NULL,
-    course_period_id numeric NOT NULL,
-    report_card_comment_id numeric NOT NULL,
+    school_id integer,
+    student_id integer NOT NULL,
+    course_period_id integer NOT NULL,
+    report_card_comment_id integer NOT NULL,
     comment character varying(5),
     marking_period_id character varying(10) NOT NULL
 );
@@ -3146,11 +3108,11 @@ CREATE TABLE student_report_card_comments (
 
 CREATE TABLE student_report_card_grades (
     syear numeric(4,0),
-    school_id numeric,
-    student_id numeric NOT NULL,
-    course_period_id numeric,
-    report_card_grade_id numeric,
-    report_card_comment_id numeric,
+    school_id integer,
+    student_id integer NOT NULL,
+    course_period_id integer,
+    report_card_grade_id integer,
+    report_card_comment_id integer,
     comment character varying(255),
     grade_percent numeric(4,1),
     marking_period_id character varying(10) NOT NULL,
@@ -3197,7 +3159,7 @@ SELECT pg_catalog.setval('student_report_card_grades_seq', 1, false);
 --
 
 CREATE TABLE students (
-    student_id numeric NOT NULL,
+    student_id integer NOT NULL,
     last_name character varying(50) NOT NULL,
     first_name character varying(50) NOT NULL,
     middle_name character varying(50),
@@ -3205,7 +3167,7 @@ CREATE TABLE students (
     username character varying(100),
     password character varying(106),
     last_login timestamp(0) without time zone,
-    failed_login numeric,
+    failed_login integer,
     custom_200000000 text,
     custom_200000001 text,
     custom_200000002 text,
@@ -3228,9 +3190,9 @@ CREATE TABLE students (
 --
 
 CREATE TABLE students_join_address (
-    id numeric(10,0) NOT NULL,
-    student_id numeric NOT NULL,
-    address_id numeric(10,0) NOT NULL,
+    id integer NOT NULL,
+    student_id integer NOT NULL,
+    address_id integer NOT NULL,
     contact_seq numeric(10,0),
     gets_mail character varying(1),
     primary_residence character varying(1),
@@ -3273,10 +3235,10 @@ SELECT pg_catalog.setval('students_join_address_seq', 1, true);
 --
 
 CREATE TABLE students_join_people (
-    id numeric(10,0) NOT NULL,
-    student_id numeric NOT NULL,
-    person_id numeric(10,0) NOT NULL,
-    address_id numeric,
+    id integer NOT NULL,
+    student_id integer NOT NULL,
+    person_id integer NOT NULL,
+    address_id integer,
     custody character varying(1),
     emergency character varying(1),
     student_relation character varying(100)
@@ -3311,8 +3273,8 @@ SELECT pg_catalog.setval('students_join_people_seq', 1, true);
 --
 
 CREATE TABLE students_join_users (
-    student_id numeric NOT NULL,
-    staff_id numeric NOT NULL
+    student_id integer NOT NULL,
+    staff_id integer NOT NULL
 );
 
 
@@ -3345,7 +3307,7 @@ SELECT pg_catalog.setval('students_seq', 1, true);
 
 CREATE TABLE templates (
     modname character varying(255) NOT NULL,
-    staff_id numeric NOT NULL,
+    staff_id integer NOT NULL,
     template text
 );
 
@@ -3404,7 +3366,7 @@ CREATE VIEW transcript_grades AS
 --
 
 CREATE TABLE user_profiles (
-    id numeric,
+    id integer NOT NULL,
     profile character varying(30),
     title character varying(100)
 );
@@ -3615,12 +3577,6 @@ INSERT INTO custom_fields VALUES (200000008, 'text', 'Preferred Hospital', 8, NU
 INSERT INTO custom_fields VALUES (200000009, 'textarea', 'Comments', 9, NULL, 2, NULL, NULL);
 INSERT INTO custom_fields VALUES (200000010, 'radio', 'Has Doctor''s Note', 10, NULL, 2, NULL, NULL);
 INSERT INTO custom_fields VALUES (200000011, 'textarea', 'Doctor''s Note Comments', 11, NULL, 2, NULL, NULL);
-
-
---
--- Data for Name: discipline_categories; Type: TABLE DATA; Schema: public; Owner: rosariosis
---
-
 
 
 --
