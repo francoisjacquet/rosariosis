@@ -570,7 +570,8 @@ CREATE TABLE attendance_calendar (
     block character varying(10),
     calendar_id integer NOT NULL,
     created_at timestamp DEFAULT current_timestamp,
-    updated_at timestamp
+    updated_at timestamp,
+    PRIMARY KEY (syear, school_id, school_date, calendar_id)
 );
 
 
@@ -686,7 +687,8 @@ CREATE TABLE attendance_completed (
     period_id integer NOT NULL,
     table_name numeric NOT NULL,
     created_at timestamp DEFAULT current_timestamp,
-    updated_at timestamp
+    updated_at timestamp,
+    PRIMARY KEY (staff_id, school_date, period_id, table_name)
 );
 
 
@@ -705,7 +707,8 @@ CREATE TABLE attendance_day (
     marking_period_id integer,
     comment character varying(255),
     created_at timestamp DEFAULT current_timestamp,
-    updated_at timestamp
+    updated_at timestamp,
+    PRIMARY KEY (student_id, school_date)
 );
 
 
@@ -727,7 +730,8 @@ CREATE TABLE attendance_period (
     marking_period_id integer,
     comment character varying(100),
     created_at timestamp DEFAULT current_timestamp,
-    updated_at timestamp
+    updated_at timestamp,
+    PRIMARY KEY (student_id, school_date, period_id)
 );
 
 
@@ -972,7 +976,8 @@ CREATE TABLE course_period_school_periods (
     period_id integer NOT NULL,
     days character varying(7),
     created_at timestamp DEFAULT current_timestamp,
-    updated_at timestamp
+    updated_at timestamp,
+    PRIMARY KEY (course_period_school_periods_id, course_period_id, period_id)
 );
 
 
@@ -1315,7 +1320,8 @@ CREATE TABLE eligibility_completed (
     school_date date NOT NULL,
     period_id integer NOT NULL,
     created_at timestamp DEFAULT current_timestamp,
-    updated_at timestamp
+    updated_at timestamp,
+    PRIMARY KEY (staff_id, school_date, period_id)
 );
 
 
@@ -1348,7 +1354,8 @@ CREATE TABLE student_assignments (
     student_id integer NOT NULL,
     data text,
     created_at timestamp DEFAULT current_timestamp,
-    updated_at timestamp
+    updated_at timestamp,
+    PRIMARY KEY (assignment_id, student_id)
 );
 
 
@@ -1575,7 +1582,7 @@ SELECT pg_catalog.setval('food_service_menus_seq', 1, true);
 CREATE TABLE food_service_staff_accounts (
     staff_id integer PRIMARY KEY,
     status character varying(25),
-    barcode character varying(50),
+    barcode character varying(50) UNIQUE,
     balance numeric(9,2) NOT NULL,
     transaction_id integer,
     created_at timestamp DEFAULT current_timestamp,
@@ -1596,7 +1603,8 @@ CREATE TABLE food_service_staff_transaction_items (
     short_name character varying(25),
     description character varying(50),
     created_at timestamp DEFAULT current_timestamp,
-    updated_at timestamp
+    updated_at timestamp,
+    PRIMARY KEY (item_id, transaction_id)
 );
 
 
@@ -1653,7 +1661,7 @@ CREATE TABLE food_service_student_accounts (
     account_id integer NOT NULL,
     discount character varying(25),
     status character varying(25),
-    barcode character varying(50),
+    barcode character varying(50) UNIQUE,
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp
 );
@@ -1673,7 +1681,8 @@ CREATE TABLE food_service_transaction_items (
     short_name character varying(25),
     description character varying(50),
     created_at timestamp DEFAULT current_timestamp,
-    updated_at timestamp
+    updated_at timestamp,
+    PRIMARY KEY (item_id, transaction_id)
 );
 
 
@@ -1823,7 +1832,8 @@ CREATE TABLE gradebook_grades (
     points numeric(6,2),
     comment character varying(100),
     created_at timestamp DEFAULT current_timestamp,
-    updated_at timestamp
+    updated_at timestamp,
+    PRIMARY KEY (student_id, assignment_id, course_period_id)
 );
 
 
@@ -1838,7 +1848,8 @@ CREATE TABLE grades_completed (
     marking_period_id character varying(10) NOT NULL,
     course_period_id integer NOT NULL,
     created_at timestamp DEFAULT current_timestamp,
-    updated_at timestamp
+    updated_at timestamp,
+    PRIMARY KEY (staff_id, marking_period_id, course_period_id)
 );
 
 
@@ -1881,7 +1892,8 @@ CREATE TABLE lunch_period (
     comment character varying(100),
     table_name numeric,
     created_at timestamp DEFAULT current_timestamp,
-    updated_at timestamp
+    updated_at timestamp,
+    PRIMARY KEY (student_id, school_date, period_id)
 );
 
 
@@ -1954,7 +1966,8 @@ CREATE TABLE moodlexrosario (
     rosario_id integer NOT NULL,
     moodle_id integer NOT NULL,
     created_at timestamp DEFAULT current_timestamp,
-    updated_at timestamp
+    updated_at timestamp,
+    PRIMARY KEY ("column", rosario_id)
 );
 
 
@@ -2250,11 +2263,12 @@ SELECT pg_catalog.setval('portal_polls_seq', 1, false);
 
 CREATE TABLE profile_exceptions (
     profile_id integer NOT NULL,
-    modname character varying(255),
+    modname character varying(255) NOT NULL,
     can_use character varying(1),
     can_edit character varying(1),
     created_at timestamp DEFAULT current_timestamp,
-    updated_at timestamp
+    updated_at timestamp,
+    PRIMARY KEY (profile_id, modname)
 );
 
 
@@ -2814,7 +2828,8 @@ CREATE TABLE schools (
     reporting_gp_scale numeric(10,3),
     number_days_rotation numeric(1,0),
     created_at timestamp DEFAULT current_timestamp,
-    updated_at timestamp
+    updated_at timestamp,
+    PRIMARY KEY (id, syear)
 );
 
 
@@ -3231,7 +3246,8 @@ CREATE TABLE student_mp_comments (
     marking_period_id integer NOT NULL,
     comment text,
     created_at timestamp DEFAULT current_timestamp,
-    updated_at timestamp
+    updated_at timestamp,
+    PRIMARY KEY (student_id, syear, marking_period_id)
 );
 
 
@@ -3265,7 +3281,8 @@ CREATE TABLE student_mp_stats (
     cr_credits numeric,
     comments character varying(75),
     created_at timestamp DEFAULT current_timestamp,
-    updated_at timestamp
+    updated_at timestamp,
+    PRIMARY KEY (student_id, marking_period_id)
 );
 
 
@@ -3284,7 +3301,8 @@ CREATE TABLE student_report_card_comments (
     comment character varying(5),
     marking_period_id character varying(10) NOT NULL,
     created_at timestamp DEFAULT current_timestamp,
-    updated_at timestamp
+    updated_at timestamp,
+    PRIMARY KEY (syear, student_id, course_period_id, marking_period_id, report_card_comment_id)
 );
 
 
@@ -3354,7 +3372,7 @@ CREATE TABLE students (
     first_name character varying(50) NOT NULL,
     middle_name character varying(50),
     name_suffix character varying(3),
-    username character varying(100),
+    username character varying(100) UNIQUE,
     password character varying(106),
     last_login timestamp(0) without time zone,
     failed_login integer,
@@ -3472,7 +3490,8 @@ CREATE TABLE students_join_users (
     student_id integer NOT NULL,
     staff_id integer NOT NULL,
     created_at timestamp DEFAULT current_timestamp,
-    updated_at timestamp
+    updated_at timestamp,
+    PRIMARY KEY (student_id, staff_id)
 );
 
 
@@ -3508,7 +3527,8 @@ CREATE TABLE templates (
     staff_id integer NOT NULL,
     template text,
     created_at timestamp DEFAULT current_timestamp,
-    updated_at timestamp
+    updated_at timestamp,
+    PRIMARY KEY (modname, staff_id)
 );
 
 
@@ -4645,166 +4665,6 @@ CREATE INDEX accounting_payments_ind2 ON accounting_payments USING btree (amount
 
 
 --
--- Name: attendance_calendar_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY attendance_calendar
-    ADD CONSTRAINT attendance_calendar_pkey PRIMARY KEY (syear, school_id, school_date, calendar_id);
-
-
---
--- Name: attendance_completed_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY attendance_completed
-    ADD CONSTRAINT attendance_completed_pkey PRIMARY KEY (staff_id, school_date, period_id, table_name);
-
-
---
--- Name: attendance_day_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY attendance_day
-    ADD CONSTRAINT attendance_day_pkey PRIMARY KEY (student_id, school_date);
-
-
---
--- Name: attendance_period_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY attendance_period
-    ADD CONSTRAINT attendance_period_pkey PRIMARY KEY (student_id, school_date, period_id);
-
-
---
--- Name: course_period_school_periods_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY course_period_school_periods
-    ADD CONSTRAINT course_period_school_periods_pkey PRIMARY KEY (course_period_school_periods_id, course_period_id, period_id);
-
-
---
--- Name: eligibility_completed_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY eligibility_completed
-    ADD CONSTRAINT eligibility_completed_pkey PRIMARY KEY (staff_id, school_date, period_id);
-
-
---
--- Name: food_service_staff_transaction_items_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY food_service_staff_transaction_items
-    ADD CONSTRAINT food_service_staff_transaction_items_pkey PRIMARY KEY (item_id, transaction_id);
-
-
---
--- Name: food_service_transaction_items_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY food_service_transaction_items
-    ADD CONSTRAINT food_service_transaction_items_pkey PRIMARY KEY (item_id, transaction_id);
-
-
---
--- Name: gradebook_grades_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY gradebook_grades
-    ADD CONSTRAINT gradebook_grades_pkey PRIMARY KEY (student_id, assignment_id, course_period_id);
-
-
---
--- Name: grades_completed_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY grades_completed
-    ADD CONSTRAINT grades_completed_pkey PRIMARY KEY (staff_id, marking_period_id, course_period_id);
-
-
---
--- Name: lunch_period_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY lunch_period
-    ADD CONSTRAINT lunch_period_pkey PRIMARY KEY (student_id, school_date, period_id);
-
-
---
--- Name: moodlexrosario_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY moodlexrosario
-    ADD CONSTRAINT moodlexrosario_pkey PRIMARY KEY ("column", rosario_id);
-
-
---
--- Name: profile_exceptions_profile_id_modname_key; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY profile_exceptions
-    ADD CONSTRAINT profile_exceptions_profile_id_modname_key UNIQUE (profile_id, modname);
-
-
---
--- Name: schools_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY schools
-    ADD CONSTRAINT schools_pkey PRIMARY KEY (id, syear);
-
-
---
--- Name: student_assignments_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY student_assignments
-    ADD CONSTRAINT student_assignments_pkey PRIMARY KEY (assignment_id, student_id);
-
-
---
--- Name: student_mp_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY student_mp_comments
-    ADD CONSTRAINT student_mp_comments_pkey PRIMARY KEY (student_id, syear, marking_period_id);
-
-
---
--- Name: student_mp_stats_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY student_mp_stats
-    ADD CONSTRAINT student_mp_stats_pkey PRIMARY KEY (student_id, marking_period_id);
-
-
---
--- Name: student_report_card_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY student_report_card_comments
-    ADD CONSTRAINT student_report_card_comments_pkey PRIMARY KEY (syear, student_id, course_period_id, marking_period_id, report_card_comment_id);
-
-
---
--- Name: students_join_users_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY students_join_users
-    ADD CONSTRAINT students_join_users_pkey PRIMARY KEY (student_id, staff_id);
-
-
---
--- Name: templates_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY templates
-    ADD CONSTRAINT templates_pkey PRIMARY KEY (modname, staff_id);
-
-
---
 -- Name: address_3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
@@ -5323,13 +5183,6 @@ CREATE INDEX schools_ind1 ON schools USING btree (syear);
 
 
 --
--- Name: staff_barcode; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE UNIQUE INDEX staff_barcode ON food_service_staff_accounts USING btree (barcode);
-
-
---
 -- Name: staff_desc_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
@@ -5488,20 +5341,6 @@ CREATE INDEX student_report_card_grades_ind3 ON student_report_card_grades USING
 --
 
 CREATE INDEX student_report_card_grades_ind4 ON student_report_card_grades USING btree (marking_period_id);
-
-
---
--- Name: students_barcode; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE UNIQUE INDEX students_barcode ON food_service_student_accounts USING btree (barcode);
-
-
---
--- Name: students_ind4; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE UNIQUE INDEX students_ind4 ON students USING btree (username);
 
 
 --
