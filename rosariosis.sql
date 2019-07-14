@@ -290,7 +290,7 @@ CREATE TABLE access_log (
 CREATE TABLE accounting_incomes (
     assigned_date date,
     comments character varying(255),
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     title character varying(255),
     amount numeric,
     school_id integer,
@@ -332,7 +332,7 @@ CREATE TABLE accounting_salaries (
     assigned_date date,
     due_date date,
     comments character varying(255),
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     title character varying(255),
     amount numeric,
     school_id integer,
@@ -410,7 +410,7 @@ SELECT pg_catalog.setval('accounting_payments_seq', 1, false);
 --
 
 CREATE TABLE address (
-    address_id integer NOT NULL,
+    address_id integer PRIMARY KEY,
     house_no numeric(5,0),
     direction character varying(2),
     street character varying(30),
@@ -435,7 +435,7 @@ CREATE TABLE address (
 --
 
 CREATE TABLE address_field_categories (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     title character varying(1000) NOT NULL,
     sort_order numeric,
     residence character(1),
@@ -472,7 +472,7 @@ SELECT pg_catalog.setval('address_field_categories_seq', 1, false);
 --
 
 CREATE TABLE address_fields (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     type character varying(10) NOT NULL,
     title character varying(1000) NOT NULL,
     sort_order numeric,
@@ -564,7 +564,7 @@ CREATE TABLE attendance_calendars (
 --
 
 CREATE TABLE attendance_code_categories (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     syear numeric(4,0),
     school_id integer,
     title character varying(255),
@@ -601,7 +601,7 @@ SELECT pg_catalog.setval('attendance_code_categories_seq', 1, false);
 --
 
 CREATE TABLE attendance_codes (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     syear numeric(4,0),
     school_id integer,
     title character varying(100),
@@ -697,7 +697,7 @@ CREATE TABLE billing_fees (
     assigned_date date,
     due_date date,
     comments character varying(255),
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     title character varying(255),
     amount numeric,
     school_id integer,
@@ -775,7 +775,7 @@ SELECT pg_catalog.setval('billing_payments_seq', 1, false);
 --
 
 CREATE TABLE calendar_events (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     syear numeric(4,0),
     school_id integer,
     school_date date,
@@ -848,7 +848,7 @@ CREATE TABLE config (
 CREATE TABLE course_periods (
     syear numeric(4,0) NOT NULL,
     school_id integer NOT NULL,
-    course_period_id integer NOT NULL,
+    course_period_id integer PRIMARY KEY,
     course_id integer NOT NULL,
     title character varying(255),
     short_name character varying(25) NOT NULL,
@@ -882,7 +882,7 @@ CREATE TABLE course_periods (
 
 CREATE TABLE courses (
     syear numeric(4,0) NOT NULL,
-    course_id integer NOT NULL,
+    course_id integer PRIMARY KEY,
     subject_id integer NOT NULL,
     school_id integer NOT NULL,
     grade_level integer,
@@ -969,7 +969,7 @@ SELECT pg_catalog.setval('course_periods_seq', 1, true);
 CREATE TABLE course_subjects (
     syear numeric(4,0),
     school_id integer,
-    subject_id integer NOT NULL,
+    subject_id integer PRIMARY KEY,
     title character varying(100) NOT NULL,
     short_name character varying(25),
     sort_order numeric,
@@ -1028,7 +1028,7 @@ SELECT pg_catalog.setval('courses_seq', 1, true);
 --
 
 CREATE TABLE custom_fields (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     type character varying(10) NOT NULL,
     title character varying(1000) NOT NULL,
     sort_order numeric,
@@ -1067,7 +1067,7 @@ SELECT pg_catalog.setval('custom_seq', 1, true);
 --
 
 CREATE TABLE discipline_field_usage (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     discipline_field_id integer NOT NULL,
     syear numeric(4,0) NOT NULL,
     school_id integer NOT NULL,
@@ -1105,7 +1105,7 @@ SELECT pg_catalog.setval('discipline_field_usage_seq', 6, true);
 --
 
 CREATE TABLE discipline_fields (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     title character varying(255) NOT NULL,
     short_name character varying(20),
     data_type character varying(30) NOT NULL,
@@ -1141,7 +1141,7 @@ SELECT pg_catalog.setval('discipline_fields_seq', 6, true);
 --
 
 CREATE TABLE discipline_referrals (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     syear numeric(4,0) NOT NULL,
     student_id integer NOT NULL,
     school_id integer NOT NULL,
@@ -1201,7 +1201,7 @@ CREATE TABLE eligibility (
 --
 
 CREATE TABLE eligibility_activities (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     syear numeric(4,0),
     school_id integer,
     title character varying(100),
@@ -1252,7 +1252,7 @@ CREATE TABLE eligibility_completed (
 --
 
 CREATE TABLE school_gradelevels (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     school_id integer NOT NULL,
     short_name character varying(2),
     title character varying(50),
@@ -1281,7 +1281,7 @@ CREATE TABLE student_assignments (
 --
 
 CREATE TABLE student_enrollment (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     syear numeric(4,0),
     school_id integer,
     student_id integer REFERENCES students(student_id),
@@ -1320,7 +1320,7 @@ COMMENT ON VIEW enroll_grade IS 'Provides enrollment dates and grade levels';
 --
 
 CREATE TABLE food_service_accounts (
-    account_id integer NOT NULL,
+    account_id integer PRIMARY KEY,
     balance numeric(9,2) NOT NULL,
     transaction_id integer
 );
@@ -1333,7 +1333,7 @@ CREATE TABLE food_service_accounts (
 --
 
 CREATE TABLE food_service_categories (
-    category_id integer NOT NULL,
+    category_id integer PRIMARY KEY,
     school_id integer NOT NULL,
     menu_id integer NOT NULL,
     title character varying(25),
@@ -1369,7 +1369,7 @@ SELECT pg_catalog.setval('food_service_categories_seq', 1, true);
 --
 
 CREATE TABLE food_service_items (
-    item_id integer NOT NULL,
+    item_id integer PRIMARY KEY,
     school_id integer NOT NULL,
     short_name character varying(25),
     sort_order numeric,
@@ -1410,7 +1410,7 @@ SELECT pg_catalog.setval('food_service_items_seq', 4, true);
 --
 
 CREATE TABLE food_service_menu_items (
-    menu_item_id integer NOT NULL,
+    menu_item_id integer PRIMARY KEY,
     school_id integer NOT NULL,
     menu_id integer NOT NULL,
     item_id integer NOT NULL,
@@ -1448,7 +1448,7 @@ SELECT pg_catalog.setval('food_service_menu_items_seq', 4, true);
 --
 
 CREATE TABLE food_service_menus (
-    menu_id integer NOT NULL,
+    menu_id integer PRIMARY KEY,
     school_id integer NOT NULL,
     title character varying(25) NOT NULL,
     sort_order numeric
@@ -1483,7 +1483,7 @@ SELECT pg_catalog.setval('food_service_menus_seq', 1, true);
 --
 
 CREATE TABLE food_service_staff_accounts (
-    staff_id integer NOT NULL,
+    staff_id integer PRIMARY KEY,
     status character varying(25),
     barcode character varying(50),
     balance numeric(9,2) NOT NULL,
@@ -1513,7 +1513,7 @@ CREATE TABLE food_service_staff_transaction_items (
 --
 
 CREATE TABLE food_service_staff_transactions (
-    transaction_id integer NOT NULL,
+    transaction_id integer PRIMARY KEY,
     staff_id integer NOT NULL,
     school_id integer,
     syear numeric(4,0),
@@ -1553,7 +1553,7 @@ SELECT pg_catalog.setval('food_service_staff_transactions_seq', 1, true);
 --
 
 CREATE TABLE food_service_student_accounts (
-    student_id integer NOT NULL,
+    student_id integer PRIMARY KEY,
     account_id integer NOT NULL,
     discount character varying(25),
     status character varying(25),
@@ -1584,7 +1584,7 @@ CREATE TABLE food_service_transaction_items (
 --
 
 CREATE TABLE food_service_transactions (
-    transaction_id integer NOT NULL,
+    transaction_id integer PRIMARY KEY,
     account_id integer NOT NULL,
     student_id integer,
     school_id integer,
@@ -1626,7 +1626,7 @@ SELECT pg_catalog.setval('food_service_transactions_seq', 1, true);
 --
 
 CREATE TABLE gradebook_assignment_types (
-    assignment_type_id integer NOT NULL,
+    assignment_type_id integer PRIMARY KEY,
     staff_id integer,
     course_id integer,
     title character varying(100) NOT NULL,
@@ -1665,7 +1665,7 @@ SELECT pg_catalog.setval('gradebook_assignment_types_seq', 1, false);
 --
 
 CREATE TABLE gradebook_assignments (
-    assignment_id integer NOT NULL,
+    assignment_id integer PRIMARY KEY,
     staff_id integer,
     marking_period_id integer,
     course_period_id integer,
@@ -1746,7 +1746,7 @@ CREATE TABLE history_marking_periods (
     post_end_date date,
     school_id integer,
     syear integer,
-    marking_period_id integer NOT NULL
+    marking_period_id integer PRIMARY KEY
 );
 
 
@@ -1799,7 +1799,7 @@ SELECT pg_catalog.setval('marking_period_seq', 11, true);
 --
 
 CREATE TABLE school_marking_periods (
-    marking_period_id integer NOT NULL,
+    marking_period_id integer PRIMARY KEY,
     syear numeric(4,0),
     mp character varying(3) NOT NULL,
     school_id integer,
@@ -1847,7 +1847,7 @@ CREATE TABLE moodlexrosario (
 --
 
 CREATE TABLE people (
-    person_id integer NOT NULL,
+    person_id integer PRIMARY KEY,
     last_name character varying(50) NOT NULL,
     first_name character varying(50) NOT NULL,
     middle_name character varying(50)
@@ -1861,7 +1861,7 @@ CREATE TABLE people (
 --
 
 CREATE TABLE people_field_categories (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     title character varying(1000),
     sort_order numeric,
     custody character(1),
@@ -1897,7 +1897,7 @@ SELECT pg_catalog.setval('people_field_categories_seq', 1, false);
 --
 
 CREATE TABLE people_fields (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     type character varying(10),
     title character varying(1000),
     sort_order numeric,
@@ -1936,7 +1936,7 @@ SELECT pg_catalog.setval('people_fields_seq', 1, true);
 --
 
 CREATE TABLE people_join_contacts (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     person_id integer,
     title character varying(100),
     value character varying(100)
@@ -1992,7 +1992,7 @@ SELECT pg_catalog.setval('people_seq', 1, true);
 --
 
 CREATE TABLE portal_notes (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     school_id integer,
     syear numeric(4,0),
     title character varying(255),
@@ -2035,7 +2035,7 @@ SELECT pg_catalog.setval('portal_notes_seq', 1, false);
 --
 
 CREATE TABLE portal_poll_questions (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     portal_poll_id integer NOT NULL,
     question character varying(255),
     type character varying(20),
@@ -2161,7 +2161,7 @@ CREATE TABLE program_user_config (
 --
 
 CREATE TABLE report_card_comment_categories (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     syear numeric(4,0),
     school_id integer,
     course_id integer,
@@ -2200,7 +2200,7 @@ SELECT pg_catalog.setval('report_card_comment_categories_seq', 1, true);
 --
 
 CREATE TABLE report_card_comment_code_scales (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     school_id integer NOT NULL,
     title character varying(25),
     comment character varying(100),
@@ -2237,7 +2237,7 @@ SELECT pg_catalog.setval('report_card_comment_code_scales_seq', 1, false);
 --
 
 CREATE TABLE report_card_comment_codes (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     school_id integer NOT NULL,
     scale_id integer NOT NULL,
     title character varying(5) NOT NULL,
@@ -2275,7 +2275,7 @@ SELECT pg_catalog.setval('report_card_comment_codes_seq', 1, false);
 --
 
 CREATE TABLE report_card_comments (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     syear numeric(4,0),
     school_id integer,
     course_id integer,
@@ -2314,7 +2314,7 @@ SELECT pg_catalog.setval('report_card_comments_seq', 3, true);
 --
 
 CREATE TABLE report_card_grade_scales (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     syear numeric(4,0),
     school_id integer NOT NULL,
     title character varying(300),
@@ -2357,7 +2357,7 @@ SELECT pg_catalog.setval('report_card_grade_scales_seq', 1, true);
 --
 
 CREATE TABLE report_card_grades (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     syear numeric(4,0),
     school_id integer,
     title character varying(100),
@@ -2454,7 +2454,7 @@ CREATE TABLE schedule (
 CREATE TABLE schedule_requests (
     syear numeric(4,0),
     school_id integer,
-    request_id integer NOT NULL,
+    request_id integer PRIMARY KEY,
     student_id integer,
     subject_id integer,
     course_id integer,
@@ -2516,7 +2516,7 @@ SELECT pg_catalog.setval('schedule_seq', 1, false);
 --
 
 CREATE TABLE school_fields (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     type character varying(10) NOT NULL,
     title character varying(1000) NOT NULL,
     sort_order numeric,
@@ -2596,7 +2596,7 @@ SELECT pg_catalog.setval('school_gradelevels_seq', 9, true);
 --
 
 CREATE TABLE school_periods (
-    period_id integer NOT NULL,
+    period_id integer PRIMARY KEY,
     syear numeric(4,0),
     school_id integer,
     sort_order numeric,
@@ -2685,7 +2685,7 @@ SELECT pg_catalog.setval('schools_seq', 1, true);
 
 CREATE TABLE staff (
     syear numeric(4,0),
-    staff_id integer NOT NULL,
+    staff_id integer PRIMARY KEY,
     current_school_id integer,
     title character varying(5),
     first_name character varying(100) NOT NULL,
@@ -2727,7 +2727,7 @@ CREATE TABLE staff_exceptions (
 --
 
 CREATE TABLE staff_field_categories (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     title character varying(1000) NOT NULL,
     sort_order numeric,
     columns numeric(4,0),
@@ -2767,7 +2767,7 @@ SELECT pg_catalog.setval('staff_field_categories_seq', 3, true);
 --
 
 CREATE TABLE staff_fields (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     type character varying(10) NOT NULL,
     title character varying(1000) NOT NULL,
     sort_order numeric,
@@ -2899,7 +2899,7 @@ SELECT pg_catalog.setval('student_enrollment_seq', 1, true);
 --
 
 CREATE TABLE student_field_categories (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     title character varying(1000) NOT NULL,
     sort_order numeric,
     columns numeric(4,0),
@@ -2935,7 +2935,7 @@ SELECT pg_catalog.setval('student_field_categories_seq', 5, true);
 --
 
 CREATE TABLE student_medical (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     student_id integer,
     type character varying(25),
     medical_date date,
@@ -2950,7 +2950,7 @@ CREATE TABLE student_medical (
 --
 
 CREATE TABLE student_medical_alerts (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     student_id integer,
     title character varying(100)
 );
@@ -3005,7 +3005,7 @@ SELECT pg_catalog.setval('student_medical_seq', 1, false);
 --
 
 CREATE TABLE student_medical_visits (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     student_id integer,
     school_date date,
     time_in character varying(20),
@@ -3124,7 +3124,7 @@ CREATE TABLE student_report_card_grades (
     credit_earned numeric,
     credit_category character varying(10),
     course_title character varying(100),
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     school character varying(255),
     class_rank character varying(1),
     credit_hours numeric(6,2)
@@ -3159,7 +3159,7 @@ SELECT pg_catalog.setval('student_report_card_grades_seq', 1, false);
 --
 
 CREATE TABLE students (
-    student_id integer NOT NULL,
+    student_id integer PRIMARY KEY,
     last_name character varying(50) NOT NULL,
     first_name character varying(50) NOT NULL,
     middle_name character varying(50),
@@ -3190,7 +3190,7 @@ CREATE TABLE students (
 --
 
 CREATE TABLE students_join_address (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     student_id integer NOT NULL,
     address_id integer NOT NULL,
     contact_seq numeric(10,0),
@@ -3235,7 +3235,7 @@ SELECT pg_catalog.setval('students_join_address_seq', 1, true);
 --
 
 CREATE TABLE students_join_people (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     student_id integer NOT NULL,
     person_id integer NOT NULL,
     address_id integer,
@@ -4429,20 +4429,6 @@ INSERT INTO user_profiles VALUES (3, 'parent', 'Parent');
 
 
 --
--- Name: accounting_incomes_pkey; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE UNIQUE INDEX accounting_incomes_pkey ON accounting_incomes USING btree (id);
-
-
---
--- Name: accounting_salaries_pkey; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE UNIQUE INDEX accounting_salaries_pkey ON accounting_salaries USING btree (id);
-
-
---
 -- Name: accounting_payments_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
@@ -4457,43 +4443,11 @@ CREATE INDEX accounting_payments_ind2 ON accounting_payments USING btree (amount
 
 
 --
--- Name: address_field_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY address_field_categories
-    ADD CONSTRAINT address_field_categories_pkey PRIMARY KEY (id);
-
-
---
--- Name: address_fields_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY address_fields
-    ADD CONSTRAINT address_fields_pkey PRIMARY KEY (id);
-
-
---
--- Name: address_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY address
-    ADD CONSTRAINT address_pkey PRIMARY KEY (address_id);
-
-
---
 -- Name: attendance_calendar_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY attendance_calendar
     ADD CONSTRAINT attendance_calendar_pkey PRIMARY KEY (syear, school_id, school_date, calendar_id);
-
-
---
--- Name: attendance_codes_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY attendance_codes
-    ADD CONSTRAINT attendance_codes_pkey PRIMARY KEY (id);
 
 
 --
@@ -4521,59 +4475,11 @@ ALTER TABLE ONLY attendance_period
 
 
 --
--- Name: calendar_events_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY calendar_events
-    ADD CONSTRAINT calendar_events_pkey PRIMARY KEY (id);
-
-
---
 -- Name: course_period_school_periods_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY course_period_school_periods
     ADD CONSTRAINT course_period_school_periods_pkey PRIMARY KEY (course_period_school_periods_id, course_period_id, period_id);
-
-
---
--- Name: course_periods_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY course_periods
-    ADD CONSTRAINT course_periods_pkey PRIMARY KEY (course_period_id);
-
-
---
--- Name: course_subjects_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY course_subjects
-    ADD CONSTRAINT course_subjects_pkey PRIMARY KEY (subject_id);
-
-
---
--- Name: courses_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY courses
-    ADD CONSTRAINT courses_pkey PRIMARY KEY (course_id);
-
-
---
--- Name: custom_fields_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY custom_fields
-    ADD CONSTRAINT custom_fields_pkey PRIMARY KEY (id);
-
-
---
--- Name: eligibility_activities_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY eligibility_activities
-    ADD CONSTRAINT eligibility_activities_pkey PRIMARY KEY (id);
 
 
 --
@@ -4585,54 +4491,6 @@ ALTER TABLE ONLY eligibility_completed
 
 
 --
--- Name: food_service_accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY food_service_accounts
-    ADD CONSTRAINT food_service_accounts_pkey PRIMARY KEY (account_id);
-
-
---
--- Name: food_service_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY food_service_categories
-    ADD CONSTRAINT food_service_categories_pkey PRIMARY KEY (category_id);
-
-
---
--- Name: food_service_items_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY food_service_items
-    ADD CONSTRAINT food_service_items_pkey PRIMARY KEY (item_id);
-
-
---
--- Name: food_service_menu_items_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY food_service_menu_items
-    ADD CONSTRAINT food_service_menu_items_pkey PRIMARY KEY (menu_item_id);
-
-
---
--- Name: food_service_menus_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY food_service_menus
-    ADD CONSTRAINT food_service_menus_pkey PRIMARY KEY (menu_id);
-
-
---
--- Name: food_service_staff_accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY food_service_staff_accounts
-    ADD CONSTRAINT food_service_staff_accounts_pkey PRIMARY KEY (staff_id);
-
-
---
 -- Name: food_service_staff_transaction_items_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
@@ -4641,51 +4499,11 @@ ALTER TABLE ONLY food_service_staff_transaction_items
 
 
 --
--- Name: food_service_staff_transactions_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY food_service_staff_transactions
-    ADD CONSTRAINT food_service_staff_transactions_pkey PRIMARY KEY (transaction_id);
-
-
---
--- Name: food_service_student_accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY food_service_student_accounts
-    ADD CONSTRAINT food_service_student_accounts_pkey PRIMARY KEY (student_id);
-
-
---
 -- Name: food_service_transaction_items_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY food_service_transaction_items
     ADD CONSTRAINT food_service_transaction_items_pkey PRIMARY KEY (item_id, transaction_id);
-
-
---
--- Name: food_service_transactions_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY food_service_transactions
-    ADD CONSTRAINT food_service_transactions_pkey PRIMARY KEY (transaction_id);
-
-
---
--- Name: gradebook_assignment_types_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY gradebook_assignment_types
-    ADD CONSTRAINT gradebook_assignment_types_pkey PRIMARY KEY (assignment_type_id);
-
-
---
--- Name: gradebook_assignments_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY gradebook_assignments
-    ADD CONSTRAINT gradebook_assignments_pkey PRIMARY KEY (assignment_id);
 
 
 --
@@ -4705,14 +4523,6 @@ ALTER TABLE ONLY grades_completed
 
 
 --
--- Name: history_marking_periods_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY history_marking_periods
-    ADD CONSTRAINT history_marking_periods_pkey PRIMARY KEY (marking_period_id);
-
-
---
 -- Name: lunch_period_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
@@ -4729,139 +4539,11 @@ ALTER TABLE ONLY moodlexrosario
 
 
 --
--- Name: people_field_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY people_field_categories
-    ADD CONSTRAINT people_field_categories_pkey PRIMARY KEY (id);
-
-
---
--- Name: people_fields_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY people_fields
-    ADD CONSTRAINT people_fields_pkey PRIMARY KEY (id);
-
-
---
--- Name: people_join_contacts_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY people_join_contacts
-    ADD CONSTRAINT people_join_contacts_pkey PRIMARY KEY (id);
-
-
---
--- Name: people_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY people
-    ADD CONSTRAINT people_pkey PRIMARY KEY (person_id);
-
-
---
--- Name: portal_notes_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY portal_notes
-    ADD CONSTRAINT portal_notes_pkey PRIMARY KEY (id);
-
-
---
--- Name: portal_poll_questions_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY portal_poll_questions
-    ADD CONSTRAINT portal_poll_questions_pkey PRIMARY KEY (id);
-
-
---
 -- Name: profile_exceptions_profile_id_modname_key; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY profile_exceptions
     ADD CONSTRAINT profile_exceptions_profile_id_modname_key UNIQUE (profile_id, modname);
-
-
---
--- Name: report_card_comment_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY report_card_comment_categories
-    ADD CONSTRAINT report_card_comment_categories_pkey PRIMARY KEY (id);
-
-
---
--- Name: report_card_comment_code_scales_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY report_card_comment_code_scales
-    ADD CONSTRAINT report_card_comment_code_scales_pkey PRIMARY KEY (id);
-
-
---
--- Name: report_card_comment_codes_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY report_card_comment_codes
-    ADD CONSTRAINT report_card_comment_codes_pkey PRIMARY KEY (id);
-
-
---
--- Name: report_card_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY report_card_comments
-    ADD CONSTRAINT report_card_comments_pkey PRIMARY KEY (id);
-
-
---
--- Name: report_card_grade_scales_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY report_card_grade_scales
-    ADD CONSTRAINT report_card_grade_scales_pkey PRIMARY KEY (id);
-
-
---
--- Name: report_card_grades_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY report_card_grades
-    ADD CONSTRAINT report_card_grades_pkey PRIMARY KEY (id);
-
-
---
--- Name: schedule_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY schedule_requests
-    ADD CONSTRAINT schedule_requests_pkey PRIMARY KEY (request_id);
-
-
---
--- Name: school_gradelevels_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY school_gradelevels
-    ADD CONSTRAINT school_gradelevels_pkey PRIMARY KEY (id);
-
-
---
--- Name: school_marking_periods_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY school_marking_periods
-    ADD CONSTRAINT school_marking_periods_pkey PRIMARY KEY (marking_period_id);
-
-
---
--- Name: school_periods_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY school_periods
-    ADD CONSTRAINT school_periods_pkey PRIMARY KEY (period_id);
 
 
 --
@@ -4873,75 +4555,11 @@ ALTER TABLE ONLY schools
 
 
 --
--- Name: staff_field_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY staff_field_categories
-    ADD CONSTRAINT staff_field_categories_pkey PRIMARY KEY (id);
-
-
---
--- Name: staff_fields_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY staff_fields
-    ADD CONSTRAINT staff_fields_pkey PRIMARY KEY (id);
-
-
---
--- Name: staff_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY staff
-    ADD CONSTRAINT staff_pkey PRIMARY KEY (staff_id);
-
-
---
 -- Name: student_assignments_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY student_assignments
     ADD CONSTRAINT student_assignments_pkey PRIMARY KEY (assignment_id, student_id);
-
-
---
--- Name: student_enrollment_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY student_enrollment
-    ADD CONSTRAINT student_enrollment_pkey PRIMARY KEY (id);
-
-
---
--- Name: student_field_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY student_field_categories
-    ADD CONSTRAINT student_field_categories_pkey PRIMARY KEY (id);
-
-
---
--- Name: student_medical_alerts_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY student_medical_alerts
-    ADD CONSTRAINT student_medical_alerts_pkey PRIMARY KEY (id);
-
-
---
--- Name: student_medical_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY student_medical
-    ADD CONSTRAINT student_medical_pkey PRIMARY KEY (id);
-
-
---
--- Name: student_medical_visits_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY student_medical_visits
-    ADD CONSTRAINT student_medical_visits_pkey PRIMARY KEY (id);
 
 
 --
@@ -4969,51 +4587,11 @@ ALTER TABLE ONLY student_report_card_comments
 
 
 --
--- Name: student_report_card_grades_id_key; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY student_report_card_grades
-    ADD CONSTRAINT student_report_card_grades_id_key UNIQUE (id);
-
-
---
--- Name: student_report_card_grades_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY student_report_card_grades
-    ADD CONSTRAINT student_report_card_grades_pkey PRIMARY KEY (id);
-
-
---
--- Name: students_join_address_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY students_join_address
-    ADD CONSTRAINT students_join_address_pkey PRIMARY KEY (id);
-
-
---
--- Name: students_join_people_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY students_join_people
-    ADD CONSTRAINT students_join_people_pkey PRIMARY KEY (id);
-
-
---
 -- Name: students_join_users_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 ALTER TABLE ONLY students_join_users
     ADD CONSTRAINT students_join_users_pkey PRIMARY KEY (student_id, staff_id);
-
-
---
--- Name: students_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace:
---
-
-ALTER TABLE ONLY students
-    ADD CONSTRAINT students_pkey PRIMARY KEY (student_id);
 
 
 --
@@ -5039,13 +4617,6 @@ CREATE INDEX address_4 ON address USING btree (street);
 
 
 --
--- Name: address_desc_ind; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE INDEX address_desc_ind ON address_fields USING btree (id);
-
-
---
 -- Name: address_desc_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
@@ -5057,13 +4628,6 @@ CREATE INDEX address_desc_ind2 ON custom_fields USING btree (type);
 --
 
 CREATE INDEX address_fields_ind3 ON custom_fields USING btree (category_id);
-
-
---
--- Name: attendance_code_categories_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE INDEX attendance_code_categories_ind1 ON attendance_code_categories USING btree (id);
 
 
 --
@@ -5123,13 +4687,6 @@ CREATE INDEX attendance_period_ind5 ON attendance_period USING btree (attendance
 
 
 --
--- Name: billing_fees_pkey; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE UNIQUE INDEX billing_fees_pkey ON billing_fees USING btree (id);
-
-
---
 -- Name: billing_payments_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
@@ -5151,13 +4708,6 @@ CREATE INDEX billing_payments_ind3 ON billing_payments USING btree (refunded_pay
 
 
 --
--- Name: billing_payments_pkey; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE UNIQUE INDEX billing_payments_pkey ON billing_payments USING btree (id);
-
-
---
 -- Name: course_periods_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
@@ -5169,13 +4719,6 @@ CREATE INDEX course_periods_ind1 ON course_periods USING btree (syear);
 --
 
 CREATE INDEX course_periods_ind2 ON course_periods USING btree (course_id, syear, school_id);
-
-
---
--- Name: course_periods_ind3; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE INDEX course_periods_ind3 ON course_periods USING btree (course_period_id);
 
 
 --
@@ -5207,13 +4750,6 @@ CREATE INDEX courses_ind2 ON courses USING btree (subject_id);
 
 
 --
--- Name: custom_desc_ind; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE INDEX custom_desc_ind ON custom_fields USING btree (id);
-
-
---
 -- Name: custom_desc_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
@@ -5225,27 +4761,6 @@ CREATE INDEX custom_desc_ind2 ON custom_fields USING btree (type);
 --
 
 CREATE INDEX custom_fields_ind3 ON custom_fields USING btree (category_id);
-
-
---
--- Name: discipline_field_usage_pkey; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE UNIQUE INDEX discipline_field_usage_pkey ON discipline_field_usage USING btree (id);
-
-
---
--- Name: discipline_fields_pkey; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE UNIQUE INDEX discipline_fields_pkey ON discipline_fields USING btree (id);
-
-
---
--- Name: discipline_referrals_pkey; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE UNIQUE INDEX discipline_referrals_pkey ON discipline_referrals USING btree (id);
 
 
 --
@@ -5410,13 +4925,6 @@ CREATE INDEX people_3 ON people USING btree (person_id, last_name, first_name, m
 
 
 --
--- Name: people_desc_ind; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE INDEX people_desc_ind ON people_fields USING btree (id);
-
-
---
 -- Name: people_desc_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
@@ -5456,13 +4964,6 @@ CREATE INDEX program_user_config_ind1 ON program_user_config USING btree (user_i
 --
 
 CREATE INDEX relations_meets_2 ON students_join_people USING btree (person_id);
-
-
---
--- Name: relations_meets_5; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE INDEX relations_meets_5 ON students_join_people USING btree (id);
 
 
 --
@@ -5578,20 +5079,6 @@ CREATE INDEX schedule_requests_ind7 ON schedule_requests USING btree (not_period
 
 
 --
--- Name: schedule_requests_ind8; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE INDEX schedule_requests_ind8 ON schedule_requests USING btree (request_id);
-
-
---
--- Name: school_desc_ind; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE INDEX school_desc_ind ON school_fields USING btree (id);
-
-
---
 -- Name: school_desc_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
 --
 
@@ -5638,13 +5125,6 @@ CREATE INDEX schools_ind1 ON schools USING btree (syear);
 --
 
 CREATE UNIQUE INDEX staff_barcode ON food_service_staff_accounts USING btree (barcode);
-
-
---
--- Name: staff_desc_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE INDEX staff_desc_ind1 ON staff_fields USING btree (id);
 
 
 --

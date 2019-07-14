@@ -5,6 +5,8 @@ Changes in 5.0
 --------------
 - Use integer column type instead of numeric in rosariosis.sql
 - SQL Remove DISCIPLINE_CATEGORIES table in rosariosis.sql & Rollover.php
+- SQL Move PRIMARY KEY to CREATE TABLE in rosariosis.sql
+- SQL Remove UNIQUE & INDEX constraints for PRIMARY KEY in rosariosis.sql
 
 Changes in 4.9.1
 ----------------
