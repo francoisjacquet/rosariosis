@@ -9,6 +9,9 @@ Changes in 5.0
 - SQL Remove UNIQUE & INDEX constraints for PRIMARY KEY in rosariosis.sql
 - SQL Add CREATED_AT & UPDATED_AT columns to every table in rosariosis.sql
 - SQL Add set_updated_at() function & set_updated_at trigger in rosariosis.sql
+- SQL use serial for IDs in rosariosis.sql
+- SQL remove & rename existing sequences in rosariosis.sql & Update.fnc.php
+
 
 Changes in 4.9.2
 ----------------

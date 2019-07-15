@@ -309,7 +309,7 @@ CREATE TABLE access_log (
 CREATE TABLE accounting_incomes (
     assigned_date date,
     comments character varying(255),
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     title character varying(255),
     amount numeric,
     school_id integer,
@@ -317,29 +317,6 @@ CREATE TABLE accounting_incomes (
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp
 );
-
-
-
-
---
--- Name: accounting_incomes_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE accounting_incomes_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: accounting_incomes_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('accounting_incomes_seq', 1, false);
 
 
 
@@ -353,7 +330,7 @@ CREATE TABLE accounting_salaries (
     assigned_date date,
     due_date date,
     comments character varying(255),
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     title character varying(255),
     amount numeric,
     school_id integer,
@@ -366,34 +343,11 @@ CREATE TABLE accounting_salaries (
 
 
 --
--- Name: accounting_salaries_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE accounting_salaries_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: accounting_salaries_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('accounting_salaries_seq', 1, false);
-
-
-
-
---
 -- Name: accounting_payments; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE accounting_payments (
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     syear numeric(4,0) NOT NULL,
     school_id integer NOT NULL,
     staff_id integer,
@@ -408,34 +362,11 @@ CREATE TABLE accounting_payments (
 
 
 --
--- Name: accounting_payments_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE accounting_payments_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: accounting_payments_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('accounting_payments_seq', 1, false);
-
-
-
-
---
 -- Name: address; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE address (
-    address_id integer PRIMARY KEY,
+    address_id serial PRIMARY KEY,
     house_no numeric(5,0),
     direction character varying(2),
     street character varying(30),
@@ -462,7 +393,7 @@ CREATE TABLE address (
 --
 
 CREATE TABLE address_field_categories (
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     title character varying(1000) NOT NULL,
     sort_order numeric,
     residence character(1),
@@ -473,35 +404,12 @@ CREATE TABLE address_field_categories (
 );
 
 
-
-
---
--- Name: address_field_categories_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE address_field_categories_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: address_field_categories_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('address_field_categories_seq', 1, false);
-
-
 --
 -- Name: address_fields; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE address_fields (
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     type character varying(10) NOT NULL,
     title character varying(1000) NOT NULL,
     sort_order numeric,
@@ -512,50 +420,6 @@ CREATE TABLE address_fields (
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp
 );
-
-
-
-
---
--- Name: address_fields_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE address_fields_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: address_fields_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('address_fields_seq', 1, true);
-
-
---
--- Name: address_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE address_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: address_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('address_seq', 1, true);
 
 
 --
@@ -585,7 +449,7 @@ CREATE TABLE attendance_calendars (
     school_id integer,
     title character varying(100),
     syear numeric(4,0),
-    calendar_id integer PRIMARY KEY,
+    calendar_id serial PRIMARY KEY,
     default_calendar character varying(1),
     rollover_id integer,
     created_at timestamp DEFAULT current_timestamp,
@@ -600,7 +464,7 @@ CREATE TABLE attendance_calendars (
 --
 
 CREATE TABLE attendance_code_categories (
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     syear numeric(4,0),
     school_id integer,
     title character varying(255),
@@ -611,35 +475,12 @@ CREATE TABLE attendance_code_categories (
 );
 
 
-
-
---
--- Name: attendance_code_categories_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE attendance_code_categories_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: attendance_code_categories_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('attendance_code_categories_seq', 1, false);
-
-
 --
 -- Name: attendance_codes; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE attendance_codes (
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     syear numeric(4,0),
     school_id integer,
     title character varying(100),
@@ -652,29 +493,6 @@ CREATE TABLE attendance_codes (
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp
 );
-
-
-
-
---
--- Name: attendance_codes_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE attendance_codes_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: attendance_codes_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('attendance_codes_seq', 4, true);
 
 
 --
@@ -746,7 +564,7 @@ CREATE TABLE billing_fees (
     assigned_date date,
     due_date date,
     comments character varying(255),
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     title character varying(255),
     amount numeric,
     school_id integer,
@@ -757,35 +575,12 @@ CREATE TABLE billing_fees (
 );
 
 
-
-
---
--- Name: billing_fees_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE billing_fees_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: billing_fees_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('billing_fees_seq', 1, false);
-
-
 --
 -- Name: billing_payments; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE billing_payments (
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     syear numeric(4,0) NOT NULL,
     school_id integer NOT NULL,
     student_id integer NOT NULL,
@@ -799,35 +594,12 @@ CREATE TABLE billing_payments (
 );
 
 
-
-
---
--- Name: billing_payments_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE billing_payments_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: billing_payments_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('billing_payments_seq', 1, false);
-
-
 --
 -- Name: calendar_events; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE calendar_events (
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     syear numeric(4,0),
     school_id integer,
     school_date date,
@@ -836,50 +608,6 @@ CREATE TABLE calendar_events (
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp
 );
-
-
-
-
---
--- Name: calendar_events_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE calendar_events_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: calendar_events_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('calendar_events_seq', 1, true);
-
-
---
--- Name: calendars_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE calendars_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: calendars_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('calendars_seq', 1, true);
 
 
 --
@@ -904,7 +632,7 @@ CREATE TABLE config (
 CREATE TABLE course_periods (
     syear numeric(4,0) NOT NULL,
     school_id integer NOT NULL,
-    course_period_id integer PRIMARY KEY,
+    course_period_id serial PRIMARY KEY,
     course_id integer NOT NULL,
     title character varying(255),
     short_name character varying(25) NOT NULL,
@@ -940,7 +668,7 @@ CREATE TABLE course_periods (
 
 CREATE TABLE courses (
     syear numeric(4,0) NOT NULL,
-    course_id integer PRIMARY KEY,
+    course_id serial PRIMARY KEY,
     subject_id integer NOT NULL,
     school_id integer NOT NULL,
     grade_level integer,
@@ -971,7 +699,7 @@ CREATE VIEW course_details AS
 --
 
 CREATE TABLE course_period_school_periods (
-    course_period_school_periods_id integer PRIMARY KEY,
+    course_period_school_periods_id serial PRIMARY KEY,
     course_period_id integer NOT NULL,
     period_id integer NOT NULL,
     days character varying(7),
@@ -984,55 +712,13 @@ CREATE TABLE course_period_school_periods (
 
 
 --
--- Name: course_period_school_periods_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE course_period_school_periods_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: course_period_school_periods_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('course_period_school_periods_seq', 1, true);
-
-
---
--- Name: course_periods_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE course_periods_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: course_periods_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('course_periods_seq', 1, true);
-
-
---
 -- Name: course_subjects; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE course_subjects (
     syear numeric(4,0),
     school_id integer,
-    subject_id integer PRIMARY KEY,
+    subject_id serial PRIMARY KEY,
     title character varying(100) NOT NULL,
     short_name character varying(25),
     sort_order numeric,
@@ -1045,55 +731,11 @@ CREATE TABLE course_subjects (
 
 
 --
--- Name: course_subjects_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE course_subjects_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: course_subjects_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('course_subjects_seq', 1, true);
-
-
---
--- Name: courses_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE courses_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: courses_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('courses_seq', 1, true);
-
-
-
-
---
 -- Name: custom_fields; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE custom_fields (
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     type character varying(10) NOT NULL,
     title character varying(1000) NOT NULL,
     sort_order numeric,
@@ -1106,35 +748,12 @@ CREATE TABLE custom_fields (
 );
 
 
-
-
---
--- Name: custom_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE custom_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: custom_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('custom_seq', 1, true);
-
-
 --
 -- Name: discipline_field_usage; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE discipline_field_usage (
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     discipline_field_id integer NOT NULL,
     syear numeric(4,0) NOT NULL,
     school_id integer NOT NULL,
@@ -1146,35 +765,12 @@ CREATE TABLE discipline_field_usage (
 );
 
 
-
-
---
--- Name: discipline_field_usage_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE discipline_field_usage_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: discipline_field_usage_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('discipline_field_usage_seq', 6, true);
-
-
 --
 -- Name: discipline_fields; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE discipline_fields (
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     title character varying(255) NOT NULL,
     short_name character varying(20),
     data_type character varying(30) NOT NULL,
@@ -1184,35 +780,12 @@ CREATE TABLE discipline_fields (
 );
 
 
-
-
---
--- Name: discipline_fields_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE discipline_fields_seq
-    START WITH 6
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: discipline_fields_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('discipline_fields_seq', 6, true);
-
-
 --
 -- Name: discipline_referrals; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE discipline_referrals (
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     syear numeric(4,0) NOT NULL,
     student_id integer NOT NULL,
     school_id integer NOT NULL,
@@ -1228,29 +801,6 @@ CREATE TABLE discipline_referrals (
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp
 );
-
-
-
-
---
--- Name: discipline_referrals_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE discipline_referrals_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: discipline_referrals_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('discipline_referrals_seq', 1, false);
 
 
 --
@@ -1276,7 +826,7 @@ CREATE TABLE eligibility (
 --
 
 CREATE TABLE eligibility_activities (
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     syear numeric(4,0),
     school_id integer,
     title character varying(100),
@@ -1286,29 +836,6 @@ CREATE TABLE eligibility_activities (
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp
 );
-
-
-
-
---
--- Name: eligibility_activities_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE eligibility_activities_seq
-    START WITH 3
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: eligibility_activities_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('eligibility_activities_seq', 3, true);
 
 
 --
@@ -1322,64 +849,6 @@ CREATE TABLE eligibility_completed (
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp,
     PRIMARY KEY (staff_id, school_date, period_id)
-);
-
-
-
-
---
--- Name: school_gradelevels; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE TABLE school_gradelevels (
-    id integer PRIMARY KEY,
-    school_id integer NOT NULL,
-    short_name character varying(2),
-    title character varying(50),
-    next_grade_id integer,
-    sort_order numeric,
-    created_at timestamp DEFAULT current_timestamp,
-    updated_at timestamp
-);
-
-
-
-
---
--- Name: student_assignments; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE TABLE student_assignments (
-    assignment_id integer NOT NULL,
-    student_id integer NOT NULL,
-    data text,
-    created_at timestamp DEFAULT current_timestamp,
-    updated_at timestamp,
-    PRIMARY KEY (assignment_id, student_id)
-);
-
-
-
-
---
--- Name: student_enrollment; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE TABLE student_enrollment (
-    id integer PRIMARY KEY,
-    syear numeric(4,0),
-    school_id integer,
-    student_id integer REFERENCES students(student_id),
-    grade_id integer,
-    start_date date,
-    end_date date,
-    enrollment_code integer,
-    drop_code integer,
-    next_school integer,
-    calendar_id integer,
-    last_school integer,
-    created_at timestamp DEFAULT current_timestamp,
-    updated_at timestamp
 );
 
 
@@ -1422,7 +891,7 @@ CREATE TABLE food_service_accounts (
 --
 
 CREATE TABLE food_service_categories (
-    category_id integer PRIMARY KEY,
+    category_id serial PRIMARY KEY,
     school_id integer NOT NULL,
     menu_id integer NOT NULL,
     title character varying(25),
@@ -1432,35 +901,12 @@ CREATE TABLE food_service_categories (
 );
 
 
-
-
---
--- Name: food_service_categories_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE food_service_categories_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: food_service_categories_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('food_service_categories_seq', 1, true);
-
-
 --
 -- Name: food_service_items; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE food_service_items (
-    item_id integer PRIMARY KEY,
+    item_id serial PRIMARY KEY,
     school_id integer NOT NULL,
     short_name character varying(25),
     sort_order numeric,
@@ -1475,35 +921,12 @@ CREATE TABLE food_service_items (
 );
 
 
-
-
---
--- Name: food_service_items_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE food_service_items_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: food_service_items_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('food_service_items_seq', 4, true);
-
-
 --
 -- Name: food_service_menu_items; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE food_service_menu_items (
-    menu_item_id integer PRIMARY KEY,
+    menu_item_id serial PRIMARY KEY,
     school_id integer NOT NULL,
     menu_id integer NOT NULL,
     item_id integer NOT NULL,
@@ -1515,64 +938,18 @@ CREATE TABLE food_service_menu_items (
 );
 
 
-
-
---
--- Name: food_service_menu_items_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE food_service_menu_items_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: food_service_menu_items_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('food_service_menu_items_seq', 4, true);
-
-
 --
 -- Name: food_service_menus; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE food_service_menus (
-    menu_id integer PRIMARY KEY,
+    menu_id serial PRIMARY KEY,
     school_id integer NOT NULL,
     title character varying(25) NOT NULL,
     sort_order numeric,
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp
 );
-
-
-
-
---
--- Name: food_service_menus_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE food_service_menus_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: food_service_menus_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('food_service_menus_seq', 1, true);
 
 
 --
@@ -1615,7 +992,7 @@ CREATE TABLE food_service_staff_transaction_items (
 --
 
 CREATE TABLE food_service_staff_transactions (
-    transaction_id integer PRIMARY KEY,
+    transaction_id serial PRIMARY KEY,
     staff_id integer NOT NULL,
     school_id integer,
     syear numeric(4,0),
@@ -1627,29 +1004,6 @@ CREATE TABLE food_service_staff_transactions (
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp
 );
-
-
-
-
---
--- Name: food_service_staff_transactions_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE food_service_staff_transactions_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: food_service_staff_transactions_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('food_service_staff_transactions_seq', 1, true);
 
 
 --
@@ -1693,7 +1047,7 @@ CREATE TABLE food_service_transaction_items (
 --
 
 CREATE TABLE food_service_transactions (
-    transaction_id integer PRIMARY KEY,
+    transaction_id serial PRIMARY KEY,
     account_id integer NOT NULL,
     student_id integer,
     school_id integer,
@@ -1709,35 +1063,12 @@ CREATE TABLE food_service_transactions (
 );
 
 
-
-
---
--- Name: food_service_transactions_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE food_service_transactions_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: food_service_transactions_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('food_service_transactions_seq', 1, true);
-
-
 --
 -- Name: gradebook_assignment_types; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE gradebook_assignment_types (
-    assignment_type_id integer PRIMARY KEY,
+    assignment_type_id serial PRIMARY KEY,
     staff_id integer,
     course_id integer,
     title character varying(100) NOT NULL,
@@ -1750,35 +1081,12 @@ CREATE TABLE gradebook_assignment_types (
 );
 
 
-
-
---
--- Name: gradebook_assignment_types_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE gradebook_assignment_types_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: gradebook_assignment_types_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('gradebook_assignment_types_seq', 1, false);
-
-
 --
 -- Name: gradebook_assignments; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE gradebook_assignments (
-    assignment_id integer PRIMARY KEY,
+    assignment_id serial PRIMARY KEY,
     staff_id integer,
     marking_period_id integer,
     course_period_id integer,
@@ -1795,29 +1103,6 @@ CREATE TABLE gradebook_assignments (
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp
 );
-
-
-
-
---
--- Name: gradebook_assignments_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE gradebook_assignments_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: gradebook_assignments_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('gradebook_assignments_seq', 1, true);
 
 
 --
@@ -1900,32 +1185,11 @@ CREATE TABLE lunch_period (
 
 
 --
--- Name: marking_period_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE marking_period_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: marking_period_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('marking_period_seq', 11, true);
-
-
---
 -- Name: school_marking_periods; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE school_marking_periods (
-    marking_period_id integer PRIMARY KEY,
+    marking_period_id serial PRIMARY KEY,
     syear numeric(4,0),
     mp character varying(3) NOT NULL,
     school_id integer,
@@ -1978,7 +1242,7 @@ CREATE TABLE moodlexrosario (
 --
 
 CREATE TABLE people (
-    person_id integer PRIMARY KEY,
+    person_id serial PRIMARY KEY,
     last_name character varying(50) NOT NULL,
     first_name character varying(50) NOT NULL,
     middle_name character varying(50),
@@ -1994,7 +1258,7 @@ CREATE TABLE people (
 --
 
 CREATE TABLE people_field_categories (
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     title character varying(1000),
     sort_order numeric,
     custody character(1),
@@ -2004,35 +1268,12 @@ CREATE TABLE people_field_categories (
 );
 
 
-
-
---
--- Name: people_field_categories_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE people_field_categories_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: people_field_categories_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('people_field_categories_seq', 1, false);
-
-
 --
 -- Name: people_fields; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE people_fields (
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     type character varying(10),
     title character varying(1000),
     sort_order numeric,
@@ -2045,35 +1286,12 @@ CREATE TABLE people_fields (
 );
 
 
-
-
---
--- Name: people_fields_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE people_fields_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: people_fields_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('people_fields_seq', 1, true);
-
-
 --
 -- Name: people_join_contacts; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE people_join_contacts (
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     person_id integer,
     title character varying(100),
     value character varying(100),
@@ -2082,56 +1300,12 @@ CREATE TABLE people_join_contacts (
 );
 
 
-
-
---
--- Name: people_join_contacts_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE people_join_contacts_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: people_join_contacts_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('people_join_contacts_seq', 1, true);
-
-
---
--- Name: people_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE people_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: people_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('people_seq', 1, true);
-
-
 --
 -- Name: portal_notes; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE portal_notes (
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     school_id integer,
     syear numeric(4,0),
     title character varying(255),
@@ -2148,35 +1322,12 @@ CREATE TABLE portal_notes (
 );
 
 
-
-
---
--- Name: portal_notes_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE portal_notes_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: portal_notes_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('portal_notes_seq', 1, false);
-
-
 --
 -- Name: portal_poll_questions; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE portal_poll_questions (
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     portal_poll_id integer NOT NULL,
     question character varying(255),
     type character varying(20),
@@ -2187,35 +1338,12 @@ CREATE TABLE portal_poll_questions (
 );
 
 
-
-
---
--- Name: portal_poll_questions_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE portal_poll_questions_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: portal_poll_questions_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('portal_poll_questions_seq', 1, false);
-
-
 --
 -- Name: portal_polls; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE portal_polls (
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     school_id integer,
     syear numeric(4,0),
     title character varying(255),
@@ -2232,29 +1360,6 @@ CREATE TABLE portal_polls (
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp
 );
-
-
-
-
---
--- Name: portal_polls_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE portal_polls_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: portal_polls_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('portal_polls_seq', 1, false);
 
 
 --
@@ -2313,7 +1418,7 @@ CREATE TABLE program_user_config (
 --
 
 CREATE TABLE report_card_comment_categories (
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     syear numeric(4,0),
     school_id integer,
     course_id integer,
@@ -2326,35 +1431,12 @@ CREATE TABLE report_card_comment_categories (
 );
 
 
-
-
---
--- Name: report_card_comment_categories_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE report_card_comment_categories_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: report_card_comment_categories_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('report_card_comment_categories_seq', 1, true);
-
-
 --
 -- Name: report_card_comment_code_scales; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE report_card_comment_code_scales (
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     school_id integer NOT NULL,
     title character varying(25),
     comment character varying(100),
@@ -2365,35 +1447,12 @@ CREATE TABLE report_card_comment_code_scales (
 );
 
 
-
-
---
--- Name: report_card_comment_code_scales_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE report_card_comment_code_scales_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: report_card_comment_code_scales_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('report_card_comment_code_scales_seq', 1, false);
-
-
 --
 -- Name: report_card_comment_codes; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE report_card_comment_codes (
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     school_id integer NOT NULL,
     scale_id integer NOT NULL,
     title character varying(5) NOT NULL,
@@ -2405,35 +1464,12 @@ CREATE TABLE report_card_comment_codes (
 );
 
 
-
-
---
--- Name: report_card_comment_codes_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE report_card_comment_codes_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: report_card_comment_codes_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('report_card_comment_codes_seq', 1, false);
-
-
 --
 -- Name: report_card_comments; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE report_card_comments (
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     syear numeric(4,0),
     school_id integer,
     course_id integer,
@@ -2446,35 +1482,12 @@ CREATE TABLE report_card_comments (
 );
 
 
-
-
---
--- Name: report_card_comments_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE report_card_comments_seq
-    START WITH 3
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: report_card_comments_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('report_card_comments_seq', 3, true);
-
-
 --
 -- Name: report_card_grade_scales; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE report_card_grade_scales (
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     syear numeric(4,0),
     school_id integer NOT NULL,
     title character varying(300),
@@ -2491,35 +1504,12 @@ CREATE TABLE report_card_grade_scales (
 );
 
 
-
-
---
--- Name: report_card_grade_scales_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE report_card_grade_scales_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: report_card_grade_scales_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('report_card_grade_scales_seq', 1, true);
-
-
 --
 -- Name: report_card_grades; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE report_card_grades (
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     syear numeric(4,0),
     school_id integer,
     title character varying(100),
@@ -2534,60 +1524,18 @@ CREATE TABLE report_card_grades (
 );
 
 
-
-
---
--- Name: report_card_grades_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE report_card_grades_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: report_card_grades_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('report_card_grades_seq', 15, true);
-
-
 --
 -- Name: resources; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE resources (
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     school_id integer NOT NULL,
     title character varying(256),
     link character varying(1000),
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp
 );
-
-
---
--- Name: resources_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE resources_seq
-START WITH 3
-INCREMENT BY 1
-NO MINVALUE
-NO MAXVALUE
-CACHE 1;
-
-
---
--- Name: resources_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('resources_seq', 3, true);
 
 
 --
@@ -2622,7 +1570,7 @@ CREATE TABLE schedule (
 CREATE TABLE schedule_requests (
     syear numeric(4,0),
     school_id integer,
-    request_id integer PRIMARY KEY,
+    request_id serial PRIMARY KEY,
     student_id integer,
     subject_id integer,
     course_id integer,
@@ -2637,56 +1585,12 @@ CREATE TABLE schedule_requests (
 );
 
 
-
-
---
--- Name: schedule_requests_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE schedule_requests_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: schedule_requests_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('schedule_requests_seq', 1, true);
-
-
---
--- Name: schedule_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE schedule_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: schedule_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('schedule_seq', 1, false);
-
-
 --
 -- Name: school_fields; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE school_fields (
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     type character varying(10) NOT NULL,
     title character varying(1000) NOT NULL,
     sort_order numeric,
@@ -2701,66 +1605,19 @@ CREATE TABLE school_fields (
 
 
 --
--- Name: school_fields_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
+-- Name: school_gradelevels; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE SEQUENCE school_fields_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: school_fields_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('school_fields_seq', 1, true);
-
-
---
--- Name: school_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE school_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: school_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('school_seq', 1, true);
-
-
---
--- Name: school_gradelevels_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE school_gradelevels_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: school_gradelevels_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('school_gradelevels_seq', 9, true);
+CREATE TABLE school_gradelevels (
+    id serial PRIMARY KEY,
+    school_id integer NOT NULL,
+    short_name character varying(2),
+    title character varying(50),
+    next_grade_id integer,
+    sort_order numeric,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
+);
 
 
 --
@@ -2768,7 +1625,7 @@ SELECT pg_catalog.setval('school_gradelevels_seq', 9, true);
 --
 
 CREATE TABLE school_periods (
-    period_id integer PRIMARY KEY,
+    period_id serial PRIMARY KEY,
     syear numeric(4,0),
     school_id integer,
     sort_order numeric,
@@ -2785,36 +1642,13 @@ CREATE TABLE school_periods (
 );
 
 
-
-
---
--- Name: school_periods_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE school_periods_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: school_periods_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('school_periods_seq', 11, true);
-
-
 --
 -- Name: schools; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE schools (
     syear numeric(4,0) NOT NULL,
-    id integer NOT NULL,
+    id serial,
     title character varying(100),
     address character varying(100),
     city character varying(100),
@@ -2836,33 +1670,12 @@ CREATE TABLE schools (
 
 
 --
--- Name: schools_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE schools_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: schools_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('schools_seq', 1, true);
-
-
---
 -- Name: staff; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE staff (
     syear numeric(4,0),
-    staff_id integer PRIMARY KEY,
+    staff_id serial PRIMARY KEY,
     current_school_id integer,
     title character varying(5),
     first_name character varying(100) NOT NULL,
@@ -2908,7 +1721,7 @@ CREATE TABLE staff_exceptions (
 --
 
 CREATE TABLE staff_field_categories (
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     title character varying(1000) NOT NULL,
     sort_order numeric,
     columns numeric(4,0),
@@ -2922,35 +1735,12 @@ CREATE TABLE staff_field_categories (
 );
 
 
-
-
---
--- Name: staff_field_categories_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE staff_field_categories_seq
-    START WITH 3
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: staff_field_categories_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('staff_field_categories_seq', 3, true);
-
-
 --
 -- Name: staff_fields; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE staff_fields (
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     type character varying(10) NOT NULL,
     title character varying(1000) NOT NULL,
     sort_order numeric,
@@ -2963,48 +1753,18 @@ CREATE TABLE staff_fields (
 );
 
 
-
-
 --
--- Name: staff_fields_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
+-- Name: student_assignments; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
-CREATE SEQUENCE staff_fields_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: staff_fields_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('staff_fields_seq', 4, true);
-
-
---
--- Name: staff_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE staff_seq
-    START WITH 3
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: staff_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('staff_seq', 3, true);
+CREATE TABLE student_assignments (
+    assignment_id integer NOT NULL,
+    student_id integer NOT NULL,
+    data text,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp,
+    PRIMARY KEY (assignment_id, student_id)
+);
 
 
 --
@@ -3013,8 +1773,32 @@ SELECT pg_catalog.setval('staff_seq', 3, true);
 
 CREATE TABLE student_eligibility_activities (
     syear numeric(4,0),
-    student_id integer,
-    activity_id integer,
+    student_id integer NOT NULL,
+    activity_id integer NOT NULL,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
+);
+
+
+
+
+--
+-- Name: student_enrollment; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
+--
+
+CREATE TABLE student_enrollment (
+    id serial PRIMARY KEY,
+    syear numeric(4,0),
+    school_id integer,
+    student_id integer REFERENCES students(student_id),
+    grade_id integer,
+    start_date date,
+    end_date date,
+    enrollment_code integer,
+    drop_code integer,
+    next_school integer,
+    calendar_id integer,
+    last_school integer,
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp
 );
@@ -3027,7 +1811,7 @@ CREATE TABLE student_eligibility_activities (
 --
 
 CREATE TABLE student_enrollment_codes (
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     syear numeric(4,0),
     title character varying(100),
     short_name character varying(10),
@@ -3039,56 +1823,12 @@ CREATE TABLE student_enrollment_codes (
 );
 
 
-
-
---
--- Name: student_enrollment_codes_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE student_enrollment_codes_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: student_enrollment_codes_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('student_enrollment_codes_seq', 6, true);
-
-
---
--- Name: student_enrollment_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE student_enrollment_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: student_enrollment_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('student_enrollment_seq', 1, true);
-
-
 --
 -- Name: student_field_categories; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE student_field_categories (
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     title character varying(1000) NOT NULL,
     sort_order numeric,
     columns numeric(4,0),
@@ -3098,35 +1838,12 @@ CREATE TABLE student_field_categories (
 );
 
 
-
-
---
--- Name: student_field_categories_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE student_field_categories_seq
-    START WITH 5
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: student_field_categories_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('student_field_categories_seq', 5, true);
-
-
 --
 -- Name: student_medical; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE student_medical (
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     student_id integer,
     type character varying(25),
     medical_date date,
@@ -3143,7 +1860,7 @@ CREATE TABLE student_medical (
 --
 
 CREATE TABLE student_medical_alerts (
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     student_id integer,
     title character varying(100),
     created_at timestamp DEFAULT current_timestamp,
@@ -3151,56 +1868,12 @@ CREATE TABLE student_medical_alerts (
 );
 
 
-
-
---
--- Name: student_medical_alerts_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE student_medical_alerts_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: student_medical_alerts_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('student_medical_alerts_seq', 1, false);
-
-
---
--- Name: student_medical_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE student_medical_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: student_medical_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('student_medical_seq', 1, false);
-
-
 --
 -- Name: student_medical_visits; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE student_medical_visits (
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     student_id integer,
     school_date date,
     time_in character varying(20),
@@ -3211,29 +1884,6 @@ CREATE TABLE student_medical_visits (
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp
 );
-
-
-
-
---
--- Name: student_medical_visits_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE student_medical_visits_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: student_medical_visits_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('student_medical_visits_seq', 1, false);
 
 
 --
@@ -3330,7 +1980,7 @@ CREATE TABLE student_report_card_grades (
     credit_earned numeric,
     credit_category character varying(10),
     course_title character varying(100),
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     school character varying(255),
     class_rank character varying(1),
     credit_hours numeric(6,2),
@@ -3339,35 +1989,12 @@ CREATE TABLE student_report_card_grades (
 );
 
 
-
-
---
--- Name: student_report_card_grades_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE student_report_card_grades_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: student_report_card_grades_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('student_report_card_grades_seq', 1, false);
-
-
 --
 -- Name: students; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE students (
-    student_id integer PRIMARY KEY,
+    student_id serial PRIMARY KEY,
     last_name character varying(50) NOT NULL,
     first_name character varying(50) NOT NULL,
     middle_name character varying(50),
@@ -3394,13 +2021,12 @@ CREATE TABLE students (
 
 
 
-
 --
 -- Name: students_join_address; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE students_join_address (
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     student_id integer NOT NULL,
     address_id integer NOT NULL,
     contact_seq numeric(10,0),
@@ -3419,35 +2045,12 @@ CREATE TABLE students_join_address (
 );
 
 
-
-
---
--- Name: students_join_address_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE students_join_address_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: students_join_address_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('students_join_address_seq', 1, true);
-
-
 --
 -- Name: students_join_people; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE students_join_people (
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     student_id integer NOT NULL,
     person_id integer NOT NULL,
     address_id integer,
@@ -3457,29 +2060,6 @@ CREATE TABLE students_join_people (
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp
 );
-
-
-
-
---
--- Name: students_join_people_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE students_join_people_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: students_join_people_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('students_join_people_seq', 1, true);
 
 
 --
@@ -3495,27 +2075,6 @@ CREATE TABLE students_join_users (
 );
 
 
-
-
---
--- Name: students_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE students_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: students_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('students_seq', 1, true);
 
 
 --
@@ -3586,35 +2145,12 @@ CREATE VIEW transcript_grades AS
 --
 
 CREATE TABLE user_profiles (
-    id integer PRIMARY KEY,
+    id serial PRIMARY KEY,
     profile character varying(30),
     title character varying(100),
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp
 );
-
-
-
-
---
--- Name: user_profiles_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
---
-
-CREATE SEQUENCE user_profiles_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-
-
---
--- Name: user_profiles_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
---
-
-SELECT pg_catalog.setval('user_profiles_seq', 3, true);
 
 
 --
