@@ -18,7 +18,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				foreach ( (array) $_REQUEST['student'] as $student_id )
 				{
 					$sql .= "INSERT INTO BILLING_PAYMENTS (ID,SYEAR,SCHOOL_ID,STUDENT_ID,PAYMENT_DATE,AMOUNT,COMMENTS)
-						VALUES(" . db_seq_nextval( 'BILLING_PAYMENTS_SEQ' ) . ",'" . UserSyear() . "',
+						VALUES(" . db_seq_nextval( 'billing_payments_id_seq' ) . ",'" . UserSyear() . "',
 						'" . UserSchool() . "','" . $student_id . "','" . $date . "',
 						'" . preg_replace( '/[^0-9.-]/', '', $_REQUEST['amount'] ) . "',
 						'" . $_REQUEST['comments'] . "');";

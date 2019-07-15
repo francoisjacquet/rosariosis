@@ -51,13 +51,13 @@ if ( $_REQUEST['modfunc'] === 'update'
 					{
 						$sql = "INSERT INTO ATTENDANCE_CODES ";
 						$fields = 'ID,SCHOOL_ID,SYEAR,TABLE_NAME,';
-						$values = db_seq_nextval( 'ATTENDANCE_CODES_SEQ' ) . ",'" . UserSchool() . "','" . UserSyear() . "','" . $_REQUEST['table'] . "',";
+						$values = db_seq_nextval( 'attendance_codes_id_seq' ) . ",'" . UserSchool() . "','" . UserSyear() . "','" . $_REQUEST['table'] . "',";
 					}
 					else
 					{
 						$sql = "INSERT INTO ATTENDANCE_CODE_CATEGORIES ";
 						$fields = 'ID,SCHOOL_ID,SYEAR,';
-						$values = db_seq_nextval( 'ATTENDANCE_CODE_CATEGORIES_SEQ' ) . ",'" . UserSchool() . "','" . UserSyear() . "',";
+						$values = db_seq_nextval( 'attendance_code_categories_id_seq' ) . ",'" . UserSchool() . "','" . UserSyear() . "',";
 					}
 
 					$go = false;

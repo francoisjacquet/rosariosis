@@ -23,11 +23,11 @@ if ( ! empty( $_POST['values'] )
 				AND STUDENT_ID='" . UserStudentID() . "'" ) )
 			{
 				DBQuery( "INSERT INTO STUDENTS_JOIN_ADDRESS (ID,STUDENT_ID,ADDRESS_ID)
-					values(" . db_seq_nextval( 'STUDENTS_JOIN_ADDRESS_SEQ' ) . ",'" . UserStudentID() . "','" . $_REQUEST['address_id'] . "')" );
+					values(" . db_seq_nextval( 'students_join_address_id_seq' ) . ",'" . UserStudentID() . "','" . $_REQUEST['address_id'] . "')" );
 
 				DBQuery( "INSERT INTO STUDENTS_JOIN_PEOPLE
 					(ID,STUDENT_ID,PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION)
-					SELECT DISTINCT ON (PERSON_ID) " . db_seq_nextval( 'STUDENTS_JOIN_PEOPLE_SEQ' ) . ",'" . UserStudentID() . "',PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION FROM STUDENTS_JOIN_PEOPLE WHERE ADDRESS_ID='" . $_REQUEST['address_id'] . "'" );
+					SELECT DISTINCT ON (PERSON_ID) " . db_seq_nextval( 'students_join_people_id_seq' ) . ",'" . UserStudentID() . "',PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION FROM STUDENTS_JOIN_PEOPLE WHERE ADDRESS_ID='" . $_REQUEST['address_id'] . "'" );
 			}
 		}
 		elseif ( $_REQUEST['values']['EXISTING']['person_id'] && $_REQUEST['person_id'] == 'old' )
@@ -39,7 +39,7 @@ if ( ! empty( $_POST['values'] )
 				WHERE PERSON_ID='" . $_REQUEST['person_id'] . "'
 				AND STUDENT_ID='" . UserStudentID() . "'" ) )
 			{
-				DBQuery( "INSERT INTO STUDENTS_JOIN_PEOPLE (ID,STUDENT_ID,PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION) SELECT DISTINCT ON (PERSON_ID) " . db_seq_nextval( 'STUDENTS_JOIN_PEOPLE_SEQ' ) . ",'" . UserStudentID() . "',PERSON_ID,'" . $_REQUEST['address_id'] . "',CUSTODY,EMERGENCY,STUDENT_RELATION FROM STUDENTS_JOIN_PEOPLE WHERE PERSON_ID='" . $_REQUEST['person_id'] . "'" );
+				DBQuery( "INSERT INTO STUDENTS_JOIN_PEOPLE (ID,STUDENT_ID,PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION) SELECT DISTINCT ON (PERSON_ID) " . db_seq_nextval( 'students_join_people_id_seq' ) . ",'" . UserStudentID() . "',PERSON_ID,'" . $_REQUEST['address_id'] . "',CUSTODY,EMERGENCY,STUDENT_RELATION FROM STUDENTS_JOIN_PEOPLE WHERE PERSON_ID='" . $_REQUEST['person_id'] . "'" );
 
 				if ( $_REQUEST['address_id'] == '0'
 					&& ! DBGetOne( "SELECT 1
@@ -48,7 +48,7 @@ if ( ! empty( $_POST['values'] )
 						AND STUDENT_ID='" . UserStudentID() . "'" ) )
 				{
 					DBQuery( "INSERT INTO STUDENTS_JOIN_ADDRESS (ID,ADDRESS_ID,STUDENT_ID)
-						values (" . db_seq_nextval( 'STUDENTS_JOIN_ADDRESS_SEQ' ) . ",'0','" . UserStudentID() . "')" );
+						values (" . db_seq_nextval( 'students_join_address_id_seq' ) . ",'0','" . UserStudentID() . "')" );
 				}
 			}
 		}
@@ -119,7 +119,7 @@ if ( ! empty( $_POST['values'] )
 		}
 		else
 		{
-			$id = DBSeqNextID( 'ADDRESS_SEQ' );
+			$id = DBSeqNextID( 'address_address_id_seq' );
 
 			$sql = "INSERT INTO ADDRESS ";
 
@@ -143,7 +143,7 @@ if ( ! empty( $_POST['values'] )
 			if ( $go )
 			{
 				DBQuery( $sql );
-				DBQuery( "INSERT INTO STUDENTS_JOIN_ADDRESS (ID,STUDENT_ID,ADDRESS_ID,RESIDENCE,MAILING,BUS_PICKUP,BUS_DROPOFF) values(" . db_seq_nextval( 'STUDENTS_JOIN_ADDRESS_SEQ' ) . ",'" . UserStudentID() . "','" . $id . "','" . $_REQUEST['values']['STUDENTS_JOIN_ADDRESS']['RESIDENCE'] . "','" . $_REQUEST['values']['STUDENTS_JOIN_ADDRESS']['MAILING'] . "','" . $_REQUEST['values']['STUDENTS_JOIN_ADDRESS']['BUS_PICKUP'] . "','" . $_REQUEST['values']['STUDENTS_JOIN_ADDRESS']['BUS_DROPOFF'] . "')" );
+				DBQuery( "INSERT INTO STUDENTS_JOIN_ADDRESS (ID,STUDENT_ID,ADDRESS_ID,RESIDENCE,MAILING,BUS_PICKUP,BUS_DROPOFF) values(" . db_seq_nextval( 'students_join_address_id_seq' ) . ",'" . UserStudentID() . "','" . $id . "','" . $_REQUEST['values']['STUDENTS_JOIN_ADDRESS']['RESIDENCE'] . "','" . $_REQUEST['values']['STUDENTS_JOIN_ADDRESS']['MAILING'] . "','" . $_REQUEST['values']['STUDENTS_JOIN_ADDRESS']['BUS_PICKUP'] . "','" . $_REQUEST['values']['STUDENTS_JOIN_ADDRESS']['BUS_DROPOFF'] . "')" );
 				$_REQUEST['address_id'] = $id;
 
 				//hook
@@ -196,7 +196,7 @@ if ( ! empty( $_POST['values'] )
 		}
 		else
 		{
-			$id = DBSeqNextID( 'PEOPLE_SEQ' );
+			$id = DBSeqNextID( 'people_person_id_seq' );
 
 			$sql = "INSERT INTO PEOPLE ";
 
@@ -220,7 +220,7 @@ if ( ! empty( $_POST['values'] )
 			if ( $go )
 			{
 				DBQuery( $sql );
-				DBQuery( "INSERT INTO STUDENTS_JOIN_PEOPLE (ID,PERSON_ID,STUDENT_ID,ADDRESS_ID,CUSTODY,EMERGENCY) values(" . db_seq_nextval( 'STUDENTS_JOIN_PEOPLE_SEQ' ) . ",'" . $id . "','" . UserStudentID() . "','" . $_REQUEST['address_id'] . "','" . $_REQUEST['values']['STUDENTS_JOIN_PEOPLE']['CUSTODY'] . "','" . $_REQUEST['values']['STUDENTS_JOIN_PEOPLE']['EMERGENCY'] . "')" );
+				DBQuery( "INSERT INTO STUDENTS_JOIN_PEOPLE (ID,PERSON_ID,STUDENT_ID,ADDRESS_ID,CUSTODY,EMERGENCY) values(" . db_seq_nextval( 'students_join_people_id_seq' ) . ",'" . $id . "','" . UserStudentID() . "','" . $_REQUEST['address_id'] . "','" . $_REQUEST['values']['STUDENTS_JOIN_PEOPLE']['CUSTODY'] . "','" . $_REQUEST['values']['STUDENTS_JOIN_PEOPLE']['EMERGENCY'] . "')" );
 
 				if ( $_REQUEST['address_id'] == '0'
 					&& ! DBGetOne( "SELECT 1
@@ -229,7 +229,7 @@ if ( ! empty( $_POST['values'] )
 						AND STUDENT_ID='" . UserStudentID() . "'" ) )
 				{
 					DBQuery( "INSERT INTO STUDENTS_JOIN_ADDRESS (ID,ADDRESS_ID,STUDENT_ID)
-						values (" . db_seq_nextval( 'STUDENTS_JOIN_ADDRESS_SEQ' ) . ",'0','" . UserStudentID() . "')" );
+						values (" . db_seq_nextval( 'students_join_address_id_seq' ) . ",'0','" . UserStudentID() . "')" );
 				}
 
 				$_REQUEST['person_id'] = $id;
@@ -259,7 +259,7 @@ if ( ! empty( $_POST['values'] )
 				$sql = "INSERT INTO PEOPLE_JOIN_CONTACTS ";
 
 				$fields = 'ID,PERSON_ID,';
-				$vals = db_seq_nextval( 'PEOPLE_JOIN_CONTACTS_SEQ' ) . ",'" . $_REQUEST['person_id'] . "',";
+				$vals = db_seq_nextval( 'people_join_contacts_id_seq' ) . ",'" . $_REQUEST['person_id'] . "',";
 
 				$go = 0;
 

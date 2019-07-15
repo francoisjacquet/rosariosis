@@ -10,7 +10,7 @@
  * Save Data
  * INSERT or UPDATE data in Database
  *
- * @example SaveData( array( 'STUDENT_MEDICAL' => "ID='__ID__'", 'fields' => array( 'STUDENT_MEDICAL' => 'ID,STUDENT_ID,' ), 'values' => array( 'STUDENT_MEDICAL' => db_seq_nextval( 'STUDENT_MEDICAL_SEQ' ) . ",'" . UserStudentID() . "'," ) ) );
+ * @example SaveData( array( 'STUDENT_MEDICAL' => "ID='__ID__'", 'fields' => array( 'STUDENT_MEDICAL' => 'ID,STUDENT_ID,' ), 'values' => array( 'STUDENT_MEDICAL' => db_seq_nextval( 'student_medical_id_seq' ) . ",'" . UserStudentID() . "'," ) ) );
  *
  * @todo use SaveData in EVERY module
  *

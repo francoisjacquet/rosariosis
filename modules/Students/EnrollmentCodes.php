@@ -32,7 +32,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				$sql = "INSERT INTO STUDENT_ENROLLMENT_CODES ";
 
 				$fields = 'ID,SYEAR,';
-				$values = db_seq_nextval( 'STUDENT_ENROLLMENT_CODES_SEQ' ) . ",'" . UserSyear() . "',";
+				$values = db_seq_nextval( 'student_enrollment_codes_id_seq' ) . ",'" . UserSyear() . "',";
 
 				$go = 0;
 

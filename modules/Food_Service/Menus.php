@@ -51,13 +51,15 @@ if ( $_REQUEST['modfunc'] === 'update' )
 						{
 							$sql = 'INSERT INTO FOOD_SERVICE_CATEGORIES ';
 							$fields = 'CATEGORY_ID,MENU_ID,SCHOOL_ID,';
-							$values = db_seq_nextval( 'FOOD_SERVICE_CATEGORIES_SEQ' ) . ',\'' . $_REQUEST['tab_id'] . '\',\'' . UserSchool() . '\',';
+							$values = db_seq_nextval( 'food_service_categories_category_id_seq' ) .
+								",'" . $_REQUEST['tab_id'] . "','" . UserSchool() . "',";
 						}
 						else
 						{
 							$sql = 'INSERT INTO FOOD_SERVICE_MENUS ';
 							$fields = 'MENU_ID,SCHOOL_ID,';
-							$values = db_seq_nextval( 'FOOD_SERVICE_MENUS_SEQ' ) . ',\'' . UserSchool() . '\',';
+							$values = db_seq_nextval( 'food_service_menus_menu_id_seq' ) .
+								",'" . UserSchool() . "',";
 						}
 
 						$go = false;

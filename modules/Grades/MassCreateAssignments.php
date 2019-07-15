@@ -67,7 +67,7 @@ if ( isset( $_POST['tables'] )
 
 			$fields = "ASSIGNMENT_ID,MARKING_PERIOD_ID,"; // ASSIGNMENT_TYPE_ID,STAFF_ID added for each CP below.
 
-			$values = db_seq_nextval( 'GRADEBOOK_ASSIGNMENTS_SEQ' ) . ",'" . UserMP() . "',";
+			$values = db_seq_nextval( 'gradebook_assignments_assignment_id_seq' ) . ",'" . UserMP() . "',";
 		}
 		elseif ( $table === 'GRADEBOOK_ASSIGNMENT_TYPES' )
 		{
@@ -87,7 +87,7 @@ if ( isset( $_POST['tables'] )
 
 			$fields = "ASSIGNMENT_TYPE_ID,"; // COURSE_ID,STAFF_ID added for each Course below.
 
-			$values = db_seq_nextval( 'GRADEBOOK_ASSIGNMENT_TYPES_SEQ' ) . ",";
+			$values = db_seq_nextval( 'gradebook_assignment_types_assignment_type_id_seq' ) . ",";
 		}
 
 		$go = false;

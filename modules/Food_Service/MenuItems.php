@@ -84,13 +84,15 @@ if ( $_REQUEST['modfunc'] === 'update' )
 					{
 						$sql = 'INSERT INTO FOOD_SERVICE_MENU_ITEMS ';
 						$fields = 'MENU_ITEM_ID,MENU_ID,SCHOOL_ID,';
-						$values = db_seq_nextval( 'FOOD_SERVICE_MENU_ITEMS_SEQ' ) . ',\'' . $_REQUEST['tab_id'] . '\',\'' . UserSchool() . '\',';
+						$values = db_seq_nextval( 'food_service_menu_items_menu_item_id_seq' ) .
+							",'" . $_REQUEST['tab_id'] . "','" . UserSchool() . "',";
 					}
 					else
 					{
 						$sql = 'INSERT INTO FOOD_SERVICE_ITEMS ';
 						$fields = 'ITEM_ID,SCHOOL_ID,';
-						$values = db_seq_nextval( 'FOOD_SERVICE_ITEMS_SEQ' ) . ',\'' . UserSchool() . '\',';
+						$values = db_seq_nextval( 'food_service_items_item_id_seq' ) .
+							",'" . UserSchool() . "',";
 					}
 
 					$go = false;

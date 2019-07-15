@@ -181,7 +181,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 					if ( ! $test_email )
 					{
 						// Get Staff ID.
-						$id = DBSeqNextID( 'STAFF_SEQ' );
+						$id = DBSeqNextID( 'staff_staff_id_seq' );
 
 						// FJ add password encryption.
 						$password_encrypted = encrypt_password( $password );

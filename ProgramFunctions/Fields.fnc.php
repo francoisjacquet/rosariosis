@@ -13,7 +13,7 @@
  *
  * @since 4.6 Add Files type
  *
- * @example $_REQUEST['id'] = AddDBField( 'SCHOOLS', 'school_fields_seq', $columns['TYPE'] );
+ * @example $_REQUEST['id'] = AddDBField( 'SCHOOLS', 'school_fields_id_seq', $columns['TYPE'] );
  *
  * @param string  $table    DB Table name.
  * @param string  $sequence DB Sequence name.

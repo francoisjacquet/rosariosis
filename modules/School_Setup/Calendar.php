@@ -218,7 +218,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 		}
 		else
 		{
-			$calendar_id = DBSeqNextID( 'CALENDARS_SEQ' );
+			$calendar_id = DBSeqNextID( 'attendance_calendars_calendar_id_seq' );
 		}
 
 		if ( ! empty( $_REQUEST['default'] ) )
@@ -483,7 +483,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 
 					$fields = 'ID,SYEAR,SCHOOL_ID,';
 
-					$calendar_event_id = DBSeqNextID( 'CALENDAR_EVENTS_SEQ' );
+					$calendar_event_id = DBSeqNextID( 'calendar_events_id_seq' );
 
 					$values = $calendar_event_id . ",'" . UserSyear() . "','" . UserSchool() . "',";
 

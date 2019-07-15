@@ -60,7 +60,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 					$sql = "INSERT INTO SCHOOL_PERIODS ";
 
 					$fields = 'PERIOD_ID,SCHOOL_ID,SYEAR,';
-					$values = db_seq_nextval( 'SCHOOL_PERIODS_SEQ' ) . ",'" .
+					$values = db_seq_nextval( 'school_periods_period_id_seq' ) . ",'" .
 						UserSchool() . "','" . UserSyear() . "',";
 
 					$go = false;

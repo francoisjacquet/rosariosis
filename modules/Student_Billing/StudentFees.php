@@ -38,7 +38,7 @@ if ( $_REQUEST['values']
 			$sql = "INSERT INTO BILLING_FEES ";
 
 			$fields = 'ID,STUDENT_ID,SCHOOL_ID,SYEAR,ASSIGNED_DATE,';
-			$values = db_seq_nextval( 'BILLING_FEES_SEQ' ) . ",'" . UserStudentID() . "','" . UserSchool() . "','" . UserSyear() . "','" . DBDate() . "',";
+			$values = db_seq_nextval( 'billing_fees_id_seq' ) . ",'" . UserStudentID() . "','" . UserSchool() . "','" . UserSyear() . "','" . DBDate() . "',";
 
 			$go = 0;
 
@@ -100,7 +100,7 @@ if ( $_REQUEST['modfunc'] === 'waive'
 		DBQuery( "INSERT INTO BILLING_FEES (ID,SYEAR,SCHOOL_ID,TITLE,AMOUNT,WAIVED_FEE_ID,
 			STUDENT_ID,ASSIGNED_DATE,COMMENTS)
 			VALUES (" .
-			db_seq_nextval( 'BILLING_FEES_SEQ' ) . ",'" .
+			db_seq_nextval( 'billing_fees_id_seq' ) . ",'" .
 			UserSyear() . "','" .
 			UserSchool() . "','" .
 			DBEscapeString( $fee_RET[1]['TITLE'] . " " . _( 'Waiver' ) ) . "','" .

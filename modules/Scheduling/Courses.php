@@ -468,14 +468,14 @@ if ( $_REQUEST['tables']
 
 						if ( $table_name == 'COURSE_SUBJECTS' )
 						{
-							$id = DBSeqNextID( 'COURSE_SUBJECTS_SEQ' );
+							$id = DBSeqNextID( 'course_subjects_subject_id_seq' );
 							$fields = 'SUBJECT_ID,SCHOOL_ID,SYEAR,';
 							$values = "'" . $id . "','" . UserSchool() . "','" . UserSyear() . "',";
 							$_REQUEST['subject_id'] = $id;
 						}
 						elseif ( $table_name == 'COURSES' )
 						{
-							$id = DBSeqNextID( 'COURSES_SEQ' );
+							$id = DBSeqNextID( 'courses_course_id_seq' );
 							$fields = 'COURSE_ID,SUBJECT_ID,SCHOOL_ID,SYEAR,';
 							$values = "'" . $id . "','" . $_REQUEST['subject_id'] . "','" . UserSchool() . "','" . UserSyear() . "',";
 							/*					$fields = 'COURSE_ID,SCHOOL_ID,SYEAR,';
@@ -484,7 +484,7 @@ if ( $_REQUEST['tables']
 						}
 						elseif ( $table_name == 'COURSE_PERIODS' )
 						{
-							$id = DBSeqNextID( 'COURSE_PERIODS_SEQ' );
+							$id = DBSeqNextID( 'course_periods_course_period_id_seq' );
 
 							$fields = 'SYEAR,SCHOOL_ID,COURSE_PERIOD_ID,COURSE_ID,TITLE,FILLED_SEATS,';
 
@@ -540,7 +540,7 @@ if ( $_REQUEST['tables']
 							$temp_PERIOD_ID[] = $columns['PERIOD_ID'];
 
 							$fields = 'COURSE_PERIOD_SCHOOL_PERIODS_ID,COURSE_PERIOD_ID,';
-							$values = "nextval('COURSE_PERIOD_SCHOOL_PERIODS_SEQ'),'" . $_REQUEST['course_period_id'] . "',";
+							$values = "nextval('course_period_school_periods_course_period_school_periods_id_seq'),'" . $_REQUEST['course_period_id'] . "',";
 
 							$title_add = CoursePeriodSchoolPeriodsTitlePartGenerate(
 								0,

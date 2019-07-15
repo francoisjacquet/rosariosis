@@ -33,9 +33,9 @@ if ( $_REQUEST['modfunc'] === 'update' )
 		// New: check for Title.
 		elseif ( $columns['NAME'] )
 		{
-			$sql = 'INSERT INTO history_marking_periods ';
+			$sql = 'INSERT INTO HISTORY_MARKING_PERIODS ';
 			$fields = 'MARKING_PERIOD_ID,SCHOOL_ID,';
-			$values = "NEXTVAL('MARKING_PERIOD_SEQ'),'" . UserSchool() . "',";
+			$values = db_seq_nextval( 'school_marking_periods_marking_period_id_seq' ) . ",'" . UserSchool() . "',";
 
 			$go = false;
 

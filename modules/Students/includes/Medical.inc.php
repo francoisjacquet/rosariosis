@@ -16,9 +16,9 @@ if ( ( isset( $_POST['values'] )
 				'STUDENT_MEDICAL_VISITS' => 'ID,STUDENT_ID,',
 			),
 			'values' => array(
-				'STUDENT_MEDICAL' => db_seq_nextval( 'STUDENT_MEDICAL_SEQ' ) . ",'" . UserStudentID() . "',",
-				'STUDENT_MEDICAL_ALERTS' => db_seq_nextval( 'STUDENT_MEDICAL_ALERTS_SEQ' ) . ",'" . UserStudentID() . "',",
-				'STUDENT_MEDICAL_VISITS' => db_seq_nextval( 'STUDENT_MEDICAL_VISITS_SEQ' ) . ",'" . UserStudentID() . "',",
+				'STUDENT_MEDICAL' => db_seq_nextval( 'student_medical_id_seq' ) . ",'" . UserStudentID() . "',",
+				'STUDENT_MEDICAL_ALERTS' => db_seq_nextval( 'student_medical_alerts_id_seq' ) . ",'" . UserStudentID() . "',",
+				'STUDENT_MEDICAL_VISITS' => db_seq_nextval( 'student_medical_visits_id_seq' ) . ",'" . UserStudentID() . "',",
 			),
 		)
 	);

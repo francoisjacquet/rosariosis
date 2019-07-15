@@ -13,6 +13,7 @@ Changes in 5.0
 - SQL remove & rename existing sequences in rosariosis.sql & Update.fnc.php
 - SQL Rename sequences for add-on modules in Update.fnc.php
 - SQL Add DBSeqConvertSerialName() function for compatibility database.inc.php
+- SQL Use new serial ID sequence names, program wide
 
 
 Changes in 4.9.2

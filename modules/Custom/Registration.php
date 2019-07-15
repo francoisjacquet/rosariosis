@@ -63,7 +63,7 @@ if ( isset( $_REQUEST['values'] )
 		if ( $columns['ADDRESS']
 			&& ! isset( $inserted_addresses[ $address_key ] ) )
 		{
-			$address_id[ $key ] = DBSeqNextID( 'ADDRESS_SEQ' );
+			$address_id[ $key ] = DBSeqNextID( 'address_address_id_seq' );
 
 			if ( $key == 1 )
 			{
@@ -124,7 +124,7 @@ if ( isset( $_REQUEST['values'] )
 
 				DBQuery( "INSERT INTO STUDENTS_JOIN_ADDRESS (ID,STUDENT_ID,ADDRESS_ID,
 					RESIDENCE,MAILING,BUS_PICKUP,BUS_DROPOFF)
-					values(" . db_seq_nextval( 'STUDENTS_JOIN_ADDRESS_SEQ' ) . ",'" .
+					values(" . db_seq_nextval( 'students_join_address_id_seq' ) . ",'" .
 						UserStudentID() . "','" . $address_id[ $key ] . "','" .
 						$students_join_address['MAILING'] . "','" .
 						$students_join_address['RESIDENCE'] . "','" .
@@ -150,7 +150,7 @@ if ( isset( $_REQUEST['values'] )
 			continue;
 		}
 
-		$person_id = DBSeqNextID( 'PEOPLE_SEQ' );
+		$person_id = DBSeqNextID( 'people_person_id_seq' );
 
 		foreach ( (array) $person['extra'] as $column => $value )
 		{
@@ -161,7 +161,7 @@ if ( isset( $_REQUEST['values'] )
 
 				$fields = 'ID,PERSON_ID,TITLE,VALUE,';
 
-				$values = db_seq_nextval( 'PEOPLE_SEQ' ) . ",'" .
+				$values = db_seq_nextval( 'people_join_contacts_id_seq' ) . ",'" .
 					$person_id . "','" . $column . "','" . $value . "',";
 
 				$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
@@ -221,24 +221,26 @@ if ( isset( $_REQUEST['values'] )
 			if ( $key == 1
 				|| $key == 2 )
 			{
-				DBQuery( "INSERT INTO STUDENTS_JOIN_PEOPLE (ID,STUDENT_ID,PERSON_ID,ADDRESS_ID,CUSTODY,STUDENT_RELATION)
-					values(" . db_seq_nextval( 'STUDENTS_JOIN_PEOPLE_SEQ' ) . ",'" .
-						UserStudentID() . "','" . $person_id . "','" .
-						$address_id[ $key ] . "','Y','" . $person_student_relation . "')" );
+				$sql_values = db_seq_nextval( 'students_join_people_id_seq' ) . ",'" .
+					UserStudentID() . "','" . $person_id . "','" . $address_id[ $key ] . "','Y','" .
+					$person_student_relation . "'";
 			}
 			elseif ( isset( $address_id[ $key ] ) )
 			{
-				DBQuery( "INSERT INTO STUDENTS_JOIN_PEOPLE (ID,STUDENT_ID,PERSON_ID,ADDRESS_ID,STUDENT_RELATION)
-					values(" . db_seq_nextval( 'STUDENTS_JOIN_PEOPLE_SEQ' ) . ",'" .
-						UserStudentID() . "','" . $person_id . "','" . $address_id[ $key ] . "','" . $person_student_relation . "')" );
+				$sql_values = db_seq_nextval( 'students_join_people_id_seq' ) . ",'" .
+					UserStudentID() . "','" . $person_id . "','" . $address_id[ $key ] . "','" .
+					$person_student_relation . "'";
 			}
 			else
 			{
 				// No address, use parent address.
-				DBQuery( "INSERT INTO STUDENTS_JOIN_PEOPLE (ID,STUDENT_ID,PERSON_ID,ADDRESS_ID,EMERGENCY,STUDENT_RELATION)
-					values(" . db_seq_nextval( 'STUDENTS_JOIN_PEOPLE_SEQ' ) . ",'" .
-						UserStudentID() . "','" . $person_id . "','" . $address_id[1] . "','Y','" . $person_student_relation . "')" );
+				$sql_values = db_seq_nextval( 'students_join_people_id_seq' ) . ",'" .
+					UserStudentID() . "','" . $person_id . "','" . $address_id[1] . "','Y','" .
+					$person_student_relation . "'";
 			}
+
+			DBQuery( "INSERT INTO STUDENTS_JOIN_PEOPLE (ID,STUDENT_ID,PERSON_ID,ADDRESS_ID,EMERGENCY,STUDENT_RELATION)
+				VALUES(" . $sql_values . ")" );
 		}
 	}
 

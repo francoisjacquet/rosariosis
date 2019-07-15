@@ -162,7 +162,7 @@ if ( ! empty( $_POST['tables'] ) )
 					unset( $columns['ASSIGNMENT_TYPE_ID'] );
 				}
 
-				$id = DBSeqNextID( 'GRADEBOOK_ASSIGNMENTS_SEQ' );
+				$id = DBSeqNextID( 'gradebook_assignments_assignment_id_seq' );
 
 				$fields = "ASSIGNMENT_ID,ASSIGNMENT_TYPE_ID,STAFF_ID,MARKING_PERIOD_ID,";
 
@@ -173,7 +173,7 @@ if ( ! empty( $_POST['tables'] ) )
 			}
 			elseif ( $table == 'GRADEBOOK_ASSIGNMENT_TYPES' )
 			{
-				$id = DBSeqNextID( 'GRADEBOOK_ASSIGNMENT_TYPES_SEQ' );
+				$id = DBSeqNextID( 'gradebook_assignment_types_assignment_type_id_seq' );
 
 				$fields = "ASSIGNMENT_TYPE_ID,STAFF_ID,COURSE_ID,CREATED_MP,";
 

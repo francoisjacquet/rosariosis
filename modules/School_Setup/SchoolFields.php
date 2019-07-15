@@ -52,7 +52,7 @@ if ( isset( $_POST['tables'] )
 					// New Field.
 					if ( $table === 'SCHOOL_FIELDS' )
 					{
-						$_REQUEST['id'] = AddDBField( 'SCHOOLS', 'school_fields_seq', $columns['TYPE'] );
+						$_REQUEST['id'] = AddDBField( 'SCHOOLS', 'school_fields_id_seq', $columns['TYPE'] );
 
 						$fields = 'ID,';
 

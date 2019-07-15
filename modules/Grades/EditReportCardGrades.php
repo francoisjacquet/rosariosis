@@ -95,9 +95,9 @@ if ( UserStudentID() )
 					//$fields = 'ID, SCHOOL_ID, STUDENT_ID, MARKING_PERIOD_ID, ';
 					$fields = 'ID,SCHOOL_ID,STUDENT_ID,MARKING_PERIOD_ID,SYEAR,';
 
-					$id = DBSeqNextID( 'student_report_card_grades_seq' );
+					$id = DBSeqNextID( 'student_report_card_grades_id_seq' );
 
-					//$values = db_seq_nextval('student_report_card_grades_seq').','.UserSchool().", $student_id, $mp_id, ";
+					//$values = db_seq_nextval('student_report_card_grades_id_seq').','.UserSchool().", $student_id, $mp_id, ";
 					$values = $id . ",'" .
 					UserSchool() . "','" . $student_id . "','" . $mp_id . "','" . $syear . "',";
 

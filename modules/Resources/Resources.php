@@ -29,7 +29,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 				$sql = "INSERT INTO RESOURCES ";
 
 				$fields = 'ID,SCHOOL_ID,';
-				$values = db_seq_nextval( 'RESOURCES_SEQ' ) . ",'" . UserSchool() . "',";
+				$values = db_seq_nextval( 'resources_id_seq' ) . ",'" . UserSchool() . "',";
 
 				$go = 0;
 

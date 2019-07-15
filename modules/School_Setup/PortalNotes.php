@@ -119,9 +119,9 @@ if ( $_REQUEST['modfunc'] === 'update'
 				//FJ file attached to portal notes
 				$fields = 'ID,SCHOOL_ID,SYEAR,PUBLISHED_DATE,PUBLISHED_USER,';
 
-				$portal_note_id = DBSeqNextID( 'PORTAL_NOTES_SEQ' );
+				$portal_note_id = DBSeqNextID( 'portal_notes_id_seq' );
 
-				//$values = db_seq_nextval('PORTAL_NOTES_SEQ').",'".UserSchool()."','".UserSyear()."',CURRENT_TIMESTAMP,'".User('STAFF_ID')."',";
+				//$values = db_seq_nextval('portal_notes_id_seq').",'".UserSchool()."','".UserSyear()."',CURRENT_TIMESTAMP,'".User('STAFF_ID')."',";
 				$values = $portal_note_id . ",'" . UserSchool() . "','" . UserSyear() . "',CURRENT_TIMESTAMP,'" . User( 'STAFF_ID' ) . "',";
 
 				if ( $columns['FILE_OR_EMBED'] == 'FILE' )

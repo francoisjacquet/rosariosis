@@ -68,7 +68,7 @@ if ( isset( $_POST['tables'] )
 					// New Category.
 					elseif ( $table === 'ADDRESS_FIELD_CATEGORIES' )
 					{
-						$id = DBSeqNextID( 'ADDRESS_FIELD_CATEGORIES_SEQ' );
+						$id = DBSeqNextID( 'address_field_categories_id_seq' );
 
 						$fields = "ID,";
 

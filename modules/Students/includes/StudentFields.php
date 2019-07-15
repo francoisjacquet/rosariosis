@@ -81,7 +81,7 @@ if ( isset( $_POST['tables'] )
 							unset( $columns['CATEGORY_ID'] );
 						}
 
-						$_REQUEST['id'] = AddDBField( 'STUDENTS', 'custom_seq', $columns['TYPE'] );
+						$_REQUEST['id'] = AddDBField( 'STUDENTS', 'custom_fields_id_seq', $columns['TYPE'] );
 
 						$fields = 'ID,CATEGORY_ID,';
 
@@ -90,7 +90,7 @@ if ( isset( $_POST['tables'] )
 					// New Category.
 					elseif ( $table === 'STUDENT_FIELD_CATEGORIES' )
 					{
-						$id = DBSeqNextID( 'STUDENT_FIELD_CATEGORIES_SEQ' );
+						$id = DBSeqNextID( 'student_field_categories_id_seq' );
 
 						$fields = "ID,";
 

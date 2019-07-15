@@ -102,7 +102,7 @@ if ( $_REQUEST['submit']['save']
 		}
 		elseif ( $description['text'] || $description['select'] )
 		{
-			DBQuery( "INSERT INTO CALENDAR_EVENTS (ID,SYEAR,SCHOOL_ID,SCHOOL_DATE,TITLE,DESCRIPTION) values(" . db_seq_nextval( 'CALENDAR_EVENTS_SEQ' ) . ",'" . UserSyear() . "','" . UserSchool() . "','" . $school_date . "','" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "','" . $description['text'] . $description['select'] . "')" );
+			DBQuery( "INSERT INTO CALENDAR_EVENTS (ID,SYEAR,SCHOOL_ID,SCHOOL_DATE,TITLE,DESCRIPTION) values(" . db_seq_nextval( 'calendar_events_id_seq' ) . ",'" . UserSyear() . "','" . UserSchool() . "','" . $school_date . "','" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "','" . $description['text'] . $description['select'] . "')" );
 		}
 	}
 

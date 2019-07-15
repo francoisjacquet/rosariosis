@@ -35,7 +35,7 @@ if ( $_REQUEST['values']
 		elseif ( $columns['AMOUNT'] != ''
 			&& $columns['PAYMENT_DATE'] )
 		{
-			$id = DBSeqNextID( 'BILLING_PAYMENTS_SEQ' );
+			$id = DBSeqNextID( 'billing_payments_id_seq' );
 
 			$sql = "INSERT INTO BILLING_PAYMENTS ";
 
@@ -105,7 +105,7 @@ if ( $_REQUEST['modfunc'] === 'refund'
 		DBQuery( "INSERT INTO BILLING_PAYMENTS (ID,SYEAR,SCHOOL_ID,STUDENT_ID,AMOUNT,
 			PAYMENT_DATE,COMMENTS,REFUNDED_PAYMENT_ID)
 			VALUES(" .
-			db_seq_nextval( 'BILLING_PAYMENTS_SEQ' ) . ",'" .
+			db_seq_nextval( 'billing_payments_id_seq' ) . ",'" .
 			UserSyear() . "','" .
 			UserSchool() . "','" .
 			UserStudentID() . "','" .

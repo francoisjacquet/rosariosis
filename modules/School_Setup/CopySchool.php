@@ -47,7 +47,7 @@ $go = Prompt(
 if ( $go
 	&& ! empty( $_REQUEST['tables'] ) )
 {
-	$id = DBSeqNextID( 'SCHOOLS_SEQ' );
+	$id = DBSeqNextID( 'schools_id_seq' );
 
 	DBQuery( "INSERT INTO SCHOOLS (ID,SYEAR,TITLE,REPORTING_GP_SCALE)
 		values('" . $id . "','" . UserSyear() . "','" . $_REQUEST['title'] . "',
@@ -123,7 +123,7 @@ function _rollover( $table )
 
 			DBQuery( "INSERT INTO SCHOOL_PERIODS (PERIOD_ID,SYEAR,SCHOOL_ID,SORT_ORDER,TITLE,
 					SHORT_NAME,LENGTH,ATTENDANCE)
-				SELECT " . db_seq_nextval( 'SCHOOL_PERIODS_SEQ' ) . ",SYEAR,
+				SELECT " . db_seq_nextval( 'school_periods_period_id_seq' ) . ",SYEAR,
 					'" . $id . "' AS SCHOOL_ID,SORT_ORDER,TITLE,SHORT_NAME,LENGTH,ATTENDANCE
 					FROM SCHOOL_PERIODS
 					WHERE SYEAR='" . UserSyear() . "'
@@ -148,7 +148,7 @@ function _rollover( $table )
 			}
 
 			DBQuery( "INSERT INTO " . $table . " (ID,SCHOOL_ID" . $columns . ")
-				SELECT " . db_seq_nextval( $table . '_SEQ' ) . ",'" . $id . "' AS SCHOOL_ID" . $columns . "
+				SELECT " . db_seq_nextval( $table . '_ID_SEQ' ) . ",'" . $id . "' AS SCHOOL_ID" . $columns . "
 				FROM " . $table . "
 				WHERE SCHOOL_ID='" . UserSchool() . "'" );
 
@@ -159,7 +159,7 @@ function _rollover( $table )
 			DBQuery( "INSERT INTO SCHOOL_MARKING_PERIODS (MARKING_PERIOD_ID,PARENT_ID,SYEAR,MP,
 					SCHOOL_ID,TITLE,SHORT_NAME,SORT_ORDER,START_DATE,END_DATE,POST_START_DATE,
 					POST_END_DATE,DOES_GRADES,DOES_COMMENTS,ROLLOVER_ID)
-				SELECT " . db_seq_nextval( 'MARKING_PERIOD_SEQ' ) . ",PARENT_ID,SYEAR,MP,
+				SELECT " . db_seq_nextval( 'school_marking_periods_marking_period_id_seq' ) . ",PARENT_ID,SYEAR,MP,
 					'" . $id . "' AS SCHOOL_ID,TITLE,SHORT_NAME,SORT_ORDER,START_DATE,END_DATE,
 					POST_START_DATE,POST_END_DATE,DOES_GRADES,DOES_COMMENTS,MARKING_PERIOD_ID
 				FROM SCHOOL_MARKING_PERIODS
@@ -181,7 +181,7 @@ function _rollover( $table )
 
 			DBQuery( "INSERT INTO REPORT_CARD_GRADE_SCALES (ID,SYEAR,SCHOOL_ID,TITLE,COMMENT,
 					HR_GPA_VALUE,HHR_GPA_VALUE,SORT_ORDER,ROLLOVER_ID)
-				SELECT " . db_seq_nextval( 'REPORT_CARD_GRADE_SCALES_SEQ' ) . ",SYEAR,
+				SELECT " . db_seq_nextval( 'report_card_grade_scales_id_seq' ) . ",SYEAR,
 					'" . $id . "',TITLE,COMMENT,HR_GPA_VALUE,HHR_GPA_VALUE,SORT_ORDER,ID
 				FROM REPORT_CARD_GRADE_SCALES
 				WHERE SYEAR='" . UserSyear() . "'
@@ -189,7 +189,7 @@ function _rollover( $table )
 
 			DBQuery( "INSERT INTO REPORT_CARD_GRADES (ID,SYEAR,SCHOOL_ID,TITLE,COMMENT,BREAK_OFF,
 					GPA_VALUE,GRADE_SCALE_ID,SORT_ORDER)
-				SELECT " . db_seq_nextval( 'REPORT_CARD_GRADES_SEQ' ) . ",SYEAR,
+				SELECT " . db_seq_nextval( 'report_card_grades_id_seq' ) . ",SYEAR,
 					'" . $id . "',TITLE,COMMENT,BREAK_OFF,GPA_VALUE,
 					(SELECT ID
 						FROM REPORT_CARD_GRADE_SCALES
@@ -206,7 +206,7 @@ function _rollover( $table )
 
 			DBQuery( "INSERT INTO REPORT_CARD_COMMENTS (ID,SYEAR,SCHOOL_ID,TITLE,SORT_ORDER,
 					CATEGORY_ID,COURSE_ID)
-				SELECT " . db_seq_nextval( 'REPORT_CARD_COMMENTS_SEQ' ) . ",SYEAR,
+				SELECT " . db_seq_nextval( 'report_card_comments_id_seq' ) . ",SYEAR,
 					'" . $id . "',TITLE,SORT_ORDER,NULL,NULL
 				FROM REPORT_CARD_COMMENTS
 				WHERE COURSE_ID IS NULL
@@ -233,7 +233,7 @@ function _rollover( $table )
 			}
 
 			DBQuery( "INSERT INTO " . $table . " (ID,SYEAR,SCHOOL_ID" . $columns . ")
-				SELECT " . db_seq_nextval( $table . '_SEQ' ) . ",SYEAR,
+				SELECT " . db_seq_nextval( $table . '_ID_SEQ' ) . ",SYEAR,
 					'" . $id . "' AS SCHOOL_ID" . $columns . "
 				FROM " . $table . "
 				WHERE SYEAR='" . UserSyear() . "'

@@ -340,7 +340,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 			if ( ! $error )
 			{
-				$staff_id = DBSeqNextID( 'STAFF_SEQ' );
+				$staff_id = DBSeqNextID( 'staff_staff_id_seq' );
 
 				$sql = "INSERT INTO STAFF ";
 				$fields = 'SYEAR,STAFF_ID,';

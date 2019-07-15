@@ -134,8 +134,8 @@ if ( $_REQUEST['modfunc'] === 'update'
 				$sql_question = "INSERT INTO PORTAL_POLL_QUESTIONS ";
 				$fields = 'ID,SCHOOL_ID,SYEAR,PUBLISHED_DATE,PUBLISHED_USER,';
 
-				$portal_poll_id = DBSeqNextID( 'PORTAL_POLLS_SEQ' );
-				//$values = db_seq_nextval('PORTAL_POLLS_SEQ').",'".UserSchool()."','".UserSyear()."',CURRENT_TIMESTAMP,'".User('STAFF_ID')."',";
+				$portal_poll_id = DBSeqNextID( 'portal_polls_id_seq' );
+				//$values = db_seq_nextval('portal_polls_id_seq').",'".UserSchool()."','".UserSyear()."',CURRENT_TIMESTAMP,'".User('STAFF_ID')."',";
 				$values = $portal_poll_id . ",'" . UserSchool() . "','" . UserSyear() . "',CURRENT_TIMESTAMP,'" . User( 'STAFF_ID' ) . "',";
 
 				$go = 0;
@@ -150,7 +150,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 							$go_question = 0;
 							$fields_question = 'ID,PORTAL_POLL_ID,';
 
-							$portal_poll_question_id = DBSeqNextID( 'PORTAL_POLL_QUESTIONS_SEQ' );
+							$portal_poll_question_id = DBSeqNextID( 'portal_poll_questions_id_seq' );
 							$values_question = $portal_poll_question_id . "," . $portal_poll_id . ",";
 
 							foreach ( (array) $value as $col => $val )

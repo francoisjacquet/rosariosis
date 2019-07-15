@@ -39,7 +39,7 @@ if ( $_REQUEST['values']
 		elseif ( $columns['AMOUNT'] != ''
 			&& $columns['PAYMENT_DATE'] )
 		{
-			$id = DBSeqNextID( 'ACCOUNTING_PAYMENTS_SEQ' );
+			$id = DBSeqNextID( 'accounting_payments_id_seq' );
 
 			$sql = "INSERT INTO ACCOUNTING_PAYMENTS ";
 

@@ -30,7 +30,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 			$sql = "INSERT INTO ELIGIBILITY_ACTIVITIES ";
 
 			$fields = 'ID,SCHOOL_ID,SYEAR,';
-			$values = db_seq_nextval( 'ELIGIBILITY_ACTIVITIES_SEQ' ) . ",'" . UserSchool() . "','" . UserSyear() . "',";
+			$values = db_seq_nextval( 'eligibility_activities_id_seq' ) . ",'" . UserSchool() . "','" . UserSyear() . "',";
 
 			$go = 0;
 

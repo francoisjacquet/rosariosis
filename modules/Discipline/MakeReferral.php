@@ -19,7 +19,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		{
 			$sql = "INSERT INTO DISCIPLINE_REFERRALS ";
 
-			$referral_id = DBSeqNextID( 'DISCIPLINE_REFERRALS_SEQ' );
+			$referral_id = DBSeqNextID( 'discipline_referrals_id_seq' );
 
 			$fields = "ID,SYEAR,SCHOOL_ID,STUDENT_ID,";
 			$values = $referral_id . ",'" . UserSyear() . "','" . UserSchool() . "','" . $student_id . "',";

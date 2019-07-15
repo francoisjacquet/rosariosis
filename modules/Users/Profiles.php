@@ -222,7 +222,7 @@ if ( $_REQUEST['modfunc']
 	&& ! empty( $_REQUEST['new_profile_title'] )
 	&& AllowEdit() )
 {
-	$id = DBSeqNextID( 'USER_PROFILES_SEQ' );
+	$id = DBSeqNextID( 'user_profiles_id_seq' );
 	$exceptions_RET = array();
 
 	$xprofile = $_REQUEST['new_profile_type'];

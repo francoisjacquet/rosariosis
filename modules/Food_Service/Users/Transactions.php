@@ -14,7 +14,7 @@ if ( $_REQUEST['values']
 		if (  ( $_REQUEST['values']['TYPE'] == 'Deposit' || $_REQUEST['values']['TYPE'] == 'Credit' || $_REQUEST['values']['TYPE'] == 'Debit' ) && ( $amount = is_money( $_REQUEST['values']['AMOUNT'] ) ) )
 		{
 			// get next transaction id
-			$id = DBSeqNextID( 'FOOD_SERVICE_STAFF_TRANSACTIONS_SEQ' );
+			$id = DBSeqNextID( 'food_service_staff_transactions_transaction_id_seq' );
 
 			$full_description = DBEscapeString( _( $_REQUEST['values']['OPTION'] ) ) . ' ' . $_REQUEST['values']['DESCRIPTION'];
 

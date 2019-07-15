@@ -1152,7 +1152,7 @@ CREATE TABLE history_marking_periods (
     post_end_date date,
     school_id integer,
     syear integer,
-    marking_period_id integer PRIMARY KEY,
+    marking_period_id integer PRIMARY KEY DEFAULT nextval('school_marking_periods_marking_period_id_seq'),
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp
 );

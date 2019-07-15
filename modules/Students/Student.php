@@ -270,7 +270,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				{
 					do
 					{
-						$student_id = DBSeqNextID( 'STUDENTS_SEQ' );
+						$student_id = DBSeqNextID( 'students_student_id_seq' );
 					}
 					while ( DBGetOne( "SELECT STUDENT_ID
 						FROM STUDENTS

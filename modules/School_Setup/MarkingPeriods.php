@@ -127,7 +127,7 @@ if ( ! empty( $_POST['tables'] )
 		// New: check for Title.
 		elseif ( $columns['TITLE'] )
 		{
-			$id = DBSeqNextID( 'MARKING_PERIOD_SEQ' );
+			$id = DBSeqNextID( 'school_marking_periods_marking_period_id_seq' );
 
 			$sql = "INSERT INTO SCHOOL_MARKING_PERIODS ";
 

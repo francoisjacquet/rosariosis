@@ -43,7 +43,7 @@ if ( $_REQUEST['values']
 			$sql = "INSERT INTO ACCOUNTING_SALARIES ";
 
 			$fields = 'ID,STAFF_ID,SCHOOL_ID,SYEAR,ASSIGNED_DATE,';
-			$values = db_seq_nextval( 'ACCOUNTING_SALARIES_SEQ' ) . ",'" . UserStaffID() . "','" . UserSchool() . "','" . UserSyear() . "','" . DBDate() . "',";
+			$values = db_seq_nextval( 'accounting_salaries_id_seq' ) . ",'" . UserStaffID() . "','" . UserSchool() . "','" . UserSyear() . "','" . DBDate() . "',";
 
 			$go = 0;
 

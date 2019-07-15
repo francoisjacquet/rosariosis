@@ -34,7 +34,7 @@ if ( $_REQUEST['values']
 			$sql = "INSERT INTO ACCOUNTING_INCOMES ";
 
 			$fields = 'ID,SCHOOL_ID,SYEAR,';
-			$values = db_seq_nextval( 'ACCOUNTING_INCOMES_SEQ' ) . ",'" . UserSchool() . "','" . UserSyear() . "',";
+			$values = db_seq_nextval( 'accounting_incomes_id_seq' ) . ",'" . UserSchool() . "','" . UserSyear() . "',";
 
 			$go = 0;
 
