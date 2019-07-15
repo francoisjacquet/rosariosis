@@ -10,6 +10,10 @@ Changes in 5.0
 - SQL Add CREATED_AT & UPDATED_AT columns to every table in rosariosis.sql
 - SQL Add set_updated_at() function & set_updated_at trigger in rosariosis.sql
 
+Changes in 4.9.2
+----------------
+- CSS fix calendar below FlatSIS theme top menu in stylesheet.css
+
 Changes in 4.9.1
 ----------------
 - Fix #219 Parents & Teachers can Edit User Info in User.php
