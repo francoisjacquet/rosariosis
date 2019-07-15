@@ -11,6 +11,7 @@ Changes in 5.0
 - SQL Add set_updated_at() function & set_updated_at trigger in rosariosis.sql
 - SQL use serial for IDs in rosariosis.sql
 - SQL remove & rename existing sequences in rosariosis.sql & Update.fnc.php
+- SQL Add DBSeqConvertSerialName() function for compatibility database.inc.php
 
 
 Changes in 4.9.2

@@ -151,6 +151,9 @@ function db_fetch_row( $result )
  */
 function db_seq_nextval( $seqname )
 {
+	// @deprecated Please update your sequence name!
+	$seqname = DBSeqConvertSerialName( $seqname );
+
 	return "nextval('" . DBEscapeString( $seqname ) . "')";
 }
 
@@ -158,7 +161,7 @@ function db_seq_nextval( $seqname )
 /**
  * DB Sequence Next ID
  *
- * @example $id = DBSeqNextID( 'PEOPLE_SEQ' );
+ * @example $id = DBSeqNextID( 'people_person_id_seq' );
  *
  * @param string $seqname Sequence name.
  *
@@ -166,11 +169,183 @@ function db_seq_nextval( $seqname )
  */
 function DBSeqNextID( $seqname )
 {
+	// @deprecated Please update your sequence name!
+	$seqname = DBSeqConvertSerialName( $seqname );
+
 	$QI = DBQuery( "SELECT " . db_seq_nextval( $seqname ) . ' AS ID' );
 
 	$seq_next_RET = db_fetch_row( $QI );
 
 	return $seq_next_RET['ID'];
+}
+
+
+/**
+ * DB Sequence Convert to new based serial name
+ * Compatibility with old sequence names before RosarioSIS 5.0.
+ * Should be updated
+ * @see _update50beta()
+ *
+ * @since 5.0
+ *
+ * @deprecated Please update your sequence name!
+ *
+ * @param string $seqname (Old) Sequence name.
+ *
+ * @return string New/default sequence name based on serial.
+ */
+function DBSeqConvertSerialName( $seqname )
+{
+
+	$old_seqnames = array(
+		'user_profiles_seq',
+		'students_join_people_seq',
+		'students_join_address_seq',
+		'students_seq',
+		'student_report_card_grades_seq',
+		'student_medical_visits_seq',
+		'student_medical_alerts_seq',
+		'student_medical_seq',
+		'student_field_categories_seq',
+		'student_enrollment_codes_seq',
+		'student_enrollment_seq',
+		'staff_fields_seq',
+		'staff_field_categories_seq',
+		'staff_seq',
+		'school_periods_seq',
+		'schools_seq',
+		'school_gradelevels_seq',
+		'school_fields_seq',
+		'schedule_requests_seq',
+		'resources_seq',
+		'report_card_grades_seq',
+		'report_card_grade_scales_seq',
+		'report_card_comments_seq',
+		'report_card_comment_codes_seq',
+		'report_card_comment_code_scales_seq',
+		'report_card_comment_categories_seq',
+		'portal_polls_seq',
+		'portal_poll_questions_seq',
+		'portal_notes_seq',
+		'people_join_contacts_seq',
+		'people_fields_seq',
+		'people_field_categories_seq',
+		'people_seq',
+		'marking_period_seq',
+		'gradebook_assignments_seq',
+		'gradebook_assignment_types_seq',
+		'food_service_transactions_seq',
+		'food_service_staff_transactions_seq',
+		'food_service_menus_seq',
+		'food_service_menu_items_seq',
+		'food_service_items_seq',
+		'food_service_categories_seq',
+		'eligibility_activities_seq',
+		'discipline_referrals_seq',
+		'discipline_fields_seq',
+		'discipline_field_usage_seq',
+		'custom_seq',
+		'course_subjects_seq',
+		'course_period_school_periods_seq',
+		'courses_seq',
+		'course_periods_seq',
+		'calendar_events_seq',
+		'billing_payments_seq',
+		'billing_fees_seq',
+		'attendance_codes_seq',
+		'attendance_code_categories_seq',
+		'calendars_seq',
+		'address_fields_seq',
+		'address_field_categories_seq',
+		'address_seq',
+		'accounting_payments_seq',
+		'accounting_salaries_seq',
+		'accounting_incomes_seq',
+		'billing_fees_monthly_seq',
+		'school_inventory_categories_seq',
+		'school_inventory_items_seq',
+		'saved_reports_seq',
+		'saved_calculations_seq',
+		'messages_seq',
+	);
+
+	$new_seqnames = array(
+		'user_profiles_id_seq',
+		'students_join_people_id_seq',
+		'students_join_address_id_seq',
+		'students_student_id_seq',
+		'student_report_card_grades_id_seq',
+		'student_medical_visits_id_seq',
+		'student_medical_alerts_id_seq',
+		'student_medical_id_seq',
+		'student_field_categories_id_seq',
+		'student_enrollment_codes_id_seq',
+		'student_enrollment_id_seq',
+		'staff_fields_id_seq',
+		'staff_field_categories_id_seq',
+		'staff_staff_id_seq',
+		'school_periods_period_id_seq',
+		'schools_id_seq',
+		'school_gradelevels_id_seq',
+		'school_fields_id_seq',
+		'schedule_requests_request_id_seq',
+		'resources_id_seq',
+		'report_card_grades_id_seq',
+		'report_card_grade_scales_id_seq',
+		'report_card_comments_id_seq',
+		'report_card_comment_codes_id_seq',
+		'report_card_comment_code_scales_id_seq',
+		'report_card_comment_categories_id_seq',
+		'portal_polls_id_seq',
+		'portal_poll_questions_id_seq',
+		'portal_notes_id_seq',
+		'people_join_contacts_id_seq',
+		'people_fields_id_seq',
+		'people_field_categories_id_seq',
+		'people_person_id_seq',
+		'school_marking_periods_marking_period_id_seq',
+		'gradebook_assignments_assignment_id_seq',
+		'gradebook_assignment_types_assignment_type_id_seq',
+		'food_service_transactions_transaction_id_seq',
+		'food_service_staff_transactions_transaction_id_seq',
+		'food_service_menus_menu_id_seq',
+		'food_service_menu_items_menu_item_id_seq',
+		'food_service_items_item_id_seq',
+		'food_service_categories_category_id_seq',
+		'eligibility_activities_id_seq',
+		'discipline_referrals_id_seq',
+		'discipline_fields_id_seq',
+		'discipline_field_usage_id_seq',
+		'custom_fields_id_seq',
+		'course_subjects_subject_id_seq',
+		'course_period_school_periods_course_period_school_periods_id_seq',
+		'courses_course_id_seq',
+		'course_periods_course_period_id_seq',
+		'calendar_events_id_seq',
+		'billing_payments_id_seq',
+		'billing_fees_id_seq',
+		'attendance_codes_id_seq',
+		'attendance_code_categories_id_seq',
+		'attendance_calendars_calendar_id_seq',
+		'address_fields_id_seq',
+		'address_field_categories_id_seq',
+		'address_address_id_seq',
+		'accounting_payments_id_seq',
+		'accounting_salaries_id_seq',
+		'accounting_incomes_id_seq',
+		'billing_fees_monthly_id_seq',
+		'school_inventory_categories_category_id_seq',
+		'school_inventory_items_item_id_seq',
+		'saved_reports_id_seq',
+		'saved_calculations_id_seq',
+		'messages_message_id_seq',
+	);
+
+	return str_ireplace(
+		$old_seqnames,
+		$new_seqnames,
+		$seqname
+	);
 }
 
 
