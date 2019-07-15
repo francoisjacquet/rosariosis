@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 4.9.2
+----------------
+- CSS fix calendar below FlatSIS theme top menu in stylesheet.css
+
 Changes in 4.9.1
 ----------------
 - Fix #219 Parents & Teachers can Edit User Info in User.php
