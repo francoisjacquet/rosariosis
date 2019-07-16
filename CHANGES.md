@@ -14,6 +14,7 @@ Changes in 5.0
 - SQL Rename sequences for add-on modules in Update.fnc.php
 - SQL Add DBSeqConvertSerialName() function for compatibility database.inc.php
 - SQL Use new serial ID sequence names, program wide
+- Float grade points: remove trailing 0 in Schools.php & EditReportCardGrades.php
 
 
 Changes in 4.9.2

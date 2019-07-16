@@ -279,21 +279,21 @@ if ( UserStudentID() )
 
 		echo '<table class="cellpadding-5"><tr><td>' . _( 'GPA' ) . '</td><td>' .
 			NoInput(
-				sprintf( '%0.3f', $g_mp[$mp_id]['weighted_gpa'] ),
+				(float) number_format( $g_mp[$mp_id]['weighted_gpa'], 3 ),
 				_( 'Weighted' )
 			) . '</td><td>' .
 			NoInput(
-				sprintf( '%0.3f', $g_mp[$mp_id]['unweighted_gpa'] ),
+				(float) number_format( $g_mp[$mp_id]['unweighted_gpa'], 3 ),
 				_( 'Unweighted' )
 			) . '</td></tr>';
 
 		echo '<tr><td>' . _( 'Class Rank GPA' ) . '</td><td>' .
 			NoInput(
-				sprintf( '%0.3f', $g_mp[$mp_id]['cr_weighted'] ),
+				(float) number_format( $g_mp[$mp_id]['cr_weighted'], 3 ),
 				_( 'Weighted' )
 			) . '</td><td>' .
 			NoInput(
-				sprintf( '%0.3f', $g_mp[$mp_id]['cr_unweighted'] ),
+				(float) number_format( $g_mp[$mp_id]['cr_unweighted'], 3 ),
 				_( 'Unweighted' )
 			) . '</td></tr></table>';
 
@@ -528,6 +528,12 @@ function _makeTextInput( $value, $name )
 	else
 	{
 		$extra = 'size=4 maxlength=10';
+	}
+
+	if ( $name === 'GP_SCALE' )
+	{
+		// Remove trailing 0.
+		$value = (float) $value;
 	}
 
 	return TextInput(

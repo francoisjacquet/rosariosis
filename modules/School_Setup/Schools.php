@@ -310,7 +310,7 @@ if ( ! $_REQUEST['modfunc'] )
 	) . '</td></tr>';
 
 	echo '<tr><td colspan="3">' . TextInput(
-		$schooldata['REPORTING_GP_SCALE'],
+		(float) $schooldata['REPORTING_GP_SCALE'],
 		'values[REPORTING_GP_SCALE]',
 		_( 'Base Grading Scale' ),
 		'maxlength=10 required'
