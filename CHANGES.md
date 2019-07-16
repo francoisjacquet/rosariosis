@@ -4,6 +4,7 @@
 Changes in 4.9.2
 ----------------
 - CSS fix calendar below FlatSIS theme top menu in stylesheet.css
+- SQL fix error when "Food Service Balance minimum amount" empty in Portal.php
 
 Changes in 4.9.1
 ----------------

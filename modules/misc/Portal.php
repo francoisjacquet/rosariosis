@@ -379,7 +379,7 @@ switch ( User( 'PROFILE' ) )
 			$extra['WHERE'] = " AND fssa.STUDENT_ID=s.STUDENT_ID
 				AND fsa.ACCOUNT_ID=fssa.ACCOUNT_ID
 				AND fssa.STATUS IS NULL
-				AND fsa.BALANCE<'" . $FS_config['FOOD_SERVICE_BALANCE_MINIMUM'][1]['VALUE'] . "'";
+				AND fsa.BALANCE<'" . (float) $FS_config['FOOD_SERVICE_BALANCE_MINIMUM'][1]['VALUE'] . "'";
 
 			$_REQUEST['_search_all_schools'] = 'Y';
 
@@ -777,12 +777,12 @@ switch ( User( 'PROFILE' ) )
 
 			// Warn if students with low food service balances.
 			$extra['SELECT'] = ',fssa.STATUS,fsa.ACCOUNT_ID,fsa.BALANCE AS BALANCE,' .
-				$FS_config['FOOD_SERVICE_BALANCE_TARGET'][1]['VALUE'] . '-fsa.BALANCE AS DEPOSIT';
+				(float) $FS_config['FOOD_SERVICE_BALANCE_TARGET'][1]['VALUE'] . '-fsa.BALANCE AS DEPOSIT';
 			$extra['FROM'] = ',FOOD_SERVICE_ACCOUNTS fsa,FOOD_SERVICE_STUDENT_ACCOUNTS fssa';
 			$extra['WHERE'] = " AND fssa.STUDENT_ID=s.STUDENT_ID
 				AND fsa.ACCOUNT_ID=fssa.ACCOUNT_ID
 				AND fssa.STATUS IS NULL
-				AND fsa.BALANCE<'" . $FS_config['FOOD_SERVICE_BALANCE_WARNING'][1]['VALUE'] . "'";
+				AND fsa.BALANCE<'" . (float) $FS_config['FOOD_SERVICE_BALANCE_WARNING'][1]['VALUE'] . "'";
 			$extra['ASSOCIATED'] = User( 'STAFF_ID' );
 
 			$RET = GetStuList( $extra );
