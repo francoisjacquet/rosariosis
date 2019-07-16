@@ -788,7 +788,7 @@ if ( ! $_REQUEST['modfunc'] )
 		foreach ( (array) $_REQUEST['minutes'] as $date => $minutes )
 		{
 			// Fix SQL error when all-day checked & minutes.
-			if ( isset( $_REQUEST['all_day'][ $date ] ) )
+			if ( ! empty( $_REQUEST['all_day'][ $date ] ) )
 			{
 				continue;
 			}
@@ -856,17 +856,19 @@ if ( ! $_REQUEST['modfunc'] )
 						(SYEAR,SCHOOL_ID,SCHOOL_DATE,CALENDAR_ID,MINUTES)
 						values('" . UserSyear() . "','" . UserSchool()."','" . $date . "','" . $_REQUEST['calendar_id'] . "','999')" );
 				}
+
+				$update_calendar = true;
 			}
-			else
+			elseif ( $calendar_RET[ $date ] )
 			{
 				DBQuery( "DELETE FROM ATTENDANCE_CALENDAR
 					WHERE SCHOOL_DATE='" . $date . "'
 					AND SYEAR='" . UserSyear() . "'
 					AND SCHOOL_ID='" . UserSchool() . "'
 					AND CALENDAR_ID='" . $_REQUEST['calendar_id'] . "'" );
-			}
 
-			$update_calendar = true;
+				$update_calendar = true;
+			}
 		}
 
 		// Unset all day & redirect URL.
