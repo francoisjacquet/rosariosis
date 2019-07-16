@@ -6,6 +6,7 @@ Changes in 4.9.2
 - CSS fix calendar below FlatSIS theme top menu in stylesheet.css
 - SQL fix error when "Food Service Balance minimum amount" empty in Portal.php
 - Fix SQL error when Parent have students enrolled in deleted school in Schools.php & Side.php
+- Fix Partial days regression since 4.8 cannot save Minutes in Calendar.php
 
 Changes in 4.9.1
 ----------------
