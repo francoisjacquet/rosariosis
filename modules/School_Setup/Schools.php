@@ -117,7 +117,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 		// Unset modfunc & redirect URL.
 		RedirectURL( 'modfunc' );
 	}
-	elseif (  ( $_REQUEST['button'] === _( 'Delete' )
+	elseif ( ( $_REQUEST['button'] === _( 'Delete' )
 		|| isset( $_POST['delete_ok'] ) )
 		&& User( 'PROFILE' ) === 'admin'
 		&& AllowEdit() )
@@ -134,6 +134,11 @@ if ( $_REQUEST['modfunc'] === 'update' )
 			//FJ add School Configuration
 			$delete_sql .= "DELETE FROM CONFIG WHERE SCHOOL_ID='" . UserSchool() . "';";
 			$delete_sql .= "DELETE FROM PROGRAM_CONFIG WHERE SCHOOL_ID='" . UserSchool() . "';";
+			// Fix SQL error when Parent have students enrolled in deleted school.
+			$delete_sql .= "DELETE FROM STUDENTS_JOIN_USERS WHERE STUDENT_ID IN(SELECT STUDENT_ID
+				FROM STUDENT_ENROLLMENT
+				WHERE SCHOOL_ID='" . UserSchool() . "'
+				AND ('" . DBDate() . "'<=END_DATE OR END_DATE IS NULL ) );";
 
 			DBQuery( $delete_sql );
 
