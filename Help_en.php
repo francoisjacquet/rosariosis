@@ -73,7 +73,9 @@ endif;
 // SCHOOL SETUP ---.
 if ( User( 'PROFILE' ) === 'admin' ):
 
-	$help['School_Setup/Schools.php'] = '<p>' . _help( '<i>School Information</i> allows you to change the name, address, and principal of the current school. Click on any of the school\'s information to change it. After you have made the necessary modifications to your school, click "Save" to save your changes.' ) . '</p>';
+	$help['School_Setup/Schools.php'] = '<p>' . _help( '<i>School Information</i> allows you to change the name, address, and principal of the current school. Click on any of the school\'s information to change it. After you have made the necessary modifications to your school, click "Save" to save your changes.' ) . '</p>
+
+	<p>' . _help( 'Note: a school cannot be deleted once it has students enrolled.' ) . '</p>';
 
 	$help['School_Setup/CopySchool.php'] = '<p>' . _help( '<i>Copy School</i> is a good way to add another school to RosarioSIS, where the Periods, Marking Periods, Grade levels, Grading Scales and Attendance Codes are similar to the school you copy. You will be able, of course, to make changes in the configuration after you have "copied" the school.' ) . '</p>
 
