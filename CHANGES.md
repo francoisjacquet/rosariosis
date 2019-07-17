@@ -14,7 +14,7 @@ Changes in 5.0
 - SQL Rename sequences for add-on modules in Update.fnc.php
 - SQL Add DBSeqConvertSerialName() function for compatibility database.inc.php
 - SQL Use new serial ID sequence names, program wide
-- SQL Add foreign keys: student_id, staff_id, school_id, marking_period_id, course_period_id, course_id in rosariosis.sql & Update.fnc.php
+- SQL Add foreign keys: student_id, staff_id, school_id+syear, marking_period_id, course_period_id, course_id in rosariosis.sql & Update.fnc.php
 - Float grade points: remove trailing 0 in Schools.php & EditReportCardGrades.php
 - Delete school only if has NO students enrolled in Schools.php
 
