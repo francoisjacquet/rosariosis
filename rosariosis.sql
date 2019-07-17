@@ -284,6 +284,182 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: schools; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
+--
+
+CREATE TABLE schools (
+    syear numeric(4,0) NOT NULL,
+    id serial,
+    title character varying(100),
+    address character varying(100),
+    city character varying(100),
+    state character varying(10),
+    zipcode character varying(10),
+    phone character varying(30),
+    principal character varying(100),
+    www_address character varying(100),
+    school_number character varying(50),
+    short_name character varying(25),
+    reporting_gp_scale numeric(10,3),
+    number_days_rotation numeric(1,0),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp,
+    PRIMARY KEY (id, syear)
+);
+
+
+--
+-- Name: students; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
+--
+
+CREATE TABLE students (
+    student_id serial PRIMARY KEY,
+    last_name character varying(50) NOT NULL,
+    first_name character varying(50) NOT NULL,
+    middle_name character varying(50),
+    name_suffix character varying(3),
+    username character varying(100) UNIQUE,
+    password character varying(106),
+    last_login timestamp(0) without time zone,
+    failed_login integer,
+    custom_200000000 text,
+    custom_200000001 text,
+    custom_200000002 text,
+    custom_200000003 text,
+    custom_200000004 date,
+    custom_200000005 text,
+    custom_200000006 text,
+    custom_200000007 text,
+    custom_200000008 text,
+    custom_200000009 text,
+    custom_200000010 character(1),
+    custom_200000011 text,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
+);
+
+
+--
+-- Name: staff; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
+--
+
+CREATE TABLE staff (
+    syear numeric(4,0) NOT NULL,
+    staff_id serial PRIMARY KEY,
+    current_school_id integer,
+    title character varying(5),
+    first_name character varying(100) NOT NULL,
+    last_name character varying(100) NOT NULL,
+    middle_name character varying(100),
+    name_suffix character varying(3),
+    username character varying(100),
+    password character varying(106),
+    phone character varying(100),
+    email character varying(100),
+    profile character varying(30),
+    homeroom character varying(5),
+    schools character varying(255),
+    last_login timestamp(0) without time zone,
+    failed_login integer,
+    profile_id integer,
+    rollover_id integer,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
+);
+
+
+
+
+--
+-- Name: school_marking_periods; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
+--
+
+CREATE TABLE school_marking_periods (
+    marking_period_id serial PRIMARY KEY,
+    syear numeric(4,0) NOT NULL,
+    mp character varying(3) NOT NULL,
+    school_id integer NOT NULL,
+    parent_id integer,
+    title character varying(50),
+    short_name character varying(10),
+    sort_order numeric,
+    start_date date NOT NULL,
+    end_date date NOT NULL,
+    post_start_date date,
+    post_end_date date,
+    does_grades character varying(1),
+    does_comments character varying(1),
+    rollover_id integer,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp,
+    FOREIGN KEY (school_id,syear) REFERENCES schools(id,syear)
+);
+
+
+
+
+--
+-- Name: courses; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
+--
+
+CREATE TABLE courses (
+    syear numeric(4,0) NOT NULL,
+    course_id serial PRIMARY KEY,
+    subject_id integer NOT NULL,
+    school_id integer NOT NULL,
+    grade_level integer,
+    title character varying(100) NOT NULL,
+    short_name character varying(25),
+    rollover_id integer,
+    credit_hours numeric(6,2),
+    description text,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp,
+    FOREIGN KEY (school_id,syear) REFERENCES schools(id,syear)
+);
+
+
+
+
+--
+-- Name: course_periods; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
+--
+
+CREATE TABLE course_periods (
+    syear numeric(4,0) NOT NULL,
+    school_id integer NOT NULL,
+    course_period_id serial PRIMARY KEY,
+    course_id integer NOT NULL REFERENCES courses(course_id),
+    title character varying(255),
+    short_name character varying(25) NOT NULL,
+    mp character varying(3),
+    marking_period_id integer NOT NULL REFERENCES school_marking_periods(marking_period_id),
+    teacher_id integer NOT NULL REFERENCES staff(staff_id),
+    room character varying(10),
+    total_seats numeric,
+    filled_seats numeric,
+    does_attendance character varying(255),
+    does_honor_roll character varying(1),
+    does_class_rank character varying(1),
+    gender_restriction character varying(1),
+    house_restriction character varying(1),
+    availability numeric,
+    parent_id integer,
+    calendar_id integer,
+    half_day character varying(1),
+    does_breakoff character varying(1),
+    rollover_id integer,
+    grade_scale_id integer,
+    credits numeric,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp,
+    FOREIGN KEY (school_id,syear) REFERENCES schools(id,syear)
+);
+
+
+
+
+--
 -- Name: access_log; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
@@ -630,67 +806,6 @@ CREATE TABLE config (
     config_value text,
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp
-);
-
-
-
-
---
--- Name: course_periods; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE TABLE course_periods (
-    syear numeric(4,0) NOT NULL,
-    school_id integer NOT NULL,
-    course_period_id serial PRIMARY KEY,
-    course_id integer NOT NULL REFERENCES courses(course_id),
-    title character varying(255),
-    short_name character varying(25) NOT NULL,
-    mp character varying(3),
-    marking_period_id integer NOT NULL REFERENCES school_marking_periods(marking_period_id),
-    teacher_id integer NOT NULL REFERENCES staff(staff_id),
-    room character varying(10),
-    total_seats numeric,
-    filled_seats numeric,
-    does_attendance character varying(255),
-    does_honor_roll character varying(1),
-    does_class_rank character varying(1),
-    gender_restriction character varying(1),
-    house_restriction character varying(1),
-    availability numeric,
-    parent_id integer,
-    calendar_id integer,
-    half_day character varying(1),
-    does_breakoff character varying(1),
-    rollover_id integer,
-    grade_scale_id integer,
-    credits numeric,
-    created_at timestamp DEFAULT current_timestamp,
-    updated_at timestamp,
-    FOREIGN KEY (school_id,syear) REFERENCES schools(id,syear)
-);
-
-
-
-
---
--- Name: courses; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE TABLE courses (
-    syear numeric(4,0) NOT NULL,
-    course_id serial PRIMARY KEY,
-    subject_id integer NOT NULL,
-    school_id integer NOT NULL,
-    grade_level integer,
-    title character varying(100) NOT NULL,
-    short_name character varying(25),
-    rollover_id integer,
-    credit_hours numeric(6,2),
-    description text,
-    created_at timestamp DEFAULT current_timestamp,
-    updated_at timestamp,
-    FOREIGN KEY (school_id,syear) REFERENCES schools(id,syear)
 );
 
 
@@ -1165,34 +1280,6 @@ CREATE TABLE lunch_period (
 
 
 --
--- Name: school_marking_periods; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE TABLE school_marking_periods (
-    marking_period_id serial PRIMARY KEY,
-    syear numeric(4,0) NOT NULL,
-    mp character varying(3) NOT NULL,
-    school_id integer NOT NULL,
-    parent_id integer,
-    title character varying(50),
-    short_name character varying(10),
-    sort_order numeric,
-    start_date date NOT NULL,
-    end_date date NOT NULL,
-    post_start_date date,
-    post_end_date date,
-    does_grades character varying(1),
-    does_comments character varying(1),
-    rollover_id integer,
-    created_at timestamp DEFAULT current_timestamp,
-    updated_at timestamp,
-    FOREIGN KEY (school_id,syear) REFERENCES schools(id,syear)
-);
-
-
-
-
---
 -- Name: history_marking_periods; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
@@ -1653,60 +1740,6 @@ CREATE TABLE school_periods (
 );
 
 
---
--- Name: schools; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE TABLE schools (
-    syear numeric(4,0) NOT NULL,
-    id serial,
-    title character varying(100),
-    address character varying(100),
-    city character varying(100),
-    state character varying(10),
-    zipcode character varying(10),
-    phone character varying(30),
-    principal character varying(100),
-    www_address character varying(100),
-    school_number character varying(50),
-    short_name character varying(25),
-    reporting_gp_scale numeric(10,3),
-    number_days_rotation numeric(1,0),
-    created_at timestamp DEFAULT current_timestamp,
-    updated_at timestamp,
-    PRIMARY KEY (id, syear)
-);
-
-
-
-
---
--- Name: staff; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE TABLE staff (
-    syear numeric(4,0) NOT NULL,
-    staff_id serial PRIMARY KEY,
-    current_school_id integer,
-    title character varying(5),
-    first_name character varying(100) NOT NULL,
-    last_name character varying(100) NOT NULL,
-    middle_name character varying(100),
-    name_suffix character varying(3),
-    username character varying(100),
-    password character varying(106),
-    phone character varying(100),
-    email character varying(100),
-    profile character varying(30),
-    homeroom character varying(5),
-    schools character varying(255),
-    last_login timestamp(0) without time zone,
-    failed_login integer,
-    profile_id integer,
-    rollover_id integer,
-    created_at timestamp DEFAULT current_timestamp,
-    updated_at timestamp
-);
 
 
 
@@ -1936,7 +1969,7 @@ CREATE TABLE student_report_card_comments (
     course_period_id integer NOT NULL REFERENCES course_periods(course_period_id),
     report_card_comment_id integer NOT NULL,
     comment character varying(5),
-    marking_period_id character varying(10) NOT NULL REFERENCES school_marking_periods(marking_period_id),
+    marking_period_id integer NOT NULL REFERENCES school_marking_periods(marking_period_id),
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp,
     PRIMARY KEY (syear, student_id, course_period_id, marking_period_id, report_card_comment_id),
@@ -1978,35 +2011,6 @@ CREATE TABLE student_report_card_grades (
 );
 
 
---
--- Name: students; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE TABLE students (
-    student_id serial PRIMARY KEY,
-    last_name character varying(50) NOT NULL,
-    first_name character varying(50) NOT NULL,
-    middle_name character varying(50),
-    name_suffix character varying(3),
-    username character varying(100) UNIQUE,
-    password character varying(106),
-    last_login timestamp(0) without time zone,
-    failed_login integer,
-    custom_200000000 text,
-    custom_200000001 text,
-    custom_200000002 text,
-    custom_200000003 text,
-    custom_200000004 date,
-    custom_200000005 text,
-    custom_200000006 text,
-    custom_200000007 text,
-    custom_200000008 text,
-    custom_200000009 text,
-    custom_200000010 character(1),
-    custom_200000011 text,
-    created_at timestamp DEFAULT current_timestamp,
-    updated_at timestamp
-);
 
 
 
@@ -2186,6 +2190,55 @@ CREATE TABLE user_profiles (
 
 
 --
+-- Data for Name: schools; Type: TABLE DATA; Schema: public; Owner: rosariosis
+--
+
+INSERT INTO schools VALUES (2019, 1, 'Default School', '500 S. Street St.', 'Springfield', 'IL', '62704', NULL, 'Mr. Principal', 'www.rosariosis.org', NULL, NULL, 4, NULL);
+
+
+
+--
+-- Data for Name: students; Type: TABLE DATA; Schema: public; Owner: rosariosis
+--
+
+INSERT INTO students VALUES (1, 'Student', 'Student', 'S', NULL, 'student', '$6$f03d507b27b8b9ff$WKtYRdFZGNjRKUr4btzq/p90hbKRAyB8HmrZpgpUhbAh.GtOCveXtXt43IaEDZJ31rVUYZ7ID8xPgKkCiRyzZ1', NULL, NULL, 'Male', 'White, Non-Hispanic', 'Bug', NULL, '1996-12-04', 'English', NULL, NULL, NULL, NULL, NULL, NULL);
+
+
+--
+-- Data for Name: staff; Type: TABLE DATA; Schema: public; Owner: rosariosis
+--
+
+INSERT INTO staff VALUES (2019, 1, 1, NULL, 'Admin', 'Administrator', 'A', NULL, 'admin', '$6$dc51290a001671c6$97VSmw.Qu9sL6vpctFh62/YIbbR6b3DstJJxPXal2OndrtFszsxmVhdQaV2mJvb6Z38sPACXqDDQ7/uquwadd.', NULL, NULL, 'admin', NULL, ',1,', NULL, NULL, 1, NULL);
+INSERT INTO staff VALUES (2019, 2, 1, NULL, 'Teach', 'Teacher', 'T', NULL, 'teacher', '$6$cf0dc4c40d38891f$FqKT6nlTer3ujAf8CcQi6ABIEtlow0Va2p6HYh.M6eGWUfpgLr/pfrSwdIcTlV1LDxLg52puVETGMCYKL3vOo/', NULL, NULL, 'teacher', NULL, ',1,', NULL, NULL, 2, NULL);
+INSERT INTO staff VALUES (2019, 3, 1, NULL, 'Parent', 'Parent', 'P', NULL, 'parent', '$6$947c923597601364$Kgbb0Ey3lYTYnqM66VkFRgJVFDW48cBAfNF7t0CVjokL7drcEFId61whqpLrRI1w0q2J2VPfg86Obaf1tG2Ng1', NULL, NULL, 'parent', NULL, NULL, NULL, NULL, 3, NULL);
+
+
+--
+-- Data for Name: school_marking_periods; Type: TABLE DATA; Schema: public; Owner: rosariosis
+--
+
+INSERT INTO school_marking_periods VALUES (1, 2019, 'FY', 1, NULL, 'Full Year', 'FY', 1, '2019-06-17', '2020-06-05', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO school_marking_periods VALUES (2, 2019, 'SEM', 1, 1, 'Semester 1', 'S1', 1, '2019-06-17', '2019-12-31', '2019-12-28', '2019-12-31', NULL, NULL, NULL);
+INSERT INTO school_marking_periods VALUES (3, 2019, 'SEM', 1, 1, 'Semester 2', 'S2', 2, '2020-01-02', '2020-06-05', '2020-06-03', '2020-06-05', NULL, NULL, NULL);
+INSERT INTO school_marking_periods VALUES (4, 2019, 'QTR', 1, 2, 'Quarter 1', 'Q1', 1, '2019-06-17', '2019-09-13', '2019-09-11', '2019-09-13', 'Y', 'Y', NULL);
+INSERT INTO school_marking_periods VALUES (5, 2019, 'QTR', 1, 2, 'Quarter 2', 'Q2', 2, '2019-09-16', '2019-12-31', '2019-12-28', '2019-12-31', 'Y', 'Y', NULL);
+INSERT INTO school_marking_periods VALUES (6, 2019, 'QTR', 1, 3, 'Quarter 3', 'Q3', 3, '2020-01-02', '2020-03-13', '2020-03-13', '2020-03-13', 'Y', 'Y', NULL);
+INSERT INTO school_marking_periods VALUES (7, 2019, 'QTR', 1, 3, 'Quarter 4', 'Q4', 4, '2020-03-16', '2020-06-05', '2020-06-03', '2020-06-05', 'Y', 'Y', NULL);
+
+
+
+--
+-- Data for Name: courses; Type: TABLE DATA; Schema: public; Owner: rosariosis
+--
+
+
+
+--
+-- Data for Name: course_periods; Type: TABLE DATA; Schema: public; Owner: rosariosis
+--
+
+
+--
 -- Data for Name: accounting_incomes; Type: TABLE DATA; Schema: public; Owner: rosariosis
 --
 
@@ -2321,19 +2374,7 @@ INSERT INTO config VALUES (1, 'CLASS_RANK_CALCULATE_MPS', NULL);
 
 
 --
--- Data for Name: course_periods; Type: TABLE DATA; Schema: public; Owner: rosariosis
---
-
-
-
---
 -- Data for Name: course_subjects; Type: TABLE DATA; Schema: public; Owner: rosariosis
---
-
-
-
---
--- Data for Name: courses; Type: TABLE DATA; Schema: public; Owner: rosariosis
 --
 
 
@@ -2991,19 +3032,6 @@ INSERT INTO school_gradelevels VALUES (9, 1, '08', '8th', NULL, 9);
 
 
 --
--- Data for Name: school_marking_periods; Type: TABLE DATA; Schema: public; Owner: rosariosis
---
-
-INSERT INTO school_marking_periods VALUES (1, 2019, 'FY', 1, NULL, 'Full Year', 'FY', 1, '2019-06-17', '2020-06-05', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO school_marking_periods VALUES (2, 2019, 'SEM', 1, 1, 'Semester 1', 'S1', 1, '2019-06-17', '2019-12-31', '2019-12-28', '2019-12-31', NULL, NULL, NULL);
-INSERT INTO school_marking_periods VALUES (3, 2019, 'SEM', 1, 1, 'Semester 2', 'S2', 2, '2020-01-02', '2020-06-05', '2020-06-03', '2020-06-05', NULL, NULL, NULL);
-INSERT INTO school_marking_periods VALUES (4, 2019, 'QTR', 1, 2, 'Quarter 1', 'Q1', 1, '2019-06-17', '2019-09-13', '2019-09-11', '2019-09-13', 'Y', 'Y', NULL);
-INSERT INTO school_marking_periods VALUES (5, 2019, 'QTR', 1, 2, 'Quarter 2', 'Q2', 2, '2019-09-16', '2019-12-31', '2019-12-28', '2019-12-31', 'Y', 'Y', NULL);
-INSERT INTO school_marking_periods VALUES (6, 2019, 'QTR', 1, 3, 'Quarter 3', 'Q3', 3, '2020-01-02', '2020-03-13', '2020-03-13', '2020-03-13', 'Y', 'Y', NULL);
-INSERT INTO school_marking_periods VALUES (7, 2019, 'QTR', 1, 3, 'Quarter 4', 'Q4', 4, '2020-03-16', '2020-06-05', '2020-06-03', '2020-06-05', 'Y', 'Y', NULL);
-
-
---
 -- Data for Name: school_periods; Type: TABLE DATA; Schema: public; Owner: rosariosis
 --
 
@@ -3018,22 +3046,6 @@ INSERT INTO school_periods VALUES (8, 2019, 1, 8, 'Period 5', '05', 0, NULL, NUL
 INSERT INTO school_periods VALUES (9, 2019, 1, 9, 'Period 6', '06', 0, NULL, NULL, NULL, 'Y', NULL);
 INSERT INTO school_periods VALUES (10, 2019, 1, 10, 'Period 7', '07', 0, NULL, NULL, NULL, 'Y', NULL);
 INSERT INTO school_periods VALUES (11, 2019, 1, 11, 'Period 8', '08', 0, NULL, NULL, NULL, 'Y', NULL);
-
-
---
--- Data for Name: schools; Type: TABLE DATA; Schema: public; Owner: rosariosis
---
-
-INSERT INTO schools VALUES (2019, 1, 'Default School', '500 S. Street St.', 'Springfield', 'IL', '62704', NULL, 'Mr. Principal', 'www.rosariosis.org', NULL, NULL, 4, NULL);
-
-
---
--- Data for Name: staff; Type: TABLE DATA; Schema: public; Owner: rosariosis
---
-
-INSERT INTO staff VALUES (2019, 1, 1, NULL, 'Admin', 'Administrator', 'A', NULL, 'admin', '$6$dc51290a001671c6$97VSmw.Qu9sL6vpctFh62/YIbbR6b3DstJJxPXal2OndrtFszsxmVhdQaV2mJvb6Z38sPACXqDDQ7/uquwadd.', NULL, NULL, 'admin', NULL, ',1,', NULL, NULL, 1, NULL);
-INSERT INTO staff VALUES (2019, 2, 1, NULL, 'Teach', 'Teacher', 'T', NULL, 'teacher', '$6$cf0dc4c40d38891f$FqKT6nlTer3ujAf8CcQi6ABIEtlow0Va2p6HYh.M6eGWUfpgLr/pfrSwdIcTlV1LDxLg52puVETGMCYKL3vOo/', NULL, NULL, 'teacher', NULL, ',1,', NULL, NULL, 2, NULL);
-INSERT INTO staff VALUES (2019, 3, 1, NULL, 'Parent', 'Parent', 'P', NULL, 'parent', '$6$947c923597601364$Kgbb0Ey3lYTYnqM66VkFRgJVFDW48cBAfNF7t0CVjokL7drcEFId61whqpLrRI1w0q2J2VPfg86Obaf1tG2Ng1', NULL, NULL, 'parent', NULL, NULL, NULL, NULL, 3, NULL);
 
 
 --
@@ -3124,14 +3136,6 @@ INSERT INTO student_field_categories VALUES (5, 'Food Service', 5, NULL, 'Food_S
 --
 -- Data for Name: student_report_card_grades; Type: TABLE DATA; Schema: public; Owner: rosariosis
 --
-
-
-
---
--- Data for Name: students; Type: TABLE DATA; Schema: public; Owner: rosariosis
---
-
-INSERT INTO students VALUES (1, 'Student', 'Student', 'S', NULL, 'student', '$6$f03d507b27b8b9ff$WKtYRdFZGNjRKUr4btzq/p90hbKRAyB8HmrZpgpUhbAh.GtOCveXtXt43IaEDZJ31rVUYZ7ID8xPgKkCiRyzZ1', NULL, NULL, 'Male', 'White, Non-Hispanic', 'Bug', NULL, '1996-12-04', 'English', NULL, NULL, NULL, NULL, NULL, NULL);
 
 
 --
