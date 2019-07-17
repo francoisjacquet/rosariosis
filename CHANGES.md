@@ -15,6 +15,7 @@ Changes in 5.0
 - SQL Add DBSeqConvertSerialName() function for compatibility database.inc.php
 - SQL Use new serial ID sequence names, program wide
 - Float grade points: remove trailing 0 in Schools.php & EditReportCardGrades.php
+- Delete school only if has NO students enrolled in Schools.php
 
 
 Changes in 4.9.2

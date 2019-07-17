@@ -331,14 +331,16 @@ if ( $_REQUEST['modfunc'] === 'create'
 					WHERE CALENDAR_ID='" . $calendar_id . "'" );
 			}
 
+			$sql_calendar_days = '';
+
 			// Insert Days.
 			for ( $i = $begin; $i <= $end; $i += 86400 )
 			{
 				if ( $_REQUEST['weekdays'][ $weekday ] == 'Y' )
 				{
-					DBQuery( "INSERT INTO ATTENDANCE_CALENDAR
+					$sql_calendar_days .= "INSERT INTO ATTENDANCE_CALENDAR
 						(SYEAR,SCHOOL_ID,SCHOOL_DATE,MINUTES,CALENDAR_ID)
-						values('" . UserSyear() . "','" . UserSchool() . "','" . date( 'Y-m-d', $i ) . "'," . $minutes . ",'" . $calendar_id . "')" );
+						VALUES('" . UserSyear() . "','" . UserSchool() . "','" . date( 'Y-m-d', $i ) . "'," . $minutes . ",'" . $calendar_id . "');";
 				}
 
 				$weekday++;
@@ -346,6 +348,8 @@ if ( $_REQUEST['modfunc'] === 'create'
 				if ( $weekday == 7 )
 					$weekday = 0;
 			}
+
+			DBQuery( $sql_calendar_days );
 		}
 
 		// Set Current Calendar
