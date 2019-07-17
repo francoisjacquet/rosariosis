@@ -312,8 +312,8 @@ CREATE TABLE accounting_incomes (
     id serial PRIMARY KEY,
     title character varying(255),
     amount numeric,
-    school_id integer,
-    syear numeric(4,0),
+    school_id integer NOT NULL REFERENCES schools(id),
+    syear numeric(4,0) NOT NULL,
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp
 );
@@ -326,15 +326,15 @@ CREATE TABLE accounting_incomes (
 --
 
 CREATE TABLE accounting_salaries (
-    staff_id integer NOT NULL,
+    staff_id integer NOT NULL REFERENCES staff(staff_id),
     assigned_date date,
     due_date date,
     comments character varying(255),
     id serial PRIMARY KEY,
     title character varying(255),
     amount numeric,
-    school_id integer,
-    syear numeric(4,0),
+    school_id integer NOT NULL REFERENCES schools(id),
+    syear numeric(4,0) NOT NULL,
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp
 );
@@ -349,8 +349,8 @@ CREATE TABLE accounting_salaries (
 CREATE TABLE accounting_payments (
     id serial PRIMARY KEY,
     syear numeric(4,0) NOT NULL,
-    school_id integer NOT NULL,
-    staff_id integer,
+    school_id integer NOT NULL REFERENCES schools(id),
+    staff_id integer NOT NULL REFERENCES staff(staff_id),
     amount numeric NOT NULL,
     payment_date date,
     comments character varying(255),
@@ -428,7 +428,7 @@ CREATE TABLE address_fields (
 
 CREATE TABLE attendance_calendar (
     syear numeric(4,0) NOT NULL,
-    school_id integer NOT NULL,
+    school_id integer NOT NULL REFERENCES schools(id),
     school_date date NOT NULL,
     minutes numeric,
     block character varying(10),
@@ -446,9 +446,9 @@ CREATE TABLE attendance_calendar (
 --
 
 CREATE TABLE attendance_calendars (
-    school_id integer,
+    school_id integer NOT NULL REFERENCES schools(id),
     title character varying(100),
-    syear numeric(4,0),
+    syear numeric(4,0) NOT NULL,
     calendar_id serial PRIMARY KEY,
     default_calendar character varying(1),
     rollover_id integer,
@@ -465,8 +465,8 @@ CREATE TABLE attendance_calendars (
 
 CREATE TABLE attendance_code_categories (
     id serial PRIMARY KEY,
-    syear numeric(4,0),
-    school_id integer,
+    syear numeric(4,0) NOT NULL,
+    school_id integer NOT NULL REFERENCES schools(id),
     title character varying(255),
     sort_order numeric,
     rollover_id integer,
@@ -481,8 +481,8 @@ CREATE TABLE attendance_code_categories (
 
 CREATE TABLE attendance_codes (
     id serial PRIMARY KEY,
-    syear numeric(4,0),
-    school_id integer,
+    syear numeric(4,0) NOT NULL,
+    school_id integer NOT NULL REFERENCES schools(id),
     title character varying(100),
     short_name character varying(10),
     type character varying(10),
@@ -500,7 +500,7 @@ CREATE TABLE attendance_codes (
 --
 
 CREATE TABLE attendance_completed (
-    staff_id integer NOT NULL,
+    staff_id integer NOT NULL REFERENCES staff(staff_id),
     school_date date NOT NULL,
     period_id integer NOT NULL,
     table_name numeric NOT NULL,
@@ -517,12 +517,12 @@ CREATE TABLE attendance_completed (
 --
 
 CREATE TABLE attendance_day (
-    student_id integer NOT NULL,
+    student_id integer NOT NULL REFERENCES students(student_id),
     school_date date NOT NULL,
     minutes_present numeric,
     state_value numeric(2,1),
     syear numeric(4,0),
-    marking_period_id integer,
+    marking_period_id integer REFERENCES school_marking_periods(marking_period_id),
     comment character varying(255),
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp,
@@ -537,15 +537,15 @@ CREATE TABLE attendance_day (
 --
 
 CREATE TABLE attendance_period (
-    student_id integer NOT NULL,
+    student_id integer NOT NULL REFERENCES students(student_id),
     school_date date NOT NULL,
     period_id integer NOT NULL,
     attendance_code integer,
     attendance_teacher_code integer,
     attendance_reason character varying(100),
     admin character varying(1),
-    course_period_id integer,
-    marking_period_id integer,
+    course_period_id integer REFERENCES course_periods(course_period_id),
+    marking_period_id integer REFERENCES school_marking_periods(marking_period_id),
     comment character varying(100),
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp,
@@ -560,15 +560,15 @@ CREATE TABLE attendance_period (
 --
 
 CREATE TABLE billing_fees (
-    student_id integer NOT NULL,
+    student_id integer NOT NULL REFERENCES students(student_id),
     assigned_date date,
     due_date date,
     comments character varying(255),
     id serial PRIMARY KEY,
     title character varying(255),
     amount numeric,
-    school_id integer,
-    syear numeric(4,0),
+    school_id integer NOT NULL REFERENCES schools(id),
+    syear numeric(4,0) NOT NULL,
     waived_fee_id integer,
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp
@@ -582,8 +582,8 @@ CREATE TABLE billing_fees (
 CREATE TABLE billing_payments (
     id serial PRIMARY KEY,
     syear numeric(4,0) NOT NULL,
-    school_id integer NOT NULL,
-    student_id integer NOT NULL,
+    school_id integer NOT NULL REFERENCES schools(id),
+    student_id integer NOT NULL REFERENCES students(student_id),
     amount numeric NOT NULL,
     payment_date date,
     comments character varying(255),
@@ -600,8 +600,8 @@ CREATE TABLE billing_payments (
 
 CREATE TABLE calendar_events (
     id serial PRIMARY KEY,
-    syear numeric(4,0),
-    school_id integer,
+    syear numeric(4,0) NOT NULL,
+    school_id integer NOT NULL REFERENCES schools(id),
     school_date date,
     title character varying(50),
     description character varying(500),
@@ -615,7 +615,7 @@ CREATE TABLE calendar_events (
 --
 
 CREATE TABLE config (
-    school_id integer NOT NULL,
+    school_id integer NOT NULL, -- Can be 0, so no REFERENCES schools(id).
     title character varying(100),
     config_value text,
     created_at timestamp DEFAULT current_timestamp,
@@ -631,14 +631,14 @@ CREATE TABLE config (
 
 CREATE TABLE course_periods (
     syear numeric(4,0) NOT NULL,
-    school_id integer NOT NULL,
+    school_id integer NOT NULL REFERENCES schools(id),
     course_period_id serial PRIMARY KEY,
-    course_id integer NOT NULL,
+    course_id integer NOT NULL REFERENCES courses(course_id),
     title character varying(255),
     short_name character varying(25) NOT NULL,
     mp character varying(3),
-    marking_period_id integer,
-    teacher_id integer NOT NULL,
+    marking_period_id integer NOT NULL REFERENCES school_marking_periods(marking_period_id),
+    teacher_id integer NOT NULL REFERENCES staff(staff_id),
     room character varying(10),
     total_seats numeric,
     filled_seats numeric,
@@ -670,7 +670,7 @@ CREATE TABLE courses (
     syear numeric(4,0) NOT NULL,
     course_id serial PRIMARY KEY,
     subject_id integer NOT NULL,
-    school_id integer NOT NULL,
+    school_id integer NOT NULL REFERENCES schools(id),
     grade_level integer,
     title character varying(100) NOT NULL,
     short_name character varying(25),
@@ -700,12 +700,12 @@ CREATE VIEW course_details AS
 
 CREATE TABLE course_period_school_periods (
     course_period_school_periods_id serial PRIMARY KEY,
-    course_period_id integer NOT NULL,
+    course_period_id integer NOT NULL REFERENCES course_periods(course_period_id),
     period_id integer NOT NULL,
     days character varying(7),
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp,
-    PRIMARY KEY (course_period_school_periods_id, course_period_id, period_id)
+    UNIQUE (course_period_id, period_id)
 );
 
 
@@ -716,8 +716,8 @@ CREATE TABLE course_period_school_periods (
 --
 
 CREATE TABLE course_subjects (
-    syear numeric(4,0),
-    school_id integer,
+    syear numeric(4,0) NOT NULL,
+    school_id integer NOT NULL REFERENCES schools(id),
     subject_id serial PRIMARY KEY,
     title character varying(100) NOT NULL,
     short_name character varying(25),
@@ -756,7 +756,7 @@ CREATE TABLE discipline_field_usage (
     id serial PRIMARY KEY,
     discipline_field_id integer NOT NULL,
     syear numeric(4,0) NOT NULL,
-    school_id integer NOT NULL,
+    school_id integer NOT NULL REFERENCES schools(id),
     title character varying(255),
     select_options character varying(10000),
     sort_order numeric,
@@ -787,9 +787,9 @@ CREATE TABLE discipline_fields (
 CREATE TABLE discipline_referrals (
     id serial PRIMARY KEY,
     syear numeric(4,0) NOT NULL,
-    student_id integer NOT NULL,
-    school_id integer NOT NULL,
-    staff_id integer,
+    student_id integer NOT NULL REFERENCES students(student_id),
+    school_id integer NOT NULL REFERENCES schools(id),
+    staff_id integer REFERENCES staff(staff_id),
     entry_date date,
     referral_date date,
     category_1 character varying(1000),
@@ -808,12 +808,12 @@ CREATE TABLE discipline_referrals (
 --
 
 CREATE TABLE eligibility (
-    student_id integer,
+    student_id integer NOT NULL REFERENCES students(student_id),
     syear numeric(4,0),
     school_date date,
     period_id integer,
     eligibility_code character varying(20),
-    course_period_id integer,
+    course_period_id integer NOT NULL REFERENCES course_periods(course_period_id),
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp
 );
@@ -827,8 +827,8 @@ CREATE TABLE eligibility (
 
 CREATE TABLE eligibility_activities (
     id serial PRIMARY KEY,
-    syear numeric(4,0),
-    school_id integer,
+    syear numeric(4,0) NOT NULL,
+    school_id integer NOT NULL REFERENCES schools(id),
     title character varying(100),
     start_date date,
     end_date date,
@@ -843,32 +843,13 @@ CREATE TABLE eligibility_activities (
 --
 
 CREATE TABLE eligibility_completed (
-    staff_id integer NOT NULL,
+    staff_id integer NOT NULL REFERENCES staff(staff_id),
     school_date date NOT NULL,
     period_id integer NOT NULL,
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp,
     PRIMARY KEY (staff_id, school_date, period_id)
 );
-
-
-
-
---
--- Name: enroll_grade; Type: VIEW; Schema: public; Owner: rosariosis
---
-
-CREATE VIEW enroll_grade AS
-    SELECT e.id, e.syear, e.school_id, e.student_id, e.start_date, e.end_date, sg.short_name, sg.title FROM student_enrollment e, school_gradelevels sg WHERE (e.grade_id = sg.id);
-
-
-
-
---
--- Name: VIEW enroll_grade; Type: COMMENT; Schema: public; Owner: rosariosis
---
-
-COMMENT ON VIEW enroll_grade IS 'Provides enrollment dates and grade levels';
 
 
 --
@@ -892,7 +873,7 @@ CREATE TABLE food_service_accounts (
 
 CREATE TABLE food_service_categories (
     category_id serial PRIMARY KEY,
-    school_id integer NOT NULL,
+    school_id integer NOT NULL REFERENCES schools(id),
     menu_id integer NOT NULL,
     title character varying(25),
     sort_order numeric,
@@ -907,7 +888,7 @@ CREATE TABLE food_service_categories (
 
 CREATE TABLE food_service_items (
     item_id serial PRIMARY KEY,
-    school_id integer NOT NULL,
+    school_id integer NOT NULL REFERENCES schools(id),
     short_name character varying(25),
     sort_order numeric,
     description character varying(25),
@@ -927,7 +908,7 @@ CREATE TABLE food_service_items (
 
 CREATE TABLE food_service_menu_items (
     menu_item_id serial PRIMARY KEY,
-    school_id integer NOT NULL,
+    school_id integer NOT NULL REFERENCES schools(id),
     menu_id integer NOT NULL,
     item_id integer NOT NULL,
     category_id integer,
@@ -944,7 +925,7 @@ CREATE TABLE food_service_menu_items (
 
 CREATE TABLE food_service_menus (
     menu_id serial PRIMARY KEY,
-    school_id integer NOT NULL,
+    school_id integer NOT NULL REFERENCES schools(id),
     title character varying(25) NOT NULL,
     sort_order numeric,
     created_at timestamp DEFAULT current_timestamp,
@@ -957,7 +938,7 @@ CREATE TABLE food_service_menus (
 --
 
 CREATE TABLE food_service_staff_accounts (
-    staff_id integer PRIMARY KEY,
+    staff_id integer PRIMARY KEY REFERENCES staff(staff_id),
     status character varying(25),
     barcode character varying(50) UNIQUE,
     balance numeric(9,2) NOT NULL,
@@ -993,9 +974,9 @@ CREATE TABLE food_service_staff_transaction_items (
 
 CREATE TABLE food_service_staff_transactions (
     transaction_id serial PRIMARY KEY,
-    staff_id integer NOT NULL,
-    school_id integer,
-    syear numeric(4,0),
+    staff_id integer NOT NULL REFERENCES staff(staff_id),
+    school_id integer NOT NULL REFERENCES schools(id),
+    syear numeric(4,0) NOT NULL,
     balance numeric(9,2),
     "timestamp" timestamp(0) without time zone,
     short_name character varying(25),
@@ -1011,7 +992,7 @@ CREATE TABLE food_service_staff_transactions (
 --
 
 CREATE TABLE food_service_student_accounts (
-    student_id integer PRIMARY KEY,
+    student_id integer PRIMARY KEY REFERENCES students(student_id),
     account_id integer NOT NULL,
     discount character varying(25),
     status character varying(25),
@@ -1049,9 +1030,9 @@ CREATE TABLE food_service_transaction_items (
 CREATE TABLE food_service_transactions (
     transaction_id serial PRIMARY KEY,
     account_id integer NOT NULL,
-    student_id integer,
-    school_id integer,
-    syear numeric(4,0),
+    student_id integer NOT NULL REFERENCES students(student_id),
+    school_id integer NOT NULL REFERENCES schools(id),
+    syear numeric(4,0) NOT NULL,
     discount character varying(25),
     balance numeric(9,2),
     "timestamp" timestamp(0) without time zone,
@@ -1069,8 +1050,8 @@ CREATE TABLE food_service_transactions (
 
 CREATE TABLE gradebook_assignment_types (
     assignment_type_id serial PRIMARY KEY,
-    staff_id integer,
-    course_id integer,
+    staff_id integer NOT NULL REFERENCES staff(staff_id),
+    course_id integer NOT NULL REFERENCES courses(course_id),
     title character varying(100) NOT NULL,
     final_grade_percent numeric(6,5),
     sort_order numeric,
@@ -1087,10 +1068,10 @@ CREATE TABLE gradebook_assignment_types (
 
 CREATE TABLE gradebook_assignments (
     assignment_id serial PRIMARY KEY,
-    staff_id integer,
-    marking_period_id integer,
-    course_period_id integer,
-    course_id integer,
+    staff_id integer NOT NULL REFERENCES staff(staff_id),
+    marking_period_id integer NOT NULL REFERENCES school_marking_periods(marking_period_id),
+    course_period_id integer REFERENCES course_periods(course_period_id),
+    course_id integer REFERENCES courses(course_id),
     assignment_type_id integer NOT NULL,
     title character varying(100) NOT NULL,
     assigned_date date,
@@ -1110,9 +1091,9 @@ CREATE TABLE gradebook_assignments (
 --
 
 CREATE TABLE gradebook_grades (
-    student_id integer NOT NULL,
+    student_id integer NOT NULL REFERENCES students(student_id),
     period_id integer,
-    course_period_id integer NOT NULL,
+    course_period_id integer NOT NULL REFERENCES course_periods(course_period_id),
     assignment_id integer NOT NULL,
     points numeric(6,2),
     comment character varying(100),
@@ -1127,34 +1108,15 @@ CREATE TABLE gradebook_grades (
 --
 -- Name: grades_completed; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
+-- Idea: could be dynamic, like a view?
 
 CREATE TABLE grades_completed (
-    staff_id integer NOT NULL,
-    marking_period_id character varying(10) NOT NULL,
-    course_period_id integer NOT NULL,
+    staff_id integer NOT NULL REFERENCES staff(staff_id),
+    marking_period_id integer NOT NULL REFERENCES school_marking_periods(marking_period_id),
+    course_period_id integer NOT NULL REFERENCES course_periods(course_period_id),
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp,
     PRIMARY KEY (staff_id, marking_period_id, course_period_id)
-);
-
-
-
-
---
--- Name: history_marking_periods; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE TABLE history_marking_periods (
-    parent_id integer,
-    mp_type character(20),
-    name character(30),
-    short_name character varying(10),
-    post_end_date date,
-    school_id integer,
-    syear integer,
-    marking_period_id integer PRIMARY KEY DEFAULT nextval('school_marking_periods_marking_period_id_seq'),
-    created_at timestamp DEFAULT current_timestamp,
-    updated_at timestamp
 );
 
 
@@ -1165,15 +1127,15 @@ CREATE TABLE history_marking_periods (
 --
 
 CREATE TABLE lunch_period (
-    student_id integer NOT NULL,
+    student_id integer NOT NULL REFERENCES students(student_id),
     school_date date NOT NULL,
     period_id integer NOT NULL,
     attendance_code integer,
     attendance_teacher_code integer,
     attendance_reason character varying(100),
     admin character varying(1),
-    course_period_id integer,
-    marking_period_id integer,
+    course_period_id integer REFERENCES course_periods(course_period_id),
+    marking_period_id integer REFERENCES school_marking_periods(marking_period_id),
     comment character varying(100),
     table_name numeric,
     created_at timestamp DEFAULT current_timestamp,
@@ -1190,9 +1152,9 @@ CREATE TABLE lunch_period (
 
 CREATE TABLE school_marking_periods (
     marking_period_id serial PRIMARY KEY,
-    syear numeric(4,0),
+    syear numeric(4,0) NOT NULL,
     mp character varying(3) NOT NULL,
-    school_id integer,
+    school_id integer NOT NULL REFERENCES schools(id),
     parent_id integer,
     title character varying(50),
     short_name character varying(10),
@@ -1212,11 +1174,31 @@ CREATE TABLE school_marking_periods (
 
 
 --
+-- Name: history_marking_periods; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
+--
+
+CREATE TABLE history_marking_periods (
+    parent_id integer,
+    mp_type character(20),
+    name character(30),
+    short_name character varying(10),
+    post_end_date date,
+    school_id integer NOT NULL REFERENCES schools(id),
+    syear numeric(4,0),
+    marking_period_id integer PRIMARY KEY DEFAULT nextval('school_marking_periods_marking_period_id_seq'),
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
+);
+
+
+
+--
 -- Name: marking_periods; Type: VIEW; Schema: public; Owner: rosariosis
 --
 
 CREATE VIEW marking_periods AS
-    SELECT school_marking_periods.marking_period_id, 'Rosario'::text AS mp_source, school_marking_periods.syear, school_marking_periods.school_id, CASE WHEN ((school_marking_periods.mp)::text = 'FY'::text) THEN 'year'::text WHEN ((school_marking_periods.mp)::text = 'SEM'::text) THEN 'semester'::text WHEN ((school_marking_periods.mp)::text = 'QTR'::text) THEN 'quarter'::text ELSE NULL::text END AS mp_type, school_marking_periods.title, school_marking_periods.short_name, school_marking_periods.sort_order, CASE WHEN (school_marking_periods.parent_id > (0)::numeric) THEN school_marking_periods.parent_id ELSE ((-1))::numeric END AS parent_id, CASE WHEN ((SELECT smp.parent_id FROM school_marking_periods smp WHERE (smp.marking_period_id = school_marking_periods.parent_id)) > (0)::numeric) THEN (SELECT smp.parent_id FROM school_marking_periods smp WHERE (smp.marking_period_id = school_marking_periods.parent_id)) ELSE ((-1))::numeric END AS grandparent_id, school_marking_periods.start_date, school_marking_periods.end_date, school_marking_periods.post_start_date, school_marking_periods.post_end_date, school_marking_periods.does_grades, school_marking_periods.does_comments FROM school_marking_periods UNION SELECT history_marking_periods.marking_period_id, 'History'::text AS mp_source, history_marking_periods.syear, history_marking_periods.school_id, history_marking_periods.mp_type, history_marking_periods.name AS title, history_marking_periods.short_name, NULL::numeric AS sort_order, history_marking_periods.parent_id, (-1) AS grandparent_id, NULL::date AS start_date, history_marking_periods.post_end_date AS end_date, NULL::date AS post_start_date, history_marking_periods.post_end_date, 'Y'::character varying AS does_grades, NULL::character varying AS does_comments FROM history_marking_periods;
+    SELECT school_marking_periods.marking_period_id, 'Rosario'::text AS mp_source, school_marking_periods.syear, school_marking_periods.school_id, CASE WHEN ((school_marking_periods.mp)::text = 'FY'::text) THEN 'year'::text WHEN ((school_marking_periods.mp)::text = 'SEM'::text) THEN 'semester'::text WHEN ((school_marking_periods.mp)::text = 'QTR'::text) THEN 'quarter'::text ELSE NULL::text END AS mp_type, school_marking_periods.title, school_marking_periods.short_name, school_marking_periods.sort_order, CASE WHEN (school_marking_periods.parent_id > (0)::numeric) THEN school_marking_periods.parent_id ELSE ((-1))::numeric END AS parent_id, CASE WHEN ((SELECT smp.parent_id FROM school_marking_periods smp WHERE (smp.marking_period_id = school_marking_periods.parent_id)) > (0)::numeric) THEN (SELECT smp.parent_id FROM school_marking_periods smp WHERE (smp.marking_period_id = school_marking_periods.parent_id)) ELSE ((-1))::numeric END AS grandparent_id, school_marking_periods.start_date, school_marking_periods.end_date, school_marking_periods.post_start_date, school_marking_periods.post_end_date, school_marking_periods.does_grades, school_marking_periods.does_comments FROM school_marking_periods
+    UNION SELECT history_marking_periods.marking_period_id, 'History'::text AS mp_source, history_marking_periods.syear, history_marking_periods.school_id, history_marking_periods.mp_type, history_marking_periods.name AS title, history_marking_periods.short_name, NULL::numeric AS sort_order, history_marking_periods.parent_id, (-1) AS grandparent_id, NULL::date AS start_date, history_marking_periods.post_end_date AS end_date, NULL::date AS post_start_date, history_marking_periods.post_end_date, 'Y'::character varying AS does_grades, NULL::character varying AS does_comments FROM history_marking_periods;
 
 
 
@@ -1306,8 +1288,8 @@ CREATE TABLE people_join_contacts (
 
 CREATE TABLE portal_notes (
     id serial PRIMARY KEY,
-    school_id integer,
-    syear numeric(4,0),
+    school_id integer NOT NULL REFERENCES schools(id),
+    syear numeric(4,0) NOT NULL,
     title character varying(255),
     content character varying(5000),
     sort_order numeric,
@@ -1344,8 +1326,8 @@ CREATE TABLE portal_poll_questions (
 
 CREATE TABLE portal_polls (
     id serial PRIMARY KEY,
-    school_id integer,
-    syear numeric(4,0),
+    school_id integer NOT NULL REFERENCES schools(id),
+    syear numeric(4,0) NOT NULL,
     title character varying(255),
     votes_number integer,
     display_votes character varying(1),
@@ -1384,8 +1366,8 @@ CREATE TABLE profile_exceptions (
 --
 
 CREATE TABLE program_config (
-    syear numeric(4,0),
-    school_id integer,
+    syear numeric(4,0) NOT NULL,
+    school_id integer NOT NULL REFERENCES schools(id),
     program character varying(255),
     title character varying(100),
     value character varying(2550),
@@ -1405,7 +1387,7 @@ CREATE TABLE program_user_config (
     program character varying(255),
     title character varying(100),
     value character varying(100),
-    school_id integer,
+    school_id integer REFERENCES schools(id), -- Can be NULL.
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp
 );
@@ -1419,9 +1401,9 @@ CREATE TABLE program_user_config (
 
 CREATE TABLE report_card_comment_categories (
     id serial PRIMARY KEY,
-    syear numeric(4,0),
-    school_id integer,
-    course_id integer,
+    syear numeric(4,0) NOT NULL,
+    school_id integer NOT NULL REFERENCES schools(id),
+    course_id integer REFERENCES courses(course_id),
     sort_order numeric,
     title character varying(1000),
     rollover_id integer,
@@ -1437,7 +1419,7 @@ CREATE TABLE report_card_comment_categories (
 
 CREATE TABLE report_card_comment_code_scales (
     id serial PRIMARY KEY,
-    school_id integer NOT NULL,
+    school_id integer NOT NULL REFERENCES schools(id),
     title character varying(25),
     comment character varying(100),
     sort_order numeric,
@@ -1453,7 +1435,7 @@ CREATE TABLE report_card_comment_code_scales (
 
 CREATE TABLE report_card_comment_codes (
     id serial PRIMARY KEY,
-    school_id integer NOT NULL,
+    school_id integer NOT NULL REFERENCES schools(id),
     scale_id integer NOT NULL,
     title character varying(5) NOT NULL,
     short_name character varying(100),
@@ -1470,9 +1452,9 @@ CREATE TABLE report_card_comment_codes (
 
 CREATE TABLE report_card_comments (
     id serial PRIMARY KEY,
-    syear numeric(4,0),
-    school_id integer,
-    course_id integer,
+    syear numeric(4,0) NOT NULL,
+    school_id integer NOT NULL REFERENCES schools(id),
+    course_id integer REFERENCES courses(course_id),
     category_id integer,
     scale_id integer,
     sort_order numeric,
@@ -1488,8 +1470,8 @@ CREATE TABLE report_card_comments (
 
 CREATE TABLE report_card_grade_scales (
     id serial PRIMARY KEY,
-    syear numeric(4,0),
-    school_id integer NOT NULL,
+    syear numeric(4,0) NOT NULL,
+    school_id integer NOT NULL REFERENCES schools(id),
     title character varying(300),
     comment character varying(1000),
     hhr_gpa_value numeric,
@@ -1510,8 +1492,8 @@ CREATE TABLE report_card_grade_scales (
 
 CREATE TABLE report_card_grades (
     id serial PRIMARY KEY,
-    syear numeric(4,0),
-    school_id integer,
+    syear numeric(4,0) NOT NULL,
+    school_id integer NOT NULL REFERENCES schools(id),
     title character varying(100),
     sort_order numeric,
     gpa_value numeric,
@@ -1530,7 +1512,7 @@ CREATE TABLE report_card_grades (
 
 CREATE TABLE resources (
     id serial PRIMARY KEY,
-    school_id integer NOT NULL,
+    school_id integer NOT NULL REFERENCES schools(id),
     title character varying(256),
     link character varying(1000),
     created_at timestamp DEFAULT current_timestamp,
@@ -1544,18 +1526,18 @@ CREATE TABLE resources (
 
 CREATE TABLE schedule (
     syear numeric(4,0) NOT NULL,
-    school_id integer,
-    student_id integer NOT NULL,
+    school_id integer NOT NULL REFERENCES schools(id),
+    student_id integer NOT NULL REFERENCES students(student_id),
     start_date date NOT NULL,
     end_date date,
     modified_date date,
     modified_by character varying(255),
-    course_id integer NOT NULL,
-    course_period_id integer NOT NULL,
+    course_id integer NOT NULL REFERENCES courses(course_id),
+    course_period_id integer NOT NULL REFERENCES course_periods(course_period_id),
     mp character varying(3),
-    marking_period_id integer,
+    marking_period_id integer REFERENCES school_marking_periods(marking_period_id),
     scheduler_lock character varying(1),
-    id integer,
+    id integer, -- Any IDea?
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp
 );
@@ -1568,13 +1550,13 @@ CREATE TABLE schedule (
 --
 
 CREATE TABLE schedule_requests (
-    syear numeric(4,0),
-    school_id integer,
+    syear numeric(4,0) NOT NULL,
+    school_id integer NOT NULL REFERENCES schools(id),
     request_id serial PRIMARY KEY,
-    student_id integer,
+    student_id integer NOT NULL REFERENCES students(student_id),
     subject_id integer,
-    course_id integer,
-    marking_period_id integer,
+    course_id integer REFERENCES courses(course_id),
+    marking_period_id integer REFERENCES school_marking_periods(marking_period_id), -- Not used...
     priority numeric,
     with_teacher_id integer,
     not_teacher_id integer,
@@ -1610,7 +1592,7 @@ CREATE TABLE school_fields (
 
 CREATE TABLE school_gradelevels (
     id serial PRIMARY KEY,
-    school_id integer NOT NULL,
+    school_id integer NOT NULL REFERENCES schools(id),
     short_name character varying(2),
     title character varying(50),
     next_grade_id integer,
@@ -1626,8 +1608,8 @@ CREATE TABLE school_gradelevels (
 
 CREATE TABLE school_periods (
     period_id serial PRIMARY KEY,
-    syear numeric(4,0),
-    school_id integer,
+    syear numeric(4,0) NOT NULL,
+    school_id integer NOT NULL REFERENCES schools(id),
     sort_order numeric,
     title character varying(100),
     short_name character varying(10),
@@ -1674,7 +1656,7 @@ CREATE TABLE schools (
 --
 
 CREATE TABLE staff (
-    syear numeric(4,0),
+    syear numeric(4,0) NOT NULL,
     staff_id serial PRIMARY KEY,
     current_school_id integer,
     title character varying(5),
@@ -1705,7 +1687,7 @@ CREATE TABLE staff (
 --
 
 CREATE TABLE staff_exceptions (
-    user_id integer NOT NULL,
+    user_id integer NOT NULL REFERENCES staff(staff_id),
     modname character varying(255),
     can_use character varying(1),
     can_edit character varying(1),
@@ -1759,7 +1741,7 @@ CREATE TABLE staff_fields (
 
 CREATE TABLE student_assignments (
     assignment_id integer NOT NULL,
-    student_id integer NOT NULL,
+    student_id integer NOT NULL REFERENCES students(student_id),
     data text,
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp,
@@ -1773,32 +1755,8 @@ CREATE TABLE student_assignments (
 
 CREATE TABLE student_eligibility_activities (
     syear numeric(4,0),
-    student_id integer NOT NULL,
+    student_id integer NOT NULL REFERENCES students(student_id),
     activity_id integer NOT NULL,
-    created_at timestamp DEFAULT current_timestamp,
-    updated_at timestamp
-);
-
-
-
-
---
--- Name: student_enrollment; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
---
-
-CREATE TABLE student_enrollment (
-    id serial PRIMARY KEY,
-    syear numeric(4,0),
-    school_id integer,
-    student_id integer REFERENCES students(student_id),
-    grade_id integer,
-    start_date date,
-    end_date date,
-    enrollment_code integer,
-    drop_code integer,
-    next_school integer,
-    calendar_id integer,
-    last_school integer,
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp
 );
@@ -1812,7 +1770,7 @@ CREATE TABLE student_enrollment (
 
 CREATE TABLE student_enrollment_codes (
     id serial PRIMARY KEY,
-    syear numeric(4,0),
+    syear numeric(4,0) NOT NULL,
     title character varying(100),
     short_name character varying(10),
     type character varying(4),
@@ -1844,7 +1802,7 @@ CREATE TABLE student_field_categories (
 
 CREATE TABLE student_medical (
     id serial PRIMARY KEY,
-    student_id integer,
+    student_id integer NOT NULL REFERENCES students(student_id),
     type character varying(25),
     medical_date date,
     comments character varying(100),
@@ -1861,7 +1819,7 @@ CREATE TABLE student_medical (
 
 CREATE TABLE student_medical_alerts (
     id serial PRIMARY KEY,
-    student_id integer,
+    student_id integer NOT NULL REFERENCES students(student_id),
     title character varying(100),
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp
@@ -1874,7 +1832,7 @@ CREATE TABLE student_medical_alerts (
 
 CREATE TABLE student_medical_visits (
     id serial PRIMARY KEY,
-    student_id integer,
+    student_id integer NOT NULL REFERENCES students(student_id),
     school_date date,
     time_in character varying(20),
     time_out character varying(20),
@@ -1891,9 +1849,9 @@ CREATE TABLE student_medical_visits (
 --
 
 CREATE TABLE student_mp_comments (
-    student_id integer NOT NULL,
+    student_id integer NOT NULL REFERENCES students(student_id),
     syear numeric(4,0) NOT NULL,
-    marking_period_id integer NOT NULL,
+    marking_period_id integer NOT NULL REFERENCES school_marking_periods(marking_period_id),
     comment text,
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp,
@@ -1908,8 +1866,8 @@ CREATE TABLE student_mp_comments (
 --
 
 CREATE TABLE student_mp_stats (
-    student_id integer NOT NULL,
-    marking_period_id integer NOT NULL,
+    student_id integer NOT NULL REFERENCES students(student_id),
+    marking_period_id integer NOT NULL, -- Can be History, so no REFERENCES school_marking_periods(marking_period_id).
     cum_weighted_factor numeric,
     cum_unweighted_factor numeric,
     cum_rank integer,
@@ -1944,12 +1902,12 @@ CREATE TABLE student_mp_stats (
 
 CREATE TABLE student_report_card_comments (
     syear numeric(4,0) NOT NULL,
-    school_id integer,
-    student_id integer NOT NULL,
-    course_period_id integer NOT NULL,
+    school_id integer NOT NULL REFERENCES schools(id),
+    student_id integer NOT NULL REFERENCES students(student_id),
+    course_period_id integer NOT NULL REFERENCES course_periods(course_period_id),
     report_card_comment_id integer NOT NULL,
     comment character varying(5),
-    marking_period_id character varying(10) NOT NULL,
+    marking_period_id character varying(10) NOT NULL REFERENCES school_marking_periods(marking_period_id),
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp,
     PRIMARY KEY (syear, student_id, course_period_id, marking_period_id, report_card_comment_id)
@@ -1963,15 +1921,15 @@ CREATE TABLE student_report_card_comments (
 --
 
 CREATE TABLE student_report_card_grades (
-    syear numeric(4,0),
-    school_id integer,
-    student_id integer NOT NULL,
-    course_period_id integer,
+    syear numeric(4,0) NOT NULL,
+    school_id integer NOT NULL REFERENCES schools(id),
+    student_id integer NOT NULL REFERENCES students(student_id),
+    course_period_id integer REFERENCES course_periods(course_period_id),
     report_card_grade_id integer,
     report_card_comment_id integer,
     comment character varying(255),
     grade_percent numeric(4,1),
-    marking_period_id character varying(10) NOT NULL,
+    marking_period_id character varying(10) NOT NULL, -- EditReportCardGrades.php, so no REFERENCES school_marking_periods(marking_period_id).
     grade_letter character varying(5),
     weighted_gp numeric,
     unweighted_gp numeric,
@@ -2021,13 +1979,55 @@ CREATE TABLE students (
 
 
 
+
+--
+-- Name: student_enrollment; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
+--
+
+CREATE TABLE student_enrollment (
+    id serial PRIMARY KEY,
+    syear numeric(4,0) NOT NULL,
+    school_id integer NOT NULL REFERENCES schools(id),
+    student_id integer NOT NULL REFERENCES students(student_id),
+    grade_id integer,
+    start_date date,
+    end_date date,
+    enrollment_code integer,
+    drop_code integer,
+    next_school integer,
+    calendar_id integer,
+    last_school integer,
+    created_at timestamp DEFAULT current_timestamp,
+    updated_at timestamp
+);
+
+
+
+
+--
+-- Name: enroll_grade; Type: VIEW; Schema: public; Owner: rosariosis
+--
+
+CREATE VIEW enroll_grade AS
+    SELECT e.id, e.syear, e.school_id, e.student_id, e.start_date, e.end_date, sg.short_name, sg.title FROM student_enrollment e, school_gradelevels sg WHERE (e.grade_id = sg.id);
+
+
+
+
+--
+-- Name: VIEW enroll_grade; Type: COMMENT; Schema: public; Owner: rosariosis
+--
+
+COMMENT ON VIEW enroll_grade IS 'Provides enrollment dates and grade levels';
+
+
 --
 -- Name: students_join_address; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
 --
 
 CREATE TABLE students_join_address (
     id serial PRIMARY KEY,
-    student_id integer NOT NULL,
+    student_id integer NOT NULL REFERENCES students(student_id),
     address_id integer NOT NULL,
     contact_seq numeric(10,0),
     gets_mail character varying(1),
@@ -2051,7 +2051,7 @@ CREATE TABLE students_join_address (
 
 CREATE TABLE students_join_people (
     id serial PRIMARY KEY,
-    student_id integer NOT NULL,
+    student_id integer NOT NULL REFERENCES students(student_id),
     person_id integer NOT NULL,
     address_id integer,
     custody character varying(1),
@@ -2067,8 +2067,8 @@ CREATE TABLE students_join_people (
 --
 
 CREATE TABLE students_join_users (
-    student_id integer NOT NULL,
-    staff_id integer NOT NULL,
+    student_id integer NOT NULL REFERENCES students(student_id),
+    staff_id integer NOT NULL REFERENCES staff(staff_id),
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp,
     PRIMARY KEY (student_id, staff_id)
@@ -2083,7 +2083,7 @@ CREATE TABLE students_join_users (
 
 CREATE TABLE templates (
     modname character varying(255) NOT NULL,
-    staff_id integer NOT NULL,
+    staff_id integer NOT NULL REFERENCES staff(staff_id),
     template text,
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp,
@@ -3030,14 +3030,6 @@ INSERT INTO staff_field_categories VALUES (3, 'Food Service', 3, NULL, 'Food_Ser
 --
 
 
-
---
--- Data for Name: student_enrollment; Type: TABLE DATA; Schema: public; Owner: rosariosis
---
-
-INSERT INTO student_enrollment VALUES (1, 2019, 1, 1, 7, '2019-06-17', NULL, 3, NULL, 1, 1, 1);
-
-
 --
 -- Data for Name: student_enrollment_codes; Type: TABLE DATA; Schema: public; Owner: rosariosis
 --
@@ -3108,6 +3100,14 @@ INSERT INTO student_field_categories VALUES (5, 'Food Service', 5, NULL, 'Food_S
 --
 
 INSERT INTO students VALUES (1, 'Student', 'Student', 'S', NULL, 'student', '$6$f03d507b27b8b9ff$WKtYRdFZGNjRKUr4btzq/p90hbKRAyB8HmrZpgpUhbAh.GtOCveXtXt43IaEDZJ31rVUYZ7ID8xPgKkCiRyzZ1', NULL, NULL, 'Male', 'White, Non-Hispanic', 'Bug', NULL, '1996-12-04', 'English', NULL, NULL, NULL, NULL, NULL, NULL);
+
+
+--
+-- Data for Name: student_enrollment; Type: TABLE DATA; Schema: public; Owner: rosariosis
+--
+
+INSERT INTO student_enrollment VALUES (1, 2019, 1, 1, 7, '2019-06-17', NULL, 3, NULL, 1, 1, 1);
+
 
 
 --
