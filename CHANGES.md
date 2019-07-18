@@ -21,6 +21,7 @@ Changes in 5.0
 - Float grade points: remove trailing 0 in Schools.php & EditReportCardGrades.php
 - Delete school only if has NO students enrolled in Schools.php
 - MP has Course Periods? Do NOT delete in MarkingPeriods.php
+- Accessibility CSS do not remove outline in stylesheet.css
 
 
 Changes in 4.9.2
