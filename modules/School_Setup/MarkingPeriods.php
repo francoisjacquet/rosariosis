@@ -416,9 +416,19 @@ if ( ! $_REQUEST['modfunc'] )
 
 		if ( $not_single_mp )
 		{
-			$delete_URL = "'" . $mp_href . "&modfunc=delete'";
+			// @since 5.0 MP has Course Periods? Do NOT delete.
+			$mp_has_course_periods = DBGetOne( "SELECT 1
+				FROM COURSE_PERIODS
+				WHERE MARKING_PERIOD_ID='" . $_REQUEST['marking_period_id'] . "'
+				AND SYEAR='" . UserSyear() . "'
+				AND SCHOOL_ID='" . UserSchool() . "'" );
 
-			$delete_button = '<input type="button" value="' . _( 'Delete' ) . '" onClick="javascript:ajaxLink(' . $delete_URL . ');" />';
+			if ( ! $mp_has_course_periods )
+			{
+				$delete_URL = "'" . $mp_href . "&modfunc=delete'";
+
+				$delete_button = '<input type="button" value="' . _( 'Delete' ) . '" onClick="javascript:ajaxLink(' . $delete_URL . ');" />';
+			}
 		}
 	}
 

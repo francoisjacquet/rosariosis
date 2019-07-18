@@ -95,7 +95,9 @@ if ( User( 'PROFILE' ) === 'admin' ):
 
 	<p>' . _help( 'To delete a marking period, select it by clicking on its title on the list and click the "Delete" button at the top of the screen. You will be asked to confirm the deletion.' ) . '</p>
 
-	<p>' . _help( 'Notice that neither two marking periods nor two posting periods in the same tier can overlap. Also, No two marking periods in any tier should have the same sort order.' ) . '</p>';
+	<p>' . _help( 'Notice that neither two marking periods nor two posting periods in the same tier can overlap. Also, No two marking periods in any tier should have the same sort order.' ) . '</p>
+
+	<p>' . _help( 'Note: a marking period cannot be deleted once it has course periods.' ) . '</p>';
 
 	$help['School_Setup/Calendar.php'] = '<p>' . _help( '<i>Calendars</i> allows you to setup your school\'s calendar for the year. The calendar displays the current month by default. The month and year displayed can be changed by changing the month and year pull-down menus at the top of the screen.' ) . '</p>
 
