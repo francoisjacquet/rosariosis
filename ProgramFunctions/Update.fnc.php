@@ -864,6 +864,15 @@ function _update50beta()
 
 	$rename_sequence = function( $old_sequence, $new_sequence )
 	{
+		if ( strlen( $new_sequence > 63 ) )
+		{
+			$cut_at_char = ( 63 - strlen( '_seq' ) );
+
+			// Note: sequence name is limited to 63 chars
+			// @link https://www.postgresql.org/docs/9.0/sql-syntax-lexical.html#SQL-SYNTAX-IDENTIFIERS
+			$new_sequence = substr( $new_sequence, 0, $cut_at_char ) . '_seq';
+		}
+
 		$sequence_exists = DBGetOne( "SELECT 1 FROM pg_class
 			WHERE relname='" . DBEscapeString( $old_sequence ) . "';" );
 
