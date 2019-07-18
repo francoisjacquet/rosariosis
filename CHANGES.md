@@ -17,6 +17,7 @@ Changes in 5.0
 - SQL Add foreign keys: student_id, staff_id, school_id+syear, marking_period_id, course_period_id, course_id in rosariosis.sql & Update.fnc.php
 - SQL create tables & insert data in right order in rosariosis.sql
 - SQL Use NEXTVAL() on data insert in rosariosis.sql & rosariosis_fr.sql
+- SQL fix on delete constraints in Schools.php,& Student.php
 - Float grade points: remove trailing 0 in Schools.php & EditReportCardGrades.php
 - Delete school only if has NO students enrolled in Schools.php
 

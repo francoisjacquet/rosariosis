@@ -124,11 +124,17 @@ if ( $_REQUEST['modfunc'] === 'update' )
 	{
 		if ( DeletePrompt( _( 'School' ) ) )
 		{
-			$delete_sql = "DELETE FROM SCHOOLS WHERE ID='" . UserSchool() . "';";
 			$delete_sql .= "DELETE FROM SCHOOL_GRADELEVELS WHERE SCHOOL_ID='" . UserSchool() . "';";
 			$delete_sql .= "DELETE FROM ATTENDANCE_CALENDAR WHERE SCHOOL_ID='" . UserSchool() . "';";
+			$delete_sql .= "DELETE FROM ATTENDANCE_CALENDARS WHERE SCHOOL_ID='" . UserSchool() . "';";
+			$delete_sql .= "DELETE FROM ATTENDANCE_CODES WHERE SCHOOL_ID='" . UserSchool() . "';";
 			$delete_sql .= "DELETE FROM SCHOOL_PERIODS WHERE SCHOOL_ID='" . UserSchool() . "';";
 			$delete_sql .= "DELETE FROM SCHOOL_MARKING_PERIODS WHERE SCHOOL_ID='" . UserSchool() . "';";
+			$delete_sql .= "DELETE FROM ELIGIBILITY_ACTIVITIES WHERE SCHOOL_ID='" . UserSchool() . "';";
+			$delete_sql .= "DELETE FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='" . UserSchool() . "';";
+			$delete_sql .= "DELETE FROM REPORT_CARD_GRADE_SCALES WHERE SCHOOL_ID='" . UserSchool() . "';";
+			$delete_sql .= "DELETE FROM REPORT_CARD_GRADES WHERE SCHOOL_ID='" . UserSchool() . "';";
+			$delete_sql .= "DELETE FROM DISCIPLINE_FIELD_USAGE WHERE SCHOOL_ID='" . UserSchool() . "';";
 			$delete_sql .= "UPDATE STAFF SET CURRENT_SCHOOL_ID=NULL WHERE CURRENT_SCHOOL_ID='" . UserSchool() . "';";
 			$delete_sql .= "UPDATE STAFF SET SCHOOLS=replace(SCHOOLS,'," . UserSchool() . ",',',');";
 			//FJ add School Configuration
@@ -139,6 +145,8 @@ if ( $_REQUEST['modfunc'] === 'update' )
 				FROM STUDENT_ENROLLMENT
 				WHERE SCHOOL_ID='" . UserSchool() . "'
 				AND ('" . DBDate() . "'<=END_DATE OR END_DATE IS NULL ) );";
+
+			$delete_sql .= "DELETE FROM SCHOOLS WHERE ID='" . UserSchool() . "';";
 
 			DBQuery( $delete_sql );
 
@@ -205,7 +213,7 @@ if ( ! $_REQUEST['modfunc'] )
 	// FJ delete school only if more than one school.
 	if ( $_SESSION['SchoolData']['SCHOOLS_NB'] > 1 )
 	{
-		// Delete school only if has NO students enrolled.
+		// Delete school only if has NO students enrolled in current school year.
 		$has_students_enrolled = DBGetOne( "SELECT 1 AS ENROLLED
 			FROM STUDENT_ENROLLMENT
 			WHERE SCHOOL_ID='" . UserSchool() . "'

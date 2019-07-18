@@ -500,11 +500,14 @@ if ( $_REQUEST['modfunc'] === 'delete'
 		$delete_sql .= "DELETE FROM STUDENT_ENROLLMENT
 			WHERE STUDENT_ID='" . UserStudentID() . "';";
 
-		$delete_sql .= "DELETE FROM STUDENTS
-			WHERE STUDENT_ID='" . UserStudentID() . "';";
-
 		$delete_sql .= "DELETE FROM FOOD_SERVICE_ACCOUNTS
 			WHERE ACCOUNT_ID='" . UserStudentID() . "';";
+
+		$delete_sql .= "DELETE FROM FOOD_SERVICE_STUDENT_ACCOUNTS
+			WHERE STUDENT_ID='" . UserStudentID() . "';";
+
+		$delete_sql .= "DELETE FROM STUDENTS
+			WHERE STUDENT_ID='" . UserStudentID() . "';";
 
 		DBQuery( $delete_sql );
 
