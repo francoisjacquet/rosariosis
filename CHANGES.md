@@ -20,6 +20,7 @@ Changes in 5.0
 - SQL fix on delete constraints in Schools.php,& Student.php
 - Float grade points: remove trailing 0 in Schools.php & EditReportCardGrades.php
 - Delete school only if has NO students enrolled in Schools.php
+- MP has Course Periods? Do NOT delete in MarkingPeriods.php
 
 
 Changes in 4.9.2
