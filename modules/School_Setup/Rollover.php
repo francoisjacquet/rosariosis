@@ -490,7 +490,10 @@ function Rollover( $table )
 			// ROLL COURSE_PERIOD_SCHOOL_PERIODS
 			DBQuery( "INSERT INTO COURSE_PERIOD_SCHOOL_PERIODS
 				(COURSE_PERIOD_SCHOOL_PERIODS_ID,COURSE_PERIOD_ID,PERIOD_ID,DAYS)
-				SELECT " . db_seq_nextval( 'course_period_school_periods_course_period_school_periods_id_seq' ) . ",
+				SELECT " .
+				// Note: sequence name is limited to 63 chars
+				// @link https://www.postgresql.org/docs/9.0/sql-syntax-lexical.html#SQL-SYNTAX-IDENTIFIERS
+				db_seq_nextval( 'course_period_school_periods_course_period_school_periods_id_se' ) . ",
 					(SELECT cp.COURSE_PERIOD_ID
 						FROM COURSE_PERIODS cp
 						WHERE cpsp.COURSE_PERIOD_ID=cp.ROLLOVER_ID),
