@@ -2,6 +2,14 @@
 
 ## RosarioSIS Student Information System
 
+New in 5.0
+----------
+
+SQL speed: ID columns now use INTEGER type.
+
+Database integrity improvements: added foreign keys.
+
+
 New in 4.9
 ----------
 
