@@ -577,8 +577,8 @@ function Search( $type, $extra = null )
 					<input type="text" name="cust_begin[' . $col['COLUMN_NAME'] . ']" size="3" maxlength="11" />
 					<span class="sizep2">&le;</span>
 					<input type="text" name="cust_end[' . $col['COLUMN_NAME'] . ']" size="3" maxlength="11" />
-					<label>' . _( 'No Value' ) .
-					' <input type="checkbox" name="cust_null[' . $col['COLUMN_NAME'] . ']" /></label>&nbsp;
+					<label><input type="checkbox" name="cust_null[' . $col['COLUMN_NAME'] . ']" /> ' . _( 'No Value' ) .
+					'</label>&nbsp;
 					</td></tr>';
 				}
 
@@ -681,8 +681,8 @@ function Search( $type, $extra = null )
 				foreach ( (array) $category['date'] as $col )
 				{
 					echo '<tr class="' . $TR_classes . '"><td>' . $col['TITLE'] . '<br />
-					<label>' . _( 'No Value' ) .
-					'&nbsp;<input type="checkbox" name="cust_null[' . $col['COLUMN_NAME'] . ']" /></label>
+					<label>&nbsp;<input type="checkbox" name="cust_null[' . $col['COLUMN_NAME'] . ']" /> ' .
+					_( 'No Value' ) . '</label>
 					</td>
 					<td><table class="cellspacing-0">
 					<tr><td><span class="sizep2">&ge;</span>&nbsp;</td>
