@@ -2201,7 +2201,7 @@ INSERT INTO schools VALUES (2019, NEXTVAL('schools_id_seq'), 'Default School', '
 -- Data for Name: students; Type: TABLE DATA; Schema: public; Owner: rosariosis
 --
 
-INSERT INTO students VALUES (NEXTVAL('students_student_id_seq'), 'Student', 'Student', 'S', NULL, 'student', '$6$f03d507b27b8b9ff$WKtYRdFZGNjRKUr4btzq/p90hbKRAyB8HmrZpgpUhbAh.GtOCveXtXt43IaEDZJ31rVUYZ7ID8xPgKkCiRyzZ1', NULL, NULL, 'Male', 'White, Non-Hispanic', 'Bug', NULL, '1996-12-04', 'English', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO students VALUES (NEXTVAL('students_student_id_seq'), 'Student', 'Student', 'S', NULL, 'student', '$6$f03d507b27b8b9ff$WKtYRdFZGNjRKUr4btzq/p90hbKRAyB8HmrZpgpUhbAh.GtOCveXtXt43IaEDZJ31rVUYZ7ID8xPgKkCiRyzZ1', NULL, NULL, 'Male', 'White, Non-Hispanic', 'Bug', NULL, '2015-12-04', 'English', NULL, NULL, NULL, NULL, NULL, NULL);
 
 
 --
