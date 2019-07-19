@@ -412,11 +412,11 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		{
 			if ( $display_count > 0 )
 			{
-				echo '<b>' . sprintf(
+				echo '<span class="size-1">' . sprintf(
 					ngettext( '%d %s was found.', '%d %s were found.', $display_count ),
 					$display_count,
 					ngettext( $singular, $plural, $display_count )
-				) . '</b>';
+				) . '</span>';
 			}
 
 			if ( isset( $where_message ) )
@@ -431,7 +431,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				|| $display_count == 0 ) )
 		{
 			// No results message. Default to "Results".
-			echo '<b>' . sprintf(
+			echo '<b class="size-1">' . sprintf(
 				_( 'No %s were found.' ),
 				ngettext(
 					( $singular === '.' ? _( 'Result' ) : $singular ),
