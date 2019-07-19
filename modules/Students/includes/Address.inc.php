@@ -445,7 +445,7 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 
 	echo '<table><tr class="address st"><td class="valign-top">';
-	echo '<table class="widefat">';
+	echo '<table class="widefat cellpadding-5">';
 
 	if ( ! empty( $addresses_RET ) || $_REQUEST['address_id'] == 'new' || $_REQUEST['address_id'] == '0' )
 	{
