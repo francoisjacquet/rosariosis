@@ -11,7 +11,7 @@ $tables = array(
 	'SCHOOL_GRADELEVELS' => _( 'Grade Levels' ),
 );
 
-$table_list = '';
+$table_list = array();
 
 foreach ( (array) $tables as $table => $name )
 {
@@ -21,16 +21,18 @@ foreach ( (array) $tables as $table => $name )
 	if ( $table === 'CONFIG' )
 		$force_checked = true;
 
-	$table_list .= '<label>' . ( ! $force_checked ?
+	$table_list[] = '<label>' . ( ! $force_checked ?
 			'<input type="checkbox" value="Y" name="tables[' . $table . ']" checked />&nbsp;' :
 			'<input type="hidden" value="Y" name="tables[' . $table . ']" />
 			<input type="checkbox" onclick="return false;" checked disabled />&nbsp;' ) .
-		$name . '</label><br />';
+		$name . '</label>';
 }
 
 //FJ add translation
-$table_list .= '<br />' .
-	TextInput( _( 'New School' ), 'title', _( 'New School\'s Title' ), '', false );
+$table_list[] = TextInput( _( 'New School' ), 'title', _( 'New School\'s Title' ), '', false );
+
+$table_list_html = '<table class="widefat center"><tr><td>' .
+	implode( '</td></tr><tr><td>', $table_list ) . '</td></tr></table>';
 
 DrawHeader( ProgramTitle() );
 
@@ -41,7 +43,7 @@ $go = Prompt(
 		_( 'Are you sure you want to copy the data for %s to a new school?' ),
 		SchoolInfo( 'TITLE' )
 	),
-	$table_list
+	$table_list_html
 );
 
 if ( $go

@@ -23,6 +23,7 @@ Changes in 5.0
 - MP has Course Periods? Do NOT delete in MarkingPeriods.php
 - Accessibility CSS do not remove outline in stylesheet.css
 - Add Bulgarian translation, thanks to Vanyo Georgiev in locale/bg_BG/
+- HTML format Prompt tables list in CopySchool.php & Rollover.php
 
 
 Changes in 4.9.2

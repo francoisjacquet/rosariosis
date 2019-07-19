@@ -33,7 +33,7 @@ if ( $RosarioModules['Discipline'] )
 	$tables += array( 'DISCIPLINE_FIELD_USAGE' => _( 'Referral Form' ) );
 }
 
-$table_list = '<table style="float: left">';
+$table_list = '<table class="widefat center">';
 
 foreach ( (array) $tables as $table => $name )
 {
@@ -64,12 +64,12 @@ foreach ( (array) $tables as $table => $name )
 	}
 }
 
-$table_list .= '</table><br />'
+$table_list .= '</table><p>'
 . '* ' . _( 'You <i>must</i> roll users, school periods, marking periods, calendars, attendance codes, and report card codes at the same time or before rolling courses.' )
-. '<br /><br />* ' . _( 'You <i>must</i> roll enrollment codes at the same time or before rolling students.' )
-. '<br /><br />* ' . _( 'You <i>must</i> roll courses at the same time or before rolling report card comments.' )
-. '<br /><br />' . _( 'Greyed items have already have data in the next school year (They might have been rolled).' )
-. '<br /><br />' . _( 'Rolling greyed items will delete already existing data in the next school year.' );
+. '</p><p>* ' . _( 'You <i>must</i> roll enrollment codes at the same time or before rolling students.' )
+. '</p><p>* ' . _( 'You <i>must</i> roll courses at the same time or before rolling report card comments.' )
+. '</p><p>' . _( 'Greyed items have already have data in the next school year (They might have been rolled).' )
+. '</p><p>' . _( 'Rolling greyed items will delete already existing data in the next school year.' ) . '</p>';
 
 // Hook.
 do_action( 'School_Setup/Rollover.php|rollover_warnings' );
@@ -80,6 +80,7 @@ DrawHeader( ProgramTitle() );
 
 if ( Prompt(
 	_( 'Confirm' ) . ' ' . _( 'Rollover' ),
+	button( 'help', '', '', 'bigger' ) . '<br /><br />' .
 	sprintf(
 		_( 'Are you sure you want to roll the data for %s to the next school year?' ),
 		FormatSyear( UserSyear(), Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) )
