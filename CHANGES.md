@@ -22,6 +22,7 @@ Changes in 5.0
 - Delete school only if has NO students enrolled in Schools.php
 - MP has Course Periods? Do NOT delete in MarkingPeriods.php
 - Accessibility CSS do not remove outline in stylesheet.css
+- Add Bulgarian translation, thanks to Vanyo Georgiev in locale/bg_BG/
 
 
 Changes in 4.9.2

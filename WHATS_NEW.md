@@ -9,6 +9,8 @@ SQL speed: ID columns now use INTEGER type.
 
 Database integrity improvements: added foreign keys.
 
+Bulgarian translation (54% complete), thanks to Vanyo Georgiev
+
 
 New in 4.9
 ----------

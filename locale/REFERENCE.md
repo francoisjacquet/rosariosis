@@ -9,6 +9,7 @@ Do not forget to add the `.utf8` suffix to the locale code.
 | ar_AE | Arabic (United Arab Emirates) | **95%**   | Husam Shabeeb, Ali Al-Hassan |
 | ar_DZ | Arabic (Saudi Arabia)         | 37%       |                     |
 | be_BY | Belarusian (Belarus)          | 37%       |                     |
+| bg_BG | Bulgarian (Bulgaria)          | 54%       | Vanyo Georgiev      |
 | bn_BD | Bengali (Bangladesh)          | 36%       |                     |
 | cs_CZ | Czech (Czech Republic)        | 36%       |                     |
 | da_DK | Danish (Denmark)              | 36%       |                     |
