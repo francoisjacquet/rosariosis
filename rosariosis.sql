@@ -528,7 +528,7 @@ CREATE TABLE accounting_payments (
     id serial PRIMARY KEY,
     syear numeric(4,0) NOT NULL,
     school_id integer NOT NULL,
-    staff_id integer NOT NULL REFERENCES staff(staff_id),
+    staff_id integer REFERENCES staff(staff_id),
     amount numeric NOT NULL,
     payment_date date,
     comments character varying(255),
