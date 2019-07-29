@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 4.9.3
+----------------
+- Fix regression since v3.4.2 "Fix SQL error if MP was deleted" in ScheduleReport.php
+
 Changes in 4.9.2
 ----------------
 - CSS fix calendar below FlatSIS theme top menu in stylesheet.css

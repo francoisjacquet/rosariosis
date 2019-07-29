@@ -391,14 +391,14 @@ function calcSeats1($period,&$total_seats,&$filled_seats)
 
 	foreach ( explode( ',', $mps ) as $mp )
 	{
+		$mp = trim( $mp, "'" );
+
 		// Fix SQL error if MP was deleted.
 		if ( ! GetMP( $mp, 'MP' ) )
 		{
 			// Skip MP, does not exist, silently fail?
 			continue;
 		}
-
-		$mp = trim( $mp, "'" );
 
 		$seats = DBGet( "SELECT max((SELECT count(1)
 			FROM SCHEDULE ss
