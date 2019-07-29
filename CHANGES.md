@@ -30,6 +30,9 @@ Changes in 5.0
 - HTML stack question inputs & required question title in PortalPolls.php
 - Fix export to XLS, delimit strings in ListOutput.fnc.php
 
+Changes in 4.9.3
+----------------
+- Fix regression since v3.4.2 "Fix SQL error if MP was deleted" in ScheduleReport.php
 
 Changes in 4.9.2
 ----------------
