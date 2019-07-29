@@ -25,6 +25,7 @@ Changes in 5.0
 - Add Bulgarian translation, thanks to Vanyo Georgiev in locale/bg_BG/
 - HTML format Prompt tables list in CopySchool.php & Rollover.php
 - Default Text input size is 12 in Inputs.php
+- Remove Add a New / Existing Contact without an Address links in Address.inc.php
 
 
 Changes in 4.9.2
