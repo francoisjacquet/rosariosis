@@ -973,7 +973,7 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 			$column = str_replace( '[br]', ' ', $column );
 		}
 
-		if ( $extension === 'csv' )
+		if ( $extension === 'csv' || $extension === 'xls' )
 		{
 			$column = '"' . str_replace( '"', '""', $column ) . '"';
 		}
@@ -1006,7 +1006,7 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 				$value = str_replace( '[br]', $replace_br, $value );
 			}
 
-			if ( $extension === 'csv' )
+			if ( $extension === 'csv' || $extension === 'xls' )
 			{
 				$value = '"' . str_replace( '"', '""', $value ) . '"';
 			}
