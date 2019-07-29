@@ -449,6 +449,11 @@ if ( ! $_REQUEST['modfunc'] )
 		$_REQUEST['address_id'] = $addresses_RET ? key( $addresses_RET ) . '' : null;
 	}
 
+	if ( ! AllowEdit() && empty( $addresses_RET ) )
+	{
+		echo '<tr><td colspan="3">' . _( 'This student doesn\'t have an address.' ) . '</td></tr>';
+	}
+
 	foreach ( (array) $addresses_RET as $address_id => $addresses )
 	{
 		echo '<tr>';
@@ -573,8 +578,9 @@ if ( ! $_REQUEST['modfunc'] )
 		echo '</tr>';
 	}
 
-	if ( ! array_key_exists( '0', (array) $addresses_RET ) )
+	if ( AllowEdit() && ! array_key_exists( '0', (array) $addresses_RET ) )
 	{
+		// No Address link.
 		if ( $_REQUEST['address_id'] == '0' )
 		{
 			echo '<tr class="highlight">';
@@ -621,32 +627,6 @@ if ( ! $_REQUEST['modfunc'] )
 		echo '<a href="' . $link . '">' . _( 'Add an <b>Existing</b> Address' ) . '</a></td>';
 
 		echo '<td></td></tr>';
-
-		// New Contact without Address.
-		/*echo $_REQUEST['address_id'] == '0' && $_REQUEST['person_id'] == 'new' ?
-		$tr_add_highlight :
-		$tr_add_highlight_hover;
-
-		$link = 'Modules.php?modname=' . $_REQUEST['modname'] .
-			'&category_id=' . $_REQUEST['category_id'] . '&address_id=0&person_id=new';
-
-		echo '<a href="' . $link . '">' .
-		_( 'Add a <b>New</b> Contact<br />without an Address' ) . ' &nbsp; </a></td>';
-
-		echo '<td><a href="' . $link . '" class="arrow right"></a></td></tr>';*/
-
-		// Existing Contact without Address.
-		/*echo $_REQUEST['address_id'] == '0' && $_REQUEST['person_id'] == 'old' ?
-		$tr_add_highlight :
-		$tr_add_highlight_hover;
-
-		$link = 'Modules.php?modname=' . $_REQUEST['modname'] .
-			'&category_id=' . $_REQUEST['category_id'] . '&address_id=0&person_id=old';
-
-		echo '<a href="' . $link . '">' .
-		_( 'Add an <b>Existing</b> Contact<br />without an Address' ) . ' &nbsp; </a></td>';
-
-		echo '<td><a href="' . $link . '" class="arrow right"></a></td></tr>';*/
 	}
 
 	echo '</table></td>';
@@ -658,13 +638,6 @@ if ( ! $_REQUEST['modfunc'] )
 
 		if ( $_REQUEST['address_id'] !== 'new' && $_REQUEST['address_id'] != 'old' )
 		{
-			if ( ! empty( $contacts_RET ) || AllowEdit() )
-			{
-				echo '<table class="widefat width-100p"><tr><th colspan="3">';
-
-				echo ( $_REQUEST['address_id'] == '0' ? _( 'Contacts without an Address' ) : _( 'Contacts at this Address' ) ) . '</th></tr>';
-			}
-
 			$contacts_RET = DBGet( "SELECT p.PERSON_ID,p.FIRST_NAME,p.MIDDLE_NAME,p.LAST_NAME,
 				sjp.CUSTODY,sjp.EMERGENCY,sjp.STUDENT_RELATION
 				FROM PEOPLE p,STUDENTS_JOIN_PEOPLE sjp
@@ -672,6 +645,13 @@ if ( ! $_REQUEST['modfunc'] )
 				AND sjp.STUDENT_ID='" . UserStudentID() . "'
 				AND sjp.ADDRESS_ID='" . $_REQUEST['address_id'] . "'
 				ORDER BY sjp.STUDENT_RELATION" );
+
+			if ( ! empty( $contacts_RET ) || AllowEdit() )
+			{
+				echo '<table class="widefat width-100p"><tr><th colspan="3">';
+
+				echo ( $_REQUEST['address_id'] == '0' ? _( 'Contacts without an Address' ) : _( 'Contacts at this Address' ) ) . '</th></tr>';
+			}
 
 			$i = 1;
 
@@ -913,7 +893,7 @@ if ( ! $_REQUEST['modfunc'] )
 			{
 				$display_address = urlencode( $this_address['ADDRESS'] . ', ' . ( $this_address['CITY'] ? ' ' . $this_address['CITY'] . ', ' : '' ) . $this_address['STATE'] . ( $this_address['ZIPCODE'] ? ' ' . $this_address['ZIPCODE'] : '' ) );
 
-				$link = 'http://google.com/maps?q=' . $display_address;
+				$link = 'https://www.openstreetmap.org/search?query=' . $display_address;
 
 				echo '<tr><td class="valign-top" colspan="3">' .
 				button(
@@ -921,7 +901,7 @@ if ( ! $_REQUEST['modfunc'] )
 					_( 'Map It' ),
 					'# onclick=\'popups.open(
 							"' . $link . '",
-							"scrollbars=yes,resizable=yes,width=800,height=700"
+							"scrollbars=yes,resizable=yes,width=1000,height=700"
 						); return false;\'',
 					'bigger'
 				) . '</td></tr>';
