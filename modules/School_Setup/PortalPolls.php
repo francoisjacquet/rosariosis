@@ -356,7 +356,8 @@ function _makeOptionsInput( $value, $name )
 		'values[' . $portal_poll_id . '][' . $id . '][' . $name . ']',
 		_( 'Options' ) .
 		( $portal_poll_id == 'new' ?
-			'<div class="tooltip"><i>' . _( 'One per line' ) . '</i></div>' :
+			// Do not use tooltip inside overflow, it sticks due to its absolute position.
+			' - <span class="size-1">' . _( 'One per line' ) . '</span>' :
 			''
 		),
 		'rows=3 cols=20',
