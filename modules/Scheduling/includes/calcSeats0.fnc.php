@@ -36,5 +36,5 @@ function calcSeats0( $period, $date = '' )
 		) )
 	) . " AND '" . GetMP( $mp, 'END_DATE' ) . "'" );
 
-	return $filled_seats;
+	return (string) (int) $filled_seats;
 }
