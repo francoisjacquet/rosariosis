@@ -199,7 +199,7 @@ function _makeCurrency( $value, $column )
 {
 	global $totals;
 
-	$totals[$column] += $value;
+	$totals[$column] += (float) $value;
 
 	if ( ! empty( $value ) || $value == '0' )
 	{
