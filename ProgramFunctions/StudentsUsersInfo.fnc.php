@@ -712,7 +712,7 @@ function _makeComments( $value, $column )
 		$THIS_RET['ID'] = 'new';
 	}
 
-	$input_size = 10;
+	$input_size = 12;
 
 	if ( $column === 'TIME_IN'
 		|| $column === 'TIME_OUT' )

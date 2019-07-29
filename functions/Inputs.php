@@ -105,7 +105,7 @@ function TextInput( $value, $name, $title = '', $extra = '', $div = true )
 	if ( mb_strpos( $extra, 'size=' ) === false )
 	{
 		// Max size is 32 (more or less 300px)
-		$extra .= $value != '' ? ' size="' . min( mb_strlen( $value ), 32 ) . '"' : ' size="10"';
+		$extra .= $value != '' ? ' size="' . min( mb_strlen( $value ), 32 ) . '"' : ' size="12"';
 	}
 
 	// Specify input type via $extra (email,...).
