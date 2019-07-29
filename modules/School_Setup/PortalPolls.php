@@ -79,7 +79,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 						foreach ( (array) $value as $col => $val )
 						{
-							$sql_question_cols .= $col . "='" . $val . "',";
+							$sql_question_cols .= DBEscapeIdentifier( $col ) . "='" . $val . "',";
 						}
 
 						$sql_questions[] = $sql_question . $sql_question_cols;
@@ -147,6 +147,11 @@ if ( $_REQUEST['modfunc'] === 'update'
 					{
 						if ( mb_strpos( $column, 'new' ) !== false )
 						{
+							if ( ! $value['QUESTION'] )
+							{
+								continue;
+							}
+
 							$go_question = 0;
 							$fields_question = 'ID,PORTAL_POLL_ID,';
 
@@ -157,7 +162,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 							{
 								if ( $val )
 								{
-									$fields_question .= $col . ',';
+									$fields_question .= DBEscapeIdentifier( $col ) . ',';
 									$values_question .= "'" . $val . "',";
 									$go_question = true;
 								}
@@ -165,7 +170,8 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 							if ( $go_question )
 							{
-								$sql_questions[] = $sql_question . '(' . mb_substr( $fields_question, 0, -1 ) . ') values(' . mb_substr( $values_question, 0, -1 ) . ')';
+								$sql_questions[] = $sql_question . '(' . mb_substr( $fields_question, 0, -1 ) .
+									') values(' . mb_substr( $values_question, 0, -1 ) . ')';
 							}
 						}
 						else
@@ -231,11 +237,36 @@ if ( ! $_REQUEST['modfunc'] )
 	ORDER BY EXPIRED DESC,pp.SORT_ORDER,pp.PUBLISHED_DATE DESC";
 
 	$QI = DBQuery( $sql );
-	$polls_RET = DBGet( $QI, array( 'TITLE' => '_makeTextInput', 'OPTIONS' => '_makeOptionsInputs', 'VOTES_NUMBER' => '_makePollVotes', 'SORT_ORDER' => '_makeTextInput', 'START_DATE' => 'makePublishing' ) );
 
-	$columns = array( 'TITLE' => _( 'Title' ), 'OPTIONS' => _( 'Poll' ), 'VOTES_NUMBER' => _( 'Results' ), 'SORT_ORDER' => _( 'Sort Order' ), 'START_DATE' => _( 'Publishing Options' ) );
+	$polls_RET = DBGet(
+		$QI,
+		array(
+			'TITLE' => '_makeTextInput',
+			'OPTIONS' => '_makeOptionsInputs',
+			'VOTES_NUMBER' => '_makePollVotes',
+			'SORT_ORDER' => '_makeTextInput',
+			'START_DATE' => 'makePublishing',
+		)
+	);
+
+	$columns = array(
+		'TITLE' => _( 'Title' ),
+		'OPTIONS' => _( 'Poll' ),
+		'VOTES_NUMBER' => _( 'Results' ),
+		'SORT_ORDER' => _( 'Sort Order' ),
+		'START_DATE' => _( 'Publishing Options' ),
+	);
 	//,'START_TIME' => 'Start Time','END_TIME' => 'End Time'
-	$link['add']['html'] = array( 'TITLE' => _makeTextInput( '', 'TITLE' ), 'OPTIONS' => _makeOptionsInputs( '', 'OPTIONS' ), 'VOTES_NUMBER' => _makePollVotes( '', 'VOTES_NUMBER' ), 'SHORT_NAME' => _makeTextInput( '', 'SHORT_NAME' ), 'SORT_ORDER' => _makeTextInput( '', 'SORT_ORDER' ), 'START_DATE' => makePublishing( '', 'START_DATE' ) );
+
+	$link['add']['html'] = array(
+		'TITLE' => _makeTextInput( '', 'TITLE' ),
+		'OPTIONS' => _makeOptionsInputs( '', 'OPTIONS' ),
+		'VOTES_NUMBER' => _makePollVotes( '', 'VOTES_NUMBER' ),
+		'SHORT_NAME' => _makeTextInput( '', 'SHORT_NAME' ),
+		'SORT_ORDER' => _makeTextInput( '', 'SORT_ORDER' ),
+		'START_DATE' => makePublishing( '', 'START_DATE' ),
+	);
+
 	$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove';
 	$link['remove']['variables'] = array( 'id' => 'ID' );
 
@@ -291,7 +322,7 @@ function _makeTextInput( $value, $name )
 function _makeOptionsInput( $value, $name )
 {
 	global $THIS_RET, $portal_poll_id;
-	static $OptionNb = 0;
+	static $option_nb = 1;
 
 	if ( $THIS_RET['ID'] )
 	{
@@ -301,40 +332,44 @@ function _makeOptionsInput( $value, $name )
 	else
 	{
 		$portal_poll_id = 'new';
-		$id = 'new' . $OptionNb;
+		$id = 'new' . $option_nb;
 	}
 
 	if ( $portal_poll_id == $old_portal_poll_id )
 	{
-		$OptionNb++;
+		$option_nb++;
 	}
 
 	$old_portal_poll_id = $portal_poll_id;
 
 	$type_options = array( 'multiple_radio' => _( 'Select One from Options' ), 'multiple' => _( 'Select Multiple from Options' ) );
 
-	return '<tr' . ( $portal_poll_id == 'new' ? ' id="newOption_0"' : '' ) . '><td>' .
+	return '<tr' . ( $portal_poll_id == 'new' ? ' id="new-option-1"' : '' ) . '><td><div>' .
 	TextInput(
 		$THIS_RET['QUESTION'],
 		'values[' . $portal_poll_id . '][' . $id . '][QUESTION]',
-		'',
-		'maxlength=255 size=20'
-	) . '</td><td>' .
+		_( 'Title' ),
+		'maxlength=255 size=20' . ( $portal_poll_id == 'new' ? '' : ' required' )
+	) . '</div><div>' .
 	TextAreaInput(
 		$value,
 		'values[' . $portal_poll_id . '][' . $id . '][' . $name . ']',
-		'',
+		_( 'Options' ) .
+		( $portal_poll_id == 'new' ?
+			'<div class="tooltip"><i>' . _( 'One per line' ) . '</i></div>' :
+			''
+		),
 		'rows=3 cols=20',
 		true,
 		'text'
-	) . ( $portal_poll_id == 'new' ? '<br />' . _( '* one per line' ) : '' ) . '</td><td>' .
+	) . '</div><div>' .
 	SelectInput(
 		$THIS_RET['TYPE'],
 		'values[' . $portal_poll_id . '][' . $id . '][TYPE]',
-		'',
+		_( 'Data Type' ),
 		$type_options,
 		false
-	) . '</td></tr>';
+	) . '</div></td></tr>';
 }
 
 /**
@@ -371,31 +406,41 @@ function _makeOptionsInputs( $value, $name )
 
 	if ( $id == 'new' )
 	{
-		$return .= '<script>
-			function newOption()
+		ob_start();
+		?>
+		<script>
+			var portalPollNewOption = function()
 			{
-				var table = document.getElementById(\'newOptionsTable\');
-				var nbOptions = (table.rows.length - 3);
-				row = table.insertRow(2+nbOptions);
-				// insert table cells to the new row
-				var tr = document.getElementById(\'newOption_\'+nbOptions);
-				row.setAttribute(\'id\', \'newOption_\'+(nbOptions+1));
-				for (i = 0; i < 3; i++) {
-					createCell(row.insertCell(i), tr, i, nbOptions+1);
+				var table = document.getElementById('new-options-table'),
+					nbOptions = (table.rows.length - 1),
+					row = table.insertRow(nbOptions);
+
+				// Fill the cells.
+				function createCell(cell, tr, newId) {
+					cell.innerHTML = tr.cells[0].innerHTML;
+					reg = new RegExp('new' + (newId - 1),'g'); //g for global string
+					cell.innerHTML = cell.innerHTML.replace(reg, 'new' + newId);
 				}
-			}
-			// fill the cells
-			function createCell(cell, tr, i, newId) {
-				cell.innerHTML = tr.cells[i].innerHTML;
-				reg = new RegExp(\'new\' + (newId-1),\'g\'); //g for global string
-				cell.innerHTML = cell.innerHTML.replace(reg, \'new\'+newId);
-			}
-		</script>';
-		$return .= '<table class="widefat" id="newOptionsTable"><tr><td><b>' . _( 'Question' ) . '</b></td><td><b>' . _( 'Options' ) . '</b></td><td><b>' . _( 'Data Type' ) . '</b></td></tr>' . $value . '<tr><td colspan="3" class="align-right"><a href="#" onclick="newOption();return false;">' . button( 'add' ) . ' ' . _( 'New Question' ) . '</a></tr></table>';
+
+				// Insert table cells to the new row.
+				var tr = document.getElementById('new-option-' + nbOptions);
+
+				row.setAttribute('id', 'new-option-' + (nbOptions + 1));
+
+				createCell(row.insertCell(0), tr, nbOptions + 1);
+			};
+		</script>
+		<?php
+		$return .= ob_get_clean();
+
+		$return .= '<table class="widefat" id="new-options-table">' .
+			$value .
+			'<tr><td class="align-right"><a href="#" onclick="portalPollNewOption();return false;">' .
+			button( 'add' ) . ' ' . _( 'New Question' ) . '</a></tr></table>';
 	}
 	else
 	{
-		$return .= '<table class="widefat"><tr><td><b>' . _( 'Question' ) . '</b></td><td><b>' . _( 'Options' ) . '</b></td><td><b>' . _( 'Data Type' ) . '</b></td></tr>' . $value . '</table>';
+		$return .= '<table class="widefat">' . $value . '</table>';
 	}
 
 	$return .= '</div>';

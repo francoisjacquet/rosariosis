@@ -27,6 +27,7 @@ Changes in 5.0
 - Default Text input size is 12 in Inputs.php
 - Remove Add a New / Existing Contact without an Address links in Address.inc.php
 - Use openstreetmap.org to map addresses in Address.inc.php
+- HTML stack question inputs & required question title in PortalPolls.php
 
 
 Changes in 4.9.2
