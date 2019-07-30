@@ -120,7 +120,8 @@ function HelpLoad( $force = false )
 
 	global $RosarioModules,
 		$RosarioCoreModules,
-		$help;
+		$help,
+		$locale;
 
 	if ( $help_loaded
 		&& ! $force )
