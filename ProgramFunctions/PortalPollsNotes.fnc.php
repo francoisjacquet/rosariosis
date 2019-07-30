@@ -566,7 +566,7 @@ function makeFileAttached( $value, $name )
 	{
 		$id = 'new';
 
-		$return .= '<div id="divFileAttached' . $id . '" class="rt2colorBox">';
+		$return = '<div id="divFileAttached' . $id . '" class="rt2colorBox">';
 		$return .= '<div>
 			<label>
 				<input type="radio" name="values[new][FILE_OR_EMBED]" value="FILE">&nbsp;';

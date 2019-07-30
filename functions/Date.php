@@ -662,7 +662,7 @@ function AddRequestedDates( $request_index, $add_to_post = '' )
 		$_REQUEST[ 'day_' . $request_index ]
 	);
 
-	if ( is_array( $_REQUEST[ $request_index ] ) )
+	if ( isset( $_REQUEST[ $request_index ] ) && is_array( $_REQUEST[ $request_index ] ) )
 	{
 		$_REQUEST[ $request_index ] = array_replace_recursive(
 			(array) $_REQUEST[ $request_index ],

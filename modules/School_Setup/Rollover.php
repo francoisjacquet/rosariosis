@@ -42,7 +42,7 @@ foreach ( (array) $tables as $table => $name )
 		$exists_RET[$table] = DBGet( "SELECT count(*) AS COUNT
 			FROM $table
 			WHERE SYEAR='" . $next_syear . "'" .
-			( ! $no_school_tables[$table] ? " AND SCHOOL_ID='" . UserSchool() . "'" : '' ) );
+			( empty( $no_school_tables[$table] ) ? " AND SCHOOL_ID='" . UserSchool() . "'" : '' ) );
 	}
 	else
 	{

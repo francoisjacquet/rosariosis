@@ -29,7 +29,8 @@ function FileUpload( $input, $path, $ext_white_list, $size_limit, &$error, $fina
 
 	if ( ! $final_ext )
 	{
-		$final_ext = mb_strtolower( mb_strrchr( $_FILES[ $input ]['name'], '.' ) );
+		$final_ext = empty( $_FILES[ $input ]['tmp_name'] ) ? '' :
+			mb_strtolower( mb_strrchr( $_FILES[ $input ]['name'], '.' ) );
 	}
 
 	if ( $file_name_no_ext )
@@ -37,7 +38,8 @@ function FileUpload( $input, $path, $ext_white_list, $size_limit, &$error, $fina
 		$file_name = $file_name_no_ext . $final_ext;
 	}
 
-	if ( ! is_uploaded_file( $_FILES[ $input ]['tmp_name'] ) )
+	if ( empty( $_FILES[ $input ]['tmp_name'] )
+		|| ! is_uploaded_file( $_FILES[ $input ]['tmp_name'] ) )
 	{
 		// Check the post_max_size & php_value upload_max_filesize values in the php.ini file.
 		$error[] = _( 'File not uploaded' );

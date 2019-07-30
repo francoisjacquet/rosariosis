@@ -32,9 +32,9 @@ if ( $_REQUEST['modfunc'] === 'update' )
 			if (  ( ! empty( $_REQUEST['values']['NUMBER_DAYS_ROTATION'] )
 				&& ! is_numeric( $_REQUEST['values']['NUMBER_DAYS_ROTATION'] ) )
 				|| ( ! empty( $_REQUEST['values']['REPORTING_GP_SCALE'] )
-					&& ! is_numeric( $_REQUEST['values']['REPORTING_GP_SCALE'] )
-					// Fix DB error with REPORTING_GP_SCALE field numeric(10,3) type.
-					 || $_REQUEST['values']['REPORTING_GP_SCALE'] >= 10000000 ) )
+					&& ( ! is_numeric( $_REQUEST['values']['REPORTING_GP_SCALE'] )
+						// Fix DB error with REPORTING_GP_SCALE field numeric(10,3) type.
+						|| $_REQUEST['values']['REPORTING_GP_SCALE'] >= 10000000 ) ) )
 			{
 				$error[] = _( 'Please enter valid Numeric data.' );
 			}
@@ -124,7 +124,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 	{
 		if ( DeletePrompt( _( 'School' ) ) )
 		{
-			$delete_sql .= "DELETE FROM SCHOOL_GRADELEVELS WHERE SCHOOL_ID='" . UserSchool() . "';";
+			$delete_sql = "DELETE FROM SCHOOL_GRADELEVELS WHERE SCHOOL_ID='" . UserSchool() . "';";
 			$delete_sql .= "DELETE FROM ATTENDANCE_CALENDAR WHERE SCHOOL_ID='" . UserSchool() . "';";
 			$delete_sql .= "DELETE FROM ATTENDANCE_CALENDARS WHERE SCHOOL_ID='" . UserSchool() . "';";
 			$delete_sql .= "DELETE FROM ATTENDANCE_CODES WHERE SCHOOL_ID='" . UserSchool() . "';";

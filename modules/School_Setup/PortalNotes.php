@@ -90,6 +90,8 @@ if ( $_REQUEST['modfunc'] === 'update'
 			// New: check for Title.
 			elseif ( $columns['TITLE'] )
 			{
+				$_REQUEST['values']['new']['PUBLISHED_PROFILES'] = '';
+
 				foreach ( array( 'admin', 'teacher', 'parent' ) as $profile_id )
 				{
 					if ( isset( $_REQUEST['profiles']['new'][$profile_id] )
@@ -251,6 +253,8 @@ function _makeTextInput( $value, $name )
 		$id = 'new';
 	}
 
+	$extra = '';
+
 	if ( $name !== 'TITLE' )
 	{
 		$extra = 'size=5 maxlength=10';
@@ -288,8 +292,8 @@ function _makeContentInput( $value, $name )
 		$id = 'new';
 	}
 
-	$return .= '<div id="divNoteContent' . $id . '" class="rt2colorBox">' .
-	TextAreaInput( $value, "values[" . $id . "][" . $name . "]", '', 'rows=5' ) .
+	$return = '<div id="divNoteContent' . $id . '" class="rt2colorBox">' .
+		TextAreaInput( $value, "values[" . $id . "][" . $name . "]", '', 'rows=5' ) .
 		'</div>';
 
 	return $return;

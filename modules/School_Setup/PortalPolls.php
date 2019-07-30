@@ -106,6 +106,8 @@ if ( $_REQUEST['modfunc'] === 'update'
 			// New: check for Title.
 			elseif ( $columns['TITLE'] )
 			{
+				$_REQUEST['values']['new']['PUBLISHED_PROFILES'] = '';
+
 				foreach ( array( 'admin', 'teacher', 'parent' ) as $profile_id )
 				{
 					if ( isset( $_REQUEST['profiles']['new'][$profile_id] )
@@ -296,6 +298,8 @@ function _makeTextInput( $value, $name )
 		$id = 'new';
 	}
 
+	$extra = '';
+
 	if ( $name !== 'TITLE' )
 	{
 		$extra = 'size=5 maxlength=10';
@@ -334,13 +338,6 @@ function _makeOptionsInput( $value, $name )
 		$portal_poll_id = 'new';
 		$id = 'new' . $option_nb;
 	}
-
-	if ( $portal_poll_id == $old_portal_poll_id )
-	{
-		$option_nb++;
-	}
-
-	$old_portal_poll_id = $portal_poll_id;
 
 	$type_options = array( 'multiple_radio' => _( 'Select One from Options' ), 'multiple' => _( 'Select Multiple from Options' ) );
 
@@ -403,7 +400,7 @@ function _makeOptionsInputs( $value, $name )
 	}
 
 	//FJ responsive rt td too large
-	$return .= '<div id="divPollOptions' . $id . '" style="max-height: 350px; overflow-y: auto;" class="rt2colorBox">';
+	$return = '<div id="divPollOptions' . $id . '" style="max-height: 350px; overflow-y: auto;" class="rt2colorBox">';
 
 	if ( $id == 'new' )
 	{

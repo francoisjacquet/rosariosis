@@ -206,11 +206,11 @@ if ( ! empty( $_POST['tables'] )
 			FROM SCHOOL_MARKING_PERIODS
 			WHERE MP='" . $_REQUEST['mp_term'] . "'
 			AND ( true=false" .
-			( $columns['START_DATE'] ? " OR '" . $columns['START_DATE'] .
+			( ! empty( $columns['START_DATE'] ) ? " OR '" . $columns['START_DATE'] .
 				"' BETWEEN START_DATE AND END_DATE" : '' ) .
-			( $columns['END_DATE'] ? " OR '" . $columns['END_DATE'] .
+			( ! empty( $columns['END_DATE'] ) ? " OR '" . $columns['END_DATE'] .
 				"' BETWEEN START_DATE AND END_DATE" : '' ) .
-			( $columns['START_DATE'] && $columns['END_DATE'] ?
+			( ! empty( $columns['START_DATE'] ) && ! empty( $columns['END_DATE'] ) ?
 				" OR START_DATE BETWEEN '" . $columns['START_DATE'] . "' AND '" . $columns['END_DATE'] . "'" .
 				" OR END_DATE BETWEEN '" . $columns['START_DATE'] . "' AND '" . $columns['END_DATE'] . "'" : '') . ")
 			AND SCHOOL_ID='" . UserSchool() . "'
@@ -223,11 +223,11 @@ if ( ! empty( $_POST['tables'] )
 			FROM SCHOOL_MARKING_PERIODS
 			WHERE MP='" . $_REQUEST['mp_term'] . "'
 			AND ( true=false" .
-			( $columns['POST_START_DATE'] ? " OR '" . $columns['POST_START_DATE'] .
+			( ! empty( $columns['POST_START_DATE'] ) ? " OR '" . $columns['POST_START_DATE'] .
 				"' BETWEEN POST_START_DATE AND POST_END_DATE" : '' ) .
-			( $columns['POST_END_DATE'] ? " OR '" . $columns['POST_END_DATE'] .
+			( ! empty( $columns['POST_END_DATE'] ) ? " OR '" . $columns['POST_END_DATE'] .
 				"' BETWEEN POST_START_DATE AND POST_END_DATE" : '' ) .
-			( $columns['POST_START_DATE'] && $columns['POST_END_DATE'] ?
+			( ! empty( $columns['POST_START_DATE'] ) && ! empty( $columns['POST_END_DATE'] ) ?
 				" OR POST_START_DATE BETWEEN '" . $columns['POST_START_DATE'] . "' AND '" . $columns['POST_END_DATE'] . "'" .
 				" OR POST_END_DATE BETWEEN '" . $columns['POST_START_DATE'] . "' AND '" . $columns['POST_END_DATE'] . "'" : '' ) . ")
 			AND SCHOOL_ID='" . UserSchool() . "'
@@ -390,7 +390,11 @@ if ( ! $_REQUEST['modfunc'] )
 		$title = $RET['TITLE'];
 	}
 
-	$mp_href = 'Modules.php?modname=' . $_REQUEST['modname'] . '&mp_term=' . $_REQUEST['mp_term'] . '&year_id=' . $_REQUEST['year_id'] . '&semester_id=' . $_REQUEST['semester_id'] . '&quarter_id=' . $_REQUEST['quarter_id'] . '&marking_period_id=' . $_REQUEST['marking_period_id'];
+	$mp_href = 'Modules.php?modname=' . $_REQUEST['modname'] . '&mp_term=' . $_REQUEST['mp_term'] .
+		'&year_id=' . ( empty( $_REQUEST['year_id'] ) ? '' : $_REQUEST['year_id'] ) .
+		'&semester_id=' . ( empty( $_REQUEST['semester_id'] ) ? '' : $_REQUEST['semester_id'] ) .
+		'&quarter_id=' . ( empty( $_REQUEST['quarter_id'] ) ? '' : $_REQUEST['quarter_id'] ) .
+		'&marking_period_id=' . $_REQUEST['marking_period_id'];
 
 	$delete_button = '';
 
@@ -436,24 +440,24 @@ if ( ! $_REQUEST['modfunc'] )
 
 	DrawHeader( $title, $delete_button . SubmitButton() );
 
-	$header .= '<table class="width-100p valign-top fixed-col"><tr class="st">';
+	$header = '<table class="width-100p valign-top fixed-col"><tr class="st">';
 
 	$header .= '<td>' . TextInput(
-		$RET['TITLE'],
+		( isset( $RET['TITLE'] ) ? $RET['TITLE'] : '' ),
 		'tables[' . $_REQUEST['marking_period_id'] . '][TITLE]',
 		_( 'Title' ),
 		'required maxlength="50"'
 	) . '</td>';
 
 	$header .= '<td>' . TextInput(
-		$RET['SHORT_NAME'],
+		( isset( $RET['SHORT_NAME'] ) ? $RET['SHORT_NAME'] : '' ),
 		'tables[' . $_REQUEST['marking_period_id'] . '][SHORT_NAME]',
 		_( 'Short Name' ),
 		'required maxlength="10"'
 	) . '</td>';
 
 	$header .= '<td>' . TextInput(
-		$RET['SORT_ORDER'],
+		( isset( $RET['SORT_ORDER'] ) ? $RET['SORT_ORDER'] : '' ),
 		'tables[' . $_REQUEST['marking_period_id'] . '][SORT_ORDER]',
 		_( 'Sort Order' ),
 		'size="3" maxlength="4"'
@@ -484,7 +488,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$js_onclick_post_dates_required = 'onclick="mpGradedOnclickPostDatesRequired( this );"';
 
 	$header .= '<td>' . CheckboxInput(
-		$RET['DOES_GRADES'],
+		( isset( $RET['DOES_GRADES'] ) ? $RET['DOES_GRADES'] : '' ),
 		'tables[' . $_REQUEST['marking_period_id'] . '][DOES_GRADES]',
 		_( 'Graded' ),
 		'',
@@ -496,7 +500,7 @@ if ( ! $_REQUEST['modfunc'] )
 	) . '</td>';
 
 	$header .= '<td>' . CheckboxInput(
-		$RET['DOES_COMMENTS'],
+		( isset( $RET['DOES_COMMENTS'] ) ? $RET['DOES_COMMENTS'] : '' ),
 		'tables[' . $_REQUEST['marking_period_id'] . '][DOES_COMMENTS]',
 		_( 'Comments' ),
 		'',
@@ -510,7 +514,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$required = $allow_na = $div = true;
 
 	$header .= '<td>' . DateInput(
-		$RET['START_DATE'],
+		( isset( $RET['START_DATE'] ) ? $RET['START_DATE'] : '' ),
 		'tables[' . $_REQUEST['marking_period_id'] . '][START_DATE]',
 		_( 'Begins' ),
 		$div,
@@ -519,7 +523,7 @@ if ( ! $_REQUEST['modfunc'] )
 	) . '</td>';
 
 	$header .= '<td>' . DateInput(
-		$RET['END_DATE'],
+		( isset( $RET['END_DATE'] ) ? $RET['END_DATE'] : '' ),
 		'tables[' . $_REQUEST['marking_period_id'] . '][END_DATE]',
 		_( 'Ends' ),
 		$div,
@@ -527,12 +531,12 @@ if ( ! $_REQUEST['modfunc'] )
 		$required
 	) . '</td>';
 
-	$required = $RET['DOES_GRADES'];
+	$required = ! empty( $RET['DOES_GRADES'] );
 
-	$red = $RET['DOES_GRADES'] && ! $RET['POST_END_DATE'];
+	$red = ! empty( $RET['DOES_GRADES'] ) && empty( $RET['POST_END_DATE'] );
 
 	$header .= '<td>' . DateInput(
-		$RET['POST_START_DATE'],
+		( isset( $RET['POST_START_DATE'] ) ? $RET['POST_START_DATE'] : '' ),
 		'tables[' . $_REQUEST['marking_period_id'] . '][POST_START_DATE]',
 		( $red ? '<span class="legend-red">' : '' ) . _( 'Grade Posting Begins' ) . ( $red ? '</span>' : '' ),
 		$div,
@@ -541,7 +545,7 @@ if ( ! $_REQUEST['modfunc'] )
 	) . '</td>';
 
 	$header .= '<td>' . DateInput(
-		$RET['POST_END_DATE'],
+		( isset( $RET['POST_END_DATE'] ) ? $RET['POST_END_DATE'] : '' ),
 		'tables[' . $_REQUEST['marking_period_id'] . '][POST_END_DATE]',
 		( $red ? '<span class="legend-red">' : '' ) . _( 'Grade Posting Ends' ) . ( $red ? '</span>' : '' ),
 		$div,
@@ -624,8 +628,11 @@ if ( ! $_REQUEST['modfunc'] )
 
 				foreach ( (array) $sem_RET as $key => $value )
 				{
-					if ( $value['MARKING_PERIOD_ID'] === $_REQUEST['semester_id'] )
+					if ( ! empty( $_REQUEST['semester_id'] )
+						&& $value['MARKING_PERIOD_ID'] === $_REQUEST['semester_id'] )
+					{
 						$sem_RET[ $key ]['row_color'] = Preferences( 'HIGHLIGHT' );
+					}
 				}
 			}
 		}

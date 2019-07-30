@@ -239,7 +239,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 		'SCHOOL',
 	);*/
 
-	$id = $RET['ID'];
+	$id = isset( $RET['ID'] ) ? $RET['ID'] : '';
 
 	$category_id = empty( $RET['CATEGORY_ID'] ) ? '' : $RET['CATEGORY_ID'];
 
@@ -284,6 +284,8 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 
 	$form .= '&table=' . $full_table . '" method="POST">';
 
+	$delete_button = '';
+
 	if ( AllowEdit()
 		&& ! $new
 		&& ( $id
@@ -318,9 +320,10 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 	{
 		// FJ field name required.
 		$header .= '<td>' . MLTextInput(
-			$RET['TITLE'],
+			( isset( $RET['TITLE'] ) ? $RET['TITLE'] : '' ),
 			'tables[' . $id . '][TITLE]',
-			( ! $RET['TITLE'] ? '<span class="legend-red">' : '' ) . _( 'Field Name' ) . ( ! $RET['TITLE'] ? '</span>' : '' )
+			( empty( $RET['TITLE'] ) ? '<span class="legend-red">' : '' ) . _( 'Field Name' ) .
+				( empty( $RET['TITLE'] ) ? '</span>' : '' )
 		) . '</td>';
 
 		if ( ! $type_options )
@@ -372,7 +375,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 		else
 		{
 			$header .= '<td' . ( ! $category_id ? ' colspan="2"' : '' ) . '>' . SelectInput(
-				$RET['TYPE'],
+				( isset( $RET['TYPE'] ) ? $RET['TYPE'] : '' ),
 				'tables[' . $id . '][TYPE]',
 				_( 'Data Type' ),
 				$type_options,
@@ -405,14 +408,15 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 		$header .= '</tr><tr class="st">';
 
 		// Select Options TextArea field.
-		if ( in_array( $RET['TYPE'], array( 'autos', 'select', 'multiple', 'exports' ) )
+		if ( isset( $RET['TYPE'] )
+			&& in_array( $RET['TYPE'], array( 'autos', 'select', 'multiple', 'exports' ) )
 			|| ( $new
 				&& array_intersect(
 					array_keys( $type_options ),
 					array( 'autos', 'select', 'multiple', 'exports' ) ) ) )
 		{
 			$header .= '<td colspan="3">' . TextAreaInput(
-				$RET['SELECT_OPTIONS'],
+				( isset( $RET['SELECT_OPTIONS'] ) ? $RET['SELECT_OPTIONS'] : '' ),
 				'tables[' . $id . '][SELECT_OPTIONS]',
 				_( 'Pull-Down' ) . '/' . _( 'Auto Pull-Down' ) . '/' . _( 'Export Pull-Down' ) . '/' .
 				_( 'Select Multiple from Options' ) .
@@ -427,7 +431,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 
 		// Default Selection field.
 		$header .= '<td>' . TextInput(
-			$RET['DEFAULT_SELECTION'],
+			( isset( $RET['DEFAULT_SELECTION'] ) ? $RET['DEFAULT_SELECTION'] : '' ),
 			'tables[' . $id . '][DEFAULT_SELECTION]',
 			_( 'Default' ) .
 			'<div class="tooltip"><i>' . _( 'For dates: YYYY-MM-DD' ).'<br />' .
@@ -436,7 +440,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 
 		// Required field.
 		$header .= '<td>' . CheckboxInput(
-			$RET['REQUIRED'],
+			( isset( $RET['REQUIRED'] ) ? $RET['REQUIRED'] : '' ),
 			'tables[' . $id . '][REQUIRED]',
 			_( 'Required' ),
 			'',
@@ -445,7 +449,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 
 		// Sort Order field.
 		$header .= '<td>' . TextInput(
-			$RET['SORT_ORDER'],
+			( isset( $RET['SORT_ORDER'] ) ? $RET['SORT_ORDER'] : '' ),
 			'tables[' . $id . '][SORT_ORDER]',
 			_( 'Sort Order' ),
 			'size=5'
@@ -458,14 +462,15 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 	{
 		// Title field.
 		$header .= '<td>' . MLTextInput(
-			$RET['TITLE'],
+			( isset( $RET['TITLE'] ) ? $RET['TITLE'] : '' ),
 			'tables[' . $category_id . '][TITLE]',
-			( ! $RET['TITLE'] ? '<span class="legend-red">' : '') . _( 'Title' ) . ( ! $RET['TITLE'] ? '</span>' : '' )
+			( empty( $RET['TITLE'] ) ? '<span class="legend-red">' : '') . _( 'Title' ) .
+				( empty( $RET['TITLE'] ) ? '</span>' : '' )
 		) . '</td>';
 
 		// Sort Order field.
 		$header .= '<td>' . TextInput(
-			$RET['SORT_ORDER'],
+			( isset( $RET['SORT_ORDER'] ) ? $RET['SORT_ORDER'] : '' ),
 			'tables[' . $category_id . '][SORT_ORDER]',
 			_( 'Sort Order' ),
 			'size=5'

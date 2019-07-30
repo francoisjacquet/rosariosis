@@ -45,6 +45,8 @@ if ( ! function_exists( 'CalendarDayClasses' ) )
  */
 function CalendarDayClassesDefault( $date, $minutes, $events = array(), $assignments = array(), $mode = 'day' )
 {
+	global $return_counter;
+
 	$day_classes = '';
 
 	if ( $mode === 'inner' )

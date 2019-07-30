@@ -174,6 +174,8 @@ function _makeTextInput( $value, $name )
 		$id = 'new';
 	}
 
+	$extra = '';
+
 	if ( $name !== 'TITLE' )
 	{
 		$extra = 'size=5 maxlength=10';
@@ -321,7 +323,7 @@ function _makeRemoveButton( $value, $column )
 		return '';
 	}
 
-	$button_link .= 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove&id=' .
+	$button_link = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove&id=' .
 		urlencode( $THIS_RET['PERIOD_ID'] );
 
 	return button( 'remove', '', '"' . $button_link . '"' );
