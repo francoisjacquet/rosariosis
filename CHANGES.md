@@ -31,6 +31,10 @@ Changes in 5.0
 - Fix export to XLS, delimit strings in ListOutput.fnc.php
 - Load PHP Debug bar in ProgramFunctions/Debug.fnc.php
 
+Changes in 4.9.4
+----------------
+- Fix regression since v4.3 translated Help file include in Help.fnc.php
+
 Changes in 4.9.3
 ----------------
 - Fix regression since v3.4.2 "Fix SQL error if MP was deleted" in ScheduleReport.php
