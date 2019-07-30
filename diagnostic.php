@@ -44,29 +44,10 @@ if ( ! extension_loaded( 'pgsql' ) )
 	$error[] = 'PHP extensions: RosarioSIS relies on the pgsql (PostgreSQL) extension. Please install and activate it.';
 }
 
-// Check for gettext extension.
-if ( ! extension_loaded( 'gettext' )
-	|| ! function_exists( 'bindtextdomain' ) )
-{
-	$error[] = 'PHP extensions: RosarioSIS relies on the gettext extension. Please install and activate it.';
-}
-
-// Check for mbstring extension.
-if ( ! extension_loaded( 'mbstring' ) )
-{
-	$error[] = 'PHP extensions: RosarioSIS relies on the mbstring extension. Please install and activate it.';
-}
-
 // Check for gd extension.
 if ( ! extension_loaded( 'gd' ) )
 {
 	$error[] = 'PHP extensions: RosarioSIS relies on the gd extension. Please install and activate it.';
-}
-
-// Check for xml extension.
-if ( ! extension_loaded( 'xml' ) )
-{
-	$error[] = 'PHP extensions: RosarioSIS relies on the xml extension. Please install and activate it.';
 }
 
 if ( count( $error ) )
