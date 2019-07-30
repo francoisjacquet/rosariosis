@@ -234,6 +234,16 @@ textdomain( 'rosariosis' );
 // FJ multibyte strings.
 mb_internal_encoding( 'UTF-8' );
 
+
+if ( ROSARIO_DEBUG )
+{
+	require_once 'ProgramFunctions/Debug.fnc.php';
+
+	// @since 5.0 Load PHP Debug bar.
+	PhpDebugBar();
+}
+
+
 /**
  * Update RosarioSIS
  * Automatically runs after manual files update

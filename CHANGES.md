@@ -29,6 +29,7 @@ Changes in 5.0
 - Use openstreetmap.org to map addresses in Address.inc.php
 - HTML stack question inputs & required question title in PortalPolls.php
 - Fix export to XLS, delimit strings in ListOutput.fnc.php
+- Load PHP Debug bar in ProgramFunctions/Debug.fnc.php
 
 Changes in 4.9.3
 ----------------
