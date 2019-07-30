@@ -44,6 +44,9 @@ $suffixes_array = array(
 	'V' => _( 'V' ),
 );
 
+$staff_title = isset( $titles_array[ $staff['TITLE'] ] ) ? $titles_array[ $staff['TITLE'] ] : '';
+$staff_suffix = isset( $suffixes_array[ $staff['NAME_SUFFIX'] ] ) ? $suffixes_array[ $staff['NAME_SUFFIX'] ] : '';
+
 if ( AllowEdit() && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 {
 	$div = false;
@@ -90,7 +93,7 @@ if ( AllowEdit() && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	) . '</td></tr></table>';
 
 	if ( $_REQUEST['staff_id'] === 'new'
-		|| $_REQUEST['moodle_create_user'] )
+		|| ! empty( $_REQUEST['moodle_create_user'] ) )
 	{
 		echo $user_name_html;
 	}
@@ -101,8 +104,8 @@ if ( AllowEdit() && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		echo InputDivOnclick(
 			$id,
 			$user_name_html,
-			$titles_array[$staff['TITLE']] . ' ' . $staff['FIRST_NAME'] . ' ' .
-			$staff['MIDDLE_NAME'] . ' ' . $staff['LAST_NAME'] . ' ' . $staff['NAME_SUFFIX'],
+			$staff_title . ' ' . $staff['FIRST_NAME'] . ' ' .
+			$staff['MIDDLE_NAME'] . ' ' . $staff['LAST_NAME'] . ' ' . $staff_suffix,
 			FormatInputTitle( _( 'Name' ), $id )
 		);
 	}
@@ -110,8 +113,8 @@ if ( AllowEdit() && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 else
 {
 	echo NoInput(
-		trim( $titles_array[$staff['TITLE']] . ' ' . $staff['FIRST_NAME'] . ' ' .
-			$staff['MIDDLE_NAME'] . ' ' . $staff['LAST_NAME'] . ' ' . $staff['NAME_SUFFIX'] ),
+		trim( $staff_title . ' ' . $staff['FIRST_NAME'] . ' ' .
+			$staff['MIDDLE_NAME'] . ' ' . $staff['LAST_NAME'] . ' ' . $staff_suffix ),
 		_( 'Name' )
 	);
 }
@@ -137,32 +140,30 @@ echo '<tr class="st"><td>';
 //FJ Moodle integrator
 //username, password required
 
-$required = $_REQUEST['moodle_create_user'] || $old_user_in_moodle || basename( $_SERVER['PHP_SELF'] ) == 'index.php';
+$required = ! empty( $_REQUEST['moodle_create_user'] ) || ! empty( $old_user_in_moodle ) || basename( $_SERVER['PHP_SELF'] ) == 'index.php';
 
 echo TextInput(
 	$staff['USERNAME'],
 	'staff[USERNAME]',
 	_( 'Username' ),
 	'size=12 maxlength=100 ' . ( $required ? 'required' : '' ),
-	( $_REQUEST['moodle_create_user'] ? false : true )
+	empty( $_REQUEST['moodle_create_user'] )
 );
 
 echo '</td><td>';
 
 echo PasswordInput(
-	( ! $staff['PASSWORD']
-		|| $_REQUEST['moodle_create_user'] ? '' : str_repeat( '*', 8 ) ),
+	( ! $staff['PASSWORD'] || ! empty( $_REQUEST['moodle_create_user'] ) ? '' : str_repeat( '*', 8 ) ),
 	'staff[PASSWORD]',
 	_( 'Password' ) .
-	( $_REQUEST['moodle_create_user']
-		|| $old_user_in_moodle ?
+	( ! empty( $_REQUEST['moodle_create_user'] ) || ! empty( $old_user_in_moodle ) ?
 		'<div class="tooltip"><i>' .
 		_( 'The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character' ) .
 		'</i></div>' :
 		''
 	),
 	'maxlength="42" tabindex="2" strength' . ( $required ? ' required' : '' ),
-	( $_REQUEST['moodle_create_user'] ? false : true )
+	empty( $_REQUEST['moodle_create_user'] )
 );
 
 echo '</td></tr><tr class="st"><td colspan="2">';
@@ -188,8 +189,7 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 
 	// Admin User Profile restriction.
 
-	if ( User( 'PROFILE' ) !== 'admin'
-		|| User( 'PROFILE' ) === 'admin'
+	if ( User( 'PROFILE' ) === 'admin'
 		&& AllowEdit()
 		&& ! AllowEdit( 'Users/User.php&category_id=1&user_profile' ) )
 	{
@@ -218,7 +218,7 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 		$profile_options,
 		false,
 		'required',
-		$_REQUEST['moodle_create_user'] ? false : true
+		empty( $_REQUEST['moodle_create_user'] )
 	);
 
 	echo '</td><td>';
@@ -390,8 +390,8 @@ echo TextInput(
 	'staff[EMAIL]',
 	_( 'Email Address' ),
 	'type="email" pattern="[^ @]*@[^ @]*" size=12 maxlength=100' .
-	( $_REQUEST['moodle_create_user'] || $old_user_in_moodle ? ' required' : '' ),
-	( $_REQUEST['moodle_create_user'] ? false : true )
+	( ! empty( $_REQUEST['moodle_create_user'] ) || ! empty( $old_user_in_moodle ) ? ' required' : '' ),
+	empty( $_REQUEST['moodle_create_user'] )
 );
 
 // FJ create account.

@@ -874,7 +874,9 @@ function SelectInput( $value, $name, $title = '', $options = array(), $allow_na 
 	}
 	else
 	{
-		$display_val = is_array( $options[ $value ] ) ? $options[ $value ][1] : $options[ $value ];
+		$display_val = isset( $options[ $value ] ) ?
+			( is_array( $options[ $value ] ) ? $options[ $value ][1] : $options[ $value ] ) :
+			'';
 
 		if ( $display_val == '' )
 		{

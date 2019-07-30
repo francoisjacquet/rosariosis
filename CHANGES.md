@@ -30,10 +30,13 @@ Changes in 5.0
 - HTML stack question inputs & required question title in PortalPolls.php
 - Fix export to XLS, delimit strings in ListOutput.fnc.php
 - Load PHP Debug bar in ProgramFunctions/Debug.fnc.php
+- Use Auto select input for custom contact info description in Address.inc.php
+- Fix PHP notices, program wide
 
 Changes in 4.9.4
 ----------------
 - Fix regression since v4.3 translated Help file include in Help.fnc.php
+- Fix Admin User Profile restriction in General_Info.inc.php
 
 Changes in 4.9.3
 ----------------

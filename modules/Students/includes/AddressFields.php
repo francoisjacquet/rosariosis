@@ -146,6 +146,8 @@ if ( ! $_REQUEST['modfunc'] )
 	// Category menu: student|address|contact.
 	DrawHeader( _fieldsCategoryMenu( $_REQUEST['category'] ) );
 
+	$RET = array();
+
 	// ADDING & EDITING FORM.
 	if ( $_REQUEST['id']
 		&& $_REQUEST['id'] !== 'new' )
@@ -195,7 +197,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$extra_fields = array(
 			'<table class="width-100p cellspacing-0"><tr class="st"><td>' .
 			CheckboxInput(
-				$RET['RESIDENCE'],
+				( isset( $RET['RESIDENCE'] ) ? $RET['RESIDENCE'] : '' ),
 				'tables[' . $_REQUEST['category_id'] . '][RESIDENCE]',
 				_( 'Residence' ),
 				'',
@@ -204,7 +206,7 @@ if ( ! $_REQUEST['modfunc'] )
 				button( 'x' )
 			) . '</td><td>' .
 			CheckboxInput(
-				$RET['MAILING'],
+				( isset( $RET['MAILING'] ) ? $RET['MAILING'] : '' ),
 				'tables[' . $_REQUEST['category_id'] . '][MAILING]',
 				_( 'Mailing' ),
 				'',
@@ -213,7 +215,7 @@ if ( ! $_REQUEST['modfunc'] )
 				button( 'x' )
 			) . '</td><td>' .
 			CheckboxInput(
-				$RET['BUS'],
+				( isset( $RET['BUS'] ) ? $RET['BUS'] : '' ),
 				'tables[' . $_REQUEST['category_id'] . '][BUS]',
 				_( 'Bus' ),
 				'',

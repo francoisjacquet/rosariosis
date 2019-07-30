@@ -37,6 +37,7 @@ function PDFStart( $options = array() )
 		'mode' => 2, // MODE_EMBEDDED.
         'header_html' => '', // No HTML header.
         'footer_html' => '', // No HTML footer.
+        'orientation' => '', // Portrait, can be set to 'landscape'.
 	);
 
 	$pdf_options = array_replace_recursive( $default_options, (array) $options );

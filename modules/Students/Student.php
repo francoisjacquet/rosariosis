@@ -3,7 +3,13 @@
 require_once 'ProgramFunctions/FileUpload.fnc.php';
 require_once 'ProgramFunctions/Fields.fnc.php';
 
-if ( User( 'PROFILE' ) !== 'admin' && User( 'PROFILE' ) !== 'teacher' && $_REQUEST['student_id'] && $_REQUEST['student_id'] != UserStudentID() && $_REQUEST['student_id'] !== 'new' )
+$_REQUEST['student_id'] = isset( $_REQUEST['student_id'] ) ? $_REQUEST['student_id'] : null;
+
+if ( User( 'PROFILE' ) !== 'admin'
+	&& User( 'PROFILE' ) !== 'teacher'
+	&& $_REQUEST['student_id']
+	&& $_REQUEST['student_id'] != UserStudentID()
+	&& $_REQUEST['student_id'] !== 'new' )
 {
 	if ( User( 'USERNAME' ) )
 	{
@@ -94,15 +100,19 @@ if ( $_REQUEST['modfunc'] === 'update'
 	{
 		$required_error = false;
 
-		//FJ fix SQL bug FIRST_NAME, LAST_NAME is null
 
-		if (  ( isset( $_REQUEST['students']['FIRST_NAME'] ) && empty( $_REQUEST['students']['FIRST_NAME'] ) ) || ( isset( $_REQUEST['students']['LAST_NAME'] ) && empty( $_REQUEST['students']['LAST_NAME'] ) ) )
+		if (  ( isset( $_REQUEST['students']['FIRST_NAME'] )
+				&& empty( $_REQUEST['students']['FIRST_NAME'] ) )
+			|| ( isset( $_REQUEST['students']['LAST_NAME'] )
+				&& empty( $_REQUEST['students']['LAST_NAME'] ) ) )
 		{
+			// Check FIRST_NAME, LAST_NAME is not null.
 			$required_error = true;
 		}
 
 		// FJ other fields required.
-		$required_error = $required_error || CheckRequiredCustomFields( 'CUSTOM_FIELDS', $_REQUEST['students'] );
+		$required_error = $required_error
+			|| ( isset( $_REQUEST['students'] ) && CheckRequiredCustomFields( 'CUSTOM_FIELDS', $_REQUEST['students'] ) );
 
 		// FJ textarea fields MarkDown sanitize.
 		$_REQUEST['students'] = FilterCustomFieldsMarkdown( 'CUSTOM_FIELDS', 'students' );
@@ -608,7 +618,7 @@ if (  ( UserStudentID()
 
 	if ( $_REQUEST['modfunc'] !== 'delete_medical'
 		&& $_REQUEST['modfunc'] !== 'delete_address'
-		|| $_REQUEST['delete_ok'] )
+		|| ! empty( $_REQUEST['delete_ok'] ) )
 	{
 		if ( $_REQUEST['student_id'] !== 'new' )
 		{
@@ -689,7 +699,7 @@ if (  ( UserStudentID()
 
 		foreach ( (array) $categories_RET as $category )
 		{
-			if ( $can_use_RET['Students/Student.php&category_id=' . $category['ID']] )
+			if ( isset( $can_use_RET['Students/Student.php&category_id=' . $category['ID']] ) )
 			{
 				//FJ Remove $_REQUEST['include']
 				/*if ( $category['ID']=='1')

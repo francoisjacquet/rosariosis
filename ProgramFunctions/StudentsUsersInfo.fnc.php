@@ -751,6 +751,8 @@ function _makeStartInput( $value, $column )
 
 	static $add_codes = false;
 
+	$add = '';
+
 	if ( $THIS_RET['ID'] )
 	{
 		$id = $THIS_RET['ID'];

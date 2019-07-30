@@ -3,7 +3,13 @@
 require_once 'ProgramFunctions/FileUpload.fnc.php';
 require_once 'ProgramFunctions/Fields.fnc.php';
 
-if ( User( 'PROFILE' ) !== 'admin' && User( 'PROFILE' ) !== 'teacher' && $_REQUEST['staff_id'] && $_REQUEST['staff_id'] != User( 'STAFF_ID' ) && $_REQUEST['staff_id'] !== 'new' )
+$_REQUEST['staff_id'] = isset( $_REQUEST['staff_id'] ) ? $_REQUEST['staff_id'] : null;
+
+if ( User( 'PROFILE' ) !== 'admin'
+	&& User( 'PROFILE' ) !== 'teacher'
+	&& $_REQUEST['staff_id']
+	&& $_REQUEST['staff_id'] != User( 'STAFF_ID' )
+	&& $_REQUEST['staff_id'] !== 'new' )
 {
 	if ( User( 'USERNAME' ) )
 	{
@@ -609,6 +615,8 @@ if (  ( UserStaffID()
 
 	echo '<form name="staff" id="staff"	action="' . $form_action . '"
 		method="POST" enctype="multipart/form-data">';
+
+	$delete_button = '';
 
 	if ( basename( $_SERVER['PHP_SELF'] ) !== 'index.php' )
 	{

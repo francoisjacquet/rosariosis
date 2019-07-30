@@ -8,7 +8,8 @@ function SaveEnrollment()
 {
 	global $error, $student_id;
 
-	if ( $_POST['month_values']['STUDENT_ENROLLMENT'] || $_POST['values']['STUDENT_ENROLLMENT'] )
+	if ( ! empty( $_POST['month_values']['STUDENT_ENROLLMENT'] )
+		|| ! empty( $_POST['values']['STUDENT_ENROLLMENT'] ) )
 	{
 		//FJ check if student already enrolled on that date when updating START_DATE
 

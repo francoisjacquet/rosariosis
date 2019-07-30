@@ -24,6 +24,8 @@ if ( ! isset( $menu ) )
 	}
 }
 
+$_REQUEST['profile_id'] = isset( $_REQUEST['profile_id'] ) ? $_REQUEST['profile_id'] : null;
+
 // Sanitize requested Profile ID.
 
 if ( isset( $_REQUEST['profile_id'] )
@@ -156,13 +158,20 @@ if ( $_REQUEST['modfunc'] === 'update'
 					&& $modname !== 'default'
 					&& $modname !== 'title' )
 				{
-					if ( empty( $exceptions_RET[$modname] ) && ( $_REQUEST['can_edit'][str_replace( '.', '_', $modname )] || $_REQUEST['can_use'][str_replace( '.', '_', $modname )] ) )
+					if ( empty( $exceptions_RET[$modname] )
+						&& ( ! empty( $_REQUEST['can_edit'][str_replace( '.', '_', $modname )] )
+							|| ! empty( $_REQUEST['can_use'][str_replace( '.', '_', $modname )] ) ) )
 					{
-						DBQuery( "INSERT INTO PROFILE_EXCEPTIONS (PROFILE_ID,MODNAME) values('" . $_REQUEST['profile_id'] . "','" . $modname . "')" );
+						DBQuery( "INSERT INTO PROFILE_EXCEPTIONS (PROFILE_ID,MODNAME)
+							values('" . $_REQUEST['profile_id'] . "','" . $modname . "')" );
 					}
-					elseif ( ! empty( $exceptions_RET[$modname] ) && ! $_REQUEST['can_edit'][str_replace( '.', '_', $modname )] && ! $_REQUEST['can_use'][str_replace( '.', '_', $modname )] )
+					elseif ( ! empty( $exceptions_RET[$modname] )
+						&& empty( $_REQUEST['can_edit'][str_replace( '.', '_', $modname )] )
+						&& empty( $_REQUEST['can_use'][str_replace( '.', '_', $modname )] ) )
 					{
-						DBQuery( "DELETE FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . $_REQUEST['profile_id'] . "' AND MODNAME='" . $modname . "'" );
+						DBQuery( "DELETE FROM PROFILE_EXCEPTIONS
+							WHERE PROFILE_ID='" . $_REQUEST['profile_id'] . "'
+							AND MODNAME='" . $modname . "'" );
 					}
 
 					if ( ! empty( $_REQUEST['can_edit'][str_replace( '.', '_', $modname )] )
@@ -291,11 +300,14 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 
 	if ( AllowEdit() )
 	{
-		$new_profile_form = _( 'Title' ) . ' <input type="text" name="new_profile_title" size="15" /><br />' .
-		_( 'Type' ) . ' <select name="new_profile_type">
+		$new_profile_form =  '<input type="text" name="new_profile_title" id="new_profile_title" size="15" />' .
+		FormatInputTitle( _( 'Title' ), 'new_profile_title' ) .
+		'<br /><select name="new_profile_type" id="new_profile_type">
 			<option value="admin">' . _( 'Administrator' ) . '</option>' .
 		'<option value="teacher">' . _( 'Teacher' ) . '</option>' .
-		'<option value="parent">' . _( 'Parent' ) . '</select></div>';
+		'<option value="parent">' . _( 'Parent' ) . '</select>' .
+		FormatInputTitle( _( 'Type' ), 'new_profile_type' ) .
+		'</div>';
 
 		echo '<script>new_profile_html = ' . json_encode( $new_profile_form ) . '</script>';
 

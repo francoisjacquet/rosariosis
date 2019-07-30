@@ -73,7 +73,7 @@ if ( AllowEdit() && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	//FJ Moodle integrator
 
 	if ( $_REQUEST['student_id'] === 'new'
-		|| $_REQUEST['moodle_create_student'] )
+		|| ! empty( $_REQUEST['moodle_create_student'] ) )
 	{
 		echo $student_name_html;
 	}
@@ -118,7 +118,7 @@ echo '</td></tr><tr class="st"><td>';
 //FJ Moodle integrator
 //username, password required
 
-$required = $_REQUEST['moodle_create_student'] || $old_student_in_moodle || basename( $_SERVER['PHP_SELF'] ) == 'index.php';
+$required = ! empty( $_REQUEST['moodle_create_student'] ) || ! empty( $old_student_in_moodle ) || basename( $_SERVER['PHP_SELF'] ) == 'index.php';
 
 echo TextInput(
 	$student['USERNAME'],
@@ -128,25 +128,25 @@ echo TextInput(
 	( Config( 'STUDENTS_EMAIL_FIELD' ) === 'USERNAME' ?
 		'type="email" pattern="[^ @]*@[^ @]*" placeholder="' . _( 'Email' ) . '"' :
 		'' ),
-	! $_REQUEST['moodle_create_student']
+	empty( $_REQUEST['moodle_create_student'] )
 );
 
 echo '</td><td>';
 
 echo PasswordInput(
 	( ! $student['PASSWORD']
-		|| $_REQUEST['moodle_create_student'] ? '' : str_repeat( '*', 8 ) ),
+		|| ! empty( $_REQUEST['moodle_create_student'] ) ? '' : str_repeat( '*', 8 ) ),
 	'students[PASSWORD]',
 	_( 'Password' ) .
-	( $_REQUEST['moodle_create_student']
-		|| $old_student_in_moodle ?
+	( ! empty( $_REQUEST['moodle_create_student'] )
+		|| ! empty( $old_student_in_moodle ) ?
 		'<div class="tooltip"><i>' .
 		_( 'The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character' ) .
 		'</i></div>' :
 		''
 	),
 	'maxlength="42" strength' . ( $required ? ' required' : '' ),
-	( $_REQUEST['moodle_create_student'] ? false : true )
+	empty( $_REQUEST['moodle_create_student'] )
 );
 
 echo '</td></tr></table>';
@@ -157,8 +157,8 @@ $separator = '<hr />';
 include 'modules/Students/includes/Other_Info.inc.php';
 
 if ( $_REQUEST['student_id'] !== 'new'
-	&& $student['SCHOOL_ID'] != UserSchool()
-	&& $student['SCHOOL_ID'] )
+	&& ! empty( $student['SCHOOL_ID'] )
+	&& $student['SCHOOL_ID'] != UserSchool() )
 {
 	$_ROSARIO['AllowEdit'][$_REQUEST['modname']] = $_ROSARIO['allow_edit'] = false;
 }

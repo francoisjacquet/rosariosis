@@ -964,7 +964,7 @@ if ( ! $_REQUEST['modfunc'] )
 		SubmitButton()
 	);
 
-	if ( $links )
+	if ( ! empty( $links ) )
 	{
 		DrawHeader( $links );
 	}

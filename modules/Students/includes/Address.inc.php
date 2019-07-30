@@ -74,37 +74,37 @@ if ( ! empty( $_POST['values'] )
 
 			foreach ( (array) $_REQUEST['values']['ADDRESS'] as $column => $value )
 			{
-				if ( 1 ) //!empty($value) || $value=='0')
+				if ( isset( $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] )
+					&& $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] == 'numeric'
+					&& $value != ''
+					&& ! is_numeric( $value ) )
 				{
-					//FJ check numeric fields
+					// Check numeric fields.
+					$error[] = _( 'Please enter valid Numeric data.' );
 
-					if ( $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] == 'numeric' && $value != '' && ! is_numeric( $value ) )
-					{
-						$error[] = _( 'Please enter valid Numeric data.' );
-						continue;
-					}
-
-					if ( ! is_array( $value ) )
-					{
-						$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-					}
-					else
-					{
-						$sql .= $column . "='||";
-
-						foreach ( (array) $value as $val )
-						{
-							if ( $val )
-							{
-								$sql .= str_replace( '&quot;', '"', $val ) . '||';
-							}
-						}
-
-						$sql .= "',";
-					}
-
-					$go = true;
+					continue;
 				}
+
+				if ( ! is_array( $value ) )
+				{
+					$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
+				}
+				else
+				{
+					$sql .= $column . "='||";
+
+					foreach ( (array) $value as $val )
+					{
+						if ( $val )
+						{
+							$sql .= str_replace( '&quot;', '"', $val ) . '||';
+						}
+					}
+
+					$sql .= "',";
+				}
+
+				$go = true;
 			}
 
 			$sql = mb_substr( $sql, 0, -1 ) . " WHERE ADDRESS_ID='" . $_REQUEST['address_id'] . "'";
@@ -283,7 +283,8 @@ if ( ! empty( $_POST['values'] )
 		}
 	}
 
-	if ( $_REQUEST['values']['STUDENTS_JOIN_PEOPLE'] && $_REQUEST['person_id'] !== 'new' )
+	if ( ! empty( $_REQUEST['values']['STUDENTS_JOIN_PEOPLE'] )
+		&& $_REQUEST['person_id'] !== 'new' )
 	{
 		$sql = "UPDATE STUDENTS_JOIN_PEOPLE SET ";
 
@@ -296,7 +297,8 @@ if ( ! empty( $_POST['values'] )
 		DBQuery( $sql );
 	}
 
-	if ( $_REQUEST['values']['STUDENTS_JOIN_ADDRESS'] && $_REQUEST['address_id'] !== 'new' )
+	if ( ! empty( $_REQUEST['values']['STUDENTS_JOIN_ADDRESS'] )
+		&& $_REQUEST['address_id'] !== 'new' )
 	{
 		$sql = "UPDATE STUDENTS_JOIN_ADDRESS SET ";
 
@@ -444,7 +446,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$i = 1;
 
-	if ( $_REQUEST['address_id'] == '' )
+	if ( ! isset( $_REQUEST['address_id'] ) || $_REQUEST['address_id'] == '' )
 	{
 		$_REQUEST['address_id'] = $addresses_RET ? key( $addresses_RET ) . '' : null;
 	}
@@ -573,7 +575,7 @@ if ( ! $_REQUEST['modfunc'] )
 			$address['STATE'] . ( $address['ZIPCODE'] ? ' ' . $address['ZIPCODE'] : '' ) . '</a>';
 
 		echo '</td>';
-		echo '<td' . $style . '><a href="Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $_REQUEST['category_id'] . '&address_id=' . $address['ADDRESS_ID'] . '" class="arrow right"></a></td>';
+		echo '<td><a href="Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $_REQUEST['category_id'] . '&address_id=' . $address['ADDRESS_ID'] . '" class="arrow right"></a></td>';
 
 		echo '</tr>';
 	}
@@ -597,7 +599,7 @@ if ( ! $_REQUEST['modfunc'] )
 			_( 'No Address' ) . '</a>';
 
 		echo '</td>';
-		echo '<td' . $style . '><a href="Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $_REQUEST['category_id'] . '&address_id=0" class="arrow right"></a></td>';
+		echo '<td><a href="Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $_REQUEST['category_id'] . '&address_id=0" class="arrow right"></a></td>';
 
 		echo '</tr>';
 	}
@@ -659,7 +661,8 @@ if ( ! $_REQUEST['modfunc'] )
 			{
 				$THIS_RET = $contact;
 
-				if ( $contact['PERSON_ID'] == $_REQUEST['person_id'] )
+				if ( isset( $_REQUEST['person_id'] )
+					&& $contact['PERSON_ID'] == $_REQUEST['person_id'] )
 				{
 					$this_contact = $contact;
 				}
@@ -682,7 +685,8 @@ if ( ! $_REQUEST['modfunc'] )
 					$remove_button = '';
 				}
 
-				if ( $_REQUEST['person_id'] == $contact['PERSON_ID'] )
+				if ( isset( $_REQUEST['person_id'] )
+					&& $_REQUEST['person_id'] == $contact['PERSON_ID'] )
 				{
 					echo '<tr class="highlight"><td>' . $remove_button . '</td><td>';
 				}
@@ -760,9 +764,8 @@ if ( ! $_REQUEST['modfunc'] )
 
 			if ( AllowEdit() )
 			{
-				$style = '';
-
-				if ( $_REQUEST['person_id'] == 'new' )
+				if ( isset( $_REQUEST['person_id'] )
+					&& $_REQUEST['person_id'] == 'new' )
 				{
 					echo '<tr class="highlight"><td>' . button( 'add' ) . '</td><td>';
 				}
@@ -777,7 +780,8 @@ if ( ! $_REQUEST['modfunc'] )
 				echo '<td><a href="Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $_REQUEST['category_id'] . '&address_id=' . $_REQUEST['address_id'] . '&person_id=new"></a></td>';
 				echo '</tr>';
 
-				if ( $_REQUEST['person_id'] == 'old' )
+				if ( isset( $_REQUEST['person_id'] )
+					&& $_REQUEST['person_id'] == 'old' )
 				{
 					echo '<tr class="highlight"><td>' . button( 'add' ) . '</td><td>';
 				}
@@ -909,6 +913,8 @@ if ( ! $_REQUEST['modfunc'] )
 
 			echo '</table>';
 
+			$new = false;
+
 			if ( $_REQUEST['address_id'] == 'new' )
 			{
 				$new = true;
@@ -1018,7 +1024,7 @@ if ( ! $_REQUEST['modfunc'] )
 				{
 					echo '<tr><td id="person_' . $this_contact['PERSON_ID'] . '" colspan="2">';
 
-					$id = 'person_' . $info['ID'];
+					$id = 'person_' . $this_contact['PERSON_ID'];
 
 					$person_html = _makePeopleInput(
 						$this_contact['FIRST_NAME'],
@@ -1053,7 +1059,7 @@ if ( ! $_REQUEST['modfunc'] )
 						'values[STUDENTS_JOIN_PEOPLE][CUSTODY]',
 						_( 'Custody' ),
 						'',
-						$new,
+						false,
 						button( 'check' ),
 						button( 'x' )
 					) . '</td></tr>';
@@ -1065,7 +1071,7 @@ if ( ! $_REQUEST['modfunc'] )
 						'values[STUDENTS_JOIN_PEOPLE][EMERGENCY]',
 						_( 'Emergency' ),
 						'',
-						$new,
+						false,
 						button( 'check' ),
 						button( 'x' )
 					) . '</td></tr>';
@@ -1381,10 +1387,12 @@ if ( ! $_REQUEST['modfunc'] )
  */
 function _makePeopleInput( $value, $column, $title = '' )
 {
+	$options = '';
+
 	if ( $column === 'LAST_NAME'
 		|| $column === 'FIRST_NAME' )
 	{
-		$options = 'required';
+		$options .= 'required';
 	}
 
 	if ( $column === 'LAST_NAME'
@@ -1394,23 +1402,9 @@ function _makePeopleInput( $value, $column, $title = '' )
 		$options .= ' maxlength=50';
 	}
 
-	if ( $_REQUEST['person_id'] == 'new' )
-	{
-		$div = false;
-	}
-	else
-	{
-		$div = true;
-	}
+	$div = $_REQUEST['person_id'] == 'new';
 
-	if ( $column == 'STUDENT_RELATION' )
-	{
-		$table = 'STUDENTS_JOIN_PEOPLE';
-	}
-	else
-	{
-		$table = 'PEOPLE';
-	}
+	$table = $column == 'STUDENT_RELATION' ? 'STUDENTS_JOIN_PEOPLE' : 'PEOPLE';
 
 	return TextInput(
 		$value,
@@ -1436,6 +1430,7 @@ function _makeAutoSelect( $column, $table, $values = '', $options = array() )
 	$tables_white_list = array(
 		'ADDRESS',
 		'STUDENTS_JOIN_PEOPLE',
+		'PEOPLE_JOIN_CONTACTS',
 	);
 
 	if ( ! in_array( $table, $tables_white_list ) )

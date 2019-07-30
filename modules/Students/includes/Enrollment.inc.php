@@ -29,6 +29,8 @@ foreach ( (array) $enrollment_RET as $value )
 	}
 }
 
+$link = array();
+
 if ( $add )
 {
 	$link['add']['html'] = array(
