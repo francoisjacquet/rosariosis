@@ -188,8 +188,7 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 
 	// Admin User Profile restriction.
 
-	if ( User( 'PROFILE' ) !== 'admin'
-		|| User( 'PROFILE' ) === 'admin'
+	if ( User( 'PROFILE' ) === 'admin'
 		&& AllowEdit()
 		&& ! AllowEdit( 'Users/User.php&category_id=1&user_profile' ) )
 	{
