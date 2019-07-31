@@ -155,15 +155,22 @@ if ( UserStudentID()
 	);
 
 	//FJ add Horizontal format option
-	$printSchedulesLinkhref = 'Modules.php?modname=Scheduling/PrintSchedules.php&modfunc=save&st_arr[]=' . UserStudentID() . '&_ROSARIO_PDF=true&schedule_table=Yes';
+	$print_schedules_link = 'Modules.php?modname=Scheduling/PrintSchedules.php&modfunc=save&st_arr[]=' .
+		UserStudentID() . '&_ROSARIO_PDF=true&schedule_table=Yes';
 	?>
 	<script>
 		function horizontalFormatSwitch()
 		{
-			if (document.getElementById("horizontalFormat").checked==true)
-				document.getElementById("printSchedulesLink").href=document.getElementById("printSchedulesLink").href+'&horizontalFormat';
-			else
-				document.getElementById("printSchedulesLink").href=document.getElementById("printSchedulesLink").href.replace('&horizontalFormat','');
+			var byId = function( id ) {
+				return document.getElementById( id );
+			};
+
+			if (byId("horizontalFormat").checked==true) {
+				byId("printSchedulesLink").href=byId("printSchedulesLink").href+'&horizontalFormat';
+			}
+			else {
+				byId("printSchedulesLink").href=byId("printSchedulesLink").href.replace('&horizontalFormat','');
+			}
 		}
 	</script>
 	<?php
@@ -172,14 +179,32 @@ if ( UserStudentID()
 	<script>
 		function timeTableSwitch()
 		{
-			if (document.getElementById("schedule_table").checked==true)
-				document.getElementById("printSchedulesLink").href=document.getElementById("printSchedulesLink").href.replace('Yes','No');
-			else
-				document.getElementById("printSchedulesLink").href=document.getElementById("printSchedulesLink").href.replace('No','Yes');
+			var byId = function( id ) {
+				return document.getElementById( id );
+			};
+
+			if (byId("schedule_table").checked==true) {
+				byId("printSchedulesLink").href=byId("printSchedulesLink").href.replace('Yes','No');
+			}
+			else {
+				byId("printSchedulesLink").href=byId("printSchedulesLink").href.replace('No','Yes');
+			}
 		}
 	</script>
 	<?php
-DrawHeader(  ( AllowUse( 'Scheduling/PrintSchedules.php' ) ? '<a href="' . $printSchedulesLinkhref . '" target="_blank" id="printSchedulesLink">' : '' ) . _( 'Print Schedule' ) . ( AllowUse( 'Scheduling/PrintSchedules.php' ) ? '</a>' : '' ) . ( AllowUse( 'Scheduling/PrintSchedules.php' ) ? ' &nbsp;<label><input type="checkbox" id="horizontalFormat" name="horizontalFormat" value="Y" onchange="horizontalFormatSwitch();" /> ' . _( 'Horizontal Format' ) . '</label>' . ' <label><input name="schedule_table" type="radio" value="Yes" checked onchange="timeTableSwitch();" />&nbsp;' . _( 'Table' ) . '</label> ' . '<label><input name="schedule_table" id="schedule_table" type="radio" value="No" onchange="timeTableSwitch();" />&nbsp;' . _( 'List' ) . '</label>' : '' ) );
+	if ( AllowUse( 'Scheduling/PrintSchedules.php' ) )
+	{
+		DrawHeader(
+			'<a href="' . $print_schedules_link . '" target="_blank" id="printSchedulesLink">' .
+			_( 'Print Schedule' ) . '</a>' .
+			' &nbsp;<label><input name="schedule_table" type="radio" value="Yes" checked onchange="timeTableSwitch();" />&nbsp;' .
+			_( 'Table' ) . '</label>' .
+			' &nbsp;<label><input name="schedule_table" id="schedule_table" type="radio" value="No" onchange="timeTableSwitch();" />&nbsp;' .
+			_( 'List' ) . '</label>' .
+			' &nbsp;<label><input type="checkbox" id="horizontalFormat" name="horizontalFormat" value="Y" onchange="horizontalFormatSwitch();" /> ' .
+			_( 'Horizontal Format' ) . '</label>'
+		);
+	}
 
 	// get the fy marking period id, there should be exactly one fy marking period
 	$fy_id = DBGet( "SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "'" );
@@ -518,12 +543,27 @@ function _makeMPSelect( $mp_id, $name )
 {
 	global $_ROSARIO, $THIS_RET, $fy_id;
 
-	if ( ! $_ROSARIO['_makeMPSelect'] )
+	if ( empty( $_ROSARIO['_makeMPSelect'] ) )
 	{
-		$semesters_RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE,NULL AS PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='SEM' AND SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' ORDER BY SORT_ORDER" );
-		$quarters_RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE,PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' ORDER BY SORT_ORDER" );
+		$semesters_RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE,NULL AS PARENT_ID
+			FROM SCHOOL_MARKING_PERIODS
+			WHERE MP='SEM'
+			AND SYEAR='" . UserSyear() . "'
+			AND SCHOOL_ID='" . UserSchool() . "'
+			ORDER BY SORT_ORDER" );
 
-		$_ROSARIO['_makeMPSelect'][$fy_id][1] = array( 'MARKING_PERIOD_ID' => $fy_id, 'TITLE' => _( 'Full Year' ), 'PARENT_ID' => '' );
+		$quarters_RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE,PARENT_ID
+			FROM SCHOOL_MARKING_PERIODS
+			WHERE MP='QTR'
+			AND SYEAR='" . UserSyear() . "'
+			AND SCHOOL_ID='" . UserSchool() . "'
+			ORDER BY SORT_ORDER" );
+
+		$_ROSARIO['_makeMPSelect'][$fy_id][1] = array(
+			'MARKING_PERIOD_ID' => $fy_id,
+			'TITLE' => _( 'Full Year' ),
+			'PARENT_ID' => '',
+		);
 
 		foreach ( (array) $semesters_RET as $sem )
 		{
@@ -535,7 +575,13 @@ function _makeMPSelect( $mp_id, $name )
 			$_ROSARIO['_makeMPSelect'][$fy_id][] = $qtr;
 		}
 
-		$quarters_QI = DBQuery( "SELECT MARKING_PERIOD_ID,TITLE,PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' ORDER BY SORT_ORDER" );
+		$quarters_QI = DBQuery( "SELECT MARKING_PERIOD_ID,TITLE,PARENT_ID
+			FROM SCHOOL_MARKING_PERIODS
+			WHERE MP='QTR'
+			AND SYEAR='" . UserSyear() . "'
+			AND SCHOOL_ID='" . UserSchool() . "'
+			ORDER BY SORT_ORDER" );
+
 		$quarters_indexed_RET = DBGet( $quarters_QI, array(), array( 'PARENT_ID' ) );
 
 		foreach ( (array) $semesters_RET as $sem )
@@ -561,7 +607,9 @@ function _makeMPSelect( $mp_id, $name )
 	{
 		foreach ( (array) $_ROSARIO['_makeMPSelect'][$mp_id] as $value )
 		{
-			if ( $value['MARKING_PERIOD_ID'] != $THIS_RET['MARKING_PERIOD_ID'] && $THIS_RET['TOTAL_SEATS'] && $_REQUEST['include_seats'] )
+			if ( $value['MARKING_PERIOD_ID'] != $THIS_RET['MARKING_PERIOD_ID']
+				&& $THIS_RET['TOTAL_SEATS']
+				&& $_REQUEST['include_seats'] )
 			{
 				$seats = calcSeats0( $THIS_RET );
 			}

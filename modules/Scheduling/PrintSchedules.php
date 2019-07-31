@@ -34,8 +34,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		/*	$extra['SELECT'] .= ',c.TITLE AS COURSE_TITLE,p_cp.TITLE AS PERIOD_TITLE,sr.MARKING_PERIOD_ID,p_cp.DAYS,p_cp.ROOM';
 		$extra['FROM'] .= ' LEFT OUTER JOIN SCHEDULE sr ON (sr.STUDENT_ID=ssm.STUDENT_ID),COURSES c,COURSE_PERIODS p_cp,SCHOOL_PERIODS sp ';
 		$extra['WHERE'] .= " AND p_cp.PERIOD_ID=sp.PERIOD_ID AND ssm.SYEAR=sr.SYEAR AND sr.COURSE_ID=c.COURSE_ID AND sr.COURSE_PERIOD_ID=p_cp.COURSE_PERIOD_ID  AND ('".$date."' BETWEEN sr.START_DATE AND sr.END_DATE $date_extra)";*/
-		$extra['SELECT'] .= ',c.TITLE AS COURSE_TITLE,p_cp.TITLE AS PERIOD_TITLE,sr.MARKING_PERIOD_ID,p_cp.ROOM';
-		$extra['FROM'] .= ' LEFT OUTER JOIN SCHEDULE sr ON (sr.STUDENT_ID=ssm.STUDENT_ID),COURSES c,COURSE_PERIODS p_cp ';
+		$extra['SELECT'] = ',c.TITLE AS COURSE_TITLE,p_cp.TITLE AS PERIOD_TITLE,sr.MARKING_PERIOD_ID,p_cp.ROOM';
+		$extra['FROM'] = ' LEFT OUTER JOIN SCHEDULE sr ON (sr.STUDENT_ID=ssm.STUDENT_ID),COURSES c,COURSE_PERIODS p_cp ';
 		$extra['WHERE'] .= " AND ssm.SYEAR=sr.SYEAR
 		AND sr.COURSE_ID=c.COURSE_ID
 		AND sr.COURSE_PERIOD_ID=p_cp.COURSE_PERIOD_ID
@@ -55,7 +55,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		$extra['group'] = array( 'STUDENT_ID' );
 //	$extra['ORDER'] = ',sp.SORT_ORDER';
 
-		if ( $_REQUEST['mailing_labels'] == 'Y' )
+		if ( isset( $_REQUEST['mailing_labels'] )
+			&& $_REQUEST['mailing_labels'] == 'Y' )
 		{
 			$extra['group'][] = 'ADDRESS_ID';
 		}
@@ -146,7 +147,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			{
 				foreach ( (array) $RET as $student_id => $courses )
 				{
-					if ( $_REQUEST['mailing_labels'] == 'Y' )
+					if ( isset( $_REQUEST['mailing_labels'] )
+						&& $_REQUEST['mailing_labels'] == 'Y' )
 					{
 						foreach ( (array) $courses as $address )
 						{
@@ -233,7 +235,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					}
 					$schedule_table_body .= '</table>';*/
 
-					if ( $_REQUEST['mailing_labels'] == 'Y' && isset( $RET[$student_id] ) )
+					if ( isset( $_REQUEST['mailing_labels'] )
+						&& $_REQUEST['mailing_labels'] == 'Y'
+						&& isset( $RET[$student_id] ) )
 					{
 						foreach ( (array) $RET[$student_id] as $address )
 						{
@@ -311,7 +315,10 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$mp_select .= '</select>';
 
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save&include_inactive=' . $_REQUEST['include_inactive'] . '&_ROSARIO_PDF=true" method="POST" id="printSchedulesForm">';
+		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
+			'&modfunc=save&include_inactive=' .
+			( isset( $_REQUEST['include_inactive'] ) ? $_REQUEST['include_inactive'] : '' ) .
+			'&_ROSARIO_PDF=true" method="POST" id="printSchedulesForm">';
 
 		$extra['header_right'] = Buttons( _( 'Create Schedules for Selected Students' ) );
 
@@ -403,7 +410,12 @@ function _schedule_table_RET( $schedule_table_RET )
 					$schedule_table_body[$i][$course_period_day] = array();
 				}
 
-				$schedule_table_body[$i][$course_period_day][] = '<td>' . $course_period['TITLE'] . '<br />' . $course_period['FULL_NAME'] . ( empty( $course_period['ROOM'] ) ? '' : '<br />' . _( 'Room' ) . ': ' . $course_period['ROOM'] ) . '</td>';
+				$schedule_table_body[$i][$course_period_day][] = '<td>' . $course_period['TITLE'] . '<br />' .
+					$course_period['FULL_NAME'] .
+					( empty( $course_period['ROOM'] ) ?
+						'' :
+						'<br /><span class="size-1">' . _( 'Room' ) . ': ' . $course_period['ROOM'] . '</span>' ) .
+					'</td>';
 			}
 		}
 

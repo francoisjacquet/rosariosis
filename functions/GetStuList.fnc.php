@@ -112,7 +112,7 @@ function GetStuList( &$extra = array() )
 				WHERE TITLE=cast(cf.ID AS TEXT)
 				AND PROGRAM='StudentFieldsView'
 				AND USER_ID='" . User( 'STAFF_ID' ) . "')='Y'" .
-				( $extra['student_fields']['view'] ?
+				( ! empty( $extra['student_fields']['view'] ) ?
 					" OR cf.ID IN (" . $extra['student_fields']['view'] . ")" :
 					'' ) . ")
 			ORDER BY cf.SORT_ORDER,cf.TITLE" );
@@ -185,15 +185,15 @@ function GetStuList( &$extra = array() )
 				p.FIRST_NAME,p.LAST_NAME,p.MIDDLE_NAME,
 				sjp.STUDENT_RELATION,pjc.TITLE,pjc.VALUE,a.PHONE,sjp.ADDRESS_ID ';
 
-			$extra2['FROM'] .= ',ADDRESS a,STUDENTS_JOIN_ADDRESS sja LEFT OUTER JOIN STUDENTS_JOIN_PEOPLE sjp ON (sja.STUDENT_ID=sjp.STUDENT_ID AND sja.ADDRESS_ID=sjp.ADDRESS_ID)
+			$extra2['FROM'] = ',ADDRESS a,STUDENTS_JOIN_ADDRESS sja LEFT OUTER JOIN STUDENTS_JOIN_PEOPLE sjp ON (sja.STUDENT_ID=sjp.STUDENT_ID AND sja.ADDRESS_ID=sjp.ADDRESS_ID)
 				LEFT OUTER JOIN PEOPLE p ON (p.PERSON_ID=sjp.PERSON_ID)
 				LEFT OUTER JOIN PEOPLE_JOIN_CONTACTS pjc ON (pjc.PERSON_ID=p.PERSON_ID) ';
 
-			$extra2['WHERE'] .= ' AND a.ADDRESS_ID=sja.ADDRESS_ID
+			$extra2['WHERE'] = ' AND a.ADDRESS_ID=sja.ADDRESS_ID
 				AND sja.STUDENT_ID=ssm.STUDENT_ID
 				AND (sjp.CUSTODY=\'Y\' OR sjp.EMERGENCY=\'Y\') ';
 
-			$extra2['ORDER_BY'] .= 'sjp.CUSTODY';
+			$extra2['ORDER_BY'] = 'sjp.CUSTODY';
 
 			$extra2['group'] = array( 'STUDENT_ID', 'PERSON_ID' );
 
@@ -606,11 +606,11 @@ function GetStuList( &$extra = array() )
 
 			// FROM.
 			$sql .= " FROM STUDENTS s JOIN STUDENT_ENROLLMENT ssm ON (ssm.STUDENT_ID=s.STUDENT_ID
-				AND ssm.SYEAR='".UserSyear()."'
-				AND ssm.SCHOOL_ID='".UserSchool()."'
+				AND ssm.SYEAR='" . UserSyear() . "'
+				AND ssm.SCHOOL_ID='" . UserSchool() . "'
 				AND ('" . $extra['DATE'] . "'>=ssm.START_DATE
 					AND (ssm.END_DATE IS NULL OR '" . $extra['DATE'] . "'<=ssm.END_DATE))
-				AND s.STUDENT_ID" . ( $extra['ASSOCIATED'] ?
+				AND s.STUDENT_ID" . ( ! empty( $extra['ASSOCIATED'] ) ?
 					" IN (SELECT STUDENT_ID FROM STUDENTS_JOIN_USERS WHERE STAFF_ID='" . $extra['ASSOCIATED'] . "')" :
 					"='" . UserStudentID() . "'" );
 

@@ -32,7 +32,7 @@ if ( UserStudentID()
 	ORDER BY cp.SHORT_NAME, cp.TITLE", array(), array( 'COURSE_PERIOD_ID' ) );
 //echo '<pre>'; var_dump($courses_RET); echo '</pre>';
 
-	if ( $_REQUEST['id']
+	if ( isset( $_REQUEST['id'] )
 		&& $_REQUEST['id'] !== 'all'
 		&& ! $courses_RET[$_REQUEST['id']] )
 	{

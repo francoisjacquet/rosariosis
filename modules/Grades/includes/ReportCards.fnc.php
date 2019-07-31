@@ -28,9 +28,9 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 
 		$other_attendance_codes = _getOtherAttendanceCodes();
 
-		if ( $title === 'Include on Report Card' )
+		if ( $include_on_title === 'Include on Report Card' )
 		{
-			$title = _( 'Include on Report Card' );
+			$include_on_title = _( 'Include on Report Card' );
 		}
 
 		// Open table.
@@ -168,7 +168,7 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 			Widgets( 'mailing_labels' );
 		}
 
-		if ( $extra['search'] )
+		if ( ! empty( $extra['search'] ) )
 		{
 			$return .= '<tr><td><table>' . $extra['search'] . '</table></td></tr>';
 		}
@@ -918,7 +918,8 @@ function GetReportCardsExtra( $mp_list, $st_list )
 
 	// Period-by-period absences.
 
-	if ( $_REQUEST['elements']['period_absences'] === 'Y' )
+	if ( isset( $_REQUEST['elements']['period_absences'] )
+		&& $_REQUEST['elements']['period_absences'] === 'Y' )
 	{
 		$extra['SELECT_ONLY'] .= ",rc_cp.DOES_ATTENDANCE,
 			(SELECT count(*) FROM ATTENDANCE_PERIOD ap,ATTENDANCE_CODES ac
@@ -936,7 +937,7 @@ function GetReportCardsExtra( $mp_list, $st_list )
 
 	// FJ multiple school periods for a course period.
 	//$extra['FROM'] .= ",STUDENT_REPORT_CARD_GRADES sg1,ATTENDANCE_CODES ac,COURSE_PERIODS rc_cp,SCHOOL_PERIODS sp";
-	$extra['FROM'] .= ",STUDENT_REPORT_CARD_GRADES sg1,ATTENDANCE_CODES ac,COURSE_PERIODS rc_cp,
+	$extra['FROM'] = ",STUDENT_REPORT_CARD_GRADES sg1,ATTENDANCE_CODES ac,COURSE_PERIODS rc_cp,
 		SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp";
 
 	/*$extra['WHERE'] .= " AND sg1.MARKING_PERIOD_ID IN (".$mp_list.")
@@ -947,7 +948,7 @@ function GetReportCardsExtra( $mp_list, $st_list )
 					AND sp.PERIOD_ID=cpsp.PERIOD_ID
 					AND rc_cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID";
 
-	$extra['ORDER'] .= ",sg1.COURSE_TITLE,sp.SORT_ORDER,ac.TITLE";
+	$extra['ORDER'] = ",sg1.COURSE_TITLE,sp.SORT_ORDER,ac.TITLE";
 
 	$extra['group'] = array( 'STUDENT_ID', 'COURSE_PERIOD_ID', 'MARKING_PERIOD_ID' );
 

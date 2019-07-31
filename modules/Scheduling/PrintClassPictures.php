@@ -40,12 +40,18 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			{
 				$_SESSION['UserCoursePeriod'] = $course_period_id;
 
-				$extra = array( 'SELECT_ONLY' => 's.STUDENT_ID,s.LAST_NAME,s.FIRST_NAME', 'ORDER_BY' => 's.LAST_NAME,s.FIRST_NAME,s.MIDDLE_NAME', 'MP' => $course_period['MARKING_PERIOD_ID'], 'MPTable' => $course_period['MP'] );
+				$extra = array(
+					'SELECT_ONLY' => 's.STUDENT_ID,s.LAST_NAME,s.FIRST_NAME',
+					'ORDER_BY' => 's.LAST_NAME,s.FIRST_NAME,s.MIDDLE_NAME',
+					'MP' => $course_period['MARKING_PERIOD_ID'],
+					'MPTable' => $course_period['MP'],
+				);
 
-				if ( User( 'PROFILE' ) === 'student' || User( 'PROFILE' ) === 'parent' )
+				if ( User( 'PROFILE' ) === 'student'
+					|| User( 'PROFILE' ) === 'parent' )
 				{
 					// FJ prevent course period ID hacking.
-					$extra['WHERE'] .= " AND '" . UserStudentID() . "' IN
+					$extra['WHERE'] = " AND '" . UserStudentID() . "' IN
 					(SELECT STUDENT_ID
 					FROM SCHEDULE
 					WHERE COURSE_PERIOD_ID='" . $course_period_id . "'
@@ -70,11 +76,11 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				}
 				elseif ( User( 'PROFILE' ) === 'teacher' )
 				{
-					$extra['WHERE'] .= " AND '" . User( 'STAFF_ID' ) . "'=(SELECT TEACHER_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')";
+					$extra['WHERE'] = " AND '" . User( 'STAFF_ID' ) . "'=(SELECT TEACHER_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')";
 				}
 				elseif ( User( 'PROFILE' ) === 'admin' )
 				{
-					$extra['WHERE'] .= " AND s.STUDENT_ID IN
+					$extra['WHERE'] = " AND s.STUDENT_ID IN
 					(SELECT STUDENT_ID
 					FROM SCHEDULE
 					WHERE COURSE_PERIOD_ID='" . $course_period_id . "'
@@ -105,7 +111,11 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 						echo '<tr><td style="vertical-align:bottom;"><table>';
 
-						if ( $UserPicturesPath && (  ( $size = @getimagesize( $picture_path = $UserPicturesPath . UserSyear() . '/' . $teacher_id . '.JPG' ) ) || $_REQUEST['last_year'] == 'Y' && $staff['ROLLOVER_ID'] && ( $size = @getimagesize( $picture_path = $UserPicturesPath . ( UserSyear() - 1 ) . '/' . $staff['ROLLOVER_ID'] . '.JPG' ) ) ) )
+						if ( $UserPicturesPath
+							&& ( ( $size = @getimagesize( $picture_path = $UserPicturesPath . UserSyear() . '/' . $teacher_id . '.JPG' ) )
+								|| ! empty( $_REQUEST['last_year'] )
+								&& $staff['ROLLOVER_ID']
+								&& ( $size = @getimagesize( $picture_path = $UserPicturesPath . ( UserSyear() - 1 ) . '/' . $staff['ROLLOVER_ID'] . '.JPG' ) ) ) )
 						{
 							if ( $size[1] / $size[0] > 172 / 130 )
 							{
@@ -137,7 +147,10 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 						echo '<td style="vertical-align:bottom;"><table>';
 
-						if ( $StudentPicturesPath && (  ( $size = @getimagesize( $picture_path = $StudentPicturesPath . UserSyear() . '/' . $student_id . '.jpg' ) ) || $_REQUEST['last_year'] == 'Y' && ( $size = @getimagesize( $picture_path = $StudentPicturesPath . ( UserSyear() - 1 ) . '/' . $student_id . '.jpg' ) ) ) )
+						if ( $StudentPicturesPath
+							&& ( ( $size = @getimagesize( $picture_path = $StudentPicturesPath . UserSyear() . '/' . $student_id . '.jpg' ) )
+								|| ! empty( $_REQUEST['last_year'] )
+								&& ( $size = @getimagesize( $picture_path = $StudentPicturesPath . ( UserSyear() - 1 ) . '/' . $student_id . '.jpg' ) ) ) )
 						{
 							if ( $size[1] / $size[0] > 172 / 130 )
 							{
@@ -319,7 +332,10 @@ function mySearch( $type, $extra = '' )
 	else
 	{
 		DrawHeader( '', $extra['header_right'] );
-		DrawHeader( $extra['extra_header_left'], $extra['extra_header_right'] );
+		DrawHeader(
+			$extra['extra_header_left'],
+			( ! empty( $extra['extra_header_right'] ) ? $extra['extra_header_right'] : '' )
+		);
 
 		if ( User( 'PROFILE' ) === 'admin' )
 		{
@@ -382,7 +398,7 @@ function mySearch( $type, $extra = '' )
 
 		$course_periods_RET = DBGet( $sql, array( 'COURSE_PERIOD_ID' => 'MakeChooseCheckbox' ) );
 
-		if ( empty( $_REQUEST['LO_save'] ) && ! $extra['suppress_save'] )
+		if ( empty( $_REQUEST['LO_save'] ) && empty( $extra['suppress_save'] ) )
 		{
 			$_SESSION['List_PHP_SELF'] = PreparePHP_SELF( $_SESSION['_REQUEST_vars'], array( 'bottom_back' ) );
 
