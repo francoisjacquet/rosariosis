@@ -7,7 +7,7 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 	DrawHeader( ProgramTitle() );
 
 	$extra['new'] = true;
-	$extra['action'] .= "&_ROSARIO_PDF=true";
+	$extra['action'] = empty( $extra['action'] ) ? '&_ROSARIO_PDF=true' : $extra['action'] . '&_ROSARIO_PDF=true';
 
 	Search( 'student_id', $extra );
 }
@@ -16,7 +16,8 @@ else
 	// For the Student Fees / Student Payments programs.
 	$_REQUEST['print_statements'] = true;
 
-	if ( $_REQUEST['mailing_labels'] === 'Y' )
+	if ( isset( $_REQUEST['mailing_labels'] )
+		&& $_REQUEST['mailing_labels'] === 'Y' )
 	{
 		$extra['group'][] = 'ADDRESS_ID';
 	}
@@ -31,7 +32,8 @@ else
 
 		foreach ( (array) $students_RET as $student )
 		{
-			if ( $_REQUEST['mailing_labels'] === 'Y' )
+			if ( isset( $_REQUEST['mailing_labels'] )
+				&& $_REQUEST['mailing_labels'] === 'Y' )
 			{
 				foreach ( (array) $student as $address )
 				{
@@ -42,10 +44,9 @@ else
 					DrawHeader( _( 'Statement' ) );
 					DrawHeader( $address['FULL_NAME'], $address['STUDENT_ID'] );
 					DrawHeader( $address['GRADE_ID'] );
-					DrawHeader( SchoolInfo( 'TITLE' ) );
-					DrawHeader( ProperDate( DBDate() ) );
+					DrawHeader( SchoolInfo( 'TITLE' ), ProperDate( DBDate() ) );
 
-					echo '<br /><br /><table class="width-100p"><tr><td style="width:50px;"> &nbsp; </td>
+					echo '<br /><br /><br /><table class="width-100p"><tr><td style="width:50px;"> &nbsp; </td>
 						<td>' . $address['MAILING_LABEL'] . '</td></tr></table><br />';
 
 					SetUserStudentID( $address['STUDENT_ID'] );
@@ -65,8 +66,7 @@ else
 				DrawHeader( _( 'Statement' ) );
 				DrawHeader( $student['FULL_NAME'], $student['STUDENT_ID'] );
 				DrawHeader( $student['GRADE_ID'] );
-				DrawHeader( SchoolInfo( 'TITLE' ) );
-				DrawHeader( ProperDate( DBDate() ) );
+				DrawHeader( SchoolInfo( 'TITLE' ), ProperDate( DBDate() ) );
 
 				require 'modules/Student_Billing/StudentFees.php';
 				require 'modules/Student_Billing/StudentPayments.php';

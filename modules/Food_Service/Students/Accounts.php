@@ -131,7 +131,7 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 	WHERE fssa.ACCOUNT_ID='" . $student['ACCOUNT_ID'] . "'
 	AND s.STUDENT_ID=fssa.STUDENT_ID
 	AND s.STUDENT_ID!='" . UserStudentID() . "'" .
-		( $_REQUEST['include_inactive'] ? '' :
+		( ! empty( $_REQUEST['include_inactive'] ) ? '' :
 			" AND exists(SELECT ''
 		FROM STUDENT_ENROLLMENT
 		WHERE STUDENT_ID=s.STUDENT_ID

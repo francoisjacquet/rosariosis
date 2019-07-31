@@ -69,12 +69,16 @@ $type_select = '<label>' . _( 'Type' ) . ': <select name=type_select><option val
 
 foreach ( (array) $types as $short_name => $type )
 {
-	$type_select .= '<option value="' . $short_name . '"' . ( $_REQUEST['type_select'] == $short_name ? ' selected' : '' ) . '>' . $type . '</option>';
+	$type_select .= '<option value="' . $short_name . '"' .
+		( isset( $_REQUEST['type_select'] ) && $_REQUEST['type_select'] == $short_name ? ' selected' : '' ) . '>' .
+		$type . '</option>';
 }
 
 foreach ( (array) $menus_RET as $menu )
 {
-	$type_select .= '<option value="' . $menu['TITLE'] . '"' . ( $_REQUEST['type_select'] == $menu['TITLE'] ? ' selected' : '' ) . '>' . $menu['TITLE'] . '</option>';
+	$type_select .= '<option value="' . $menu['TITLE'] . '"' .
+		( isset( $_REQUEST['type_select'] ) && $_REQUEST['type_select'] == $menu['TITLE'] ? ' selected' : '' ) . '>' .
+		$menu['TITLE'] . '</option>';
 }
 
 $type_select .= '</select></label>';

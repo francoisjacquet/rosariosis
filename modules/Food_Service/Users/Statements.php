@@ -4,9 +4,13 @@ StaffWidgets( 'fsa_status' );
 StaffWidgets( 'fsa_barcode' );
 StaffWidgets( 'fsa_exists_Y' );
 
+$extra['SELECT'] = isset( $extra['SELECT'] ) ? $extra['SELECT'] : '';
 $extra['SELECT'] .= ",(SELECT coalesce(STATUS,'" . DBEscapeString( _( 'Active' ) ) . "') FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS STATUS";
+
 $extra['SELECT'] .= ",(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE";
+
 $extra['functions'] += array( 'BALANCE' => 'red' );
+
 $extra['columns_after'] = array( 'BALANCE' => _( 'Balance' ), 'STATUS' => _( 'Status' ) );
 
 Search( 'staff_id', $extra );
@@ -22,14 +26,25 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 	$staff = $staff[1];
 
 	echo '<form action="' . PreparePHP_SELF() . '" method="POST">';
-	DrawHeader( _( 'Timeframe' ) . ': ' . PrepareDate( $start_date, '_start' ) . ' ' . _( 'to' ) . ' ' . PrepareDate( $end_date, '_end' ) . ' : ' . $type_select . ' : <input type="submit" value="' . _( 'Go' ) . '">' );
+
+	DrawHeader(
+		_( 'Timeframe' ) . ': ' . PrepareDate( $start_date, '_start' ) . ' ' .
+		_( 'to' ) . ' ' . PrepareDate( $end_date, '_end' ) . ' ' .
+		$type_select .
+		' ' . Buttons( _( 'Go' ) )
+	);
+
 	echo '</form>';
 
 //FJ fix bug no balance
 	//	DrawHeader(NoInput($staff['FULL_NAME'],'&nbsp;'.$staff['STAFF_ID']),'', NoInput(red($student['BALANCE']),_('Balance')));
-	DrawHeader( NoInput( $staff['FULL_NAME'], '&nbsp;' . $staff['STAFF_ID'] ), '', NoInput( red( $staff['BALANCE'] ), _( 'Balance' ) ) );
+	DrawHeader(
+		NoInput( $staff['FULL_NAME'], '&nbsp;' . $staff['STAFF_ID'] ),
+		NoInput( red( $staff['BALANCE'] ), _( 'Balance' ) )
+	);
 
-	if ( $_REQUEST['detailed_view'] != 'true' )
+	if ( isset( $_REQUEST['detailed_view'] )
+		&& $_REQUEST['detailed_view'] != 'true' )
 	{
 		DrawHeader( "<a href=" . PreparePHP_SELF( $_REQUEST, array(), array( 'detailed_view' => 'true' ) ) . ">" . _( 'Detailed View' ) . "</a>" );
 	}

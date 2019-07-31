@@ -6,10 +6,10 @@ if ( empty( $_REQUEST['print_statements'] ) )
 {
 	DrawHeader( ProgramTitle() );
 
-	Search( 'student_id', $extra );
+	Search( 'student_id', ( isset( $extra ) ? $extra : null ) );
 }
 
-if ( $_REQUEST['values']
+if ( ! empty( $_REQUEST['values'] )
 	&& $_POST['values']
 	&& AllowEdit()
 	&& UserStudentID() )
@@ -176,6 +176,8 @@ if ( UserStudentID()
 		'COMMENTS' => _( 'Comment' ),
 	);
 
+	$link = array();
+
 	if ( empty( $_REQUEST['print_statements'] ) )
 	{
 		$link['add']['html'] = array(
@@ -210,7 +212,7 @@ if ( UserStudentID()
 
 	ListOutput( $RET, $columns, 'Fee', 'Fees', $link, array(), $options );
 
-	if ( ! $_REQUEST['print_statements']
+	if ( empty( $_REQUEST['print_statements'] )
 		&& AllowEdit() )
 	{
 		echo '<div class="center">' . SubmitButton() . '</div>';

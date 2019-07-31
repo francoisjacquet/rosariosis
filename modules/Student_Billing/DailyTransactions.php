@@ -25,17 +25,30 @@ if ( empty( $_REQUEST['LO_sort'] ) )
 //$RET = DBGet( "SELECT s.LAST_NAME||', '||s.FIRST_NAME||' '||COALESCE(s.MIDDLE_NAME,' ') AS FULL_NAME,f.AMOUNT AS DEBIT,'' AS CREDIT,f.TITLE||' '||COALESCE(f.COMMENTS,' ') AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID FROM BILLING_FEES f,STUDENTS s WHERE f.STUDENT_ID=s.STUDENT_ID AND f.SYEAR='".UserSyear()."' AND f.SCHOOL_ID='".UserSchool()."' AND f.ASSIGNED_DATE BETWEEN '".$start_date."' AND '".$end_date."' UNION SELECT s.LAST_NAME||', '||s.FIRST_NAME||' '||COALESCE(s.MIDDLE_NAME,' ') AS FULL_NAME,'' AS DEBIT,p.AMOUNT AS CREDIT,COALESCE(p.COMMENTS,' ') AS EXPLANATION,p.PAYMENT_DATE AS DATE,p.ID AS ID FROM BILLING_PAYMENTS p,STUDENTS s WHERE p.STUDENT_ID=s.STUDENT_ID AND p.SYEAR='".UserSyear()."' AND p.SCHOOL_ID='".UserSchool()."' AND p.PAYMENT_DATE BETWEEN '".$start_date."' AND '".$end_date."' ORDER BY DATE",$functions);
 
 $extra['functions'] = array( 'DEBIT' => '_makeCurrency', 'CREDIT' => '_makeCurrency', 'DATE' => 'ProperDate' );
+
 $fees_extra = $extra;
+
+$fees_extra['SELECT'] = isset( $fees_extra['SELECT'] ) ? $fees_extra['SELECT'] : '';
 $fees_extra['SELECT'] .= ",f.AMOUNT AS DEBIT,'' AS CREDIT,f.TITLE||' '||COALESCE(f.COMMENTS,' ') AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID";
+
+$fees_extra['FROM'] = isset( $fees_extra['FROM'] ) ? $fees_extra['FROM'] : '';
 $fees_extra['FROM'] .= ',BILLING_FEES f';
+
+$fees_extra['WHERE'] = isset( $fees_extra['WHERE'] ) ? $fees_extra['WHERE'] : '';
 $fees_extra['WHERE'] .= " AND f.STUDENT_ID=s.STUDENT_ID AND f.SYEAR=ssm.SYEAR
 	AND f.SCHOOL_ID=ssm.SCHOOL_ID AND f.ASSIGNED_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'";
 
 $RET = GetStuList( $fees_extra );
 
 $payments_extra = $extra;
+
+$payments_extra['SELECT'] = isset( $payments_extra['SELECT'] ) ? $payments_extra['SELECT'] : '';
 $payments_extra['SELECT'] .= ",'' AS DEBIT,p.AMOUNT AS CREDIT,COALESCE(p.COMMENTS,' ') AS EXPLANATION,p.PAYMENT_DATE AS DATE,p.ID AS ID";
+
+$payments_extra['FROM'] = isset( $payments_extra['FROM'] ) ? $payments_extra['FROM'] : '';
 $payments_extra['FROM'] .= ',BILLING_PAYMENTS p';
+
+$payments_extra['WHERE'] = isset( $payments_extra['WHERE'] ) ? $payments_extra['WHERE'] : '';
 $payments_extra['WHERE'] .= " AND p.STUDENT_ID=s.STUDENT_ID AND p.SYEAR=ssm.SYEAR AND p.SCHOOL_ID=ssm.SCHOOL_ID AND p.PAYMENT_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'";
 
 $payments_RET = GetStuList( $payments_extra );
@@ -60,8 +73,8 @@ $columns = array(
 
 $link['add']['html'] = array(
 	'FULL_NAME' => '<b>' . _( 'Total' ) . '</b>',
-	'DEBIT' => '<b>' . Currency( $totals['DEBIT'] ) . '</b>',
-	'CREDIT' => '<b>' . Currency( $totals['CREDIT'] ) . '</b>',
+	'DEBIT' => '<b>' . Currency( ( isset( $totals['DEBIT'] ) ? $totals['DEBIT'] : 0 ) ) . '</b>',
+	'CREDIT' => '<b>' . Currency( ( isset( $totals['CREDIT'] ) ? $totals['CREDIT'] : 0 ) ) . '</b>',
 	'DATE' => '&nbsp;',
 	'EXPLANATION' => '&nbsp;',
 );

@@ -74,7 +74,7 @@ else
 	$_SESSION['FSA_menu_id'] = $_REQUEST['menu_id'];
 }
 
-if ( $_REQUEST['submit']['save']
+if ( ! empty( $_REQUEST['submit']['save'] )
 	&& $_REQUEST['food_service']
 	&& $_POST['food_service']
 	&& AllowEdit() )
@@ -236,13 +236,15 @@ if ( ! empty( $_REQUEST['submit']['print'] ) )
 }
 else
 {
+	$description_select = '';
+
 	if ( AllowEdit() )
 	{
 		$description_RET = DBGet( "SELECT DISTINCT DESCRIPTION FROM CALENDAR_EVENTS WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' AND TITLE='" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "' AND DESCRIPTION IS NOT NULL ORDER BY DESCRIPTION" );
 
 		if ( ! empty( $description_RET ) )
 		{
-			$description_select = '<option value="">' . _( 'or select previous meal' ) . '</option>';
+			$description_select .= '<option value="">' . _( 'or select previous meal' ) . '</option>';
 
 			foreach ( (array) $description_RET as $description )
 			{

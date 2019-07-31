@@ -1003,7 +1003,8 @@ function Widgets( $item, &$myextra = null )
 		// Mailing Labels Widget.
 		case 'mailing_labels':
 
-			if ( $_REQUEST['mailing_labels'] == 'Y' )
+			if ( isset( $_REQUEST['mailing_labels'] )
+				&& $_REQUEST['mailing_labels'] === 'Y' )
 			{
 				require_once 'ProgramFunctions/MailingLabel.fnc.php';
 

@@ -394,7 +394,7 @@ function makeTextInput( $value, $name )
 {
 	global $THIS_RET;
 
-	if ( $THIS_RET['MENU_ITEM_ID'] )
+	if ( ! empty( $THIS_RET['MENU_ITEM_ID'] ) )
 	{
 		$id = $THIS_RET['MENU_ITEM_ID'];
 	}
@@ -434,7 +434,7 @@ function makeSelectInput( $value, $name )
 {
 	global $THIS_RET, $items_select, $categories_select, $icons_select;
 
-	if ( $THIS_RET['MENU_ITEM_ID'] )
+	if ( ! empty( $THIS_RET['MENU_ITEM_ID'] ) )
 	{
 		$id = $THIS_RET['MENU_ITEM_ID'];
 	}

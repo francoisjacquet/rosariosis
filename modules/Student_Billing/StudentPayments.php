@@ -6,13 +6,13 @@ if ( empty( $_REQUEST['print_statements'] ) )
 {
 	DrawHeader( ProgramTitle() );
 
-	Search( 'student_id' );
+	Search( 'student_id', ( isset( $extra ) ? $extra : null ) );
 }
 
 // Add eventual Dates to $_REQUEST['values'].
 AddRequestedDates( 'values', 'post' );
 
-if ( $_REQUEST['values']
+if ( ! empty( $_REQUEST['values'] )
 	&& $_POST['values']
 	&& AllowEdit()
 	&& UserStudentID() )
@@ -182,7 +182,9 @@ if ( UserStudentID()
 		'LUNCH_PAYMENT' => _( 'Lunch Payment' ),
 	);
 
-	if ( ! $_REQUEST['print_statements']
+	$link = array();
+
+	if ( empty( $_REQUEST['print_statements'] )
 		&& AllowEdit() )
 	{
 		$link['add']['html'] = array(
@@ -223,7 +225,7 @@ if ( UserStudentID()
 		$options
 	);
 
-	if ( ! $_REQUEST['print_statements']
+	if ( empty( $_REQUEST['print_statements'] )
 		&& AllowEdit() )
 	{
 		echo '<div class="center">' . SubmitButton() . '</div>';
@@ -249,7 +251,7 @@ if ( UserStudentID()
 
 	DrawHeader( $table );
 
-	if ( ! $_REQUEST['print_statements']
+	if ( empty( $_REQUEST['print_statements'] )
 		&& AllowEdit() )
 	{
 		echo '</form>';

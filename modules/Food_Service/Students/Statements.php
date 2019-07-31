@@ -42,6 +42,8 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 		AND SYEAR='" . UserSyear() . "'
 		AND (START_DATE<=CURRENT_DATE AND (END_DATE IS NULL OR CURRENT_DATE<=END_DATE)))" );
 
+	$student_select = '';
+
 	if ( ! empty( $xstudents ) )
 	{
 		$student_select = _( 'Student' ) . ' <select name="student_select"><option value="">' . _( 'Not Specified' ) . '</option>';
@@ -56,25 +58,43 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 	}
 
 	echo '<form action="' . PreparePHP_SELF() . '" method="POST">';
-	DrawHeader( _( 'Timeframe' ) . ': ' . PrepareDate( $start_date, '_start' ) . ' ' . _( 'to' ) . ' ' . PrepareDate( $end_date, '_end' ) . ' : ' . $type_select . ( $student_select ? ' : ' . $student_select : '' ) . ' : <input type="submit" value="' . _( 'Go' ) . '">' );
+
+	DrawHeader(
+		_( 'Timeframe' ) . ': ' . PrepareDate( $start_date, '_start' ) . ' ' .
+		_( 'to' ) . ' ' . PrepareDate( $end_date, '_end' ) .
+		' ' . $type_select .
+		( $student_select ? ' : ' . $student_select : '' ) .
+		' ' . Buttons( _( 'Go' ) )
+	);
+
 	echo '</form>';
 
-	DrawHeader( NoInput( $student['FULL_NAME'], '&nbsp;' . $student['STUDENT_ID'] ), '', NoInput( red( $student['BALANCE'] ), _( 'Balance' ) ) );
+	DrawHeader(
+		NoInput( $student['FULL_NAME'], '&nbsp;' . $student['STUDENT_ID'] ),
+		NoInput( red( $student['BALANCE'] ), _( 'Balance' ) )
+	);
 
-	if ( $_REQUEST['detailed_view'] != 'true' )
+	if ( isset( $_REQUEST['detailed_view'] )
+		&& $_REQUEST['detailed_view'] != 'true' )
 	{
-		DrawHeader( '<a href="' . PreparePHP_SELF( $_REQUEST, array(), array( 'detailed_view' => 'true' ) ) . '">' . _( 'Detailed View' ) . '</a>' );
+		DrawHeader(
+			'<a href="' . PreparePHP_SELF( $_REQUEST, array(), array( 'detailed_view' => 'true' ) ) . '">' . _( 'Detailed View' ) . '</a>'
+		);
 	}
 	else
 	{
-		DrawHeader( '<a href="' . PreparePHP_SELF( $_REQUEST, array(), array( 'detailed_view' => 'false' ) ) . '">' . _( 'Original View' ) . '</a>' );
+		DrawHeader(
+			'<a href="' . PreparePHP_SELF( $_REQUEST, array(), array( 'detailed_view' => 'false' ) ) . '">' . _( 'Original View' ) . '</a>'
+		);
 	}
 
 	if ( $student['BALANCE'] )
 	{
+		$where = '';
+
 		if ( ! empty( $_REQUEST['student_select'] ) )
 		{
-			$where = " AND fst.STUDENT_ID='" . $_REQUEST['student_select'] . "'";
+			$where .= " AND fst.STUDENT_ID='" . $_REQUEST['student_select'] . "'";
 		}
 
 		if ( ! empty( $_REQUEST['type_select'] ) )
@@ -82,7 +102,8 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 			$where .= " AND fst.SHORT_NAME='" . $_REQUEST['type_select'] . "'";
 		}
 
-		if ( $_REQUEST['detailed_view'] == 'true' )
+		if ( isset( $_REQUEST['detailed_view'] )
+			&& $_REQUEST['detailed_view'] == 'true' )
 		{
 			$RET = DBGet( "SELECT fst.TRANSACTION_ID AS TRANS_ID,fst.TRANSACTION_ID,
 			fst.STUDENT_ID,fst.DISCOUNT,
@@ -176,6 +197,10 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 			{
 				$RET[$RET_key] = array_map( 'types_locale', $RET_val );
 			}
+
+			$group = array();
+
+			$link = array();
 		}
 
 		ListOutput(

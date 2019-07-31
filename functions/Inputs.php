@@ -1492,11 +1492,11 @@ function CheckBoxOnclick( $name, $title = '' )
 	$onclick_URL = "'" . PreparePHP_SELF(
 		$_REQUEST,
 		array(),
-		$_REQUEST[ $name ] == 'Y' ? array( $name => '' ) : array( $name => 'Y' )
+		isset( $_REQUEST[ $name ] ) && $_REQUEST[ $name ] == 'Y' ? array( $name => '' ) : array( $name => 'Y' )
 	) . "'";
 
 	$input = '<input type="checkbox" name="' . $name . '" value="Y"' .
-		( $_REQUEST[ $name ] == 'Y' ? ' checked' : '' ) .
+		( isset( $_REQUEST[ $name ] ) && $_REQUEST[ $name ] == 'Y' ? ' checked' : '' ) .
 		' onclick="ajaxLink(' . $onclick_URL . ');" />';
 
 	if ( $title != '' )
