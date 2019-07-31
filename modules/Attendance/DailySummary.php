@@ -11,7 +11,7 @@ $start_date = RequestedDate( 'start', date( 'Y-m' ) . '-01' );
 // Set end date.
 $end_date = RequestedDate( 'end', DBDate() );
 
-if ( $_REQUEST['attendance']
+if ( ! empty( $_REQUEST['attendance'] )
 	&& $_POST['attendance']
 	&& AllowEdit() )
 {
@@ -47,13 +47,17 @@ if ( $_REQUEST['attendance']
 
 //FJ bugfix bug when Back to Student Search
 //if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || UserStudentID() || User( 'PROFILE' ) === 'parent' || User( 'PROFILE' ) === 'student')
-if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User( 'PROFILE' ) === 'parent' || User( 'PROFILE' ) === 'student')
+if ( $_REQUEST['search_modfunc']
+	|| $_REQUEST['student_id']
+	|| User( 'PROFILE' ) === 'parent'
+	|| User( 'PROFILE' ) === 'student')
 {
 	if ( User( 'PROFILE' ) === 'student' )
 	{
 		$_REQUEST['student_id'] = UserStudentID();
 	}
-	elseif ( $_REQUEST['student_id'] || User( 'PROFILE' ) === 'parent' )
+	elseif ( ! empty( $_REQUEST['student_id'] )
+		|| User( 'PROFILE' ) === 'parent' )
 	{
 		// Just to set UserStudentID().
 		Search( 'student_id' );
@@ -128,13 +132,14 @@ if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User( 'PROFILE' )
 	}
 	else
 	{
-		if ( is_numeric( $_REQUEST['period_id'] ) )
+		if ( isset( $_REQUEST['period_id'] )
+			&& is_numeric( $_REQUEST['period_id'] ) )
 		{
 			$_REQUEST['period_id'] = 'PERIOD';
 		}
 
 		$period_select .= '<option value="PERIOD"' .
-			( $_REQUEST['period_id'] === 'PERIOD' ? ' selected' : '' ) . '>' .
+			( isset( $_REQUEST['period_id'] ) && $_REQUEST['period_id'] === 'PERIOD' ? ' selected' : '' ) . '>' .
 			_( 'By Period' ) . '</option>';
 
 		if ( User( 'PROFILE' ) === 'teacher' )
@@ -184,7 +189,8 @@ $cal_RET = DBGet( "SELECT DISTINCT SCHOOL_DATE,'_'||to_char(SCHOOL_DATE,'yyyymmd
 
 //FJ bugfix bug when Back to Student Search
 //if (UserStudentID() || $_REQUEST['student_id'] || User( 'PROFILE' ) === 'parent')
-if ( $_REQUEST['student_id'] || User( 'PROFILE' ) === 'parent' )
+if ( ! empty( $_REQUEST['student_id'] )
+	|| User( 'PROFILE' ) === 'parent' )
 {
 	if ( ! empty( $_REQUEST['period_id'] ) )
 	{
@@ -268,12 +274,19 @@ if ( $_REQUEST['student_id'] || User( 'PROFILE' ) === 'parent' )
 
 		foreach ( (array) $cal_RET as $value )
 		{
+			if ( empty( $attendance_RET[ $value['SCHOOL_DATE'] ][ $course['PERIOD_ID'] ] ) )
+			{
+				$student_RET[ $i ][ $value['SHORT_DATE'] ] = '';
+
+				continue;
+			}
+
 			$student_RET[ $i ][ $value['SHORT_DATE'] ] = MakeAttendanceCode(
 				$attendance_RET[ $value['SCHOOL_DATE'] ][ $course['PERIOD_ID'] ][1]['STATE_CODE'],
-				( $_REQUEST['period_id'] ?
+				( ! empty( $_REQUEST['period_id'] ) ?
 					$attendance_RET[ $value['SCHOOL_DATE'] ][ $course['PERIOD_ID'] ][1]['SHORT_NAME'] :
 					'' ),
-				( $_REQUEST['period_id'] ?
+				( ! empty( $_REQUEST['period_id'] ) ?
 					$attendance_RET[ $value['SCHOOL_DATE'] ][ $course['PERIOD_ID'] ][1]['TITLE'] :
 					'' )
 			);

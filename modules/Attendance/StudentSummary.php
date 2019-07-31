@@ -12,7 +12,10 @@ $end_date = RequestedDate( 'end', DBDate() );
 
 //FJ bugfix bug when Back to Student Search
 
-if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User( 'PROFILE' ) === 'parent' || User( 'PROFILE' ) === 'student' )
+if ( $_REQUEST['search_modfunc']
+	|| $_REQUEST['student_id']
+	|| User( 'PROFILE' ) === 'parent'
+	|| User( 'PROFILE' ) === 'student' )
 {
 	$period_select = '';
 
@@ -60,7 +63,7 @@ if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User( 'PROFILE' )
 	DrawHeader( _( 'Timeframe' ) . ': ' . PrepareDate( $start_date, '_start', false ) . ' ' .
 		_( 'to' ) . ' ' . PrepareDate( $end_date, '_end', false ) .
 		( $period_select ? ' : ' . $period_select : '' ) .
-		' : ' . Buttons( _( 'Go' ) )
+		' ' . Buttons( _( 'Go' ) )
 	);
 
 	echo '</form>';
@@ -128,6 +131,7 @@ if ( ! empty( $_REQUEST['period_id'] ) )
 }
 else
 {
+	$extra['SELECT'] = isset( $extra['SELECT'] ) ? $extra['SELECT'] : '';
 	$extra['SELECT'] .= ",(SELECT COALESCE((sum(STATE_VALUE-1)*-1),0.0) FROM ATTENDANCE_DAY ad
 						WHERE ad.STUDENT_ID=ssm.STUDENT_ID
 						AND ad.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "' AND ad.SYEAR=ssm.SYEAR) AS STATE_ABS";
@@ -135,7 +139,15 @@ else
 	$extra['columns_after']['STATE_ABS'] = _( 'Days Absent' );
 }
 
-$extra['link']['FULL_NAME']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&day_start=' . $_REQUEST['day_start'] . '&day_end=' . $_REQUEST['day_end'] . '&month_start=' . $_REQUEST['month_start'] . '&month_end=' . $_REQUEST['month_end'] . '&year_start=' . $_REQUEST['year_start'] . '&year_end=' . $_REQUEST['year_end'] . '&period_id=' . $_REQUEST['period_id'];
+$extra['link']['FULL_NAME']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] .
+	'&day_start=' . ( isset( $_REQUEST['day_start'] ) ? $_REQUEST['day_start'] : '' ) .
+	'&day_end=' . ( isset( $_REQUEST['day_end'] ) ? $_REQUEST['day_end'] : '' ) .
+	'&month_start=' . ( isset( $_REQUEST['month_start'] ) ? $_REQUEST['month_start'] : '' ) .
+	'&month_end=' . ( isset( $_REQUEST['month_end'] ) ? $_REQUEST['month_end'] : '' ) .
+	'&year_start=' . ( isset( $_REQUEST['year_start'] ) ? $_REQUEST['year_start'] : '' ) .
+	'&year_end=' . ( isset( $_REQUEST['year_end'] ) ? $_REQUEST['year_end'] : '' ) .
+	'&period_id=' . ( isset( $_REQUEST['period_id'] ) ? $_REQUEST['period_id'] : '' );
+
 $extra['link']['FULL_NAME']['variables'] = array( 'student_id' => 'STUDENT_ID' );
 
 Search( 'student_id', $extra );
@@ -160,6 +172,8 @@ if ( UserStudentID() )
 	AND '" . $end_date . "'
 	AND ad.SYEAR='" . UserSyear() . "'
 	ORDER BY ap.SCHOOL_DATE", array(), array( 'SCHOOL_DATE', 'PERIOD_ID' ) );
+
+	$days_RET = array();
 
 	foreach ( (array) $absences_RET as $school_date => $absences )
 	{

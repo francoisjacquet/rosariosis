@@ -140,23 +140,42 @@ if ( UserStudentID()
 	AND em.ACTIVITY_ID=ea.ID
 	ORDER BY ea.START_DATE", array( 'START_DATE' => 'ProperDate', 'END_DATE' => 'ProperDate' ) );
 
-	$activities_RET = DBGet( "SELECT ID,TITLE FROM ELIGIBILITY_ACTIVITIES WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "'" );
+	$activities_RET = DBGet( "SELECT ID,TITLE
+		FROM ELIGIBILITY_ACTIVITIES
+		WHERE SYEAR='" . UserSyear() . "'
+		AND SCHOOL_ID='" . UserSchool() . "'" );
 
 	foreach ( (array) $activities_RET as $value )
 	{
 		$activities[$value['ID']] = $value['TITLE'];
 	}
 
-	$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove&start_date=' . $_REQUEST['start_date'];
+	$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] .
+		'&modfunc=remove&start_date=' . ( isset( $_REQUEST['start_date'] ) ? $_REQUEST['start_date'] : '' );
+
 	$link['remove']['variables'] = array( 'activity_id' => 'ACTIVITY_ID' );
 //FJ css WPadmin
 	//	$link['add']['html']['TITLE'] = '<table class="cellspacing-0"><tr><td>'.SelectInput('','new_activity','',$activities).'</td><td><input type=submit value="'._('Add').'"></td></tr></table>';
 	//	$link['add']['html']['remove'] = button('add');
-	$link['add']['html'] = array( 'remove' => button( 'add' ), 'TITLE' => SelectInput( '', 'new_activity', '', $activities ) . SubmitButton( _( 'Add' ) ), 'START_DATE' => '&nbsp;', 'END_DATE' => '&nbsp;' );
+	$link['add']['html'] = array(
+		'remove' => button( 'add' ),
+		'TITLE' => SelectInput( '', 'new_activity', '', $activities ) . SubmitButton( _( 'Add' ) ),
+		'START_DATE' => '&nbsp;',
+		'END_DATE' => '&nbsp;',
+	);
 
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=add&start_date=' . $_REQUEST['start_date'] . '" method="POST">';
-	$columns = array( 'TITLE' => _( 'Activity' ), 'START_DATE' => _( 'Starts' ), 'END_DATE' => _( 'Ends' ) );
+	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
+		'&modfunc=add&start_date=' . ( isset( $_REQUEST['start_date'] ) ? $_REQUEST['start_date'] : '' ) .
+		'" method="POST">';
+
+	$columns = array(
+		'TITLE' => _( 'Activity' ),
+		'START_DATE' => _( 'Starts' ),
+		'END_DATE' => _( 'Ends' ),
+	);
+
 	ListOutput( $RET, $columns, 'Activity', 'Activities', $link );
+
 	echo '</form>';
 
 	$RET = DBGet( "SELECT e.ELIGIBILITY_CODE,c.TITLE as COURSE_TITLE

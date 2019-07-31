@@ -40,7 +40,7 @@ if ( empty( $_REQUEST['start_date'] ) )
 
 	$start_date = date( 'Y-m-d', $start_time );
 
-	$end_date = date( 'Y-m-d', DBDate() );
+	$end_date = date( 'Y-m-d' );
 }
 else
 {
