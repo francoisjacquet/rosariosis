@@ -72,7 +72,7 @@ $assignments_RET = DBGet( "SELECT ASSIGNMENT_ID,TITLE,POINTS
 	AND MARKING_PERIOD_ID='" . UserMP() . "'
 	ORDER BY " . Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) . " DESC" );
 
-$assignment_select .= '<select name="assignment_id" id="assignment_id" onchange="ajaxPostForm(this.form, true)">';
+$assignment_select = '<select name="assignment_id" id="assignment_id" onchange="ajaxPostForm(this.form, true)">';
 
 $assignment_select .= '<option value="totals"' . ( $_REQUEST['assignment_id'] === 'totals' ? ' selected' : '' ) . '>' .
 _( 'Totals' ) .
@@ -117,6 +117,7 @@ foreach ( (array) $assignments_RET as $assignment )
 $assignment_select .= '</select>
 	<label for="assignment_id" class="a11y-hidden">' . _( 'Assignments' ) . '</label>';
 
+$extra['SELECT_ONLY'] = isset( $extra['SELECT_ONLY'] ) ? $extra['SELECT_ONLY'] : '';
 $extra['SELECT_ONLY'] .= "ssm.STUDENT_ID,'' AS LETTER_GRADE";
 
 $extra['functions'] = array( 'LETTER_GRADE' => '_makeGrade' );
@@ -225,9 +226,11 @@ elseif ( ! empty( $_REQUEST['assignment_id'] ) )
 
 $stu_RET = GetStuList( $extra );
 
+$RET = array();
+
 foreach ( (array) $stu_RET as $stu )
 {
-	$RET[$stu['LETTER_GRADE']]++;
+	$RET[$stu['LETTER_GRADE']] = isset( $RET[$stu['LETTER_GRADE']] ) ? $RET[$stu['LETTER_GRADE']]++ : 1;
 }
 
 $chart['chart_data'][1] = array();
@@ -364,7 +367,7 @@ function _makeGrade( $value, $column )
 	// Totals or Assignment Type
 
 	if ( ! is_numeric( $_REQUEST['assignment_id'] )
-		&& ! $_REQUEST['student_id'] )
+		&& empty( $_REQUEST['student_id'] ) )
 	{
 		if ( Preferences( 'WEIGHT', 'Gradebook' ) === 'Y'
 			&& ! empty( $percent_RET[$THIS_RET['STUDENT_ID']] ) )
@@ -376,7 +379,7 @@ function _makeGrade( $value, $column )
 				$total += $type[1]['PARTIAL_PERCENT'];
 			}
 		}
-		elseif ( $current_RET[$THIS_RET['STUDENT_ID']][1]['TOTAL_POINTS'] )
+		elseif ( ! empty( $current_RET[$THIS_RET['STUDENT_ID']][1]['TOTAL_POINTS'] ) )
 		{
 			$total = $current_RET[$THIS_RET['STUDENT_ID']][1]['POINTS'] / $current_RET[$THIS_RET['STUDENT_ID']][1]['TOTAL_POINTS'];
 		}

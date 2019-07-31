@@ -1,11 +1,14 @@
 <?php
 
+require_once 'ProgramFunctions/_makeLetterGrade.fnc.php';
+
 $do_stats = ProgramConfig( 'grades', 'GRADES_DO_STATS_STUDENTS_PARENTS' ) == 'Y'
 	|| (  ( User( 'PROFILE' ) === 'teacher'
 	|| User( 'PROFILE' ) === 'admin' )
 	&& ProgramConfig( 'grades', 'GRADES_DO_STATS_ADMIN_TEACHERS' ) == 'Y' );
 
-require_once 'ProgramFunctions/_makeLetterGrade.fnc.php';
+$_REQUEST['include_inactive'] = isset( $_REQUEST['include_inactive'] ) ? $_REQUEST['include_inactive'] : '';
+$_REQUEST['do_stats'] = isset( $_REQUEST['do_stats'] ) ? $_REQUEST['do_stats'] : '';
 
 $_ROSARIO['allow_edit'] = false;
 
@@ -42,7 +45,9 @@ if ( UserStudentID()
 
 	if ( empty( $_REQUEST['id'] ) )
 	{
-		DrawHeader( _( 'Totals' ), '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&id=all' . ( $do_stats ? '&do_stats=' . $_REQUEST['do_stats'] : '' ) . '">' . _( 'Expand All' ) . '</a>' );
+		DrawHeader( _( 'Totals' ), '<a href="Modules.php?modname=' . $_REQUEST['modname'] .
+			'&id=all' . ( $do_stats ? '&do_stats=' . $_REQUEST['do_stats'] : '' ) . '">' .
+			_( 'Expand All' ) . '</a>' );
 
 		if ( $do_stats )
 		{

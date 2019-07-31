@@ -4,6 +4,8 @@ require_once 'modules/Grades/includes/ClassRank.inc.php';
 
 require_once 'ProgramFunctions/TipMessage.fnc.php';
 
+$_REQUEST['include_inactive'] = isset( $_REQUEST['include_inactive'] ) ? $_REQUEST['include_inactive'] : '';
+
 DrawHeader( ProgramTitle() );
 
 $sem = GetParentMP( 'SEM', UserMP() );
@@ -992,8 +994,7 @@ if ( ! empty( $_REQUEST['values'] )
 }
 
 $mps_onchange_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
-	'&include_inactive=' . ( isset( $_REQUEST['include_inactive'] ) ? $_REQUEST['include_inactive'] : '' ) .
-	"&mp='";
+	'&include_inactive=' . $_REQUEST['include_inactive'] . "&mp='";
 
 $mps_select = '<select name="mp_select" id="mp_select" onchange="ajaxLink(' . $mps_onchange_URL . ' + this.options[selectedIndex].value);">';
 
@@ -1233,8 +1234,7 @@ else
 
 $LO_columns = array( 'FULL_NAME' => _( 'Student' ), 'STUDENT_ID' => sprintf( _( '%s ID' ), Config( 'NAME' ) ) );
 
-if ( isset( $_REQUEST['include_inactive'] )
-	&& $_REQUEST['include_inactive'] == 'Y' )
+if ( $_REQUEST['include_inactive'] == 'Y' )
 {
 	$LO_columns += array( 'ACTIVE' => _( 'School Status' ), 'ACTIVE_SCHEDULE' => _( 'Course Status' ) );
 }

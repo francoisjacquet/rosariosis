@@ -1,6 +1,8 @@
 <?php
 require_once 'ProgramFunctions/_makeLetterGrade.fnc.php';
 
+$_REQUEST['include_inactive'] = isset( $_REQUEST['include_inactive'] ) ? $_REQUEST['include_inactive'] : '';
+
 $course_period_id = UserCoursePeriod();
 $course_id = DBGet( "SELECT cp.COURSE_ID,c.TITLE FROM COURSE_PERIODS cp,COURSES c WHERE c.COURSE_ID=cp.COURSE_ID AND cp.COURSE_PERIOD_ID='" . $course_period_id . "'" );
 $course_title = $course_id[1]['TITLE'];
@@ -24,12 +26,14 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		{
 			$LO_columns = array( 'TITLE' => _( 'Assignment' ) );
 
-			if ( $_REQUEST['assigned_date'] == 'Y' )
+			if ( isset( $_REQUEST['assigned_date'] )
+				&& $_REQUEST['assigned_date'] == 'Y' )
 			{
 				$LO_columns += array( 'ASSIGNED_DATE' => _( 'Assigned Date' ) );
 			}
 
-			if ( $_REQUEST['due_date'] == 'Y' )
+			if ( isset( $_REQUEST['due_date'] )
+				&& $_REQUEST['due_date'] == 'Y' )
 			{
 				$LO_columns += array( 'DUE_DATE' => _( 'Due Date' ) );
 			}
@@ -57,19 +61,22 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			$extra2['WHERE'] = " AND gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID AND gt.COURSE_ID=cp.COURSE_ID AND (gg.POINTS IS NOT NULL OR (ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE) OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID))";
 			$extra2['WHERE'] .= " AND (gg.POINTS IS NOT NULL OR ga.DUE_DATE IS NULL OR ((ga.DUE_DATE>=ss.START_DATE AND (ss.END_DATE IS NULL OR ga.DUE_DATE<=ss.END_DATE)) AND (ga.DUE_DATE>=ssm.START_DATE AND (ssm.END_DATE IS NULL OR ga.DUE_DATE<=ssm.END_DATE))))";
 
-			if ( $_REQUEST['exclude_notdue'] == 'Y' )
+			if ( isset( $_REQUEST['exclude_notdue'] )
+				&& $_REQUEST['exclude_notdue'] == 'Y' )
 			{
 				$extra2['WHERE'] .= " AND (gg.POINTS IS NOT NULL OR (ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE) OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID))";
 			}
 
-			if ( $_REQUEST['exclude_ec'] == 'Y' )
+			if ( isset( $_REQUEST['exclude_ec'] )
+				&& $_REQUEST['exclude_ec'] == 'Y' )
 			{
 				$extra2['WHERE'] .= " AND (ga.POINTS!='0' OR gg.POINTS IS NOT NULL AND gg.POINTS!='-1')";
 			}
 
 			$extra2['ORDER_BY'] = "ga.ASSIGNMENT_ID";
 
-			if ( $_REQUEST['by_category'] == 'Y' )
+			if ( isset( $_REQUEST['by_category'] )
+				&& $_REQUEST['by_category'] == 'Y' )
 			{
 				$extra2['group'] = $LO_group = array( 'ASSIGNMENT_TYPE_ID' );
 			}
@@ -86,7 +93,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			{
 				unset( $_ROSARIO['DrawHeader'] );
 
-				if ( $_REQUEST['mailing_labels'] == 'Y' )
+				if ( isset( $_REQUEST['mailing_labels'] )
+					&& $_REQUEST['mailing_labels'] == 'Y' )
 				{
 					echo '<br /><br /><br />';
 				}
@@ -97,7 +105,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				DrawHeader( $course_title, GetMP( UserMP() ) );
 				DrawHeader( ProperDate( DBDate() ) );
 
-				if ( $_REQUEST['mailing_labels'] == 'Y' )
+				if ( isset( $_REQUEST['mailing_labels'] )
+					&& $_REQUEST['mailing_labels'] == 'Y' )
 				{
 					echo '<br /><br /><table class="width-100p"><tr><td style="width:50px;"> &nbsp; </td><td>' . $student['MAILING_LABEL'] . '</td></tr></table><br />';
 				}
@@ -127,32 +136,67 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					$sum_points = 0;
 				}
 
-				if ( $_REQUEST['by_category'] == 'Y' )
+				if ( isset( $_REQUEST['by_category'] )
+					&& $_REQUEST['by_category'] == 'Y' )
 				{
 					foreach ( (array) $grades_RET as $assignment_type_id => $grades )
 					{
-//FJ remove LO_field
-						$grades_RET[$assignment_type_id][] = array( 'TITLE' => _removeSpaces( '<b>' . $grades[1]['CATEGORY_TITLE'] . ' ' . _( 'Total' ) . '</b>' . ( $gradebook_config['WEIGHT'] == 'Y' && $sum_percent > 0 ? ' (' . sprintf( _( '%s of grade' ), _Percent( $percent_weights[$assignment_type_id] / $sum_percent ) ) . ')' : '' ), 'TITLE' ),
+						$grades_RET[$assignment_type_id][] = array(
+							'TITLE' => _removeSpaces(
+								'<b>' . $grades[1]['CATEGORY_TITLE'] . ' ' . _( 'Total' ) . '</b>' .
+								( $gradebook_config['WEIGHT'] == 'Y' && $sum_percent > 0 ?
+									' (' . sprintf( _( '%s of grade' ), _Percent( $percent_weights[$assignment_type_id] / $sum_percent ) ) . ')' :
+									'' ),
+								'TITLE' ),
 							'ASSIGNED_DATE' => '&nbsp;', 'DUE_DATE' => '&nbsp;',
-							'POINTS' => '<table class="cellspacing-0"><tr><td><span class="size-1"><b>' . $student_points[$assignment_type_id] . '</b></span></td><td><span class="size-1">&nbsp;<b>/</b>&nbsp;</span></td><td><span class="size-1"><b>' . $total_points[$assignment_type_id] . '</b></span></td></tr></table>',
-							'PERCENT_GRADE' => $total_points[$assignment_type_id] ? '<b>' . _Percent( $student_points[$assignment_type_id] / $total_points[$assignment_type_id] ) . '</b>' : '&nbsp;' );
+							'POINTS' => '<table class="cellspacing-0"><tr><td><span class="size-1"><b>' .
+								$student_points[$assignment_type_id] .
+								'</b></span></td>
+								<td><span class="size-1">&nbsp;<b>/</b>&nbsp;</span></td>
+								<td><span class="size-1"><b>' . $total_points[$assignment_type_id] .
+								'</b></span></td></tr></table>',
+							'PERCENT_GRADE' => $total_points[$assignment_type_id] ?
+								'<b>' . _Percent( $student_points[$assignment_type_id] / $total_points[$assignment_type_id] ) . '</b>' :
+								'&nbsp;',
+						);
 					}
 				}
 
 				$link['add']['html'] = array( 'TITLE' => '<b>Total</b>',
-					'POINTS' => '<table class="cellspacing-0"><tr><td><span class="size-1"><b>' . $sum_student_points . '</b></span></td><td><span class="size-1">&nbsp;<b>/</b>&nbsp;</span></td><td><span class="size-1"><b>' . $sum_total_points . '</b></span></td></tr></table>',
-					'PERCENT_GRADE' => '<b>' . _Percent( $sum_points ) . '</b>', 'LETTER_GRADE' => '<b>' . _makeLetterGrade( $sum_points ) . '</b>' );
+					'POINTS' => '<table class="cellspacing-0"><tr><td><span class="size-1"><b>' .
+						$sum_student_points . '</b></span></td>
+						<td><span class="size-1">&nbsp;<b>/</b>&nbsp;</span></td>
+						<td><span class="size-1"><b>' . $sum_total_points . '</b></span></td></tr></table>',
+					'PERCENT_GRADE' => '<b>' . _Percent( $sum_points ) . '</b>',
+					'LETTER_GRADE' => '<b>' . _makeLetterGrade( $sum_points ) . '</b>',
+				);
+
 				$link['add']['html']['ASSIGNED_DATE'] = $link['add']['html']['DUE_DATE'] = $link['add']['html']['COMMENT'] = ' &nbsp; ';
 
-//FJ add translation
-
-				if ( $_REQUEST['by_category'] == 'Y' )
+				if ( isset( $_REQUEST['by_category'] )
+					&& $_REQUEST['by_category'] == 'Y' )
 				{
-					ListOutput( $grades_RET, $LO_columns, 'Assignment Type', 'Assignment Types', $link, $LO_group, array( 'center' => false, 'add' => true ) );
+					ListOutput(
+						$grades_RET,
+						$LO_columns,
+						'Assignment Type',
+						'Assignment Types',
+						$link,
+						$LO_group,
+						array( 'center' => false, 'add' => true )
+					);
 				}
 				else
 				{
-					ListOutput( $grades_RET, $LO_columns, 'Assignment', 'Assignments', $link, $LO_group, array( 'center' => false, 'add' => true ) );
+					ListOutput(
+						$grades_RET,
+						$LO_columns,
+						'Assignment',
+						'Assignments',
+						$link,
+						$LO_group,
+						array( 'center' => false, 'add' => true )
+					);
 				}
 
 				echo '<div style="page-break-after: always;"></div>';
@@ -177,7 +221,9 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( $_REQUEST['search_modfunc'] === 'list' ) // || UserStudentID())
 	{
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save&include_inactive=' . $_REQUEST['include_inactive'] . '&_ROSARIO_PDF=true" method="POST">';
+		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
+			'&modfunc=save&include_inactive=' . $_REQUEST['include_inactive'] .
+			'&_ROSARIO_PDF=true" method="POST">';
 
 		$extra['header_right'] = Buttons( _( 'Create Progress Reports for Selected Students' ) );
 

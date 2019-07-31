@@ -1,5 +1,8 @@
 <?php
 
+$_REQUEST['include_all_courses'] = isset( $_REQUEST['include_all_courses'] ) ? $_REQUEST['include_all_courses'] : '';
+$_REQUEST['include_inactive'] = isset( $_REQUEST['include_inactive'] ) ? $_REQUEST['include_inactive'] : '';
+
 DrawHeader( _( 'Gradebook' ) . ' - ' . ProgramTitle() );
 
 $max_allowed = Preferences( 'ANOMALOUS_MAX', 'Gradebook' ) / 100;
@@ -56,7 +59,8 @@ else
 	{
 		unset( $_SESSION['student_id'] );
 
-		if ( $_REQUEST['period'] && $_REQUEST['period'] != UserCoursePeriod() )
+		if ( isset( $_REQUEST['period'] )
+			&& $_REQUEST['period'] != UserCoursePeriod() )
 		{
 			$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];
 		}
@@ -83,14 +87,18 @@ if ( ! empty( $_REQUEST['period'] ) )
 	}
 }
 
+$extra['WHERE'] = isset( $extra['WHERE'] ) ? $extra['WHERE'] : '';
+
 if ( UserStudentID() )
 {
-	$extra['WHERE'] = " AND s.STUDENT_ID='" . UserStudentID() . "'";
+	$extra['WHERE'] .= " AND s.STUDENT_ID='" . UserStudentID() . "'";
 }
 
+$extra['SELECT'] = isset( $extra['SELECT'] ) ? $extra['SELECT'] : '';
 $extra['SELECT'] .= ",gg.POINTS,gg.COMMENT,ga.ASSIGNMENT_TYPE_ID,ga.ASSIGNMENT_ID,gt.TITLE AS TYPE_TITLE,ga.TITLE,ga.POINTS AS TOTAL_POINTS,'' AS LETTER_GRADE";
 
 $extra['FROM'] = " JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID OR ga.COURSE_ID=cp.COURSE_ID AND ga.STAFF_ID=cp.TEACHER_ID) AND ga.MARKING_PERIOD_ID='" . UserMP() . "') LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.STUDENT_ID=s.STUDENT_ID AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID),GRADEBOOK_ASSIGNMENT_TYPES gt";
+
 $extra['WHERE'] .= ' AND (';
 
 // missing
@@ -141,8 +149,23 @@ if ( UserStudentID() )
 }
 else
 {
-	$columns = array( 'FULL_NAME' => _( 'Name' ), 'STUDENT_ID' => sprintf( _( '%s ID' ), Config( 'NAME' ) ), 'POINTS' => _( 'Problem' ) );
-	$link = array( 'FULL_NAME' => array( 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&include_all_courses=' . $_REQUEST['include_all_courses'] . '&include_inactive=' . $_REQUEST['include_inactive'] . '&missing=' . $_REQUEST['missing'] . '&negative=' . $_REQUEST['negative'] . '&max_allowed=' . $_REQUEST['max_allowed'], 'variables' => array( 'student_id' => 'STUDENT_ID' ) ) );
+	$columns = array(
+		'FULL_NAME' => _( 'Name' ),
+		'STUDENT_ID' => sprintf( _( '%s ID' ), Config( 'NAME' ) ),
+		'POINTS' => _( 'Problem' ),
+	);
+
+	$link = array(
+		'FULL_NAME' => array(
+			'link' => 'Modules.php?modname=' . $_REQUEST['modname'] .
+				'&include_all_courses=' . $_REQUEST['include_all_courses'] .
+				'&include_inactive=' . $_REQUEST['include_inactive'] .
+				'&missing=' . ( isset( $_REQUEST['missing'] ) ? $_REQUEST['missing'] : '' ) .
+				'&negative=' . ( isset( $_REQUEST['negative'] ) ? $_REQUEST['negative'] : '' ) .
+				'&max_allowed=' . ( isset( $_REQUEST['max_allowed'] ) ? $_REQUEST['max_allowed'] : '' ),
+			'variables' => array( 'student_id' => 'STUDENT_ID' ),
+		)
+	);
 
 	if ( $_REQUEST['include_all_courses'] == 'Y' )
 	{
@@ -159,7 +182,7 @@ if ( $_REQUEST['include_all_courses'] == 'Y' )
 
 $columns += array( 'TYPE_TITLE' => _( 'Category' ), 'TITLE' => _( 'Assignment' ), 'COMMENT' => _( 'Comment' ) );
 
-if ( ! empty( $_REQUEST['include_inactive'] ) )
+if ( $_REQUEST['include_inactive'] )
 {
 	$columns += array( 'ACTIVE' => _( 'School Status' ), 'ACTIVE_SCHEDULE' => _( 'Course Status' ) );
 }

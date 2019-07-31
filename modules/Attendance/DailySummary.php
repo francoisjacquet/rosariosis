@@ -3,6 +3,9 @@
 require_once 'modules/Attendance/includes/UpdateAttendanceDaily.fnc.php';
 require_once 'modules/Attendance/includes/AttendanceCodes.fnc.php';
 
+$_REQUEST['student_id'] = isset( $_REQUEST['student_id'] ) ? $_REQUEST['student_id'] : '';
+$_REQUEST['period_id'] = isset( $_REQUEST['period_id'] ) ? $_REQUEST['period_id'] : '';
+
 DrawHeader( ProgramTitle() );
 
 // Set start date.
@@ -56,7 +59,7 @@ if ( $_REQUEST['search_modfunc']
 	{
 		$_REQUEST['student_id'] = UserStudentID();
 	}
-	elseif ( ! empty( $_REQUEST['student_id'] )
+	elseif ( $_REQUEST['student_id']
 		|| User( 'PROFILE' ) === 'parent' )
 	{
 		// Just to set UserStudentID().
@@ -101,7 +104,7 @@ if ( $_REQUEST['search_modfunc']
 			foreach ( (array) $periods_RET as $period )
 			{
 				$period_select .= '<option value="' . $period['PERIOD_ID'] . '"' .
-					( ( $_REQUEST['period_id'] == $period['PERIOD_ID'] ) ? ' selected' : '' ) . '>' .
+					( $_REQUEST['period_id'] == $period['PERIOD_ID'] ? ' selected' : '' ) . '>' .
 					$period['TITLE'] . '</option>';
 			}
 		}
@@ -123,7 +126,7 @@ if ( $_REQUEST['search_modfunc']
 					( ( $_REQUEST['period_id'] == $periods_RET[1]['PERIOD_ID'] ) ? ' selected' : '' ) . ">" .
 					$periods_RET[1]['TITLE'] . '</option>';
 
-				if ( ! isset( $_REQUEST['period_id'] ) )
+				if ( empty( $_REQUEST['period_id'] ) )
 				{
 					$_REQUEST['period_id'] = $periods_RET[1]['PERIOD_ID'];
 				}
@@ -132,14 +135,13 @@ if ( $_REQUEST['search_modfunc']
 	}
 	else
 	{
-		if ( isset( $_REQUEST['period_id'] )
-			&& is_numeric( $_REQUEST['period_id'] ) )
+		if ( is_numeric( $_REQUEST['period_id'] ) )
 		{
 			$_REQUEST['period_id'] = 'PERIOD';
 		}
 
 		$period_select .= '<option value="PERIOD"' .
-			( isset( $_REQUEST['period_id'] ) && $_REQUEST['period_id'] === 'PERIOD' ? ' selected' : '' ) . '>' .
+			( $_REQUEST['period_id'] === 'PERIOD' ? ' selected' : '' ) . '>' .
 			_( 'By Period' ) . '</option>';
 
 		if ( User( 'PROFILE' ) === 'teacher' )
@@ -168,7 +170,7 @@ if ( $_REQUEST['search_modfunc']
 
 	echo '</form>';
 
-	if ( ! UserStudentID() && ! empty( $_REQUEST['period_id'] ) )
+	if ( ! UserStudentID() && $_REQUEST['period_id'] )
 	{
 		$has_edit_form = true;
 
@@ -189,10 +191,10 @@ $cal_RET = DBGet( "SELECT DISTINCT SCHOOL_DATE,'_'||to_char(SCHOOL_DATE,'yyyymmd
 
 //FJ bugfix bug when Back to Student Search
 //if (UserStudentID() || $_REQUEST['student_id'] || User( 'PROFILE' ) === 'parent')
-if ( ! empty( $_REQUEST['student_id'] )
+if ( $_REQUEST['student_id']
 	|| User( 'PROFILE' ) === 'parent' )
 {
-	if ( ! empty( $_REQUEST['period_id'] ) )
+	if ( $_REQUEST['period_id'] )
 	{
 		//FJ multiple school periods for a course period
 		/*$sql = "SELECT
@@ -283,10 +285,10 @@ if ( ! empty( $_REQUEST['student_id'] )
 
 			$student_RET[ $i ][ $value['SHORT_DATE'] ] = MakeAttendanceCode(
 				$attendance_RET[ $value['SCHOOL_DATE'] ][ $course['PERIOD_ID'] ][1]['STATE_CODE'],
-				( ! empty( $_REQUEST['period_id'] ) ?
+				( $_REQUEST['period_id'] ?
 					$attendance_RET[ $value['SCHOOL_DATE'] ][ $course['PERIOD_ID'] ][1]['SHORT_NAME'] :
 					'' ),
-				( ! empty( $_REQUEST['period_id'] ) ?
+				( $_REQUEST['period_id'] ?
 					$attendance_RET[ $value['SCHOOL_DATE'] ][ $course['PERIOD_ID'] ][1]['TITLE'] :
 					'' )
 			);
@@ -348,6 +350,7 @@ else
 	{
 		$school_date_col = '_' . str_replace( '-', '', $value['SCHOOL_DATE'] );
 
+		$extra['SELECT'] = isset( $extra['SELECT'] ) ? $extra['SELECT'] : '';
 		$extra['SELECT'] .= ",'' as " . $school_date_col;
 
 		$proper_date = ProperDate( $value['SCHOOL_DATE'], 'short' );
@@ -396,9 +399,14 @@ function _makeColor( $value, $column )
 			"'" . $THIS_RET['STUDENT_ID'] . "'", array(), array( 'SHORT_DATE' ) );
 	}
 
+	if ( empty( $att_RET[ $THIS_RET['STUDENT_ID'] ][ $column ][1] ) )
+	{
+		return '';
+	}
+
 	$att = $att_RET[ $THIS_RET['STUDENT_ID'] ][ $column ][1];
 
-	if ( ! empty( $_REQUEST['period_id'] ) )
+	if ( $_REQUEST['period_id'] )
 	{
 		if ( empty( $attendance_codes_RET ) )
 		{
