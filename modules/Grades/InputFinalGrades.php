@@ -12,7 +12,7 @@ $pros = GetChildrenMP( 'PRO', UserMP() );
 
 // If the UserMP has been changed, the REQUESTed MP may not work.
 
-if ( ! $_REQUEST['mp']
+if ( empty( $_REQUEST['mp'] )
 	|| mb_strpos(
 		$str = "'" . UserMP() . "','" . $sem . "','" . $fy . "'," . $pros,
 		"'" . $_REQUEST['mp'] . "'" ) === false )
@@ -93,7 +93,8 @@ $categories_RET = DBGet( "SELECT rc.ID,rc.TITLE,rc.COLOR,1,rc.SORT_ORDER
 		AND SYEAR='" . UserSyear() . "')>0
 	ORDER BY 4,SORT_ORDER", array(), array( 'ID' ) );
 
-if ( $_REQUEST['tab_id'] == ''
+if ( ! isset( $_REQUEST['tab_id'] )
+	|| $_REQUEST['tab_id'] == ''
 	|| ! $categories_RET[$_REQUEST['tab_id']] )
 {
 	$_REQUEST['tab_id'] = key( $categories_RET ) . '';
@@ -503,7 +504,7 @@ if ( $_REQUEST['modfunc'] === 'clearall' )
 	RedirectURL( 'modfunc' );
 }
 
-if ( $_REQUEST['values']
+if ( ! empty( $_REQUEST['values'] )
 	&& $_POST['values'] )
 {
 	require_once 'ProgramFunctions/_makeLetterGrade.fnc.php';
@@ -991,9 +992,10 @@ if ( $_REQUEST['values']
 }
 
 $mps_onchange_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
-	'&include_inactive=' . $_REQUEST['include_inactive'] . "&mp='";
+	'&include_inactive=' . ( isset( $_REQUEST['include_inactive'] ) ? $_REQUEST['include_inactive'] : '' ) .
+	"&mp='";
 
-$mps_select .= '<select name="mp_select" id="mp_select" onchange="ajaxLink(' . $mps_onchange_URL . ' + this.options[selectedIndex].value);">';
+$mps_select = '<select name="mp_select" id="mp_select" onchange="ajaxLink(' . $mps_onchange_URL . ' + this.options[selectedIndex].value);">';
 
 if ( $pros != '' )
 {
@@ -1038,6 +1040,8 @@ if ( GetMP( $sem, 'DOES_GRADES' ) == 'Y' )
 	$mps_select .= '<option value="' . $sem . '"' . ( $sem == $_REQUEST['mp'] ? ' selected' : '' ) . '>' .
 		GetMP( $sem ) . '</option>';
 }
+
+$allow_edit = false;
 
 if ( $_REQUEST['mp'] == $fy
 	&& GetMP( $fy, 'POST_START_DATE' )
@@ -1197,6 +1201,8 @@ if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	//FJ add translation
 	DrawHeader(  ( $current_completed ? '<span style="color:green">' . _( 'These grades are complete.' ) . '</span>' : '<span style="color:red">' . _( 'These grades are NOT complete.' ) . '</span>' ) . ( AllowEdit() ? ' | <span style="color:green">' . _( 'You can edit these grades.' ) . $grade_posting_dates_text . '</span>' : ' | <span style="color:red">' . _( 'You can not edit these grades.' ) . $grade_posting_dates_text . '</span>' ) );
 
+	$gb_header = '';
+
 	if ( AllowEdit() )
 	{
 		$gb_header .= '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&include_inactive=' . $_REQUEST['include_inactive'] . '&modfunc=gradebook&mp=' . $_REQUEST['mp'] . '">' . _( 'Get Gradebook Grades.' ) . '</a>';
@@ -1227,7 +1233,8 @@ else
 
 $LO_columns = array( 'FULL_NAME' => _( 'Student' ), 'STUDENT_ID' => sprintf( _( '%s ID' ), Config( 'NAME' ) ) );
 
-if ( $_REQUEST['include_inactive'] == 'Y' )
+if ( isset( $_REQUEST['include_inactive'] )
+	&& $_REQUEST['include_inactive'] == 'Y' )
 {
 	$LO_columns += array( 'ACTIVE' => _( 'School Status' ), 'ACTIVE_SCHEDULE' => _( 'Course Status' ) );
 }
@@ -1350,8 +1357,16 @@ function _makeLetterPercent( $student_id, $column )
 	}
 	else
 	{
-		$select_percent = $current_RET[$student_id][1]['GRADE_PERCENT'];
-		$select_grade = $current_RET[$student_id][1]['REPORT_CARD_GRADE_ID'];
+		if ( empty( $current_RET[$student_id][1] ) )
+		{
+			$select_percent = $select_grade = '';
+		}
+		else
+		{
+			$select_percent = $current_RET[$student_id][1]['GRADE_PERCENT'];
+			$select_grade = $current_RET[$student_id][1]['REPORT_CARD_GRADE_ID'];
+		}
+
 		$div = true;
 	}
 
@@ -1471,7 +1486,10 @@ function _makeComment( $value, $column )
 	}
 	else
 	{
-		$select = $current_RET[$THIS_RET['STUDENT_ID']][1]['COMMENT'];
+		$select = isset( $current_RET[$THIS_RET['STUDENT_ID']][1]['COMMENT'] ) ?
+			$current_RET[$THIS_RET['STUDENT_ID']][1]['COMMENT'] :
+			'';
+
 		$div = true;
 	}
 
@@ -1503,7 +1521,9 @@ function _makeCommentsA( $value, $column )
 	}
 	else
 	{
-		if ( ! $current_commentsA_RET[$THIS_RET['STUDENT_ID']][$value][1]['COMMENT'] && ! $import_commentsA_RET && AllowEdit() )
+		if ( ! $current_commentsA_RET[$THIS_RET['STUDENT_ID']][$value][1]['COMMENT']
+			&& ! $import_commentsA_RET
+			&& AllowEdit() )
 		{
 			$select = Preferences( 'COMMENT_' . $THIS_RET['CAC' . $value], 'Gradebook' );
 			$div = false;
@@ -1517,7 +1537,15 @@ function _makeCommentsA( $value, $column )
 
 	if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
-		$return = SelectInput( $select, 'values[' . $THIS_RET['STUDENT_ID'] . '][commentsA][' . $value . ']', '', $commentsA_select[$THIS_RET['CAC' . $value]], _( 'N/A' ), '', $div );
+		$return = SelectInput(
+			$select,
+			'values[' . $THIS_RET['STUDENT_ID'] . '][commentsA][' . $value . ']',
+			'',
+			$commentsA_select[$THIS_RET['CAC' . $value]],
+			_( 'N/A' ),
+			'',
+			$div
+		);
 	}
 	else
 	{

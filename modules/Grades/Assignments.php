@@ -4,6 +4,7 @@ require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 require_once 'modules/Grades/includes/StudentAssignments.fnc.php';
 
 $_REQUEST['assignment_id'] = isset( $_REQUEST['assignment_id'] ) ? $_REQUEST['assignment_id'] : '';
+$_REQUEST['assignment_type_id'] = isset( $_REQUEST['assignment_type_id'] ) ? $_REQUEST['assignment_type_id'] : '';
 
 if ( ! empty( $_REQUEST['assignment_id'] )
 	&& ! empty( $_REQUEST['marking_period_id'] ) )
@@ -85,6 +86,8 @@ if ( ! empty( $_POST['tables'] ) )
 			$error[] = _( 'Please enter a valid Sort Order.' );
 		}
 
+		$gradebook_assignment_update = false;
+
 		if ( $id !== 'new' )
 		{
 			if ( ! empty( $columns['ASSIGNMENT_TYPE_ID'] )
@@ -155,7 +158,7 @@ if ( ! empty( $_POST['tables'] ) )
 
 			if ( $table == 'GRADEBOOK_ASSIGNMENTS' )
 			{
-				if ( $columns['ASSIGNMENT_TYPE_ID'] )
+				if ( ! empty( $columns['ASSIGNMENT_TYPE_ID'] ) )
 				{
 					$_REQUEST['assignment_type_id'] = $columns['ASSIGNMENT_TYPE_ID'];
 
@@ -635,7 +638,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$header .= '</tr><tr class="st">';
 
-		$file_download = GetAssignmentFileLink( $RET['FILE'] );
+		$file_download = GetAssignmentFileLink( isset( $RET['FILE'] ) ? $RET['FILE'] : '' );
 
 		$header .= '<td colspan="2">' . ( $file_download ? $file_download . '<br />' : '' ) .
 		FileInput(

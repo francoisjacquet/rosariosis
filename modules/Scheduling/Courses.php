@@ -305,14 +305,15 @@ if ( ! empty( $_REQUEST['tables'] )
 						$columns['DESCRIPTION'] = SanitizeHTML( $_POST['tables']['COURSES'][ $id ]['DESCRIPTION'] );
 					}
 
-					if ( $columns['TOTAL_SEATS'] && ! is_numeric( $columns['TOTAL_SEATS'] ) )
+					if ( isset( $columns['TOTAL_SEATS'] )
+						&& ! is_numeric( $columns['TOTAL_SEATS'] ) )
 					{
 						$columns['TOTAL_SEATS'] = preg_replace( '/[^0-9]+/', '', $columns['TOTAL_SEATS'] );
 					}
 
 					$days = '';
 
-					if ( $columns['DAYS'] )
+					if ( ! empty( $columns['DAYS'] ) )
 					{
 						foreach ( (array) $columns['DAYS'] as $day => $y )
 						{
@@ -325,8 +326,10 @@ if ( ! empty( $_REQUEST['tables'] )
 						$columns['DAYS'] = $days;
 					}
 
-					if ( $columns['DOES_ATTENDANCE'] )
+					if ( ! empty( $columns['DOES_ATTENDANCE'] ) )
 					{
+						$tbls = '';
+
 						foreach ( (array) $columns['DOES_ATTENDANCE'] as $tbl => $y )
 						{
 							if ( $y == 'Y' )
@@ -335,21 +338,16 @@ if ( ! empty( $_REQUEST['tables'] )
 							}
 						}
 
-						if ( $tbls )
-						{
-							$columns['DOES_ATTENDANCE'] = $tbls . ',';
-						}
-						else
-						{
-							$columns['DOES_ATTENDANCE'] = '';
-						}
+						$columns['DOES_ATTENDANCE'] = $tbls ? $tbls . ',' : '';
 					}
 
 					// if ( $id!== 'new')
 
 					if ( mb_strpos( $id, 'new' ) === false )
 					{
-						if ( $table_name == 'COURSES' && $columns['SUBJECT_ID'] && $columns['SUBJECT_ID'] != $_REQUEST['subject_id'] )
+						if ( $table_name == 'COURSES'
+							&& $columns['SUBJECT_ID']
+							&& $columns['SUBJECT_ID'] != $_REQUEST['subject_id'] )
 						{
 							$_REQUEST['subject_id'] = $columns['SUBJECT_ID'];
 						}
@@ -750,9 +748,9 @@ if (  ( ! $_REQUEST['modfunc']
 		if ( AllowEdit() )
 		{
 			$delete_url = "'Modules.php?modname=" . $_REQUEST['modname'] .
-				'&modfunc=delete&subject_id=' . $_REQUEST['subject_id'] .
-				'&course_id=' . $_REQUEST['course_id'] .
-				'&course_period_id=' . $_REQUEST['course_period_id'] . "'";
+				'&modfunc=delete&subject_id=' . ( isset( $_REQUEST['subject_id'] ) ? $_REQUEST['subject_id'] : '' ) .
+				'&course_id=' . ( isset( $_REQUEST['course_id'] ) ? $_REQUEST['course_id'] : '' ) .
+				'&course_period_id=' . ( isset( $_REQUEST['course_period_id'] ) ? $_REQUEST['course_period_id'] : '' ) . "'";
 
 			$delete_button = '<input type="button" value="' . _( 'Delete' ) . '" onClick="javascript:ajaxLink(' . $delete_url . ');" />';
 		}
@@ -974,7 +972,7 @@ if (  ( ! $_REQUEST['modfunc']
 				else
 				{
 					$header .= '<td>' . SelectInput(
-						$school_period['PERIOD_ID'],
+						( isset( $school_period['PERIOD_ID'] ) ? $school_period['PERIOD_ID'] : '' ),
 						'tables[COURSE_PERIOD_SCHOOL_PERIODS][' . $school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'] . '][PERIOD_ID]',
 						_( 'Period' ),
 						$periods
@@ -1105,34 +1103,36 @@ if (  ( ! $_REQUEST['modfunc']
 				$new
 			);
 
+			// Calendar.
+			$header .= '<tr class="st"><td>' . $cp_inputs[0] . '</td>';
+
 			// Takes Attendance.
-			$header .= '<tr class="st"><td colspan="2">' . $cp_inputs[0];
+			$header .= '<td colspan="2">' . $cp_inputs[1] . '</td>';
 
-			// Affects Honor Roll.
-			$header .= '</td><td colspan="2">' . $cp_inputs[1] . '</td>';
+			// Half Day.
+			$header .= '<td colspan="3">' . $cp_inputs[2] . '</td></tr>';
 
-			// Affects Class Rank.
-			$header .= '<td colspan="2">' . $cp_inputs[2] . '</td>';
-
-			// Gender Restriction.
-			$header .= '</tr><tr class="st"><td colspan="2">' . $cp_inputs[3] . '</td>';
+			$header .= '<tr><td colspan="6"><hr /></td>';
 
 			// Grading Scale.
+			$header .= '</tr><tr class="st"><td>' . $cp_inputs[3] . '</td>';
+
+			// Allow Teacher Grade Scale.
 			$header .= '<td colspan="2">' . $cp_inputs[4] . '</td>';
 
 			// Credits.
 			$header .= '<td>' . $cp_inputs[5] . '</td>';
 
-			// Calendar.
+			// Affects Class Rank.
 			$header .= '<td>' . $cp_inputs[6] . '</td>';
 
-			$header .= '</tr><tr class="st">';
+			// Affects Honor Roll.
+			$header .= '<td>' . $cp_inputs[7] . '</td></tr>';
 
-			// Half Day.
-			$header .= '<td>' . $cp_inputs[7] . '</td>';
+			$header .= '<tr><td colspan="6"><hr /></td>';
 
-			// Allow Teacher Grade Scale.
-			$header .= '<td colspan="3">' . $cp_inputs[8] . '</td>';
+			// Gender Restriction.
+			$header .= '</tr><tr class="st"><td colspan="3">' . $cp_inputs[8] . '</td>';
 
 			if ( $_REQUEST['course_period_id'] !== 'new'
 				&& $RET['PARENT_ID'] !== $_REQUEST['course_period_id'] )

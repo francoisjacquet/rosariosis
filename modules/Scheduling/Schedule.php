@@ -314,32 +314,39 @@ if ( UserStudentID()
 
 	if ( AllowEdit() )
 	{
-		//FJ add proper Unfilled Requests list
+		// Add proper Unfilled Requests list.
 		unset( $extra );
 		unset( $link );
 		unset( $columns );
 
-		//include calcSeats, _makeRequestTeacher & _makeRequestPeriod functions
+		// Include calcSeats, _makeRequestTeacher & _makeRequestPeriod functions.
 		require_once 'modules/Scheduling/includes/unfilledRequests.inc.php';
 
 		$extra['WHERE'] = " AND s.STUDENT_ID='" . UserStudentID() . "'";
-		$extra['FROM'] .= ',SCHEDULE_REQUESTS sr,COURSES c';
+		$extra['FROM'] = ',SCHEDULE_REQUESTS sr,COURSES c';
 
-		$custom_fields_RET = DBGet( "SELECT ID,TITLE,TYPE FROM CUSTOM_FIELDS WHERE ID=200000000", array(), array( 'ID' ) );
+		$custom_fields_RET = DBGet( "SELECT ID,TITLE,TYPE
+			FROM CUSTOM_FIELDS
+			WHERE ID=200000000", array(), array( 'ID' ) );
 
 		if ( $custom_fields_RET['200000000'] && $custom_fields_RET['200000000'][1]['TYPE'] == 'select' )
 		{
-			$extra['SELECT'] .= ',s.CUSTOM_200000000,c.TITLE AS COURSE,sr.SUBJECT_ID,sr.COURSE_ID,sr.WITH_TEACHER_ID,sr.NOT_TEACHER_ID,sr.WITH_PERIOD_ID,sr.NOT_PERIOD_ID,\'0\' AS AVAILABLE_SEATS,(SELECT count(*) AS SECTIONS FROM COURSE_PERIODS cp WHERE cp.COURSE_ID=sr.COURSE_ID AND (cp.GENDER_RESTRICTION=\'N\' OR cp.GENDER_RESTRICTION=substring(s.CUSTOM_200000000,1,1)) AND (sr.WITH_TEACHER_ID IS NULL OR sr.WITH_TEACHER_ID=cp.TEACHER_ID) AND (sr.NOT_TEACHER_ID IS NULL OR sr.NOT_TEACHER_ID!=cp.TEACHER_ID)) AS SECTIONS ';
+			$extra['SELECT'] = ',s.CUSTOM_200000000,c.TITLE AS COURSE,sr.SUBJECT_ID,sr.COURSE_ID,sr.WITH_TEACHER_ID,sr.NOT_TEACHER_ID,sr.WITH_PERIOD_ID,sr.NOT_PERIOD_ID,\'0\' AS AVAILABLE_SEATS,(SELECT count(*) AS SECTIONS FROM COURSE_PERIODS cp WHERE cp.COURSE_ID=sr.COURSE_ID AND (cp.GENDER_RESTRICTION=\'N\' OR cp.GENDER_RESTRICTION=substring(s.CUSTOM_200000000,1,1)) AND (sr.WITH_TEACHER_ID IS NULL OR sr.WITH_TEACHER_ID=cp.TEACHER_ID) AND (sr.NOT_TEACHER_ID IS NULL OR sr.NOT_TEACHER_ID!=cp.TEACHER_ID)) AS SECTIONS ';
 		}
 		else //'None' as GENDER
 		{
-			$extra['SELECT'] .= ',\'None\' AS CUSTOM_200000000,c.TITLE AS COURSE,sr.SUBJECT_ID,sr.COURSE_ID,sr.WITH_TEACHER_ID,sr.NOT_TEACHER_ID,sr.WITH_PERIOD_ID,sr.NOT_PERIOD_ID,\'0\' AS AVAILABLE_SEATS,(SELECT count(*) AS SECTIONS FROM COURSE_PERIODS cp WHERE cp.COURSE_ID=sr.COURSE_ID AND (cp.GENDER_RESTRICTION=\'N\' OR cp.GENDER_RESTRICTION=substring(\'None\',1,1)) AND (sr.WITH_TEACHER_ID IS NULL OR sr.WITH_TEACHER_ID=cp.TEACHER_ID) AND (sr.NOT_TEACHER_ID IS NULL OR sr.NOT_TEACHER_ID!=cp.TEACHER_ID)) AS SECTIONS ';
+			$extra['SELECT'] = ',\'None\' AS CUSTOM_200000000,c.TITLE AS COURSE,sr.SUBJECT_ID,sr.COURSE_ID,sr.WITH_TEACHER_ID,sr.NOT_TEACHER_ID,sr.WITH_PERIOD_ID,sr.NOT_PERIOD_ID,\'0\' AS AVAILABLE_SEATS,(SELECT count(*) AS SECTIONS FROM COURSE_PERIODS cp WHERE cp.COURSE_ID=sr.COURSE_ID AND (cp.GENDER_RESTRICTION=\'N\' OR cp.GENDER_RESTRICTION=substring(\'None\',1,1)) AND (sr.WITH_TEACHER_ID IS NULL OR sr.WITH_TEACHER_ID=cp.TEACHER_ID) AND (sr.NOT_TEACHER_ID IS NULL OR sr.NOT_TEACHER_ID!=cp.TEACHER_ID)) AS SECTIONS ';
 		}
 
 		$extra['WHERE'] .= ' AND sr.STUDENT_ID=ssm.STUDENT_ID AND sr.SYEAR=ssm.SYEAR AND sr.SCHOOL_ID=ssm.SCHOOL_ID AND sr.COURSE_ID=c.COURSE_ID AND NOT EXISTS (SELECT \'\' FROM SCHEDULE s WHERE s.STUDENT_ID=sr.STUDENT_ID AND s.COURSE_ID=sr.COURSE_ID)';
 		$extra['functions'] = array( 'WITH_TEACHER_ID' => '_makeRequestTeacher', 'WITH_PERIOD_ID' => '_makeRequestPeriod' );
 
-		$columns = array( 'COURSE' => _( 'Request' ), 'SECTIONS' => _( 'Sections' ), 'WITH_TEACHER_ID' => _( 'Teacher' ), 'WITH_PERIOD_ID' => _( 'Period' ) );
+		$columns = array(
+			'COURSE' => _( 'Request' ),
+			'SECTIONS' => _( 'Sections' ),
+			'WITH_TEACHER_ID' => _( 'Teacher' ),
+			'WITH_PERIOD_ID' => _( 'Period' ),
+		);
 
 		if ( ! empty( $_REQUEST['include_seats'] ) )
 		{
@@ -348,14 +355,28 @@ if ( UserStudentID()
 		}
 
 		$link['COURSE']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=choose_course';
-		$link['COURSE']['variables'] = array( 'subject_id' => 'SUBJECT_ID', 'course_id' => 'COURSE_ID', 'student_id' => 'STUDENT_ID' );
+
+		$link['COURSE']['variables'] = array(
+			'subject_id' => 'SUBJECT_ID',
+			'course_id' => 'COURSE_ID',
+			'student_id' => 'STUDENT_ID',
+		);
+
 		$link['COURSE']['js'] = true;
 
 		$options = array( 'search' => false, 'save' => false );
 
 		$unfilled_requests_RET = GetStuList( $extra );
 
-		ListOutput( $unfilled_requests_RET, $columns, 'Unfilled Request', 'Unfilled Requests', $link, array(), $options );
+		ListOutput(
+			$unfilled_requests_RET,
+			$columns,
+			'Unfilled Request',
+			'Unfilled Requests',
+			$link,
+			array(),
+			$options
+		);
 	}
 }
 
