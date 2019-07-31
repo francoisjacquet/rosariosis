@@ -32,6 +32,7 @@ Changes in 5.0
 - Load PHP Debug bar in ProgramFunctions/Debug.fnc.php
 - Use Auto select input for custom contact info description in Address.inc.php
 - Change error to "No Grades were found" in FinalGrades.php, ReportCards.php, Transcripts.php
+- Reorder Course Period option inputs in Courses.fnc.php
 - Fix PHP notices, program wide
 
 Changes in 4.9.4

@@ -137,68 +137,6 @@ function CoursePeriodOptionInputs( $course_period_RET, $array, $new )
 {
 	$inputs = array();
 
-	$inputs[] = CoursePeriodAttendanceInput( $course_period_RET['DOES_ATTENDANCE'], $array );
-
-	$inputs[] = CheckboxInput(
-		empty( $course_period_RET ) ? '' : $course_period_RET['DOES_HONOR_ROLL'],
-		$array . '[DOES_HONOR_ROLL]',
-		_( 'Affects Honor Roll' ),
-		'',
-		$new,
-		button( 'check' ),
-		button( 'x' )
-	);
-
-	$inputs[] = CheckboxInput(
-		empty( $course_period_RET ) ? '' : $course_period_RET['DOES_CLASS_RANK'],
-		$array . '[DOES_CLASS_RANK]',
-		_( 'Affects Class Rank' ),
-		'',
-		$new,
-		button( 'check' ),
-		button( 'x' )
-	);
-
-	$inputs[] = SelectInput(
-		empty( $course_period_RET ) ? '' : $course_period_RET['GENDER_RESTRICTION'],
-		$array . '[GENDER_RESTRICTION]',
-		_( 'Gender Restriction' ),
-		array(
-			'N' => _( 'None' ),
-			'M' => _( 'Male' ),
-			'F' => _( 'Female' ),
-		),
-		false
-	);
-
-	$options_RET = DBGet( "SELECT TITLE,ID
-		FROM REPORT_CARD_GRADE_SCALES
-		WHERE SYEAR='" . UserSyear() . "'
-		AND SCHOOL_ID='" . UserSchool() . "'" );
-
-	$options = array();
-
-	foreach ( (array) $options_RET as $option )
-	{
-		$options[$option['ID']] = $option['TITLE'];
-	}
-
-	$inputs[] = SelectInput(
-		empty( $course_period_RET ) ? '' : $course_period_RET['GRADE_SCALE_ID'],
-		$array . '[GRADE_SCALE_ID]',
-		_( 'Grading Scale' ),
-		$options,
-		_( 'Not Graded' )
-	);
-
-	$inputs[] = TextInput(
-		is_null( $course_period_RET['CREDITS'] ) ? '1' : (float) $course_period_RET['CREDITS'],
-		$array . '[CREDITS]',
-		_( 'Credits' ),
-		'size=4 maxlength=5',
-		( is_null( $course_period_RET['CREDITS'] ) ? false : true )
-	);
-
 	$options_RET = DBGet( "SELECT TITLE,CALENDAR_ID
 		FROM ATTENDANCE_CALENDARS
 		WHERE SYEAR='" . UserSyear() . "'
@@ -221,6 +159,8 @@ function CoursePeriodOptionInputs( $course_period_RET, $array, $new )
 		'required'
 	);
 
+	$inputs[] = CoursePeriodAttendanceInput( $course_period_RET['DOES_ATTENDANCE'], $array );
+
 	$inputs[] = CheckboxInput(
 		empty( $course_period_RET ) ? '' : $course_period_RET['HALF_DAY'],
 		$array . '[HALF_DAY]',
@@ -231,6 +171,26 @@ function CoursePeriodOptionInputs( $course_period_RET, $array, $new )
 		button( 'x' )
 	);
 
+	$options_RET = DBGet( "SELECT TITLE,ID
+		FROM REPORT_CARD_GRADE_SCALES
+		WHERE SYEAR='" . UserSyear() . "'
+		AND SCHOOL_ID='" . UserSchool() . "'" );
+
+	$options = array();
+
+	foreach ( (array) $options_RET as $option )
+	{
+		$options[$option['ID']] = $option['TITLE'];
+	}
+
+	$inputs[] = SelectInput(
+		empty( $course_period_RET ) ? '' : $course_period_RET['GRADE_SCALE_ID'],
+		$array . '[GRADE_SCALE_ID]',
+		_( 'Grading Scale' ),
+		$options,
+		_( 'Not Graded' )
+	);
+
 	$inputs[] = CheckboxInput(
 		empty( $course_period_RET ) ? '' : $course_period_RET['DOES_BREAKOFF'],
 		$array . '[DOES_BREAKOFF]',
@@ -239,6 +199,46 @@ function CoursePeriodOptionInputs( $course_period_RET, $array, $new )
 		$new,
 		button( 'check' ),
 		button( 'x' )
+	);
+
+	$inputs[] = TextInput(
+		is_null( $course_period_RET['CREDITS'] ) ? '1' : (float) $course_period_RET['CREDITS'],
+		$array . '[CREDITS]',
+		_( 'Credits' ),
+		'size=4 maxlength=5',
+		( is_null( $course_period_RET['CREDITS'] ) ? false : true )
+	);
+
+	$inputs[] = CheckboxInput(
+		empty( $course_period_RET ) ? '' : $course_period_RET['DOES_CLASS_RANK'],
+		$array . '[DOES_CLASS_RANK]',
+		_( 'Affects Class Rank' ),
+		'',
+		$new,
+		button( 'check' ),
+		button( 'x' )
+	);
+
+	$inputs[] = CheckboxInput(
+		empty( $course_period_RET ) ? '' : $course_period_RET['DOES_HONOR_ROLL'],
+		$array . '[DOES_HONOR_ROLL]',
+		_( 'Affects Honor Roll' ),
+		'',
+		$new,
+		button( 'check' ),
+		button( 'x' )
+	);
+
+	$inputs[] = SelectInput(
+		empty( $course_period_RET ) ? '' : $course_period_RET['GENDER_RESTRICTION'],
+		$array . '[GENDER_RESTRICTION]',
+		_( 'Gender Restriction' ),
+		array(
+			'N' => _( 'None' ),
+			'M' => _( 'Male' ),
+			'F' => _( 'Female' ),
+		),
+		false
 	);
 
 	/* $inputs[] = CheckboxInput(
