@@ -47,10 +47,11 @@ function GetStuList( &$extra = array() )
 		Widgets( 'all', $extra );
 	}
 
-	if ( ! isset( $extra['WHERE'] ) )
-	{
-		$extra['WHERE'] = '';
-	}
+	$extra['SELECT'] = isset( $extra['SELECT'] ) ? $extra['SELECT'] : '';
+
+	$extra['FROM'] = isset( $extra['FROM'] ) ? $extra['FROM'] : '';
+
+	$extra['WHERE'] = isset( $extra['WHERE'] ) ? $extra['WHERE'] : '';
 
 	$extra['WHERE'] .= appendSQL( '', $extra );
 
@@ -404,7 +405,7 @@ function GetStuList( &$extra = array() )
 
 	// Get options:
 	// SELECT only.
-	$is_select_only = isset( $extra['SELECT_ONLY'] ) && !empty( $extra['SELECT_ONLY'] );
+	$is_select_only = ! empty( $extra['SELECT_ONLY'] );
 
 	$is_include_inactive = isset( $_REQUEST['include_inactive'] ) && $_REQUEST['include_inactive'] === 'Y';
 
@@ -424,7 +425,7 @@ function GetStuList( &$extra = array() )
 
 		// Student Details.
 		$sql .='s.LAST_NAME,s.FIRST_NAME,s.MIDDLE_NAME,s.STUDENT_ID,ssm.SCHOOL_ID,ssm.GRADE_ID ' .
-			( empty( $extra['SELECT'] ) ? '' : $extra['SELECT'] );
+			$extra['SELECT'];
 	}
 
 	switch ( User( 'PROFILE' ) )
@@ -624,12 +625,12 @@ function GetStuList( &$extra = array() )
 	}
 
 	// Extra FROM.
-	$sql .= ")" . ( isset( $extra['FROM'] ) ? $extra['FROM'] : '' ) . " WHERE TRUE";
+	$sql .= ")" . $extra['FROM'] . " WHERE TRUE";
 
 	//$sql = appendSQL($sql,array('NoSearchTerms' => $extra['NoSearchTerms']));
 
 	// WHERE.
-	$sql .= ' ' . ( isset( $extra['WHERE'] ) ? $extra['WHERE'] : '' ) . ' ';
+	$sql .= ' ' . $extra['WHERE'] . ' ';
 
 	// GROUP BY.
 	if ( isset( $extra['GROUP'] ) )
@@ -1106,6 +1107,8 @@ function makeTextarea( $value, $column )
 function appendSQL( $sql, $extra = array() )
 {
 	global $_ROSARIO;
+
+	$_ROSARIO['SearchTerms'] = isset( $_ROSARIO['SearchTerms'] ) ? $_ROSARIO['SearchTerms'] : '';
 
 	$no_search_terms = isset( $extra['NoSearchTerms'] ) && $extra['NoSearchTerms'];
 

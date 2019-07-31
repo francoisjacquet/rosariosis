@@ -21,20 +21,11 @@ function GetStaffList( &$extra = array() )
 		StaffWidgets( 'all', $extra );
 	}
 
-	if ( ! isset( $extra['SELECT'] ) )
-	{
-		$extra['SELECT'] = '';
-	}
+	$extra['SELECT'] = isset( $extra['SELECT'] ) ? $extra['SELECT'] : '';
 
-	if ( ! isset( $extra['FROM'] ) )
-	{
-		$extra['FROM'] = '';
-	}
+	$extra['FROM'] = isset( $extra['FROM'] ) ? $extra['FROM'] : '';
 
-	if ( ! isset( $extra['WHERE'] ) )
-	{
-		$extra['WHERE'] = '';
-	}
+	$extra['WHERE'] = isset( $extra['WHERE'] ) ? $extra['WHERE'] : '';
 
 	$extra['WHERE'] .= appendStaffSQL( '', $extra );
 
