@@ -31,6 +31,7 @@ Changes in 5.0
 - Fix export to XLS, delimit strings in ListOutput.fnc.php
 - Load PHP Debug bar in ProgramFunctions/Debug.fnc.php
 - Use Auto select input for custom contact info description in Address.inc.php
+- Change error to "No Grades were found" in FinalGrades.php, ReportCards.php, Transcripts.php
 - Fix PHP notices, program wide
 
 Changes in 4.9.4

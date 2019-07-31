@@ -48,7 +48,14 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			PDFStop( $handle );
 		}
 		else
-			BackPrompt( _( 'No Students were found.' ) );
+		{
+			BackPrompt(
+				sprintf(
+					_( 'No %s were found.' ),
+					_( 'Grades' )
+				)
+			);
+		}
 	}
 	else
 	{

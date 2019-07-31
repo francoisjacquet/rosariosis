@@ -27,7 +27,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 		$_REQUEST['modfunc'] = 'save';
 	}
 }
-elseif ( $_REQUEST['delete_cancel']
+elseif ( ! empty( $_REQUEST['delete_cancel'] )
 	&& AllowEdit() )
 {
 	$_REQUEST['modfunc'] = 'save';
@@ -442,7 +442,12 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		}
 		else
 		{
-			$error[] = _( 'No Students were found.' );
+			$error[] = sprintf(
+				_( 'No %s were found.' ),
+				_( 'Grades' )
+			);
+
+			unset( $extra );
 
 			// Unset modfunc & redirect URL.
 			RedirectURL( 'modfunc' );
@@ -465,7 +470,10 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		$_ROSARIO['allow_edit'] = true;
 
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save&include_inactive=' . $_REQUEST['include_inactive'] . '" method="GET">';
+		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
+			'&modfunc=save&include_inactive=' .
+			( isset( $_REQUEST['include_inactive'] ) ? $_REQUEST['include_inactive'] : '' ) .
+			'" method="GET">';
 
 		$extra['header_right'] = SubmitButton( _( 'Create Grade Lists for Selected Students' ) );
 
