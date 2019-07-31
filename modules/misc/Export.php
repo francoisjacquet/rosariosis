@@ -3,6 +3,7 @@ require_once 'ProgramFunctions/miscExport.fnc.php';
 
 //echo '<pre>'; var_dump($_REQUEST); echo '</pre>';
 
+$extra['extra_search'] = isset( $extra['extra_search'] ) ? $extra['extra_search'] : '';
 $extra['extra_search'] .= '<tr>
 		<td></td>
 		<td><div id="fields_div"></div></td>
@@ -29,22 +30,28 @@ $extra['extra_search'] .= '<script>
 		}
 	</script>';
 
+$extra['action'] = isset( $extra['action'] ) ? $extra['action'] : '';
 $extra['action'] .= '" onsubmit="exportSubmit();';
 
 $extra['new'] = true;
 
+$extra['SELECT'] = isset( $extra['SELECT'] ) ? $extra['SELECT'] : '';
+$extra['FROM'] = isset( $extra['FROM'] ) ? $extra['FROM'] : '';
+$extra['WHERE'] = isset( $extra['WHERE'] ) ? $extra['WHERE'] : '';
+
 $_ROSARIO['CustomFields'] = true;
 
-if ( $_REQUEST['fields']['ADDRESS']
-	|| $_REQUEST['fields']['CITY']
-	|| $_REQUEST['fields']['STATE']
-	|| $_REQUEST['fields']['ZIPCODE']
-	|| $_REQUEST['fields']['PHONE']
-	|| $_REQUEST['fields']['MAIL_ADDRESS']
-	|| $_REQUEST['fields']['MAIL_CITY']
-	|| $_REQUEST['fields']['MAIL_STATE']
-	|| $_REQUEST['fields']['MAIL_ZIPCODE']
-	|| $_REQUEST['fields']['PARENTS'] )
+if ( ! empty( $_REQUEST['fields'] )
+	&& ( ! empty( $_REQUEST['fields']['ADDRESS'] )
+		|| ! empty( $_REQUEST['fields']['CITY'] )
+		|| ! empty( $_REQUEST['fields']['STATE'] )
+		|| ! empty( $_REQUEST['fields']['ZIPCODE'] )
+		|| ! empty( $_REQUEST['fields']['PHONE'] )
+		|| ! empty( $_REQUEST['fields']['MAIL_ADDRESS'] )
+		|| ! empty( $_REQUEST['fields']['MAIL_CITY'] )
+		|| ! empty( $_REQUEST['fields']['MAIL_STATE'] )
+		|| ! empty( $_REQUEST['fields']['MAIL_ZIPCODE'] )
+		|| ! empty( $_REQUEST['fields']['PARENTS'] ) ) )
 {
 	$extra['SELECT'] .= ',a.ADDRESS_ID,a.ADDRESS,a.CITY,a.STATE,a.ZIPCODE,a.PHONE,' .
 		db_case( array( 'sam.MAILING', "'Y'", 'coalesce(a.MAIL_ADDRESS,a.ADDRESS)', 'NULL' ) ) . ' AS MAIL_ADDRESS,' .
@@ -59,6 +66,8 @@ if ( $_REQUEST['fields']['ADDRESS']
 		|| $_REQUEST['bus_pickup'] != 'false'
 		|| $_REQUEST['bus_dropoff'] != 'false' )
 	{
+		$extra['STUDENTS_JOIN_ADDRESS'] = isset( $extra['STUDENTS_JOIN_ADDRESS'] ) ? $extra['STUDENTS_JOIN_ADDRESS'] : '';
+
 		$extra['STUDENTS_JOIN_ADDRESS'] .= ' AND (';
 
 		if ( $_REQUEST['residence'] != 'false' )
@@ -134,7 +143,7 @@ if ( ! empty( $_REQUEST['fields']['SCHOOL_TITLE'] ) )
 
 
 
-if ( ! $extra['functions'] )
+if ( empty( $extra['functions'] ) )
 {
 	$extra['functions'] = array(
 		'NEXT_SCHOOL' => '_makeNextSchool',
@@ -153,7 +162,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 		else
 			echo ErrorMessage( array( _( 'You must choose at least one field' ) ), 'fatal' );
 
-	if ( ! $fields_list )
+	if ( empty( $fields_list ) )
 	{
 		$fields_list = array(
 			'FULL_NAME' => _( 'Display Name' ),
@@ -193,8 +202,10 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 			);
 		}
 
-		if ( $extra['field_names'] )
+		if ( ! empty( $extra['field_names'] ) )
+		{
 			$fields_list += $extra['field_names'];
+		}
 
 		$fields_list['PERIOD_ATTENDANCE'] = _( 'Teacher' );
 
@@ -205,7 +216,9 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 			ORDER BY SORT_ORDER" );
 
 		foreach ( (array) $periods_RET as $period )
+		{
 			$fields_list['PERIOD_'.$period['PERIOD_ID']] = $period['TITLE'] . ' ' . _( 'Teacher' ) .' - ' . _( 'Room' );
+		}
 	}
 
 	$custom_RET = DBGet( "SELECT TITLE,ID,TYPE
@@ -241,10 +254,10 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 		}
 	}
 
-	if ( $_REQUEST['fields']['START_DATE']
-		|| $_REQUEST['fields']['END_DATE']
-		|| $_REQUEST['fields']['ENROLLMENT_SHORT']
-		|| $_REQUEST['fields']['DROP_SHORT'] )
+	if ( ! empty( $_REQUEST['fields']['START_DATE'] )
+		|| ! empty( $_REQUEST['fields']['END_DATE'] )
+		|| ! empty( $_REQUEST['fields']['ENROLLMENT_SHORT'] )
+		|| ! empty( $_REQUEST['fields']['DROP_SHORT'] ) )
 	{
 			//FJ bugfix SQL error: more than one row returned by a subquery used as an expression
 			$extra['SELECT'] .= ',xse.START_DATE, xse.END_DATE,
@@ -291,7 +304,8 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 
 	foreach ( (array) $periods_RET as $period )
 	{
-		if ( $_REQUEST['fields']['PERIOD_' . $period['PERIOD_ID']] == 'Y' )
+		if ( isset( $_REQUEST['fields']['PERIOD_' . $period['PERIOD_ID']] )
+			&& $_REQUEST['fields']['PERIOD_' . $period['PERIOD_ID']] == 'Y' )
 		{
 			//FJ multiple school periods for a course period
 			//$extra['SELECT'] .= ',array(SELECT st.FIRST_NAME||\' \'||st.LAST_NAME||\' - \'||coalesce(cp.ROOM,\' \') FROM STAFF st,SCHEDULE ss,COURSE_PERIODS cp WHERE ss.STUDENT_ID=ssm.STUDENT_ID AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND cp.TEACHER_ID=st.STAFF_ID AND cp.PERIOD_ID=\''.$period['PERIOD_ID'].'\' AND (\''.$date.'\' BETWEEN ss.START_DATE AND ss.END_DATE OR \''.$date.'\'>=ss.START_DATE AND ss.END_DATE IS NULL) AND ss.MARKING_PERIOD_ID IN ('.GetAllMP('QTR',GetCurrentMP('QTR',$date)).')) AS PERIOD_'.$period['PERIOD_ID'];
@@ -312,31 +326,41 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 	}
 
 	if ( $RosarioModules['Food_Service']
-		&& ($_REQUEST['fields']['FS_ACCOUNT_ID'] == 'Y'
-			|| $_REQUEST['fields']['FS_DISCOUNT'] == 'Y'
-			|| $_REQUEST['fields']['FS_STATUS'] == 'Y'
-			|| $_REQUEST['fields']['FS_BARCODE'] == 'Y'
-			|| $_REQUEST['fields']['FS_BALANCE'] == 'Y' ) )
+		&& ( isset( $_REQUEST['fields']['FS_ACCOUNT_ID'] ) && $_REQUEST['fields']['FS_ACCOUNT_ID'] == 'Y'
+			|| isset( $_REQUEST['fields']['FS_DISCOUNT'] ) && $_REQUEST['fields']['FS_DISCOUNT'] == 'Y'
+			|| isset( $_REQUEST['fields']['FS_STATUS'] ) && $_REQUEST['fields']['FS_STATUS'] == 'Y'
+			|| isset( $_REQUEST['fields']['FS_BARCODE'] ) && $_REQUEST['fields']['FS_BARCODE'] == 'Y'
+			|| isset( $_REQUEST['fields']['FS_BALANCE'] ) && $_REQUEST['fields']['FS_BALANCE'] == 'Y' ) )
 	{
 		$extra['FROM'] .= ',FOOD_SERVICE_STUDENT_ACCOUNTS fssa';
 		$extra['WHERE'] .= ' AND fssa.STUDENT_ID=ssm.STUDENT_ID';
 
-		if ( $_REQUEST['fields']['FS_ACCOUNT_ID'] == 'Y' )
+		if ( isset( $_REQUEST['fields']['FS_ACCOUNT_ID'] ) && $_REQUEST['fields']['FS_ACCOUNT_ID'] == 'Y' )
+		{
 			$extra['SELECT'] .= ',fssa.ACCOUNT_ID AS FS_ACCOUNT_ID';
+		}
 
-		if ( $_REQUEST['fields']['FS_DISCOUNT'] == 'Y' )
+		if ( isset( $_REQUEST['fields']['FS_DISCOUNT'] ) && $_REQUEST['fields']['FS_DISCOUNT'] == 'Y' )
+		{
 			$extra['SELECT'] .= ",coalesce(fssa.DISCOUNT,'" . DBEscapeString( _( 'Full' ) ) . "') AS FS_DISCOUNT";
+		}
 
-		if ( $_REQUEST['fields']['FS_STATUS'] == 'Y' )
+		if ( isset( $_REQUEST['fields']['FS_STATUS'] ) && $_REQUEST['fields']['FS_STATUS'] == 'Y' )
+		{
 			$extra['SELECT'] .= ",coalesce(fssa.STATUS,'" . DBEscapeString( _( 'Active' ) ) . "') AS FS_STATUS";
+		}
 
-		if ( $_REQUEST['fields']['FS_BARCODE'] == 'Y' )
+		if ( isset( $_REQUEST['fields']['FS_BARCODE'] ) && $_REQUEST['fields']['FS_BARCODE'] == 'Y' )
+		{
 			$extra['SELECT'] .= ',fssa.BARCODE AS FS_BARCODE';
+		}
 
-		if ( $_REQUEST['fields']['FS_BALANCE'] == 'Y' )
+		if ( isset( $_REQUEST['fields']['FS_BALANCE'] ) && $_REQUEST['fields']['FS_BALANCE'] == 'Y' )
+		{
 			$extra['SELECT'] .= ',(SELECT fsa.BALANCE
 				FROM FOOD_SERVICE_ACCOUNTS fsa
 				WHERE fsa.ACCOUNT_ID=fssa.ACCOUNT_ID) AS FS_BALANCE';
+		}
 
 		$fields_list += array(
 			'FS_ACCOUNT_ID' => _( 'Food Service' ) . ' ' . _( 'Account ID' ),
@@ -348,12 +372,13 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 	}
 
 	if ( $RosarioModules['Student_Billing']
-		&& ( $_REQUEST['fields']['SB_BALANCE'] == 'Y' ) )
+		&& ( isset( $_REQUEST['fields']['SB_BALANCE'] ) && $_REQUEST['fields']['SB_BALANCE'] == 'Y' ) )
 	{
 
 		// FJ Add Balance field to Advanced Report
 		if ( $_REQUEST['fields']['SB_BALANCE'] == 'Y'
 			&& AllowUse( 'Student_Billing/StudentFees.php' ) )
+		{
 			$extra['SELECT'] .= ",( coalesce( ( SELECT sum( p.AMOUNT )
 				FROM BILLING_PAYMENTS p
 				WHERE p.STUDENT_ID=ssm.STUDENT_ID
@@ -362,6 +387,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 					FROM BILLING_FEES f
 					WHERE f.STUDENT_ID=ssm.STUDENT_ID
 					AND f.SYEAR=ssm.SYEAR ), 0 ) ) AS SB_BALANCE";
+		}
 
 		$fields_list += array( 'SB_BALANCE' => _( 'Student Billing' ) . ' ' . _( 'Balance' ) );
 
@@ -405,6 +431,8 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 			}
 		}
 
+		$extra['LO_group'] = array();
+
 		if ( ! empty( $_REQUEST['address_group'] ) )
 		{
 			$extra['SELECT'] .= ",coalesce((SELECT ADDRESS_ID
@@ -417,12 +445,14 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 
 		$RET = GetStuList( $extra );
 
-		if ( $extra['array_function']
+		if ( ! empty( $extra['array_function'] )
 			&& function_exists( $extra['array_function'] ) )
+		{
 			$extra['array_function']( $RET );
+		}
 
-		if ( ! $_REQUEST['LO_save']
-			&& ! $extra['suppress_save'] )
+		if ( empty( $_REQUEST['LO_save'] )
+			&& empty( $extra['suppress_save'] ) )
 		{
 			$_SESSION['List_PHP_SELF'] = PreparePHP_SELF( $_SESSION['_REQUEST_vars'], array( 'bottom_back' ) );
 
@@ -436,7 +466,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 			echo '<script>ajaxLink("Bottom.php"); old_modname="";</script>';
 		}
 
-		if ( !isset( $_REQUEST['_ROSARIO_PDF'] ) )
+		if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		{
 			if ( empty( $_REQUEST['address_group'] ) )
 			{
@@ -453,15 +483,19 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 		DrawHeader( str_replace( '<br />', '<br /> &nbsp;', mb_substr( $_ROSARIO['SearchTerms'], 0, -6 ) ) );
 
 		if ( ! empty( $_REQUEST['address_group'] ) )
-			ListOutput( $RET, $columns, 'Family', 'Families', array(), $extra['LO_group'], $extra['LO_options'] );
+		{
+			ListOutput( $RET, $columns, 'Family', 'Families', array(), $extra['LO_group'] );
+		}
 		else
-			ListOutput( $RET, $columns, 'Student', 'Students', array(), $extra['LO_group'], $extra['LO_options'] );
+		{
+			ListOutput( $RET, $columns, 'Student', 'Students', array(), $extra['LO_group'] );
+		}
 	}
 }
 // Advanced Report form
 else
 {
-	if ( ! $fields_list )
+	if ( empty( $fields_list ) )
 	{
 		// General Info
 		if ( AllowUse( 'Students/Student.php&category_id=1' ) )
@@ -532,8 +566,10 @@ else
 			}
 		}
 
-		if ( $extra['field_names'] )
+		if ( ! empty( $extra['field_names'] ) )
+		{
 			$fields_list['General'] += $extra['field_names'];
+		}
 	}
 
 	// Other Student Field Categories
@@ -654,6 +690,8 @@ else
 
 			echo '</tr><tr>';
 		}
+
+		$i = 0;
 
 		// Draw fields
 		foreach ( (array) $fields as $field => $title )

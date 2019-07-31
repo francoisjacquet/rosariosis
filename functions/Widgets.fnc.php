@@ -1013,7 +1013,8 @@ function Widgets( $item, &$myextra = null )
 
 				$extra['FROM'] = " LEFT OUTER JOIN STUDENTS_JOIN_ADDRESS sam
 					ON (sam.STUDENT_ID=ssm.STUDENT_ID
-						AND sam.MAILING='Y'" . ( $_REQUEST['residence'] == 'Y' ? " AND sam.RESIDENCE='Y'" : '' ) . ")" .
+						AND sam.MAILING='Y'" .
+						( isset( $_REQUEST['residence'] ) && $_REQUEST['residence'] == 'Y' ? " AND sam.RESIDENCE='Y'" : '' ) . ")" .
 					$extra['FROM'];
 
 				$extra['functions'] += array( 'MAILING_LABEL' => 'MailingLabel' );
@@ -1139,9 +1140,15 @@ function Widgets( $item, &$myextra = null )
 				break;
 			}
 
-			$discipline_entry_begin = RequestedDate( 'discipline_entry_begin', $_REQUEST['discipline_entry_begin'] );
+			$discipline_entry_begin = RequestedDate(
+				'discipline_entry_begin',
+				( isset( $_REQUEST['discipline_entry_begin'] ) ? $_REQUEST['discipline_entry_begin'] : '' )
+			);
 
-			$discipline_entry_end = RequestedDate( 'discipline_entry_end', $_REQUEST['discipline_entry_end'] );
+			$discipline_entry_end = RequestedDate(
+				'discipline_entry_end',
+				( isset( $_REQUEST['discipline_entry_end'] ) ? $_REQUEST['discipline_entry_end'] : '' )
+			);
 
 			if ( ( $discipline_entry_begin
 					|| $discipline_entry_end )
@@ -1372,8 +1379,8 @@ function Widgets( $item, &$myextra = null )
 							' <input type="text" name="discipline_end[' . $category['ID'] .
 								']" size="3" maxlength="11" /></label>';
 
-						if ( $_REQUEST['discipline_begin'][ $category['ID'] ]
-							&& $_REQUEST['discipline_end'][ $category['ID'] ] )
+						if ( ! empty( $_REQUEST['discipline_begin'][ $category['ID'] ] )
+							&& ! empty( $_REQUEST['discipline_end'][ $category['ID'] ] ) )
 						{
 							$extra['WHERE'] .= " AND dr.CATEGORY_" . $category['ID'] .
 								" BETWEEN '" . $_REQUEST['discipline_begin'][ $category['ID'] ] .

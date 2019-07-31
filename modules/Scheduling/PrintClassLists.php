@@ -114,7 +114,8 @@ if ( ! $_REQUEST['modfunc']
 
 	if ( $_REQUEST['modfunc'] === 'list' )
 	{
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save&search_modfunc=list&_ROSARIO_PDF=true' . $extra['action'] . '" method="POST" name="search">';
+		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save&search_modfunc=list&_ROSARIO_PDF=true' .
+			( isset( $extra['action'] ) ? $extra['action'] : '' ) . '" method="POST" name="search">';
 
 		$submit_button = Buttons( _( 'Create Class Lists for Selected Course Periods' ) );
 
@@ -276,7 +277,7 @@ function mySearch( $extra )
 
 	$course_periods_RET = DBGet( $sql, array( 'CHECKBOX' => 'MakeChooseCheckbox' ) );
 
-	if ( empty( $_REQUEST['LO_save'] ) && ! $extra['suppress_save'] )
+	if ( empty( $_REQUEST['LO_save'] ) && empty( $extra['suppress_save'] ) )
 	{
 		$_SESSION['List_PHP_SELF'] = PreparePHP_SELF( $_SESSION['_REQUEST_vars'], array( 'bottom_back' ) );
 

@@ -96,7 +96,9 @@ if ( ! $_REQUEST['modfunc'] )
 	?>
 		<tr><td id="student-comments">
 	<?php
-	if ( ( $comments = unserialize( $comments_RET[1]['COMMENT'] ) ) )
+	$comments = ! empty( $comments_RET[1]['COMMENT'] ) ? unserialize( $comments_RET[1]['COMMENT'] ) : array();
+
+	if ( $comments )
 	{
 		$comments_HTML = $staff_name = array();
 

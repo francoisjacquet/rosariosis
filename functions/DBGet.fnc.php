@@ -88,7 +88,7 @@ function DBGet( $QI, $functions = array(), $index = array() )
 			{
 				// $ind .= "['" . str_replace( "'", "\'", $THIS_RET[ $col ] ) . "']";
 
-				$ind[] = $RET[ $col ];
+				$ind[] = isset( $RET[ $col ] ) ? $RET[ $col ] : null;
 			}
 
 			if ( $index_count === 1 )
