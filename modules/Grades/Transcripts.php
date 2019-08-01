@@ -21,7 +21,11 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			SaveTemplate( $REQUEST_inputcertificatetext );
 		}
 
-		$transcripts = TranscriptsGenerate( $_REQUEST['st_arr'], $_REQUEST['mp_type_arr'], $_REQUEST['syear_arr'] );
+		$transcripts = TranscriptsGenerate(
+			$_REQUEST['st_arr'],
+			$_REQUEST['mp_type_arr'],
+			isset( $_REQUEST['syear_arr'] ) ? $_REQUEST['syear_arr'] : array()
+		);
 
 		/**
 		 * Report Cards array hook action.
@@ -108,7 +112,8 @@ if ( ! $_REQUEST['modfunc'] )
 		$mps_RET = DBGet( "SELECT MARKING_PERIOD_ID
 			FROM MARKING_PERIODS
 			WHERE SCHOOL_ID='" . UserSchool() . "'
-			AND MP_TYPE IN ('semseter','year')" );
+			AND MP_TYPE IN ('semester','year','quarter')
+			AND DOES_GRADES='Y'" );
 
 		foreach ( (array) $mps_RET as $mp )
 		{

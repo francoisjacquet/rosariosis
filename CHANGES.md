@@ -35,11 +35,15 @@ Changes in 5.0
 - Reorder Course Period option inputs in Courses.fnc.php
 - Fix PHP notices, program wide
 - SQL fix Change index suffix from '\_IND' to '\_IDX' to avoid collision in Fields.fnc.php
+- Add GetReportCardsComments() function in ReportCards.fnc.php
 
 Changes in 4.9.4
 ----------------
 - Fix regression since v4.3 translated Help file include in Help.fnc.php
 - Fix Admin User Profile restriction in General_Info.inc.php
+- Fix Student Gender select in ReportCards.fnc.php
+- Fix Comments in FinalGrades.php
+- Fix Class Rank calculus, display & allow for Quarters in Transcripts.fnc.php & Transcripts.php
 
 Changes in 4.9.3
 ----------------

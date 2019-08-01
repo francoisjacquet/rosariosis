@@ -62,10 +62,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		WHERE ac.ID=ap.ATTENDANCE_CODE AND ac.STATE_CODE='A'
 		AND ap.COURSE_PERIOD_ID=sg1.COURSE_PERIOD_ID
 		AND cast(sg1.MARKING_PERIOD_ID as integer)=ap.MARKING_PERIOD_ID
-		AND ap.STUDENT_ID=ssm.STUDENT_ID) AS MP_ABSENCES";
-
-		if ( $_REQUEST['elements']['comments']=='Y')
-		$extra['SELECT'] .= ',sg1.MARKING_PERIOD_ID AS COMMENTS_RET';
+		AND ap.STUDENT_ID=ssm.STUDENT_ID) AS MP_ABSENCES";*/
 
 		//FJ multiple school periods for a course period
 		/*$extra['FROM'] .= ",STUDENT_REPORT_CARD_GRADES sg1 LEFT OUTER JOIN REPORT_CARD_GRADES rpg ON (rpg.ID=sg1.REPORT_CARD_GRADE_ID),
@@ -93,14 +90,18 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		// Parent: associated students.
 		$extra['ASSOCIATED'] = User( 'STAFF_ID' );*/
 
-		/*if ( $_REQUEST['elements']['comments']=='Y')
-		$extra['functions']['COMMENTS_RET'] = '_makeComments';*/
+		if ( isset( $_REQUEST['elements']['comments'] )
+			&& $_REQUEST['elements']['comments'] == 'Y' )
+		{
+			$rc_comments_RET = GetReportCardsComments( $st_list, $mp_list );
+		}
 
 		$RET = GetStuList( $extra );
 
 		// GET THE COMMENTS
 
-		if ( $_REQUEST['elements']['comments'] == 'Y' )
+		if ( isset( $_REQUEST['elements']['comments'] )
+			&& $_REQUEST['elements']['comments'] == 'Y' )
 		{
 			//$comments_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'",array(),array('ID'));
 			//FJ get color for Course specific categories & get comment scale
@@ -119,19 +120,22 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		{
 			$columns = array( 'FULL_NAME' => _( 'Student' ), 'COURSE_TITLE' => _( 'Course' ) );
 
-			if ( $_REQUEST['elements']['teacher'] === 'Y' )
+			if ( isset( $_REQUEST['elements']['teacher'] )
+				&& $_REQUEST['elements']['teacher'] === 'Y' )
 			{
 				$columns += array( 'TEACHER_ID' => _( 'Teacher' ) );
 			}
 
-			if ( $_REQUEST['elements']['period_absences'] == 'Y' )
+			if ( isset( $_REQUEST['elements']['period_absences'] )
+				&& $_REQUEST['elements']['period_absences'] == 'Y' )
 			{
 				$columns['ABSENCES'] = _( 'Abs<br />YTD / MP' );
 			}
 
 			foreach ( (array) $_REQUEST['mp_arr'] as $mp )
 			{
-				if ( $_REQUEST['elements']['percents'] == 'Y' )
+				if ( isset( $_REQUEST['elements']['percents'] )
+					&& $_REQUEST['elements']['percents'] == 'Y' )
 				{
 					$columns[$mp . '%'] = '%';
 				}
@@ -139,7 +143,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				$columns[$mp] = GetMP( $mp );
 			}
 
-			if ( $_REQUEST['elements']['comments'] == 'Y' )
+			if ( isset( $_REQUEST['elements']['comments'] )
+				&& $_REQUEST['elements']['comments'] == 'Y' )
 			{
 				//FJ add columns for All Courses comments
 
@@ -159,7 +164,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 				// Marking Period-by-period absences.
 
-				if ( $_REQUEST['elements']['mp_absences'] === 'Y' )
+				if ( isset( $_REQUEST['elements']['mp_absences'] )
+					&& $_REQUEST['elements']['mp_absences'] === 'Y' )
 				{
 					$name_tipmessage .= '<div>' .
 					GetMPAbsences( $st_list, $last_mp, $student_id ) . '</div>';
@@ -167,7 +173,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 				// Year-to-date Daily Absences.
 
-				if ( $_REQUEST['elements']['ytd_absences'] === 'Y' )
+				if ( isset( $_REQUEST['elements']['ytd_absences'] )
+					&& $_REQUEST['elements']['ytd_absences'] === 'Y' )
 				{
 					$name_tipmessage .= '<div>' .
 					GetYTDAbsences( $st_list, $last_mp, $student_id ) . '</div>';
@@ -175,7 +182,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 				// Marking Period Tardies.
 
-				if ( $_REQUEST['elements']['mp_tardies'] === 'Y' )
+				if ( isset( $_REQUEST['elements']['mp_tardies'] )
+					&& $_REQUEST['elements']['mp_tardies'] === 'Y' )
 				{
 					$name_tipmessage .= '<div>' .
 					GetMPTardies( $st_list, $last_mp, $student_id ) . '</div>';
@@ -183,7 +191,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 				// Year to Date Tardies.
 
-				if ( $_REQUEST['elements']['ytd_tardies'] === 'Y' )
+				if ( isset( $_REQUEST['elements']['ytd_tardies'] )
+					&& $_REQUEST['elements']['ytd_tardies'] === 'Y' )
 				{
 					$name_tipmessage .= '<div>' .
 					GetYTDTardies( $st_list, $student_id ) . '</div>';
@@ -224,7 +233,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 						{
 							$grades_RET[$i][$mp] = $mps[$mp][1]['GRADE_TITLE'];
 
-							if ( $_REQUEST['elements']['percents'] == 'Y' && $mps[$mp][1]['GRADE_PERCENT'] > 0 )
+							if ( isset( $_REQUEST['elements']['percents'] )
+								&& $_REQUEST['elements']['percents'] == 'Y'
+								&& $mps[$mp][1]['GRADE_PERCENT'] > 0 )
 							{
 								$grades_RET[$i][$mp . '%'] = $mps[$mp][1]['GRADE_PERCENT'] . '%';
 							}
@@ -233,7 +244,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 						}
 					}
 
-					if ( $_REQUEST['elements']['period_absences'] == 'Y' )
+					if ( isset( $_REQUEST['elements']['period_absences'] )
+						&& $_REQUEST['elements']['period_absences'] == 'Y' )
 					{
 						if ( mb_strpos( $mps[$last_mp][1]['DOES_ATTENDANCE'], ',0,' ) !== false )
 						{
@@ -245,22 +257,27 @@ if ( $_REQUEST['modfunc'] === 'save' )
 						}
 					}
 
-					if ( $_REQUEST['elements']['comments'] == 'Y' )
+					if ( isset( $_REQUEST['elements']['comments'] )
+						&& $_REQUEST['elements']['comments'] == 'Y' )
 					{
 						//FJ add comments for each MP
 						$sep = '; ';
 						$sep_mp = ' | ';
 
-						foreach ( (array) $mps as $mp )
+						foreach ( (array) $mps as $mp_id => $mp )
 						{
 							if ( ! empty( $grades_RET[$i]['COMMENT'] ) )
 							{
 								$grades_RET[$i]['COMMENT'] = $grades_RET[$i]['COMMENT'] . $sep_mp;
 							}
 
-							foreach ( (array) $mp[1]['COMMENTS_RET'] as $comment )
+							$mp_comments = isset( $rc_comments_RET[ $student_id ][ $course_period_id ][ $mp_id ] ) ?
+								$rc_comments_RET[ $student_id ][ $course_period_id ][ $mp_id ] :
+								array();
+
+							foreach ( (array) $mp_comments as $comment )
 							{
-								if ( $all_commentsA_RET[$comment['REPORT_CARD_COMMENT_ID']] )
+								if ( !empty( $all_commentsA_RET[$comment['REPORT_CARD_COMMENT_ID']] ) )
 								{
 									$grades_RET[$i]['C' . $comment['REPORT_CARD_COMMENT_ID']] .= $comment['COMMENT'] != ' ' ? ( empty( $grades_RET[$i]['C' . $comment['REPORT_CARD_COMMENT_ID']] ) ? '' : $sep_mp ) . $comment['COMMENT'] : ( empty( $grades_RET[$i]['C' . $comment['REPORT_CARD_COMMENT_ID']] ) ? '' : $sep_mp ) . '&middot;';
 								}
@@ -297,9 +314,15 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				}
 			}
 
+			$link = array();
+
 			if ( count( (array) $_REQUEST['mp_arr'] ) == 1 && AllowEdit() )
 			{
-				$link['remove']['link'] = PreparePHP_SELF( $_REQUEST, array( 'delete_cancel' ), array( 'modfunc' => 'delete' ) );
+				$link['remove']['link'] = PreparePHP_SELF(
+					$_REQUEST, array( 'delete_cancel' ),
+					array( 'modfunc' => 'delete' )
+				);
+
 				$link['remove']['variables'] = array( 'student_id' => 'STUDENT_ID',
 					'course_period_id' => 'COURSE_PERIOD_ID',
 					'marking_period_id' => 'MARKING_PERIOD_ID' );
@@ -307,7 +330,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 			//Display comment codes tooltips
 
-			if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) && $_REQUEST['elements']['comments'] == 'Y' )
+			if ( ! isset( $_REQUEST['_ROSARIO_PDF'] )
+				&& isset( $_REQUEST['elements']['comments'] )
+				&& $_REQUEST['elements']['comments'] == 'Y' )
 			{
 				$commentsB_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "' AND COURSE_ID IS NULL ORDER BY SORT_ORDER", array(), array( 'ID' ) );
 
@@ -577,20 +602,4 @@ if ( ! $_REQUEST['modfunc'] )
 		echo '<br /><div class="center">' . SubmitButton( _( 'Create Grade Lists for Selected Students' ) ) . '</div>';
 		echo '</form>';
 	}
-}
-
-/**
- * @param $value
- * @param $column
- */
-function _makeComments( $value, $column )
-{
-	global $THIS_RET;
-
-	return DBGet( "SELECT COURSE_PERIOD_ID,REPORT_CARD_COMMENT_ID,COMMENT,
-	(SELECT SORT_ORDER FROM REPORT_CARD_COMMENTS WHERE REPORT_CARD_COMMENT_ID=ID) AS SORT_ORDER
-	FROM STUDENT_REPORT_CARD_COMMENTS
-	WHERE STUDENT_ID='" . $THIS_RET['STUDENT_ID'] . "'
-	AND COURSE_PERIOD_ID='" . $THIS_RET['COURSE_PERIOD_ID'] . "'
-	AND MARKING_PERIOD_ID='" . $value . "' ORDER BY SORT_ORDER" );
 }

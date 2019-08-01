@@ -218,26 +218,6 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 		$extra = GetReportCardsExtra( $mp_list, $st_list );
 
-		// Comments.
-
-		if ( $_REQUEST['elements']['comments'] === 'Y' )
-		{
-			// Gender field.
-			$gender_field_RET = DBGet( "SELECT ID,TYPE
-			FROM CUSTOM_FIELDS
-			WHERE ID=200000000", array(), array( 'ID' ) );
-
-			if ( $gender_field_RET
-				&& $gender_field_RET['200000000'][1]['TYPE'] === 'select' )
-			{
-				$extra['SELECT'] .= ',s.CUSTOM_200000000 AS GENDER';
-			}
-			else
-			{
-				$extra['SELECT'] .= ",'" . _( 'None' ) . "' AS GENDER";
-			}
-		}
-
 		$student_RET = GetStuList( $extra );
 
 		if ( empty( $student_RET ) )
@@ -247,39 +227,10 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 		// Comments.
 
-		if ( $_REQUEST['elements']['comments'] === 'Y' )
+		if ( isset( $_REQUEST['comments'] )
+			&& $_REQUEST['elements']['comments'] === 'Y' )
 		{
-			// GET THE COMMENTS.
-			unset( $extra );
-
-			$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
-
-			// FJ order General Comments first.
-			$extra['SELECT_ONLY'] = "s.STUDENT_ID,sc.COURSE_PERIOD_ID,sc.MARKING_PERIOD_ID,
-			sc.REPORT_CARD_COMMENT_ID,sc.COMMENT,
-			(SELECT SORT_ORDER
-				FROM REPORT_CARD_COMMENTS
-				WHERE ID=sc.REPORT_CARD_COMMENT_ID) AS SORT_ORDER,
-			(SELECT COALESCE(SCALE_ID, 0)
-				FROM REPORT_CARD_COMMENTS
-				WHERE ID=sc.REPORT_CARD_COMMENT_ID) AS SORT_ORDER2";
-
-			$extra['FROM'] = ",STUDENT_REPORT_CARD_COMMENTS sc";
-
-			// FJ get the comments of all MPs.
-			//$extra['WHERE'] .= " AND sc.STUDENT_ID=s.STUDENT_ID AND sc.MARKING_PERIOD_ID='".$last_mp."'";
-			$extra['WHERE'] .= " AND sc.STUDENT_ID=s.STUDENT_ID AND sc.MARKING_PERIOD_ID IN (" . $mp_list . ")";
-
-			$extra['ORDER_BY'] = 'SORT_ORDER,SORT_ORDER2';
-
-			$extra['group'] = array( 'STUDENT_ID', 'COURSE_PERIOD_ID', 'MARKING_PERIOD_ID' );
-
-			// Parent: associated students.
-			$extra['ASSOCIATED'] = User( 'STAFF_ID' );
-
-			$comments_RET = GetStuList( $extra );
-
-			//echo '<pre>'; print_r($comments_RET); echo '</pre>'; exit;
+			$comments_RET = GetReportCardsComments( $st_list, $mp_list );
 
 			$all_commentsA_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER
 			FROM REPORT_CARD_COMMENTS
@@ -315,7 +266,8 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 		// Mailing Labels.
 
-		if ( $_REQUEST['mailing_labels'] === 'Y' )
+		if ( isset( $_REQUEST['mailing_labels'] )
+			&& $_REQUEST['mailing_labels'] === 'Y' )
 		{
 			// GET THE ADDRESSES.
 			unset( $extra );
@@ -355,12 +307,14 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 		// ListOutput columns.
 		$LO_columns = array( 'COURSE_TITLE' => _( 'Course' ) );
 
-		if ( $_REQUEST['elements']['teacher'] === 'Y' )
+		if ( isset( $_REQUEST['elements']['teacher'] )
+			&& $_REQUEST['elements']['teacher'] === 'Y' )
 		{
 			$LO_columns['TEACHER_ID'] = _( 'Teacher' );
 		}
 
-		if ( $_REQUEST['elements']['period_absences'] === 'Y' )
+		if ( isset( $_REQUEST['elements']['period_absences'] )
+			&& $_REQUEST['elements']['period_absences'] === 'Y' )
 		{
 			$LO_columns['ABSENCES'] = _( 'Absences' );
 		}
@@ -379,7 +333,8 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 			$LO_columns[$mp] = GetMP( $mp, $mp_TITLE );
 		}
 
-		if ( $_REQUEST['elements']['comments'] === 'Y' )
+		if ( isset( $_REQUEST['elements']['comments'] )
+			&& $_REQUEST['elements']['comments'] === 'Y' )
 		{
 			foreach ( (array) $all_commentsA_RET as $comment )
 			{
@@ -424,7 +379,8 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 					$grades_RET[$i][$mp] = '<B>' . $mps[$mp][1]['GRADE_TITLE'] . '</B>';
 
-					if ( $_REQUEST['elements']['percents'] === 'Y'
+					if ( isset( $_REQUEST['elements']['percents'] )
+						&& $_REQUEST['elements']['percents'] === 'Y'
 						&& $mps[$mp][1]['GRADE_PERCENT'] > 0 )
 					{
 						$grades_RET[$i][$mp] .= '&nbsp;' . $mps[$mp][1]['GRADE_PERCENT'] . '%';
@@ -432,13 +388,21 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 					// Comments.
 
-					if ( $_REQUEST['elements']['comments'] === 'Y' )
+					if ( isset( $_REQUEST['elements']['comments'] )
+						&& $_REQUEST['elements']['comments'] === 'Y' )
 					{
 						$sep = '; ';
 
 						$sep_mp = ' | ';
 
-						$grades_RET[$i]['COMMENT'] .= ( empty( $grades_RET[$i]['COMMENT'] ) ? '' : $sep_mp );
+						if ( empty( $grades_RET[$i]['COMMENT'] ) )
+						{
+							$grades_RET[$i]['COMMENT'] = '';
+						}
+						else
+						{
+							$grades_RET[$i]['COMMENT'] .= $sep_mp;
+						}
 
 						$temp_grades_COMMENTS = $grades_RET[$i]['COMMENT'];
 
@@ -446,7 +410,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 						foreach ( (array) $comments_RET[$student_id][$course_period_id][$mp] as $comment )
 						{
-							if ( $all_commentsA_RET[$comment['REPORT_CARD_COMMENT_ID']] )
+							if ( ! empty( $all_commentsA_RET[$comment['REPORT_CARD_COMMENT_ID']] ) )
 							{
 								$grades_RET[$i]['C' . $comment['REPORT_CARD_COMMENT_ID']] .= $comment['COMMENT'] != ' ' ?
 								( empty( $grades_RET[$i]['C' . $comment['REPORT_CARD_COMMENT_ID']] ) ?
@@ -465,7 +429,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 								'' :
 								$sep;
 
-								if ( $commentsA_RET[$comment['REPORT_CARD_COMMENT_ID']] )
+								if ( ! empty( $commentsA_RET[$comment['REPORT_CARD_COMMENT_ID']] ) )
 								{
 									$color = $commentsA_RET[$comment['REPORT_CARD_COMMENT_ID']][1]['COLOR'];
 
@@ -522,7 +486,8 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 				// Period-by-period absences.
 
-				if ( $_REQUEST['elements']['period_absences'] === 'Y' )
+				if ( isset( $_REQUEST['elements']['period_absences'] )
+					&& $_REQUEST['elements']['period_absences'] === 'Y' )
 				{
 					if ( $mps[$last_mp][1]['DOES_ATTENDANCE'] )
 					{
@@ -540,7 +505,8 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 			// Mailing Labels.
 
-			if ( $_REQUEST['mailing_labels'] === 'Y' )
+			if ( isset( $_REQUEST['mailing_labels'] )
+				&& $_REQUEST['mailing_labels'] === 'Y' )
 			{
 				if ( ! empty( $addresses_RET[$student_id] ) )
 				{
@@ -575,7 +541,8 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 			{
 				unset( $_ROSARIO['DrawHeader'] );
 
-				if ( $_REQUEST['mailing_labels'] === 'Y' )
+				if ( isset( $_REQUEST['mailing_labels'] )
+					&& $_REQUEST['mailing_labels'] === 'Y' )
 				{
 					echo '<BR /><BR /><BR />';
 				}
@@ -612,20 +579,23 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 				// Marking Period-by-period absences.
 
-				if ( $_REQUEST['elements']['mp_absences'] === 'Y' )
+				if ( isset( $_REQUEST['elements']['mp_absences'] )
+					&& $_REQUEST['elements']['mp_absences'] === 'Y' )
 				{
 					$mp_absences = GetMPAbsences( $st_list, $last_mp, $student_id );
 				}
 
 				// Year-to-date Daily Absences.
 
-				if ( $_REQUEST['elements']['ytd_absences'] === 'Y' )
+				if ( isset( $_REQUEST['elements']['ytd_absences'] )
+					&& $_REQUEST['elements']['ytd_absences'] === 'Y' )
 				{
 					DrawHeader( GetYTDAbsences( $st_list, $last_mp, $student_id ), $mp_absences );
 
 					$count_lines++;
 				}
-				elseif ( $_REQUEST['elements']['mp_absences'] === 'Y' )
+				elseif ( isset( $_REQUEST['elements']['mp_absences'] )
+					&& $_REQUEST['elements']['mp_absences'] === 'Y' )
 				{
 					DrawHeader( $mp_absences );
 
@@ -636,20 +606,23 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 				// Marking Period Tardies.
 
-				if ( $_REQUEST['elements']['mp_tardies'] === 'Y' )
+				if ( isset( $_REQUEST['elements']['mp_tardies'] )
+					&& $_REQUEST['elements']['mp_tardies'] === 'Y' )
 				{
 					$mp_tardies = GetMPTardies( $st_list, $last_mp, $student_id );
 				}
 
 				// Year to Date Tardies.
 
-				if ( $_REQUEST['elements']['ytd_tardies'] === 'Y' )
+				if ( isset( $_REQUEST['elements']['ytd_tardies'] )
+					&& $_REQUEST['elements']['ytd_tardies'] === 'Y' )
 				{
 					DrawHeader( GetYTDTardies( $st_list, $student_id ), $mp_tardies );
 
 					$count_lines++;
 				}
-				elseif ( $_REQUEST['elements']['mp_tardies'] === 'Y' )
+				elseif ( isset( $_REQUEST['elements']['mp_tardies'] )
+					&& $_REQUEST['elements']['mp_tardies'] === 'Y' )
 				{
 					DrawHeader( $mp_tardies );
 
@@ -670,7 +643,8 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 				// Mailing Labels.
 
-				if ( $_REQUEST['mailing_labels'] === 'Y' )
+				if ( isset( $_REQUEST['mailing_labels'] )
+					&& $_REQUEST['mailing_labels'] === 'Y' )
 				{
 					DrawHeader( ProperDate( DBDate() ) );
 
@@ -693,7 +667,8 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 				// Comments.
 
-				if ( $_REQUEST['elements']['comments'] === 'Y'
+				if ( isset( $_REQUEST['elements']['comments'] )
+					&& $_REQUEST['elements']['comments'] === 'Y'
 					&& ( $comments_arr_key
 						|| ! empty( $comments_arr ) ) )
 				{
@@ -790,7 +765,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 					{
 						foreach ( (array) $comments as $comment => $sort_order )
 						{
-							if ( $commentsA_RET[$comment] )
+							if ( ! empty( $commentsA_RET[$comment] ) )
 							{
 								if ( $i++ % 2 == 0
 									|| $course_title != $comment_course_title )
@@ -840,7 +815,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 								$course_title = $comment_course_title;
 							}
 
-							if ( $commentsB_RET[$comment]
+							if ( ! empty( $commentsB_RET[$comment] )
 								&& ! in_array( $commentsB_RET[$comment][1]['SORT_ORDER'], $commentsB_displayed ) )
 							{
 								if ( $j++ % 2 == 0 )
@@ -935,6 +910,26 @@ function GetReportCardsExtra( $mp_list, $st_list )
 				AND ap.STUDENT_ID=ssm.STUDENT_ID) AS MP_ABSENCES";
 	}
 
+	// Comments.
+	if ( isset( $_REQUEST['elements']['comments'] )
+		&& $_REQUEST['elements']['comments'] === 'Y' )
+	{
+		// Gender field.
+		$gender_field_RET = DBGet( "SELECT ID,TYPE
+		FROM CUSTOM_FIELDS
+		WHERE ID=200000000", array(), array( 'ID' ) );
+
+		if ( $gender_field_RET
+			&& $gender_field_RET['200000000'][1]['TYPE'] === 'select' )
+		{
+			$extra['SELECT_ONLY'] .= ',s.CUSTOM_200000000 AS GENDER';
+		}
+		else
+		{
+			$extra['SELECT_ONLY'] .= ",'" . _( 'None' ) . "' AS GENDER";
+		}
+	}
+
 	// FJ multiple school periods for a course period.
 	//$extra['FROM'] .= ",STUDENT_REPORT_CARD_GRADES sg1,ATTENDANCE_CODES ac,COURSE_PERIODS rc_cp,SCHOOL_PERIODS sp";
 	$extra['FROM'] = ",STUDENT_REPORT_CARD_GRADES sg1,ATTENDANCE_CODES ac,COURSE_PERIODS rc_cp,
@@ -1014,11 +1009,14 @@ function GetYTDAbsences( $st_list, $last_mp, $student_id )
 
 	$count = 0;
 
-	foreach ( (array) $attendance_day_RET[$student_id] as $mp_abs )
+	if ( isset( $attendance_day_RET[$student_id] ) )
 	{
-		foreach ( (array) $mp_abs as $abs )
+		foreach ( (array) $attendance_day_RET[$student_id] as $mp_abs )
 		{
-			$count += 1 - $abs['STATE_VALUE'];
+			foreach ( (array) $mp_abs as $abs )
+			{
+				$count += 1 - $abs['STATE_VALUE'];
+			}
 		}
 	}
 
@@ -1204,4 +1202,52 @@ function _getOtherAttendanceCodes()
 	}
 
 	return $other_attendance_codes;
+}
+
+
+/**
+ * Get Report Cards Comments
+ *
+ * @since 5.0
+ *
+ * @example $rc_comments_RET = GetReportCardsComments( $st_list, $mp_list );
+ *
+ * @param  array $st_list Students list.
+ * @param  array $mp_list MPs list.
+ *
+ * @return array $rc_comments_RET
+ */
+function GetReportCardsComments( $st_list, $mp_list )
+{
+	// GET THE COMMENTS.
+	$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
+
+	// Order General Comments first.
+	$extra['SELECT_ONLY'] = "s.STUDENT_ID,sc.COURSE_PERIOD_ID,sc.MARKING_PERIOD_ID,
+	sc.REPORT_CARD_COMMENT_ID,sc.COMMENT,
+	(SELECT SORT_ORDER
+		FROM REPORT_CARD_COMMENTS
+		WHERE ID=sc.REPORT_CARD_COMMENT_ID) AS SORT_ORDER,
+	(SELECT COALESCE(SCALE_ID, 0)
+		FROM REPORT_CARD_COMMENTS
+		WHERE ID=sc.REPORT_CARD_COMMENT_ID) AS SORT_ORDER2";
+
+	$extra['FROM'] = ",STUDENT_REPORT_CARD_COMMENTS sc";
+
+	// Get the comments of all MPs.
+	//$extra['WHERE'] .= " AND sc.STUDENT_ID=s.STUDENT_ID AND sc.MARKING_PERIOD_ID='".$last_mp."'";
+	$extra['WHERE'] .= " AND sc.STUDENT_ID=s.STUDENT_ID AND sc.MARKING_PERIOD_ID IN (" . $mp_list . ")";
+
+	$extra['ORDER_BY'] = 'SORT_ORDER,SORT_ORDER2';
+
+	$extra['group'] = array( 'STUDENT_ID', 'COURSE_PERIOD_ID', 'MARKING_PERIOD_ID' );
+
+	// Parent: associated students.
+	$extra['ASSOCIATED'] = User( 'STAFF_ID' );
+
+	$rc_comments_RET = GetStuList( $extra );
+
+	//echo '<pre>'; print_r($rc_comments_RET); echo '</pre>'; exit;
+
+	return $rc_comments_RET;
 }

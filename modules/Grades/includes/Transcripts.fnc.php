@@ -233,8 +233,8 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 			return array();
 		}
 
-		$syear = ( User( 'PROFILE' ) === 'admin' && $_REQUEST['syear_arr'] ?
-			$_REQUEST['syear_arr'][0] :
+		$syear = ( User( 'PROFILE' ) === 'admin' && $syear_array ?
+			$syear_array[0] :
 			UserSyear() );
 
 		$show = array(
@@ -284,7 +284,7 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 				// Start buffer.
 				ob_start();
 
-				$certificate_block1 = '';
+				$certificate_block1 = $certificate_block2 = '';
 
 				if ( empty( $student['GRADE_LEVEL'] ) )
 				{
@@ -363,6 +363,11 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 									&& strpos( $mp_type_list, 'semester' ) === false
 									&& $grade['MP_TYPE'] == 'quarter' ) )
 							{
+								if ( ! isset( $grades_RET[$i]['CREDIT_EARNED'] ) )
+								{
+									$grades_RET[$i]['CREDIT_EARNED'] = 0;
+								}
+
 								$grades_RET[$i]['CREDIT_EARNED'] += (float) $grade['CREDIT_EARNED'];
 
 								$total_credit_earned += $grade['CREDIT_EARNED'];
@@ -604,8 +609,9 @@ if ( ! function_exists( 'TranscriptPDFFooter' ) )
 		echo '<table class="width-100p"><tr><td><span><br />' .
 			_( 'School Year' ) . ': ' .
 			FormatSyear( $student['SYEAR'], Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) ) . '</span></td></tr>';
+
 		if ( $last_grade
-			&& $last_grade['MP_TYPE'] !== 'quarter'
+			// && $last_grade['MP_TYPE'] !== 'quarter'
 			&& ( ! empty( $last_grade['CUM_WEIGHTED_GPA'] ) || ! empty( $last_grade['CUM_RANK'] ) ) )
 		{
 			// GPA and/or Class Rank.
@@ -626,8 +632,8 @@ if ( ! function_exists( 'TranscriptPDFFooter' ) )
 
 			if ( ! empty( $last_grade['CUM_RANK'] ) )
 			{
-				echo _( 'Class Rank' ) . ': ' . $grade['CUM_RANK'] .
-					' / ' . $grade['CLASS_SIZE'] . '</span>';
+				echo _( 'Class Rank' ) . ': ' . $last_grade['CUM_RANK'] .
+					' / ' . $last_grade['CLASS_SIZE'] . '</span>';
 			}
 
 			echo '</span></td></tr>';
