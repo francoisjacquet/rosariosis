@@ -329,7 +329,7 @@ if ( $year[1]['DOES_GRADES'] === 'Y' )
 
 			$table .= '<td>' . TextInput(
 				$value,
-				'values[SEM-' . $qtr['MARKING_PERIOD_ID'] . ']',
+				'values[FY-' . $qtr['MARKING_PERIOD_ID'] . ']',
 				$qtr['TITLE'],
 				'size="3" maxlength="6"'
 			) . '</td>';
