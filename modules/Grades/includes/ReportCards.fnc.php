@@ -230,11 +230,11 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 			if ( $gender_field_RET
 				&& $gender_field_RET['200000000'][1]['TYPE'] === 'select' )
 			{
-				$extra['SELECT'] .= ',s.CUSTOM_200000000 AS GENDER';
+				$extra['SELECT_ONLY'] .= ',s.CUSTOM_200000000 AS GENDER';
 			}
 			else
 			{
-				$extra['SELECT'] .= ",'" . _( 'None' ) . "' AS GENDER";
+				$extra['SELECT_ONLY'] .= ",'" . _( 'None' ) . "' AS GENDER";
 			}
 		}
 
