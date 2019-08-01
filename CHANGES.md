@@ -36,6 +36,7 @@ Changes in 5.0
 - Fix PHP notices, program wide
 - SQL fix Change index suffix from '\_IND' to '\_IDX' to avoid collision in Fields.fnc.php
 - Add GetReportCardsComments() function in ReportCards.fnc.php
+- Add issetVal() function in Warehouse.php
 
 Changes in 4.9.4
 ----------------

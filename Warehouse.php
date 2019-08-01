@@ -534,7 +534,7 @@ function Warehouse( $mode )
 
 			if ( $_ROSARIO['page'] === 'modules' ): ?>
 <script>
-	var modname = "<?php echo isset( $_ROSARIO['ProgramLoaded'] ) ? $_ROSARIO['ProgramLoaded'] : ''; ?>";
+	var modname = "<?php echo issetVal( $_ROSARIO['ProgramLoaded'], '' ); ?>";
 	if (typeof menuStudentID !== 'undefined'
 		&& (menuStudentID != "<?php echo UserStudentID(); ?>"
 			|| menuStaffID != "<?php echo UserStaffID(); ?>"
@@ -773,4 +773,27 @@ function ETagCache( $mode = '' )
 	}
 
 	return true;
+}
+
+
+/**
+ * Null coalesce.
+ * Useful to prevent PHP undefined index / variable notices.
+ * Equivalent to:
+ * `isset( $var ) ? $var : null`
+ *
+ * @example $extra['SELECT'] = issetVal( $extra['SELECT'], '' );
+ *
+ * @since 5.0
+ *
+ * @todo Migrate to PHP7 ?? operator.
+ * @link https://www.php.net/manual/en/migration70.new-features.php#migration70.new-features.null-coalesce-op
+ *
+ * @param  mixed &$var    Variable.
+ * @param  mixed $default Default value if undefined. Defaults to null.
+ * @return mixed Variable or default.
+ */
+function issetVal( &$var, $default = null )
+{
+	return ( isset( $var ) ) ? $var : $default;
 }
