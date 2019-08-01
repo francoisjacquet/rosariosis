@@ -34,6 +34,7 @@ Changes in 5.0
 - Change error to "No Grades were found" in FinalGrades.php, ReportCards.php, Transcripts.php
 - Reorder Course Period option inputs in Courses.fnc.php
 - Fix PHP notices, program wide
+- SQL fix Change index suffix from '\_IND' to '\_IDX' to avoid collision in Fields.fnc.php
 
 Changes in 4.9.4
 ----------------

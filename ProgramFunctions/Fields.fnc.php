@@ -12,6 +12,7 @@
  * And create INDEX
  *
  * @since 4.6 Add Files type
+ * @since 5.0 SQL fix Change index suffix from '_IND' to '_IDX' to avoid collision.
  *
  * @example $_REQUEST['id'] = AddDBField( 'SCHOOLS', 'school_fields_id_seq', $columns['TYPE'] );
  *
@@ -90,7 +91,8 @@ function AddDBField( $table, $sequence, $type )
 
 	if ( $create_index )
 	{
-		$index_name = $table === 'STUDENTS' ? 'CUSTOM_IND' : $table . '_IND';
+		// @since 5.0 SQL fix Change index suffix from '_IND' to '_IDX' to avoid collision.
+		$index_name = $table === 'STUDENTS' ? 'CUSTOM_IND' : $table . '_IDX';
 
 		DBQuery( 'CREATE INDEX ' . DBEscapeIdentifier( $index_name . (int) $id ) .
 			' ON ' . DBEscapeIdentifier( $table ) .
