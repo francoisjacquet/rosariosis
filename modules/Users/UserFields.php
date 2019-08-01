@@ -8,6 +8,9 @@
 
 require_once 'ProgramFunctions/Fields.fnc.php';
 
+$_REQUEST['id'] = isset( $_REQUEST['id'] ) ? $_REQUEST['id'] : '';
+$_REQUEST['category_id'] = isset( $_REQUEST['category_id'] ) ? $_REQUEST['category_id'] : '';
+
 DrawHeader( ProgramTitle() );
 
 //$_ROSARIO['allow_edit'] = true;
@@ -165,8 +168,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 			RedirectURL( array( 'modfunc', 'id' ) );
 		}
 	}
-	elseif ( isset( $_REQUEST['category_id'] )
-		&& intval( $_REQUEST['category_id'] ) > 0 )
+	elseif ( intval( $_REQUEST['category_id'] ) > 0 )
 	{
 		if ( DeletePrompt( _( 'User Field Category' ) . ' ' .
 				_( 'and all fields in the category' ) ) )
@@ -191,6 +193,8 @@ if ( $_REQUEST['modfunc'] === 'delete'
 if ( ! $_REQUEST['modfunc'] )
 {
 	echo ErrorMessage( $error );
+
+	$RET = array();
 
 	// ADDING & EDITING FORM.
 	if ( $_REQUEST['id']
@@ -226,7 +230,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$RET['ID'] = 'new';
 
-		$RET['CATEGORY_ID'] = isset( $_REQUEST['category_id'] ) ? $_REQUEST['category_id'] : null;
+		$RET['CATEGORY_ID'] = $_REQUEST['category_id'];
 	}
 	elseif ( $_REQUEST['category_id'] === 'new' )
 	{
