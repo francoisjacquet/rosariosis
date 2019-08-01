@@ -6,7 +6,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	{
 		$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
 
-		$extra['WHERE'] = isset( $extra['WHERE'] ) ? $extra['WHERE'] : '';
+		$extra['WHERE'] = issetVal( $extra['WHERE'], '' );
 		$extra['WHERE'] .= " AND s.STUDENT_ID IN (" . $st_list . ")";
 
 		$date = RequestedDate( 'include_active_date', '' );
@@ -35,10 +35,10 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		/*	$extra['SELECT'] .= ',c.TITLE AS COURSE_TITLE,p_cp.TITLE AS PERIOD_TITLE,sr.MARKING_PERIOD_ID,p_cp.DAYS,p_cp.ROOM';
 		$extra['FROM'] .= ' LEFT OUTER JOIN SCHEDULE sr ON (sr.STUDENT_ID=ssm.STUDENT_ID),COURSES c,COURSE_PERIODS p_cp,SCHOOL_PERIODS sp ';
 		$extra['WHERE'] .= " AND p_cp.PERIOD_ID=sp.PERIOD_ID AND ssm.SYEAR=sr.SYEAR AND sr.COURSE_ID=c.COURSE_ID AND sr.COURSE_PERIOD_ID=p_cp.COURSE_PERIOD_ID  AND ('".$date."' BETWEEN sr.START_DATE AND sr.END_DATE $date_extra)";*/
-		$extra['SELECT'] = isset( $extra['SELECT'] ) ? $extra['SELECT'] : '';
+		$extra['SELECT'] = issetVal( $extra['SELECT'], '' );
 		$extra['SELECT'] .= ',c.TITLE AS COURSE_TITLE,p_cp.TITLE AS PERIOD_TITLE,sr.MARKING_PERIOD_ID,p_cp.ROOM';
 
-		$extra['FROM'] = isset( $extra['FROM'] ) ? $extra['FROM'] : '';
+		$extra['FROM'] = issetVal( $extra['FROM'], '' );
 		$extra['FROM'] .= ' LEFT OUTER JOIN SCHEDULE sr ON (sr.STUDENT_ID=ssm.STUDENT_ID),COURSES c,COURSE_PERIODS p_cp ';
 
 		$extra['WHERE'] .= " AND ssm.SYEAR=sr.SYEAR
@@ -322,7 +322,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
 			'&modfunc=save&include_inactive=' .
-			( isset( $_REQUEST['include_inactive'] ) ? $_REQUEST['include_inactive'] : '' ) .
+			issetVal( $_REQUEST['include_inactive'], '' ) .
 			'&_ROSARIO_PDF=true" method="POST" id="printSchedulesForm">';
 
 		$extra['header_right'] = Buttons( _( 'Create Schedules for Selected Students' ) );

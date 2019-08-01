@@ -143,9 +143,7 @@ function ProgramConfig( $program, $item = 'all', $value = null )
 		return $_ROSARIO['ProgramConfig'][ (string) $program ];
 	}
 
-	return isset( $_ROSARIO['ProgramConfig'][ (string) $program ][ (string) $item ][1]['VALUE'] ) ?
-			$_ROSARIO['ProgramConfig'][ (string) $program ][ (string) $item ][1]['VALUE'] :
-			null;
+	return issetVal( $_ROSARIO['ProgramConfig'][ (string) $program ][ (string) $item ][1]['VALUE'] );
 }
 
 

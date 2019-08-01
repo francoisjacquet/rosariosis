@@ -497,7 +497,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
 			'&modfunc=save&include_inactive=' .
-			( isset( $_REQUEST['include_inactive'] ) ? $_REQUEST['include_inactive'] : '' ) .
+			issetVal( $_REQUEST['include_inactive'], '' ) .
 			'" method="GET">';
 
 		$extra['header_right'] = SubmitButton( _( 'Create Grade Lists for Selected Students' ) );

@@ -369,9 +369,7 @@ function GetChildrenMP( $mp, $marking_period_id = '0' )
 		}
 	}
 
-	return isset( $children_mp[ $mp ][ $marking_period_id ] ) ?
-		$children_mp[ $mp ][ $marking_period_id ] :
-		'';
+	return issetVal( $children_mp[ $mp ][ $marking_period_id ], '' );
 }
 
 

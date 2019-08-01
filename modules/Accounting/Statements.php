@@ -6,7 +6,7 @@ if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) && ! $_REQUEST['search_modfunc'] )
 
 	$extra['new'] = true;
 	$extra['action'] .= "&_ROSARIO_PDF=true";
-	Search( 'staff_id', ( isset( $extra ) ? $extra : null ) );
+	Search( 'staff_id', issetVal( $extra ) );
 }
 else
 {
@@ -15,7 +15,7 @@ else
 
 	if ( User( 'PROFILE' ) === 'teacher' ) //limit to teacher himself
 	{
-		$extra['WHERE'] = isset( $extra['WHERE'] ) ? $extra['WHERE'] : '';
+		$extra['WHERE'] = issetVal( $extra['WHERE'], '' );
 		$extra['WHERE'] .= " AND s.STAFF_ID = '" . User( 'STAFF_ID' ) . "'";
 	}
 

@@ -1142,12 +1142,12 @@ function Widgets( $item, &$myextra = null )
 
 			$discipline_entry_begin = RequestedDate(
 				'discipline_entry_begin',
-				( isset( $_REQUEST['discipline_entry_begin'] ) ? $_REQUEST['discipline_entry_begin'] : '' )
+				( issetVal( $_REQUEST['discipline_entry_begin'], '' ) )
 			);
 
 			$discipline_entry_end = RequestedDate(
 				'discipline_entry_end',
-				( isset( $_REQUEST['discipline_entry_end'] ) ? $_REQUEST['discipline_entry_end'] : '' )
+				( issetVal( $_REQUEST['discipline_entry_end'], '' ) )
 			);
 
 			if ( ( $discipline_entry_begin

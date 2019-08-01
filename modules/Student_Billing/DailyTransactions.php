@@ -28,13 +28,13 @@ $extra['functions'] = array( 'DEBIT' => '_makeCurrency', 'CREDIT' => '_makeCurre
 
 $fees_extra = $extra;
 
-$fees_extra['SELECT'] = isset( $fees_extra['SELECT'] ) ? $fees_extra['SELECT'] : '';
+$fees_extra['SELECT'] = issetVal( $fees_extra['SELECT'], '' );
 $fees_extra['SELECT'] .= ",f.AMOUNT AS DEBIT,'' AS CREDIT,f.TITLE||' '||COALESCE(f.COMMENTS,' ') AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID";
 
-$fees_extra['FROM'] = isset( $fees_extra['FROM'] ) ? $fees_extra['FROM'] : '';
+$fees_extra['FROM'] = issetVal( $fees_extra['FROM'], '' );
 $fees_extra['FROM'] .= ',BILLING_FEES f';
 
-$fees_extra['WHERE'] = isset( $fees_extra['WHERE'] ) ? $fees_extra['WHERE'] : '';
+$fees_extra['WHERE'] = issetVal( $fees_extra['WHERE'], '' );
 $fees_extra['WHERE'] .= " AND f.STUDENT_ID=s.STUDENT_ID AND f.SYEAR=ssm.SYEAR
 	AND f.SCHOOL_ID=ssm.SCHOOL_ID AND f.ASSIGNED_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'";
 
@@ -42,13 +42,13 @@ $RET = GetStuList( $fees_extra );
 
 $payments_extra = $extra;
 
-$payments_extra['SELECT'] = isset( $payments_extra['SELECT'] ) ? $payments_extra['SELECT'] : '';
+$payments_extra['SELECT'] = issetVal( $payments_extra['SELECT'], '' );
 $payments_extra['SELECT'] .= ",'' AS DEBIT,p.AMOUNT AS CREDIT,COALESCE(p.COMMENTS,' ') AS EXPLANATION,p.PAYMENT_DATE AS DATE,p.ID AS ID";
 
-$payments_extra['FROM'] = isset( $payments_extra['FROM'] ) ? $payments_extra['FROM'] : '';
+$payments_extra['FROM'] = issetVal( $payments_extra['FROM'], '' );
 $payments_extra['FROM'] .= ',BILLING_PAYMENTS p';
 
-$payments_extra['WHERE'] = isset( $payments_extra['WHERE'] ) ? $payments_extra['WHERE'] : '';
+$payments_extra['WHERE'] = issetVal( $payments_extra['WHERE'], '' );
 $payments_extra['WHERE'] .= " AND p.STUDENT_ID=s.STUDENT_ID AND p.SYEAR=ssm.SYEAR AND p.SCHOOL_ID=ssm.SCHOOL_ID AND p.PAYMENT_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'";
 
 $payments_RET = GetStuList( $payments_extra );

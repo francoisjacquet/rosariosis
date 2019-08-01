@@ -7,8 +7,8 @@ $do_stats = ProgramConfig( 'grades', 'GRADES_DO_STATS_STUDENTS_PARENTS' ) == 'Y'
 	|| User( 'PROFILE' ) === 'admin' )
 	&& ProgramConfig( 'grades', 'GRADES_DO_STATS_ADMIN_TEACHERS' ) == 'Y' );
 
-$_REQUEST['include_inactive'] = isset( $_REQUEST['include_inactive'] ) ? $_REQUEST['include_inactive'] : '';
-$_REQUEST['do_stats'] = isset( $_REQUEST['do_stats'] ) ? $_REQUEST['do_stats'] : '';
+$_REQUEST['include_inactive'] = issetVal( $_REQUEST['include_inactive'], '' );
+$_REQUEST['do_stats'] = issetVal( $_REQUEST['do_stats'], '' );
 
 $_ROSARIO['allow_edit'] = false;
 

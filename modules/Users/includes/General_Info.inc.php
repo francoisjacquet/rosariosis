@@ -44,8 +44,8 @@ $suffixes_array = array(
 	'V' => _( 'V' ),
 );
 
-$staff_title = isset( $titles_array[ $staff['TITLE'] ] ) ? $titles_array[ $staff['TITLE'] ] : '';
-$staff_suffix = isset( $suffixes_array[ $staff['NAME_SUFFIX'] ] ) ? $suffixes_array[ $staff['NAME_SUFFIX'] ] : '';
+$staff_title = issetVal( $titles_array[ $staff['TITLE'] ], '' );
+$staff_suffix = issetVal( $suffixes_array[ $staff['NAME_SUFFIX'] ], '' );
 
 if ( AllowEdit() && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 {

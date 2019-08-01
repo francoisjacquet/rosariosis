@@ -94,7 +94,7 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 			{
 				$old_data = unserialize( $old_submission['DATA'] );
 
-				$old_file = isset( $old_data['files'][0] ) ? $old_data['files'][0] : '';
+				$old_file = issetVal( $old_data['files'][0], '' );
 
 				if ( file_exists( $old_file ) )
 				{
@@ -195,7 +195,7 @@ function StudentAssignmentSubmissionOutput( $assignment_id )
 	{
 		$data = unserialize( $submission['DATA'] );
 
-		$old_file = isset( $data['files'][0] ) ? $data['files'][0] : '';
+		$old_file = issetVal( $data['files'][0], '' );
 
 		$old_file = GetAssignmentFileLink( $old_file );
 
@@ -669,7 +669,7 @@ function MakeStudentAssignmentSubmissionView( $value, $column )
 	{
 		$data = unserialize( $submission['DATA'] );
 
-		$file = isset( $data['files'][0] ) ? $data['files'][0] : '';
+		$file = issetVal( $data['files'][0], '' );
 
 		$message = $data['message'];
 

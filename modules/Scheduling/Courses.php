@@ -54,7 +54,7 @@ if ( isset( $_REQUEST['course_modfunc'] )
 		$_REQUEST['last_year'] . '" method="GET">';
 
 	echo '<table><tr><td><input type="text" name="search_term" value="' .
-		( isset( $_REQUEST['search_term'] ) ? $_REQUEST['search_term'] : '' ) . '" required autofocus /></td>
+		issetVal( $_REQUEST['search_term'], '' ) . '" required autofocus /></td>
 		<td>' . Buttons( _( 'Search' ) ) . '</td></tr></table>';
 
 	if ( $_REQUEST['modfunc'] === 'choose_course'
@@ -748,9 +748,9 @@ if (  ( ! $_REQUEST['modfunc']
 		if ( AllowEdit() )
 		{
 			$delete_url = "'Modules.php?modname=" . $_REQUEST['modname'] .
-				'&modfunc=delete&subject_id=' . ( isset( $_REQUEST['subject_id'] ) ? $_REQUEST['subject_id'] : '' ) .
-				'&course_id=' . ( isset( $_REQUEST['course_id'] ) ? $_REQUEST['course_id'] : '' ) .
-				'&course_period_id=' . ( isset( $_REQUEST['course_period_id'] ) ? $_REQUEST['course_period_id'] : '' ) . "'";
+				'&modfunc=delete&subject_id=' . issetVal( $_REQUEST['subject_id'], '' ) .
+				'&course_id=' . issetVal( $_REQUEST['course_id'], '' ) .
+				'&course_period_id=' . issetVal( $_REQUEST['course_period_id'], '' ) . "'";
 
 			$delete_button = '<input type="button" value="' . _( 'Delete' ) . '" onClick="javascript:ajaxLink(' . $delete_url . ');" />';
 		}
@@ -972,7 +972,7 @@ if (  ( ! $_REQUEST['modfunc']
 				else
 				{
 					$header .= '<td>' . SelectInput(
-						( isset( $school_period['PERIOD_ID'] ) ? $school_period['PERIOD_ID'] : '' ),
+						issetVal( $school_period['PERIOD_ID'], '' ),
 						'tables[COURSE_PERIOD_SCHOOL_PERIODS][' . $school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'] . '][PERIOD_ID]',
 						_( 'Period' ),
 						$periods
@@ -1599,10 +1599,10 @@ function calcSeats1( &$periods, $date )
 				$link = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=' . $_REQUEST['modfunc'] .
 				'&subject_id=' . $period['SUBJECT_ID'] . '&course_id=' . $period['COURSE_ID'];
 
-				$link .= '&last_year=' . ( isset( $_REQUEST['last_year'] ) ? $_REQUEST['last_year'] : '' ) .
-					'&year_date=' . ( isset( $_REQUEST['year_date'] ) ? $_REQUEST['year_date'] : '' ) .
-					'&month_date=' . ( isset( $_REQUEST['month_date'] ) ? $_REQUEST['month_date'] : '' ) .
-					'&day_date=' . ( isset( $_REQUEST['day_date'] ) ? $_REQUEST['day_date'] : '' );
+				$link .= '&last_year=' . issetVal( $_REQUEST['last_year'], '' ) .
+					'&year_date=' . issetVal( $_REQUEST['year_date'], '' ) .
+					'&month_date=' . issetVal( $_REQUEST['month_date'], '' ) .
+					'&day_date=' . issetVal( $_REQUEST['day_date'], '' );
 
 				$link .= '&course_period_id=' . $period['COURSE_PERIOD_ID'] . '&course_marking_period_id=' . $mp;
 

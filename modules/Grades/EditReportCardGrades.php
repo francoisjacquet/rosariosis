@@ -10,7 +10,7 @@ if ( UserStudentID() )
 {
 	$student_id = UserStudentID();
 
-	$mp_id = isset( $_REQUEST['mp_id'] ) ? $_REQUEST['mp_id'] : null;
+	$mp_id = issetVal( $_REQUEST['mp_id'] );
 
 	$tab_id = ! empty( $_REQUEST['tab_id'] ) ? $_REQUEST['tab_id'] : 'grades';
 
@@ -49,7 +49,7 @@ if ( UserStudentID() )
 					VALUES ('" . $student_id . "','" . $_REQUEST['new_sms'] . "')" );
 			}
 
-			$mp_id = isset( $_REQUEST['new_sms'] ) ? $_REQUEST['new_sms'] : null;
+			$mp_id = issetVal( $_REQUEST['new_sms'] );
 		}
 
 		if ( $_REQUEST['SMS_GRADE_LEVEL'] && $mp_id )

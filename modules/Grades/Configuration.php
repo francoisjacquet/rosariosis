@@ -83,19 +83,19 @@ echo '<tr><td>' . RadioInput(
 ) . '</td></tr>';
 
 echo '<tr><td><hr />' . CheckboxInput(
-	( isset( $gradebook_config['WEIGHT'] ) ? $gradebook_config['WEIGHT'] : '' ),
+	issetVal( $gradebook_config['WEIGHT'], '' ),
 	'values[WEIGHT]',
 	_( 'Weight Grades' )
 ) . '</td></tr>';
 
 echo '<tr><td>' . CheckboxInput(
-	( isset( $gradebook_config['DEFAULT_ASSIGNED'] ) ? $gradebook_config['DEFAULT_ASSIGNED'] : '' ),
+	issetVal( $gradebook_config['DEFAULT_ASSIGNED'], '' ),
 	'values[DEFAULT_ASSIGNED]',
 	_( 'Assigned Date defaults to today' )
 ) . '</td></tr>';
 
 echo '<tr><td>' . CheckboxInput(
-	( isset( $gradebook_config['DEFAULT_DUE'] ) ? $gradebook_config['DEFAULT_DUE'] : '' ),
+	issetVal( $gradebook_config['DEFAULT_DUE'], '' ),
 	'values[DEFAULT_DUE]',
 	_( 'Due Date defaults to today' )
 ) . '</td></tr>';
@@ -104,20 +104,20 @@ if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) <= 0 )
 {
 	// Global Config allows for Letter grades.
 	echo '<tr><td>' . CheckboxInput(
-		( isset( $gradebook_config['LETTER_GRADE_ALL'] ) ? $gradebook_config['LETTER_GRADE_ALL'] : '' ),
+		issetVal( $gradebook_config['LETTER_GRADE_ALL'], '' ),
 		'values[LETTER_GRADE_ALL]',
 		_( 'Hide letter grades for all gradebook assignments' )
 	) . '</td></tr>';
 }
 
 echo '<tr><td>' . CheckboxInput(
-	( isset( $gradebook_config['HIDE_PREVIOUS_ASSIGNMENT_TYPES'] ) ? $gradebook_config['HIDE_PREVIOUS_ASSIGNMENT_TYPES'] : '' ),
+	issetVal( $gradebook_config['HIDE_PREVIOUS_ASSIGNMENT_TYPES'], '' ),
 	'values[HIDE_PREVIOUS_ASSIGNMENT_TYPES]',
 	_( 'Hide previous quarters assignment types' )
 ) . '</td></tr>';
 
 echo '<tr><td><hr />' . TextInput(
-	( isset( $gradebook_config['LETTER_GRADE_MIN'] ) ? $gradebook_config['LETTER_GRADE_MIN'] : '' ),
+	issetVal( $gradebook_config['LETTER_GRADE_MIN'], '' ),
 	'values[LETTER_GRADE_MIN]',
 	_( 'Minimum assignment points for letter grade' ),
 	'size="3" maxlength="3"'
@@ -138,7 +138,7 @@ echo '<tr><td>' . TextInput(
 ) . '</td></tr>';
 
 echo '<tr><td>' . TextInput(
-	(string) round( ( isset( $gradebook_config['LATENCY'] ) ? $gradebook_config['LATENCY'] : '' ) ),
+	(string) round( issetVal( $gradebook_config['LATENCY'], '' ) ),
 	'values[LATENCY]',
 	_( 'Days until ungraded assignment grade appears in Parent/Student gradebook views' ),
 	'size="3" maxlength="3"'
@@ -152,7 +152,7 @@ if ( $RosarioModules['Eligibility'] )
 	echo '<fieldset><legend>' . _( 'Eligibility' ) . '</legend><table>';
 
 	echo '<tr><td>' . CheckboxInput(
-		( isset( $gradebook_config['ELIGIBILITY_CUMULITIVE'] ) ? $gradebook_config['ELIGIBILITY_CUMULITIVE'] : '' ),
+		issetVal( $gradebook_config['ELIGIBILITY_CUMULITIVE'], '' ),
 		'values[ELIGIBILITY_CUMULITIVE]',
 		_( 'Calculate Eligibility using Cumulative Semester Grades' )
 	) . '</td></tr>';

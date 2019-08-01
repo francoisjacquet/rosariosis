@@ -4,7 +4,7 @@ require_once 'modules/Grades/includes/ClassRank.inc.php';
 
 require_once 'ProgramFunctions/TipMessage.fnc.php';
 
-$_REQUEST['include_inactive'] = isset( $_REQUEST['include_inactive'] ) ? $_REQUEST['include_inactive'] : '';
+$_REQUEST['include_inactive'] = issetVal( $_REQUEST['include_inactive'], '' );
 
 DrawHeader( ProgramTitle() );
 

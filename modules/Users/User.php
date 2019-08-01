@@ -3,7 +3,7 @@
 require_once 'ProgramFunctions/FileUpload.fnc.php';
 require_once 'ProgramFunctions/Fields.fnc.php';
 
-$_REQUEST['staff_id'] = isset( $_REQUEST['staff_id'] ) ? $_REQUEST['staff_id'] : null;
+$_REQUEST['staff_id'] = issetVal( $_REQUEST['staff_id'] );
 
 if ( User( 'PROFILE' ) !== 'admin'
 	&& User( 'PROFILE' ) !== 'teacher'
@@ -580,7 +580,7 @@ if ( $_REQUEST['modfunc'] === 'remove_file'
 
 echo ErrorMessage( $error );
 
-Search( 'staff_id', ( isset( $extra ) ? $extra : array() ) );
+Search( 'staff_id', issetVal( $extra, array() ) );
 
 if (  ( UserStaffID()
 	|| ( isset( $_REQUEST['staff_id'] )

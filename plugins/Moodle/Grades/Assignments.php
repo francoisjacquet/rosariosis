@@ -141,7 +141,7 @@ list of (
 */
 
 	//gather the Moodle Event ID
-	$assignment_id = isset( $_REQUEST['assignment_id'] ) ? $_REQUEST['assignment_id'] : null;
+	$assignment_id = issetVal( $_REQUEST['assignment_id'] );
 
 	//update
 	if (!empty($id))
@@ -175,7 +175,7 @@ function core_calendar_delete_calendar_events_response($response)
 	//first, gather the necessary variables
 	global $id, $columns, $_REQUEST;
 
-	$assignment_id = isset( $_REQUEST['assignment_id'] ) ? $_REQUEST['assignment_id'] : null;
+	$assignment_id = issetVal( $_REQUEST['assignment_id'] );
 
 	if (!empty($id)) //update
 	{

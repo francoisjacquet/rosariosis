@@ -31,10 +31,10 @@ if ( $_REQUEST['delete'] === 'true' )
 			$i = 0;
 			$ii = 0;
 			$iii = 0;
-			$sid = isset( $_REQUEST['studentidx'] ) ? $_REQUEST['studentidx'] : null;
-			$cnt = isset( $_REQUEST['deletecheck'] ) ? $_REQUEST['deletecheck'] : null;
-			$pid = isset( $_REQUEST['periodidx'] ) ? $_REQUEST['periodidx'] : null;
-			$sdt = isset( $_REQUEST['schooldatex'] ) ? $_REQUEST['schooldatex'] : null;
+			$sid = issetVal( $_REQUEST['studentidx'] );
+			$cnt = issetVal( $_REQUEST['deletecheck'] );
+			$pid = issetVal( $_REQUEST['periodidx'] );
+			$sdt = issetVal( $_REQUEST['schooldatex'] );
 
 			foreach ( (array) $cnt as $a => $val_dchck )
 			{

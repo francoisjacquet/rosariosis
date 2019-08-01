@@ -51,13 +51,13 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 	AddRequestedDates( 'cust_begin' );
 
 	// Add begin dates and begin Number.
-	$cust_begin = isset( $_REQUEST['cust_begin'] ) ? $_REQUEST['cust_begin'] : null;
+	$cust_begin = issetVal( $_REQUEST['cust_begin'] );
 
 	// Format & Verify end dates.
 	AddRequestedDates( 'cust_end' );
 
 	// Add end dates and end Number.
-	$cust_end = isset( $_REQUEST['cust_end'] ) ? $_REQUEST['cust_end'] : null;
+	$cust_end = issetVal( $_REQUEST['cust_end'] );
 
 	// Get custom (staff) fields.
 	if ( ! empty( $cust )

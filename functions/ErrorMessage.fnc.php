@@ -65,7 +65,7 @@ function ErrorMessage( $errors, $code = 'error' )
 
 	if ( count( $errors ) === 1 )
 	{
-		$return .= ': ' . ( isset( $errors[0] ) ? $errors[0] : $errors[1] ) . '</p>';
+		$return .= ': ' . issetVal( $errors[0], $errors[1] ) . '</p>';
 	}
 
 	// More than one error: list.
@@ -153,8 +153,7 @@ function ErrorSendEmail( $error = array(), $title = 'PHP Fatal error' )
 		return false;
 	}
 
-	$ip = isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ?
-		$_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
+	$ip = issetVal( $_SERVER['HTTP_X_FORWARDED_FOR'], $_SERVER['REMOTE_ADDR'] );
 
 	$debug_backtrace = debug_backtrace();
 

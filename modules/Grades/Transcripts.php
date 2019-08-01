@@ -24,7 +24,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		$transcripts = TranscriptsGenerate(
 			$_REQUEST['st_arr'],
 			$_REQUEST['mp_type_arr'],
-			isset( $_REQUEST['syear_arr'] ) ? $_REQUEST['syear_arr'] : array()
+			issetVal( $_REQUEST['syear_arr'], array() )
 		);
 
 		/**

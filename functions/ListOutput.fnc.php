@@ -30,16 +30,16 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		$options = $default_options;
 	}
 
-	$LO_page = ( isset( $_REQUEST['LO_page'] ) ? $_REQUEST['LO_page'] : '' );
+	$LO_page = issetVal( $_REQUEST['LO_page'], '' );
 
 	// FJ bugfix ListOutput sorting when more than one list in a page.
-	$LO_sort = ( isset( $_REQUEST['LO_sort'] ) ? $_REQUEST['LO_sort'] : '' );
+	$LO_sort = issetVal( $_REQUEST['LO_sort'], '' );
 
-	$LO_dir = ( isset( $_REQUEST['LO_dir'] ) ? $_REQUEST['LO_dir'] : '' );
+	$LO_dir = issetVal( $_REQUEST['LO_dir'], '' );
 
-	$LO_search = ( isset( $_REQUEST['LO_search'] ) ? $_REQUEST['LO_search'] : '' );
+	$LO_search = issetVal( $_REQUEST['LO_search'], '' );
 
-	$LO_save = ( isset( $_REQUEST['LO_save'] ) ? $_REQUEST['LO_save'] : '' );
+	$LO_save = issetVal( $_REQUEST['LO_save'], '' );
 
 	if ( ! $options['add']
 		|| ! AllowEdit()
@@ -528,7 +528,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 					if ( $options['sort'] )
 					{
-						echo '<a href="' . $PHP_tmp_SELF . '&amp;LO_page=' . $LO_page . '&amp;LO_sort=' . $key . '&amp;LO_dir=' . $direction . '&amp;LO_search=' . urlencode( isset( $LO_search ) ? $LO_search : '' ) . '">' .
+						echo '<a href="' . $PHP_tmp_SELF . '&amp;LO_page=' . $LO_page . '&amp;LO_sort=' . $key . '&amp;LO_dir=' . $direction . '&amp;LO_search=' . urlencode( issetVal( $LO_search, '' ) ) . '">' .
 						ParseMLField( $value ) .
 							'</a>';
 					}
@@ -710,7 +710,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				echo '<tr><td colspan="' . ( $remove ? $cols + 1 : $cols ) . '">' .
 				button(
 					'add',
-					isset( $link['add']['title'] ) ? $link['add']['title'] : '',
+					issetVal( $link['add']['title'], '' ),
 					$link['add']['link']
 				) .
 					'</td></tr>';
@@ -738,7 +738,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				foreach ( (array) $column_names as $key => $value )
 				{
 					echo '<td>' .
-						( isset( $link['add']['html'][$key] ) ? $link['add']['html'][$key] : '' )
+						( issetVal( $link['add']['html'][$key], '' ) )
 						. '</td>';
 				}
 
@@ -765,7 +765,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			echo '<div class="center">' .
 			button(
 				'add',
-				isset( $link['add']['title'] ) ? $link['add']['title'] : '',
+				issetVal( $link['add']['title'], '' ),
 				$link['add']['link']
 			) .
 				'</div>';

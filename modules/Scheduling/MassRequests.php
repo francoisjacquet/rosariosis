@@ -173,8 +173,8 @@ if ( $_REQUEST['modfunc'] == 'choose_course' )
 	}
 	else
 	{
-		$_SESSION['MassRequests.php']['subject_id'] = isset( $_REQUEST['subject_id'] ) ? $_REQUEST['subject_id'] : null;
-		$_SESSION['MassRequests.php']['course_id'] = isset( $_REQUEST['course_id'] ) ? $_REQUEST['course_id'] : null;
+		$_SESSION['MassRequests.php']['subject_id'] = issetVal( $_REQUEST['subject_id'] );
+		$_SESSION['MassRequests.php']['course_id'] = issetVal( $_REQUEST['course_id'] );
 
 		$course_title = DBGetOne( "SELECT TITLE
 			FROM COURSES

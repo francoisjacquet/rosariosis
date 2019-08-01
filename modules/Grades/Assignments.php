@@ -3,8 +3,8 @@
 require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 require_once 'modules/Grades/includes/StudentAssignments.fnc.php';
 
-$_REQUEST['assignment_id'] = isset( $_REQUEST['assignment_id'] ) ? $_REQUEST['assignment_id'] : '';
-$_REQUEST['assignment_type_id'] = isset( $_REQUEST['assignment_type_id'] ) ? $_REQUEST['assignment_type_id'] : '';
+$_REQUEST['assignment_id'] = issetVal( $_REQUEST['assignment_id'], '' );
+$_REQUEST['assignment_type_id'] = issetVal( $_REQUEST['assignment_type_id'], '' );
 
 if ( ! empty( $_REQUEST['assignment_id'] )
 	&& ! empty( $_REQUEST['marking_period_id'] ) )
@@ -638,7 +638,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$header .= '</tr><tr class="st">';
 
-		$file_download = GetAssignmentFileLink( isset( $RET['FILE'] ) ? $RET['FILE'] : '' );
+		$file_download = GetAssignmentFileLink( issetVal( $RET['FILE'], '' ) );
 
 		$header .= '<td colspan="2">' . ( $file_download ? $file_download . '<br />' : '' ) .
 		FileInput(

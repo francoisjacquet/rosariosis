@@ -3,7 +3,7 @@
 require_once 'ProgramFunctions/FileUpload.fnc.php';
 require_once 'ProgramFunctions/Fields.fnc.php';
 
-$_REQUEST['student_id'] = isset( $_REQUEST['student_id'] ) ? $_REQUEST['student_id'] : null;
+$_REQUEST['student_id'] = issetVal( $_REQUEST['student_id'] );
 
 if ( User( 'PROFILE' ) !== 'admin'
 	&& User( 'PROFILE' ) !== 'teacher'

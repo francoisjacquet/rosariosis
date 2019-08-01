@@ -11,7 +11,7 @@ AddRequestedDates( 'tables', 'post' );
 if ( isset( $_POST['tables'] )
 	&& ! empty( $_POST['tables'] ) )
 {
-	$table = isset( $_REQUEST['table'] ) ? $_REQUEST['table'] : null;
+	$table = issetVal( $_REQUEST['table'] );
 
 	foreach ( (array) $_REQUEST['tables'] as $id => $columns )
 	{

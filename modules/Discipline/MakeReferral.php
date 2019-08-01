@@ -4,7 +4,7 @@ require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 require_once 'ProgramFunctions/TipMessage.fnc.php';
 require_once 'modules/Discipline/includes/Referral.fnc.php';
 
-$_REQUEST['include_inactive'] = isset( $_REQUEST['include_inactive'] ) ? $_REQUEST['include_inactive'] : '';
+$_REQUEST['include_inactive'] = issetVal( $_REQUEST['include_inactive'], '' );
 
 DrawHeader( ProgramTitle() );
 

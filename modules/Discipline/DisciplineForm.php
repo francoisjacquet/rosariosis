@@ -122,7 +122,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 {
 	if ( DeletePrompt( _( 'Category' ) ) )
 	{
-		$id = isset( $_REQUEST['id'] ) ? $_REQUEST['id'] : null;
+		$id = issetVal( $_REQUEST['id'] );
 
 		$delete_sql = "DELETE FROM DISCIPLINE_FIELDS
 			WHERE ID='" . $id . "';";
@@ -147,7 +147,7 @@ if ( $_REQUEST['modfunc'] === 'delete_usage'
 {
 	if ( DeletePrompt( _( 'Category' ), _( 'Don\'t use' ) ) )
 	{
-		$id = isset( $_REQUEST['id'] ) ? $_REQUEST['id'] : null;
+		$id = issetVal( $_REQUEST['id'] );
 		DBQuery( "DELETE FROM DISCIPLINE_FIELD_USAGE WHERE ID='" . $id . "'" );
 
 		// Unset modfunc & ID & redirect URL.

@@ -3,8 +3,8 @@
 require_once 'modules/Attendance/includes/UpdateAttendanceDaily.fnc.php';
 require_once 'modules/Attendance/includes/AttendanceCodes.fnc.php';
 
-$_REQUEST['student_id'] = isset( $_REQUEST['student_id'] ) ? $_REQUEST['student_id'] : '';
-$_REQUEST['period_id'] = isset( $_REQUEST['period_id'] ) ? $_REQUEST['period_id'] : '';
+$_REQUEST['student_id'] = issetVal( $_REQUEST['student_id'], '' );
+$_REQUEST['period_id'] = issetVal( $_REQUEST['period_id'], '' );
 
 DrawHeader( ProgramTitle() );
 
@@ -350,7 +350,7 @@ else
 	{
 		$school_date_col = '_' . str_replace( '-', '', $value['SCHOOL_DATE'] );
 
-		$extra['SELECT'] = isset( $extra['SELECT'] ) ? $extra['SELECT'] : '';
+		$extra['SELECT'] = issetVal( $extra['SELECT'], '' );
 		$extra['SELECT'] .= ",'' as " . $school_date_col;
 
 		$proper_date = ProperDate( $value['SCHOOL_DATE'], 'short' );

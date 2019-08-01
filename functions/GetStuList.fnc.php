@@ -47,11 +47,11 @@ function GetStuList( &$extra = array() )
 		Widgets( 'all', $extra );
 	}
 
-	$extra['SELECT'] = isset( $extra['SELECT'] ) ? $extra['SELECT'] : '';
+	$extra['SELECT'] = issetVal( $extra['SELECT'], '' );
 
-	$extra['FROM'] = isset( $extra['FROM'] ) ? $extra['FROM'] : '';
+	$extra['FROM'] = issetVal( $extra['FROM'], '' );
 
-	$extra['WHERE'] = isset( $extra['WHERE'] ) ? $extra['WHERE'] : '';
+	$extra['WHERE'] = issetVal( $extra['WHERE'], '' );
 
 	$extra['WHERE'] .= appendSQL( '', $extra );
 
@@ -201,11 +201,11 @@ function GetStuList( &$extra = array() )
 			// EXPANDED VIEW AND ADDR BREAKS THIS QUERY ... SO, TURN 'EM OFF.
 			if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			{
-				$expanded_view = isset( $_REQUEST['expanded_view'] ) ? $_REQUEST['expanded_view'] : null;
+				$expanded_view = issetVal( $_REQUEST['expanded_view'] );
 
 				$_REQUEST['expanded_view'] = false;
 
-				$addr = isset( $_REQUEST['addr'] ) ? $_REQUEST['addr'] : null;
+				$addr = issetVal( $_REQUEST['addr'] );
 
 				unset( $_REQUEST['addr'] );
 
@@ -256,11 +256,11 @@ function GetStuList( &$extra = array() )
 				$extra2['link'] = array();
 
 				// EXPANDED VIEW AND ADDR BREAKS THIS QUERY ... SO, TURN 'EM OFF.
-				$expanded_view = isset( $_REQUEST['expanded_view'] ) ? $_REQUEST['expanded_view'] : null;
+				$expanded_view = issetVal( $_REQUEST['expanded_view'] );
 
 				$_REQUEST['expanded_view'] = false;
 
-				$addr = isset( $_REQUEST['addr'] ) ? $_REQUEST['addr'] : null;
+				$addr = issetVal( $_REQUEST['addr'] );
 
 				unset( $_REQUEST['addr'] );
 
@@ -517,7 +517,7 @@ function GetStuList( &$extra = array() )
 
 			//$sql = 'SELECT '.$distinct;
 
-			$extra['MPTable'] = isset( $extra['MPTable'] ) ? $extra['MPTable'] : '';
+			$extra['MPTable'] = issetVal( $extra['MPTable'], '' );
 
 			// Normal SELECT.
 			if ( ! $is_select_only )
@@ -670,7 +670,7 @@ function GetStuList( &$extra = array() )
 	}
 
 	// DBGet group arg.
-	$group = ( isset( $extra['group'] ) ? $extra['group'] : array() );
+	$group = issetVal( $extra['group'], array() );
 
 	// Execute Query & return.
 	return DBGet( $sql, $functions, $group );
@@ -1110,7 +1110,7 @@ function appendSQL( $sql, $extra = array() )
 {
 	global $_ROSARIO;
 
-	$_ROSARIO['SearchTerms'] = isset( $_ROSARIO['SearchTerms'] ) ? $_ROSARIO['SearchTerms'] : '';
+	$_ROSARIO['SearchTerms'] = issetVal( $_ROSARIO['SearchTerms'], '' );
 
 	$no_search_terms = isset( $extra['NoSearchTerms'] ) && $extra['NoSearchTerms'];
 

@@ -199,7 +199,7 @@ if ( ! empty( $_REQUEST['values'] )
 		AND PERIOD_ID='" . UserPeriod() . "'", array(), array( 'STUDENT_ID' ) );
 }
 
-$extra['SELECT'] = isset( $extra['SELECT'] ) ? $extra['SELECT'] : '';
+$extra['SELECT'] = issetVal( $extra['SELECT'], '' );
 $extra['SELECT'] .= ",'' AS PASSING,'' AS BORDERLINE,'' AS FAILING,'' AS INCOMPLETE";
 
 $extra['functions'] = array(

@@ -376,7 +376,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	foreach ( (array) $fields_RET as $field )
 	{
-		$value_custom = isset( $value['CUSTOM_' . $field['ID']] ) ? $value['CUSTOM_' . $field['ID']] : '';
+		$value_custom = issetVal( $value['CUSTOM_' . $field['ID']], '' );
 
 		$div = true;
 

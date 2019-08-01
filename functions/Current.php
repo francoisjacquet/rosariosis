@@ -15,7 +15,7 @@
  */
 function UserSchool()
 {
-	return ( isset( $_SESSION['UserSchool'] ) ? $_SESSION['UserSchool'] : null );
+	return issetVal( $_SESSION['UserSchool'] );
 }
 
 
@@ -26,7 +26,7 @@ function UserSchool()
  */
 function UserSyear()
 {
-	return ( isset( $_SESSION['UserSyear'] ) ? $_SESSION['UserSyear'] : null );
+	return issetVal( $_SESSION['UserSyear'] );
 }
 
 
@@ -37,7 +37,7 @@ function UserSyear()
  */
 function UserMP()
 {
-	return ( isset( $_SESSION['UserMP'] ) ? $_SESSION['UserMP'] : null );
+	return issetVal( $_SESSION['UserMP'] );
 }
 
 
@@ -50,7 +50,7 @@ function UserMP()
  */
 function UserPeriod()
 {
-	return ( isset( $_SESSION['UserPeriod'] ) ? $_SESSION['UserPeriod'] : null );
+	return issetVal( $_SESSION['UserPeriod'] );
 }
 
 
@@ -62,7 +62,7 @@ function UserPeriod()
  */
 function UserCoursePeriod()
 {
-	return ( isset( $_SESSION['UserCoursePeriod'] ) ? $_SESSION['UserCoursePeriod'] : null );
+	return issetVal( $_SESSION['UserCoursePeriod'] );
 }
 
 
@@ -76,7 +76,7 @@ function UserCoursePeriod()
  */
 function UserCoursePeriodSchoolPeriod()
 {
-	return ( isset( $_SESSION['UserCoursePeriodSchoolPeriod'] ) ? $_SESSION['UserCoursePeriodSchoolPeriod'] : null );
+	return issetVal( $_SESSION['UserCoursePeriodSchoolPeriod'] );
 }
 
 
@@ -88,7 +88,7 @@ function UserCoursePeriodSchoolPeriod()
  */
 function UserStudentID()
 {
-	return ( isset( $_SESSION['student_id'] ) ? $_SESSION['student_id'] : null );
+	return issetVal( $_SESSION['student_id'] );
 }
 
 
@@ -100,7 +100,7 @@ function UserStudentID()
  */
 function UserStaffID()
 {
-	return ( isset( $_SESSION['staff_id'] ) ? $_SESSION['staff_id'] : null );
+	return issetVal( $_SESSION['staff_id'] );
 }
 
 

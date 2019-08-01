@@ -151,7 +151,7 @@ if ( UserStudentID()
 	}
 
 	$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] .
-		'&modfunc=remove&start_date=' . ( isset( $_REQUEST['start_date'] ) ? $_REQUEST['start_date'] : '' );
+		'&modfunc=remove&start_date=' . issetVal( $_REQUEST['start_date'], '' );
 
 	$link['remove']['variables'] = array( 'activity_id' => 'ACTIVITY_ID' );
 //FJ css WPadmin
@@ -165,7 +165,7 @@ if ( UserStudentID()
 	);
 
 	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
-		'&modfunc=add&start_date=' . ( isset( $_REQUEST['start_date'] ) ? $_REQUEST['start_date'] : '' ) .
+		'&modfunc=add&start_date=' . issetVal( $_REQUEST['start_date'], '' ) .
 		'" method="POST">';
 
 	$columns = array(

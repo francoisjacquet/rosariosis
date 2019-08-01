@@ -44,7 +44,7 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 
 			echo '<table class="width-100p col1-align-right" id="general_table">';
 
-			Search( 'general_info', ( isset( $extra['grades'] ) ? $extra['grades'] : array() ) );
+			Search( 'general_info', issetVal( $extra['grades'], array() ) );
 
 			if ( ! isset( $extra ) )
 			{
@@ -279,7 +279,7 @@ else
 		$columns += $extra['columns_after'];
 	}
 
-	$extra['header_right'] = isset( $extra['header_right'] ) ? $extra['header_right'] : '';
+	$extra['header_right'] = issetVal( $extra['header_right'], '' );
 
 	if ( count( (array) $students_RET ) > 1
 		|| ! empty( $link['add'] )
@@ -354,9 +354,9 @@ else
 			}
 		}
 
-		$extra['LO_group'] = isset( $extra['LO_group'] ) ? $extra['LO_group'] : array();
+		$extra['LO_group'] = issetVal( $extra['LO_group'], array() );
 
-		$extra['options'] = isset( $extra['options'] ) ? $extra['options'] : array();
+		$extra['options'] = issetVal( $extra['options'], array() );
 
 		if ( ! empty( $_REQUEST['address_group'] ) )
 		{

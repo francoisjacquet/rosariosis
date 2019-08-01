@@ -11,7 +11,7 @@ if ( empty( $_REQUEST['print_statements'] ) )
 {
 	DrawHeader( ProgramTitle() );
 
-	Search( 'staff_id', ( isset( $extra ) ? $extra : null ) );
+	Search( 'staff_id', issetVal( $extra ) );
 }
 
 if ( ! empty( $_REQUEST['values'] )

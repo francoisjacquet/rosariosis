@@ -3,7 +3,7 @@ require_once 'ProgramFunctions/miscExport.fnc.php';
 
 //echo '<pre>'; var_dump($_REQUEST); echo '</pre>';
 
-$extra['extra_search'] = isset( $extra['extra_search'] ) ? $extra['extra_search'] : '';
+$extra['extra_search'] = issetVal( $extra['extra_search'], '' );
 $extra['extra_search'] .= '<tr>
 		<td></td>
 		<td><div id="fields_div"></div></td>
@@ -30,14 +30,14 @@ $extra['extra_search'] .= '<script>
 		}
 	</script>';
 
-$extra['action'] = isset( $extra['action'] ) ? $extra['action'] : '';
+$extra['action'] = issetVal( $extra['action'], '' );
 $extra['action'] .= '" onsubmit="exportSubmit();';
 
 $extra['new'] = true;
 
-$extra['SELECT'] = isset( $extra['SELECT'] ) ? $extra['SELECT'] : '';
-$extra['FROM'] = isset( $extra['FROM'] ) ? $extra['FROM'] : '';
-$extra['WHERE'] = isset( $extra['WHERE'] ) ? $extra['WHERE'] : '';
+$extra['SELECT'] = issetVal( $extra['SELECT'], '' );
+$extra['FROM'] = issetVal( $extra['FROM'], '' );
+$extra['WHERE'] = issetVal( $extra['WHERE'], '' );
 
 $_ROSARIO['CustomFields'] = true;
 
@@ -66,7 +66,7 @@ if ( ! empty( $_REQUEST['fields'] )
 		|| $_REQUEST['bus_pickup'] != 'false'
 		|| $_REQUEST['bus_dropoff'] != 'false' )
 	{
-		$extra['STUDENTS_JOIN_ADDRESS'] = isset( $extra['STUDENTS_JOIN_ADDRESS'] ) ? $extra['STUDENTS_JOIN_ADDRESS'] : '';
+		$extra['STUDENTS_JOIN_ADDRESS'] = issetVal( $extra['STUDENTS_JOIN_ADDRESS'], '' );
 
 		$extra['STUDENTS_JOIN_ADDRESS'] .= ' AND (';
 

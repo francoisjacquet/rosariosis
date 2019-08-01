@@ -42,10 +42,10 @@ list of (
 )
 */
 	$username = mb_strtolower($_REQUEST['students']['USERNAME']);
-	$password = isset( $_REQUEST['students']['PASSWORD'] ) ? $_REQUEST['students']['PASSWORD'] : null;
-	$firstname = isset( $_REQUEST['students']['FIRST_NAME'] ) ? $_REQUEST['students']['FIRST_NAME'] : null;
-	$lastname = isset( $_REQUEST['students']['LAST_NAME'] ) ? $_REQUEST['students']['LAST_NAME'] : null;
-	$email = isset( $_REQUEST['students'][ ROSARIO_STUDENTS_EMAIL_FIELD ] ) ? $_REQUEST['students'][ ROSARIO_STUDENTS_EMAIL_FIELD ] : null;
+	$password = issetVal( $_REQUEST['students']['PASSWORD'] );
+	$firstname = issetVal( $_REQUEST['students']['FIRST_NAME'] );
+	$lastname = issetVal( $_REQUEST['students']['LAST_NAME'] );
+	$email = issetVal( $_REQUEST['students'][ ROSARIO_STUDENTS_EMAIL_FIELD ] );
 	$auth = 'manual';
 	$idnumber = (string)(!empty($student_id) ? $student_id : UserStudentID());
 

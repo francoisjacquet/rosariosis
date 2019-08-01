@@ -10,7 +10,7 @@ if ( empty( $_REQUEST['print_statements'] ) )
 {
 	DrawHeader( ProgramTitle() );
 
-	Search( 'staff_id', ( isset( $extra ) ? $extra : null ) );
+	Search( 'staff_id', issetVal( $extra ) );
 }
 
 // Add eventual Dates to $_REQUEST['values'].

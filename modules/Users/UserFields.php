@@ -8,8 +8,8 @@
 
 require_once 'ProgramFunctions/Fields.fnc.php';
 
-$_REQUEST['id'] = isset( $_REQUEST['id'] ) ? $_REQUEST['id'] : '';
-$_REQUEST['category_id'] = isset( $_REQUEST['category_id'] ) ? $_REQUEST['category_id'] : '';
+$_REQUEST['id'] = issetVal( $_REQUEST['id'], '' );
+$_REQUEST['category_id'] = issetVal( $_REQUEST['category_id'], '' );
 
 DrawHeader( ProgramTitle() );
 
@@ -19,7 +19,7 @@ if ( isset( $_POST['tables'] )
 	&& is_array( $_POST['tables'] )
 	&& AllowEdit() )
 {
-	$table = isset( $_REQUEST['table'] ) ? $_REQUEST['table'] : null;
+	$table = issetVal( $_REQUEST['table'] );
 
 	foreach ( (array) $_REQUEST['tables'] as $id => $columns )
 	{
@@ -314,7 +314,7 @@ if ( ! $_REQUEST['modfunc'] )
 		'STAFF',
 		$title,
 		$RET,
-		isset( $extra_fields ) ? $extra_fields : array()
+		issetVal( $extra_fields, array() )
 	);
 
 	// CATEGORIES.

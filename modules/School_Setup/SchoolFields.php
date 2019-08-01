@@ -10,13 +10,13 @@ require_once 'ProgramFunctions/Fields.fnc.php';
 
 DrawHeader( ProgramTitle() );
 
-$_REQUEST['id'] = isset( $_REQUEST['id'] ) ? $_REQUEST['id'] : false;
+$_REQUEST['id'] = issetVal( $_REQUEST['id'], false );
 
 if ( isset( $_POST['tables'] )
 	&& is_array( $_POST['tables'] )
 	&& AllowEdit() )
 {
-	$table = isset( $_REQUEST['table'] ) ? $_REQUEST['table'] : null;
+	$table = issetVal( $_REQUEST['table'] );
 
 	foreach ( (array) $_REQUEST['tables'] as $id => $columns )
 	{

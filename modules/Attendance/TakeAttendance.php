@@ -272,7 +272,7 @@ $codes_RET = DBGet( "SELECT ID,TITLE,DEFAULT_CODE,STATE_CODE
 
 $columns = array();
 
-$extra['SELECT'] = isset( $extra['SELECT'] ) ? $extra['SELECT'] : '';
+$extra['SELECT'] = issetVal( $extra['SELECT'], '' );
 
 foreach ( (array) $codes_RET as $code )
 {
@@ -438,7 +438,7 @@ function _makeRadio( $value, $title )
 		}
 		else
 		{
-			$class = isset( $classes[$value] ) ? $classes[$value] : '';
+			$class = issetVal( $classes[$value], '' );
 
 			return '<div class="attendance-code ' . $class . '">
 				<input type="radio" name="attendance[' . $THIS_RET['STUDENT_ID'] . ']"
@@ -469,7 +469,7 @@ function _makeRadioSelected( $value, $title )
 		// 'T' => '#0000FF',
 	);
 
-	$class = isset( $classes[$value] ) ? $classes[$value] : '';
+	$class = issetVal( $classes[$value], '' );
 
 	$classes_alt = array(
 		'P' => 'present-alt',
@@ -478,7 +478,7 @@ function _makeRadioSelected( $value, $title )
 		// 'T' => '#DDDDFF',
 	);
 
-	$class_alt = isset( $classes_alt[$value] ) ? $classes_alt[$value] : '';
+	$class_alt = issetVal( $classes_alt[$value], '' );
 
 	if ( ! empty( $current_RET[$THIS_RET['STUDENT_ID']][1]['ATTENDANCE_TEACHER_CODE'] ) )
 	{

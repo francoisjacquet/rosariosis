@@ -21,11 +21,11 @@ function GetStaffList( &$extra = array() )
 		StaffWidgets( 'all', $extra );
 	}
 
-	$extra['SELECT'] = isset( $extra['SELECT'] ) ? $extra['SELECT'] : '';
+	$extra['SELECT'] = issetVal( $extra['SELECT'], '' );
 
-	$extra['FROM'] = isset( $extra['FROM'] ) ? $extra['FROM'] : '';
+	$extra['FROM'] = issetVal( $extra['FROM'], '' );
 
-	$extra['WHERE'] = isset( $extra['WHERE'] ) ? $extra['WHERE'] : '';
+	$extra['WHERE'] = issetVal( $extra['WHERE'], '' );
 
 	$extra['WHERE'] .= appendStaffSQL( '', $extra );
 
@@ -375,7 +375,7 @@ function appendStaffSQL( $sql, $extra = array() )
 
 	if ( $search_terms )
 	{
-		$_ROSARIO['SearchTerms'] = isset( $_ROSARIO['SearchTerms'] ) ? $_ROSARIO['SearchTerms'] : '';
+		$_ROSARIO['SearchTerms'] = issetVal( $_ROSARIO['SearchTerms'], '' );
 
 		$_ROSARIO['SearchTerms'] .= $search_terms;
 	}

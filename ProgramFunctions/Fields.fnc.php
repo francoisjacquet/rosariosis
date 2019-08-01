@@ -241,7 +241,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 		'SCHOOL',
 	);*/
 
-	$id = isset( $RET['ID'] ) ? $RET['ID'] : '';
+	$id = issetVal( $RET['ID'], '' );
 
 	$category_id = empty( $RET['CATEGORY_ID'] ) ? '' : $RET['CATEGORY_ID'];
 
@@ -322,7 +322,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 	{
 		// FJ field name required.
 		$header .= '<td>' . MLTextInput(
-			( isset( $RET['TITLE'] ) ? $RET['TITLE'] : '' ),
+			issetVal( $RET['TITLE'], '' ),
 			'tables[' . $id . '][TITLE]',
 			( empty( $RET['TITLE'] ) ? '<span class="legend-red">' : '' ) . _( 'Field Name' ) .
 				( empty( $RET['TITLE'] ) ? '</span>' : '' )
@@ -377,7 +377,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 		else
 		{
 			$header .= '<td' . ( ! $category_id ? ' colspan="2"' : '' ) . '>' . SelectInput(
-				( isset( $RET['TYPE'] ) ? $RET['TYPE'] : '' ),
+				issetVal( $RET['TYPE'], '' ),
 				'tables[' . $id . '][TYPE]',
 				_( 'Data Type' ),
 				$type_options,
@@ -418,7 +418,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 					array( 'autos', 'select', 'multiple', 'exports' ) ) ) )
 		{
 			$header .= '<td colspan="3">' . TextAreaInput(
-				( isset( $RET['SELECT_OPTIONS'] ) ? $RET['SELECT_OPTIONS'] : '' ),
+				issetVal( $RET['SELECT_OPTIONS'], '' ),
 				'tables[' . $id . '][SELECT_OPTIONS]',
 				_( 'Pull-Down' ) . '/' . _( 'Auto Pull-Down' ) . '/' . _( 'Export Pull-Down' ) . '/' .
 				_( 'Select Multiple from Options' ) .
@@ -433,7 +433,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 
 		// Default Selection field.
 		$header .= '<td>' . TextInput(
-			( isset( $RET['DEFAULT_SELECTION'] ) ? $RET['DEFAULT_SELECTION'] : '' ),
+			issetVal( $RET['DEFAULT_SELECTION'], '' ),
 			'tables[' . $id . '][DEFAULT_SELECTION]',
 			_( 'Default' ) .
 			'<div class="tooltip"><i>' . _( 'For dates: YYYY-MM-DD' ).'<br />' .
@@ -442,7 +442,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 
 		// Required field.
 		$header .= '<td>' . CheckboxInput(
-			( isset( $RET['REQUIRED'] ) ? $RET['REQUIRED'] : '' ),
+			issetVal( $RET['REQUIRED'], '' ),
 			'tables[' . $id . '][REQUIRED]',
 			_( 'Required' ),
 			'',
@@ -451,7 +451,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 
 		// Sort Order field.
 		$header .= '<td>' . TextInput(
-			( isset( $RET['SORT_ORDER'] ) ? $RET['SORT_ORDER'] : '' ),
+			issetVal( $RET['SORT_ORDER'], '' ),
 			'tables[' . $id . '][SORT_ORDER]',
 			_( 'Sort Order' ),
 			'size=5'
@@ -464,7 +464,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 	{
 		// Title field.
 		$header .= '<td>' . MLTextInput(
-			( isset( $RET['TITLE'] ) ? $RET['TITLE'] : '' ),
+			issetVal( $RET['TITLE'], '' ),
 			'tables[' . $category_id . '][TITLE]',
 			( empty( $RET['TITLE'] ) ? '<span class="legend-red">' : '') . _( 'Title' ) .
 				( empty( $RET['TITLE'] ) ? '</span>' : '' )
@@ -472,7 +472,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 
 		// Sort Order field.
 		$header .= '<td>' . TextInput(
-			( isset( $RET['SORT_ORDER'] ) ? $RET['SORT_ORDER'] : '' ),
+			issetVal( $RET['SORT_ORDER'], '' ),
 			'tables[' . $category_id . '][SORT_ORDER]',
 			_( 'Sort Order' ),
 			'size=5'
@@ -672,15 +672,15 @@ function FilterCustomFieldsMarkdown( $table, $request_index, $request_index_2 = 
 
 	if ( ! $request_index_2 )
 	{
-		$request_values = isset( $_REQUEST[ $request_index ] ) ? $_REQUEST[ $request_index ] : null;
+		$request_values = issetVal( $_REQUEST[ $request_index ] );
 
-		$post_values = isset( $_POST[ $request_index ] ) ? $_POST[ $request_index ] : null;
+		$post_values = issetVal( $_POST[ $request_index ] );
 	}
 	else
 	{
-		$request_values = isset( $_REQUEST[ $request_index ][ $request_index_2 ] ) ? $_REQUEST[ $request_index ][ $request_index_2 ] : null;
+		$request_values = issetVal( $_REQUEST[ $request_index ][ $request_index_2 ] );
 
-		$post_values = isset( $_POST[ $request_index ][ $request_index_2 ] ) ? $_POST[ $request_index ][ $request_index_2 ] : null;
+		$post_values = issetVal( $_POST[ $request_index ][ $request_index_2 ] );
 	}
 
 	if ( ! $table

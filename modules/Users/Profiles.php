@@ -24,7 +24,7 @@ if ( ! isset( $menu ) )
 	}
 }
 
-$_REQUEST['profile_id'] = isset( $_REQUEST['profile_id'] ) ? $_REQUEST['profile_id'] : null;
+$_REQUEST['profile_id'] = issetVal( $_REQUEST['profile_id'] );
 
 // Sanitize requested Profile ID.
 

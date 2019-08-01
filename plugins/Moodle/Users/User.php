@@ -42,10 +42,10 @@ list of (
 )
 */
 	$username = mb_strtolower($_REQUEST['staff']['USERNAME']);
-	$password = isset( $_REQUEST['staff']['PASSWORD'] ) ? $_REQUEST['staff']['PASSWORD'] : null;
-	$firstname = isset( $_REQUEST['staff']['FIRST_NAME'] ) ? $_REQUEST['staff']['FIRST_NAME'] : null;
-	$lastname = isset( $_REQUEST['staff']['LAST_NAME'] ) ? $_REQUEST['staff']['LAST_NAME'] : null;
-	$email = isset( $_REQUEST['staff']['EMAIL'] ) ? $_REQUEST['staff']['EMAIL'] : null;
+	$password = issetVal( $_REQUEST['staff']['PASSWORD'] );
+	$firstname = issetVal( $_REQUEST['staff']['FIRST_NAME'] );
+	$lastname = issetVal( $_REQUEST['staff']['LAST_NAME'] );
+	$email = issetVal( $_REQUEST['staff']['EMAIL'] );
 	$auth = 'manual';
 	$idnumber = (string)UserStaffID();
 

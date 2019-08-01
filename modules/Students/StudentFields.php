@@ -12,11 +12,11 @@ require_once 'ProgramFunctions/Fields.fnc.php';
 
 DrawHeader( ProgramTitle() );
 
-$_REQUEST['id'] = isset( $_REQUEST['id'] ) ? $_REQUEST['id'] : '';
+$_REQUEST['id'] = issetVal( $_REQUEST['id'], '' );
 
-$_REQUEST['category_id'] = isset( $_REQUEST['category_id'] ) ? $_REQUEST['category_id'] : '';
+$_REQUEST['category_id'] = issetVal( $_REQUEST['category_id'], '' );
 
-$_REQUEST['category'] = isset( $_REQUEST['category'] ) ? $_REQUEST['category'] : '';
+$_REQUEST['category'] = issetVal( $_REQUEST['category'], '' );
 
 if ( $_REQUEST['category'] === 'address' )
 {

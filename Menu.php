@@ -65,7 +65,7 @@ if ( empty( $_ROSARIO['Menu'] ) )
 		// FJ bugfix remove modules with no programs.
 		$no_programs_in_module = true;
 
-		$programs = isset( $profiles[ $profile ] ) ? $profiles[ $profile ] : array();
+		$programs = issetVal( $profiles[ $profile ], array() );
 
 		foreach ( (array) $programs as $program => $title )
 		{

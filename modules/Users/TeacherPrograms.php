@@ -1,7 +1,7 @@
 <?php
 
 // FJ Bugfix $_REQUEST['include'] 2 times in links.
-$REQUEST_include = isset( $_REQUEST['include'] ) ? $_REQUEST['include'] : null;
+$REQUEST_include = issetVal( $_REQUEST['include'] );
 
 unset( $_REQUEST['include'] );
 

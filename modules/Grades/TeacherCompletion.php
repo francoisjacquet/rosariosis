@@ -32,7 +32,7 @@ $periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE
 
 $period_select = '<select name="period" onChange="ajaxPostForm(this.form,true);"><option value="">' . _( 'All' ) . '</option>';
 
-$_REQUEST['period'] = isset( $_REQUEST['period'] ) ? $_REQUEST['period'] : false;
+$_REQUEST['period'] = issetVal( $_REQUEST['period'], false );
 
 foreach ( (array) $periods_RET as $id => $period )
 {

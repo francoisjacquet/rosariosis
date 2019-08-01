@@ -305,7 +305,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 			$name = _( 'Semester' );
 
 			$parent_term = 'FY';
-			$parent_id = isset( $_REQUEST['year_id'] ) ? $_REQUEST['year_id'] : null;
+			$parent_id = issetVal( $_REQUEST['year_id'] );
 
 			$extra[] = "DELETE FROM SCHOOL_MARKING_PERIODS
 				WHERE PARENT_ID IN
@@ -321,7 +321,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 			$name = _( 'Quarter' );
 
 			$parent_term = 'SEM';
-			$parent_id = isset( $_REQUEST['semester_id'] ) ? $_REQUEST['semester_id'] : null;
+			$parent_id = issetVal( $_REQUEST['semester_id'] );
 
 			$extra[] = "DELETE FROM SCHOOL_MARKING_PERIODS
 				WHERE PARENT_ID='" . $_REQUEST['marking_period_id'] . "'";
@@ -331,7 +331,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 			$name = _( 'Progress Period' );
 
 			$parent_term = 'QTR';
-			$parent_id = isset( $_REQUEST['quarter_id'] ) ? $_REQUEST['quarter_id'] : null;
+			$parent_id = issetVal( $_REQUEST['quarter_id'] );
 		break;
 	}
 
@@ -443,21 +443,21 @@ if ( ! $_REQUEST['modfunc'] )
 	$header = '<table class="width-100p valign-top fixed-col"><tr class="st">';
 
 	$header .= '<td>' . TextInput(
-		( isset( $RET['TITLE'] ) ? $RET['TITLE'] : '' ),
+		issetVal( $RET['TITLE'], '' ),
 		'tables[' . $_REQUEST['marking_period_id'] . '][TITLE]',
 		_( 'Title' ),
 		'required maxlength="50"'
 	) . '</td>';
 
 	$header .= '<td>' . TextInput(
-		( isset( $RET['SHORT_NAME'] ) ? $RET['SHORT_NAME'] : '' ),
+		issetVal( $RET['SHORT_NAME'], '' ),
 		'tables[' . $_REQUEST['marking_period_id'] . '][SHORT_NAME]',
 		_( 'Short Name' ),
 		'required maxlength="10"'
 	) . '</td>';
 
 	$header .= '<td>' . TextInput(
-		( isset( $RET['SORT_ORDER'] ) ? $RET['SORT_ORDER'] : '' ),
+		issetVal( $RET['SORT_ORDER'], '' ),
 		'tables[' . $_REQUEST['marking_period_id'] . '][SORT_ORDER]',
 		_( 'Sort Order' ),
 		'size="3" maxlength="4"'
@@ -488,7 +488,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$js_onclick_post_dates_required = 'onclick="mpGradedOnclickPostDatesRequired( this );"';
 
 	$header .= '<td>' . CheckboxInput(
-		( isset( $RET['DOES_GRADES'] ) ? $RET['DOES_GRADES'] : '' ),
+		issetVal( $RET['DOES_GRADES'], '' ),
 		'tables[' . $_REQUEST['marking_period_id'] . '][DOES_GRADES]',
 		_( 'Graded' ),
 		'',
@@ -500,7 +500,7 @@ if ( ! $_REQUEST['modfunc'] )
 	) . '</td>';
 
 	$header .= '<td>' . CheckboxInput(
-		( isset( $RET['DOES_COMMENTS'] ) ? $RET['DOES_COMMENTS'] : '' ),
+		issetVal( $RET['DOES_COMMENTS'], '' ),
 		'tables[' . $_REQUEST['marking_period_id'] . '][DOES_COMMENTS]',
 		_( 'Comments' ),
 		'',
@@ -514,7 +514,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$required = $allow_na = $div = true;
 
 	$header .= '<td>' . DateInput(
-		( isset( $RET['START_DATE'] ) ? $RET['START_DATE'] : '' ),
+		issetVal( $RET['START_DATE'], '' ),
 		'tables[' . $_REQUEST['marking_period_id'] . '][START_DATE]',
 		_( 'Begins' ),
 		$div,
@@ -523,7 +523,7 @@ if ( ! $_REQUEST['modfunc'] )
 	) . '</td>';
 
 	$header .= '<td>' . DateInput(
-		( isset( $RET['END_DATE'] ) ? $RET['END_DATE'] : '' ),
+		issetVal( $RET['END_DATE'], '' ),
 		'tables[' . $_REQUEST['marking_period_id'] . '][END_DATE]',
 		_( 'Ends' ),
 		$div,
@@ -536,7 +536,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$red = ! empty( $RET['DOES_GRADES'] ) && empty( $RET['POST_END_DATE'] );
 
 	$header .= '<td>' . DateInput(
-		( isset( $RET['POST_START_DATE'] ) ? $RET['POST_START_DATE'] : '' ),
+		issetVal( $RET['POST_START_DATE'], '' ),
 		'tables[' . $_REQUEST['marking_period_id'] . '][POST_START_DATE]',
 		( $red ? '<span class="legend-red">' : '' ) . _( 'Grade Posting Begins' ) . ( $red ? '</span>' : '' ),
 		$div,
@@ -545,7 +545,7 @@ if ( ! $_REQUEST['modfunc'] )
 	) . '</td>';
 
 	$header .= '<td>' . DateInput(
-		( isset( $RET['POST_END_DATE'] ) ? $RET['POST_END_DATE'] : '' ),
+		issetVal( $RET['POST_END_DATE'], '' ),
 		'tables[' . $_REQUEST['marking_period_id'] . '][POST_END_DATE]',
 		( $red ? '<span class="legend-red">' : '' ) . _( 'Grade Posting Ends' ) . ( $red ? '</span>' : '' ),
 		$div,
@@ -577,7 +577,7 @@ if ( ! $_REQUEST['modfunc'] )
 		if ( ! empty( $_REQUEST['mp_term'] ) )
 		{
 			if ( $_REQUEST['mp_term'] === 'FY' )
-				$_REQUEST['year_id'] = isset( $_REQUEST['marking_period_id'] ) ? $_REQUEST['marking_period_id'] : null;
+				$_REQUEST['year_id'] = issetVal( $_REQUEST['marking_period_id'] );
 
 			foreach ( (array) $fy_RET as $key => $value )
 			{
@@ -624,7 +624,7 @@ if ( ! $_REQUEST['modfunc'] )
 			if ( ! empty( $_REQUEST['mp_term'] ) )
 			{
 				if ( $_REQUEST['mp_term'] === 'SEM' )
-					$_REQUEST['semester_id'] = isset( $_REQUEST['marking_period_id'] ) ? $_REQUEST['marking_period_id'] : null;
+					$_REQUEST['semester_id'] = issetVal( $_REQUEST['marking_period_id'] );
 
 				foreach ( (array) $sem_RET as $key => $value )
 				{
@@ -674,7 +674,7 @@ if ( ! $_REQUEST['modfunc'] )
 					|| $_REQUEST['mp_term'] === 'PRO' )
 				{
 					if ( $_REQUEST['mp_term']=='QTR')
-						$_REQUEST['quarter_id'] = isset( $_REQUEST['marking_period_id'] ) ? $_REQUEST['marking_period_id'] : null;
+						$_REQUEST['quarter_id'] = issetVal( $_REQUEST['marking_period_id'] );
 
 					foreach ( (array) $qtr_RET as $key => $value )
 					{
@@ -718,7 +718,7 @@ if ( ! $_REQUEST['modfunc'] )
 					if ( ( $_REQUEST['mp_term'] === 'PRO'
 						&& $_REQUEST['marking_period_id'] !== 'new' ) )
 					{
-						$_REQUEST['progress_period_id'] = isset( $_REQUEST['marking_period_id'] ) ? $_REQUEST['marking_period_id'] : null;
+						$_REQUEST['progress_period_id'] = issetVal( $_REQUEST['marking_period_id'] );
 
 						foreach ( (array) $pro_RET as $key => $value )
 						{

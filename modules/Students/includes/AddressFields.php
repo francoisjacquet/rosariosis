@@ -10,7 +10,7 @@ if ( isset( $_POST['tables'] )
 	&& is_array( $_POST['tables'] )
 	&& AllowEdit() )
 {
-	$table = isset( $_REQUEST['table'] ) ? $_REQUEST['table'] : null;
+	$table = issetVal( $_REQUEST['table'] );
 
 	foreach ( (array) $_REQUEST['tables'] as $id => $columns )
 	{
@@ -182,7 +182,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$RET['ID'] = 'new';
 
-		$RET['CATEGORY_ID'] = isset( $_REQUEST['category_id'] ) ? $_REQUEST['category_id'] : null;
+		$RET['CATEGORY_ID'] = issetVal( $_REQUEST['category_id'] );
 	}
 	elseif ( $_REQUEST['category_id'] === 'new' )
 	{
@@ -197,7 +197,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$extra_fields = array(
 			'<table class="width-100p cellspacing-0"><tr class="st"><td>' .
 			CheckboxInput(
-				( isset( $RET['RESIDENCE'] ) ? $RET['RESIDENCE'] : '' ),
+				issetVal( $RET['RESIDENCE'], '' ),
 				'tables[' . $_REQUEST['category_id'] . '][RESIDENCE]',
 				_( 'Residence' ),
 				'',
@@ -206,7 +206,7 @@ if ( ! $_REQUEST['modfunc'] )
 				button( 'x' )
 			) . '</td><td>' .
 			CheckboxInput(
-				( isset( $RET['MAILING'] ) ? $RET['MAILING'] : '' ),
+				issetVal( $RET['MAILING'], '' ),
 				'tables[' . $_REQUEST['category_id'] . '][MAILING]',
 				_( 'Mailing' ),
 				'',
@@ -215,7 +215,7 @@ if ( ! $_REQUEST['modfunc'] )
 				button( 'x' )
 			) . '</td><td>' .
 			CheckboxInput(
-				( isset( $RET['BUS'] ) ? $RET['BUS'] : '' ),
+				issetVal( $RET['BUS'], '' ),
 				'tables[' . $_REQUEST['category_id'] . '][BUS]',
 				_( 'Bus' ),
 				'',
@@ -236,7 +236,7 @@ if ( ! $_REQUEST['modfunc'] )
 		'ADDRESS',
 		$title,
 		$RET,
-		isset( $extra_fields ) ? $extra_fields : array()
+		issetVal( $extra_fields, array() )
 	);
 
 	// CATEGORIES.

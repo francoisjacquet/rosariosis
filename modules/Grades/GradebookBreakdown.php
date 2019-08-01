@@ -117,7 +117,7 @@ foreach ( (array) $assignments_RET as $assignment )
 $assignment_select .= '</select>
 	<label for="assignment_id" class="a11y-hidden">' . _( 'Assignments' ) . '</label>';
 
-$extra['SELECT_ONLY'] = isset( $extra['SELECT_ONLY'] ) ? $extra['SELECT_ONLY'] : '';
+$extra['SELECT_ONLY'] = issetVal( $extra['SELECT_ONLY'], '' );
 $extra['SELECT_ONLY'] .= "ssm.STUDENT_ID,'' AS LETTER_GRADE";
 
 $extra['functions'] = array( 'LETTER_GRADE' => '_makeGrade' );

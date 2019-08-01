@@ -1,7 +1,7 @@
 <?php
 DrawHeader( ProgramTitle() );
 
-$_REQUEST['student_id'] = isset( $_REQUEST['student_id'] ) ? $_REQUEST['student_id'] : null;
+$_REQUEST['student_id'] = issetVal( $_REQUEST['student_id'] );
 
 // Set start date.
 $start_date = RequestedDate( 'start', date( 'Y-m' ) . '-01' );
@@ -110,7 +110,7 @@ if ( ! empty( $_REQUEST['period_id'] ) )
 		$period_ids_list = $_REQUEST['period_id'];
 	}
 
-	$extra['SELECT'] = isset( $extra['SELECT'] ) ? $extra['SELECT'] : '';
+	$extra['SELECT'] = issetVal( $extra['SELECT'], '' );
 	$extra['SELECT'] .= ",(SELECT count(*) FROM ATTENDANCE_PERIOD ap,ATTENDANCE_CODES ac
 						WHERE ac.ID=ap.ATTENDANCE_CODE AND (ac.STATE_CODE='A' OR ac.STATE_CODE='H') AND ap.STUDENT_ID=ssm.STUDENT_ID
 						AND ap.PERIOD_ID IN (" . $period_ids_list . ")
@@ -136,7 +136,7 @@ if ( ! empty( $_REQUEST['period_id'] ) )
 }
 else
 {
-	$extra['SELECT'] = isset( $extra['SELECT'] ) ? $extra['SELECT'] : '';
+	$extra['SELECT'] = issetVal( $extra['SELECT'], '' );
 	$extra['SELECT'] .= ",(SELECT COALESCE((sum(STATE_VALUE-1)*-1),0.0) FROM ATTENDANCE_DAY ad
 						WHERE ad.STUDENT_ID=ssm.STUDENT_ID
 						AND ad.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "' AND ad.SYEAR=ssm.SYEAR) AS STATE_ABS";
@@ -145,13 +145,13 @@ else
 }
 
 $extra['link']['FULL_NAME']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] .
-	'&day_start=' . ( isset( $_REQUEST['day_start'] ) ? $_REQUEST['day_start'] : '' ) .
-	'&day_end=' . ( isset( $_REQUEST['day_end'] ) ? $_REQUEST['day_end'] : '' ) .
-	'&month_start=' . ( isset( $_REQUEST['month_start'] ) ? $_REQUEST['month_start'] : '' ) .
-	'&month_end=' . ( isset( $_REQUEST['month_end'] ) ? $_REQUEST['month_end'] : '' ) .
-	'&year_start=' . ( isset( $_REQUEST['year_start'] ) ? $_REQUEST['year_start'] : '' ) .
-	'&year_end=' . ( isset( $_REQUEST['year_end'] ) ? $_REQUEST['year_end'] : '' ) .
-	'&period_id=' . ( isset( $_REQUEST['period_id'] ) ? $_REQUEST['period_id'] : '' );
+	'&day_start=' . issetVal( $_REQUEST['day_start'], '' ) .
+	'&day_end=' . issetVal( $_REQUEST['day_end'], '' ) .
+	'&month_start=' . issetVal( $_REQUEST['month_start'], '' ) .
+	'&month_end=' . issetVal( $_REQUEST['month_end'], '' ) .
+	'&year_start=' . issetVal( $_REQUEST['year_start'], '' ) .
+	'&year_end=' . issetVal( $_REQUEST['year_end'], '' ) .
+	'&period_id=' . issetVal( $_REQUEST['period_id'], '' );
 
 $extra['link']['FULL_NAME']['variables'] = array( 'student_id' => 'STUDENT_ID' );
 

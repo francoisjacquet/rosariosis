@@ -577,7 +577,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 				//FJ add translation
 				$title = _( 'New Event' );
 
-				$RET[1]['SCHOOL_DATE'] = isset( $_REQUEST['school_date'] ) ? $_REQUEST['school_date'] : null;
+				$RET[1]['SCHOOL_DATE'] = issetVal( $_REQUEST['school_date'] );
 			}
 
 			echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=detail&event_id=' . $_REQUEST['event_id'] . '&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year'] . '" method="POST">';
@@ -1079,9 +1079,9 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$minutes = isset( $calendar_RET[ $date ][1]['MINUTES'] ) ? $calendar_RET[ $date ][1]['MINUTES'] : 0;
 
-		$events_date = isset( $events_RET[ $date ] ) ? $events_RET[ $date ] : array();
+		$events_date = issetVal( $events_RET[ $date ], array() );
 
-		$assignments_date = isset( $assignments_RET[ $date ] ) ? $assignments_RET[ $date ] : array();
+		$assignments_date = issetVal( $assignments_RET[ $date ], array() );
 
 		$day_classes = CalendarDayClasses( $date, $minutes );
 

@@ -1667,7 +1667,7 @@ function MakeChooseCheckbox( $value, $column = '', $controller_name = '' )
 
 	if ( ! empty( $controller_column ) )
 	{
-		$value = isset( $THIS_RET[ $controller_column ] ) ? $THIS_RET[ $controller_column ] : '';
+		$value = issetVal( $THIS_RET[ $controller_column ], '' );
 	}
 
 	if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
