@@ -143,7 +143,8 @@ function GetStaffList( &$extra = array() )
 				AND _ss.STUDENT_ID=_sem.STUDENT_ID
 				AND _ss.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'";
 
-		if ( $_REQUEST['include_inactive'] !== 'Y' )
+		if ( ! isset( $_REQUEST['include_inactive'] )
+			|| $_REQUEST['include_inactive'] !== 'Y' )
 		{
 			$extra['WHERE'] .= " AND _ss.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . ")
 				AND ('" . DBDate() . "'>=_sem.START_DATE

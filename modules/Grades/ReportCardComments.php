@@ -213,10 +213,6 @@ if ( ! $_REQUEST['modfunc'] )
 			ErrorMessage( array( _( 'This course is not graded.' ) ), 'fatal' );
 		}
 
-		$subjects_RET = DBGet( "SELECT TITLE
-			FROM COURSE_SUBJECTS
-			WHERE SUBJECT_ID='" . $course_period_RET[1]['SUBJECT_ID'] . "'" );
-
 		//FJ add subject areas
 		$courses_RET = DBGet( "SELECT TITLE,SUBJECT_ID,
 			(SELECT TITLE FROM COURSE_SUBJECTS WHERE SUBJECT_ID=COURSES.SUBJECT_ID) AS SUBJECT
@@ -240,7 +236,9 @@ if ( ! $_REQUEST['modfunc'] )
 	SELECT -1,'" . _( 'General' ) . "',NULL,3,NULL,(SELECT count(1) FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='" . UserSchool() . "' AND COURSE_ID IS NULL AND SYEAR='" . UserSyear() . "')
 	ORDER BY 4,SORT_ORDER", array(), array( 'ID' ) );
 
-	if ( $_REQUEST['tab_id'] == '' || $_REQUEST['tab_id'] !== 'new' && ! $categories_RET[$_REQUEST['tab_id']] )
+	if ( ! isset( $_REQUEST['tab_id'] )
+		|| $_REQUEST['tab_id'] == ''
+		|| $_REQUEST['tab_id'] !== 'new' && ! $categories_RET[$_REQUEST['tab_id']] )
 	//$_REQUEST['tab_id'] = key($categories_RET).'';
 	{
 		$_REQUEST['tab_id'] = '-1';

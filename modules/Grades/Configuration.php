@@ -83,19 +83,19 @@ echo '<tr><td>' . RadioInput(
 ) . '</td></tr>';
 
 echo '<tr><td><hr />' . CheckboxInput(
-	$gradebook_config['WEIGHT'],
+	( isset( $gradebook_config['WEIGHT'] ) ? $gradebook_config['WEIGHT'] : '' ),
 	'values[WEIGHT]',
 	_( 'Weight Grades' )
 ) . '</td></tr>';
 
 echo '<tr><td>' . CheckboxInput(
-	$gradebook_config['DEFAULT_ASSIGNED'],
+	( isset( $gradebook_config['DEFAULT_ASSIGNED'] ) ? $gradebook_config['DEFAULT_ASSIGNED'] : '' ),
 	'values[DEFAULT_ASSIGNED]',
 	_( 'Assigned Date defaults to today' )
 ) . '</td></tr>';
 
 echo '<tr><td>' . CheckboxInput(
-	$gradebook_config['DEFAULT_DUE'],
+	( isset( $gradebook_config['DEFAULT_DUE'] ) ? $gradebook_config['DEFAULT_DUE'] : '' ),
 	'values[DEFAULT_DUE]',
 	_( 'Due Date defaults to today' )
 ) . '</td></tr>';
@@ -104,20 +104,20 @@ if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) <= 0 )
 {
 	// Global Config allows for Letter grades.
 	echo '<tr><td>' . CheckboxInput(
-		$gradebook_config['LETTER_GRADE_ALL'],
+		( isset( $gradebook_config['LETTER_GRADE_ALL'] ) ? $gradebook_config['LETTER_GRADE_ALL'] : '' ),
 		'values[LETTER_GRADE_ALL]',
 		_( 'Hide letter grades for all gradebook assignments' )
 	) . '</td></tr>';
 }
 
 echo '<tr><td>' . CheckboxInput(
-	$gradebook_config['HIDE_PREVIOUS_ASSIGNMENT_TYPES'],
+	( isset( $gradebook_config['HIDE_PREVIOUS_ASSIGNMENT_TYPES'] ) ? $gradebook_config['HIDE_PREVIOUS_ASSIGNMENT_TYPES'] : '' ),
 	'values[HIDE_PREVIOUS_ASSIGNMENT_TYPES]',
 	_( 'Hide previous quarters assignment types' )
 ) . '</td></tr>';
 
 echo '<tr><td><hr />' . TextInput(
-	$gradebook_config['LETTER_GRADE_MIN'],
+	( isset( $gradebook_config['LETTER_GRADE_MIN'] ) ? $gradebook_config['LETTER_GRADE_MIN'] : '' ),
 	'values[LETTER_GRADE_MIN]',
 	_( 'Minimum assignment points for letter grade' ),
 	'size="3" maxlength="3"'
@@ -138,7 +138,7 @@ echo '<tr><td>' . TextInput(
 ) . '</td></tr>';
 
 echo '<tr><td>' . TextInput(
-	(string) round( $gradebook_config['LATENCY'] ),
+	(string) round( ( isset( $gradebook_config['LATENCY'] ) ? $gradebook_config['LATENCY'] : '' ) ),
 	'values[LATENCY]',
 	_( 'Days until ungraded assignment grade appears in Parent/Student gradebook views' ),
 	'size="3" maxlength="3"'
@@ -152,7 +152,7 @@ if ( $RosarioModules['Eligibility'] )
 	echo '<fieldset><legend>' . _( 'Eligibility' ) . '</legend><table>';
 
 	echo '<tr><td>' . CheckboxInput(
-		$gradebook_config['ELIGIBILITY_CUMULITIVE'],
+		( isset( $gradebook_config['ELIGIBILITY_CUMULITIVE'] ) ? $gradebook_config['ELIGIBILITY_CUMULITIVE'] : '' ),
 		'values[ELIGIBILITY_CUMULITIVE]',
 		_( 'Calculate Eligibility using Cumulative Semester Grades' )
 	) . '</td></tr>';
@@ -216,7 +216,7 @@ if ( ! empty( $grades ) )
 	foreach ( (array) $grades as $course_period_id => $cp_grades )
 	{
 		$table = '<table class="cellpadding-5">';
-		$table .= '<tr><td colspan="9">' . $cp_grades[1]['COURSE_TITLE'] . ' - ' .
+		$table .= '<tr><td colspan="9">' . $cp_grades[1]['COURSE_TITLE'] . ' &mdash; ' .
 		mb_substr(
 			$cp_grades[1]['CP_TITLE'],
 			0,
@@ -231,7 +231,9 @@ if ( ! empty( $grades ) )
 			$table .= '<td>&nbsp;<b>' . $grade['TITLE'] . '</b><br />';
 			$table .= '<span class="nobr">
 				<input type="text" name="values[' . $course_period_id . '-' . $grade['ID'] . ']" value="' .
-				$gradebook_config[$course_period_id . '-' . $grade['ID']] .
+				( isset( $gradebook_config[$course_period_id . '-' . $grade['ID']] ) ?
+					$gradebook_config[$course_period_id . '-' . $grade['ID']] :
+					'' ) .
 				'" size="2" maxlength="5" />%</span></td>';
 
 			if ( $i % 9 == 0 )
@@ -283,9 +285,13 @@ foreach ( (array) $semesters as $sem )
 
 		foreach ( (array) $quarters[$sem['MARKING_PERIOD_ID']] as $qtr )
 		{
+			$gradebook_config_sem_qtr = isset( $gradebook_config['SEM-' . $qtr['MARKING_PERIOD_ID']] ) ?
+				$gradebook_config['SEM-' . $qtr['MARKING_PERIOD_ID']] :
+				null;
+
 			$value = array(
-				$gradebook_config['SEM-' . $qtr['MARKING_PERIOD_ID']],
-				$gradebook_config['SEM-' . $qtr['MARKING_PERIOD_ID']] . '%'
+				$gradebook_config_sem_qtr,
+				$gradebook_config_sem_qtr . '%'
 			);
 
 			$table .= '<td>' . TextInput(
@@ -295,7 +301,7 @@ foreach ( (array) $semesters as $sem )
 				'size="3" maxlength="6"'
 			) . '</td>';
 
-			$total += $gradebook_config['SEM-' . $qtr['MARKING_PERIOD_ID']];
+			$total += $gradebook_config_sem_qtr;
 		}
 
 		if ( $total != 100 )
@@ -322,28 +328,44 @@ if ( $year[1]['DOES_GRADES'] === 'Y' )
 	{
 		foreach ( (array) $quarters[$sem['MARKING_PERIOD_ID']] as $qtr )
 		{
+			$gradebook_config_fy_qtr = isset( $gradebook_config['FY-' . $qtr['MARKING_PERIOD_ID']] ) ?
+				$gradebook_config['FY-' . $qtr['MARKING_PERIOD_ID']] :
+				null;
+
 			$value = array(
-				$gradebook_config['FY-' . $qtr['MARKING_PERIOD_ID']],
-				$gradebook_config['FY-' . $qtr['MARKING_PERIOD_ID']] . '%'
+				$gradebook_config_fy_qtr,
+				$gradebook_config_fy_qtr . '%'
 			);
 
 			$table .= '<td>' . TextInput(
 				$value,
-				'values[SEM-' . $qtr['MARKING_PERIOD_ID'] . ']',
+				'values[FY-' . $qtr['MARKING_PERIOD_ID'] . ']',
 				$qtr['TITLE'],
 				'size="3" maxlength="6"'
 			) . '</td>';
 
-			$total += $gradebook_config['FY-' . $qtr['MARKING_PERIOD_ID']];
+			$total += $gradebook_config_fy_qtr;
 		}
 
 		if ( $sem['DOES_GRADES'] == 'Y' )
 		{
-			$table .= '<td><span class="nobr">' . $sem['TITLE'] . '&nbsp;</span><br />';
-			$table .= '<input type="text" name="values[FY-' . $sem['MARKING_PERIOD_ID'] . ']" value="' .
-				$gradebook_config['FY-' . $sem['MARKING_PERIOD_ID']] . '" size="3" maxlength="6" />%</td>';
+			$gradebook_config_fy_sem = isset( $gradebook_config['FY-' . $sem['MARKING_PERIOD_ID']] ) ?
+				$gradebook_config['FY-' . $sem['MARKING_PERIOD_ID']] :
+				null;
 
-			$total += $gradebook_config['FY-' . $sem['MARKING_PERIOD_ID']];
+			$value = array(
+				$gradebook_config_fy_sem,
+				$gradebook_config_fy_sem . '%'
+			);
+
+			$table .= '<td>' . TextInput(
+				$value,
+				'values[FY-' . $sem['MARKING_PERIOD_ID'] . ']',
+				$sem['TITLE'],
+				'size="3" maxlength="6"'
+			) . '</td>';
+
+			$total += $gradebook_config_fy_sem;
 		}
 	}
 

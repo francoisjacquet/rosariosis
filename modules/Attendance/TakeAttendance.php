@@ -314,7 +314,7 @@ $extra['DATE'] = $date;
 
 $stu_RET = GetStuList( $extra );
 
-if ( $attendance_reason )
+if ( ! empty( $attendance_reason ) )
 {
 	$columns += array(
 		'ATTENDANCE_REASON' => _( 'Office Comment' ),
@@ -323,7 +323,7 @@ if ( $attendance_reason )
 
 // @since 3.9.1 Add Daily Comment column.
 
-if ( $daily_comment )
+if ( ! empty( $daily_comment ) )
 {
 	$columns += array(
 		'DAILY_COMMENT' => _( 'Day Comment' ),

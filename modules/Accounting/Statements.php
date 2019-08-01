@@ -6,7 +6,7 @@ if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) && ! $_REQUEST['search_modfunc'] )
 
 	$extra['new'] = true;
 	$extra['action'] .= "&_ROSARIO_PDF=true";
-	Search( 'staff_id', $extra );
+	Search( 'staff_id', ( isset( $extra ) ? $extra : null ) );
 }
 else
 {
@@ -15,6 +15,7 @@ else
 
 	if ( User( 'PROFILE' ) === 'teacher' ) //limit to teacher himself
 	{
+		$extra['WHERE'] = isset( $extra['WHERE'] ) ? $extra['WHERE'] : '';
 		$extra['WHERE'] .= " AND s.STAFF_ID = '" . User( 'STAFF_ID' ) . "'";
 	}
 
@@ -32,9 +33,7 @@ else
 			unset( $_ROSARIO['DrawHeader'] );
 			DrawHeader( _( 'Statement' ) );
 			DrawHeader( $staff['FULL_NAME'], $staff['STAFF_ID'] );
-			DrawHeader( $staff['GRADE_ID'] );
-			DrawHeader( SchoolInfo( 'TITLE' ) );
-			DrawHeader( ProperDate( DBDate() ) );
+			DrawHeader( SchoolInfo( 'TITLE' ), ProperDate( DBDate() ) );
 
 			require 'modules/Accounting/Salaries.php';
 			require 'modules/Accounting/StaffPayments.php';

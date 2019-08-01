@@ -101,7 +101,7 @@ function GetStuList( &$extra = array() )
 			$functions['FULL_NAME'] = 'makePhotoTipMessage';
 		}
 
-		if ( ! $extra['columns_after'] )
+		if ( empty( $extra['columns_after'] ) )
 		{
 			$extra['columns_after'] = array();
 		}
@@ -706,12 +706,14 @@ function makeContactInfo( $student_id, $column )
 			continue;
 		}
 
-		$tipmsg .= $person[1]['STUDENT_RELATION'] . ': ' .
+		$tipmsg .= NoInput(
 			DisplayName(
 				$person[1]['FIRST_NAME'],
 				$person[1]['LAST_NAME'],
 				$person[1]['MIDDLE_NAME']
-			) . '<br />';
+			),
+			$person[1]['STUDENT_RELATION']
+		) . '<br />';
 
 		$tipmsg .= '<table class="width-100p cellspacing-0">';
 

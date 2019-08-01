@@ -137,7 +137,8 @@ if ( ! $_REQUEST['modfunc'] )
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		ORDER BY SORT_ORDER,ID", array(), array( 'ID' ) );
 
-	if ( $_REQUEST['tab_id'] == ''
+	if ( ! isset( $_REQUEST['tab_id'] )
+		|| $_REQUEST['tab_id'] == ''
 		|| $_REQUEST['tab_id'] !== 'new'
 		&& empty( $comment_scales_RET[$_REQUEST['tab_id']] ) )
 	{

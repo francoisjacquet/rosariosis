@@ -1,6 +1,8 @@
 <?php
 DrawHeader( ProgramTitle() );
 
+$_REQUEST['student_id'] = isset( $_REQUEST['student_id'] ) ? $_REQUEST['student_id'] : null;
+
 // Set start date.
 $start_date = RequestedDate( 'start', date( 'Y-m' ) . '-01' );
 
@@ -50,7 +52,9 @@ if ( $_REQUEST['search_modfunc']
 
 			foreach ( (array) $periods_RET as $period )
 			{
-				$period_select .= '<option value="' . $period['PERIOD_ID'] . '"' . (  ( $_REQUEST['period_id'] == $period['PERIOD_ID'] ) ? ' selected' : '' ) . '>' . $period['TITLE'] . '</option>';
+				$period_select .= '<option value="' . $period['PERIOD_ID'] . '"' .
+					( isseT( $_REQUEST['period_id'] ) && $_REQUEST['period_id'] == $period['PERIOD_ID'] ? ' selected' : '' ) .
+					'>' . $period['TITLE'] . '</option>';
 			}
 		}
 
@@ -62,8 +66,8 @@ if ( $_REQUEST['search_modfunc']
 
 	DrawHeader( _( 'Timeframe' ) . ': ' . PrepareDate( $start_date, '_start', false ) . ' ' .
 		_( 'to' ) . ' ' . PrepareDate( $end_date, '_end', false ) .
-		( $period_select ? ' : ' . $period_select : '' ) .
-		' ' . Buttons( _( 'Go' ) )
+		' ' . Buttons( _( 'Go' ) ),
+		$period_select
 	);
 
 	echo '</form>';
@@ -106,6 +110,7 @@ if ( ! empty( $_REQUEST['period_id'] ) )
 		$period_ids_list = $_REQUEST['period_id'];
 	}
 
+	$extra['SELECT'] = isset( $extra['SELECT'] ) ? $extra['SELECT'] : '';
 	$extra['SELECT'] .= ",(SELECT count(*) FROM ATTENDANCE_PERIOD ap,ATTENDANCE_CODES ac
 						WHERE ac.ID=ap.ATTENDANCE_CODE AND (ac.STATE_CODE='A' OR ac.STATE_CODE='H') AND ap.STUDENT_ID=ssm.STUDENT_ID
 						AND ap.PERIOD_ID IN (" . $period_ids_list . ")

@@ -10,13 +10,13 @@ if ( empty( $_REQUEST['print_statements'] ) )
 {
 	DrawHeader( ProgramTitle() );
 
-	Search( 'staff_id', $extra );
+	Search( 'staff_id', ( isset( $extra ) ? $extra : null ) );
 }
 
 // Add eventual Dates to $_REQUEST['values'].
 AddRequestedDates( 'values', 'post' );
 
-if ( $_REQUEST['values']
+if ( ! empty( $_REQUEST['values'] )
 	&& $_POST['values']
 	&& AllowEdit()
 	&& UserStaffID() )
@@ -107,7 +107,13 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 		'COMMENTS' => '_makePaymentsTextInput',
 	);
 
-	$payments_RET = DBGet( "SELECT '' AS REMOVE,ID,AMOUNT,PAYMENT_DATE,COMMENTS FROM ACCOUNTING_PAYMENTS WHERE STAFF_ID='" . UserStaffID() . "' AND SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' ORDER BY ID", $functions );
+	$payments_RET = DBGet( "SELECT '' AS REMOVE,ID,AMOUNT,PAYMENT_DATE,COMMENTS
+		FROM ACCOUNTING_PAYMENTS
+		WHERE STAFF_ID='" . UserStaffID() . "'
+		AND SYEAR='" . UserSyear() . "'
+		AND SCHOOL_ID='" . UserSchool() . "'
+		ORDER BY ID", $functions );
+
 	$i = 1;
 	$RET = array();
 
@@ -117,7 +123,9 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 		$i++;
 	}
 
-	if ( ! empty( $RET ) && ! $_REQUEST['print_statements'] && AllowEdit() )
+	if ( ! empty( $RET )
+		&& empty( $_REQUEST['print_statements'] )
+		&& AllowEdit() )
 	{
 		$columns = array( 'REMOVE' => '<span class="a11y-hidden">' . _( 'Delete' ) . '</span>' );
 	}
@@ -132,7 +140,9 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 		'COMMENTS' => _( 'Comment' ),
 	);
 
-	if ( ! $_REQUEST['print_statements']
+	$link = array();
+
+	if ( empty( $_REQUEST['print_statements'] )
 		&& AllowEdit() )
 	{
 		$link['add']['html'] = array(
@@ -143,7 +153,8 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 		);
 	}
 
-	if ( ! $_REQUEST['print_statements'] && AllowEdit() )
+	if ( empty( $_REQUEST['print_statements'] )
+		&& AllowEdit() )
 	{
 		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
 		DrawHeader( '', SubmitButton() );
@@ -156,7 +167,8 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 
 	ListOutput( $RET, $columns, 'Payment', 'Payments', $link, array(), $options );
 
-	if ( ! $_REQUEST['print_statements'] && AllowEdit() )
+	if ( empty( $_REQUEST['print_statements'] )
+		&& AllowEdit() )
 	{
 		echo '<div class="center">' . SubmitButton() . '</div>';
 	}
@@ -179,7 +191,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 
 	DrawHeader( $table );
 
-	if ( ! $_REQUEST['print_statements']
+	if ( empty( $_REQUEST['print_statements'] )
 		&& AllowEdit() )
 	{
 		echo '</form>';

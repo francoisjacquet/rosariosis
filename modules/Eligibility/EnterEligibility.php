@@ -48,7 +48,10 @@ $start_date = date( 'Y-m-d', time() - ( $today - $START_DAY ) * 60 * 60 * 24 );
 
 $end_date = date( 'Y-m-d', time() + ( $END_DAY - $today ) * 60 * 60 * 24 );
 
-$current_RET = DBGet( "SELECT ELIGIBILITY_CODE,STUDENT_ID FROM ELIGIBILITY WHERE SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "' AND COURSE_PERIOD_ID='" . UserCoursePeriod() . "'", array(), array( 'STUDENT_ID' ) );
+$current_RET = DBGet( "SELECT ELIGIBILITY_CODE,STUDENT_ID
+	FROM ELIGIBILITY
+	WHERE SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
+	AND COURSE_PERIOD_ID='" . UserCoursePeriod() . "'", array(), array( 'STUDENT_ID' ) );
 
 if ( $_REQUEST['modfunc'] == 'gradebook' )
 {
@@ -57,12 +60,18 @@ if ( $_REQUEST['modfunc'] == 'gradebook' )
 	require_once 'ProgramFunctions/_makeLetterGrade.fnc.php';
 
 	$course_period_id = UserCoursePeriod();
-	$course_id = DBGet( "SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" );
-	$course_id = $course_id[1]['COURSE_ID'];
 
-	$grades_RET = DBGet( "SELECT ID,TITLE,GPA_VALUE FROM REPORT_CARD_GRADES WHERE SCHOOL_ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "'", array(), array( 'ID' ) );
+	$course_id = DBGetOne( "SELECT COURSE_ID
+		FROM COURSE_PERIODS
+		WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" );
 
-	if ( $gradebook_config['WEIGHT'] == 'Y' )
+	$grades_RET = DBGet( "SELECT ID,TITLE,GPA_VALUE
+		FROM REPORT_CARD_GRADES
+		WHERE SCHOOL_ID='" . UserSchool() . "'
+		AND SYEAR='" . UserSyear() . "'", array(), array( 'ID' ) );
+
+	if ( isset( $gradebook_config['WEIGHT'] )
+		&& $gradebook_config['WEIGHT'] == 'Y' )
 	{
 		$points_RET = DBGet( "SELECT DISTINCT ON (s.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID) s.STUDENT_ID, gt.ASSIGNMENT_TYPE_ID,sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'gg.POINTS' ) ) . ") AS PARTIAL_POINTS,sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ) ) . ") AS PARTIAL_TOTAL, gt.FINAL_GRADE_PERCENT
 		FROM STUDENTS s
@@ -81,7 +90,10 @@ if ( $_REQUEST['modfunc'] == 'gradebook' )
 		$points_RET = DBGet( "SELECT DISTINCT ON (s.STUDENT_ID) s.STUDENT_ID,'-1' AS ASSIGNMENT_TYPE_ID,sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'gg.POINTS' ) ) . ") AS PARTIAL_POINTS,sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ) ) . ") AS PARTIAL_TOTAL,'1' AS FINAL_GRADE_PERCENT
 		FROM STUDENTS s
 		JOIN SCHEDULE ss ON (ss.STUDENT_ID=s.STUDENT_ID AND ss.COURSE_PERIOD_ID='" . $course_period_id . "')
-		JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID OR ga.COURSE_ID='" . $course_id . "' AND ga.STAFF_ID='" . User( 'STAFF_ID' ) . "') AND ga.MARKING_PERIOD_ID" . ( $gradebook_config['ELIGIBILITY_CUMULITIVE'] == 'Y' ? " IN (" . GetChildrenMP( 'SEM', UserMP() ) . ")" : "='" . UserMP() . "'" ) . ")
+		JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID OR ga.COURSE_ID='" . $course_id . "' AND ga.STAFF_ID='" . User( 'STAFF_ID' ) . "') AND ga.MARKING_PERIOD_ID" .
+		( isset( $gradebook_config['ELIGIBILITY_CUMULITIVE'] ) && $gradebook_config['ELIGIBILITY_CUMULITIVE'] == 'Y' ?
+			" IN (" . GetChildrenMP( 'SEM', UserMP() ) . ")" :
+			"='" . UserMP() . "'" ) . ")
 		LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.STUDENT_ID=s.STUDENT_ID AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID)
 		WHERE ((ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE)
 		AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE) OR gg.POINTS IS NOT NULL)
@@ -125,7 +137,11 @@ if ( $_REQUEST['modfunc'] == 'gradebook' )
 
 			if ( $current_RET[$student_id] )
 			{
-				$sql = "UPDATE ELIGIBILITY SET ELIGIBILITY_CODE='" . $code . "' WHERE SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "' AND COURSE_PERIOD_ID='" . UserCoursePeriod() . "' AND STUDENT_ID='" . $student_id . "'";
+				$sql = "UPDATE ELIGIBILITY
+					SET ELIGIBILITY_CODE='" . $code . "'
+					WHERE SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
+					AND COURSE_PERIOD_ID='" . UserCoursePeriod() . "'
+					AND STUDENT_ID='" . $student_id . "'";
 			}
 			else
 			{
@@ -135,7 +151,11 @@ if ( $_REQUEST['modfunc'] == 'gradebook' )
 			DBQuery( $sql );
 		}
 
-		$current_RET = DBGet( "SELECT ELIGIBILITY_CODE,STUDENT_ID FROM ELIGIBILITY WHERE SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "' AND COURSE_PERIOD_ID='" . UserCoursePeriod() . "'", array(), array( 'STUDENT_ID' ) );
+		$current_RET = DBGet( "SELECT ELIGIBILITY_CODE,STUDENT_ID
+			FROM ELIGIBILITY
+			WHERE SCHOOL_DATE
+			BETWEEN '" . $start_date . "' AND '" . $end_date . "'
+			AND COURSE_PERIOD_ID='" . UserCoursePeriod() . "'", array(), array( 'STUDENT_ID' ) );
 	}
 }
 
@@ -158,26 +178,54 @@ if ( ! empty( $_REQUEST['values'] )
 		DBQuery( $sql );
 	}
 
-	$RET = DBGet( "SELECT 'completed' AS COMPLETED FROM ELIGIBILITY_COMPLETED WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "' AND SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "' AND PERIOD_ID='" . UserPeriod() . "'" );
+	$RET = DBGet( "SELECT 'completed' AS COMPLETED
+		FROM ELIGIBILITY_COMPLETED
+		WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
+		AND SCHOOL_DATE BETWEEN '" . $start_date . "'
+		AND '" . $end_date . "'
+		AND PERIOD_ID='" . UserPeriod() . "'" );
 
 	if ( ! empty( $RET ) )
 	{
-		DBQuery( "INSERT INTO ELIGIBILITY_COMPLETED (STAFF_ID,SCHOOL_DATE,PERIOD_ID) values('" . User( 'STAFF_ID' ) . "','" . DBDate() . "','" . UserPeriod() . "')" );
+		DBQuery( "INSERT INTO ELIGIBILITY_COMPLETED (STAFF_ID,SCHOOL_DATE,PERIOD_ID)
+			values('" . User( 'STAFF_ID' ) . "','" . DBDate() . "','" . UserPeriod() . "')" );
 	}
 
-	$current_RET = DBGet( "SELECT ELIGIBILITY_CODE,STUDENT_ID FROM ELIGIBILITY WHERE SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "' AND PERIOD_ID='" . UserPeriod() . "'", array(), array( 'STUDENT_ID' ) );
+	$current_RET = DBGet( "SELECT ELIGIBILITY_CODE,STUDENT_ID
+		FROM ELIGIBILITY
+		WHERE SCHOOL_DATE
+		BETWEEN '" . $start_date . "'
+		AND '" . $end_date . "'
+		AND PERIOD_ID='" . UserPeriod() . "'", array(), array( 'STUDENT_ID' ) );
 }
 
+$extra['SELECT'] = isset( $extra['SELECT'] ) ? $extra['SELECT'] : '';
 $extra['SELECT'] .= ",'' AS PASSING,'' AS BORDERLINE,'' AS FAILING,'' AS INCOMPLETE";
-$extra['functions'] = array( 'PASSING' => 'makeRadio', 'BORDERLINE' => 'makeRadio', 'FAILING' => 'makeRadio', 'INCOMPLETE' => 'makeRadio' );
-$columns = array( 'PASSING' => _( 'Passing' ), 'BORDERLINE' => _( 'Borderline' ), 'FAILING' => _( 'Failing' ), 'INCOMPLETE' => _( 'Incomplete' ) );
+
+$extra['functions'] = array(
+	'PASSING' => 'makeRadio',
+	'BORDERLINE' => 'makeRadio',
+	'FAILING' => 'makeRadio',
+	'INCOMPLETE' => 'makeRadio',
+);
+
+$columns = array(
+	'PASSING' => _( 'Passing' ),
+	'BORDERLINE' => _( 'Borderline' ),
+	'FAILING' => _( 'Failing' ),
+	'INCOMPLETE' => _( 'Incomplete' ),
+);
 
 $stu_RET = GetStuList( $extra );
 
-echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
 DrawHeader( ProgramTitle() );
 
-if ( $today > $END_DAY || $today < $START_DAY || ( $today == $START_DAY && date( 'Gi' ) < ( $START_HOUR . $START_MINUTE ) ) || ( $today == $END_DAY && date( 'Gi' ) > ( $END_HOUR . $END_MINUTE ) ) )
+echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
+
+if ( $today > $END_DAY
+	| $today < $START_DAY
+	|| ( $today == $START_DAY && date( 'Gi' ) < ( $START_HOUR . $START_MINUTE ) )
+	|| ( $today == $END_DAY && date( 'Gi' ) > ( $END_HOUR . $END_MINUTE ) ) )
 {
 	echo ErrorMessage( array( sprintf( _( 'You can only enter eligibility from %s %s to %s %s.' ), $days[$START_DAY], $START_HOUR . ':' . $START_MINUTE, $days[$END_DAY], $END_HOUR . ':' . $END_MINUTE ) ), 'error' );
 }
@@ -210,12 +258,13 @@ function makeRadio( $value, $title )
 {
 	global $THIS_RET, $current_RET;
 
-	if (  ( isset( $current_RET[$THIS_RET['STUDENT_ID']][1]['ELIGIBILITY_CODE'] ) && $current_RET[$THIS_RET['STUDENT_ID']][1]['ELIGIBILITY_CODE'] == $title ) || ( $title == 'PASSING' && ! $current_RET[$THIS_RET['STUDENT_ID']][1]['ELIGIBILITY_CODE'] ) )
+	if ( ( isset( $current_RET[$THIS_RET['STUDENT_ID']][1]['ELIGIBILITY_CODE'] )
+			&& $current_RET[$THIS_RET['STUDENT_ID']][1]['ELIGIBILITY_CODE'] == $title )
+		|| ( $title == 'PASSING'
+			&& empty( $current_RET[$THIS_RET['STUDENT_ID']][1]['ELIGIBILITY_CODE'] ) ) )
 	{
 		return '<input type="radio" name="values[' . $THIS_RET['STUDENT_ID'] . ']" value="' . $title . '" checked />';
 	}
-	else
-	{
-		return '<input type="radio" name="values[' . $THIS_RET['STUDENT_ID'] . ']" value="' . $title . '">';
-	}
+
+	return '<input type="radio" name="values[' . $THIS_RET['STUDENT_ID'] . ']" value="' . $title . '">';
 }

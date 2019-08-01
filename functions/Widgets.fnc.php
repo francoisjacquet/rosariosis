@@ -1863,7 +1863,8 @@ function Widgets( $item, &$myextra = null )
 				break;
 			}
 
-			if ( is_numeric( $_REQUEST['fsa_account_id'] ) )
+			if ( isset( $_REQUEST['fsa_account_id'] )
+				&& is_numeric( $_REQUEST['fsa_account_id'] ) )
 			{
 				if ( ! mb_strpos( $extra['FROM'], 'fssa' ) )
 				{

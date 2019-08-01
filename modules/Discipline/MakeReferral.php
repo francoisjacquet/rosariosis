@@ -4,6 +4,8 @@ require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 require_once 'ProgramFunctions/TipMessage.fnc.php';
 require_once 'modules/Discipline/includes/Referral.fnc.php';
 
+$_REQUEST['include_inactive'] = isset( $_REQUEST['include_inactive'] ) ? $_REQUEST['include_inactive'] : '';
+
 DrawHeader( ProgramTitle() );
 
 // Add eventual Dates to $_REQUEST['values'].
@@ -38,9 +40,11 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			{
 				if ( ! empty( $value ) || $value == '0' )
 				{
-					$column_data_type = $categories_RET[str_replace( 'CATEGORY_', '', $column )][1]['DATA_TYPE'];
+					$column_data_type = isset( $categories_RET[str_replace( 'CATEGORY_', '', $column )][1]['DATA_TYPE'] ) ?
+						$categories_RET[str_replace( 'CATEGORY_', '', $column )][1]['DATA_TYPE'] :
+						'';
 
-					//FJ check numeric fields
+					// Check numeric fields.
 
 					if ( $column_data_type === 'numeric'
 						&& ! is_numeric( $value ) )
@@ -141,7 +145,8 @@ if ( ! $_REQUEST['modfunc'] )
 		//FJ teachers need AllowEdit (to edit the input fields)
 		$_ROSARIO['allow_edit'] = true;
 
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save&include_inactive=' . $_REQUEST['include_inactive'] . '" method="POST">';
+		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
+			'&modfunc=save&include_inactive=' . $_REQUEST['include_inactive'] . '" method="POST">';
 
 		DrawHeader( '', SubmitButton( _( 'Add Referral for Selected Students' ) ) );
 
@@ -200,6 +205,7 @@ if ( ! $_REQUEST['modfunc'] )
 		// FJ email Discipline Referral feature
 		// email Referral to: Administrators and/or Teachers
 		// get Administrators & Teachers with valid emails:
+		$emailadmin_options = $emailteacher_options = array();
 
 		foreach ( (array) $users_RET as $user )
 		{

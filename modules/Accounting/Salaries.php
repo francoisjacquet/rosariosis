@@ -11,10 +11,10 @@ if ( empty( $_REQUEST['print_statements'] ) )
 {
 	DrawHeader( ProgramTitle() );
 
-	Search( 'staff_id', $extra );
+	Search( 'staff_id', ( isset( $extra ) ? $extra : null ) );
 }
 
-if ( $_REQUEST['values']
+if ( ! empty( $_REQUEST['values'] )
 	&& $_POST['values']
 	&& AllowEdit()
 	&& UserStaffID() )
@@ -111,11 +111,27 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 		$columns = array();
 	}
 
-	$columns += array( 'TITLE' => _( 'Salary' ), 'AMOUNT' => _( 'Amount' ), 'ASSIGNED_DATE' => _( 'Assigned' ), 'DUE_DATE' => _( 'Due' ), 'COMMENTS' => _( 'Comment' ) );
+	$columns += array(
+		'TITLE' => _( 'Salary' ),
+		'AMOUNT' => _( 'Amount' ),
+		'ASSIGNED_DATE' => _( 'Assigned' ),
+		'DUE_DATE' => _( 'Due' ),
+		'COMMENTS' => _( 'Comment' ),
+	);
 
-	if ( empty( $_REQUEST['print_statements'] ) )
+	$link = array();
+
+	if ( empty( $_REQUEST['print_statements'] )
+		&& AllowEdit() )
 	{
-		$link['add']['html'] = array( 'REMOVE' => button( 'add' ), 'TITLE' => _makeSalariesTextInput( '', 'TITLE' ), 'AMOUNT' => _makeSalariesTextInput( '', 'AMOUNT' ), 'ASSIGNED_DATE' => ProperDate( DBDate() ), 'DUE_DATE' => _makeSalariesDateInput( '', 'DUE_DATE' ), 'COMMENTS' => _makeSalariesTextInput( '', 'COMMENTS' ) );
+		$link['add']['html'] = array(
+			'REMOVE' => button( 'add' ),
+			'TITLE' => _makeSalariesTextInput( '', 'TITLE' ),
+			'AMOUNT' => _makeSalariesTextInput( '', 'AMOUNT' ),
+			'ASSIGNED_DATE' => ProperDate( DBDate() ),
+			'DUE_DATE' => _makeSalariesDateInput( '', 'DUE_DATE' ),
+			'COMMENTS' => _makeSalariesTextInput( '', 'COMMENTS' ),
+		);
 	}
 
 	if ( empty( $_REQUEST['print_statements'] ) )
@@ -136,7 +152,8 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 
 	ListOutput( $RET, $columns, 'Salary', 'Salaries', $link, array(), $options );
 
-	if ( ! $_REQUEST['print_statements'] && AllowEdit() )
+	if ( empty( $_REQUEST['print_statements'] )
+		&& AllowEdit() )
 	{
 		echo '<div class="center">' . SubmitButton() . '</div>';
 	}
