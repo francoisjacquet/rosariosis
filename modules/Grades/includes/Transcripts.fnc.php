@@ -605,7 +605,7 @@ if ( ! function_exists( 'TranscriptPDFFooter' ) )
 			_( 'School Year' ) . ': ' .
 			FormatSyear( $student['SYEAR'], Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) ) . '</span></td></tr>';
 		if ( $last_grade
-			&& $last_grade['MP_TYPE'] !== 'quarter'
+			// && $last_grade['MP_TYPE'] !== 'quarter'
 			&& ( ! empty( $last_grade['CUM_WEIGHTED_GPA'] ) || ! empty( $last_grade['CUM_RANK'] ) ) )
 		{
 			// GPA and/or Class Rank.
@@ -626,8 +626,8 @@ if ( ! function_exists( 'TranscriptPDFFooter' ) )
 
 			if ( ! empty( $last_grade['CUM_RANK'] ) )
 			{
-				echo _( 'Class Rank' ) . ': ' . $grade['CUM_RANK'] .
-					' / ' . $grade['CLASS_SIZE'] . '</span>';
+				echo _( 'Class Rank' ) . ': ' . $last_grade['CUM_RANK'] .
+					' / ' . $last_grade['CLASS_SIZE'] . '</span>';
 			}
 
 			echo '</span></td></tr>';

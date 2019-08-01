@@ -7,6 +7,7 @@ Changes in 4.9.4
 - Fix Admin User Profile restriction in General_Info.inc.php
 - Fix Student Gender select in ReportCards.fnc.php
 - Fix Comments in FinalGrades.php
+- Fix Class Rank calculus, display & allow for Quarters in Transcripts.fnc.php & Transcripts.php
 
 Changes in 4.9.3
 ----------------

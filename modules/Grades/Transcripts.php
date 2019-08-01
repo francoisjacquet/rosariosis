@@ -101,7 +101,8 @@ if ( ! $_REQUEST['modfunc'] )
 		$mps_RET = DBGet( "SELECT MARKING_PERIOD_ID
 			FROM MARKING_PERIODS
 			WHERE SCHOOL_ID='" . UserSchool() . "'
-			AND MP_TYPE IN ('semseter','year')" );
+			AND MP_TYPE IN ('semester','year','quarter')
+			AND DOES_GRADES='Y'" );
 
 		foreach ( (array) $mps_RET as $mp )
 		{
