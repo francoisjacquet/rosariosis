@@ -6,6 +6,7 @@ Changes in 4.9.4
 - Fix regression since v4.3 translated Help file include in Help.fnc.php
 - Fix Admin User Profile restriction in General_Info.inc.php
 - Fix Student Gender select in ReportCards.fnc.php
+- Fix Comments in FinalGrades.php
 
 Changes in 4.9.3
 ----------------

@@ -96,6 +96,14 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		/*if ( $_REQUEST['elements']['comments']=='Y')
 		$extra['functions']['COMMENTS_RET'] = '_makeComments';*/
 
+		if ( isset( $_REQUEST['elements']['comments'] )
+			&& $_REQUEST['elements']['comments'] == 'Y' )
+		{
+			$extra['SELECT_ONLY'] .= ',sg1.MARKING_PERIOD_ID AS COMMENTS_RET';
+
+			$extra['functions']['COMMENTS_RET'] = '_makeComments';
+		}
+
 		$RET = GetStuList( $extra );
 
 		// GET THE COMMENTS
