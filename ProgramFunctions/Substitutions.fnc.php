@@ -35,7 +35,7 @@ function SubstitutionsInput( $substitutions )
 	$id++;
 
 	$input_html = SelectInput(
-		$substitutions,
+		'',
 		'substitutions_input_' . $id,
 		'',
 		$substitutions,
