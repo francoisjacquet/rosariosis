@@ -385,7 +385,7 @@ if ( ! $_REQUEST['modfunc'] )
 {
 	$hide_previous_assignment_types_sql = '';
 
-	if ( $gradebook_config['HIDE_PREVIOUS_ASSIGNMENT_TYPES'] )
+	if ( ! empty( $gradebook_config['HIDE_PREVIOUS_ASSIGNMENT_TYPES'] ) )
 	{
 		// @since 4.5 Hide previous quarters assignment types.
 		$hide_previous_assignment_types_sql = " AND CREATED_MP='" . UserMP() . "' OR CREATED_MP IS NULL";

@@ -32,6 +32,11 @@ function GetGrade( $grade, $column = 'TITLE' )
 			FROM SCHOOL_GRADELEVELS", array(), array( 'ID' ) );
 	}
 
+	if ( ! isset( $grades[ $grade ] ) )
+	{
+		return '';
+	}
+
 	$extra = '';
 
 	if ( $column === 'TITLE' )

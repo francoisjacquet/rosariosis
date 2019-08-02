@@ -317,7 +317,7 @@ function appendStaffSQL( $sql, $extra = array() )
 			);
 		}
 
-		if ( $extra['profile'] )
+		if ( ! empty( $extra['profile'] ) )
 		{
 			$options = array( $extra['profile'] => $options[ $extra['profile'] ] );
 		}

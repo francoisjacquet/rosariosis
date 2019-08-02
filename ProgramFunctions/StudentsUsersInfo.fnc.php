@@ -55,7 +55,7 @@ function _makeTextInput( $column, $name, $request )
 	$options .= $field['REQUIRED'] === 'Y' ? ' required' : '';
 
 	return TextInput(
-		$value[ $column ],
+		issetVal( $value[ $column ], '' ),
 		$request . '[' . $column . ']',
 		$name,
 		$options,
@@ -102,7 +102,7 @@ function _makeDateInput( $column, $name, $request )
 	}
 
 	return DateInput(
-		$value[ $column ],
+		issetVal( $value[ $column ], '' ),
 		$request . '[' . $column . ']',
 		$name,
 		$div,
@@ -165,7 +165,7 @@ function _makeSelectInput( $column, $name, $request )
 	$extra = ( $field['REQUIRED'] === 'Y' ? 'required': '' );
 
 	return SelectInput(
-		$value[ $column ],
+		issetVal( $value[ $column ], '' ),
 		$request . '[' . $column . ']',
 		$name,
 		$options,

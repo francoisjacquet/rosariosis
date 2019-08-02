@@ -818,7 +818,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 				foreach ( (array) $column_names as $key => $value )
 				{
-					echo '<td>' . $link['add']['html'][$key] . '</td>';
+					echo '<td>' . issetVal( $link['add']['html'][$key], '' ) . '</td>';
 				}
 
 				echo '</tr></tbody>';

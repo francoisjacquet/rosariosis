@@ -31,30 +31,30 @@ if ( AllowEdit() && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 {
 	$div = false;
 
-	$student_name_html = '<table><tr class="st"><td>' .
+	$student_name_html = '<table class="cellspacing-0"><tr class="st"><td>' .
 	TextInput(
-		$student['FIRST_NAME'],
+		issetVal( $student['FIRST_NAME'], '' ),
 		'students[FIRST_NAME]',
 		_( 'First Name' ),
 		'size=12 maxlength=50 required',
 		$div
 	) . '</td><td>' .
 	TextInput(
-		$student['MIDDLE_NAME'],
+		issetVal( $student['MIDDLE_NAME'], '' ),
 		'students[MIDDLE_NAME]',
 		_( 'Middle Name' ),
 		'maxlength=50',
 		$div
 	) . '</td><td>' .
 	TextInput(
-		$student['LAST_NAME'],
+		issetVal( $student['LAST_NAME'], '' ),
 		'students[LAST_NAME]',
 		_( 'Last Name' ),
 		'size=12 maxlength=50 required',
 		$div
 	) . '</td><td>' .
 	SelectInput(
-		$student['NAME_SUFFIX'],
+		issetVal( $student['NAME_SUFFIX'], '' ),
 		'students[NAME_SUFFIX]',
 		_( 'Suffix' ),
 		array(
@@ -112,7 +112,7 @@ else
 
 echo '</td><td>';
 
-echo NoInput( makeLogin( $student['LAST_LOGIN'] ), _( 'Last Login' ) );
+echo NoInput( makeLogin( issetVal( $student['LAST_LOGIN'], '' ) ), _( 'Last Login' ) );
 
 echo '</td></tr><tr class="st"><td>';
 //FJ Moodle integrator
@@ -121,7 +121,7 @@ echo '</td></tr><tr class="st"><td>';
 $required = ! empty( $_REQUEST['moodle_create_student'] ) || ! empty( $old_student_in_moodle ) || basename( $_SERVER['PHP_SELF'] ) == 'index.php';
 
 echo TextInput(
-	$student['USERNAME'],
+	issetVal( $student['USERNAME'], '' ),
 	'students[USERNAME]',
 	_( 'Username' ),
 	( $required ? 'required ' : '' ) .
@@ -134,7 +134,7 @@ echo TextInput(
 echo '</td><td>';
 
 echo PasswordInput(
-	( ! $student['PASSWORD']
+	( empty( $student['PASSWORD'] )
 		|| ! empty( $_REQUEST['moodle_create_student'] ) ? '' : str_repeat( '*', 8 ) ),
 	'students[PASSWORD]',
 	_( 'Password' ) .

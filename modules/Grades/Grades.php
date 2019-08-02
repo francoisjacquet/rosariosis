@@ -32,7 +32,9 @@ if ( ! isset( $_ROSARIO['allow_edit'] )
 $gradebook_config = ProgramUserConfig( 'Gradebook' );
 
 //$max_allowed = Preferences('ANOMALOUS_MAX','Gradebook')/100;
-$max_allowed = ( $gradebook_config['ANOMALOUS_MAX'] ? $gradebook_config['ANOMALOUS_MAX'] / 100 : 1 );
+$max_allowed = ( isset( $gradebook_config['ANOMALOUS_MAX'] ) && $gradebook_config['ANOMALOUS_MAX'] ?
+	$gradebook_config['ANOMALOUS_MAX'] / 100 :
+	1 );
 
 if ( ! empty( $_REQUEST['student_id'] ) )
 {
@@ -225,7 +227,7 @@ if ( ! empty( $_REQUEST['values'] )
 
 			$sql = '';
 
-			if ( $current_RET[$student_id][$assignment_id] )
+			if ( ! empty( $current_RET[$student_id][$assignment_id] ) )
 			{
 				$sql = "UPDATE GRADEBOOK_GRADES SET ";
 
@@ -290,7 +292,7 @@ if ( UserStudentID() )
 
 	if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) <= 0 )
 	{
-		if ( $gradebook_config['LETTER_GRADE_ALL'] != 'Y' )
+		if ( empty( $gradebook_config['LETTER_GRADE_ALL'] ) )
 		{
 			$LO_columns['LETTER_GRADE'] = _( 'Letter' );
 		}
@@ -474,7 +476,7 @@ else
 		if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) <= 0 )
 		{
 			if ( empty( $_REQUEST['assignment_id'] )
-				|| $gradebook_config['LETTER_GRADE_ALL'] != 'Y' )
+				|| empty( $gradebook_config['LETTER_GRADE_ALL'] ) )
 			{
 				$LO_columns['LETTER_GRADE'] = _( 'Letter' );
 			}
@@ -579,8 +581,14 @@ foreach ( (array) $types_RET as $id => $type )
 	}
 
 	$tabs[] = array(
-		'title' => $color . $type[1]['TITLE'] . ( $gradebook_config['WEIGHT'] == 'Y' ? '|' . number_format( 100 * $type[1]['FINAL_GRADE_PERCENT'], 0 ) . '%' : '' ),
-		'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&type_id=' . $id . ( $_REQUEST['assignment_id'] == 'all' ? '&assignment_id=all' : '' ) . ( UserStudentID() ? '&student_id=' . UserStudentID() : '' ) . '&include_inactive=' . $_REQUEST['include_inactive'] . '&include_all=' . $_REQUEST['include_all'],
+		'title' => $color . $type[1]['TITLE'] .
+			( isset( $gradebook_config['WEIGHT'] ) && $gradebook_config['WEIGHT'] == 'Y' ?
+				'|' . number_format( 100 * $type[1]['FINAL_GRADE_PERCENT'], 0 ) . '%' :
+				'' ),
+		'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&type_id=' . $id .
+			( $_REQUEST['assignment_id'] == 'all' ? '&assignment_id=all' : '' ) .
+			( UserStudentID() ? '&student_id=' . UserStudentID() : '' ) .
+			'&include_inactive=' . $_REQUEST['include_inactive'] . '&include_all=' . $_REQUEST['include_all'],
 	);
 }
 
@@ -746,7 +754,8 @@ function _makeExtraAssnCols( $assignment_id, $column )
 			else
 			{
 				if ( ! empty( $_REQUEST['include_all'] )
-					|| ( $current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['POINTS'] != ''
+					|| ( ( isset( $current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['POINTS'] )
+						&& $current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['POINTS'] != '' )
 						|| ! $assignments_RET[$assignment_id][1]['DUE_EPOCH']
 						|| $assignments_RET[$assignment_id][1]['DUE_EPOCH'] >= $THIS_RET['START_EPOCH']
 						&& ( ! $THIS_RET['END_EPOCH']
@@ -755,7 +764,7 @@ function _makeExtraAssnCols( $assignment_id, $column )
 					$total_points = $assignments_RET[$assignment_id][1]['POINTS'];
 
 					//FJ default points
-					$points = $current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['POINTS'];
+					$points = issetVal( $current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['POINTS'] );
 					$div = true;
 
 					if ( is_null( $points ) )
@@ -804,8 +813,14 @@ function _makeExtraAssnCols( $assignment_id, $column )
 					{
 						if ( $partial_points['PARTIAL_TOTAL'] != 0 || $gradebook_config['WEIGHT'] != 'Y' )
 						{
-							$total += $partial_points['PARTIAL_POINTS'] * ( $gradebook_config['WEIGHT'] == 'Y' ? $partial_points['FINAL_GRADE_PERCENT'] / $partial_points['PARTIAL_TOTAL'] : 1 );
-							$total_percent += ( $gradebook_config['WEIGHT'] == 'Y' ? $partial_points['FINAL_GRADE_PERCENT'] : $partial_points['PARTIAL_TOTAL'] );
+							$total += $partial_points['PARTIAL_POINTS'] *
+								( isset( $gradebook_config['WEIGHT'] ) && $gradebook_config['WEIGHT'] == 'Y' ?
+									$partial_points['FINAL_GRADE_PERCENT'] / $partial_points['PARTIAL_TOTAL'] :
+									1 );
+
+							$total_percent += ( isset( $gradebook_config['WEIGHT'] ) && $gradebook_config['WEIGHT'] == 'Y' ?
+								$partial_points['FINAL_GRADE_PERCENT'] :
+								$partial_points['PARTIAL_TOTAL'] );
 						}
 					}
 
@@ -912,7 +927,7 @@ function _makeExtraAssnCols( $assignment_id, $column )
 							|| $assignments_RET[$assignment_id][1]['DUE_EPOCH'] <= $THIS_RET['END_EPOCH'] ) ) )
 				{
 					return TextInput(
-						$current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['COMMENT'],
+						issetVal( $current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['COMMENT'] ),
 						'values[' . $THIS_RET['STUDENT_ID'] . '][' . $assignment_id . '][COMMENT]',
 						'',
 						' maxlength=100'

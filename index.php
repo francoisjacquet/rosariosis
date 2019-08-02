@@ -289,6 +289,13 @@ elseif ( isset( $_REQUEST['create_account'] ) )
 	}
 	else
 	{
+		if ( ! isset( $_REQUEST['modfunc'] ) )
+		{
+			$_REQUEST['modfunc'] = false;
+		}
+
+		$_REQUEST['modname'] = false;
+
 		$_ROSARIO['page'] = 'create-account';
 
 		Warehouse( 'header' );
@@ -440,7 +447,10 @@ if ( empty( $_SESSION['STAFF_ID'] )
 	<?php endif; ?>
 	</form>
 	<input class="toggle" type="checkbox" id="toggle1" />
-	<label class="toggle" for="toggle1"><?php echo _( 'About' ); ?></label>
+	<label class="toggle" for="toggle1"><?php
+	// @todo Use <detail><summary> & remove CSS hack.
+	// @link https://caniuse.com/#search=details
+	echo _( 'About' ); ?></label>
 	<div class="about-rosariosis toggle-me">
 		<?php // System disclaimer. ?>
 		<p class="size-3">

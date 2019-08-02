@@ -22,7 +22,7 @@ function SaveEnrollment()
 				unset( $_REQUEST['month_values']['STUDENT_ENROLLMENT'][$stu_enrol_id] );
 				unset( $_REQUEST['year_values']['STUDENT_ENROLLMENT'][$stu_enrol_id] );
 			}
-			elseif ( UserStudentID() && $stu_enrol_month['START_DATE'] )
+			elseif ( UserStudentID() && ! empty( $stu_enrol_month['START_DATE'] ) )
 			{
 				$date = RequestedDate(
 					$_REQUEST['year_values']['STUDENT_ENROLLMENT'][$stu_enrol_id]['START_DATE'],

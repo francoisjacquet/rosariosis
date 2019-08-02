@@ -209,19 +209,22 @@ if ( $_REQUEST['modfunc'] === 'update'
 			$error[] = _( 'Please fill in the required fields' );
 		}
 
-		//check username unicity
-		$existing_username = DBGet( "SELECT 'exists'
-			FROM STAFF
-			WHERE USERNAME='" . $_REQUEST['staff']['USERNAME'] . "'
-			AND SYEAR='" . UserSyear() . "'
-			AND STAFF_ID!='" . UserStaffID() . "'
-			UNION SELECT 'exists'
-			FROM STUDENTS
-			WHERE USERNAME='" . $_REQUEST['staff']['USERNAME'] . "'" );
-
-		if ( ! empty( $existing_username ) )
+		if ( isset( $_REQUEST['staff']['USERNAME'] ) )
 		{
-			$error[] = _( 'A user with that username already exists. Choose a different username and try again.' );
+			//check username unicity
+			$existing_username = DBGet( "SELECT 'exists'
+				FROM STAFF
+				WHERE USERNAME='" . $_REQUEST['staff']['USERNAME'] . "'
+				AND SYEAR='" . UserSyear() . "'
+				AND STAFF_ID!='" . UserStaffID() . "'
+				UNION SELECT 'exists'
+				FROM STUDENTS
+				WHERE USERNAME='" . $_REQUEST['staff']['USERNAME'] . "'" );
+
+			if ( ! empty( $existing_username ) )
+			{
+				$error[] = _( 'A user with that username already exists. Choose a different username and try again.' );
+			}
 		}
 
 		if ( UserStaffID() && ! $error )
@@ -254,22 +257,31 @@ if ( $_REQUEST['modfunc'] === 'update'
 			elseif ( isset( $_REQUEST['staff']['PROFILE_ID'] ) && $profile_RET[1]['PROFILE_ID'] )
 			{
 				DBQuery( "DELETE FROM STAFF_EXCEPTIONS WHERE USER_ID='" . UserStaffID() . "'" );
-				DBQuery( "INSERT INTO STAFF_EXCEPTIONS (USER_ID,MODNAME,CAN_USE,CAN_EDIT) SELECT s.STAFF_ID,e.MODNAME,e.CAN_USE,e.CAN_EDIT FROM STAFF s,PROFILE_EXCEPTIONS e WHERE s.STAFF_ID='" . UserStaffID() . "' AND s.PROFILE_ID=e.PROFILE_ID" );
+				DBQuery( "INSERT INTO STAFF_EXCEPTIONS (USER_ID,MODNAME,CAN_USE,CAN_EDIT)
+					SELECT s.STAFF_ID,e.MODNAME,e.CAN_USE,e.CAN_EDIT
+					FROM STAFF s,PROFILE_EXCEPTIONS e
+					WHERE s.STAFF_ID='" . UserStaffID() . "'
+					AND s.PROFILE_ID=e.PROFILE_ID" );
 			}
 
 			if ( ! $error )
 			{
 				$sql = "UPDATE STAFF SET ";
-				$fields_RET = DBGet( "SELECT ID,TYPE FROM STAFF_FIELDS ORDER BY SORT_ORDER", array(), array( 'ID' ) );
+
+				$fields_RET = DBGet( "SELECT ID,TYPE
+					FROM STAFF_FIELDS
+					ORDER BY SORT_ORDER", array(), array( 'ID' ) );
+
 				$go = false;
 
 				foreach ( (array) $_REQUEST['staff'] as $column_name => $value )
 				{
 					if ( ! is_array( $value ) )
 					{
-						//FJ check numeric fields
-
-						if ( $fields_RET[str_replace( 'CUSTOM_', '', $column_name )][1]['TYPE'] == 'numeric' && $value != '' && ! is_numeric( $value ) )
+						if ( isset( $fields_RET[str_replace( 'CUSTOM_', '', $column_name )][1]['TYPE'] )
+							&& $fields_RET[str_replace( 'CUSTOM_', '', $column_name )][1]['TYPE'] == 'numeric'
+							&& $value != ''
+							&& ! is_numeric( $value ) )
 						{
 							$error[] = _( 'Please enter valid Numeric data.' );
 							continue;
@@ -632,10 +644,7 @@ if (  ( UserStaffID()
 		}
 	}
 
-	if ( $_REQUEST['staff_id'] !== 'new' )
-	{
-		$name = $staff['FULL_NAME'] . ' - ' . $staff['STAFF_ID'];
-	}
+	$name = $_REQUEST['staff_id'] !== 'new' ? $staff['FULL_NAME'] . ' - ' . $staff['STAFF_ID'] : '';
 
 	DrawHeader( $name, $delete_button . SubmitButton() );
 

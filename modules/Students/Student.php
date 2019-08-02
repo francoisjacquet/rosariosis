@@ -152,19 +152,22 @@ if ( $_REQUEST['modfunc'] === 'update'
 			$error[] = _( 'Please fill in the required fields' );
 		}
 
-		// Check username unicity.
-		$existing_username = DBGet( "SELECT 'exists'
-			FROM STAFF
-			WHERE USERNAME='" . $_REQUEST['students']['USERNAME'] . "'
-			AND SYEAR='" . UserSyear() . "'
-			UNION SELECT 'exists'
-			FROM STUDENTS
-			WHERE USERNAME='" . $_REQUEST['students']['USERNAME'] . "'
-			AND STUDENT_ID!='" . UserStudentID() . "'" );
-
-		if ( ! empty( $existing_username ) )
+		if ( isset( $_REQUEST['students']['USERNAME'] ) )
 		{
-			$error[] = _( 'A user with that username already exists. Choose a different username and try again.' );
+			// Check username unicity.
+			$existing_username = DBGet( "SELECT 'exists'
+				FROM STAFF
+				WHERE USERNAME='" . $_REQUEST['students']['USERNAME'] . "'
+				AND SYEAR='" . UserSyear() . "'
+				UNION SELECT 'exists'
+				FROM STUDENTS
+				WHERE USERNAME='" . $_REQUEST['students']['USERNAME'] . "'
+				AND STUDENT_ID!='" . UserStudentID() . "'" );
+
+			if ( ! empty( $existing_username ) )
+			{
+				$error[] = _( 'A user with that username already exists. Choose a different username and try again.' );
+			}
 		}
 
 		if ( UserStudentID() && ! $error )
@@ -183,60 +186,62 @@ if ( $_REQUEST['modfunc'] === 'update'
 			if ( ! empty( $_REQUEST['students'] ) && ! $error )
 			{
 				$sql = "UPDATE STUDENTS SET ";
-				$fields_RET = DBGet( "SELECT ID,TYPE FROM CUSTOM_FIELDS ORDER BY SORT_ORDER", array(), array( 'ID' ) );
+
+				$fields_RET = DBGet( "SELECT ID,TYPE
+					FROM CUSTOM_FIELDS
+					ORDER BY SORT_ORDER", array(), array( 'ID' ) );
+
 				$go = false;
 
 				foreach ( (array) $_REQUEST['students'] as $column => $value )
 				{
-					if ( 1 ) //!empty($value) || $value=='0')
+					if ( isset( $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] )
+						&& $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] == 'numeric'
+						&& $value != ''
+						&& ! is_numeric( $value ) )
 					{
-						//FJ check numeric fields
+						$error[] = _( 'Please enter valid Numeric data.' );
+						continue;
+					}
 
-						if ( $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] == 'numeric' && $value != '' && ! is_numeric( $value ) )
+					if ( ! is_array( $value ) )
+					{
+						//FJ add password encryption
+
+						if ( $column !== 'PASSWORD' )
 						{
-							$error[] = _( 'Please enter valid Numeric data.' );
-							continue;
-						}
-
-						if ( ! is_array( $value ) )
-						{
-							//FJ add password encryption
-
-							if ( $column !== 'PASSWORD' )
-							{
-								$sql .= $column . "='" . str_replace( '&#39;', "''", $value ) . "',";
-								$go = true;
-							}
-
-							if ( $column == 'PASSWORD' && ! empty( $value ) && $value !== str_repeat( '*', 8 ) )
-							{
-								$value = str_replace( "''", "'", $value );
-								$sql .= $column . "='" . encrypt_password( $value ) . "',";
-								$go = true;
-							}
-						}
-						else
-						{
-							// FJ fix bug none selected not saved.
-							$sql_multiple_input = '';
-
-							foreach ( (array) $value as $val )
-							{
-								if ( $val )
-								{
-									$sql_multiple_input .= $val . '||';
-								}
-							}
-
-							if ( $sql_multiple_input )
-							{
-								$sql_multiple_input = "||" . $sql_multiple_input;
-							}
-
-							$sql .= $column . "='" . $sql_multiple_input . "',";
-
+							$sql .= $column . "='" . str_replace( '&#39;', "''", $value ) . "',";
 							$go = true;
 						}
+
+						if ( $column == 'PASSWORD' && ! empty( $value ) && $value !== str_repeat( '*', 8 ) )
+						{
+							$value = str_replace( "''", "'", $value );
+							$sql .= $column . "='" . encrypt_password( $value ) . "',";
+							$go = true;
+						}
+					}
+					else
+					{
+						// FJ fix bug none selected not saved.
+						$sql_multiple_input = '';
+
+						foreach ( (array) $value as $val )
+						{
+							if ( $val )
+							{
+								$sql_multiple_input .= $val . '||';
+							}
+						}
+
+						if ( $sql_multiple_input )
+						{
+							$sql_multiple_input = "||" . $sql_multiple_input;
+						}
+
+						$sql .= $column . "='" . $sql_multiple_input . "',";
+
+						$go = true;
 					}
 				}
 
@@ -687,10 +692,7 @@ if (  ( UserStudentID()
 		echo '<form name="student" id="student"	action="' . $form_action . '"
 			method="POST" enctype="multipart/form-data">';
 
-		if ( $_REQUEST['student_id'] !== 'new' )
-		{
-			$name = $student['FULL_NAME'] . ' - ' . $student['STUDENT_ID'];
-		}
+		$name = $_REQUEST['student_id'] !== 'new' ? $student['FULL_NAME'] . ' - ' . $student['STUDENT_ID'] : '';
 
 		DrawHeader( $name, $delete_button . SubmitButton() );
 

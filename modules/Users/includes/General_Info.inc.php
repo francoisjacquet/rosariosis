@@ -44,16 +44,19 @@ $suffixes_array = array(
 	'V' => _( 'V' ),
 );
 
-$staff_title = issetVal( $titles_array[ $staff['TITLE'] ], '' );
-$staff_suffix = issetVal( $suffixes_array[ $staff['NAME_SUFFIX'] ], '' );
+$staff_title = isset( $staff['TITLE'] ) && isset( $titles_array[ $staff['TITLE'] ] ) ?
+	$titles_array[ $staff['TITLE'] ] : '';
+
+$staff_suffix = isset( $staff['NAME_SUFFIX'] ) && isset( $suffixes_array[ $staff['NAME_SUFFIX'] ] ) ?
+	$suffixes_array[ $staff['NAME_SUFFIX'] ] : '';
 
 if ( AllowEdit() && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 {
 	$div = false;
 
-	$user_name_html = '<table><tr class="st"><td>' .
+	$user_name_html = '<table class="cellspacing-0"><tr class="st"><td>' .
 	SelectInput(
-		$staff['TITLE'],
+		issetVal( $staff['TITLE'], '' ),
 		'staff[TITLE]',
 		_( 'Title' ),
 		$titles_array,
@@ -62,28 +65,28 @@ if ( AllowEdit() && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		$div
 	) . '</td><td>' .
 	TextInput(
-		$staff['FIRST_NAME'],
+		issetVal( $staff['FIRST_NAME'], '' ),
 		'staff[FIRST_NAME]',
 		_( 'First Name' ),
 		'maxlength=50 required',
 		$div
 	) . '</td><td>' .
 	TextInput(
-		$staff['MIDDLE_NAME'],
+		issetVal( $staff['MIDDLE_NAME'], '' ),
 		'staff[MIDDLE_NAME]',
 		_( 'Middle Name' ),
 		'maxlength=50',
 		$div
 	) . '</td><td>' .
 	TextInput(
-		$staff['LAST_NAME'],
+		issetVal( $staff['LAST_NAME'], '' ),
 		'staff[LAST_NAME]',
 		_( 'Last Name' ),
 		'maxlength=50 required',
 		$div
 	) . '</td><td>' .
 	SelectInput(
-		$staff['NAME_SUFFIX'],
+		issetVal( $staff['NAME_SUFFIX'], '' ),
 		'staff[NAME_SUFFIX]',
 		_( 'Suffix' ),
 		$suffixes_array,
@@ -143,7 +146,7 @@ echo '<tr class="st"><td>';
 $required = ! empty( $_REQUEST['moodle_create_user'] ) || ! empty( $old_user_in_moodle ) || basename( $_SERVER['PHP_SELF'] ) == 'index.php';
 
 echo TextInput(
-	$staff['USERNAME'],
+	issetVal( $staff['USERNAME'], '' ),
 	'staff[USERNAME]',
 	_( 'Username' ),
 	'size=12 maxlength=100 ' . ( $required ? 'required' : '' ),
@@ -153,7 +156,7 @@ echo TextInput(
 echo '</td><td>';
 
 echo PasswordInput(
-	( ! $staff['PASSWORD'] || ! empty( $_REQUEST['moodle_create_user'] ) ? '' : str_repeat( '*', 8 ) ),
+	( empty( $staff['PASSWORD'] ) || ! empty( $_REQUEST['moodle_create_user'] ) ? '' : str_repeat( '*', 8 ) ),
 	'staff[PASSWORD]',
 	_( 'Password' ) .
 	( ! empty( $_REQUEST['moodle_create_user'] ) || ! empty( $old_user_in_moodle ) ?
@@ -168,7 +171,7 @@ echo PasswordInput(
 
 echo '</td></tr><tr class="st"><td colspan="2">';
 
-echo NoInput( makeLogin( $staff['LAST_LOGIN'] ), _( 'Last Login' ) );
+echo NoInput( makeLogin( issetVal( $staff['LAST_LOGIN'], '' ) ), _( 'Last Login' ) );
 
 echo '</td></tr></table><hr />';
 
@@ -212,7 +215,7 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 	}
 
 	echo SelectInput(
-		$staff['PROFILE'],
+		issetVal( $staff['PROFILE'], '' ),
 		'staff[PROFILE]',
 		_( 'User Profile' ),
 		$profile_options,
@@ -245,7 +248,7 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 	}
 
 	echo SelectInput(
-		$staff['PROFILE_ID'],
+		issetVal( $staff['PROFILE_ID'], '' ),
 		'staff[PROFILE_ID]',
 		_( 'Permissions' ),
 		$permissions_options,
@@ -313,7 +316,8 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 					$schools_html .= '</tr><tr class="st">';
 				}
 
-				$value = mb_strpos( $staff['SCHOOLS'], ',' . $school['ID'] . ',' ) !== false ? 'Y' : '';
+				$value = isset( $staff['SCHOOLS'] )
+					&& mb_strpos( $staff['SCHOOLS'], ',' . $school['ID'] . ',' ) !== false ? 'Y' : '';
 
 				$schools_html .= '<td>' . CheckboxInput(
 					$value,
@@ -386,7 +390,7 @@ echo '<tr class="st"><td>';
 // FJ Moodle integrator: email required
 //echo TextInput($staff['EMAIL'],'staff[EMAIL]',_('Email Address'),'size=12 maxlength=100');
 echo TextInput(
-	$staff['EMAIL'],
+	issetVal( $staff['EMAIL'], '' ),
 	'staff[EMAIL]',
 	_( 'Email Address' ),
 	'type="email" pattern="[^ @]*@[^ @]*" size=12 maxlength=100' .
@@ -406,7 +410,7 @@ else
 }
 
 echo TextInput(
-	$staff['PHONE'],
+	issetVal( $staff['PHONE'], '' ),
 	'staff[PHONE]',
 	_( 'Phone Number' ),
 	'size=12 maxlength=100'
