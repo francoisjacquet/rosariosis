@@ -133,12 +133,12 @@ if ( ! $_REQUEST['modfunc'] || $_REQUEST['search_modfunc'] === 'list' )
 		$template = GetTemplate();
 
 		$extra['extra_header_left'] .= '<tr class="st"><td>' .
-		'<textarea name="inputnotifyparentstext" cols="97" rows="5">'
+		'<textarea name="inputnotifyparentstext" id="inputnotifyparentstext" cols="97" rows="5">'
 		. $template . '</textarea>' .
 		FormatInputTitle(
 			_( 'New Parent Account' ) . ' - ' . _( 'Email Text' ),
 			'inputnotifyparentstext'
-		) . '</td></tr>';
+		) . '<br /><br /></td></tr>';
 
 		$substitutions = array(
 			'__PARENT_NAME__' => _( 'Parent Name' ),

@@ -327,20 +327,20 @@ if ( ! $_REQUEST['modfunc'] && ! empty( $email_column ) )
 		list( $template_new, $template_old ) = explode( '__BLOCK2__', $template );
 
 		$extra['extra_header_left'] .= '<tr class="st"><td>' .
-		'<textarea name="inputcreateparentstext_new" cols="100" rows="5">' .
+		'<textarea name="inputcreateparentstext_new" id="inputcreateparentstext_new" cols="100" rows="5">' .
 		$template_new . '</textarea>' .
 		FormatInputTitle(
 			_( 'New Parent Account' ) . ' - ' . _( 'Email Text' ),
 			'inputcreateparentstext_new'
-		) . '</td></tr>';
+		) . '<br /><br /></td></tr>';
 
 		$extra['extra_header_left'] .= '<tr class="st"><td>' .
-		'<textarea name="inputcreateparentstext_old" cols="100" rows="5">' .
+		'<textarea name="inputcreateparentstext_old" id="inputcreateparentstext_old" cols="100" rows="5">' .
 		$template_old . '</textarea>' .
 		FormatInputTitle(
 			_( 'Updated Parent Account' ) . ' - ' . _( 'Email Text' ),
 			'inputcreateparentstext_old'
-		) . '</td></tr>';
+		) . '<br /><br /></td></tr>';
 
 		$substitutions = array(
 			'__PARENT_NAME__' => _( 'Parent Name' ),
@@ -387,6 +387,8 @@ if ( ! $_REQUEST['modfunc'] && ! empty( $email_column ) )
 	$extra['LO_group'] = $extra['group'] = array( 'EMAIL' );
 	$extra['addr'] = true;
 	$extra['SELECT'] .= ",a.ADDRESS_ID";
+
+	$extra['STUDENTS_JOIN_ADDRESS'] = issetVal( $extra['STUDENTS_JOIN_ADDRESS'], '' );
 	$extra['STUDENTS_JOIN_ADDRESS'] .= " AND sam.RESIDENCE='Y'";
 
 	$extra['search_title'] = _( 'Students having Contacts' );
@@ -468,31 +470,33 @@ function _makeContactSelect( $value, $column )
 			STAFF_ID='" . $THIS_RET['STAFF_ID'] . "'" );
 	}
 
-	if ( ! empty( $RET ) )
+	if ( empty( $RET ) )
 	{
-		$checked = ' checked';
+		return '';
+	}
 
-		$i = 0;
+	$checked = ' checked';
 
-		foreach ( (array) $RET as $contact )
+	$i = 0;
+
+	foreach ( (array) $RET as $contact )
+	{
+		$return .= ( $contact['PERSON_ID'] ? '<label><input type="radio" name="contact[' . $value . ']" value=' . $contact['PERSON_ID'] . $checked . ' /> ' : '&nbsp; ' );
+
+		$return .= DisplayName(
+			$contact['FIRST_NAME'],
+			$contact['LAST_NAME'],
+			$contact['MIDDLE_NAME']
+		);
+
+		$return .= ' (' . $contact['STUDENT_RELATION'] . ')';
+
+		if ( $contact['PERSON_ID'] )
 		{
-			$return .= ( $contact['PERSON_ID'] ? '<label><input type="radio" name="contact[' . $value . ']" value=' . $contact['PERSON_ID'] . $checked . ' /> ' : '&nbsp; ' );
-
-			$return .= DisplayName(
-				$contact['FIRST_NAME'],
-				$contact['LAST_NAME'],
-				$contact['MIDDLE_NAME']
-			);
-
-			$return .= ' (' . $contact['STUDENT_RELATION'] . ')';
-
-			if ( $contact['PERSON_ID'] )
-			{
-				$return .= '</label>&nbsp; ';
-			}
-
-			$checked = '';
+			$return .= '</label>&nbsp; ';
 		}
+
+		$checked = '';
 	}
 
 	return $return;
