@@ -41,6 +41,9 @@ class curl {
 	public  $info;
 	public  $error;
 
+	/** @var int */
+	public $count = 0;
+
 	/** @var array */
 	private $options;
 	/** @var string */

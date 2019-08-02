@@ -151,7 +151,7 @@ function CoursePeriodOptionInputs( $course_period_RET, $array, $new )
 	}
 
 	$inputs[] = SelectInput(
-		empty( $course_period_RET ) ? '' : $course_period_RET['CALENDAR_ID'],
+		issetVal( $course_period_RET['CALENDAR_ID'], '' ),
 		$array . '[CALENDAR_ID]',
 		_( 'Calendar' ),
 		$options,
@@ -159,10 +159,10 @@ function CoursePeriodOptionInputs( $course_period_RET, $array, $new )
 		'required'
 	);
 
-	$inputs[] = CoursePeriodAttendanceInput( $course_period_RET['DOES_ATTENDANCE'], $array );
+	$inputs[] = CoursePeriodAttendanceInput( issetVal( $course_period_RET['DOES_ATTENDANCE'], '' ), $array );
 
 	$inputs[] = CheckboxInput(
-		empty( $course_period_RET ) ? '' : $course_period_RET['HALF_DAY'],
+		issetVal( $course_period_RET['HALF_DAY'], '' ),
 		$array . '[HALF_DAY]',
 		_( 'Half Day' ),
 		'',
@@ -184,7 +184,7 @@ function CoursePeriodOptionInputs( $course_period_RET, $array, $new )
 	}
 
 	$inputs[] = SelectInput(
-		empty( $course_period_RET ) ? '' : $course_period_RET['GRADE_SCALE_ID'],
+		issetVal( $course_period_RET['GRADE_SCALE_ID'], '' ),
 		$array . '[GRADE_SCALE_ID]',
 		_( 'Grading Scale' ),
 		$options,
@@ -192,7 +192,7 @@ function CoursePeriodOptionInputs( $course_period_RET, $array, $new )
 	);
 
 	$inputs[] = CheckboxInput(
-		empty( $course_period_RET ) ? '' : $course_period_RET['DOES_BREAKOFF'],
+		issetVal( $course_period_RET['DOES_BREAKOFF'], '' ),
 		$array . '[DOES_BREAKOFF]',
 		_( 'Allow Teacher Grade Scale' ),
 		'',
@@ -202,15 +202,17 @@ function CoursePeriodOptionInputs( $course_period_RET, $array, $new )
 	);
 
 	$inputs[] = TextInput(
-		is_null( $course_period_RET['CREDITS'] ) ? '1' : (float) $course_period_RET['CREDITS'],
+		! isset( $course_period_RET['CREDITS'] ) || is_null( $course_period_RET['CREDITS'] ) ?
+			'1' :
+			(float) $course_period_RET['CREDITS'],
 		$array . '[CREDITS]',
 		_( 'Credits' ),
 		'size=4 maxlength=5',
-		( is_null( $course_period_RET['CREDITS'] ) ? false : true )
+		( ! isset( $course_period_RET['CREDITS'] ) || is_null( $course_period_RET['CREDITS'] ) ? false : true )
 	);
 
 	$inputs[] = CheckboxInput(
-		empty( $course_period_RET ) ? '' : $course_period_RET['DOES_CLASS_RANK'],
+		issetVal( $course_period_RET['DOES_CLASS_RANK'], '' ),
 		$array . '[DOES_CLASS_RANK]',
 		_( 'Affects Class Rank' ),
 		'',
@@ -220,7 +222,7 @@ function CoursePeriodOptionInputs( $course_period_RET, $array, $new )
 	);
 
 	$inputs[] = CheckboxInput(
-		empty( $course_period_RET ) ? '' : $course_period_RET['DOES_HONOR_ROLL'],
+		issetVal( $course_period_RET['DOES_HONOR_ROLL'], '' ),
 		$array . '[DOES_HONOR_ROLL]',
 		_( 'Affects Honor Roll' ),
 		'',
@@ -230,7 +232,7 @@ function CoursePeriodOptionInputs( $course_period_RET, $array, $new )
 	);
 
 	$inputs[] = SelectInput(
-		empty( $course_period_RET ) ? '' : $course_period_RET['GENDER_RESTRICTION'],
+		issetVal( $course_period_RET['GENDER_RESTRICTION'], '' ),
 		$array . '[GENDER_RESTRICTION]',
 		_( 'Gender Restriction' ),
 		array(
@@ -320,7 +322,7 @@ function CoursePeriodTitleGenerate( $cp_id, $columns )
 
 	$periods_title = '';
 
-	if ( $current )
+	if ( ! empty( $current ) )
 	{
 		// Get missing part of the title before short name:
 		$base_title_pos = mb_strpos(

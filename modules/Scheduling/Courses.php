@@ -268,7 +268,8 @@ if ( ! empty( $_REQUEST['tables'] )
 	// FJ bugfix SQL error invalid input syntax for type numeric
 	// when COURSE_PERIOD_SCHOOL_PERIODS saved before COURSE_PERIODS, but why?
 
-	if ( $_REQUEST['course_period_id'] == 'new' )
+	if ( isset( $_REQUEST['course_period_id'] )
+		&& $_REQUEST['course_period_id'] == 'new' )
 	{
 		foreach ( (array) $_REQUEST['tables'] as $table_name => $tables )
 		{
@@ -839,7 +840,7 @@ if (  ( ! $_REQUEST['modfunc']
 
 			// FJ Moodle integrator.
 			$header .= '<td>' . TextInput(
-				$RET['SHORT_NAME'],
+				issetVal( $RET['SHORT_NAME'], '' ),
 				'tables[COURSE_PERIODS][' . $_REQUEST['course_period_id'] . '][SHORT_NAME]',
 				_( 'Short Name' ),
 				'required maxlength=25',
@@ -859,7 +860,7 @@ if (  ( ! $_REQUEST['modfunc']
 
 			// FJ Moodle integrator.
 			$header .= '<td colspan="2">' . SelectInput(
-				$RET['TEACHER_ID'],
+				issetVal( $RET['TEACHER_ID'], '' ),
 				'tables[COURSE_PERIODS][' . $_REQUEST['course_period_id'] . '][TEACHER_ID]',
 				_( 'Teacher' ),
 				$teachers,
@@ -869,7 +870,7 @@ if (  ( ! $_REQUEST['modfunc']
 			) . '</td>';
 
 			$header .= '<td>' . TextInput(
-				$RET['ROOM'],
+				issetVal( $RET['ROOM'], '' ),
 				'tables[COURSE_PERIODS][' . $_REQUEST['course_period_id'] . '][ROOM]',
 				_( 'Room' ),
 				'maxlength=10'
@@ -904,7 +905,7 @@ if (  ( ! $_REQUEST['modfunc']
 
 			// FJ Moodle integrator.
 			$header .= '<td>' . SelectInput(
-				$RET['MARKING_PERIOD_ID'],
+				issetVal( $RET['MARKING_PERIOD_ID'], '' ),
 				'tables[COURSE_PERIODS][' . $_REQUEST['course_period_id'] . '][MARKING_PERIOD_ID]',
 				_( 'Marking Period' ),
 				$options,
@@ -914,7 +915,7 @@ if (  ( ! $_REQUEST['modfunc']
 			) . '</td>';
 
 			$header .= '<td>' . TextInput(
-				$RET['TOTAL_SEATS'],
+				issetVal( $RET['TOTAL_SEATS'], '' ),
 				'tables[COURSE_PERIODS][' . $_REQUEST['course_period_id'] . '][TOTAL_SEATS]',
 				_( 'Seats' ),
 				'size=4 maxlength=4'
@@ -1134,6 +1135,8 @@ if (  ( ! $_REQUEST['modfunc']
 			// Gender Restriction.
 			$header .= '</tr><tr class="st"><td colspan="3">' . $cp_inputs[8] . '</td>';
 
+			$parent = '';
+
 			if ( $_REQUEST['course_period_id'] !== 'new'
 				&& $RET['PARENT_ID'] !== $_REQUEST['course_period_id'] )
 			{
@@ -1151,14 +1154,7 @@ if (  ( ! $_REQUEST['modfunc']
 					WHERE PARENT_ID='" . $_REQUEST['course_period_id'] . "'
 					AND COURSE_PERIOD_ID!='" . $_REQUEST['course_period_id'] . "'" );
 
-				if ( ! empty( $children ) )
-				{
-					$parent = _( 'N/A' );
-				}
-				else
-				{
-					$parent = _( 'None' );
-				}
+				$parent = ! empty( $children ) ? _( 'N/A' ) : _( 'None' );
 			}
 
 			$header .= '<td colspan="2"><div id="course_div">' . $parent . '</div> ' .
