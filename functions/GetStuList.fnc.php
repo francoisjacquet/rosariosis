@@ -697,6 +697,11 @@ function makeContactInfo( $student_id, $column )
 		require_once 'ProgramFunctions/TipMessage.fnc.php';
 	}
 
+	if ( ! isset( $contacts_RET[ $student_id ] ) )
+	{
+		return '';
+	}
+
 	$tipmsg = '';
 
 	foreach ( (array) $contacts_RET[ $student_id ] as $person )

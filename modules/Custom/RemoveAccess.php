@@ -20,7 +20,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 		$username_prefix_add = ProgramConfig(
 			'custom',
 			'REMOVE_ACCESS_USERNAME_PREFIX_ADD',
-			$_REQUEST['username_prefix_add']
+			issetVal( $_REQUEST['username_prefix_add'], '' )
 		);
 
 		$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
@@ -92,20 +92,22 @@ if ( ! $_REQUEST['modfunc'] )
 
 	echo ErrorMessage( $note, 'note' );
 
+	$username_prefix_add = ProgramConfig( 'custom', 'REMOVE_ACCESS_USERNAME_PREFIX_ADD' );
+
 	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
 		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
-			'&modfunc=save&include_inactive=' . $_REQUEST['include_inactive'] .
-			'&_search_all_schools=' . $_REQUEST['_search_all_schools'] .
+			'&modfunc=save&include_inactive=' . issetVal( $_REQUEST['include_inactive'], '' ) .
+			'&_search_all_schools=' . issetVal( $_REQUEST['_search_all_schools'], '' ) .
 			'&accessfunc=' . $accessfunc . '" method="POST">';
 
 		$extra['header_right'] = SubmitButton( $button_label );
 
-		$username_prefix_add = ProgramConfig( 'custom', 'REMOVE_ACCESS_USERNAME_PREFIX_ADD' );
+		$extra['extra_header_left'] = '';
 
 		if ( $accessfunc !== 'grant' )
 		{
-			$extra['extra_header_left'] = TextInput(
+			$extra['extra_header_left'] .= TextInput(
 				$username_prefix_add,
 				'username_prefix_add',
 				_( 'Add prefix to username' ),
@@ -147,6 +149,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$extra['columns_after'] = array( 'USERNAME' => _( 'Username' ) );
 
+	$extra['SELECT'] = issetVal( $extra['SELECT'], '' );
 	$extra['SELECT'] .= ",s.STUDENT_ID AS CHECKBOX,s.USERNAME";
 	$extra['link'] = array( 'FULL_NAME' => false );
 	$extra['functions'] = array( 'CHECKBOX' => 'MakeChooseCheckbox' );
