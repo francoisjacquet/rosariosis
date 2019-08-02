@@ -57,9 +57,9 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 
 	// TODO: check if Student not dropped?
 
-	$files = $old_data['files'];
+	$files = issetVal( $old_data['files'] );
 
-	$timestamp = date( 'Y-m-d His' );
+	$timestamp = date( 'Y-m-d H:i:s' );
 
 	$assignments_path = GetAssignmentsFilesPath( $assignment['STAFF_ID'] );
 
@@ -73,7 +73,7 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 
 		// Filename = [course_title]_[assignment_ID]_[student_name]_[timestamp].ext.
 		$file_name_no_ext = no_accents( $assignment['COURSE_TITLE'] . '_' . $assignment_id . '_' .
-			$student_name ) . '_' . $timestamp;
+			$student_name . '_' . $timestamp );
 
 		// Upload file to AssignmentsFiles/[School_Year]/Teacher[teacher_ID]/Quarter[1,2,3,4...]/.
 		$file = FileUpload(
@@ -494,8 +494,8 @@ function UploadAssignmentTeacherFile( $assignment_id, $teacher_id, $file_input_i
 function StudentAssignmentsListOutput()
 {
 	// TODO: get Assignment type color!
-	$assignments_sql = "SELECT ga.ASSIGNMENT_ID, ga.STAFF_ID, ga.COURSE_PERIOD_ID, ga.COURSE_ID,
-		ga.ASSIGNMENT_TYPE_ID, ga.TITLE, ga.ASSIGNED_DATE, ga.DUE_DATE, ga.POINTS, ga.SUBMISSION,
+	$assignments_sql = "SELECT ga.ASSIGNMENT_ID,ga.STAFF_ID,ga.COURSE_PERIOD_ID,ga.COURSE_ID,
+		ga.ASSIGNMENT_TYPE_ID,ga.TITLE,ga.ASSIGNED_DATE,ga.DUE_DATE,ga.POINTS,ga.SUBMISSION,
 		c.TITLE AS COURSE_TITLE,
 		(SELECT 1
 			FROM STUDENT_ASSIGNMENTS sa
@@ -591,7 +591,7 @@ if ( ! function_exists( 'MakeAssignmentTitle' ) )
 			$view_assignment_link .= '&assignment_id=' . $THIS_RET['ASSIGNMENT_ID'];
 		}
 
-		if ( ! empty( $THIS_RET['ASSIGNMENT_ID'] ) )
+		if ( ! empty( $THIS_RET['MARKING_PERIOD_ID'] ) )
 		{
 			// @since 3.9 Add MP to outside links (see Portal), so current MP is correct.
 			$view_assignment_link .= '&marking_period_id=' . $THIS_RET['MARKING_PERIOD_ID'];

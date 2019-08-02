@@ -127,10 +127,12 @@ function ProperDateTime( $datetime, $length = 'long' )
 {
 	$time = mb_substr( $datetime, 11, 8 );
 
+	$time_raw = str_replace( ':', '', $time );
+
 	$time = mktime(
-		mb_substr( $time, 0, 2 ) + 0,
-		mb_substr( $time, 3, 2 ) + 0,
-		mb_substr( $time, 6, 2 ) + 0
+		mb_substr( $time_raw, 0, 2 ) + 0,
+		mb_substr( $time_raw, 2, 2 ) + 0,
+		mb_substr( $time_raw, 4, 2 ) + 0
 	);
 
 	$locale_time = strftime( '%X', $time );

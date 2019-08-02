@@ -38,6 +38,10 @@ Changes in 5.0
 - Add GetReportCardsComments() function in ReportCards.fnc.php
 - Add issetVal() function in Warehouse.php
 
+Changes in 4.9.5
+----------------
+- Fix Submission timestamp in StudentAssignments.fnc.php
+
 Changes in 4.9.4
 ----------------
 - Fix regression since v4.3 translated Help file include in Help.fnc.php
