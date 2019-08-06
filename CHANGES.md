@@ -4,6 +4,7 @@
 Changes in 4.9.5
 ----------------
 - Fix Submission timestamp in StudentAssignments.fnc.php
+- Fix SQL error Food Service account already exists in Student.php
 
 Changes in 4.9.4
 ----------------
