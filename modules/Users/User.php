@@ -637,7 +637,7 @@ if (  ( UserStaffID()
 			&& User( 'PROFILE' ) === 'admin'
 			&& AllowEdit() )
 		{
-			// @since 5.0 Cannot delete teacher if j=has course periods.
+			// @since 5.0 Cannot delete teacher if has course periods.
 			$teacher_has_course_periods = (bool) DBGetOne( "SELECT 1
 				FROM COURSE_PERIODS
 				WHERE TEACHER_ID='" . $staff['STAFF_ID'] . "'
