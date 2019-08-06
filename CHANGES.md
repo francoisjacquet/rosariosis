@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 4.9.5
+----------------
+- Fix Submission timestamp in StudentAssignments.fnc.php
+
 Changes in 4.9.4
 ----------------
 - Fix regression since v4.3 translated Help file include in Help.fnc.php

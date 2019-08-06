@@ -59,7 +59,7 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 
 	$files = $old_data['files'];
 
-	$timestamp = date( 'Y-m-d His' );
+	$timestamp = date( 'Y-m-d H:i:s' );
 
 	$assignments_path = GetAssignmentsFilesPath( $assignment['STAFF_ID'] );
 
@@ -73,7 +73,7 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 
 		// Filename = [course_title]_[assignment_ID]_[student_name]_[timestamp].ext.
 		$file_name_no_ext = no_accents( $assignment['COURSE_TITLE'] . '_' . $assignment_id . '_' .
-			$student_name ) . '_' . $timestamp;
+			$student_name . '_' . $timestamp );
 
 		// Upload file to AssignmentsFiles/[School_Year]/Teacher[teacher_ID]/Quarter[1,2,3,4...]/.
 		$file = FileUpload(
