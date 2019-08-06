@@ -393,17 +393,17 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 					}
 
 					// @since 5.0 Add Cumulative GPA.
-					if ( ! isset( $cumulative_gpa[$mp] ) )
+					if ( ! isset( $grades_total[$mp] ) )
 					{
-						if ( ! isset( $cumulative_gpa ) )
+						if ( ! isset( $grades_total ) )
 						{
-							$cumulative_gpa = array();
+							$grades_total = array();
 						}
 
-						$cumulative_gpa[$mp] = 0;
+						$grades_total[$mp] = 0;
 					}
 
-					$cumulative_gpa[$mp] += $mps[$mp][1]['GRADE_PERCENT'];
+					$grades_total[$mp] += $mps[$mp][1]['GRADE_PERCENT'];
 
 					// Comments.
 
@@ -524,33 +524,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 				&& $_REQUEST['elements']['cumulative_gpa'] === 'Y' )
 			{
 				// @since 5.0 Add Cumulative GPA.
-				$grades_RET[$i + 1]['COURSE_TITLE'] = _( 'Cumulative GPA' );
-
-				$cumulative_gpa_points = array();
-
-				foreach ( (array) $mp_array as $mp )
-				{
-					if ( ! isset( $mps[$mp] ) )
-					{
-						continue;
-					}
-
-					$cumulative_gpa_percent = (float) number_format( $cumulative_gpa[$mp] / $i, 2 );
-
-					$cumulative_gpa_points[$mp] = (float) number_format(
-						( $cumulative_gpa_percent / 100 ) * SchoolInfo( 'REPORTING_GP_SCALE' ),
-						2
-					);
-
-					$grades_RET[$i + 1][$mp] = '<B>' . $cumulative_gpa_points[$mp] . '</B>';
-
-					if ( isset( $_REQUEST['elements']['percents'] )
-						&& $_REQUEST['elements']['percents'] === 'Y'
-						&& $cumulative_gpa_percent > 0 )
-					{
-						$grades_RET[$i + 1][$mp] .= '&nbsp;' . $cumulative_gpa_percent . '%';
-					}
-				}
+				$grades_RET[$i + 1] = GetCumulativeGpaRow( $grades_total, $i );
 			}
 
 			asort( $comments_arr, SORT_NUMERIC );
@@ -1302,4 +1276,48 @@ function GetReportCardsComments( $st_list, $mp_list )
 	//echo '<pre>'; print_r($rc_comments_RET); echo '</pre>'; exit;
 
 	return $rc_comments_RET;
+}
+
+
+/**
+ * Get Cumulative GPA row
+ *
+ * @example $grades_RET[$i + 1] = GetCumulativeGpaRow( $grades_total, $i );
+ *
+ * @since 5.0 Add Cumulative GPA.
+ *
+ * @param array $grades_total   Grades total points for each MP.
+ * @param int   $courses_number Number of courses (rows).
+ *
+ * @return array Cumulative GPA row.
+ */
+function GetCumulativeGpaRow( $grades_total, $courses_number )
+{
+	if ( ! is_array( $grades_total ) || ! $courses_number )
+	{
+		return array();
+	}
+
+	$cum_gpa_row = array( 'COURSE_TITLE' => _( 'Cumulative GPA' ) );
+
+	foreach ( (array) $grades_total as $mp => $grades_total_mp )
+	{
+		$cumulative_gpa_percent = (float) number_format( $grades_total_mp / $courses_number, 2 );
+
+		$cumulative_gpa_points = (float) number_format(
+			( $cumulative_gpa_percent / 100 ) * SchoolInfo( 'REPORTING_GP_SCALE' ),
+			2
+		);
+
+		$cum_gpa_row[$mp] = '<B>' . $cumulative_gpa_points . '</B>';
+
+		if ( isset( $_REQUEST['elements']['percents'] )
+			&& $_REQUEST['elements']['percents'] === 'Y'
+			&& $cumulative_gpa_percent > 0 )
+		{
+			$cum_gpa_row[$mp] .= '&nbsp;' . $cumulative_gpa_percent . '%';
+		}
+	}
+
+	return $cum_gpa_row;
 }
