@@ -39,10 +39,12 @@ Changes in 5.0
 - Add issetVal() function in Warehouse.php
 - Cannot delete teacher if has course periods in User.php
 - Add Kint() & PhpDebugBar() functions in Debug.fnc.php
+- Convert MarkDown doc to PDF files in README.pdf, INSTALL.pdf, INSTALL_es.pdf & INSTALL_fr.pdf
 
 Changes in 4.9.5
 ----------------
 - Fix Submission timestamp in StudentAssignments.fnc.php
+- Fix SQL error Food Service account already exists in Student.php
 
 Changes in 4.9.4
 ----------------
