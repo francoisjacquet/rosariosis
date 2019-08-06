@@ -61,7 +61,7 @@ function GetStaffList( &$extra = array() )
 				WHERE TITLE=cast(cf.ID AS TEXT)
 				AND PROGRAM='StaffFieldsView'
 				AND USER_ID='" . User('STAFF_ID') . "')='Y'" .
-				( $extra['staff_fields']['view'] ?
+				( ! empty( $extra['staff_fields']['view'] ) ?
 					" OR cf.ID IN (" . $extra['staff_fields']['view'] . ")" :
 					''
 				) .
@@ -85,7 +85,8 @@ function GetStaffList( &$extra = array() )
 			AND TITLE IN ('EMAIL','PHONE')
 			AND USER_ID='" . User( 'STAFF_ID' ) . "'", array(), array( 'TITLE' ) );
 
-		if ( $view_other_RET['EMAIL'][1]['VALUE'] === 'Y' )
+		if ( isset( $view_other_RET['EMAIL'][1]['VALUE'] )
+			&& $view_other_RET['EMAIL'][1]['VALUE'] === 'Y' )
 		{
 			$extra['columns_after']['EMAIL'] = _( 'Email Address' );
 
@@ -94,7 +95,8 @@ function GetStaffList( &$extra = array() )
 			$select .= ',s.EMAIL';
 		}
 
-		if ( $view_other_RET['PHONE'][1]['VALUE'] === 'Y' )
+		if ( isset( $view_other_RET['PHONE'][1]['VALUE'] )
+			&& $view_other_RET['PHONE'][1]['VALUE'] === 'Y' )
 		{
 			$extra['columns_after']['PHONE'] = _( 'Phone Number' );
 
@@ -339,7 +341,7 @@ function appendStaffSQL( $sql, $extra = array() )
 					AND _sem.SYEAR='" . UserSyear() . "'
 					AND _sem.GRADE_ID='" . $_REQUEST['student_grade_level'] . "'";
 
-				if ( $_REQUEST['include_inactive'] !== 'Y' )
+				if ( empty( $_REQUEST['include_inactive'] ) )
 				{
 					$sql .= " AND ('" . DBDate() . "'>=_sem.START_DATE
 						AND ('" . DBDate() . "'<=_sem.END_DATE OR _sem.END_DATE IS NULL))";

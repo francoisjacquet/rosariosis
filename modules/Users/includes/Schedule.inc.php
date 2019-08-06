@@ -3,6 +3,8 @@
 $_REQUEST['category_id'] = '2';
 require_once 'modules/Users/includes/Other_Info.inc.php';
 
+$_REQUEST['all_schools'] = issetVal( $_REQUEST['all_schools'] );
+
 if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 {
 	//FJ add <label> on checkbox
@@ -100,14 +102,38 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 		ErrorMessage( array( _( 'No quarters found' ) ), 'fatal' );
 	}
 
-	$schedule_table_days = array( 'U' => false, 'M' => false, 'T' => false, 'W' => false, 'H' => false, 'F' => false, 'S' => false );
+	$schedule_table_days = array(
+		'U' => false,
+		'M' => false,
+		'T' => false,
+		'W' => false,
+		'H' => false,
+		'F' => false,
+		'S' => false,
+	);
 	//FJ days display to locale
-	$days_convert = array( 'U' => _( 'Sunday' ), 'M' => _( 'Monday' ), 'T' => _( 'Tuesday' ), 'W' => _( 'Wednesday' ), 'H' => _( 'Thursday' ), 'F' => _( 'Friday' ), 'S' => _( 'Saturday' ) );
+	$days_convert = array(
+		'U' => _( 'Sunday' ),
+		'M' => _( 'Monday' ),
+		'T' => _( 'Tuesday' ),
+		'W' => _( 'Wednesday' ),
+		'H' => _( 'Thursday' ),
+		'F' => _( 'Friday' ),
+		'S' => _( 'Saturday' ),
+	);
 	//FJ days numbered
 
 	if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 	{
-		$days_convert = array( 'U' => _( 'Day' ) . ' 7', 'M' => _( 'Day' ) . ' 1', 'T' => _( 'Day' ) . ' 2', 'W' => _( 'Day' ) . ' 3', 'H' => _( 'Day' ) . ' 4', 'F' => _( 'Day' ) . ' 5', 'S' => _( 'Day' ) . ' 6' );
+		$days_convert = array(
+			'U' => _( 'Day' ) . ' 7',
+			'M' => _( 'Day' ) . ' 1',
+			'T' => _( 'Day' ) . ' 2',
+			'W' => _( 'Day' ) . ' 3',
+			'H' => _( 'Day' ) . ' 4',
+			'F' => _( 'Day' ) . ' 5',
+			'S' => _( 'Day' ) . ' 6',
+		);
 	}
 
 	$schedule_table_RET = DBGet( "SELECT cp.ROOM,cp.SHORT_NAME,c.TITLE,sp.TITLE AS SCHOOL_PERIOD,cpsp.DAYS
@@ -165,7 +191,7 @@ function _GetDays( $value, $column )
 
 	$days_array = str_split( $value );
 
-	foreach ( $days_array as $index => $day )
+	foreach ( $days_array as $day )
 	{
 		$schedule_table_days[$day] = true;
 	}
@@ -190,7 +216,7 @@ function _schedule_table_RET( $schedule_table_RET )
 		{
 			foreach ( $course_period['DAYS'] as $course_period_day )
 			{
-				if ( ! is_array( $schedule_table_body[$i][$course_period_day] ) )
+				if ( empty( $schedule_table_body[$i][$course_period_day] ) )
 				{
 					$schedule_table_body[$i][$course_period_day] = array();
 				}
