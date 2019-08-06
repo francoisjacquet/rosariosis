@@ -40,6 +40,7 @@ Changes in 5.0
 - Cannot delete teacher if has course periods in User.php
 - Add Kint() & PhpDebugBar() functions in Debug.fnc.php
 - Convert MarkDown doc to PDF files in README.pdf, INSTALL.pdf, INSTALL_es.pdf & INSTALL_fr.pdf
+- Add FlatSIS theme in assets/themes/FlatSIS/
 
 Changes in 4.9.5
 ----------------

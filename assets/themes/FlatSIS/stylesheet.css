@@ -1,0 +1,763 @@
+/**
+ * WPadmin custom theme
+ *
+ * @package RosarioSIS
+ * @subpackage assets/themes
+ */
+
+/* Import WPadmin style (already includes colors.css & jscalendar & colorbox) */
+
+@import url("../WPadmin/stylesheet.css");
+/* Replace the modules icons */
+
+.module-icon.Accounting {
+	background-image: url("modules/Accounting.png");
+}
+
+.module-icon.Attendance {
+	background-image: url("modules/Attendance.png");
+}
+
+.module-icon.Discipline {
+	background-image: url("modules/Discipline.png");
+}
+
+.module-icon.Grades {
+	background-image: url("modules/Grades.png");
+}
+
+.module-icon.Eligibility {
+	background-image: url("modules/Eligibility.png");
+}
+
+.module-icon.Example {
+	background-image: url("modules/Example.png") !important;
+}
+
+.module-icon.Food_Service {
+	background-image: url("modules/Food_Service.png");
+}
+
+.module-icon.Messaging {
+	background-image: url("modules/Messaging.png") !important;
+}
+
+.module-icon.misc {
+	background-image: url("modules/misc.png");
+}
+
+.module-icon.Quiz {
+	background-image: url("modules/Quiz.png") !important;
+}
+
+.module-icon.Resources {
+	background-image: url("modules/Resources.png");
+}
+
+.module-icon.Reports {
+	background-image: url("modules/Reports.png") !important;
+}
+
+.module-icon.Scheduling {
+	background-image: url("modules/Scheduling.png");
+}
+
+.module-icon.School_Setup {
+	background-image: url("modules/School_Setup.png");
+}
+
+.module-icon.Student_Billing {
+	background-image: url("modules/Student_Billing.png");
+}
+
+.module-icon.Students {
+	background-image: url("modules/Students.png");
+}
+
+.module-icon.Users {
+	background-image: url("modules/Users.png");
+}
+
+/* Spinner */
+
+.loading {
+	background-image: url(spinning.gif);
+}
+
+/* Replace Open Sans font with Lato (Light) */
+
+@font-face {
+	font-family: 'Lato';
+	src: url('fonts/Lato/regular.woff2') format('woff2'), url('fonts/Lato/regular.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Lato';
+	src: url('fonts/Lato/italic.woff2') format('woff2'), url('fonts/Lato/italic.woff') format('woff');
+	font-weight: normal;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'Lato';
+	src: url('fonts/Lato/bold.woff2') format('woff2'), url('fonts/Lato/bold.woff') format('woff');
+	font-weight: bold;
+	font-style: normal;
+}
+
+/* Larger font size */
+
+* {
+	font-size: 16px;
+	-webkit-font-smoothing: antialiased;
+	-moz-font-smoothing: antialiased;
+}
+
+.menu-top {
+	text-transform: uppercase;
+}
+
+.menu-top span {
+	padding-right: 4px;
+}
+
+.BottomButton span {
+	text-transform: uppercase;
+	font-size: 15px;
+	padding-left: 4px;
+}
+
+.dashboard-module-title {
+	text-transform: uppercase;
+	font-size: 15px;
+}
+
+#calendar > thead > tr > th {
+	text-transform: uppercase;
+	font-size: 15px;
+}
+
+.dashboard-module-title span {
+	padding-right: 4px;
+}
+
+.size-1,
+.size-1 * {
+	font-size: 14px;
+}
+
+.size-3 {
+	font-size: 12px;
+}
+
+code {
+	font-size: 14px;
+}
+
+.module-icon {
+	width: 32px;
+	height: 32px;
+}
+
+.checkbox-label,
+.underline-dots {
+	line-height: 31px;
+}
+
+body,
+textarea,
+input,
+select {
+	font-family: 'Lato', sans-serif;
+}
+
+.header1 h2 {
+	font-size: 32px;
+	font-family: 'Lato', sans-serif;
+	padding: 16px 16px 16px 0;
+}
+
+.header1 .module-icon {
+	vertical-align: bottom;
+}
+
+.postbox > thead th,
+.widefat th {
+	font-family: 'Lato', sans-serif;
+}
+
+.postbox th h3,
+.postbox th h3 a,
+.postbox > thead th,
+.widefat tfoot tr th,
+.widefat th,
+.widefat th a,
+.widefat th span {
+	font-size: 15px;
+	text-transform: uppercase;
+}
+
+.postbox th h3 {
+	line-height: 35px;
+	height: 35px;
+}
+
+/* Flat edits to WPadmin theme */
+
+.loading {
+	width: 32px;
+	height: 32px;
+	/* Tofix */
+	padding-bottom: 0 !important;
+	background-size: contain;
+}
+
+/* No shadows */
+
+#menu,
+#selectedModuleLink + .wp-submenu,
+.menu-top,
+.menu-top:focus,
+.menu-top:hover {
+	background-image: none;
+}
+
+.header1 h2 {
+	text-shadow: none;
+}
+
+input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+	background-image: none;
+	background: #f9f9f9;
+	text-shadow: none;
+	font-size: 15px;
+	text-transform: uppercase;
+}
+
+input[type="button"]:active,
+input[type="reset"]:active,
+input[type="submit"]:active {
+	background: #ededed;
+}
+
+a.button-primary,
+button.button-primary,
+input.button-primary {
+	background: #298cba;
+	/*font-weight: normal;*/
+}
+
+a.button-primary:active,
+button.button-primary:active,
+input.button-primary:active {
+	background: #1d6385;
+}
+
+.tipmsg-label .button + b,
+a .button + b {
+	font-weight: normal;
+	text-transform: uppercase;
+	font-size: 14px;
+}
+
+.postbox > thead th {
+	border-bottom-color: #dfdfdf;
+	text-shadow: none;
+}
+
+.postbox > thead th,
+.widefat tfoot tr th,
+.widefat th {
+	background: #f1f1f1;
+}
+
+.postbox .h3selected {
+	background: #f9f9f9;
+}
+
+/* No round borders */
+
+input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+	border-radius: 0;
+}
+
+.postbox,
+.widefat,
+div.error,
+div.updated,
+input[type="button"],
+input[type="email"],
+input[type="file"],
+input[type="number"],
+input[type="password"],
+input[type="reset"],
+input[type="search"],
+input[type="submit"],
+input[type="tel"],
+input[type="text"],
+input[type="url"],
+select,
+textarea {
+	border-radius: 0;
+	border-color: #cacaca;
+}
+
+.md-preview > .tab {
+	border-radius: 0;
+	padding: 6px 7px;
+	text-transform: uppercase;
+	font-size: 15px;
+	font-weight: normal;
+}
+
+.md-preview .md-link {
+	line-height: 26px;
+}
+
+.tooltip > i {
+	border-radius: 0;
+}
+
+/* Smaller logo icon */
+
+.logo {
+	max-width: 64px;
+	max-height: 64px;
+}
+
+/* Colors */
+
+a {
+	color: #0073aa;
+	border: 1px solid transparent;
+}
+
+.adminmenu a {
+	color: #0090c3
+}
+
+a:hover,
+a:active,
+a:focus,
+.adminmenu a {
+	color: #0090c3;
+}
+
+.adminmenu a:focus,
+.adminmenu a:hover,
+a.menu-top:hover,
+.BottomButton:hover,
+.BottomButton:active,
+.BottomButton:focus {
+	color: #00b9eb;
+}
+
+.tooltip > i {
+	background: #111;
+	border: 1px solid #000;
+}
+
+div.error,
+div.updated {
+	background: #fff;
+	border-top: 0;
+	border-right: 0;
+	border-left: 4px solid #b80a04;
+	padding: 3px 9px;
+}
+
+div.updated {
+	border-left-color: #0baa38;
+}
+
+.postbox th {
+	color: #3c3c3c;
+}
+
+.current-person.self {
+	background: #fbb429;
+}
+
+.current-person.staff {
+	background: #0baa38;
+}
+
+.current-person.student {
+	background: #0073aa;
+}
+
+.current-person a:hover,
+.current-person a:active,
+.current-person a:focus {
+	color: #fff;
+}
+
+.divPortalPoll .bar {
+	background: #b80a04;
+}
+
+/* Menu in black */
+
+#menu {
+	background: #121212;
+	border-color: #000;
+	color: #fff;
+}
+
+#menu .username {
+	font-weight: normal;
+}
+
+.adminmenu {
+	background: #121212;
+	border-color: #222;
+}
+
+.menu-top,
+.menu-top {
+	background-color: #121212;
+	text-shadow: none;
+}
+
+.menu-top {
+	border-top-color: #222;
+	border-bottom-color: #000;
+}
+
+#selectedModuleLink,
+.menu-top:focus,
+.menu-top:hover {
+	background-color: #1a1a1a;
+	text-shadow: none;
+}
+
+.menu-inter {
+	border-color: #333;
+	color: #eee;
+}
+
+#selectedMenuLink {
+	background-color: #1a1a1a;
+	color: #eee;
+}
+
+.wp-submenu a:hover {
+	background-color: transparent;
+}
+
+.no-touch .menu-module:hover .wp-submenu {
+	box-shadow: none;
+}
+
+.wp-submenu {
+	border-color: #222 #000;
+}
+
+a.menu-top,
+.BottomButton {
+	color: #eee;
+}
+
+.no-touch .menu-module:hover .menu-top::after {
+	color: #eee;
+}
+
+.adminmenu a {
+	padding: 5px 6px;
+}
+
+.wp-submenu a {
+	padding: 5px 6px 5px 12px;
+}
+
+.wp-submenu {
+	padding-top: 1px;
+	padding-bottom: 1px;
+}
+
+.menu-inter {
+	padding: 5px 6px 2px 12px;
+	margin-top: 2px;
+	text-transform: uppercase;
+	font-size: 14px;
+}
+
+#menu-top select {
+	border-color: #222;
+	background: #1a1a1a;
+	color: #fff;
+	width: 100%;
+}
+
+.wp-submenu {
+	background: #111;
+}
+
+#search #general_table select {
+	width: 100%;
+}
+
+#footer {
+	background: #111;
+	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.23);
+}
+
+#footerwrap {
+	border-color: #000;
+	padding: 3px 6px;
+}
+
+/* Round button + white border */
+
+.BottomButton img {
+	height: 24px;
+	background-color: #fff;
+	border-radius: 50%;
+	padding: 3px;
+}
+
+#BottomButtonMenu::before {
+	color: #000;
+	content: "\2261";
+	font-size: 1.9rem;
+	font-weight: 700;
+	line-height: 21px;
+	height: 24px;
+	width: 24px;
+	background-color: #fff;
+	border-radius: 50%;
+	padding: 3px;
+	display: inline-block;
+}
+
+.loading {
+	border-radius: 50%;
+}
+
+/* Footer menu on top */
+
+#footer {
+	top: 0;
+	bottom: auto;
+}
+
+.adminmenu {
+	margin-bottom: 0;
+}
+
+#wrap {
+	padding-top: 40px;
+	box-sizing: border-box;
+}
+
+#body {
+	margin-bottom: 0;
+	padding: 0 16px 0;
+}
+
+/* Body bg grey + elements bg white */
+
+html,
+body {
+	background: #efefef;
+}
+
+.postbox,
+.widefat {
+	background: #fcfcfc;
+}
+
+.postbox > thead th,
+.widefat tfoot tr th,
+.widefat th {
+	background: #f9f9f9;
+}
+
+.widefat tr:hover {
+	background: #fff;
+}
+
+.postbox .h3selected {
+	background: #fcfcfc;
+}
+
+.postbox .h3selected a {
+	font-weight: bold;
+}
+
+/* Input focus blue halo */
+
+.postbox .h3selected {
+	border-top: 2px solid #21759b;
+}
+
+.md-preview > .tab.disabled {
+	border-top: 2px solid #21759b;
+	padding-top: 5px;
+}
+
+input[type="button"],
+input[type="email"],
+input[type="file"],
+input[type="number"],
+input[type="password"],
+input[type="reset"],
+input[type="search"],
+input[type="submit"],
+input[type="tel"],
+input[type="text"],
+input[type="url"],
+select,
+textarea {
+	border-bottom-width: 2px;
+}
+
+input[type="button"]:hover,
+input[type="email"]:hover,
+input[type="file"]:hover,
+input[type="number"]:hover,
+input[type="password"]:hover,
+input[type="reset"]:hover,
+input[type="search"]:hover,
+input[type="submit"]:hover,
+input[type="tel"]:hover,
+input[type="text"]:hover,
+input[type="url"]:hover,
+select:hover,
+textarea:hover {
+	border-color: #aaa;
+}
+
+input[type="button"]:focus,
+input[type="email"]:focus,
+input[type="file"]:focus,
+input[type="number"]:focus,
+input[type="password"]:focus,
+input[type="reset"]:focus,
+input[type="search"]:focus,
+input[type="submit"]:focus,
+input[type="tel"]:focus,
+input[type="text"]:focus,
+input[type="url"]:focus,
+select:focus,
+textarea:focus {
+	border-color: #aaa;
+	border-bottom-color: #298cba;
+}
+
+input.button-primary,
+button.button-primary,
+a.button-primary {
+	border-color: #15556b;
+}
+
+input.button-primary:hover,
+button.button-primary:hover,
+a.button-primary:hover {
+	border-color: #10354b;
+}
+
+/* bigger input height */
+
+input,
+select,
+textarea {
+	line-height: 1.27;
+	padding: 2px;
+}
+
+#LO_search {
+	height: inherit;
+}
+
+#menu-top span {
+	padding-top: 3px;
+}
+
+#menu form .username,
+#menu form .today-date {
+	padding-left: 6px;
+}
+
+select {
+	height: 27px;
+}
+
+.legend-gray {
+	color: #333;
+}
+
+.legend-gray,
+.legend-red {
+	font-size: 15px;
+}
+
+.header2 {
+	padding: 4px 16px;
+}
+
+.list-nav td {
+	padding: 4px 16px;
+}
+
+.widefat td,
+.widefat th {
+	padding: 6px 14px;
+}
+
+.popTable,
+.login .popTable {
+	padding: 14px 12px;
+}
+
+#cboxLoadedContent {
+	padding: 5px 16px !important;
+}
+
+#menu form {
+	padding: 0 6px;
+}
+
+@media only screen and (max-width:1023px) {
+	.rt th,
+	.rt th a {
+		font-size: 15px;
+	}
+	.rt td {
+		display: block;
+		line-height: 1.87em;
+		height: 1.87em;
+	}
+	.rt .link2colorBox .colorboxinline {
+		background-image: url(btn/visualize.png);
+	}
+}
+
+@media only screen and (max-width:736px) {
+	#menu + #body {
+		padding-top: 0;
+	}
+	#menu .logo {
+		max-width: 64px;
+		max-height: 64px;
+		margin: 5px;
+	}
+	#menu-top select {
+		max-width: none;
+	}
+	.header1 h2 {
+		font-size: 24px;
+		line-height: 26px;
+		padding-left: 36px;
+		text-indent: -36px;
+	}
+	#body {
+		padding: 0 6px 0;
+	}
+}
