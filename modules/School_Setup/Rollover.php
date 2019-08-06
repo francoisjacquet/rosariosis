@@ -138,12 +138,26 @@ if ( Prompt(
 			'note'
 		);
 
+		$update_syear_warning = sprintf(
+			_( 'Do not forget to update the $DefaultSyear to \'%d\' in the config.inc.php file when ready.' ),
+			UserSyear() + 1
+		);
+
+		if ( strpos( $_SERVER['HTTP_HOST'], '.rosariosis.com' ) !== false )
+		{
+			$locale_short = substr( $locale, 0, 2 ) === 'fr' || substr( $locale, 0, 2 ) === 'es' ?
+				substr( $locale, 0, 2 ) . '/' : '';
+
+			$update_syear_warning = sprintf(
+				_( 'Do not forget to update the default school year to \'%d\' from <a href="%s" target="_blank">your account</a> when ready.' ),
+				UserSyear() + 1,
+				'https://www.rosariosis.com/' . $locale_short .	'account/'
+			);
+		}
+
 		echo ErrorMessage(
 			array(
-				sprintf(
-					_( 'Do not forget to update the $DefaultSyear to \'%d\' in the config.inc.php file when ready.' ),
-					UserSyear() + 1
-				),
+				$update_syear_warning,
 			),
 			'warning'
 		);
