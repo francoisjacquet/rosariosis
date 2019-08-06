@@ -535,9 +535,12 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 						continue;
 					}
 
-					$cumulative_gpa_percent = $cumulative_gpa[$mp] / $i;
+					$cumulative_gpa_percent = (float) number_format( $cumulative_gpa[$mp] / $i, 2 );
 
-					$cumulative_gpa_points[$mp] = ( $cumulative_gpa_percent / 100 ) * SchoolInfo( 'REPORTING_GP_SCALE' );
+					$cumulative_gpa_points[$mp] = (float) number_format(
+						( $cumulative_gpa_percent / 100 ) * SchoolInfo( 'REPORTING_GP_SCALE' ),
+						2
+					);
 
 					$grades_RET[$i + 1][$mp] = '<B>' . $cumulative_gpa_points[$mp] . '</B>';
 
