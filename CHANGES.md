@@ -41,6 +41,7 @@ Changes in 5.0
 - Add Kint() & PhpDebugBar() functions in Debug.fnc.php
 - Convert MarkDown doc to PDF files in README.pdf, INSTALL.pdf, INSTALL_es.pdf & INSTALL_fr.pdf
 - Add FlatSIS theme in assets/themes/FlatSIS/
+- Add Cumulative GPA in ReportCards.fnc.php
 
 Changes in 4.9.5
 ----------------

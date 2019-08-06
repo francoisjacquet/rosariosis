@@ -13,6 +13,7 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 	 * @example $extra['extra_header_left'] = ReportCardsIncludeForm();
 	 *
 	 * @since 4.0 Define your custom function in your addon module or plugin.
+	 * @since 5.0 Add Cumulative GPA.
 	 *
 	 * @global $extra Get $extra['search'] for Mailing Labels Widget
 	 *
@@ -90,6 +91,10 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 
 		$return .= '</select>
 			<label for="mp_tardies_code" class="a11y-hidden">' . _( 'Attendance Codes' ) . '</label></td></tr>';
+
+		// Period-by-period absences.
+		$return .= '<td><label><input type="checkbox" name="elements[cumulative_gpa]" value="Y" /> ' .
+		_( 'Cumulative GPA' ) . '</label></td>';
 
 		$return .= '</tr></table></td></tr>';
 
@@ -192,6 +197,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 	 *
 	 * @since 4.0 Define your custom function in your addon module or plugin.
 	 * @since 4.5 Add Report Cards PDF header action hook.
+	 * @since 5.0 Add Cumulative GPA.
 	 *
 	 * @uses _makeTeacher() see below
 	 *
@@ -227,7 +233,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 		// Comments.
 
-		if ( isset( $_REQUEST['comments'] )
+		if ( isset( $_REQUEST['elements']['comments'] )
 			&& $_REQUEST['elements']['comments'] === 'Y' )
 		{
 			$comments_RET = GetReportCardsComments( $st_list, $mp_list );
@@ -386,6 +392,19 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 						$grades_RET[$i][$mp] .= '&nbsp;' . $mps[$mp][1]['GRADE_PERCENT'] . '%';
 					}
 
+					// @since 5.0 Add Cumulative GPA.
+					if ( ! isset( $cumulative_gpa[$mp] ) )
+					{
+						if ( ! isset( $cumulative_gpa ) )
+						{
+							$cumulative_gpa = array();
+						}
+
+						$cumulative_gpa[$mp] = 0;
+					}
+
+					$cumulative_gpa[$mp] += $mps[$mp][1]['GRADE_PERCENT'];
+
 					// Comments.
 
 					if ( isset( $_REQUEST['elements']['comments'] )
@@ -497,6 +516,36 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 					else
 					{
 						$grades_RET[$i]['ABSENCES'] = _( 'N/A' );
+					}
+				}
+			}
+
+			if ( isset( $_REQUEST['elements']['cumulative_gpa'] )
+				&& $_REQUEST['elements']['cumulative_gpa'] === 'Y' )
+			{
+				// @since 5.0 Add Cumulative GPA.
+				$grades_RET[$i + 1]['COURSE_TITLE'] = _( 'Cumulative GPA' );
+
+				$cumulative_gpa_points = array();
+
+				foreach ( (array) $mp_array as $mp )
+				{
+					if ( ! isset( $mps[$mp] ) )
+					{
+						continue;
+					}
+
+					$cumulative_gpa_percent = $cumulative_gpa[$mp] / $i;
+
+					$cumulative_gpa_points[$mp] = ( $cumulative_gpa_percent / 100 ) * SchoolInfo( 'REPORTING_GP_SCALE' );
+
+					$grades_RET[$i + 1][$mp] = '<B>' . $cumulative_gpa_points[$mp] . '</B>';
+
+					if ( isset( $_REQUEST['elements']['percents'] )
+						&& $_REQUEST['elements']['percents'] === 'Y'
+						&& $cumulative_gpa_percent > 0 )
+					{
+						$grades_RET[$i + 1][$mp] .= '&nbsp;' . $cumulative_gpa_percent . '%';
 					}
 				}
 			}

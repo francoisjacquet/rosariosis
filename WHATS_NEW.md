@@ -5,6 +5,9 @@
 New in 5.0
 ----------
 
+Grades:
+- Report Cards: Cumulative GPA option.
+
 SQL speed: ID columns now use INTEGER type.
 
 Database integrity improvements: added foreign keys.
