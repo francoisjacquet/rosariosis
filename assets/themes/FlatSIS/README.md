@@ -16,6 +16,8 @@ DESCRIPTION
 This theme extends the default WPadmin theme and provides a flat design.
 Also, the footer menu is now placed at the top of the screen.
 
+It is part of RosarioSIS since version 5.0.
+
 CONTENT
 -------
 
@@ -33,7 +35,7 @@ Rebrand RosarioSIS: replace the `logo.png` file with your own logo.
 
 ### Font
 
-This theme uses the _Lato_ font instead of default the _Open Sans_.
+This theme uses _Lato_ font instead of default _Open Sans_.
 
 ### Stylesheet
 
