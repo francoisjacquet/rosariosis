@@ -37,6 +37,7 @@ Changes in 5.0
 - SQL fix Change index suffix from '\_IND' to '\_IDX' to avoid collision in Fields.fnc.php
 - Add GetReportCardsComments() function in ReportCards.fnc.php
 - Add issetVal() function in Warehouse.php
+- Cannot delete teacher if has course periods in User.php
 
 Changes in 4.9.5
 ----------------

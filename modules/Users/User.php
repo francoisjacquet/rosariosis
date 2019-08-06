@@ -637,10 +637,19 @@ if (  ( UserStaffID()
 			&& User( 'PROFILE' ) === 'admin'
 			&& AllowEdit() )
 		{
-			$delete_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
-				"&modfunc=delete'";
+			// @since 5.0 Cannot delete teacher if j=has course periods.
+			$teacher_has_course_periods = (bool) DBGetOne( "SELECT 1
+				FROM COURSE_PERIODS
+				WHERE TEACHER_ID='" . $staff['STAFF_ID'] . "'
+				AND SYEAR='" . UserSyear() . "'" );
 
-			$delete_button = '<input type="button" value="' . _( 'Delete' ) . '" onClick="javascript:ajaxLink(' . $delete_URL . ');" />';
+			if ( ! $teacher_has_course_periods )
+			{
+				$delete_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
+					"&modfunc=delete'";
+
+				$delete_button = '<input type="button" value="' . _( 'Delete' ) . '" onClick="javascript:ajaxLink(' . $delete_URL . ');" />';
+			}
 		}
 	}
 
