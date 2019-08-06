@@ -239,8 +239,8 @@ if ( ROSARIO_DEBUG )
 {
 	require_once 'ProgramFunctions/Debug.fnc.php';
 
-	// @since 5.0 Load PHP Debug bar.
-	PhpDebugBar();
+	// @since 5.0 Load Kint.
+	Kint();
 }
 
 

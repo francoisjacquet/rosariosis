@@ -5,6 +5,7 @@
 
 /**
  * Load PHP Debug bar.
+ * Does not integrate well with RosarioSIS...
  *
  * @see https://gitlab.com/francoisjacquet/rosariosis-meta#php-debug-bar
  *
@@ -49,6 +50,31 @@ function PhpDebugBar()
 	}
 
 	add_action( 'Warehouse.php|footer', 'debugbarRender' );
+
+	return true;
+}
+
+
+/**
+ * Load Kint.
+ *
+ * @example d( $_REQUEST ); // Var dump.
+ * @example d( 1 ); // Debug backtrace shorthand.
+ *
+ * @see https://gitlab.com/francoisjacquet/rosariosis-meta#kint
+ *
+ * @link https://github.com/kint-php/kint/
+ *
+ * @since 5.0
+ */
+function Kint()
+{
+	if ( ! file_exists( 'meta/debug/kint.phar' ) )
+	{
+		return false;
+	}
+
+	require_once 'meta/debug/kint.phar';
 
 	return true;
 }

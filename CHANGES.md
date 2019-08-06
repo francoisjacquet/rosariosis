@@ -38,6 +38,7 @@ Changes in 5.0
 - Add GetReportCardsComments() function in ReportCards.fnc.php
 - Add issetVal() function in Warehouse.php
 - Cannot delete teacher if has course periods in User.php
+- Add Kint() & PhpDebugBar() functions in Debug.fnc.php
 
 Changes in 4.9.5
 ----------------
