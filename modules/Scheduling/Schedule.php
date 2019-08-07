@@ -460,7 +460,7 @@ if ( $_REQUEST['modfunc'] == 'choose_course' )
 			$warnings[] = _( 'There is already a course scheduled in that period.' );
 		}
 
-		if ( empty( $warnings ) || Prompt( 'Confirm', _( 'There is a conflict.' ) . ' ' . _( 'Are you sure you want to add this section?' ), ErrorMessage( $warnings, 'note' ) ) )
+		if ( empty( $warnings ) || Prompt( 'Confirm', _( 'There is a conflict.' ) . ' ' . _( 'Are you sure you want to add this section?' ), ErrorMessage( $warnings, 'warning' ) ) )
 		{
 			DBQuery( "INSERT INTO SCHEDULE (SYEAR,SCHOOL_ID,STUDENT_ID,START_DATE,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID) values('" . UserSyear() . "','" . UserSchool() . "','" . UserStudentID() . "','" . $date . "','" . $_REQUEST['course_id'] . "','" . $_REQUEST['course_period_id'] . "','" . $mp_RET[1]['MP'] . "','" . $mp_RET[1]['MARKING_PERIOD_ID'] . "')" );
 
@@ -691,7 +691,7 @@ function VerifySchedule( &$schedule )
 	{
 		for ( $j = $i + 1; $j <= $ij; $j++ )
 		{
-			if ( ! $conflicts[$i] || ! $conflicts[$j] )
+			if ( empty( $conflicts[$i] ) || empty( $conflicts[$j] ) )
 			// the following two if's are equivalent, the second matches the 'Add a Course' logic, the first is the demorgan equivalent and easier to follow
 			// if -not- marking periods don't overlap -or- dates don't overlap (i ends and j starts after i -or- j ends and i starts after j) then check further
 			//if ( ! (mb_strpos(GetAllMP(GetMP($schedule[ $i ]['MARKING_PERIOD_ID'],'MP'),$schedule[ $i ]['MARKING_PERIOD_ID']),"'".$schedule[ $j ]['MARKING_PERIOD_ID']."'")===false

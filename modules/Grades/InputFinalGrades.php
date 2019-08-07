@@ -119,6 +119,8 @@ foreach ( (array) $comment_codes_RET as $scale_id => $codes )
 	}
 }
 
+$max_current_commentsB = 0;
+
 if ( $_REQUEST['tab_id'] == '-1' )
 {
 	$commentsB_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER
@@ -136,7 +138,6 @@ if ( $_REQUEST['tab_id'] == '-1' )
 		AND g.REPORT_CARD_COMMENT_ID IN (SELECT ID
 			FROM REPORT_CARD_COMMENTS
 			WHERE COURSE_ID IS NULL)", array(), array( 'STUDENT_ID' ) );
-	$max_current_commentsB = 0;
 
 	foreach ( (array) $current_commentsB_RET as $comments )
 	{
@@ -200,7 +201,7 @@ if ( 0 )
 		$commentsB_select += array( $id => array( $comment[1]['SORT_ORDER'], $comment[1]['TITLE'] ) );
 	}
 }
-elseif ( is_array( $commentsB_RET ) )
+elseif ( ! empty( $commentsB_RET ) )
 {
 	foreach ( (array) $commentsB_RET as $id => $comment )
 	{
@@ -523,9 +524,10 @@ if ( ! empty( $_REQUEST['values'] )
 	{
 		$sql = $sep = '';
 
-		if ( $current_RET[$student_id] )
+		if ( ! empty( $current_RET[$student_id] ) )
 		{
-			if ( $columns['percent'] != '' )
+			if ( isset( $columns['percent'] )
+				&& $columns['percent'] != '' )
 			{
 				// FJ bugfix SQL error invalid input syntax for type numeric.
 				$percent = trim( $columns['percent'], '%' );
@@ -584,7 +586,7 @@ if ( ! empty( $_REQUEST['values'] )
 				$sql .= ",CREDIT_EARNED='" . ( (float) $weighted && $weighted >= $gp_passing ? $course_RET[1]['CREDITS'] : '0' ) . "'";
 				$sep = ',';
 			}
-			elseif ( $columns['grade'] )
+			elseif ( ! empty( $columns['grade'] ) )
 			{
 				$percent = _makePercentGrade( $columns['grade'], $course_period_id );
 				$grade = $columns['grade'];
@@ -821,7 +823,7 @@ if ( ! empty( $_REQUEST['values'] )
 			{
 				if ( $comment )
 				{
-					if ( $old[$comment] )
+					if ( ! empty( $old[$comment] ) )
 					{
 						if ( $change[$old[$comment]] )
 						{
@@ -843,7 +845,7 @@ if ( ! empty( $_REQUEST['values'] )
 			{
 				if ( $comment )
 				{
-					if ( ! $new[$comment] )
+					if ( empty( $new[$comment] ) )
 					{
 						if ( ! $change[$i]['REPORT_CARD_COMMENT_ID'] )
 						{
@@ -889,7 +891,7 @@ if ( ! empty( $_REQUEST['values'] )
 
 		foreach ( (array) $change as $i => $comment )
 		{
-			if ( $current_commentsB_RET[$student_id][$i] )
+			if ( ! empty( $current_commentsB_RET[$student_id][$i] ) )
 			{
 				if ( $comment['REPORT_CARD_COMMENT_ID'] )
 				{
@@ -954,6 +956,7 @@ if ( ! empty( $_REQUEST['values'] )
 		AND cp.COURSE_PERIOD_ID='" . $course_period_id . "'
 		AND g.MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'
 		AND g.REPORT_CARD_COMMENT_ID IN (SELECT ID FROM REPORT_CARD_COMMENTS WHERE COURSE_ID IS NULL)", array(), array( 'STUDENT_ID' ) );
+
 		$max_current_commentsB = 0;
 
 		foreach ( (array) $current_commentsB_RET as $comments )
@@ -1119,7 +1122,7 @@ echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
 
 if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 {
-	if ( $commentsB_RET )
+	if ( ! empty( $commentsB_RET ) )
 	{
 		$tipmsg = '';
 
@@ -1206,21 +1209,46 @@ if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 
 	if ( AllowEdit() )
 	{
-		$gb_header .= '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&include_inactive=' . $_REQUEST['include_inactive'] . '&modfunc=gradebook&mp=' . $_REQUEST['mp'] . '">' . _( 'Get Gradebook Grades.' ) . '</a>';
-		$prev_mp = DBGet( "SELECT MARKING_PERIOD_ID,TITLE,START_DATE FROM SCHOOL_MARKING_PERIODS WHERE MP='" . GetMP( $_REQUEST['mp'], 'MP' ) . "' AND SCHOOL_ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "' AND START_DATE<'" . GetMP( $_REQUEST['mp'], 'START_DATE' ) . "' ORDER BY START_DATE DESC LIMIT 1" );
-		$prev_mp = $prev_mp[1];
+		$gb_header .= '<a href="Modules.php?modname=' . $_REQUEST['modname'] .
+			'&include_inactive=' . $_REQUEST['include_inactive'] .
+			'&modfunc=gradebook&mp=' . $_REQUEST['mp'] . '">' . _( 'Get Gradebook Grades.' ) . '</a>';
 
-		//FJ remove Get previous MP Grades & Comments if course period's marking period is a quarter
-		$mp_is_quarter = DBGet( "SELECT '' FROM COURSE_PERIODS WHERE MP='QTR' AND COURSE_PERIOD_ID='" . $course_period_id . "'" );
+		$prev_mp = DBGet( "SELECT MARKING_PERIOD_ID,TITLE,START_DATE
+			FROM SCHOOL_MARKING_PERIODS
+			WHERE MP='" . GetMP( $_REQUEST['mp'], 'MP' ) . "'
+			AND SCHOOL_ID='" . UserSchool() . "'
+			AND SYEAR='" . UserSyear() . "'
+			AND START_DATE<'" . GetMP( $_REQUEST['mp'], 'START_DATE' ) . "'
+			ORDER BY START_DATE DESC LIMIT 1" );
+
+		$prev_mp = issetVal( $prev_mp[1], array() );
+
+		// Remove Get previous MP Grades & Comments if course period's marking period is a quarter.
+		$mp_is_quarter = DBGetOne( "SELECT 1
+			FROM COURSE_PERIODS
+			WHERE MP='QTR'
+			AND COURSE_PERIOD_ID='" . $course_period_id . "'" );
 
 		if ( $prev_mp && ! $mp_is_quarter )
 		{
-			$gb_header .= ' | <a href="Modules.php?modname=' . $_REQUEST['modname'] . '&include_inactive=' . $_REQUEST['include_inactive'] . '&modfunc=grades&tab_id=' . $_REQUEST['tab_id'] . '&mp=' . $_REQUEST['mp'] . '&prev_mp=' . $prev_mp['MARKING_PERIOD_ID'] . '">' . sprintf( _( 'Get %s Grades' ), $prev_mp['TITLE'] ) . '</a>';
-			$gb_header .= ' | <a href="Modules.php?modname=' . $_REQUEST['modname'] . '&include_inactive=' . $_REQUEST['include_inactive'] . '&modfunc=comments&tab_id=' . $_REQUEST['tab_id'] . '&mp=' . $_REQUEST['mp'] . '&prev_mp=' . $prev_mp['MARKING_PERIOD_ID'] . '">' . sprintf( _( 'Get %s Comments' ), $prev_mp['TITLE'] ) . '</a>';
+			$gb_header .= ' | <a href="Modules.php?modname=' . $_REQUEST['modname'] .
+				'&include_inactive=' . $_REQUEST['include_inactive'] .
+				'&modfunc=grades&tab_id=' . $_REQUEST['tab_id'] . '&mp=' . $_REQUEST['mp'] .
+				'&prev_mp=' . $prev_mp['MARKING_PERIOD_ID'] . '">' .
+				sprintf( _( 'Get %s Grades' ), $prev_mp['TITLE'] ) . '</a>';
+
+			$gb_header .= ' | <a href="Modules.php?modname=' . $_REQUEST['modname'] .
+				'&include_inactive=' . $_REQUEST['include_inactive'] .
+				'&modfunc=comments&tab_id=' . $_REQUEST['tab_id'] . '&mp=' . $_REQUEST['mp'] .
+				'&prev_mp=' . $prev_mp['MARKING_PERIOD_ID'] . '">' .
+				sprintf( _( 'Get %s Comments' ), $prev_mp['TITLE'] ) . '</a>';
 		}
 
 		$gb_header .= ' | ';
-		$gb_header .= '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&include_inactive=' . $_REQUEST['include_inactive'] . '&modfunc=clearall&tab_id=' . $_REQUEST['tab_id'] . '&mp=' . $_REQUEST['mp'] . '">' . _( 'Clear All' ) . '</a>';
+		$gb_header .= '<a href="Modules.php?modname=' . $_REQUEST['modname'] .
+			'&include_inactive=' . $_REQUEST['include_inactive'] .
+			'&modfunc=clearall&tab_id=' . $_REQUEST['tab_id'] . '&mp=' . $_REQUEST['mp'] . '">' .
+			_( 'Clear All' ) . '</a>';
 	}
 
 	DrawHeader( $gb_header );
@@ -1521,7 +1549,7 @@ function _makeCommentsA( $value, $column )
 	}
 	else
 	{
-		if ( ! $current_commentsA_RET[$THIS_RET['STUDENT_ID']][$value][1]['COMMENT']
+		if ( empty( $current_commentsA_RET[$THIS_RET['STUDENT_ID']][$value][1]['COMMENT'] )
 			&& ! $import_commentsA_RET
 			&& AllowEdit() )
 		{

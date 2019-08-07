@@ -1,5 +1,8 @@
 <?php
 
+$_REQUEST['subject_id'] = issetVal( $_REQUEST['subject_id'], '' );
+$_REQUEST['course_id'] = issetVal( $_REQUEST['course_id'], '' );
+
 DrawHeader( ProgramTitle() );
 
 if ( $_REQUEST['modfunc'] === 'update' )
@@ -184,7 +187,7 @@ if ( ! $_REQUEST['modfunc'] )
 			'&subject_id=' . $_REQUEST['subject_id'] .
 			"&course_id='";
 
-		$course_select .= '<select name="course_id" onchange="ajaxLink(' . $course_onchange_URL . ' + this.options[selectedIndex].value);">';
+		$course_select  = '<select name="course_id" onchange="ajaxLink(' . $course_onchange_URL . ' + this.options[selectedIndex].value);">';
 
 		//FJ Add No Courses were found error
 
@@ -424,7 +427,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$LO_options = array(
 		'save' => false,
 		'search' => false,
-		'header_color' => $categories_RET[$_REQUEST['tab_id']][1]['COLOR'],
+		'header_color' => issetVal( $categories_RET[$_REQUEST['tab_id']][1]['COLOR'], '' ),
 		'header' => WrapTabs( $tabs, 'Modules.php?modname=' . $_REQUEST['modname'] . '&subject_id=' .
 			$_REQUEST['subject_id'] . '&course_id=' . $_REQUEST['course_id'] . '&tab_id=' . $_REQUEST['tab_id'] ),
 	);

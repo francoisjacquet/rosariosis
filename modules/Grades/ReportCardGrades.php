@@ -143,7 +143,8 @@ if ( ! $_REQUEST['modfunc'] )
 			AND SYEAR='" . UserSyear() . "'
 			ORDER BY SORT_ORDER", array(), array( 'ID' ) );
 
-		if ( $_REQUEST['tab_id'] == ''
+		if ( ! isset( $_REQUEST['tab_id'] )
+			|| $_REQUEST['tab_id'] == ''
 			|| $_REQUEST['tab_id'] !== 'new'
 			&& empty( $grade_scales_RET[$_REQUEST['tab_id']] ) )
 		{
@@ -159,14 +160,18 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 	else
 	{
-		$course_period_RET = DBGet( 'SELECT GRADE_SCALE_ID,DOES_BREAKOFF,TEACHER_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID=\'' . UserCoursePeriod() . '\'' );
+		$course_period_RET = DBGet( "SELECT GRADE_SCALE_ID,DOES_BREAKOFF,TEACHER_ID
+			FROM COURSE_PERIODS
+			WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" );
 
 		if ( ! $course_period_RET[1]['GRADE_SCALE_ID'] )
 		{
 			ErrorMessage( array( _( 'This course is not graded.' ) ), 'fatal' );
 		}
 
-		$grade_scales_RET = DBGet( 'SELECT ID,TITLE FROM REPORT_CARD_GRADE_SCALES WHERE ID=\'' . $course_period_RET[1]['GRADE_SCALE_ID'] . '\'', array(), array( 'ID' ) );
+		$grade_scales_RET = DBGet( "SELECT ID,TITLE
+			FROM REPORT_CARD_GRADE_SCALES
+			WHERE ID='" . $course_period_RET[1]['GRADE_SCALE_ID'] . "'", array(), array( 'ID' ) );
 
 		if ( $course_period_RET[1]['DOES_BREAKOFF'] == 'Y' )
 		{
@@ -189,7 +194,11 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( $_REQUEST['tab_id'] !== 'new' )
 	{
-		$sql = 'SELECT * FROM REPORT_CARD_GRADES WHERE GRADE_SCALE_ID=\'' . $_REQUEST['tab_id'] . '\' AND SYEAR=\'' . UserSyear() . '\' AND SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY BREAK_OFF IS NOT NULL DESC,BREAK_OFF DESC, SORT_ORDER';
+		$sql = "SELECT * FROM REPORT_CARD_GRADES
+			WHERE GRADE_SCALE_ID='" . $_REQUEST['tab_id'] . "'
+			AND SYEAR='" . UserSyear() . "'
+			AND SCHOOL_ID='" . UserSchool() . "'
+			ORDER BY BREAK_OFF IS NOT NULL DESC,BREAK_OFF DESC,SORT_ORDER";
 
 		$functions = array(
 			'TITLE' => '_makeTextInput',

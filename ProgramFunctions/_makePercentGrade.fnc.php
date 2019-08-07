@@ -61,7 +61,7 @@ function _makePercentGrade( $grade_id_or_title, $course_period_id = 0, $staff_id
 
 	foreach ( (array) $_ROSARIO['_makeLetterGrade']['grades'][ $grade_scale_id ] as $grade )
 	{
-		$prev = $crnt;
+		$prev = issetVal( $crnt, 0 );
 
 		$crnt = ( $does_breakoff === 'Y' ?
 			$gradebook_config[ $course_period_id . '-' . $grade['ID'] ] :

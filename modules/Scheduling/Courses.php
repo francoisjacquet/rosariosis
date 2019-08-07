@@ -3,10 +3,11 @@
 require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 require_once 'modules/Scheduling/includes/Courses.fnc.php';
 
-if ( ! isset( $_REQUEST['last_year'] ) )
-{
-	$_REQUEST['last_year'] = '';
-}
+$_REQUEST['subject_id'] = issetVal( $_REQUEST['subject_id'], '' );
+$_REQUEST['course_id'] = issetVal( $_REQUEST['course_id'], '' );
+$_REQUEST['course_period_id'] = issetVal( $_REQUEST['course_period_id'], '' );
+
+$_REQUEST['last_year'] = issetVal( $_REQUEST['last_year'], '' );
 
 if ( $_REQUEST['modfunc'] !== 'choose_course' )
 {
@@ -268,8 +269,7 @@ if ( ! empty( $_REQUEST['tables'] )
 	// FJ bugfix SQL error invalid input syntax for type numeric
 	// when COURSE_PERIOD_SCHOOL_PERIODS saved before COURSE_PERIODS, but why?
 
-	if ( isset( $_REQUEST['course_period_id'] )
-		&& $_REQUEST['course_period_id'] == 'new' )
+	if ( $_REQUEST['course_period_id'] == 'new' )
 	{
 		foreach ( (array) $_REQUEST['tables'] as $table_name => $tables )
 		{
@@ -382,7 +382,8 @@ if ( ! empty( $_REQUEST['tables'] )
 
 						if ( $table_name == 'COURSE_PERIOD_SCHOOL_PERIODS' )
 						{
-							if ( in_array( $columns['PERIOD_ID'], $temp_PERIOD_ID ) ) //prevent repeat periods
+							if ( ! empty( $columns['PERIOD_ID'] )
+								&& in_array( $columns['PERIOD_ID'], $temp_PERIOD_ID ) ) //prevent repeat periods
 							{
 								continue;
 							}
@@ -624,7 +625,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 {
 	$delete_sql = array();
 
-	if ( ! empty( $_REQUEST['course_period_id'] ) )
+	if ( $_REQUEST['course_period_id'] )
 	{
 		$table = _( 'Course Period' );
 
@@ -644,7 +645,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 
 		$unset_get = 'course_period_id';
 	}
-	elseif ( ! empty( $_REQUEST['course_id'] ) )
+	elseif ( $_REQUEST['course_id'] )
 	{
 		$table = _( 'Course' );
 
@@ -668,7 +669,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 
 		$unset_get = 'course_id';
 	}
-	elseif ( ! empty( $_REQUEST['subject_id'] ) )
+	elseif ( $_REQUEST['subject_id'] )
 	{
 		$table = _( 'Subject' );
 
@@ -684,17 +685,17 @@ if ( $_REQUEST['modfunc'] === 'delete'
 
 		DBQuery( $delete_queries );
 
-		if ( ! empty( $_REQUEST['course_period_id'] ) )
+		if ( $_REQUEST['course_period_id'] )
 		{
 			// Hook.
 			do_action( 'Scheduling/Courses.php|delete_course_period' );
 		}
-		elseif ( ! empty( $_REQUEST['subject_id'] ) )
+		elseif ( $_REQUEST['subject_id'] )
 		{
 			// Hook.
 			do_action( 'Scheduling/Courses.php|delete_course_subject' );
 		}
-		elseif ( ! empty( $_REQUEST['course_id'] ) )
+		elseif ( $_REQUEST['course_id'] )
 		{
 			// Hook.
 			do_action( 'Scheduling/Courses.php|delete_course' );
@@ -749,16 +750,18 @@ if (  ( ! $_REQUEST['modfunc']
 		if ( AllowEdit() )
 		{
 			$delete_url = "'Modules.php?modname=" . $_REQUEST['modname'] .
-				'&modfunc=delete&subject_id=' . issetVal( $_REQUEST['subject_id'], '' ) .
-				'&course_id=' . issetVal( $_REQUEST['course_id'], '' ) .
-				'&course_period_id=' . issetVal( $_REQUEST['course_period_id'], '' ) . "'";
+				'&modfunc=delete&subject_id=' . $_REQUEST['subject_id'] .
+				'&course_id=' . $_REQUEST['course_id'] .
+				'&course_period_id=' . $_REQUEST['course_period_id'] . "'";
 
 			$delete_button = '<input type="button" value="' . _( 'Delete' ) . '" onClick="javascript:ajaxLink(' . $delete_url . ');" />';
 		}
 
+		$header = '';
+
 		// ADDING & EDITING FORM
 
-		if ( ! empty( $_REQUEST['course_period_id'] ) )
+		if ( $_REQUEST['course_period_id'] )
 		{
 			if ( $_REQUEST['course_period_id'] !== 'new' )
 			{
@@ -1167,7 +1170,7 @@ if (  ( ! $_REQUEST['modfunc']
 
 			$header .= '</tr></table>';
 		}
-		elseif ( ! empty( $_REQUEST['course_id'] ) )
+		elseif ( $_REQUEST['course_id'] )
 		{
 			if ( $_REQUEST['course_id'] !== 'new' )
 			{
@@ -1247,7 +1250,7 @@ if (  ( ! $_REQUEST['modfunc']
 			}*/
 			$header .= '</tr></table>';
 		}
-		elseif ( ! empty( $_REQUEST['subject_id'] ) )
+		elseif ( $_REQUEST['subject_id'] )
 		{
 			if ( $_REQUEST['subject_id'] !== 'new' )
 			{
@@ -1345,7 +1348,9 @@ if (  ( ! $_REQUEST['modfunc']
 		'<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=' . $_REQUEST['modfunc'] .
 		'&course_modfunc=search&last_year=' . $_REQUEST['last_year'] .
 		( $_REQUEST['modfunc'] == 'choose_course' && $_REQUEST['modname'] == 'Scheduling/Schedule.php' ?
-			'&include_child_mps=' . $_REQUEST['include_child_mps'] . '&year_date=' . $_REQUEST['year_date'] . '&month_date=' . $_REQUEST['month_date'] . '&day_date=' . $_REQUEST['day_date'] :
+			'&include_child_mps=' . issetVal( $_REQUEST['include_child_mps'], '' ) .
+			'&year_date=' . $_REQUEST['year_date'] . '&month_date=' . $_REQUEST['month_date'] .
+			'&day_date=' . $_REQUEST['day_date'] :
 			'' ) .
 		'">' . _( 'Search' ) . '</a>&nbsp;'
 	);
@@ -1481,7 +1486,7 @@ if (  ( ! $_REQUEST['modfunc']
 			calcSeats1( $periods_RET, $date );
 
 			if ( ! empty( $periods_RET )
-				&& ! empty( $_REQUEST['course_period_id'] ) )
+				&& $_REQUEST['course_period_id'] )
 			{
 				foreach ( (array) $periods_RET as $key => $value )
 				{
@@ -1506,7 +1511,7 @@ if (  ( ! $_REQUEST['modfunc']
 
 				if ( $_REQUEST['modfunc'] === 'choose_course' )
 				{
-					$link['TITLE']['link'] .= '&modfunc=' . $_REQUEST['modfunc'] . '&student_id=' . $_REQUEST['student_id'] . '&last_year=' . $_REQUEST['last_year'];
+					$link['TITLE']['link'] .= '&modfunc=' . $_REQUEST['modfunc'] . '&student_id=' . issetVal( $_REQUEST['student_id'], '' ) . '&last_year=' . $_REQUEST['last_year'];
 				}
 				else
 				{
