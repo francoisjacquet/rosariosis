@@ -53,7 +53,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
-		echo '<FORM action="' . PreparePHP_SELF(
+		echo '<form action="' . PreparePHP_SELF(
 			$_REQUEST,
 			array( 'search_modfunc' ),
 			array( 'modfunc' => 'save', '_ROSARIO_PDF' => 'true' )
@@ -90,9 +90,22 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
-		echo '<BR /><div class="center">' .
+		echo '<br /><div class="center">' .
 			Buttons( _( 'Create Report Cards for Selected Students' ) ) . '</div>';
 
-		echo '</FORM>';
+		echo '</form>';
+
+		// SYear & Semester MPs only, including History MPs.
+		$mps_RET = DBGet( "SELECT MARKING_PERIOD_ID
+			FROM MARKING_PERIODS
+			WHERE SCHOOL_ID='" . UserSchool() . "'
+			AND MP_TYPE IN ('semester','year','quarter')
+			AND DOES_GRADES='Y'" );
+
+		foreach ( (array) $mps_RET as $mp )
+		{
+			// @since 4.7 Automatic Class Rank calculation.
+			ClassRankMaybeCalculate( $mp['MARKING_PERIOD_ID'] );
+		}
 	}
 }
