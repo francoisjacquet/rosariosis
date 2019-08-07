@@ -1,5 +1,7 @@
 <?php
 
+// Should be included first, in case modfunc is Class Rank Calculate AJAX.
+require_once 'modules/Grades/includes/ClassRank.inc.php';
 require_once 'modules/Grades/includes/ReportCards.fnc.php';
 
 if ( $_REQUEST['modfunc'] === 'save' )
