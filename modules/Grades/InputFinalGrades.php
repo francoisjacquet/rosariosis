@@ -1179,7 +1179,7 @@ if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 				$tiplabel[] = $commentAbis['TITLE'];
 			}
 
-			$tipmessage .= makeTipMessage(
+			$tipmessage .= ' &nbsp; ' . makeTipMessage(
 				$tipmsg,
 				_( 'Comment Codes' ),
 				button( 'comment', implode( $tiplabel, ' / ' ) )
