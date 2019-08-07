@@ -43,6 +43,8 @@ Changes in 5.0
 - Add FlatSIS theme in assets/themes/FlatSIS/
 - Add Automatic Class Rank calculation in ReportCards.php
 - Add GPA or Total row in Grade.fnc.php, ReportCards.fnc.php & Transcripts.fnc.php
+- Add GetReportCardCommentScales(), GetReportCardGeneralComments(), GetReportCardCourseSpecificComments() & \_getReportCardCommentPersonalizations() functions in ReportCards.fnc.php
+- New Comment Code Scales format in ReportCards.fnc.php
 
 Changes in 4.9.5
 ----------------

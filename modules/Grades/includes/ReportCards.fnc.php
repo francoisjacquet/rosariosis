@@ -195,7 +195,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 	/**
 	 * Report Cards generation
 	 *
-	 * @todo Divide in smaller functions: ReportCardComments...
+	 * @todo Divide in smaller functions
 	 *
 	 * @example $report_cards = ReportCardsGenerate( $_REQUEST['st_arr'], $_REQUEST['mp_arr'] );
 	 *
@@ -267,7 +267,8 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 			AND cc.COURSE_ID=c.COURSE_ID
 			AND cc.ID=c.CATEGORY_ID
 			AND cs.SCHOOL_ID=c.SCHOOL_ID
-			AND cs.ID=c.SCALE_ID", array(), array( 'ID' ) );
+			AND cs.ID=c.SCALE_ID
+			ORDER BY c.SORT_ORDER,c.ID", array(), array( 'ID' ) );
 
 			$commentsB_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER
 			FROM REPORT_CARD_COMMENTS
@@ -301,20 +302,6 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 			$addresses_RET = GetStuList( $extra );
 		}
-
-		//FJ limit code scales to the ones in current SYEAR in REPORT_CARD_COMMENTS
-		//$comment_codes_RET = DBGet( "SELECT cc.TITLE,cc.COMMENT,cs.TITLE AS SCALE_TITLE,cs.COMMENT AS SCALE_COMMENT FROM REPORT_CARD_COMMENT_CODES cc, REPORT_CARD_COMMENT_CODE_SCALES cs WHERE cc.SCHOOL_ID='".UserSchool()."' AND cs.ID=cc.SCALE_ID ORDER BY cs.SORT_ORDER,cs.ID,cc.SORT_ORDER,cc.ID" );
-		$comment_codes_RET = DBGet( "SELECT cs.ID AS SCALE_ID,cc.TITLE,cc.COMMENT,
-			cs.TITLE AS SCALE_TITLE,cs.COMMENT AS SCALE_COMMENT
-		FROM REPORT_CARD_COMMENT_CODES cc, REPORT_CARD_COMMENT_CODE_SCALES cs
-		WHERE cc.SCHOOL_ID='" . UserSchool() . "'
-		AND cs.ID=cc.SCALE_ID
-		AND cc.SCALE_ID IN (SELECT DISTINCT c.SCALE_ID
-			FROM REPORT_CARD_COMMENTS c
-			WHERE c.SYEAR='" . UserSyear() . "'
-			AND c.SCHOOL_ID=cc.SCHOOL_ID
-			AND c.SCALE_ID IS NOT NULL)
-		ORDER BY cs.SORT_ORDER,cs.ID,cc.SORT_ORDER,cc.ID" );
 
 		// ListOutput columns.
 		$LO_columns = array( 'COURSE_TITLE' => _( 'Course' ) );
@@ -439,15 +426,17 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 						{
 							if ( ! empty( $all_commentsA_RET[$comment['REPORT_CARD_COMMENT_ID']] ) )
 							{
-								$grades_RET[$i]['C' . $comment['REPORT_CARD_COMMENT_ID']] .= $comment['COMMENT'] != ' ' ?
-								( empty( $grades_RET[$i]['C' . $comment['REPORT_CARD_COMMENT_ID']] ) ?
-									'' :
-									$sep_mp ) .
-								$comment['COMMENT'] :
-								( empty( $grades_RET[$i]['C' . $comment['REPORT_CARD_COMMENT_ID']] ) ?
-									'' :
-									$sep_mp ) .
-									'&middot;';
+								if ( empty( $grades_RET[$i]['C' . $comment['REPORT_CARD_COMMENT_ID']] ) )
+								{
+									$grades_RET[$i]['C' . $comment['REPORT_CARD_COMMENT_ID']] = $comment['COMMENT'] != ' ' ?$comment['COMMENT'] :
+										'&middot;';
+								}
+								else
+								{
+									$grades_RET[$i]['C' . $comment['REPORT_CARD_COMMENT_ID']] .= $comment['COMMENT'] != ' ' ?
+										$sep_mp . $comment['COMMENT'] :
+										$sep_mp . '&middot;';
+								}
 							}
 							else
 							{
@@ -470,7 +459,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 									}
 
 									$grades_RET[$i]['COMMENT'] .= $sep_tmp . $color_html .
-										$commentsA_RET[$comment['REPORT_CARD_COMMENT_ID']][1]['SORT_ORDER'];
+										$commentsA_RET[$comment['REPORT_CARD_COMMENT_ID']][1]['SORT_ORDER'] . '.';
 
 									$grades_RET[$i]['COMMENT'] .= '(' . ( $comment['COMMENT'] != ' ' ?
 										$comment['COMMENT'] :
@@ -710,191 +699,50 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 					&& ( $comments_arr_key
 						|| ! empty( $comments_arr ) ) )
 				{
-					$gender = mb_substr( $mps[key( $mps )][1]['GENDER'], 0, 1 );
-
-					$personalizations = array(
-						'^n' => ( $mps[key( $mps )][1]['FIRST_NAME'] ),
-						'^s' => ( $gender == 'M' ? _( 'his' ) :
-							( $gender == 'F' ? _( 'her' ) : _( 'his/her' ) ) ) );
-
-					// FJ limit comment scales to the ones used in student's courses.
-					$course_periods_list = implode( array_keys( $course_periods ), ',' );
-
-					$student_comment_scales_RET = DBGet( "SELECT cs.ID
-					FROM REPORT_CARD_COMMENT_CODE_SCALES cs
-					WHERE cs.ID IN
-						(SELECT c.SCALE_ID
-						FROM REPORT_CARD_COMMENTS c
-						WHERE (c.COURSE_ID IN(SELECT COURSE_ID
-							FROM SCHEDULE
-							WHERE STUDENT_ID='" . $student_id . "'
-							AND COURSE_PERIOD_ID IN(" . $course_periods_list . "))
-							OR c.COURSE_ID=0)
-						AND c.SCHOOL_ID=cs.SCHOOL_ID
-						AND c.SYEAR='" . UserSyear() . "')
-					AND cs.SCHOOL_ID='" . UserSchool() . "'", array(), array( 'ID' ) );
-
-					$student_comment_scales = array_keys( $student_comment_scales_RET );
-
-					$comment_sc_display = false;
-
-					$comment_sc_txt = _( 'Comment Scales' ) . '<BR /><ul>';
-
-					$i = 0;
-
-					$scale_title = '';
+					echo _( 'Explanation of Comment Codes' ) . '<br />';
 
 					if ( $comments_arr_key )
 					{
-						foreach ( (array) $comment_codes_RET as $comment )
+						// FJ limit comment scales to the ones used in student's courses.
+						$course_periods_list = implode( array_keys( $course_periods ), ',' );
+
+						$comment_scales = GetReportCardCommentScales( $student_id, $course_periods_list );
+
+						foreach ( (array) $comment_scales as $comment_scale )
 						{
-							// FJ limit comment scales to the ones used in student's courses.
+							echo '<div class="st">';
 
-							if ( in_array( $comment['SCALE_ID'], $student_comment_scales ) )
-							{
-								if ( $i++ % 3 == 0
-									|| $scale_title != $comment['SCALE_TITLE'] )
-								{
-									if ( $scale_title != $comment['SCALE_TITLE'] )
-									{
-										if ( $i > 1 )
-										{
-											$comment_sc_txt .= '</tr></table></li>';
-										}
+							DrawHeader( $comment_scale );
 
-										$comment_sc_txt .= '<li>' . $comment['SCALE_TITLE'] .
-											( ! empty( $comment['SCALE_COMMENT'] ) ?
-											', ' . $comment['SCALE_COMMENT'] :
-											'' ) .
-											'<BR /><table class="width-100p"><tr>';
-
-										$i = 4;
-									}
-									else
-									{
-										$comment_sc_txt .= '</tr><tr>';
-									}
-								}
-
-								$comment_sc_txt .= '<td>(' . $comment['TITLE'] . ') ' . $comment['COMMENT'] . '</td>';
-
-								$comment_sc_display = true;
-
-								$scale_title = $comment['SCALE_TITLE'];
-							}
+							echo '</div>';
 						}
 					}
 
-					$comment_sc_txt .= '</tr></table></li></ul>';
+					$general_comments = GetReportCardGeneralComments( $student_id, $comments_arr );
 
-					$course_title = '';
-
-					$i = $j = 0;
-
-					$commentsA_display = $commentsB_display = false;
-
-					$commentsB_displayed = array();
-
-					$commentsB_txt = _( 'General Comments' ) . '<BR /><table class="width-100p"><tr>';
-
-					$commentsA_txt = _( 'Course-specific Comments' ) . '<BR /><ul>';
-
-					foreach ( (array) $comments_arr as $comment_course_title => $comments )
+					if ( $general_comments )
 					{
-						foreach ( (array) $comments as $comment => $sort_order )
+						echo '<div class="st">';
+
+						DrawHeader( $general_comments );
+
+						echo '</div>';
+					}
+
+					$course_specific_comments = GetReportCardCourseSpecificComments( $student_id, $comments_arr );
+
+					if ( $course_specific_comments )
+					{
+						echo '<br style="clear:left;" /><br />' . _( 'Course-specific Comments' ) . '<br />';
+
+						foreach ( $course_specific_comments as $specific_comments )
 						{
-							if ( ! empty( $commentsA_RET[$comment] ) )
-							{
-								if ( $i++ % 2 == 0
-									|| $course_title != $comment_course_title )
-								{
-									if ( $course_title != $comment_course_title )
-									{
-										if ( $i > 1 )
-										{
-											$commentsA_txt .= '</tr></table></li>';
-										}
+							echo '<div class="st">';
 
-										$commentsA_txt .= '<li>' . $comment_course_title .
-											'<BR /><table class="width-100p"><tr>';
+							DrawHeader( $specific_comments );
 
-										$i = 3;
-									}
-									else
-									{
-										$commentsA_txt .= '</tr><tr>';
-									}
-								}
-
-								$color = $commentsA_RET[$comment][1]['COLOR'];
-
-								if ( $color )
-								{
-									$color_html = '<span style="color:' . $color . '">';
-								}
-								else
-								{
-									$color_html = '';
-								}
-
-								$commentsA_txt .= '<td style="width:50%;">' . $color_html .
-								$commentsA_RET[$comment][1]['SORT_ORDER'] . ': ' .
-								str_replace(
-									array_keys( $personalizations ),
-									$personalizations,
-									$commentsA_RET[$comment][1]['TITLE']
-								) .
-								( $color_html ? '</span>' : '' ) .
-								' (' . _( 'Comment Scale' ) . ': ' .
-									$commentsA_RET[$comment][1]['SCALE_TITLE'] . ')' . '</td>';
-
-								$commentsA_display = true;
-
-								$course_title = $comment_course_title;
-							}
-
-							if ( ! empty( $commentsB_RET[$comment] )
-								&& ! in_array( $commentsB_RET[$comment][1]['SORT_ORDER'], $commentsB_displayed ) )
-							{
-								if ( $j++ % 2 == 0 )
-								{
-									$commentsB_txt .= '</tr><tr>';
-								}
-
-								$commentsB_txt .= '<td style="width:50%;">' .
-								$commentsB_RET[$comment][1]['SORT_ORDER'] . ': ' .
-								str_replace(
-									array_keys( $personalizations ),
-									$personalizations,
-									$commentsB_RET[$comment][1]['TITLE']
-								) . '</td>';
-
-								$commentsB_display = true;
-
-								$commentsB_displayed[] = $commentsB_RET[$comment][1]['SORT_ORDER'];
-							}
+							echo '</div>';
 						}
-					}
-
-					$commentsB_txt .= '</tr></table>';
-
-					$commentsA_txt .= '</tr></table></li></ul>';
-
-					echo '<b>' . _( 'Explanation of Comment Codes' ) . '</b>';
-
-					if ( $comment_sc_display )
-					{
-						DrawHeader( $comment_sc_txt );
-					}
-
-					if ( $commentsA_display )
-					{
-						DrawHeader( $commentsA_txt );
-					}
-
-					if ( $commentsB_display )
-					{
-						DrawHeader( $commentsB_txt );
 					}
 				}
 			}
@@ -946,26 +794,6 @@ function GetReportCardsExtra( $mp_list, $st_list )
 				AND ap.COURSE_PERIOD_ID=sg1.COURSE_PERIOD_ID
 				AND sg1.MARKING_PERIOD_ID=cast(ap.MARKING_PERIOD_ID as text)
 				AND ap.STUDENT_ID=ssm.STUDENT_ID) AS MP_ABSENCES";
-	}
-
-	// Comments.
-	if ( isset( $_REQUEST['elements']['comments'] )
-		&& $_REQUEST['elements']['comments'] === 'Y' )
-	{
-		// Gender field.
-		$gender_field_RET = DBGet( "SELECT ID,TYPE
-		FROM CUSTOM_FIELDS
-		WHERE ID=200000000", array(), array( 'ID' ) );
-
-		if ( $gender_field_RET
-			&& $gender_field_RET['200000000'][1]['TYPE'] === 'select' )
-		{
-			$extra['SELECT_ONLY'] .= ',s.CUSTOM_200000000 AS GENDER';
-		}
-		else
-		{
-			$extra['SELECT_ONLY'] .= ",'" . _( 'None' ) . "' AS GENDER";
-		}
 	}
 
 	// FJ multiple school periods for a course period.
@@ -1288,4 +1116,294 @@ function GetReportCardsComments( $st_list, $mp_list )
 	//echo '<pre>'; print_r($rc_comments_RET); echo '</pre>'; exit;
 
 	return $rc_comments_RET;
+}
+
+
+/**
+ * Get Course Comment Code Scales
+ *
+ * @example $comment_scales = GetReportCardCommentScales( $student_id, $course_periods_list );
+ *
+ * @since 5.0
+ *
+ * @param int    $student_id          Student ID.
+ * @param string $course_periods_list Course Periods present on the Student Report Card list. Comma-separated list.
+ *
+ * @return array Course Comment Code Scales, 1 formatted string per scale.
+ */
+function GetReportCardCommentScales( $student_id, $course_periods_list )
+{
+	static $comment_codes_RET = null;
+
+	if ( ! $comment_codes_RET )
+	{
+		// Limit code scales to the ones in current SYEAR in REPORT_CARD_COMMENTS.
+		//$comment_codes_RET = DBGet( "SELECT cc.TITLE,cc.COMMENT,cs.TITLE AS SCALE_TITLE,cs.COMMENT AS SCALE_COMMENT FROM REPORT_CARD_COMMENT_CODES cc, REPORT_CARD_COMMENT_CODE_SCALES cs WHERE cc.SCHOOL_ID='".UserSchool()."' AND cs.ID=cc.SCALE_ID ORDER BY cs.SORT_ORDER,cs.ID,cc.SORT_ORDER,cc.ID" );
+		$comment_codes_RET = DBGet( "SELECT cs.ID AS SCALE_ID,cc.TITLE,cc.COMMENT,
+			cs.TITLE AS SCALE_TITLE,cs.COMMENT AS SCALE_COMMENT
+		FROM REPORT_CARD_COMMENT_CODES cc, REPORT_CARD_COMMENT_CODE_SCALES cs
+		WHERE cc.SCHOOL_ID='" . UserSchool() . "'
+		AND cs.ID=cc.SCALE_ID
+		AND cc.SCALE_ID IN (SELECT DISTINCT c.SCALE_ID
+			FROM REPORT_CARD_COMMENTS c
+			WHERE c.SYEAR='" . UserSyear() . "'
+			AND c.SCHOOL_ID=cc.SCHOOL_ID
+			AND c.SCALE_ID IS NOT NULL)
+		ORDER BY cc.SORT_ORDER,cc.ID" );
+	}
+
+	$student_comment_scales_RET = DBGet( "SELECT cs.ID
+	FROM REPORT_CARD_COMMENT_CODE_SCALES cs
+	WHERE cs.ID IN
+		(SELECT c.SCALE_ID
+		FROM REPORT_CARD_COMMENTS c
+		WHERE (c.COURSE_ID IN(SELECT COURSE_ID
+			FROM SCHEDULE
+			WHERE STUDENT_ID='" . $student_id . "'
+			AND COURSE_PERIOD_ID IN(" . $course_periods_list . "))
+			OR c.COURSE_ID=0)
+		AND c.SCHOOL_ID=cs.SCHOOL_ID
+		AND c.SYEAR='" . UserSyear() . "')
+	AND cs.SCHOOL_ID='" . UserSchool() . "'", array(), array( 'ID' ) );
+
+	$student_comment_scales = array_keys( $student_comment_scales_RET );
+
+	$comments = array();
+
+	$scale_titles = array();
+
+	$scale_title = '';
+
+	foreach ( (array) $comment_codes_RET as $comment )
+	{
+		// Limit comment scales to the ones used in student's courses.
+		if ( ! in_array( $comment['SCALE_ID'], $student_comment_scales ) )
+		{
+			continue;
+		}
+
+		if ( $scale_title != $comment['SCALE_TITLE'] )
+		{
+			$scale_titles[ $comment['SCALE_ID'] ] = FormatInputTitle(
+				$comment['SCALE_TITLE'] . ( ! empty( $comment['SCALE_COMMENT'] ) ?
+					', ' . $comment['SCALE_COMMENT'] : '' )
+			);
+		}
+
+		if ( ! isset( $comments[ $comment['SCALE_ID'] ] ) )
+		{
+			$comments[ $comment['SCALE_ID'] ] = array();
+		}
+
+		$comments[ $comment['SCALE_ID'] ][] = '(' . $comment['TITLE'] . ') ' . $comment['COMMENT'];
+
+		$scale_title = $comment['SCALE_TITLE'];
+	}
+
+	$comments_scales = array();
+
+	foreach ( $comments as $scale_id => $comments_array )
+	{
+		$comment_scales[] = implode( '<br />', $comments_array ) . $scale_titles[ $scale_id ];
+	}
+
+	return $comment_scales;
+}
+
+
+/**
+ * Get General Comment Codes
+ *
+ * @example $general_comments = GetReportCardGeneralComments( $student_id, $comments_arr );
+ *
+ * @since 5.0
+ *
+ * @param int   $student_id     Student ID.
+ * @param array $comments_array Student Comments array, as generated by ReportCardsGenerate().
+ *
+ * @return string General Comment Codes.
+ */
+function GetReportCardGeneralComments( $student_id, $comments_array )
+{
+	static $commentsB_RET = null;
+
+	if ( ! $commentsB_RET )
+	{
+		$commentsB_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER
+		FROM REPORT_CARD_COMMENTS
+		WHERE SCHOOL_ID='" . UserSchool() . "'
+		AND SYEAR='" . UserSyear() . "'
+		AND COURSE_ID IS NULL", array(), array( 'ID' ) );
+	}
+
+	$personalizations = _getReportCardCommentPersonalizations( $student_id );
+
+	$commentsB_displayed = array();
+
+	$general_comments = array();
+
+	foreach ( (array) $comments_array as $comment_course_title => $comments )
+	{
+		foreach ( (array) $comments as $comment => $sort_order )
+		{
+			if ( empty( $commentsB_RET[$comment] )
+				|| in_array( $commentsB_RET[$comment][1]['SORT_ORDER'], $commentsB_displayed ) )
+			{
+				continue;
+			}
+
+			$general_comments[] = $commentsB_RET[$comment][1]['SORT_ORDER'] . ': ' .
+			str_replace(
+				array_keys( $personalizations ),
+				$personalizations,
+				$commentsB_RET[$comment][1]['TITLE']
+			);
+
+			$commentsB_displayed[] = $commentsB_RET[$comment][1]['SORT_ORDER'];
+		}
+	}
+
+	$general_comments = implode( '<br />', $general_comments );
+
+	$general_comments .= FormatInputTitle( _( 'General Comments' ) );
+
+	return $general_comments;
+}
+
+/**
+ * Get Course Specific Comment Code Scales
+ *
+ * @example $course_specific_comments = GetReportCardCourseSpecificComments( $student_id, $comments_arr );
+ *
+ * @since 5.0
+ *
+ * @param int   $student_id     Student ID.
+ * @param array $comments_array Student Comments array, as generated by ReportCardsGenerate().
+ *
+ * @return array Course Specific Comment Code Scales, 1 formatted string per course.
+ */
+function GetReportCardCourseSpecificComments( $student_id, $comments_array )
+{
+	static $commentsA_RET = null;
+
+	if ( ! $commentsA_RET )
+	{
+		// Get color for Course specific categories & get comment scale.
+		//$commentsA_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND COURSE_ID IS NOT NULL AND COURSE_ID!='0'",array(),array('ID'));
+		$commentsA_RET = DBGet( "SELECT c.ID,c.TITLE,c.SORT_ORDER,cc.COLOR,
+			cs.TITLE AS SCALE_TITLE
+		FROM REPORT_CARD_COMMENTS c, REPORT_CARD_COMMENT_CATEGORIES cc,
+			REPORT_CARD_COMMENT_CODE_SCALES cs
+		WHERE c.SCHOOL_ID='" . UserSchool() . "'
+		AND c.SYEAR='" . UserSyear() . "'
+		AND c.COURSE_ID IS NOT NULL
+		AND c.COURSE_ID!='0'
+		AND cc.SYEAR=c.SYEAR
+		AND cc.SCHOOL_ID=c.SCHOOL_ID
+		AND cc.COURSE_ID=c.COURSE_ID
+		AND cc.ID=c.CATEGORY_ID
+		AND cs.SCHOOL_ID=c.SCHOOL_ID
+		AND cs.ID=c.SCALE_ID
+		ORDER BY c.SORT_ORDER,c.ID", array(), array( 'ID' ) );
+	}
+
+	$personalizations = _getReportCardCommentPersonalizations( $student_id );
+
+	$course_comments = array();
+
+	$course_title = '';
+
+	$i = 0;
+
+	foreach ( (array) $comments_array as $comment_course_title => $comments )
+	{
+		$course_comments[ $comment_course_title ] = array();
+
+		foreach ( (array) $comments as $comment => $sort_order )
+		{
+			if ( empty( $commentsA_RET[$comment] ) )
+			{
+				continue;
+			}
+
+			$color = $commentsA_RET[$comment][1]['COLOR'];
+
+			if ( $color )
+			{
+				$color_html = '<span style="color:' . $color . '">';
+			}
+			else
+			{
+				$color_html = '';
+			}
+
+			$course_comments[ $comment_course_title ][] = $color_html .
+			$commentsA_RET[$comment][1]['SORT_ORDER'] . '. ' .
+			str_replace(
+				array_keys( $personalizations ),
+				$personalizations,
+				$commentsA_RET[$comment][1]['TITLE']
+			) .
+			( $color_html ? '</span>' : '' ) .
+			' <small>(' . $commentsA_RET[$comment][1]['SCALE_TITLE'] . ')</small>';
+		}
+
+		if ( $course_comments[ $comment_course_title ] )
+		{
+			$course_comments[ $comment_course_title ] = implode( '<br />', $course_comments[ $comment_course_title ] ) .
+				FormatInputTitle( $comment_course_title );
+		}
+	}
+
+	return $course_comments;
+}
+
+
+/**
+ * Get Comment Personalizations
+ * Replace ^n with Student first name
+ * Replace ^s with Student gender.
+ *
+ * Local function
+ *
+ * @example $personalizations = _getReportCardCommentPersonalizations( $student_id );
+ *
+ * @since 5.0
+ *
+ * @param  int   $student_id Student ID.
+ *
+ * @return array Comment Personalizations
+ */
+function _getReportCardCommentPersonalizations( $student_id )
+{
+	static $gender_field_type = null;
+
+	if ( ! $gender_field_type )
+	{
+		$gender_field_type = DBGetOne( "SELECT TYPE
+		FROM CUSTOM_FIELDS
+		WHERE ID=200000000" );
+	}
+
+	$student_RET = DBGet( "SELECT CUSTOM_200000000 AS GENDER,FIRST_NAME
+		FROM STUDENTS
+		WHERE STUDENT_ID='" . $student_id . "'" );
+
+	// Gender field.
+	$gender = 'M';
+
+	if ( $gender_field_type === 'select' )
+	{
+		if ( mb_substr( $student_RET[1]['GENDER'], 0, 1 ) === 'F' )
+		{
+			$gender = 'F';
+		}
+	}
+
+	$personalizations = array(
+		'^n' => ( $student_RET[1]['FIRST_NAME'] ),
+		'^s' => ( $gender == 'M' ? _( 'his' ) :
+			( $gender == 'F' ? _( 'her' ) : _( 'his/her' ) ) ) );
+
+	return $personalizations;
 }
