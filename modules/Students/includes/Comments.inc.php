@@ -84,7 +84,7 @@ if ( ! $_REQUEST['modfunc'] )
 				'',
 				'values[STUDENT_MP_COMMENTS][' . UserStudentID() . '][COMMENT]',
 				GetMP( $comments_MP, 'TITLE' ) . ' ' . _( 'Comments' ),
-				'rows="10"' . ( AllowEdit() ? '' : ' readonly' ),
+				'rows="6"' . ( AllowEdit() ? '' : ' readonly' ),
 				false
 			); ?>
 		</td></tr>
