@@ -323,6 +323,7 @@ textarea {
 
 .tooltip > i {
 	border-radius: 0;
+	font-size: 14px;
 }
 
 /* Smaller logo icon */
