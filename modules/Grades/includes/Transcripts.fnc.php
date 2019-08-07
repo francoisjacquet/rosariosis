@@ -13,6 +13,7 @@ if ( ! function_exists( 'TranscriptsIncludeForm' ) )
 	 * @example $return = TranscriptsIncludeForm();
 	 *
 	 * @since 4.0 Define your custom function in your addon module or plugin.
+	 * @since 5.0 Add GPA or Total row.
 	 *
 	 * @global $extra Get $extra['search'] for Mailing Labels Widget
 	 *
@@ -89,7 +90,6 @@ if ( ! function_exists( 'TranscriptsIncludeForm' ) )
 
 		$return .= '<tr class="st"><td class="valign-top">';
 
-		//FJ add translation
 		$marking_periods_locale = array(
 			'Year' => _( 'Year' ),
 			'Semester' => _( 'Semester' ),
@@ -98,7 +98,7 @@ if ( ! function_exists( 'TranscriptsIncludeForm' ) )
 
 		foreach ( (array) $mp_types as $mp_type )
 		{
-			//FJ add <label> on checkbox
+			// Add <label> on checkbox.
 			$return .= '<label><input type="checkbox" name="mp_type_arr[]" value="' . $mp_type['MP_TYPE'] . '"> ' . $marking_periods_locale[ucwords( $mp_type['MP_TYPE'] )] . '</label> ';
 		}
 
@@ -106,25 +106,38 @@ if ( ! function_exists( 'TranscriptsIncludeForm' ) )
 
 		$return .= '<tr class="st"><td class="valign-top">';
 
-		//FJ add Show Grades option
-		$return .= '<label><input type="checkbox" name="showgrades" value="1" checked /> ' . _( 'Grades' ) . '</label>';
+		// Add Show Grades option.
+		$return .= '<label><input type="checkbox" name="showgrades" value="1" checked /> ' .
+			_( 'Grades' ) . '</label>';
 
-		$return .= '<br /><br /><label><input type="checkbox" name="showstudentpic" value="1"> ' . _( 'Student Photo' ) . '</label>';
+		$return .= '<br /><br /><label><input type="checkbox" name="showstudentpic" value="1"> ' .
+			_( 'Student Photo' ) . '</label>';
 
-		//FJ add Show Comments option
-		$return .= '<br /><br /><label><input type="checkbox" name="showmpcomments" value="1"> ' . _( 'Comments' ) . '</label>';
+		// Add Show Comments option.
+		$return .= '<br /><br /><label><input type="checkbox" name="showmpcomments" value="1"> ' .
+			_( 'Comments' ) . '</label>';
 
-		//FJ add Show Credits option
-		$return .= '<br /><br /><label><input type="checkbox" name="showcredits" value="1" checked /> ' . _( 'Credits' ) . '</label>';
+		// Add Show Credits option.
+		$return .= '<br /><br /><label><input type="checkbox" name="showcredits" value="1" checked /> ' .
+			_( 'Credits' ) . '</label>';
 
-		//FJ add Show Credit Hours option
-		$return .= '<br /><br /><label><input type="checkbox" name="showcredithours" value="1"> ' . _( 'Credit Hours' ) . '</label>';
+		// Add Show Credit Hours option.
+		$return .= '<br /><br /><label><input type="checkbox" name="showcredithours" value="1"> ' .
+			_( 'Credit Hours' ) . '</label>';
 
-		//FJ limit Cetificate to admin
+		// Add GPA or Total row.
+		$gpa_or_total_options = array(
+			'gpa' => _( 'GPA' ),
+			'total' => _( 'Total' ),
+		);
+
+		$return .= '<br /><br />' . RadioInput( '', 'showgpa_or_total', _( 'Last row' ), $gpa_or_total_options );
+
+		// Limit Cetificate to admin.
 
 		if ( User( 'PROFILE' ) === 'admin' )
 		{
-			//FJ add Show Studies Certificate option
+			// Add Show Studies Certificate option.
 			$field_SSECURITY = ParseMLArray( DBGet( "SELECT TITLE
 				FROM CUSTOM_FIELDS
 				WHERE ID = 200000003" ), 'TITLE' );
@@ -136,7 +149,7 @@ if ( ! function_exists( 'TranscriptsIncludeForm' ) )
 
 		if ( User( 'PROFILE' ) === 'admin' )
 		{
-			//FJ add Show Studies Certificate option
+			// Add Show Studies Certificate option
 			$return .= '<div id="divcertificatetext" style="display:none">';
 
 			$return .= TinyMCEInput(
@@ -182,6 +195,7 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 	 *
 	 * @since 4.8 Define your custom function in your addon module or plugin.
 	 * @since 4.8 Add Transcripts PDF header action hook.
+	 * @since 5.0 Add GPA or Total row.
 	 *
 	 * @param  array         $student_array Students IDs.
 	 * @param  array         $mp_type_array Marking Periods types.
@@ -190,6 +204,8 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 	 */
 	function TranscriptsGenerate( $student_array, $mp_type_array, $syear_array )
 	{
+		require_once 'modules/Grades/includes/Grades.fnc.php';
+
 		if ( empty( $student_array )
 			|| empty( $mp_type_array ) )
 		{
@@ -245,6 +261,7 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 			'credits' => ! empty( $_REQUEST['showcredits'] ),
 			'credithours' => ! empty( $_REQUEST['showcredithours'] ),
 			'certificate' => ( User( 'PROFILE' ) === 'admin' && ! empty( $_REQUEST['showcertificate'] ) ),
+			'gpa_or_total' => $_REQUEST['showgpa_or_total'],
 		);
 
 		if ( $show['certificate'] )
@@ -328,11 +345,13 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 
 				foreach ( (array) $mps as $mp_id => $grades )
 				{
+					$i = 0;
+
 					$columns[$mp_id] = $grades[1]['SHORT_NAME'];
 
 					foreach ( (array) $grades as $grade )
 					{
-						$i = $grade['COURSE_TITLE'];
+						$i++;
 
 						$grades_RET[$i]['COURSE_TITLE'] = $grade['COURSE_TITLE'];
 
@@ -344,13 +363,27 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 							}
 							elseif ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) < 0 )
 							{
-								$grades_RET[$i][$mp_id] = $grade['GRADE_LETTER'];
+								$grades_RET[$i][$mp_id] = '<b>' . $grade['GRADE_LETTER'] . '</b>';
 							}
 							else
 							{
-								$grades_RET[$i][$mp_id] = $grade['GRADE_LETTER'] . '&nbsp;&nbsp;' . $grade['GRADE_PERCENT'] . '%';
+								$grades_RET[$i][$mp_id] = '<b>' . $grade['GRADE_LETTER'] . '</b>' .
+									'&nbsp;&nbsp;' . $grade['GRADE_PERCENT'] . '%';
 							}
 						}
+
+						// @since 5.0 Add GPA or Total row.
+						if ( ! isset( $grades_total[$mp_id] ) )
+						{
+							if ( ! isset( $grades_total ) )
+							{
+								$grades_total = array();
+							}
+
+							$grades_total[$mp_id] = 0;
+						}
+
+						$grades_total[$mp_id] += $grade['WEIGHTED_GP'];
 
 						if ( $show['credits'] )
 						{
@@ -405,9 +438,17 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 					$columns['COMMENT'] = _( 'Comment' );
 				}
 
-				$grades_RET = array_values( $grades_RET );
-				array_unshift( $grades_RET, 'start_array_to_1' );
-				unset( $grades_RET[0] );
+				if ( $show['grades'] && $show['gpa_or_total'] )
+				{
+					// @since 5.0 Add GPA or Total row.
+					$grades_RET[$i + 1] = GetGpaOrTotalRow(
+						$student_id,
+						$grades_total,
+						$i,
+						$show['gpa_or_total']
+					);
+				}
+
 				//var_dump($grades_RET);exit;
 
 				ListOutput( $grades_RET, $columns, '.', '.', false );

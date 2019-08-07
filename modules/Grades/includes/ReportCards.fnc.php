@@ -13,7 +13,7 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 	 * @example $extra['extra_header_left'] = ReportCardsIncludeForm();
 	 *
 	 * @since 4.0 Define your custom function in your addon module or plugin.
-	 * @since 5.0 Add Cumulative GPA.
+	 * @since 5.0 Add GPA or Total row.
 	 *
 	 * @global $extra Get $extra['search'] for Mailing Labels Widget
 	 *
@@ -92,13 +92,17 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 		$return .= '</select>
 			<label for="mp_tardies_code" class="a11y-hidden">' . _( 'Attendance Codes' ) . '</label></td></tr>';
 
-		// Period-by-period absences.
-		$return .= '<td><label><input type="checkbox" name="elements[cumulative_gpa]" value="Y" /> ' .
-		_( 'Cumulative GPA' ) . '</label></td>';
+		// Add GPA or Total row.
+		$gpa_or_total_options = array(
+			'gpa' => _( 'GPA' ),
+			'total' => _( 'Total' ),
+		);
+
+		$return .= '<td>' . RadioInput( '', 'elements[gpa_or_total]', _( 'Last row' ), $gpa_or_total_options ) . '</td>';
 
 		$return .= '</tr></table></td></tr>';
 
-		// FJ get the title instead of the short marking period name.
+		// Get the title instead of the short marking period name.
 		$mps_RET = DBGet( "SELECT PARENT_ID,MARKING_PERIOD_ID,SHORT_NAME,TITLE
 			FROM SCHOOL_MARKING_PERIODS
 			WHERE MP='QTR'
@@ -197,7 +201,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 	 *
 	 * @since 4.0 Define your custom function in your addon module or plugin.
 	 * @since 4.5 Add Report Cards PDF header action hook.
-	 * @since 5.0 Add Cumulative GPA.
+	 * @since 5.0 Add GPA or Total row.
 	 *
 	 * @uses _makeTeacher() see below
 	 *
@@ -209,6 +213,8 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 	{
 		global $_ROSARIO,
 			$count_lines;
+
+		require_once 'modules/Grades/includes/Grades.fnc.php';
 
 		if ( empty( $student_array )
 			|| empty( $mp_array ) )
@@ -383,16 +389,18 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 						continue;
 					}
 
-					$grades_RET[$i][$mp] = '<B>' . $mps[$mp][1]['GRADE_TITLE'] . '</B>';
+					$grade = $mps[$mp][1];
+
+					$grades_RET[$i][$mp] = '<B>' . $grade['GRADE_TITLE'] . '</B>';
 
 					if ( isset( $_REQUEST['elements']['percents'] )
 						&& $_REQUEST['elements']['percents'] === 'Y'
-						&& $mps[$mp][1]['GRADE_PERCENT'] > 0 )
+						&& $grade['GRADE_PERCENT'] > 0 )
 					{
-						$grades_RET[$i][$mp] .= '&nbsp;' . $mps[$mp][1]['GRADE_PERCENT'] . '%';
+						$grades_RET[$i][$mp] .= '&nbsp;&nbsp;' . $grade['GRADE_PERCENT'] . '%';
 					}
 
-					// @since 5.0 Add Cumulative GPA.
+					// @since 5.0 Add GPA or Total row.
 					if ( ! isset( $grades_total[$mp] ) )
 					{
 						if ( ! isset( $grades_total ) )
@@ -403,7 +411,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 						$grades_total[$mp] = 0;
 					}
 
-					$grades_total[$mp] += $mps[$mp][1]['GRADE_PERCENT'];
+					$grades_total[$mp] += $grade['WEIGHTED_GP'];
 
 					// Comments.
 
@@ -481,13 +489,13 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 							}
 						}
 
-						if ( $mps[$mp][1]['COMMENT_TITLE'] )
+						if ( $grade['COMMENT_TITLE'] )
 						{
 							$grades_RET[$i]['COMMENT'] .= ( empty( $grades_RET[$i]['COMMENT'] )
 								|| mb_substr( $grades_RET[$i]['COMMENT'], -3 ) == $sep_mp ?
 								'' :
 								$sep ) .
-								$mps[$mp][1]['COMMENT_TITLE'];
+								$grade['COMMENT_TITLE'];
 						}
 
 						if ( $grades_RET[$i]['COMMENT'] == $temp_grades_COMMENTS )
@@ -520,11 +528,15 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 				}
 			}
 
-			if ( isset( $_REQUEST['elements']['cumulative_gpa'] )
-				&& $_REQUEST['elements']['cumulative_gpa'] === 'Y' )
+			if ( ! empty( $_REQUEST['elements']['gpa_or_total'] ) )
 			{
-				// @since 5.0 Add Cumulative GPA.
-				$grades_RET[$i + 1] = GetCumulativeGpaRow( $grades_total, $i );
+				// @since 5.0 Add GPA or Total row.
+				$grades_RET[$i + 1] = GetGpaOrTotalRow(
+					$student_id,
+					$grades_total,
+					$i,
+					$_REQUEST['elements']['gpa_or_total']
+				);
 			}
 
 			asort( $comments_arr, SORT_NUMERIC );
@@ -913,7 +925,7 @@ function GetReportCardsExtra( $mp_list, $st_list )
 	// Student Details. TODO test if ReportCards needs GRADE_ID!!
 	$extra['SELECT_ONLY'] = "DISTINCT s.FIRST_NAME,s.LAST_NAME,s.STUDENT_ID,ssm.SCHOOL_ID";
 
-	$extra['SELECT_ONLY'] .= ",sg1.GRADE_LETTER as GRADE_TITLE,sg1.GRADE_PERCENT,
+	$extra['SELECT_ONLY'] .= ",sg1.GRADE_LETTER as GRADE_TITLE,sg1.GRADE_PERCENT,WEIGHTED_GP,GP_SCALE,
 		sg1.COMMENT as COMMENT_TITLE,sg1.STUDENT_ID,sg1.COURSE_PERIOD_ID,sg1.MARKING_PERIOD_ID,
 		sg1.COURSE_TITLE as COURSE_TITLE,rc_cp.TEACHER_ID,sp.SORT_ORDER";
 
@@ -1276,48 +1288,4 @@ function GetReportCardsComments( $st_list, $mp_list )
 	//echo '<pre>'; print_r($rc_comments_RET); echo '</pre>'; exit;
 
 	return $rc_comments_RET;
-}
-
-
-/**
- * Get Cumulative GPA row
- *
- * @example $grades_RET[$i + 1] = GetCumulativeGpaRow( $grades_total, $i );
- *
- * @since 5.0 Add Cumulative GPA.
- *
- * @param array $grades_total   Grades total points for each MP.
- * @param int   $courses_number Number of courses (rows).
- *
- * @return array Cumulative GPA row.
- */
-function GetCumulativeGpaRow( $grades_total, $courses_number )
-{
-	if ( ! is_array( $grades_total ) || ! $courses_number )
-	{
-		return array();
-	}
-
-	$cum_gpa_row = array( 'COURSE_TITLE' => _( 'Cumulative GPA' ) );
-
-	foreach ( (array) $grades_total as $mp => $grades_total_mp )
-	{
-		$cumulative_gpa_percent = (float) number_format( $grades_total_mp / $courses_number, 2 );
-
-		$cumulative_gpa_points = (float) number_format(
-			( $cumulative_gpa_percent / 100 ) * SchoolInfo( 'REPORTING_GP_SCALE' ),
-			2
-		);
-
-		$cum_gpa_row[$mp] = '<B>' . $cumulative_gpa_points . '</B>';
-
-		if ( isset( $_REQUEST['elements']['percents'] )
-			&& $_REQUEST['elements']['percents'] === 'Y'
-			&& $cumulative_gpa_percent > 0 )
-		{
-			$cum_gpa_row[$mp] .= '&nbsp;' . $cumulative_gpa_percent . '%';
-		}
-	}
-
-	return $cum_gpa_row;
 }

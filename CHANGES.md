@@ -42,7 +42,7 @@ Changes in 5.0
 - Convert MarkDown doc to PDF files in README.pdf, INSTALL.pdf, INSTALL_es.pdf & INSTALL_fr.pdf
 - Add FlatSIS theme in assets/themes/FlatSIS/
 - Add Automatic Class Rank calculation in ReportCards.php
-- Add Cumulative GPA in ReportCards.fnc.php
+- Add GPA or Total row in Grade.fnc.php, ReportCards.fnc.php & Transcripts.fnc.php
 
 Changes in 4.9.5
 ----------------
