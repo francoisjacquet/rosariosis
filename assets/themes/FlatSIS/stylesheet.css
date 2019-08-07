@@ -724,6 +724,18 @@ select {
 	padding: 0 6px;
 }
 
+#student-comments span {
+	font-style: normal;
+	font-size: 15px;
+	color: #333;
+}
+
+#student-comments div {
+	padding: 1px 12px;
+	margin-bottom: 14px;
+	border-bottom: 1px solid;
+}
+
 @media only screen and (max-width:1023px) {
 	.rt th,
 	.rt th a {
