@@ -572,7 +572,7 @@ function core_course_update_courses_object()
 	$fullname = FormatSyear( UserSyear(), Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) ) . ' - ' . $base_title;
 
 	//get the Moodle course ID
-	$moodle_id = (int) DBGetOne( "SELECT moodle_id3
+	$moodle_id = (int) DBGetOne( "SELECT moodle_id
 		FROM moodlexrosario
 		WHERE rosario_id='" . $_REQUEST['course_period_id'] . "'
 		AND \"column\"='course_period_id'" );
