@@ -174,7 +174,7 @@ if ( ! function_exists( 'FirstLoginPoll' ) )
 			'0',
 			'students',
 			_( 'Students' ),
-			'type="number" min="0" max="100000" length="4"',
+			'type="number" min="0" max="99999" length="4"',
 			false
 		);
 
