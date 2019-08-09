@@ -20,10 +20,15 @@ function calcSeats()
 	{
 		$seats = calcSeats0( $period );
 
-		if ( $total_seats !== false )
+		if ( ! isset( $total_seats ) || $total_seats !== false )
 		{
 			if ( $period['TOTAL_SEATS'] )
 			{
+				if ( ! isset( $total_seats ) )
+				{
+					$total_seats = null;
+				}
+
 				$total_seats += $period['TOTAL_SEATS'];
 			}
 			else
@@ -32,10 +37,15 @@ function calcSeats()
 			}
 		}
 
-		if ( $filled_seats !== false )
+		if ( ! isset( $filled_seats ) || $filled_seats !== false )
 		{
 			if ( $seats != '' )
 			{
+				if ( ! isset( $filled_seats ) )
+				{
+					$filled_seats = null;
+				}
+
 				$filled_seats += $seats;
 			}
 			else

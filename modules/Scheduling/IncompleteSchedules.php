@@ -1,5 +1,9 @@
 <?php
-$periods_RET = DBGet( "SELECT PERIOD_ID,TITLE FROM SCHOOL_PERIODS WHERE SCHOOL_ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "' ORDER BY SORT_ORDER" );
+$periods_RET = DBGet( "SELECT PERIOD_ID,TITLE,SHORT_NAME
+	FROM SCHOOL_PERIODS
+	WHERE SCHOOL_ID='" . UserSchool() . "'
+	AND SYEAR='" . UserSyear() . "'
+	ORDER BY SORT_ORDER" );
 
 /*
 $period_select =  "<select name=period><option value=''>All</option>";
@@ -10,7 +14,7 @@ $period_select .= "</select>";
 
 DrawHeader( ProgramTitle() );
 
-if ( $period_select )
+if ( ! empty( $period_select ) )
 {
 	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
 	DrawHeader( $period_select );
@@ -43,7 +47,14 @@ Widgets( 'request' );
 foreach ( (array) $periods_RET as $period )
 {
 	$extra['SELECT'] .= ',NULL AS PERIOD_' . $period['PERIOD_ID'];
-	$extra['columns_after']['PERIOD_' . $period['PERIOD_ID']] = $period['TITLE'];
+
+	// $extra['columns_after']['PERIOD_' . $period['PERIOD_ID']] = $period['TITLE'];
+
+	// Use Period Short Name to gain space.
+	$period_column_label = $period['SHORT_NAME'] ? $period['SHORT_NAME'] : $period['TITLE'];
+
+	$extra['columns_after']['PERIOD_' . $period['PERIOD_ID']] = $period['SHORT_NAME'];
+
 	$extra['functions']['PERIOD_' . $period['PERIOD_ID']] = '_preparePeriods';
 }
 
@@ -58,7 +69,8 @@ else
 
 	foreach ( (array) $students_RET as $student )
 	{
-		if ( count( (array) $schedule_RET[$student['STUDENT_ID']] ) != count( (array) $periods_RET ) )
+		if ( empty( $schedule_RET[$student['STUDENT_ID']] )
+			|| count( (array) $schedule_RET[$student['STUDENT_ID']] ) != count( (array) $periods_RET ) )
 		{
 			$bad_students[] = $student;
 		}
@@ -81,7 +93,17 @@ else
 		$link = array();
 	}
 
-	ListOutput( $bad_students, array( 'FULL_NAME' => _( 'Student' ), 'STUDENT_ID' => sprintf( _( '%s ID' ), Config( 'NAME' ) ), 'GRADE_ID' => _( 'Grade Level' ) ) + $extra['columns_after'], 'Student with an incomplete schedule', 'Students with incomplete schedules', $link );
+	ListOutput(
+		$bad_students,
+		array(
+			'FULL_NAME' => _( 'Student' ),
+			'STUDENT_ID' => sprintf( _( '%s ID' ), Config( 'NAME' ) ),
+			'GRADE_ID' => _( 'Grade Level' )
+		) + $extra['columns_after'],
+		'Student with an incomplete schedule',
+		'Students with incomplete schedules',
+		$link
+	);
 }
 
 /**
@@ -95,28 +117,10 @@ function _preparePeriods( $value, $name )
 
 	$period_id = mb_substr( $name, 7 );
 
-	if ( ! $schedule_RET[$THIS_RET['STUDENT_ID']][$period_id] )
+	if ( empty( $schedule_RET[$THIS_RET['STUDENT_ID']][$period_id] ) )
 	{
-		if ( isset( $_REQUEST['LO_save'] ) )
-		{
-			$return = _( 'No' );
-		}
-		else
-		{
-			$return = button( 'x' );
-		}
-	}
-	else
-	{
-		if ( isset( $_REQUEST['LO_save'] ) )
-		{
-			$return = _( 'Yes' );
-		}
-		else
-		{
-			$return = button( 'check' );
-		}
+		return isset( $_REQUEST['LO_save'] ) ? _( 'No' ) : button( 'x' );
 	}
 
-	return $return;
+	return isset( $_REQUEST['LO_save'] ) ? _( 'Yes' ) : button( 'check' );
 }

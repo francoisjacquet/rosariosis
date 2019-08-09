@@ -307,6 +307,11 @@ function GetChildrenMP( $mp, $marking_period_id = '0' )
 
 				foreach ( (array) $qtr_RET as $sem => $qtrs )
 				{
+					if ( ! isset( $children_mp[ $mp ]['0'] ) )
+					{
+						$children_mp[ $mp ]['0'] = '';
+					}
+
 					$children_mp[ $mp ]['0'] .= ",'" . $sem . "'";
 
 					foreach ( (array) $qtrs as $qtr )

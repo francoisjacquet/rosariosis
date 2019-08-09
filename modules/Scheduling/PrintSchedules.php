@@ -1,5 +1,7 @@
 <?php
 
+$_REQUEST['mp_id'] = issetVal( $_REQUEST['mp_id'], '' );
+
 if ( $_REQUEST['modfunc'] === 'save' )
 {
 	if ( ! empty( $_REQUEST['st_arr'] ) )

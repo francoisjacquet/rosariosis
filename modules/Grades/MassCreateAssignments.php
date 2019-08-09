@@ -2,6 +2,8 @@
 
 require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 
+$_REQUEST['assignment_type'] = issetVal( $_REQUEST['assignment_type'], '' );
+
 DrawHeader( ProgramTitle() . ' - ' . GetMP( UserMP() ) );
 
 // Add eventual Dates to $_REQUEST['tables'].
@@ -266,7 +268,7 @@ if ( ! $_REQUEST['modfunc'] )
 			$submit_button
 		);
 
-		$header .= '<table class="width-100p valign-top fixed-col">';
+		$header = '<table class="width-100p valign-top fixed-col">';
 		$header .= '<tr class="st">';
 
 		// FJ title & points are required.
@@ -351,7 +353,7 @@ if ( ! $_REQUEST['modfunc'] )
 			$submit_button
 		);
 
-		$header .= '<table class="width-100p valign-top fixed-col">';
+		$header = '<table class="width-100p valign-top fixed-col">';
 
 		$header .= '<tr class="st">';
 

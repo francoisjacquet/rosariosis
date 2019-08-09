@@ -2,7 +2,7 @@
 
 require_once 'modules/Scheduling/includes/calcSeats0.fnc.php';
 
-if ( $_REQUEST['modname'] == 'Scheduling/Scheduler.php' && ! $_REQUEST['run'] )
+if ( $_REQUEST['modname'] == 'Scheduling/Scheduler.php' && empty( $_REQUEST['run'] ) )
 {
 	$function = 'Prompt';
 	DrawHeader( ProgramTitle() );
@@ -47,7 +47,8 @@ if ( $ok )
 
 	$custom_fields_RET = DBGet( "SELECT ID,TITLE,TYPE FROM CUSTOM_FIELDS WHERE ID=200000000", array(), array( 'ID' ) );
 
-	if ( $custom_fields_RET['200000000'] && $custom_fields_RET['200000000'][1]['TYPE'] == 'select' )
+	if ( $custom_fields_RET['200000000']
+		&& $custom_fields_RET['200000000'][1]['TYPE'] == 'select' )
 	{
 		$sql_gender = ',s.CUSTOM_200000000 as GENDER';
 	}
@@ -67,7 +68,8 @@ if ( $ok )
 
 	$requests_RET = DBGet( $sql, array(), array( 'REQUEST_ID' ) );
 
-	if ( $_REQUEST['delete'] == 'Y' && ! empty( $requests_RET ) )
+	if ( ! empty( $_REQUEST['delete'] )
+		&& ! empty( $requests_RET ) )
 	{
 		DBQuery( "DELETE FROM SCHEDULE WHERE SCHOOL_ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "' AND (SCHEDULER_LOCK!='Y' OR SCHEDULER_LOCK IS NULL)" );
 	}
@@ -249,7 +251,7 @@ if ( $ok )
 
 	echo '<!-- unfilled ' . count( $unfilled ) . ' -->';
 
-	if ( $_REQUEST['test_mode'] != 'Y' )
+	if ( empty( $_REQUEST['test_mode'] ) )
 	{
 		echo '<script>document.getElementById("percentDIV").innerHTML = ' . json_encode( '<span class="loading"></span> ' . _( 'Saving Schedules ...' ) . ' ' ) . ';</script>';
 		echo str_pad( ' ', 4096 );
@@ -308,13 +310,16 @@ if ( $ok )
 			$course_period = $course_period[1];
 			//if ( $course_period['AVAILABLE_SEATS']<='0')
 			//	echo $course_period['COURSE_ID'].': '.$course_period['COURSE_PERIOD_ID'].'<br />';
-			db_trans_query( $connection, "UPDATE COURSE_PERIODS SET FILLED_SEATS=TOTAL_SEATS-'" . $course_period['AVAILABLE_SEATS'] . "' WHERE PARENT_ID='" . $parent_id . "'" );
+			db_trans_query( $connection, "UPDATE COURSE_PERIODS
+				SET FILLED_SEATS=TOTAL_SEATS-'" . $course_period['AVAILABLE_SEATS'] . "'
+				WHERE PARENT_ID='" . $parent_id . "'" );
 		}
 
 		db_trans_commit( $connection );
 	}
 
-	if ( $_REQUEST['test_mode'] != 'Y' || $_REQUEST['delete'] == 'Y' )
+	if ( empty( $_REQUEST['test_mode'] )
+		|| ! empty( $_REQUEST['delete'] ) )
 	{
 		echo '<script>document.getElementById("percentDIV").innerHTML = ' . json_encode( '<span class="loading"></span> ' . _( 'Optimizing ...' ) . ' ' ) . ';</script>';
 		echo str_pad( ' ', 4096 );

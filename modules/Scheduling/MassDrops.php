@@ -10,7 +10,7 @@ if ( ! $_REQUEST['modfunc']
 
 if ( $_REQUEST['modfunc'] === 'save' )
 {
-	if ( $_SESSION['MassDrops.php'] )
+	if ( ! empty( $_SESSION['MassDrops.php'] ) )
 	{
 		if ( isset( $_REQUEST['student'] )
 			&& is_array( $_REQUEST['student'] ) )
@@ -35,7 +35,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 					foreach ( (array) $_REQUEST['student'] as $student_id )
 					{
-						if ( $current_RET[$student_id]
+						if ( ! empty( $current_RET[$student_id] )
 							&& empty( $schedule_deletion_pending ) )
 						{
 							DBQuery( "UPDATE SCHEDULE
@@ -160,7 +160,7 @@ if ( $_REQUEST['modfunc'] != 'choose_course' )
 
 		echo '<table><tr><td colspan="2"><div id=course_div>';
 
-		if ( $_SESSION['MassDrops.php'] )
+		if ( ! empty( $_SESSION['MassDrops.php'] ) )
 		{
 			$course_title = DBGetOne( "SELECT TITLE
 				FROM COURSES

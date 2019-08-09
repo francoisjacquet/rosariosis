@@ -1,6 +1,11 @@
 <?php
 DrawHeader( ProgramTitle() );
 
+$_REQUEST['subject_id'] = issetVal( $_REQUEST['subject_id'], '' );
+$_REQUEST['course_id'] = issetVal( $_REQUEST['course_id'], '' );
+$_REQUEST['course_period_id'] = issetVal( $_REQUEST['course_period_id'], '' );
+$_REQUEST['include_child_mps'] = issetVal( $_REQUEST['include_child_mps'], '' );
+
 echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
 
 if ( $_REQUEST['modfunc'] !== 'students' )
@@ -13,7 +18,7 @@ if ( $_REQUEST['modfunc'] !== 'students' )
 
 // Check if Subject ID is valid for current school & syear!
 
-if ( isset( $_REQUEST['subject_id'] ) )
+if ( $_REQUEST['subject_id'] )
 {
 	$subject_RET = DBGet( "SELECT SUBJECT_ID
 		FROM COURSE_SUBJECTS
@@ -28,21 +33,20 @@ if ( isset( $_REQUEST['subject_id'] ) )
 	}
 }
 
-if ( ! empty( $_REQUEST['subject_id'] ) )
+if ( $_REQUEST['subject_id'] )
 {
 	$subject_title = DBGetOne( "SELECT TITLE
 		FROM COURSE_SUBJECTS
 		WHERE SUBJECT_ID='" . $_REQUEST['subject_id'] . "'" );
 
-	//FJ add translation
-	$header .= '<a href="Modules.php?modname=' . $_REQUEST['modname'] .
+	$header = '<a href="Modules.php?modname=' . $_REQUEST['modname'] .
 	'&include_child_mps=' . $_REQUEST['include_child_mps'] . '">' . _( 'Top' ) . '</a>
 		&rsaquo; <a href="Modules.php?modname=' . $_REQUEST['modname'] .
 		'&modfunc=courses&subject_id=' . $_REQUEST['subject_id'] .
 		'&include_child_mps=' . $_REQUEST['include_child_mps'] . '">' .
 		$subject_title . '</a>';
 
-	if ( ! empty( $_REQUEST['course_id'] ) )
+	if ( $_REQUEST['course_id'] )
 	{
 		$header2 = '<a href="Modules.php?modname=' . $_REQUEST['modname'] .
 			'&subject_id=' . $_REQUEST['subject_id'] . '&course_id=' . $_REQUEST['course_id'];
@@ -162,7 +166,7 @@ if ( $_REQUEST['modfunc'] === 'courses'
 
 	$columns = array( 'TITLE' => _( 'Course' ), 'COUNT_REQUESTS' => _( 'Requests' ) );
 
-	if ( ! empty( $_REQUEST['include_child_mps'] ) )
+	if ( $_REQUEST['include_child_mps'] )
 	{
 		$OFT_string = mb_substr( _( 'Open' ), 0, 1 ) . '&#124;' . mb_substr( _( 'Filled' ), 0, 1 ) . '&#124;' . mb_substr( _( 'Total' ), 0, 1 );
 
@@ -192,7 +196,7 @@ if ( $_REQUEST['modfunc'] === 'courses'
 // COURSE PERIODS ----
 
 if ( $_REQUEST['modfunc'] === 'course_periods'
-	|| $_REQUEST['students'] === 'course_periods' )
+	|| isset( $_REQUEST['students'] ) && $_REQUEST['students'] === 'course_periods' )
 {
 	//FJ multiple school periods for a course period
 	//$QI = DBQuery("SELECT COURSE_PERIOD_ID,TITLE,MARKING_PERIOD_ID,MP,CALENDAR_ID,TOTAL_SEATS FROM COURSE_PERIODS cp WHERE COURSE_ID='".$_REQUEST['course_id']."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID),TITLE");
@@ -204,7 +208,7 @@ if ( $_REQUEST['modfunc'] === 'course_periods'
 	{
 		$value = array();
 
-		if ( ! empty( $_REQUEST['include_child_mps'] ) )
+		if ( $_REQUEST['include_child_mps'] )
 		{
 			$total_seats = $filled_seats = array();
 		}
@@ -215,7 +219,7 @@ if ( $_REQUEST['modfunc'] === 'course_periods'
 
 		calcSeats1( $period, $total_seats, $filled_seats );
 
-		if ( ! empty( $_REQUEST['include_child_mps'] ) )
+		if ( $_REQUEST['include_child_mps'] )
 		{
 			foreach ( (array) $total_seats as $mp => $total )
 			{
@@ -262,7 +266,7 @@ if ( $_REQUEST['modfunc'] === 'course_periods'
 
 	$columns = array( 'TITLE' => _( 'Period' ) . ' ' . _( 'Days' ) . ' - ' . _( 'Short Name' ) . ' - ' . _( 'Teacher' ) );
 
-	if ( ! empty( $_REQUEST['include_child_mps'] ) )
+	if ( $_REQUEST['include_child_mps'] )
 	{
 		// FJ fix error Missing argument 1.
 
@@ -270,8 +274,11 @@ if ( $_REQUEST['modfunc'] === 'course_periods'
 		{
 			$mp = trim( $mp, "'" );
 
+			$OFT_string = mb_substr( _( 'Open' ), 0, 1 ) . '&#124;' . mb_substr( _( 'Filled' ), 0, 1 ) . '&#124;' . mb_substr( _( 'Total' ), 0, 1 );
+
 			$columns += array(
-				'OFT_' . $mp => ( GetMP( $mp, 'SHORT_NAME' ) ? GetMP( $mp, 'SHORT_NAME' ) : GetMP( $mp ) ) . '<br />O|F|T',
+				'OFT_' . $mp => ( GetMP( $mp, 'SHORT_NAME' ) ? GetMP( $mp, 'SHORT_NAME' ) : GetMP( $mp ) ) .
+					'<br />' . $OFT_string,
 			);
 		}
 	}
@@ -315,7 +322,7 @@ if ( $_REQUEST['modfunc'] == 'students' )
 		);
 	}
 
-	if ( $_REQUEST['unscheduled'] == 'true' )
+	if ( ! empty( $_REQUEST['unscheduled'] ) )
 	{
 		$sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 			s.STUDENT_ID" . $sql_birthdate . ",ssm.GRADE_ID
@@ -327,13 +334,13 @@ if ( $_REQUEST['modfunc'] == 'students' )
 			AND ssm.SYEAR='" . UserSyear() . "'
 			AND ssm.SCHOOL_ID='" . UserSchool() . "' ";
 
-		if ( ! empty( $_REQUEST['course_id'] ) )
+		if ( $_REQUEST['course_id'] )
 		{
 			$sql .= "AND sr.COURSE_ID='" . $_REQUEST['course_id'] . "' ";
 		}
-		elseif ( ! empty( $_REQUEST['course_id'] ) )
+		elseif ( $_REQUEST['subject_id'] )
 		{
-			$sql .= "AND sr.COURSE_ID='" . $_REQUEST['course_id'] . "' ";
+			$sql .= "AND sr.SUBJECT_ID='" . $_REQUEST['subject_id'] . "' ";
 		}
 
 		$sql .= "AND NOT EXISTS (SELECT ''
@@ -354,11 +361,11 @@ if ( $_REQUEST['modfunc'] == 'students' )
 			AND ssm.SYEAR='" . UserSyear() . "'
 			AND ssm.SCHOOL_ID='" . UserSchool() . "' ";
 
-		if ( ! empty( $_REQUEST['course_period_id'] ) )
+		if ( $_REQUEST['course_period_id'] )
 		{
 			$sql .= "AND ss.COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'";
 		}
-		elseif ( ! empty( $_REQUEST['course_id'] ) )
+		elseif ( $_REQUEST['course_id'] )
 		{
 			$sql .= "AND ss.COURSE_ID='" . $_REQUEST['course_id'] . "'";
 		}
@@ -378,7 +385,7 @@ if ( $_REQUEST['modfunc'] == 'students' )
 
 	echo '<div style="clear: both;">';
 
-	if ( $_REQUEST['unscheduled'] == 'true' )
+	if ( ! empty( $_REQUEST['unscheduled'] ) )
 	{
 		ListOutput(
 			$RET,
@@ -417,7 +424,7 @@ if ( $_REQUEST['modfunc'] == 'students' )
  */
 function calcSeats1( $period, &$total_seats, &$filled_seats )
 {
-	if ( ! empty( $_REQUEST['include_child_mps'] ) )
+	if ( $_REQUEST['include_child_mps'] )
 	{
 		$mps = GetChildrenMP( $period['MP'], $period['MARKING_PERIOD_ID'] );
 
@@ -459,12 +466,17 @@ function calcSeats1( $period, &$total_seats, &$filled_seats )
 			'CURRENT_DATE',
 		) ) . " AND '" . GetMP( $mp, 'END_DATE' ) . "'" );
 
-		if ( ! empty( $_REQUEST['include_child_mps'] ) )
+		if ( $_REQUEST['include_child_mps'] )
 		{
-			if ( $total_seats[$mp] !== false )
+			if ( ! isset( $total_seats[$mp] ) || $total_seats[$mp] !== false )
 			{
 				if ( $period['TOTAL_SEATS'] )
 				{
+					if ( ! isset( $total_seats[$mp] ) )
+					{
+						$total_seats[$mp] = null;
+					}
+
 					$total_seats[$mp] += $period['TOTAL_SEATS'];
 				}
 				else
@@ -477,6 +489,11 @@ function calcSeats1( $period, &$total_seats, &$filled_seats )
 			{
 				if ( $seats[1]['FILLED_SEATS'] != '' )
 				{
+					if ( ! isset( $filled_seats[$mp] ) )
+					{
+						$filled_seats[$mp] = null;
+					}
+
 					$filled_seats[$mp] += $seats[1]['FILLED_SEATS'];
 				}
 				else
@@ -532,7 +549,7 @@ function calcSeats( &$_RET, $columns )
 			$value += array( $column => $periods[key( $periods )][$column] );
 		}
 
-		if ( ! empty( $_REQUEST['include_child_mps'] ) )
+		if ( $_REQUEST['include_child_mps'] )
 		{
 			$total_seats = $filled_seats = array();
 		}
@@ -546,7 +563,7 @@ function calcSeats( &$_RET, $columns )
 			calcSeats1( $period, $total_seats, $filled_seats );
 		}
 
-		if ( ! empty( $_REQUEST['include_child_mps'] ) )
+		if ( $_REQUEST['include_child_mps'] )
 		{
 			foreach ( (array) $total_seats as $mp => $total )
 			{
