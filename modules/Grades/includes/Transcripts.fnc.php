@@ -143,13 +143,7 @@ if ( ! function_exists( 'TranscriptsIncludeForm' ) )
 				WHERE ID = 200000003" ), 'TITLE' );
 
 			$return .= '<br /><br /><label><input type="checkbox" name="showcertificate" autocomplete="off" value="1" onclick=\'javascript: document.getElementById("divcertificatetext").style.display="block"; document.getElementById("inputcertificatetext").focus();\'> ' . _( 'Studies Certificate' ) . '</label>';
-		}
 
-		//FJ limit Cetificate to admin
-
-		if ( User( 'PROFILE' ) === 'admin' )
-		{
-			// Add Show Studies Certificate option
 			$return .= '<div id="divcertificatetext" style="display:none">';
 
 			$return .= TinyMCEInput(
