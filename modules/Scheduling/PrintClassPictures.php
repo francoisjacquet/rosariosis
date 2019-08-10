@@ -209,6 +209,8 @@ if ( ! $_REQUEST['modfunc'] )
 		$_REQUEST['search_modfunc'] = 'list';
 	}
 
+	$extra = issetVal( $extra, array() );
+
 	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
 		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save&_ROSARIO_PDF=true" method="POST">';
@@ -262,7 +264,9 @@ function mySearch( $type, $extra = '' )
 
 		PopTable( 'header', _( 'Find a Course' ) );
 
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=' . $_REQUEST['modfunc'] . '&search_modfunc=list&next_modname=' . $_REQUEST['next_modname'] . '" method="POST">';
+		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
+			'&modfunc=' . $_REQUEST['modfunc'] . '&search_modfunc=list&next_modname=' .
+			issetVal( $_REQUEST['next_modname'], '' ) . '" method="POST">';
 
 		echo '<table>';
 
@@ -339,6 +343,8 @@ function mySearch( $type, $extra = '' )
 
 		if ( User( 'PROFILE' ) === 'admin' )
 		{
+			$where = $from = '';
+
 			if ( ! empty( $_REQUEST['teacher_id'] ) )
 			{
 				$where .= " AND cp.TEACHER_ID='" . $_REQUEST['teacher_id'] . "'";

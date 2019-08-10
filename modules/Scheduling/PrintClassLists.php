@@ -76,6 +76,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				$extra['MPTable'] = $course_period['MP'];
 				$extra['suppress_save'] = true;
 
+				$extra['WHERE'] = issetVal( $extra['WHERE'], '' );
+
 				if ( User( 'PROFILE' ) === 'admin' )
 				{
 					$extra['WHERE'] .= $extraWHERE;
@@ -215,6 +217,8 @@ function mySearch( $extra )
 
 	if ( User( 'PROFILE' ) === 'admin' )
 	{
+		$where = $from = '';
+
 		if ( ! empty( $_REQUEST['teacher_id'] ) )
 		{
 			$where .= " AND cp.TEACHER_ID='" . $_REQUEST['teacher_id'] . "'";
