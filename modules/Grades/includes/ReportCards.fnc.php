@@ -102,6 +102,44 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 
 		$return .= '</tr></table></td></tr>';
 
+		// Limit Free text to admin.
+
+		if ( User( 'PROFILE' ) === 'admin' )
+		{
+			// Add Free text option.
+			$field_SSECURITY = ParseMLArray( DBGet( "SELECT TITLE
+				FROM CUSTOM_FIELDS
+				WHERE ID = 200000003" ), 'TITLE' );
+
+			$return .= '<tr><td><label><input type="checkbox" name="elements[freetext]" autocomplete="off" value="1" onclick=\'javascript: document.getElementById("divfreetext").style.display="block"; document.getElementById("elements[freetext]").focus();\'> ' . _( 'Free text' ) . '</label>';
+
+			$return .= '<div id="divfreetext" style="display:none">';
+
+			$return .= TinyMCEInput(
+				GetTemplate(),
+				'inputfreetext',
+				_( 'Free Text' )
+			);
+
+			$substitutions = array(
+				'__SSECURITY__' => $field_SSECURITY[1]['TITLE'],
+				'__FULL_NAME__' => _( 'Display Name' ),
+				'__LAST_NAME__' => _( 'Last Name' ),
+				'__FIRST_NAME__' => _( 'First Name' ),
+				'__MIDDLE_NAME__' =>  _( 'Middle Name' ),
+				'__GRADE_ID__' => _( 'Grade Level' ),
+				'__NEXT_GRADE_ID__' => _( 'Next Grade' ),
+				'__SCHOOL_ID__' => _( 'School' ),
+				'__YEAR__' => _( 'School Year' ),
+			);
+
+			$return .= '<table><tr class="st"><td class="valign-top">' .
+				SubstitutionsInput( $substitutions ) .
+			'</td></tr>';
+
+			$return .= '</table></div></td></tr>';
+		}
+
 		// Get the title instead of the short marking period name.
 		$mps_RET = DBGet( "SELECT PARENT_ID,MARKING_PERIOD_ID,SHORT_NAME,TITLE
 			FROM SCHOOL_MARKING_PERIODS
@@ -744,7 +782,16 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 							echo '</div>';
 						}
 					}
+
+					echo '<br style="clear:left;" />';
 				}
+			}
+
+			if ( ! empty( $_REQUEST['elements']['freetext'] ) )
+			{
+				$freetext_template = GetTemplate();
+
+				echo $freetext_template;
 			}
 
 			// Add buffer to Report Cards array.

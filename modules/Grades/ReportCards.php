@@ -4,11 +4,23 @@
 require_once 'modules/Grades/includes/ClassRank.inc.php';
 require_once 'modules/Grades/includes/ReportCards.fnc.php';
 
+require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
+require_once 'ProgramFunctions/Template.fnc.php';
+require_once 'ProgramFunctions/Substitutions.fnc.php';
+
 if ( $_REQUEST['modfunc'] === 'save' )
 {
 	if ( isset( $_REQUEST['mp_arr'] )
 		&& isset( $_REQUEST['st_arr'] ) )
 	{
+		if ( ! empty( $_REQUEST['elements']['freetext'] ) )
+		{
+			// Bypass strip_tags on the $_REQUEST vars.
+			$REQUEST_inputfreetext = SanitizeHTML( $_POST['inputfreetext'] );
+
+			SaveTemplate( $REQUEST_inputfreetext );
+		}
+
 		$report_cards = ReportCardsGenerate( $_REQUEST['st_arr'], $_REQUEST['mp_arr'] );
 
 		/**

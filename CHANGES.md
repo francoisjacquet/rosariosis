@@ -45,6 +45,7 @@ Changes in 5.0
 - Add GPA or Total row in Grade.fnc.php, ReportCards.fnc.php & Transcripts.fnc.php
 - Add GetReportCardCommentScales(), GetReportCardGeneralComments(), GetReportCardCourseSpecificComments() & \_getReportCardCommentPersonalizations() functions in ReportCards.fnc.php
 - New Comment Code Scales format in ReportCards.fnc.php
+- Add Free Text to Report Cards form in ReportCards.fnc.php
 
 Changes in 4.9.5
 ----------------
