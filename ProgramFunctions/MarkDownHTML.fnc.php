@@ -213,8 +213,16 @@ function SanitizeHTML( $html, $image_path = '' )
 
 	if ( ROSARIO_DEBUG )
 	{
-		echo 'Sanitized HTML:<br />';
-		var_dump( $sanitized_html );
+		if ( function_exists( 'd' ) )
+		{
+			// Dump using Kint.
+			d( $sanitized_html );
+		}
+		else
+		{
+			echo 'Sanitized HTML:<br />';
+			var_dump( $sanitized_html );
+		}
 	}
 
 	/**
