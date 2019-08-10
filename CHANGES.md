@@ -46,6 +46,7 @@ Changes in 5.0
 - Add GetReportCardCommentScales(), GetReportCardGeneralComments(), GetReportCardCourseSpecificComments() & \_getReportCardCommentPersonalizations() functions in ReportCards.fnc.php
 - New Comment Code Scales format in ReportCards.fnc.php
 - Add Free Text to Report Cards form in ReportCards.fnc.php & ReportCards.php
+- Save Template even if no default template found in Template.fnc.php
 
 Changes in 4.9.5
 ----------------

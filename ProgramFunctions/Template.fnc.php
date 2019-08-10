@@ -58,8 +58,11 @@ function GetTemplate( $modname = '', $staff_id = 0 ) {
  * Save Template
  *
  * @since 3.6
+ * @since 5.0 Save Template even if no default template found.
  *
- * @param string  $template Temaplate text or HTML (use SanitizeHTML() first!).
+ * @example SaveTemplate( SanitizeHTML( $_POST['inputfreetext'] ) );
+ *
+ * @param string  $template Template text or HTML (use SanitizeHTML() first!).
  * @param string  $modname  Specify program name (optional) defaults to current program.
  * @param integer $staff_id User ID (optional), defaults to logged in User, use 0 for default template.
  *
@@ -82,11 +85,11 @@ function SaveTemplate( $template, $modname = '', $staff_id = -1 )
 		WHERE MODNAME='" . $modname . "'
 		AND STAFF_ID IN(0,'" . $staff_id . "')", array(), array( 'STAFF_ID' ) );
 
-	if ( ! $is_template_update )
+	/*if ( ! $is_template_update )
 	{
 		// Default template not found for modname.
 		return false;
-	}
+	}*/
 
 	if ( ! isset( $is_template_update[ $staff_id ] ) )
 	{
