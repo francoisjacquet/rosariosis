@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 4.9.6
+----------------
+- Fix hide "Create Student/User in Moodle" checkbox for public registration in Moodle/functions.php
+
 Changes in 4.9.5
 ----------------
 - Fix Submission timestamp in StudentAssignments.fnc.php

@@ -112,8 +112,9 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 
 			if ( AllowEdit()
 				&& ( ! isset( $_REQUEST['category_id'] )
-					|| $_REQUEST['category_id'] == 1 ) ) // General Info
-				{
+					|| $_REQUEST['category_id'] == 1 )
+				&& basename( $_SERVER['PHP_SELF'] ) !== 'index.php' ) // General Info.
+			{
 				//2) verify the student is not in Moodle:
 
 				if ( UserStudentID() )
@@ -236,8 +237,9 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 
 			if ( AllowEdit()
 				&& ( ! isset( $_REQUEST['category_id'] )
-					|| $_REQUEST['category_id'] == 1 ) ) // General Info
-				{
+					|| $_REQUEST['category_id'] == 1 )
+				&& basename( $_SERVER['PHP_SELF'] ) !== 'index.php' ) // General Info
+			{
 				//2) verify the user is not in Moodle:
 
 				if ( UserStaffID() )
@@ -444,7 +446,8 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 				//update teacher too
 				global $columns, $current;
 
-				if ( $columns['TEACHER_ID'] && $columns['TEACHER_ID'] != $current[1]['TEACHER_ID'] )
+				if ( ! empty( $columns['TEACHER_ID'] )
+					&& $columns['TEACHER_ID'] != $current[1]['TEACHER_ID'] )
 				{
 					Moodle( $modname, 'core_role_unassign_roles' );
 					Moodle( $modname, 'core_role_assign_roles' );
