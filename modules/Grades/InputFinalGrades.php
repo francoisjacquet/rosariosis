@@ -773,7 +773,7 @@ if ( ! empty( $_REQUEST['values'] )
 		{
 			foreach ( (array) $columns['commentsA'] as $id => $comment )
 			{
-				if ( $current_commentsA_RET[$student_id][$id] )
+				if ( ! empty( $current_commentsA_RET[$student_id][$id] ) )
 				{
 					if ( $comment )
 					{

@@ -67,12 +67,12 @@ if ( UserStaffID() )
 
 	if ( ! UserCoursePeriod() )
 	{
-		$_SESSION['UserCoursePeriod'] = $RET[1]['COURSE_PERIOD_ID'];
-		$_SESSION['UserCoursePeriodSchoolPeriod'] = $RET[1]['COURSE_PERIOD_SCHOOL_PERIODS_ID'];
+		$_SESSION['UserCoursePeriod'] = isset( $RET[1]['COURSE_PERIOD_ID'] ) ? $RET[1]['COURSE_PERIOD_ID'] : null;
+		$_SESSION['UserCoursePeriodSchoolPeriod'] = isset( $RET[1]['COURSE_PERIOD_SCHOOL_PERIODS_ID'] ) ? $RET[1]['COURSE_PERIOD_SCHOOL_PERIODS_ID'] : null;
 	}
 
 	$period_select = '<select name="period" onChange="ajaxPostForm(this.form,true);">';
-	$optgroup = FALSE;
+	$optgroup = $found = false;
 
 	foreach ( (array) $RET as $period )
 	{
@@ -136,8 +136,7 @@ if ( UserStaffID() )
 
 	if ( ! $found )
 	{
-		$_SESSION['UserCoursePeriod'] = $RET[1]['COURSE_PERIOD_ID'];
-//FJ fix bug SQL no course period in the user period
+		$_SESSION['UserCoursePeriod'] = isset( $RET[1]['COURSE_PERIOD_ID'] ) ? $RET[1]['COURSE_PERIOD_ID'] : null;
 
 		if ( empty( $RET[1]['COURSE_PERIOD_ID'] ) )
 		{
@@ -146,7 +145,7 @@ if ( UserStaffID() )
 			$period_select .= '<option value="">' . sprintf( _( 'No %s were found.' ), _( 'Course Period' ) ) . '</option>';
 		}
 
-		$_SESSION['UserPeriod'] = $RET[1]['PERIOD_ID'];
+		$_SESSION['UserPeriod'] = isset( $RET[1]['PERIOD_ID'] ) ? $RET[1]['PERIOD_ID'] : null;
 	}
 
 	$period_select .= '</select>';

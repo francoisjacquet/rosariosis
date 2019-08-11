@@ -660,7 +660,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 							echo '"); return false;\'';
 
-							if ( $link[$key]['extra'] )
+							if ( ! empty( $link[$key]['extra'] ) )
 							{
 								echo ' ' . $link[$key]['extra'];
 							}
