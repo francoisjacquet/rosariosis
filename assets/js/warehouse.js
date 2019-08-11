@@ -51,15 +51,6 @@ var switchMenu = function(el) {
 	$(el).toggleClass('switched').nextAll('table').first().toggle();
 }
 
-/**
- * IE8 HTML5 tags fix
- *
- * @deprecated Remove when IE8 usage < 1%
- */
-for (var tags = 'article|aside|footer|header|hgroup|nav|section'.split('|'), i = 0, max = tags.length; i < max; i++) {
-	document.createElement(tags[i]);
-}
-
 // Popups
 var popups = new popups();
 
@@ -82,32 +73,6 @@ function popups() {
 	};
 }
 
-/**
- * touchScroll, enables overflow:auto on mobile
- *
- * @link https://gist.github.com/chrismbarr/4107472
- *
- * @deprecated Remove when Android v.2.3 (Gingerbread) & old Safari (iOS < 5) usage < 1%
- * @link http://chris-barr.com/2010/05/scrolling_a_overflowauto_element_on_a_touch_screen_device/
- */
-var touchScroll = function(el) {
-	var startY = 0,
-		startX = 0;
-
-	el.addEventListener("touchstart", function(e) {
-		startY = this.scrollTop + e.touches[0].pageY;
-		startX = this.scrollLeft + e.touches[0].pageX;
-	}, false);
-
-	el.addEventListener("touchmove", function(e) {
-		var tch = e.touches[0];
-		if ((this.scrollTop < this.scrollHeight - this.offsetHeight && this.scrollTop + tch.pageY < startY - 5) || (this.scrollTop !== 0 && this.scrollTop + tch.pageY > startY + 5)) e.preventDefault();
-		if ((this.scrollLeft < this.scrollWidth - this.offsetWidth && this.scrollLeft + tch.pageX < startX - 5) || (this.scrollLeft !== 0 && this.scrollLeft + tch.pageX > startX + 5)) e.preventDefault();
-		this.scrollTop = startY - tch.pageY;
-		this.scrollLeft = startX - tch.pageX;
-	}, false);
-}
-
 function isTouchDevice() {
 	try {
 		document.createEvent("TouchEvent");
@@ -117,12 +82,10 @@ function isTouchDevice() {
 	}
 }
 
-// ColorBox.
-if (isTouchDevice()) $(document).bind("cbox_complete", function() {
-	touchScroll(document.getElementById("cboxLoadedContent"));
-});
-else // Add .no-touch CSS class.
+if (!isTouchDevice()) {
+	// Add .no-touch CSS class.
 	document.documentElement.className += " no-touch";
+}
 
 var ColorBox = function() {
 	var cWidth = 640,
@@ -402,10 +365,6 @@ var ajaxPrepare = function(target) {
 		}
 	}
 
-	if (isTouchDevice()) $('.rt').each(function(i, e) {
-		touchScroll(e.tBodies[0]);
-	});
-
 	var h3 = $('#body h3.title').first().text(),
 		h2 = $('#body h2').first().text();
 
@@ -578,7 +537,6 @@ var showHelp = function() {
 		$.get("Bottom.php?bottomfunc=help&modname=" + encodeURIComponent(modname), function(data) {
 			showHelp.tmpdata = data;
 			$fh.html(data).scrollTop(0);
-			if (isTouchDevice()) touchScroll($fh[0]);
 		}).fail(ajaxError).always(function() {
 			$('.loading').css('visibility', 'hidden');
 		});
