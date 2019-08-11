@@ -32,7 +32,7 @@ function GetGpaOrTotalRow( $student_id, $grades_total, $course_number, $mode = '
 	{
 		if ( $mode === 'total' )
 		{
-			$gpa_row[$mp] = '<B>' . $grades_total_mp . '</B>';
+			$gpa_row[$mp] = '<div style="text-align: center;"><B>' . $grades_total_mp . '</B></div>';
 
 			continue;
 		}
@@ -42,8 +42,9 @@ function GetGpaOrTotalRow( $student_id, $grades_total, $course_number, $mode = '
 			WHERE STUDENT_ID='" . $student_id . "'
 			AND MARKING_PERIOD_ID='" . $mp . "'" );
 
-		$gpa_row[$mp] = '<B>' . number_format( $cumulative_gpa, 2 ) . '</B> / ' .
-			(float) SchoolInfo( 'REPORTING_GP_SCALE' );
+		$gpa_row[$mp] = '<div style="text-align: center;">
+			<B>' . number_format( $cumulative_gpa, 2 ) . '</B> / ' .
+			(float) SchoolInfo( 'REPORTING_GP_SCALE' ) . '</div>';
 	}
 
 	return $gpa_row;

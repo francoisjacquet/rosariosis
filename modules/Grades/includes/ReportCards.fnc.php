@@ -14,6 +14,7 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 	 *
 	 * @since 4.0 Define your custom function in your addon module or plugin.
 	 * @since 5.0 Add GPA or Total row.
+	 * @since 5.0 Add Min. and Max. Grades.
 	 *
 	 * @global $extra Get $extra['search'] for Mailing Labels Widget
 	 *
@@ -52,22 +53,15 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 		$return .= '<td><label><input type="checkbox" name="elements[percents]" value="Y"> ' .
 		_( 'Percents' ) . '</label></td>';
 
+		// Add Min. and Max. Grades.
+		$return .= '<td><label><input type="checkbox" name="elements[minmax_grades]" value="Y"> ' .
+		_( 'Min. and Max. Grades' ) . '</label></td>';
+
+		$return .= '</tr><tr class="st">';
+
 		// Year-to-date Daily Absences.
 		$return .= '<td><label><input type="checkbox" name="elements[ytd_absences]" value="Y" checked /> ' .
 		_( 'Year-to-date Daily Absences' ) . '</label></td>';
-
-		$return .= '</tr><tr class="st">';
-
-		// Daily Absences this quarter.
-		$return .= '<td><label><input type="checkbox" name="elements[mp_absences]" value="Y"' .
-		( GetMP( UserMP(), 'SORT_ORDER' ) != 1 ? ' checked' : '' ) . ' /> ' .
-		_( 'Daily Absences this quarter' ) . '</label></td>';
-
-		// Period-by-period absences.
-		$return .= '<td><label><input type="checkbox" name="elements[period_absences]" value="Y" /> ' .
-		_( 'Period-by-period absences' ) . '</label></td>';
-
-		$return .= '</tr><tr class="st">';
 
 		// Other Attendance Year-to-date.
 		$return .= '<td><label><input type="checkbox" name="elements[ytd_tardies]" value="Y" /> ' .
@@ -80,6 +74,14 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 
 		$return .= '</select>
 			<label for="ytd_tardies_code" class="a11y-hidden">' . _( 'Attendance Codes' ) . '</label></td>';
+
+		$return .= '</tr><tr class="st">';
+
+		// Daily Absences this quarter.
+		$return .= '<td><label><input type="checkbox" name="elements[mp_absences]" value="Y"' .
+		( GetMP( UserMP(), 'SORT_ORDER' ) != 1 ? ' checked' : '' ) . ' /> ' .
+		_( 'Daily Absences this quarter' ) . '</label></td>';
+
 		// Other Attendance this quarter.
 		$return .= '<td><label><input type="checkbox" name="elements[mp_tardies]" value="Y" /> ' .
 		_( 'Other Attendance this quarter' ) . ':</label> <select name="mp_tardies_code" id="mp_tardies_code">';
@@ -90,7 +92,15 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 		}
 
 		$return .= '</select>
-			<label for="mp_tardies_code" class="a11y-hidden">' . _( 'Attendance Codes' ) . '</label></td></tr>';
+			<label for="mp_tardies_code" class="a11y-hidden">' . _( 'Attendance Codes' ) . '</label></td>';
+
+		$return .= '</tr><tr class="st">';
+
+		// Period-by-period absences.
+		$return .= '<td><label><input type="checkbox" name="elements[period_absences]" value="Y" /> ' .
+		_( 'Period-by-period absences' ) . '</label></td>';
+
+		$return .= '</tr><tr class="st">';
 
 		// Add GPA or Total row.
 		$gpa_or_total_options = array(
@@ -111,7 +121,7 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 				FROM CUSTOM_FIELDS
 				WHERE ID = 200000003" ), 'TITLE' );
 
-			$return .= '<tr><td><label><input type="checkbox" name="elements[freetext]" autocomplete="off" value="1" onclick=\'javascript: document.getElementById("divfreetext").style.display="block"; document.getElementById("elements[freetext]").focus();\'> ' . _( 'Free text' ) . '</label>';
+			$return .= '<tr><td><label><input type="checkbox" name="elements[freetext]" autocomplete="off" value="1" onclick=\'javascript: document.getElementById("divfreetext").style.display="block"; document.getElementById("elements[freetext]").focus();\'> ' . _( 'Free Text' ) . '</label>';
 
 			$return .= '<div id="divfreetext" style="display:none">';
 
@@ -240,6 +250,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 	 * @since 4.0 Define your custom function in your addon module or plugin.
 	 * @since 4.5 Add Report Cards PDF header action hook.
 	 * @since 5.0 Add GPA or Total row.
+	 * @since 5.0 Add Min. and Max. Grades.
 	 *
 	 * @uses _makeTeacher() see below
 	 *
@@ -458,7 +469,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 						$temp_grades_COMMENTS = $grades_RET[$i]['COMMENT'];
 
-						// FJ fix error Invalid argument supplied for foreach().
+						$comments_RET[$student_id][$course_period_id][$mp] = issetVal( $comments_RET[$student_id][$course_period_id][$mp], array() );
 
 						foreach ( (array) $comments_RET[$student_id][$course_period_id][$mp] as $comment )
 						{
@@ -563,6 +574,18 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 					$grades_total,
 					$i,
 					$_REQUEST['elements']['gpa_or_total']
+				);
+			}
+
+			if ( ! empty( $_REQUEST['elements']['minmax_grades'] ) )
+			{
+				// @since 5.0 Add Min. and Max. Grades.
+				$min_max_grades = GetReportCardMinMaxGrades( $course_periods );
+
+				$grades_RET = AddReportCardMinMaxGrades(
+					$min_max_grades,
+					$grades_RET,
+					$LO_columns
 				);
 			}
 
@@ -1453,4 +1476,108 @@ function _getReportCardCommentPersonalizations( $student_id )
 			( $gender == 'F' ? _( 'her' ) : _( 'his/her' ) ) ) );
 
 	return $personalizations;
+}
+
+
+/**
+ * Get Report Card Min. and Max. Grades
+ *
+ * @since 5.0
+ *
+ * @param array $course_periods Course Periods array, with MPs array.
+ *
+ * @return array Updated $grades_RET.
+ */
+function GetReportCardMinMaxGrades( $course_periods )
+{
+	static $min_max_grades = array();
+
+	$mp_list = $cp_list = array();
+
+	foreach ( (array) $course_periods as $course_period_id => $mps )
+	{
+		$cp_list[] = $course_period_id;
+
+		if ( ! empty( $mp_list ) )
+		{
+			continue;
+		}
+
+		foreach ( (array) $mps as $mp )
+		{
+			$mp_list[] = $mp[1]['MARKING_PERIOD_ID'];
+		}
+	}
+
+	$mp_list = "'" . implode( "','", $mp_list ) . "'";
+
+	$cp_list = "'" . implode( "','", $cp_list ) . "'";
+
+	if ( ! isset( $min_max_grades[$cp_list][$mp_list] ) )
+	{
+
+		// Get Min. Max. Grades for each CP, and each MP.
+		$min_max_grades[$cp_list][$mp_list] = DBGet( "SELECT COURSE_PERIOD_ID,MARKING_PERIOD_ID,
+			MIN(GRADE_PERCENT) AS GRADE_MIN,MAX(GRADE_PERCENT) AS GRADE_MAX
+			FROM STUDENT_REPORT_CARD_GRADES
+			WHERE SYEAR='" . UserSyear() . "'
+			AND COURSE_PERIOD_ID IN(" . $cp_list . ")
+			AND MARKING_PERIOD_ID IN(" . $mp_list . ")
+			GROUP BY COURSE_PERIOD_ID,MARKING_PERIOD_ID", array(), array( 'COURSE_PERIOD_ID', 'MARKING_PERIOD_ID' ) );
+	}
+
+	return $min_max_grades[$cp_list][$mp_list];
+}
+
+
+/**
+ * Add Report Card Min. and Max. Grades before and after student Grade for each Course & each MP.
+ * Update MP columns text: "Min. [MP] Max.".
+ *
+ * @since 5.0
+ *
+ * @param array $min_max_grades Min. and Max. Grades.
+ * @param array $grades_RET     Student Report Card Grades list array.
+ * @param array &$LO_columns    List columns.
+ *
+ * @return array Updated $grades_RET.
+ */
+function AddReportCardMinMaxGrades( $min_max_grades, $grades_RET, &$LO_columns )
+{
+	static $has_run = false;
+
+	require_once 'ProgramFunctions/_makeLetterGrade.fnc.php';
+
+	$i = 0;
+
+	foreach ( (array) $min_max_grades as $cp_id => $min_max_grades_cp )
+	{
+		$i++;
+
+		foreach ( (array) $min_max_grades_cp as $mp_id => $min_max )
+		{
+			$min_grade = issetVal( $min_max[1]['GRADE_MIN'], '' );
+			$max_grade = issetVal( $min_max[1]['GRADE_MAX'], '' );
+
+			$min_grade = _makeLetterGrade( $min_grade / 100, $cp_id );
+			$max_grade = _makeLetterGrade( $max_grade / 100, $cp_id );
+
+			$grades_RET[$i][$mp_id] = '<div style="float: left;width: 25%;" class="size-1">' . $min_grade . '</div>
+				<div style="float: left;width: 49%;text-align: center;">' . $grades_RET[$i][$mp_id] . '</div>
+				<div style="float: left;width: 25%;text-align: right;" class="size-1">' . $max_grade . '</div>';
+
+			if ( $has_run || $i > count( $min_max_grades_cp ) )
+			{
+				continue;
+			}
+
+			$LO_columns[$mp_id] = '<div style="float: left;width: 25%;" class="size-1">' . _( 'Min.' ) . '</div>
+				<div style="float: left;width: 49%;text-align: center;"><b>' . $LO_columns[$mp_id] . '</b></div>
+				<div style="float: left;width: 25%;text-align: right;" class="size-1">' . _( 'Max.' ) . '</div>';
+		}
+	}
+
+	$has_run = true;
+
+	return $grades_RET;
 }

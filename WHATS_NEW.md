@@ -6,7 +6,7 @@ New in 5.0
 ----------
 
 Grades:
-- Report Cards: Last row option (GPA or Total), add Free Text.
+- Report Cards: Min. and Max. Grades option, Last row option (GPA or Total), add Free Text.
 - Transcripts: Last row option (GPA or Total).
 
 SQL speed: ID columns now use INTEGER type.
