@@ -196,7 +196,7 @@ select {
 .widefat th,
 .widefat th a,
 .widefat th span {
-	font-size: 15px;
+	font-size: 14px;
 	text-transform: uppercase;
 }
 
@@ -697,6 +697,12 @@ select {
 .legend-gray,
 .legend-red {
 	font-size: 15px;
+}
+
+/* Fix Dashboard tip message row too tall */
+
+td .legend-gray:first-child {
+	margin-bottom: 0;
 }
 
 .header2 {
