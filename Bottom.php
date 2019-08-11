@@ -63,38 +63,7 @@ if ( empty( $_REQUEST['bottomfunc'] ) ) : ?>
 
 		<?php endif;
 
-		if ( isset( $_SESSION['Search_PHP_SELF'] )
-			&& ( User( 'PROFILE' ) === 'admin'
-				|| User( 'PROFILE' ) === 'teacher' ) ) :
-
-			switch ( $_SESSION['Back_PHP_SELF'] )
-			{
-				case 'student':
-
-					$back_text = _( 'Student Search' );
-				break;
-
-				case 'staff':
-
-					$back_text = _( 'User Search' );
-				break;
-
-				case 'course':
-
-					$back_text = _( 'Course Search' );
-				break;
-
-				default:
-
-					$back_text = sprintf( _( '%s Search' ), $_SESSION['Back_PHP_SELF'] );
-			} ?>
-
-			<a href="<?php echo $_SESSION['Search_PHP_SELF']; ?>&amp;bottom_back=true" title="<?php echo htmlspecialchars( $back_text, ENT_QUOTES ); ?>" class="BottomButton">
-				<img src="<?php echo $btn_path; ?>back.png" alt="" />
-				<span><?php echo $back_text; ?></span>
-			</a>
-
-		<?php endif;
+		// @since 5.0 "Back to Student/User/Course Search" button removed.
 
 		// Do bottom_buttons hook.
 		do_action( 'Bottom.php|bottom_buttons' ); ?>

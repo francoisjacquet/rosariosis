@@ -51,6 +51,7 @@ Changes in 5.0
 - Add Min. and Max. Grades option in ReportCards.fnc.php
 - JS remove deprecated IE8 HTML5 tags fix & touchScroll() in warehouse.js
 - CSS Better readability: format Help text in 2 columns in Bottom.php & stylesheet.css & warehouse.js
+- "Back to Student/User/Course Search" button removed in Bottom.php
 
 Changes in 4.9.6
 ----------------
