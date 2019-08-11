@@ -531,21 +531,26 @@ var toggleHelp = function() {
 }
 
 var showHelp = function() {
-	var $fh = $('#footerhelp');
+	var $fh = $('#footerhelp'),
+		$fhc = $('#footerhelp .footerhelp-content');
+
 	if (modname !== showHelp.tmp) {
 		$('.loading').css('visibility', 'visible');
 		$.get("Bottom.php?bottomfunc=help&modname=" + encodeURIComponent(modname), function(data) {
 			showHelp.tmpdata = data;
-			$fh.html(data).scrollTop(0);
+			$fhc.html(data);
+			$fh.scrollTop(0);
 		}).fail(ajaxError).always(function() {
 			$('.loading').css('visibility', 'hidden');
 		});
 
 		showHelp.tmp = modname;
 	} else if (showHelp.tmpdata && !$fh.html()) {
-		$fh.html(showHelp.tmpdata);
+		$fhc.html(showHelp.tmpdata);
 	}
+
 	$fh.show();
+
 	$('#footer').css('height', function(i, val) {
 		return parseInt(val, 10) + parseInt($fh.css('height'), 10);
 	});

@@ -114,7 +114,7 @@ if ( empty( $_REQUEST['bottomfunc'] ) ) : ?>
 		<span class="loading BottomButton"></span>
 	</div>
 
-	<div id="footerhelp"></div>
+	<div id="footerhelp"><div class="footerhelp-content"></div></div>
 <?php
 // Print PDF.
 elseif ( $_REQUEST['bottomfunc'] === 'print' ) :

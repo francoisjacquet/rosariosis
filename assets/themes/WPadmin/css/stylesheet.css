@@ -54,6 +54,12 @@
 	padding-left: 8px;
 }
 
+/* Better readability: format Help text in 2 columns. */
+
+#footerhelp .footerhelp-content {
+	columns: 2 320px;
+}
+
 .mod {
 	overflow: hidden
 }
