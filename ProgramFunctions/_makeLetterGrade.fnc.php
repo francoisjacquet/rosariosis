@@ -39,7 +39,19 @@ function _makeLetterGrade( $percent, $course_period_id = 0, $staff_id = 0, $ret 
 
 	$course_period_id = $course_period_id ? $course_period_id : UserCoursePeriod();
 
-	$staff_id = $staff_id ? $staff_id : User( 'STAFF_ID' );
+	if ( ! $staff_id )
+	{
+		if ( User( 'PROFILE' ) === 'teacher' )
+		{
+			$staff_id = User( 'STAFF_ID' );
+		}
+		else
+		{
+			$staff_id = DBGetOne( "SELECT TEACHER_ID
+				FROM COURSE_PERIODS
+				WHERE COURSE_PERIOD_ID='" . $course_period_id . "'" );
+		}
+	}
 
 	$gradebook_config = ProgramUserConfig( 'Gradebook', $staff_id );
 
