@@ -49,6 +49,10 @@ Changes in 5.0
 - Save Template even if no default template found in Template.fnc.php
 - Fix $staff_id for admin user in \_makeLetterGrade.fnc.php
 
+Changes in 4.9.6
+----------------
+- Fix hide "Create Student/User in Moodle" checkbox for public registration in Moodle/functions.php
+
 Changes in 4.9.5
 ----------------
 - Fix Submission timestamp in StudentAssignments.fnc.php
