@@ -111,9 +111,9 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 			//propose to create student in Moodle: if 1) this is a creation, 2) this is an already created student but not in Moodle yet
 
 			if ( AllowEdit()
+				&& User( 'PROFILE' ) === 'admin'
 				&& ( ! isset( $_REQUEST['category_id'] )
-					|| $_REQUEST['category_id'] == 1 )
-				&& basename( $_SERVER['PHP_SELF'] ) !== 'index.php' ) // General Info.
+					|| $_REQUEST['category_id'] == 1 ) ) // General Info.
 			{
 				//2) verify the student is not in Moodle:
 
@@ -236,9 +236,9 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 			//3) the users have not been rolled yet
 
 			if ( AllowEdit()
+				&& User( 'PROFILE' ) === 'admin'
 				&& ( ! isset( $_REQUEST['category_id'] )
-					|| $_REQUEST['category_id'] == 1 )
-				&& basename( $_SERVER['PHP_SELF'] ) !== 'index.php' ) // General Info
+					|| $_REQUEST['category_id'] == 1 ) ) // General Info
 			{
 				//2) verify the user is not in Moodle:
 

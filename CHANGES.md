@@ -55,7 +55,7 @@ Changes in 5.0
 
 Changes in 4.9.6
 ----------------
-- Fix hide "Create Student/User in Moodle" checkbox for public registration in Moodle/functions.php
+- Fix hide "Create Student/User in Moodle" checkbox for public registration & non admins in Moodle/functions.php
 
 Changes in 4.9.5
 ----------------
