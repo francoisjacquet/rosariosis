@@ -149,11 +149,6 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 
 			echo '</form>';
 
-			// Update Bottom.php.
-			$bottom_url = 'Bottom.php?modname=' . $_REQUEST['modname'];
-
-			echo '<script>ajaxLink(' . json_encode( $bottom_url ) . '); old_modname="";</script>';
-
 			PopTable( 'footer' );
 
 			break;

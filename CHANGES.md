@@ -52,6 +52,7 @@ Changes in 5.0
 - JS remove deprecated IE8 HTML5 tags fix & touchScroll() in warehouse.js
 - CSS Better readability: format Help text in 2 columns in Bottom.php & stylesheet.css & warehouse.js
 - "Back to Student/User/Course Search" button removed in Bottom.php
+- Do not update Bottom.php on Student/User Search in Search.inc.php
 - Add Do Rollover warning when School Year has ended in Portal.php
 
 Changes in 4.9.6
