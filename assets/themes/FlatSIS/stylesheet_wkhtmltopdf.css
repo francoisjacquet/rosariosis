@@ -195,7 +195,8 @@ select {
 .widefat tfoot tr th,
 .widefat th,
 .widefat th a,
-.widefat th span {
+.widefat th span,
+.widefat th label {
 	font-size: 14px;
 	text-transform: uppercase;
 }
