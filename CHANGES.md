@@ -48,7 +48,7 @@ Changes in 5.0
 - Add Free Text to Report Cards form in ReportCards.fnc.php & ReportCards.php
 - Save Template even if no default template found in Template.fnc.php
 - Fix $staff_id for admin user in \_makeLetterGrade.fnc.php
-- Add Min. and Max. Grades option in ReportCards.fnc.php
+- Add Min. and Max. Grades option in ReportCards.fnc.php, FinalGrades.php
 - JS remove deprecated IE8 HTML5 tags fix & touchScroll() in warehouse.js
 - CSS Better readability: format Help text in 2 columns in Bottom.php & stylesheet.css & warehouse.js
 - "Back to Student/User/Course Search" button removed in Bottom.php

@@ -1,6 +1,7 @@
 <?php
 
 require_once 'modules/Grades/includes/ReportCards.fnc.php';
+
 require_once 'ProgramFunctions/TipMessage.fnc.php';
 
 DrawHeader( ProgramTitle() );
@@ -215,8 +216,6 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					);
 				}
 
-				$grades_RET[$i + 1]['bgcolor'] = 'FFFFFF';
-
 				foreach ( (array) $course_periods as $course_period_id => $mps )
 				{
 					$i++;
@@ -279,6 +278,11 @@ if ( $_REQUEST['modfunc'] === 'save' )
 							{
 								if ( !empty( $all_commentsA_RET[$comment['REPORT_CARD_COMMENT_ID']] ) )
 								{
+									if ( ! isset( $grades_RET[$i]['C' . $comment['REPORT_CARD_COMMENT_ID']] ) )
+									{
+										$grades_RET[$i]['C' . $comment['REPORT_CARD_COMMENT_ID']] = '';
+									}
+
 									$grades_RET[$i]['C' . $comment['REPORT_CARD_COMMENT_ID']] .= $comment['COMMENT'] != ' ' ? ( empty( $grades_RET[$i]['C' . $comment['REPORT_CARD_COMMENT_ID']] ) ? '' : $sep_mp ) . $comment['COMMENT'] : ( empty( $grades_RET[$i]['C' . $comment['REPORT_CARD_COMMENT_ID']] ) ? '' : $sep_mp ) . '&middot;';
 								}
 								else
@@ -294,6 +298,11 @@ if ( $_REQUEST['modfunc'] === 'save' )
 									else
 									{
 										$color_html = '';
+									}
+
+									if ( ! isset( $grades_RET[$i]['COMMENT'] ) )
+									{
+										$grades_RET[$i]['COMMENT'] = '';
 									}
 
 									$grades_RET[$i]['COMMENT'] .= $sep_tmp . $color_html . $comments_RET[$comment['REPORT_CARD_COMMENT_ID']][1]['SORT_ORDER'];
@@ -312,6 +321,18 @@ if ( $_REQUEST['modfunc'] === 'save' )
 						}
 					}
 				}
+			}
+
+			if ( ! empty( $_REQUEST['elements']['minmax_grades'] ) )
+			{
+				// @since 5.0 Add Min. and Max. Grades.
+				$min_max_grades = GetReportCardMinMaxGrades( $course_periods );
+
+				$grades_RET = AddReportCardMinMaxGrades(
+					$min_max_grades,
+					$grades_RET,
+					$columns
+				);
 			}
 
 			$link = array();
@@ -334,7 +355,12 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				&& isset( $_REQUEST['elements']['comments'] )
 				&& $_REQUEST['elements']['comments'] == 'Y' )
 			{
-				$commentsB_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "' AND COURSE_ID IS NULL ORDER BY SORT_ORDER", array(), array( 'ID' ) );
+				$commentsB_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER
+					FROM REPORT_CARD_COMMENTS
+					WHERE SCHOOL_ID='" . UserSchool() . "'
+					AND SYEAR='" . UserSyear() . "'
+					AND COURSE_ID IS NULL
+					ORDER BY SORT_ORDER", array(), array( 'ID' ) );
 
 				if ( $commentsB_RET )
 				{
@@ -402,7 +428,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 							$tipmsg .= $code['TITLE'] . ': ' . $code['COMMENT'] . '<br />';
 						}
 
-						$tipmessage .= makeTipMessage(
+						$tipmessage .= ' &nbsp; ' . makeTipMessage(
 							$tipmsg,
 							_( 'Comment Codes' ),
 							button( 'comment', $codes[1]['SCALE_TITLE'] )
@@ -444,15 +470,14 @@ if ( $_REQUEST['modfunc'] === 'save' )
 								$color_html = '';
 							}
 
-							$comment_scale_txt = '&nbsp;&nbsp;&nbsp;&nbsp;(' . _( 'Comment Scale' ) . ': ' .
-								$commentA['SCALE_TITLE'] . ')';
+							$comment_scale_txt = ' <span class="size-1">(' . $commentA['SCALE_TITLE'] . ')</span>';
 
 							$tipmsg .= $color_html . $commentA['SORT_ORDER'] . ': ' .
 								$commentA['TITLE'] . ( $color_html ? '</span>' : '' ) . '<br />' .
 								$comment_scale_txt . '<br />';
 						}
 
-						$tipmessage .= ' ' . makeTipMessage(
+						$tipmessage .= ' &nbsp; ' . makeTipMessage(
 							$tipmsg,
 							_( 'Comments' ),
 							button( 'comment', $commentsA[1]['COURSE_TITLE'] )
@@ -503,80 +528,6 @@ if ( ! $_REQUEST['modfunc'] )
 		$extra['header_right'] = SubmitButton( _( 'Create Grade Lists for Selected Students' ) );
 
 		$extra['extra_header_left'] = ReportCardsIncludeForm( _( 'Include on Grade List' ), false );
-
-		/*$extra['extra_header_left'] = '<table>';
-	$extra['extra_header_left'] .= '<tr><td colspan="2"><b>'._('Include on Grade List').':</b></td></tr>';
-
-	$extra['extra_header_left'] .= '<tr class="st"><td></td><td><table>';
-
-	$extra['extra_header_left'] .= '<tr><td><label><input type="checkbox" name="elements[teacher]" value="Y" checked /> '._('Teacher').'</label></td>';
-	$extra['extra_header_left'] .= '<td></td></tr>';
-
-	$extra['extra_header_left'] .= '<tr><td><label><input type="checkbox" name="elements[comments]" value="Y" checked /> '._('Comments').'</label></td>';
-	$extra['extra_header_left'] .= '<td><label><input type="checkbox" name="elements[percents]" value="Y"> '._('Percents').'</label></td></tr>';
-
-	$extra['extra_header_left'] .= '<tr><td><label><input type="checkbox" name="elements[ytd_absences]" value="Y" checked /> '._('Year-to-date Daily Absences').'</label></td>';
-	$extra['extra_header_left'] .= '<td><label><input type="checkbox" name="elements[mp_absences]" value="Y"'.(GetMP(UserMP(),'SORT_ORDER')!=1?' checked':'').'> '._('Daily Absences this quarter').'</label></td></tr>';
-
-	$extra['extra_header_left'] .= '<tr><td><label><input type="checkbox" name="elements[ytd_tardies]" value="Y"> '._('Other Attendance Year-to-date').':</label> <select name="ytd_tardies_code">';
-
-	foreach ( (array) $attendance_codes as $code)
-	$extra['extra_header_left'] .= '<option value="'.$code['ID'].'">'.$code['TITLE'].'</option>';
-
-	$extra['extra_header_left'] .= '</select></td>';
-	$extra['extra_header_left'] .= '<td><label><input type="checkbox" name="elements[mp_tardies]" value="Y"> '._('Other Attendance Year-to-date').':</label> <select name="mp_tardies_code">';
-
-	foreach ( (array) $attendance_codes as $code)
-	$extra['extra_header_left'] .= '<option value="'.$code['ID'].'">'.$code['TITLE'].'</option>';
-
-	$extra['extra_header_left'] .= '</select></td></tr>';
-
-	$extra['extra_header_left'] .= '<tr><td><label><input type="checkbox" name="elements[period_absences]" value="Y"> '._('Period-by-period absences').'</label></td>';
-	$extra['extra_header_left'] .= '<td></td></tr>';
-
-	$extra['extra_header_left'] .= '</table></td></tr>';
-
-	//FJ get the title instead of the short marking period name
-	$mps_RET = DBGet( "SELECT PARENT_ID,MARKING_PERIOD_ID,SHORT_NAME,TITLE FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER",array(),array('PARENT_ID'));
-
-	$extra['extra_header_left'] .= '<tr class="st"><td>'._('Marking Periods').':</td><td><table><tr><td><table>';
-
-	foreach ( (array) $mps_RET as $sem => $quarters)
-	{
-	$extra['extra_header_left'] .= '<tr class="st">';
-	foreach ( (array) $quarters as $qtr)
-	{
-	$pro = GetChildrenMP('PRO',$qtr['MARKING_PERIOD_ID']);
-	if ( $pro)
-	{
-	$pros = explode(',',str_replace("'",'',$pro));
-	foreach ( (array) $pros as $pro)
-	if (GetMP($pro,'DOES_GRADES')=='Y')
-	$extra['extra_header_left'] .= '<td><label><input type="checkbox" name="mp_arr[]" value="'.$pro.'"> '.GetMP($pro,'TITLE').'</label></td>';
-	}
-	$extra['extra_header_left'] .= '<td><label><input type="checkbox" name="mp_arr[]" value="'.$qtr['MARKING_PERIOD_ID'].'"> '.$qtr['TITLE'].'</label></td>';
-	}
-
-	if (GetMP($sem,'DOES_GRADES')=='Y')
-	$extra['extra_header_left'] .= '<td><label><input type="checkbox" name="mp_arr[]" value="'.$sem.'"> '.GetMP($sem,'TITLE').'</label></td>';
-
-	$extra['extra_header_left'] .= '</tr>';
-	}
-
-	$extra['extra_header_left'] .= '</table></td>';
-
-	if ( $sem)
-	{
-	$fy = GetParentMP('FY',$sem);
-	$extra['extra_header_left'] .= '<td><table><tr>';
-
-	if (GetMP($fy,'DOES_GRADES')=='Y')
-	$extra['extra_header_left'] .= '<td><label><input type="checkbox" name="mp_arr[]" value="'.$fy.'"> '.GetMP($fy,'TITLE').'</label></td>';
-
-	$extra['extra_header_left'] .= '</tr></table></td>';
-	}
-
-	$extra['extra_header_left'] .= '</td></tr></table></tr></table>';*/
 	}
 
 	$extra['new'] = true;
