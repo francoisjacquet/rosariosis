@@ -32,19 +32,23 @@ function GetGpaOrTotalRow( $student_id, $grades_total, $course_number, $mode = '
 	{
 		if ( $mode === 'total' )
 		{
-			$gpa_row[$mp] = '<div style="text-align: center;"><B>' . $grades_total_mp . '</B></div>';
+			$gpa_row[$mp] = '<B>' . $grades_total_mp . '</B>';
+		}
+		else
+		{
+			$cumulative_gpa = DBGetOne( "SELECT CUM_WEIGHTED_GPA
+				FROM TRANSCRIPT_GRADES
+				WHERE STUDENT_ID='" . $student_id . "'
+				AND MARKING_PERIOD_ID='" . $mp . "'" );
 
-			continue;
+			$gpa_row[$mp] = '<B>' . number_format( $cumulative_gpa, 2 ) . '</B> / ' .
+				(float) SchoolInfo( 'REPORTING_GP_SCALE' );
 		}
 
-		$cumulative_gpa = DBGetOne( "SELECT CUM_WEIGHTED_GPA
-			FROM TRANSCRIPT_GRADES
-			WHERE STUDENT_ID='" . $student_id . "'
-			AND MARKING_PERIOD_ID='" . $mp . "'" );
-
-		$gpa_row[$mp] = '<div style="text-align: center;">
-			<B>' . number_format( $cumulative_gpa, 2 ) . '</B> / ' .
-			(float) SchoolInfo( 'REPORTING_GP_SCALE' ) . '</div>';
+		if ( ! empty( $_REQUEST['elements']['minmax_grades'] ) )
+		{
+			$gpa_row[$mp] = '<div style="text-align: center;">' . $gpa_row[$mp] . '</div>';
+		}
 	}
 
 	return $gpa_row;
