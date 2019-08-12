@@ -146,6 +146,7 @@ if ( User( 'PROFILE' ) === 'student'
 	$assignments_LO_columns['SUBMITTED'] = _( 'Submitted' );
 }
 
+// @todo Create functions & put in misc/includes/Portal.fnc.php.
 switch ( User( 'PROFILE' ) )
 {
 	case 'admin':
@@ -243,11 +244,36 @@ switch ( User( 'PROFILE' ) )
 			);
 		}
 
-		//RSSOutput(USER('PROFILE'));
+		if ( Preferences( 'HIDE_ALERTS' ) != 'Y'
+			&& AllowEdit( 'School_Setup/Rollover.php' ) )
+		{
+			// Add Do Rollover warning when School Year has ended.
+			$do_rollover = DBGetOne( "SELECT 1 AS DO_ROLLOVER
+				FROM SCHOOL_MARKING_PERIODS
+				WHERE SYEAR='" . UserSyear() . "'
+				AND SCHOOL_ID='" . UserSchool() . "'
+				AND MP='FY'
+				AND END_DATE<'" . DBDate() . "'
+				AND NOT EXISTS(SELECT 1
+					FROM SCHOOL_MARKING_PERIODS
+					WHERE SYEAR='" . ( UserSyear() + 1 ) . "')" );
+
+			if ( $do_rollover )
+			{
+				$do_rollover_warning = array(
+					sprintf(
+						_( 'The school year has ended. It is time to proceed to %s.' ),
+						'<a href="Modules.php?modname=School_Setup/Rollover.php">' . _( 'Rollover' ) . '</a>'
+					)
+				);
+
+				echo ErrorMessage( $do_rollover_warning, 'warning' );
+			}
+		}
 
 		if ( Preferences( 'HIDE_ALERTS' ) != 'Y' )
 		{
-			// warn if missing attendances
+			// Warn if missing attendances.
 			$categories_RET = DBGet( "SELECT '0' AS ID,'Attendance' AS TITLE,0,NULL AS SORT_ORDER UNION
 			SELECT ID,TITLE,1,SORT_ORDER
 			FROM ATTENDANCE_CODE_CATEGORIES
@@ -525,8 +551,6 @@ switch ( User( 'PROFILE' ) )
 			);
 		}
 
-		//RSSOutput(USER('PROFILE'));
-
 		if ( Preferences( 'HIDE_ALERTS' ) != 'Y' )
 		{
 			// warn if missing attendances
@@ -768,8 +792,6 @@ switch ( User( 'PROFILE' ) )
 			}
 		}
 
-		//RSSOutput(USER('PROFILE'));
-
 		if ( $RosarioModules['Food_Service']
 			&& Preferences( 'HIDE_ALERTS' ) !== 'Y' )
 		{
@@ -951,20 +973,18 @@ switch ( User( 'PROFILE' ) )
 			}
 		}
 
-		//RSSOutput(USER('PROFILE'));
-
 		echo '<p>&nbsp;' . _( 'Happy learning...' ) . '</p>';
 		break;
 }
 
 /**
- * @return mixed
+ * Check PHP min version, safe mode, and required functions.
+ *
+ * @return array Warning messages for failed PHP checks.
  */
 function PHPCheck()
 {
 	$ret = array();
-
-	//FJ check PHP version
 
 	if ( version_compare( PHP_VERSION, '5.3.2' ) == -1 )
 	{
