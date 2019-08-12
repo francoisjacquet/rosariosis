@@ -40,11 +40,9 @@ if ( $_REQUEST['profile_id'] !== false )
 		FROM PROFILE_EXCEPTIONS
 		WHERE PROFILE_ID='" . $_REQUEST['profile_id'] . "'", array(), array( 'MODNAME' ) );
 
-	$profile_RET = DBGet( "SELECT PROFILE
+	$xprofile = DBGetOne( "SELECT PROFILE
 		FROM USER_PROFILES
 		WHERE ID='" . $_REQUEST['profile_id'] . "'" );
-
-	$xprofile = $profile_RET[1]['PROFILE'];
 
 	if ( $xprofile === 'student' )
 	{
@@ -113,7 +111,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 }
 
 if ( $_REQUEST['modfunc'] === 'update'
-	&& ! $_REQUEST['new_profile_title']
+	&& empty( $_REQUEST['new_profile_title'] )
 	&& AllowEdit() )
 {
 	$tmp_menu = $menu;

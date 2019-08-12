@@ -15,7 +15,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 		foreach ( (array) $_REQUEST['staff'] as $staff_id )
 		{
-			if ( ! $current_RET[$staff_id] )
+			if ( empty( $current_RET[$staff_id] ) )
 			{
 				DBQuery( "INSERT INTO STUDENTS_JOIN_USERS (STAFF_ID,STUDENT_ID)
 					VALUES('" . $staff_id . "','" . UserStudentID() . "')" );
