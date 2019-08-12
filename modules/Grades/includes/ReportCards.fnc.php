@@ -100,21 +100,25 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 		$return .= '<td><label><input type="checkbox" name="elements[period_absences]" value="Y" /> ' .
 		_( 'Period-by-period absences' ) . '</label></td>';
 
-		$return .= '</tr><tr class="st">';
+		if ( $_REQUEST['modname'] !== 'Grades/FinalGrades.php' )
+		{
+			$return .= '</tr><tr class="st">';
 
-		// Add GPA or Total row.
-		$gpa_or_total_options = array(
-			'gpa' => _( 'GPA' ),
-			'total' => _( 'Total' ),
-		);
+			// Add GPA or Total row.
+			$gpa_or_total_options = array(
+				'gpa' => _( 'GPA' ),
+				'total' => _( 'Total' ),
+			);
 
-		$return .= '<td>' . RadioInput( '', 'elements[gpa_or_total]', _( 'Last row' ), $gpa_or_total_options ) . '</td>';
+			$return .= '<td>' . RadioInput( '', 'elements[gpa_or_total]', _( 'Last row' ), $gpa_or_total_options ) . '</td>';
+		}
 
 		$return .= '</tr></table></td></tr>';
 
 		// Limit Free text to admin.
 
-		if ( User( 'PROFILE' ) === 'admin' )
+		if ( User( 'PROFILE' ) === 'admin'
+			&& function_exists( 'GetTemplate' ) )
 		{
 			// Add Free text option.
 			$field_SSECURITY = ParseMLArray( DBGet( "SELECT TITLE
@@ -415,7 +419,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 				$i++;
 
 				$grades_RET[$i]['COURSE_TITLE'] = $mps[key( $mps )][1]['COURSE_TITLE'];
-
+				$grades_RET[$i]['COURSE_PERIOD_ID'] = $course_period_id;
 				$grades_RET[$i]['TEACHER_ID'] = GetTeacher( $mps[key( $mps )][1]['TEACHER_ID'] );
 
 				foreach ( (array) $mp_array as $mp )
@@ -810,7 +814,8 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 				}
 			}
 
-			if ( ! empty( $_REQUEST['elements']['freetext'] ) )
+			if ( ! empty( $_REQUEST['elements']['freetext'] )
+				&& function_exists( 'GetTemplate' ) )
 			{
 				$freetext_template = GetTemplate();
 
@@ -1544,15 +1549,22 @@ function GetReportCardMinMaxGrades( $course_periods )
  */
 function AddReportCardMinMaxGrades( $min_max_grades, $grades_RET, &$LO_columns )
 {
-	static $has_run = false;
+	static $columns_done = false;
 
 	require_once 'ProgramFunctions/_makeLetterGrade.fnc.php';
 
-	$i = 0;
+	$grades_loop = $grades_RET;
 
-	foreach ( (array) $min_max_grades as $cp_id => $min_max_grades_cp )
+	foreach ( (array) $grades_loop as $i => $grade )
 	{
-		$i++;
+		if ( empty( $grade['COURSE_PERIOD_ID'] ) )
+		{
+			continue;
+		}
+
+		$cp_id = $grade['COURSE_PERIOD_ID'];
+
+		$min_max_grades_cp = $min_max_grades[ $cp_id ];
 
 		foreach ( (array) $min_max_grades_cp as $mp_id => $min_max )
 		{
@@ -1562,22 +1574,22 @@ function AddReportCardMinMaxGrades( $min_max_grades, $grades_RET, &$LO_columns )
 			$min_grade = _makeLetterGrade( $min_grade / 100, $cp_id );
 			$max_grade = _makeLetterGrade( $max_grade / 100, $cp_id );
 
-			$grades_RET[$i][$mp_id] = '<div style="float: left;width: 25%;" class="size-1">' . $min_grade . '</div>
-				<div style="float: left;width: 49%;text-align: center;">' . $grades_RET[$i][$mp_id] . '</div>
-				<div style="float: left;width: 25%;text-align: right;" class="size-1">' . $max_grade . '</div>';
+			$grades_RET[$i][$mp_id] = '<div style="float: left;width: 23%;" class="size-1">' . $min_grade . '</div>
+				<div style="float: left;width: 48%;text-align: center;">' . $grades_RET[$i][$mp_id] . '</div>
+				<div style="float: left;width: 23%;text-align: right;" class="size-1">' . $max_grade . '</div>';
 
-			if ( $has_run || $i > count( $min_max_grades_cp ) )
+			if ( $columns_done )
 			{
 				continue;
 			}
 
-			$LO_columns[$mp_id] = '<div style="float: left;width: 25%;" class="size-1">' . _( 'Min.' ) . '</div>
-				<div style="float: left;width: 49%;text-align: center;"><b>' . $LO_columns[$mp_id] . '</b></div>
-				<div style="float: left;width: 25%;text-align: right;" class="size-1">' . _( 'Max.' ) . '</div>';
+			$LO_columns[$mp_id] = '<div style="float: left;width: 23%;" class="size-1">' . _( 'Min.' ) . '</div>
+				<div style="float: left;width: 48%;text-align: center;"><b>' . $LO_columns[$mp_id] . '</b></div>
+				<div style="float: left;width: 23%;text-align: right;" class="size-1">' . _( 'Max.' ) . '</div>';
 		}
-	}
 
-	$has_run = true;
+		$columns_done = true;
+	}
 
 	return $grades_RET;
 }
