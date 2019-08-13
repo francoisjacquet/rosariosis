@@ -1,6 +1,8 @@
 <?php
 require_once 'ProgramFunctions/TipMessage.fnc.php';
 
+$_REQUEST['period'] = issetVal( $_REQUEST['period'] );
+
 DrawHeader( ProgramTitle() );
 
 // GET ALL THE CONFIG ITEMS FOR ELIGIBILITY
@@ -44,7 +46,7 @@ if ( empty( $_REQUEST['start_date'] ) )
 
 	$start_date = date( 'Y-m-d', $start_time );
 
-	$end_date = date( 'Y-m-d', DBDate() );
+	$end_date = date( 'Y-m-d' );
 }
 else
 {
@@ -72,7 +74,7 @@ foreach ( (array) $periods_RET as $period )
 
 $period_select .= '</select>';
 
-echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
+echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="GET">';
 
 $begin_year = DBGetOne( "SELECT min(date_part('epoch',SCHOOL_DATE)) AS SCHOOL_DATE
 	FROM ATTENDANCE_CALENDAR
@@ -94,7 +96,7 @@ if ( $start
 	}
 }
 
-DrawHeader( _( 'Timeframe' ) . ': <select name="start_date">' . $date_select . '</select> - ' .
+DrawHeader( _( 'Timeframe' ) . ': <select name="start_date">' . $date_select . '</select> &mdash; ' .
 	_( 'Period' ) . ': ' . $period_select . ' ' . SubmitButton( _( 'Go' ) ) );
 
 echo '</form>';
@@ -129,6 +131,8 @@ $sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,sp.TITLE,cpsp.PERIOD_I
 $RET = DBGet( $sql, array(), array( 'STAFF_ID', 'PERIOD_ID' ) );
 
 $i = 0;
+
+$staff_RET = array();
 
 foreach ( (array) $RET as $staff_id => $periods )
 {

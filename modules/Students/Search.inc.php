@@ -288,6 +288,8 @@ else
 			|| ! empty( $_REQUEST['address_group'] ) )
 			&& count( (array) $students_RET ) == 1 ) )
 	{
+		$header_left = '';
+
 		if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		{
 			if ( ! isset( $_REQUEST['expanded_view'] ) || $_REQUEST['expanded_view'] !== 'true' )

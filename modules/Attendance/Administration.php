@@ -2,12 +2,15 @@
 //FJ move Attendance.php from functions/ to modules/Attendance/includes
 require_once 'modules/Attendance/includes/UpdateAttendanceDaily.fnc.php';
 
+$_REQUEST['table'] = issetVal( $_REQUEST['table'] );
+$_REQUEST['expanded_view'] = issetVal( $_REQUEST['expanded_view'], '' );
+
 DrawHeader( ProgramTitle() );
 
 // Set date.
 $date = RequestedDate( 'date', DBDate(), 'set' );
 
-if ( $_SESSION['Administration.php']['date']
+if ( ! empty( $_SESSION['Administration.php']['date'] )
 	&& $_SESSION['Administration.php']['date'] !== $date )
 {
 	// Unset attendance & attendance day & redirect URL.
@@ -98,17 +101,17 @@ else
 // TODO: can be optimized? Remove PERIOD_ID index.
 $current_RET = DBGet( $current_Q, array(), array( 'STUDENT_ID', 'PERIOD_ID' ) );
 
-if ( $_REQUEST['attendance']
+if ( ! empty( $_REQUEST['attendance'] )
 	&& $_POST['attendance']
 	&& AllowEdit() )
 {
 	foreach ( (array) $_REQUEST['attendance'] as $student_id => $values )
 	{
-		if ( ! $current_schedule_RET[$student_id] )
+		if ( empty( $current_schedule_RET[$student_id] ) )
 		{
 			$current_schedule_RET[$student_id] = DBGet( str_replace( '__student_id__', $student_id, $current_schedule_Q ), array(), array( 'PERIOD_ID' ) );
 
-			if ( ! $current_schedule_RET[$student_id] )
+			if ( empty( $current_schedule_RET[$student_id] ) )
 			{
 				$current_schedule_RET[$student_id] = true;
 			}
@@ -211,7 +214,12 @@ AND SYEAR='" . UserSyear() . "'
 AND EXISTS (SELECT '' FROM COURSE_PERIODS WHERE PERIOD_ID=SCHOOL_PERIODS.PERIOD_ID AND position('," . $_REQUEST['table'] . ",' IN DOES_ATTENDANCE)>0)
 ORDER BY SORT_ORDER" );
 
-$categories_RET = DBGet( "SELECT ID,TITLE FROM ATTENDANCE_CODE_CATEGORIES WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "'" );
+$categories_RET = DBGet( "SELECT ID,TITLE
+	FROM ATTENDANCE_CODE_CATEGORIES
+	WHERE SYEAR='" . UserSyear() . "'
+	AND SCHOOL_ID='" . UserSchool() . "'" );
+
+$headerl = '';
 
 if ( ! empty( $categories_RET ) )
 {
@@ -304,6 +312,8 @@ if ( isset( $_REQUEST['student_id'] ) && $_REQUEST['student_id'] !== 'new' )
 }
 else
 {
+	$extra2['WHERE'] = '';
+
 	if ( $_REQUEST['expanded_view'] != 'true' )
 	{
 		$extra['WHERE'] = $extra2['WHERE'] = " AND EXISTS (SELECT '' FROM " . DBEscapeIdentifier( $table ) . " ap,ATTENDANCE_CODES ac
@@ -322,6 +332,8 @@ else
 			AND ac.SCHOOL_ID=ssm.SCHOOL_ID
 			AND ac.SYEAR=ssm.SYEAR " . str_replace( 'TABLE_NAME', 'ac.TABLE_NAME', $extra_sql );
 	}
+
+	$abs = false;
 
 	if ( ! empty( $_REQUEST['codes'] ) )
 	{
@@ -393,11 +405,16 @@ else
 	if ( $_REQUEST['expanded_view'] != 'true' && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		$extra2['WHERE'] .= ')';
+
 		$extra2['SELECT_ONLY'] = 'ssm.STUDENT_ID,p.PERSON_ID,p.FIRST_NAME,p.LAST_NAME,p.MIDDLE_NAME,
 		sjp.STUDENT_RELATION,pjc.TITLE,pjc.VALUE,a.PHONE,sjp.ADDRESS_ID ';
-		$extra2['FROM'] .= ',ADDRESS a,STUDENTS_JOIN_ADDRESS sja LEFT OUTER JOIN STUDENTS_JOIN_PEOPLE sjp ON (sja.STUDENT_ID=sjp.STUDENT_ID AND sja.ADDRESS_ID=sjp.ADDRESS_ID AND (sjp.CUSTODY=\'Y\' OR sjp.EMERGENCY=\'Y\')) LEFT OUTER JOIN PEOPLE p ON (p.PERSON_ID=sjp.PERSON_ID) LEFT OUTER JOIN PEOPLE_JOIN_CONTACTS pjc ON (pjc.PERSON_ID=p.PERSON_ID) ';
+
+		$extra2['FROM'] = ',ADDRESS a,STUDENTS_JOIN_ADDRESS sja LEFT OUTER JOIN STUDENTS_JOIN_PEOPLE sjp ON (sja.STUDENT_ID=sjp.STUDENT_ID AND sja.ADDRESS_ID=sjp.ADDRESS_ID AND (sjp.CUSTODY=\'Y\' OR sjp.EMERGENCY=\'Y\')) LEFT OUTER JOIN PEOPLE p ON (p.PERSON_ID=sjp.PERSON_ID) LEFT OUTER JOIN PEOPLE_JOIN_CONTACTS pjc ON (pjc.PERSON_ID=p.PERSON_ID) ';
+
 		$extra2['WHERE'] .= ' AND a.ADDRESS_ID=sja.ADDRESS_ID AND sja.STUDENT_ID=ssm.STUDENT_ID ';
-		$extra2['ORDER_BY'] .= 'COALESCE(sjp.CUSTODY,\'N\') DESC';
+
+		$extra2['ORDER_BY'] = 'COALESCE(sjp.CUSTODY,\'N\') DESC';
+
 		$extra2['group'] = array( 'STUDENT_ID', 'PERSON_ID' );
 
 		$contacts_RET = GetStuList( $extra2 );
@@ -405,7 +422,11 @@ else
 	}
 
 	$columns = array();
+
+	$extra['SELECT'] = issetVal( $extra['SELECT'], '' );
+
 	$extra['SELECT'] .= ',s.STUDENT_ID AS PHONE';
+
 	$extra['functions']['PHONE'] = 'makeContactInfo';
 
 	if ( $_REQUEST['table'] == '0' )
@@ -414,7 +435,7 @@ else
 		$extra['SELECT'] .= ",(SELECT COMMENT FROM ATTENDANCE_DAY WHERE STUDENT_ID=ssm.STUDENT_ID AND SCHOOL_DATE='" . $date . "') AS DAILY_COMMENT";
 		$extra['functions']['STATE_VALUE'] = '_makeStateValue';
 		$extra['functions']['DAILY_COMMENT'] = '_makeStateValue';
-//FJ add translation
+
 		$extra['columns_after']['STATE_VALUE'] = _( 'Present' );
 		$extra['columns_after']['DAILY_COMMENT'] = _( 'Day Comment' );
 	}
@@ -433,8 +454,10 @@ else
 		$extra['columns_after']['PERIOD_' . $period['PERIOD_ID']] = $period['SHORT_NAME'];
 	}
 
-	if ( $REQ_codes )
+	if ( ! empty( $REQ_codes ) )
 	{
+		$code_pulldowns = '';
+
 		foreach ( (array) $REQ_codes as $code )
 		{
 			$code_pulldowns .= _makeCodeSearch( $code );
@@ -457,6 +480,8 @@ else
 		PrepareDate( $date, '_date', false, array( 'submit' => true ) ),
 		SubmitButton( _( 'Update' ) )
 	);
+
+	$current_student_link = '';
 
 	if ( UserStudentID() )
 	{
@@ -526,7 +551,8 @@ function _makeCodePulldown( $value, $title )
 			}
 		}
 
-		$val = $current_RET[$value][$period_id][1]['ATTENDANCE_CODE'];
+		$val = isset( $current_RET[$value][$period_id][1]['ATTENDANCE_CODE'] ) ?
+			$current_RET[$value][$period_id][1]['ATTENDANCE_CODE'] : null;
 
 		return SelectInput( $val, 'attendance[' . $value . '][' . $period_id . '][ATTENDANCE_CODE]', '', $options );
 	}
@@ -562,9 +588,14 @@ function _makeReasonInput( $value, $title )
 {
 	global $THIS_RET, $codes_RET, $current_RET;
 
-	$val = $current_RET[$value][$THIS_RET['PERIOD_ID']][1]['ATTENDANCE_REASON'];
+	$val = isset( $current_RET[$value][$THIS_RET['PERIOD_ID']][1]['ATTENDANCE_REASON'] ) ?
+		$current_RET[$value][$THIS_RET['PERIOD_ID']][1]['ATTENDANCE_REASON'] : '';
 
-	return TextInput( $val, 'attendance[' . $value . '][' . $THIS_RET['PERIOD_ID'] . '][ATTENDANCE_REASON]', '', $options );
+	return TextInput(
+		$val,
+		'attendance[' . $value . '][' . $THIS_RET['PERIOD_ID'] . '][ATTENDANCE_REASON]',
+		''
+	);
 }
 
 /**

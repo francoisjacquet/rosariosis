@@ -142,12 +142,12 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 	//$_LIST['output'] = true;
 
+	$display_zero = false;
+
 	// PRINT HEADINGS, PREPARE PDF, AND SORT THE LIST ---.
 	if ( $result_count != 0 )
 	{
 		$count = 0;
-
-		$display_zero = false;
 
 		if ( isset( $link['remove']['variables'] ) )
 		{

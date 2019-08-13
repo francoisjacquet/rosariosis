@@ -2,11 +2,19 @@
 
 require_once 'ProgramFunctions/TipMessage.fnc.php';
 
+$_REQUEST['table'] = issetVal( $_REQUEST['table'] );
+$_REQUEST['period'] = issetVal( $_REQUEST['period'] );
+
 // Set date.
 $date = RequestedDate( 'date', DBDate(), 'set' );
 
 DrawHeader( ProgramTitle() );
-$categories_RET = DBGet( "SELECT ID,TITLE FROM ATTENDANCE_CODE_CATEGORIES WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' ORDER BY SORT_ORDER,TITLE" );
+
+$categories_RET = DBGet( "SELECT ID,TITLE
+	FROM ATTENDANCE_CODE_CATEGORIES
+	WHERE SYEAR='" . UserSyear() . "'
+	AND SCHOOL_ID='" . UserSchool() . "'
+	ORDER BY SORT_ORDER,TITLE" );
 
 if ( $_REQUEST['table'] == '' )
 {
@@ -120,6 +128,8 @@ $RET = DBGet( $sql, array(), array( 'STAFF_ID' ) );
 if ( ! isset( $_REQUEST['period'] )
 	|| ! $_REQUEST['period'] )
 {
+	$i = 0;
+
 	foreach ( (array) $RET as $staff_id => $periods )
 	{
 		$i++;

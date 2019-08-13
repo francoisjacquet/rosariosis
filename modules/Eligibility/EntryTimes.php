@@ -103,7 +103,7 @@ SelectInput( $END_DAY, 'values[END_DAY]', '', $day_options, false, '', false ) .
 SelectInput( $END_HOUR, 'values[END_HOUR]', '', $hour_options, false, '', false ) . ' <b>:</b> ' .
 SelectInput( $END_MINUTE, 'values[END_MINUTE]', '', $minute_options, false, '', false ) . ' ' .
 SelectInput( $END_M, 'values[END_M]', '', $m_options, false, '', false ) . '</td></tr></table>';
-echo '<div class="center">' . SubmitButton() . '</div>';
+echo '<br /><div class="center">' . SubmitButton() . '</div>';
 echo '</form>';
 
 PopTable( 'footer' );
