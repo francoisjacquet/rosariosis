@@ -777,6 +777,9 @@ td .legend-gray:first-child {
 }
 
 @media only screen and (max-width:736px) {
+	#menu {
+		width: 100%;
+	}
 	#menu + #body {
 		padding-top: 0;
 	}
