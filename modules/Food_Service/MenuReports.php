@@ -320,7 +320,14 @@ else
 
 $PHP_tmp_SELF = PreparePHP_SELF();
 echo '<form action="' . $PHP_tmp_SELF . '" method="POST">';
-DrawHeader( _( 'Timeframe' ) . ': ' . PrepareDate( $start_date, '_start' ) . ' ' . _( 'to' ) . ' ' . PrepareDate( $end_date, '_end' ) . ' : <input type="submit" value="' . _( 'Go' ) . '" />' );
+
+DrawHeader(
+	_( 'Timeframe' ) . ': ' .
+	PrepareDate( $start_date, '_start' ) .
+	' &nbsp; ' . _( 'to' ) . ' &nbsp; ' . PrepareDate( $end_date, '_end' ) .
+	' ' . Buttons( _( 'Go' ) )
+);
+
 DrawHeader( $type_select );
 echo '<br />';
 

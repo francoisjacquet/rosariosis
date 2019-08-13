@@ -10,8 +10,8 @@ $end_date = RequestedDate( 'end', DBDate() );
 
 echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="GET">';
 
-DrawHeader( '<b>' . _( 'Report Timeframe' ) . ': </b>' . PrepareDate( $start_date, '_start', false ) .
-	' - ' . PrepareDate( $end_date, '_end', false ) . Buttons( _( 'Go' ) ) );
+DrawHeader( _( 'Report Timeframe' ) . ': ' . PrepareDate( $start_date, '_start', false ) .
+	' ' . _( 'to' ) . ' ' . PrepareDate( $end_date, '_end', false ) . Buttons( _( 'Go' ) ) );
 
 echo '</form>';
 
@@ -90,7 +90,12 @@ function _makeCurrency( $value, $column )
 {
 	global $totals;
 
-	$totals[$column] += $value;
+	if ( ! isset( $totals[$column] ) )
+	{
+		$totals[$column] = 0;
+	}
+
+	$totals[$column] += (int) $value;
 
 	if ( ! empty( $value ) || $value == '0' )
 	{

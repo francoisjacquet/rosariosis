@@ -162,8 +162,8 @@ if ( $_REQUEST['search_modfunc']
 
 	echo '<form action="' . $PHP_tmp_SELF . '" method="GET">';
 
-	DrawHeader( _( 'Timeframe' ) . ': ' . PrepareDate( $start_date, '_start', false ) . ' ' .
-		_( 'to' ) . ' ' . PrepareDate( $end_date, '_end', false ) . ' ' .
+	DrawHeader( _( 'Timeframe' ) . ': ' . PrepareDate( $start_date, '_start', false ) .
+		' &nbsp; ' . _( 'to' ) . ' &nbsp; ' . PrepareDate( $end_date, '_end', false ) . ' ' .
 		Buttons( _( 'Go' ) ),
 		$period_select
 	);

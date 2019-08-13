@@ -237,8 +237,8 @@ if ( ! $_REQUEST['modfunc'] )
 	DrawHeader( $select );
 
 	DrawHeader(
-		'<b>' . _( 'Report Timeframe' ) . ': </b>' .
-			PrepareDate( $start_date, '_start', false ) . ' - ' .
+		_( 'Report Timeframe' ) . ': ' .
+			PrepareDate( $start_date, '_start', false ) . ' &nbsp; ' . _( 'to' ) . ' &nbsp; ' .
 			PrepareDate( $end_date, '_end', false ) .
 			$advanced_link,
 		SubmitButton( _( 'Go' ) )

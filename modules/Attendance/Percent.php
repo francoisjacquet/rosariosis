@@ -55,8 +55,8 @@ if ( ! $_REQUEST['modfunc'] )
 		_( 'Advanced' ) . '</a>';
 
 	DrawHeader(
-		_( 'Timeframe' ) . ': ' . PrepareDate( $start_date, '_start', false ) . ' ' .
-		_( 'to' ) . ' ' . PrepareDate( $end_date, '_end', false ) . $advanced_link,
+		_( 'Timeframe' ) . ': ' . PrepareDate( $start_date, '_start', false ) .
+		' &nbsp; ' . _( 'to' ) . ' &nbsp; ' . PrepareDate( $end_date, '_end', false ) . $advanced_link,
 		SubmitButton( _( 'Go' ) )
 	);
 
