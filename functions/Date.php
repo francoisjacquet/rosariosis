@@ -282,7 +282,8 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 	// MONTH  ---------------.
 	if ( $options['M'] )
 	{
-		$return .= '<select name="month' . $name_attr . '" id="monthSelect' . $_ROSARIO['PrepareDate'] . '"' . $extraM . '>';
+		$return .= '<select name="month' . $name_attr . '" id="monthSelect' . $_ROSARIO['PrepareDate'] . '"' .
+			$extraM . ' autocomplete="off">';
 
 		if ( $allow_na )
 		{
@@ -323,7 +324,8 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 	// DAY  ---------------.
 	if ( $options['D'] )
 	{
-		$return .= '<select name="day' . $name_attr . '" id="daySelect' . $_ROSARIO['PrepareDate'] . '"' . $extraD . '>';
+		$return .= '<select name="day' . $name_attr . '" id="daySelect' . $_ROSARIO['PrepareDate'] . '"' .
+			$extraD . ' autocomplete="off">';
 
 		if ( $allow_na )
 		{
@@ -367,7 +369,8 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 			$end = $date_exploded['year'] + 5;
 		}
 
-		$return .= '<select name="year' . $name_attr . '" id="yearSelect' . $_ROSARIO['PrepareDate'] . '"' . $extraY . '>';
+		$return .= '<select name="year' . $name_attr . '" id="yearSelect' . $_ROSARIO['PrepareDate'] . '"' .
+			$extraY . ' autocomplete="off">';
 
 		if ( $allow_na )
 		{
