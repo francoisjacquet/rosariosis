@@ -29,14 +29,14 @@ $cp_title = DBGetOne( "SELECT TITLE
 	FROM COURSE_PERIODS
 	WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" );
 
-if ( $cp_title )
-{
-	// Add Course Period title header.
-	DrawHeader( $cp_title );
-}
-
 if ( empty(  $categories_RET  ) )
 {
+	if ( $cp_title )
+	{
+		// Add Course Period title header.
+		DrawHeader( $cp_title );
+	}
+
 	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&table=' . $_REQUEST['table'] . '" method="POST">';
 	DrawHeader( PrepareDate( $date, '_date', false, array( 'submit' => true ) ) );
 	echo '</form>';
@@ -120,6 +120,12 @@ if ( ! $qtr_id )
 
 if ( $fatal_warning )
 {
+	if ( $cp_title )
+	{
+		// Add Course Period title header.
+		DrawHeader( $cp_title );
+	}
+
 	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
 		'&table=' . $_REQUEST['table'] . '" method="POST">';
 
@@ -333,7 +339,7 @@ if ( ! empty( $daily_comment ) )
 echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
 	'&table=' . $_REQUEST['table'] . '" method="POST">';
 
-DrawHeader( '', SubmitButton() );
+DrawHeader( $cp_title, SubmitButton() );
 
 $date_note = $date != DBDate() ? ' <span style="color:red" class="nobr">' .
 _( 'The selected date is not today' ) . '</span> |' : '';
