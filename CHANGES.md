@@ -54,6 +54,7 @@ Changes in 5.0
 - "Back to Student/User/Course Search" button removed in Bottom.php
 - Do not update Bottom.php on Student/User Search in Search.inc.php
 - Add Do Rollover warning when School Year has ended in Portal.php
+- Add Attendance Codes Tip Message to header & use Color codes in Administration.php & StudentSummary.php
 
 Changes in 4.9.6
 ----------------

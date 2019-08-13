@@ -1,4 +1,6 @@
 <?php
+require_once 'modules/Attendance/includes/AttendanceCodes.fnc.php';
+
 DrawHeader( ProgramTitle() );
 
 $_REQUEST['student_id'] = issetVal( $_REQUEST['student_id'] );
@@ -166,7 +168,7 @@ if ( UserStudentID() )
 		FROM STUDENTS
 		WHERE STUDENT_ID='" . UserStudentID() . "'" );
 
-	DrawHeader( $full_name );
+	DrawHeader( $full_name, AttendanceCodesTipMessage() );
 
 	$absences_RET = DBGet( "SELECT ap.STUDENT_ID,ap.PERIOD_ID,ap.SCHOOL_DATE,ac.SHORT_NAME,
 		ac.TITLE,ac.STATE_CODE,ad.STATE_VALUE,ad.COMMENT AS OFFICE_COMMENT,ap.COMMENT AS TEACHER_COMMENT
@@ -182,6 +184,8 @@ if ( UserStudentID() )
 	ORDER BY ap.SCHOOL_DATE", array(), array( 'SCHOOL_DATE', 'PERIOD_ID' ) );
 
 	$days_RET = array();
+
+	$i = 0;
 
 	foreach ( (array) $absences_RET as $school_date => $absences )
 	{
@@ -245,18 +249,7 @@ if ( UserStudentID() )
  */
 function _makeStateValue( $value )
 {
-	if ( $value == '0.0' )
-	{
-		return _( 'None' );
-	}
-	elseif ( $value == '.5' )
-	{
-		return _( 'Half Day' );
-	}
-	else
-	{
-		return _( 'Full Day' );
-	}
+	return MakeAttendanceCode( $value );
 }
 
 /**
@@ -266,9 +259,9 @@ function _makeStateValue( $value )
  */
 function _makeColor( $value, $title, $state_code )
 {
-	$colors = array( 'P' => '#FFCC00', 'A' => '#FF0000', 'H' => '#FFCC00', 'T' => '#6666FF' );
-
-	return '<span style="float:left; padding:0 8px;' .
-		( isset( $colors[$state_code] ) ? ' background-color:' . $colors[$state_code] . ';' : '' ) .
-		'" title="' . $title . '">' . $value . '</span>';
+	return MakeAttendanceCode(
+		$state_code,
+		$value,
+		$title
+	);
 }

@@ -1,6 +1,7 @@
 <?php
 //FJ move Attendance.php from functions/ to modules/Attendance/includes
 require_once 'modules/Attendance/includes/UpdateAttendanceDaily.fnc.php';
+require_once 'modules/Attendance/includes/AttendanceCodes.fnc.php';
 
 $_REQUEST['table'] = issetVal( $_REQUEST['table'] );
 $_REQUEST['expanded_view'] = issetVal( $_REQUEST['expanded_view'], '' );
@@ -490,6 +491,8 @@ else
 		_( 'Current Student' ) . '</a></td><td>';
 	}
 
+	$headerl = AttendanceCodesTipMessage();
+
 	$headerr = '<table style="float: right;"><tr><td class="align-right">' .
 	button(
 		'add',
@@ -520,11 +523,11 @@ function _makeCodePulldown( $value, $title )
 	$current_schedule_RET,
 		$current_schedule_Q;
 
-	if ( ! $current_schedule_RET[$value] )
+	if ( empty( $current_schedule_RET[$value] ) )
 	{
 		$current_schedule_RET[$value] = DBGet( str_replace( '__student_id__', $value, $current_schedule_Q ), array(), array( 'PERIOD_ID' ) );
 
-		if ( ! $current_schedule_RET[$value] )
+		if ( empty( $current_schedule_RET[$value] ) )
 		{
 			$current_schedule_RET[$value] = true;
 		}
@@ -639,8 +642,14 @@ function _makeCodeSearch( $value = '' )
 }
 
 /**
- * @param $value
- * @param $name
+ * Make Present State value or Day Comment input.
+ *
+ * @since 5.0 Add color codes for Present State values.
+ *
+ * @param string $value Value.
+ * @param string $name  Column name: 'STATE_VALUE' or 'DAY_COMMENT'.
+ *
+ * @return string Present State value.
  */
 function _makeStateValue( $value, $name )
 {
@@ -648,20 +657,7 @@ function _makeStateValue( $value, $name )
 
 	if ( $name == 'STATE_VALUE' )
 	{
-		if ( $value == '0.0' )
-//FJ add translation
-
-		{
-			return _( 'None' );
-		}
-		elseif ( $value == '0.5' )
-		{
-			return _( 'Half Day' );
-		}
-		else
-		{
-			return _( 'Full Day' );
-		}
+		return MakeAttendanceCode( $value );
 	}
 	else
 	{
