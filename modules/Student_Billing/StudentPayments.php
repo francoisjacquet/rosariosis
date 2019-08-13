@@ -155,7 +155,7 @@ if ( UserStudentID()
 	{
 		$RET[$i] = $payment;
 
-		if ( $refunded_payments_RET[$payment['ID']] )
+		if ( ! empty( $refunded_payments_RET[$payment['ID']] ) )
 		{
 			$i++;
 			$RET[$i] = ( $refunded_payments_RET[$payment['ID']][1] + array( 'row_color' => 'FF0000' ) );
@@ -165,7 +165,7 @@ if ( UserStudentID()
 	}
 
 	if ( ! empty( $RET )
-		&& ! $_REQUEST['print_statements']
+		&& empty( $_REQUEST['print_statements'] )
 		&& AllowEdit() )
 	{
 		$columns = array( 'REMOVE' => '<span class="a11y-hidden">' . _( 'Delete' ) . '</span>' );

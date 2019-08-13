@@ -150,7 +150,7 @@ if ( UserStudentID()
 	{
 		$RET[$i] = $fee;
 
-		if ( $waived_fees_RET[$fee['ID']] )
+		if ( ! empty( $waived_fees_RET[$fee['ID']] ) )
 		{
 			$i++;
 			$RET[$i] = ( $waived_fees_RET[$fee['ID']][1] + array( 'row_color' => '00FF66' ) );
@@ -159,7 +159,10 @@ if ( UserStudentID()
 		$i++;
 	}
 
-	if ( ! empty( $RET ) && ! $_REQUEST['print_statements'] && AllowEdit() && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	if ( ! empty( $RET )
+		&& empty( $_REQUEST['print_statements'] )
+		&& AllowEdit()
+		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		$columns = array( 'REMOVE' => '<span class="a11y-hidden">' . _( 'Delete' ) . '</span>' );
 	}

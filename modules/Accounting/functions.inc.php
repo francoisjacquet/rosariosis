@@ -12,15 +12,15 @@ function _makeIncomesRemove( $value, $column )
 
 function _makeSalariesRemove( $value, $column )
 {
-	return _makeIncomesRemove( $value, $name );
+	return _makeIncomesRemove( $value, $column );
 }
 
 function _makePaymentsRemove( $value, $column )
 {
-	return _makeIncomesRemove( $value, $name );
+	return _makeIncomesRemove( $value, $column );
 }
 
-function _makeIncomesTextInput( $value, $name )
+function _makeIncomesTextInput( $value, $column )
 {
 	global $THIS_RET;
 
@@ -37,7 +37,7 @@ function _makeIncomesTextInput( $value, $name )
 
 	$extra = 'maxlength=255';
 
-	if ( $name === 'AMOUNT' )
+	if ( $column === 'AMOUNT' )
 	{
 		$extra = 'size=5 maxlength=10';
 	}
@@ -46,11 +46,11 @@ function _makeIncomesTextInput( $value, $name )
 		$extra .= ' size=15';
 	}
 
-	return TextInput( $value, 'values[' . $id . '][' . $name . ']', '', $extra, $div );
+	return TextInput( $value, 'values[' . $id . '][' . $column . ']', '', $extra, $div );
 }
 
 
-function _makeIncomesDateInput( $value, $name )
+function _makeIncomesDateInput( $value, $column )
 {
 	global $THIS_RET;
 
@@ -61,7 +61,7 @@ function _makeIncomesDateInput( $value, $name )
 	else
 		$id = 'new';
 
-	return DateInput( $value, 'values[' . $id . '][' . $name . ']', '', ( $id !== 'new' ), false );
+	return DateInput( $value, 'values[' . $id . '][' . $column . ']', '', ( $id !== 'new' ), false );
 }
 
 function _makePaymentsDateInput( $value, $name )

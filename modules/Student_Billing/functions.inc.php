@@ -15,7 +15,8 @@ function _makeFeesRemove( $value, $column )
 			AND f.SCHOOL_ID='" . UserSchool() . "'", array(), array( 'WAIVED_FEE_ID' ) );
 	}
 
-	if ( ! $THIS_RET['WAIVED_FEE_ID'] && ! $waived_fees_RET[ $THIS_RET['ID'] ] )
+	if ( ! $THIS_RET['WAIVED_FEE_ID']
+		&& empty( $waived_fees_RET[ $THIS_RET['ID'] ] ) )
 	{
 		$return = button(
 			'remove',
@@ -53,7 +54,7 @@ function _makePaymentsRemove( $value, $column )
 	}
 
 	if ( ! $THIS_RET['REFUNDED_PAYMENT_ID']
-		&& ! $refunded_payments_RET[ $THIS_RET['ID'] ] )
+		&& empty( $refunded_payments_RET[ $THIS_RET['ID'] ] ) )
 	{
 		$return = button(
 			'remove',

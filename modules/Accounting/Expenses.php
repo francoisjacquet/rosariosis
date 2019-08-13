@@ -1,6 +1,8 @@
 <?php
 require_once 'modules/Accounting/functions.inc.php';
 
+$_REQUEST['print_statements'] = issetVal( $_REQUEST['print_statements'], '' );
+
 if ( empty( $_REQUEST['print_statements'] ) )
 {
 	DrawHeader( ProgramTitle() );
@@ -9,7 +11,7 @@ if ( empty( $_REQUEST['print_statements'] ) )
 // Add eventual Dates to $_REQUEST['values'].
 AddRequestedDates( 'values', 'post' );
 
-if ( $_REQUEST['values']
+if ( ! empty( $_REQUEST['values'] )
 	&& $_POST['values']
 	&& AllowEdit() )
 {

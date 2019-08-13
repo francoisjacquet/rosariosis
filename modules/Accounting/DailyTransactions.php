@@ -94,8 +94,14 @@ if ( ! empty( $_REQUEST['staff_payroll'] ) )
 		$name_col_sql = ",'' AS STUDENT_NAME";
 	}
 
+	$salaries_extra['SELECT'] = issetVal( $salaries_extra['SELECT'], '' );
+	$salaries_extra['FROM'] = issetVal( $salaries_extra['FROM'], '' );
+	$salaries_extra['WHERE'] = issetVal( $salaries_extra['WHERE'], '' );
+
 	$salaries_extra['SELECT'] .= $name_col_sql . ",'' AS DEBIT,f.AMOUNT AS CREDIT,f.TITLE||' '||COALESCE(f.COMMENTS,' ') AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID";
+
 	$salaries_extra['FROM'] .= ',ACCOUNTING_SALARIES f';
+
 	$salaries_extra['WHERE'] .= " AND f.STAFF_ID=s.STAFF_ID
 		AND f.SYEAR=s.SYEAR
 		AND f.SCHOOL_ID='" . UserSchool() . "'
@@ -109,8 +115,15 @@ if ( ! empty( $_REQUEST['staff_payroll'] ) )
 	}
 
 	$staff_payments_extra = $extra;
+
+	$staff_payments_extra['SELECT'] = issetVal( $staff_payments_extra['SELECT'], '' );
+	$staff_payments_extra['FROM'] = issetVal( $staff_payments_extra['FROM'], '' );
+	$staff_payments_extra['WHERE'] = issetVal( $staff_payments_extra['WHERE'], '' );
+
 	$staff_payments_extra['SELECT'] .= ",'' AS CREDIT,p.AMOUNT AS DEBIT,COALESCE(p.COMMENTS,' ') AS EXPLANATION,p.PAYMENT_DATE AS DATE,p.ID AS ID";
+
 	$staff_payments_extra['FROM'] .= ',ACCOUNTING_PAYMENTS p';
+
 	$staff_payments_extra['WHERE'] .= " AND p.STAFF_ID=s.STAFF_ID
 		AND p.SYEAR=s.SYEAR
 		AND p.SCHOOL_ID='" . UserSchool() . "'
@@ -141,8 +154,14 @@ if ( ! empty( $_REQUEST['student_billing'] )
 		$name_col_sql = "," . DisplayNameSQL() . " AS STUDENT_NAME, '' AS FULL_NAME";
 	}
 
+	$fees_extra['SELECT'] = issetVal( $fees_extra['SELECT'], '' );
+	$fees_extra['FROM'] = issetVal( $fees_extra['FROM'], '' );
+	$fees_extra['WHERE'] = issetVal( $fees_extra['WHERE'], '' );
+
 	$fees_extra['SELECT'] .= $name_col_sql . ",f.AMOUNT AS DEBIT,'' AS CREDIT,f.TITLE||' '||COALESCE(f.COMMENTS,' ') AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID";
+
 	$fees_extra['FROM'] .= ',BILLING_FEES f';
+
 	$fees_extra['WHERE'] .= " AND f.STUDENT_ID=s.STUDENT_ID AND f.SYEAR=ssm.SYEAR AND f.SCHOOL_ID=ssm.SCHOOL_ID AND f.ASSIGNED_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'";
 
 	$fees_RET = GetStuList( $fees_extra );
@@ -153,8 +172,15 @@ if ( ! empty( $_REQUEST['student_billing'] )
 	}
 
 	$student_payments_extra = $extra;
+
+	$student_payments_extra['SELECT'] = issetVal( $student_payments_extra['SELECT'], '' );
+	$student_payments_extra['FROM'] = issetVal( $student_payments_extra['FROM'], '' );
+	$student_payments_extra['WHERE'] = issetVal( $student_payments_extra['WHERE'], '' );
+
 	$student_payments_extra['SELECT'] .= $name_col_sql . ",'' AS DEBIT,p.AMOUNT AS CREDIT,COALESCE(p.COMMENTS,' ') AS EXPLANATION,p.PAYMENT_DATE AS DATE,p.ID AS ID";
+
 	$student_payments_extra['FROM'] .= ',BILLING_PAYMENTS p';
+
 	$student_payments_extra['WHERE'] .= " AND p.STUDENT_ID=s.STUDENT_ID AND p.SYEAR=ssm.SYEAR AND p.SCHOOL_ID=ssm.SCHOOL_ID AND p.PAYMENT_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'";
 
 	$student_payments_RET = GetStuList( $student_payments_extra );
@@ -178,16 +204,29 @@ if ( isset( $_REQUEST['staff_payroll'], $_REQUEST['student_billing'] ) )
 	$columns['STUDENT_NAME'] = _( 'Student' );
 }
 
-$columns = $columns + array( 'DEBIT' => $debit_col, 'CREDIT' => $credit_col, 'DATE' => _( 'Date' ), 'EXPLANATION' => _( 'Comment' ) );
+$columns = $columns + array(
+	'DEBIT' => $debit_col,
+	'CREDIT' => $credit_col,
+	'DATE' => _( 'Date' ),
+	'EXPLANATION' => _( 'Comment' ),
+);
 
-$link['add']['html'] = array( 'FULL_NAME' => ( empty( $name_col ) ? '' : _( 'Total' ) . ': ' ) . '<b>' . Currency( $totals['CREDIT'] - $totals['DEBIT'] ) . '</b>' );
+$link['add']['html'] = array(
+	'FULL_NAME' => ( empty( $name_col ) ? '' : _( 'Total' ) . ': ' ) .
+		'<b>' . Currency( $totals['CREDIT'] - $totals['DEBIT'] ) . '</b>',
+);
 
 if ( isset( $_REQUEST['staff_payroll'], $_REQUEST['student_billing'] ) )
 {
 	$link['add']['html']['STUDENT_NAME'] = '&nbsp;';
 }
 
-$link['add']['html'] = $link['add']['html'] + array( 'DEBIT' => '<b>' . Currency( $totals['DEBIT'] ) . '</b>', 'CREDIT' => '<b>' . Currency( $totals['CREDIT'] ) . '</b>', 'DATE' => '&nbsp;', 'EXPLANATION' => '&nbsp;' );
+$link['add']['html'] = $link['add']['html'] + array(
+	'DEBIT' => '<b>' . Currency( $totals['DEBIT'] ) . '</b>',
+	'CREDIT' => '<b>' . Currency( $totals['CREDIT'] ) . '</b>',
+	'DATE' => '&nbsp;',
+	'EXPLANATION' => '&nbsp;',
+);
 
 ListOutput( $RET, $columns, 'Transaction', 'Transactions', $link );
 
@@ -198,6 +237,11 @@ ListOutput( $RET, $columns, 'Transaction', 'Transactions', $link );
 function _makeCurrency( $value, $column )
 {
 	global $totals;
+
+	if ( ! isset( $totals[$column] ) )
+	{
+		$totals[$column] = 0;
+	}
 
 	$totals[$column] += (float) $value;
 

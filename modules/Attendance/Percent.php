@@ -1,5 +1,9 @@
 <?php
 
+$_REQUEST['list_by_day'] = issetVal( $_REQUEST['list_by_day'], '' );
+
+$_REQUEST['_search_all_schools'] = issetVal( $_REQUEST['_search_all_schools'], '' );
+
 DrawHeader( ProgramTitle( $_REQUEST['modname'] . ( ! empty( $_REQUEST['list_by_day'] ) ? '&list_by_day=' . $_REQUEST['list_by_day'] : '' ) ) );
 
 // Set start date.
@@ -95,11 +99,32 @@ if ( ! $_REQUEST['modfunc'] )
 		" . $extra['WHERE'] . "
 		GROUP BY ac.SCHOOL_DATE,ssm.GRADE_ID
 		ORDER BY ac.SCHOOL_DATE",
-			array( 'SCHOOL_DATE' => 'ProperDate', 'GRADE_ID' => 'GetGrade', 'STUDENTS' => '_makeByDay', 'PRESENT' => '_makeByDay', 'ABSENT' => '_makeByDay', 'ADA' => '_makeByDay', 'AVERAGE_ATTENDANCE' => '_makeByDay', 'AVERAGE_ABSENT' => '_makeByDay', 'DAYS_POSSIBLE' => '_makeByDay' ) );
+			array(
+				'SCHOOL_DATE' => 'ProperDate',
+				'GRADE_ID' => 'GetGrade',
+				'STUDENTS' => '_makeByDay',
+				'PRESENT' => '_makeByDay',
+				'ABSENT' => '_makeByDay',
+				'ADA' => '_makeByDay',
+				'AVERAGE_ATTENDANCE' => '_makeByDay',
+				'AVERAGE_ABSENT' => '_makeByDay',
+				'DAYS_POSSIBLE' => '_makeByDay',
+			)
+		);
 
-		$columns = array( 'SCHOOL_DATE' => _( 'Date' ), 'GRADE_ID' => _( 'Grade Level' ), 'STUDENTS' => _( 'Students' ), 'DAYS_POSSIBLE' => _( 'Days Possible' ), 'PRESENT' => _( 'Present' ), 'ABSENT' => _( 'Absent' ), 'ADA' => _( 'ADA' ), 'AVERAGE_ATTENDANCE' => _( 'Average Attendance' ), 'AVERAGE_ABSENT' => _( 'Average Absent' ) );
+		$columns = array(
+			'SCHOOL_DATE' => _( 'Date' ),
+			'GRADE_ID' => _( 'Grade Level' ),
+			'STUDENTS' => _( 'Students' ),
+			'DAYS_POSSIBLE' => _( 'Days Possible' ),
+			'PRESENT' => _( 'Present' ),
+			'ABSENT' => _( 'Absent' ),
+			'ADA' => _( 'ADA' ),
+			'AVERAGE_ATTENDANCE' => _( 'Average Attendance' ),
+			'AVERAGE_ABSENT' => _( 'Average Absent' ),
+		);
 
-		ListOutput( $student_days_possible, $columns, 'School Day', 'School Days', $link );
+		ListOutput( $student_days_possible, $columns, 'School Day', 'School Days' );
 	}
 	else
 	{
@@ -148,7 +173,7 @@ if ( ! $_REQUEST['modfunc'] )
 				'ADA' => '_make',
 				'AVERAGE_ATTENDANCE' => '_make',
 				'AVERAGE_ABSENT' => '_make',
-				'DAYS_POSSIBLE' => '_make'
+				'DAYS_POSSIBLE' => '_make',
 			)
 		);
 
@@ -191,7 +216,25 @@ if ( ! $_REQUEST['modfunc'] )
  */
 function _make( $value, $column )
 {
-	global $THIS_RET, $student_days_absent, $cal_days, $sum, $calendars_RET;
+	global $THIS_RET,
+		$student_days_absent,
+		$cal_days,
+		$sum,
+		$calendars_RET;
+
+	if ( empty( $sum ) )
+	{
+		$sum = array(
+			'STUDENTS' => 0,
+			'PRESENT' => 0,
+			'ABSENT' => 0,
+			'AVERAGE_ATTENDANCE' => 0,
+			'AVERAGE_ABSENT' => 0,
+		);
+	}
+
+	$student_days_absent_state_value = isset( $student_days_absent[$THIS_RET['GRADE_ID']][$THIS_RET['CALENDAR_ID']][1]['STATE_VALUE'] ) ?
+		$student_days_absent[$THIS_RET['GRADE_ID']][$THIS_RET['CALENDAR_ID']][1]['STATE_VALUE'] : null;
 
 	switch ( $column )
 	{
@@ -206,30 +249,30 @@ function _make( $value, $column )
 			break;
 
 		case 'PRESENT':
-			$sum['PRESENT'] += ( $THIS_RET['ATTENDANCE_POSSIBLE'] - $student_days_absent[$THIS_RET['GRADE_ID']][$THIS_RET['CALENDAR_ID']][1]['STATE_VALUE'] );
+			$sum['PRESENT'] += ( $THIS_RET['ATTENDANCE_POSSIBLE'] - $student_days_absent_state_value );
 
-			return $THIS_RET['ATTENDANCE_POSSIBLE'] - $student_days_absent[$THIS_RET['GRADE_ID']][$THIS_RET['CALENDAR_ID']][1]['STATE_VALUE'];
+			return $THIS_RET['ATTENDANCE_POSSIBLE'] - $student_days_absent_state_value;
 			break;
 		case 'ABSENT':
-			$sum['ABSENT'] += ( $student_days_absent[$THIS_RET['GRADE_ID']][$THIS_RET['CALENDAR_ID']][1]['STATE_VALUE'] );
+			$sum['ABSENT'] += ( $student_days_absent_state_value );
 
-			return $student_days_absent[$THIS_RET['GRADE_ID']][$THIS_RET['CALENDAR_ID']][1]['STATE_VALUE'];
+			return $student_days_absent_state_value;
 			break;
 
 		case 'ADA':
-			return _Percent(  (  ( $THIS_RET['ATTENDANCE_POSSIBLE'] - $student_days_absent[$THIS_RET['GRADE_ID']][$THIS_RET['CALENDAR_ID']][1]['STATE_VALUE'] ) ) / $THIS_RET['STUDENTS'] );
+			return _Percent( ( ( $THIS_RET['ATTENDANCE_POSSIBLE'] - $student_days_absent_state_value ) ) / $THIS_RET['STUDENTS'] );
 			break;
 
 		case 'AVERAGE_ATTENDANCE':
-			$sum['AVERAGE_ATTENDANCE'] += (  ( $THIS_RET['ATTENDANCE_POSSIBLE'] - $student_days_absent[$THIS_RET['GRADE_ID']][$THIS_RET['CALENDAR_ID']][1]['STATE_VALUE'] ) / $cal_days[$THIS_RET['CALENDAR_ID']][1]['COUNT'] );
+			$sum['AVERAGE_ATTENDANCE'] += ( ( $THIS_RET['ATTENDANCE_POSSIBLE'] - $student_days_absent_state_value ) / $cal_days[$THIS_RET['CALENDAR_ID']][1]['COUNT'] );
 
-			return round(  ( $THIS_RET['ATTENDANCE_POSSIBLE'] - $student_days_absent[$THIS_RET['GRADE_ID']][$THIS_RET['CALENDAR_ID']][1]['STATE_VALUE'] ) / $cal_days[$THIS_RET['CALENDAR_ID']][1]['COUNT'], 1 );
+			return round( ( $THIS_RET['ATTENDANCE_POSSIBLE'] - $student_days_absent_state_value ) / $cal_days[$THIS_RET['CALENDAR_ID']][1]['COUNT'], 1 );
 			break;
 
 		case 'AVERAGE_ABSENT':
-			$sum['AVERAGE_ABSENT'] += ( $student_days_absent[$THIS_RET['GRADE_ID']][$THIS_RET['CALENDAR_ID']][1]['STATE_VALUE'] / $cal_days[$THIS_RET['CALENDAR_ID']][1]['COUNT'] );
+			$sum['AVERAGE_ABSENT'] += ( $student_days_absent_state_value / $cal_days[$THIS_RET['CALENDAR_ID']][1]['COUNT'] );
 
-			return round( $student_days_absent[$THIS_RET['GRADE_ID']][$THIS_RET['CALENDAR_ID']][1]['STATE_VALUE'] / $cal_days[$THIS_RET['CALENDAR_ID']][1]['COUNT'], 1 );
+			return round( $student_days_absent_state_value / $cal_days[$THIS_RET['CALENDAR_ID']][1]['COUNT'], 1 );
 			break;
 
 		case 'GRADE_ID':
@@ -244,7 +287,24 @@ function _make( $value, $column )
  */
 function _makeByDay( $value, $column )
 {
-	global $THIS_RET, $student_days_absent, $cal_days, $sum;
+	global $THIS_RET,
+		$student_days_absent,
+		$cal_days,
+		$sum;
+
+	if ( empty( $sum ) )
+	{
+		$sum = array(
+			'STUDENTS' => 0,
+			'PRESENT' => 0,
+			'ABSENT' => 0,
+			'AVERAGE_ATTENDANCE' => 0,
+			'AVERAGE_ABSENT' => 0,
+		);
+	}
+
+	$student_days_absent_state_value = isset( $student_days_absent[$THIS_RET['SCHOOL_DATE']][$THIS_RET['GRADE_ID']][1]['STATE_VALUE'] ) ?
+		$student_days_absent[$THIS_RET['SCHOOL_DATE']][$THIS_RET['GRADE_ID']][1]['STATE_VALUE'] : null;
 
 	switch ( $column )
 	{
@@ -259,31 +319,31 @@ function _makeByDay( $value, $column )
 			break;
 
 		case 'PRESENT':
-			$sum['PRESENT'] += ( $THIS_RET['ATTENDANCE_POSSIBLE'] - $student_days_absent[$THIS_RET['SCHOOL_DATE']][$THIS_RET['GRADE_ID']][1]['STATE_VALUE'] );
+			$sum['PRESENT'] += ( $THIS_RET['ATTENDANCE_POSSIBLE'] - $student_days_absent_state_value );
 
-			return $THIS_RET['ATTENDANCE_POSSIBLE'] - $student_days_absent[$THIS_RET['SCHOOL_DATE']][$THIS_RET['GRADE_ID']][1]['STATE_VALUE'];
+			return $THIS_RET['ATTENDANCE_POSSIBLE'] - $student_days_absent_state_value;
 			break;
 
 		case 'ABSENT':
-			$sum['ABSENT'] += ( $student_days_absent[$THIS_RET['SCHOOL_DATE']][$THIS_RET['GRADE_ID']][1]['STATE_VALUE'] );
+			$sum['ABSENT'] += ( $student_days_absent_state_value );
 
-			return $student_days_absent[$THIS_RET['SCHOOL_DATE']][$THIS_RET['GRADE_ID']][1]['STATE_VALUE'];
+			return $student_days_absent_state_value;
 			break;
 
 		case 'ADA':
-			return _Percent(  (  ( $THIS_RET['ATTENDANCE_POSSIBLE'] - $student_days_absent[$THIS_RET['SCHOOL_DATE']][$THIS_RET['GRADE_ID']][1]['STATE_VALUE'] ) ) / $THIS_RET['STUDENTS'] );
+			return _Percent(  (  ( $THIS_RET['ATTENDANCE_POSSIBLE'] - $student_days_absent_state_value ) ) / $THIS_RET['STUDENTS'] );
 			break;
 
 		case 'AVERAGE_ATTENDANCE':
-			$sum['AVERAGE_ATTENDANCE'] += (  ( $THIS_RET['ATTENDANCE_POSSIBLE'] - $student_days_absent[$THIS_RET['SCHOOL_DATE']][$THIS_RET['GRADE_ID']][1]['STATE_VALUE'] ) / $cal_days );
+			$sum['AVERAGE_ATTENDANCE'] += (  ( $THIS_RET['ATTENDANCE_POSSIBLE'] - $student_days_absent_state_value ) / $cal_days );
 
-			return round(  ( $THIS_RET['ATTENDANCE_POSSIBLE'] - $student_days_absent[$THIS_RET['SCHOOL_DATE']][$THIS_RET['GRADE_ID']][1]['STATE_VALUE'] ) / $cal_days, 1 );
+			return round(  ( $THIS_RET['ATTENDANCE_POSSIBLE'] - $student_days_absent_state_value ) / $cal_days, 1 );
 			break;
 
 		case 'AVERAGE_ABSENT':
-			$sum['AVERAGE_ABSENT'] += ( $student_days_absent[$THIS_RET['SCHOOL_DATE']][$THIS_RET['GRADE_ID']][1]['STATE_VALUE'] / $cal_days );
+			$sum['AVERAGE_ABSENT'] += ( $student_days_absent_state_value / $cal_days );
 
-			return round( $student_days_absent[$THIS_RET['SCHOOL_DATE']][$THIS_RET['GRADE_ID']][1]['STATE_VALUE'] / $cal_days, 1 );
+			return round( $student_days_absent_state_value / $cal_days, 1 );
 			break;
 	}
 }

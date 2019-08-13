@@ -2,6 +2,7 @@
 DrawHeader( ProgramTitle() );
 
 $_REQUEST['student_id'] = issetVal( $_REQUEST['student_id'] );
+$_REQUEST['period_id'] = issetVal( $_REQUEST['period_id'] );
 
 // Set start date.
 $start_date = RequestedDate( 'start', date( 'Y-m' ) . '-01' );
@@ -47,7 +48,7 @@ if ( $_REQUEST['search_modfunc']
 
 			if ( count( $periods_RET ) > 1 )
 			{
-				$period_select .= '<option value="all"' . (  ( $_REQUEST['period_id'] == 'all' ) ? ' selected' : '' ) . '>' . _( 'All Periods' ) . '</option>';
+				$period_select .= '<option value="all"' . ( ( $_REQUEST['period_id'] == 'all' ) ? ' selected' : '' ) . '>' . _( 'All Periods' ) . '</option>';
 			}
 
 			foreach ( (array) $periods_RET as $period )
@@ -154,6 +155,8 @@ $extra['link']['FULL_NAME']['link'] = 'Modules.php?modname=' . $_REQUEST['modnam
 	'&period_id=' . issetVal( $_REQUEST['period_id'], '' );
 
 $extra['link']['FULL_NAME']['variables'] = array( 'student_id' => 'STUDENT_ID' );
+
+$extra['new'] = true;
 
 Search( 'student_id', $extra );
 
