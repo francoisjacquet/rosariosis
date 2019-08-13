@@ -49,15 +49,15 @@
 
 #footerhelp {
 	display: none;
-	height: 140px;
+	height: 160px;
 	overflow-y: scroll;
-	padding-left: 8px;
 }
 
-/* Better readability: format Help text in 2 columns. */
+/* Better readability: format Help text in 3 columns max., 480px width min. (70 to 100 characters). */
 
 #footerhelp .footerhelp-content {
-	columns: 2 320px;
+	padding: 3px 8px;
+	columns: 3 480px;
 }
 
 .mod {

@@ -515,6 +515,19 @@ a.menu-top,
 	padding: 3px 6px;
 }
 
+#footerhelp {
+	padding: 0;
+}
+
+#footerhelp .footerhelp-content {
+	padding: 6px 14px;
+}
+
+#footerhelp .footerhelp-content p:first-child:first-letter {
+	font-weight: bold;
+	font-size: larger;
+}
+
 /* Round button + white border */
 
 .BottomButton img {
