@@ -410,6 +410,11 @@ div.updated {
 	background: #121212;
 	border-color: #000;
 	color: #fff;
+	width: 220px;
+}
+
+.no-touch .menu-module:hover .wp-submenu {
+	left: 220px;
 }
 
 #menu .username {
