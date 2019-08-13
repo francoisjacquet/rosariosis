@@ -55,6 +55,7 @@ Changes in 5.0
 - Do not update Bottom.php on Student/User Search in Search.inc.php
 - Add Do Rollover warning when School Year has ended in Portal.php
 - Add Attendance Codes Tip Message to header & use Color codes in Administration.php & StudentSummary.php
+- Merge Period & Teacher Comment columns to gain space in StudentSummary.php
 
 Changes in 4.9.6
 ----------------

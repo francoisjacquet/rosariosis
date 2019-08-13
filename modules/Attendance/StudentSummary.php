@@ -199,14 +199,17 @@ if ( UserStudentID() )
 
 		foreach ( (array) $absences as $period_id => $absence )
 		{
-			//$days_RET[ $i ][ $period_id ] =            $absence[1]['SHORT_NAME'];
 			$days_RET[$i][$period_id] = _makeColor(
 				$absence[1]['SHORT_NAME'],
 				$absence[1]['TITLE'],
 				$absence[1]['STATE_CODE']
 			);
 
-			$days_RET[$i]['COMMENT_' . $period_id] = $absence[1]['TEACHER_COMMENT'];
+			if ( ! empty( $absence[1]['TEACHER_COMMENT'] ) )
+			{
+				// @since 5.0 Merge Period & Teacher Comment columns to gain space.
+				$days_RET[$i][$period_id] .= ' <span class="size-1">' . $absence[1]['TEACHER_COMMENT'] . '</span>';
+			}
 		}
 	}
 
@@ -232,8 +235,6 @@ if ( UserStudentID() )
 	foreach ( (array) $periods_RET as $period )
 	{
 		$columns[$period['PERIOD_ID']] = $period['SHORT_NAME'];
-		$columns['COMMENT_' . $period['PERIOD_ID']] = $period['SHORT_NAME']
-		. ' ' . _( 'Comment' );
 	}
 
 	ListOutput(
