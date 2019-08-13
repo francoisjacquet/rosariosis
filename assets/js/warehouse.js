@@ -550,15 +550,10 @@ var showHelp = function() {
 	}
 
 	$fh.show();
-
-	$('#footer').css('height', function(i, val) {
-		return parseInt(val, 10) + parseInt($fh.css('height'), 10);
-	});
 }
 
 var hideHelp = function() {
 	$('#footerhelp').hide();
-	$('#footer').css('height', '');
 }
 
 var expandMenu = function() {
