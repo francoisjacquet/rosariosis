@@ -2,7 +2,7 @@
 
 DrawHeader( ProgramTitle() );
 
-if ( $_REQUEST['values']
+if ( ! empty( $_REQUEST['values'] )
 	&& $_POST['values']
 	&& AllowEdit() )
 {
@@ -293,6 +293,8 @@ function _makeTextInput( $value, $name )
 		$id = 'new';
 	}
 
+	$extra = '';
+
 	if ( $name !== 'TITLE' )
 	{
 		$extra = 'size=5 maxlength=2';
@@ -386,7 +388,7 @@ function _makeRemove( $value, $column )
 				'"Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete_usage&id=' . $THIS_RET['USAGE_ID'] . '"'
 			);
 
-			$return .= ' ' . button(
+			$return .= ' &nbsp; ' . button(
 				'remove',
 				_( 'Delete' ),
 				'"Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete&id=' . $THIS_RET['ID'] . '"'

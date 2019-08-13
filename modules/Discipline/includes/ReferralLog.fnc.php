@@ -104,6 +104,10 @@ function ReferralLogsGenerate( $extra )
 
 	$end_date = RequestedDate( 'discipline_entry_end', '' );
 
+	$extra['SELECT'] = issetVal( $extra['SELECT'], '' );
+	$extra['FROM'] = issetVal( $extra['FROM'], '' );
+	$extra['WHERE'] = issetVal( $extra['WHERE'], '' );
+
 	foreach ( (array) $_REQUEST['elements'] as $column => $yes )
 	{
 		if ( $yes )

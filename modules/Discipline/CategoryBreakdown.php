@@ -2,6 +2,8 @@
 
 require_once 'ProgramFunctions/Charts.fnc.php';
 
+$_REQUEST['category_id'] = issetVal( $_REQUEST['category_id'] );
+
 DrawHeader( ProgramTitle() );
 
 // Set start date.
@@ -58,8 +60,7 @@ if ( $_REQUEST['modfunc'] === 'search' )
 	Search( 'student_id', $extra );
 }
 
-if ( isset( $_REQUEST['category_id'] )
-	&& !empty( $_REQUEST['category_id'] ) )
+if ( ! empty( $_REQUEST['category_id'] ) )
 {
 	$category_RET = DBGet( "SELECT du.TITLE,du.SELECT_OPTIONS,df.DATA_TYPE
 		FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du
@@ -128,14 +129,22 @@ if ( isset( $_REQUEST['category_id'] )
 			$referral['TITLE'] = explode( "||", trim( $referral['TITLE'], '|' ) );
 
 			foreach ( (array) $referral['TITLE'] as $option )
+			{
+				if ( ! isset( $options_count[ $option ] ) )
+				{
+					$options_count[ $option ] = 0;
+				}
+
 				$options_count[ $option ]++;
+			}
 		}
 
 		foreach ( (array) $category_RET[1]['SELECT_OPTIONS'] as $option )
 		{
 			$chart['chart_data'][0][] = $option;
 
-			$chart['chart_data'][1][] = (int)$options_count[ $option ];
+			$chart['chart_data'][1][] = isset( $options_count[ $option ] ) ?
+				(int) $options_count[ $option ] : 0;
 		}
 	}
 	// Numeric
@@ -243,8 +252,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	echo '<br />';
 
-	if ( isset( $_REQUEST['category_id'] )
-		&& !empty( $_REQUEST['category_id'] ) )
+	if ( ! empty( $_REQUEST['category_id'] ) )
 	{
 		if ( $chartline )
 		{
@@ -305,10 +313,12 @@ if ( ! $_REQUEST['modfunc'] )
 		{
 			$chartData = array();
 
+			$SearchTerms = '';
 
-			if ( isset( $_ROSARIO['SearchTerms'] )
-				&& !empty( $_ROSARIO['SearchTerms'] ) )
+			if ( ! empty( $_ROSARIO['SearchTerms'] ) )
+			{
 				$SearchTerms = ' - ' . strip_tags( str_replace( '<br />', " - ", mb_substr( $_ROSARIO['SearchTerms'], 0, -6 ) ));
+			}
 
 			$chartTitle = sprintf( _( '%s Breakdown' ), ParseMLField( $category_RET[1]['TITLE'] ) ) . $SearchTerms;
 

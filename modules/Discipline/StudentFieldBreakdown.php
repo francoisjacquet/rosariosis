@@ -2,6 +2,8 @@
 
 require_once 'ProgramFunctions/Charts.fnc.php';
 
+$_REQUEST['field_id'] = issetVal( $_REQUEST['field_id'] );
+
 DrawHeader( ProgramTitle() );
 
 // Set start date.
@@ -106,13 +108,15 @@ if ( isset( $_REQUEST['field_id'] )
 
 		$chart['chart_data'][0][] = _( 'No Value' );
 
-		$chart['chart_data'][1][] = (int)$totals_RET['*BLANK*'][1]['COUNT'];
+		$chart['chart_data'][1][] = isset( $totals_RET['*BLANK*'][1]['COUNT'] ) ?
+			(int) $totals_RET['*BLANK*'][1]['COUNT'] : 0;
 
 		foreach ( (array) $fields_RET[1]['OPTIONS'] as $option )
 		{
 			$chart['chart_data'][0][] = $option;
 
-			$chart['chart_data'][1][] = (int)$totals_RET[ $option ][1]['COUNT'];
+			$chart['chart_data'][1][] = isset( $totals_RET[ $option ][1]['COUNT'] ) ?
+				(int) $totals_RET[ $option ][1]['COUNT'] : 0;
 		}
 	}
 	elseif ( $fields_RET[1]['TYPE'] === 'multiple' )
@@ -326,10 +330,12 @@ if ( ! $_REQUEST['modfunc'] )
 		{
 			$chartData = array();
 
+			$SearchTerms = '';
 
-			if ( isset( $_ROSARIO['SearchTerms'] )
-				&& !empty( $_ROSARIO['SearchTerms'] ) )
+			if ( ! empty( $_ROSARIO['SearchTerms'] ) )
+			{
 				$SearchTerms = ' - ' . strip_tags( str_replace( '<br />', " - ", mb_substr( $_ROSARIO['SearchTerms'], 0, -6 ) ));
+			}
 
 			$chartTitle = sprintf( _( '%s Breakdown' ), ParseMLField( $field_title ) ) . $SearchTerms;
 

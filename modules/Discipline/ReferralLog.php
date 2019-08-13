@@ -5,11 +5,15 @@ require_once 'modules/Discipline/includes/ReferralLog.fnc.php';
 
 $extra['new'] = true;
 
+$extra['action'] = issetVal( $extra['action'], '' );
+
 $extra['action'] .= '&_ROSARIO_PDF=true';
 
 if ( empty( $_REQUEST['search_modfunc'] ) )
 {
 	DrawHeader( ProgramTitle() );
+
+	$extra['second_col'] = issetVal( $extra['second_col'], '' );
 
 	$extra['second_col'] .= ReferralLogIncludeForm();
 

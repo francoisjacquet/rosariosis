@@ -1,6 +1,8 @@
 <?php
 require_once 'ProgramFunctions/StudentsUsersInfo.fnc.php';
 
+$separator = issetVal( $separator, '' );
+
 $columns = DBGetOne( "SELECT COLUMNS
 	FROM STUDENT_FIELD_CATEGORIES
 	WHERE ID='" . $_REQUEST['category_id'] . "'" );

@@ -2,6 +2,8 @@
 
 require_once 'ProgramFunctions/Charts.fnc.php';
 
+$_REQUEST['category_id'] = issetVal( $_REQUEST['category_id'] );
+
 DrawHeader( ProgramTitle() );
 
 // Set start date.
@@ -66,8 +68,7 @@ if ( $_REQUEST['modfunc'] === 'search' )
 	Search( 'student_id', $extra );
 }
 
-if ( isset( $_REQUEST['category_id'] )
-	&& ! empty( $_REQUEST['category_id'] ) )
+if ( ! empty( $_REQUEST['category_id'] ) )
 {
 	$category_RET = DBGet( "SELECT du.TITLE,du.SELECT_OPTIONS,df.DATA_TYPE
 		FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du
@@ -211,7 +212,14 @@ if ( isset( $_REQUEST['category_id'] )
 			$referral['TITLE'] = explode( "||", trim( $referral['TITLE'], '|' ) );
 
 			foreach ( (array) $referral['TITLE'] as $option )
+			{
+				if ( ! isset( $options_count[$referral['TIMEFRAME']][ $option ] ) )
+				{
+					$options_count[$referral['TIMEFRAME']][ $option ] = 0;
+				}
+
 				$options_count[$referral['TIMEFRAME']][ $option ]++;
+			}
 		}
 
 		$index = 0;
@@ -238,13 +246,15 @@ if ( isset( $_REQUEST['category_id'] )
 
 			foreach ( (array) $category_RET[1]['SELECT_OPTIONS'] as $option )
 			{
-				$chart['chart_data'][ $index ][] = (int)$options_count[ $tf ][ $option ];
+				$chart['chart_data'][ $index ][] = isset( $options_count[ $tf ][ $option ] ) ?
+					(int) $options_count[ $tf ][ $option ] : 0;
 			}
 		}
 	}
 	elseif ( $category_RET[1]['DATA_TYPE'] === 'numeric' )
 	{
-		$extra['SELECT_ONLY'] = "COALESCE(max(CATEGORY_" . intval( $_REQUEST['category_id'] ) . "),0) as MAX,COALESCE(min(CATEGORY_" . intval( $_REQUEST['category_id'] ) . "),0) AS MIN ";
+		$extra['SELECT_ONLY'] = "COALESCE(max(CATEGORY_" . intval( $_REQUEST['category_id'] ) .
+			"),0) as MAX,COALESCE(min(CATEGORY_" . intval( $_REQUEST['category_id'] ) . "),0) AS MIN ";
 
 		//FJ remove NULL entries
 		$extra['WHERE'] .= "AND CATEGORY_" . intval( $_REQUEST['category_id'] ) . " IS NOT NULL ";
@@ -432,8 +442,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	echo '<br />';
 
-	if ( isset( $_REQUEST['category_id'] )
-		&& ! empty( $_REQUEST['category_id'] ) )
+	if ( ! empty( $_REQUEST['category_id'] ) )
 	{
 		$tabs = array(
 			array(
@@ -489,8 +498,9 @@ if ( ! $_REQUEST['modfunc'] )
 		//FJ jqplot charts
 		else
 		{
-			if ( isset( $_ROSARIO['SearchTerms'] )
-				&& ! empty( $_ROSARIO['SearchTerms'] ) )
+			$SearchTerms = '';
+
+			if ( ! empty( $_ROSARIO['SearchTerms'] ) )
 			{
 				$SearchTerms = ' - ' . strip_tags( str_replace( '<br />', " - ", mb_substr( $_ROSARIO['SearchTerms'], 0, -6 ) ) );
 			}
