@@ -991,8 +991,12 @@ img.image-radio-list {
 
 .button {
 	vertical-align: middle;
-	height: 18px;
-	max-width: none
+	height: 16px;
+	max-width: none;
+}
+
+a > .button {
+	padding: 1px;
 }
 
 .button.bigger {
