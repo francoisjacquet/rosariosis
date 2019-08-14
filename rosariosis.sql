@@ -1162,7 +1162,7 @@ CREATE TABLE food_service_transaction_items (
 CREATE TABLE food_service_transactions (
     transaction_id serial PRIMARY KEY,
     account_id integer NOT NULL,
-    student_id integer NOT NULL REFERENCES students(student_id),
+    student_id integer REFERENCES students(student_id),
     school_id integer NOT NULL,
     syear numeric(4,0) NOT NULL,
     discount character varying(25),

@@ -51,6 +51,7 @@ if ( ! function_exists( 'DashboardFoodServiceAdmin' ) )
 			FROM FOOD_SERVICE_TRANSACTIONS
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
+			AND STUDENT_ID IS NOT NULL
 			GROUP BY TRANSACTION_DATE,STUDENT_ID
 			ORDER BY TRANSACTION_DATE DESC
 			LIMIT 7", array(), array( 'TRANSACTION_DATE' ) );
