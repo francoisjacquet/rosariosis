@@ -77,7 +77,7 @@ function CoursePeriodTeacherConflictCheck( $teacher_id )
  */
 function CoursePeriodAttendanceInput( $does_attendance, $array )
 {
-	$attendance_html = '<table class="cellspacing-0 width-100p"><tr class="st">';
+	$attendance_html = '<table class="cellspacing-0"><tr class="st">';
 
 	$attendance_cat = array();
 
@@ -109,7 +109,7 @@ function CoursePeriodAttendanceInput( $does_attendance, $array )
 			$category['TITLE'],
 			'',
 			true
-		) . '&nbsp;</td>';
+		) . ' &nbsp; </td>';
 
 		$i++;
 	}
