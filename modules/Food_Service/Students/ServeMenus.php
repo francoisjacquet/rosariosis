@@ -20,10 +20,15 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 	elseif ( $_REQUEST['submit']['save']
 		&& ! empty( $_SESSION['FSA_sale'] ) )
 	{
-		$student = DBGet( "SELECT ACCOUNT_ID,DISCOUNT FROM FOOD_SERVICE_STUDENT_ACCOUNTS WHERE STUDENT_ID='" . UserStudentID() . "'" );
+		$student = DBGet( "SELECT ACCOUNT_ID,DISCOUNT
+			FROM FOOD_SERVICE_STUDENT_ACCOUNTS
+			WHERE STUDENT_ID='" . UserStudentID() . "'" );
+
 		$student = $student[1];
 
-		$items_RET = DBGet( "SELECT DESCRIPTION,SHORT_NAME,PRICE,PRICE_REDUCED,PRICE_FREE FROM FOOD_SERVICE_ITEMS WHERE SCHOOL_ID='" . UserSchool() . "'", array(), array( 'SHORT_NAME' ) );
+		$items_RET = DBGet( "SELECT DESCRIPTION,SHORT_NAME,PRICE,PRICE_REDUCED,PRICE_FREE
+			FROM FOOD_SERVICE_ITEMS
+			WHERE SCHOOL_ID='" . UserSchool() . "'", array(), array( 'SHORT_NAME' ) );
 
 		// get next transaction id
 		$id = DBSeqNextID( 'food_service_transactions_transaction_id_seq' );
@@ -65,10 +70,22 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 			DBQuery( $sql );
 		}
 
-		$sql1 = "UPDATE FOOD_SERVICE_ACCOUNTS SET TRANSACTION_ID='" . $id . "',BALANCE=BALANCE+(SELECT sum(AMOUNT) FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID='" . $id . "') WHERE ACCOUNT_ID='" . $student['ACCOUNT_ID'] . "'";
+		$sql1 = "UPDATE FOOD_SERVICE_ACCOUNTS
+			SET TRANSACTION_ID='" . $id . "',BALANCE=BALANCE+(SELECT sum(AMOUNT)
+				FROM FOOD_SERVICE_TRANSACTION_ITEMS
+				WHERE TRANSACTION_ID='" . $id . "')
+			WHERE ACCOUNT_ID='" . $student['ACCOUNT_ID'] . "'";
+
 		$fields = 'TRANSACTION_ID,ACCOUNT_ID,STUDENT_ID,SYEAR,SCHOOL_ID,DISCOUNT,BALANCE,TIMESTAMP,SHORT_NAME,DESCRIPTION,SELLER_ID';
-		$values = "'" . $id . "','" . $student['ACCOUNT_ID'] . "','" . UserStudentID() . "','" . UserSyear() . "','" . UserSchool() . "','" . $discount . "',(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID='" . $student['ACCOUNT_ID'] . "'),CURRENT_TIMESTAMP,'" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "','" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . ' - ' . DBDate() . "','" . User( 'STAFF_ID' ) . "'";
+
+		$values = "'" . $id . "','" . $student['ACCOUNT_ID'] . "','" . UserStudentID() . "','" .
+			UserSyear() . "','" . UserSchool() . "','" . $discount .
+			"',(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID='" . $student['ACCOUNT_ID'] .
+			"'),CURRENT_TIMESTAMP,'" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "','" .
+			$menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . ' - ' . DBDate() . "','" . User( 'STAFF_ID' ) . "'";
+
 		$sql2 = "INSERT INTO FOOD_SERVICE_TRANSACTIONS (" . $fields . ") values (" . $values . ")";
+
 		DBQuery( 'BEGIN; ' . $sql1 . '; ' . $sql2 . '; COMMIT' );
 
 		unset( $_SESSION['FSA_sale'] );
@@ -114,17 +131,28 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 		echo '<table class="width-100p">';
 		echo '<tr class="st"><td class="width-100p valign-top">';
 
-		$RET = DBGet( 'SELECT fsti.DESCRIPTION,fsti.AMOUNT FROM FOOD_SERVICE_TRANSACTIONS fst,FOOD_SERVICE_TRANSACTION_ITEMS fsti WHERE fst.ACCOUNT_ID=\'' . $student['ACCOUNT_ID'] . '\' AND fst.STUDENT_ID=\'' . UserStudentID() . '\' AND fst.SYEAR=\'' . UserSyear() . '\' AND fst.SHORT_NAME=\'' . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . '\' AND fst.TIMESTAMP BETWEEN CURRENT_DATE AND \'tomorrow\' AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID' );
+		$RET = DBGet( 'SELECT fsti.DESCRIPTION,fsti.AMOUNT
+			FROM FOOD_SERVICE_TRANSACTIONS fst,FOOD_SERVICE_TRANSACTION_ITEMS fsti
+			WHERE fst.ACCOUNT_ID=\'' . $student['ACCOUNT_ID'] . '\'
+			AND fst.STUDENT_ID=\'' . UserStudentID() . '\'
+			AND fst.SYEAR=\'' . UserSyear() . '\'
+			AND fst.SHORT_NAME=\'' . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . '\'
+			AND fst.TIMESTAMP BETWEEN CURRENT_DATE AND \'tomorrow\'
+			AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID' );
 
 		$columns = array( 'DESCRIPTION' => _( 'Item' ), 'AMOUNT' => _( 'Amount' ) );
+
 		$singular = sprintf( _( 'Earlier %s Sale' ), $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] );
+
 		$plural = sprintf( _( 'Earlier %s Sales' ), $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] );
-		ListOutput( $RET, $columns, $singular, $plural, $link, false, array( 'save' => false, 'search' => false ) );
+
+		ListOutput( $RET, $columns, $singular, $plural, array(), false, array( 'save' => false, 'search' => false ) );
 
 		// IMAGE
 		//FJ fix error Warning: fclose() expects parameter 1 to be resource, boolean given
 
-		if ( file_exists( $picture = $StudentPicturesPath . UserSyear() . '/' . UserStudentID() . '.jpg' ) || file_exists( $picture = $StudentPicturesPath . ( UserSyear() - 1 ) . '/' . UserStudentID() . '.jpg' ) )
+		if ( file_exists( $picture = $StudentPicturesPath . UserSyear() . '/' . UserStudentID() . '.jpg' )
+			|| file_exists( $picture = $StudentPicturesPath . ( UserSyear() - 1 ) . '/' . UserStudentID() . '.jpg' ) )
 		{
 			echo '</td><td rowspan="2"><img src="' . $picture . '" width="150" />';
 		}
@@ -181,7 +209,13 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 			'variables' => array( 'id' => 'SALE_ID' ) );
 //FJ css WPadmin
 		//		$link['add']['html'] = array('DESCRIPTION' => '<table class="cellspacing-0"><tr><td>'.SelectInput('','item_sn','',$items).'</td></tr></table>','ICON' => '<table class="cellspacing-0"><tr><td><input type=submit value='._('Add').'></td></tr></table>','remove'=>button('add'));
-		$link['add']['html'] = array( 'DESCRIPTION' => SelectInput( '', 'item_sn', '', $items ), 'ICON' => SubmitButton( _( 'Add' ) ), 'PRICE' => '&nbsp;', 'remove' => button( 'add' ) );
+		$link['add']['html'] = array(
+			'DESCRIPTION' => SelectInput( '', 'item_sn', '', $items ),
+			'ICON' => SubmitButton( _( 'Add' ) ),
+			'PRICE' => '&nbsp;',
+			'remove' => button( 'add' ),
+		);
+
 		$columns = array( 'DESCRIPTION' => _( 'Item' ), 'ICON' => _( 'Icon' ), 'PRICE' => _( 'Price' ) );
 
 		$tabs = array();
@@ -191,12 +225,17 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 			$tabs[] = array( 'title' => $menu[1]['TITLE'], 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&menu_id=' . $id );
 		}
 
-		$extra = array( 'save' => false, 'search' => false,
-			'header' => WrapTabs( $tabs, 'Modules.php?modname=' . $_REQUEST['modname'] . '&menu_id=' . $_REQUEST['menu_id'] ) );
+		$extra = array(
+			'save' => false,
+			'search' => false,
+			'header' => WrapTabs( $tabs, 'Modules.php?modname=' . $_REQUEST['modname'] . '&menu_id=' . $_REQUEST['menu_id'] ),
+		);
 
 		echo '<br />';
 		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=add&menu_id=' . $_REQUEST['menu_id'] . '" method="POST">';
+
 		ListOutput( $LO_ret, $columns, 'Item', 'Items', $link, array(), $extra );
+
 		echo '</form>';
 
 		echo '</td></tr></table>';

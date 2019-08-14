@@ -97,7 +97,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				echo '<div style="page-break-after: always;"></div>';
 			}
 
-			if ( $homeroom )
+			if ( ! empty( $homeroom ) )
 			{
 				$teacher = DBGet( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,cs.TITLE
 				FROM STAFF s,SCHEDULE sch,COURSE_PERIODS cp,COURSES c,COURSE_SUBJECTS cs
@@ -130,7 +130,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				AND sch.SYEAR='" . UserSyear() . "'" );
 			}
 
-			$student['TEACHER'] = $teacher[1]['FULL_NAME'];
+			$student['TEACHER'] = ! empty( $teacher[1]['FULL_NAME'] ) ?
+				$teacher[1]['FULL_NAME'] : '';
 
 			$xstudents = DBGet( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME
 			FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa
@@ -143,13 +144,18 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				AND SYEAR='" . UserSyear() . "'
 				AND (START_DATE<=CURRENT_DATE AND (END_DATE IS NULL OR CURRENT_DATE<=END_DATE)))" );
 
-			$last_deposit = DBGet( "SELECT (SELECT sum(AMOUNT) FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,to_char(fst.TIMESTAMP,'YYYY-MM-DD') AS DATE
+			$last_deposit = DBGet( "SELECT (SELECT sum(AMOUNT)
+				FROM FOOD_SERVICE_TRANSACTION_ITEMS
+				WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
+				to_char(fst.TIMESTAMP,'YYYY-MM-DD') AS DATE
 			FROM FOOD_SERVICE_TRANSACTIONS fst
 			WHERE fst.SHORT_NAME='DEPOSIT'
 			AND fst.ACCOUNT_ID='" . $student['ACCOUNT_ID'] . "'
 			AND SYEAR='" . UserSyear() . "'
 			ORDER BY fst.TRANSACTION_ID DESC LIMIT 1", array( 'DATE' => 'ProperDate' ) );
-			$last_deposit = $last_deposit[1];
+
+			$last_deposit = ! empty( $last_deposit[1] ) ?
+				$last_deposit[1] : array();
 
 			if ( $_REQUEST['year_end'] === 'Y' )
 			{
@@ -168,7 +174,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 			if ( $reminders_count % 3 !== 0 )
 			{
-				// 1st & 2nd inside page, insert spaces & horizontal ruler.
+				// 3 per page, insert spaces & horizontal ruler.
 				echo '<br /><br /><hr /><br /><br />';
 			}
 		}
@@ -205,10 +211,10 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$status = DBEscapeString( _( 'Active' ) );
 
-	$extra['SELECT'] .= ",coalesce(fssa.STATUS,'" . $status . "') AS STATUS,fsa.BALANCE";
-	$extra['SELECT'] .= ",(SELECT 'Y' WHERE fsa.BALANCE < '" . $warning . "' AND fsa.BALANCE >= 0) AS WARNING";
-	$extra['SELECT'] .= ",(SELECT 'Y' WHERE fsa.BALANCE < 0 AND fsa.BALANCE >= '" . $minimum . "') AS NEGATIVE";
-	$extra['SELECT'] .= ",(SELECT 'Y' WHERE fsa.BALANCE < '" . $minimum . "') AS MINIMUM";
+	$extra['SELECT'] .= ",coalesce(fssa.STATUS,'" . $status . "') AS STATUS,fsa.BALANCE
+		,(SELECT 'Y' WHERE fsa.BALANCE < '" . $warning . "' AND fsa.BALANCE >= 0) AS WARNING
+		,(SELECT 'Y' WHERE fsa.BALANCE < 0 AND fsa.BALANCE >= '" . $minimum . "') AS NEGATIVE
+		,(SELECT 'Y' WHERE fsa.BALANCE < '" . $minimum . "') AS MINIMUM";
 
 	if ( ! mb_strpos( $extra['FROM'], 'fssa' ) )
 	{
@@ -222,8 +228,20 @@ if ( ! $_REQUEST['modfunc'] )
 		$extra['WHERE'] .= ' AND fsa.ACCOUNT_ID=fssa.ACCOUNT_ID';
 	}
 
-	$extra['functions'] += array( 'BALANCE' => 'red', 'WARNING' => 'x', 'NEGATIVE' => 'x', 'MINIMUM' => 'x' );
-	$extra['columns_after'] = array( 'BALANCE' => _( 'Balance' ), 'STATUS' => _( 'Status' ), 'WARNING' => _( 'Warning' ) . '<br />&lt; ' . $warning, 'NEGATIVE' => _( 'Negative' ), 'MINIMUM' => _( 'Minimum' ) . '<br />' . $minimum );
+	$extra['functions'] += array(
+		'BALANCE' => 'red',
+		'WARNING' => 'x',
+		'NEGATIVE' => 'x',
+		'MINIMUM' => 'x',
+	);
+
+	$extra['columns_after'] = array(
+		'BALANCE' => _( 'Balance' ),
+		'STATUS' => _( 'Status' ),
+		'WARNING' => _( 'Warning' ) . '<br />&lt; ' . $warning,
+		'NEGATIVE' => _( 'Negative' ),
+		'MINIMUM' => _( 'Minimum' ) . '<br />' . $minimum,
+	);
 
 	Search( 'student_id', $extra );
 

@@ -2,6 +2,8 @@
 
 require_once 'modules/Food_Service/includes/FS_Icons.inc.php';
 
+$_REQUEST['menu_id'] = issetVal( $_REQUEST['menu_id'] );
+
 if ( $_REQUEST['modfunc'] === 'select' )
 {
 	$_SESSION['FSA_type'] = $_REQUEST['fsa_type'];
@@ -30,18 +32,24 @@ $tabcolor_s = Preferences('HEADER'); $textcolor_s = '#FFFFFF';
 $tabcolor_u = '#DFDFDF'; $textcolor_u = '#999999';
 }*/
 
-$header = '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=select&menu_id=' . $_REQUEST['menu_id'] . '&fsa_type=student">' .
+$header = '<a href="Modules.php?modname=' . $_REQUEST['modname'] .
+	'&modfunc=select&menu_id=' . $_REQUEST['menu_id'] . '&fsa_type=student">' .
 	( ! isset( $_REQUEST['type'] ) || $_REQUEST['type'] === 'student' ?
 	'<b>' . _( 'Students' ) . '</b>' : _( 'Students' ) ) . '</a>';
 
-$header .= ' | <a href="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=select&menu_id=' . $_REQUEST['menu_id'] . '&fsa_type=staff">' .
+$header .= ' | <a href="Modules.php?modname=' . $_REQUEST['modname'] .
+	'&modfunc=select&menu_id=' . $_REQUEST['menu_id'] . '&fsa_type=staff">' .
 	( isset( $_REQUEST['type'] ) && $_REQUEST['type'] === 'staff' ?
 	'<b>' . _( 'Users' ) . '</b>' : _( 'Users' ) ) . '</a>';
 
-DrawHeader(  ( $_SESSION['FSA_type'] == 'staff' ? _( 'User' ) : _( 'Student' ) ) . ' &minus; ' . ProgramTitle() );
+DrawHeader( ( $_SESSION['FSA_type'] == 'staff' ? _( 'User' ) : _( 'Student' ) ) . ' &minus; ' . ProgramTitle() );
+
 User( 'PROFILE' ) === 'student' ? '' : DrawHeader( $header );
 
-$menus_RET = DBGet( 'SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY SORT_ORDER', array(), array( 'MENU_ID' ) );
+$menus_RET = DBGet( "SELECT MENU_ID,TITLE
+	FROM FOOD_SERVICE_MENUS
+	WHERE SCHOOL_ID='" . UserSchool() . "'
+	ORDER BY SORT_ORDER", array(), array( 'MENU_ID' ) );
 
 if ( empty( $_REQUEST['menu_id'] ) )
 {

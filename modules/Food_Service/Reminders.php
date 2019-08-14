@@ -99,7 +99,9 @@ function red( $value )
  */
 function FoodServiceReminderOutput( $user, $target, $last_deposit, $payment, $note, $xstudents = array() )
 {
-	echo '<h2 class="center">' . ( $_REQUEST['year_end'] === 'Y' ? _( 'Year End' ) . ' ' : '' ) . _( 'Lunch Payment Reminder' ) . '</h2>';
+	echo '<h2 class="center">' .
+		( ! empty( $_REQUEST['year_end'] ) ? _( 'Year End' ) . ' ' : '' ) .
+		_( 'Lunch Payment Reminder' ) . '</h2>';
 
 	if ( empty( $user['SCHOOL_TITLE'] ) )
 	{
@@ -167,7 +169,7 @@ function FoodServiceReminderOutput( $user, $target, $last_deposit, $payment, $no
 	echo '</td><td>';
 	echo '<b>' . NoInput(
 		Currency( $payment ),
-		( $_REQUEST['year_end'] === 'Y' ? _( 'Requested Payment' ) : _( 'Mimimum Payment' ) )
+		( ! empty( $_REQUEST['year_end'] ) ? _( 'Requested Payment' ) : _( 'Mimimum Payment' ) )
 	) . ' </b>';
 
 	echo '</td><td>';

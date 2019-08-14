@@ -210,13 +210,13 @@ function StaffWidgets( $item, &$myextra = null )
 					$extra['WHERE'] .= ' AND fssa.STAFF_ID=s.STAFF_ID';
 				}
 
-				$extra['WHERE'] .= " AND fssa.BALANCE" . ( $_REQUEST['fsa_bal_ge'] == 'Y' ? '>=' : '<' ) .
+				$extra['WHERE'] .= " AND fssa.BALANCE" . ( ! empty( $_REQUEST['fsa_bal_ge'] ) ? '>=' : '<' ) .
 					"'" . round( $_REQUEST['fsa_balance'], 2 ) . "'";
 
 				if ( ! $extra['NoSearchTerms'] )
 				{
 					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Food Service Balance' ) . ' </b>
-						<span class="sizep2">' . ( $_REQUEST['fsa_bal_ge'] == 'Y' ? '&ge;' : '&lt;' ) . '</span>' .
+						<span class="sizep2">' . ( ! empty( $_REQUEST['fsa_bal_ge'] ) ? '&ge;' : '&lt;' ) . '</span>' .
 						number_format( $_REQUEST['fsa_balance'], 2 ) . '<br />';
 				}
 			}

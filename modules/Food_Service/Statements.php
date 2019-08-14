@@ -63,9 +63,14 @@ if ( $_REQUEST['modfunc'] === 'delete'
 }
 
 $types = array( 'DEPOSIT' => _( 'Deposit' ), 'CREDIT' => _( 'Credit' ), 'DEBIT' => _( 'Debit' ) );
-$menus_RET = DBGet( 'SELECT TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY SORT_ORDER' );
 
-$type_select = '<label>' . _( 'Type' ) . ': <select name=type_select><option value=\'\'>' . _( 'Not Specified' ) . '</option>';
+$menus_RET = DBGet( "SELECT TITLE
+	FROM FOOD_SERVICE_MENUS
+	WHERE SCHOOL_ID='" . UserSchool() . "'
+	ORDER BY SORT_ORDER" );
+
+$type_select = ' &mdash; <label>' . _( 'Type' ) . ': <select name=type_select>
+	<option value="">' . _( 'Not Specified' ) . '</option>';
 
 foreach ( (array) $types as $short_name => $type )
 {

@@ -84,7 +84,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 			if ( $reminders_count % 3 !== 0 )
 			{
-				// 1st & 2nd inside page, insert spaces & horizontal ruler.
+				// 3 per page, insert spaces & horizontal ruler.
 				echo '<br /><br /><hr /><br /><br />';
 			}
 		}
@@ -118,10 +118,10 @@ if ( ! $_REQUEST['modfunc'] || $_REQUEST['search_modfunc'] === 'list' )
 
 	$status = DBEscapeString( _( 'Active' ) );
 
-	$extra['SELECT'] .= ",coalesce(fsa.STATUS,'" . $status . "') AS STATUS,fsa.BALANCE";
-	$extra['SELECT'] .= ",(SELECT 'Y' WHERE fsa.BALANCE < '" . $warning . "' AND fsa.BALANCE >= 0) AS WARNING";
-	$extra['SELECT'] .= ",(SELECT 'Y' WHERE fsa.BALANCE < 0 AND fsa.BALANCE >= '" . $minimum . "') AS NEGATIVE";
-	$extra['SELECT'] .= ",(SELECT 'Y' WHERE fsa.BALANCE < '" . $minimum . "') AS MINIMUM";
+	$extra['SELECT'] .= ",coalesce(fsa.STATUS,'" . $status . "') AS STATUS,fsa.BALANCE
+		,(SELECT 'Y' WHERE fsa.BALANCE < '" . $warning . "' AND fsa.BALANCE >= 0) AS WARNING
+		,(SELECT 'Y' WHERE fsa.BALANCE < 0 AND fsa.BALANCE >= '" . $minimum . "') AS NEGATIVE
+		,(SELECT 'Y' WHERE fsa.BALANCE < '" . $minimum . "') AS MINIMUM";
 
 	if ( ! mb_strpos( $extra['FROM'], 'fsa' ) )
 	{
@@ -129,8 +129,20 @@ if ( ! $_REQUEST['modfunc'] || $_REQUEST['search_modfunc'] === 'list' )
 		$extra['WHERE'] .= ' AND fsa.STAFF_ID=s.STAFF_ID';
 	}
 
-	$extra['functions'] += array( 'BALANCE' => 'red', 'WARNING' => 'x', 'NEGATIVE' => 'x', 'MINIMUM' => 'x' );
-	$extra['columns_after'] = array( 'BALANCE' => _( 'Balance' ), 'STATUS' => _( 'Status' ), 'WARNING' => _( 'Warning' ) . '<br />&lt; ' . $warning, 'NEGATIVE' => _( 'Negative' ), 'MINIMUM' => _( 'Minimum' ) . '<br />' . $minimum );
+	$extra['functions'] += array(
+		'BALANCE' => 'red',
+		'WARNING' => 'x',
+		'NEGATIVE' => 'x',
+		'MINIMUM' => 'x',
+	);
+
+	$extra['columns_after'] = array(
+		'BALANCE' => _( 'Balance' ),
+		'STATUS' => _( 'Status' ),
+		'WARNING' => _( 'Warning' ) . '<br />&lt; ' . $warning,
+		'NEGATIVE' => _( 'Negative' ),
+		'MINIMUM' => _( 'Minimum' ) . '<br />' . $minimum,
+	);
 
 	Search( 'staff_id', $extra );
 

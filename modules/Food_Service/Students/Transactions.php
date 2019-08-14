@@ -1,6 +1,6 @@
 <?php
 
-if ( $_REQUEST['values']
+if ( ! empty( $_REQUEST['values'] )
 	&& $_POST['values']
 	&& $_REQUEST['modfunc'] === 'save' )
 {
@@ -24,14 +24,25 @@ if ( $_REQUEST['values']
 			( $_REQUEST['values']['TYPE'] === 'Debit' ? -$amount : $amount ) . "',NULL,'" .
 			mb_strtoupper( $_REQUEST['values']['OPTION'] ) . "','" . $full_description . "'";
 
-			$sql = "INSERT INTO FOOD_SERVICE_TRANSACTION_ITEMS (" . $fields . ") values (" . $values . ")";
+			$sql = "INSERT INTO FOOD_SERVICE_TRANSACTION_ITEMS (" . $fields . ") VALUES(" . $values . ")";
 
 			DBQuery( $sql );
 
-			$sql1 = "UPDATE FOOD_SERVICE_ACCOUNTS SET TRANSACTION_ID='" . $id . "',BALANCE=BALANCE+(SELECT sum(AMOUNT) FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID='" . $id . "') WHERE ACCOUNT_ID='" . $account_id . "'";
+			$sql1 = "UPDATE FOOD_SERVICE_ACCOUNTS
+				SET TRANSACTION_ID='" . $id . "',BALANCE=BALANCE+(SELECT sum(AMOUNT)
+					FROM FOOD_SERVICE_TRANSACTION_ITEMS
+					WHERE TRANSACTION_ID='" . $id . "')
+				WHERE ACCOUNT_ID='" . $account_id . "'";
+
 			$fields = 'TRANSACTION_ID,SYEAR,SCHOOL_ID,ACCOUNT_ID,BALANCE,TIMESTAMP,SHORT_NAME,DESCRIPTION,SELLER_ID';
-			$values = "'" . $id . "','" . UserSyear() . "','" . UserSchool() . "','" . $account_id . "',(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID='" . $account_id . "'),CURRENT_TIMESTAMP,'" . mb_strtoupper( $_REQUEST['values']['TYPE'] ) . "','" . $_REQUEST['values']['TYPE'] . "','" . User( 'STAFF_ID' ) . "'";
+
+			$values = "'" . $id . "','" . UserSyear() . "','" . UserSchool() . "','" . $account_id . "',
+				(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID='" . $account_id . "'),
+				CURRENT_TIMESTAMP,'" . mb_strtoupper( $_REQUEST['values']['TYPE'] ) . "','" .
+				$_REQUEST['values']['TYPE'] . "','" . User( 'STAFF_ID' ) . "'";
+
 			$sql2 = "INSERT INTO FOOD_SERVICE_TRANSACTIONS (" . $fields . ") values (" . $values . ")";
+
 			DBQuery( 'BEGIN; ' . $sql1 . '; ' . $sql2 . '; COMMIT' );
 		}
 		else
@@ -82,7 +93,10 @@ if ( UserStudentID()
 
 	DrawHeader( '', ResetButton( _( 'Cancel' ) ) . SubmitButton() );
 
-	DrawHeader( NoInput( $student['FULL_NAME'], '&nbsp;' . $student['STUDENT_ID'] ), '', NoInput( red( $student['BALANCE'] ), _( 'Balance' ) ) );
+	DrawHeader(
+		NoInput( $student['FULL_NAME'], '&nbsp;' . $student['STUDENT_ID'] ),
+		NoInput( red( $student['BALANCE'] ), _( 'Balance' ) )
+	);
 
 	if ( $student['BALANCE'] != '' )
 	{

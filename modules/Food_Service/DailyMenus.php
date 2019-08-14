@@ -89,20 +89,26 @@ if ( ! empty( $_REQUEST['submit']['save'] )
 
 	foreach ( (array) $_REQUEST['food_service'] as $school_date => $description )
 	{
-		if ( $events_RET[$school_date] )
+		if ( ! empty( $events_RET[$school_date] ) )
 		{
-			if ( $description['text'] || $description['select'] )
+			if ( ! empty( $description['text'] ) || ! empty( $description['select'] ) )
 			{
-				DBQuery( "UPDATE CALENDAR_EVENTS SET DESCRIPTION='" . $description['text'] . $description['select'] . "' WHERE ID='" . $events_RET[$school_date][1]['ID'] . "'" );
+				DBQuery( "UPDATE CALENDAR_EVENTS
+					SET DESCRIPTION='" . $description['text'] . $description['select'] . "'
+					WHERE ID='" . $events_RET[$school_date][1]['ID'] . "'" );
 			}
 			else
 			{
-				DBQuery( "DELETE FROM CALENDAR_EVENTS WHERE ID='" . $events_RET[$school_date][1]['ID'] . "'" );
+				DBQuery( "DELETE FROM CALENDAR_EVENTS
+					WHERE ID='" . $events_RET[$school_date][1]['ID'] . "'" );
 			}
 		}
-		elseif ( $description['text'] || $description['select'] )
+		elseif ( ! empty( $description['text'] ) || ! empty( $description['select'] ) )
 		{
-			DBQuery( "INSERT INTO CALENDAR_EVENTS (ID,SYEAR,SCHOOL_ID,SCHOOL_DATE,TITLE,DESCRIPTION) values(" . db_seq_nextval( 'calendar_events_id_seq' ) . ",'" . UserSyear() . "','" . UserSchool() . "','" . $school_date . "','" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "','" . $description['text'] . $description['select'] . "')" );
+			DBQuery( "INSERT INTO CALENDAR_EVENTS (ID,SYEAR,SCHOOL_ID,SCHOOL_DATE,TITLE,DESCRIPTION)
+				VALUES(" . db_seq_nextval( 'calendar_events_id_seq' ) . ",'" . UserSyear() . "','" .
+				UserSchool() . "','" . $school_date . "','" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "','" .
+				$description['text'] . issetVal( $description['select'], '' ) . "')" );
 		}
 	}
 
@@ -240,7 +246,13 @@ else
 
 	if ( AllowEdit() )
 	{
-		$description_RET = DBGet( "SELECT DISTINCT DESCRIPTION FROM CALENDAR_EVENTS WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' AND TITLE='" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "' AND DESCRIPTION IS NOT NULL ORDER BY DESCRIPTION" );
+		$description_RET = DBGet( "SELECT DISTINCT DESCRIPTION
+			FROM CALENDAR_EVENTS
+			WHERE SYEAR='" . UserSyear() . "'
+			AND SCHOOL_ID='" . UserSchool() . "'
+			AND TITLE='" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "'
+			AND DESCRIPTION IS NOT NULL
+			ORDER BY DESCRIPTION" );
 
 		if ( ! empty( $description_RET ) )
 		{
@@ -289,7 +301,8 @@ else
 
 	$LO_columns = array( 'ID' => _( 'ID' ), 'SCHOOL_DATE' => _( 'Date' ), 'DESCRIPTION' => _( 'Description' ) );
 
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&menu_id=' . $_REQUEST['menu_id'] . '&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year'] . '" method="POST">';
+	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&menu_id=' . $_REQUEST['menu_id'] .
+		'&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year'] . '" method="POST">';
 
 	DrawHeader(
 		PrepareDate(
@@ -319,12 +332,16 @@ else
 		);
 	}
 
-	$extra = array( 'save' => false, 'search' => false,
-		'header' => WrapTabs( $tabs, 'Modules.php?modname=' . $_REQUEST['modname'] . '&menu_id=' . $_REQUEST['menu_id'] . '&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year'] ) );
+	$extra = array(
+		'save' => false,
+		'search' => false,
+		'header' => WrapTabs( $tabs, 'Modules.php?modname=' . $_REQUEST['modname'] .
+			'&menu_id=' . $_REQUEST['menu_id'] . '&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year'] ),
+	);
+
 	$singular = sprintf( _( '%s Day' ), $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] );
 	$plural = sprintf( _( '%s Days' ), $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] );
 
-//FJ add translation
 	ListOutput( $events_RET, $LO_columns, $singular, $plural, array(), array(), $extra );
 
 	echo '<br /><div class="center">' . SubmitButton( _( 'Save' ), 'submit[save]' ) . '</div>';

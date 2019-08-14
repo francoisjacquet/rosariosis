@@ -210,7 +210,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] .
 			'&modfunc=remove&tab_id=' . $_REQUEST['tab_id'] .
-			'&category_id=' . $_REQUEST['category_id'];
+			'&category_id=' . issetVal( $_REQUEST['category_id'], '' );
 
 		$link['remove']['variables'] = array( 'category_id' => 'CATEGORY_ID' );
 
@@ -286,7 +286,7 @@ function _makeTextInput( $value, $name )
 {
 	global $THIS_RET;
 
-	if ( $THIS_RET['CATEGORY_ID'] )
+	if ( ! empty( $THIS_RET['CATEGORY_ID'] ) )
 	{
 		$id = $THIS_RET['CATEGORY_ID'];
 	}

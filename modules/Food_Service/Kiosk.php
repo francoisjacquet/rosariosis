@@ -2,9 +2,14 @@
 
 require_once 'modules/Food_Service/includes/FS_Icons.inc.php';
 
+$_REQUEST['cat_id'] = issetVal( $_REQUEST['cat_id'] );
+
 DrawHeader( ProgramTitle() );
 
-$menus_RET = DBGet( "SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID='" . UserSchool() . "' ORDER BY SORT_ORDER", array(), array( 'MENU_ID' ) );
+$menus_RET = DBGet( "SELECT MENU_ID,TITLE
+	FROM FOOD_SERVICE_MENUS
+	WHERE SCHOOL_ID='" . UserSchool() . "'
+	ORDER BY SORT_ORDER", array(), array( 'MENU_ID' ) );
 
 if ( ! empty( $_REQUEST['menu_id'] ) )
 {
@@ -59,11 +64,14 @@ else
 	}
 }
 
-$categories_RET = DBGet( "SELECT MENU_ID,CATEGORY_ID,TITLE FROM FOOD_SERVICE_CATEGORIES WHERE SCHOOL_ID='" . UserSchool() . "' ORDER BY SORT_ORDER", array(), array( 'MENU_ID', 'CATEGORY_ID' ) );
+$categories_RET = DBGet( "SELECT MENU_ID,CATEGORY_ID,TITLE
+	FROM FOOD_SERVICE_CATEGORIES
+	WHERE SCHOOL_ID='" . UserSchool() . "'
+	ORDER BY SORT_ORDER", array(), array( 'MENU_ID', 'CATEGORY_ID' ) );
 //FJ fix error Warning: key() expects parameter 1 to be array, null given
 //if ( ! $_REQUEST['cat_id'] || ! $categories_RET[$_REQUEST['menu_id']][$_REQUEST['cat_id']])
 
-if (  ( ! $_REQUEST['cat_id'] || ! $categories_RET[$_REQUEST['menu_id']][$_REQUEST['cat_id']] ) && isset( $categories_RET[$_REQUEST['menu_id']] ) )
+if ( ( ! $_REQUEST['cat_id'] || ! $categories_RET[$_REQUEST['menu_id']][$_REQUEST['cat_id']] ) && isset( $categories_RET[$_REQUEST['menu_id']] ) )
 {
 	$_REQUEST['cat_id'] = key( $categories_RET[$_REQUEST['menu_id']] );
 }
@@ -99,8 +107,10 @@ echo '<div class="center">' . WrapTabs( $meals, 'Modules.php?modname=' . $_REQUE
 if ( ! empty( $items_RET ) )
 {
 	$per_row = ceil( sqrt( count( $items_RET ) ) );
-//FJ css WPadmin
+
 	echo '<table class="center cellpadding-5">';
+
+	$i = 0;
 
 	foreach ( (array) $items_RET as $item )
 	{

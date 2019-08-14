@@ -1,5 +1,7 @@
 <?php
 
+$_REQUEST['type_select'] = issetVal( $_REQUEST['type_select'], '' );
+
 // Set start date.
 $start_date = RequestedDate( 'start', date( 'Y-m' ) . '-01', 'set' );
 
@@ -41,7 +43,7 @@ if ( ! empty( $_REQUEST['menu_id'] ) )
 }
 else
 {
-	if ( $_SESSION['FSA_menu_id'] )
+	if ( ! empty( $_SESSION['FSA_menu_id'] ) )
 	{
 		if ( $menus_RET[$_SESSION['FSA_menu_id']] )
 		{
@@ -293,10 +295,28 @@ else
 		foreach ( (array) $discounts as $discount => $value )
 		{
 			//FJ fix error Warning: Division by zero
-			$TMP_types[] = array( 'TYPE' => ( empty( $users_locale[$user] ) ? $user : $users_locale[$user] ), 'DISCOUNT' => $discount, 'ELLIGIBLE' => number_format( $value['ELLIGIBLE'], 1 ), 'DAYS_POSSIBLE' => ( 0 == $value['ELLIGIBLE'] ? '0.0' : number_format( $value['DAYS'] / $value['ELLIGIBLE'], 1 ) ), 'TOTAL_ELLIGIBLE' => $value['DAYS'], 'PARTICIPATED' => $value['PARTICIPATED'] ) + $types[$user][$discount];
+			$TMP_types[] = array(
+				'TYPE' => ( empty( $users_locale[$user] ) ? $user : $users_locale[$user] ),
+				'DISCOUNT' => $discount,
+				'ELLIGIBLE' => number_format( $value['ELLIGIBLE'], 1 ),
+				'DAYS_POSSIBLE' => ( 0 == $value['ELLIGIBLE'] ? '0.0' : number_format( $value['DAYS'] / $value['ELLIGIBLE'], 1 ) ),
+				'TOTAL_ELLIGIBLE' => issetVal( $value['DAYS'] ),
+				'PARTICIPATED' => $value['PARTICIPATED'],
+			) + $types[$user][$discount];
 		}
 
-		$TMP_types[] = array( 'TYPE' => '<b>' . ( empty( $users_locale[$user] ) ? $user : $users_locale[$user] ) . '</b>', 'DISCOUNT' => '<b>' . _( 'Totals' ) . '</b>', 'ELLIGIBLE' => '<b>' . number_format( $users_totals[$user]['ELLIGIBLE'], 1 ) . '</b>', 'DAYS_POSSIBLE' => '<b>' . number_format(  ( empty( $users_totals[$user]['ELLIGIBLE'] ) ? 0 : $users_totals[$user]['DAYS'] / $users_totals[$user]['ELLIGIBLE'] ), 1 ) . '</b>', 'TOTAL_ELLIGIBLE' => '<b>' . $users_totals[$user]['DAYS'] . '</b>', 'PARTICIPATED' => '<b>' . $users_totals[$user]['PARTICIPATED'] . '</b>' ) + array_map( 'bold', $types_totals[$user] );
+		$TMP_types[] = array(
+			'TYPE' => '<b>' . ( empty( $users_locale[$user] ) ? $user : $users_locale[$user] ) . '</b>',
+			'DISCOUNT' => '<b>' . _( 'Totals' ) . '</b>',
+			'ELLIGIBLE' => '<b>' . number_format( $users_totals[$user]['ELLIGIBLE'], 1 ) . '</b>',
+			'DAYS_POSSIBLE' => '<b>' . number_format(
+				( empty( $users_totals[$user]['ELLIGIBLE'] ) ?
+					0 : $users_totals[$user]['DAYS'] / $users_totals[$user]['ELLIGIBLE'] ),
+				1
+			) . '</b>',
+			'TOTAL_ELLIGIBLE' => '<b>' . issetVal( $users_totals[$user]['DAYS'], '' ) . '</b>',
+			'PARTICIPATED' => '<b>' . $users_totals[$user]['PARTICIPATED'] . '</b>',
+		) + array_map( 'bold', $types_totals[$user] );
 
 		unset( $TMP_types[0] );
 
@@ -311,7 +331,13 @@ else
 		}
 	}
 
-	$LO_types[] = array( array( 'TYPE' => '<b>' . _( 'Totals' ) . '</b>', 'ELLIGIBLE' => '<b>' . number_format( $users_totals['']['ELLIGIBLE'], 1 ) . '</b>', 'DAYS_POSSIBLE' => '<b>' . number_format(  ( empty( $users_totals['']['ELLIGIBLE'] ) ? 0 : $users_totals['']['DAYS'] / $users_totals['']['ELLIGIBLE'] ), 1 ) . '</b>', 'TOTAL_ELLIGIBLE' => '<b>' . $users_totals['']['DAYS'] . '</b>', 'PARTICIPATED' => '<b>' . $users_totals['']['PARTICIPATED'] . '</b>' ) + array_map( 'bold', $types_totals[''] ) );
+	$LO_types[] = array( array(
+		'TYPE' => '<b>' . _( 'Totals' ) . '</b>',
+		'ELLIGIBLE' => '<b>' . number_format( $users_totals['']['ELLIGIBLE'], 1 ) . '</b>',
+		'DAYS_POSSIBLE' => '<b>' . number_format( ( empty( $users_totals['']['ELLIGIBLE'] ) ? 0 : $users_totals['']['DAYS'] / $users_totals['']['ELLIGIBLE'] ), 1 ) . '</b>',
+		'TOTAL_ELLIGIBLE' => '<b>' . $users_totals['']['DAYS'] . '</b>',
+		'PARTICIPATED' => '<b>' . $users_totals['']['PARTICIPATED'] . '</b>',
+	) + array_map( 'bold', $types_totals[''] ) );
 
 	unset( $LO_types[0] );
 
@@ -410,7 +436,9 @@ function bold_format( $item )
  */
 function bump_dep( $value, $column )
 {
-	global $THIS_RET, $users, $users_totals;
+	global $THIS_RET,
+		$users,
+		$users_totals;
 
 	if ( 'ELLIGIBLE' == $column )
 	{
@@ -422,8 +450,25 @@ function bump_dep( $value, $column )
 		$users[$THIS_RET['TYPE']][$THIS_RET['DISCOUNT']] = array( 'DAYS' => 0, 'ELLIGIBLE' => 0, 'PARTICIPATED' => 0 );
 	}
 
+	if ( ! isset( $users[$THIS_RET['TYPE']][$THIS_RET['DISCOUNT']][$column] ) )
+	{
+		$users[$THIS_RET['TYPE']][$THIS_RET['DISCOUNT']][$column] = null;
+	}
+
 	$users[$THIS_RET['TYPE']][$THIS_RET['DISCOUNT']][$column] += $value;
+
+	if ( ! isset( $users_totals[$THIS_RET['TYPE']][$column] ) )
+	{
+		$users_totals[$THIS_RET['TYPE']][$column] = null;
+	}
+
 	$users_totals[$THIS_RET['TYPE']][$column] += $value;
+
+	if ( ! isset( $users_totals[''][$column] ) )
+	{
+		$users_totals[''][$column] = null;
+	}
+
 	$users_totals[''][$column] += $value;
 
 	return $THIS_RET[$column];

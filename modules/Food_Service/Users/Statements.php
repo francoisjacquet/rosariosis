@@ -1,5 +1,7 @@
 <?php
 
+$_REQUEST['detailed_view'] = issetVal( $_REQUEST['detailed_view'], '' );
+
 StaffWidgets( 'fsa_status' );
 StaffWidgets( 'fsa_barcode' );
 StaffWidgets( 'fsa_exists_Y' );
@@ -43,8 +45,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 		NoInput( red( $staff['BALANCE'] ), _( 'Balance' ) )
 	);
 
-	if ( isset( $_REQUEST['detailed_view'] )
-		&& $_REQUEST['detailed_view'] != 'true' )
+	if ( $_REQUEST['detailed_view'] != 'true' )
 	{
 		DrawHeader( "<a href=" . PreparePHP_SELF( $_REQUEST, array(), array( 'detailed_view' => 'true' ) ) . ">" . _( 'Detailed View' ) . "</a>" );
 	}
@@ -55,6 +56,8 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 
 	if ( $staff['ACCOUNT_ID'] && $staff['BALANCE'] != '' )
 	{
+		$where = '';
+
 		if ( ! empty( $_REQUEST['type_select'] ) )
 		{
 			$where = " AND fst.SHORT_NAME='" . $_REQUEST['type_select'] . "'";
@@ -144,6 +147,8 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 			{
 				$RET[$RET_key] = array_map( 'types_locale', $RET_val );
 			}
+
+			$link = $group = array();
 		}
 
 		ListOutput( $RET, $columns, 'Transaction', 'Transactions', $link, $group );

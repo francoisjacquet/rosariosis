@@ -1,5 +1,8 @@
 <?php
 
+$_REQUEST['detailed_view'] = issetVal( $_REQUEST['detailed_view'], '' );
+$_REQUEST['type_select'] = issetVal( $_REQUEST['type_select'], '' );
+
 StaffWidgets( 'fsa_status' );
 StaffWidgets( 'fsa_barcode' );
 StaffWidgets( 'fsa_exists_Y' );
@@ -110,7 +113,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 		WHERE SYEAR='" . UserSyear() . "'
 		AND fst.TIMESTAMP BETWEEN '" . $date . "' AND date '" . $date . "' +1
 		AND SCHOOL_ID='" . UserSchool() . "'" . $where . "
-		ORDER BY " . ( $_REQUEST['by_name'] ? "FULL_NAME," : '' ) . "fst.TRANSACTION_ID DESC", array( 'DATE' => 'ProperDateTime', 'SHORT_NAME' => 'bump_count' ) );
+		ORDER BY " . ( ! empty( $_REQUEST['by_name'] ) ? "FULL_NAME," : '' ) . "fst.TRANSACTION_ID DESC", array( 'DATE' => 'ProperDateTime', 'SHORT_NAME' => 'bump_count' ) );
 
 		$columns = array(
 			'TRANSACTION_ID' => _( 'ID' ),
@@ -125,6 +128,8 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 		{
 			$RET[$RET_key] = array_map( 'types_locale', $RET_val );
 		}
+
+		$link = $group = array();
 	}
 
 	$type_select = '<span class="nobr">' . _( 'Type' ) . ' <select name="type_select"><option value="">' . _( 'Not Specified' ) . '</option>';
@@ -147,7 +152,9 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 
 	foreach ( (array) $staff_RET as $staff )
 	{
-		$staff_select .= '<option value="' . $staff['STAFF_ID'] . '"' . ( $_REQUEST['staff_select'] == $staff['STAFF_ID'] ? ' selected' : '' ) . '>' . $staff['FULL_NAME'] . '</option>';
+		$staff_select .= '<option value="' . $staff['STAFF_ID'] . '"' .
+			( isset( $_REQUEST['staff_select'] ) && $_REQUEST['staff_select'] == $staff['STAFF_ID'] ? ' selected' : '' ) . '>' .
+			$staff['FULL_NAME'] . '</option>';
 	}
 
 	$staff_select .= '</select></span>';
@@ -191,19 +198,35 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 		{
 			if ( $type['COUNT'] )
 			{
-				$LO_types[] = array( array( 'DESCRIPTION' => $type['DESCRIPTION'], 'DETAIL' => '', 'COUNT' => $type['COUNT'], 'AMOUNT' => number_format( $type['AMOUNT'], 2 ) ) );
+				$LO_types[] = array( array(
+					'DESCRIPTION' => $type['DESCRIPTION'],
+					'DETAIL' => '',
+					'COUNT' => $type['COUNT'],
+					'AMOUNT' => number_format( $type['AMOUNT'], 2 ),
+				) );
 
 				foreach ( (array) $type['ITEMS'] as $item )
 				{
 					if ( $item[1]['COUNT'] )
 					{
-						$LO_types[last( $LO_types )][] = array( 'DESCRIPTION' => $type['DESCRIPTION'], 'DETAIL' => $item[1]['DESCRIPTION'], 'COUNT' => $item[1]['COUNT'], 'AMOUNT' => number_format( $item[1]['AMOUNT'], 2 ) );
+						$LO_types[last( $LO_types )][] = array(
+							'DESCRIPTION' => $type['DESCRIPTION'],
+							'DETAIL' => $item[1]['DESCRIPTION'],
+							'COUNT' => $item[1]['COUNT'],
+							'AMOUNT' => number_format( $item[1]['AMOUNT'], 2 ),
+						);
 					}
 				}
 			}
 		}
 
-		$types_columns = array( 'DESCRIPTION' => _( 'Description' ), 'DETAIL' => _( 'Detail' ), 'COUNT' => _( 'Count' ), 'AMOUNT' => _( 'Amount' ) );
+		$types_columns = array(
+			'DESCRIPTION' => _( 'Description' ),
+			'DETAIL' => _( 'Detail' ),
+			'COUNT' => _( 'Count' ),
+			'AMOUNT' => _( 'Amount' ),
+		);
+
 		$types_group = array( 'DESCRIPTION' );
 	}
 	else
@@ -214,16 +237,42 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 		{
 			if ( $type['COUNT'] )
 			{
-				$LO_types[] = array( 'DESCRIPTION' => $type['DESCRIPTION'], 'COUNT' => $type['COUNT'], 'AMOUNT' => number_format( $type['AMOUNT'], 2 ) );
+				$LO_types[] = array(
+					'DESCRIPTION' => $type['DESCRIPTION'],
+					'COUNT' => $type['COUNT'],
+					'AMOUNT' => number_format( $type['AMOUNT'], 2 ),
+				);
 			}
 		}
 
-		$types_columns = array( 'DESCRIPTION' => _( 'Description' ), 'COUNT' => _( 'Count' ), 'AMOUNT' => _( 'Amount' ) );
+		$types_columns = array(
+			'DESCRIPTION' => _( 'Description' ),
+			'COUNT' => _( 'Count' ),
+			'AMOUNT' => _( 'Amount' ),
+		);
+
+		$types_group = array();
 	}
 
 	unset( $LO_types[0] );
 
-	ListOutput( $LO_types, $types_columns, 'Transaction Type', 'Transaction Types', false, $types_group, array( 'save' => false, 'search' => false, 'print' => false ) );
+	ListOutput(
+		$LO_types,
+		$types_columns,
+		'Transaction Type',
+		'Transaction Types',
+		false,
+		$types_group,
+		array( 'save' => false, 'search' => false, 'print' => false )
+	);
 
-	ListOutput( $RET, $columns, 'Transaction', 'Transactions', $link, $group, array( 'save' => false, 'search' => false, 'print' => false ) );
+	ListOutput(
+		$RET,
+		$columns,
+		'Transaction',
+		'Transactions',
+		$link,
+		$group,
+		array( 'save' => false, 'search' => false, 'print' => false )
+	);
 }
