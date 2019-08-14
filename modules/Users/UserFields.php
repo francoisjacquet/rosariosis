@@ -237,6 +237,10 @@ if ( ! $_REQUEST['modfunc'] )
 		$title = _( 'New User Field Category' );
 
 		$RET['CATEGORY_ID'] = 'new';
+
+		$RET['COLUMNS'] = '';
+		$RET['ADMIN'] = $RET['TEACHER'] = $RET['PARENT'] = $RET['NONE'] = '';
+		$RET['INCLUDE'] = '';
 	}
 
 	if ( $_REQUEST['category_id']

@@ -14,7 +14,9 @@ if ( $_REQUEST['modfunc'] === 'save'
 {
 	if ( ! empty( $_REQUEST['st_arr'] ) )
 	{
-		// FJ bypass strip_tags on the $_REQUEST vars.
+		$_REQUEST['mailing_labels'] = issetVal( $_REQUEST['mailing_labels'], '' );
+
+		// Bypass strip_tags on the $_REQUEST vars.
 		$REQUEST_letter_text = SanitizeHTML( $_POST['letter_text'] );
 
 		$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
@@ -26,11 +28,15 @@ if ( $_REQUEST['modfunc'] === 'save'
 			Widgets( 'mailing_labels' );
 		}
 
+		$extra['SELECT'] = issetVal( $extra['SELECT'], '' );
+
 		$extra['SELECT'] .= ",s.FIRST_NAME AS NICK_NAME";
 
 		if ( User( 'PROFILE' ) === 'admin' )
 		{
-			if ( $_REQUEST['w_course_period_id_which'] == 'course_period' && $_REQUEST['w_course_period_id'] )
+			if ( isset( $_REQUEST['w_course_period_id_which'] )
+				&& $_REQUEST['w_course_period_id_which'] == 'course_period'
+				&& $_REQUEST['w_course_period_id'] )
 			{
 				$extra['SELECT'] .= ",(SELECT " . DisplayNameSQL( 'st' ) . "
 				FROM STAFF st,COURSE_PERIODS cp
@@ -70,6 +76,15 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 			$extra['SELECT'] .= ",(SELECT cp.ROOM FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID='" . UserCoursePeriod() . "') AS ROOM";
 		}
+
+		if ( empty( $_REQUEST['_search_all_schools'] ) )
+		{
+			// School Title.
+			$extra['SELECT'] .= ",(SELECT sch.TITLE FROM SCHOOLS sch
+				WHERE ssm.SCHOOL_ID=sch.ID
+				AND sch.SYEAR='" . UserSyear() . "') AS SCHOOL_TITLE";
+		}
+
 
 		$RET = GetStuList( $extra );
 
@@ -133,7 +148,9 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save&include_inactive=' . $_REQUEST['include_inactive'] . '&_search_all_schools=' . $_REQUEST['_search_all_schools'] . '&_ROSARIO_PDF=true" method="POST">';
+		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save&include_inactive=' .
+			issetVal( $_REQUEST['include_inactive'], '' ) . '&_search_all_schools=' .
+			issetVal( $_REQUEST['_search_all_schools'], '' ) . '&_ROSARIO_PDF=true" method="POST">';
 
 		$extra['header_right'] = SubmitButton( _( 'Print Letters for Selected Students' ) );
 
@@ -174,6 +191,8 @@ if ( ! $_REQUEST['modfunc'] )
 			SubstitutionsInput( $substitutions ) .
 		'</td></tr></table>';
 	}
+
+	$extra['SELECT'] = issetVal( $extra['SELECT'], '' );
 
 	$extra['SELECT'] .= ",s.STUDENT_ID AS CHECKBOX";
 	$extra['link'] = array( 'FULL_NAME' => false );

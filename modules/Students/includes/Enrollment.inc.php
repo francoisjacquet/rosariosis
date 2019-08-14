@@ -147,7 +147,7 @@ echo SelectInput(
 
 echo '</td></tr></table>';
 
-if ( $PopTable_opened )
+if ( ! empty( $PopTable_opened ) )
 {
 	PopTable( 'footer' );
 }
@@ -162,7 +162,7 @@ ListOutput(
 	array( 'save' => false, 'search' => false )
 );
 
-if ( $PopTable_opened )
+if ( ! empty( $PopTable_opened ) )
 {
 	echo '<table><tr><td>';
 }

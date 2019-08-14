@@ -755,7 +755,7 @@ else
 
 	echo '</div><div class="st">';
 
-	if ( $Search
+	if ( ! empty( $Search )
 		&& function_exists( $Search ) )
 	{
 		$Search( $extra );

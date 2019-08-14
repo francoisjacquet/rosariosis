@@ -491,6 +491,8 @@ function Search( $type, $extra = null )
 			}
 			elseif ( $type === 'staff_fields' )
 			{
+				$i = isset( $i ) ? $i : 0;
+
 				if ( Preferences( 'EMAIL', 'StaffFieldsSearch' ) === 'Y' )
 				{
 					// Add Email Address to Find a User form.

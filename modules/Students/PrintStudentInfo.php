@@ -5,7 +5,13 @@ if ( $_REQUEST['modfunc'] === 'save'
 {
 	if ( ! empty( $_REQUEST['st_arr'] ) )
 	{
+		$_REQUEST['mailing_labels'] = issetVal( $_REQUEST['mailing_labels'], '' );
+
 		$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
+
+		$extra['SELECT'] = issetVal( $extra['SELECT'], '' );
+
+		$extra['SELECT'] .= ",s.NAME_SUFFIX";
 
 		$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
 
@@ -21,6 +27,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 		if ( ! empty( $RET ) )
 		{
 			require_once 'ProgramFunctions/StudentsUsersInfo.fnc.php';
+
 			$categories_RET = DBGet( "SELECT ID,TITLE,INCLUDE
 				FROM STUDENT_FIELD_CATEGORIES
 				ORDER BY SORT_ORDER,TITLE", array(), array( 'ID' ) );
@@ -48,6 +55,8 @@ if ( $_REQUEST['modfunc'] === 'save'
 			foreach ( (array) $RET as $student )
 			{
 				SetUserStudentID( $student['STUDENT_ID'] );
+
+				$_REQUEST['student_id'] = $student['STUDENT_ID'];
 
 				unset( $_ROSARIO['DrawHeader'] );
 
@@ -204,7 +213,11 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 				foreach ( (array) $categories_RET as $id => $category )
 				{
-					if ( $id != '1' && $id != '3' && $id != '2' && $id != '4' && $_REQUEST['category'][$id] )
+					if ( $id != '1'
+						&& $id != '3'
+						&& $id != '2'
+						&& $id != '4'
+						&& ! empty( $_REQUEST['category'][$id] ) )
 					{
 						$_REQUEST['category_id'] = $id;
 						$_ROSARIO['DrawHeader'] = '';
@@ -264,7 +277,10 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save&include_inactive=' . $_REQUEST['include_inactive'] . '&_search_all_schools=' . $_REQUEST['_search_all_schools'] . '&_ROSARIO_PDF=true" method="POST">';
+		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save&include_inactive=' .
+			issetVal( $_REQUEST['include_inactive'], '' ) . '&_search_all_schools=' .
+			issetVal( $_REQUEST['_search_all_schools'], '' ) . '&_ROSARIO_PDF=true" method="POST">';
+
 		$extra['header_right'] = SubmitButton( _( 'Print Info for Selected Students' ) );
 
 		$extra['extra_header_left'] = '<table>';
@@ -296,7 +312,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		foreach ( (array) $categories_RET as $category )
 		{
-			if ( $can_use_RET['Students/Student.php&category_id=' . $category['ID']] )
+			if ( ! empty( $can_use_RET['Students/Student.php&category_id=' . $category['ID']] ) )
 			{
 				$extra['extra_header_right'] .= '<tr><td><label>' . ParseMLField( $category['TITLE'] ) . '&nbsp;<input type="checkbox" name="category[' . $category['ID'] . ']" value="Y" checked /></label></td></tr>';
 			}
@@ -384,15 +400,28 @@ function printCustom( &$categories, &$values )
 	foreach ( (array) $categories as $field )
 	{
 		echo '<tr><td>&nbsp;</td>';
-		echo '<td>' . ( $field['REQUIRED'] && $values['CUSTOM_' . $field['ID']] == '' ? '<span style="color:red">' : '' ) . ParseMLField( $field['TITLE'] ) . ( $field['REQUIRED'] && $values['CUSTOM_' . $field['ID']] == '' ? '</span>' : '' ) . '</td>';
+
+		echo '<td>' . ( $field['REQUIRED'] && $values['CUSTOM_' . $field['ID']] == '' ? '<span style="color:red">' : '' ) .
+			ParseMLField( $field['TITLE'] ) . ( $field['REQUIRED'] && $values['CUSTOM_' . $field['ID']] == '' ? '</span>' : '' ) .
+		'</td>';
 
 		if ( $field['TYPE'] == 'select' )
 		{
-			echo '<td>' . ( $field['SELECT_OPTIONS'][$values['CUSTOM_' . $field['ID']]] != '' ? '' : '<span style="color:red">' ) . $values['CUSTOM_' . $field['ID']] . ( $field['SELECT_OPTIONS'][$values['CUSTOM_' . $field['ID']]] != '' ? '' : '</span>' ) . '</td>';
+			echo '<td>' . ( isset( $field['SELECT_OPTIONS'][$values['CUSTOM_' . $field['ID']]] )
+					&& $field['SELECT_OPTIONS'][$values['CUSTOM_' . $field['ID']]] != '' ?
+				'' : '<span style="color:red">' ) .
+				$values['CUSTOM_' . $field['ID']] .
+				( isset( $field['SELECT_OPTIONS'][$values['CUSTOM_' . $field['ID']]] )
+					&& $field['SELECT_OPTIONS'][$values['CUSTOM_' . $field['ID']]] != '' ? '' : '</span>' ) .
+			'</td>';
 		}
 		elseif ( $field['TYPE'] == 'codeds' )
 		{
-			echo '<td>' . ( $field['SELECT_OPTIONS'][$values['CUSTOM_' . $field['ID']]] != '' ? $field['SELECT_OPTIONS'][$values['CUSTOM_' . $field['ID']]] : '<span style="color:red">' . $values['CUSTOM_' . $field['ID']] . '</span>' ) . '</td>';
+			echo '<td>' . ( isset( $field['SELECT_OPTIONS'][$values['CUSTOM_' . $field['ID']]])
+				&& $field['SELECT_OPTIONS'][$values['CUSTOM_' . $field['ID']]] != '' ?
+				$field['SELECT_OPTIONS'][$values['CUSTOM_' . $field['ID']]] :
+				'<span style="color:red">' . $values['CUSTOM_' . $field['ID']] . '</span>' ) .
+			'</td>';
 		}
 		else
 		{

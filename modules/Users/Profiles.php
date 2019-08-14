@@ -148,7 +148,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 	{
 		foreach ( (array) $tmp_menu as $modcat => $profiles )
 		{
-			$values = $profiles[$xprofile];
+			$values = isset( $profiles[$xprofile] ) ? $profiles[$xprofile] : array();
 
 			foreach ( (array) $values as $modname => $title )
 			{

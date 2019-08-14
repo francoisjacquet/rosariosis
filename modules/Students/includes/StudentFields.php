@@ -232,6 +232,9 @@ if ( ! $_REQUEST['modfunc'] )
 		$title = _( 'New Student Field Category' );
 
 		$RET['CATEGORY_ID'] = 'new';
+
+		$RET['COLUMNS'] = '';
+		$RET['INCLUDE'] = '';
 	}
 
 	if ( $_REQUEST['category_id']

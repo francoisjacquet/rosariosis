@@ -6,7 +6,7 @@ DrawHeader( ProgramTitle() );
 
 if ( ! isset( $menu ) )
 {
-	// include Menu.php for each active module
+	// Include Menu.php for each active module.
 
 	foreach ( (array) $RosarioModules as $module => $active )
 	{
@@ -26,7 +26,9 @@ if ( ! isset( $menu ) )
 
 if ( UserStaffID() )
 {
-	$profile = DBGet( "SELECT PROFILE_ID,PROFILE FROM STAFF WHERE STAFF_ID='" . UserStaffID() . "'" );
+	$profile = DBGet( "SELECT PROFILE_ID,PROFILE
+		FROM STAFF
+		WHERE STAFF_ID='" . UserStaffID() . "'" );
 
 	if ( $profile[1]['PROFILE_ID'] || $profile[1]['PROFILE'] == 'none' )
 	{
@@ -39,11 +41,9 @@ Search( 'staff_id', $extra );
 
 $user_id = UserStaffID();
 
-$profile = DBGet( "SELECT PROFILE
+$xprofile = DBGetOne( "SELECT PROFILE
 	FROM STAFF
 	WHERE STAFF_ID='" . $user_id . "'" );
-
-$xprofile = $profile[1]['PROFILE'];
 
 $exceptions_RET = DBGet( "SELECT MODNAME,CAN_USE,CAN_EDIT
 	FROM STAFF_EXCEPTIONS
@@ -54,6 +54,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 	&& UserStaffID() )
 {
 	$tmp_menu = $menu;
+
 	$categories_RET = DBGet( "SELECT ID,TITLE FROM STUDENT_FIELD_CATEGORIES" );
 
 	foreach ( (array) $categories_RET as $category )
@@ -84,7 +85,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 	foreach ( (array) $tmp_menu as $modcat => $profiles )
 	{
-		$values = $profiles[$xprofile];
+		$values = isset( $profiles[$xprofile] ) ? $profiles[$xprofile] : array();
 
 		foreach ( (array) $values as $modname => $title )
 		{
@@ -92,13 +93,20 @@ if ( $_REQUEST['modfunc'] === 'update'
 				&& $modname !== 'default'
 				&& $modname !== 'title' )
 			{
-				if ( empty( $exceptions_RET[$modname] ) && ( $_REQUEST['can_edit'][str_replace( '.', '_', $modname )] || $_REQUEST['can_use'][str_replace( '.', '_', $modname )] ) )
+				if ( empty( $exceptions_RET[$modname] )
+					&& ( ! empty( $_REQUEST['can_edit'][str_replace( '.', '_', $modname )] )
+						|| ! empty( $_REQUEST['can_use'][str_replace( '.', '_', $modname )] ) ) )
 				{
-					DBQuery( "INSERT INTO STAFF_EXCEPTIONS (USER_ID,MODNAME) values('" . $user_id . "','" . $modname . "')" );
+					DBQuery( "INSERT INTO STAFF_EXCEPTIONS (USER_ID,MODNAME)
+						VALUES('" . $user_id . "','" . $modname . "')" );
 				}
-				elseif ( ! empty( $exceptions_RET[$modname] ) && ! $_REQUEST['can_edit'][str_replace( '.', '_', $modname )] && ! $_REQUEST['can_use'][str_replace( '.', '_', $modname )] )
+				elseif ( ! empty( $exceptions_RET[$modname] )
+					&& empty( $_REQUEST['can_edit'][str_replace( '.', '_', $modname )] )
+					&& empty( $_REQUEST['can_use'][str_replace( '.', '_', $modname )] ) )
 				{
-					DBQuery( "DELETE FROM STAFF_EXCEPTIONS WHERE USER_ID='" . $user_id . "' AND MODNAME='" . $modname . "'" );
+					DBQuery( "DELETE FROM STAFF_EXCEPTIONS
+						WHERE USER_ID='" . $user_id . "'
+						AND MODNAME='" . $modname . "'" );
 				}
 
 				if ( ! empty( $_REQUEST['can_edit'][str_replace( '.', '_', $modname )] )

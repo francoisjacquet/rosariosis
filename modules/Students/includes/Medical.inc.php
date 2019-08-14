@@ -50,7 +50,7 @@ if ( ! $_REQUEST['modfunc'] )
 {
 	require_once 'modules/Students/includes/Other_Info.inc.php';
 
-	if ( $PopTable_opened )
+	if ( ! empty( $PopTable_opened ) )
 	{
 		PopTable( 'footer' );
 	}
@@ -179,7 +179,7 @@ if ( ! $_REQUEST['modfunc'] )
 		);
 	}
 
-	if ( $PopTable_opened )
+	if ( ! empty( $PopTable_opened ) )
 	{
 		// FJ bugfix display in PrintStudentInfo.php.
 		echo '<table><tr><td>';

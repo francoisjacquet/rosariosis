@@ -24,6 +24,8 @@ function MyWidgets( $item )
 {
 	global $extra, $_ROSARIO;
 
+	$extra['search'] = issetVal( $extra['search'], '' );
+
 	switch ( $item )
 	{
 		case 'birthmonth':

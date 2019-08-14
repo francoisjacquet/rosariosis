@@ -16,6 +16,8 @@ if ( ! $_REQUEST['modfunc'] )
 		$people_fields_RET = DBGet( "SELECT ID,TITLE,TYPE
 			FROM PEOPLE_FIELDS" );
 
+		$extra['SELECT'] = issetVal( $extra['SELECT'], '' );
+
 		foreach ( (array) $custom_fields_RET as $field )
 		{
 			$extra['SELECT'] .= ",s.CUSTOM_" . $field['ID'];
@@ -37,6 +39,8 @@ if ( ! $_REQUEST['modfunc'] )
 		}
 
 		$extra['functions'] = array();
+
+		$maxTV = 0;
 
 		for ( $i = 1; $i <= 10; $i++ )
 		{
@@ -210,5 +214,5 @@ function _makeTV( $value, $column )
 	$tv = mb_substr( $column, 0, 5 );
 	$i = mb_substr( $column, 6 );
 
-	return $person_RET[ $i ][ $tv ];
+	return isset( $person_RET[ $i ][ $tv ] ) ? $person_RET[ $i ][ $tv ] : null;
 }

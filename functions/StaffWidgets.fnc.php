@@ -33,21 +33,26 @@ function StaffWidgets( $item, &$myextra = null )
 		$extra =& $myextra;
 	}
 
+	$extra_defaults = array(
+		'functions' => array(),
+		'search' => '',
+		'NoSearchTerms' => '',
+		'SELECT' => '',
+		'FROM' => '',
+		'WHERE' => '',
+	);
+
+	$extra = array_replace_recursive( $extra_defaults, (array) $extra );
+
 	if ( ! isset( $_ROSARIO['StaffWidgets'] )
 		|| ! is_array( $_ROSARIO['StaffWidgets'] ) )
 	{
 		$_ROSARIO['StaffWidgets'] = array();
 	}
 
-	if ( ! isset( $extra['functions'] )
-		|| ! is_array( $extra['functions'] ) )
+	if ( ! isset( $_ROSARIO['SearchTerms'] ) )
 	{
-		$extra['functions'] = array();
-	}
-
-	if ( ! isset( $extra['search'] ) )
-	{
-		$extra['search'] = '';
+		$_ROSARIO['SearchTerms'] = '';
 	}
 
 	// If insufficient rights or already saved widget, exit.
