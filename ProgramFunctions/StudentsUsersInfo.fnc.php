@@ -426,6 +426,8 @@ function _makeFilesInput( $column, $name, $request, $remove_url = '' )
 	global $value,
 		$field;
 
+	require_once 'ProgramFunctions/FileUpload.fnc.php';
+
 	$div = true;
 
 	$file_paths = explode( '||', trim( $value[ $column ], '||' ) );
