@@ -60,6 +60,7 @@ Changes in 5.0
 Changes in 4.9.7
 ----------------
 - Fix regression since 4.9 Meal Item Description & Short Name fields required in MenuItems.php
+- Fix PHP error undefined function HumanFilesize() in StudentUsersInfo.fnc.php
 
 Changes in 4.9.6
 ----------------
