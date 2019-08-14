@@ -19,9 +19,14 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 			if ( empty( $columns['SORT_ORDER'] ) || is_numeric( $columns['SORT_ORDER'] ) )
 			{
-				if ( $columns['DEFAULT_CODE'] == 'Y' )
+				if ( isset( $columns['DEFAULT_CODE'] )
+					&& $columns['DEFAULT_CODE'] == 'Y' )
 				{
-					DBQuery( "UPDATE ATTENDANCE_CODES SET DEFAULT_CODE=NULL WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' AND TABLE_NAME='" . $_REQUEST['table'] . "'" );
+					DBQuery( "UPDATE ATTENDANCE_CODES
+						SET DEFAULT_CODE=NULL
+						WHERE SYEAR='" . UserSyear() . "'
+						AND SCHOOL_ID='" . UserSchool() . "'
+						AND TABLE_NAME='" . $_REQUEST['table'] . "'" );
 				}
 
 				if ( $id !== 'new' )

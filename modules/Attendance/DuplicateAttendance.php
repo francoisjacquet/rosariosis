@@ -2,6 +2,8 @@
 
 DrawHeader( ProgramTitle() );
 
+$_REQUEST['delete'] = issetVal( $_REQUEST['delete'], '' );
+
 if ( ! empty( $_REQUEST['mp_arr'] ) )
 {
 	foreach ( (array) $_REQUEST['mp_arr'] as $mp )
@@ -135,14 +137,22 @@ if ( isset( $_REQUEST['search_modfunc'] )
 	if ( ! empty( $RET ) )
 	{
 		unset( $extra );
-		$extra['SELECT_ONLY'] .= "ap.COURSE_PERIOD_ID,s.STUDENT_ID,
-		" . DisplayNameSQL( 's' ) . " AS FULL_NAME,
+
+		$extra['SELECT_ONLY'] = "ap.COURSE_PERIOD_ID,s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 		ap.SCHOOL_DATE,cp.TITLE,ap.PERIOD_ID,sc.START_DATE,sc.END_DATE ";
-		$extra['FROM'] .= " ,ATTENDANCE_PERIOD ap, COURSE_PERIODS cp, SCHEDULE sc ";
+
+		$extra['FROM'] = " ,ATTENDANCE_PERIOD ap,COURSE_PERIODS cp,SCHEDULE sc ";
+
 		//$extra['WHERE'] .= " AND ssm.student_id=s.student_id AND ap.STUDENT_ID=s.STUDENT_ID AND ap.COURSE_PERIOD_ID = cp.COURSE_PERIOD_ID AND ('".DBDate()."' BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL) ";
 		//$extra['WHERE'] .= " AND ssm.student_id=s.student_id AND ap.STUDENT_ID=s.STUDENT_ID AND ap.COURSE_PERIOD_ID = cp.COURSE_PERIOD_ID ";
-		$extra['WHERE'] .= " AND ap.STUDENT_ID=s.STUDENT_ID AND sc.STUDENT_ID=s.STUDENT_ID AND ap.COURSE_PERIOD_ID = cp.COURSE_PERIOD_ID AND ap.COURSE_PERIOD_ID = sc.COURSE_PERIOD_ID AND sc.END_DATE > '1999-01-01' ";
-		$extra['ORDER_BY'] = ' STUDENT_ID, COURSE_PERIOD_ID, SCHOOL_DATE';
+
+		$extra['WHERE'] = " AND ap.STUDENT_ID=s.STUDENT_ID
+			AND sc.STUDENT_ID=s.STUDENT_ID
+			AND ap.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
+			AND ap.COURSE_PERIOD_ID=sc.COURSE_PERIOD_ID
+			AND sc.END_DATE>'1999-01-01' ";
+
+		$extra['ORDER_BY'] = ' STUDENT_ID,COURSE_PERIOD_ID,SCHOOL_DATE';
 
 		Widgets( 'course' );
 		Widgets( 'gpa' );
@@ -197,14 +207,22 @@ if ( isset( $_REQUEST['search_modfunc'] )
 		//echo "$totalrows";
 
 		unset( $extra );
-		$extra['SELECT_ONLY'] .= "ap.COURSE_PERIOD_ID,s.STUDENT_ID,
-		" . DisplayNameSQL( 's' ) . " AS FULL_NAME,
+
+		$extra['SELECT_ONLY'] = "ap.COURSE_PERIOD_ID,s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 		ap.SCHOOL_DATE,cp.TITLE,cp.SHORT_NAME,ap.PERIOD_ID,sc.START_DATE,sc.END_DATE ";
-		$extra['FROM'] .= " ,ATTENDANCE_PERIOD ap, COURSE_PERIODS cp, SCHEDULE sc ";
+
+		$extra['FROM'] = ",ATTENDANCE_PERIOD ap,COURSE_PERIODS cp,SCHEDULE sc ";
+
 		//$extra['WHERE'] .= " AND ssm.student_id=s.student_id AND ap.STUDENT_ID=s.STUDENT_ID AND ap.COURSE_PERIOD_ID = cp.COURSE_PERIOD_ID AND ('".DBDate()."' BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL) ";
 		//$extra['WHERE'] .= " AND ssm.student_id=s.student_id AND ap.STUDENT_ID=s.STUDENT_ID AND ap.COURSE_PERIOD_ID = cp.COURSE_PERIOD_ID ";
-		$extra['WHERE'] .= " AND ap.STUDENT_ID=s.STUDENT_ID AND sc.STUDENT_ID=s.STUDENT_ID AND ap.COURSE_PERIOD_ID = cp.COURSE_PERIOD_ID AND ap.COURSE_PERIOD_ID = sc.COURSE_PERIOD_ID AND sc.END_DATE > '1999-01-01' ";
-		$extra['ORDER_BY'] = ' STUDENT_ID, COURSE_PERIOD_ID, SCHOOL_DATE';
+
+		$extra['WHERE'] = " AND ap.STUDENT_ID=s.STUDENT_ID
+			AND sc.STUDENT_ID=s.STUDENT_ID
+			AND ap.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
+			AND ap.COURSE_PERIOD_ID=sc.COURSE_PERIOD_ID
+			AND sc.END_DATE>'1999-01-01' ";
+
+		$extra['ORDER_BY'] = ' STUDENT_ID,COURSE_PERIOD_ID,SCHOOL_DATE';
 
 		Widgets( 'course' );
 		Widgets( 'gpa' );
@@ -255,11 +273,11 @@ if ( isset( $_REQUEST['search_modfunc'] )
 		echo '<br /><table class="widefat rt center">';
 		echo '<thead><tr><th class="column_heading"><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.checked,\'deletecheck\');" /> &nbsp</th>';
 
-		echo '<th>' . _( 'Student' ) . ' (' . sprintf( _( '%s ID' ), Config( 'NAME' ) ) . ')</th>';
-		echo '<th>' . _( 'Course' ) . ' (' . _( 'Course Period ID' ) . ')</th>';
-		echo '<th>' . _( 'Course Start Date' ) . '</th>';
-		echo '<th>' . _( 'Course End Date' ) . '</th>';
-		echo '<th>' . _( 'Attendance Date' ) . '</th></tr></thead><tbody>';
+		echo '<th>' . _( 'Student' ) . ' (' . sprintf( _( '%s ID' ), Config( 'NAME' ) ) . ')</th>
+			<th>' . _( 'Course' ) . ' (' . _( 'Course Period ID' ) . ')</th>
+			<th>' . _( 'Course Start Date' ) . '</th>
+			<th>' . _( 'Course End Date' ) . '</th>
+			<th>' . _( 'Attendance Date' ) . '</th></tr></thead><tbody>';
 
 		$URIcount = 0;
 		$count = 0;
@@ -292,10 +310,10 @@ if ( isset( $_REQUEST['search_modfunc'] )
 
 				if ( $URIcount > $startrow && $URIcount < $endrow )
 				{
-					echo '<input type="hidden" name="delete" value="true">';
-					echo '<input type="hidden" name="studentidx[' . $count . ']" value="' . $studentid . '">';
-					echo '<input type="hidden" name="periodidx[' . $count . ']" value="' . $courseid . '">';
-					echo '<input type="hidden" name="schooldatex[' . $count . ']" value="' . $schooldate . '">';
+					echo '<input type="hidden" name="delete" value="true">
+						<input type="hidden" name="studentidx[' . $count . ']" value="' . $studentid . '">
+						<input type="hidden" name="periodidx[' . $count . ']" value="' . $courseid . '">
+						<input type="hidden" name="schooldatex[' . $count . ']" value="' . $schooldate . '">';
 
 					if ( $yellow == 0 )
 					{
@@ -327,10 +345,10 @@ if ( isset( $_REQUEST['search_modfunc'] )
 
 				if ( $URIcount > $startrow && $URIcount < $endrow )
 				{
-					echo '<input type="hidden" name="delete" value="true">';
-					echo '<input type="hidden" name="studentidx[' . $count . ']" value="' . $studentid . '">';
-					echo '<input type="hidden" name="periodidx[' . $count . ']" value="' . $courseid . '">';
-					echo '<input type="hidden" name="schooldatex[' . $count . ']" value="' . $schooldate . '">';
+					echo '<input type="hidden" name="delete" value="true">
+						<input type="hidden" name="studentidx[' . $count . ']" value="' . $studentid . '">
+						<input type="hidden" name="periodidx[' . $count . ']" value="' . $courseid . '">
+						<input type="hidden" name="schooldatex[' . $count . ']" value="' . $schooldate . '">';
 
 					if ( $yellow == 0 )
 					{
