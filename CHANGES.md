@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 4.9.7
+----------------
+- Fix regression since 4.9 Meal Item Description & Short Name fields required in MenuItems.php
+
 Changes in 4.9.6
 ----------------
 - Fix hide "Create Student/User in Moodle" checkbox for public registration & non admins in Moodle/functions.php
