@@ -56,6 +56,7 @@ Changes in 5.0
 - Add Do Rollover warning when School Year has ended in Portal.php
 - Add Attendance Codes Tip Message to header & use Color codes in Administration.php & StudentSummary.php
 - Merge Period & Teacher Comment columns to gain space in StudentSummary.php
+- Format Meals using PopTable() in Kiosk.php
 
 Changes in 4.9.7
 ----------------

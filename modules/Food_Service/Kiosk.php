@@ -80,7 +80,10 @@ $meals = array();
 
 foreach ( (array) $menus_RET as $id => $menu )
 {
-	$meals[] = array( 'title' => $menu[1]['TITLE'], 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&menu_id=' . $id );
+	$meals[] = array(
+		'title' => $menu[1]['TITLE'],
+		'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&menu_id=' . $id,
+	);
 }
 
 $cats = array();
@@ -90,7 +93,11 @@ if ( isset( $categories_RET[$_REQUEST['menu_id']] ) )
 {
 	foreach ( (array) $categories_RET[$_REQUEST['menu_id']] as $category_id => $category )
 	{
-		$cats[] = array( 'title' => $category[1]['TITLE'], 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&cat_id=' . $category_id );
+		$cats[ $category_id ] = array(
+			'title' => $category[1]['TITLE'],
+			'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&menu_id=' . $_REQUEST['menu_id'] .
+				'&cat_id=' . $category_id,
+		);
 	}
 }
 
@@ -102,7 +109,9 @@ ORDER BY (SELECT SORT_ORDER FROM FOOD_SERVICE_CATEGORIES WHERE CATEGORY_ID=fsmi.
 
 echo '<br />';
 
-echo '<div class="center">' . WrapTabs( $meals, 'Modules.php?modname=' . $_REQUEST['modname'] . '&menu_id=' . $_REQUEST['menu_id'] ) . '</div>';
+$_ROSARIO['selected_tab'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&menu_id=' . $_REQUEST['menu_id'];
+
+PopTable( 'header', $meals );
 
 if ( ! empty( $items_RET ) )
 {
@@ -137,5 +146,31 @@ if ( ! empty( $items_RET ) )
 	echo '</table>';
 }
 
-//FJ remove WrapTabs params
-echo '<div class="center">' . WrapTabs( $cats, 'Modules.php?modname=' . $_REQUEST['modname'] . '&cat_id=' . $_REQUEST['cat_id'] ) . '</div>';
+echo '<br /><div class="center">';
+
+$i = 0;
+
+if ( count( $cats ) === 1 )
+{
+	$cat = reset( $cats );
+
+	echo $cat['title'];
+}
+else
+{
+	foreach ( $cats as $cat_id => $cat )
+	{
+		if ( $i++ > 0 )
+		{
+			echo ' | ';
+		}
+
+		echo '<a href="' . $cat['link'] . '">' .
+			( $_REQUEST['cat_id'] == $cat_id ? '<b>' . $cat['title'] . '</b>' : $cat['title'] ) .
+			'</a>';
+	}
+}
+
+echo '</div>';
+
+PopTable( 'footer' );
