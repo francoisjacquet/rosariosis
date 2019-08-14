@@ -101,7 +101,8 @@ if ( isset( $categories_RET[$_REQUEST['menu_id']] ) )
 	}
 }
 
-$items_RET = DBGet( "SELECT *,(SELECT ICON FROM FOOD_SERVICE_ITEMS WHERE ITEM_ID=fsmi.ITEM_ID) AS ICON
+$items_RET = DBGet( "SELECT (SELECT DESCRIPTION FROM FOOD_SERVICE_ITEMS WHERE ITEM_ID=fsmi.ITEM_ID) AS DESCRIPTION,
+	(SELECT ICON FROM FOOD_SERVICE_ITEMS WHERE ITEM_ID=fsmi.ITEM_ID) AS ICON
 FROM FOOD_SERVICE_MENU_ITEMS fsmi
 WHERE MENU_ID='" . $_REQUEST['menu_id'] . "'
 AND CATEGORY_ID='" . $_REQUEST['cat_id'] . "'
@@ -129,7 +130,8 @@ if ( ! empty( $items_RET ) )
 			$i = $per_row;
 		}
 
-		echo '<td style="border: 1px solid">' . makeIcon( $item['ICON'], '', '128' ) . '</td>';
+		echo '<td style="border: 1px solid" title="' . $item['DESCRIPTION'] . '">' .
+			makeIcon( $item['ICON'], '', '128' ) . '</td>';
 		$i--;
 
 		if ( ! $i )
