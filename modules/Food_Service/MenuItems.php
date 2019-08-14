@@ -77,8 +77,9 @@ if ( $_REQUEST['modfunc'] === 'update' )
 						$error[] = _( 'Please enter valid Numeric data.' );
 					}
 				}
-				elseif ( ! empty( $columns['DESCRIPTION'] )
-					&& ! empty( $columns['SHORT_NAME'] ) )
+				elseif ( $_REQUEST['tab_id'] !== 'new'
+					|| ( ! empty( $columns['DESCRIPTION'] )
+						&& ! empty( $columns['SHORT_NAME'] ) ) )
 				{
 					if ( $_REQUEST['tab_id'] !== 'new' )
 					{

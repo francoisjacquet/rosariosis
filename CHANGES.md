@@ -57,6 +57,10 @@ Changes in 5.0
 - Add Attendance Codes Tip Message to header & use Color codes in Administration.php & StudentSummary.php
 - Merge Period & Teacher Comment columns to gain space in StudentSummary.php
 
+Changes in 4.9.7
+----------------
+- Fix regression since 4.9 Meal Item Description & Short Name fields required in MenuItems.php
+
 Changes in 4.9.6
 ----------------
 - Fix hide "Create Student/User in Moodle" checkbox for public registration & non admins in Moodle/functions.php
