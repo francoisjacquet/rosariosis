@@ -10,6 +10,7 @@
  */
 
 require_once 'Warehouse.php';
+require_once 'Menu.php';
 
 require_once 'ProgramFunctions/Help.fnc.php';
 
@@ -86,9 +87,14 @@ foreach ( (array) $help as $program => $value ) :
 
 				$_ROSARIO['HeaderIcon'] = $modcat;
 
-				$modcat_echo = str_replace( '_', ' ',  $modcat );
+				$modcat_title = _( str_replace( '_', ' ',  $modcat ) );
 
-				DrawHeader( _( $modcat_echo ) );
+				if ( ! empty( $_ROSARIO['Menu'][ $modcat ]['title'] ) )
+				{
+					$modcat_title = $_ROSARIO['Menu'][ $modcat ]['title'];
+				}
+
+				DrawHeader( $modcat_title );
 			?>
 			<hr />
 
@@ -110,7 +116,7 @@ foreach ( (array) $help as $program => $value ) :
 	{
 		echo ParseMLField( Config( 'TITLE' ) )
 			. ' - ' . sprintf( _( '%s Handbook' ), $title ) . '<br />'
-			. sprintf( _( 'version %s' ), '2.0' );
+			. sprintf( _( 'version %s' ), ROSARIO_VERSION );
 	}
 	else
 		echo ( ProgramTitle() == 'RosarioSIS' ? $program : ProgramTitle() );
