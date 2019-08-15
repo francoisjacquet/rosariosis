@@ -18,6 +18,8 @@ Bulgarian translation (54% complete), thanks to Vanyo Georgiev
 
 New theme: FlatSIS
 
+[Setup Assistant](https://www.rosariosis.org/setup-assistant-plugin/) plugin
+
 
 New in 4.9
 ----------
