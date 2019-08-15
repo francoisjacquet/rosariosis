@@ -458,6 +458,12 @@ input[type=button] {
 	white-space: normal;
 }
 
+.header2.align-right input[type="button"],
+.header2.align-right input[type="reset"],
+.header2.align-right input[type="submit"] {
+	margin: 0 0 0 16px;
+}
+
 .button-primary {
 	line-height: 16px;
 	white-space: nowrap;
