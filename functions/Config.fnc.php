@@ -140,7 +140,7 @@ function ProgramConfig( $program, $item = 'all', $value = null )
 
 	if ( $item === 'all' )
 	{
-		return $_ROSARIO['ProgramConfig'][ (string) $program ];
+		return issetVal( $_ROSARIO['ProgramConfig'][ (string) $program ] );
 	}
 
 	return issetVal( $_ROSARIO['ProgramConfig'][ (string) $program ][ (string) $item ][1]['VALUE'] );
