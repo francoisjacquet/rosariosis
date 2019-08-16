@@ -18,7 +18,7 @@ For installation directions, please refer to the [INSTALL.md](INSTALL.md) file.
 
 You need to read the above documentation prior to attempting any install.
 
-[Quick Setup Guide](https://gitlab.com/francoisjacquet/rosariosis/wikis/Quick-Setup-Guide)
+[Quick Setup Guide](https://www.rosariosis.org/quick-setup-guide/)
 
 
 Demo
