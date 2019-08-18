@@ -607,13 +607,15 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 
 		/*School_Setup/Rollover.php*/
 		case 'School_Setup/Rollover.php|rollover_checks':
-			//RE roll staff or courses
+			// RE roll staff or courses
 
-			global $table, $exists_RET, $next_syear, $cp_moodle_id, $cp_teacher_id;
+			global $exists_RET, $cp_moodle_id, $cp_teacher_id;
+
+			$next_syear = UserSyear() + 1;
 
 			//reset SUBJECT_ID / COURSE_ID / COURSE_PERIOD_ID to pre-rollover values
 
-			if (  ( $table == 'COURSES' && $exists_RET['COURSES'][1]['COUNT'] ) )
+			if ( ! empty( $_REQUEST['tables']['COURSES'] ) && $exists_RET['COURSES'][1]['COUNT'] )
 			{
 				//SUBJECT_ID
 				DBQuery( "UPDATE MOODLEXROSARIO SET ROSARIO_ID=(SELECT ROLLOVER_ID FROM COURSE_SUBJECTS WHERE SUBJECT_ID=ROSARIO_ID) WHERE exists(SELECT * FROM COURSE_SUBJECTS WHERE SUBJECT_ID=ROSARIO_ID AND ROLLOVER_ID IS NOT NULL AND SYEAR='" . $next_syear . "') AND \"column\"='subject_id'" );
@@ -635,7 +637,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 			}
 
 			//reset STAFF_ID to pre-rollover values
-			elseif (  ( $table == 'STAFF' && $exists_RET['STAFF'][1]['COUNT'] ) )
+			elseif ( ! empty( $_REQUEST['tables']['STAFF'] ) && $exists_RET['STAFF'][1]['COUNT'] )
 			{
 				DBQuery( "UPDATE MOODLEXROSARIO SET ROSARIO_ID=(SELECT ROLLOVER_ID FROM STAFF WHERE STAFF_ID=ROSARIO_ID) WHERE exists(SELECT * FROM STAFF WHERE STAFF_ID=ROSARIO_ID AND ROLLOVER_ID IS NOT NULL AND SYEAR='" . $next_syear . "') AND \"column\"='staff_id'" );
 			}
@@ -667,17 +669,30 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 				}
 
 				// COURSES ROLLOVER.
-				$courses_RET = DBGet( "SELECT COURSE_ID,ROLLOVER_ID FROM COURSES WHERE SYEAR='" . $next_syear . "' AND SCHOOL_ID='" . UserSchool() . "' AND ROLLOVER_ID IS NOT NULL" );
+				$courses_RET = DBGet( "SELECT COURSE_ID,ROLLOVER_ID
+					FROM COURSES
+					WHERE SYEAR='" . $next_syear . "'
+					AND SCHOOL_ID='" . UserSchool() . "'
+					AND ROLLOVER_ID IS NOT NULL" );
 
 				foreach ( (array) $courses_RET as $value )
 				{
-					DBQuery( "UPDATE MOODLEXROSARIO SET ROSARIO_ID='" . $value['COURSE_ID'] . "' WHERE ROSARIO_ID='" . $value['ROLLOVER_ID'] . "' AND \"column\"='course_id'" );
+					DBQuery( "UPDATE MOODLEXROSARIO
+						SET ROSARIO_ID='" . $value['COURSE_ID'] . "'
+						WHERE ROSARIO_ID='" . $value['ROLLOVER_ID'] . "'
+						AND \"column\"='course_id'" );
 				}
 
 				// COURSE_PERIODS ROLLOVER.
 				global $rolled_course_period, $next_syear;
 
-				$course_periods_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID, cp.COURSE_ID, cp.SHORT_NAME, cp.MARKING_PERIOD_ID, cp.TEACHER_ID FROM COURSE_PERIODS cp, MOODLEXROSARIO mxc WHERE cp.SYEAR='" . $next_syear . "' AND cp.SCHOOL_ID='" . UserSchool() . "' AND cp.ROLLOVER_ID IS NOT NULL AND cp.ROLLOVER_ID=mxc.ROSARIO_ID AND mxc.\"column\"='course_period_id'" );
+				$course_periods_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,cp.COURSE_ID,cp.SHORT_NAME,cp.MARKING_PERIOD_ID,cp.TEACHER_ID
+					FROM COURSE_PERIODS cp,MOODLEXROSARIO mxc
+					WHERE cp.SYEAR='" . $next_syear . "'
+					AND cp.SCHOOL_ID='" . UserSchool() . "'
+					AND cp.ROLLOVER_ID IS NOT NULL
+					AND cp.ROLLOVER_ID=mxc.ROSARIO_ID
+					AND mxc.\"column\"='course_period_id'" );
 
 				foreach ( (array) $course_periods_RET as $rolled_course_period )
 				{

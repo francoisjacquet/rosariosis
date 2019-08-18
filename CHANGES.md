@@ -6,6 +6,8 @@ Changes in 5.0.1
 - Fix SQL error foreign key on Course Period delete in Courses.php
 - SQL COURSE_PERIODS table: Change title column type to text in Update.fnc.php & rosariosis.sql
 - Fix SQL error foreign keys: Process tables in reverse order in Rollover.php
+- Add delete mode to Rollover() to handle delete first in reverse, then inserts in Rollover.php
+- Move rollover_checks & rollover_after action hooks outside loop in Rollover.php & Moodle/function.php
 
 Changes in 5.0
 --------------
