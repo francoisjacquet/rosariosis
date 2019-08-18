@@ -633,14 +633,16 @@ if ( $_REQUEST['modfunc'] === 'delete'
 			SET PARENT_ID=NULL
 			WHERE PARENT_ID='" . $_REQUEST['course_period_id'] . "'";
 
-		$delete_sql[] = "DELETE FROM COURSE_PERIODS
-			WHERE COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'";
-
 		$delete_sql[] = "DELETE FROM SCHEDULE
 			WHERE COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'";
 
-		// FJ multiple school period for a course period.
+		$delete_sql[] = "DELETE FROM GRADEBOOK_ASSIGNMENTS
+			WHERE COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'";
+
 		$delete_sql[] = "DELETE FROM COURSE_PERIOD_SCHOOL_PERIODS
+			WHERE COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'";
+
+		$delete_sql[] = "DELETE FROM COURSE_PERIODS
 			WHERE COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'";
 
 		$unset_get = 'course_period_id';

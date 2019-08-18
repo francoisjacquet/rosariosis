@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 5.0.1
+----------------
+- Fix SQL error foreign key on Course Period delete in Courses.php
+
 Changes in 5.0
 --------------
 - Use integer column type instead of numeric in rosariosis.sql
