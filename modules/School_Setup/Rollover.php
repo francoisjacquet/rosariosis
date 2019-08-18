@@ -1,5 +1,6 @@
 <?php
 $next_syear = UserSyear() + 1;
+
 $tables = array(
 	'SCHOOLS' => _( 'Schools' ),
 	'STAFF' => _( 'Users' ),
@@ -7,10 +8,10 @@ $tables = array(
 	'SCHOOL_MARKING_PERIODS' => _( 'Marking Periods' ),
 	'ATTENDANCE_CALENDARS' => _( 'Calendars' ),
 	'ATTENDANCE_CODES' => _( 'Attendance Codes' ),
-	'REPORT_CARD_GRADES' => _( 'Report Card Grade Codes' ),
 	'COURSES' => _( 'Courses' ) . '<b>*</b>',
 	'STUDENT_ENROLLMENT_CODES' => _( 'Student Enrollment Codes' ),
 	'STUDENT_ENROLLMENT' => _( 'Students' ) . '<b>*</b>',
+	'REPORT_CARD_GRADES' => _( 'Report Card Grade Codes' ),
 	'REPORT_CARD_COMMENTS' => _( 'Report Card Comment Codes' ) . '<b>*</b>',
 	'PROGRAM_CONFIG' => _( 'School Configuration' ),
 );
@@ -28,7 +29,6 @@ if ( $RosarioModules['Food_Service'] )
 }
 
 if ( $RosarioModules['Discipline'] )
-//FJ discipline_field_usage rollover
 {
 	$tables += array( 'DISCIPLINE_FIELD_USAGE' => _( 'Referral Form' ) );
 }
@@ -53,7 +53,6 @@ foreach ( (array) $tables as $table => $name )
 	}
 
 	if ( $exists_RET[$table][1]['COUNT'] > 0 )
-//FJ add <label> on checkbox
 	{
 		$table_list .= '<tr><td><label><input type="checkbox" value="Y" name="tables[' . $table . ']">
 		<span style="color:grey">&nbsp;' . $name . ' (' . $exists_RET[$table][1]['COUNT'] . ')</span></label></td></tr>';
@@ -101,7 +100,10 @@ if ( Prompt(
 		{
 			if ( ! empty( $_REQUEST['tables'] ) )
 			{
-				foreach ( (array) $_REQUEST['tables'] as $table => $value )
+				// Fix SQL error foreign keys: Process tables in reverse order.
+				$tables_ordered = array_reverse( $_REQUEST['tables'] );
+
+				foreach ( (array) $tables_ordered as $table => $value )
 				{
 					// Hook.
 					do_action( 'School_Setup/Rollover.php|rollover_checks' );
@@ -112,7 +114,7 @@ if ( Prompt(
 					}
 
 					// @since 4.5 Rollover After action hook.
-					do_action('School_Setup/Rollover.php|rollover_after');
+					do_action( 'School_Setup/Rollover.php|rollover_after' );
 				}
 			}
 		}
