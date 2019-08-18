@@ -430,7 +430,7 @@ CREATE TABLE course_periods (
     school_id integer NOT NULL,
     course_period_id serial PRIMARY KEY,
     course_id integer NOT NULL REFERENCES courses(course_id),
-    title character varying(255),
+    title text,
     short_name character varying(25) NOT NULL,
     mp character varying(3),
     marking_period_id integer NOT NULL REFERENCES school_marking_periods(marking_period_id),

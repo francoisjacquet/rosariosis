@@ -4,6 +4,7 @@
 Changes in 5.0.1
 ----------------
 - Fix SQL error foreign key on Course Period delete in Courses.php
+- SQL COURSE_PERIODS table: Change title column type to text in Update.fnc.php & rosariosis.sql
 
 Changes in 5.0
 --------------

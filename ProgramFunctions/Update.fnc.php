@@ -135,6 +135,10 @@ function Update()
 		case version_compare( $from_version, '5.0-beta', '<' ) :
 
 			$return = _update50beta();
+
+		case version_compare( $from_version, '5.0.1', '<' ) :
+
+			$return = _update501();
 	}
 
 	// Update version in DB CONFIG table.
@@ -1102,6 +1106,37 @@ function _update50beta()
 	$add_foreign_key( 'gradebook_assignments', 'course_id', 'courses(course_id)' );
 	$add_foreign_key( 'gradebook_assignment_types', 'course_id', 'courses(course_id)' );
 	$add_foreign_key( 'course_periods', 'course_id', 'courses(course_id)' );
+
+	return $return;
+}
+
+
+/**
+ * Update to version 5.0.1
+ *
+ * 1. COURSE_PERIODS table:
+ * Change title column type to text
+ * Was character varying(255) which could prevent saving long Course Period titles
+ *
+ * Local function
+ *
+ * @since 5.0.1
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update501()
+{
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. COURSE_PERIODS table:
+	 * Change title column type to text
+	 * Was character varying(255) which could prevent saving long Course Period titles
+	 */
+	DBQuery( "ALTER TABLE course_periods
+		ALTER COLUMN title TYPE text;" );
 
 	return $return;
 }
