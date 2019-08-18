@@ -1117,6 +1117,7 @@ function _update50beta()
  * 1. COURSE_PERIODS table:
  * Change title column type to text
  * Was character varying(255) which could prevent saving long Course Period titles
+ * Needs to DROP COURSE_DETAILS view first to then recreate it.
  *
  * Local function
  *
@@ -1134,9 +1135,17 @@ function _update501()
 	 * 1. COURSE_PERIODS table:
 	 * Change title column type to text
 	 * Was character varying(255) which could prevent saving long Course Period titles
+	 * Needs to DROP course_details VIEW first to then recreate it.
 	 */
-	DBQuery( "ALTER TABLE course_periods
-		ALTER COLUMN title TYPE text;" );
+	$sql_drop_view = "DROP VIEW course_details;";
+
+	$sql_alter_table = "ALTER TABLE course_periods
+		ALTER COLUMN title TYPE text;";
+
+	$sql_create_view = "CREATE VIEW course_details AS
+	    SELECT cp.school_id, cp.syear, cp.marking_period_id, c.subject_id, cp.course_id, cp.course_period_id, cp.teacher_id, c.title AS course_title, cp.title AS cp_title, cp.grade_scale_id, cp.mp, cp.credits FROM course_periods cp, courses c WHERE (cp.course_id = c.course_id);";
+
+	DBQuery( $sql_drop_view . $sql_alter_table . $sql_create_view );
 
 	return $return;
 }
