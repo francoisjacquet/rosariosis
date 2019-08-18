@@ -17,7 +17,7 @@
  * @package RosarioSIS
  */
 
-define( 'ROSARIO_VERSION', '5.0' );
+define( 'ROSARIO_VERSION', '5.0.1' );
 
 /**
  * Include config.inc.php file.
@@ -118,8 +118,7 @@ session_name( 'RosarioSIS' );
 
 // See http://php.net/manual/en/session.security.php.
 $cookie_path = dirname( $_SERVER['SCRIPT_NAME'] ) === DIRECTORY_SEPARATOR ?
-'/' :
-dirname( $_SERVER['SCRIPT_NAME'] ) . '/';
+	'/' : dirname( $_SERVER['SCRIPT_NAME'] ) . '/';
 
 session_set_cookie_params(
 	0,
