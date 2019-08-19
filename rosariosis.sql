@@ -670,7 +670,7 @@ CREATE TABLE attendance_codes (
     type character varying(10),
     state_code character varying(1),
     default_code character varying(1),
-    table_name numeric,
+    table_name integer,
     sort_order numeric,
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp,
@@ -686,7 +686,7 @@ CREATE TABLE attendance_completed (
     staff_id integer NOT NULL REFERENCES staff(staff_id),
     school_date date NOT NULL,
     period_id integer NOT NULL,
-    table_name numeric NOT NULL,
+    table_name integer NOT NULL,
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp,
     PRIMARY KEY (staff_id, school_date, period_id, table_name)
@@ -1270,7 +1270,7 @@ CREATE TABLE lunch_period (
     course_period_id integer REFERENCES course_periods(course_period_id),
     marking_period_id integer REFERENCES school_marking_periods(marking_period_id),
     comment character varying(100),
-    table_name numeric,
+    table_name integer,
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp,
     PRIMARY KEY (student_id, school_date, period_id)

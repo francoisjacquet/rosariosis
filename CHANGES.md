@@ -4,6 +4,7 @@
 Changes in 5.0.3
 ----------------
 - Fix SQL error set TITLE input maxlength to 100 in AttendanceCodes.fnc.php
+- SQL use integer type for TABLE_NAME column in rosariosis.sql
 
 Changes in 5.0.2
 ----------------
