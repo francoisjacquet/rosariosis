@@ -231,6 +231,10 @@ function _makeTextInput( $value, $name )
 	{
 		$extra .= 'size=5 maxlength=10';
 	}
+	elseif ( $name === 'TITLE' )
+	{
+		$extra .= 'maxlength=100';
+	}
 
 	if ( $id !== 'new'
 		&& ( $name === 'TITLE'

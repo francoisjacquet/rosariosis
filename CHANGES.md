@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 5.0.3
+----------------
+- Fix SQL error set TITLE input maxlength to 100 in AttendanceCodes.fnc.php
+
 Changes in 5.0.2
 ----------------
 - Fix regression since 5.0 teacher cannot edit grades in InputFinalGrades.php
