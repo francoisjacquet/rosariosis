@@ -103,7 +103,7 @@ echo '</td></tr><tr class="st"><td>';
 
 if ( $_REQUEST['student_id'] == 'new' )
 {
-	echo TextInput( '', 'assign_student_id', sprintf( _( '%s ID' ), Config( 'NAME' ) ), 'maxlength=10 size=10' );
+	echo TextInput( '', 'assign_student_id', sprintf( _( '%s ID' ), Config( 'NAME' ) ), 'maxlength=9 size=9' );
 }
 else
 {

@@ -246,7 +246,8 @@ if ( $_REQUEST['modfunc'] === 'update'
 			if ( isset( $_REQUEST['assign_student_id'] )
 				&& $_REQUEST['assign_student_id'] !== '' )
 			{
-				if (  ( $student_id = (int) $_REQUEST['assign_student_id'] ) > 0 )
+				if ( strlen( $_REQUEST['assign_student_id'] ) <= 9
+					&& ( $student_id = (int) $_REQUEST['assign_student_id'] ) > 0 )
 				{
 					if ( DBGetOne( "SELECT STUDENT_ID
 						FROM STUDENTS

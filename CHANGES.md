@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 4.9.8
+----------------
+- Fix SQL error set RosarioSIS ID maxlength to 9 in General_Info.inc.php & Student.php
+
 Changes in 4.9.7
 ----------------
 - Fix regression since 4.9 Meal Item Description & Short Name fields required in MenuItems.php
