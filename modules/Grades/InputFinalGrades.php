@@ -1001,6 +1001,8 @@ $mps_onchange_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
 
 $mps_select = '<select name="mp_select" id="mp_select" onchange="ajaxLink(' . $mps_onchange_URL . ' + this.options[selectedIndex].value);">';
 
+$allow_edit = false;
+
 if ( $pros != '' )
 {
 	foreach ( explode( ',', str_replace( "'", '', $pros ) ) as $pro )
@@ -1044,8 +1046,6 @@ if ( GetMP( $sem, 'DOES_GRADES' ) == 'Y' )
 	$mps_select .= '<option value="' . $sem . '"' . ( $sem == $_REQUEST['mp'] ? ' selected' : '' ) . '>' .
 		GetMP( $sem ) . '</option>';
 }
-
-$allow_edit = false;
 
 if ( $_REQUEST['mp'] == $fy
 	&& GetMP( $fy, 'POST_START_DATE' )
@@ -1194,12 +1194,21 @@ if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	);
 
 	//FJ add grade posting dates
-	$grade_posting_dates = DBGet( "SELECT POST_START_DATE,POST_END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "' AND SCHOOL_ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "' LIMIT 1" );
+	$grade_posting_dates = DBGet( "SELECT POST_START_DATE,POST_END_DATE
+		FROM SCHOOL_MARKING_PERIODS
+		WHERE MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'
+		AND SCHOOL_ID='" . UserSchool() . "'
+		AND SYEAR='" . UserSyear() . "' LIMIT 1" );
+
 	$grade_posting_dates_text = '';
 
 	if ( $grade_posting_dates )
 	{
-		$grade_posting_dates_text = ' ' . sprintf( _( 'Grade Posting dates: %s - %s' ), ProperDate( $grade_posting_dates[1]['POST_START_DATE'] ), ProperDate( $grade_posting_dates[1]['POST_END_DATE'] ) );
+		$grade_posting_dates_text = ' ' . sprintf(
+			_( 'Grade Posting dates: %s - %s' ),
+			ProperDate( $grade_posting_dates[1]['POST_START_DATE'] ),
+			ProperDate( $grade_posting_dates[1]['POST_END_DATE'] )
+		);
 	}
 
 	//FJ add translation
