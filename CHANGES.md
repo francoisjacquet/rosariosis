@@ -71,6 +71,10 @@ Changes in 5.0
 - Merge Period & Teacher Comment columns to gain space in StudentSummary.php
 - Format Meals using PopTable() in Kiosk.php
 
+Changes in 4.9.8
+----------------
+- Fix SQL error set RosarioSIS ID maxlength to 9 in General_Info.inc.php & Student.php
+
 Changes in 4.9.7
 ----------------
 - Fix regression since 4.9 Meal Item Description & Short Name fields required in MenuItems.php
