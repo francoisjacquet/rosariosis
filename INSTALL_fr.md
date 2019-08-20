@@ -2,7 +2,7 @@
 
 ## RosarioSIS Student Information System
 
-Version 5.0.2
+Version 5.0.3
 -------------
 
 NOTE: Avant d'installer RosarioSIS, vous devez lire et accepter la [licence](LICENSE) incluse (en anglais).
