@@ -95,6 +95,10 @@ if ( UserStudentID()
 
 				$gradebook_config[$staff_id] = ProgramUserConfig( 'Gradebook', $staff_id );
 
+				$gradebook_config[$staff_id]['LATENCY'] = issetVal( $gradebook_config[$staff_id]['LATENCY'] );
+
+				$gradebook_config[$staff_id]['WEIGHT'] = issetVal( $gradebook_config[$staff_id]['WEIGHT'] );
+
 				$sql = "SELECT s.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID,sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'gg.POINTS' ) ) . ") AS PARTIAL_POINTS,sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ) ) . ") AS PARTIAL_TOTAL,gt.FINAL_GRADE_PERCENT,sum(" . db_case( array( 'gg.POINTS', "''", "1", "0" ) ) . ") AS UNGRADED
 				FROM STUDENTS s
 				JOIN SCHEDULE ss ON (ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='" . UserSyear() . "'";
@@ -340,6 +344,10 @@ if ( UserStudentID()
 			if ( ! isset( $gradebook_config[$staff_id] ) )
 			{
 				$gradebook_config[$staff_id] = ProgramUserConfig( 'Gradebook', $staff_id );
+
+				$gradebook_config[$staff_id]['LATENCY'] = issetVal( $gradebook_config[$staff_id]['LATENCY'] );
+
+				$gradebook_config[$staff_id]['WEIGHT'] = issetVal( $gradebook_config[$staff_id]['WEIGHT'] );
 			}
 
 			//FJ assigments appear after assigned date and not due date
@@ -399,7 +407,7 @@ if ( UserStudentID()
 
 				if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) <= 0 )
 				{
-					if ( $gradebook_config[$staff_id]['LETTER_GRADE_ALL'] != 'Y' )
+					if ( empty( $gradebook_config[$staff_id]['LETTER_GRADE_ALL'] ) )
 					{
 						$LO_columns['LETTER'] = _( 'Letter' );
 					}

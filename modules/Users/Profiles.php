@@ -330,7 +330,7 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 
 		foreach ( (array) $menu as $modcat => $profiles )
 		{
-			$values = $profiles[$xprofile];
+			$values = isset( $profiles[$xprofile] ) ? $profiles[$xprofile] : array();
 
 			if ( empty( $values ) )
 			{

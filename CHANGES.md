@@ -5,6 +5,7 @@ Changes in 5.0.3
 ----------------
 - Fix SQL error set TITLE input maxlength to 100 in AttendanceCodes.fnc.php
 - SQL use integer type for TABLE_NAME column in rosariosis.sql
+- Fix PHP notices in EditHistoryMarkingPeriods.php, StudentGrades.php & Profiles.php
 
 Changes in 5.0.2
 ----------------

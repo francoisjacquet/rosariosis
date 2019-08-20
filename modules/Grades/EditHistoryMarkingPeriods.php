@@ -18,14 +18,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 				$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 			}
 
-			if ( $_REQUEST['tab_id'] !== 'new' )
-			{
-				$sql = mb_substr( $sql, 0, -1 ) . " WHERE MARKING_PERIOD_ID='" . $id . "'";
-			}
-			else
-			{
-				$sql = mb_substr( $sql, 0, -1 ) . " WHERE MARKING_PERIOD_ID='" . $id . "'";
-			}
+			$sql = mb_substr( $sql, 0, -1 ) . " WHERE MARKING_PERIOD_ID='" . $id . "'";
 
 			DBQuery( $sql );
 		}
@@ -82,13 +75,11 @@ if ( $_REQUEST['modfunc'] === 'remove' )
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update&tab_id=' . $_REQUEST['tab_id'] . '&mp_id=' . $mp_id . '" method="POST">';
+	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update" method="POST">';
 
 	DrawHeader( '', SubmitButton() );
 
 	echo '<br />';
-
-	$sql = 'SELECT * FROM history_marking_periods WHERE SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY POST_END_DATE';
 
 	$functions = array(
 		'MP_TYPE' => '_makeSelectInput',
@@ -115,12 +106,23 @@ if ( ! $_REQUEST['modfunc'] )
 		'SYEAR' => _makeSchoolYearSelectInput( '', 'SYEAR' ),
 	);
 
-	$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove'; //&mp_id=$mp_id";
+	$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove';
 	$link['remove']['variables'] = array( 'id' => 'MARKING_PERIOD_ID' );
 	$link['add']['html']['remove'] = button( 'add' );
-	$LO_ret = DBGet( $sql, $functions );
 
-	ListOutput( $LO_ret, $LO_columns, 'History Marking Period', 'History Marking Periods', $link, array(), array( 'count' => true, 'download' => false, 'search' => false ) );
+	$LO_ret = DBGet( "SELECT * FROM history_marking_periods
+		WHERE SCHOOL_ID='" . UserSchool() . "'
+		ORDER BY POST_END_DATE", $functions );
+
+	ListOutput(
+		$LO_ret,
+		$LO_columns,
+		'History Marking Period',
+		'History Marking Periods',
+		$link,
+		array(),
+		array( 'count' => true, 'download' => false, 'search' => false )
+	);
 
 	echo '<div class="center">' . SubmitButton() . '</div>';
 	echo '</form>';
