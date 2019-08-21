@@ -136,7 +136,7 @@ server$ wget https://downloads.wkhtmltopdf.org/0.12/0.12.5/wkhtmltox_0.12.5-1.xe
 server$ sudo dpkg -i wkhtmltox_0.12.5-1.xenial_amd64.deb
 ```
 
-Definir el camino en `config.inc.php`:
+Definir el camino en el archivo `config.inc.php`:
     `$wkhtmltopdfPath = '/usr/local/bin/wkhtmltopdf';`
 
 
@@ -145,7 +145,7 @@ Envio de email
 
 Instrucciones de instalación para Ubuntu 16.04. Activar la función PHP `mail()`:
 ```console
-server$ sudo apt-get install sendmail`
+server$ sudo apt-get install sendmail
 ```
 
 
