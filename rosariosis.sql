@@ -263,7 +263,7 @@ $$
 
 
 --
--- Set updated_at column
+-- Name: set_updated_at(); Type: FUNCTION; Schema: public; Owner: postgres
 -- @link https://stackoverflow.com/questions/36934518/postgresql-trigger-for-all-tables-that-include-create-date
 -- @link https://stackoverflow.com/questions/9556474/how-do-i-automatically-update-a-timestamp-in-postgresql
 --
@@ -3946,7 +3946,7 @@ CREATE TRIGGER srcg_mp_stats_update AFTER INSERT OR DELETE OR UPDATE ON student_
 
 
 --
--- Name: srcg_mp_stats_update; Type: TRIGGER; Schema: public; Owner: rosariosis
+-- Name: set_updated_at; Type: TRIGGER; Schema: public; Owner: rosariosis
 --
 
 DO $$
