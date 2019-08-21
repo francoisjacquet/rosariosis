@@ -74,16 +74,21 @@ Ahora, está listo para configurar la base de datos de RosarioSIS. Si tiene acce
 1. Abra una ventana del terminal.
 
 2. Entra a PostgreSQL con el usuario postgres:
-    `server$ sudo -u postgres psql`
-
+```console
+server$ sudo -u postgres psql
+```
 3. Crea el usuario rosariosis:
-    `postgres=# CREATE USER rosariosis_user WITH PASSWORD 'rosariosis_user_password';`
-
-5. Crea la base de datos rosariosis:
-    `postgres=# CREATE DATABASE rosariosis_db WITH ENCODING 'UTF8' OWNER rosariosis_user;`
-
-6. Salga de PostgreSQL:
-    `postgres=# \q`
+```console
+postgres=# CREATE USER rosariosis_user WITH PASSWORD 'rosariosis_user_password';
+```
+4. Crea la base de datos rosariosis:
+```console
+postgres=# CREATE DATABASE rosariosis_db WITH ENCODING 'UTF8' OWNER rosariosis_user;
+```
+5. Salga de PostgreSQL:
+```console
+postgres=# \q
+```
 
 También, el archivo [`pg_hba.conf`](http://www.postgresql.org/docs/current/static/auth-pg-hba-conf.html) puede ser editado para activar la conexión de usuarios con contraseña (`md5`):
 ```
@@ -108,14 +113,17 @@ Extensiones PHP
 ---------------
 
 Instrucciones de instalación para Ubuntu 16.04:
-    `server$ sudo apt-get install php-pgsql php-gettext php-mbstring php-gd php-curl php-xmlrpc php-xml`
-
+```console
+server$ sudo apt-get install php-pgsql php-gettext php-mbstring php-gd php-curl php-xmlrpc php-xml
+```
 
 Otros lenguajes
 ---------------
 
 Instrucciones de instalación para Ubuntu 16.04. Instalar el lenguaje español:
-    `server$ sudo apt-get install language-pack-es`
+```console
+server$ sudo apt-get install language-pack-es
+```
 Luego reinicie el servidor.
 
 
@@ -136,7 +144,9 @@ Envio de email
 --------------
 
 Instrucciones de instalación para Ubuntu 16.04. Activar la función PHP `mail()`:
-    `server$ sudo apt-get install sendmail`
+```console
+server$ sudo apt-get install sendmail`
+```
 
 
 Configuración adicional

@@ -74,16 +74,21 @@ Now, you're ready to setup the RosarioSIS database. If you have access to the co
 1. Open a terminal window.
 
 2. Login to PostgreSQL as the postgres user:
-	`server$ sudo -u postgres psql`
-
+```console
+server$ sudo -u postgres psql
+```
 3. Create the rosariosis user:
-	`postgres=# CREATE USER rosariosis_user WITH PASSWORD 'rosariosis_user_password';`
-
+```console
+postgres=# CREATE USER rosariosis_user WITH PASSWORD 'rosariosis_user_password';
+```
 4. Create the rosariosis database:
-	`postgres=# CREATE DATABASE rosariosis_db WITH ENCODING 'UTF8' OWNER rosariosis_user;`
-
+```console
+postgres=# CREATE DATABASE rosariosis_db WITH ENCODING 'UTF8' OWNER rosariosis_user;
+```
 5. Logout of PostgreSQL:
-	`postgres=# \q`
+```console
+postgres=# \q
+```
 
 Also, the [`pg_hba.conf`](http://www.postgresql.org/docs/current/static/auth-pg-hba-conf.html) file may have to be altered to enable password (`md5`) peer authentication:
 ```
@@ -108,14 +113,18 @@ PHP extensions
 --------------
 
 Install instructions for Ubuntu 16.04:
-	`server$ sudo apt-get install php-pgsql php-gettext php-mbstring php-gd php-curl php-xmlrpc php-xml`
+```console
+server$ sudo apt-get install php-pgsql php-gettext php-mbstring php-gd php-curl php-xmlrpc php-xml
+```
 
 
 Other languages
 ---------------
 
 Install instructions for Ubuntu 16.04. Install the _Spanish_ language:
-	`server$ sudo apt-get install language-pack-es`
+```console
+server$ sudo apt-get install language-pack-es
+```
 Then restart the server.
 
 
@@ -135,7 +144,9 @@ Send email
 ----------
 
 Install instructions for Ubuntu 16.04. Activate the PHP `mail()` function:
-	`server$ sudo apt-get install sendmail`
+```console
+server$ sudo apt-get install sendmail
+```
 
 
 Additional configuration
