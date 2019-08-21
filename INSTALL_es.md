@@ -66,10 +66,10 @@ Descomprima el archivo de RosarioSIS en un directorio accesible con el navegador
 - `define( 'ROSARIO_DEBUG', true );` Modo debug activado.
 
 
-Configuración de la base de datos
----------------------------------
+Base de datos
+-------------
 
-Ahora, está listo para configurar la base de datos de RosarioSIS. Si tiene acceso al símbolo del sistema de su servidor, puede seguir estas instrucciones. Si usa una herramienta como phpPGAdmin o similar, importa el archivo `rosariosis.sql` incluido en este paquete.
+Ahora, está listo para configurar la base de datos de RosarioSIS. Si tiene acceso al símbolo del sistema de su servidor, puede seguir estas instrucciones.
 
 1. Abra una ventana del terminal.
 
@@ -91,56 +91,51 @@ También, el archivo [`pg_hba.conf`](http://www.postgresql.org/docs/current/stat
 local   all             all                                     md5
 ```
 
-
-Instalar la base de datos
--------------------------
-
-Apunte su navegador a: `http://sudominio.com/REPERTORIO_DE_INSTALACION/InstallDatabase.php`
+Para instalar la base de datos, apunte su navegador a: `http://sudominio.com/REPERTORIO_DE_INSTALACION/InstallDatabase.php`
 
 Es todo!... ahora, apunte su navegador a: `http://sudominio.com/REPERTORIO_DE_INSTALACION/index.php`
 
 y entra con el nombre de usuario 'admin' y la contraseña 'admin'. Con esta cuenta, podrá agregar nuevos usuarios, y modificar o suprimir los tres usuarios de ejemplo.
 
 
-Problemas de instalación
-------------------------
+Problemas
+---------
 
-Para ayudarlo a detectar los problemas, apunte su navegador a: `http://sudominio.com/REPERTORIO_DE_INSTALACION/diagnostic.php`
+Para ayudarlo a detectar problemas de instalación, apunte su navegador a: `http://sudominio.com/REPERTORIO_DE_INSTALACION/diagnostic.php`
 
 
-Instalar las extensiones PHP
-----------------------------
+Extensiones PHP
+---------------
 
 Instrucciones de instalación para Ubuntu 16.04:
     `server$ sudo apt-get install php-pgsql php-gettext php-mbstring php-gd php-curl php-xmlrpc php-xml`
 
 
-Instalar otros lenguajes
-------------------------
+Otros lenguajes
+---------------
 
-Instrucciones de instalación para Ubuntu 16.04 y la locale _Spanish_:
+Instrucciones de instalación para Ubuntu 16.04. Instalar el lenguaje español:
     `server$ sudo apt-get install language-pack-es`
-Luego reinicia el servidor.
+Luego reinicie el servidor.
 
 
-Instalar [wkhtmltopdf](http://wkhtmltopdf.org/)
------------------------------------------------
+[wkhtmltopdf](http://wkhtmltopdf.org/)
+--------------------------------------
 
 Instrucciones de instalación para Ubuntu 16.04:
-```
+```console
 server$ wget https://downloads.wkhtmltopdf.org/0.12/0.12.5/wkhtmltox_0.12.5-1.xenial_amd64.deb
 server$ sudo dpkg -i wkhtmltox_0.12.5-1.xenial_amd64.deb
 ```
 
 Definir el camino en `config.inc.php`:
+    `$wkhtmltopdfPath = '/usr/local/bin/wkhtmltopdf';`
 
-`$wkhtmltopdfPath = '/usr/local/bin/wkhtmltopdf';`
 
+Envio de email
+--------------
 
-Activar la función PHP mail()
------------------------------
-
-Instrucciones de instalación para Ubuntu 16.04:
+Instrucciones de instalación para Ubuntu 16.04. Activar la función PHP `mail()`:
     `server$ sudo apt-get install sendmail`
 
 

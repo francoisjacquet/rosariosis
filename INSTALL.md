@@ -66,8 +66,8 @@ Unzip RosarioSIS to a directory that is accessible to your web browser. Edit the
 - `define( 'ROSARIO_DEBUG', true );` Debug mode activated.
 
 
-Database setup
---------------
+Database
+--------
 
 Now, you're ready to setup the RosarioSIS database. If you have access to the command prompt for your server, follow these instructions.
 
@@ -91,55 +91,50 @@ Also, the [`pg_hba.conf`](http://www.postgresql.org/docs/current/static/auth-pg-
 local   all             all                                     md5
 ```
 
-
-Database install
-----------------
-
-Point your browser to: `http://yourdomain.com/INSTALL_LOCATION/InstallDatabase.php`
+To install the database, point your browser to: `http://yourdomain.com/INSTALL_LOCATION/InstallDatabase.php`
 
 That's it!... now, point your browser to: `http://yourdomain.com/INSTALL_LOCATION/index.php`
 
 and login as 'admin' password 'admin'.  With this login, you can create new users, and change and delete the three template users.
 
 
-Installation problems
----------------------
+Problems
+--------
 
-To help you spot problems, point your browser to: `http://yourdomain.com/INSTALL_LOCATION/diagnostic.php`
+To help you spot installation problems, point your browser to: `http://yourdomain.com/INSTALL_LOCATION/diagnostic.php`
 
 
-Installing PHP extensions
--------------------------
+PHP extensions
+--------------
 
 Install instructions for Ubuntu 16.04:
 	`server$ sudo apt-get install php-pgsql php-gettext php-mbstring php-gd php-curl php-xmlrpc php-xml`
 
 
-Installing other languages
---------------------------
+Other languages
+---------------
 
-Install instructions for Ubuntu 16.04 and the _Spanish_ locale:
+Install instructions for Ubuntu 16.04. Install the _Spanish_ language:
 	`server$ sudo apt-get install language-pack-es`
 Then restart the server.
 
 
-Installing [wkhtmltopdf](http://wkhtmltopdf.org/)
--------------------------------------------------
+[wkhtmltopdf](http://wkhtmltopdf.org/)
+--------------------------------------
 
 Install instructions for Ubuntu 16.04:
-```
+```console
 server$ wget https://downloads.wkhtmltopdf.org/0.12/0.12.5/wkhtmltox_0.12.5-1.xenial_amd64.deb
 server$ sudo dpkg -i wkhtmltox_0.12.5-1.xenial_amd64.deb
 ```
 
-Set path in `config.inc.php`:
+Set path in the `config.inc.php` file:
+	`$wkhtmltopdfPath = '/usr/local/bin/wkhtmltopdf';`
 
-`$wkhtmltopdfPath = '/usr/local/bin/wkhtmltopdf';`
+Send email
+----------
 
-Activate PHP mail() function
-----------------------------
-
-Install instructions for Ubuntu 16.04:
+Install instructions for Ubuntu 16.04. Activate the PHP `mail()` function:
 	`server$ sudo apt-get install sendmail`
 
 
