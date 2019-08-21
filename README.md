@@ -25,8 +25,8 @@ Demo
 Try RosarioSIS. Access the [online demonstration](https://www.rosariosis.org/demo/).
 
 
-About RosarioSIS
-----------------
+About
+-----
 
 ![RosarioSIS screenshot](http://www.rosariosis.org/wp-content/uploads/2013/06/rosariosis_screenshot.png)
 
