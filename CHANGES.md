@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 5.0.4
+----------------
+- Update French & Spanish translations in rosariosis.po
+
 Changes in 5.0.3
 ----------------
 - Fix SQL error set TITLE input maxlength to 100 in AttendanceCodes.fnc.php
