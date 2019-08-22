@@ -5,6 +5,9 @@ Changes in 5.0.4
 ----------------
 - Update French & Spanish translations in rosariosis.po
 - FlatSIS change download & help buttons in themes/FlatSIS/btn/
+- Add basket, briefcase, calculator, chart, clipboard, clock, down, folder, heart, key, label, music, pencil, picture, screen, settings, star & up buttons in themes/FlatSIS/btn/ & themes/WPadmin/btn/
+- Compress buttons using compresspng.com in themes/FlatSIS/btn/
+
 
 Changes in 5.0.3
 ----------------
