@@ -41,8 +41,7 @@ function Search( $type, $extra = null )
 				unset( $_SESSION['student_id'] );
 			}
 
-			if ( isset( $_REQUEST['student_id'] )
-				&& ! empty( $_REQUEST['student_id'] ) )
+			if ( ! empty( $_REQUEST['student_id'] ) )
 			{
 				if ( $_REQUEST['student_id'] !== 'new'
 					&& $_REQUEST['student_id'] != UserStudentID() )
