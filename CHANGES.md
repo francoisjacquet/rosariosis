@@ -4,6 +4,7 @@
 Changes in 5.0.4
 ----------------
 - Update French & Spanish translations in rosariosis.po
+- FlatSIS change download & help buttons in themes/FlatSIS/btn/
 
 Changes in 5.0.3
 ----------------
