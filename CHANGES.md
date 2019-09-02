@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 5.0.5
+----------------
+- Fix SQL error when MP ID is not integer in MarkingPeriods.php
+
 Changes in 5.0.4
 ----------------
 - Update French & Spanish translations in rosariosis.po

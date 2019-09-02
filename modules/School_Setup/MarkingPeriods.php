@@ -34,6 +34,10 @@ if ( $_REQUEST['marking_period_id'] === 'new' )
 		break;
 	}
 }
+else
+{
+	$_REQUEST['marking_period_id'] = (string) (int) $_REQUEST['marking_period_id'];
+}
 
 // Add eventual Dates to $_REQUEST['tables'].
 AddRequestedDates( 'tables', 'post' );
@@ -257,11 +261,15 @@ if ( ! empty( $_POST['tables'] )
 		}
 
 		if ( $go )
+		{
 			DBQuery( $sql );
+		}
 
 		if ( $id === 'new'
 			&& $go )
+		{
 			$_REQUEST['marking_period_id'] = $id;
+		}
 	}
 
 	// Unset tables & redirect URL.
@@ -616,7 +624,7 @@ if ( ! $_REQUEST['modfunc'] )
 			WHERE MP='SEM'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
-			AND PARENT_ID='" . $_REQUEST['year_id'] . "'
+			AND PARENT_ID='" . (int) $_REQUEST['year_id'] . "'
 			ORDER BY SORT_ORDER" );
 
 		if ( ! empty( $sem_RET ) )
@@ -664,7 +672,7 @@ if ( ! $_REQUEST['modfunc'] )
 				WHERE MP='QTR'
 				AND SCHOOL_ID='" . UserSchool() . "'
 				AND SYEAR='" . UserSyear() . "'
-				AND PARENT_ID='" . $_REQUEST['semester_id'] . "'
+				AND PARENT_ID='" . (int) $_REQUEST['semester_id'] . "'
 				ORDER BY SORT_ORDER" );
 
 			if ( ! empty( $qtr_RET ) )
@@ -710,7 +718,7 @@ if ( ! $_REQUEST['modfunc'] )
 					WHERE MP='PRO'
 					AND SCHOOL_ID='" . UserSchool() . "'
 					AND SYEAR='" . UserSyear() . "'
-					AND PARENT_ID='" . $_REQUEST['quarter_id'] . "'
+					AND PARENT_ID='" . (int) $_REQUEST['quarter_id'] . "'
 					ORDER BY SORT_ORDER" );
 
 				if ( ! empty( $pro_RET ) )
