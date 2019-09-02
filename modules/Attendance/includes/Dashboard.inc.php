@@ -77,14 +77,14 @@ if ( ! function_exists( 'DashboardAttendanceAdmin' ) )
 
 		foreach ( (array) $absences_RET as $absences )
 		{
-			$proper_date = ProperDate( $absences['SCHOOL_DATE'] );
+			$proper_date = ProperDate( $absences['SCHOOL_DATE'], 'short' );
 
 			// Referrals by month.
 			$absences_data[$proper_date] = (int) $absences['ABSENT'];
 
 			if ( $absences['HALF_DAY'] )
 			{
-				$absences_data[$proper_date] .= _( 'Half Day' ) . (int) $absences['HALF_DAY'];
+				$absences_data[$proper_date] .= ' &mdash; ' . _( 'Half Day' ) . ' ' . (int) $absences['HALF_DAY'];
 			}
 		}
 

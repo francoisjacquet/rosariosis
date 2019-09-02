@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 4.9.9
+----------------
+- Format Half Day attendance & date in Dashboard.inc.php
+
 Changes in 4.9.8
 ----------------
 - Fix SQL error set RosarioSIS ID maxlength to 9 in General_Info.inc.php & Student.php
