@@ -419,7 +419,7 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 				TranscriptPDFFooter( $student, $last_grade, $certificate_block2 );
 
 				// Add buffer to Transcripts array.
-				$transcripts[$student_id] = ob_get_clean();
+				$transcripts[$student_id . '-' . $syear] = ob_get_clean();
 			}
 		}
 
