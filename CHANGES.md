@@ -92,6 +92,10 @@ Changes in 5.0
 - Merge Period & Teacher Comment columns to gain space in StudentSummary.php
 - Format Meals using PopTable() in Kiosk.php
 
+Changes in 4.9.10
+-----------------
+- Fix regression since 4.8 Transcripts for various years in Transcripts.fnc.php
+
 Changes in 4.9.9
 ----------------
 - Format Half Day attendance & date in Dashboard.inc.php
