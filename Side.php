@@ -364,6 +364,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 				AND se.SYEAR='" . UserSyear() . "'
 				AND se.STUDENT_ID=sju.STUDENT_ID
 				AND sch.ID=se.SCHOOL_ID
+				AND sch.SYEAR=se.SYEAR
 				AND ('" . DBDate() . "'>=se.START_DATE
 					AND ('" . DBDate() . "'<=se.END_DATE
 						OR se.END_DATE IS NULL ) )" );

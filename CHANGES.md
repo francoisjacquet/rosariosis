@@ -88,6 +88,7 @@ Changes in 5.0
 Changes in 4.9.9
 ----------------
 - Format Half Day attendance & date in Dashboard.inc.php
+- Fix regression since 4.9.2 Students appear in double in Side.php
 
 Changes in 4.9.8
 ----------------
