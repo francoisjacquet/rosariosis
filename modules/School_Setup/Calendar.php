@@ -349,7 +349,10 @@ if ( $_REQUEST['modfunc'] === 'create'
 					$weekday = 0;
 			}
 
-			DBQuery( $sql_calendar_days );
+			if ( $sql_calendar_days )
+			{
+				DBQuery( $sql_calendar_days );
+			}
 		}
 
 		// Set Current Calendar

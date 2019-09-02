@@ -3,7 +3,8 @@
 
 Changes in 5.0.5
 ----------------
-- Fix SQL error when MP ID is not integer in MarkingPeriods.php
+- Fix SQL errors when MP ID is not integer in MarkingPeriods.php
+- Fix SQL error when no Days to insert in Calendar.php
 
 Changes in 5.0.4
 ----------------
