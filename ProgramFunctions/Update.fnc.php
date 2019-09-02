@@ -31,7 +31,7 @@ function Update()
 	 * Prevent DB version update if new Update.fnc.php file has NOT been uploaded YET.
 	 * Update must be run once both new Warehouse.php & Update.fnc.php files are uploaded.
 	 */
-	if ( version_compare( '5.0.4', ROSARIO_VERSION, '<' ) )
+	if ( version_compare( '5.0.5', ROSARIO_VERSION, '<' ) )
 	{
 		return false;
 	}
@@ -1149,3 +1149,7 @@ function _update501()
 
 	return $return;
 }
+
+
+// TODO 6.0 Add CREATED_AT & UPDATED_AT columns to every table if not exists, 93 tables.
+// TODO Add set_updated_at() function & set_updated_at trigger if not exists.
