@@ -5,6 +5,8 @@ Changes in 5.0.5
 ----------------
 - Fix SQL errors when MP ID is not integer in MarkingPeriods.php
 - Fix SQL error when no Days to insert in Calendar.php
+- Fix SQL error regression since 5.0-beta when inserting people relation in Registration.php
+- Format phone input fields in Registration.php
 
 Changes in 5.0.4
 ----------------

@@ -222,24 +222,24 @@ if ( isset( $_REQUEST['values'] )
 				|| $key == 2 )
 			{
 				$sql_values = db_seq_nextval( 'students_join_people_id_seq' ) . ",'" .
-					UserStudentID() . "','" . $person_id . "','" . $address_id[ $key ] . "','Y','" .
+					UserStudentID() . "','" . $person_id . "','" . $address_id[ $key ] . "','Y',NULL,'" .
 					$person_student_relation . "'";
 			}
 			elseif ( isset( $address_id[ $key ] ) )
 			{
 				$sql_values = db_seq_nextval( 'students_join_people_id_seq' ) . ",'" .
-					UserStudentID() . "','" . $person_id . "','" . $address_id[ $key ] . "','" .
+					UserStudentID() . "','" . $person_id . "','" . $address_id[ $key ] . "',NULL,NULL,'" .
 					$person_student_relation . "'";
 			}
 			else
 			{
 				// No address, use parent address.
 				$sql_values = db_seq_nextval( 'students_join_people_id_seq' ) . ",'" .
-					UserStudentID() . "','" . $person_id . "','" . $address_id[1] . "','Y','" .
+					UserStudentID() . "','" . $person_id . "','" . $address_id[1] . "',NULL,'Y','" .
 					$person_student_relation . "'";
 			}
 
-			DBQuery( "INSERT INTO STUDENTS_JOIN_PEOPLE (ID,STUDENT_ID,PERSON_ID,ADDRESS_ID,EMERGENCY,STUDENT_RELATION)
+			DBQuery( "INSERT INTO STUDENTS_JOIN_PEOPLE (ID,STUDENT_ID,PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION)
 				VALUES(" . $sql_values . ")" );
 		}
 	}
@@ -304,20 +304,20 @@ if ( $addresses_RET[1]['COUNT'] > 0 )
 	exit;
 }
 
-DrawHeader( sprintf(
-	_( 'Welcome, %s, to the %s' ),
-	User( 'NAME' ),
-	ParseMLField( Config( 'TITLE' ) )
-) );
-
 DrawHeader(
+	sprintf(
+		_( 'Welcome, %s, to the %s' ),
+		User( 'NAME' ),
+		ParseMLField( Config( 'TITLE' ) )
+	) .
+	'<br />' .
 	sprintf(
 		_( 'We would appreciate it if you would enter just a little bit of information about you and %s to help us out this school year. Thanks!' ),
 		$is_student ? _( 'your parents' ) : _( 'your child' )
 	)
 );
 
-echo '<br /><br />';
+echo '<br />';
 
 echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
 
@@ -338,9 +338,9 @@ echo '<br />' . _makeInput( 'values[PEOPLE][1][MIDDLE_NAME]', _( 'Middle Name' )
 
 echo '<br />' . _makeInput( 'values[PEOPLE][1][LAST_NAME]', _( 'Last Name' ), '', 'size="15" maxlength="50" required' );
 
-echo '<br />' . _makeInput( 'values[PEOPLE][1][extra][Cell]', _( 'Cell Phone' ), '', 'size="30"' );
+echo '<br />' . _makeInput( 'values[PEOPLE][1][extra][Cell]', _( 'Cell Phone' ), '', 'size="15"' );
 
-echo '<br />' . _makeInput( 'values[PEOPLE][1][extra][Workplace]', _( 'Workplace' ), '', 'size="30"' );
+echo '<br />' . _makeInput( 'values[PEOPLE][1][extra][Workplace]', _( 'Workplace' ), '', 'size="15"' );
 
 echo '</td></tr></table>';
 
@@ -358,9 +358,9 @@ echo '<br />' . _makeInput( 'values[PEOPLE][2][MIDDLE_NAME]', _( 'Middle Name' )
 
 echo '<br />' . _makeInput( 'values[PEOPLE][2][LAST_NAME]', _( 'Last Name' ), '', 'size="15" maxlength="50"' );
 
-echo '<br />' . _makeInput( 'values[PEOPLE][2][extra][Cell]', _( 'Cell Phone' ), '', 'size="30"' );
+echo '<br />' . _makeInput( 'values[PEOPLE][2][extra][Cell]', _( 'Cell Phone' ), '', 'size="15"' );
 
-echo '<br />' . _makeInput( 'values[PEOPLE][2][extra][Workplace]', _( 'Workplace' ), '', 'size="30"' );
+echo '<br />' . _makeInput( 'values[PEOPLE][2][extra][Workplace]', _( 'Workplace' ), '', 'size="15"' );
 
 echo '</td></tr></table>';
 
@@ -406,8 +406,6 @@ for ( $i = 3; $i <= 6; $i++ )
 
 	echo '<br />' . _makeInput( 'values[PEOPLE][' . $i . '][LAST_NAME]', _( 'Last Name' ), '', 'size="15" maxlength="50"' );
 
-	echo '<br />' . _makeInput( 'values[PEOPLE][' . $i . '][extra][Cell]', _( 'Cell Phone' ), '', 'size="30"' );
-
 	echo '<br />' . _makeInput( 'values[ADDRESS][' . $i . '][ADDRESS]', _( 'Address' ), '', 'size="30" maxlength="255"' );
 
 	echo '<br /><table class="cellspacing-0"><tr><td>' .
@@ -418,7 +416,9 @@ for ( $i = 3; $i <= 6; $i++ )
 	echo '<td>' . _makeInput( 'values[ADDRESS][' . $i . '][ZIPCODE]', _( 'Zip' ), '', 'size="6" maxlength="10"' ) .
 		'</td></tr></table>';
 
-	echo _makeInput( 'values[ADDRESS][' . $i . '][PHONE]', _( 'Phone' ), '', 'size="15" maxlength="30"' );
+	echo _makeInput( 'values[PEOPLE][' . $i . '][extra][Cell]', _( 'Cell Phone' ), '', 'size="15"' );
+
+	echo '<br />' . _makeInput( 'values[ADDRESS][' . $i . '][PHONE]', _( 'Phone' ), '', 'size="15" maxlength="30"' );
 
 	if ( $i == 4 )
 	{
@@ -439,31 +439,26 @@ echo '</table>';
 // Other contacts.
 echo '<hr /><p><b>' . _( 'Other Contacts' ) . ':</b></p>';
 
-echo '<table class="width-100p valign-top fixed-col"><tr class="st"><td>';
+echo '<table class="width-100p valign-top fixed-col"><tr class="st">';
 
-echo _makeInput( 'values[PEOPLE][7][FIRST_NAME]', _( 'First Name' ), '', 'size="15" maxlength="50"' );
+for ( $i = 7; $i <= 8; $i++ )
+{
+	echo '<td>';
 
-echo '<br />' . _makeInput( 'values[PEOPLE][7][MIDDLE_NAME]', _( 'Middle Name' ), '', 'size="15" maxlength="50"' );
+	echo _makeInput( 'values[PEOPLE][' . $i . '][FIRST_NAME]', _( 'First Name' ), '', 'size="15" maxlength="50"' );
 
-echo '<br />' . _makeInput( 'values[PEOPLE][7][LAST_NAME]', _( 'Last Name' ), '', 'size="15" maxlength="50"' );
+	echo '<br />' . _makeInput( 'values[PEOPLE][' . $i . '][MIDDLE_NAME]', _( 'Middle Name' ), '', 'size="15" maxlength="50"' );
 
-echo '<br />' . _makeInput( 'values[PEOPLE][7][STUDENT_RELATION]', _( 'Relation to Student' ), '', 'size="30"' );
+	echo '<br />' . _makeInput( 'values[PEOPLE][' . $i . '][LAST_NAME]', _( 'Last Name' ), '', 'size="15" maxlength="50"' );
 
-echo '<br />' . _makeInput( 'values[PEOPLE][7][extra][Cell]', _( 'Cell Phone' ), '', 'size="30"' );
+	echo '<br />' . _makeInput( 'values[PEOPLE][' . $i . '][STUDENT_RELATION]', _( 'Relation to Student' ), '', 'size="30"' );
 
-echo '</td><td>';
+	echo '<br />' . _makeInput( 'values[PEOPLE][' . $i . '][extra][Cell]', _( 'Cell Phone' ), '', 'size="15"' );
 
-echo _makeInput( 'values[PEOPLE][8][FIRST_NAME]', _( 'First Name' ), '', 'size="15" maxlength="50"' );
+	echo '</td>';
+}
 
-echo '<br />' . _makeInput( 'values[PEOPLE][8][MIDDLE_NAME]', _( 'Middle Name' ), '', 'size="15" maxlength="50"' );
-
-echo '<br />' . _makeInput( 'values[PEOPLE][8][LAST_NAME]', _( 'Last Name' ), '', 'size="15" maxlength="50"' );
-
-echo '<br />' . _makeInput( 'values[PEOPLE][8][STUDENT_RELATION]', _( 'Relation to Student' ), '', 'size="30"' );
-
-echo '<br />' . _makeInput( 'values[PEOPLE][8][extra][Cell]', _( 'Cell Phone' ), '', 'size="30"' );
-
-echo '</td></tr></table>';
+echo '</tr></table>';
 
 $custom_fields_RET = DBGet( "SELECT ID,TITLE,TYPE,SELECT_OPTIONS
 	FROM CUSTOM_FIELDS", array(), array( 'ID' ) );
