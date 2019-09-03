@@ -33,12 +33,15 @@ DrawHeader( _( 'Report Timeframe' ) . ': ' .
 
 echo '</form>';
 
-// sort by date since the list is two lists merged and not already properly sorted
+// Sort by date since the list is two lists merged and not already properly sorted.
+$_REQUEST['LO_sort'] = issetVal( $_REQUEST['LO_sort'], 'DATE' );
 
-if ( empty( $_REQUEST['LO_sort'] ) )
-{
-	$_REQUEST['LO_sort'] = 'DATE';
-}
+// @global $totals.
+$totals = array(
+	'DEBIT' => 0,
+	'CREDIT' => 0,
+);
+
 
 $extra['functions'] = array( 'DEBIT' => '_makeCurrency', 'CREDIT' => '_makeCurrency', 'DATE' => 'ProperDate' );
 
@@ -56,14 +59,14 @@ if ( ! isset( $_REQUEST['accounting'] )
 		$name_col_sql = "'' AS FULL_NAME,";
 	}
 
-	$RET = DBGet( "SELECT " . $name_col_sql . "f.AMOUNT AS CREDIT,'' AS DEBIT,f.TITLE||' '||COALESCE(f.COMMENTS,' ') AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID
+	$RET = DBGet( "SELECT " . $name_col_sql . "f.AMOUNT AS CREDIT,'' AS DEBIT,f.TITLE||' '||COALESCE(f.COMMENTS,'') AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID
 	FROM ACCOUNTING_INCOMES f
 	WHERE f.SYEAR='" . UserSyear() . "'
 	AND f.SCHOOL_ID='" . UserSchool() . "'
 	AND f.ASSIGNED_DATE BETWEEN '" . $start_date . "'
 	AND '" . $end_date . "'", $extra['functions'] );
 
-	$payments_SQL = "SELECT " . $name_col_sql . "'' AS CREDIT,p.AMOUNT AS DEBIT,COALESCE(p.COMMENTS,' ') AS EXPLANATION,p.PAYMENT_DATE AS DATE,p.ID AS ID
+	$payments_SQL = "SELECT " . $name_col_sql . "'' AS CREDIT,p.AMOUNT AS DEBIT,COALESCE(p.COMMENTS,'') AS EXPLANATION,p.PAYMENT_DATE AS DATE,p.ID AS ID
 	FROM ACCOUNTING_PAYMENTS p
 	WHERE p.SYEAR='" . UserSyear() . "'
 	AND p.SCHOOL_ID='" . UserSchool() . "'
@@ -98,7 +101,7 @@ if ( ! empty( $_REQUEST['staff_payroll'] ) )
 	$salaries_extra['FROM'] = issetVal( $salaries_extra['FROM'], '' );
 	$salaries_extra['WHERE'] = issetVal( $salaries_extra['WHERE'], '' );
 
-	$salaries_extra['SELECT'] .= $name_col_sql . ",'' AS DEBIT,f.AMOUNT AS CREDIT,f.TITLE||' '||COALESCE(f.COMMENTS,' ') AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID";
+	$salaries_extra['SELECT'] .= $name_col_sql . ",'' AS DEBIT,f.AMOUNT AS CREDIT,f.TITLE||COALESCE(' &mdash; '||f.COMMENTS,'') AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID";
 
 	$salaries_extra['FROM'] .= ',ACCOUNTING_SALARIES f';
 
@@ -237,11 +240,6 @@ ListOutput( $RET, $columns, 'Transaction', 'Transactions', $link );
 function _makeCurrency( $value, $column )
 {
 	global $totals;
-
-	if ( ! isset( $totals[$column] ) )
-	{
-		$totals[$column] = 0;
-	}
 
 	$totals[$column] += (float) $value;
 
