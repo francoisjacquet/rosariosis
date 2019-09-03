@@ -576,17 +576,17 @@ WHERE menu_id=1;
 --
 
 UPDATE resources
-SET title='Imprimir Manual del Usuario', link='Help.php'
+SET title='Imprimir Manual de Usuario', link='Help.php'
 WHERE id=1;
 
 UPDATE resources
-SET title='Wiki RosarioSIS', link='https://gitlab.com/francoisjacquet/rosariosis/wikis'
+SET title='Guía de Configuración Rápida', link='https://www.rosariosis.org/es/quick-setup-guide/'
 WHERE id=2;
 
 UPDATE resources
-SET title='Foro RosarioSIS', link='https://www.rosariosis.org/forum/t/espanol'
+SET title='Foro', link='https://www.rosariosis.org/forum/t/espanol'
 WHERE id=3;
 
 UPDATE resources
-SET title='Contribuir al Proyecto', link='https://www.rosariosis.org/es/contribute/'
+SET title='Contribuir', link='https://www.rosariosis.org/es/contribute/'
 WHERE id=4;

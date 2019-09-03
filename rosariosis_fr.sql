@@ -608,13 +608,13 @@ SET title='Imprimer Manuel Utilisateur', link='Help.php'
 WHERE id=1;
 
 UPDATE resources
-SET title='Wiki RosarioSIS', link='https://gitlab.com/francoisjacquet/rosariosis/wikis'
+SET title='Guide de Configuration Rapide', link='https://www.rosariosis.org/fr/quick-setup-guide/'
 WHERE id=2;
 
 UPDATE resources
-SET title='Forum RosarioSIS', link='https://www.rosariosis.org/forum/t/francais'
+SET title='Forum', link='https://www.rosariosis.org/forum/t/francais'
 WHERE id=3;
 
 UPDATE resources
-SET title='Contribuer au Projet', link='https://www.rosariosis.org/fr/contribute/'
+SET title='Contribuer', link='https://www.rosariosis.org/fr/contribute/'
 WHERE id=4;
