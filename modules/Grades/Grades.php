@@ -688,30 +688,6 @@ echo $_REQUEST['assignment_id'] ? '<br /><div class="center">' . SubmitButton() 
 echo '</form>';
 
 /**
- * Make Tip Message containing Student Photo
- * Local function
- *
- * Callback for DBGet() column formatting
- *
- * @uses MakeStudentPhotoTipMessage()
- * @global $THIS_RET, see DBGet()
- * @deprecated since 3.8, see GetStuList.fnc.php makePhotoTipMessage()
- * @see ProgramFunctions/TipMessage.fnc.php
- *
- * @param  string $full_name Student Full Name
- * @param  string $column    'FULL_NAME'
- * @return string Student Full Name + Tip Message containing Student Photo
- */
-function _makeTipMessage( $full_name, $column )
-{
-	global $THIS_RET;
-
-	require_once 'ProgramFunctions/TipMessage.fnc.php';
-
-	return MakeStudentPhotoTipMessage( $THIS_RET['STUDENT_ID'], $full_name );
-}
-
-/**
  * @param  $assignment_id
  * @param  $column
  * @return mixed
