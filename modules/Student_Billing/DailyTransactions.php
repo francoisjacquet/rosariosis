@@ -29,7 +29,7 @@ $extra['functions'] = array( 'DEBIT' => '_makeCurrency', 'CREDIT' => '_makeCurre
 $fees_extra = $extra;
 
 $fees_extra['SELECT'] = issetVal( $fees_extra['SELECT'], '' );
-$fees_extra['SELECT'] .= ",f.AMOUNT AS DEBIT,'' AS CREDIT,f.TITLE||' '||COALESCE(f.COMMENTS,' ') AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID";
+$fees_extra['SELECT'] .= ",f.AMOUNT AS DEBIT,'' AS CREDIT,f.TITLE||COALESCE(' &mdash; '||f.COMMENTS,'') AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID";
 
 $fees_extra['FROM'] = issetVal( $fees_extra['FROM'], '' );
 $fees_extra['FROM'] .= ',BILLING_FEES f';
@@ -43,7 +43,7 @@ $RET = GetStuList( $fees_extra );
 $payments_extra = $extra;
 
 $payments_extra['SELECT'] = issetVal( $payments_extra['SELECT'], '' );
-$payments_extra['SELECT'] .= ",'' AS DEBIT,p.AMOUNT AS CREDIT,COALESCE(p.COMMENTS,' ') AS EXPLANATION,p.PAYMENT_DATE AS DATE,p.ID AS ID";
+$payments_extra['SELECT'] .= ",'' AS DEBIT,p.AMOUNT AS CREDIT,COALESCE(p.COMMENTS,'') AS EXPLANATION,p.PAYMENT_DATE AS DATE,p.ID AS ID";
 
 $payments_extra['FROM'] = issetVal( $payments_extra['FROM'], '' );
 $payments_extra['FROM'] .= ',BILLING_PAYMENTS p';

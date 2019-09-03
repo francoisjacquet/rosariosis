@@ -4,6 +4,7 @@
 Changes in 5.1
 --------------
 - Medical Immunization or Physical Widget in Search.fnc.php & Widgets.fnc.php
+- Add dash between Fee title and Comment in DailyTransactions.php
 
 Changes in 5.0.5
 ----------------
