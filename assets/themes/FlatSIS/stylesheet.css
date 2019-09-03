@@ -577,7 +577,7 @@ a.menu-top,
 
 #body {
 	margin-bottom: 0;
-	padding: 0 16px 0;
+	padding: 0 16px 16px;
 }
 
 /* Body bg grey + elements bg white */
