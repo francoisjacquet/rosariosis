@@ -5,6 +5,7 @@ Changes in 5.1
 --------------
 - Medical Immunization or Physical Widget in Search.fnc.php & Widgets.fnc.php
 - Add dash between Fee title and Comment in DailyTransactions.php
+- CSS Fix for ChosenSelect overflow in stylesheet.css & wkhtmltopdf.css
 
 Changes in 5.0.5
 ----------------

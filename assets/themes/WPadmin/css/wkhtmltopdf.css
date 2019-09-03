@@ -19,6 +19,10 @@ body {
 	/* Fix wkhtmltopdf issue where table header overlaps first row */
 	/* @link https://www.rosariosis.org/forum/d/91-print-row-in-table-header-overflow-wkhtmltopdf */
 	overflow-x: visible;
+	/* Revert fix for ChosenSelect overflow
+	@link https://github.com/harvesthq/chosen/issues/86#issuecomment-410044171 */
+	padding-bottom: 0;
+	margin-bottom: 0;
 }
 
 /* @since 4.3 */

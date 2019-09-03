@@ -368,6 +368,10 @@ select,
 
 .list-wrapper {
 	overflow-x: auto;
+	/* Fix for ChosenSelect overflow
+	@link https://github.com/harvesthq/chosen/issues/86#issuecomment-410044171 */
+	padding-bottom: 400px;
+	margin-bottom: -400px;
 }
 
 .list-nav,
@@ -728,6 +732,10 @@ h3 span {
 
 #body {
 	padding: 0 15px 38px;
+	/* Fix for ChosenSelect overflow
+	@link https://github.com/harvesthq/chosen/issues/86#issuecomment-410044171 */
+	padding-bottom: 400px;
+	margin-bottom: -400px;
 }
 
 .header {
