@@ -17,7 +17,7 @@ if ( UserStudentID() )
 	// FJ fix bug no delete MP.
 
 	if ( $_REQUEST['modfunc'] === 'update'
-		&& $_REQUEST['removemp']
+		&& ! empty( $_REQUEST['removemp'] )
 		&& $_REQUEST['new_sms']
 		&& DeletePrompt( _( 'Marking Period' ) ) )
 	{
@@ -33,7 +33,7 @@ if ( UserStudentID() )
 	}
 
 	if ( $_REQUEST['modfunc'] === 'update'
-		&& ! $_REQUEST['removemp'] )
+		&& empty( $_REQUEST['removemp'] ) )
 	{
 		if ( ! empty( $_REQUEST['new_sms'] ) )
 		{
@@ -236,7 +236,7 @@ if ( UserStudentID() )
 					'unweighted_gpa' => $g_rec['UNWEIGHTED_GPA'],
 					'cr_weighted' => $g_rec['CR_WEIGHTED'],
 					'cr_unweighted' => $g_rec['CR_UNWEIGHTED'],
-					'gpa' => $g_rec['GPA'],
+					'gpa' => issetVal( $g_rec['GPA'] ),
 				);
 			}
 		}
@@ -279,21 +279,21 @@ if ( UserStudentID() )
 
 		echo '<table class="cellpadding-5"><tr><td>' . _( 'GPA' ) . '</td><td>' .
 			NoInput(
-				(float) number_format( $g_mp[$mp_id]['weighted_gpa'], 3 ),
+				(float) number_format( issetVal( $g_mp[$mp_id]['weighted_gpa'], 0 ), 3 ),
 				_( 'Weighted' )
 			) . '</td><td>' .
 			NoInput(
-				(float) number_format( $g_mp[$mp_id]['unweighted_gpa'], 3 ),
+				(float) number_format( issetVal( $g_mp[$mp_id]['unweighted_gpa'], 0 ), 3 ),
 				_( 'Unweighted' )
 			) . '</td></tr>';
 
 		echo '<tr><td>' . _( 'Class Rank GPA' ) . '</td><td>' .
 			NoInput(
-				(float) number_format( $g_mp[$mp_id]['cr_weighted'], 3 ),
+				(float) number_format( issetVal( $g_mp[$mp_id]['cr_weighted'], 0 ), 3 ),
 				_( 'Weighted' )
 			) . '</td><td>' .
 			NoInput(
-				(float) number_format( $g_mp[$mp_id]['cr_unweighted'], 3 ),
+				(float) number_format( issetVal( $g_mp[$mp_id]['cr_unweighted'], 0 ), 3 ),
 				_( 'Unweighted' )
 			) . '</td></tr></table>';
 
@@ -301,7 +301,12 @@ if ( UserStudentID() )
 
 		echo PopTable( 'footer' ) . '<br />';
 
-		$sms_grade_level = TextInput( $g_mp[$mp_id]['grade_level'], "SMS_GRADE_LEVEL", _( 'Grade Level' ), 'size=3 maxlength=3' );
+		$sms_grade_level = TextInput(
+			issetVal( $g_mp[$mp_id]['grade_level'] ),
+			"SMS_GRADE_LEVEL",
+			_( 'Grade Level' ),
+			'size=3 maxlength=3'
+		);
 
 		if ( $mp_id == "0" )
 		{
