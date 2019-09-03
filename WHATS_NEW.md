@@ -2,6 +2,13 @@
 
 ## RosarioSIS Student Information System
 
+New in 5.1
+----------
+
+Student Fields:
+- Search Medical Immunization or Physical, sponsored by Asian Hope
+
+
 New in 5.0
 ----------
 

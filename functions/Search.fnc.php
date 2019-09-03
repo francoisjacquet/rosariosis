@@ -14,6 +14,7 @@
  * @example Search( 'staff_id' ); // Display Find a User form or Search users if submitted
  *
  * @since 4.8 Search Parents by Student Grade Level.
+ * @since 5.1 Medical Immunization or Physical Widget.
  *
  * @see Users & Students modules Search.inc.php files
  *
@@ -554,6 +555,16 @@ function Search( $type, $extra = null )
 					<table class="widefat width-100p col1-align-right hide">';
 
 					$TR_classes .= 'st';
+
+					if ( $type === 'student_fields_all'
+						&& isset( $category['text'][1]['ID'] )
+						&& $category['text'][1]['ID'] === '2' )
+					{
+						// @since 5.1 Medical Immunization or Physical Widget.
+						Widgets( 'medical_date', $extra );
+
+						echo $extra['search'];
+					}
 				}
 
 				// Text.

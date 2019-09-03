@@ -10,6 +10,8 @@
  * Widgets
  * Essentially used in the Find a Student form
  *
+ * @since 5.1 Medical Immunization or Physical Widget.
+ *
  * @todo  Fill $extra['search'] only if required (see Search.inc.php, if !search_modfunc?)
  *
  * @global array   $_ROSARIO       Sets $_ROSARIO['Widgets']
@@ -194,6 +196,14 @@ function Widgets( $item, &$myextra = null )
 				Widgets( 'balance', $extra );
 
 				$extra['search'] .= $widget_wrap_footer;
+			}
+
+			if ( AllowUse( 'Students/Student.php&category_id=2' )
+				&& $_REQUEST['search_modfunc'] === 'list' )
+			{
+				// @since 5.1 Medical Immunization or Physical Widget displayed under Student Fields.
+				// Call here necessary for header.
+				Widgets( 'medical_date', $extra );
 			}
 
 		break;
@@ -1884,6 +1894,101 @@ function Widgets( $item, &$myextra = null )
 
 			$extra['search'] .= '<tr class="st"><td><label for="fsa_account_id">' . _( 'Account ID' ) . '</label></td><td>
 			<input type="text" name="fsa_account_id" id="fsa_account_id" size="4" maxlength="10" />
+			</td></tr>';
+
+		break;
+
+		// @since 5.1 Medical Immunization or Physical Widget.
+		// Called in Search.fnc.php.
+		case 'medical_date':
+
+			if ( ! AllowUse( 'Students/Student.php&category_id=2' ) )
+			{
+				break;
+			}
+
+			$medical_begin = RequestedDate(
+				'medical_begin',
+				( issetVal( $_REQUEST['medical_begin'], '' ) )
+			);
+
+			$medical_end = RequestedDate(
+				'medical_end',
+				( issetVal( $_REQUEST['medical_end'], '' ) )
+			);
+
+			if ( ( $medical_begin
+					|| $medical_end )
+				&& mb_strpos( $extra['FROM'], 'STUDENT_MEDICAL' ) === false  )
+			{
+				$medical_type = ! empty( $_REQUEST['medical_type'] )
+					&& $_REQUEST['medical_type'] === 'Physical' ?
+					'Physical' : 'Immunization';
+
+				$extra['WHERE'] .= " AND sm.STUDENT_ID=ssm.STUDENT_ID
+					AND sm.TYPE='" . $medical_type . "' ";
+
+				$extra['FROM'] .= ',STUDENT_MEDICAL sm ';
+
+				$medical_type_label = $medical_type === 'Physical' ?
+					_( 'Physical' ) : _( 'Immunization' );
+			}
+
+			if ( $medical_begin
+				&& $medical_end )
+			{
+				$extra['WHERE'] .= " AND sm.MEDICAL_DATE
+					BETWEEN '" . $medical_begin .
+					"' AND '" . $medical_end . "' ";
+
+				if ( ! $extra['NoSearchTerms'] )
+				{
+					$_ROSARIO['SearchTerms'] .= '<b>' . $medical_type_label . ' ' . _( 'Between' ) . ': </b>' .
+						ProperDate( $medical_begin ) . ' &amp; ' .
+						ProperDate( $medical_end ) . '<br />';
+				}
+			}
+			elseif ( $medical_begin )
+			{
+				$extra['WHERE'] .= " AND sm.MEDICAL_DATE>='" . $medical_begin . "' ";
+
+				if ( ! $extra['NoSearchTerms'] )
+				{
+					$_ROSARIO['SearchTerms'] .= '<b>' . $medical_type_label . ' ' . _( 'On or After' ) . ' </b>' .
+						ProperDate( $medical_begin ) . '<br />';
+				}
+			}
+			elseif ( $medical_end )
+			{
+				$extra['WHERE'] .= " AND sm.MEDICAL_DATE<='" . $medical_end . "' ";
+
+				if ( ! $extra['NoSearchTerms'] )
+				{
+					$_ROSARIO['SearchTerms'] .= '<b>' . $medical_type_label . ' ' . _( 'On or Before' ) . ' </b>' .
+						ProperDate( $medical_end ) . '<br />';
+				}
+			}
+
+			$medical_begin_default = '';
+
+			$extra['search'] .= '<tr class="st"><td>
+			<label>
+				<input type="radio" name="medical_type" value="Immunization" checked />&nbsp;' .
+				_( 'Immunization' ) .
+			'</label> &nbsp;
+			<label>
+				<input type="radio" name="medical_type" value="Physical" />&nbsp;' .
+				_( 'Physical' ) .
+			'</label></td><td>
+			<table class="cellspacing-0"><tr><td>
+			<span class="sizep2">&ge;</span>&nbsp;
+			</td><td>
+			' . PrepareDate( $medical_begin_default, '_medical_begin', true, array( 'short' => true ) ).'
+			</td></tr><tr><td>
+			<span class="sizep2">&le;</span>&nbsp;
+			</td><td>
+			' . PrepareDate( '', '_medical_end', true, array( 'short' => true ) ).'
+			</td></tr></table>
 			</td></tr>';
 
 		break;
