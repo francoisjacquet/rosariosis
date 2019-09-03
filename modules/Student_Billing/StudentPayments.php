@@ -102,6 +102,10 @@ if ( $_REQUEST['modfunc'] === 'refund'
 			FROM BILLING_PAYMENTS
 			WHERE ID='" . $_REQUEST['id'] . "'" );
 
+		$comments = $payment_RET[1]['COMMENTS'] ?
+			$payment_RET[1]['COMMENTS'] . ' &mdash; ' . _( 'Refund' ) :
+			_( 'Refund' );
+
 		DBQuery( "INSERT INTO BILLING_PAYMENTS (ID,SYEAR,SCHOOL_ID,STUDENT_ID,AMOUNT,
 			PAYMENT_DATE,COMMENTS,REFUNDED_PAYMENT_ID)
 			VALUES(" .
@@ -111,7 +115,7 @@ if ( $_REQUEST['modfunc'] === 'refund'
 			UserStudentID() . "','" .
 			( $payment_RET[1]['AMOUNT'] * -1 ) . "','" .
 			DBDate() . "','" .
-			DBEscapeString( $payment_RET[1]['COMMENTS'] . " " . _( 'Refund' ) ) . "','" .
+			DBEscapeString( $comments ) . "','" .
 			$_REQUEST['id'] . "')" );
 
 		// Unset modfunc & ID & redirect URL.
@@ -130,7 +134,7 @@ if ( UserStudentID()
 		'REMOVE' => '_makePaymentsRemove',
 		'AMOUNT' => '_makePaymentsAmount',
 		'PAYMENT_DATE' => 'ProperDate',
-		'COMMENTS' => '_makePaymentsTextInput',
+		'COMMENTS' => '_makePaymentsCommentsInput',
 		'LUNCH_PAYMENT' => '_lunchInput',
 	);
 
@@ -191,7 +195,7 @@ if ( UserStudentID()
 			'REMOVE' => button( 'add' ),
 			'AMOUNT' => _makePaymentsTextInput( '', 'AMOUNT' ),
 			'PAYMENT_DATE' => _makePaymentsDateInput( DBDate(), 'PAYMENT_DATE' ),
-			'COMMENTS' => _makePaymentsTextInput( '', 'COMMENTS' ),
+			'COMMENTS' => _makePaymentsCommentsInput( '', 'COMMENTS' ),
 			'LUNCH_PAYMENT' => _lunchInput( '', 'LUNCH_PAYMENT' ),
 		);
 	}
@@ -255,5 +259,8 @@ if ( UserStudentID()
 		&& AllowEdit() )
 	{
 		echo '</form>';
+
+		// Add space to bottom for Chosen dropdown.
+		echo '<br /><br /><br /><br /><br />';
 	}
 }

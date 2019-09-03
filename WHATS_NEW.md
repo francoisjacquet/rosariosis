@@ -8,6 +8,11 @@ New in 5.1
 Student Fields:
 - Search Medical Immunization or Physical, sponsored by Asian Hope
 
+Student Billing:
+- Payments: Fees dropdown to reconcile Payment.
+
+Accounting:
+- Staff Payments: Salaries dropdown to reconcile Payment.
 
 New in 5.0
 ----------

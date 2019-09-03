@@ -53,6 +53,8 @@ function _makePaymentsRemove( $value, $column )
 			AND p.SCHOOL_ID='" . UserSchool() . "'", array(), array( 'REFUNDED_PAYMENT_ID' ) );
 	}
 
+	$return = '';
+
 	if ( ! $THIS_RET['REFUNDED_PAYMENT_ID']
 		&& empty( $refunded_payments_RET[ $THIS_RET['ID'] ] ) )
 	{
@@ -61,11 +63,11 @@ function _makePaymentsRemove( $value, $column )
 			_( 'Refund' ),
 			'"Modules.php?modname=' . $_REQUEST['modname'] .
 			'&modfunc=refund&id=' . $THIS_RET['ID'] . '"'
-		);
+		) . ' ';
 	}
-	elseif ( $refunded_payments_RET[ $THIS_RET['ID'] ] )
+	elseif ( ! empty( $refunded_payments_RET[ $THIS_RET['ID'] ] ) )
 	{
-		$return = '<span class="center" style="color:#00A642">' . _( 'Refunded' ) . '</span>';
+		$return = '<span style="color:#00A642">' . _( 'Refunded' ) . '</span> ';
 	}
 
 	return $return . button(
@@ -159,6 +161,83 @@ function _makePaymentsTextInput( $value, $name )
 	}
 
 	return TextInput( $value, 'values[' . $id . '][' . $name . ']', '', $extra );
+}
+
+/**
+ * Make Payments Comments Input
+ * Add Fees dropdown to reconcile Payment:
+ * Automatically fills the Comments & Amount inputs.
+ *
+ * @since 5.1
+ *
+ * @uses _makePaymentsTextInput()
+ *
+ * @param  string $value Comments value.
+ * @param  string $name  Column name, 'COMMENTS'.
+ *
+ * @return string Text input if not new or if no Fees found, else Text input & Fees dropdown.
+ */
+function _makePaymentsCommentsInput( $value, $name )
+{
+	global $THIS_RET;
+
+	$text_input = _makePaymentsTextInput( $value, $name );
+
+	if ( $THIS_RET['ID'] )
+	{
+		return $text_input;
+	}
+
+	// Add Fees dropdown to reconcile Payment.
+	$fees_RET = DBGet( "SELECT ID,TITLE,ASSIGNED_DATE,DUE_DATE,AMOUNT
+		FROM BILLING_FEES
+		WHERE STUDENT_ID='" . UserStudentID() . "'
+		AND SYEAR='" . UserSyear() . "'
+		AND (WAIVED_FEE_ID IS NULL OR WAIVED_FEE_ID='')
+		ORDER BY ASSIGNED_DATE DESC
+		LIMIT 100" );
+
+	if ( ! $fees_RET )
+	{
+		return $text_input;
+	}
+
+	$fees_options = array();
+
+	foreach ( $fees_RET as $fee )
+	{
+		$fees_options[ $fee['AMOUNT'] . '|' . $fee['TITLE'] ] = ProperDate( $fee['ASSIGNED_DATE'], 'short' ) .
+			' — ' . Currency( $fee['AMOUNT'] ) .
+			' — ' . $fee['TITLE'];
+	}
+
+	// JS automatically fills the Comments & Amount inputs.
+	ob_start();
+	?>
+	<script>
+		var billingPaymentsFeeReconcile = function( amountComments ) {
+			var separatorIndex = amountComments.indexOf( '|' ),
+				amount = amountComments.substring( 0, separatorIndex ),
+				comments = amountComments.substring( separatorIndex + 1 );
+
+			$('#valuesnewAMOUNT').val( amount );
+			$('#valuesnewCOMMENTS').val( comments );
+		};
+	</script>
+	<?php
+	$js = ob_get_clean();
+
+	// Chosen select so we can search Fees by date, amount, & title.
+	$select_input = ChosenSelectInput(
+		'',
+		'billing_fees',
+		'',
+		$fees_options,
+		'N/A',
+		'onchange="billingPaymentsFeeReconcile(this.options[selectedIndex].value);"'
+	);
+
+	return $text_input . ' ' . $js . $select_input;
 }
 
 function _makePaymentsDateInput( $value, $name )

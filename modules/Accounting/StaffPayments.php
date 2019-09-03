@@ -104,7 +104,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 		'REMOVE' => '_makePaymentsRemove',
 		'AMOUNT' => '_makePaymentsAmount',
 		'PAYMENT_DATE' => 'ProperDate',
-		'COMMENTS' => '_makePaymentsTextInput',
+		'COMMENTS' => '_makePaymentsCommentsInput',
 	);
 
 	$payments_RET = DBGet( "SELECT '' AS REMOVE,ID,AMOUNT,PAYMENT_DATE,COMMENTS
@@ -149,7 +149,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 			'REMOVE' => button( 'add' ),
 			'AMOUNT' => _makePaymentsTextInput( '', 'AMOUNT' ),
 			'PAYMENT_DATE' => _makePaymentsDateInput( DBDate(), 'PAYMENT_DATE' ),
-			'COMMENTS' => _makePaymentsTextInput( '', 'COMMENTS' ),
+			'COMMENTS' => _makePaymentsCommentsInput( '', 'COMMENTS' ),
 		);
 	}
 
@@ -195,5 +195,8 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 		&& AllowEdit() )
 	{
 		echo '</form>';
+
+		// Add space to bottom for Chosen dropdown.
+		echo '<br /><br /><br /><br /><br />';
 	}
 }
