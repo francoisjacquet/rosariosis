@@ -197,7 +197,7 @@ else
 		echo '</td></tr>';
 
 		// FJ add Registration to Configuration.
-		echo '<tr><td><fieldset><legend>' . _( 'Registration' ) . '</legend><table>';
+		echo '<tr><td><br /><fieldset><legend>' . _( 'Registration' ) . '</legend><table>';
 
 		echo '<tr><td>' . CheckboxInput(
 			Config( 'CREATE_USER_ACCOUNT' ),
@@ -248,7 +248,7 @@ else
 		echo '</table></fieldset>';
 
 		// FJ add Security to Configuration.
-		echo '<tr><td><fieldset><legend>' . _( 'Security' ) . '</legend><table>';
+		echo '<tr><td><br /><fieldset><legend>' . _( 'Security' ) . '</legend><table>';
 
 		// Failed login ban if >= X failed attempts within 10 minutes.
 		echo '<tr><td>' . TextInput(
