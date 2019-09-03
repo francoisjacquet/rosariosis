@@ -194,7 +194,7 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 	 * @param  array         $student_array Students IDs.
 	 * @param  array         $mp_type_array Marking Periods types.
 	 * @param  array         $syear_array   School Years.
-	 * @return boolean|array False if No Students or Transcripts associative array (key = $student_id)
+	 * @return boolean|array False if No Students or Transcripts associative array (key = student_id.syear)
 	 */
 	function TranscriptsGenerate( $student_array, $mp_type_array, $syear_array )
 	{
