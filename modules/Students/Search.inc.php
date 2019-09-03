@@ -370,8 +370,6 @@ else
 		}
 		else
 		{
-			//FJ override "Student" if extra singular/plural set
-
 			if ( ! empty( $extra['singular'] ) && ! empty( $extra['plural'] ) )
 			{
 				ListOutput(

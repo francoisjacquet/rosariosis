@@ -7,8 +7,6 @@ $_REQUEST['all_schools'] = issetVal( $_REQUEST['all_schools'] );
 
 if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 {
-	//FJ add <label> on checkbox
-
 	if ( $PopTable_opened )
 	{
 		PopTable( 'footer' );
@@ -20,12 +18,11 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 
 	$input_all_schools = '<input type="checkbox" name="all_schools" value="Y" onclick="ajaxLink(' . $all_schools_onclick_URL . ');"' . ( $_REQUEST['all_schools'] == 'Y' ? 'checked' : '' ) . ' />';
 
-	DrawHeader( '', '', '<label>' . $input_all_schools . ' ' . _( 'List Courses For All Schools' ) . '</label>' );
-
-	// preload GetMP cache with all schools
+	DrawHeader( '<label>' . $input_all_schools . ' ' . _( 'List Courses For All Schools' ) . '</label>' );
 
 	if ( $_REQUEST['all_schools'] == 'Y' )
 	{
+		// Preload GetMP cache with all schools.
 		$_ROSARIO['GetMP'] = DBGet( "SELECT MARKING_PERIOD_ID,TITLE,POST_START_DATE,POST_END_DATE,
 			MP,SORT_ORDER,SHORT_NAME,START_DATE,END_DATE,DOES_GRADES,DOES_COMMENTS
 			FROM SCHOOL_MARKING_PERIODS
@@ -35,17 +32,19 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 		);
 	}
 
-	//$columns = array('TITLE' => _('Course'),'PERIOD_ID' => _('Period'),'ROOM' => _('Room'),'MARKING_PERIOD_ID' => _('Marking Period'));
-	$columns = array( 'TITLE' => _( 'Course' ), 'COURSE_PERIOD' => _( 'Course Period' ), 'ROOM' => _( 'Room' ), 'MARKING_PERIOD_ID' => _( 'Marking Period' ) );
+	$columns = array(
+		'TITLE' => _( 'Course' ),
+		'COURSE_PERIOD' => _( 'Course Period' ),
+		'ROOM' => _( 'Room' ),
+		'MARKING_PERIOD_ID' => _( 'Marking Period' ),
+	);
+
+	$group = array();
 
 	if ( $_REQUEST['all_schools'] == 'Y' )
 	{
 		$columns += array( 'SCHOOL' => _( 'School' ) );
 		$group = array( 'SCHOOL_ID' );
-	}
-	else
-	{
-		$group = array();
 	}
 
 	/*$schedule_RET = DBGet( "SELECT cp.PERIOD_ID,cp.ROOM,c.TITLE,cp.MARKING_PERIOD_ID,cp.SCHOOL_ID,s.TITLE AS SCHOOL FROM COURSE_PERIODS cp,COURSES c,SCHOOLS s WHERE cp.COURSE_ID=c.COURSE_ID AND cp.TEACHER_ID='".UserStaffID()."' AND cp.SYEAR='".UserSyear()."'".($_REQUEST['all_schools']=='Y'?'':" AND cp.SCHOOL_ID='".UserSchool()."'")." AND s.ID=cp.SCHOOL_ID AND s.SYEAR=cp.SYEAR ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID)",array('PERIOD_ID' => 'GetPeriod','MARKING_PERIOD_ID' => 'GetMP'),$group);*/
@@ -82,13 +81,10 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 		);
 	}
 
-//FJ add schedule table
-
 	if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		echo '<div style="page-break-after: always;"></div>';
-		//FJ horizontal format
-		//echo '<!-- MEDIA SIZE 8.5x11in -->';
+
 		$_SESSION['orientation'] = 'landscape';
 	}
 	else
