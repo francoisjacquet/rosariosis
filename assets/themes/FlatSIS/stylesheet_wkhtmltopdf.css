@@ -577,8 +577,8 @@ a.menu-top,
 }
 
 #body {
-	padding-left: 16px;
-	padding-right: 16px;
+	margin-bottom: 0;
+	padding: 0 16px 0;
 }
 
 /* Body bg grey + elements bg white */
