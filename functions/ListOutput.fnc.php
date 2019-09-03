@@ -777,7 +777,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		{
 			if ( ! empty( $link['add']['html'] ) )
 			{
-				echo '<div style="overflow-x:auto;"><table class="list widefat';
+				echo '<div class="list-wrapper"><table class="list widefat';
 
 				if ( $options['responsive'] )
 				{
