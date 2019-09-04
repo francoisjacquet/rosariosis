@@ -82,7 +82,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 		( $recreate_calendar ? $recreate_calendar['TITLE'] : '' ),
 		'title',
 		_( 'Title' ),
-		'required',
+		'required maxlength="100"',
 		$div
 	);
 
@@ -439,7 +439,8 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 {
 	AddRequestedDates( 'values' );
 
-	if ( $_POST['button'] === _( 'Save' )
+	if ( isset( $_POST['button'] )
+		&& $_POST['button'] === _( 'Save' )
 		&& AllowEdit() )
 	{
 		if ( ! empty( $_REQUEST['values'] ) )
@@ -537,7 +538,8 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 		}
 	}
 	// Delete Event
-	elseif ( $_REQUEST['button'] == _( 'Delete' )
+	elseif ( isset( $_REQUEST['button'] )
+		&& $_REQUEST['button'] == _( 'Delete' )
 		&& ! isset( $_REQUEST['delete_cancel'] ) )
 	{
 		if ( DeletePrompt( _( 'Event' ), 'Delete', false ) )
@@ -612,7 +614,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 		'</td></tr>';
 
 		// Add assigned date.
-		if ( $RET[1]['ASSIGNED_DATE'] )
+		if ( ! empty( $RET[1]['ASSIGNED_DATE'] ) )
 		{
 			echo '<tr><td>' .
 				DateInput( $RET[1]['ASSIGNED_DATE'], 'values[ASSIGNED_DATE]', _( 'Assigned Date' ), false ) .
@@ -620,7 +622,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 		}
 
 		// Add submit Assignment link.
-		if ( $RET[1]['SUBMISSION']
+		if ( ! empty( $RET[1]['SUBMISSION'] )
 			&& AllowUse( 'Grades/StudentAssignments.php' ) )
 		{
 			echo '<tr><td>
@@ -645,18 +647,22 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 
 		// FJ bugfix SQL bug value too long for type character varying(50).
 		echo '<tr><td>' .
-			TextInput( $RET[1]['TITLE'], 'values[TITLE]', _( 'Title' ), 'required length="17" maxlength="50"' ) .
+			TextInput(
+				issetVal( $RET[1]['TITLE'], '' ),
+				'values[TITLE]',
+				_( 'Title' ),
+				'required size="20" maxlength="50"'
+			) .
 		'</td></tr>';
 
-		// FJ add course.
-		if ( $RET[1]['COURSE'] )
+		if ( ! empty( $RET[1]['COURSE'] ) )
 		{
 			echo '<tr><td>' .
 				NoInput( $RET[1]['COURSE'], _( 'Course' ) ) .
 			'</td></tr>';
 		}
 
-		if ( $RET[1]['STAFF_ID'] )
+		if ( ! empty( $RET[1]['STAFF_ID'] ) )
 		{
 			echo '<tr><td>' .
 				TextInput( $RET[1]['STAFF_ID'], 'values[STAFF_ID]', _( 'Teacher' ) ) .
@@ -664,7 +670,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 		}
 
 		echo '<tr><td>' .
-			TextAreaInput( $RET[1]['DESCRIPTION'], 'values[DESCRIPTION]', _( 'Notes' ) ) .
+			TextAreaInput( issetVal( $RET[1]['DESCRIPTION'], '' ), 'values[DESCRIPTION]', _( 'Notes' ) ) .
 		'</td></tr>';
 
 		if ( AllowEdit() )
