@@ -11,6 +11,7 @@ Changes in 5.1
 - Rename default Resource links in rosariosis.sql, rosariosis_es.sql & rosariosis_fr.sql
 - Remove deprecated \_makeTipMessage() function in TakeAttendance.php, Grades.php & InputFinalGrades.php
 - Add db_query() function in database.inc.php
+- Install add-ons in InstallDatabase.php
 
 Changes in 5.0.5
 ----------------

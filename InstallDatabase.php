@@ -21,10 +21,8 @@ if ( ! include_once 'config.inc.php' )
 
 require_once 'database.inc.php';
 
-$connection = db_start();
-
 // Test if database is already installed first.
-$result = @pg_exec( $connection, "SELECT 1
+$result = db_query( "SELECT 1
 	FROM information_schema.tables
 	WHERE table_schema='public'
 	AND table_name='config';" );
@@ -34,43 +32,33 @@ $config_table_exists = db_fetch_row( $result );
 if ( $result !== false
 	&& $config_table_exists )
 {
-	$result = @pg_exec( $connection, "SELECT CONFIG_VALUE
+	$result = db_query( "SELECT CONFIG_VALUE
 	FROM CONFIG
 	WHERE TITLE='LOGIN';" );
 
 	$config_login = db_fetch_row( $result );
 
-	if ( ! empty( $_POST['lang'] )
-		&& $config_login['CONFIG_VALUE'] === 'No' )
+	if ( empty( $_POST['lang'] )
+		|| $config_login['CONFIG_VALUE'] !== 'No' )
 	{
-		if ( $_POST['lang'] === 'fr'
-			&& file_exists( 'rosariosis_fr.sql' ) )
-		{
-			$rosariosis_sql = file_get_contents( 'rosariosis_fr.sql' );
-		}
-		elseif ( $_POST['lang'] === 'es'
-			&& file_exists( 'rosariosis_es.sql' ) )
-		{
-			$rosariosis_sql = file_get_contents( 'rosariosis_es.sql' );
-		}
-
-		// Run SQL queries. Do not use DBQuery() as it will not work.
-		$result = @pg_exec( $connection, $rosariosis_sql );
-
-		if ( $result === false )
-		{
-			$errstring = pg_last_error( $connection );
-
-			// TRANSLATION: do NOT translate these since error messages need to stay in English for technical support.
-			db_show_error( $rosariosis_sql, 'DB Execute Failed.', $errstring );
-		}
-		else
-		{
-			die( 'Success: database translated. <a href="index.php">Access RosarioSIS</a>' );
-		}
+		die( 'Database already installed.' );
 	}
 
-	die( 'Database already installed.' );
+	// Translate Database.
+	if ( $_POST['lang'] === 'fr'
+		&& file_exists( 'rosariosis_fr.sql' ) )
+	{
+		$rosariosis_sql = file_get_contents( 'rosariosis_fr.sql' );
+	}
+	elseif ( $_POST['lang'] === 'es'
+		&& file_exists( 'rosariosis_es.sql' ) )
+	{
+		$rosariosis_sql = file_get_contents( 'rosariosis_es.sql' );
+	}
+
+	$result = db_query( $rosariosis_sql );
+
+	die( 'Success: database translated. <a href="index.php">Access RosarioSIS</a>' );
 }
 
 if ( ! file_exists( 'rosariosis.sql' ) )
@@ -80,30 +68,59 @@ if ( ! file_exists( 'rosariosis.sql' ) )
 
 $rosariosis_sql = file_get_contents( 'rosariosis.sql' );
 
-// Run SQL queries. Do not use DBQuery() as it will not work.
-$result = @pg_exec( $connection, $rosariosis_sql );
+$result = db_query( $rosariosis_sql );
 
-if ( $result === false )
+if ( file_exists( 'rosariosis_addons.sql' ) )
 {
-	$errstring = pg_last_error( $connection );
+	// @since 5.1 Install add-ons.
+	$sql_addons = file_get_contents( 'rosariosis_addons.sql' );
 
-	// TRANSLATION: do NOT translate these since error messages need to stay in English for technical support.
-	db_show_error( $rosariosis_sql, 'DB Execute Failed.', $errstring );
-}
-else
-{
-	?>
-	<form method="POST">
-		Translate database to
-		<select name="lang">
-			<option value="es">Spanish</option>
-			<option value="fr">French</option>
-		</select>
-		<br />
-		<input type="submit" value="Submit" />
-		<br />
-	</form>
-	<?php
+	$sql_addons_sql = '';
 
-	die( 'Success: database installed. <a href="index.php">Access RosarioSIS</a>' );
+	// https://stackoverflow.com/questions/1462720/iterate-over-each-line-in-a-string-in-php
+	$separator = "\r\n";
+
+	$line = strtok( $sql_addons, $separator );
+
+	while ( $line !== false )
+	{
+		if ( strpos( $line, '\include' ) !== false )
+		{
+			// \include files.
+			$sql_addon_include_file = trim( str_replace( array( '\include', "'", ';' ), '', $line ) );
+
+			if ( file_exists( $sql_addon_include_file ) )
+			{
+				$sql_addon_install = file_get_contents( $sql_addon_include_file );
+
+				db_query( $sql_addon_install );
+			}
+		}
+		else
+		{
+			$sql_addons_queries .= $line . $separator;
+		}
+
+		$line = strtok( $separator );
+	}
+
+	db_query( $sql_addons_queries );
 }
+
+?>
+<form method="POST">
+	Translate database to
+	<select name="lang">
+		<option value="es">Spanish</option>
+		<option value="fr">French</option>
+	</select>
+	<br />
+	<input type="submit" value="Submit" />
+	<br />
+</form>
+<br />
+<?php
+
+die( 'Success: database' .
+	( file_exists( 'rosariosis_addons.sql' ) ? ' and add-ons' : '' ) .
+	' installed. <a href="index.php">Access RosarioSIS</a>' );
