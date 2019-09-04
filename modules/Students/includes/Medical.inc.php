@@ -98,7 +98,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$table = 'STUDENT_MEDICAL_ALERTS';
 
-	$functions = array('TITLE' => '_makeComments');
+	$functions = array( 'TITLE' => '_makeComments' );
 
 	$med_RET = DBGet( "SELECT ID,TITLE
 		FROM STUDENT_MEDICAL_ALERTS

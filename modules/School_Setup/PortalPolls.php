@@ -16,7 +16,10 @@ if ( $_REQUEST['modfunc'] === 'update'
 			&& $_POST['values'] ) )
 	&& AllowEdit() )
 {
-	$polls_RET = DBGet( "SELECT ID FROM PORTAL_POLLS WHERE SCHOOL_ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "'" );
+	$polls_RET = DBGet( "SELECT ID
+		FROM PORTAL_POLLS
+		WHERE SCHOOL_ID='" . UserSchool() . "'
+		AND SYEAR='" . UserSyear() . "'" );
 
 	foreach ( (array) $polls_RET as $poll_id )
 	{
