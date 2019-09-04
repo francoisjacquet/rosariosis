@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-08-21 22:31+0200\n"
-"PO-Revision-Date: 2019-08-21 22:35+0200\n"
+"PO-Revision-Date: 2019-09-04 11:18+0200\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS\n"
 "Language: es\n"
@@ -5275,7 +5275,7 @@ msgstr "Períodos a Calificar Históricos"
 
 #: modules/Grades/Menu.php:31
 msgid "Historical Grades"
-msgstr "Calificaciones Historicas"
+msgstr "Calificaciones Históricas"
 
 #: modules/Grades/Menu.php:32
 msgid "Mass Create Assignments"

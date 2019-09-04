@@ -783,7 +783,7 @@ if ( User( 'PROFILE' ) === 'admin' ):
 
 	$help['Grades/EditHistoryMarkingPeriods.php'] = '<p>' . _help( '<i>History Marking Periods</i> allows you to create marking periods for past years grades.' ) . '</p>
 
-	<p>' . _help( 'Use this program first if you want to enter past years grades into RosarioSIS that were given before installing RosarioSIS, or if you want to enter grades for a student transferred to your school. Once the history marking period is added, you will be able to select it via the Edit Student Grades program.' ) . '</p>
+	<p>' . _help( 'Use this program first if you want to enter past years grades into RosarioSIS that were given before installing RosarioSIS, or if you want to enter grades for a student transferred to your school. Once the history marking period is added, you will be able to select it via the Historical Grades program.' ) . '</p>
 
 	<p>' . _help( 'Please note that the "Grade Post Date" field determines the order of the history marking periods when entering grades or generating the Transcript and should therefore be entered properly. Also, each history marking period needs to be created only once.' ) . '</p>';
 

@@ -12,6 +12,7 @@ Changes in 5.1
 - Remove deprecated \_makeTipMessage() function in TakeAttendance.php, Grades.php & InputFinalGrades.php
 - Add db_query() function in database.inc.php
 - Install add-ons in InstallDatabase.php
+- Rename "Edit Student Grades" program to "Historical Grades" in Menu.php, Help_en.php & help.po
 
 Changes in 5.0.5
 ----------------

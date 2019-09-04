@@ -28,7 +28,7 @@ $menu['Grades']['admin'] = array(
 	'Grades/ReportCardCommentCodes.php' => _( 'Comment Codes' ),
 	'Grades/EditHistoryMarkingPeriods.php' => _( 'History Marking Periods' ),
 	3 => _( 'Utilities' ),
-	'Grades/EditReportCardGrades.php' => _( 'Edit Student Grades' ),
+	'Grades/EditReportCardGrades.php' => _( 'Historical Grades' ),
 	'Grades/MassCreateAssignments.php' => _( 'Mass Create Assignments' ),
 );
 
