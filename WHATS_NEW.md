@@ -17,6 +17,8 @@ Student Billing:
 Accounting:
 - Staff Payments: Salaries dropdown to reconcile Payment.
 
+[REST API](https://gitlab.com/francoisjacquet/REST_API/) plugin
+
 
 New in 5.0
 ----------
