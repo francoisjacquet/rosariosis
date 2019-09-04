@@ -69,19 +69,18 @@ function db_start()
 }
 
 /**
- * This function connects, and does the passed query, then returns a result resource
- * Not receiving the return == unusable search.
+ * Execute DB query
+ * pg_exec wrapper, dies on error.
  *
- * @example $processable_results = DBQuery( "SELECT * FROM students" );
+ * @since 5.1
  *
- * @since 3.7 INSERT INTO case to Replace empty strings ('') with NULL values.
- * @since 4.3 Performance: static DB $connection.
- * @since 4.3 Do DBQuery after action hook.
+ * @uses db_start()
+ * @uses db_show_error()
  *
- * @param  string   $sql       SQL statement.
- * @return resource PostgreSQL result resource
+ * @param  string $sql SQL statement.
+ * @return resource PostgreSQL result resource.
  */
-function DBQuery( $sql )
+function db_query( $sql )
 {
 	static $connection;
 
@@ -90,6 +89,36 @@ function DBQuery( $sql )
 		$connection = db_start();
 	}
 
+	$result = @pg_exec( $connection, $sql );
+
+	if ( $result === false )
+	{
+		$errstring = pg_last_error( $connection );
+
+		// TRANSLATION: do NOT translate these since error messages need to stay in English for technical support.
+		db_show_error( $sql, 'DB Execute Failed.', $errstring );
+	}
+
+	return $result;
+}
+
+/**
+ * This function connects, and does the passed query, then returns a result resource
+ * Not receiving the return == unusable search.
+ *
+ * @example $processable_results = DBQuery( "SELECT * FROM students" );
+ *
+ * @uses db_query()
+ * @see DBGet()
+ *
+ * @since 3.7 INSERT INTO case to Replace empty strings ('') with NULL values.
+ * @since 4.3 Do DBQuery after action hook.
+ *
+ * @param  string   $sql       SQL statement.
+ * @return resource PostgreSQL result resource
+ */
+function DBQuery( $sql )
+{
 	// Replace empty strings ('') with NULL values.
 
 	if ( stripos( $sql, 'INSERT INTO ' ) !== false )
@@ -114,15 +143,7 @@ function DBQuery( $sql )
 		$sql
 	);
 
-	$result = @pg_exec( $connection, $sql );
-
-	if ( $result === false )
-	{
-		$errstring = pg_last_error( $connection );
-
-		// TRANSLATION: do NOT translate these since error messages need to stay in English for technical support.
-		db_show_error( $sql, 'DB Execute Failed.', $errstring );
-	}
+	$result = db_query( $sql );
 
 	// Do DBQuery after action hook.
 	do_action( 'database.inc.php|dbquery_after', array( $sql, $result ) );
@@ -134,7 +155,7 @@ function DBQuery( $sql )
  * Return next row
  *
  * @param  resource PostgreSQL result resource $result Result.
- * @return array    	Next row in result set.
+ * @return array    Next row in result set.
  */
 function db_fetch_row( $result )
 {
@@ -188,7 +209,7 @@ function DBSeqNextID( $seqname )
  *
  * @since 5.0
  *
- * @deprecated Please update your sequence name!
+ * @deprecated Please update your sequence name! Remove in 6.0.
  *
  * @param string $seqname (Old) Sequence name.
  *
