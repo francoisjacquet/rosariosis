@@ -1013,7 +1013,7 @@ if ( ! $_REQUEST['modfunc'] )
 				$relation_options = _makeAutoSelect(
 					'STUDENT_RELATION',
 					'STUDENTS_JOIN_PEOPLE',
-					$this_contact['STUDENT_RELATION'],
+					issetVal( $this_contact['STUDENT_RELATION'] ),
 					array()
 				);
 
@@ -1235,7 +1235,7 @@ if ( ! $_REQUEST['modfunc'] )
 					// Emergency.
 					echo '<tr><td>' . button( 'emergency', '', '', 'bigger' ) . ' ' .
 					CheckboxInput(
-						$this_contact['EMERGENCY'],
+						issetVal( $this_contact['EMERGENCY'] ),
 						'values[STUDENTS_JOIN_PEOPLE][EMERGENCY]',
 						_( 'Emergency' ),
 						'',
