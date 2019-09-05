@@ -561,7 +561,7 @@ var expandMenu = function() {
 
 	$('body').css('overflow', '');
 
-	if (screen.width < 768 &&
+	if (screen.width < 736 &&
 		!$('#menu').hasClass('hide')) {
 		// @since 5.1 Prevent scrolling body while Menu is open.
 		$('body').css('overflow', 'hidden');
