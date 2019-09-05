@@ -359,6 +359,15 @@ a.menu-top:hover,
 	color: #00b9eb;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	color: #2d2d2d;
+}
+
 .tooltip > i {
 	background: #111;
 	border: 1px solid #000;
@@ -743,7 +752,7 @@ td > .legend-gray:first-child {
 }
 
 #cboxLoadedContent {
-	padding: 5px 16px !important;
+	padding: 8px 16px !important;
 }
 
 #menu form {
@@ -800,5 +809,8 @@ td > .legend-gray:first-child {
 	}
 	#body {
 		padding: 0 6px 0;
+	}
+	#cboxLoadedContent {
+		padding: 5px !important;
 	}
 }

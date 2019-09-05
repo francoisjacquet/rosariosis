@@ -15,6 +15,7 @@ Changes in 5.1
 - Rename "Edit Student Grades" program to "Historical Grades" in Menu.php, Help_en.php & help.po
 - CSS Allow for browser address bar to disappear on scroll in zresponsive.css
 - JS Prevent scrolling body while Menu is open in warehouse.js
+- CSS FlatSIS grey title + fix Colorbox padding issue on mobile in stylesheet.css
 
 Changes in 5.0.5
 ----------------
