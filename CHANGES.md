@@ -13,6 +13,7 @@ Changes in 5.1
 - Add db_query() function in database.inc.php
 - Install add-ons in InstallDatabase.php
 - Rename "Edit Student Grades" program to "Historical Grades" in Menu.php, Help_en.php & help.po
+- CSS Allow for browser address bar to disappear on scroll in zresponsive.css
 
 Changes in 5.0.5
 ----------------
