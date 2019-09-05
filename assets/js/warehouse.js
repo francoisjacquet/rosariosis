@@ -558,4 +558,12 @@ var hideHelp = function() {
 
 var expandMenu = function() {
 	$('#menu').toggleClass('hide');
+
+	$('body').css('overflow', '');
+
+	if (screen.width < 768 &&
+		!$('#menu').hasClass('hide')) {
+		// @since 5.1 Prevent scrolling body while Menu is open.
+		$('body').css('overflow', 'hidden');
+	}
 }
