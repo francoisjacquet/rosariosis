@@ -5,7 +5,6 @@ Changes in 5.1
 --------------
 - Medical Immunization or Physical Widget in Search.fnc.php & Widgets.fnc.php
 - Add dash between Salary / Fee title and Comment in DailyTransactions.php
-- CSS Fix for ChosenSelect overflow in stylesheet.css & wkhtmltopdf.css
 - CSS add list-wrapper class to empty list (having add row) in ListOutput.fnc.php
 - Add \_makePaymentsCommentsInput() with Salaries / Fees dropdown to reconcile Payment in Accounting/functions.inc.php & Student_Billing/functions.inc.php
 - Rename default Resource links in rosariosis.sql, rosariosis_es.sql & rosariosis_fr.sql
