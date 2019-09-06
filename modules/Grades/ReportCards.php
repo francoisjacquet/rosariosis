@@ -50,7 +50,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			BackPrompt(
 				sprintf(
 					_( 'No %s were found.' ),
-					_( 'Grades' )
+					_( 'Final Grades' )
 				)
 			);
 		}
