@@ -31,7 +31,7 @@ function ReferralLogIncludeForm()
 	);
 
 	// Open fieldset
-	$return = '<TR><TD><fieldset><legend>' . _( 'Include in Discipline Log' ) . '</legend>
+	$return = '<TR><TD colspan="2"><fieldset><legend>' . _( 'Include in Discipline Log' ) . '</legend>
 		<TABLE class="width-100p cellspacing-0"><TR><TD>';
 
 	$fields = array();
