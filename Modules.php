@@ -82,12 +82,9 @@ if ( ! $allowed )
 
 				// Eg: "Student_Billing/Statements.php&_ROSARIO_PDF".
 				$_ROSARIO['ProgramLoaded'] = $program;
-			}
-		}
 
-		if ( $allowed )
-		{
-			break;
+				break 2;
+			}
 		}
 	}
 }

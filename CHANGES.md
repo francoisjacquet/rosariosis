@@ -4,6 +4,7 @@
 Changes in 5.1.1
 ----------------
 - Fix SQL error when requested ID is not integer in Courses.php
+- Optimize allowed modname loop in Modules.php
 
 Changes in 5.1
 --------------
