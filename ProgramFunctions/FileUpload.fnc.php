@@ -361,6 +361,8 @@ function FilesUploadUpdate( $table, $request, $path )
 		return '';
 	}
 
+	$new_file = '';
+
 	foreach ( $_FILES as $input => $file )
 	{
 		if ( mb_strpos( $input, $request ) !== 0 )
