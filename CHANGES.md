@@ -5,6 +5,7 @@ Changes in 5.1.1
 ----------------
 - Fix SQL error when requested ID is not integer in Courses.php
 - Optimize allowed modname loop in Modules.php
+- Fix SQL Medical Immunization or Physical Widget WHERE in Widgets.fnc.php
 
 Changes in 5.1
 --------------

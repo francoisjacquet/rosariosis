@@ -1917,18 +1917,15 @@ function Widgets( $item, &$myextra = null )
 				( issetVal( $_REQUEST['medical_end'], '' ) )
 			);
 
-			if ( ( $medical_begin
-					|| $medical_end )
-				&& mb_strpos( $extra['FROM'], 'STUDENT_MEDICAL' ) === false  )
+			if ( $medical_begin || $medical_end )
 			{
 				$medical_type = ! empty( $_REQUEST['medical_type'] )
 					&& $_REQUEST['medical_type'] === 'Physical' ?
 					'Physical' : 'Immunization';
 
-				$extra['WHERE'] .= " AND sm.STUDENT_ID=ssm.STUDENT_ID
-					AND sm.TYPE='" . $medical_type . "' ";
-
-				$extra['FROM'] .= ',STUDENT_MEDICAL sm ';
+				$extra['WHERE'] .= " AND s.STUDENT_ID IN(SELECT STUDENT_ID
+					FROM STUDENT_MEDICAL
+					WHERE TYPE='" . $medical_type . "' ";
 
 				$medical_type_label = $medical_type === 'Physical' ?
 					_( 'Physical' ) : _( 'Immunization' );
@@ -1937,7 +1934,7 @@ function Widgets( $item, &$myextra = null )
 			if ( $medical_begin
 				&& $medical_end )
 			{
-				$extra['WHERE'] .= " AND sm.MEDICAL_DATE
+				$extra['WHERE'] .= " AND MEDICAL_DATE
 					BETWEEN '" . $medical_begin .
 					"' AND '" . $medical_end . "' ";
 
@@ -1950,7 +1947,7 @@ function Widgets( $item, &$myextra = null )
 			}
 			elseif ( $medical_begin )
 			{
-				$extra['WHERE'] .= " AND sm.MEDICAL_DATE>='" . $medical_begin . "' ";
+				$extra['WHERE'] .= " AND MEDICAL_DATE>='" . $medical_begin . "' ";
 
 				if ( ! $extra['NoSearchTerms'] )
 				{
@@ -1960,13 +1957,18 @@ function Widgets( $item, &$myextra = null )
 			}
 			elseif ( $medical_end )
 			{
-				$extra['WHERE'] .= " AND sm.MEDICAL_DATE<='" . $medical_end . "' ";
+				$extra['WHERE'] .= " AND MEDICAL_DATE<='" . $medical_end . "' ";
 
 				if ( ! $extra['NoSearchTerms'] )
 				{
 					$_ROSARIO['SearchTerms'] .= '<b>' . $medical_type_label . ' ' . _( 'On or Before' ) . ' </b>' .
 						ProperDate( $medical_end ) . '<br />';
 				}
+			}
+
+			if ( $medical_begin || $medical_end )
+			{
+				$extra['WHERE'] .= ") ";
 			}
 
 			$medical_begin_default = '';
