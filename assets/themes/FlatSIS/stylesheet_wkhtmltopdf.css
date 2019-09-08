@@ -85,6 +85,10 @@
 	background-image: url(spinning.gif);
 }
 
+input + .loading {
+	vertical-align: bottom;
+}
+
 /* Replace Open Sans font with Lato (Light) */
 
 @font-face {
