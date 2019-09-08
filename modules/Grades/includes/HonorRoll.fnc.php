@@ -587,7 +587,8 @@ function HonorRollFrame( $frame_file = array() )
 	FileInput(
 		'frame',
 		_( 'Frame' ) . ' (.jpg, .png, .gif)',
-		'accept="image/*" title="' . sprintf( _( 'Maximum file size: %01.0fMb' ), $size_limit ) . '"'
+		'accept="image/*"',
+		$size_limit
 	)
 	. '</td></tr>';
 
