@@ -1404,6 +1404,7 @@ function CheckCaptcha()
  * File Input
  *
  * @since 3.8.1
+ * @since 5.2 Add $max_file_size param & max file size validation.
  *
  * @example FileInput( 'values[new][FILE]', _( 'File' ), 'required' )
  *
@@ -1416,7 +1417,7 @@ function CheckCaptcha()
  *
  * @return string  Input HTML
  */
-function FileInput( $name, $title = '', $extra = '' )
+function FileInput( $name, $title = '', $extra = '', $max_file_size = 0 )
 {
 	require_once 'ProgramFunctions/FileUpload.fnc.php';
 
@@ -1432,13 +1433,16 @@ function FileInput( $name, $title = '', $extra = '' )
 		$extra .= ' size="10"';
 	}
 
+	$max_file_size = $max_file_size > 0 ? $max_file_size : FileUploadMaxSize();
+
 	// Input title indicating Maximum file size.
 	if ( mb_strpos( $extra, 'title=' ) === false )
 	{
-		$extra .= ' title="' . sprintf( _( 'Maximum file size: %01.0fMb' ), FileUploadMaxSize() ) . '"';
+		$extra .= ' title="' . sprintf( _( 'Maximum file size: %01.0fMb' ), $max_file_size ) . '"';
 	}
 
-	$input = '<input type="file" id="' . $id . '" name="' . $name . '" ' . $extra . ' />
+	$input = '<input type="file" id="' . $id . '" name="' . $name . '" ' . $extra .
+		' onchange="fileInputSizeValidate(this,' . $max_file_size . ');" />
 		<span class="loading"></span>' . $ftitle;
 
 	return $input;

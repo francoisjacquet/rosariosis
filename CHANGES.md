@@ -1,6 +1,11 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 5.2
+--------------
+- Add $max_file_size param & max file size validation in Inputs.php & warehouse.js
+
+
 Changes in 5.1.1
 ----------------
 - Fix SQL error when requested ID is not integer in Courses.php

@@ -567,3 +567,24 @@ var expandMenu = function() {
 		$('body').css('overflow', 'hidden');
 	}
 }
+
+/**
+ * File input max file size validation
+ * If file size > max:
+ * - Alert file input title attribute, ie. "Maximum file size: 3Mb".
+ * - Clear input.
+ *
+ * @since 5.2
+ * @see PHP FileInput() function.
+ *
+ * @param  {object} file File input object.
+ * @param  {int}    max  Max file size in Mb.
+ */
+var fileInputSizeValidate = function(file, max) {
+	var fileSize = file.files[0].size / 1024 / 1024; // In Mb.
+
+	if (fileSize > max) {
+		alert(file.title);
+		$(file).val(''); // Clear input.
+	}
+};
