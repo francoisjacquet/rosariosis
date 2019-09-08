@@ -4,7 +4,7 @@
 Changes in 5.2
 --------------
 - Add $max_file_size param & max file size validation in Inputs.php & warehouse.js
-
+- Add Organization radio inputs in FirstLogin.fnc.php
 
 Changes in 5.1.1
 ----------------

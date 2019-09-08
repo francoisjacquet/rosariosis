@@ -124,6 +124,7 @@ if ( ! function_exists( 'FirstLoginPoll' ) )
 	 * Get First Login Poll
 	 *
 	 * @since 4.6
+	 * @since 5.2 Add Organization radio inputs.
 	 *
 	 * @return array Poll HTML array.
 	 */
@@ -169,6 +170,14 @@ if ( ! function_exists( 'FirstLoginPoll' ) )
 		);
 
 		$fields[] = RadioInput( '', 'school', _( 'School' ), $school_options, false );
+
+		$organization_options = array(
+			'private' => _( 'Private' ),
+			'public' => _( 'Public' ),
+			'non-profit' => _( 'Non-profit' ),
+		);
+
+		$fields[] = RadioInput( '', 'organization', _( 'Organization' ), $organization_options, false );
 
 		$fields[] = TextInput(
 			'0',
