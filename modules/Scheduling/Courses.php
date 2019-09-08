@@ -4,8 +4,25 @@ require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 require_once 'modules/Scheduling/includes/Courses.fnc.php';
 
 $_REQUEST['subject_id'] = issetVal( $_REQUEST['subject_id'], '' );
+
+if ( $_REQUEST['subject_id'] && $_REQUEST['subject_id'] !== 'new' )
+{
+	$_REQUEST['subject_id'] = (string) (int) $_REQUEST['subject_id'];
+}
+
 $_REQUEST['course_id'] = issetVal( $_REQUEST['course_id'], '' );
+
+if ( $_REQUEST['course_id'] && $_REQUEST['course_id'] !== 'new' )
+{
+	$_REQUEST['course_id'] = (string) (int) $_REQUEST['course_id'];
+}
+
 $_REQUEST['course_period_id'] = issetVal( $_REQUEST['course_period_id'], '' );
+
+if ( $_REQUEST['course_period_id'] && $_REQUEST['course_period_id'] !== 'new' )
+{
+	$_REQUEST['course_period_id'] = (string) (int) $_REQUEST['course_period_id'];
+}
 
 $_REQUEST['last_year'] = issetVal( $_REQUEST['last_year'], '' );
 
@@ -715,7 +732,7 @@ if (  ( ! $_REQUEST['modfunc']
 	// Check subject ID is valid for current school & syear!
 
 	if ( $_REQUEST['modfunc'] !== 'choose_course'
-		&& isset( $_REQUEST['subject_id'] )
+		&& $_REQUEST['subject_id']
 		&& $_REQUEST['subject_id'] !== 'new' )
 	{
 		$subject_RET = DBGet( "SELECT SUBJECT_ID
