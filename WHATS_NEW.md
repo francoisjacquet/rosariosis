@@ -8,7 +8,7 @@ New in 5.1
 Student Fields:
 - Search Medical Immunization or Physical, sponsored by Asian Hope
 
-Graes:
+Grades:
 - Rename "Edit Student Grades" program to "Historical Grades".
 
 Student Billing:
