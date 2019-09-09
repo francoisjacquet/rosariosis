@@ -18,6 +18,8 @@
  */
 function MarkingPeriodDeleteSQL( $mp_id, $mp_term )
 {
+	$mp_id = intval( $mp_id );
+
 	$delete_sql = '';
 
 	switch ( $mp_term )
