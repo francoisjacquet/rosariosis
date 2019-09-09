@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 4.9.11
+-----------------
+- Fix new MP not selected after Save in MarkingPeriods.php
+
 Changes in 4.9.10
 -----------------
 - Fix regression since 4.8 Transcripts for various years in Transcripts.fnc.php

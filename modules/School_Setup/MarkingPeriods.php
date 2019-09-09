@@ -127,13 +127,13 @@ if ( ! empty( $_POST['tables'] )
 		// New: check for Title.
 		elseif ( $columns['TITLE'] )
 		{
-			$id = DBSeqNextID( 'MARKING_PERIOD_SEQ' );
+			$id_new = DBSeqNextID( 'MARKING_PERIOD_SEQ' );
 
 			$sql = "INSERT INTO SCHOOL_MARKING_PERIODS ";
 
 			$fields = "MARKING_PERIOD_ID,MP,SYEAR,SCHOOL_ID,";
 
-			$values = "'" . $id . "','" . $_REQUEST['mp_term'] . "','" . UserSyear() . "','" . UserSchool() . "',";
+			$values = "'" . $id_new . "','" . $_REQUEST['mp_term'] . "','" . UserSyear() . "','" . UserSchool() . "',";
 
 			switch ( $_REQUEST['mp_term'] )
 			{
@@ -261,7 +261,7 @@ if ( ! empty( $_POST['tables'] )
 
 		if ( $id === 'new'
 			&& $go )
-			$_REQUEST['marking_period_id'] = $id;
+			$_REQUEST['marking_period_id'] = $id_new;
 	}
 
 	// Unset tables & redirect URL.
