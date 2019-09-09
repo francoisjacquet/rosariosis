@@ -73,14 +73,17 @@ function db_start()
  * pg_exec wrapper, dies on error.
  *
  * @since 5.1
+ * @since 5.2 Add $show_error optional param.
  *
  * @uses db_start()
  * @uses db_show_error()
  *
- * @param  string $sql SQL statement.
+ * @param  string $sql        SQL statement.
+ * @param  bool   $show_error Show error and die. Optional, defaults to true.
+ *
  * @return resource PostgreSQL result resource.
  */
-function db_query( $sql )
+function db_query( $sql, $show_error = true )
 {
 	static $connection;
 
@@ -91,33 +94,28 @@ function db_query( $sql )
 
 	$result = @pg_exec( $connection, $sql );
 
-	if ( $result === false )
+	if ( $result === false
+		&& $show_error )
 	{
-		$errstring = pg_last_error( $connection );
-
 		// TRANSLATION: do NOT translate these since error messages need to stay in English for technical support.
-		db_show_error( $sql, 'DB Execute Failed.', $errstring );
+		db_show_error( $sql, 'DB Execute Failed.', pg_last_error( $connection ) );
 	}
 
 	return $result;
 }
 
 /**
- * This function connects, and does the passed query, then returns a result resource
- * Not receiving the return == unusable search.
+ * SQL query filter
+ * Replace empty strings ('') with NULL values:
+ * - Check for ( or , character before empty string ''.
+ * - Check for <> or = character before empty string ''.
  *
- * @example $processable_results = DBQuery( "SELECT * FROM students" );
+ * @since 5.2
  *
- * @uses db_query()
- * @see DBGet()
- *
- * @since 3.7 INSERT INTO case to Replace empty strings ('') with NULL values.
- * @since 4.3 Do DBQuery after action hook.
- *
- * @param  string   $sql       SQL statement.
- * @return resource PostgreSQL result resource
+ * @param  string $sql SQL queries.
+ * @return string      Filtered SQL queries.
  */
-function DBQuery( $sql )
+function db_sql_filter( $sql )
 {
 	// Replace empty strings ('') with NULL values.
 
@@ -142,6 +140,29 @@ function DBQuery( $sql )
 		array( ' IS NOT NULL', ' IS NOT NULL' ),
 		$sql
 	);
+
+	return $sql;
+}
+
+/**
+ * This function connects, and does the passed query, then returns a result resource
+ * Not receiving the return == unusable search.
+ *
+ * @example $processable_results = DBQuery( "SELECT * FROM students" );
+ *
+ * @uses db_sql_filter()
+ * @uses db_query()
+ * @see DBGet()
+ *
+ * @since 3.7 INSERT INTO case to Replace empty strings ('') with NULL values.
+ * @since 4.3 Do DBQuery after action hook.
+ *
+ * @param  string   $sql       SQL statement.
+ * @return resource PostgreSQL result resource
+ */
+function DBQuery( $sql )
+{
+	$sql = db_sql_filter( $sql );
 
 	$result = db_query( $sql );
 
@@ -373,48 +394,34 @@ function DBSeqConvertSerialName( $seqname )
 /**
  * Start transaction
  *
- * @param  PostgreSQL connection resource $connection Connection.
+ * @deprecated $connection param since 5.2
+ *
+ * @param  PostgreSQL connection resource $connection Connection. DEPRECATED.
  * @return void
  */
-function db_trans_start( $connection )
+function db_trans_start( $connection = false )
 {
-	db_trans_query( $connection, 'BEGIN WORK' );
+	db_query( 'BEGIN TRANSACTION;' );
 }
 
 /**
  * Run query on transaction -- if failure, runs rollback
  *
- * @param  PostgreSQL connection resource $connection Connection.
+ * @since 5.2 $connection param removed.
+ *
  * @param  string     $sql       SQL statement.
  * @return PostgreSQL result resource
  */
-function db_trans_query( $connection, $sql )
+function db_trans_query( $sql, $show_error = true )
 {
-	// Replace empty strings ('') with NULL values.
-	$sql = preg_replace( "/([,\(>=])[\r\n\t ]*''(?!')/", '\\1NULL', $sql );
+	$sql = db_sql_filter( $sql );
 
-	/**
-	 * IS NOT NULL cases
-	 *
-	 * Replace <>NULL & !=NULL with IS NOT NULL
-	 *
-	 * @link http://www.postgresql.org/docs/current/static/functions-comparison.html
-	 */
-	$sql = str_replace(
-		array( '<>NULL', '!=NULL' ),
-		array( ' IS NOT NULL', ' IS NOT NULL' ),
-		$sql
-	);
-
-	$result = pg_query( $connection, $sql );
+	$result = db_query( $sql, $show_error );
 
 	if ( $result === false )
 	{
 		// Rollback commands.
-		pg_query( $connection, 'ROLLBACK' );
-
-		// TRANSLATION: do NOT translate these since error messages need to stay in English for technical support.
-		db_show_error( $sql, 'DB Transaction Execute Failed.' );
+		db_trans_rollback();
 	}
 
 	return $result;
@@ -423,12 +430,26 @@ function db_trans_query( $connection, $sql )
 /**
  * Commit changes
  *
- * @param  PostgreSQL connection resource $connection Connection.
+ * @deprecated $connection param since 5.2
+ *
+ * @param  PostgreSQL connection resource $connection Connection. DEPRECATED.
  * @return void
  */
-function db_trans_commit( $connection )
+function db_trans_commit( $connection = false )
 {
-	pg_query( $connection, 'COMMIT' );
+	db_query( 'COMMIT TRANSACTION;' );
+}
+
+/**
+ * Rollback changes
+ *
+ * @since 5.2
+ *
+ * @return void
+ */
+function db_trans_rollback()
+{
+	db_query( 'ROLLBACK TRANSACTION;' );
 }
 
 /**
