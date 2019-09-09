@@ -646,17 +646,10 @@ if (  ( UserStudentID()
 			{
 				// Can't delete Student if has Schedule, Attendance, Grades,
 				// Discipline, Billing records, etc.
-				$delete_sql = StudentDeleteSQL( UserStudentID() );
-
-				db_trans_start();
-
-				$can_delete = db_trans_query( $delete_sql, false );
+				$can_delete = DBTransDryRun( StudentDeleteSQL( UserStudentID() ) );
 
 				if ( $can_delete )
 				{
-					// Rollback transaction. Do not actually delete.
-					db_trans_rollback();
-
 					$delete_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
 						"&modfunc=delete'";
 
