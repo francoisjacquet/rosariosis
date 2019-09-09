@@ -45,7 +45,9 @@ if ( $ok )
 
 	$fy_id = GetFullYearMP();
 
-	$custom_fields_RET = DBGet( "SELECT ID,TITLE,TYPE FROM CUSTOM_FIELDS WHERE ID=200000000", array(), array( 'ID' ) );
+	$custom_fields_RET = DBGet( "SELECT ID,TITLE,TYPE
+		FROM CUSTOM_FIELDS
+		WHERE ID=200000000", array(), array( 'ID' ) );
 
 	if ( $custom_fields_RET['200000000']
 		&& $custom_fields_RET['200000000'][1]['TYPE'] == 'select' )
@@ -71,18 +73,29 @@ if ( $ok )
 	if ( ! empty( $_REQUEST['delete'] )
 		&& ! empty( $requests_RET ) )
 	{
-		DBQuery( "DELETE FROM SCHEDULE WHERE SCHOOL_ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "' AND (SCHEDULER_LOCK!='Y' OR SCHEDULER_LOCK IS NULL)" );
+		DBQuery( "DELETE FROM SCHEDULE
+			WHERE SCHOOL_ID='" . UserSchool() . "'
+			AND SYEAR='" . UserSyear() . "'
+			AND (SCHEDULER_LOCK!='Y' OR SCHEDULER_LOCK IS NULL)" );
 	}
 
-	$periods_RET = DBGet( "SELECT COURSE_PERIOD_ID,MARKING_PERIOD_ID,MP,TOTAL_SEATS,CALENDAR_ID FROM COURSE_PERIODS WHERE SCHOOL_ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "'" );
+	$periods_RET = DBGet( "SELECT COURSE_PERIOD_ID,MARKING_PERIOD_ID,MP,TOTAL_SEATS,CALENDAR_ID
+		FROM COURSE_PERIODS
+		WHERE SCHOOL_ID='" . UserSchool() . "'
+		AND SYEAR='" . UserSyear() . "'" );
 
 	foreach ( (array) $periods_RET as $period )
 	{
 		$seats = calcSeats0( $period );
-		DBQuery( "UPDATE COURSE_PERIODS SET FILLED_SEATS='" . $seats . "' WHERE COURSE_PERIOD_ID='" . $period['COURSE_PERIOD_ID'] . "'" );
+
+		DBQuery( "UPDATE COURSE_PERIODS
+			SET FILLED_SEATS='" . $seats . "'
+			WHERE COURSE_PERIOD_ID='" . $period['COURSE_PERIOD_ID'] . "'" );
 	}
 
-	$count = DBGet( "SELECT count(*) as count from schedule WHERE SCHOOL_ID='" . UserSchool() . "'" );
+	$count = DBGet( "SELECT COUNT(*) AS COUNT
+		FROM SCHEDULE
+		WHERE SCHOOL_ID='" . UserSchool() . "'" );
 
 	//FJ multiple school periods for a course period
 	//$sql = "SELECT PARENT_ID,COURSE_PERIOD_ID,COURSE_ID,COURSE_ID AS COURSE,GENDER_RESTRICTION,PERIOD_ID,DAYS,TEACHER_ID,MARKING_PERIOD_ID,MP,COALESCE(TOTAL_SEATS,0)-COALESCE(FILLED_SEATS,0) AS AVAILABLE_SEATS,(SELECT COUNT(*) FROM COURSE_PERIODS cp2 WHERE cp2.COURSE_ID=cp.COURSE_ID) AS SECTIONS FROM COURSE_PERIODS cp ORDER BY SECTIONS,AVAILABLE_SEATS";
@@ -108,7 +121,11 @@ if ( $ok )
 
 	$cp_course_RET = DBGet( $sql, array(), array( 'COURSE' ) );
 
-	$mps_RET = DBGet( "SELECT PARENT_ID,MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "'", array(), array( 'PARENT_ID', 'MARKING_PERIOD_ID' ) );
+	$mps_RET = DBGet( "SELECT PARENT_ID,MARKING_PERIOD_ID
+		FROM SCHOOL_MARKING_PERIODS
+		WHERE MP='QTR'
+		AND SYEAR='" . UserSyear() . "'
+		AND SCHOOL_ID='" . UserSchool() . "'", array(), array( 'PARENT_ID', 'MARKING_PERIOD_ID' ) );
 
 	// GET FILLED/LOCKED REQUESTS
 	//FJ multiple school periods for a course period
@@ -253,7 +270,8 @@ if ( $ok )
 
 	if ( empty( $_REQUEST['test_mode'] ) )
 	{
-		echo '<script>document.getElementById("percentDIV").innerHTML = ' . json_encode( '<span class="loading"></span> ' . _( 'Saving Schedules ...' ) . ' ' ) . ';</script>';
+		echo '<script>document.getElementById("percentDIV").innerHTML = ' .
+			json_encode( '<span class="loading"></span> ' . _( 'Saving Schedules ...' ) . ' ' ) . ';</script>';
 		echo str_pad( ' ', 4096 );
 		ob_flush();
 		flush();
@@ -281,7 +299,10 @@ if ( $ok )
 
 						if ( empty( $locked_RET[$student_id][$course_period['REQUEST_ID']] ) && ! ( in_array( $course_period['COURSE_PERIOD_ID'], $course_periods_temp ) ) )
 						{
-							db_trans_query( "INSERT INTO SCHEDULE (SYEAR,SCHOOL_ID,STUDENT_ID,START_DATE,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID) values('" . UserSyear() . "','" . UserSchool() . "','" . $student_id . "','" . $date . "','" . $course_period['COURSE_ID'] . "','" . $course_period['COURSE_PERIOD_ID'] . "','" . $course_period['MP'] . "','" . $course_period['MARKING_PERIOD_ID'] . "');" );
+							db_trans_query( "INSERT INTO SCHEDULE (SYEAR,SCHOOL_ID,STUDENT_ID,START_DATE,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID)
+								VALUES('" . UserSyear() . "','" . UserSchool() . "','" . $student_id . "','" .
+								$date . "','" . $course_period['COURSE_ID'] . "','" . $course_period['COURSE_PERIOD_ID'] .
+								"','" . $course_period['MP'] . "','" . $course_period['MARKING_PERIOD_ID'] . "');" );
 
 							//hook
 							do_action( 'Scheduling/Scheduler.php|schedule_student' );
@@ -300,7 +321,7 @@ if ( $ok )
 			}
 		}
 
-		echo '<!-- Bad Locked ' . $scount . ' -->';
+		echo '<!-- Bad Locked ' . $bad_locked . ' -->';
 		echo '<!-- Schedule Count() ' . $scount . '-->';
 		//echo 'Empty Courses:';
 
@@ -320,7 +341,8 @@ if ( $ok )
 	if ( empty( $_REQUEST['test_mode'] )
 		|| ! empty( $_REQUEST['delete'] ) )
 	{
-		echo '<script>document.getElementById("percentDIV").innerHTML = ' . json_encode( '<span class="loading"></span> ' . _( 'Optimizing ...' ) . ' ' ) . ';</script>';
+		echo '<script>document.getElementById("percentDIV").innerHTML = ' .
+			json_encode( '<span class="loading"></span> ' . _( 'Optimizing ...' ) . ' ' ) . ';</script>';
 		echo str_pad( ' ', 4096 );
 		ob_flush();
 		flush();
@@ -331,7 +353,8 @@ if ( $ok )
 
 	$error_msg = ErrorMessage( $error );
 
-	echo '<script>document.getElementById("percentDIV").innerHTML = ' . json_encode( $error_msg . button( 'check', '', '', 'bigger' ) . ' <b>' . _( 'Done.' ) . '</b>' ) . ';</script>';
+	echo '<script>document.getElementById("percentDIV").innerHTML = ' .
+		json_encode( $error_msg . button( 'check', '', '', 'bigger' ) . ' <b>' . _( 'Done.' ) . '</b>' ) . ';</script>';
 	ob_end_flush();
 
 	echo '<br /><br />';
@@ -379,7 +402,11 @@ function _scheduleRequest( $request, $not_parent_id = false )
 
 			// PARENT VIOLATES TEACHER / PERIOD REQUESTS
 
-			if ( $slice['PARENT_ID'] == $slice['COURSE_PERIOD_ID'] && (  ( $request['WITH_TEACHER_ID'] != '' && $slice['TEACHER_ID'] != $request['WITH_TEACHER_ID'] ) || ( $request['WITH_PERIOD_ID'] && $slice['PERIOD_ID'] != $request['WITH_PERIOD_ID'] ) || ( $request['NOT_TEACHER_ID'] && $slice['TEACHER_ID'] == $request['NOT_TEACHER_ID'] ) || ( $request['NOT_PERIOD_ID'] && $slice['PERIOD_ID'] == $request['NOT_PERIOD_ID'] ) ) )
+			if ( $slice['PARENT_ID'] == $slice['COURSE_PERIOD_ID']
+				&& ( ( $request['WITH_TEACHER_ID'] != '' && $slice['TEACHER_ID'] != $request['WITH_TEACHER_ID'] )
+					|| ( $request['WITH_PERIOD_ID'] && $slice['PERIOD_ID'] != $request['WITH_PERIOD_ID'] )
+					|| ( $request['NOT_TEACHER_ID'] && $slice['TEACHER_ID'] == $request['NOT_TEACHER_ID'] )
+					|| ( $request['NOT_PERIOD_ID'] && $slice['PERIOD_ID'] == $request['NOT_PERIOD_ID'] ) ) )
 			{
 				continue 2;
 			}
@@ -474,7 +501,11 @@ function _moveRequest( $request, $not_request = false, $not_parent_id = false )
 
 				// PARENT VIOLATES TEACHER / PERIOD REQUESTS
 
-				if ( $slice['PARENT_ID'] == $slice['COURSE_PERIOD_ID'] && (  ( $request['WITH_TEACHER_ID'] != '' && $slice['TEACHER_ID'] != $request['WITH_TEACHER_ID'] ) || ( $request['WITH_PERIOD_ID'] && $slice['PERIOD_ID'] != $request['WITH_PERIOD_ID'] ) || ( $request['NOT_TEACHER_ID'] && $slice['TEACHER_ID'] == $request['NOT_TEACHER_ID'] ) || ( $request['NOT_PERIOD_ID'] && $slice['PERIOD_ID'] == $request['NOT_PERIOD_ID'] ) ) )
+				if ( $slice['PARENT_ID'] == $slice['COURSE_PERIOD_ID']
+					&& ( ( $request['WITH_TEACHER_ID'] != '' && $slice['TEACHER_ID'] != $request['WITH_TEACHER_ID'] )
+						|| ( $request['WITH_PERIOD_ID'] && $slice['PERIOD_ID'] != $request['WITH_PERIOD_ID'] )
+						|| ( $request['NOT_TEACHER_ID'] && $slice['TEACHER_ID'] == $request['NOT_TEACHER_ID'] )
+						|| ( $request['NOT_PERIOD_ID'] && $slice['PERIOD_ID'] == $request['NOT_PERIOD_ID'] ) ) )
 				{
 					continue 2;
 				}
@@ -533,7 +564,9 @@ function _isConflict( $existing_slice, $slice )
 
 	// MARKING PERIOD CONFLICTS
 
-	if ( $existing_slice['MARKING_PERIOD_ID'] == "$fy_id" || ( $slice['MARKING_PERIOD_ID'] == "$fy_id" && ( ! $request['MARKING_PERIOD_ID'] || $request['MARKING_PERIOD_ID'] == $slice['MARKING_PERIOD_ID'] ) ) )
+	if ( $existing_slice['MARKING_PERIOD_ID'] == $fy_id
+		|| ( $slice['MARKING_PERIOD_ID'] == $fy_id
+			&& ( ! $request['MARKING_PERIOD_ID'] || $request['MARKING_PERIOD_ID'] == $slice['MARKING_PERIOD_ID'] ) ) )
 	{
 		$mp_conflict = true;
 	}
@@ -548,7 +581,8 @@ function _isConflict( $existing_slice, $slice )
 		$mp_conflict = false;
 	}
 	// both are SEM's or QTR's, but not the same
-	elseif ( $existing_slice['MP'] == 'SEM' && $mps_RET[$existing_slice['MARKING_PERIOD_ID']][$slice['MARKING_PERIOD_ID']] )
+	elseif ( $existing_slice['MP'] == 'SEM'
+		&& $mps_RET[$existing_slice['MARKING_PERIOD_ID']][$slice['MARKING_PERIOD_ID']] )
 	{
 		$mp_conflict = true;
 	}
