@@ -453,6 +453,32 @@ function db_trans_rollback()
 }
 
 /**
+ * Dry run query on transaction -- rollback anyway
+ * Useful to check first if foreign key constraints are preventing DELETE.
+ *
+ * @since 5.2
+ *
+ * @example $can_delete = DBTransDryRun( UserDeleteSQL( UserStaffID() ) );
+ *
+ * @param  string     $sql       SQL statement.
+ * @return PostgreSQL result resource
+ */
+function DBTransDryRun( $sql )
+{
+	db_trans_start();
+
+	$result = db_trans_query( $sql, false );
+
+	if ( $result !== false )
+	{
+		// Rollback transaction anyway.
+		db_trans_rollback();
+	}
+
+	return $result;
+}
+
+/**
  * Generate CASE-WHEN condition
  *
  * @example db_case( array( 'FAILED_LOGIN', "''", '1', 'FAILED_LOGIN+1' ) )

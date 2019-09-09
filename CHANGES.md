@@ -7,6 +7,7 @@ Changes in 5.2
 - Add Organization radio inputs in FirstLogin.fnc.php
 - Add db_sql_filter() function in database.inc.php
 - Add db_trans_rollback() function in database.inc.php
+- Add DBTransDryRun() function in database.inc.php
 - Deprecate $connection param for db_trans_start(), db_trans_commit() functions in database.inc.php
 - Remove $connection param for db_trans_query() in database.inc.php
 - Add $show_error optional param to db_query() & db_trans_query() in database.inc.php
