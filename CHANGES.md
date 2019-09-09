@@ -17,7 +17,7 @@ Changes in 5.2
 - Add StudentDeleteSQL() function in Student.fnc.php
 - Add UserDeleteSQL() function in User.fnc.php
 - Add MarkingPeriodDeleteSQL() function in MarkingPeriods.fnc.php
-- Show Delete button if can delete Student, User, Marking Period in Student.php, User.php, MarkingPeriods.php
+- Show Delete button if can delete Student, User, Marking Period, School in Student.php, User.php, MarkingPeriods.php & Schools.php
 
 Changes in 5.1.1
 ----------------

@@ -3,6 +3,7 @@
 require_once 'ProgramFunctions/FileUpload.fnc.php';
 require_once 'ProgramFunctions/Fields.fnc.php';
 require_once 'ProgramFunctions/StudentsUsersInfo.fnc.php';
+require_once 'modules/School_Setup/includes/Schools.fnc.php';
 
 DrawHeader( ProgramTitle() );
 
@@ -124,29 +125,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 	{
 		if ( DeletePrompt( _( 'School' ) ) )
 		{
-			$delete_sql = "DELETE FROM SCHOOL_GRADELEVELS WHERE SCHOOL_ID='" . UserSchool() . "';";
-			$delete_sql .= "DELETE FROM ATTENDANCE_CALENDAR WHERE SCHOOL_ID='" . UserSchool() . "';";
-			$delete_sql .= "DELETE FROM ATTENDANCE_CALENDARS WHERE SCHOOL_ID='" . UserSchool() . "';";
-			$delete_sql .= "DELETE FROM ATTENDANCE_CODES WHERE SCHOOL_ID='" . UserSchool() . "';";
-			$delete_sql .= "DELETE FROM SCHOOL_PERIODS WHERE SCHOOL_ID='" . UserSchool() . "';";
-			$delete_sql .= "DELETE FROM SCHOOL_MARKING_PERIODS WHERE SCHOOL_ID='" . UserSchool() . "';";
-			$delete_sql .= "DELETE FROM ELIGIBILITY_ACTIVITIES WHERE SCHOOL_ID='" . UserSchool() . "';";
-			$delete_sql .= "DELETE FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='" . UserSchool() . "';";
-			$delete_sql .= "DELETE FROM REPORT_CARD_GRADE_SCALES WHERE SCHOOL_ID='" . UserSchool() . "';";
-			$delete_sql .= "DELETE FROM REPORT_CARD_GRADES WHERE SCHOOL_ID='" . UserSchool() . "';";
-			$delete_sql .= "DELETE FROM DISCIPLINE_FIELD_USAGE WHERE SCHOOL_ID='" . UserSchool() . "';";
-			$delete_sql .= "UPDATE STAFF SET CURRENT_SCHOOL_ID=NULL WHERE CURRENT_SCHOOL_ID='" . UserSchool() . "';";
-			$delete_sql .= "UPDATE STAFF SET SCHOOLS=replace(SCHOOLS,'," . UserSchool() . ",',',');";
-			//FJ add School Configuration
-			$delete_sql .= "DELETE FROM CONFIG WHERE SCHOOL_ID='" . UserSchool() . "';";
-			$delete_sql .= "DELETE FROM PROGRAM_CONFIG WHERE SCHOOL_ID='" . UserSchool() . "';";
-			// Fix SQL error when Parent have students enrolled in deleted school.
-			$delete_sql .= "DELETE FROM STUDENTS_JOIN_USERS WHERE STUDENT_ID IN(SELECT STUDENT_ID
-				FROM STUDENT_ENROLLMENT
-				WHERE SCHOOL_ID='" . UserSchool() . "'
-				AND ('" . DBDate() . "'<=END_DATE OR END_DATE IS NULL ) );";
-
-			$delete_sql .= "DELETE FROM SCHOOLS WHERE ID='" . UserSchool() . "';";
+			$delete_sql = SchoolDeleteSQL( UserSchool() );
 
 			DBQuery( $delete_sql );
 
@@ -219,7 +198,9 @@ if ( ! $_REQUEST['modfunc'] )
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			AND ('" . DBDate() . "'<=END_DATE OR END_DATE IS NULL )" );
 
-		$delete_button = $has_students_enrolled ? '' : SubmitButton( _( 'Delete' ), 'button', '' );
+		$can_delete = DBTransDryRun( SchoolDeleteSQL( UserSchool() ) );
+
+		$delete_button = $can_delete ? SubmitButton( _( 'Delete' ), 'button', '' ) : '';
 	}
 
 	// FJ fix bug: no save button if not admin.
