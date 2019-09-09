@@ -2,6 +2,7 @@
 
 require_once 'ProgramFunctions/FileUpload.fnc.php';
 require_once 'ProgramFunctions/Fields.fnc.php';
+require_once 'modules/Users/includes/User.fnc.php';
 
 $_REQUEST['staff_id'] = issetVal( $_REQUEST['staff_id'] );
 
@@ -543,17 +544,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 {
 	if ( DeletePrompt( _( 'User' ) ) )
 	{
-		$delete_sql = "DELETE FROM PROGRAM_USER_CONFIG
-			WHERE USER_ID='" . UserStaffID() . "';";
-
-		$delete_sql .= "DELETE FROM STAFF_EXCEPTIONS
-			WHERE USER_ID='" . UserStaffID() . "';";
-
-		$delete_sql .= "DELETE FROM STUDENTS_JOIN_USERS
-			WHERE STAFF_ID='" . UserStaffID() . "';";
-
-		$delete_sql .= "DELETE FROM STAFF
-			WHERE STAFF_ID='" . UserStaffID() . "';";
+		$delete_sql = UserDeleteSQL( UserStaffID() );
 
 		DBQuery( $delete_sql );
 
@@ -638,12 +629,9 @@ if (  ( UserStaffID()
 			&& AllowEdit() )
 		{
 			// @since 5.0 Cannot delete teacher if has course periods.
-			$teacher_has_course_periods = (bool) DBGetOne( "SELECT 1
-				FROM COURSE_PERIODS
-				WHERE TEACHER_ID='" . $staff['STAFF_ID'] . "'
-				AND SYEAR='" . UserSyear() . "'" );
+			$can_delete = DBTransDryRun( UserDeleteSQL( UserStaffID() ) );
 
-			if ( ! $teacher_has_course_periods )
+			if ( $can_delete )
 			{
 				$delete_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
 					"&modfunc=delete'";
