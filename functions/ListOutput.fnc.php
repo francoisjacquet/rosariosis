@@ -386,6 +386,19 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		// END MISC ---.
 	}
 
+	$class = '';
+
+	if ( $plural && $plural !== '.' )
+	{
+		$class = mb_strtolower( preg_replace(
+			'/([^\-a-z\/0-9]+)/i',
+			'-',
+			$plural
+		) );
+	}
+
+	echo '<div class="list-outer ' . $class . '">';
+
 	// SEARCH BOX & MORE HEADERS ---.
 
 	if ( ! empty( $options['header'] ) )
@@ -844,6 +857,8 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 	}
 
 	// END NO RESULTS, BUT HAS ADD FIELDS ---.
+
+	echo '</div>'; // .list-outer.
 
 	// List After hook.
 	do_action( 'functions/ListOutput.fnc.php|list_after' );
