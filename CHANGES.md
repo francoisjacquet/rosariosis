@@ -16,7 +16,7 @@ Changes in 5.2
 - Fix Detailed View link condition in Statements.php
 - Add StudentDeleteSQL() function in Student.fnc.php
 - Add UserDeleteSQL() function in User.fnc.php
-- Show Delete button if can delete Student, User in Student.php, User.php
+- Show Delete button if can delete Student, User, Marking Period in Student.php, User.php, MarkingPeriods.php
 
 Changes in 5.1.1
 ----------------
@@ -129,6 +129,10 @@ Changes in 5.0
 - Add Attendance Codes Tip Message to header & use Color codes in Administration.php & StudentSummary.php
 - Merge Period & Teacher Comment columns to gain space in StudentSummary.php
 - Format Meals using PopTable() in Kiosk.php
+
+Changes in 4.9.11
+-----------------
+- Fix new MP not selected after Save in MarkingPeriods.php
 
 Changes in 4.9.10
 -----------------

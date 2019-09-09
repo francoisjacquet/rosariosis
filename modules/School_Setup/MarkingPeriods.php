@@ -1,5 +1,7 @@
 <?php
 
+require_once 'modules/School_Setup/includes/MarkingPeriods.fnc.php';
+
 DrawHeader( ProgramTitle() );
 
 // Default MP ID to Full Year.
@@ -131,13 +133,13 @@ if ( ! empty( $_POST['tables'] )
 		// New: check for Title.
 		elseif ( $columns['TITLE'] )
 		{
-			$id = DBSeqNextID( 'school_marking_periods_marking_period_id_seq' );
+			$id_new = DBSeqNextID( 'school_marking_periods_marking_period_id_seq' );
 
 			$sql = "INSERT INTO SCHOOL_MARKING_PERIODS ";
 
 			$fields = "MARKING_PERIOD_ID,MP,SYEAR,SCHOOL_ID,";
 
-			$values = "'" . $id . "','" . $_REQUEST['mp_term'] . "','" . UserSyear() . "','" . UserSchool() . "',";
+			$values = "'" . $id_new . "','" . $_REQUEST['mp_term'] . "','" . UserSyear() . "','" . UserSchool() . "',";
 
 			switch ( $_REQUEST['mp_term'] )
 			{
@@ -268,7 +270,7 @@ if ( ! empty( $_POST['tables'] )
 		if ( $id === 'new'
 			&& $go )
 		{
-			$_REQUEST['marking_period_id'] = $id;
+			$_REQUEST['marking_period_id'] = $id_new;
 		}
 	}
 
@@ -280,8 +282,6 @@ if ( ! empty( $_POST['tables'] )
 if ( $_REQUEST['modfunc'] === 'delete'
 	&& AllowEdit() )
 {
-	$extra = array();
-
 	switch ( $_REQUEST['mp_term'] )
 	{
 		case 'FY':
@@ -289,24 +289,6 @@ if ( $_REQUEST['modfunc'] === 'delete'
 
 			$parent_term = '';
 			$parent_id = '';
-
-			$extra[] = "DELETE FROM SCHOOL_MARKING_PERIODS
-				WHERE PARENT_ID IN
-					(SELECT MARKING_PERIOD_ID
-						FROM SCHOOL_MARKING_PERIODS
-						WHERE PARENT_ID IN
-							(SELECT MARKING_PERIOD_ID
-								FROM SCHOOL_MARKING_PERIODS
-								WHERE PARENT_ID='" . $_REQUEST['marking_period_id'] . "' ) )";
-
-			$extra[] = "DELETE FROM SCHOOL_MARKING_PERIODS
-				WHERE PARENT_ID IN
-					(SELECT MARKING_PERIOD_ID
-						FROM SCHOOL_MARKING_PERIODS
-						WHERE PARENT_ID='" . $_REQUEST['marking_period_id'] . "')";
-
-			$extra[] = "DELETE FROM SCHOOL_MARKING_PERIODS
-				WHERE PARENT_ID='" . $_REQUEST['marking_period_id'] . "'";
 		break;
 
 		case 'SEM':
@@ -314,15 +296,6 @@ if ( $_REQUEST['modfunc'] === 'delete'
 
 			$parent_term = 'FY';
 			$parent_id = issetVal( $_REQUEST['year_id'] );
-
-			$extra[] = "DELETE FROM SCHOOL_MARKING_PERIODS
-				WHERE PARENT_ID IN
-					(SELECT MARKING_PERIOD_ID
-						FROM SCHOOL_MARKING_PERIODS
-						WHERE PARENT_ID='" . $_REQUEST['marking_period_id'] . "')";
-
-			$extra[] = "DELETE FROM SCHOOL_MARKING_PERIODS
-				WHERE PARENT_ID='" . $_REQUEST['marking_period_id'] . "'";
 		break;
 
 		case 'QTR':
@@ -330,9 +303,6 @@ if ( $_REQUEST['modfunc'] === 'delete'
 
 			$parent_term = 'SEM';
 			$parent_id = issetVal( $_REQUEST['semester_id'] );
-
-			$extra[] = "DELETE FROM SCHOOL_MARKING_PERIODS
-				WHERE PARENT_ID='" . $_REQUEST['marking_period_id'] . "'";
 		break;
 
 		case 'PRO':
@@ -345,11 +315,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 
 	if ( DeletePrompt( $name ) )
 	{
-		foreach ( (array) $extra as $sql )
-			DBQuery( $sql );
-
-		DBQuery( "DELETE FROM SCHOOL_MARKING_PERIODS
-			WHERE MARKING_PERIOD_ID='" . $_REQUEST['marking_period_id'] . "'");
+		DBQuery( MarkingPeriodDeleteSQL( $_REQUEST['marking_period_id'], $_REQUEST['mp_term'] ) );
 
 		$_REQUEST['mp_term'] = $parent_term;
 
@@ -429,13 +395,11 @@ if ( ! $_REQUEST['modfunc'] )
 		if ( $not_single_mp )
 		{
 			// @since 5.0 MP has Course Periods? Do NOT delete.
-			$mp_has_course_periods = DBGetOne( "SELECT 1
-				FROM COURSE_PERIODS
-				WHERE MARKING_PERIOD_ID='" . $_REQUEST['marking_period_id'] . "'
-				AND SYEAR='" . UserSyear() . "'
-				AND SCHOOL_ID='" . UserSchool() . "'" );
+			$can_delete = DBTransDryRun(
+				MarkingPeriodDeleteSQL( $_REQUEST['marking_period_id'], $_REQUEST['mp_term'] )
+			);
 
-			if ( ! $mp_has_course_periods )
+			if ( $can_delete )
 			{
 				$delete_URL = "'" . $mp_href . "&modfunc=delete'";
 
