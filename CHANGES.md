@@ -16,6 +16,7 @@ Changes in 5.2
 - Fix Detailed View link condition in Statements.php
 - Add StudentDeleteSQL() function in Student.fnc.php
 - Add UserDeleteSQL() function in User.fnc.php
+- Add MarkingPeriodDeleteSQL() function in MarkingPeriods.fnc.php
 - Show Delete button if can delete Student, User, Marking Period in Student.php, User.php, MarkingPeriods.php
 
 Changes in 5.1.1
