@@ -74,8 +74,8 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 		NoInput( red( $student['BALANCE'] ), _( 'Balance' ) )
 	);
 
-	if ( isset( $_REQUEST['detailed_view'] )
-		&& $_REQUEST['detailed_view'] != 'true' )
+	if ( ! isset( $_REQUEST['detailed_view'] )
+		|| $_REQUEST['detailed_view'] !== 'true' )
 	{
 		DrawHeader(
 			'<a href="' . PreparePHP_SELF( $_REQUEST, array(), array( 'detailed_view' => 'true' ) ) . '">' . _( 'Detailed View' ) . '</a>'

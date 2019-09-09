@@ -11,6 +11,7 @@ Changes in 5.2
 - Remove $connection param for db_trans_query() in database.inc.php
 - Add $show_error optional param to db_query() & db_trans_query() in database.inc.php
 - Add .list-outer & dynamic CSS class using $plural in ListOutput.fnc.php
+- Fix Detailed View link condition in Statements.php
 
 Changes in 5.1.1
 ----------------
