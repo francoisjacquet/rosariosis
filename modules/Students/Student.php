@@ -2,6 +2,7 @@
 
 require_once 'ProgramFunctions/FileUpload.fnc.php';
 require_once 'ProgramFunctions/Fields.fnc.php';
+require_once 'modules/Students/includes/Student.fnc.php';
 
 $_REQUEST['student_id'] = issetVal( $_REQUEST['student_id'] );
 
@@ -307,7 +308,10 @@ if ( $_REQUEST['modfunc'] === 'update'
 					{
 						//FJ check numeric fields
 
-						if ( $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] == 'numeric' && $value != '' && ! is_numeric( $value ) )
+						if ( isset( $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] )
+							&& $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] == 'numeric'
+							&& $value != ''
+							&& ! is_numeric( $value ) )
 						{
 							$error[] = _( 'Please enter valid Numeric data.' );
 							continue;
@@ -502,28 +506,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 {
 	if ( DeletePrompt( _( 'Student' ) ) )
 	{
-		// Do not try to delete Grades, Attendance, or Schedule records
-		// in case records exist, we must keep them.
-		$delete_sql = "DELETE FROM STUDENTS_JOIN_ADDRESS
-			WHERE STUDENT_ID='" . UserStudentID() . "';";
-
-		$delete_sql .= "DELETE FROM STUDENTS_JOIN_PEOPLE
-			WHERE STUDENT_ID='" . UserStudentID() . "';";
-
-		$delete_sql .= "DELETE FROM STUDENTS_JOIN_USERS
-			WHERE STUDENT_ID='" . UserStudentID() . "';";
-
-		$delete_sql .= "DELETE FROM STUDENT_ENROLLMENT
-			WHERE STUDENT_ID='" . UserStudentID() . "';";
-
-		$delete_sql .= "DELETE FROM FOOD_SERVICE_ACCOUNTS
-			WHERE ACCOUNT_ID='" . UserStudentID() . "';";
-
-		$delete_sql .= "DELETE FROM FOOD_SERVICE_STUDENT_ACCOUNTS
-			WHERE STUDENT_ID='" . UserStudentID() . "';";
-
-		$delete_sql .= "DELETE FROM STUDENTS
-			WHERE STUDENT_ID='" . UserStudentID() . "';";
+		$delete_sql = StudentDeleteSQL( UserStudentID() );
 
 		DBQuery( $delete_sql );
 
@@ -661,22 +644,19 @@ if (  ( UserStudentID()
 				&& User( 'PROFILE' ) === 'admin'
 				&& AllowEdit() )
 			{
-				// Can't delete Student if has Schedule, Attendance, or Grades records.
-				$student_records_RET = DBGet( "SELECT (SELECT 1
-						FROM SCHEDULE
-						WHERE STUDENT_ID='" . UserStudentID() . "' LIMIT 1) AS HAS_SCHEDULE,
-					(SELECT 1
-						FROM ATTENDANCE_PERIOD
-						WHERE STUDENT_ID='" . UserStudentID() . "' LIMIT 1) AS HAS_ATTENDANCE,
-					(SELECT 1
-						FROM STUDENT_REPORT_CARD_GRADES
-						WHERE STUDENT_ID='" . UserStudentID() . "' LIMIT 1) AS HAS_GRADES" );
+				// Can't delete Student if has Schedule, Attendance, Grades,
+				// Discipline, Billing records, etc.
+				$delete_sql = StudentDeleteSQL( UserStudentID() );
 
-				if ( ! $student_records_RET
-					|| ( ! $student_records_RET[1]['HAS_SCHEDULE']
-						&& ! $student_records_RET[1]['HAS_ATTENDANCE']
-						&& ! $student_records_RET[1]['HAS_GRADES'] ) )
+				db_trans_start();
+
+				$can_delete = db_trans_query( $delete_sql, false );
+
+				if ( $can_delete )
 				{
+					// Rollback transaction. Do not actually delete.
+					db_trans_rollback();
+
 					$delete_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
 						"&modfunc=delete'";
 

@@ -14,7 +14,7 @@ Changes in 5.2
 - Add .list-outer & dynamic CSS class using $plural in ListOutput.fnc.php
 - Fix Detailed View link condition in Statements.php
 - Add StudentDeleteSQL() function in Student.fnc.php
--
+- Show Delete button if can delete Student in Student.php
 
 Changes in 5.1.1
 ----------------
