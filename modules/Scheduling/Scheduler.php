@@ -258,8 +258,7 @@ if ( $ok )
 		ob_flush();
 		flush();
 
-		$connection = db_start();
-		db_trans_start( $connection );
+		db_trans_start();
 
 		$date = DBDate();
 		$course_period_temp = '';
@@ -282,7 +281,7 @@ if ( $ok )
 
 						if ( empty( $locked_RET[$student_id][$course_period['REQUEST_ID']] ) && ! ( in_array( $course_period['COURSE_PERIOD_ID'], $course_periods_temp ) ) )
 						{
-							db_trans_query( $connection, "INSERT INTO SCHEDULE (SYEAR,SCHOOL_ID,STUDENT_ID,START_DATE,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID) values('" . UserSyear() . "','" . UserSchool() . "','" . $student_id . "','" . $date . "','" . $course_period['COURSE_ID'] . "','" . $course_period['COURSE_PERIOD_ID'] . "','" . $course_period['MP'] . "','" . $course_period['MARKING_PERIOD_ID'] . "');" );
+							db_trans_query( "INSERT INTO SCHEDULE (SYEAR,SCHOOL_ID,STUDENT_ID,START_DATE,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID) values('" . UserSyear() . "','" . UserSchool() . "','" . $student_id . "','" . $date . "','" . $course_period['COURSE_ID'] . "','" . $course_period['COURSE_PERIOD_ID'] . "','" . $course_period['MP'] . "','" . $course_period['MARKING_PERIOD_ID'] . "');" );
 
 							//hook
 							do_action( 'Scheduling/Scheduler.php|schedule_student' );
@@ -310,12 +309,12 @@ if ( $ok )
 			$course_period = $course_period[1];
 			//if ( $course_period['AVAILABLE_SEATS']<='0')
 			//	echo $course_period['COURSE_ID'].': '.$course_period['COURSE_PERIOD_ID'].'<br />';
-			db_trans_query( $connection, "UPDATE COURSE_PERIODS
+			db_trans_query( "UPDATE COURSE_PERIODS
 				SET FILLED_SEATS=TOTAL_SEATS-'" . $course_period['AVAILABLE_SEATS'] . "'
 				WHERE PARENT_ID='" . $parent_id . "'" );
 		}
 
-		db_trans_commit( $connection );
+		db_trans_commit();
 	}
 
 	if ( empty( $_REQUEST['test_mode'] )

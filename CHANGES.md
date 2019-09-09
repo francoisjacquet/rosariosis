@@ -10,6 +10,7 @@ Changes in 5.2
 - Deprecate $connection param for db_trans_start(), db_trans_commit() functions in database.inc.php
 - Remove $connection param for db_trans_query() in database.inc.php
 - Add $show_error optional param to db_query() & db_trans_query() in database.inc.php
+- Use new db_trans_* functions in Scheduler.php
 - Add .list-outer & dynamic CSS class using $plural in ListOutput.fnc.php
 - Fix Detailed View link condition in Statements.php
 
