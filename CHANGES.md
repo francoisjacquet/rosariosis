@@ -13,6 +13,8 @@ Changes in 5.2
 - Use new db_trans_* functions in Scheduler.php
 - Add .list-outer & dynamic CSS class using $plural in ListOutput.fnc.php
 - Fix Detailed View link condition in Statements.php
+- Add StudentDeleteSQL() function in Student.fnc.php
+-
 
 Changes in 5.1.1
 ----------------
