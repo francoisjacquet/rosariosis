@@ -20,6 +20,8 @@ Changes in 5.2
 - Add SchoolDeleteSQL() function in Schools.fnc.php
 - Show Delete button if can delete Student, User, Marking Period, School in Student.php, User.php, MarkingPeriods.php & Schools.php
 - CSS FlatSIS fix submenu hover width in stylesheet.css
+- Use text type instead of character varying in rosariosis.sql
+- Add NOT NULL constraint to TITLE columns in rosariosis.sql
 
 Changes in 5.1.1
 ----------------
