@@ -427,6 +427,7 @@ div.updated {
 
 .no-touch .menu-module:hover .wp-submenu {
 	left: 220px;
+	width: 220px;
 }
 
 #menu .username {
