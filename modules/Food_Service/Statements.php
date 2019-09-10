@@ -12,7 +12,7 @@ if ( ! empty( $_REQUEST['type'] ) )
 }
 else
 {
-	$_SESSION['_REQUEST_vars']['type'] = $_REQUEST['type'] = $_SESSION['FSA_type'];
+	$_SESSION['_REQUEST_vars']['type'] = $_REQUEST['type'] = issetVal( $_SESSION['FSA_type'] );
 }
 
 $header = '<a href="Modules.php?modname=' . $_REQUEST['modname'] .
