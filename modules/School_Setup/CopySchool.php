@@ -28,8 +28,13 @@ foreach ( (array) $tables as $table => $name )
 		$name . '</label>';
 }
 
-//FJ add translation
-$table_list[] = TextInput( _( 'New School' ), 'title', _( 'New School\'s Title' ), '', false );
+$table_list[] = TextInput(
+	_( 'New School' ),
+	'title',
+	_( 'New School\'s Title' ),
+	'required',
+	false
+);
 
 $table_list_html = '<table class="widefat center"><tr><td>' .
 	implode( '</td></tr><tr><td>', $table_list ) . '</td></tr></table>';
@@ -47,7 +52,8 @@ $go = Prompt(
 );
 
 if ( $go
-	&& ! empty( $_REQUEST['tables'] ) )
+	&& ! empty( $_REQUEST['tables'] )
+	&& ! empty( $_REQUEST['title'] ) )
 {
 	$id = DBSeqNextID( 'schools_id_seq' );
 
