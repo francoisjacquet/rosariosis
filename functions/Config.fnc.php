@@ -198,6 +198,12 @@ function ProgramUserConfig( $program, $staff_id = 0, $values = null )
 	{
 		foreach ( $values as $title => $value )
 		{
+			if ( empty( $title ) && $title != '0' )
+			{
+				// TITLE column is NOT NULL.
+				continue;
+			}
+
 			if ( ! array_key_exists( $title, (array) $program_config[ $program ][ $staff_id ] ) )
 			{
 				// Insert value (does not exist).
