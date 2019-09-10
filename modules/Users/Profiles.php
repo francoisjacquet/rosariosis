@@ -298,7 +298,7 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 
 	if ( AllowEdit() )
 	{
-		$new_profile_form =  '<input type="text" name="new_profile_title" id="new_profile_title" size="15" />' .
+		$new_profile_form =  '<input type="text" name="new_profile_title" id="new_profile_title" size="15" maxlength="100" />' .
 		FormatInputTitle( _( 'Title' ), 'new_profile_title' ) .
 		'<br /><select name="new_profile_type" id="new_profile_type">
 			<option value="admin">' . _( 'Administrator' ) . '</option>' .
