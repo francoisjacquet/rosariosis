@@ -22,6 +22,7 @@ Changes in 5.2
 - CSS FlatSIS fix submenu hover width in stylesheet.css
 - Use text type instead of character varying in rosariosis.sql
 - Add NOT NULL constraint to TITLE columns in rosariosis.sql
+- Make Schedule tab visible to Administrator profile in rosariosis.sql
 
 Changes in 5.1.1
 ----------------
