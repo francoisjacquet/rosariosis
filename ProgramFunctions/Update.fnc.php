@@ -31,7 +31,7 @@ function Update()
 	 * Prevent DB version update if new Update.fnc.php file has NOT been uploaded YET.
 	 * Update must be run once both new Warehouse.php & Update.fnc.php files are uploaded.
 	 */
-	if ( version_compare( '5.1.1', ROSARIO_VERSION, '<' ) )
+	if ( version_compare( '5.2-beta', ROSARIO_VERSION, '<' ) )
 	{
 		return false;
 	}
@@ -1222,7 +1222,7 @@ function _update52beta()
 		'school_gradelevels' => 'TITLE',
 		'school_periods' => 'TITLE',
 		'staff_exceptions' => 'MODNAME',
-		'student_eligibility_activities' => 'TITLE',
+		'student_enrollment_codes' => 'TITLE',
 		'student_field_categories' => 'TITLE',
 		'student_report_card_grades' => 'COURSE_TITLE',
 		'user_profiles' => 'TITLE',
