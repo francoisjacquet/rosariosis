@@ -147,7 +147,7 @@ function _makeTextInput( $value, $name )
 
 	if ( $name === 'NAME' )
 	{
-		$extra = 'size=20 maxlength=25';
+		$extra = 'size=20 maxlength=50';
 
 		if ( $id !== 'new' )
 		{
@@ -156,7 +156,7 @@ function _makeTextInput( $value, $name )
 	}
 	else
 	{
-		$extra = 'size=10 maxlength=10';
+		$extra = 'size=9 maxlength=10';
 	}
 
 	return TextInput(
