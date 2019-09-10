@@ -139,6 +139,10 @@ function Update()
 		case version_compare( $from_version, '5.0.1', '<' ) :
 
 			$return = _update501();
+
+		case version_compare( $from_version, '5.2-beta', '<' ) :
+
+			$return = _update52beta();
 	}
 
 	// Update version in DB CONFIG table.
@@ -1151,5 +1155,86 @@ function _update501()
 }
 
 
-// TODO 6.0 Add CREATED_AT & UPDATED_AT columns to every table if not exists, 93 tables.
+/**
+ * Update to version 5.2
+ *
+ * 1. Add NOT NULL constraint to TITLE columns.
+ *
+ * Local function
+ *
+ * @since 5.2
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update52beta()
+{
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. Add NOT NULL constraint to TITLE columns.
+	 */
+	$add_not_null_constraint = function( $table, $column )
+	{
+		$table_escaped = DBEscapeIdentifier( $table );
+		$column_escaped = DBEscapeIdentifier( $column );
+
+		// Set NULL values to '-' first so we avoid SQL errors on ALTER TABLE.
+		DBQuery( "UPDATE " . $table_escaped . "
+			SET " . $column_escaped . "='-'
+			WHERE " . $column_escaped . " IS NULL;
+			ALTER TABLE " . $table_escaped . "
+			ALTER COLUMN " . $column_escaped . " SET NOT NULL;" );
+	};
+
+	$tables_columns = array(
+		'schools' => 'TITLE',
+		'school_marking_periods' => 'TITLE',
+		'accounting_salaries' => 'TITLE',
+		'address_field_categories' => 'TITLE',
+		'address_fields' => 'TITLE',
+		'attendance_calendars' => 'TITLE',
+		'attendance_code_categories' => 'TITLE',
+		'attendance_codes' => 'TITLE',
+		'billing_fees' => 'TITLE',
+		'calendar_events' => 'TITLE',
+		'config' => 'TITLE',
+		'custom_fields' => 'TITLE',
+		'discipline_field_usage' => 'TITLE',
+		'eligibility_activities' => 'TITLE',
+		'food_service_categories' => 'TITLE',
+		'gradebook_assignment_types' => 'TITLE',
+		'gradebook_assignments' => 'TITLE',
+		'history_marking_periods' => 'NAME',
+		'people_field_categories' => 'TITLE',
+		'portal_notes' => 'TITLE',
+		'portal_poll_questions' => 'QUESTION',
+		'portal_polls' => 'TITLE',
+		'program_config' => 'TITLE',
+		'program_user_config' => 'TITLE',
+		'report_card_comment_categories' => 'TITLE',
+		'report_card_comments' => 'TITLE',
+		'report_card_grade_scales' => 'TITLE',
+		'report_card_grades' => 'TITLE',
+		'resources' => 'TITLE',
+		'school_fields' => 'TITLE',
+		'school_gradelevels' => 'TITLE',
+		'school_periods' => 'TITLE',
+		'staff_exceptions' => 'MODNAME',
+		'student_eligibility_activities' => 'TITLE',
+		'student_field_categories' => 'TITLE',
+		'student_report_card_grades' => 'COURSE_TITLE',
+		'user_profiles' => 'TITLE',
+	);
+
+	foreach ( (array) $tables_columns as $table => $column )
+	{
+		$add_not_null_constraint( $table, $column );
+	}
+
+	return $return;
+}
+
+// TODO 5.4 Add CREATED_AT & UPDATED_AT columns to every table if not exists, 93 tables.
 // TODO Add set_updated_at() function & set_updated_at trigger if not exists.

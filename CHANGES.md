@@ -21,7 +21,8 @@ Changes in 5.2
 - Show Delete button if can delete Student, User, Marking Period, School in Student.php, User.php, MarkingPeriods.php & Schools.php
 - CSS FlatSIS fix submenu hover width in stylesheet.css
 - Use text type instead of character varying in rosariosis.sql
-- Add NOT NULL constraint to TITLE columns in rosariosis.sql
+- Add NOT NULL constraint to TITLE columns in rosariosis.sql & Update.fnc.php
+- Add \_update52beta() function in Update.fnc.php
 - Make New School's Title input required in CopySchool.php
 - Make Schedule tab visible to Administrator profile in rosariosis.sql
 
