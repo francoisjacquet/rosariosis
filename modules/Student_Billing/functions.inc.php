@@ -48,7 +48,7 @@ function _makePaymentsRemove( $value, $column )
 		$refunded_payments_RET = DBGet( "SELECT p.REFUNDED_PAYMENT_ID
 			FROM BILLING_PAYMENTS p
 			WHERE p.STUDENT_ID='" . UserStudentID() . "'
-			AND (p.REFUNDED_PAYMENT_ID IS NOT NULL AND p.REFUNDED_PAYMENT_ID!='')
+			AND (p.REFUNDED_PAYMENT_ID IS NOT NULL)
 			AND p.SYEAR='" . UserSyear() . "'
 			AND p.SCHOOL_ID='" . UserSchool() . "'", array(), array( 'REFUNDED_PAYMENT_ID' ) );
 	}
