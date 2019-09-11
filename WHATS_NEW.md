@@ -2,6 +2,12 @@
 
 ## RosarioSIS Student Information System
 
+New in 5.2
+----------
+
+Database integrity improvements: added NOT NULL constraint to TITLE columns.
+
+
 New in 5.1
 ----------
 
