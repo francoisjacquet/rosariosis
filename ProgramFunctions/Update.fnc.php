@@ -872,7 +872,7 @@ function _update50beta()
 
 	$rename_sequence = function( $old_sequence, $new_sequence )
 	{
-		if ( strlen( $new_sequence > 63 ) )
+		if ( strlen( $new_sequence) > 63 )
 		{
 			$cut_at_char = ( 63 - strlen( '_seq' ) );
 
@@ -1159,6 +1159,7 @@ function _update501()
  * Update to version 5.2
  *
  * 1. Add NOT NULL constraint to TITLE columns.
+ * 2. Fix SQL error rename sequence to course_period_school_periods_course_period_school_periods_i_seq.
  *
  * Local function
  *
@@ -1231,6 +1232,18 @@ function _update52beta()
 	foreach ( (array) $tables_columns as $table => $column )
 	{
 		$add_not_null_constraint( $table, $column );
+	}
+
+	/**
+	 * 2. Fix SQL error rename sequence to course_period_school_periods_course_period_school_periods_i_seq
+	 */
+	$sequence_exists = DBGetOne( "SELECT 1 FROM pg_class
+		WHERE relname='course_period_school_periods_course_period_school_periods_id_se';" );
+
+	if ( $sequence_exists )
+	{
+		DBQuery( "ALTER SEQUENCE course_period_school_periods_course_period_school_periods_id_se
+			RENAME TO course_period_school_periods_course_period_school_periods_i_seq;" );
 	}
 
 	return $return;
