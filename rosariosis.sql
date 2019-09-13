@@ -3061,7 +3061,7 @@ INSERT INTO school_periods VALUES (NEXTVAL('school_periods_period_id_seq'), 2019
 --
 
 INSERT INTO staff_field_categories VALUES (NEXTVAL('staff_field_categories_id_seq'), 'General Info', 1, NULL, NULL, 'Y', 'Y', 'Y', 'Y');
-INSERT INTO staff_field_categories VALUES (NEXTVAL('staff_field_categories_id_seq'), 'Schedule', 2, NULL, NULL, 'Y', 'Y', NULL, NULL);
+INSERT INTO staff_field_categories VALUES (NEXTVAL('staff_field_categories_id_seq'), 'Schedule', 2, NULL, NULL, NULL, 'Y', NULL, NULL);
 INSERT INTO staff_field_categories VALUES (NEXTVAL('staff_field_categories_id_seq'), 'Food Service', 3, NULL, 'Food_Service/User', 'Y', 'Y', NULL, NULL);
 
 
