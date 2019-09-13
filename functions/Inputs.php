@@ -1411,9 +1411,10 @@ function CheckCaptcha()
  * @uses GetInputID() to generate ID from name
  * @uses FormatInputTitle() to format title
  *
- * @param  string  $name  Input name.
- * @param  string  $title Input title (optional). Defaults to ''.
- * @param  string  $extra Extra HTML attributes added to the input.
+ * @param  string  $name          Input name.
+ * @param  string  $title         Input title (optional). Defaults to ''.
+ * @param  string  $extra         Extra HTML attributes added to the input. Defaults to ''.
+ * @param  int     $max_file_size Maximum File Size, in Mb. Optional. Defaults to FileUploadMaxSize().
  *
  * @return string  Input HTML
  */
