@@ -7,21 +7,22 @@ Or select your preferred theme in _Users > My Preferences > Display Options_
 Every theme must have the following files:
 
 - `stylesheet.css`
-- `stylesheet\_wkhtmltopdf.css`
+- `stylesheet_wkhtmltopdf.css`
 - `logo.png`
 - `spinning.gif`
 - `btn/*.png` (all the button images)
 
 Note:
-The _stylesheet_wkhtmltopdf.css_ file is the CSS file used by wkhtmltopdf.
-It is meant to be the copy of the _stylesheet.css_ file WITHOUT media queries.
+The `stylesheet_wkhtmltopdf.css` file is the CSS file used by wkhtmltopdf.
+It is meant to be the copy of the `stylesheet.css` file WITHOUT media queries.
 
 Optional files:
 
-- _scripts.js_
+- `modules/*.png` (all the modules icons)
+- `scripts.js`
 
 Note 2:
-Module icons in CSS in your theme's `modules/` folder (example for Accounting & School Setup icons):
+Module icons CSS for your theme's `modules/` folder (example for Accounting & School Setup icons):
 
 ```css
 .module-icon.Accounting {
