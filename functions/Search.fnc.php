@@ -310,13 +310,15 @@ function Search( $type, $extra = null )
 					FROM " . ( User( 'PROFILE_ID' ) ?
 						"PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
 						"STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'" ) . "
-					AND MODNAME='Users/User.php&category_id='||sfc.ID)='Y'
+					AND MODNAME='Users/User.php&category_id='||sfc.ID
+					LIMIT 1)='Y'
 				AND cf.CATEGORY_ID=sfc.ID
-				AND NOT exists( SELECT ''
+				AND NOT EXISTS(SELECT ''
 					FROM PROGRAM_USER_CONFIG
 					WHERE PROGRAM='StaffFieldsSearch'
 					AND TITLE=cast(cf.ID AS TEXT)
-					AND USER_ID='" . User( 'STAFF_ID' ) . "' AND VALUE='Y')
+					AND USER_ID='" . User( 'STAFF_ID' ) . "'
+					AND VALUE='Y')
 				AND cf.TYPE<>'files'
 				ORDER BY sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER,cf.TITLE";
 			}
@@ -329,12 +331,14 @@ function Search( $type, $extra = null )
 					FROM " . ( User( 'PROFILE_ID' ) ?
 						"PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
 						"STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'") . "
-					AND MODNAME='Users/User.php&category_id='||cf.CATEGORY_ID)='Y'
-				AND ((SELECT VALUE
+					AND MODNAME='Users/User.php&category_id='||cf.CATEGORY_ID
+					LIMIT 1)='Y'
+				AND (SELECT VALUE
 					FROM PROGRAM_USER_CONFIG
 					WHERE TITLE=cast(cf.ID AS TEXT)
 					AND PROGRAM='StaffFieldsSearch'
-					AND USER_ID='" . User( 'STAFF_ID' ) . "')='Y')
+					AND USER_ID='" . User( 'STAFF_ID' ) . "'
+					LIMIT 1)='Y'
 				ORDER BY cf.SORT_ORDER,cf.TITLE";
 			}
 			elseif ( $type === 'student_fields_all' )

@@ -25,6 +25,7 @@ Changes in 5.2
 - Add \_update52beta() function in Update.fnc.php
 - Make New School's Title input required in CopySchool.php
 - Fix SQL error rename sequence to course_period_school_periods_course_period_school_periods_i_seq in Update.fnc.php
+- Fix SQL error more than one row returned by a subquery in Search.fnc.php & Preferences.php
 
 Changes in 5.1.1
 ----------------
