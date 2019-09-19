@@ -6,6 +6,7 @@ Changes in 5.3
 - Fix SQL error more than one row returned by a subquery in Search.fnc.php & Preferences.php
 - Add TinyMCE before init action hook in Inputs.php
 - Reduce ReferralInput() function complexity in Referral.fnc.php
+- Split EmailReferral(): add EmailReferralGetReferralSafe() & EmailReferralFormatFields() functions in EmailReferral.fnc.php
 
 Changes in 5.2
 --------------
