@@ -160,6 +160,9 @@ if ( ! function_exists( 'GetStudentLabelsExtra' ) )
 	 *
 	 * @since 4.0
 	 *
+	 * @uses GetStudentLabelsExtraAdmin()
+	 * @uses GetStudentLabelsExtraNonAdmin()
+	 *
 	 * @param array $extra Existing extra array options.
 	 *
 	 * @return array Student Labels Extra
@@ -174,81 +177,119 @@ if ( ! function_exists( 'GetStudentLabelsExtra' ) )
 
 		if ( User( 'PROFILE' ) === 'admin' )
 		{
-			if ( ! empty( $_REQUEST['w_course_period_id_which'] )
-				&& $_REQUEST['w_course_period_id_which'] === 'course_period'
-				&& ! empty( $_REQUEST['w_course_period_id'] ) )
-			{
-				if ( ! empty( $_REQUEST['teacher'] ) )
-				{
-					$extra['SELECT'] .= ",(SELECT " . DisplayNameSQL( 'st' ) . "
-					FROM STAFF st,COURSE_PERIODS cp
-					WHERE st.STAFF_ID=cp.TEACHER_ID
-					AND cp.COURSE_PERIOD_ID='" . $_REQUEST['w_course_period_id'] . "') AS TEACHER";
-				}
-
-				if ( ! empty( $_REQUEST['room'] ) )
-				{
-					$extra['SELECT'] .= ",(SELECT cp.ROOM
-						FROM COURSE_PERIODS cp
-						WHERE cp.COURSE_PERIOD_ID='" . $_REQUEST['w_course_period_id'] . "') AS ROOM";
-				}
-			}
-			else
-			{
-				if ( ! empty( $_REQUEST['teacher'] ) )
-				{
-					// FJ multiple school periods for a course period.
-					$extra['SELECT'] .= ",(SELECT " . DisplayNameSQL( 'st' ) . "
-					FROM STAFF st,COURSE_PERIODS cp,SCHOOL_PERIODS p,SCHEDULE ss, COURSE_PERIOD_SCHOOL_PERIODS cpsp
-					WHERE st.STAFF_ID=cp.TEACHER_ID
-					AND cpsp.PERIOD_id=p.PERIOD_ID
-					AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
-					AND p.ATTENDANCE='Y'
-					AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID
-					AND ss.STUDENT_ID=s.STUDENT_ID
-					AND ss.SYEAR='" . UserSyear() . "'
-					AND ss.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', GetCurrentMP( 'QTR', DBDate(), false ) ) . ")
-					AND (ss.START_DATE<='" . DBDate() . "'
-						AND (ss.END_DATE>='" . DBDate() . "' OR ss.END_DATE IS NULL))
-					ORDER BY p.SORT_ORDER LIMIT 1) AS TEACHER";
-				}
-
-				if ( ! empty( $_REQUEST['room'] ) )
-				{
-					$extra['SELECT'] .= ",(SELECT cp.ROOM
-						FROM COURSE_PERIODS cp,SCHOOL_PERIODS p,SCHEDULE ss,COURSE_PERIOD_SCHOOL_PERIODS cpsp
-						WHERE cpsp.PERIOD_id=p.PERIOD_ID
-						AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
-						AND p.ATTENDANCE='Y'
-						AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID
-						AND ss.STUDENT_ID=s.STUDENT_ID
-						AND ss.SYEAR='" . UserSyear() . "'
-						AND ss.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', GetCurrentMP( 'QTR', DBDate(), false ) ) . ")
-						AND (ss.START_DATE<='" . DBDate() . "'
-							AND (ss.END_DATE>='" . DBDate() . "' OR ss.END_DATE IS NULL))
-						ORDER BY p.SORT_ORDER LIMIT 1) AS ROOM";
-				}
-			}
+			$extra['SELECT'] .= GetStudentLabelsExtraAdmin();
 		}
 		else
 		{
+			$extra['SELECT'] .= GetStudentLabelsExtraNonAdmin();
+		}
+
+		return $extra;
+	}
+}
+
+if ( ! function_exists( 'GetStudentLabelsExtraAdmin' ) )
+{
+	/**
+	 * Get Student Labels Extra for Admin users
+	 *
+	 * @since 5.3
+	 *
+	 * @return array Student Labels Extra SELECT
+	 */
+	function GetStudentLabelsExtraAdmin()
+	{
+		$extra_select = '';
+
+		if ( ! empty( $_REQUEST['w_course_period_id_which'] )
+			&& $_REQUEST['w_course_period_id_which'] === 'course_period'
+			&& ! empty( $_REQUEST['w_course_period_id'] ) )
+		{
 			if ( ! empty( $_REQUEST['teacher'] ) )
 			{
-				$extra['SELECT'] .= ",(SELECT " . DisplayNameSQL( 'st' ) . " AS FULL_NAME
-					FROM STAFF st,COURSE_PERIODS cp
-					WHERE st.STAFF_ID=cp.TEACHER_ID
-					AND cp.COURSE_PERIOD_ID='" . UserCoursePeriod() . "') AS TEACHER";
+				$extra_select .= ",(SELECT " . DisplayNameSQL( 'st' ) . "
+				FROM STAFF st,COURSE_PERIODS cp
+				WHERE st.STAFF_ID=cp.TEACHER_ID
+				AND cp.COURSE_PERIOD_ID='" . $_REQUEST['w_course_period_id'] . "') AS TEACHER";
 			}
 
 			if ( ! empty( $_REQUEST['room'] ) )
 			{
-				$extra['SELECT'] .= ",(SELECT cp.ROOM
+				$extra_select .= ",(SELECT cp.ROOM
 					FROM COURSE_PERIODS cp
-					WHERE cp.COURSE_PERIOD_ID='" . UserCoursePeriod() . "') AS ROOM";
+					WHERE cp.COURSE_PERIOD_ID='" . $_REQUEST['w_course_period_id'] . "') AS ROOM";
 			}
+
+			return $extra_select;
 		}
 
-		return $extra;
+		if ( ! empty( $_REQUEST['teacher'] ) )
+		{
+			// FJ multiple school periods for a course period.
+			$extra_select .= ",(SELECT " . DisplayNameSQL( 'st' ) . "
+			FROM STAFF st,COURSE_PERIODS cp,SCHOOL_PERIODS p,SCHEDULE ss, COURSE_PERIOD_SCHOOL_PERIODS cpsp
+			WHERE st.STAFF_ID=cp.TEACHER_ID
+			AND cpsp.PERIOD_id=p.PERIOD_ID
+			AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
+			AND p.ATTENDANCE='Y'
+			AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID
+			AND ss.STUDENT_ID=s.STUDENT_ID
+			AND ss.SYEAR='" . UserSyear() . "'
+			AND ss.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', GetCurrentMP( 'QTR', DBDate(), false ) ) . ")
+			AND (ss.START_DATE<='" . DBDate() . "'
+				AND (ss.END_DATE>='" . DBDate() . "' OR ss.END_DATE IS NULL))
+			ORDER BY p.SORT_ORDER LIMIT 1) AS TEACHER";
+		}
+
+		if ( ! empty( $_REQUEST['room'] ) )
+		{
+			$extra_select .= ",(SELECT cp.ROOM
+				FROM COURSE_PERIODS cp,SCHOOL_PERIODS p,SCHEDULE ss,COURSE_PERIOD_SCHOOL_PERIODS cpsp
+				WHERE cpsp.PERIOD_id=p.PERIOD_ID
+				AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
+				AND p.ATTENDANCE='Y'
+				AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID
+				AND ss.STUDENT_ID=s.STUDENT_ID
+				AND ss.SYEAR='" . UserSyear() . "'
+				AND ss.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', GetCurrentMP( 'QTR', DBDate(), false ) ) . ")
+				AND (ss.START_DATE<='" . DBDate() . "'
+					AND (ss.END_DATE>='" . DBDate() . "' OR ss.END_DATE IS NULL))
+				ORDER BY p.SORT_ORDER LIMIT 1) AS ROOM";
+		}
+
+		return $extra_select;
+	}
+}
+
+if ( ! function_exists( 'GetStudentLabelsExtraNonAdmin' ) )
+{
+	/**
+	 * Get Student Labels Extra SELECT for Non Admin users.
+	 *
+	 * @since 5.3
+	 *
+	 * @return array Student Labels Extra SELECT
+	 */
+	function GetStudentLabelsExtraNonAdmin()
+	{
+		$extra_select = '';
+
+		if ( ! empty( $_REQUEST['teacher'] ) )
+		{
+			$extra_select .= ",(SELECT " . DisplayNameSQL( 'st' ) . " AS FULL_NAME
+				FROM STAFF st,COURSE_PERIODS cp
+				WHERE st.STAFF_ID=cp.TEACHER_ID
+				AND cp.COURSE_PERIOD_ID='" . UserCoursePeriod() . "') AS TEACHER";
+		}
+
+		if ( ! empty( $_REQUEST['room'] ) )
+		{
+			$extra_select .= ",(SELECT cp.ROOM
+				FROM COURSE_PERIODS cp
+				WHERE cp.COURSE_PERIOD_ID='" . UserCoursePeriod() . "') AS ROOM";
+		}
+
+		return $extra_select;
 	}
 }
 
@@ -293,13 +334,36 @@ if ( ! function_exists( 'StudentLabelsPDF' ) )
 	 *
 	 * @since 4.0
 	 *
-	 * @param array $RET Students DB RET.
+	 * @deprecated since 5.3 Use StudentLabelsHTML() instead.
 	 *
-	 * @return array Student Labels PDF
+	 * @param array $RET Addresses DB RET.
 	 */
 	function StudentLabelsPDF( $RET )
 	{
 		$handle = PDFstart();
+
+		echo StudentLabelsHTML( $RET );
+
+		PDFstop( $handle );
+	}
+}
+
+if ( ! function_exists( 'StudentLabelsHTML' ) )
+{
+	/**
+	 * Generate Student Labels HTML
+	 *
+	 * @since 4.0
+	 *
+	 * @uses StudentLabelHTML()
+	 *
+	 * @param array $RET Students DB RET.
+	 *
+	 * @return string Student Labels HTML
+	 */
+	function StudentLabelsHTML( $RET )
+	{
+		ob_start();
 
 		echo '<table style="height: 100%" class="width-100p cellspacing-0 fixed-col">';
 
@@ -324,38 +388,7 @@ if ( ! function_exists( 'StudentLabelsPDF' ) )
 				echo '<tr>';
 			}
 
-			echo '<td class="center" style="vertical-align: middle;">';
-
-			if ( ! empty( $student['FULL_NAME'] ) )
-			{
-				echo '<b>' . $student['FULL_NAME'] . '</b>';
-			}
-
-			if ( ! empty( $_REQUEST['teacher'] ) )
-			{
-				if ( ! empty( $student['TEACHER'] ) )
-				{
-					echo '<br />' . _( 'Teacher' ) . ':&nbsp;' . $student['TEACHER'];
-				}
-				else
-				{
-					echo '<br />&nbsp;';
-				}
-			}
-
-			if ( ! empty( $_REQUEST['room'] ) )
-			{
-				if ( ! empty( $student['ROOM'] ) )
-				{
-					echo '<br />' . _( 'Room' ) . ':&nbsp;' . $student['ROOM'];
-				}
-				else
-				{
-					echo '<br />&nbsp;';
-				}
-			}
-
-			echo '</td>';
+			echo '<td class="center" style="vertical-align: middle;">' . StudentLabelHTML( $student ) . '</td>';
 
 			$cols++;
 
@@ -395,7 +428,55 @@ if ( ! function_exists( 'StudentLabelsPDF' ) )
 
 		echo '</table>';
 
-		PDFstop( $handle );
+		return ob_get_clean();
+	}
+}
+
+if ( ! function_exists( 'StudentLabelHTML' ) )
+{
+	/**
+	 * Student Label HTML
+	 *
+	 * @since 5.3
+	 *
+	 * @param array $student Student Info.
+	 *
+	 * @return string Student Label HTML
+	 */
+	function StudentLabelHTML( $student )
+	{
+		$html = '';
+
+		if ( ! empty( $student['FULL_NAME'] ) )
+		{
+			$html .= '<b>' . $student['FULL_NAME'] . '</b>';
+		}
+
+		if ( ! empty( $_REQUEST['teacher'] ) )
+		{
+			if ( ! empty( $student['TEACHER'] ) )
+			{
+				$html .= '<br />' . _( 'Teacher' ) . ':&nbsp;' . $student['TEACHER'];
+			}
+			else
+			{
+				$html .= '<br />&nbsp;';
+			}
+		}
+
+		if ( ! empty( $_REQUEST['room'] ) )
+		{
+			if ( ! empty( $student['ROOM'] ) )
+			{
+				$html .= '<br />' . _( 'Room' ) . ':&nbsp;' . $student['ROOM'];
+			}
+			else
+			{
+				$html .= '<br />&nbsp;';
+			}
+		}
+
+		return $html;
 	}
 }
 
@@ -406,13 +487,37 @@ if ( ! function_exists( 'MailingLabelsPDF' ) )
 	 *
 	 * @since 4.0
 	 *
-	 * @param array $RET Addresses DB RET.
+	 * @deprecated since 5.3 Use MailingLabelsHTML() instead.
 	 *
-	 * @return array Mailing Labels PDF
+	 * @param array $RET Addresses DB RET.
 	 */
 	function MailingLabelsPDF( $RET )
 	{
 		$handle = PDFstart();
+
+		echo MailingLabelsHTML( $RET );
+
+		PDFstop( $handle );
+	}
+}
+
+if ( ! function_exists( 'MailingLabelsHTML' ) )
+{
+	/**
+	 * Generate Mailing Labels HTML
+	 *
+	 * @since 4.0
+	 *
+	 * @uses MailingLabelFormatAddressesToStudent()
+	 * @uses MailingLabelFormatAddressesToFamily()
+	 *
+	 * @param array $RET Addresses DB RET.
+	 *
+	 * @return string Mailing Labels HTML
+	 */
+	function MailingLabelsHTML( $RET )
+	{
+		ob_start();
 
 		echo '<table style="height: 100%" class="width-100p cellspacing-0 fixed-col">';
 
@@ -434,67 +539,11 @@ if ( ! function_exists( 'MailingLabelsPDF' ) )
 
 				if ( $_REQUEST['to_address'] === 'student' )
 				{
-					foreach ( (array) $addresses as $key => $address )
-					{
-						$name = $address['FULL_NAME'];
-
-						$addresses[$key]['MAILING_LABEL'] = $name . '<br />' .
-						mb_substr( $address['MAILING_LABEL'], mb_strpos( $address['MAILING_LABEL'], '<!-- -->' ) );
-					}
+					$addresses = MailingLabelFormatAddressesToStudent( $addresses );
 				}
 				elseif ( $_REQUEST['to_address'] === 'family' )
 				{
-					// If grouping by address, replace people list in mailing labels with students list.
-					$lasts = array();
-
-					foreach ( (array) $addresses as $address )
-					{
-						$lasts[$address['LAST_NAME']][] = $address['FIRST_NAME'];
-					}
-
-					$students = '';
-
-					foreach ( (array) $lasts as $last => $firsts )
-					{
-						$student = '';
-						$previous = '';
-
-						foreach ( (array) $firsts as $first )
-						{
-							if ( $student && $previous )
-							{
-								$student .= ', ' . $previous;
-							}
-							elseif ( $previous )
-							{
-								$student = $previous;
-							}
-
-							$previous = $first;
-						}
-
-						if ( $student )
-						{
-							$student .= ' & ' . $previous . ' ' . $last;
-						}
-						else
-						{
-							$student = $previous . ' ' . $last;
-						}
-
-						$students .= $student . ', ';
-					}
-
-					$addresses = array(
-						1 => array(
-							'MAILING_LABEL' => $to_family . '<br />' . mb_substr( $students, 0, -2 ) .
-							'<br />' .
-							mb_substr(
-								$addresses[1]['MAILING_LABEL'],
-								mb_strpos( $addresses[1]['MAILING_LABEL'], '<!-- -->' )
-							),
-						),
-					);
+					$addresses = MailingLabelFormatAddressesToFamily( $addresses );
 				}
 			}
 			else
@@ -556,6 +605,100 @@ if ( ! function_exists( 'MailingLabelsPDF' ) )
 
 		echo '</table>';
 
-		PDFstop( $handle );
+		return ob_get_clean();
+	}
+}
+
+if ( ! function_exists( 'MailingLabelFormatAddressesToStudent' ) )
+{
+	/**
+	 * Mailing Label Format Addresses To Student
+	 *
+	 * @since 5.3
+	 *
+	 * @param array $addresses Addresses.
+	 *
+	 * @return array $addresses Format Addresses To Student
+	 */
+	function MailingLabelFormatAddressesToStudent( $addresses )
+	{
+		foreach ( (array) $addresses as $key => $address )
+		{
+			$name = $address['FULL_NAME'];
+
+			$addresses[$key]['MAILING_LABEL'] = $name . '<br />' .
+			mb_substr( $address['MAILING_LABEL'], mb_strpos( $address['MAILING_LABEL'], '<!-- -->' ) );
+		}
+
+		return $addresses;
+	}
+}
+
+if ( ! function_exists( 'MailingLabelFormatAddressesToFamily' ) )
+{
+	/**
+	 * Mailing Label Format Addresses To Family
+	 *
+	 * @since 5.3
+	 *
+	 * @param array $addresses Addresses.
+	 *
+	 * @return array $addresses Format Addresses To Family
+	 */
+	function MailingLabelFormatAddressesToFamily( $addresses )
+	{
+		// If grouping by address, replace people list in mailing labels with students list.
+		$lasts = array();
+
+		foreach ( (array) $addresses as $address )
+		{
+			$lasts[$address['LAST_NAME']][] = $address['FIRST_NAME'];
+		}
+
+		$students = '';
+
+		foreach ( (array) $lasts as $last => $firsts )
+		{
+			$student = '';
+			$previous = '';
+
+			foreach ( (array) $firsts as $first )
+			{
+				if ( $student && $previous )
+				{
+					$student .= ', ' . $previous;
+				}
+				elseif ( $previous )
+				{
+					$student = $previous;
+				}
+
+				$previous = $first;
+			}
+
+			if ( $student )
+			{
+				$student .= ' & ' . $previous . ' ' . $last;
+			}
+			else
+			{
+				$student = $previous . ' ' . $last;
+			}
+
+			$students .= $student . ', ';
+		}
+
+		$addresses = array(
+			1 => array(
+				'MAILING_LABEL' => $to_family . '<br />' . mb_substr( $students, 0, -2 ) .
+				'<br />' .
+				mb_substr(
+					$addresses[1]['MAILING_LABEL'],
+					mb_strpos( $addresses[1]['MAILING_LABEL'], '<!-- -->' )
+				),
+			),
+		);
+
+		return $addresses;
 	}
 }

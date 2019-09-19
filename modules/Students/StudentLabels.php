@@ -30,14 +30,18 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		BackPrompt( _( 'No Students were found.' ) );
 	}
 
+	$handle = PDFstart();
+
 	if ( ! empty( $_REQUEST['mailing_labels'] ) )
 	{
-		MailingLabelsPDF( $RET );
+		echo MailingLabelsHTML( $RET );
 	}
 	else
 	{
-		StudentLabelsPDF( $RET );
+		echo StudentLabelsHTML( $RET );
 	}
+
+	PDFstop( $handle );
 }
 
 if ( ! $_REQUEST['modfunc'] )

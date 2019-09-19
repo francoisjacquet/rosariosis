@@ -9,6 +9,10 @@ Changes in 5.3
 - Split EmailReferral(): add EmailReferralGetReferralSafe() & EmailReferralFormatFields() functions in EmailReferral.fnc.php
 - Split ReferralLogsGenerate(): add ReferralLogsGetExtra() & ReferralLogsGetReferralHTML() functions in ReferralLog.fnc.php
 - Split UpdateAttendanceDaily(): add AttendanceDailyTotalMinutes() function in UpdateAttendanceDaily.fnc.php
+- Deprecate StudentLabelsPDF() & MailingLabelsPDF(): add StudentLabelsHTML() & MailingLabelsHTML() functions in StudentLabels.fnc.php & StudentLabels.php
+- Split GetStudentLabelsExtra(): add GetStudentLabelsExtraAdmin() & GetStudentLabelsExtraNonAdmin() functions in StudentLabels.fnc.php
+- Split StudentLabelsHTML(): add StudentLabelHTML() function in StudentLabels.fnc.php
+- Split MailingLabelsHTML(): add MailingLabelFormatAddressesToStudent() & MailingLabelFormatAddressesToFamily() functions in StudentLabels.fnc.php
 - Fix bug when selected Attendance code is "All": set value to 0 in Administration.php
 
 Changes in 5.2
