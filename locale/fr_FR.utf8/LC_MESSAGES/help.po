@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS Help\n"
 "POT-Creation-Date: 2019-09-04 11:17+0200\n"
-"PO-Revision-Date: 2019-09-04 11:17+0200\n"
+"PO-Revision-Date: 2019-09-19 23:30+0200\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS <info@rosariosis.org>\n"
 "Language: fr_FR\n"
@@ -1547,8 +1547,8 @@ msgid ""
 "<i>Remove Access</i> will let you remove access for students and their "
 "associated parents."
 msgstr ""
-"<i>Enlever l'Accès</i> permet d'enlever l'accès aux élèves et leurs parents "
-"associés."
+"<i>Bloquer l'accès</i> permet de bloquer ou enlever l'accès aux élèves et "
+"leurs parents."
 
 #: Help_en.php:353
 msgid ""
@@ -1580,20 +1580,20 @@ msgid ""
 "Customize the username prefix you want to add so students cannot guess it."
 msgstr ""
 "Personnalisez le préfixe du nom d'utilisateur que vous souhaitez ajouter "
-"afin que les élèves ne peuvent le deviner."
+"afin que les élèves ne puissent le deviner."
 
 #: Help_en.php:361
 msgid ""
 "Check the \"Remove Access for Associated Parents\" checkbox if you wish to "
 "set those parents' profile to No Access."
 msgstr ""
-"Cochez la case \"Enlever l''Accès pour les Parents Associés\" si vous "
+"Cochez la case \"Bloquer l'accès pour les Parents Associés\" si vous "
 "souhaitez passer ces parents au profil Sans Accès."
 
 #: Help_en.php:363
 msgid "Click the \"Remove Access for Selected Students\" button."
 msgstr ""
-"Cliquez sur le bouton \"Enlever l'Accès pour les Élèves Sélectionnés\"."
+"Cliquez sur le bouton \"Bloquer l'accès pour les Élèves Sélectionnés\"."
 
 #: Help_en.php:365
 msgid ""

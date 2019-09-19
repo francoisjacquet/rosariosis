@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-08 20:15+0200\n"
-"PO-Revision-Date: 2019-09-19 22:54+0200\n"
+"PO-Revision-Date: 2019-09-19 23:29+0200\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS\n"
 "Language: fr\n"
@@ -3292,7 +3292,7 @@ msgstr "Créer des Utilisateurs Parents"
 
 #: modules/Custom/Menu.php:20 modules/Custom/RemoveAccess.php:71
 msgid "Remove Access"
-msgstr "Enlever l'accès"
+msgstr "Bloquer l'accès"
 
 #: modules/Custom/Menu.php:29 modules/Custom/Registration.php:324
 #: modules/School_Setup/Configuration.php:200
@@ -3514,11 +3514,11 @@ msgstr "Donner accès aux Parents Associés"
 
 #: modules/Custom/RemoveAccess.php:84
 msgid "Remove Access for Selected Students"
-msgstr "Enlever l'accès pour les Élèves Sélectionnés"
+msgstr "Bloquer l'accès pour les Élèves Sélectionnés"
 
 #: modules/Custom/RemoveAccess.php:86
 msgid "Remove Access for Associated Parents"
-msgstr "Enlever l'accès pour les Parents Associés"
+msgstr "Bloquer l'accès pour les Parents Associés"
 
 #: modules/Custom/RemoveAccess.php:113
 msgid "Add prefix to username"
