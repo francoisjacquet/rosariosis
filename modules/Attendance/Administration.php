@@ -226,12 +226,19 @@ if ( ! empty( $categories_RET ) )
 {
 	$tmp_PHP_SELF = PreparePHP_SELF( $_REQUEST, array( 'table', 'codes' ) );
 
-	$headerl .= '<a href="' . $tmp_PHP_SELF . '&amp;table=0"><b>' . _( 'Attendance' ) . '</b></a>';
+	$headerl .= '<a href="' . $tmp_PHP_SELF . '&table=0">';
+
+	$headerl .= $_REQUEST['table'] == '0' ? '<b>' . _( 'Attendance' ) . '</b>' : _( 'Attendance' );
+
+	$headerl .= '</a>';
 
 	foreach ( (array) $categories_RET as $category )
 	{
-		$headerl .= ' - <a href="' . $tmp_PHP_SELF . '&amp;table=' . $category['ID'] . '"><b>' .
-			$category['TITLE'] . '</b></a>';
+		$headerl .= ' | <a href="' . $tmp_PHP_SELF . '&table=' . $category['ID'] . '">';
+
+		$headerl .= $_REQUEST['table'] == $category['ID'] ? '<b>' . $category['TITLE'] . '</b>' : $category['TITLE'];
+
+		$headerl .= '</a>';
 	}
 }
 
@@ -492,7 +499,7 @@ else
 
 	if ( UserStudentID() )
 	{
-		$current_student_link = '<a href="' .
+		$current_student_link = ' <a href="' .
 		PreparePHP_Self( $_REQUEST, array(), array( 'student_id' => UserStudentID() ) ) . '">' .
 		_( 'Current Student' ) . '</a></td><td>';
 	}
