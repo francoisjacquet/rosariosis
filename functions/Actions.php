@@ -290,6 +290,13 @@ $RosarioActions = array();
 	 * @since 4.8
 	 */
 	/*'Grades/includes/Transcripts.fnc.php|pdf_footer' => array(),
+
+	/**
+	 * TinyMCE before init.
+	 *
+	 * @since 5.3
+	 */
+	/*'functions/Inputs.php|tinymce_before_init' => array(),
 );*/
 
 

@@ -4,6 +4,7 @@
 Changes in 5.3
 --------------
 - Fix SQL error more than one row returned by a subquery in Search.fnc.php & Preferences.php
+- Add TinyMCE before init action hook in Inputs.php
 
 Changes in 5.2
 --------------

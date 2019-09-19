@@ -567,7 +567,7 @@ function TinyMCEInput( $value, $name, $title = '', $extra = '' )
 
 <script src="assets/js/tinymce/tinymce.min.js"></script>
 <script>
-	tinymce.init({
+	tinymceSettings = {
 		selector: '.tinymce',
 		plugins: 'link image pagebreak paste table textcolor colorpicker code fullscreen hr media lists',
 		toolbar: "bold italic underline bullist numlist alignleft aligncenter alignright alignjustify link image forecolor backcolor code fullscreen",
@@ -587,8 +587,21 @@ function TinyMCEInput( $value, $name, $title = '', $extra = '' )
 		directionality : <?php echo json_encode( $tinymce_directionality ); ?>,
 		relative_urls: false,
 		// verify_html: false,
-		remove_script_host: false
-	});
+		remove_script_host: false,
+		external_plugins: {
+			// Add your plugins using the action hook below.
+		}
+	};
+</script>
+		<?php
+		/**
+		 * TinyMCE before init action hook
+		 *
+		 * @since 5.3
+		 */
+		do_action( 'functions/Inputs.php|tinymce_before_init' ); ?>
+<script>
+	tinymce.init(tinymceSettings);
 </script><!-- /TinyMCE -->
 
 		<?php $tinymce_js = ob_get_clean();
