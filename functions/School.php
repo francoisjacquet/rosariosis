@@ -54,6 +54,6 @@ function SchoolInfo( $field = null )
 	{
 		return $_SESSION['SchoolData'][ (string) $field ];
 	}
-	else
-		return $_SESSION['SchoolData'];
+
+	return $_SESSION['SchoolData'];
 }
