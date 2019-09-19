@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Referral Log functions
  */
@@ -72,64 +71,20 @@ function ReferralLogIncludeForm()
  *
  * @example $referral_logs = ReferralLogsGenerate( $extra );
  *
+ * @uses ReferralLogsGetExtra()
+ * @uses ReferralLogsGetReferralHTML()
+ *
  * @param  array  $extra GetStuList() extra
  *
  * @return array  Empty if no Students or no Referrals, else Referral Logs HTML array (key = student ID)
  */
 function ReferralLogsGenerate( $extra )
 {
-	require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
-
 	global $_ROSARIO;
-
-	static $fields_RET = null;
 
 	$referral_logs = array();
 
-	// Get custom Discipline fields
-	if ( is_null( $fields_RET ) )
-	{
-		$fields_RET = DBGet(
-			DBQuery( "SELECT f.ID,u.TITLE,u.SELECT_OPTIONS,f.DATA_TYPE,u.SORT_ORDER
-				FROM DISCIPLINE_FIELDS f,DISCIPLINE_FIELD_USAGE u
-				WHERE u.DISCIPLINE_FIELD_ID=f.ID
-				ORDER BY " . db_case( array( 'DATA_TYPE', "'textarea'", "'1'", "'0'" ) ) . ",SORT_ORDER" ),
-			array(),
-			array( 'ID' )
-		);
-	}
-
-	// Get eventual Incident Date timeframe
-	$start_date = RequestedDate( 'discipline_entry_begin', '' );
-
-	$end_date = RequestedDate( 'discipline_entry_end', '' );
-
-	$extra['SELECT'] = issetVal( $extra['SELECT'], '' );
-	$extra['FROM'] = issetVal( $extra['FROM'], '' );
-	$extra['WHERE'] = issetVal( $extra['WHERE'], '' );
-
-	foreach ( (array) $_REQUEST['elements'] as $column => $yes )
-	{
-		if ( $yes )
-		{
-			$extra['SELECT'] .= ',dr.' . $column;
-		}
-	}
-
-	if ( mb_strpos( $extra['FROM'], 'DISCIPLINE_REFERRALS' ) === false  )
-	{
-		$extra['WHERE'] .= ' AND dr.STUDENT_ID=ssm.STUDENT_ID
-			AND dr.SYEAR=ssm.SYEAR
-			AND dr.SCHOOL_ID=ssm.SCHOOL_ID ';
-
-		$extra['FROM'] .= ',DISCIPLINE_REFERRALS dr ';
-	}
-
-	$extra['group'] = array( 'STUDENT_ID' );
-
-	$extra['ORDER'] = ',dr.ENTRY_DATE';
-
-	$extra['WHERE'] .= appendSQL( '', $extra );
+	$extra = ReferralLogsGetExtra( $extra );
 
 	// Get Referrals
 	$referrals_RET = GetStuList( $extra );
@@ -138,6 +93,11 @@ function ReferralLogsGenerate( $extra )
 	{
 		return array();
 	}
+
+	// Get eventual Incident Date timeframe
+	$start_date = RequestedDate( 'discipline_entry_begin', '' );
+
+	$end_date = RequestedDate( 'discipline_entry_end', '' );
 
 	foreach ( (array) $referrals_RET as $student_id => $referrals )
 	{
@@ -171,7 +131,6 @@ function ReferralLogsGenerate( $extra )
 		}
 		else
 		{
-			//FJ school year over one/two calendar years format
 			DrawHeader( _( 'School Year' ) . ': ' .
 				FormatSyear( UserSyear(), Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) ) );
 		}
@@ -180,67 +139,141 @@ function ReferralLogsGenerate( $extra )
 
 		foreach ( (array) $referrals as $referral )
 		{
-			// Entry Date
-			if ( ! empty( $_REQUEST['elements']['ENTRY_DATE'] ) )
-			{
-				DrawHeader( '<b>' . _( 'Date' ) . ': </b>' . ProperDate( $referral['ENTRY_DATE'] ) );
-			}
-
-			// Reporter
-			if ( ! empty( $_REQUEST['elements']['STAFF_ID'] ) )
-			{
-				DrawHeader( '<b>' . _( 'Reporter' ) .': </b>' . GetTeacher( $referral['STAFF_ID'] ) );
-			}
-
-			// Custom Discipline fields
-			foreach ( (array) $_REQUEST['elements'] as $column => $yes )
-			{
-				// Zap not checked, Entry Date & Reporter
-				if ( ! $yes
-					|| $column === 'ENTRY_DATE'
-					|| $column === 'STAFF_ID' )
-				{
-					continue;
-				}
-
-				$field_type = $fields_RET[mb_substr( $column, 9 )][1]['DATA_TYPE'];
-
-				$value = $referral[ $column ];
-
-				if ( $field_type === 'textarea' )
-				{
-					// TEXTEAREA fields.
-					DrawHeader( MarkDownToHTML( $value ) );
-
-					continue;
-				}
-
-				$title_txt = '<b>' . $fields_RET[mb_substr( $column, 9 )][1]['TITLE'] . ': </b> ';
-
-				if ( $field_type === 'checkbox' )
-				{
-					// CHECKBOX fields.
-					$value = button( ( $value === 'Y' ? 'check' : 'x' ) );
-				}
-				elseif ( $field_type === 'multiple_checkbox' )
-				{
-					// Multiple checkbox fields
-					$value = str_replace( '||', ', ', mb_substr( $value, 2, -2 ) );
-				}
-				elseif ( $field_type === 'numeric' )
-				{
-					$value = mb_strpos( $value, '.' ) === false ? $value : rtrim( rtrim( $value, '0' ), '.' );
-				}
-
-				DrawHeader( $title_txt . $value );
-			}
-
-			echo '<BR />';
+			echo ReferralLogsGetReferralHTML( $referral );
 		}
 
-		// Get output buffer
 		$referral_logs[ $student_id ] = ob_get_clean();
 	}
 
 	return $referral_logs;
+}
+
+/**
+ * Get Referral HTML for Referral Logs
+ *
+ * @since 5.3
+ *
+ * @param array $referral Referral.
+ *
+ * @return string Referral HTML.
+ */
+function ReferralLogsGetReferralHTML( $referral )
+{
+	static $fields_RET = null;
+
+	require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
+
+	// Get custom Discipline fields
+	if ( is_null( $fields_RET ) )
+	{
+		$fields_RET = DBGet( "SELECT f.ID,u.TITLE,u.SELECT_OPTIONS,f.DATA_TYPE,u.SORT_ORDER
+			FROM DISCIPLINE_FIELDS f,DISCIPLINE_FIELD_USAGE u
+			WHERE u.DISCIPLINE_FIELD_ID=f.ID
+			ORDER BY " . db_case( array( 'DATA_TYPE', "'textarea'", "'1'", "'0'" ) ) . ",SORT_ORDER",
+			array(),
+			array( 'ID' )
+		);
+	}
+
+	ob_start();
+
+	// Entry Date
+	if ( ! empty( $_REQUEST['elements']['ENTRY_DATE'] ) )
+	{
+		DrawHeader( '<b>' . _( 'Date' ) . ': </b>' . ProperDate( $referral['ENTRY_DATE'] ) );
+	}
+
+	// Reporter
+	if ( ! empty( $_REQUEST['elements']['STAFF_ID'] ) )
+	{
+		DrawHeader( '<b>' . _( 'Reporter' ) .': </b>' . GetTeacher( $referral['STAFF_ID'] ) );
+	}
+
+	// Custom Discipline fields
+	foreach ( (array) $_REQUEST['elements'] as $column => $yes )
+	{
+		// Zap not checked, Entry Date & Reporter
+		if ( ! $yes
+			|| $column === 'ENTRY_DATE'
+			|| $column === 'STAFF_ID' )
+		{
+			continue;
+		}
+
+		$field_type = $fields_RET[mb_substr( $column, 9 )][1]['DATA_TYPE'];
+
+		$value = $referral[ $column ];
+
+		if ( $field_type === 'textarea' )
+		{
+			// TEXTEAREA fields.
+			DrawHeader( MarkDownToHTML( $value ) );
+
+			continue;
+		}
+
+		$title_txt = '<b>' . $fields_RET[mb_substr( $column, 9 )][1]['TITLE'] . ': </b> ';
+
+		if ( $field_type === 'checkbox' )
+		{
+			// CHECKBOX fields.
+			$value = button( ( $value === 'Y' ? 'check' : 'x' ) );
+		}
+		elseif ( $field_type === 'multiple_checkbox' )
+		{
+			// Multiple checkbox fields
+			$value = str_replace( '||', ', ', mb_substr( $value, 2, -2 ) );
+		}
+		elseif ( $field_type === 'numeric' )
+		{
+			$value = mb_strpos( $value, '.' ) === false ? $value : rtrim( rtrim( $value, '0' ), '.' );
+		}
+
+		DrawHeader( $title_txt . $value );
+	}
+
+	echo '<BR />';
+
+	return ob_get_clean();
+}
+
+/**
+ * Get $extra for Referral Logs SQL query
+ *
+ * @since 5.3
+ *
+ * @param array $extra Extra.
+ *
+ * @return array $extra Extra (SELECT, FROM, WHERE, group, ORDER) for Referral Logs SQL query.
+ */
+function ReferralLogsGetExtra( $extra )
+{
+	$extra['SELECT'] = issetVal( $extra['SELECT'], '' );
+	$extra['FROM'] = issetVal( $extra['FROM'], '' );
+	$extra['WHERE'] = issetVal( $extra['WHERE'], '' );
+
+	foreach ( (array) $_REQUEST['elements'] as $column => $yes )
+	{
+		if ( $yes )
+		{
+			$extra['SELECT'] .= ',dr.' . $column;
+		}
+	}
+
+	if ( mb_strpos( $extra['FROM'], 'DISCIPLINE_REFERRALS' ) === false  )
+	{
+		$extra['WHERE'] .= ' AND dr.STUDENT_ID=ssm.STUDENT_ID
+			AND dr.SYEAR=ssm.SYEAR
+			AND dr.SCHOOL_ID=ssm.SCHOOL_ID ';
+
+		$extra['FROM'] .= ',DISCIPLINE_REFERRALS dr ';
+	}
+
+	$extra['group'] = array( 'STUDENT_ID' );
+
+	$extra['ORDER'] = ',dr.ENTRY_DATE';
+
+	$extra['WHERE'] .= appendSQL( '', $extra );
+
+	return $extra;
 }
