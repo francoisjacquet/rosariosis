@@ -370,8 +370,6 @@ if ( ! function_exists( 'StudentLabelsHTML' ) )
 		$max_cols = 3;
 		$max_rows = 15;
 
-		$to_family = _( 'To the parents of' ) . ':';
-
 		$cols = $rows = 0;
 
 		$skipRET = array();
@@ -523,8 +521,6 @@ if ( ! function_exists( 'MailingLabelsHTML' ) )
 
 		$max_cols = 3;
 		$max_rows = 10;
-
-		$to_family = _( 'To the parents of' ) . ':';
 
 		$cols = 0;
 		$rows = 0;
@@ -687,6 +683,8 @@ if ( ! function_exists( 'MailingLabelFormatAddressesToFamily' ) )
 
 			$students .= $student . ', ';
 		}
+
+		$to_family = _( 'To the parents of' ) . ':';
 
 		$addresses = array(
 			1 => array(
