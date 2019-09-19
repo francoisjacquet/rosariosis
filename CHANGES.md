@@ -8,6 +8,7 @@ Changes in 5.3
 - Reduce ReferralInput() function complexity in Referral.fnc.php
 - Split EmailReferral(): add EmailReferralGetReferralSafe() & EmailReferralFormatFields() functions in EmailReferral.fnc.php
 - Split ReferralLogsGenerate(): add ReferralLogsGetExtra() & ReferralLogsGetReferralHTML() functions in ReferralLog.fnc.php
+- Fix bug when selected Attendance code is "All": set value to 0 in Administration.php
 
 Changes in 5.2
 --------------

@@ -40,8 +40,8 @@ $current_mp = GetCurrentMP( 'QTR', $date, false );
 if ( ! $current_mp )
 {
 	echo '<form action="' .
-	PreparePHP_SELF( $_REQUEST ) .
-		'" method="POST">';
+		PreparePHP_SELF( $_REQUEST, array( 'codes', 'month_date', 'day_date', 'year_date' ) ) .
+		'" method="GET">';
 
 	DrawHeader(
 		PrepareDate( $date, '_date', false, array( 'submit' => true ) )
@@ -295,8 +295,8 @@ if ( isset( $_REQUEST['student_id'] ) && $_REQUEST['student_id'] !== 'new' )
 	);
 
 	echo '<form action="' .
-	PreparePHP_SELF( $_REQUEST ) .
-		'" method="POST">';
+		PreparePHP_SELF( $_REQUEST, array( 'codes', 'month_date', 'day_date', 'year_date' ) ) .
+		'" method="GET">';
 
 	DrawHeader(
 		PrepareDate( $date, '_date', false, array( 'submit' => true ) ),
@@ -309,6 +309,7 @@ if ( isset( $_REQUEST['student_id'] ) && $_REQUEST['student_id'] !== 'new' )
 	DrawHeader( $headerl, $headerr );
 
 	ListOutput( $schedule_RET, $columns, 'Course', 'Courses' );
+
 	echo '</form>';
 }
 else
@@ -377,7 +378,12 @@ else
 	}
 	elseif ( $abs )
 	{
-		$RET = DBGet( "SELECT ID FROM ATTENDANCE_CODES WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' AND (DEFAULT_CODE!='Y' OR DEFAULT_CODE IS NULL) AND TABLE_NAME='" . $_REQUEST['table'] . "'" );
+		$RET = DBGet( "SELECT ID
+			FROM ATTENDANCE_CODES
+			WHERE SYEAR='" . UserSyear() . "'
+			AND SCHOOL_ID='" . UserSchool() . "'
+			AND (DEFAULT_CODE!='Y' OR DEFAULT_CODE IS NULL)
+			AND TABLE_NAME='" . $_REQUEST['table'] . "'" );
 
 		if ( ! empty( $RET ) )
 		{
@@ -474,8 +480,8 @@ else
 	}
 
 	echo '<form action="' .
-	PreparePHP_SELF( $_REQUEST ) .
-		'" method="POST">';
+		PreparePHP_SELF( $_REQUEST, array( 'codes', 'month_date', 'day_date', 'year_date' ) ) .
+		'" method="GET">';
 
 	DrawHeader(
 		PrepareDate( $date, '_date', false, array( 'submit' => true ) ),
@@ -505,6 +511,7 @@ else
 	DrawHeader( $headerl, $headerr );
 
 	$_REQUEST['search_modfunc'] = 'list';
+
 	Search( 'student_id', $extra );
 
 	echo '<br /><div class="center">' . SubmitButton( _( 'Update' ) ) . '</div>';
@@ -621,7 +628,8 @@ function _makeCodeSearch( $value = '' )
 {
 	global $codes_RET, $code_search_selected;
 
-	$return = '<select name=codes[]><option value="">' . _( 'All' ) . '</option>';
+	// Fix bug when selected Attendance code is "All": set value to 0.
+	$return = '<select name="codes[]"><option value="0">' . _( 'All' ) . '</option>';
 
 	if ( $_REQUEST['table'] == '0' )
 	{
