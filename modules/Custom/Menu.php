@@ -48,7 +48,12 @@ if ( $RosarioModules['Users'] )
 // Custom Attendance programs
 if ( $RosarioModules['Attendance'] )
 {
-	$menu['Attendance']['admin'] += array(
-		'Custom/AttendanceSummary.php' => _( 'Attendance Summary' )
+	// Place program before Utilities separator.
+	$utilities_pos = array_search( 2, array_keys( $menu['Attendance']['admin'] ) );
+
+	$menu['Attendance']['admin'] = array_merge(
+	    array_slice( $menu['Attendance']['admin'], 0, $utilities_pos ),
+	    array( 'Custom/AttendanceSummary.php' => _( 'Attendance Summary' ) ),
+	    array_slice( $menu['Attendance']['admin'], $utilities_pos )
 	);
 }

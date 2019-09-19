@@ -15,6 +15,7 @@ Changes in 5.3
 - Split MailingLabelsHTML(): add MailingLabelFormatAddressesToStudent() & MailingLabelFormatAddressesToFamily() functions in StudentLabels.fnc.php
 - Fix bug when selected Attendance code is "All": set value to 0 in Administration.php
 - Use Daily Attendance data for report table in AttendanceSummary.php
+- Place Attendance Summary program before Utilities separator in Custom/Menu.php
 
 Changes in 5.2
 --------------
