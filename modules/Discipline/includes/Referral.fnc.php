@@ -23,6 +23,8 @@ function ReferralInput( $category, $value = '', $new = true )
 {
 	global $_ROSARIO;
 
+	$_ROSARIO['ReferralInput'] = '';
+
 	switch ( $category['DATA_TYPE'] )
 	{
 		case 'text':
@@ -96,35 +98,28 @@ function ReferralInput( $category, $value = '', $new = true )
 			break;
 
 		case 'multiple_radio':
-
-			$options = array();
-
-			$radio_options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS'] ) );
-
-			foreach ( (array) $radio_options as $option )
-			{
-				$options[$option] = $option;
-			}
-
-			$_ROSARIO['ReferralInput'] = RadioInput(
-				$value,
-				'values[CATEGORY_' . $category['ID'] . ']',
-				$category['TITLE'],
-				$options,
-				false
-			);
-
-			break;
-
 		case 'select':
 
 			$options = array();
 
-			$select_options = explode( "\r", $str_replace( "\n", "\r", str_replace( "\r\n", "\r", $category['SELECT_OPTIONS'] ) ) );
+			$radio_select_options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS'] ) );
 
-			foreach ( (array) $select_options as $option )
+			foreach ( (array) $radio_select_options as $option )
 			{
 				$options[$option] = $option;
+			}
+
+			if ( $category['DATA_TYPE'] === 'multiple_radio' )
+			{
+				$_ROSARIO['ReferralInput'] = RadioInput(
+					$value,
+					'values[CATEGORY_' . $category['ID'] . ']',
+					$category['TITLE'],
+					$options,
+					false
+				);
+
+				break;
 			}
 
 			$_ROSARIO['ReferralInput'] = SelectInput(
@@ -136,10 +131,6 @@ function ReferralInput( $category, $value = '', $new = true )
 			);
 
 			break;
-
-		default:
-
-			$_ROSARIO['ReferralInput'] = '';
 	}
 
 	$action_args = array(
