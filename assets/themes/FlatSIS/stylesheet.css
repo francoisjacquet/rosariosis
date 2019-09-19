@@ -692,7 +692,10 @@ a.button-primary {
 
 input.button-primary:hover,
 button.button-primary:hover,
-a.button-primary:hover {
+a.button-primary:hover,
+input.button-primary:focus,
+button.button-primary:focus,
+a.button-primary:focus {
 	border-color: #10354b;
 }
 
