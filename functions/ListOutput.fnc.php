@@ -419,6 +419,8 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 		echo '<table class="list-nav"><tr class="st"><td>';
 
+		$has_count_text = false;
+
 		if ( $singular !== '.'
 			&& $plural !== '.'
 			&& $options['count'] )
@@ -436,6 +438,8 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			{
 				echo $where_message;
 			}
+
+			$has_count_text = true;
 		}
 
 		if (  ( $options['count']
@@ -452,14 +456,21 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 					0
 				)
 			) . '</b>';
+
+			$has_count_text = true;
 		}
 
 		if ( $options['save']
 			&& ! isset( $_REQUEST['_ROSARIO_PDF'] )
 			&& $result_count > 0 )
 		{
+			if ( $has_count_text )
+			{
+				echo '&nbsp;';
+			}
+
 			// Save / Export list button.
-			echo '&nbsp;<a href="' . $PHP_tmp_SELF . '&amp;' . $extra .
+			echo '<a href="' . $PHP_tmp_SELF . '&amp;' . $extra .
 			'&amp;LO_save=' . $options['save'] .
 			'&amp;_ROSARIO_PDF=true" target="_blank"><img src="assets/themes/' .
 			Preferences( 'THEME' ) . '/btn/download.png" class="alignImg" title="' .
