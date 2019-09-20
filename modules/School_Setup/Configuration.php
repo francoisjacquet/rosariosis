@@ -314,7 +314,7 @@ else
 		echo '<tr><td>' . CheckboxInput(
 			Config( 'FORCE_PASSWORD_CHANGE_ON_FIRST_LOGIN' ),
 			'values[CONFIG][FORCE_PASSWORD_CHANGE_ON_FIRST_LOGIN]',
-			_( 'Force password change on first login' ),
+			_( 'Force Password Change on First Login' ),
 			'',
 			false,
 			button( 'check' ),

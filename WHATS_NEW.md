@@ -2,6 +2,12 @@
 
 ## RosarioSIS Student Information System
 
+New in 5.3
+----------
+
+School:
+- School Configuration: Force password change on first login, sponsored by Santa Cecilia school.
+
 New in 5.2
 ----------
 

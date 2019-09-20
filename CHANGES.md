@@ -19,6 +19,7 @@ Changes in 5.3
 - Translate "Remove Access" custom program to "Bloquer l'accès" in French in rosariosis.po & help.po
 - Add FORCE_PASSWORD_CHANGE_ON_FIRST_LOGIN to CONFIG table in rosariosis.sql & Update.fnc.php
 - Add Force password change on first login option in Configuration.php
+- Force password change on first login in index.php & FirstLogin.fnc.php
 
 Changes in 5.2
 --------------

@@ -11,6 +11,7 @@
 $default_session_name = session_name();
 
 require_once 'Warehouse.php';
+require_once 'ProgramFunctions/FirstLogin.fnc.php';
 
 // Logout.
 if ( isset( $_REQUEST['modfunc'] )
@@ -154,23 +155,6 @@ elseif ( isset( $_POST['USERNAME'] )
 			WHERE STAFF_ID='" . $login_RET[1]['STAFF_ID'] . "'" );
 
 		$login_status = 'Y';
-
-		// If 1st login, Confirm Successful Installation screen.
-		if ( Config( 'LOGIN' ) === 'No' ) :
-
-			$_ROSARIO['page'] = 'first-login';
-
-			require_once 'ProgramFunctions/FirstLogin.fnc.php';
-
-			Warehouse( 'header' );
-
-			echo FirstLoginForm();
-
-			Warehouse( 'footer' );
-
-			exit;
-
-		endif;
 	}
 
 	// User with No access profile.
@@ -260,6 +244,32 @@ elseif ( isset( $_POST['USERNAME'] )
 		&& ! UserSyear() )
 	{
 		$_SESSION['UserSyear'] = Config( 'SYEAR' );
+	}
+
+	if ( $login_status === 'Y'
+		&& empty( $_SESSION['LAST_LOGIN'] ) )
+	{
+		/**
+		 * First Login Form
+		 *
+		 * Password Change & Poll after install.
+		 *
+		 * @since 5.3 Force password change on first login
+		 */
+		$first_login_form = FirstLoginForm();
+
+		if ( $first_login_form )
+		{
+			$_ROSARIO['page'] = 'first-login';
+
+			Warehouse( 'header' );
+
+			echo $first_login_form;
+
+			Warehouse( 'footer' );
+
+			exit;
+		}
 	}
 
 	do_action( 'index.php|login_check', $username );
@@ -478,11 +488,8 @@ if ( empty( $_SESSION['STAFF_ID'] )
 // Successfully logged in, display Portal.
 elseif ( ! isset( $_REQUEST['create_account'] ) )
 {
-	if ( ! empty( $_POST['first_login'] )
-		&& Config( 'LOGIN' ) === 'No' )
+	if ( ! empty( $_POST['first_login'] ) )
 	{
-		require_once 'ProgramFunctions/FirstLogin.fnc.php';
-
 		// @since 4.0 First Login form.
 		$first_login = DoFirstLoginForm( $_REQUEST['first_login'] );
 	}

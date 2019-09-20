@@ -23,26 +23,38 @@ if ( ! function_exists( 'DoFirstLoginForm' ) )
 
 		$return = false;
 
-		if ( ! empty( $values['ADMIN_PASSWORD'] )
-			&& User( 'STAFF_ID' ) === '1' )
+		if ( ! empty( $values['PASSWORD'] )
+			&& ( User( 'STAFF_ID' ) === '1' || Config( 'FORCE_PASSWORD_CHANGE_ON_FIRST_LOGIN' ) ) )
 		{
-			// Admin password set.
-			$new_password = encrypt_password( $values['ADMIN_PASSWORD'] );
+			// Password set.
+			$new_password = encrypt_password( $values['PASSWORD'] );
 
-			DBQuery( "UPDATE STAFF
-				SET PASSWORD='" . $new_password . "'
-				WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
-				AND SYEAR='" . UserSyear() . "'" );
+			if ( User( 'STAFF_ID' ) )
+			{
+				DBQuery( "UPDATE STAFF
+					SET PASSWORD='" . $new_password . "'
+					WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
+					AND SYEAR='" . UserSyear() . "'" );
+			}
+			elseif ( UserStudentID() )
+			{
+				DBQuery( "UPDATE STUDENTS
+					SET PASSWORD='" . $new_password . "'
+					WHERE STUDENT_ID='" . UserStudentID() . "'" );
+			}
 
-			unset( $values['ADMIN_PASSWORD'], $new_password );
+			unset( $values['PASSWORD'], $new_password );
 
 			$note[] = _( 'Your new password was saved.' );
 
 			$return = true;
 		}
 
-		// Set Config( 'LOGIN' ) to Yes.
-		Config( 'LOGIN', 'Yes' );
+		if ( Config( 'LOGIN' ) === 'No' )
+		{
+			// Set Config( 'LOGIN' ) to Yes.
+			Config( 'LOGIN', 'Yes' );
+		}
 
 		return $return;
 	}
@@ -53,35 +65,138 @@ if ( ! function_exists( 'DoFirstLoginForm' ) )
  *
  * @since 4.0
  *
+ * @uses FirstLoginFormAfterInstall()
+ * @uses FirstLoginFormPasswordChange()
+ * @uses FirstLoginLoadJSCSS()
+ *
  * Seen by admin on first login after installation.
  *
  * @return string Form HTML.
  */
 function FirstLoginForm()
 {
-	ob_start();
+	$first_login_form = '';
 
-	PopTable( 'header', _( 'Confirm Successful Installation' ) ); ?>
+	if ( Config( 'LOGIN' ) === 'No' )
+	{
+		$first_login_form =  FirstLoginFormAfterInstall();
+	}
+	elseif ( Config( 'FORCE_PASSWORD_CHANGE_ON_FIRST_LOGIN' ) )
+	{
+		$first_login_form =  FirstLoginFormPasswordChange();
+	}
 
-	<form action="index.php" method="POST" id="first-login-form">
-		<h4 class="center">
-			<?php
-				echo sprintf(
-					_( 'You have successfully installed %s.' ),
-					ParseMLField( Config( 'TITLE' ) )
-				);
-			?>
-		</h4>
-		<p><?php echo implode( '</p><p>', FirstLoginFormFields() ); ?></p>
-		<p class="center"><?php echo Buttons( _( 'OK' ) ); ?></p>
-	</form>
-	<?php echo FirstLoginPoll(); ?>
+	if ( $first_login_form )
+	{
+		$first_login_form = FirstLoginLoadJSCSS() . $first_login_form;
+	}
 
-	<?php PopTable( 'footer' );
-
-	return ob_get_clean();
+	return $first_login_form;
 }
 
+if ( ! function_exists( 'FirstLoginLoadJSCSS' ) )
+{
+	/**
+	 * Load JS & CSS files on First Login page.
+	 * JS required for PasswordInput() & Password Strength.
+	 *
+	 * @since 5.3
+	 *
+	 * @return string JS & CSS HTML code.
+	 */
+	function FirstLoginLoadJSCSS()
+	{
+		ob_start();
+
+		$lang_2_chars = mb_substr( $_SESSION['locale'], 0, 2 );
+
+		// Load JS & our plugin CSS.
+		// Redefine ajaxLink() & ajaxForm(): no AJAX.
+		?>
+		<script src="assets/js/jquery.js"></script>
+		<script src="assets/js/plugins.min.js?v=<?php echo ROSARIO_VERSION; ?>"></script>
+		<script src="assets/js/warehouse.min.js?v=<?php echo ROSARIO_VERSION; ?>"></script>
+		<link rel="stylesheet" href="plugins/Public_Pages/css/stylesheet.css?v=standard" />
+		<script src="assets/js/jscalendar/lang/calendar-<?php echo file_exists( 'assets/js/jscalendar/lang/calendar-' . $lang_2_chars . '.js' ) ? $lang_2_chars : 'en'; ?>.js"></script>
+		<script>
+			var ajaxLink = function(link) {
+				window.location = link;
+
+				return false;
+			}
+
+			var ajaxPostForm = function(form, submit) {
+
+				return true;
+			}
+		</script>
+		<?php
+
+		return ob_get_clean();
+	}
+}
+
+if ( ! function_exists( 'FirstLoginFormAfterInstall' ) )
+{
+	/**
+	 * After Install form on First login
+	 *
+	 * @since 5.3
+	 *
+	 * @return string Confirm Successful Installation Pop table + form + Poll if admin.
+	 */
+	function FirstLoginFormAfterInstall()
+	{
+		ob_start();
+
+		PopTable( 'header', _( 'Confirm Successful Installation' ) ); ?>
+
+		<form action="index.php" method="POST" id="first-login-form">
+			<h4 class="center">
+				<?php
+					echo sprintf(
+						_( 'You have successfully installed %s.' ),
+						ParseMLField( Config( 'TITLE' ) )
+					);
+				?>
+			</h4>
+			<p><?php echo implode( '</p><p>', FirstLoginFormFields( 'after_install' ) ); ?></p>
+			<p class="center"><?php echo Buttons( _( 'OK' ) ); ?></p>
+		</form>
+		<?php echo FirstLoginPoll(); ?>
+
+		<?php PopTable( 'footer' );
+
+		return ob_get_clean();
+	}
+}
+
+
+if ( ! function_exists( 'FirstLoginFormForcePasswordChange' ) )
+{
+	/**
+	 * Password Change form on First Login.
+	 *
+	 * @since 5.3
+	 *
+	 * @return string Pop table with Password Change form.
+	 */
+	function FirstLoginFormPasswordChange()
+	{
+		ob_start();
+
+		PopTable( 'header', _( 'Password Change' ) ); ?>
+
+		<form action="index.php" method="POST" id="first-login-form">
+			<p><?php echo implode( '</p><p>', FirstLoginFormFields( 'force_password_change' ) ); ?></p>
+			<p class="center"><?php echo Buttons( _( 'OK' ) ); ?></p>
+		</form>
+
+		<?php PopTable( 'footer' );
+
+		return ob_get_clean();
+	}
+}
 
 if ( ! function_exists( 'FirstLoginFormFields' ) )
 {
@@ -89,28 +204,38 @@ if ( ! function_exists( 'FirstLoginFormFields' ) )
 	 * Get First Login Form Fields
 	 *
 	 * @since 4.0
+	 * @since 5.3 Add $mode param.
+	 *
+	 * @param string $mode force_password_change|after_install.
 	 *
 	 * @return array Fields HTML array.
 	 */
-	function FirstLoginFormFields()
+	function FirstLoginFormFields( $mode = 'force_password_change' )
 	{
+		global $_ROSARIO;
+
 		$fields = array();
 
-		$fields[] = sprintf(
-			_( 'Check the %s page to spot remaining configuration problems.' ),
-			'<a href="diagnostic.php" target="_blank">diagnostic.php</a>'
-		);
-
-		if ( User( 'STAFF_ID' ) === '1' )
+		if ( $mode === 'after_install' )
 		{
-			// Set admin password on first login.
-			$fields[] = '<br /><input type="text" name="first_login[ADMIN_PASSWORD]" id="first_login_ADMIN_PASSWORD"
-				size="25" maxlength="42" minlength="5" tabindex="1" required />' .
-				FormatInputTitle(
-					'<span class="legend-red">' . _( 'New Password' ) . '</span>',
-					'first_login_ADMIN_PASSWORD',
-					true
-				);
+			$fields[] = sprintf(
+				_( 'Check the %s page to spot remaining configuration problems.' ),
+				'<a href="diagnostic.php" target="_blank">diagnostic.php</a>'
+			);
+		}
+
+		if ( ( $mode === 'after_install' && User( 'STAFF_ID' ) === '1' )
+			|| $mode === 'force_password_change' )
+		{
+			$_ROSARIO['allow_edit'] = true;
+
+			// Set password on first login.
+			$fields[] = PasswordInput(
+				'',
+				'first_login[PASSWORD]',
+				_( 'New Password' ),
+				'required strength'
+			);
 		}
 
 		return $fields;
