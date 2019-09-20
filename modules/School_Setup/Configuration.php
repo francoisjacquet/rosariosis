@@ -310,6 +310,17 @@ else
 			''
 		) .	'</td></tr>';
 
+		// @since 5.3 Force password change on first login.
+		echo '<tr><td>' . CheckboxInput(
+			Config( 'FORCE_PASSWORD_CHANGE_ON_FIRST_LOGIN' ),
+			'values[CONFIG][FORCE_PASSWORD_CHANGE_ON_FIRST_LOGIN]',
+			_( 'Force password change on first login' ),
+			'',
+			false,
+			button( 'check' ),
+			button( 'x' )
+		) . '</td></tr>';
+
 		echo '</table></fieldset>';
 
 		// Display Name.
@@ -337,7 +348,15 @@ else
 		echo '<br /><fieldset><legend>' . _( 'School' ) . '</legend><table>';
 
 		//FJ school year over one/two calendar years format
-		echo '<tr><td>' . CheckboxInput( Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ), 'values[CONFIG][SCHOOL_SYEAR_OVER_2_YEARS]', _( 'School year over two calendar years' ), '', false, button( 'check' ), button( 'x' ) ) . '</td></tr>';
+		echo '<tr><td>' . CheckboxInput(
+			Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ),
+			'values[CONFIG][SCHOOL_SYEAR_OVER_2_YEARS]',
+			_( 'School year over two calendar years' ),
+			'',
+			false,
+			button( 'check' ),
+			button( 'x' )
+		) . '</td></tr>';
 
 		// FJ upload school logo.
 		echo '<tr><td>' . ( file_exists( 'assets/school_logo_' . UserSchool() . '.jpg' ) ?

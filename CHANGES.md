@@ -18,6 +18,7 @@ Changes in 5.3
 - Place Attendance Summary program before Utilities separator in Custom/Menu.php
 - Translate "Remove Access" custom program to "Bloquer l'accès" in French in rosariosis.po & help.po
 - Add FORCE_PASSWORD_CHANGE_ON_FIRST_LOGIN to CONFIG table in rosariosis.sql & Update.fnc.php
+- Add Force password change on first login option in Configuration.php
 
 Changes in 5.2
 --------------
