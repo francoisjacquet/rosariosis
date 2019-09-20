@@ -31,6 +31,44 @@ if ( isset( $_REQUEST['modfunc'] )
 	exit;
 }
 
+// First login.
+elseif ( isset( $_REQUEST['modfunc'] )
+	&& $_REQUEST['modfunc'] === 'first-login' )
+{
+	/**
+	 * First Login Form
+	 *
+	 * Password Change & Poll after install.
+	 *
+	 * @since 5.3 Force password change on first login
+	 */
+	if ( HasFirstLoginForm() )
+	{
+		$first_login_done = false;
+
+		if ( ! empty( $_POST['first_login'] ) )
+		{
+			// Save Password and set LAST_LOGIN.
+			$first_login_done = DoFirstLoginForm( $_REQUEST['first_login'] );
+		}
+
+		if ( ! $first_login_done )
+		{
+			$_ROSARIO['page'] = 'first-login';
+
+			Warehouse( 'header' );
+
+			echo FirstLoginForm();
+
+			Warehouse( 'footer' );
+
+			exit;
+		}
+	}
+
+	$_REQUEST['modfunc'] = false;
+}
+
 // Login.
 elseif ( isset( $_POST['USERNAME'] )
 	&& $_REQUEST['USERNAME'] !== ''
@@ -150,10 +188,6 @@ elseif ( isset( $_POST['USERNAME'] )
 
 		$failed_login = $login_RET[1]['FAILED_LOGIN'];
 
-		DBQuery( "UPDATE STAFF
-			SET LAST_LOGIN=CURRENT_TIMESTAMP,FAILED_LOGIN=NULL
-			WHERE STAFF_ID='" . $login_RET[1]['STAFF_ID'] . "'" );
-
 		$login_status = 'Y';
 	}
 
@@ -192,10 +226,6 @@ elseif ( isset( $_POST['USERNAME'] )
 		$_SESSION['LAST_LOGIN'] = $student_RET[1]['LAST_LOGIN'];
 
 		$failed_login = $student_RET[1]['FAILED_LOGIN'];
-
-		DBQuery( "UPDATE STUDENTS
-			SET LAST_LOGIN=CURRENT_TIMESTAMP,FAILED_LOGIN=NULL
-			WHERE STUDENT_ID='" . $student_RET[1]['STUDENT_ID'] . "'" );
 
 		$login_status = 'Y';
 	}
@@ -246,33 +276,30 @@ elseif ( isset( $_POST['USERNAME'] )
 		$_SESSION['UserSyear'] = Config( 'SYEAR' );
 	}
 
-	if ( $login_status === 'Y'
-		&& empty( $_SESSION['LAST_LOGIN'] ) )
+	do_action( 'index.php|login_check', $username );
+
+	if ( HasFirstLoginForm() )
 	{
-		/**
-		 * First Login Form
-		 *
-		 * Password Change & Poll after install.
-		 *
-		 * @since 5.3 Force password change on first login
-		 */
-		$first_login_form = FirstLoginForm();
+		// First Login.
+		header( 'Location: index.php?locale=' . $_SESSION['locale'] . '&modfunc=first-login' );
 
-		if ( $first_login_form )
-		{
-			$_ROSARIO['page'] = 'first-login';
-
-			Warehouse( 'header' );
-
-			echo $first_login_form;
-
-			Warehouse( 'footer' );
-
-			exit;
-		}
+		exit;
 	}
 
-	do_action( 'index.php|login_check', $username );
+	// Set LAST_LOGIN, reset FAILED_LOGIN.
+	if ( $login_status === 'Y'
+		&& User( 'STAFF_ID' ) )
+	{
+		DBQuery( "UPDATE STAFF
+			SET LAST_LOGIN=CURRENT_TIMESTAMP,FAILED_LOGIN=NULL
+			WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'" );
+	}
+	elseif ( $login_status === 'Y' )
+	{
+		DBQuery( "UPDATE STUDENTS
+			SET LAST_LOGIN=CURRENT_TIMESTAMP,FAILED_LOGIN=NULL
+			WHERE STUDENT_ID='" . $_SESSION['STUDENT_ID'] . "'" );
+	}
 }
 
 // FJ create account.
@@ -375,7 +402,7 @@ if ( empty( $_SESSION['STAFF_ID'] )
 
 	<img src="assets/themes/<?php echo Config( 'THEME' ); ?>/logo.png" class="logo center" alt="Logo" />
 	<h4 class="center"><?php echo ParseMLField( Config( 'TITLE' ) ); ?></h4>
-	<form name="loginform" id="loginform" method="post" action="index.php">
+	<form name="loginform" id="loginform" method="post">
 	<table class="cellspacing-0 width-100p">
 
 	<?php // Choose language.
@@ -488,12 +515,6 @@ if ( empty( $_SESSION['STAFF_ID'] )
 // Successfully logged in, display Portal.
 elseif ( ! isset( $_REQUEST['create_account'] ) )
 {
-	if ( ! empty( $_POST['first_login'] ) )
-	{
-		// @since 4.0 First Login form.
-		$first_login = DoFirstLoginForm( $_REQUEST['first_login'] );
-	}
-
 	/**
 	 * Redirect to Modules.php URL after login.
 	 * Defaults to modname=misc/Portal.php.

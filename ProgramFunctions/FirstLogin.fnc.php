@@ -10,6 +10,7 @@ if ( ! function_exists( 'DoFirstLoginForm' ) )
 {
 	/**
 	 * Do First Login Form
+	 * Save Password & set LAST_LOGIN.
 	 *
 	 * @since 4.0
 	 *
@@ -35,12 +36,20 @@ if ( ! function_exists( 'DoFirstLoginForm' ) )
 					SET PASSWORD='" . $new_password . "'
 					WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 					AND SYEAR='" . UserSyear() . "'" );
+
+				DBQuery( "UPDATE STAFF
+					SET LAST_LOGIN=CURRENT_TIMESTAMP
+					WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'" );
 			}
-			elseif ( UserStudentID() )
+			else
 			{
 				DBQuery( "UPDATE STUDENTS
 					SET PASSWORD='" . $new_password . "'
-					WHERE STUDENT_ID='" . UserStudentID() . "'" );
+					WHERE STUDENT_ID='" . $_SESSION['STUDENT_ID'] . "'" );
+
+				DBQuery( "UPDATE STUDENTS
+					SET LAST_LOGIN=CURRENT_TIMESTAMP
+					WHERE STUDENT_ID='" . $_SESSION['STUDENT_ID'] . "'" );
 			}
 
 			unset( $values['PASSWORD'], $new_password );
@@ -75,7 +84,10 @@ if ( ! function_exists( 'DoFirstLoginForm' ) )
  */
 function FirstLoginForm()
 {
-	$first_login_form = '';
+	if ( ! HasFirstLoginForm() )
+	{
+		return '';
+	}
 
 	if ( Config( 'LOGIN' ) === 'No' )
 	{
@@ -86,19 +98,42 @@ function FirstLoginForm()
 		$first_login_form =  FirstLoginFormPasswordChange();
 	}
 
-	if ( $first_login_form )
-	{
-		$first_login_form = FirstLoginLoadJSCSS() . $first_login_form;
-	}
+	return FirstLoginLoadJSCSS() . $first_login_form;
+}
 
-	return $first_login_form;
+/**
+ * Is First Login?
+ *
+ * @since 5.3
+ *
+ * @return bool True if no last login & user in session.
+ */
+function IsFirstLogin()
+{
+	return empty( $_SESSION['LAST_LOGIN'] ) && ( User( 'STAFF_ID' ) || ! empty( $_SESSION['STUDENT_ID'] ) );
+}
+
+if ( ! function_exists( 'HasFirstLoginForm' ) )
+{
+	/**
+	 * Has First Login form?
+	 *
+	 * @since 5.3
+	 *
+	 * @return bool True if Is First Login & Force Password change on first login or After Install.
+	 */
+	function HasFirstLoginForm()
+	{
+		return IsFirstLogin()
+			&& ( Config( 'FORCE_PASSWORD_CHANGE_ON_FIRST_LOGIN' ) || Config( 'LOGIN' ) === 'No' );
+	}
 }
 
 if ( ! function_exists( 'FirstLoginLoadJSCSS' ) )
 {
 	/**
 	 * Load JS & CSS files on First Login page.
-	 * JS required for PasswordInput() & Password Strength.
+	 * Redefine ajaxLink() & ajaxForm(): no AJAX.
 	 *
 	 * @since 5.3
 	 *
@@ -110,23 +145,15 @@ if ( ! function_exists( 'FirstLoginLoadJSCSS' ) )
 
 		$lang_2_chars = mb_substr( $_SESSION['locale'], 0, 2 );
 
-		// Load JS & our plugin CSS.
+		// Load JS & CSS.
 		// Redefine ajaxLink() & ajaxForm(): no AJAX.
 		?>
-		<script src="assets/js/jquery.js"></script>
-		<script src="assets/js/plugins.min.js?v=<?php echo ROSARIO_VERSION; ?>"></script>
-		<script src="assets/js/warehouse.min.js?v=<?php echo ROSARIO_VERSION; ?>"></script>
-		<link rel="stylesheet" href="plugins/Public_Pages/css/stylesheet.css?v=standard" />
-		<script src="assets/js/jscalendar/lang/calendar-<?php echo file_exists( 'assets/js/jscalendar/lang/calendar-' . $lang_2_chars . '.js' ) ? $lang_2_chars : 'en'; ?>.js"></script>
 		<script>
 			var ajaxLink = function(link) {
-				window.location = link;
-
-				return false;
+				return true;
 			}
 
 			var ajaxPostForm = function(form, submit) {
-
 				return true;
 			}
 		</script>
@@ -151,7 +178,7 @@ if ( ! function_exists( 'FirstLoginFormAfterInstall' ) )
 
 		PopTable( 'header', _( 'Confirm Successful Installation' ) ); ?>
 
-		<form action="index.php" method="POST" id="first-login-form">
+		<form action="index.php?modfunc=first-login" method="POST" id="first-login-form">
 			<h4 class="center">
 				<?php
 					echo sprintf(
@@ -187,7 +214,7 @@ if ( ! function_exists( 'FirstLoginFormForcePasswordChange' ) )
 
 		PopTable( 'header', _( 'Password Change' ) ); ?>
 
-		<form action="index.php" method="POST" id="first-login-form">
+		<form action="index.php?modfunc=first-login" method="POST" id="first-login-form">
 			<p><?php echo implode( '</p><p>', FirstLoginFormFields( 'force_password_change' ) ); ?></p>
 			<p class="center"><?php echo Buttons( _( 'OK' ) ); ?></p>
 		</form>

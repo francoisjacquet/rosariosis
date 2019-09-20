@@ -461,6 +461,7 @@ function Warehouse( $mode )
 	<?php
 
 			if ( $_ROSARIO['page'] === 'modules'
+				|| $_ROSARIO['page'] === 'first-login'
 				|| $_ROSARIO['page'] === 'create-account'
 				|| $_ROSARIO['page'] === 'password-reset' ): ?>
 	<script src="assets/js/jquery.js"></script>
