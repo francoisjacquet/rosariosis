@@ -17,6 +17,7 @@ Changes in 5.3
 - Use Daily Attendance data for report table in AttendanceSummary.php
 - Place Attendance Summary program before Utilities separator in Custom/Menu.php
 - Translate "Remove Access" custom program to "Bloquer l'accès" in French in rosariosis.po & help.po
+- Add FORCE_PASSWORD_CHANGE_ON_FIRST_LOGIN to CONFIG table in rosariosis.sql & Update.fnc.php
 
 Changes in 5.2
 --------------

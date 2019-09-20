@@ -143,6 +143,10 @@ function Update()
 		case version_compare( $from_version, '5.2-beta', '<' ) :
 
 			$return = _update52beta();
+
+		case version_compare( $from_version, '5.3-beta', '<' ) :
+
+			$return = _update53beta();
 	}
 
 	// Update version in DB CONFIG table.
@@ -1244,6 +1248,37 @@ function _update52beta()
 	{
 		DBQuery( "ALTER SEQUENCE course_period_school_periods_course_period_school_periods_id_se
 			RENAME TO course_period_school_periods_course_period_school_periods_i_seq;" );
+	}
+
+	return $return;
+}
+
+
+/**
+ * Update to version 5.3
+ *
+ * 1. Add FORCE_PASSWORD_CHANGE_ON_FIRST_LOGIN to CONFIG table.
+ *
+ * Local function
+ *
+ * @since 5.3
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update53beta()
+{
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. Add FORCE_PASSWORD_CHANGE_ON_FIRST_LOGIN to CONFIG table.
+	 */
+	$force_poassword_change_added = DBGet( "SELECT 1 FROM CONFIG WHERE TITLE='FORCE_PASSWORD_CHANGE_ON_FIRST_LOGIN'" );
+
+	if ( ! $force_poassword_change_added )
+	{
+		DBQuery( "INSERT INTO config VALUES (0, 'FORCE_PASSWORD_CHANGE_ON_FIRST_LOGIN', NULL);" );
 	}
 
 	return $return;
