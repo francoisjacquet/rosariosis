@@ -23,6 +23,8 @@ Changes in 5.3
 - Add help & translations for Password Strength & Force Password Change on First Login in Help_en.php, help.po & rosariosis.po
 - Add IsFirstLogin() & HasFirstLoginForm() functions in FirstLogin.fnc.php
 - Add Action hooks doc in plugins/README.md & modules/README.md
+- Rename School Configuration program to Configuration in School_Setup/Menu.php
+- Rename School separator to Setup in School_Setup/Menu.php
 
 Changes in 5.2
 --------------
