@@ -1,8 +1,14 @@
+# THEMES
+
 Place here the Themes you want to add to RosarioSIS.
+
+## Activate
 
 Select the default theme in _School Setup > School Configuration_
 
 Or select your preferred theme in _Users > My Preferences > Display Options_
+
+## Files
 
 Every theme must have the following files:
 
@@ -21,8 +27,9 @@ Optional files:
 - `modules/*.png` (all the modules icons)
 - `scripts.js`
 
-Note 2:
-Module icons CSS for your theme's `modules/` folder (example for Accounting & School Setup icons):
+## Module icons
+
+Custom module icons CSS: from your theme's `modules/` folder (example for Accounting & School Setup icons):
 
 ```css
 .module-icon.Accounting {
