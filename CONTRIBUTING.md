@@ -37,6 +37,10 @@ Please head to the offical [Contribute page](https://www.rosariosis.org/contribu
 
 4. Testing: Activate [debug mode](https://gitlab.com/francoisjacquet/rosariosis/blob/mobile/INSTALL.md#optional-variables); for emails, we use [MailCatcher](http://mailcatcher.me/)
 
+### Meta
+
+The [meta](https://gitlab.com/francoisjacquet/rosariosis-meta/) repository provides tools to debug and scripts to run tests, QA and prepare RosarioSIS release.
+
 ### Example Module
 
 Freely study and reuse the [Example module](https://gitlab.com/francoisjacquet/Example)
