@@ -16,42 +16,20 @@ require_once 'ProgramFunctions/Help.fnc.php';
 
 $help = HelpLoad();
 
-switch ( User( 'PROFILE' ) )
-{
-	case 'admin':
+$profiles = array(
+	'admin' => _( 'Administrator' ),
+	'teacher' => _( 'Teacher' ),
+	'parent' => _( 'Parent' ),
+	'student' => _( 'Student' ),
+);
 
-		$title = _( 'Administrator' );
-	break;
-
-	case 'teacher':
-
-		$title = _( 'Teacher' );
-	break;
-
-	case 'parent':
-
-		$title = _( 'Parent' );
-	break;
-
-	case 'student':
-
-		$title = _( 'Student' );
-	break;
-}
+$title = $profiles[ User( 'PROFILE' ) ];
 
 $handle = PDFStart(); ?>
 
 <style>.header2{ font-size: larger; }</style>
-<table>
-	<tr>
-		<td>
-			<img src="assets/themes/<?php echo Preferences( 'THEME' ); ?>/logo.png" class="logo" />
-		</td>
-		<td>
-			<h1>&nbsp;<?php echo sprintf( _( '%s Handbook' ), $title ); ?></h1>
-		</td>
-	</tr>
-</table>
+<h1><img src="assets/themes/<?php echo Preferences( 'THEME' ); ?>/logo.png" class="module-icon" />
+	<?php echo sprintf( _( '%s Handbook' ), $title ); ?></h1>
 <hr />
 
 <?php
@@ -59,7 +37,7 @@ $old_modcat = '';
 
 foreach ( (array) $help as $program => $value ) :
 
-	// FJ zap programs which are not allowed.
+	// Zap programs which are not allowed.
 	if ( $program !== 'default'
 		&& ! AllowUse( $program ) )
 	{
@@ -114,18 +92,14 @@ foreach ( (array) $help as $program => $value ) :
 <?php
 	if ( $program == 'default' )
 	{
-		echo ParseMLField( Config( 'TITLE' ) )
-			. ' - ' . sprintf( _( '%s Handbook' ), $title ) . '<br />'
-			. sprintf( _( 'version %s' ), ROSARIO_VERSION );
+		echo ParseMLField( Config( 'TITLE' ) ) . ' ' . ROSARIO_VERSION;
 	}
 	else
 		echo ( ProgramTitle() == 'RosarioSIS' ? $program : ProgramTitle() );
 ?>
 
 	</h3>
-	<table class="width-100p">
-		<tr>
-			<td class="header2">
+	<div class="header2">
 
 <?php
 
@@ -134,9 +108,7 @@ foreach ( (array) $help as $program => $value ) :
 	echo $help_text;
 ?>
 
-			</td>
-		</tr>
-	</table>
+	</div>
 </div>
 <br />
 
