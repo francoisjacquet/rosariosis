@@ -25,6 +25,7 @@ Changes in 5.3
 - Add Action hooks doc in plugins/README.md & modules/README.md
 - Rename School Configuration program to Configuration in School_Setup/Menu.php
 - Rename School separator to Setup in School_Setup/Menu.php
+- HTML Simplify Handbook markup & title in Help.php
 
 Changes in 5.2
 --------------

@@ -50,6 +50,7 @@
 #footerhelp {
 	display: none;
 	max-height: 210px;
+	max-height: 33vh;
 	overflow-y: scroll;
 	height: auto;
 }
