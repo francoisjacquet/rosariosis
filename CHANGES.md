@@ -21,6 +21,7 @@ Changes in 5.3
 - Add Force password change on first login option in Configuration.php
 - Force password change on first login in index.php & FirstLogin.fnc.php
 - Add IsFirstLogin() & HasFirstLoginForm() functions in FirstLogin.fnc.php
+- Add Action hooks doc in plugins/README.md & modules/README.md
 
 Changes in 5.2
 --------------
