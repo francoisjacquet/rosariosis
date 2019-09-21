@@ -5,7 +5,7 @@ Place here the Plugins you want to add to RosarioSIS.
 ## Activate
 
 Activate them via:
-_School > School Configuration > Plugins_
+_School > Configuration > Plugins_
 
 ## Files
 
@@ -18,7 +18,7 @@ You can base your work or reuse any existing plugin. The list of available plugi
 
 ## Action hooks
 
-You typically want to register your functions to be hooked on certain actions. The list of actions is available in the `functions/Actions.php` file.
+You typically want to register your functions to be hooked on certain actions. The list of actions is available in the [`functions/Actions.php`](https://gitlab.com/francoisjacquet/rosariosis/blob/mobile/functions/Actions.php) file.
 
 For example, to load a specific JS or CSS file in the HTML `<head>` use this code:
 ```php

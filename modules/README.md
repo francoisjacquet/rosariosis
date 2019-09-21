@@ -5,7 +5,7 @@ Place here the Modules you want to add to RosarioSIS.
 ## Activate
 
 Activate them via:
-_School > School Configuration > Modules_
+_School > Configuration > Modules_
 
 ## Files
 
@@ -18,7 +18,7 @@ To create a custom module, or add a program to an existing module, please refer 
 
 ## Action hooks
 
-You typically want to register your `functions.php` file functions to be hooked on certain actions. The list of actions is available in the `functions/Actions.php` file.
+You typically want to register your `functions.php` file functions to be hooked on certain actions. The list of actions is available in the [`functions/Actions.php`](https://gitlab.com/francoisjacquet/rosariosis/blob/mobile/functions/Actions.php) file.
 
 For example, to run a daily CRON like system:
 ```php
