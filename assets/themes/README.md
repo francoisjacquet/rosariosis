@@ -29,7 +29,7 @@ Optional files:
 
 ## Module icons
 
-Custom module icons CSS: from your theme's `modules/` folder (example for Accounting & School Setup icons):
+Custom module icons CSS: from your theme's `modules/` folder (example for Accounting & School icons):
 
 ```css
 .module-icon.Accounting {
