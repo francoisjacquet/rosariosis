@@ -20,6 +20,7 @@ Changes in 5.3
 - Add FORCE_PASSWORD_CHANGE_ON_FIRST_LOGIN to CONFIG table in rosariosis.sql & Update.fnc.php
 - Add Force password change on first login option in Configuration.php
 - Force password change on first login in index.php & FirstLogin.fnc.php
+- Add help & translations for Password Strength & Force Password Change on First Login in Help_en.php, help.po & rosariosis.po
 - Add IsFirstLogin() & HasFirstLoginForm() functions in FirstLogin.fnc.php
 - Add Action hooks doc in plugins/README.md & modules/README.md
 
