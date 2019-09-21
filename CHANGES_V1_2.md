@@ -547,7 +547,7 @@ Upgrade from 2.7.x & 2.8-betax
 - Remove functions/GetPeriod.fnc.php file
 - Extract the 2.8 files
 - Execute the SQL commands, see https://gist.github.com/francoisjacquet/b451c8006d5e1978fb0d
-- Note: you can activate Registration via School Setup > School Configuration
+- Note: you can activate Registration via School > Configuration
 
 
 Changes in 2.7.4
@@ -643,10 +643,10 @@ Upgrade from 2.6.x
 	- $CurrencySymbol
 	- $RosarioModules
 	- MOODLE_INTEGRATOR
-- (Re)activate the Moodle integrator via: School Setup > School Configuration > Plugins
-- Set the Currency Symbol ($) via: School Setup > School Configuration
+- (Re)activate the Moodle integrator via: School > Configuration > Plugins
+- Set the Currency Symbol ($) via: School > Configuration
 - Note: all the modules coming with RosarioSIS will be activated
-- Activate/deactivate modules via: School Setup > School Configuration > Modules
+- Activate/deactivate modules via: School > Configuration > Modules
 - Note2: if you have custom modules, reactivate them:
 	- Please rename first the install.sql file in your module directory (if any). (This will prevent automatic installation when reactivated.)
 

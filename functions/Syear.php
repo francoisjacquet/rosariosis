@@ -32,7 +32,7 @@ function GetSyear( $date )
  * Format School Year
  * If school year over two calendar years, return "[SYEAR]-[SYEAR+1]"
  *
- * @see School Setup > School Configuration > School
+ * @see School > Configuration > School
  *
  * @example FormatSyear( UserSyear(), Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) )
  *
