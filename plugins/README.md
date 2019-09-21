@@ -33,9 +33,7 @@ add_action( 'Warehouse.php|header_head', 'MyPluginHeadLoadJSCSS' );
  */
 function MyPluginHeadLoadJSCSS()
 {
-	?>
-	<link rel="stylesheet" href="plugins/MyPlugin/css/mystylesheet.css" />
-	<script src="plugins/MyPlugin/js/myjavascriptfile.js"></script>
-	<?php
+	echo '<link rel="stylesheet" href="plugins/MyPlugin/css/mystylesheet.css" />';
+	echo '<script src="plugins/MyPlugin/js/myjavascriptfile.js"></script>';
 }
 ```
