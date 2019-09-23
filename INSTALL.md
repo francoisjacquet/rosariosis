@@ -75,19 +75,19 @@ Now, you're ready to setup the RosarioSIS database. If you have access to the co
 1. Open a terminal window.
 
 2. Login to PostgreSQL as the postgres user:
-```console
+```bash
 server$ sudo -u postgres psql
 ```
 3. Create the rosariosis user:
-```console
+```bash
 postgres=# CREATE USER rosariosis_user WITH PASSWORD 'rosariosis_user_password';
 ```
 4. Create the rosariosis database:
-```console
+```bash
 postgres=# CREATE DATABASE rosariosis_db WITH ENCODING 'UTF8' OWNER rosariosis_user;
 ```
 5. Logout of PostgreSQL:
-```console
+```bash
 postgres=# \q
 ```
 
@@ -114,7 +114,7 @@ PHP extensions
 --------------
 
 Install instructions for Ubuntu 16.04:
-```console
+```bash
 server$ sudo apt-get install php-pgsql php-gettext php-mbstring php-gd php-curl php-xmlrpc php-xml
 ```
 
@@ -123,7 +123,7 @@ Other languages
 ---------------
 
 Install instructions for Ubuntu 16.04. Install the _Spanish_ language:
-```console
+```bash
 server$ sudo apt-get install language-pack-es
 ```
 Then restart the server.
@@ -133,7 +133,7 @@ Then restart the server.
 --------------------------------------
 
 Install instructions for Ubuntu 16.04:
-```console
+```bash
 server$ wget https://downloads.wkhtmltopdf.org/0.12/0.12.5/wkhtmltox_0.12.5-1.xenial_amd64.deb
 server$ sudo dpkg -i wkhtmltox_0.12.5-1.xenial_amd64.deb
 ```
@@ -145,7 +145,7 @@ Send email
 ----------
 
 Install instructions for Ubuntu 16.04. Activate the PHP `mail()` function:
-```console
+```bash
 server$ sudo apt-get install sendmail
 ```
 
