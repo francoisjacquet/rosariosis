@@ -26,6 +26,7 @@ Changes in 5.3
 - Rename School Configuration program to Configuration in School_Setup/Menu.php
 - Rename School separator to Setup in School_Setup/Menu.php
 - HTML Simplify Handbook markup & title in Help.php
+- Add Installation directions for Docker in INSTALL.md
 
 Changes in 5.2
 --------------
