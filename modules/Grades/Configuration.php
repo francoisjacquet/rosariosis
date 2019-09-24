@@ -180,7 +180,8 @@ if ( $comment_codes_RET )
 		{
 			$select_options[ $comment['CODE_TITLE'] ] = $comment['CODE_TITLE'];
 
-			if ( $comment['CODE_TITLE'] == $gradebook_config['COMMENT_' . $id] )
+			if ( isset( $gradebook_config['COMMENT_' . $id] )
+				&& $comment['CODE_TITLE'] == $gradebook_config['COMMENT_' . $id] )
 			{
 				$value = $comment['CODE_TITLE'];
 			}
@@ -278,7 +279,7 @@ foreach ( (array) $semesters as $sem )
 	if ( $sem['DOES_GRADES'] === 'Y' )
 	{
 		$table = '<table class="cellpadding-5">';
-		$table .= '<tr class="st"><td style="vertical-align: bottom;"><span class="legend-gray">' .
+		$table .= '<tr class="st"><td><span class="legend-gray">' .
 			$sem['TITLE'] . '</span>&nbsp;</td>';
 
 		$total = 0;
@@ -306,7 +307,7 @@ foreach ( (array) $semesters as $sem )
 
 		if ( $total != 100 )
 		{
-			$table .= '<td style="vertical-align: bottom;"><span class="legend-red">' .
+			$table .= '<td><span class="legend-red">' .
 				_( 'Total' ) . ' &#8800; 100%!</span></td>';
 		}
 
@@ -319,7 +320,7 @@ foreach ( (array) $semesters as $sem )
 if ( $year[1]['DOES_GRADES'] === 'Y' )
 {
 	$table = '<table class="cellpadding-5">';
-	$table .= '<tr class="st"><td style="vertical-align: bottom;"><span class="legend-gray">' .
+	$table .= '<tr class="st"><td><span class="legend-gray">' .
 		$year[1]['TITLE'] . '</span>&nbsp;</td>';
 
 	$total = 0;
@@ -371,7 +372,7 @@ if ( $year[1]['DOES_GRADES'] === 'Y' )
 
 	if ( $total != 100 )
 	{
-		$table .= '<td style="vertical-align: bottom;"><span class="legend-red">' .
+		$table .= '<td><span class="legend-red">' .
 			_( 'Total' ) . ' &#8800; 100%!</span></td>';
 	}
 
