@@ -27,6 +27,7 @@ Changes in 5.3
 - Rename School separator to Setup in School_Setup/Menu.php
 - HTML Simplify Handbook markup & title in Help.php
 - Add Installation directions for Docker in INSTALL.md
+- Delete obsolete data first to prevent SQL errors when adding foreign keys. Based on reported error in Update.fnc.php
 
 Changes in 5.2
 --------------
