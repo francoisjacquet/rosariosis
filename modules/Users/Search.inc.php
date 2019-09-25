@@ -175,7 +175,8 @@ else
 	if ( empty( $extra['NoSearchTerms'] ) )
 	{
 		if ( isset( $_REQUEST['_search_all_schools'] )
-			&& $_REQUEST['_search_all_schools'] === 'Y' )
+			&& $_REQUEST['_search_all_schools'] === 'Y'
+			&& SchoolInfo( 'SCHOOLS_NB' ) > 1 )
 		{
 			$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Search All Schools' ) . '</b><br />';
 		}
