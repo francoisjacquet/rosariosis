@@ -183,6 +183,9 @@ if ( Prompt(
 
 	// Unset tables & redirect URL.
 	RedirectURL( 'tables' );
+
+	// Reload Side menu so new school year appear in the dropdown menu.
+	echo '<script>ajaxLink("Side.php");</script>';
 }
 
 /**
