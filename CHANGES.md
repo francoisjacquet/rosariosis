@@ -1,7 +1,7 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
-Changes in 5.3
+Changes in 5.4
 --------------
 - Enrollment Start: No N/A option if already has Drop date in StudentsUsersInfo.fnc.php
 - Delete enrollment record if start date is empty in SaveEnrollment.fnc.php
