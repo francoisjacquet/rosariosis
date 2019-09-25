@@ -3,6 +3,10 @@
 
 Changes in 5.3
 --------------
+- Enrollment Start: No N/A option if already has Drop date in StudentsUsersInfo.fnc.php
+
+Changes in 5.3
+--------------
 - Fix SQL error more than one row returned by a subquery in Search.fnc.php & Preferences.php
 - Add TinyMCE before init action hook in Inputs.php
 - Reduce ReferralInput() function complexity in Referral.fnc.php

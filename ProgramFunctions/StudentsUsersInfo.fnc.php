@@ -740,6 +740,8 @@ function _makeComments( $value, $column )
 /**
  * Make Enrollment Start Date & Code Inputs
  *
+ * @since 5.4 Enrollment Start: No N/A option if already has Drop date.
+ *
  * @global array  $THIS_RET
  *
  * @param  string $value   Field value.
@@ -755,9 +757,17 @@ function _makeStartInput( $value, $column )
 
 	$add = '';
 
+	$na = 'N/A';
+
 	if ( $THIS_RET['ID'] )
 	{
 		$id = $THIS_RET['ID'];
+
+		if ( ! empty( $THIS_RET['END_DATE'] ) )
+		{
+			// @since 5.4 Enrollment Start: No N/A option if already has Drop date.
+			$na = false;
+		}
 	}
 	elseif ( $_REQUEST['student_id'] === 'new' )
 	{
@@ -811,14 +821,14 @@ function _makeStartInput( $value, $column )
 			'values[STUDENT_ENROLLMENT][' . $id . '][' . $column . ']',
 			'',
 			$div,
-			true
+			! empty( $na )
 		) . ' - ' .
 		SelectInput(
 			$THIS_RET['ENROLLMENT_CODE'],
 			'values[STUDENT_ENROLLMENT][' . $id . '][ENROLLMENT_CODE]',
 			'',
 			$add_codes,
-			'N/A',
+			$na,
 			'style="max-width:150px;"'
 		) .
 	'</div>';
