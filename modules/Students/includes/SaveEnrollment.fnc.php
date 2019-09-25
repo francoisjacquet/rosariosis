@@ -51,6 +51,27 @@ function SaveEnrollment()
 					$error[] = _( 'The student is already enrolled on that date, and cannot be enrolled a second time on the date you specified. Please fix, and try enrolling the student again.' );
 				}
 			}
+			elseif ( UserStudentID() && empty( $stu_enrol_month['START_DATE'] ) )
+			{
+				// @since 5.4 Delete enrollment record if start date is empty.
+				// Check first if Student has previous enrollment records.
+				$has_previous_enrollment = DBGetOne( "SELECT 1
+					FROM STUDENT_ENROLLMENT
+					WHERE STUDENT_ID='" . UserStudentID() . "'
+					AND SYEAR='" . UserSyear() . "'
+					AND ID<>'" . $stu_enrol_id . "'
+					AND START_DATE<(SELECT START_DATE
+						FROM STUDENT_ENROLLMENT
+						WHERE ID='" . $stu_enrol_id . "');" );
+
+				if ( $has_previous_enrollment )
+				{
+					DBQuery( "DELETE FROM STUDENT_ENROLLMENT
+						WHERE STUDENT_ID='" . UserStudentID() . "'
+						AND SYEAR='" . UserSyear() . "'
+						AND ID='" . $stu_enrol_id . "';" );
+				}
+			}
 		}
 
 		$iu_extra['STUDENT_ENROLLMENT'] = "STUDENT_ID='" . ( UserStudentID() ? UserStudentID() : $student_id ) . "' AND ID='__ID__'";
