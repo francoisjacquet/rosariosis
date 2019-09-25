@@ -97,7 +97,9 @@ if ( User( 'PROFILE' ) === 'admin' ):
 
 	<p>' . _help( 'Notice that neither two marking periods nor two posting periods in the same tier can overlap. Also, No two marking periods in any tier should have the same sort order.' ) . '</p>
 
-	<p>' . _help( 'Note: a marking period cannot be deleted once it has course periods.' ) . '</p>';
+	<p>' . _help( 'Note: a marking period cannot be deleted once it has course periods.' ) . '</p>
+
+	<p>' . _help( 'Note: you cannot add a new year using this program. Use the <i>School > Rollover</i> program instead.' ) . '</p>';
 
 	$help['School_Setup/Calendar.php'] = '<p>' . _help( '<i>Calendars</i> allows you to setup your school\'s calendar for the year. The calendar displays the current month by default. The month and year displayed can be changed by changing the month and year pull-down menus at the top of the screen.' ) . '</p>
 
