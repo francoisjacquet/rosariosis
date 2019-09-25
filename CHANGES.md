@@ -5,6 +5,7 @@ Changes in 5.3
 --------------
 - Enrollment Start: No N/A option if already has Drop date in StudentsUsersInfo.fnc.php
 - Delete enrollment record if start date is empty in SaveEnrollment.fnc.php
+- Update current school to enrollment school in SaveEnrollment.fnc.php
 
 Changes in 5.3
 --------------
