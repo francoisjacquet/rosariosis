@@ -276,6 +276,7 @@ elseif ( isset( $_POST['USERNAME'] )
 		$_SESSION['UserSyear'] = Config( 'SYEAR' );
 	}
 
+	// @since 2.9.8 Login check action hook.
 	do_action( 'index.php|login_check', $username );
 
 	if ( HasFirstLoginForm() )
