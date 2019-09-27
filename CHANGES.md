@@ -6,6 +6,8 @@ Changes in 5.4
 - Enrollment Start: No N/A option if already has Drop date in StudentsUsersInfo.fnc.php
 - Delete enrollment record if start date is empty in SaveEnrollment.fnc.php
 - Update current school to enrollment school in SaveEnrollment.fnc.php
+- Remove / deprecate $type param from ColorInput() in Inputs.php & program wide
+- CSS add input[type=color] & .color-input-value in stylesheet.css
 
 Changes in 5.3
 --------------

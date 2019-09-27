@@ -536,7 +536,6 @@ function _makeColorInput( $value, $column )
 	return ColorInput(
 		$value,
 		'values[' . $id . '][' . $column . ']',
-		'',
-		'hidden'
+		''
 	);
 }

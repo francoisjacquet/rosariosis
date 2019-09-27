@@ -1251,11 +1251,69 @@ function RadioInput( $value, $name, $title = '', $options, $allow_na = 'N/A', $e
 /**
  * Color Picker Input
  *
- * @example ColorInput( $value, 'values[' . $id . '][' . $column . ']', '', 'hidden', 'data-position="bottom right"' );
- *
- * @todo Display bug when inside LO (popping out of overflow hidden / auto)
+ * @example ColorInput( $value, 'values[' . $id . '][' . $column . ']', _( 'Color' ) );
  *
  * @since 2.9
+ * @since 5.4 Removed $type param.
+ *
+ * @param  string  $value Color value
+ * @param  string  $name  Input name attribute
+ * @param  string  $title Input title (label)
+ * @param  string  $extra Extra HTML attributes added to the input (optional).
+ * @param  boolean $div   Is input wrapped into <div onclick>? (optional). Defaults to true
+ *
+ * @return string  Color Picker Input HTML
+ */
+function ColorInput( $value, $name, $title = '', $extra = '', $div = true )
+{
+	if ( strpos( $_SERVER['HTTP_USER_AGENT'], 'MSIE' )
+		|| strpos( $_SERVER['HTTP_USER_AGENT'], 'Trident/7' ) )
+	{
+		// Is Internet Explorer: not compatible with color input.
+		return ColorInputMiniColors( $value, $name, $title, 'hidden', $extra, $div );
+	}
+
+	$id = GetInputID( $name );
+
+	$required = $value == '' && mb_strpos( $extra, 'required' ) !== false;
+
+	$color_rect = '<div class="color-input-value" style="background-color:' . $value . ';"></div>';
+
+	if ( ! AllowEdit()
+		|| isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
+		return $color_rect . FormatInputTitle( $title, '', '', '' );
+	}
+
+	$input = '<input type="color" name="' . $name . '" id="' . $id . '" value="' .
+		htmlspecialchars( $value, ENT_QUOTES ) . '"' . $extra . ' />';
+
+	$input .= FormatInputTitle( $title, $id, $required );
+
+	if ( $value != ''
+		&& $div )
+	{
+		return InputDivOnclick(
+			$id,
+			$input,
+			$color_rect,
+			FormatInputTitle( $title )
+		);
+	}
+
+	return $input;
+}
+
+
+/**
+ * Color Picker Input for browsers not supporting HTML5 color input
+ * @link http://caniuse.com/#search=input%20type
+ *
+ * @example ColorInput( $value, 'values[' . $id . '][' . $column . ']', '', 'hidden', 'data-position="bottom right"' );
+ *
+ * @deprecated
+ *
+ * @since 5.4
  *
  * @uses jQuery MiniColors plugin
  *
@@ -1272,7 +1330,7 @@ function RadioInput( $value, $name, $title = '', $options, $allow_na = 'N/A', $e
  *
  * @return string  Color Picker Input HTML
  */
-function ColorInput( $value, $name, $title = '', $type = 'hidden', $extra = '', $div = true )
+function ColorInputMiniColors( $value, $name, $title = '', $type = 'hidden', $extra = '', $div = true )
 {
 	static $included = false;
 
@@ -1280,7 +1338,7 @@ function ColorInput( $value, $name, $title = '', $type = 'hidden', $extra = '', 
 
 	$required = $value == '' && mb_strpos( $extra, 'required' ) !== false;
 
-	$color_rect = '<div style="background-color:' . $value . '; width:30px; height:20px;"></div>';
+	$color_rect = '<div class="color-input-value" style="background-color:' . $value . ';"></div>';
 
 	if ( ! AllowEdit()
 		|| isset( $_REQUEST['_ROSARIO_PDF'] ) )

@@ -557,7 +557,7 @@ function _makeColorInput( $value, $column )
 		$value,
 		'values[' . $id . '][' . $column . ']',
 		'',
-		'hidden',
-		'data-position="bottom right"'
+		'hidden', // @deprecated since 5.4.
+		'data-position="bottom right"' // @deprecated since 5.4.
 	);
 }

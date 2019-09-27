@@ -754,8 +754,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$header .= '<td>' . ColorInput(
 			( empty( $RET['COLOR'] ) ? '' : $RET['COLOR'] ),
 			'tables[' . $_REQUEST['assignment_type_id'] . '][COLOR]',
-			_( 'Color' ),
-			'hidden'
+			_( 'Color' )
 		) . '</td>';
 
 		$header .= '</tr></table>';

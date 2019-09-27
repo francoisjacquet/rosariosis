@@ -373,7 +373,6 @@ if ( ! $_REQUEST['modfunc'] )
 			Preferences( 'HIGHLIGHT' ),
 			'values[Preferences][HIGHLIGHT]',
 			_( 'Highlight Color' ),
-			'hidden',
 			$extra,
 			$div
 		);
@@ -464,7 +463,6 @@ if ( ! $_REQUEST['modfunc'] )
 			Preferences( 'HEADER' ),
 			'values[Preferences][HEADER]',
 			_( 'PDF List Header Color' ),
-			'hidden',
 			$extra,
 			$div
 		);

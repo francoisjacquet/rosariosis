@@ -378,8 +378,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$header .= '<td>' . ColorInput(
 			'',
 			'tables[new][COLOR]',
-			_( 'Color' ),
-			'hidden'
+			_( 'Color' )
 		) . '</td>';
 
 		$header .= '</tr></table>';

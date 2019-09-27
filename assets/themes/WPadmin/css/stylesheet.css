@@ -107,6 +107,20 @@ input[type=number] {
 	width: 50px
 }
 
+input[type=color] {
+	border-width: 0px;
+	border-style: solid;
+	width: 30px;
+	height: 20px;
+	padding: 0;
+	cursor: pointer;
+}
+
+.color-input-value {
+	width: 30px;
+	height: 20px;
+}
+
 html,
 body {
 	height: 100%;
