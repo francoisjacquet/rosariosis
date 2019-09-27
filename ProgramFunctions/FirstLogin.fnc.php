@@ -261,7 +261,7 @@ if ( ! function_exists( 'FirstLoginFormFields' ) )
 				'',
 				'first_login[PASSWORD]',
 				_( 'New Password' ),
-				'required strength'
+				'required strength autofocus'
 			);
 		}
 
