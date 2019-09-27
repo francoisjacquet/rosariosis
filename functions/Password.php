@@ -56,9 +56,22 @@ function match_password( $crypted, $plain )
 		return false;
 	}
 
-	//$salt = mb_substr($password, 0, 19);
+	/**
+	 * Match password action hook.
+	 *
+	 * @since 5.4
+	 *
+	 * Used to provide external authentication method.
+	 * @see LDAP plugin for example.
+	 */
+	do_action( 'functions/Password.php|match_password', array( &$crypted, $plain ) );
 
-	return function_exists( 'hash_equals' ) ? // PHP < 5.6 compat.
-		hash_equals( (string) $crypted, crypt( (string) $plain, (string) $crypted ) ) :
+	$match = function_exists( 'hash_equals' ) ? // PHP < 5.6 compat.
+		hash_equals(
+			(string) $crypted,
+			crypt( (string) $plain, (string) $crypted )
+		) :
 		$crypted == crypt( (string) $plain, (string) $crypted );
+
+	return $match;
 }

@@ -297,6 +297,13 @@ $RosarioActions = array();
 	 * @since 5.3
 	 */
 	/*'functions/Inputs.php|tinymce_before_init' => array(),
+
+	/**
+	 * Match password.
+	 *
+	 * @since 5.4
+	 */
+	/*'functions/Password.php|match_password' => array(),
 );*/
 
 

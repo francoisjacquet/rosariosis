@@ -8,6 +8,7 @@ Changes in 5.4
 - Update current school to enrollment school in SaveEnrollment.fnc.php
 - Remove / deprecate $type param from ColorInput() in Inputs.php & program wide
 - CSS add input[type=color] & .color-input-value in stylesheet.css
+- Add Match password action hook in Password.php & Actions.php
 
 Changes in 5.3
 --------------
