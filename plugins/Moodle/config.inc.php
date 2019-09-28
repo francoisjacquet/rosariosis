@@ -72,11 +72,11 @@ if ( ! empty( $_REQUEST['check'] ) )
 {
 	if ( ! _validMoodleURLandToken() )
 	{
-		$error[] = _( 'Check' ) . ': ' . _( 'Fail' );
+		$error[] = _( 'Test' ) . ': ' . _( 'Fail' );
 	}
 	else
 	{
-		$note[] = button( 'check' ) . '&nbsp;' . _( 'Check' ) . ': ' . _( 'Success' );
+		$note[] = button( 'check' ) . '&nbsp;' . _( 'Test' ) . ': ' . _( 'Success' );
 	}
 
 	// Unset save & values & redirect URL.
@@ -159,7 +159,7 @@ if ( empty( $_REQUEST['save'] ) )
 	if ( ProgramConfig( 'moodle', 'MOODLE_URL' )
 		&& ProgramConfig( 'moodle', 'MOODLE_TOKEN' ) )
 	{
-		echo ' ' . SubmitButton( _( 'Check' ), 'check', '' );
+		echo ' ' . SubmitButton( _( 'Test' ), 'check', '' );
 	}
 
 	echo '</div></form>';
