@@ -736,7 +736,7 @@ if ( ! $_REQUEST['modfunc'] )
 			$header .= '<td>' . TextInput(
 				( empty( $RET['FINAL_GRADE_PERCENT'] ) ? '' : $RET['FINAL_GRADE_PERCENT'] ),
 				'tables[' . $_REQUEST['assignment_type_id'] . '][FINAL_GRADE_PERCENT]',
-				( $RET['FINAL_GRADE_PERCENT'] != 0 ?
+				( ! empty( $RET['FINAL_GRADE_PERCENT'] ) ?
 					_( 'Percent of Final Grade' ) :
 					'<span class="legend-red">' . _( 'Percent of Final Grade' ) . '</span>' ),
 				'maxlength="5" size="4"'
