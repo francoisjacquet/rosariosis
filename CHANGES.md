@@ -10,6 +10,7 @@ Changes in 5.4
 - CSS add input[type=color] & .color-input-value in stylesheet.css
 - Add Match password action hook in Password.php & Actions.php
 - Add Student Billing alerts in Portal.php & Student_Billing/includes/PortalAlerts.fnc.php
+- Do not Display Teacher Programs frame if is program modfunc PDF in TeacherPrograms.php
 
 Changes in 5.3
 --------------

@@ -7,7 +7,15 @@ unset( $_REQUEST['include'] );
 
 $_REQUEST['modname'] .= '&include=' . $REQUEST_include;
 
-DrawHeader( _( 'Teacher Programs' ) . ' - ' . ProgramTitle( $_REQUEST['modname'] ) );
+// @since 5.4 Do not Display Teacher Programs frame if is program modfunc PDF.
+$is_program_modfunc_pdf = isset( $_REQUEST['_ROSARIO_PDF'] )
+	&& $_REQUEST['modfunc']
+	&& ( empty( $_GET['bottomfunc'] ) || $_GET['bottomfunc'] === 'print' );
+
+if ( ! $is_program_modfunc_pdf )
+{
+	DrawHeader( _( 'Teacher Programs' ) . ' - ' . ProgramTitle( $_REQUEST['modname'] ) );
+}
 
 if ( UserStaffID() )
 {
@@ -150,12 +158,21 @@ if ( UserStaffID() )
 
 	$period_select .= '</select>';
 
-	DrawHeader( $period_select );
-	echo '</form><br />';
-	unset( $_ROSARIO['DrawHeader'] );
-	$_ROSARIO['HeaderIcon'] = false;
+	if ( ! $is_program_modfunc_pdf )
+	{
+		DrawHeader( $period_select );
+
+		echo '</form><br />';
+
+		unset( $_ROSARIO['DrawHeader'] );
+
+		$_ROSARIO['HeaderIcon'] = false;
+
+		echo '<div class="teacher-programs-wrapper">';
+	}
 
 	$_ROSARIO['allow_edit'] = AllowEdit( $_REQUEST['modname'] );
+
 	$_ROSARIO['User'] = array(
 		0 => $_ROSARIO['User'][1],
 		1 => array(
@@ -167,8 +184,6 @@ if ( UserStaffID() )
 			'SYEAR' => UserSyear(),
 		),
 	);
-
-	echo '<div class="teacher-programs-wrapper">';
 
 	//FJ security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
 	//FJ Bugfix $_REQUEST['include'] 2 times in links
@@ -185,5 +200,8 @@ if ( UserStaffID() )
 		require_once 'modules/' . $REQUEST_include;
 	}
 
-	echo '</div>';
+	if ( ! $is_program_modfunc_pdf )
+	{
+		echo '</div>';
+	}
 }
