@@ -46,7 +46,7 @@ function DisciplinePortalAlerts()
 	{
 		$message = '<a href="Modules.php?modname=Discipline/Referrals.php&search_modfunc=list&discipline_entry_begin=' .
 			$last_login_date. '&discipline_entry_end=' . DBDate() . '">
-			<span class="module-icon Discipline"></span>';
+			<span class="module-icon Discipline"></span> ';
 
 		$message .= sprintf(
 			ngettext( '%d new referral', '%d new referrals', $disc_RET[1]['COUNT'] ),
