@@ -261,3 +261,5 @@ plugins/Custom_Transcripts*
 plugins/Setup_Assistant*
 plugins/REST_API*
 plugins/Siblings*
+plugins/Force_Password_Change*
+plugins/LDAP*
