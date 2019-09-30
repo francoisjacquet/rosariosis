@@ -12,6 +12,10 @@ Changes in 5.4
 - Add Student Billing alerts in Portal.php & Student_Billing/includes/PortalAlerts.fnc.php
 - Do not Display Teacher Programs frame if is program modfunc PDF in TeacherPrograms.php
 
+Changes in 5.3.1
+----------------
+- Fix Last row inputs for non admin users in Transcripts.fnc.php & ReportCards.fnc.php
+
 Changes in 5.3
 --------------
 - Fix SQL error more than one row returned by a subquery in Search.fnc.php & Preferences.php

@@ -26,7 +26,8 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 	 */
 	function ReportCardsIncludeForm( $include_on_title = 'Include on Report Card', $mailing_labels = true )
 	{
-		global $extra;
+		global $extra,
+			$_ROSARIO;
 
 		$other_attendance_codes = _getOtherAttendanceCodes();
 
@@ -110,7 +111,11 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 				'total' => _( 'Total' ),
 			);
 
+			$_ROSARIO['allow_edit'] = true;
+
 			$return .= '<td>' . RadioInput( '', 'elements[gpa_or_total]', _( 'Last row' ), $gpa_or_total_options ) . '</td>';
+
+			$_ROSARIO['allow_edit'] = false;
 		}
 
 		$return .= '</tr></table></td></tr>';
