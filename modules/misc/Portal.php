@@ -75,7 +75,7 @@ if ( $RosarioModules['Discipline'] )
 
 if ( $RosarioModules['Student_Billing'] )
 {
-	// Student Billing alerts.
+	// @since 5.4 Student Billing alerts.
 	require_once 'modules/Student_Billing/includes/PortalAlerts.fnc.php';
 }
 
