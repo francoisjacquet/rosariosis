@@ -1254,7 +1254,7 @@ function RadioInput( $value, $name, $title = '', $options, $allow_na = 'N/A', $e
  * @example ColorInput( $value, 'values[' . $id . '][' . $column . ']', _( 'Color' ) );
  *
  * @since 2.9
- * @since 5.4 Removed $type param.
+ * @since 5.4 Remove $type param.
  *
  * @param  string  $value Color value
  * @param  string  $name  Input name attribute
@@ -1309,7 +1309,7 @@ function ColorInput( $value, $name, $title = '', $extra = '', $div = true )
  * Color Picker Input for browsers not supporting HTML5 color input
  * @link http://caniuse.com/#search=input%20type
  *
- * @example ColorInput( $value, 'values[' . $id . '][' . $column . ']', '', 'hidden', 'data-position="bottom right"' );
+ * @example ColorInputMiniColors( $value, 'values[' . $id . '][' . $column . ']', '', 'hidden', 'data-position="bottom right"' );
  *
  * @deprecated
  *
