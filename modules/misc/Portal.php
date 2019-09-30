@@ -67,11 +67,16 @@ switch ( User( 'PROFILE' ) )
 
 DrawHeader( $welcome );
 
-// Discipline alerts.
-
 if ( $RosarioModules['Discipline'] )
 {
+	// Discipline alerts.
 	require_once 'modules/Discipline/includes/PortalAlerts.fnc.php';
+}
+
+if ( $RosarioModules['Student_Billing'] )
+{
+	// Student Billing alerts.
+	require_once 'modules/Student_Billing/includes/PortalAlerts.fnc.php';
 }
 
 // Do portal_alerts hook.
