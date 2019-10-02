@@ -17,6 +17,7 @@ Changes in 5.4
 - Format code pulldown using MakeAttendanceCode() in Administration.php
 - Add CREATED_AT & UPDATED_AT columns to every table, 93 tables in Update.fnc.php
 - Add set_updated_at() function & set_updated_at trigger in Update.fnc.php
+- French translation review: correct plural forms & typos in rosariosis.po
 
 Changes in 5.3.1
 ----------------
