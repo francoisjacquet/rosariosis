@@ -33,11 +33,11 @@ function Search( $type, $extra = null )
 	{
 		case 'student_id':
 
-			if ( ( isset( $_REQUEST['bottom_back'] )
-					&& $_REQUEST['bottom_back'] == true )
+			if ( ! empty( $_REQUEST['bottom_back'] )
 				|| ( User( 'PROFILE' ) !== 'student'
 					&& User( 'PROFILE' ) !== 'parent'
-					&& ! empty( $_REQUEST['search_modfunc'] ) ) )
+					&& ! empty( $_REQUEST['search_modfunc'] )
+					&& $_REQUEST['search_modfunc'] === 'list' ) )
 			{
 				unset( $_SESSION['student_id'] );
 			}
@@ -89,16 +89,15 @@ function Search( $type, $extra = null )
 				$extra = array( 'profile' => $extra );
 			}
 
-			if ( ( isset( $_REQUEST['bottom_back'] )
-					&& $_REQUEST['bottom_back'] == true )
+			if ( ! empty( $_REQUEST['bottom_back'] )
 				|| ( User( 'PROFILE' ) !== 'parent'
-					&& ! empty( $_REQUEST['search_modfunc'] ) ) )
+					&& ! empty( $_REQUEST['search_modfunc'] )
+					&& $_REQUEST['search_modfunc'] === 'list' ) )
 			{
 				unset( $_SESSION['staff_id'] );
 			}
 
-			if ( isset( $_REQUEST['staff_id'] )
-				&& ! empty( $_REQUEST['staff_id'] ) )
+			if ( ! empty( $_REQUEST['staff_id'] ) )
 			{
 				if ( $_REQUEST['staff_id'] !== 'new'
 					&& $_REQUEST['staff_id'] != UserStaffID() )
