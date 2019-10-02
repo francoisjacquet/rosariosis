@@ -147,6 +147,10 @@ function Update()
 		case version_compare( $from_version, '5.3-beta', '<' ) :
 
 			$return = _update53beta();
+
+		case version_compare( $from_version, '5.4-beta', '<' ) :
+
+			$return = _update54beta();
 	}
 
 	// Update version in DB CONFIG table.
@@ -1305,5 +1309,217 @@ function _update53beta()
 	return $return;
 }
 
-// TODO 5.4 Add CREATED_AT & UPDATED_AT columns to every table if not exists, 93 tables.
-// TODO Add set_updated_at() function & set_updated_at trigger if not exists.
+
+/**
+ * Update to version 5.4
+ *
+ * 1. Add CREATED_AT & UPDATED_AT columns to every table, 93 tables.
+ * 2. Add set_updated_at() function & set_updated_at trigger.
+ * Create plpgsql language in case it does not exist.
+ *
+ * Local function
+ *
+ * @todo test from 4.9!!
+ *
+ * @since 5.4
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update54beta()
+{
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. Add CREATED_AT & UPDATED_AT columns to every table, 93 tables.
+	 */
+	$add_created_updated_at_columns = function( $table )
+	{
+		$created_at_column_exists = DBGet( "SELECT 1 FROM pg_attribute
+			WHERE attrelid = (SELECT oid FROM pg_class WHERE relname='" . $table . "')
+			AND attname = 'created_at';" );
+
+		if ( $created_at_column_exists )
+		{
+			return '';
+		}
+
+		return "ALTER TABLE ONLY " . DBEscapeIdentifier( $table ) . "
+			ADD COLUMN created_at timestamp DEFAULT current_timestamp;
+			ALTER TABLE ONLY " . DBEscapeIdentifier( $table ) . "
+			ADD COLUMN updated_at timestamp;";
+	};
+
+	$tables = array(
+		'schools',
+		'students',
+		'staff',
+		'school_marking_periods',
+		'courses',
+		'course_periods',
+		'access_log',
+		'accounting_incomes',
+		'accounting_salaries',
+		'accounting_payments',
+		'address',
+		'address_field_categories',
+		'address_fields',
+		'attendance_calendar',
+		'attendance_calendars',
+		'attendance_code_categories',
+		'attendance_codes',
+		'attendance_completed',
+		'attendance_day',
+		'attendance_period',
+		'billing_fees',
+		'billing_payments',
+		'calendar_events',
+		'config',
+		'course_period_school_periods',
+		'course_subjects',
+		'custom_fields',
+		'discipline_field_usage',
+		'discipline_fields',
+		'discipline_referrals',
+		'eligibility',
+		'eligibility_activities',
+		'eligibility_completed',
+		'food_service_accounts',
+		'food_service_categories',
+		'food_service_items',
+		'food_service_menu_items',
+		'food_service_menus',
+		'food_service_staff_accounts',
+		'food_service_staff_transaction_items',
+		'food_service_staff_transactions',
+		'food_service_student_accounts',
+		'food_service_transaction_items',
+		'food_service_transactions',
+		'gradebook_assignment_types',
+		'gradebook_assignments',
+		'gradebook_grades',
+		'grades_completed',
+		'lunch_period',
+		'history_marking_periods',
+		'moodlexrosario',
+		'people',
+		'people_field_categories',
+		'people_fields',
+		'people_join_contacts',
+		'portal_notes',
+		'portal_poll_questions',
+		'portal_polls',
+		'profile_exceptions',
+		'program_config',
+		'program_user_config',
+		'report_card_comment_categories',
+		'report_card_comment_code_scales',
+		'report_card_comment_codes',
+		'report_card_comments',
+		'report_card_grade_scales',
+		'report_card_grades',
+		'resources',
+		'schedule',
+		'schedule_requests',
+		'school_fields',
+		'school_gradelevels',
+		'school_periods',
+		'staff_exceptions',
+		'staff_field_categories',
+		'staff_fields',
+		'student_assignments',
+		'student_eligibility_activities',
+		'student_enrollment_codes',
+		'student_field_categories',
+		'student_medical',
+		'student_medical_alerts',
+		'student_medical_visits',
+		'student_mp_comments',
+		'student_mp_stats',
+		'student_report_card_comments',
+		'student_report_card_grades',
+		'student_enrollment',
+		'students_join_address',
+		'students_join_people',
+		'students_join_users',
+		'templates',
+		'user_profiles',
+	);
+
+	$sql_add_created_updated_at_columns = '';
+
+	foreach ( $tables as $table )
+	{
+		$add_created_updated_at_columns( $table );
+	}
+
+	if ( $sql_add_created_updated_at_columns )
+	{
+		DBQuery( $sql_add_created_updated_at_columns );
+	}
+
+	/**
+	 * 2. Add set_updated_at() function & set_updated_at trigger.
+	 * Create plpgsql language in case it does not exist.
+	 */
+	$set_updated_at_trigger_exists = DBGetOne( "SELECT 1
+		FROM pg_catalog.pg_proc
+		WHERE proname='set_updated_at';" );
+
+	if ( ! $set_updated_at_trigger_exists )
+	{
+		DBQuery( "CREATE FUNCTION create_language_plpgsql()
+		RETURNS BOOLEAN AS $$
+			CREATE LANGUAGE plpgsql;
+			SELECT TRUE;
+		$$ LANGUAGE SQL;
+
+		SELECT CASE WHEN NOT
+			(
+				SELECT  TRUE AS exists
+				FROM    pg_language
+				WHERE   lanname = 'plpgsql'
+				UNION
+				SELECT  FALSE AS exists
+				ORDER BY exists DESC
+				LIMIT 1
+			)
+		THEN
+			create_language_plpgsql()
+		ELSE
+			FALSE
+		END AS plpgsql_created;
+
+		DROP FUNCTION create_language_plpgsql();
+
+		CREATE OR REPLACE FUNCTION set_updated_at() RETURNS trigger AS $$
+			BEGIN
+				IF row(NEW.*) IS DISTINCT FROM row(OLD.*) THEN
+					NEW.updated_at := CURRENT_TIMESTAMP;
+					RETURN NEW;
+				ELSE
+					RETURN OLD;
+				END IF;
+			END;
+		$$ LANGUAGE plpgsql;
+
+		DO $$
+			DECLARE
+				t text;
+			BEGIN
+				FOR t IN
+					SELECT table_name FROM information_schema.columns
+					WHERE column_name = 'updated_at'
+				LOOP
+					EXECUTE format('CREATE TRIGGER set_updated_at
+						BEFORE UPDATE ON %I
+						FOR EACH ROW EXECUTE PROCEDURE set_updated_at()',
+						t);
+				END LOOP;
+			END;
+		$$ LANGUAGE plpgsql;" );
+	}
+
+	return $return;
+}

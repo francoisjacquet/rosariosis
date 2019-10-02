@@ -15,6 +15,8 @@ Changes in 5.4
 - Add Progress Reports program for admin (Teacher Programs), student & parent in ProgressReports.php, Menu.php & rosariosis.sql
 - Add Help texts for Progress Reports program in Help_en.php, help.po
 - Format code pulldown using MakeAttendanceCode() in Administration.php
+- Add CREATED_AT & UPDATED_AT columns to every table, 93 tables in Update.fnc.php
+- Add set_updated_at() function & set_updated_at trigger in Update.fnc.php
 
 Changes in 5.3.1
 ----------------
