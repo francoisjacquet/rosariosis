@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-30 16:38+0200\n"
-"PO-Revision-Date: 2019-09-30 16:39+0200\n"
+"PO-Revision-Date: 2019-10-02 19:44+0200\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS\n"
 "Language: es\n"
@@ -406,7 +406,7 @@ msgstr[1] "Categorías de Campo"
 
 #: ProgramFunctions/Fields.fnc.php:425 modules/School_Setup/PortalPolls.php:360
 msgid "One per line"
-msgstr "Uno per línea"
+msgstr "Uno por línea"
 
 #: ProgramFunctions/Fields.fnc.php:438 modules/School_Setup/Calendar.php:65
 #: modules/School_Setup/Calendar.php:935
@@ -518,7 +518,7 @@ msgstr "Archivo no subido"
 #: modules/Grades/includes/HonorRoll.fnc.php:555
 #, php-format
 msgid "Wrong file type: %s (%s required)"
-msgstr "Typo de archivo erróneo: %s (%s necesario)"
+msgstr "Tipo de archivo erróneo: %s (%s necesario)"
 
 #: ProgramFunctions/FileUpload.fnc.php:61
 #: modules/Grades/includes/HonorRoll.fnc.php:564
@@ -623,7 +623,7 @@ msgstr "Otro"
 msgid "School"
 msgid_plural "Schools"
 msgstr[0] "Institución"
-msgstr[1] "Instituciónes"
+msgstr[1] "Instituciones"
 
 #: ProgramFunctions/FirstLogin.fnc.php:327
 msgid "Private"
@@ -973,7 +973,7 @@ msgstr "Días"
 
 #: Side.php:625 modules/Scheduling/Requests.php:169
 msgid "No courses found"
-msgstr "No se encontrarón cursos"
+msgstr "No se encontraron cursos"
 
 #: Side.php:644 modules/Eligibility/TeacherCompletion.php:162
 #: modules/Scheduling/includes/Dashboard.inc.php:65
@@ -1655,7 +1655,7 @@ msgstr "El valor para %s"
 #: functions/SaveData.fnc.php:54
 #, php-format
 msgid "There is no column for %s. This value was not saved."
-msgstr "No hay columna para %s. Este valor no fué guardado."
+msgstr "No hay columna para %s. Este valor no fue guardado."
 
 #: functions/SaveData.fnc.php:65
 #, php-format
@@ -2028,7 +2028,7 @@ msgstr "este período de calificaciones hasta la fecha"
 #: functions/Widgets.fnc.php:433 functions/Widgets.fnc.php:439
 #: modules/Attendance/StudentSummary.php:147 modules/Users/Preferences.php:673
 msgid "Days Absent"
-msgstr "Dias de Ausencia"
+msgstr "Días de Ausencia"
 
 #: functions/Widgets.fnc.php:443 functions/Widgets.fnc.php:554
 msgid "YTD"
@@ -2137,7 +2137,7 @@ msgstr "Relator"
 #: modules/Discipline/MakeReferral.php:202 modules/Discipline/Referrals.php:120
 #: modules/Discipline/Referrals.php:226
 msgid "Incident Date"
-msgstr "Dia del Incidente"
+msgstr "Día del Incidente"
 
 #: functions/Widgets.fnc.php:1194 functions/Widgets.fnc.php:1630
 #: functions/Widgets.fnc.php:1954
@@ -2274,7 +2274,7 @@ msgstr "Usted debe tener javascript disponible para usar %s."
 #: index.php:378
 #, php-format
 msgid "You must accept cookies to use %s."
-msgstr "Usted debe acceptar los cookies para usar %s."
+msgstr "Usted debe aceptar los cookies para usar %s."
 
 #: index.php:386
 msgid "Your account has been created."
@@ -2282,15 +2282,15 @@ msgstr "Su cuenta ha sido creada."
 
 #: index.php:388
 msgid "You will then be able to log in."
-msgstr "Usted estara habilitado para entrar."
+msgstr "Usted estará habilitado para entrar."
 
 #: index.php:394
 msgid ""
 "If you supplied a correct email address then please check your email for the "
 "password reset instructions."
 msgstr ""
-"Si suministró una dirrección de email correcta, por favor revise su email "
-"por instrucciones."
+"Si suministró una dirección de email correcta, por favor revise su email por "
+"instrucciones."
 
 #: index.php:425
 msgid "Language"
@@ -2362,7 +2362,7 @@ msgstr[1] "Gastos"
 msgid "Income"
 msgid_plural "Incomes"
 msgstr[0] "Ingreso"
-msgstr[1] "Ingreso"
+msgstr[1] "Ingresos"
 
 #: modules/Accounting/DailyTotals.php:27
 #: modules/Accounting/DailyTransactions.php:19 modules/Accounting/Menu.php:18
@@ -3007,7 +3007,7 @@ msgstr "No se encontraron Duplicados"
 #: modules/Students/PrintStudentInfo.php:261
 #: modules/Students/Search.inc.php:464 modules/Students/StudentLabels.php:30
 msgid "No Students were found."
-msgstr "No se encontró ningun Estudiante."
+msgstr "No se encontró ningún Estudiante."
 
 #: modules/Attendance/FixDailyAttendance.php:8
 #: modules/Eligibility/EntryTimes.php:95 modules/School_Setup/AccessLog.php:47
@@ -3029,7 +3029,7 @@ msgstr "Calculando ..."
 
 #: modules/Attendance/FixDailyAttendance.php:41
 msgid "The Daily Attendance for that timeframe has been recalculated."
-msgstr "La Asistencia Diaria para este transcurso ha sido recalculada"
+msgstr "La Asistencia Diaria para este transcurso ha sido recalculada."
 
 # 'user_profiles' table
 #: modules/Attendance/Menu.php:16
@@ -3238,7 +3238,7 @@ msgid ""
 "this script."
 msgstr ""
 "Usted debe establecer el <b>email del modo de prueba</b> o tener un correo "
-"electronico de usuario para usar esta función."
+"electrónico de usuario para usar esta función."
 
 #: modules/Custom/CreateParents.php:115 modules/Custom/CreateParents.php:333
 #: modules/Custom/NotifyParents.php:32 modules/Custom/NotifyParents.php:139
@@ -3252,7 +3252,7 @@ msgstr "Cuenta de Padres Actualizada"
 #: modules/Custom/CreateParents.php:286 modules/Custom/NotifyParents.php:96
 #: modules/School_Setup/AccessLog.php:136 plugins/Moodle/config.inc.php:79
 msgid "Success"
-msgstr "Exito"
+msgstr "Éxito"
 
 #: modules/Custom/CreateParents.php:290 modules/Custom/CreateParents.php:295
 #: modules/Custom/NotifyParents.php:96 modules/School_Setup/AccessLog.php:139
@@ -3511,7 +3511,7 @@ msgstr "Otros Contactos"
 
 #: modules/Custom/Registration.php:454
 msgid "Relation to Student"
-msgstr "Relacion con el Estudiante"
+msgstr "Relación con el Estudiante"
 
 #: modules/Custom/Registration.php:525
 #, php-format
@@ -3628,13 +3628,13 @@ msgstr "No usar"
 #: modules/Discipline/DisciplineForm.php:257
 #: modules/School_Setup/PortalPolls.php:345
 msgid "Select One from Options"
-msgstr "Selección "
+msgstr "Selección"
 
 #: modules/Discipline/DisciplineForm.php:230
 msgid "Referral Form Category"
 msgid_plural "Referral Form Categories"
-msgstr[0] "Categoría del Formulario de Disciplina "
-msgstr[1] "Categorías del Formulario de Disciplina "
+msgstr[0] "Categoría del Formulario de Disciplina"
+msgstr[1] "Categorías del Formulario de Disciplina"
 
 #: modules/Discipline/DisciplineForm.php:401
 msgid "Use at this school"
@@ -3660,7 +3660,7 @@ msgstr "Usar para esta institución"
 #: modules/Users/User.php:384 modules/Users/UserFields.php:149
 #: plugins/Moodle/config.inc.php:63
 msgid "Please enter valid Numeric data."
-msgstr "Entre datos Numericos validos por favor."
+msgstr "Entre datos Numéricos validos por favor."
 
 #: modules/Discipline/MakeReferral.php:120
 msgid "That discipline incident has been referred to an administrator."
@@ -3995,14 +3995,14 @@ msgstr "ID"
 #: modules/Food_Service/AssignSchool.php:69
 msgid "Student Transaction w/o School"
 msgid_plural "Student Transactions w/o School"
-msgstr[0] "Transacción del Estudiante sin la Institución"
-msgstr[1] "Transacciones del Estudiante sin la Institución"
+msgstr[0] "Transacción del Estudiante sin Institución"
+msgstr[1] "Transacciones del Estudiante sin Institución"
 
 #: modules/Food_Service/AssignSchool.php:71
 msgid "User Transaction w/o School"
 msgid_plural "User Transactions w/o School"
-msgstr[0] "Transacción del Usuario sin la Institución"
-msgstr[1] "Transacciones del Usuario sin la Institución"
+msgstr[0] "Transacción del Usuario sin Institución"
+msgstr[1] "Transacciones del Usuario sin Institución"
 
 #: modules/Food_Service/BalanceReport.php:70
 msgid "Total of Balances"
@@ -4016,7 +4016,7 @@ msgstr "Total de los Saldos"
 #: modules/Food_Service/MenuReports.php:67
 #: modules/Food_Service/ServeMenus.php:64
 msgid "There are no menus yet setup."
-msgstr "Aún no hay menús configurados"
+msgstr "Aún no hay menús configurados."
 
 #: modules/Food_Service/DailyMenus.php:259
 msgid "or select previous meal"
@@ -4132,7 +4132,7 @@ msgstr[1] "Elementos de Comida"
 msgid "Item"
 msgid_plural "Items"
 msgstr[0] "Artículo"
-msgstr[1] "Artículo"
+msgstr[1] "Artículos"
 
 #: modules/Food_Service/MenuItems.php:266
 msgid "Menu Item"
@@ -4287,7 +4287,7 @@ msgstr "Ese código de barras ya está asignado al Estudiante <b>%s</b>."
 msgid ""
 "Hit OK to reassign it to the current student or Cancel to cancel all changes."
 msgstr ""
-"Presione OK para reasignar esto al estudiante acutal o Cancelar para "
+"Presione OK para reasignar esto al estudiante actual o Cancelar para "
 "cancelar todos los cambios."
 
 #: modules/Food_Service/Students/Accounts.php:47
@@ -4367,7 +4367,7 @@ msgid ""
 "in the negative balance plus %T.  THANK YOU!"
 msgstr ""
 "%N tiene ahora un <b>saldo negativo</b> por debajo del mínimo permitido. Por "
-"favor envie el saldo negativo más %T. Gracias!"
+"favor enviar el saldo negativo más %T. Gracias!"
 
 #: modules/Food_Service/Students/Reminders.php:22
 msgid ""
@@ -4377,7 +4377,7 @@ msgid ""
 msgstr ""
 "La cuenta de comida de %N está por vencerse. Esta estimado que %g necesita "
 "un saldo actual cerca de %T para terminar el año con un saldo de cero. Por "
-"favor envie la cantidad pedida con el recordatorio. Gracias!"
+"favor enviar la cantidad pedida con el recordatorio. Gracias!"
 
 #: modules/Food_Service/Students/Reminders.php:197
 #: modules/Food_Service/Students/Reminders.php:250
@@ -4444,7 +4444,7 @@ msgstr "Vendedor"
 #: modules/Food_Service/Students/Transactions.php:50
 #: modules/Food_Service/Users/Transactions.php:34
 msgid "Please enter valid Type and Amount."
-msgstr "Entre un Typo y una Cantidad valida por favor."
+msgstr "Entre un Tipo y una Cantidad valida por favor."
 
 #: modules/Food_Service/Students/Transactions.php:171
 #: modules/Food_Service/Users/Transactions.php:148
@@ -4502,8 +4502,8 @@ msgstr "Número Total"
 #: modules/Food_Service/TeacherCompletion.php:169
 msgid "Item Total"
 msgid_plural "Item Totals"
-msgstr[0] "Total de Elementos"
-msgstr[1] "Totales de Elementos"
+msgstr[0] "Total del Elemento"
+msgstr[1] "Totales del Elemento"
 
 #: modules/Food_Service/User.inc.php:54
 #: modules/Food_Service/Users/Accounts.php:184
@@ -4520,7 +4520,7 @@ msgstr "Cuenta de Usuario"
 msgid ""
 "Hit OK to reassign it to the current user or Cancel to cancel all changes."
 msgstr ""
-"Presione OK para reasignar esto al usuario acutal o Cancelar para cancelar "
+"Presione OK para reasignar esto al usuario actual o Cancelar para cancelar "
 "todos los cambios."
 
 #: modules/Food_Service/Users/Accounts.php:63
@@ -4543,7 +4543,7 @@ msgid ""
 "Your lunch account is getting low.  Please send in at least %P with your "
 "reminder slip.  THANK YOU!"
 msgstr ""
-"Su cuenta de comida está por vencerse. Por favor envie por lo menos %P con "
+"Su cuenta de comida está por vencerse. Por favor enviar por lo menos %P con "
 "su recordatorio. Gracias!"
 
 #: modules/Food_Service/Users/Reminders.php:7
@@ -4552,7 +4552,7 @@ msgid ""
 "the negative balance plus %T.  THANK YOU!"
 msgstr ""
 "Usted tiene ahora un <b>saldo negativo</b> en su cuenta de comida. Por favor "
-"envie el saldo negativo más %T. Gracias!"
+"enviar el saldo negativo más %T. Gracias!"
 
 #: modules/Food_Service/Users/Reminders.php:9
 msgid ""
@@ -4560,7 +4560,7 @@ msgid ""
 "send in the negative balance plus %T.  THANK YOU!"
 msgstr ""
 "Usted tiene ahora un <b>saldo negativo</b> por debajo del mínimo permitido. "
-"Por favor envie el saldo negativo más %T. Gracias!"
+"Por favor enviar el saldo negativo más %T. Gracias!"
 
 #: modules/Food_Service/Users/Reminders.php:105
 #: modules/Food_Service/Users/Reminders.php:151
@@ -4634,7 +4634,7 @@ msgstr "Nombre"
 msgid "Assignment"
 msgid_plural "Assignments"
 msgstr[0] "Tarea"
-msgstr[1] "Tarea"
+msgstr[1] "Tareas"
 
 #: modules/Grades/AnomalousGrades.php:216
 msgid "Anomalous Grade"
@@ -4817,7 +4817,7 @@ msgstr "Porcentaje de la Calificación Final"
 
 #: modules/Grades/Assignments.php:745
 msgid "Percent Total"
-msgstr "Porciento Total"
+msgstr "Total de los Porcentajes"
 
 #: modules/Grades/Assignments.php:817 modules/Grades/ReportCardGrades.php:217
 msgid "Order"
@@ -4891,18 +4891,18 @@ msgstr "Ocultar los tipos de tarea de los trimestres pasados"
 
 #: modules/Grades/Configuration.php:122
 msgid "Minimum assignment points for letter grade"
-msgstr "Puntuación minima de la tarea para la calificación (de letra)"
+msgstr "Puntuación mínima de la tarea para la calificación (de letra)"
 
 #: modules/Grades/Configuration.php:136
 msgid "Allowed maximum percent in Anomalous grades"
-msgstr "Porcentaje maximo permitido en las Calificaciones con Anomalía"
+msgstr "Porcentaje máximo permitido en las Calificaciones con Anomalía"
 
 #: modules/Grades/Configuration.php:143
 msgid ""
 "Days until ungraded assignment grade appears in Parent/Student gradebook "
 "views"
 msgstr ""
-"Días antes de que las tareas no calificadas aparescan en el libro de "
+"Días antes de que las tareas no calificadas aparezcan en el libro de "
 "calificaciones Padres/Estudiante"
 
 #: modules/Grades/Configuration.php:157
@@ -4965,7 +4965,7 @@ msgstr "Calificación del Estudiante"
 
 #: modules/Grades/EditReportCardGrades.php:262
 msgid "Add another marking period"
-msgstr "Agegar otro período académico"
+msgstr "Agregar otro período académico"
 
 #: modules/Grades/EditReportCardGrades.php:278
 msgid "Marking Period Statistics"
@@ -5005,7 +5005,7 @@ msgstr "Puntos de la Calificación No Ponderado"
 msgid "Grade Scale"
 msgid_plural "Grade Scales"
 msgstr[0] "Escala de Calificaciones"
-msgstr[1] "Escala de Calificaciones"
+msgstr[1] "Escalas de Calificaciones"
 
 #: modules/Grades/EditReportCardGrades.php:438
 #: modules/Grades/includes/Transcripts.fnc.php:681
@@ -5036,7 +5036,7 @@ msgstr "Calificación Final"
 
 #: modules/Grades/FinalGrades.php:133
 msgid "Abs<br />YTD / MP"
-msgstr "Aus<br />Año a la fecha / Período Académico"
+msgstr "Ausencias<br />Año a la fecha / Período Académico"
 
 #: modules/Grades/FinalGrades.php:376
 #: modules/Grades/includes/ReportCards.fnc.php:1343
@@ -5203,11 +5203,11 @@ msgstr "Fechas de Publicación de Calificaciones: %s - %s"
 
 #: modules/Grades/InputFinalGrades.php:1215
 msgid "These grades are complete."
-msgstr "Estas calificaciones estan completas."
+msgstr "Estas calificaciones están completas."
 
 #: modules/Grades/InputFinalGrades.php:1215
 msgid "These grades are NOT complete."
-msgstr "Estas calificaciones NO estan completas."
+msgstr "Estas calificaciones NO están completas."
 
 #: modules/Grades/InputFinalGrades.php:1215
 msgid "You can edit these grades."
@@ -5381,7 +5381,7 @@ msgstr[1] "Escalas de Código de Comentario"
 
 #: modules/Grades/ReportCardComments.php:82
 msgid "There are no courses setup yet."
-msgstr "Aún no hay cursos configurados"
+msgstr "Aún no hay cursos configurados."
 
 #: modules/Grades/ReportCardComments.php:95
 msgid "Report Card Comment Category"
@@ -5854,7 +5854,7 @@ msgstr ""
 msgid ""
 "You cannot schedule a student into that course during this marking period."
 msgstr ""
-"No se puede agendar un estudiante en este curso durante este período a "
+"No se puede programar un estudiante en este curso durante este período a "
 "calificar."
 
 #: modules/Scheduling/MassDrops.php:119
@@ -5924,7 +5924,7 @@ msgstr ""
 msgid ""
 "You cannot schedule a student into this course during this marking period."
 msgstr ""
-"No se puede agendar un estudiante en ese curso durante este período a "
+"No se puede programar un estudiante en ese curso durante este período a "
 "calificar."
 
 #: modules/Scheduling/MassSchedule.php:101
@@ -6167,7 +6167,7 @@ msgstr "Secciones"
 msgid "Unfilled Request"
 msgid_plural "Unfilled Requests"
 msgstr[0] "Solicitud Incompleta"
-msgstr[1] "Solicitudes Vacantes"
+msgstr[1] "Solicitudes Incompletas"
 
 #: modules/Scheduling/Schedule.php:412
 msgid "This section is already full."
@@ -6236,8 +6236,8 @@ msgstr "Llenó"
 #: modules/Scheduling/ScheduleReport.php:396
 msgid "Unscheduled Student"
 msgid_plural "Unscheduled Students"
-msgstr[0] "Estudiante no Agendado"
-msgstr[1] "Estudiantes no Agendados"
+msgstr[0] "Estudiante no Programado"
+msgstr[1] "Estudiantes no Programados"
 
 #: modules/Scheduling/Scheduler.php:19
 msgid "Delete Current Schedules"
@@ -6383,7 +6383,7 @@ msgstr "Crear un nuevo calendario"
 
 #: modules/School_Setup/Calendar.php:431
 msgid "There are no calendars setup yet."
-msgstr "Aún no hay calendarios configurados"
+msgstr "Aún no hay calendarios configurados."
 
 #: modules/School_Setup/Calendar.php:545 modules/School_Setup/Calendar.php:759
 #: modules/School_Setup/Calendar.php:763 modules/misc/Portal.php:112
@@ -6459,11 +6459,11 @@ msgstr "Forzar"
 
 #: modules/School_Setup/Configuration.php:207
 msgid "New users will be added with the No Access profile"
-msgstr "Los nuevos usuarios estaran agregados con el perfil No Acceso"
+msgstr "Los nuevos usuarios estarán agregados con el perfil No Acceso"
 
 #: modules/School_Setup/Configuration.php:220
 msgid "New students will be added as Inactive students"
-msgstr "Los nuevos estudiantes estaran agregados como estudiantes Inactivos"
+msgstr "Los nuevos estudiantes estarán agregados como estudiantes Inactivos"
 
 #: modules/School_Setup/Configuration.php:243 plugins/Moodle/config.inc.php:150
 #, php-format
@@ -6661,7 +6661,7 @@ msgstr "Backup de la Base de Datos"
 #: modules/School_Setup/DatabaseBackup.php:62
 msgid "Download backup files periodically in case of system failure."
 msgstr ""
-"Bajar los archivos de backup periodicamente en caso de fallas en el sistema. "
+"Bajar los archivos de backup periódicamente en caso de fallas en el sistema."
 
 #: modules/School_Setup/DatabaseBackup.php:64
 msgid "Download Backup File"
@@ -6914,7 +6914,7 @@ msgstr "Nuevo Campo de Institución"
 
 #: modules/School_Setup/Schools.php:100 modules/School_Setup/Schools.php:111
 msgid "This school has been modified."
-msgstr "Esta institución ha sido modificada"
+msgstr "Esta institución ha sido modificada."
 
 #: modules/School_Setup/Schools.php:229
 msgid "School Name"
@@ -7009,7 +7009,7 @@ msgstr "Pagos"
 
 #: modules/Student_Billing/MassAssignFees.php:32
 msgid "That fee has been added to the selected students."
-msgstr "Este cobro ha sido asignado a los estudiantes seleccionados"
+msgstr "Este cobro ha sido asignado a los estudiantes seleccionados."
 
 #: modules/Student_Billing/MassAssignFees.php:42
 #: modules/Student_Billing/MassAssignPayments.php:41
@@ -7023,7 +7023,7 @@ msgstr "Agregar Cobro a los Estudiantes Seleccionados"
 
 #: modules/Student_Billing/MassAssignPayments.php:31
 msgid "That payment has been added to the selected students."
-msgstr "Ese pago ha sido asignado a los estudiantes seleccionados"
+msgstr "Ese pago ha sido asignado a los estudiantes seleccionados."
 
 #: modules/Student_Billing/MassAssignPayments.php:65
 #: modules/Student_Billing/MassAssignPayments.php:108
@@ -7114,7 +7114,7 @@ msgstr "estudiante de este usuario"
 
 #: modules/Students/AddUsers.php:43 modules/Users/AddStudents.php:43
 msgid "remove access to"
-msgstr "quitar acesso a"
+msgstr "quitar acceso a"
 
 #: modules/Students/AddUsers.php:65 modules/Users/AddStudents.php:86
 msgid "Associated"
@@ -7473,32 +7473,32 @@ msgstr "Nota: Todos no marcados significa aplica a todas las direcciones"
 #: modules/Students/includes/General_Info.inc.php:61
 #: modules/Users/includes/General_Info.inc.php:39
 msgid "Jr"
-msgstr ""
+msgstr "Jr."
 
 #: modules/Students/includes/General_Info.inc.php:62
 #: modules/Users/includes/General_Info.inc.php:40
 msgid "Sr"
-msgstr ""
+msgstr "Sr."
 
 #: modules/Students/includes/General_Info.inc.php:63
 #: modules/Users/includes/General_Info.inc.php:41
 msgid "II"
-msgstr ""
+msgstr "II"
 
 #: modules/Students/includes/General_Info.inc.php:64
 #: modules/Users/includes/General_Info.inc.php:42
 msgid "III"
-msgstr ""
+msgstr "III"
 
 #: modules/Students/includes/General_Info.inc.php:65
 #: modules/Users/includes/General_Info.inc.php:43
 msgid "IV"
-msgstr ""
+msgstr "IV"
 
 #: modules/Students/includes/General_Info.inc.php:66
 #: modules/Users/includes/General_Info.inc.php:44
 msgid "V"
-msgstr ""
+msgstr "V"
 
 #: modules/Students/includes/General_Info.inc.php:144
 #: modules/Users/includes/General_Info.inc.php:164
@@ -7508,7 +7508,7 @@ msgid ""
 "character"
 msgstr ""
 "La contraseña debería tener al menos 8 caracteres, al menos 1 dígito, al "
-"menos 1 minúscula, al menos 1 mayúscula, al menos 1 caracter no alfanuméricos"
+"menos 1 minúscula, al menos 1 mayúscula, al menos 1 carácter no alfanumérico"
 
 #: modules/Students/includes/Medical.inc.php:85
 #: modules/Students/includes/Medical.inc.php:92
@@ -7542,7 +7542,7 @@ msgstr "Razón"
 msgid "Nurse Visit"
 msgid_plural "Nurse Visits"
 msgstr[0] "Examen Médico"
-msgstr[1] "Examenes Médicos"
+msgstr[1] "Exámenes Médicos"
 
 #: modules/Students/includes/Other_Info.inc.php:101
 msgid "Age"
@@ -7706,7 +7706,7 @@ msgstr "Programas Docente"
 
 #: modules/Users/Preferences.php:37
 msgid "Your current password was incorrect."
-msgstr "Su contraseña actual fue incorecta."
+msgstr "Su contraseña actual fue incorrecta."
 
 #: modules/Users/Preferences.php:89
 msgid "Your preferences were saved."
@@ -7830,9 +7830,9 @@ msgid ""
 "Users of that profile will retain their permissions as a custom set which "
 "can be modified on a per-user basis through %s."
 msgstr ""
-"Usuarios de este perfil mantendran sus permisos como una configuración "
+"Usuarios de este perfil mantendrán sus permisos como una configuración "
 "personalizada la cual puede ser modificada en la base de cada usuario a "
-"traves de %s."
+"través de %s."
 
 #: modules/Users/Profiles.php:255
 msgid ""
@@ -7856,7 +7856,7 @@ msgstr "Incluir Padres de Estudiantes Inactivos"
 
 #: modules/Users/Search.inc.php:187
 msgid "Choose A User"
-msgstr "Escoga un Usuario"
+msgstr "Escoja un Usuario"
 
 #: modules/Users/Search.inc.php:382
 msgid "No Users were found."
@@ -7928,7 +7928,7 @@ msgstr "Debe escoger por lo menos un campo"
 
 #: modules/misc/Export.php:158 modules/misc/Export.php:494
 msgid "First Name Initial"
-msgstr "Initial del Nombre"
+msgstr "Inicial del Nombre"
 
 #: modules/misc/Export.php:169 modules/misc/Export.php:505
 msgid "Enrollment Start Date"
@@ -8126,7 +8126,7 @@ msgstr "Crear el Estudiante en Moodle"
 #: plugins/Moodle/functions.php:173 plugins/Moodle/functions.php:275
 #: plugins/Moodle/functions.php:303 plugins/Moodle/functions.php:308
 msgid "Please enter a valid password"
-msgstr "Entre una contraseña valida por favor."
+msgstr "Entre una contraseña valida por favor"
 
 #: plugins/Moodle/functions.php:264
 msgid "Create User in Moodle"
