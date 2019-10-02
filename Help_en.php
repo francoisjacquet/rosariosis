@@ -544,6 +544,20 @@ if ( User( 'PROFILE' ) === 'admin' ):
 
 	<p>' . _help( 'You can select the teachers classes using the course period pull-down in the upper left corner of the page. You can also select which type of "anomalous" grades you wish the report to display.' ) . '</p>';
 
+	$help['Users/TeacherPrograms.php&include=Grades/ProgressReports.php'] = '<p>' . _help( '<i>Teacher Programs: Progress Reports</i> lets you generate Progress Reports of the students for the current Marking Period, on behalf of a teacher.' ) . '</p>
+
+	<p>' . _help( 'When teachers have created assignments and entered gradebook grades, a progress report can be generated.' ) . '</p>
+
+	<p>' . _help( 'Once you have selected a Teacher and are in the correct period, search the students and click Submit to get a list of students scheduled with the selected Teacher. You can alter the current period by changing the period pull-down menu at the top of the screen to the desired period.' ) . '</p>
+
+	<p>' . _help( 'You must first select a student by using the "Find a Student" search screen.' ) . '</p>
+
+	<p>' . _help( 'From the search result, you can select any number of students. You can select all the students in the list by checking the checkbox in the column headings above the list.' ) . '</p>
+
+	<p>' . _help( 'Check desired options to appear on the report. Checking "Assigned Date" will display the Assignment\'s Assigned Date . Checking "Due Date" will display the Assignment\'s Due Date. Checking on "Exclude Ungraded Assignments Not Due" will remove assignments which are ungraded and not due. Checking "Group by Assignment Category" will group assignments by Category and will display total points and weight for each Category.' ) . '</p>
+
+	<p>' . _help( 'The progress reports will be automatically downloaded to your computer in the printable PDF format when you click the "Create Progress Reports for Selected Students" button.' ) . '</p>';
+
 	$help['Users/TeacherPrograms.php&include=Attendance/TakeAttendance.php'] = '<p>' . _help( '<i>Teacher Programs: Take Attendance</i> allows you to enter period attendance for all the selected teacher\'s students. By default, this program will list the students in the selected teacher\'s first period class. You can alter the current period by changing the period pull-down menu at the top of the screen to the desired period.' ) . '</p>
 
 	<p>' . _help( 'Once you are in the correct period, you can enter attendance by selecting the attendance code corresponding to each student. Once you have entered attendance for all the students, click the "Save" button at the top of the screen.' ) . '</p>';
@@ -855,15 +869,17 @@ elseif ( User( 'PROFILE' ) === 'teacher' ):
 
 	<p>' . _help( 'You can also view and change all the grades for a single student by clicking on the student\'s name in the list. Input grades in the same way that you did with the multiple student list.' ) . '</p>';
 
-	$help['Grades/ProgressReports.php'] = '<p>' . _help( '<i>Progress Reports</i> is a utility that allows you to print progress reports for any number of students.' ) . '</p>
+	$help['Grades/ProgressReports.php'] = '<p>' . _help( '<i>Progress Reports</i> lets you generate Progress Reports of the students for the current Marking Period.' ) . '</p>
 
-	<p>' . _help( 'You can choose to print the progress reports with mailing labels. The progress reports will have mailing labels positioned in such a way as to be visible in a windowed envelope when the sheet is folded in thirds. More than one progress report may be printed per student if the student has guardians residing at more than one address.' ) . '</p>
+	<p>' . _help( 'After having created assignments and entered gradebook grades, a progress report can be generated.' ) . '</p>
 
-	<p>' . _help( 'The progress reports will be automatically downloaded to your computer in the printable PDF format when you click the "Submit" button.' ) . '</p>';
+	<p>' . _help( 'You must first select a student by using the "Find a Student" search screen.' ) . '</p>
 
-	$help['Grades/AnomalousGrades.php'] = '<p>' . _help( '<i>Anomalous Grades</i> is a report that will help you to keep track of missing, inappropriate and excused grades. The grades appearing on this report are NOT problematic, but you MAY wish to review them. Missing, excused & negative grades, or grades that are extra credit or that exceed 100% are shown. The "Problem" column indicates the reason why the grade is anomalous.' ) . '</p>
+	<p>' . _help( 'From the search result, you can select any number of students. You can select all the students in the list by checking the checkbox in the column headings above the list.' ) . '</p>
 
-	<p>' . _help( 'You can select the class using the course period pull-down in the left menu. You can also select which type of "anomalous" grades you wish the report to display.' ) . '</p>';
+	<p>' . _help( 'Check desired options to appear on the report. Checking "Assigned Date" will display the Assignment\'s Assigned Date . Checking "Due Date" will display the Assignment\'s Due Date. Checking on "Exclude Ungraded Assignments Not Due" will remove assignments which are ungraded and not due. Checking "Group by Assignment Category" will group assignments by Category and will display total points and weight for each Category.' ) . '</p>
+
+	<p>' . _help( 'The progress reports will be automatically downloaded to your computer in the printable PDF format when you click the "Create Progress Reports for Selected Students" button.' ) . '</p>';
 
 // Parent & Student.
 else:
@@ -873,6 +889,14 @@ else:
 	<p>' . _help( 'Before printing the report cards, you must select which marking periods to display on the report card by checking desired marking period checkboxes.' ) . '</p>
 
 	<p>' . _help( 'The report cards will be automatically downloaded to your computer in the printable PDF format when you click the "Submit" button.' ) . '</p>';
+
+	$help['Grades/ProgressReports.php'] = '<p>' . _help( '<i>Progress Reports</i> lets you generate Progress Reports of the students for the current Marking Period.' ) . '</p>
+
+	<p>' . _help( 'When teachers have created assignments and entered gradebook grades, a progress report can be generated.' ) . '</p>
+
+	<p>' . _help( 'Check desired options to appear on the report. Checking "Assigned Date" will display the Assignment\'s Assigned Date . Checking "Due Date" will display the Assignment\'s Due Date. Checking on "Exclude Ungraded Assignments Not Due" will remove assignments which are ungraded and not due. Checking "Group by Assignment Category" will group assignments by Category and will display total points and weight for each Category.' ) . '</p>
+
+	<p>' . _help( 'The progress reports will be automatically downloaded to your computer in the printable PDF format when you click the "Create Progress Reports for Selected Students" button.' ) . '</p>';
 
 	$help['Grades/Transcripts.php'] = '<p>' . _help( '<i>Transcripts</i> is a utility that allows you to print transcripts for your child.' ) . '</p>
 

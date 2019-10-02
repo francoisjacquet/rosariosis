@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-30 16:37+0200\n"
-"PO-Revision-Date: 2019-09-30 16:38+0200\n"
+"PO-Revision-Date: 2019-10-02 17:48+0200\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS\n"
 "Language: fr\n"
@@ -5333,11 +5333,11 @@ msgstr "Exclure les Devoirs avec Points Bonus non Notés"
 
 #: modules/Grades/ProgressReports.php:245
 msgid "Exclude Ungraded Assignments Not Due"
-msgstr "Exclure les Devoirs non Notés non Dus"
+msgstr "Exclure les Devoirs non Notés et non Dûs"
 
 #: modules/Grades/ProgressReports.php:249
 msgid "Group by Assignment Category"
-msgstr "Grouper par Catégorie d'Assignement"
+msgstr "Grouper par Catégorie de Devoir"
 
 #: modules/Grades/ProgressReports.php:329
 #: modules/Grades/ProgressReports.php:354
