@@ -11,6 +11,7 @@ Changes in 5.4
 - Add Match password action hook in Password.php & Actions.php
 - Add Student Billing alerts in Portal.php & Student_Billing/includes/PortalAlerts.fnc.php
 - Do not Display Teacher Programs frame if is program modfunc PDF in TeacherPrograms.php
+- Add Progress Reports program for admin (Teacher Programs), student & parent in ProgressReports.php, Menu.php & rosariosis.sql
 
 Changes in 5.3.1
 ----------------

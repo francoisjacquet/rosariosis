@@ -2,11 +2,22 @@
 
 ## RosarioSIS Student Information System
 
+New in 5.4
+----------
+
+Student Billing:
+- Portal: New fee alert to Parents.
+
+Grades:
+- Progress Reports: Add program for admin (Teacher Programs), student and parent.
+
+
 New in 5.3
 ----------
 
 School:
 - School Configuration: Force password change on first login, sponsored by Santa Cecilia school.
+
 
 New in 5.2
 ----------

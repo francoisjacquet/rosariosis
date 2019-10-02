@@ -2824,6 +2824,7 @@ INSERT INTO profile_exceptions VALUES (3, 'Grades/StudentGrades.php', 'Y', NULL)
 INSERT INTO profile_exceptions VALUES (3, 'Grades/StudentAssignments.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (3, 'Grades/FinalGrades.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (3, 'Grades/ReportCards.php', 'Y', NULL);
+INSERT INTO profile_exceptions VALUES (3, 'Grades/ProgressReports.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (3, 'Grades/Transcripts.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (3, 'Grades/GPARankList.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (3, 'Attendance/StudentSummary.php', 'Y', NULL);
@@ -2850,6 +2851,7 @@ INSERT INTO profile_exceptions VALUES (0, 'Grades/StudentGrades.php', 'Y', NULL)
 INSERT INTO profile_exceptions VALUES (0, 'Grades/StudentAssignments.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (0, 'Grades/FinalGrades.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (0, 'Grades/ReportCards.php', 'Y', NULL);
+INSERT INTO profile_exceptions VALUES (0, 'Grades/ProgressReports.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (0, 'Grades/Transcripts.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (0, 'Grades/GPARankList.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (0, 'Attendance/StudentSummary.php', 'Y', NULL);

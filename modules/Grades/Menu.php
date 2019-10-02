@@ -63,6 +63,7 @@ $menu['Grades']['parent'] = array(
 	'Grades/StudentAssignments.php' => _( 'Assignments' ),
 	'Grades/FinalGrades.php' => _( 'Final Grades' ),
 	'Grades/ReportCards.php' => _( 'Report Cards' ),
+	'Grades/ProgressReports.php' => _( 'Progress Reports' ),
 	'Grades/Transcripts.php' => _( 'Transcripts' ),
 	'Grades/GPARankList.php' => _( 'GPA / Class Rank' ),
 );
@@ -73,5 +74,6 @@ if ( $RosarioModules['Users'] )
 		'Users/TeacherPrograms.php&include=Grades/InputFinalGrades.php' => _( 'Input Final Grades' ),
 		'Users/TeacherPrograms.php&include=Grades/Grades.php' => _( 'Gradebook Grades' ),
 		'Users/TeacherPrograms.php&include=Grades/AnomalousGrades.php' => _( 'Anomalous Grades' ),
+		'Users/TeacherPrograms.php&include=Grades/ProgressReports.php' => _( 'Progress Reports' ),
 	);
 }
