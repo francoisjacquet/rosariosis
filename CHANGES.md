@@ -13,6 +13,8 @@ Changes in 5.4
 - Do not Display Teacher Programs frame if is program modfunc PDF in TeacherPrograms.php
 - Explicitly check for `$_REQUEST['search_modfunc'] === 'list'` in Search.fnc.php
 - Add Progress Reports program for admin (Teacher Programs), student & parent in ProgressReports.php, Menu.php & rosariosis.sql
+- Add Help texts for Progress Reports program in Help_en.php, help.po
+- Format code pulldown using MakeAttendanceCode() in Administration.php
 
 Changes in 5.3.1
 ----------------

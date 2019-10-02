@@ -206,7 +206,11 @@ if ( ! empty( $_REQUEST['attendance_day'] ) )
 	RedirectURL( 'attendance_day' );
 }
 
-$codes_RET = DBGet( "SELECT ID,SHORT_NAME,TITLE,STATE_CODE FROM ATTENDANCE_CODES WHERE SCHOOL_ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "' AND TABLE_NAME='" . $_REQUEST['table'] . "'" );
+$codes_RET = DBGet( "SELECT ID,SHORT_NAME,TITLE,STATE_CODE
+	FROM ATTENDANCE_CODES
+	WHERE SCHOOL_ID='" . UserSchool() . "'
+	AND SYEAR='" . UserSyear() . "'
+	AND TABLE_NAME='" . $_REQUEST['table'] . "'" );
 
 $periods_RET = DBGet( "SELECT PERIOD_ID,SHORT_NAME,TITLE
 FROM SCHOOL_PERIODS
@@ -560,18 +564,29 @@ function _makeCodePulldown( $value, $title )
 
 	if ( ! empty( $current_schedule_RET[$value][$period_id] ) )
 	{
+		$val = isset( $current_RET[$value][$period_id][1]['ATTENDANCE_CODE'] ) ?
+			$current_RET[$value][$period_id][1]['ATTENDANCE_CODE'] : null;
+
 		foreach ( (array) $codes_RET as $code )
 		{
 			if ( $current_schedule_RET[$value][$period_id][1]['HALF_DAY'] != 'Y' || $code['STATE_CODE'] != 'H' ) // prune half day codes for half day courses
 			{
 				$options[$code['ID']] = $code[$code_title];
 			}
+
+			if ( $val === $code['ID'] )
+			{
+				$current_code_title = $code['TITLE'];
+
+				$current_state_code = $code['STATE_CODE'];
+			}
 		}
 
-		$val = isset( $current_RET[$value][$period_id][1]['ATTENDANCE_CODE'] ) ?
-			$current_RET[$value][$period_id][1]['ATTENDANCE_CODE'] : null;
-
-		return SelectInput( $val, 'attendance[' . $value . '][' . $period_id . '][ATTENDANCE_CODE]', '', $options );
+		return MakeAttendanceCode(
+			$current_state_code,
+			SelectInput( $val, 'attendance[' . $value . '][' . $period_id . '][ATTENDANCE_CODE]', '', $options ),
+			$current_code_title
+		);
 	}
 	else
 	{
