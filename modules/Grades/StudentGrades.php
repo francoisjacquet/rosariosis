@@ -37,7 +37,7 @@ if ( UserStudentID()
 
 	if ( isset( $_REQUEST['id'] )
 		&& $_REQUEST['id'] !== 'all'
-		&& ! $courses_RET[$_REQUEST['id']] )
+		&& empty( $courses_RET[$_REQUEST['id']] ) )
 	{
 		// Unset ID & redirect URL.
 		RedirectURL( 'id' );
