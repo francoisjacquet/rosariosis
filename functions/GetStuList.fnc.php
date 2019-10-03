@@ -132,7 +132,7 @@ function GetStuList( &$extra = array() )
 
 		if ( ! $view_fields_RET
 			&& ! $view_address_RET
-			&& ! isset( $view_other_RET['CONTACT_INFO'] ) )
+			&& empty( $view_other_RET['CONTACT_INFO'][1]['VALUE'] ) )
 		{
 			$extra['columns_after'] = array(
 				'ADDRESS' => _( 'Mailing Address' ),
@@ -475,9 +475,9 @@ function GetStuList( &$extra = array() )
 			// FROM.
 			$sql .= " FROM STUDENTS s JOIN STUDENT_ENROLLMENT ssm ON (ssm.STUDENT_ID=s.STUDENT_ID";
 
-			// Include Inactive Students: enrollment.
 			if ( $is_include_inactive )
 			{
+				// Include Inactive Students: enrollment.
 				//$sql .= " AND ssm.ID=(SELECT max(ID) FROM STUDENT_ENROLLMENT WHERE STUDENT_ID=ssm.STUDENT_ID AND SYEAR<='".UserSyear()."')";
 				$sql .= " AND ssm.ID=( SELECT ID
 					FROM STUDENT_ENROLLMENT
@@ -486,9 +486,9 @@ function GetStuList( &$extra = array() )
 					ORDER BY SYEAR DESC,START_DATE DESC
 					LIMIT 1 )";
 			}
-			// Active / Enrolled students.
 			else
 			{
+				// Active / Enrolled students.
 				$sql .= " AND ssm.SYEAR='" . UserSyear() . "'
 					AND ('" . $extra['DATE'] . "'>=ssm.START_DATE
 						AND (ssm.END_DATE IS NULL
@@ -500,9 +500,9 @@ function GetStuList( &$extra = array() )
 			{
 				$sql .= " AND ssm.SCHOOL_ID='" . UserSchool() . "'";
 			}
-			// Search All Schools.
 			else
 			{
+				// Search All Schools.
 				if ( User( 'SCHOOLS' ) )
 				{
 					$sql .= " AND ssm.SCHOOL_ID IN (" . mb_substr( str_replace( ',', "','", User( 'SCHOOLS' ) ), 2, -2 ) . ") ";
@@ -559,18 +559,18 @@ function GetStuList( &$extra = array() )
 			// FROM.
 			$sql .= " FROM STUDENTS s JOIN SCHEDULE ss ON (ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='" . UserSyear() . "'";
 
-			// Include Inactive Students: scheduled.
 			if ( $is_include_inactive )
 			{
+				// Include Inactive Students: scheduled.
 				$sql .= " AND ss.START_DATE=(SELECT START_DATE
 					FROM SCHEDULE WHERE STUDENT_ID=s.STUDENT_ID
 					AND SYEAR=ss.SYEAR
 					AND COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID
 					ORDER BY START_DATE DESC LIMIT 1)";
 			}
-			// Active / Scheduled Students.
 			else
 			{
+				// Active / Scheduled Students.
 				$sql .= " AND ss.MARKING_PERIOD_ID IN (" . GetAllMP( $extra['MPTable'], $extra['MP'] ) . ")
 					AND ('" . $extra['DATE'] . "'>=ss.START_DATE
 						AND ('" . $extra['DATE'] . "'<=ss.END_DATE

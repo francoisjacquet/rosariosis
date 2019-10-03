@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 5.3.2
+----------------
+- Fix regression since 4.4 save unchecked config option: use CheckboxInput() in Preferences.php
+
 Changes in 5.3.1
 ----------------
 - Fix Last row inputs for non admin users in Transcripts.fnc.php & ReportCards.fnc.php

@@ -228,7 +228,8 @@ function Widgets( $item, &$myextra = null )
 
 			foreach ( (array) $user_widgets as $user_widget_title => $value )
 			{
-				if ( ! in_array( $user_widget_title, $saved_widget_titles ) )
+				if ( $value
+					&& ! in_array( $user_widget_title, $saved_widget_titles ) )
 				{
 					Widgets( $user_widget_title, $extra );
 				}

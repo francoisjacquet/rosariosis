@@ -872,12 +872,20 @@ if ( ! $_REQUEST['modfunc'] )
 }
 
 /**
- * @param $value
- * @param $name
+ * Make Checkbox
+ *
+ * @since 5.3.2 & 4.9.12 Fix regression since 4.4 save unchecked config option: use CheckboxInput()
+ *
+ * @param string $value
+ * @param string $name Column.
+ *
+ * @return string Checkbox HTML.
  */
 function _make( $value, $name )
 {
-	global $THIS_RET, $current_RET;
+	global $THIS_RET,
+		$current_RET,
+		$_ROSARIO;
 
 	// No Search checkbox for textarea fields.
 
@@ -891,41 +899,51 @@ function _make( $value, $name )
 	switch ( $name )
 	{
 		case 'SEARCH':
-			$checked = empty( $current_RET['StudentFieldsSearch'][$THIS_RET['ID']] ) ? '' : ' checked';
+			$program = 'StudentFieldsSearch';
 
-			return '<input type="checkbox" name="values[StudentFieldsSearch][' . $THIS_RET['ID'] .
-			']" value="Y"' . $checked . ' />';
+			break;
 
 		case 'DISPLAY':
-			$checked = empty( $current_RET['StudentFieldsView'][$THIS_RET['ID']] ) ? '' : ' checked';
+			$program = 'StudentFieldsView';
 
-			return '<input type="checkbox" name="values[StudentFieldsView][' . $THIS_RET['ID'] .
-			']" value="Y"' . $checked . ' />';
+			break;
 
 		case 'WIDGET':
-			$checked = empty( $current_RET['WidgetsSearch'][$THIS_RET['ID']] ) ? '' : ' checked';
+			$program = 'WidgetsSearch';
 
-			return '<input type="checkbox" name="values[WidgetsSearch][' . $THIS_RET['ID'] .
-			']" value="Y"' . $checked . ' />';
+			break;
 
 		case 'STAFF_SEARCH':
-			$checked = empty( $current_RET['StaffFieldsSearch'][$THIS_RET['ID']] ) ? '' : ' checked';
+			$program = 'StaffFieldsSearch';
 
-			return '<input type="checkbox" name="values[StaffFieldsSearch][' . $THIS_RET['ID'] .
-			']" value="Y"' . $checked . ' />';
+			break;
 
 		case 'STAFF_DISPLAY':
-			$checked = empty( $current_RET['StaffFieldsView'][$THIS_RET['ID']] ) ? '' : ' checked';
+			$program = 'StaffFieldsView';
 
-			return '<input type="checkbox" name="values[StaffFieldsView][' . $THIS_RET['ID'] .
-			']" value="Y"' . $checked . ' />';
+			break;
 
 		case 'STAFF_WIDGET':
-			$checked = empty( $current_RET['StaffWidgetsSearch'][$THIS_RET['ID']] ) ? '' : ' checked';
+			$program = 'StaffWidgetsSearch';
 
-			return '<input type="checkbox" name="values[StaffWidgetsSearch][' . $THIS_RET['ID'] .
-			']" value="Y"' . $checked . ' />';
+			break;
 	}
+
+	$name = 'values[' . $program . '][' . $THIS_RET['ID'] . ']';
+
+	$_ROSARIO['allow_edit'] = true;
+
+	$checkbox = CheckboxInput(
+		issetVal( $current_RET[ $program ][$THIS_RET['ID']][1]['VALUE'], '' ),
+		$name,
+		'',
+		'',
+		true
+	);
+
+	$_ROSARIO['allow_edit'] = false;
+
+	return $checkbox;
 }
 
 /**
