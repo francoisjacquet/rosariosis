@@ -132,7 +132,7 @@ function GetStuList( &$extra = array() )
 
 		if ( ! $view_fields_RET
 			&& ! $view_address_RET
-			&& ! isset( $view_other_RET['CONTACT_INFO'] ) )
+			&& empty( $view_other_RET['CONTACT_INFO'][1]['VALUE'] ) )
 		{
 			$extra['columns_after'] = array(
 				'ADDRESS' => _( 'Mailing Address' ),
