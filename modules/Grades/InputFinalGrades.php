@@ -777,11 +777,20 @@ if ( ! empty( $_REQUEST['values'] )
 				{
 					if ( $comment )
 					{
-						DBQuery( "UPDATE STUDENT_REPORT_CARD_COMMENTS SET COMMENT='" . $comment . "' WHERE STUDENT_ID='" . $student_id . "' AND COURSE_PERIOD_ID='" . $course_period_id . "' AND MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "' AND REPORT_CARD_COMMENT_ID='" . $id . "'" );
+						DBQuery( "UPDATE STUDENT_REPORT_CARD_COMMENTS
+							SET COMMENT='" . $comment . "'
+							WHERE STUDENT_ID='" . $student_id . "'
+							AND COURSE_PERIOD_ID='" . $course_period_id . "'
+							AND MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'
+							AND REPORT_CARD_COMMENT_ID='" . $id . "'" );
 					}
 					else
 					{
-						DBQuery( "DELETE FROM STUDENT_REPORT_CARD_COMMENTS WHERE STUDENT_ID='" . $student_id . "' AND COURSE_PERIOD_ID='" . $course_period_id . "' AND MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "' AND REPORT_CARD_COMMENT_ID='" . $id . "'" );
+						DBQuery( "DELETE FROM STUDENT_REPORT_CARD_COMMENTS
+							WHERE STUDENT_ID='" . $student_id . "'
+							AND COURSE_PERIOD_ID='" . $course_period_id . "'
+							AND MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'
+							AND REPORT_CARD_COMMENT_ID='" . $id . "'" );
 					}
 				}
 				elseif ( $comment )
@@ -1063,16 +1072,18 @@ if ( GetMP( $fy, 'DOES_GRADES' ) == 'Y' )
 
 $mps_select .= '</select><label for="mp_select" class="a11y-hidden">' . _( 'Marking Period' ) . '</label>';
 
-// modif Francois: add Grade posting dates (see Marking periods) limitation for teachers:
-$grade_posting_RET = DBGet( "SELECT 1 FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "' AND (POST_START_DATE IS NULL OR POST_START_DATE<=CURRENT_DATE) AND (POST_END_DATE IS NULL OR POST_END_DATE>=CURRENT_DATE)" );
+$is_after_grade_post_start_date = DBGetOne( "SELECT 1
+	FROM SCHOOL_MARKING_PERIODS
+	WHERE MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'
+	AND (POST_START_DATE IS NULL OR POST_START_DATE<=CURRENT_DATE)" );
 
 // if running as a teacher program then rosario[allow_edit] will already be set according to admin permissions
 
 if ( ! isset( $_ROSARIO['allow_edit'] ) )
 {
 	$_ROSARIO['allow_edit'] = ( ProgramConfig( 'grades', 'GRADES_TEACHER_ALLOW_EDIT' )
-		|| $allow_edit )
-	&& ! empty( $grade_posting_RET );
+		&& $is_after_grade_post_start_date )
+	|| $allow_edit;
 }
 
 $extra['SELECT'] = ",ssm.STUDENT_ID AS REPORT_CARD_GRADE";
@@ -1193,21 +1204,14 @@ if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		CheckBoxOnclick( 'include_inactive', _( 'Include Inactive Students' ) )
 	);
 
-	//FJ add grade posting dates
-	$grade_posting_dates = DBGet( "SELECT POST_START_DATE,POST_END_DATE
-		FROM SCHOOL_MARKING_PERIODS
-		WHERE MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'
-		AND SCHOOL_ID='" . UserSchool() . "'
-		AND SYEAR='" . UserSyear() . "' LIMIT 1" );
-
 	$grade_posting_dates_text = '';
 
-	if ( $grade_posting_dates )
+	if ( GetMP( $_REQUEST['mp'], 'POST_START_DATE' ) )
 	{
 		$grade_posting_dates_text = ' ' . sprintf(
 			_( 'Grade Posting dates: %s - %s' ),
-			ProperDate( $grade_posting_dates[1]['POST_START_DATE'] ),
-			ProperDate( $grade_posting_dates[1]['POST_END_DATE'] )
+			ProperDate( GetMP( $_REQUEST['mp'], 'POST_START_DATE' ) ),
+			ProperDate( GetMP( $_REQUEST['mp'], 'POST_END_DATE' ) )
 		);
 	}
 
@@ -1312,7 +1316,10 @@ if ( ! ProgramConfig( 'grades', 'GRADES_HIDE_NON_ATTENDANCE_COMMENT' ) )
 
 foreach ( (array) $categories_RET as $id => $category )
 {
-	$tabs[] = array( 'title' => $category[1]['TITLE'], 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&mp=' . $_REQUEST['mp'] . '&tab_id=' . $id ) + ( $category[1]['COLOR'] ? array( 'color' => $category[1]['COLOR'] ) : array() );
+	$tabs[] = array(
+		'title' => $category[1]['TITLE'],
+		'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&mp=' . $_REQUEST['mp'] . '&tab_id=' . $id,
+	) + ( $category[1]['COLOR'] ? array( 'color' => $category[1]['COLOR'] ) : array() );
 }
 
 $LO_options = array( 'save' => false, 'search' => false );
@@ -1543,7 +1550,7 @@ function _makeCommentsA( $value, $column )
 		}
 		else
 		{
-			$select = $current_commentsA_RET[$THIS_RET['STUDENT_ID']][$value][1]['COMMENT'];
+			$select = issetVal( $current_commentsA_RET[$THIS_RET['STUDENT_ID']][$value][1]['COMMENT'] );
 			$div = true;
 		}
 	}
