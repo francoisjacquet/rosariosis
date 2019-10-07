@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 5.3.3
+----------------
+- Fix "Allow Teachers to edit grades after grade posting period" config option in InputFinalGrades.php
+
 Changes in 5.3.2
 ----------------
 - Fix regression since 4.4 save unchecked config option: use CheckboxInput() in Preferences.php
