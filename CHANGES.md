@@ -19,6 +19,10 @@ Changes in 5.4
 - Add set_updated_at() function & set_updated_at trigger in Update.fnc.php
 - French & Spanish translation review: correct plural forms & typos in rosariosis.po
 
+Changes in 5.3.4
+----------------
+- Remove invalid option '-i' from pg_dump command since PostgreSQL 9.5 in DatabaseBackup.php
+
 Changes in 5.3.3
 ----------------
 - Fix "Allow Teachers to edit grades after grade posting period" config option in InputFinalGrades.php

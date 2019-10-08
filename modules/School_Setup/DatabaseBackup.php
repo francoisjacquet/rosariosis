@@ -43,9 +43,8 @@ if ( $_REQUEST['modfunc'] === 'backup'
 	header( $header );
 	header( "Content-Transfer-Encoding: binary" );
 
-	// Build command for executing pg_dump.  '-i' means ignore version differences.
-	$cmd = $exe . " -i";
-	$cmd .= ' --inserts';
+	// Build command for executing pg_dump. '--inserts' means dump data as INSERT commands (rather than COPY).
+	$cmd = $exe . ' --inserts';
 
 	// Execute command and return the output to the screen.
 	passthru( $cmd );
