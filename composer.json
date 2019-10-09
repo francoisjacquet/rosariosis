@@ -5,6 +5,6 @@
 	"homepage": "https://gitlab.com/francoisjacquet/rosariosis/",
 	"license": "GPL-2.0-only",
 	"require": {
-		"php": "^5.3.2"
+		"php": "^5.4.45"
 	}
 }

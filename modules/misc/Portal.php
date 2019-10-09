@@ -991,9 +991,9 @@ function PHPCheck()
 {
 	$ret = array();
 
-	if ( version_compare( PHP_VERSION, '5.3.2' ) == -1 )
+	if ( version_compare( PHP_VERSION, '5.4.45' ) == -1 )
 	{
-		$ret[] = 'RosarioSIS requires PHP 5.3.2 to run, your version is : ' . PHP_VERSION;
+		$ret[] = 'RosarioSIS requires PHP 5.4.45 to run, your version is : ' . PHP_VERSION;
 	}
 
 	if ( (bool) ini_get( 'safe_mode' ) )

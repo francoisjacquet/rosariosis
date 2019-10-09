@@ -11,7 +11,6 @@ For RosarioSIS to work you must first have your web server working, PostgreSQL w
 
 RosarioSIS was tested on:
 
-- Windows 7 x64 with Apache 2.2.21, Postgres 9.1, and PHP 5.3.9
 - Windows 10 x86 with Apache 2.4.16, Postgres 9.3.6, and PHP 5.4.45
 - Ubuntu 14.04 with Apache 2.4.18, Postgres 9.3.10, and PHP 5.5.9
 - Debian Jessie with Apache 2.4.16, Postgres 9.4, and PHP 5.6.13
@@ -22,7 +21,7 @@ RosarioSIS was tested on:
 - through Mozilla Firefox
 - through BrowserStack for cross-browser compatibility (not compatible with Internet Explorer 8 or lower)
 
-Minimum requirements: **PHP 5.3.2** & **PostgreSQL 8.4**
+Minimum requirements: **PHP 5.4.45** & **PostgreSQL 8.4**
 
 Installation directions for:
 

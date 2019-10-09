@@ -18,10 +18,11 @@ Changes in 5.4
 - Add CREATED_AT & UPDATED_AT columns to every table, 93 tables in Update.fnc.php
 - Add set_updated_at() function & set_updated_at trigger in Update.fnc.php
 - French & Spanish translation review: correct plural forms & typos in rosariosis.po
+- Raise minimum PHP version from 5.3.2 to 5.4.45 in INSTALL.md, diagnostic.php & Portal.php
 
 Changes in 5.3.4
 ----------------
-- Remove invalid option '-i' from pg_dump command since PostgreSQL 9.5 in DatabaseBackup.php
+- Fix #142 Remove invalid option '-i' from pg_dump command since PostgreSQL 9.5 in DatabaseBackup.php
 
 Changes in 5.3.3
 ----------------

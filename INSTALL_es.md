@@ -11,7 +11,6 @@ Para que funcione RosarioSIS se debe primero tener el servidor web, PostgreSQL, 
 
 RosarioSIS ha sido probado en:
 
-- Windows 7 x64 con Apache 2.2.21, Postgres 9.1, y PHP 5.3.9
 - Windows 10 x86 con Apache 2.4.16, Postgres 9.3.6, y PHP 5.4.45
 - Ubuntu 14.04 con Apache 2.4.18, Postgres 9.3.10, y PHP 5.5.9
 - Debian Jessie con Apache 2.4.16, Postgres 9.4, y PHP 5.6.13
@@ -22,7 +21,7 @@ RosarioSIS ha sido probado en:
 - a traves de Mozilla Firefox
 - con BrowserStack para la compatibilidad de navegadores (no compatible con Internet Explorer 8 o anterior)
 
-Requerimientos mínimos: **PHP 5.3.2** y **PostgreSQL 8.4**
+Requerimientos mínimos: **PHP 5.4.45** y **PostgreSQL 8.4**
 
 Instrucciones de instalación (en inglés):
 
