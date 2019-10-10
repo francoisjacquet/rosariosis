@@ -1072,15 +1072,15 @@ if ( GetMP( $fy, 'DOES_GRADES' ) == 'Y' )
 
 $mps_select .= '</select><label for="mp_select" class="a11y-hidden">' . _( 'Marking Period' ) . '</label>';
 
-$is_after_grade_post_start_date = DBGetOne( "SELECT 1
-	FROM SCHOOL_MARKING_PERIODS
-	WHERE MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'
-	AND (POST_START_DATE IS NULL OR POST_START_DATE<=CURRENT_DATE)" );
+// If running as a teacher program then rosario[allow_edit] will already be set according to admin permissions.
 
-// if running as a teacher program then rosario[allow_edit] will already be set according to admin permissions
-
-if ( ! isset( $_ROSARIO['allow_edit'] ) )
+if ( User( 'PROFILE' ) === 'teacher' )
 {
+	$is_after_grade_post_start_date = DBGetOne( "SELECT 1
+		FROM SCHOOL_MARKING_PERIODS
+		WHERE MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'
+		AND (POST_START_DATE IS NULL OR POST_START_DATE<=CURRENT_DATE)" );
+
 	$_ROSARIO['allow_edit'] = ( ProgramConfig( 'grades', 'GRADES_TEACHER_ALLOW_EDIT' )
 		&& $is_after_grade_post_start_date )
 	|| $allow_edit;
