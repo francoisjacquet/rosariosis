@@ -19,6 +19,7 @@ Changes in 5.4
 - Add set_updated_at() function & set_updated_at trigger in Update.fnc.php
 - French & Spanish translation review: correct plural forms & typos in rosariosis.po
 - Raise minimum PHP version from 5.3.2 to 5.4.45 in INSTALL.md, diagnostic.php & Portal.php
+- Test first if can add foreign key based on reported SQL errors: column "student_id" referenced in foreign key constraint does not exist in Update.fnc.php
 
 Changes in 5.3.4
 ----------------
