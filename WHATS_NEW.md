@@ -11,6 +11,14 @@ Student Billing:
 Grades:
 - Progress Reports: Add program for admin (Teacher Programs), student and parent.
 
+Bulgarian translation (100% complete), thanks to Martin Krastev
+
+[LDAP](https://www.rosariosis.org/plugins/ldap/) plugin
+
+[Force Password Change](https://gitlab.com/francoisjacquet/Force_Password_Change/) plugin, sponsored by Santa Cecilia school.
+
+[Convert Names To Titlecase](https://gitlab.com/francoisjacquet/Convert_Names_To_Titlecase/) plugin
+
 
 New in 5.3
 ----------
