@@ -21,6 +21,7 @@ Changes in 5.4
 - Raise minimum PHP version from 5.3.2 to 5.4.45 in INSTALL.md, diagnostic.php & Portal.php
 - Test first if can add foreign key based on reported SQL errors: column "student_id" referenced in foreign key constraint does not exist in Update.fnc.php
 - Add Bulgarian translation in bg_BG.utf8/LC_MESSAGES/rosariosis.po, thanks to Martin Krastev
+- Deprecate Filter `$_ROSARIO['ReferralInput']` global. Use &$input instead in referral.fnc.php
 
 Changes in 5.3.4
 ----------------

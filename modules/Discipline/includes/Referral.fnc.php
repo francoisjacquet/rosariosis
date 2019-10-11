@@ -10,6 +10,7 @@
  * @since 4.5
  *
  * @global $_ROSARIO['ReferralInput'] Contains the HTML code.
+ * @deprecated Filter $_ROSARIO['ReferralInput'] global. Since 5.4 Use &$input instead.
  *
  * @example echo ReferralInput( $category, $RET['CATEGORY_' . $category['ID'] ], false );
  *
@@ -23,13 +24,13 @@ function ReferralInput( $category, $value = '', $new = true )
 {
 	global $_ROSARIO;
 
-	$_ROSARIO['ReferralInput'] = '';
+	$input = '';
 
 	switch ( $category['DATA_TYPE'] )
 	{
 		case 'text':
 
-			$_ROSARIO['ReferralInput'] = TextInput(
+			$input = TextInput(
 				$value,
 				'values[CATEGORY_' . $category['ID'] . ']',
 				$category['TITLE'],
@@ -40,7 +41,7 @@ function ReferralInput( $category, $value = '', $new = true )
 
 		case 'numeric':
 
-			$_ROSARIO['ReferralInput'] = TextInput(
+			$input = TextInput(
 				$value,
 				'values[CATEGORY_' . $category['ID'] . ']',
 				$category['TITLE'],
@@ -51,7 +52,7 @@ function ReferralInput( $category, $value = '', $new = true )
 
 		case 'textarea':
 
-			$_ROSARIO['ReferralInput'] = TextAreaInput(
+			$input = TextAreaInput(
 				$value,
 				'values[CATEGORY_' . $category['ID'] . ']',
 				$category['TITLE'],
@@ -62,7 +63,7 @@ function ReferralInput( $category, $value = '', $new = true )
 
 		case 'checkbox':
 
-			$_ROSARIO['ReferralInput'] = CheckboxInput(
+			$input = CheckboxInput(
 				$value,
 				'values[CATEGORY_' . $category['ID'] . ']',
 				$category['TITLE'],
@@ -74,7 +75,7 @@ function ReferralInput( $category, $value = '', $new = true )
 
 		case 'date':
 
-			$_ROSARIO['ReferralInput'] = DateInput(
+			$input = DateInput(
 				$value,
 				'values[CATEGORY_' . $category['ID'] . ']',
 				$category['TITLE'],
@@ -88,7 +89,7 @@ function ReferralInput( $category, $value = '', $new = true )
 			$options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS'] ) );
 
 			// @since 4.2
-			$_ROSARIO['ReferralInput'] = MultipleCheckboxInput(
+			$input = MultipleCheckboxInput(
 				$value,
 				'values[CATEGORY_' . $category['ID'] . '][]',
 				$category['TITLE'],
@@ -111,7 +112,7 @@ function ReferralInput( $category, $value = '', $new = true )
 
 			if ( $category['DATA_TYPE'] === 'multiple_radio' )
 			{
-				$_ROSARIO['ReferralInput'] = RadioInput(
+				$input = RadioInput(
 					$value,
 					'values[CATEGORY_' . $category['ID'] . ']',
 					$category['TITLE'],
@@ -122,7 +123,7 @@ function ReferralInput( $category, $value = '', $new = true )
 				break;
 			}
 
-			$_ROSARIO['ReferralInput'] = SelectInput(
+			$input = SelectInput(
 				$value,
 				'values[CATEGORY_' . $category['ID'] . ']',
 				$category['TITLE'],
@@ -133,15 +134,18 @@ function ReferralInput( $category, $value = '', $new = true )
 			break;
 	}
 
+	// @deprecated Filter $_ROSARIO['ReferralInput'] global.
+	$_ROSARIO['ReferralInput'] = $input;
+
 	$action_args = array(
 		'category' => $category,
 		'value' => $value,
 		'new' => $new,
+		'input' => &$input,
 	);
 
 	// @since 4.5 Referral Input action hook.
-	// Filter $_ROSARIO['ReferralInput'] global.
 	do_action( 'Discipline/includes/Referral.fnc.php|referral_input', $action_args );
 
-	return $_ROSARIO['ReferralInput'];
+	return $input;
 }
