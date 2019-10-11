@@ -20,6 +20,7 @@ Changes in 5.4
 - French & Spanish translation review: correct plural forms & typos in rosariosis.po
 - Raise minimum PHP version from 5.3.2 to 5.4.45 in INSTALL.md, diagnostic.php & Portal.php
 - Test first if can add foreign key based on reported SQL errors: column "student_id" referenced in foreign key constraint does not exist in Update.fnc.php
+- Add Bulgarian translation in bg_BG.utf8/LC_MESSAGES/rosariosis.po, thanks to Martin Krastev
 
 Changes in 5.3.4
 ----------------

@@ -9,19 +9,19 @@ Do not forget to add the `.utf8` suffix to the locale code.
 | ar_AE | Arabic (United Arab Emirates) | **95%**   | Husam Shabeeb, Ali Al-Hassan |
 | ar_DZ | Arabic (Saudi Arabia)         | 37%       |                     |
 | be_BY | Belarusian (Belarus)          | 37%       |                     |
-| bg_BG | Bulgarian (Bulgaria)          | 54%       | Vanyo Georgiev      |
+| bg_BG | Bulgarian (Bulgaria)          | **100%**  | Vanyo Georgiev, Martin Krastev |
 | bn_BD | Bengali (Bangladesh)          | 36%       |                     |
 | cs_CZ | Czech (Czech Republic)        | 36%       |                     |
 | da_DK | Danish (Denmark)              | 36%       |                     |
 | de_DE | German (Germany)              | **86%**   | Heike Gutsche       |
 | el_GR | Greek (Greece)                | 37%       |                     |
 | en_CA | English (Canada)              | 1%        | RDH Associates Inc. |
-| es_ES | Spanish (Spain)               | **99%**   | RosarioSIS          |
+| es_ES | Spanish (Spain)               | **100%**  | RosarioSIS          |
 | et_EE | Estonian (Estonia)            | 37%       |                     |
 | fa_IR | Persian (Iran)                | 36%       |                     |
 | fi_FI | Finnish (Finland)             | 37%       |                     |
 | ga_IE | Irish (Ireland)               | 37%       |                     |
-| fr_FR | French (France)               | **99%**   | RosarioSIS          |
+| fr_FR | French (France)               | **100%**  | RosarioSIS          |
 | gl_GL | Galician                      | 37%       |                     |
 | hr_HR | Croatian (Croatia)            | 37%       |                     |
 | hu_HU | Hungarian (Hungary)           | 37%       |                     |
