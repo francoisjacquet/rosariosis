@@ -263,3 +263,4 @@ plugins/REST_API*
 plugins/Siblings*
 plugins/Force_Password_Change*
 plugins/LDAP*
+plugins/Convert_Names_To_Titlecase*
