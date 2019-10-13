@@ -148,9 +148,9 @@ function Update()
 
 			$return = _update53beta();
 
-		case version_compare( $from_version, '5.4-beta', '<' ) :
+		case version_compare( $from_version, '5.4.1', '<' ) :
 
-			$return = _update54beta();
+			$return = _update541();
 	}
 
 	// Update version in DB CONFIG table.
@@ -1328,7 +1328,7 @@ function _update53beta()
 
 
 /**
- * Update to version 5.4
+ * Update to version 5.4.1
  *
  * 1. Add CREATED_AT & UPDATED_AT columns to every table, 93 tables.
  * 2. Add set_updated_at() function & set_updated_at trigger.
@@ -1336,13 +1336,11 @@ function _update53beta()
  *
  * Local function
  *
- * @todo test from 4.9!!
- *
- * @since 5.4
+ * @since 5.4.1
  *
  * @return boolean false if update failed or if not called by Update(), else true
  */
-function _update54beta()
+function _update541()
 {
 	_isCallerUpdate( debug_backtrace() );
 
@@ -1468,7 +1466,7 @@ function _update54beta()
 
 	foreach ( $tables as $table )
 	{
-		$add_created_updated_at_columns( $table );
+		$sql_add_created_updated_at_columns .= $add_created_updated_at_columns( $table );
 	}
 
 	if ( $sql_add_created_updated_at_columns )

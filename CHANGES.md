@@ -1,6 +1,11 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 5.4.1
+----------------
+- Add CREATED_AT & UPDATED_AT columns to every table, 93 tables in Update.fnc.php
+- Add set_updated_at() function & set_updated_at trigger in Update.fnc.php
+
 Changes in 5.4
 --------------
 - Enrollment Start: No N/A option if already has Drop date in StudentsUsersInfo.fnc.php
@@ -15,8 +20,6 @@ Changes in 5.4
 - Add Progress Reports program for admin (Teacher Programs), student & parent in ProgressReports.php, Menu.php & rosariosis.sql
 - Add Help texts for Progress Reports program in Help_en.php, help.po
 - Format code pulldown using MakeAttendanceCode() in Administration.php
-- Add CREATED_AT & UPDATED_AT columns to every table, 93 tables in Update.fnc.php
-- Add set_updated_at() function & set_updated_at trigger in Update.fnc.php
 - French & Spanish translation review: correct plural forms & typos in rosariosis.po
 - Raise minimum PHP version from 5.3.2 to 5.4.45 in INSTALL.md, diagnostic.php & Portal.php
 - Test first if can add foreign key based on reported SQL errors: column "student_id" referenced in foreign key constraint does not exist in Update.fnc.php
