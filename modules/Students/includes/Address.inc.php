@@ -820,8 +820,8 @@ if ( ! $_REQUEST['modfunc'] )
 				'CITY',
 				'ADDRESS',
 				array(
-					array( 'CITY' => $this_address['CITY'] ),
-					array( 'CITY' => $this_address['MAIL_CITY'] ),
+					array( 'CITY' => issetVal( $this_address['CITY'] ) ),
+					array( 'CITY' => issetVal( $this_address['MAIL_CITY'] ) ),
 				),
 				array()
 			);
@@ -830,8 +830,8 @@ if ( ! $_REQUEST['modfunc'] )
 				'STATE',
 				'ADDRESS',
 				array(
-					array( 'STATE' => $this_address['STATE'] ),
-					array( 'STATE' => $this_address['MAIL_STATE'] ),
+					array( 'STATE' => issetVal( $this_address['STATE'] ) ),
+					array( 'STATE' => issetVal( $this_address['MAIL_STATE'] ) ),
 				),
 				array()
 			);
@@ -840,8 +840,8 @@ if ( ! $_REQUEST['modfunc'] )
 				'ZIPCODE',
 				'ADDRESS',
 				array(
-					array( 'ZIPCODE' => $this_address['ZIPCODE'] ),
-					array( 'ZIPCODE' => $this_address['MAIL_ZIPCODE'] ),
+					array( 'ZIPCODE' => issetVal( $this_address['ZIPCODE'] ) ),
+					array( 'ZIPCODE' => issetVal( $this_address['MAIL_ZIPCODE'] ) ),
 				),
 				array()
 			);
@@ -851,7 +851,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 			echo '<tr><td colspan="3">' .
 			TextInput(
-				$this_address['ADDRESS'],
+				issetVal( $this_address['ADDRESS'] ),
 				'values[ADDRESS][ADDRESS]',
 				_( 'Street' ),
 				$size ? 'required maxlength=255 size=20' : 'required maxlength=255' ) .
@@ -860,7 +860,7 @@ if ( ! $_REQUEST['modfunc'] )
 			// City, State & Zip auto pull-downs.
 			echo '<tr><td>' .
 			_makeAutoSelectInputX(
-				$this_address['CITY'],
+				issetVal( $this_address['CITY'] ),
 				'CITY',
 				'ADDRESS',
 				_( 'City' ),
@@ -869,7 +869,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 			echo '<td>' .
 			_makeAutoSelectInputX(
-				$this_address['STATE'],
+				issetVal( $this_address['STATE'] ),
 				'STATE',
 				'ADDRESS',
 				_( 'State' ),
@@ -878,7 +878,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 			echo '<td>' .
 			_makeAutoSelectInputX(
-				$this_address['ZIPCODE'],
+				issetVal( $this_address['ZIPCODE'] ),
 				'ZIPCODE',
 				'ADDRESS',
 				_( 'Zip' ),
@@ -887,7 +887,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 			echo '<tr><td colspan="3">' .
 			TextInput(
-				$this_address['PHONE'],
+				issetVal( $this_address['PHONE'] ),
 				'values[ADDRESS][PHONE]',
 				_( 'Phone' ),
 				$size ? 'size=13' : ''

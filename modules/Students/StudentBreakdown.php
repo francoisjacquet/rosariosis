@@ -4,12 +4,16 @@ require_once 'ProgramFunctions/Charts.fnc.php';
 
 DrawHeader( ProgramTitle() );
 
+$_REQUEST['field_id'] = issetVal( $_REQUEST['field_id'] );
+
 $chart_types = array( 'column', 'pie', 'list' );
 
 // set Chart Type
-if ( !isset( $_REQUEST['chart_type'] )
-	|| !in_array( $_REQUEST['chart_type'], $chart_types ) )
+if ( ! isset( $_REQUEST['chart_type'] )
+	|| ! in_array( $_REQUEST['chart_type'], $chart_types ) )
+{
 	$_REQUEST['chart_type'] = 'column';
+}
 
 $chartline = false;
 
@@ -29,8 +33,7 @@ if ( $_REQUEST['modfunc'] === 'search' )
 	Search( 'student_id', $extra );
 }
 
-if ( isset( $_REQUEST['field_id'] )
-	&& !empty( $_REQUEST['field_id'] ) )
+if ( ! empty( $_REQUEST['field_id'] ) )
 {
 	$fields_RET = DBGet( "SELECT TITLE,SELECT_OPTIONS AS OPTIONS,TYPE
 		FROM CUSTOM_FIELDS WHERE ID='" . $_REQUEST['field_id'] . "'" );
@@ -58,8 +61,10 @@ if ( isset( $_REQUEST['field_id'] )
 			foreach ( (array) $options_RET as $option )
 			{
 				if ( ! $fields_RET[1]['OPTIONS']
-					|| !in_array( $option['CUSTOM_' . intval( $_REQUEST['field_id'] )], $fields_RET[1]['OPTIONS'] ) )
+					|| ! in_array( $option['CUSTOM_' . intval( $_REQUEST['field_id'] )], $fields_RET[1]['OPTIONS'] ) )
+				{
 					$fields_RET[1]['OPTIONS'][] = $option['CUSTOM_' . intval( $_REQUEST['field_id'] )];
+				}
 			}
 		}
 
