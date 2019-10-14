@@ -3044,14 +3044,14 @@ INSERT INTO school_gradelevels VALUES (NEXTVAL('school_gradelevels_id_seq'), 1, 
 INSERT INTO school_periods VALUES (NEXTVAL('school_periods_period_id_seq'), 2019, 1, 1, 'Full Day', 'FD', 300, NULL, NULL, NULL, 'Y', NULL);
 INSERT INTO school_periods VALUES (NEXTVAL('school_periods_period_id_seq'), 2019, 1, 2, 'Half Day AM', 'AM', 150, NULL, NULL, NULL, 'Y', NULL);
 INSERT INTO school_periods VALUES (NEXTVAL('school_periods_period_id_seq'), 2019, 1, 3, 'Half Day PM', 'PM', 150, NULL, NULL, NULL, 'Y', NULL);
-INSERT INTO school_periods VALUES (NEXTVAL('school_periods_period_id_seq'), 2019, 1, 4, 'Period 1', '01', 0, NULL, NULL, NULL, 'Y', NULL);
-INSERT INTO school_periods VALUES (NEXTVAL('school_periods_period_id_seq'), 2019, 1, 5, 'Period 2', '02', 0, NULL, NULL, NULL, 'Y', NULL);
-INSERT INTO school_periods VALUES (NEXTVAL('school_periods_period_id_seq'), 2019, 1, 6, 'Period 3', '03', 0, NULL, NULL, NULL, 'Y', NULL);
-INSERT INTO school_periods VALUES (NEXTVAL('school_periods_period_id_seq'), 2019, 1, 7, 'Period 4', '04', 0, NULL, NULL, NULL, 'Y', NULL);
-INSERT INTO school_periods VALUES (NEXTVAL('school_periods_period_id_seq'), 2019, 1, 8, 'Period 5', '05', 0, NULL, NULL, NULL, 'Y', NULL);
-INSERT INTO school_periods VALUES (NEXTVAL('school_periods_period_id_seq'), 2019, 1, 9, 'Period 6', '06', 0, NULL, NULL, NULL, 'Y', NULL);
-INSERT INTO school_periods VALUES (NEXTVAL('school_periods_period_id_seq'), 2019, 1, 10, 'Period 7', '07', 0, NULL, NULL, NULL, 'Y', NULL);
-INSERT INTO school_periods VALUES (NEXTVAL('school_periods_period_id_seq'), 2019, 1, 11, 'Period 8', '08', 0, NULL, NULL, NULL, 'Y', NULL);
+INSERT INTO school_periods VALUES (NEXTVAL('school_periods_period_id_seq'), 2019, 1, 4, 'Period 1', '01', 50, NULL, NULL, NULL, 'Y', NULL);
+INSERT INTO school_periods VALUES (NEXTVAL('school_periods_period_id_seq'), 2019, 1, 5, 'Period 2', '02', 50, NULL, NULL, NULL, 'Y', NULL);
+INSERT INTO school_periods VALUES (NEXTVAL('school_periods_period_id_seq'), 2019, 1, 6, 'Period 3', '03', 50, NULL, NULL, NULL, 'Y', NULL);
+INSERT INTO school_periods VALUES (NEXTVAL('school_periods_period_id_seq'), 2019, 1, 7, 'Period 4', '04', 50, NULL, NULL, NULL, 'Y', NULL);
+INSERT INTO school_periods VALUES (NEXTVAL('school_periods_period_id_seq'), 2019, 1, 8, 'Period 5', '05', 50, NULL, NULL, NULL, 'Y', NULL);
+INSERT INTO school_periods VALUES (NEXTVAL('school_periods_period_id_seq'), 2019, 1, 9, 'Period 6', '06', 50, NULL, NULL, NULL, 'Y', NULL);
+INSERT INTO school_periods VALUES (NEXTVAL('school_periods_period_id_seq'), 2019, 1, 10, 'Period 7', '07', 50, NULL, NULL, NULL, 'Y', NULL);
+INSERT INTO school_periods VALUES (NEXTVAL('school_periods_period_id_seq'), 2019, 1, 11, 'Period 8', '08', 50, NULL, NULL, NULL, 'Y', NULL);
 
 
 --

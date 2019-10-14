@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 5.4.2
+----------------
+- SQL Set 50 minutes length for School Periods in rosariosis.sql
+
 Changes in 5.4.1
 ----------------
 - Add CREATED_AT & UPDATED_AT columns to every table, 93 tables in Update.fnc.php
