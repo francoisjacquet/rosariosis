@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 5.4.3
+----------------
+- Fix "Strengthen allow edit logic for teachers" when TeacherPrograms (admin) in InputFinalGrades.php
+
 Changes in 5.4.2
 ----------------
 - SQL Set 50 minutes length for School Periods in rosariosis.sql

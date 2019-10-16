@@ -1074,7 +1074,8 @@ $mps_select .= '</select><label for="mp_select" class="a11y-hidden">' . _( 'Mark
 
 // If running as a teacher program then rosario[allow_edit] will already be set according to admin permissions.
 
-if ( User( 'PROFILE' ) === 'teacher' )
+if ( User( 'PROFILE' ) === 'teacher'
+	&& mb_strpos( $_REQUEST['modname'], 'TeacherPrograms' ) === false )
 {
 	$is_after_grade_post_start_date = DBGetOne( "SELECT 1
 		FROM SCHOOL_MARKING_PERIODS
