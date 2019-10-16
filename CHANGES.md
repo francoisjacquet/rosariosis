@@ -6,6 +6,7 @@ Changes in 5.4.2
 - Fix "Strengthen allow edit logic for teachers" when TeacherPrograms (admin) in InputFinalGrades.php
 - SQL Set 50 minutes length for School Periods in rosariosis.sql
 - HTML Short Name input is required in GradeLevels.php
+- Fix SQL error in calc_gpa_mp function on INSERT Final Grades: column short_name does not exist, PostgreSQL 8.4 in rosariosis.sql & Update.fnc.php
 
 Changes in 5.4.1
 ----------------

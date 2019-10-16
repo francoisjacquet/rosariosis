@@ -126,7 +126,8 @@ WHERE student_id = s_id and cast(marking_period_id as text) = mp_id;
     INSERT INTO STUDENT_MP_STATS (student_id, marking_period_id, sum_weighted_factors, sum_unweighted_factors, grade_level_short, cr_weighted_factors, cr_unweighted_factors, gp_credits, cr_credits)
 
         select
-            srcg.student_id, (srcg.marking_period_id::text)::int,
+            srcg.student_id,
+            (srcg.marking_period_id::text)::int,
             sum(weighted_gp*credit_attempted/gp_scale) as sum_weighted_factors,
             sum(unweighted_gp*credit_attempted/gp_scale) as sum_unweighted_factors,
             (select eg.short_name
@@ -137,7 +138,7 @@ WHERE student_id = s_id and cast(marking_period_id as text) = mp_id;
                 and eg.start_date <= mp.end_date
                 and cast(mp.marking_period_id as text) = mp_id
                 order by eg.start_date desc
-                limit 1),
+                limit 1) as short_name,
             sum( case when class_rank = 'Y' THEN weighted_gp*credit_attempted/gp_scale END ) as cr_weighted,
             sum( case when class_rank = 'Y' THEN unweighted_gp*credit_attempted/gp_scale END ) as cr_unweighted,
             sum(credit_attempted) as gp_credits,
