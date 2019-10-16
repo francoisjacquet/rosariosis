@@ -25,8 +25,9 @@ if ( $_REQUEST['modfunc'] === 'update'
 				DBQuery( $sql );
 			}
 
-			// New: check for Title.
-			elseif ( $columns['TITLE'] )
+			// New: check for Title and Short Name.
+			elseif ( $columns['TITLE']
+				&& $columns['SHORT_NAME'] )
 			{
 				$sql = "INSERT INTO SCHOOL_GRADELEVELS ";
 
@@ -145,9 +146,12 @@ function _makeTextInput( $value, $name )
 	{
 		$extra = 'size=5 maxlength=2';
 	}
-	elseif ( $id !== 'new' )
+
+	if ( $id !== 'new'
+		&& ( $name === 'TITLE' || $name === 'SHORT_NAME' ) )
 	{
-		$extra = 'required';
+		// Title and Short Name are required.
+		$extra .= ' required';
 	}
 
 	$comment = '';
