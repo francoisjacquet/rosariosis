@@ -2217,13 +2217,13 @@ INSERT INTO staff VALUES (2019, NEXTVAL('staff_staff_id_seq'), 1, NULL, 'Parent'
 -- Data for Name: school_marking_periods; Type: TABLE DATA; Schema: public; Owner: rosariosis
 --
 
-INSERT INTO school_marking_periods VALUES (NEXTVAL('school_marking_periods_marking_period_id_seq'), 2019, 'FY', 1, NULL, 'Full Year', 'FY', 1, '2019-06-17', '2020-06-05', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO school_marking_periods VALUES (NEXTVAL('school_marking_periods_marking_period_id_seq'), 2019, 'FY', 1, NULL, 'Full Year', 'FY', 1, '2019-06-17', '2020-06-16', NULL, NULL, NULL, NULL, NULL);
 INSERT INTO school_marking_periods VALUES (NEXTVAL('school_marking_periods_marking_period_id_seq'), 2019, 'SEM', 1, 1, 'Semester 1', 'S1', 1, '2019-06-17', '2019-12-31', '2019-12-28', '2019-12-31', NULL, NULL, NULL);
-INSERT INTO school_marking_periods VALUES (NEXTVAL('school_marking_periods_marking_period_id_seq'), 2019, 'SEM', 1, 1, 'Semester 2', 'S2', 2, '2020-01-02', '2020-06-05', '2020-06-03', '2020-06-05', NULL, NULL, NULL);
+INSERT INTO school_marking_periods VALUES (NEXTVAL('school_marking_periods_marking_period_id_seq'), 2019, 'SEM', 1, 1, 'Semester 2', 'S2', 2, '2020-01-02', '2020-06-16', '2020-06-14', '2020-06-16', NULL, NULL, NULL);
 INSERT INTO school_marking_periods VALUES (NEXTVAL('school_marking_periods_marking_period_id_seq'), 2019, 'QTR', 1, 2, 'Quarter 1', 'Q1', 1, '2019-06-17', '2019-09-13', '2019-09-11', '2019-09-13', 'Y', 'Y', NULL);
 INSERT INTO school_marking_periods VALUES (NEXTVAL('school_marking_periods_marking_period_id_seq'), 2019, 'QTR', 1, 2, 'Quarter 2', 'Q2', 2, '2019-09-16', '2019-12-31', '2019-12-28', '2019-12-31', 'Y', 'Y', NULL);
 INSERT INTO school_marking_periods VALUES (NEXTVAL('school_marking_periods_marking_period_id_seq'), 2019, 'QTR', 1, 3, 'Quarter 3', 'Q3', 3, '2020-01-02', '2020-03-13', '2020-03-13', '2020-03-13', 'Y', 'Y', NULL);
-INSERT INTO school_marking_periods VALUES (NEXTVAL('school_marking_periods_marking_period_id_seq'), 2019, 'QTR', 1, 3, 'Quarter 4', 'Q4', 4, '2020-03-16', '2020-06-05', '2020-06-03', '2020-06-05', 'Y', 'Y', NULL);
+INSERT INTO school_marking_periods VALUES (NEXTVAL('school_marking_periods_marking_period_id_seq'), 2019, 'QTR', 1, 3, 'Quarter 4', 'Q4', 4, '2020-03-16', '2020-06-16', '2020-06-14', '2020-06-16', 'Y', 'Y', NULL);
 
 
 
@@ -2345,7 +2345,7 @@ INSERT INTO attendance_codes VALUES (NEXTVAL('attendance_codes_id_seq'), 2019, 1
 --
 
 INSERT INTO config VALUES (0, 'LOGIN', 'No');
-INSERT INTO config VALUES (0, 'VERSION', '5.4.1');
+INSERT INTO config VALUES (0, 'VERSION', '5.4.2');
 INSERT INTO config VALUES (0, 'TITLE', 'Rosario Student Information System');
 INSERT INTO config VALUES (0, 'NAME', 'RosarioSIS');
 INSERT INTO config VALUES (0, 'MODULES', 'a:13:{s:12:"School_Setup";b:1;s:8:"Students";b:1;s:5:"Users";b:1;s:10:"Scheduling";b:1;s:6:"Grades";b:1;s:10:"Attendance";b:1;s:11:"Eligibility";b:1;s:10:"Discipline";b:1;s:10:"Accounting";b:1;s:15:"Student_Billing";b:1;s:12:"Food_Service";b:1;s:9:"Resources";b:1;s:6:"Custom";b:1;}');
