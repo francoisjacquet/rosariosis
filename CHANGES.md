@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 5.5
+--------------
+- Display Title of: Subject, Course, Course Period in PrintSchedules.php
+
 Changes in 5.4.2
 ----------------
 - Fix "Strengthen allow edit logic for teachers" when TeacherPrograms (admin) in InputFinalGrades.php
