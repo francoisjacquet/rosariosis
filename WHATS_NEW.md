@@ -2,6 +2,12 @@
 
 ## RosarioSIS Student Information System
 
+New in 5.5
+----------
+
+[Grading Scale Generation](https://gitlab.com/francoisjacquet/Grading_Scale_Generation/) plugin, sponsored by Signo Digital.
+
+
 New in 5.4
 ----------
 
