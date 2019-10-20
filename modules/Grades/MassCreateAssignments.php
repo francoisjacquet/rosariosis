@@ -158,7 +158,13 @@ if ( isset( $_POST['tables'] )
 
 				$fields_final = $fields . 'ASSIGNMENT_TYPE_ID,STAFF_ID,COURSE_PERIOD_ID,';
 
-				$assignment_type_teacher_RET = DBGet( "SELECT ASSIGNMENT_TYPE_ID, STAFF_ID
+				$cp_teacher = DBGetOne( "SELECT TEACHER_ID
+				FROM COURSE_PERIODS
+				WHERE COURSE_PERIOD_ID='" . $cp_id . "'
+				AND SYEAR='" . UserSyear() . "'
+				AND SCHOOL_ID='" . UserSchool() . "'" );
+
+				$cp_assignment_type = DBGetOne( "SELECT ASSIGNMENT_TYPE_ID, STAFF_ID
 				FROM GRADEBOOK_ASSIGNMENT_TYPES
 				WHERE COURSE_ID=(SELECT COURSE_ID
 					FROM COURSE_PERIODS
@@ -167,16 +173,13 @@ if ( isset( $_POST['tables'] )
 					AND SCHOOL_ID='" . UserSchool() . "'
 					LIMIT 1)
 				AND TRIM(TITLE)='" . $_REQUEST['assignment_type'] . "'
+				AND STAFF_ID='" . $cp_teacher . "'
 				LIMIT 1" );
 
-				if ( ! $assignment_type_teacher_RET )
+				if ( ! $cp_assignment_type )
 				{
 					continue;
 				}
-
-				$cp_teacher = $assignment_type_teacher_RET[1]['STAFF_ID'];
-
-				$cp_assignment_type = $assignment_type_teacher_RET[1]['ASSIGNMENT_TYPE_ID'];
 
 				$values_final = $values . "'" . $cp_assignment_type . "','" . $cp_teacher . "','" . $cp_id . "',";
 
@@ -495,11 +498,12 @@ if ( ! $_REQUEST['modfunc'] )
 			// and to the ones in the current MP.
 			$course_periods_limit_sql = " AND cp.COURSE_PERIOD_ID IN (SELECT cp2.COURSE_PERIOD_ID
 				FROM GRADEBOOK_ASSIGNMENT_TYPES gat, COURSE_PERIODS cp2
-				WHERE gat.COURSE_ID IN (SELECT COURSE_ID
+				WHERE TRIM(gat.TITLE)='" . $_REQUEST['assignment_type'] . "'
+				AND gat.STAFF_ID=cp2.TEACHER_ID
+				AND gat.COURSE_ID IN (SELECT COURSE_ID
 					FROM COURSE_PERIODS
 					WHERE SYEAR='" . UserSyear() . "'
 					AND SCHOOL_ID='" . UserSchool() . "')
-				AND TRIM(gat.TITLE)='" . $_REQUEST['assignment_type'] . "'
 				AND gat.COURSE_ID=cp2.COURSE_ID
 				AND cp2.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . "))";
 

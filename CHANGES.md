@@ -4,6 +4,7 @@
 Changes in 5.5
 --------------
 - Display Title of: Subject, Course, Course Period in PrintSchedules.php
+- Fix #255 Create Assignments for CP of same course but different teachers in MassCreateAssignments.php, thanks to Bacila Andrei
 
 Changes in 5.4.2
 ----------------
