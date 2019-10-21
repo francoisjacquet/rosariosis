@@ -3954,7 +3954,7 @@ CREATE TRIGGER srcg_mp_stats_update AFTER INSERT OR DELETE OR UPDATE ON student_
 -- Name: set_updated_at; Type: TRIGGER; Schema: public; Owner: rosariosis
 --
 
-DO $$
+CREATE OR REPLACE FUNCTION set_updated_at_triggers() RETURNS void AS $$
 DECLARE
     t text;
 BEGIN
@@ -3962,14 +3962,17 @@ BEGIN
         SELECT table_name FROM information_schema.columns
         WHERE column_name = 'updated_at'
     LOOP
-        EXECUTE format('CREATE TRIGGER set_updated_at
-            BEFORE UPDATE ON %I
-            FOR EACH ROW EXECUTE PROCEDURE set_updated_at()',
-            t);
+        EXECUTE
+            'CREATE TRIGGER set_updated_at
+            BEFORE UPDATE ON ' || t || '
+            FOR EACH ROW EXECUTE PROCEDURE set_updated_at()';
     END LOOP;
 END;
 $$ LANGUAGE plpgsql;
 
+SELECT set_updated_at_triggers();
+
+DROP FUNCTION set_updated_at_triggers();
 
 
 --

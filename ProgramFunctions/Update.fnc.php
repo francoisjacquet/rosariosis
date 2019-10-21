@@ -1523,21 +1523,25 @@ function _update541()
 			END;
 		$$ LANGUAGE plpgsql;
 
-		DO $$
-			DECLARE
-				t text;
-			BEGIN
-				FOR t IN
-					SELECT table_name FROM information_schema.columns
-					WHERE column_name = 'updated_at'
-				LOOP
-					EXECUTE format('CREATE TRIGGER set_updated_at
-						BEFORE UPDATE ON %I
-						FOR EACH ROW EXECUTE PROCEDURE set_updated_at()',
-						t);
-				END LOOP;
-			END;
-		$$ LANGUAGE plpgsql;" );
+		CREATE OR REPLACE FUNCTION set_updated_at_triggers() RETURNS void AS $$
+		DECLARE
+		    t text;
+		BEGIN
+		    FOR t IN
+		        SELECT table_name FROM information_schema.columns
+		        WHERE column_name = 'updated_at'
+		    LOOP
+		        EXECUTE
+		            'CREATE TRIGGER set_updated_at
+		            BEFORE UPDATE ON ' || t || '
+		            FOR EACH ROW EXECUTE PROCEDURE set_updated_at()';
+		    END LOOP;
+		END;
+		$$ LANGUAGE plpgsql;
+
+		SELECT set_updated_at_triggers();
+
+		DROP FUNCTION set_updated_at_triggers();" );
 	}
 
 	return $return;
