@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 5.4.3
+----------------
+- SQL fix set_updated_at trigger PostgreSQL 8.4 compatible in rosariosis.sql, Update.fnc.php
+
 Changes in 5.4.2
 ----------------
 - Fix "Strengthen allow edit logic for teachers" when TeacherPrograms (admin) in InputFinalGrades.php
