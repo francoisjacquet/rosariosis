@@ -104,7 +104,7 @@ function SubstitutionsInput( $substitutions )
  *
  * @since 4.3
  *
- * @example $text_s = SubstitutionsTextMake( array( '__FIRST_NAME__' => _( 'First Name' ), '__SCHOOL_ID__' => _( 'School' ) ), $text );
+ * @example $text_s = SubstitutionsTextMake( array( '__FIRST_NAME__' => 'Student', '__SCHOOL_ID__' => 'My School' ), $text );
  *
  * @param array  $substitutions Associative array containing code as key and
  * @param string $text          Text with substitution codes.
