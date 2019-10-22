@@ -154,10 +154,6 @@ if ( isset( $_POST['tables'] )
 		{
 			foreach ( (array) $_REQUEST['cp_arr'] as $cp_id )
 			{
-				$sql .= "INSERT INTO " . DBEscapeIdentifier( $table ) . " ";
-
-				$fields_final = $fields . 'ASSIGNMENT_TYPE_ID,STAFF_ID,COURSE_PERIOD_ID,';
-
 				$cp_teacher = DBGetOne( "SELECT TEACHER_ID
 				FROM COURSE_PERIODS
 				WHERE COURSE_PERIOD_ID='" . $cp_id . "'
@@ -180,6 +176,10 @@ if ( isset( $_POST['tables'] )
 				{
 					continue;
 				}
+
+				$sql .= "INSERT INTO " . DBEscapeIdentifier( $table ) . " ";
+
+				$fields_final = $fields . 'ASSIGNMENT_TYPE_ID,STAFF_ID,COURSE_PERIOD_ID,';
 
 				$values_final = $values . "'" . $cp_assignment_type . "','" . $cp_teacher . "','" . $cp_id . "',";
 
