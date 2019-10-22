@@ -3,8 +3,10 @@
 
 Changes in 5.5
 --------------
-- Display Title of: Subject, Course, Course Period in PrintSchedules.php
+- Display Title of: Subject, Course, Course Period in PrintSchedules.php, thanks to Tintamail
 - Fix #255 Create Assignments for CP of same course but different teachers in MassCreateAssignments.php, thanks to Bacila Andrei
+- Fix SQL error REPORT_CARD_GRADES table: Cut titles > 5 chars in Update.fnc.php
+- SQL REPORT_CARD_GRADES table: Change title column type to character varying(5) in rosariosis.sql, Update.fnc.php & ReportCardGrades.php
 
 Changes in 5.4.3
 ----------------

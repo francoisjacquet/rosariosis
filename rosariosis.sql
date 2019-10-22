@@ -1607,7 +1607,7 @@ CREATE TABLE report_card_grades (
     id serial PRIMARY KEY,
     syear numeric(4,0) NOT NULL,
     school_id integer NOT NULL,
-    title text NOT NULL,
+    title character varying(5) NOT NULL,
     sort_order numeric,
     gpa_value numeric,
     break_off numeric,

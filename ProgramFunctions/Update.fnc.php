@@ -155,6 +155,10 @@ function Update()
 		case version_compare( $from_version, '5.4.2', '<' ) :
 
 			$return = _update542();
+
+		case version_compare( $from_version, '5.5-beta3', '<' ) :
+
+			$return = _update55beta3();
 	}
 
 	// Update version in DB CONFIG table.
@@ -1653,6 +1657,44 @@ function _update542()
 	END
 	$$
 		LANGUAGE plpgsql;" );
+
+	return $return;
+}
+
+
+/**
+ * Update to version 5.5
+ *
+ * 0. REPORT_CARD_GRADES table: Cut titles > 5 chars.
+ * 1. REPORT_CARD_GRADES table: Change title column type to character varying(5)
+ * Was text which could prevent saving letter grades > 5 chars
+ * @see STUDENT_REPORT_CARD_GRADES letter_grade column.
+ *
+ * Local function
+ *
+ * @since 5.5
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update55beta3()
+{
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 0. REPORT_CARD_GRADES table: Cut titles > 5 chars.
+	 */
+	DBQuery( "UPDATE REPORT_CARD_GRADES
+		SET TITLE=SUBSTRING(TITLE FROM 1 FOR 5);" );
+
+	/**
+	 * 1. REPORT_CARD_GRADES table: Change title column type to character varying(5)
+	 * Was text which could prevent saving letter grades > 5 chars
+	 * @see STUDENT_REPORT_CARD_GRADES letter_grade column.
+	 */
+	DBQuery( "ALTER TABLE REPORT_CARD_GRADES
+		ALTER COLUMN title TYPE character varying(5);" );
 
 	return $return;
 }
