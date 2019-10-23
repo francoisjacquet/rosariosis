@@ -1455,7 +1455,7 @@ function _makeLetterPercent( $student_id, $column )
 			else
 			{
 				$return = '<span class="nobr">' . SelectInput(
-					$select_grade ? $select_grade : ( $select_percent != '' ? ' ' : '' ),
+					$select_grade,
 					'values[' . $student_id . '][grade]',
 					'',
 					$grades_select,
