@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 5.4.5
+----------------
+- Fix SQL error when no corresponding Grade found in Scale in InputFinalGrades.php
+
 Changes in 5.4.4
 ----------------
 - Fix regression since 5.0 Use Course Title as key for grades array to keep 1 line per course in Transcripts.fnc.php
