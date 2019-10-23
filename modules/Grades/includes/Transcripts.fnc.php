@@ -292,7 +292,6 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 		{
 			$student = $students_data[$student_id][1];
 
-
 			$student['ID'] = $student_id;
 
 			foreach ( (array) $t_sgrades as $syear => $mps )
@@ -344,13 +343,12 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 
 				foreach ( (array) $mps as $mp_id => $grades )
 				{
-					$i = 0;
-
 					$columns[$mp_id] = $grades[1]['SHORT_NAME'];
 
 					foreach ( (array) $grades as $grade )
 					{
-						$i++;
+						// Use Course Title as key for grades array to keep 1 line per course.
+						$i = $grade['COURSE_TITLE'];
 
 						$grades_RET[$i]['COURSE_TITLE'] = $grade['COURSE_TITLE'];
 
@@ -421,6 +419,11 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 						}
 					}
 				}
+
+				// Switch back to numeric index for grades array.
+				$grades_RET = array_values( $grades_RET );
+				array_unshift( $grades_RET, 'start_array_to_1' );
+				unset( $grades_RET[0] );
 
 				if ( $show['credits'] )
 				{
