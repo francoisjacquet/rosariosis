@@ -88,12 +88,12 @@ function TextInput( $value, $name, $title = '', $extra = '', $div = true )
 {
 	$id = GetInputID( $name );
 
-	$required = $value == '' && mb_strpos( $extra, 'required' ) !== false;
-
 	// mab - support array style $option values
 	$display_val = is_array( $value ) ? $value[1] : $value;
 
 	$value = is_array( $value ) ? $value[0] : $value;
+
+	$required = $value == '' && mb_strpos( $extra, 'required' ) !== false;
 
 	if ( ! AllowEdit()
 		|| isset( $_REQUEST['_ROSARIO_PDF'] ) )
@@ -155,14 +155,14 @@ function PasswordInput( $value, $name, $title = '', $extra = '', $div = true )
 {
 	$id = GetInputID( $name );
 
-	$required = $value == '' && mb_strpos( $extra, 'required' ) !== false;
-
 	$strength = ( mb_strpos( $extra, 'strength' ) !== false );
 
 	// mab - support array style $option values
 	$display_val = is_array( $value ) ? $value[1] : $value;
 
 	$value = is_array( $value ) ? $value[0] : $value;
+
+	$required = $value == '' && mb_strpos( $extra, 'required' ) !== false;
 
 	if ( ! AllowEdit()
 		|| isset( $_REQUEST['_ROSARIO_PDF'] ) )
@@ -830,10 +830,10 @@ function SelectInput( $value, $name, $title = '', $options = array(), $allow_na 
 {
 	$id = GetInputID( $name );
 
-	$required = $value == '' && mb_strpos( $extra, 'required' ) !== false;
-
 	// Mab - support array style $option values.
 	$value = is_array( $value ) ? $value[0] : $value;
+
+	$required = $value == '' && mb_strpos( $extra, 'required' ) !== false;
 
 	// Mab - append current val to select list if not in list.
 	if ( $value != ''
