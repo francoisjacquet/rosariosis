@@ -231,13 +231,13 @@ if ( ! empty( $grades ) )
 			$i++;
 			$table .= '<td>&nbsp;<b>' . $grade['TITLE'] . '</b><br />';
 			$table .= '<span class="nobr">
-				<input type="text" name="values[' . $course_period_id . '-' . $grade['ID'] . ']" value="' .
+				<input name="values[' . $course_period_id . '-' . $grade['ID'] . ']" value="' .
 				( isset( $gradebook_config[$course_period_id . '-' . $grade['ID']] ) ?
 					$gradebook_config[$course_period_id . '-' . $grade['ID']] :
 					'' ) .
-				'" size="2" maxlength="5" />%</span></td>';
+				'" size="4" type="number" min=0 max=100 step=0.01 />%</span></td>';
 
-			if ( $i % 9 == 0 )
+			if ( $i % 6 == 0 )
 			{
 				$table .= '</tr><tr class="st">';
 			}
@@ -299,7 +299,7 @@ foreach ( (array) $semesters as $sem )
 				$value,
 				'values[SEM-' . $qtr['MARKING_PERIOD_ID'] . ']',
 				$qtr['TITLE'],
-				'size="3" maxlength="6" required'
+				'size="4" required type="number" min=0 max=100 step=0.01'
 			) . '</td>';
 
 			$total += $gradebook_config_sem_qtr;
@@ -342,7 +342,7 @@ if ( $year[1]['DOES_GRADES'] === 'Y' )
 				$value,
 				'values[FY-' . $qtr['MARKING_PERIOD_ID'] . ']',
 				$qtr['TITLE'],
-				'size="3" maxlength="6" required'
+				'size="4" required type="number" min=0 max=100 step=0.01'
 			) . '</td>';
 
 			$total += $gradebook_config_fy_qtr;
@@ -363,7 +363,7 @@ if ( $year[1]['DOES_GRADES'] === 'Y' )
 				$value,
 				'values[FY-' . $sem['MARKING_PERIOD_ID'] . ']',
 				$sem['TITLE'],
-				'size="3" maxlength="6" required'
+				'size="4" required type="number" min=0 max=100 step=0.01'
 			) . '</td>';
 
 			$total += $gradebook_config_fy_sem;
