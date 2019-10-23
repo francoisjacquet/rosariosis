@@ -10,6 +10,7 @@ Changes in 5.5
 - Fix required check for TextInput(), PasswordInput() & SelectInput() in Inputs.php
 - Make Final Grading Percentages inputs required in Configuration.php
 - Input type number for Breakoff & Final Grade Percentages in Configuration.php
+- Format Grade Breakoff input title in Configuration.php
 - Use Grade Scale value if Teacher Grade Scale Breakoff value is not set in \_makePercentGrade.fnc.php
 
 Changes in 5.4.5

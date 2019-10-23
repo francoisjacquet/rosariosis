@@ -228,16 +228,20 @@ if ( ! empty( $grades ) )
 
 		foreach ( (array) $cp_grades as $grade )
 		{
-			$i++;
-			$table .= '<td>&nbsp;<b>' . $grade['TITLE'] . '</b><br />';
-			$table .= '<span class="nobr">
-				<input name="values[' . $course_period_id . '-' . $grade['ID'] . ']" value="' .
-				( isset( $gradebook_config[$course_period_id . '-' . $grade['ID']] ) ?
-					$gradebook_config[$course_period_id . '-' . $grade['ID']] :
-					'' ) .
-				'" size="4" type="number" min=0 max=100 step=0.01 />%</span></td>';
+			$input_name = 'values[' . $course_period_id . '-' . $grade['ID'] . ']';
 
-			if ( $i % 6 == 0 )
+			$input_id = GetInputID( $input_name );
+
+			$table .= '<td><span class="nobr">
+				<input name="' . $input_name . '" id="' . $input_id . '" value="' .
+				issetVal( $gradebook_config[$course_period_id . '-' . $grade['ID']], '' ) .
+				'" size="4" type="number" min=0 max=100 step=0.01 />%</span>' .
+				FormatInputTitle(
+					'&nbsp;' . $grade['TITLE'],
+					$input_id
+				) . '</td>';
+
+			if ( ++$i % 6 == 0 )
 			{
 				$table .= '</tr><tr class="st">';
 			}
@@ -279,8 +283,8 @@ foreach ( (array) $semesters as $sem )
 	if ( $sem['DOES_GRADES'] === 'Y' )
 	{
 		$table = '<table class="cellpadding-5">';
-		$table .= '<tr class="st"><td><span class="legend-gray">' .
-			$sem['TITLE'] . '</span>&nbsp;</td>';
+		$table .= '<tr class="st"><td><span class="legend-gray"><b>' .
+			$sem['TITLE'] . '</b></span>&nbsp;</td>';
 
 		$total = 0;
 
@@ -320,8 +324,8 @@ foreach ( (array) $semesters as $sem )
 if ( $year[1]['DOES_GRADES'] === 'Y' )
 {
 	$table = '<table class="cellpadding-5">';
-	$table .= '<tr class="st"><td><span class="legend-gray">' .
-		$year[1]['TITLE'] . '</span>&nbsp;</td>';
+	$table .= '<tr class="st"><td><span class="legend-gray"><b>' .
+		$year[1]['TITLE'] . '</b></span>&nbsp;</td>';
 
 	$total = 0;
 
