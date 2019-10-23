@@ -11,6 +11,8 @@
  * From Grade ID or TITLE:
  * = (Grade breakoff + Previous Grade breakoff) / 2
  *
+ * @since 5.5 Use Grade Scale value if Teacher Grade Scale Breakoff value is not set.
+ *
  * @example _makePercentGrade( $grade[1]['REPORT_CARD_GRADE_ID'], $course_period_id )
  *
  * @global $_ROSARIO uses $_ROSARIO['_makeLetterGrade']
@@ -63,7 +65,9 @@ function _makePercentGrade( $grade_id_or_title, $course_period_id = 0, $staff_id
 	{
 		$prev = issetVal( $crnt, 0 );
 
-		$crnt = ( $does_breakoff === 'Y' ?
+		$crnt = ( $does_breakoff === 'Y'
+			// Use Grade Scale value if Teacher Grade Scale Breakoff value is not set.
+			&& isset( $gradebook_config[ $course_period_id . '-' . $grade['ID'] ] ) ?
 			$gradebook_config[ $course_period_id . '-' . $grade['ID'] ] :
 			$grade['BREAK_OFF'] );
 
