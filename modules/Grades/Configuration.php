@@ -299,7 +299,7 @@ foreach ( (array) $semesters as $sem )
 				$value,
 				'values[SEM-' . $qtr['MARKING_PERIOD_ID'] . ']',
 				$qtr['TITLE'],
-				'size="3" maxlength="6"'
+				'size="3" maxlength="6" required'
 			) . '</td>';
 
 			$total += $gradebook_config_sem_qtr;
@@ -342,7 +342,7 @@ if ( $year[1]['DOES_GRADES'] === 'Y' )
 				$value,
 				'values[FY-' . $qtr['MARKING_PERIOD_ID'] . ']',
 				$qtr['TITLE'],
-				'size="3" maxlength="6"'
+				'size="3" maxlength="6" required'
 			) . '</td>';
 
 			$total += $gradebook_config_fy_qtr;
@@ -363,7 +363,7 @@ if ( $year[1]['DOES_GRADES'] === 'Y' )
 				$value,
 				'values[FY-' . $sem['MARKING_PERIOD_ID'] . ']',
 				$sem['TITLE'],
-				'size="3" maxlength="6"'
+				'size="3" maxlength="6" required'
 			) . '</td>';
 
 			$total += $gradebook_config_fy_sem;
