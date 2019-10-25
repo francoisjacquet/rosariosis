@@ -3,7 +3,7 @@
 
 Changes in 5.5
 --------------
-- Display Title of: Subject, Course, Course Period in PrintSchedules.php, thanks to Tintamail
+- Display Title of: Subject, Course, Course Period in PrintSchedules.php, sponsored by Tintamail
 - Fix #255 Create Assignments for CP of same course but different teachers in MassCreateAssignments.php, thanks to Bacila Andrei
 - Fix SQL error REPORT_CARD_GRADES table: Cut titles > 5 chars in Update.fnc.php
 - SQL REPORT_CARD_GRADES table: Change title column type to character varying(5) in rosariosis.sql, Update.fnc.php & ReportCardGrades.php
@@ -12,6 +12,7 @@ Changes in 5.5
 - Input type number for Breakoff & Final Grade Percentages in Configuration.php
 - Format Grade Breakoff input title in Configuration.php
 - Use Grade Scale value if Teacher Grade Scale Breakoff value is not set in \_makePercentGrade.fnc.php
+- Close #46 Add Custom Fields to Substitutions in Substitutions.fnc.php, sponsored by École Étoile du Matin
 
 Changes in 5.4.5
 ----------------

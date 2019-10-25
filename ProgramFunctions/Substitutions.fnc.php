@@ -128,3 +128,169 @@ function SubstitutionsTextMake( $substitutions, $text )
 
 	return $text_substituted;
 }
+
+/**
+ * Get Custom fields from DB for Substitutions.
+ *
+ * @since 5.5
+ *
+ * @param  string $table STUDENT, STAFF, SCHOOL...
+ *
+ * @return array         Custom fields array from DB.
+ */
+function _substitutionsDBGetCustomFields( $table )
+{
+	$table_name = ( $table === 'STUDENT' ? 'CUSTOM' : $table ) . '_FIELDS';
+
+	$has_categories = array( 'STUDENT', 'ADDRESS', 'PEOPLE', 'STAFF' );
+
+	if ( ! in_array( $table, $has_categories ) )
+	{
+		return DBGet( "SELECT '' AS CATEGORY,ID,TITLE,TYPE,SELECT_OPTIONS
+			FROM " . DBEscapeIdentifier( $table_name ) . "
+			WHERE TYPE<>'file'" );
+	}
+
+	$category_table_name = $table . '_FIELD_CATEGORIES';
+
+	$profile_category_sql = '';
+
+	if ( $table === 'STUDENT' || $table === 'STAFF' )
+	{
+		// Only get fields in categories which user profile can access.
+		$profile_category_sql = " AND (SELECT CAN_USE FROM " .
+		( User( 'PROFILE_ID' ) ?
+			"PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
+			"STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'" ) .
+		" AND MODNAME='" . ( $table === 'STUDENT' ? 'Students/Student.php' : 'Users/User.php' ) .
+		"&category_id='||f.CATEGORY_ID
+		LIMIT 1)='Y'";
+	}
+
+	return DBGet( "SELECT c.TITLE AS CATEGORY,f.ID,f.TITLE,f.TYPE,f.SELECT_OPTIONS
+		FROM " . DBEscapeIdentifier( $table_name ) . " f," . DBEscapeIdentifier( $category_table_name ) . " c
+		WHERE f.TYPE<>'file'
+		AND c.ID=f.CATEGORY_ID" . $profile_category_sql );
+}
+
+/**
+ * Get custom Fields codes for Substitutions
+ *
+ * @since 5.5
+ *
+ * @example $substitutions += SubstitutionsCustomFields( 'STUDENT' );
+ *
+ * @uses _substitutionsDBGetCustomFields()
+ *
+ * @param array $table STUDENT, STAFF, SCHOOL...
+ *
+ * @return array       Substitution code as key and Field title as value.
+ */
+function SubstitutionsCustomFields( $table )
+{
+	$fields = _substitutionsDBGetCustomFields( $table );
+
+	$custom_fields = array();
+
+	foreach ( $fields as $field )
+	{
+		// TODO instert CATEGORY as separator..., SelectInput() not ready for it yet.
+		$code = '__' . $table . '_' . $field['ID'] . '__';
+
+		$custom_fields[ $code ] = ParseMLField( $field['TITLE'] );
+	}
+
+	return $custom_fields;
+}
+
+/**
+ * Get Custom Fields values to be substituted. For use before SubstitutionsTextMake().
+ * Format field value for display, depending on field type.
+ *
+ * @since 5.5
+ *
+ * @example $substitutions += SubstitutionsCustomFieldsValues( 'STUDENT', $student );
+ *
+ * @uses _substitutionsDBGetCustomFields()
+ *
+ * @param staing $table  STUDENT, STAFF, SCHOOL...
+ * @param array  $values Custom field values from DB, for current student, user, school...
+ *
+ * @return array         Substitution code as key and formatted Field value as value.
+ */
+function SubstitutionsCustomFieldsValues( $table, $values )
+{
+	$fields = _substitutionsDBGetCustomFields( $table );
+
+	$custom_values = array();
+
+	foreach ( $fields as $field )
+	{
+		$column = 'CUSTOM_' . $field['ID'];
+
+		// Do not use isset here as returns false when has null value.
+		if ( ! array_key_exists( $column, $values ) )
+		{
+			continue;
+		}
+
+		$code = '__' . str_replace( 'CUSTOM', $table, $column ) . '__';
+
+		$custom_values[ $code ] = $value = $values[ $column ];
+
+		if ( in_array( $field['TYPE'], array( 'text', 'numeric' ) ) )
+		{
+			// No formatting, use raw for text & numeric types.
+			continue;
+		}
+
+		$title = ParseMLField( $field['TITLE'] );
+
+		// Process value based on field type.
+		switch ( $field['TYPE'] )
+		{
+			case 'date':
+
+				$custom_values[ $code ] = ProperDate( $value );
+
+				break;
+
+			case 'textarea':
+
+				$custom_values[ $code ] = '<div class="markdown-to-html">' . $value . '</div>';;
+
+				break;
+
+			case 'radio':
+
+				$custom_values[ $code ] = $value ? _( 'Yes' ) : _( 'No' ) . ( $title !== '' ? ' ' . $title : '' );
+
+				break;
+
+			case 'multiple':
+
+				if ( $value == '' )
+				{
+					$custom_values[ $code ] = _( 'N/A' );
+
+					break;
+				}
+
+				$options = explode( '||', trim( $value, '||' ) );
+
+				$custom_values[ $code ] = implode( ', ', $options );
+
+				break;
+
+			case 'autos':
+			case 'exports':
+			case 'select':
+
+				$custom_values[ $code ] = $value ? $value : _( 'N/A' );
+
+				break;
+		}
+	}
+
+	return $custom_values;
+}
