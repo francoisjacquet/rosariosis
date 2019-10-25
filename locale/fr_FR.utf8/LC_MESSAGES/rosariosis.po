@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-10-18 19:26+0200\n"
-"PO-Revision-Date: 2019-10-18 19:26+0200\n"
+"PO-Revision-Date: 2019-10-25 19:06+0200\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS\n"
 "Language: fr\n"
@@ -4914,7 +4914,7 @@ msgstr "Code de commentaire %s par défaut"
 
 #: modules/Grades/Configuration.php:215
 msgid "Score Breakoff Points"
-msgstr "Points Limites pour la Note"
+msgstr "Limites inférieures pour la Note"
 
 #: modules/Grades/Configuration.php:275
 msgid "Final Grading Percentages"

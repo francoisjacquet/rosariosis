@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-10-18 19:27+0200\n"
-"PO-Revision-Date: 2019-10-18 19:28+0200\n"
+"PO-Revision-Date: 2019-10-25 19:06+0200\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS\n"
 "Language: es\n"
@@ -4926,7 +4926,7 @@ msgstr "Código de comentario %s por defecto"
 
 #: modules/Grades/Configuration.php:215
 msgid "Score Breakoff Points"
-msgstr "Puntos Limites de la Calificación"
+msgstr "Límites bajos de la Calificación"
 
 #: modules/Grades/Configuration.php:275
 msgid "Final Grading Percentages"
@@ -5402,7 +5402,7 @@ msgstr "Escala de Códigos"
 
 #: modules/Grades/ReportCardGrades.php:214
 msgid "Breakoff"
-msgstr "Límite"
+msgstr "Límite bajo"
 
 #: modules/Grades/ReportCardGrades.php:216
 msgid "Unweighted GP Value"
