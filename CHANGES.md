@@ -14,6 +14,10 @@ Changes in 5.5
 - Use Grade Scale value if Teacher Grade Scale Breakoff value is not set in \_makePercentGrade.fnc.php
 - Close #46 Add Custom Fields to Substitutions in Substitutions.fnc.php, sponsored by École Étoile du Matin
 
+Changes in 5.4.6
+----------------
+- Fix Free text & Substitutions for admin users in ReportCards.fnc.php
+
 Changes in 5.4.5
 ----------------
 - Fix SQL error when no corresponding Grade found in Scale in InputFinalGrades.php
