@@ -132,11 +132,12 @@ if ( ! function_exists( 'TranscriptsIncludeForm' ) )
 			'total' => _( 'Total' ),
 		);
 
-		$_ROSARIO['allow_edit'] = true;
+		if ( User( 'PROFILE' ) !== 'admin' )
+		{
+			$_ROSARIO['allow_edit'] = true;
+		}
 
 		$return .= '<br /><br />' . RadioInput( '', 'showgpa_or_total', _( 'Last row' ), $gpa_or_total_options );
-
-		$_ROSARIO['allow_edit'] = false;
 
 		// Limit Cetificate to admin.
 

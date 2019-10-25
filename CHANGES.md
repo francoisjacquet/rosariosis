@@ -3,7 +3,7 @@
 
 Changes in 5.4.6
 ----------------
-- Fix Free text & Substitutions for admin users in ReportCards.fnc.php
+- Fix Free, Studies Certificate text & Substitutions for admin users in ReportCards.fnc.php & Transcripts.fnc.php
 
 Changes in 5.4.5
 ----------------
