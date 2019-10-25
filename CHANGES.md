@@ -13,7 +13,7 @@ Changes in 5.5
 - Format Grade Breakoff input title in Configuration.php
 - Use Grade Scale value if Teacher Grade Scale Breakoff value is not set in \_makePercentGrade.fnc.php
 - Close #46 Add Custom Fields to Substitutions in Substitutions.fnc.php, sponsored by École Étoile du Matin
-- Use Custom Fields in Substitutions in HonorRoll.php, HonorRoll.fnc.php, Transcripts.fnc.php, Letters.php,
+- Use Custom Fields in Substitutions in HonorRoll.php, HonorRoll.fnc.php, Reportcards.fnc.php, Transcripts.fnc.php & Letters.php
 
 Changes in 5.4.6
 ----------------
