@@ -151,6 +151,8 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 				'__YEAR__' => _( 'School Year' ),
 			);
 
+			$substitutions += SubstitutionsCustomFields( 'STUDENT' );
+
 			$return .= '<table><tr class="st"><td class="valign-top">' .
 				SubstitutionsInput( $substitutions ) .
 			'</td></tr>';
@@ -602,10 +604,13 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 			// Student Info.
 			$extra2['WHERE'] = " AND s.STUDENT_ID='" . $student_id . "'";
 
+			// SELECT s.* Custom Fields for Substitutions.
+			$extra2['SELECT'] = ",s.*";
+
 			if ( empty( $_REQUEST['_search_all_schools'] ) )
 			{
 				// School Title.
-				$extra2['SELECT'] = ",(SELECT sch.TITLE FROM SCHOOLS sch
+				$extra2['SELECT'] .= ",(SELECT sch.TITLE FROM SCHOOLS sch
 					WHERE ssm.SCHOOL_ID=sch.ID
 					AND sch.SYEAR='" . UserSyear() . "') AS SCHOOL_TITLE";
 			}
@@ -667,7 +672,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 				// TOCHECK! test headers.
 				DrawHeader( $student['FULL_NAME'], $student_id );
 
-				DrawHeader( $student['GRADE_ID'], SchoolInfo( 'TITLE' ) );
+				DrawHeader( $student['GRADE_ID'], $student['SCHOOL_TITLE'] );
 
 				$syear = FormatSyear( UserSyear(), Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) );
 
@@ -837,6 +842,8 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 					'__SCHOOL_ID__' => $student['SCHOOL_TITLE'],
 					'__YEAR__' => $syear,
 				);
+
+				$substitutions += SubstitutionsCustomFieldsValues( 'STUDENT', $student );
 
 				$freetext = SubstitutionsTextMake( $substitutions, $freetext_template );
 

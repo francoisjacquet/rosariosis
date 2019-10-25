@@ -5,6 +5,8 @@
 New in 5.5
 ----------
 
+- Substitutions: Custom Fields available, sponsored by École Étoile du Matin
+
 [Grading Scale Generation](https://gitlab.com/francoisjacquet/Grading_Scale_Generation/) plugin, sponsored by Signo Digital.
 
 

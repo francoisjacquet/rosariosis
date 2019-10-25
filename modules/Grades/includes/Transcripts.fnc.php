@@ -132,11 +132,12 @@ if ( ! function_exists( 'TranscriptsIncludeForm' ) )
 			'total' => _( 'Total' ),
 		);
 
-		$_ROSARIO['allow_edit'] = true;
+		if ( User( 'PROFILE' ) !== 'admin' )
+		{
+			$_ROSARIO['allow_edit'] = true;
+		}
 
 		$return .= '<br /><br />' . RadioInput( '', 'showgpa_or_total', _( 'Last row' ), $gpa_or_total_options );
-
-		$_ROSARIO['allow_edit'] = false;
 
 		// Limit Cetificate to admin.
 
@@ -169,6 +170,8 @@ if ( ! function_exists( 'TranscriptsIncludeForm' ) )
 				'__YEAR__' => _( 'School Year' ),
 				'__BLOCK2__' => _( 'Text Block 2' ),
 			);
+
+			$substitutions += SubstitutionsCustomFields( 'STUDENT' );
 
 			$return .= '<table><tr class="st"><td class="valign-top">' .
 				SubstitutionsInput( $substitutions ) .
@@ -320,6 +323,8 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 						'__SCHOOL_ID__' => $school_info['TITLE'],
 						'__YEAR__' => $syear,
 					);
+
+					$substitutions += SubstitutionsCustomFieldsValues( 'STUDENT', $student );
 
 					$certificate_block1 = SubstitutionsTextMake( $substitutions, $certificate_texts[0] );
 
@@ -708,6 +713,7 @@ if ( ! function_exists( 'TranscriptPDFFooter' ) )
  * Get Transcripts Students data from DB
  *
  * @since 4.8
+ * @since 5.5 SELECT s.* Custom Fields for Substitutions (SELECT s.*).
  *
  * @param  string $st_list Student IDs list.
  * @param  string $syear   School Year.
@@ -715,56 +721,51 @@ if ( ! function_exists( 'TranscriptPDFFooter' ) )
  */
 function _getTranscriptsStudents( $st_list, $syear )
 {
-	$students_dataquery = "SELECT
-	s.STUDENT_ID,
-	s.FIRST_NAME,
-	s.LAST_NAME,
-	s.MIDDLE_NAME,
-	" . DisplayNameSQL( 's' ) . " AS FULL_NAME";
+	$students_dataquery = "SELECT s.*," . DisplayNameSQL( 's' ) . " AS FULL_NAME";
 
 	$custom_fields_RET = DBGet( "SELECT ID,TITLE,TYPE
 		FROM CUSTOM_FIELDS
-		WHERE ID IN (200000000, 200000003, 200000004)", array(), array( 'ID' ) );
+		WHERE ID IN (200000000,200000003,200000004)", array(), array( 'ID' ) );
 
 	if ( $custom_fields_RET['200000000']
 		&& $custom_fields_RET['200000000'][1]['TYPE'] == 'select' )
 	{
-		$students_dataquery .= ", s.custom_200000000 as gender";
+		$students_dataquery .= ",s.custom_200000000 as gender";
 	}
 
 	if ( $custom_fields_RET['200000003'] )
 	{
-		$students_dataquery .= ", s.custom_200000003 as ssecurity";
+		$students_dataquery .= ",s.custom_200000003 as ssecurity";
 	}
 
 	if ( $custom_fields_RET['200000004']
 		&& $custom_fields_RET['200000004'][1]['TYPE'] == 'date' )
 	{
-		$students_dataquery .= ", s.custom_200000004 as birthdate";
+		$students_dataquery .= ",s.custom_200000004 as birthdate";
 	}
 
 	//, s.custom_200000012 as estgraddate
-	$students_dataquery .= ", a.address
-	, a.city
-	, a.state
-	, a.zipcode
-	, a.phone
-	, a.mail_address
-	, a.mail_city
-	, a.mail_state
-	, a.mail_zipcode
-	, (SELECT start_date FROM student_enrollment
+	$students_dataquery .= ",a.address
+	,a.city
+	,a.state
+	,a.zipcode
+	,a.phone
+	,a.mail_address
+	,a.mail_city
+	,a.mail_state
+	,a.mail_zipcode
+	,(SELECT start_date FROM student_enrollment
 		WHERE student_id=s.student_id
 		ORDER BY syear, start_date
 		LIMIT 1) as init_enroll
-	, (SELECT sgl.title
+	,(SELECT sgl.title
 		FROM school_gradelevels sgl JOIN student_enrollment se ON (sgl.id=se.grade_id)
 		WHERE se.syear='" . $syear . "'
 		AND se.student_id=s.student_id
 		AND (se.end_date is null OR se.start_date < se.end_date)
 		ORDER BY se.start_date desc
 		LIMIT 1) as grade_level
-	, (SELECT sgl2.title
+	,(SELECT sgl2.title
 		FROM school_gradelevels sgl2, school_gradelevels sgl JOIN student_enrollment se ON (sgl.id=se.grade_id)
 		WHERE se.syear='" . $syear . "'
 		AND se.student_id=s.student_id

@@ -23,7 +23,10 @@ function HonorRollPDF( $student_array, $is_list, $honor_roll_text )
 		WHERE MP='QTR'
 		AND MARKING_PERIOD_ID='" . UserMP() . "'" );
 
-	$extra['SELECT'] = ",(SELECT SORT_ORDER FROM SCHOOL_GRADELEVELS WHERE ID=ssm.GRADE_ID) AS SORT_ORDER";
+	// SELECT s.* Custom Fields for Substitutions.
+	$extra['SELECT'] .= ",s.*";
+
+	$extra['SELECT'] .= ",(SELECT SORT_ORDER FROM SCHOOL_GRADELEVELS WHERE ID=ssm.GRADE_ID) AS SORT_ORDER";
 
 	$extra['SELECT'] .= "," . db_case( array( "exists(SELECT rg.GPA_VALUE
 	FROM STUDENT_REPORT_CARD_GRADES sg,COURSE_PERIODS cp,REPORT_CARD_GRADES rg
@@ -154,6 +157,8 @@ function HonorRollPDF( $student_array, $is_list, $honor_roll_text )
 				'__SCHOOL_ID__' => SchoolInfo( 'TITLE' ),
 			);
 
+			$substitutions += SubstitutionsCustomFieldsValues( 'STUDENT', $student );
+
 			$honor_roll_text = SubstitutionsTextMake( $substitutions, $REQUEST_honor_roll_text );
 
 			$honor_roll_text = ( $student['HIGH_HONOR'] === 'Y' ?
@@ -161,12 +166,15 @@ function HonorRollPDF( $student_array, $is_list, $honor_roll_text )
 				$honor_roll_text
 			);
 
-			echo '<tr><td>'.$honor_roll_text.'</td></tr></table>';
+			echo '<tr><td>' . $honor_roll_text . '</td></tr></table>';
 
 			echo '<br /><table style="margin:auto auto; width:80%;">';
 
-			echo '<tr><td><span style="font-size:x-large;">'.$student['TEACHER'].'</span><br /><span style="font-size:medium;">'._('Teacher').'</span></td>';
-			echo '<td><span style="font-size:x-large;">'.$mp_RET[1]['TITLE'].'</span><br /><span style="font-size:medium;">'._('Marking Period').'</span></td></tr>';
+			echo '<tr><td><span style="font-size:x-large;">' . $student['TEACHER'] . '</span><br />
+				<span style="font-size:medium;">' . _( 'Teacher' ) . '</span></td>';
+
+			echo '<td><span style="font-size:x-large;">' . $mp_RET[1]['TITLE'] . '</span><br />
+				<span style="font-size:medium;">' . _( 'Marking Period' ) . '</span></td></tr>';
 
 			echo '<tr><td><span style="font-size:x-large;">' .
 				SchoolInfo( 'PRINCIPAL' ) .
@@ -221,9 +229,9 @@ function HonorRollSubjectPDF( $student_array, $is_list, $honor_roll_text )
 	WHERE st.STAFF_ID=cp.TEACHER_ID
 	AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID
 	AND ss.STUDENT_ID=s.STUDENT_ID
-	AND ss.SYEAR='".UserSyear()."'
-	AND ss.MARKING_PERIOD_ID IN (".GetAllMP('QTR',GetCurrentMP('QTR',DBDate(),false)).")
-	AND (ss.START_DATE<='".DBDate()."'AND (ss.END_DATE>='".DBDate()."' OR ss.END_DATE IS NULL)) LIMIT 1) AS TEACHER";
+	AND ss.SYEAR='" . UserSyear() . "'
+	AND ss.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', GetCurrentMP( 'QTR', DBDate(), false ) ) . ")
+	AND (ss.START_DATE<='" . DBDate() . "'AND (ss.END_DATE>='" . DBDate() . "' OR ss.END_DATE IS NULL)) LIMIT 1) AS TEACHER";
 
 	$extra['ORDER_BY'] = 'SORT_ORDER DESC,FULL_NAME';
 
@@ -307,13 +315,18 @@ function HonorRollSubjectPDF( $student_array, $is_list, $honor_roll_text )
 				'__SUBJECT__' => $subject_RET[1]['TITLE'],
 			);
 
+			$substitutions += SubstitutionsCustomFieldsValues( 'STUDENT', $student );
+
 			$honor_roll_text = SubstitutionsTextMake( $substitutions, $REQUEST_honor_roll_text );
 
 			echo '<tr><td>' . $honor_roll_text . '</td></tr></table>';
 
 			echo '<br /><table style="margin:auto auto; width:80%;">';
-			echo '<tr><td><span style="font-size:x-large;">'.$student['TEACHER'].'</span><br /><span style="font-size:medium;">'._('Teacher').'</span></td>';
-			echo '<td><span style="font-size:x-large;">'.$mp_RET[1]['TITLE'].'</span><br /><span style="font-size:medium;">'._('Marking Period').'</span></td></tr>';
+			echo '<tr><td><span style="font-size:x-large;">' . $student['TEACHER'] . '</span><br />
+				<span style="font-size:medium;">' . _( 'Teacher' ) . '</span></td>';
+
+			echo '<td><span style="font-size:x-large;">' . $mp_RET[1]['TITLE'] . '</span><br />
+				<span style="font-size:medium;">' . _( 'Marking Period' ) . '</span></td></tr>';
 
 			echo '<tr><td><span style="font-size:x-large;">' .
 				SchoolInfo( 'PRINCIPAL' ) . '</span><br />
@@ -503,22 +516,26 @@ function HonorRollWidgets( $item )
 				}
 			}
 
-			$subjects_RET = DBGet( "SELECT SUBJECT_ID,TITLE FROM COURSE_SUBJECTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'" );
+			$subjects_RET = DBGet( "SELECT SUBJECT_ID,TITLE
+				FROM COURSE_SUBJECTS
+				WHERE SCHOOL_ID='" . UserSchool() . "'
+				AND SYEAR='" . UserSyear() . "'" );
 
 			$select = '<select name="subject_id">
 				<option value="">' . _( 'N/A' ) . '</option>';
 
 			foreach ( (array) $subjects_RET as $subject)
 			{
-				$select .= '<option value="'.$subject['SUBJECT_ID'].'">'.$subject['TITLE'].'</option>';
+				$select .= '<option value="' . $subject['SUBJECT_ID'] . '">' . $subject['TITLE'] . '</option>';
 			}
 
 			$select .= '</select>';
-			$extra['search'] .= '<tr><td>'._('Honor Roll by Subject').'</td><td>'.$select.'</td></tr>';
+			$extra['search'] .= '<tr><td>' . _( 'Honor Roll by Subject' ) . '</td>
+				<td>' . $select . '</td></tr>';
 
 			$extra['search'] .= '<tr>
 			<td>'. _( 'Honor Roll' ) . '</td>
-			<td><label><input type="checkbox" name="honor_roll" value="Y" checked /> '._('Honor').'</label> <label><input type="checkbox" name="high_honor_roll" value="Y" checked /> '._('High Honor').'</label></td>
+			<td><label><input type="checkbox" name="honor_roll" value="Y" checked /> ' . _( 'Honor' ) . '</label> <label><input type="checkbox" name="high_honor_roll" value="Y" checked /> ' . _( 'High Honor' ) . '</label></td>
 			</tr>';
 		break;
 	}

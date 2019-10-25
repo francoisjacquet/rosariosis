@@ -30,6 +30,9 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 		$extra['SELECT'] = issetVal( $extra['SELECT'], '' );
 
+		// SELECT s.* Custom Fields for Substitutions.
+		$extra['SELECT'] .= ",s.*";
+
 		$extra['SELECT'] .= ",s.FIRST_NAME AS NICK_NAME";
 
 		if ( User( 'PROFILE' ) === 'admin' )
@@ -118,12 +121,21 @@ if ( $_REQUEST['modfunc'] === 'save'
 					echo '<br /><br /><table class="width-100p"><tr><td style="width:50px;"> &nbsp; </td><td>' . $student['MAILING_LABEL'] . '</td></tr></table><br />';
 				}
 
-				$letter_text = $REQUEST_letter_text;
+				$substitutions = array(
+					'__FULL_NAME__' => $student['FULL_NAME'],
+					'__LAST_NAME__' => $student['LAST_NAME'],
+					'__FIRST_NAME__' => $student['FIRST_NAME'],
+					'__MIDDLE_NAME__' =>  $student['MIDDLE_NAME'],
+					'__STUDENT_ID__' => $student['STUDENT_ID'],
+					'__SCHOOL_TITLE__' => $student['SCHOOL_TITLE'],
+					'__GRADE_ID__' => $student['GRADE_ID'],
+					'__TEACHER__' => $student['TEACHER'],
+					'__ROOM__' => $student['ROOM'],
+				);
 
-				foreach ( (array) $student as $column => $value )
-				{
-					$letter_text = str_replace( '__' . $column . '__', $value, $letter_text );
-				}
+				$substitutions += SubstitutionsCustomFieldsValues( 'STUDENT', $student );
+
+				$letter_text = SubstitutionsTextMake( $substitutions, $REQUEST_letter_text );
 
 				echo '<br />' . $letter_text;
 				echo '<div style="page-break-after: always;"></div>';
@@ -186,6 +198,8 @@ if ( ! $_REQUEST['modfunc'] )
 			$substitutions['__TEACHER__'] = _( 'Your Name' );
 			$substitutions['__ROOM__'] = _( 'Your Room' );
 		}
+
+		$substitutions += SubstitutionsCustomFields( 'STUDENT' );
 
 		$extra['extra_header_left'] .= '<table><tr class="st"><td class="valign-top">' .
 			SubstitutionsInput( $substitutions ) .
