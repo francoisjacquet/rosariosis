@@ -500,12 +500,12 @@ if ( ! $_REQUEST['modfunc'] )
 				'' AS SEARCH,'' AS DISPLAY
 			FROM CUSTOM_FIELDS cf,STUDENT_FIELD_CATEGORIES sfc
 			WHERE sfc.ID=cf.CATEGORY_ID
-			AND (SELECT CAN_USE
-				FROM " .
+			AND (SELECT CAN_USE FROM " .
 			( User( 'PROFILE_ID' ) ?
 			"PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
 			"STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'" ) .
-			" AND MODNAME='Students/Student.php&category_id='||cf.CATEGORY_ID)='Y'
+			" AND MODNAME='Students/Student.php&category_id='||cf.CATEGORY_ID
+			LIMIT 1)='Y'
 			AND cf.TYPE<>'files'
 			ORDER BY sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER,cf.TITLE";
 
