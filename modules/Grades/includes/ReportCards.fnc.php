@@ -111,11 +111,12 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 				'total' => _( 'Total' ),
 			);
 
-			$_ROSARIO['allow_edit'] = true;
+			if ( User( 'PROFILE' ) !== 'admin' )
+			{
+				$_ROSARIO['allow_edit'] = true;
+			}
 
 			$return .= '<td>' . RadioInput( '', 'elements[gpa_or_total]', _( 'Last row' ), $gpa_or_total_options ) . '</td>';
-
-			$_ROSARIO['allow_edit'] = false;
 		}
 
 		$return .= '</tr></table></td></tr>';
@@ -141,13 +142,11 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 			);
 
 			$substitutions = array(
-				'__SSECURITY__' => $field_SSECURITY[1]['TITLE'],
 				'__FULL_NAME__' => _( 'Display Name' ),
 				'__LAST_NAME__' => _( 'Last Name' ),
 				'__FIRST_NAME__' => _( 'First Name' ),
 				'__MIDDLE_NAME__' =>  _( 'Middle Name' ),
 				'__GRADE_ID__' => _( 'Grade Level' ),
-				'__NEXT_GRADE_ID__' => _( 'Next Grade' ),
 				'__SCHOOL_ID__' => _( 'School' ),
 				'__YEAR__' => _( 'School Year' ),
 			);
@@ -600,6 +599,21 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 			asort( $comments_arr, SORT_NUMERIC );
 
+			// Student Info.
+			$extra2['WHERE'] = " AND s.STUDENT_ID='" . $student_id . "'";
+
+			if ( empty( $_REQUEST['_search_all_schools'] ) )
+			{
+				// School Title.
+				$extra2['SELECT'] = ",(SELECT sch.TITLE FROM SCHOOLS sch
+					WHERE ssm.SCHOOL_ID=sch.ID
+					AND sch.SYEAR='" . UserSyear() . "') AS SCHOOL_TITLE";
+			}
+
+			$student = GetStuList( $extra2 );
+
+			$student = $student[1];
+
 			// Mailing Labels.
 
 			if ( isset( $_REQUEST['mailing_labels'] )
@@ -622,17 +636,6 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 			{
 				$addresses = array( 0 => array() );
 			}
-
-			// Optimization: Student Full Name & Grade Level.
-			$student_name_grade_RET = DBGet( "SELECT " . DisplayNameSQL() . " AS FULL_NAME,ssm.GRADE_ID
-			FROM STUDENTS s JOIN STUDENT_ENROLLMENT ssm ON (ssm.STUDENT_ID=s.STUDENT_ID)
-			WHERE s.STUDENT_ID='" . $student_id . "'
-			AND ssm.SYEAR='" . UserSyear() . "'
-			LIMIT 1" );
-
-			$student_full_name = $student_name_grade_RET[1]['FULL_NAME'];
-
-			$student_grade_level = GetGrade( $student_name_grade_RET[1]['GRADE_ID'] );
 
 			foreach ( (array) $addresses as $address )
 			{
@@ -662,13 +665,14 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 				DrawHeader( _( 'Report Card' ) );
 
 				// TOCHECK! test headers.
-				DrawHeader( $student_full_name, $student_id );
+				DrawHeader( $student['FULL_NAME'], $student_id );
 
-				DrawHeader( $student_grade_level, SchoolInfo( 'TITLE' ) );
+				DrawHeader( $student['GRADE_ID'], $student['SCHOOL_TITLE'] );
+
+				$syear = FormatSyear( UserSyear(), Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) );
 
 				// FJ add school year.
-				DrawHeader( _( 'School Year' ) . ': ' .
-					FormatSyear( UserSyear(), Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) ) );
+				DrawHeader( _( 'School Year' ) . ': ' . $syear );
 
 				$count_lines = 4;
 
@@ -824,7 +828,19 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 			{
 				$freetext_template = GetTemplate();
 
-				echo $freetext_template;
+				$substitutions = array(
+					'__FULL_NAME__' => $student['FULL_NAME'],
+					'__LAST_NAME__' => $student['LAST_NAME'],
+					'__FIRST_NAME__' => $student['FIRST_NAME'],
+					'__MIDDLE_NAME__' => $student['MIDDLE_NAME'],
+					'__GRADE_ID__' => $student['GRADE_ID'],
+					'__SCHOOL_ID__' => $student['SCHOOL_TITLE'],
+					'__YEAR__' => $syear,
+				);
+
+				$freetext = SubstitutionsTextMake( $substitutions, $freetext_template );
+
+				echo $freetext;
 			}
 
 			// Add buffer to Report Cards array.

@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 5.4.6
+----------------
+- Fix Free text & Substitutions for admin users in ReportCards.fnc.php
+
 Changes in 5.4.5
 ----------------
 - Fix SQL error when no corresponding Grade found in Scale in InputFinalGrades.php
