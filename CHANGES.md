@@ -15,6 +15,10 @@ Changes in 5.5
 - Close #46 Add Custom Fields to Substitutions in Substitutions.fnc.php, sponsored by École Étoile du Matin
 - Use Custom Fields in Substitutions in HonorRoll.php, HonorRoll.fnc.php, Reportcards.fnc.php, Transcripts.fnc.php & Letters.php
 
+Changes in 5.4.7
+----------------
+- Fix Students List for various Course Periods in PrintClassPictures.php
+
 Changes in 5.4.6
 ----------------
 - Fix Free, Studies Certificate text & Substitutions for admin users in ReportCards.fnc.php & Transcripts.fnc.php
