@@ -256,6 +256,7 @@ modules/Reports*
 modules/Staff_Parents_Import*
 modules/Timetable_Import*
 modules/SMS*
+modules/Attendance_Excel_Sheet*
 plugins/Email_SMTP*
 plugins/Public_Pages*
 plugins/Custom_Transcripts*
@@ -265,3 +266,4 @@ plugins/Siblings*
 plugins/Force_Password_Change*
 plugins/LDAP*
 plugins/Convert_Names_To_Titlecase*
+plugins/Grading_Scale_Generation*
