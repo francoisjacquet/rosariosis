@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 5.4.7
+----------------
+- Fix Students List for various Course Periods in PrintClassPictures.php
+
 Changes in 5.4.6
 ----------------
 - Fix Free, Studies Certificate text & Substitutions for admin users in ReportCards.fnc.php & Transcripts.fnc.php
