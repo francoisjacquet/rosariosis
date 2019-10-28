@@ -88,10 +88,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					AND ('" . DBDate() . "'<=END_DATE OR END_DATE IS NULL))";
 				}
 
-				if ( ! isset( $RET ) )
-				{
-					$RET = GetStuList( $extra );
-				}
+				$RET = GetStuList( $extra );
 
 				//echo '<pre>'; var_dump($RET); echo '</pre>';
 
