@@ -240,7 +240,7 @@ else
 		echo '<tr><td>' . SelectInput(
 			Config( 'STUDENTS_EMAIL_FIELD' ),
 			'values[CONFIG][STUDENTS_EMAIL_FIELD]',
-			sprintf( _( 'Student email field' ), Config( 'NAME' ) ),
+			_( 'Student email field' ),
 			$students_email_field_options,
 			'N/A'
 		) . '</td></tr>';
