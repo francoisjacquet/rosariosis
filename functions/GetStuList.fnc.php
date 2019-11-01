@@ -130,6 +130,8 @@ function GetStuList( &$extra = array() )
 			AND TITLE IN ('USERNAME','CONTACT_INFO','HOME_PHONE','GUARDIANS','ALL_CONTACTS')
 			AND USER_ID='" . User( 'STAFF_ID' ) . "'", array(), array( 'TITLE' ) );
 
+		$select = '';
+
 		if ( ! $view_fields_RET
 			&& ! $view_address_RET
 			&& empty( $view_other_RET['CONTACT_INFO'][1]['VALUE'] ) )
@@ -145,8 +147,6 @@ function GetStuList( &$extra = array() )
 			$custom_fields_RET = DBGet( "SELECT ID,TITLE,TYPE
 				FROM CUSTOM_FIELDS
 				WHERE ID IN (200000000, 200000001)" );
-
-			$select = '';
 
 			foreach ( (array) $custom_fields_RET as $field)
 			{
@@ -345,8 +345,8 @@ function GetStuList( &$extra = array() )
 						$extra['columns_after']['PARENTS'] = _( 'Guardians' );
 				}
 			}
-			elseif ( $_REQUEST['addr']
-				|| $extra['addr'] )
+			elseif ( ! empty( $_REQUEST['addr'] )
+				|| ! empty( $extra['addr'] ) )
 			{
 				$extra['FROM'] = " LEFT OUTER JOIN STUDENTS_JOIN_ADDRESS sam ON (ssm.STUDENT_ID=sam.STUDENT_ID " . $extra['STUDENTS_JOIN_ADDRESS'] . ")
 					LEFT OUTER JOIN ADDRESS a ON (sam.ADDRESS_ID=a.ADDRESS_ID) " . $extra['FROM'];

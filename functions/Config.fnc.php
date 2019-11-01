@@ -70,7 +70,7 @@ function Config( $item, $value = null )
 		$_ROSARIO['Config'][ (string) $item ][1]['CONFIG_VALUE'] = $value;
 	}
 
-	return $_ROSARIO['Config'][ (string) $item ][1]['CONFIG_VALUE'];
+	return issetVal( $_ROSARIO['Config'][ (string) $item ][1]['CONFIG_VALUE'] );
 }
 
 
