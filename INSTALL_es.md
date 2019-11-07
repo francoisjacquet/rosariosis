@@ -23,11 +23,11 @@ RosarioSIS ha sido probado en:
 
 Requerimientos mínimos: **PHP 5.4.45** y **PostgreSQL 8.4**
 
-Instrucciones de instalación (en inglés):
+Instrucciones de instalación:
 
-- [**Windows**](https://gitlab.com/francoisjacquet/rosariosis/wikis/How-to-install-RosarioSIS-on-Windows)
-- [**cPanel**](https://gitlab.com/francoisjacquet/rosariosis/wikis/How-to-install-RosarioSIS-on-cPanel)
-- [**Docker**](https://github.com/francoisjacquet/docker-rosariosis)
+- [**Windows**](https://gitlab.com/francoisjacquet/rosariosis/wikis/Instalar-RosarioSIS-en-Windows)
+- [**cPanel**](https://gitlab.com/francoisjacquet/rosariosis/wikis/How-to-install-RosarioSIS-on-cPanel) (en inglés)
+- [**Docker**](https://github.com/francoisjacquet/docker-rosariosis) (en inglés)
 
 
 Instalar el paquete
