@@ -133,9 +133,10 @@ function TextInput( $value, $name, $title = '', $extra = '', $div = true )
 /**
  * Password Input
  *
- * @example echo PasswordInput( '****', 'PASSWORD', _( 'Password' ), 'required strength' );
+ * @example echo PasswordInput( '********', 'PASSWORD', _( 'Password' ), 'required strength' );
  *
  * @since 4.4
+ * @since 5.5.1 Fill input value if $value != '********'.
  *
  * @uses GetInputID() to generate ID from name
  * @uses FormatInputTitle() to format title
@@ -171,7 +172,7 @@ function PasswordInput( $value, $name, $title = '', $extra = '', $div = true )
 	}
 
 	// Default input size.
-	if ( $value === ''
+	if ( $value == ''
 		&& mb_strpos( $extra, 'size=' ) === false )
 	{
 		$extra .= ' size="20"';
@@ -183,7 +184,7 @@ function PasswordInput( $value, $name, $title = '', $extra = '', $div = true )
 
 	$extra .= ' type="password" autocomplete="off"';
 
-	$input = TextInput( '', $name, '', $extra, false );
+	$input = TextInput( ( $value !== str_repeat( '*', 8 ) ? $value : '' ), $name, '', $extra, false );
 
 	$lock_icons = button( 'unlocked', '', '', 'password-toggle password-show' ) .
 		button( 'locked', '', '', 'password-toggle password-hide' );

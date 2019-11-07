@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 5.5.1
+----------------
+- Password Input: Fill input value if $value != '********' in Inputs.php
+
 Changes in 5.5
 --------------
 - Display Title of: Subject, Course, Course Period in PrintSchedules.php, sponsored by Tintamail
