@@ -19,6 +19,11 @@ if ( ! isset( $_REQUEST['year'] )
 	$_REQUEST['year'] = date( 'Y' );
 }
 
+if ( isset( $_REQUEST['calendar_id'] ) )
+{
+	$_REQUEST['calendar_id'] = (int) $_REQUEST['calendar_id'];
+}
+
 // Create / Recreate Calendar.
 if ( $_REQUEST['modfunc'] === 'create'
 	&& AllowEdit() )
