@@ -658,6 +658,7 @@ input[type="color"],
 select,
 textarea {
 	border-bottom-width: 2px;
+	transition: border .2s;
 }
 
 input[type="button"]:hover,
