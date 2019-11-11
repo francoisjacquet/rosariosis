@@ -1515,7 +1515,7 @@ input[type=checkbox].toggle {
 /* Teacher Programs */
 
 .teacher-programs-wrapper {
-	border-size: 2px;
+	/*border-width: 3px;*/
 	border-style: dashed;
 	padding: 7px;
 	width: 100%;
