@@ -93,7 +93,7 @@ function is_money( $value )
 			return false;
 		}
 
-		return $value;
+		return (float) $value;
 	}
 	else
 	{
