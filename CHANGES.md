@@ -7,6 +7,7 @@ Changes in 5.5.1
 - Fix SQL error when requested calendar ID is not integer in Calendar.php
 - CSS Fix #275 WPadmin .teacher-programs-wrapper border-width in stylesheet.css, thanks to Christian Foucher
 - Fix SQL error when Amount contains letters in Transactions.php
+- Fix Add a User save Select Multiple from Options in User.php
 
 Changes in 5.5
 --------------

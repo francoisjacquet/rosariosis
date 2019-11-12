@@ -390,16 +390,33 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 						$fields .= DBEscapeIdentifier( $column ) . ',';
 
-						//FJ add password encryption
-
-						if ( $column !== 'PASSWORD' )
+						if ( ! is_array( $value ) )
 						{
-							$values .= "'" . $value . "',";
+							//FJ add password encryption
+
+							if ( $column !== 'PASSWORD' )
+							{
+								$values .= "'" . $value . "',";
+							}
+							else
+							{
+								$value = str_replace( "''", "'", $value );
+								$values .= "'" . encrypt_password( $value ) . "',";
+							}
 						}
 						else
 						{
-							$value = str_replace( "''", "'", $value );
-							$values .= "'" . encrypt_password( $value ) . "',";
+							$values .= "'||";
+
+							foreach ( (array) $value as $val )
+							{
+								if ( $val )
+								{
+									$values .= $val . '||';
+								}
+							}
+
+							$values .= "',";
 						}
 					}
 				}
