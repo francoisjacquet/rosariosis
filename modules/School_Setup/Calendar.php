@@ -21,7 +21,7 @@ if ( ! isset( $_REQUEST['year'] )
 
 if ( isset( $_REQUEST['calendar_id'] ) )
 {
-	$_REQUEST['calendar_id'] = (int) $_REQUEST['calendar_id'];
+	$_REQUEST['calendar_id'] = (string) (int) $_REQUEST['calendar_id'];
 }
 
 // Create / Recreate Calendar.
