@@ -592,7 +592,7 @@ if ( ! $_REQUEST['modfunc'] )
 			echo '<tr class="highlight-hover">';
 		}
 
-		echo '<th>&nbsp;</th>';
+		echo '<td>&nbsp;</td>';
 
 		echo '<td><a href="Modules.php?modname=' . $_REQUEST['modname'] .
 			'&category_id=' . $_REQUEST['category_id'] . '&address_id=0">' .
