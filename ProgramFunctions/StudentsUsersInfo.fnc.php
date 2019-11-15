@@ -521,7 +521,7 @@ function _makeMultipleInput( $column, $name, $request )
 		$field;
 
 	if ( AllowEdit()
-		&& !isset( $_REQUEST['_ROSARIO_PDF'] ) )
+		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		$select_options = array();
 
@@ -535,7 +535,7 @@ function _makeMultipleInput( $column, $name, $request )
 			$options[ $option ] = $option;
 		}
 
-		if ( $value[ $column ] != '' )
+		if ( ! empty( $value[ $column ] ) )
 		{
 			$return = '<div id="div' . $request . $column . '">
 				<div class="onclick" onclick=\'javascript:addHTML(html' . $request . $column;
@@ -566,7 +566,8 @@ function _makeMultipleInput( $column, $name, $request )
 			$table .= '<td><label>
 				<input type="checkbox" name="' . $request . '[' . $column . '][]" value="' .
 					htmlspecialchars( $option, ENT_QUOTES ) . '"' .
-					( mb_strpos( $value[ $column ], '||' . $option . '||' ) !== false ? ' checked' : '' ) . ' /> ' .
+					( ! empty( $value[ $column ] )
+						&& mb_strpos( $value[ $column ], '||' . $option . '||' ) !== false ? ' checked' : '' ) . ' /> ' .
 					$option .
 			'</label></td>';
 
@@ -582,11 +583,13 @@ function _makeMultipleInput( $column, $name, $request )
 
 		$table .= '</td></tr></table>';
 
-		if ( $value[ $column ] != '' )
+		if ( ! empty( $value[ $column ] ) )
 		{
 			echo '<script>var html' . $request . $column . '=' . json_encode( $table ) . ';</script>' . $return;
 			echo ',"div' . $request . $column . '",true);\' >';
-			echo '<span class="underline-dots">' . ($value[ $column ] != '' ? str_replace( '||', ', ', mb_substr( $value[ $column ], 2, -2 ) ) : '-' ) . '</span>';
+			echo '<span class="underline-dots">' .
+			( $value[ $column ] != '' ? str_replace( '||', ', ', mb_substr( $value[ $column ], 2, -2 ) ) : '-' ) .
+			'</span>';
 			echo '</div></div>';
 		}
 		else
