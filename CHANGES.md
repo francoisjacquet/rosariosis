@@ -1,6 +1,11 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 5.6
+--------------
+- Fix saving new student/user when current Student/Staff ID set (in other browser tab) in Student.php & User.php
+- Fix SQL error on save when current Student/Staff ID was lost (in other browser tab) in Student.php & User.php
+
 Changes in 5.5.1
 ----------------
 - Password Input: Fill input value if $value != '********' in Inputs.php

@@ -162,12 +162,26 @@ if ( $_REQUEST['modfunc'] === 'update'
 	if ( ! empty( $_POST['staff'] )
 		|| ! empty( $_FILES ) )
 	{
+		if ( ! $_REQUEST['staff_id']
+			&& UserStaffID() )
+		{
+			// Fix saving new student when current Staff ID set (in other browser tab).
+			unset( $_SESSION['staff_id'] );
+		}
+		elseif ( $_REQUEST['staff_id'] != UserStaffID() )
+		{
+			// Fix SQL error on save when current Staff ID was lost (in other browser tab).
+			SetUserStaffID( $_REQUEST['staff_id'] );
+		}
+
 		$required_error = false;
 
-		// FJ fix SQL bug FIRST_NAME, LAST_NAME is null.
-
-		if (  ( isset( $_REQUEST['staff']['FIRST_NAME'] ) && empty( $_REQUEST['staff']['FIRST_NAME'] ) ) || ( isset( $_REQUEST['staff']['LAST_NAME'] ) && empty( $_REQUEST['staff']['LAST_NAME'] ) ) )
+		if ( ( isset( $_REQUEST['staff']['FIRST_NAME'] )
+				&& empty( $_REQUEST['staff']['FIRST_NAME'] ) )
+			|| ( isset( $_REQUEST['staff']['LAST_NAME'] )
+				&& empty( $_REQUEST['staff']['LAST_NAME'] ) ) )
 		{
+			// Check FIRST_NAME, LAST_NAME is not null.
 			$required_error = true;
 		}
 

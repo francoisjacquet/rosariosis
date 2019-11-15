@@ -99,8 +99,19 @@ if ( $_REQUEST['modfunc'] === 'update'
 		|| ! empty( $_POST['values'] )
 		|| ! empty( $_FILES ) )
 	{
-		$required_error = false;
+		if ( ! $_REQUEST['student_id']
+			&& UserStudentID() )
+		{
+			// Fix saving new student when current Student ID set (in other browser tab).
+			unset( $_SESSION['student_id'] );
+		}
+		elseif ( $_REQUEST['student_id'] != UserStudentID() )
+		{
+			// Fix SQL error on save when current Student ID was lost (in other browser tab).
+			SetUserStudentID( $_REQUEST['student_id'] );
+		}
 
+		$required_error = false;
 
 		if (  ( isset( $_REQUEST['students']['FIRST_NAME'] )
 				&& empty( $_REQUEST['students']['FIRST_NAME'] ) )
