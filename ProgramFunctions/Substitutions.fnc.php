@@ -155,7 +155,8 @@ function _substitutionsDBGetCustomFields( $table )
 
 	$profile_category_sql = '';
 
-	if ( $table === 'STUDENT' || $table === 'STAFF' )
+	if ( User( 'STAFF_ID' )
+		&& ( $table === 'STUDENT' || $table === 'STAFF' ) )
 	{
 		// Only get fields in categories which user profile can access.
 		$profile_category_sql = " AND (SELECT CAN_USE FROM " .

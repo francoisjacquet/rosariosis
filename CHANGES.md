@@ -5,6 +5,7 @@ Changes in 5.6
 --------------
 - Fix saving new student/user when current Student/Staff ID set (in other browser tab) in Student.php & User.php
 - Fix SQL error on save when current Student/Staff ID was lost (in other browser tab) in Student.php & User.php
+- Always do custom fields substitutions when Student in Substitutions.fnc.php
 
 Changes in 5.5.1
 ----------------
