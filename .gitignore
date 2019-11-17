@@ -232,7 +232,7 @@ assets/themes/WPadmin-icon-sets/
 assets/themes/WPadmin-Aptiris/
 assets/themes/openSIS/
 modules/Students_Import/
-modules/Messaging/
+modules/Messaging*
 modules/Example/
 plugins/Paypal_Registration
 plugins/PDF_Header_Footer
