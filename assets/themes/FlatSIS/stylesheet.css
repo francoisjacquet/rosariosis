@@ -38,6 +38,10 @@
 	background-image: url("modules/Food_Service.png");
 }
 
+.module-icon.Library {
+	background-image: url("modules/Library.png");
+}
+
 .module-icon.Messaging {
 	background-image: url("modules/Messaging.png") !important;
 }
@@ -64,6 +68,10 @@
 
 .module-icon.School_Setup {
 	background-image: url("modules/School_Setup.png");
+}
+
+.module-icon.SMS {
+	background-image: url("modules/SMS.png");
 }
 
 .module-icon.Student_Billing {
