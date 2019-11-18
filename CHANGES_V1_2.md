@@ -1,4 +1,4 @@
-# CHANGES for version 1 and 2
+# CHANGES for versions 1 and 2
 ## RosarioSIS Student Information System
 
 Changes in 2.9.15
