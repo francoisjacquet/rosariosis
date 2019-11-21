@@ -168,7 +168,8 @@ if ( $_REQUEST['modfunc'] === 'update'
 			// Fix saving new student when current Staff ID set (in other browser tab).
 			unset( $_SESSION['staff_id'] );
 		}
-		elseif ( $_REQUEST['staff_id'] != UserStaffID() )
+		elseif ( $_REQUEST['staff_id'] !== 'new'
+			&& $_REQUEST['staff_id'] != UserStaffID() )
 		{
 			// Fix SQL error on save when current Staff ID was lost (in other browser tab).
 			SetUserStaffID( $_REQUEST['staff_id'] );
