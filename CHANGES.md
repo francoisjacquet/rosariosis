@@ -9,6 +9,7 @@ Changes in 5.6
 - CSS add Library & SMS modules icons in stylesheet.css, wkhtmltopdf.css & icons.css
 - Translate non core module Title in Help.php
 - HTML smaller font size for Contact details title in ViewContact.php
+- HTML add Emergency & Custody button to Contact Info tip message in GetStuList.fnc.php
 
 Changes in 5.5.1
 ----------------

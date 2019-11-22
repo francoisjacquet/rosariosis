@@ -184,7 +184,7 @@ function GetStuList( &$extra = array() )
 
 			$extra2['SELECT_ONLY'] = 'ssm.STUDENT_ID,p.PERSON_ID,
 				p.FIRST_NAME,p.LAST_NAME,p.MIDDLE_NAME,
-				sjp.STUDENT_RELATION,pjc.TITLE,pjc.VALUE,a.PHONE,sjp.ADDRESS_ID ';
+				sjp.STUDENT_RELATION,sjp.EMERGENCY,sjp.CUSTODY,pjc.TITLE,pjc.VALUE,a.PHONE,sjp.ADDRESS_ID ';
 
 			$extra2['FROM'] = ',ADDRESS a,STUDENTS_JOIN_ADDRESS sja LEFT OUTER JOIN STUDENTS_JOIN_PEOPLE sjp ON (sja.STUDENT_ID=sjp.STUDENT_ID AND sja.ADDRESS_ID=sjp.ADDRESS_ID)
 				LEFT OUTER JOIN PEOPLE p ON (p.PERSON_ID=sjp.PERSON_ID)
@@ -236,7 +236,7 @@ function GetStuList( &$extra = array() )
 				$extra2['SELECT'] = '';
 
 				$extra2['SELECT_ONLY'] = 'ssm.STUDENT_ID,p.PERSON_ID,p.FIRST_NAME,p.LAST_NAME,p.MIDDLE_NAME,
-					sjp.STUDENT_RELATION,pjc.TITLE,pjc.VALUE,a.PHONE,sjp.ADDRESS_ID ';
+					sjp.STUDENT_RELATION,sjp.EMERGENCY,sjp.CUSTODY,pjc.TITLE,pjc.VALUE,a.PHONE,sjp.ADDRESS_ID ';
 
 				$extra2['FROM'] .= ',ADDRESS a,STUDENTS_JOIN_ADDRESS sja
 					LEFT OUTER JOIN STUDENTS_JOIN_PEOPLE sjp ON (sja.STUDENT_ID=sjp.STUDENT_ID AND sja.ADDRESS_ID=sjp.ADDRESS_ID)
@@ -298,7 +298,6 @@ function GetStuList( &$extra = array() )
 
 			if ( $view_address_RET )
 			{
-
 				$extra['FROM'] = " LEFT OUTER JOIN STUDENTS_JOIN_ADDRESS sam ON (ssm.STUDENT_ID=sam.STUDENT_ID AND sam." . $view_address_RET . "='Y')
 					LEFT OUTER JOIN ADDRESS a ON (sam.ADDRESS_ID=a.ADDRESS_ID) " . $extra['FROM'];
 
@@ -711,20 +710,33 @@ function makeContactInfo( $student_id, $column )
 			continue;
 		}
 
-		$tipmsg .= NoInput(
+		$img = '';
+
+		// PrintClassLists with all contacts.
+		if ( $person[1]['CUSTODY'] == 'Y' )
+		{
+			$img = 'gavel';
+		}
+		elseif ( $person[1]['EMERGENCY'] == 'Y' )
+		{
+			$img = 'emergency';
+		}
+
+		$tipmsg .= '<table class="width-100p cellspacing-0 col1-align-right">';
+
+		$tipmsg .= '<tr><td class="size-1">' . ( ! empty( $img ) ? button( $img ) .'&nbsp;' : '' ) .
+			$person[1]['STUDENT_RELATION'] .
+			'</td><td>' .
 			DisplayName(
 				$person[1]['FIRST_NAME'],
 				$person[1]['LAST_NAME'],
 				$person[1]['MIDDLE_NAME']
-			),
-			$person[1]['STUDENT_RELATION']
-		) . '<br />';
-
-		$tipmsg .= '<table class="width-100p cellspacing-0">';
+			) .
+			'</td></tr>';
 
 		if ( $person[1]['PHONE'] )
 		{
-			$tipmsg .= '<tr><td>' . _( 'Home Phone' ) .
+			$tipmsg .= '<tr><td class="size-1">' . _( 'Home Phone' ) .
 			'</td><td>' . $person[1]['PHONE'] . '</td></tr>';
 		}
 
@@ -733,12 +745,12 @@ function makeContactInfo( $student_id, $column )
 			if ( $info['TITLE']
 				|| $info['VALUE'] )
 			{
-				$tipmsg .= '<tr><td>' . $info['TITLE'] .
+				$tipmsg .= '<tr><td class="size-1">' . $info['TITLE'] .
 				'</td><td>' . $info['VALUE'] . '</td></tr>';
 			}
 		}
 
-		$tipmsg .= '</table>';
+		$tipmsg .= '</table><br />';
 	}
 
 	if ( ! $tipmsg )
