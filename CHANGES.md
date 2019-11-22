@@ -10,6 +10,7 @@ Changes in 5.6
 - Translate non core module Title in Help.php
 - HTML smaller font size for Contact details title in ViewContact.php
 - HTML add Emergency & Custody button to Contact Info tip message in GetStuList.fnc.php
+- Support option groups (`<optgroup>`) by adding 'group' to $extra in Inputs.php
 
 Changes in 5.5.1
 ----------------

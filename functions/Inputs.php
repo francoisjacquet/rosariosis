@@ -810,6 +810,8 @@ function MultipleCheckboxInput( $value, $name, $title, $options, $extra = '', $d
 /**
  * Select Input
  *
+ * @since 5.6 Support option groups (`<optgroup>`) by adding 'group' to $extra.
+ *
  * @example SelectInput( $value, 'values[' . $id . '][' . $name . ']', '', $options, 'N/A', $extra )
  *
  * @uses GetInputID() to generate ID from name
@@ -820,9 +822,9 @@ function MultipleCheckboxInput( $value, $name, $title, $options, $extra = '', $d
  * @param  string         $value    Input value.
  * @param  string         $name     Input name.
  * @param  string         $title    Input title (optional). Defaults to ''.
- * @param  array          $options  Input options: array( option_value => option_text ).
+ * @param  array          $options  Input options: array( option_value => option_text ) or with groups: array( group_name => array( option_value => option_text ) ).
  * @param  string|boolean $allow_na Allow N/A (empty value); set to false to disallow (optional). Defaults to N/A.
- * @param  string         $extra    Extra HTML attributes added to the input.
+ * @param  string         $extra    Extra HTML attributes added to the input. Add 'group' to enable options grouping.
  * @param  boolean        $div      Is input wrapped into <div onclick>? (optional). Defaults to true.
  *
  * @return string         Input HTML
@@ -836,25 +838,36 @@ function SelectInput( $value, $name, $title = '', $options = array(), $allow_na 
 
 	$required = $value == '' && mb_strpos( $extra, 'required' ) !== false;
 
-	// Mab - append current val to select list if not in list.
-	if ( $value != ''
-		&& ( ! is_array( $options )
-			|| ! array_key_exists( $value, $options ) ) )
+	$is_group = is_array( reset( $options ) ) && mb_strpos( $extra, 'group' ) !== false;
+
+	$display_val = isset( $options[ $value ] ) ?
+		( is_array( $options[ $value ] ) ? $options[ $value ][1] : $options[ $value ] ) :
+		'';
+
+	if ( $is_group )
 	{
-		$options[ $value ] = array( $value, '<span style="color:red">' . $value . '</span>' );
+		foreach ( $options as $group_options )
+		{
+			if ( isset( $group_options[ $value ] ) )
+			{
+				$display_val = is_array( $group_options[ $value ] ) ? $group_options[ $value ][1] : $group_options[ $value ];
+
+				break;
+			}
+		}
 	}
 
 	if ( AllowEdit()
 		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
-		$select = '<select name="'.$name.'" id="' . $id . '" '.$extra.'>';
+		$select = '<select name="' . $name . '" id="' . $id . '" ' . $extra . '>';
 
 		if ( $allow_na !== false )
 		{
 			$select .= '<option value="">' . ( $allow_na === 'N/A' ? _( 'N/A' ) : $allow_na ) . '</option>';
 		}
 
-		foreach ( (array) $options as $key => $val )
+		$make_option = function( $value, $key, $val )
 		{
 			$selected = '';
 
@@ -867,8 +880,40 @@ function SelectInput( $value, $name, $title = '', $options = array(), $allow_na 
 				$selected = ' selected';
 			}
 
-			$select .= '<option value="' . htmlspecialchars( $key, ENT_QUOTES ) . '"' .
+			return '<option value="' . htmlspecialchars( $key, ENT_QUOTES ) . '"' .
 				$selected . '>' . ( is_array( $val ) ? $val[0] : $val ) . '</option>';
+		};
+
+		if ( $is_group )
+		{
+			foreach ( (array) $options as $group => $group_options )
+			{
+				$select .= '<optgroup label="' . htmlspecialchars( $group, ENT_QUOTES ) . '">';
+
+				foreach ( (array) $group_options as $key => $val )
+				{
+					$select .= $make_option( $value, $key, $val );
+				}
+
+				$select .= '</optgroup>';
+			}
+		}
+		else
+		{
+			// Mab - append current val to select list if not in list.
+			if ( $value != ''
+				&& ( ! is_array( $options )
+					|| ! array_key_exists( $value, $options ) ) )
+			{
+				$options[ $value ] = array( $value, '<span style="color:red">' . $value . '</span>' );
+
+				$display_val = '<span style="color:red">' . $value . '</span>';
+			}
+
+			foreach ( (array) $options as $key => $val )
+			{
+				$select .= $make_option( $value, $key, $val );
+			}
 		}
 
 		$select .= '</select>' . FormatInputTitle( $title, $id, $required );
@@ -879,7 +924,7 @@ function SelectInput( $value, $name, $title = '', $options = array(), $allow_na 
 			$return = InputDivOnclick(
 				$id,
 				$select,
-				( is_array( $options[ $value ] ) ? $options[ $value ][1] : $options[ $value ] ),
+				$display_val,
 				FormatInputTitle( $title )
 			);
 		}
@@ -888,13 +933,8 @@ function SelectInput( $value, $name, $title = '', $options = array(), $allow_na 
 	}
 	else
 	{
-		$display_val = isset( $options[ $value ] ) ?
-			( is_array( $options[ $value ] ) ? $options[ $value ][1] : $options[ $value ] ) :
-			'';
-
 		if ( $display_val == '' )
 		{
-
 			if ( $allow_na !== false )
 			{
 				$display_val = $allow_na === 'N/A' ? _( 'N/A' ) : $allow_na;
