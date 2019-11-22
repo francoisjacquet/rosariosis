@@ -35,6 +35,8 @@ $handle = PDFStart(); ?>
 <?php
 $old_modcat = '';
 
+$non_core_modules = array_diff_key( $RosarioModules, array_flip( $RosarioCoreModules ) );
+
 foreach ( (array) $help as $program => $value ) :
 
 	// Zap programs which are not allowed.
@@ -66,6 +68,11 @@ foreach ( (array) $help as $program => $value ) :
 				$_ROSARIO['HeaderIcon'] = $modcat;
 
 				$modcat_title = _( str_replace( '_', ' ',  $modcat ) );
+
+				if ( in_array( $modcat, $non_core_modules ) )
+				{
+					$modcat_title = dgettext( $modcat, str_replace( '_', ' ',  $modcat ) );
+				}
 
 				if ( ! empty( $_ROSARIO['Menu'][ $modcat ]['title'] ) )
 				{

@@ -7,6 +7,7 @@ Changes in 5.6
 - Fix SQL error on save when current Student/Staff ID was lost (in other browser tab) in Student.php & User.php
 - Always do custom fields substitutions when Student in Substitutions.fnc.php
 - CSS add Library & SMS modules icons in stylesheet.css & icons.css
+- Translate non core module Title in Help.php
 
 Changes in 5.5.1
 ----------------
