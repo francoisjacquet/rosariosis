@@ -67,7 +67,7 @@ if ( ! function_exists( 'DashboardAttendanceAdmin' ) )
 
 			if ( $absences_RET[1]['HALF_DAY'] )
 			{
-				$absences_today .= ' &mdash; ' . _( 'Half Day' ) . ' ' . (int) $absences_RET[1]['HALF_DAY'];
+				$absences_today .= ' <span class="size-1">&mdash; ' . _( 'Half Day' ) . ' ' . (int) $absences_RET[1]['HALF_DAY'] . '</span>';
 			}
 		}
 
@@ -84,7 +84,7 @@ if ( ! function_exists( 'DashboardAttendanceAdmin' ) )
 
 			if ( $absences['HALF_DAY'] )
 			{
-				$absences_data[$proper_date] .= ' &mdash; ' . _( 'Half Day' ) . ' ' . (int) $absences['HALF_DAY'];
+				$absences_data[$proper_date] .= ' <span class="size-1">&mdash; ' . _( 'Half Day' ) . ' ' . (int) $absences['HALF_DAY'] . '</span>';
 			}
 		}
 
