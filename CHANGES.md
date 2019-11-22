@@ -12,6 +12,7 @@ Changes in 5.6
 - HTML add Emergency & Custody button to Contact Info tip message in GetStuList.fnc.php
 - Support option groups (`<optgroup>`) by adding 'group' to $extra in Inputs.php
 - Add Class Search Widget functions in ClassSearchWidget.fnc.php
+- Remove mySearch(), use ClassSearchWidget() function in PrintClassLists.php & PrintClassPictures.php
 
 Changes in 5.5.1
 ----------------
