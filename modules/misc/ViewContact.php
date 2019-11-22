@@ -36,12 +36,12 @@ if ( ! empty( $contacts_RET )
 
 	foreach ( (array) $contacts_RET as $info )
 	{
-		echo '<tr><td><b>' . $info['TITLE'] . '</b></td><td>' . $info['VALUE'] . '</td></tr>';
+		echo '<tr><td class="size-1">' . $info['TITLE'] . '</td><td>' . $info['VALUE'] . '</td></tr>';
 	}
 
 	foreach ( (array) $fields_RET as $info )
 	{
-		echo '<tr><td><b>' . $info['TITLE'] . '</b></td><td>' .
+		echo '<tr><td class="size-1">' . $info['TITLE'] . '></td><td>' .
 			$person_RET[1]['CUSTOM_'.$info['ID']] . '</td></tr>';
 	}
 

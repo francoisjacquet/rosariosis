@@ -8,6 +8,7 @@ Changes in 5.6
 - Always do custom fields substitutions when Student in Substitutions.fnc.php
 - CSS add Library & SMS modules icons in stylesheet.css, wkhtmltopdf.css & icons.css
 - Translate non core module Title in Help.php
+- HTML smaller font size for Contact details title in ViewContact.php
 
 Changes in 5.5.1
 ----------------
