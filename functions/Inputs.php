@@ -241,6 +241,8 @@ function PasswordInput( $value, $name, $title = '', $extra = '', $div = true )
 /**
  * Multi Languages Text Input
  *
+ * @since 5.5.2 Fix save first language in ML fields if not en_US.utf8.
+ *
  * @example MLTextInput( Config( 'TITLE' ), 'values[CONFIG][TITLE]', _( 'Program Title' ) )
  *
  * @uses GetInputID() to generate ID from name
@@ -332,7 +334,7 @@ function setMLvalue(id, loc, value){
 				'ML_' . $name . '[' . $loc . ']',
 				'',
 				$extra . ( $key == 0 ? ' required' : '' ) .
-					" onchange=\"setMLvalue('" . $id . "','" . ( $key == 0 ? '' : $loc ) . "',this.value);\"",
+				" onchange=\"setMLvalue('" . $id . "','" . $loc . "',this.value);\"",
 				false
 			);
 

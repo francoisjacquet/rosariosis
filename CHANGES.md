@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 5.5.2
+----------------
+- Fix save first language in ML fields if not en_US.utf8 in Inputs.php
+
 Changes in 5.5.1
 ----------------
 - Password Input: Fill input value if $value != '********' in Inputs.php
