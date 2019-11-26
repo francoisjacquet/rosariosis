@@ -2,6 +2,14 @@
 
 ## RosarioSIS Student Information System
 
+New in 5.6
+----------
+
+[Library Premium](https://www.rosariosis.org/library-module/) module.
+
+[TinyMCE Formula](https://www.rosariosis.org/plugins/tinymce-formula/) plugin.
+
+
 New in 5.5
 ----------
 
