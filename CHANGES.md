@@ -14,6 +14,10 @@ Changes in 5.6
 - Add Class Search Widget functions in ClassSearchWidget.fnc.php
 - Remove mySearch(), use ClassSearchWidget() function in PrintClassLists.php & PrintClassPictures.php
 
+Changes in 5.5.3
+----------------
+- Better base64 images detection in MarkDownHTML.fnc.php
+
 Changes in 5.5.2
 ----------------
 - Fix save first language in ML fields if not en_US.utf8 in Inputs.php
