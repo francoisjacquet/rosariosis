@@ -150,7 +150,8 @@ function SanitizeMarkDown( $md )
  * @example require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
  *          $_REQUEST['values']['textarea'] = SanitizeHTML( $_POST['values']['textarea'] );
  *
- * @since   2.9
+ * @since 2.9
+ * @since 5.5.3 Better base64 images detection.
  *
  * @global object $security
  *
@@ -178,7 +179,7 @@ function SanitizeHTML( $html, $image_path = '' )
 	}
 
 	$has_base64_images = preg_match_all(
-		'/<img src=\"(data:image\/[a-z.\+]{3,};base64[^\"\']*)\"[ |>]/i',
+		'/src=\"(data:image\/[a-z.\+]{3,};base64[^\"\']*)\"[ |>]/i',
 		$html,
 		$base64_images
 	);

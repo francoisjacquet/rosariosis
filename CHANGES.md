@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 5.5.3
+----------------
+- Better base64 images detection in MarkDownHTML.fnc.php
+
 Changes in 5.5.2
 ----------------
 - Fix save first language in ML fields if not en_US.utf8 in Inputs.php
