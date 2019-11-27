@@ -241,8 +241,8 @@ modules/Access_Log/
 modules/School_Inventory/
 modules/Graduation_Paths/
 modules/Email/
-modules/Email_Parents/
-modules/Email_Students/
+modules/Email_Parents*
+modules/Email_Students*
 modules/Student_Billing_Premium*
 modules/Quiz/
 modules/Audit/
@@ -267,3 +267,4 @@ plugins/Force_Password_Change*
 plugins/LDAP*
 plugins/Convert_Names_To_Titlecase*
 plugins/Grading_Scale_Generation*
+plugins/TinyMCE_Formula*
