@@ -190,7 +190,7 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 
 	$admin_user_profile_restriction = false;
 
-	// Admin User Profile restriction.
+	// User Profile restrictions.
 
 	if ( User( 'PROFILE' ) === 'admin'
 		&& AllowEdit()
@@ -212,6 +212,14 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 		}
 
 		$admin_user_profile_restriction = true;
+	}
+
+	$non_admin_user_profile_restriction = User( 'PROFILE' ) !== 'admin';
+
+	if ( $non_admin_user_profile_restriction )
+	{
+		// Temporarily deactivate AllowEdit.
+		$_ROSARIO['allow_edit'] = false;
 	}
 
 	echo SelectInput(
@@ -265,10 +273,11 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 		_( 'User Permissions' ) . '</a></div>';
 	}
 
-	// Admin User Profile restriction.
+	// User Profile restrictions.
 
-	if ( $admin_user_profile_restriction
-		&& $_REQUEST['staff_id'] !== 'new' )
+	if ( $_REQUEST['staff_id'] !== 'new'
+		&& ( $admin_user_profile_restriction
+			|| $non_admin_user_profile_restriction ) )
 	{
 		// Reactivate AllowEdit.
 		$_ROSARIO['allow_edit'] = true;

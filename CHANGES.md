@@ -14,6 +14,7 @@ Changes in 5.6
 - Add Class Search Widget functions in ClassSearchWidget.fnc.php
 - Remove mySearch(), use ClassSearchWidget() function in PrintClassLists.php & PrintClassPictures.php
 - Add "No Students were found." message for Parents in Side.php
+- User Profile restrictions for non admins in General_Info.inc.php
 
 Changes in 5.5.3
 ----------------
