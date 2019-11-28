@@ -5,9 +5,13 @@
 New in 5.6
 ----------
 
+[SMS](https://www.rosariosis.org/modules/sms/) module.
+
 [Library Premium](https://www.rosariosis.org/library-module/) module.
 
 [TinyMCE Formula](https://www.rosariosis.org/plugins/tinymce-formula/) plugin.
+
+[Attendance Excel Sheet](https://gitlab.com/francoisjacquet/Attendance_Excel_Sheet) module, sponsored by Tintamail.
 
 
 New in 5.5
