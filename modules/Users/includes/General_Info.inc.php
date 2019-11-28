@@ -214,7 +214,7 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 		$admin_user_profile_restriction = true;
 	}
 
-	$non_admin_user_profile_restriction = User( 'PROFILE' ) !== 'admin';
+	$non_admin_user_profile_restriction = User( 'PROFILE' ) !== 'admin' && AllowEdit();
 
 	if ( $non_admin_user_profile_restriction )
 	{
