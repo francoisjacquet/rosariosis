@@ -13,6 +13,7 @@ Changes in 5.6
 - Support option groups (`<optgroup>`) by adding 'group' to $extra in Inputs.php
 - Add Class Search Widget functions in ClassSearchWidget.fnc.php
 - Remove mySearch(), use ClassSearchWidget() function in PrintClassLists.php & PrintClassPictures.php
+- Add "No Students were found." message for Parents in Side.php
 
 Changes in 5.5.3
 ----------------

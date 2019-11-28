@@ -370,7 +370,8 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 						OR se.END_DATE IS NULL ) )" );
 
 			// Set current Student.
-			if ( ! UserStudentID() )
+			if ( ! UserStudentID()
+				&& isset( $students_RET[1]['STUDENT_ID'] ) )
 			{
 				// Note: do not use SetUserStudentID() here as this is safe.
 				$_SESSION['student_id'] = $students_RET[1]['STUDENT_ID'];
@@ -390,7 +391,11 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 					$_SESSION['UserSchool'] = $student['SCHOOL_ID'];
 				}
 
-			endforeach; ?>
+			endforeach;
+
+			if ( empty( $students_RET ) ) : ?>
+				<option value=""><?php echo _( 'No Students were found.' ); ?></option>
+			<?php endif; ?>
 				</select>
 			</span>
 
