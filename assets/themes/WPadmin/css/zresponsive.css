@@ -18,6 +18,9 @@
 		margin-right: 0 !important;
 		border: 0
 	}
+	#wrap {
+		height: 100%;
+	}
 	#footer {
 		position: fixed !important;
 		top: 0;
@@ -68,6 +71,8 @@
 	}
 	#menu + #body {
 		padding-top: 40px;
+		height: 100%;
+		overflow: scroll;
 	}
 	.header1 h2 {
 		font-size: 22px;

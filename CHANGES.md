@@ -98,6 +98,10 @@ Changes in 5.4
 - Add Bulgarian translation in bg_BG.utf8/LC_MESSAGES/rosariosis.po, thanks to Martin Krastev
 - Deprecate Filter `$_ROSARIO['ReferralInput']` global. Use &$input instead in referral.fnc.php
 
+Changes in 5.3.5
+----------------
+- CSS Rollback Allow for browser address bar to disappear on scroll in zresponsive.css
+
 Changes in 5.3.4
 ----------------
 - Fix #142 Remove invalid option '-i' from pg_dump command since PostgreSQL 9.5 in DatabaseBackup.php
