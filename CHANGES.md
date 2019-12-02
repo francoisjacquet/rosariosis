@@ -16,6 +16,10 @@ Changes in 5.6
 - Add "No Students were found." message for Parents in Side.php
 - User Profile restrictions for non admins in General_Info.inc.php
 
+Changes in 5.5.4
+----------------
+- CSS Rollback Allow for browser address bar to disappear on scroll in zresponsive.css
+
 Changes in 5.5.3
 ----------------
 - Better base64 images detection in MarkDownHTML.fnc.php
@@ -97,10 +101,6 @@ Changes in 5.4
 - Test first if can add foreign key based on reported SQL errors: column "student_id" referenced in foreign key constraint does not exist in Update.fnc.php
 - Add Bulgarian translation in bg_BG.utf8/LC_MESSAGES/rosariosis.po, thanks to Martin Krastev
 - Deprecate Filter `$_ROSARIO['ReferralInput']` global. Use &$input instead in referral.fnc.php
-
-Changes in 5.3.5
-----------------
-- CSS Rollback Allow for browser address bar to disappear on scroll in zresponsive.css
 
 Changes in 5.3.4
 ----------------
