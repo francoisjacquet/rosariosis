@@ -376,7 +376,7 @@ function setMLvalue(id, loc, value){
  * @param  string  $title    Input title (optional). Defaults to ''.
  * @param  string  $extra    Extra HTML attributes added to the input.
  * @param  boolean $div      Is input wrapped into <div onclick>? (optional). Defaults to true.
- * @param  boolean $markdown markdown|tinymce|text Text Type (optional). Defaults to 'markdown'.
+ * @param  string  $markdown markdown|tinymce|text Text Type (optional). Defaults to 'markdown'.
  *
  * @return string  Input HTML
  */
