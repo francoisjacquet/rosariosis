@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 5.5.4
+----------------
+- CSS Rollback Allow for browser address bar to disappear on scroll in zresponsive.css
+
 Changes in 5.5.3
 ----------------
 - Better base64 images detection in MarkDownHTML.fnc.php
