@@ -29,7 +29,7 @@ function UpdateSchoolArray( $school_id = null )
 		WHERE ID = '" . (int) $school_id . "'
 		AND SYEAR = '" . UserSyear() . "'" );
 
-	$_SESSION['SchoolData'] = $_SESSION['SchoolData'][1];
+	$_SESSION['SchoolData'] = isset( $_SESSION['SchoolData'][1] ) ? $_SESSION['SchoolData'][1] : array();
 }
 
 
