@@ -30,12 +30,11 @@ function GetTeacher( $teacher_id, $column = 'FULL_NAME', $schools = true )
 
 	if ( is_null( $teachers ) )
 	{
-		$teachers = DBGet( DBQuery(
-			"SELECT STAFF_ID,FIRST_NAME,LAST_NAME,MIDDLE_NAME,
+		$teachers = DBGet( "SELECT STAFF_ID,FIRST_NAME,LAST_NAME,MIDDLE_NAME,
 			" . DisplayNameSQL() . " AS FULL_NAME,USERNAME,PROFILE
 			FROM STAFF
 			WHERE SYEAR='" . UserSyear() . "'" .
-			( $schools ? " AND (SCHOOLS IS NULL OR SCHOOLS LIKE '%," . UserSchool() . ",%')" : '' ) ),
+			( $schools ? " AND (SCHOOLS IS NULL OR SCHOOLS LIKE '%," . UserSchool() . ",%')" : '' ),
 			array(),
 			array( 'STAFF_ID' )
 		);
