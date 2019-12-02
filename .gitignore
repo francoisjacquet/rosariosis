@@ -268,3 +268,4 @@ plugins/LDAP*
 plugins/Convert_Names_To_Titlecase*
 plugins/Grading_Scale_Generation*
 plugins/TinyMCE_Formula*
+plugins/iCalendar*
