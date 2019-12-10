@@ -518,7 +518,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 {
 	if ( DeletePrompt( _( 'Student' ) ) )
 	{
-		$delete_sql = StudentDeleteSQL( UserStudentID() );
+		$delete_sql = StudentDeleteSQL( $_REQUEST['student_id'] );
 
 		DBQuery( $delete_sql );
 
@@ -662,7 +662,7 @@ if (  ( UserStudentID()
 
 				if ( $can_delete )
 				{
-					$delete_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
+					$delete_URL = "'Modules.php?modname=" . $_REQUEST['modname'] . '&student_id=' . UserStudentID() .
 						"&modfunc=delete'";
 
 					$delete_button = '<input type="button" value="' . _( 'Delete' ) . '" onClick="javascript:ajaxLink(' . $delete_URL . ');" />';
