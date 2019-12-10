@@ -60,7 +60,9 @@ function SaveEnrollment()
 					$error[] = _( 'The student is already enrolled on that date, and cannot be enrolled a second time on the date you specified. Please fix, and try enrolling the student again.' );
 				}
 			}
-			elseif ( UserStudentID() && empty( $stu_enrol_month['START_DATE'] ) )
+			elseif ( UserStudentID()
+				&& isset( $stu_enrol_month['START_DATE'] )
+				&& empty( $stu_enrol_month['START_DATE'] ) )
 			{
 				// @since 5.4 Delete enrollment record if start date is empty.
 				// Check first if Student has previous enrollment records.

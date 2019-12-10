@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 5.6.1
+----------------
+- Fix Delete enrollment record if start date is empty in SaveEnrollment.fnc.php
+
 Changes in 5.6
 --------------
 - Fix saving new student/user when current Student/Staff ID set (in other browser tab) in Student.php & User.php
