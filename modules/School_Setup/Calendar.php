@@ -877,7 +877,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 				$update_calendar = true;
 			}
-			elseif ( $calendar_RET[ $date ] )
+			elseif ( ! empty( $calendar_RET[ $date ] ) )
 			{
 				DBQuery( "DELETE FROM ATTENDANCE_CALENDAR
 					WHERE SCHOOL_DATE='" . $date . "'
