@@ -335,6 +335,10 @@ textarea {
 	line-height: 26px;
 }
 
+.md-preview > div {
+	border-bottom-width: 2px;
+}
+
 .tooltip > i {
 	border-radius: 0;
 	font-size: 14px;
