@@ -4,6 +4,8 @@ require_once 'ProgramFunctions/Fields.fnc.php';
 
 DrawHeader( ProgramTitle() );
 
+$_REQUEST['category_id'] = issetVal( $_REQUEST['category_id'] );
+
 if ( $_REQUEST['modfunc'] === 'save'
 	&& AllowEdit() )
 {
@@ -222,9 +224,9 @@ if ( ! $_REQUEST['modfunc'] )
 		// Merge select, autos, exports
 		// (same or similar SELECT output).
 		$fields_RET['select_autos_exports'] = array_merge(
-			(array) $fields_RET['select'],
-			(array) $fields_RET['autos'],
-			(array) $fields_RET['exports']
+			issetVal( $fields_RET['select'], array() ),
+			issetVal( $fields_RET['autos'], array() ),
+			issetVal( $fields_RET['exports'], array() )
 		);
 
 		// Select.
