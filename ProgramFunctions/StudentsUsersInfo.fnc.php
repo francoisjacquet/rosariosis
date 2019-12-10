@@ -535,12 +535,6 @@ function _makeMultipleInput( $column, $name, $request )
 			$options[ $option ] = $option;
 		}
 
-		if ( ! empty( $value[ $column ] ) )
-		{
-			$return = '<div id="div' . $request . $column . '">
-				<div class="onclick" onclick=\'javascript:addHTML(html' . $request . $column;
-		}
-
 		$table = '<table class="cellpadding-5">';
 
 		if ( count( $options ) > 12 )
@@ -585,18 +579,27 @@ function _makeMultipleInput( $column, $name, $request )
 
 		if ( ! empty( $value[ $column ] ) )
 		{
-			echo '<script>var html' . $request . $column . '=' . json_encode( $table ) . ';</script>' . $return;
-			echo ',"div' . $request . $column . '",true);\' >';
+			echo '<script>var html' . $request . $column . '=' . json_encode( $table ) . ';</script>';
+
+			echo '<div id="div' . $request . $column . '">
+				<div class="onclick" onclick=\'javascript:addHTML(html' . $request . $column .
+				',"div' . $request . $column . '",true);\' >';
+
 			echo '<span class="underline-dots">' .
-			( $value[ $column ] != '' ? str_replace( '||', ', ', mb_substr( $value[ $column ], 2, -2 ) ) : '-' ) .
-			'</span>';
+				str_replace( '||', ', ', mb_substr( $value[ $column ], 2, -2 ) ) . '</span>';
+
 			echo '</div></div>';
 		}
 		else
 			echo $table;
 	}
 	else
-		echo ( $value[ $column ] != '' ? str_replace( '||', ', ', mb_substr( $value[ $column ], 2, -2 ) ) : '-' ) . '<br />';
+	{
+		echo ( ! empty( $value[ $column ] ) ?
+			str_replace( '||', ', ', mb_substr( $value[ $column ], 2, -2 ) ) :
+			'-' ) .
+		'<br />';
+	}
 
 	echo '<span class="legend-gray">' . $name . '</span>';
 }
