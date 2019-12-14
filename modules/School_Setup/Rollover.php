@@ -87,6 +87,14 @@ if ( Prompt(
 	$table_list
 ) )
 {
+	if ( $_REQUEST['tables']['COURSES']
+		&& $exists_RET['REPORT_CARD_COMMENTS'][1]['COUNT']
+		&& ! $_REQUEST['tables']['REPORT_CARD_COMMENTS'] )
+	{
+		// Fix SQL error foreign keys: Roll again Report Card Comment Codes when rolling Courses.
+		$_REQUEST['tables']['REPORT_CARD_COMMENTS'] = 'Y';
+	}
+
 	if ( ! ( $_REQUEST['tables']['COURSES']
 		&& ( ( ! $_REQUEST['tables']['STAFF'] && $exists_RET['STAFF'][1]['COUNT'] < 1 )
 			|| ( ! $_REQUEST['tables']['SCHOOL_PERIODS'] && $exists_RET['SCHOOL_PERIODS'][1]['COUNT'] < 1 )
