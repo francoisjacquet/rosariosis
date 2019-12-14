@@ -438,22 +438,24 @@ function Rollover( $table, $mode = 'delete' )
 				AND SCHOOL_ID='" . UserSchool() . "'
 				ORDER BY SORT_ORDER" );
 
+			// Fix SQL error NULL as TITLE when various. Explicitely list rollover MP titles.
+			$mp_titles = array();
+
 			foreach ( (array) $mp_next as $mp )
 			{
 				$db_case_array[] = "'FY-" . $mp['ROLLOVER_ID'] . "'";
 				$db_case_array[] = "'FY-" . $mp['MARKING_PERIOD_ID'] . "'";
 
+				$mp_titles[] = "'FY-" . $mp['ROLLOVER_ID'] . "'";
+
 				if ( $mp['MP'] == 'QTR' )
 				{
 					$db_case_array[] = "'SEM-" . $mp['ROLLOVER_ID'] . "'";
 					$db_case_array[] = "'SEM-" . $mp['MARKING_PERIOD_ID'] . "'";
+
+					$mp_titles[] = "'SEM-" . $mp['ROLLOVER_ID'] . "'";
 				}
 			}
-
-			// Fix SQL error NULL as TITLE when various. Explicitely list MP titles.
-			$mp_titles = $db_case_array;
-
-			array_shift( $mp_titles );
 
 			DBQuery( "UPDATE PROGRAM_USER_CONFIG puc
 				SET TITLE=(SELECT (" . db_case( $db_case_array ) . ")
