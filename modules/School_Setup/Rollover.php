@@ -450,15 +450,20 @@ function Rollover( $table, $mode = 'delete' )
 				}
 			}
 
+			// Fix SQL error NULL as TITLE when various. Explicitely list MP titles.
+			$mp_titles = $db_case_array;
+
+			array_shift( $mp_titles );
+
 			DBQuery( "UPDATE PROGRAM_USER_CONFIG puc
 				SET TITLE=(SELECT (" . db_case( $db_case_array ) . ")
 					FROM STAFF s
-					WHERE (puc.TITLE LIKE 'FY-%' OR puc.TITLE LIKE 'SEM-%')
+					WHERE (puc.TITLE IN(" . implode( ',', $mp_titles ) . "))
 					AND puc.PROGRAM='Gradebook'
 					AND puc.USER_ID=s.STAFF_ID
 					AND s.SYEAR='" . $next_syear . "')
 				FROM STAFF s
-				WHERE (puc.TITLE LIKE 'FY-%' OR puc.TITLE LIKE 'SEM-%')
+				WHERE (puc.TITLE IN(" . implode( ',', $mp_titles ) . "))
 				AND puc.PROGRAM='Gradebook'
 				AND puc.USER_ID=s.STAFF_ID
 				AND s.SYEAR='" . $next_syear . "'" );

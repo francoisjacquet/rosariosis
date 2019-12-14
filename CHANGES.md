@@ -6,6 +6,7 @@ Changes in 5.6.2
 - Fix SQL error on delete when current Student/Staff ID was lost (in other browser tab) in Student.php & User.php
 - Fix SQL error foreign keys: check if can DELETE from schools and staff in Rollover.php
 - Fix SQL error foreign keys: Roll again Report Card Comment Codes when rolling Courses in Rollover.php
+- Fix SQL error NULL as TITLE when various. Explicitely list MP titles in Rollover.php
 
 Changes in 5.6.1
 ----------------
