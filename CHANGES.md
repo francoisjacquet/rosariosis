@@ -7,6 +7,7 @@ Changes in 5.6.2
 - Fix SQL error foreign keys: check if can DELETE from schools and staff in Rollover.php
 - Fix SQL error foreign keys: Roll again Report Card Comment Codes when rolling Courses in Rollover.php
 - Fix SQL error NULL as TITLE when various. Explicitely list rollover MP titles in Rollover.php
+- Roll Users again: update users which could not be deleted in Rollover.php
 
 Changes in 5.6.1
 ----------------
