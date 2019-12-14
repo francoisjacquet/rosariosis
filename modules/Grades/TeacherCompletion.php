@@ -109,6 +109,8 @@ $RET = DBGet( "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,sp.T
 
 if ( empty( $_REQUEST['period'] ) )
 {
+	$i = 0;
+
 	foreach ( (array) $RET as $staff_id => $periods )
 	{
 		$i++;
@@ -119,6 +121,11 @@ if ( empty( $_REQUEST['period'] ) )
 		{
 			if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			{
+				if ( ! isset( $staff_RET[$i][$period['PERIOD_ID']] ) )
+				{
+					$staff_RET[$i][$period['PERIOD_ID']] = '';
+				}
+
 				$staff_RET[$i][$period['PERIOD_ID']] .= makeTipMessage(
 					$period['COURSE_TITLE'],
 					_( 'Course Title' ),
