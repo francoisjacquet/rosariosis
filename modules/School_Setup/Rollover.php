@@ -95,8 +95,8 @@ if ( Prompt(
 			|| ( ! $_REQUEST['tables']['REPORT_CARD_GRADES'] && $exists_RET['REPORT_CARD_GRADES'][1]['COUNT'] < 1 ) ) ) )
 	{
 		if ( ! ( $_REQUEST['tables']['REPORT_CARD_COMMENTS']
-			&& (  ( ! $_REQUEST['tables']['COURSES']
-				&& $exists_RET['COURSES'][1]['COUNT'] < 1 ) ) ) )
+			&&  ( ! $_REQUEST['tables']['COURSES']
+				&& $exists_RET['COURSES'][1]['COUNT'] < 1 ) ) )
 		{
 			if ( ! empty( $_REQUEST['tables'] ) )
 			{
@@ -203,7 +203,14 @@ function Rollover( $table, $mode = 'delete' )
 
 			if ( $mode === 'delete' )
 			{
-				DBQuery( "DELETE FROM SCHOOLS WHERE SYEAR='" . $next_syear . "'" );
+				$delete_schools_sql = "DELETE FROM SCHOOLS WHERE SYEAR='" . $next_syear . "'";
+
+				$can_delete = DBTransDryRun( $delete_schools_sql );
+
+				if ( $can_delete )
+				{
+					DBQuery( $delete_schools_sql );
+				}
 
 				break;
 			}
@@ -223,22 +230,20 @@ function Rollover( $table, $mode = 'delete' )
 				SELECT SYEAR+1,ID,TITLE,ADDRESS,CITY,STATE,ZIPCODE,PHONE,PRINCIPAL,WWW_ADDRESS,
 				SCHOOL_NUMBER,SHORT_NAME,REPORTING_GP_SCALE,NUMBER_DAYS_ROTATION" . $school_custom . "
 				FROM SCHOOLS
-				WHERE SYEAR='" . UserSyear() . "'" );
+				WHERE SYEAR='" . UserSyear() . "'
+				AND ID NOT IN(SELECT ID FROM SCHOOLS WHERE SYEAR='" . $next_syear . "')" );
 			break;
 
 		case 'STAFF':
 
 			if ( $mode === 'delete' )
 			{
-				if ( $RosarioModules['Food_Service'] )
-				{
-					DBQuery( "DELETE FROM FOOD_SERVICE_STAFF_ACCOUNTS
+				$delete_sql = "DELETE FROM FOOD_SERVICE_STAFF_ACCOUNTS
 						WHERE exists(SELECT * FROM STAFF
 							WHERE STAFF_ID=FOOD_SERVICE_STAFF_ACCOUNTS.STAFF_ID
-							AND SYEAR='" . $next_syear . "')" );
-				}
+							AND SYEAR='" . $next_syear . "');";
 
-				$delete_sql = "DELETE FROM STUDENTS_JOIN_USERS
+				$delete_sql .= "DELETE FROM STUDENTS_JOIN_USERS
 					WHERE STAFF_ID IN (SELECT STAFF_ID FROM STAFF WHERE SYEAR='" . $next_syear . "');";
 
 				$delete_sql .= "DELETE FROM STAFF_EXCEPTIONS
@@ -247,9 +252,16 @@ function Rollover( $table, $mode = 'delete' )
 				$delete_sql .= "DELETE FROM PROGRAM_USER_CONFIG
 					WHERE USER_ID IN (SELECT STAFF_ID FROM STAFF WHERE SYEAR='" . $next_syear . "');";
 
-				$delete_sql .= "DELETE FROM STAFF WHERE SYEAR='" . $next_syear . "';";
-
 				DBQuery( $delete_sql );
+
+				$delete_staff_sql = "DELETE FROM STAFF WHERE SYEAR='" . $next_syear . "';";
+
+				$can_delete = DBTransDryRun( $delete_staff_sql );
+
+				if ( $can_delete )
+				{
+					DBQuery( $delete_staff_sql );
+				}
 
 				break;
 			}
@@ -279,7 +291,8 @@ function Rollover( $table, $mode = 'delete' )
 				FIRST_NAME,LAST_NAME,MIDDLE_NAME,NAME_SUFFIX,USERNAME,PASSWORD,PHONE,EMAIL,
 				PROFILE,HOMEROOM,NULL,SCHOOLS,PROFILE_ID,STAFF_ID" . $user_custom . "
 				FROM STAFF
-				WHERE SYEAR='" . UserSyear() . "'" );
+				WHERE SYEAR='" . UserSyear() . "'
+				AND STAFF_ID NOT IN(SELECT ROLLOVER_ID FROM STAFF WHERE SYEAR='" . $next_syear . "')" );
 
 			// @depreacted since 4.5 user School_Setup/Rollover.php|rollover_after action hook!
 			do_action( 'School_Setup/Rollover.php|rollover_staff' );
