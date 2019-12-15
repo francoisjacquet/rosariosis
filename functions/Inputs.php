@@ -840,7 +840,7 @@ function SelectInput( $value, $name, $title = '', $options = array(), $allow_na 
 
 	$required = $value == '' && mb_strpos( $extra, 'required' ) !== false;
 
-	$is_group = is_array( reset( $options ) ) && mb_strpos( $extra, 'group' ) !== false;
+	$is_group = is_array( $options ) && is_array( reset( $options ) ) && mb_strpos( $extra, 'group' ) !== false;
 
 	$display_val = isset( $options[ $value ] ) ?
 		( is_array( $options[ $value ] ) ? $options[ $value ][1] : $options[ $value ] ) :
@@ -848,7 +848,7 @@ function SelectInput( $value, $name, $title = '', $options = array(), $allow_na 
 
 	if ( $is_group )
 	{
-		foreach ( $options as $group_options )
+		foreach ( (array) $options as $group_options )
 		{
 			if ( isset( $group_options[ $value ] ) )
 			{
