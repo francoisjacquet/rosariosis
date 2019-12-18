@@ -68,7 +68,7 @@ Student Billing:
 Accounting:
 - Staff Payments: Salaries dropdown to reconcile Payment.
 
-[Siblings](https://www.rosariosis.org/siblings-plugin/) plugin, sponsored by Asian Hope
+[Relatives](https://www.rosariosis.org/relatives-plugin/) plugin, sponsored by Asian Hope
 
 [REST API](https://gitlab.com/francoisjacquet/REST_API/) plugin
 
