@@ -68,33 +68,33 @@ if ( ! $_REQUEST['modfunc'] )
 
 		PopTable( 'header', _( 'Payment' ) );
 
-		echo '<table class="col1-align-right">';
+		echo '<table><tr><td>' . TextInput(
+			'',
+			'amount',
+			_( 'Amount' ),
+			'size="5" maxlength="10" required'
+		) . '</td></tr>';
 
-		echo '<tr><td>' . _( 'Payment Amount' ) . '</td>
-			<td><input type="text" name="amount" size="5" maxlength="10" required /></td></tr>';
-
-		echo '<tr><td>' . _( 'Date' ) . '</td>
-			<td>' . DateInput(
+		echo '<tr><td>' . DateInput(
 			DBDate(),
 			'date',
-			'',
+			_( 'Date' ),
 			false,
 			false
 		) . '</td></tr>';
 
-		echo '<tr><td>' . _( 'Comment' ) . '</td>
-			<td><input type="text" name="comments" /></td></tr>';
-
-		echo '</table>';
+		echo '<tr><td>' . TextInput(
+			'',
+			'comments',
+			_( 'Comment' ),
+			'maxlength="1000" size="25"'
+		) . '</td></tr></table>';
 
 		PopTable( 'footer' );
 
 		echo '<br />';
 	}
-}
 
-if ( ! $_REQUEST['modfunc'] )
-{
 	$extra['link'] = array( 'FULL_NAME' => false );
 	$extra['SELECT'] = ",NULL AS CHECKBOX";
 	$extra['functions'] = array( 'CHECKBOX' => 'MakeChooseCheckbox' );

@@ -1,6 +1,11 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 5.6.3
+----------------
+- Accessibility HTML format Input in MassAssignFees.php & MassAssignPayments.php
+- Fix Due Date is not required in MassAssignFees.php
+
 Changes in 5.6.2
 ----------------
 - Fix SQL error on delete when current Student/Staff ID was lost (in other browser tab) in Student.php & User.php
