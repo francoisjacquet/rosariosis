@@ -7,7 +7,7 @@ New in 5.6
 
 [SMS](https://www.rosariosis.org/modules/sms/) module.
 
-[Library Premium](https://www.rosariosis.org/library-module/) module.
+[Library Premium](https://www.rosariosis.org/modules/library/) module.
 
 [TinyMCE Formula](https://www.rosariosis.org/plugins/tinymce-formula/) plugin.
 
@@ -68,7 +68,7 @@ Student Billing:
 Accounting:
 - Staff Payments: Salaries dropdown to reconcile Payment.
 
-[Relatives](https://www.rosariosis.org/relatives-plugin/) plugin, sponsored by Asian Hope
+[Relatives](https://www.rosariosis.org/plugins/relatives/) plugin, sponsored by Asian Hope
 
 [REST API](https://gitlab.com/francoisjacquet/REST_API/) plugin
 
@@ -89,7 +89,7 @@ Bulgarian translation (54% complete), thanks to Vanyo Georgiev
 
 New theme: FlatSIS
 
-[Setup Assistant](https://www.rosariosis.org/setup-assistant-plugin/) plugin
+[Setup Assistant](https://www.rosariosis.org/plugins/setup-assistant/) plugin
 
 
 New in 4.9
@@ -98,9 +98,9 @@ New in 4.9
 Users
 - Profiles: Teachers & Parents can edit User Info tabs.
 
-[Timetable Import](https://www.rosariosis.org/timetable-import-module/) module
+[Timetable Import](https://www.rosariosis.org/modules/timetable-import/) module
 
-[Discipline Score](https://www.rosariosis.org/discipline-score-plugin/) plugin
+[Discipline Score](https://www.rosariosis.org/plugins/discipline-score/) plugin
 
 
 New in 4.8
@@ -116,7 +116,7 @@ Grades
 
 Accessibility improved
 
-[Calendar Schedule View](https://www.rosariosis.org/calendar-schedule-view-plugin/) plugin, sponsored by Revamp Consulting.
+[Calendar Schedule View](https://www.rosariosis.org/plugins/calendar-schedule-view/) plugin, sponsored by Revamp Consulting.
 
 
 New in 4.7
@@ -141,9 +141,9 @@ Students
 
 Installation Poll
 
-[Public Pages](https://www.rosariosis.org/public-pages-plugin/) plugin
+[Public Pages](https://www.rosariosis.org/plugins/public-pages/) plugin
 
-[Email Alerts](https://www.rosariosis.org/email-alerts-module/) module, sponsored by Santa Cecilia school.
+[Email Alerts](https://www.rosariosis.org/modules/email-alerts/) module, sponsored by Santa Cecilia school.
 
 
 New in 4.5
@@ -158,7 +158,7 @@ Note: Will only work for newly created Assignment Types.
 Attendance
 - Remove Teacher Programs (still available from Users menu)
 
-[Library](https://www.rosariosis.org/library-module/) module
+[Library](https://www.rosariosis.org/modules/library/) module
 
 
 New in 4.4
@@ -168,7 +168,7 @@ Grades
 
 - Assignments: file upload & rich text description, sponsored by Santa Cecilia school
 
-[Email Students](https://www.rosariosis.org/email-students-module/) module
+[Email Students](https://www.rosariosis.org/modules/email-students/) module
 
 
 New in 4.3
@@ -178,7 +178,7 @@ Scheduling
 
 - Courses: Description (content or summary)
 
-[Quiz](https://www.rosariosis.org/quiz-module/) module
+[Quiz](https://www.rosariosis.org/modules/quiz/) module
 
 Security enhanced
 
@@ -224,7 +224,7 @@ School Setup
 New in 3.6
 ----------
 
-[Email SMTP](https://www.rosariosis.org/email-smtp-plugin/) plugin
+[Email SMTP](https://www.rosariosis.org/plugins/email-smtp/) plugin
 
 Scheduling
 
@@ -234,9 +234,9 @@ Scheduling
 New in 3.5
 ----------
 
-[Student Billing Premium](https://www.rosariosis.org/student-billing-premium-module/) module
+[Student Billing Premium](https://www.rosariosis.org/modules/student-billing-premium/) module
 
-[Staff and Parents Import](https://www.rosariosis.org/staff-parents-import-module/) module, sponsored by @abogadeer
+[Staff and Parents Import](https://www.rosariosis.org/modules/staff-parents-import/) module, sponsored by @abogadeer
 
 School Setup
 
@@ -254,7 +254,7 @@ Students
 New in 3.4
 ----------
 
-New [PDF Header Footer](https://www.rosariosis.org/pdf-header-footer-plugin) plugin
+New [PDF Header Footer](https://www.rosariosis.org/plugins/pdf-header-footer) plugin
 
 [New translations](locale/REFERENCE.md) (37% completed)
 
