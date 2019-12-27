@@ -257,12 +257,13 @@ modules/Staff_Parents_Import*
 modules/Timetable_Import*
 modules/SMS*
 modules/Attendance_Excel_Sheet*
+modules/Billing_Elements*
 plugins/Email_SMTP*
 plugins/Public_Pages*
 plugins/Custom_Transcripts*
 plugins/Setup_Assistant*
 plugins/REST_API*
-plugins/Siblings*
+plugins/Relatives*
 plugins/Force_Password_Change*
 plugins/LDAP*
 plugins/Convert_Names_To_Titlecase*
