@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 5.7
+--------------
+- Add php.ini recommended configuration settings in INSTALL.md, INSTALL_fr.md & INSTALL_es.md
+
 Changes in 5.6.4
 ----------------
 - Fix wkhtmltopdf crash on large PDF in Wkhtmltopdf.php

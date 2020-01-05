@@ -118,6 +118,18 @@ server$ sudo apt-get install php-pgsql php-gettext php-mbstring php-gd php-curl 
 ```
 
 
+php.ini
+-------
+
+Recommended PHP configuration settings. Edit the `php.ini` file as follows:
+```
+max_execution_time = 240
+max_input_vars = 2000
+memory_limit = 768M
+```
+Restart PHP and Apache.
+
+
 Other languages
 ---------------
 
@@ -131,7 +143,7 @@ Then restart the server.
 [wkhtmltopdf](http://wkhtmltopdf.org/)
 --------------------------------------
 
-Install instructions for Ubuntu 16.04:
+Install instructions for Ubuntu 16.04 (Xenial):
 ```bash
 server$ wget https://downloads.wkhtmltopdf.org/0.12/0.12.5/wkhtmltox_0.12.5-1.xenial_amd64.deb
 server$ sudo dpkg -i wkhtmltox_0.12.5-1.xenial_amd64.deb
