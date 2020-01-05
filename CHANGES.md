@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 5.6.4
+----------------
+- Fix wkhtmltopdf crash on large PDF in Wkhtmltopdf.php
+
 Changes in 5.6.3
 ----------------
 - Accessibility HTML format Input in MassAssignFees.php & MassAssignPayments.php
