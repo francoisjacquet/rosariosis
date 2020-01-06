@@ -448,10 +448,10 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 				if ( $show['grades'] && $show['gpa_or_total'] )
 				{
 					// @since 5.0 Add GPA or Total row.
-					$grades_RET[$i + 1] = GetGpaOrTotalRow(
+					$grades_RET[] = GetGpaOrTotalRow(
 						$student_id,
 						$grades_total,
-						$i,
+						count( $grades_RET ),
 						$show['gpa_or_total']
 					);
 				}

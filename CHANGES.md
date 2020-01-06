@@ -1,9 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
-Changes in 5.7
---------------
+Changes in 5.6.5
+----------------
 - Add php.ini recommended configuration settings in INSTALL.md, INSTALL_fr.md & INSTALL_es.md
+- Fix last row (GPA or Total) position in Transcripts.fnc.php
 
 Changes in 5.6.4
 ----------------
