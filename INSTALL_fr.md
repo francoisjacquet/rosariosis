@@ -2,7 +2,7 @@
 
 ## RosarioSIS Student Information System
 
-Version 5.6.5
+Version 5.7
 -------------
 
 RosarioSIS est une application web qui dépend d'un serveur web, du langage de script PHP et d'un serveur de base de données PostgreSQL.
