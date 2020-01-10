@@ -8,6 +8,12 @@ New in 5.7
 Create Student / User Account:
 - Email notification
 
+[iCalendar](https://www.rosariosis.org/plugins/icalendar/) plugin.
+
+[Semester Rollover](https://gitlab.com/francoisjacquet/Semester_Rollover/) module, sponsored by Instituto Japon.
+
+[Billing Elements](https://www.rosariosis.org/modules/billing-elements/) module, sponsored by English National Program.
+
 
 New in 5.6
 ----------
