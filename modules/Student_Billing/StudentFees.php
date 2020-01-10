@@ -159,16 +159,14 @@ if ( UserStudentID()
 		$i++;
 	}
 
+	$columns = array();
+
 	if ( ! empty( $RET )
 		&& empty( $_REQUEST['print_statements'] )
 		&& AllowEdit()
 		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		$columns = array( 'REMOVE' => '<span class="a11y-hidden">' . _( 'Delete' ) . '</span>' );
-	}
-	else
-	{
-		$columns = array();
 	}
 
 	$columns += array(
