@@ -38,7 +38,9 @@ else
 	}
 	else
 	{
-		$category_include = DBGet( "SELECT INCLUDE FROM STAFF_FIELD_CATEGORIES WHERE ID='" . $_REQUEST['category_id'] . "'" );
+		$category_include = DBGet( "SELECT INCLUDE
+			FROM STAFF_FIELD_CATEGORIES
+			WHERE ID='" . $_REQUEST['category_id'] . "'" );
 
 		if ( ! empty( $category_include ) )
 		{
@@ -192,12 +194,9 @@ if ( $_REQUEST['modfunc'] === 'update'
 		// FJ textarea fields MarkDown sanitize.
 		$_REQUEST['staff'] = FilterCustomFieldsMarkdown( 'STAFF_FIELDS', 'staff' );
 
-		// FJ create account.
-
 		if ( basename( $_SERVER['PHP_SELF'] ) === 'index.php' )
 		{
-			// Check Captcha.
-
+			// Create account.
 			if ( ! CheckCaptcha() )
 			{
 				$error[] = _( 'Captcha' );
@@ -227,7 +226,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 		if ( isset( $_REQUEST['staff']['USERNAME'] ) )
 		{
-			//check username unicity
+			// Check username unicity.
 			$existing_username = DBGet( "SELECT 'exists'
 				FROM STAFF
 				WHERE USERNAME='" . $_REQUEST['staff']['USERNAME'] . "'
@@ -245,12 +244,15 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 		if ( UserStaffID() && ! $error )
 		{
-			//hook
+			// Hook.
 			do_action( 'Users/User.php|update_user_checks' );
 
-			$profile_RET = DBGet( "SELECT PROFILE,PROFILE_ID,USERNAME FROM STAFF WHERE STAFF_ID='" . UserStaffID() . "'" );
+			$profile_RET = DBGet( "SELECT PROFILE,PROFILE_ID,USERNAME
+				FROM STAFF
+				WHERE STAFF_ID='" . UserStaffID() . "'" );
 
-			if ( isset( $_REQUEST['staff']['PROFILE'] ) && $_REQUEST['staff']['PROFILE'] != $profile_RET[1]['PROFILE_ID'] )
+			if ( isset( $_REQUEST['staff']['PROFILE'] )
+				&& $_REQUEST['staff']['PROFILE'] != $profile_RET[1]['PROFILE_ID'] )
 			{
 				if ( $_REQUEST['staff']['PROFILE'] == 'admin' )
 				{
@@ -349,14 +351,14 @@ if ( $_REQUEST['modfunc'] === 'update'
 				{
 					DBQuery( $sql );
 
-					//hook
+					// Hook.
 					do_action( 'Users/User.php|update_user' );
 				}
 			}
 		}
-		elseif ( ! $error ) //new user
+		elseif ( ! $error ) // New user.
 		{
-			//hook
+			// Hook.
 			do_action( 'Users/User.php|create_user_checks' );
 
 			if ( $_REQUEST['staff']['PROFILE'] == 'admin' )
@@ -386,7 +388,9 @@ if ( $_REQUEST['modfunc'] === 'update'
 					$values = "'" . Config( 'SYEAR' ) . "'" . mb_substr( $values, mb_strpos( $values, ',' ) ) . "'none',";
 				}
 
-				$fields_RET = DBGet( "SELECT ID,TYPE FROM STAFF_FIELDS ORDER BY SORT_ORDER", array(), array( 'ID' ) );
+				$fields_RET = DBGet( "SELECT ID,TYPE
+					FROM STAFF_FIELDS
+					ORDER BY SORT_ORDER", array(), array( 'ID' ) );
 
 				foreach ( (array) $_REQUEST['staff'] as $column => $value )
 				{
@@ -442,38 +446,24 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 				SetUserStaffID( $_REQUEST['staff_id'] = $staff_id );
 
-				//hook
+				// Hook.
 				do_action( 'Users/User.php|create_user' );
-
-				// Notify the network admin that a new admin has been created.
 
 				if ( $_REQUEST['staff']['PROFILE_ID'] == 1
 					&& filter_var( $RosarioNotifyAddress, FILTER_VALIDATE_EMAIL ) )
 				{
-					//FJ add SendEmail function
+					// Send New Administrator Account email to Notify.
 					require_once 'ProgramFunctions/SendEmail.fnc.php';
 
-					$to = $RosarioNotifyAddress;
-
 					$admin_name = $_REQUEST['staff']['FIRST_NAME'] . ' ' . $_REQUEST['staff']['LAST_NAME'];
-					$subject = sprintf( 'New Admin Added: %s', $admin_name );
 
-					$admin_username = empty( $_REQUEST['staff']['USERNAME'] ) ? '[no username]' : $_REQUEST['staff']['USERNAME'];
+					$message = sprintf(
+						_( 'New Administrator account was created for %s, by %s.' ),
+						$admin_name,
+						User( 'NAME' )
+					);
 
-					if ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) )
-					{
-						$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-					}
-					else
-					{
-						$ip = $_SERVER['REMOTE_ADDR'];
-					}
-
-					$message = sprintf( 'New User: %s
-Added by: %s
-Remote IP: %s', $admin_username, User( 'NAME' ), $ip );
-
-					SendEmail( $to, $subject, $message );
+					SendEmail( $RosarioNotifyAddress, _( 'New Administrator Account' ), $message );
 				}
 			}
 		}
@@ -491,11 +481,9 @@ Remote IP: %s', $admin_username, User( 'NAME' ), $ip );
 		if ( UserStaffID()
 			&& ! empty( $_FILES['photo'] ) )
 		{
-			// $new_photo_file = FileUpload('photo', $UserPicturesPath.UserSyear().'/', array('.jpg', '.jpeg'), 2, $error, '.jpg', UserStaffID());
-
 			$new_photo_file = ImageUpload(
 				'photo',
-				array( 'width' => 150, 'height' => '150' ),
+				array( 'width' => 150, 'height' => 150 ),
 				$UserPicturesPath . UserSyear() . '/',
 				array(),
 				'.jpg',
@@ -504,6 +492,30 @@ Remote IP: %s', $admin_username, User( 'NAME' ), $ip );
 
 			// Hook.
 			do_action( 'Users/User.php|upload_user_photo' );
+		}
+
+		if ( UserStaffID()
+			&& basename( $_SERVER['PHP_SELF'] ) === 'index.php'
+			&& filter_var( $RosarioNotifyAddress, FILTER_VALIDATE_EMAIL ) )
+		{
+			/**
+			 * Send Create User Account email to Notify.
+			 *
+			 * @since 5.7
+			 */
+			require_once 'ProgramFunctions/SendEmail.fnc.php';
+
+			$user_name = DBGetOne( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
+				FROM STAFF
+				WHERE STAFF_ID='" . UserStaffID() . "'" );
+
+			$message = sprintf(
+				_( 'New user account was created for %s (%d) (No Access).' ),
+				$user_name,
+				UserStaffID()
+			);
+
+			SendEmail( $RosarioNotifyAddress, _( 'Create User Account' ), $message );
 		}
 	}
 
@@ -603,7 +615,8 @@ if ( $_REQUEST['modfunc'] === 'remove_file'
 
 		$file = $FileUploadsPath . 'User/' . UserStaffID() . '/' . $_REQUEST['filename'];
 
-		DBQuery( "UPDATE STAFF SET " . $column . "=REPLACE(" . $column . ", '" . DBEscapeString( $file ) . "||', '')
+		DBQuery( "UPDATE STAFF
+			SET " . $column . "=REPLACE(" . $column . ", '" . DBEscapeString( $file ) . "||', '')
 			WHERE STAFF_ID='" . UserStaffID() . "'" );
 
 		if ( file_exists( $file ) )

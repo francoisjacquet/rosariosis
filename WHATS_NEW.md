@@ -2,6 +2,13 @@
 
 ## RosarioSIS Student Information System
 
+New in 5.7
+----------
+
+Create Student / User Account:
+- Email notification
+
+
 New in 5.6
 ----------
 

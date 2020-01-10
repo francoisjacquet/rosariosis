@@ -69,7 +69,8 @@ $DefaultSyear = '2019';
 
 /**
  * Notify email address where to send
- * new administrator,
+ * new administrator account,
+ * new student (inactive) / user (No Access) account,
  * new registration notifications
  *
  * Leave empty to not receive email notifications

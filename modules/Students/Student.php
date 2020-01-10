@@ -3,6 +3,7 @@
 require_once 'ProgramFunctions/FileUpload.fnc.php';
 require_once 'ProgramFunctions/Fields.fnc.php';
 require_once 'modules/Students/includes/Student.fnc.php';
+require_once 'modules/Students/includes/SaveEnrollment.fnc.php';
 
 $_REQUEST['student_id'] = issetVal( $_REQUEST['student_id'] );
 
@@ -185,14 +186,13 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 		if ( UserStudentID() && ! $error )
 		{
-			//hook
+			// Hook.
 			do_action( 'Students/Student.php|update_student_checks' );
 
-			// update enrollment
+			// Update enrollment.
 
 			if ( ! empty( $_REQUEST['values'] ) && ! $error )
 			{
-				require_once 'modules/Students/includes/SaveEnrollment.fnc.php';
 				SaveEnrollment();
 			}
 
@@ -264,12 +264,12 @@ if ( $_REQUEST['modfunc'] === 'update'
 				{
 					DBQuery( $sql );
 
-					//hook
+					// Hook.
 					do_action( 'Students/Student.php|update_student' );
 				}
 			}
 		}
-		elseif ( ! $error ) //new student
+		elseif ( ! $error ) // New student.
 		{
 			if ( isset( $_REQUEST['assign_student_id'] )
 				&& $_REQUEST['assign_student_id'] !== '' )
@@ -290,7 +290,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				}
 			}
 
-			//hook
+			// Hook.
 			do_action( 'Students/Student.php|create_student_checks' );
 
 			if ( ! $error )
@@ -365,21 +365,19 @@ if ( $_REQUEST['modfunc'] === 'update'
 				$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
 				DBQuery( $sql );
 
-				// create default food service account for this student
-				$sql = "INSERT INTO FOOD_SERVICE_ACCOUNTS (ACCOUNT_ID,BALANCE,TRANSACTION_ID) values('" . $student_id . "','0.00','0')";
-				DBQuery( $sql );
+				// Create default food service account for this student.
+				// Associate with default food service account and assign other defaults.
+				DBQuery( "INSERT INTO FOOD_SERVICE_ACCOUNTS (ACCOUNT_ID,BALANCE,TRANSACTION_ID)
+					VALUES('" . $student_id . "','0.00','0');
+					INSERT INTO FOOD_SERVICE_STUDENT_ACCOUNTS (STUDENT_ID,DISCOUNT,BARCODE,ACCOUNT_ID)
+					VALUES('" . $student_id . "','','','" . $student_id . "')" );
 
-				// associate with default food service account and assign other defaults
-				$sql = "INSERT INTO FOOD_SERVICE_STUDENT_ACCOUNTS (STUDENT_ID,DISCOUNT,BARCODE,ACCOUNT_ID) values('" . $student_id . "','','','" . $student_id . "')";
-				DBQuery( $sql );
-
-				// create enrollment
-				require_once 'modules/Students/includes/SaveEnrollment.fnc.php';
+				// Create enrollment.
 				SaveEnrollment();
 
 				SetUserStudentID( $_REQUEST['student_id'] = $student_id );
 
-				//hook
+				// Hook.
 				do_action( 'Students/Student.php|create_student' );
 			}
 		}
@@ -415,11 +413,9 @@ if ( $_REQUEST['modfunc'] === 'update'
 		if ( UserStudentID()
 			&& ! empty( $_FILES['photo'] ) )
 		{
-			// $new_photo_file = FileUpload('photo', $StudentPicturesPath.UserSyear().'/', array('.jpg', '.jpeg'), 2, $error, '.jpg', UserStudentID());
-
 			$new_photo_file = ImageUpload(
 				'photo',
-				array( 'width' => 150, 'height' => '150' ),
+				array( 'width' => 150, 'height' => 150 ),
 				$StudentPicturesPath . UserSyear() . '/',
 				array(),
 				'.jpg',
@@ -428,6 +424,30 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 			// Hook.
 			do_action( 'Students/Student.php|upload_student_photo' );
+		}
+
+		if ( UserStudentID()
+			&& basename( $_SERVER['PHP_SELF'] ) === 'index.php'
+			&& filter_var( $RosarioNotifyAddress, FILTER_VALIDATE_EMAIL ) )
+		{
+			/**
+			 * Send Create Student Account email to Notify.
+			 *
+			 * @since 5.7
+			 */
+			require_once 'ProgramFunctions/SendEmail.fnc.php';
+
+			$student_name = DBGetOne( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
+				FROM STUDENTS
+				WHERE STUDENT_ID='" . UserStudentID() . "'" );
+
+			$message = sprintf(
+				_( 'New student account was created for %s (%d) (inactive).' ),
+				$student_name,
+				UserStudentID()
+			);
+
+			SendEmail( $RosarioNotifyAddress, _( 'Create Student Account' ), $message );
 		}
 	}
 
@@ -544,21 +564,24 @@ if ( $_REQUEST['modfunc'] === 'remove_file'
 		{
 			$file = $FileUploadsPath . 'People/' . $_REQUEST['person_id'] . '/' . $_REQUEST['filename'];
 
-			DBQuery( "UPDATE PEOPLE SET " . $column . "=REPLACE(" . $column . ", '" . DBEscapeString( $file ) . "||', '')
+			DBQuery( "UPDATE PEOPLE
+				SET " . $column . "=REPLACE(" . $column . ", '" . DBEscapeString( $file ) . "||', '')
 				WHERE PERSON_ID='" . $_REQUEST['person_id'] . "'" );
 		}
 		elseif ( ! empty( $_REQUEST['address_id'] ) )
 		{
 			$file = $FileUploadsPath . 'Address/' . $_REQUEST['address_id'] . '/' . $_REQUEST['filename'];
 
-			DBQuery( "UPDATE ADDRESS SET " . $column . "=REPLACE(" . $column . ", '" . DBEscapeString( $file ) . "||', '')
+			DBQuery( "UPDATE ADDRESS
+				SET " . $column . "=REPLACE(" . $column . ", '" . DBEscapeString( $file ) . "||', '')
 				WHERE ADDRESS_ID='" . $_REQUEST['address_id'] . "'" );
 		}
 		else
 		{
 			$file = $FileUploadsPath . 'Student/' . UserStudentID() . '/' . $_REQUEST['filename'];
 
-			DBQuery( "UPDATE STUDENTS SET " . $column . "=REPLACE(" . $column . ", '" . DBEscapeString( $file ) . "||', '')
+			DBQuery( "UPDATE STUDENTS
+				SET " . $column . "=REPLACE(" . $column . ", '" . DBEscapeString( $file ) . "||', '')
 				WHERE STUDENT_ID='" . UserStudentID() . "'" );
 		}
 
@@ -603,10 +626,9 @@ if (  ( UserStudentID()
 
 	$can_use_RET = DBGet( $can_use_sql, array(), array( 'MODNAME' ) );
 
-	// FJ create account.
-
 	if ( basename( $_SERVER['PHP_SELF'] ) === 'index.php' )
 	{
+		// Create account.
 		$can_use_RET['Students/Student.php&category_id=1'] = true;
 	}
 
