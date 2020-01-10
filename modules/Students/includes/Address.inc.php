@@ -460,13 +460,19 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		echo '<tr>';
 
-		// Find other students associated with this address.
-		$xstudents = DBGet( "SELECT s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
-		RESIDENCE,BUS_PICKUP,BUS_DROPOFF,MAILING
-		FROM STUDENTS s,STUDENTS_JOIN_ADDRESS sja
-		WHERE s.STUDENT_ID=sja.STUDENT_ID
-		AND sja.ADDRESS_ID='" . $address_id . "'
-		AND sja.STUDENT_ID!='" . UserStudentID() . "'" );
+		// Do not find other students associated with "No Address".
+		$xstudents = array();
+
+		if ( $address_id )
+		{
+			// Find other students associated with this address.
+			$xstudents = DBGet( "SELECT s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
+			RESIDENCE,BUS_PICKUP,BUS_DROPOFF,MAILING
+			FROM STUDENTS s,STUDENTS_JOIN_ADDRESS sja
+			WHERE s.STUDENT_ID=sja.STUDENT_ID
+			AND sja.ADDRESS_ID='" . $address_id . "'
+			AND sja.STUDENT_ID!='" . UserStudentID() . "'" );
+		}
 
 		if ( $xstudents )
 		{
