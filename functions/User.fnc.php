@@ -65,7 +65,8 @@ function User( $item )
 
 			$_ROSARIO['User'] = DBGet( $sql );
 
-			if ( $_ROSARIO['User'][1]['SCHOOL_ID'] !== UserSchool() )
+			if ( ! empty( $_ROSARIO['User'][1]['SCHOOL_ID'] )
+				&& $_ROSARIO['User'][1]['SCHOOL_ID'] !== UserSchool() )
 			{
 				$_SESSION['UserSchool'] = $_ROSARIO['User'][1]['SCHOOL_ID'];
 			}
