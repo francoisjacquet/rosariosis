@@ -159,6 +159,10 @@ function Update()
 		case version_compare( $from_version, '5.5-beta3', '<' ) :
 
 			$return = _update55beta3();
+
+		case version_compare( $from_version, '5.7', '<' ) :
+
+			$return = _update57();
 	}
 
 	// Update version in DB CONFIG table.
@@ -1695,6 +1699,52 @@ function _update55beta3()
 	 */
 	DBQuery( "ALTER TABLE REPORT_CARD_GRADES
 		ALTER COLUMN title TYPE character varying(5);" );
+
+	return $return;
+}
+
+
+/**
+ * Update to version 5.7
+ *
+ * 1. ADDRESS table:
+ * Change city & mail_city column type to text
+ * Was character varying(60) which could prevent long city names.
+ * 2. ADDRESS table:
+ * Change state & mail_state column type to character varying(50)
+ * Was character varying(10). Now allows storing country.
+ *
+ * Local function
+ *
+ * @since 5.7
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update57()
+{
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. ADDRESS table:
+	 * Change city & mail_city column type to text
+	 * Was character varying(60) which could prevent long city names.
+	 */
+	DBQuery( "ALTER TABLE address
+		ALTER COLUMN city TYPE text;
+		ALTER TABLE address
+		ALTER COLUMN mail_city TYPE text;" );
+
+	/**
+	 * 2. ADDRESS table:
+	 * Change state & mail_state column type to character varying(50)
+	 * Was character varying(10). Now allows storing country.
+	 */
+	DBQuery( "ALTER TABLE address
+		ALTER COLUMN state TYPE character varying(50);
+		ALTER TABLE address
+		ALTER COLUMN mail_state TYPE character varying(50);" );
 
 	return $return;
 }

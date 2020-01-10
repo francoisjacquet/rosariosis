@@ -1541,13 +1541,13 @@ function _makeAutoSelectInputX( $value, $column, $table, $title, $select, $id = 
 	if ( $column === 'CITY'
 		|| $column === 'MAIL_CITY' )
 	{
-		$options = 'maxlength=60';
+		$options = 'maxlength=200';
 	}
 
 	if ( $column === 'STATE'
 		|| $column === 'MAIL_STATE' )
 	{
-		$options = 'size=3 maxlength=10';
+		$options = 'size=3 maxlength=50';
 	}
 	elseif ( $column === 'ZIPCODE'
 		|| $column === 'MAIL_ZIPCODE' )

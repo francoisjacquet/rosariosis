@@ -1,6 +1,11 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 5.7
+--------------
+- SQL ADDRESS table: city & mail_city column type to text in rosariosis.sql, Address.inc.php & Update.fnc.php
+- SQL ADDRESS table: state & mail_state column type to character varying(50) in rosariosis.sql, Address.inc.php & Update.fnc.php
+
 Changes in 5.6.5
 ----------------
 - Add php.ini recommended configuration settings in INSTALL.md, INSTALL_fr.md & INSTALL_es.md
