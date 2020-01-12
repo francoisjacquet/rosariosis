@@ -7,6 +7,7 @@ Changes in 5.7
 - SQL ADDRESS table: state & mail_state column type to character varying(50) in rosariosis.sql, Address.inc.php & Update.fnc.php
 - Send Create Student / User Account email to Notify in Student.php, User.php, config.inc.sample.php
 - Do not find other students associated with "No Address" in Address.inc.php
+- Fix error when start date < first school year start date in CategoryBreakdownTime.php
 
 Changes in 5.6.5
 ----------------

@@ -94,7 +94,18 @@ if ( ! empty( $_REQUEST['category_id'] ) )
 
 		$start = GetSyear( $start_date );
 
+		if ( ! $start )
+		{
+			// Fix error when start date < first school year start date.
+			$start = UserSyear();
+		}
+
 		$end = GetSyear( $end_date );
+
+		if ( ! $end )
+		{
+			$end = UserSyear();
+		}
 	}
 
 
@@ -148,7 +159,8 @@ if ( ! empty( $_REQUEST['category_id'] ) )
 
 			foreach ( (array) $category_RET[1]['SELECT_OPTIONS'] as $option )
 			{
-				$chart['chart_data'][ $index ][] = (int)$totals_RET[ $option ][ $tf ][1]['COUNT'];
+				$chart['chart_data'][ $index ][] = ( isset( $totals_RET[ $option ][ $tf ][1]['COUNT'] ) ?
+					(int) $totals_RET[ $option ][ $tf ][1]['COUNT'] : 0 );
 			}
 		}
 	}
