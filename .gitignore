@@ -259,6 +259,7 @@ modules/SMS*
 modules/Attendance_Excel_Sheet*
 modules/Billing_Elements*
 modules/Semester_Rollover*
+modules/ENP*
 plugins/Email_SMTP*
 plugins/Public_Pages*
 plugins/Custom_Transcripts*
