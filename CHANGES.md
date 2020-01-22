@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 5.7.1
+----------------
+- Set start date: use default RequestedDate() default parameter in CategoryBreakdown.php, CategoryBreakdownTime.php & StudentFieldBreakdown.php
+
 Changes in 5.7
 --------------
 - SQL ADDRESS table: city & mail_city column type to text in rosariosis.sql, Address.inc.php & Update.fnc.php

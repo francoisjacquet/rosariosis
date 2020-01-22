@@ -6,23 +6,18 @@ $_REQUEST['field_id'] = issetVal( $_REQUEST['field_id'] );
 
 DrawHeader( ProgramTitle() );
 
-// Set start date.
-$start_date = RequestedDate( 'start', '', 'set' );
+$min_date = DBGetOne( "SELECT min(SCHOOL_DATE) AS MIN_DATE
+	FROM ATTENDANCE_CALENDAR
+	WHERE SYEAR='" . UserSyear() . "'
+	AND SCHOOL_ID='" . UserSchool() . "'" );
 
-if ( empty( $start_date ) )
+if ( ! $min_date )
 {
-	$min_date = DBGetOne( "SELECT min(SCHOOL_DATE) AS MIN_DATE
-		FROM ATTENDANCE_CALENDAR
-		WHERE SYEAR='" . UserSyear() . "'
-		AND SCHOOL_ID='" . UserSchool() . "'" );
-
-	if ( $min_date )
-	{
-		$start_date = $min_date;
-	}
-	else
-		$start_date = date( 'Y-m' ) . '-01';
+	$min_date = date( 'Y-m' ) . '-01';
 }
+
+// Set start date.
+$start_date = RequestedDate( 'start', $min_date, 'set' );
 
 // Set end date.
 $end_date = RequestedDate( 'end', DBDate(), 'set' );
