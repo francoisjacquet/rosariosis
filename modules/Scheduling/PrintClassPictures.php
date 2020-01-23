@@ -96,7 +96,11 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			AND ('" . DBDate() . "'<=END_DATE OR END_DATE IS NULL))";
 		}
 
-		$RET = GetStuList( $extra );
+		if ( User( 'PROFILE' ) === 'teacher'
+			|| User( 'PROFILE' ) === 'admin' )
+		{
+			$RET = GetStuList( $extra );
+		}
 
 		//echo '<pre>'; var_dump($RET); echo '</pre>';
 

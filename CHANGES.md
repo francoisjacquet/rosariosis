@@ -4,6 +4,7 @@
 Changes in 5.7.1
 ----------------
 - Set start date: use default RequestedDate() default parameter in CategoryBreakdown.php, CategoryBreakdownTime.php & StudentFieldBreakdown.php
+- Fix Print Class Pictures for Parents & Students in PrintClassPictures.php
 
 Changes in 5.7
 --------------
