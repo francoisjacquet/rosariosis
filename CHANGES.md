@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 5.7.2
+----------------
+- Fix SQL error on check if student not already associated in CreateParents.php
+
 Changes in 5.7.1
 ----------------
 - Set start date: use default RequestedDate() default parameter in CategoryBreakdown.php, CategoryBreakdownTime.php & StudentFieldBreakdown.php

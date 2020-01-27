@@ -246,8 +246,8 @@ if ( $_REQUEST['modfunc'] === 'save'
 					// Fix SQL error, check if student not already associated!
 					$parent_associated_to_student_RET = DBGet( "SELECT 1
 						FROM STUDENTS_JOIN_USERS
-						WHERE STAFF_ID'" . $id . "'
-						AND STUDENT_ID'" . $student['STUDENT_ID'] . "'" );
+						WHERE STAFF_ID='" . $id . "'
+						AND STUDENT_ID='" . $student['STUDENT_ID'] . "'" );
 
 					if ( ! $test_email
 						&& ! $parent_associated_to_student_RET )
