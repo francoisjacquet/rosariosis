@@ -380,7 +380,7 @@ function Search( $type, $extra = null )
 
 			$categories_RET = ParseMLArray(
 				DBGet(
-					DBQuery( $categories_SQL ),
+					$categories_SQL,
 					array(),
 					array( 'ID', 'TYPE' ) ),
 				array( 'CATEGORY_TITLE', 'TITLE' )
@@ -395,7 +395,7 @@ function Search( $type, $extra = null )
 
 				if ( isset( $categories_RET[1] ) )
 				{
-					$i = count( $categories_RET[1]['text'] ) ? 1 : count( $categories_RET[1]['text'] );
+					$i = count( $categories_RET[1]['text'] ) ? count( $categories_RET[1]['text'] ) : 1;
 				}
 				else
 				{

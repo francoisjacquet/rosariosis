@@ -4,6 +4,7 @@
 Changes in 5.7.2
 ----------------
 - Fix SQL error on check if student not already associated in CreateParents.php
+- Fix Username field index when text fields in Search.fnc.php
 
 Changes in 5.7.1
 ----------------
