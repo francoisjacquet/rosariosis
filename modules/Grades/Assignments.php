@@ -842,15 +842,13 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( $_REQUEST['assignment_type_id'] && $_REQUEST['assignment_type_id'] !== 'new' && ! empty( $types_RET ) )
 	{
-		$sql = "SELECT ASSIGNMENT_ID,TITLE,POINTS
+		$assn_RET = DBGet( "SELECT ASSIGNMENT_ID,TITLE,POINTS
 		FROM GRADEBOOK_ASSIGNMENTS
 		WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND (COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 		AND ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'
 		AND MARKING_PERIOD_ID='" . UserMP() . "'
-		ORDER BY " . Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) . " DESC";
-		$QI = DBQuery( $sql );
-		$assn_RET = DBGet( $QI );
+		ORDER BY " . Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) . " DESC" );
 
 		if ( ! empty( $assn_RET ) )
 		{
