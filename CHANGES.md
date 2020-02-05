@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 5.7.3
+----------------
+- Fix wkhtmltopdf exec crash: Old code for Windows OS in Wkhtmltopdf.php
+
 Changes in 5.7.2
 ----------------
 - Fix regression since 4.3 SQL error on check if student not already associated in CreateParents.php

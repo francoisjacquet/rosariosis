@@ -193,57 +193,75 @@ class Wkhtmltopdf
 	{
 		$result = array('stdout' => '', 'stderr' => '', 'return' => '');
 		$proc = proc_open($cmd, array(0 => array('pipe', 'r'), 1 => array('pipe', 'w'), 2 => array('pipe', 'w')), $pipes);
-		/**
-		 * We need to asynchronously process streams, as simple sequential stream_get_contents() risks deadlocking if the 2nd pipe's OS pipe buffer fills up before the 1st is fully consumed.
-		 * The input is probably subject to the same risk.
-		 */
-		foreach ($pipes as $pipe) {
-			stream_set_blocking($pipe, 0);
+
+		if ( stripos(PHP_OS, 'WIN') === 0 )
+		{
+			// Fix wkhtmltopdf exec crash: Old code for Windows OS.
+			fwrite($pipes[0], $input);
+			fclose($pipes[0]);
+
+			$result['stdout'] = stream_get_contents($pipes[1]);
+			fclose($pipes[1]);
+
+			$result['stderr'] = stream_get_contents($pipes[2]);
+			fclose($pipes[2]);
 		}
-		$indexPipes = function(array $pipes) { return array_combine(array_map('intval', $pipes), $pipes); };
-		$allWritables = $indexPipes(array($pipes[0]));
-		$allReadables = $indexPipes(array($pipes[1], $pipes[2]));
-		$readablesNames = array((int)$pipes[1] => 'stdout', (int)$pipes[2] => 'stderr');
-		do {
-			$readables = $allReadables;
-			$writables = $allWritables;
-			$exceptables = null;
-			$selectTime = microtime(true);
-			$nStreams = stream_select($readables, $writables, $exceptables, null, null);
-			$selectTime = microtime(true) - $selectTime;
-			if ($nStreams === false) {
-				throw new \Exception('Error reading/writing to WKHTMLTOPDF');
+		else
+		{
+			// Fix crash: New code for Linux / Mac OS.
+			/**
+			 * We need to asynchronously process streams, as simple sequential stream_get_contents() risks deadlocking if the 2nd pipe's OS pipe buffer fills up before the 1st is fully consumed.
+			 * The input is probably subject to the same risk.
+			 */
+			foreach ($pipes as $pipe) {
+				stream_set_blocking($pipe, 0);
 			}
-			foreach ($writables as $writable) {
-				$nBytes = fwrite($writable, $input);
-				if ($nBytes === false) {
-					throw new \Exception('Error writing to WKHTMLTOPDF');
+			$indexPipes = function(array $pipes) { return array_combine(array_map('intval', $pipes), $pipes); };
+			$allWritables = $indexPipes(array($pipes[0]));
+			$allReadables = $indexPipes(array($pipes[1], $pipes[2]));
+			$readablesNames = array((int)$pipes[1] => 'stdout', (int)$pipes[2] => 'stderr');
+			do {
+				$readables = $allReadables;
+				$writables = $allWritables;
+				$exceptables = null;
+				$selectTime = microtime(true);
+				$nStreams = stream_select($readables, $writables, $exceptables, null, null);
+				$selectTime = microtime(true) - $selectTime;
+				if ($nStreams === false) {
+					throw new \Exception('Error reading/writing to WKHTMLTOPDF');
 				}
-				if ($nBytes == strlen($input)) {
-					fclose($writable);
-					unset($allWritables[(int)$writable]);
-					$input = '';
-				} else {
-					$input = substr($input, $nBytes);
-				}
-			}
-			if (count($readables) > 0) {
-				if ($selectTime < 30e3) {
-					usleep(30e3 - $selectTime); // up to 30ms padding, so we don't burn so much time/CPU reading just 1 byte at a time.
-				}
-				foreach ($readables as $readable) {
-					$in = fread($readable, 0x10000);
-					if ($in === false) {
-						throw new \Exception('Error reading from WKHTMLTOPDF '.$readablesNames[$readable]);
+				foreach ($writables as $writable) {
+					$nBytes = fwrite($writable, $input);
+					if ($nBytes === false) {
+						throw new \Exception('Error writing to WKHTMLTOPDF');
 					}
-					$result[$readablesNames[(int)$readable]] .= $in;
-					if (feof($readable)) {
-						fclose($readable);
-						unset($allReadables[(int)$readable]);
+					if ($nBytes == strlen($input)) {
+						fclose($writable);
+						unset($allWritables[(int)$writable]);
+						$input = '';
+					} else {
+						$input = substr($input, $nBytes);
 					}
 				}
-			}
-		} while (count($allReadables) > 0 || count($allWritables) > 0);
+				if (count($readables) > 0) {
+					if ($selectTime < 30e3) {
+						usleep(30e3 - $selectTime); // up to 30ms padding, so we don't burn so much time/CPU reading just 1 byte at a time.
+					}
+					foreach ($readables as $readable) {
+						$in = fread($readable, 0x10000);
+						if ($in === false) {
+							throw new \Exception('Error reading from WKHTMLTOPDF '.$readablesNames[$readable]);
+						}
+						$result[$readablesNames[(int)$readable]] .= $in;
+						if (feof($readable)) {
+							fclose($readable);
+							unset($allReadables[(int)$readable]);
+						}
+					}
+				}
+			} while (count($allReadables) > 0 || count($allWritables) > 0);
+		}
+
 		$result['return'] = proc_close($proc);
 		return $result;
 	}
