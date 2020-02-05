@@ -369,6 +369,13 @@ function _makeGradesInput( $value, $name )
 		{
 			$value = number_format( (float) $value, 2, '.', '' );
 		}
+
+		if ( $id !== 'new'
+			&& ( $name === 'GP_SCALE'
+				|| $name === 'GP_PASSING_VALUE' ) )
+		{
+			$extra .= ' required';
+		}
 	}
 
 	if ( $name === 'BREAK_OFF'

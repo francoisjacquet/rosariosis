@@ -4,6 +4,7 @@
 Changes in 5.7.3
 ----------------
 - Fix wkhtmltopdf exec crash: Old code for Windows OS in Wkhtmltopdf.php
+- Grade Scale Value & Minimum Passing Grade inputs are required in ReportCardGrades.php
 
 Changes in 5.7.2
 ----------------
