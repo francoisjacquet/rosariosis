@@ -347,7 +347,7 @@ else
 
 		echo '<br /><fieldset><legend>' . _( 'School' ) . '</legend><table>';
 
-		//FJ school year over one/two calendar years format
+		// School year over one/two calendar years format.
 		echo '<tr><td>' . CheckboxInput(
 			Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ),
 			'values[CONFIG][SCHOOL_SYEAR_OVER_2_YEARS]',
@@ -358,7 +358,7 @@ else
 			button( 'x' )
 		) . '</td></tr>';
 
-		// FJ upload school logo.
+		// Upload school logo.
 		echo '<tr><td>' . ( file_exists( 'assets/school_logo_' . UserSchool() . '.jpg' ) ?
 			'<br /><img src="assets/school_logo_' . UserSchool() . '.jpg?cache_killer=' . rand() .
 			'" style="max-width:225px; max-height:225px;" /><br />' : '' ) .
@@ -368,8 +368,13 @@ else
 			'accept="image/*"'
 		) . '</td></tr>';
 
-		//FJ currency
-		echo '<tr><td>' . TextInput( Config( 'CURRENCY' ), 'values[CONFIG][CURRENCY]', _( 'Currency Symbol' ), 'maxlength=3 size=3' ) . '</td></tr>';
+		// Currency.
+		echo '<tr><td>' . TextInput(
+			Config( 'CURRENCY' ),
+			'values[CONFIG][CURRENCY]',
+			_( 'Currency Symbol' ),
+			'maxlength=8 size=3'
+		) . '</td></tr>';
 
 		echo '</table></fieldset>';
 
