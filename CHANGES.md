@@ -4,6 +4,7 @@
 Changes in 5.7.4
 ----------------
 - Increase Currency input max length to 8 in Configuration.php
+- GetReportCardsExtra() Define your custom function in your addon module or plugin in ReportCards.fnc.php
 
 Changes in 5.7.3
 ----------------

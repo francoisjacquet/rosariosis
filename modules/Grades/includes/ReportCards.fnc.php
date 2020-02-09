@@ -858,68 +858,72 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 	}
 }
 
-/**
- * Get $extra var for Report Cards.
- * To be used by GetStuList().
- *
- * @example $extra = GetReportCardsExtra( $mp_array, $student_array );
- *
- * @param  array $mp_list MPs list.
- * @param  array $st_list Students list.
- * @return array $extra
- */
-function GetReportCardsExtra( $mp_list, $st_list )
+if ( ! function_exists( 'GetReportCardsExtra' ) )
 {
-	// Student List Extra.
-	$extra['WHERE'] = " AND s.STUDENT_ID IN ( " . $st_list . ")";
-
-	// Student Details. TODO test if ReportCards needs GRADE_ID!!
-	$extra['SELECT_ONLY'] = "DISTINCT s.FIRST_NAME,s.LAST_NAME,s.STUDENT_ID,ssm.SCHOOL_ID";
-
-	$extra['SELECT_ONLY'] .= ",sg1.GRADE_LETTER as GRADE_TITLE,sg1.GRADE_PERCENT,WEIGHTED_GP,GP_SCALE,
-		sg1.COMMENT as COMMENT_TITLE,sg1.STUDENT_ID,sg1.COURSE_PERIOD_ID,sg1.MARKING_PERIOD_ID,
-		sg1.COURSE_TITLE as COURSE_TITLE,rc_cp.TEACHER_ID,sp.SORT_ORDER";
-
-	// Period-by-period absences.
-
-	if ( isset( $_REQUEST['elements']['period_absences'] )
-		&& $_REQUEST['elements']['period_absences'] === 'Y' )
+	/**
+	 * Get $extra var for Report Cards.
+	 * To be used by GetStuList().
+	 *
+	 * @since 5.7.4 Define your custom function in your addon module or plugin.
+	 * @example $extra = GetReportCardsExtra( $mp_array, $student_array );
+	 *
+	 * @param  array $mp_list MPs list.
+	 * @param  array $st_list Students list.
+	 * @return array $extra
+	 */
+	function GetReportCardsExtra( $mp_list, $st_list )
 	{
-		$extra['SELECT_ONLY'] .= ",rc_cp.DOES_ATTENDANCE,
-			(SELECT count(*) FROM ATTENDANCE_PERIOD ap,ATTENDANCE_CODES ac
-				WHERE ac.ID=ap.ATTENDANCE_CODE
-				AND ac.STATE_CODE='A'
-				AND ap.COURSE_PERIOD_ID=sg1.COURSE_PERIOD_ID
-				AND ap.STUDENT_ID=ssm.STUDENT_ID) AS YTD_ABSENCES,
-			(SELECT count(*) FROM ATTENDANCE_PERIOD ap,ATTENDANCE_CODES ac
-				WHERE ac.ID=ap.ATTENDANCE_CODE
-				AND ac.STATE_CODE='A'
-				AND ap.COURSE_PERIOD_ID=sg1.COURSE_PERIOD_ID
-				AND sg1.MARKING_PERIOD_ID=cast(ap.MARKING_PERIOD_ID as text)
-				AND ap.STUDENT_ID=ssm.STUDENT_ID) AS MP_ABSENCES";
+		// Student List Extra.
+		$extra['WHERE'] = " AND s.STUDENT_ID IN ( " . $st_list . ")";
+
+		// Student Details. TODO test if ReportCards needs GRADE_ID!!
+		$extra['SELECT_ONLY'] = "DISTINCT s.FIRST_NAME,s.LAST_NAME,s.STUDENT_ID,ssm.SCHOOL_ID";
+
+		$extra['SELECT_ONLY'] .= ",sg1.GRADE_LETTER as GRADE_TITLE,sg1.GRADE_PERCENT,WEIGHTED_GP,GP_SCALE,
+			sg1.COMMENT as COMMENT_TITLE,sg1.STUDENT_ID,sg1.COURSE_PERIOD_ID,sg1.MARKING_PERIOD_ID,
+			sg1.COURSE_TITLE as COURSE_TITLE,rc_cp.TEACHER_ID,sp.SORT_ORDER";
+
+		// Period-by-period absences.
+
+		if ( isset( $_REQUEST['elements']['period_absences'] )
+			&& $_REQUEST['elements']['period_absences'] === 'Y' )
+		{
+			$extra['SELECT_ONLY'] .= ",rc_cp.DOES_ATTENDANCE,
+				(SELECT count(*) FROM ATTENDANCE_PERIOD ap,ATTENDANCE_CODES ac
+					WHERE ac.ID=ap.ATTENDANCE_CODE
+					AND ac.STATE_CODE='A'
+					AND ap.COURSE_PERIOD_ID=sg1.COURSE_PERIOD_ID
+					AND ap.STUDENT_ID=ssm.STUDENT_ID) AS YTD_ABSENCES,
+				(SELECT count(*) FROM ATTENDANCE_PERIOD ap,ATTENDANCE_CODES ac
+					WHERE ac.ID=ap.ATTENDANCE_CODE
+					AND ac.STATE_CODE='A'
+					AND ap.COURSE_PERIOD_ID=sg1.COURSE_PERIOD_ID
+					AND sg1.MARKING_PERIOD_ID=cast(ap.MARKING_PERIOD_ID as text)
+					AND ap.STUDENT_ID=ssm.STUDENT_ID) AS MP_ABSENCES";
+		}
+
+		// FJ multiple school periods for a course period.
+		//$extra['FROM'] .= ",STUDENT_REPORT_CARD_GRADES sg1,ATTENDANCE_CODES ac,COURSE_PERIODS rc_cp,SCHOOL_PERIODS sp";
+		$extra['FROM'] = ",STUDENT_REPORT_CARD_GRADES sg1,ATTENDANCE_CODES ac,COURSE_PERIODS rc_cp,
+			SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp";
+
+		/*$extra['WHERE'] .= " AND sg1.MARKING_PERIOD_ID IN (".$mp_list.")
+		AND rc_cp.COURSE_PERIOD_ID=sg1.COURSE_PERIOD_ID AND sg1.STUDENT_ID=ssm.STUDENT_ID AND sp.PERIOD_ID=rc_cp.PERIOD_ID";*/
+		$extra['WHERE'] .= " AND sg1.MARKING_PERIOD_ID IN (" . $mp_list . ")
+						AND rc_cp.COURSE_PERIOD_ID=sg1.COURSE_PERIOD_ID
+						AND sg1.STUDENT_ID=ssm.STUDENT_ID
+						AND sp.PERIOD_ID=cpsp.PERIOD_ID
+						AND rc_cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID";
+
+		$extra['ORDER'] = ",sg1.COURSE_TITLE,sp.SORT_ORDER,ac.TITLE";
+
+		$extra['group'] = array( 'STUDENT_ID', 'COURSE_PERIOD_ID', 'MARKING_PERIOD_ID' );
+
+		// Parent: associated students.
+		$extra['ASSOCIATED'] = User( 'STAFF_ID' );
+
+		return $extra;
 	}
-
-	// FJ multiple school periods for a course period.
-	//$extra['FROM'] .= ",STUDENT_REPORT_CARD_GRADES sg1,ATTENDANCE_CODES ac,COURSE_PERIODS rc_cp,SCHOOL_PERIODS sp";
-	$extra['FROM'] = ",STUDENT_REPORT_CARD_GRADES sg1,ATTENDANCE_CODES ac,COURSE_PERIODS rc_cp,
-		SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp";
-
-	/*$extra['WHERE'] .= " AND sg1.MARKING_PERIOD_ID IN (".$mp_list.")
-	AND rc_cp.COURSE_PERIOD_ID=sg1.COURSE_PERIOD_ID AND sg1.STUDENT_ID=ssm.STUDENT_ID AND sp.PERIOD_ID=rc_cp.PERIOD_ID";*/
-	$extra['WHERE'] .= " AND sg1.MARKING_PERIOD_ID IN (" . $mp_list . ")
-					AND rc_cp.COURSE_PERIOD_ID=sg1.COURSE_PERIOD_ID
-					AND sg1.STUDENT_ID=ssm.STUDENT_ID
-					AND sp.PERIOD_ID=cpsp.PERIOD_ID
-					AND rc_cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID";
-
-	$extra['ORDER'] = ",sg1.COURSE_TITLE,sp.SORT_ORDER,ac.TITLE";
-
-	$extra['group'] = array( 'STUDENT_ID', 'COURSE_PERIOD_ID', 'MARKING_PERIOD_ID' );
-
-	// Parent: associated students.
-	$extra['ASSOCIATED'] = User( 'STAFF_ID' );
-
-	return $extra;
 }
 
 /**
