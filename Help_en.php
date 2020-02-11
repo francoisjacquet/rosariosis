@@ -773,6 +773,10 @@ if ( User( 'PROFILE' ) === 'admin' ):
 
 	<p>' . _help( 'As with any list in RosarioSIS, you can sort by any value displayed by clicking on the coresponding column heading. For example, you can sort by grade by clicking on the "Grade" column heading. Similarly, you can sort by unweighted GPA by clicking on the "Unweighted GPA" column heading.' ) . '</p>';
 
+	$help['Grades/Configuration.php'] = '<p>' . _help( '<i>Configuration</i> allows you to override individual teacher configuration and configure the gradebook for them.' ) . '</p>
+
+	<p>' . _help( 'Finally, you can also configure the final grading percentages of each semester. These values are used when averaging the quarter grades to calculate the semester grade.' ) . '</p>';
+
 	$help['Grades/ReportCardGrades.php'] = '<p>' . _help( '<i>Grading Scales</i> allows you to setup your school\'s report card grades. Report card grades are used in the Input Final Grades program by teachers and in most of the Grades reports. Report card grades include letter grades as well as grade comments that a teacher can choose from when entering grades.' ) . '</p>
 
 	<p>' . _help( 'To add a report card grade, fill in the grade\'s title, GPA value, and sort order in the empty fields at the bottom of the grades list and click the "Save" button.' ) . '</p>
