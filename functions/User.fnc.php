@@ -101,6 +101,8 @@ function User( $item )
  *
  * @global array  $_ROSARIO Sets $_ROSARIO['Preferences']
  *
+ * @since 5.8 Preferences overridden with USER_ID='-1', see ProgramUserConfig().
+ *
  * @param  string $item     Preference item.
  * @param  string $program  Preferences|Gradebook (optional).
  *
@@ -122,8 +124,9 @@ function Preferences( $item, $program = 'Preferences' )
 	{
 		$_ROSARIO['Preferences'][ $program ] = DBGet( "SELECT TITLE,VALUE
 			FROM PROGRAM_USER_CONFIG
-			WHERE USER_ID='" . User( 'STAFF_ID' ) . "'
-			AND PROGRAM='" . $program . "'", array(), array( 'TITLE' ) );
+			WHERE (USER_ID='" . User( 'STAFF_ID' ) . "' OR USER_ID='-1')
+			AND PROGRAM='" . $program . "'
+			ORDER BY USER_ID", array(), array( 'TITLE' ) );
 	}
 
 	// FJ add Default Theme to Configuration.
