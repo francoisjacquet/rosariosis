@@ -8,6 +8,7 @@ Changes in 5.8
 - Preferences overridden with USER_ID='-1' in User.fnc.php
 - Admin can override teachers gradebook configuration in Configuration.php
 - Add GRADEBOOK_CONFIG_ADMIN_OVERRIDE config option in rosariosis.sql
+- Update French & Spanish translations in locale/es_ES.utf8/ & locale/fr_FR.utf8
 
 Changes in 5.7.4
 ----------------
