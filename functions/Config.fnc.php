@@ -161,6 +161,7 @@ function ProgramConfig( $program, $item = 'all', $value = null )
  *
  * @since 2.9
  * @since 4.4 Add $values param to INSERT or UPDATE.
+ * @since 5.8 Set $staff_id to -1 to override user config.
  *
  * @param string  $program  Gradebook|WidgetsSearch|StaffWidgetsSearch|
  * @param integer $staff_id Staff ID (optional). Defaults to User( 'STAFF_ID' ).
@@ -183,8 +184,9 @@ function ProgramUserConfig( $program, $staff_id = 0, $values = null )
 	{
 		$config_RET = DBGet( "SELECT TITLE,VALUE
 			FROM PROGRAM_USER_CONFIG
-			WHERE USER_ID='" . $staff_id . "'
-			AND PROGRAM='" . $program . "'", array(), array( 'TITLE' ) );
+			WHERE (USER_ID='" . $staff_id . "' OR USER_ID='-1')
+			AND PROGRAM='" . $program . "'
+			ORDER BY USER_ID", array(), array( 'TITLE' ) );
 
 		$program_config[ $program ][ $staff_id ] = null;
 

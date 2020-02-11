@@ -4,6 +4,7 @@
 Changes in 5.8
 --------------
 - Add `_listSearch()` function in ListOutput.fnc.php
+- ProgramUserConfig() Set $staff_id to -1 to override user config in Config.fnc.php
 
 Changes in 5.7.4
 ----------------
