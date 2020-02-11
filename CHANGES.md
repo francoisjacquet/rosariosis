@@ -6,6 +6,8 @@ Changes in 5.8
 - Add `_listSearch()` function in ListOutput.fnc.php
 - ProgramUserConfig() Set $staff_id to -1 to override user config in Config.fnc.php
 - Preferences overridden with USER_ID='-1' in User.fnc.php
+- Admin can override teachers gradebook configuration in Configuration.php
+- Add GRADEBOOK_CONFIG_ADMIN_OVERRIDE config option in rosariosis.sql
 
 Changes in 5.7.4
 ----------------

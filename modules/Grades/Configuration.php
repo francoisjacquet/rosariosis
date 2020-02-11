@@ -2,20 +2,82 @@
 
 DrawHeader( _( 'Gradebook' ) . ' - ' . ProgramTitle() );
 
-if ( ! empty( $_REQUEST['values'] ) )
+if ( User( 'PROFILE' ) === 'admin'
+	&& isset( $_REQUEST['GRADEBOOK_CONFIG_ADMIN_OVERRIDE'] ) )
+{
+	Config( 'GRADEBOOK_CONFIG_ADMIN_OVERRIDE', $_REQUEST['GRADEBOOK_CONFIG_ADMIN_OVERRIDE'] );
+
+	if ( ! Config( 'GRADEBOOK_CONFIG_ADMIN_OVERRIDE' ) )
+	{
+		// Delete admin configuration (Staff ID = -1).
+		DBQuery( "DELETE FROM PROGRAM_USER_CONFIG
+			WHERE PROGRAM='Gradebook'
+			AND USER_ID='-1'" );
+	}
+}
+
+if ( ! empty( $_REQUEST['values'] )
+	&& ( ! User( 'PROFILE' ) === 'admin' || Config( 'GRADEBOOK_CONFIG_ADMIN_OVERRIDE' ) ) )
 {
 	ProgramUserConfig(
 		'Gradebook',
-		0,
+		// @since 5.8 Admin can override teachers gradebook configuration: use -1 as Staff ID.
+		( User( 'PROFILE' ) === 'admin' ? -1 : 0 ),
 		$_REQUEST['values']
 	);
 
 	$note[] = button( 'check' ) . '&nbsp;' . _( 'The gradebook configuration has been modified.' );
 }
 
+if ( User( 'PROFILE' ) === 'teacher' )
+{
+	// Allow Edit fields for teachers.
+	$_ROSARIO['allow_edit'] = ! Config( 'GRADEBOOK_CONFIG_ADMIN_OVERRIDE' );
+
+	if ( Config( 'GRADEBOOK_CONFIG_ADMIN_OVERRIDE' ) )
+	{
+		$warning[] = _( 'The gradebook configuration is defined by administrators.' );
+	}
+}
+
+echo ErrorMessage( $warning, 'warning' );
+
 echo ErrorMessage( $note, 'note' );
 
-$gradebook_config = ProgramUserConfig( 'Gradebook' );
+// @since 5.8 Admin can override teachers gradebook configuration: use -1 as Staff ID.
+$gradebook_config = ProgramUserConfig( 'Gradebook', ( User( 'PROFILE' ) === 'admin' ? -1 : 0 ) );
+
+echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
+
+if ( User( 'PROFILE' ) === 'admin' )
+{
+	// @since 5.8 Admin can override teachers gradebook configuration: checkbox.
+	$checkbox_override = CheckboxInput(
+		Config( 'GRADEBOOK_CONFIG_ADMIN_OVERRIDE' ),
+		'GRADEBOOK_CONFIG_ADMIN_OVERRIDE',
+		_( 'Override individual teacher configuration?' ),
+		'',
+		true
+	);
+
+	DrawHeader( $checkbox_override );
+}
+
+DrawHeader( '', Buttons( _( 'Save' ) ) );
+
+if ( User( 'PROFILE' ) === 'admin' && ! Config( 'GRADEBOOK_CONFIG_ADMIN_OVERRIDE' ) )
+{
+	// @since 5.8 Admin can override teachers gradebook configuration: do not show form yet.
+	echo '</form>';
+
+	Warehouse( 'footer' );
+
+	exit;
+}
+
+echo '<br />';
+
+PopTable( 'header', _( 'Configuration' ) );
 
 $grades = DBGet( "SELECT cp.TITLE AS CP_TITLE,c.TITLE AS COURSE_TITLE,cp.COURSE_PERIOD_ID,rcg.TITLE,rcg.ID
 FROM REPORT_CARD_GRADES rcg,COURSE_PERIODS cp,COURSES c
@@ -30,21 +92,13 @@ AND cp.GRADE_SCALE_ID IS NOT NULL
 AND cp.DOES_BREAKOFF='Y'
 ORDER BY rcg.BREAK_OFF IS NOT NULL DESC,rcg.BREAK_OFF DESC,rcg.SORT_ORDER DESC", array(), array( 'COURSE_PERIOD_ID' ) );
 
-echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
-
-DrawHeader( '', Buttons( _( 'Save' ) ) );
-
-echo '<br />';
-
-PopTable( 'header', _( 'Configuration' ) );
-
-// Allow Edit fields for teachers.
-$_ROSARIO['allow_edit'] = true;
-
 echo '<fieldset><legend>' . _( 'Assignments' ) . '</legend><table>';
 
 if ( ! empty( $grades ) )
 {
+	// Allow Edit fields for teachers.
+	$_ROSARIO['allow_edit'] = true;
+
 	//if ( ! $gradebook_config['ROUNDING'])
 	//	$gradebook_config['ROUNDING'] = 'NORMAL';
 
@@ -61,6 +115,9 @@ if ( ! empty( $grades ) )
 		$rounding_options,
 		_( 'None' )
 	) . '</td></tr>';
+
+	// Allow Edit fields for teachers.
+	$_ROSARIO['allow_edit'] = ! Config( 'GRADEBOOK_CONFIG_ADMIN_OVERRIDE' );
 }
 
 if ( empty( $gradebook_config['ASSIGNMENT_SORTING'] ) )
@@ -212,6 +269,9 @@ $grades[ $course_period_id ][ $i ] = $grades[ $course_period_id ][ $i ]['TITLE']
 
 if ( ! empty( $grades ) )
 {
+	// Allow Edit fields for teachers.
+	$_ROSARIO['allow_edit'] = true;
+
 	echo '<fieldset><legend>' . _( 'Score Breakoff Points' ) . '</legend><table>';
 
 	foreach ( (array) $grades as $course_period_id => $cp_grades )
@@ -253,6 +313,9 @@ if ( ! empty( $grades ) )
 	}
 
 	echo '</table></fieldset><br />';
+
+	// Allow Edit fields for teachers.
+	$_ROSARIO['allow_edit'] = ! Config( 'GRADEBOOK_CONFIG_ADMIN_OVERRIDE' );
 }
 
 $year = DBGet( "SELECT TITLE,MARKING_PERIOD_ID,DOES_GRADES
