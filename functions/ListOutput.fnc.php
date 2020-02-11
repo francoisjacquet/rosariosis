@@ -164,97 +164,13 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		if ( $result_count
 			&& $LO_search !== '' )
 		{
-			$search_term = trim( mb_strtolower( str_replace( "''", "'", $LO_search ) ) );
+			// @since 5.8.
+			$result = _listSearch( $result, $LO_search );
 
-			if ( mb_substr( $search_term, 0, 1 ) != '"'
-				&& mb_substr( $search_term, -1, 1 ) != '"' )
-			{
-				$search_term = str_replace( '"', '', $search_term );
+			$result_count = $display_count = count( $result );
 
-				while ( $space_pos = mb_strpos( $search_term, ' ' ) )
-				{
-					$terms[mb_substr( $search_term, 0, $space_pos )] = 1;
-
-					$search_term = mb_substr( $search_term, ( $space_pos + 1 ) );
-				}
-
-				$terms[trim( $search_term )] = 1;
-			}
-
-			// Search "expression"
-			else
-			{
-				$search_term = str_replace( '"', '', $search_term );
-
-				$terms[$search_term] = 1;
-			}
-
-			/* TRANSLATORS: List of words ignored during search operations */
-			$ignored_words = explode( ', ', _( 'of, the, a, an, in' ) );
-
-			foreach ( $ignored_words as $word )
-			{
-				unset( $terms[trim( $word )] );
-			}
-
-			foreach ( (array) $result as $key => $value )
-			{
-				$values[$key] = 0;
-
-				foreach ( (array) $value as $val )
-				{
-					// FJ better list searching by isolating the values.
-					$val = mb_strtolower( strip_tags( preg_replace( '/<script\b[^>]*>(.*?)<\/script>/is', "", $val ) ) );
-
-					if ( $search_term == $val )
-					{
-						// +25 if Exact match.
-						$values[$key] += 25;
-					}
-
-					foreach ( (array) $terms as $term => $one )
-					{
-						if ( mb_strpos( $val, $term ) !== FALSE )
-						{
-							// +3 for each Term found.
-							$values[$key] += 3;
-						}
-					}
-				}
-
-				if ( $values[$key] == 0 )
-				{
-					unset( $values[$key] );
-
-					unset( $result[$key] );
-
-					$result_count--;
-
-					$display_count--;
-				}
-			}
-
-			// Add Relevance column.
 			if ( $result_count )
 			{
-				array_multisort( $values, SORT_DESC, $result );
-
-				$result = _ReindexResults( $result );
-
-				$values = _ReindexResults( $values );
-
-				$last_value = 1;
-
-				$scale = ( 100 / $values[$last_value] );
-
-				for ( $i = $last_value; $i <= $result_count; $i++ )
-				{
-					$score = (int) ( $values[$i] * $scale );
-
-					$result[$i]['RELEVANCE'] = '<div class="bar relevance" style="width:' .
-						$score . 'px;">' . $score . '</div>';
-				}
-
 				$column_names['RELEVANCE'] = _( 'Relevance' );
 			}
 
@@ -918,6 +834,119 @@ class Rosario_List implements Countable
 }
 
 /**
+ * Search List
+ *
+ * Local function
+ *
+ * @example $result = _listSearch( $result, $LO_search );
+ * @since 5.8
+ *
+ * @param  array  $result     ListOutput result.
+ * @param  string $LO_search  ListOutput search term.
+ * @return array  $result     Searched result.
+ */
+function _listSearch( $result, $LO_search )
+{
+	$result_count = count( $result );
+
+	$search_term = trim( mb_strtolower( str_replace( "''", "'", $LO_search ) ) );
+
+	if ( mb_substr( $search_term, 0, 1 ) != '"'
+		|| mb_substr( $search_term, -1, 1 ) != '"' )
+	{
+		$search_term = str_replace( '"', '', $search_term );
+
+		while ( $space_pos = mb_strpos( $search_term, ' ' ) )
+		{
+			$terms[mb_substr( $search_term, 0, $space_pos )] = 1;
+
+			$search_term = mb_substr( $search_term, ( $space_pos + 1 ) );
+		}
+
+		$terms[trim( $search_term )] = 1;
+	}
+	else
+	{
+		// Search "expression".
+		$search_term = str_replace( '"', '', $search_term );
+
+		$terms[$search_term] = 1;
+	}
+
+	/* TRANSLATORS: List of words ignored during search operations */
+	$ignored_words = explode( ', ', _( 'of, the, a, an, in' ) );
+
+	foreach ( $ignored_words as $word )
+	{
+		unset( $terms[trim( $word )] );
+	}
+
+	foreach ( (array) $result as $key => $value )
+	{
+		$values[$key] = 0;
+
+		foreach ( (array) $value as $val )
+		{
+			// FJ better list searching by isolating the values.
+			$val = mb_strtolower( strip_tags( preg_replace( '/<script\b[^>]*>(.*?)<\/script>/is', "", $val ) ) );
+
+			if ( $search_term == $val )
+			{
+				// +25 if Exact match.
+				$values[$key] += 25;
+
+				continue;
+			}
+
+			foreach ( (array) $terms as $term => $one )
+			{
+				if ( mb_strpos( $val, $term ) !== FALSE )
+				{
+					// +3 for each Term found.
+					$values[$key] += 3;
+				}
+			}
+		}
+
+		if ( $values[$key] == 0 )
+		{
+			unset( $values[$key] );
+
+			unset( $result[$key] );
+
+			$result_count--;
+		}
+	}
+
+	// Add Relevance column.
+	if ( ! $result_count )
+	{
+		return $result;
+	}
+
+	array_multisort( $values, SORT_DESC, $result );
+
+	$result = _ReindexResults( $result );
+
+	$values = _ReindexResults( $values );
+
+	$last_value = 1;
+
+	$scale = ( 100 / $values[$last_value] );
+
+	for ( $i = $last_value; $i <= $result_count; $i++ )
+	{
+		$score = (int) ( $values[$i] * $scale );
+
+		$result[$i]['RELEVANCE'] = '<div class="bar relevance" style="width:' .
+			$score . 'px;">' . $score . '</div>';
+	}
+
+	return $result;
+}
+
+
+/**
  * Save / Export List to CSV (OpenOffice), Tab (Excel) or XML
  *
  * Local function
@@ -938,15 +967,15 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 	function ( $value )
 	{
 		$value = trim( preg_replace(
-			'/ +/', // remove double spaces
+			'/ +/', // Remove double spaces.
 			' ',
 			str_replace(
-				array( "\r", "\n", "\t", '[br][br]' ), // convert new lines to [br], remove tabs
+				array( "\r", "\n", "\t", '[br][br]' ), // Convert new lines to [br], remove tabs.
 				array( '', '[br]', '', '[br]' ),
-				html_entity_decode(  // decode HTML entities
-					strip_tags(  // remove HTML tags
+				html_entity_decode(  // Decode HTML entities.
+					strip_tags(  // Remove HTML tags.
 						str_ireplace(
-							array( '&nbsp;', '<br />' ), // convert &nbsp; to space, <br /> to [br]
+							array( '&nbsp;', '<br />' ), // Convert &nbsp; to space, <br /> to [br].
 							array( ' ', '[br]' ),
 							$value
 						)
@@ -954,8 +983,7 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 					ENT_QUOTES
 				) ) ) );
 
-		// remove first [br] if any
-
+		// Remove first [br] if any.
 		return mb_strpos( $value, '[br]' ) === 0 ? mb_substr( $value, 4 ) : $value;
 	};
 
@@ -973,7 +1001,7 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 
 			break;
 
-		default: // Tab
+		default: // Tab.
 
 			$extension = 'xls';
 			$delimiter = "\t";
@@ -981,13 +1009,12 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 			break;
 	}
 
-	// Clear output
+	// Clear output.
 	ob_end_clean();
 
 	$formatted_columns = $formatted_result = array();
 
-	// Format Columns
-
+	// Format Columns.
 	foreach ( (array) $column_names as $column )
 	{
 		if ( $column !== '' )
@@ -1009,8 +1036,7 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 
 	$i = 0;
 
-	// Format Results
-
+	// Format Results.
 	foreach ( (array) $result as $item )
 	{
 		$formatted_result[$i] = array();
@@ -1043,17 +1069,15 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 		$i++;
 	}
 
-// Generate output
-
+	// Generate output.
 	if ( $extension !== 'xml' )
 	{
-		// 1st line: Columns
+		// 1st line: Columns.
 		$output = implode( $delimiter, $formatted_columns );
 
 		$output .= "\n";
 
-// Then values
-
+		// Then values.
 		foreach ( (array) $formatted_result as $result_line )
 		{
 			$output .= implode( $delimiter, $result_line );
@@ -1062,7 +1086,7 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 		}
 	}
 
-	// XML
+	// XML.
 	else
 	{
 		$sanitize_xml_tag = function ( $name )
