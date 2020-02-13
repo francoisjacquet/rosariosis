@@ -709,7 +709,7 @@ function CheckboxInput( $value, $name, $title = '', $checked = '', $new = false,
 				( $value ?
 					( $yes === 'Yes' ? _( 'Yes' ) : $yes ) :
 					( $no === 'No' ? _( 'No' ) : $no ) ),
-				'&nbsp;' . $title
+				'&nbsp;<span class="checkbox-label">' . $title . '</span>'
 			);
 		}
 	}
