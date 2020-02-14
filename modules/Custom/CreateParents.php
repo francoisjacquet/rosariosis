@@ -110,9 +110,9 @@ if ( $_REQUEST['modfunc'] === 'save'
 		ErrorMessage( $error, 'fatal' );
 	}
 
-	// new for when parent account was created new
-	// old for when parent account was existing
+	// New for when parent account was created new.
 	$subject['new'] = _( 'New Parent Account' );
+	// Old for when parent account was existing.
 	$subject['old'] = _( 'Updated Parent Account' );
 
 	// FJ add Template.
@@ -129,7 +129,11 @@ if ( $_REQUEST['modfunc'] === 'save'
 		$st_list = "'" . implode( "','", $_REQUEST['student'] ) . "'";
 
 		$extra['SELECT'] = ",lower(" . $email_column . ") AS EMAIL";
-		$extra['SELECT'] .= ",(SELECT STAFF_ID FROM STAFF WHERE lower(EMAIL)=lower(" . $email_column . ") AND PROFILE='parent' AND SYEAR=ssm.SYEAR) AS STAFF_ID";
+		$extra['SELECT'] .= ",(SELECT STAFF_ID
+			FROM STAFF
+			WHERE lower(EMAIL)=lower(" . $email_column . ")
+			AND PROFILE='parent'
+			AND SYEAR=ssm.SYEAR) AS STAFF_ID";
 		$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
 		$extra['group'] = array( 'EMAIL' );
 		$extra['addr'] = true;
@@ -176,7 +180,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 					$password = $username . rand( 100, 999 );
 
 					// FJ Moodle integrator / password.
-					$password = UCFirst( $password ) . '*';
+					$password = ucfirst( $password ) . '*';
 
 					if ( ! $test_email )
 					{
@@ -224,7 +228,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 					$account = 'new';
 				}
 			}
-			else //if user already exists
+			else // If user already exists.
 			{
 				$id = $students[1]['STAFF_ID'];
 
@@ -236,67 +240,74 @@ if ( $_REQUEST['modfunc'] === 'save'
 				$account = 'old';
 			}
 
-			if ( $id )
+			if ( ! $id )
 			{
-				$staff = $staff[1];
-				$student_list = '';
-
-				foreach ( (array) $students as $student )
-				{
-					// Fix SQL error, check if student not already associated!
-					$parent_associated_to_student_RET = DBGet( "SELECT 1
-						FROM STUDENTS_JOIN_USERS
-						WHERE STAFF_ID='" . $id . "'
-						AND STUDENT_ID='" . $student['STUDENT_ID'] . "'" );
-
-					if ( ! $test_email
-						&& ! $parent_associated_to_student_RET )
-					{
-						// Join user to student.
-						DBQuery( "INSERT INTO STUDENTS_JOIN_USERS (STAFF_ID,STUDENT_ID)
-							VALUES ('" . $id . "','" . $student['STUDENT_ID'] . "')" );
-
-						// Hook.
-						do_action( 'Custom/CreateParents.php|user_assign_role' );
-					}
-
-					$student_list .= str_replace( '&nbsp;', ' ', $student['FULL_NAME'] ) . "\r";
-				}
-
-				$substitutions = array(
-					'__PARENT_NAME__' => $staff['NAME'],
-					'__ASSOCIATED_STUDENTS__' => $student_list,
-					'__SCHOOL_ID__' => SchoolInfo( 'TITLE' ),
-					'__USERNAME__' => $staff['USERNAME'],
-					'__PASSWORD__' => $password,
-				);
-
-				$msg = SubstitutionsTextMake( $substitutions, $message[$account] );
-
-				$to = empty( $test_email ) ? $students[1]['EMAIL'] : $test_email;
-
-				$result = SendEmail( $to, $subject[$account], $msg, $reply_to );
-
-				$RET[$email][1]['PARENT'] = $staff['NAME'];
-				$RET[$email][1]['USERNAME'] = $staff['USERNAME'];
-				$RET[$email][1]['PASSWORD'] = ( empty( $password ) ? '' : $password );
-
-				if ( $result )
-				{
-					$RET[$email][1]['RESULT'] = _( 'Success' );
-				}
-				else
-				{
-					$RET[$email][1]['RESULT'] = _( 'Fail' );
-				}
-			}
-			else
-			{
+				// No Staff ID, failure.
 				$RET[$email][1]['RESULT'] = _( 'Fail' );
+
+				continue;
 			}
+
+			$staff = $staff[1];
+			$student_list = '';
+
+			foreach ( (array) $students as $student )
+			{
+				// Fix SQL error, check if student not already associated!
+				$parent_associated_to_student_RET = DBGet( "SELECT 1
+					FROM STUDENTS_JOIN_USERS
+					WHERE STAFF_ID='" . $id . "'
+					AND STUDENT_ID='" . $student['STUDENT_ID'] . "'" );
+
+				if ( ! $test_email
+					&& ! $parent_associated_to_student_RET )
+				{
+					// Join user to student.
+					DBQuery( "INSERT INTO STUDENTS_JOIN_USERS (STAFF_ID,STUDENT_ID)
+						VALUES ('" . $id . "','" . $student['STUDENT_ID'] . "')" );
+
+					// Hook.
+					do_action( 'Custom/CreateParents.php|user_assign_role' );
+				}
+
+				$student_list .= str_replace( '&nbsp;', ' ', $student['FULL_NAME'] ) . "\r";
+			}
+
+			$substitutions = array(
+				'__PARENT_NAME__' => $staff['NAME'],
+				'__ASSOCIATED_STUDENTS__' => $student_list,
+				'__SCHOOL_ID__' => SchoolInfo( 'TITLE' ),
+				'__USERNAME__' => $staff['USERNAME'],
+				'__PASSWORD__' => $password,
+			);
+
+			$msg = SubstitutionsTextMake( $substitutions, $message[$account] );
+
+			$to = empty( $test_email ) ? $students[1]['EMAIL'] : $test_email;
+
+			$result = true;
+
+			if ( ! empty( $_REQUEST['modfunc_send_email_notification'] ) )
+			{
+				// @since 5.8 Send email notification to Parents is optional.
+				$result = SendEmail( $to, $subject[$account], $msg, $reply_to );
+			}
+
+			$RET[$email][1]['PARENT'] = $staff['NAME'];
+			$RET[$email][1]['USERNAME'] = $staff['USERNAME'];
+			$RET[$email][1]['PASSWORD'] = ( empty( $password ) ? '' : $password );
+			$RET[$email][1]['RESULT'] = $result ? _( 'Success' ) : _( 'Fail' );
 		}
 
-		$columns = array( 'FULL_NAME' => _( 'Student' ), 'PARENT' => _( 'Parent' ), 'USERNAME' => _( 'Username' ), 'PASSWORD' => _( 'Password' ), 'EMAIL' => _( 'Email' ), 'RESULT' => _( 'Result' ) );
+		$columns = array(
+			'FULL_NAME' => _( 'Student' ),
+			'PARENT' => _( 'Parent' ),
+			'USERNAME' => _( 'Username' ),
+			'PASSWORD' => _( 'Password' ),
+			'EMAIL' => _( 'Email' ),
+			'RESULT' => _( 'Result' ),
+		);
+
 		ListOutput( $RET, $columns, 'Creation Result', 'Creation Results', false, array( 'EMAIL' ) );
 	}
 	else
@@ -318,9 +329,23 @@ if ( ! $_REQUEST['modfunc'] && ! empty( $email_column ) )
 	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
 		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save" method="POST">';
+
 		$extra['header_right'] = SubmitButton( _( 'Create Parent Accounts for Selected Students' ) );
 
-		$extra['extra_header_left'] = '<table class="width-100p">';
+		// @since 5.8 Send email notification to Parents is optional.
+		$extra['extra_header_left'] = CheckboxInput(
+			'',
+			'modfunc_send_email_notification',
+			_( 'Send email notification to Parents' ),
+			'',
+			true,
+			'Yes',
+			'No',
+			false,
+			'autocomplete="off" onclick="$(\'#email-form-inputs\').toggle();"'
+		);
+
+		$extra['extra_header_left'] .= '<table id="email-form-inputs" class="width-100p hide">';
 
 		$template = GetTemplate();
 
