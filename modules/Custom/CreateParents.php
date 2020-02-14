@@ -418,6 +418,9 @@ if ( ! $_REQUEST['modfunc'] && ! empty( $email_column ) )
 
 	$extra['search_title'] = _( 'Students having Contacts' );
 
+	$extra['singular'] = 'Contact';
+	$extra['plural'] = 'Contacts';
+
 	Search( 'student_id', $extra );
 
 	if ( $_REQUEST['search_modfunc'] === 'list' )
