@@ -10,6 +10,7 @@ Changes in 5.8
 - Add GRADEBOOK_CONFIG_ADMIN_OVERRIDE config option in rosariosis.sql
 - Add Help text for Configuration program for administrators in Help_en.php
 - Update French & Spanish translations in locale/es_ES.utf8/ & locale/fr_FR.utf8
+- Raise recommended php.ini max_input_vars to 4000, for CreateParents.php compat in INSTALL.md
 
 Changes in 5.7.4
 ----------------

@@ -124,7 +124,7 @@ php.ini
 Configuración PHP recomendada. Editar el archivo `php.ini` como sigue:
 ```
 max_execution_time = 240
-max_input_vars = 2000
+max_input_vars = 4000
 memory_limit = 768M
 ```
 Reiniciar PHP y Apache.
