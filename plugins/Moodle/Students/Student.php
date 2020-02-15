@@ -219,6 +219,49 @@ function core_user_update_users_response( $response )
 	return null;
 }
 
+// core_user_delete_users function.
+function core_user_delete_users_object()
+{
+	// Gather the Moodle user ID.
+	$rosario_id = UserStudentID();
+	$moodle_id = (int) DBGetOne( "SELECT moodle_id
+		FROM moodlexrosario
+		WHERE rosario_id='" . $rosario_id . "'
+		AND \"column\"='student_id'" );
+
+	if ( empty( $moodle_id ) )
+	{
+		return null;
+	}
+
+	// Then, convert variables for the Moodle object:.
+	/*
+	list of (
+	int   //user ID
+	)
+	 */
+
+	$user_ids = array( $moodle_id );
+
+	return array( $user_ids );
+}
+
+/**
+ * @param $response
+ */
+function core_user_delete_users_response( $response )
+{
+	$rosario_id = UserStudentID();
+
+	// Delete the reference the moodlexrosario cross-reference table.
+	DBQuery( "DELETE FROM MOODLEXROSARIO
+		WHERE \"column\"='student_id'
+		AND rosario_id='" . $rosario_id . "'" );
+
+	return null;
+}
+
+
 //core_role_assign_roles function
 function core_role_assign_roles_object()
 {

@@ -12,6 +12,7 @@ Changes in 5.8
 - Update French & Spanish translations in locale/es_ES.utf8/ & locale/fr_FR.utf8
 - Raise recommended php.ini max_input_vars to 4000, for CreateParents.php compat in INSTALL.md
 - Send email notification to Parents is optional in CreateParents.php, sponsored by English National Program
+- Delete Student from Moodle in Moodle/functions.php & Moodle/Students/Student.php
 
 Changes in 5.7.4
 ----------------

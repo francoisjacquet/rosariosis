@@ -17,6 +17,7 @@ if ( MOODLE_URL && MOODLE_TOKEN && MOODLE_PARENT_ROLE_ID && ROSARIO_STUDENTS_EMA
 	add_action( 'Students/Student.php|upload_student_photo', 'MoodleTriggered' );
 	add_action( 'Students/Student.php|add_student_address', 'MoodleTriggered' );
 	add_action( 'Students/Student.php|update_student_address', 'MoodleTriggered' );
+	add_action( 'Students/Student.php|delete_student', 'MoodleTriggered' );
 
 	add_action( 'Students/AddUsers.php|user_assign_role', 'MoodleTriggered' );
 	add_action( 'Students/AddUsers.php|user_unassign_role', 'MoodleTriggered' );
@@ -211,6 +212,12 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 			{
 				Moodle( $modname, 'core_user_update_users' );
 			}
+
+			break;
+
+		// @since 5.8 Delete Student from Moodle.
+		case 'Students/Student.php|delete_student':
+			Moodle( $modname, 'core_user_delete_users' );
 
 			break;
 
