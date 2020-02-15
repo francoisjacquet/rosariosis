@@ -317,7 +317,7 @@ function Rollover( $table, $mode = 'delete' )
 				WHERE SYEAR='" . UserSyear() . "'
 				AND STAFF_ID NOT IN(SELECT ROLLOVER_ID FROM STAFF WHERE SYEAR='" . $next_syear . "')" );
 
-			// @depreacted since 4.5 user School_Setup/Rollover.php|rollover_after action hook!
+			// @deprecated since 4.5 user School_Setup/Rollover.php|rollover_after action hook!
 			do_action( 'School_Setup/Rollover.php|rollover_staff' );
 
 			DBQuery( "INSERT INTO PROGRAM_USER_CONFIG (USER_ID,PROGRAM,TITLE,VALUE)
@@ -524,7 +524,7 @@ function Rollover( $table, $mode = 'delete' )
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
 
-			// @depreacted since 4.5 user School_Setup/Rollover.php|rollover_after action hook!
+			// @deprecated since 4.5 user School_Setup/Rollover.php|rollover_after action hook!
 			do_action( 'School_Setup/Rollover.php|rollover_course_subjects' );
 
 			// ROLL COURSES
@@ -538,7 +538,7 @@ function Rollover( $table, $mode = 'delete' )
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
 
-			// @depreacted since 4.5 user School_Setup/Rollover.php|rollover_after action hook!
+			// @deprecated since 4.5 user School_Setup/Rollover.php|rollover_after action hook!
 			do_action( 'School_Setup/Rollover.php|rollover_courses' );
 
 			// ROLL COURSE_PERIODS
@@ -595,7 +595,7 @@ function Rollover( $table, $mode = 'delete' )
 					AND SCHOOL_ID='" . UserSchool() . "'" );
 			}
 
-			// @depreacted since 4.5 user School_Setup/Rollover.php|rollover_after action hook!
+			// @deprecated since 4.5 user School_Setup/Rollover.php|rollover_after action hook!
 			do_action( 'School_Setup/Rollover.php|rollover_course_periods' );
 
 			//FJ multiple school periods for a course period
