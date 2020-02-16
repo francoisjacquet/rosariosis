@@ -953,6 +953,7 @@ function _listSearch( $result, $LO_search )
  *
  * @example _listSave( $result, $column_names, Preferences( 'DELIMITER' ) );
  * @since 2.9
+ * @since 5.8 Export list to Excel using MicrosoftXML (more reliable).
  *
  * @param  array  $result       ListOutput $result
  * @param  array  $column_names ListOutput $column_names
@@ -1026,7 +1027,7 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 			$column = str_replace( '[br]', ' ', $column );
 		}
 
-		if ( $extension === 'csv' || $extension === 'xls' )
+		if ( $extension === 'csv' )
 		{
 			$column = '"' . str_replace( '"', '""', $column ) . '"';
 		}
@@ -1034,7 +1035,7 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 		$formatted_columns[] = $column;
 	}
 
-	$i = 0;
+	$i = $extension === 'xls' ? 1 : 0;
 
 	// Format Results.
 	foreach ( (array) $result as $item )
@@ -1058,7 +1059,7 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 				$value = str_replace( '[br]', $replace_br, $value );
 			}
 
-			if ( $extension === 'csv' || $extension === 'xls' )
+			if ( $extension === 'csv' )
 			{
 				$value = '"' . str_replace( '"', '""', $value ) . '"';
 			}
@@ -1070,7 +1071,30 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 	}
 
 	// Generate output.
-	if ( $extension !== 'xml' )
+	if ( $extension === 'xls' )
+	{
+		/**
+		 * Export list to Excel using MicrosoftXML (more reliable).
+		 *
+		 * @uses php-excel class.
+		 *
+		 * @since 5.8
+		 *
+		 * @link https://github.com/oliverschwarz/php-excel
+		 */
+		require_once 'classes/ExcelXML.php';
+
+		$excel_xml = new Excel_XML;
+
+		$formatted_rows = array_merge( array( $formatted_columns ), $formatted_result );
+
+		$excel_xml->addWorksheet( ProgramTitle(), $formatted_rows );
+
+		$excel_xml->sendWorkbook( ProgramTitle() . '.xls' );
+
+		exit();
+	}
+	elseif ( $extension === 'csv' )
 	{
 		// 1st line: Columns.
 		$output = implode( $delimiter, $formatted_columns );

@@ -15,6 +15,7 @@ Changes in 5.8
 - Send email notification to Parents is optional in CreateParents.php, sponsored by English National Program
 - Delete Student from Moodle in Moodle/functions.php & Moodle/Students/Student.php
 - Add Excel_XML class in classes/ExcelXML.php
+- Export list to Excel using MicrosoftXML (more reliable) in ListOutput.fnc.php
 
 Changes in 5.7.4
 ----------------

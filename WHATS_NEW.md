@@ -8,6 +8,8 @@ New in 5.8
 Grades
 - (Gradebook) Configuration: for administrators to override teacher settings, sponsored by Tintamail.
 
+Export list to Excel using MicrosoftXML (more reliable).
+
 [Grades Import](https://www.rosariosis.org/modules/grades-import/) module, sponsored by Instituto Japon.
 
 
