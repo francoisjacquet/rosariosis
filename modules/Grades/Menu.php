@@ -23,6 +23,7 @@ $menu['Grades']['admin'] = array(
 	'Grades/FinalGrades.php' => _( 'Final Grades' ),
 	'Grades/GPARankList.php' => _( 'GPA / Class Rank List' ),
 	2 => _( 'Setup' ),
+	'Grades/Configuration.php' => _( 'Configuration' ),
 	'Grades/ReportCardGrades.php' => _( 'Grading Scales' ),
 	'Grades/ReportCardComments.php' => _( 'Report Card Comments' ),
 	'Grades/ReportCardCommentCodes.php' => _( 'Comment Codes' ),
