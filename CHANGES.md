@@ -14,6 +14,7 @@ Changes in 5.8
 - Raise recommended php.ini max_input_vars to 4000, for CreateParents.php compat in INSTALL.md
 - Send email notification to Parents is optional in CreateParents.php, sponsored by English National Program
 - Delete Student from Moodle in Moodle/functions.php & Moodle/Students/Student.php
+- Add Excel_XML class in classes/ExcelXML.php
 
 Changes in 5.7.4
 ----------------
