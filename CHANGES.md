@@ -18,6 +18,7 @@ Changes in 5.8
 - Export list to Excel using MicrosoftXML (more reliable) in ListOutput.fnc.php
 - Add School_Setup/CopySchool.php|header & School_Setup/CopySchool.php|copy_school action hooks in CopySchool.php
 - Add School_Setup/Schools.php|update_school & School_Setup/Schools.php|delete_school in Schools.php
+- Fix RedirectURL, unset values in CreateParents.php, MakeReferral.php & Schools.php
 
 Changes in 5.7.4
 ----------------

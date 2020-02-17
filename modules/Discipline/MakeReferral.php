@@ -131,7 +131,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	}
 
 	// Unset modfunc, values & st_arr & redirect URL.
-	RedirectURL( 'modfunc', 'values', 'st_arr' );
+	RedirectURL( array( 'modfunc', 'values', 'st_arr' ) );
 }
 
 echo ErrorMessage( $error );

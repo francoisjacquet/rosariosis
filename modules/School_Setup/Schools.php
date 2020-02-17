@@ -117,8 +117,8 @@ if ( $_REQUEST['modfunc'] === 'update' )
 			}
 		}
 
-		// Unset modfunc & redirect URL.
-		RedirectURL( 'modfunc' );
+		// Unset modfunc, values & redirect URL.
+		RedirectURL( array( 'modfunc', 'values' ) );
 	}
 	elseif ( ( $_REQUEST['button'] === _( 'Delete' )
 		|| isset( $_POST['delete_ok'] ) )

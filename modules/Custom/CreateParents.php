@@ -309,13 +309,16 @@ if ( $_REQUEST['modfunc'] === 'save'
 		);
 
 		ListOutput( $RET, $columns, 'Creation Result', 'Creation Results', false, array( 'EMAIL' ) );
+
+		// Unset student, contact & redirect URL.
+		RedirectURL( array( 'student', 'contact' ) );
 	}
 	else
 	{
 		$error[] = _( 'You must choose at least one student.' );
 
-		// Unset modfunc & redirect URL.
-		RedirectURL( 'modfunc' );
+		// Unset modfunc, student, contact & redirect URL.
+		RedirectURL( array( 'modfunc', 'student', 'contact' ) );
 	}
 
 	//reset $email_column var
