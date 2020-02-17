@@ -1,5 +1,5 @@
 <?php
-//FJ add School Configuration, copy
+
 $tables = array(
 	'CONFIG' => _( 'School Configuration' ),
 	'SCHOOL_PERIODS' => _( 'School Periods' ),
@@ -15,7 +15,7 @@ $table_list = array();
 
 foreach ( (array) $tables as $table => $name )
 {
-	//FJ force School Configuration copy
+	// Force School Configuration copy.
 	$force_checked = false;
 
 	if ( $table === 'CONFIG' )
@@ -36,10 +36,13 @@ $table_list[] = TextInput(
 	false
 );
 
+DrawHeader( ProgramTitle() );
+
+// @since 5.8 Hook.
+do_action( 'School_Setup/CopySchool.php|header' );
+
 $table_list_html = '<table class="widefat center"><tr><td>' .
 	implode( '</td></tr><tr><td>', $table_list ) . '</td></tr></table>';
-
-DrawHeader( ProgramTitle() );
 
 $go = Prompt(
 	_( 'Confirm Copy School' ),
@@ -94,6 +97,9 @@ if ( $go
 	unset( $_SESSION['student_id'] );
 
 	UpdateSchoolArray( UserSchool() );
+
+	// @since 5.8 Hook.
+	do_action( 'School_Setup/CopySchool.php|copy_school' );
 }
 
 /**

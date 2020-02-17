@@ -147,13 +147,6 @@ $RosarioActions = array();
 	/*'Warehouse.php|header_head' => array(),
 
 	/**
-	 * Warehouse Header Head.
-	 *
-	 * @since 3.8
-	 */
-	/*'Warehouse.php|header_head' => array(),
-
-	/**
 	 * Warehouse Footer.
 	 *
 	 * @since 3.8
@@ -304,6 +297,34 @@ $RosarioActions = array();
 	 * @since 5.4
 	 */
 	/*'functions/Password.php|match_password' => array(),
+
+	/**
+	 * Copy School Header.
+	 *
+	 * @since 5.8
+	 */
+	/*'School_Setup/CopySchool.php|header' => array(),
+
+	/**
+	 * Copy School.
+	 *
+	 * @since 5.8
+	 */
+	/*'School_Setup/CopySchool.php|copy_school' => array(),
+
+	/**
+	 * Update School.
+	 *
+	 * @since 5.8
+	 */
+	/*'School_Setup/Schools.php|update_school' => array(),
+
+	/**
+	 * Delete School.
+	 *
+	 * @since 5.8
+	 */
+	/*'School_Setup/Schools.php|delete_school' => array(),
 );*/
 
 

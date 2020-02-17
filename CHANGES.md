@@ -16,6 +16,8 @@ Changes in 5.8
 - Delete Student from Moodle in Moodle/functions.php & Moodle/Students/Student.php
 - Add Excel_XML class in classes/ExcelXML.php
 - Export list to Excel using MicrosoftXML (more reliable) in ListOutput.fnc.php
+- Add School_Setup/CopySchool.php|header & School_Setup/CopySchool.php|copy_school action hooks in CopySchool.php
+- Add School_Setup/Schools.php|update_school & School_Setup/Schools.php|delete_school in Schools.php
 
 Changes in 5.7.4
 ----------------

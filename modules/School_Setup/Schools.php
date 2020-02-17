@@ -97,7 +97,6 @@ if ( $_REQUEST['modfunc'] === 'update' )
 				if ( $go )
 				{
 					DBQuery( $sql );
-					$note[] = button( 'check' ) . '&nbsp;' . _( 'This school has been modified.' );
 				}
 
 				$uploaded = FilesUploadUpdate(
@@ -106,12 +105,15 @@ if ( $_REQUEST['modfunc'] === 'update' )
 					$FileUploadsPath . 'Schools/' . UserSchool() . '/'
 				);
 
-				if ( ! $go && $uploaded )
+				if ( $go || $uploaded )
 				{
 					$note[] = button( 'check' ) . '&nbsp;' . _( 'This school has been modified.' );
 				}
 
 				UpdateSchoolArray( UserSchool() );
+
+				// @since 5.8 Hook.
+				do_action( 'School_Setup/Schools.php|update_school' );
 			}
 		}
 
@@ -128,6 +130,9 @@ if ( $_REQUEST['modfunc'] === 'update' )
 			$delete_sql = SchoolDeleteSQL( UserSchool() );
 
 			DBQuery( $delete_sql );
+
+			// @since 5.8 Hook.
+			do_action( 'School_Setup/Schools.php|delete_school' );
 
 			// Unset modfunc & redirect URL.
 			RedirectURL( 'modfunc' );
