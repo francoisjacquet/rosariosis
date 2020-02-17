@@ -20,6 +20,7 @@ Changes in 5.8
 - Add School_Setup/Schools.php|update_school & School_Setup/Schools.php|delete_school in Schools.php
 - Fix RedirectURL, unset values in CreateParents.php, MakeReferral.php & Schools.php
 - Disable ListOutput save & search for Creation Results in CreateParents.php
+- Only display Teachers in Moodle when creating a Course Period in Moodle in Courses.php
 
 Changes in 5.7.4
 ----------------
