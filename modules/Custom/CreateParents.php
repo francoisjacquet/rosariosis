@@ -308,7 +308,15 @@ if ( $_REQUEST['modfunc'] === 'save'
 			'RESULT' => _( 'Result' ),
 		);
 
-		ListOutput( $RET, $columns, 'Creation Result', 'Creation Results', false, array( 'EMAIL' ) );
+		ListOutput(
+			$RET,
+			$columns,
+			'Creation Result',
+			'Creation Results',
+			false,
+			array( 'EMAIL' ),
+			array( 'save' => false, 'search' => false )
+		);
 
 		// Unset student, contact & redirect URL.
 		RedirectURL( array( 'student', 'contact' ) );

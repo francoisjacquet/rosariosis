@@ -19,6 +19,7 @@ Changes in 5.8
 - Add School_Setup/CopySchool.php|header & School_Setup/CopySchool.php|copy_school action hooks in CopySchool.php
 - Add School_Setup/Schools.php|update_school & School_Setup/Schools.php|delete_school in Schools.php
 - Fix RedirectURL, unset values in CreateParents.php, MakeReferral.php & Schools.php
+- Disable ListOutput save & search for Creation Results in CreateParents.php
 
 Changes in 5.7.4
 ----------------
