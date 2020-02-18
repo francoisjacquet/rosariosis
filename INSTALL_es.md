@@ -57,7 +57,7 @@ Descomprima el archivo de RosarioSIS en un directorio accesible con el navegador
 - `$PortalNotesFilesPath` Camino hacia los archivos adjuntos a las notas del portal.
 - `$AssignmentsFilesPath` Camino hacia los archivos de las tareas de los estudiantes.
 - `$FS_IconsPath` Camino hacia los iconos del servicio de comida.
-- `$FileUploadsPath`Ccamino hacia los archivos subidos.
+- `$FileUploadsPath` Camino hacia los archivos subidos.
 - `$LocalePath` Camino hacia los lenguajes. Reinicie Apache después de cambiarlo.
 - `$PNGQuantPath` Camino hacia [PNGQuant](https://pngquant.org/) (compresión de las imagenes PNG).
 - `$RosarioErrorsAddress` Dirección de email para los errores (PHP fatal, base de datos, intentos de pirateo).
