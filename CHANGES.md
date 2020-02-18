@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 5.7.5
+----------------
+- Fix current scheduled students SQL, index by STUDENT_ID in MassDrops.php
+
 Changes in 5.7.4
 ----------------
 - Increase Currency input max length to 8 in Configuration.php

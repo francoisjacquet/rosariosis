@@ -31,7 +31,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					//$current_RET = DBGet( "SELECT STUDENT_ID FROM SCHEDULE WHERE COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."' AND SYEAR='".UserSyear()."' AND (('".$start_date."' BETWEEN START_DATE AND END_DATE OR END_DATE IS NULL) AND '".$start_date."'>=START_DATE)",array(),array('STUDENT_ID'));
 					$current_RET = DBGet( "SELECT STUDENT_ID
 						FROM SCHEDULE
-						WHERE COURSE_PERIOD_ID='" . $_SESSION['MassDrops.php']['course_period_id'] . "' " );
+						WHERE COURSE_PERIOD_ID='" . $_SESSION['MassDrops.php']['course_period_id'] . "'", array(), array( 'STUDENT_ID' ) );
 
 					foreach ( (array) $_REQUEST['student'] as $student_id )
 					{
@@ -50,22 +50,24 @@ if ( $_REQUEST['modfunc'] === 'save' )
 								AND COURSE_PERIOD_ID='" . $_SESSION['MassDrops.php']['course_period_id'] . "'
 								AND END_DATE<START_DATE" );
 
-							//User is asked if he wants absences and grades to be deleted
-
 							if ( ! empty( $start_end_RET ) )
 							{
-								//if user clicked Cancel or OK or Display Prompt
+								// User is asked if he wants absences and grades to be deleted.
+								$delete_ok = DeletePrompt(
+									_( 'Student\'s Absences and Grades' ),
+									_( 'also delete' ),
+									false
+								);
 
-								if ( isset( $_REQUEST['delete_ok'] )
-									|| DeletePrompt( _( 'Students\' Absences and Grades' ), 'Delete', false ) )
+								if ( $delete_ok )
 								{
+									// If user clicked Cancel or OK or Display Prompt.
 									// Group SQL deletes.
 									$delete_sql = '';
 
-									//if user clicked OK
-
 									if ( ! isset( $_REQUEST['delete_cancel'] ) )
 									{
+										// If user clicked OK.
 										$delete_sql .= "DELETE FROM GRADEBOOK_GRADES
 											WHERE STUDENT_ID='" . $student_id . "'
 											AND COURSE_PERIOD_ID='" . $_SESSION['MassDrops.php']['course_period_id'] . "';";
@@ -83,15 +85,14 @@ if ( $_REQUEST['modfunc'] === 'save' )
 											AND COURSE_PERIOD_ID='" . $_SESSION['MassDrops.php']['course_period_id'] . "';";
 									}
 
-									//else simply delete schedule entry
-
+									// Else simply delete schedule entry.
 									$delete_sql .= "DELETE FROM SCHEDULE
 										WHERE STUDENT_ID='" . $student_id . "'
 										AND COURSE_PERIOD_ID='" . $_SESSION['MassDrops.php']['course_period_id'] . "';";
 
 									DBQuery( $delete_sql );
 
-									//hook
+									// Hook.
 									do_action( 'Scheduling/MassDrops.php|drop_student' );
 								}
 								else
