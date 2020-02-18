@@ -22,6 +22,10 @@ Changes in 5.8
 - Disable ListOutput save & search for Creation Results in CreateParents.php
 - Only display Teachers in Moodle when creating a Course Period in Moodle in Courses.php
 
+Changes in 5.7.5
+----------------
+- Fix current scheduled students SQL, index by STUDENT_ID in MassDrops.php
+
 Changes in 5.7.4
 ----------------
 - Increase Currency input max length to 8 in Configuration.php
