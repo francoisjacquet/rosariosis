@@ -87,37 +87,46 @@ if ( $_REQUEST['modfunc'] === 'modify'
 				AND COURSE_PERIOD_ID='" . $course_period_id . "'
 				AND END_DATE<START_DATE" );
 
-				// User is asked if he wants absences and grades to be deleted.
-
 				if ( ! empty( $start_end_RET ) )
 				{
+					// User is asked if he wants absences and grades to be deleted.
 					$delete_ok = DeletePrompt(
 						_( 'Student\'s Absences and Grades' ),
 						_( 'also delete' ),
 						false
 					);
 
-					// If user clicked Cancel or OK then pass else Display Prompt
-
 					if ( $delete_ok )
 					{
-						//if user clicked OK
-
+						// If user clicked Cancel or OK then pass else Display Prompt.
 						if ( ! isset( $_REQUEST['delete_cancel'] ) )
 						{
-							$delete_sql = "DELETE FROM GRADEBOOK_GRADES WHERE STUDENT_ID='" . UserStudentID() . "' AND COURSE_PERIOD_ID='" . $course_period_id . "';";
-							$delete_sql .= "DELETE FROM STUDENT_REPORT_CARD_GRADES WHERE STUDENT_ID='" . UserStudentID() . "' AND COURSE_PERIOD_ID='" . $course_period_id . "';";
-							$delete_sql .= "DELETE FROM STUDENT_REPORT_CARD_COMMENTS WHERE STUDENT_ID='" . UserStudentID() . "' AND COURSE_PERIOD_ID='" . $course_period_id . "';";
-							$delete_sql .= "DELETE FROM ATTENDANCE_PERIOD WHERE STUDENT_ID='" . UserStudentID() . "' AND COURSE_PERIOD_ID='" . $course_period_id . "';";
+							// If user clicked OK.
+							$delete_sql = "DELETE FROM GRADEBOOK_GRADES
+								WHERE STUDENT_ID='" . UserStudentID() . "'
+								AND COURSE_PERIOD_ID='" . $course_period_id . "';";
+
+							$delete_sql .= "DELETE FROM STUDENT_REPORT_CARD_GRADES
+								WHERE STUDENT_ID='" . UserStudentID() . "'
+								AND COURSE_PERIOD_ID='" . $course_period_id . "';";
+
+							$delete_sql .= "DELETE FROM STUDENT_REPORT_CARD_COMMENTS
+								WHERE STUDENT_ID='" . UserStudentID() . "'
+								AND COURSE_PERIOD_ID='" . $course_period_id . "';";
+
+							$delete_sql .= "DELETE FROM ATTENDANCE_PERIOD
+								WHERE STUDENT_ID='" . UserStudentID() . "'
+								AND COURSE_PERIOD_ID='" . $course_period_id . "';";
 
 							DBQuery( $delete_sql );
 						}
 
-						//else simply delete schedule entry
+						// Else simply delete schedule entry.
+						DBQuery( "DELETE FROM SCHEDULE
+							WHERE STUDENT_ID='" . UserStudentID() . "'
+							AND COURSE_PERIOD_ID='" . $course_period_id . "'" );
 
-						DBQuery( "DELETE FROM SCHEDULE WHERE STUDENT_ID='" . UserStudentID() . "' AND COURSE_PERIOD_ID='" . $course_period_id . "'" );
-
-						//hook
+						// Hook.
 						do_action( 'Scheduling/Schedule.php|drop_student' );
 					}
 					else
@@ -127,7 +136,11 @@ if ( $_REQUEST['modfunc'] === 'modify'
 				}
 				else
 				{
-					DBQuery( "DELETE FROM ATTENDANCE_PERIOD WHERE STUDENT_ID='" . UserStudentID() . "' AND COURSE_PERIOD_ID='" . $course_period_id . "' AND (" . ( $columns['START_DATE'] ? "SCHOOL_DATE<'" . $columns['START_DATE'] . "'" : 'FALSE' ) . ' OR ' . ( $columns['END_DATE'] ? "SCHOOL_DATE>'" . $columns['END_DATE'] . "'" : 'FALSE' ) . ")" );
+					DBQuery( "DELETE FROM ATTENDANCE_PERIOD
+						WHERE STUDENT_ID='" . UserStudentID() . "'
+						AND COURSE_PERIOD_ID='" . $course_period_id . "'
+						AND (" . ( $columns['START_DATE'] ? "SCHOOL_DATE<'" . $columns['START_DATE'] . "'" : 'FALSE' ) .
+							' OR ' . ( $columns['END_DATE'] ? "SCHOOL_DATE>'" . $columns['END_DATE'] . "'" : 'FALSE' ) . ")" );
 				}
 			}
 		}
@@ -464,6 +477,7 @@ if ( $_REQUEST['modfunc'] == 'choose_course' )
 		{
 			DBQuery( "INSERT INTO SCHEDULE (SYEAR,SCHOOL_ID,STUDENT_ID,START_DATE,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID) values('" . UserSyear() . "','" . UserSchool() . "','" . UserStudentID() . "','" . $date . "','" . $_REQUEST['course_id'] . "','" . $_REQUEST['course_period_id'] . "','" . $mp_RET[1]['MP'] . "','" . $mp_RET[1]['MARKING_PERIOD_ID'] . "')" );
 
+			// Hook.
 			do_action( 'Scheduling/Schedule.php|schedule_student' );
 
 			$opener_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .

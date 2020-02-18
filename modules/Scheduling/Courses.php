@@ -595,17 +595,17 @@ if ( ! empty( $_REQUEST['tables'] )
 
 							if ( $table_name == 'COURSE_SUBJECTS' )
 							{
-								//hook
+								// Hook.
 								do_action( 'Scheduling/Courses.php|create_course_subject' );
 							}
 							elseif ( $table_name == 'COURSES' )
 							{
-								//hook
+								// Hook.
 								do_action( 'Scheduling/Courses.php|create_course' );
 							}
 							elseif ( $table_name == 'COURSE_PERIODS' )
 							{
-								//hook
+								// Hook.
 								do_action( 'Scheduling/Courses.php|create_course_period' );
 							}
 						}

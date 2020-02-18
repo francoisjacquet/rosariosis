@@ -147,8 +147,9 @@ if ( $ok )
 	AND r.STUDENT_ID = s.STUDENT_ID
 	AND ('" . DBDate() . "' BETWEEN s.START_DATE AND s.END_DATE OR s.END_DATE IS NULL)";
 
-	$QI = DBQuery( $sql );
-	$locked_RET = DBGet( $QI, array(), array( 'STUDENT_ID', 'REQUEST_ID' ) );
+	$locked_RET = DBGet( $sql, array(), array( 'STUDENT_ID', 'REQUEST_ID' ) );
+
+	$schedule = array();
 
 	foreach ( (array) $locked_RET as $student_id => $courses )
 	{
@@ -284,39 +285,36 @@ if ( $ok )
 		$scount = 0;
 		$bad_locked = 0;
 
-		if ( isset( $schedule ) && is_array( $schedule ) )
+		foreach ( (array) $schedule as $student_id => $periods )
 		{
-			foreach ( (array) $schedule as $student_id => $periods )
+			$course_periods_temp = array();
+
+			foreach ( (array) $periods as $course_periods )
 			{
-				$course_periods_temp = array();
-
-				foreach ( (array) $periods as $course_periods )
+				foreach ( (array) $course_periods as $period_id => $course_period )
 				{
-					foreach ( (array) $course_periods as $period_id => $course_period )
+					$scount++;
+					//FJ multiple school periods for a course period
+
+					if ( empty( $locked_RET[$student_id][$course_period['REQUEST_ID']] ) && ! ( in_array( $course_period['COURSE_PERIOD_ID'], $course_periods_temp ) ) )
 					{
-						$scount++;
-						//FJ multiple school periods for a course period
+						db_trans_query( "INSERT INTO SCHEDULE (SYEAR,SCHOOL_ID,STUDENT_ID,START_DATE,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID)
+							VALUES('" . UserSyear() . "','" . UserSchool() . "','" . $student_id . "','" .
+							$date . "','" . $course_period['COURSE_ID'] . "','" . $course_period['COURSE_PERIOD_ID'] .
+							"','" . $course_period['MP'] . "','" . $course_period['MARKING_PERIOD_ID'] . "');" );
 
-						if ( empty( $locked_RET[$student_id][$course_period['REQUEST_ID']] ) && ! ( in_array( $course_period['COURSE_PERIOD_ID'], $course_periods_temp ) ) )
-						{
-							db_trans_query( "INSERT INTO SCHEDULE (SYEAR,SCHOOL_ID,STUDENT_ID,START_DATE,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID)
-								VALUES('" . UserSyear() . "','" . UserSchool() . "','" . $student_id . "','" .
-								$date . "','" . $course_period['COURSE_ID'] . "','" . $course_period['COURSE_PERIOD_ID'] .
-								"','" . $course_period['MP'] . "','" . $course_period['MARKING_PERIOD_ID'] . "');" );
-
-							//hook
-							do_action( 'Scheduling/Scheduler.php|schedule_student' );
-						}
-						else
-						{
-							$bad_locked++;
-						}
-
-						//	db_trans_query($connection,"INSERT INTO SCHEDULE (SYEAR,SCHOOL_ID,STUDENT_ID,START_DATE,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID) values('".UserSyear()."','".UserSchool()."','".$student_id."','".$date."','".$course_period['COURSE_ID']."','".$course_period['COURSE_PERIOD_ID']."','".$course_period['MP']."','".$course_period['MARKING_PERIOD_ID']."');");
-
-						//FJ multiple school periods for a course period
-						$course_periods_temp[] = $course_period['COURSE_PERIOD_ID'];
+						// Hook.
+						do_action( 'Scheduling/Scheduler.php|schedule_student' );
 					}
+					else
+					{
+						$bad_locked++;
+					}
+
+					//	db_trans_query($connection,"INSERT INTO SCHEDULE (SYEAR,SCHOOL_ID,STUDENT_ID,START_DATE,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID) values('".UserSyear()."','".UserSchool()."','".$student_id."','".$date."','".$course_period['COURSE_ID']."','".$course_period['COURSE_PERIOD_ID']."','".$course_period['MP']."','".$course_period['MARKING_PERIOD_ID']."');");
+
+					//FJ multiple school periods for a course period
+					$course_periods_temp[] = $course_period['COURSE_PERIOD_ID'];
 				}
 			}
 		}
