@@ -22,11 +22,11 @@ var hours = new Date().getHours(),
 </script>
 <?php
 
-$welcome = sprintf( _( 'Welcome to %s!' ), ParseMLField( Config( 'TITLE' ) ) );
+$welcome = '';
 
 if ( ! empty( $_SESSION['LAST_LOGIN'] ) )
 {
-	$welcome .= '<br />' . sprintf(
+	$welcome .= sprintf(
 		_( 'Your last login was <b>%s</b>.' ),
 		ProperDateTime( $_SESSION['LAST_LOGIN'] )
 	);
