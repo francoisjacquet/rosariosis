@@ -16,7 +16,7 @@ The plugin is designed and intended for ONE school only in RosarioSIS.
 
 Students
 
-- Create & update students in Moodle
+- Create, update & delete students in Moodle
 
 Users
 
