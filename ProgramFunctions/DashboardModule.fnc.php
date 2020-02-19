@@ -137,7 +137,7 @@ if ( ! function_exists( 'DashboardModuleData' ) )
 
 		if ( ! $message )
 		{
-			return '<p class="dashboard-module-data">' . NoInput( $first_value, $first_key ) . '</p>';
+			return '<div class="dashboard-module-data">' . NoInput( $first_value, $first_key ) . '</div>';
 		}
 
 		$message = '<table class="dashboard-module-data-tipmsg widefat col1-align-right"><tr>' .
