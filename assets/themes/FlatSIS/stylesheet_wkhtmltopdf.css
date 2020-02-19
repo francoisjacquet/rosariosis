@@ -147,6 +147,10 @@ input + .loading {
 	font-size: 15px;
 }
 
+.dashboard-module-data .legend-gray {
+	margin-bottom: 8px;
+}
+
 #calendar > thead > tr > th {
 	text-transform: uppercase;
 	font-size: 15px;

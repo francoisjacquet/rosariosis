@@ -146,6 +146,10 @@ input + .loading {
 	font-size: 15px;
 }
 
+.dashboard-module-data .legend-gray {
+	margin-bottom: 8px;
+}
+
 .dashboard-module-data-tipmsg .legend-gray,
 .dashboard-module-data-tipmsg .legend-gray .proper-date {
 	font-size: 14px;
