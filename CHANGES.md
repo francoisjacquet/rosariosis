@@ -10,7 +10,6 @@ Changes in 5.8
 - Add GRADEBOOK_CONFIG_ADMIN_OVERRIDE config option in rosariosis.sql
 - Add Configuration program to Grades admin menu in Menu.php
 - Add Help text for Configuration program for administrators in Help_en.php
-- Update French & Spanish translations in locale/es_ES.utf8/ & locale/fr_FR.utf8
 - Raise recommended php.ini max_input_vars to 4000, for CreateParents.php compat in INSTALL.md
 - Send email notification to Parents is optional in CreateParents.php, sponsored by English National Program
 - Delete Student from Moodle in Moodle/functions.php & Moodle/Students/Student.php
@@ -23,6 +22,7 @@ Changes in 5.8
 - Only display Teachers in Moodle when creating a Course Period in Moodle in Courses.php
 - Add Staff Payroll Balance user widget to list in Preferences.php
 - Add Permissions & Discipline student widgets to list in Preferences.php
+- Update French & Spanish translations in locale/es_ES.utf8/ & locale/fr_FR.utf8
 
 Changes in 5.7.5
 ----------------
