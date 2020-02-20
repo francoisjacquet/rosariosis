@@ -210,6 +210,12 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$_ROSARIO['selected_tab'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&amp;tab=' . $_REQUEST['tab'];
 
+	$LO_options = array(
+		'responsive' => false,
+		'search' => false,
+		'save' => false,
+	);
+
 	if ( ! in_array( $_REQUEST['tab'], array( 'student_fields', 'staff_fields' ) ) )
 	{
 		PopTable( 'header', $tabs );
@@ -728,9 +734,6 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$columns = array( 'TITLE' => _( 'Widget' ), 'WIDGET' => _( 'Search' ) );
 
-		//FJ no responsive table
-		$LO_options = array( 'responsive' => false );
-
 		ListOutput(
 			$widgets_RET,
 			$columns,
@@ -871,9 +874,16 @@ if ( ! $_REQUEST['modfunc'] )
 
 		echo '<input type="hidden" name="values[StaffWidgetsSearch]" />';
 		$columns = array( 'TITLE' => _( 'Widget' ), 'STAFF_WIDGET' => _( 'Search' ) );
-		//FJ no responsive table
-		$LO_options = array( 'responsive' => false );
-		ListOutput( $widgets_RET, $columns, '.', '.', array(), array(), $LO_options );
+
+		ListOutput(
+			$widgets_RET,
+			$columns,
+			'.',
+			'.',
+			array(),
+			array(),
+			$LO_options
+		);
 	}
 
 	if ( ! in_array( $_REQUEST['tab'], array( 'student_fields', 'staff_fields' ) ) )
