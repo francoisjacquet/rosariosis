@@ -252,7 +252,7 @@ if ( ! $_REQUEST['modfunc'] )
 			'values[Preferences][DELIMITER]',
 			_( 'File Export Type' ),
 			array(
-				'Tab' => _( 'Tab-Delimited (Excel)' ),
+				'Tab' => _( 'Excel' ),
 				'CSV' => 'CSV (OpenOffice / LibreOffice) (UTF-8)', // Do not Translate
 				'XML' => 'XML', // Do not Translate
 			),
@@ -841,6 +841,11 @@ if ( ! $_REQUEST['modfunc'] )
 				'fsa_status' => _( 'Food Service Status' ),
 				'fsa_barcode' => _( 'Food Service Barcode' ),
 			);
+		}
+
+		if ( $RosarioModules['Accounting'] )
+		{
+			$widgets += array( 'staff_balance' => _( 'Staff Payroll Balance' ) );
 		}
 
 		$widgets_RET[0] = array();

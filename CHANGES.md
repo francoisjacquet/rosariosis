@@ -21,6 +21,7 @@ Changes in 5.8
 - Fix RedirectURL, unset values in CreateParents.php, MakeReferral.php & Schools.php
 - Disable ListOutput save & search for Creation Results in CreateParents.php
 - Only display Teachers in Moodle when creating a Course Period in Moodle in Courses.php
+- Add Staff Payroll Balance user widget to list in Preferences.php
 
 Changes in 5.7.5
 ----------------
