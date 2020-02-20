@@ -660,12 +660,15 @@ if ( ! $_REQUEST['modfunc'] )
 
 		if ( $RosarioModules['Students'] )
 		{
-			$widgets += array( 'calendar' => _( 'Calendar' ), 'next_year' => _( 'Next School Year' ) );
+			$widgets += array(
+				'calendar' => _( 'Calendar' ),
+				'next_year' => _( 'Next School Year' ),
+			);
 		}
 
 		if ( $RosarioModules['Scheduling'] && User( 'PROFILE' ) === 'admin' )
 		{
-			$widgets = array( 'course' => _( 'Course' ), 'request' => _( 'Request' ) );
+			$widgets += array( 'course' => _( 'Course' ), 'request' => _( 'Request' ) );
 		}
 
 		if ( $RosarioModules['Attendance'] )
@@ -675,7 +678,11 @@ if ( ! $_REQUEST['modfunc'] )
 
 		if ( $RosarioModules['Grades'] )
 		{
-			$widgets += array( 'gpa' => _( 'GPA' ), 'class_rank' => _( 'Class Rank' ), 'letter_grade' => _( 'Grade' ) );
+			$widgets += array(
+				'gpa' => _( 'GPA' ),
+				'class_rank' => _( 'Class Rank' ),
+				'letter_grade' => _( 'Grade' ),
+			);
 		}
 
 		if ( $RosarioModules['Eligibility'] )
@@ -695,7 +702,11 @@ if ( ! $_REQUEST['modfunc'] )
 
 		if ( $RosarioModules['Discipline'] )
 		{
-			$widgets += array( 'discipline' => _( 'Discipline' ) );
+			$widgets += array(
+				'reporter' => _( 'Discipline Reporter' ),
+				'incident_date' => _( 'Discipline Incident Date' ),
+				'discipline_fields' => _( 'Discipline Fields' ),
+			);
 		}
 
 		if ( $RosarioModules['Student_Billing'] )
