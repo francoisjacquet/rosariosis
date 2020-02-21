@@ -22,11 +22,11 @@ var hours = new Date().getHours(),
 </script>
 <?php
 
-$welcome = '';
+$welcome = array();
 
 if ( ! empty( $_SESSION['LAST_LOGIN'] ) )
 {
-	$welcome .= sprintf(
+	$welcome[] = sprintf(
 		_( 'Your last login was <b>%s</b>.' ),
 		ProperDateTime( $_SESSION['LAST_LOGIN'] )
 	);
@@ -34,7 +34,7 @@ if ( ! empty( $_SESSION['LAST_LOGIN'] ) )
 
 if ( ! empty( $failed_login ) )
 {
-	$welcome .= ErrorMessage(
+	$welcome[] = ErrorMessage(
 		array( sprintf(
 			_( 'There have been <b>%d</b> failed login attempts since your last successful login.' ),
 			$failed_login
@@ -46,26 +46,26 @@ if ( ! empty( $failed_login ) )
 switch ( User( 'PROFILE' ) )
 {
 	case 'admin':
-		$welcome .= '<br />' . _( 'You are an <b>Administrator</b> on the system.' );
+		$welcome[] = _( 'You are an <b>Administrator</b> on the system.' );
 
 		break;
 
 	case 'teacher':
-		$welcome .= '<br />' . _( 'You are a <b>Teacher</b> on the system.' );
+		$welcome[] = _( 'You are a <b>Teacher</b> on the system.' );
 
 		break;
 
 	case 'parent':
-		$welcome .= '<br />' . _( 'You are a <b>Parent</b> on the system.' );
+		$welcome[] = _( 'You are a <b>Parent</b> on the system.' );
 
 		break;
 
 	default:
 
-		$welcome .= '<br />' . _( 'You are a <b>Student</b> on the system.' );
+		$welcome[] = _( 'You are a <b>Student</b> on the system.' );
 }
 
-DrawHeader( $welcome );
+DrawHeader( implode( '<br />', $welcome ) );
 
 if ( $RosarioModules['Discipline'] )
 {
