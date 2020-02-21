@@ -12,6 +12,11 @@ Export list to Excel using MicrosoftXML (more reliable).
 
 [Grades Import](https://www.rosariosis.org/modules/grades-import/) module, sponsored by Instituto Japon.
 
+[Iomad](https://www.rosariosis.org/plugins/iomad/) plugin (multi-tenancy Moodle), sponsored by LearnersPlatform
+
+[Student Billing Premium](https://www.rosariosis.org/modules/student-billing-premium/):
+- Payments Import, sponsored by LearnersPlatform
+
 
 New in 5.7
 ----------
