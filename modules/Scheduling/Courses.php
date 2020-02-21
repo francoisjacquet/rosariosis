@@ -745,9 +745,9 @@ if (  ( ! $_REQUEST['modfunc']
 		{
 			// Unset subject, course & course period IDs & redirect URL.
 			RedirectURL( array(
-				$_REQUEST['subject_id'],
-				$_REQUEST['course_id'],
-				$_REQUEST['course_period_id'],
+				'subject_id',
+				'course_id',
+				'course_period_id',
 			) );
 		}
 	}
