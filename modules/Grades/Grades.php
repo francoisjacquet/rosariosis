@@ -388,9 +388,9 @@ else
 		);
 
 		// Fix PHP Fatal error: Cannot pass parameter 1 by reference.
-		$extra = array( 'SELECT_ONLY' => 'ssm.STUDENT_ID' );
+		$count_extra = array( 'SELECT_ONLY' => 'ssm.STUDENT_ID' );
 
-		$count_students = GetStuList( $extra );
+		$count_students = GetStuList( $count_extra );
 		$count_students = count( (array) $count_students );
 
 		$extra['SELECT'] = ",extract(EPOCH FROM GREATEST(ssm.START_DATE, ss.START_DATE)) AS START_EPOCH,
