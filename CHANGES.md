@@ -23,6 +23,7 @@ Changes in 5.8
 - Add Staff Payroll Balance user widget to list in Preferences.php
 - Add Permissions & Discipline student widgets to list in Preferences.php
 - Update French & Spanish translations in locale/es_ES.utf8/ & locale/fr_FR.utf8
+- Use __DIR__ constant & load Moodle plugin using `_LoadAddons()` in Warehouse.php
 
 Changes in 5.7.5
 ----------------

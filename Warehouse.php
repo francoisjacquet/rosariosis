@@ -43,20 +43,13 @@ if ( ! defined( 'ROSARIO_DEBUG' ) )
 	define( 'ROSARIO_DEBUG', false );
 }
 
-if ( ROSARIO_DEBUG )
-{
-	error_reporting( E_ALL );
-}
-else
-{
-	error_reporting( E_ALL ^ E_NOTICE );
-}
+error_reporting( ROSARIO_DEBUG ? E_ALL : E_ALL ^ E_NOTICE );
 
 // Server Paths.
 
 if ( ! isset( $RosarioPath ) )
 {
-	$RosarioPath = dirname( __FILE__ ) . '/'; // PHP 5.3 compatible equivalent to __DIR__.
+	$RosarioPath = __DIR__ . '/';
 }
 
 if ( ! isset( $StudentPicturesPath ) )
@@ -145,15 +138,14 @@ if ( empty( $_SESSION['STAFF_ID'] )
 	 * @since 3.8
 	 */
 	$redirect_to = basename( $_SERVER['SCRIPT_NAME'] ) === 'Modules.php' ?
-	'&redirect_to=' . urlencode( $_SERVER['QUERY_STRING'] ) :
-	'';
+		'&redirect_to=' . urlencode( $_SERVER['QUERY_STRING'] ) : '';
 
 	// Redirection is done in Javascript in case current request is AJAX.
 	?>
 	<script>window.location.href = "index.php?modfunc=logout" +
 		<?php echo json_encode( $redirect_to ); ?>;</script>
-<?php
-exit;
+	<?php
+	exit;
 }
 
 /**
@@ -200,8 +192,7 @@ if ( ! empty( $_GET['locale'] ) )
 {
 	$_SESSION['locale'] = $_GET['locale'];
 }
-
-if ( empty( $_SESSION['locale'] ) )
+elseif ( empty( $_SESSION['locale'] ) )
 {
 	$_SESSION['locale'] = $RosarioLocales[0]; // English?
 }
@@ -265,8 +256,7 @@ if ( version_compare( Config( 'VERSION' ), ROSARIO_VERSION, '<' ) )
 /**
  * Modules
  *
- * Core modules (packaged with RosarioSIS):
- * Core modules cannot be deleted.
+ * Core modules (packaged with RosarioSIS): cannot be deleted.
  */
 $RosarioCoreModules = array(
 	'School_Setup',
@@ -293,8 +283,7 @@ _LoadAddons( $non_core_modules, 'modules/' );
 /**
  * Plugins
  *
- * Core plugins (packaged with RosarioSIS):
- * Core plugins cannot be deleted
+ * Core plugins (packaged with RosarioSIS): cannot be deleted.
  */
 $RosarioCorePlugins = array(
 	'Moodle',
@@ -302,16 +291,7 @@ $RosarioCorePlugins = array(
 
 $RosarioPlugins = unserialize( Config( 'PLUGINS' ) );
 
-$non_core_plugins = array_diff_key( $RosarioPlugins, array_flip( $RosarioCorePlugins ) );
-
-// Load Moodle plugin functions.
-
-if ( $RosarioPlugins['Moodle'] )
-{
-	require_once 'plugins/Moodle/functions.php';
-}
-
-_LoadAddons( $non_core_plugins, 'plugins/' );
+_LoadAddons( $RosarioPlugins, 'plugins/' );
 
 /**
  * Load not core modules & plugins
@@ -606,6 +586,8 @@ function Warehouse( $mode )
 
 /**
  * Popup window detection
+ *
+ * @todo deprecate & Remove popup, use soft popup with featherlight or https://victordiego.com/lightbox/.
  *
  * Set it once in Modules.php:
  * @example isPopup( $modname, $_REQUEST['modfunc'] );
