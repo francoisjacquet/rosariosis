@@ -141,6 +141,11 @@ function core_course_update_categories_object()
 		return null;
 	}
 
+	if ( is_null( $columns['TITLE'] ) )
+	{
+		return null;
+	}
+
 	$name = $columns['TITLE'];
 
 	$categories = array(

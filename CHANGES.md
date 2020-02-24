@@ -24,6 +24,7 @@ Changes in 5.8
 - Add Permissions & Discipline student widgets to list in Preferences.php
 - Update French & Spanish translations in locale/es_ES.utf8/ & locale/fr_FR.utf8
 - Use __DIR__ constant & load Moodle plugin using `_LoadAddons()` in Warehouse.php
+- Moodle Course category update: no update if TITLE is null in Courses.php
 
 Changes in 5.7.5
 ----------------
