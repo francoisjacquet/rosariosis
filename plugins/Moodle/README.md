@@ -33,7 +33,7 @@ School
 - Portal notes are automatically created, updated & deleted in Moodle
 - Rollover: Moodle users (and students) and courses are associated to the next school year entities
 
-Note: it is not possible to create a User or a Course in Moodle from previous school years (after Rollover).
+Note: it is not possible to create a User or a Course, or enroll a Student in Moodle from previous school years (after Rollover).
 
 Grades
 
