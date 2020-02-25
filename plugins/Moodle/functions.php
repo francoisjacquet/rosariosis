@@ -422,6 +422,8 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 				}
 			}
 
+			break;
+
 		case 'Scheduling/Courses.php|create_course_subject':
 		case 'Scheduling/Courses.php|create_course':
 			Moodle( $modname, 'core_course_create_categories' );
