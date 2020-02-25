@@ -374,9 +374,9 @@ if ( ! empty( $_REQUEST['tables'] )
 
 						if ( $table_name == 'COURSE_PERIODS' )
 						{
-							$cp_title = CoursePeriodTitleGenerate( $id, $columns );
+							$base_title = CoursePeriodTitleGenerate( $id, $columns );
 
-							$sql .= "TITLE='" . $cp_title . "',";
+							$sql .= "TITLE='" . $base_title . "',";
 
 							if ( isset( $columns['MARKING_PERIOD_ID'] ) )
 							{
