@@ -244,7 +244,7 @@ function _makeTextInput( $value, $name )
 {
 	global $THIS_RET;
 
-	if ( $THIS_RET['ID'] )
+	if ( ! empty( $THIS_RET['ID'] ) )
 	{
 		$id = $THIS_RET['ID'];
 	}
@@ -283,7 +283,7 @@ function _makeContentInput( $value, $name )
 {
 	global $THIS_RET;
 
-	if ( $THIS_RET['ID'] )
+	if ( ! empty( $THIS_RET['ID'] ) )
 	{
 		$id = $THIS_RET['ID'];
 	}

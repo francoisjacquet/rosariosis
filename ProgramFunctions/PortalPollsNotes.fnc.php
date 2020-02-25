@@ -401,7 +401,7 @@ function makePublishing( $value, $name )
 	global $THIS_RET;
 	static $profiles = null;
 
-	if ( $THIS_RET['ID'] )
+	if ( ! empty( $THIS_RET['ID'] ) )
 	{
 		$id = $THIS_RET['ID'];
 	}
@@ -535,7 +535,7 @@ function makeFileAttached( $value, $name )
 	global $THIS_RET, $PortalNotesFilesPath;
 	static $filesAttachedCount = 0;
 
-	if ( $THIS_RET['ID'] )
+	if ( ! empty( $THIS_RET['ID'] ) )
 	{
 		$id = $THIS_RET['ID'];
 

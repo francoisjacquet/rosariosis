@@ -130,7 +130,7 @@ function _makeTextInput( $value, $name )
 		$extra .= ' maxlength=100';
 	}
 
-	if ( $THIS_RET['ID'] )
+	if ( ! empty( $THIS_RET['ID'] ) )
 	{
 		$id = $THIS_RET['ID'];
 
@@ -160,7 +160,7 @@ function _makeDateInput( $value, $name )
 {
 	global $THIS_RET;
 
-	if ( $THIS_RET['ID'] )
+	if ( ! empty( $THIS_RET['ID'] ) )
 	{
 		$id = $THIS_RET['ID'];
 	}

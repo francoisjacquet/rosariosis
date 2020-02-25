@@ -24,7 +24,7 @@ function _makeIncomesTextInput( $value, $column )
 {
 	global $THIS_RET;
 
-	if ( $THIS_RET['ID'] )
+	if ( ! empty( $THIS_RET['ID'] ) )
 	{
 		$id = $THIS_RET['ID'];
 		$div = 'force';
@@ -54,7 +54,7 @@ function _makeIncomesDateInput( $value, $column )
 {
 	global $THIS_RET;
 
-	if ( $THIS_RET['ID'] )
+	if ( ! empty( $THIS_RET['ID'] ) )
 	{
 		$id = $THIS_RET['ID'];
 	}
@@ -91,7 +91,7 @@ function _makePaymentsTextInput( $value, $name )
 {
 	global $THIS_RET;
 
-	if ( $THIS_RET['ID'] )
+	if ( ! empty( $THIS_RET['ID'] ) )
 	{
 		$id = $THIS_RET['ID'];
 	}
@@ -133,7 +133,7 @@ function _makePaymentsCommentsInput( $value, $name )
 
 	$text_input = _makePaymentsTextInput( $value, $name );
 
-	if ( $THIS_RET['ID'] )
+	if ( ! empty( $THIS_RET['ID'] ) )
 	{
 		return $text_input;
 	}

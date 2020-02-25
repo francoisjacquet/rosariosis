@@ -490,7 +490,7 @@ function _makeTextInput( $value, $name )
 {
 	global $THIS_RET;
 
-	if ( $THIS_RET['ID'] )
+	if ( ! empty( $THIS_RET['ID'] ) )
 	{
 		$id = $THIS_RET['ID'];
 	}
@@ -573,7 +573,7 @@ function _makeSelectInput( $value, $name )
 	 */
 	static $options = null;
 
-	if ( $THIS_RET['ID'] )
+	if ( ! empty( $THIS_RET['ID'] ) )
 	{
 		$id = $THIS_RET['ID'];
 	}
@@ -631,7 +631,7 @@ function _makeCheckBoxInput( $value, $name )
 {
 	global $THIS_RET;
 
-	if ( $THIS_RET['ID'] )
+	if ( ! empty( $THIS_RET['ID'] ) )
 	{
 		$id = $THIS_RET['ID'];
 	}

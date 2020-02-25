@@ -857,7 +857,7 @@ function _makeEndInput( $value, $column )
 
 	static $drop_codes;
 
-	if ( $THIS_RET['ID'] )
+	if ( ! empty( $THIS_RET['ID'] ) )
 	{
 		$id = $THIS_RET['ID'];
 	}

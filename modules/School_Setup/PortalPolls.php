@@ -292,7 +292,7 @@ function _makeTextInput( $value, $name )
 {
 	global $THIS_RET;
 
-	if ( $THIS_RET['ID'] )
+	if ( ! empty( $THIS_RET['ID'] ) )
 	{
 		$id = $THIS_RET['ID'];
 	}
@@ -331,7 +331,7 @@ function _makeOptionsInput( $value, $name )
 	global $THIS_RET, $portal_poll_id;
 	static $option_nb = 1;
 
-	if ( $THIS_RET['ID'] )
+	if ( ! empty( $THIS_RET['ID'] ) )
 	{
 		$id = $THIS_RET['ID'];
 		$portal_poll_id = $THIS_RET['PORTAL_POLL_ID'];
@@ -384,7 +384,7 @@ function _makeOptionsInputs( $value, $name )
 
 	$value = '';
 
-	if ( $THIS_RET['ID'] )
+	if ( ! empty( $THIS_RET['ID'] ) )
 	{
 		$id = $THIS_RET['ID'];
 
@@ -458,7 +458,7 @@ function _makePollVotes( $value, $name )
 {
 	global $THIS_RET;
 
-	if ( $THIS_RET['ID'] )
+	if ( ! empty( $THIS_RET['ID'] ) )
 	{
 		$poll_id = $THIS_RET['ID'];
 		$poll_questions_RET = DBGet( "SELECT QUESTION, VOTES, OPTIONS FROM PORTAL_POLL_QUESTIONS WHERE PORTAL_POLL_ID='" . $poll_id . "'" );

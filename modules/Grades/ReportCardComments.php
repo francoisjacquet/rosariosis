@@ -465,7 +465,7 @@ function _makeCommentsInput( $value, $name )
 	$category_select,
 		$code_select;
 
-	if ( $THIS_RET['ID'] )
+	if ( ! empty( $THIS_RET['ID'] ) )
 	{
 		$id = $THIS_RET['ID'];
 	}
@@ -544,7 +544,7 @@ function _makeColorInput( $value, $column )
 {
 	global $THIS_RET;
 
-	if ( $THIS_RET['ID'] )
+	if ( ! empty( $THIS_RET['ID'] ) )
 	{
 		$id = $THIS_RET['ID'];
 	}

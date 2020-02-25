@@ -310,7 +310,7 @@ function _makeCommentsInput( $value, $name )
 	global $THIS_RET,
 		$comment_scale_select;
 
-	if ( $THIS_RET['ID'] )
+	if ( ! empty( $THIS_RET['ID'] ) )
 	{
 		$id = $THIS_RET['ID'];
 	}

@@ -87,7 +87,7 @@ function _makeFeesTextInput( $value, $name )
 		$THIS_RET['row_colow'] = 'FFFFFF';
 	}
 
-	if ( $THIS_RET['ID'] )
+	if ( ! empty( $THIS_RET['ID'] ) )
 	{
 		$id = $THIS_RET['ID'];
 		$div = 'force';
@@ -142,7 +142,7 @@ function _makePaymentsTextInput( $value, $name )
 {
 	global $THIS_RET;
 
-	if ( $THIS_RET['ID'] )
+	if ( ! empty( $THIS_RET['ID'] ) )
 	{
 		$id = $THIS_RET['ID'];
 	}
@@ -183,7 +183,7 @@ function _makePaymentsCommentsInput( $value, $name )
 
 	$text_input = _makePaymentsTextInput( $value, $name );
 
-	if ( $THIS_RET['ID'] )
+	if ( ! empty( $THIS_RET['ID'] ) )
 	{
 		return $text_input;
 	}
@@ -244,7 +244,7 @@ function _makePaymentsDateInput( $value, $name )
 {
 	global $THIS_RET;
 
-	if ( $THIS_RET['ID'] )
+	if ( ! empty( $THIS_RET['ID'] ) )
 	{
 		$id = $THIS_RET['ID'];
 	}
@@ -265,7 +265,7 @@ function _lunchInput( $value, $column )
 {
 	global $THIS_RET;
 
-	if ( $THIS_RET['ID'] )
+	if ( ! empty( $THIS_RET['ID'] ) )
 	{
 		$id = $THIS_RET['ID'];
 	}

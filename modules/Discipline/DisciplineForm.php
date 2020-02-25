@@ -261,7 +261,7 @@ function _makeType( $value, $name )
 		'textarea' => _( 'Long Text' ),
 	);
 
-	if ( $THIS_RET['ID'] )
+	if ( ! empty( $THIS_RET['ID'] ) )
 	{
 		return $new_options[$value];
 	}
@@ -284,7 +284,7 @@ function _makeTextInput( $value, $name )
 	{
 		$id = $THIS_RET['USAGE_ID'];
 	}
-	elseif ( $THIS_RET['ID'] )
+	elseif ( ! empty( $THIS_RET['ID'] ) )
 	{
 		$id = 'usage';
 	}
@@ -335,7 +335,7 @@ function _makeTextAreaInput( $value, $name )
 	{
 		$id = $THIS_RET['USAGE_ID'];
 	}
-	elseif ( $THIS_RET['ID'] )
+	elseif ( ! empty( $THIS_RET['ID'] ) )
 	{
 		$id = 'usage';
 	}
