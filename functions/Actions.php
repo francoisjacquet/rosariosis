@@ -325,6 +325,13 @@ $RosarioActions = array();
 	 * @since 5.8
 	 */
 	/*'School_Setup/Schools.php|delete_school' => array(),
+
+	/**
+	 * Purchase Element.
+	 *
+	 * @since 5.8
+	 */
+	/*'Billing_Elements/Elements.php|purchase_element' => array(),
 );*/
 
 
