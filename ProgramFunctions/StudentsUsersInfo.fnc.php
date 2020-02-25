@@ -765,7 +765,7 @@ function _makeStartInput( $value, $column )
 
 	$na = 'N/A';
 
-	if ( $THIS_RET['ID'] )
+	if ( ! empty( $THIS_RET['ID'] ) )
 	{
 		$id = $THIS_RET['ID'];
 
@@ -830,7 +830,7 @@ function _makeStartInput( $value, $column )
 			! empty( $na )
 		) . ' - ' .
 		SelectInput(
-			$THIS_RET['ENROLLMENT_CODE'],
+			issetVal( $THIS_RET['ENROLLMENT_CODE'] ),
 			'values[STUDENT_ENROLLMENT][' . $id . '][ENROLLMENT_CODE]',
 			'',
 			$add_codes,
@@ -911,7 +911,7 @@ function _makeSchoolInput( $value, $column )
 
 	static $schools;
 
-	if ( $THIS_RET['ID'] )
+	if ( ! empty( $THIS_RET['ID'] ) )
 	{
 		$id = $THIS_RET['ID'];
 	}
