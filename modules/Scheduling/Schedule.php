@@ -475,7 +475,10 @@ if ( $_REQUEST['modfunc'] == 'choose_course' )
 
 		if ( empty( $warnings ) || Prompt( 'Confirm', _( 'There is a conflict.' ) . ' ' . _( 'Are you sure you want to add this section?' ), ErrorMessage( $warnings, 'warning' ) ) )
 		{
-			DBQuery( "INSERT INTO SCHEDULE (SYEAR,SCHOOL_ID,STUDENT_ID,START_DATE,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID) values('" . UserSyear() . "','" . UserSchool() . "','" . UserStudentID() . "','" . $date . "','" . $_REQUEST['course_id'] . "','" . $_REQUEST['course_period_id'] . "','" . $mp_RET[1]['MP'] . "','" . $mp_RET[1]['MARKING_PERIOD_ID'] . "')" );
+			DBQuery( "INSERT INTO SCHEDULE (SYEAR,SCHOOL_ID,STUDENT_ID,START_DATE,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID)
+				VALUES('" . UserSyear() . "','" . UserSchool() . "','" . UserStudentID() . "','" .
+				$date . "','" . $_REQUEST['course_id'] . "','" . $_REQUEST['course_period_id'] . "','" .
+				$mp_RET[1]['MP'] . "','" . $mp_RET[1]['MARKING_PERIOD_ID'] . "')" );
 
 			// Hook.
 			do_action( 'Scheduling/Schedule.php|schedule_student' );
