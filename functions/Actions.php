@@ -332,6 +332,13 @@ $RosarioActions = array();
 	 * @since 5.8
 	 */
 	/*'Billing_Elements/Elements.php|purchase_element' => array(),
+
+	/**
+	 * Configuration School Table.
+	 *
+	 * @since 5.8
+	 */
+	/*'School_Setup/Configuration.php|school_table' => array(),
 );*/
 
 

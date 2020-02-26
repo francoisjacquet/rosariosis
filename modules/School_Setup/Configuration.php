@@ -555,6 +555,14 @@ else
 			echo '</table></fieldset>';
 		}
 
+		/**
+		 * Configuration School Table action Hook.
+		 * Plugins or modules can add their own Config options to the table (per school).
+		 *
+		 * @since 5.8
+		 */
+		do_action( 'School_Setup/Configuration.php|school_table' );
+
 		PopTable( 'footer' );
 
 		if ( AllowEdit() )
