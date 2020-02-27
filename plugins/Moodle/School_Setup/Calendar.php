@@ -54,7 +54,7 @@ function core_calendar_create_calendar_events_object()
 		$description = $_REQUEST['values']['DESCRIPTION'];
 	}
 
-	$format = 2;
+	$format = 4;
 	$courseid = 1;
 	$eventtype = 'site';
 	$timestart = strtotime( $_REQUEST['values']['SCHOOL_DATE'] );
@@ -125,6 +125,11 @@ function core_calendar_create_calendar_events_response( $response )
 		$error[] = 'Moodle: ' . 'Code: ' . $response['warnings'][0]['warningcode'] . ' - ' .
 			$response['warnings'][0]['message'];
 
+		return false;
+	}
+
+	if ( empty( $response['events'][0]['id'] ) )
+	{
 		return false;
 	}
 

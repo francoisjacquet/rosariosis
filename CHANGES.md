@@ -25,6 +25,7 @@ Changes in 5.8
 - Update French & Spanish translations in locale/es_ES.utf8/ & locale/fr_FR.utf8
 - Use __DIR__ constant & load Moodle plugin using `_LoadAddons()` in Warehouse.php
 - Moodle Course category update: no update if TITLE is null in Courses.php
+- Moodle Calendar Event creation: fix SQL error if no ID returned by Moodle in Calendar.php
 - Add Configuration School Table action Hook in Configuration.php
 - Hide Modules & Plugins tabs, System config options if Administrator of 1 school only in Configuration.php
 
