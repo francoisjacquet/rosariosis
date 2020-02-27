@@ -428,12 +428,16 @@ if ( ! $_REQUEST['modfunc'] )
 		'required maxlength="10"'
 	) . '</td>';
 
-	$header .= '<td>' . TextInput(
-		issetVal( $RET['SORT_ORDER'], '' ),
-		'tables[' . $_REQUEST['marking_period_id'] . '][SORT_ORDER]',
-		_( 'Sort Order' ),
-		'size="3" maxlength="4"'
-	) . '</td>';
+	if ( AllowEdit() )
+	{
+		// Hide Sort Order from non editing users.
+		$header .= '<td>' . TextInput(
+			issetVal( $RET['SORT_ORDER'], '' ),
+			'tables[' . $_REQUEST['marking_period_id'] . '][SORT_ORDER]',
+			_( 'Sort Order' ),
+			'size="3" maxlength="4"'
+		) . '</td>';
+	}
 
 	$header .= '<td><table class="width-100p"><tr>';
 
@@ -471,15 +475,20 @@ if ( ! $_REQUEST['modfunc'] )
 		$js_onclick_post_dates_required
 	) . '</td>';
 
-	$header .= '<td>' . CheckboxInput(
-		issetVal( $RET['DOES_COMMENTS'], '' ),
-		'tables[' . $_REQUEST['marking_period_id'] . '][DOES_COMMENTS]',
-		_( 'Comments' ),
-		'',
-		$_REQUEST['marking_period_id'] === 'new',
-		button( 'check' ),
-		button( 'x' )
-	) . '</td>';
+	if ( AllowEdit()
+		|| ! empty( $RET['DOES_GRADES'] ) )
+	{
+		// Hide Comments from non editing users if MP not Graded.
+		$header .= '<td>' . CheckboxInput(
+			issetVal( $RET['DOES_COMMENTS'], '' ),
+			'tables[' . $_REQUEST['marking_period_id'] . '][DOES_COMMENTS]',
+			_( 'Comments' ),
+			'',
+			$_REQUEST['marking_period_id'] === 'new',
+			button( 'check' ),
+			button( 'x' )
+		) . '</td>';
+	}
 
 	$header .= '</tr></table></td></tr><tr class="st">';
 
@@ -507,23 +516,28 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$red = ! empty( $RET['DOES_GRADES'] ) && empty( $RET['POST_END_DATE'] );
 
-	$header .= '<td>' . DateInput(
-		issetVal( $RET['POST_START_DATE'], '' ),
-		'tables[' . $_REQUEST['marking_period_id'] . '][POST_START_DATE]',
-		( $red ? '<span class="legend-red">' : '' ) . _( 'Grade Posting Begins' ) . ( $red ? '</span>' : '' ),
-		$div,
-		$allow_na,
-		$required
-	) . '</td>';
+	if ( AllowEdit()
+		|| ! empty( $RET['DOES_GRADES'] ) )
+	{
+		// Hide Grade Posting Dates from non editing users if MP not Graded.
+		$header .= '<td>' . DateInput(
+			issetVal( $RET['POST_START_DATE'], '' ),
+			'tables[' . $_REQUEST['marking_period_id'] . '][POST_START_DATE]',
+			( $red ? '<span class="legend-red">' : '' ) . _( 'Grade Posting Begins' ) . ( $red ? '</span>' : '' ),
+			$div,
+			$allow_na,
+			$required
+		) . '</td>';
 
-	$header .= '<td>' . DateInput(
-		issetVal( $RET['POST_END_DATE'], '' ),
-		'tables[' . $_REQUEST['marking_period_id'] . '][POST_END_DATE]',
-		( $red ? '<span class="legend-red">' : '' ) . _( 'Grade Posting Ends' ) . ( $red ? '</span>' : '' ),
-		$div,
-		$allow_na,
-		$required
-	) . '</td>';
+		$header .= '<td>' . DateInput(
+			issetVal( $RET['POST_END_DATE'], '' ),
+			'tables[' . $_REQUEST['marking_period_id'] . '][POST_END_DATE]',
+			( $red ? '<span class="legend-red">' : '' ) . _( 'Grade Posting Ends' ) . ( $red ? '</span>' : '' ),
+			$div,
+			$allow_na,
+			$required
+		) . '</td>';
+	}
 
 	$header .= '</tr></table>';
 

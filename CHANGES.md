@@ -29,6 +29,7 @@ Changes in 5.8
 - Add Configuration School Table action Hook in Configuration.php
 - Hide Modules & Plugins tabs, System config options if Administrator of 1 school only in Configuration.php
 - Hide not set Course Period options from non editing users in Courses.php
+- Hide Sort Order, Comments, Grade Posting Dates (if MP not Graded) from non editing users in MarkingPeriods.php
 
 Changes in 5.7.6
 ----------------
