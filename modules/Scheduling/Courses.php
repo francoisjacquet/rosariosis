@@ -1380,12 +1380,16 @@ if (  ( ! $_REQUEST['modfunc']
 				'required maxlength=100 size=20'
 			) . '</td>';
 
-			$header .= '<td>' . TextInput(
-				( empty( $RET['SORT_ORDER'] ) ? '' : $RET['SORT_ORDER'] ),
-				'tables[COURSE_SUBJECTS][' . $_REQUEST['subject_id'] . '][SORT_ORDER]',
-				_( 'Sort Order' ),
-				'maxlength=3 size=5'
-			) . '</td>';
+			if ( AllowEdit() )
+			{
+				// Hide Sort Order from non editing users.
+				$header .= '<td>' . TextInput(
+					( empty( $RET['SORT_ORDER'] ) ? '' : $RET['SORT_ORDER'] ),
+					'tables[COURSE_SUBJECTS][' . $_REQUEST['subject_id'] . '][SORT_ORDER]',
+					_( 'Sort Order' ),
+					'maxlength=3 size=5'
+				) . '</td>';
+			}
 
 			$header .= '</tr></table>';
 		}
