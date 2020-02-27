@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 5.7.6
+----------------
+- Only search List if search option activated in ListOutput.fnc.php
+
 Changes in 5.7.5
 ----------------
 - Fix current scheduled students SQL, index by STUDENT_ID in MassDrops.php

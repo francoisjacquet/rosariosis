@@ -162,6 +162,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 		// HANDLE SEARCHES ---.
 		if ( $result_count
+			&& $options['search']
 			&& $LO_search !== '' )
 		{
 			$search_term = trim( mb_strtolower( str_replace( "''", "'", $LO_search ) ) );
