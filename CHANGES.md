@@ -4,6 +4,7 @@
 Changes in 5.7.6
 ----------------
 - Only search List if search option activated in ListOutput.fnc.php
+- Fix Moodle course title on update in Courses.php
 
 Changes in 5.7.5
 ----------------
