@@ -1153,39 +1153,51 @@ if (  ( ! $_REQUEST['modfunc']
 
 			$header .= '<tr><td colspan="6"><hr /></td></tr>';
 
-			// Calendar.
-			$header .= '<tr class="st"><td>' . $cp_inputs[0] . '</td>';
-
 			// Takes Attendance.
-			$header .= '<td colspan="2">' . $cp_inputs[1] . '</td>';
+			$header .= '<tr class="st"><td>' . $cp_inputs[1] . '</td>';
 
-			// Half Day.
-			$header .= '<td colspan="3">' . $cp_inputs[2] . '</td></tr>';
+			if ( AllowEdit() || User( 'PROFILE' ) === 'teacher'
+				|| $RET['DOES_ATTENDANCE'] )
+			{
+				// Hide Calendar, Half Day if CP "No Attendance".
+				// Calendar.
+				$header .= '<td colspan="2">' . $cp_inputs[0] . '</td>';
 
-			$header .= '<tr><td colspan="6"><hr /></td>';
+				// Half Day.
+				$header .= '<td colspan="3">' . $cp_inputs[2] . '</td>';
+			}
+
+			$header .= '</tr><tr><td colspan="6"><hr /></td></tr>';
 
 			// Grading Scale.
-			$header .= '</tr><tr class="st"><td>' . $cp_inputs[3] . '</td>';
+			$header .= '<tr class="st"><td>' . $cp_inputs[3] . '</td>';
 
-			if ( AllowEdit() || User( 'PROFILE' ) === 'teacher' )
+			if ( AllowEdit() || User( 'PROFILE' ) === 'teacher'
+				|| $RET['GRADE_SCALE_ID'] )
 			{
-				// Show only to Teachers and Admins.
-				// Allow Teacher Grade Scale.
-				$header .= '<td colspan="2">' . $cp_inputs[4] . '</td>';
+				// Hide Credits, Affects Class Rank & Affects Honor Roll if CP "Not Graded".
+				if ( AllowEdit() || User( 'PROFILE' ) === 'teacher' )
+				{
+					// Show only to Teachers and Admins.
+					// Allow Teacher Grade Scale.
+					$header .= '<td colspan="2">' . $cp_inputs[4] . '</td>';
+				}
+				else
+				{
+					$header .= '<td>&nbsp;</td>';
+				}
+
+				// Credits.
+				$header .= '<td>' . $cp_inputs[5] . '</td>';
+
+				// Affects Class Rank.
+				$header .= '<td>' . $cp_inputs[6] . '</td>';
+
+				// Affects Honor Roll.
+				$header .= '<td>' . $cp_inputs[7] . '</td>';
 			}
-			else
-			{
-				$header .= '<td>&nbsp;</td>';
-			}
 
-			// Credits.
-			$header .= '<td>' . $cp_inputs[5] . '</td>';
-
-			// Affects Class Rank.
-			$header .= '<td>' . $cp_inputs[6] . '</td>';
-
-			// Affects Honor Roll.
-			$header .= '<td>' . $cp_inputs[7] . '</td></tr>';
+			$header .= '</tr>';
 
 			if ( AllowEdit()
 				|| $RET['GENDER_RESTRICTION'] !== 'N'
