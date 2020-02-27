@@ -28,6 +28,7 @@ Changes in 5.8
 - Moodle Calendar Event creation: fix SQL error if no ID returned by Moodle in Calendar.php
 - Add Configuration School Table action Hook in Configuration.php
 - Hide Modules & Plugins tabs, System config options if Administrator of 1 school only in Configuration.php
+- Hide not set Course Period options from non editing users in Courses.php
 
 Changes in 5.7.6
 ----------------

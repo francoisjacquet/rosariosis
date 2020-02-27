@@ -940,16 +940,26 @@ if (  ( ! $_REQUEST['modfunc']
 				$options[$mp['MARKING_PERIOD_ID']] = $mp['SHORT_NAME'];
 			}
 
-			// FJ Moodle integrator.
-			$header .= '<td>' . SelectInput(
-				issetVal( $RET['MARKING_PERIOD_ID'], '' ),
-				'tables[COURSE_PERIODS][' . $_REQUEST['course_period_id'] . '][MARKING_PERIOD_ID]',
-				_( 'Marking Period' ),
-				$options,
-				false,
-				'required',
-				empty( $_REQUEST['moodle_create_course_period'] )
-			) . '</td>';
+			if ( AllowEdit() )
+			{
+				$header .= '<td>' . SelectInput(
+					issetVal( $RET['MARKING_PERIOD_ID'], '' ),
+					'tables[COURSE_PERIODS][' . $_REQUEST['course_period_id'] . '][MARKING_PERIOD_ID]',
+					_( 'Marking Period' ),
+					$options,
+					false,
+					'required',
+					empty( $_REQUEST['moodle_create_course_period'] )
+				) . '</td>';
+			}
+			else
+			{
+				// Non editing users: Show Full MP Title.
+				$header .= '<td>' . NoInput(
+					GetMP( $RET['MARKING_PERIOD_ID'] ),
+					_( 'Marking Period' )
+				) . '</td>';
+			}
 
 			$header .= '<td>' . TextInput(
 				issetVal( $RET['TOTAL_SEATS'], '' ),
@@ -1099,7 +1109,7 @@ if (  ( ! $_REQUEST['modfunc']
 					'document.getElementById(\'schoolPeriod\'+' . $i . ').style.display=\'table-row\';' ) .
 				' return false;">' .
 				button( 'add' ) . ' ' . _( 'New Period' ) . '</a>
-					<hr /></td></tr>';
+					</td></tr>';
 
 				if ( ! $new )
 				{
@@ -1141,6 +1151,8 @@ if (  ( ! $_REQUEST['modfunc']
 				$new
 			);
 
+			$header .= '<tr><td colspan="6"><hr /></td></tr>';
+
 			// Calendar.
 			$header .= '<tr class="st"><td>' . $cp_inputs[0] . '</td>';
 
@@ -1155,8 +1167,16 @@ if (  ( ! $_REQUEST['modfunc']
 			// Grading Scale.
 			$header .= '</tr><tr class="st"><td>' . $cp_inputs[3] . '</td>';
 
-			// Allow Teacher Grade Scale.
-			$header .= '<td colspan="2">' . $cp_inputs[4] . '</td>';
+			if ( AllowEdit() || User( 'PROFILE' ) === 'teacher' )
+			{
+				// Show only to Teachers and Admins.
+				// Allow Teacher Grade Scale.
+				$header .= '<td colspan="2">' . $cp_inputs[4] . '</td>';
+			}
+			else
+			{
+				$header .= '<td>&nbsp;</td>';
+			}
 
 			// Credits.
 			$header .= '<td>' . $cp_inputs[5] . '</td>';
@@ -1167,42 +1187,66 @@ if (  ( ! $_REQUEST['modfunc']
 			// Affects Honor Roll.
 			$header .= '<td>' . $cp_inputs[7] . '</td></tr>';
 
-			$header .= '<tr><td colspan="6"><hr /></td>';
-
-			// Gender Restriction.
-			$header .= '</tr><tr class="st"><td colspan="3">' . $cp_inputs[8] . '</td>';
-
-			$parent = '';
-
-			if ( $_REQUEST['course_period_id'] !== 'new'
-				&& $RET['PARENT_ID'] !== $_REQUEST['course_period_id'] )
+			if ( AllowEdit()
+				|| $RET['GENDER_RESTRICTION'] !== 'N'
+				|| $RET['PARENT_ID'] !== $_REQUEST['course_period_id'] )
 			{
-				$parent = DBGet( "SELECT cp.TITLE as CP_TITLE,c.TITLE AS C_TITLE
-					FROM COURSE_PERIODS cp,COURSES c
-					WHERE c.COURSE_ID=cp.COURSE_ID
-					AND cp.COURSE_PERIOD_ID='" . $RET['PARENT_ID'] . "'" );
-
-				$parent = $parent[1]['C_TITLE'] . ': ' . $parent[1]['CP_TITLE'];
-			}
-			elseif ( $_REQUEST['course_period_id'] !== 'new' )
-			{
-				$children = DBGet( "SELECT COURSE_PERIOD_ID
-					FROM COURSE_PERIODS
-					WHERE PARENT_ID='" . $_REQUEST['course_period_id'] . "'
-					AND COURSE_PERIOD_ID!='" . $_REQUEST['course_period_id'] . "'" );
-
-				$parent = ! empty( $children ) ? _( 'N/A' ) : _( 'None' );
+				// Hide hr separator from non editing users if no Gender Restriction and no Parent CP.
+				$header .= '<tr><td colspan="6"><hr /></td></tr><tr class="st">';
 			}
 
-			$header .= '<td colspan="2"><div id="course_div">' . $parent . '</div> ' .
-			( $parent != _( 'N/A' ) && AllowEdit() ?
-				'<a href="#" onclick=\'popups.open(
-						"Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=choose_course"
-					); return false;\'>' . _( 'Choose' ) . '</a><br />' :
-				'' ) .
-			'<span class="legend-gray">' . _( 'Parent Course Period' ) . '</span></td>';
+			if ( AllowEdit()
+				|| $RET['GENDER_RESTRICTION'] !== 'N' )
+			{
+				// Hide from non editing users if no Gender Restriction set.
+				// Gender Restriction.
+				$header .= '<td colspan="3">' . $cp_inputs[8] . '</td>';
+			}
 
-			$header .= '</tr></table>';
+			if ( AllowEdit()
+				|| $RET['PARENT_ID'] !== $_REQUEST['course_period_id'] )
+			{
+				// Hide from non editing users if no Parent Course Period set.
+				$parent = '';
+
+				if ( $_REQUEST['course_period_id'] !== 'new'
+					&& $RET['PARENT_ID'] !== $_REQUEST['course_period_id'] )
+				{
+					$parent = DBGet( "SELECT cp.TITLE as CP_TITLE,c.TITLE AS C_TITLE
+						FROM COURSE_PERIODS cp,COURSES c
+						WHERE c.COURSE_ID=cp.COURSE_ID
+						AND cp.COURSE_PERIOD_ID='" . $RET['PARENT_ID'] . "'" );
+
+					$parent = $parent[1]['C_TITLE'] . ': ' . $parent[1]['CP_TITLE'];
+				}
+				elseif ( $_REQUEST['course_period_id'] !== 'new' )
+				{
+					$children = DBGet( "SELECT COURSE_PERIOD_ID
+						FROM COURSE_PERIODS
+						WHERE PARENT_ID='" . $_REQUEST['course_period_id'] . "'
+						AND COURSE_PERIOD_ID!='" . $_REQUEST['course_period_id'] . "'" );
+
+					$parent = ! empty( $children ) ? _( 'N/A' ) : _( 'None' );
+				}
+
+				// Parent Course Period.
+				$header .= '<td colspan="2"><div id="course_div">' . $parent . '</div> ' .
+				( $parent != _( 'N/A' ) && AllowEdit() ?
+					'<a href="#" onclick=\'popups.open(
+							"Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=choose_course"
+						); return false;\'>' . _( 'Choose' ) . '</a><br />' :
+					'' ) .
+				'<span class="legend-gray">' . _( 'Parent Course Period' ) . '</span></td>';
+			}
+
+			if ( AllowEdit()
+				|| $RET['GENDER_RESTRICTION'] !== 'N'
+				|| $RET['PARENT_ID'] !== $_REQUEST['course_period_id'] )
+			{
+				$header .= '</tr>';
+			}
+
+			$header .= '</table>';
 		}
 		elseif ( $_REQUEST['course_id'] )
 		{
@@ -1417,7 +1461,7 @@ if (  ( ! $_REQUEST['modfunc']
 	}
 	else
 	{
-		$link['add']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&subject_id=new';
+		$link['add']['link'] = '"Modules.php?modname=' . $_REQUEST['modname'] . '&subject_id=new"';
 	}
 
 	echo '<div class="st">';
@@ -1473,7 +1517,7 @@ if (  ( ! $_REQUEST['modfunc']
 		}
 		else
 		{
-			$link['add']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&subject_id=' . $_REQUEST['subject_id'] . '&course_id=new';
+			$link['add']['link'] = '"Modules.php?modname=' . $_REQUEST['modname'] . '&subject_id=' . $_REQUEST['subject_id'] . '&course_id=new"';
 		}
 
 		echo '<div class="st">';
@@ -1549,7 +1593,7 @@ if (  ( ! $_REQUEST['modfunc']
 				}
 				else
 				{
-					$link['add']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&subject_id=' . $_REQUEST['subject_id'] . '&course_id=' . $_REQUEST['course_id'] . '&course_period_id=new';
+					$link['add']['link'] = '"Modules.php?modname=' . $_REQUEST['modname'] . '&subject_id=' . $_REQUEST['subject_id'] . '&course_id=' . $_REQUEST['course_id'] . '&course_period_id=new"';
 				}
 			}
 
