@@ -28,6 +28,11 @@ Changes in 5.8
 - Add Configuration School Table action Hook in Configuration.php
 - Hide Modules & Plugins tabs, System config options if Administrator of 1 school only in Configuration.php
 
+Changes in 5.7.6
+----------------
+- Only search List if search option activated in ListOutput.fnc.php
+- Fix Moodle course title on update in Courses.php
+
 Changes in 5.7.5
 ----------------
 - Fix current scheduled students SQL, index by STUDENT_ID in MassDrops.php
