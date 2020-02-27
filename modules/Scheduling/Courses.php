@@ -1156,8 +1156,7 @@ if (  ( ! $_REQUEST['modfunc']
 			// Takes Attendance.
 			$header .= '<tr class="st"><td>' . $cp_inputs[1] . '</td>';
 
-			if ( AllowEdit() || User( 'PROFILE' ) === 'teacher'
-				|| $RET['DOES_ATTENDANCE'] )
+			if ( AllowEdit() || $RET['DOES_ATTENDANCE'] )
 			{
 				// Hide Calendar, Half Day if CP "No Attendance".
 				// Calendar.
@@ -1172,8 +1171,7 @@ if (  ( ! $_REQUEST['modfunc']
 			// Grading Scale.
 			$header .= '<tr class="st"><td>' . $cp_inputs[3] . '</td>';
 
-			if ( AllowEdit() || User( 'PROFILE' ) === 'teacher'
-				|| $RET['GRADE_SCALE_ID'] )
+			if ( AllowEdit() || $RET['GRADE_SCALE_ID'] )
 			{
 				// Hide Credits, Affects Class Rank & Affects Honor Roll if CP "Not Graded".
 				if ( AllowEdit() || User( 'PROFILE' ) === 'teacher' )
