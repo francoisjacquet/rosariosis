@@ -2,7 +2,7 @@
 require_once 'ProgramFunctions/Theme.fnc.php';
 
 //FJ add School Configuration
-//move the Modules config.inc.php to the database table
+// move the Modules config.inc.php to the database table
 // 'config' if the value is needed in multiple modules
 // 'program_config' if the value is needed in one module
 
@@ -12,17 +12,24 @@ $configuration_link = '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '
 	( ! isset( $_REQUEST['tab'] ) ?
 	'<b>' . _( 'Configuration' ) . '</b>' : _( 'Configuration' ) ) . '</a>';
 
-$modules_link = '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&tab=modules">' .
+$admin_has_1_school = DBGetOne( "SELECT SCHOOLS
+	FROM STAFF
+	WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
+	AND SYEAR='" . UserSyear() . "'
+	AND SCHOOLS='," . UserSchool() . ",';" );
+
+$modules_link = ' | <a href="Modules.php?modname=' . $_REQUEST['modname'] . '&tab=modules">' .
 	( isset( $_REQUEST['tab'] ) && $_REQUEST['tab'] === 'modules' ?
 	'<b>' . _( 'Modules' ) . '</b>' : _( 'Modules' ) ) . '</a>';
 
-$plugins_link = '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&tab=plugins">' .
+$plugins_link = ' | <a href="Modules.php?modname=' . $_REQUEST['modname'] . '&tab=plugins">' .
 	( isset( $_REQUEST['tab'] ) && $_REQUEST['tab'] === 'plugins' ?
 	'<b>' . _( 'Plugins' ) . '</b>' : _( 'Plugins' ) ) . '</a>';
 
-if ( AllowEdit() )
+// Hide Modules & Plugins tabs if Administrator of 1 school only.
+if ( AllowEdit() && ! $admin_has_1_school )
 {
-	DrawHeader( $configuration_link . ' | ' . $modules_link . ' | ' . $plugins_link );
+	DrawHeader( $configuration_link . $modules_link . $plugins_link );
 }
 
 if ( isset( $_REQUEST['tab'] )
@@ -153,199 +160,203 @@ else
 		echo '<br />';
 		PopTable( 'header', SchoolInfo( 'TITLE' ) );
 
-		echo '<fieldset><legend>' . ParseMLField( Config( 'TITLE' ) ) . '</legend><table>';
-
-		echo '<tr><td>' . MLTextInput( Config( 'TITLE' ), 'values[CONFIG][TITLE]', _( 'Program Title' ) ) . '</td></tr>';
-
-		echo '<tr><td>' . TextInput( Config( 'NAME' ), 'values[CONFIG][NAME]', _( 'Program Name' ), 'required' ) . '</td></tr>';
-
-		// FJ add Default Theme to Configuration.
-		echo '<tr><td><table class="width-100p"><tr>';
-
-		$themes = glob( 'assets/themes/*', GLOB_ONLYDIR );
-
-		$count = 0;
-
-		foreach ( (array) $themes as $theme )
+		if ( ! $admin_has_1_school )
 		{
-			$theme_name = str_replace( 'assets/themes/', '', $theme );
+			// Hide System config options if Administrator of 1 school only.
+			echo '<fieldset><legend>' . ParseMLField( Config( 'TITLE' ) ) . '</legend><table>';
 
-			echo '<td><label><input type="radio" name="values[CONFIG][THEME]" value="' . $theme_name . '"' .
-				(  ( Config( 'THEME' ) === $theme_name ) ? ' checked' : '' ) . '> ' .
-				$theme_name . '</label></td>';
+			echo '<tr><td>' . MLTextInput( Config( 'TITLE' ), 'values[CONFIG][TITLE]', _( 'Program Title' ) ) . '</td></tr>';
 
-			if ( ++$count % 3 == 0 )
+			echo '<tr><td>' . TextInput( Config( 'NAME' ), 'values[CONFIG][NAME]', _( 'Program Name' ), 'required' ) . '</td></tr>';
+
+			// FJ add Default Theme to Configuration.
+			echo '<tr><td><table class="width-100p"><tr>';
+
+			$themes = glob( 'assets/themes/*', GLOB_ONLYDIR );
+
+			$count = 0;
+
+			foreach ( (array) $themes as $theme )
 			{
-				echo '</tr><tr class="st">';
+				$theme_name = str_replace( 'assets/themes/', '', $theme );
+
+				echo '<td><label><input type="radio" name="values[CONFIG][THEME]" value="' . $theme_name . '"' .
+					(  ( Config( 'THEME' ) === $theme_name ) ? ' checked' : '' ) . '> ' .
+					$theme_name . '</label></td>';
+
+				if ( ++$count % 3 == 0 )
+				{
+					echo '</tr><tr class="st">';
+				}
 			}
+
+			echo '</tr></table></td></tr>';
+			echo '<tr><td>';
+
+			echo '<span class="legend-gray">' . _( 'Default Theme' ) . '</span> ';
+
+			// FJ Add Force Default Theme.
+			echo CheckboxInput(
+				Config( 'THEME_FORCE' ),
+				'values[CONFIG][THEME_FORCE]',
+				_( 'Force' ),
+				'',
+				true
+			);
+
+			echo '</td></tr>';
+
+			// FJ add Registration to Configuration.
+			echo '<tr><td><br /><fieldset><legend>' . _( 'Registration' ) . '</legend><table>';
+
+			echo '<tr><td>' . CheckboxInput(
+				Config( 'CREATE_USER_ACCOUNT' ),
+				'values[CONFIG][CREATE_USER_ACCOUNT]',
+				_( 'Create User Account' ) .
+				'<div class="tooltip"><i>' .
+				_( 'New users will be added with the No Access profile' ) .
+				'</i></div>',
+				'',
+				false,
+				button( 'check' ),
+				button( 'x' )
+			) . '</td></tr>';
+
+			echo '<tr><td>' . CheckboxInput(
+				Config( 'CREATE_STUDENT_ACCOUNT' ),
+				'values[CONFIG][CREATE_STUDENT_ACCOUNT]',
+				_( 'Create Student Account' ) .
+				'<div class="tooltip"><i>' .
+				_( 'New students will be added as Inactive students' ) .
+				'</i></div>',
+				'',
+				false,
+				button( 'check' ),
+				button( 'x' )
+			) . '</td></tr>';
+
+			$students_email_field_RET = DBGet( "SELECT ID, TITLE
+				FROM CUSTOM_FIELDS
+				WHERE TYPE='text'
+				AND CATEGORY_ID=1" );
+
+			$students_email_field_options = array( 'USERNAME' => _( 'Username' ) );
+
+			foreach ( (array) $students_email_field_RET as $field )
+			{
+				$students_email_field_options[str_replace( 'custom_', '', $field['ID'] )] = ParseMLField( $field['TITLE'] );
+			}
+
+			echo '<tr><td>' . SelectInput(
+				Config( 'STUDENTS_EMAIL_FIELD' ),
+				'values[CONFIG][STUDENTS_EMAIL_FIELD]',
+				_( 'Student email field' ),
+				$students_email_field_options,
+				'N/A'
+			) . '</td></tr>';
+
+			echo '</table></fieldset>';
+
+			// FJ add Security to Configuration.
+			echo '<tr><td><br /><fieldset><legend>' . _( 'Security' ) . '</legend><table>';
+
+			// Failed login ban if >= X failed attempts within 10 minutes.
+			echo '<tr><td>' . TextInput(
+				Config( 'FAILED_LOGIN_LIMIT' ),
+				'values[CONFIG][FAILED_LOGIN_LIMIT]',
+				_( 'Failed Login Attempts Limit' ) .
+				'<div class="tooltip"><i>' .
+				_( 'Leave the field blank to always allow' ) .
+				'</i></div>',
+				'type=number maxlength=2 size=2 min=2 max=99'
+			) . '</td></tr>';
+
+			// Password Strength.
+			// @since 4.4.
+			echo '<tr><td>' . TextInput(
+				Config( 'PASSWORD_STRENGTH' ),
+				'values[CONFIG][PASSWORD_STRENGTH]',
+				'',
+				'type=number maxlength=1 min=0 max=4 style="width:196px;"',
+				false
+			);
+
+			$password_strength_input_id = GetInputID( 'values[CONFIG][PASSWORD_STRENGTH]' );
+
+			// Password strength bars, hang tight.
+			?>
+			<div class="password-strength-bars" style="width:200px;">
+				<span class="score0"></span>
+				<span class="score1"></span>
+				<span class="score2"></span>
+				<span class="score3"></span>
+				<span class="score4"></span>
+			</div>
+			<script>
+				var passwordStrengthBarsScore = function(input) {
+					var $input = ( typeof input === 'string' ? $( '#' + input ) : $( this ) ),
+						score = $input.val();
+
+					$input.nextAll('.password-strength-bars').children('span').each(function(i, el) {
+						$(el).css('visibility', ( i <= score ? 'visible' : 'hidden' ) );
+					});
+				};
+
+				var passwordStrengthInputId = <?php echo json_encode( $password_strength_input_id ); ?>;
+
+				passwordStrengthBarsScore(passwordStrengthInputId);
+				$('#' + passwordStrengthInputId ).change(passwordStrengthBarsScore);
+			</script>
+			<?php
+
+			echo FormatInputTitle(
+				_( 'Password Strength' ) .
+				'<div class="tooltip"><i>' .
+				_( 'Minimum password strength required.' ) . ' ' .
+				_( 'Set to 0 to disable.' ) .
+				'</i></div>',
+				$password_strength_input_id,
+				false,
+				''
+			) .	'</td></tr>';
+
+			// @since 5.3 Force password change on first login.
+			echo '<tr><td>' . CheckboxInput(
+				Config( 'FORCE_PASSWORD_CHANGE_ON_FIRST_LOGIN' ),
+				'values[CONFIG][FORCE_PASSWORD_CHANGE_ON_FIRST_LOGIN]',
+				_( 'Force Password Change on First Login' ),
+				'',
+				false,
+				button( 'check' ),
+				button( 'x' )
+			) . '</td></tr>';
+
+			echo '</table></fieldset>';
+
+			// Display Name.
+			// @link https://www.w3.org/International/questions/qa-personal-names
+			$display_name_options = array(
+				"FIRST_NAME||' '||LAST_NAME" => _( 'First Name' ) . ' ' . _( 'Last Name' ),
+				"FIRST_NAME||' '||LAST_NAME||coalesce(' '||NAME_SUFFIX,' ')" => _( 'First Name' ) . ' ' . _( 'Last Name' ) . ' ' . _( 'Suffix' ),
+				"FIRST_NAME||coalesce(' '||MIDDLE_NAME||' ',' ')||LAST_NAME" => _( 'First Name' ) . ' ' . _( 'Middle Name' ) . ' ' . _( 'Last Name' ),
+				"FIRST_NAME||', '||LAST_NAME||coalesce(' '||MIDDLE_NAME,' ')" => _( 'First Name' ) . ', ' . _( 'Last Name' ) . ' ' . _( 'Middle Name' ),
+				"LAST_NAME||' '||FIRST_NAME" => _( 'Last Name' ) . ' ' . _( 'First Name' ),
+				"LAST_NAME||', '||FIRST_NAME" => _( 'Last Name' ) . ', ' . _( 'First Name' ),
+				"LAST_NAME||', '||FIRST_NAME||' '||COALESCE(MIDDLE_NAME,' ')" => _( 'Last Name' ) . ', ' . _( 'First Name' ) . ' ' . _( 'Middle Name' ),
+			);
+
+			echo '<tr><td>' . SelectInput(
+				Config( 'DISPLAY_NAME' ),
+				'values[CONFIG][DISPLAY_NAME]',
+				_( 'Display Name' ),
+				$display_name_options,
+				false
+			) . '</td></tr>';
+
+			echo '</table></fieldset><br />';
 		}
 
-		echo '</tr></table></td></tr>';
-		echo '<tr><td>';
-
-		echo '<span class="legend-gray">' . _( 'Default Theme' ) . '</span> ';
-
-		// FJ Add Force Default Theme.
-		echo CheckboxInput(
-			Config( 'THEME_FORCE' ),
-			'values[CONFIG][THEME_FORCE]',
-			_( 'Force' ),
-			'',
-			true
-		);
-
-		echo '</td></tr>';
-
-		// FJ add Registration to Configuration.
-		echo '<tr><td><br /><fieldset><legend>' . _( 'Registration' ) . '</legend><table>';
-
-		echo '<tr><td>' . CheckboxInput(
-			Config( 'CREATE_USER_ACCOUNT' ),
-			'values[CONFIG][CREATE_USER_ACCOUNT]',
-			_( 'Create User Account' ) .
-			'<div class="tooltip"><i>' .
-			_( 'New users will be added with the No Access profile' ) .
-			'</i></div>',
-			'',
-			false,
-			button( 'check' ),
-			button( 'x' )
-		) . '</td></tr>';
-
-		echo '<tr><td>' . CheckboxInput(
-			Config( 'CREATE_STUDENT_ACCOUNT' ),
-			'values[CONFIG][CREATE_STUDENT_ACCOUNT]',
-			_( 'Create Student Account' ) .
-			'<div class="tooltip"><i>' .
-			_( 'New students will be added as Inactive students' ) .
-			'</i></div>',
-			'',
-			false,
-			button( 'check' ),
-			button( 'x' )
-		) . '</td></tr>';
-
-		$students_email_field_RET = DBGet( "SELECT ID, TITLE
-			FROM CUSTOM_FIELDS
-			WHERE TYPE='text'
-			AND CATEGORY_ID=1" );
-
-		$students_email_field_options = array( 'USERNAME' => _( 'Username' ) );
-
-		foreach ( (array) $students_email_field_RET as $field )
-		{
-			$students_email_field_options[str_replace( 'custom_', '', $field['ID'] )] = ParseMLField( $field['TITLE'] );
-		}
-
-		echo '<tr><td>' . SelectInput(
-			Config( 'STUDENTS_EMAIL_FIELD' ),
-			'values[CONFIG][STUDENTS_EMAIL_FIELD]',
-			_( 'Student email field' ),
-			$students_email_field_options,
-			'N/A'
-		) . '</td></tr>';
-
-		echo '</table></fieldset>';
-
-		// FJ add Security to Configuration.
-		echo '<tr><td><br /><fieldset><legend>' . _( 'Security' ) . '</legend><table>';
-
-		// Failed login ban if >= X failed attempts within 10 minutes.
-		echo '<tr><td>' . TextInput(
-			Config( 'FAILED_LOGIN_LIMIT' ),
-			'values[CONFIG][FAILED_LOGIN_LIMIT]',
-			_( 'Failed Login Attempts Limit' ) .
-			'<div class="tooltip"><i>' .
-			_( 'Leave the field blank to always allow' ) .
-			'</i></div>',
-			'type=number maxlength=2 size=2 min=2 max=99'
-		) . '</td></tr>';
-
-		// Password Strength.
-		// @since 4.4.
-		echo '<tr><td>' . TextInput(
-			Config( 'PASSWORD_STRENGTH' ),
-			'values[CONFIG][PASSWORD_STRENGTH]',
-			'',
-			'type=number maxlength=1 min=0 max=4 style="width:196px;"',
-			false
-		);
-
-		$password_strength_input_id = GetInputID( 'values[CONFIG][PASSWORD_STRENGTH]' );
-
-		// Password strength bars, hang tight.
-		?>
-		<div class="password-strength-bars" style="width:200px;">
-			<span class="score0"></span>
-			<span class="score1"></span>
-			<span class="score2"></span>
-			<span class="score3"></span>
-			<span class="score4"></span>
-		</div>
-		<script>
-			var passwordStrengthBarsScore = function(input) {
-				var $input = ( typeof input === 'string' ? $( '#' + input ) : $( this ) ),
-					score = $input.val();
-
-				$input.nextAll('.password-strength-bars').children('span').each(function(i, el) {
-					$(el).css('visibility', ( i <= score ? 'visible' : 'hidden' ) );
-				});
-			};
-
-			var passwordStrengthInputId = <?php echo json_encode( $password_strength_input_id ); ?>;
-
-			passwordStrengthBarsScore(passwordStrengthInputId);
-			$('#' + passwordStrengthInputId ).change(passwordStrengthBarsScore);
-		</script>
-		<?php
-
-		echo FormatInputTitle(
-			_( 'Password Strength' ) .
-			'<div class="tooltip"><i>' .
-			_( 'Minimum password strength required.' ) . ' ' .
-			_( 'Set to 0 to disable.' ) .
-			'</i></div>',
-			$password_strength_input_id,
-			false,
-			''
-		) .	'</td></tr>';
-
-		// @since 5.3 Force password change on first login.
-		echo '<tr><td>' . CheckboxInput(
-			Config( 'FORCE_PASSWORD_CHANGE_ON_FIRST_LOGIN' ),
-			'values[CONFIG][FORCE_PASSWORD_CHANGE_ON_FIRST_LOGIN]',
-			_( 'Force Password Change on First Login' ),
-			'',
-			false,
-			button( 'check' ),
-			button( 'x' )
-		) . '</td></tr>';
-
-		echo '</table></fieldset>';
-
-		// Display Name.
-		// @link https://www.w3.org/International/questions/qa-personal-names
-		$display_name_options = array(
-			"FIRST_NAME||' '||LAST_NAME" => _( 'First Name' ) . ' ' . _( 'Last Name' ),
-			"FIRST_NAME||' '||LAST_NAME||coalesce(' '||NAME_SUFFIX,' ')" => _( 'First Name' ) . ' ' . _( 'Last Name' ) . ' ' . _( 'Suffix' ),
-			"FIRST_NAME||coalesce(' '||MIDDLE_NAME||' ',' ')||LAST_NAME" => _( 'First Name' ) . ' ' . _( 'Middle Name' ) . ' ' . _( 'Last Name' ),
-			"FIRST_NAME||', '||LAST_NAME||coalesce(' '||MIDDLE_NAME,' ')" => _( 'First Name' ) . ', ' . _( 'Last Name' ) . ' ' . _( 'Middle Name' ),
-			"LAST_NAME||' '||FIRST_NAME" => _( 'Last Name' ) . ' ' . _( 'First Name' ),
-			"LAST_NAME||', '||FIRST_NAME" => _( 'Last Name' ) . ', ' . _( 'First Name' ),
-			"LAST_NAME||', '||FIRST_NAME||' '||COALESCE(MIDDLE_NAME,' ')" => _( 'Last Name' ) . ', ' . _( 'First Name' ) . ' ' . _( 'Middle Name' ),
-		);
-
-		echo '<tr><td>' . SelectInput(
-			Config( 'DISPLAY_NAME' ),
-			'values[CONFIG][DISPLAY_NAME]',
-			_( 'Display Name' ),
-			$display_name_options,
-			false
-		) . '</td></tr>';
-
-		echo '</table></fieldset>';
-
-		echo '<br /><fieldset><legend>' . _( 'School' ) . '</legend><table>';
+		echo '<fieldset><legend>' . _( 'School' ) . '</legend><table>';
 
 		// School year over one/two calendar years format.
 		echo '<tr><td>' . CheckboxInput(
@@ -414,15 +425,19 @@ else
 				button( 'x' )
 			) . '</td></tr>';
 
-			echo '<tr><td>' . CheckboxInput(
-				Config( 'LIMIT_EXISTING_CONTACTS_ADDRESSES' ),
-				'values[CONFIG][LIMIT_EXISTING_CONTACTS_ADDRESSES]',
-				_( 'Limit Existing Contacts & Addresses to current school' ),
-				'',
-				false,
-				button( 'check' ),
-				button( 'x' )
-			) . '</td></tr>';
+			if ( ! $admin_has_1_school )
+			{
+				// Hide All schools config options if Administrator of 1 school only.
+				echo '<tr><td>' . CheckboxInput(
+					Config( 'LIMIT_EXISTING_CONTACTS_ADDRESSES' ),
+					'values[CONFIG][LIMIT_EXISTING_CONTACTS_ADDRESSES]',
+					_( 'Limit Existing Contacts & Addresses to current school' ),
+					'',
+					false,
+					button( 'check' ),
+					button( 'x' )
+				) . '</td></tr>';
+			}
 
 			echo '</table></fieldset>';
 		}
@@ -502,7 +517,12 @@ else
 		{
 			echo '<br /><fieldset><legend>' . _( 'Attendance' ) . '</legend><table>';
 
-			echo '<tr><td>' . TextInput( Config( 'ATTENDANCE_FULL_DAY_MINUTES' ), 'values[CONFIG][ATTENDANCE_FULL_DAY_MINUTES]', _( 'Minutes in a Full School Day' ), 'maxlength=3 size=3 min=0' ) . '</td></tr>';
+			echo '<tr><td>' . TextInput(
+				Config( 'ATTENDANCE_FULL_DAY_MINUTES' ),
+				'values[CONFIG][ATTENDANCE_FULL_DAY_MINUTES]',
+				_( 'Minutes in a Full School Day' ),
+				'maxlength=3 size=3 min=0'
+			) . '</td></tr>';
 
 			echo '<tr><td>' . TextInput(
 				ProgramConfig( 'attendance', 'ATTENDANCE_EDIT_DAYS_BEFORE' ),

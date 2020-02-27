@@ -26,6 +26,7 @@ Changes in 5.8
 - Use __DIR__ constant & load Moodle plugin using `_LoadAddons()` in Warehouse.php
 - Moodle Course category update: no update if TITLE is null in Courses.php
 - Add Configuration School Table action Hook in Configuration.php
+- Hide Modules & Plugins tabs, System config options if Administrator of 1 school only in Configuration.php
 
 Changes in 5.7.5
 ----------------
