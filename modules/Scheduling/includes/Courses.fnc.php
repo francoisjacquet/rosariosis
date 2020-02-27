@@ -91,7 +91,7 @@ function CoursePeriodAttendanceInput( $does_attendance, $array )
 
 	foreach ( (array) $categories_RET as $category )
 	{
-		if ( $i % 2 === 0 )
+		if ( $i && $i % 2 === 0 )
 		{
 			$attendance_html .= '</tr><tr class="st">';
 		}
