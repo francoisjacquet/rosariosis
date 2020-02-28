@@ -241,7 +241,7 @@ function _makeType( $value, $name )
 {
 	global $THIS_RET;
 
-	if ( $THIS_RET['USAGE_ID'] )
+	if ( ! empty( $THIS_RET['USAGE_ID'] ) )
 	{
 		$id = $THIS_RET['USAGE_ID'];
 	}
@@ -280,7 +280,7 @@ function _makeTextInput( $value, $name )
 {
 	global $THIS_RET;
 
-	if ( $THIS_RET['USAGE_ID'] )
+	if ( ! empty( $THIS_RET['USAGE_ID'] ) )
 	{
 		$id = $THIS_RET['USAGE_ID'];
 	}
@@ -331,7 +331,7 @@ function _makeTextAreaInput( $value, $name )
 {
 	global $THIS_RET;
 
-	if ( $THIS_RET['USAGE_ID'] )
+	if ( ! empty( $THIS_RET['USAGE_ID'] ) )
 	{
 		$id = $THIS_RET['USAGE_ID'];
 	}
@@ -381,7 +381,7 @@ function _makeRemove( $value, $column )
 
 	if ( AllowEdit() )
 	{
-		if ( $THIS_RET['USAGE_ID'] )
+		if ( ! empty( $THIS_RET['USAGE_ID'] ) )
 		{
 			$return = button(
 				'remove', _( 'Don\'t use' ),

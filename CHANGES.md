@@ -34,6 +34,7 @@ Changes in 5.8
 - Moodle drop student use `enrol_manual_unenrol_users` WS function in Moodle/functions.php, MassDrops.php, Schedule.php
 - Display note messages if any in Student.php & User.php
 - Fix SQL error for numeric Student Fields of Number type in AssignOtherInfo.php
+- Fix PHP Notice Trying to access array offset on value of type null, program wide
 
 Changes in 5.7.6
 ----------------

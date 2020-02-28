@@ -218,7 +218,7 @@ function _makeChooseCheckbox( $value, $column )
 {
 	global $THIS_RET;
 
-	if ( $THIS_RET['USERNAME']
+	if ( ! empty( $THIS_RET['USERNAME'] )
 		&& filter_var( $THIS_RET['EMAIL'], FILTER_VALIDATE_EMAIL )
 		&& $THIS_RET['ASSOCIATED'] > 0 )
 	{

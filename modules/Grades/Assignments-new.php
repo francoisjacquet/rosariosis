@@ -370,7 +370,7 @@ function _makeAssnInput( $value, $name )
 {
 	global $THIS_RET, $type_options;
 
-	if ( $THIS_RET['ASSIGNMENT_ID'] )
+	if ( ! empty( $THIS_RET['ASSIGNMENT_ID'] ) )
 	{
 		$id = $THIS_RET['ASSIGNMENT_ID'];
 	}
@@ -467,7 +467,7 @@ function _makeTypeInput( $value, $name )
 {
 	global $THIS_RET, $total_percent;
 
-	if ( $THIS_RET['ASSIGNMENT_TYPE_ID'] )
+	if ( ! empty( $THIS_RET['ASSIGNMENT_TYPE_ID'] ) )
 	{
 		$id = $THIS_RET['ASSIGNMENT_TYPE_ID'];
 	}
@@ -524,7 +524,7 @@ function _makeColorInput( $value, $column )
 {
 	global $THIS_RET;
 
-	if ( $THIS_RET['ASSIGNMENT_TYPE_ID'] )
+	if ( ! empty( $THIS_RET['ASSIGNMENT_TYPE_ID'] ) )
 	{
 		$id = $THIS_RET['ASSIGNMENT_TYPE_ID'];
 	}

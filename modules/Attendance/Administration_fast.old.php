@@ -244,7 +244,7 @@ function _makeCodePulldown( $value, $title )
 		}
 	}
 
-	if ( $THIS_RET['COURSE'] )
+	if ( ! empty( $THIS_RET['COURSE'] ) )
 	{
 		$period = $THIS_RET['COURSE_PERIOD_ID'];
 		$period_id = $THIS_RET['PERIOD_ID'];

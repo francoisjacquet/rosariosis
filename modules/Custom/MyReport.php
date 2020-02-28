@@ -195,7 +195,8 @@ function _makeTV( $value, $column )
 		$person_id,
 		$person_RET;
 
-	if ( $THIS_RET['PERSON_ID'] !== $person_id )
+	if ( isset( $THIS_RET['PERSON_ID'] )
+		&& $THIS_RET['PERSON_ID'] !== $person_id )
 	{
 		$person_RET = DBGet( "SELECT TITLE,VALUE
 			FROM PEOPLE_JOIN_CONTACTS

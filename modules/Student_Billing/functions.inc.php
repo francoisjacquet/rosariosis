@@ -15,7 +15,7 @@ function _makeFeesRemove( $value, $column )
 			AND f.SCHOOL_ID='" . UserSchool() . "'", array(), array( 'WAIVED_FEE_ID' ) );
 	}
 
-	if ( ! $THIS_RET['WAIVED_FEE_ID']
+	if ( empty( $THIS_RET['WAIVED_FEE_ID'] )
 		&& empty( $waived_fees_RET[ $THIS_RET['ID'] ] ) )
 	{
 		$return = button(
@@ -55,7 +55,7 @@ function _makePaymentsRemove( $value, $column )
 
 	$return = '';
 
-	if ( ! $THIS_RET['REFUNDED_PAYMENT_ID']
+	if ( empty( $THIS_RET['REFUNDED_PAYMENT_ID'] )
 		&& empty( $refunded_payments_RET[ $THIS_RET['ID'] ] ) )
 	{
 		$return = button(
@@ -82,7 +82,7 @@ function _makeFeesTextInput( $value, $name )
 {
 	global $THIS_RET;
 
-	if ( $THIS_RET['WAIVED_FEE_ID'] )
+	if ( ! empty( $THIS_RET['WAIVED_FEE_ID'] ) )
 	{
 		$THIS_RET['row_colow'] = 'FFFFFF';
 	}
@@ -118,24 +118,31 @@ function _makeFeesTextInput( $value, $name )
 	);
 }
 
-function _makeFeesDateInput($value='',$name)
-{	global $THIS_RET;
+function _makeFeesDateInput( $value='', $name )
+{
+	global $THIS_RET;
 
-	if ( $THIS_RET['ID'])
+	if ( ! empty( $THIS_RET['ID'] ) )
+	{
 		$id = $THIS_RET['ID'];
+	}
 	else
+	{
 		$id = 'new';
+	}
 
-	$name = 'values['.$id.']['.$name.']';
+	$name = 'values[' . $id . '][' . $name . ']';
 
-	return DateInput($value,$name);
+	return DateInput( $value, $name );
 }
 
-function _makeFeesAmount($value,$column)
-{	global $fees_total;
+function _makeFeesAmount( $value, $column )
+{
+	global $fees_total;
 
 	$fees_total += $value;
-	return Currency($value);
+
+	return Currency( $value );
 }
 
 function _makePaymentsTextInput( $value, $name )
@@ -254,11 +261,13 @@ function _makePaymentsDateInput( $value, $name )
 	return DateInput( $value, 'values[' . $id . '][' . $name . ']', '', ( $id !== 'new' ), false );
 }
 
-function _makePaymentsAmount($value,$column)
-{	global $payments_total;
+function _makePaymentsAmount( $value, $column )
+{
+	global $payments_total;
 
 	$payments_total += $value;
-	return Currency($value);
+
+	return Currency( $value );
 }
 
 function _lunchInput( $value, $column )

@@ -74,17 +74,21 @@ function _makeSalariesTextInput( $value, $name )
 	return _makeIncomesTextInput( $value, $name );
 }
 
-function _makeSalariesDateInput($value='',$name)
+function _makeSalariesDateInput( $value='', $name )
 {	global $THIS_RET;
 
-	if ( $THIS_RET['ID'])
+	if ( ! empty( $THIS_RET['ID'] ) )
+	{
 		$id = $THIS_RET['ID'];
+	}
 	else
+	{
 		$id = 'new';
+	}
 
-	$name = 'values['.$id.']['.$name.']';
+	$name = 'values[' . $id . '][' . $name . ']';
 
-	return DateInput($value,$name);
+	return DateInput( $value, $name );
 }
 
 function _makePaymentsTextInput( $value, $name )
@@ -189,23 +193,29 @@ function _makePaymentsCommentsInput( $value, $name )
 	return $text_input . ' ' . $js . $select_input;
 }
 
-function _makeSalariesAmount($value,$column)
-{	global $salaries_total;
+function _makeSalariesAmount( $value, $column )
+{
+	global $salaries_total;
 
 	$salaries_total += $value;
-	return Currency($value);
+
+	return Currency( $value );
 }
 
-function _makeIncomesAmount($value,$column)
-{	global $incomes_total;
+function _makeIncomesAmount( $value, $column )
+{
+	global $incomes_total;
 
 	$incomes_total += $value;
-	return Currency($value);
+
+	return Currency( $value );
 }
 
-function _makePaymentsAmount($value,$column)
-{	global $payments_total;
+function _makePaymentsAmount( $value, $column )
+{
+	global $payments_total;
 
 	$payments_total += $value;
-	return Currency($value);
+
+	return Currency( $value );
 }

@@ -371,7 +371,8 @@ function _makeExtraPoints( $value, $column )
 		return _( 'Excused' );
 	}
 
-	if ( $THIS_RET['DUE'] || $value != '' )
+	if ( ! empty( $THIS_RET['DUE'] )
+		|| $value != '' )
 	{
 		if ( ! isset( $student_points[$THIS_RET['ASSIGNMENT_TYPE_ID']] ) )
 		{
@@ -410,7 +411,8 @@ function _makeExtraGrade( $value, $column )
 {
 	global $THIS_RET, $cp_id, $teacher_id;
 
-	if ( $THIS_RET['TOTAL_POINTS'] == '0' )
+	if ( isset( $THIS_RET['TOTAL_POINTS'] )
+		&& $THIS_RET['TOTAL_POINTS'] == '0' )
 	{
 		// Extra Credit.
 		return _( 'E/C' );
@@ -421,7 +423,8 @@ function _makeExtraGrade( $value, $column )
 		return _( 'N/A' );
 	}
 
-	if ( ! $THIS_RET['DUE'] && $value != '' )
+	if ( empty( $THIS_RET['DUE'] )
+		&& $value != '' )
 	{
 		return _( 'Not due' );
 	}

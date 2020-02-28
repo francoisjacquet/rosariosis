@@ -95,32 +95,32 @@ function _makeExtra( $value, $title = '' )
 
 	$return = array();
 
-	if ( $THIS_RET['WITH_TEACHER_ID'] )
+	if ( ! empty( $THIS_RET['WITH_TEACHER_ID'] ) )
 	{
 		$return[] = _( 'With' ) . ':&nbsp;' . GetTeacher( $THIS_RET['WITH_TEACHER_ID'] );
 	}
 
-	if ( $THIS_RET['NOT_TEACHER_ID'] )
+	if ( ! empty( $THIS_RET['NOT_TEACHER_ID'] ) )
 	{
 		$return[] = _( 'Not With' ) . ':&nbsp;' . GetTeacher( $THIS_RET['NOT_TEACHER_ID'] );
 	}
 
-	if ( $THIS_RET['WITH_PERIOD_ID'] )
+	if ( ! empty( $THIS_RET['WITH_PERIOD_ID'] ) )
 	{
 		$return[] = _( 'On' ) . ':&nbsp;' . _getPeriod( $THIS_RET['WITH_PERIOD_ID'] );
 	}
 
-	if ( $THIS_RET['NOT_PERIOD_ID'] )
+	if ( ! empty( $THIS_RET['NOT_PERIOD_ID'] ) )
 	{
 		$return[] = _( 'Not on' ) . ':&nbsp;' . _getPeriod( $THIS_RET['NOT_PERIOD_ID'] );
 	}
 
-	if ( $THIS_RET['PRIORITY'] )
+	if ( ! empty( $THIS_RET['PRIORITY'] ) )
 	{
 		$return[] = _( 'Priority' ) . ':&nbsp;' . $THIS_RET['PRIORITY'];
 	}
 
-	if ( $THIS_RET['MARKING_PERIOD_ID'] )
+	if ( ! empty( $THIS_RET['MARKING_PERIOD_ID'] ) )
 	{
 		$return[] = _( 'Marking Period' ) . ':&nbsp;' . GetMP( $THIS_RET['MARKING_PERIOD_ID'] );
 	}

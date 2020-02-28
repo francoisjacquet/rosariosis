@@ -165,7 +165,7 @@ function _makeTextInput( $value, $name )
 {
 	global $THIS_RET;
 
-	if ( $THIS_RET['PERIOD_ID'] )
+	if ( ! empty( $THIS_RET['PERIOD_ID'] ) )
 	{
 		$id = $THIS_RET['PERIOD_ID'];
 	}
@@ -194,7 +194,7 @@ function _makeCheckboxInput( $value, $name )
 {
 	global $THIS_RET;
 
-	if ( $THIS_RET['PERIOD_ID'] )
+	if ( ! empty( $THIS_RET['PERIOD_ID'] ) )
 	{
 		$id = $THIS_RET['PERIOD_ID'];
 	}
@@ -220,7 +220,7 @@ function _makeTimeInput( $value, $name )
 {
 	global $THIS_RET;
 
-	if ( $THIS_RET['PERIOD_ID'] )
+	if ( ! empty( $THIS_RET['PERIOD_ID'] ) )
 	{
 		$id = $THIS_RET['PERIOD_ID'];
 	}

@@ -136,7 +136,7 @@ function _makeTextInput( $value, $name )
 {
 	global $THIS_RET;
 
-	if ( $THIS_RET['MARKING_PERIOD_ID'] )
+	if ( ! empty( $THIS_RET['MARKING_PERIOD_ID'] ) )
 	{
 		$id = $THIS_RET['MARKING_PERIOD_ID'];
 	}
@@ -175,7 +175,7 @@ function _makeDateInput( $value, $name )
 {
 	global $THIS_RET;
 
-	if ( $THIS_RET['MARKING_PERIOD_ID'] )
+	if ( ! empty( $THIS_RET['MARKING_PERIOD_ID'] ) )
 	{
 		$id = $THIS_RET['MARKING_PERIOD_ID'];
 	}
@@ -201,7 +201,7 @@ function _makeSelectInput( $value, $name )
 {
 	global $THIS_RET;
 
-	if ( $THIS_RET['MARKING_PERIOD_ID'] )
+	if ( ! empty( $THIS_RET['MARKING_PERIOD_ID'] ) )
 	{
 		$id = $THIS_RET['MARKING_PERIOD_ID'];
 	}
@@ -229,7 +229,7 @@ function _makeSchoolYearSelectInput( $value, $name )
 {
 	global $THIS_RET;
 
-	if ( $THIS_RET['MARKING_PERIOD_ID'] )
+	if ( ! empty( $THIS_RET['MARKING_PERIOD_ID'] ) )
 	{
 		$id = $THIS_RET['MARKING_PERIOD_ID'];
 	}

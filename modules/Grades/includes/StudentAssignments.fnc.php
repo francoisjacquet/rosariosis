@@ -629,7 +629,8 @@ function MakeAssignmentSubmitted( $value, $column )
 {
 	global $THIS_RET;
 
-	if ( $THIS_RET['SUBMISSION'] !== 'Y' )
+	if ( ! isset( $THIS_RET['SUBMISSION'] )
+		|| $THIS_RET['SUBMISSION'] !== 'Y' )
 	{
 		return '';
 	}

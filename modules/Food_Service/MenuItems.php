@@ -399,7 +399,7 @@ function makeTextInput( $value, $name )
 	{
 		$id = $THIS_RET['MENU_ITEM_ID'];
 	}
-	elseif ( $THIS_RET['ITEM_ID'] )
+	elseif ( ! empty( $THIS_RET['ITEM_ID'] ) )
 	{
 		$id = $THIS_RET['ITEM_ID'];
 	}
@@ -439,7 +439,7 @@ function makeSelectInput( $value, $name )
 	{
 		$id = $THIS_RET['MENU_ITEM_ID'];
 	}
-	elseif ( $THIS_RET['ITEM_ID'] )
+	elseif ( ! empty( $THIS_RET['ITEM_ID'] ) )
 	{
 		$id = $THIS_RET['ITEM_ID'];
 	}
@@ -486,7 +486,7 @@ function makeCheckboxInput( $value, $name )
 {
 	global $THIS_RET;
 
-	if ( $THIS_RET['MENU_ITEM_ID'] )
+	if ( ! empty( $THIS_RET['MENU_ITEM_ID'] ) )
 	{
 		$id = $THIS_RET['MENU_ITEM_ID'];
 	}

@@ -407,7 +407,7 @@ function makeProfile( $value, $column = 'PROFILE' )
 		$return = _('No Access');
 	else $return = $value;
 
-	if ( $THIS_RET['PROFILE_ID'] )
+	if ( ! empty( $THIS_RET['PROFILE_ID'] ) )
 	{
 		if ( $THIS_RET['PROFILE_ID'] <= 3 )
 		{

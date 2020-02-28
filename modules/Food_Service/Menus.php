@@ -290,7 +290,7 @@ function _makeTextInput( $value, $name )
 	{
 		$id = $THIS_RET['CATEGORY_ID'];
 	}
-	elseif ( $THIS_RET['MENU_ID'] )
+	elseif ( ! empty( $THIS_RET['MENU_ID'] ) )
 	{
 		$id = $THIS_RET['MENU_ID'];
 	}

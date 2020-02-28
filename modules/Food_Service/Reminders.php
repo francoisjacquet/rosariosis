@@ -42,7 +42,9 @@ function _makeChooseCheckbox( $value, $column )
 {
 	global $THIS_RET;
 
-	if ( $THIS_RET['WARNING'] || $THIS_RET['NEGATIVE'] || $THIS_RET['MINIMUM'] )
+	if ( ! empty( $THIS_RET['WARNING'] )
+		|| ! empty( $THIS_RET['NEGATIVE'] )
+		|| ! empty( $THIS_RET['MINIMUM'] ) )
 	{
 		return MakeChooseCheckbox( $value, $column );
 	}

@@ -491,7 +491,7 @@ function _makeContactSelect( $value, $column )
 {
 	global $THIS_RET;
 
-	if ( ! $THIS_RET['STAFF_ID'] )
+	if ( empty( $THIS_RET['STAFF_ID'] ) )
 	{
 		$RET = DBGet( "SELECT sjp.PERSON_ID,sjp.STUDENT_RELATION,
 			p.FIRST_NAME,p.LAST_NAME,p.MIDDLE_NAME
