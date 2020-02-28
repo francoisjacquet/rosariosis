@@ -30,6 +30,7 @@ Changes in 5.8
 - Hide Modules & Plugins tabs, System config options if Administrator of 1 school only in Configuration.php
 - Hide not set Course Period options from non editing users in Courses.php
 - Hide Sort Order, Comments, Grade Posting Dates (if MP not Graded) from non editing users in MarkingPeriods.php
+- Moodle drop student use `enrol_manual_unenrol_users` WS function in Moodle/functions.php, MassDrops.php, Schedule.php
 
 Changes in 5.7.6
 ----------------

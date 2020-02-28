@@ -1,8 +1,8 @@
 <?php
 //FJ Moodle integrator
 
-//core_role_unassign_roles function
-function core_role_unassign_roles_object()
+//enrol_manual_unenrol_users function
+function enrol_manual_unenrol_users_object()
 {
 	//first, gather the necessary variables
 	global $course_period_id;
@@ -10,14 +10,11 @@ function core_role_unassign_roles_object()
 	//then, convert variables for the Moodle object:
 	/*
 	list of (
-	object {
-	roleid int   //Role to assign to the user
-	userid int   //The user that is going to be assigned
-	contextid int  Optional //The context to unassign the user role from
-	contextlevel string  Optional //The context level to unassign the user role in
-	+                                    (block, course, coursecat, system, user, module)
-	instanceid int  Optional //The Instance id of item where the role needs to be unassigned
-	}
+		object {
+			userid int   //The user that is going to be unenrolled
+			courseid int   //The course to unenrol the user from
+			roleid int  Optional //The user role
+		}
 	)*/
 	//gather the Moodle user ID
 	$userid = (int) DBGetOne( "SELECT moodle_id
@@ -31,12 +28,12 @@ function core_role_unassign_roles_object()
 	}
 
 	//gather the Moodle course period ID
-	$courseperiodid = (int) DBGetOne( "SELECT moodle_id
+	$courseid = (int) DBGetOne( "SELECT moodle_id
 		FROM moodlexrosario
 		WHERE rosario_id='" . $course_period_id . "'
 		AND \"column\"='course_period_id'" );
 
-	if ( empty( $courseperiodid ) )
+	if ( empty( $courseid ) )
 	{
 		return null;
 	}
@@ -44,25 +41,21 @@ function core_role_unassign_roles_object()
 	//student's roleid = student = 5
 	$roleid = 5;
 
-	$contextlevel = 'course';
-	$instanceid = $courseperiodid;
-
-	$unassignments = array(
+	$enrolments = array(
 		array(
-			'roleid' => $roleid,
 			'userid' => $userid,
-			'contextlevel' => $contextlevel,
-			'instanceid' => $instanceid,
+			'courseid' => $courseid,
+			'roleid' => $roleid,
 		),
 	);
 
-	return array( $unassignments );
+	return array( $enrolments );
 }
 
 /**
  * @param $response
  */
-function core_role_unassign_roles_response( $response )
+function enrol_manual_unenrol_users_response( $response )
 {
 	return null;
 }

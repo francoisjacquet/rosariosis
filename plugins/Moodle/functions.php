@@ -491,7 +491,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 
 		/*Scheduling/MassDrops.php*/
 		case 'Scheduling/MassDrops.php|drop_student':
-			Moodle( $modname, 'core_role_unassign_roles' );
+			Moodle( $modname, 'enrol_manual_unenrol_users' );
 
 			break;
 
@@ -501,7 +501,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 			break;
 
 		case 'Scheduling/Schedule.php|drop_student':
-			Moodle( $modname, 'core_role_unassign_roles' );
+			Moodle( $modname, 'enrol_manual_unenrol_users' );
 			break;
 
 		/*Scheduling/Scheduler.php*/
