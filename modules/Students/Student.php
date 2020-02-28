@@ -597,6 +597,8 @@ if ( $_REQUEST['modfunc'] === 'remove_file'
 
 echo ErrorMessage( $error );
 
+echo ErrorMessage( $note, 'note' );
+
 Search( 'student_id' );
 
 if (  ( UserStudentID()

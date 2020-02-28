@@ -631,6 +631,8 @@ if ( $_REQUEST['modfunc'] === 'remove_file'
 
 echo ErrorMessage( $error );
 
+echo ErrorMessage( $note, 'note' );
+
 Search( 'staff_id', issetVal( $extra, array() ) );
 
 if (  ( UserStaffID()
