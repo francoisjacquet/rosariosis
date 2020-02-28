@@ -81,6 +81,12 @@ function core_course_create_categories_response( $response )
 	)
 	 */
 
+	if ( empty( $response[0]['id'] ) )
+	{
+		// Fix SQL error when no ID returned.
+		return null;
+	}
+
 	if ( $table_name == 'COURSE_SUBJECTS' )
 	{
 		$column = 'subject_id';
