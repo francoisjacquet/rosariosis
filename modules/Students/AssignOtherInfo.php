@@ -15,13 +15,14 @@ if ( $_REQUEST['modfunc'] === 'save'
 	if ( ! empty( $_POST['values'] )
 		&& ! empty( $_POST['student'] ) )
 	{
-		if ( $_REQUEST['values']['GRADE_ID'] != '' )
+		if ( ! empty( $_REQUEST['values']['GRADE_ID'] ) )
 		{
 			$grade_id = $_REQUEST['values']['GRADE_ID'];
 			unset( $_REQUEST['values']['GRADE_ID'] );
 		}
 
-		if ( $_REQUEST['values']['NEXT_SCHOOL'] != '' )
+		if ( isset( $_REQUEST['values']['NEXT_SCHOOL'] )
+			&& $_REQUEST['values']['NEXT_SCHOOL'] !== '' )
 		{
 			$next_school = $_REQUEST['values']['NEXT_SCHOOL'];
 			unset( $_REQUEST['values']['NEXT_SCHOOL'] );
@@ -33,13 +34,13 @@ if ( $_REQUEST['modfunc'] === 'save'
 			unset( $_REQUEST['values']['CALENDAR_ID'] );
 		}
 
-		if ( $_REQUEST['values']['START_DATE'] != '' )
+		if ( ! empty( $_REQUEST['values']['START_DATE'] ) )
 		{
 			$start_date = $_REQUEST['values']['START_DATE'];
 			unset( $_REQUEST['values']['START_DATE'] );
 		}
 
-		if ( $_REQUEST['values']['ENROLLMENT_CODE'] != '' )
+		if ( ! empty( $_REQUEST['values']['ENROLLMENT_CODE'] ) )
 		{
 			$enrollment_code = $_REQUEST['values']['ENROLLMENT_CODE'];
 			unset( $_REQUEST['values']['ENROLLMENT_CODE'] );
@@ -48,14 +49,35 @@ if ( $_REQUEST['modfunc'] === 'save'
 		// FJ textarea fields MarkDown sanitize.
 		$_REQUEST['values'] = FilterCustomFieldsMarkdown( 'CUSTOM_FIELDS', 'values' );
 
+		$fields_RET = DBGet( "SELECT ID,TYPE
+			FROM CUSTOM_FIELDS
+			ORDER BY SORT_ORDER", array(), array( 'ID' ) );
+
+		$update = '';
+
+		$values_count = 0;
+
 		foreach ( (array) $_REQUEST['values'] as $field => $value )
 		{
+			if ( isset( $fields_RET[str_replace( 'CUSTOM_', '', $field )][1]['TYPE'] )
+				&& $fields_RET[str_replace( 'CUSTOM_', '', $field )][1]['TYPE'] == 'numeric'
+				&& $value != ''
+				&& ! is_numeric( $value ) )
+			{
+				$error[] = _( 'Please enter valid Numeric data.' );
+				continue;
+			}
+
 			if ( isset( $value ) && $value != '' )
 			{
 				$update .= ',' . DBEscapeIdentifier( $field ) . "='" . $value . "'";
 				$values_count++;
 			}
 		}
+
+		$students = '';
+
+		$students_count = 0;
 
 		foreach ( (array) $_REQUEST['student'] as $student_id )
 		{
@@ -64,22 +86,42 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 			//enrollment: update only the LAST enrollment record
 
-			if ( $grade_id != '' )
+			if ( ! empty( $grade_id ) )
 			{
-				DBQuery( "UPDATE STUDENT_ENROLLMENT SET GRADE_ID='" . $grade_id . "' WHERE ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' AND STUDENT_ID='" . $student_id . "' ORDER BY START_DATE DESC LIMIT 1)" );
+				DBQuery( "UPDATE STUDENT_ENROLLMENT
+					SET GRADE_ID='" . $grade_id . "'
+					WHERE ID=(SELECT ID
+						FROM STUDENT_ENROLLMENT
+						WHERE SYEAR='" . UserSyear() . "'
+						AND SCHOOL_ID='" . UserSchool() . "'
+						AND STUDENT_ID='" . $student_id . "'
+						ORDER BY START_DATE DESC LIMIT 1)" );
 			}
 
-			if ( $next_school != '' )
+			if ( isset( $next_school ) )
 			{
-				DBQuery( "UPDATE STUDENT_ENROLLMENT SET NEXT_SCHOOL='" . $next_school . "' WHERE ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' AND STUDENT_ID='" . $student_id . "' ORDER BY START_DATE DESC LIMIT 1)" );
+				DBQuery( "UPDATE STUDENT_ENROLLMENT
+					SET NEXT_SCHOOL='" . $next_school . "'
+					WHERE ID=(SELECT ID
+						FROM STUDENT_ENROLLMENT
+						WHERE SYEAR='" . UserSyear() . "'
+						AND SCHOOL_ID='" . UserSchool() . "'
+						AND STUDENT_ID='" . $student_id . "'
+						ORDER BY START_DATE DESC LIMIT 1)" );
 			}
 
-			if ( $calendar )
+			if ( ! empty( $calendar ) )
 			{
-				DBQuery( "UPDATE STUDENT_ENROLLMENT SET CALENDAR_ID='" . $calendar . "' WHERE ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' AND STUDENT_ID='" . $student_id . "' ORDER BY START_DATE DESC LIMIT 1)" );
+				DBQuery( "UPDATE STUDENT_ENROLLMENT
+					SET CALENDAR_ID='" . $calendar . "'
+					WHERE ID=(SELECT ID FROM STUDENT_ENROLLMENT
+						WHERE SYEAR='" . UserSyear() . "'
+						AND SCHOOL_ID='" . UserSchool() . "'
+						AND STUDENT_ID='" . $student_id . "'
+						ORDER BY START_DATE DESC LIMIT 1)" );
 			}
 
-			if ( $start_date != '' )
+			if ( ! empty( $start_date ) )
 			{
 				//FJ check if student already enrolled on that date when updating START_DATE
 				$found_RET = DBGet( "SELECT ID
@@ -94,25 +136,45 @@ if ( $_REQUEST['modfunc'] === 'save'
 				}
 				else
 				{
-					DBQuery( "UPDATE STUDENT_ENROLLMENT SET START_DATE='" . $start_date . "' WHERE ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' AND STUDENT_ID='" . $student_id . "' ORDER BY START_DATE DESC LIMIT 1)" );
+					DBQuery( "UPDATE STUDENT_ENROLLMENT
+						SET START_DATE='" . $start_date . "'
+						WHERE ID=(SELECT ID
+							FROM STUDENT_ENROLLMENT
+							WHERE SYEAR='" . UserSyear() . "'
+							AND SCHOOL_ID='" . UserSchool() . "'
+							AND STUDENT_ID='" . $student_id . "'
+							ORDER BY START_DATE DESC LIMIT 1)" );
 				}
 			}
 
-			if ( $enrollment_code != '' )
+			if ( ! empty( $enrollment_code ) )
 			{
-				DBQuery( "UPDATE STUDENT_ENROLLMENT SET ENROLLMENT_CODE='" . $enrollment_code . "' WHERE ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' AND STUDENT_ID='" . $student_id . "' ORDER BY START_DATE DESC LIMIT 1)" );
+				DBQuery( "UPDATE STUDENT_ENROLLMENT
+					SET ENROLLMENT_CODE='" . $enrollment_code . "'
+					WHERE ID=(SELECT ID
+						FROM STUDENT_ENROLLMENT
+						WHERE SYEAR='" . UserSyear() . "'
+						AND SCHOOL_ID='" . UserSchool() . "'
+						AND STUDENT_ID='" . $student_id . "'
+						ORDER BY START_DATE DESC LIMIT 1)" );
 			}
 		}
 
 		if ( $values_count && $students_count )
 		{
-			DBQuery( 'UPDATE STUDENTS SET ' . mb_substr( $update, 1 ) . ' WHERE STUDENT_ID IN (' . mb_substr( $students, 1 ) . ')' );
+			DBQuery( 'UPDATE STUDENTS
+				SET ' . mb_substr( $update, 1 ) . '
+				WHERE STUDENT_ID IN (' . mb_substr( $students, 1 ) . ')' );
 		}
 		elseif ( $warning )
 		{
 			$warning[0] = mb_substr( $warning, 0, mb_strpos( $warning, '. ' ) );
 		}
-		elseif ( $grade_id == '' && $next_school == '' && ! $calendar && $start_date == '' && $enrollment_code == '' )
+		elseif ( empty( $grade_id )
+			&& ! isset( $next_school )
+			&& empty( $calendar )
+			&& empty( $start_date )
+			&& empty( $enrollment_code ) )
 		{
 			$warning[] = _( 'No data was entered.' );
 		}
