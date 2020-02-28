@@ -655,7 +655,7 @@ function _makeType( $value, $column )
 {
 	global $THIS_RET;
 
-	if ( ! $THIS_RET['ID'] )
+	if ( empty( $THIS_RET['ID'] ) )
 	{
 		$THIS_RET['ID'] = 'new';
 	}
@@ -685,7 +685,7 @@ function _makeDate( $value, $column = 'MEDICAL_DATE' )
 	global $THIS_RET,
 		$table;
 
-	if ( ! $THIS_RET['ID'] )
+	if ( empty( $THIS_RET['ID'] ) )
 	{
 		$THIS_RET['ID'] = 'new';
 	}
@@ -715,7 +715,7 @@ function _makeComments( $value, $column )
 	global $THIS_RET,
 		$table;
 
-	if ( ! $THIS_RET['ID'] )
+	if ( empty( $THIS_RET['ID'] ) )
 	{
 		$THIS_RET['ID'] = 'new';
 	}
