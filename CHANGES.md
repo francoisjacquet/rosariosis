@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 5.7.7
+----------------
+- Sort functions by priority in Actions.php
+
 Changes in 5.7.6
 ----------------
 - Only search List if search option activated in ListOutput.fnc.php

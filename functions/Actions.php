@@ -379,6 +379,8 @@ function remove_action( $tag, $function_to_remove ) {
  * possible to create new action hooks by simply calling this function,
  * specifying the name of the new hook using the <tt>$tag</tt> parameter.
  *
+ * @since 5.7.7 Sort functions by priority.
+ *
  * @global array  $RosarioActions
  *
  * @param  string $tag The name of the action to be executed.
@@ -405,6 +407,9 @@ function do_action( $tag, $arg = '' )
 	// Check if tag exists.
 	if ( array_key_exists( (string) $tag, $RosarioActions ) )
 	{
+		// Sort functions by priority.
+		ksort( $RosarioActions[ $tag ] );
+
 		foreach ( (array) $RosarioActions[ $tag ] as $functions )
 		{
 			foreach ( (array) $functions as $function => $accepted_args )
