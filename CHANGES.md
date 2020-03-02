@@ -36,6 +36,10 @@ Changes in 5.8
 - Fix SQL error for numeric Student Fields of Number type in AssignOtherInfo.php
 - Fix PHP Notice Trying to access array offset on value of type null, program wide
 
+Changes in 5.7.7
+----------------
+- Sort functions by priority in Actions.php
+
 Changes in 5.7.6
 ----------------
 - Only search List if search option activated in ListOutput.fnc.php
