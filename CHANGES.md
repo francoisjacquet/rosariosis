@@ -27,6 +27,7 @@ Changes in 5.8
 - Moodle Course category update: no update if TITLE is null in Courses.php
 - Moodle Calendar Event creation: fix SQL error if no ID returned by Moodle in Calendar.php
 - Moodle Course Category creation: fix SQL error when no course / subject ID returned by Moodle in Courses.php
+- Moodle Course Category creation: Ability to set a Parent Category to Subjects. Used by Iomad plugin in Courses.php
 - Add Configuration School Table action Hook in Configuration.php
 - Hide Modules & Plugins tabs, System config options if Administrator of 1 school only in Configuration.php
 - Hide not set Course Period options from non editing users in Courses.php
