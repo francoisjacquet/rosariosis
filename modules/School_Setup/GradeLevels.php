@@ -144,7 +144,7 @@ function _makeTextInput( $value, $name )
 
 	if ( $name !== 'TITLE' )
 	{
-		$extra = 'size=5 maxlength=2';
+		$extra = 'size=3 maxlength=2';
 	}
 
 	if ( $id !== 'new'
