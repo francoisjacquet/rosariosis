@@ -23,7 +23,7 @@ function _makeFeesRemove( $value, $column )
 			_( 'Waive' ),
 			'"Modules.php?modname=' . $_REQUEST['modname'] .
 			'&modfunc=waive&id=' . $THIS_RET['ID'] . '"'
-		);
+		) . ' ';
 	}
 	elseif ( $waived_fees_RET[ $THIS_RET['ID'] ] )
 	{
