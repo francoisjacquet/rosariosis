@@ -37,6 +37,7 @@ Changes in 5.8
 - Fix SQL error for numeric Student Fields of Number type in AssignOtherInfo.php
 - Fix PHP Notice Trying to access array offset on value of type null, program wide
 - HTML Set Period input maxlength to 5 & Title input to 100 in Periods.php
+- HTML No N/A option for new Type input, maxlength 100 for Title input in EnrollmentCodes.php
 
 Changes in 5.7.7
 ----------------

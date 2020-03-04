@@ -141,7 +141,7 @@ function _makeTextInput( $value, $name )
 	}
 	elseif ( $name === 'TITLE' )
 	{
-		$extra = '';
+		$extra = 'maxlength=100';
 
 		if ( $id !== 'new' )
 		{
@@ -179,7 +179,7 @@ function _makeSelectInput( $value, $name )
 		'values[' . $id . '][' . $name . ']',
 		'',
 		$options,
-		( $id === 'new' ? 'N/A' : false )
+		false
 	);
 }
 
