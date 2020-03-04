@@ -38,10 +38,12 @@ Changes in 5.8
 - Fix PHP Notice Trying to access array offset on value of type null, program wide
 - HTML Set Period input maxlength to 5 & Title input to 100 in Periods.php
 - HTML No N/A option for new Type input, maxlength 100 for Title input in EnrollmentCodes.php
+- Check for Scale Value when saving new Scale in ReportCardGrades.php
 
 Changes in 5.7.7
 ----------------
 - Sort functions by priority in Actions.php
+- HTML maxlength 100 for Scale Title input in ReportcardGrades.php
 
 Changes in 5.7.6
 ----------------

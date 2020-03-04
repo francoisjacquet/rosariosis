@@ -52,8 +52,9 @@ if ( $_REQUEST['modfunc'] === 'update' )
 					DBQuery( $sql );
 				}
 
-				// New: check for Title
-				elseif ( $columns['TITLE'] )
+				// New: check for Title & Scale Value.
+				elseif ( $columns['TITLE']
+					&& ( $_REQUEST['tab_id'] !== 'new' || $columns['GP_SCALE'] ) )
 				{
 					if ( $_REQUEST['tab_id'] !== 'new' )
 					{
@@ -412,7 +413,15 @@ function _makeTextInput( $value, $name )
 
 	if ( $name === 'TITLE' )
 	{
-		$extra = 'size=4 maxlength=5';
+		if ( $_REQUEST['tab_id'] === 'new' )
+		{
+			// Scale Title.
+			$extra = 'maxlength=100';
+		}
+		else
+		{
+			$extra = 'size=4 maxlength=5';
+		}
 
 		if ( $id !== 'new' )
 		{
