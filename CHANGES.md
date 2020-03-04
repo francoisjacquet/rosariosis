@@ -36,6 +36,7 @@ Changes in 5.8
 - Display note messages if any in Student.php & User.php
 - Fix SQL error for numeric Student Fields of Number type in AssignOtherInfo.php
 - Fix PHP Notice Trying to access array offset on value of type null, program wide
+- HTML Set Period input maxlength to 5 & Title input to 100 in Periods.php
 
 Changes in 5.7.7
 ----------------

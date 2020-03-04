@@ -174,15 +174,19 @@ function _makeTextInput( $value, $name )
 		$id = 'new';
 	}
 
-	$extra = '';
+	$extra = 'maxlength=100';
 
-	if ( $name !== 'TITLE' )
+	if ( $name === 'LENGTH' )
+	{
+		$extra = 'size=3 maxlength=5';
+	}
+	elseif ( $name !== 'TITLE' )
 	{
 		$extra = 'size=5 maxlength=10';
 	}
 	elseif ( $id !== 'new' )
 	{
-		$extra = 'required';
+		$extra .= ' required';
 	}
 
 	return TextInput( $value, 'values[' . $id . '][' . $name . ']', '', $extra );
