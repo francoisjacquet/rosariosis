@@ -74,7 +74,7 @@ if ( $_REQUEST['modfunc'] != 'choose_course' )
 
 		echo '<table><tr><td>&nbsp;</td><td><div id="course_div">';
 
-		if ( $_SESSION['MassRequests.php'] )
+		if ( ! empty( $_SESSION['MassRequests.php'] ) )
 		{
 			$course_title = DBGetOne( "SELECT TITLE
 				FROM COURSES
@@ -87,7 +87,7 @@ if ( $_REQUEST['modfunc'] != 'choose_course' )
 
 		echo '<tr><td>' . _( 'With' ) . '</td><td>';
 
-		echo '<table><tr class="st"><td>' . _( 'Teacher' ) . '</td><td><select name="with_teacher_id"><option value="">' . _( 'N/A' ) . '</option>';
+		echo '<table><tr class="st"><label><select name="with_teacher_id"><option value="">' . _( 'N/A' ) . '</option>';
 		//FJ fix bug teacher's schools is NULL
 		//$teachers_RET = DBGet( "SELECT STAFF_ID,LAST_NAME,FIRST_NAME,MIDDLE_NAME FROM STAFF WHERE SCHOOLS LIKE '%,".UserSchool().",%' AND SYEAR='".UserSyear()."' AND PROFILE='teacher' ORDER BY LAST_NAME,FIRST_NAME" );
 		$teachers_RET = DBGet( "SELECT STAFF_ID," . DisplayNameSQL() . " AS FULL_NAME
@@ -102,34 +102,40 @@ if ( $_REQUEST['modfunc'] != 'choose_course' )
 			echo '<option value="' . $teacher['STAFF_ID'] . '">' . $teacher['FULL_NAME'] . '</option>';
 		}
 
-		echo '</select></td></tr><tr class="st"><td>' . _( 'Period' ) . '</td><td><select name="with_period_id"><option value="">' . _( 'N/A' ) . '</option>';
+		echo '</select>' . FormatInputTitle( _( 'Teacher' ) ) . '</label></td></td></tr>
+			<tr class="st"><td><label><select name="with_period_id"><option value="">' . _( 'N/A' ) . '</option>';
 
-		$periods_RET = DBGet( "SELECT PERIOD_ID,TITLE FROM SCHOOL_PERIODS WHERE SCHOOL_ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "' ORDER BY SORT_ORDER" );
+		$periods_RET = DBGet( "SELECT PERIOD_ID,TITLE
+			FROM SCHOOL_PERIODS
+			WHERE SCHOOL_ID='" . UserSchool() . "'
+			AND SYEAR='" . UserSyear() . "'
+			ORDER BY SORT_ORDER" );
 
 		foreach ( (array) $periods_RET as $period )
 		{
 			echo '<option value="' . $period['PERIOD_ID'] . '">' . $period['TITLE'] . '</option>';
 		}
 
-		echo '</select></td></tr></table>';
+		echo '</select>' . FormatInputTitle( _( 'Period' ) ) . '</td></tr></table>';
 
-		echo '</td></tr><tr><td>' . _( 'Without' ) . '</td><td>';
+		echo '</td></tr><tr><td>' . _( 'Without' ) . '</td>';
 
-		echo '<table><tr class="st"><td>' . _( 'Teacher' ) . '</td><td><select name="without_teacher_id"><option value="">' . _( 'N/A' ) . '</option>';
+		echo '<td><table><tr class="st"><td><label><select name="without_teacher_id"><option value="">' . _( 'N/A' ) . '</option>';
 
 		foreach ( (array) $teachers_RET as $teacher )
 		{
 			echo '<option value="' . $teacher['STAFF_ID'] . '">' . $teacher['FULL_NAME'] . '</option>';
 		}
 
-		echo '</select></td></tr><tr class="st"><td>' . _( 'Period' ) . '</td><td><select name="without_period_id"><option value="">' . _( 'N/A' ) . '</option>';
+		echo '</select>' . FormatInputTitle( _( 'Teacher' ) ) . '</label></td></tr><tr class="st"><td>
+			<label><select name="without_period_id"><option value="">' . _( 'N/A' ) . '</option>';
 
 		foreach ( (array) $periods_RET as $period )
 		{
 			echo '<option value="' . $period['PERIOD_ID'] . '">' . $period['TITLE'] . '</option>';
 		}
 
-		echo '</select></td></tr></table>';
+		echo '</select>' . FormatInputTitle( _( 'Period' ) ) . '</label></td></tr></table>';
 		echo '</td></tr></table>';
 
 		PopTable( 'footer' );
