@@ -4,6 +4,7 @@
 Changes in 5.7.7
 ----------------
 - Sort functions by priority in Actions.php
+- HTML maxlength 100 for Scale Title input in ReportcardGrades.php
 
 Changes in 5.7.6
 ----------------

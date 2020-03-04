@@ -412,7 +412,15 @@ function _makeTextInput( $value, $name )
 
 	if ( $name === 'TITLE' )
 	{
-		$extra = 'size=4 maxlength=5';
+		if ( $_REQUEST['tab_id'] === 'new' )
+		{
+			// Scale Title.
+			$extra = 'maxlength=100';
+		}
+		else
+		{
+			$extra = 'size=4 maxlength=5';
+		}
 
 		if ( $id !== 'new' )
 		{
