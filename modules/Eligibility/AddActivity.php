@@ -58,23 +58,25 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 	DrawHeader( '', SubmitButton( _( 'Add Activity to Selected Students' ) ) );
 	echo '<br />';
 
-//FJ css WPadmin
-	echo '<table class="postbox center col1-align-right"><tr><td>' . _( 'Activity' ) . '</td>';
-	echo '<td>';
+	PopTable( 'header', _( 'Add Activity' ) );
+
 	$activities_RET = DBGet( "SELECT ID,TITLE
 		FROM ELIGIBILITY_ACTIVITIES
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'" );
-	echo '<select name="activity_id"><option value="">' . _( 'N/A' ) . '</option>';
+
+	echo '<label><select name="activity_id" required><option value="">' . _( 'N/A' ) . '</option>';
 
 	foreach ( (array) $activities_RET as $activity )
 	{
 		echo '<option value="' . $activity['ID'] . '">' . $activity['TITLE'] . '</option>';
 	}
 
-	echo '</select>';
-	echo '</td>';
-	echo '</tr></table><br />';
+	echo '</select>' . FormatInputTitle( _( 'Activity' ) ) . '</label>';
+
+	PopTable( 'footer' );
+
+	echo '<br />';
 }
 
 //FJ fix bug no Search when student already selected
