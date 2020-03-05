@@ -123,12 +123,7 @@ function _makeTextInput( $value, $name )
 {
 	global $THIS_RET;
 
-	$extra = '';
-
-	if ( $name === 'TITLE' )
-	{
-		$extra .= ' maxlength=100';
-	}
+	$extra = 'maxlength=100';
 
 	if ( ! empty( $THIS_RET['ID'] ) )
 	{
@@ -144,7 +139,7 @@ function _makeTextInput( $value, $name )
 		$id = 'new';
 	}
 
-	if ( ! $value )
+	if ( $name === 'COMMENT' )
 	{
 		$extra .= ' size=20';
 	}
