@@ -180,7 +180,10 @@ if ( $_REQUEST['modfunc'] === 'remove'
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	$menus_RET = DBGet( 'SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY SORT_ORDER', array(), array( 'MENU_ID' ) );
+	$menus_RET = DBGet( "SELECT MENU_ID,TITLE
+		FROM FOOD_SERVICE_MENUS
+		WHERE SCHOOL_ID='" . UserSchool() . "'
+		ORDER BY SORT_ORDER", array(), array( 'MENU_ID' ) );
 
 	if ( ! empty( $_REQUEST['tab_id'] ) )
 	{
@@ -236,7 +239,11 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( $_REQUEST['tab_id'] !== 'new' )
 	{
-		$items_RET = DBGet( 'SELECT ITEM_ID,DESCRIPTION FROM FOOD_SERVICE_ITEMS WHERE SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY SORT_ORDER' );
+		$items_RET = DBGet( "SELECT ITEM_ID,DESCRIPTION
+			FROM FOOD_SERVICE_ITEMS
+			WHERE SCHOOL_ID='" . UserSchool() . "'
+			ORDER BY SORT_ORDER" );
+
 		$items_select = array();
 
 		foreach ( (array) $items_RET as $item )
@@ -244,7 +251,11 @@ if ( ! $_REQUEST['modfunc'] )
 			$items_select += array( $item['ITEM_ID'] => $item['DESCRIPTION'] );
 		}
 
-		$categories_RET = DBGet( 'SELECT CATEGORY_ID,TITLE FROM FOOD_SERVICE_CATEGORIES WHERE MENU_ID=\'' . $_REQUEST['tab_id'] . '\' ORDER BY SORT_ORDER' );
+		$categories_RET = DBGet( "SELECT CATEGORY_ID,TITLE
+			FROM FOOD_SERVICE_CATEGORIES
+			WHERE MENU_ID='" . $_REQUEST['tab_id'] . "'
+			ORDER BY SORT_ORDER" );
+
 		$categories_select = array();
 
 		foreach ( (array) $categories_RET as $category )
@@ -295,8 +306,21 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		$icons_select = get_icons_select( $FS_IconsPath );
 
-		$sql = 'SELECT * FROM FOOD_SERVICE_ITEMS fsmi WHERE SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY SORT_ORDER';
-		$functions = array( 'DESCRIPTION' => 'makeTextInput', 'SHORT_NAME' => 'makeTextInput', 'ICON' => 'makeSelectInput', 'SORT_ORDER' => 'makeTextInput', 'PRICE' => 'makeTextInput', 'PRICE_REDUCED' => 'makeTextInput', 'PRICE_FREE' => 'makeTextInput', 'PRICE_STAFF' => 'makeTextInput' );
+		$sql = "SELECT *
+		FROM FOOD_SERVICE_ITEMS fsmi
+		WHERE SCHOOL_ID='" . UserSchool() . "'
+		ORDER BY SORT_ORDER";
+
+		$functions = array(
+			'DESCRIPTION' => 'makeTextInput',
+			'SHORT_NAME' => 'makeTextInput',
+			'ICON' => 'makeSelectInput',
+			'SORT_ORDER' => 'makeTextInput',
+			'PRICE' => 'makeTextInput',
+			'PRICE_REDUCED' => 'makeTextInput',
+			'PRICE_FREE' => 'makeTextInput',
+			'PRICE_STAFF' => 'makeTextInput',
+		);
 
 		if ( User( 'PROFILE' ) === 'admin' || User( 'PROFILE' ) === 'teacher' )
 		{
@@ -412,6 +436,10 @@ function makeTextInput( $value, $name )
 	{
 		$extra = 'size=20 maxlength=25';
 	}
+	elseif ( $name == 'SORT_ORDER' )
+	{
+		$extra = 'size=3 maxlength=5';
+	}
 	else
 	{
 		$extra = 'size=6 maxlength=8';
@@ -419,7 +447,9 @@ function makeTextInput( $value, $name )
 
 	if ( $id !== 'new'
 		&& ( $name === 'DESCRIPTION'
-			|| $name === 'SHORT_NAME' ) )
+			|| $name === 'SHORT_NAME'
+			|| $name === 'PRICE'
+			|| $name === 'PRICE_STAFF' ) )
 	{
 		$extra .= ' required';
 	}

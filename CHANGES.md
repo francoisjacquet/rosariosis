@@ -41,6 +41,7 @@ Changes in 5.8
 - Check for Scale Value when saving new Scale in ReportCardGrades.php
 - HTML No N/A option for new Type & State Code inputs in AttendanceCodes.php
 - Check for Short Name when saving new Code in AttendanceCodes.php
+- HTML shorten Sort Order input & make Price + Staff Price inputs required in MenuItems.php
 
 Changes in 5.7.7
 ----------------
