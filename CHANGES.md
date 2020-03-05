@@ -39,6 +39,8 @@ Changes in 5.8
 - HTML Set Period input maxlength to 5 & Title input to 100 in Periods.php
 - HTML No N/A option for new Type input, maxlength 100 for Title input in EnrollmentCodes.php
 - Check for Scale Value when saving new Scale in ReportCardGrades.php
+- HTML No N/A option for new Type & State Code inputs in AttendanceCodes.php
+- Check for Short Name when saving new Code in AttendanceCodes.php
 
 Changes in 5.7.7
 ----------------

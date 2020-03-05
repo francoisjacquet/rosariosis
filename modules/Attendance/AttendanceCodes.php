@@ -49,8 +49,9 @@ if ( $_REQUEST['modfunc'] === 'update'
 					DBQuery( $sql );
 				}
 
-				// New: check for Title
-				elseif ( $columns['TITLE'] )
+				// New: check for Title & Short Name.
+				elseif ( $columns['TITLE']
+					&& ( $_REQUEST['table'] === 'new' || $columns['SHORT_NAME'] ) )
 				{
 					if ( $_REQUEST['table'] !== 'new' )
 					{
@@ -142,24 +143,65 @@ if ( ! $_REQUEST['modfunc'] )
 {
 	if ( $_REQUEST['table'] !== 'new' )
 	{
-		$sql = "SELECT ID,TITLE,SHORT_NAME,TYPE,DEFAULT_CODE,STATE_CODE,SORT_ORDER FROM ATTENDANCE_CODES WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' AND TABLE_NAME='" . $_REQUEST['table'] . "' ORDER BY SORT_ORDER,TITLE";
-		$QI = DBQuery( $sql );
-		$attendance_codes_RET = DBGet( $QI, array( 'TITLE' => '_makeTextInput', 'SHORT_NAME' => '_makeTextInput', 'SORT_ORDER' => '_makeTextInput', 'TYPE' => '_makeSelectInput', 'STATE_CODE' => '_makeSelectInput', 'DEFAULT_CODE' => '_makeCheckBoxInput' ) );
+		$attendance_codes_RET = DBGet( "SELECT ID,TITLE,SHORT_NAME,TYPE,DEFAULT_CODE,STATE_CODE,SORT_ORDER
+			FROM ATTENDANCE_CODES
+			WHERE SYEAR='" . UserSyear() . "'
+			AND SCHOOL_ID='" . UserSchool() . "'
+			AND TABLE_NAME='" . $_REQUEST['table'] . "'
+			ORDER BY SORT_ORDER,TITLE",
+			array(
+				'TITLE' => '_makeTextInput',
+				'SHORT_NAME' => '_makeTextInput',
+				'SORT_ORDER' => '_makeTextInput',
+				'TYPE' => '_makeSelectInput',
+				'STATE_CODE' => '_makeSelectInput',
+				'DEFAULT_CODE' => '_makeCheckBoxInput',
+			)
+		);
 	}
 
-	$tabs = array( array( 'title' => _( 'Attendance' ), 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=0' ) );
-	$categories_RET = DBGet( "SELECT ID,TITLE FROM ATTENDANCE_CODE_CATEGORIES WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "'" );
+	$tabs = array( array(
+		'title' => _( 'Attendance' ),
+		'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=0',
+	) );
+
+	$categories_RET = DBGet( "SELECT ID,TITLE
+		FROM ATTENDANCE_CODE_CATEGORIES
+		WHERE SYEAR='" . UserSyear() . "'
+		AND SCHOOL_ID='" . UserSchool() . "'" );
 
 	foreach ( (array) $categories_RET as $category )
 	{
-		$tabs[] = array( 'title' => $category['TITLE'], 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=' . $category['ID'] );
+		$tabs[] = array(
+			'title' => $category['TITLE'],
+			'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=' . $category['ID'],
+		);
 	}
 
 	if ( $_REQUEST['table'] !== 'new' )
 	{
-		$sql = "SELECT ID,TITLE,SHORT_NAME,TYPE,DEFAULT_CODE,STATE_CODE,SORT_ORDER FROM ATTENDANCE_CODES WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' AND TABLE_NAME='" . $_REQUEST['table'] . "' ORDER BY SORT_ORDER,TITLE";
-		$functions = array( 'TITLE' => '_makeTextInput', 'SHORT_NAME' => '_makeTextInput', 'SORT_ORDER' => '_makeTextInput', 'TYPE' => '_makeSelectInput', 'DEFAULT_CODE' => '_makeCheckBoxInput' );
-		$LO_columns = array( 'TITLE' => _( 'Title' ), 'SHORT_NAME' => _( 'Short Name' ), 'SORT_ORDER' => _( 'Sort Order' ), 'TYPE' => _( 'Type' ), 'DEFAULT_CODE' => _( 'Default for Teacher' ) );
+		$sql = "SELECT ID,TITLE,SHORT_NAME,TYPE,DEFAULT_CODE,STATE_CODE,SORT_ORDER
+		FROM ATTENDANCE_CODES
+		WHERE SYEAR='" . UserSyear() . "'
+		AND SCHOOL_ID='" . UserSchool() . "'
+		AND TABLE_NAME='" . $_REQUEST['table'] . "'
+		ORDER BY SORT_ORDER,TITLE";
+
+		$functions = array(
+			'TITLE' => '_makeTextInput',
+			'SHORT_NAME' => '_makeTextInput',
+			'SORT_ORDER' => '_makeTextInput',
+			'TYPE' => '_makeSelectInput',
+			'DEFAULT_CODE' => '_makeCheckBoxInput',
+		);
+
+		$LO_columns = array(
+			'TITLE' => _( 'Title' ),
+			'SHORT_NAME' => _( 'Short Name' ),
+			'SORT_ORDER' => _( 'Sort Order' ),
+			'TYPE' => _( 'Type' ),
+			'DEFAULT_CODE' => _( 'Default for Teacher' ),
+		);
 
 		if ( $_REQUEST['table'] == '0' )
 		{
@@ -167,7 +209,13 @@ if ( ! $_REQUEST['modfunc'] )
 			$LO_columns['STATE_CODE'] = _( 'State Code' );
 		}
 
-		$link['add']['html'] = array( 'TITLE' => _makeTextInput( '', 'TITLE' ), 'SHORT_NAME' => _makeTextInput( '', 'SHORT_NAME' ), 'SORT_ORDER' => _makeTextInput( '', 'SORT_ORDER' ), 'TYPE' => _makeSelectInput( '', 'TYPE' ), 'DEFAULT_CODE' => _makeCheckBoxInput( '', 'DEFAULT_CODE' ) );
+		$link['add']['html'] = array(
+			'TITLE' => _makeTextInput( '', 'TITLE' ),
+			'SHORT_NAME' => _makeTextInput( '', 'SHORT_NAME' ),
+			'SORT_ORDER' => _makeTextInput( '', 'SORT_ORDER' ),
+			'TYPE' => _makeSelectInput( '', 'TYPE' ),
+			'DEFAULT_CODE' => _makeCheckBoxInput( '', 'DEFAULT_CODE' ),
+		);
 
 		if ( $_REQUEST['table'] == '0' )
 		{
@@ -177,31 +225,52 @@ if ( ! $_REQUEST['modfunc'] )
 		$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove&table=' . $_REQUEST['table'];
 		$link['remove']['variables'] = array( 'id' => 'ID' );
 
-		$tabs[] = array( 'title' => button( 'add', '', '', 'smaller' ), 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=new' );
+		$tabs[] = array(
+			'title' => button( 'add', '', '', 'smaller' ),
+			'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=new',
+		);
 	}
 	else
 	{
-		$sql = "SELECT ID,TITLE,SORT_ORDER FROM ATTENDANCE_CODE_CATEGORIES WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' ORDER BY SORT_ORDER,TITLE";
+		$sql = "SELECT ID,TITLE,SORT_ORDER
+		FROM ATTENDANCE_CODE_CATEGORIES
+		WHERE SYEAR='" . UserSyear() . "'
+		AND SCHOOL_ID='" . UserSchool() . "'
+		ORDER BY SORT_ORDER,TITLE";
+
 		$functions = array( 'TITLE' => '_makeTextInput', 'SORT_ORDER' => '_makeTextInput' );
+
 		$LO_columns = array( 'TITLE' => _( 'Title' ), 'SORT_ORDER' => _( 'Sort Order' ) );
 
-		$link['add']['html'] = array( 'TITLE' => _makeTextInput( '', 'TITLE' ), 'SORT_ORDER' => _makeTextInput( '', 'SORT_ORDER' ) );
+		$link['add']['html'] = array(
+			'TITLE' => _makeTextInput( '', 'TITLE' ),
+			'SORT_ORDER' => _makeTextInput( '', 'SORT_ORDER' ),
+		);
+
 		$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove&table=new';
 		$link['remove']['variables'] = array( 'id' => 'ID' );
 
-		$tabs[] = array( 'title' => button( 'add', '', '', 'smaller' ), 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=new' );
+		$tabs[] = array(
+			'title' => button( 'add', '', '', 'smaller' ),
+			'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=new',
+		);
 	}
 
-	$LO_ret = DBGet( $sql, $functions );
+	$LO_RET = DBGet( $sql, $functions );
 
 	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update&table=' . $_REQUEST['table'] . '" method="POST">';
 	DrawHeader( '', SubmitButton() );
 	echo '<br />';
 
-//FJ css WPadmin
-	$LO_options = array( 'count' => false, 'download' => false, 'search' => false, 'header' => WrapTabs( $tabs, 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=' . $_REQUEST['table'] ) );
-//	ListOutput($LO_ret,$LO_columns,'.','.',$link,array(),array('count'=>false,'download'=>false,'search'=>false));
-	ListOutput( $LO_ret, $LO_columns, '.', '.', $link, array(), $LO_options );
+	$LO_options = array(
+		'count' => false,
+		'download' => false,
+		'search' => false,
+		'header' => WrapTabs( $tabs, 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=' . $_REQUEST['table'] )
+	);
+
+//	ListOutput($LO_RET,$LO_columns,'.','.',$link,array(),array('count'=>false,'download'=>false,'search'=>false));
+	ListOutput( $LO_RET, $LO_columns, '.', '.', $link, array(), $LO_options );
 
 	echo '<br /><div class="center">' . SubmitButton() . '</div>';
 	echo '</form>';
@@ -284,7 +353,7 @@ function _makeSelectInput( $value, $name )
 		'values[' . $id . '][' . $name . ']',
 		'',
 		$options,
-		( $id === 'new' ? 'N/A' : false )
+		false
 	);
 }
 
@@ -305,13 +374,11 @@ function _makeCheckBoxInput( $value, $name )
 		$id = 'new';
 	}
 
-	$new = ! $THIS_RET['ID'];
-
 	return CheckBoxInput(
 		$value,
 		'values[' . $id . '][' . $name . ']',
 		'',
 		'',
-		$new
+		( $id === 'new' )
 	);
 }
