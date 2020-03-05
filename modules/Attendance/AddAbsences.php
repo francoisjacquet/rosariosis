@@ -163,8 +163,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		PopTable( 'header', _( 'Add Absences' ) );
 
-		echo '<table class="cellpadding-5 col1-align-right center"><tr><td>' . _( 'Add Absence to Periods' ) . '</td>';
-		echo '<td><table><tr>';
+		echo '<table class="cellpadding-5"><tr><td><table><tr>';
 
 		//FJ multiple school periods for a course period
 		//$periods_RET = DBGet( "SELECT SHORT_NAME,PERIOD_ID FROM SCHOOL_PERIODS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND EXISTS (SELECT '' FROM COURSE_PERIODS WHERE PERIOD_ID=SCHOOL_PERIODS.PERIOD_ID AND position(',0,' IN DOES_ATTENDANCE)>0) ORDER BY SORT_ORDER" );
@@ -180,9 +179,9 @@ if ( ! $_REQUEST['modfunc'] )
 			echo '<td><label><input type="CHECKBOX" value="Y" name="period[' . $period['PERIOD_ID'] . ']"> ' . $period['SHORT_NAME'] . '</label></td>';
 		}
 
-		echo '</tr></table></td>';
+		echo '</tr></table>' . FormatInputTitle( _( 'Add Absence to Periods' ), '', false, '' ) . '</td></tr>';
 
-		echo '<tr><td>' . _( 'Absence Code' ) . '</td><td><select name="absence_code">';
+		echo '<tr><td><label><select name="absence_code">';
 
 		$codes_RET = DBGet( "SELECT TITLE,ID
 			FROM ATTENDANCE_CODES
@@ -195,21 +194,19 @@ if ( ! $_REQUEST['modfunc'] )
 			echo '<option value=' . $code['ID'] . '>' . $code['TITLE'] . '</option>';
 		}
 
-		echo '</select></td></tr>';
+		echo '</select>' . FormatInputTitle( _( 'Absence Code' ) ) . '</label></td></tr>';
 
-		echo '<tr><td>' . _( 'Absence Reason' ) . '</td><td>';
+		echo '<tr><td>';
 
 		echo TextInput(
 			'',
 			'absence_reason',
-			'',
+			_( 'Absence Reason' ),
 			'size=20 maxlength=100',
 			false
-		);
+		) . '</td></tr>';
 
-		echo '</td></tr>';
-
-		echo '<tr><td colspan="2"><div class="center">';
+		echo '<tr><td><div class="center">';
 
 		$time = mktime( 0, 0, 0, $_REQUEST['month'] * 1, 1, mb_substr( $_REQUEST['year'], 2 ) );
 
@@ -223,7 +220,7 @@ if ( ! $_REQUEST['modfunc'] )
 			$last--;
 		}
 
-		echo '</div><table class="width-100p"><tr>';
+		echo '</div><table class="width-100p"><thead><tr>';
 		//echo '<th>S</th><th>M</th><th>T</th><th>W</th><th>Th</th><th>F</th><th>S</th></tr><tr>';
 
 		echo '<th>' . mb_substr( _( 'Sunday' ), 0, 3 ) .
@@ -233,7 +230,7 @@ if ( ! $_REQUEST['modfunc'] )
 		'</th><th>' . mb_substr( _( 'Thursday' ), 0, 3 ) .
 		'</th><th>' . mb_substr( _( 'Friday' ), 0, 3 ) .
 		'</th><th>' . mb_substr( _( 'Saturday' ), 0, 3 ) .
-		'</th></tr><tr>';
+		'</th></tr></thead><tbody><tr>';
 
 		$calendar_RET = DBGet( "SELECT SCHOOL_DATE
 			FROM ATTENDANCE_CALENDAR
@@ -264,7 +261,7 @@ if ( ! $_REQUEST['modfunc'] )
 				$disabled = '';
 			}
 
-			echo '<td><label>' . $i . '<input type="checkbox" name="dates[' . $this_date . ']" value="Y"' . $disabled . '></label></td>';
+			echo '<td><label><input type="checkbox" name="dates[' . $this_date . ']" value="Y"' . $disabled . '> ' . $i . '</label></td>';
 
 			$skip++;
 
@@ -274,7 +271,7 @@ if ( ! $_REQUEST['modfunc'] )
 			}
 		}
 
-		echo '</tr></table>';
+		echo '</tr></tbody></table>';
 		echo '</td></tr></table>';
 
 		PopTable( 'footer' );
