@@ -293,7 +293,7 @@ function _makeTextInput( $value, $name )
 		$id = 'new';
 	}
 
-	$extra = '';
+	$extra = 'maxlength=100';
 
 	if ( $name !== 'TITLE' )
 	{
@@ -301,7 +301,7 @@ function _makeTextInput( $value, $name )
 	}
 	elseif ( $id !== 'new' )
 	{
-		$extra = 'required';
+		$extra .= ' required';
 	}
 
 	$comment = '';
