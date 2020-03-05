@@ -2,7 +2,8 @@
 
 DrawHeader( ProgramTitle() );
 
-if ( ! empty( $_REQUEST['values'] ) )
+if ( AllowEdit()
+	&& ! empty( $_REQUEST['values'] ) )
 {
 	if ( $_REQUEST['values']['START_M'] == 'PM' )
 	{
@@ -88,22 +89,26 @@ else
 	$END_M = 'AM';
 }
 
-PopTable( 'header', _( 'Allow Eligibility Posting' ) );
 
 echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
-echo '<table class="cellpadding-5">';
-echo '<tr><td><b>' . _( 'From' ) . '</b></td><td>' .
-SelectInput( $START_DAY, 'values[START_DAY]', '', $day_options, false, '', false ) . ' ' .
-SelectInput( $START_HOUR, 'values[START_HOUR]', '', $hour_options, false, '', false ) . ' <b>:</b> ' .
-SelectInput( $START_MINUTE, 'values[START_MINUTE]', '', $minute_options, false, '', false ) . ' ' .
-SelectInput( $START_M, 'values[START_M]', '', $m_options, false, '', false ) . '</td></tr>';
+
+PopTable( 'header', _( 'Allow Eligibility Posting' ) );
+
+echo '<table class="cellpadding-5"><tr><td><b>' . _( 'From' ) . '</b></td><td>' .
+	SelectInput( $START_DAY, 'values[START_DAY]', '', $day_options, false, '', false ) . ' ' .
+	SelectInput( $START_HOUR, 'values[START_HOUR]', '', $hour_options, false, '', false ) . ' <b>:</b> ' .
+	SelectInput( $START_MINUTE, 'values[START_MINUTE]', '', $minute_options, false, '', false ) . ' ' .
+	SelectInput( $START_M, 'values[START_M]', '', $m_options, false, '', false ) .
+	'</td></tr>';
 
 echo '<tr><td><b>' . _( 'To' ) . '</b></td><td>' .
-SelectInput( $END_DAY, 'values[END_DAY]', '', $day_options, false, '', false ) . ' ' .
-SelectInput( $END_HOUR, 'values[END_HOUR]', '', $hour_options, false, '', false ) . ' <b>:</b> ' .
-SelectInput( $END_MINUTE, 'values[END_MINUTE]', '', $minute_options, false, '', false ) . ' ' .
-SelectInput( $END_M, 'values[END_M]', '', $m_options, false, '', false ) . '</td></tr></table>';
-echo '<br /><div class="center">' . SubmitButton() . '</div>';
-echo '</form>';
+	SelectInput( $END_DAY, 'values[END_DAY]', '', $day_options, false, '', false ) . ' ' .
+	SelectInput( $END_HOUR, 'values[END_HOUR]', '', $hour_options, false, '', false ) . ' <b>:</b> ' .
+	SelectInput( $END_MINUTE, 'values[END_MINUTE]', '', $minute_options, false, '', false ) . ' ' .
+	SelectInput( $END_M, 'values[END_M]', '', $m_options, false, '', false ) .
+	'</td></tr></table>';
 
 PopTable( 'footer' );
+
+echo '<br /><div class="center">' . SubmitButton() . '</div></form>';
+
