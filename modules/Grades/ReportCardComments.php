@@ -515,7 +515,7 @@ function _makeCommentsInput( $value, $name )
 		}
 		else
 		{
-			$extra .= ' size=20';
+			$extra .= ' size=20 maxlength=100';
 		}
 	}
 
