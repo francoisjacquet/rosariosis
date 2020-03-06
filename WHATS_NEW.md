@@ -14,8 +14,14 @@ Export list to Excel using MicrosoftXML (more reliable).
 
 [Iomad](https://www.rosariosis.org/plugins/iomad/) plugin (multi-tenancy Moodle), sponsored by LearnersPlatform
 
+[Billing Elements](https://www.rosariosis.org/modules/billing-elements/):
+- Store: sell Elements (including Courses) to Students and their Parents, sponsored by LearnersPlatform
+
 [Student Billing Premium](https://www.rosariosis.org/modules/student-billing-premium/):
 - Payments Import, sponsored by LearnersPlatform
+
+[Public Pages Premium](https://www.rosariosis.org/plugins/public-pages/):
+- Custom page & default page, sponsored by LearnersPlatform
 
 
 New in 5.7
