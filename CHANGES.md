@@ -42,6 +42,7 @@ Changes in 5.8
 - HTML No N/A option for new Type & State Code inputs in AttendanceCodes.php
 - Check for Short Name when saving new Code in AttendanceCodes.php
 - HTML shorten Sort Order input & make Price + Staff Price inputs required in MenuItems.php
+- Reorder Copy elements & use DBEscapeIdentifier for dynamic columns & tables in CopySchool.php
 
 Changes in 5.7.7
 ----------------

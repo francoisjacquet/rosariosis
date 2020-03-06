@@ -2,13 +2,13 @@
 
 $tables = array(
 	'CONFIG' => _( 'School Configuration' ),
-	'SCHOOL_PERIODS' => _( 'School Periods' ),
 	'SCHOOL_MARKING_PERIODS' => _( 'Marking Periods' ),
+	'SCHOOL_PERIODS' => _( 'School Periods' ),
+	'SCHOOL_GRADELEVELS' => _( 'Grade Levels' ),
 	'REPORT_CARD_GRADES' => _( 'Report Card Grade Codes' ),
 	'REPORT_CARD_COMMENTS' => _( 'Report Card Comment Codes' ),
 	'ELIGIBILITY_ACTIVITIES' => _( 'Eligibility Activities' ),
 	'ATTENDANCE_CODES' => _( 'Attendance Codes' ),
-	'SCHOOL_GRADELEVELS' => _( 'Grade Levels' ),
 );
 
 $table_list = array();
@@ -157,13 +157,13 @@ function _rollover( $table )
 					&& $column !== 'SCHOOL_ID'
 					&& $column !== 'NEXT_GRADE_ID' )
 				{
-					$columns .= ',' . $column;
+					$columns .= ',' . DBEscapeIdentifier( $column );
 				}
 			}
 
-			DBQuery( "INSERT INTO " . $table . " (ID,SCHOOL_ID" . $columns . ")
+			DBQuery( "INSERT INTO " . DBEscapeIdentifier( $table ) . " (ID,SCHOOL_ID" . $columns . ")
 				SELECT " . db_seq_nextval( $table . '_ID_SEQ' ) . ",'" . $id . "' AS SCHOOL_ID" . $columns . "
-				FROM " . $table . "
+				FROM " . DBEscapeIdentifier( $table ) . "
 				WHERE SCHOOL_ID='" . UserSchool() . "'" );
 
 		break;
@@ -243,14 +243,14 @@ function _rollover( $table )
 					&& $column !== 'SYEAR'
 					&& $column !== 'SCHOOL_ID' )
 				{
-					$columns .= ',' . $column;
+					$columns .= ',' . DBEscapeIdentifier( $column );
 				}
 			}
 
-			DBQuery( "INSERT INTO " . $table . " (ID,SYEAR,SCHOOL_ID" . $columns . ")
+			DBQuery( "INSERT INTO " . DBEscapeIdentifier( $table ) . " (ID,SYEAR,SCHOOL_ID" . $columns . ")
 				SELECT " . db_seq_nextval( $table . '_ID_SEQ' ) . ",SYEAR,
 					'" . $id . "' AS SCHOOL_ID" . $columns . "
-				FROM " . $table . "
+				FROM " . DBEscapeIdentifier( $table ) . "
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
 
