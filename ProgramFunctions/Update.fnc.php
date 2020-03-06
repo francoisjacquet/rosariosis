@@ -1777,9 +1777,16 @@ function _update58beta5()
 	 * 1. SCHOOL_GRADELEVELS table:
 	 * Change short_name column type to character varying(3)
 	 * Was character varying(2). Now allows French elementary grade levels.
+	 *
+	 * Must drop enroll_grade view first and recreate it afterwards.
 	 */
-	DBQuery( "ALTER TABLE school_gradelevels
-		ALTER COLUMN short_name TYPE character varying(3);" );
+	DBQuery( "BEGIN;
+		DROP VIEW enroll_grade;
+		ALTER TABLE school_gradelevels
+		ALTER COLUMN short_name TYPE character varying(3);
+		CREATE VIEW enroll_grade AS
+		    SELECT e.id, e.syear, e.school_id, e.student_id, e.start_date, e.end_date, sg.short_name, sg.title FROM student_enrollment e, school_gradelevels sg WHERE (e.grade_id = sg.id);
+		COMMIT;" );
 
 	return $return;
 }
