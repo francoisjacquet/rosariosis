@@ -43,6 +43,7 @@ Changes in 5.8
 - Check for Short Name when saving new Code in AttendanceCodes.php
 - HTML shorten Sort Order input & make Price + Staff Price inputs required in MenuItems.php
 - Reorder Copy elements & use DBEscapeIdentifier for dynamic columns & tables in CopySchool.php
+- SQL Change short_name column type to character varying(3). Now allows French elementary grade levels in GradeLevels.php, Update.fnc.php, rosariosis.sql & rosariosis_fr.sql
 
 Changes in 5.7.7
 ----------------

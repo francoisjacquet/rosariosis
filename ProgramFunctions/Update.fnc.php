@@ -163,6 +163,10 @@ function Update()
 		case version_compare( $from_version, '5.7', '<' ) :
 
 			$return = _update57();
+
+		case version_compare( $from_version, '5.8-beta5', '<' ) :
+
+			$return = _update58beta5();
 	}
 
 	// Update version in DB CONFIG table.
@@ -1745,6 +1749,37 @@ function _update57()
 		ALTER COLUMN state TYPE character varying(50);
 		ALTER TABLE address
 		ALTER COLUMN mail_state TYPE character varying(50);" );
+
+	return $return;
+}
+
+
+/**
+ * Update to version 5.8-beta5
+ *
+ * 1. SCHOOL_GRADELEVELS table:
+ * Change short_name column type to character varying(3)
+ * Was character varying(2). Now allows French elementary grade levels.
+ *
+ * Local function
+ *
+ * @since 5.8
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update58beta5()
+{
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. SCHOOL_GRADELEVELS table:
+	 * Change short_name column type to character varying(3)
+	 * Was character varying(2). Now allows French elementary grade levels.
+	 */
+	DBQuery( "ALTER TABLE school_gradelevels
+		ALTER COLUMN short_name TYPE character varying(3);" );
 
 	return $return;
 }

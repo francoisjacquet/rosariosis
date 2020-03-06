@@ -144,7 +144,8 @@ function _makeTextInput( $value, $name )
 
 	if ( $name !== 'TITLE' )
 	{
-		$extra = 'size=3 maxlength=2';
+		// @since 5.8 Change short_name column type to character varying(3). Now allows French elementary grade levels.
+		$extra = 'size=3 maxlength=3';
 	}
 
 	if ( $id !== 'new'

@@ -417,19 +417,19 @@ SET short_name='CP', title='Cours Primaire'
 WHERE id=1;
 
 UPDATE school_gradelevels
-SET short_name='E1', title='Cours Élémentaire 1'
+SET short_name='CE1', title='Cours Élémentaire 1'
 WHERE id=2;
 
 UPDATE school_gradelevels
-SET short_name='E2', title='Cours Élémentaire 2'
+SET short_name='CE2', title='Cours Élémentaire 2'
 WHERE id=3;
 
 UPDATE school_gradelevels
-SET short_name='M1', title='Cours Moyen 1'
+SET short_name='CM1', title='Cours Moyen 1'
 WHERE id=4;
 
 UPDATE school_gradelevels
-SET short_name='M2', title='Cours Moyen 2'
+SET short_name='CM2', title='Cours Moyen 2'
 WHERE id=5;
 
 UPDATE school_gradelevels

@@ -1709,7 +1709,7 @@ CREATE TABLE school_fields (
 CREATE TABLE school_gradelevels (
     id serial PRIMARY KEY,
     school_id integer NOT NULL,
-    short_name character varying(2),
+    short_name character varying(3),
     title character varying(50) NOT NULL,
     next_grade_id integer,
     sort_order numeric,
