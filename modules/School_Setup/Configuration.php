@@ -12,7 +12,7 @@ $configuration_link = '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '
 	( ! isset( $_REQUEST['tab'] ) ?
 	'<b>' . _( 'Configuration' ) . '</b>' : _( 'Configuration' ) ) . '</a>';
 
-$multiple_schools_admin_has_1_school = SchoolInfo( 'SCHOOLS_NB' )
+$multiple_schools_admin_has_1_school = SchoolInfo( 'SCHOOLS_NB' ) > 1
 	&& DBGetOne( "SELECT SCHOOLS
 		FROM STAFF
 		WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
