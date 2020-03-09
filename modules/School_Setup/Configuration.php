@@ -12,11 +12,12 @@ $configuration_link = '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '
 	( ! isset( $_REQUEST['tab'] ) ?
 	'<b>' . _( 'Configuration' ) . '</b>' : _( 'Configuration' ) ) . '</a>';
 
-$admin_has_1_school = DBGetOne( "SELECT SCHOOLS
-	FROM STAFF
-	WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
-	AND SYEAR='" . UserSyear() . "'
-	AND SCHOOLS='," . UserSchool() . ",';" );
+$multiple_schools_admin_has_1_school = SchoolInfo( 'SCHOOLS_NB' )
+	&& DBGetOne( "SELECT SCHOOLS
+		FROM STAFF
+		WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
+		AND SYEAR='" . UserSyear() . "'
+		AND SCHOOLS='," . UserSchool() . ",';" );
 
 $modules_link = ' | <a href="Modules.php?modname=' . $_REQUEST['modname'] . '&tab=modules">' .
 	( isset( $_REQUEST['tab'] ) && $_REQUEST['tab'] === 'modules' ?
@@ -27,7 +28,7 @@ $plugins_link = ' | <a href="Modules.php?modname=' . $_REQUEST['modname'] . '&ta
 	'<b>' . _( 'Plugins' ) . '</b>' : _( 'Plugins' ) ) . '</a>';
 
 // Hide Modules & Plugins tabs if Administrator of 1 school only.
-if ( AllowEdit() && ! $admin_has_1_school )
+if ( AllowEdit() && ! $multiple_schools_admin_has_1_school )
 {
 	DrawHeader( $configuration_link . $modules_link . $plugins_link );
 }
@@ -160,7 +161,7 @@ else
 		echo '<br />';
 		PopTable( 'header', SchoolInfo( 'TITLE' ) );
 
-		if ( ! $admin_has_1_school )
+		if ( ! $multiple_schools_admin_has_1_school )
 		{
 			// Hide System config options if Administrator of 1 school only.
 			echo '<fieldset><legend>' . ParseMLField( Config( 'TITLE' ) ) . '</legend><table>';
@@ -425,7 +426,7 @@ else
 				button( 'x' )
 			) . '</td></tr>';
 
-			if ( ! $admin_has_1_school )
+			if ( ! $multiple_schools_admin_has_1_school )
 			{
 				// Hide All schools config options if Administrator of 1 school only.
 				echo '<tr><td>' . CheckboxInput(
