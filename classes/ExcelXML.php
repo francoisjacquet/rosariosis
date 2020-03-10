@@ -252,7 +252,7 @@ class Excel_XML
 		$type = 'String';
 		if (is_numeric($item)):
 			$type = 'Number';
-			if ($item{0} == '0' && strlen($item) > 1 && $item{1} != '.'):
+			if ($item[0] == '0' && strlen($item) > 1 && $item[1] != '.'):
 				$type = 'String';
 			endif;
 		endif;
