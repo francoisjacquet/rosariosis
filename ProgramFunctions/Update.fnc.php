@@ -31,7 +31,7 @@ function Update()
 	 * Prevent DB version update if new Update.fnc.php file has NOT been uploaded YET.
 	 * Update must be run once both new Warehouse.php & Update.fnc.php files are uploaded.
 	 */
-	if ( version_compare( '5.8', ROSARIO_VERSION, '<' ) )
+	if ( version_compare( '5.9-beta', ROSARIO_VERSION, '<' ) )
 	{
 		return false;
 	}
@@ -167,6 +167,10 @@ function Update()
 		case version_compare( $from_version, '5.8-beta5', '<' ) :
 
 			$return = _update58beta5();
+
+		case version_compare( $from_version, '5.9-beta', '<' ) :
+
+			$return = _update59beta();
 	}
 
 	// Update version in DB CONFIG table.
@@ -1787,6 +1791,91 @@ function _update58beta5()
 		CREATE VIEW enroll_grade AS
 		    SELECT e.id, e.syear, e.school_id, e.student_id, e.start_date, e.end_date, sg.short_name, sg.title FROM student_enrollment e, school_gradelevels sg WHERE (e.grade_id = sg.id);
 		COMMIT;" );
+
+	return $return;
+}
+
+
+/**
+ * Update to version 5.9-beta
+ *
+ * 1. STAFF_FIELDS table:
+ * Add Email & Phone to Staff Fields.
+ * Eventually translate Field Title to Spanish or French.
+ *
+ * 2. STAFF table:
+ * Move Email & Phone Staff Fields to custom fields.
+ * Rename phone columns to custom_200000001.
+ * Change type to character varying(255) for email (was character varying(100))
+ * and text for custom_200000001 (was character varying(100)).
+ *
+ * Local function
+ *
+ * @since 5.9
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update59beta()
+{
+	global $locale;
+
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. STAFF_FIELDS table:
+	 * Add Email & Phone to Staff Fields.
+	 */
+	$staff_fields_exist = DBGetOne( "SELECT 1 FROM STAFF_FIELDS
+		WHERE ID='200000000'" );
+
+	if ( ! $staff_fields_exist )
+	{
+		DBQuery( "INSERT INTO staff_fields VALUES (200000000, 'text', 'Email Address', 0, NULL, 1, NULL, NULL);
+			INSERT INTO staff_fields VALUES (200000001, 'text', 'Phone Number', 1, NULL, 1, NULL, NULL);" );
+
+		/**
+		 * Eventually translate Field Title to Spanish or French.
+		 */
+		if ( $locale === 'fr_FR.utf8' )
+		{
+			DBQuery( "UPDATE staff_fields
+				SET title='Email Address|fr_FR.utf8:Adresse Email'
+				WHERE id=200000000;
+				UPDATE staff_fields
+				SET title='Phone Number|fr_FR.utf8:Numéro de Téléphone'
+				WHERE id=200000001;" );
+		}
+		elseif ( $locale === 'es_ES.utf8' )
+		{
+			DBQuery( "UPDATE staff_fields SET title='Email Address|es_ES.utf8:Email'
+				WHERE id=200000000;
+				UPDATE staff_fields SET title='Phone Number|es_ES.utf8:Número de Teléfono'
+				WHERE id=200000001;" );
+		}
+	}
+
+	/**
+	 * 2. STAFF table:
+	 * Move Email & Phone Staff Fields to custom fields.
+	 * Rename phone columns to custom_200000001.
+	 * Change type to character varying(255) for email (was character varying(100))
+	 * and text for custom_200000001 (was character varying(100)).
+	 */
+	$custom_200000001_column_exists = DBGet( "SELECT 1 FROM pg_attribute
+		WHERE attrelid = (SELECT oid FROM pg_class WHERE relname = 'staff')
+		AND attname = 'custom_200000001';" );
+
+	if ( ! $custom_200000001_column_exists )
+	{
+		DBQuery( "ALTER TABLE staff
+			RENAME COLUMN phone TO custom_200000001;
+			ALTER TABLE staff
+			ALTER COLUMN email TYPE character varying(255);
+			ALTER TABLE staff
+			ALTER COLUMN custom_200000001 TYPE text;" );
+	}
 
 	return $return;
 }

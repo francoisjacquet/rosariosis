@@ -380,6 +380,19 @@ WHERE id=200000011;
 
 
 --
+-- Data for Name: staff_fields; Type: TABLE DATA; Schema: public; Owner: rosariosis
+--
+
+UPDATE staff_fields
+SET title='Email Address|es_ES.utf8:Email'
+WHERE id=200000000;
+
+UPDATE staff_fields
+SET title='Phone Number|es_ES.utf8:Número de Teléfono'
+WHERE id=200000001;
+
+
+--
 -- Data for Name: school_gradelevels; Type: TABLE DATA; Schema: public; Owner: rosariosis
 --
 

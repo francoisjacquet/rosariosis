@@ -409,6 +409,19 @@ WHERE id=200000011;
 
 
 --
+-- Data for Name: staff_fields; Type: TABLE DATA; Schema: public; Owner: rosariosis
+--
+
+UPDATE staff_fields
+SET title='Email Address|fr_FR.utf8:Adresse Email'
+WHERE id=200000000;
+
+UPDATE staff_fields
+SET title='Phone Number|fr_FR.utf8:Numéro de Téléphone'
+WHERE id=200000001;
+
+
+--
 -- Data for Name: school_gradelevels; Type: TABLE DATA; Schema: public; Owner: rosariosis
 --
 

@@ -355,8 +355,8 @@ CREATE TABLE staff (
     name_suffix character varying(3),
     username character varying(100),
     password character varying(106),
-    phone character varying(100),
-    email character varying(100),
+    email character varying(255),
+    custom_200000001 text, -- Old phone column.
     profile character varying(30),
     homeroom character varying(5),
     schools text,
@@ -2346,7 +2346,7 @@ INSERT INTO attendance_codes VALUES (NEXTVAL('attendance_codes_id_seq'), 2019, 1
 --
 
 INSERT INTO config VALUES (0, 'LOGIN', 'No');
-INSERT INTO config VALUES (0, 'VERSION', '5.8');
+INSERT INTO config VALUES (0, 'VERSION', '5.9-beta');
 INSERT INTO config VALUES (0, 'TITLE', 'Rosario Student Information System');
 INSERT INTO config VALUES (0, 'NAME', 'RosarioSIS');
 INSERT INTO config VALUES (0, 'MODULES', 'a:13:{s:12:"School_Setup";b:1;s:8:"Students";b:1;s:5:"Users";b:1;s:10:"Scheduling";b:1;s:6:"Grades";b:1;s:10:"Attendance";b:1;s:11:"Eligibility";b:1;s:10:"Discipline";b:1;s:10:"Accounting";b:1;s:15:"Student_Billing";b:1;s:12:"Food_Service";b:1;s:9:"Resources";b:1;s:6:"Custom";b:1;}');
@@ -3076,6 +3076,8 @@ INSERT INTO staff_field_categories VALUES (NEXTVAL('staff_field_categories_id_se
 -- Data for Name: staff_fields; Type: TABLE DATA; Schema: public; Owner: rosariosis
 --
 
+INSERT INTO staff_fields VALUES (200000000, 'text', 'Email Address', 0, NULL, 1, NULL, NULL);
+INSERT INTO staff_fields VALUES (200000001, 'text', 'Phone Number', 1, NULL, 1, NULL, NULL);
 
 
 --
