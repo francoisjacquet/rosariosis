@@ -2,6 +2,12 @@
 
 ## RosarioSIS Student Information System
 
+New in 5.9
+----------
+
+Moodle plugin
+- Import Moodle Users
+
 New in 5.8
 ----------
 
@@ -17,10 +23,10 @@ Export list to Excel using MicrosoftXML (more reliable).
 [Billing Elements](https://www.rosariosis.org/modules/billing-elements/):
 - Store: sell Elements (including Courses) to Students and their Parents, sponsored by LearnersPlatform
 
-[Student Billing Premium](https://www.rosariosis.org/modules/student-billing-premium/):
+[Student Billing Premium](https://www.rosariosis.org/modules/student-billing-premium/)
 - Payments Import, sponsored by LearnersPlatform
 
-[Public Pages Premium](https://www.rosariosis.org/plugins/public-pages/):
+[Public Pages Premium](https://www.rosariosis.org/plugins/public-pages/)
 - Custom page & default page, sponsored by LearnersPlatform
 
 

@@ -3,6 +3,8 @@
  * Moodle plugin configuration interface
  */
 
+require_once 'plugins/Moodle/includes/ImportUsers.fnc.php';
+
 // Check the script is called by the right program & plugin is activated.
 if ( $_REQUEST['modname'] !== 'School_Setup/Configuration.php'
 	|| empty( $RosarioPlugins['Moodle'] )
@@ -79,11 +81,136 @@ if ( ! empty( $_REQUEST['check'] ) )
 		$note[] = button( 'check' ) . '&nbsp;' . _( 'Test' ) . ': ' . _( 'Success' );
 	}
 
-	// Unset save & values & redirect URL.
+	// Unset check & redirect URL.
 	RedirectURL( 'check' );
 }
 
-if ( empty( $_REQUEST['save'] ) )
+if ( ! empty( $_REQUEST['import_users'] ) )
+{
+	// @since 5.9 Import Moodle Users.
+	if ( ! Config( 'STUDENTS_EMAIL_FIELD' ) )
+	{
+		$student_email_field = '<b>' . _( 'Students Email Field' ) . '</b>';
+
+		if ( AllowEdit( 'School_Setup/Configuration.php' ) ) {
+
+			$student_email_field = '<a href="Modules.php?modname=School_Setup/Configuration.php">' .
+				$student_email_field . '</a>';
+		}
+
+		$error[] = sprintf(
+			_( 'You must configure the %s to use this script.' ),
+			$student_email_field
+		);
+
+		ErrorMessage( $error, 'fatal' );
+	}
+
+	// Users auth='manual'.
+	$users = MoodleUsersList( 'auth', 'manual' );
+
+	// Filter users confirmed=true, suspended=false, and id not exists in MOODLEXROSARIO table.
+	$users_filtered = MoodleUsersFilter( $users );
+
+	if ( ! empty( $_REQUEST['values'] ) )
+	{
+		$moodle_users_imported = 0;
+
+		foreach ( (array) $_REQUEST['values']['ID'] as $moodle_user_id )
+		{
+			if ( empty( $_REQUEST['values']['PROFILE'][ $moodle_user_id ] )
+				|| empty( $users_filtered[ $moodle_user_id ] ) )
+			{
+				continue;
+			}
+
+			$moodle_user = $users_filtered[ $moodle_user_id ];
+
+			if ( $_REQUEST['values']['PROFILE'][ $moodle_user_id ] === 'student' )
+			{
+				$student_id = MoodleUserImportStudent( $moodle_user );
+
+				if ( $student_id )
+				{
+					MoodleUserEnrollStudent( $student_id );
+
+					$moodle_users_imported++;
+				}
+
+				continue;
+			}
+
+			if ( MoodleUserImportUser( $moodle_user, $_REQUEST['values']['PROFILE'][ $moodle_user_id ] ) )
+			{
+				$moodle_users_imported++;
+			}
+		}
+
+		$note[] = sprintf( _( '%d Moodle users were imported.' ), $moodle_users_imported );
+
+		// Unset values & import_users & redirect URL.
+		RedirectURL( array( 'values', 'import_users' ) );
+	}
+	else
+	{
+		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
+			'&tab=plugins&modfunc=config&plugin=Moodle&import_users=true" method="POST" class="import-users-form">';
+
+		DrawHeader(
+			'',
+			SubmitButton(
+				_( 'Import Selected Users' ),
+				'',
+				' class="import-users-button button-primary"'
+			)
+		);
+
+		DrawHeader(
+			CheckboxInput(
+				'',
+				'values[PASSWORD_SET_USE_USERNAME]',
+				_( 'Set Password: use Username'),
+				'',
+				true
+			) .
+			'<br /><br />' .
+			MoodleUsersStudentEnrollmentForm()
+		);
+
+		$columns = array(
+			'CHECKBOX' => MakeChooseCheckbox( '', '', 'values[ID]' ),
+			'PROFILE' => _( 'Profile' ),
+			'FIRST_NAME' => _( 'First Name' ),
+			'LAST_NAME' => _( 'Last Name' ),
+			'EMAIL_ADDRESS' => _( 'Email Address' ),
+			'USERNAME' => _( 'Username' ),
+			'ID' => _( 'Moodle ID' ),
+		);
+
+		if ( ROSARIO_DEBUG && function_exists( 'd' ) )
+		{
+			d( $users_filtered );
+		}
+
+		$LO_users = MoodleUsersMake( $users_filtered );
+
+		ListOutput( $LO_users, $columns, 'Moodle User', 'Moodle Users' );
+
+		echo '<br /><div class="center">' . SubmitButton(
+			_( 'Import Selected Users' ),
+			'',
+			' class="import-users-button button-primary"'
+		) . '</div>';
+
+		echo '</form>';
+
+		ImportUsersFormConfirmCountdownJS( 'import-users' );
+	}
+}
+
+
+if ( empty( $_REQUEST['save'] )
+	&& empty( $_REQUEST['import_users'] ) )
 {
 	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
 		'&tab=plugins&modfunc=config&plugin=Moodle&save=true" method="POST">';
@@ -160,6 +287,20 @@ if ( empty( $_REQUEST['save'] ) )
 		&& ProgramConfig( 'moodle', 'MOODLE_TOKEN' ) )
 	{
 		echo ' ' . SubmitButton( _( 'Test' ), 'check', '' );
+	}
+
+	echo '</div></form>';
+
+	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
+		'&tab=plugins&modfunc=config&plugin=Moodle&import_users=true" method="POST">';
+
+	echo '<br /><div class="center">';
+
+	if ( ProgramConfig( 'moodle', 'MOODLE_URL' )
+		&& ProgramConfig( 'moodle', 'MOODLE_TOKEN' ) )
+	{
+		// @since 5.9 Import Moodle Users.
+		echo ' ' . SubmitButton( _( 'Import Users' ), '', '' );
 	}
 
 	echo '</div></form>';

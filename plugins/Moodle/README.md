@@ -6,13 +6,18 @@ Author François Jacquet
 
 ## Description
 
-This plugin integrates RosarioSIS with [Moodle LMS](https://moodle.org/).
+This plugin integrates RosarioSIS with [Moodle LMS](https://moodle.org/). It lets you import Moodle users.
 
 ### WARNING & LIMITATION
 
 The plugin is designed and intended for ONE school only in RosarioSIS.
 
 ## Content
+
+Plugin Configuration
+
+- Configure Moodle API and Test
+- Import Users
 
 Students
 
@@ -43,4 +48,4 @@ Grades
 
 Please follow [this tutorial](https://gitlab.com/francoisjacquet/rosariosis/wikis/Moodle-integrator-setup)
 
-Requires Moodle **2.6** or higher & PHP `curl` & `xmlrpc` extensions.
+Requires Moodle **3.0** or higher & PHP `curl` & `xmlrpc` extensions.
