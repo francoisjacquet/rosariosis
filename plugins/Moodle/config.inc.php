@@ -90,7 +90,7 @@ if ( ! empty( $_REQUEST['import_users'] ) )
 	// @since 5.9 Import Moodle Users.
 	if ( ! Config( 'STUDENTS_EMAIL_FIELD' ) )
 	{
-		$student_email_field = '<b>' . _( 'Students Email Field' ) . '</b>';
+		$student_email_field = '<b>' . _( 'Student email field' ) . '</b>';
 
 		if ( AllowEdit( 'School_Setup/Configuration.php' ) ) {
 
@@ -146,7 +146,7 @@ if ( ! empty( $_REQUEST['import_users'] ) )
 			}
 		}
 
-		$note[] = sprintf( _( '%d Moodle users were imported.' ), $moodle_users_imported );
+		$note[] = sprintf( _( '%s users were imported.' ), $moodle_users_imported );
 
 		// Unset values & import_users & redirect URL.
 		RedirectURL( array( 'values', 'import_users' ) );
