@@ -73,36 +73,23 @@ function GetStaffList( &$extra = array() )
 			$field_key = 'CUSTOM_' . $field['ID'];
 			$extra['columns_after'][ $field_key ] = $field['TITLE'];
 
-			$functions[ $field_key ] = makeFieldTypeFunction( $field['TYPE'], 'STAFF' );
+			// @since 5.9 Move Email & Phone Staff Fields to custom fields.
+			if ( $field['ID'] === '200000000' )
+			{
+				$field_key = 'EMAIL';
+
+				$functions[ $field_key ] = 'makeEmail';
+			}
+			elseif ( $field['ID'] === '200000001' )
+			{
+				$functions[ $field_key ] = 'makePhone';
+			}
+			else
+			{
+				$functions[ $field_key ] = makeFieldTypeFunction( $field['TYPE'], 'STAFF' );
+			}
 
 			$select .= ',s.' . $field_key;
-		}
-
-		// User Fields: search Email Address & Phone.
-		$view_other_RET = DBGet( "SELECT TITLE,VALUE
-			FROM PROGRAM_USER_CONFIG
-			WHERE PROGRAM='StaffFieldsView'
-			AND TITLE IN ('EMAIL','PHONE')
-			AND USER_ID='" . User( 'STAFF_ID' ) . "'", array(), array( 'TITLE' ) );
-
-		if ( isset( $view_other_RET['EMAIL'][1]['VALUE'] )
-			&& $view_other_RET['EMAIL'][1]['VALUE'] === 'Y' )
-		{
-			$extra['columns_after']['EMAIL'] = _( 'Email Address' );
-
-			$functions['EMAIL'] = 'makeEmail';
-
-			$select .= ',s.EMAIL';
-		}
-
-		if ( isset( $view_other_RET['PHONE'][1]['VALUE'] )
-			&& $view_other_RET['PHONE'][1]['VALUE'] === 'Y' )
-		{
-			$extra['columns_after']['PHONE'] = _( 'Phone Number' );
-
-			$functions['PHONE'] = 'makePhone';
-
-			$select .= ',s.PHONE';
 		}
 
 		$extra['SELECT'] .= $select;
@@ -126,7 +113,20 @@ function GetStaffList( &$extra = array() )
 				$field_key = 'CUSTOM_' . $field['ID'];
 				$extra['columns_after'][ $field_key ] = $field['TITLE'];
 
-				$functions[ $field_key ] = makeFieldTypeFunction( $field['TYPE'], 'STAFF' );
+				if ( $field['ID'] === '200000000' )
+				{
+					$field_key = 'EMAIL';
+
+					$functions[ $field_key ] = 'makeEmail';
+				}
+				elseif ( $field['ID'] === '200000001' )
+				{
+					$functions[ $field_key ] = 'makePhone';
+				}
+				else
+				{
+					$functions[ $field_key ] = makeFieldTypeFunction( $field['TYPE'], 'STAFF' );
+				}
 			}
 
 			$extra['SELECT'] .= $select;

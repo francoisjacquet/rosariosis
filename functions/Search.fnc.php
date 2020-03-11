@@ -440,87 +440,11 @@ function Search( $type, $extra = null )
 			}
 			elseif ( $type === 'staff_fields_all' )
 			{
-				// User Fields: search Email Address & Phone.
-				$general_info_category_title = ParseMLField( DBGetOne( "SELECT sfc.TITLE
-					FROM STAFF_FIELD_CATEGORIES sfc
-					WHERE sfc.ID=1" ) );
-
-				if ( isset( $categories_RET[1] ) )
-				{
-					$i = count( $categories_RET[1]['text'] ) ? 1 : count( $categories_RET[1]['text'] );
-				}
-				else
-				{
-					$i = 1;
-				}
-
-				if ( Preferences( 'EMAIL', 'StaffFieldsSearch' ) !== 'Y' )
-				{
-					if ( ! isset( $categories_RET[1] ) )
-					{
-						// Empty General Info category.
-						$categories_RET[1] = array();
-					}
-
-					// Add Email Address to Staff General Info.
-					$categories_RET[1]['text'][ $i++ ] = array(
-						'ID' => '1',
-						'CATEGORY_TITLE' => $general_info_category_title,
-						'COLUMN_NAME' => 'EMAIL',
-						'TYPE' => 'text',
-						'TITLE' => _( 'Email Address' ),
-						'SELECT_OPTIONS' => null,
-					);
-				}
-
-				if ( Preferences( 'PHONE', 'StaffFieldsSearch' ) !== 'Y' )
-				{
-					if ( ! isset( $categories_RET[1] ) )
-					{
-						// Empty General Info category.
-						$categories_RET[1] = array();
-					}
-
-					// Add Phone Number to Staff General Info.
-					$categories_RET[1]['text'][ $i++ ] = array(
-						'ID' => '1',
-						'CATEGORY_TITLE' => $general_info_category_title,
-						'COLUMN_NAME' => 'PHONE',
-						'TYPE' => 'text',
-						'TITLE' => _( 'Phone Number' ),
-						'SELECT_OPTIONS' => null,
-					);
-				}
+				$i = 1;
 			}
 			elseif ( $type === 'staff_fields' )
 			{
 				$i = isset( $i ) ? $i : 0;
-
-				if ( Preferences( 'EMAIL', 'StaffFieldsSearch' ) === 'Y' )
-				{
-					// Add Email Address to Find a User form.
-					$categories_RET[1]['text'][ $i++ ] = array(
-						'ID' => '1',
-						'CATEGORY_TITLE' => '',
-						'COLUMN_NAME' => 'EMAIL',
-						'TYPE' => 'text',
-						'TITLE' => _( 'Email Address' ),
-						'SELECT_OPTIONS' => null,
-					);
-				}
-
-				if ( Preferences( 'PHONE', 'StaffFieldsSearch' ) === 'Y' )
-				{
-					// Add Phone Number to Find a User form.
-					$categories_RET[1]['text'][ $i++ ] = array(
-						'ID' => '1',
-						'CATEGORY_TITLE' => '',
-						'COLUMN_NAME' => 'PHONE',
-						'TYPE' => 'text',
-						'TITLE' => _( 'Phone Number' ),
-						'SELECT_OPTIONS' => null,
-					);
-				}
 			}
 
 			foreach ( (array) $categories_RET as $category )
@@ -573,6 +497,14 @@ function Search( $type, $extra = null )
 				// Text.
 				foreach ( (array) $category['text'] as $col )
 				{
+					if ( $type === 'staff_fields'
+						|| $type === 'staff_fields_all'
+						&& $col['COLUMN_NAME'] === 'CUSTOM_200000000' )
+					{
+						// @since 5.9 Move Email & Phone Staff Fields to custom fields.
+						$col['COLUMN_NAME'] = 'EMAIL';
+					}
+
 					$name = 'cust[' . $col['COLUMN_NAME'] . ']';
 
 					$id = GetInputID( $name );

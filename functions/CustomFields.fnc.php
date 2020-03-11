@@ -70,24 +70,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 			FROM " . ( $type === 'staff' ? 'STAFF' : 'CUSTOM' ) . "_FIELDS",
 			array(), array( 'COLUMN' )	), 'TITLE' );
 
-		if ( $type === 'staff' )
-		{
-			// User Fields: search Email Address & Phone.
-			$fields['EMAIL'][1] = array(
-				'TITLE' => _( 'Email Address' ),
-				'COLUMN' => 'EMAIL',
-				'TYPE' => 'text',
-				'SELECT_OPTIONS' => null,
-			);
-
-			$fields['PHONE'][1] = array(
-				'TITLE' => _( 'Phone Number' ),
-				'COLUMN' => 'PHONE',
-				'TYPE' => 'text',
-				'SELECT_OPTIONS' => null,
-			);
-		}
-		else
+		if ( $type !== 'staff' )
 		{
 			// Student Fields: search Username.
 			$fields['USERNAME'][1] = array(
@@ -101,6 +84,15 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 
 	foreach ( (array) $cust as $column => $value )
 	{
+		if ( $type === 'staff'
+			&& $column === 'EMAIL' )
+		{
+			// @since 5.9 Move Email & Phone Staff Fields to custom fields.
+			$column = 'CUSTOM_200000000';
+
+			$fields[ $column ][1]['COLUMN'] = 'EMAIL';
+		}
+
 		$field = $fields[ $column ][1] + array( 'VALUE' => $value );
 
 		$return .= SearchField( $field, $type, $extra );

@@ -55,7 +55,24 @@ foreach ( (array) $fields_RET as $field )
 		case 'text':
 		case 'numeric':
 
-			echo _makeTextInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], 'staff' );
+			if ( $field['ID'] === '200000000' )
+			{
+				// @since 5.9 Move Email & Phone Staff Fields to custom fields.
+				// FJ Moodle integrator: email required
+				echo TextInput(
+					issetVal( $value['EMAIL'] ),//issetVal( $value['CUSTOM_' . $field['ID']] ),
+					'staff[EMAIL]',
+					$field['TITLE'],
+					'maxlength=255 type="email" pattern="[^ @]*@[^ @]*" placeholder="' . _( 'Email' ) . '"' .
+						( ! empty( $_REQUEST['moodle_create_user'] ) || ! empty( $old_user_in_moodle )
+							|| $field['REQUIRED'] ? ' required' : '' ),
+					empty( $_REQUEST['moodle_create_user'] )
+				);
+			}
+			else
+			{
+				echo _makeTextInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], 'staff' );
+			}
 
 			break;
 

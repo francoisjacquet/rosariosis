@@ -290,7 +290,9 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 
 	if ( AllowEdit()
 		&& ! $new
-		&& ( $id
+		&& ( ( $id
+				&& ( $table !== 'STAFF'
+					|| $id < 200000000 ) ) // Don't Delete Email & Phone User Fields.
 			|| ( $category_id
 				&& ( $table !== 'STUDENT'
 					|| $category_id > 4 ) // Don't Delete first 4 Student Fields Categories.
@@ -347,7 +349,9 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 		if ( ! $new )
 		{
 			// Mab - allow changing between select and autos and text and exports.
-			if ( in_array( $RET['TYPE'], array( 'select', 'autos', 'text', 'exports' ) ) )
+			if ( ( $table !== 'STAFF'
+					|| $id < 200000000 ) // Don't change Email & Phone User Fields type.
+				&& in_array( $RET['TYPE'], array( 'select', 'autos', 'text', 'exports' ) ) )
 			{
 				$type_options = array_intersect_key(
 					$type_options,
@@ -397,13 +401,24 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 				$categories_options[ $type['ID'] ] = ParseMLField( $type['TITLE'] );
 			}
 
-			$header .= '<td>' . SelectInput(
-				$RET['CATEGORY_ID'] ? $RET['CATEGORY_ID'] : $category_id,
-				'tables[' . $id . '][CATEGORY_ID]',
-				_( 'Field Category' ),
-				$categories_options,
-				false
-			) . '</td>';
+			if ( $table !== 'STAFF'
+				|| $id < 200000000 ) // Don't change Email & Phone User Fields category.
+			{
+				$header .= '<td>' . SelectInput(
+					$RET['CATEGORY_ID'] ? $RET['CATEGORY_ID'] : $category_id,
+					'tables[' . $id . '][CATEGORY_ID]',
+					_( 'Field Category' ),
+					$categories_options,
+					false
+				) . '</td>';
+			}
+			else
+			{
+				$header .= '<td>' . NoInput(
+					$categories_options[ $RET['CATEGORY_ID'] ],
+					_( 'Field Category' )
+				) . '</td>';
+			}
 		}
 		// No Fields Categories, ie: School Fields.
 

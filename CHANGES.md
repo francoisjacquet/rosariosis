@@ -5,6 +5,7 @@ Changes in 5.9
 --------------
 - Import Moodle Users in Moodle/config.inc.php & Moodle/includes/ImportUsers.fnc.php
 - Update French & Spanish translations in rosariosis.po
+- Move Email & Phone Staff Fields to custom fields in Fields.fnc.php, CustomFields.fnc.php, GetStaffList.fnc.php, Search.fnc.php, Rollover.php, Preferences.php, User.php, General_Info.inc.php & Other_Info.inc.php
 
 Changes in 5.8
 --------------

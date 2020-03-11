@@ -796,24 +796,6 @@ if ( ! $_REQUEST['modfunc'] )
 			$custom_fields_RET[$general_info_category_title] = array();
 		}
 
-		$THIS_RET['ID'] = 'EMAIL';
-		$custom_fields_RET[1][$i++] = array(
-			'CATEGORY' => '<b>' . ParseMLField( $general_info_category_title ) . '</b>',
-			'ID' => 'EMAIL',
-			'TITLE' => _( 'Email Address' ),
-			'STAFF_SEARCH' => _make( '', 'STAFF_SEARCH' ),
-			'STAFF_DISPLAY' => _make( '', 'STAFF_DISPLAY' ),
-		);
-
-		$THIS_RET['ID'] = 'PHONE';
-		$custom_fields_RET[1][$i++] = array(
-			'CATEGORY' => '<b>' . ParseMLField( $general_info_category_title ) . '</b>',
-			'ID' => 'HOME_PHONE',
-			'TITLE' => _( 'Phone Number' ),
-			'STAFF_SEARCH' => _make( '', 'STAFF_SEARCH' ),
-			'STAFF_DISPLAY' => _make( '', 'STAFF_DISPLAY' ),
-		);
-
 		echo '<input type="hidden" name="values[StaffFieldsSearch]" />
 			<input type="hidden" name="values[StaffFieldsView]" />';
 
