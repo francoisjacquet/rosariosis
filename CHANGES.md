@@ -4,6 +4,7 @@
 Changes in 5.9
 --------------
 - Import Moodle Users in Moodle/config.inc.php & Moodle/includes/ImportUsers.fnc.php
+- Update French & Spanish translations in rosariosis.po
 
 Changes in 5.8
 --------------
