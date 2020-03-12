@@ -8,6 +8,7 @@ Changes in 5.9
 - Move Email & Phone Staff Fields to custom fields in Fields.fnc.php, CustomFields.fnc.php, GetStaffList.fnc.php, Search.fnc.php, Rollover.php, Preferences.php, User.php, General_Info.inc.php & Other_Info.inc.php
 - SQL Rename PHONE column to CUSTOM_200000001 in STAFF table in rosariosis.sql & Update.fnc.php
 - SQL Add Email & Phone to Staff Fields in rosariosis.sql, rosariosis_es.sql, rosariosis_fr.sql & Update.fnc.php
+- CSS Grade Points label line-height in stylesheet.css
 
 Changes in 5.8
 --------------

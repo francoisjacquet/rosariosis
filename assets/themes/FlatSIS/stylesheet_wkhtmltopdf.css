@@ -183,6 +183,10 @@ code {
 	line-height: 31px;
 }
 
+.span-grade-points + label {
+	line-height: 31px;
+}
+
 body,
 textarea,
 input,

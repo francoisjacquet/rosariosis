@@ -822,6 +822,10 @@ div.underline-dots {
 	padding-bottom: 1px;
 }
 
+.span-grade-points + label {
+	line-height: 28px;
+}
+
 textarea {
 	width: 100%;
 	min-width: 280px;
