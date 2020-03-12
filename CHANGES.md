@@ -10,6 +10,7 @@ Changes in 5.9
 - SQL Add Email & Phone to Staff Fields in rosariosis.sql, rosariosis_es.sql, rosariosis_fr.sql & Update.fnc.php
 - CSS Grade Points label line-height in stylesheet.css
 - Moodle creates user password if left empty in General_Info.inc.php, Student.php, User.php & Moodle/functions.php
+- Do not update Moodle user password in General_Info.inc.php, Student.php, User.php & Moodle/functions.php
 
 Changes in 5.8
 --------------

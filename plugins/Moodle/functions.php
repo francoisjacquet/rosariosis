@@ -30,9 +30,6 @@ if ( MOODLE_URL && MOODLE_TOKEN && MOODLE_PARENT_ROLE_ID && ROSARIO_STUDENTS_EMA
 	add_action( 'Users/User.php|upload_user_photo', 'MoodleTriggered' );
 	add_action( 'Users/User.php|delete_user', 'MoodleTriggered' );
 
-	add_action( 'Users/Preferences.php|update_password_checks', 'MoodleTriggered' );
-	add_action( 'Users/Preferences.php|update_password', 'MoodleTriggered' );
-
 	add_action( 'Users/AddStudents.php|user_assign_role', 'MoodleTriggered' );
 	add_action( 'Users/AddStudents.php|user_unassign_role', 'MoodleTriggered' );
 

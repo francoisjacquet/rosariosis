@@ -159,19 +159,17 @@ echo PasswordInput(
 	( empty( $staff['PASSWORD'] ) || ! empty( $_REQUEST['moodle_create_user'] ) ? '' : str_repeat( '*', 8 ) ),
 	'staff[PASSWORD]',
 	_( 'Password' ) .
-	( ! empty( $_REQUEST['moodle_create_user'] ) || ! empty( $old_user_in_moodle ) ?
+	( ! empty( $_REQUEST['moodle_create_user'] ) ?
 		'<div class="tooltip"><i>' .
 		_( 'The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character' ) .
 		// @since 5.9 Moodle creates user password if left empty.
-		( ! empty( $_REQUEST['moodle_create_user'] ) ?
-			'. ' ._( 'Moodle will create a password and send an email to user if left empty.' ) :
-			'' ) .
+		'. ' ._( 'Moodle will create a password and send an email to user if left empty.' ) .
 		'</i></div>' :
 		''
 	),
 	'maxlength="42" tabindex="2" strength' .
-	// @since 5.9 Moodle creates user password if left empty.
-	( ! $required || ! empty( $_REQUEST['moodle_create_user'] ) ? '' : ' required' ),
+	// @since 5.9 Moodle creates user password if left empty + Do not update Moodle user password.
+	( basename( $_SERVER['PHP_SELF'] ) == 'index.php' ? ' required' : '' ),
 	empty( $_REQUEST['moodle_create_user'] )
 );
 

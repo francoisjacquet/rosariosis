@@ -182,10 +182,11 @@ function core_user_update_users_object()
 		$user['username'] = $username;
 	}
 
-	if ( $password )
+	// @since 5.9 Do not update Moodle user password.
+	/*if ( $password )
 	{
 		$user['password'] = $password;
-	}
+	}*/
 
 	if ( $firstname )
 	{
