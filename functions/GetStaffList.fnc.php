@@ -71,7 +71,6 @@ function GetStaffList( &$extra = array() )
 		foreach ( (array) $view_fields_RET as $field )
 		{
 			$field_key = 'CUSTOM_' . $field['ID'];
-			$extra['columns_after'][ $field_key ] = $field['TITLE'];
 
 			// @since 5.9 Move Email & Phone Staff Fields to custom fields.
 			if ( $field['ID'] === '200000000' )
@@ -88,6 +87,8 @@ function GetStaffList( &$extra = array() )
 			{
 				$functions[ $field_key ] = makeFieldTypeFunction( $field['TYPE'], 'STAFF' );
 			}
+
+			$extra['columns_after'][ $field_key ] = $field['TITLE'];
 
 			$select .= ',s.' . $field_key;
 		}
