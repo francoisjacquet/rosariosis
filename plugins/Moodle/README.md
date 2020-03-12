@@ -27,6 +27,8 @@ Users
 
 - Create, update & delete teachers, parents, admins in Moodle
 
+Tip: leave password empty when creating a User / Student in Moodle so Moodle creates a password and sends an email to user.
+
 Schedule
 
 - Subjects, courses & course periods are automatically created, updated & deleted in Moodle

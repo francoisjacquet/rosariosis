@@ -747,6 +747,12 @@ function Moodle( $modname, $moodle_functionname )
  */
 function MoodlePasswordCheck( $password )
 {
+	if ( empty( $password ) )
+	{
+		// @since 5.9 Moodle creates user password if left empty.
+		return true;
+	}
+
 	if ( mb_strlen( $password ) < 8 || ! preg_match( '/[^a-zA-Z0-9]+/', $password ) || ! preg_match( '/[a-z]+/', $password ) || ! preg_match( '/[A-Z]+/', $password ) || ! preg_match( '/[0-9]+/', $password ) )
 	{
 		return false;

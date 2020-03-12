@@ -142,10 +142,16 @@ echo PasswordInput(
 		|| ! empty( $old_student_in_moodle ) ?
 		'<div class="tooltip"><i>' .
 		_( 'The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character' ) .
+		// @since 5.9 Moodle creates user password if left empty.
+		( ! empty( $_REQUEST['moodle_create_student'] ) ?
+			'. ' ._( 'Moodle will create a password and send an email to user if left empty.' ) :
+			'' ) .
 		'</i></div>' :
 		''
 	),
-	'maxlength="42" strength' . ( $required ? ' required' : '' ),
+	'maxlength="42" strength' .
+	// @since 5.9 Moodle creates user password if left empty.
+	( ! $required || ! empty( $_REQUEST['moodle_create_student'] ) ? '' : ' required' ),
 	empty( $_REQUEST['moodle_create_student'] )
 );
 
