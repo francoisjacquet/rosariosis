@@ -663,7 +663,9 @@ if ( $_REQUEST['assignment_id'] && $_REQUEST['assignment_id'] != 'all' )
 	$due_date = $assignments_RET[$_REQUEST['assignment_id']][1]['DUE_DATE'];
 	$due = $assignments_RET[$_REQUEST['assignment_id']][1]['DUE'];
 
-	DrawHeader( '<b>' . _( 'Assigned Date' ) . ':</b> ' . ( $assigned_date ? ProperDate( $assigned_date ) : _( 'N/A' ) ) . ', <b>' . _( 'Due Date' ) . ':</b> ' . ( $due_date ? ProperDate( $due_date ) : _( 'N/A' ) ) . ( $due ? ' - <b>' . _( 'Assignment is Due' ) . '</b>' : '' ) );
+	DrawHeader( _( 'Assigned Date' ) . ': ' . ( $assigned_date ? ProperDate( $assigned_date ) : _( 'N/A' ) ) .
+		' &mdash; ' . _( 'Due Date' ) . ': ' . ( $due_date ? ProperDate( $due_date ) : _( 'N/A' ) ) .
+		( $due ? ' &mdash; <b>' . _( 'Assignment is Due' ) . '</b>' : '' ) );
 }
 
 if ( ! $_ROSARIO['allow_edit']
