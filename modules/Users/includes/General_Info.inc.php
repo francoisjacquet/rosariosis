@@ -175,7 +175,11 @@ echo PasswordInput(
 
 echo '</td></tr><tr class="st"><td colspan="2">';
 
-echo NoInput( makeLogin( issetVal( $staff['LAST_LOGIN'], '' ) ), _( 'Last Login' ) );
+if ( array_key_exists( 'LAST_LOGIN', $staff ) )
+{
+	// Hide Last Login on Create Account and Add screens.
+	echo NoInput( makeLogin( issetVal( $staff['LAST_LOGIN'], '' ) ), _( 'Last Login' ) );
+}
 
 echo '</td></tr></table>';
 

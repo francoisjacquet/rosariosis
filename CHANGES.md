@@ -11,6 +11,7 @@ Changes in 5.9
 - CSS Grade Points label line-height in stylesheet.css
 - Moodle creates user password if left empty in General_Info.inc.php, Student.php, User.php & Moodle/functions.php
 - Do not update Moodle user password in General_Info.inc.php, Student.php, User.php & Moodle/functions.php
+- Hide Last Login on Create Account and Add screens in General_Info.inc.php
 
 Changes in 5.8
 --------------

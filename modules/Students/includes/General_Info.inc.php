@@ -112,7 +112,11 @@ else
 
 echo '</td><td>';
 
-echo NoInput( makeLogin( issetVal( $student['LAST_LOGIN'], '' ) ), _( 'Last Login' ) );
+if ( array_key_exists( 'LAST_LOGIN', $student ) )
+{
+	// Hide Last Login on Create Account and Add screens.
+	echo NoInput( makeLogin( $student['LAST_LOGIN'] ), _( 'Last Login' ) );
+}
 
 echo '</td></tr><tr class="st"><td>';
 //FJ Moodle integrator
