@@ -171,6 +171,10 @@ function Update()
 		case version_compare( $from_version, '5.9-beta', '<' ) :
 
 			$return = _update59beta();
+
+		case version_compare( $from_version, '5.9-beta2', '<' ) :
+
+			$return = _update59beta2();
 	}
 
 	// Update version in DB CONFIG table.
@@ -1875,6 +1879,38 @@ function _update59beta()
 			ALTER COLUMN email TYPE character varying(255);
 			ALTER TABLE staff
 			ALTER COLUMN custom_200000001 TYPE text;" );
+	}
+
+	return $return;
+}
+
+
+/**
+ * Update to version 5.9-beta2
+ *
+ * 1. Add CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION to CONFIG table.
+ *
+ * Local function
+ *
+ * @since 5.9
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update59beta2()
+{
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. Add CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION to CONFIG table.
+	 */
+	$automatic_activation_added = DBGetOne( "SELECT 1 FROM CONFIG
+		WHERE TITLE='CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION'" );
+
+	if ( ! $automatic_activation_added )
+	{
+		DBQuery( "INSERT INTO config VALUES (0, 'CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION', NULL);" );
 	}
 
 	return $return;

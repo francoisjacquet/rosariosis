@@ -12,6 +12,7 @@ Changes in 5.9
 - Moodle creates user password if left empty in General_Info.inc.php, Student.php, User.php & Moodle/functions.php
 - Do not update Moodle user password in General_Info.inc.php, Student.php, User.php & Moodle/functions.php
 - Hide Last Login on Create Account and Add screens in General_Info.inc.php
+- Add CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION to CONFIG table in Update.fnc.php & rosariosis.sql
 
 Changes in 5.8
 --------------
