@@ -223,13 +223,29 @@ else
 				button( 'x' )
 			) . '</td></tr>';
 
+			$create_student_account_tooltip = '';
+
+			if ( empty( Config( 'CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION' ) ) )
+			{
+				$create_student_account_tooltip = '<div class="tooltip"><i>' .
+					_( 'New students will be added as Inactive students' ) . '</i></div>';
+			}
+
 			echo '<tr><td>' . CheckboxInput(
 				Config( 'CREATE_STUDENT_ACCOUNT' ),
 				'values[CONFIG][CREATE_STUDENT_ACCOUNT]',
-				_( 'Create Student Account' ) .
-				'<div class="tooltip"><i>' .
-				_( 'New students will be added as Inactive students' ) .
-				'</i></div>',
+				_( 'Create Student Account' ) . $create_student_account_tooltip,
+				'',
+				false,
+				button( 'check' ),
+				button( 'x' )
+			) . '</td></tr>';
+
+			// @since 5.9 Automatic Student Account Activation.
+			echo '<tr><td>' . CheckboxInput(
+				Config( 'CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION' ),
+				'values[CONFIG][CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION]',
+				_( 'Automatic Student Account Activation' ),
 				'',
 				false,
 				button( 'check' ),

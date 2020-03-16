@@ -16,6 +16,10 @@ Please upgrade the following add-ons:
 Moodle plugin
 - Import Moodle Users
 
+School
+- Configuration: Automatic Student Account Activation, sponsored by LearnersPlatform
+
+
 New in 5.8
 ----------
 

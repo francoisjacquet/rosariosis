@@ -153,11 +153,35 @@ if ( $_REQUEST['modfunc'] === 'update'
 			// Check if trying to hack enrollment.
 
 			if ( isset( $_REQUEST['month_values']['STUDENT_ENROLLMENT'] )
-				|| count( (array) $_REQUEST['values']['STUDENT_ENROLLMENT'] ) > 1 )
+				|| count( (array) $_REQUEST['values']['STUDENT_ENROLLMENT'] ) > 2 )
 			{
 				require_once 'ProgramFunctions/HackingLog.fnc.php';
 
 				HackingLog();
+			}
+
+			if ( Config( 'CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION' )
+				&& ! empty( $_REQUEST['values']['STUDENT_ENROLLMENT']['new']['SCHOOL_ID'] ) )
+			{
+				// @since 5.9 Automatic Student Account Activation.
+				$create_account_school_id = $_REQUEST['values']['STUDENT_ENROLLMENT']['new']['SCHOOL_ID'];
+
+				// Enroll student on the same day (even if it is before first school day).
+				list(
+					$_REQUEST['year_values']['STUDENT_ENROLLMENT']['new']['START_DATE'],
+					$_REQUEST['month_values']['STUDENT_ENROLLMENT']['new']['START_DATE'],
+					$_REQUEST['day_values']['STUDENT_ENROLLMENT']['new']['START_DATE']
+				) = explode( '-', DBDate() );
+
+				// Enroll student with default Rolling / Retention Options (Next grade at current school).
+				$_REQUEST['values']['STUDENT_ENROLLMENT']['new']['NEXT_SCHOOL'] = '1';
+
+				// Enroll student in Default Calendar.
+				$_REQUEST['values']['STUDENT_ENROLLMENT']['new']['CALENDAR_ID'] = DBGetOne( "SELECT CALENDAR_ID
+					FROM ATTENDANCE_CALENDARS
+					WHERE SYEAR='" . UserSyear() . "'
+					AND SCHOOL_ID='" . $create_account_school_id . "'
+					AND DEFAULT_CALENDAR='Y'" );
 			}
 		}
 
@@ -525,8 +549,11 @@ else
 	do_action( 'Students/Student.php|account_created' );
 
 	// Return to index.
+	// @since 5.9 Automatic Student Account Activation.
+	$reason = Config( 'CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION' ) ?
+		'account_activated' : 'account_created';
 	?>
-	<script>window.location.href = "index.php?modfunc=logout&reason=account_created";</script>
+	<script>window.location.href = "index.php?modfunc=logout&reason=" + <?php echo json_encode( $reason ); ?>;</script>
 <?php
 exit;
 }

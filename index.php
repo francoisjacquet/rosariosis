@@ -388,6 +388,12 @@ if ( empty( $_SESSION['STAFF_ID'] )
 				. _( 'You will then be able to log in.' );
 		}
 
+		// @since 5.9 Automatic Student Account Activation.
+		elseif ( $_REQUEST['reason'] == 'account_activated' )
+		{
+			$note[] = _( 'Your account has been created.' );
+		}
+
 		// Password recovery.
 		elseif ( $_REQUEST['reason'] == 'password_reset' )
 		{

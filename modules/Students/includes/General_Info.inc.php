@@ -195,14 +195,68 @@ else
 
 	// Add School select input.
 	echo SelectInput(
-		'',
+		UserSchool(),
 		'values[STUDENT_ENROLLMENT][new][SCHOOL_ID]',
 		_( 'School' ),
 		$school_options,
+		false,
+		'autocomplete="off"',
 		false
 	);
 
-	echo '</td><td colspan="2">';
+	if ( Config( 'CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION' ) )
+	{
+		// @since 5.9 Automatic Student Account Activation.
+		echo '</td><td>';
+
+		// Grade Levels for ALL schools.
+		$gradelevels_RET = DBGet( "SELECT ID,TITLE,SCHOOL_ID
+			FROM SCHOOL_GRADELEVELS
+			ORDER BY SCHOOL_ID,SORT_ORDER", array(), array( 'SCHOOL_ID' ) );
+
+		// UserSchool() is set when Public Pages plugin is activated.
+		$user_school = UserSchool() ? UserSchool() : key( $gradelevels_RET );
+
+		foreach ( (array) $gradelevels_RET as $school_id => $gradelevels )
+		{
+			$gradelevel_options = array();
+
+			foreach ( (array) $gradelevels as $gradelevel )
+			{
+				$gradelevel_options[ $gradelevel['ID'] ] = $gradelevel['TITLE'];
+			}
+
+			// Add Grade Level select input.
+			echo '<div class="grade-levels-wrapper ' . ( $user_school == $school_id ? '' : 'hide' ) .
+				'" data-school-id="' . $school_id . '">' .
+			SelectInput(
+				'',
+				'values[STUDENT_ENROLLMENT][new][GRADE_ID]',
+				_( 'Grade Level' ),
+				$gradelevel_options,
+				'N/A',
+				'required' . ( $user_school == $school_id ? '' : ' disabled' )
+			) . '</div>';
+		}
+
+		// Show Grade Levels depending on selected School.
+		?>
+		<script>
+			$( '#valuesSTUDENT_ENROLLMENTnewSCHOOL_ID' ).change(function() {
+				var schoolId = $( '#valuesSTUDENT_ENROLLMENTnewSCHOOL_ID' ).val();
+
+				$( '.grade-levels-wrapper' ).addClass( 'hide' );
+				$( '.grade-levels-wrapper #valuesSTUDENT_ENROLLMENTnewGRADE_ID' ).prop( 'disabled', true );
+
+				$( '.grade-levels-wrapper[data-school-id="' + schoolId + '"]' ).removeClass( 'hide' );
+				$( '.grade-levels-wrapper[data-school-id="' + schoolId + '"] #valuesSTUDENT_ENROLLMENTnewGRADE_ID' ).prop( 'disabled', false );
+			});
+		</script>
+		<?php
+	}
+
+	echo Config( 'CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION' ) ?
+		'</td><td>' : '</td><td colspan="2">';
 
 	// Add Captcha.
 	echo CaptchaInput( 'captcha' . rand( 100, 9999 ), _( 'Captcha' ) );
