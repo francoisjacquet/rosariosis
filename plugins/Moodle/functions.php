@@ -159,12 +159,10 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 			break;
 
 		case 'Students/Student.php|update_student_checks':
-			if ( ! empty( $_REQUEST['students']['PASSWORD'] ) )
+			if ( ! empty( $_REQUEST['moodle_create_student'] )
+				&& ! MoodlePasswordCheck( $_REQUEST['students']['PASSWORD'] ) )
 			{
-				if (  ( $_REQUEST['moodle_create_student'] || IsMoodleStudent( UserStudentID() ) ) && ! MoodlePasswordCheck( $_REQUEST['students']['PASSWORD'] ) )
-				{
-					$error[] = _( 'Please enter a valid password' );
-				}
+				$error[] = _( 'Please enter a valid password' );
 			}
 
 			break;
@@ -296,12 +294,11 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 			break;
 
 		case 'Users/User.php|update_user_checks':
-			if ( ! empty( $_REQUEST['staff']['PASSWORD'] ) )
+
+			if ( ! empty( $_REQUEST['moodle_create_user'] )
+				&& ! MoodlePasswordCheck( $_REQUEST['staff']['PASSWORD'] ) )
 			{
-				if (  ( $_REQUEST['moodle_create_user'] || IsMoodleUser( UserStaffID() ) ) && ! MoodlePasswordCheck( $_REQUEST['staff']['PASSWORD'] ) )
-				{
-					$error[] = _( 'Please enter a valid password' );
-				}
+				$error[] = _( 'Please enter a valid password' );
 			}
 
 			break;
