@@ -166,10 +166,6 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 					$error[] = _( 'Please enter a valid password' );
 				}
 			}
-			elseif ( ! empty( $_REQUEST['moodle_create_student'] ) )
-			{
-				$error[] = _( 'Please enter a valid password' );
-			}
 
 			break;
 
@@ -306,10 +302,6 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 				{
 					$error[] = _( 'Please enter a valid password' );
 				}
-			}
-			elseif ( ! empty( $_REQUEST['moodle_create_user'] ) )
-			{
-				$error[] = _( 'Please enter a valid password' );
 			}
 
 			break;

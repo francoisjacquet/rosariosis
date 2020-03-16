@@ -27,7 +27,7 @@ Users
 
 - Create, update & delete teachers, parents, admins in Moodle
 
-Tip: leave password empty when creating a User / Student in Moodle so Moodle creates a password and sends an email to user.
+Tip: leave the password field empty when creating a User / Student in Moodle so Moodle creates a password and sends an email to user.
 
 Schedule
 
