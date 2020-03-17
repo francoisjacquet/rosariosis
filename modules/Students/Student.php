@@ -450,28 +450,19 @@ if ( $_REQUEST['modfunc'] === 'update'
 			do_action( 'Students/Student.php|upload_student_photo' );
 		}
 
-		if ( UserStudentID()
-			&& basename( $_SERVER['PHP_SELF'] ) === 'index.php'
-			&& filter_var( $RosarioNotifyAddress, FILTER_VALIDATE_EMAIL ) )
+		if ( UserStudentID() )
 		{
-			/**
-			 * Send Create Student Account email to Notify.
-			 *
-			 * @since 5.7
-			 */
-			require_once 'ProgramFunctions/SendEmail.fnc.php';
+			require_once 'ProgramFunctions/SendNotification.fnc.php';
 
-			$student_name = DBGetOne( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
-				FROM STUDENTS
-				WHERE STUDENT_ID='" . UserStudentID() . "'" );
-
-			$message = sprintf(
-				_( 'New student account was created for %s (%d) (inactive).' ),
-				$student_name,
-				UserStudentID()
-			);
-
-			SendEmail( $RosarioNotifyAddress, _( 'Create Student Account' ), $message );
+			if ( basename( $_SERVER['PHP_SELF'] ) === 'index.php' )
+			{
+				/**
+				 * Send Create Student Account email to System Notify address.
+				 *
+				 * @since 5.7
+				 */
+				SendNotificationCreateStudentAccount( UserStudentID(), $RosarioNotifyAddress );
+			}
 		}
 	}
 

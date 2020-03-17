@@ -448,23 +448,6 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 				// Hook.
 				do_action( 'Users/User.php|create_user' );
-
-				if ( $_REQUEST['staff']['PROFILE_ID'] == 1
-					&& filter_var( $RosarioNotifyAddress, FILTER_VALIDATE_EMAIL ) )
-				{
-					// Send New Administrator Account email to Notify.
-					require_once 'ProgramFunctions/SendEmail.fnc.php';
-
-					$admin_name = $_REQUEST['staff']['FIRST_NAME'] . ' ' . $_REQUEST['staff']['LAST_NAME'];
-
-					$message = sprintf(
-						_( 'New Administrator account was created for %s, by %s.' ),
-						$admin_name,
-						User( 'NAME' )
-					);
-
-					SendEmail( $RosarioNotifyAddress, _( 'New Administrator Account' ), $message );
-				}
 			}
 		}
 
@@ -494,28 +477,26 @@ if ( $_REQUEST['modfunc'] === 'update'
 			do_action( 'Users/User.php|upload_user_photo' );
 		}
 
-		if ( UserStaffID()
-			&& basename( $_SERVER['PHP_SELF'] ) === 'index.php'
-			&& filter_var( $RosarioNotifyAddress, FILTER_VALIDATE_EMAIL ) )
+		if ( UserStaffID() )
 		{
-			/**
-			 * Send Create User Account email to Notify.
-			 *
-			 * @since 5.7
-			 */
-			require_once 'ProgramFunctions/SendEmail.fnc.php';
+			require_once 'ProgramFunctions/SendNotification.fnc.php';
 
-			$user_name = DBGetOne( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
-				FROM STAFF
-				WHERE STAFF_ID='" . UserStaffID() . "'" );
+			if ( basename( $_SERVER['PHP_SELF'] ) === 'index.php' )
+			{
+				/**
+				 * Send Create User Account email to System Notify address.
+				 *
+				 * @since 5.7
+				 */
+				SendNotificationCreateUserAccount( UserStaffID(), $RosarioNotifyAddress );
+			}
 
-			$message = sprintf(
-				_( 'New user account was created for %s (%d) (No Access).' ),
-				$user_name,
-				UserStaffID()
-			);
-
-			SendEmail( $RosarioNotifyAddress, _( 'Create User Account' ), $message );
+			if ( $staff_id
+				&& $_REQUEST['staff']['PROFILE_ID'] == 1 )
+			{
+				// Send New Administrator Account email to System Notify address.
+				SendNotificationNewAdministrator( UserStaffID(), $RosarioNotifyAddress );
+			}
 		}
 	}
 

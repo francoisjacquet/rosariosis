@@ -15,6 +15,7 @@ Changes in 5.9
 - Add CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION to CONFIG table in Update.fnc.php & rosariosis.sql
 - Automatic Student Account Activation in Configuration.php, Student.php & General_Info.inc.php
 - Hide Permissions for "No Access" profile in General_Info.inc.php
+- Move Create Student/User Account and New Administrator notifications to functions in SendNotification.fnc.php
 
 Changes in 5.8
 --------------
