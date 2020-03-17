@@ -358,9 +358,7 @@ function makeDescriptionInput( $value, $name )
 
 	if ( $calendar_RET[$THIS_RET['SCHOOL_DATE']] )
 	{
-		unset( $calendar_RET[$THIS_RET{
-			'SCHOOL_DATE'}
-		] );
+		unset( $calendar_RET[$THIS_RET['SCHOOL_DATE']] );
 	}
 
 	return TextInput( $value, 'food_service[' . $THIS_RET['SCHOOL_DATE'] . '][text]', '', 'size=20' );
