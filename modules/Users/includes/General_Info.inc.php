@@ -242,43 +242,47 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 
 	echo '</td><td>';
 
-	$permissions_options = array();
-
-	if ( $_REQUEST['staff_id'] !== 'new' )
+	if ( $staff['PROFILE'] !== 'none' )
 	{
-		$permissions_RET = DBGet( "SELECT ID,TITLE
-			FROM USER_PROFILES
-			WHERE PROFILE='" . $staff['PROFILE'] . "'
-			ORDER BY ID" );
+		// Permissions (not for "No Access" profile).
+		$permissions_options = array();
 
-		foreach ( (array) $permissions_RET as $permission )
+		if ( $_REQUEST['staff_id'] !== 'new' )
 		{
-			$permissions_options[$permission['ID']] = _( $permission['TITLE'] );
+			$permissions_RET = DBGet( "SELECT ID,TITLE
+				FROM USER_PROFILES
+				WHERE PROFILE='" . $staff['PROFILE'] . "'
+				ORDER BY ID" );
+
+			foreach ( (array) $permissions_RET as $permission )
+			{
+				$permissions_options[$permission['ID']] = _( $permission['TITLE'] );
+			}
+
+			$na = _( 'Custom' );
+		}
+		else
+		{
+			$na = _( 'Default' );
 		}
 
-		$na = _( 'Custom' );
-	}
-	else
-	{
-		$na = _( 'Default' );
-	}
+		echo SelectInput(
+			issetVal( $staff['PROFILE_ID'], '' ),
+			'staff[PROFILE_ID]',
+			_( 'Permissions' ),
+			$permissions_options,
+			$na
+		);
 
-	echo SelectInput(
-		issetVal( $staff['PROFILE_ID'], '' ),
-		'staff[PROFILE_ID]',
-		_( 'Permissions' ),
-		$permissions_options,
-		$na
-	);
-
-	if ( User( 'PROFILE' ) === 'admin'
-		&& AllowEdit( 'Users/Exceptions.php' )
-		&& ! $staff['PROFILE_ID']
-		&& UserStaffID() )
-	{
-		// Add link to User Permissions.
-		echo '<div><a href="Modules.php?modname=Users/Exceptions.php">' .
-		_( 'User Permissions' ) . '</a></div>';
+		if ( User( 'PROFILE' ) === 'admin'
+			&& AllowEdit( 'Users/Exceptions.php' )
+			&& ! $staff['PROFILE_ID']
+			&& UserStaffID() )
+		{
+			// Add link to User Permissions.
+			echo '<div><a href="Modules.php?modname=Users/Exceptions.php">' .
+			_( 'User Permissions' ) . '</a></div>';
+		}
 	}
 
 	// User Profile restrictions.

@@ -14,6 +14,7 @@ Changes in 5.9
 - Hide Last Login on Create Account and Add screens in General_Info.inc.php
 - Add CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION to CONFIG table in Update.fnc.php & rosariosis.sql
 - Automatic Student Account Activation in Configuration.php, Student.php & General_Info.inc.php
+- Hide Permissions for "No Access" profile in General_Info.inc.php
 
 Changes in 5.8
 --------------
