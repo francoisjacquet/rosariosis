@@ -299,12 +299,14 @@ function core_role_assign_roles_object()
 
 	//Moodle contexts doc: http://docs.moodle.org/dev/Roles_and_modules#Context
 
-	if ( $_REQUEST['staff']['PROFILE'] == 'admin' )
+	if ( ! empty( $_REQUEST['staff']['PROFILE'] )
+		&& $_REQUEST['staff']['PROFILE'] == 'admin' )
 	{
 		$roleid = 1;
 		$contextlevel = 'system'; // System
 	}
-	elseif ( $_REQUEST['staff']['PROFILE'] == 'teacher' )
+	elseif ( ! empty( $_REQUEST['staff']['PROFILE'] )
+		&& $_REQUEST['staff']['PROFILE'] == 'teacher' )
 	{
 		$roleid = 3;
 		/* Course context, level 50
@@ -317,7 +319,8 @@ function core_role_assign_roles_object()
 
 		return null;
 	}
-	elseif ( $_REQUEST['staff']['PROFILE'] == 'parent' )
+	elseif ( ! empty( $_REQUEST['staff']['PROFILE'] )
+		&& $_REQUEST['staff']['PROFILE'] == 'parent' )
 	{
 		$roleid = MOODLE_PARENT_ROLE_ID;
 		/* User context, level 30
