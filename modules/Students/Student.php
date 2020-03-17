@@ -217,7 +217,25 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 			if ( ! empty( $_REQUEST['values'] ) && ! $error )
 			{
+				$old_enrollment_RET = DBGet( "SELECT GRADE_ID,START_DATE,END_DATE
+					FROM STUDENT_ENROLLMENT
+					WHERE STUDENT_ID='" . UserStudentID() . "'
+					AND SYEAR='" . Config( 'SYEAR' ) . "'" );
+
 				SaveEnrollment();
+
+				if ( count( $old_enrollment_RET ) === 1
+					&& ( ! $old_enrollment_RET[1]['START_DATE']
+						|| $old_enrollment_RET[1]['START_DATE'] > DBDate() ) )
+				{
+					// Student was Inactive and is enrolled as of today, in Default School Year: Account Activation.
+					$student_account_activated = DBGetOne( "SELECT 1
+						FROM STUDENT_ENROLLMENT
+						WHERE STUDENT_ID='" . UserStudentID() . "'
+						AND SYEAR='" . Config( 'SYEAR' ) . "'
+						AND CURRENT_DATE>=START_DATE
+						AND (CURRENT_DATE<=END_DATE OR END_DATE IS NULL)" );
+				}
 			}
 
 			if ( ! empty( $_REQUEST['students'] ) && ! $error )
@@ -466,7 +484,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 			if ( basename( $_SERVER['PHP_SELF'] ) === 'index.php'
 				&& Config( 'CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION' )
-				|| ! empty( $send_account_activation_notification ) )
+				|| ! empty( $student_account_activated ) )
 			{
 				// @since 5.9 Send Account Activation email notification to Student.
 				SendNotificationActivateStudentAccount( UserStudentID() );
