@@ -19,6 +19,8 @@ Moodle plugin
 School
 - Configuration: Automatic Student Account Activation, sponsored by LearnersPlatform
 
+Send Account Activation email notification to Student & User, sponsored by LearnersPlatform
+
 
 New in 5.8
 ----------

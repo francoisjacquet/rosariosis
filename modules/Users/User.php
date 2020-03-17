@@ -247,7 +247,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 			// Hook.
 			do_action( 'Users/User.php|update_user_checks' );
 
-			$profile_RET = DBGet( "SELECT PROFILE,PROFILE_ID,USERNAME
+			$profile_RET = DBGet( "SELECT PROFILE,PROFILE_ID,USERNAME,LAST_LOGIN
 				FROM STAFF
 				WHERE STAFF_ID='" . UserStaffID() . "'" );
 
@@ -265,6 +265,13 @@ if ( $_REQUEST['modfunc'] === 'update'
 				elseif ( $_REQUEST['staff']['PROFILE'] == 'parent' )
 				{
 					$_REQUEST['staff']['PROFILE_ID'] = '3';
+				}
+
+				if ( $profile_RET[1]['PROFILE'] === 'none'
+					&& ! $profile_RET[1]['LAST_LOGIN'] )
+				{
+					// Old Profile was "No Access" and User never logged in: Account Activation.
+					$user_account_activated = true;
 				}
 			}
 
@@ -491,11 +498,17 @@ if ( $_REQUEST['modfunc'] === 'update'
 				SendNotificationCreateUserAccount( UserStaffID(), $RosarioNotifyAddress );
 			}
 
-			if ( $staff_id
+			if ( ! empty( $staff_id )
 				&& $_REQUEST['staff']['PROFILE_ID'] == 1 )
 			{
 				// Send New Administrator Account email to System Notify address.
 				SendNotificationNewAdministrator( UserStaffID(), $RosarioNotifyAddress );
+			}
+
+			if ( ! empty( $user_account_activated ) )
+			{
+				// @since 5.9 Send Account Activation email notification to User.
+				SendNotificationActivateUserAccount( UserStaffID() );
 			}
 		}
 	}

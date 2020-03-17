@@ -186,6 +186,61 @@ function SendNotificationActivateStudentAccount( $student_id, $to = '' )
 }
 
 /**
+ * Send Activate User Account notification
+ * Do not send notification if RosarioSIS installed on localhost (Windows typically).
+ *
+ * @since 5.9
+ *
+ * @uses _rosarioLoginURL() function
+ *
+ * @param int    $staff_id User ID.
+ * @param string $to       To email address. Defaults to user email.
+ *
+ * @return bool  False if email not sent, else true.
+ */
+function SendNotificationActivateUserAccount( $staff_id, $to = '' )
+{
+	require_once 'ProgramFunctions/SendEmail.fnc.php';
+
+	if ( empty( $to ) )
+	{
+		$to = DBGetOne( "SELECT EMAIL FROM STAFF
+			WHERE STAFF_ID='" . $staff_id . "'" );
+	}
+
+	if ( ! $staff_id
+		|| ! filter_var( $to, FILTER_VALIDATE_EMAIL ) )
+	{
+		return false;
+	}
+
+	$is_no_access_profile = DBGetOne( "SELECT 1 FROM STAFF
+		WHERE STAFF_ID='" . $staff_id . "'
+		AND PROFILE='none'" );
+
+	if ( $is_no_access_profile )
+	{
+		return false;
+	}
+
+	$rosario_url = _rosarioLoginURL();
+
+	if ( ( strpos( $rosario_url, '127.0.0.1' ) !== false
+			|| strpos( $rosario_url, 'localhost' ) !== false )
+		&& ! ROSARIO_DEBUG )
+	{
+		// Do not send notification if RosarioSIS installed on localhost (Windows typically).
+		return false;
+	}
+
+	$message = _( 'Your account was activated (%d). You can login at %s' );
+
+	$message = sprintf( $message, $staff_id, $rosario_url );
+
+	return SendEmail( $to, _( 'Create User Account' ), $message );
+}
+
+/**
  * RosarioSIS login page URL
  * Removes part beginning with 'Modules.php' or 'index.php' from URI.
  *
