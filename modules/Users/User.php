@@ -247,7 +247,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 			// Hook.
 			do_action( 'Users/User.php|update_user_checks' );
 
-			$profile_RET = DBGet( "SELECT PROFILE,PROFILE_ID,USERNAME,LAST_LOGIN
+			$profile_RET = DBGet( "SELECT PROFILE,PROFILE_ID,USERNAME
 				FROM STAFF
 				WHERE STAFF_ID='" . UserStaffID() . "'" );
 
@@ -267,10 +267,9 @@ if ( $_REQUEST['modfunc'] === 'update'
 					$_REQUEST['staff']['PROFILE_ID'] = '3';
 				}
 
-				if ( $profile_RET[1]['PROFILE'] === 'none'
-					&& ! $profile_RET[1]['LAST_LOGIN'] )
+				if ( $profile_RET[1]['PROFILE'] === 'none' )
 				{
-					// Old Profile was "No Access" and User never logged in: Account Activation.
+					// Old Profile was "No Access": Account Activation.
 					$user_account_activated = true;
 				}
 			}
