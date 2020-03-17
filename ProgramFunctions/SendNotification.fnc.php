@@ -132,6 +132,7 @@ function SendNotificationNewAdministrator( $staff_id, $to = '' )
 
 /**
  * Send Activate Student Account notification
+ * Do not send notification if password not set.
  * Do not send notification if RosarioSIS installed on localhost (Windows typically).
  *
  * @since 5.9
@@ -168,6 +169,15 @@ function SendNotificationActivateStudentAccount( $student_id, $to = '' )
 		return false;
 	}
 
+	$is_password_set = DBGetOne( "SELECT 1 FROM STUDENTS
+		WHERE STUDENT_ID='" . $student_id . "'
+		AND PASSWORD IS NOT NULL" );
+
+	if ( ! $is_password_set )
+	{
+		return false;
+	}
+
 	$rosario_url = _rosarioLoginURL();
 
 	if ( ( strpos( $rosario_url, '127.0.0.1' ) !== false
@@ -180,6 +190,12 @@ function SendNotificationActivateStudentAccount( $student_id, $to = '' )
 
 	$message = _( 'Your account was activated (%d). You can login at %s' );
 
+	$student_username = DBGetOne( "SELECT USERNAME
+		FROM STUDENTS
+		WHERE STUDENT_ID='" . $student_id . "'" );
+
+	$message .= "\n\n" . _( 'Username' ) . ': ' . $student_username;
+
 	$message = sprintf( $message, $student_id, $rosario_url );
 
 	return SendEmail( $to, _( 'Create Student Account' ), $message );
@@ -187,6 +203,7 @@ function SendNotificationActivateStudentAccount( $student_id, $to = '' )
 
 /**
  * Send Activate User Account notification
+ * Do not send notification if password not set or "No Access" profile.
  * Do not send notification if RosarioSIS installed on localhost (Windows typically).
  *
  * @since 5.9
@@ -218,7 +235,12 @@ function SendNotificationActivateUserAccount( $staff_id, $to = '' )
 		WHERE STAFF_ID='" . $staff_id . "'
 		AND PROFILE='none'" );
 
-	if ( $is_no_access_profile )
+	$is_password_set = DBGetOne( "SELECT 1 FROM STAFF
+		WHERE STAFF_ID='" . $staff_id . "'
+		AND PASSWORD IS NOT NULL" );
+
+	if ( $is_no_access_profile
+		|| ! $is_password_set )
 	{
 		return false;
 	}
@@ -234,6 +256,12 @@ function SendNotificationActivateUserAccount( $staff_id, $to = '' )
 	}
 
 	$message = _( 'Your account was activated (%d). You can login at %s' );
+
+	$staff_username = DBGetOne( "SELECT USERNAME
+		FROM STAFF
+		WHERE STAFF_ID='" . $staff_id . "'" );
+
+	$message .= "\n\n" . _( 'Username' ) . ': ' . $staff_username;
 
 	$message = sprintf( $message, $staff_id, $rosario_url );
 
