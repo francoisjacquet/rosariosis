@@ -129,3 +129,98 @@ function SendNotificationNewAdministrator( $staff_id, $to = '' )
 
 	return SendEmail( $to, _( 'New Administrator Account' ), $message );
 }
+
+/**
+ * Send Activate Student Account notification
+ * Do not send notification if RosarioSIS installed on localhost (Windows typically).
+ *
+ * @since 5.9
+ *
+ * @uses _rosarioLoginURL() function
+ *
+ * @param int    $student_id Student ID.
+ * @param string $to         To email address. Defaults to student email (see Config( 'STUDENTS_EMAIL_FIELD' )).
+ *
+ * @return bool  False if email not sent, else true.
+ */
+function SendNotificationActivateStudentAccount( $student_id, $to = '' )
+{
+	require_once 'ProgramFunctions/SendEmail.fnc.php';
+
+	if ( empty( $to ) )
+	{
+		if ( ! Config( 'STUDENTS_EMAIL_FIELD' ) )
+		{
+			return false;
+		}
+
+		// @since 5.9 Send Account Activation email notification to Student.
+		$student_email_field = Config( 'STUDENTS_EMAIL_FIELD' ) === 'USERNAME' ?
+			'USERNAME' : 'CUSTOM_' . Config( 'STUDENTS_EMAIL_FIELD' );
+
+		$to = DBGetOne( "SELECT " . $student_email_field . " FROM STUDENTS
+			WHERE STUDENT_ID='" . $student_id . "'" );
+	}
+
+	if ( ! $student_id
+		|| ! filter_var( $to, FILTER_VALIDATE_EMAIL ) )
+	{
+		return false;
+	}
+
+	$rosario_url = _rosarioLoginURL();
+
+	if ( ( strpos( $rosario_url, '127.0.0.1' ) !== false
+			|| strpos( $rosario_url, 'localhost' ) !== false )
+		&& ! ROSARIO_DEBUG )
+	{
+		// Do not send notification if RosarioSIS installed on localhost (Windows typically).
+		return false;
+	}
+
+	$message = _( 'Your account was activated (%d). You can login at %s' );
+
+	$message = sprintf( $message, $student_id, $rosario_url );
+
+	return SendEmail( $to, _( 'Create Student Account' ), $message );
+}
+
+/**
+ * RosarioSIS login page URL
+ * Removes part beginning with 'Modules.php' or 'index.php' from URI.
+ *
+ * Local function
+ *
+ * @since 5.9
+ *
+ * @return string Login page URL.
+ */
+function _rosarioLoginURL()
+{
+	$page_url = 'http';
+
+	if ( isset( $_SERVER['HTTPS'] )
+		&& $_SERVER['HTTPS'] == 'on' )
+	{
+		$page_url .= 's';
+	}
+
+	$page_url .= '://';
+
+	$root_pos = strpos( $_SERVER['REQUEST_URI'], 'Modules.php' ) ?
+		strpos( $_SERVER['REQUEST_URI'], 'Modules.php' ) : strpos( $_SERVER['REQUEST_URI'], 'index.php' );
+
+	$root_uri = substr( $_SERVER['REQUEST_URI'], 0, $root_pos );
+
+	if ( $_SERVER['SERVER_PORT'] != '80'
+		&& $_SERVER['SERVER_PORT'] != '443' )
+	{
+		$page_url .= $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $root_uri;
+	}
+	else
+	{
+		$page_url .= $_SERVER['SERVER_NAME'] . $root_uri;
+	}
+
+	return $page_url;
+}

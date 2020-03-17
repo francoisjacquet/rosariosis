@@ -16,6 +16,7 @@ Changes in 5.9
 - Automatic Student Account Activation in Configuration.php, Student.php & General_Info.inc.php
 - Hide Permissions for "No Access" profile in General_Info.inc.php
 - Move Create Student/User Account and New Administrator notifications to functions in SendNotification.fnc.php
+- Send Account Activation email notification to Student in SendNotification.fnc.php & Student.php
 
 Changes in 5.8
 --------------
