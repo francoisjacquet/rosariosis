@@ -2,12 +2,33 @@
 
 require 'plugins/Moodle/getconfig.inc.php';
 
-//FJ Moodle plugin
+if ( basename( $_SERVER['PHP_SELF'] ) === 'index.php'
+	&& Config( 'CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION' ) )
+{
+	/**
+	 * Automatic Moodle Student Account Creation
+	 * Moodle load hack. Reload Moodle config constants. Enable $_REQUEST['moodle_create_student'].
+	 *
+	 * @since 5.9
+	 */
+	function MoodleAutomaticStudentAccountHeader()
+	{
+		if ( ! UserSchool() )
+		{
+			// Set UserSchool() so we can load Moodle actions on Create Student Account form submit.
+			$_SESSION['UserSchool'] = DBGetOne( "SELECT ID FROM SCHOOLS
+				WHERE SYEAR='" . UserSyear() . "'
+				ORDER BY ID" );
 
+			// Reload Moodle config constants.
+			require 'plugins/Moodle/getconfig.inc.php';
+		}
 
-// @since 5.9 Automatic Moodle Student Account Creation.
-// Moodle load hack.
-add_action( 'Students/Student.php|header', 'MoodleTriggered' );
+		$_REQUEST['moodle_create_student'] = true;
+	}
+
+	add_action( 'Students/Student.php|header', 'MoodleAutomaticStudentAccountHeader' );
+}
 
 //check Moodle plugin configuration options are set
 if ( defined( 'MOODLE_URL' ) && MOODLE_URL
@@ -114,8 +135,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 
 			//propose to create student in Moodle: if 1) this is a creation, 2) this is an already created student but not in Moodle yet
 
-			if ( defined( 'MOODLE_URL' ) && MOODLE_URL
-				&& AllowEdit()
+			if ( AllowEdit()
 				&& User( 'PROFILE' ) === 'admin'
 				&& ( ! isset( $_REQUEST['category_id'] )
 					|| $_REQUEST['category_id'] == 1 ) ) // General Info.
@@ -135,23 +155,6 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 						_( 'Create Student in Moodle' )
 					) );
 				}
-			}
-
-			if ( basename( $_SERVER['PHP_SELF'] ) === 'index.php'
-				&& Config( 'CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION' ) )
-			{
-				// @since 5.9 Automatic Moodle Student Account Creation.
-				if ( ! UserSchool() )
-				{
-					$_SESSION['UserSchool'] = DBGetOne( "SELECT ID FROM SCHOOLS
-						WHERE SYEAR='" . UserSyear() . "'
-						ORDER BY ID" );
-
-					// Reload Moodle config constants.
-					require 'plugins/Moodle/getconfig.inc.php';
-				}
-
-				$_REQUEST['moodle_create_student'] = true;
 			}
 
 			break;
