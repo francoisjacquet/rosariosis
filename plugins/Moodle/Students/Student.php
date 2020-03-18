@@ -2,10 +2,56 @@
 //FJ Moodle integrator
 
 //core_user_create_users function
+function core_user_get_users_object()
+{
+	$username = DBGetOne( "SELECT USERNAME FROM STUDENTS
+		WHERE STUDENT_ID='" . UserStudentID() . "'" );
+
+	$criteria = array(
+		'key' => 'username',
+		'value' => $username,
+	);
+
+	$object = array( 'criteria' => $criteria );
+
+	return $object;
+}
+
+// @since 5.9 Moodle circumvent bug: no response or error but User created.
+// Get User ID right after creation and try to save it.
+function core_user_get_users_response( $response )
+{
+	if ( empty( $response['users'][0]['id'] ) )
+	{
+		return -1;
+	}
+
+	// Saving Moodle User ID at last.
+	//then, save the ID in the moodlexrosario cross-reference table:
+	/*
+	Array
+	(
+	[0] =>
+		Array
+		(
+			[id] => int
+			[username] => string
+		)
+	)
+	 */
+	DBQuery( "INSERT INTO MOODLEXROSARIO (\"column\",rosario_id,moodle_id)
+		VALUES('student_id','" . UserStudentID() . "'," . $response['users'][0]['id'] . ")" );
+
+	$_REQUEST['moodle_create_student'] = false;
+
+	return $response['users'][0]['id'];
+}
+
+//core_user_create_users function
 function core_user_create_users_object()
 {
 	//first, gather the necessary variables
-	global $student_id, $locale, $_REQUEST;
+	global $_REQUEST;
 
 	//then, convert variables for the Moodle object:
 	/*
@@ -66,7 +112,7 @@ function core_user_create_users_object()
 	$lastname = issetVal( $_REQUEST['students']['LAST_NAME'] );
 	$email = issetVal( $_REQUEST['students'][ROSARIO_STUDENTS_EMAIL_FIELD] );
 	$auth = 'manual';
-	$idnumber = (string) ( ! empty( $student_id ) ? $student_id : UserStudentID() );
+	$idnumber = (string) UserStudentID();
 
 	// @since 5.9 Moodle creates user password if left empty.
 	$createpassword = empty( $password ) ? 1 : 0;
@@ -89,36 +135,36 @@ function core_user_create_users_object()
 
 /**
  * @param $response
+ *
+ * @return int -1 if no User ID, else Moodle User ID.
  */
 function core_user_create_users_response( $response )
 {
-	//first, gather the necessary variables
-	global $student_id;
+	if ( empty( $response[0]['id'] ) )
+	{
+		// @since 5.9 Moodle circumvent bug: no response or error but User created.
+		// Return -1 as distinctive error code.
+		return -1;
+	}
 
 	//then, save the ID in the moodlexrosario cross-reference table:
 	/*
 	Array
 	(
 	[0] =>
-	Array
-	(
-	[id] => int
-	[username] => string
-	)
+		Array
+		(
+			[id] => int
+			[username] => string
+		)
 	)
 	 */
-
-	if ( empty( $response[0]['id'] ) )
-	{
-		return null;
-	}
-
 	DBQuery( "INSERT INTO MOODLEXROSARIO (\"column\",rosario_id,moodle_id)
-		VALUES('student_id','" . ( ! empty( $student_id ) ? $student_id : UserStudentID() ) . "'," . $response[0]['id'] . ")" );
+		VALUES('student_id','" . UserStudentID() . "'," . $response[0]['id'] . ")" );
 
 	$_REQUEST['moodle_create_student'] = false;
 
-	return null;
+	return $response[0]['id'];
 }
 
 //core_user_update_users function

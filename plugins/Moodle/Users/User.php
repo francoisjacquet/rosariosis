@@ -2,6 +2,53 @@
 //FJ Moodle integrator
 
 //core_user_create_users function
+function core_user_get_users_object()
+{
+	$username = DBGetOne( "SELECT USERNAME FROM STAFF
+		WHERE STAFF_ID='" . UserStaffID() . "'
+		AND SYEAR='" . UserSyear() . "'" );
+
+	$criteria = array(
+		'key' => 'username',
+		'value' => $username,
+	);
+
+	$object = array( 'criteria' => $criteria );
+
+	return $object;
+}
+
+// @since 5.9 Moodle circumvent bug: no response or error but User created.
+// Get User ID right after creation and try to save it.
+function core_user_get_users_response( $response )
+{
+	if ( empty( $response['users'][0]['id'] ) )
+	{
+		return -1;
+	}
+
+	// Saving Moodle User ID at last.
+	//then, save the ID in the moodlexrosario cross-reference table:
+	/*
+	Array
+	(
+	[0] =>
+		Array
+		(
+			[id] => int
+			[username] => string
+		)
+	)
+	 */
+	DBQuery( "INSERT INTO MOODLEXROSARIO (\"column\",rosario_id,moodle_id)
+		VALUES('staff_id','" . UserStaffID() . "'," . $response['users'][0]['id'] . ")" );
+
+	$_REQUEST['moodle_create_staff'] = false;
+
+	return $response['users'][0]['id'];
+}
+
+//core_user_create_users function
 function core_user_create_users_object()
 {
 	//first, gather the necessary variables
@@ -89,19 +136,28 @@ function core_user_create_users_object()
 
 /**
  * @param $response
+ *
+ * @return int -1 if no User ID, else Moodle User ID.
  */
 function core_user_create_users_response( $response )
 {
+	if ( empty( $response[0]['id'] ) )
+	{
+		// @since 5.9 Moodle circumvent bug: no response or error but User created.
+		// Return -1 as distinctive error code.
+		return -1;
+	}
+
 	//then, save the ID in the moodlexrosario cross-reference table:
 	/*
 	Array
 	(
-	[0] =>
-	Array
-	(
-	[id] => int
-	[username] => string
-	)
+		[0] =>
+		Array
+		(
+			[id] => int
+			[username] => string
+		)
 	)
 	 */
 
@@ -110,7 +166,7 @@ function core_user_create_users_response( $response )
 
 	$_REQUEST['moodle_create_user'] = false;
 
-	return null;
+	return $response[0]['id'];
 }
 
 //core_user_update_users function

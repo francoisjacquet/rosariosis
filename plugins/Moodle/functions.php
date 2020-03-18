@@ -220,7 +220,15 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 		case 'Students/Student.php|update_student':
 			if ( ! empty( $_REQUEST['moodle_create_student'] ) )
 			{
-				Moodle( $modname, 'core_user_create_users' );
+				$moodle_user_id = Moodle( $modname, 'core_user_create_users' );
+
+				if ( $moodle_user_id < 0 )
+				{
+					// @since 5.9 Moodle circumvent bug: no response or error but User created.
+					// Get User ID right after creation and try to save it.
+					Moodle( $modname, 'core_user_get_users' );
+				}
+
 				//relate parent if exists
 				Moodle( $modname, 'core_role_assign_roles' );
 			}
@@ -336,7 +344,15 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 		case 'Users/User.php|create_user':
 			if ( ! empty( $_REQUEST['moodle_create_user'] ) )
 			{
-				Moodle( $modname, 'core_user_create_users' );
+				$moodle_user_id = Moodle( $modname, 'core_user_create_users' );
+
+				if ( $moodle_user_id < 0 )
+				{
+					// @since 5.9 Moodle circumvent bug: no response or error but User created.
+					// Get User ID right after creation and try to save it.
+					Moodle( $modname, 'core_user_get_users' );
+				}
+
 				Moodle( $modname, 'core_role_assign_roles' );
 			}
 
