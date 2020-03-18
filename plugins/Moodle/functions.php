@@ -759,13 +759,22 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 	return true;
 }
 
-//FJ Moodle integrator
 
-//The function {moodle_functionname}_object() is in charge of creating the object
-//The function moodle_xmlrpc_call() sends the object to Moodle via XML-RPC
 /**
- * @param $modname
- * @param $moodle_functionname
+ * Moodle integrator function
+ * Will call 2 functions (`[$moodle_functionname]_object` and `[$moodle_functionname]_response`)
+ * from a file named after $modname.
+ * Will call `[$moodle_functionname]_object` to get the Moodle WS function object param.
+ * Will call `[$moodle_functionname]_response` to handle Moodle WS function response.
+ *
+ * @uses moodle_xmlrpc_call() function to send the object to Moodle via XML-RPC.
+ *
+ * @since 5.9 Return result from `[$moodle_functionname]_response`.
+ *
+ * @param string $modname             Module name.
+ * @param string $moodle_functionname Moodle Webservice function name.
+ *
+ * @return `[$moodle_functionname]_response` return.
  */
 function Moodle( $modname, $moodle_functionname )
 {
@@ -773,11 +782,11 @@ function Moodle( $modname, $moodle_functionname )
 
 	require_once 'plugins/Moodle/client.php';
 
-	//first, get the right object corresponding to the web service
+	// First, get the right object corresponding to the web service.
 	$object = call_user_func( $moodle_functionname . '_object' );
 
-	//finally, send the object
-	moodle_xmlrpc_call( $moodle_functionname, $object );
+	// Finally, send the object.
+	return moodle_xmlrpc_call( $moodle_functionname, $object );
 }
 
 //FJ Moodle integrator / password
