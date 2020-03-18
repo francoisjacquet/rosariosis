@@ -25,10 +25,12 @@ if ( UserSchool() > 0 )
 	define( 'ROSARIO_STUDENTS_EMAIL_FIELD', $email_field );
 }
 // not logged in
-else
+// @since 5.9 Automatic Moodle Student Account Creation.
+// Reload Moodle config constants.
+/*else
 {
 	define( 'MOODLE_URL', null );
 	define( 'MOODLE_TOKEN', null );
 	define( 'MOODLE_PARENT_ROLE_ID', null );
 	// define( 'ROSARIO_STUDENTS_EMAIL_FIELD_ID', null );
-}
+}*/

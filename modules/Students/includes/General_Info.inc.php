@@ -142,7 +142,10 @@ echo PasswordInput(
 		|| ! empty( $_REQUEST['moodle_create_student'] ) ? '' : str_repeat( '*', 8 ) ),
 	'students[PASSWORD]',
 	_( 'Password' ) .
-	( ! empty( $_REQUEST['moodle_create_student'] ) ?
+	( ! empty( $_REQUEST['moodle_create_student'] )
+		// @since 5.9 Automatic Moodle Student Account Creation.
+		// Moodle creates user password.
+		&& basename( $_SERVER['PHP_SELF'] ) !== 'index.php' ?
 		'<div class="tooltip"><i>' .
 		_( 'The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character' ) .
 		// @since 5.9 Moodle creates user password if left empty.
@@ -181,7 +184,7 @@ else
 
 	echo '<table class="create-account width-100p valign-top fixed-col"><tr class="st"><td>';
 
-	$schools_RET = DBGet( "SELECT ID, TITLE
+	$schools_RET = DBGet( "SELECT ID,TITLE
 		FROM SCHOOLS
 		WHERE SYEAR='" . UserSyear() . "'
 		ORDER BY ID" );

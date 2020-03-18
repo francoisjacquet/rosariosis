@@ -19,6 +19,10 @@ Plugin Configuration
 - Configure Moodle API and Test
 - Import Users
 
+Create Student Account
+
+- Create student in Moodle if "Automatic Student Account Activation" configuration option set (Moodle creates a password and sends an email to user).
+
 Students
 
 - Create, update & delete students in Moodle

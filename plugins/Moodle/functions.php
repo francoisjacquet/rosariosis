@@ -1,15 +1,21 @@
 <?php
 
-require_once 'plugins/Moodle/getconfig.inc.php';
+require 'plugins/Moodle/getconfig.inc.php';
 
 //FJ Moodle plugin
 
-//check Moodle plugin configuration options are set
 
-if ( MOODLE_URL && MOODLE_TOKEN && MOODLE_PARENT_ROLE_ID && ROSARIO_STUDENTS_EMAIL_FIELD )
+// @since 5.9 Automatic Moodle Student Account Creation.
+// Moodle load hack.
+add_action( 'Students/Student.php|header', 'MoodleTriggered' );
+
+//check Moodle plugin configuration options are set
+if ( defined( 'MOODLE_URL' ) && MOODLE_URL
+	&& defined( 'MOODLE_TOKEN' ) && MOODLE_TOKEN
+	&& defined( 'MOODLE_PARENT_ROLE_ID' ) && MOODLE_PARENT_ROLE_ID
+	&& defined( 'ROSARIO_STUDENTS_EMAIL_FIELD' ) && ROSARIO_STUDENTS_EMAIL_FIELD )
 {
 	//Register plugin functions to be hooked
-	add_action( 'Students/Student.php|header', 'MoodleTriggered' );
 	add_action( 'Students/Student.php|create_student_checks', 'MoodleTriggered' );
 	add_action( 'Students/Student.php|create_student', 'MoodleTriggered' );
 	add_action( 'Students/Student.php|update_student_checks', 'MoodleTriggered' );
@@ -108,7 +114,8 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 
 			//propose to create student in Moodle: if 1) this is a creation, 2) this is an already created student but not in Moodle yet
 
-			if ( AllowEdit()
+			if ( defined( 'MOODLE_URL' ) && MOODLE_URL
+				&& AllowEdit()
 				&& User( 'PROFILE' ) === 'admin'
 				&& ( ! isset( $_REQUEST['category_id'] )
 					|| $_REQUEST['category_id'] == 1 ) ) // General Info.
@@ -130,6 +137,23 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 				}
 			}
 
+			if ( basename( $_SERVER['PHP_SELF'] ) === 'index.php'
+				&& Config( 'CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION' ) )
+			{
+				// @since 5.9 Automatic Moodle Student Account Creation.
+				if ( ! UserSchool() )
+				{
+					$_SESSION['UserSchool'] = DBGetOne( "SELECT ID FROM SCHOOLS
+						WHERE SYEAR='" . UserSyear() . "'
+						ORDER BY ID" );
+
+					// Reload Moodle config constants.
+					require 'plugins/Moodle/getconfig.inc.php';
+				}
+
+				$_REQUEST['moodle_create_student'] = true;
+			}
+
 			break;
 
 		case 'Students/Student.php|create_student_checks':
@@ -137,6 +161,14 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 				&& ! MoodlePasswordCheck( $_REQUEST['students']['PASSWORD'] ) )
 			{
 				$error[] = _( 'Please enter a valid password' );
+			}
+			elseif ( Config( 'CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION' )
+				&& basename( $_SERVER['PHP_SELF'] ) === 'index.php' )
+			{
+				// @since 5.9 Automatic Moodle Student Account Creation.
+				$_REQUEST['moodle_create_student'] = true;
+
+				// Moodle creates user password: Do not check password.
 			}
 
 			//username, password, (email) required
@@ -153,6 +185,14 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 		case 'Students/Student.php|create_student':
 			if ( ! empty( $_REQUEST['moodle_create_student'] ) )
 			{
+				if ( Config( 'CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION' )
+					&& basename( $_SERVER['PHP_SELF'] ) === 'index.php' )
+				{
+					// @since 5.9 Automatic Moodle Student Account Creation.
+					// Moodle creates user password.
+					$_REQUEST['students']['PASSWORD'] = '';
+				}
+
 				Moodle( $modname, 'core_user_create_users' );
 			}
 
