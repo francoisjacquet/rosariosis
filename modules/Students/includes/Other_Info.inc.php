@@ -61,7 +61,7 @@ foreach ( (array) $fields_RET as $field )
 				&& ROSARIO_STUDENTS_EMAIL_FIELD == 'CUSTOM_' . $field['ID'] )
 			{
 				echo TextInput(
-					$value['CUSTOM_' . $field['ID'] ],
+					issetVal( $value['CUSTOM_' . $field['ID'] ] ),
 					'students[CUSTOM_' . $field['ID'] . ']',
 					$field['TITLE'],
 					'required',
