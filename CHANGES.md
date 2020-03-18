@@ -19,6 +19,7 @@ Changes in 5.9
 - Move Create Student/User Account and New Administrator notifications to functions in SendNotification.fnc.php
 - Send Account Activation email notification to Student in SendNotification.fnc.php & Student.php
 - Send Account Activation email notification to User in SendNotification.fnc.php & User.php
+- Moodle check required username, email in update_student & update_user actions in Moodle/functions.php
 
 Changes in 5.8
 --------------

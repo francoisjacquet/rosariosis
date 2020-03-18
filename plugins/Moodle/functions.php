@@ -171,12 +171,11 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 				// Moodle creates user password: Do not check password.
 			}
 
-			//username, password, (email) required
-
 			if ( ! empty( $_REQUEST['moodle_create_student'] )
 				&& ( empty( $_REQUEST['students']['USERNAME'] )
 					|| empty( $_REQUEST['students'][ROSARIO_STUDENTS_EMAIL_FIELD] ) ) )
 			{
+				// Username, email required.
 				$error[] = _( 'Please fill in the required fields' );
 			}
 
@@ -203,6 +202,14 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 				&& ! MoodlePasswordCheck( $_REQUEST['students']['PASSWORD'] ) )
 			{
 				$error[] = _( 'Please enter a valid password' );
+			}
+
+			if ( ! empty( $_REQUEST['moodle_create_student'] )
+				&& ( empty( $_REQUEST['students']['USERNAME'] )
+					|| empty( $_REQUEST['students'][ROSARIO_STUDENTS_EMAIL_FIELD] ) ) )
+			{
+				// Username, email required.
+				$error[] = _( 'Please fill in the required fields' );
 			}
 
 			break;
@@ -313,12 +320,11 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 				$error[] = _( 'Please enter a valid password' );
 			}
 
-			//username, email required
-
 			if ( ! empty( $_REQUEST['moodle_create_user'] )
 				&& ( empty( $_REQUEST['staff']['USERNAME'] )
 					|| empty( $_REQUEST['staff']['EMAIL'] ) ) )
 			{
+				// Username, email required.
 				$error[] = _( 'Please fill in the required fields' );
 			}
 
@@ -339,6 +345,14 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 				&& ! MoodlePasswordCheck( $_REQUEST['staff']['PASSWORD'] ) )
 			{
 				$error[] = _( 'Please enter a valid password' );
+			}
+
+			if ( ! empty( $_REQUEST['moodle_create_user'] )
+				&& ( empty( $_REQUEST['staff']['USERNAME'] )
+					|| empty( $_REQUEST['staff']['EMAIL'] ) ) )
+			{
+				// Username, email required.
+				$error[] = _( 'Please fill in the required fields' );
 			}
 
 			break;
