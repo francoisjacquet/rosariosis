@@ -108,6 +108,11 @@ function core_user_create_users_response( $response )
 	)
 	 */
 
+	if ( empty( $response[0]['id'] ) )
+	{
+		return null;
+	}
+
 	DBQuery( "INSERT INTO MOODLEXROSARIO (\"column\",rosario_id,moodle_id)
 		VALUES('student_id','" . ( ! empty( $student_id ) ? $student_id : UserStudentID() ) . "'," . $response[0]['id'] . ")" );
 
