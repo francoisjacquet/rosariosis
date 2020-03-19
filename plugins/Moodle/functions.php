@@ -573,7 +573,8 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 		case 'School_Setup/Calendar.php|event_field':
 			// Only if new event.
 
-			if ( $_REQUEST['event_id'] === 'new' )
+			if ( ! empty( $_REQUEST['event_id'] )
+				&& $_REQUEST['event_id'] === 'new' )
 			{
 				echo '<tr><td>' . _( 'Publish Event in Moodle?' ) .
 				' <label><input type="checkbox" name="MOODLE_PUBLISH_EVENT" value="Y" checked> ' .
