@@ -21,6 +21,7 @@ Changes in 5.9
 - Send Account Activation email notification to User in SendNotification.fnc.php & User.php
 - Moodle check required username, email in update_student & update_user actions in Moodle/functions.php
 - Moodle circumvent bug: no response or error but User created in Moodle/functions.php, User.php & Student.php
+- HTML add .br-after span to Course Periods + use DBGetOne() in Side.php
 
 Changes in 5.8
 --------------
