@@ -614,9 +614,12 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 
 		PopTable( 'header', $title );
 
-		echo '<table class="cellpadding-5"><tr><td>' .
-			DateInput( $RET[1]['SCHOOL_DATE'], 'values[SCHOOL_DATE]', _( 'Date' ), false ) .
-		'</td></tr>';
+		echo '<table class="cellpadding-5"><tr><td>'  . DateInput(
+			$RET[1]['SCHOOL_DATE'],
+			'values[SCHOOL_DATE]',
+			( empty( $_REQUEST['assignment_id'] ) ? _( 'Date' ) : _( 'Due Date' ) ),
+			false
+		) . '</td></tr>';
 
 		// Add assigned date.
 		if ( ! empty( $RET[1]['ASSIGNED_DATE'] ) )
@@ -668,7 +671,8 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 			'</td></tr>';
 		}
 
-		if ( ! empty( $RET[1]['STAFF_ID'] ) )
+		if ( ! empty( $RET[1]['STAFF_ID'] )
+			&& User( 'PROFILE' ) !== 'teacher' )
 		{
 			echo '<tr><td>' .
 				TextInput( $RET[1]['STAFF_ID'], 'values[STAFF_ID]', _( 'Teacher' ) ) .
@@ -1020,7 +1024,6 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( User( 'PROFILE' ) === 'parent'
 		|| User( 'PROFILE' ) === 'student' )
 	{
-
 		$assignments_SQL = "SELECT ASSIGNMENT_ID AS ID,a.DUE_DATE AS SCHOOL_DATE,a.TITLE,'Y' AS ASSIGNED
 			FROM GRADEBOOK_ASSIGNMENTS a,SCHEDULE s
 			WHERE (a.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID OR a.COURSE_ID=s.COURSE_ID)
