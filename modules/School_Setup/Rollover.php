@@ -279,6 +279,12 @@ function Rollover( $table, $mode = 'delete' )
 
 			foreach ( (array) $fields_RET as $field )
 			{
+				if ( $field['ID'] === '200000000' )
+				{
+					// SQL Add Email & Phone to Staff Fields: skip Email, still in EMAIL column.
+					continue;
+				}
+
 				$user_custom .= ',CUSTOM_' . $field['ID'];
 			}
 
