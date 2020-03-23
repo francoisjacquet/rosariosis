@@ -98,7 +98,7 @@ function SendNotificationCreateUserAccount( $staff_id, $to = '' )
  * @param int    $staff_id Staff ID.
  * @param string $to       To email address. Defaults to $RosarioNotifyAddress (see config.inc.php).
  *
- * @return bool  False if email not sent, else true.
+ * @return bool  False if not admin, email not sent, else true.
  */
 function SendNotificationNewAdministrator( $staff_id, $to = '' )
 {
@@ -113,6 +113,15 @@ function SendNotificationNewAdministrator( $staff_id, $to = '' )
 
 	if ( ! $staff_id
 		|| ! filter_var( $to, FILTER_VALIDATE_EMAIL ) )
+	{
+		return false;
+	}
+
+	$is_admin_profile = DBGetOne( "SELECT 1 FROM STAFF
+		WHERE STAFF_ID='" . $staff_id . "'
+		AND PROFILE='admin'" );
+
+	if ( ! $is_admin_profile )
 	{
 		return false;
 	}

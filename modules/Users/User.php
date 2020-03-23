@@ -497,8 +497,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				SendNotificationCreateUserAccount( UserStaffID(), $RosarioNotifyAddress );
 			}
 
-			if ( ! empty( $staff_id )
-				&& $_REQUEST['staff']['PROFILE_ID'] == 1 )
+			if ( ! empty( $staff_id ) ) // $staff_id is set on new.
 			{
 				// Send New Administrator Account email to System Notify address.
 				SendNotificationNewAdministrator( UserStaffID(), $RosarioNotifyAddress );
@@ -717,7 +716,10 @@ if (  ( UserStaffID()
 		FROM STAFF WHERE
 		STAFF_ID='" . UserStaffID() . "'" );
 
-	$categories_RET = DBGet( "SELECT ID,TITLE,INCLUDE FROM STAFF_FIELD_CATEGORIES WHERE " . ( $profile ? mb_strtoupper( $profile ) . '=\'Y\'' : 'ID=\'1\'' ) . " ORDER BY SORT_ORDER,TITLE" );
+	$categories_RET = DBGet( "SELECT ID,TITLE,INCLUDE
+		FROM STAFF_FIELD_CATEGORIES
+		WHERE " . ( $profile ? mb_strtoupper( $profile ) . '=\'Y\'' : 'ID=\'1\'' ) . "
+		ORDER BY SORT_ORDER,TITLE" );
 
 	foreach ( (array) $categories_RET as $category )
 	{
