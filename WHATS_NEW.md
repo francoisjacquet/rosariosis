@@ -23,6 +23,9 @@ School
 
 Send Account Activation email notification to Student & User, sponsored by LearnersPlatform
 
+[iCalendar](https://www.rosariosis.org/plugins/icalendar/) plugin
+- Add assignments to student / teacher calendar, sponsored by Santa Cecilia school
+
 
 New in 5.8
 ----------
