@@ -137,6 +137,15 @@ function MoodleUsersMake( $users )
 	return $formatted_users;
 }
 
+/**
+ * Moake Moodle User Profile: select target user profile in RosarioSIS.
+ *
+ * @since 5.9
+ *
+ * @param int $user_id Moodle user ID.
+ *
+ * @return string Profile select HTML.
+ */
 function MoodleUsersMakeProfile( $user_id )
 {
 	$profiles = array(
@@ -159,6 +168,16 @@ function MoodleUsersMakeProfile( $user_id )
 	return $profile_select;
 }
 
+/**
+ * Make Moodle user name: add photo tip message.
+ *
+ * @since 5.9
+ *
+ * @param string $name      Moodle user name.
+ * @param string $photo_url Photo URL.
+ *
+ * @return string Name + Photo tip message HTML.
+ */
 function MoodleUsersMakeName( $name, $photo_url )
 {
 	require_once 'ProgramFunctions/TipMessage.fnc.php';
@@ -175,7 +194,14 @@ function MoodleUsersMakeName( $name, $photo_url )
 	);
 }
 
-
+/**
+ * Student Enrollment Form HTML
+ * For use on the Moodle Users import screen to set Student Enrollment options.
+ *
+ * @since 5.9
+ *
+ * @return string Form HTML.
+ */
 function MoodleUsersStudentEnrollmentForm()
 {
 	$html = '<fieldset><legend>' . _( 'Enrollment' ) . '</legend><table class="width-100p">';
@@ -282,7 +308,15 @@ function MoodleUsersStudentEnrollmentForm()
 	return $html;
 }
 
-
+/**
+ * Import Moodle user create Student
+ *
+ * @since 5.9
+ *
+ * @param array $user Moodle user info.
+ *
+ * @return int Student ID or 0 if existing username.
+ */
 function MoodleUserImportStudent( $user )
 {
 	global $error;
@@ -360,6 +394,14 @@ function MoodleUserImportStudent( $user )
 	return $student_id;
 }
 
+/**
+ * Enroll Student imported from Moodle
+ * Use after MoodleUserImportStudent()
+ *
+ * @since 5.9
+ *
+ * @param int $student_id Student ID.
+ */
 function MoodleUserEnrollStudent( $student_id )
 {
 	$sql = "INSERT INTO STUDENT_ENROLLMENT ";
@@ -389,7 +431,16 @@ function MoodleUserEnrollStudent( $student_id )
 	DBQuery( $sql );
 }
 
-
+/**
+ * Import Moodle user (admin, teacher or parent).
+ *
+ * @since 5.9
+ *
+ * @param array  $user    Moodle user info.
+ * @param string $profile Profile: admin, teacher or parent.
+ *
+ * @return int StafF ID or 0 if existing username.
+ */
 function MoodleUserImportUser( $user, $profile )
 {
 	global $error;
@@ -464,7 +515,14 @@ function MoodleUserImportUser( $user, $profile )
 	return $staff_id;
 }
 
-function ImportUsersFormConfirmCountdownJS( $class_prefix )
+/**
+ * Confirm and Countdown JS before importing Moodle users.
+ *
+ * @since 5.9
+ *
+ * @param string $class_prefix Form and button CSS class prefix.
+ */
+function MoodleImportUsersFormConfirmCountdownJS( $class_prefix )
 {
 	?>
 	<script>

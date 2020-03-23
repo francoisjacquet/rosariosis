@@ -204,7 +204,7 @@ if ( ! empty( $_REQUEST['import_users'] ) )
 
 		echo '</form>';
 
-		ImportUsersFormConfirmCountdownJS( 'import-users' );
+		MoodleImportUsersFormConfirmCountdownJS( 'import-users' );
 	}
 }
 
