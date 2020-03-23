@@ -1370,7 +1370,7 @@ function _makeLetterPercent( $student_id, $column )
 {
 	global $current_RET, $import_RET, $grades_select, $student_count;
 
-	if ( $import_RET[$student_id] )
+	if ( ! empty( $import_RET[$student_id] ) )
 	{
 		$select_percent = $import_RET[$student_id][1]['GRADE_PERCENT'];
 		$select_grade = $import_RET[$student_id][1]['REPORT_CARD_GRADE_ID'];
@@ -1500,7 +1500,7 @@ function _makeComment( $value, $column )
 {
 	global $THIS_RET, $current_RET, $import_comments_RET;
 
-	if ( $import_comments_RET[$THIS_RET['STUDENT_ID']] )
+	if ( ! empty( $import_comments_RET[$THIS_RET['STUDENT_ID']] ) )
 	{
 		$select = $import_comments_RET[$THIS_RET['STUDENT_ID']][1]['COMMENT'];
 		$div = false;
@@ -1590,7 +1590,7 @@ function _makeCommentsB( $value, $column )
 	$max_current_commentsB,
 	$commentsB_select;
 
-	if ( $import_commentsB_RET[$THIS_RET['STUDENT_ID']][$value] )
+	if ( ! empty( $import_commentsB_RET[$THIS_RET['STUDENT_ID']][$value] ) )
 	{
 		$select = null;
 
