@@ -22,6 +22,7 @@ Changes in 5.9
 - Moodle check required username, email in update_student & update_user actions in Moodle/functions.php
 - Moodle circumvent bug: no response or error but User created in Moodle/functions.php, User.php & Student.php
 - HTML add .br-after span to Course Periods + use DBGetOne() in Side.php
+- jQuery already loaded on first-login page, remove it in FirstLogin.fnc.php
 
 Changes in 5.8
 --------------

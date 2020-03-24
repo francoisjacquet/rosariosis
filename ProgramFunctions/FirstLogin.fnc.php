@@ -357,7 +357,6 @@ if ( ! function_exists( 'FirstLoginPoll' ) )
 		);
 
 		ob_start(); ?>
-		<script src="assets/js/jquery.js"></script>
 		<script>$('#first-login-form').hide();
 
 		$('#first-login-poll-form input[type="reset"]').click(function(){
