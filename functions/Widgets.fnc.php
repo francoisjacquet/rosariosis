@@ -1478,7 +1478,8 @@ function Widgets( $item, &$myextra = null )
 				$next_year_options[ $school['ID'] ] = $school['TITLE'];
 			}
 
-			if ( ! empty( $_REQUEST['next_year'] ) )
+			if ( isset( $_REQUEST['next_year'] )
+				&& $_REQUEST['next_year'] !== '' ) // Handle "Retain" case: value is '0'.
 			{
 				if ( $_REQUEST['next_year'] == '!' )
 				{
