@@ -30,13 +30,14 @@ if ( basename( $_SERVER['PHP_SELF'] ) === 'index.php'
 	add_action( 'Students/Student.php|header', 'MoodleAutomaticStudentAccountHeader' );
 }
 
-//check Moodle plugin configuration options are set
+// Check Moodle plugin configuration options are set.
 if ( defined( 'MOODLE_URL' ) && MOODLE_URL
 	&& defined( 'MOODLE_TOKEN' ) && MOODLE_TOKEN
 	&& defined( 'MOODLE_PARENT_ROLE_ID' ) && MOODLE_PARENT_ROLE_ID
 	&& defined( 'ROSARIO_STUDENTS_EMAIL_FIELD' ) && ROSARIO_STUDENTS_EMAIL_FIELD )
 {
-	//Register plugin functions to be hooked
+	// Register plugin functions to be hooked.
+	add_action( 'Students/Student.php|header', 'MoodleTriggered' );
 	add_action( 'Students/Student.php|create_student_checks', 'MoodleTriggered' );
 	add_action( 'Students/Student.php|create_student', 'MoodleTriggered' );
 	add_action( 'Students/Student.php|update_student_checks', 'MoodleTriggered' );
