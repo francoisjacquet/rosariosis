@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 5.8.1
+----------------
+- Fix Next Year widget: Handle "Retain" case: value is '0' in Widgets.fnc.php
+
 Changes in 5.8
 --------------
 - Add `_listSearch()` function in ListOutput.fnc.php
