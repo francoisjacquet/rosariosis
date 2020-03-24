@@ -129,7 +129,7 @@ var GetMDConverter = function() {
 			parseImgDimensions: true,
 			tasklists: true,
 			literalMidWordUnderscores: true,
-			literalMidWordAsterisks: true,
+			literalMidWordAsterisks: false, // Fix MarkDown bold.
 			simpleLineBreaks: true,
 			openLinksInNewWindow: true,
 			excludeTrailingPunctuationFromURLs: true
@@ -144,19 +144,13 @@ var MarkDownInputPreview = function(input_id) {
 		html = input.val(),
 		md_prev = $('#divMDPreview' + input_id);
 
-	// Send AJAX request only if input modified.
-	if (!md_prev.is(":visible") && html !== '' && md_last_val[input_id] !== html) {
-		md_last_val[input_id] = html;
-
+	if (!md_prev.is(":visible")) {
 		var mdc = GetMDConverter();
 
 		// Convert MarkDown to HTML.
 		md_prev.html(mdc.makeHtml(html));
-	}
 
-	// MD preview = Input size.
-	if (!md_prev.is(":visible")) {
-
+		// MD preview = Input size.
 		md_prev.css('height', input.css('height'));
 		//md_prev.parent('.md-preview').css({'max-width': input.css('width')});
 	}
