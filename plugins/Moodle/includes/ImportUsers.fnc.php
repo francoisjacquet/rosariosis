@@ -49,7 +49,7 @@ function MoodleUsersList( $key, $value )
 
 	$users = moodle_xmlrpc_call( $functionname, $object );
 
-	return $users['users'];
+	return empty( $users['users'] ) ? array() : $users['users'];
 }
 
 /**
