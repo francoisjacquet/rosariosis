@@ -27,6 +27,7 @@ Changes in 5.9
 Changes in 5.8.1
 ----------------
 - Fix Next Year widget: Handle "Retain" case: value is '0' in Widgets.fnc.php
+- Fix Search: Use POST for Public Pages plugin compatibility in Courses.php
 
 Changes in 5.8
 --------------
