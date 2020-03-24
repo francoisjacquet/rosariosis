@@ -646,7 +646,7 @@ function MarkDownInputPreview( $input_id )
 		<a href="https://gitlab.com/francoisjacquet/rosariosis/wikis/Markdown-Cheatsheet" title="<?php echo htmlspecialchars( _( 'Mastering MarkDown' ), ENT_QUOTES ); ?>" target="_blank" class="md-link">
 			<img class="button" src="assets/themes/<?php echo Preferences( 'THEME' ); ?>/btn/md_button.png" alt="<?php echo htmlspecialchars( _( 'Mastering MarkDown' ), ENT_QUOTES ); ?>" />
 		</a>
-		<div class="markdown-to-html" id="divMDPreview<?php echo $input_id; ?>"><?php echo _( 'Nothing to preview.' ); ?></div>
+		<div class="markdown-to-html" id="divMDPreview<?php echo $input_id; ?>"></div>
 	</div>
 	<?php
 
