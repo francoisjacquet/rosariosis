@@ -142,6 +142,13 @@ input + .loading {
 	padding-left: 4px;
 }
 
+legend {
+	font-weight: normal;
+	text-transform: uppercase;
+	padding: 0 7px;
+	font-size: 14px;
+}
+
 .dashboard-module-title {
 	text-transform: uppercase;
 	font-size: 15px;
