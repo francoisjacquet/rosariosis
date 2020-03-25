@@ -175,6 +175,10 @@ function Update()
 		case version_compare( $from_version, '5.9-beta2', '<' ) :
 
 			$return = _update59beta2();
+
+		case version_compare( $from_version, '5.9', '<' ) :
+
+			$return = _update59();
 	}
 
 	// Update version in DB CONFIG table.
@@ -1911,6 +1915,41 @@ function _update59beta2()
 	if ( ! $automatic_activation_added )
 	{
 		DBQuery( "INSERT INTO config VALUES (0, 'CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION', NULL);" );
+	}
+
+	return $return;
+}
+
+
+/**
+ * Update to version 5.9
+ *
+ * 1. Move REMOVE_ACCESS_USERNAME_PREFIX_ADD to CONFIG table.
+ *
+ * Local function
+ *
+ * @since 5.9
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update59()
+{
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. Move REMOVE_ACCESS_USERNAME_PREFIX_ADD to CONFIG table.
+	 */
+	$username_prefix_add_added = DBGetOne( "SELECT 1 FROM CONFIG
+		WHERE TITLE='REMOVE_ACCESS_USERNAME_PREFIX_ADD'" );
+
+	if ( ! $username_prefix_add_added )
+	{
+		// Move REMOVE_ACCESS_USERNAME_PREFIX_ADD from PROGRAM_CONFIG (per school) to CONFIG (all schools, 0).
+		$old_program_config_value = ProgramConfig( 'custom', 'REMOVE_ACCESS_USERNAME_PREFIX_ADD' );
+
+		DBQuery( "INSERT INTO config VALUES (0, 'REMOVE_ACCESS_USERNAME_PREFIX_ADD', '" . $old_program_config_value . "');" );
 	}
 
 	return $return;

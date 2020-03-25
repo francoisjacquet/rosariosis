@@ -17,10 +17,10 @@ if ( $_REQUEST['modfunc'] === 'save'
 {
 	if ( ! empty( $_REQUEST['st_arr'] ) )
 	{
-		$username_prefix_add = ProgramConfig(
-			'custom',
+		// @since 5.9 Move REMOVE_ACCESS_USERNAME_PREFIX_ADD from PROGRAM_CONFIG (per school) to CONFIG (all schools, 0).
+		$username_prefix_add = Config(
 			'REMOVE_ACCESS_USERNAME_PREFIX_ADD',
-			issetVal( $_REQUEST['username_prefix_add'], '' )
+			issetVal( $_REQUEST['username_prefix_add'] )
 		);
 
 		$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
@@ -52,6 +52,8 @@ if ( $_REQUEST['modfunc'] === 'save'
 					WHERE STUDENT_ID IN (" . $st_list . "))
 				AND SYEAR='" . UserSyear() . "'" );
 		}
+
+		$note[] = button( 'check' ) . '&nbsp;' . _( 'Done.' );
 	}
 	else
 	{
@@ -92,7 +94,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	echo ErrorMessage( $note, 'note' );
 
-	$username_prefix_add = ProgramConfig( 'custom', 'REMOVE_ACCESS_USERNAME_PREFIX_ADD' );
+	$username_prefix_add = Config( 'REMOVE_ACCESS_USERNAME_PREFIX_ADD' );
 
 	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
