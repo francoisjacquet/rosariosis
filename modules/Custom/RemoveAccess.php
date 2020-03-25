@@ -20,7 +20,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 		$username_prefix_add = ProgramConfig(
 			'custom',
 			'REMOVE_ACCESS_USERNAME_PREFIX_ADD',
-			issetVal( $_REQUEST['username_prefix_add'], '' )
+			issetVal( $_REQUEST['username_prefix_add'] )
 		);
 
 		$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
