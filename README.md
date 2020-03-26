@@ -47,6 +47,12 @@ Consider the following:
 * Students can be searched by not only gender, ethnicity, grade level, etc.,
 	but also by their schedule, activities, absences, eligibility, grades,
 	GPA, and class rank, where appropriate.
+	
+* Students can ask for tutor (Teacher/Student) for each course that he has, 
+        after that he can add rates and comments  about the session.
+	
+* Students can take an online courses and after each course, 
+         there will be an online quiz to evaluate students.	
 
 * A comprehensive grade book that allows teachers to establish grade ranges,
 	weight assignments, track assignments, and issue quarterly and semester
