@@ -13,6 +13,8 @@
  * Users must enter thetext in the following format:
  * default_string|lang_code:translated string
  *
+ * @since 5.8.2 Fix ML default value beginning with `|locale:`.
+ *
  * @example "My vacation by the sea|fr_FR.utf8:Mes vacances à la mer|de_DE.utf8:Mein urlaub am rand des meeres"
  *          Will display the English text unless the current language is either fr_FR.utf8 or de_DE.utf8
  *
@@ -57,7 +59,8 @@ function ParseMLField( $field, $loc = '' )
 	// If no current language tag, return default string.
 	$begpos = mb_strpos( $field, '|' . $loc . ':' );
 
-	if ( $begpos === false )
+	if ( $begpos === false
+		&& $endpos > 0 )
 	{
 		return mb_substr( $field, 0, $endpos );
 	}
