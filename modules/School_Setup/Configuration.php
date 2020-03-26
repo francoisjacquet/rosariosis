@@ -225,7 +225,7 @@ else
 
 			$create_student_account_tooltip = '';
 
-			if ( empty( Config( 'CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION' ) ) )
+			if ( ! Config( 'CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION' ) ) // Do NOT use empty() here!
 			{
 				$create_student_account_tooltip = '<div class="tooltip"><i>' .
 					_( 'New students will be added as Inactive students' ) . '</i></div>';
