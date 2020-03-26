@@ -416,7 +416,7 @@ function makePublishing( $value, $name )
 	//FJ remove LO_field
 	$return .= '<table class="widefat"><tr><td><b>' . _( 'Visible Between' ) . ':</b><br />';
 	$return .= DateInput( $value, 'values[' . $id . '][' . $name . ']' ) . ' ' . _( 'to' ) . ' ';
-	$return .= DateInput( $THIS_RET['END_DATE'], 'values[' . $id . '][END_DATE]' ) . '</td></tr>';
+	$return .= DateInput( issetVal( $THIS_RET['END_DATE'] ), 'values[' . $id . '][END_DATE]' ) . '</td></tr>';
 
 	$return .= '<tr><td style="padding:0;">';
 
@@ -478,7 +478,7 @@ function makePublishingVisibleTo( $profiles, $THIS_RET, $id )
 	foreach ( (array) $profiles as $profile )
 	{
 		$i++;
-		$checked = mb_strpos( $THIS_RET['PUBLISHED_PROFILES'], ',' . $profile['ID'] . ',' ) !== false;
+		$checked = mb_strpos( issetVal( $THIS_RET['PUBLISHED_PROFILES'] ), ',' . $profile['ID'] . ',' ) !== false;
 
 		$visibleTo .= '<td>' . CheckboxInput( $checked, 'profiles[' . $id . '][' . $profile['ID'] . ']', _( $profile['TITLE'] ), '', true );
 
@@ -487,7 +487,7 @@ function makePublishingVisibleTo( $profiles, $THIS_RET, $id )
 		if ( $profile['ID'] === '0' && $_REQUEST['modname'] == 'School_Setup/PortalPolls.php' ) //student & verify this is not a Portal Note!
 		{
 			$visibleTo .= ': ' . SelectInput(
-				$THIS_RET['STUDENTS_TEACHER_ID'],
+				issetVal( $THIS_RET['STUDENTS_TEACHER_ID'] ),
 				'values[' . $id . '][STUDENTS_TEACHER_ID]',
 				_( 'Limit to Teacher' ),
 				$teachers,
