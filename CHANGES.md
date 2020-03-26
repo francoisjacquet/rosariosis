@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 5.8.2
+----------------
+- Fix ML default value beginning with `|locale:` in ParseML.php
+
 Changes in 5.8.1
 ----------------
 - Fix Next Year widget: Handle "Retain" case: value is '0' in Widgets.fnc.php
