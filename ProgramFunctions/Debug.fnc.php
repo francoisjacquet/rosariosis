@@ -71,6 +71,12 @@ function Kint()
 {
 	if ( ! file_exists( 'meta/debug/kint.phar' ) )
 	{
+		function d()
+		{
+			// Prevent PHP Fatal error if Kint debug d() function not loaded.
+			return var_dump( func_get_args() );
+		}
+
 		return false;
 	}
 
