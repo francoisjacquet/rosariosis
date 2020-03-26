@@ -225,7 +225,10 @@ else
 
 			$create_student_account_tooltip = '';
 
-			if ( empty( Config( 'CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION' ) ) )
+			// Fix PHP fatal error can't use functionreturn value in write context.
+			$student_account_automatic_activation = Config( 'CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION' );
+
+			if ( empty( $student_account_automatic_activation ) )
 			{
 				$create_student_account_tooltip = '<div class="tooltip"><i>' .
 					_( 'New students will be added as Inactive students' ) . '</i></div>';
