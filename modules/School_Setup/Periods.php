@@ -178,7 +178,12 @@ function _makeTextInput( $value, $name )
 
 	if ( $name === 'LENGTH' )
 	{
-		$extra = 'size=3 maxlength=5';
+		// Allow Negative length (minutes), why not?
+		$extra = ' type="number" max="99999" min="-99999"';
+	}
+	elseif ( $name === 'SORT_ORDER' )
+	{
+		$extra = ' type="number" step="any"';
 	}
 	elseif ( $name !== 'TITLE' )
 	{

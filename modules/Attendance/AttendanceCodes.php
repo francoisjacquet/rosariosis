@@ -295,8 +295,11 @@ function _makeTextInput( $value, $name )
 
 	$extra = '';
 
-	if ( $name === 'SHORT_NAME'
-		|| $name === 'SORT_ORDER' )
+	if ( $name === 'SORT_ORDER' )
+	{
+		$extra .= ' type="number" step="any"';
+	}
+	elseif ( $name === 'SHORT_NAME' )
 	{
 		$extra .= 'size=5 maxlength=10';
 	}

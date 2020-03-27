@@ -432,6 +432,10 @@ function _makeTextInput( $value, $name )
 	{
 		$extra = 'size=15 maxlength=1000';
 	}
+	elseif ( $name === 'SORT_ORDER' )
+	{
+		$extra = ' type="number" step="any"';
+	}
 	else
 	{
 		$extra = 'size=4 maxlength=5';

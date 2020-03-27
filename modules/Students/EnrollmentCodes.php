@@ -158,7 +158,7 @@ function _makeTextInput( $value, $name )
 	}
 	elseif ( $name === 'SORT_ORDER' )
 	{
-		$extra = 'size=5 maxlength=10';
+		$extra = ' type="number" step="any"';
 	}
 	elseif ( $name === 'TITLE' )
 	{

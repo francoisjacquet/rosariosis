@@ -749,7 +749,8 @@ if ( ! $_REQUEST['modfunc'] )
 			( empty( $RET['SORT_ORDER'] ) ? '' : $RET['SORT_ORDER'] ),
 			'tables[' . $_REQUEST['assignment_type_id'] . '][SORT_ORDER]',
 			_( 'Sort Order' ),
-			'size="3" maxlength="4"' ) . '</td>';
+			' type="number" step="any"'
+		) . '</td>';
 
 		$header .= '<td>' . ColorInput(
 			( empty( $RET['COLOR'] ) ? '' : $RET['COLOR'] ),

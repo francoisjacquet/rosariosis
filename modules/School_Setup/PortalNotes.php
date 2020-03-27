@@ -273,7 +273,11 @@ function _makeTextInput( $value, $name )
 
 	$extra = '';
 
-	if ( $name !== 'TITLE' )
+	if ( $name === 'SORT_ORDER' )
+	{
+		$extra = ' type="number" step="any"';
+	}
+	elseif ( $name !== 'TITLE' )
 	{
 		$extra = 'size=5 maxlength=10';
 	}
@@ -283,7 +287,7 @@ function _makeTextInput( $value, $name )
 	}
 
 	return TextInput(
-		( $name == 'TITLE' && $THIS_RET['EXPIRED'] ?
+		( $name == 'TITLE' && ! empty( $THIS_RET['EXPIRED'] ) ?
 			array( $value, '<span style="color:red">' . $value . '</span>' ) :
 			$value ),
 		'values[' . $id . '][' . $name . ']',

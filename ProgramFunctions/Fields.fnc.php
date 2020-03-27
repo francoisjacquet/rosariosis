@@ -469,7 +469,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 			issetVal( $RET['SORT_ORDER'], '' ),
 			'tables[' . $id . '][SORT_ORDER]',
 			_( 'Sort Order' ),
-			'size=5'
+			' type="number" step="any"'
 		) . '</td>';
 
 		$header .= '</tr></table>';
@@ -490,7 +490,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 			issetVal( $RET['SORT_ORDER'], '' ),
 			'tables[' . $category_id . '][SORT_ORDER]',
 			_( 'Sort Order' ),
-			'size=5'
+			' type="number" step="any"'
 		) . '</td>';
 
 		// Extra Fields.

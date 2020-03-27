@@ -499,7 +499,7 @@ function _makeCommentsInput( $value, $name )
 
 	if ( $name === 'SORT_ORDER' )
 	{
-		$extra .= ' size=3 maxlength=5';
+		$extra .= ' type="number" step="any"';
 
 		if ( $_REQUEST['tab_id'] > 0 && $id !== 'new' )
 		{

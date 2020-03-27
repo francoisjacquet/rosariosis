@@ -310,7 +310,7 @@ function _makeTextInput( $value, $name )
 	}
 	elseif ( $name === 'SORT_ORDER' )
 	{
-		$extra = 'size=6 maxlength=8';
+		$extra = ' type="number" step="any"';
 	}
 	else
 	{

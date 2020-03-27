@@ -303,7 +303,11 @@ function _makeTextInput( $value, $name )
 
 	$extra = '';
 
-	if ( $name !== 'TITLE' )
+	if ( $name === 'SORT_ORDER' )
+	{
+		$extra = ' type="number" step="any"';
+	}
+	elseif ( $name !== 'TITLE' )
 	{
 		$extra = 'size=5 maxlength=10';
 	}
@@ -313,7 +317,7 @@ function _makeTextInput( $value, $name )
 	}
 
 	return TextInput(
-		( $name == 'TITLE' && $THIS_RET['EXPIRED'] ?
+		( $name == 'TITLE' && ! empty( $THIS_RET['EXPIRED'] ) ?
 			array( $value, '<span style="color:red">' . $value . '</span>' ) :
 			$value ),
 		'values[' . $id . '][' . $name . ']',
@@ -346,7 +350,7 @@ function _makeOptionsInput( $value, $name )
 
 	return '<tr' . ( $portal_poll_id == 'new' ? ' id="new-option-1"' : '' ) . '><td><div>' .
 	TextInput(
-		$THIS_RET['QUESTION'],
+		issetVal( $THIS_RET['QUESTION'], '' ),
 		'values[' . $portal_poll_id . '][' . $id . '][QUESTION]',
 		_( 'Title' ),
 		'maxlength=255 size=20' . ( $portal_poll_id == 'new' ? '' : ' required' )
@@ -365,7 +369,7 @@ function _makeOptionsInput( $value, $name )
 		'text'
 	) . '</div><div>' .
 	SelectInput(
-		$THIS_RET['TYPE'],
+		issetVal( $THIS_RET['TYPE'] ),
 		'values[' . $portal_poll_id . '][' . $id . '][TYPE]',
 		_( 'Data Type' ),
 		$type_options,

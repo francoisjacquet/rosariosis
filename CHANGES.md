@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 6.0
+--------------
+- HTML Sort Order, Length & Display Column: use "number" input type, program wide
+
 Changes in 5.9
 --------------
 - Import Moodle Users in Moodle/config.inc.php & Moodle/includes/ImportUsers.fnc.php

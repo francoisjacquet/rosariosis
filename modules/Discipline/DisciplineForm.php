@@ -308,6 +308,8 @@ function _makeTextInput( $value, $name )
 
 	if ( $name === 'SORT_ORDER' )
 	{
+		$extra .= ' type="number" step="any"';
+
 		$comment = '<!-- ' . $value . ' -->';
 	}
 
