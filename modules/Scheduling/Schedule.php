@@ -613,14 +613,12 @@ function _makeMPSelect( $mp_id, $name )
 			$_ROSARIO['_makeMPSelect'][$fy_id][] = $qtr;
 		}
 
-		$quarters_QI = DBQuery( "SELECT MARKING_PERIOD_ID,TITLE,PARENT_ID
+		$quarters_indexed_RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE,PARENT_ID
 			FROM SCHOOL_MARKING_PERIODS
 			WHERE MP='QTR'
 			AND SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
-			ORDER BY SORT_ORDER" );
-
-		$quarters_indexed_RET = DBGet( $quarters_QI, array(), array( 'PARENT_ID' ) );
+			ORDER BY SORT_ORDER", array(), array( 'PARENT_ID' ) );
 
 		foreach ( (array) $semesters_RET as $sem )
 		{

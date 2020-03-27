@@ -97,12 +97,33 @@ echo ErrorMessage( $warning, 'warning' );
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	$sql = "SELECT ID,TITLE,SHORT_NAME,TYPE,DEFAULT_CODE,SORT_ORDER FROM STUDENT_ENROLLMENT_CODES WHERE SYEAR='" . UserSyear() . "' ORDER BY SORT_ORDER,TITLE";
-	$QI = DBQuery( $sql );
-	$codes_RET = DBGet( $QI, array( 'TITLE' => '_makeTextInput', 'SHORT_NAME' => '_makeTextInput', 'TYPE' => '_makeSelectInput', 'DEFAULT_CODE' => '_makeCheckBoxInput', 'SORT_ORDER' => '_makeTextInput' ) );
+	$codes_RET = DBGet( "SELECT ID,TITLE,SHORT_NAME,TYPE,DEFAULT_CODE,SORT_ORDER
+		FROM STUDENT_ENROLLMENT_CODES
+		WHERE SYEAR='" . UserSyear() . "'
+		ORDER BY SORT_ORDER,TITLE", array(
+			'TITLE' => '_makeTextInput',
+			'SHORT_NAME' => '_makeTextInput',
+			'TYPE' => '_makeSelectInput',
+			'DEFAULT_CODE' => '_makeCheckBoxInput',
+			'SORT_ORDER' => '_makeTextInput' ),
+	);
 
-	$columns = array( 'TITLE' => _( 'Title' ), 'SHORT_NAME' => _( 'Short Name' ), 'TYPE' => _( 'Type' ), 'DEFAULT_CODE' => _( 'Rollover Default' ), 'SORT_ORDER' => _( 'Sort Order' ) );
-	$link['add']['html'] = array( 'TITLE' => _makeTextInput( '', 'TITLE' ), 'SHORT_NAME' => _makeTextInput( '', 'SHORT_NAME' ), 'TYPE' => _makeSelectInput( '', 'TYPE' ), 'DEFAULT_CODE' => _makeCheckBoxInput( '', 'DEFAULT_CODE' ), 'SORT_ORDER' => _makeTextInput( '', 'SORT_ORDER' ) );
+	$columns = array(
+		'TITLE' => _( 'Title' ),
+		'SHORT_NAME' => _( 'Short Name' ),
+		'TYPE' => _( 'Type' ),
+		'DEFAULT_CODE' => _( 'Rollover Default' ),
+		'SORT_ORDER' => _( 'Sort Order' ),
+	);
+
+	$link['add']['html'] = array(
+		'TITLE' => _makeTextInput( '', 'TITLE' ),
+		'SHORT_NAME' => _makeTextInput( '', 'SHORT_NAME' ),
+		'TYPE' => _makeSelectInput( '', 'TYPE' ),
+		'DEFAULT_CODE' => _makeCheckBoxInput( '', 'DEFAULT_CODE' ),
+		'SORT_ORDER' => _makeTextInput( '', 'SORT_ORDER' ),
+	);
+
 	$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove';
 	$link['remove']['variables'] = array( 'id' => _( 'ID' ) );
 

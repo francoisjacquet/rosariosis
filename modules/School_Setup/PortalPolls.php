@@ -230,21 +230,21 @@ echo ErrorMessage( $error );
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	$sql_questions = "SELECT ppq.ID,ppq.PORTAL_POLL_ID,ppq.OPTIONS,ppq.VOTES,ppq.QUESTION,ppq.TYPE FROM PORTAL_POLL_QUESTIONS ppq, PORTAL_POLLS pp WHERE pp.SCHOOL_ID='" . UserSchool() . "' AND pp.SYEAR='" . UserSyear() . "' AND pp.ID=ppq.PORTAL_POLL_ID ORDER BY ppq.ID";
-	$QI_questions = DBQuery( $sql_questions );
-	$questions_RET = DBGet( $QI_questions, array( 'OPTIONS' => '_makeOptionsInput' ) );
-
-	$sql = "SELECT pp.ID,pp.SORT_ORDER,pp.TITLE,'See_PORTAL_POLL_QUESTIONS' AS OPTIONS,pp.VOTES_NUMBER,pp.START_DATE,pp.END_DATE,pp.PUBLISHED_PROFILES,pp.STUDENTS_TEACHER_ID,
-	CASE WHEN pp.END_DATE IS NOT NULL AND pp.END_DATE<CURRENT_DATE THEN 'Y' ELSE NULL END AS EXPIRED
-	FROM PORTAL_POLLS pp
-	WHERE pp.SCHOOL_ID='" . UserSchool() . "'
-	AND pp.SYEAR='" . UserSyear() . "'
-	ORDER BY EXPIRED DESC,pp.SORT_ORDER,pp.PUBLISHED_DATE DESC";
-
-	$QI = DBQuery( $sql );
+	$questions_RET = DBGet( "SELECT ppq.ID,ppq.PORTAL_POLL_ID,ppq.OPTIONS,ppq.VOTES,ppq.QUESTION,ppq.TYPE
+		FROM PORTAL_POLL_QUESTIONS ppq,PORTAL_POLLS pp
+		WHERE pp.SCHOOL_ID='" . UserSchool() . "'
+		AND pp.SYEAR='" . UserSyear() . "'
+		AND pp.ID=ppq.PORTAL_POLL_ID
+		ORDER BY ppq.ID", array( 'OPTIONS' => '_makeOptionsInput' ) );
 
 	$polls_RET = DBGet(
-		$QI,
+		"SELECT pp.ID,pp.SORT_ORDER,pp.TITLE,'See_PORTAL_POLL_QUESTIONS' AS OPTIONS,
+			pp.VOTES_NUMBER,pp.START_DATE,pp.END_DATE,pp.PUBLISHED_PROFILES,pp.STUDENTS_TEACHER_ID,
+			CASE WHEN pp.END_DATE IS NOT NULL AND pp.END_DATE<CURRENT_DATE THEN 'Y' ELSE NULL END AS EXPIRED
+			FROM PORTAL_POLLS pp
+			WHERE pp.SCHOOL_ID='" . UserSchool() . "'
+			AND pp.SYEAR='" . UserSyear() . "'
+			ORDER BY EXPIRED DESC,pp.SORT_ORDER,pp.PUBLISHED_DATE DESC",
 		array(
 			'TITLE' => '_makeTextInput',
 			'OPTIONS' => '_makeOptionsInputs',

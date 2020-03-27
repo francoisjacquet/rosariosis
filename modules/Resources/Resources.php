@@ -72,9 +72,10 @@ if ( $_REQUEST['modfunc'] === 'remove'
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	$sql = "SELECT ID,TITLE,LINK FROM RESOURCES WHERE SCHOOL_ID='" . UserSchool() . "' ORDER BY ID";
-	$QI = DBQuery( $sql );
-	$resources_RET = DBGet( $QI, array( 'TITLE' => '_makeTextInput', 'LINK' => '_makeLink' ) );
+	$resources_RET = DBGet( "SELECT ID,TITLE,LINK
+		FROM RESOURCES
+		WHERE SCHOOL_ID='" . UserSchool() . "'
+		ORDER BY ID", array( 'TITLE' => '_makeTextInput', 'LINK' => '_makeLink' ) );
 
 	$columns = array( 'TITLE' => _( 'Title' ), 'LINK' => _( 'Link' ) );
 	$link['add']['html'] = array( 'TITLE' => _makeTextInput( '', 'TITLE' ), 'LINK' => _makeLink( '', 'LINK' ) );

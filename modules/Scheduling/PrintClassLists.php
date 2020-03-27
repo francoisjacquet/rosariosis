@@ -26,13 +26,13 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 	//FJ multiple school periods for a course period
 	//FJ add subject areas
-	$course_periods_RET = DBGet( DBQuery( "SELECT cp.TITLE,cp.COURSE_PERIOD_ID,cp.TITLE,
+	$course_periods_RET = DBGet( "SELECT cp.TITLE,cp.COURSE_PERIOD_ID,cp.TITLE,
 	cp.MARKING_PERIOD_ID,cp.MP,c.TITLE AS COURSE_TITLE,cp.TEACHER_ID,
 	(SELECT " . DisplayNameSQL() . " FROM STAFF WHERE STAFF_ID=cp.TEACHER_ID) AS TEACHER
 	FROM COURSE_PERIODS cp,COURSES c
 	WHERE c.COURSE_ID=cp.COURSE_ID
 	AND cp.COURSE_PERIOD_ID IN (" . $cp_list . ")
-	ORDER BY TEACHER" ) );
+	ORDER BY TEACHER" );
 
 	$first_extra = $extra;
 	$handle = PDFStart();

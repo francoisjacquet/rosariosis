@@ -20,11 +20,10 @@ function ReferralLogIncludeForm()
 		return $return;
 
 	// Get custom Discipline fields
-	$fields_RET = DBGet(
-		DBQuery( "SELECT f.ID,u.TITLE,u.SELECT_OPTIONS,f.DATA_TYPE,u.SORT_ORDER
+	$fields_RET = DBGet( "SELECT f.ID,u.TITLE,u.SELECT_OPTIONS,f.DATA_TYPE,u.SORT_ORDER
 			FROM DISCIPLINE_FIELDS f,DISCIPLINE_FIELD_USAGE u
 			WHERE u.DISCIPLINE_FIELD_ID=f.ID
-			ORDER BY " . db_case( array( 'DATA_TYPE', "'textarea'", "'1'", "'0'" ) ) . ",SORT_ORDER" ),
+			ORDER BY " . db_case( array( 'DATA_TYPE', "'textarea'", "'1'", "'0'" ) ) . ",SORT_ORDER",
 		array(),
 		array( 'ID' )
 	);

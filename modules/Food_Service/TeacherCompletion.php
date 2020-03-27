@@ -19,8 +19,15 @@ switch ( $day )
 		break;
 }
 
-$QI = DBQuery( "SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp WHERE sp.SCHOOL_ID='" . UserSchool() . "' AND sp.SYEAR='" . UserSyear() . "' AND EXISTS (SELECT '' FROM COURSE_PERIODS WHERE SYEAR=sp.SYEAR AND PERIOD_ID=sp.PERIOD_ID AND DOES_FS_COUNTS='Y') ORDER BY sp.SORT_ORDER" );
-$periods_RET = DBGet( $QI );
+$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE
+	FROM SCHOOL_PERIODS sp
+	WHERE sp.SCHOOL_ID='" . UserSchool() . "'
+	AND sp.SYEAR='" . UserSyear() . "'
+	AND EXISTS (SELECT '' FROM COURSE_PERIODS
+		WHERE SYEAR=sp.SYEAR
+		AND PERIOD_ID=sp.PERIOD_ID
+		AND DOES_FS_COUNTS='Y')
+	ORDER BY sp.SORT_ORDER" );
 
 $period_select = '<select name="period"<option value="">' . _( 'All' ) . '</option>';
 

@@ -17,10 +17,14 @@ if ( ! $_REQUEST['modfunc'] && UserStudentID() )
 
 if ( $_REQUEST['modfunc'] == 'verify' )
 {
-	$QI = DBQuery( "SELECT TITLE,COURSE_ID,SUBJECT_ID FROM COURSES WHERE SCHOOL_ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "'" );
-	$courses_RET = DBGet( $QI, array(), array( 'COURSE_ID' ) );
+	$courses_RET = DBGet( "SELECT TITLE,COURSE_ID,SUBJECT_ID
+		FROM COURSES
+		WHERE SCHOOL_ID='" . UserSchool() . "'
+		AND SYEAR='" . UserSyear() . "'", array(), array( 'COURSE_ID' ) );
 
-	DBQuery( "DELETE FROM SCHEDULE_REQUESTS WHERE STUDENT_ID='" . UserStudentID() . "' AND SYEAR='" . UserSyear() . "'" );
+	DBQuery( "DELETE FROM SCHEDULE_REQUESTS
+		WHERE STUDENT_ID='" . UserStudentID() . "'
+		AND SYEAR='" . UserSyear() . "'" );
 
 	foreach ( (array) $_REQUEST['courses'] as $subject => $courses )
 	{

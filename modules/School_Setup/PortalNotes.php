@@ -209,20 +209,38 @@ echo ErrorMessage( $error );
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	// FJ file attached to portal notes.
-	$sql = "SELECT ID,SORT_ORDER,TITLE,CONTENT,START_DATE,END_DATE,PUBLISHED_PROFILES,FILE_ATTACHED,
-	CASE WHEN END_DATE IS NOT NULL AND END_DATE<CURRENT_DATE THEN 'Y' ELSE NULL END AS EXPIRED
+	// File attached to portal notes.
+	$notes_RET = DBGet( "SELECT ID,SORT_ORDER,TITLE,CONTENT,START_DATE,END_DATE,PUBLISHED_PROFILES,FILE_ATTACHED,
+		CASE WHEN END_DATE IS NOT NULL AND END_DATE<CURRENT_DATE THEN 'Y' ELSE NULL END AS EXPIRED
 	FROM PORTAL_NOTES
 	WHERE SCHOOL_ID='" . UserSchool() . "'
 	AND SYEAR='" . UserSyear() . "'
-	ORDER BY EXPIRED DESC,SORT_ORDER,PUBLISHED_DATE DESC";
+	ORDER BY EXPIRED DESC,SORT_ORDER,PUBLISHED_DATE DESC", array(
+		'TITLE' => '_makeTextInput',
+		'CONTENT' => '_makeContentInput',
+		'SORT_ORDER' => '_makeTextInput',
+		'FILE_ATTACHED' => 'makeFileAttached',
+		'START_DATE' => 'makePublishing'
+	) );
 
-	$QI = DBQuery( $sql );
-	$notes_RET = DBGet( $QI, array( 'TITLE' => '_makeTextInput', 'CONTENT' => '_makeContentInput', 'SORT_ORDER' => '_makeTextInput', 'FILE_ATTACHED' => 'makeFileAttached', 'START_DATE' => 'makePublishing' ) );
+	$columns = array(
+		'TITLE' => _( 'Title' ),
+		'CONTENT' => _( 'Note' ),
+		'SORT_ORDER' => _( 'Sort Order' ),
+		'FILE_ATTACHED' => _( 'File Attached' ),
+		'START_DATE' => _( 'Publishing Options' ),
+	);
 
-	$columns = array( 'TITLE' => _( 'Title' ), 'CONTENT' => _( 'Note' ), 'SORT_ORDER' => _( 'Sort Order' ), 'FILE_ATTACHED' => _( 'File Attached' ), 'START_DATE' => _( 'Publishing Options' ) );
 	//,'START_TIME' => 'Start Time','END_TIME' => 'End Time'
-	$link['add']['html'] = array( 'TITLE' => _makeTextInput( '', 'TITLE' ), 'CONTENT' => _makeContentInput( '', 'CONTENT' ), 'SHORT_NAME' => _makeTextInput( '', 'SHORT_NAME' ), 'SORT_ORDER' => _makeTextInput( '', 'SORT_ORDER' ), 'FILE_ATTACHED' => makeFileAttached( '', 'FILE_ATTACHED' ), 'START_DATE' => makePublishing( '', 'START_DATE' ) );
+	$link['add']['html'] = array(
+		'TITLE' => _makeTextInput( '', 'TITLE' ),
+		'CONTENT' => _makeContentInput( '', 'CONTENT' ),
+		'SHORT_NAME' => _makeTextInput( '', 'SHORT_NAME' ),
+		'SORT_ORDER' => _makeTextInput( '', 'SORT_ORDER' ),
+		'FILE_ATTACHED' => makeFileAttached( '', 'FILE_ATTACHED' ),
+		'START_DATE' => makePublishing( '', 'START_DATE' ),
+	);
+
 	$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove';
 	$link['remove']['variables'] = array( 'id' => 'ID' );
 

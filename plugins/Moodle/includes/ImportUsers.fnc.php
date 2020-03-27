@@ -206,10 +206,10 @@ function MoodleUsersStudentEnrollmentForm()
 {
 	$html = '<fieldset><legend>' . _( 'Enrollment' ) . '</legend><table class="width-100p">';
 
-	$gradelevels_RET = DBGet( DBQuery( "SELECT ID,TITLE
+	$gradelevels_RET = DBGet( "SELECT ID,TITLE
 		FROM SCHOOL_GRADELEVELS
 		WHERE SCHOOL_ID='" . UserSchool() . "'
-		ORDER BY SORT_ORDER" ) );
+		ORDER BY SORT_ORDER" );
 
 	$options = array();
 
@@ -226,11 +226,11 @@ function MoodleUsersStudentEnrollmentForm()
 		false
 	) . '</td>';
 
-	$calendars_RET = DBGet( DBQuery( "SELECT CALENDAR_ID,DEFAULT_CALENDAR,TITLE
+	$calendars_RET = DBGet( "SELECT CALENDAR_ID,DEFAULT_CALENDAR,TITLE
 		FROM ATTENDANCE_CALENDARS
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
-		ORDER BY DEFAULT_CALENDAR ASC" ) );
+		ORDER BY DEFAULT_CALENDAR ASC" );
 
 	$options = array();
 
@@ -247,10 +247,10 @@ function MoodleUsersStudentEnrollmentForm()
 		false
 	) . '</td>';
 
-	$schools_RET = DBGet( DBQuery( "SELECT ID,TITLE
+	$schools_RET = DBGet( "SELECT ID,TITLE
 		FROM SCHOOLS
 		WHERE ID!='" . UserSchool() . "'
-		AND SYEAR='" . UserSyear() . "'" ) );
+		AND SYEAR='" . UserSyear() . "'" );
 
 	$options = array(
 		UserSchool() => _( 'Next grade at current school' ),
@@ -271,11 +271,11 @@ function MoodleUsersStudentEnrollmentForm()
 		false
 	) . '</td></tr>';
 
-	$enrollment_codes_RET = DBGet( DBQuery( "SELECT ID,TITLE AS TITLE
+	$enrollment_codes_RET = DBGet( "SELECT ID,TITLE AS TITLE
 		FROM STUDENT_ENROLLMENT_CODES
 		WHERE SYEAR='" . UserSyear() . "'
 		AND TYPE='Add'
-		ORDER BY SORT_ORDER" ) );
+		ORDER BY SORT_ORDER" );
 
 	$options = array();
 
