@@ -26,9 +26,6 @@ Changes in 5.9
 - CSS WPadmin pointer cursor for radio & checkbox input in stylesheet.css
 - Move REMOVE_ACCESS_USERNAME_PREFIX_ADD from PROGRAM_CONFIG (per school) to CONFIG (all schools, 0) in RemoveAccess.php, rosariosis.sql & Update.fnc.php
 - Prevent PHP Fatal error if Kint debug d() function not loaded in Warehouse.php & Debug.fnc.php
-
-Changes in 5.8.2
-----------------
 - Fix ML default value beginning with `|locale:` in ParseML.php
 
 Changes in 5.8.1
