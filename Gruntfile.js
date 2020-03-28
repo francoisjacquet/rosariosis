@@ -57,7 +57,7 @@ module.exports = function(grunt) {
 						'assets/js/jscalendar/calendar-setup.js',
 						'assets/js/jscalendar/calendar-setup.js',
 						'assets/js/colorbox/jquery.colorbox-min.js',
-						'assets/js/showdown/showdown.min.js',
+						'assets/js/marked/marked.min.js',
 						'assets/js/jquery-fixedmenu/jquery-fixedmenu.js',
 						'assets/js/jquery-captcha/jquery-captcha.js',
 						'assets/js/jquery-passwordstrength/jquery-passwordstrength.js',

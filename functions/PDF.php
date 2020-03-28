@@ -120,7 +120,8 @@ function PDFStop( $handle )
 	}
 
 	// Include Markdown to HTML.
-	$_html['head'] .= '<script src="assets/js/showdown/showdown.min.js"></script>';
+	// @since 6.0 JS MarkDown use marked instead of showdown (15KB smaller).
+	$_html['head'] .= '<script src="assets/js/marked/marked.min.js"></script>';
 
 	// Include wkhtmltopdf Warehouse JS functions.
 	$_html['head'] .= '<script src="assets/js/warehouse_wkhtmltopdf.js"></script>';

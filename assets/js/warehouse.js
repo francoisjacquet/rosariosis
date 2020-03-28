@@ -119,36 +119,43 @@ var ColorBox = function() {
 }
 
 // MarkDown.
-var md_last_val = {};
-
 var GetMDConverter = function() {
-	if (typeof GetMDConverter.mdc === 'undefined') {
-		GetMDConverter.mdc = new showdown.Converter({
-			tables: true,
-			simplifiedAutoLink: true,
-			parseImgDimensions: true,
-			tasklists: true,
-			literalMidWordUnderscores: true,
-			literalMidWordAsterisks: false, // Fix MarkDown bold.
-			simpleLineBreaks: true,
-			openLinksInNewWindow: true,
-			excludeTrailingPunctuationFromURLs: true
-		});
+	if (typeof GetMDConverter.marked === 'undefined') {
+		GetMDConverter.marked = function(markDown) {
+			// @since 6.0 JS MarkDown use marked instead of showdown (15KB smaller).
+			// Open links in new window.
+			// @link https://github.com/markedjs/marked/issues/144
+			var renderer = new marked.Renderer();
+
+			renderer.link = function(href, title, text) {
+			    var link = marked.Renderer.prototype.link.call(this, href, title, text);
+			    return link.replace("<a","<a target='_blank' ");
+			};
+
+			// Set options.
+			// @link https://marked.js.org/#/USING_ADVANCED.md
+			return marked(markDown, {
+				breaks: true, // Add <br> on a single line break. Requires gfm be true.
+				gfm: true, // GitHub Flavored Markdown (GFM).
+				headerIds: false, // Include an id attribute when emitting headings (h1, h2, h3, etc).
+				renderer: renderer,
+			});
+		};
 	}
 
-	return GetMDConverter.mdc;
+	return GetMDConverter.marked;
 }
 
 var MarkDownInputPreview = function(input_id) {
 	var input = $('#' + input_id),
-		html = input.val(),
+		md = input.val(),
 		md_prev = $('#divMDPreview' + input_id);
 
 	if (!md_prev.is(":visible")) {
 		var mdc = GetMDConverter();
 
 		// Convert MarkDown to HTML.
-		md_prev.html(mdc.makeHtml(html));
+		md_prev.html(mdc(md));
 
 		// MD preview = Input size.
 		md_prev.css('height', input.css('height'));
@@ -165,11 +172,11 @@ var MarkDownInputPreview = function(input_id) {
 }
 
 var MarkDownToHTML = function() {
-	$('.markdown-to-html').html(function(i, html) {
+	$('.markdown-to-html').html(function(i, md) {
 
 		var mdc = GetMDConverter();
 
-		return mdc.makeHtml(html);
+		return mdc(md);
 	});
 }
 

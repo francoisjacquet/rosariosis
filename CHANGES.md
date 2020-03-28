@@ -7,6 +7,7 @@ Changes in 6.0
 - Add TipMessage to Food Service Icon in FS_Icons.inc.php
 - HTML standardize Name + ID & Balance headers in Accounts.php, ServeMenus.php, Statements.php & Transactions.php
 - JS update jQuery to v2.2.4 in jquery.js
+- JS MarkDown use marked instead of showdown (15KB smaller) in assets/js/marked/, plugins.min.js, warehouse.js & PDF.php
 
 Changes in 5.9
 --------------
