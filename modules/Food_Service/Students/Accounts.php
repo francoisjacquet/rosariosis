@@ -154,7 +154,7 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 
 	echo '<table class="width-100p valign-top fixed-col"><tr><td>';
 
-	echo NoInput( $student['FULL_NAME'], '<b>' . $student['STUDENT_ID'] . '</b>' );
+	echo NoInput( $student['FULL_NAME'], $student['STUDENT_ID'] );
 
 	echo '</td><td>';
 

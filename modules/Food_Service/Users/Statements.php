@@ -41,7 +41,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 //FJ fix bug no balance
 	//	DrawHeader(NoInput($staff['FULL_NAME'],'&nbsp;'.$staff['STAFF_ID']),'', NoInput(red($student['BALANCE']),_('Balance')));
 	DrawHeader(
-		NoInput( $staff['FULL_NAME'], '&nbsp;' . $staff['STAFF_ID'] ),
+		NoInput( $staff['FULL_NAME'], $staff['STAFF_ID'] ),
 		NoInput( red( $staff['BALANCE'] ), _( 'Balance' ) )
 	);
 

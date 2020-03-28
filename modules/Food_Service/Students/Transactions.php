@@ -94,7 +94,7 @@ if ( UserStudentID()
 	DrawHeader( '', ResetButton( _( 'Cancel' ) ) . SubmitButton() );
 
 	DrawHeader(
-		NoInput( $student['FULL_NAME'], '&nbsp;' . $student['STUDENT_ID'] ),
+		NoInput( $student['FULL_NAME'], $student['STUDENT_ID'] ),
 		NoInput( red( $student['BALANCE'] ), _( 'Balance' ) )
 	);
 

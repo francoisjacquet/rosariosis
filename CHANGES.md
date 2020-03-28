@@ -5,6 +5,7 @@ Changes in 6.0
 --------------
 - HTML Sort Order, Length & Display Column: use "number" input type, program wide
 - Add TipMessage to Food Service Icon in FS_Icons.inc.php
+- HTML standardize Name + ID & Balance headers in Accounts.php, ServeMenus.php, Statements.php & Transactions.php
 
 Changes in 5.9
 --------------
