@@ -6,7 +6,7 @@ if ( ! empty( $_REQUEST['type'] ) )
 }
 else
 {
-	$_SESSION['_REQUEST_vars']['type'] = $_REQUEST['type'] = $_SESSION['FSA_type'];
+	$_SESSION['_REQUEST_vars']['type'] = $_REQUEST['type'] = issetVal( $_SESSION['FSA_type'] );
 }
 
 /*if ( $_REQUEST['type']=='staff')
