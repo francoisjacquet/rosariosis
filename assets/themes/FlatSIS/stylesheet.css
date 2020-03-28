@@ -344,10 +344,12 @@ textarea {
 
 .md-preview > .tab {
 	border-radius: 0;
-	padding: 7px 14px;
+	padding: 6px 10px;
 	text-transform: uppercase;
 	font-size: 14px;
 	font-weight: normal;
+	border-color: #cacaca;
+	line-height: 28px;
 }
 
 .md-preview .md-link {
@@ -356,6 +358,12 @@ textarea {
 
 .md-preview > div {
 	border-bottom-width: 2px;
+	border-color: #cacaca;
+}
+
+.md-preview .tab.disabled,
+.md-preview .tab:hover {
+	border-color: #aaa;
 }
 
 .tooltip > i {
