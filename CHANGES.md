@@ -4,6 +4,7 @@
 Changes in 6.0
 --------------
 - HTML Sort Order, Length & Display Column: use "number" input type, program wide
+- Add TipMessage to Food Service Icon in FS_Icons.inc.php
 
 Changes in 5.9
 --------------
