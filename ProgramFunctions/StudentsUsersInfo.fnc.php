@@ -42,7 +42,8 @@ function _makeTextInput( $column, $name, $request )
 	{
 		$value[ $column ] = str_replace( '.00', '', $value[ $column ] );
 
-		$options = 'type="number" step="any"';
+		// Fix Number Field SQL column limit: type numeric(20,2).
+		$options = ' type="number" step="any" max="999999999999999999" min="-999999999999999999"';
 	}
 	elseif ( Config( 'STUDENTS_EMAIL_FIELD' ) === str_replace( 'CUSTOM_', '', $column ) )
 	{
