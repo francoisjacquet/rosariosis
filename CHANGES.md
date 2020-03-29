@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 5.9.1
+----------------
+- Fix Number Field SQL column limit: type numeric(20,2) in StudentUsersInfo.fnc.php
+
 Changes in 5.9
 --------------
 - Import Moodle Users in Moodle/config.inc.php & Moodle/includes/ImportUsers.fnc.php
