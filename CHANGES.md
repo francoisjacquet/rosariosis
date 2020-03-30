@@ -13,6 +13,7 @@ Changes in 5.9.1
 ----------------
 - Fix Number Field SQL column limit: type numeric(20,2) in StudentUsersInfo.fnc.php
 - Fix SQL error table ADDRESS specified more than once in GetStuList.fnc.php
+- SQL Fix School Base Grading Scale for Historical Grades in TRANSCRIPT_GRADES view in Update.fnc.php & rosariosis.sql
 
 Changes in 5.9
 --------------
