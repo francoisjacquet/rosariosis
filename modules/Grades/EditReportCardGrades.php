@@ -52,7 +52,8 @@ if ( UserStudentID() )
 			$mp_id = issetVal( $_REQUEST['new_sms'] );
 		}
 
-		if ( $_REQUEST['SMS_GRADE_LEVEL'] && $mp_id )
+		if ( ! empty( $_REQUEST['SMS_GRADE_LEVEL'] )
+			&& $mp_id )
 		{
 			DBQuery( "UPDATE STUDENT_MP_STATS
 				SET GRADE_LEVEL_SHORT='" . $_REQUEST['SMS_GRADE_LEVEL'] . "'
@@ -101,17 +102,17 @@ if ( UserStudentID() )
 					$values = $id . ",'" .
 					UserSchool() . "','" . $student_id . "','" . $mp_id . "','" . $syear . "',";
 
-					if ( ! $columns['GP_SCALE'] )
+					if ( empty( $columns['GP_SCALE'] ) )
 					{
 						$columns['GP_SCALE'] = SchoolInfo( 'REPORTING_GP_SCALE' );
 					}
 
-					if ( ! $columns['CREDIT_ATTEMPTED'] )
+					if ( empty( $columns['CREDIT_ATTEMPTED'] ) )
 					{
 						$columns['CREDIT_ATTEMPTED'] = 1;
 					}
 
-					if ( ! $columns['CREDIT_EARNED'] )
+					if ( empty( $columns['CREDIT_EARNED'] ) )
 					{
 						if ( $columns['UNWEIGHTED_GP'] > 0
 							|| $columns['WEIGHTED_GP'] > 0 )
@@ -124,7 +125,7 @@ if ( UserStudentID() )
 						}
 					}
 
-					if ( ! $columns['CLASS_RANK'] )
+					if ( ! isset( $columns['CLASS_RANK'] ) )
 					{
 						$columns['CLASS_RANK'] = 'Y';
 					}
