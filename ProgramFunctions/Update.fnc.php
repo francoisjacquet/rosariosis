@@ -179,6 +179,10 @@ function Update()
 		case version_compare( $from_version, '5.9', '<' ) :
 
 			$return = _update59();
+
+		case version_compare( $from_version, '5.9.1', '<' ) :
+
+			$return = _update591();
 	}
 
 	// Update version in DB CONFIG table.
@@ -813,29 +817,29 @@ function _update47beta2()
 	DROP FUNCTION create_language_plpgsql();
 
 	CREATE OR REPLACE FUNCTION t_update_mp_stats() RETURNS  \"trigger\"
-	    AS $$
+		AS $$
 	begin
 
 	  IF tg_op = 'DELETE' THEN
-	    PERFORM calc_gpa_mp(OLD.student_id::int, OLD.marking_period_id::varchar);
-	    PERFORM calc_cum_gpa(OLD.marking_period_id::varchar, OLD.student_id::int);
-	    PERFORM calc_cum_cr_gpa(OLD.marking_period_id::varchar, OLD.student_id::int);
+		PERFORM calc_gpa_mp(OLD.student_id::int, OLD.marking_period_id::varchar);
+		PERFORM calc_cum_gpa(OLD.marking_period_id::varchar, OLD.student_id::int);
+		PERFORM calc_cum_cr_gpa(OLD.marking_period_id::varchar, OLD.student_id::int);
 
 	  ELSE
-	    --IF tg_op = 'INSERT' THEN
-	        --we need to do stuff here to gather other information since it's a new record.
-	    --ELSE
-	        --if report_card_grade_id changes, then we need to reset gp values
-	    --  IF NOT NEW.report_card_grade_id = OLD.report_card_grade_id THEN
-	            --
-	    PERFORM calc_gpa_mp(NEW.student_id::int, NEW.marking_period_id::varchar);
-	    PERFORM calc_cum_gpa(NEW.marking_period_id::varchar, NEW.student_id::int);
-	    PERFORM calc_cum_cr_gpa(NEW.marking_period_id::varchar, NEW.student_id::int);
+		--IF tg_op = 'INSERT' THEN
+			--we need to do stuff here to gather other information since it's a new record.
+		--ELSE
+			--if report_card_grade_id changes, then we need to reset gp values
+		--  IF NOT NEW.report_card_grade_id = OLD.report_card_grade_id THEN
+				--
+		PERFORM calc_gpa_mp(NEW.student_id::int, NEW.marking_period_id::varchar);
+		PERFORM calc_cum_gpa(NEW.marking_period_id::varchar, NEW.student_id::int);
+		PERFORM calc_cum_cr_gpa(NEW.marking_period_id::varchar, NEW.student_id::int);
 	  END IF;
 	  return NULL;
 	end
 	$$
-	    LANGUAGE plpgsql;" );
+		LANGUAGE plpgsql;" );
 
 	return $return;
 }
@@ -1221,7 +1225,7 @@ function _update501()
 		ALTER COLUMN title TYPE text;";
 
 	$sql_create_view = "CREATE VIEW course_details AS
-	    SELECT cp.school_id, cp.syear, cp.marking_period_id, c.subject_id, cp.course_id, cp.course_period_id, cp.teacher_id, c.title AS course_title, cp.title AS cp_title, cp.grade_scale_id, cp.mp, cp.credits FROM course_periods cp, courses c WHERE (cp.course_id = c.course_id);";
+		SELECT cp.school_id, cp.syear, cp.marking_period_id, c.subject_id, cp.course_id, cp.course_period_id, cp.teacher_id, c.title AS course_title, cp.title AS cp_title, cp.grade_scale_id, cp.mp, cp.credits FROM course_periods cp, courses c WHERE (cp.course_id = c.course_id);";
 
 	DBQuery( $sql_drop_view . $sql_alter_table . $sql_create_view );
 
@@ -1549,17 +1553,17 @@ function _update541()
 
 		CREATE OR REPLACE FUNCTION set_updated_at_triggers() RETURNS void AS $$
 		DECLARE
-		    t text;
+			t text;
 		BEGIN
-		    FOR t IN
-		        SELECT table_name FROM information_schema.columns
-		        WHERE column_name = 'updated_at'
-		    LOOP
-		        EXECUTE
-		            'CREATE TRIGGER set_updated_at
-		            BEFORE UPDATE ON ' || t || '
-		            FOR EACH ROW EXECUTE PROCEDURE set_updated_at()';
-		    END LOOP;
+			FOR t IN
+				SELECT table_name FROM information_schema.columns
+				WHERE column_name = 'updated_at'
+			LOOP
+				EXECUTE
+					'CREATE TRIGGER set_updated_at
+					BEFORE UPDATE ON ' || t || '
+					FOR EACH ROW EXECUTE PROCEDURE set_updated_at()';
+			END LOOP;
 		END;
 		$$ LANGUAGE plpgsql;
 
@@ -1797,7 +1801,7 @@ function _update58beta5()
 		ALTER TABLE school_gradelevels
 		ALTER COLUMN short_name TYPE character varying(3);
 		CREATE VIEW enroll_grade AS
-		    SELECT e.id, e.syear, e.school_id, e.student_id, e.start_date, e.end_date, sg.short_name, sg.title FROM student_enrollment e, school_gradelevels sg WHERE (e.grade_id = sg.id);
+			SELECT e.id, e.syear, e.school_id, e.student_id, e.start_date, e.end_date, sg.short_name, sg.title FROM student_enrollment e, school_gradelevels sg WHERE (e.grade_id = sg.id);
 		COMMIT;" );
 
 	return $return;
@@ -1951,6 +1955,76 @@ function _update59()
 
 		DBQuery( "INSERT INTO config VALUES (0, 'REMOVE_ACCESS_USERNAME_PREFIX_ADD', '" . $old_program_config_value . "');" );
 	}
+
+	return $return;
+}
+
+
+/**
+ * Update to version 5.9.1
+ *
+ * 1. TRANSCRIPT_GRADES view:
+ * SQL Fix School Base Grading Scale for Historical Grades in TRANSCRIPT_GRADES view.
+ *
+ * Local function
+ *
+ * @since 5.9.1
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update591()
+{
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. TRANSCRIPT_GRADES view:
+	 * SQL Fix School Base Grading Scale for Historical Grades in TRANSCRIPT_GRADES view.
+	 */
+	$sql_drop_view = "DROP VIEW transcript_grades;";
+
+	$sql_create_view = "CREATE VIEW transcript_grades AS
+	SELECT mp.syear,mp.school_id,mp.marking_period_id,mp.mp_type,
+	mp.short_name,mp.parent_id,mp.grandparent_id,
+	(SELECT mp2.end_date
+		FROM student_report_card_grades
+			JOIN marking_periods mp2
+			ON mp2.marking_period_id::text = student_report_card_grades.marking_period_id::text
+		WHERE student_report_card_grades.student_id = sms.student_id::numeric
+		AND (student_report_card_grades.marking_period_id::text = mp.parent_id::text
+			OR student_report_card_grades.marking_period_id::text = mp.grandparent_id::text)
+		AND student_report_card_grades.course_title::text = srcg.course_title::text
+		ORDER BY mp2.end_date LIMIT 1) AS parent_end_date,
+	mp.end_date,sms.student_id,
+	(sms.cum_weighted_factor * COALESCE(schools.reporting_gp_scale, (SELECT reporting_gp_scale FROM schools WHERE mp.school_id = id ORDER BY syear LIMIT 1))) AS cum_weighted_gpa,
+	(sms.cum_unweighted_factor * schools.reporting_gp_scale) AS cum_unweighted_gpa,
+	sms.cum_rank,sms.mp_rank,sms.class_size,
+	((sms.sum_weighted_factors / sms.count_weighted_factors) * schools.reporting_gp_scale) AS weighted_gpa,
+	((sms.sum_unweighted_factors / sms.count_unweighted_factors) * schools.reporting_gp_scale) AS unweighted_gpa,
+	sms.grade_level_short,srcg.comment,srcg.grade_percent,srcg.grade_letter,
+	srcg.weighted_gp,srcg.unweighted_gp,srcg.gp_scale,srcg.credit_attempted,
+	srcg.credit_earned,srcg.course_title,srcg.school AS school_name,
+	schools.reporting_gp_scale AS school_scale,
+	((sms.cr_weighted_factors / sms.count_cr_factors::numeric) * schools.reporting_gp_scale) AS cr_weighted_gpa,
+	((sms.cr_unweighted_factors / sms.count_cr_factors::numeric) * schools.reporting_gp_scale) AS cr_unweighted_gpa,
+	(sms.cum_cr_weighted_factor * schools.reporting_gp_scale) AS cum_cr_weighted_gpa,
+	(sms.cum_cr_unweighted_factor * schools.reporting_gp_scale) AS cum_cr_unweighted_gpa,
+	srcg.class_rank,sms.comments,
+	srcg.credit_hours
+	FROM marking_periods mp
+		JOIN student_report_card_grades srcg
+		ON mp.marking_period_id::text = srcg.marking_period_id::text
+		JOIN student_mp_stats sms
+		ON sms.marking_period_id::numeric = mp.marking_period_id
+			AND sms.student_id::numeric = srcg.student_id
+		LEFT OUTER JOIN schools
+		ON mp.school_id = schools.id
+			AND (mp.mp_source<>'History' AND mp.syear = schools.syear)
+				OR mp.syear=(SELECT syear FROM schools WHERE mp.school_id = id ORDER BY syear LIMIT 1)
+	ORDER BY srcg.course_period_id;";
+
+	DBQuery( $sql_drop_view . $sql_create_view );
 
 	return $return;
 }

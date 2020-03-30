@@ -2133,22 +2133,22 @@ CREATE TABLE templates (
 --
 -- Name: transcript_grades; Type: VIEW; Schema: public; Owner: rosariosis
 --
--- modif Francois: history grades in Transripts
+-- Add history grades in Transripts
 
 CREATE VIEW transcript_grades AS
     SELECT mp.syear,mp.school_id,mp.marking_period_id,mp.mp_type,
     mp.short_name,mp.parent_id,mp.grandparent_id,
     (SELECT mp2.end_date
-        FROM (student_report_card_grades
+        FROM student_report_card_grades
             JOIN marking_periods mp2
-            ON (((mp2.marking_period_id)::text = (student_report_card_grades.marking_period_id)::text)))
-                WHERE (((student_report_card_grades.student_id = (sms.student_id)::numeric)
-                    AND (((student_report_card_grades.marking_period_id)::text = (mp.parent_id)::text)
-                        OR ((student_report_card_grades.marking_period_id)::text = (mp.grandparent_id)::text)))
-                AND ((student_report_card_grades.course_title)::text = (srcg.course_title)::text))
-                ORDER BY mp2.end_date LIMIT 1) AS parent_end_date,
+            ON mp2.marking_period_id::text = student_report_card_grades.marking_period_id::text
+        WHERE student_report_card_grades.student_id = sms.student_id::numeric
+        AND (student_report_card_grades.marking_period_id::text = mp.parent_id::text
+            OR student_report_card_grades.marking_period_id::text = mp.grandparent_id::text)
+        AND student_report_card_grades.course_title::text = srcg.course_title::text
+        ORDER BY mp2.end_date LIMIT 1) AS parent_end_date,
     mp.end_date,sms.student_id,
-    (sms.cum_weighted_factor * schools.reporting_gp_scale) AS cum_weighted_gpa,
+    (sms.cum_weighted_factor * COALESCE(schools.reporting_gp_scale, (SELECT reporting_gp_scale FROM schools WHERE mp.school_id = id ORDER BY syear LIMIT 1))) AS cum_weighted_gpa,
     (sms.cum_unweighted_factor * schools.reporting_gp_scale) AS cum_unweighted_gpa,
     sms.cum_rank,sms.mp_rank,sms.class_size,
     ((sms.sum_weighted_factors / sms.count_weighted_factors) * schools.reporting_gp_scale) AS weighted_gpa,
@@ -2157,21 +2157,22 @@ CREATE VIEW transcript_grades AS
     srcg.weighted_gp,srcg.unweighted_gp,srcg.gp_scale,srcg.credit_attempted,
     srcg.credit_earned,srcg.course_title,srcg.school AS school_name,
     schools.reporting_gp_scale AS school_scale,
-    ((sms.cr_weighted_factors / (sms.count_cr_factors)::numeric) * schools.reporting_gp_scale) AS cr_weighted_gpa,
-    ((sms.cr_unweighted_factors / (sms.count_cr_factors)::numeric) * schools.reporting_gp_scale) AS cr_unweighted_gpa,
+    ((sms.cr_weighted_factors / sms.count_cr_factors::numeric) * schools.reporting_gp_scale) AS cr_weighted_gpa,
+    ((sms.cr_unweighted_factors / sms.count_cr_factors::numeric) * schools.reporting_gp_scale) AS cr_unweighted_gpa,
     (sms.cum_cr_weighted_factor * schools.reporting_gp_scale) AS cum_cr_weighted_gpa,
     (sms.cum_cr_unweighted_factor * schools.reporting_gp_scale) AS cum_cr_unweighted_gpa,
     srcg.class_rank,sms.comments,
     srcg.credit_hours
-    FROM (((marking_periods mp
+    FROM marking_periods mp
         JOIN student_report_card_grades srcg
-        ON (((mp.marking_period_id)::text = (srcg.marking_period_id)::text)))
+        ON mp.marking_period_id::text = srcg.marking_period_id::text
         JOIN student_mp_stats sms
-        ON ((((sms.marking_period_id)::numeric = mp.marking_period_id)
-            AND ((sms.student_id)::numeric = srcg.student_id))))
+        ON sms.marking_period_id::numeric = mp.marking_period_id
+            AND sms.student_id::numeric = srcg.student_id
         LEFT OUTER JOIN schools
-        ON (((mp.school_id = schools.id)
-            AND (mp.syear = schools.syear))))
+        ON mp.school_id = schools.id
+            AND (mp.mp_source<>'History' AND mp.syear = schools.syear)
+                OR mp.syear=(SELECT syear FROM schools WHERE mp.school_id = id ORDER BY syear LIMIT 1)
     ORDER BY srcg.course_period_id;
 
 
