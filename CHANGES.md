@@ -8,6 +8,7 @@ Changes in 6.0
 - HTML standardize Name + ID & Balance headers in Accounts.php, ServeMenus.php, Statements.php & Transactions.php
 - JS update jQuery to v2.2.4 in jquery.js
 - JS MarkDown use marked instead of showdown (15KB smaller) in assets/js/marked/, plugins.min.js, warehouse.js, warehouse_wkhtmltopdf.js & PDF.php
+- JS replace jqPlot with Chart.js in assets/js/Chart.js/, stylesheet.css & Charts.fnc.php
 
 Changes in 5.9.1
 ----------------

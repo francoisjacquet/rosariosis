@@ -1269,12 +1269,13 @@ td.calendar-menu {
 	padding: 5px
 }
 
-/*jqplot charts*/
+/* Chart.js */
 
 .chart {
-	margin: 20px 10px;
-	width: 700px;
-	height: 560px
+	position: relative;
+	/* 90% viewport width - menu width. */
+	width: calc( 90vw - 205px);
+	max-width: 1024px;
 }
 
 /*tipmessage (DO NOT EDIT)*/

@@ -99,10 +99,10 @@
 		border-style: none none dotted none;
 		padding: 12px 0 12px 0
 	}
+	/* Chart.js */
 	.chart {
-		margin: 20px 0;
-		width: 300px;
-		height: 300px
+		width: 90vw;
+		min-width: 450px;
 	}
 	input[type=submit],
 	input[type=reset],
