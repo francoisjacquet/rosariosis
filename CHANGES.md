@@ -4,6 +4,7 @@
 Changes in 5.9.2
 ----------------
 - Charts exclude Fields of "Files" type in StudentBreakdown.php & StudentFieldBreakdown.php
+- Charts allow Column type in GradeBreakdown.php
 
 Changes in 5.9.1
 ----------------

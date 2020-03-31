@@ -10,11 +10,11 @@ if ( empty( $_REQUEST['mp_id'] ) )
 	$_REQUEST['mp_id'] = UserMP();
 }
 
-$chart_types = array( 'line', 'list' );
+$chart_types = array( 'line', 'column', 'list' );
 
-// set Chart Type
-if ( !isset( $_REQUEST['chart_type'] )
-	|| !in_array( $_REQUEST['chart_type'], $chart_types ) )
+// Set Chart Type.
+if ( ! isset( $_REQUEST['chart_type'] )
+	|| ! in_array( $_REQUEST['chart_type'], $chart_types ) )
 {
 	$_REQUEST['chart_type'] = 'line';
 }
