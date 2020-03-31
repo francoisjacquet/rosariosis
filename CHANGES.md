@@ -10,6 +10,10 @@ Changes in 6.0
 - JS MarkDown use marked instead of showdown (15KB smaller) in assets/js/marked/, plugins.min.js, warehouse.js, warehouse_wkhtmltopdf.js & PDF.php
 - JS replace jqPlot with Chart.js in assets/js/Chart.js/, stylesheet.css & Charts.fnc.php
 
+Changes in 5.9.2
+----------------
+- Charts exclude Fields of "Files" type in StudentBreakdown.php & StudentFieldBreakdown.php
+
 Changes in 5.9.1
 ----------------
 - Fix Number Field SQL column limit: type numeric(20,2) in StudentUsersInfo.fnc.php
