@@ -207,7 +207,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$fields_RET = DBGet( "SELECT ID,TITLE,SELECT_OPTIONS AS OPTIONS,CATEGORY_ID
 		FROM CUSTOM_FIELDS
-		WHERE TYPE NOT IN ('textarea','text','date','log','holder')
+		WHERE TYPE NOT IN ('textarea','text','date','log','holder','files')
 		ORDER BY SORT_ORDER,TITLE", array(), array( 'CATEGORY_ID' ) );
 
 	$categories_RET = DBGet( "SELECT ID,TITLE
