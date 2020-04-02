@@ -22,13 +22,13 @@ $start_date = RequestedDate( 'start', $min_date, 'set' );
 // Set end date.
 $end_date = RequestedDate( 'end', DBDate(), 'set' );
 
-$chart_types = array( 'column', 'list' );
+$chart_types = array( 'bar', 'list' );
 
 // Set Chart Type.
 if ( ! isset( $_REQUEST['chart_type'] )
 	|| ! in_array( $_REQUEST['chart_type'], $chart_types ) )
 {
-	$_REQUEST['chart_type'] = 'column';
+	$_REQUEST['chart_type'] = 'bar';
 }
 
 $timeframes = array( 'month', 'SYEAR' );
@@ -196,9 +196,9 @@ if ( ! empty( $_REQUEST['category_id'] ) )
 				$chart['chart_data'][ $index ][0] = FormatSyear( $i, Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) );
 			}
 
-			$chart['chart_data'][ $index ][] = (int)$totals_RET['Y'][ $tf ][1]['COUNT'];
+			$chart['chart_data'][ $index ][] = issetVal( $totals_RET['Y'][ $tf ][1]['COUNT'], 0 );
 
-			$chart['chart_data'][ $index ][] = (int)$totals_RET['N'][ $tf ][1]['COUNT'];
+			$chart['chart_data'][ $index ][] = issetVal( $totals_RET['N'][ $tf ][1]['COUNT'], 0 );
 		}
 	}
 	elseif ( $category_RET[1]['DATA_TYPE'] === 'multiple_checkbox' )
@@ -339,7 +339,7 @@ if ( ! empty( $_REQUEST['category_id'] ) )
 		ksort( $chart['chart_data'] );
 	}
 
-	//FJ jqplot charts
+	// Cahrt.js charts.
 	if ( $_REQUEST['chart_type'] !== 'list' )
 	{
 		$datacolumns = 0;
@@ -348,16 +348,20 @@ if ( ! empty( $_REQUEST['category_id'] ) )
 		foreach ( (array) $chart['chart_data'] as $chart_data )
 		{
 			// Ticks
-			if ( $datacolumns == 0 )
+			if ( $datacolumns++ == 0 )
 			{
 				$jump = true;
 
-				foreach ($chart_data as $tick)
+				foreach ( $chart_data as $tick )
 				{
-					if ( $jump)
+					if ( $jump )
+					{
 						$jump = false;
+					}
 					else
+					{
 						$ticks[] = $tick;
+					}
 				}
 			}
 			else
@@ -373,16 +377,14 @@ if ( ! empty( $_REQUEST['category_id'] ) )
 						$series_label = $data;
 
 						// Set series label + ticks
-						$chartData[ $series_label ][0] = $ticks;
+						$chart_data_series[ $series_label ][0] = $ticks;
 					}
 					else
 					{
-						$chartData[ $series_label ][1][] = $data;
+						$chart_data_series[ $series_label ][1][] = $data;
 					}
 				}
 			}
-
-			$datacolumns ++;
 		}
 	}
 }
@@ -454,7 +456,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$tabs = array(
 			array(
 				'title' => _( 'Column' ),
-				'link' => PreparePHP_SELF( $_REQUEST, array(), array( 'chart_type' => 'column' ) ),
+				'link' => PreparePHP_SELF( $_REQUEST, array(), array( 'chart_type' => 'bar' ) ),
 			),
 			array(
 				'title' => _( 'List' ),
@@ -468,8 +470,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		if ( $_REQUEST['chart_type'] === 'list' )
 		{
-
-			// IGNORE THE 'Series' RECORD
+			// IGNORE THE 'Series' RECORD.
 			$LO_columns = array( 'TITLE' => _( 'Option' ) );
 
 			foreach ( (array) $chart['chart_data'] as $timeframe => $values )
@@ -502,21 +503,23 @@ if ( ! $_REQUEST['modfunc'] )
 
 			ListOutput( $chart_data, $LO_columns, 'Option', 'Options', array(), array(), $LO_options );
 		}
-		//FJ jqplot charts
+		// Chart.js charts.
 		else
 		{
-			$SearchTerms = '';
+			$search_terms = '';
 
 			if ( ! empty( $_ROSARIO['SearchTerms'] ) )
 			{
-				$SearchTerms = ' - ' . strip_tags( str_replace( '<br />', " - ", mb_substr( $_ROSARIO['SearchTerms'], 0, -6 ) ) );
+				$search_terms = ' - ' . strip_tags( str_replace( '<br />', " - ", mb_substr( $_ROSARIO['SearchTerms'], 0, -6 ) ) );
 			}
 
-			$chartTitle = sprintf( _( '%s Breakdown' ), ParseMLField( $category_RET[1]['TITLE'] ) ) . $SearchTerms;
+			$chart_title = sprintf( _( '%s Breakdown' ), ParseMLField( $category_RET[1]['TITLE'] ) ) . $search_terms;
 
-			echo jqPlotChart( 'column', $chartData, $chartTitle );
-
-			unset( $_REQUEST['_ROSARIO_PDF'] );
+			echo ChartjsChart(
+				$_REQUEST['chart_type'],
+				$chart_data_series,
+				$chart_title
+			);
 		}
 
 		PopTable('footer');

@@ -22,13 +22,13 @@ $start_date = RequestedDate( 'start', $min_date, 'set' );
 // Set end date.
 $end_date = RequestedDate( 'end', DBDate(), 'set' );
 
-$chart_types = array( 'column', 'pie', 'list' );
+$chart_types = array( 'bar', 'pie', 'list' );
 
 // Set Chart Type.
 if ( ! isset( $_REQUEST['chart_type'] )
 	|| ! in_array( $_REQUEST['chart_type'], $chart_types ) )
 {
-	$_REQUEST['chart_type'] = 'column';
+	$_REQUEST['chart_type'] = 'bar';
 }
 
 $chartline = false;
@@ -156,7 +156,7 @@ if ( ! empty( $_REQUEST['category_id'] ) )
 		$diff = $max_min_RET[1]['MAX'] - $max_min_RET[1]['MIN'];
 
 		if ( $diff > 10
-			&& $_REQUEST['chart_type'] !== 'column' )
+			&& $_REQUEST['chart_type'] !== 'bar' )
 		{
 			//FJ correct numeric chart
 			for ( $i = 1; $i <= 10; $i++ )
@@ -175,7 +175,7 @@ if ( ! empty( $_REQUEST['category_id'] ) )
 			//$chart['chart_data'][0][$i-1] = ($max_min_RET[1]['MIN'] + (ceil($diff/5)*($i-2))).'+';
 			$mins[ $i ] = ( ceil( $diff / 10 ) * ( $i - 1 ) );
 		}
-		else //FJ transform column chart in line chart
+		else //FJ transform bar chart in line chart
 		{
 			$chartline = true;
 		}
@@ -251,14 +251,16 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		if ( $chartline )
 		{
-			// For Chart Type to Column if Line
+			// For Chart Type to bar if Line.
 			if ( $_REQUEST['chart_type'] === 'pie' )
-				$_REQUEST['chart_type'] = 'column';
+			{
+				$_REQUEST['chart_type'] = 'bar';
+			}
 
 			$tabs = array(
 				array(
 					'title' => _( 'Line' ),
-					'link' => PreparePHP_SELF( $_REQUEST, array(), array( 'chart_type' => 'column' ) ),
+					'link' => PreparePHP_SELF( $_REQUEST, array(), array( 'chart_type' => 'bar' ) ),
 				),
 				array(
 					'title' => _( 'List' ),
@@ -271,7 +273,7 @@ if ( ! $_REQUEST['modfunc'] )
 			$tabs = array(
 				array(
 					'title' => _( 'Column' ),
-					'link' => PreparePHP_SELF( $_REQUEST, array(), array( 'chart_type' => 'column' ) ),
+					'link' => PreparePHP_SELF( $_REQUEST, array(), array( 'chart_type' => 'bar' ) ),
 				),
 				array(
 					'title' => _( 'Pie' ),
@@ -293,70 +295,52 @@ if ( ! $_REQUEST['modfunc'] )
 			$chart_data = array( '0' => '' );
 
 			foreach ( (array) $chart['chart_data'][1] as $key => $value )
+			{
 				$chart_data[] = array( 'TITLE' => $chart['chart_data'][0][ $key ], 'VALUE' => $value );
+			}
 
 			unset( $chart_data[0] );
 
 			$LO_options['responsive'] = false;
 
-			$LO_columns = array( 'TITLE' => _( 'Option' ), 'VALUE' => _( 'Number of Referrals' ) );
+			$LO_bars = array( 'TITLE' => _( 'Option' ), 'VALUE' => _( 'Number of Referrals' ) );
 
-			ListOutput( $chart_data, $LO_columns, 'Option', 'Options', array(), array(), $LO_options );
+			ListOutput( $chart_data, $LO_bars, 'Option', 'Options', array(), array(), $LO_options );
 		}
-		//FJ jqplot charts
+		// Chart.js charts.
 		else
 		{
-			$chartData = array();
-
-			$SearchTerms = '';
+			$search_terms = '';
 
 			if ( ! empty( $_ROSARIO['SearchTerms'] ) )
 			{
-				$SearchTerms = ' - ' . strip_tags( str_replace( '<br />', " - ", mb_substr( $_ROSARIO['SearchTerms'], 0, -6 ) ));
+				$search_terms = ' - ' . strip_tags( str_replace( '<br />', " - ", mb_substr( $_ROSARIO['SearchTerms'], 0, -6 ) ));
 			}
 
-			$chartTitle = sprintf( _( '%s Breakdown' ), ParseMLField( $category_RET[1]['TITLE'] ) ) . $SearchTerms;
+			$chart_title = sprintf( _( '%s Breakdown' ), ParseMLField( $category_RET[1]['TITLE'] ) ) . $search_terms;
 
-			// Line Chart
-			if ( $chartline )
+			if ( $_REQUEST['chart_type'] === 'pie' )
 			{
-				foreach ( (array) $chart['chart_data'][1] as $index => $y )
+				foreach ( (array) $chart['chart_data'][0] as $index => $label )
 				{
-					if ( is_numeric( $chart['chart_data'][0][ $index ] ) )
+					if ( ! is_numeric( $chart['chart_data'][1][ $index ] ) )
 					{
-						$chartData[0][] = $chart['chart_data'][0][ $index ];
-						$chartData[1][] = $y;
+						continue;
 					}
+
+					// Limit label to 30 char max.
+					$chart['chart_data'][0][ $index ] = mb_substr( $label, 0, 30 );
 				}
-
-				echo jqPlotChart( 'line', $chartData, $chartTitle );
-			}
-			// Column Chart
-			elseif ( $_REQUEST['chart_type'] === 'column' )
-			{
-				echo jqPlotChart( 'column', $chart['chart_data'], $chartTitle );
-			}
-			// Pie Chart
-			else
-			{
-				foreach ( (array) $chart['chart_data'][1] as $index => $y )
-				{
-					if ( is_numeric( $chart['chart_data'][1][ $index ] ) )
-					{
-						//limit label to 30 char max.
-						$chartData[0][] = mb_substr( $chart['chart_data'][0][ $index ], 0, 30 );
-						$chartData[1][] = $y;
-					}
-				}
-
-				echo jqPlotChart( 'pie', $chartData, $chartTitle );
 			}
 
-			unset($_REQUEST['_ROSARIO_PDF']);
+			echo ChartjsChart(
+				$chartline ? 'line' : $_REQUEST['chart_type'],
+				$chart['chart_data'],
+				$chart_title
+			);
 		}
 
 		PopTable( 'footer' );
 	}
-
 	echo '</form>';
 }

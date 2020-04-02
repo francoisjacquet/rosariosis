@@ -16,8 +16,7 @@ if ( ! isset( $_REQUEST['assignment_id'] )
 
 $chart_types = array( 'line', 'pie', 'list' );
 
-// set Chart Type
-
+// Set Chart Type.
 if ( ! isset( $_REQUEST['chart_type'] )
 	|| ! in_array( $_REQUEST['chart_type'], $chart_types ) )
 {
@@ -78,7 +77,7 @@ $assignment_select .= '<option value="totals"' . ( $_REQUEST['assignment_id'] ==
 _( 'Totals' ) .
 	'</option>';
 
-// Assignment Types
+// Assignment Types.
 
 foreach ( (array) $types_RET as $type )
 {
@@ -96,7 +95,7 @@ foreach ( (array) $types_RET as $type )
 		'</option>';
 }
 
-// Assignments
+// Assignments.
 
 foreach ( (array) $assignments_RET as $assignment )
 {
@@ -122,8 +121,7 @@ $extra['SELECT_ONLY'] .= "ssm.STUDENT_ID,'' AS LETTER_GRADE";
 
 $extra['functions'] = array( 'LETTER_GRADE' => '_makeGrade' );
 
-// Totals
-
+// Totals.
 if ( $_REQUEST['assignment_id'] === 'totals' )
 {
 	$title = _( 'Grade' );
@@ -148,7 +146,7 @@ if ( $_REQUEST['assignment_id'] === 'totals' )
 				"(sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'gg.POINTS' ) ) . ")
 					* gt.FINAL_GRADE_PERCENT / sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ) ) . "))",
 			) ) . " AS PARTIAL_PERCENT
-			FROM GRADEBOOK_GRADES gg, GRADEBOOK_ASSIGNMENTS ga, GRADEBOOK_ASSIGNMENT_TYPES gt
+			FROM GRADEBOOK_GRADES gg,GRADEBOOK_ASSIGNMENTS ga,GRADEBOOK_ASSIGNMENT_TYPES gt
 			WHERE gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID
 			AND ga.ASSIGNMENT_ID=gg.ASSIGNMENT_ID
 			AND ga.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . ")
@@ -165,7 +163,7 @@ if ( $_REQUEST['assignment_id'] === 'totals' )
 	}
 }
 
-// Assignment Type
+// Assignment Type.
 elseif ( ! is_numeric( $_REQUEST['assignment_id'] ) )
 {
 	$type_id = mb_substr( $_REQUEST['assignment_id'], 6 );
@@ -191,7 +189,7 @@ elseif ( ! is_numeric( $_REQUEST['assignment_id'] ) )
 				"(sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'gg.POINTS' ) ) . ")
 					/ sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ) ) . "))",
 			) ) . " AS PARTIAL_PERCENT
-			FROM GRADEBOOK_GRADES gg, GRADEBOOK_ASSIGNMENTS ga, GRADEBOOK_ASSIGNMENT_TYPES gt
+			FROM GRADEBOOK_GRADES gg,GRADEBOOK_ASSIGNMENTS ga,GRADEBOOK_ASSIGNMENT_TYPES gt
 			WHERE gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID
 			AND ga.ASSIGNMENT_TYPE_ID='" . $type_id . "'
 			AND ga.ASSIGNMENT_ID=gg.ASSIGNMENT_ID
@@ -209,7 +207,7 @@ elseif ( ! is_numeric( $_REQUEST['assignment_id'] ) )
 	}
 }
 
-// Assignment
+// Assignment.
 elseif ( ! empty( $_REQUEST['assignment_id'] ) )
 {
 	$total_points = DBGetOne( "SELECT POINTS
@@ -241,7 +239,7 @@ foreach ( (array) $grades as $option )
 
 	$chart['chart_data'][1][] = ( empty( $RET[$option['TITLE']] ) ? 0 : $RET[$option['TITLE']] );
 
-	// Add Grade Title (only to Pie Chart & List)
+	// Add Grade Title (only to Pie Chart & List).
 	$chart['chart_data'][2][] = $option['TITLE'];
 }
 
@@ -283,8 +281,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 //var_dump($chart['chart_data']);
 
-		// List
-
+		// List.
 		if ( $_REQUEST['chart_type'] === 'list' )
 		{
 			$chart_data = array( '0' => '' );
@@ -311,35 +308,35 @@ if ( ! $_REQUEST['modfunc'] )
 			ListOutput( $chart_data, $LO_columns, 'Grade', 'Grades', array(), array(), $LO_options );
 		}
 
-		//FJ jqplot charts
+		// Chart.js charts.
 		else
 		{
-			$chartTitle = sprintf( _( '%s Breakdown' ), $title );
+			$chart_title = sprintf( _( '%s Breakdown' ), $title );
 
-			if ( $_REQUEST['chart_type'] === 'line' )
+			if ( $_REQUEST['chart_type'] === 'pie' )
 			{
-				echo jqPlotChart( 'line', $chart['chart_data'], $chartTitle );
-			}
-			else //pie chart
-			{
-				$chartData = array();
-
 				foreach ( (array) $chart['chart_data'][0] as $i => $x )
 				{
-					//remove empty slices not to overload the legends
-
-					if ( $chart['chart_data'][1][$i] > 0 )
+					if ( $chart['chart_data'][1][$i] == 0 )
 					{
-						$chartData[0][] = $chart['chart_data'][2][$i] . ', ' . $x;
+						// Remove empty slices not to overload the legends.
+						unset(
+							$chart['chart_data'][0][$i],
+							$chart['chart_data'][1][$i]
+						);
 
-						$chartData[1][] = $chart['chart_data'][1][$i];
+						continue;
 					}
-				}
 
-				echo jqPlotChart( 'pie', $chartData, $chartTitle );
+					$chart['chart_data'][0][$i] = $chart['chart_data'][2][$i] . ', ' . $x;
+				}
 			}
 
-			unset( $_REQUEST['_ROSARIO_PDF'] );
+			echo ChartjsChart(
+				$_REQUEST['chart_type'],
+				$chart['chart_data'],
+				$chart_title
+			);
 		}
 
 		PopTable( 'footer' );
@@ -369,11 +366,11 @@ function _makeGrade( $value, $column )
 	if ( ! is_numeric( $_REQUEST['assignment_id'] )
 		&& empty( $_REQUEST['student_id'] ) )
 	{
+		$total = 0;
+
 		if ( Preferences( 'WEIGHT', 'Gradebook' ) === 'Y'
 			&& ! empty( $percent_RET[$THIS_RET['STUDENT_ID']] ) )
 		{
-			$total = 0;
-
 			foreach ( (array) $percent_RET[$THIS_RET['STUDENT_ID']] as $type_id => $type )
 			{
 				$total += $type[1]['PARTIAL_PERCENT'];
@@ -383,10 +380,6 @@ function _makeGrade( $value, $column )
 		{
 			$total = $current_RET[$THIS_RET['STUDENT_ID']][1]['POINTS'] / $current_RET[$THIS_RET['STUDENT_ID']][1]['TOTAL_POINTS'];
 		}
-		else
-		{
-			$total = 0;
-		}
 
 		return _makeLetterGrade( $total, UserCoursePeriod() );
 	}
@@ -394,7 +387,8 @@ function _makeGrade( $value, $column )
 	// Assignment
 	else
 	{
-		// Not Excused, Not Extra Credit
+		// Not Excused, Not Extra Credit.
+		$current_RET[$THIS_RET['STUDENT_ID']][$_REQUEST['assignment_id']][1]['POINTS'] = issetVal( $current_RET[$THIS_RET['STUDENT_ID']][$_REQUEST['assignment_id']][1]['POINTS'] );
 
 		if ( $current_RET[$THIS_RET['STUDENT_ID']][$_REQUEST['assignment_id']][1]['POINTS'] !== '*'
 			&& $total_points )
@@ -404,9 +398,7 @@ function _makeGrade( $value, $column )
 				UserCoursePeriod()
 			);
 		}
-		else
-		{
-			return _( 'N/A' );
-		}
+
+		return _( 'N/A' );
 	}
 }

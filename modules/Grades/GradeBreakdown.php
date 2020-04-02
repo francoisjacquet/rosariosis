@@ -10,7 +10,7 @@ if ( empty( $_REQUEST['mp_id'] ) )
 	$_REQUEST['mp_id'] = UserMP();
 }
 
-$chart_types = array( 'line', 'column', 'list' );
+$chart_types = array( 'line', 'bar', 'list' );
 
 // Set Chart Type.
 if ( ! isset( $_REQUEST['chart_type'] )
@@ -55,7 +55,7 @@ foreach ( (array) $mps_RET as $mp )
     {
         $mp_select .= '<option value="' . $mp['MARKING_PERIOD_ID'] . '"' .
         	( $mp['MARKING_PERIOD_ID'] === $_REQUEST['mp_id'] ? ' selected' : '' ) . '>' .
-        	( $UserMPTitle = $mp['TITLE'] ) . '</option>';
+        	( $user_mp_title = $mp['TITLE'] ) . '</option>';
 	}
 }
 
@@ -84,7 +84,7 @@ $grades_RET = DBGet( "SELECT rg.ID,rg.TITLE,rg.GPA_VALUE
 	AND rs.ID=rg.GRADE_SCALE_ID
 	ORDER BY rs.SORT_ORDER,rs.ID,rg.BREAK_OFF IS NOT NULL DESC,rg.BREAK_OFF DESC,rg.SORT_ORDER" );
 
-//FJ jqplot charts
+// Chart.js charts.
 if ( $grouped_RET )
 {
 	echo '<br />';
@@ -96,12 +96,12 @@ if ( $grouped_RET )
 		)
 	);
 
-	// Allow Column chart only if grades count <=20
-	if ( empty( $grades_RET ) || count( $grades_RET ) <= 20 )
+	// Allow bar chart only if grades count <=21.
+	if ( empty( $grades_RET ) || count( $grades_RET ) <= 21 )
 	{
 		$tabs[] = array(
 			'title' => _( 'Column' ),
-			'link' => PreparePHP_SELF( $_REQUEST, array(), array( 'chart_type' => 'column' ) ),
+			'link' => PreparePHP_SELF( $_REQUEST, array(), array( 'chart_type' => 'bar' ) ),
 		);
 	}
 
@@ -147,35 +147,35 @@ if ( $grouped_RET )
 
 		ListOutput( $teachers_RET, $LO_columns, 'Grade', 'Grades', array(), array(), $LO_options );
 	}
-	//FJ jqplot charts
+	// Chart.js charts.
 	else
 	{
-
 		foreach ( (array) $grouped_RET as $staff_id => $grades )
 		{
-			$chartData = array();
+			$chart_data = array();
 
-			$chartTitle = $grades[key($grades)][1]['FULL_NAME'] . ' - ' . $UserMPTitle . ' - ' . _( 'Grade Breakdown' );
+			$chart_title = $grades[key($grades)][1]['FULL_NAME'] . ' - ' . $user_mp_title . ' - ' . _( 'Grade Breakdown' );
 
 			foreach ( (array) $grades_RET as $grade )
 			{
-				if ( $_REQUEST['chart_type'] === 'column' )
+				if ( $_REQUEST['chart_type'] === 'bar' )
 				{
-					$chartData[0][] = $grade['TITLE'];
+					$chart_data[0][] = $grade['TITLE'];
 				}
 				else
-					$chartData[0][] = $grade['GPA_VALUE'];
+				{
+					$chart_data[0][] = $grade['GPA_VALUE'];
+				}
 
-				$chartData[1][] = empty( $grades[$grade['ID']] ) ?
+				$chart_data[1][] = empty( $grades[$grade['ID']] ) ?
 					0 : count( $grades[$grade['ID']] );
 			}
 
-			if ( $_REQUEST['chart_type'] === 'column' )
-			{
-				echo jqPlotChart( 'column', $chartData, $chartTitle );
-			}
-			else
-				echo jqPlotChart( 'line', $chartData, $chartTitle );
+			echo ChartjsChart(
+				$_REQUEST['chart_type'],
+				$chart_data,
+				$chart_title
+			);
 
 			echo '<br />';
 		}
@@ -185,7 +185,5 @@ if ( $grouped_RET )
 }
 else
 {
-
 	echo '<br /><div class="center"><b>' . sprintf( _( 'No %s were found.' ), _( 'Teacher' ) ) . '</div></b>';
-
 }
