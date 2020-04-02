@@ -5,6 +5,7 @@ Changes in 5.9.2
 ----------------
 - Charts exclude Fields of "Files" type in StudentBreakdown.php & StudentFieldBreakdown.php
 - Charts allow Column type in GradeBreakdown.php
+- Fix regression since 5.8 Teachers cannot save Gradebook Configuration in Configuration.php
 
 Changes in 5.9.1
 ----------------
