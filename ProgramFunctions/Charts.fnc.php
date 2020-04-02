@@ -59,7 +59,7 @@ function ChartjsChart( $type, $data, $title )
 
 		foreach ( (array) $data as $label => $data_serie )
 		{
-			$labels = $data_serie[0];
+			$labels = array_values( $data_serie[0] ); // Force start index to 0.
 
 			$dataset = $dataset_default;
 
@@ -67,7 +67,7 @@ function ChartjsChart( $type, $data, $title )
 
 			$dataset['backgroundColor'] = $colors_default[ $i % count( $colors_default ) ];
 
-			$dataset['data'] = $data_serie[1];
+			$dataset['data'] = array_values( $data_serie[1] ); // Force start index to 0.
 
 			$datasets[ $i ] = $dataset;
 
@@ -76,11 +76,11 @@ function ChartjsChart( $type, $data, $title )
 	}
 	else
 	{
-		$labels = $data[0];
+		$labels = array_values( $data[0] ); // Force start index to 0.
 
 		$dataset = $dataset_default;
 
-		$dataset['data'] = $data[1];
+		$dataset['data'] = array_values( $data[1] ); // Force start index to 0.
 
 		$datasets = array( $dataset );
 	}
@@ -190,7 +190,6 @@ function jqPlotChart( $type, $data, $title, $save_image = true )
  * Add Number to Chart X axis
  * Increment occurences of Number in Chart Y axis
  *
- * @global array   $max_min_RET
  * @global array   $chart
  * @global integer $diff        Difference b/w min & max
  * @global array   $mins
@@ -203,8 +202,7 @@ function jqPlotChart( $type, $data, $title, $save_image = true )
  */
 function makeNumeric( $number, $column )
 {
-	global $max_min_RET,
-		$chart,
+	global $chart,
 		$diff,
 		$mins,
 		$chartline;
@@ -214,17 +212,17 @@ function makeNumeric( $number, $column )
 		return;
 	}
 
-	if ( $diff == 0 )
-	{
-		$chart['chart_data'][0][1] = (int) $number;
-		$chart['chart_data'][1][1]++;
-	}
-	elseif ( $diff < 10
+	if ( $diff <= 10
 		|| $chartline )
 	{
-		$chart['chart_data'][0][( (int) $number - (int) $max_min_RET[1]['MIN'] + 1 )] = (int) $number;
+		$chart['chart_data'][0][ $number ] = $number;
 
-		$chart['chart_data'][1][( (int) $number - (int) $max_min_RET[1]['MIN'] + 1 )]++;
+		if ( ! isset( $chart['chart_data'][1][ $number ] ) )
+		{
+			$chart['chart_data'][1][ $number ] = 0;
+		}
+
+		$chart['chart_data'][1][ $number ]++;
 	}
 	else
 	{
