@@ -41,7 +41,7 @@ function ChartjsChart( $type, $data, $title )
 
 	// @link https://github.com/chartjs/Chart.js/issues/815#issuecomment-270186793
 	// @link http://clrs.cc/
-	$colors_default = array( '#FF851B', '#2ECC40', '#0074D9', '#F012BE', '#FFDC00', '#3D9970', '#001f3f', '#85144b', '#FF4136', '#01FF70', '#39CCCC', '#B10DC9' );
+	$colors_default = array( '#FF851B', '#2ECC40', '#0074D9', '#F012BE', '#FFDC00', '#3D9970', '#001f3f', '#85144b', '#FF4136', '#01FF70', '#39CCCC', '#B10DC9', '#DD6300', '#50EE62', '#2296FB', '#CE009C', '#DDBA00', '#5FBB92', '#224161', '#A7366D', '#DD1914', '#23FF91', '#61EEEE', '#8F00A7' );
 
 	$dataset_default = array(
 		'label' => '',
