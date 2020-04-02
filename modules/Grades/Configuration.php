@@ -17,7 +17,7 @@ if ( User( 'PROFILE' ) === 'admin'
 }
 
 if ( ! empty( $_REQUEST['values'] )
-	&& ( ! User( 'PROFILE' ) === 'admin' || Config( 'GRADEBOOK_CONFIG_ADMIN_OVERRIDE' ) ) )
+	&& ( User( 'PROFILE' ) === 'admin' || ! Config( 'GRADEBOOK_CONFIG_ADMIN_OVERRIDE' ) ) )
 {
 	ProgramUserConfig(
 		'Gradebook',
