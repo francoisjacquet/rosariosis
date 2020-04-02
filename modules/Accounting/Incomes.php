@@ -92,7 +92,12 @@ if ( ! $_REQUEST['modfunc'] )
 		'AMOUNT' => '_makeIncomesAmount',
 	);
 
-	$incomes_RET = DBGet( "SELECT '' AS REMOVE,f.ID,f.TITLE,f.ASSIGNED_DATE,f.COMMENTS,f.AMOUNT FROM ACCOUNTING_INCOMES f WHERE f.SYEAR='" . UserSyear() . "' AND f.SCHOOL_ID='" . UserSchool() . "' ORDER BY f.ASSIGNED_DATE", $functions );
+	$incomes_RET = DBGet( "SELECT '' AS REMOVE,f.ID,f.TITLE,f.ASSIGNED_DATE,f.COMMENTS,f.AMOUNT
+		FROM ACCOUNTING_INCOMES f
+		WHERE f.SYEAR='" . UserSyear() . "'
+		AND f.SCHOOL_ID='" . UserSchool() . "'
+		ORDER BY f.ASSIGNED_DATE", $functions );
+
 	$i = 1;
 	$RET = array();
 
@@ -181,7 +186,7 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 	else
 	{
-		$student_payments_total[1]['TOTAL'] = 0;
+		$student_payments_total = 0;
 	}
 
 	$table .= '<tr><td>' . _( 'Less' ) . ': ' . _( 'Total from Expenses' ) . ': ' . '</td><td>' . Currency( $payments_total ) . '</td></tr>';

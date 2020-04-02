@@ -12,6 +12,10 @@ Changes in 6.0
 - Charts use Chart.js instead of jqPlot in CategoryBreakdown.php, CategoryBreakdownTime.php, StudentFieldBreakdown.php, GradeBreakdown.php, GradebookBreakdown.php & StudentBreakdown.php
 - Do NOT remove Grade Level once has Student enrolled in GradeLevels.php
 
+Changes in 5.9.3
+----------------
+- Fix PHP Fatal error Unsupported operand types when Student Billing module deactivated in Incomes.php
+
 Changes in 5.9.2
 ----------------
 - Charts exclude Fields of "Files" type in StudentBreakdown.php & StudentFieldBreakdown.php
