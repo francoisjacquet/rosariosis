@@ -81,14 +81,17 @@ echo ErrorMessage( $error );
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	$sql = "SELECT ID,TITLE,SHORT_NAME,SORT_ORDER,NEXT_GRADE_ID
-	FROM SCHOOL_GRADELEVELS
-	WHERE SCHOOL_ID='" . UserSchool() . "'
-	ORDER BY SORT_ORDER";
-
-	$grades_RET = DBGet(
-		DBQuery( $sql ),
+	$grades_RET = DBGet( "SELECT ID,TITLE,SHORT_NAME,SORT_ORDER,NEXT_GRADE_ID,
+		(SELECT 1
+			FROM STUDENT_ENROLLMENT se
+			WHERE se.GRADE_ID=sg.ID
+			AND se.SCHOOL_ID='" . UserSchool() . "'
+			LIMIT 1) AS REMOVE
+		FROM SCHOOL_GRADELEVELS sg
+		WHERE SCHOOL_ID='" . UserSchool() . "'
+		ORDER BY SORT_ORDER",
 		array(
+			'REMOVE' => '_makeRemoveButton',
 			'TITLE' => '_makeTextInput',
 			'SHORT_NAME' => '_makeTextInput',
 			'SORT_ORDER' => '_makeTextInput',
@@ -97,6 +100,7 @@ if ( ! $_REQUEST['modfunc'] )
 	);
 
 	$columns = array(
+		'REMOVE' => '<span class="a11y-hidden">' . _( 'Delete' ) . '</span>',
 		'TITLE' => _( 'Title' ),
 		'SHORT_NAME' => _( 'Short Name' ),
 		'SORT_ORDER' => _( 'Sort Order' ),
@@ -104,14 +108,12 @@ if ( ! $_REQUEST['modfunc'] )
 	);
 
 	$link['add']['html'] = array(
+		'REMOVE' => _makeRemoveButton( '', 'REMOVE' ),
 		'TITLE' => _makeTextInput( '', 'TITLE' ),
 		'SHORT_NAME' => _makeTextInput( '', 'SHORT_NAME' ),
 		'SORT_ORDER' => _makeTextInput( '', 'SORT_ORDER' ),
 		'NEXT_GRADE_ID' => _makeGradeInput( '', 'NEXT_GRADE_ID' ),
 	);
-
-	$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove';
-	$link['remove']['variables'] = array( 'id' => 'ID' );
 
 	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update" method="POST">';
 
@@ -200,4 +202,39 @@ function _makeGradeInput( $value, $name )
 	}
 
 	return SelectInput( $value, 'values[' . $id . '][' . $name . ']', '', $grades, _( 'N/A' ) );
+}
+
+
+/**
+ * Make Remove button
+ *
+ * Local function
+ * DBGet() callback
+ *
+ * @since 6.0
+ *
+ * @param  string $value  Value.
+ * @param  string $column Column name, 'REMOVE'.
+ *
+ * @return string Remove button or add button or none if Students are enrolled in this Grade Level.
+ */
+function _makeRemoveButton( $value, $column )
+{
+	global $THIS_RET;
+
+	if ( empty( $THIS_RET['ID'] ) )
+	{
+		return button( 'add' );
+	}
+
+	if ( $value )
+	{
+		// Do NOT remove Grade Level as Students are enrolled in it.
+		return '';
+	}
+
+	$button_link = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove&id=' .
+		urlencode( $THIS_RET['ID'] );
+
+	return button( 'remove', '', '"' . $button_link . '"' );
 }
