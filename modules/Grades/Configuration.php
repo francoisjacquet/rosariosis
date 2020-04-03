@@ -13,6 +13,9 @@ if ( User( 'PROFILE' ) === 'admin'
 		DBQuery( "DELETE FROM PROGRAM_USER_CONFIG
 			WHERE PROGRAM='Gradebook'
 			AND USER_ID='-1'" );
+
+		// Do not save values after deleting them!
+		RedirectURL( 'values' );
 	}
 }
 
