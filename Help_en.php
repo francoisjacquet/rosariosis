@@ -133,7 +133,9 @@ if ( User( 'PROFILE' ) === 'admin' ):
 
 	<p>' . _help( 'To modify a grade level, click on any of the grade level\'s information, change the value, and click the "Save" button.' ) . '</p>
 
-	<p>' . _help( 'To delete a grade level, click the delete icon (-) next to the grade level you want to delete. You will be asked to confirm the deletion.' ) . '</p>';
+	<p>' . _help( 'To delete a grade level, click the delete icon (-) next to the grade level you want to delete. You will be asked to confirm the deletion.' ) . '</p>
+
+	<p>' . _help( 'Note: a grade level cannot be deleted once it has students enrolled.' ) . '</p>';
 
 	$help['School_Setup/Rollover.php'] = '<p>' . _help( '<i>Rollover</i> copies the current year\'s data to the next school year. Students are enrolled in the next grade, and each school\'s information is duplicated for the next school year.' ) . '</p>
 
