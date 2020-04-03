@@ -16,6 +16,7 @@ Changes in 6.0
 Changes in 5.9.3
 ----------------
 - Fix PHP Fatal error Unsupported operand types when Student Billing module deactivated in Incomes.php
+- Fix History grades in Transripts: get correct Grade Level in Transcripts.fnc.php
 
 Changes in 5.9.2
 ----------------
