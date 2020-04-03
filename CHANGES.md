@@ -11,6 +11,7 @@ Changes in 6.0
 - JS replace jqPlot with Chart.js in assets/js/Chart.js/, stylesheet.css & Charts.fnc.php
 - Charts use Chart.js instead of jqPlot in CategoryBreakdown.php, CategoryBreakdownTime.php, StudentFieldBreakdown.php, GradeBreakdown.php, GradebookBreakdown.php & StudentBreakdown.php
 - Do NOT remove Grade Level once has Student enrolled in GradeLevels.php
+- Update French & Spanish translations in locale/es_ES.utf8/ & locale/fr_FR.utf8
 
 Changes in 5.9.3
 ----------------
