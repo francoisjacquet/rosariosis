@@ -543,14 +543,14 @@ function Warehouse( $mode )
 	<div class="ajax-error"></div>
 <?php
 
-			if ( ! isPopup() ):
-			?>
+				if ( ! isPopup() ):
+				?>
 	</div><!-- #wrap -->
-			<?php endif;
+				<?php endif;
 
 			?>
 </body></html>
-<?php endif;
+			<?php endif;
 
 			if ( ! isPopup() ):
 
@@ -567,7 +567,7 @@ function Warehouse( $mode )
 
 			endif;
 
-			else: // Other pages (not modules).
+			elseif ( ! isAJAX() ): // Other pages (not modules).
 
 				?>
 		</div><!-- #body -->
