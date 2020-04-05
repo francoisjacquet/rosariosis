@@ -813,6 +813,7 @@ function MultipleCheckboxInput( $value, $name, $title, $options, $extra = '', $d
  * Select Input
  *
  * @since 5.6 Support option groups (`<optgroup>`) by adding 'group' to $extra.
+ * @since 6.0 Support multiple values.
  *
  * @example SelectInput( $value, 'values[' . $id . '][' . $name . ']', '', $options, 'N/A', $extra )
  *
@@ -821,7 +822,7 @@ function MultipleCheckboxInput( $value, $name, $title, $options, $extra = '', $d
  * @uses InputDivOnclick()
  *       if ( AllowEdit() && !isset( $_REQUEST['_ROSARIO_PDF'] ) && $value != '' && $div )
  *
- * @param  string         $value    Input value.
+ * @param  string         $values   Input value(s).
  * @param  string         $name     Input name.
  * @param  string         $title    Input title (optional). Defaults to ''.
  * @param  array          $options  Input options: array( option_value => option_text ) or with groups: array( group_name => array( option_value => option_text ) ).
@@ -831,109 +832,59 @@ function MultipleCheckboxInput( $value, $name, $title, $options, $extra = '', $d
  *
  * @return string         Input HTML
  */
-function SelectInput( $value, $name, $title = '', $options = array(), $allow_na = 'N/A', $extra = '', $div = true )
+function SelectInput( $values, $name, $title = '', $options = array(), $allow_na = 'N/A', $extra = '', $div = true )
 {
 	$id = GetInputID( $name );
 
-	// Mab - support array style $option values.
-	$value = is_array( $value ) ? $value[0] : $value;
+	$required = $values == '' && mb_strpos( $extra, 'required' ) !== false;
 
-	$required = $value == '' && mb_strpos( $extra, 'required' ) !== false;
+	$is_multiple = is_array( $options ) && mb_strpos( $extra, 'multiple' ) !== false;
+
+	if ( ! $is_multiple )
+	{
+		// Mab - support array style $option values.
+		$values = is_array( $values ) ? array( $values[0] ) : array( $values );
+	}
+	else
+	{
+		$values = (array) $values;
+	}
+
+	$make_display_val = function( $values, $options )
+	{
+		$display_val = array();
+
+		foreach ( (array) $values as $value )
+		{
+			if ( isset( $options[ $value ] ) )
+			{
+				$display_val[] = is_array( $options[ $value ] ) ? $options[ $value ][1] : $options[ $value ];
+			}
+		}
+
+		return implode( ', ', $display_val );
+	};
 
 	$is_group = is_array( $options ) && is_array( reset( $options ) ) && mb_strpos( $extra, 'group' ) !== false;
 
-	$display_val = isset( $options[ $value ] ) ?
-		( is_array( $options[ $value ] ) ? $options[ $value ][1] : $options[ $value ] ) :
-		'';
-
 	if ( $is_group )
 	{
+		$display_val = array();
+
 		foreach ( (array) $options as $group_options )
 		{
-			if ( isset( $group_options[ $value ] ) )
-			{
-				$display_val = is_array( $group_options[ $value ] ) ? $group_options[ $value ][1] : $group_options[ $value ];
-
-				break;
-			}
-		}
-	}
-
-	if ( AllowEdit()
-		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
-	{
-		$select = '<select name="' . $name . '" id="' . $id . '" ' . $extra . '>';
-
-		if ( $allow_na !== false )
-		{
-			$select .= '<option value="">' . ( $allow_na === 'N/A' ? _( 'N/A' ) : $allow_na ) . '</option>';
+			$display_val[] = $make_display_val( $values, $group_options );
 		}
 
-		$make_option = function( $value, $key, $val )
-		{
-			$selected = '';
-
-			$key .= '';
-
-			if ( $value == $key
-				&& ( !( $value == false && $value !== $key )
-					|| ( $value === '0' && $key === 0 ) ) )
-			{
-				$selected = ' selected';
-			}
-
-			return '<option value="' . htmlspecialchars( $key, ENT_QUOTES ) . '"' .
-				$selected . '>' . ( is_array( $val ) ? $val[0] : $val ) . '</option>';
-		};
-
-		if ( $is_group )
-		{
-			foreach ( (array) $options as $group => $group_options )
-			{
-				$select .= '<optgroup label="' . htmlspecialchars( $group, ENT_QUOTES ) . '">';
-
-				foreach ( (array) $group_options as $key => $val )
-				{
-					$select .= $make_option( $value, $key, $val );
-				}
-
-				$select .= '</optgroup>';
-			}
-		}
-		else
-		{
-			// Mab - append current val to select list if not in list.
-			if ( $value != ''
-				&& ( ! is_array( $options )
-					|| ! array_key_exists( $value, $options ) ) )
-			{
-				$options[ $value ] = array( $value, '<span style="color:red">' . $value . '</span>' );
-
-				$display_val = '<span style="color:red">' . $value . '</span>';
-			}
-
-			foreach ( (array) $options as $key => $val )
-			{
-				$select .= $make_option( $value, $key, $val );
-			}
-		}
-
-		$select .= '</select>' . FormatInputTitle( $title, $id, $required );
-
-		if ( $value != ''
-			&& $div )
-		{
-			$return = InputDivOnclick(
-				$id,
-				$select,
-				$display_val,
-				FormatInputTitle( $title )
-			);
-		}
-		else
-			$return = $select;
+		$display_val = implode( ', ', $display_val );
 	}
 	else
+	{
+		$display_val = $make_display_val( $values, $options );
+	}
+
+	if ( ! AllowEdit()
+		|| isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		if ( $display_val == '' )
 		{
@@ -945,8 +896,85 @@ function SelectInput( $value, $name, $title = '', $options = array(), $allow_na 
 				$display_val = '-';
 		}
 
-		$return = $display_val . FormatInputTitle( $title );
+		return $display_val . FormatInputTitle( $title );
 	}
+
+	$select = '<select name="' . $name . '" id="' . $id . '" ' . $extra . '>';
+
+	if ( $allow_na !== false )
+	{
+		$select .= '<option value="">' . ( $allow_na === 'N/A' ? _( 'N/A' ) : $allow_na ) . '</option>';
+	}
+
+	$make_option = function( $values, $key, $val )
+	{
+		$selected = '';
+
+		$key .= '';
+
+		foreach ( (array) $values as $value )
+		{
+			if ( $value == $key
+				&& ( !( $value == false && $value !== $key )
+					|| ( $value === '0' && $key === 0 ) ) )
+			{
+				$selected = ' selected';
+
+				break;
+			}
+		}
+
+		return '<option value="' . htmlspecialchars( $key, ENT_QUOTES ) . '"' .
+			$selected . '>' . ( is_array( $val ) ? $val[0] : $val ) . '</option>';
+	};
+
+	if ( $is_group )
+	{
+		foreach ( (array) $options as $group => $group_options )
+		{
+			$select .= '<optgroup label="' . htmlspecialchars( $group, ENT_QUOTES ) . '">';
+
+			foreach ( (array) $group_options as $key => $val )
+			{
+				$select .= $make_option( $values, $key, $val );
+			}
+
+			$select .= '</optgroup>';
+		}
+	}
+	else
+	{
+		// Mab - append current val to select list if not in list.
+		if ( ! $is_multiple
+			&& $values[0] != ''
+			&& ( ! is_array( $options )
+				|| ! array_key_exists( $values[0], $options ) ) )
+		{
+			$options[ $values[0] ] = array( $values[0], '<span style="color:red">' . $values[0] . '</span>' );
+
+			$display_val = '<span style="color:red">' . $values[0] . '</span>';
+		}
+
+		foreach ( (array) $options as $key => $val )
+		{
+			$select .= $make_option( $values, $key, $val );
+		}
+	}
+
+	$select .= '</select>' . FormatInputTitle( $title, $id, $required );
+
+	if ( $values[0] != ''
+		&& $div )
+	{
+		$return = InputDivOnclick(
+			$id,
+			$select,
+			$display_val,
+			FormatInputTitle( $title )
+		);
+	}
+	else
+		$return = $select;
 
 	return $return;
 }

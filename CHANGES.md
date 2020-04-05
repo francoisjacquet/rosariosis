@@ -14,6 +14,7 @@ Changes in 6.0
 - Update French & Spanish translations in locale/es_ES.utf8/ & locale/fr_FR.utf8
 - Add Warehouse Header Javascripts WarehouseHeaderJS() function in Warehouse.php
 - HTML Do not close body & html (footer) if not AJAX in Warehouse.php
+- Support multiple values in SelectInput() in Inputs.php
 
 Changes in 5.9.3
 ----------------
