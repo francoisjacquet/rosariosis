@@ -12,6 +12,7 @@ Changes in 6.0
 - Charts use Chart.js instead of jqPlot in CategoryBreakdown.php, CategoryBreakdownTime.php, StudentFieldBreakdown.php, GradeBreakdown.php, GradebookBreakdown.php & StudentBreakdown.php
 - Do NOT remove Grade Level once has Student enrolled in GradeLevels.php
 - Update French & Spanish translations in locale/es_ES.utf8/ & locale/fr_FR.utf8
+- Add Warehouse Header Javascripts WarehouseHeaderJS() function in Warehouse.php
 
 Changes in 5.9.3
 ----------------

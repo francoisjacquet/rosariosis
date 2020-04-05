@@ -382,6 +382,7 @@ function _LoadAddons( $addons, $folder )
  * @since 3.8 Warehouse header head hook
  * @since 3.8 Warehouse footer hook
  * @since 4.4 Warehouse header hook
+ * @since 6.0 Warehouse Header Javascripts
  *
  * @global $_ROSARIO  Uses $_ROSARIO['ProgramLoaded']
  *
@@ -450,19 +451,11 @@ function Warehouse( $mode )
 			if ( $_ROSARIO['page'] === 'modules'
 				|| $_ROSARIO['page'] === 'first-login'
 				|| $_ROSARIO['page'] === 'create-account'
-				|| $_ROSARIO['page'] === 'password-reset' ): ?>
-	<script src="assets/js/jquery.js"></script>
-	<script src="assets/js/plugins.min.js?v=<?php echo ROSARIO_VERSION; ?>"></script>
-	<script src="assets/js/warehouse.min.js?v=<?php echo ROSARIO_VERSION; ?>"></script>
-	<script src="assets/js/jscalendar/lang/calendar-<?php echo file_exists( 'assets/js/jscalendar/lang/calendar-' . $lang_2_chars . '.js' ) ? $lang_2_chars : 'en'; ?>.js"></script>
-		<?php
-
-			// Add scripts.js file from theme if any found.
-
-			if ( file_exists( 'assets/themes/' . Preferences( 'THEME' ) . '/scripts.js' ) ): ?>
-		<script src="assets/themes/<?php echo Preferences( 'THEME' ); ?>/scripts.js"></script>
-		<?php endif;
-			endif;
+				|| $_ROSARIO['page'] === 'password-reset' )
+			{
+				// @since 6.0 Warehouse Header Javascripts.
+				WarehouseHeaderJS();
+			}
 
 			/**
 			 * Hook.
@@ -589,7 +582,28 @@ function Warehouse( $mode )
 	// End switch.
 }
 
-// End Warehouse().
+/**
+ * Warehouse Header Javascripts
+ * Loads jQuery, plugins, warehouse & calendar lang JS.
+ * Loads theme's scripts.js file if any found.
+ *
+ * @since 6.0
+ */
+function WarehouseHeaderJS()
+{
+	$lang_2_chars = mb_substr( $_SESSION['locale'], 0, 2 );
+
+	?>
+	<script src="assets/js/jquery.js?v=2.2.4"></script>
+	<script src="assets/js/plugins.min.js?v=<?php echo ROSARIO_VERSION; ?>"></script>
+	<script src="assets/js/warehouse.min.js?v=<?php echo ROSARIO_VERSION; ?>"></script>
+	<script src="assets/js/jscalendar/lang/calendar-<?php echo file_exists( 'assets/js/jscalendar/lang/calendar-' . $lang_2_chars . '.js' ) ? $lang_2_chars : 'en'; ?>.js"></script>
+	<?php
+	// Add scripts.js file from theme if any found.
+	if ( file_exists( 'assets/themes/' . Preferences( 'THEME' ) . '/scripts.js' ) ): ?>
+		<script src="assets/themes/<?php echo Preferences( 'THEME' ); ?>/scripts.js"></script>
+	<?php endif;
+}
 
 /**
  * Popup window detection
