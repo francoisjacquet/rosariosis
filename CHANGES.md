@@ -19,6 +19,7 @@ Changes in 6.0
 - Handle single quotes in $value with DBEscapeString() in Config.fnc.php
 - Logout if no Staff or Student session ID only if not on Modules.php in Warehouse.php, PasswordReset.php & diagnostic.php
 - Moodle remove ROSARIO_STUDENTS_EMAIL_FIELD_ID config, use STUDENTS_EMAIL_FIELD in StudentsUsersInfo.fnc.php, Other_Info.inc.php, Moodle/getconfig.inc.php & rosariosis.sql
+- Create Student Account: add school_id param to URL in index.php & Student.php
 
 Changes in 5.9.3
 ----------------

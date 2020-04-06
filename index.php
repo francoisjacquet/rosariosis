@@ -318,6 +318,23 @@ elseif ( isset( $_REQUEST['create_account'] ) )
 		&& Config( 'CREATE_STUDENT_ACCOUNT' ) )
 	{
 		$include = 'Students/Student.php';
+
+		// @since 6.0 Create Student Account: add school_id param to URL.
+		if ( ! empty( $_REQUEST['school_id'] ) )
+		{
+			$_SESSION['UserSchool'] = DBGetOne( "SELECT ID FROM SCHOOLS
+				WHERE SYEAR='" . UserSyear() . "'
+				AND ID='" . (int) $_REQUEST['school_id'] . "'" );
+		}
+
+		if ( ! UserSchool() )
+		{
+			RedirectURL( 'school_id' );
+
+			$_SESSION['UserSchool'] = DBGetOne( "SELECT ID FROM SCHOOLS
+				WHERE SYEAR='" . UserSyear() . "'
+				ORDER BY ID" );
+		}
 	}
 
 	if ( ! $include )
@@ -343,6 +360,12 @@ elseif ( isset( $_REQUEST['create_account'] ) )
 		require_once 'modules/' . $include;
 
 		Warehouse( 'footer' );
+
+		if ( UserSchool() )
+		{
+			// Unset UserSchool() so we get correct Config values if next request changes school.
+			unset( $_SESSION['UserSchool'] );
+		}
 	}
 }
 

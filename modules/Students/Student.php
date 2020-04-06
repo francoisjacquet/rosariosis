@@ -161,11 +161,9 @@ if ( $_REQUEST['modfunc'] === 'update'
 			}
 
 			if ( Config( 'CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION' )
-				&& ! empty( $_REQUEST['values']['STUDENT_ENROLLMENT']['new']['SCHOOL_ID'] ) )
+				&& ! empty( $_REQUEST['values']['STUDENT_ENROLLMENT']['new']['GRADE_ID'] ) )
 			{
 				// @since 5.9 Automatic Student Account Activation.
-				$create_account_school_id = $_REQUEST['values']['STUDENT_ENROLLMENT']['new']['SCHOOL_ID'];
-
 				// Enroll student on the same day (even if it is before first school day).
 				list(
 					$_REQUEST['year_values']['STUDENT_ENROLLMENT']['new']['START_DATE'],
@@ -180,7 +178,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				$_REQUEST['values']['STUDENT_ENROLLMENT']['new']['CALENDAR_ID'] = DBGetOne( "SELECT CALENDAR_ID
 					FROM ATTENDANCE_CALENDARS
 					WHERE SYEAR='" . UserSyear() . "'
-					AND SCHOOL_ID='" . $create_account_school_id . "'
+					AND SCHOOL_ID='" . UserSchool() . "'
 					AND DEFAULT_CALENDAR='Y'" );
 			}
 		}
@@ -571,8 +569,8 @@ else
 		'account_activated' : 'account_created';
 	?>
 	<script>window.location.href = "index.php?modfunc=logout&reason=" + <?php echo json_encode( $reason ); ?>;</script>
-<?php
-exit;
+	<?php
+	exit;
 }
 
 if ( $_REQUEST['modfunc'] === 'delete'
@@ -739,8 +737,8 @@ if (  ( UserStudentID()
 		}
 		else
 		{
-			// FJ create account.
-			$form_action = 'index.php?create_account=student&student_id=new&modfunc=update';
+			// @since 6.0 Create Student Account: add school_id param to URL.
+			$form_action = 'index.php?create_account=student&student_id=new&school_id=' . UserSchool() . '&modfunc=update';
 		}
 
 		echo '<form name="student" id="student"	action="' . $form_action . '"
