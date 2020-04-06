@@ -174,7 +174,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				) = explode( '-', DBDate() );
 
 				// Enroll student with default Rolling / Retention Options (Next grade at current school).
-				$_REQUEST['values']['STUDENT_ENROLLMENT']['new']['NEXT_SCHOOL'] = '1';
+				$_REQUEST['values']['STUDENT_ENROLLMENT']['new']['NEXT_SCHOOL'] = $create_account_school_id;
 
 				// Enroll student in Default Calendar.
 				$_REQUEST['values']['STUDENT_ENROLLMENT']['new']['CALENDAR_ID'] = DBGetOne( "SELECT CALENDAR_ID

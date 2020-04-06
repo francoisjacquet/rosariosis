@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 5.9.4
+----------------
+- Automatic Student Account Activation: fix Next grade at current school in Student.php
+
 Changes in 5.9.3
 ----------------
 - Fix PHP Fatal error Unsupported operand types when Student Billing module deactivated in Incomes.php
