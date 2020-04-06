@@ -86,6 +86,7 @@ function Config( $item, $value = null )
  *
  * @since 2.9
  * @since 4.4 Add $value param to INSERT or UPDATE.
+ * @since 6.0 Handle single quotes in $value with DBEscapeString().
  *
  * @global array        $_ROSARIO Sets $_ROSARIO['ProgramConfig']
  *
@@ -125,7 +126,7 @@ function ProgramConfig( $program, $item = 'all', $value = null )
 
 			$_ROSARIO['ProgramConfig'][ (string) $program ][ (string) $item ][1]['TITLE'] = $item;
 		}
-		elseif ( $value != $_ROSARIO['ProgramConfig'][ (string) $program ][ (string) $item ][1]['VALUE'] )
+		elseif ( $value != DBEscapeString( $_ROSARIO['ProgramConfig'][ (string) $program ][ (string) $item ][1]['VALUE'] ) )
 		{
 			// Update value (different from current value).
 			DBQuery( "UPDATE PROGRAM_CONFIG
@@ -133,6 +134,11 @@ function ProgramConfig( $program, $item = 'all', $value = null )
 				WHERE TITLE='" . $item . "'
 				AND SCHOOL_ID='" . UserSchool() . "'
 				AND SYEAR='" . UserSyear() . "'" );
+		}
+
+		if ( $value !== DBEscapeString( $value ) )
+		{
+			$value = str_replace( "''", "'", $value );
 		}
 
 		$_ROSARIO['ProgramConfig'][ (string) $program ][ (string) $item ][1]['VALUE'] = $value;

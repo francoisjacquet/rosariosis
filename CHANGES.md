@@ -16,6 +16,7 @@ Changes in 6.0
 - HTML Do not close body & html (footer) if not AJAX in Warehouse.php
 - Support multiple values in SelectInput() in Inputs.php
 - Remove FirstLoginLoadJSCSS() & use form `target="_top"` instead in FirstLogin.fnc.php
+- Handle single quotes in $value with DBEscapeString() in Config.fnc.php
 
 Changes in 5.9.3
 ----------------
