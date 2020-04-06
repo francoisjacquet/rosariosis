@@ -119,10 +119,10 @@ if ( array_key_exists( 'LAST_LOGIN', $student ) )
 }
 
 echo '</td></tr><tr class="st"><td>';
-//FJ Moodle integrator
-//username, password required
 
-$required = ! empty( $_REQUEST['moodle_create_student'] ) || ! empty( $old_student_in_moodle ) || basename( $_SERVER['PHP_SELF'] ) == 'index.php';
+// Moodle integrator.
+// Username, password required.
+$required = ! empty( $_REQUEST['moodle_create_student'] ) || basename( $_SERVER['PHP_SELF'] ) == 'index.php';
 
 echo TextInput(
 	issetVal( $student['USERNAME'], '' ),
@@ -196,6 +196,9 @@ else
 		$school_options[$school['ID']] = $school['TITLE'];
 	}
 
+	// @since 6.0 Reload page (AJAX) on School change, so we update UserSchool().
+	$school_onchange_url = "'index.php?create_account=student&student_id=new&school_id='";
+
 	// Add School select input.
 	echo SelectInput(
 		UserSchool(),
@@ -203,7 +206,7 @@ else
 		_( 'School' ),
 		$school_options,
 		false,
-		'autocomplete="off"',
+		'autocomplete="off" onchange="ajaxLink(' . $school_onchange_url . ' + this.options[selectedIndex].value);"',
 		false
 	);
 
@@ -213,49 +216,27 @@ else
 		echo '</td><td>';
 
 		// Grade Levels for ALL schools.
-		$gradelevels_RET = DBGet( "SELECT ID,TITLE,SCHOOL_ID
+		$gradelevels_RET = DBGet( "SELECT ID,TITLE
 			FROM SCHOOL_GRADELEVELS
-			ORDER BY SCHOOL_ID,SORT_ORDER", array(), array( 'SCHOOL_ID' ) );
+			WHERE SCHOOL_ID='" . UserSchool() . "'
+			ORDER BY SCHOOL_ID,SORT_ORDER" );
 
-		// UserSchool() is set when Public Pages plugin is activated.
-		$user_school = UserSchool() ? UserSchool() : key( $gradelevels_RET );
+		$gradelevel_options = array();
 
-		foreach ( (array) $gradelevels_RET as $school_id => $gradelevels )
+		foreach ( (array) $gradelevels_RET as $gradelevel )
 		{
-			$gradelevel_options = array();
-
-			foreach ( (array) $gradelevels as $gradelevel )
-			{
-				$gradelevel_options[ $gradelevel['ID'] ] = $gradelevel['TITLE'];
-			}
-
-			// Add Grade Level select input.
-			echo '<div class="grade-levels-wrapper ' . ( $user_school == $school_id ? '' : 'hide' ) .
-				'" data-school-id="' . $school_id . '">' .
-			SelectInput(
-				'',
-				'values[STUDENT_ENROLLMENT][new][GRADE_ID]',
-				_( 'Grade Level' ),
-				$gradelevel_options,
-				'N/A',
-				'required' . ( $user_school == $school_id ? '' : ' disabled' )
-			) . '</div>';
+			$gradelevel_options[ $gradelevel['ID'] ] = $gradelevel['TITLE'];
 		}
 
-		// Show Grade Levels depending on selected School.
-		?>
-		<script>
-			$( '#valuesSTUDENT_ENROLLMENTnewSCHOOL_ID' ).change(function() {
-				var schoolId = $( '#valuesSTUDENT_ENROLLMENTnewSCHOOL_ID' ).val();
-
-				$( '.grade-levels-wrapper' ).addClass( 'hide' );
-				$( '.grade-levels-wrapper #valuesSTUDENT_ENROLLMENTnewGRADE_ID' ).prop( 'disabled', true );
-
-				$( '.grade-levels-wrapper[data-school-id="' + schoolId + '"]' ).removeClass( 'hide' );
-				$( '.grade-levels-wrapper[data-school-id="' + schoolId + '"] #valuesSTUDENT_ENROLLMENTnewGRADE_ID' ).prop( 'disabled', false );
-			});
-		</script>
-		<?php
+		// Add Grade Level select input.
+		echo SelectInput(
+			'',
+			'values[STUDENT_ENROLLMENT][new][GRADE_ID]',
+			_( 'Grade Level' ),
+			$gradelevel_options,
+			'N/A',
+			'required'
+		);
 	}
 
 	echo Config( 'CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION' ) ?
