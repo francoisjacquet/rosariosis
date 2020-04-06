@@ -32,20 +32,15 @@ if ( ! empty( $_REQUEST['save'] ) )
 			{
 				$numeric_columns = array(
 					'MOODLE_PARENT_ROLE_ID',
-					'ROSARIO_STUDENTS_EMAIL_FIELD_ID',
 				);
 
 				if ( in_array( $column, $numeric_columns )
 					&& $value != ''
 					&& ! is_numeric( $value ) )
 				{
-					if ( $column !== 'ROSARIO_STUDENTS_EMAIL_FIELD_ID'
-						|| $value !== 'USERNAME' )
-					{
-						$numeric_error = true;
+					$numeric_error = true;
 
-						continue;
-					}
+					continue;
 				}
 
 				ProgramConfig( $program, $column, $value );
@@ -88,24 +83,6 @@ if ( ! empty( $_REQUEST['check'] ) )
 if ( ! empty( $_REQUEST['import_users'] ) )
 {
 	// @since 5.9 Import Moodle Users.
-	if ( ! Config( 'STUDENTS_EMAIL_FIELD' ) )
-	{
-		$student_email_field = '<b>' . _( 'Student email field' ) . '</b>';
-
-		if ( AllowEdit( 'School_Setup/Configuration.php' ) ) {
-
-			$student_email_field = '<a href="Modules.php?modname=School_Setup/Configuration.php">' .
-				$student_email_field . '</a>';
-		}
-
-		$error[] = sprintf(
-			_( 'You must configure the %s to use this script.' ),
-			$student_email_field
-		);
-
-		ErrorMessage( $error, 'fatal' );
-	}
-
 	// Users auth='manual'.
 	$users = MoodleUsersList( 'auth', 'manual' );
 
@@ -212,6 +189,19 @@ if ( ! empty( $_REQUEST['import_users'] ) )
 if ( empty( $_REQUEST['save'] )
 	&& empty( $_REQUEST['import_users'] ) )
 {
+	if ( ! Config( 'STUDENTS_EMAIL_FIELD' ) )
+	{
+		$student_email_field = '<a href="Modules.php?modname=School_Setup/Configuration.php"><b>' .
+			_( 'Student email field' ) . '</b></a>';
+
+		$error[] = sprintf(
+			_( 'You must configure the %s to use this script.' ),
+			$student_email_field
+		);
+
+		ErrorMessage( $error, 'fatal' );
+	}
+
 	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
 		'&tab=plugins&modfunc=config&plugin=Moodle&save=true" method="POST">';
 
@@ -222,7 +212,22 @@ if ( empty( $_REQUEST['save'] )
 	echo ErrorMessage( $error, 'error' );
 
 	echo '<br />';
-	PopTable( 'header', _( 'Moodle' ) );
+
+	// If more than 1 school, add its title to table title.
+	if ( SchoolInfo( 'SCHOOLS_NB' ) > 1 )
+	{
+		$school_title = SchoolInfo( 'SHORT_NAME' );
+
+		if ( ! $school_title )
+		{
+			// No short name, get full title.
+			$school_title = SchoolInfo( 'TITLE' );
+		}
+
+		$school_title = ' (' . $school_title . ')';
+	}
+
+	PopTable( 'header', _( 'Moodle' ) . $school_title );
 
 	// URL.
 	echo '<table><tr><td>' . TextInput(
@@ -256,27 +261,6 @@ if ( empty( $_REQUEST['save'] )
 		'values[PROGRAM_CONFIG][moodle][MOODLE_PARENT_ROLE_ID]',
 		_( 'Moodle Parent Role ID' ),
 		'maxlength=2 size=2 min=0 placeholder=10'
-	) . '</td></tr>';
-
-	// Students email Field ID.
-	$students_email_field_RET = DBGet( "SELECT ID, TITLE
-		FROM CUSTOM_FIELDS
-		WHERE TYPE='text'
-		AND CATEGORY_ID=1" );
-
-	$students_email_field_options = array( 'USERNAME' => _( 'Username' ) );
-
-	foreach ( (array) $students_email_field_RET as $field )
-	{
-		$students_email_field_options[ str_replace( 'custom_', '', $field['ID'] ) ] = ParseMLField( $field['TITLE'] );
-	}
-
-	echo '<tr><td>' . SelectInput(
-		ProgramConfig( 'moodle', 'ROSARIO_STUDENTS_EMAIL_FIELD_ID' ),
-		'values[PROGRAM_CONFIG][moodle][ROSARIO_STUDENTS_EMAIL_FIELD_ID]',
-		sprintf( _( 'Student email field' ), Config( 'NAME' ) ),
-		$students_email_field_options,
-		'N/A'
 	) . '</td></tr></table>';
 
 	PopTable( 'footer' );

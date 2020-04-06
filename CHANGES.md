@@ -18,7 +18,7 @@ Changes in 6.0
 - Remove FirstLoginLoadJSCSS() & use form `target="_top"` instead in FirstLogin.fnc.php
 - Handle single quotes in $value with DBEscapeString() in Config.fnc.php
 - Logout if no Staff or Student session ID only if not on Modules.php in Warehouse.php, PasswordReset.php & diagnostic.php
-- Moodle remove ROSARIO_STUDENTS_EMAIL_FIELD_ID config, use STUDENTS_EMAIL_FIELD in StudentsUsersInfo.fnc.php, Other_Info.inc.php, Moodle/getconfig.inc.php & rosariosis.sql
+- Moodle remove ROSARIO_STUDENTS_EMAIL_FIELD_ID config, use STUDENTS_EMAIL_FIELD in StudentsUsersInfo.fnc.php, Other_Info.inc.php, Moodle/config.inc.php, Moodle/getconfig.inc.php & rosariosis.sql
 - Create Student Account: add school_id param to URL in index.php & Student.php
 - Create Student Account: Reload page (AJAX) on School change, so we update UserSchool() in General_info.inc.php
 
