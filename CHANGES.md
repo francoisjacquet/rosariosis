@@ -18,6 +18,7 @@ Changes in 6.0
 - Remove FirstLoginLoadJSCSS() & use form `target="_top"` instead in FirstLogin.fnc.php
 - Handle single quotes in $value with DBEscapeString() in Config.fnc.php
 - Logout if no Staff or Student session ID only if not on Modules.php in Warehouse.php, PasswordReset.php & diagnostic.php
+- Moodle remove ROSARIO_STUDENTS_EMAIL_FIELD_ID config, use STUDENTS_EMAIL_FIELD in StudentsUsersInfo.fnc.php, Other_Info.inc.php, Moodle/getconfig.inc.php & rosariosis.sql
 
 Changes in 5.9.3
 ----------------
@@ -32,7 +33,7 @@ Changes in 5.9.2
 
 Changes in 5.9.1
 ----------------
-- Fix Number Field SQL column limit: type numeric(20,2) in StudentUsersInfo.fnc.php
+- Fix Number Field SQL column limit: type numeric(20,2) in StudentsUsersInfo.fnc.php
 - Fix SQL error table ADDRESS specified more than once in GetStuList.fnc.php
 - SQL Fix School Base Grading Scale for Historical Grades in TRANSCRIPT_GRADES view in Update.fnc.php & rosariosis.sql
 

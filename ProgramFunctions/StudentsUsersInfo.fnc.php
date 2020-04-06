@@ -48,6 +48,12 @@ function _makeTextInput( $column, $name, $request )
 	elseif ( Config( 'STUDENTS_EMAIL_FIELD' ) === str_replace( 'CUSTOM_', '', $column ) )
 	{
 		$options = 'maxlength=255 type="email" pattern="[^ @]*@[^ @]*" placeholder="' . _( 'Email' ) . '"';
+
+		if ( ! empty( $_REQUEST['moodle_create_student'] ) )
+		{
+			// Moodle integrator, email required.
+			$options .= ' required';
+		}
 	}
 	else
 		$options = 'maxlength=1000';
