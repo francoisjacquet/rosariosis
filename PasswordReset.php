@@ -7,14 +7,10 @@
  * @package RosarioSIS
  */
 
-session_name( 'RosarioSIS' );
-
-session_start();
+require_once 'Warehouse.php';
 
 $_SESSION['USERNAME'] = 'PasswordReset';
 $_SESSION['STAFF_ID'] = '-1';
-
-require_once 'Warehouse.php';
 
 
 /**

@@ -9,23 +9,12 @@
  * @package RosarioSIS
  */
 
-session_name( 'RosarioSIS' );
-
-session_start();
-
 $error = array();
 
 // FJ check PHP version.
 if ( version_compare( PHP_VERSION, '5.4.45' ) == -1 )
 {
 	$error[] = 'RosarioSIS requires PHP 5.4.45 to run, your version is : ' . PHP_VERSION;
-}
-
-if ( ! isset( $_SESSION['STAFF_ID'] ) )
-{
-	$unset_username = true;
-	$_SESSION['USERNAME'] = 'diagnostic';
-	$_SESSION['STAFF_ID'] = '-1';
 }
 
 // FJ verify PHP extensions and php.ini.
@@ -184,12 +173,6 @@ echo _ErrorMessage( $error, 'error' );
 if ( ! count( $error ) )
 {
 	echo '<h3>Your RosarioSIS installation is properly configured.</h3>';
-}
-
-if ( $unset_username )
-{
-	unset( $_SESSION['USERNAME'] );
-	unset( $_SESSION['STAFF_ID'] );
 }
 
 
