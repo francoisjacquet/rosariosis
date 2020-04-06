@@ -1,40 +1,21 @@
 <?php
 
-require 'plugins/Moodle/getconfig.inc.php';
+require_once 'plugins/Moodle/getconfig.inc.php';
 
-if ( basename( $_SERVER['PHP_SELF'] ) === 'index.php'
-	&& Config( 'CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION' ) )
+if ( basename( $_SERVER['PHP_SELF'] ) === 'index.php' )
 {
 	/**
 	 * Automatic Moodle Student Account Creation
-	 * Moodle load hack. Reload Moodle config constants. Enable $_REQUEST['moodle_create_student'].
 	 *
-	 * @since 5.9
+	 * @since 6.0
 	 */
-	function MoodleAutomaticStudentAccountHeader()
-	{
-		if ( ! UserSchool() )
-		{
-			// Set UserSchool() so we can load Moodle actions on Create Student Account form submit.
-			$_SESSION['UserSchool'] = DBGetOne( "SELECT ID FROM SCHOOLS
-				WHERE SYEAR='" . UserSyear() . "'
-				ORDER BY ID" );
-
-			// Reload Moodle config constants.
-			require 'plugins/Moodle/getconfig.inc.php';
-		}
-
-		$_REQUEST['moodle_create_student'] = true;
-	}
-
-	add_action( 'Students/Student.php|header', 'MoodleAutomaticStudentAccountHeader' );
+	add_action( 'Students/Student.php|header', 'MoodleTriggered' );
+	add_action( 'Students/Student.php|create_student_checks', 'MoodleTriggered' );
+	add_action( 'Students/Student.php|create_student', 'MoodleTriggered' );
 }
 
-// Check Moodle plugin configuration options are set.
-if ( defined( 'MOODLE_URL' ) && MOODLE_URL
-	&& defined( 'MOODLE_TOKEN' ) && MOODLE_TOKEN
-	&& defined( 'MOODLE_PARENT_ROLE_ID' ) && MOODLE_PARENT_ROLE_ID
-	&& defined( 'ROSARIO_STUDENTS_EMAIL_FIELD' ) && ROSARIO_STUDENTS_EMAIL_FIELD )
+// Check Moodle plugin configuration options are set / logged in.
+elseif ( MoodleConfig() )
 {
 	// Register plugin functions to be hooked.
 	add_action( 'Students/Student.php|header', 'MoodleTriggered' );
@@ -97,31 +78,25 @@ if ( defined( 'MOODLE_URL' ) && MOODLE_URL
 
 	add_action( 'School_Setup/Rollover.php|rollover_checks', 'MoodleTriggered' );
 
-	// @depreacted since 4.5 user School_Setup/Rollover.php|rollover_after action hook!
-	// add_action( 'School_Setup/Rollover.php|rollover_staff', 'MoodleTriggered' );
-	// add_action( 'School_Setup/Rollover.php|rollover_course_subjects', 'MoodleTriggered' );
-	// add_action( 'School_Setup/Rollover.php|rollover_courses', 'MoodleTriggered' );
-	// add_action( 'School_Setup/Rollover.php|rollover_course_periods', 'MoodleTriggered' );
 	add_action( 'School_Setup/Rollover.php|rollover_after', 'MoodleTriggered' );
 }
 
-// Triggered function.
-// Will redirect to Moodle() function with the right WebService function name.
 /**
- * @param $hook_tag
- * @param $arg1
+ * Moodle Triggered function.
+ * Will redirect to Moodle() function with the right WebService function name.
+ *
+ * @param string $hook_tag Hook tag.
+ * @param string $arg1     Hook argument 1.
+ *
+ * @return bool False if ! MoodleConfig(), else true if action found.
  */
 function MoodleTriggered( $hook_tag, $arg1 = '' )
 {
 	global $error;
 
-	//check Moodle plugin configuration options are set
-
-	if ( ! MOODLE_URL
-		|| ! MOODLE_TOKEN
-		|| ! MOODLE_PARENT_ROLE_ID
-		|| ! ROSARIO_STUDENTS_EMAIL_FIELD )
+	if ( ! MoodleConfig() )
 	{
+		// Moodle plugin configuration options are not set / not logged in / no UserSchool().
 		return false;
 	}
 
@@ -156,6 +131,11 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 						_( 'Create Student in Moodle' )
 					) );
 				}
+			}
+			elseif ( basename( $_SERVER['PHP_SELF'] ) === 'index.php'
+				&& Config( 'CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION' ) )
+			{
+				$_REQUEST['moodle_create_student'] = true;
 			}
 
 			break;

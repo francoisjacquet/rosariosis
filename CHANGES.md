@@ -21,7 +21,8 @@ Changes in 6.0
 - Moodle remove ROSARIO_STUDENTS_EMAIL_FIELD_ID config, use STUDENTS_EMAIL_FIELD in StudentsUsersInfo.fnc.php, Other_Info.inc.php, Moodle/config.inc.php, Moodle/getconfig.inc.php & rosariosis.sql
 - Create Student Account: add school_id param to URL in index.php & Student.php
 - Create Student Account: Reload page (AJAX) on School change, so we update UserSchool() in General_info.inc.php
-- Add MoodleConfig() function in getconfig.inc.php
+- Add MoodleConfig() function in Moodle/getconfig.inc.php
+- Use MoodleConfig() & remove load hack in Moodle/functions.php
 
 Changes in 5.9.3
 ----------------
