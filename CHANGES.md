@@ -17,6 +17,7 @@ Changes in 6.0
 - Support multiple values in SelectInput() in Inputs.php
 - Remove FirstLoginLoadJSCSS() & use form `target="_top"` instead in FirstLogin.fnc.php
 - Handle single quotes in $value with DBEscapeString() in Config.fnc.php
+- Logout if no Staff or Student session ID only if not on Modules.php in Warehouse.php, PasswordReset.php & diagnostic.php
 
 Changes in 5.9.3
 ----------------
