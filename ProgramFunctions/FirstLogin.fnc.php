@@ -76,7 +76,6 @@ if ( ! function_exists( 'DoFirstLoginForm' ) )
  *
  * @uses FirstLoginFormAfterInstall()
  * @uses FirstLoginFormPasswordChange()
- * @uses FirstLoginLoadJSCSS()
  *
  * Seen by admin on first login after installation.
  *
@@ -98,7 +97,7 @@ function FirstLoginForm()
 		$first_login_form =  FirstLoginFormPasswordChange();
 	}
 
-	return FirstLoginLoadJSCSS() . $first_login_form;
+	return $first_login_form;
 }
 
 /**
@@ -129,40 +128,6 @@ if ( ! function_exists( 'HasFirstLoginForm' ) )
 	}
 }
 
-if ( ! function_exists( 'FirstLoginLoadJSCSS' ) )
-{
-	/**
-	 * Load JS & CSS files on First Login page.
-	 * Redefine ajaxLink() & ajaxForm(): no AJAX.
-	 *
-	 * @since 5.3
-	 *
-	 * @return string JS & CSS HTML code.
-	 */
-	function FirstLoginLoadJSCSS()
-	{
-		ob_start();
-
-		$lang_2_chars = mb_substr( $_SESSION['locale'], 0, 2 );
-
-		// Load JS & CSS.
-		// Redefine ajaxLink() & ajaxForm(): no AJAX.
-		?>
-		<script>
-			var ajaxLink = function(link) {
-				return true;
-			}
-
-			var ajaxPostForm = function(form, submit) {
-				return true;
-			}
-		</script>
-		<?php
-
-		return ob_get_clean();
-	}
-}
-
 if ( ! function_exists( 'FirstLoginFormAfterInstall' ) )
 {
 	/**
@@ -178,7 +143,7 @@ if ( ! function_exists( 'FirstLoginFormAfterInstall' ) )
 
 		PopTable( 'header', _( 'Confirm Successful Installation' ) ); ?>
 
-		<form action="index.php?modfunc=first-login" method="POST" id="first-login-form">
+		<form action="index.php?modfunc=first-login" method="POST" id="first-login-form" target="_top">
 			<h4 class="center">
 				<?php
 					echo sprintf(
@@ -214,7 +179,7 @@ if ( ! function_exists( 'FirstLoginFormForcePasswordChange' ) )
 
 		PopTable( 'header', _( 'Password Change' ) ); ?>
 
-		<form action="index.php?modfunc=first-login" method="POST" id="first-login-form">
+		<form action="index.php?modfunc=first-login" method="POST" id="first-login-form" target="_top">
 			<p><?php echo implode( '</p><p>', FirstLoginFormFields( 'force_password_change' ) ); ?></p>
 			<p class="center"><?php echo Buttons( _( 'OK' ) ); ?></p>
 		</form>
@@ -360,7 +325,6 @@ if ( ! function_exists( 'FirstLoginPoll' ) )
 		<script>$('#first-login-form').hide();
 
 		$('#first-login-poll-form input[type="reset"]').click(function(){
-			console.log('ici');
 			$('#first-login-poll-form').hide();
 			$('#first-login-form').show();
 		});
@@ -386,7 +350,7 @@ if ( ! function_exists( 'FirstLoginPoll' ) )
 		<?php
 		$js = ob_get_clean();
 
-		$form = '<form action="https://www.rosariosis.org/installation-poll/poll-submit.php" method="POST" id="first-login-poll-form">';
+		$form = '<form action="https://www.rosariosis.org/installation-poll/poll-submit.php" method="POST" id="first-login-poll-form" target="_top">';
 
 		$title = '<legend>' . _( 'Installation Poll' ) . '</legend>';
 
