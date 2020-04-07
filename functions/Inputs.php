@@ -873,7 +873,12 @@ function SelectInput( $values, $name, $title = '', $options = array(), $allow_na
 
 		foreach ( (array) $options as $group_options )
 		{
-			$display_val[] = $make_display_val( $values, $group_options );
+			$display_value = $make_display_val( $values, $group_options );
+
+			if ( $display_value )
+			{
+				$display_val[] = $display_value;
+			}
 		}
 
 		$display_val = implode( ', ', $display_val );
