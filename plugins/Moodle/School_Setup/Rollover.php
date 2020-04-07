@@ -56,10 +56,7 @@ function core_course_create_courses_object()
 	$shortname = $rolled_course_period['SHORT_NAME'];
 
 	//get the Moodle category
-	$categoryid = (int) DBGetOne( "SELECT moodle_id
-		FROM moodlexrosario
-		WHERE rosario_id='" . $rolled_course_period['COURSE_ID'] . "'
-		AND \"column\"='course_id'" );
+	$categoryid = MoodleXRosarioGet( 'course_id', $rolled_course_period['COURSE_ID'] );
 
 	if ( empty( $categoryid ) )
 	{
@@ -151,10 +148,7 @@ function core_role_assign_roles_object()
 	$roleid = 3;
 
 	//get the Moodle user ID
-	$userid = (int) DBGetOne( "SELECT moodle_id
-		FROM moodlexrosario
-		WHERE rosario_id='" . $rolled_course_period['TEACHER_ID'] . "'
-		AND \"column\"='staff_id'" );
+	$userid = MoodleXRosarioGet( 'staff_id', $rolled_course_period['TEACHER_ID'] );
 
 	if ( empty( $userid ) )
 	{
@@ -162,10 +156,7 @@ function core_role_assign_roles_object()
 	}
 
 	//gather the Moodle course ID
-	$courseid = (int) DBGetOne( "SELECT moodle_id
-		FROM moodlexrosario
-		WHERE rosario_id='" . $rolled_course_period['COURSE_PERIOD_ID'] . "'
-		AND \"column\"='course_period_id'" );
+	$courseid = MoodleXRosarioGet( 'course_period_id', $rolled_course_period['COURSE_PERIOD_ID'] );
 
 	if ( empty( $courseid ) )
 	{
@@ -214,10 +205,7 @@ function core_role_unassign_roles_object()
 	}
 	)*/
 	//gather the Moodle user ID
-	$userid = (int) DBGetOne( "SELECT moodle_id
-		FROM moodlexrosario
-		WHERE rosario_id='" . $cp_teacher_id . "'
-		AND \"column\"='staff_id'" );
+	$userid = MoodleXRosarioGet( 'staff_id', $cp_teacher_id );
 
 	if ( empty( $userid ) )
 	{

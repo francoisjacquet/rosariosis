@@ -879,17 +879,11 @@ if (  ( ! $_REQUEST['modfunc']
 
 			foreach ( (array) $teachers_RET as $teacher )
 			{
-				if ( ! empty( $_REQUEST['moodle_create_course_period'] ) )
+				if ( ! empty( $_REQUEST['moodle_create_course_period'] )
+					&& ! MoodleXRosarioGet( 'staff_id', $teacher['STAFF_ID'] ) )
 				{
-					$teacher_in_moodle = DBGetOne( "SELECT 1 FROM MOODLEXROSARIO
-						WHERE ROSARIO_ID='" . $teacher['STAFF_ID'] . "'
-						AND " . DBEscapeIdentifier( 'COLUMN' ). "='staff_id'" );
-
-					if ( ! $teacher_in_moodle )
-					{
-						// @since 5.8 Only display Teachers in Moodle when creating a Course Period in Moodle.
-						continue;
-					}
+					// @since 5.8 Only display Teachers in Moodle when creating a Course Period in Moodle.
+					continue;
 				}
 
 				$teachers[$teacher['STAFF_ID']] = GetTeacher( $teacher['STAFF_ID'] );

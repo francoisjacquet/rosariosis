@@ -43,10 +43,7 @@ function core_calendar_create_calendar_events_object()
 	$format = 1;
 
 	//gather the Moodle course ID
-	$courseid = (int) DBGetOne( "SELECT moodle_id
-		FROM moodlexrosario
-		WHERE rosario_id='" . UserCoursePeriod() . "'
-		AND \"column\"='course_period_id'" );
+	$courseid = MoodleXRosarioGet( 'course_period_id', UserCoursePeriod() );
 
 	if ( empty( $courseid ) )
 	{
@@ -160,10 +157,7 @@ function core_calendar_delete_calendar_events_object()
 		$assignment_id = $id;
 	}
 
-	$eventid = (int) DBGetOne( "SELECT moodle_id
-		FROM moodlexrosario
-		WHERE rosario_id='" . $assignment_id . "'
-		AND \"column\"='assignment_id'" );
+	$eventid = MoodleXRosarioGet( 'assignment_id', $assignment_id );
 
 	if ( empty( $eventid ) )
 	{

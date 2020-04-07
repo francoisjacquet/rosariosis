@@ -17,10 +17,7 @@ function enrol_manual_unenrol_users_object()
 		}
 	)*/
 	//gather the Moodle user ID
-	$userid = (int) DBGetOne( "SELECT moodle_id
-		FROM moodlexrosario
-		WHERE rosario_id='" . $student_id . "'
-		AND \"column\"='student_id'" );
+	$userid = MoodleXRosarioGet( 'student_id', $student_id );
 
 	if ( empty( $userid ) )
 	{
@@ -28,10 +25,7 @@ function enrol_manual_unenrol_users_object()
 	}
 
 	//gather the Moodle course period ID
-	$courseid = (int) DBGetOne( "SELECT moodle_id
-		FROM moodlexrosario
-		WHERE rosario_id='" . $_SESSION['MassDrops.php']['course_period_id'] . "'
-		AND \"column\"='course_period_id'" );
+	$courseid = MoodleXRosarioGet( 'course_period_id', $_SESSION['MassDrops.php']['course_period_id'] );
 
 	if ( empty( $courseid ) )
 	{

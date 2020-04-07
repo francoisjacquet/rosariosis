@@ -162,10 +162,7 @@ function core_calendar_delete_calendar_events_object()
 	 */
 
 	//gather the Moodle Event ID
-	$eventid = (int) DBGetOne( "SELECT moodle_id
-		FROM moodlexrosario
-		WHERE rosario_id='" . $_REQUEST['event_id'] . "'
-		AND \"column\"='calendar_event_id'" );
+	$eventid = MoodleXRosarioGet( 'calendar_event_id', $_REQUEST['event_id'] );
 
 	if ( empty( $eventid ) )
 	{

@@ -24,10 +24,7 @@ function enrol_manual_enrol_users_object()
 	$roleid = 5;
 
 	//get the Moodle user ID
-	$userid = (int) DBGetOne( "SELECT moodle_id
-		FROM moodlexrosario
-		WHERE rosario_id='" . $student_id . "'
-		AND \"column\"='student_id'" );
+	$userid = MoodleXRosarioGet( 'student_id', $student_id );
 
 	if ( empty( $userid ) )
 	{
@@ -35,10 +32,7 @@ function enrol_manual_enrol_users_object()
 	}
 
 	//gather the Moodle course ID
-	$courseid = (int) DBGetOne( "SELECT moodle_id
-		FROM moodlexrosario
-		WHERE rosario_id='" . $course_period['COURSE_PERIOD_ID'] . "'
-		AND \"column\"='course_period_id'" );
+	$courseid = MoodleXRosarioGet( 'course_period_id', $course_period['COURSE_PERIOD_ID'] );
 
 	if ( empty( $courseid ) )
 	{

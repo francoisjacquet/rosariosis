@@ -22,10 +22,7 @@ function core_notes_create_notes_object()
 	 */
 
 	//gather the Moodle user ID
-	$userid = (int) DBGetOne( "SELECT moodle_id
-		FROM moodlexrosario
-		WHERE rosario_id='" . $_SESSION['STAFF_ID'] . "'
-		AND \"column\"='staff_id'" );
+	$userid = MoodleXRosarioGet( 'staff_id', User( 'STAFF_ID' ) );
 
 	if ( empty( $userid ) )
 	{
@@ -101,10 +98,7 @@ function core_notes_delete_notes_object()
 	 */
 
 	//gather the Moodle note ID
-	$noteid = (int) DBGetOne( "SELECT moodle_id
-		FROM moodlexrosario
-		WHERE rosario_id='" . $_REQUEST['id'] . "'
-		AND \"column\"='portal_note_id'" );
+	$noteid = MoodleXRosarioGet( 'portal_note_id', $_REQUEST['id'] );
 
 	if ( empty( $noteid ) )
 	{
@@ -176,10 +170,7 @@ function core_notes_update_notes_object()
 	 */
 	//gather the Moodle note ID
 	$rosario_id = $id;
-	$moodle_id = (int) DBGetOne( "SELECT moodle_id
-		FROM moodlexrosario
-		WHERE rosario_id='" . $rosario_id . "'
-		AND \"column\"='portal_note_id'" );
+	$moodle_id = MoodleXRosarioGet( 'portal_note_id', $rosario_id );
 
 	if ( empty( $moodle_id ) )
 	{

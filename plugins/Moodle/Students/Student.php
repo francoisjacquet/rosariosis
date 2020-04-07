@@ -174,11 +174,7 @@ function core_user_update_users_object()
 	global $_REQUEST;
 
 	//gather the Moodle user ID
-	$rosario_id = UserStudentID();
-	$moodle_id = (int) DBGetOne( "SELECT moodle_id
-		FROM moodlexrosario
-		WHERE rosario_id='" . $rosario_id . "'
-		AND \"column\"='student_id'" );
+	$moodle_id = MoodleXRosarioGet( 'student_id', UserStudentID() );
 
 	if ( empty( $moodle_id ) )
 	{
@@ -298,11 +294,7 @@ function core_user_update_users_response( $response )
 function core_user_delete_users_object()
 {
 	// Gather the Moodle user ID.
-	$rosario_id = UserStudentID();
-	$moodle_id = (int) DBGetOne( "SELECT moodle_id
-		FROM moodlexrosario
-		WHERE rosario_id='" . $rosario_id . "'
-		AND \"column\"='student_id'" );
+	$moodle_id = MoodleXRosarioGet( 'student_id', UserStudentID() );
 
 	if ( empty( $moodle_id ) )
 	{
@@ -326,12 +318,10 @@ function core_user_delete_users_object()
  */
 function core_user_delete_users_response( $response )
 {
-	$rosario_id = UserStudentID();
-
 	// Delete the reference the moodlexrosario cross-reference table.
 	DBQuery( "DELETE FROM MOODLEXROSARIO
 		WHERE \"column\"='student_id'
-		AND rosario_id='" . $rosario_id . "'" );
+		AND rosario_id='" . UserStudentID() . "'" );
 
 	return null;
 }
@@ -369,10 +359,7 @@ function core_role_assign_roles_object()
 	}
 
 	//gather the Moodle student ID
-	$studentid = (int) DBGetOne( "SELECT moodle_id
-		FROM moodlexrosario
-		WHERE rosario_id='" . $student_id . "'
-		AND \"column\"='student_id'" );
+	$studentid = MoodleXRosarioGet( 'student_id', $student_id );
 
 	if ( empty( $studentid ) )
 	{
@@ -446,10 +433,7 @@ function core_files_upload_object()
 	$rosario_id = $_POST['userId'];
 	//gather the Moodle user ID
 	$column = ( mb_strpos( $_POST['modname'], 'Users' ) !== false ? 'staff_id' : 'student_id' );
-	$instanceid = (int) DBGetOne( "SELECT moodle_id
-		FROM moodlexrosario
-		WHERE rosario_id='" . $rosario_id . "'
-		AND \"column\"='" . $column . "'" );
+	$instanceid = MoodleXRosarioGet( $column, $rosario_id );
 
 	if ( empty( $instanceid ) )
 	{

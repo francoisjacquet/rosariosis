@@ -21,10 +21,7 @@ function core_role_assign_roles_object()
 	)*/
 
 	//gather the Moodle user ID
-	$userid = (int) DBGetOne( "SELECT moodle_id
-		FROM moodlexrosario
-		WHERE rosario_id='" . $staff_id . "'
-		AND \"column\"='staff_id'" );
+	$userid = MoodleXRosarioGet( 'staff_id', $staff_id );
 
 	if ( empty( $userid ) )
 	{
@@ -32,10 +29,7 @@ function core_role_assign_roles_object()
 	}
 
 	//gather the Moodle student ID
-	$studentid = (int) DBGetOne( "SELECT moodle_id
-		FROM moodlexrosario
-		WHERE rosario_id='" . UserStudentID() . "'
-		AND \"column\"='student_id'" );
+	$studentid = MoodleXRosarioGet( 'student_id', UserStudentID() );
 
 	if ( empty( $studentid ) )
 	{
@@ -86,10 +80,7 @@ function core_role_unassign_roles_object()
 	)*/
 
 	//gather the Moodle user ID
-	$userid = (int) DBGetOne( "SELECT moodle_id
-		FROM moodlexrosario
-		WHERE rosario_id='" . $_REQUEST['staff_id_remove'] . "'
-		AND \"column\"='staff_id'" );
+	$userid = MoodleXRosarioGet( 'staff_id', $_REQUEST['staff_id_remove'] );
 
 	if ( empty( $userid ) )
 	{
@@ -97,10 +88,7 @@ function core_role_unassign_roles_object()
 	}
 
 	//gather the Moodle student ID
-	$studentid = (int) DBGetOne( "SELECT moodle_id
-		FROM moodlexrosario
-		WHERE rosario_id='" . UserStudentID() . "'
-		AND \"column\"='student_id'" );
+	$studentid = MoodleXRosarioGet( 'student_id', UserStudentID() );
 
 	if ( empty( $studentid ) )
 	{

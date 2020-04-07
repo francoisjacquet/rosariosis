@@ -111,10 +111,7 @@ function core_role_assign_roles_object()
 	)*/
 
 	// Gather the Moodle user ID.
-	$userid = (int) DBGetOne( "SELECT moodle_id
-		FROM moodlexrosario
-		 WHERE rosario_id='" . $id . "'
-		 AND \"column\"='staff_id'" );
+	$userid = MoodleXRosarioGet( 'staff_id', $id );
 
 	if ( empty( $userid ) )
 	{
@@ -122,10 +119,7 @@ function core_role_assign_roles_object()
 	}
 
 	// Gather the Moodle student ID.
-	$studentid = DBGetOne( "SELECT moodle_id
-		FROM moodlexrosario
-		WHERE rosario_id='" . $student['STUDENT_ID'] . "'
-		AND \"column\"='student_id'" );
+	$studentid = MoodleXRosarioGet( 'student_id', $student['STUDENT_ID'] );
 
 	if ( empty( $studentid ) )
 	{

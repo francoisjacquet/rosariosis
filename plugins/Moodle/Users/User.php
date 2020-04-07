@@ -176,11 +176,7 @@ function core_user_update_users_object()
 	global $_REQUEST;
 
 	//gather the Moodle user ID
-	$rosario_id = UserStaffID();
-	$moodle_id = (double) DBGetOne( "SELECT moodle_id
-		FROM moodlexrosario
-		WHERE rosario_id='" . $rosario_id . "'
-		AND \"column\"='staff_id'" );
+	$moodle_id = MoodleXRosarioGet( 'staff_id', UserStaffID() );
 
 	if ( empty( $moodle_id ) )
 	{
@@ -280,11 +276,7 @@ function core_user_update_users_response( $response )
 function core_user_delete_users_object()
 {
 	//gather the Moodle user ID
-	$rosario_id = UserStaffID();
-	$moodle_id = (int) DBGetOne( "SELECT moodle_id
-		FROM moodlexrosario
-		WHERE rosario_id='" . $rosario_id . "'
-		AND \"column\"='staff_id'" );
+	$moodle_id = MoodleXRosarioGet( 'staff_id', UserStaffID() );
 
 	if ( empty( $moodle_id ) )
 	{
@@ -308,12 +300,10 @@ function core_user_delete_users_object()
  */
 function core_user_delete_users_response( $response )
 {
-	$rosario_id = UserStaffID();
-
 	//delete the reference the moodlexrosario cross-reference table:
 	DBQuery( "DELETE FROM MOODLEXROSARIO
 		WHERE \"column\"='staff_id'
-		AND rosario_id='" . $rosario_id . "'" );
+		AND rosario_id='" . UserStaffID() . "'" );
 
 	return null;
 }
@@ -338,10 +328,7 @@ function core_role_assign_roles_object()
 	)*/
 
 	//gather the Moodle user ID
-	$userid = (int) DBGetOne( "SELECT moodle_id
-		FROM moodlexrosario
-		WHERE rosario_id='" . ( ! empty( $staff_id ) ? $staff_id : UserStaffID() ) . "'
-		AND \"column\"='staff_id'" );
+	$userid = MoodleXRosarioGet( 'staff_id', ( ! empty( $staff_id ) ? $staff_id : UserStaffID() ) );
 
 	if ( empty( $userid ) )
 	{
@@ -435,10 +422,7 @@ function core_role_unassign_roles_object()
 	}
 	)*/
 	//gather the Moodle user ID
-	$userid = (int) DBGetOne( "SELECT moodle_id
-		FROM moodlexrosario
-		WHERE rosario_id='" . UserStaffID() . "'
-		AND \"column\"='staff_id'" );
+	$userid = MoodleXRosarioGet( 'staff_id', UserStaffID() );
 
 	if ( empty( $userid ) )
 	{
@@ -523,10 +507,7 @@ function core_files_upload_object()
 	//gather the Moodle user ID
 	$column = ( mb_strpos( $_POST['modname'], 'Users' ) !== false ? 'staff_id' : 'student_id' );
 
-	$instanceid = (int) DBGetOne( "SELECT moodle_id
-		FROM moodlexrosario
-		WHERE rosario_id='" . $rosario_id . "'
-		AND \"column\"='" . $column . "'" );
+	$instanceid = MoodleXRosarioGet( $column, $rosario_id );
 
 	if ( empty( $instanceid ) )
 	{

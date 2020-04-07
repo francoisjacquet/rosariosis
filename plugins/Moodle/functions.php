@@ -107,8 +107,6 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 /***************STUDENTS**/
 		/*Students/Student.php*/
 		case 'Students/Student.php|header':
-			global $old_student_in_moodle;
-
 			//propose to create student in Moodle: if 1) this is a creation, 2) this is an already created student but not in Moodle yet
 
 			if ( AllowEdit()
@@ -120,7 +118,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 
 				if ( UserStudentID() )
 				{
-					$old_student_in_moodle = IsMoodleStudent( UserStudentID() );
+					$old_student_in_moodle = (bool) MoodleXRosarioGet( 'student_id', UserStudentID() );
 				}
 
 				if ( $_REQUEST['student_id'] === 'new'
@@ -281,7 +279,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 
 				if ( UserStaffID() )
 				{
-					$old_user_in_moodle = IsMoodleUser( UserStaffID() );
+					$old_user_in_moodle = (bool) MoodleXRosarioGet( 'staff_id', UserStaffID() );
 				}
 
 				//3) verify the users have not been rolled yet:
@@ -363,7 +361,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 				Moodle( $modname, 'core_user_create_users' );
 				Moodle( $modname, 'core_role_assign_roles' );
 			}
-			elseif ( IsMoodleUser( UserStaffID() ) )
+			elseif ( MoodleXRosarioGet( 'staff_id', UserStaffID() ) )
 			{
 				Moodle( $modname, 'core_user_update_users' );
 				Moodle( $modname, 'core_role_unassign_roles' );
@@ -440,7 +438,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 
 				if ( $_REQUEST['course_period_id'] !== 'new' )
 				{
-					$old_course_period_in_moodle = IsMoodleCoursePeriod( $_REQUEST['course_period_id'] );
+					$old_course_period_in_moodle = (bool) MoodleXRosarioGet( 'course_period_id', $_REQUEST['course_period_id'] );
 				}
 
 				//3) verify if the course is in Moodle:
@@ -448,7 +446,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 
 				if ( $_REQUEST['course_id'] !== 'new' )
 				{
-					$course_in_moodle = IsMoodleCourse( $_REQUEST['course_id'] );
+					$course_in_moodle = (bool) MoodleXRosarioGet( 'course_id', $_REQUEST['course_id'] );
 				}
 
 				if ( $course_in_moodle
@@ -488,7 +486,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 		case 'Scheduling/Courses.php|update_course_period':
 			//if Course Period is already in Moodle
 
-			if ( IsMoodleCoursePeriod( $_REQUEST['course_period_id'] ) )
+			if ( MoodleXRosarioGet( 'course_period_id', $_REQUEST['course_period_id'] ) )
 			{
 				Moodle( $modname, 'core_course_update_courses' );
 
@@ -582,9 +580,9 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 		case 'School_Setup/Calendar.php|update_calendar_event':
 			global $error;
 
-			$isMoodleEvent = count( DBGet( "SELECT 1 FROM moodlexrosario WHERE rosario_id='" . $_REQUEST['event_id'] . "' AND \"column\"='calendar_event_id'" ) );
+			$is_moodle_event = (bool) MoodleXRosarioGet( 'calendar_event_id', $_REQUEST['event_id'] );
 
-			if ( $isMoodleEvent )
+			if ( $is_moodle_event )
 			{
 				//delete event then recreate it!
 				Moodle( $modname, 'core_calendar_delete_calendar_events' );
@@ -790,10 +788,13 @@ function Moodle( $modname, $moodle_functionname )
 	return moodle_xmlrpc_call( $moodle_functionname, $object );
 }
 
-//FJ Moodle integrator / password
-//The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character
 /**
- * @param $password
+ * Check Moodle password
+ * The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character
+ *
+ * @param string $password Password.
+ *
+ * @return bool True if password empty or if complies with Moodle policy.
  */
 function MoodlePasswordCheck( $password )
 {
