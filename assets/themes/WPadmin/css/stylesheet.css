@@ -108,6 +108,12 @@ input[type=number] {
 	width: 50px
 }
 
+input[type=number][name*=AMOUNT],
+input[type=number][name*=amount],
+input[type=number][name*=PRICE] {
+	width: 80px
+}
+
 input[type=color] {
 	border-width: 0px;
 	border-style: solid;
