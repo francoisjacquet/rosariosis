@@ -105,7 +105,8 @@ if ( ! $_REQUEST['modfunc'] )
 			'SHORT_NAME' => '_makeTextInput',
 			'TYPE' => '_makeSelectInput',
 			'DEFAULT_CODE' => '_makeCheckBoxInput',
-			'SORT_ORDER' => '_makeTextInput' ),
+			'SORT_ORDER' => '_makeTextInput',
+		)
 	);
 
 	$columns = array(
