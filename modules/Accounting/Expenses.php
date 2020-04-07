@@ -99,7 +99,13 @@ if ( ! $_REQUEST['modfunc'] )
 		'COMMENTS' => '_makePaymentsTextInput',
 	);
 
-	$payments_RET = DBGet( "SELECT '' AS REMOVE,ID,AMOUNT,PAYMENT_DATE,COMMENTS FROM ACCOUNTING_PAYMENTS WHERE SYEAR='" . UserSyear() . "' AND STAFF_ID IS NULL AND SCHOOL_ID='" . UserSchool() . "' ORDER BY ID", $functions );
+	$payments_RET = DBGet( "SELECT '' AS REMOVE,ID,AMOUNT,PAYMENT_DATE,COMMENTS
+		FROM ACCOUNTING_PAYMENTS
+		WHERE SYEAR='" . UserSyear() . "'
+		AND STAFF_ID IS NULL
+		AND SCHOOL_ID='" . UserSchool() . "'
+		ORDER BY ID", $functions );
+
 	$i = 1;
 	$RET = array();
 
