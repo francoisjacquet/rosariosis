@@ -4,6 +4,7 @@
 Changes in 6.0
 --------------
 - HTML Sort Order, Length & Display Column: use "number" input type, program wide
+- HTML Amount & Price: use "number" input type in StaffWidgets.fnc.php, Widgets.fnc.php, Accounting/functions.inc.php, MenuItems.php, Transactions.php, Student_Billing/functions.inc.php, MassAssignFees.php & MassAssignPayments.php
 - Add TipMessage to Food Service Icon in FS_Icons.inc.php
 - HTML standardize Name + ID & Balance headers in Accounts.php, ServeMenus.php, Statements.php & Transactions.php
 - JS update jQuery to v2.2.4 in jquery.js

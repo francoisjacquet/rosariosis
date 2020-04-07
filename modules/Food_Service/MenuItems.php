@@ -440,6 +440,10 @@ function makeTextInput( $value, $name )
 	{
 		$extra = ' type="number" step="any"';
 	}
+	elseif ( mb_strpos( $name, 'PRICE' ) !== false )
+	{
+		$extra = ' type="number" step="any" min="-9999999" max="9999999"';
+	}
 	else
 	{
 		$extra = 'size=6 maxlength=8';

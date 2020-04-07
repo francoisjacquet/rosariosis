@@ -102,7 +102,7 @@ function _makeFeesTextInput( $value, $name )
 
 	if ( $name === 'AMOUNT' )
 	{
-		$extra = 'size=5 maxlength=10';
+		$extra = ' type="number" step="any"';
 	}
 	elseif ( ! $value )
 	{
@@ -160,7 +160,7 @@ function _makePaymentsTextInput( $value, $name )
 
 	if ( $name === 'AMOUNT' )
 	{
-		$extra = 'size=5 maxlength=10';
+		$extra = ' type="number" step="any"';
 	}
 	elseif ( ! $value )
 	{

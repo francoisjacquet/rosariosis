@@ -1737,7 +1737,7 @@ function Widgets( $item, &$myextra = null )
 				<input type="radio" name="fsa_bal_ge" value="" checked /> &lt;</label>&nbsp;
 			<label  class="sizep2">
 				<input type="radio" name="fsa_bal_ge" value="Y" /> &ge;</label>
-			<input type="text" name="fsa_balance" id="fsa_balance" size="7" maxlength="9"' .
+			<input name="fsa_balance" id="fsa_balance" type="number" step="any"' .
 				( isset( $value ) ? ' value="' . $value . '"' : '') . ' />
 			</td></tr>';
 

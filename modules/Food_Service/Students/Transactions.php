@@ -149,16 +149,31 @@ if ( UserStudentID()
 
 		if ( AllowEdit() )
 		{
-			$types = array( 'Deposit' => _( 'Deposit' ), 'Credit' => _( 'Credit' ), 'Debit' => _( 'Debit' ) );
+			$types = array(
+				'Deposit' => _( 'Deposit' ),
+				'Credit' => _( 'Credit' ),
+				'Debit' => _( 'Debit' ),
+			);
 
 			$link['add']['html']['TYPE'] = SelectInput( '', 'values[TYPE]', '', $types, false );
 
-			$options = array( 'Cash' => _( 'Cash' ), 'Check' => _( 'Check' ), 'Credit Card' => _( 'Credit Card' ), 'Debit Card' => _( 'Debit Card' ), 'Transfer' => _( 'Transfer' ) );
+			$options = array(
+				'Cash' => _( 'Cash' ),
+				'Check' => _( 'Check' ),
+				'Credit Card' => _( 'Credit Card' ),
+				'Debit Card' => _( 'Debit Card' ),
+				'Transfer' => _( 'Transfer' ),
+			);
 
 			$link['add']['html']['DESCRIPTION'] = SelectInput( '', 'values[OPTION]', '', $options, false ) . ' ' .
 				TextInput( '', 'values[DESCRIPTION]', '', 'size=20 maxlength=50' );
 
-			$link['add']['html']['AMOUNT'] = TextInput( '', 'values[AMOUNT]', '', 'size=5 maxlength=10 required' );
+			$link['add']['html']['AMOUNT'] = TextInput(
+				'',
+				'values[AMOUNT]',
+				'',
+				'type="number" step="any" max="9999999" min="0" required'
+			);
 
 			$link['add']['html']['remove'] = button( 'add' );
 
@@ -168,7 +183,15 @@ if ( UserStudentID()
 
 		$columns = array( 'TYPE' => _( 'Type' ), 'DESCRIPTION' => _( 'Description' ), 'AMOUNT' => _( 'Amount' ) );
 
-		ListOutput( $RET, $columns, 'Earlier Transaction', 'Earlier Transactions', $link, false, array( 'save' => false, 'search' => false ) );
+		ListOutput(
+			$RET,
+			$columns,
+			'Earlier Transaction',
+			'Earlier Transactions',
+			$link,
+			false,
+			array( 'save' => false, 'search' => false )
+		);
 
 		echo '<br /><div class="center">' . SubmitButton() . '</div>';
 	}
