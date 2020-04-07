@@ -2,9 +2,6 @@
 
 ## RosarioSIS Student Information System
 
-Versión 5.9.1
--------------
-
 RosarioSIS es una aplicación web que depende de un servidor web, el lenguaje de script PHP y un servidor de base de datos PostgreSQL.
 
 Para que funcione RosarioSIS se debe primero tener el servidor web, PostgreSQL, y PHP (incluyendo las extensiones `pgsql`, `gettext`, `mbstring`, `gd`, `curl`, `xmlrpc` y `xml`) operativos. La implementación de aquellos varia con el sistema operativo así que está fuera del alcance de este breve documento de instalación.
@@ -19,7 +16,7 @@ RosarioSIS ha sido probado en:
 - Debian Buster con Apache 2.4.38, Postgres 11.5, y PHP 7.3.8
 - Shared hosting con cPanel, nginx, Postgres 8.4, y PHP 5.6.27
 - a traves de Mozilla Firefox
-- con BrowserStack para la compatibilidad de navegadores (no compatible con Internet Explorer 8 o anterior)
+- con BrowserStack para la compatibilidad de navegadores (no compatible con Internet Explorer 9 o anterior)
 
 Requerimientos mínimos: **PHP 5.4.45** y **PostgreSQL 8.4**
 
