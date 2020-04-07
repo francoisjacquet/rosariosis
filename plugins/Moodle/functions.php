@@ -812,33 +812,27 @@ function MoodlePasswordCheck( $password )
 }
 
 /**
- * @param $student_id
+ * Get Moodle ID by RosarioSIS ID
+ *
+ * @since 6.0
+ *
+ * @uses MOODLEXROSARIO DB cross table.
+ *
+ * @param string $column     Column, what type of object.
+ * @param int    $rosario_id RosarioSIS ID.
+ *
+ * @return int 0 or Moodle ID.
  */
-function IsMoodleStudent( $student_id )
+function MoodleXRosarioGet( $column, $rosario_id )
 {
-	return count( DBGet( "SELECT 1 FROM moodlexrosario WHERE rosario_id='" . $student_id . "' AND \"column\"='student_id'" ) );
-}
+	if ( ! $column
+		|| ! $rosario_id )
+	{
+		return 0;
+	}
 
-/**
- * @param $staff_id
- */
-function IsMoodleUser( $staff_id )
-{
-	return count( DBGet( "SELECT 1 FROM moodlexrosario WHERE rosario_id='" . $staff_id . "' AND \"column\"='staff_id'" ) );
-}
-
-/**
- * @param $course_id
- */
-function IsMoodleCourse( $course_id )
-{
-	return count( DBGet( "SELECT 1 FROM moodlexrosario WHERE rosario_id='" . $course_id . "' AND \"column\"='course_id'" ) );
-}
-
-/**
- * @param $course_period_id
- */
-function IsMoodleCoursePeriod( $course_period_id )
-{
-	return count( DBGet( "SELECT 1 FROM moodlexrosario WHERE rosario_id='" . $course_period_id . "' AND \"column\"='course_period_id'" ) );
+	return (int) DBGetOne( "SELECT moodle_id
+		FROM moodlexrosario
+		WHERE rosario_id='" . $rosario_id . "'
+		AND \"column\"='" . DBEscapeString( $column ) . "'" );
 }

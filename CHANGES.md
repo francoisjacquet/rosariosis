@@ -23,6 +23,8 @@ Changes in 6.0
 - Create Student Account: Reload page (AJAX) on School change, so we update UserSchool() in General_info.inc.php
 - Add MoodleConfig() function in Moodle/getconfig.inc.php
 - Use MoodleConfig() & remove load hack in Moodle/functions.php
+- Add MoodleXRosarioGet() function in Moodle/functions.php
+- Remove IsMoodleStudent(), IsMoodleUser(), IsMoodleCourse() & IsMoodleCoursePeriod() functions in Moodle/functions.php
 
 Changes in 5.9.4
 ----------------
