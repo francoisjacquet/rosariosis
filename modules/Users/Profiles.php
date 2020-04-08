@@ -288,7 +288,8 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 			}
 
 			echo '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&profile_id=' . $id . '">' .
-				_( $profile[1]['TITLE'] ) . ' &nbsp; </a>';
+				// HTML add arrow to indicate sub-profile.
+				( $id > 3 ? '&#10551; ' : '' ) . _( $profile[1]['TITLE'] ) . ' &nbsp; </a>';
 			echo '</td>';
 
 			echo '<td><div class="arrow right"></div></td>';
