@@ -80,6 +80,13 @@ if ( $_REQUEST['modfunc'] === 'update'
 						$id_questions[] = $column;
 						$sql_question_cols = '';
 
+						if ( isset( $value['OPTIONS'] )
+							&& $value['OPTIONS'] )
+						{
+							// @since 6.0 Trim select Options.
+							$value['OPTIONS'] = trim( $value['OPTIONS'] );
+						}
+
 						foreach ( (array) $value as $col => $val )
 						{
 							$sql_question_cols .= DBEscapeIdentifier( $col ) . "='" . $val . "',";
