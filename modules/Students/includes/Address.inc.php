@@ -1280,7 +1280,10 @@ if ( ! $_REQUEST['modfunc'] )
 						{
 							echo '<tr><td>';
 							echo '<fieldset><legend>' . ParseMLField( $fields_RET[1]['CATEGORY_TITLE'] ) . '</legend>';
-							require_once 'modules/Students/includes/Other_Fields.inc.php';
+
+							// Allow multiple categories, do not use require_once.
+							require 'modules/Students/includes/Other_Fields.inc.php';
+
 							echo '</fieldset>';
 							echo '</td></tr>';
 						}
@@ -1364,7 +1367,10 @@ if ( ! $_REQUEST['modfunc'] )
 					{
 						echo '<tr><td>';
 						echo '<fieldset><legend>' . ParseMLField( $fields_RET[1]['CATEGORY_TITLE'] ) . '</legend>';
-						require_once 'modules/Students/includes/Other_Fields.inc.php';
+
+						// Allow multiple categories, do not use require_once.
+						require 'modules/Students/includes/Other_Fields.inc.php';
+
 						echo '</fieldset>';
 						echo '</td></tr>';
 					}

@@ -33,6 +33,7 @@ Changes in 6.0
 Changes in 5.9.4
 ----------------
 - Automatic Student Account Activation: fix Next grade at current school in Student.php
+- Allow multiple categories, do not use require_once in Address.inc.php
 
 Changes in 5.9.3
 ----------------
