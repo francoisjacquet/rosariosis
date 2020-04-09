@@ -29,6 +29,7 @@ Changes in 6.0
 - Remove IsMoodleStudent(), IsMoodleUser(), IsMoodleCourse() & IsMoodleCoursePeriod() functions in Moodle/functions.php
 - Use MoodleXRosarioGet() in plugins/Moodle/* & Courses.php
 - HTML add arrow to indicate sub-profile in Profiles.php
+- Trim select Options in SchoolFields.php, AddressFields.php, PeopleFields.php, StudentFields.php & UserFields.php
 
 Changes in 5.9.4
 ----------------

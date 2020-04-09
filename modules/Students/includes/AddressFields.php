@@ -24,6 +24,13 @@ if ( isset( $_POST['tables'] )
 			if ( ! isset( $columns['TITLE'] )
 				|| ! empty( $columns['TITLE'] ) )
 			{
+				if ( isset( $columns['SELECT_OPTIONS'] )
+					&& $columns['SELECT_OPTIONS'] )
+				{
+					// @since 6.0 Trim select Options.
+					$columns['SELECT_OPTIONS'] = trim( $columns['SELECT_OPTIONS'] );
+				}
+
 				// Update Field / Category.
 				if ( $id !== 'new' )
 				{
