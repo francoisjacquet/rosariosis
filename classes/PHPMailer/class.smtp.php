@@ -3,10 +3,7 @@
  * PHPMailer RFC821 SMTP email transport class.
  * PHP Version 5
  *
- * @package RosarioSIS
- * @subpackage classes/PHPMailer
- *
- * @since 2.8.24
+ * @since RosarioSIS 2.8.24
  *
  * @package PHPMailer
  * @link https://github.com/PHPMailer/PHPMailer/ The PHPMailer GitHub project
@@ -36,7 +33,7 @@ class SMTP
 	 * The PHPMailer SMTP version number.
 	 * @var string
 	 */
-	const VERSION = '5.2.26';
+	const VERSION = '5.2.28';
 
 	/**
 	 * SMTP line break constant.
@@ -87,7 +84,7 @@ class SMTP
 	 * @deprecated Use the `VERSION` constant instead
 	 * @see SMTP::VERSION
 	 */
-	public $Version = '5.2.26';
+	public $Version = '5.2.28';
 
 	/**
 	 * SMTP server port number.

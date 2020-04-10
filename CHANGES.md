@@ -30,6 +30,7 @@ Changes in 6.0
 - Use MoodleXRosarioGet() in plugins/Moodle/* & Courses.php
 - HTML add arrow to indicate sub-profile in Profiles.php
 - Trim select Options in PortalPolls.php, SchoolFields.php, AddressFields.php, PeopleFields.php, StudentFields.php & UserFields.php
+- Update PHPMailer to version 5.2.28 in classes/PHPMailer/
 
 Changes in 5.9.4
 ----------------
