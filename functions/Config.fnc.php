@@ -13,6 +13,7 @@
  * @example  Config( 'SYEAR' )
  *
  * @since 4.4 Add $value param to INSERT or UPDATE.
+ * @since 6.0 Handle single quotes in $value with DBEscapeString().
  *
  * @global array  $_ROSARIO     Sets $_ROSARIO['Config']
  * @global string $DefaultSyear
@@ -50,7 +51,6 @@ function Config( $item, $value = null )
 
 	if ( ! is_null( $value ) )
 	{
-
 		if ( ! isset( $_ROSARIO['Config'][ (string) $item ][1]['TITLE'] ) )
 		{
 			// Insert value (does not exist).
@@ -58,13 +58,18 @@ function Config( $item, $value = null )
 				VALUES('" . $value . "','" . $item . "','" .
 				( UserSchool() > 0 ? UserSchool() : '0' ) . "')" );
 		}
-		elseif ( $value != $_ROSARIO['Config'][ (string) $item ][1]['CONFIG_VALUE'] )
+		elseif ( $value != DBEscapeString( $_ROSARIO['Config'][ (string) $item ][1]['CONFIG_VALUE'] ) )
 		{
 			// Update value (different from current value).
 			DBQuery( "UPDATE CONFIG
 				SET CONFIG_VALUE='" . $value . "'
 				WHERE TITLE='" . $item . "'
 				AND SCHOOL_ID='" . $_ROSARIO['Config'][ (string) $item ][1]['SCHOOL_ID'] . "'" );
+		}
+
+		if ( $value !== DBEscapeString( $value ) )
+		{
+			$value = str_replace( "''", "'", $value );
 		}
 
 		$_ROSARIO['Config'][ (string) $item ][1]['CONFIG_VALUE'] = $value;
@@ -168,6 +173,7 @@ function ProgramConfig( $program, $item = 'all', $value = null )
  * @since 2.9
  * @since 4.4 Add $values param to INSERT or UPDATE.
  * @since 5.8 Set $staff_id to -1 to override user config.
+ * @since 6.0 Handle single quotes in $value with DBEscapeString().
  *
  * @param string  $program  Gradebook|WidgetsSearch|StaffWidgetsSearch|
  * @param integer $staff_id Staff ID (optional). Defaults to User( 'STAFF_ID' ).
@@ -219,13 +225,18 @@ function ProgramUserConfig( $program, $staff_id = 0, $values = null )
 					VALUES('" . $value . "','" . $program . "','" . $title . "','" .
 					$staff_id . "')" );
 			}
-			elseif ( $value != $program_config[ $program ][ $staff_id ][ $title ] )
+			elseif ( $value != DBEscapeString( $program_config[ $program ][ $staff_id ][ $title ] ) )
 			{
 				// Update value (different from current value).
 				DBQuery( "UPDATE PROGRAM_USER_CONFIG
 					SET VALUE='" . $value . "'
 					WHERE TITLE='" . $title . "'
 					AND USER_ID='" . $staff_id . "'" );
+			}
+
+			if ( $value !== DBEscapeString( $value ) )
+			{
+				$value = str_replace( "''", "'", $value );
 			}
 
 			$program_config[ $program ][ $staff_id ][ $title ] = $value;
