@@ -31,6 +31,7 @@ Changes in 6.0
 - HTML add arrow to indicate sub-profile in Profiles.php
 - Trim select Options in PortalPolls.php, SchoolFields.php, AddressFields.php, PeopleFields.php, StudentFields.php & UserFields.php
 - Update PHPMailer to version 5.2.28 in classes/PHPMailer/
+- Add $request_index_3 param to MakeFieldType() in Fields.fnc.php
 
 Changes in 5.9.4
 ----------------

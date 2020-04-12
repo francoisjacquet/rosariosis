@@ -665,16 +665,18 @@ function MakeFieldType( $value, $column = '' )
  * @example $_REQUEST['staff'] = FilterCustomFieldsMarkdown( 'STAFF_FIELDS', 'staff' );
  *
  * @since 4.4 Do not check allowed tables, sanitize table name instead.
+ * @since 6.0 Add $request_index_3 param.
  *
  * @uses SanitizeMarkDown()
  *
  * @param string $table           Custom fields TABLE name.
  * @param string $request_index   $_REQUEST var array values index.
  * @param string $request_index_2 $_REQUEST var array values index #2.
+ * @param string $request_index_3 $_REQUEST var array values index #3.
  *
  * @return array $request_values with MarkDown filtered.
  */
-function FilterCustomFieldsMarkdown( $table, $request_index, $request_index_2 = '' )
+function FilterCustomFieldsMarkdown( $table, $request_index, $request_index_2 = '', $request_index_3 = '' )
 {
 	// Please add your TABLE here.
 	/*$allowed_tables = array(
@@ -685,17 +687,23 @@ function FilterCustomFieldsMarkdown( $table, $request_index, $request_index_2 = 
 		'SCHOOL_FIELDS',
 	);*/
 
-	if ( ! $request_index_2 )
+	if ( $request_index_2 === '' )
 	{
 		$request_values = issetVal( $_REQUEST[ $request_index ] );
 
 		$post_values = issetVal( $_POST[ $request_index ] );
 	}
-	else
+	elseif ( $request_index_3 === '' )
 	{
 		$request_values = issetVal( $_REQUEST[ $request_index ][ $request_index_2 ] );
 
 		$post_values = issetVal( $_POST[ $request_index ][ $request_index_2 ] );
+	}
+	else
+	{
+		$request_values = issetVal( $_REQUEST[ $request_index ][ $request_index_2 ][ $request_index_3 ] );
+
+		$post_values = issetVal( $_POST[ $request_index ][ $request_index_2 ][ $request_index_3 ] );
 	}
 
 	if ( ! $table
