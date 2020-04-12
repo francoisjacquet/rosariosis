@@ -366,7 +366,7 @@ function _makeCheckboxInput( $column, $name, $request )
 	}
 
 	return CheckboxInput(
-		$value[ $column ],
+		issetVal( $value[ $column ] ),
 		$request . '[' . $column . ']',
 		$name,
 		'',
@@ -405,7 +405,7 @@ function _makeTextAreaInput( $column, $name, $request )
 	// FJ text area is required.
 	// FJ textarea field maxlength=50000 (soft limit).
 	return TextAreaInput(
-		$value[ $column ],
+		issetVal( $value[ $column ] ),
 		$request . '[' . $column . ']',
 		$name,
 		'maxlength=50000' . ( $field['REQUIRED'] == 'Y' ? ' required': '' ),

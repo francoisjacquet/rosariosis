@@ -1093,6 +1093,8 @@ function _makeExtraCols( $assignment_id, $column )
 
 	$total_points = $assignments_RET[$assignment_id][1]['POINTS'];
 
+	$current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['POINTS'] = issetVal( $current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['POINTS'] );
+
 	if ( ! empty( $_REQUEST['include_all'] )
 		|| ( $current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['POINTS'] != ''
 			|| ! $assignments_RET[$assignment_id][1]['DUE_EPOCH']
