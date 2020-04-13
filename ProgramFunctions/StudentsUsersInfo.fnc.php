@@ -580,11 +580,13 @@ function _makeMultipleInput( $column, $name, $request )
 
 		if ( ! empty( $value[ $column ] ) )
 		{
-			echo '<script>var html' . $request . $column . '=' . json_encode( $table ) . ';</script>';
+			$id = GetInputID( $request . $column );
 
-			echo '<div id="div' . $request . $column . '">
-				<div class="onclick" onclick=\'javascript:addHTML(html' . $request . $column .
-				',"div' . $request . $column . '",true);\' >';
+			echo '<script>var html' . $id . '=' . json_encode( $table ) . ';</script>';
+
+			echo '<div id="div' . $id . '">
+				<div class="onclick" onclick=\'javascript:addHTML(html' . $id .
+				',"div' . $id . '",true);\' >';
 
 			echo '<span class="underline-dots">' .
 				str_replace( '||', ', ', mb_substr( $value[ $column ], 2, -2 ) ) . '</span>';
