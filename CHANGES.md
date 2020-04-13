@@ -4,6 +4,7 @@
 Changes in 5.9.5
 ----------------
 - JS Fix error in Multiple Input id in StudentsUsersInfo.fnc.php
+- Save Select Multiple from Options field type format in Address.inc.php
 
 Changes in 5.9.4
 ----------------

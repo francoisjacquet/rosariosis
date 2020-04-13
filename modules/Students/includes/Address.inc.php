@@ -85,24 +85,13 @@ if ( ! empty( $_POST['values'] )
 					continue;
 				}
 
-				if ( ! is_array( $value ) )
+				if ( is_array( $value ) )
 				{
-					$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
+					// Select Multiple from Options field type format.
+					$value = implode( '||', $value ) ? '||' . implode( '||', $value ) : '';
 				}
-				else
-				{
-					$sql .= $column . "='||";
 
-					foreach ( (array) $value as $val )
-					{
-						if ( $val )
-						{
-							$sql .= str_replace( '&quot;', '"', $val ) . '||';
-						}
-					}
-
-					$sql .= "',";
-				}
+				$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 
 				$go = true;
 			}
@@ -130,6 +119,12 @@ if ( ! empty( $_POST['values'] )
 
 			foreach ( (array) $_REQUEST['values']['ADDRESS'] as $column => $value )
 			{
+				if ( is_array( $value ) )
+				{
+					// Select Multiple from Options field type format.
+					$value = implode( '||', $value ) ? '||' . implode( '||', $value ) : '';
+				}
+
 				if ( ! empty( $value ) || $value == '0' )
 				{
 					$fields .= DBEscapeIdentifier( $column ) . ',';
@@ -172,19 +167,20 @@ if ( ! empty( $_POST['values'] )
 
 			foreach ( (array) $_REQUEST['values']['PEOPLE'] as $column => $value )
 			{
-				if ( 1 ) //!empty($value) || $value=='0')
+				if ( $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] == 'numeric' && $value != '' && ! is_numeric( $value ) )
 				{
-					//FJ check numeric fields
-
-					if ( $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] == 'numeric' && $value != '' && ! is_numeric( $value ) )
-					{
-						$error[] = _( 'Please enter valid Numeric data.' );
-						continue;
-					}
-
-					$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-					$go = true;
+					$error[] = _( 'Please enter valid Numeric data.' );
+					continue;
 				}
+
+				if ( is_array( $value ) )
+				{
+					// Select Multiple from Options field type format.
+					$value = implode( '||', $value ) ? '||' . implode( '||', $value ) : '';
+				}
+
+				$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
+				$go = true;
 			}
 
 			$sql = mb_substr( $sql, 0, -1 ) . " WHERE PERSON_ID='" . $_REQUEST['person_id'] . "'";
@@ -207,6 +203,12 @@ if ( ! empty( $_POST['values'] )
 
 			foreach ( (array) $_REQUEST['values']['PEOPLE'] as $column => $value )
 			{
+				if ( is_array( $value ) )
+				{
+					// Select Multiple from Options field type format.
+					$value = implode( '||', $value ) ? '||' . implode( '||', $value ) : '';
+				}
+
 				if ( ! empty( $value ) || $value == '0' )
 				{
 					$fields .= DBEscapeIdentifier( $column ) . ',';
