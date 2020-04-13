@@ -33,6 +33,10 @@ Changes in 6.0
 - Update PHPMailer to version 5.2.28 in classes/PHPMailer/
 - Add $request_index_3 param to MakeFieldType() in Fields.fnc.php
 
+Changes in 5.9.5
+----------------
+- JS Fix error in Multiple Input id in StudentsUsersInfo.fnc.php
+
 Changes in 5.9.4
 ----------------
 - Automatic Student Account Activation: fix Next grade at current school in Student.php
