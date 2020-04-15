@@ -2,6 +2,14 @@
 
 ## RosarioSIS Student Information System
 
+New in 6.0
+----------
+
+[Chart.js](https://www.chartjs.org/) charts
+
+[Paypal Registration](https://www.rosariosis.org/plugins/paypal-registration/) plugin
+
+
 New in 5.9
 ----------
 
