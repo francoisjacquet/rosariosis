@@ -457,3 +457,72 @@ function CoursePeriodSchoolPeriodsTitlePartGenerate( $cpsp_id, $cp_id, $columns 
 
 	return $title;
 }
+
+/**
+ * Course Period Delete SQL queries
+ *
+ * @since 6.1
+ *
+ * @param int $course_period_id Course Period ID.
+ *
+ * @return string Delete SQL queries.
+ */
+function CoursePeriodDeleteSQL( $course_period_id )
+{
+	$course_period_id = intval( $course_period_id );
+
+	$delete_sql = "UPDATE COURSE_PERIODS
+		SET PARENT_ID=NULL
+		WHERE PARENT_ID='" . $course_period_id . "';";
+
+	$delete_sql .= "DELETE FROM SCHEDULE
+		WHERE COURSE_PERIOD_ID='" . $course_period_id . "';";
+
+	$delete_sql .= "DELETE FROM GRADEBOOK_ASSIGNMENTS
+		WHERE COURSE_PERIOD_ID='" . $course_period_id . "';";
+
+	$delete_sql .= "DELETE FROM COURSE_PERIOD_SCHOOL_PERIODS
+		WHERE COURSE_PERIOD_ID='" . $course_period_id . "';";
+
+	$delete_sql .= "DELETE FROM COURSE_PERIODS
+		WHERE COURSE_PERIOD_ID='" . $course_period_id . "';";
+
+	return $delete_sql;
+}
+
+/**
+ * Course Delete SQL queries
+ *
+ * @since 6.1
+ *
+ * @param int $course_id Course ID.
+ *
+ * @return string Delete SQL queries.
+ */
+function CourseDeleteSQL( $course_id )
+{
+	$course_id = intval( $course_id );
+
+	$delete_sql = "UPDATE COURSE_PERIODS
+		SET PARENT_ID=NULL
+		WHERE PARENT_ID IN (SELECT COURSE_PERIOD_ID
+			FROM COURSE_PERIODS
+			WHERE COURSE_ID='" . $course_id . "');";
+
+	$delete_sql .= "DELETE FROM COURSE_PERIODS
+		WHERE COURSE_ID='" . $course_id . "';";
+
+	$delete_sql .= "DELETE FROM SCHEDULE
+		WHERE COURSE_ID='" . $course_id . "';";
+
+	$delete_sql .= "DELETE FROM SCHEDULE_REQUESTS
+		WHERE COURSE_ID='" . $course_id . "';";
+
+	$delete_sql .= "DELETE FROM GRADEBOOK_ASSIGNMENT_TYPES
+		WHERE COURSE_ID='" . $course_id . "';";
+
+	$delete_sql .= "DELETE FROM COURSES
+		WHERE COURSE_ID='" . $course_id . "';";
+
+	return $delete_sql;
+}

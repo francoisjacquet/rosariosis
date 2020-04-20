@@ -646,21 +646,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 	{
 		$table = _( 'Course Period' );
 
-		$delete_sql[] = "UPDATE COURSE_PERIODS
-			SET PARENT_ID=NULL
-			WHERE PARENT_ID='" . $_REQUEST['course_period_id'] . "'";
-
-		$delete_sql[] = "DELETE FROM SCHEDULE
-			WHERE COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'";
-
-		$delete_sql[] = "DELETE FROM GRADEBOOK_ASSIGNMENTS
-			WHERE COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'";
-
-		$delete_sql[] = "DELETE FROM COURSE_PERIOD_SCHOOL_PERIODS
-			WHERE COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'";
-
-		$delete_sql[] = "DELETE FROM COURSE_PERIODS
-			WHERE COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'";
+		$delete_sql = CoursePeriodDeleteSQL( $_REQUEST['course_period_id'] );
 
 		$unset_get = 'course_period_id';
 	}
@@ -668,23 +654,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 	{
 		$table = _( 'Course' );
 
-		$delete_sql[] = "DELETE FROM COURSES
-			WHERE COURSE_ID='" . $_REQUEST['course_id'] . "'";
-
-		$delete_sql[] = "UPDATE COURSE_PERIODS
-			SET PARENT_ID=NULL
-			WHERE PARENT_ID IN (SELECT COURSE_PERIOD_ID
-				FROM COURSE_PERIODS
-				WHERE COURSE_ID='" . $_REQUEST['course_id'] . "')";
-
-		$delete_sql[] = "DELETE FROM COURSE_PERIODS
-			WHERE COURSE_ID='" . $_REQUEST['course_id'] . "'";
-
-		$delete_sql[] = "DELETE FROM SCHEDULE
-			WHERE COURSE_ID='" . $_REQUEST['course_id'] . "'";
-
-		$delete_sql[] = "DELETE FROM SCHEDULE_REQUESTS
-			WHERE COURSE_ID='" . $_REQUEST['course_id'] . "'";
+		$delete_sql = CourseDeleteSQL( $_REQUEST['course_id'] );
 
 		$unset_get = 'course_id';
 	}
@@ -692,17 +662,15 @@ if ( $_REQUEST['modfunc'] === 'delete'
 	{
 		$table = _( 'Subject' );
 
-		$delete_sql[] = "DELETE FROM COURSE_SUBJECTS
-			WHERE SUBJECT_ID='" . $_REQUEST['subject_id'] . "'";
+		$delete_sql = "DELETE FROM COURSE_SUBJECTS
+			WHERE SUBJECT_ID='" . $_REQUEST['subject_id'] . "';";
 
 		$unset_get = 'subject_id';
 	}
 
 	if ( DeletePrompt( $table ) )
 	{
-		$delete_queries = implode( ';', $delete_sql );
-
-		DBQuery( $delete_queries );
+		DBQuery( $delete_sql );
 
 		if ( $_REQUEST['course_period_id'] )
 		{
@@ -766,14 +734,62 @@ if (  ( ! $_REQUEST['modfunc']
 	{
 		$delete_button = '';
 
-		if ( AllowEdit() )
+		if ( User( 'PROFILE' ) === 'admin'
+			&& AllowEdit() )
 		{
-			$delete_url = "'Modules.php?modname=" . $_REQUEST['modname'] .
-				'&modfunc=delete&subject_id=' . $_REQUEST['subject_id'] .
-				'&course_id=' . $_REQUEST['course_id'] .
-				'&course_period_id=' . $_REQUEST['course_period_id'] . "'";
+			$can_delete = false;
 
-			$delete_button = '<input type="button" value="' . _( 'Delete' ) . '" onClick="javascript:ajaxLink(' . $delete_url . ');" />';
+			if ( $_REQUEST['course_period_id']
+				&& $_REQUEST['course_period_id'] !== 'new' )
+			{
+				$has_student_enrolled = DBGetOne( "SELECT 1
+					FROM SCHEDULE
+					WHERE COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'
+					AND SYEAR='" . UserSyear() . "'
+					AND SCHOOL_ID='" . UserSchool() . "'" );
+
+				if ( ! $has_student_enrolled )
+				{
+					// Can't delete Course Period if has Students enrolled, Eligibility, Attendance, Grades, etc.
+					$can_delete = DBTransDryRun( CoursePeriodDeleteSQL( $_REQUEST['course_period_id'] ) );
+				}
+			}
+			elseif ( $_REQUEST['course_id']
+				&& $_REQUEST['course_id'] !== 'new' )
+			{
+				$has_course_periods = DBGetOne( "SELECT 1
+					FROM COURSE_PERIODS
+					WHERE COURSE_ID='" . $_REQUEST['course_id'] . "'" );
+
+				if ( ! $has_course_periods )
+				{
+					// Can't delete Course if has Course Periods, etc.
+					$can_delete = DBTransDryRun( CourseDeleteSQL( $_REQUEST['course_id'] ) );
+				}
+			}
+			elseif ( $_REQUEST['subject_id']
+				&& $_REQUEST['subject_id'] !== 'new' )
+			{
+				$has_courses = DBGetOne( "SELECT 1
+					FROM COURSES
+					WHERE SUBJECT_ID='" . $_REQUEST['subject_id'] . "'" );
+
+				if ( ! $has_courses )
+				{
+					// Can't delete Subject if has Courses.
+					$can_delete = true;
+				}
+			}
+
+			if ( $can_delete )
+			{
+				$delete_url = "'Modules.php?modname=" . $_REQUEST['modname'] .
+					'&modfunc=delete&subject_id=' . $_REQUEST['subject_id'] .
+					'&course_id=' . $_REQUEST['course_id'] .
+					'&course_period_id=' . $_REQUEST['course_period_id'] . "'";
+
+				$delete_button = '<input type="button" value="' . _( 'Delete' ) . '" onClick="javascript:ajaxLink(' . $delete_url . ');" />';
+			}
 		}
 
 		$header = '';
@@ -812,17 +828,6 @@ if (  ( ! $_REQUEST['modfunc']
 
 				$new = false;
 
-				$has_student_enrolled = DBGetOne( "SELECT 1
-					FROM SCHEDULE
-					WHERE COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'
-					AND SYEAR='" . UserSyear() . "'
-					AND SCHOOL_ID='" . UserSchool() . "'" );
-
-				if ( $has_student_enrolled )
-				{
-					$delete_button = '';
-				}
-
 				// Check for Course Period Teacher conflict.
 				if ( User( 'PROFILE' ) === 'admin'
 					&& CoursePeriodTeacherConflictCheck( $RET['TEACHER_ID'] ) )
@@ -841,8 +846,6 @@ if (  ( ! $_REQUEST['modfunc']
 				$title = $RET[1]['TITLE'] . ' - ' . _( 'New Course Period' );
 
 				$RET = array();
-
-				$delete_button = '';
 
 				$new = true;
 			}
@@ -1263,15 +1266,6 @@ if (  ( ! $_REQUEST['modfunc']
 				$RET = $RET[1];
 
 				$title = $RET['TITLE'];
-
-				$has_course_periods = DBGetOne( "SELECT 1
-					FROM COURSE_PERIODS
-					WHERE COURSE_ID='" . $_REQUEST['course_id'] . "'" );
-
-				if ( $has_course_periods )
-				{
-					$delete_button = '';
-				}
 			}
 			else
 			{
@@ -1282,8 +1276,6 @@ if (  ( ! $_REQUEST['modfunc']
 				$title = $RET[1]['TITLE'] . ' - ' . _( 'New Course' );
 
 				$RET = array();
-
-				$delete_button = '';
 			}
 
 			echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&subject_id=' . $_REQUEST['subject_id'] . '&course_id=' . $_REQUEST['course_id'] . '" method="POST">';
@@ -1343,21 +1335,10 @@ if (  ( ! $_REQUEST['modfunc']
 				$RET = $RET[1];
 
 				$title = $RET['TITLE'];
-
-				$has_courses = DBGetOne( "SELECT 1
-					FROM COURSES
-					WHERE SUBJECT_ID='" . $_REQUEST['subject_id'] . "'" );
-
-				if ( $has_courses )
-				{
-					$delete_button = '';
-				}
 			}
 			else
 			{
 				$title = _( 'New Subject' );
-
-				$delete_button = '';
 			}
 
 			echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&subject_id=' . $_REQUEST['subject_id'] . '" method="POST">';

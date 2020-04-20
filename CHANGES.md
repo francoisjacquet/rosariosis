@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 6.1
+--------------
+- Add CoursePeriodDeleteSQL() & CourseDeleteSQL() functions in Courses.fnc.php
+
 Changes in 6.0
 --------------
 - HTML Sort Order, Length & Display Column: use "number" input type, program wide
