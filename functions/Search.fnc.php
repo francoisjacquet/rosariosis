@@ -157,12 +157,12 @@ function Search( $type, $extra = null )
 				|| ! empty( $extra ) && is_array( $extra ) )
 			{
 				echo '<tr><td>' . _( 'Grade Levels' ) . '</td>
-				<td><label class="nobr"><input type="checkbox" name="grades_not" value="Y" />&nbsp;' .
+				<td>&nbsp;<label class="nobr"><input type="checkbox" name="grades_not" value="Y" />&nbsp;' .
 					_( 'Not' ) . '</label> &nbsp;
 				<label class="nobr"><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.checked,\'grades\');">&nbsp;' .
 					_( 'Check All' ) . '</label>
 				</td></tr>
-				<tr><td></td><td>';
+				<tr><td></td><td><table class="cellpadding-5"><tr>';
 
 				$i = 0;
 
@@ -172,19 +172,19 @@ function Search( $type, $extra = null )
 
 					$checked = ! empty( $extra[ $id ] ) || $extra == $id ? ' checked' : '';
 
-					echo '<label class="nobr">
+					echo '<td><label class="nobr">
 					<input type="checkbox" name="grades[' . $id . ']" value="Y"' . $checked . ' />&nbsp;' .
-						$grade_level['SHORT_NAME'] . '</label> &nbsp;';
+						$grade_level['SHORT_NAME'] . '</label></td>';
 
 					$i++;
 
 					if ( $i%4 === 0 )
 					{
-						echo '<br /><br />';
+						echo '</tr><tr>';
 					}
 				}
 
-				echo '</td></tr>';
+				echo '</tr></table></td></tr>';
 			}
 			else
 			{

@@ -6,6 +6,7 @@ Changes in 6.1
 - Add CoursePeriodDeleteSQL() & CourseDeleteSQL() functions in Courses.fnc.php
 - Add SendNotificationNewStudentAccount() & SendNotificationNewUserAccount() functions in SendNotifications.fnc.php
 - Translate "Student Account" to French & Spanish in rosariosis.po
+- HTML use table + padding for Advanced Search Grade Levels display in Search.fnc.php
 
 Changes in 6.0
 --------------
