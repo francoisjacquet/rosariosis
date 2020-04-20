@@ -8,6 +8,7 @@ Changes in 6.1
 - Translate "Student Account" to French & Spanish in rosariosis.po
 - HTML use table + padding for Advanced Search Grade Levels display in Search.fnc.php
 - `_makeMultipleInput()` Return HTML instead of echo in StudentsUsersInfo.fnc.php
+- Homogenize save for Select Multiple from Options field type format in Student.php, User.php & Schools.php
 
 Changes in 6.0
 --------------

@@ -52,44 +52,23 @@ if ( $_REQUEST['modfunc'] === 'update' )
 
 				foreach ( (array) $_REQUEST['values'] as $column => $value )
 				{
-					if ( ! is_array( $value ) )
+					if ( ! empty( $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] )
+						&& $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] == 'numeric'
+						&& $value != ''
+						&& ! is_numeric( $value ) )
 					{
-						//FJ check numeric fields
-						if ( ! empty( $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] )
-							&& $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] == 'numeric'
-							&& $value != ''
-							&& ! is_numeric( $value ) )
-						{
-							$error[] = _( 'Please enter valid Numeric data.' );
-							continue;
-						}
-
-						$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
-						$go = true;
+						$error[] = _( 'Please enter valid Numeric data.' );
+						continue;
 					}
-					else
+
+					if ( is_array( $value ) )
 					{
-						// Select multiple from options.
-						// FJ fix bug none selected not saved.
-						$sql_multiple_input = '';
-
-						foreach ( (array) $value as $val )
-						{
-							if ( $val )
-							{
-								$sql_multiple_input .= $val . '||';
-							}
-						}
-
-						if ( $sql_multiple_input )
-						{
-							$sql_multiple_input = "||" . $sql_multiple_input;
-						}
-
-						$sql .= DBEscapeIdentifier( $column ) . "='" . $sql_multiple_input . "',";
-
-						$go = true;
+						// Select Multiple from Options field type format.
+						$value = implode( '||', $value ) ? '||' . implode( '||', $value ) : '';
 					}
+
+					$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
+					$go = true;
 				}
 
 				$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "'";

@@ -257,45 +257,23 @@ if ( $_REQUEST['modfunc'] === 'update'
 						continue;
 					}
 
-					if ( ! is_array( $value ) )
+					if ( is_array( $value ) )
 					{
-						//FJ add password encryption
-
-						if ( $column !== 'PASSWORD' )
-						{
-							$sql .= $column . "='" . str_replace( '&#39;', "''", $value ) . "',";
-							$go = true;
-						}
-
-						if ( $column == 'PASSWORD' && ! empty( $value ) && $value !== str_repeat( '*', 8 ) )
-						{
-							$value = str_replace( "''", "'", $value );
-							$sql .= $column . "='" . encrypt_password( $value ) . "',";
-							$go = true;
-						}
+						// Select Multiple from Options field type format.
+						$value = implode( '||', $value ) ? '||' . implode( '||', $value ) : '';
 					}
-					else
+					elseif ( $column == 'PASSWORD' )
 					{
-						// FJ fix bug none selected not saved.
-						$sql_multiple_input = '';
-
-						foreach ( (array) $value as $val )
+						if ( empty( $value ) )
 						{
-							if ( $val )
-							{
-								$sql_multiple_input .= $val . '||';
-							}
+							continue;
 						}
 
-						if ( $sql_multiple_input )
-						{
-							$sql_multiple_input = "||" . $sql_multiple_input;
-						}
-
-						$sql .= $column . "='" . $sql_multiple_input . "',";
-
-						$go = true;
+						$value = encrypt_password( str_replace( "''", "'", $value ) );
 					}
+
+					$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
+					$go = true;
 				}
 
 				$sql = mb_substr( $sql, 0, -1 ) . " WHERE STUDENT_ID='" . UserStudentID() . "'";
@@ -356,49 +334,30 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 				foreach ( (array) $_REQUEST['students'] as $column => $value )
 				{
+					if ( isset( $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] )
+						&& $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] == 'numeric'
+						&& $value != ''
+						&& ! is_numeric( $value ) )
+					{
+						$error[] = _( 'Please enter valid Numeric data.' );
+						continue;
+					}
+
+					if ( is_array( $value ) )
+					{
+						// Select Multiple from Options field type format.
+						$value = implode( '||', $value ) ? '||' . implode( '||', $value ) : '';
+					}
+					elseif ( $column == 'PASSWORD' )
+					{
+						$value = encrypt_password( str_replace( "''", "'", $value ) );
+					}
+
 					if ( ! empty( $value ) || $value == '0' )
 					{
-						//FJ check numeric fields
-
-						if ( isset( $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] )
-							&& $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] == 'numeric'
-							&& $value != ''
-							&& ! is_numeric( $value ) )
-						{
-							$error[] = _( 'Please enter valid Numeric data.' );
-							continue;
-						}
-
 						$fields .= DBEscapeIdentifier( $column ) . ',';
 
-						if ( ! is_array( $value ) )
-						{
-							//FJ add password encryption
-
-							if ( $column !== 'PASSWORD' )
-							{
-								$values .= "'" . $value . "',";
-							}
-							else
-							{
-								$value = str_replace( "''", "'", $value );
-								$values .= "'" . encrypt_password( $value ) . "',";
-							}
-						}
-						else
-						{
-							$values .= "'||";
-
-							foreach ( (array) $value as $val )
-							{
-								if ( $val )
-								{
-									$values .= $val . '||';
-								}
-							}
-
-							$values .= "',";
-						}
+						$values .= "'" . $value . "',";
 					}
 				}
 

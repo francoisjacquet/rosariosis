@@ -298,57 +298,34 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 				$go = false;
 
-				foreach ( (array) $_REQUEST['staff'] as $column_name => $value )
+				foreach ( (array) $_REQUEST['staff'] as $column => $value )
 				{
-					if ( ! is_array( $value ) )
+					if ( isset( $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] )
+						&& $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] == 'numeric'
+						&& $value != ''
+						&& ! is_numeric( $value ) )
 					{
-						if ( isset( $fields_RET[str_replace( 'CUSTOM_', '', $column_name )][1]['TYPE'] )
-							&& $fields_RET[str_replace( 'CUSTOM_', '', $column_name )][1]['TYPE'] == 'numeric'
-							&& $value != ''
-							&& ! is_numeric( $value ) )
+						$error[] = _( 'Please enter valid Numeric data.' );
+						continue;
+					}
+
+					if ( is_array( $value ) )
+					{
+						// Select Multiple from Options field type format.
+						$value = implode( '||', $value ) ? '||' . implode( '||', $value ) : '';
+					}
+					elseif ( $column == 'PASSWORD' )
+					{
+						if ( empty( $value ) )
 						{
-							$error[] = _( 'Please enter valid Numeric data.' );
 							continue;
 						}
 
-						//FJ add password encryption
-
-						if ( $column_name !== 'PASSWORD' )
-						{
-							$sql .= "$column_name='" . $value . "',";
-							$go = true;
-						}
-
-						if ( $column_name == 'PASSWORD' && ! empty( $value ) && $value !== str_repeat( '*', 8 ) )
-						{
-							$value = str_replace( "''", "'", $value );
-							$sql .= "$column_name='" . encrypt_password( $value ) . "',";
-							$go = true;
-						}
+						$value = encrypt_password( str_replace( "''", "'", $value ) );
 					}
-					else
-					{
-						// Select multiple from options.
-						// FJ fix bug none selected not saved.
-						$sql_multiple_input = '';
 
-						foreach ( (array) $value as $val )
-						{
-							if ( $val )
-							{
-								$sql_multiple_input .= $val . '||';
-							}
-						}
-
-						if ( $sql_multiple_input )
-						{
-							$sql_multiple_input = "||" . $sql_multiple_input;
-						}
-
-						$sql .= $column_name . "='" . $sql_multiple_input . "',";
-
-						$go = true;
-					}
+					$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
+					$go = true;
 				}
 
 				$sql = mb_substr( $sql, 0, -1 ) . " WHERE STAFF_ID='" . UserStaffID() . "'";
@@ -400,49 +377,30 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 				foreach ( (array) $_REQUEST['staff'] as $column => $value )
 				{
+					if ( isset( $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] )
+						&& $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] == 'numeric'
+						&& $value != ''
+						&& ! is_numeric( $value ) )
+					{
+						$error[] = _( 'Please enter valid Numeric data.' );
+						break;
+					}
+
+					if ( is_array( $value ) )
+					{
+						// Select Multiple from Options field type format.
+						$value = implode( '||', $value ) ? '||' . implode( '||', $value ) : '';
+					}
+					elseif ( $column == 'PASSWORD' )
+					{
+						$value = encrypt_password( str_replace( "''", "'", $value ) );
+					}
+
 					if ( ! empty( $value ) || $value == '0' )
 					{
-						//FJ check numeric fields
-
-						if ( isset( $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] )
-							&& $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] == 'numeric'
-							&& $value != ''
-							&& ! is_numeric( $value ) )
-						{
-							$error[] = _( 'Please enter valid Numeric data.' );
-							break;
-						}
-
 						$fields .= DBEscapeIdentifier( $column ) . ',';
 
-						if ( ! is_array( $value ) )
-						{
-							//FJ add password encryption
-
-							if ( $column !== 'PASSWORD' )
-							{
-								$values .= "'" . $value . "',";
-							}
-							else
-							{
-								$value = str_replace( "''", "'", $value );
-								$values .= "'" . encrypt_password( $value ) . "',";
-							}
-						}
-						else
-						{
-							$values .= "'||";
-
-							foreach ( (array) $value as $val )
-							{
-								if ( $val )
-								{
-									$values .= $val . '||';
-								}
-							}
-
-							$values .= "',";
-						}
+						$values .= "'" . $value . "',";
 					}
 				}
 
