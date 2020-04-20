@@ -513,6 +513,8 @@ function _makeFilesInput( $column, $name, $request, $remove_url = '' )
 /**
  * Make Multiple Input
  *
+ * @since 6.1 Return HTML instead of echo.
+ *
  * @global array  $value
  * @global array  $field
  *
@@ -527,90 +529,82 @@ function _makeMultipleInput( $column, $name, $request )
 	global $value,
 		$field;
 
-	if ( AllowEdit()
-		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	if ( ! AllowEdit()
+		|| isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
-		$select_options = array();
-
-		if ( $field['SELECT_OPTIONS'] )
-		{
-			$select_options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $field['SELECT_OPTIONS'] ) );
-		}
-
-		foreach ( (array) $select_options as $option )
-		{
-			$options[ $option ] = $option;
-		}
-
-		$table = '<table class="cellpadding-5">';
-
-		if ( count( $options ) > 12 )
-		{
-			$table .= '<tr><td colspan="2">';
-			$table .= '<span class="legend-gray">' . $name . '</span>';
-			$table .= '<table class="width-100p" style="height: 7px; border:1;border-style: solid solid none solid;"><tr><td></td></tr></table>';
-			$table .= '</td></tr>';
-		}
-
-		$table .= '<tr>';
-
-		$i = 0;
-
-		foreach ( (array) $options as $option )
-		{
-			if ( $i % 2 === 0 )
-			{
-				$table .= '</tr><tr>';
-			}
-
-			// FJ add <label> on checkbox.
-			$table .= '<td><label>
-				<input type="checkbox" name="' . $request . '[' . $column . '][]" value="' .
-					htmlspecialchars( $option, ENT_QUOTES ) . '"' .
-					( ! empty( $value[ $column ] )
-						&& mb_strpos( $value[ $column ], '||' . $option . '||' ) !== false ? ' checked' : '' ) . ' /> ' .
-					$option .
-			'</label></td>';
-
-			$i++;
-		}
-
-		$table .= '</tr><tr><td colspan="2">';
-
-		// FJ fix bug none selected not saved.
-		$table .= '<input type="hidden" name="' . $request . '[' . $column . '][none]" value="" />';
-
-		$table .= '<table class="width-100p" style="height:7px; border:1; border-style:none solid solid solid;"><tr><td></td></tr></table>';
-
-		$table .= '</td></tr></table>';
-
-		if ( ! empty( $value[ $column ] ) )
-		{
-			$id = GetInputID( $request . $column );
-
-			echo '<script>var html' . $id . '=' . json_encode( $table ) . ';</script>';
-
-			echo '<div id="div' . $id . '">
-				<div class="onclick" onclick=\'javascript:addHTML(html' . $id .
-				',"div' . $id . '",true);\' >';
-
-			echo '<span class="underline-dots">' .
-				str_replace( '||', ', ', mb_substr( $value[ $column ], 2, -2 ) ) . '</span>';
-
-			echo '</div></div>';
-		}
-		else
-			echo $table;
-	}
-	else
-	{
-		echo ( ! empty( $value[ $column ] ) ?
+		return ( ! empty( $value[ $column ] ) ?
 			str_replace( '||', ', ', mb_substr( $value[ $column ], 2, -2 ) ) :
 			'-' ) .
-		'<br />';
+			FormatInputTitle( $name );
 	}
 
-	echo '<span class="legend-gray">' . $name . '</span>';
+	$select_options = array();
+
+	if ( $field['SELECT_OPTIONS'] )
+	{
+		$select_options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $field['SELECT_OPTIONS'] ) );
+	}
+
+	foreach ( (array) $select_options as $option )
+	{
+		$options[ $option ] = $option;
+	}
+
+	$table = '<table class="cellpadding-5">';
+
+	if ( count( $options ) > 12 )
+	{
+		$table .= '<tr><td colspan="2">';
+		$table .= FormatInputTitle( $name, '', false, '' );
+		$table .= '<table class="width-100p" style="height: 7px; border:1;border-style: solid solid none solid;"><tr><td></td></tr></table>';
+		$table .= '</td></tr>';
+	}
+
+	$table .= '<tr>';
+
+	$i = 0;
+
+	foreach ( (array) $options as $option )
+	{
+		if ( $i % 2 === 0 )
+		{
+			$table .= '</tr><tr>';
+		}
+
+		// FJ add <label> on checkbox.
+		$table .= '<td><label>
+			<input type="checkbox" name="' . $request . '[' . $column . '][]" value="' .
+				htmlspecialchars( $option, ENT_QUOTES ) . '"' .
+				( ! empty( $value[ $column ] )
+					&& mb_strpos( $value[ $column ], '||' . $option . '||' ) !== false ? ' checked' : '' ) . ' /> ' .
+				$option .
+		'</label></td>';
+
+		$i++;
+	}
+
+	$table .= '</tr><tr><td colspan="2">';
+
+	// FJ fix bug none selected not saved.
+	$table .= '<input type="hidden" name="' . $request . '[' . $column . '][none]" value="" />';
+
+	$table .= '<table class="width-100p" style="height:7px; border:1; border-style:none solid solid solid;"><tr><td></td></tr></table>';
+
+	$table .= '</td></tr></table>';
+
+	$table .= FormatInputTitle( $name, '', false, '' );
+
+	if ( empty( $value[ $column ] ) )
+	{
+		return $table;
+	}
+
+	return InputDivOnclick(
+		GetInputID( $request . $column ),
+		$table,
+		str_replace( '||', ', ', mb_substr( $value[ $column ], 2, -2 ) ),
+		FormatInputTitle( $name )
+	);
 }
 
 
