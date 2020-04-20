@@ -278,6 +278,141 @@ function SendNotificationActivateUserAccount( $staff_id, $to = '' )
 }
 
 /**
+ * Send New Student Account notification
+ * Do not send notification if password not set.
+ * Send notification even if RosarioSIS installed on localhost (Windows typically)
+ * because action should originate in user choice (checkbox checked).
+ *
+ * @since 6.1
+ *
+ * @uses _rosarioLoginURL() function
+ *
+ * @param int    $student_id Student ID.
+ * @param string $to         To email address. Defaults to student email (see Config( 'STUDENTS_EMAIL_FIELD' )).
+ * @param string $password   Plain password.
+ *
+ * @return bool  False if email not sent, else true.
+ */
+function SendNotificationNewStudentAccount( $student_id, $to = '', $password = '' )
+{
+	require_once 'ProgramFunctions/SendEmail.fnc.php';
+
+	if ( empty( $to ) )
+	{
+		if ( ! Config( 'STUDENTS_EMAIL_FIELD' ) )
+		{
+			return false;
+		}
+
+		$student_email_field = Config( 'STUDENTS_EMAIL_FIELD' ) === 'USERNAME' ?
+			'USERNAME' : 'CUSTOM_' . Config( 'STUDENTS_EMAIL_FIELD' );
+
+		$to = DBGetOne( "SELECT " . $student_email_field . " FROM STUDENTS
+			WHERE STUDENT_ID='" . $student_id . "'" );
+	}
+
+	if ( ! $student_id
+		|| ! filter_var( $to, FILTER_VALIDATE_EMAIL ) )
+	{
+		return false;
+	}
+
+	$is_password_set = DBGetOne( "SELECT 1 FROM STUDENTS
+		WHERE STUDENT_ID='" . $student_id . "'
+		AND PASSWORD IS NOT NULL" );
+
+	if ( ! $is_password_set )
+	{
+		return false;
+	}
+
+	$rosario_url = _rosarioLoginURL();
+
+	$message = _( 'Your account was activated (%d). You can login at %s' );
+
+	$student_username = DBGetOne( "SELECT USERNAME
+		FROM STUDENTS
+		WHERE STUDENT_ID='" . $student_id . "'" );
+
+	$message .= "\n\n" . _( 'Username' ) . ': ' . $student_username;
+
+	if ( $password )
+	{
+		$message .= "\n" . _( 'Password' ) . ': ' . $password;
+	}
+
+	$message = sprintf( $message, $student_id, $rosario_url );
+
+	return SendEmail( $to, _( 'Student Account' ), $message );
+}
+
+/**
+ * Send New User Account notification
+ * Do not send notification if password not set or "No Access" profile.
+ * Send notification even if RosarioSIS installed on localhost (Windows typically)
+ * because action should originate in user choice (checkbox checked).
+ *
+ * @since 6.1
+ *
+ * @uses _rosarioLoginURL() function
+ *
+ * @param int    $staff_id User ID.
+ * @param string $to       To email address. Defaults to user email.
+ * @param string $password Plain password.
+ *
+ * @return bool  False if email not sent, else true.
+ */
+function SendNotificationNewUserAccount( $staff_id, $to = '', $password = '' )
+{
+	require_once 'ProgramFunctions/SendEmail.fnc.php';
+
+	if ( empty( $to ) )
+	{
+		$to = DBGetOne( "SELECT EMAIL FROM STAFF
+			WHERE STAFF_ID='" . $staff_id . "'" );
+	}
+
+	if ( ! $staff_id
+		|| ! filter_var( $to, FILTER_VALIDATE_EMAIL ) )
+	{
+		return false;
+	}
+
+	$is_no_access_profile = DBGetOne( "SELECT 1 FROM STAFF
+		WHERE STAFF_ID='" . $staff_id . "'
+		AND PROFILE='none'" );
+
+	$is_password_set = DBGetOne( "SELECT 1 FROM STAFF
+		WHERE STAFF_ID='" . $staff_id . "'
+		AND PASSWORD IS NOT NULL" );
+
+	if ( $is_no_access_profile
+		|| ! $is_password_set )
+	{
+		return false;
+	}
+
+	$rosario_url = _rosarioLoginURL();
+
+	$message = _( 'Your account was activated (%d). You can login at %s' );
+
+	$staff_username = DBGetOne( "SELECT USERNAME
+		FROM STAFF
+		WHERE STAFF_ID='" . $staff_id . "'" );
+
+	$message .= "\n\n" . _( 'Username' ) . ': ' . $staff_username;
+
+	if ( $password )
+	{
+		$message .= "\n" . _( 'Password' ) . ': ' . $password;
+	}
+
+	$message = sprintf( $message, $staff_id, $rosario_url );
+
+	return SendEmail( $to, _( 'User Account' ), $message );
+}
+
+/**
  * RosarioSIS login page URL
  * Removes part beginning with 'Modules.php' or 'index.php' from URI.
  *
