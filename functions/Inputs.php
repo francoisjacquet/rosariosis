@@ -175,7 +175,7 @@ function PasswordInput( $value, $name, $title = '', $extra = '', $div = true )
 	if ( $value == ''
 		&& mb_strpos( $extra, 'size=' ) === false )
 	{
-		$extra .= ' size="20"';
+		$extra .= ' size="17"';
 	}
 	elseif ( mb_strpos( $extra, 'size=' ) === false )
 	{
@@ -220,7 +220,7 @@ function PasswordInput( $value, $name, $title = '', $extra = '', $div = true )
 	$password_strength_js = ob_get_clean();
 
 	$input .= $lock_icons . $password_strength_bars .
-		FormatInputTitle(	$title,	$id, $required ) . $password_strength_js;
+		FormatInputTitle( $title, $id, $required ) . $password_strength_js;
 
 	$input = '<div class="password-input-wrapper">' . $input . '</div>';
 
