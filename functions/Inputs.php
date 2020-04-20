@@ -732,6 +732,7 @@ function CheckboxInput( $value, $name, $title = '', $checked = '', $new = false,
  *
  * @since 4.2
  * @since 4.5 Allow associative $options array.
+ * @since 6.1 Allow numeric key (ID) in associative $options array.
  *
  * @example MultipleCheckboxInput( $value, 'values[' . $id . '][' . $name . '][]' );
  *
@@ -769,6 +770,8 @@ function MultipleCheckboxInput( $value, $name, $title, $options, $extra = '', $d
 
 	$i = 0;
 
+	$associative_array = $options !== array_values( $options );
+
 	foreach ( (array) $options as $option_value => $option )
 	{
 		if ( $i++ % 3 == 0 )
@@ -776,7 +779,7 @@ function MultipleCheckboxInput( $value, $name, $title, $options, $extra = '', $d
 			$multiple_html .= '</tr><tr class="st">';
 		}
 
-		if ( is_int( $option_value ) )
+		if ( ! $associative_array )
 		{
 			// Not an associative array, use Text as value.
 			$option_value = $option;
@@ -785,7 +788,7 @@ function MultipleCheckboxInput( $value, $name, $title, $options, $extra = '', $d
 		$multiple_html .= '<td><label>
 			<input type="checkbox" name="' . $name . '"
 				value="' . htmlspecialchars( $option_value, ENT_QUOTES ) . '" ' . $extra . ' ' .
-				( $option != '' && mb_strpos( $value, $option_value ) !== false ? ' checked' : '' ) . ' />&nbsp;' .
+				( $option != '' && mb_strpos( $value, '||' . $option_value . '||' ) !== false ? ' checked' : '' ) . ' />&nbsp;' .
 			( $option != '' ? $option : '-' ) .
 		'</label></td>';
 	}

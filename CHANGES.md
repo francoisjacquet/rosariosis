@@ -9,6 +9,7 @@ Changes in 6.1
 - HTML use table + padding for Advanced Search Grade Levels display in Search.fnc.php
 - `_makeMultipleInput()` Return HTML instead of echo in StudentsUsersInfo.fnc.php
 - Homogenize save for Select Multiple from Options field type format in Student.php, User.php & Schools.php
+- MultipleCheckboxInput() Allow numeric key (ID) in associative $options array in Inputs.php
 
 Changes in 6.0
 --------------
