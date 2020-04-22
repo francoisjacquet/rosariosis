@@ -43,6 +43,10 @@ Changes in 6.0
 - Update PHPMailer to version 5.2.28 in classes/PHPMailer/
 - Add $request_index_3 param to MakeFieldType() in Fields.fnc.php
 
+Changes in 5.9.6
+----------------
+- Fix SQL error missing FROM-clause entry for table ADDRESS in GetStuList.fnc.php
+
 Changes in 5.9.5
 ----------------
 - JS Fix error in Multiple Input id in StudentsUsersInfo.fnc.php

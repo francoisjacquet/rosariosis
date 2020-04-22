@@ -238,8 +238,8 @@ function GetStuList( &$extra = array() )
 				$extra2['SELECT_ONLY'] = 'ssm.STUDENT_ID,p.PERSON_ID,p.FIRST_NAME,p.LAST_NAME,p.MIDDLE_NAME,
 					sjp.STUDENT_RELATION,sjp.EMERGENCY,sjp.CUSTODY,pjc.TITLE,pjc.VALUE,a.PHONE,sjp.ADDRESS_ID ';
 
-				if ( $extra2['FROM']
-					&& stripos( $extra2['FROM'], 'ADDRESS a' ) === false )
+				if ( empty( $extra2['FROM'] )
+					|| stripos( $extra2['FROM'], 'ADDRESS a' ) === false )
 				{
 					// Fix SQL error table ADDRESS specified more than once.
 					$extra2['FROM'] .= ',ADDRESS a';
