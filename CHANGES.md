@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 5.9.6
+----------------
+- Fix SQL error missing FROM-clause entry for table ADDRESS in GetStuList.fnc.php
+
 Changes in 5.9.5
 ----------------
 - JS Fix error in Multiple Input id in StudentsUsersInfo.fnc.php
