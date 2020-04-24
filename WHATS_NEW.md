@@ -2,6 +2,19 @@
 
 ## RosarioSIS Student Information System
 
+New in 6.1
+----------
+
+[Students Import](https://www.rosariosis.org/modules/students-import/) module:
+- Send email notification to Students.
+- Premium: Create Student in Moodle.
+
+[Staff and Parents Import](https://www.rosariosis.org/modules/staff-parents-import/) module:
+- Send email notification to Users.
+
+[TinyMCE Record Audio Video](https://www.rosariosis.org/plugins/tinymce-record-audio-video/) plugin
+
+
 New in 6.0
 ----------
 
