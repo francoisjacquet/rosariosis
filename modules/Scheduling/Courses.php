@@ -739,32 +739,36 @@ if (  ( ! $_REQUEST['modfunc']
 		{
 			$can_delete = false;
 
-			if ( $_REQUEST['course_period_id']
-				&& $_REQUEST['course_period_id'] !== 'new' )
+			if ( $_REQUEST['course_period_id'] )
 			{
-				$has_student_enrolled = DBGetOne( "SELECT 1
-					FROM SCHEDULE
-					WHERE COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'
-					AND SYEAR='" . UserSyear() . "'
-					AND SCHOOL_ID='" . UserSchool() . "'" );
-
-				if ( ! $has_student_enrolled )
+				if ( $_REQUEST['course_period_id'] !== 'new' )
 				{
-					// Can't delete Course Period if has Students enrolled, Eligibility, Attendance, Grades, etc.
-					$can_delete = DBTransDryRun( CoursePeriodDeleteSQL( $_REQUEST['course_period_id'] ) );
+					$has_student_enrolled = DBGetOne( "SELECT 1
+						FROM SCHEDULE
+						WHERE COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'
+						AND SYEAR='" . UserSyear() . "'
+						AND SCHOOL_ID='" . UserSchool() . "'" );
+
+					if ( ! $has_student_enrolled )
+					{
+						// Can't delete Course Period if has Students enrolled, Eligibility, Attendance, Grades, etc.
+						$can_delete = DBTransDryRun( CoursePeriodDeleteSQL( $_REQUEST['course_period_id'] ) );
+					}
 				}
 			}
-			elseif ( $_REQUEST['course_id']
-				&& $_REQUEST['course_id'] !== 'new' )
+			elseif ( $_REQUEST['course_id'] )
 			{
-				$has_course_periods = DBGetOne( "SELECT 1
-					FROM COURSE_PERIODS
-					WHERE COURSE_ID='" . $_REQUEST['course_id'] . "'" );
-
-				if ( ! $has_course_periods )
+				if ( $_REQUEST['course_id'] !== 'new' )
 				{
-					// Can't delete Course if has Course Periods, etc.
-					$can_delete = DBTransDryRun( CourseDeleteSQL( $_REQUEST['course_id'] ) );
+					$has_course_periods = DBGetOne( "SELECT 1
+						FROM COURSE_PERIODS
+						WHERE COURSE_ID='" . $_REQUEST['course_id'] . "'" );
+
+					if ( ! $has_course_periods )
+					{
+						// Can't delete Course if has Course Periods, etc.
+						$can_delete = DBTransDryRun( CourseDeleteSQL( $_REQUEST['course_id'] ) );
+					}
 				}
 			}
 			elseif ( $_REQUEST['subject_id']
@@ -1362,7 +1366,7 @@ if (  ( ! $_REQUEST['modfunc']
 					( empty( $RET['SORT_ORDER'] ) ? '' : $RET['SORT_ORDER'] ),
 					'tables[COURSE_SUBJECTS][' . $_REQUEST['subject_id'] . '][SORT_ORDER]',
 					_( 'Sort Order' ),
-					'maxlength=3 size=5'
+					' type="number" step="any"'
 				) . '</td>';
 			}
 
