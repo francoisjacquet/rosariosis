@@ -304,10 +304,10 @@ function PortalPollsVotesDisplay( $poll_id, $display_votes, $poll_questions_RET,
 {
 	if ( ! $display_votes )
 	{
-		$note[] = button( 'check', '', '', 'bigger' ) .
+		$note = button( 'check' ) .
 		'&nbsp;' . _( 'Poll completed' );
 
-		return ErrorMessage( $note, 'note' );
+		return $note;
 	}
 
 	$votes_display = '';

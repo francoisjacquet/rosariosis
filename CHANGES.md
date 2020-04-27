@@ -4,6 +4,7 @@
 Changes in 6.2
 --------------
 - CSS Add not allowed cursor for disabled input in stylesheet.css
+- HTML make "Poll completed" note fit inside list in PortalPollsNotes.fnc.php
 
 Changes in 6.1
 --------------
