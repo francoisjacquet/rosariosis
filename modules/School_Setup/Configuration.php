@@ -582,7 +582,7 @@ else
 				Config( 'ATTENDANCE_FULL_DAY_MINUTES' ),
 				'values[CONFIG][ATTENDANCE_FULL_DAY_MINUTES]',
 				_( 'Minutes in a Full School Day' ),
-				'maxlength=3 size=3 min=0'
+				' type="number" min="0" max="999"'
 			) . '</td></tr>';
 
 			echo '<tr><td>' . TextInput(
@@ -592,7 +592,7 @@ else
 				'<div class="tooltip"><i>' .
 				_( 'Leave the field blank to always allow' ) .
 				'</i></div>',
-				'maxlength=2 size=2 min=0'
+				' type="number" min="1" max="99"'
 			) . '</td></tr>';
 
 			echo '<tr><td>' . TextInput(
@@ -602,7 +602,7 @@ else
 				'<div class="tooltip"><i>' .
 				_( 'Leave the field blank to always allow' ) .
 				'</i></div>',
-				'maxlength=2 size=2 min=0'
+				' type="number" min="1" max="99"'
 			) . '</td></tr></table>';
 		}
 
@@ -612,21 +612,21 @@ else
 				ProgramConfig( 'food_service', 'FOOD_SERVICE_BALANCE_WARNING' ),
 				'values[PROGRAM_CONFIG][food_service][FOOD_SERVICE_BALANCE_WARNING]',
 				_( 'Food Service Balance minimum amount for warning' ),
-				'maxlength=10 size=5 required'
+				' type="number" step="any" required'
 			) . '</td></tr>';
 
 			echo '<tr><td>' . TextInput(
 				ProgramConfig( 'food_service', 'FOOD_SERVICE_BALANCE_MINIMUM' ),
 				'values[PROGRAM_CONFIG][food_service][FOOD_SERVICE_BALANCE_MINIMUM]',
 				_( 'Food Service Balance minimum amount' ),
-				'maxlength=10 size=5 required'
+				' type="number" step="any" required'
 			) . '</td></tr>';
 
 			echo '<tr><td>' . TextInput(
 				ProgramConfig( 'food_service', 'FOOD_SERVICE_BALANCE_TARGET' ),
 				'values[PROGRAM_CONFIG][food_service][FOOD_SERVICE_BALANCE_TARGET]',
 				_( 'Food Service Balance target amount' ),
-				'maxlength=10 size=5 required'
+				' type="number" step="any" required'
 			) . '</td></tr></table>';
 		}
 
