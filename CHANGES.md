@@ -7,6 +7,7 @@ Changes in 6.2
 - HTML make "Poll completed" note fit inside list in PortalPollsNotes.fnc.php
 - SQL Handle case when multiple users have same email: order by Failed Login in PasswordReset.php
 - HTML Seats, Credit Hours & Credits: use "number" input type in Courses.php & Courses.fnc.php
+- HTML use Tab instead of fieldset in Configuration.php
 
 Changes in 6.1
 --------------
