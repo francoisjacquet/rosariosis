@@ -207,7 +207,7 @@ function CoursePeriodOptionInputs( $course_period_RET, $array, $new )
 			(float) $course_period_RET['CREDITS'],
 		$array . '[CREDITS]',
 		_( 'Credits' ),
-		'size=4 maxlength=5',
+		' type="number" step="any"',
 		( ! isset( $course_period_RET['CREDITS'] ) || is_null( $course_period_RET['CREDITS'] ) ? false : true )
 	);
 

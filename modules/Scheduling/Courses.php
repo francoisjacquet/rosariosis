@@ -966,7 +966,7 @@ if (  ( ! $_REQUEST['modfunc']
 				issetVal( $RET['TOTAL_SEATS'], '' ),
 				'tables[COURSE_PERIODS][' . $_REQUEST['course_period_id'] . '][TOTAL_SEATS]',
 				_( 'Seats' ),
-				'size=4 maxlength=4'
+				' type="number" step="1" min="0" max="9999"'
 			) . '</td>';
 
 			$header .= '</tr><tr><td colspan="6"><hr /></td></tr>';
@@ -1308,7 +1308,7 @@ if (  ( ! $_REQUEST['modfunc']
 				( empty( $RET['CREDIT_HOURS'] ) ? '' : $RET['CREDIT_HOURS'] ),
 				'tables[COURSES][' . $_REQUEST['course_id'] . '][CREDIT_HOURS]',
 				_( 'Credit Hours' ),
-				'maxlength=7 size=7'
+				' type="number" step="any" min="0" max="9999"'
 			) . '</td></tr>';
 
 			// Add Description (TinyMCE input) to Course.
