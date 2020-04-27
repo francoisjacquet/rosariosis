@@ -210,6 +210,14 @@ else
 			);
 		}
 
+		/**
+		 * Configuration School Tabs action Hook.
+		 * Plugins or modules can add their own tabs.
+		 *
+		 * @since 6.2
+		 */
+		do_action( 'School_Setup/Configuration.php|school_tabs', array( &$tabs ) );
+
 		$_ROSARIO['selected_tab'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=' . $_REQUEST['tab'];
 
 		PopTable( 'header', $tabs );

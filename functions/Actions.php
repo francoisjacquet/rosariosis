@@ -339,6 +339,13 @@ $RosarioActions = array();
 	 * @since 5.8
 	 */
 	/*'School_Setup/Configuration.php|school_table' => array(),
+
+	/**
+	 * Configuration School Tabs.
+	 *
+	 * @since 6.2
+	 */
+	/*'School_Setup/Configuration.php|school_tabs' => array(),
 );*/
 
 

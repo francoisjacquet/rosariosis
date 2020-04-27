@@ -10,6 +10,7 @@ Changes in 6.2
 - HTML Attendance & Food Service tabs: use "number" input type in Configuration.php
 - HTML use Tab instead of fieldset in Configuration.php
 - Fix Theme live update in Configuration.php & Theme.fnc.php
+- Add Configuration School Tabs action Hook in Configuration.php
 
 Changes in 6.1
 --------------
