@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 6.2
+--------------
+- CSS Add not allowed cursor for disabled input in stylesheet.css
+
 Changes in 6.1
 --------------
 - Add CoursePeriodDeleteSQL() & CourseDeleteSQL() functions in Courses.fnc.php

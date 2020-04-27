@@ -123,6 +123,17 @@ input[type=color] {
 	cursor: pointer;
 }
 
+fieldset[disabled] button,
+button[disabled],
+fieldset[disabled] input,
+input[disabled],
+fieldset[disabled] select,
+select[disabled],
+fieldset[disabled] textarea,
+textarea[disabled] {
+	cursor: not-allowed;
+}
+
 .color-input-value {
 	width: 30px;
 	height: 20px;
@@ -252,11 +263,6 @@ h4 {
 	padding:0
 }
 */
-
-ol {
-	list-style-type: decimal;
-	margin-left: 2em
-}
 
 code {
 	font-family: Consolas, Monaco, monospace;
