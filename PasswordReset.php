@@ -29,10 +29,12 @@ if ( isset( $_POST['email'] )
 	}
 	else
 	{
-		$user_RET = DBGet( "SELECT STAFF_ID AS ID, EMAIL, USERNAME, 'staff' AS USER_TYPE
+		// SQL Handle case when multiple users have same email: order by Failed Login.
+		$user_RET = DBGet( "SELECT STAFF_ID AS ID,EMAIL,USERNAME,'staff' AS USER_TYPE
 			FROM STAFF
 			WHERE LOWER(EMAIL)=LOWER('" . $_REQUEST['email'] . "')
 			AND SYEAR='" . Config( 'SYEAR' ) . "'
+			ORDER BY FAILED_LOGIN IS NULL,FAILED_LOGIN DESC
 			LIMIT 1" );
 
 		if ( ! $user_RET
@@ -54,15 +56,17 @@ if ( isset( $_POST['email'] )
 
 			if ( $custom_field )
 			{
-				$user_RET = DBGet( "SELECT s.STUDENT_ID AS ID, s.USERNAME, 'student' AS USER_TYPE,
+				// SQL Handle case when multiple users have same email: order by Failed Login.
+				$user_RET = DBGet( "SELECT s.STUDENT_ID AS ID,s.USERNAME,'student' AS USER_TYPE,
 					s." . $custom_field . " AS EMAIL
-					FROM STUDENTS s, STUDENT_ENROLLMENT ssm
+					FROM STUDENTS s,STUDENT_ENROLLMENT ssm
 					WHERE LOWER(s." . $custom_field . ")=LOWER('" . $_REQUEST['email'] . "')
 					AND s.STUDENT_ID=ssm.STUDENT_ID
 					AND ssm.SYEAR='" . Config( 'SYEAR' ) . "'
 					AND ('" . DBDate() . "'>=ssm.START_DATE
 					AND (ssm.END_DATE IS NULL
 						OR '" . DBDate() . "'<=ssm.END_DATE ) )
+					ORDER BY s.FAILED_LOGIN IS NULL,s.FAILED_LOGIN DESC
 					LIMIT 1" );
 			}
 		}
