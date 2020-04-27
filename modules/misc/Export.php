@@ -217,7 +217,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
 		if ( ! empty( $_REQUEST['fields'][ 'CUSTOM_' . $id ] ) )
 		{
-			if ( ! $fields_list[ 'CUSTOM_' . $id ] )
+			if ( empty( $fields_list[ 'CUSTOM_' . $id ] ) )
 			{
 				$fields_list[ 'CUSTOM_' . $id ] = $field[1]['TITLE'];
 			}
