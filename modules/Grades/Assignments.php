@@ -598,13 +598,13 @@ if ( ! $_REQUEST['modfunc'] )
 		$header .= '</tr><tr class="st">';
 
 		$header .= '<td>' . TextInput(
-			( empty( $RET['POINTS'] ) ? '' : $RET['POINTS'] ),
+			issetVal( $RET['POINTS'] ),
 			'tables[' . $_REQUEST['assignment_id'] . '][POINTS]',
 			_( 'Points' ) .
 			'<div class="tooltip"><i>' .
 			_( 'Enter 0 so you can give students extra credit' ) .
 			'</i></div>',
-			'required size=4 maxlength=4 min=0'
+			' type="number" min="0" max="9999" required'
 		) . '</td>';
 
 		// FJ default points.

@@ -8,6 +8,7 @@ Changes in 6.2
 - SQL Handle case when multiple users have same email: order by Failed Login in PasswordReset.php
 - HTML Seats, Credit Hours & Credits: use "number" input type in Courses.php & Courses.fnc.php
 - HTML Attendance & Food Service tabs: use "number" input type in Configuration.php
+- HTML Points: use "number" input type in Assignments.php
 - HTML use Tab instead of fieldset in Configuration.php
 - Fix Theme live update in Configuration.php & Theme.fnc.php
 - Add Configuration School Tabs action Hook in Configuration.php
