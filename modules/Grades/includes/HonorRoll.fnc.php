@@ -24,7 +24,7 @@ function HonorRollPDF( $student_array, $is_list, $honor_roll_text )
 		AND MARKING_PERIOD_ID='" . UserMP() . "'" );
 
 	// SELECT s.* Custom Fields for Substitutions.
-	$extra['SELECT'] .= ",s.*";
+	$extra['SELECT'] = ",s.*";
 
 	$extra['SELECT'] .= ",(SELECT SORT_ORDER FROM SCHOOL_GRADELEVELS WHERE ID=ssm.GRADE_ID) AS SORT_ORDER";
 
