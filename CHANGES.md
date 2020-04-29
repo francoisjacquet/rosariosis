@@ -14,6 +14,7 @@ Changes in 6.2
 - Add Configuration School Tabs action Hook in Configuration.php
 - Use issetVal() instead of empty(), program wide
 - HTML Add title to Block input in CalendarDay.inc.php
+- Fix Configuration program name & translate in Help_en.php, help.pot & help.po
 
 Changes in 6.1
 --------------

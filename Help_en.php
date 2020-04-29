@@ -141,7 +141,7 @@ if ( User( 'PROFILE' ) === 'admin' ):
 
 	<p>' . _help( 'The data copied include periods, marking periods, users, courses, student enrollment, report card grade codes, enrollment codes, attendance codes, and eligibility activities.' ) . '</p>';
 
-	$help['School_Setup/Configuration.php'] = '<p>' . _help( '<i>School Configuration</i> offers various groups of configuration options to help you configure:' ) . '</p>
+	$help['School_Setup/Configuration.php'] = '<p>' . _help( '<i>Configuration</i> offers various groups of options to help you configure:' ) . '</p>
 	<ul>
 		<li>RosarioSIS:
 			<ul>
