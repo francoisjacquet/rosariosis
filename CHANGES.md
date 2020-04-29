@@ -13,6 +13,7 @@ Changes in 6.2
 - Fix Theme live update in Configuration.php & Theme.fnc.php
 - Add Configuration School Tabs action Hook in Configuration.php
 - Use issetVal() instead of empty(), program wide
+- HTML Add title to Block input in CalendarDay.inc.php
 
 Changes in 6.1
 --------------

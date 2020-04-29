@@ -248,7 +248,8 @@ function CalendarDayBlockHTMLDefault( $date, $minutes, $day_block )
 			'blocks[' . $date . ']',
 			'<span class="a11y-hidden">' . _( 'Block' ) . '</span>',
 			$block_options,
-			( isset( $_REQUEST['_ROSARIO_PDF'] ) || ! AllowEdit() ? '' : 'N/A' )
+			( isset( $_REQUEST['_ROSARIO_PDF'] ) || ! AllowEdit() ? '' : 'N/A' ),
+			'title="' . _( 'Block' ) . '"'
 		);
 	}
 
