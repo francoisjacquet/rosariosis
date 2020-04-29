@@ -194,7 +194,7 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		if ( ! $item['USAGE_ID'] )
 		{
-			$referrals_RET[$key]['row_color'] = 'CCCCCC';
+			// $referrals_RET[$key]['row_color'] = 'CCCCCC';
 		}
 	}
 
