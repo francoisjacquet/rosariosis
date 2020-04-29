@@ -126,7 +126,7 @@ function MoodleUsersMake( $users )
 			'PROFILE' => MoodleUsersMakeProfile( $user['id'] ),
 			'FIRST_NAME' => MoodleUsersMakeName( $user['firstname'], $user['profileimageurl'] ),
 			'LAST_NAME' => $user['lastname'],
-			'EMAIL_ADDRESS' => ( empty( $user['email'] ) ? '' : $user['email'] ),
+			'EMAIL_ADDRESS' => issetVal( $user['email'] ),
 			'USERNAME' => $user['username'],
 			'ID' => $user['id'],
 		);

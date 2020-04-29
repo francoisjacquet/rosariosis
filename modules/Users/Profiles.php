@@ -390,8 +390,8 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 					&& $file !== 'default'
 					&& $file !== 'title' )
 				{
-					$can_use = ( empty( $exceptions_RET[$file] ) ? '' : $exceptions_RET[$file][1]['CAN_USE'] );
-					$can_edit = ( empty( $exceptions_RET[$file] ) ? '' : $exceptions_RET[$file][1]['CAN_EDIT'] );
+					$can_use = issetVal( $exceptions_RET[$file][1]['CAN_USE'] );
+					$can_edit = issetVal( $exceptions_RET[$file][1]['CAN_EDIT'] );
 
 					echo '<tr><td class="align-right"><input type="checkbox" name="can_use[' .
 					str_replace( '.', '_', $file ) . ']" value="true"' .
@@ -426,8 +426,8 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 							$file = 'Students/Student.php&category_id=' . $category['ID'];
 							$title = '&nbsp;&nbsp;&rsaquo; ' . ParseMLField( $category['TITLE'] );
 
-							$can_use = ( empty( $exceptions_RET[$file] ) ? '' : $exceptions_RET[$file][1]['CAN_USE'] );
-							$can_edit = ( empty( $exceptions_RET[$file] ) ? '' : $exceptions_RET[$file][1]['CAN_EDIT'] );
+							$can_use = issetVal( $exceptions_RET[$file][1]['CAN_USE'] );
+							$can_edit = issetVal( $exceptions_RET[$file][1]['CAN_EDIT'] );
 
 							//echo '<tr><td>&nbsp;</td><td>&nbsp;</td>';
 							echo '<tr><td class="align-right"><input type="checkbox" name="can_use[' .
@@ -469,8 +469,8 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 							$file = 'Users/User.php&category_id=' . $category['ID'];
 							$title = '&nbsp;&nbsp;&rsaquo; ' . ParseMLField( $category['TITLE'] );
 
-							$can_use = ( empty( $exceptions_RET[$file] ) ? '' : $exceptions_RET[$file][1]['CAN_USE'] );
-							$can_edit = ( empty( $exceptions_RET[$file] ) ? '' : $exceptions_RET[$file][1]['CAN_EDIT'] );
+							$can_use = issetVal( $exceptions_RET[$file][1]['CAN_USE'] );
+							$can_edit = issetVal( $exceptions_RET[$file][1]['CAN_EDIT'] );
 
 							echo '<tr><td class="align-right"><input type="checkbox" name="can_use[' .
 							str_replace( '.', '_', $file ) . ']" value="true"' .
@@ -491,8 +491,8 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 								$file = 'Users/User.php&category_id=1&user_profile';
 								$title = ' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&rsaquo; ' . _( 'User Profile' );
 
-								$can_use = ( empty( $exceptions_RET[$file] ) ? '' : $exceptions_RET[$file][1]['CAN_USE'] );
-								$can_edit = ( empty( $exceptions_RET[$file] ) ? '' : $exceptions_RET[$file][1]['CAN_EDIT'] );
+								$can_use = issetVal( $exceptions_RET[$file][1]['CAN_USE'] );
+								$can_edit = issetVal( $exceptions_RET[$file][1]['CAN_EDIT'] );
 
 								echo '<tr><td class="align-right"><input type="checkbox" name="can_use[' .
 								str_replace( '.', '_', $file ) . ']" value="true"' .
@@ -509,8 +509,8 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 								// Admin Schools restriction.
 								$file = 'Users/User.php&category_id=1&schools';
 								$title = ' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&rsaquo; ' . _( 'Schools' );
-								$can_use = ( empty( $exceptions_RET[$file] ) ? '' : $exceptions_RET[$file][1]['CAN_USE'] );
-								$can_edit = ( empty( $exceptions_RET[$file] ) ? '' : $exceptions_RET[$file][1]['CAN_EDIT'] );
+								$can_use = issetVal( $exceptions_RET[$file][1]['CAN_USE'] );
+								$can_edit = issetVal( $exceptions_RET[$file][1]['CAN_EDIT'] );
 
 								echo '<tr><td class="align-right"><input type="checkbox" name="can_use[' .
 								str_replace( '.', '_', $file ) . ']" value="true"' .

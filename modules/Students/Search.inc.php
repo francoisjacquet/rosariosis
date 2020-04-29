@@ -322,8 +322,8 @@ else
 			|| ! empty( $extra['extra_header_right'] ) )
 		{
 			DrawHeader(
-				( empty( $extra['extra_header_left'] ) ? '' : $extra['extra_header_left'] ),
-				( empty( $extra['extra_header_right'] ) ? '' : $extra['extra_header_right'] )
+				issetVal( $extra['extra_header_left'] ),
+				issetVal( $extra['extra_header_right'] )
 			);
 		}
 

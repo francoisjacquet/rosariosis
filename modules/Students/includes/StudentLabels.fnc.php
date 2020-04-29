@@ -173,7 +173,7 @@ if ( ! function_exists( 'GetStudentLabelsExtra' ) )
 
 		$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
 
-		$extra['SELECT'] = empty( $extra['SELECT'] ) ? '' : $extra['SELECT'];
+		$extra['SELECT'] = issetVal( $extra['SELECT'], '' );
 
 		if ( User( 'PROFILE' ) === 'admin' )
 		{

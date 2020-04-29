@@ -8,13 +8,13 @@ require_once 'ProgramFunctions/_makeLetterGrade.fnc.php';
 
 require_once 'modules/Grades/includes/StudentAssignments.fnc.php';
 
-$_REQUEST['include_inactive'] = empty( $_REQUEST['include_inactive'] ) ? '' : $_REQUEST['include_inactive'];
+$_REQUEST['include_inactive'] = issetVal( $_REQUEST['include_inactive'] );
 
-$_REQUEST['include_all'] = empty( $_REQUEST['include_all'] ) ? '' : $_REQUEST['include_all'];
+$_REQUEST['include_all'] = issetVal( $_REQUEST['include_all'] );
 
-$_REQUEST['type_id'] = empty( $_REQUEST['type_id'] ) ? '' : $_REQUEST['type_id'];
+$_REQUEST['type_id'] = issetVal( $_REQUEST['type_id'] );
 
-$_REQUEST['assignment_id'] = empty( $_REQUEST['assignment_id'] ) ? '' : $_REQUEST['assignment_id'];
+$_REQUEST['assignment_id'] = issetVal( $_REQUEST['assignment_id'] );
 
 DrawHeader( _( 'Gradebook' ) . ' - ' . ProgramTitle() . ' - ' . GetMP( UserMP() ) );
 

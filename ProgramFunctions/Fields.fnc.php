@@ -241,9 +241,9 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 		'SCHOOL',
 	);*/
 
-	$id = issetVal( $RET['ID'], '' );
+	$id = issetVal( $RET['ID'] );
 
-	$category_id = empty( $RET['CATEGORY_ID'] ) ? '' : $RET['CATEGORY_ID'];
+	$category_id = issetVal( $RET['CATEGORY_ID'] );
 
 	if ( empty( $table )
 		|| ( empty( $id )
@@ -405,7 +405,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 				|| $id < 200000000 ) // Don't change Email & Phone User Fields category.
 			{
 				$header .= '<td>' . SelectInput(
-					$RET['CATEGORY_ID'] ? $RET['CATEGORY_ID'] : $category_id,
+					$category_id,
 					'tables[' . $id . '][CATEGORY_ID]',
 					_( 'Field Category' ),
 					$categories_options,
@@ -415,7 +415,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 			else
 			{
 				$header .= '<td>' . NoInput(
-					$categories_options[ $RET['CATEGORY_ID'] ],
+					$categories_options[ $category_id ],
 					_( 'Field Category' )
 				) . '</td>';
 			}

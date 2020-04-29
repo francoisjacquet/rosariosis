@@ -12,6 +12,7 @@ Changes in 6.2
 - HTML use Tab instead of fieldset in Configuration.php
 - Fix Theme live update in Configuration.php & Theme.fnc.php
 - Add Configuration School Tabs action Hook in Configuration.php
+- Use issetVal() instead of empty(), program wide
 
 Changes in 6.1
 --------------

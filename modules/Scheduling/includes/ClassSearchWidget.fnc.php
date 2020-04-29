@@ -131,7 +131,7 @@ function _classSearchWidgetFindCourse( $extra )
 
 	Widgets( 'course', $extra );
 
-	echo empty( $extra['search'] ) ? '' : $extra['search'];
+	echo issetVal( $extra['search'] );
 
 	echo '<tr><td colspan="2" class="center">';
 	echo '<br />';

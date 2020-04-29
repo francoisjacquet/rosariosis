@@ -555,7 +555,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 			if ( $remove && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			{
-				$button_title = empty( $link['remove']['title'] ) ? '' : $link['remove']['title'];
+				$button_title = issetVal( $link['remove']['title'] );
 
 				$button_link = empty( $link['remove']['link'] ) ?
 				PreparePHP_SELF( array(), array_keys( $link['remove']['variables'] ) ) :
@@ -573,7 +573,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				) . '</td>';
 			}
 
-			$color = empty( $item['row_color'] ) ? '' : $item['row_color'];
+			$color = issetVal( $item['row_color'] );
 
 			if ( $cols )
 			{

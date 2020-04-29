@@ -106,7 +106,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 
 	// Copy calendar.
 	$message .= SelectInput(
-		empty( $_REQUEST['calendar_id'] ) ? '' : $_REQUEST['calendar_id'],
+		issetVal( $_REQUEST['calendar_id'] ),
 		'copy_id',
 		_( 'Copy Calendar' ),
 		$copy_calendar_options,
@@ -1129,7 +1129,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		echo CalendarDayMinutesHTML( $date, $minutes );
 
-		$block = empty( $calendar_RET[ $date ][1]['BLOCK'] ) ? '' : $calendar_RET[ $date ][1]['BLOCK'];
+		$block = issetVal( $calendar_RET[ $date ][1]['BLOCK'] );
 
 		echo CalendarDayBlockHTML( $date, $minutes, $block );
 

@@ -365,9 +365,9 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 
 	$mp_href = 'Modules.php?modname=' . $_REQUEST['modname'] . '&mp_term=' . $_REQUEST['mp_term'] .
-		'&year_id=' . ( empty( $_REQUEST['year_id'] ) ? '' : $_REQUEST['year_id'] ) .
-		'&semester_id=' . ( empty( $_REQUEST['semester_id'] ) ? '' : $_REQUEST['semester_id'] ) .
-		'&quarter_id=' . ( empty( $_REQUEST['quarter_id'] ) ? '' : $_REQUEST['quarter_id'] ) .
+		'&year_id=' . issetVal( $_REQUEST['year_id'] ) .
+		'&semester_id=' . issetVal( $_REQUEST['semester_id'] ) .
+		'&quarter_id=' . issetVal( $_REQUEST['quarter_id'] ) .
 		'&marking_period_id=' . $_REQUEST['marking_period_id'];
 
 	$delete_button = '';

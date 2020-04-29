@@ -576,7 +576,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		//FJ title & points are required
 		$header .= '<td>' . TextInput(
-			( empty( $RET['TITLE'] ) ? '' : $RET['TITLE'] ),
+			issetVal( $RET['TITLE'] ),
 			'tables[' . $_REQUEST['assignment_id'] . '][TITLE]',
 			_( 'Title' ),
 			'required maxlength=100' . ( empty( $RET['TITLE'] ) ? ' size=20' : '' )
@@ -631,7 +631,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$header .= '</tr><tr class="st">';
 
 		$header .= '<td colspan="2">' . TinyMCEInput(
-			( empty( $RET['DESCRIPTION'] ) ? '' : $RET['DESCRIPTION'] ),
+			issetVal( $RET['DESCRIPTION'] ),
 			'tables[' . $_REQUEST['assignment_id'] . '][DESCRIPTION]',
 			_( 'Description' )
 		) . '</td>';
@@ -651,14 +651,14 @@ if ( ! $_REQUEST['modfunc'] )
 		$header .= '<td>' . DateInput(
 			$new && Preferences( 'DEFAULT_ASSIGNED', 'Gradebook' ) == 'Y' ?
 				DBDate() :
-				( empty( $RET['ASSIGNED_DATE'] ) ? '' : $RET['ASSIGNED_DATE'] ),
+				issetVal( $RET['ASSIGNED_DATE'] ),
 			'tables[' . $_REQUEST['assignment_id'] . '][ASSIGNED_DATE]',
 			_( 'Assigned' ),
 			! $new
 		) . '</td>';
 
 		$header .= '<td>' . CheckboxInput(
-			( empty( $RET['COURSE_ID'] ) ? '' : $RET['COURSE_ID'] ),
+			issetVal( $RET['COURSE_ID'] ),
 			'tables[' . $_REQUEST['assignment_id'] . '][COURSE_ID]',
 			_( 'Apply to all Periods for this Course' ),
 			'',
@@ -670,14 +670,14 @@ if ( ! $_REQUEST['modfunc'] )
 		$header .= '<td>' . DateInput(
 			$new && Preferences( 'DEFAULT_DUE', 'Gradebook' ) == 'Y' ?
 				DBDate() :
-				( empty( $RET['DUE_DATE'] ) ? '' : $RET['DUE_DATE'] ),
+				issetVal( $RET['DUE_DATE'] ),
 			'tables[' . $_REQUEST['assignment_id'] . '][DUE_DATE]',
 			_( 'Due' ),
 			! $new
 		) . '</td>';
 
 		$header .= '<td>' . CheckboxInput(
-			( empty( $RET['SUBMISSION'] ) ? '' : $RET['SUBMISSION'] ),
+			issetVal( $RET['SUBMISSION'] ),
 			'tables[' . $_REQUEST['assignment_id'] . '][SUBMISSION]',
 			_( 'Enable Assignment Submission' ),
 			'',
@@ -723,9 +723,8 @@ if ( ! $_REQUEST['modfunc'] )
 		$header .= '<table class="width-100p valign-top fixed-col">';
 		$header .= '<tr class="st">';
 
-		//FJ title is required
 		$header .= '<td>' . TextInput(
-			( empty( $RET['TITLE'] ) ? '' : $RET['TITLE'] ),
+			issetVal( $RET['TITLE'] ),
 			'tables[' . $_REQUEST['assignment_type_id'] . '][TITLE]',
 			_( 'Title' ),
 			'required maxlength=100' . ( empty( $RET['TITLE'] ) ? ' size=20' : '' )
@@ -734,7 +733,7 @@ if ( ! $_REQUEST['modfunc'] )
 		if ( Preferences( 'WEIGHT', 'Gradebook' ) == 'Y' )
 		{
 			$header .= '<td>' . TextInput(
-				( empty( $RET['FINAL_GRADE_PERCENT'] ) ? '' : $RET['FINAL_GRADE_PERCENT'] ),
+				issetVal( $RET['FINAL_GRADE_PERCENT'] ),
 				'tables[' . $_REQUEST['assignment_type_id'] . '][FINAL_GRADE_PERCENT]',
 				( ! empty( $RET['FINAL_GRADE_PERCENT'] ) ?
 					_( 'Percent of Final Grade' ) :
@@ -746,14 +745,14 @@ if ( ! $_REQUEST['modfunc'] )
 		}
 
 		$header .= '<td>' . TextInput(
-			( empty( $RET['SORT_ORDER'] ) ? '' : $RET['SORT_ORDER'] ),
+			issetVal( $RET['SORT_ORDER'] ),
 			'tables[' . $_REQUEST['assignment_type_id'] . '][SORT_ORDER]',
 			_( 'Sort Order' ),
 			' type="number" step="any"'
 		) . '</td>';
 
 		$header .= '<td>' . ColorInput(
-			( empty( $RET['COLOR'] ) ? '' : $RET['COLOR'] ),
+			issetVal( $RET['COLOR'] ),
 			'tables[' . $_REQUEST['assignment_type_id'] . '][COLOR]',
 			_( 'Color' )
 		) . '</td>';

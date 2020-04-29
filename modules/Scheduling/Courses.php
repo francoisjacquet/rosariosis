@@ -1288,16 +1288,15 @@ if (  ( ! $_REQUEST['modfunc']
 
 			$header = '<table class="width-100p valign-top"><tr class="st">';
 
-			//FJ title required
 			$header .= '<td>' . TextInput(
-				( empty( $RET['TITLE'] ) ? '' : $RET['TITLE'] ),
+				issetVal( $RET['TITLE'] ),
 				'tables[COURSES][' . $_REQUEST['course_id'] . '][TITLE]',
 				_( 'Title' ),
 				'required maxlength=100 size=20'
 			) . '</td>';
 
 			$header .= '<td>' . TextInput(
-				( empty( $RET['SHORT_NAME'] ) ? '' : $RET['SHORT_NAME'] ),
+				issetVal( $RET['SHORT_NAME'] ),
 				'tables[COURSES][' . $_REQUEST['course_id'] . '][SHORT_NAME]',
 				_( 'Short Name' ),
 				'maxlength=25'
@@ -1305,7 +1304,7 @@ if (  ( ! $_REQUEST['modfunc']
 
 			//FJ add Credit Hours to Courses
 			$header .= '<td>' . TextInput(
-				( empty( $RET['CREDIT_HOURS'] ) ? '' : $RET['CREDIT_HOURS'] ),
+				issetVal( $RET['CREDIT_HOURS'] ),
 				'tables[COURSES][' . $_REQUEST['course_id'] . '][CREDIT_HOURS]',
 				_( 'Credit Hours' ),
 				' type="number" step="any" min="0" max="9999"'
@@ -1313,7 +1312,7 @@ if (  ( ! $_REQUEST['modfunc']
 
 			// Add Description (TinyMCE input) to Course.
 			$header .= '<tr class="st"><td colspan="3">' . TinyMCEInput(
-				( empty( $RET['DESCRIPTION'] ) ? '' : $RET['DESCRIPTION'] ),
+				issetVal( $RET['DESCRIPTION'] ),
 				'tables[COURSES][' . $_REQUEST['course_id'] . '][DESCRIPTION]',
 				_( 'Description' )
 			) . '</td></tr>';
@@ -1351,9 +1350,8 @@ if (  ( ! $_REQUEST['modfunc']
 
 			$header = '<table class="width-100p valign-top fixed-col"><tr class="st">';
 
-			//FJ title required
 			$header .= '<td>' . TextInput(
-				( empty( $RET['TITLE'] ) ? '' : $RET['TITLE'] ),
+				issetVal( $RET['TITLE'] ),
 				'tables[COURSE_SUBJECTS][' . $_REQUEST['subject_id'] . '][TITLE]',
 				_( 'Title' ),
 				'required maxlength=100 size=20'
@@ -1363,7 +1361,7 @@ if (  ( ! $_REQUEST['modfunc']
 			{
 				// Hide Sort Order from non editing users.
 				$header .= '<td>' . TextInput(
-					( empty( $RET['SORT_ORDER'] ) ? '' : $RET['SORT_ORDER'] ),
+					issetVal( $RET['SORT_ORDER'] ),
 					'tables[COURSE_SUBJECTS][' . $_REQUEST['subject_id'] . '][SORT_ORDER]',
 					_( 'Sort Order' ),
 					' type="number" step="any"'

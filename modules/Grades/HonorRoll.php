@@ -40,8 +40,7 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
 		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
-			'&modfunc=save&include_inactive=' .
-			( empty( $_REQUEST['include_inactive'] ) ? '' : $_REQUEST['include_inactive'] ) .
+			'&modfunc=save&include_inactive=' . issetVal( $_REQUEST['include_inactive'] ) .
 			'&_ROSARIO_PDF=true" method="POST" enctype="multipart/form-data">';
 
 		$extra['header_right'] = SubmitButton( _( 'Create Honor Roll for Selected Students' ) );
