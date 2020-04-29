@@ -240,12 +240,22 @@ if ( ! $_REQUEST['modfunc'] )
 		'maxlength=10 size=5'
 	) . '</td></tr>';
 
-	echo '<tr><td colspan="3">' . TextInput(
-		$schooldata['PHONE'],
-		'values[PHONE]',
-		_( 'Phone' ),
-		'maxlength=30'
-	) . '</td></tr>';
+	if ( ! AllowEdit() )
+	{
+		echo '<tr><td colspan="3">' . NoInput(
+			makePhone( $schooldata['PHONE'] ),
+			_( 'Phone' )
+		) . '</td></tr>';
+	}
+	else
+	{
+		echo '<tr><td colspan="3">' . TextInput(
+			$schooldata['PHONE'],
+			'values[PHONE]',
+			_( 'Phone' ),
+			'maxlength=30'
+		) . '</td></tr>';
+	}
 
 	echo '<tr><td colspan="3">' . TextInput(
 		$schooldata['PRINCIPAL'],
@@ -270,11 +280,10 @@ if ( ! $_REQUEST['modfunc'] )
 		$schooldata['WWW_ADDRESS'] :
 		'http://' . $schooldata['WWW_ADDRESS'];
 
-		echo '<tr><td colspan="3">
-			<a href="' . $school_link . '" target="_blank">' .
-		$schooldata['WWW_ADDRESS'] .
-		'</a><br />
-			<span class="legend-gray">' . _( 'Website' ) . '</span></td></tr>';
+		echo '<tr><td colspan="3">' . NoInput(
+			'<a href="' . $school_link . '" target="_blank">' . $schooldata['WWW_ADDRESS'] . '</a>',
+			_( 'Website' )
+		) . '</td></tr>';
 	}
 
 	echo '<tr><td colspan="3">' . TextInput(

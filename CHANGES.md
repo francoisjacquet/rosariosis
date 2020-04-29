@@ -15,6 +15,7 @@ Changes in 6.2
 - Use issetVal() instead of empty(), program wide
 - HTML Add title to Block input in CalendarDay.inc.php
 - Fix Configuration program name & translate in Help_en.php, help.pot & help.po
+- Use makePhone() in Schools.php
 
 Changes in 6.1
 --------------
