@@ -212,7 +212,8 @@ function SanitizeHTML( $html, $image_path = '' )
 
 	$sanitized_html = $security->xss_clean( $html_no_base64 );
 
-	if ( ROSARIO_DEBUG )
+	if ( ROSARIO_DEBUG
+		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		if ( function_exists( 'd' ) )
 		{
