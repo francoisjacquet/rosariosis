@@ -1331,7 +1331,7 @@ td.calendar-menu {
 	visibility: hidden;
 	opacity: 0;
 	position: absolute;
-	bottom: 150%;
+	bottom: 110%;
 	left: -90px;
 	width: 180px;
 	z-index: 999;

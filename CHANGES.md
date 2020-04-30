@@ -16,6 +16,7 @@ Changes in 6.2
 - HTML Add title to Block input in CalendarDay.inc.php
 - Fix Configuration program name & translate in Help_en.php, help.pot & help.po
 - Use makePhone() in Schools.php
+- CSS adjust tooltip bottom placement in stylesheet.css
 
 Changes in 6.1
 --------------
