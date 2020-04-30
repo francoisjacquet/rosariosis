@@ -17,6 +17,7 @@ Changes in 6.2
 - Fix Configuration program name & translate in Help_en.php, help.pot & help.po
 - Use makePhone() in Schools.php
 - CSS adjust tooltip bottom placement in stylesheet.css
+- SQL escape $table in SchoolFields.php, AddressFields.php, PeopleFields.php, StudentFields.php & UserFields.php
 
 Changes in 6.1
 --------------

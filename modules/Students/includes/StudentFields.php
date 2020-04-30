@@ -62,7 +62,7 @@ if ( isset( $_POST['tables'] )
 						$_REQUEST['category_id'] = $columns['CATEGORY_ID'];
 					}
 
-					$sql = 'UPDATE ' . $table . ' SET ';
+					$sql = 'UPDATE ' . DBEscapeIdentifier( $table ) . ' SET ';
 
 					foreach ( (array) $columns as $column => $value )
 					{
@@ -76,7 +76,7 @@ if ( isset( $_POST['tables'] )
 				// New Field / Category.
 				else
 				{
-					$sql = 'INSERT INTO ' . $table . ' ';
+					$sql = 'INSERT INTO ' . DBEscapeIdentifier( $table ) . ' ';
 
 					// New Field.
 					if ( $table === 'CUSTOM_FIELDS' )

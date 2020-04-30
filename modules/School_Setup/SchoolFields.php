@@ -40,7 +40,7 @@ if ( isset( $_POST['tables'] )
 				// Update Field.
 				if ( $id !== 'new' )
 				{
-					$sql = 'UPDATE ' . $table . ' SET ';
+					$sql = 'UPDATE ' . DBEscapeIdentifier( $table ) . ' SET ';
 
 					foreach ( (array) $columns as $column => $value )
 					{
@@ -54,7 +54,7 @@ if ( isset( $_POST['tables'] )
 				// New Field.
 				else
 				{
-					$sql = 'INSERT INTO ' . $table . ' ';
+					$sql = 'INSERT INTO ' . DBEscapeIdentifier( $table ) . ' ';
 
 					// New Field.
 					if ( $table === 'SCHOOL_FIELDS' )
