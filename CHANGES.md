@@ -20,6 +20,7 @@ Changes in 6.2
 - SQL escape $table in SchoolFields.php, AddressFields.php, PeopleFields.php, StudentFields.php & UserFields.php
 - CSS Balance: larger number input in stylesheet.css
 - HTML Balance: use "number" input type in Widgets.fnc.php & StaffWidgets.fnc.php
+- Remove Fees having a Payment (same Amount & Comments (Title), after or on Assigned Date) in StudentBilling/functions.inc.php
 
 Changes in 6.1
 --------------

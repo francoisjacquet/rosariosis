@@ -176,6 +176,7 @@ function _makePaymentsTextInput( $value, $name )
  * Automatically fills the Comments & Amount inputs.
  *
  * @since 5.1
+ * @since 6.2 Remove Fees having a Payment (same Amount & Comments (Title), after or on Assigned Date).
  *
  * @uses _makePaymentsTextInput()
  *
@@ -196,13 +197,21 @@ function _makePaymentsCommentsInput( $value, $name )
 	}
 
 	// Add Fees dropdown to reconcile Payment.
+	// Remove Fees having a Payment (same Amount & Comments (Title), after or on Assigned Date).
 	$fees_RET = DBGet( "SELECT ID,TITLE,ASSIGNED_DATE,DUE_DATE,AMOUNT
-		FROM BILLING_FEES
+		FROM BILLING_FEES bf
 		WHERE STUDENT_ID='" . UserStudentID() . "'
 		AND SYEAR='" . UserSyear() . "'
 		AND (WAIVED_FEE_ID IS NULL OR WAIVED_FEE_ID='')
+		AND NOT EXISTS(SELECT 1
+			FROM BILLING_PAYMENTS
+			WHERE STUDENT_ID='" . UserStudentID() . "'
+			AND SYEAR='" . UserSyear() . "'
+			AND AMOUNT=bf.AMOUNT
+			AND COMMENTS=bf.TITLE
+			AND PAYMENT_DATE>=bf.ASSIGNED_DATE)
 		ORDER BY ASSIGNED_DATE DESC
-		LIMIT 100" );
+		LIMIT 20" );
 
 	if ( ! $fees_RET )
 	{
@@ -213,7 +222,7 @@ function _makePaymentsCommentsInput( $value, $name )
 
 	foreach ( $fees_RET as $fee )
 	{
-		$fees_options[ $fee['AMOUNT'] . '|' . $fee['TITLE'] ] = ProperDate( $fee['ASSIGNED_DATE'], 'short' ) .
+		$fees_options[ $fee['AMOUNT'] . '|' . $fee['TITLE'] . '|' . $fee['ASSIGNED_DATE'] ] = ProperDate( $fee['ASSIGNED_DATE'], 'short' ) .
 			' — ' . Currency( $fee['AMOUNT'] ) .
 			' — ' . $fee['TITLE'];
 	}
@@ -222,10 +231,11 @@ function _makePaymentsCommentsInput( $value, $name )
 	ob_start();
 	?>
 	<script>
-		var billingPaymentsFeeReconcile = function( amountComments ) {
-			var separatorIndex = amountComments.indexOf( '|' ),
-				amount = amountComments.substring( 0, separatorIndex ),
-				comments = amountComments.substring( separatorIndex + 1 );
+		var billingPaymentsFeeReconcile = function( amountCommentsDate ) {
+			var amountCommentsDateSplit = amountCommentsDate.split( '|' ),
+				amount = amountCommentsDateSplit[0],
+				comments = amountCommentsDateSplit[1],
+				date = amountCommentsDateSplit[2];
 
 			$('#valuesnewAMOUNT').val( amount );
 			$('#valuesnewCOMMENTS').val( comments );
