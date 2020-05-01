@@ -18,6 +18,7 @@ Changes in 6.2
 - Use makePhone() in Schools.php
 - CSS adjust tooltip bottom placement in stylesheet.css
 - SQL escape $table in SchoolFields.php, AddressFields.php, PeopleFields.php, StudentFields.php & UserFields.php
+- CSS Balance: larger number input in stylesheet.css
 
 Changes in 6.1
 --------------
