@@ -395,10 +395,10 @@ function StaffWidgets( $item, &$myextra = null )
 				}
 			}
 
-			$extra['search'] .= '<tr class="st"><td>' . _( 'Staff Payroll Balance' ) . '</td><td>' .
+			$extra['search'] .= '<tr class="st"><td>' . _( 'Staff Payroll Balance' ) . '</td><td><label>' .
 			_( 'Between' ) .
-			' <input type="text" name="balance_low" size="5" maxlength="10" /> &amp;
-			<input type="text" name="balance_high" size="5" maxlength="10" />
+			' <input type="number" name="balance_low" step="any" /></label> <label>&amp;
+			<input type="number" name="balance_high" step="any" /></label>
 			</td></tr>';
 
 		break;

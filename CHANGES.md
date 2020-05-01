@@ -19,6 +19,7 @@ Changes in 6.2
 - CSS adjust tooltip bottom placement in stylesheet.css
 - SQL escape $table in SchoolFields.php, AddressFields.php, PeopleFields.php, StudentFields.php & UserFields.php
 - CSS Balance: larger number input in stylesheet.css
+- HTML Balance: use "number" input type in Widgets.fnc.php & StaffWidgets.fnc.php
 
 Changes in 6.1
 --------------
