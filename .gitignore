@@ -262,6 +262,7 @@ modules/Semester_Rollover*
 modules/ENP*
 modules/Grades_Import*
 modules/Human_Resources*
+modules/Jitsi_Meet*
 plugins/Email_SMTP*
 plugins/Public_Pages*
 plugins/Custom_Transcripts*
