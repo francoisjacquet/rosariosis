@@ -234,8 +234,7 @@ function _makePaymentsCommentsInput( $value, $name )
 	<?php
 	$js = ob_get_clean();
 
-	// Chosen select so we can search Fees by date, amount, & title.
-	$select_input = ChosenSelectInput(
+	$select_input = SelectInput(
 		'',
 		'billing_fees',
 		'',
