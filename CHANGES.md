@@ -4,6 +4,7 @@
 Changes in 6.3
 --------------
 - Fix SQL error when no weekdays checked in Calendar.php
+- Uncheck Saturday & Sunday for Recreate Calendar too in Calendar.php
 
 Changes in 6.2
 --------------

@@ -146,7 +146,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 
 	$message .= '</td></tr></table>';
 
-	$message .= '<table class="width-100p valign-top"><tr class="st"><td>';
+	$message .= '<table class="width-100p valign-top cellpadding-5"><tr class="st"><td>';
 
 	// Weekdays.
 	$weekdays = array(
@@ -166,11 +166,10 @@ if ( $_REQUEST['modfunc'] === 'create'
 		$value = 'Y';
 
 		// Unckeck Saturday & Sunday.
-		if ( ( $id === 0
-				|| $id === 6 )
-			&& ! $recreate_calendar )
+		if ( $id === 0
+			|| $id === 6 )
 		{
-			$value = 'N';
+			$value = '';
 		}
 
 		$weekdays_inputs[] .= CheckboxInput(
