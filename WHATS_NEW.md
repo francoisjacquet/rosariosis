@@ -2,6 +2,12 @@
 
 ## RosarioSIS Student Information System
 
+New in 6.3
+----------
+
+[Jitsi Meet](https://www.rosariosis.org/modules/jitsi-meet/) module, sponsored by Santa Cecilia school.
+
+
 New in 6.1
 ----------
 
