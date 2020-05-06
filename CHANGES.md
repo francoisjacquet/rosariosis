@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 6.3
+--------------
+- Fix SQL error when no weekdays checked in Calendar.php
+
 Changes in 6.2
 --------------
 - CSS Add not allowed cursor for disabled input in stylesheet.css

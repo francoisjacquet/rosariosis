@@ -272,7 +272,8 @@ if ( $_REQUEST['modfunc'] === 'create'
 				}
 			}
 
-			$weekdays_list = "'" . implode( "','", $weekdays_list ) . "'";
+			$weekdays_list = $weekdays_list ?
+				"'" . implode( "','", $weekdays_list ) . "'" : '';
 
 			$date_min = RequestedDate( 'min', '' );
 
@@ -283,8 +284,10 @@ if ( $_REQUEST['modfunc'] === 'create'
 			{
 				DBQuery( "DELETE FROM ATTENDANCE_CALENDAR
 					WHERE CALENDAR_ID='" . $calendar_id . "'
-					AND (SCHOOL_DATE NOT BETWEEN '" . $date_min . "' AND '" . $date_max . "'
-						OR extract(DOW FROM SCHOOL_DATE) NOT IN (" . $weekdays_list . "))" );
+					AND (SCHOOL_DATE NOT BETWEEN '" . $date_min . "' AND '" . $date_max . "'" .
+					( $weekdays_list ?
+						" OR extract(DOW FROM SCHOOL_DATE) NOT IN (" . $weekdays_list . ")" : '' ) .
+					")" );
 
 				if ( $minutes != '999' )
 				{
@@ -306,8 +309,9 @@ if ( $_REQUEST['modfunc'] === 'create'
 					(SYEAR,SCHOOL_ID,SCHOOL_DATE,MINUTES,CALENDAR_ID)
 					(SELECT '" . UserSyear() . "','" . UserSchool() . "',SCHOOL_DATE," . $minutes . ",'" . $calendar_id . "'
 						FROM ATTENDANCE_CALENDAR
-						WHERE CALENDAR_ID='" . $_REQUEST['copy_id'] . "'
-						AND extract(DOW FROM SCHOOL_DATE) IN (" . $weekdays_list . ")";
+						WHERE CALENDAR_ID='" . $_REQUEST['copy_id'] . "'" .
+						( $weekdays_list ?
+							" AND extract(DOW FROM SCHOOL_DATE) IN (" . $weekdays_list . ")" : '' );
 
 				if ( $date_min && $date_max )
 				{
