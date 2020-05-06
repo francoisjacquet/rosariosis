@@ -6,6 +6,7 @@ Changes in 6.3
 - Fix SQL error when no weekdays checked in Calendar.php
 - Uncheck Saturday & Sunday for Recreate Calendar too in Calendar.php
 - HTML Minutes: use "number" input type in Calendar.php
+- SQL add Donate link in rosariosis.sql, rosariosis_es.sql & rosariosis_fr.sql
 
 Changes in 6.2
 --------------
