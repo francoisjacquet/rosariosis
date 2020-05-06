@@ -198,7 +198,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 		'minutes',
 		_( 'Minutes' ) .
 			'<div class="tooltip"><i>' . $minutes_tip_text . '</i></div>',
-		'size="3" maxlength="3"',
+		' type="number" min="1" max="998"',
 		$div
 	);
 
