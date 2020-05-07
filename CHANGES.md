@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 6.2.1
+----------------
+- Fix UserSyear() not defined if Create Student Account link accessed directly in index.php
+
 Changes in 6.2
 --------------
 - CSS Add not allowed cursor for disabled input in stylesheet.css
