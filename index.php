@@ -312,6 +312,11 @@ elseif ( isset( $_REQUEST['create_account'] ) )
 		&& Config( 'CREATE_USER_ACCOUNT' ) )
 	{
 		$include = 'Users/User.php';
+
+		if ( UserStaffID() )
+		{
+			unset( $_SESSION['staff_id'] );
+		}
 	}
 
 	elseif ( $_REQUEST['create_account'] === 'student'
@@ -334,6 +339,11 @@ elseif ( isset( $_REQUEST['create_account'] ) )
 			$_SESSION['UserSchool'] = DBGetOne( "SELECT ID FROM SCHOOLS
 				WHERE SYEAR='" . Config( 'SYEAR' ) . "'
 				ORDER BY ID" );
+		}
+
+		if ( UserStudentID() )
+		{
+			unset( $_SESSION['student_id'] );
 		}
 	}
 
