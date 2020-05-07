@@ -486,18 +486,18 @@ if ( ! $_REQUEST['modfunc'] )
 
 				if ( $xstudent['RESIDENCE'] === 'Y' )
 				{
-					$ximages .= ' ' . button( 'house', '', '', 'bigger' );
+					$ximages .= ' ' . button( 'house' );
 				}
 
 				if ( $xstudent['BUS_PICKUP'] === 'Y'
 					|| $xstudent['BUS_DROPOFF'] === 'Y' )
 				{
-					$ximages .= ' ' . button( 'bus', '', '', 'bigger' );
+					$ximages .= ' ' . button( 'bus' );
 				}
 
 				if ( $xstudent['MAILING'] === 'Y' )
 				{
-					$ximages .= ' ' . button( 'mailbox', '', '', 'bigger' );
+					$ximages .= ' ' . button( 'mailbox' );
 				}
 
 				$warning[] = '<b>' . $xstudent['FULL_NAME'] . '</b>' . $ximages;
@@ -506,7 +506,7 @@ if ( ! $_REQUEST['modfunc'] )
 			echo '<th>' . makeTipMessage(
 				implode( '<br />', $warning ),
 				_( 'Other students associated with this address' ),
-				button( 'warning' )
+				button( 'help' )
 			) . '</th>';
 		}
 		else
@@ -528,17 +528,17 @@ if ( ! $_REQUEST['modfunc'] )
 
 		if ( $address['RESIDENCE'] == 'Y' )
 		{
-			$images .= ' ' . button( 'house', '', '', 'bigger' );
+			$images .= ' ' . button( 'house' );
 		}
 
 		if ( $address['BUS_PICKUP'] == 'Y' || $address['BUS_DROPOFF'] == 'Y' )
 		{
-			$images .= ' ' . button( 'bus', '', '', 'bigger' );
+			$images .= ' ' . button( 'bus' );
 		}
 
 		if ( $address['MAILING'] == 'Y' )
 		{
-			$images .= ' ' . button( 'mailbox', '', '', 'bigger' );
+			$images .= ' ' . button( 'mailbox' );
 		}
 
 		echo '<th colspan="2">' . $images . '&nbsp;' . $relation_list . '</th>';
@@ -728,12 +728,12 @@ if ( ! $_REQUEST['modfunc'] )
 
 						if ( $xstudent['CUSTODY'] === 'Y' )
 						{
-							$ximages .= ' ' . button( 'gavel', '', '', 'bigger' );
+							$ximages .= ' ' . button( 'gavel' );
 						}
 
 						if ( $xstudent['EMERGENCY'] === 'Y' )
 						{
-							$ximages .= ' ' . button( 'emergency', '', '', 'bigger' );
+							$ximages .= ' ' . button( 'emergency' );
 						}
 
 						$warning[] = '<b>' . $xstudent['FULL_NAME'] . '</b> ' .
@@ -741,21 +741,21 @@ if ( ! $_REQUEST['modfunc'] )
 							$ximages;
 					}
 
-					$images .= ' ' . makeTipMessage(
+					$images .= makeTipMessage(
 						implode( '<br />', $warning ),
 						_( 'Other students associated with this person' ),
-						button( 'warning' )
-					);
+						button( 'help' )
+					) . ' ';
 				}
 
 				if ( $contact['CUSTODY'] === 'Y' )
 				{
-					$images .= button( 'gavel', '', '', 'bigger' ) . ' ';
+					$images .= button( 'gavel' ) . ' ';
 				}
 
 				if ( $contact['EMERGENCY'] === 'Y' )
 				{
-					$images .= button( 'emergency', '', '', 'bigger' ) . ' ';
+					$images .= button( 'emergency' ) . ' ';
 				}
 
 				echo $images .
