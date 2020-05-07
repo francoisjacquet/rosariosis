@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 6.2.2
+----------------
+- Fix Hacking Log when Parent switching Student in Side.php
+
 Changes in 6.2.1
 ----------------
 - Fix UserSyear() not defined if Create Student Account link accessed directly in index.php
