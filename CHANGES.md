@@ -11,6 +11,7 @@ Changes in 6.3
 Changes in 6.2.2
 ----------------
 - Fix Hacking Log when Parent switching Student in Side.php
+- Do not allow Parents to add New/Existing Address/Contact in Address.inc.php
 
 Changes in 6.2.1
 ----------------

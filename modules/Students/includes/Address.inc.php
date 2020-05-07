@@ -612,8 +612,10 @@ if ( ! $_REQUEST['modfunc'] )
 		echo '</tr>';
 	}
 
-	if ( AllowEdit() )
+	if ( AllowEdit()
+		&& User( 'PROFILE' ) !== 'parent' )
 	{
+		// Do not allow Parents to add New/Existing Address.
 		$tr_add_highlight = '<tr class="highlight"><td>' . button( 'add' ) . '</td><td>';
 
 		$tr_add_highlight_hover = '<tr class="highlight-hover"><td>' . button( 'add' ) . '</td><td>';
@@ -770,8 +772,10 @@ if ( ! $_REQUEST['modfunc'] )
 
 			// New Contact
 
-			if ( AllowEdit() )
+			if ( AllowEdit()
+				&& User( 'PROFILE' ) !== 'parent' )
 			{
+				// Do not allow Parents to add New/Existing Contact.
 				if ( isset( $_REQUEST['person_id'] )
 					&& $_REQUEST['person_id'] == 'new' )
 				{
