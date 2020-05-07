@@ -760,7 +760,8 @@ function _makeComments( $value, $column )
  */
 function _makeStartInput( $value, $column )
 {
-	global $THIS_RET;
+	global $THIS_RET,
+		$_ROSARIO;
 
 	static $add_codes = false;
 
@@ -823,8 +824,16 @@ function _makeStartInput( $value, $column )
 	else
 		$div = true;
 
-	// FJ remove LO_field.
-	return '<div class="nobr">' . $add .
+	if ( AllowEdit()
+		&& User( 'PROFILE' ) === 'parent' )
+	{
+		// Do not allow Parents to edit Enrollment Records.
+		$_ROSARIO['allow_edit'] = false;
+
+		$disallow_edit_parent = true;
+	}
+
+	$return = '<div class="nobr">' . $add .
 		DateInput(
 			$value,
 			'values[STUDENT_ENROLLMENT][' . $id . '][' . $column . ']',
@@ -841,6 +850,14 @@ function _makeStartInput( $value, $column )
 			'style="max-width:150px;"'
 		) .
 	'</div>';
+
+	if ( ! empty( $disallow_edit_parent ) )
+	{
+		// Do not allow Parents to edit Enrollment Records.
+		$_ROSARIO['allow_edit'] = true;
+	}
+
+	return $return;
 }
 
 
@@ -856,7 +873,8 @@ function _makeStartInput( $value, $column )
  */
 function _makeEndInput( $value, $column )
 {
-	global $THIS_RET;
+	global $THIS_RET,
+		$_ROSARIO;
 
 	static $drop_codes;
 
@@ -881,7 +899,16 @@ function _makeEndInput( $value, $column )
 		}
 	}
 
-	return '<div class="nobr">' .
+	if ( AllowEdit()
+		&& User( 'PROFILE' ) === 'parent' )
+	{
+		// Do not allow Parents to edit Enrollment Records.
+		$_ROSARIO['allow_edit'] = false;
+
+		$disallow_edit_parent = true;
+	}
+
+	$return = '<div class="nobr">' .
 		DateInput(
 			$value,
 			'values[STUDENT_ENROLLMENT][' . $id . '][' . $column . ']'
@@ -895,6 +922,14 @@ function _makeEndInput( $value, $column )
 			'style="max-width:150px;"'
 		) .
 	'</div>';
+
+	if ( ! empty( $disallow_edit_parent ) )
+	{
+		// Do not allow Parents to edit Enrollment Records.
+		$_ROSARIO['allow_edit'] = true;
+	}
+
+	return $return;
 }
 
 
