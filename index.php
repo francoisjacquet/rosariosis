@@ -323,7 +323,7 @@ elseif ( isset( $_REQUEST['create_account'] ) )
 		if ( ! empty( $_REQUEST['school_id'] ) )
 		{
 			$_SESSION['UserSchool'] = DBGetOne( "SELECT ID FROM SCHOOLS
-				WHERE SYEAR='" . UserSyear() . "'
+				WHERE SYEAR='" . Config( 'SYEAR' ) . "'
 				AND ID='" . (int) $_REQUEST['school_id'] . "'" );
 		}
 
@@ -332,7 +332,7 @@ elseif ( isset( $_REQUEST['create_account'] ) )
 			RedirectURL( 'school_id' );
 
 			$_SESSION['UserSchool'] = DBGetOne( "SELECT ID FROM SCHOOLS
-				WHERE SYEAR='" . UserSyear() . "'
+				WHERE SYEAR='" . Config( 'SYEAR' ) . "'
 				ORDER BY ID" );
 		}
 	}
