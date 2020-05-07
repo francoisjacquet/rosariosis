@@ -162,6 +162,12 @@ if ( isset( $_REQUEST['sidefunc'] )
 		&& UserStudentID() != $_POST['student_id'] )
 	{
 		SetUserStudentID( $_POST['student_id'] );
+
+		if ( ! empty( $_SESSION['_REQUEST_vars']['student_id'] ) )
+		{
+			// Fix Hacking Log when Parent switching Student.
+			$_SESSION['_REQUEST_vars']['student_id'] = $_POST['student_id'];
+		}
 	}
 
 
