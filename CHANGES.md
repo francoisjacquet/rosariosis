@@ -8,6 +8,7 @@ Changes in 6.2.2
 - Do not allow Parents to edit Enrollment Records in StudentsUsersInfo.fnc.php
 - Rollback Give non admin users access to "No Address" in Address.inc.php
 - Smaller buttons for address & contact, use help button for associated students tooltip in Address.inc.php
+- Create User/Student Account: unset current User/Student in index.php
 
 Changes in 6.2.1
 ----------------
