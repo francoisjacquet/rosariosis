@@ -588,7 +588,9 @@ if ( ! $_REQUEST['modfunc'] )
 		echo '</tr>';
 	}
 
-	if ( ! array_key_exists( '0', (array) $addresses_RET ) )
+	if ( AllowEdit()
+		&& User( 'PROFILE' ) !== 'parent'
+		&& ! array_key_exists( '0', (array) $addresses_RET ) )
 	{
 		// No Address link.
 		if ( $_REQUEST['address_id'] == '0' )
