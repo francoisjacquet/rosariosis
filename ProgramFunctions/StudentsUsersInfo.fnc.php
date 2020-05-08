@@ -825,12 +825,13 @@ function _makeStartInput( $value, $column )
 		$div = true;
 
 	if ( AllowEdit()
-		&& User( 'PROFILE' ) === 'parent' )
+		&& ( User( 'PROFILE' ) === 'parent'
+			|| User( 'PROFILE' ) === 'student' ) )
 	{
-		// Do not allow Parents to edit Enrollment Records.
+		// Do not allow Parents/Students to edit Enrollment Records.
 		$_ROSARIO['allow_edit'] = false;
 
-		$disallow_edit_parent = true;
+		$disallow_edit_parent_student = true;
 	}
 
 	$return = '<div class="nobr">' . $add .
@@ -851,9 +852,9 @@ function _makeStartInput( $value, $column )
 		) .
 	'</div>';
 
-	if ( ! empty( $disallow_edit_parent ) )
+	if ( ! empty( $disallow_edit_parent_student ) )
 	{
-		// Do not allow Parents to edit Enrollment Records.
+		// Do not allow Parents/Students to edit Enrollment Records.
 		$_ROSARIO['allow_edit'] = true;
 	}
 
@@ -900,12 +901,13 @@ function _makeEndInput( $value, $column )
 	}
 
 	if ( AllowEdit()
-		&& User( 'PROFILE' ) === 'parent' )
+		&& ( User( 'PROFILE' ) === 'parent'
+			|| User( 'PROFILE' ) === 'student' ) )
 	{
-		// Do not allow Parents to edit Enrollment Records.
+		// Do not allow Parents/Students to edit Enrollment Records.
 		$_ROSARIO['allow_edit'] = false;
 
-		$disallow_edit_parent = true;
+		$disallow_edit_parent_student = true;
 	}
 
 	$return = '<div class="nobr">' .
@@ -923,9 +925,9 @@ function _makeEndInput( $value, $column )
 		) .
 	'</div>';
 
-	if ( ! empty( $disallow_edit_parent ) )
+	if ( ! empty( $disallow_edit_parent_student ) )
 	{
-		// Do not allow Parents to edit Enrollment Records.
+		// Do not allow Parents/Students to edit Enrollment Records.
 		$_ROSARIO['allow_edit'] = true;
 	}
 
