@@ -453,7 +453,10 @@ if ( ! $_REQUEST['modfunc'] )
 		$_REQUEST['address_id'] = $addresses_RET ? key( $addresses_RET ) . '' : null;
 	}
 
-	if ( ! AllowEdit() && empty( $addresses_RET ) )
+	if ( ( ! AllowEdit()
+			|| User( 'PROFILE' ) === 'parent'
+			|| User( 'PROFILE' ) === 'student' )
+		&& empty( $addresses_RET ) )
 	{
 		echo '<tr><td colspan="3">' . _( 'This student doesn\'t have an address.' ) . '</td></tr>';
 	}
@@ -590,6 +593,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( AllowEdit()
 		&& User( 'PROFILE' ) !== 'parent'
+		&& User( 'PROFILE' ) !== 'student'
 		&& ! array_key_exists( '0', (array) $addresses_RET ) )
 	{
 		// No Address link.
@@ -615,9 +619,10 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 
 	if ( AllowEdit()
-		&& User( 'PROFILE' ) !== 'parent' )
+		&& User( 'PROFILE' ) !== 'parent'
+		&& User( 'PROFILE' ) !== 'student' )
 	{
-		// Do not allow Parents to add New/Existing Address.
+		// Do not allow Parents/Students to add New/Existing Address.
 		$tr_add_highlight = '<tr class="highlight"><td>' . button( 'add' ) . '</td><td>';
 
 		$tr_add_highlight_hover = '<tr class="highlight-hover"><td>' . button( 'add' ) . '</td><td>';
@@ -775,9 +780,10 @@ if ( ! $_REQUEST['modfunc'] )
 			// New Contact
 
 			if ( AllowEdit()
-				&& User( 'PROFILE' ) !== 'parent' )
+				&& User( 'PROFILE' ) !== 'parent'
+				&& User( 'PROFILE' ) !== 'student' )
 			{
-				// Do not allow Parents to add New/Existing Contact.
+				// Do not allow Parents/Students to add New/Existing Contact.
 				if ( isset( $_REQUEST['person_id'] )
 					&& $_REQUEST['person_id'] == 'new' )
 				{
