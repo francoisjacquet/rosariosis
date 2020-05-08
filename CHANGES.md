@@ -12,7 +12,7 @@ Changes in 6.2.2
 ----------------
 - Fix Hacking Log when Parent switching Student in Side.php
 - Do not allow Parents to add New/Existing Address/Contact in Address.inc.php
-- Do not allow Parents to edit Enrollment Records in StudentsUsersInfo.fnc.php
+- Do not allow Parents/Students to edit Enrollment Records in StudentsUsersInfo.fnc.php
 - Rollback Give non admin users access to "No Address" in Address.inc.php
 - Smaller buttons for address & contact, use help button for associated students tooltip in Address.inc.php
 - Create User/Student Account: unset current User/Student in index.php
