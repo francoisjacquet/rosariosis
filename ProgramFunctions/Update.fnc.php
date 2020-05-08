@@ -31,7 +31,7 @@ function Update()
 	 * Prevent DB version update if new Update.fnc.php file has NOT been uploaded YET.
 	 * Update must be run once both new Warehouse.php & Update.fnc.php files are uploaded.
 	 */
-	if ( version_compare( '6.2.1', ROSARIO_VERSION, '<' ) )
+	if ( version_compare( '6.2.2', ROSARIO_VERSION, '<' ) )
 	{
 		return false;
 	}
