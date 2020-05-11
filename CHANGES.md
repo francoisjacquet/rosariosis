@@ -8,6 +8,10 @@ Changes in 6.3
 - HTML Minutes: use "number" input type in Calendar.php
 - SQL add Donate link in rosariosis.sql, rosariosis_es.sql & rosariosis_fr.sql
 
+Changes in 6.2.3
+----------------
+- Create User/Student Account: unset logged in User/Student in index.php
+
 Changes in 6.2.2
 ----------------
 - Fix Hacking Log when Parent switching Student in Side.php
