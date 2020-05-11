@@ -285,7 +285,8 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 			if ( $result_count >= $num_displayed )
 			{
-				$where_message = ' ' . sprintf( _( 'Displaying %d through %d' ), $start, $stop );
+				$where_message = ' <span class="size-1">' .
+					sprintf( _( 'Displaying %d through %d' ), $start, $stop ) . '</span>';
 			}
 		}
 		else
@@ -351,7 +352,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				) . '</span>';
 			}
 
-			if ( isset( $where_message ) )
+			if ( ! empty( $where_message ) )
 			{
 				echo $where_message;
 			}
