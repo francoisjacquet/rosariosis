@@ -59,7 +59,7 @@ Décompressez l'archive de RosarioSIS dans un répertoire accessible depuis le n
 - `$PNGQuantPath` Chemin vers [PNGQuant](https://pngquant.org/) (compression des images PNG).
 - `$RosarioErrorsAddress` Adresse email pour les erreurs (PHP fatal, base de donnée, tentatives de piratage).
 - `$Timezone` Fuseau horaire utilisé par les fonctions de date/heure. [Liste des Fuseaux Horaires Supportés](http://php.net/manual/fr/timezones.php).
-- `$ETagCache` Réglez sur `false` pour désactiver le [cache ETag](https://fr.wikipedia.org/wiki/Balise-entit%C3%A9_ETag_HTTP) et le cache de session "privée". Voir [Sessions et security](https://secure.php.net/manual/fr/session.security.php).
+- `$ETagCache` Réglez sur `false` pour désactiver le [cache ETag](https://fr.wikipedia.org/wiki/Balise-entit%C3%A9_ETag_HTTP) et le cache de session "privée". Voir [Sessions et sécurité](https://secure.php.net/manual/fr/session.security.php).
 - `define( 'ROSARIO_DEBUG', true );` Mode debug activé.
 
 
@@ -93,7 +93,7 @@ Aussi, vous devrez peut-être éditer le fichier [`pg_hba.conf`](http://www.post
 local   all             all                                     md5
 ```
 
-Pour installer de la base de données, pointez votre navigateur sur: `http://votredomaine.com/REPERTOIRE_DINSTALLATION/InstallDatabase.php`
+Pour installer la base de données, pointez votre navigateur sur: `http://votredomaine.com/REPERTOIRE_DINSTALLATION/InstallDatabase.php`
 
 C'est tout!... maintenant, pointez votre navigateur sur: `http://votredomaine.com/REPERTOIRE_DINSTALLATION/index.php`
 
