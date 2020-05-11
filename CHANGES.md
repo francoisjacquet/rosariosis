@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 6.2.3
+----------------
+- Create User/Student Account: unset logged in User/Student in index.php
+
 Changes in 6.2.2
 ----------------
 - Fix Hacking Log when Parent switching Student in Side.php

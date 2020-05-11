@@ -308,6 +308,8 @@ elseif ( isset( $_REQUEST['create_account'] ) )
 {
 	$include = false;
 
+	unset( $_SESSION['STAFF_ID'], $_SESSION['STUDENT_ID'] );
+
 	if ( $_REQUEST['create_account'] === 'user'
 		&& Config( 'CREATE_USER_ACCOUNT' ) )
 	{
