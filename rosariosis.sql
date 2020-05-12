@@ -3013,7 +3013,7 @@ INSERT INTO resources VALUES (NEXTVAL('resources_id_seq'), 1, 'Print Handbook', 
 INSERT INTO resources VALUES (NEXTVAL('resources_id_seq'), 1, 'Quick Setup Guide', 'https://www.rosariosis.org/quick-setup-guide/');
 INSERT INTO resources VALUES (NEXTVAL('resources_id_seq'), 1, 'Forum', 'https://www.rosariosis.org/forum/');
 INSERT INTO resources VALUES (NEXTVAL('resources_id_seq'), 1, 'Contribute', 'https://www.rosariosis.org/contribute/');
-INSERT INTO resources VALUES (NEXTVAL('resources_id_seq'), 1, 'Donate', 'https://www.paypal.com/xclick/business=info%40rosariosis.org&currency_code=EUR&item_name=Donation');
+INSERT INTO resources VALUES (NEXTVAL('resources_id_seq'), 1, 'Donate', 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=AA6MRD4S7V84G&source=url');
 
 
 --
