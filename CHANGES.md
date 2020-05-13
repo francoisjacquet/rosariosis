@@ -10,7 +10,7 @@ Changes in 6.3
 - HTML smaller size for 'Displaying %d through %d' in ListOutput.fnc.php
 - Create Student Account: Fix reload page on School change, no AJAX in General_Info.inc.php
 - SQL add CREATE_STUDENT_ACCOUNT_DEFAULT_SCHOOL to CONFIG table in rosariosis.sql & Update.fnc.php
-- Add Create Student Account Default School option in Configuration.php & Help_en.php
+- Add Create Student Account Default School option in Configuration.php, index.php & Help_en.php
 - Translate "Default School" & help to French & Spanish in rosariosis.po & help.po
 
 Changes in 6.2.3

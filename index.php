@@ -338,9 +338,14 @@ elseif ( isset( $_REQUEST['create_account'] ) )
 		{
 			RedirectURL( 'school_id' );
 
+			// @since 6.3 Create Student Account Default School.
+			// @link https://stackoverflow.com/questions/1250156/how-do-i-return-rows-with-a-specific-value-first#comment-67097263
+			$sql_order_by = Config( 'CREATE_STUDENT_ACCOUNT_DEFAULT_SCHOOL' ) ?
+				"ID='" . Config( 'CREATE_STUDENT_ACCOUNT_DEFAULT_SCHOOL' ) . "' DESC,ID" : "ID";
+
 			$_SESSION['UserSchool'] = DBGetOne( "SELECT ID FROM SCHOOLS
 				WHERE SYEAR='" . Config( 'SYEAR' ) . "'
-				ORDER BY ID" );
+				ORDER BY " . $sql_order_by );
 		}
 
 		if ( UserStudentID() )
