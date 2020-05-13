@@ -315,6 +315,26 @@ else
 				button( 'x' )
 			) . '</td></tr>';
 
+			$school_options = array();
+
+			$schools_RET = DBGet( "SELECT ID,TITLE
+				FROM SCHOOLS
+				WHERE SYEAR='" . UserSyear() . "'
+				ORDER BY ID" );
+
+			foreach ( $schools_RET as $school )
+			{
+				$school_options[ $school['ID'] ] = $school['TITLE'];
+			}
+
+			// @since 6.3 Create Student Account Default School.
+			echo '<tr><td>' . SelectInput(
+				Config( 'CREATE_STUDENT_ACCOUNT_DEFAULT_SCHOOL' ),
+				'values[CONFIG][CREATE_STUDENT_ACCOUNT_DEFAULT_SCHOOL]',
+				_( 'Default School' ),
+				$school_options
+			) . '</td></tr>';
+
 			$students_email_field_RET = DBGet( "SELECT ID, TITLE
 				FROM CUSTOM_FIELDS
 				WHERE TYPE='text'

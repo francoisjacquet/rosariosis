@@ -9,7 +9,8 @@ Changes in 6.3
 - SQL add Donate link in rosariosis.sql, rosariosis_es.sql & rosariosis_fr.sql
 - HTML smaller size for 'Displaying %d through %d' in ListOutput.fnc.php
 - Create Student Account: Fix reload page on School change, no AJAX in General_Info.inc.php
-- SQL add CREATE_STUDENT_ACCOUNT_DEFAULT_SCHOOL to CONFIG table in rosariosis.sql
+- SQL add CREATE_STUDENT_ACCOUNT_DEFAULT_SCHOOL to CONFIG table in rosariosis.sql & Update.fnc.php
+- Add Create Student Account Default School option in Configuration.php & Help_en.php
 
 Changes in 6.2.3
 ----------------

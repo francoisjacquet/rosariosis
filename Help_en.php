@@ -149,6 +149,7 @@ if ( User( 'PROFILE' ) === 'admin' ):
 				<li>' . _help( 'Set the <i>Default Theme</i>, and eventually <i>Force</i> it to override users\' preferred theme.' ) . '</li>
 				<li>' . _help( '<i>Create User Account</i> & <i>Create Student Account</i>: activate online registration. "Create User / Student Account" links will be displayed on the login page.' ) . '</li>
 				<li>' . _help( '<i>Automatic Student Account Activation</i>: new students are added as Inactive students. Check this box so students are enrolled on the same day.' ) . '</li>
+				<li>' . _help( '<i>Default School</i>: selected school on the "Create Student Account" screen.' ) . '</li>
 				<li>' . _help( '<i>Student email field</i>: choose the field which you will use to store your students emails. This can be the Username field or any other text field from the General Info tab. Setting this field will enable new features for or related to students within RosarioSIS such as "Password Reset".' ) . '</li>
 				<li>' . _help( '<i>Failed Login Attempts Limit</i>: ban access during 10 minutes if failed login attempts limit is reached. The "Too many failed login attempts. Please try logging in later." error will be shown on the login screen and the corresponding Access Log will have the "Banned" status.' ) . '</li>
 				<li>' . _help( '<i>Password Strength</i>: minimum password strength required. Estimations are based on the <i>zxcvbn</i> tool. Set to 0 to disable.' ) . '</li>
