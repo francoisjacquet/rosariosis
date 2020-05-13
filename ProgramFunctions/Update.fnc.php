@@ -183,6 +183,10 @@ function Update()
 		case version_compare( $from_version, '5.9.1', '<' ) :
 
 			$return = _update591();
+
+		case version_compare( $from_version, '6.3', '<' ) :
+
+			$return = _update63();
 	}
 
 	// Update version in DB CONFIG table.
@@ -2025,6 +2029,38 @@ function _update591()
 	ORDER BY srcg.course_period_id;";
 
 	DBQuery( $sql_drop_view . $sql_create_view );
+
+	return $return;
+}
+
+
+/**
+ * Update to version 6.3
+ *
+ * 1. Add CREATE_STUDENT_ACCOUNT_DEFAULT_SCHOOL to CONFIG table.
+ *
+ * Local function
+ *
+ * @since 6.3
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update63()
+{
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. Add CREATE_STUDENT_ACCOUNT_DEFAULT_SCHOOL to CONFIG table.
+	 */
+	$default_school_added = DBGetOne( "SELECT 1 FROM CONFIG
+		WHERE TITLE='CREATE_STUDENT_ACCOUNT_DEFAULT_SCHOOL'" );
+
+	if ( ! $default_school_added )
+	{
+		DBQuery( "INSERT INTO config VALUES (0, 'CREATE_STUDENT_ACCOUNT_DEFAULT_SCHOOL', NULL);" );
+	}
 
 	return $return;
 }
