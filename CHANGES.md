@@ -8,6 +8,7 @@ Changes in 6.3
 - HTML Minutes: use "number" input type in Calendar.php
 - SQL add Donate link in rosariosis.sql, rosariosis_es.sql & rosariosis_fr.sql
 - HTML smaller size for 'Displaying %d through %d' in ListOutput.fnc.php
+- Create Student Account: Fix reload page on School change, no AJAX in General_Info.inc.php
 
 Changes in 6.2.3
 ----------------

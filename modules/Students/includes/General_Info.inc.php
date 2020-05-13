@@ -196,7 +196,7 @@ else
 		$school_options[$school['ID']] = $school['TITLE'];
 	}
 
-	// @since 6.0 Reload page (AJAX) on School change, so we update UserSchool().
+	// @since 6.0 Reload page on School change, so we update UserSchool().
 	$school_onchange_url = "'index.php?create_account=student&student_id=new&school_id='";
 
 	// Add School select input.
@@ -206,7 +206,7 @@ else
 		_( 'School' ),
 		$school_options,
 		false,
-		'autocomplete="off" onchange="ajaxLink(' . $school_onchange_url . ' + this.options[selectedIndex].value);"',
+		'autocomplete="off" onchange="window.location.href=' . $school_onchange_url . ' + this.options[selectedIndex].value;"',
 		false
 	);
 
