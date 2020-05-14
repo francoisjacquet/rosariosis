@@ -12,6 +12,7 @@ Changes in 6.3
 - SQL add CREATE_STUDENT_ACCOUNT_DEFAULT_SCHOOL to CONFIG table in rosariosis.sql & Update.fnc.php
 - Add Create Student Account Default School option in Configuration.php, index.php & Help_en.php
 - Translate "Default School" & help to French & Spanish in rosariosis.po & help.po
+- Fix Has Address Custom Field check in Export.php
 
 Changes in 6.2.3
 ----------------

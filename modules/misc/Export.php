@@ -41,8 +41,21 @@ $extra['WHERE'] = issetVal( $extra['WHERE'], '' );
 
 $_ROSARIO['CustomFields'] = true;
 
+// Has Address Custom Field.
+$has_address_custom_field = false;
+
+foreach ( (array) $_REQUEST['fields'] as $fields_index => $fields_val )
+{
+	if ( mb_strpos( $fields_index, 'ADDRESS_' ) !== false )
+	{
+		$has_address_custom_field = true;
+
+		break;
+	}
+}
+
 if ( ! empty( $_REQUEST['fields'] )
-	&& ( ! empty( $_REQUEST['fields']['ADDRESS'] )
+	&& ( $has_address_custom_field
 		|| ! empty( $_REQUEST['fields']['CITY'] )
 		|| ! empty( $_REQUEST['fields']['STATE'] )
 		|| ! empty( $_REQUEST['fields']['ZIPCODE'] )
