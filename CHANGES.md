@@ -4,6 +4,7 @@
 Changes in 6.4
 --------------
 - SQL Roll students to next school: match Grade Level on Title in Rollover.php
+- Rollover: add help for "Rolling / Retention options" and next school in Help_en.php & help.po
 
 Changes in 6.3
 --------------

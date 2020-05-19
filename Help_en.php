@@ -139,7 +139,9 @@ if ( User( 'PROFILE' ) === 'admin' ):
 
 	$help['School_Setup/Rollover.php'] = '<p>' . _help( '<i>Rollover</i> copies the current year\'s data to the next school year. Students are enrolled in the next grade, and each school\'s information is duplicated for the next school year.' ) . '</p>
 
-	<p>' . _help( 'The data copied include periods, marking periods, users, courses, student enrollment, report card grade codes, enrollment codes, attendance codes, and eligibility activities.' ) . '</p>';
+	<p>' . _help( 'The data copied include periods, marking periods, users, courses, student enrollment, report card grade codes, enrollment codes, attendance codes, and eligibility activities.' ) . '</p>
+
+	<p>' . _help( 'Note: Students are enrolled or retained depending on their "Rolling / Retention options" set in the <i>Students > Student Info</i> program. In case the option is set to another school, the student will be enrolled either in the first Grade Level (Sort Order 1) or in the same Grade Level (same Title).' ) . '</p>';
 
 	$help['School_Setup/Configuration.php'] = '<p>' . _help( '<i>Configuration</i> offers various groups of options to help you configure:' ) . '</p>
 	<ul>
