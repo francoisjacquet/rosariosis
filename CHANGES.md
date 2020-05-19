@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 6.4
+--------------
+- SQL Roll students to next school: match Grade Level on Title in Rollover.php
+
 Changes in 6.3
 --------------
 - Fix SQL error when no weekdays checked in Calendar.php

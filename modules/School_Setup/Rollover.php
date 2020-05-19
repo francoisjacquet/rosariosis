@@ -696,6 +696,7 @@ function Rollover( $table, $mode = 'delete' )
 				AND e.NEXT_SCHOOL='0'" );
 
 			// ROLL STUDENTS TO NEXT SCHOOL.
+			// @since 6.4 SQL Roll students to next school: match Grade Level on Title.
 			DBQuery( "INSERT INTO STUDENT_ENROLLMENT
 				(ID,SYEAR,SCHOOL_ID,STUDENT_ID,GRADE_ID,START_DATE,END_DATE,ENROLLMENT_CODE,
 					DROP_CODE,CALENDAR_ID,NEXT_SCHOOL,LAST_SCHOOL)
@@ -703,8 +704,13 @@ function Rollover( $table, $mode = 'delete' )
 					NEXT_SCHOOL,STUDENT_ID,
 					(SELECT g.ID
 						FROM SCHOOL_GRADELEVELS g
-						WHERE g.SORT_ORDER=1
-						AND g.SCHOOL_ID=e.NEXT_SCHOOL),
+						WHERE (g.TITLE=(SELECT g2.TITLE
+								FROM SCHOOL_GRADELEVELS g2
+								WHERE g2.SCHOOL_ID=e.SCHOOL_ID
+								AND g2.ID=e.GRADE_ID)
+							OR g.SORT_ORDER=1)
+						AND g.SCHOOL_ID=e.NEXT_SCHOOL
+						LIMIT 1),
 					'" . $next_start_date . "' AS START_DATE,NULL AS END_DATE,
 					(SELECT ID
 						FROM STUDENT_ENROLLMENT_CODES
@@ -714,7 +720,10 @@ function Rollover( $table, $mode = 'delete' )
 						LIMIT 1) AS ENROLLMENT_CODE,NULL AS DROP_CODE,
 					(SELECT CALENDAR_ID
 						FROM ATTENDANCE_CALENDARS
-						WHERE ROLLOVER_ID=e.CALENDAR_ID),NEXT_SCHOOL,SCHOOL_ID
+						WHERE SCHOOL_ID=e.NEXT_SCHOOL
+						AND SYEAR=e.SYEAR+1
+						AND DEFAULT_CALENDAR='Y'
+						LIMIT 1),NEXT_SCHOOL,SCHOOL_ID
 				FROM STUDENT_ENROLLMENT e
 				WHERE e.SYEAR='" . UserSyear() . "'
 				AND e.SCHOOL_ID='" . UserSchool() . "'
