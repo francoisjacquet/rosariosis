@@ -710,6 +710,7 @@ function Rollover( $table, $mode = 'delete' )
 								AND g2.ID=e.GRADE_ID)
 							OR g.SORT_ORDER=1)
 						AND g.SCHOOL_ID=e.NEXT_SCHOOL
+						ORDER BY g.SORT_ORDER DESC
 						LIMIT 1),
 					'" . $next_start_date . "' AS START_DATE,NULL AS END_DATE,
 					(SELECT ID
