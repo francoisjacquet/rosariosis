@@ -30,7 +30,7 @@ Instrucciones de instalación:
 Instalar el paquete
 -------------------
 
-Descomprima el archivo de RosarioSIS en un directorio accesible con el navegador. Edita el archivo `config.inc.sample.php` para definir las variables de configuración apropiadas, y renombralo `config.inc.php`.
+Descomprima el archivo de RosarioSIS, o clona el repositorio usando git en un directorio accesible con el navegador. Edita el archivo `config.inc.sample.php` para definir las variables de configuración apropiadas, y renombralo `config.inc.php`.
 
 - `$DatabaseServer` Nombre o dirección IP del servidor de base de datos.
 - `$DatabaseUsername` Nombre de usuario para conectarse a la base de datos.

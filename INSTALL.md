@@ -30,7 +30,7 @@ Installation directions for:
 Installing the package
 ----------------------
 
-Unzip RosarioSIS to a directory that is accessible to your web browser. Edit the `config.inc.sample.php` file to set the configuration variables and rename it to `config.inc.php`.
+Unzip RosarioSIS, or clone the repository using git to a directory that is accessible to your web browser. Edit the `config.inc.sample.php` file to set the configuration variables and rename it to `config.inc.php`.
 
 - `$DatabaseServer` Host name or IP for the database server.
 - `$DatabaseUsername` Username used for authenticating the database.
