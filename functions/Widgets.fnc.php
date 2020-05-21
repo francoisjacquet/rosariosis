@@ -256,16 +256,16 @@ function Widgets( $item, &$myextra = null )
 						WHERE c.COURSE_ID=cp.COURSE_ID
 						AND cp.COURSE_PERIOD_ID='" . $_REQUEST['w_course_period_id'] . "'" );
 
-					$extra['FROM'] .= ",SCHEDULE w_ss";
-
-					$extra['WHERE'] .= " AND w_ss.STUDENT_ID=s.STUDENT_ID
+					$extra['WHERE'] .= " AND EXISTS(SELECT 1
+						FROM SCHEDULE w_ss
+						WHERE w_ss.STUDENT_ID=s.STUDENT_ID
 						AND w_ss.SYEAR=ssm.SYEAR
 						AND w_ss.SCHOOL_ID=ssm.SCHOOL_ID
 						AND w_ss.COURSE_ID='" . $course[1]['COURSE_ID'] . "'
 						AND ('" . DBDate() . "'
 							BETWEEN w_ss.START_DATE
 							AND w_ss.END_DATE
-							OR w_ss.END_DATE IS NULL)";
+							OR w_ss.END_DATE IS NULL))";
 
 					if ( ! $extra['NoSearchTerms'] )
 					{
