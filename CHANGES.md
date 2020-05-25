@@ -8,6 +8,7 @@ Changes in 6.4
 - Fix SQL Course search Widget: distinct students in Widgets.fnc.php
 - New ROSARIO_DISABLE_ADDON_UPLOAD optional config constant in INSTALL.md, INSTALL_es.md & INSTALL_fr.md
 - Add-on zip upload in Modules.inc.php & Plugins.inc.php
+- Translate "Upload" & "Cannot open file." to French & Spanish in rosariosis.po
 
 Changes in 6.3
 --------------

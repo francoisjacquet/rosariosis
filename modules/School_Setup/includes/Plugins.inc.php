@@ -125,7 +125,7 @@ if ( $_REQUEST['modfunc'] === 'upload'
 		}
 		else
 		{
-			$error[] = _( 'Cannot open zip file.' );
+			$error[] = _( 'Cannot open file.' );
 		}
 
 		unlink( $addon_zip_path );
