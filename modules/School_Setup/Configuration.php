@@ -1,5 +1,6 @@
 <?php
 require_once 'ProgramFunctions/Theme.fnc.php';
+require_once 'ProgramFunctions/FileUpload.fnc.php';
 
 //FJ add School Configuration
 // move the Modules config.inc.php to the database table
@@ -49,8 +50,6 @@ elseif ( $_REQUEST['tab'] === 'plugins' )
 }
 else
 {
-	require_once 'ProgramFunctions/FileUpload.fnc.php';
-
 	if ( $_REQUEST['modfunc'] === 'update' )
 	{
 		if ( ! empty( $_FILES['LOGO_FILE'] )

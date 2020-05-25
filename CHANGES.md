@@ -7,6 +7,7 @@ Changes in 6.4
 - Rollover: add help for "Rolling / Retention options" and next school in Help_en.php & help.po
 - Fix SQL Course search Widget: distinct students in Widgets.fnc.php
 - New ROSARIO_DISABLE_ADDON_UPLOAD optional config constant in INSTALL.md, INSTALL_es.md & INSTALL_fr.md
+- Add-on zip upload in Modules.inc.php & Plugins.inc.php
 
 Changes in 6.3
 --------------

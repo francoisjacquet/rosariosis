@@ -38,6 +38,68 @@ if ( isset( $_REQUEST['module'] ) && strpos( $_REQUEST['module'], '..' ) !== fal
 	HackingLog();
 }
 
+if ( $_REQUEST['modfunc'] === 'upload'
+	&& AllowEdit() )
+{
+	// @since 6.4 Add-on zip upload.
+	if ( ( ! defined( 'ROSARIO_DISABLE_ADDON_UPLOAD' )
+			|| ! ROSARIO_DISABLE_ADDON_UPLOAD )
+		&& class_exists( 'ZipArchive' )
+		&& ( $addon_zip_path = FileUpload( 'upload', $FileUploadsPath, array( '.zip' ), FileUploadMaxSize(), $error ) ) )
+	{
+		// Extract zip file.
+		$zip = new ZipArchive;
+		$zip_open = $zip->open( $addon_zip_path );
+
+		if ( $zip_open === true )
+		{
+			$zip->extractTo( $FileUploadsPath . 'upload-module/' );
+
+			$zip->close();
+
+			$addon_dir_path = glob( $FileUploadsPath . 'upload-module/*', GLOB_ONLYDIR );
+
+			$addon_dir_path = reset( $addon_dir_path );
+
+			// Remove path.
+			$addon_dir = str_replace( $FileUploadsPath . 'upload-module/', '', $addon_dir_path );
+
+			if ( mb_substr( $addon_dir, -1, 7 ) === '-master' )
+			{
+				// Remove trailing '-master'.
+				$addon_dir = mb_substr( $addon_dir, -1, 7 );
+			}
+
+			// Check add-on is not a core module...
+			if ( ! in_array( $addon_dir, $RosarioCoreModules ) )
+			{
+				if ( _delTree( 'modules/' . $addon_dir ) )
+				{
+					// Remove warning if directory already exists: just overwrite.
+					rename( $addon_dir_path, 'modules/' . $addon_dir );
+
+					$note[] = _( 'Add-on successfully uploaded.' );
+				}
+				else
+				{
+					$error[] = sprintf( _( 'Folder not writable' ) . ': %s', 'modules/' . $addon_dir );
+				}
+			}
+
+			_delTree( $FileUploadsPath . 'upload-module/' );
+		}
+		else
+		{
+			$error[] = _( 'Cannot open zip file.' );
+		}
+
+		unlink( $addon_zip_path );
+	}
+
+	// Unset modfunc & redirect URL.
+	RedirectURL( array( 'modfunc' ) );
+}
+
 if ( $_REQUEST['modfunc'] === 'delete'
 	&& AllowEdit() )
 {
@@ -169,6 +231,8 @@ if ( ! $_REQUEST['modfunc'] )
 {
 	echo ErrorMessage( $error );
 
+	echo ErrorMessage( $note, 'note' );
+
 	$modules_RET = array( '' );
 
 	foreach ( (array) $RosarioModules as $module_title => $activated )
@@ -183,7 +247,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$directories_bypass[] = 'modules/' . $module_title;
 	}
 
-	// scan plugins/ folder for uninstalled plugins
+	// Scan modules/ folder for uninstalled modules.
 	$modules = array_diff( glob( 'modules/*', GLOB_ONLYDIR ), $directories_bypass );
 
 	foreach ( $modules as $module )
@@ -207,6 +271,25 @@ if ( ! $_REQUEST['modfunc'] )
 	unset( $modules_RET[0] );
 
 	ListOutput( $modules_RET, $columns, 'Module', 'Modules' );
+
+	if ( ( ! defined( 'ROSARIO_DISABLE_ADDON_UPLOAD' )
+			|| ! ROSARIO_DISABLE_ADDON_UPLOAD )
+		&& class_exists( 'ZipArchive' )
+		&& is_writable( $FileUploadsPath )
+		&& is_writable( 'modules/' ) )
+	{
+		// @since 6.4 Add-on zip upload.
+		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&tab=' . $_REQUEST['tab'] .
+			'&modfunc=upload" method="POST" enctype="multipart/form-data">';
+
+		echo button( 'add' ) . ' ';
+
+		echo FileInput( 'upload', '', 'accept=".zip"', FileUploadMaxSize() );
+
+		echo SubmitButton( _( 'Upload' ) );
+
+		echo '</form>';
+	}
 }
 
 /**

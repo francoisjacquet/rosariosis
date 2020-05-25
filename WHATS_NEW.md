@@ -2,6 +2,13 @@
 
 ## RosarioSIS Student Information System
 
+New in 6.4
+----------
+
+School
+- Configuration: Add-on zip upload (check [INSTALL.md](https://gitlab.com/francoisjacquet/rosariosis/-/blob/mobile/INSTALL.md#optional-variables) to disable).
+
+
 New in 6.3
 ----------
 
