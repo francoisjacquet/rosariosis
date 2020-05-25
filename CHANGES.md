@@ -6,6 +6,7 @@ Changes in 6.4
 - SQL Roll students to next school: match Grade Level on Title in Rollover.php
 - Rollover: add help for "Rolling / Retention options" and next school in Help_en.php & help.po
 - Fix SQL Course search Widget: distinct students in Widgets.fnc.php
+- New ROSARIO_DISABLE_ADDON_UPLOAD optional config constant in INSTALL.md, INSTALL_es.md & INSTALL_fr.md
 
 Changes in 6.3
 --------------

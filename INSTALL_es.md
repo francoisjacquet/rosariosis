@@ -61,6 +61,7 @@ Descomprima el archivo de RosarioSIS, o clona el repositorio usando git en un di
 - `$Timezone` Zona horaria usada por la funciones de fecha y tiempo. [Listado de zonas horarias admitidas](http://php.net/manual/es/timezones.php).
 - `$ETagCache` Pasar a `false` para desactivar el [caché ETag](https://es.wikipedia.org/wiki/HTTP_ETag) y desactivar el caché de sesión "privada". Ver [Sesiones y seguridad](https://secure.php.net/manual/es/session.security.php).
 - `define( 'ROSARIO_DEBUG', true );` Modo debug activado.
+- `define( 'ROSARIO_DISABLE_ADDON_UPLOAD', true );` Desactivar el upload de complementos (módulos y plugins).
 
 
 Base de datos
