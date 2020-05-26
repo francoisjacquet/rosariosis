@@ -51,7 +51,7 @@ $.fn.passwordStrength = function(minStrength, requiredText) {
 
 	var inputCheck = function(e) {
 
-		if (!checkPassword()) {
+		if ($password.val() !== '' && !checkPassword()) {
 
 			requiredText = requiredText || 'Password must be stronger.';
 
