@@ -182,7 +182,7 @@ function PasswordInput( $value, $name, $title = '', $extra = '', $div = true )
 		$extra .= ' size="' . ( strlen( $value ) + 5 ) . '"';
 	}
 
-	$extra .= ' type="password" autocomplete="off"';
+	$extra .= ' type="password" autocomplete="new-password"';
 
 	$input = TextInput( ( $value !== str_repeat( '*', 8 ) ? $value : '' ), $name, '', $extra, false );
 

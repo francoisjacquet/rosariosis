@@ -10,6 +10,7 @@ Changes in 6.4
 - Add-on zip upload in Modules.inc.php & Plugins.inc.php
 - Translate "Upload" & "Cannot open file." to French & Spanish in rosariosis.po
 - JS fix passwordStrength check when password empty in jquery-passwordstrength.js
+- HTML try to fix autocomplete Username & Password inputs (IE, Edge, Chrome) in Inputs.php, General_Info.inc.php
 
 Changes in 6.3
 --------------
