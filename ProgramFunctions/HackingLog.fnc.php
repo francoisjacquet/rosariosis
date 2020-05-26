@@ -14,8 +14,7 @@
  * @since 4.0 Uses ErrorSendEmail() & "« Back" link to Portal or automatic redirection if has just logged in.
  * @since 4.1 Redirect automatically to Portal after 5 seconds.
  * @since 4.3 Reload menu now so it does not contain links to disallowed programs.
- *
- * @return string outputs error message and exit
+ * @since 6.4.1 Only send email and redirect to Portal without displaying error.
  */
 function HackingLog()
 {
@@ -23,10 +22,10 @@ function HackingLog()
 
 	$portal_url = 'Modules.php?modname=misc/Portal.php';
 
-	if ( User( 'LAST_LOGIN' ) === date( 'Y-m-d G:i:s' )
+	if ( User( 'LAST_LOGIN' ) === date( 'Y-m-d H:i:s' )
 		&& ! headers_sent() )
 	{
-		// If User has just logged in, take him back to Portal without displaying message!
+		// If User has just logged in, take him back to Portal without sending email!
 		header( 'Location: ' . $portal_url );
 
 		exit;
@@ -34,24 +33,15 @@ function HackingLog()
 
 	?>
 	<script>
-		// Reload menu now so it does not contain links to disallowed programs.
-		ajaxLink( 'Side.php' );
-
-		// Redirect automatically to Portal after 5 seconds.
-		setTimeout( function(){
-			window.location.href = <?php echo json_encode( $portal_url ); ?>;
-		}, 5000);
+		// Redirect automatically to Portal.
+		window.location.href = <?php echo json_encode( $portal_url ); ?>;
 	</script>
 	<?php
 
 	// Use link target="_top" so we reload side menu.
-	$error[] = _( 'You\'re not allowed to use this program!' ) . ' ' .
-	_( 'This attempted violation has been logged and your IP address was captured.' ) . ' ' .
-	'<a href="' . $portal_url . '" target="_top"><b>« ' . _( 'Back' ) . '</b></a>';
+	$error[] = _( 'You\'re not allowed to use this program!' );
 
 	ErrorSendEmail( $error, 'HACKING ATTEMPT' );
 
-	// Display fatal error message.
-
-	return ErrorMessage( $error, 'fatal' );
+	exit;
 }

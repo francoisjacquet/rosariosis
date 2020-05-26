@@ -4,6 +4,7 @@
 Changes in 6.4.1
 ----------------
 - HTML New Password input required in PasswordReset.php
+- Only send email and redirect to Portal without displaying error in HackingLog.fnc.php
 
 Changes in 6.4
 --------------
