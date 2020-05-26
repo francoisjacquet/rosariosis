@@ -13,13 +13,20 @@ if ( User( 'PROFILE' ) !== 'admin'
 	&& $_REQUEST['student_id'] != UserStudentID()
 	&& $_REQUEST['student_id'] !== 'new' )
 {
-	if ( User( 'USERNAME' ) )
+	if ( User( 'PROFILE' ) === 'parent' )
+	{
+		// Parent switching tab with Sibling: set Current Student ID.
+		SetUserStudentID( $_REQUEST['student_id'] );
+	}
+	elseif ( User( 'USERNAME' ) )
 	{
 		require_once 'ProgramFunctions/HackingLog.fnc.php';
 		HackingLog();
 	}
-
-	exit;
+	else
+	{
+		exit;
+	}
 }
 
 $categories = array(

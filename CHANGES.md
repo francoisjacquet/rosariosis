@@ -5,6 +5,7 @@ Changes in 6.4.1
 ----------------
 - HTML New Password input required in PasswordReset.php
 - Only send email and redirect to Portal without displaying error in HackingLog.fnc.php
+- Parent switching tab with Sibling: set Current Student ID in Student.php
 
 Changes in 6.4
 --------------
