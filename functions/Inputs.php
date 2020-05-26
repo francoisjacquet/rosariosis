@@ -111,9 +111,9 @@ function TextInput( $value, $name, $title = '', $extra = '', $div = true )
 	// Specify input type via $extra (email,...).
 	$type = mb_strpos( $extra, 'type=' ) === false ? 'type="text"' : '';
 
-	$input = '<input ' . $type . ' id="' . $id . '" name="' . $name . '" ' .
-		( $value || $value === '0' ? 'value="' . htmlspecialchars( $value, ENT_QUOTES ) . '"' : 'value=""' ) .
-		' ' . $extra . ' />' . FormatInputTitle( $title, $id, $required );
+	$input = '<input ' . $type . ' id="' . $id . '" name="' . $name .
+		'" value="' . htmlspecialchars( $value, ENT_QUOTES ) . '" ' . $extra . ' />' .
+		FormatInputTitle( $title, $id, $required );
 
 	if ( trim( $value ) == ''
 		|| ! $div )
