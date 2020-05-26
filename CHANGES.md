@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 6.4.1
+----------------
+- HTML New Password input required in PasswordReset.php
+
 Changes in 6.4
 --------------
 - SQL Roll students to next school: match Grade Level on Title in Rollover.php

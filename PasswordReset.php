@@ -460,7 +460,7 @@ function _passwordResetForm( $hash, $user_id )
 				'',
 				'PASSWORD',
 				_( 'New Password' ),
-				'strength maxlength="42" tabindex="1"'
+				'strength maxlength="42" tabindex="1" required'
 			);
 
 			$_ROSARIO['allow_edit'] = false;
