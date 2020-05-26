@@ -8,6 +8,9 @@ New in 6.4
 School
 - Configuration: Add-on zip upload (check [INSTALL.md](https://gitlab.com/francoisjacquet/rosariosis/-/blob/mobile/INSTALL.md#optional-variables) to disable).
 
+[Students Import Premium](https://www.rosariosis.org/modules/students-import/#premium-module) module:
+- Update Existing Students info, sponsored by English National Program.
+
 
 New in 6.3
 ----------
