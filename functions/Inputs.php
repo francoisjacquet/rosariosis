@@ -112,7 +112,7 @@ function TextInput( $value, $name, $title = '', $extra = '', $div = true )
 	$type = mb_strpos( $extra, 'type=' ) === false ? 'type="text"' : '';
 
 	$input = '<input ' . $type . ' id="' . $id . '" name="' . $name . '" ' .
-		( $value || $value === '0' ? 'value="' . htmlspecialchars( $value, ENT_QUOTES ) . '"' : '' ) .
+		( $value || $value === '0' ? 'value="' . htmlspecialchars( $value, ENT_QUOTES ) . '"' : 'value=""' ) .
 		' ' . $extra . ' />' . FormatInputTitle( $title, $id, $required );
 
 	if ( trim( $value ) == ''
