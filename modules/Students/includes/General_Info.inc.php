@@ -132,7 +132,7 @@ echo TextInput(
 	( Config( 'STUDENTS_EMAIL_FIELD' ) === 'USERNAME' ?
 		'type="email" pattern="[^ @]*@[^ @]*" placeholder="' . _( 'Email' ) . '" ' :
 		'' ) .
-	'autocomplete="new-username"',
+	'autocomplete="off"',
 	empty( $_REQUEST['moodle_create_student'] )
 );
 
