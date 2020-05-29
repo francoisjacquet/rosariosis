@@ -8,6 +8,7 @@ Changes in 6.5
 - SQL Fix PHP error timeout when email has trailing space: use trim in CreateParents.php
 - Disable save, search & sort for Notification Results list in NotifiyParents.php
 - Fix empty template saved in CreateParents.php & NotifiyParents.php
+- Fix SQL error when no User ID returned by Moodle in Moodle/Custom/CreateParents.php
 
 Changes in 6.4.2
 ----------------
