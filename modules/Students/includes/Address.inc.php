@@ -557,7 +557,9 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$remove_address_button = '';
 
-		if ( AllowEdit() )
+		if ( AllowEdit()
+			&& User( 'PROFILE' ) !== 'parent'
+			&& User( 'PROFILE' ) !== 'student' )
 		{
 			$remove_address_button = button(
 				'remove',
@@ -686,7 +688,11 @@ if ( ! $_REQUEST['modfunc'] )
 
 				$i++;
 
-				if ( AllowEdit() )
+				$remove_button = '';
+
+				if ( AllowEdit()
+					&& User( 'PROFILE' ) !== 'parent'
+					&& User( 'PROFILE' ) !== 'student' )
 				{
 					$remove_button = button(
 						'remove',
@@ -696,10 +702,6 @@ if ( ! $_REQUEST['modfunc'] )
 						'&modfunc=delete_address&address_id=' . $_REQUEST['address_id'] .
 						'&person_id=' . $contact['PERSON_ID'] . '"'
 					);
-				}
-				else
-				{
-					$remove_button = '';
 				}
 
 				if ( isset( $_REQUEST['person_id'] )
