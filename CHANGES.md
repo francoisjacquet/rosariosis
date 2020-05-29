@@ -4,6 +4,7 @@
 Changes in 6.4.2
 ----------------
 - HTML add-on zip file input required in Modules.inc.php & Plugins.inc.php
+- Fix Required & div for checkbox input in StudentsUsersInfo.fnc.php
 
 Changes in 6.4.1
 ----------------

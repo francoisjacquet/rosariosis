@@ -344,6 +344,8 @@ function _makeAutoSelectInput( $column, $name, $request, $options_RET = array() 
 /**
  * Make Checkbox Input
  *
+ * @since 6.4.2 Fix Required & div for checkbox input.
+ *
  * @global array  $value
  * @global array  $field
  *
@@ -358,11 +360,18 @@ function _makeCheckboxInput( $column, $name, $request )
 	global $value,
 		$field;
 
+	$div = true;
+
 	$new = _isNew( $request );
 
-	if ( $new )
+	if ( $new
+		|| ( $field['REQUIRED'] === 'Y'
+			&& empty( $value[ $column ] ) ) )
 	{
 		$value[ $column ] = $field['DEFAULT_SELECTION'];
+
+		// No div if new or if Required AND not checked.
+		$div = false;
 	}
 
 	return CheckboxInput(
@@ -370,7 +379,11 @@ function _makeCheckboxInput( $column, $name, $request )
 		$request . '[' . $column . ']',
 		$name,
 		'',
-		$new
+		$new,
+		'Yes',
+		'No',
+		$div,
+		( $field['REQUIRED'] === 'Y' ? 'required' : '' )
 	);
 }
 
