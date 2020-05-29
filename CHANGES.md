@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 6.5
+--------------
+- Remove else conditions in StudentsUsersInfo.fnc.php
+
 Changes in 6.4.2
 ----------------
 - HTML add-on zip file input required in Modules.inc.php & Plugins.inc.php

@@ -26,16 +26,14 @@ function _makeTextInput( $column, $name, $request )
 	global $value,
 		$field;
 
+	$div = true;
+
 	if ( $field['DEFAULT_SELECTION']
 		&& _isNew( $request ) )
 	{
 		$value[ $column ] = $field['DEFAULT_SELECTION'];
 
 		$div = false;
-	}
-	else
-	{
-		$div = true;
 	}
 
 	if ( $field['TYPE'] === 'numeric' )
@@ -88,16 +86,14 @@ function _makeDateInput( $column, $name, $request )
 	global $value,
 		$field;
 
+	$div = true;
+
 	if ( $field['DEFAULT_SELECTION']
 		&& _isNew( $request ) )
 	{
 		$value[ $column ] = $field['DEFAULT_SELECTION'];
 
 		$div = false;
-	}
-	else
-	{
-		$div = true;
 	}
 
 	// FJ date field is required.
@@ -136,16 +132,14 @@ function _makeSelectInput( $column, $name, $request )
 	global $value,
 		$field;
 
+	$div = true;
+
 	if ( $field['DEFAULT_SELECTION']
 		&& _isNew( $request ) )
 	{
 		$value[ $column ] = $field['DEFAULT_SELECTION'];
 
 		$div = false;
-	}
-	else
-	{
-		$div = true;
 	}
 
 	$select_options = $options = array();
@@ -203,16 +197,14 @@ function _makeAutoSelectInput( $column, $name, $request, $options_RET = array() 
 	global $value,
 		$field;
 
+	$div = true;
+
 	if ( $field['DEFAULT_SELECTION']
 		&& _isNew( $request ) )
 	{
 		$value[ $column ] = $field['DEFAULT_SELECTION'];
 
 		$div = false;
-	}
-	else
-	{
-		$div = true;
 	}
 
 	// Build the select list...
@@ -325,19 +317,17 @@ function _makeAutoSelectInput( $column, $name, $request, $options_RET = array() 
 			$div
 		);
 	}
-	else
-	{
-		// FJ new option.
-		return TextInput(
-			$value[ $column ] === '---' ?
-				array( '---', '<span style="color:red">-' . _( 'Edit' ) . '-</span>' ) :
-				$value[ $column ],
-			$request . '[' . $column . ']',
-			$name,
-			( $field['REQUIRED'] === 'Y' ? 'required' : '' ),
-			$div
-		);
-	}
+
+	// FJ new option.
+	return TextInput(
+		$value[ $column ] === '---' ?
+			array( '---', '<span style="color:red">-' . _( 'Edit' ) . '-</span>' ) :
+			$value[ $column ],
+		$request . '[' . $column . ']',
+		$name,
+		( $field['REQUIRED'] === 'Y' ? 'required' : '' ),
+		$div
+	);
 }
 
 
@@ -405,6 +395,8 @@ function _makeTextAreaInput( $column, $name, $request )
 	global $value,
 		$field;
 
+	$div = true;
+
 	if ( $field['DEFAULT_SELECTION']
 		&& _isNew( $request ) )
 	{
@@ -412,8 +404,6 @@ function _makeTextAreaInput( $column, $name, $request )
 
 		$div = false;
 	}
-	else
-		$div = true;
 
 	// FJ text area is required.
 	// FJ textarea field maxlength=50000 (soft limit).
@@ -651,8 +641,8 @@ function _makeStudentAge( $column, $name )
 
 		return NoInput( $age_text, $name );
 	}
-	else
-		return '';
+
+	return '';
 }
 
 
@@ -830,12 +820,12 @@ function _makeStartInput( $value, $column )
 		}
 	}
 
+	$div = true;
+
 	if ( $_REQUEST['student_id'] === 'new' )
 	{
 		$div = false;
 	}
-	else
-		$div = true;
 
 	if ( AllowEdit()
 		&& ( User( 'PROFILE' ) === 'parent'
@@ -892,12 +882,12 @@ function _makeEndInput( $value, $column )
 
 	static $drop_codes;
 
+	$id = 'new';
+
 	if ( ! empty( $THIS_RET['ID'] ) )
 	{
 		$id = $THIS_RET['ID'];
 	}
-	else
-		$id = 'new';
 
 	if ( ! $drop_codes )
 	{
@@ -964,12 +954,12 @@ function _makeSchoolInput( $value, $column )
 
 	static $schools;
 
+	$id = 'new';
+
 	if ( ! empty( $THIS_RET['ID'] ) )
 	{
 		$id = $THIS_RET['ID'];
 	}
-	else
-		$id = 'new';
 
 	if ( ! isset( $schools )
 		|| ! is_array( $schools ) )
@@ -993,35 +983,29 @@ function _makeSchoolInput( $value, $column )
 			{
 				return $schools[ $value ][1]['TITLE'];
 			}
-			else
-			{
-				return SelectInput(
-					$value,
-					'values[STUDENT_ENROLLMENT][' . $id . '][SCHOOL_ID]',
-					'',
-					$options
-				);
-			}
-		}
-		else
-		{
+
 			return SelectInput(
-				UserSchool(),
+				$value,
 				'values[STUDENT_ENROLLMENT][' . $id . '][SCHOOL_ID]',
 				'',
-				$options,
-				false,
-				'',
-				false
+				$options
 			);
 		}
+
+		return SelectInput(
+			UserSchool(),
+			'values[STUDENT_ENROLLMENT][' . $id . '][SCHOOL_ID]',
+			'',
+			$options,
+			false,
+			'',
+			false
+		);
 	}
-	else
-	{
-		// FJ save new Student's Enrollment in Enrollment.inc.php.
-		return '<input type="hidden" name="values[STUDENT_ENROLLMENT][new][SCHOOL_ID]" value="' . UserSchool() . '" />' .
-			$schools[ UserSchool() ][1]['TITLE'];
-	}
+
+	// FJ save new Student's Enrollment in Enrollment.inc.php.
+	return '<input type="hidden" name="values[STUDENT_ENROLLMENT][new][SCHOOL_ID]" value="' . UserSchool() . '" />' .
+		$schools[ UserSchool() ][1]['TITLE'];
 }
 
 
