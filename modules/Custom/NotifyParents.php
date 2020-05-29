@@ -31,7 +31,10 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 	$subject = _( 'New Parent Account' );
 
-	SaveTemplate( $_REQUEST['inputnotifyparentstext'] );
+	if ( isset( $_REQUEST['inputnotifyparentstext'] ) )
+	{
+		SaveTemplate( $_REQUEST['inputnotifyparentstext'] );
+	}
 
 	$message = str_replace( "''", "'", $_REQUEST['inputnotifyparentstext'] );
 
@@ -108,14 +111,25 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			'RESULT' => _( 'Result' ),
 		);
 
-		ListOutput( $LO_result, $columns, 'Notification Result', 'Notification Results' );
+		ListOutput(
+			$LO_result,
+			$columns,
+			'Notification Result',
+			'Notification Results',
+			false,
+			array(),
+			array( 'save' => false, 'search' => false, 'sort' => false )
+		);
+
+		// Unset staff, inputnotifyparentstext & redirect URL.
+		RedirectURL( array( 'staff', 'inputnotifyparentstext' ) );
 	}
 	else
 	{
 		$error[] = _( 'You must choose at least one user' );
 
-		// Unset modfunc & redirect URL.
-		RedirectURL( 'modfunc' );
+		// Unset modfunc, staff, inputnotifyparentstext & redirect URL.
+		RedirectURL( array( 'modfunc', 'staff', 'inputnotifyparentstext' ) );
 	}
 }
 
