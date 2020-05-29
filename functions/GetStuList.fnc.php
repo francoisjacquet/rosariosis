@@ -1217,7 +1217,7 @@ function appendSQL( $sql, $extra = array() )
 
 		if ( ! $no_search_terms )
 		{
-			$_ROSARIO['SearchTerms'] .= '<b>' . ngettext( 'Grade', 'Grades', count( $_REQUEST['grades'] ) ) .
+			$_ROSARIO['SearchTerms'] .= '<b>' . ngettext( 'Grade Level', 'Grade Levels', count( $_REQUEST['grades'] ) ) .
 				': </b>' . ( $is_grades_not ? _( 'Excluded' ) . ' ' : '' );
 		}
 

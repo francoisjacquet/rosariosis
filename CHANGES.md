@@ -4,6 +4,7 @@
 Changes in 6.5
 --------------
 - Remove else conditions in StudentsUsersInfo.fnc.php
+- Fix Advanced Search terms: "Grade Levels" in GetStuList.fnc.php
 
 Changes in 6.4.2
 ----------------
