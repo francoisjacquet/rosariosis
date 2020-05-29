@@ -115,11 +115,14 @@ if ( $_REQUEST['modfunc'] === 'save'
 	// Old for when parent account was existing.
 	$subject['old'] = _( 'Updated Parent Account' );
 
-	// FJ add Template.
-	$createparentstext = $_REQUEST['inputcreateparentstext_new'] .
-		'__BLOCK2__' . $_REQUEST['inputcreateparentstext_old'];
+	if ( isset( $_REQUEST['inputcreateparentstext_new'] ) )
+	{
+		// FJ add Template.
+		$createparentstext = $_REQUEST['inputcreateparentstext_new'] .
+			'__BLOCK2__' . $_REQUEST['inputcreateparentstext_old'];
 
-	SaveTemplate( $createparentstext );
+		SaveTemplate( $createparentstext );
+	}
 
 	$message['new'] = str_replace( "''", "'", $_REQUEST['inputcreateparentstext_new'] );
 	$message['old'] = str_replace( "''", "'", $_REQUEST['inputcreateparentstext_old'] );
@@ -329,7 +332,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 		RedirectURL( array( 'modfunc', 'student', 'contact' ) );
 	}
 
-	//reset $email_column var
+	// Reset $email_column var.
 	unset( $_SESSION['email_column'], $email_column );
 }
 

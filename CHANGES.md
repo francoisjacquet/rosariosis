@@ -7,6 +7,7 @@ Changes in 6.5
 - Fix Advanced Search terms: "Grade Levels" in GetStuList.fnc.php
 - SQL Fix PHP error timeout when email has trailing space: use trim in CreateParents.php
 - Disable save, search & sort for Notification Results list in NotifiyParents.php
+- Fix empty template saved in CreateParents.php & NotifiyParents.php
 
 Changes in 6.4.2
 ----------------
