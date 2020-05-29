@@ -284,7 +284,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		echo button( 'add' ) . ' ';
 
-		echo FileInput( 'upload', '', 'accept=".zip"', FileUploadMaxSize() );
+		echo FileInput( 'upload', '', 'required accept=".zip"', FileUploadMaxSize() );
 
 		echo SubmitButton( _( 'Upload' ) );
 

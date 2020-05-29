@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 6.4.2
+----------------
+- HTML add-on zip file input required in Modules.inc.php & Plugins.inc.php
+
 Changes in 6.4.1
 ----------------
 - HTML New Password input required in PasswordReset.php
