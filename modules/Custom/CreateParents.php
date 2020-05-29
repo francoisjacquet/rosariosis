@@ -128,10 +128,10 @@ if ( $_REQUEST['modfunc'] === 'save'
 	{
 		$st_list = "'" . implode( "','", $_REQUEST['student'] ) . "'";
 
-		$extra['SELECT'] = ",lower(" . $email_column . ") AS EMAIL";
+		$extra['SELECT'] = ",trim(lower(" . $email_column . ")) AS EMAIL";
 		$extra['SELECT'] .= ",(SELECT STAFF_ID
 			FROM STAFF
-			WHERE lower(EMAIL)=lower(" . $email_column . ")
+			WHERE trim(lower(EMAIL))=trim(lower(" . $email_column . "))
 			AND PROFILE='parent'
 			AND SYEAR=ssm.SYEAR) AS STAFF_ID";
 		$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
@@ -153,7 +153,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 				if ( ! empty( $_REQUEST['contact'][$student_id] ) )
 				{
 					// Username = email.
-					$tmp_username = $username = mb_strtolower( trim( $students[1]['EMAIL'] ) );
+					$tmp_username = $username = $students[1]['EMAIL'];
 
 					$username_exists_sql = "SELECT STAFF_ID
 						FROM STAFF
@@ -402,14 +402,14 @@ if ( ! $_REQUEST['modfunc'] && ! empty( $email_column ) )
 		$extra['extra_header_left'] .= '</table>';
 	}
 
-	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX,lower(" . $email_column . ") AS EMAIL,s.STUDENT_ID AS CONTACT";
-	$extra['SELECT'] .= ",(SELECT STAFF_ID FROM STAFF WHERE lower(EMAIL)=lower(" . $email_column . ") AND PROFILE='parent' AND SYEAR=ssm.SYEAR) AS STAFF_ID";
+	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX,trim(lower(" . $email_column . ")) AS EMAIL,s.STUDENT_ID AS CONTACT";
+	$extra['SELECT'] .= ",(SELECT STAFF_ID FROM STAFF WHERE trim(lower(EMAIL))=trim(lower(" . $email_column . ")) AND PROFILE='parent' AND SYEAR=ssm.SYEAR) AS STAFF_ID";
 	$extra['SELECT'] .= ",(SELECT 1
 		FROM STUDENTS_JOIN_USERS sju,STAFF st
 		WHERE sju.STUDENT_ID=s.STUDENT_ID
 		AND st.STAFF_ID=sju.STAFF_ID
 		AND st.SYEAR='" . UserSyear() . "'
-		AND lower(st.EMAIL)=lower(" . $email_column . ")) AS HAS_ASSOCIATED_PARENTS";
+		AND trim(lower(st.EMAIL))=trim(lower(" . $email_column . "))) AS HAS_ASSOCIATED_PARENTS";
 	//$extra['WHERE'] = " AND " . $email_column . " IS NOT NULL";
 
 	$extra['link'] = array( 'FULL_NAME' => false );

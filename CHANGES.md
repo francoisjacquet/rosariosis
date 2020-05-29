@@ -5,6 +5,7 @@ Changes in 6.5
 --------------
 - Remove else conditions in StudentsUsersInfo.fnc.php
 - Fix Advanced Search terms: "Grade Levels" in GetStuList.fnc.php
+- SQL Fix PHP error timeout when email has trailing space: use trim in CreateParents.php
 
 Changes in 6.4.2
 ----------------
