@@ -10,6 +10,7 @@ Changes in 6.5
 - Fix empty template saved in CreateParents.php & NotifiyParents.php
 - Fix SQL error when no User ID returned by Moodle in Moodle/Custom/CreateParents.php
 - Do not allow Parents/Students to delete Existing Address/Contact in Address.inc.php
+- Add Profile to ErrorSendEmail() in ErrorMessage.fnc.php
 
 Changes in 6.4.2
 ----------------

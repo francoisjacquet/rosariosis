@@ -113,6 +113,7 @@ function ErrorMessage( $errors, $code = 'error' )
  * Send email to $RosarioErrorsAddress if set {@see config.inc.php}.
  *
  * @since 4.0
+ * @since 6.5 Add Profile.
  *
  * @param array  $error Error messages. Optional.
  * @param $title string Email title. Optional.
@@ -167,6 +168,10 @@ function ErrorSendEmail( $error = array(), $title = 'PHP Fatal error' )
 	$message .= 'IP: ' . $ip . "\n";
 	$message .= 'Date: ' . date( 'Y-m-d H:i:s' ) . "\n";
 	$message .= 'User: ' . $username . "\n";
+	if ( User( 'PROFILE' ) )
+	{
+		$message .= 'Profile: ' . User( 'PROFILE' ) . "\n";
+	}
 	$message .= 'Page: ' . $_SERVER['PHP_SELF'] . "\n";
 	$message .= 'Query string: ' . $_SERVER['QUERY_STRING'] . "\n";
 
