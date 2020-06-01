@@ -248,44 +248,76 @@ function Widgets( $item, &$myextra = null )
 
 			if ( ! empty( $_REQUEST['w_course_period_id'] ) )
 			{
-				// Course.
-				if ( $_REQUEST['w_course_period_id_which'] == 'course' )
-				{
-					$course = DBGet( "SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,cp.COURSE_ID
-						FROM COURSE_PERIODS cp,COURSES c
-						WHERE c.COURSE_ID=cp.COURSE_ID
-						AND cp.COURSE_PERIOD_ID='" . $_REQUEST['w_course_period_id'] . "'" );
+				// @since 6.5 Course Widget: add Subject and Not options.
+				$extra['WHERE'] .= ! empty( $_REQUEST['w_course_period_id_not'] ) ?
+					" AND NOT " : " AND ";
 
-					$extra['WHERE'] .= " AND EXISTS(SELECT 1
+				if ( $_REQUEST['w_course_period_id_which'] === 'subject' )
+				{
+					$extra['WHERE'] .= " EXISTS(SELECT 1
 						FROM SCHEDULE w_ss
 						WHERE w_ss.STUDENT_ID=s.STUDENT_ID
 						AND w_ss.SYEAR=ssm.SYEAR
 						AND w_ss.SCHOOL_ID=ssm.SCHOOL_ID
-						AND w_ss.COURSE_ID='" . $course[1]['COURSE_ID'] . "'
+						AND w_ss.COURSE_ID IN(SELECT COURSE_ID
+							FROM COURSES
+							WHERE SUBJECT_ID='" . $_REQUEST['w_subject_id'] . "'
+							AND SYEAR=ssm.SYEAR
+							AND SCHOOL_ID=ssm.SCHOOL_ID)
 						AND ('" . DBDate() . "'
 							BETWEEN w_ss.START_DATE
 							AND w_ss.END_DATE
 							OR w_ss.END_DATE IS NULL))";
 
+					$subject_title = DBGetOne( "SELECT TITLE
+						FROM COURSE_SUBJECTS
+						WHERE SUBJECT_ID='" . $_REQUEST['w_subject_id'] . "'" );
+
+					if ( ! $extra['NoSearchTerms'] )
+					{
+						$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Subject' ) . ': </b>'.
+							( ! empty( $_REQUEST['w_course_period_id_not'] ) ? _( 'Not' ) . ' ' : '' ) .
+							$subject_title . '<br />';
+					}
+				}
+				// Course.
+				elseif ( $_REQUEST['w_course_period_id_which'] === 'course' )
+				{
+					$extra['WHERE'] .= " EXISTS(SELECT 1
+						FROM SCHEDULE w_ss
+						WHERE w_ss.STUDENT_ID=s.STUDENT_ID
+						AND w_ss.SYEAR=ssm.SYEAR
+						AND w_ss.SCHOOL_ID=ssm.SCHOOL_ID
+						AND w_ss.COURSE_ID='" . $_REQUEST['w_course_id'] . "'
+						AND ('" . DBDate() . "'
+							BETWEEN w_ss.START_DATE
+							AND w_ss.END_DATE
+							OR w_ss.END_DATE IS NULL))";
+
+					$course_title = DBGetOne( "SELECT TITLE
+						FROM COURSES
+						WHERE COURSE_ID='" . $_REQUEST['w_course_id'] . "'" );
+
 					if ( ! $extra['NoSearchTerms'] )
 					{
 						$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Course' ) . ': </b>'.
-							$course[1]['COURSE_TITLE'] . '<br />';
+							( ! empty( $_REQUEST['w_course_period_id_not'] ) ? _( 'Not' ) . ' ' : '' ) .
+							$course_title . '<br />';
 					}
 				}
 				// Course Period.
 				else
 				{
-					$extra['FROM'] .= ",SCHEDULE w_ss";
-
-					$extra['WHERE'] .= " AND w_ss.STUDENT_ID=s.STUDENT_ID
+					$extra['WHERE'] .= " EXISTS(SELECT 1
+						FROM SCHEDULE w_ss
+						WHERE w_ss.STUDENT_ID=s.STUDENT_ID
 						AND w_ss.SYEAR=ssm.SYEAR
 						AND w_ss.SCHOOL_ID=ssm.SCHOOL_ID
 						AND w_ss.COURSE_PERIOD_ID='" . $_REQUEST['w_course_period_id'] . "'
 						AND ('" . DBDate() . "'
 							BETWEEN w_ss.START_DATE
 							AND w_ss.END_DATE
-							OR w_ss.END_DATE IS NULL)";
+							OR w_ss.END_DATE IS NULL))";
 
 					$course = DBGet( "SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,cp.COURSE_ID
 						FROM COURSE_PERIODS cp,COURSES c
@@ -295,6 +327,7 @@ function Widgets( $item, &$myextra = null )
 					if ( ! $extra['NoSearchTerms'] )
 					{
 						$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Course Period' ) . ': </b>' .
+							( ! empty( $_REQUEST['w_course_period_id_not'] ) ? _( 'Not' ) . ' ' : '' ) .
 							$course[1]['COURSE_TITLE'] . ': ' . $course[1]['TITLE'] . '<br />';
 					}
 				}

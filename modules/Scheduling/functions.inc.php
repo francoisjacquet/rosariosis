@@ -11,24 +11,64 @@ function MyWidgets( $item )
 		case 'ly_course':
 			if ( ! empty( $_REQUEST['w_ly_course_period_id'] ) )
 			{
-				if ( $_REQUEST['w_ly_course_period_id_which'] == 'course' )
+				// @since 6.5 Course Widget: add Subject and Not options.
+				$extra['WHERE'] .= ! empty( $_REQUEST['w_ly_course_period_id_not'] ) ?
+					" AND NOT " : " AND ";
+
+				if ( $_REQUEST['w_ly_course_period_id_which'] === 'subject' )
 				{
-					$course = DBGet( "SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,cp.COURSE_ID FROM COURSE_PERIODS cp,COURSES c WHERE c.COURSE_ID=cp.COURSE_ID AND cp.COURSE_PERIOD_ID='" . $_REQUEST['w_ly_course_period_id'] . "'" );
-					$extra['WHERE'] .= " AND exists(SELECT '' FROM SCHEDULE WHERE STUDENT_ID=ssm.STUDENT_ID AND COURSE_ID='" . $course[1]['COURSE_ID'] . "')";
+					$extra['WHERE'] .= " EXISTS(SELECT 1 FROM SCHEDULE
+						WHERE STUDENT_ID=ssm.STUDENT_ID
+						AND COURSE_ID IN(SELECT COURSE_ID
+							FROM COURSES
+							WHERE SUBJECT_ID='" . $_REQUEST['w_ly_subject_id'] . "'))";
+
+					$subject_title = DBGetOne( "SELECT TITLE
+						FROM COURSE_SUBJECTS
+						WHERE SUBJECT_ID='" . $_REQUEST['w_ly_subject_id'] . "'" );
 
 					if ( ! $extra['NoSearchTerms'] )
 					{
-						$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Last Year Course' ) . ': </b>' . $course[1]['COURSE_TITLE'] . '<br />';
+						$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Last Year Course' ) . ': </b>' .
+							( ! empty( $_REQUEST['w_ly_course_period_id_not'] ) ? _( 'Not' ) . ' ' : '' ) .
+							$subject_title . '<br />';
 					}
 				}
-				else
+				// Course.
+				elseif ( $_REQUEST['w_ly_course_period_id_which'] === 'course' )
 				{
-					$extra['WHERE'] .= " AND exists(SELECT '' FROM SCHEDULE WHERE STUDENT_ID=ssm.STUDENT_ID AND COURSE_PERIOD_ID='" . $_REQUEST['w_ly_course_period_id'] . "')";
-					$course = DBGet( "SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,cp.COURSE_ID FROM COURSE_PERIODS cp,COURSES c WHERE c.COURSE_ID=cp.COURSE_ID AND cp.COURSE_PERIOD_ID='" . $_REQUEST['w_ly_course_period_id'] . "'" );
+					$extra['WHERE'] .= " EXISTS(SELECT 1 FROM SCHEDULE
+						WHERE STUDENT_ID=ssm.STUDENT_ID
+						AND COURSE_ID='" . $_REQUEST['w_ly_course_id'] . "')";
+
+					$course_title = DBGetOne( "SELECT TITLE
+						FROM COURSES
+						WHERE COURSE_ID='" . $_REQUEST['w_ly_course_id'] . "'" );
 
 					if ( ! $extra['NoSearchTerms'] )
 					{
-						$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Last Year Course Period' ) . ': </b>' . $course[1]['COURSE_TITLE'] . ' - ' . $course[1]['TITLE'] . '<br />';
+						$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Last Year Course' ) . ': </b>' .
+							( ! empty( $_REQUEST['w_ly_course_period_id_not'] ) ? _( 'Not' ) . ' ' : '' ) .
+							$course_title . '<br />';
+					}
+				}
+				// Course Period.
+				else
+				{
+					$extra['WHERE'] .= " EXISTS(SELECT 1 FROM SCHEDULE
+						WHERE STUDENT_ID=ssm.STUDENT_ID
+						AND COURSE_PERIOD_ID='" . $_REQUEST['w_ly_course_period_id'] . "')";
+
+					$course = DBGet( "SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,cp.COURSE_ID
+						FROM COURSE_PERIODS cp,COURSES c
+						WHERE c.COURSE_ID=cp.COURSE_ID
+						AND cp.COURSE_PERIOD_ID='" . $_REQUEST['w_ly_course_period_id'] . "'" );
+
+					if ( ! $extra['NoSearchTerms'] )
+					{
+						$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Last Year Course Period' ) . ': </b>' .
+							( ! empty( $_REQUEST['w_ly_course_period_id_not'] ) ? _( 'Not' ) . ' ' : '' ) .
+							$course[1]['COURSE_TITLE'] . ': ' . $course[1]['TITLE'] . '<br />';
 					}
 				}
 			}
