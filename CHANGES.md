@@ -13,6 +13,7 @@ Changes in 6.5
 - Add Profile to ErrorSendEmail() in ErrorMessage.fnc.php
 - Course Widget: add Subject and Not options in Widgets.fnc.php, Scheduling/functions.inc.php & ChooseCourse.php, sponsored by English National Program
 - Add "Your changes were saved." note in Student.php & User.php
+- Translate "Your changes were saved." to French & Spanish in rosariosis.po
 
 Changes in 6.4.2
 ----------------
