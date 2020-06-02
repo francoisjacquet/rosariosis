@@ -568,7 +568,7 @@ function TinyMCEInput( $value, $name, $title = '', $extra = '' )
 		// and its configuration (plugin, language...).
 		ob_start(); ?>
 
-<script src="assets/js/tinymce/tinymce.min.js"></script>
+<script src="assets/js/tinymce/tinymce.min.js?v=4.9.8"></script>
 <script>
 	tinymceSettings = {
 		selector: '.tinymce',

@@ -14,6 +14,7 @@ Changes in 6.5
 - Course Widget: add Subject and Not options in Widgets.fnc.php, Scheduling/functions.inc.php & ChooseCourse.php, sponsored by English National Program
 - Add "Your changes were saved." note in Student.php & User.php
 - Translate "Your changes were saved." to French & Spanish in rosariosis.po
+- JS fix upload image on mobile, update TinyMCE to v4.9.8 in assets/js/tinymce/ & Inputs.php
 
 Changes in 6.4.2
 ----------------
