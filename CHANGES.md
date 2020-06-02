@@ -12,6 +12,7 @@ Changes in 6.5
 - Do not allow Parents/Students to delete Existing Address/Contact in Address.inc.php
 - Add Profile to ErrorSendEmail() in ErrorMessage.fnc.php
 - Course Widget: add Subject and Not options in Widgets.fnc.php, Scheduling/functions.inc.php & ChooseCourse.php, sponsored by English National Program
+- Add "Your changes were saved." note in Student.php & User.php
 
 Changes in 6.4.2
 ----------------

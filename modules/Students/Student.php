@@ -289,6 +289,8 @@ if ( $_REQUEST['modfunc'] === 'update'
 				{
 					DBQuery( $sql );
 
+					$note[] = button( 'check' ) . ' ' . _( 'Your changes were saved.' );
+
 					// Hook.
 					do_action( 'Students/Student.php|update_student' );
 				}
