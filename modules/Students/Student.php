@@ -295,6 +295,12 @@ if ( $_REQUEST['modfunc'] === 'update'
 					do_action( 'Students/Student.php|update_student' );
 				}
 			}
+			elseif ( ! $error
+				&& ( ! empty( $_POST['values'] )
+					|| ! empty( $_FILES ) ) )
+			{
+				$note[] = button( 'check' ) . ' ' . _( 'Your changes were saved.' );
+			}
 		}
 		elseif ( ! $error ) // New student.
 		{

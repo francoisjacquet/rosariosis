@@ -340,6 +340,12 @@ if ( $_REQUEST['modfunc'] === 'update'
 					do_action( 'Users/User.php|update_user' );
 				}
 			}
+			elseif ( ! $error
+				&& ( ! empty( $_POST['values'] )
+					|| ! empty( $_FILES ) ) )
+			{
+				$note[] = button( 'check' ) . ' ' . _( 'Your changes were saved.' );
+			}
 		}
 		elseif ( ! $error ) // New user.
 		{
