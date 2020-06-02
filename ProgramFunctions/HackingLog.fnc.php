@@ -22,7 +22,8 @@ function HackingLog()
 
 	$portal_url = 'Modules.php?modname=misc/Portal.php';
 
-	if ( User( 'LAST_LOGIN' ) === date( 'Y-m-d H:i:s' )
+	if ( ! empty( $_SERVER['HTTP_REFERER'] )
+		&& mb_strpos( $_SERVER['HTTP_REFERER'], '&redirect_to=' ) !== false
 		&& ! headers_sent() )
 	{
 		// If User has just logged in, take him back to Portal without sending email!
