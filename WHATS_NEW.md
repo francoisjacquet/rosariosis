@@ -2,6 +2,13 @@
 
 ## RosarioSIS Student Information System
 
+New in 6.5
+----------
+
+[SMS Premium](https://www.rosariosis.org/modules/sms/#premium-module) module:
+- Send Absence Notification to Parents.
+
+
 New in 6.4
 ----------
 
