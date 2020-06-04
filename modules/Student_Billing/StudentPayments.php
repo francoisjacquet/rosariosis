@@ -198,6 +198,10 @@ if ( UserStudentID()
 		);
 	}
 
+	// Do hook.
+	// @since 6.5.1 Move header action hook above form.
+	do_action( 'Student_Billing/StudentPayments.php|student_payments_header' );
+
 	if ( empty( $_REQUEST['print_statements'] ) )
 	{
 		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
@@ -213,9 +217,6 @@ if ( UserStudentID()
 	{
 		$options = array( 'center' => false, 'add' => false );
 	}
-
-	// Do hook.
-	do_action( 'Student_Billing/StudentPayments.php|student_payments_header' );
 
 	ListOutput(
 		$RET,
@@ -257,8 +258,5 @@ if ( UserStudentID()
 		&& AllowEdit() )
 	{
 		echo '</form>';
-
-		// Add space to bottom for Chosen dropdown.
-		echo '<br /><br /><br /><br /><br />';
 	}
 }

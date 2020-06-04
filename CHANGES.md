@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 6.5.1
+----------------
+- Move header action hook above form in StudentPayments.php
+
 Changes in 6.5
 --------------
 - Remove else conditions in StudentsUsersInfo.fnc.php
