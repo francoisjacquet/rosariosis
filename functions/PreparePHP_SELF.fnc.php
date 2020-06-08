@@ -76,29 +76,29 @@ function PreparePHP_SELF( $tmp_REQUEST = array(), $remove = array(), $add = arra
 							{
 								if ( $value3 !== '' )
 								{
-									$PHP_tmp_SELF .= '&' . $key . '[' . $key1 . '][' . $key2 . '][' . $key3 . ']=' .
-										_myURLEncode( $value3 );
+									$PHP_tmp_SELF .= '&' . _myURLEncode( $key ) .
+										'[' . _myURLEncode( $key1 ) . '][' . _myURLEncode( $key2 ) .
+										'][' . _myURLEncode( $key3 ) . ']=' . _myURLEncode( $value3 );
 								}
 							}
 						}
 						elseif ( $value2 !== '' )
 						{
-							$PHP_tmp_SELF .= '&' . $key . '[' . $key1 . '][' . $key2 . ']=' .
-								_myURLEncode( $value2 );
+							$PHP_tmp_SELF .= '&' . _myURLEncode( $key ) . '[' . _myURLEncode( $key1 ) .
+								'][' . _myURLEncode( $key2 ) . ']=' . _myURLEncode( $value2 );
 						}
 					}
 				}
 				elseif ( $value1 !== '' )
 				{
-					$PHP_tmp_SELF .= '&' . $key . '[' . $key1 . ']=' .
+					$PHP_tmp_SELF .= '&' . _myURLEncode( $key ) . '[' . _myURLEncode( $key1 ) . ']=' .
 						_myURLEncode( $value1 );
 				}
 			}
 		}
 		elseif ( $value !== '' )
 		{
-			$PHP_tmp_SELF .= '&' . $key . "=" .
-				_myURLEncode( $value );
+			$PHP_tmp_SELF .= '&' . _myURLEncode( $key ) . "=" . _myURLEncode( $value );
 		}
 	}
 

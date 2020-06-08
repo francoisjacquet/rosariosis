@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 6.5.2
+----------------
+- Fix #282 XSS URL encode key in PreparePHP_SELF.php
+
 Changes in 6.5.1
 ----------------
 - Move header action hook above form in StudentPayments.php
