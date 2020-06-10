@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 6.6
+--------------
+- Move Updates for version 4 and 5 in UpdateV4_5.fnc.php
+
 Changes in 6.5.2
 ----------------
 - Fix #282 XSS URL encode key in PreparePHP_SELF.php
