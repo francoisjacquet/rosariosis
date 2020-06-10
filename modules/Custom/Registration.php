@@ -6,7 +6,7 @@
 
 require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 require_once 'ProgramFunctions/Fields.fnc.php';
-require_once 'modules/ENP/includes/Registration.fnc.php';
+require_once 'modules/Custom/includes/Registration.fnc.php';
 
 $_REQUEST['student_id'] = UserStudentID();
 
@@ -14,7 +14,7 @@ DrawHeader( ProgramTitle() );
 
 if ( User( 'PROFILE' ) === 'admin' )
 {
-	require_once 'modules/ENP/includes/RegistrationAdmin.fnc.php';
+	require_once 'modules/Custom/includes/RegistrationAdmin.fnc.php';
 
 	if ( $_REQUEST['modfunc'] === 'save' )
 	{
@@ -81,7 +81,7 @@ else
 {
 	if ( $_REQUEST['modfunc'] === 'save' )
 	{
-		require_once 'modules/ENP/includes/RegistrationSave.fnc.php';
+		require_once 'modules/Custom/includes/RegistrationSave.fnc.php';
 
 		// Add eventual Dates to $_REQUEST['parent'].
 		AddRequestedDates( 'parent' );
