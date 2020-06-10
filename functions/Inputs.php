@@ -278,17 +278,6 @@ function MLTextInput( $value, $name, $title = '', $extra = '', $div = true )
 	if ( AllowEdit()
 		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
-		// Input size / length based on value number of chars.
-		if ( mb_strpos( $extra, 'size=' ) === false
-			&& $value != '' )
-		{
-			$nb_loc = mb_substr_count( $value, '|' ) + 1;
-
-			$extra .=  ' size="' .
-				round( ( mb_strlen( $value ) - ( $nb_loc - 1 ) * ( mb_strlen( $RosarioLocales[0] ) + 2 ) )
-					/ $nb_loc ) . '"';
-		}
-
 		// Ng - foreach possible language.
 		ob_start(); ?>
 <script>
@@ -319,6 +308,13 @@ function setMLvalue(id, loc, value){
 <?php 	$return = ob_get_clean();
 
 		$return .= '<div class="ml-text-input"><input type="hidden" id="' . $id . '" name="' . $name . '" value="' . $value . '" autocomplete="off" />';
+
+		if ( mb_strpos( $extra, 'size=' ) === false
+			&& $value != '' )
+		{
+			// MLInput size based on current locale value length.
+			$extra .=  ' size="' . mb_strlen( ParseMLField( $value ) ) . '"';
+		}
 
 		foreach ( (array) $RosarioLocales as $key => $loc )
 		{
