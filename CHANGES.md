@@ -21,7 +21,7 @@ Changes in 6.5
 - Remove else conditions in StudentsUsersInfo.fnc.php
 - Fix Advanced Search terms: "Grade Levels" in GetStuList.fnc.php
 - SQL Fix PHP error timeout when email has trailing space: use trim in CreateParents.php
-- Disable save, search & sort for Notification Results list in NotifiyParents.php
+- Disable save, search & sort for Notification Results list in NotifyParents.php
 - Fix empty template saved in CreateParents.php & NotifiyParents.php
 - Fix SQL error when no User ID returned by Moodle in Moodle/Custom/CreateParents.php
 - Do not allow Parents/Students to delete Existing Address/Contact in Address.inc.php
