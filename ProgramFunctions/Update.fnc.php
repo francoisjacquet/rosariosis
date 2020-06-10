@@ -188,6 +188,10 @@ function Update()
 		case version_compare( $from_version, '6.3', '<' ) :
 
 			$return = _update63();
+
+		case version_compare( $from_version, '6.6', '<' ) :
+
+			$return = _update66();
 	}
 
 	// Update version in DB CONFIG table.
@@ -248,6 +252,50 @@ function _update63()
 	if ( ! $default_school_added )
 	{
 		DBQuery( "INSERT INTO config VALUES (0, 'CREATE_STUDENT_ACCOUNT_DEFAULT_SCHOOL', NULL);" );
+	}
+
+	return $return;
+}
+
+/**
+ * Update to version 6.6
+ *
+ * Add Registration program for Administrators.
+ * 1. Add Custom/Registration.php to profile_exceptions table.
+ *
+ * Local function
+ *
+ * @since 6.6
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update66()
+{
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. Add Custom/Registration.php to profile_exceptions table.
+	 */
+	$admin_profiles_RET = DBGet( "SELECT id
+		FROM user_profiles
+		WHERE profile='admin'" );
+
+	foreach ( (array) $admin_profiles_RET as $admin_profile )
+	{
+		$profile_id = $admin_profile['ID'];
+
+		$registration_profile_exceptions_exists = DBGet( "SELECT 1
+			FROM profile_exceptions
+			WHERE profile_id='" . $profile_id . "'
+			AND modname='Custom/Registration.php'" );
+
+		if ( ! $registration_profile_exceptions_exists )
+		{
+			DBQuery( "INSERT INTO profile_exceptions
+				VALUES ('" . $profile_id . "', 'Custom/Registration.php', 'Y', 'Y');" );
+		}
 	}
 
 	return $return;

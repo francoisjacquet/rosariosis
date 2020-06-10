@@ -17,23 +17,18 @@ if ( $RosarioModules['Students'] )
 		3 => _( 'Utilities' ),
 		'Custom/MyReport.php' => _( 'My Report' ),
 		'Custom/CreateParents.php' => _( 'Create Parent Users' ),
+		// @since 6.6 Add Registration program for Administrators.
+		'Custom/Registration.php' => _( 'Registration' ),
 		'Custom/RemoveAccess.php' => _( 'Remove Access' ),
 	);
 
 	$exceptions['Students'] += array(
 		'Custom/CreateParents.php' => true,
-		'Custom/NotifyParents.php' => true,
 	);
 
 	$menu['Students']['parent'] += array(
 		'Custom/Registration.php' => _( 'Registration' ),
 	);
-
-	// FJ disable Registration for students.
-	/*if ( User( 'PROFILE' ) === 'student' )
-	{
-		unset( $menu['Students']['parent']['Custom/Registration.php'] );
-	}*/
 }
 
 // Custom Users programs
@@ -42,6 +37,10 @@ if ( $RosarioModules['Users'] )
 	$menu['Users']['admin'] += array(
 		3 => _( 'Utilities' ),
 		'Custom/NotifyParents.php' => _( 'Notify Parents' ),
+	);
+
+	$exceptions['Users'] += array(
+		'Custom/NotifyParents.php' => true,
 	);
 }
 

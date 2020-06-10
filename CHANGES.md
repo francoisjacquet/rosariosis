@@ -4,6 +4,7 @@
 Changes in 6.6
 --------------
 - Move Updates for version 4 and 5 in UpdateV4_5.fnc.php
+- Add Registration program for Administrators in Update.fnc.php, Custom/Menu.php & rosariosis.sql
 
 Changes in 6.5.2
 ----------------
