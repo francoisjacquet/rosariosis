@@ -425,7 +425,8 @@ if ( ! $_REQUEST['modfunc'] )
 		issetVal( $RET['SHORT_NAME'], '' ),
 		'tables[' . $_REQUEST['marking_period_id'] . '][SHORT_NAME]',
 		_( 'Short Name' ),
-		'required maxlength="10"'
+		'required maxlength="10"' .
+			( $_REQUEST['marking_period_id'] === 'new' ? ' size="3"' : '' )
 	) . '</td>';
 
 	if ( AllowEdit() )

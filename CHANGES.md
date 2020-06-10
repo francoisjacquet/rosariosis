@@ -7,6 +7,7 @@ Changes in 6.6
 - Add Registration program for Administrators in Update.fnc.php, Custom/Menu.php & rosariosis.sql
 - Administrators can customize Registration form in Registration.php, Registration.fnc.php, RegistrationAdmin.fnc.php & RegistrationSave.fnc.php, sponsored by English National Program
 - Translate new Registration program strings to French & Spanish in rosariosis.po
+- HTML set new Short Name input size to 3 in MarkingPeriods.php
 
 Changes in 6.5.2
 ----------------
