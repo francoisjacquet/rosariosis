@@ -9,6 +9,7 @@ Changes in 6.6
 - Translate new Registration program strings to French & Spanish in rosariosis.po
 - HTML set new Short Name input size to 3 in MarkingPeriods.php
 - MLInput size based on current locale value length in Inputs.php
+- Add admin Help for Registration program in Help_en.php & help.po
 
 Changes in 6.5.2
 ----------------

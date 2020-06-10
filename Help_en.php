@@ -346,7 +346,7 @@ if ( User( 'PROFILE' ) === 'admin' ):
 
 	<p>' . _help( 'You must first select the Field where parent email addresses are stored. The drop down list contains Student and Address fields ("Text" type only).' ) . '</p>
 
-	<p>' . _help( 'You can create a new Email text field using the <i>Student Fields</i> or <i>Address Fields</i> programs.' ) . '</p>
+	<p>' . _help( 'You can create a new Email text field using the <i>Student Fields</i> program.' ) . '</p>
 
 	<p>' . _help( 'You then must select a student by using the "Find a Student" search screen.' ) . '</p>
 
@@ -357,6 +357,34 @@ if ( User( 'PROFILE' ) === 'admin' ):
 	<p>' . _help( 'To test the Parent Users creation and check the email content, you can enter your email address in the Test Mode field.' ) . '</p>
 
 	<p>' . _help( 'Click the "Create Parent Accounts for the Selected Students" button.' ) . '</p>';
+
+	$help['Custom/Registration.php'] = '<p>' . _help( '<i>Registration</i> lets you configure the Registration program\'s form and preview how it will display for Parents or Students.' ) . '</p>
+
+	<p>' . _help( 'The <i>Registration</i> program is a convenient way to allow Students or Parents to self register their information once their Student account is activated.' ) . '</p>
+
+	<p>' . _help( 'The first Parent fieldset allows you to edit the main Contact relation, check whether it should be marked as "Custody" and "Emergency", select which Contact Information and which Contact Field categories you would like to be completed.' ) . '</p>
+
+	<p>' . _help( 'If no Contact Information is available, add it first to an existing contact from the <i>Student Info > Addresses & Contacts</i> tab.' ) . '</p>
+
+	<p>' . _help( 'If no Contact Fields are available, you can add some from the <i>Student Fields</i> program.' ) . '</p>
+
+	<p>' . _help( 'Next to the main Parent contact, a similar fieldset allows you to edit the secondary Contact form. You can select whether it has no address, or to use the same address as for the student, or to display a new address form.' ) . '</p>
+
+	<p>' . _help( 'Below is the Address fieldset which allows you to select which Address Field categories you would like to be completed.' ) . '</p>
+
+	<p>' . _help( 'If no Address Fields are available, you can add some from the <i>Student Fields</i> program.' ) . '</p>
+
+	<p>' . _help( 'Below you can activate and configure other Contacts such as Grandparents.' ) . '</p>
+
+	<p>' . _help( 'Finally, the Student fieldset allows you to select which Student Field categories you would like to be completed.' ) . '</p>
+
+	<p>' . _help( 'You can add more Student Fields from the <em>Student Fields</em> program.' ) . '</p>
+
+	<p>' . _help( 'Click the "Save" button once you are ready. To preview the form, click the "Preview" link at the top of the screen.' ) . '</p>
+
+	<p>' . _help( 'Parents registering a student who already have siblings in the school will be shown the "Use same address and contact information as for [Student name]" checkbox.' ) . '</p>
+
+	<p>' . _help( 'Tip: you can create a Student Field named "Parent email" and set it as the "Student email field" from the <i>School > Configuration</i> program. Students having the same Parent email will also be shown a "Use same address and contact information as for [Student name]" checkbox when registering.' ) . '</p>';
 
 	$help['Custom/RemoveAccess.php'] = '<p>' . _help( '<i>Remove Access</i> will let you remove access for students and their associated parents.' ) . '</p>
 
