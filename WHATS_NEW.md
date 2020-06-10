@@ -2,6 +2,16 @@
 
 ## RosarioSIS Student Information System
 
+New in 6.6
+----------
+
+Custom (Students)
+- Registration: Administrators can customize Registration form, sponsored by English National Program
+
+[Student Billing Premium](https://www.rosariosis.org/modules/student-billing-premium/) module:
+- Accept Paypal payments.
+
+
 New in 6.5
 ----------
 

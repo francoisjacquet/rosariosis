@@ -5,6 +5,7 @@ Changes in 6.6
 --------------
 - Move Updates for version 4 and 5 in UpdateV4_5.fnc.php
 - Add Registration program for Administrators in Update.fnc.php, Custom/Menu.php & rosariosis.sql
+- Administrators can customize Registration form in Registration.php, Registration.fnc.php, RegistrationAdmin.fnc.php & RegistrationSave.fnc.php, sponsored by English National Program
 
 Changes in 6.5.2
 ----------------
