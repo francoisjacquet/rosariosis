@@ -339,11 +339,10 @@ if ( ! $_REQUEST['modfunc'] )
 {
 	echo ErrorMessage( $error );
 
-	// Check marking period ID is valid for current school & syear!
-
 	if ( $_REQUEST['marking_period_id']
 		&& $_REQUEST['marking_period_id'] !== 'new' )
 	{
+		// Check marking period ID is valid for current school & syear!
 		$marking_period_RET = DBGet( "SELECT MARKING_PERIOD_ID
 			FROM SCHOOL_MARKING_PERIODS
 			WHERE SCHOOL_ID='" . UserSchool() . "'
@@ -359,7 +358,37 @@ if ( ! $_REQUEST['modfunc'] )
 			// Unset year & semester & quarter IDs & redirect URL.
 			RedirectURL( array( 'year_id', 'semester_id', 'quarter_id' ) );
 		}
+
+		if ( AllowEdit()
+			&& $_REQUEST['marking_period_id'] !== 'new'
+			&& $_REQUEST['marking_period_id'] !== GetFullYearMP() )
+		{
+			// @since 6.6 Add warning when Marking Period dates are not within Parent MP dates range.
+			$parent_mp_type = GetMP( $_REQUEST['marking_period_id'], 'MP' ) === 'SEM' ? 'FY' : 'SEM';
+
+			$parent_mp_id = GetParentMP( $parent_mp_type, $_REQUEST['marking_period_id'] );
+
+			$parent_mp_end_date = GetMP( $parent_mp_id, 'END_DATE' );
+
+			$mp_end_date = GetMP( $_REQUEST['marking_period_id'], 'END_DATE' );
+
+			$parent_mp_start_date = GetMP( $parent_mp_id, 'START_DATE' );
+
+			$mp_start_date = GetMP( $_REQUEST['marking_period_id'], 'START_DATE' );
+
+			if ( $mp_end_date > $parent_mp_end_date )
+			{
+				$warning[] = _( 'End date for current Marking Period is posterior to parent Marking Period\'s end date.' );
+			}
+
+			if ( $mp_start_date < $parent_mp_start_date )
+			{
+				$warning[] = _( 'Start date for current Marking Period is anterior to parent Marking Period\'s start date.' );
+			}
+		}
 	}
+
+	echo ErrorMessage( $warning, 'warning' );
 
 	// ADDING & EDITING FORM.
 

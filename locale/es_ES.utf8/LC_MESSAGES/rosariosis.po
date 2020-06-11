@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-10 15:32+0200\n"
-"PO-Revision-Date: 2020-06-10 15:35+0200\n"
+"POT-Creation-Date: 2020-06-11 19:51+0200\n"
+"PO-Revision-Date: 2020-06-11 19:52+0200\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS\n"
 "Language: es\n"
@@ -318,7 +318,7 @@ msgstr "Tablero de Mandos"
 #: modules/Scheduling/Courses.php:795 modules/School_Setup/Calendar.php:550
 #: modules/School_Setup/Calendar.php:695
 #: modules/School_Setup/GradeLevels.php:103
-#: modules/School_Setup/MarkingPeriods.php:406
+#: modules/School_Setup/MarkingPeriods.php:447
 #: modules/School_Setup/Periods.php:136 modules/School_Setup/Schools.php:102
 #: modules/School_Setup/Schools.php:187
 #: modules/School_Setup/includes/Modules.inc.php:266
@@ -470,7 +470,7 @@ msgstr "Obligatorio"
 #: modules/Grades/ReportCardComments.php:366
 #: modules/Grades/ReportCardGrades.php:275 modules/Scheduling/Courses.php:1366
 #: modules/School_Setup/GradeLevels.php:106
-#: modules/School_Setup/MarkingPeriods.php:437
+#: modules/School_Setup/MarkingPeriods.php:479
 #: modules/School_Setup/Periods.php:139
 #: modules/School_Setup/PortalNotes.php:229
 #: modules/School_Setup/PortalPolls.php:268
@@ -497,7 +497,7 @@ msgstr "Orden"
 #: modules/Scheduling/Courses.php:1356 modules/School_Setup/Calendar.php:89
 #: modules/School_Setup/Calendar.php:665
 #: modules/School_Setup/GradeLevels.php:104
-#: modules/School_Setup/MarkingPeriods.php:420
+#: modules/School_Setup/MarkingPeriods.php:461
 #: modules/School_Setup/Periods.php:137
 #: modules/School_Setup/PortalNotes.php:227
 #: modules/School_Setup/PortalPolls.php:265
@@ -909,7 +909,7 @@ msgid "Substitutions"
 msgstr "Substituciones"
 
 #: ProgramFunctions/Substitutions.fnc.php:267 functions/GetStuList.fnc.php:1082
-#: functions/Inputs.php:710 functions/Inputs.php:720
+#: functions/Inputs.php:706 functions/Inputs.php:716
 #: functions/Search.fnc.php:661 functions/Search.fnc.php:779
 #: functions/StaffWidgets.fnc.php:341 functions/StaffWidgets.fnc.php:349
 #: functions/Widgets.fnc.php:1713 functions/Widgets.fnc.php:1722
@@ -932,7 +932,7 @@ msgid "Yes"
 msgstr "Sí"
 
 #: ProgramFunctions/Substitutions.fnc.php:267 functions/GetStuList.fnc.php:1082
-#: functions/Inputs.php:711 functions/Inputs.php:721
+#: functions/Inputs.php:707 functions/Inputs.php:717
 #: functions/Search.fnc.php:663 functions/Search.fnc.php:789
 #: functions/StaffWidgets.fnc.php:341 functions/StaffWidgets.fnc.php:351
 #: functions/Widgets.fnc.php:1713 functions/Widgets.fnc.php:1725
@@ -954,9 +954,9 @@ msgstr "No"
 #: ProgramFunctions/Substitutions.fnc.php:275
 #: ProgramFunctions/Substitutions.fnc.php:290 functions/Date.php:292
 #: functions/Date.php:295 functions/Date.php:334 functions/Date.php:337
-#: functions/Date.php:378 functions/Date.php:379 functions/Inputs.php:901
-#: functions/Inputs.php:914 functions/Inputs.php:1054 functions/Inputs.php:1103
-#: functions/Inputs.php:1263 functions/Inputs.php:1318
+#: functions/Date.php:378 functions/Date.php:379 functions/Inputs.php:897
+#: functions/Inputs.php:910 functions/Inputs.php:1050 functions/Inputs.php:1099
+#: functions/Inputs.php:1259 functions/Inputs.php:1314
 #: functions/Search.fnc.php:234 functions/Search.fnc.php:244
 #: functions/Search.fnc.php:562 functions/Widgets.fnc.php:1450
 #: functions/Widgets.fnc.php:1502 functions/Widgets.fnc.php:1600
@@ -1304,9 +1304,9 @@ msgstr "Mes"
 #: functions/Date.php:390 modules/Custom/AttendanceSummary.php:107
 #: modules/Grades/EditHistoryMarkingPeriods.php:213
 #: modules/Grades/includes/Transcripts.fnc.php:95
-#: modules/School_Setup/MarkingPeriods.php:288
-#: modules/School_Setup/MarkingPeriods.php:578
-#: modules/School_Setup/MarkingPeriods.php:589
+#: modules/School_Setup/MarkingPeriods.php:297
+#: modules/School_Setup/MarkingPeriods.php:624
+#: modules/School_Setup/MarkingPeriods.php:637
 msgid "Year"
 msgid_plural "Years"
 msgstr[0] "Año"
@@ -1619,33 +1619,33 @@ msgstr "La Dirección contiene"
 msgid "Your password must be stronger."
 msgstr "Su contraseña debe ser más fuerte."
 
-#: functions/Inputs.php:642
+#: functions/Inputs.php:638
 msgid "Write"
 msgstr "Escribir"
 
-#: functions/Inputs.php:644
+#: functions/Inputs.php:640
 #: modules/Custom/includes/RegistrationAdmin.fnc.php:66
 msgid "Preview"
 msgstr "Vista previa"
 
-#: functions/Inputs.php:646 functions/Inputs.php:647
+#: functions/Inputs.php:642 functions/Inputs.php:643
 msgid "Mastering MarkDown"
 msgstr "Dominar el Markdown"
 
-#: functions/Inputs.php:1188
+#: functions/Inputs.php:1184
 msgid "Select some Options"
 msgstr "Seleccionar Opciones"
 
-#: functions/Inputs.php:1593
+#: functions/Inputs.php:1589
 #, php-format
 msgid "Maximum file size: %01.0fMb"
 msgstr "Tamaño máximo del archivo: %01.0fMb"
 
-#: functions/Inputs.php:1821 functions/Search.fnc.php:163
+#: functions/Inputs.php:1817 functions/Search.fnc.php:163
 msgid "Check All"
 msgstr "Seleccionar Todo"
 
-#: functions/Inputs.php:1836
+#: functions/Inputs.php:1832
 msgid "Select"
 msgstr "Seleccionar"
 
@@ -2900,7 +2900,7 @@ msgstr "No Presente"
 #: modules/Grades/includes/ReportCards.fnc.php:49
 #: modules/Grades/includes/ReportCards.fnc.php:402
 #: modules/Grades/includes/Transcripts.fnc.php:119
-#: modules/School_Setup/MarkingPeriods.php:485
+#: modules/School_Setup/MarkingPeriods.php:527
 #: modules/Students/includes/Comments.inc.php:86
 #: modules/Students/includes/Medical.inc.php:74
 #: modules/Students/includes/Medical.inc.php:153
@@ -2924,7 +2924,7 @@ msgstr "Cursos"
 #: modules/Grades/ReportCardCommentCodes.php:88
 #: modules/Grades/ReportCardComments.php:76
 #: modules/School_Setup/GradeLevels.php:59
-#: modules/School_Setup/MarkingPeriods.php:58
+#: modules/School_Setup/MarkingPeriods.php:61
 #: modules/School_Setup/PortalNotes.php:174
 #: modules/School_Setup/PortalPolls.php:213
 #: modules/Students/EnrollmentCodes.php:59
@@ -2940,7 +2940,7 @@ msgstr "Entre un Orden valido por favor."
 #: modules/Scheduling/PrintSchedules.php:49 modules/Scheduling/Schedule.php:290
 #: modules/Scheduling/ScheduleReport.php:268
 #: modules/School_Setup/GradeLevels.php:105
-#: modules/School_Setup/MarkingPeriods.php:427
+#: modules/School_Setup/MarkingPeriods.php:468
 #: modules/School_Setup/Periods.php:138 modules/School_Setup/Schools.php:292
 #: modules/Students/EnrollmentCodes.php:114 modules/misc/Portal.php:118
 msgid "Short Name"
@@ -3885,12 +3885,12 @@ msgid "Entry Date"
 msgstr "Fecha de Entrada"
 
 #: modules/Eligibility/Activities.php:93
-#: modules/School_Setup/MarkingPeriods.php:500
+#: modules/School_Setup/MarkingPeriods.php:542
 msgid "Begins"
 msgstr "Comienza"
 
 #: modules/Eligibility/Activities.php:94 modules/Eligibility/Student.php:174
-#: modules/School_Setup/MarkingPeriods.php:509
+#: modules/School_Setup/MarkingPeriods.php:551
 msgid "Ends"
 msgstr "Termina"
 
@@ -5073,9 +5073,9 @@ msgstr "Fecha de Publicación de la Calificación"
 
 #: modules/Grades/EditHistoryMarkingPeriods.php:213
 #: modules/Grades/includes/Transcripts.fnc.php:96
-#: modules/School_Setup/MarkingPeriods.php:295
-#: modules/School_Setup/MarkingPeriods.php:628
-#: modules/School_Setup/MarkingPeriods.php:638
+#: modules/School_Setup/MarkingPeriods.php:304
+#: modules/School_Setup/MarkingPeriods.php:679
+#: modules/School_Setup/MarkingPeriods.php:689
 msgid "Semester"
 msgid_plural "Semesters"
 msgstr[0] "Semestre"
@@ -5083,9 +5083,9 @@ msgstr[1] "Semestres"
 
 #: modules/Grades/EditHistoryMarkingPeriods.php:213
 #: modules/Grades/includes/Transcripts.fnc.php:97
-#: modules/School_Setup/MarkingPeriods.php:302
-#: modules/School_Setup/MarkingPeriods.php:675
-#: modules/School_Setup/MarkingPeriods.php:685
+#: modules/School_Setup/MarkingPeriods.php:311
+#: modules/School_Setup/MarkingPeriods.php:731
+#: modules/School_Setup/MarkingPeriods.php:741
 msgid "Quarter"
 msgid_plural "Quarters"
 msgstr[0] "Trimestre"
@@ -5113,7 +5113,7 @@ msgid "Class Rank GPA"
 msgstr "Puesto en la Clase Promedio"
 
 #: modules/Grades/EditReportCardGrades.php:338
-#: modules/School_Setup/MarkingPeriods.php:31
+#: modules/School_Setup/MarkingPeriods.php:32
 msgid "New Marking Period"
 msgstr "Nuevo Período Académico"
 
@@ -6775,29 +6775,29 @@ msgstr ""
 msgid "Download Backup File"
 msgstr "Bajar el Archivo de Backup"
 
-#: modules/School_Setup/MarkingPeriods.php:23
+#: modules/School_Setup/MarkingPeriods.php:24
 msgid "New Year"
 msgstr "Nuevo Año"
 
-#: modules/School_Setup/MarkingPeriods.php:27
+#: modules/School_Setup/MarkingPeriods.php:28
 msgid "New Semester"
 msgstr "Nuevo Semestre"
 
-#: modules/School_Setup/MarkingPeriods.php:35
+#: modules/School_Setup/MarkingPeriods.php:36
 msgid "New Progress Period"
 msgstr "Nuevo Período Intermedio"
 
-#: modules/School_Setup/MarkingPeriods.php:81
-#: modules/School_Setup/MarkingPeriods.php:178
+#: modules/School_Setup/MarkingPeriods.php:86
+#: modules/School_Setup/MarkingPeriods.php:185
 msgid "Not all of the dates were entered correctly."
 msgstr "No todas las fechas fueron introducidas correctamente."
 
-#: modules/School_Setup/MarkingPeriods.php:120
-#: modules/School_Setup/MarkingPeriods.php:190
+#: modules/School_Setup/MarkingPeriods.php:125
+#: modules/School_Setup/MarkingPeriods.php:198
 msgid "Start date must be anterior to end date."
 msgstr "La fecha de comienzo debe ser anterior a la fecha de fin."
 
-#: modules/School_Setup/MarkingPeriods.php:246
+#: modules/School_Setup/MarkingPeriods.php:254
 #, php-format
 msgid ""
 "The beginning and end dates you specified for this marking period overlap "
@@ -6806,11 +6806,11 @@ msgstr ""
 "Las fechas especificadas de inicio y fin para este período de calificaciones "
 "se cruzan con las de \"%s\"."
 
-#: modules/School_Setup/MarkingPeriods.php:249
+#: modules/School_Setup/MarkingPeriods.php:257
 msgid "Only one marking period can be open at any time."
 msgstr "Únicamente un período de calificaciones puede ser abierto a la vez."
 
-#: modules/School_Setup/MarkingPeriods.php:257
+#: modules/School_Setup/MarkingPeriods.php:265
 #, php-format
 msgid ""
 "The grade posting dates you specified for this marking period overlap with "
@@ -6819,29 +6819,45 @@ msgstr ""
 "Las fechas de publicación de calificaciones que ha especificado se cruzan "
 "con las de \"%s\"."
 
-#: modules/School_Setup/MarkingPeriods.php:260
+#: modules/School_Setup/MarkingPeriods.php:268
 msgid "Only one grade posting period can be open at any time."
 msgstr ""
 "Sólo un período de publicación de calificaciones puede estar abierto al "
 "mismo tiempo."
 
-#: modules/School_Setup/MarkingPeriods.php:309
-#: modules/School_Setup/MarkingPeriods.php:719
-#: modules/School_Setup/MarkingPeriods.php:729
+#: modules/School_Setup/MarkingPeriods.php:318
+#: modules/School_Setup/MarkingPeriods.php:778
+#: modules/School_Setup/MarkingPeriods.php:788
 msgid "Progress Period"
 msgid_plural "Progress Periods"
 msgstr[0] "Período Intermedio"
 msgstr[1] "Períodos Intermedios"
 
-#: modules/School_Setup/MarkingPeriods.php:469
+#: modules/School_Setup/MarkingPeriods.php:381
+msgid ""
+"End date for current Marking Period is posterior to parent Marking Period's "
+"end date."
+msgstr ""
+"La fecha de cierre del Periodo a Calificar corriente está posterior a la "
+"fecha de cierre del Periodo a Calificar pariente."
+
+#: modules/School_Setup/MarkingPeriods.php:386
+msgid ""
+"Start date for current Marking Period is anterior to parent Marking Period's "
+"start date."
+msgstr ""
+"La fecha de comienzo del Periodo a Calificar corriente está anterior a la "
+"fecha de comienzo del Periodo a Calificar pariente."
+
+#: modules/School_Setup/MarkingPeriods.php:511
 msgid "Graded"
 msgstr "Calificado"
 
-#: modules/School_Setup/MarkingPeriods.php:526
+#: modules/School_Setup/MarkingPeriods.php:568
 msgid "Grade Posting Begins"
 msgstr "Publicación de Calificaciones"
 
-#: modules/School_Setup/MarkingPeriods.php:535
+#: modules/School_Setup/MarkingPeriods.php:577
 msgid "Grade Posting Ends"
 msgstr "Finalización Publicación de Calificaciones"
 
@@ -8305,6 +8321,27 @@ msgstr ""
 #: plugins/Moodle/includes/ImportUsers.fnc.php:545
 msgid "Stop"
 msgstr "Pare"
+
+#~ msgid ""
+#~ "Start date for current Marking Period  is anterior to parent Marking "
+#~ "Period's start date."
+#~ msgstr ""
+#~ "La fecha de comienzo del Periodo a Calificar corriente está anterior a la "
+#~ "fecha de comienzo del Periodo a Calificar pariente."
+
+#~ msgid ""
+#~ "Current Marking Period end date is posterior to parent Marking Period end "
+#~ "date."
+#~ msgstr ""
+#~ "La fecha de cierre del Periodo a Calificar corriente está posterior a la "
+#~ "fecha de cierre del Periodo a Calificar pariente."
+
+#~ msgid ""
+#~ "Current Marking Period start date is anterior to parent Marking Period "
+#~ "start date."
+#~ msgstr ""
+#~ "La fecha de comienzo del Periodo a Calificar corriente está anterior a la "
+#~ "fecha de comienzo del Periodo a Calificar pariente."
 
 #~ msgid "Welcome, %s, to the %s"
 #~ msgstr "Bienvenido, %s, al %s"

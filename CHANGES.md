@@ -11,6 +11,7 @@ Changes in 6.6
 - MLInput size based on current locale value length in Inputs.php
 - Add admin Help for Registration program in Help_en.php & help.po
 - Default School Year: 2020 in config.inc.sample.php & rosariosis.sql
+- Add warning when Marking Period dates are not within Parent MP dates range in MarkingPeriods.php
 
 Changes in 6.5.2
 ----------------
