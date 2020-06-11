@@ -5,6 +5,7 @@ require_once 'modules/School_Setup/includes/MarkingPeriods.fnc.php';
 DrawHeader( ProgramTitle() );
 
 // Default MP ID to Full Year.
+
 if ( empty( $_REQUEST['marking_period_id'] ) )
 {
 	$_REQUEST['marking_period_id'] = GetFullYearMP() ? GetFullYearMP() : 'new';
@@ -21,19 +22,19 @@ if ( $_REQUEST['marking_period_id'] === 'new' )
 	{
 		case 'FY':
 			$title = _( 'New Year' );
-		break;
+			break;
 
 		case 'SEM':
 			$title = _( 'New Semester' );
-		break;
+			break;
 
 		case 'QTR':
 			$title = _( 'New Marking Period' );
-		break;
+			break;
 
 		case 'PRO':
 			$title = _( 'New Progress Period' );
-		break;
+			break;
 	}
 }
 else
@@ -45,15 +46,17 @@ else
 AddRequestedDates( 'tables', 'post' );
 
 // UPDATING
+
 if ( ! empty( $_POST['tables'] )
 	&& AllowEdit() )
 {
 	foreach ( (array) $_REQUEST['tables'] as $id => $columns )
 	{
 		//FJ fix SQL bug invalid sort order
+
 		if ( isset( $columns['SORT_ORDER'] )
 			&& $columns['SORT_ORDER'] !== ''
-			&& !is_numeric( $columns['SORT_ORDER'] ) )
+			&& ! is_numeric( $columns['SORT_ORDER'] ) )
 		{
 			$error[] = _( 'Please enter a valid Sort Order.' );
 
@@ -61,6 +64,7 @@ if ( ! empty( $_POST['tables'] )
 		}
 
 		// UPDATE
+
 		if ( $id !== 'new' )
 		{
 			$sql = "UPDATE SCHOOL_MARKING_PERIODS SET ";
@@ -73,9 +77,10 @@ if ( ! empty( $_POST['tables'] )
 					|| $column === 'POST_END_DATE' )
 				{
 					//FJ fix SQL bug START_DATE or END_DATE is null
-					if ( ( !VerifyDate( $value )
-							&& $value !== '' )
-						|| ( ($column === 'START_DATE' || $column === 'END_DATE' )
+
+					if (  ( ! VerifyDate( $value )
+						&& $value !== '' )
+						|| ( ( $column === 'START_DATE' || $column === 'END_DATE' )
 							&& $value === '' ) )
 					{
 						$error[] = _( 'Not all of the dates were entered correctly.' );
@@ -88,24 +93,24 @@ if ( ! empty( $_POST['tables'] )
 						FROM SCHOOL_MARKING_PERIODS
 						WHERE MARKING_PERIOD_ID='" . $id . "'" );
 
-					$start_date = !empty( $columns['START_DATE'] ) ?
+					$start_date = ! empty( $columns['START_DATE'] ) ?
 						$columns['START_DATE'] :
 						$mp_dates_RET[1]['START_DATE'];
 
-					$end_date = !empty($columns['END_DATE']) ?
+					$end_date = ! empty( $columns['END_DATE'] ) ?
 						$columns['END_DATE'] :
 						$mp_dates_RET[1]['END_DATE'];
 
-					$post_start_date = !empty($columns['POST_START_DATE']) ?
+					$post_start_date = ! empty( $columns['POST_START_DATE'] ) ?
 						$columns['POST_START_DATE'] :
 						$mp_dates_RET[1]['POST_START_DATE'];
 
-					$post_end_date = !empty($columns['POST_END_DATE']) ?
+					$post_end_date = ! empty( $columns['POST_END_DATE'] ) ?
 						$columns['POST_END_DATE'] :
 						$mp_dates_RET[1]['POST_END_DATE'];
 
-					if ( ( $column ==='END_DATE'
-							&& date_create( $value ) <= date_create( $start_date ) )
+					if (  ( $column === 'END_DATE'
+						&& date_create( $value ) <= date_create( $start_date ) )
 						|| ( $column === 'START_DATE'
 							&& date_create( $end_date ) <= date_create( $value ) )
 						|| ( $column === 'POST_END_DATE'
@@ -130,6 +135,7 @@ if ( ! empty( $_POST['tables'] )
 
 			$go = true;
 		}
+
 		// New: check for Title.
 		elseif ( $columns['TITLE'] )
 		{
@@ -146,17 +152,17 @@ if ( ! empty( $_POST['tables'] )
 				case 'SEM':
 					$fields .= "PARENT_ID,";
 					$values .= "'" . $_REQUEST['year_id'] . "',";
-				break;
+					break;
 
 				case 'QTR':
 					$fields .= "PARENT_ID,";
 					$values .= "'" . $_REQUEST['semester_id'] . "',";
-				break;
+					break;
 
 				case 'PRO':
 					$fields .= "PARENT_ID,";
 					$values .= "'" . $_REQUEST['quarter_id'] . "',";
-				break;
+					break;
 			}
 
 			$go = false;
@@ -169,11 +175,12 @@ if ( ! empty( $_POST['tables'] )
 					|| $column === 'POST_END_DATE' )
 				{
 					//FJ fix SQL bug START_DATE or END_DATE is null
-					if ( !VerifyDate( $value )
+
+					if ( ! VerifyDate( $value )
 						&& $value !== ''
 						|| ( ( $column === 'START_DATE'
 							|| $column === 'END_DATE' )
-						&& $value === '' ) )
+							&& $value === '' ) )
 					{
 						$error[] = _( 'Not all of the dates were entered correctly.' );
 
@@ -181,8 +188,9 @@ if ( ! empty( $_POST['tables'] )
 					}
 
 					//FJ verify END_DATE > START_DATE
-					if ( ( $column === 'END_DATE'
-							&& date_create( $value ) <= date_create( $columns['START_DATE'] ) )
+
+					if (  ( $column === 'END_DATE'
+						&& date_create( $value ) <= date_create( $columns['START_DATE'] ) )
 						|| ( $column === 'POST_START_DATE'
 							&& $columns['POST_END_DATE'] !== ''
 							&& date_create( $value ) > date_create( $columns['POST_END_DATE'] ) ) )
@@ -193,7 +201,7 @@ if ( ! empty( $_POST['tables'] )
 					}
 				}
 
-				if ( !empty( $value )
+				if ( ! empty( $value )
 					|| $value === '0' )
 				{
 					$fields .= $column . ',';
@@ -218,7 +226,7 @@ if ( ! empty( $_POST['tables'] )
 				"' BETWEEN START_DATE AND END_DATE" : '' ) .
 			( ! empty( $columns['START_DATE'] ) && ! empty( $columns['END_DATE'] ) ?
 				" OR START_DATE BETWEEN '" . $columns['START_DATE'] . "' AND '" . $columns['END_DATE'] . "'" .
-				" OR END_DATE BETWEEN '" . $columns['START_DATE'] . "' AND '" . $columns['END_DATE'] . "'" : '') . ")
+				" OR END_DATE BETWEEN '" . $columns['START_DATE'] . "' AND '" . $columns['END_DATE'] . "'" : '' ) . ")
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'" .
 			( $id !== 'new' ? " AND SCHOOL_ID='" . UserSchool() . "'
@@ -279,6 +287,7 @@ if ( ! empty( $_POST['tables'] )
 }
 
 // DELETING
+
 if ( $_REQUEST['modfunc'] === 'delete'
 	&& AllowEdit() )
 {
@@ -289,28 +298,28 @@ if ( $_REQUEST['modfunc'] === 'delete'
 
 			$parent_term = '';
 			$parent_id = '';
-		break;
+			break;
 
 		case 'SEM':
 			$name = _( 'Semester' );
 
 			$parent_term = 'FY';
 			$parent_id = issetVal( $_REQUEST['year_id'] );
-		break;
+			break;
 
 		case 'QTR':
 			$name = _( 'Quarter' );
 
 			$parent_term = 'SEM';
 			$parent_id = issetVal( $_REQUEST['semester_id'] );
-		break;
+			break;
 
 		case 'PRO':
 			$name = _( 'Progress Period' );
 
 			$parent_term = 'QTR';
 			$parent_id = issetVal( $_REQUEST['quarter_id'] );
-		break;
+			break;
 	}
 
 	if ( DeletePrompt( $name ) )
@@ -331,6 +340,7 @@ if ( ! $_REQUEST['modfunc'] )
 	echo ErrorMessage( $error );
 
 	// Check marking period ID is valid for current school & syear!
+
 	if ( $_REQUEST['marking_period_id']
 		&& $_REQUEST['marking_period_id'] !== 'new' )
 	{
@@ -352,6 +362,7 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 
 	// ADDING & EDITING FORM.
+
 	if ( $_REQUEST['marking_period_id'] !== 'new' )
 	{
 		$RET = DBGet( "SELECT TITLE,SHORT_NAME,SORT_ORDER,DOES_GRADES,DOES_COMMENTS,
@@ -376,6 +387,7 @@ if ( ! $_REQUEST['modfunc'] )
 		&& $_REQUEST['marking_period_id'] !== 'new' )
 	{
 		// Is Single Marking Period? Do NOT delete.
+
 		if ( $_REQUEST['mp_term'] !== 'FY'
 			&& $_REQUEST['mp_term'] !== 'PRO' )
 		{
@@ -564,12 +576,16 @@ if ( ! $_REQUEST['modfunc'] )
 		if ( ! empty( $_REQUEST['mp_term'] ) )
 		{
 			if ( $_REQUEST['mp_term'] === 'FY' )
+			{
 				$_REQUEST['year_id'] = issetVal( $_REQUEST['marking_period_id'] );
+			}
 
 			foreach ( (array) $fy_RET as $key => $value )
 			{
 				if ( $value['MARKING_PERIOD_ID'] === $_REQUEST['year_id'] )
-					$fy_RET[ $key ]['row_color'] = Preferences( 'HIGHLIGHT' );
+				{
+					$fy_RET[$key]['row_color'] = Preferences( 'HIGHLIGHT' );
+				}
 			}
 		}
 	}
@@ -585,15 +601,18 @@ if ( ! $_REQUEST['modfunc'] )
 	$link['TITLE']['variables'] = array( 'marking_period_id' => 'MARKING_PERIOD_ID' );
 
 	if ( empty( $fy_RET ) )
+	{
 		$link['add']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&mp_term=FY&marking_period_id=new';
+	}
 
 	ListOutput( $fy_RET, $columns, 'Year', 'Years', $link, array(), $LO_options );
 
 	echo '</div>';
 
 	// SEMESTERS
-	if ( ( $_REQUEST['mp_term'] === 'FY'
-			&& $_REQUEST['marking_period_id'] !== 'new' )
+
+	if (  ( $_REQUEST['mp_term'] === 'FY'
+		&& $_REQUEST['marking_period_id'] !== 'new' )
 		|| $_REQUEST['mp_term'] === 'SEM'
 		|| $_REQUEST['mp_term'] === 'QTR'
 		|| $_REQUEST['mp_term'] === 'PRO' )
@@ -611,14 +630,16 @@ if ( ! $_REQUEST['modfunc'] )
 			if ( ! empty( $_REQUEST['mp_term'] ) )
 			{
 				if ( $_REQUEST['mp_term'] === 'SEM' )
+				{
 					$_REQUEST['semester_id'] = issetVal( $_REQUEST['marking_period_id'] );
+				}
 
 				foreach ( (array) $sem_RET as $key => $value )
 				{
 					if ( ! empty( $_REQUEST['semester_id'] )
 						&& $value['MARKING_PERIOD_ID'] === $_REQUEST['semester_id'] )
 					{
-						$sem_RET[ $key ]['row_color'] = Preferences( 'HIGHLIGHT' );
+						$sem_RET[$key]['row_color'] = Preferences( 'HIGHLIGHT' );
 					}
 				}
 			}
@@ -641,6 +662,7 @@ if ( ! $_REQUEST['modfunc'] )
 		echo '</div>';
 
 		// QUARTERS
+
 		if ( ( $_REQUEST['mp_term'] === 'SEM'
 				&& $_REQUEST['marking_period_id'] !== 'new' )
 			|| $_REQUEST['mp_term'] === 'QTR'
@@ -657,16 +679,20 @@ if ( ! $_REQUEST['modfunc'] )
 			if ( ! empty( $qtr_RET ) )
 			{
 				if ( ( $_REQUEST['mp_term'] === 'QTR'
-					&& $_REQUEST['marking_period_id'] !== 'new' )
+						&& $_REQUEST['marking_period_id'] !== 'new' )
 					|| $_REQUEST['mp_term'] === 'PRO' )
 				{
-					if ( $_REQUEST['mp_term']=='QTR')
+					if ( $_REQUEST['mp_term'] == 'QTR' )
+					{
 						$_REQUEST['quarter_id'] = issetVal( $_REQUEST['marking_period_id'] );
+					}
 
 					foreach ( (array) $qtr_RET as $key => $value )
 					{
 						if ( $value['MARKING_PERIOD_ID'] === $_REQUEST['quarter_id'] )
-							$qtr_RET[ $key ]['row_color'] = Preferences( 'HIGHLIGHT' );
+						{
+							$qtr_RET[$key]['row_color'] = Preferences( 'HIGHLIGHT' );
+						}
 					}
 				}
 			}
@@ -688,6 +714,7 @@ if ( ! $_REQUEST['modfunc'] )
 			echo '</div>';
 
 			// PROGRESS PERIODS
+
 			if ( ( $_REQUEST['mp_term'] === 'QTR'
 					&& $_REQUEST['marking_period_id'] !== 'new' )
 				|| $_REQUEST['mp_term'] === 'PRO' )
@@ -702,15 +729,17 @@ if ( ! $_REQUEST['modfunc'] )
 
 				if ( ! empty( $pro_RET ) )
 				{
-					if ( ( $_REQUEST['mp_term'] === 'PRO'
-						&& $_REQUEST['marking_period_id'] !== 'new' ) )
+					if ( $_REQUEST['mp_term'] === 'PRO'
+						&& $_REQUEST['marking_period_id'] !== 'new' )
 					{
 						$_REQUEST['progress_period_id'] = issetVal( $_REQUEST['marking_period_id'] );
 
 						foreach ( (array) $pro_RET as $key => $value )
 						{
 							if ( $value['MARKING_PERIOD_ID'] === $_REQUEST['marking_period_id'] )
-								$pro_RET[ $key ]['row_color'] = Preferences( 'HIGHLIGHT' );
+							{
+								$pro_RET[$key]['row_color'] = Preferences( 'HIGHLIGHT' );
+							}
 						}
 					}
 				}
