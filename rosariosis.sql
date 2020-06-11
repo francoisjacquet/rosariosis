@@ -2219,13 +2219,13 @@ INSERT INTO staff VALUES (2020, NEXTVAL('staff_staff_id_seq'), 1, NULL, 'Parent'
 -- Data for Name: school_marking_periods; Type: TABLE DATA; Schema: public; Owner: rosariosis
 --
 
-INSERT INTO school_marking_periods VALUES (NEXTVAL('school_marking_periods_marking_period_id_seq'), 2020, 'FY', 1, NULL, 'Full Year', 'FY', 1, '2020-06-15', '2021-06-12', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO school_marking_periods VALUES (NEXTVAL('school_marking_periods_marking_period_id_seq'), 2020, 'FY', 1, NULL, 'Full Year', 'FY', 1, '2020-06-15', '2021-06-1.', NULL, NULL, NULL, NULL, NULL);
 INSERT INTO school_marking_periods VALUES (NEXTVAL('school_marking_periods_marking_period_id_seq'), 2020, 'SEM', 1, 1, 'Semester 1', 'S1', 1, '2020-06-15', '2020-12-31', '2020-12-28', '2020-12-31', NULL, NULL, NULL);
-INSERT INTO school_marking_periods VALUES (NEXTVAL('school_marking_periods_marking_period_id_seq'), 2020, 'SEM', 1, 1, 'Semester 2', 'S2', 2, '2021-01-02', '2021-06-12', '2021-06-11', '2021-06-13', NULL, NULL, NULL);
-INSERT INTO school_marking_periods VALUES (NEXTVAL('school_marking_periods_marking_period_id_seq'), 2020, 'QTR', 1, 2, 'Quarter 1', 'Q1', 1, '2020-06-17', '2020-09-12', '2020-09-11', '2020-09-13', 'Y', 'Y', NULL);
+INSERT INTO school_marking_periods VALUES (NEXTVAL('school_marking_periods_marking_period_id_seq'), 2020, 'SEM', 1, 1, 'Semester 2', 'S2', 2, '2021-01-02', '2021-06-13', '2021-06-11', '2021-06-13', NULL, NULL, NULL);
+INSERT INTO school_marking_periods VALUES (NEXTVAL('school_marking_periods_marking_period_id_seq'), 2020, 'QTR', 1, 2, 'Quarter 1', 'Q1', 1, '2020-06-17', '2020-09-13', '2020-09-11', '2020-09-13', 'Y', 'Y', NULL);
 INSERT INTO school_marking_periods VALUES (NEXTVAL('school_marking_periods_marking_period_id_seq'), 2020, 'QTR', 1, 2, 'Quarter 2', 'Q2', 2, '2020-09-14', '2020-12-31', '2020-12-28', '2020-12-31', 'Y', 'Y', NULL);
-INSERT INTO school_marking_periods VALUES (NEXTVAL('school_marking_periods_marking_period_id_seq'), 2020, 'QTR', 1, 3, 'Quarter 3', 'Q3', 3, '2021-01-02', '2021-03-13', '2021-03-12', '2021-03-14', 'Y', 'Y', NULL);
-INSERT INTO school_marking_periods VALUES (NEXTVAL('school_marking_periods_marking_period_id_seq'), 2020, 'QTR', 1, 3, 'Quarter 4', 'Q4', 4, '2021-03-15', '2021-06-12', '2021-06-11', '2021-06-13', 'Y', 'Y', NULL);
+INSERT INTO school_marking_periods VALUES (NEXTVAL('school_marking_periods_marking_period_id_seq'), 2020, 'QTR', 1, 3, 'Quarter 3', 'Q3', 3, '2021-01-01', '2021-03-14', '2021-03-12', '2021-03-14', 'Y', 'Y', NULL);
+INSERT INTO school_marking_periods VALUES (NEXTVAL('school_marking_periods_marking_period_id_seq'), 2020, 'QTR', 1, 3, 'Quarter 4', 'Q4', 4, '2021-03-15', '2021-06-13', '2021-06-11', '2021-06-13', 'Y', 'Y', NULL);
 
 
 
