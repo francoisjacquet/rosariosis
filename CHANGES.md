@@ -10,6 +10,7 @@ Changes in 6.6
 - HTML set new Short Name input size to 3 in MarkingPeriods.php
 - MLInput size based on current locale value length in Inputs.php
 - Add admin Help for Registration program in Help_en.php & help.po
+- Default School Year: 2020 in config.inc.sample.php & rosariosis.sql
 
 Changes in 6.5.2
 ----------------

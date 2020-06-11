@@ -5,8 +5,10 @@
 New in 6.6
 ----------
 
+Default School Year: 2020
+
 Custom (Students)
-- Registration: Administrators can customize Registration form, sponsored by English National Program
+- Registration: Administrators can customize the Registration form, sponsored by English National Program
 
 [Student Billing Premium](https://www.rosariosis.org/modules/student-billing-premium/) module:
 - Accept Paypal payments.
