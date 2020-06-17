@@ -167,7 +167,7 @@ if ( ! $_REQUEST['modfunc'] )
 			EMAIL,PROFILE
 			FROM STAFF
 			WHERE SYEAR='" . UserSyear() . "'
-			AND SCHOOLS LIKE '%," . UserSchool() . ",%'
+			AND (SCHOOLS LIKE '%," . UserSchool() . ",%' OR SCHOOLS IS NULL)
 			AND PROFILE IN ('admin','teacher')
 			ORDER BY FULL_NAME" );
 

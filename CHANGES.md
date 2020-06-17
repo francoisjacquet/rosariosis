@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 6.6.1
+----------------
+- Fix SQL Email Referral to select staff in "All Schools" in MakeReferral.php
+
 Changes in 6.6
 --------------
 - Move Updates for version 4 and 5 in UpdateV4_5.fnc.php
