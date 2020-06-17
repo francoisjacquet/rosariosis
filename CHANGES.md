@@ -4,6 +4,7 @@
 Changes in 6.6.1
 ----------------
 - Fix SQL Email Referral to select staff in "All Schools" in MakeReferral.php
+- CSS add Staff_Absences module icon to themes in Staff_Absences.png & stylesheet.css
 
 Changes in 6.6
 --------------

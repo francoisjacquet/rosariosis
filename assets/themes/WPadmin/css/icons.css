@@ -73,6 +73,10 @@
 	background-image: url("modules/SMS.png");
 }
 
+.module-icon.Staff_Absences {
+	background-image: url("modules/Staff_Absences.png") !important;
+}
+
 .module-icon.Student_Billing {
 	background-image: url("modules/Student_Billing.png");
 }
