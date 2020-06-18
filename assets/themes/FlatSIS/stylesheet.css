@@ -75,7 +75,7 @@
 }
 
 .module-icon.Staff_Absences {
-	background-image: url("modules/Staff_Absences.png");
+	background-image: url("modules/Staff_Absences.png") !important;
 }
 
 .module-icon.Student_Billing {
