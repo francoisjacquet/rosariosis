@@ -415,7 +415,7 @@ function FilesUploadUpdate( $table, $request, $path )
 			{
 				$where_sql = "STAFF_ID='" . UserStaffID() . "'";
 			}
-			elseif ( $table === 'LIBRARY_DOCUMENTS' )
+			else
 			{
 				$where_sql = "ID='" . $_REQUEST['id'] . "'";
 			}
