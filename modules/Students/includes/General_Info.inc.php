@@ -112,7 +112,7 @@ else
 
 echo '</td><td>';
 
-if ( array_key_exists( 'LAST_LOGIN', $student ) )
+if ( array_key_exists( 'LAST_LOGIN', (array) $student ) )
 {
 	// Hide Last Login on Create Account and Add screens.
 	echo NoInput( makeLogin( $student['LAST_LOGIN'] ), _( 'Last Login' ) );
