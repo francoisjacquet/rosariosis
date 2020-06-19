@@ -104,18 +104,18 @@ if ( ! empty( $_REQUEST['category_id'] ) )
 	}
 
 	$months = array(
-		'1' => mb_substr( _( 'January' ), 0, 3 ),
-		'2' => mb_substr( _( 'February' ), 0, 3 ),
-		'3' => mb_substr( _( 'March' ), 0, 3 ),
-		'4' => mb_substr( _( 'April' ), 0, 3 ),
-		'5' => mb_substr( _( 'May' ), 0, 3 ),
-		'6' => mb_substr( _( 'June' ), 0, 3 ),
-		'7' => mb_substr( _( 'July' ), 0, 3 ),
-		'8' => mb_substr( _( 'August' ), 0, 3 ),
-		'9' => mb_substr( _( 'September' ), 0, 3 ),
-		'10' => mb_substr( _( 'October' ), 0, 3 ),
-		'11' => mb_substr( _( 'November' ), 0, 3 ),
-		'12' => mb_substr( _( 'December' ), 0, 3 ),
+		'1' => mb_substr( _( 'January' ), 0, 4 ),
+		'2' => mb_substr( _( 'February' ), 0, 4 ),
+		'3' => mb_substr( _( 'March' ), 0, 4 ),
+		'4' => mb_substr( _( 'April' ), 0, 4 ),
+		'5' => mb_substr( _( 'May' ), 0, 4 ),
+		'6' => mb_substr( _( 'June' ), 0, 4 ),
+		'7' => mb_substr( _( 'July' ), 0, 4 ),
+		'8' => mb_substr( _( 'August' ), 0, 4 ),
+		'9' => mb_substr( _( 'September' ), 0, 4 ),
+		'10' => mb_substr( _( 'October' ), 0, 4 ),
+		'11' => mb_substr( _( 'November' ), 0, 4 ),
+		'12' => mb_substr( _( 'December' ), 0, 4 ),
 	);
 
 	$extra = array();
