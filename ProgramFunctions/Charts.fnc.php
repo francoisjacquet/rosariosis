@@ -67,7 +67,7 @@ function ChartjsChart( $type, $data, $title )
 
 			$dataset['backgroundColor'] = $colors_default[ $i % count( $colors_default ) ];
 
-			$dataset['data'] = array_values( $data_serie[1] ); // Force start index to 0.
+			$dataset['data'] = array_values( (array) $data_serie[1] ); // Force start index to 0.
 
 			$datasets[ $i ] = $dataset;
 
@@ -80,7 +80,7 @@ function ChartjsChart( $type, $data, $title )
 
 		$dataset = $dataset_default;
 
-		$dataset['data'] = array_values( $data[1] ); // Force start index to 0.
+		$dataset['data'] = array_values( (array) $data[1] ); // Force start index to 0.
 
 		$datasets = array( $dataset );
 	}
