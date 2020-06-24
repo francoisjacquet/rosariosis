@@ -17,7 +17,7 @@ WHERE cs.SUBJECT_ID=c.SUBJECT_ID
 AND cp.COURSE_ID=c.COURSE_ID
 AND cp.SYEAR='" . UserSyear() . "'
 AND cp.SCHOOL_ID='" . UserSchool() . "'
-ORDER BY SUBJECT_TITLE,COURSE", array( 'TEACHER_ID' => 'GetTeacher', 'MARKING_PERIOD_ID' => '_makeMP' ), array( 'COURSE' ) );
+ORDER BY cs.SORT_ORDER,COURSE", array( 'TEACHER_ID' => 'GetTeacher', 'MARKING_PERIOD_ID' => '_makeMP' ) );
 
 $columns = array(
 	'SUBJECT_TITLE' => _( 'Subject' ),
@@ -32,7 +32,7 @@ $columns = array(
 
 DrawHeader( ProgramTitle() );
 
-ListOutput( $sections_RET, $columns, 'Course', 'Courses', array(), array( array( 'COURSE', 'SUBJECT_TITLE' ) ) );
+ListOutput( $sections_RET, $columns, 'Course', 'Courses' );
 
 /**
  * @param $marking_period_id

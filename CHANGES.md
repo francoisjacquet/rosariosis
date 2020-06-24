@@ -5,6 +5,7 @@ Changes in 6.7
 --------------
 - Fix PHP warning array_values() expects parameter 1 to be array, null given in Charts.fnc.php
 - Group Periods & remove `_getPeriod()` in MasterScheduleReport.php
+- Can sort List in MasterScheduleReport.php
 - Add Students count column in MasterScheduleReport.php
 
 Changes in 6.6.1
