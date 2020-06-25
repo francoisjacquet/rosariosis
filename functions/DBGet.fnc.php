@@ -80,14 +80,10 @@ function DBGet( $QI, $functions = array(), $index = array() )
 
 		if ( $index_count )
 		{
-			// $ind = '';
-
 			$ind = array();
 
 			foreach ( (array) $index as $col )
 			{
-				// $ind .= "['" . str_replace( "'", "\'", $THIS_RET[ $col ] ) . "']";
-
 				$ind[] = issetVal( $RET[ $col ] );
 			}
 
@@ -107,30 +103,17 @@ function DBGet( $QI, $functions = array(), $index = array() )
 			{
 				$this_ind = @++$s[ $ind[0] ][ $ind[1] ][ $ind[2] ][ $ind[3] ];
 			}
-
-			// eval('$s'.$ind.'++;$this_ind=$s'.$ind.';');
-
-			/*if ( ! eval( 'return isset($s' . $ind . ');' ) )
-			{
-				eval( '$s' . $ind . '=1;' );
-			}
-			else
-				eval( '$s' . $ind . '++;' );
-
-			eval( '$this_ind=$s' . $ind . ';' );*/
 		}
 		else
 			$s++; // 1-based if no index specified.
 
 		foreach ( $RET as $key => $value )
 		{
+			$result = $value;
+
 			if ( isset( $functions[ $key ] ) )
 			{
 				$result = $functions[ $key ]( $value, $key );
-			}
-			else
-			{
-				$result = $value;
 			}
 
 			if ( ! $index_count )
@@ -153,14 +136,6 @@ function DBGet( $QI, $functions = array(), $index = array() )
 			{
 				$results[ $ind[0] ][ $ind[1] ][ $ind[2] ][ $ind[3] ][ $this_ind ][ $key ] = $result;
 			}
-
-			/*if ( isset( $functions[ $key ] )
-				&& function_exists( $functions[ $key ] ) )
-			{
-				eval( '$results' . $ind . '[ $this_ind ][ $key ] = $functions[ $key ]($value,$key);' );
-			}
-			else
-				eval( '$results' . $ind . '[ $this_ind ][ $key ] = $value;' );*/
 		}
 	}
 

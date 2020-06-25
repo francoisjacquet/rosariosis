@@ -3,8 +3,6 @@
 // @since 4.8 Search Parents by Student Grade Level.
 function GetStaffList( &$extra = array() )
 {
-	global $profiles_RET;
-
 	$functions = array( 'PROFILE' => 'makeProfile' );
 
 	if ( User( 'PROFILE' ) !== 'admin'
@@ -398,15 +396,24 @@ function makeProfile( $value, $column = 'PROFILE' )
 			FROM USER_PROFILES", array(), array( 'ID' ) );
 	}
 
-	if ( $value=='admin')
-		$return = _('Administrator');
-	elseif ( $value=='teacher')
-		$return = _('Teacher');
-	elseif ( $value=='parent')
-		$return = _('Parent');
-	elseif ( $value=='none')
-		$return = _('No Access');
-	else $return = $value;
+	$return = $value;
+
+	if ( $value == 'admin' )
+	{
+		$return = _( 'Administrator' );
+	}
+	elseif ( $value == 'teacher' )
+	{
+		$return = _( 'Teacher' );
+	}
+	elseif ( $value == 'parent' )
+	{
+		$return = _( 'Parent' );
+	}
+	elseif ( $value == 'none' )
+	{
+		$return = _( 'No Access' );
+	}
 
 	if ( ! empty( $THIS_RET['PROFILE_ID'] ) )
 	{
@@ -419,7 +426,7 @@ function makeProfile( $value, $column = 'PROFILE' )
 			$profiles_RET[$THIS_RET['PROFILE_ID']][1]['TITLE'] :
 			'<span style="color:red">' . $THIS_RET['PROFILE_ID'] . '</span>' );
 	}
-	elseif ( $value!='none')
+	elseif ( $value != 'none' )
 	{
 		$return .= _( ' w/Custom' );
 	}
@@ -435,10 +442,8 @@ function makeLogin( $value, $column = 'LAST_LOGIN' )
 		{
 			return button( 'x' );
 		}
-		else
-		{
-			return ProperDateTime( $value, 'short' );
-		}
+
+		return ProperDateTime( $value, 'short' );
 	}
 
 	// FJ add failed login to expanded view.

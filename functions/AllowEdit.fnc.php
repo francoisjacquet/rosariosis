@@ -102,24 +102,15 @@ function AllowUse( $modname = false )
 	// Get CAN_USE programs from database.
 	if ( ! isset( $_ROSARIO['AllowUse'] ) )
 	{
-		if ( User( 'PROFILE_ID' ) != '' ) // Beware, '0' is student!
-		{
-			$_ROSARIO['AllowUse'] = DBGet( "SELECT MODNAME
-				FROM PROFILE_EXCEPTIONS
-				WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "' AND CAN_USE='Y'", array(), array( 'MODNAME' ) );
-		}
-		else
-		{
-			$_ROSARIO['AllowUse'] = DBGet( "SELECT MODNAME
-				FROM STAFF_EXCEPTIONS
-				WHERE USER_ID='" . User( 'STAFF_ID' ) . "' AND CAN_USE='Y'", array(), array( 'MODNAME' ) );
-		}
+		$from_where_sql = User( 'PROFILE_ID' ) != '' ? // Beware, '0' is student!
+			"FROM PROFILE_EXCEPTIONS
+			WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
+			"FROM STAFF_EXCEPTIONS
+			WHERE USER_ID='" . User( 'STAFF_ID' ) . "'";
+
+		$_ROSARIO['AllowUse'] = DBGet( "SELECT MODNAME " . $from_where_sql .
+			" AND CAN_USE='Y'", array(), array( 'MODNAME' ) );
 	}
 
-	if ( isset( $_ROSARIO['AllowUse'][ $modname ] ) )
-	{
-		return true;
-	}
-	else
-		return false;
+	return isset( $_ROSARIO['AllowUse'][ $modname ] );
 }

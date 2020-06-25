@@ -547,7 +547,7 @@ function RequestedDate( $year_or_request_index, $month_or_default, $day_or_mode 
 
 		if ( $mode === 'add' )
 		{
-			$REQUEST[ $request_index ] = $default;
+			$_REQUEST[ $request_index ] = $default;
 		}
 
 		return $default;
@@ -620,15 +620,15 @@ function RequestedDates( $year_array, $month_array, $day_array )
 				$month,
 				$day_array[ $field_name ]
 			);
-		}
-		else
-		{
-			$dates = RequestedDates( $year_array[ $field_name ], $month, $day_array[ $field_name ] );
 
-			if ( ! empty( $dates ) )
-			{
-				$return[ $field_name ] = $dates;
-			}
+			continue;
+		}
+
+		$dates = RequestedDates( $year_array[ $field_name ], $month, $day_array[ $field_name ] );
+
+		if ( ! empty( $dates ) )
+		{
+			$return[ $field_name ] = $dates;
 		}
 	}
 

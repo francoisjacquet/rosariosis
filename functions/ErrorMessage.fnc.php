@@ -41,26 +41,19 @@ function ErrorMessage( $errors, $code = 'error' )
 		return '';
 	}
 
-	$return = '';
-
-	// Error.
+	// Note / Update.
+	$return = '<div class="updated"><p><b>' . _( 'Note' ) . '</b>';
 
 	if ( $code === 'error'
 		|| $code === 'fatal' )
 	{
-		$return .= '<div class="error"><p>' . button( 'x', _( 'Error' ) );
+		// Error.
+		$return = '<div class="error"><p>' . button( 'x', _( 'Error' ) );
 	}
-
-	// Warning.
 	elseif ( $code === 'warning' )
 	{
-		$return .= '<div class="error"><p>' . button( 'warning', _( 'Warning' ) );
-	}
-
-	// Note / Update.
-	else
-	{
-		$return .= '<div class="updated"><p><b>' . _( 'Note' ) . '</b>';
+		// Warning.
+		$return = '<div class="error"><p>' . button( 'warning', _( 'Warning' ) );
 	}
 
 	if ( count( $errors ) === 1 )
@@ -84,23 +77,22 @@ function ErrorMessage( $errors, $code = 'error' )
 
 	$return .= '</div>';
 
-	// Fatal error, display error and exit.
-
 	if ( $code === 'fatal' )
 	{
+		// Fatal error, display error and exit.
 		echo $return;
 
 		if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		{
 			Warehouse( 'footer' );
-		}
-		else
-		{
-			// FJ force PDF on fatal error.
-			global $print_data;
 
-			PDFStop( $print_data );
+			exit;
 		}
+
+		// Force PDF on fatal error.
+		global $print_data;
+
+		PDFStop( $print_data );
 
 		exit;
 	}
