@@ -261,7 +261,6 @@ modules/Billing_Elements*
 modules/Semester_Rollover*
 modules/ENP*
 modules/Grades_Import*
-modules/Human_Resources*
 modules/Jitsi_Meet*
 modules/Staff_Absences*
 plugins/Email_SMTP*
