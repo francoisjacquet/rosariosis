@@ -2,6 +2,12 @@
 
 ## RosarioSIS Student Information System
 
+New in 6.7
+----------
+
+[Staff Absences](https://www.rosariosis.org/modules/staff-absences/) module, sponsored by English National Program
+
+
 New in 6.6
 ----------
 
