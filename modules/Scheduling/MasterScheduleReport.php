@@ -32,7 +32,7 @@ $columns = array(
 
 DrawHeader( ProgramTitle() );
 
-ListOutput( $sections_RET, $columns, 'Course', 'Courses' );
+ListOutput( $sections_RET, $columns, 'Course Period', 'Course Periods' );
 
 /**
  * @param $marking_period_id
