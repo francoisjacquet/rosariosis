@@ -301,6 +301,11 @@ function appendStaffSQL( $sql, $extra = array() )
 	if ( isset( $_REQUEST['profile'] )
 		&& $_REQUEST['profile'] !== '' )
 	{
+		$options = array(
+			'teacher' => _( 'Teacher' ),
+			'parent' => _( 'Parent' ),
+		);
+
 		if ( User( 'PROFILE' ) === 'admin' )
 		{
 			$options = array(
@@ -308,13 +313,6 @@ function appendStaffSQL( $sql, $extra = array() )
 				'teacher' => _( 'Teacher' ),
 				'parent' => _( 'Parent' ),
 				'none' => _( 'No Access' ),
-			);
-		}
-		else
-		{
-			$options = array(
-				'teacher' => _( 'Teacher' ),
-				'parent' => _( 'Parent' ),
 			);
 		}
 

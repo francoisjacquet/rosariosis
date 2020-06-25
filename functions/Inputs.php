@@ -39,13 +39,9 @@ function DateInput( $value, $name, $title = '', $div = true, $allow_na = true, $
 		return ( $value != '' ? ProperDate( $value ) : '-' ) . FormatInputTitle( $title );
 	}
 
-	$options = array();
-
-	//FJ date field is required
-	if ( $required )
-	{
-		$options['required'] = true;
-	}
+	$options = array(
+		'required' => $required,
+	);
 
 	if ( $value == ''
 		|| ! $div )
@@ -386,8 +382,12 @@ function TextAreaInput( $value, $name, $title = '', $extra = '', $div = true, $t
 
 	$ftitle_nobr = FormatInputTitle( $title, $id, $required, '' );
 
+	$display_val = '-';
+
 	if ( $value != '' )
 	{
+		$display_val = nl2br( $value );
+
 		if ( $type === 'markdown' )
 		{
 			// Convert MarkDown to HTML.
@@ -397,11 +397,7 @@ function TextAreaInput( $value, $name, $title = '', $extra = '', $div = true, $t
 		{
 			$display_val = '<div class="tinymce-html">' . $value . '</div>';
 		}
-		else
-			$display_val = nl2br( $value );
 	}
-	else
-		$display_val = '-';
 
 	if ( ! AllowEdit()
 		|| isset( $_REQUEST['_ROSARIO_PDF'] ) )
@@ -484,11 +480,9 @@ function TinyMCEInput( $value, $name, $title = '', $extra = '' )
 
 	$wrapper = '';
 
-	if ( mb_strpos( (string) $extra, 'class=' ) === false )
-	{
-		$extra = 'class="tinymce" ' . $extra;
-	}
-	else
+	$extra = 'class="tinymce" ' . $extra;
+
+	if ( mb_strpos( (string) $extra, 'class=' ) !== false )
 	{
 		// If has .tinymce-horizontal class, add wrapper, needed here.
 		if ( mb_strpos( (string) $extra, 'tinymce-horizontal' ) !== false )
@@ -695,30 +689,23 @@ function CheckboxInput( $value, $name, $title = '', $checked = '', $new = false,
 		if ( $new
 			|| ! $div )
 		{
-			$return = $checkbox;
+			return $checkbox;
 		}
-		else
-		{
-			$return = InputDivOnclick(
-				$id,
-				$checkbox,
-				( $value ?
-					( $yes === 'Yes' ? _( 'Yes' ) : $yes ) :
-					( $no === 'No' ? _( 'No' ) : $no ) ),
-				'&nbsp;<span class="checkbox-label">' . $title . '</span>'
-			);
-		}
-	}
-	else
-	{
-		// return ($value?$yes:$no).($title!=''?'<br />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'');
-		$return = ( $value ?
-			( $yes === 'Yes' || isset( $_REQUEST['LO_save'] ) ? _( 'Yes' ) : $yes ) :
-			( $no === 'No' || isset( $_REQUEST['LO_save'] ) ? _( 'No' ) : $no ) ) .
-				( $title !== '' ? ' ' . $title : '' );
+
+		return InputDivOnclick(
+			$id,
+			$checkbox,
+			( $value ?
+				( $yes === 'Yes' ? _( 'Yes' ) : $yes ) :
+				( $no === 'No' ? _( 'No' ) : $no ) ),
+			'&nbsp;<span class="checkbox-label">' . $title . '</span>'
+		);
 	}
 
-	return $return;
+	return ( $value ?
+		( $yes === 'Yes' || isset( $_REQUEST['LO_save'] ) ? _( 'Yes' ) : $yes ) :
+		( $no === 'No' || isset( $_REQUEST['LO_save'] ) ? _( 'No' ) : $no ) ) .
+			( $title !== '' ? ' ' . $title : '' );
 }
 
 
@@ -791,20 +778,18 @@ function MultipleCheckboxInput( $value, $name, $title, $options, $extra = '', $d
 
 	$multiple_html .= '</tr></table>' . FormatInputTitle( $title, '', $required, '' );
 
-	if ( $value != ''
-		&& $div )
+	if ( $value == ''
+		|| ! $div )
 	{
-		$return = InputDivOnclick(
-			$id,
-			$multiple_html,
-			$multiple_value,
-			FormatInputTitle( $title )
-		);
+		return $multiple_html;
 	}
-	else
-		$return = $multiple_html;
 
-	return $return;
+	return InputDivOnclick(
+		$id,
+		$multiple_html,
+		$multiple_value,
+		FormatInputTitle( $title )
+	);
 }
 
 
@@ -839,15 +824,10 @@ function SelectInput( $values, $name, $title = '', $options = array(), $allow_na
 
 	$is_multiple = is_array( $options ) && mb_strpos( $extra, 'multiple' ) !== false;
 
-	if ( ! $is_multiple )
-	{
+	$values = $is_multiple ?
+		(array) $values :
 		// Mab - support array style $option values.
-		$values = is_array( $values ) ? array( $values[0] ) : array( $values );
-	}
-	else
-	{
-		$values = (array) $values;
-	}
+		( is_array( $values ) ? array( $values[0] ) : array( $values ) );
 
 	$make_display_val = function( $values, $options )
 	{
@@ -892,12 +872,12 @@ function SelectInput( $values, $name, $title = '', $options = array(), $allow_na
 	{
 		if ( $display_val == '' )
 		{
+			$display_val = '-';
+
 			if ( $allow_na !== false )
 			{
 				$display_val = $allow_na === 'N/A' ? _( 'N/A' ) : $allow_na;
 			}
-			else
-				$display_val = '-';
 		}
 
 		return $display_val . FormatInputTitle( $title );
@@ -967,20 +947,18 @@ function SelectInput( $values, $name, $title = '', $options = array(), $allow_na
 
 	$select .= '</select>' . FormatInputTitle( $title, $id, $required );
 
-	if ( $values[0] != ''
-		&& $div )
+	if ( $values[0] == ''
+		|| ! $div )
 	{
-		$return = InputDivOnclick(
-			$id,
-			$select,
-			$display_val,
-			FormatInputTitle( $title )
-		);
+		return $select;
 	}
-	else
-		$return = $select;
 
-	return $return;
+	return InputDivOnclick(
+		$id,
+		$select,
+		$display_val,
+		FormatInputTitle( $title )
+	);
 }
 
 
@@ -1071,43 +1049,40 @@ function MLSelectInput( $value, $name, $title = '', $options, $allow_na = 'N/A',
 
 		$select .= '</select>' . FormatInputTitle( $title, $id, $required );
 
-		if ( $value != ''
-			&& $div )
+		if ( $value == ''
+			|| ! $div )
 		{
-			$return = InputDivOnclick(
-				$id,
-				$select,
-				ParseMLField(
-					( is_array( $options[ $value ] ) ? $options[ $value ][1] : $options[ $value ] ),
-					$locale
-				),
-				FormatInputTitle( $title )
-			);
+			return $select;
 		}
-		else
-			$return = $select;
+
+		return InputDivOnclick(
+			$id,
+			$select,
+			ParseMLField(
+				( is_array( $options[ $value ] ) ? $options[ $value ][1] : $options[ $value ] ),
+				$locale
+			),
+			FormatInputTitle( $title )
+		);
+	}
+
+	$display_val = is_array( $options[ $value ] ) ? $options[ $value ][1] : $options[ $value ];
+
+	if ( $display_val == '' )
+	{
+		$display_val = '-';
+
+		if ( $allow_na !== false )
+		{
+			$display_val = $allow_na === 'N/A' ? _( 'N/A' ) : $allow_na;
+		}
 	}
 	else
 	{
-		$display_val = is_array( $options[ $value ] ) ? $options[ $value ][1] : $options[ $value ];
-
-		if ( $display_val == '' )
-		{
-
-			if ( $allow_na !== false )
-			{
-				$display_val = $allow_na === 'N/A' ? _( 'N/A' ) : $allow_na;
-			}
-			else
-				$display_val = '-';
-		}
-		else
-			$display_val = ParseMLField( $display_val, $locale );
-
-		$return = $display_val . FormatInputTitle( $title );
+		$display_val = ParseMLField( $display_val, $locale );
 	}
 
-	return $return;
+	return $display_val . FormatInputTitle( $title );
 }
 
 
@@ -1288,39 +1263,34 @@ function RadioInput( $value, $name, $title = '', $options, $allow_na = 'N/A', $e
 
 		$table .= FormatInputTitle( $title, '', $required, '' );
 
-		if ( $value != ''
-			&& $div )
+		if ( $value == ''
+			|| ! $div )
 		{
-			$return = InputDivOnclick(
-				$id,
-				$table,
-				is_array( $options[ $value ] ) ? $options[ $value ][1] : $options[ $value ],
-				FormatInputTitle( $title )
-			);
+			return $table;
 		}
-		else
-			$return = $table;
+
+		return InputDivOnclick(
+			$id,
+			$table,
+			is_array( $options[ $value ] ) ? $options[ $value ][1] : $options[ $value ],
+			FormatInputTitle( $title )
+		);
 	}
-	else
+
+	$display_val = ! isset( $options[ $value ] ) ? '' :
+		( is_array( $options[ $value ] ) ? $options[ $value ][1] : $options[ $value ] );
+
+	if ( $display_val == '' )
 	{
-		$display_val = ! isset( $options[ $value ] ) ? '' :
-			( is_array( $options[ $value ] ) ? $options[ $value ][1] : $options[ $value ] );
+		$display_val = '-';
 
-		if ( $display_val == '' )
+		if ( $allow_na !== false )
 		{
-
-			if ( $allow_na !== false )
-			{
-				$display_val = $allow_na === 'N/A' ? _( 'N/A' ) : $allow_na;
-			}
-			else
-				$display_val = '-';
+			$display_val = $allow_na === 'N/A' ? _( 'N/A' ) : $allow_na;
 		}
-
-		$return = $display_val . FormatInputTitle( $title );
 	}
 
-	return $return;
+	return $display_val . FormatInputTitle( $title );
 }
 
 
@@ -1366,18 +1336,18 @@ function ColorInput( $value, $name, $title = '', $extra = '', $div = true )
 
 	$input .= FormatInputTitle( $title, $id, $required );
 
-	if ( $value != ''
-		&& $div )
+	if ( $value == ''
+		|| ! $div )
 	{
-		return InputDivOnclick(
-			$id,
-			$input,
-			$color_rect,
-			FormatInputTitle( $title )
-		);
+		return $input;
 	}
 
-	return $input;
+	return InputDivOnclick(
+		$id,
+		$input,
+		$color_rect,
+		FormatInputTitle( $title )
+	);
 }
 
 
@@ -1452,23 +1422,23 @@ function ColorInputMiniColors( $value, $name, $title = '', $type = 'hidden', $ex
 
 	$color = ob_get_clean() . FormatInputTitle( $title, $id, $required );
 
-	if ( $value != ''
-		&& $div )
+	if ( $value == ''
+		|| ! $div )
 	{
-		return $js . InputDivOnclick(
-			$id,
-			$color,
-			$color_rect,
-			FormatInputTitle( $title ) .
-			'<script>$("#div' . $id . '").on("click", function(){
-				$("#' . $id . '").minicolors({
-					position: $("#' . $id . '").attr("data-position") || "bottom left"
-				});
-			});</script>'
-		);
+		return $js . $color;
 	}
 
-	return $js . $color;
+	return $js . InputDivOnclick(
+		$id,
+		$color,
+		$color_rect,
+		FormatInputTitle( $title ) .
+		'<script>$("#div' . $id . '").on("click", function(){
+			$("#' . $id . '").minicolors({
+				position: $("#' . $id . '").attr("data-position") || "bottom left"
+			});
+		});</script>'
+	);
 }
 
 

@@ -840,17 +840,19 @@ function makePhone( $phone, $column = '' )
 
 	$phone = trim( $phone );
 
-	// Keep numbers and extension.
-	$unformatted_phone = preg_replace( "/[^0-9\+x]/", "", $phone );
-
 	if ( $phone === '' )
 	{
 		return '';
 	}
-	elseif ( $unformatted_phone !== $phone )
+
+	// Keep numbers and extension.
+	$unformatted_phone = preg_replace( "/[^0-9\+x]/", "", $phone );
+
+	$fphone = $phone;
+
+	if ( $unformatted_phone !== $phone )
 	{
 		// Phone already contains formatting chars, keep them.
-		$fphone = $phone;
 	}
 	elseif ( mb_strlen( $phone ) === 9 )
 	{
@@ -879,8 +881,6 @@ function makePhone( $phone, $column = '' )
 		// US: 345-6789.
 		$fphone = mb_substr( $phone, 0, 3 ) . '-' . mb_substr( $phone, 3 );
 	}
-	else
-		$fphone = $phone;
 
 	$dial_phone = $unformatted_phone;
 
@@ -955,36 +955,29 @@ function makeParents( $student_id, $column )
 		return '';
 	}
 
+	$parents = '';
+
 	foreach ( (array) $people_RET as $person )
 	{
-		$img = '';
+		$img = $person['CUSTODY'] == 'Y' ? 'gavel' :
+			( $person['EMERGENCY'] == 'Y' ? 'emergency' : '' );
 
-		// FJ PrintClassLists with all contacts.
-		if ( $person['CUSTODY'] == 'Y' )
-		{
-			$img = 'gavel';
-		}
-		elseif ( $person['EMERGENCY'] == 'Y' )
-		{
-			$img = 'emergency';
-		}
-
-		$parents .= '<div>' . ( ! empty( $img ) ? button( $img ) .'&nbsp;' : '' );
+		$parents .= '<div>' . ( ! empty( $img ) ? button( $img ) . '&nbsp;' : '' );
 
 		if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		{
 			$parents .= $person['FIRST_NAME'] . ' ' . $person['LAST_NAME'] . '</div>';
+
+			continue;
 		}
-		else
-		{
-			$parents .= '<a href="#" onclick=\'popups.open(
-					"Modules.php?modname=misc/ViewContact.php&person_id=' .
-					$person['PERSON_ID'] . '&student_id=' . $student_id . '",
-					"scrollbars=yes,resizable=yes,width=400,height=300"
-				); return false;\'>' .
-					$person['FIRST_NAME'] . ' ' . $person['LAST_NAME'] .
-				'</a></div>';
-		}
+
+		$parents .= '<a href="#" onclick=\'popups.open(
+				"Modules.php?modname=misc/ViewContact.php&person_id=' .
+				$person['PERSON_ID'] . '&student_id=' . $student_id . '",
+				"scrollbars=yes,resizable=yes,width=400,height=300"
+			); return false;\'>' .
+				$person['FIRST_NAME'] . ' ' . $person['LAST_NAME'] .
+			'</a></div>';
 	}
 
 	return $parents;
@@ -1057,8 +1050,8 @@ function DeCodeds( $value, $column, $table = 'auto' )
 		{
 			return $decodeds[ $column ]['SELECT_OPTIONS'][ $value ];
 		}
-		else
-			return $value;
+
+		return $value;
 	}
 
 	return '<span style="color:red">' . $value . '</span>';
@@ -1385,14 +1378,9 @@ function DisplayName( $first_name, $last_name, $middle_name = '', $name_suffix =
 		"LAST_NAME||', '||FIRST_NAME||' '||COALESCE(MIDDLE_NAME,' ')" => "LAST_NAME, FIRST_NAME MIDDLE_NAME",
 	);
 
-	if ( ! isset( $display_names[ $display_name ] ) )
-	{
-		$display_name = $display_names["FIRST_NAME||' '||LAST_NAME"];
-	}
-	else
-	{
-		$display_name = $display_names[ $display_name ];
-	}
+	$display_name = isset( $display_names[ $display_name ] ) ?
+		$display_names[ $display_name ] :
+		$display_names["FIRST_NAME||' '||LAST_NAME"];
 
 	$display_name = str_replace(
 		array( 'FIRST_NAME', 'LAST_NAME', 'MIDDLE_NAME', 'NAME_SUFFIX' ),
