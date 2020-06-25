@@ -1046,7 +1046,7 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 
 		foreach ( (array) $column_names as $key => $value )
 		{
-			$value = $item[$key];
+			$value = issetVal( $item[$key], '' );
 
 			if ( $value !== '' )
 			{
