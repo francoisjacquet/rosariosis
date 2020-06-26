@@ -7,6 +7,7 @@ Changes in 6.7
 - Group Periods & remove `_getPeriod()` in MasterScheduleReport.php
 - Can sort List in MasterScheduleReport.php
 - Add Students count column in MasterScheduleReport.php
+- Fix remove_action() in Actions.php
 
 Changes in 6.6.1
 ----------------

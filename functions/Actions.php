@@ -401,12 +401,15 @@ function remove_action( $tag, $function_to_remove ) {
 	// Check if tag exists.
 	if ( array_key_exists( (string) $tag, $RosarioActions ) )
 	{
-		// Check if function previously added.
-		if ( array_key_exists( (string) $function_to_remove, $RosarioActions[ $tag ] ) )
+		foreach ( $RosarioActions[ $tag ] as $priority => $actions )
 		{
-			unset( $RosarioActions[ $tag ][ $function_to_remove ] );
+			// Check if function previously added.
+			if ( array_key_exists( (string) $function_to_remove, $actions ) )
+			{
+				unset( $RosarioActions[ $tag ][ $priority ][ $function_to_remove ] );
 
-			return true;
+				return true;
+			}
 		}
 	}
 
