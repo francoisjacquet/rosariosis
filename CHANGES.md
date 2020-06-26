@@ -8,6 +8,7 @@ Changes in 6.7
 - Can sort List in MasterScheduleReport.php
 - Add Students count column in MasterScheduleReport.php
 - Fix remove_action() in Actions.php
+- Remove PDF Header Footer plugin action in HonorRoll.fnc.php
 
 Changes in 6.6.1
 ----------------

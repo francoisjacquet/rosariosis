@@ -117,6 +117,11 @@ function HonorRollPDF( $student_array, $is_list, $honor_roll_text )
 			'margins' => $no_margins,
 		);
 
+		// @since 6.7 Remove PDF Header Footer plugin action.
+		remove_action( 'functions/PDF.php|pdf_start', 'PDFHeaderFooterTriggered' ); // @deprecated.
+		remove_action( 'functions/PDF.php|pdf_start', 'PDFHeaderTriggered' );
+		remove_action( 'functions/PDF.php|pdf_start', 'PDFFooterTriggered' );
+
 		$handle = PDFStart( $pdf_options );
 
 		$_SESSION['orientation'] = 'landscape';
@@ -168,7 +173,7 @@ function HonorRollPDF( $student_array, $is_list, $honor_roll_text )
 
 			echo '<tr><td>' . $honor_roll_text . '</td></tr></table>';
 
-			echo '<br /><table style="margin:auto auto; width:80%;">';
+			echo '<br /><table style="margin:auto auto; width:70%;">';
 
 			echo '<tr><td><span style="font-size:x-large;">' . $student['TEACHER'] . '</span><br />
 				<span style="font-size:medium;">' . _( 'Teacher' ) . '</span></td>';
