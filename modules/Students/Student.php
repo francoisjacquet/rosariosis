@@ -238,6 +238,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 						FROM STUDENT_ENROLLMENT
 						WHERE STUDENT_ID='" . UserStudentID() . "'
 						AND SYEAR='" . Config( 'SYEAR' ) . "'
+						AND START_DATE IS NOT NULL
 						AND CURRENT_DATE>=START_DATE
 						AND (CURRENT_DATE<=END_DATE OR END_DATE IS NULL)" );
 				}
