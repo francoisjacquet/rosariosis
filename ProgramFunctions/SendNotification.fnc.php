@@ -10,6 +10,7 @@
  * Send Create Student Account notification
  *
  * @since 5.9
+ * @since 6.7 Better check if Student account activated.
  *
  * @param int    $student_id Student ID.
  * @param string $to         To email address. Defaults to $RosarioNotifyAddress (see config.inc.php).
@@ -39,7 +40,15 @@ function SendNotificationCreateStudentAccount( $student_id, $to = '' )
 
 	$message = _( 'New student account was created for %s (%d) (inactive).' );
 
-	if ( Config( 'CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION' ) )
+	// Student was Inactive and is enrolled as of today, in Default School Year: Account Activation.
+	$student_account_activated = DBGetOne( "SELECT 1
+		FROM STUDENT_ENROLLMENT
+		WHERE STUDENT_ID='" . $student_id . "'
+		AND SYEAR='" . Config( 'SYEAR' ) . "'
+		AND CURRENT_DATE>=START_DATE
+		AND (CURRENT_DATE<=END_DATE OR END_DATE IS NULL)" );
+
+	if ( $student_account_activated )
 	{
 		// @since 5.9 Automatic Student Account Activation.
 		$message = _( 'New student account was activated for %s (%d).' );

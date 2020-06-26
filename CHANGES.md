@@ -9,6 +9,7 @@ Changes in 6.7
 - Add Students count column in MasterScheduleReport.php
 - Fix remove_action() in Actions.php
 - Remove PDF Header Footer plugin action in HonorRoll.fnc.php
+- Better check if Student account activated in SendNotification.fnc.php
 
 Changes in 6.6.1
 ----------------
