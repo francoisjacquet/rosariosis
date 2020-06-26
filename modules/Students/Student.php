@@ -456,8 +456,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 			}
 
 			if ( basename( $_SERVER['PHP_SELF'] ) === 'index.php'
-				&& Config( 'CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION' )
-				|| ! empty( $student_account_activated ) )
+				&& ! empty( $student_account_activated ) )
 			{
 				// @since 5.9 Send Account Activation email notification to Student.
 				SendNotificationActivateStudentAccount( UserStudentID() );
