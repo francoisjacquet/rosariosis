@@ -227,6 +227,12 @@ function Search( $type, $extra = null )
 				<input type="text" name="username" id="username" size="24" maxlength="255" />
 				</td></tr>';
 
+			$options = array(
+				'' => _( 'N/A' ),
+				'teacher' => _( 'Teacher' ),
+				'parent' => _( 'Parent' ),
+			);
+
 			// Profile.
 			if ( User( 'PROFILE' ) === 'admin' )
 			{
@@ -236,14 +242,6 @@ function Search( $type, $extra = null )
 					'teacher' => _( 'Teacher' ),
 					'parent' => _( 'Parent' ),
 					'none' => _( 'No Access' ),
-				);
-			}
-			else
-			{
-				$options = array(
-					'' => _( 'N/A' ),
-					'teacher' => _( 'Teacher' ),
-					'parent' => _( 'Parent' ),
 				);
 			}
 
@@ -393,14 +391,7 @@ function Search( $type, $extra = null )
 					FROM STUDENT_FIELD_CATEGORIES sfc
 					WHERE sfc.ID=1" ) );
 
-				if ( isset( $categories_RET[1] ) )
-				{
-					$i = count( $categories_RET[1]['text'] ) ? count( $categories_RET[1]['text'] ) : 1;
-				}
-				else
-				{
-					$i = 1;
-				}
+				$i = empty( $categories_RET[1]['text'] ) ? 1 : count( $categories_RET[1]['text'] );
 
 				if ( Preferences( 'USERNAME', 'StudentFieldsSearch' ) !== 'Y' )
 				{
@@ -743,8 +734,9 @@ function SearchField( $field, $type = 'student', $extra = array() )
 
 				return ' AND (' . $sql_col . "='' OR " . $sql_col . " IS NULL) ";
 			}
+
 			// Matches "searched expression".
-			elseif ( mb_substr( $value, 0, 1 ) === '"'
+			if ( mb_substr( $value, 0, 1 ) === '"'
 				&& mb_substr( $value, -1 ) === '"' )
 			{
 				if ( ! $no_search_terms )
@@ -754,17 +746,15 @@ function SearchField( $field, $type = 'student', $extra = array() )
 
 				return ' AND ' . $sql_col . "='" . mb_substr( $value, 1, -1 ) . "' ";
 			}
-			// Starts with.
-			else
-			{
-				if ( ! $no_search_terms )
-				{
-					$_ROSARIO['SearchTerms'] .= _( 'starts with' ) . ' ' .
-						str_replace( "''", "'", $value ) . '<br />';
-				}
 
-				return ' AND LOWER(' . $sql_col . ") LIKE '" . mb_strtolower( $value ) . "%' ";
+			// Starts with.
+			if ( ! $no_search_terms )
+			{
+				$_ROSARIO['SearchTerms'] .= _( 'starts with' ) . ' ' .
+					str_replace( "''", "'", $value ) . '<br />';
 			}
+
+			return ' AND LOWER(' . $sql_col . ") LIKE '" . mb_strtolower( $value ) . "%' ";
 
 		break;
 
@@ -781,8 +771,9 @@ function SearchField( $field, $type = 'student', $extra = array() )
 
 				return ' AND ' . $sql_col . "='" . $value . "' ";
 			}
+
 			// No.
-			elseif ( $value == 'N' )
+			if ( $value == 'N' )
 			{
 				if ( ! $no_search_terms )
 				{
@@ -880,30 +871,28 @@ function SearchField( $field, $type = 'student', $extra = array() )
 
 				return ' AND (' . $sql_col . "='' OR " . $sql_col . " IS NULL) ";
 			}
-			else
+
+			if ( ! $no_search_terms )
 			{
-				if ( ! $no_search_terms )
+				$select_options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $field['SELECT_OPTIONS'] ) );
+
+				foreach ( (array) $select_options as $option )
 				{
-					$select_options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $field['SELECT_OPTIONS'] ) );
+					$option = explode( '|', $option );
 
-					foreach ( (array) $select_options as $option )
+					if ( $field['TYPE'] == 'exports'
+						&& $option[0] !== ''
+						&& $value == $option[0] )
 					{
-						$option = explode( '|', $option );
-
-						if ( $field['TYPE'] == 'exports'
-							&& $option[0] !== ''
-							&& $value == $option[0] )
-						{
-							$value = $option[0];
-							break;
-						}
+						$value = $option[0];
+						break;
 					}
-
-					$_ROSARIO['SearchTerms'] .= $value;
 				}
 
-				return ' AND ' . $sql_col . "='" . $value . "' ";
+				$_ROSARIO['SearchTerms'] .= $value;
 			}
+
+			return ' AND ' . $sql_col . "='" . $value . "' ";
 
 		break;
 
@@ -922,8 +911,9 @@ function SearchField( $field, $type = 'student', $extra = array() )
 
 				return ' AND (' . $sql_col . "='' OR " . $sql_col . " IS NULL) ";
 			}
+
 			// Other Value.
-			elseif ( $field['TYPE'] == 'autos'
+			if ( $field['TYPE'] == 'autos'
 				&& $value === '~' )
 			{
 				if ( ! $no_search_terms )
@@ -939,15 +929,13 @@ function SearchField( $field, $type = 'student', $extra = array() )
 				return " AND " . $sql_col . " IS NOT NULL
 					AND " . $sql_col . " NOT IN (" . $select_options_list . ") ";
 			}
-			else
-			{
-				if ( ! $no_search_terms )
-				{
-					$_ROSARIO['SearchTerms'] .= $value . '<br />';
-				}
 
-				return ' AND ' . $sql_col . "='" . $value . "' ";
+			if ( ! $no_search_terms )
+			{
+				$_ROSARIO['SearchTerms'] .= $value . '<br />';
 			}
+
+			return ' AND ' . $sql_col . "='" . $value . "' ";
 
 		break;
 	}

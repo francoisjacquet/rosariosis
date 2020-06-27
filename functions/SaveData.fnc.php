@@ -86,7 +86,7 @@ function SaveData( $iu_extra, $field_names = array() )
 
 				if ( $id === 'new' )
 				{
-					if ( !empty( $value )
+					if ( ! empty( $value )
 						|| $value == '0' )
 					{
 						$ins_fields[ $table ] .= DBEscapeIdentifier( $column ) . ',';
@@ -95,13 +95,13 @@ function SaveData( $iu_extra, $field_names = array() )
 
 						$go = true;
 					}
-				}
-				else
-				{
-					$sql[ $table ] .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 
-					$go = true;
+					continue;
 				}
+
+				$sql[ $table ] .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
+
+				$go = true;
 			}
 
 			// INSERT new data.

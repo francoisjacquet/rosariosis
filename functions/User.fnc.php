@@ -80,17 +80,12 @@ function User( $item )
 		}
 
 		// Fatal error.
-		else
-		{
-			$error[] = 'User not logged in!'; // Should never be displayed, so do not translate.
+		$error[] = 'User not logged in!'; // Should never be displayed, so do not translate.
 
-			return ErrorMessage( $error, 'fatal' );
-		}
+		return ErrorMessage( $error, 'fatal' );
 	}
 
-	return isset( $_ROSARIO['User'][1][ $item ] ) ?
-		$_ROSARIO['User'][1][ $item ] :
-		null;
+	return issetVal( $_ROSARIO['User'][1][ $item ] );
 }
 
 

@@ -430,15 +430,10 @@ function Widgets( $item, &$myextra = null )
 				}
 
 				// Set Absences number SQL condition.
-				if ( $_REQUEST['absences_low'] == $_REQUEST['absences_high'] )
-				{
-					$absences_sql = " = '" . $_REQUEST['absences_low'] . "'";
-				}
-				else
-				{
-					$absences_sql = " BETWEEN '" . $_REQUEST['absences_low'] . "'
+				$absences_sql = $_REQUEST['absences_low'] == $_REQUEST['absences_high'] ?
+					" = '" . $_REQUEST['absences_low'] . "'" :
+					" BETWEEN '" . $_REQUEST['absences_low'] . "'
 						AND '" . $_REQUEST['absences_high'] . "'";
-				}
 
 				$extra['WHERE'] .= " AND (SELECT sum(1-STATE_VALUE) AS STATE_VALUE
 					FROM ATTENDANCE_DAY ad
@@ -529,15 +524,10 @@ function Widgets( $item, &$myextra = null )
 				}
 
 				// Set Absences number SQL condition.
-				if ( $_REQUEST['cp_absences_low'] == $_REQUEST['cp_absences_high'] )
-				{
-					$absences_sql = " = '" . $_REQUEST['cp_absences_low'] . "'";
-				}
-				else
-				{
-					$absences_sql = " BETWEEN '" . $_REQUEST['cp_absences_low'] . "'
+				$absences_sql = $_REQUEST['cp_absences_low'] == $_REQUEST['cp_absences_high'] ?
+					" = '" . $_REQUEST['cp_absences_low'] . "'" :
+					" BETWEEN '" . $_REQUEST['cp_absences_low'] . "'
 						AND '" . $_REQUEST['cp_absences_high'] . "'";
-				}
 
 				$extra['WHERE'] .= " AND (SELECT count(*)
 					FROM ATTENDANCE_PERIOD ap,ATTENDANCE_CODES ac
@@ -957,7 +947,6 @@ function Widgets( $item, &$myextra = null )
 
 					break;
 				}
-
 				$start_date = date(
 					'Y-m-d',
 					time() - ( $today - ProgramConfig( 'eligibility', 'START_DAY' ) ) * 60 * 60 * 24
@@ -1170,9 +1159,7 @@ function Widgets( $item, &$myextra = null )
 					'</option>';
 			}
 
-			$extra['search'] .= '</select>';
-
-			$extra['search'] .= '</td></tr>';
+			$extra['search'] .= '</select></td></tr>';
 
 		break;
 
@@ -1296,7 +1283,6 @@ function Widgets( $item, &$myextra = null )
 			if ( isset( $_REQUEST['discipline_begin'] )
 				&& is_array( $_REQUEST['discipline_begin'] ) )
 			{
-				// Modify loop: use for instead of foreach.
 				$key = array_keys( $_REQUEST['discipline_begin'] );
 				$size = count( $key );
 
@@ -1308,18 +1294,11 @@ function Widgets( $item, &$myextra = null )
 						unset( $_REQUEST['discipline_begin'][ $key[ $i ] ] );
 					}
 				}
-
-				/*foreach ( (array) $_REQUEST['discipline_begin'] as $key => $value)
-				{
-					if(! $value)
-						unset($_REQUEST['discipline_begin'][ $key ]);
-				}*/
 			}
 
 			if ( isset( $_REQUEST['discipline_end'] )
 				&& is_array( $_REQUEST['discipline_end'] ) )
 			{
-				// Modify loop: use for instead of foreach.
 				$key = array_keys( $_REQUEST['discipline_end'] );
 				$size = count( $key );
 
@@ -1331,12 +1310,6 @@ function Widgets( $item, &$myextra = null )
 						unset( $_REQUEST['discipline_end'][ $key[ $i ] ] );
 					}
 				}
-
-				/*foreach ( (array) $_REQUEST['discipline_end'] as $key => $value)
-				{
-					if(! $value)
-						unset($_REQUEST['discipline_end'][ $key ]);
-				}*/
 			}
 
 			if ( ( ! empty( $_REQUEST['discipline'] )
@@ -1409,7 +1382,6 @@ function Widgets( $item, &$myextra = null )
 							{
 								$_ROSARIO['SearchTerms'] .= '<b>' . $category['TITLE'] . '</b><br />';
 							}
-
 						}
 
 					break;
@@ -1514,14 +1486,9 @@ function Widgets( $item, &$myextra = null )
 			if ( isset( $_REQUEST['next_year'] )
 				&& $_REQUEST['next_year'] !== '' ) // Handle "Retain" case: value is '0'.
 			{
-				if ( $_REQUEST['next_year'] == '!' )
-				{
-					$extra['WHERE'] .= " AND ssm.NEXT_SCHOOL IS NULL";
-				}
-				else
-				{
-					$extra['WHERE'] .= " AND ssm.NEXT_SCHOOL='" . $_REQUEST['next_year'] . "'";
-				}
+				$extra['WHERE'] .= $_REQUEST['next_year'] == '!' ?
+					" AND ssm.NEXT_SCHOOL IS NULL" :
+					" AND ssm.NEXT_SCHOOL='" . $_REQUEST['next_year'] . "'";
 
 				if ( ! $extra['NoSearchTerms'] )
 				{
@@ -1618,62 +1585,48 @@ function Widgets( $item, &$myextra = null )
 				break;
 			}
 
-			// Verify enrolled begin date.
-			if ( ! empty( $_REQUEST['month_enrolled_begin'] )
-				&& ! empty( $_REQUEST['day_enrolled_begin'] )
-				&& ! empty( $_REQUEST['year_enrolled_begin'] ) )
-			{
-				$_REQUEST['enrolled_begin'] = RequestedDate(
-					$_REQUEST['year_enrolled_begin'],
-					$_REQUEST['month_enrolled_begin'],
-					$_REQUEST['day_enrolled_begin']
-				);
-			}
+			$enrolled_begin = RequestedDate(
+				'enrolled_begin',
+				( issetVal( $_REQUEST['enrolled_begin'], '' ) )
+			);
 
-			// Verify enrolled end date.
-			if ( ! empty( $_REQUEST['month_enrolled_end'] )
-				&& ! empty( $_REQUEST['day_enrolled_end'] )
-				&& ! empty( $_REQUEST['year_enrolled_end'] ) )
-			{
-				$_REQUEST['enrolled_end'] = RequestedDate(
-					$_REQUEST['year_enrolled_end'],
-					$_REQUEST['month_enrolled_end'],
-					$_REQUEST['day_enrolled_end']
-				);
-			}
+			$enrolled_end = RequestedDate(
+				'enrolled_end',
+				( issetVal( $_REQUEST['enrolled_end'], '' ) )
+			);
 
-			if ( ! empty( $_REQUEST['enrolled_begin'] )
-				&& ! empty( $_REQUEST['enrolled_end'] ) )
+			if ( $enrolled_begin
+				&& $enrolled_end )
 			{
 				$extra['WHERE'] .= " AND ssm.START_DATE
-					BETWEEN '" . $_REQUEST['enrolled_begin'] .
-					"' AND '" . $_REQUEST['enrolled_end'] . "'";
+					BETWEEN '" . $enrolled_begin .
+					"' AND '" . $enrolled_end . "'";
 
 				if ( ! $extra['NoSearchTerms'] )
 				{
 					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Enrolled' ) . ' ' . _( 'Between' ) . ': </b>' .
-						ProperDate( $_REQUEST['enrolled_begin'] ) . ' &amp; ' .
-						ProperDate( $_REQUEST['enrolled_end'] ) . '<br />';
+						ProperDate( $enrolled_begin ) . ' &amp; ' .
+						ProperDate( $enrolled_end ) . '<br />';
 				}
 			}
-			elseif ( ! empty( $_REQUEST['enrolled_begin'] ) )
+			elseif ( $enrolled_begin )
 			{
-				$extra['WHERE'] .= " AND ssm.START_DATE>='" . $_REQUEST['enrolled_begin'] . "'";
+				$extra['WHERE'] .= " AND ssm.START_DATE>='" . $enrolled_begin . "'";
 
 				if ( ! $extra['NoSearchTerms'] )
 				{
 					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Enrolled' ) . ' ' . _( 'On or After' ) . ': </b>' .
-						ProperDate( $_REQUEST['enrolled_begin'] ) . '<br />';
+						ProperDate( $enrolled_begin ) . '<br />';
 				}
 			}
-			elseif ( ! empty( $_REQUEST['enrolled_end'] ) )
+			elseif ( $enrolled_end )
 			{
-				$extra['WHERE'] .= " AND ssm.START_DATE<='" . $_REQUEST['enrolled_end'] . "'";
+				$extra['WHERE'] .= " AND ssm.START_DATE<='" . $enrolled_end . "'";
 
 				if ( ! $extra['NoSearchTerms'] )
 				{
 					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Enrolled' ) . ' ' . _( 'On or Before' ) . ': </b>' .
-						ProperDate( $_REQUEST['enrolled_end'] ) . '<br />';
+						ProperDate( $enrolled_end ) . '<br />';
 				}
 			}
 
@@ -1793,12 +1746,9 @@ function Widgets( $item, &$myextra = null )
 					$extra['WHERE'] .= " AND fssa.STUDENT_ID=s.STUDENT_ID";
 				}
 
-				if ( $_REQUEST['fsa_discount'] == 'Full' )
-				{
-					$extra['WHERE'] .= " AND fssa.DISCOUNT IS NULL";
-				}
-				else
-					$extra['WHERE'] .= " AND fssa.DISCOUNT='" . $_REQUEST['fsa_discount'] . "'";
+				$extra['WHERE'] .= $_REQUEST['fsa_discount'] == 'Full' ?
+					" AND fssa.DISCOUNT IS NULL" :
+					" AND fssa.DISCOUNT='" . $_REQUEST['fsa_discount'] . "'";
 
 				if ( ! $extra['NoSearchTerms'] )
 				{
@@ -1841,12 +1791,9 @@ function Widgets( $item, &$myextra = null )
 					$extra['WHERE'] .= " AND fssa.STUDENT_ID=s.STUDENT_ID";
 				}
 
-				if ( $_REQUEST['fsa_status'] == 'Active' )
-				{
-					$extra['WHERE'] .= " AND fssa.STATUS IS NULL";
-				}
-				else
-					$extra['WHERE'] .= " AND fssa.STATUS='" . $_REQUEST['fsa_status'] . "'";
+				$extra['WHERE'] .= $_REQUEST['fsa_status'] == 'Active' ?
+					" AND fssa.STATUS IS NULL" :
+					" AND fssa.STATUS='" . $_REQUEST['fsa_status'] . "'";
 
 				if ( ! $extra['NoSearchTerms'] )
 				{
@@ -1877,7 +1824,7 @@ function Widgets( $item, &$myextra = null )
 
 			if ( ! empty( $_REQUEST['fsa_barcode'] ) )
 			{
-				if ( !mb_strpos( $extra['FROM'], 'fssa' ) )
+				if ( ! mb_strpos( $extra['FROM'], 'fssa' ) )
 				{
 					$extra['FROM'] .= ",FOOD_SERVICE_STUDENT_ACCOUNTS fssa";
 

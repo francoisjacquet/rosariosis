@@ -111,15 +111,15 @@ function ParseMLArray( $array, $keys )
 		if ( is_array( $array[ $k[ $i ] ] ) )
 		{
 			$array[ $k[ $i ] ] = ParseMLArray( $array[ $k[ $i ] ], $keys );
+
+			continue;
 		}
-		else
+
+		foreach ( (array) $keys as $key )
 		{
-			foreach ( (array) $keys as $key )
+			if ( $k[ $i ] == $key )
 			{
-				if ( $k[ $i ] == $key )
-				{
-					$array[ $k[ $i ] ] = ParseMLField( $array[ $k[ $i ] ] );
-				}
+				$array[ $k[ $i ] ] = ParseMLField( $array[ $k[ $i ] ] );
 			}
 		}
 	}
