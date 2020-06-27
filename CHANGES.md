@@ -4,6 +4,7 @@
 Changes in 6.7.1
 ----------------
 - Simplify Day of the week: 1 (for Monday) through 7 (for Sunday) in Widgets.fnc.php, EnterEligibility.php, Eligibility/Student.php, StudentList.php & TeacherCompletion.php
+- Clean code: remove else conditions in functions/*
 
 Changes in 6.7
 --------------
