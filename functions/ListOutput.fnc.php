@@ -21,14 +21,9 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		'add' => true,
 	);
 
-	if ( ! empty( $options ) )
-	{
-		$options = array_replace_recursive( $default_options, $options );
-	}
-	else
-	{
-		$options = $default_options;
-	}
+	$options = empty( $options ) ?
+		$default_options :
+		array_replace_recursive( $default_options, $options );
 
 	$LO_page = issetVal( $_REQUEST['LO_page'], '' );
 
@@ -79,22 +74,13 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			'LO_dir',
 			'LO_search',
 			'LO_save',
-			'remove_prompt',
-			'remove_name',
 		)
 	);
 
 	// END PREPARE LINKS ---.
 
 	// UN-GROUPING
-	if ( empty( $group ) )
-	{
-		$group_count = false;
-	}
-	else
-	{
-		$group_count = count( $group );
-	}
+	$group_count = empty( $group ) ? false : count( $group );
 
 	if ( $group_count
 		&& $result_count )
@@ -137,25 +123,18 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 		$result_count = count( $result );
 	}
-
 	// END UN-GROUPING
-
-	//$_LIST['output'] = true;
 
 	$display_zero = false;
 
 	// PRINT HEADINGS, PREPARE PDF, AND SORT THE LIST ---.
 	if ( $result_count != 0 )
 	{
-		$count = 0;
+		$count = $remove = 0;
 
 		if ( isset( $link['remove']['variables'] ) )
 		{
 			$remove = count( $link['remove']['variables'] );
-		}
-		else
-		{
-			$remove = 0;
 		}
 
 		$cols = count( $column_names );
@@ -199,27 +178,19 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 						"",
 						$sort[$LO_sort]
 					) );
+
+					continue;
 				}
 
 				// Use value inside comment to sort!
-				else
-				{
-					$sort_array[] = mb_substr(
-						$sort[$LO_sort],
-						4,
-						mb_strpos( $sort[$LO_sort], '-->' ) - 5
-					);
-				}
+				$sort_array[] = mb_substr(
+					$sort[$LO_sort],
+					4,
+					mb_strpos( $sort[$LO_sort], '-->' ) - 5
+				);
 			}
 
-			if ( $LO_dir == -1 )
-			{
-				$dir = SORT_DESC;
-			}
-			else
-			{
-				$dir = SORT_ASC;
-			}
+			$dir = $LO_dir == -1 ? SORT_DESC: SORT_ASC;
 
 			if ( $result_count > 1 )
 			{
@@ -296,7 +267,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 			if ( $cols > 8 || ! empty( $_REQUEST['expanded_view'] ) )
 			{
-				//FJ wkhtmltopdf
+				// For wkhtmltopdf.
 				$_SESSION['orientation'] = 'landscape';
 			}
 		}
@@ -321,7 +292,8 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 	if ( ! empty( $options['header'] ) )
 	{
-		echo '<table class="postbox width-100p cellspacing-0 list-header"><thead><tr><th class="center">' . $options['header'] . '</th></tr></thead></table>
+		echo '<table class="postbox width-100p cellspacing-0 list-header"><thead><tr><th class="center">' .
+			$options['header'] . '</th></tr></thead></table>
 			<div class="postbox">';
 	}
 
@@ -352,10 +324,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				) . '</span>';
 			}
 
-			if ( ! empty( $where_message ) )
-			{
-				echo $where_message;
-			}
+			echo empty( $where_message ) ? '' : $where_message;
 
 			$has_count_text = true;
 		}
@@ -382,10 +351,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			&& ! isset( $_REQUEST['_ROSARIO_PDF'] )
 			&& $result_count > 0 )
 		{
-			if ( $has_count_text )
-			{
-				echo '&nbsp;';
-			}
+			echo $has_count_text ? '&nbsp;' : '';
 
 			// Save / Export list button.
 			echo '<a href="' . $PHP_tmp_SELF . '&amp;' . $extra .
@@ -432,8 +398,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 	{
 		echo '<div class="list-wrapper"><table class="list widefat' .
 			( $options['responsive'] && ! isset( $_REQUEST['_ROSARIO_PDF'] ) ? ' rt' : '' ) .
-			( ! $list_has_nav ? ' list-no-nav' : '' ) . '">';
-		echo '<thead><tr>';
+			( ! $list_has_nav ? ' list-no-nav' : '' ) . '"><thead><tr>';
 
 		$i = 1;
 
@@ -449,40 +414,29 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		{
 			foreach ( (array) $column_names as $key => $value )
 			{
-				if ( $LO_sort == $key )
-				{
-					$direction = -1 * $LO_dir;
-				}
-				else
-				{
-					$direction = 1;
-				}
+				$direction = $LO_sort == $key ? -1 * $LO_dir : 1;
+
+				$i++;
 
 				if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
 				{
-					echo '<td style="background-color:' . $options['header_color'] . '; color:#fff;"><b>';
-					echo ParseMLField( $value );
-					echo '</b></td>';
+					echo '<td style="background-color:' . $options['header_color'] . '; color:#fff;"><b>' .
+						ParseMLField( $value ) . '</b></td>';
+
+					continue;
 				}
-				else
+
+				if ( $options['sort'] )
 				{
-					echo '<th>';
+					echo '<th><a href="' . $PHP_tmp_SELF . '&LO_page=' . $LO_page .
+						'&LO_sort=' . $key . '&LO_dir=' . $direction .
+						'&LO_search=' . urlencode( issetVal( $LO_search, '' ) ) . '">' .
+						ParseMLField( $value ) . '</a></th>';
 
-					if ( $options['sort'] )
-					{
-						echo '<a href="' . $PHP_tmp_SELF . '&amp;LO_page=' . $LO_page . '&amp;LO_sort=' . $key . '&amp;LO_dir=' . $direction . '&amp;LO_search=' . urlencode( issetVal( $LO_search, '' ) ) . '">' .
-						ParseMLField( $value ) .
-							'</a>';
-					}
-					else
-					{
-						echo ParseMLField( $value );
-					}
-
-					echo '</th>';
+					continue;
 				}
 
-				$i++;
+				echo '<th>' . ParseMLField( $value ) . '</th>';
 			}
 		}
 
@@ -495,11 +449,13 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		{
 			if ( $link['add']['link'] && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			{
-				echo '<tr><td colspan="' . ( $remove ? $cols + 1 : $cols ) . '">' . button( 'add', $link['add']['title'], $link['add']['link'] ) . '</td></tr>';
+				echo '<tr><td colspan="' . ( $remove ? $cols + 1 : $cols ) . '">' .
+					button( 'add', $link['add']['title'], $link['add']['link'] ) . '</td></tr>';
 			}
 			elseif ( $link['add']['span'] && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			{
-				echo '<tr><td colspan="' . ( $remove ? $cols + 1 : $cols ) . '">' . button( 'add' ) . $link['add']['span'] . '</td></tr>';
+				echo '<tr><td colspan="' . ( $remove ? $cols + 1 : $cols ) . '">' .
+					button( 'add' ) . $link['add']['span'] . '</td></tr>';
 			}
 			elseif ( $link['add']['html'] && $cols )
 			{
@@ -520,6 +476,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				}
 
 				echo '</tr>';
+
 				$count++;
 			}
 		}
@@ -530,7 +487,6 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 			if ( isset( $_REQUEST['_ROSARIO_PDF'] ) && count( $item ) )
 			{
-				//modify loop: use for instead of foreach
 				$key = array_keys( $item );
 				$size = count( $key );
 
@@ -540,14 +496,6 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 					$value = preg_replace( '!<select.*</select\>!i', '', $value );
 					$item[$key[$j]] = preg_replace( "/<div onclick=[^']+'>/", '', $value );
 				}
-
-				/*foreach ( (array) $item as $key => $value)
-			{
-			$value = preg_replace('!<select.*selected\>([^<]+)<.*</select\>!i','\\1',$value);
-			$value = preg_replace('!<select.*</select\>!i','',$value);
-
-			$item[ $key ] = preg_replace("/<div onclick=[^']+'>/",'',$value);
-			}*/
 			}
 
 			echo '<tr>';
@@ -559,8 +507,8 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				$button_title = issetVal( $link['remove']['title'] );
 
 				$button_link = empty( $link['remove']['link'] ) ?
-				PreparePHP_SELF( array(), array_keys( $link['remove']['variables'] ) ) :
-				$link['remove']['link'];
+					PreparePHP_SELF( array(), array_keys( $link['remove']['variables'] ) ) :
+					$link['remove']['link'];
 
 				foreach ( (array) $link['remove']['variables'] as $var => $val )
 				{
@@ -580,64 +528,49 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			{
 				foreach ( (array) $column_names as $key => $value )
 				{
-					if ( $color === Preferences( 'HIGHLIGHT' ) )
+					echo $color === Preferences( 'HIGHLIGHT' ) ?
+						'<td class="highlight">' :
+						'<td>';
+
+					if ( empty( $link[$key] ) || $item[$key] === false || isset( $_REQUEST['_ROSARIO_PDF'] ) )
 					{
-						echo '<td class="highlight">';
+						echo issetVal( $item[$key], '&nbsp;' );
+
+						echo '</td>';
+
+						continue;
+					}
+
+					if ( ! empty( $link[$key]['js'] ) )
+					{
+						echo '<a href="#" onclick=\'popups.open("' . $link[$key]['link'];
+
+						foreach ( (array) $link[$key]['variables'] as $var => $val )
+						{
+							echo '&' . $var . '=' . urlencode( $item[$val] );
+						}
+
+						echo '"); return false;\'';
 					}
 					else
 					{
-						echo '<td>';
-					}
+						echo '<a href="' . $link[$key]['link'];
 
-					if ( ! empty( $link[$key] ) && $item[$key] !== false && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
-					{
-						if ( ! empty( $link[$key]['js'] ) )
+						foreach ( (array) $link[$key]['variables'] as $var => $val )
 						{
-							echo '<a href="#" onclick=\'popups.open("' . $link[$key]['link'];
-
-							foreach ( (array) $link[$key]['variables'] as $var => $val )
-							{
-								echo '&' . $var . '=' . urlencode( $item[$val] );
-							}
-
-							echo '"); return false;\'';
-
-							if ( ! empty( $link[$key]['extra'] ) )
-							{
-								echo ' ' . $link[$key]['extra'];
-							}
-
-							echo '>';
-						}
-						else
-						{
-							echo '<a href="' . $link[$key]['link'];
-
-							foreach ( (array) $link[$key]['variables'] as $var => $val )
-							{
-								echo '&' . $var . '=' . urlencode( $item[$val] );
-							}
-
-							echo '"';
-
-							if ( ! empty( $link[$key]['extra'] ) )
-							{
-								echo ' ' . $link[$key]['extra'];
-							}
-
-							echo '>';
+							echo '&' . $var . '=' . urlencode( $item[$val] );
 						}
 
-						echo isset( $item[$key] ) ? $item[$key] : '***';
-
-						echo '</a>';
-					}
-					else
-					{
-						echo isset( $item[$key] ) ? $item[$key] : '&nbsp;';
+						echo '"';
 					}
 
-					echo '</td>';
+					echo empty( $link[$key]['extra'] ) ? '' : ' ' . $link[$key]['extra'];
+
+					echo '>';
+
+					echo issetVal( $item[$key], '***' );
+
+					echo '</a></td>';
 				}
 			}
 
@@ -654,13 +587,12 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 					'add',
 					issetVal( $link['add']['title'], '' ),
 					$link['add']['link']
-				) .
-					'</td></tr>';
+				) . '</td></tr>';
 			}
 			elseif ( isset( $link['add']['span'] ) && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			{
 				echo '<tr><td colspan="' . ( $remove ? $cols + 1 : $cols ) . '">' .
-				button( 'add' ) . $link['add']['span'] . '</td></tr>';
+					button( 'add' ) . $link['add']['span'] . '</td></tr>';
 			}
 			elseif ( isset( $link['add']['html'] ) && $cols )
 			{
@@ -679,9 +611,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 				foreach ( (array) $column_names as $key => $value )
 				{
-					echo '<td>' .
-						( issetVal( $link['add']['html'][$key], '' ) )
-						. '</td>';
+					echo '<td>' . issetVal( $link['add']['html'][$key], '' ) . '</td>';
 				}
 
 				echo '</tr>';
@@ -690,10 +620,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 		echo '</tbody></table></div>';
 
-		if ( ! empty( $options['header'] ) )
-		{
-			echo '</div>';
-		}
+		echo empty( $options['header'] ) ? '' : '</div>';
 	}
 
 	// END PRINT THE LIST ---.
@@ -709,8 +636,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				'add',
 				issetVal( $link['add']['title'], '' ),
 				$link['add']['link']
-			) .
-				'</div>';
+			) . '</div>';
 		}
 		elseif (  ( ! empty( $link['add']['html'] )
 			|| ! empty( $link['add']['span'] ) )
@@ -721,20 +647,11 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			{
 				echo '<div class="list-wrapper"><table class="list widefat';
 
-				if ( $options['responsive'] )
-				{
-					echo ' rt';
-				}
+				echo $options['responsive'] ? ' rt' : '';
 
-				if ( ! $list_has_nav )
-				{
-					echo ' list-no-nav';
-				}
+				echo $list_has_nav ? '' : ' list-no-nav';
 
-				if ( $options['center'] )
-				{
-					echo ' center';
-				}
+				echo $options['center'] ? ' center' : '';
 
 				echo '"><thead><tr>';
 
@@ -745,44 +662,32 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 					echo '<th>' . str_replace( ' ', '&nbsp;', $value ) . '</th>';
 				}
 
-				echo '</tr></thead>';
+				echo '</tr></thead><tbody><tr><td>';
 
-				echo '<tbody><tr>';
+				echo ! empty( $link['add']['html']['remove'] ) ?
+					$link['add']['html']['remove'] :
+					button( 'add' );
 
-				if ( ! empty( $link['add']['html']['remove'] ) )
-				{
-					echo '<td>' . $link['add']['html']['remove'] . '</td>';
-				}
-				else
-				{
-					echo '<td>' . button( 'add' ) . '</td>';
-				}
+				echo '</td>';
 
 				foreach ( (array) $column_names as $key => $value )
 				{
 					echo '<td>' . issetVal( $link['add']['html'][$key], '' ) . '</td>';
 				}
 
-				echo '</tr></tbody>';
-				echo '</table></div>';
+				echo '</tr></tbody></table></div>';
 			}
 			elseif ( ! empty( $link['add']['span'] ) )
 			{
 				echo '<table class="postbox';
 
-				if ( $options['center'] )
-				{
-					echo ' center';
-				}
+				echo $options['center'] ? ' center' : '';
 
 				echo '"><tr><td>' . button( 'add' ) . $link['add']['span'] . '</td></tr></table>';
 			}
 		}
 
-		if ( ! empty( $options['header'] ) )
-		{
-			echo '</div>';
-		}
+		echo empty( $options['header'] ) ? '' : '</div>';
 	}
 
 	// END NO RESULTS, BUT HAS ADD FIELDS ---.
@@ -1132,18 +1037,16 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 			return $name;
 		};
 
+		$elements = 'items_set';
+
+		$element = 'item';
+
 		if ( $plural !== '.' )
 		{
 			// Sanitize XML tag names.
 			$elements = $sanitize_xml_tag( $plural );
 
 			$element = $sanitize_xml_tag( $singular );
-		}
-		else
-		{
-			$elements = 'items_set';
-
-			$element = 'item';
 		}
 
 		$output = '<?xml version="1.0" encoding="UTF-8"?>' . "\n" . '<' . $elements . '>' . "\n";
