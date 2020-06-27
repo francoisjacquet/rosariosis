@@ -903,50 +903,9 @@ function Widgets( $item, &$myextra = null )
 			if ( isset( $_REQUEST['ineligible'] )
 				&& $_REQUEST['ineligible'] == 'Y' )
 			{
-				switch ( date( 'D' ) )
-				{
-					case 'Mon':
+				// Day of the week: 1 (for Monday) through 7 (for Sunday).
+				$today = date( 'w' ) ? date( 'w' ) : 7;
 
-						$today = 1;
-
-					break;
-
-					case 'Tue':
-
-						$today = 2;
-
-					break;
-
-					case 'Wed':
-
-						$today = 3;
-
-					break;
-
-					case 'Thu':
-
-						$today = 4;
-
-					break;
-
-					case 'Fri':
-
-						$today = 5;
-
-					break;
-
-					case 'Sat':
-
-						$today = 6;
-
-					break;
-
-					case 'Sun':
-
-						$today = 7;
-
-					break;
-				}
 				$start_date = date(
 					'Y-m-d',
 					time() - ( $today - ProgramConfig( 'eligibility', 'START_DAY' ) ) * 60 * 60 * 24

@@ -7,30 +7,8 @@ foreach ( (array) $eligibility_config as $value )
 	${$value[1]['TITLE']} = $value[1]['VALUE'];
 }
 
-switch ( date( 'D' ) )
-{
-	case 'Mon':
-		$today = 1;
-		break;
-	case 'Tue':
-		$today = 2;
-		break;
-	case 'Wed':
-		$today = 3;
-		break;
-	case 'Thu':
-		$today = 4;
-		break;
-	case 'Fri':
-		$today = 5;
-		break;
-	case 'Sat':
-		$today = 6;
-		break;
-	case 'Sun':
-		$today = 7;
-		break;
-}
+// Day of the week: 1 (for Monday) through 7 (for Sunday).
+$today = date( 'w' ) ? date( 'w' ) : 7;
 
 $start = time() - ( $today - $START_DAY ) * 60 * 60 * 24;
 
