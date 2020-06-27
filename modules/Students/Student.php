@@ -455,8 +455,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				SendNotificationCreateStudentAccount( UserStudentID(), $RosarioNotifyAddress );
 			}
 
-			if ( basename( $_SERVER['PHP_SELF'] ) === 'index.php'
-				&& ! empty( $student_account_activated ) )
+			if ( ! empty( $student_account_activated ) )
 			{
 				// @since 5.9 Send Account Activation email notification to Student.
 				SendNotificationActivateStudentAccount( UserStudentID() );
