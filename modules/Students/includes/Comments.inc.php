@@ -1,9 +1,9 @@
 <?php
 
-// set comments Marking Period
+// Set comments Marking Period.
 $comments_MP = UserMP();
 
-// if Semester comment
+// If Semester comment.
 if ( ProgramConfig( 'students', 'STUDENTS_SEMESTER_COMMENTS' ) )
 {
 	$comments_MP = GetParentMP( 'SEM', UserMP() );
@@ -20,23 +20,23 @@ if ( AllowEdit()
 
 	if ( $comment )
 	{
-		// FJ add time and user to comments "comment thread" like.
+		// Add time and user to comments "thread" like.
 		$comment = array( array(
 			'date' => date( 'Y-m-d G:i:s' ),
 			'staff_id' => User( 'STAFF_ID' ),
 			'comment' => $comment,
 		) );
 
-		$existing_RET = DBGet( "SELECT STUDENT_ID, COMMENT
+		$existing_comment = DBGetOne( "SELECT COMMENT
 			FROM STUDENT_MP_COMMENTS
 			WHERE STUDENT_ID='" . UserStudentID() . "'
 			AND SYEAR='" . UserSyear() . "'
 			AND MARKING_PERIOD_ID='" . $comments_MP . "'" );
 
-		if ( isset( $existing_RET[1]['COMMENT'] ) )
+		if ( $existing_comment )
 		{
 			// Add Comment to Existing ones.
-			$comment = array_merge( $comment, (array) unserialize( $existing_RET[1]['COMMENT'] ) );
+			$comment = array_merge( $comment, (array) unserialize( $existing_comment ) );
 		}
 		else
 		{
@@ -70,14 +70,7 @@ if ( AllowEdit()
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	$comments_RET = DBGet( "SELECT COMMENT
-		FROM STUDENT_MP_COMMENTS
-		WHERE STUDENT_ID='" . UserStudentID() . "'
-		AND SYEAR='" . UserSyear() . "'
-		AND MARKING_PERIOD_ID='" . $comments_MP . "'" );
-
 	?>
-
 	<table>
 		<tr><td>
 			<?php echo TextAreaInput(
@@ -88,15 +81,15 @@ if ( ! $_REQUEST['modfunc'] )
 				false
 			); ?>
 		</td></tr>
-	<?php
-	//echo '<br /><b>* '._('If more than one teacher will be adding comments for this student').':</b><br />';
-	//echo '<ul><li>'._('Type your name above the comments you enter.').'</li></ul>';
-	//echo '<li>'._('Leave space for other teachers to enter their comments.').'</li></ul>';
-	//FJ add time and user to comments "comment thread" like
-	?>
 		<tr><td id="student-comments">
 	<?php
-	$comments = ! empty( $comments_RET[1]['COMMENT'] ) ? unserialize( $comments_RET[1]['COMMENT'] ) : array();
+	$comments = DBGetOne( "SELECT COMMENT
+		FROM STUDENT_MP_COMMENTS
+		WHERE STUDENT_ID='" . UserStudentID() . "'
+		AND SYEAR='" . UserSyear() . "'
+		AND MARKING_PERIOD_ID='" . $comments_MP . "'" );
+
+	$comments = unserialize( $comments );
 
 	if ( $comments )
 	{
@@ -106,15 +99,15 @@ if ( ! $_REQUEST['modfunc'] )
 		{
 			$id = $comment['staff_id'];
 
-			if ( !isset( $staff_name[ $id ] ) )
+			if ( ! isset( $staff_name[ $id ] ) )
 			{
-				if ( User('STAFF_ID') === $id )
+				if ( User( 'STAFF_ID' ) === $id )
 				{
 					$staff_name[ $id ] = User( 'NAME' );
 				}
 				else
 				{
-					$staff_name_RET = DBGet( "SELECT " . DisplayNameSQL() . " AS NAME
+					$staff_name[ $id ] = DBGetOne( "SELECT " . DisplayNameSQL() . " AS NAME
 						FROM STAFF
 						WHERE SYEAR='" . UserSyear() . "'
 						AND USERNAME=(
@@ -123,18 +116,16 @@ if ( ! $_REQUEST['modfunc'] )
 							WHERE SYEAR='" . Config( 'SYEAR' ) . "'
 							AND STAFF_ID='" . $id . "'
 						)" );
-
-					$staff_name[ $id ] = $staff_name_RET[1]['NAME'];
 				}
 			}
 
-			// Comment meta data: "Date hour, User name:"
+			// Comment meta data: "Date hour, User name:".
 			$comment_meta = '<span>' .
-				ProperDateTime( $comment['date'] ) . ', ' .
+				ProperDateTime( $comment['date'], 'short' ) . ', ' .
 				$staff_name[ $id ] .
 				':</span>';
 
-			// convert MarkDown to HTML
+			// Convert MarkDown to HTML.
 			$comment_MD = '<div class="markdown-to-html">' . $comment['comment'] . '</div>';
 
 			$comments_HTML[] = $comment_meta . $comment_MD;
