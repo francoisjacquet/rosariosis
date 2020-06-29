@@ -36,6 +36,8 @@ function SaveData( $iu_extra, $field_names = array() )
 			// Reset vars.
 			$error = $sql = $ins_fields = $ins_values = array();
 
+			$sql[ $table ] = '';
+
 			$go = false;
 
 			// For each column.
