@@ -411,22 +411,19 @@ if ( ! empty( $_REQUEST['tables'] )
 								$columns
 							);
 
-							if ( empty( $base_title ) )
-							{
-								$current_cp = DBGet( "SELECT TITLE,MARKING_PERIOD_ID,SHORT_NAME
-									FROM COURSE_PERIODS
-									WHERE COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'" );
+							$current_cp = DBGet( "SELECT TITLE,MARKING_PERIOD_ID,SHORT_NAME
+								FROM COURSE_PERIODS
+								WHERE COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'" );
 
-								$base_title = mb_substr(
+							$base_title = mb_substr(
+								$current_cp[1]['TITLE'],
+								mb_strpos(
 									$current_cp[1]['TITLE'],
-									mb_strpos(
-										$current_cp[1]['TITLE'],
-										( GetMP( $current_cp[1]['MARKING_PERIOD_ID'], 'MP' ) != 'FY' ?
-											GetMP( $current_cp[1]['MARKING_PERIOD_ID'], 'SHORT_NAME' ) :
-											$current_cp[1]['SHORT_NAME'] )
-									)
-								);
-							}
+									( GetMP( $current_cp[1]['MARKING_PERIOD_ID'], 'MP' ) != 'FY' ?
+										GetMP( $current_cp[1]['MARKING_PERIOD_ID'], 'SHORT_NAME' ) :
+										$current_cp[1]['SHORT_NAME'] )
+								)
+							);
 
 							$title = $title_add . $base_title;
 
@@ -570,8 +567,24 @@ if ( ! empty( $_REQUEST['tables'] )
 								$columns
 							);
 
+							$current_cp = DBGet( "SELECT TITLE,MARKING_PERIOD_ID,SHORT_NAME
+								FROM COURSE_PERIODS
+								WHERE COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'" );
+
+							$base_title = mb_substr(
+								$current_cp[1]['TITLE'],
+								mb_strpos(
+									$current_cp[1]['TITLE'],
+									( GetMP( $current_cp[1]['MARKING_PERIOD_ID'], 'MP' ) != 'FY' ?
+										GetMP( $current_cp[1]['MARKING_PERIOD_ID'], 'SHORT_NAME' ) :
+										$current_cp[1]['SHORT_NAME'] )
+								)
+							);
+
+							$title = $title_add . $base_title;
+
 							DBQuery( "UPDATE COURSE_PERIODS
-								SET TITLE=COALESCE('" . $title_add . "'||TITLE)
+								SET TITLE='" . $title . "'
 								WHERE COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'" );
 						}
 
