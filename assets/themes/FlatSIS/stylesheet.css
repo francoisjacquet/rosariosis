@@ -568,6 +568,13 @@ a.menu-top,
 	width: 100%;
 }
 
+/* Fix date (year and day) select width */
+
+#search #general_table select[name^="day_"],
+#search #general_table select[name^="year_"] {
+	width: auto;
+}
+
 #footer {
 	background: #111;
 	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.23);

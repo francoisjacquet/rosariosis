@@ -8,6 +8,7 @@ Changes in 6.7.1
 - Fix regression in Course Period title generation since 5.8 in Courses.php
 - Fix regression updating ProgramUserConfig() since 4.4 in Config.fnc.php
 - SQL Order Custom Student / User Fields in Expanded view by Category in GetStuList.fnc.php & GetStaffList.fnc.php
+- CSS Fix date (year and day) select width in FlatSIS/stylesheet.css
 
 Changes in 6.7
 --------------
