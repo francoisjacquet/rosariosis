@@ -7,6 +7,7 @@ Changes in 6.7.1
 - Clean code: remove else conditions in functions/*
 - Fix regression in Course Period title generation since 5.8 in Courses.php
 - Fix regression updating ProgramUserConfig() since 4.4 in Config.fnc.php
+- SQL Order Custom Student / User Fields in Expanded view by Category in GetStuList.fnc.php & GetStaffList.fnc.php
 
 Changes in 6.7
 --------------

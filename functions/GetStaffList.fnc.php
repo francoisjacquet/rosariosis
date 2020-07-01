@@ -53,7 +53,7 @@ function GetStaffList( &$extra = array() )
 		$functions['FAILED_LOGIN'] = 'makeLogin';
 
 		$view_fields_RET = DBGet( "SELECT cf.ID,cf.TYPE,cf.TITLE
-			FROM STAFF_FIELDS cf
+			FROM STAFF_FIELDS cf,STAFF_FIELD_CATEGORIES sfc
 			WHERE ((SELECT VALUE
 				FROM PROGRAM_USER_CONFIG
 				WHERE TITLE=cast(cf.ID AS TEXT)
@@ -64,7 +64,8 @@ function GetStaffList( &$extra = array() )
 					''
 				) .
 			")
-			ORDER BY cf.SORT_ORDER,cf.TITLE" );
+			AND cf.CATEGORY_ID=sfc.ID
+			ORDER BY sfc.SORT_ORDER,cf.SORT_ORDER,cf.TITLE" );
 
 		foreach ( (array) $view_fields_RET as $field )
 		{
