@@ -231,6 +231,7 @@ function ProgramUserConfig( $program, $staff_id = 0, $values = null )
 				DBQuery( "UPDATE PROGRAM_USER_CONFIG
 					SET VALUE='" . $value . "'
 					WHERE TITLE='" . $title . "'
+					AND PROGRAM='" . $program . "'
 					AND USER_ID='" . $staff_id . "'" );
 			}
 

@@ -6,6 +6,7 @@ Changes in 6.7.1
 - Simplify Day of the week: 1 (for Monday) through 7 (for Sunday) in Widgets.fnc.php, EnterEligibility.php, Eligibility/Student.php, StudentList.php & TeacherCompletion.php
 - Clean code: remove else conditions in functions/*
 - Fix regression in Course Period title generation since 5.8 in Courses.php
+- Fix regression updating ProgramUserConfig() since 4.4 in Config.fnc.php
 
 Changes in 6.7
 --------------
