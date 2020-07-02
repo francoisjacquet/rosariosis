@@ -8,6 +8,7 @@ Changes in 6.7.2
 - Fix warning when Marking Period dates are not within Parent MP dates range for PRO periods in MarkingPeriods.php
 - HTML make form responsive for tablets in MarkingPeriods.php
 - CSS Adjust File input size with spinner on its right in stylesheet.css
+- JS fix fixed left menu when hidden in jquery-fixedmenu.js
 
 Changes in 6.7.1
 ----------------

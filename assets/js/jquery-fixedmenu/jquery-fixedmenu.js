@@ -67,7 +67,8 @@ function fixedMenu() {
 		var windowHeight = $window.height(),
 			bodyHeight = body.height();
 
-		if (bodyHeight <= windowHeight ||
+		if (! menu.is(':visible') ||
+			bodyHeight <= windowHeight ||
 			menu.height() >= bodyHeight ||
 			($window.scrollTop() + windowHeight <= menu.outerHeight())) {
 			return unfixMenu();
