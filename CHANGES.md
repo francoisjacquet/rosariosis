@@ -5,6 +5,7 @@ Changes in 6.7.2
 ----------------
 - Use RadioInput() for Theme option in Configuration.php
 - GetParentMP() Support QTR marking period type in GetMP.php
+- Fix warning when Marking Period dates are not within Parent MP dates range for PRO periods in MarkingPeriods.php
 
 Changes in 6.7.1
 ----------------

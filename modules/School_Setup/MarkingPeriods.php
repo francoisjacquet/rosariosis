@@ -364,7 +364,8 @@ if ( ! $_REQUEST['modfunc'] )
 			&& $_REQUEST['marking_period_id'] !== GetFullYearMP() )
 		{
 			// @since 6.6 Add warning when Marking Period dates are not within Parent MP dates range.
-			$parent_mp_type = GetMP( $_REQUEST['marking_period_id'], 'MP' ) === 'SEM' ? 'FY' : 'SEM';
+			$parent_mp_type = GetMP( $_REQUEST['marking_period_id'], 'MP' ) === 'SEM' ? 'FY' :
+				( GetMP( $_REQUEST['marking_period_id'], 'MP' ) === 'QTR' ? 'SEM' : 'QTR' );
 
 			$parent_mp_id = GetParentMP( $parent_mp_type, $_REQUEST['marking_period_id'] );
 
