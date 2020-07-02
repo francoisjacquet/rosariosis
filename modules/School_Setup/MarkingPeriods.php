@@ -479,10 +479,8 @@ if ( ! $_REQUEST['modfunc'] )
 			'tables[' . $_REQUEST['marking_period_id'] . '][SORT_ORDER]',
 			_( 'Sort Order' ),
 			'size="3" maxlength="4"'
-		) . '</td>';
+		) . '</td></tr>';
 	}
-
-	$header .= '<td><table class="width-100p"><tr>';
 
 	// @since 4.1 Grade posting date inputs are required when "Graded" is checked.
 	$header .= '<script>var mpGradedOnclickPostDatesRequired = function(el) {
@@ -506,7 +504,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$js_onclick_post_dates_required = 'onclick="mpGradedOnclickPostDatesRequired( this );"';
 
-	$header .= '<td>' . CheckboxInput(
+	$header .= '<tr class="st"><td>' . CheckboxInput(
 		issetVal( $RET['DOES_GRADES'], '' ),
 		'tables[' . $_REQUEST['marking_period_id'] . '][DOES_GRADES]',
 		_( 'Graded' ),
@@ -533,11 +531,11 @@ if ( ! $_REQUEST['modfunc'] )
 		) . '</td>';
 	}
 
-	$header .= '</tr></table></td></tr><tr class="st">';
+	$header .= '</tr><tr><td colspan="3"><hr /></td></tr>';
 
 	$required = $allow_na = $div = true;
 
-	$header .= '<td>' . DateInput(
+	$header .= '<tr class="st"><td>' . DateInput(
 		issetVal( $RET['START_DATE'], '' ),
 		'tables[' . $_REQUEST['marking_period_id'] . '][START_DATE]',
 		_( 'Begins' ),
@@ -553,7 +551,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$div,
 		$allow_na,
 		$required
-	) . '</td>';
+	) . '</td></tr>';
 
 	$required = ! empty( $RET['DOES_GRADES'] );
 
@@ -563,7 +561,7 @@ if ( ! $_REQUEST['modfunc'] )
 		|| ! empty( $RET['DOES_GRADES'] ) )
 	{
 		// Hide Grade Posting Dates from non editing users if MP not Graded.
-		$header .= '<td>' . DateInput(
+		$header .= '<tr class="st"><td>' . DateInput(
 			issetVal( $RET['POST_START_DATE'], '' ),
 			'tables[' . $_REQUEST['marking_period_id'] . '][POST_START_DATE]',
 			( $red ? '<span class="legend-red">' : '' ) . _( 'Grade Posting Begins' ) . ( $red ? '</span>' : '' ),
@@ -579,10 +577,10 @@ if ( ! $_REQUEST['modfunc'] )
 			$div,
 			$allow_na,
 			$required
-		) . '</td>';
+		) . '</td></tr>';
 	}
 
-	$header .= '</tr></table>';
+	$header .= '</table>';
 
 	DrawHeader( $header );
 
