@@ -251,6 +251,12 @@ select {
 	background-size: contain;
 }
 
+/* Adjust File input size with spinner on its right */
+
+input[type=file] {
+	max-width: calc( 100% - 38px);
+}
+
 /* No shadows */
 
 #menu,
@@ -843,6 +849,9 @@ td > .legend-gray:first-child {
 }
 
 @media only screen and (max-width:1023px) {
+	#body {
+		padding: 0 6px 0;
+	}
 	.rt th,
 	.rt th a {
 		font-size: 15px;
@@ -877,9 +886,6 @@ td > .legend-gray:first-child {
 		line-height: 26px;
 		padding-left: 36px;
 		text-indent: -36px;
-	}
-	#body {
-		padding: 0 6px 0;
 	}
 	#cboxLoadedContent {
 		padding: 5px !important;

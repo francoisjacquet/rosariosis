@@ -1560,8 +1560,8 @@ function FileInput( $name, $title = '', $extra = '', $max_file_size = 0 )
 	}
 
 	$input = '<input type="file" id="' . $id . '" name="' . $name . '" ' . $extra .
-		' onchange="fileInputSizeValidate(this,' . $max_file_size . ');" />
-		<span class="loading"></span>' . $ftitle;
+		' onchange="fileInputSizeValidate(this,' . $max_file_size . ');" /><span class="loading"></span>' .
+		$ftitle;
 
 	return $input;
 }

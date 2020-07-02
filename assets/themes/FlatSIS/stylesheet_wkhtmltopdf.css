@@ -247,6 +247,12 @@ select {
 	background-size: contain;
 }
 
+/* Adjust File input size with spinner on its right */
+
+input[type=file] {
+	max-width: calc( 100% - 38px);
+}
+
 /* No shadows */
 
 #menu,
