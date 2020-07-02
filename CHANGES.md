@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 6.8
+--------------
+- Use RadioInput() for Theme option in Configuration.php
+
 Changes in 6.7.1
 ----------------
 - Simplify Day of the week: 1 (for Monday) through 7 (for Sunday) in Widgets.fnc.php, EnterEligibility.php, Eligibility/Student.php, StudentList.php & TeacherCompletion.php

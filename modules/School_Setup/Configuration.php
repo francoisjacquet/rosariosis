@@ -237,37 +237,33 @@ else
 
 			$themes = glob( 'assets/themes/*', GLOB_ONLYDIR );
 
-			$count = 0;
+			$theme_options = array();
 
 			foreach ( (array) $themes as $theme )
 			{
 				$theme_name = str_replace( 'assets/themes/', '', $theme );
 
-				echo '<td><label><input type="radio" name="values[CONFIG][THEME]" value="' . $theme_name . '"' .
-					(  ( Config( 'THEME' ) === $theme_name ) ? ' checked' : '' ) . '> ' .
-					$theme_name . '</label></td>';
-
-				if ( ++$count % 3 == 0 )
-				{
-					echo '</tr><tr class="st">';
-				}
+				$theme_options[ $theme_name ] = $theme_name;
 			}
 
-			echo '</tr></table></td></tr>';
-			echo '<tr><td>';
+			echo '<tr><td>' . RadioInput(
+				Config( 'THEME' ),
+				'values[CONFIG][THEME]',
+				'',
+				$theme_options,
+				false
+			);
 
-			echo '<span class="legend-gray">' . _( 'Default Theme' ) . '</span> ';
+			echo FormatInputTitle( _( 'Default Theme' ), '', false, '' ) . ' ';
 
-			// FJ Add Force Default Theme.
+			// Add Force Default Theme.
 			echo CheckboxInput(
 				Config( 'THEME_FORCE' ),
 				'values[CONFIG][THEME_FORCE]',
 				_( 'Force' ),
 				'',
 				true
-			);
-
-			echo '</td></tr>';
+			) . '</td></tr>';
 
 			// FJ add Registration to Configuration.
 			echo '<tr><td><br /><fieldset><legend>' . _( 'Registration' ) . '</legend><table>';
