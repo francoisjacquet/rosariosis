@@ -231,6 +231,16 @@ function GetParentMP( $mp, $marking_period_id )
 	{
 		switch ( $mp )
 		{
+			case 'QTR':
+
+				$parent_SQL = "SELECT MARKING_PERIOD_ID,PARENT_ID
+					FROM SCHOOL_MARKING_PERIODS
+					WHERE MP='PRO'
+					AND SYEAR='" . UserSyear() . "'
+					AND SCHOOL_ID='" . UserSchool() . "'";
+
+			break;
+
 			case 'SEM':
 
 				$parent_SQL = "SELECT MARKING_PERIOD_ID,PARENT_ID

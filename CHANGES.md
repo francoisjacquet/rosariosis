@@ -1,9 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
-Changes in 6.8
---------------
+Changes in 6.7.2
+----------------
 - Use RadioInput() for Theme option in Configuration.php
+- GetParentMP() Support QTR marking period type in GetMP.php
 
 Changes in 6.7.1
 ----------------
