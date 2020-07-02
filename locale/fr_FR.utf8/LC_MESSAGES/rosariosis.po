@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-06-11 19:51+0200\n"
-"PO-Revision-Date: 2020-06-11 19:51+0200\n"
+"PO-Revision-Date: 2020-07-02 19:13+0200\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS\n"
 "Language: fr\n"
@@ -434,7 +434,7 @@ msgstr[1] "Catégories de Champ"
 
 #: ProgramFunctions/Fields.fnc.php:440 modules/School_Setup/PortalPolls.php:371
 msgid "One per line"
-msgstr "Un par ligne"
+msgstr "Une par ligne"
 
 #: ProgramFunctions/Fields.fnc.php:453 modules/School_Setup/Calendar.php:70
 #: modules/School_Setup/Calendar.php:948
