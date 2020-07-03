@@ -225,7 +225,7 @@ else
 			&& ! $multiple_schools_admin_has_1_school )
 		{
 			echo '<table class="cellpadding-5"><tr><td>' .
-				TextInput( Config( 'NAME' ), 'values[CONFIG][NAME]', _( 'Program Name' ), 'required' ) .
+				TextInput( Config( 'NAME' ), 'values[CONFIG][NAME]', _( 'Program Name' ), 'required maxlength=25' ) .
 			'</td></tr>';
 
 			echo '<tr><td>' .

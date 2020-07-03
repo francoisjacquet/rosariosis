@@ -9,6 +9,7 @@ Changes in 6.7.2
 - HTML make form responsive for tablets in MarkingPeriods.php
 - CSS Adjust File input size with spinner on its right in stylesheet.css
 - JS fix fixed left menu when hidden in jquery-fixedmenu.js
+- HTML set maxlength to 25 for Prorgam Name input in Configuration.php
 
 Changes in 6.7.1
 ----------------
