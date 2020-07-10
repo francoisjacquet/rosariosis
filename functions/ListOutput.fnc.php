@@ -47,7 +47,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		}
 	}
 
-	$result_count = $display_count = count( $result );
+	$result_count = $display_count = count( (array) $result );
 
 	if ( $result_count > 1000 )
 	{

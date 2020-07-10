@@ -38,7 +38,7 @@
  *
  * @global array    $THIS_RET  Current row of the query result
  *
- * @param  resource $QI        PostgreSQL result resource.
+ * @param  resource $QI        PostgreSQL result resource or SQL statement string.
  * @param  array    $functions Associative array( 'COLUMN' => 'FunctionName' ); Functions to apply (optional).
  * @param  array    $index     Indexes of the resulting array (4 maximum) (optional).
  *
