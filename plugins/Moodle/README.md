@@ -36,6 +36,7 @@ Tip: leave the password field empty when creating a User / Student in Moodle so 
 Schedule
 
 - Subjects, courses & course periods are automatically created, updated & deleted in Moodle
+- Teacher users are automatically assigned the "Teacher" role for their courses in Moodle.
 - Automatically schedule or drop students from a course period in Moodle
 
 School
