@@ -597,7 +597,7 @@ if ( ! function_exists( 'MakeAssignmentTitle' ) )
 			$view_assignment_link .= '&marking_period_id=' . $THIS_RET['MARKING_PERIOD_ID'];
 		}
 
-		return '<a href="' . $view_assignment_link . '">' . $title . '</a>';
+		return '<a href="' . URLEscape( $view_assignment_link ) . '">' . $title . '</a>';
 	}
 }
 
@@ -721,7 +721,7 @@ function GetAssignmentFileLink( $file_path )
 	return button(
 		'download',
 		_( 'Download' ),
-		'"' . $file_path . '" target="_blank" title="' . $file_name . ' (' . $file_size . ')"',
+		'"' . URLEscape( $file_path ) . '" target="_blank" title="' . $file_name . ' (' . $file_size . ')"',
 		'bigger'
 	);
 }

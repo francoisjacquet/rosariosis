@@ -342,7 +342,11 @@ function _makeDelete( $module_title, $activated = null )
 	{
 		if ( ! in_array( $module_title, $always_activated ) )
 		{
-			$return = button( 'remove', _( 'Deactivate' ), '"Modules.php?modname=' . $_REQUEST['modname'] . '&tab=modules&modfunc=deactivate&module=' . $module_title . '"' );
+			$return = button(
+				'remove',
+				_( 'Deactivate' ),
+				'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=modules&modfunc=deactivate&module=' . $module_title ) . '"'
+			);
 		}
 	}
 	else
@@ -352,7 +356,7 @@ function _makeDelete( $module_title, $activated = null )
 			$return = button(
 				'add',
 				_( 'Activate' ),
-				'"Modules.php?modname=' . $_REQUEST['modname'] . '&tab=modules&modfunc=activate&module=' . $module_title . '"'
+				'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=modules&modfunc=activate&module=' . $module_title ) . '"'
 			);
 
 			// If not core module & already installed, delete link.
@@ -364,7 +368,8 @@ function _makeDelete( $module_title, $activated = null )
 				$return .= '&nbsp;' .
 				button(
 					'remove',
-					_( 'Delete' ), '"Modules.php?modname=' . $_REQUEST['modname'] . '&tab=modules&modfunc=delete&module=' . $module_title . '"'
+					_( 'Delete' ),
+					'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=modules&modfunc=delete&module=' . $module_title ) . '"'
 				);
 			}
 		}

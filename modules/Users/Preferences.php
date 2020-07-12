@@ -118,14 +118,14 @@ if ( ! $_REQUEST['modfunc'] )
 		array(), array( 'PROGRAM', 'TITLE' ) );
 
 	if ( empty( $_REQUEST['tab'] ) )
-	//FJ enable password change for students
-	//$_REQUEST['tab'] = 'display_options';
 	{
 		$_REQUEST['tab'] = 'password';
 	}
 
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&amp;tab=' . $_REQUEST['tab'] . '" method="POST">';
+	echo Form( 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=' . $_REQUEST['tab'] );
+
 	DrawHeader( '', Buttons( _( 'Save' ) ) );
+
 	echo '<br />';
 
 	if ( User( 'PROFILE' ) === 'admin'
@@ -136,27 +136,27 @@ if ( ! $_REQUEST['modfunc'] )
 		$tabs = array(
 			array(
 				'title' => _( 'Display Options' ),
-				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&amp;tab=display_options',
+				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=display_options',
 			),
 			array(
 				'title' => _( 'Print Options' ),
-				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&amp;tab=print_options',
+				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=print_options',
 			),
 			array(
 				'title' => _( 'Student Listing' ),
-				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&amp;tab=student_listing',
+				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=student_listing',
 			),
 			array(
 				'title' => _( 'Password' ),
-				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&amp;tab=password',
+				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=password',
 			),
 			array(
 				'title' => _( 'Student Fields' ),
-				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&amp;tab=student_fields',
+				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=student_fields',
 			),
 			array(
 				'title' => _( 'Widgets' ),
-				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&amp;tab=widgets',
+				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=widgets',
 			),
 		);
 
@@ -164,12 +164,12 @@ if ( ! $_REQUEST['modfunc'] )
 		{
 			$tabs[] = array(
 				'title' => _( 'User Fields' ),
-				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&amp;tab=staff_fields',
+				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=staff_fields',
 			);
 
 			$tabs[] = array(
 				'title' => _( 'User Widgets' ),
-				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&amp;tab=staff_widgets',
+				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=staff_widgets',
 			);
 		}
 	}
@@ -180,19 +180,19 @@ if ( ! $_REQUEST['modfunc'] )
 		$tabs = array(
 			array(
 				'title' => _( 'Display Options' ),
-				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&amp;tab=display_options',
+				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=display_options',
 			),
 			array(
 				'title' => _( 'Print Options' ),
-				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&amp;tab=print_options',
+				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=print_options',
 			),
 			array(
 				'title' => _( 'Password' ),
-				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&amp;tab=password',
+				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=password',
 			),
 			array(
 				'title' => _( 'Student Fields' ),
-				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&amp;tab=student_fields',
+				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=student_fields',
 			),
 		);
 	}
@@ -203,12 +203,12 @@ if ( ! $_REQUEST['modfunc'] )
 		$tabs = array(
 			array(
 				'title' => _( 'Password' ),
-				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&amp;tab=password',
+				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=password',
 			),
 		);
 	}
 
-	$_ROSARIO['selected_tab'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&amp;tab=' . $_REQUEST['tab'];
+	$_ROSARIO['selected_tab'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=' . $_REQUEST['tab'];
 
 	$LO_options = array(
 		'responsive' => false,

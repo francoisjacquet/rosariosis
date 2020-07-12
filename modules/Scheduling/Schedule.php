@@ -208,7 +208,7 @@ if ( UserStudentID()
 	if ( AllowUse( 'Scheduling/PrintSchedules.php' ) )
 	{
 		DrawHeader(
-			'<a href="' . $print_schedules_link . '" target="_blank" id="printSchedulesLink">' .
+			'<a href="' . URLEscape( $print_schedules_link ) . '" target="_blank" id="printSchedulesLink">' .
 			_( 'Print Schedule' ) . '</a>' .
 			' &nbsp;<label><input name="schedule_table" type="radio" value="Yes" checked onchange="timeTableSwitch();" />&nbsp;' .
 			_( 'Table' ) . '</label>' .

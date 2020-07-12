@@ -39,36 +39,32 @@ if ( $_REQUEST['subject_id'] )
 		FROM COURSE_SUBJECTS
 		WHERE SUBJECT_ID='" . $_REQUEST['subject_id'] . "'" );
 
-	$header = '<a href="Modules.php?modname=' . $_REQUEST['modname'] .
-	'&include_child_mps=' . $_REQUEST['include_child_mps'] . '">' . _( 'Top' ) . '</a>
-		&rsaquo; <a href="Modules.php?modname=' . $_REQUEST['modname'] .
+	$header = '<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+		'&include_child_mps=' . $_REQUEST['include_child_mps'] ) . '">' . _( 'Top' ) . '</a>
+		&rsaquo; <a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 		'&modfunc=courses&subject_id=' . $_REQUEST['subject_id'] .
-		'&include_child_mps=' . $_REQUEST['include_child_mps'] . '">' .
+		'&include_child_mps=' . $_REQUEST['include_child_mps'] ) . '">' .
 		$subject_title . '</a>';
 
 	if ( $_REQUEST['course_id'] )
 	{
-		$header2 = '<a href="Modules.php?modname=' . $_REQUEST['modname'] .
-			'&subject_id=' . $_REQUEST['subject_id'] . '&course_id=' . $_REQUEST['course_id'];
-
 		$location = 'courses';
 
 		$course_RET = DBGet( "SELECT TITLE
 			FROM COURSES
 			WHERE COURSE_ID='" . $_REQUEST['course_id'] . "'" );
 
-		$header .= ' &rsaquo; <a href="Modules.php?modname=' . $_REQUEST['modname'] .
+		$course_link_url = 'Modules.php?modname=' . $_REQUEST['modname'] .
 			'&modfunc=students&subject_id=' . $_REQUEST['subject_id'] .
 			'&course_id=' . $_REQUEST['course_id'] .
-			'&include_child_mps=' . $_REQUEST['include_child_mps'] . '">' .
+			'&include_child_mps=' . $_REQUEST['include_child_mps'];
+
+		$header .= ' &rsaquo; <a href="' . URLEscape( $course_link_url ) . '">' .
 			$course_RET[1]['TITLE'] . '</a>';
 
-		$header2 .= '&students=' . $location .
-		'&modfunc=students&include_child_mps=' . $_REQUEST['include_child_mps'] . '">' .
-		_( 'List Students' ) . '</a> | ' . $header2 .
-		'&unscheduled=true&students=' . $location .
-		'&modfunc=students&include_child_mps=' . $_REQUEST['include_child_mps'] . '">' .
-		_( 'List Unscheduled Students' ) . '</a>';
+		$header2 = '<a href="' . URLEscape( $course_link_url . '&students=' . $location ) . '">' .
+		_( 'List Students' ) . '</a> | <a href="' . URLEscape( $course_link_url .
+		'&unscheduled=true&students=' . $location ) . '">' . _( 'List Unscheduled Students' ) . '</a>';
 
 		DrawHeader( $header );
 

@@ -14,11 +14,11 @@ else
 	$_SESSION['_REQUEST_vars']['type'] = $_REQUEST['type'] = issetVal( $_SESSION['FSA_type'] );
 }
 
-$header = '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&type=student">' .
+$header = '<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&type=student' ) . '">' .
 	( ! isset( $_REQUEST['type'] ) || $_REQUEST['type'] === 'student' ?
 	'<b>' . _( 'Students' ) . '</b>' : _( 'Students' ) ) . '</a>';
 
-$header .= ' | <a href="Modules.php?modname=' . $_REQUEST['modname'] . '&type=staff">' .
+$header .= ' | <a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&type=staff' ) . '">' .
 	( isset( $_REQUEST['type'] ) && $_REQUEST['type'] === 'staff' ?
 	'<b>' . _( 'Users' ) . '</b>' : _( 'Users' ) ) . '</a>';
 

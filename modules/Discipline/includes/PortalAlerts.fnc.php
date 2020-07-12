@@ -44,8 +44,8 @@ function DisciplinePortalAlerts()
 	if ( isset( $disc_RET[1]['COUNT'] )
 		&& $disc_RET[1]['COUNT'] > 0 )
 	{
-		$message = '<a href="Modules.php?modname=Discipline/Referrals.php&search_modfunc=list&discipline_entry_begin=' .
-			$last_login_date. '&discipline_entry_end=' . DBDate() . '">
+		$message = '<a href="' . URLEscape( 'Modules.php?modname=Discipline/Referrals.php&search_modfunc=list&discipline_entry_begin=' .
+			$last_login_date. '&discipline_entry_end=' . DBDate() ) . '">
 			<span class="module-icon Discipline"></span> ';
 
 		$message .= sprintf(

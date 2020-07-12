@@ -32,13 +32,13 @@ $tabcolor_s = Preferences('HEADER'); $textcolor_s = '#FFFFFF';
 $tabcolor_u = '#DFDFDF'; $textcolor_u = '#999999';
 }*/
 
-$header = '<a href="Modules.php?modname=' . $_REQUEST['modname'] .
-	'&modfunc=select&menu_id=' . $_REQUEST['menu_id'] . '&fsa_type=student">' .
+$header = '<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+	'&modfunc=select&menu_id=' . $_REQUEST['menu_id'] . '&fsa_type=student' ) . '">' .
 	( ! isset( $_REQUEST['type'] ) || $_REQUEST['type'] === 'student' ?
 	'<b>' . _( 'Students' ) . '</b>' : _( 'Students' ) ) . '</a>';
 
-$header .= ' | <a href="Modules.php?modname=' . $_REQUEST['modname'] .
-	'&modfunc=select&menu_id=' . $_REQUEST['menu_id'] . '&fsa_type=staff">' .
+$header .= ' | <a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+	'&modfunc=select&menu_id=' . $_REQUEST['menu_id'] . '&fsa_type=staff' ) . '">' .
 	( isset( $_REQUEST['type'] ) && $_REQUEST['type'] === 'staff' ?
 	'<b>' . _( 'Users' ) . '</b>' : _( 'Users' ) ) . '</a>';
 

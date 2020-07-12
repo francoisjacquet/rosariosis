@@ -26,15 +26,15 @@ else
 	$textcolor_u = '#999999';
 }
 
-$header = '<a href="Modules.php?modname=' . $_REQUEST['modname'] .
+$header = '<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 	'&day_date=' . $_REQUEST['day_date'] . '&month_date=' . $_REQUEST['month_date'] .
-	'&year_date=' . $_REQUEST['year_date'] . '&type=student">' .
+	'&year_date=' . $_REQUEST['year_date'] . '&type=student' ) . '">' .
 	( ! isset( $_REQUEST['type'] ) || $_REQUEST['type'] === 'student' ?
 	'<b>' . _( 'Students' ) . '</b>' : _( 'Students' ) ) . '</a>';
 
-$header .= ' | <a href="Modules.php?modname=' . $_REQUEST['modname'] .
+$header .= ' | <a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 	'&day_date=' . $_REQUEST['day_date'] . '&month_date=' . $_REQUEST['month_date'] .
-	'&year_date=' . $_REQUEST['year_date'] . '&type=staff">' .
+	'&year_date=' . $_REQUEST['year_date'] . '&type=staff' ) . '">' .
 	( isset( $_REQUEST['type'] ) && $_REQUEST['type'] === 'staff' ?
 	'<b>' . _( 'Users' ) . '</b>' : _( 'Users' ) ) . '</a>';
 

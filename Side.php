@@ -657,7 +657,7 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 				<?php echo button( 'x', '', '', 'bigger' ); ?>
 			</a>
 			<?php if ( AllowUse( 'Students/Student.php' ) ) : ?>
-				<a href="Modules.php?modname=Students/Student.php&amp;student_id=<?php echo UserStudentID(); ?>" title="<?php echo _( 'Student Info' ); ?>">
+				<a href="Modules.php?modname=Students/Student.php&amp;student_id=<?php echo (int) UserStudentID(); ?>" title="<?php echo _( 'Student Info' ); ?>">
 					<?php echo $current_student_name; ?>
 				</a>
 			<?php else : ?>
@@ -681,7 +681,7 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 				<?php echo button( 'x', '', '', 'bigger' ); ?>
 			</a>
 			<?php if ( AllowUse( 'Users/User.php' ) ) : ?>
-				<a href="Modules.php?modname=Users/User.php&amp;staff_id=<?php echo UserStaffID(); ?>" title="<?php echo _( 'User Info' ); ?>">
+				<a href="Modules.php?modname=Users/User.php&amp;staff_id=<?php echo (int) UserStaffID(); ?>" title="<?php echo _( 'User Info' ); ?>">
 					<?php echo $current_user_name; ?>
 				</a>
 			<?php else : ?>
@@ -715,7 +715,7 @@ if ( ! isset( $_REQUEST['sidefunc'] )
 
 			$modcat_class = mb_strtolower( str_replace( '_', '-', $menu_i ) ); ?>
 		<li class="menu-module <?php echo $modcat_class; ?>">
-			<a href="Modules.php?modname=<?php echo $modcat_menu['default']; ?>" class="menu-top">
+			<a href="<?php echo URLEscape( 'Modules.php?modname=' . $modcat_menu['default'] ); ?>" class="menu-top">
 
 				<span class="module-icon <?php echo $menu_i; ?>"
 				<?php if ( ! in_array( $menu_i, $RosarioCoreModules ) ) :
@@ -742,7 +742,7 @@ if ( ! isset( $_REQUEST['sidefunc'] )
 
 				// If URL, not a program.
 				/*if ( mb_stripos( $modcat_j, 'http' ) !== false ) : ?>
-					<li><a href="<?php echo $modcat_j; ?>" target="_blank"><?php
+					<li><a href="<?php echo URLEscape( $modcat_j ); ?>" target="_blank"><?php
 						echo $title;
 					?></a></li>
 				<?php
@@ -754,7 +754,7 @@ if ( ! isset( $_REQUEST['sidefunc'] )
 						' target="_blank"' :
 						''
 					); ?>
-					<li><a href="Modules.php?modname=<?php echo $modcat_j; ?>"<?php echo $target; ?>><?php
+					<li><a href="<?php echo URLEscape( 'Modules.php?modname=' . $modcat_j ); ?>"<?php echo $target; ?>><?php
 						echo $title;
 					?></a></li>
 				<?php // If is a section.

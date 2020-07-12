@@ -47,7 +47,7 @@ if ( isset( $_REQUEST['assignment_id'] )
 
 	$assignments_link = PreparePHP_SELF( $_REQUEST, array( 'search_modfunc', 'assignment_id' ) );
 
-	DrawHeader( '<a href="' . $assignments_link . '">' . _( 'Back to Assignments' ) . '</a>' );
+	DrawHeader( '<a href="' . URLEscape( $assignments_link ) . '">&laquo; ' . _( 'Back' ) . '</a>' );
 
 	$_ROSARIO['allow_edit'] = true;
 

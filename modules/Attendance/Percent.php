@@ -48,19 +48,19 @@ if ( ! $_REQUEST['modfunc'] )
 
 	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&list_by_day=' . $_REQUEST['list_by_day'] . '" method="GET">';
 
-	$advanced_link = ' <a href="Modules.php?modname=' . $_REQUEST['modname'] .
+	$advanced_link = 'Modules.php?modname=' . $_REQUEST['modname'] .
 		'&modfunc=search&list_by_day=' . $_REQUEST['list_by_day'] .
 		'&day_start=' . $_REQUEST['day_start'] .
 		'&day_end=' . $_REQUEST['day_end'] .
 		'&month_start=' . $_REQUEST['month_start'] .
 		'&month_end=' . $_REQUEST['month_end'] .
 		'&year_start=' . $_REQUEST['year_start'] .
-		'&year_end=' . $_REQUEST['year_end'] . '">' .
-		_( 'Advanced' ) . '</a>';
+		'&year_end=' . $_REQUEST['year_end'] . '"';
 
 	DrawHeader(
 		_( 'Timeframe' ) . ': ' . PrepareDate( $start_date, '_start', false ) .
-		' &nbsp; ' . _( 'to' ) . ' &nbsp; ' . PrepareDate( $end_date, '_end', false ) . $advanced_link,
+		' &nbsp; ' . _( 'to' ) . ' &nbsp; ' . PrepareDate( $end_date, '_end', false ) .
+		' <a href="' . URLEscape( $advanced_link ) . '">' . _( 'Advanced' ) . '</a>',
 		SubmitButton( _( 'Go' ) )
 	);
 

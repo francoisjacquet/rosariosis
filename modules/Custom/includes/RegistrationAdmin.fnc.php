@@ -60,10 +60,10 @@ function RegistrationAdminPreviewHeader()
 {
 	if ( $_REQUEST['modfunc'] === 'preview' )
 	{
-		return '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '">« ' . _( 'Back' ) . '</a>';
+		return '<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] ) . '">« ' . _( 'Back' ) . '</a>';
 	}
 
-	return '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=preview">' . _( 'Preview' ) . '</a>';
+	return '<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=preview' ) . '">' . _( 'Preview' ) . '</a>';
 }
 
 /**

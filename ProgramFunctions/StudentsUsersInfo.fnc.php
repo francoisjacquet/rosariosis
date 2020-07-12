@@ -463,7 +463,7 @@ function _makeFilesInput( $column, $name, $request, $remove_url = '' )
 		$file = button(
 			'download',
 			$file_name_display,
-			'"' . $file_path . '" target="_blank" title="' . $file_name . ' (' . $file_size . ')"',
+			'"' . URLEscape( $file_path ) . '" target="_blank" title="' . $file_name . ' (' . $file_size . ')"',
 			'bigger'
 		);
 
@@ -472,7 +472,7 @@ function _makeFilesInput( $column, $name, $request, $remove_url = '' )
 			$file = button(
 				'remove',
 				'',
-				'"' . $remove_url . urlencode( $file_name ) . '" title="' . _( 'Delete' ) . '"'
+				'"' . URLEscape( $remove_url . $file_name ) . '" title="' . _( 'Delete' ) . '"'
 			) . '&nbsp;' . $file;
 		}
 

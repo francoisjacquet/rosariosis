@@ -588,7 +588,7 @@ function _makeEmail( $value, $column )
 	if ( AllowEdit( 'Students/Student.php' ) )
 	{
 		// Link to User Info program.
-		$return .= ' <a href="Modules.php?modname=Students/Student.php&student_id=' . $THIS_RET['STUDENT_ID'] . '">' .
+		$return .= ' <a href="' . URLEscape( 'Modules.php?modname=Students/Student.php&student_id=' . $THIS_RET['STUDENT_ID'] ) . '">' .
 			_( 'Student Info' ) . '</a>';
 	}
 

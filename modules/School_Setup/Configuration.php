@@ -15,7 +15,7 @@ if ( empty( $_REQUEST['tab'] ) )
 }
 
 
-$configuration_link = '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '">' .
+$configuration_link = '<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] ) . '">' .
 	( $_REQUEST['tab'] !== 'modules' && $_REQUEST['tab'] !== 'plugins' ?
 	'<b>' . _( 'Configuration' ) . '</b>' : _( 'Configuration' ) ) . '</a>';
 
@@ -26,11 +26,11 @@ $multiple_schools_admin_has_1_school = SchoolInfo( 'SCHOOLS_NB' ) > 1
 		AND SYEAR='" . UserSyear() . "'
 		AND SCHOOLS='," . UserSchool() . ",';" );
 
-$modules_link = ' | <a href="Modules.php?modname=' . $_REQUEST['modname'] . '&tab=modules">' .
+$modules_link = ' | <a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=modules' ) . '">' .
 	( $_REQUEST['tab'] === 'modules' ?
 	'<b>' . _( 'Modules' ) . '</b>' : _( 'Modules' ) ) . '</a>';
 
-$plugins_link = ' | <a href="Modules.php?modname=' . $_REQUEST['modname'] . '&tab=plugins">' .
+$plugins_link = ' | <a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=plugins' ) . '">' .
 	( $_REQUEST['tab'] === 'plugins' ?
 	'<b>' . _( 'Plugins' ) . '</b>' : _( 'Plugins' ) ) . '</a>';
 

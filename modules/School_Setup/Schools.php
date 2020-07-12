@@ -281,7 +281,7 @@ if ( ! $_REQUEST['modfunc'] )
 		'http://' . $schooldata['WWW_ADDRESS'];
 
 		echo '<tr><td colspan="3">' . NoInput(
-			'<a href="' . $school_link . '" target="_blank">' . $schooldata['WWW_ADDRESS'] . '</a>',
+			'<a href="' . URLEscape( $school_link ) . '" target="_blank">' . $schooldata['WWW_ADDRESS'] . '</a>',
 			_( 'Website' )
 		) . '</td></tr>';
 	}

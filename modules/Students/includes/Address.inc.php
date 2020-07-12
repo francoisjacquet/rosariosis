@@ -580,15 +580,15 @@ if ( ! $_REQUEST['modfunc'] )
 			echo '<tr class="highlight-hover"><td>' . $remove_address_button . '</td><td>';
 		}
 
-		echo '<a href="Modules.php?modname=' . $_REQUEST['modname'] .
+		echo '<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 			'&category_id=' . $_REQUEST['category_id'] .
-			'&address_id=' . $address['ADDRESS_ID'] . '">' .
+			'&address_id=' . $address['ADDRESS_ID'] ) . '">' .
 			$address['ADDRESS'] .
 			'<br />' . ( $address['CITY'] ? $address['CITY'] . ', ' : '' ) .
 			$address['STATE'] . ( $address['ZIPCODE'] ? ' ' . $address['ZIPCODE'] : '' ) . '</a>';
 
 		echo '</td>';
-		echo '<td><a href="Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $_REQUEST['category_id'] . '&address_id=' . $address['ADDRESS_ID'] . '" class="arrow right"></a></td>';
+		echo '<td><a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $_REQUEST['category_id'] . '&address_id=' . $address['ADDRESS_ID'] ) . '" class="arrow right"></a></td>';
 
 		echo '</tr>';
 	}
@@ -610,12 +610,12 @@ if ( ! $_REQUEST['modfunc'] )
 
 		echo '<td>&nbsp;</td>';
 
-		echo '<td><a href="Modules.php?modname=' . $_REQUEST['modname'] .
-			'&category_id=' . $_REQUEST['category_id'] . '&address_id=0">' .
+		echo '<td><a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+			'&category_id=' . $_REQUEST['category_id'] . '&address_id=0' ) . '">' .
 			_( 'No Address' ) . '</a>';
 
 		echo '</td>';
-		echo '<td><a href="Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $_REQUEST['category_id'] . '&address_id=0" class="arrow right"></a></td>';
+		echo '<td><a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $_REQUEST['category_id'] . '&address_id=0' ) . '" class="arrow right"></a></td>';
 
 		echo '</tr>';
 	}
@@ -635,7 +635,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$link = 'Modules.php?modname=' . $_REQUEST['modname'] .
 			'&category_id=' . $_REQUEST['category_id'] . '&address_id=new';
 
-		echo '<a href="' . $link . '">' . _( 'Add a <b>New</b> Address' ) . '</a></td>';
+		echo '<a href="' . URLEscape( $link ) . '">' . _( 'Add a <b>New</b> Address' ) . '</a></td>';
 
 		echo '<td></td></tr>';
 
@@ -645,7 +645,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$link = 'Modules.php?modname=' . $_REQUEST['modname'] .
 			'&category_id=' . $_REQUEST['category_id'] . '&address_id=old';
 
-		echo '<a href="' . $link . '">' . _( 'Add an <b>Existing</b> Address' ) . '</a></td>';
+		echo '<a href="' . URLEscape( $link ) . '">' . _( 'Add an <b>Existing</b> Address' ) . '</a></td>';
 
 		echo '<td></td></tr>';
 	}
@@ -697,10 +697,10 @@ if ( ! $_REQUEST['modfunc'] )
 					$remove_button = button(
 						'remove',
 						'',
-						'"Modules.php?modname=' . $_REQUEST['modname'] .
+						'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 						'&category_id=' . $_REQUEST['category_id'] .
 						'&modfunc=delete_address&address_id=' . $_REQUEST['address_id'] .
-						'&person_id=' . $contact['PERSON_ID'] . '"'
+						'&person_id=' . $contact['PERSON_ID'] ) . '"'
 					);
 				}
 
@@ -766,7 +766,7 @@ if ( ! $_REQUEST['modfunc'] )
 				}
 
 				echo $images .
-				'<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $_REQUEST['category_id'] . '&address_id=' . $_REQUEST['address_id'] . '&person_id=' . $contact['PERSON_ID'] . '">' .
+				'<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $_REQUEST['category_id'] . '&address_id=' . $_REQUEST['address_id'] . '&person_id=' . $contact['PERSON_ID'] ) . '">' .
 				DisplayName(
 					$contact['FIRST_NAME'],
 					$contact['LAST_NAME'],
@@ -775,7 +775,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 				echo $contact['STUDENT_RELATION'] ? ' (' . $contact['STUDENT_RELATION'] . ')' : '';
 
-				echo '</td><td><a href="Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $_REQUEST['category_id'] . '&address_id=' . $_REQUEST['address_id'] . '&person_id=' . $contact['PERSON_ID'] . '" class="arrow right"></a></td>';
+				echo '</td><td><a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $_REQUEST['category_id'] . '&address_id=' . $_REQUEST['address_id'] . '&person_id=' . $contact['PERSON_ID'] ) . '" class="arrow right"></a></td>';
 				echo '</tr>';
 			}
 
@@ -796,10 +796,10 @@ if ( ! $_REQUEST['modfunc'] )
 					echo '<tr class="highlight-hover"><td>' . button( 'add' ) . '</td><td>';
 				}
 
-				echo '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $_REQUEST['category_id'] . '&address_id=' . $_REQUEST['address_id'] . '&person_id=new">' . _( 'Add a <b>New</b> Contact' ) . '</a>';
+				echo '<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $_REQUEST['category_id'] . '&address_id=' . $_REQUEST['address_id'] . '&person_id=new' ) . '">' . _( 'Add a <b>New</b> Contact' ) . '</a>';
 				echo '</td>';
 
-				echo '<td><a href="Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $_REQUEST['category_id'] . '&address_id=' . $_REQUEST['address_id'] . '&person_id=new"></a></td>';
+				echo '<td><a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $_REQUEST['category_id'] . '&address_id=' . $_REQUEST['address_id'] . '&person_id=new' ) . '"></a></td>';
 				echo '</tr>';
 
 				if ( isset( $_REQUEST['person_id'] )
@@ -812,10 +812,10 @@ if ( ! $_REQUEST['modfunc'] )
 					echo '<tr class="highlight-hover"><td>' . button( 'add' ) . '</td><td>';
 				}
 
-				echo '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $_REQUEST['category_id'] . '&address_id=' . $_REQUEST['address_id'] . '&person_id=old">' . _( 'Add an <b>Existing</b> Contact' ) . '</a>';
+				echo '<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $_REQUEST['category_id'] . '&address_id=' . $_REQUEST['address_id'] . '&person_id=old' ) . '">' . _( 'Add an <b>Existing</b> Contact' ) . '</a>';
 				echo '</td>';
 
-				echo '<td><a href="Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $_REQUEST['category_id'] . '&address_id=' . $_REQUEST['address_id'] . '&person_id=old"></a></td>';
+				echo '<td><a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $_REQUEST['category_id'] . '&address_id=' . $_REQUEST['address_id'] . '&person_id=old' ) . '"></a></td>';
 				echo '</tr>';
 			}
 
@@ -917,7 +917,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 			if ( $_REQUEST['address_id'] !== 'new' && $_REQUEST['address_id'] != '0' )
 			{
-				$display_address = urlencode( $this_address['ADDRESS'] . ', ' . ( $this_address['CITY'] ? ' ' . $this_address['CITY'] . ', ' : '' ) . $this_address['STATE'] . ( $this_address['ZIPCODE'] ? ' ' . $this_address['ZIPCODE'] : '' ) );
+				$display_address = URLEscape( $this_address['ADDRESS'] . ', ' . ( $this_address['CITY'] ? ' ' . $this_address['CITY'] . ', ' : '' ) . $this_address['STATE'] . ( $this_address['ZIPCODE'] ? ' ' . $this_address['ZIPCODE'] : '' ) );
 
 				$link = 'https://www.openstreetmap.org/search?query=' . $display_address;
 
@@ -1118,11 +1118,11 @@ if ( ! $_REQUEST['modfunc'] )
 							echo '<td>' . button(
 								'remove',
 								'',
-								'"Modules.php?modname=' . $_REQUEST['modname'] .
+								'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 								'&category_id=' . $_REQUEST['category_id'] .
 								'&modfunc=delete_address&address_id=' . $_REQUEST['address_id'] .
 								'&person_id=' . $_REQUEST['person_id'] .
-								'&contact_id=' . $info['ID'] . '"'
+								'&contact_id=' . $info['ID'] ) . '"'
 							) . '</td><td>';
 						}
 						else

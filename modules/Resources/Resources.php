@@ -143,14 +143,12 @@ function _makeLink( $value, $name )
 	{
 		if ( $value )
 		{
-			return '<div style="display:table-cell;"><a href="' . $value . '" target="_blank">' .
-			_( 'Link' ) . '</a>&nbsp;</div>
+			return '<div style="display:table-cell;"><a href="' . URLEscape( $value ) . '" target="_blank">' .
+				_( 'Link' ) . '</a>&nbsp;</div>
 				<div style="display:table-cell;">' . _makeTextInput( $value, $name ) . '</div>';
 		}
-		else
-		{
-			return _makeTextInput( $value, $name );
-		}
+
+		return _makeTextInput( $value, $name );
 	}
 
 	if ( ! $value )
@@ -171,5 +169,5 @@ function _makeLink( $value, $name )
 		$truncated_link = substr_replace( $truncated_link, $separator, $start, $trunc );
 	}
 
-	return '<a href="' . $value . '" target="_blank">' . $truncated_link . '</a>';
+	return '<a href="' . URLEscape( $value ) . '" target="_blank">' . $truncated_link . '</a>';
 }

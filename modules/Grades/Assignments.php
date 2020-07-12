@@ -774,9 +774,9 @@ if ( ! $_REQUEST['modfunc'] )
 		&& AllowUse( 'Grades/Grades.php' ) )
 	{
 		// Grades program link header.
-		$grades_program_link = '<a href="Modules.php?modname=Grades/Grades.php&type_id=' .
+		$grades_program_link = '<a href="' . URLEscape( 'Modules.php?modname=Grades/Grades.php&type_id=' .
 		$_REQUEST['assignment_type_id'] .
-		'&assignment_id=' . $_REQUEST['assignment_id'] . '"><b>' .
+		'&assignment_id=' . $_REQUEST['assignment_id'] ) . '"><b>' .
 		_( 'Grades' ) . '</b></a>';
 
 		DrawHeader( $grades_program_link );

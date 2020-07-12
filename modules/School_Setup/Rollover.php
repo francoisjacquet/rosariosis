@@ -171,7 +171,7 @@ if ( Prompt(
 			$update_syear_warning = sprintf(
 				_( 'Do not forget to update the default school year to \'%d\' from <a href="%s" target="_blank">your account</a> when ready.' ),
 				UserSyear() + 1,
-				'https://www.rosariosis.com/' . $locale_short .	'account/'
+				URLEscape( 'https://www.rosariosis.com/' . $locale_short .	'account/' )
 			);
 		}
 

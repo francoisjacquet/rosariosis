@@ -541,45 +541,39 @@ function makeFileAttached( $value, $name )
 
 		if ( empty( $value ) )
 		{
-			$return = '&nbsp;';
+			return '&nbsp;';
 		}
-		else
+
+		$filesAttachedCount++;
+
+		//FJ colorbox
+		$view_online = '<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/visualize.png" class="button bigger" /> ' . _( 'View Online' ) . '';
+
+		$download = '<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/download.png" class="button bigger" /> ' . _( 'Download' ) . '';
+
+		if ( filter_var( $value, FILTER_VALIDATE_URL ) !== false ) //embed link
 		{
-			$filesAttachedCount++;
-
-			//FJ colorbox
-			$view_online = '<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/visualize.png" class="button bigger" /> ' . _( 'View Online' ) . '';
-
-			$download = '<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/download.png" class="button bigger" /> ' . _( 'Download' ) . '';
-
-			if ( filter_var( $value, FILTER_VALIDATE_URL ) !== false ) //embed link
-			{
-				$return = '<a href="' . $value . '" title="' . $value . '" class="colorboxiframe">' . $view_online . '</a>';
-			}
-			else
-			{
-				$return = '<a href="' . $value . '" title="' . str_replace( $PortalNotesFilesPath, '', $value ) . '" target="_blank">' . $download . '</a>';
-			}
+			return '<a href="' . URLEscape( $value ) . '" title="' . $value . '" class="colorboxiframe">' . $view_online . '</a>';
 		}
-	}
-	else
-	{
-		$id = 'new';
 
-		$return = '<div id="divFileAttached' . $id . '" class="rt2colorBox">';
-		$return .= '<div>
-			<label>
-				<input type="radio" name="values[new][FILE_OR_EMBED]" value="FILE">&nbsp;';
-		$return .= FileInput( $name . '_FILE' );
-		$return .= '</label>
-		</div>';
-		$return .= '<div style="float:left;">
-			<label>
-				<input type="radio" name="values[new][FILE_OR_EMBED]" value="EMBED" onclick="javascript:document.getElementById(\'values[new][' . $name . '_EMBED]\').focus();" />&nbsp;' .
-		_( 'Embed Link' ) . ': <input type="text" id="values[new][' . $name . '_EMBED]" name="values[new][' . $name . '_EMBED]" size="14" placeholder="http://" />
-			</label>
-		</div></div>';
+		return '<a href="' . URLEscape( $value ) . '" title="' . str_replace( $PortalNotesFilesPath, '', $value ) . '" target="_blank">' . $download . '</a>';
 	}
+
+	$id = 'new';
+
+	$return = '<div id="divFileAttached' . $id . '" class="rt2colorBox">';
+	$return .= '<div>
+		<label>
+			<input type="radio" name="values[new][FILE_OR_EMBED]" value="FILE">&nbsp;';
+	$return .= FileInput( $name . '_FILE' );
+	$return .= '</label>
+	</div>';
+	$return .= '<div style="float:left;">
+		<label>
+			<input type="radio" name="values[new][FILE_OR_EMBED]" value="EMBED" onclick="javascript:document.getElementById(\'values[new][' . $name . '_EMBED]\').focus();" />&nbsp;' .
+	_( 'Embed Link' ) . ': <input type="text" id="values[new][' . $name . '_EMBED]" name="values[new][' . $name . '_EMBED]" size="14" placeholder="http://" />
+		</label>
+	</div></div>';
 
 	return $return;
 }

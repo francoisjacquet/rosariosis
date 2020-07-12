@@ -324,7 +324,7 @@ function _makeConfiguration( $plugin_title, $activated )
 
 	if ( $activated && file_exists( 'plugins/' . $plugin_title . '/config.inc.php' ) )
 	{
-		$return = '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&tab=plugins&modfunc=config&plugin=' . $plugin_title . '">' . _( 'Configuration' ) . '</a>';
+		$return = '<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=plugins&modfunc=config&plugin=' . $plugin_title ) . '">' . _( 'Configuration' ) . '</a>';
 	}
 	else
 	{
@@ -352,7 +352,11 @@ function _makeDelete( $plugin_title, $activated = null )
 
 	if ( $activated )
 	{
-		$return = button( 'remove', _( 'Deactivate' ), '"Modules.php?modname=' . $_REQUEST['modname'] . '&tab=plugins&modfunc=deactivate&plugin=' . $plugin_title . '"' );
+		$return = button(
+			'remove',
+			_( 'Deactivate' ),
+			'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=plugins&modfunc=deactivate&plugin=' . $plugin_title ) . '"'
+		);
 	}
 	else
 	{
@@ -361,7 +365,7 @@ function _makeDelete( $plugin_title, $activated = null )
 			$return = button(
 				'add',
 				_( 'Activate' ),
-				'"Modules.php?modname=' . $_REQUEST['modname'] . '&tab=plugins&modfunc=activate&plugin=' . $plugin_title . '"'
+				'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=plugins&modfunc=activate&plugin=' . $plugin_title ) . '"'
 			);
 
 			// If not core plugin & already installed, delete link.
@@ -373,7 +377,7 @@ function _makeDelete( $plugin_title, $activated = null )
 				button(
 					'remove',
 					_( 'Delete' ),
-					'"Modules.php?modname=' . $_REQUEST['modname'] . '&tab=plugins&modfunc=delete&plugin=' . $plugin_title . '"'
+					'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=plugins&modfunc=delete&plugin=' . $plugin_title ) . '"'
 				);
 			}
 		}

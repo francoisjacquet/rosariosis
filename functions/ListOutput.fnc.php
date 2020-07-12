@@ -61,10 +61,10 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 	$num_displayed = 1000;
 
 	// PREPARE LINKS ---.
-	$extra = 'LO_page=' . $LO_page .
-	'&amp;LO_sort=' . $LO_sort .
-	'&amp;LO_dir=' . $LO_dir .
-	'&amp;LO_search=' . urlencode( $LO_search );
+	$extra = URLEscape( 'LO_page=' . $LO_page .
+		'&LO_sort=' . $LO_sort .
+		'&LO_dir=' . $LO_dir .
+		'&LO_search=' . $LO_search );
 
 	$PHP_tmp_SELF = PreparePHP_SELF(
 		$_REQUEST,
@@ -428,9 +428,9 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 				if ( $options['sort'] )
 				{
-					echo '<th><a href="' . $PHP_tmp_SELF . '&LO_page=' . $LO_page .
+					echo '<th><a href="' . $PHP_tmp_SELF . URLEscape( '&LO_page=' . $LO_page .
 						'&LO_sort=' . $key . '&LO_dir=' . $direction .
-						'&LO_search=' . urlencode( issetVal( $LO_search, '' ) ) . '">' .
+						'&LO_search=' . issetVal( $LO_search, '' ) ) . '">' .
 						ParseMLField( $value ) . '</a></th>';
 
 					continue;
@@ -508,11 +508,11 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 				$button_link = empty( $link['remove']['link'] ) ?
 					PreparePHP_SELF( array(), array_keys( $link['remove']['variables'] ) ) :
-					$link['remove']['link'];
+					URLEscape( $link['remove']['link'] );
 
 				foreach ( (array) $link['remove']['variables'] as $var => $val )
 				{
-					$button_link .= '&' . $var . '=' . urlencode( $item[$val] );
+					$button_link .= URLEscape( '&' . $var . '=' . $item[$val] );
 				}
 
 				echo '<td>' . button(
@@ -543,22 +543,22 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 					if ( ! empty( $link[$key]['js'] ) )
 					{
-						echo '<a href="#" onclick=\'popups.open("' . $link[$key]['link'];
+						echo '<a href="#" onclick=\'popups.open("' . URLEscape( $link[$key]['link'] );
 
 						foreach ( (array) $link[$key]['variables'] as $var => $val )
 						{
-							echo '&' . $var . '=' . urlencode( $item[$val] );
+							echo URLEscape( '&' . $var . '=' . $item[$val] );
 						}
 
 						echo '"); return false;\'';
 					}
 					else
 					{
-						echo '<a href="' . $link[$key]['link'];
+						echo '<a href="' . URLEscape( $link[$key]['link'] );
 
 						foreach ( (array) $link[$key]['variables'] as $var => $val )
 						{
-							echo '&' . $var . '=' . urlencode( $item[$val] );
+							echo URLEscape( '&' . $var . '=' . $item[$val] );
 						}
 
 						echo '"';

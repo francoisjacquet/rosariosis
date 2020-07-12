@@ -274,7 +274,11 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 			{
 				echo '<tr id="selected_tr" class="highlight"><td>' .
 				( AllowEdit() && $id > 3 ?
-					button( 'remove', '', '"Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete&profile_id=' . $id . '"' ) :
+					button(
+						'remove',
+						'',
+						'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete&profile_id=' . $id ) . '"'
+					) :
 					'&nbsp;'
 				) . '</td><td>';
 			}
@@ -282,12 +286,15 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 			{
 				echo '<tr class="highlight-hover"><td>' .
 				( AllowEdit() && $id > 3 ?
-					button( 'remove', '', '"Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete&profile_id=' . $id . '"' ) :
+					button(
+						'remove',
+						'',
+						'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete&profile_id=' . $id ) . '"' ) :
 					'&nbsp;'
 				) . '</td><td>';
 			}
 
-			echo '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&profile_id=' . $id . '">' .
+			echo '<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&profile_id=' . $id ) . '">' .
 				// HTML add arrow to indicate sub-profile.
 				( $id > 3 ? '&#10551; ' : '' ) . _( $profile[1]['TITLE'] ) . ' &nbsp; </a>';
 			echo '</td>';

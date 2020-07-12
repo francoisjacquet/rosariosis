@@ -167,7 +167,7 @@ else
 			echo ' | ';
 		}
 
-		echo '<a href="' . $cat['link'] . '">' .
+		echo '<a href="' . URLEscape( $cat['link'] ) . '">' .
 			( $_REQUEST['cat_id'] == $cat_id ? '<b>' . $cat['title'] . '</b>' : $cat['title'] ) .
 			'</a>';
 	}

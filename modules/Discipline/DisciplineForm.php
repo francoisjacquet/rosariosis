@@ -387,13 +387,13 @@ function _makeRemove( $value, $column )
 		{
 			$return = button(
 				'remove', _( 'Don\'t use' ),
-				'"Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete_usage&id=' . $THIS_RET['USAGE_ID'] . '"'
+				'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete_usage&id=' . $THIS_RET['USAGE_ID'] ) . '"'
 			);
 
 			$return .= ' &nbsp; ' . button(
 				'remove',
 				_( 'Delete' ),
-				'"Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete&id=' . $THIS_RET['ID'] . '"'
+				'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete&id=' . $THIS_RET['ID'] ) . '"'
 			);
 		}
 		else
@@ -401,7 +401,7 @@ function _makeRemove( $value, $column )
 			$return = button(
 				'add',
 				_( 'Use at this school' ),
-				'"Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=add_usage&id=' . $THIS_RET['ID'] . '"'
+				'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=add_usage&id=' . $THIS_RET['ID'] ) . '"'
 			);
 		}
 	}

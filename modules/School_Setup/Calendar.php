@@ -637,8 +637,8 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 			&& AllowUse( 'Grades/StudentAssignments.php' ) )
 		{
 			echo '<tr><td>
-				<a href="Modules.php?modname=Grades/StudentAssignments.php&assignment_id=' .
-					$_REQUEST['assignment_id'] . '" onclick="window.opener.ajaxLink(this.href); window.close();">' .
+				<a href="' . URLEscape( 'Modules.php?modname=Grades/StudentAssignments.php&assignment_id=' .
+					$_REQUEST['assignment_id'] ) . '" onclick="window.opener.ajaxLink(this.href); window.close();">' .
 				_( 'Submit Assignment' ) .
 			'</a></td></tr>';
 		}
@@ -749,7 +749,7 @@ if ( $_REQUEST['modfunc'] === 'list_events' )
 
 	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=' . $_REQUEST['modfunc'] . '&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year'] . '" method="POST">';
 
-	DrawHeader( '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year'] . '" >' . _( 'Back to Calendar' ) . '</a>' );
+	DrawHeader( '<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year'] ) . '" >' . _( 'Back to Calendar' ) . '</a>' );
 
 	DrawHeader(
 		_( 'Timeframe' ) . ': ' .
@@ -965,13 +965,13 @@ if ( ! $_REQUEST['modfunc'] )
 			' onchange="ajaxLink(' . $calendar_onchange_URL . ' + document.getElementById(\'calendar_id\').value);" ',
 			false
 		) .
-		'<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=create" class="nobr">' .
+		'<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=create' ) . '" class="nobr">' .
 			button( 'add' ) . _( 'Create new calendar' ) .
 		'</a> | ' .
-		'<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=create&calendar_id=' . $_REQUEST['calendar_id'] . '" class="nobr">' .
+		'<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=create&calendar_id=' . $_REQUEST['calendar_id'] ) . '" class="nobr">' .
 			_( 'Recreate this calendar' ) .
 		'</a>&nbsp; ' .
-		'<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete_calendar&calendar_id=' . $_REQUEST['calendar_id'] . '" class="nobr">' .
+		'<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete_calendar&calendar_id=' . $_REQUEST['calendar_id'] ) . '" class="nobr">' .
 			button( 'remove' ) . _( 'Delete this calendar' ) .
 		'</a>';
 	}
@@ -980,7 +980,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	DrawHeader(
 		PrepareDate( mb_strtoupper( $first_day_month ), '', false, array( 'M' => 1, 'Y' => 1, 'submit' => true ) ) .
-		' <a href="' . $list_events_URL . '">' .
+		' <a href="' . URLEscape( $list_events_URL ) . '">' .
 			_( 'List Events' ) .
 		'</a>',
 		SubmitButton()

@@ -293,6 +293,7 @@ switch ( User( 'PROFILE' ) )
 
 				if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 				{
+					// @todo SQL Fix slow query (150ms).
 					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,
 					s.TITLE AS SCHOOL,acc.SCHOOL_DATE,cp.TITLE,
 					'" . $category['ID'] . "' AS CATEGORY_ID,
@@ -330,6 +331,7 @@ switch ( User( 'PROFILE' ) )
 				}
 				else
 				{
+					// @todo SQL Fix slow query (150ms).
 					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,
 					s.TITLE AS SCHOOL,acc.SCHOOL_DATE,cp.TITLE,
 					'" . $category['ID'] . "' AS CATEGORY_ID,
@@ -573,6 +575,7 @@ switch ( User( 'PROFILE' ) )
 
 				if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 				{
+					// @todo SQL Fix slow query (150ms).
 					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,
 						acc.SCHOOL_DATE,cp.TITLE,
 						'" . $category['ID'] . "' AS CATEGORY_ID,
@@ -607,6 +610,7 @@ switch ( User( 'PROFILE' ) )
 				}
 				else
 				{
+					// @todo SQL Fix slow query (150ms).
 					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,
 						acc.SCHOOL_DATE,cp.TITLE,
 						'" . $category['ID'] . "' AS CATEGORY_ID,
@@ -1078,7 +1082,7 @@ function _makeTakeAttendanceLink( $value, $column )
 
 	$take_attendance_redirect_url .= '&period=' . $period;
 
-	return '<a href="' . $take_attendance_redirect_url . '">' . $proper_date . '</a>';
+	return '<a href="' . URLEscape( $take_attendance_redirect_url ) . '">' . $proper_date . '</a>';
 }
 
 /**

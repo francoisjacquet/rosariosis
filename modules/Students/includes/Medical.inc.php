@@ -82,7 +82,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] .
 		'&category_id=' . $_REQUEST['category_id'] .
-		'&modfunc=delete_medical&table=STUDENT_MEDICAL&title=' . urlencode( _( 'Immunization or Physical' ) );
+		'&modfunc=delete_medical&table=STUDENT_MEDICAL&title=' . _( 'Immunization or Physical' );
 
 	$link['remove']['variables'] = array( 'id' => 'ID' );
 
@@ -111,7 +111,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] .
 		'&category_id=' . $_REQUEST['category_id'] .
-		'&modfunc=delete_medical&table=STUDENT_MEDICAL_ALERTS&title=' . urlencode( _( 'Medical Alert' ) );
+		'&modfunc=delete_medical&table=STUDENT_MEDICAL_ALERTS&title=' . _( 'Medical Alert' );
 
 	$link['remove']['variables'] = array( 'id' => 'ID' );
 
@@ -164,7 +164,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] .
 			'&category_id=' . $_REQUEST['category_id'] .
-			'&modfunc=delete_medical&table=STUDENT_MEDICAL_VISITS&title=' . urlencode( _( 'Nurse Visit' ) );
+			'&modfunc=delete_medical&table=STUDENT_MEDICAL_VISITS&title=' . _( 'Nurse Visit' );
 
 		$link['remove']['variables'] = array( 'id' => 'ID' );
 

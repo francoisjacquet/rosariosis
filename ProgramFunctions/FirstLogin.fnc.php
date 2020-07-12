@@ -318,7 +318,7 @@ if ( ! function_exists( 'FirstLoginPoll' ) )
 
 		$fields[] = sprintf(
 			_( 'Poll answers are anonymous. Consult installation statistics <a href="%s" target="_blank">online</a>.' ),
-			'https://www.rosariosis.org/' . $url_lang . 'installation-poll/'
+			URLEscape( 'https://www.rosariosis.org/' . $url_lang . 'installation-poll/' )
 		);
 
 		ob_start(); ?>

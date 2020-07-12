@@ -45,8 +45,8 @@ if ( UserStudentID()
 
 	if ( empty( $_REQUEST['id'] ) )
 	{
-		DrawHeader( _( 'Totals' ), '<a href="Modules.php?modname=' . $_REQUEST['modname'] .
-			'&id=all' . ( $do_stats ? '&do_stats=' . $_REQUEST['do_stats'] : '' ) . '">' .
+		DrawHeader( _( 'Totals' ), '<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+			'&id=all' . ( $do_stats ? '&do_stats=' . $_REQUEST['do_stats'] : '' ) ) . '">' .
 			_( 'Expand All' ) . '</a>' );
 
 		if ( $do_stats )
@@ -320,8 +320,8 @@ if ( UserStudentID()
 					$req_course_title,
 					mb_strrpos( str_replace( ' - ', ' ^ ', $req_course_title ), ' ^' )
 				),
-				'<a href="Modules.php?modname=' . $_REQUEST['modname'] .
-				( $do_stats ? '&do_stats=' . $_REQUEST['do_stats'] : '' ) . '">' .
+				'<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+				( $do_stats ? '&do_stats=' . $_REQUEST['do_stats'] : '' ) ) . '">' .
 				_( 'Back to Totals' ) . '</a>'
 			);
 		}
@@ -510,8 +510,8 @@ if ( UserStudentID()
 							$course['TITLE'],
 							mb_strrpos( str_replace( ' - ', ' ^ ', $course['TITLE'] ), '^' ) + 2
 						),
-						'<a href="Modules.php?modname=' . $_REQUEST['modname'] .
-						( $do_stats ? '&do_stats=' . $_REQUEST['do_stats'] : '' ) . '">' .
+						'<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+						( $do_stats ? '&do_stats=' . $_REQUEST['do_stats'] : '' ) ) . '">' .
 						_( 'Back to Totals' ) . '</a>' );
 				}
 

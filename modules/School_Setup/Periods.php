@@ -333,7 +333,7 @@ function _makeRemoveButton( $value, $column )
 	}
 
 	$button_link = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove&id=' .
-		urlencode( $THIS_RET['PERIOD_ID'] );
+		$THIS_RET['PERIOD_ID'];
 
-	return button( 'remove', '', '"' . $button_link . '"' );
+	return button( 'remove', '', '"' . URLEscape( $button_link ) . '"' );
 }

@@ -69,7 +69,7 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		DrawHeader( '<span class="module-icon Students"></span> ' . _( 'Grant Access' ) );
 
-		$access_header = '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '"><b>' .
+		$access_header = '<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] ) . '"><b>' .
 			_( 'Remove Access' ) . '</b></a>';
 
 		$button_label = _( 'Grant Access for Selected Students' );
@@ -80,7 +80,7 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		DrawHeader( ProgramTitle() );
 
-		$access_header = '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&accessfunc=grant"><b>' .
+		$access_header = '<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&accessfunc=grant' ) . '"><b>' .
 			_( 'Grant Access' ) . '</b></a>';
 
 		$button_label = _( 'Remove Access for Selected Students' );

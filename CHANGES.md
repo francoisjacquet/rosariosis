@@ -7,6 +7,7 @@ Changes in 6.8
 - Rename `_myURLEncode()` to URLEscape() in PreparePHP_SELF.fnc.php
 - Fix Sunday is number 7 in EntryTimes.php
 - Fix SQL error multiple rows returned by subquery in CreateParents.php
+- Fix #291 XSS Use URLEscape() for links href, program wide
 
 Changes in 6.7.2
 ----------------

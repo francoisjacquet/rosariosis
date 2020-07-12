@@ -72,7 +72,7 @@ function DrawTab( $title, $link = '', $selected = false )
 	if ( $link )
 	{
 		$block_table = '<h3' . ( $selected ? ' class="title h3selected"' : '' ) . '>
-			<a href="' . $link . '">'
+			<a href="' . URLEscape( $link ) . '">'
 			. _( $title )
 			. '</a>
 			</h3>';

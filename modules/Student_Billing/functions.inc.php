@@ -21,8 +21,8 @@ function _makeFeesRemove( $value, $column )
 		$return = button(
 			'remove',
 			_( 'Waive' ),
-			'"Modules.php?modname=' . $_REQUEST['modname'] .
-			'&modfunc=waive&id=' . $THIS_RET['ID'] . '"'
+			'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+				'&modfunc=waive&id=' . $THIS_RET['ID'] ) . '"'
 		) . ' ';
 	}
 	elseif ( $waived_fees_RET[ $THIS_RET['ID'] ] )
@@ -33,8 +33,8 @@ function _makeFeesRemove( $value, $column )
 	return $return . button(
 		'remove',
 		_( 'Delete' ),
-		'"Modules.php?modname=' . $_REQUEST['modname'] .
-		'&modfunc=remove&id=' . $THIS_RET['ID'] . '"'
+		'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+			'&modfunc=remove&id=' . $THIS_RET['ID'] ) . '"'
 	);
 }
 
@@ -61,8 +61,8 @@ function _makePaymentsRemove( $value, $column )
 		$return = button(
 			'remove',
 			_( 'Refund' ),
-			'"Modules.php?modname=' . $_REQUEST['modname'] .
-			'&modfunc=refund&id=' . $THIS_RET['ID'] . '"'
+			'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+				'&modfunc=refund&id=' . $THIS_RET['ID'] ) . '"'
 		) . ' ';
 	}
 	elseif ( ! empty( $refunded_payments_RET[ $THIS_RET['ID'] ] ) )
@@ -73,8 +73,8 @@ function _makePaymentsRemove( $value, $column )
 	return $return . button(
 		'remove',
 		_( 'Delete' ),
-		'"Modules.php?modname=' . $_REQUEST['modname'] .
-		'&modfunc=remove&id=' . $THIS_RET['ID'] . '"'
+		'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+			'&modfunc=remove&id=' . $THIS_RET['ID'] ) . '"'
 	);
 }
 

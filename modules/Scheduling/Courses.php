@@ -1427,13 +1427,13 @@ if (  ( ! $_REQUEST['modfunc']
 
 	DrawHeader(
 		'',
-		'<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=' . $_REQUEST['modfunc'] .
+		'<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=' . $_REQUEST['modfunc'] .
 		'&course_modfunc=search&last_year=' . $_REQUEST['last_year'] .
 		( $_REQUEST['modfunc'] == 'choose_course' && $_REQUEST['modname'] == 'Scheduling/Schedule.php' ?
 			'&include_child_mps=' . issetVal( $_REQUEST['include_child_mps'], '' ) .
 			'&year_date=' . $_REQUEST['year_date'] . '&month_date=' . $_REQUEST['month_date'] .
 			'&day_date=' . $_REQUEST['day_date'] :
-			'' ) .
+			'' ) ) .
 		'">' . _( 'Search' ) . '</a>&nbsp;'
 	);
 
@@ -1699,7 +1699,7 @@ function calcSeats1( &$periods, $date )
 					{
 						if ( ! empty( $_REQUEST['include_child_mps'] ) )
 						{
-							$periods[$key]['AVAILABLE_SEATS'] .= '<a href=' . $link . '>' .
+							$periods[$key]['AVAILABLE_SEATS'] .= '<a href="' . URLEscape( $link ) . '">' .
 							( GetMP( $mp, 'SHORT_NAME' ) ?
 								GetMP( $mp, 'SHORT_NAME' ) :
 								GetMP( $mp ) ) .
@@ -1715,7 +1715,7 @@ function calcSeats1( &$periods, $date )
 				{
 					if ( ! empty( $_REQUEST['include_child_mps'] ) )
 					{
-						$periods[$key]['AVAILABLE_SEATS'] .= '<a href=' . $link . '>' .
+						$periods[$key]['AVAILABLE_SEATS'] .= '<a href="' . URLEscape( $link ) . '">' .
 						( GetMP( $mp, 'SHORT_NAME' ) ?
 							GetMP( $mp, 'SHORT_NAME' ) :
 							GetMP( $mp ) ) .

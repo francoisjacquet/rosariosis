@@ -207,7 +207,9 @@ else
 
 	if ( UserStudentID() )
 	{
-		$current_student_link = '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=student&month_date=' . $_REQUEST['month_date'] . '&day_date=' . $_REQUEST['day_date'] . '&year_date=' . $_REQUEST['year_date'] . '&student_id=' . UserStudentID() . '">' . _( 'Current Student' ) . '</a></td><td>';
+		$current_student_link = '<a href="' .
+			URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=student&month_date=' . $_REQUEST['month_date'] . '&day_date=' . $_REQUEST['day_date'] . '&year_date=' . $_REQUEST['year_date'] . '&student_id=' . UserStudentID() ) .
+			'">' . _( 'Current Student' ) . '</a></td><td>';
 	}
 
 	DrawHeader( PrepareDate( $date, '_date' ), '<table><tr><td>' . $current_student_link . button( 'add', '', "# onclick='javascript:addHTML(\"" . str_replace( '"', '\"', _makeCodeSearch() ) . "\",\"code_pulldowns\"); return false;'" ) . '</td><td><div id="code_pulldowns">' . $code_pulldowns . '</div></td></tr></table>' );

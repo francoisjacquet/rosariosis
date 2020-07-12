@@ -210,7 +210,7 @@ if ( $today > $END_DAY
 else
 {
 	DrawHeader(
-		'<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=gradebook">' .
+		'<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=gradebook' ) . '">' .
 		_( 'Use Gradebook Grades' ) . '</a>',
 		Buttons( _( 'Save' ) )
 	);
