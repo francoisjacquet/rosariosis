@@ -12,7 +12,7 @@
  *
  * @example PreparePHP_SELF( $_REQUEST, array(), array( 'modfunc' => 'delete' ) );
  *
- * @uses _myURLEncode()
+ * @uses URLEscape()
  *
  * @param  array  $tmp_REQUEST REQUEST vars (optional). Defaults to $_REQUEST array.
  * @param  array  $remove      Remove indexes from $tmp_REQUEST (optional).
@@ -76,33 +76,32 @@ function PreparePHP_SELF( $tmp_REQUEST = array(), $remove = array(), $add = arra
 							{
 								if ( $value3 !== '' )
 								{
-									$PHP_tmp_SELF .= '&' . _myURLEncode( $key ) .
-										'[' . _myURLEncode( $key1 ) . '][' . _myURLEncode( $key2 ) .
-										'][' . _myURLEncode( $key3 ) . ']=' . _myURLEncode( $value3 );
+									$PHP_tmp_SELF .= '&' . $key .
+										'[' . $key1 . '][' . $key2 .
+										'][' . $key3 . ']=' . $value3;
 								}
 							}
 						}
 						elseif ( $value2 !== '' )
 						{
-							$PHP_tmp_SELF .= '&' . _myURLEncode( $key ) . '[' . _myURLEncode( $key1 ) .
-								'][' . _myURLEncode( $key2 ) . ']=' . _myURLEncode( $value2 );
+							$PHP_tmp_SELF .= '&' . $key . '[' . $key1 .
+								'][' . $key2 . ']=' . $value2;
 						}
 					}
 				}
 				elseif ( $value1 !== '' )
 				{
-					$PHP_tmp_SELF .= '&' . _myURLEncode( $key ) . '[' . _myURLEncode( $key1 ) . ']=' .
-						_myURLEncode( $value1 );
+					$PHP_tmp_SELF .= '&' . $key . '[' . $key1 . ']=' . $value1;
 				}
 			}
 		}
 		elseif ( $value !== '' )
 		{
-			$PHP_tmp_SELF .= '&' . _myURLEncode( $key ) . "=" . _myURLEncode( $value );
+			$PHP_tmp_SELF .= '&' . $key . "=" . $value;
 		}
 	}
 
-	return $PHP_tmp_SELF;
+	return URLEscape( $PHP_tmp_SELF );
 }
 
 
@@ -174,7 +173,7 @@ function RedirectURL( $remove )
  *
  * @return string Encoded string
  */
-function _myURLEncode( $string )
+function URLEscape( $string )
 {
 	$entities = array(
 		'%21',
@@ -225,4 +224,10 @@ function _myURLEncode( $string )
 		$replacements,
 		urlencode( (string) $string )
 	);
+}
+
+// @deprecated since 6.8 Use URLEscape().
+function _myURLEncode( $string )
+{
+	return URLEscape( $string );
 }
