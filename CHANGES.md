@@ -9,6 +9,7 @@ Changes in 6.8
 - Fix SQL error multiple rows returned by subquery in CreateParents.php
 - Fix #291 XSS Use URLEscape() for links href, program wide
 - Fix hide remove button for "No Address" in Address.inc.php
+- Prompt() make Cancel primary button in Prompts.php
 
 Changes in 6.7.2
 ----------------

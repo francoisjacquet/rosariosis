@@ -96,8 +96,8 @@ function Prompt( $title = 'Confirm', $question = '', $message = '' )
 			<form action="' . $PHP_tmp_SELF . '" method="POST">' .
 				$message .
 				'<div class="center"><br />' .
-				SubmitButton( _( 'OK' ), 'delete_ok' ) .
-				'<input type="button" name="delete_cancel" value="' . _( 'Cancel' ) . '" onclick="javascript:self.history.go(-1);">
+				SubmitButton( _( 'OK' ), 'delete_ok', '' ) .
+				'<input type="button" name="delete_cancel" class="button-primary" value="' . _( 'Cancel' ) . '" onclick="javascript:self.history.go(-1);">
 				</div>
 			</form><br />';
 
