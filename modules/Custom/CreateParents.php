@@ -90,7 +90,8 @@ $profile_id = '3';
 // end of user configuration
 
 if ( $_REQUEST['modfunc'] === 'save'
-	&& AllowEdit() )
+	&& AllowEdit()
+	&& ! empty( $email_column ) )
 {
 	// If $test email is set then this script will only 'go through the motions' and email the results to the $test_email address instead of parents
 	// no accounts are created and no associations are made.  Use this to verify the behavior and email operation before actual use.
@@ -136,7 +137,8 @@ if ( $_REQUEST['modfunc'] === 'save'
 			FROM STAFF
 			WHERE trim(lower(EMAIL))=trim(lower(" . $email_column . "))
 			AND PROFILE='parent'
-			AND SYEAR=ssm.SYEAR) AS STAFF_ID";
+			AND SYEAR=ssm.SYEAR
+			LIMIT 1) AS STAFF_ID";
 		$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
 		$extra['group'] = array( 'EMAIL' );
 		$extra['addr'] = true;
@@ -406,7 +408,12 @@ if ( ! $_REQUEST['modfunc'] && ! empty( $email_column ) )
 	}
 
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX,trim(lower(" . $email_column . ")) AS EMAIL,s.STUDENT_ID AS CONTACT";
-	$extra['SELECT'] .= ",(SELECT STAFF_ID FROM STAFF WHERE trim(lower(EMAIL))=trim(lower(" . $email_column . ")) AND PROFILE='parent' AND SYEAR=ssm.SYEAR) AS STAFF_ID";
+	$extra['SELECT'] .= ",(SELECT STAFF_ID
+		FROM STAFF
+		WHERE trim(lower(EMAIL))=trim(lower(" . $email_column . "))
+		AND PROFILE='parent'
+		AND SYEAR=ssm.SYEAR
+		LIMIT 1) AS STAFF_ID";
 	$extra['SELECT'] .= ",(SELECT 1
 		FROM STUDENTS_JOIN_USERS sju,STAFF st
 		WHERE sju.STUDENT_ID=s.STUDENT_ID
@@ -518,6 +525,8 @@ function _makeContactSelect( $value, $column )
 	}
 
 	$checked = ' checked';
+
+	$return = '';
 
 	$i = 0;
 
