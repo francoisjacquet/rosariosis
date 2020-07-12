@@ -559,7 +559,8 @@ if ( ! $_REQUEST['modfunc'] )
 
 		if ( AllowEdit()
 			&& User( 'PROFILE' ) !== 'parent'
-			&& User( 'PROFILE' ) !== 'student' )
+			&& User( 'PROFILE' ) !== 'student'
+			&& $address['ADDRESS_ID'] )
 		{
 			$remove_address_button = button(
 				'remove',
