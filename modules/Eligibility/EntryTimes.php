@@ -36,18 +36,18 @@ foreach ( (array) $eligibility_config as $value )
 }
 
 $days = array(
-	_( 'Sunday' ),
 	_( 'Monday' ),
 	_( 'Tuesday' ),
 	_( 'Wednesday' ),
 	_( 'Thursday' ),
 	_( 'Friday' ),
 	_( 'Saturday' ),
+	_( 'Sunday' ),
 );
 
 for ( $i = 0; $i < 7; $i++ )
 {
-	$day_options[$i] = $days[$i];
+	$day_options[$i + 1] = $days[$i];
 }
 
 for ( $i = 1; $i <= 11; $i++ )
@@ -57,14 +57,9 @@ for ( $i = 1; $i <= 11; $i++ )
 
 $hour_options['0'] = '12';
 
-for ( $i = 0; $i <= 9; $i++ )
+for ( $i = 0; $i <= 59; $i++ )
 {
-	$minute_options[$i] = '0' . $i;
-}
-
-for ( $i = 10; $i <= 59; $i++ )
-{
-	$minute_options[$i] = $i;
+	$minute_options[$i] = str_pad( $i, 2, '0', STR_PAD_LEFT );
 }
 
 $m_options = array( 'AM' => 'AM', 'PM' => 'PM' );

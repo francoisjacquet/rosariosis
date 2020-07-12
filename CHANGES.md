@@ -5,6 +5,7 @@ Changes in 6.8
 --------------
 - Fix PHP Warning count() not an array in ListOutput.fnc.php
 - Rename `_myURLEncode()` to URLEscape() in PreparePHP_SELF.fnc.php
+- Fix Sunday is number 7 in EntryTimes.php
 
 Changes in 6.7.2
 ----------------
