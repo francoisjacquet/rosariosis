@@ -10,6 +10,7 @@ Changes in 6.8
 - Fix #291 XSS Use URLEscape() for links href, program wide
 - Fix hide remove button for "No Address" in Address.inc.php
 - Prompt() make Cancel primary button in Prompts.php
+- Fix SQL error foreign keys: Roll again Courses when rolling Marking Periods in Rollover.php
 
 Changes in 6.7.2
 ----------------

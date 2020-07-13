@@ -95,6 +95,14 @@ if ( Prompt(
 		$_REQUEST['tables']['REPORT_CARD_COMMENTS'] = 'Y';
 	}
 
+	if ( $_REQUEST['tables']['SCHOOL_MARKING_PERIODS']
+		&& $exists_RET['COURSES'][1]['COUNT']
+		&& ! $_REQUEST['tables']['COURSES'] )
+	{
+		// Fix SQL error foreign keys: Roll again Courses when rolling Marking Periods.
+		$_REQUEST['tables']['COURSES'] = 'Y';
+	}
+
 	if ( ! ( $_REQUEST['tables']['COURSES']
 		&& ( ( ! $_REQUEST['tables']['STAFF'] && $exists_RET['STAFF'][1]['COUNT'] < 1 )
 			|| ( ! $_REQUEST['tables']['SCHOOL_PERIODS'] && $exists_RET['SCHOOL_PERIODS'][1]['COUNT'] < 1 )
