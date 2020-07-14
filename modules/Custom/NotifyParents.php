@@ -272,7 +272,7 @@ function _makeAssociated( $value, $column )
 	if ( AllowEdit( 'Users/AddStudents.php' ) )
 	{
 		// Link to Associate Students with Parents program.
-		$link = ' <a href="Modules.php?modname=Users/AddStudents.php&staff_id=' . $THIS_RET['STAFF_ID'] . '">' .
+		$link = ' <a href="' . URLEscape( 'Modules.php?modname=Users/AddStudents.php&staff_id=' . $THIS_RET['STAFF_ID'] ) . '">' .
 			_( 'Associate Students with Parents' ) . '</a>';
 	}
 
@@ -314,7 +314,7 @@ function _makeEmail( $value, $column )
 	if ( AllowEdit( 'Users/User.php' ) )
 	{
 		// Link to User Info program.
-		$return .= ' <a href="Modules.php?modname=Users/User.php&staff_id=' . $THIS_RET['STAFF_ID'] . '">' .
+		$return .= ' <a href="' . URLEscape( 'Modules.php?modname=Users/User.php&staff_id=' . $THIS_RET['STAFF_ID'] ) . '">' .
 			_( 'User Info' ) . '</a>';
 	}
 
