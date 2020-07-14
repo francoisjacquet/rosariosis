@@ -2,6 +2,12 @@
 
 ## RosarioSIS Student Information System
 
+New in 6.8
+----------
+
+Security enhanced
+
+
 New in 6.7
 ----------
 
