@@ -346,10 +346,10 @@ if ( ! $_REQUEST['modfunc'] )
 			$mp_options[ $mp['MARKING_PERIOD_ID'] ] = $mp['TITLE'];
 		}
 
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 			'&modfunc=save&include_inactive=' .
 			issetVal( $_REQUEST['include_inactive'], '' ) .
-			'&_ROSARIO_PDF=true" method="POST" id="printSchedulesForm">';
+			'&_ROSARIO_PDF=true' ) . '" method="POST" id="printSchedulesForm">';
 
 		$extra['header_right'] = Buttons( _( 'Create Schedules for Selected Students' ) );
 

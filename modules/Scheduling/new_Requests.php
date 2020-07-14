@@ -67,7 +67,7 @@ if ( $_REQUEST['modfunc'] == 'choose' )
 	AND sr.STUDENT_ID='" . UserStudentID() . "'
 	AND sr.COURSE_ID=c.COURSE_ID", $functions );
 
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=verify" method="POST">';
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=verify' ) . '" method="POST">';
 	DrawHeader( '', SubmitButton() );
 
 	$columns = array( '' );

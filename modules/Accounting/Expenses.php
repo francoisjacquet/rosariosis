@@ -143,7 +143,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( ! $_REQUEST['print_statements'] && AllowEdit() )
 	{
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="POST">';
 		DrawHeader( '', SubmitButton() );
 		$options = array();
 	}

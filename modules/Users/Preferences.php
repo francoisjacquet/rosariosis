@@ -122,7 +122,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$_REQUEST['tab'] = 'password';
 	}
 
-	echo Form( 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=' . $_REQUEST['tab'] );
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=' . $_REQUEST['tab'] ) . '" method="POST">';
 
 	DrawHeader( '', Buttons( _( 'Save' ) ) );
 

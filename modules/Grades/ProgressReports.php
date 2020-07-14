@@ -279,9 +279,9 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( $_REQUEST['search_modfunc'] === 'list_st' || UserStudentID() )
 	{
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 			'&modfunc=save&include_inactive=' . $_REQUEST['include_inactive'] .
-			'&_ROSARIO_PDF=true" method="POST">';
+			'&_ROSARIO_PDF=true' ) . '" method="POST">';
 
 		$extra['header_right'] = Buttons( _( 'Create Progress Reports for Selected Students' ) );
 

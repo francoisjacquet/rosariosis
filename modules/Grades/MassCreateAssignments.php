@@ -262,7 +262,7 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( $_REQUEST['assignment_type']
 		&& $_REQUEST['assignment_type'] !== 'new' )
 	{
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&assignment_type=' . $_REQUEST['assignment_type'] . '&table=GRADEBOOK_ASSIGNMENTS" method="POST">';
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&assignment_type=' . $_REQUEST['assignment_type'] . '&table=GRADEBOOK_ASSIGNMENTS' ) . '" method="POST">';
 
 		$submit_button = SubmitButton( _( 'Create Assignment for Selected Course Periods' ) );
 
@@ -347,7 +347,7 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 	elseif ( $_REQUEST['assignment_type'] === 'new' )
 	{
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&table=GRADEBOOK_ASSIGNMENT_TYPES" method="POST">';
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=GRADEBOOK_ASSIGNMENT_TYPES' ) . '" method="POST">';
 
 		$submit_button = SubmitButton( _( 'Create Assignment Type for Selected Courses' ) );
 

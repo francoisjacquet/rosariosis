@@ -7,7 +7,7 @@ $start_date = RequestedDate( 'start', date( 'Y-m' ) . '-01' );
 // Set end date.
 $end_date = RequestedDate( 'end', DBDate() );
 
-echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&accounting=" method="GET">';
+echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&accounting=' ) . '" method="GET">';
 
 $header_checkboxes = '<label><input type="checkbox" value="true" name="accounting" id="accounting" ' .
 ( ! isset( $_REQUEST['accounting'] )

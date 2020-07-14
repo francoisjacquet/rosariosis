@@ -40,7 +40,7 @@ elseif ( isset( $_POST['email_column'] ) )
 
 if ( empty( $email_column ) )
 {
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="POST">';
 
 	//get Student / Address fields
 	$student_columns = DBGet( "SELECT 's.CUSTOM_' || f.ID AS COLUMN, f.TITLE, c.TITLE AS CATEGORY
@@ -344,7 +344,7 @@ if ( ! $_REQUEST['modfunc'] && ! empty( $email_column ) )
 {
 	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save" method="POST">';
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save' ) . '" method="POST">';
 
 		$extra['header_right'] = SubmitButton( _( 'Create Parent Accounts for Selected Students' ) );
 

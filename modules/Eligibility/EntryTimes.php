@@ -85,7 +85,7 @@ else
 }
 
 
-echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
+echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="POST">';
 
 PopTable( 'header', _( 'Allow Eligibility Posting' ) );
 

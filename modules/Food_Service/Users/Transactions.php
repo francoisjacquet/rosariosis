@@ -64,7 +64,7 @@ if ( UserStaffID()
 	$staff = $staff[1];
 
 	//$PHP_tmp_SELF = PreparePHP_SELF();
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save" method="POST">';
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save' ) . '" method="POST">';
 
 	DrawHeader( '', ResetButton( _( 'Cancel' ) ) . SubmitButton() );
 

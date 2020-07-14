@@ -46,7 +46,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$extra['WHERE'] .= CustomFields( 'where', 'student', $extra );
 
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&list_by_day=' . $_REQUEST['list_by_day'] . '" method="GET">';
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&list_by_day=' . $_REQUEST['list_by_day']  ) . '" method="GET">';
 
 	$advanced_link = 'Modules.php?modname=' . $_REQUEST['modname'] .
 		'&modfunc=search&list_by_day=' . $_REQUEST['list_by_day'] .

@@ -115,7 +115,7 @@ if ( ! $_REQUEST['modfunc'] )
 		'NEXT_GRADE_ID' => _makeGradeInput( '', 'NEXT_GRADE_ID' ),
 	);
 
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update" method="POST">';
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update' ) . '" method="POST">';
 
 	DrawHeader( '', SubmitButton() );
 

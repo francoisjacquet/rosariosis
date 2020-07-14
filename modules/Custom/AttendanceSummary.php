@@ -281,9 +281,9 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 			'&modfunc=save&include_inactive=' . issetVal( $_REQUEST['include_inactive'], '' ) .
-			'&_ROSARIO_PDF=true" method="POST">';
+			'&_ROSARIO_PDF=true' ) . '" method="POST">';
 
 		$extra['header_right'] = SubmitButton( _( 'Create Attendance Report for Selected Students' ) );
 	}

@@ -169,7 +169,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$schooldata = $schooldata[1];
 	$school_name = SchoolInfo( 'TITLE' );
 
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update" method="POST" enctype="multipart/form-data">';
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update' ) . '" method="POST" enctype="multipart/form-data">';
 
 	$delete_button = '';
 

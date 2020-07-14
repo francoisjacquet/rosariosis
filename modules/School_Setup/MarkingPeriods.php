@@ -450,7 +450,7 @@ if ( ! $_REQUEST['modfunc'] )
 		}
 	}
 
-	echo '<form action="' . $mp_href . '" method="POST">';
+	echo '<form action="' . URLEscape( $mp_href ) . '" method="POST">';
 
 	DrawHeader( $title, $delete_button . SubmitButton() );
 

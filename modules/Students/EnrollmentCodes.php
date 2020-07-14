@@ -128,7 +128,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove';
 	$link['remove']['variables'] = array( 'id' => _( 'ID' ) );
 
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update" method="POST">';
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update' ) . '" method="POST">';
 	DrawHeader( '', SubmitButton() );
 
 	ListOutput( $codes_RET, $columns, 'Enrollment Code', 'Enrollment Codes', $link );

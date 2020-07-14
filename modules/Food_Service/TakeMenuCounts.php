@@ -56,7 +56,7 @@ $calendar_RET = DBGet( "SELECT MINUTES FROM ATTENDANCE_CALENDAR WHERE CALENDAR_I
 
 if ( ! $calendar_RET[1]['MINUTES'] )
 {
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&menu_id=' . $_REQUEST['menu_id'] . '" method="POST">';
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&menu_id=' . $_REQUEST['menu_id']  ) . '" method="POST">';
 	DrawHeader( PrepareDate( $date, '_date', false, array( 'submit' => true ) ) );
 	echo '</form>';
 	ErrorMessage( array( _( 'The selected date is not a school day!' ) ), 'fatal' );
@@ -64,7 +64,7 @@ if ( ! $calendar_RET[1]['MINUTES'] )
 
 if ( GetCurrentMP( $course_RET[1]['MP'], $date ) != $course_RET[1]['MARKING_PERIOD_ID'] )
 {
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&menu_id=' . $_REQUEST['menu_id'] . '" method="POST">';
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&menu_id=' . $_REQUEST['menu_id']  ) . '" method="POST">';
 	DrawHeader( PrepareDate( $date, '_date', false, array( 'submit' => true ) ) );
 	echo '</form>';
 	ErrorMessage( array( _( 'This period does not meet in the marking period of the selected date.' ) ), 'fatal' );
@@ -90,7 +90,7 @@ switch ( $day )
 
 if ( mb_strpos( $days, $day ) === false )
 {
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&table=' . $_REQUEST['table'] . '" method="POST">';
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=' . $_REQUEST['table']  ) . '" method="POST">';
 	DrawHeader( PrepareDate( $date, '_date', false, array( 'submit' => true ) ) );
 	echo '</form>';
 	ErrorMessage( array( _( 'This period does not meet on the selected date.' ) ), 'fatal' );
@@ -156,7 +156,7 @@ if ( $completed[1]['COMPLETED'] )
 	$note[] = button( 'check' ) . _( 'You have taken lunch counts today for this period.' );
 }
 
-echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
+echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="POST">';
 DrawHeader( PrepareDate( $date, '_date', false, array( 'submit' => true ) ) . $date_note, SubmitButton() );
 
 echo ErrorMessage( $note, 'note' );

@@ -63,7 +63,7 @@ $staff_RET = DBGet( "SELECT fst.TRANSACTION_ID,fst.STAFF_ID,fst.SYEAR,
 //echo '<pre>'; var_dump($students_RET); echo '</pre>';
 //echo '<pre>'; var_dump($users_RET); echo '</pre>';
 
-echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update" method="POST">';
+echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update' ) . '" method="POST">';
 DrawHeader( '', SubmitButton() );
 $columns = array( 'TRANSACTION_ID' => _( 'ID' ), 'ACCOUNT_ID' => _( 'Account ID' ), 'SYEAR' => _( 'School Year' ), 'FULL_NAME' => _( 'Student' ), 'STUDENTS' => _( 'Students' ), 'SCHOOL_ID' => _( 'School' ) );
 ListOutput( $students_RET, $columns, 'Student Transaction w/o School', 'Student Transactions w/o School', false, array(), array( 'save' => false, 'search' => false ) );

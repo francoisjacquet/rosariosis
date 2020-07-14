@@ -36,11 +36,11 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 				! empty( $extra['search_title'] ) ? $extra['search_title'] : _( 'Find a Student' )
 			);
 
-			echo '<form name="search" id="search" action="Modules.php?modname=' . $_REQUEST['modname'] .
+			echo '<form name="search" id="search" action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 				'&modfunc=' . $_REQUEST['modfunc'] .
 				'&search_modfunc=list&next_modname=' . $_REQUEST['next_modname'] .
 				'&advanced=' . ( ! empty( $_REQUEST['advanced'] ) ? $_REQUEST['advanced'] : '' ) .
-				( ! empty( $extra['action'] ) ? $extra['action'] : '' ) . '" method="GET">';
+				( ! empty( $extra['action'] ) ? $extra['action'] : '' )  ) . '" method="GET">';
 
 			echo '<table class="width-100p col1-align-right" id="general_table">';
 
@@ -158,8 +158,8 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 
 			PopTable( 'header', _( 'Search' ) );
 
-			echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=' . $_REQUEST['modfunc'] .
-				'&search_modfunc=list&next_modname=' . $_REQUEST['next_modname'] . $extra['action'] . '" method="POST">';
+			echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=' . $_REQUEST['modfunc'] .
+				'&search_modfunc=list&next_modname=' . $_REQUEST['next_modname'] . $extra['action']  ) . '" method="POST">';
 			echo '<table>';
 
 			if ( $extra['search'] )

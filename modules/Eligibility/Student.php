@@ -142,9 +142,9 @@ if ( UserStudentID()
 		'END_DATE' => '&nbsp;',
 	);
 
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 		'&modfunc=add&start_date=' . issetVal( $_REQUEST['start_date'], '' ) .
-		'" method="POST">';
+		'' ) . '" method="POST">';
 
 	$columns = array(
 		'TITLE' => _( 'Activity' ),

@@ -30,11 +30,11 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 				! empty( $extra['search_title'] ) ? $extra['search_title'] : _( 'Find a User' )
 			);
 
-			echo '<form name="search" id="search" action="Modules.php?modname=' . $_REQUEST['modname'] .
+			echo '<form name="search" id="search" action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 				'&modfunc=' . $_REQUEST['modfunc'] .
 				'&search_modfunc=list&next_modname=' . $_REQUEST['next_modname'] .
 				'&advanced=' . issetVal( $_REQUEST['advanced'], '' ) .
-				issetVal( $extra['action'], '' ) . '" method="GET">';
+				issetVal( $extra['action'], '' )  ) . '" method="GET">';
 
 			echo '<table class="width-100p col1-align-right" id="general_table">';
 

@@ -340,7 +340,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$subject = 'Assignmemt Types';
 	}
 
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update&tab_id=' . $_REQUEST['tab_id'] . '" method="POST">';
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update&tab_id=' . $_REQUEST['tab_id']  ) . '" method="POST">';
 
 	DrawHeader( CheckBoxOnclick( 'allow_edit', _( 'Edit' ) ), SubmitButton() );
 

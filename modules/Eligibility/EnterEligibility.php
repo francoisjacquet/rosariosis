@@ -198,7 +198,7 @@ $stu_RET = GetStuList( $extra );
 
 DrawHeader( ProgramTitle() );
 
-echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
+echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="POST">';
 
 if ( $today > $END_DAY
 	| $today < $START_DAY

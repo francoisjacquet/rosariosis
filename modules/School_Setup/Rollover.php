@@ -154,7 +154,7 @@ if ( Prompt(
 		$error[] = _( 'You <i>must</i> roll users, school periods, marking periods, calendars, and report card codes at the same time or before rolling courses.' );
 	}
 
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="POST">';
 
 	if ( ! $error )
 	{

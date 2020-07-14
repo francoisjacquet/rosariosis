@@ -138,7 +138,7 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 		AND SYEAR='" . UserSyear() . "'
 		AND (START_DATE<=CURRENT_DATE AND (END_DATE IS NULL OR CURRENT_DATE<=END_DATE)))" ) );
 
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update" method="POST">';
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update' ) . '" method="POST">';
 
 	DrawHeader(
 		CheckBoxOnclick(

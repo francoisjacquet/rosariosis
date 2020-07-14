@@ -101,7 +101,7 @@ if ( ! $_REQUEST['modfunc'] || $_REQUEST['search_modfunc'] === 'list' )
 {
 	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save&_ROSARIO_PDF=true" method="POST">';
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save&_ROSARIO_PDF=true' ) . '" method="POST">';
 		DrawHeader( '', SubmitButton( _( 'Create Reminders for Selected Users' ) ) );
 	}
 

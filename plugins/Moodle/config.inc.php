@@ -130,8 +130,8 @@ if ( ! empty( $_REQUEST['import_users'] ) )
 	}
 	else
 	{
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
-			'&tab=plugins&modfunc=config&plugin=Moodle&import_users=true" method="POST" class="import-users-form">';
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+			'&tab=plugins&modfunc=config&plugin=Moodle&import_users=true' ) . '" method="POST" class="import-users-form">';
 
 		DrawHeader(
 			'',
@@ -202,8 +202,8 @@ if ( empty( $_REQUEST['save'] )
 		ErrorMessage( $error, 'fatal' );
 	}
 
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
-		'&tab=plugins&modfunc=config&plugin=Moodle&save=true" method="POST">';
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+		'&tab=plugins&modfunc=config&plugin=Moodle&save=true' ) . '" method="POST">';
 
 	DrawHeader( '', SubmitButton() );
 
@@ -275,8 +275,8 @@ if ( empty( $_REQUEST['save'] )
 
 	echo '</div></form>';
 
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
-		'&tab=plugins&modfunc=config&plugin=Moodle&import_users=true" method="POST">';
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+		'&tab=plugins&modfunc=config&plugin=Moodle&import_users=true' ) . '" method="POST">';
 
 	echo '<br /><div class="center">';
 

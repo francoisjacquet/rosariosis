@@ -44,7 +44,7 @@ $mps_RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,0,SORT_ORDER
 	AND MP='PRO'
 	ORDER BY 5,SORT_ORDER" );
 
-echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="GET">';
+echo '<form action="' . URLEscape( 'Modules.php?modname='.$_REQUEST['modname'].'' ) . '" method="GET">';
 
 $mp_select = '<select name="mp_id" id="mp_id" onchange="ajaxPostForm(this.form,true);">';
 

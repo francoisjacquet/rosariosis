@@ -37,7 +37,7 @@ if ( empty(  $categories_RET  ) )
 		DrawHeader( $cp_title );
 	}
 
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&table=' . $_REQUEST['table'] . '" method="POST">';
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=' . $_REQUEST['table']  ) . '" method="POST">';
 	DrawHeader( PrepareDate( $date, '_date', false, array( 'submit' => true ) ) );
 	echo '</form>';
 
@@ -126,8 +126,8 @@ if ( $fatal_warning )
 		DrawHeader( $cp_title );
 	}
 
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
-		'&table=' . $_REQUEST['table'] . '" method="POST">';
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+		'&table=' . $_REQUEST['table']  ) . '" method="POST">';
 
 	DrawHeader(
 		PrepareDate(
@@ -336,8 +336,8 @@ if ( ! empty( $daily_comment ) )
 	);
 }
 
-echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
-	'&table=' . $_REQUEST['table'] . '" method="POST">';
+echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+	'&table=' . $_REQUEST['table']  ) . '" method="POST">';
 
 DrawHeader( $cp_title, SubmitButton() );
 

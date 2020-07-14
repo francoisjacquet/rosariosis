@@ -150,7 +150,7 @@ if ( ! $_REQUEST['modfunc'] )
 		'BLOCK' => _makeTextInput( '', 'BLOCK' ),
 	); // 'ATTENDANCE'=>_makeCheckboxInput('','ATTENDANCE'),'START_TIME'=>_makeTimeInput('','START_TIME'),'END_TIME'=>_makeTimeInput('','END_TIME')
 
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update" method="POST">';
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update' ) . '" method="POST">';
 
 	DrawHeader( '', SubmitButton() );
 

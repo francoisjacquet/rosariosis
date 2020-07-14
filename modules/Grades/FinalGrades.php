@@ -520,10 +520,10 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		$_ROSARIO['allow_edit'] = true;
 
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 			'&modfunc=save&include_inactive=' .
 			issetVal( $_REQUEST['include_inactive'], '' ) .
-			'" method="GET">';
+			'' ) . '" method="GET">';
 
 		$extra['header_right'] = SubmitButton( _( 'Create Grade Lists for Selected Students' ) );
 

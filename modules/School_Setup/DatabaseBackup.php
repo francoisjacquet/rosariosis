@@ -56,7 +56,7 @@ if ( ! $_REQUEST['modfunc'] )
 {
 	echo '<br />';
 	PopTable( 'header', _( 'Database Backup' ) );
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=backup&_ROSARIO_PDF=true" method="POST">';
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=backup&_ROSARIO_PDF=true' ) . '" method="POST">';
 	echo '<br />';
 	echo _( 'Download backup files periodically in case of system failure.' );
 	echo '<br /><br />';

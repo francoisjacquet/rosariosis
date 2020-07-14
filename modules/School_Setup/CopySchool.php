@@ -78,7 +78,7 @@ if ( $go
 	}
 
 	// Print success message
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="POST">';
 
 	$note[] = button( 'check' ) .'&nbsp;' .
 		sprintf( _( 'The data have been copied to a new school called "%s".' ), $_REQUEST['title'] ) .

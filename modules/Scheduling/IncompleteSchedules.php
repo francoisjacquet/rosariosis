@@ -16,7 +16,7 @@ DrawHeader( ProgramTitle() );
 
 if ( ! empty( $period_select ) )
 {
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="POST">';
 	DrawHeader( $period_select );
 	echo '</form>';
 }

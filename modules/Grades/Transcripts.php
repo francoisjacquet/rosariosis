@@ -75,7 +75,7 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		//FJ include gentranscript.php in Transcripts.php
 		//echo '<form action="modules/Grades/gentranscript.php" method="POST">';
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save&_ROSARIO_PDF=true" method="POST">';
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save&_ROSARIO_PDF=true' ) . '" method="POST">';
 
 		$extra['header_right'] = Buttons( _( 'Create Transcripts for Selected Students' ) );
 

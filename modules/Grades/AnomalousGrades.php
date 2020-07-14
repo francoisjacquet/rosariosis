@@ -7,7 +7,7 @@ DrawHeader( _( 'Gradebook' ) . ' - ' . ProgramTitle() );
 
 $max_allowed = Preferences( 'ANOMALOUS_MAX', 'Gradebook' ) / 100;
 
-echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
+echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="POST">';
 
 DrawHeader(
 	CheckBoxOnclick(

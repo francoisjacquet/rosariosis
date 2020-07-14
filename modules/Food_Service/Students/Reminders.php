@@ -191,7 +191,7 @@ if ( ! $_REQUEST['modfunc'] )
 {
 	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save&_ROSARIO_PDF=true" method="POST">';
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save&_ROSARIO_PDF=true' ) . '" method="POST">';
 		//DrawHeader('',SubmitButton('Create Reminders for Selected Students'));
 		//FJ add translation
 		$extra['header_right'] = SubmitButton( _( 'Create Reminders for Selected Students' ) );

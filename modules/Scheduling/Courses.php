@@ -67,9 +67,9 @@ if ( isset( $_REQUEST['course_modfunc'] )
 
 	PopTable( 'header', _( 'Search' ) );
 
-	echo '<form name="search" action="Modules.php?modname=' . $_REQUEST['modname'] .
+	echo '<form name="search" action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 		'&modfunc=' . $_REQUEST['modfunc'] . '&course_modfunc=search&last_year=' .
-		$_REQUEST['last_year'] . '" method="POST">'; // Fix Search: Use POST for Public Pages plugin compatibility.
+		$_REQUEST['last_year']  ) . '" method="POST">'; // Fix Search: Use POST for Public Pages plugin compatibility.
 
 	echo '<table><tr><td><input type="text" name="search_term" value="' .
 		issetVal( $_REQUEST['search_term'], '' ) . '" required autofocus /></td>
@@ -867,10 +867,10 @@ if (  ( ! $_REQUEST['modfunc']
 				$new = true;
 			}
 
-			echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
+			echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 				'&subject_id=' . $_REQUEST['subject_id'] .
 				'&course_id=' . $_REQUEST['course_id'] .
-				'&course_period_id=' . $_REQUEST['course_period_id'] . '" method="POST">';
+				'&course_period_id=' . $_REQUEST['course_period_id']  ) . '" method="POST">';
 
 			DrawHeader( $title, $delete_button . SubmitButton() );
 
@@ -1295,7 +1295,7 @@ if (  ( ! $_REQUEST['modfunc']
 				$RET = array();
 			}
 
-			echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&subject_id=' . $_REQUEST['subject_id'] . '&course_id=' . $_REQUEST['course_id'] . '" method="POST">';
+			echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&subject_id=' . $_REQUEST['subject_id'] . '&course_id=' . $_REQUEST['course_id']  ) . '" method="POST">';
 
 			DrawHeader( $title, $delete_button . SubmitButton() );
 
@@ -1357,7 +1357,7 @@ if (  ( ! $_REQUEST['modfunc']
 				$title = _( 'New Subject' );
 			}
 
-			echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&subject_id=' . $_REQUEST['subject_id'] . '" method="POST">';
+			echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&subject_id=' . $_REQUEST['subject_id']  ) . '" method="POST">';
 
 			DrawHeader( $title, $delete_button . SubmitButton() );
 
@@ -1400,7 +1400,7 @@ if (  ( ! $_REQUEST['modfunc']
 
 		if ( $_REQUEST['modname'] === 'Scheduling/Schedule.php' )
 		{
-			echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
+			echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="POST">';
 
 			DrawHeader(
 				$choose_a_header_html,

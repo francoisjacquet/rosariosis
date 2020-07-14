@@ -50,7 +50,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save' .
+		$action = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save' .
 			( empty( $_REQUEST['include_inactive'] ) ?
 				'' :
 				'&include_inactive=' . $_REQUEST['include_inactive'] ) .
@@ -65,7 +65,9 @@ if ( ! $_REQUEST['modfunc'] )
 					'' :
 					'&w_course_period_id=' . $_REQUEST['w_course_period_id'] ) :
 				'' ) .
-			'&_ROSARIO_PDF=true" method="POST">';
+			'&_ROSARIO_PDF=true';
+
+		echo '<form action="' . URLEscape( $action ) . '" method="POST">';
 
 		$extra['header_right'] = Buttons( _( 'Create Labels for Selected Students' ) );
 

@@ -387,7 +387,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$LO_ret = DBGet( $sql, $functions );
 	//echo '<pre>'; var_dump($LO_ret); echo '</pre>';
 
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update&tab_id=' . $_REQUEST['tab_id'] . '" method="POST">';
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update&tab_id=' . $_REQUEST['tab_id']  ) . '" method="POST">';
 	DrawHeader( '', SubmitButton() );
 	echo '<br />';
 

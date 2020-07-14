@@ -560,14 +560,14 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( ! empty( $_REQUEST['assignment_id'] ) )
 	{
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&assignment_type_id=' . $_REQUEST['assignment_type_id'];
+		$action = 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=GRADEBOOK_ASSIGNMENTS&assignment_type_id=' . $_REQUEST['assignment_type_id'];
 
 		if ( $_REQUEST['assignment_id'] !== 'new' )
 		{
-			echo '&assignment_id=' . $_REQUEST['assignment_id'];
+			$action .= '&assignment_id=' . $_REQUEST['assignment_id'];
 		}
 
-		echo '&table=GRADEBOOK_ASSIGNMENTS" method="POST">';
+		echo '<form action="' . URLEscape( $action ) . '" method="POST">';
 
 		DrawHeader( $title, $delete_button . SubmitButton() );
 
@@ -709,14 +709,14 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 	elseif ( ! empty( $_REQUEST['assignment_type_id'] ) )
 	{
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&table=GRADEBOOK_ASSIGNMENT_TYPES';
+		$action = 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=GRADEBOOK_ASSIGNMENT_TYPES';
 
 		if ( $_REQUEST['assignment_type_id'] !== 'new' )
 		{
-			echo '&assignment_type_id=' . $_REQUEST['assignment_type_id'];
+			$action .= '&assignment_type_id=' . $_REQUEST['assignment_type_id'];
 		}
 
-		echo '" method="POST">';
+		echo '<form action="' . URLEscape( $action ) . '" method="POST">';
 
 		DrawHeader( $title, $delete_button . SubmitButton() );
 

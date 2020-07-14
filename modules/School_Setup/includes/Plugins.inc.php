@@ -270,8 +270,8 @@ if ( ! $_REQUEST['modfunc'] )
 		&& is_writable( 'plugins/' ) )
 	{
 		// @since 6.4 Add-on zip upload.
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&tab=' . $_REQUEST['tab'] .
-			'&modfunc=upload" method="POST" enctype="multipart/form-data">';
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=' . $_REQUEST['tab'] .
+			'&modfunc=upload' ) . '" method="POST" enctype="multipart/form-data">';
 
 		echo button( 'add' ) . ' ';
 

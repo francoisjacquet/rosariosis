@@ -145,8 +145,8 @@ if ( ! $_REQUEST['modfunc'] )
 		//FJ teachers need AllowEdit (to edit the input fields)
 		$_ROSARIO['allow_edit'] = true;
 
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
-			'&modfunc=save&include_inactive=' . $_REQUEST['include_inactive'] . '" method="POST">';
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+			'&modfunc=save&include_inactive=' . $_REQUEST['include_inactive']  ) . '" method="POST">';
 
 		DrawHeader( '', SubmitButton( _( 'Add Referral for Selected Students' ) ) );
 

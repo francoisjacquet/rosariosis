@@ -223,7 +223,7 @@ if ( ! $_REQUEST['modfunc'] )
 		'DATA_TYPE' => _makeType( '', 'DATA_TYPE' ),
 	);
 
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="POST">';
 
 	DrawHeader( '', SubmitButton() );
 

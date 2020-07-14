@@ -152,7 +152,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 
 	if ( $staff['ACCOUNT_ID'] )
 	{
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update" method="POST">';
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update' ) . '" method="POST">';
 
 		DrawHeader(
 			'',
@@ -165,7 +165,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 	}
 	else
 	{
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=create" method="POST">';
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=create' ) . '" method="POST">';
 		DrawHeader( '', SubmitButton( _( 'Create Account' ) ) );
 	}
 

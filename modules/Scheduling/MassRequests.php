@@ -64,7 +64,7 @@ if ( $_REQUEST['modfunc'] != 'choose_course' )
 
 	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save" method="POST">';
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save' ) . '" method="POST">';
 
 		DrawHeader( '', SubmitButton( _( 'Add Request to Selected Students' ) ) );
 

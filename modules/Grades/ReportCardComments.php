@@ -415,8 +415,8 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$LO_ret = DBGet( $sql, $functions );
 
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update&course_id=' .
-		$_REQUEST['course_id'] . '&tab_id=' . $_REQUEST['tab_id'] . '" method="POST">';
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update&course_id=' .
+		$_REQUEST['course_id'] . '&tab_id=' . $_REQUEST['tab_id']  ) . '" method="POST">';
 
 	DrawHeader( $subject_select . ' : ' . $course_select, SubmitButton() );
 	echo '<br />';

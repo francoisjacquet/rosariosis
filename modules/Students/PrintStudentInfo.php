@@ -277,9 +277,9 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save&include_inactive=' .
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save&include_inactive=' .
 			issetVal( $_REQUEST['include_inactive'], '' ) . '&_search_all_schools=' .
-			issetVal( $_REQUEST['_search_all_schools'], '' ) . '&_ROSARIO_PDF=true" method="POST">';
+			issetVal( $_REQUEST['_search_all_schools'], '' ) . '&_ROSARIO_PDF=true' ) . '" method="POST">';
 
 		$extra['header_right'] = SubmitButton( _( 'Print Info for Selected Students' ) );
 

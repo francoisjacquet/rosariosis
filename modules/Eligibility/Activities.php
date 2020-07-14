@@ -106,7 +106,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$link['remove']['variables'] = array( 'id' => 'ID' );
 
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update" method="POST">';
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update' ) . '" method="POST">';
 
 	DrawHeader( '', SubmitButton() );
 

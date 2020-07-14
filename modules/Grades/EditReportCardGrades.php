@@ -246,8 +246,8 @@ if ( UserStudentID() )
 			$mp_id = "0";
 		}
 
-		$mp_select = '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
-			'&tab_id=' . $tab_id . '" method="POST">';
+		$mp_select = '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+			'&tab_id=' . $tab_id  ) . '" method="POST">';
 
 		$mp_select .= '<select name="mp_id" onchange="ajaxPostForm(this.form,true);">';
 
@@ -268,8 +268,8 @@ if ( UserStudentID() )
 		DrawHeader( $mp_select );
 
 		// FORM for updates/new records.
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
-			'&modfunc=update&tab_id=' . $tab_id . '&mp_id=' . $mp_id . '" method="POST">';
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+			'&modfunc=update&tab_id=' . $tab_id . '&mp_id=' . $mp_id  ) . '" method="POST">';
 
 		DrawHeader( '', SubmitButton() );
 		echo '<br />';

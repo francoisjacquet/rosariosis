@@ -20,13 +20,13 @@ $menu['Scheduling']['admin'] = array(
 	'Scheduling/MassDrops.php' => _( 'Group Drops' ),
 	1 => _( 'Reports' ),
 	'Scheduling/PrintSchedules.php' => _( 'Print Schedules' ),
-	'Scheduling/PrintClassLists.php' => _( 'Print Class Lists' ),
+	'Scheduling/PrintClassLists.php' => _( 'Print Class Lists' ), // TODO merge with PrintClassPictures.php, Parent?? ONLY Pictures.
 	'Scheduling/PrintClassPictures.php' => _( 'Print Class Pictures' ),
 	'Scheduling/PrintRequests.php' => _( 'Print Requests' ),
-	'Scheduling/MasterScheduleReport.php' => _( 'Master Schedule Report' ),
+	'Scheduling/MasterScheduleReport.php' => _( 'Master Schedule Report' ), // TODO merge with ScheduleReport.php.
 	'Scheduling/ScheduleReport.php' => _( 'Schedule Report' ),
 	'Scheduling/RequestsReport.php' => _( 'Requests Report' ),
-	'Scheduling/UnfilledRequests.php' => _( 'Unfilled Requests' ),
+	'Scheduling/UnfilledRequests.php' => _( 'Unfilled Requests' ), // TODO merge with RequestsReport.php.
 	'Scheduling/IncompleteSchedules.php' => _( 'Incomplete Schedules' ),
 	'Scheduling/AddDrop.php' => _( 'Add / Drop Report' ),
 	2 => _( 'Setup' ),
@@ -54,7 +54,7 @@ $menu['Scheduling']['parent'] = array(
 	// Activate Courses for Teachers & Parents & Students.
 	'Scheduling/Courses.php' => _( 'Courses' ),
 	1 => _( 'Reports' ),
-	// FJ activate Print Schedules for parents and students.
+	// Activate Print Schedules for parents and students.
 	'Scheduling/PrintSchedules.php' => _( 'Print Schedules' ),
 	'Scheduling/PrintClassPictures.php' => _( 'Class Pictures' ),
 );

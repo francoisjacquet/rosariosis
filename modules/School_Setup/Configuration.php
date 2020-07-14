@@ -148,7 +148,7 @@ else
 
 	if ( ! $_REQUEST['modfunc'] )
 	{
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&tab=' . $_REQUEST['tab'] . '&modfunc=update" method="POST" enctype="multipart/form-data">';
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=' . $_REQUEST['tab'] . '&modfunc=update' ) . '" method="POST" enctype="multipart/form-data">';
 
 		if ( AllowEdit() )
 		{

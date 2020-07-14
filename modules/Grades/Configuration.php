@@ -50,7 +50,7 @@ echo ErrorMessage( $note, 'note' );
 // @since 5.8 Admin can override teachers gradebook configuration: use -1 as Staff ID.
 $gradebook_config = ProgramUserConfig( 'Gradebook', ( User( 'PROFILE' ) === 'admin' ? -1 : 0 ) );
 
-echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
+echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="POST">';
 
 if ( User( 'PROFILE' ) === 'admin' )
 {

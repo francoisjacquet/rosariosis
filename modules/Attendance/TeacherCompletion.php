@@ -49,7 +49,7 @@ foreach ( (array) $periods_RET as $id => $period )
 
 $period_select .= "</select>";
 
-echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="GET">';
+echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="GET">';
 DrawHeader( PrepareDate( $date, '_date', false, array( 'submit' => true ) ) . ' - ' . $period_select );
 DrawHeader( '', $category_select );
 echo '</form>';

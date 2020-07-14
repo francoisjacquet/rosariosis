@@ -136,7 +136,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( empty( $_REQUEST['print_statements'] ) )
 	{
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="POST">';
 
 		if ( AllowEdit() )
 		{

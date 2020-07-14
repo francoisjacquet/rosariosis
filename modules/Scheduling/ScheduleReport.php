@@ -6,7 +6,7 @@ $_REQUEST['course_id'] = issetVal( $_REQUEST['course_id'], '' );
 $_REQUEST['course_period_id'] = issetVal( $_REQUEST['course_period_id'], '' );
 $_REQUEST['include_child_mps'] = issetVal( $_REQUEST['include_child_mps'], '' );
 
-echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
+echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="POST">';
 
 if ( $_REQUEST['modfunc'] !== 'students' )
 {

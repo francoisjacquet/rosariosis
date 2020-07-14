@@ -193,7 +193,7 @@ if ( UserStudentID()
 
 	if ( empty( $_REQUEST['print_statements'] ) )
 	{
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="POST">';
 		//DrawStudentHeader();
 
 		if ( AllowEdit() )

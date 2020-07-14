@@ -301,8 +301,8 @@ else
 
 	$LO_columns = array( 'ID' => _( 'ID' ), 'SCHOOL_DATE' => _( 'Date' ), 'DESCRIPTION' => _( 'Description' ) );
 
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&menu_id=' . $_REQUEST['menu_id'] .
-		'&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year'] . '" method="POST">';
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&menu_id=' . $_REQUEST['menu_id'] .
+		'&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year']  ) . '" method="POST">';
 
 	DrawHeader(
 		PrepareDate(

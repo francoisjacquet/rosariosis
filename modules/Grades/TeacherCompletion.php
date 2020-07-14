@@ -74,7 +74,7 @@ if ( GetMP( $fy, 'DOES_GRADES' ) == 'Y' )
 
 $mp_select .= '</select>';
 
-echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="GET">';
+echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="GET">';
 DrawHeader( $mp_select . ' - ' . $period_select );
 echo '</form>';
 

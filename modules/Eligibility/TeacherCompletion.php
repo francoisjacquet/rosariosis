@@ -52,7 +52,7 @@ foreach ( (array) $periods_RET as $period )
 
 $period_select .= '</select>';
 
-echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="GET">';
+echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="GET">';
 
 $begin_year = DBGetOne( "SELECT min(date_part('epoch',SCHOOL_DATE)) AS SCHOOL_DATE
 	FROM ATTENDANCE_CALENDAR

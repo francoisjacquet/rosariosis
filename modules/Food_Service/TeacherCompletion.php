@@ -145,11 +145,11 @@ if ( empty( $_REQUEST['period'] ) )
 	}
 }
 
-echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
+echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="POST">';
 DrawHeader( PrepareDate( $date, '_date' ) . ' : ' . $period_select . ' : <input type=submit value=' . _( 'Go' ) . '>' );
 echo '</form>';
 
-echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=add&menu_id=' . $_REQUEST['menu_id'] . '" method="POST">';
+echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=add&menu_id=' . $_REQUEST['menu_id']  ) . '" method="POST">';
 
 if ( count( (array) $menus_RET ) > 1 )
 {

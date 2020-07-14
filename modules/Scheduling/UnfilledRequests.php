@@ -11,7 +11,7 @@ if ( $_REQUEST['modname'] == 'Scheduling/UnfilledRequests.php' )
 
 	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=modify" method="POST">';
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=modify' ) . '" method="POST">';
 
 		DrawHeader( CheckBoxOnclick( 'include_seats', _( 'Show Available Seats' ) ) );
 

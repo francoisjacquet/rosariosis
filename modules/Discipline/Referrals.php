@@ -172,7 +172,7 @@ if ( ! $_REQUEST['modfunc']
 	{
 		$RET = $RET[1];
 
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&referral_id=' . $_REQUEST['referral_id'] . '" method="POST">';
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&referral_id=' . $_REQUEST['referral_id']  ) . '" method="POST">';
 
 		DrawHeader( '', SubmitButton() );
 

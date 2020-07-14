@@ -98,10 +98,10 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] .
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 			'&modfunc=save&include_inactive=' . issetVal( $_REQUEST['include_inactive'], '' ) .
 			'&_search_all_schools=' . issetVal( $_REQUEST['_search_all_schools'], '' ) .
-			'&accessfunc=' . $accessfunc . '" method="POST">';
+			'&accessfunc=' . $accessfunc  ) . '" method="POST">';
 
 		$extra['header_right'] = SubmitButton( $button_label );
 

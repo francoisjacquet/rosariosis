@@ -8,6 +8,7 @@ Changes in 6.8
 - Fix Sunday is number 7 in EntryTimes.php
 - Fix SQL error multiple rows returned by subquery in CreateParents.php
 - Fix #291 XSS Use URLEscape() for links href, program wide
+- Fix #291 XSS Use URLEscape() for forms action, program wide
 - Fix hide remove button for "No Address" in Address.inc.php
 - Prompt() make Cancel primary button in Prompts.php
 - Fix SQL error foreign keys: Roll again Courses when rolling Marking Periods in Rollover.php

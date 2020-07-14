@@ -58,7 +58,7 @@ if ( User( 'PROFILE' ) === 'admin' )
 
 		echo ErrorMessage( $error );
 
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save" method="POST">';
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save' ) . '" method="POST">';
 
 		// Preview header.
 		DrawHeader( RegistrationAdminPreviewHeader(), SubmitButton() );
@@ -163,7 +163,7 @@ else
 
 		echo ErrorMessage( $error );
 
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save" method="POST">';
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save' ) . '" method="POST">';
 
 		DrawHeader( RegistrationIntroHeader(), SubmitButton() );
 

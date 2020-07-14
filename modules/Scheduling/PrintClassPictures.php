@@ -219,7 +219,7 @@ if ( ! $_REQUEST['modfunc']
 
 	if ( $_REQUEST['modfunc'] === 'list' )
 	{
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save&_ROSARIO_PDF=true" method="POST">';
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save&_ROSARIO_PDF=true' ) . '" method="POST">';
 
 		$extra['header_right'] = Buttons( _( 'Create Class Pictures for Selected Course Periods' ) );
 

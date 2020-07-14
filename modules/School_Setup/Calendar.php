@@ -593,7 +593,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 				$RET[1]['SCHOOL_DATE'] = issetVal( $_REQUEST['school_date'] );
 			}
 
-			echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=detail&event_id=' . $_REQUEST['event_id'] . '&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year'] . '" method="POST">';
+			echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=detail&event_id=' . $_REQUEST['event_id'] . '&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year']  ) . '" method="POST">';
 		}
 		// Assignment
 		elseif ( ! empty( $_REQUEST['assignment_id'] ) )
@@ -747,7 +747,7 @@ if ( $_REQUEST['modfunc'] === 'list_events' )
 			$end_date = DBDate();
 	}
 
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=' . $_REQUEST['modfunc'] . '&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year'] . '" method="POST">';
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=' . $_REQUEST['modfunc'] . '&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year']  ) . '" method="POST">';
 
 	DrawHeader( '<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year'] ) . '" >' . _( 'Back to Calendar' ) . '</a>' );
 
@@ -930,7 +930,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$calendar_RET = DBGet( $calendar_SQL, array(), array( 'SCHOOL_DATE' ) );
 	}
 
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="POST">';
 
 	// Admin Headers
 	if ( AllowEdit() )

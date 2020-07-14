@@ -117,8 +117,8 @@ if ( ! $_REQUEST['modfunc']
 
 	if ( $_REQUEST['modfunc'] === 'list' )
 	{
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save&search_modfunc=list&_ROSARIO_PDF=true' .
-			issetVal( $extra['action'], '' ) . '" method="POST" name="search">';
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=save&search_modfunc=list&_ROSARIO_PDF=true' .
+			issetVal( $extra['action'], '' )  ) . '" method="POST" name="search">';
 
 		$submit_button = Buttons( _( 'Create Class Lists for Selected Course Periods' ) );
 

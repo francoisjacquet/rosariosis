@@ -114,7 +114,7 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 
 	$student = $student[1];
 
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=submit&menu_id=' . $_REQUEST['menu_id'] . '" method="POST">';
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=submit&menu_id=' . $_REQUEST['menu_id']  ) . '" method="POST">';
 
 	DrawHeader(
 		'',
@@ -235,7 +235,7 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 		);
 
 		echo '<br />';
-		echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=add&menu_id=' . $_REQUEST['menu_id'] . '" method="POST">';
+		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=add&menu_id=' . $_REQUEST['menu_id']  ) . '" method="POST">';
 
 		ListOutput( $LO_ret, $columns, 'Item', 'Items', $link, array(), $extra );
 

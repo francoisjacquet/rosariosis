@@ -611,7 +611,7 @@ if ( $assignments_RET )
 
 $assignment_select .= '</select><label for="assignment_id" class="a11y-hidden">' . _( 'Assignments' ) . '</label>';
 
-// echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&student_id='.UserStudentID().'" method="POST">';
+// echo '<form action="' . URLEscape( 'Modules.php?modname='.$_REQUEST['modname'].'&student_id='.UserStudentID().'' ) . '" method="POST">';
 
 echo '<form action="' . PreparePHP_SELF( array(), array( 'values' ) ) . '" method="POST">';
 

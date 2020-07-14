@@ -156,7 +156,7 @@ if ( $_REQUEST['modfunc'] === 'modify'
 if ( UserStudentID()
 	&& ! $_REQUEST['modfunc'] )
 {
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=modify" method="POST">';
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=modify' ) . '" method="POST">';
 
 	DrawHeader( PrepareDate( $date, '_date', false, array( 'submit' => true ) ), SubmitButton() );
 

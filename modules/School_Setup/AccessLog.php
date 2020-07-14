@@ -41,7 +41,7 @@ echo ErrorMessage( $note, 'note' );
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="GET">';
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="GET">';
 
 	DrawHeader(
 		_( 'From' ) . ' ' . DateInput( $start_date, 'start', '', false, false ) . ' - ' .
@@ -67,7 +67,7 @@ if ( ! $_REQUEST['modfunc'] )
 		AND LOGIN_TIME <='" . $end_date . ' 23:59:59' . "'
 		ORDER BY LOGIN_TIME DESC", $access_logs_functions );
 
-	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete" method="POST">';
+	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete' ) . '" method="POST">';
 
 	DrawHeader( '', SubmitButton( _( 'Clear Log' ), '', '' ) );
 
