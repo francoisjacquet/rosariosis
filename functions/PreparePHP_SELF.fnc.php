@@ -222,7 +222,7 @@ function URLEscape( $string )
 	return str_replace(
 		$entities,
 		$replacements,
-		urlencode( (string) $string )
+		rawurlencode( (string) $string )
 	);
 }
 
