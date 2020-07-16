@@ -25,7 +25,7 @@ if ( UserStaffID() )
 
 if ( ! empty( $fields_RET ) )
 {
-	echo $separator;
+	echo issetVal( $separator, '' );
 
 	echo '<table class="width-100p valign-top fixed-col">';
 }

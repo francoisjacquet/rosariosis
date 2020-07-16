@@ -1,8 +1,6 @@
 <?php
 require_once 'ProgramFunctions/StudentsUsersInfo.fnc.php';
 
-$separator = issetVal( $separator, '' );
-
 $columns = DBGetOne( "SELECT COLUMNS
 	FROM STUDENT_FIELD_CATEGORIES
 	WHERE ID='" . $_REQUEST['category_id'] . "'" );
@@ -27,7 +25,7 @@ if ( UserStudentID() )
 
 if ( ! empty( $fields_RET ) )
 {
-	echo $separator;
+	echo issetVal( $separator, '' );
 
 	echo '<table class="other-info width-100p valign-top fixed-col">';
 }
