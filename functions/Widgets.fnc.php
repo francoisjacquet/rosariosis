@@ -1486,15 +1486,18 @@ function Widgets( $item, &$myextra = null )
 			{
 				if ( $_REQUEST['calendar'] === '!' )
 				{
-					$where_not = ( $_REQUEST['calendar_not'] === 'Y' ? 'NOT ' : '' );
+					$where_not = ( isset( $_REQUEST['calendar_not'] ) && $_REQUEST['calendar_not'] === 'Y' ?
+						'NOT ' : '' );
 
 					$extra['WHERE'] .= " AND ssm.CALENDAR_ID IS " . $where_not . "NULL";
 
-					$text_not = ( $_REQUEST['calendar_not'] === 'Y' ? _( 'Any Value' ) : _( 'No Value' ) );
+					$text_not = ( isset( $_REQUEST['calendar_not'] ) && $_REQUEST['calendar_not'] === 'Y' ?
+						_( 'Any Value' ) : _( 'No Value' ) );
 				}
 				else
 				{
-					$where_not = ( $_REQUEST['calendar_not'] === 'Y' ? '!' : '' );
+					$where_not = ( isset( $_REQUEST['calendar_not'] ) && $_REQUEST['calendar_not'] === 'Y' ?
+						'!' : '' );
 
 					$extra['WHERE'] .= " AND ssm.CALENDAR_ID" . $where_not . "='" . $_REQUEST['calendar'] . "'";
 
@@ -1508,8 +1511,8 @@ function Widgets( $item, &$myextra = null )
 						}
 					}
 
-					$text_not = ( $_REQUEST['calendar_not'] == 'Y' ? _( 'Not' ) . ' ' : '' ) .
-						$calendar_title;
+					$text_not = ( isset( $_REQUEST['calendar_not'] ) && $_REQUEST['calendar_not'] == 'Y' ?
+						_( 'Not' ) . ' ' : '' ) . $calendar_title;
 				}
 
 				if ( ! $extra['NoSearchTerms'] )
