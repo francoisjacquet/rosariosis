@@ -1109,7 +1109,8 @@ function _redirectTakeAttendance()
 	list( $course_period, $course_period_school_period ) = explode( '.', $_REQUEST['period'] );
 
 	// Get Course Period info.
-	$cp_RET = DBGet( "SELECT SCHOOL_ID,TEACHER_ID
+	// @since 6.9 Add Secondary Teacher.
+	$cp_RET = DBGet( "SELECT SCHOOL_ID,TEACHER_ID,SECONDARY_TEACHER_ID
 		FROM COURSE_PERIODS
 		WHERE COURSE_PERIOD_ID='" . $course_period . "'
 		AND SYEAR='" . UserSyear() . "'
@@ -1139,7 +1140,8 @@ function _redirectTakeAttendance()
 		$modname .= '&period=' . $_REQUEST['period'];
 	}
 	elseif ( ! AllowUse( $modname )
-		|| User( 'STAFF_ID' ) !== $cp_RET[1]['TEACHER_ID'] )
+		|| ( User( 'STAFF_ID' ) !== $cp_RET[1]['TEACHER_ID']
+			&& User( 'STAFF_ID' ) !== $cp_RET[1]['SECONDARY_TEACHER_ID'] ) )
 	{
 		// Teacher cannot take attendance?
 		// Teachers cannot take others attendance?
