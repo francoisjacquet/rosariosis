@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 6.9
+--------------
+- SQL COURSE_PERIODS table: Add SECONDARY_TEACHER_ID column in Update.fnc.php & rosariosis.sql
+
 Changes in 6.8
 --------------
 - Fix PHP Warning count() not an array in ListOutput.fnc.php

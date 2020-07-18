@@ -192,6 +192,10 @@ function Update()
 		case version_compare( $from_version, '6.6', '<' ) :
 
 			$return = _update66();
+
+		case version_compare( $from_version, '6.9', '<' ) :
+
+			$return = _update69();
 	}
 
 	// Update version in DB CONFIG table.
@@ -296,6 +300,40 @@ function _update66()
 			DBQuery( "INSERT INTO profile_exceptions
 				VALUES ('" . $profile_id . "', 'Custom/Registration.php', 'Y', 'Y');" );
 		}
+	}
+
+	return $return;
+}
+
+
+/**
+ * Update to version 6.9
+ *
+ * 1. COURSE_PERIODS table: Add SECONDARY_TEACHER_ID column.
+ *
+ * Local function
+ *
+ * @since 6.9
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update69()
+{
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. COURSE_PERIODS table: Add SECONDARY_TEACHER_ID column.
+	 */
+	$secondary_teacher_id_column_exists = DBGetOne( "SELECT 1 FROM pg_attribute
+		WHERE attrelid=(SELECT oid FROM pg_class WHERE relname='course_periods')
+		AND attname='secondary_teacher_id';" );
+
+	if ( ! $secondary_teacher_id_column_exists )
+	{
+		DBQuery( "ALTER TABLE ONLY course_periods
+			ADD COLUMN secondary_teacher_id integer REFERENCES staff(staff_id);" );
 	}
 
 	return $return;

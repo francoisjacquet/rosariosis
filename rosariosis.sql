@@ -436,6 +436,7 @@ CREATE TABLE course_periods (
     mp character varying(3),
     marking_period_id integer NOT NULL REFERENCES school_marking_periods(marking_period_id),
     teacher_id integer NOT NULL REFERENCES staff(staff_id),
+    secondary_teacher_id integer REFERENCES staff(staff_id),
     room character varying(10),
     total_seats numeric,
     filled_seats numeric,
