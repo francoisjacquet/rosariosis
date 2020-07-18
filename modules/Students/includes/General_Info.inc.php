@@ -207,7 +207,7 @@ else
 		_( 'School' ),
 		$school_options,
 		false,
-		'autocomplete="off" onchange="window.location.href=' . $school_onchange_url . ' + this.options[selectedIndex].value;"',
+		'autocomplete="off" onchange="window.location.href=' . $school_onchange_url . ' + this.value;"',
 		false
 	);
 

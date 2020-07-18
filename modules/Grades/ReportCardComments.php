@@ -165,7 +165,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$subject_onchange_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
 			"&subject_id='";
 
-		$subject_select = '<select name="subject_id" onchange="ajaxLink(' . $subject_onchange_URL . ' + this.options[selectedIndex].value);">';
+		$subject_select = '<select name="subject_id" onchange="ajaxLink(' . $subject_onchange_URL . ' + this.value);">';
 
 		//FJ Add No Courses were found error
 
@@ -187,7 +187,7 @@ if ( ! $_REQUEST['modfunc'] )
 			'&subject_id=' . $_REQUEST['subject_id'] .
 			"&course_id='";
 
-		$course_select  = '<select name="course_id" onchange="ajaxLink(' . $course_onchange_URL . ' + this.options[selectedIndex].value);">';
+		$course_select  = '<select name="course_id" onchange="ajaxLink(' . $course_onchange_URL . ' + this.value);">';
 
 		//FJ Add No Courses were found error
 

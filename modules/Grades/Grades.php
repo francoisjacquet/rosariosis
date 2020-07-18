@@ -567,7 +567,7 @@ $type_onchange_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
 	"&type_id='";
 
 $type_select = '<select name="type_id" id="type_id" onchange="ajaxLink(' .
-	$type_onchange_URL . ' + this.options[selectedIndex].value);">';
+	$type_onchange_URL . ' + this.value);">';
 
 $type_select .= '<option value=""' . ( ! $_REQUEST['type_id'] ? ' selected' : '' ) . '>' .
 _( 'All' ) .
@@ -589,7 +589,7 @@ $assignment_onchange_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
 	"&assignment_id='";
 
 $assignment_select = '<select name="assignment_id" id="assignment_id" onchange="ajaxLink(' .
-	$assignment_onchange_URL . ' + this.options[selectedIndex].value);">';
+	$assignment_onchange_URL . ' + this.value);">';
 
 $assignment_select .= '<option value="">' . _( 'Totals' ) . '</option>';
 

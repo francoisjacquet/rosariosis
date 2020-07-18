@@ -198,7 +198,7 @@ function processRequest()
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'" );
 
-	$subjects = '<select name="subject_id" onchange="document.getElementById(\'courses_div\').innerHTML = \'\';SendXMLRequest(this.form.subject_id.options[this.form.subject_id.selectedIndex].value,this.form.course_title.value);">';
+	$subjects = '<select name="subject_id" onchange="document.getElementById(\'courses_div\').innerHTML = \'\';SendXMLRequest(this.value,this.form.course_title.value);">';
 	$subjects .= '<option value="">' . _( 'All Subjects' ) . '</option>';
 
 	foreach ( (array) $subjects_RET as $subject )

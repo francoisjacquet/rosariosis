@@ -250,7 +250,7 @@ function _makePaymentsCommentsInput( $value, $name )
 		'',
 		$fees_options,
 		'N/A',
-		'onchange="billingPaymentsFeeReconcile(this.options[selectedIndex].value);"'
+		'onchange="billingPaymentsFeeReconcile(this.value);"'
 	);
 
 	return $text_input . ' ' . $js . $select_input;

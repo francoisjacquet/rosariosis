@@ -187,7 +187,7 @@ function _makePaymentsCommentsInput( $value, $name )
 		'',
 		$salaries_options,
 		'N/A',
-		'onchange="accountingPaymentsSalariesReconcile(this.options[selectedIndex].value);"'
+		'onchange="accountingPaymentsSalariesReconcile(this.value);"'
 	);
 
 	return $text_input . ' ' . $js . $select_input;

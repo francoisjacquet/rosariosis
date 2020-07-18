@@ -1607,7 +1607,7 @@ function _makeAutoSelectInputX( $value, $column, $table, $title, $select, $id = 
 			function maybeEditTextInput(el) {
 
 				// -Edit- option's value is ---.
-				if ( el.options[el.selectedIndex].value === '---' ) {
+				if ( el.value === '---' ) {
 
 					var $el = $( el );
 

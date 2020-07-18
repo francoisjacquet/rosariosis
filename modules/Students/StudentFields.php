@@ -60,7 +60,7 @@ function _fieldsCategoryMenu( $category )
 			'contact' => _( 'Contact Fields' ),
 		),
 		false,
-		'onchange="ajaxLink(\'' . $link . '\' + this.options[selectedIndex].value);" autocomplete="off"',
+		'onchange="ajaxLink(\'' . $link . '\' + this.value);" autocomplete="off"',
 		false
 	);
 

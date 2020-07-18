@@ -285,7 +285,7 @@ function Search( $type, $extra = null )
 			// Show Student Grade Level when selected Profile is "Parent".
 			echo '<script>
 				var _selectStudentGradeLevel = function( select ) {
-					var show = select.options[ select.selectedIndex ].value === "parent";
+					var show = select.value === "parent";
 
 					return $("#student_grade_level_row").toggle( show );
 				};

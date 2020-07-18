@@ -68,7 +68,7 @@ function SubstitutionsInput( $substitutions )
 		var substitutionsUpdateCode = function(event) {
 
 			var select = event.target,
-				codeValue = select.options[ select.selectedIndex ].value,
+				codeValue = select.value,
 				code = $('#substitutions_code_' + <?php echo $id; ?>);
 
 			// Update code with corresponding selected input value.

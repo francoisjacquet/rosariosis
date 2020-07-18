@@ -30,7 +30,7 @@ else
 	<label><input type="checkbox" name="w_' . $last_year . 'course_period_id_not" value="Y" /> ' .
 		_( 'Not' ) . '</label>
 	<label><select name="w_' . $last_year . 'course_period_id_which"
-		onchange="wCourseTitleUpdate(this.options[selectedIndex].value);" autocomplete="off">
+		onchange="wCourseTitleUpdate(this.value);" autocomplete="off">
 	<option value="course_period"> ' . _( 'Course Period' ) . '</option>
 	<option value="course"> ' . _( 'Course' ) . '</option>
 	<option value="subject"> ' . _( 'Subject' ) . '</option>

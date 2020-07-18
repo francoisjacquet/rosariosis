@@ -233,7 +233,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$category_onchange_URL = "'" . PreparePHP_SELF( $_REQUEST, array( 'category_id' ) ) . "&category_id='";
 
 		echo '<select name="category_id" id="category_id" onchange="ajaxLink(' .
-			$category_onchange_URL . ' + this.options[selectedIndex].value);">';
+			$category_onchange_URL . ' + this.value);">';
 
 		echo '<option value="">' . _( 'All Categories' ) . '</option>';
 
