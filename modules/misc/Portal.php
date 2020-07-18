@@ -293,7 +293,6 @@ switch ( User( 'PROFILE' ) )
 
 				if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 				{
-					// @todo SQL Fix slow query (150ms).
 					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,
 					s.TITLE AS SCHOOL,acc.SCHOOL_DATE,cp.TITLE,
 					'" . $category['ID'] . "' AS CATEGORY_ID,
@@ -331,7 +330,6 @@ switch ( User( 'PROFILE' ) )
 				}
 				else
 				{
-					// @todo SQL Fix slow query (150ms).
 					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,
 					s.TITLE AS SCHOOL,acc.SCHOOL_DATE,cp.TITLE,
 					'" . $category['ID'] . "' AS CATEGORY_ID,
@@ -560,7 +558,7 @@ switch ( User( 'PROFILE' ) )
 
 		if ( Preferences( 'HIDE_ALERTS' ) != 'Y' )
 		{
-			// warn if missing attendances
+			// Warn if missing attendances.
 			$categories_RET = DBGet( "SELECT '0' AS ID,'Attendance' AS TITLE,0,NULL AS SORT_ORDER UNION
 				SELECT ID,TITLE,1,SORT_ORDER
 				FROM ATTENDANCE_CODE_CATEGORIES
@@ -575,7 +573,7 @@ switch ( User( 'PROFILE' ) )
 
 				if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 				{
-					// @todo SQL Fix slow query (150ms).
+					// @since 6.9 Add Secondary Teacher.
 					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,
 						acc.SCHOOL_DATE,cp.TITLE,
 						'" . $category['ID'] . "' AS CATEGORY_ID,
@@ -594,7 +592,8 @@ switch ( User( 'PROFILE' ) )
 					AND cp.SYEAR=acc.SYEAR
 					AND acc.SCHOOL_DATE<'" . DBDate() . "'
 					AND cp.CALENDAR_ID=acc.CALENDAR_ID
-					AND cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "'
+					AND (cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "'
+						OR SECONDARY_TEACHER_ID='" . User( 'STAFF_ID' ) . "')
 					AND cp.MARKING_PERIOD_ID IN (SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE (MP='FY' OR MP='SEM' OR MP='QTR') AND SCHOOL_ID=acc.SCHOOL_ID AND acc.SCHOOL_DATE BETWEEN START_DATE AND END_DATE)
 					AND sp.PERIOD_ID=cpsp.PERIOD_ID
 					AND (sp.BLOCK IS NULL AND position(substring('MTWHFSU' FROM cast(
@@ -610,7 +609,7 @@ switch ( User( 'PROFILE' ) )
 				}
 				else
 				{
-					// @todo SQL Fix slow query (150ms).
+					// @since 6.9 Add Secondary Teacher.
 					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,
 						acc.SCHOOL_DATE,cp.TITLE,
 						'" . $category['ID'] . "' AS CATEGORY_ID,
@@ -628,7 +627,8 @@ switch ( User( 'PROFILE' ) )
 					AND cp.SCHOOL_ID=acc.SCHOOL_ID
 					AND cp.SYEAR=acc.SYEAR AND acc.SCHOOL_DATE<'" . DBDate() . "'
 					AND cp.CALENDAR_ID=acc.CALENDAR_ID
-					AND cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "'
+					AND (cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "'
+						OR SECONDARY_TEACHER_ID='" . User( 'STAFF_ID' ) . "')
 					AND cp.MARKING_PERIOD_ID IN (SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE (MP='FY' OR MP='SEM' OR MP='QTR') AND SCHOOL_ID=acc.SCHOOL_ID AND acc.SCHOOL_DATE BETWEEN START_DATE AND END_DATE)
 					AND sp.PERIOD_ID=cpsp.PERIOD_ID
 					AND (sp.BLOCK IS NULL AND position(substring('UMTWHFS' FROM cast(extract(DOW FROM acc.SCHOOL_DATE) AS INT)+1 FOR 1) IN cpsp.DAYS)>0 OR sp.BLOCK IS NOT NULL AND acc.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK)

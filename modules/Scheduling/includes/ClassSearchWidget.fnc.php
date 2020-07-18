@@ -216,12 +216,14 @@ function _classSearchWidgetCoursePeriodsListOutput( $extra = '' )
 	}
 	elseif ( User( 'PROFILE' ) === 'teacher' )
 	{
+		// @since 6.9 Add Secondary Teacher.
 		// FJ multiple school periods for a course period.
 		$sql = "SELECT cp.COURSE_PERIOD_ID,cp.TITLE
 			FROM COURSE_PERIODS cp
 			WHERE cp.SCHOOL_ID='" . UserSchool() . "'
 			AND cp.SYEAR='" . UserSyear() . "'
-			AND cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "'";
+			AND (cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "'
+				OR SECONDARY_TEACHER_ID='" . User( 'STAFF_ID' ) . "')";
 	}
 	else
 	{

@@ -147,15 +147,13 @@ function SetUserStaffID( $staff_id )
 					FROM STAFF s
 					WHERE s.SYEAR='" . UserSyear() . "'
 					AND (s.SCHOOLS LIKE '%," . UserSchool() . ",%' OR s.SCHOOLS IS NULL OR s.SCHOOLS='')
-					AND (s.PROFILE='parent' AND exists(
-						SELECT ''
+					AND (s.PROFILE='parent' AND exists(SELECT 1
 						FROM STUDENTS_JOIN_USERS _sju,STUDENT_ENROLLMENT _sem,SCHEDULE _ss
 						WHERE _sju.STAFF_ID=s.STAFF_ID
 						AND _sem.STUDENT_ID=_sju.STUDENT_ID
 						AND _sem.SYEAR='" . UserSyear() . "'
 						AND _ss.STUDENT_ID=_sem.STUDENT_ID
-						AND _ss.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'
-					))
+						AND _ss.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'))
 					AND s.STAFF_ID='" . $staff_id . "'", array(), array( 'STAFF_ID' ) );
 
 				if ( ! $is_related_parent )
@@ -275,6 +273,7 @@ function SetUserStudentID( $student_id )
 
 		case 'teacher':
 
+			// @since 6.9 Add Secondary Teacher.
 			// Get teacher's related students, include inactive students.
 			$is_related_student = DBGet( "SELECT 1
 				FROM STUDENTS s
@@ -287,7 +286,8 @@ function SetUserStudentID( $student_id )
 						ORDER BY START_DATE DESC
 						LIMIT 1))
 				JOIN COURSE_PERIODS cp ON (cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID
-					AND cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "')
+					AND (cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "'
+						OR cp.SECONDARY_TEACHER_ID='" . User( 'STAFF_ID' ) . "'))
 				JOIN STUDENT_ENROLLMENT ssm ON (ssm.STUDENT_ID=s.STUDENT_ID
 					AND ssm.SYEAR=ss.SYEAR
 					AND ssm.SCHOOL_ID='" . UserSchool() . "'

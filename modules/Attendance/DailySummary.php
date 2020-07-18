@@ -226,8 +226,10 @@ if ( $_REQUEST['student_id']
 			 * Teacher: My Periods option.
 			 *
 			 * @since 3.8
+			 * @since 6.9 Add Secondary Teacher.
 			 */
-			$sql .= " AND cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "'";
+			$sql .= " AND (cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "'
+				OR SECONDARY_TEACHER_ID='" . User( 'STAFF_ID' ) . "')";
 		}
 
 		$sql .= " ORDER BY sp.SORT_ORDER";

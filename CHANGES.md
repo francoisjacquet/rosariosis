@@ -4,6 +4,7 @@
 Changes in 6.9
 --------------
 - SQL COURSE_PERIODS table: Add SECONDARY_TEACHER_ID column in Update.fnc.php & rosariosis.sql
+- Add Secondary Teacher in Side.php, Current.php, GetStuList.fnc.php, DailySummary.php, Courses.php, Courses.fnc.php, ClassSearchWidget.fnc.php & Portal.php
 
 Changes in 6.8
 --------------

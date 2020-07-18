@@ -586,7 +586,9 @@ function GetStuList( &$extra = array() )
 
 			$sql .= ") JOIN COURSE_PERIODS cp ON (cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND " .
 				( isset( $extra['all_courses'] ) && $extra['all_courses'] === 'Y' ?
-					"cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "'" :
+					// @since 6.9 Add Secondary Teacher.
+					"(cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "'
+						OR SECONDARY_TEACHER_ID='" . User( 'STAFF_ID' ) . "')" :
 					"cp.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" ) . ")
 				JOIN STUDENT_ENROLLMENT ssm ON (ssm.STUDENT_ID=s.STUDENT_ID
 					AND ssm.SYEAR=ss.SYEAR

@@ -817,18 +817,8 @@ if (  ( ! $_REQUEST['modfunc']
 		{
 			if ( $_REQUEST['course_period_id'] !== 'new' )
 			{
-				//FJ multiple school periods for a course period
-				/*$sql = "SELECT PARENT_ID,TITLE,SHORT_NAME,PERIOD_ID,DAYS,
-				MP,MARKING_PERIOD_ID,TEACHER_ID,CALENDAR_ID,
-				ROOM,TOTAL_SEATS,DOES_ATTENDANCE,
-				GRADE_SCALE_ID,DOES_HONOR_ROLL,DOES_CLASS_RANK,
-				GENDER_RESTRICTION,HOUSE_RESTRICTION,CREDITS,
-				HALF_DAY,DOES_BREAKOFF
-				FROM COURSE_PERIODS
-				WHERE COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."'";*/
-
 				$RET = DBGet( "SELECT PARENT_ID,TITLE,SHORT_NAME,MP,MARKING_PERIOD_ID,TEACHER_ID,
-					CALENDAR_ID,ROOM,TOTAL_SEATS,DOES_ATTENDANCE,GRADE_SCALE_ID,
+					SECONDARY_TEACHER_ID,CALENDAR_ID,ROOM,TOTAL_SEATS,DOES_ATTENDANCE,GRADE_SCALE_ID,
 					DOES_HONOR_ROLL,DOES_CLASS_RANK,GENDER_RESTRICTION,
 					HOUSE_RESTRICTION,CREDITS,HALF_DAY,DOES_BREAKOFF
 					FROM COURSE_PERIODS
@@ -850,6 +840,16 @@ if (  ( ! $_REQUEST['modfunc']
 					&& CoursePeriodTeacherConflictCheck( $RET['TEACHER_ID'] ) )
 				{
 					$warning[] = _( 'Conflict: Teacher already scheduled for this period.' );
+
+					echo ErrorMessage( $warning, 'warning' );
+				}
+
+				// Check for Course Period Secondary Teacher conflict.
+				if ( User( 'PROFILE' ) === 'admin'
+					&& $RET['SECONDARY_TEACHER_ID']
+					&& CoursePeriodTeacherConflictCheck( $RET['SECONDARY_TEACHER_ID'] ) )
+				{
+					$warning[] = _( 'Conflict: Secondary Teacher already scheduled for this period.' );
 
 					echo ErrorMessage( $warning, 'warning' );
 				}
@@ -920,7 +920,26 @@ if (  ( ! $_REQUEST['modfunc']
 				empty( $_REQUEST['moodle_create_course_period'] )
 			) . '</td>';
 
-			$header .= '<td>' . TextInput(
+			// @since 6.8 Add Secondary Teacher.
+			$secondary_teachers = $teachers;
+
+			if ( ! empty( $RET['TEACHER_ID'] )
+				&& isset( $teachers[$RET['TEACHER_ID']] ) )
+			{
+				// Remove Main Teacher from Secondary Teacher options.
+				unset( $secondary_teachers[$RET['TEACHER_ID']] );
+			}
+
+			$header .= '<td colspan="2">' . SelectInput(
+				issetVal( $RET['SECONDARY_TEACHER_ID'], '' ),
+				'tables[COURSE_PERIODS][' . $_REQUEST['course_period_id'] . '][SECONDARY_TEACHER_ID]',
+				_( 'Secondary Teacher' ),
+				$secondary_teachers
+			) . '</td>';
+
+			$header .= '</tr><tr><td colspan="6"><hr /></td></tr>';
+
+			$header .= '<tr><td>' . TextInput(
 				issetVal( $RET['ROOM'], '' ),
 				'tables[COURSE_PERIODS][' . $_REQUEST['course_period_id'] . '][ROOM]',
 				_( 'Room' ),
@@ -956,7 +975,7 @@ if (  ( ! $_REQUEST['modfunc']
 
 			if ( AllowEdit() )
 			{
-				$header .= '<td>' . SelectInput(
+				$header .= '<td colspan="2">' . SelectInput(
 					issetVal( $RET['MARKING_PERIOD_ID'], '' ),
 					'tables[COURSE_PERIODS][' . $_REQUEST['course_period_id'] . '][MARKING_PERIOD_ID]',
 					_( 'Marking Period' ),
@@ -969,7 +988,7 @@ if (  ( ! $_REQUEST['modfunc']
 			else
 			{
 				// Non editing users: Show Full MP Title.
-				$header .= '<td>' . NoInput(
+				$header .= '<td colspan="2">' . NoInput(
 					GetMP( $RET['MARKING_PERIOD_ID'] ),
 					_( 'Marking Period' )
 				) . '</td>';

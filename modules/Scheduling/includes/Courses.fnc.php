@@ -10,6 +10,7 @@
  * Check for Course Period Teacher conflict
  *
  * @since 4.8
+ * @since 6.9 Add Secondary Teacher.
  *
  * @param int $teacher_id Teacher ID.
  *
@@ -26,7 +27,10 @@ function CoursePeriodTeacherConflictCheck( $teacher_id )
 	$school_periods_RET = DBGet( "SELECT cpsp.PERIOD_ID,cpsp.DAYS
 		FROM COURSE_PERIOD_SCHOOL_PERIODS cpsp,COURSE_PERIODS cp
 		WHERE cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
-		AND TEACHER_ID='" . $teacher_id . "'" );
+		AND cp.SYEAR='" . UserSyear() . "'
+		AND cp.SCHOOL_ID='" . UserSchool() . "'
+		AND (TEACHER_ID='" . $teacher_id . "'
+			OR SECONDARY_TEACHER_ID='" . $teacher_id . "')" );
 
 	if ( empty( $school_periods_RET )
 		|| count( $school_periods_RET ) < 2 )

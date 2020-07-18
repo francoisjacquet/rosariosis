@@ -495,16 +495,21 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 		<?php // CoursePeriod SELECT (Teachers only).
 		if ( User( 'PROFILE' ) === 'teacher' ) :
 
-			// FJ multiple school periods for a course period.
-			//$QI = DBQuery("SELECT cp.PERIOD_ID,cp.COURSE_PERIOD_ID,sp.TITLE,sp.SHORT_NAME,cp.MARKING_PERIOD_ID,cp.DAYS,c.TITLE AS COURSE_TITLE FROM COURSE_PERIODS cp, SCHOOL_PERIODS sp,COURSES c WHERE c.COURSE_ID=cp.COURSE_ID AND cp.PERIOD_ID=sp.PERIOD_ID AND cp.SYEAR='".UserSyear()."' AND cp.SCHOOL_ID='".UserSchool()."' AND cp.TEACHER_ID='".User('STAFF_ID')."' AND cp.MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).") ORDER BY sp.SORT_ORDER");
-			$cp_RET = DBGet( "SELECT cpsp.PERIOD_ID,cp.COURSE_PERIOD_ID,cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID,sp.TITLE,sp.SHORT_NAME,cp.MARKING_PERIOD_ID,cpsp.DAYS,c.TITLE AS COURSE_TITLE, cp.SHORT_NAME AS CP_SHORT_NAME
+			// @since 6.9 Add Secondary Teacher.
+			$_SESSION['is_secondary_teacher'] = false;
+
+			$cp_RET = DBGet( "SELECT cpsp.PERIOD_ID,cp.COURSE_PERIOD_ID,
+				cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID,sp.TITLE,sp.SHORT_NAME,cp.MARKING_PERIOD_ID,
+				cpsp.DAYS,c.TITLE AS COURSE_TITLE,cp.SHORT_NAME AS CP_SHORT_NAME,
+				cp.SECONDARY_TEACHER_ID
 				FROM COURSE_PERIODS cp,SCHOOL_PERIODS sp,COURSES c,COURSE_PERIOD_SCHOOL_PERIODS cpsp
 				WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 				AND c.COURSE_ID=cp.COURSE_ID
 				AND cpsp.PERIOD_ID=sp.PERIOD_ID
 				AND cp.SYEAR='" . UserSyear() . "'
 				AND cp.SCHOOL_ID='" . UserSchool() . "'
-				AND cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "'
+				AND (cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "'
+					OR SECONDARY_TEACHER_ID='" . User( 'STAFF_ID' ) . "')
 				AND cp.MARKING_PERIOD_ID IN (" . ( count( $RET ) ? GetAllMP( 'QTR', UserMP() ) : '0' ) . ")
 				ORDER BY cp.SHORT_NAME, sp.SORT_ORDER" );
 
@@ -544,6 +549,8 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 
 				<?php endif;
 
+				$selected = '';
+
 				if ( UserCoursePeriodSchoolPeriod() == $period['COURSE_PERIOD_SCHOOL_PERIODS_ID'] )
 				{
 					$selected = ' selected';
@@ -551,9 +558,13 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 					$_SESSION['UserPeriod'] = $period['PERIOD_ID'];
 
 					$current_cp_found = true;
+
+					if ( $period['SECONDARY_TEACHER_ID'] === User( 'STAFF_ID' ) )
+					{
+						// @since 6.9 Add Secondary Teacher.
+						$_SESSION['is_secondary_teacher'] = true;
+					}
 				}
-				else
-					$selected = '';
 
 				// FJ days display to locale.
 				$days_convert = array(
