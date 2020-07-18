@@ -7,6 +7,10 @@ Changes in 6.9
 - Add Secondary Teacher in Side.php, Current.php, GetStuList.fnc.php, DailySummary.php, Courses.php, Courses.fnc.php, ClassSearchWidget.fnc.php & Portal.php
 - Add Secondary Teacher: set User to main teacher in TakeAttendance.php, EnterEligibility.php, AnomalousGrades.php, Assignments.php, Configuration.php, GradebookBreakdown.php, Grades.php, InputFinalGrades.php & ProgressReports.php
 
+Changes in 6.8.1
+----------------
+- Fix empty Minutes, not 0 in Calendar.php
+
 Changes in 6.8
 --------------
 - Fix PHP Warning count() not an array in ListOutput.fnc.php

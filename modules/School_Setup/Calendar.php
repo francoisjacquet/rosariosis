@@ -1098,7 +1098,7 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		$date = $_REQUEST['year'] . '-' . $_REQUEST['month'] . '-' . str_pad( $i, 2, '0', STR_PAD_LEFT );
 
-		$minutes = isset( $calendar_RET[ $date ][1]['MINUTES'] ) ? $calendar_RET[ $date ][1]['MINUTES'] : 0;
+		$minutes = isset( $calendar_RET[ $date ][1]['MINUTES'] ) ? $calendar_RET[ $date ][1]['MINUTES'] : '';
 
 		$events_date = issetVal( $events_RET[ $date ], array() );
 
