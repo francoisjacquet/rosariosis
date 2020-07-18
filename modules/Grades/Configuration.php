@@ -1,4 +1,24 @@
 <?php
+if ( ! empty( $_SESSION['is_secondary_teacher'] )
+	&& UserCoursePeriod() )
+{
+	// @since 6.9 Add Secondary Teacher: set User to main teacher.
+	$teacher_id = DBGetOne( "SELECT TEACHER_ID
+		FROM COURSE_PERIODS
+		WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" );
+
+	$_ROSARIO['User'] = array(
+		0 => $_ROSARIO['User'][1],
+		1 => array(
+			'STAFF_ID' => $teacher_id,
+			'NAME' => GetTeacher( $teacher_id ),
+			'USERNAME' => GetTeacher( $teacher_id, 'USERNAME' ),
+			'PROFILE' => 'teacher',
+			'SCHOOLS' => ',' . UserSchool() . ',',
+			'SYEAR' => UserSyear(),
+		),
+	);
+}
 
 DrawHeader( _( 'Gradebook' ) . ' - ' . ProgramTitle() );
 
