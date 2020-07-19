@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 6.8.1
+----------------
+- Fix empty Minutes, not 0 in Calendar.php
+
 Changes in 6.8
 --------------
 - Fix PHP Warning count() not an array in ListOutput.fnc.php
