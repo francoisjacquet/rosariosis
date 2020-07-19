@@ -1,26 +1,12 @@
 <?php
 //FJ move Attendance.php from functions/ to modules/Attendance/includes
 require_once 'modules/Attendance/includes/UpdateAttendanceDaily.fnc.php';
+require_once 'ProgramFunctions/SchoolPeriodsSelectInput.fnc.php';
 
-if ( ! empty( $_SESSION['is_secondary_teacher'] )
-	&& UserCoursePeriod() )
+if ( ! empty( $_SESSION['is_secondary_teacher'] ) )
 {
 	// @since 6.9 Add Secondary Teacher: set User to main teacher.
-	$teacher_id = DBGetOne( "SELECT TEACHER_ID
-		FROM COURSE_PERIODS
-		WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" );
-
-	$_ROSARIO['User'] = array(
-		0 => $_ROSARIO['User'][1],
-		1 => array(
-			'STAFF_ID' => $teacher_id,
-			'NAME' => GetTeacher( $teacher_id ),
-			'USERNAME' => GetTeacher( $teacher_id, 'USERNAME' ),
-			'PROFILE' => 'teacher',
-			'SCHOOLS' => ',' . UserSchool() . ',',
-			'SYEAR' => UserSyear(),
-		),
-	);
+	UserImpersonateTeacher();
 }
 
 DrawHeader( ProgramTitle() );
@@ -50,17 +36,13 @@ $cp_title = DBGetOne( "SELECT TITLE
 	FROM COURSE_PERIODS
 	WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" );
 
-if ( empty(  $categories_RET  ) )
+if ( empty( $categories_RET ) )
 {
 	if ( $cp_title )
 	{
 		// Add Course Period title header.
 		DrawHeader( $cp_title );
 	}
-
-	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=' . $_REQUEST['table']  ) . '" method="POST">';
-	DrawHeader( PrepareDate( $date, '_date', false, array( 'submit' => true ) ) );
-	echo '</form>';
 
 	ErrorMessage( array( _( 'You cannot take attendance for this course period.' ) ), 'fatal' );
 }
@@ -79,6 +61,13 @@ else
 {
 	$table = 'LUNCH_PERIOD';
 }
+
+$school_periods_select = SchoolPeriodsSelectInput(
+	issetVal( $_REQUEST['school_period'] ),
+	'school_period',
+	'',
+	'autocomplete="off" onchange="ajaxLink(this.form.action + \'&school_period=\' + this.value);"'
+);
 
 //FJ days numbered
 //FJ multiple school periods for a course period
@@ -149,6 +138,8 @@ if ( $fatal_warning )
 
 	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 		'&table=' . $_REQUEST['table']  ) . '" method="POST">';
+
+	DrawHeader( $school_periods_select );
 
 	DrawHeader(
 		PrepareDate(
@@ -357,10 +348,12 @@ if ( ! empty( $daily_comment ) )
 	);
 }
 
+DrawHeader( $cp_title );
+
 echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 	'&table=' . $_REQUEST['table']  ) . '" method="POST">';
 
-DrawHeader( $cp_title, SubmitButton() );
+DrawHeader( $school_periods_select, SubmitButton() );
 
 $date_note = $date != DBDate() ? ' <span style="color:red" class="nobr">' .
 _( 'The selected date is not today' ) . '</span> |' : '';

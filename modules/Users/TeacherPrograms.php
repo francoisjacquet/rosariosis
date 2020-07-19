@@ -173,17 +173,8 @@ if ( UserStaffID() )
 
 	$_ROSARIO['allow_edit'] = AllowEdit( $_REQUEST['modname'] );
 
-	$_ROSARIO['User'] = array(
-		0 => $_ROSARIO['User'][1],
-		1 => array(
-			'STAFF_ID' => UserStaffID(),
-			'NAME' => GetTeacher( UserStaffID() ),
-			'USERNAME' => GetTeacher( UserStaffID(), 'USERNAME' ),
-			'PROFILE' => 'teacher',
-			'SCHOOLS' => ',' . UserSchool() . ',',
-			'SYEAR' => UserSyear(),
-		),
-	);
+	// @since 6.9 Add UserImpersonateTeacher() function.
+	UserImpersonateTeacher( UserStaffID() );
 
 	//FJ security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
 	//FJ Bugfix $_REQUEST['include'] 2 times in links

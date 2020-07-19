@@ -6,6 +6,7 @@ Changes in 6.9
 - SQL COURSE_PERIODS table: Add SECONDARY_TEACHER_ID column in Update.fnc.php & rosariosis.sql
 - Add Secondary Teacher in Side.php, Current.php, GetStuList.fnc.php, DailySummary.php, Courses.php, Courses.fnc.php, ClassSearchWidget.fnc.php & Portal.php
 - Add Secondary Teacher: set User to main teacher in TakeAttendance.php, EnterEligibility.php, AnomalousGrades.php, Assignments.php, Configuration.php, GradebookBreakdown.php, Grades.php, InputFinalGrades.php & ProgressReports.php
+- Add UserImpersonateTeacher() function in User.fnc.php
 - Translate "Secondary Teacher" strings to French & Spanish in rosariosis.po
 - JS Select use this.value instead of this.options[selectedIndex].value, program wide
 - SQL deprecate GRADEBOOK_GRADES column PERIOD_ID in Grades.php & rosariosis.sql

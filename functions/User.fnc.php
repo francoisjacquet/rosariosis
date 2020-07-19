@@ -178,3 +178,48 @@ function Preferences( $item, $program = 'Preferences' )
 
 	return $_ROSARIO['Preferences'][ $program ][ $item ][1]['VALUE'];
 }
+
+/**
+ * Impersonate Teacher User
+ * So User() function returns UserCoursePeriod() teacher
+ * instead of admin or secondary teacher.
+ *
+ * @since 6.9 Add Secondary Teacher: set User to main teacher.
+ *
+ * @example if ( ! empty( $_SESSION['is_secondary_teacher'] ) ) UserImpersonateTeacher();
+ *
+ * @param int $teacher_id Teacher User ID (optional). Defaults to UserCoursePeriod() teacher.
+ *
+ * @return bool False if no $teacher_id & no UserCoursePeriod(), else true.
+ */
+function UserImpersonateTeacher( $teacher_id = 0 )
+{
+	global $_ROSARIO;
+
+	if ( ! $teacher_id
+		&& ! UserCoursePeriod() )
+	{
+		return false;
+	}
+
+	if ( ! $teacher_id )
+	{
+		$teacher_id = DBGetOne( "SELECT TEACHER_ID
+			FROM COURSE_PERIODS
+			WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" );
+	}
+
+	$_ROSARIO['User'] = array(
+		0 => $_ROSARIO['User'][1],
+		1 => array(
+			'STAFF_ID' => $teacher_id,
+			'NAME' => GetTeacher( $teacher_id ),
+			'USERNAME' => GetTeacher( $teacher_id, 'USERNAME' ),
+			'PROFILE' => 'teacher',
+			'SCHOOLS' => ',' . UserSchool() . ',',
+			'SYEAR' => UserSyear(),
+		),
+	);
+
+	return true;
+}
