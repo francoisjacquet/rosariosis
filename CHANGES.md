@@ -7,6 +7,7 @@ Changes in 6.9
 - Add Secondary Teacher in Side.php, Current.php, GetStuList.fnc.php, DailySummary.php, Courses.php, Courses.fnc.php, ClassSearchWidget.fnc.php & Portal.php
 - Add Secondary Teacher: set User to main teacher in TakeAttendance.php, EnterEligibility.php, AnomalousGrades.php, Assignments.php, Configuration.php, GradebookBreakdown.php, Grades.php, InputFinalGrades.php & ProgressReports.php
 - JS Select use this.value instead of this.options[selectedIndex].value, program wide
+- SQL deprecate GRADEBOOK_GRADES column PERIOD_ID in Grades.php & rosariosis.sql
 
 Changes in 6.8.1
 ----------------

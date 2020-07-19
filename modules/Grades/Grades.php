@@ -262,7 +262,9 @@ if ( ! empty( $_REQUEST['values'] )
 			}
 			elseif ( $columns['POINTS'] != '' || $columns['COMMENT'] )
 			{
-				$sql = "INSERT INTO GRADEBOOK_GRADES (STUDENT_ID,PERIOD_ID,COURSE_PERIOD_ID,ASSIGNMENT_ID,POINTS,COMMENT) values('" . $student_id . "','" . UserPeriod() . "','" . UserCoursePeriod() . "','" . $assignment_id . "','" . $columns['POINTS'] . "','" . $columns['COMMENT'] . "')";
+				// @deprecated since 6.9 SQL GRADEBOOK_GRADES column PERIOD_ID.
+				$sql = "INSERT INTO GRADEBOOK_GRADES (STUDENT_ID,COURSE_PERIOD_ID,ASSIGNMENT_ID,POINTS,COMMENT)
+					values('" . $student_id . "','" . UserCoursePeriod() . "','" . $assignment_id . "','" . $columns['POINTS'] . "','" . $columns['COMMENT'] . "')";
 			}
 
 			if ( $sql )

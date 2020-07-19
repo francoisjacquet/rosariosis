@@ -1227,7 +1227,7 @@ CREATE TABLE gradebook_assignments (
 
 CREATE TABLE gradebook_grades (
     student_id integer NOT NULL REFERENCES students(student_id),
-    period_id integer,
+    period_id integer, -- @deprecated since 6.9 SQL GRADEBOOK_GRADES column PERIOD_ID.
     course_period_id integer NOT NULL REFERENCES course_periods(course_period_id),
     assignment_id integer NOT NULL,
     points numeric(6,2),
