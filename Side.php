@@ -11,7 +11,7 @@ require_once 'Warehouse.php';
 
 $old_school = UserSchool();
 $old_syear = UserSyear();
-$old_period = UserCoursePeriod() . '.' . UserCoursePeriodSchoolPeriod();
+$old_period = UserCoursePeriod();
 
 $unset_student = $unset_staff = $update_body = false;
 
@@ -136,10 +136,7 @@ if ( isset( $_REQUEST['sidefunc'] )
 		&& isset( $_POST['period'] )
 		&& $_POST['period'] != $old_period )
 	{
-		list(
-			$_SESSION['UserCoursePeriod'],
-			$_SESSION['UserCoursePeriodSchoolPeriod']
-		) = explode( '.', $_POST['period'] );
+		$_SESSION['UserCoursePeriod'] = $_POST['period'];
 
 		// If current student.
 		if ( UserStudentID() )
@@ -498,20 +495,16 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 			// @since 6.9 Add Secondary Teacher.
 			$_SESSION['is_secondary_teacher'] = false;
 
-			$cp_RET = DBGet( "SELECT cpsp.PERIOD_ID,cp.COURSE_PERIOD_ID,
-				cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID,sp.TITLE,sp.SHORT_NAME,cp.MARKING_PERIOD_ID,
-				cpsp.DAYS,c.TITLE AS COURSE_TITLE,cp.SHORT_NAME AS CP_SHORT_NAME,
-				cp.SECONDARY_TEACHER_ID
-				FROM COURSE_PERIODS cp,SCHOOL_PERIODS sp,COURSES c,COURSE_PERIOD_SCHOOL_PERIODS cpsp
-				WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
-				AND c.COURSE_ID=cp.COURSE_ID
-				AND cpsp.PERIOD_ID=sp.PERIOD_ID
+			$cp_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,cp.MARKING_PERIOD_ID,
+				c.TITLE AS COURSE_TITLE,cp.SHORT_NAME AS CP_SHORT_NAME,cp.SECONDARY_TEACHER_ID
+				FROM COURSE_PERIODS cp,COURSES c
+				WHERE c.COURSE_ID=cp.COURSE_ID
 				AND cp.SYEAR='" . UserSyear() . "'
 				AND cp.SCHOOL_ID='" . UserSchool() . "'
 				AND (cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "'
 					OR SECONDARY_TEACHER_ID='" . User( 'STAFF_ID' ) . "')
 				AND cp.MARKING_PERIOD_ID IN (" . ( count( $RET ) ? GetAllMP( 'QTR', UserMP() ) : '0' ) . ")
-				ORDER BY cp.SHORT_NAME, sp.SORT_ORDER" );
+				ORDER BY c.TITLE,cp.SHORT_NAME" );
 
 			/**
 			 * Get the Full Year marking period id
@@ -524,7 +517,6 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 				&& isset( $cp_RET[1] ) )
 			{
 				$_SESSION['UserCoursePeriod'] = $cp_RET[1]['COURSE_PERIOD_ID'];
-				$_SESSION['UserCoursePeriodSchoolPeriod'] = $cp_RET[1]['COURSE_PERIOD_SCHOOL_PERIODS_ID'];
 			} ?>
 
 		<span class="br-after">
@@ -534,7 +526,7 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 
 			foreach ( (array) $cp_RET as $period ) :
 
-				// FJ add optroup to group periods by course periods.
+				// Add optroup to group periods by course periods.
 				if ( ! empty( $period['COURSE_TITLE'] )
 					&& $optgroup != $period['COURSE_TITLE'] ) : // New optgroup. ?>
 
@@ -542,7 +534,7 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 
 				<?php endif;
 
-				if ( $optgroup !== FALSE
+				if ( $optgroup !== false
 					&& $optgroup != $period['COURSE_TITLE'] ) : // Close optgroup. ?>
 
 					</optgroup>
@@ -551,11 +543,9 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 
 				$selected = '';
 
-				if ( UserCoursePeriodSchoolPeriod() == $period['COURSE_PERIOD_SCHOOL_PERIODS_ID'] )
+				if ( UserCoursePeriod() === $period['COURSE_PERIOD_ID'] )
 				{
 					$selected = ' selected';
-
-					$_SESSION['UserPeriod'] = $period['PERIOD_ID'];
 
 					$current_cp_found = true;
 
@@ -566,49 +556,6 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 					}
 				}
 
-				// FJ days display to locale.
-				$days_convert = array(
-					'U' => _( 'Sunday' ),
-					'M' => _( 'Monday' ),
-					'T' => _( 'Tuesday' ),
-					'W' => _( 'Wednesday' ),
-					'H' => _( 'Thursday' ),
-					'F' => _( 'Friday' ),
-					'S' => _( 'Saturday' ),
-				);
-
-				// FJ days numbered.
-				if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
-				{
-					$days_convert = array(
-						'U' => '7',
-						'M' => '1',
-						'T' => '2',
-						'W' => '3',
-						'H' => '4',
-						'F' => '5',
-						'S' => '6',
-					);
-				}
-
-				$period_days = '';
-
-				$days_strlen = mb_strlen( $period['DAYS'] );
-
-				for ( $i = 0; $i < $days_strlen; $i++ )
-				{
-					$period_days .= mb_substr( $days_convert[ $period['DAYS'][ $i ] ], 0, 3 ) . '.';
-				}
-
-				$period_days_text = '';
-
-				if ( mb_strlen( $period['DAYS'] ) < 5 )
-				{
-					$period_days_text = ' ' .
-						( mb_strlen( $period['DAYS'] ) < 2 ? _( 'Day' ) : _( 'Days' ) ) .
-						' ' . $period_days;
-				}
-
 				$mp_text = '';
 
 				if ( $period['MARKING_PERIOD_ID'] != $fy_id )
@@ -616,11 +563,8 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 					$mp_text = GetMP( $period['MARKING_PERIOD_ID'], 'SHORT_NAME' ) . ' - ';
 				}
 				?>
-				<option value="<?php echo $period['COURSE_PERIOD_ID']; ?>.<?php echo $period['COURSE_PERIOD_SCHOOL_PERIODS_ID']; ?>"<?php echo $selected; ?>><?php
-					echo $period['TITLE'] . ' - ' .
-						$period_days_text .
-						$mp_text .
-						$period['CP_SHORT_NAME'];
+				<option value="<?php echo $period['COURSE_PERIOD_ID']; ?>"<?php echo $selected; ?>><?php
+					echo $mp_text . $period['CP_SHORT_NAME'];
 				?></option>
 
 			<?php endforeach;
@@ -642,7 +586,6 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 			if ( ! $current_cp_found )
 			{
 				$_SESSION['UserCoursePeriod'] = $cp_RET[1]['COURSE_PERIOD_ID'];
-				$_SESSION['UserPeriod'] = $cp_RET[1]['PERIOD_ID'];
 
 				unset( $_SESSION['student_id'] );
 			}

@@ -44,7 +44,7 @@ function UserMP()
 /**
  * User Period
  *
- * @deprecated
+ * @deprecated Well, it is still used for Attendance & Eligibility (teacher completion)...
  *
  * @return int Current User Period ID or null
  */
