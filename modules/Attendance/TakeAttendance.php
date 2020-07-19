@@ -66,7 +66,7 @@ $school_periods_select = SchoolPeriodsSelectInput(
 	issetVal( $_REQUEST['school_period'] ),
 	'school_period',
 	'',
-	'autocomplete="off" onchange="ajaxLink(this.form.action + \'&school_period=\' + this.value);"'
+	'autocomplete="off" onchange=\'ajaxLink(' . json_encode( PreparePHP_SELF( array(), array( 'school_period' ) ) ) . ' + "&school_period=" + this.value);\''
 );
 
 //FJ days numbered

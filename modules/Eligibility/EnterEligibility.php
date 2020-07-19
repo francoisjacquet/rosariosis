@@ -1,4 +1,6 @@
 <?php
+require_once 'ProgramFunctions/SchoolPeriodsSelectInput.fnc.php';
+
 if ( ! empty( $_SESSION['is_secondary_teacher'] ) )
 {
 	// @since 6.9 Add Secondary Teacher: set User to main teacher.
@@ -32,6 +34,13 @@ $start_date = date( 'Y-m-d', time() - ( $today - $START_DAY ) * 60 * 60 * 24 );
 
 $end_date = date( 'Y-m-d', time() + ( $END_DAY - $today ) * 60 * 60 * 24 );
 
+$school_periods_select = SchoolPeriodsSelectInput(
+	issetVal( $_REQUEST['school_period'] ),
+	'school_period',
+	'',
+	'autocomplete="off" onchange=\'ajaxLink(' . json_encode( PreparePHP_SELF( array(), array( 'school_period' ) ) ) . ' + "&school_period=" + this.value);\''
+);
+
 $current_RET = DBGet( "SELECT ELIGIBILITY_CODE,STUDENT_ID
 	FROM ELIGIBILITY
 	WHERE SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
@@ -60,7 +69,7 @@ if ( $_REQUEST['modfunc'] == 'gradebook' )
 		$points_RET = DBGet( "SELECT DISTINCT ON (s.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID) s.STUDENT_ID, gt.ASSIGNMENT_TYPE_ID,sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'gg.POINTS' ) ) . ") AS PARTIAL_POINTS,sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ) ) . ") AS PARTIAL_TOTAL, gt.FINAL_GRADE_PERCENT
 		FROM STUDENTS s
 		JOIN SCHEDULE ss ON (ss.STUDENT_ID=s.STUDENT_ID AND ss.COURSE_PERIOD_ID='" . $course_period_id . "')
-		JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID OR ga.COURSE_ID='" . $course_id . "' AND ga.STAFF_ID='" . User( 'STAFF_ID' ) . "') AND ga.MARKING_PERIOD_ID" . ( $gradebook_config['ELIGIBILITY_CUMULITIVE'] == 'Y' ? " IN (" . GetChildrenMP( 'SEM', UserMP() ) . ")" : "='" . UserMP() . "'" ) . ")
+		JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID OR ga.COURSE_ID='" . $course_id . "' AND ga.STAFF_ID='" . User( 'STAFF_ID' ) . "') AND ga.MARKING_PERIOD_ID" . ( isset( $gradebook_config['ELIGIBILITY_CUMULITIVE'] ) && $gradebook_config['ELIGIBILITY_CUMULITIVE'] == 'Y' ? " IN (" . GetChildrenMP( 'SEM', UserMP() ) . ")" : "='" . UserMP() . "'" ) . ")
 		LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.STUDENT_ID=s.STUDENT_ID AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID),
 		GRADEBOOK_ASSIGNMENT_TYPES gt
 		WHERE gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID
@@ -119,7 +128,7 @@ if ( $_REQUEST['modfunc'] == 'gradebook' )
 				$code = 'PASSING';
 			}
 
-			if ( $current_RET[$student_id] )
+			if ( ! empty( $current_RET[$student_id] ) )
 			{
 				$sql = "UPDATE ELIGIBILITY
 					SET ELIGIBILITY_CODE='" . $code . "'
@@ -204,6 +213,16 @@ $stu_RET = GetStuList( $extra );
 
 DrawHeader( ProgramTitle() );
 
+$cp_title = DBGetOne( "SELECT TITLE
+	FROM COURSE_PERIODS
+	WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" );
+
+if ( $cp_title )
+{
+	// Add Course Period title header.
+	DrawHeader( $cp_title );
+}
+
 echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="POST">';
 
 if ( $today > $END_DAY
@@ -215,10 +234,11 @@ if ( $today > $END_DAY
 }
 else
 {
+	DrawHeader( $school_periods_select, Buttons( _( 'Save' ) ) );
+
 	DrawHeader(
-		'<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=gradebook' ) . '">' .
-		_( 'Use Gradebook Grades' ) . '</a>',
-		Buttons( _( 'Save' ) )
+		'<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=gradebook&school_period=' . UserCoursePeriodSchoolPeriod() ) . '">' .
+		_( 'Use Gradebook Grades' ) . '</a>'
 	);
 
 	$LO_columns = array(

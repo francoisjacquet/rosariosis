@@ -11,6 +11,7 @@ Changes in 6.9
 - JS Select use this.value instead of this.options[selectedIndex].value, program wide
 - SQL deprecate GRADEBOOK_GRADES column PERIOD_ID in Grades.php & rosariosis.sql
 - Only list Teacher Course Periods & set UserCoursePeriod() in Side.php & TeacherPrograms.php
+- Add School Periods select input in SchoolPeriodsSelectInput.fnc.php, TakeAttendance.php & EnterEligibility.php
 
 Changes in 6.8.1
 ----------------
