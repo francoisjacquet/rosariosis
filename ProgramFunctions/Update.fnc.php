@@ -31,7 +31,7 @@ function Update()
 	 * Prevent DB version update if new Update.fnc.php file has NOT been uploaded YET.
 	 * Update must be run once both new Warehouse.php & Update.fnc.php files are uploaded.
 	 */
-	if ( version_compare( '6.8', ROSARIO_VERSION, '<' ) )
+	if ( version_compare( '6.9-beta', ROSARIO_VERSION, '<' ) )
 	{
 		return false;
 	}
@@ -193,9 +193,9 @@ function Update()
 
 			$return = _update66();
 
-		case version_compare( $from_version, '6.9', '<' ) :
+		case version_compare( $from_version, '6.9-beta', '<' ) :
 
-			$return = _update69();
+			$return = _update69beta();
 	}
 
 	// Update version in DB CONFIG table.
@@ -317,7 +317,7 @@ function _update66()
  *
  * @return boolean false if update failed or if not called by Update(), else true
  */
-function _update69()
+function _update69beta()
 {
 	_isCallerUpdate( debug_backtrace() );
 
