@@ -1,5 +1,9 @@
 <?php
-require_once 'ProgramFunctions/SchoolPeriodsSelectInput.fnc.php';
+
+// @since 6.9 Set UserPeriod() per program.
+$_SESSION['UserPeriod'] = DBGetOne( "SELECT PERIOD_ID
+	FROM COURSE_PERIOD_SCHOOL_PERIODS
+	WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" );
 
 if ( ! empty( $_SESSION['is_secondary_teacher'] ) )
 {
@@ -33,13 +37,6 @@ if ( mb_strlen( $END_MINUTE ) == 1 )
 $start_date = date( 'Y-m-d', time() - ( $today - $START_DAY ) * 60 * 60 * 24 );
 
 $end_date = date( 'Y-m-d', time() + ( $END_DAY - $today ) * 60 * 60 * 24 );
-
-// @since 6.9 Just used to set UserPeriod()...
-SchoolPeriodsSelectInput(
-	'',
-	'school_period',
-	''
-);
 
 $current_RET = DBGet( "SELECT ELIGIBILITY_CODE,STUDENT_ID
 	FROM ELIGIBILITY
@@ -164,7 +161,7 @@ if ( ! empty( $_REQUEST['values'] )
 
 	foreach ( (array) $_REQUEST['values'] as $student_id => $value )
 	{
-		if ( $current_RET[$student_id] )
+		if ( ! empty( $current_RET[$student_id] ) )
 		{
 			$sql = "UPDATE ELIGIBILITY
 				SET ELIGIBILITY_CODE='" . $value . "'
