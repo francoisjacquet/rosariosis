@@ -16,6 +16,7 @@ Changes in 6.9
 - Add "Year and Semester marking periods are not graded." note in Grades/Configuration.php
 - Add "You already have entered eligibility this week for this course period." note in EnterEligibility.php
 - SQL Insert eligibility completed once for All UserPeriod() in EnterEligibility.php
+- Display all Course's School Periods in select input in DailySummary.php
 
 Changes in 6.8.1
 ----------------

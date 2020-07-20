@@ -98,39 +98,30 @@ if ( $_REQUEST['search_modfunc']
 			FROM SCHOOL_PERIODS sp
 			WHERE sp.SYEAR='" . UserSyear() . "'
 			AND sp.SCHOOL_ID='" . UserSchool() . "'
-			AND (SELECT count(1) FROM COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0 AND cpsp.PERIOD_ID=sp.PERIOD_ID AND cp.SYEAR=sp.SYEAR AND cp.SCHOOL_ID=sp.SCHOOL_ID)>0
+			AND (SELECT count(1)
+				FROM COURSE_PERIODS cp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
+				WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
+				AND position(',0,' IN cp.DOES_ATTENDANCE)>0
+				AND cpsp.PERIOD_ID=sp.PERIOD_ID
+				AND cp.SYEAR=sp.SYEAR
+				AND cp.SCHOOL_ID=sp.SCHOOL_ID)>0
 			ORDER BY sp.SORT_ORDER" );
-
-			foreach ( (array) $periods_RET as $period )
-			{
-				$period_select .= '<option value="' . $period['PERIOD_ID'] . '"' .
-					( $_REQUEST['period_id'] == $period['PERIOD_ID'] ? ' selected' : '' ) . '>' .
-					$period['TITLE'] . '</option>';
-			}
 		}
 		else
 		{
-			//FJ multiple school periods for a course period
-			//$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp,COURSE_PERIODS cp WHERE position(',0,' IN cp.DOES_ATTENDANCE)>0 AND sp.PERIOD_ID=cp.PERIOD_ID AND cp.COURSE_PERIOD_ID='".UserCoursePeriod()."'" );
 			$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE
 			FROM SCHOOL_PERIODS sp,COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp
 			WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 			AND position(',0,' IN cp.DOES_ATTENDANCE)>0
 			AND sp.PERIOD_ID=cpsp.PERIOD_ID
-			AND cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID='" . UserCoursePeriodSchoolPeriod() . "'" );
+			AND cp.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" );
+		}
 
-			if ( $periods_RET )
-			{
-				//$period_select .= '<option value="'.$periods_RET[1]['PERIOD_ID'].'"'.(($_REQUEST['period_id']==$periods_RET[1]['PERIOD_ID'] || !isset($_REQUEST['period_id']))?' selected':'').">".$periods_RET[1]['TITLE'].'</option>';
-				$period_select .= '<option value="' . $periods_RET[1]['PERIOD_ID'] . '"' .
-					( ( $_REQUEST['period_id'] == $periods_RET[1]['PERIOD_ID'] ) ? ' selected' : '' ) . ">" .
-					$periods_RET[1]['TITLE'] . '</option>';
-
-				if ( empty( $_REQUEST['period_id'] ) )
-				{
-					$_REQUEST['period_id'] = $periods_RET[1]['PERIOD_ID'];
-				}
-			}
+		foreach ( (array) $periods_RET as $period )
+		{
+			$period_select .= '<option value="' . $period['PERIOD_ID'] . '"' .
+				( $_REQUEST['period_id'] == $period['PERIOD_ID'] ? ' selected' : '' ) . '>' .
+				$period['TITLE'] . '</option>';
 		}
 	}
 	else
