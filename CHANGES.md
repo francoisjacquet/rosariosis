@@ -17,6 +17,7 @@ Changes in 6.9
 - Add "You already have entered eligibility this week for this course period." note in EnterEligibility.php
 - SQL Insert eligibility completed once for All UserPeriod() in EnterEligibility.php
 - Display all Course's School Periods in select input in DailySummary.php
+- SQL Use UserCoursePeriod() instead of UserCoursePeriodSchoolPeriod() in StudentSummary.php
 
 Changes in 6.8.1
 ----------------

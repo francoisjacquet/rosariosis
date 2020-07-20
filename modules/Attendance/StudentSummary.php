@@ -26,19 +26,16 @@ if ( $_REQUEST['search_modfunc']
 
 	if ( ! UserStudentID() && ! $_REQUEST['student_id'] )
 	{
-		//FJ multiple school periods for a course period
-		//$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp WHERE sp.SYEAR='".UserSyear()."' AND sp.SCHOOL_ID='".UserSchool()."' AND EXISTS(SELECT '' FROM COURSE_PERIODS cp WHERE cp.PERIOD_ID=sp.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0".(User( 'PROFILE' ) === 'teacher'?" AND cp.PERIOD_ID='".UserPeriod()."'":'').") ORDER BY sp.SORT_ORDER" );
 		$periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE
 		FROM SCHOOL_PERIODS sp
 		WHERE sp.SYEAR='" . UserSyear() . "'
 		AND sp.SCHOOL_ID='" . UserSchool() . "'
-		AND EXISTS
-			(SELECT ''
+		AND EXISTS (SELECT ''
 			FROM COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp
 			WHERE  cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 			AND cpsp.PERIOD_ID=sp.PERIOD_ID
 			AND position(',0,' IN cp.DOES_ATTENDANCE)>0
-			" . ( User( 'PROFILE' ) === 'teacher' ? " AND cp.COURSE_PERIOD_ID IN (SELECT COURSE_PERIOD_ID FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE COURSE_PERIOD_SCHOOL_PERIODS_ID='" . UserCoursePeriodSchoolPeriod() . "')" : '' ) . ")
+			" . ( User( 'PROFILE' ) === 'teacher' ? " AND cp.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" : '' ) . ")
 		ORDER BY sp.SORT_ORDER" );
 
 		$period_select = '<select name="period_id" id="period_id" onchange="ajaxPostForm(this.form,true);">
@@ -86,9 +83,7 @@ if ( ! empty( $_REQUEST['period_id'] ) )
 		{
 			$period_ids_RET = DBGet( "SELECT PERIOD_ID
 				FROM COURSE_PERIOD_SCHOOL_PERIODS
-				WHERE COURSE_PERIOD_ID IN (SELECT COURSE_PERIOD_ID
-					FROM COURSE_PERIOD_SCHOOL_PERIODS
-					WHERE COURSE_PERIOD_SCHOOL_PERIODS_ID='" . UserCoursePeriodSchoolPeriod() . "')" );
+				WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')" );
 		}
 		else
 		{
@@ -115,23 +110,29 @@ if ( ! empty( $_REQUEST['period_id'] ) )
 
 	$extra['SELECT'] = issetVal( $extra['SELECT'], '' );
 	$extra['SELECT'] .= ",(SELECT count(*) FROM ATTENDANCE_PERIOD ap,ATTENDANCE_CODES ac
-						WHERE ac.ID=ap.ATTENDANCE_CODE AND (ac.STATE_CODE='A' OR ac.STATE_CODE='H') AND ap.STUDENT_ID=ssm.STUDENT_ID
-						AND ap.PERIOD_ID IN (" . $period_ids_list . ")
-						AND ap.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "' AND ac.SYEAR=ssm.SYEAR) AS STATE_ABS";
+		WHERE ac.ID=ap.ATTENDANCE_CODE AND (ac.STATE_CODE='A' OR ac.STATE_CODE='H') AND ap.STUDENT_ID=ssm.STUDENT_ID
+		AND ap.PERIOD_ID IN (" . $period_ids_list . ")
+		AND ap.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "' AND ac.SYEAR=ssm.SYEAR) AS STATE_ABS";
 
 	$extra['columns_after']['STATE_ABS'] = _( 'State Abs' );
-	$codes_RET = DBGet( "SELECT ID,TITLE FROM ATTENDANCE_CODES WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' AND TABLE_NAME='0' AND (DEFAULT_CODE!='Y' OR DEFAULT_CODE IS NULL)" );
+
+	$codes_RET = DBGet( "SELECT ID,TITLE
+		FROM ATTENDANCE_CODES
+		WHERE SYEAR='" . UserSyear() . "'
+		AND SCHOOL_ID='" . UserSchool() . "'
+		AND TABLE_NAME='0'
+		AND (DEFAULT_CODE!='Y' OR DEFAULT_CODE IS NULL)" );
 
 	if ( ! empty( $codes_RET ) && count( $codes_RET ) > 1 )
 	{
 		foreach ( (array) $codes_RET as $code )
 		{
 			$extra['SELECT'] .= ",(SELECT count(*) FROM ATTENDANCE_PERIOD ap,ATTENDANCE_CODES ac
-						WHERE ac.ID=ap.ATTENDANCE_CODE
-						AND ac.ID='" . $code['ID'] . "'
-						AND ap.PERIOD_ID IN (" . $period_ids_list . ")
-						AND ap.STUDENT_ID=ssm.STUDENT_ID
-						AND ap.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "') AS ABS_" . $code['ID'];
+				WHERE ac.ID=ap.ATTENDANCE_CODE
+				AND ac.ID='" . $code['ID'] . "'
+				AND ap.PERIOD_ID IN (" . $period_ids_list . ")
+				AND ap.STUDENT_ID=ssm.STUDENT_ID
+				AND ap.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "') AS ABS_" . $code['ID'];
 
 			$extra['columns_after']['ABS_' . $code['ID']] = $code['TITLE'];
 		}
@@ -141,9 +142,9 @@ else
 {
 	$extra['SELECT'] = issetVal( $extra['SELECT'], '' );
 	$extra['SELECT'] .= ",(SELECT COALESCE((sum(STATE_VALUE-1)*-1),0.0) FROM ATTENDANCE_DAY ad
-						WHERE ad.STUDENT_ID=ssm.STUDENT_ID
-						AND ad.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "' AND ad.SYEAR=ssm.SYEAR) AS STATE_ABS";
-//FJ add translation
+		WHERE ad.STUDENT_ID=ssm.STUDENT_ID
+		AND ad.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "' AND ad.SYEAR=ssm.SYEAR) AS STATE_ABS";
+
 	$extra['columns_after']['STATE_ABS'] = _( 'Days Absent' );
 }
 
