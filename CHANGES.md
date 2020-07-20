@@ -12,12 +12,12 @@ Changes in 6.9
 - SQL deprecate GRADEBOOK_GRADES column PERIOD_ID in Grades.php & rosariosis.sql
 - Only list Teacher Course Periods & set UserCoursePeriod() in Side.php & TeacherPrograms.php
 - Add School Periods select input in SchoolPeriodsSelectInput.fnc.php, TakeAttendance.php & EnterEligibility.php
-- Just use SchoolPeriodsSelectInput() to set UserPeriod() in EnterEligibility.php
+- Set UserPeriod() per program in EnterEligibility.php
 - Add "Year and Semester marking periods are not graded." note in Grades/Configuration.php
 - Add "You already have entered eligibility this week for this course period." note in EnterEligibility.php
 - SQL Insert eligibility completed once for All UserPeriod() in EnterEligibility.php
 - Display all Course's School Periods in select input in DailySummary.php
-- SQL Use UserCoursePeriod() instead of UserCoursePeriodSchoolPeriod() in StudentSummary.php
+- Deprecate Deprecate UserCoursePeriodSchoolPeriod(), use UserPeriod() + UserCoursePeriod() instead in SchoolPeriodsSelectInput.fnc.php, StudentSummary.php, TakeAttendance.php & Current.php
 - Do not allow N/A for Period select in Courses.php
 
 Changes in 6.8.1

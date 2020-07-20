@@ -8,8 +8,7 @@
 
 /**
  * School Periods select input for current Course Period (Teacher).
- * Sets $_SESSION['UserCoursePeriodSchoolPeriod'] > UserCoursePeriodSchoolPeriod().
- * Sets $_SESSION['UserPeriod'] > UserPeriod().
+ * Sets $_SESSION['UserPeriod'] => UserPeriod().
  *
  * @uses UserCoursePeriod()
  *
@@ -43,8 +42,6 @@ function SchoolPeriodsSelectInput( $value, $name, $title, $extra = '' )
 		if ( $value === $school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'] )
 		{
 			$period_selected = true;
-
-			$_SESSION['UserCoursePeriodSchoolPeriod'] = $value;
 
 			$_SESSION['UserPeriod'] = $school_period['PERIOD_ID'];
 
@@ -105,8 +102,6 @@ function SchoolPeriodsSelectInput( $value, $name, $title, $extra = '' )
 	}
 	elseif ( ! $period_selected )
 	{
-		$_SESSION['UserCoursePeriodSchoolPeriod'] = $school_periods_RET[1]['COURSE_PERIOD_SCHOOL_PERIODS_ID'];
-
 		$_SESSION['UserPeriod'] = $school_periods_RET[1]['PERIOD_ID'];
 
 		RedirectURL( $name );

@@ -72,6 +72,8 @@ function UserCoursePeriod()
  *
  * FJ multiple school periods for a course period
  *
+ * @deprecated since 6.9 Use UserPeriod() + UserCoursePeriod() instead.
+ *
  * @return int Current User Course Period School Period ID or null
  */
 function UserCoursePeriodSchoolPeriod()
