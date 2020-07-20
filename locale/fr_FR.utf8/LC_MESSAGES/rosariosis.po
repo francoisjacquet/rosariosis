@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-20 13:14+0200\n"
-"PO-Revision-Date: 2020-07-20 15:35+0200\n"
+"POT-Creation-Date: 2020-07-20 15:58+0200\n"
+"PO-Revision-Date: 2020-07-20 15:59+0200\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS\n"
 "Language: fr\n"
@@ -194,8 +194,8 @@ msgstr "Parent"
 #: modules/Custom/includes/RegistrationAdmin.fnc.php:506
 #: modules/Discipline/Referrals.php:197
 #: modules/Discipline/includes/EmailReferral.fnc.php:54
-#: modules/Eligibility/EnterEligibility.php:245
-#: modules/Eligibility/EnterEligibility.php:250
+#: modules/Eligibility/EnterEligibility.php:272
+#: modules/Eligibility/EnterEligibility.php:277
 #: modules/Eligibility/StudentList.php:89
 #: modules/Eligibility/StudentList.php:97
 #: modules/Eligibility/includes/Dashboard.inc.php:82
@@ -1226,8 +1226,8 @@ msgstr "Informations Utilisateur"
 msgid "We have a problem, please contact technical support ..."
 msgstr "Il y a un problème. Merci de contacter le support technique ..."
 
-#: functions/Buttons.php:114 modules/Eligibility/EnterEligibility.php:237
-#: modules/Eligibility/EnterEligibility.php:252
+#: functions/Buttons.php:114 modules/Eligibility/EnterEligibility.php:253
+#: modules/Eligibility/EnterEligibility.php:279
 #: modules/Food_Service/DailyMenus.php:318
 #: modules/Food_Service/DailyMenus.php:347
 #: modules/Food_Service/Users/Accounts.php:159
@@ -1574,7 +1574,7 @@ msgstr "Appeler"
 #: modules/Attendance/DuplicateAttendance.php:276
 #: modules/Attendance/TakeAttendance.php:389
 #: modules/Custom/AttendanceSummary.php:103 modules/Custom/MyReport.php:103
-#: modules/Eligibility/EnterEligibility.php:246
+#: modules/Eligibility/EnterEligibility.php:273
 #: modules/Food_Service/TakeMenuCounts.php:222
 #: modules/Grades/AnomalousGrades.php:159
 #: modules/Grades/InputFinalGrades.php:1282 modules/Scheduling/AddDrop.php:39
@@ -1595,7 +1595,7 @@ msgstr "ID %s"
 #: modules/Attendance/Percent.php:181 modules/Attendance/Percent.php:205
 #: modules/Attendance/TakeAttendance.php:390
 #: modules/Custom/AttendanceSummary.php:126 modules/Custom/MyReport.php:104
-#: modules/Eligibility/EnterEligibility.php:247
+#: modules/Eligibility/EnterEligibility.php:274
 #: modules/Food_Service/Reminders.php:137
 #: modules/Food_Service/TakeMenuCounts.php:222
 #: modules/Grades/EditReportCardGrades.php:258
@@ -3915,30 +3915,34 @@ msgstr "Assigner Activité aux Élèves Sélectionnés"
 msgid "Add Activity"
 msgstr "Assigner une Activité"
 
-#: modules/Eligibility/EnterEligibility.php:206
+#: modules/Eligibility/EnterEligibility.php:219
 msgid "Passing"
 msgstr "Passable"
 
-#: modules/Eligibility/EnterEligibility.php:207
+#: modules/Eligibility/EnterEligibility.php:220
 msgid "Borderline"
 msgstr "Limite"
 
-#: modules/Eligibility/EnterEligibility.php:208
+#: modules/Eligibility/EnterEligibility.php:221
 msgid "Failing"
 msgstr "Redouble"
 
-#: modules/Eligibility/EnterEligibility.php:209
+#: modules/Eligibility/EnterEligibility.php:222
 msgid "Incomplete"
 msgstr "Incomplet"
 
-#: modules/Eligibility/EnterEligibility.php:233
+#: modules/Eligibility/EnterEligibility.php:246
 #, php-format
 msgid "You can only enter eligibility from %s %s to %s %s."
 msgstr "Vous ne pouvez saisir l'éligibilité que de %s %s à %s %s."
 
-#: modules/Eligibility/EnterEligibility.php:241
+#: modules/Eligibility/EnterEligibility.php:252
 msgid "Use Gradebook Grades"
 msgstr "Utiliser les Notes du Carnet"
+
+#: modules/Eligibility/EnterEligibility.php:266
+msgid "You already have entered eligibility this week for this course period."
+msgstr "Vous avez déjà saisi l'éligibilité cette semaine pour cette classe."
 
 #: modules/Eligibility/EntryTimes.php:90
 msgid "Allow Eligibility Posting"

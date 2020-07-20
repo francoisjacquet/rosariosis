@@ -234,12 +234,26 @@ if ( $today > $END_DAY
 }
 else
 {
-	DrawHeader( $school_periods_select, Buttons( _( 'Save' ) ) );
-
 	DrawHeader(
-		'<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=gradebook&school_period=' . UserCoursePeriodSchoolPeriod() ) . '">' .
-		_( 'Use Gradebook Grades' ) . '</a>'
+		'<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=gradebook' ) . '">' .
+		_( 'Use Gradebook Grades' ) . '</a>',
+		Buttons( _( 'Save' ) )
 	);
+
+	$completed_RET = DBGet( "SELECT 'completed' AS COMPLETED
+		FROM ELIGIBILITY_COMPLETED
+		WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
+		AND SCHOOL_DATE BETWEEN '" . $start_date . "'
+		AND '" . $end_date . "'
+		AND PERIOD_ID='" . UserPeriod() . "'" );
+
+	if ( ! empty( $completed_RET ) )
+	{
+		$note[] = button( 'check' ) . '&nbsp;' .
+			_( 'You already have entered eligibility this week for this course period.' );
+
+		echo ErrorMessage( $note, 'note' );
+	}
 
 	$LO_columns = array(
 		'FULL_NAME' => _( 'Student' ),
