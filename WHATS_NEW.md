@@ -2,6 +2,15 @@
 
 ## RosarioSIS Student Information System
 
+New in 6.9
+----------
+
+Teachers: simplify Course Periods dropdown menu. Only select School Periods to Take Attendance.
+
+Scheduling
+- Courses: Secondary Teacher, sponsored by English National Program
+
+
 New in 6.8
 ----------
 
