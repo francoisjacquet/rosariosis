@@ -349,10 +349,14 @@ $quarters = DBGet( "SELECT TITLE,MARKING_PERIOD_ID,PARENT_ID,DOES_GRADES
 
 echo '<fieldset><legend>' . _( 'Final Grading Percentages' ) . '</legend><table>';
 
+$has_final_grading_percentages = false;
+
 foreach ( (array) $semesters as $sem )
 {
 	if ( $sem['DOES_GRADES'] === 'Y' )
 	{
+		$has_final_grading_percentages = true;
+
 		$table = '<table class="cellpadding-5">';
 		$table .= '<tr class="st"><td><span class="legend-gray"><b>' .
 			$sem['TITLE'] . '</b></span>&nbsp;</td>';
@@ -394,6 +398,8 @@ foreach ( (array) $semesters as $sem )
 
 if ( $year[1]['DOES_GRADES'] === 'Y' )
 {
+	$has_final_grading_percentages = true;
+
 	$table = '<table class="cellpadding-5">';
 	$table .= '<tr class="st"><td><span class="legend-gray"><b>' .
 		$year[1]['TITLE'] . '</b></span>&nbsp;</td>';
@@ -454,6 +460,13 @@ if ( $year[1]['DOES_GRADES'] === 'Y' )
 	$table .= '</tr></table>';
 
 	echo '<tr><td>' . $table . '</td></tr>';
+}
+
+if ( ! $has_final_grading_percentages )
+{
+	$note[] = _( 'Year and Semester marking periods are not graded.' );
+
+	echo ErrorMessage( $note, 'note' );
 }
 
 echo '</table></fieldset>';

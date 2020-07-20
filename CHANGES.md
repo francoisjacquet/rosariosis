@@ -12,6 +12,7 @@ Changes in 6.9
 - SQL deprecate GRADEBOOK_GRADES column PERIOD_ID in Grades.php & rosariosis.sql
 - Only list Teacher Course Periods & set UserCoursePeriod() in Side.php & TeacherPrograms.php
 - Add School Periods select input in SchoolPeriodsSelectInput.fnc.php, TakeAttendance.php & EnterEligibility.php
+- Add "Year and Semester marking periods are not graded." note in Grades/Configuration.php
 
 Changes in 6.8.1
 ----------------
