@@ -44,13 +44,20 @@ function UserMP()
 /**
  * User Period
  *
- * @deprecated Well, it is still used for Attendance & Eligibility (teacher completion)...
+ * @deprecated since 6.9 is not used anymore.
  *
  * @return int Current User Period ID or null
  */
 function UserPeriod()
 {
-	return issetVal( $_SESSION['UserPeriod'] );
+	if ( ! UserCoursePeriod() )
+	{
+		return null;
+	}
+
+	return DBGetOne( "SELECT PERIOD_ID
+		FROM COURSE_PERIOD_SCHOOL_PERIODS
+		WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" );;
 }
 
 
@@ -78,7 +85,15 @@ function UserCoursePeriod()
  */
 function UserCoursePeriodSchoolPeriod()
 {
-	return issetVal( $_SESSION['UserCoursePeriodSchoolPeriod'] );
+	if ( ! UserCoursePeriod() )
+	{
+		return null;
+	}
+
+	return DBGetOne( "SELECT COURSE_PERIOD_SCHOOL_PERIODS_ID
+		FROM COURSE_PERIOD_SCHOOL_PERIODS
+		WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" .
+		( UserPeriod() ? "AND PERIOD_ID='" . UserPeriod() . "'" : "" ) );
 }
 
 

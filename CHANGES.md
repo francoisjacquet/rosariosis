@@ -17,8 +17,9 @@ Changes in 6.9
 - Add "You already have entered eligibility this week for this course period." note in EnterEligibility.php
 - SQL Insert eligibility completed once for All UserPeriod() in EnterEligibility.php
 - Display all Course's School Periods in select input in DailySummary.php
-- Deprecate Deprecate UserCoursePeriodSchoolPeriod(), use UserPeriod() + UserCoursePeriod() instead in SchoolPeriodsSelectInput.fnc.php, StudentSummary.php, TakeAttendance.php & Current.php
 - Do not allow N/A for Period select in Courses.php
+- Deprecate UserCoursePeriodSchoolPeriod(), use UserPeriod() + UserCoursePeriod() instead in SchoolPeriodsSelectInput.fnc.php, StudentSummary.php, TakeAttendance.php & Current.php
+- Deprecate UserPeriod(), use per program logic instead in SchoolPeriodsSelectInput.fnc.php, StudentSummary.php, TakeAttendance.php & Current.php
 
 Changes in 6.8.1
 ----------------

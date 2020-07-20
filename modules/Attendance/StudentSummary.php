@@ -12,9 +12,6 @@ $start_date = RequestedDate( 'start', date( 'Y-m' ) . '-01' );
 // Set end date.
 $end_date = RequestedDate( 'end', DBDate() );
 
-//if (User( 'PROFILE' ) === 'teacher')
-//	$_REQUEST['period_id'] = UserPeriod();
-
 //FJ bugfix bug when Back to Student Search
 
 if ( $_REQUEST['search_modfunc']

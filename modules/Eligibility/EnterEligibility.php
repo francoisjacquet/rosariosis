@@ -1,7 +1,7 @@
 <?php
 
-// @since 6.9 Set UserPeriod() per program.
-$_SESSION['UserPeriod'] = DBGetOne( "SELECT PERIOD_ID
+// @since 6.9 Set School Period per program.
+$school_period = DBGetOne( "SELECT PERIOD_ID
 	FROM COURSE_PERIOD_SCHOOL_PERIODS
 	WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" );
 
@@ -138,7 +138,7 @@ if ( $_REQUEST['modfunc'] == 'gradebook' )
 			}
 			else
 			{
-				$sql = "INSERT INTO ELIGIBILITY (STUDENT_ID,SCHOOL_DATE,SYEAR,PERIOD_ID,COURSE_PERIOD_ID,ELIGIBILITY_CODE) values('" . $student_id . "','" . DBDate() . "','" . UserSyear() . "','" . UserPeriod() . "','" . $course_period_id . "','" . $code . "')";
+				$sql = "INSERT INTO ELIGIBILITY (STUDENT_ID,SCHOOL_DATE,SYEAR,PERIOD_ID,COURSE_PERIOD_ID,ELIGIBILITY_CODE) values('" . $student_id . "','" . DBDate() . "','" . UserSyear() . "','" . $school_period . "','" . $course_period_id . "','" . $code . "')";
 			}
 
 			DBQuery( $sql );
@@ -172,7 +172,7 @@ if ( ! empty( $_REQUEST['values'] )
 		else
 		{
 			$sql = "INSERT INTO ELIGIBILITY (STUDENT_ID,SCHOOL_DATE,SYEAR,PERIOD_ID,COURSE_PERIOD_ID,ELIGIBILITY_CODE)
-				values('" . $student_id . "','" . DBDate() . "','" . UserSyear() . "','" . UserPeriod() . "','" . $course_period_id . "','" . $value . "')";
+				values('" . $student_id . "','" . DBDate() . "','" . UserSyear() . "','" . $school_period . "','" . $course_period_id . "','" . $value . "')";
 		}
 
 		DBQuery( $sql );
@@ -183,11 +183,11 @@ if ( ! empty( $_REQUEST['values'] )
 		WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND SCHOOL_DATE BETWEEN '" . $start_date . "'
 		AND '" . $end_date . "'
-		AND PERIOD_ID='" . UserPeriod() . "'" );
+		AND PERIOD_ID='" . $school_period . "'" );
 
 	if ( empty( $completed_RET ) )
 	{
-		// SQL Insert eligibility completed once for All UserPeriod().
+		// SQL Insert eligibility completed once for All $school_period.
 		DBQuery( "INSERT INTO ELIGIBILITY_COMPLETED (STAFF_ID,SCHOOL_DATE,PERIOD_ID)
 			SELECT '" . User( 'STAFF_ID' ) . "' AS STAFF_ID,'" . DBDate() . "' AS SCHOOL_DATE,PERIOD_ID
 			FROM COURSE_PERIOD_SCHOOL_PERIODS
@@ -255,7 +255,7 @@ else
 		WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND SCHOOL_DATE BETWEEN '" . $start_date . "'
 		AND '" . $end_date . "'
-		AND PERIOD_ID='" . UserPeriod() . "'" );
+		AND PERIOD_ID='" . $school_period . "'" );
 
 	if ( ! empty( $completed_RET ) )
 	{

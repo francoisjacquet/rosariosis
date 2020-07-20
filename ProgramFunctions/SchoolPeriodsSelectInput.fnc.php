@@ -8,7 +8,7 @@
 
 /**
  * School Periods select input for current Course Period (Teacher).
- * Sets $_SESSION['UserPeriod'] => UserPeriod().
+ * Sets $_REQUEST[ $name ]
  *
  * @uses UserCoursePeriod()
  *
@@ -39,11 +39,9 @@ function SchoolPeriodsSelectInput( $value, $name, $title, $extra = '' )
 	{
 		$selected = '';
 
-		if ( $value === $school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'] )
+		if ( $value === $school_period['PERIOD_ID'] )
 		{
 			$period_selected = true;
-
-			$_SESSION['UserPeriod'] = $school_period['PERIOD_ID'];
 
 			$selected = ' selected';
 		}
@@ -91,7 +89,7 @@ function SchoolPeriodsSelectInput( $value, $name, $title, $extra = '' )
 				' ' . $period_days;
 		}
 
-		$input .= '<option value="' . $school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'] . '"' . $selected . '>' .
+		$input .= '<option value="' . $school_period['PERIOD_ID'] . '"' . $selected . '>' .
 			$school_period['TITLE'] . $period_days_text . '</option>';
 	}
 
@@ -102,7 +100,7 @@ function SchoolPeriodsSelectInput( $value, $name, $title, $extra = '' )
 	}
 	elseif ( ! $period_selected )
 	{
-		$_SESSION['UserPeriod'] = $school_periods_RET[1]['PERIOD_ID'];
+		$_REQUEST[ $name ] = $school_periods_RET[1]['PERIOD_ID'];
 
 		RedirectURL( $name );
 	}
