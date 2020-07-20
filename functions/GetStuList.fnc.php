@@ -1228,7 +1228,7 @@ function appendSQL( $sql, $extra = array() )
 				$_ROSARIO['SearchTerms'] .= $sep . GetGrade( $grade_id );
 			}
 
-			$sep = ',';
+			$sep = ', ';
 		}
 
 		if ( ! $no_search_terms )
