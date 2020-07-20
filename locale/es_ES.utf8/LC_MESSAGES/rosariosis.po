@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-20 13:13+0200\n"
-"PO-Revision-Date: 2020-07-20 13:14+0200\n"
+"PO-Revision-Date: 2020-07-20 15:36+0200\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS\n"
 "Language: es\n"
@@ -3955,7 +3955,7 @@ msgstr "Usar las Calificaciones del Libro de Calificaciones"
 
 #: modules/Eligibility/EntryTimes.php:90
 msgid "Allow Eligibility Posting"
-msgstr "Permitir Publicar Elegibilidad"
+msgstr "Permitir Entrar Elegibilidad"
 
 #: modules/Eligibility/EntryTimes.php:99 modules/School_Setup/AccessLog.php:48
 #: modules/School_Setup/Calendar.php:135
