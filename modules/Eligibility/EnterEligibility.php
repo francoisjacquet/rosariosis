@@ -34,11 +34,11 @@ $start_date = date( 'Y-m-d', time() - ( $today - $START_DAY ) * 60 * 60 * 24 );
 
 $end_date = date( 'Y-m-d', time() + ( $END_DAY - $today ) * 60 * 60 * 24 );
 
-$school_periods_select = SchoolPeriodsSelectInput(
-	issetVal( $_REQUEST['school_period'] ),
-	'school_period',
+// @since 6.9 Just used to set UserPeriod()...
+SchoolPeriodsSelectInput(
 	'',
-	'autocomplete="off" onchange=\'ajaxLink(' . json_encode( PreparePHP_SELF( array(), array( 'school_period' ) ) ) . ' + "&school_period=" + this.value);\''
+	'school_period',
+	''
 );
 
 $current_RET = DBGet( "SELECT ELIGIBILITY_CODE,STUDENT_ID
@@ -69,7 +69,10 @@ if ( $_REQUEST['modfunc'] == 'gradebook' )
 		$points_RET = DBGet( "SELECT DISTINCT ON (s.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID) s.STUDENT_ID, gt.ASSIGNMENT_TYPE_ID,sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'gg.POINTS' ) ) . ") AS PARTIAL_POINTS,sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ) ) . ") AS PARTIAL_TOTAL, gt.FINAL_GRADE_PERCENT
 		FROM STUDENTS s
 		JOIN SCHEDULE ss ON (ss.STUDENT_ID=s.STUDENT_ID AND ss.COURSE_PERIOD_ID='" . $course_period_id . "')
-		JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID OR ga.COURSE_ID='" . $course_id . "' AND ga.STAFF_ID='" . User( 'STAFF_ID' ) . "') AND ga.MARKING_PERIOD_ID" . ( isset( $gradebook_config['ELIGIBILITY_CUMULITIVE'] ) && $gradebook_config['ELIGIBILITY_CUMULITIVE'] == 'Y' ? " IN (" . GetChildrenMP( 'SEM', UserMP() ) . ")" : "='" . UserMP() . "'" ) . ")
+		JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID OR ga.COURSE_ID='" . $course_id . "' AND ga.STAFF_ID='" . User( 'STAFF_ID' ) . "') AND ga.MARKING_PERIOD_ID" .
+		( isset( $gradebook_config['ELIGIBILITY_CUMULITIVE'] ) && $gradebook_config['ELIGIBILITY_CUMULITIVE'] == 'Y' ?
+			" IN (" . GetChildrenMP( 'SEM', UserMP() ) . ")" :
+			"='" . UserMP() . "'" ) . ")
 		LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.STUDENT_ID=s.STUDENT_ID AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID),
 		GRADEBOOK_ASSIGNMENT_TYPES gt
 		WHERE gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID
@@ -133,7 +136,7 @@ if ( $_REQUEST['modfunc'] == 'gradebook' )
 				$sql = "UPDATE ELIGIBILITY
 					SET ELIGIBILITY_CODE='" . $code . "'
 					WHERE SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
-					AND COURSE_PERIOD_ID='" . UserCoursePeriod() . "'
+					AND COURSE_PERIOD_ID='" . $course_period_id . "'
 					AND STUDENT_ID='" . $student_id . "'";
 			}
 			else
@@ -148,8 +151,10 @@ if ( $_REQUEST['modfunc'] == 'gradebook' )
 			FROM ELIGIBILITY
 			WHERE SCHOOL_DATE
 			BETWEEN '" . $start_date . "' AND '" . $end_date . "'
-			AND COURSE_PERIOD_ID='" . UserCoursePeriod() . "'", array(), array( 'STUDENT_ID' ) );
+			AND COURSE_PERIOD_ID='" . $course_period_id . "'", array(), array( 'STUDENT_ID' ) );
 	}
+
+	RedirectURL( 'modfunc' );
 }
 
 if ( ! empty( $_REQUEST['values'] )
@@ -161,35 +166,43 @@ if ( ! empty( $_REQUEST['values'] )
 	{
 		if ( $current_RET[$student_id] )
 		{
-			$sql = "UPDATE ELIGIBILITY SET ELIGIBILITY_CODE='" . $value . "' WHERE SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "' AND PERIOD_ID='" . UserPeriod() . "' AND STUDENT_ID='" . $student_id . "'";
+			$sql = "UPDATE ELIGIBILITY
+				SET ELIGIBILITY_CODE='" . $value . "'
+				WHERE SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
+				AND COURSE_PERIOD_ID='" . $course_period_id . "'
+				AND STUDENT_ID='" . $student_id . "'";
 		}
 		else
 		{
-			$sql = "INSERT INTO ELIGIBILITY (STUDENT_ID,SCHOOL_DATE,SYEAR,PERIOD_ID,COURSE_PERIOD_ID,ELIGIBILITY_CODE) values('" . $student_id . "','" . DBDate() . "','" . UserSyear() . "','" . UserPeriod() . "','" . $course_period_id . "','" . $value . "')";
+			$sql = "INSERT INTO ELIGIBILITY (STUDENT_ID,SCHOOL_DATE,SYEAR,PERIOD_ID,COURSE_PERIOD_ID,ELIGIBILITY_CODE)
+				values('" . $student_id . "','" . DBDate() . "','" . UserSyear() . "','" . UserPeriod() . "','" . $course_period_id . "','" . $value . "')";
 		}
 
 		DBQuery( $sql );
 	}
 
-	$RET = DBGet( "SELECT 'completed' AS COMPLETED
+	$completed_RET = DBGet( "SELECT 'completed' AS COMPLETED
 		FROM ELIGIBILITY_COMPLETED
 		WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND SCHOOL_DATE BETWEEN '" . $start_date . "'
 		AND '" . $end_date . "'
 		AND PERIOD_ID='" . UserPeriod() . "'" );
 
-	if ( ! empty( $RET ) )
+	if ( empty( $completed_RET ) )
 	{
+		// SQL Insert eligibility completed once for All UserPeriod().
 		DBQuery( "INSERT INTO ELIGIBILITY_COMPLETED (STAFF_ID,SCHOOL_DATE,PERIOD_ID)
-			values('" . User( 'STAFF_ID' ) . "','" . DBDate() . "','" . UserPeriod() . "')" );
+			SELECT '" . User( 'STAFF_ID' ) . "' AS STAFF_ID,'" . DBDate() . "' AS SCHOOL_DATE,PERIOD_ID
+			FROM COURSE_PERIOD_SCHOOL_PERIODS
+			WHERE COURSE_PERIOD_ID='" . $course_period_id . "'" );
 	}
 
 	$current_RET = DBGet( "SELECT ELIGIBILITY_CODE,STUDENT_ID
 		FROM ELIGIBILITY
-		WHERE SCHOOL_DATE
-		BETWEEN '" . $start_date . "'
-		AND '" . $end_date . "'
-		AND PERIOD_ID='" . UserPeriod() . "'", array(), array( 'STUDENT_ID' ) );
+		WHERE SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
+		AND COURSE_PERIOD_ID='" . $course_period_id . "'", array(), array( 'STUDENT_ID' ) );
+
+	RedirectURL( 'values' );
 }
 
 $extra['SELECT'] = issetVal( $extra['SELECT'], '' );
