@@ -1056,7 +1056,8 @@ if (  ( ! $_REQUEST['modfunc']
 						issetVal( $school_period['PERIOD_ID'], '' ),
 						'tables[COURSE_PERIOD_SCHOOL_PERIODS][' . $school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'] . '][PERIOD_ID]',
 						_( 'Period' ),
-						$periods
+						$periods,
+						false
 					) . '</td>';
 				}
 

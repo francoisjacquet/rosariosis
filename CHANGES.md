@@ -18,6 +18,7 @@ Changes in 6.9
 - SQL Insert eligibility completed once for All UserPeriod() in EnterEligibility.php
 - Display all Course's School Periods in select input in DailySummary.php
 - SQL Use UserCoursePeriod() instead of UserCoursePeriodSchoolPeriod() in StudentSummary.php
+- Do not allow N/A for Period select in Courses.php
 
 Changes in 6.8.1
 ----------------
