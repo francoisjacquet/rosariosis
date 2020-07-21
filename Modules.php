@@ -2,7 +2,9 @@
 /**
  * Modules
  *
- * Get requested program / modname
+ * Warehouse header
+ * Get requested program / modname, if allowed
+ * Warehouse footer
  *
  * @package RosarioSIS
  */
