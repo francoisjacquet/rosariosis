@@ -1,4 +1,4 @@
-<?php
+	<?php
 
 require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 require_once 'modules/School_Setup/includes/CalendarDay.inc.php';
@@ -80,73 +80,64 @@ if ( $_REQUEST['modfunc'] === 'create'
 
 	$div = false;
 
-	$message = '<table class="width-100p valign-top"><tr class="st"><td>';
+	$message = '<table class="valign-top fixed-col"><tr class="st">';
 
 	// Title.
-	$message .= TextInput(
+	$message .= '<td>' . TextInput(
 		( $recreate_calendar ? $recreate_calendar['TITLE'] : '' ),
 		'title',
 		_( 'Title' ),
 		'required maxlength="100"',
 		$div
-	);
-
-	$message .= '</td><td>';
-
-	// Default.
-	$message .= CheckboxInput(
-		$recreate_calendar && $recreate_calendar['DEFAULT_CALENDAR'] == 'Y',
-		'default',
-		_( 'Default Calendar for this School' ),
-		'',
-		true
-	);
-
-	$message .= '</td><td>';
+	) . '</td>';
 
 	// Copy calendar.
-	$message .= SelectInput(
-		issetVal( $_REQUEST['calendar_id'] ),
+	$message .= '<td>' . SelectInput(
+		'',
 		'copy_id',
 		_( 'Copy Calendar' ),
 		$copy_calendar_options,
 		'N/A',
 		'',
 		$div
-	);
+	) . '</td></tr>';
 
-	$message .= '</td></tr></table>';
+	// Default.
+	$message .= '<tr><td colspan="2">' . CheckboxInput(
+		$recreate_calendar && $recreate_calendar['DEFAULT_CALENDAR'] == 'Y',
+		'default',
+		_( 'Default Calendar for this School' ),
+		'',
+		true
+	) . '</td></tr>';
+
+	$message .= '<tr><td colspan="2"><hr /></td></tr>';
 
 	// From date.
-	$message .= '<table class="width-100p valign-top"><tr class="st"><td>' . _( 'From' ) . ' ';
-
-	$message .= DateInput(
+	$message .= '<tr class="st"><td>' . DateInput(
 		$recreate_calendar && $recreate_calendar['START_DATE'] ?
 			$recreate_calendar['START_DATE'] :
 			$fy['START_DATE'],
 		'min',
-		'',
+		_( 'From' ),
 		$div,
 		true,
 		!( $recreate_calendar && $recreate_calendar['START_DATE'] )
-	);
+	) . '</td>';
 
-	// to date
-	$message .= '</td><td>' . _( 'To' )  . ' ';
-	$message .= DateInput(
+	// To date.
+	$message .= '<td>' . DateInput(
 		$recreate_calendar && $recreate_calendar['END_DATE'] ?
 			$recreate_calendar['END_DATE'] :
 			$fy['END_DATE'],
 		'max',
-		'',
+		_( 'To' ),
 		$div,
 		true,
 		!( $recreate_calendar && $recreate_calendar['END_DATE'] )
-	);
+	) . '</td></tr>';
 
-	$message .= '</td></tr></table>';
-
-	$message .= '<table class="width-100p valign-top cellpadding-5"><tr class="st"><td>';
+	$message .= '<tr class="st"><td colspan="2"><table class="valign-top cellpadding-5"><tr><td>';
 
 	// Weekdays.
 	$weekdays = array(
@@ -183,26 +174,22 @@ if ( $_REQUEST['modfunc'] === 'create'
 
 	$message .= implode( '</td><td>', $weekdays_inputs );
 
-	$message .= '</td></tr></table>';
+	$message .= '</td></tr></table></td></tr>';
 
-	$message .= '<table class="width-100p"><tr class="st valign-top"><td>';
-
-	// minutes
+	// Minutes.
 	$minutes_tip_text = ( $recreate_calendar ?
 		_( 'Default is Full Day if Copy Calendar is N/A.' ) . ' ' . _( 'Otherwise Default is minutes from the Copy Calendar' ) :
 		_( 'Default is Full Day' )
 	);
 
-	$message .= TextInput(
+	$message .= '<tr class="st valign-top"><td colspan="2">' . TextInput(
 		'',
 		'minutes',
 		_( 'Minutes' ) .
 			'<div class="tooltip"><i>' . $minutes_tip_text . '</i></div>',
 		' type="number" min="1" max="998"',
 		$div
-	);
-
-	$message .= '</td></tr></table>';
+	) . '</td></tr></table>';
 
 	$OK = Prompt(
 		! empty( $_REQUEST['calendar_id'] ) ?
