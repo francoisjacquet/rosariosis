@@ -101,9 +101,10 @@ function SchoolPeriodsSelectInput( $value, $name, $title, $extra = '' )
 
 	if ( ! $period_selected )
 	{
-		$_REQUEST[ $name ] = $school_periods_RET[1]['PERIOD_ID'];
-
 		RedirectURL( $name );
+
+		// Set school period to first one in the list.
+		$_REQUEST[ $name ] = $school_periods_RET[1]['PERIOD_ID'];
 	}
 
 	$input .= '</select>' . ( $title ? FormatInputTitle( $title ) : '' ) . '</label>';
