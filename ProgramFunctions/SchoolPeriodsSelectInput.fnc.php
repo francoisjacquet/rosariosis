@@ -98,7 +98,8 @@ function SchoolPeriodsSelectInput( $value, $name, $title, $extra = '' )
 		// Error if no school periods.
 		$input .= '<option value="">' . _( 'No periods found' ) . '</option>';
 	}
-	elseif ( ! $period_selected )
+
+	if ( ! $period_selected )
 	{
 		$_REQUEST[ $name ] = $school_periods_RET[1]['PERIOD_ID'];
 
