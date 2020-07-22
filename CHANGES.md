@@ -21,6 +21,7 @@ Changes in 6.9
 - Deprecate UserCoursePeriodSchoolPeriod(), use UserPeriod() + UserCoursePeriod() instead in SchoolPeriodsSelectInput.fnc.php, StudentSummary.php, TakeAttendance.php & Current.php
 - Deprecate UserPeriod(), use per program logic instead in SchoolPeriodsSelectInput.fnc.php, StudentSummary.php, TakeAttendance.php & Current.php
 - HTML reorganize (Re)create Calendar form inputs in Calendar.php
+- Fix Fatal error: do not use ErrorMessage() to prevent infinite loop in User.fnc.php
 
 Changes in 6.8.1
 ----------------

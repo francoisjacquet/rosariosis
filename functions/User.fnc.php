@@ -81,10 +81,10 @@ function User( $item )
 		// Do not REMOVE else!
 		else
 		{
-			// Fatal error.
-			$error[] = 'User not logged in!'; // Should never be displayed, so do not translate.
+			// Fatal error: do not use ErrorMessage() to prevent infinite loop.
+			echo 'Error: User not logged in!'; // Should never be displayed, so do not translate.
 
-			return ErrorMessage( $error, 'fatal' );
+			exit;
 		}
 	}
 
