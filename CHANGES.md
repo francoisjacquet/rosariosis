@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 6.9.1
+----------------
+- Make Select Multiple from Options add makeMultiple() in GetStuList.fnc.php
+
 Changes in 6.9
 --------------
 - SQL COURSE_PERIODS table: Add SECONDARY_TEACHER_ID column in Update.fnc.php & rosariosis.sql

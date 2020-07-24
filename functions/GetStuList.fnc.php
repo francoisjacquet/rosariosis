@@ -1106,6 +1106,31 @@ function makeTextarea( $value, $column )
 
 
 /**
+ * Make Select Multiple from Options
+ *
+ * DBGet() callback function
+ *
+ * @since 6.9.1
+ *
+ * @param  string $value  Multiple value, example: '||123||456||'.
+ * @param  string $column Column.
+ *
+ * @return string         Comma separated values, example: '123, 456'.
+ */
+function makeMultiple( $value, $column )
+{
+	if ( $value == '' )
+	{
+		return '';
+	}
+
+	$values = explode( '||', trim( $value, '||' ) );
+
+	return implode( ', ', $values );
+}
+
+
+/**
  * Append:
  * - RosarioSIS ID(s)
  * - Last Name
@@ -1265,6 +1290,7 @@ function appendSQL( $sql, $extra = array() )
  * @example $extra['functions'][ 'CUSTOM_' . $field['ID'] ] = makeFieldTypeFunction( $field['TYPE'] );
  *
  * @since 2.9.10
+ * @since 6.9.1 Add multiple type case.
  *
  * @param string  $field_type Field type.
  * @param string  $table      'auto'|'STAFF' (optional). Defaults to 'auto'.
@@ -1300,6 +1326,10 @@ function makeFieldTypeFunction( $field_type, $table = 'auto' )
 		case 'textarea':
 
 			return 'makeTextarea';
+
+		case 'multiple':
+
+			return 'makeMultiple';
 	}
 
 	return '';
