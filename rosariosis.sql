@@ -2218,7 +2218,7 @@ INSERT INTO staff VALUES (2020, NEXTVAL('staff_staff_id_seq'), 1, NULL, 'Parent'
 
 --
 -- Data for Name: school_marking_periods; Type: TABLE DATA; Schema: public; Owner: rosariosis
---
+-- Note: keep 06-15 and 06-13 as first and last day of the year!
 
 INSERT INTO school_marking_periods VALUES (NEXTVAL('school_marking_periods_marking_period_id_seq'), 2020, 'FY', 1, NULL, 'Full Year', 'FY', 1, '2020-06-15', '2021-06-13', NULL, NULL, NULL, NULL, NULL);
 INSERT INTO school_marking_periods VALUES (NEXTVAL('school_marking_periods_marking_period_id_seq'), 2020, 'SEM', 1, 1, 'Semester 1', 'S1', 1, '2020-06-15', '2020-12-31', '2020-12-28', '2020-12-31', NULL, NULL, NULL);
@@ -2348,7 +2348,7 @@ INSERT INTO attendance_codes VALUES (NEXTVAL('attendance_codes_id_seq'), 2020, 1
 --
 
 INSERT INTO config VALUES (0, 'LOGIN', 'No');
-INSERT INTO config VALUES (0, 'VERSION', '6.9-beta');
+INSERT INTO config VALUES (0, 'VERSION', '6.9');
 INSERT INTO config VALUES (0, 'TITLE', 'Rosario Student Information System');
 INSERT INTO config VALUES (0, 'NAME', 'RosarioSIS');
 INSERT INTO config VALUES (0, 'MODULES', 'a:13:{s:12:"School_Setup";b:1;s:8:"Students";b:1;s:5:"Users";b:1;s:10:"Scheduling";b:1;s:6:"Grades";b:1;s:10:"Attendance";b:1;s:11:"Eligibility";b:1;s:10:"Discipline";b:1;s:10:"Accounting";b:1;s:15:"Student_Billing";b:1;s:12:"Food_Service";b:1;s:9:"Resources";b:1;s:6:"Custom";b:1;}');
