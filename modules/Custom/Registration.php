@@ -141,6 +141,14 @@ else
 		RedirectURL( array( 'modfunc', 'parent', 'address', 'contact', 'student' ) );
 	}
 
+	// Student check.
+	if ( ! UserStudentID() )
+	{
+		$error[] = _( 'No Students were found.' );
+
+		echo ErrorMessage( $error, 'error' );
+	}
+
 	$registration_done = DBGetOne( "SELECT 1
 		FROM STUDENTS_JOIN_ADDRESS
 		WHERE STUDENT_ID='" . UserStudentID() . "'" );
@@ -157,6 +165,7 @@ else
 	}
 
 	if ( ! $_REQUEST['modfunc']
+		&& UserStudentID()
 		&& ! $registration_done )
 	{
 		$_ROSARIO['allow_edit'] = true;

@@ -4,6 +4,7 @@
 Changes in 6.9.1
 ----------------
 - Make Select Multiple from Options add makeMultiple() in GetStuList.fnc.php
+- Fix add Student check in Registration.php
 
 Changes in 6.9
 --------------
