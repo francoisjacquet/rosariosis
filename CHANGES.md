@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 6.9.2
+----------------
+- Only display Secondary Teacher if set for non-admins in Courses.php
+
 Changes in 6.9.1
 ----------------
 - Make Select Multiple from Options add makeMultiple() in GetStuList.fnc.php

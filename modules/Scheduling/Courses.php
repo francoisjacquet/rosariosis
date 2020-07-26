@@ -930,12 +930,15 @@ if (  ( ! $_REQUEST['modfunc']
 				unset( $secondary_teachers[$RET['TEACHER_ID']] );
 			}
 
-			$header .= '<td colspan="2">' . SelectInput(
-				issetVal( $RET['SECONDARY_TEACHER_ID'], '' ),
-				'tables[COURSE_PERIODS][' . $_REQUEST['course_period_id'] . '][SECONDARY_TEACHER_ID]',
-				_( 'Secondary Teacher' ),
-				$secondary_teachers
-			) . '</td>';
+			if ( AllowEdit() || $RET['SECONDARY_TEACHER_ID'] )
+			{
+				$header .= '<td colspan="2">' . SelectInput(
+					issetVal( $RET['SECONDARY_TEACHER_ID'], '' ),
+					'tables[COURSE_PERIODS][' . $_REQUEST['course_period_id'] . '][SECONDARY_TEACHER_ID]',
+					_( 'Secondary Teacher' ),
+					$secondary_teachers
+				) . '</td>';
+			}
 
 			$header .= '</tr><tr><td colspan="6"><hr /></td></tr>';
 
