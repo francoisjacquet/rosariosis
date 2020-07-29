@@ -1595,10 +1595,10 @@ function _makeCommentsB( $value, $column )
 	$max_current_commentsB,
 	$commentsB_select;
 
+	$select = null;
+
 	if ( ! empty( $import_commentsB_RET[$THIS_RET['STUDENT_ID']][$value] ) )
 	{
-		$select = null;
-
 		if ( isset( $import_commentsB_RET[$THIS_RET['STUDENT_ID']][$value]['REPORT_CARD_COMMENT_ID'] ) )
 		{
 			$select = $import_commentsB_RET[$THIS_RET['STUDENT_ID']][$value]['REPORT_CARD_COMMENT_ID'];
@@ -1608,8 +1608,6 @@ function _makeCommentsB( $value, $column )
 	}
 	else
 	{
-		$select = null;
-
 		if ( isset( $current_commentsB_RET[$THIS_RET['STUDENT_ID']][$value]['REPORT_CARD_COMMENT_ID'] ) )
 		{
 			$select = $current_commentsB_RET[$THIS_RET['STUDENT_ID']][$value]['REPORT_CARD_COMMENT_ID'];
@@ -1624,7 +1622,8 @@ function _makeCommentsB( $value, $column )
 		{
 			$return = SelectInput( '', 'values[' . $THIS_RET['STUDENT_ID'] . '][commentsB][' . $value . ']', '', $commentsB_select, _( 'N/A' ) );
 		}
-		elseif ( $import_commentsB_RET[$THIS_RET['STUDENT_ID']][$value] || isset( $current_commentsB_RET[$THIS_RET['STUDENT_ID']][$value] ) )
+		elseif ( ! empty( $import_commentsB_RET[$THIS_RET['STUDENT_ID']][$value] )
+			|| isset( $current_commentsB_RET[$THIS_RET['STUDENT_ID']][$value] ) )
 		{
 			$return = SelectInput( $select, 'values[' . $THIS_RET['STUDENT_ID'] . '][commentsB][' . $value . ']', '', $commentsB_select, _( 'N/A' ), '', $div );
 		}
