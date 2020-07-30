@@ -176,7 +176,8 @@ var MarkDownToHTML = function() {
 
 		var mdc = GetMDConverter();
 
-		return mdc(md);
+		// Fix decode &, < and > HTML characters so blockquote are converted.
+		return mdc( md.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>') );
 	});
 }
 
