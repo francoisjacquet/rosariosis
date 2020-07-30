@@ -4,6 +4,7 @@
 Changes in 6.9.3
 ----------------
 - Fix JS Markdown to HTML blockquote in warehouse.js
+- Fix deprecated create_function() in Security.php
 
 Changes in 6.9.2
 ----------------
