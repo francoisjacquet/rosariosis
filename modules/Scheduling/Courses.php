@@ -1060,7 +1060,7 @@ if (  ( ! $_REQUEST['modfunc']
 						'tables[COURSE_PERIOD_SCHOOL_PERIODS][' . $school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'] . '][PERIOD_ID]',
 						_( 'Period' ),
 						$periods,
-						false
+						( $_REQUEST['course_period_id'] === 'new' ? false : 'N/A' )
 					) . '</td>';
 				}
 

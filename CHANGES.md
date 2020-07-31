@@ -5,6 +5,7 @@ Changes in 6.9.3
 ----------------
 - Fix JS Markdown to HTML blockquote in warehouse.js
 - Fix deprecated create_function() in Security.php
+- Fix Do not allow N/A for Period select: allow N/A when not new in Courses.php
 
 Changes in 6.9.2
 ----------------
