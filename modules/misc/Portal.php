@@ -1078,9 +1078,9 @@ function _makeTakeAttendanceLink( $value, $column )
 	$take_attendance_redirect_url .= '&school_date=' . $THIS_RET['SCHOOL_DATE'] . '&table=' . $table;
 
 	// Right course period & school period.
-	$period = $THIS_RET['COURSE_PERIOD_ID'] . '.' . $THIS_RET['COURSE_PERIOD_SCHOOL_PERIODS_ID'];
+	$take_attendance_redirect_url .= '&period=' . $THIS_RET['COURSE_PERIOD_ID'];
 
-	$take_attendance_redirect_url .= '&period=' . $period;
+	$take_attendance_redirect_url .= '&school_period=' . $THIS_RET['COURSE_PERIOD_SCHOOL_PERIODS_ID'];
 
 	return '<a href="' . URLEscape( $take_attendance_redirect_url ) . '">' . $proper_date . '</a>';
 }
@@ -1098,6 +1098,7 @@ function _makeTakeAttendanceLink( $value, $column )
 function _redirectTakeAttendance()
 {
 	if ( empty( $_REQUEST['period'] )
+		|| empty( $_REQUEST['school_period'] )
 		|| ! isset( $_REQUEST['table'] )
 		|| empty( $_REQUEST['school_date'] )
 		|| ! VerifyDate( $_REQUEST['school_date'] ) )
@@ -1106,13 +1107,11 @@ function _redirectTakeAttendance()
 		return false;
 	}
 
-	list( $course_period, $course_period_school_period ) = explode( '.', $_REQUEST['period'] );
-
 	// Get Course Period info.
 	// @since 6.9 Add Secondary Teacher.
 	$cp_RET = DBGet( "SELECT SCHOOL_ID,TEACHER_ID,SECONDARY_TEACHER_ID
 		FROM COURSE_PERIODS
-		WHERE COURSE_PERIOD_ID='" . $course_period . "'
+		WHERE COURSE_PERIOD_ID='" . $_REQUEST['period'] . "'
 		AND SYEAR='" . UserSyear() . "'
 		LIMIT 1" );
 
@@ -1149,10 +1148,10 @@ function _redirectTakeAttendance()
 	}
 	else
 	{
-		$_SESSION['UserCoursePeriod'] = $course_period;
-
-		$_SESSION['UserCoursePeriodSchoolPeriod'] = $course_period_school_period;
+		$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];
 	}
+
+	$modname .= '&school_period=' . $_REQUEST['school_period'];
 
 	if ( UserSchool() != $cp_RET[1]['SCHOOL_ID'] )
 	{
