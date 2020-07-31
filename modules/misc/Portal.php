@@ -296,7 +296,7 @@ switch ( User( 'PROFILE' ) )
 					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,
 					s.TITLE AS SCHOOL,acc.SCHOOL_DATE,cp.TITLE,
 					'" . $category['ID'] . "' AS CATEGORY_ID,
-					cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID
+					sp.PERIOD_ID
 				FROM ATTENDANCE_CALENDAR acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp,SCHOOLS s,STAFF st, COURSE_PERIOD_SCHOOL_PERIODS cpsp
 				WHERE EXISTS(SELECT 1
 					FROM SCHEDULE se
@@ -333,7 +333,7 @@ switch ( User( 'PROFILE' ) )
 					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,
 					s.TITLE AS SCHOOL,acc.SCHOOL_DATE,cp.TITLE,
 					'" . $category['ID'] . "' AS CATEGORY_ID,
-					cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID
+					sp.PERIOD_ID
 				FROM ATTENDANCE_CALENDAR acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp,SCHOOLS s,STAFF st, COURSE_PERIOD_SCHOOL_PERIODS cpsp
 				WHERE EXISTS(SELECT 1
 					FROM SCHEDULE se
@@ -577,7 +577,7 @@ switch ( User( 'PROFILE' ) )
 					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,
 						acc.SCHOOL_DATE,cp.TITLE,
 						'" . $category['ID'] . "' AS CATEGORY_ID,
-						cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID
+						sp.PERIOD_ID
 					FROM ATTENDANCE_CALENDAR acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp, COURSE_PERIOD_SCHOOL_PERIODS cpsp
 					WHERE EXISTS(SELECT 1
 						FROM SCHEDULE se
@@ -613,7 +613,7 @@ switch ( User( 'PROFILE' ) )
 					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,
 						acc.SCHOOL_DATE,cp.TITLE,
 						'" . $category['ID'] . "' AS CATEGORY_ID,
-						cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID
+						sp.PERIOD_ID
 					FROM ATTENDANCE_CALENDAR acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp, COURSE_PERIOD_SCHOOL_PERIODS cpsp
 					WHERE  EXISTS(SELECT 1
 						FROM SCHEDULE se
@@ -1080,7 +1080,7 @@ function _makeTakeAttendanceLink( $value, $column )
 	// Right course period & school period.
 	$take_attendance_redirect_url .= '&period=' . $THIS_RET['COURSE_PERIOD_ID'];
 
-	$take_attendance_redirect_url .= '&school_period=' . $THIS_RET['COURSE_PERIOD_SCHOOL_PERIODS_ID'];
+	$take_attendance_redirect_url .= '&school_period=' . $THIS_RET['PERIOD_ID'];
 
 	return '<a href="' . URLEscape( $take_attendance_redirect_url ) . '">' . $proper_date . '</a>';
 }
