@@ -14,6 +14,8 @@
  *
  * @example SchoolPeriodsSelectInput( issetVal( $_REQUEST['school_period'] ), 'school_period', '', 'autocomplete="off" onchange="ajaxLink(this.form.action + \'&school_period=\' + this.value);"' );
  *
+ * @since 7.0 Fix Numbered days display
+ *
  * @param string $value Input value.
  * @param string $name  Input name.
  * @param string $title Input title or label (optional).
@@ -82,10 +84,15 @@ function SchoolPeriodsSelectInput( $value, $name, $title, $extra = '' )
 
 		$period_days_text = '';
 
-		if ( mb_strlen( $school_period['DAYS'] ) < 5 )
+		$nb_days = mb_strlen( $school_period['DAYS'] );
+
+		if ( ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null
+				&& $nb_days < SchoolInfo( 'NUMBER_DAYS_ROTATION' ) )
+			|| ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) === null
+				&& $nb_days < 5 ) )
 		{
 			$period_days_text = ' - ' .
-				( mb_strlen( $school_period['DAYS'] ) < 2 ? _( 'Day' ) : _( 'Days' ) ) .
+				( $nb_days < 2 ? _( 'Day' ) : _( 'Days' ) ) .
 				' ' . $period_days;
 		}
 

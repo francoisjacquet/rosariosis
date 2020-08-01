@@ -350,6 +350,7 @@ function CoursePeriodTitleGenerate( $cp_id, $columns )
  * Generate Course Period School Periods title part
  *
  * @since 4.9
+ * @since 7.0 Fix Numbered days display
  *
  * @param integer $cpsp_id Course Period School Period ID, set to 0 on INSERT.
  * @param integer $cp_id   Course Period ID.
@@ -399,14 +400,17 @@ function CoursePeriodSchoolPeriodsTitlePartGenerate( $cpsp_id, $cp_id, $columns 
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'" );
 
-		if ( mb_strlen( $school_p['DAYS'] ) >= 5 )
+		$nb_days = mb_strlen( $school_p['DAYS'] );
+
+		if ( ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null
+				&& $nb_days == SchoolInfo( 'NUMBER_DAYS_ROTATION' ) )
+			|| ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) === null
+				&& $nb_days >= 5 ) )
 		{
 			$periods_title .= $school_p_title . ' - ';
 
 			continue;
 		}
-
-		$nb_days = mb_strlen( $school_p['DAYS'] );
 
 		// $columns_days_locale = $nb_days > 1 ? ' ' . _( 'Days' ) . ' ' :	( $nb_days == 0 ? '' : ' ' . _( 'Day' ) . ' ' );
 		$columns_days_locale = ' ';
@@ -442,12 +446,15 @@ function CoursePeriodSchoolPeriodsTitlePartGenerate( $cpsp_id, $cp_id, $columns 
 			AND SYEAR='" . UserSyear() . "'" );
 	}
 
-	if ( mb_strlen( $columns['DAYS'] ) >= 5 )
+	$nb_days = mb_strlen( $columns['DAYS'] );
+
+	if ( ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null
+			&& $nb_days == SchoolInfo( 'NUMBER_DAYS_ROTATION' ) )
+		|| ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) === null
+			&& $nb_days >= 5 ) )
 	{
 		return $school_period_title . ' - ' . $periods_title;
 	}
-
-	$nb_days = mb_strlen( $columns['DAYS'] );
 
 	// $columns_days_locale = $nb_days > 1 ? ' ' . _( 'Days' ) . ' ' : ( $nb_days == 0 ? '' : ' ' . _( 'Day' ) . ' ' );
 	$columns_days_locale = ' ';
