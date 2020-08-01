@@ -7,6 +7,7 @@ Changes in 7.0
 - Update Parsedown from v1.6.0 to v1.7.4 in classes/Parsedown.php
 - Update MoTranslator from v3.4 to v4.0 in Warehouse.php, Help.fnc.php & classes/MoTranslator/*
 - Fix 'School' translation when using MoTranslator in Schedule.inc.php & rosariosis.po
+- Fix '%s Handbook' translation when using MoTranslator in Help.php
 
 Changes in 6.9.3
 ----------------

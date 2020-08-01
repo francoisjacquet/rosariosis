@@ -14,8 +14,6 @@ require_once 'Menu.php';
 
 require_once 'ProgramFunctions/Help.fnc.php';
 
-$help = HelpLoad();
-
 $profiles = array(
 	'admin' => _( 'Administrator' ),
 	'teacher' => _( 'Teacher' ),
@@ -33,6 +31,8 @@ $handle = PDFStart(); ?>
 <hr />
 
 <?php
+$help = HelpLoad();
+
 $old_modcat = '';
 
 $non_core_modules = array_diff_key( $RosarioModules, array_flip( $RosarioCoreModules ) );
