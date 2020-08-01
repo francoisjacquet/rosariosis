@@ -63,8 +63,8 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 		ListOutput(
 			$schedule_RET,
 			$columns,
-			'School',
-			'Schools',
+			_( 'School' ),
+			_( 'Schools' ),
 			false,
 			$group
 		);
