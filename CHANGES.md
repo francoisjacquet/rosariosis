@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 7.0
+--------------
+- Update Markdownify from v2.1.11 to v2.3.1 in classes/Markdownify/*
+
 Changes in 6.9.3
 ----------------
 - Fix JS Markdown to HTML blockquote in warehouse.js
