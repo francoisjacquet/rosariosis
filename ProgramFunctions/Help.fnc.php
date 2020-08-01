@@ -88,11 +88,8 @@ function HelpBindTextDomain( $domain )
 	// Binds the messages domain to the locale folder.
 	bindtextdomain( $domain, $locale_path );
 
-	if ( function_exists( '_bindtextdomain' ) )
-	{
-		// Correctly bind domain when MoTranslator is in use.
-		_bindtextdomain( $domain, $locale_path );
-	}
+	// Sets the domain name, this means gettext will be looking for a file called Addon_help.mo.
+	textdomain( $domain );
 
 	// Ensures text returned is utf-8, quite often this is iso-8859-1 by default.
 	bind_textdomain_codeset( $domain, 'UTF-8' );

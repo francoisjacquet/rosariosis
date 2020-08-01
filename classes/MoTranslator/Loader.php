@@ -154,10 +154,6 @@ class Loader
 			$domain = $this->default_domain;
 		}
 
-		if (empty($this->locale)) {
-			$this->locale = $this->detectlocale();
-		}
-
 		if (!isset($this->domains[$this->locale])) {
 			$this->domains[$this->locale] = array();
 		}
@@ -215,14 +211,10 @@ class Loader
 	 *
 	 * @return string Set or current locale
 	 */
-	public function setocale($locale)
+	public function setlocale($locale)
 	{
 		if (!empty($locale)) {
 			$this->locale = $locale;
-			// Set system locales as well
-			if (function_exists('setlocale')) {
-				setlocale(0, $locale);
-			}
 		}
 
 		return $this->locale;

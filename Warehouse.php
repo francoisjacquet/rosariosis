@@ -201,15 +201,22 @@ $locale = $_SESSION['locale'];
 
 putenv( 'LC_ALL=' . $locale );
 
-setlocale( LC_ALL, $locale );
+if ( function_exists( '_setlocale' ) )
+{
+	// PHP Compatibility: MoTranslator.
+	_setlocale( LC_ALL, $locale );
+}
+else
+{
+	setlocale( LC_ALL, $locale );
+}
 
-// FJ numeric separator ".".
+// Numeric separator ".".
 setlocale( LC_NUMERIC, 'english', 'en_US', 'en_US.utf8' );
-
-// FJ bugfix for Turkish characters conversion.
 
 if ( $locale === 'tr_TR.utf8' )
 {
+	// Bugfix for Turkish characters conversion.
 	setlocale( LC_CTYPE, 'english', 'en_US', 'en_US.utf8' );
 }
 
@@ -222,9 +229,8 @@ bind_textdomain_codeset( 'rosariosis', 'UTF-8' );
 // Sets the domain name, this means gettext will be looking for a file called rosariosis.mo.
 textdomain( 'rosariosis' );
 
-// FJ multibyte strings.
+// Multibyte strings.
 mb_internal_encoding( 'UTF-8' );
-
 
 if ( ROSARIO_DEBUG )
 {
@@ -362,12 +368,6 @@ function _LoadAddons( $addons, $folder )
 
 		// Binds the messages domain to the locale folder.
 		bindtextdomain( $addon, $locale_path );
-
-		if ( function_exists( '_bindtextdomain' ) )
-		{
-			// Correctly bind domain when MoTranslator is in use.
-			_bindtextdomain( $addon, $locale_path );
-		}
 
 		// Ensures text returned is utf-8, quite often this is iso-8859-1 by default.
 		bind_textdomain_codeset( $addon, 'UTF-8' );

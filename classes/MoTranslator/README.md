@@ -1,6 +1,6 @@
 # motranslator
 
-## Version 3.4
+## Version 4.0
 
 Translation API for PHP using Gettext MO files.
 
