@@ -440,7 +440,7 @@ function CalendarDayRotationNumberHTMLDefault( $date, $minutes )
 		require_once 'modules/School_Setup/includes/DayToNumber.inc.php';
 
 		$html .= '<td class="align-right">' .
-			( ( $day_number = dayToNumber( $date ) ) ? _( 'Day' ) . '&nbsp;' . $day_number : '&nbsp;' ) .
+			( ( $day_number = dayToNumber( $date, $_REQUEST['calendar_id'] ) ) ? _( 'Day' ) . '&nbsp;' . $day_number : '&nbsp;' ) .
 		'</td>';
 	}
 

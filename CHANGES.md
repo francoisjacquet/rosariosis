@@ -9,6 +9,7 @@ Changes in 7.0
 - Fix 'School' translation when using MoTranslator in Schedule.inc.php & rosariosis.po
 - Fix '%s Handbook' translation when using MoTranslator in Help.php
 - CSS fix align "+" New Event icon to bottom in Calendar.php, CalendarDay.inc.php, stylesheet.css & zreponsive.css
+- Fix Day Number when multiple calendars and school years in CalendarDay.inc.php, DayToNumber.inc.php
 
 Changes in 6.9.3
 ----------------

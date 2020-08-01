@@ -4,34 +4,49 @@
  * Monday 1 to Sunday 7
  * Example: if Monday is a legal holiday, then Tuesday is 1 and the next Monday is 7
  *
- * @param $date ISO date or UNIX timestamp.
+ * @since 7.0 Fix case when multiple calendars and school years.
+ *
+ * @param $date        ISO date or UNIX timestamp.
+ * @param $calendar_id Calendar ID.
+ *
  * @return false if the day is not attendance day
  */
-function dayToNumber( $date )
+function dayToNumber( $date, $calendar_id = 0 )
 {
 	if ( is_numeric( $date ) )
 	{
 		$date = date( 'Y-m-d', $date );
 	}
 
-	// Check if the day is attendance day.
-	$check_day_RET = DBGet( "SELECT 1
-		FROM attendance_calendar
-		WHERE school_date='" . $date . "'
-		AND school_id='" . ( $school_id = UserSchool() ) . "'" );
+	if ( ! $calendar_id )
+	{
+		// Get Default Calendar.
+		$calendar_id = DBGetOne( "SELECT CALENDAR_ID
+			FROM ATTENDANCE_CALENDARS
+			WHERE SYEAR='" . UserSyear() . "'
+			AND SCHOOL_ID='" . UserSchool() . "'
+			ORDER BY DEFAULT_CALENDAR" );
+	}
 
-	if ( empty( $check_day_RET ) )
+	// Check if the day is attendance day.
+	$is_school_day = DBGetOne( "SELECT 1
+		FROM ATTENDANCE_CALENDAR
+		WHERE SCHOOL_DATE='" . $date . "'
+		AND CALENDAR_ID='" . $calendar_id . "'" );
+
+	if ( ! $is_school_day )
 	{
 		return false;
 	}
 
 	// Quarter start date.
-	$begin_quarter_date = DBGetOne( "SELECT start_date
-		FROM school_marking_periods
-		WHERE start_date<='" . $date . "'
-		AND end_date>='" . $date . "'
-		AND mp='QTR'
-		AND school_id='" . $school_id . "'" );
+	$begin_quarter_date = DBGetOne( "SELECT START_DATE
+		FROM SCHOOL_MARKING_PERIODS
+		WHERE START_DATE<='" . $date . "'
+		AND END_DATE>='" . $date . "'
+		AND MP='QTR'
+		AND SCHOOL_ID='" . UserSchool() . "'
+		AND SYEAR='" . UserSyear() . "'" );
 
 	if ( empty( $begin_quarter_date ) )
 	{
@@ -39,13 +54,11 @@ function dayToNumber( $date )
 	}
 
 	// Number of school days since the beginning of the quarter.
-	$school_days_RET = DBGet( "SELECT COUNT(school_date) AS school_days
-		FROM attendance_calendar
-		WHERE school_date>='" . $begin_quarter_date . "'
-		AND school_date<='" . $date . "'
-		AND school_id='" . $school_id . "'" );
-
-	$school_days = $school_days_RET[1]['SCHOOL_DAYS'];
+	$school_days = DBGetOne( "SELECT COUNT(SCHOOL_DATE) AS SCHOOL_DAYS
+		FROM ATTENDANCE_CALENDAR
+		WHERE SCHOOL_DATE>='" . $begin_quarter_date . "'
+		AND SCHOOL_DATE<='" . $date . "'
+		AND CALENDAR_ID='" . $calendar_id . "'" );
 
 	if ( $school_days % SchoolInfo( 'NUMBER_DAYS_ROTATION' ) == 0 )
 	{
