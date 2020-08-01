@@ -4,6 +4,7 @@
 Changes in 7.0
 --------------
 - Update Markdownify from v2.1.11 to v2.3.1 in classes/Markdownify/*
+- Update Parsedown from v1.6.0 to v1.7.4 in classes/Parsedown.php
 
 Changes in 6.9.3
 ----------------
