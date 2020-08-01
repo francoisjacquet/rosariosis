@@ -1130,7 +1130,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		echo CalendarDayAssignmentsHTML( $date, $assignments_date );
 
-		echo '</td></tr><tr>';
+		echo '</td></tr><tr class="valign-bottom">';
 
 		echo CalendarDayNewAssignmentHTML( $date, $assignments_date );
 

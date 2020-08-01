@@ -273,7 +273,7 @@
 	}
 	.calendar-day {
 		position: relative;
-		height: 48px
+		min-height: 48px
 	}
 	.calendar-day > table {
 		display: block;

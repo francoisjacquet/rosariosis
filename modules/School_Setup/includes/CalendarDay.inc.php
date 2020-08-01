@@ -389,7 +389,7 @@ function CalendarDayNewAssignmentHTMLDefault( $date, $assignments )
 		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		// New Event.
-		$html .= '<td style="vertical-align:bottom;">' .
+		$html .= '<td>' .
 			button(
 				'add',
 				'',
@@ -439,7 +439,7 @@ function CalendarDayRotationNumberHTMLDefault( $date, $minutes )
 	{
 		require_once 'modules/School_Setup/includes/DayToNumber.inc.php';
 
-		$html .= '<td class="align-right" style="vertical-align:bottom;">' .
+		$html .= '<td class="align-right">' .
 			( ( $day_number = dayToNumber( $date ) ) ? _( 'Day' ) . '&nbsp;' . $day_number : '&nbsp;' ) .
 		'</td>';
 	}

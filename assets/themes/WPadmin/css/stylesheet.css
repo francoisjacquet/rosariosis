@@ -961,6 +961,12 @@ table.valign-top td {
 	vertical-align: top
 }
 
+td.valign-bottom,
+tr.valign-bottom td,
+table.valign-bottom td {
+	vertical-align: bottom
+}
+
 .align-right,
 .align-right td,
 td.align-right,
@@ -1179,11 +1185,11 @@ div.st {
 
 .calendar-day {
 	min-width: 109px;
-	height: 96px;
+	min-height: 96px;
 }
 
 .calendar-day > table {
-	height: inherit
+	height: 100%;
 }
 
 /*http://stackoverflow.com/questions/9789723/css-text-overflow-in-a-table-cell*/
