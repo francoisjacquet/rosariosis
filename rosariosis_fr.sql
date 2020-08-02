@@ -631,7 +631,3 @@ WHERE id=3;
 UPDATE resources
 SET title='Contribuer', link='https://www.rosariosis.org/fr/contribute/'
 WHERE id=4;
-
-UPDATE resources
-SET title='Faire un don', link='https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QDMVCY4X27PD4&source=url'
-WHERE id=5;
