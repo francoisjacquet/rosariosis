@@ -1,6 +1,6 @@
 <?php
 
-//regroup functions for UnfilledRequests.php & Unfilled Requests display in Schedule.php
+// Regroup functions for UnfilledRequests.php & Unfilled Requests display in Schedule.php.
 function calcSeats()
 {
 	global $THIS_RET;
@@ -16,19 +16,16 @@ function calcSeats()
 		( $THIS_RET['NOT_PERIOD_ID'] ? " AND '" . $THIS_RET['NOT_PERIOD_ID'] . "' NOT IN(SELECT cpsp.PERIOD_ID FROM COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID)" : '' ) );
 	//echo '<pre>'; var_dump($periods_RET); echo '</pre>';
 
+	$total_seats = $filled_seats = null;
+
 	foreach ( (array) $periods_RET as $period )
 	{
 		$seats = calcSeats0( $period );
 
-		if ( ! isset( $total_seats ) || $total_seats !== false )
+		if ( $total_seats !== false )
 		{
 			if ( $period['TOTAL_SEATS'] )
 			{
-				if ( ! isset( $total_seats ) )
-				{
-					$total_seats = null;
-				}
-
 				$total_seats += $period['TOTAL_SEATS'];
 			}
 			else
@@ -37,13 +34,12 @@ function calcSeats()
 			}
 		}
 
-		if ( ! isset( $filled_seats ) || $filled_seats !== false )
+		if ( $filled_seats !== false )
 		{
 			if ( $seats != '' )
 			{
 				if ( ! isset( $filled_seats ) )
 				{
-					$filled_seats = null;
 				}
 
 				$filled_seats += $seats;
