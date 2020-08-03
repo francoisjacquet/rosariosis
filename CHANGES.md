@@ -15,6 +15,7 @@ Changes in 7.0
 - Merge Schedule Report & Master Schedule Report in Menu.php, MasterScheduleReport.php, ScheduleReport.php & rosariosis.sql
 - Add Students column to report in RequestsReport.php
 - Merge Requests Report & Unfilled Requests in Menu.php, RequestsReport.php, UnfilledRequests.php, Scheduler.php, Help_en.php & rosariosis.sql
+- Merge Average Daily Attendance & Average Attendance by Day in Menu.php, Percent.php, Help_en.php, help.po & rosariosis.sql
 
 Changes in 6.9.3
 ----------------

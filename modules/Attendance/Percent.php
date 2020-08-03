@@ -4,7 +4,27 @@ $_REQUEST['list_by_day'] = issetVal( $_REQUEST['list_by_day'], '' );
 
 $_REQUEST['_search_all_schools'] = issetVal( $_REQUEST['_search_all_schools'], '' );
 
-DrawHeader( ProgramTitle( $_REQUEST['modname'] . ( ! empty( $_REQUEST['list_by_day'] ) ? '&list_by_day=' . $_REQUEST['list_by_day'] : '' ) ) );
+DrawHeader( ProgramTitle() );
+
+$report_link = PreparePHP_SELF(
+	array(),
+	array( 'list_by_day', 'search_modfunc', 'next_modname' )
+) . '&list_by_day=';
+
+$report_select = SelectInput(
+	$_REQUEST['list_by_day'],
+	'list_by_day',
+	'',
+	array(
+		'' => _( 'Average Daily Attendance' ),
+		'true' => _( 'Average Attendance by Day' ),
+	),
+	false,
+	'onchange="ajaxLink(\'' . $report_link . '\' + this.value);" autocomplete="off"',
+	false
+);
+
+DrawHeader( $report_select );
 
 // Set start date.
 $start_date = RequestedDate( 'start', date( 'Y-m' ) . '-01', 'set' );

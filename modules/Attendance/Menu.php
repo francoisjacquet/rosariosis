@@ -18,7 +18,6 @@ $menu['Attendance']['admin'] = array(
 	1 => _( 'Reports' ),
 	'Attendance/TeacherCompletion.php' => _( 'Teacher Completion' ),
 	'Attendance/Percent.php' => _( 'Average Daily Attendance' ),
-	'Attendance/Percent.php&list_by_day=true' => _( 'Average Attendance by Day' ),
 	'Attendance/DailySummary.php' => _( 'Attendance Chart' ),
 	'Attendance/StudentSummary.php' => _( 'Absence Summary' ),
 	2 => _( 'Utilities' ),

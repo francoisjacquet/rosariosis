@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS Help\n"
-"POT-Creation-Date: 2020-06-10 19:28+0200\n"
+"POT-Creation-Date: 2020-08-03 15:38+0200\n"
 "PO-Revision-Date: 2018-05-29 22:46+0100\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS <info@rosariosis.org>\n"
@@ -1798,7 +1798,7 @@ msgid ""
 "automatically save each student's eligibility grades and refresh the list."
 msgstr ""
 
-#: Help_en.php:605 Help_en.php:1100
+#: Help_en.php:605 Help_en.php:1098
 msgid ""
 "You must enter eligibility each week during the timeframe specified by your "
 "school's administration."
@@ -2921,7 +2921,7 @@ msgid ""
 "grade."
 msgstr ""
 
-#: Help_en.php:984 Help_en.php:988
+#: Help_en.php:984
 msgid ""
 "You can alter the date range displayed by changing the date pull-down menus "
 "at the top of the screen and clicking the \"Go\" button. You can also limit "
@@ -2931,19 +2931,19 @@ msgstr ""
 
 #: Help_en.php:986
 msgid ""
-"<i>Average Daily Attendance by Day</i> is a report that shows the number of "
+"<i>Average Attendance by Day</i> is a report that shows the number of "
 "students, days possible, the number of student days present, the number of "
 "student days absent, and the Average Daily Attendance per day for any date "
 "range at your school. These numbers are broken down by grade."
 msgstr ""
 
-#: Help_en.php:990
+#: Help_en.php:988
 msgid ""
 "<i>Attendance Chart</i> is a report that shows the daily attendance status "
 "of any number of students for every date during any timeframe."
 msgstr ""
 
-#: Help_en.php:992 Help_en.php:1036
+#: Help_en.php:990 Help_en.php:1034
 msgid ""
 "After searching for students, you can alter the date range by changing the "
 "date pull-down menus at the top of the screen and clicking the \"Go\" "
@@ -2953,20 +2953,20 @@ msgid ""
 "signifies that a student was present all day long."
 msgstr ""
 
-#: Help_en.php:994 Help_en.php:1038
+#: Help_en.php:992 Help_en.php:1036
 msgid ""
 "You can see the attendance records for each period for any student by "
 "clicking on a student's name from the list. Here, the absence code is "
 "displayed in the color-coded box."
 msgstr ""
 
-#: Help_en.php:996 Help_en.php:1040
+#: Help_en.php:994 Help_en.php:1038
 msgid ""
 "<i>Student Summary</i> is a report that shows the days for which a student "
 "has an absence."
 msgstr ""
 
-#: Help_en.php:998 Help_en.php:1042
+#: Help_en.php:996 Help_en.php:1040
 msgid ""
 "After selecting a student, you can alter the date range by changing the date "
 "pull-down menus at the top of the screen and clicking the \"Go\" button. The "
@@ -2975,19 +2975,19 @@ msgid ""
 "period."
 msgstr ""
 
-#: Help_en.php:1000
+#: Help_en.php:998
 msgid ""
 "<i>Teacher Completion</i> is a report that shows which teachers have not "
 "entered attendance for any given day."
 msgstr ""
 
-#: Help_en.php:1002
+#: Help_en.php:1000
 msgid ""
 "The red checks indicate that a teacher has failed to enter the current day's "
 "attendance for that period."
 msgstr ""
 
-#: Help_en.php:1004
+#: Help_en.php:1002
 msgid ""
 "You can select the current date from the pull-down menu at the top of the "
 "screen. You can also show only one period by choosing that period from the "
@@ -2995,13 +2995,13 @@ msgid ""
 "period, the list will be automtically refreshed with the new parameters."
 msgstr ""
 
-#: Help_en.php:1006
+#: Help_en.php:1004
 msgid ""
 "<i>Recalculate Daily Attendance</i> is a utility to recalculate the daily "
 "attendance for a specific time-frame."
 msgstr ""
 
-#: Help_en.php:1008
+#: Help_en.php:1006
 msgid ""
 "Select the time-frame and click \"OK\". All attendance will be then "
 "calculated for whole day/half day. Please select a shorter time-frame if the "
@@ -3009,20 +3009,20 @@ msgid ""
 "course periods attendance."
 msgstr ""
 
-#: Help_en.php:1010
+#: Help_en.php:1008
 msgid ""
 "<i>Delete Duplicate Attendance</i> is a utility to spot and delete any "
 "attendance that was taken for a student AFTER their enrollment drop date."
 msgstr ""
 
-#: Help_en.php:1012
+#: Help_en.php:1010
 msgid ""
 "In case a student is retro-actively dropped from a course, but attendance "
 "has already been taken by teachers or administrators for dates after the "
 "drop date."
 msgstr ""
 
-#: Help_en.php:1014
+#: Help_en.php:1012
 msgid ""
 "<i>Attendance Codes</i> allows you to setup your school's attendance codes. "
 "Attendance codes are used in the teacher's \"Take Attendance\" program (as "
@@ -3030,7 +3030,7 @@ msgid ""
 "student was present during the period, and if he wasn't, the reason."
 msgstr ""
 
-#: Help_en.php:1016
+#: Help_en.php:1014
 msgid ""
 "To add an attendance code, fill in the attendance code's title, short name, "
 "type, and state code. Select whether or not the code should be a teacher's "
@@ -3042,26 +3042,26 @@ msgid ""
 "assign all codes to a student."
 msgstr ""
 
-#: Help_en.php:1018
+#: Help_en.php:1016
 msgid ""
 "To modify an attendance code, click on any of the attendance code's "
 "information, change the value, and click the \"Save\" button."
 msgstr ""
 
-#: Help_en.php:1020
+#: Help_en.php:1018
 msgid ""
 "To delete an attendance code, click the delete icon (-) next to the "
 "attendance code you want to delete. You will be asked to confirm the "
 "deletion."
 msgstr ""
 
-#: Help_en.php:1022
+#: Help_en.php:1020
 msgid ""
 "<i>Attendance Summary</i> is a report that shows a day by day record of each "
 "student's attendance over the school year in one table."
 msgstr ""
 
-#: Help_en.php:1024
+#: Help_en.php:1022
 msgid ""
 "You must first select a (group of) student(s) by using the \"Find a Student"
 "\" search screen. You can search for students who have requested a specific "
@@ -3069,7 +3069,7 @@ msgid ""
 "\" and choosing a course from the popup window that appears."
 msgstr ""
 
-#: Help_en.php:1026
+#: Help_en.php:1024
 msgid ""
 "From the search result, you can select any number of students. You can "
 "select all the students in the list by checking the checkbox in the column "
@@ -3078,7 +3078,7 @@ msgid ""
 "generate the report in a PDF format."
 msgstr ""
 
-#: Help_en.php:1030
+#: Help_en.php:1028
 msgid ""
 "<i>Take Attendance</i> allows you to enter period attendance for all your "
 "students in the current period. By default, this program will list the "
@@ -3086,7 +3086,7 @@ msgid ""
 "changing the period pull-down menu in the left frame to the desired period."
 msgstr ""
 
-#: Help_en.php:1032
+#: Help_en.php:1030
 msgid ""
 "Once you are in the correct period, you can enter attendance by selecting "
 "the attendance code corresponding to each student. Once you have entered "
@@ -3094,19 +3094,19 @@ msgid ""
 "the screen."
 msgstr ""
 
-#: Help_en.php:1034
+#: Help_en.php:1032
 msgid ""
 "<i>Daily Summary</i> is a report that shows the daily attendance status of "
 "any number of students for every date during any timeframe."
 msgstr ""
 
-#: Help_en.php:1047
+#: Help_en.php:1045
 msgid ""
 "<i>Daily Summary</i> is a report that shows the daily attendance status of "
 "your child during any timeframe."
 msgstr ""
 
-#: Help_en.php:1049
+#: Help_en.php:1047
 msgid ""
 "You can alter the date range by changing the date pull-down menus at the top "
 "of the screen and clicking the \"Go\" button. The list shows your child's "
@@ -3116,14 +3116,14 @@ msgid ""
 "absence code is displayed in the box."
 msgstr ""
 
-#: Help_en.php:1056
+#: Help_en.php:1054
 msgid ""
 "<i>Student Screen</i> is a display of the student's activities and the "
 "current timeframe's eligibility grades. The program also allows you to add "
 "and delete activities to the student."
 msgstr ""
 
-#: Help_en.php:1058
+#: Help_en.php:1056
 msgid ""
 "You must first select a student by using the \"Find a Student\" search "
 "screen. You can search for students who are enrolled in a specific course by "
@@ -3133,32 +3133,32 @@ msgid ""
 "ineligible."
 msgstr ""
 
-#: Help_en.php:1060
+#: Help_en.php:1058
 msgid ""
 "To add an activity to the student, select the desired activity from the "
 "activity pull-down next to the add icon (+) and click the \"Add\" button."
 msgstr ""
 
-#: Help_en.php:1062
+#: Help_en.php:1060
 msgid ""
 "To drop an activity, click on the delete icon (-) next to the activity you "
 "want to drop."
 msgstr ""
 
-#: Help_en.php:1064
+#: Help_en.php:1062
 msgid ""
 "You can specify the desired eligibility timeframe by choosing the desired "
 "timeframe from the pull-down menu at the top of the screen. These timeframes "
 "are setup in the \"Entry Times\" program."
 msgstr ""
 
-#: Help_en.php:1066
+#: Help_en.php:1064
 msgid ""
 "<i>Add Activity</i> allows you to add an activity to a group of students in "
 "one action."
 msgstr ""
 
-#: Help_en.php:1068
+#: Help_en.php:1066
 msgid ""
 "First, search for students. Notice that you can search for students who are "
 "in a certain activity or course. From the search result, you can select any "
@@ -3169,30 +3169,30 @@ msgid ""
 "the \"Add Activity to Selected Students\" button at the top of the screen."
 msgstr ""
 
-#: Help_en.php:1070
+#: Help_en.php:1068
 msgid "<i>Activities</i> allows you to setup your school's activities."
 msgstr ""
 
-#: Help_en.php:1072
+#: Help_en.php:1070
 msgid ""
 "To add an activity, fill in the activity's title, beginning date, and ending "
 "date in the empty fields at the bottom of the activities list and click the "
 "\"Save\" button."
 msgstr ""
 
-#: Help_en.php:1074
+#: Help_en.php:1072
 msgid ""
 "To modify an activity, click on any of the activity's information, change "
 "the value, and click the \"Save\" button."
 msgstr ""
 
-#: Help_en.php:1076
+#: Help_en.php:1074
 msgid ""
 "To delete an activity, click the delete icon (-) next to the activity you "
 "want to delete. You will be asked to confirm the deletion."
 msgstr ""
 
-#: Help_en.php:1078
+#: Help_en.php:1076
 msgid ""
 "<i>Entry Times</i> allows you to setup the weekly timeframe in which "
 "teachers can enter eligibility. Teachers must enter eligibility every week "
@@ -3200,38 +3200,38 @@ msgid ""
 "timeframe is used in most eligibility reports"
 msgstr ""
 
-#: Help_en.php:1080
+#: Help_en.php:1078
 msgid ""
 "To change the timeframe, simply change the upper and lower bounds of the "
 "timeframe and click the \"Save\" button."
 msgstr ""
 
-#: Help_en.php:1082
+#: Help_en.php:1080
 msgid ""
 "<i>Student List</i> is a report that shows every course and eligibility "
 "grade assigned to any number of students."
 msgstr ""
 
-#: Help_en.php:1084
+#: Help_en.php:1082
 msgid ""
 "After searching for students, you can specify the eligibility timeframe you "
 "want to view. These timeframes are setup in the \"Entry Times\" program."
 msgstr ""
 
-#: Help_en.php:1086
+#: Help_en.php:1084
 msgid ""
 "<i>Teacher Completion</i> is a report that shows which teachers have not "
 "entered eligibility for any given date range. The date range is set in the "
 "\"Entry Times\" program."
 msgstr ""
 
-#: Help_en.php:1088
+#: Help_en.php:1086
 msgid ""
 "The red checks indicate that a teacher has failed to enter the current date "
 "range's eligibility for that period."
 msgstr ""
 
-#: Help_en.php:1090
+#: Help_en.php:1088
 msgid ""
 "You can select the current date range from the pull-down menu at the top of "
 "the screen. You can also show only one period by choosing that period from "
@@ -3240,7 +3240,7 @@ msgid ""
 "parameters."
 msgstr ""
 
-#: Help_en.php:1094
+#: Help_en.php:1092
 msgid ""
 "<i>Enter Eligibility</i> allows you to enter eligibility grades for all your "
 "students in the current period. By default, this program will list the "
@@ -3248,7 +3248,7 @@ msgid ""
 "changing the period pull-down menu in the left frame to the desired period."
 msgstr ""
 
-#: Help_en.php:1096
+#: Help_en.php:1094
 msgid ""
 "Once you are in the correct period, you can enter eligibility grades by "
 "selecting the eligibility code corresponding to each student. Once you have "
@@ -3256,7 +3256,7 @@ msgid ""
 "top of the screen."
 msgstr ""
 
-#: Help_en.php:1098
+#: Help_en.php:1096
 msgid ""
 "If you are using the Gradebook, you can have RosarioSIS calculate each "
 "student's eligibility grades by clicking on the \"Use Gradebook Grades\" "
@@ -3264,26 +3264,26 @@ msgid ""
 "student's eligibility grades and refresh the list."
 msgstr ""
 
-#: Help_en.php:1105
+#: Help_en.php:1103
 msgid ""
 "<i>Student Screen</i> is a display of your child's activities and the "
 "current timeframe's eligibility grades."
 msgstr ""
 
-#: Help_en.php:1107
+#: Help_en.php:1105
 msgid ""
 "You can specify the eligibility timeframe you want to view by choosing the "
 "desired timeframe from the pull-down menu at the top of the screen. "
 "Eligibility is entered once per week."
 msgstr ""
 
-#: Help_en.php:1109
+#: Help_en.php:1107
 msgid ""
 "<i>Student List</i> is a report that shows every course and eligibility "
 "grade assigned to your child."
 msgstr ""
 
-#: Help_en.php:1111
+#: Help_en.php:1109
 msgid ""
 "You can specify the eligibility timeframe you want to view by choosing the "
 "timeframe from the pull-down menu at the top of the screen and clicking the "

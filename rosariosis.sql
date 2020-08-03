@@ -2731,7 +2731,6 @@ INSERT INTO profile_exceptions VALUES (1, 'Attendance/Administration.php', 'Y', 
 INSERT INTO profile_exceptions VALUES (1, 'Attendance/AddAbsences.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Attendance/TeacherCompletion.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Attendance/Percent.php', 'Y', 'Y');
-INSERT INTO profile_exceptions VALUES (1, 'Attendance/Percent.php&list_by_day=true', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Attendance/DailySummary.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Attendance/StudentSummary.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Attendance/FixDailyAttendance.php', 'Y', 'Y');

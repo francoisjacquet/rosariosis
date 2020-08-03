@@ -981,11 +981,9 @@ if ( User( 'PROFILE' ) === 'admin' ):
 
 	$help['Attendance/Percent.php'] = '<p>' . _help( '<i>Average Daily Attendance</i> is a report that shows the number of students, days possible, the number of student days present, the number of student days absent, the Average Daily Attendance, the average number of students in attendance per day, and the average number of students absent per day for any date range at your school. These numbers are broken down by grade.' ) . '</p>
 
-	<p>' . _help( 'You can alter the date range displayed by changing the date pull-down menus at the top of the screen and clicking the "Go" button. You can also limit the numbers by searching by gender or any of the customizable data fields by clicking on the "Advanced" link.' ) . '</p>';
+	<p>' . _help( 'You can alter the date range displayed by changing the date pull-down menus at the top of the screen and clicking the "Go" button. You can also limit the numbers by searching by gender or any of the customizable data fields by clicking on the "Advanced" link.' ) . '</p>
 
-	$help['Attendance/Percent.php&list_by_day=true'] = '<p>' . _help( '<i>Average Daily Attendance by Day</i> is a report that shows the number of students, days possible, the number of student days present, the number of student days absent, and the Average Daily Attendance per day for any date range at your school. These numbers are broken down by grade.' ) . '</p>
-
-	<p>' . _help( 'You can alter the date range displayed by changing the date pull-down menus at the top of the screen and clicking the "Go" button. You can also limit the numbers by searching by gender or any of the customizable data fields by clicking on the "Advanced" link.' ) . '</p>';
+	<p>' . _help( '<i>Average Attendance by Day</i> is a report that shows the number of students, days possible, the number of student days present, the number of student days absent, and the Average Daily Attendance per day for any date range at your school. These numbers are broken down by grade.' ) . '</p>';
 
 	$help['Attendance/DailySummary.php'] = '<p>' . _help( '<i>Attendance Chart</i> is a report that shows the daily attendance status of any number of students for every date during any timeframe.' ) . '</p>
 
