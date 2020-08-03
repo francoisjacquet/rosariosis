@@ -2,6 +2,8 @@
 
 Place here the Plugins you want to add to RosarioSIS.
 
+Note: if you wish to add menu entries, please create a [module](https://gitlab.com/francoisjacquet/rosariosis/-/tree/mobile/modules) instead.
+
 ## Activate
 
 Activate them via:
@@ -10,6 +12,7 @@ _School > Configuration > Plugins_
 ## Files
 
 - `functions.php`: required. Contains the functions to be automatically loaded by RosarioSIS.
+- `install.sql`: optional. Contains the SQL queries run on plugin activation: configuration, plugin tables, data, etc.
 - `config.inc.php`: optional. Included by the `modules/School_Setup/includes/Plugins.inc.php` file when the _Configuration_ link in the plugin listing is clicked.
 
 ## Example

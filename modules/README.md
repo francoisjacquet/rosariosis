@@ -10,6 +10,7 @@ _School > Configuration > Modules_
 ## Files
 
 - `Menu.php`: required.
+- `install.sql`: optional. Contains the SQL queries run on module activation: Profile exceptions, module tables, data, etc.
 - `functions.php`: optional. Contains the functions to be automatically loaded by RosarioSIS.
 
 ## Example
