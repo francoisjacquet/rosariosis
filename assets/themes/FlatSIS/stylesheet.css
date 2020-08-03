@@ -864,6 +864,9 @@ td > .legend-gray:first-child {
 	.rt .link2colorBox .colorboxinline {
 		background-image: url(btn/visualize.png);
 	}
+	#calendar > thead > tr > th {
+		font-size: 13px;
+	}
 }
 
 @media only screen and (max-width:736px) {

@@ -1185,11 +1185,14 @@ div.st {
 
 .calendar-day {
 	min-width: 109px;
-	min-height: 96px;
 }
 
 .calendar-day > table {
 	height: 100%;
+}
+
+.calendar-event {
+	height: 32px;
 }
 
 /*http://stackoverflow.com/questions/9789723/css-text-overflow-in-a-table-cell*/
