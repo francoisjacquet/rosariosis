@@ -13,6 +13,7 @@ Changes in 7.0
 - Fix Numbered days display in SchoolPeriodsSelectInput.fnc.php & Courses.fnc.php
 - Place Rollover under Utilities separator in Menu.php
 - Merge Schedule Report & Master Schedule Report in Menu.php, MasterScheduleReport.php & ScheduleReport.php
+- Add Students column to report in RequestsReport.php
 
 Changes in 6.9.3
 ----------------

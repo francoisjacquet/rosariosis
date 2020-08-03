@@ -1,6 +1,6 @@
 <?php
 /**
- * Schedule Report + Master Schedule Report
+ * Merge Schedule Report & Master Schedule Report
  *
  * Included in ScheduleReport.php
  *
