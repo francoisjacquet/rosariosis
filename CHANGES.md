@@ -16,6 +16,7 @@ Changes in 7.0
 - Add Students column to report in RequestsReport.php
 - Merge Requests Report & Unfilled Requests in Menu.php, RequestsReport.php, UnfilledRequests.php, Scheduler.php, Help_en.php & rosariosis.sql
 - Merge Average Daily Attendance & Average Attendance by Day in Menu.php, Percent.php, Help_en.php, help.po & rosariosis.sql
+- Remove "Happy []..." text in Portal.php
 
 Changes in 6.9.3
 ----------------

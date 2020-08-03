@@ -1,4 +1,18 @@
 <?php
+require_once 'ProgramFunctions/PortalPollsNotes.fnc.php';
+require_once 'ProgramFunctions/Dashboard.fnc.php';
+
+if ( $RosarioModules['Discipline'] )
+{
+	// Discipline alerts.
+	require_once 'modules/Discipline/includes/PortalAlerts.fnc.php';
+}
+
+if ( $RosarioModules['Student_Billing'] )
+{
+	// @since 5.4 Student Billing alerts.
+	require_once 'modules/Student_Billing/includes/PortalAlerts.fnc.php';
+}
 
 if ( $_REQUEST['modfunc'] === 'redirect_take_attendance' )
 {
@@ -67,26 +81,12 @@ switch ( User( 'PROFILE' ) )
 
 DrawHeader( implode( '<br />', $welcome ) );
 
-if ( $RosarioModules['Discipline'] )
-{
-	// Discipline alerts.
-	require_once 'modules/Discipline/includes/PortalAlerts.fnc.php';
-}
-
-if ( $RosarioModules['Student_Billing'] )
-{
-	// @since 5.4 Student Billing alerts.
-	require_once 'modules/Student_Billing/includes/PortalAlerts.fnc.php';
-}
-
 // Do portal_alerts hook.
 do_action( 'misc/Portal.php|portal_alerts' );
 
 echo ErrorMessage( $note, 'note' );
 
 echo ErrorMessage( $warning, 'warning' );
-
-require_once 'ProgramFunctions/Dashboard.fnc.php';
 
 // Dashboard.
 DashboardOutput();
@@ -162,9 +162,7 @@ switch ( User( 'PROFILE' ) )
 			echo ErrorMessage( $PHPCheck, 'warning' );
 		}
 
-		require_once 'ProgramFunctions/PortalPollsNotes.fnc.php';
-//FJ file attached to portal notes
-		//FJ fix bug Portal Notes not displayed when pn.START_DATE IS NULL
+		// FJ fix bug Portal Notes not displayed when pn.START_DATE IS NULL.
 		//        $notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,'<b>'||pn.TITLE||'</b>' AS TITLE,pn.CONTENT FROM PORTAL_NOTES pn,SCHOOLS s,STAFF st WHERE pn.SYEAR='" . UserSyear() . "' AND pn.START_DATE<=CURRENT_DATE AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND st.STAFF_ID='" . User( 'STAFF_ID' ) . "' AND (st.SCHOOLS IS NULL OR position(','||pn.SCHOOL_ID||',' IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',admin,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(','||st.PROFILE_ID||',' IN pn.PUBLISHED_PROFILES)>0) AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC",array('PUBLISHED_DATE' => 'ProperDate','CONTENT' => '_formatContent'));
 		$notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,'<b>'||pn.TITLE||'</b>' AS TITLE,pn.CONTENT,pn.FILE_ATTACHED,pn.ID
 		FROM PORTAL_NOTES pn,SCHOOLS s,STAFF st
@@ -436,12 +434,11 @@ switch ( User( 'PROFILE' ) )
 			}
 		}
 
-		echo '<p>&nbsp;' . _( 'Happy administrating...' ) . '</p>';
 		break;
 
 	case 'teacher':
 		require_once 'ProgramFunctions/PortalPollsNotes.fnc.php';
-//FJ fix bug Portal Notes not displayed when pn.START_DATE IS NULL
+		//FJ fix bug Portal Notes not displayed when pn.START_DATE IS NULL
 		//        $notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,'<b>'||pn.TITLE||'</b>' AS TITLE,pn.CONTENT FROM PORTAL_NOTES pn,SCHOOLS s,STAFF st WHERE pn.SYEAR='" . UserSyear() . "' AND pn.START_DATE<=CURRENT_DATE AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND st.STAFF_ID='" . User( 'STAFF_ID' ) . "' AND (st.SCHOOLS IS NULL OR position(','||pn.SCHOOL_ID||',' IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',teacher,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(','||st.PROFILE_ID||',' IN pn.PUBLISHED_PROFILES)>0) AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC",array('PUBLISHED_DATE' => 'ProperDate','CONTENT' => '_formatContent'));
 		$notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,'<b>'||pn.TITLE||'</b>' AS TITLE,pn.CONTENT,pn.FILE_ATTACHED,pn.ID
 		FROM PORTAL_NOTES pn,SCHOOLS s,STAFF st
@@ -669,12 +666,11 @@ switch ( User( 'PROFILE' ) )
 			}
 		}
 
-		echo '<p>&nbsp;' . _( 'Happy teaching...' ) . '</p>';
 		break;
 
 	case 'parent':
 		require_once 'ProgramFunctions/PortalPollsNotes.fnc.php';
-//FJ fix bug Portal Notes not displayed when pn.START_DATE IS NULL
+		// FJ fix bug Portal Notes not displayed when pn.START_DATE IS NULL.
 		//        $notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,pn.TITLE,pn.CONTENT FROM PORTAL_NOTES pn,SCHOOLS s,STAFF st WHERE pn.SYEAR='" . UserSyear() . "' AND pn.START_DATE<=CURRENT_DATE AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND st.STAFF_ID='" . User( 'STAFF_ID' ) . "' AND pn.SCHOOL_ID IN (SELECT DISTINCT SCHOOL_ID FROM STUDENTS_JOIN_USERS sju, STUDENT_ENROLLMENT se WHERE sju.STAFF_ID='" . User( 'STAFF_ID' ) . "' AND se.SYEAR=pn.SYEAR AND se.STUDENT_ID=sju.STUDENT_ID AND se.START_DATE<=CURRENT_DATE AND (se.END_DATE>=CURRENT_DATE OR se.END_DATE IS NULL)) AND (st.SCHOOLS IS NULL OR position(','||pn.SCHOOL_ID||',' IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',parent,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(','||st.PROFILE_ID||',' IN pn.PUBLISHED_PROFILES)>0) AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC",array('PUBLISHED_DATE' => 'ProperDate','CONTENT' => '_formatContent'));
 		$notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,pn.TITLE,pn.CONTENT,pn.FILE_ATTACHED,pn.ID
 		FROM PORTAL_NOTES pn,SCHOOLS s,STAFF st
@@ -855,12 +851,11 @@ switch ( User( 'PROFILE' ) )
 			}
 		}
 
-		echo '<p>&nbsp;' . _( 'Happy parenting...' ) . '</p>';
 		break;
 
 	case 'student':
 		require_once 'ProgramFunctions/PortalPollsNotes.fnc.php';
-//FJ fix bug Portal Notes not displayed when pn.START_DATE IS NULL
+		// FJ fix bug Portal Notes not displayed when pn.START_DATE IS NULL.
 		//        $notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,pn.TITLE,pn.CONTENT FROM PORTAL_NOTES pn,SCHOOLS s WHERE pn.SYEAR='" . UserSyear() . "' AND pn.START_DATE<=CURRENT_DATE AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND pn.SCHOOL_ID='".UserSchool()."' AND  position(',0,' IN pn.PUBLISHED_PROFILES)>0 AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC",array('PUBLISHED_DATE' => 'ProperDate','CONTENT' => '_formatContent'));
 		$notes_RET = DBGet( "SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,pn.TITLE,pn.CONTENT,pn.FILE_ATTACHED,pn.ID
 		FROM PORTAL_NOTES pn,SCHOOLS s
@@ -982,7 +977,6 @@ switch ( User( 'PROFILE' ) )
 			}
 		}
 
-		echo '<p>&nbsp;' . _( 'Happy learning...' ) . '</p>';
 		break;
 }
 
