@@ -2703,7 +2703,6 @@ INSERT INTO profile_exceptions VALUES (1, 'Scheduling/PrintClassPictures.php', '
 INSERT INTO profile_exceptions VALUES (1, 'Scheduling/PrintRequests.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Scheduling/ScheduleReport.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Scheduling/RequestsReport.php', 'Y', 'Y');
-INSERT INTO profile_exceptions VALUES (1, 'Scheduling/UnfilledRequests.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Scheduling/IncompleteSchedules.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Scheduling/AddDrop.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Scheduling/Courses.php', 'Y', 'Y');
@@ -2891,7 +2890,6 @@ INSERT INTO profile_exceptions VALUES (1, 'Discipline/ReferralForm.php', 'Y', 'Y
 INSERT INTO profile_exceptions VALUES (2, 'Discipline/MakeReferral.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (2, 'Discipline/Referrals.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (2, 'Grades/GradebookBreakdown.php', 'Y', 'Y');
-INSERT INTO profile_exceptions VALUES (1, 'Scheduling/MasterScheduleReport.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'School_Setup/DatabaseBackup.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'School_Setup/PortalPolls.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'School_Setup/Configuration.php', 'Y', 'Y');

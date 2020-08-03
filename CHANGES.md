@@ -12,9 +12,9 @@ Changes in 7.0
 - Fix Day Number when multiple calendars and school years in CalendarDay.inc.php, DayToNumber.inc.php
 - Fix Numbered days display in SchoolPeriodsSelectInput.fnc.php & Courses.fnc.php
 - Place Rollover under Utilities separator in Menu.php
-- Merge Schedule Report & Master Schedule Report in Menu.php, MasterScheduleReport.php & ScheduleReport.php
+- Merge Schedule Report & Master Schedule Report in Menu.php, MasterScheduleReport.php, ScheduleReport.php & rosariosis.sql
 - Add Students column to report in RequestsReport.php
-- Merge Requests Report & Unfilled Requests in Menu.php, RequestsReport.php, UnfilledRequests.php, Scheduler.php & Help_en.php
+- Merge Requests Report & Unfilled Requests in Menu.php, RequestsReport.php, UnfilledRequests.php, Scheduler.php, Help_en.php & rosariosis.sql
 
 Changes in 6.9.3
 ----------------
