@@ -316,16 +316,14 @@ if ( ! $_REQUEST['modfunc'] )
 			'<div class="tooltip"><i>' .
 			_( 'Leave the field blank if the school does not use a Rotation of Numbered Days' ) .
 			'</i></div>',
-			'type=number size=1 min=1 max=9'
+			'type=number size=1 min=2 max=7'
 		) . '</td></tr>';
 	}
 	elseif ( ! empty( $schooldata['NUMBER_DAYS_ROTATION'] ) ) //do not show if no rotation set
 	{
-		echo '<tr><td colspan="3">' . TextInput(
+		echo '<tr><td colspan="3">' . NoInput(
 			$schooldata['NUMBER_DAYS_ROTATION'],
-			'values[NUMBER_DAYS_ROTATION]',
 			_( 'Number of Days for the Rotation' ),
-			'maxlength=1 size=1 min=1'
 		) . '</td></tr>';
 	}
 
