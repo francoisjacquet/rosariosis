@@ -2,6 +2,15 @@
 
 ## RosarioSIS Student Information System
 
+New in 7.0
+----------
+
+School & Attendance: improved Numbered Days Rotation
+
+Scheduling
+- Schedule Report: Merge Schedule Report & Master Schedule Report
+
+
 New in 6.9
 ----------
 

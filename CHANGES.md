@@ -12,6 +12,7 @@ Changes in 7.0
 - Fix Day Number when multiple calendars and school years in CalendarDay.inc.php, DayToNumber.inc.php
 - Fix Numbered days display in SchoolPeriodsSelectInput.fnc.php & Courses.fnc.php
 - Place Rollover under Utilities separator in Menu.php
+- Merge Schedule Report & Master Schedule Report in Menu.php, MasterScheduleReport.php & ScheduleReport.php
 
 Changes in 6.9.3
 ----------------

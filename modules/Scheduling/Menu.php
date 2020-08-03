@@ -23,7 +23,6 @@ $menu['Scheduling']['admin'] = array(
 	'Scheduling/PrintClassLists.php' => _( 'Print Class Lists' ),
 	'Scheduling/PrintClassPictures.php' => _( 'Print Class Pictures' ),
 	'Scheduling/PrintRequests.php' => _( 'Print Requests' ),
-	'Scheduling/MasterScheduleReport.php' => _( 'Master Schedule Report' ),
 	'Scheduling/ScheduleReport.php' => _( 'Schedule Report' ),
 	'Scheduling/RequestsReport.php' => _( 'Requests Report' ),
 	'Scheduling/UnfilledRequests.php' => _( 'Unfilled Requests' ),
