@@ -14,7 +14,7 @@ Changes in 7.0
 - Place Rollover under Utilities separator in Menu.php
 - Merge Schedule Report & Master Schedule Report in Menu.php, MasterScheduleReport.php & ScheduleReport.php
 - Add Students column to report in RequestsReport.php
-- Merge Requests Report & Unfilled Requests in Menu.php, RequestsReport.php, UnfilledRequests.php & Scheduler.php
+- Merge Requests Report & Unfilled Requests in Menu.php, RequestsReport.php, UnfilledRequests.php, Scheduler.php & Help_en.php
 
 Changes in 6.9.3
 ----------------

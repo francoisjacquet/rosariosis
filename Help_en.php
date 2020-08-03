@@ -699,9 +699,9 @@ if ( User( 'PROFILE' ) === 'admin' ):
 
 	$help['Scheduling/RequestsReport.php'] = '<p>' . _help( '<i>Requests Report</i> is a report that shows the number of students who requested each course and the number of total seats in that course. The courses are grouped by subject.' ) . '</p>
 
-	<p>' . _help( 'This report is useful for creating the master schedule since it helps you determine the number of course periods necessary for each course due to demand for the course.' ) . '</p>';
+	<p>' . _help( 'This report is useful for creating the master schedule since it helps you determine the number of course periods necessary for each course due to demand for the course.' ) . '</p>
 
-	$help['Scheduling/UnfilledRequests.php'] = '<p>' . _help( '<i>Unfilled Requests</i> is a report of course requests unfilled for a group of students.' ) . '</p>
+	<p>' . _help( '<i>Unfilled Requests</i> is a report of course requests unfilled for a group of students.' ) . '</p>
 
 	<p>' . _help( 'You must first select a (group of) student(s) by using the "Find a Student" search screen.' ) . '</p>
 
