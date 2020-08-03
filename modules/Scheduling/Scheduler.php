@@ -359,7 +359,7 @@ if ( $ok )
 
 	//$_REQUEST['modname'] = 'Scheduling/UnfilledRequests.php';
 	$_REQUEST['search_modfunc'] = 'list';
-	require_once 'modules/Scheduling/UnfilledRequests.php';
+	require_once 'modules/Scheduling/includes/UnfilledRequests.php';
 }
 
 /**

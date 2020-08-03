@@ -9,6 +9,7 @@ School & Attendance: improved Numbered Days Rotation
 
 Scheduling
 - Schedule Report: Merge Schedule Report & Master Schedule Report
+- Requests Report: Merge Requests Report & Unfilled Requests
 
 
 New in 6.9

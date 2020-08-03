@@ -1,27 +1,40 @@
 <?php
+/**
+ * Merge Requests Report & Unfilled Requests
+ *
+ * @package RosarioSIS
+ * @subpackage Scheduling
+ */
 
 DrawHeader( ProgramTitle() );
 
-$count_RET = DBGet( "SELECT cs.TITLE as SUBJECT_TITLE,c.TITLE as COURSE_TITLE,sr.COURSE_ID,COUNT(*) AS COUNT,
-	(SELECT sum(TOTAL_SEATS)
-		FROM COURSE_PERIODS cp
-		WHERE cp.COURSE_ID=sr.COURSE_ID) AS SEATS,
-	(SELECT count(STUDENT_ID)
-		FROM SCHEDULE s
-		WHERE s.COURSE_ID=sr.COURSE_ID) AS STUDENTS
-	FROM SCHEDULE_REQUESTS sr,COURSES c,COURSE_SUBJECTS cs
-	WHERE cs.SUBJECT_ID=c.SUBJECT_ID
-	AND sr.COURSE_ID=c.COURSE_ID
-	AND sr.SYEAR='" . UserSyear() . "'
-	AND sr.SCHOOL_ID='" . UserSchool() . "'
-	GROUP BY sr.COURSE_ID,cs.TITLE,c.TITLE" );
+$_REQUEST['report'] = issetVal( $_REQUEST['report'], '' );
 
-$columns = array(
-	'SUBJECT_TITLE' => _( 'Subject' ),
-	'COURSE_TITLE' => _( 'Course' ),
-	'COUNT' => _( 'Number of Requests' ),
-	'SEATS' => _( 'Seats' ),
-	'STUDENTS' => _( 'Students' ),
+$report_link = PreparePHP_SELF(
+	array(),
+	array( 'report', 'search_modfunc', 'next_modname', 'include_seats', 'expanded_view', 'address_group' )
+) . '&report=';
+
+$report_select = SelectInput(
+	$_REQUEST['report'],
+	'report',
+	'',
+	array(
+		'' => _( 'Requests Report' ),
+		'unfilled' => _( 'Unfilled Requests' ),
+	),
+	false,
+	'onchange="ajaxLink(\'' . $report_link . '\' + this.value);" autocomplete="off"',
+	false
 );
 
-ListOutput( $count_RET, $columns, 'Subject', 'Subjects' );
+DrawHeader( $report_select );
+
+if ( $_REQUEST['report'] === 'unfilled' )
+{
+	require_once 'modules/Scheduling/includes/UnfilledRequests.php';
+}
+else
+{
+	require_once 'modules/Scheduling/includes/RequestsReport.php';
+}

@@ -2,8 +2,6 @@
 /**
  * Merge Schedule Report & Master Schedule Report
  *
- * Included in ScheduleReport.php
- *
  * @package RosarioSIS
  * @subpackage Scheduling
  */

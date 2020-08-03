@@ -25,7 +25,6 @@ $menu['Scheduling']['admin'] = array(
 	'Scheduling/PrintRequests.php' => _( 'Print Requests' ),
 	'Scheduling/ScheduleReport.php' => _( 'Schedule Report' ),
 	'Scheduling/RequestsReport.php' => _( 'Requests Report' ),
-	'Scheduling/UnfilledRequests.php' => _( 'Unfilled Requests' ),
 	'Scheduling/IncompleteSchedules.php' => _( 'Incomplete Schedules' ),
 	'Scheduling/AddDrop.php' => _( 'Add / Drop Report' ),
 	2 => _( 'Setup' ),

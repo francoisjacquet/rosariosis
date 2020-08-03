@@ -1,14 +1,20 @@
 <?php
+/**
+ * Unfilled Requests
+ *
+ * Included in RequestsReport.php
+ *
+ * @package RosarioSIS
+ * @subpackage Scheduling
+ */
 
 require_once 'modules/Scheduling/includes/calcSeats0.fnc.php';
 
-//include calcSeats, _makeRequestTeacher & _makeRequestPeriod functions
+// Include calcSeats, _makeRequestTeacher & _makeRequestPeriod functions.
 require_once 'modules/Scheduling/includes/unfilledRequests.inc.php';
 
-if ( $_REQUEST['modname'] == 'Scheduling/UnfilledRequests.php' )
+if ( $_REQUEST['modname'] == 'Scheduling/RequestsReport.php' )
 {
-	DrawHeader( ProgramTitle() );
-
 	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
 		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=modify' ) . '" method="POST">';
@@ -69,5 +75,7 @@ $extra['Redirect'] = false;
 
 // Deactivate List saving.
 $extra['options']['save'] = false;
+
+$extra['action'] = '&report=unfilled';
 
 Search( 'student_id', $extra );
