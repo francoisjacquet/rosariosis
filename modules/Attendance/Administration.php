@@ -59,26 +59,31 @@ $current_Q = "SELECT ATTENDANCE_TEACHER_CODE,ATTENDANCE_CODE,ATTENDANCE_REASON,C
 	FROM " . DBEscapeIdentifier( $table ) .
 	" WHERE SCHOOL_DATE='" . $date . "'" . $extra_sql;
 
-//FJ days numbered
-//FJ multiple school periods for a course period
-
 if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 {
+	// FJ days numbered.
+	// FJ multiple school periods for a course period.
 	$current_schedule_Q = "SELECT cpsp.PERIOD_ID,cp.COURSE_PERIOD_ID,cp.HALF_DAY
-	FROM SCHEDULE s,COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp
+	FROM SCHEDULE s,COURSE_PERIODS cp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 	AND s.STUDENT_ID='__student_id__'
 	AND s.SYEAR='" . UserSyear() . "'
 	AND s.SCHOOL_ID='" . UserSchool() . "'
-	AND cp.COURSE_PERIOD_ID = s.COURSE_PERIOD_ID
+	AND cp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID
 	AND position('," . $_REQUEST['table'] . ",' IN cp.DOES_ATTENDANCE)>0
 	AND ('" . $date . "' BETWEEN s.START_DATE AND s.END_DATE OR (s.END_DATE IS NULL AND '" . $date . "'>=s.START_DATE))
 	AND position(substring('MTWHFSU' FROM cast(
-		(SELECT CASE COUNT(school_date)% " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " WHEN 0 THEN " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " ELSE COUNT(school_date)% " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " END AS day_number
+		(SELECT CASE COUNT(SCHOOL_DATE)%" . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " WHEN 0 THEN " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " ELSE COUNT(SCHOOL_DATE)%" . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " END AS day_number
 		FROM attendance_calendar
-		WHERE school_date>=(SELECT start_date FROM school_marking_periods WHERE start_date<='" . $date . "' AND end_date>='" . $date . "' AND mp='QTR' AND SCHOOL_ID=s.SCHOOL_ID)
-		AND school_date<='" . $date . "'
-		AND SCHOOL_ID=s.SCHOOL_ID)
+		WHERE SCHOOL_DATE<='" . $date . "'
+		AND SCHOOL_DATE>=(SELECT START_DATE
+			FROM SCHOOL_MARKING_PERIODS
+			WHERE START_DATE<='" . $date . "'
+			AND END_DATE>='" . $date . "'
+			AND MP='QTR'
+			AND SCHOOL_ID=s.SCHOOL_ID
+			AND SYEAR=s.SYEAR)
+		AND CALENDAR_ID=cp.CALENDAR_ID)
 	AS INT) FOR 1) IN cpsp.DAYS)>0
 	AND s.MARKING_PERIOD_ID IN (" . $all_mp . ")
 	ORDER BY s.START_DATE ASC";
@@ -174,10 +179,7 @@ if ( ! empty( $_REQUEST['attendance'] ) // Fix GET form: do not check $_POST.
 		UpdateAttendanceDaily(
 			$student_id,
 			$date,
-			( $_REQUEST['attendance_day'][$student_id]['COMMENT'] ?
-				$_REQUEST['attendance_day'][$student_id]['COMMENT'] :
-				false
-			)
+			issetVal( $_REQUEST['attendance_day'][$student_id]['COMMENT'], false )
 		);
 
 		unset( $_REQUEST['attendance_day'][$student_id] );
@@ -252,29 +254,48 @@ if ( isset( $_REQUEST['student_id'] ) && $_REQUEST['student_id'] !== 'new' )
 		SetUserStudentID( $_REQUEST['student_id'] );
 	}
 
-	$functions = array( 'ATTENDANCE_CODE' => '_makeCodePulldown', 'ATTENDANCE_TEACHER_CODE' => '_makeCode', 'ATTENDANCE_REASON' => '_makeReasonInput', 'COMMENT' => '_makeReason' );
-
-	//FJ days numbered
-	//FJ multiple school periods for a course period
+	$functions = array(
+		'ATTENDANCE_CODE' => '_makeCodePulldown',
+		'ATTENDANCE_TEACHER_CODE' => '_makeCode',
+		'ATTENDANCE_REASON' => '_makeReasonInput',
+		'COMMENT' => '_makeReason',
+	);
 
 	if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 	{
-		$schedule_RET = DBGet( "SELECT
-		s.STUDENT_ID,c.TITLE AS COURSE,cpsp.PERIOD_ID,cp.COURSE_PERIOD_ID,p.TITLE AS PERIOD_TITLE,
-		s.STUDENT_ID AS ATTENDANCE_CODE,s.STUDENT_ID AS ATTENDANCE_TEACHER_CODE,s.STUDENT_ID AS ATTENDANCE_REASON,s.STUDENT_ID AS COMMENT
+		// FJ days numbered.
+		// FJ multiple school periods for a course period.
+		$schedule_RET = DBGet( "SELECT s.STUDENT_ID,c.TITLE AS COURSE,cpsp.PERIOD_ID,
+			cp.COURSE_PERIOD_ID,p.TITLE AS PERIOD_TITLE,s.STUDENT_ID AS ATTENDANCE_CODE,
+			s.STUDENT_ID AS ATTENDANCE_TEACHER_CODE,s.STUDENT_ID AS ATTENDANCE_REASON,
+			s.STUDENT_ID AS COMMENT
 		FROM SCHEDULE s,COURSES c,COURSE_PERIODS cp,SCHOOL_PERIODS p,ATTENDANCE_CALENDAR ac, COURSE_PERIOD_SCHOOL_PERIODS cpsp
-		WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND
-		s.SYEAR='" . UserSyear() . "' AND s.SCHOOL_ID='" . UserSchool() . "' AND s.MARKING_PERIOD_ID IN (" . $all_mp . ")
+		WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
+		AND s.SYEAR='" . UserSyear() . "'
+		AND s.SCHOOL_ID='" . UserSchool() . "'
+		AND s.MARKING_PERIOD_ID IN (" . $all_mp . ")
 		AND s.COURSE_ID=c.COURSE_ID
-		AND s.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND cpsp.PERIOD_ID=p.PERIOD_ID AND position(',$_REQUEST[table],' IN cp.DOES_ATTENDANCE)>0
-		AND s.STUDENT_ID='" . $_REQUEST['student_id'] . "' AND ('" . $date . "' BETWEEN s.START_DATE AND s.END_DATE OR (s.END_DATE IS NULL AND '" . $date . "'>=s.START_DATE))
+		AND s.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
+		AND cpsp.PERIOD_ID=p.PERIOD_ID
+		AND position('," . $_REQUEST['table'] . ",' IN cp.DOES_ATTENDANCE)>0
+		AND s.STUDENT_ID='" . $_REQUEST['student_id'] . "'
+		AND ('" . $date . "' BETWEEN s.START_DATE AND s.END_DATE OR (s.END_DATE IS NULL AND '" . $date . "'>=s.START_DATE))
 		AND position(substring('MTWHFSU' FROM cast(
-			(SELECT CASE COUNT(school_date)% " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " WHEN 0 THEN " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " ELSE COUNT(school_date)% " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " END AS day_number
-			FROM attendance_calendar
-			WHERE school_date>=(SELECT start_date FROM school_marking_periods WHERE start_date<='" . $date . "' AND end_date>='" . $date . "' AND mp='QTR' AND SCHOOL_ID=s.SCHOOL_ID)
-			AND school_date<='" . $date . "' AND SCHOOL_ID=s.SCHOOL_ID) AS INT) FOR 1)
+			(SELECT CASE COUNT(SCHOOL_DATE)%" . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " WHEN 0 THEN " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " ELSE COUNT(SCHOOL_DATE)%" . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " END AS day_number
+			FROM ATTENDANCE_CALENDAR
+			WHERE SCHOOL_DATE<=ac.SCHOOL_DATE
+			AND SCHOOL_DATE>=(SELECT START_DATE
+				FROM SCHOOL_MARKING_PERIODS
+				WHERE START_DATE<=ac.SCHOOL_DATE
+				AND END_DATE>=ac.SCHOOL_DATE
+				AND MP='QTR'
+				AND SCHOOL_ID=s.SCHOOL_ID
+				AND SYEAR=s.SYEAR)
+			AND CALENDAR_ID=cp.CALENDAR_ID) AS INT) FOR 1)
 		IN cpsp.DAYS)>0
-		AND ac.CALENDAR_ID=cp.CALENDAR_ID AND ac.SCHOOL_DATE='" . $date . "' AND ac.MINUTES!='0'
+		AND ac.CALENDAR_ID=cp.CALENDAR_ID
+		AND ac.SCHOOL_DATE='" . $date . "'
+		AND ac.MINUTES!='0'
 		ORDER BY p.SORT_ORDER", $functions );
 	}
 	else
@@ -324,26 +345,14 @@ if ( isset( $_REQUEST['student_id'] ) && $_REQUEST['student_id'] !== 'new' )
 }
 else
 {
-	$extra2['WHERE'] = '';
+	$extra['WHERE'] = " AND EXISTS (SELECT '' FROM " . DBEscapeIdentifier( $table ) . " ap,ATTENDANCE_CODES ac
+		WHERE ap.SCHOOL_DATE='" . $date . "'
+		AND ap.STUDENT_ID=ssm.STUDENT_ID
+		AND ap.ATTENDANCE_CODE=ac.ID
+		AND ac.SCHOOL_ID=ssm.SCHOOL_ID
+		AND ac.SYEAR=ssm.SYEAR " . str_replace( 'TABLE_NAME', 'ac.TABLE_NAME', $extra_sql );
 
-	if ( $_REQUEST['expanded_view'] != 'true' )
-	{
-		$extra['WHERE'] = $extra2['WHERE'] = " AND EXISTS (SELECT '' FROM " . DBEscapeIdentifier( $table ) . " ap,ATTENDANCE_CODES ac
-			WHERE ap.SCHOOL_DATE='" . $date . "'
-			AND ap.STUDENT_ID=ssm.STUDENT_ID
-			AND ap.ATTENDANCE_CODE=ac.ID
-			AND ac.SCHOOL_ID=ssm.SCHOOL_ID
-			AND ac.SYEAR=ssm.SYEAR " . str_replace( 'TABLE_NAME', 'ac.TABLE_NAME', $extra_sql );
-	}
-	else
-	{
-		$extra['WHERE'] = " AND EXISTS (SELECT '' FROM " . DBEscapeIdentifier( $table ) . " ap,ATTENDANCE_CODES ac
-			WHERE ap.SCHOOL_DATE='" . $date . "'
-			AND ap.STUDENT_ID=ssm.STUDENT_ID
-			AND ap.ATTENDANCE_CODE=ac.ID
-			AND ac.SCHOOL_ID=ssm.SCHOOL_ID
-			AND ac.SYEAR=ssm.SYEAR " . str_replace( 'TABLE_NAME', 'ac.TABLE_NAME', $extra_sql );
-	}
+	$extra2['WHERE'] = $_REQUEST['expanded_view'] != 'true' ? $extra['WHERE'] : '';
 
 	$abs = false;
 
@@ -538,7 +547,7 @@ function _makeCodePulldown( $value, $title )
 	$codes_RET,
 	$current_RET,
 	$current_schedule_RET,
-		$current_schedule_Q;
+	$current_schedule_Q;
 
 	if ( empty( $current_schedule_RET[$value] ) )
 	{
@@ -582,15 +591,13 @@ function _makeCodePulldown( $value, $title )
 		}
 
 		return MakeAttendanceCode(
-			$current_state_code,
+			issetVal( $current_state_code ),
 			SelectInput( $val, 'attendance[' . $value . '][' . $period_id . '][ATTENDANCE_CODE]', '', $options ),
-			$current_code_title
+			issetVal( $current_code_title )
 		);
 	}
-	else
-	{
-		return false;
-	}
+
+	return false;
 }
 
 /**

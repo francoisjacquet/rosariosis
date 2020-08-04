@@ -2,7 +2,7 @@
 
 require_once 'ProgramFunctions/TipMessage.fnc.php';
 
-$_REQUEST['table'] = issetVal( $_REQUEST['table'] );
+$_REQUEST['table'] = issetVal( $_REQUEST['table'], '0' );
 $_REQUEST['period'] = issetVal( $_REQUEST['period'] );
 
 // Set date.
@@ -16,16 +16,13 @@ $categories_RET = DBGet( "SELECT ID,TITLE
 	AND SCHOOL_ID='" . UserSchool() . "'
 	ORDER BY SORT_ORDER,TITLE" );
 
-if ( $_REQUEST['table'] == '' )
-{
-	$_REQUEST['table'] = '0';
-}
-
-$category_select = "<select name=table onChange='ajaxPostForm(this.form,true);'><option value='0'" . ( $_REQUEST['table'] == '0' ? ' selected' : '' ) . ">" . _( 'Attendance' ) . "</option>";
+$category_select = "<select name=table onChange='ajaxPostForm(this.form,true);'><option value='0'" .
+	( $_REQUEST['table'] == '0' ? ' selected' : '' ) . ">" . _( 'Attendance' ) . "</option>";
 
 foreach ( (array) $categories_RET as $category )
 {
-	$category_select .= '<option value="' . $category[ID] . '"' . (  ( $_REQUEST['table'] == $category['ID'] ) ? ' selected' : '' ) . ">" . $category['TITLE'] . "</option>";
+	$category_select .= '<option value="' . $category['ID'] . '"' .
+		( ( $_REQUEST['table'] == $category['ID'] ) ? ' selected' : '' ) . ">" . $category['TITLE'] . "</option>";
 }
 
 $category_select .= "</select>";
@@ -81,20 +78,20 @@ if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 	AND acc.SYEAR='" . UserSyear() . "'
 	AND (acc.MINUTES IS NOT NULL AND acc.MINUTES>0)
 	AND (sp.BLOCK IS NULL
-		AND position(substring('MTWHFSU' FROM cast((SELECT CASE COUNT(school_date)% " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . "
+		AND position(substring('MTWHFSU' FROM cast((SELECT CASE COUNT(SCHOOL_DATE)%" . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . "
 			WHEN 0 THEN " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . "
-			ELSE COUNT(school_date)% " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " END AS day_number
-			FROM attendance_calendar
-			WHERE school_date>=(SELECT start_date
-				FROM school_marking_periods
-				WHERE start_date<=acc.SCHOOL_DATE
-				AND end_date>=acc.SCHOOL_DATE
-				AND mp='QTR' AND SCHOOL_ID=cp.SCHOOL_ID)
-			AND school_date<=acc.SCHOOL_DATE
-			AND SCHOOL_ID=cp.SCHOOL_ID) AS INT) FOR 1) IN cpsp.DAYS)>0
-		OR sp.BLOCK IS NOT NULL
-		AND acc.BLOCK IS NOT NULL
-		AND sp.BLOCK=acc.BLOCK)
+			ELSE COUNT(SCHOOL_DATE)%" . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " END AS day_number
+			FROM ATTENDANCE_CALENDAR
+			WHERE SCHOOL_DATE<=acc.SCHOOL_DATE
+			AND SCHOOL_DATE>=(SELECT START_DATE
+				FROM SCHOOL_MARKING_PERIODS
+				WHERE START_DATE<=acc.SCHOOL_DATE
+				AND END_DATE>=acc.SCHOOL_DATE
+				AND MP='QTR'
+				AND SCHOOL_ID=acc.SCHOOL_ID
+				AND SYEAR=acc.SYEAR)
+			AND CALENDAR_ID=cp.CALENDAR_ID) AS INT) FOR 1) IN cpsp.DAYS)>0
+		OR (sp.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK))
 	ORDER BY FULL_NAME";
 }
 else
@@ -136,6 +133,8 @@ if ( ! isset( $_REQUEST['period'] )
 	|| ! $_REQUEST['period'] )
 {
 	$i = 0;
+
+	$staff_RET = array();
 
 	foreach ( (array) $RET as $staff_id => $periods )
 	{

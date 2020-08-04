@@ -100,13 +100,19 @@ function AttendanceDailyTotalMinutes( $student_id, $date )
 
 	if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 	{
-		$total_sql .= " AND position(substring('MTWHFSU' FROM cast((SELECT CASE COUNT(school_date)% " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " WHEN 0
+		$total_sql .= " AND position(substring('MTWHFSU' FROM cast((SELECT CASE COUNT(SCHOOL_DATE)% " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " WHEN 0
 			THEN " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . "
-			ELSE COUNT(school_date)% " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " END AS day_number
-			FROM attendance_calendar
-			WHERE school_date>=(SELECT start_date FROM school_marking_periods WHERE start_date<='" . $date . "' AND end_date>='" . $date . "' AND mp='QTR' AND SCHOOL_ID=s.SCHOOL_ID)
-			AND school_date<='" . $date . "'
-			AND SCHOOL_ID=s.SCHOOL_ID) AS INT) FOR 1) IN cpsp.DAYS)>0";
+			ELSE COUNT(SCHOOL_DATE)% " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " END AS day_number
+			FROM ATTENDANCE_CALENDAR
+			WHERE SCHOOL_DATE<=ac.SCHOOL_DATE
+			AND SCHOOL_DATE>=(SELECT START_DATE
+				FROM SCHOOL_MARKING_PERIODS
+				WHERE START_DATE<=ac.SCHOOL_DATE
+				AND END_DATE>=ac.SCHOOL_DATE
+				AND MP='QTR'
+				AND SCHOOL_ID=ac.SCHOOL_ID
+				AND SYEAR=ac.SYEAR)
+			AND CALENDAR_ID=cp.CALENDAR_ID) AS INT) FOR 1) IN cpsp.DAYS)>0";
 	}
 	else
 	{

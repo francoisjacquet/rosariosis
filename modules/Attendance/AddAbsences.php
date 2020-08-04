@@ -39,17 +39,19 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			FROM ATTENDANCE_CODES
 			WHERE ID='" . $_REQUEST['absence_code'] . "'" );
 
+		$go = false;
+
 		foreach ( (array) $_REQUEST['student'] as $student_id )
 		{
 			foreach ( (array) $_REQUEST['dates'] as $date => $yes )
 			{
 				$current_mp = GetCurrentMP( 'QTR', $date );
 				$all_mp = GetAllMP( 'QTR', $current_mp );
-				//FJ days numbered
-				//FJ multiple school periods for a course period
 
 				if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 				{
+					// FJ days numbered.
+					// FJ multiple school periods for a course period.
 					$course_periods_RET = DBGet( "SELECT s.COURSE_PERIOD_ID,cpsp.PERIOD_ID,cp.HALF_DAY
 					FROM SCHEDULE s,COURSE_PERIODS cp,ATTENDANCE_CALENDAR ac,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
 					WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
@@ -63,14 +65,21 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					AND position(',0,' IN cp.DOES_ATTENDANCE)>0
 					AND (ac.SCHOOL_DATE BETWEEN s.START_DATE AND s.END_DATE OR (s.END_DATE IS NULL AND ac.SCHOOL_DATE>=s.START_DATE))
 					AND position(substring('MTWHFSU' FROM cast(
-						(SELECT CASE COUNT(school_date)% " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " WHEN 0 THEN " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " ELSE COUNT(school_date)% " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " END AS day_number
-						FROM attendance_calendar
-						WHERE school_date>=(SELECT start_date FROM school_marking_periods WHERE start_date<=ac.SCHOOL_DATE AND end_date>=ac.SCHOOL_DATE AND mp='QTR' AND SCHOOL_ID=ac.SCHOOL_ID)
-						AND school_date<=ac.SCHOOL_DATE
-						AND SCHOOL_ID=ac.SCHOOL_ID)
+						(SELECT CASE COUNT(SCHOOL_DATE)%" . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " WHEN 0 THEN " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " ELSE COUNT(SCHOOL_DATE)%" . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " END AS day_number
+						FROM ATTENDANCE_CALENDAR
+						WHERE SCHOOL_DATE<=ac.SCHOOL_DATE
+						AND SCHOOL_DATE>=(SELECT START_DATE
+							FROM SCHOOL_MARKING_PERIODS
+							WHERE START_DATE<=ac.SCHOOL_DATE
+							AND END_DATE>=ac.SCHOOL_DATE
+							AND MP='QTR'
+							AND SCHOOL_ID=ac.SCHOOL_ID
+							AND SYEAR=ac.SYEAR)
+						AND CALENDAR_ID=cp.CALENDAR_ID)
 					AS INT) FOR 1) IN cpsp.DAYS)>0
 					AND s.MARKING_PERIOD_ID IN (" . $all_mp . ")
-					AND ac.SCHOOL_ID=s.SCHOOL_ID", array(), array( 'PERIOD_ID' ) );
+					AND ac.SCHOOL_ID=s.SCHOOL_ID
+					AND ac.SYEAR=s.SYEAR", array(), array( 'PERIOD_ID' ) );
 				}
 				else
 				{
@@ -108,8 +117,6 @@ if ( $_REQUEST['modfunc'] === 'save' )
 							VALUES('" . $student_id . "','" . $date . "','" . $period_id . "','" .
 							$current_mp . "','" . $course_period_id . "','" . $_REQUEST['absence_code'] . "','" .
 							$_REQUEST['absence_reason'] . "','Y')";
-
-							DBQuery( $sql );
 						}
 						else
 						{
@@ -119,9 +126,11 @@ if ( $_REQUEST['modfunc'] === 'save' )
 							WHERE STUDENT_ID='" . $student_id . "'
 							AND SCHOOL_DATE='" . $date . "'
 							AND PERIOD_ID='" . $period_id . "'";
-
-							DBQuery( $sql );
 						}
+
+						$go = true;
+
+						DBQuery( $sql );
 					}
 				}
 
@@ -133,7 +142,10 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			}
 		}
 
-		$note[] = button( 'check' ) . '&nbsp;' . _( 'Absence records were added for the selected students.' );
+		if ( $go )
+		{
+			$note[] = button( 'check' ) . '&nbsp;' . _( 'Absence records were added for the selected students.' );
+		}
 	}
 	else
 	{

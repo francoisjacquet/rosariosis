@@ -196,11 +196,15 @@ if ( $_REQUEST['student_id']
 			ORDER BY sp.SORT_ORDER
 			";*/
 		$sql = "SELECT cp.TITLE as COURSE_PERIOD,sp.TITLE as PERIOD,cpsp.PERIOD_ID
-			FROM SCHEDULE s,COURSES c,COURSE_PERIODS cp,SCHOOL_PERIODS sp, COURSE_PERIOD_SCHOOL_PERIODS cpsp
+			FROM SCHEDULE s,COURSES c,COURSE_PERIODS cp,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
 			WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
-			AND	s.COURSE_ID = c.COURSE_ID AND s.COURSE_ID = cp.COURSE_ID
-			AND s.COURSE_PERIOD_ID = cp.COURSE_PERIOD_ID AND cpsp.PERIOD_ID = sp.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0
-			AND s.SYEAR = c.SYEAR AND cp.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . ")
+			AND	s.COURSE_ID=c.COURSE_ID
+			AND s.COURSE_ID=cp.COURSE_ID
+			AND s.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
+			AND cpsp.PERIOD_ID=sp.PERIOD_ID
+			AND position(',0,' IN cp.DOES_ATTENDANCE)>0
+			AND s.SYEAR=c.SYEAR
+			AND cp.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . ")
 			AND s.STUDENT_ID='" . UserStudentID() . "'
 			AND s.SYEAR='" . UserSyear() . "'
 			AND ('" . DBDate() . "' BETWEEN s.START_DATE AND s.END_DATE OR s.END_DATE IS NULL)";
@@ -319,8 +323,7 @@ else
 		AND (('" . DBDate() . "' BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL)
 			AND '" . DBDate() . "'>=ssm.START_DATE)
 		AND ssm.SCHOOL_ID='" . UserSchool() . "'
-		AND ad.SCHOOL_DATE BETWEEN '" . $start_date . "'
-		AND '" . $end_date . "'
+		AND ad.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
 		AND ad.STUDENT_ID=";
 	}
 	else
@@ -328,8 +331,7 @@ else
 		$att_sql = "SELECT ap.ATTENDANCE_CODE,ap.SCHOOL_DATE,'_'||to_char(ap.SCHOOL_DATE,'yyyymmdd') AS SHORT_DATE
 		FROM ATTENDANCE_PERIOD ap,STUDENT_ENROLLMENT ssm
 		WHERE ap.STUDENT_ID=ssm.STUDENT_ID
-		AND ap.SCHOOL_DATE BETWEEN '" . $start_date . "'
-		AND '" . $end_date . "'
+		AND ap.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
 		AND ap.PERIOD_ID='" . $_REQUEST['period_id'] . "'
 		AND ap.STUDENT_ID=";
 	}

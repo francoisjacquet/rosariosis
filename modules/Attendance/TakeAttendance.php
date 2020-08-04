@@ -69,13 +69,12 @@ $school_periods_select = SchoolPeriodsSelectInput(
 	'autocomplete="off" onchange=\'ajaxLink(' . json_encode( PreparePHP_SELF( array(), array( 'school_period' ) ) ) . ' + "&school_period=" + this.value);\''
 );
 
-//FJ days numbered
-//FJ multiple school periods for a course period
-
 if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 {
+	// FJ days numbered.
+	// FJ multiple school periods for a course period.
 	$course_RET = DBGet( "SELECT cp.HALF_DAY
-	FROM ATTENDANCE_CALENDAR acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp, COURSE_PERIOD_SCHOOL_PERIODS cpsp
+	FROM ATTENDANCE_CALENDAR acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 	AND acc.SYEAR='" . UserSyear() . "'
 	AND cp.SCHOOL_ID=acc.SCHOOL_ID
@@ -89,11 +88,17 @@ if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 	AND acc.SCHOOL_DATE BETWEEN START_DATE AND END_DATE)
 	AND sp.PERIOD_ID=cpsp.PERIOD_ID
 	AND (sp.BLOCK IS NULL AND position(substring('MTWHFSU' FROM cast(
-		(SELECT CASE COUNT(school_date)% " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " WHEN 0 THEN " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " ELSE COUNT(school_date)% " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " END AS day_number
-		FROM attendance_calendar
-		WHERE school_date>=(SELECT start_date FROM school_marking_periods WHERE start_date<=acc.SCHOOL_DATE AND end_date>=acc.SCHOOL_DATE AND mp='QTR' AND SCHOOL_ID=acc.SCHOOL_ID)
-		AND school_date<=acc.SCHOOL_DATE
-		AND SCHOOL_ID=acc.SCHOOL_ID)
+		(SELECT CASE COUNT(SCHOOL_DATE)% " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " WHEN 0 THEN " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " ELSE COUNT(SCHOOL_DATE)% " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " END AS day_number
+		FROM ATTENDANCE_CALENDAR
+		WHERE SCHOOL_DATE<=acc.SCHOOL_DATE
+		AND SCHOOL_DATE>=(SELECT START_DATE
+			FROM SCHOOL_MARKING_PERIODS
+			WHERE START_DATE<=acc.SCHOOL_DATE
+			AND END_DATE>=acc.SCHOOL_DATE
+			AND MP='QTR'
+			AND SCHOOL_ID=acc.SCHOOL_ID
+			AND SYEAR=acc.SYEAR)
+		AND CALENDAR_ID=cp.CALENDAR_ID)
 	AS INT) FOR 1) IN cpsp.DAYS)>0 OR sp.BLOCK IS NOT NULL AND acc.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK)
 	AND position('," . $_REQUEST['table'] . ",' IN cp.DOES_ATTENDANCE)>0" );
 }
