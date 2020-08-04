@@ -131,6 +131,11 @@ input + .loading {
 	-moz-font-smoothing: antialiased;
 }
 
+::selection {
+	color: white;
+	background: #0073aa;
+}
+
 .menu-top {
 	text-transform: uppercase;
 }
