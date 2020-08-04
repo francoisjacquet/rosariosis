@@ -102,8 +102,7 @@ else
 // TODO: can be optimized? Remove PERIOD_ID index.
 $current_RET = DBGet( $current_Q, array(), array( 'STUDENT_ID', 'PERIOD_ID' ) );
 
-if ( ! empty( $_REQUEST['attendance'] )
-	&& $_POST['attendance']
+if ( ! empty( $_REQUEST['attendance'] ) // Fix GET form: do not check $_POST.
 	&& AllowEdit() )
 {
 	foreach ( (array) $_REQUEST['attendance'] as $student_id => $values )

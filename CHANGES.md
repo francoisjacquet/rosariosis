@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 6.9.4
+----------------
+- Fix regression since 5.3 cannot edit Attendance in Administration.php
+
 Changes in 6.9.3
 ----------------
 - Fix JS Markdown to HTML blockquote in warehouse.js
