@@ -39,11 +39,6 @@ if ( ! empty( $_REQUEST['attendance'] )
 		}
 	}
 
-	$current_RET = DBGet( "SELECT ATTENDANCE_TEACHER_CODE,ATTENDANCE_CODE,
-		ATTENDANCE_REASON,STUDENT_ID,ADMIN,COURSE_PERIOD_ID
-		FROM ATTENDANCE_PERIOD
-		WHERE SCHOOL_DATE='" . $date . "'", array(), array( 'STUDENT_ID', 'COURSE_PERIOD_ID' ) );
-
 	// Unset attendance & redirect URL.
 	RedirectURL( 'attendance' );
 }
@@ -411,15 +406,13 @@ function _makeColor( $value, $column )
 		}
 
 		return MakeAttendanceCode(
-			$attendance_codes_RET[ $att['ATTENDANCE_CODE'] ][1]['STATE_CODE'],
+			issetVal( $attendance_codes_RET[ $att['ATTENDANCE_CODE'] ][1]['STATE_CODE'] ),
 			makeCodePulldown( $att['ATTENDANCE_CODE'], $THIS_RET['STUDENT_ID'], $column ),
-			$attendance_codes_RET[ $att['ATTENDANCE_CODE'] ][1]['TITLE']
+			issetVal( $attendance_codes_RET[ $att['ATTENDANCE_CODE'] ][1]['TITLE'] )
 		);
 	}
-	else
-	{
-		return MakeAttendanceCode( $att['STATE_CODE'] );
-	}
+
+	return MakeAttendanceCode( $att['STATE_CODE'] );
 }
 
 
