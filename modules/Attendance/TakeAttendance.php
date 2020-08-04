@@ -99,7 +99,7 @@ if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 			AND SCHOOL_ID=acc.SCHOOL_ID
 			AND SYEAR=acc.SYEAR)
 		AND CALENDAR_ID=cp.CALENDAR_ID)
-	AS INT) FOR 1) IN cpsp.DAYS)>0 OR sp.BLOCK IS NOT NULL AND acc.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK)
+	AS INT) FOR 1) IN cpsp.DAYS)>0 OR (sp.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK))
 	AND position('," . $_REQUEST['table'] . ",' IN cp.DOES_ATTENDANCE)>0" );
 }
 else
