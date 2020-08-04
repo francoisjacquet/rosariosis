@@ -38,10 +38,6 @@ function calcSeats()
 		{
 			if ( $seats != '' )
 			{
-				if ( ! isset( $filled_seats ) )
-				{
-				}
-
 				$filled_seats += $seats;
 			}
 			else
