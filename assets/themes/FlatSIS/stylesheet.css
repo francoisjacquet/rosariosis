@@ -255,6 +255,7 @@ select {
 
 input[type=file] {
 	max-width: calc( 100% - 38px);
+	height: 27px;
 }
 
 /* No shadows */

@@ -1136,8 +1136,9 @@ a > .button {
 /* Adjust File input size with spinner on its right */
 
 input[type=file] {
-	padding: 1px;
+	padding: 0;
 	max-width: calc( 100% - 18px);
+	height: 25px;
 }
 
 /*bars*/
