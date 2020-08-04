@@ -107,7 +107,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			_( 'School' ) . ' &mdash; ' . _( 'Year' )
 		) . '</td></tr>';
 
-		echo '<tr><td colspan="3"><hr /><h3>' . _( 'Demographics' ) . '</h3></td></tr><tr>';
+		// HTML remove "Demographics" header to gain space on PDF (if has header or footer).
+		// echo '<tr><td colspan="3"><hr /><h3>' . _( 'Demographics' ) . '</h3></td></tr><tr>';
+		echo '<tr>';
 
 		foreach ( (array) $custom_RET as $id => $custom )
 		{

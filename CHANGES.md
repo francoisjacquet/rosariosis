@@ -17,6 +17,7 @@ Changes in 7.0
 - Merge Requests Report & Unfilled Requests in Menu.php, RequestsReport.php, UnfilledRequests.php, Scheduler.php, Help_en.php & rosariosis.sql
 - Merge Average Daily Attendance & Average Attendance by Day in Menu.php, Percent.php, Help_en.php, help.po & rosariosis.sql
 - Remove "Happy []..." text in Portal.php
+- HTML remove "Demographics" header to gain space on PDF in AttendanceSummary.php
 
 Changes in 6.9.3
 ----------------
