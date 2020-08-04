@@ -195,7 +195,7 @@ if ( ! isset( $_ROSARIO['allow_edit'] ) )
 	}
 }
 
-$current_Q = "SELECT ATTENDANCE_TEACHER_CODE,STUDENT_ID,ADMIN,COMMENT,COURSE_PERIOD_ID,ATTENDANCE_REASON,
+$current_Q = "SELECT ATTENDANCE_TEACHER_CODE,ATTENDANCE_CODE,STUDENT_ID,ADMIN,COMMENT,COURSE_PERIOD_ID,ATTENDANCE_REASON,
 	(SELECT COMMENT
 		FROM ATTENDANCE_DAY
 		WHERE STUDENT_ID=t.STUDENT_ID
@@ -218,7 +218,9 @@ if ( ! empty( $_REQUEST['attendance'] )
 			" SET ATTENDANCE_TEACHER_CODE='" . mb_substr( $value, 5 ) . "',
 				COURSE_PERIOD_ID='" . UserCoursePeriod() . "'";
 
-			if ( $current_RET[$student_id][1]['ADMIN'] != 'Y' )
+			if ( $current_RET[$student_id][1]['ADMIN'] != 'Y'
+				// SQL Update ATTENDANCE_CODE (admin) when is NULL.
+				|| empty( $current_RET[$student_id][1]['ATTENDANCE_CODE'] ) )
 			{
 				$sql .= ",ATTENDANCE_CODE='" . mb_substr( $value, 5 ) . "'";
 			}
