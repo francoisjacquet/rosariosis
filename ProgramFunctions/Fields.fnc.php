@@ -435,9 +435,10 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 			$header .= '<td colspan="3">' . TextAreaInput(
 				issetVal( $RET['SELECT_OPTIONS'], '' ),
 				'tables[' . $id . '][SELECT_OPTIONS]',
-				_( 'Pull-Down' ) . '/' . _( 'Auto Pull-Down' ) . '/' . _( 'Export Pull-Down' ) . '/' .
-				_( 'Select Multiple from Options' ) .
-				'<div class="tooltip"><i>' . _( 'One per line' ) . '</i></div>',
+				_( 'Options' ) .
+				'<div class="tooltip"><i>' . _( 'One per line' ) . '<br />' .
+				_( 'Pull-Down' ) . ' / ' . _( 'Auto Pull-Down' ) . ' / ' . _( 'Export Pull-Down' ) . ' / ' .
+				_( 'Select Multiple from Options' ) . '</i></div>',
 				'rows=5 cols=40',
 				true,
 				false
