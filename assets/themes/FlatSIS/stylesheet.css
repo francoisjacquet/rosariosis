@@ -448,8 +448,8 @@ div.updated {
 	border-left-color: #0baa38;
 }
 
-.postbox th {
-	color: #3c3c3c;
+.postbox th:hover h3 {
+	color: #000;
 }
 
 .current-person.self {
