@@ -312,6 +312,7 @@ a .button + b {
 .postbox > thead th {
 	border-bottom-color: #dfdfdf;
 	text-shadow: none;
+	padding: 0 6px;
 }
 
 .postbox > thead th,
@@ -428,7 +429,7 @@ div.updated {
 	border-top: 0;
 	border-right: 0;
 	border-left: 4px solid #b80a04;
-	padding: 3px 9px;
+	padding: 3px 7px;
 }
 
 div.updated {
@@ -583,7 +584,7 @@ a.menu-top,
 }
 
 #footerhelp .footerhelp-content {
-	padding: 6px 14px;
+	padding: 6px 12px;
 }
 
 #footerhelp .footerhelp-content p:first-child:first-letter {
@@ -794,25 +795,25 @@ td > .legend-gray:first-child {
 }
 
 .header2 {
-	padding: 4px 16px;
+	padding: 4px 12px;
 }
 
 .list-nav td {
-	padding: 4px 16px;
+	padding: 4px 12px;
 }
 
 .widefat td,
 .widefat th {
-	padding: 6px 14px;
+	padding: 6px 11px;
 }
 
 .popTable,
 .login .popTable {
-	padding: 14px 12px;
+	padding: 13px 11px;
 }
 
 #cboxLoadedContent {
-	padding: 8px 16px !important;
+	padding: 8px 12px !important;
 }
 
 #menu form {
@@ -821,12 +822,12 @@ td > .legend-gray:first-child {
 
 #student-comments span {
 	font-style: normal;
-	font-size: 15px;
+	font-size: 14px;
 	color: #333;
 }
 
 #student-comments div {
 	padding: 1px 12px;
-	margin-bottom: 14px;
+	margin-bottom: 12px;
 	border-bottom: 1px solid;
 }

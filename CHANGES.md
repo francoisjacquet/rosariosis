@@ -22,6 +22,7 @@ Changes in 7.0
 - SQL Update ATTENDANCE_CODE (admin) when is NULL in TakeAttendance.php
 - CSS Add .widefat.files class in StudentsUsersInfo.fnc.php & stylesheet.css
 - CSS WPadmin theme: more padding for list rows, menu links & footer help in stylesheet.css
+- CSS FlatSIS theme: less padding for list row, header & popTable in stylesheet.css
 
 Changes in 6.9.4
 ----------------
