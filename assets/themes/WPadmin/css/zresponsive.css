@@ -26,6 +26,10 @@
 		top: 0;
 		bottom: auto;
 	}
+	#footerhelp {
+		border-width: 1px 0;
+		border-style: solid;
+	}
 	#menu .logo {
 		max-width: 130px;
 		margin: 2px;

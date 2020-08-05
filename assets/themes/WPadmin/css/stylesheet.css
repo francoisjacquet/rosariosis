@@ -58,7 +58,7 @@
 /* Better readability: format Help text in 3 columns max., 480px width min. (70 to 100 characters). */
 
 #footerhelp .footerhelp-content {
-	padding: 3px 8px;
+	padding: 6px 8px;
 	columns: 3 480px;
 	widows: 6;
 }
@@ -377,7 +377,7 @@ select,
 	text-align: left;
 	border-width: 1px 0;
 	border-style: solid;
-	padding: 3px 7px;
+	padding: 4px 7px;
 	vertical-align: top
 }
 
@@ -399,7 +399,7 @@ select,
 .widefat th {
 	overflow: hidden;
 	font-weight: normal;
-	line-height: 1.6em
+	line-height: 1.4em
 }
 
 .widefat th,
@@ -635,14 +635,14 @@ label {
 .menu-inter {
 	border-width: 1px 0 0;
 	border-style: solid;
-	padding: 0 5px 2px;
-	margin-top: 2px;
+	padding: 0 5px 2.5px;
+	margin-top: 2.5px;
 }
 
 .adminmenu a {
 	display: block;
 	line-height: 18px;
-	padding: 2px 5px
+	padding: 2.5px 5px
 }
 
 .menu-top {

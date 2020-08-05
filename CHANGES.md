@@ -21,6 +21,7 @@ Changes in 7.0
 - HTML remove "Demographics" header to gain space on PDF in AttendanceSummary.php
 - SQL Update ATTENDANCE_CODE (admin) when is NULL in TakeAttendance.php
 - CSS Add .widefat.files class in StudentsUsersInfo.fnc.php & stylesheet.css
+- CSS WPadmin theme: more padding for list rows, menu links & footer help in stylesheet.css
 
 Changes in 6.9.4
 ----------------
