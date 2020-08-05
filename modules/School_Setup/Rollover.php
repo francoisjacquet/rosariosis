@@ -8,11 +8,20 @@ $tables = array(
 	'SCHOOL_MARKING_PERIODS' => _( 'Marking Periods' ),
 	'ATTENDANCE_CALENDARS' => _( 'Calendars' ),
 	'ATTENDANCE_CODES' => _( 'Attendance Codes' ),
-	'COURSES' => _( 'Courses' ) . '<b>*</b>',
+	'COURSES' => _( 'Courses' ) .
+		'<div class="tooltip"><i>' .
+		_( 'You <i>must</i> roll users, school periods, marking periods, calendars, attendance codes, and report card codes at the same time or before rolling courses.' ) .
+		'</i></div>',
 	'STUDENT_ENROLLMENT_CODES' => _( 'Student Enrollment Codes' ),
-	'STUDENT_ENROLLMENT' => _( 'Students' ) . '<b>*</b>',
+	'STUDENT_ENROLLMENT' => _( 'Students' ) .
+		'<div class="tooltip"><i>' .
+		_( 'You <i>must</i> roll enrollment codes at the same time or before rolling students.' ) .
+		'</i></div>',
 	'REPORT_CARD_GRADES' => _( 'Report Card Grade Codes' ),
-	'REPORT_CARD_COMMENTS' => _( 'Report Card Comment Codes' ) . '<b>*</b>',
+	'REPORT_CARD_COMMENTS' => _( 'Report Card Comment Codes' ) .
+		'<div class="tooltip"><i>' .
+		_( 'You <i>must</i> roll courses at the same time or before rolling report card comments.' ) .
+		'</i></div>',
 	'PROGRAM_CONFIG' => _( 'School Configuration' ),
 );
 
@@ -63,12 +72,12 @@ foreach ( (array) $tables as $table => $name )
 	}
 }
 
-$table_list .= '</table><p>'
-. '* ' . _( 'You <i>must</i> roll users, school periods, marking periods, calendars, attendance codes, and report card codes at the same time or before rolling courses.' )
-. '</p><p>* ' . _( 'You <i>must</i> roll enrollment codes at the same time or before rolling students.' )
-. '</p><p>* ' . _( 'You <i>must</i> roll courses at the same time or before rolling report card comments.' )
-. '</p><p>' . _( 'Greyed items have already have data in the next school year (They might have been rolled).' )
-. '</p><p>' . _( 'Rolling greyed items will delete already existing data in the next school year.' ) . '</p>';
+$table_list .= '</table>';
+
+$note[] = _( 'Greyed items have already have data in the next school year (They might have been rolled).' );
+$note[] = _( 'Rolling greyed items will delete already existing data in the next school year.' );
+
+$table_list .= ErrorMessage( $note, 'note' );
 
 // Hook.
 do_action( 'School_Setup/Rollover.php|rollover_warnings' );

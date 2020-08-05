@@ -26,6 +26,7 @@ Changes in 7.0
 - CSS FlatSIS List rows all have same line-height in stylesheet.css
 - Format "Show Available Seats" & "Print Schedule" headers in Schedule.php
 - Remove $fy_id global variable in Schedule.php
+- HTML Add tooltips & notes in Rollover.php
 
 Changes in 6.9.4
 ----------------
