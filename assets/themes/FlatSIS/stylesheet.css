@@ -260,7 +260,7 @@ select {
 
 input[type=file] {
 	max-width: calc( 100% - 38px);
-	height: 27px;
+	height: 25px;
 }
 
 /* No shadows */
@@ -879,11 +879,16 @@ td > .legend-gray:first-child {
 	.rt th,
 	.rt th a {
 		font-size: 15px;
+		line-height: 2em;
 	}
 	.rt td {
 		display: block;
 		line-height: 1.87em;
 		height: 1.87em;
+	}
+	.list.rt td,
+	.list.rt th {
+		padding: 6px 11px;
 	}
 	.rt .link2colorBox .colorboxinline {
 		background-image: url(btn/visualize.png);

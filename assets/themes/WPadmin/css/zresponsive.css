@@ -341,6 +341,11 @@
 	.st > .align-right {
 		text-align: left;
 	}
+	.header2.align-right input[type="button"],
+	.header2.align-right input[type="reset"],
+	.header2.align-right input[type="submit"] {
+		margin: 0 16px 0 0;
+	}
 	/*calendar*/
 	.calendar-day {
 		height: 36px
