@@ -323,7 +323,7 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		echo '<tr><td colspan="3">' . NoInput(
 			$schooldata['NUMBER_DAYS_ROTATION'],
-			_( 'Number of Days for the Rotation' ),
+			_( 'Number of Days for the Rotation' )
 		) . '</td></tr>';
 	}
 
