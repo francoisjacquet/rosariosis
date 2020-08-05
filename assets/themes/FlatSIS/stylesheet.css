@@ -831,6 +831,22 @@ td > .legend-gray:first-child {
 	padding: 6px 11px;
 }
 
+/* @since 7.0 List rows all have same line-height */
+
+.list.widefat td {
+	padding: 0 11px 1px 11px;
+	line-height: 2.073em;
+}
+
+.list.widefat td .markdown-to-html {
+	line-height: 1.236em;
+}
+
+.list.widefat th {
+	padding: 1px 11px;
+	line-height: 2.226em;
+}
+
 .popTable,
 .login .popTable {
 	padding: 13px 11px;
