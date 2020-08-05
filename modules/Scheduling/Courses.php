@@ -946,7 +946,8 @@ if (  ( ! $_REQUEST['modfunc']
 				issetVal( $RET['ROOM'], '' ),
 				'tables[COURSE_PERIODS][' . $_REQUEST['course_period_id'] . '][ROOM]',
 				_( 'Room' ),
-				'maxlength=10'
+				'maxlength=10' .
+					( $_REQUEST['course_period_id'] === 'new' ? ' size="6"' : '' )
 			) . '</td>';
 
 			$periods_RET = DBGet( "SELECT PERIOD_ID,TITLE
