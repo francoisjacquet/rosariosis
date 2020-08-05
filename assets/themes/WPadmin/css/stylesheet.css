@@ -283,6 +283,13 @@ sup {
 	font-size: smaller;
 }
 
+/* Fix place cellpadding-5 before widefat */
+
+.cellpadding-5 td {
+	padding-right: 5px;
+	padding-bottom: 5px
+}
+
 .widefat,
 div.updated,
 div.error,
@@ -372,6 +379,17 @@ select,
 	border-style: solid;
 	padding: 3px 7px;
 	vertical-align: top
+}
+
+/* @since 7.0 CSS Add .widefat.files class */
+
+.widefat.files td {
+	padding: 1px 7px;
+	font-weight: normal;
+}
+
+.widefat.files td .button + b {
+	font-weight: normal;
 }
 
 .widefat tfoot th {
@@ -783,6 +801,10 @@ h3 span {
 	margin-left: -3px
 }
 
+.header2 .widefat {
+	margin-left: 0;
+}
+
 /* Scheduling Requests Courses div */
 
 #courses_div {
@@ -944,11 +966,6 @@ div.onclick {
 	table-layout: fixed;
 	word-wrap: break-word;
 	/* Fix cell content overflow */
-}
-
-.cellpadding-5 td {
-	padding-right: 5px;
-	padding-bottom: 5px
 }
 
 .popTable {

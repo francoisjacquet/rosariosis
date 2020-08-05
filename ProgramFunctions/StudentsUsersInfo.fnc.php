@@ -421,6 +421,7 @@ function _makeTextAreaInput( $column, $name, $request )
  * Make Files Input
  *
  * @since 4.6
+ * @since 7.0 CSS Add .widefat.files class
  *
  * @global array  $value
  * @global array  $field
@@ -483,7 +484,7 @@ function _makeFilesInput( $column, $name, $request, $remove_url = '' )
 
 	if ( $files )
 	{
-		$files_html = '<table class="widefat"><tbody><tr><td>' .
+		$files_html = '<table class="widefat files"><tbody><tr><td>' .
 			implode( '</td></tr><tr><td>', $files ) . '</td></tr></tbody></table>';
 	}
 

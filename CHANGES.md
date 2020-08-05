@@ -20,6 +20,7 @@ Changes in 7.0
 - Remove "Happy []..." text in Portal.php
 - HTML remove "Demographics" header to gain space on PDF in AttendanceSummary.php
 - SQL Update ATTENDANCE_CODE (admin) when is NULL in TakeAttendance.php
+- CSS Add .widefat.files class in StudentsUsersInfo.fnc.php & stylesheet.css
 
 Changes in 6.9.4
 ----------------
