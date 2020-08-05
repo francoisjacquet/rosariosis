@@ -79,7 +79,7 @@ if ( $_REQUEST['modfunc'] === 'modify'
 
 			DBQuery( $sql );
 
-			if ( $columns['START_DATE'] || $columns['END_DATE'] )
+			if ( ! empty( $columns['START_DATE'] ) || ! empty( $columns['END_DATE'] ) )
 			{
 				$start_end_RET = DBGet( "SELECT START_DATE,END_DATE
 				FROM SCHEDULE
@@ -146,7 +146,7 @@ if ( $_REQUEST['modfunc'] === 'modify'
 		}
 	}
 
-	if ( ! $schedule_deletion_pending )
+	if ( empty( $schedule_deletion_pending ) )
 	{
 		// Unset modfunc & schedule & redirect URL.
 		RedirectURL( array( 'modfunc', 'schedule' ) );
@@ -161,13 +161,13 @@ if ( UserStudentID()
 	DrawHeader( PrepareDate( $date, '_date', false, array( 'submit' => true ) ), SubmitButton() );
 
 	DrawHeader(
-		CheckBoxOnclick( 'include_inactive', _( 'Include Inactive Courses' ) ) .
+		CheckBoxOnclick( 'include_inactive', _( 'Include Inactive Courses' ) ),
 		( AllowEdit() ?
-			' &nbsp;' . CheckBoxOnclick( 'include_seats', _( 'Show Available Seats' ) ) :
+			CheckBoxOnclick( 'include_seats', _( 'Show Available Seats' ) ) :
 			'' )
 	);
 
-	//FJ add Horizontal format option
+	// Add Horizontal format option.
 	$print_schedules_link = 'Modules.php?modname=Scheduling/PrintSchedules.php&modfunc=save&st_arr[]=' .
 		UserStudentID() . '&_ROSARIO_PDF=true&schedule_table=Yes';
 	?>
@@ -209,8 +209,8 @@ if ( UserStudentID()
 	{
 		DrawHeader(
 			'<a href="' . URLEscape( $print_schedules_link ) . '" target="_blank" id="printSchedulesLink">' .
-			_( 'Print Schedule' ) . '</a>' .
-			' &nbsp;<label><input name="schedule_table" type="radio" value="Yes" checked onchange="timeTableSwitch();" />&nbsp;' .
+			_( 'Print Schedule' ) . '</a><br />' .
+			'<label><input name="schedule_table" type="radio" value="Yes" checked onchange="timeTableSwitch();" />&nbsp;' .
 			_( 'Table' ) . '</label>' .
 			' &nbsp;<label><input name="schedule_table" id="schedule_table" type="radio" value="No" onchange="timeTableSwitch();" />&nbsp;' .
 			_( 'List' ) . '</label>' .
@@ -218,10 +218,6 @@ if ( UserStudentID()
 			_( 'Horizontal Format' ) . '</label>'
 		);
 	}
-
-	// get the fy marking period id, there should be exactly one fy marking period
-	$fy_id = DBGet( "SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "'" );
-	$fy_id = $fy_id[1]['MARKING_PERIOD_ID'];
 
 	//FJ multiple school periods for a course period
 	/*$sql = "SELECT
@@ -239,20 +235,18 @@ if ( UserStudentID()
 	AND s.STUDENT_ID='".UserStudentID()."'
 	AND s.SYEAR='".UserSyear()."'
 	AND s.SCHOOL_ID = '".UserSchool()."'";*/
-	$sql = "SELECT
-				s.COURSE_ID,s.COURSE_PERIOD_ID,
-				s.MARKING_PERIOD_ID,s.START_DATE,s.END_DATE,
-				extract(EPOCH FROM s.START_DATE) AS START_EPOCH,extract(EPOCH FROM s.END_DATE) AS END_EPOCH,cp.MARKING_PERIOD_ID AS COURSE_MARKING_PERIOD_ID,cp.MP,cp.CALENDAR_ID,cp.TOTAL_SEATS,
-				c.TITLE,cp.COURSE_PERIOD_ID AS PERIOD_PULLDOWN,
-				s.STUDENT_ID,ROOM,SCHEDULER_LOCK
-			FROM SCHEDULE s,COURSES c,COURSE_PERIODS cp
-			WHERE
-				s.COURSE_ID = c.COURSE_ID AND s.COURSE_ID = cp.COURSE_ID
-				AND s.COURSE_PERIOD_ID = cp.COURSE_PERIOD_ID
-				AND s.SYEAR = c.SYEAR
-				AND s.STUDENT_ID='" . UserStudentID() . "'
-				AND s.SYEAR='" . UserSyear() . "'
-				AND s.SCHOOL_ID = '" . UserSchool() . "'";
+	$sql = "SELECT s.COURSE_ID,s.COURSE_PERIOD_ID,s.MARKING_PERIOD_ID,s.START_DATE,s.END_DATE,
+		extract(EPOCH FROM s.START_DATE) AS START_EPOCH,extract(EPOCH FROM s.END_DATE) AS END_EPOCH,
+		cp.MARKING_PERIOD_ID AS COURSE_MARKING_PERIOD_ID,cp.MP,cp.CALENDAR_ID,cp.TOTAL_SEATS,
+		c.TITLE,cp.COURSE_PERIOD_ID AS PERIOD_PULLDOWN,s.STUDENT_ID,ROOM,SCHEDULER_LOCK
+		FROM SCHEDULE s,COURSES c,COURSE_PERIODS cp
+		WHERE s.COURSE_ID=c.COURSE_ID
+		AND s.COURSE_ID=cp.COURSE_ID
+		AND s.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
+		AND s.SYEAR=c.SYEAR
+		AND s.STUDENT_ID='" . UserStudentID() . "'
+		AND s.SYEAR='" . UserSyear() . "'
+		AND s.SCHOOL_ID='" . UserSchool() . "'";
 
 	if ( $_REQUEST['include_inactive'] != 'Y' )
 	{
@@ -274,14 +268,11 @@ if ( UserStudentID()
 	);
 
 	//FJ bugfix SQL bug $_SESSION['student_id'] is not set
-	$link['add']['link'] = '# onclick=\'popups.open(
-			"Modules.php?modname=' . $_REQUEST['modname'] .
+	$link['add']['link'] = '# onclick=\'popups.open("Modules.php?modname=' . $_REQUEST['modname'] .
 		'&modfunc=choose_course&day_date=' . $_REQUEST['day_date'] .
 		'&month_date=' . $_REQUEST['month_date'] .
-		'&year_date=' . $_REQUEST['year_date'] . '",
-			"",
-			"scrollbars=yes,resizable=yes,width=900,height=400"
-		); return false;\'';
+		'&year_date=' . $_REQUEST['year_date'] . '","",
+		"scrollbars=yes,resizable=yes,width=900,height=400"); return false;\'';
 
 	$link['add']['title'] = _( 'Add a Course' );
 
@@ -547,11 +538,17 @@ function _makeLock( $value, $column )
  */
 function _makePeriodSelect( $course_period_id, $column )
 {
-	global $THIS_RET, $fy_id;
+	global $THIS_RET;
+
+	$fy_id = GetFullYearMP();
 
 	//FJ multiple school periods for a course period
 	//$orders_RET = DBGet( "SELECT COURSE_PERIOD_ID,PARENT_ID,TITLE,MARKING_PERIOD_ID,MP,CALENDAR_ID,(SELECT SHORT_NAME FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID=cp.PARENT_ID) AS PARENT,TOTAL_SEATS FROM COURSE_PERIODS cp WHERE COURSE_ID='".$THIS_RET['COURSE_ID']."' ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID),TITLE" );
-	$orders_RET = DBGet( "SELECT COURSE_PERIOD_ID,PARENT_ID,TITLE,MARKING_PERIOD_ID,MP,CALENDAR_ID,(SELECT SHORT_NAME FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID=cp.PARENT_ID) AS PARENT,TOTAL_SEATS FROM COURSE_PERIODS cp WHERE COURSE_ID='" . $THIS_RET['COURSE_ID'] . "' ORDER BY SHORT_NAME,TITLE" );
+	$orders_RET = DBGet( "SELECT COURSE_PERIOD_ID,PARENT_ID,TITLE,MARKING_PERIOD_ID,MP,CALENDAR_ID,
+		(SELECT SHORT_NAME FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID=cp.PARENT_ID) AS PARENT,TOTAL_SEATS
+		FROM COURSE_PERIODS cp
+		WHERE COURSE_ID='" . $THIS_RET['COURSE_ID'] . "'
+		ORDER BY SHORT_NAME,TITLE" );
 
 	foreach ( (array) $orders_RET as $value )
 	{
@@ -560,7 +557,18 @@ function _makePeriodSelect( $course_period_id, $column )
 			$seats = calcSeats0( $value );
 		}
 
-		$periods[$value['COURSE_PERIOD_ID']] = $value['TITLE'] . (  ( $value['MARKING_PERIOD_ID'] != $fy_id && $value['COURSE_PERIOD_ID'] != $course_period_id ) ? ' (' . GetMP( $value['MARKING_PERIOD_ID'] ) . ')' : '' ) . (  ( $value['TOTAL_SEATS'] && $_REQUEST['include_seats'] && $seats != '' ) ? ' ' . sprintf( _( '(%d seats)' ), ( $value['TOTAL_SEATS'] - $seats ) ) : '' ) . (  ( $value['COURSE_PERIOD_ID'] != $course_period_id && $value['COURSE_PERIOD_ID'] != $value['PARENT_ID'] && $value['PARENT'] ) ? ' -> ' . $value['PARENT'] : '' );
+		$periods[$value['COURSE_PERIOD_ID']] = $value['TITLE'] .
+			( ( $value['MARKING_PERIOD_ID'] != $fy_id
+				&& $value['COURSE_PERIOD_ID'] != $course_period_id ) ?
+				' (' . GetMP( $value['MARKING_PERIOD_ID'] ) . ')' : '' ) .
+			( ( $value['TOTAL_SEATS']
+				&& $_REQUEST['include_seats']
+				&& $seats != '' ) ?
+				' ' . sprintf( _( '(%d seats)' ), ( $value['TOTAL_SEATS'] - $seats ) ) : '' ) .
+			( ( $value['COURSE_PERIOD_ID'] != $course_period_id
+				&& $value['COURSE_PERIOD_ID'] != $value['PARENT_ID']
+				&& $value['PARENT'] ) ?
+				' -> ' . $value['PARENT'] : '' );
 	}
 
 	return SelectInput(
@@ -579,7 +587,9 @@ function _makePeriodSelect( $course_period_id, $column )
  */
 function _makeMPSelect( $mp_id, $name )
 {
-	global $_ROSARIO, $THIS_RET, $fy_id;
+	global $_ROSARIO, $THIS_RET;
+
+	$fy_id = GetFullYearMP();
 
 	if ( empty( $_ROSARIO['_makeMPSelect'] ) )
 	{
@@ -650,7 +660,15 @@ function _makeMPSelect( $mp_id, $name )
 				$seats = calcSeats0( $THIS_RET );
 			}
 
-			$mps[$value['MARKING_PERIOD_ID']] = (  ( $value['MARKING_PERIOD_ID'] == $THIS_RET['MARKING_PERIOD_ID'] && $value['MARKING_PERIOD_ID'] != $mp_id ) ? '* ' : '' ) . $value['TITLE'] . (  ( $value['MARKING_PERIOD_ID'] != $THIS_RET['MARKING_PERIOD_ID'] && $THIS_RET['TOTAL_SEATS'] && $_REQUEST['include_seats'] && $seats != '' ) ? ' ' . sprintf( _( '(%d seats)' ), ( $THIS_RET['TOTAL_SEATS'] - $seats ) ) : '' );
+			$mps[$value['MARKING_PERIOD_ID']] = ( ( $value['MARKING_PERIOD_ID'] == $THIS_RET['MARKING_PERIOD_ID']
+				&& $value['MARKING_PERIOD_ID'] != $mp_id ) ?
+				'* ' : '' ) .
+				$value['TITLE'] .
+				( ( $value['MARKING_PERIOD_ID'] != $THIS_RET['MARKING_PERIOD_ID']
+					&& $THIS_RET['TOTAL_SEATS']
+					&& $_REQUEST['include_seats']
+					&& $seats != '' ) ?
+				' ' . sprintf( _( '(%d seats)' ), ( $THIS_RET['TOTAL_SEATS'] - $seats ) ) : '' );
 		}
 	}
 	else

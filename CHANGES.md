@@ -23,6 +23,8 @@ Changes in 7.0
 - CSS Add .widefat.files class in StudentsUsersInfo.fnc.php & stylesheet.css
 - CSS WPadmin theme: more padding for list rows, menu links & footer help in stylesheet.css
 - CSS FlatSIS theme: less padding for list row, header & popTable in stylesheet.css
+- Format "Show Available Seats" & "Print Schedule" headers in Schedule.php
+- Remove $fy_id global variable in Schedule.php
 
 Changes in 6.9.4
 ----------------
