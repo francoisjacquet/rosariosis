@@ -68,7 +68,7 @@ if ( AllowEdit() && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		issetVal( $staff['FIRST_NAME'], '' ),
 		'staff[FIRST_NAME]',
 		_( 'First Name' ),
-		'maxlength=50 required',
+		'size=12 maxlength=50 required',
 		$div
 	) . '</td><td>' .
 	TextInput(
@@ -82,7 +82,7 @@ if ( AllowEdit() && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		issetVal( $staff['LAST_NAME'], '' ),
 		'staff[LAST_NAME]',
 		_( 'Last Name' ),
-		'maxlength=50 required',
+		'size=12 maxlength=50 required',
 		$div
 	) . '</td><td>' .
 	SelectInput(
