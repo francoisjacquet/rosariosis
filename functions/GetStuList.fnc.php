@@ -725,11 +725,13 @@ function makeContactInfo( $student_id, $column )
 		$img = '';
 
 		// PrintClassLists with all contacts.
-		if ( $person[1]['CUSTODY'] == 'Y' )
+		if ( isset( $person[1]['CUSTODY'] )
+			&& $person[1]['CUSTODY'] == 'Y' )
 		{
 			$img = 'gavel';
 		}
-		elseif ( $person[1]['EMERGENCY'] == 'Y' )
+		elseif ( isset( $person[1]['EMERGENCY'] )
+			&& $person[1]['EMERGENCY'] == 'Y' )
 		{
 			$img = 'emergency';
 		}
