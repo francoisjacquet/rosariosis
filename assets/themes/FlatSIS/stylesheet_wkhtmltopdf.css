@@ -163,8 +163,12 @@ legend {
 	font-size: 15px;
 }
 
-.dashboard-module-data .legend-gray {
-	margin-bottom: 8px;
+.dashboard-module-data .tipmsg-label .legend-gray {
+	margin-bottom: 1px;
+}
+
+.dashboard-module-data .tipmsg-label {
+	margin-bottom: 11px;
 }
 
 .dashboard-module-data-tipmsg .legend-gray,
@@ -779,10 +783,16 @@ a.button-primary:focus {
 
 /* bigger input height */
 
+body,
 input,
 select,
 textarea {
 	line-height: 1.27;
+}
+
+input,
+select,
+textarea {
 	padding: 2px;
 }
 
@@ -820,7 +830,7 @@ td > .legend-gray:first-child {
 }
 
 .header2 {
-	padding: 4px 12px;
+	padding: 5px 12px;
 }
 
 .list-nav td {
@@ -846,6 +856,14 @@ td > .legend-gray:first-child {
 .list.widefat th {
 	padding: 1px 11px;
 	line-height: 2.226em;
+}
+
+.header2 table {
+	line-height: 1.1;
+}
+
+.attendance-code {
+	line-height: 1.82;
 }
 
 .popTable,
