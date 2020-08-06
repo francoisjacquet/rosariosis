@@ -374,6 +374,10 @@ if ( ! empty( $_REQUEST['tables'] )
 
 						if ( $table_name == 'COURSE_PERIODS' )
 						{
+							$current_cp = DBGet( "SELECT TITLE,MARKING_PERIOD_ID,SHORT_NAME
+								FROM COURSE_PERIODS
+								WHERE COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'" );
+
 							$base_title = CoursePeriodTitleGenerate( $id, $columns );
 
 							$sql .= "TITLE='" . $base_title . "',";
@@ -467,7 +471,7 @@ if ( ! empty( $_REQUEST['tables'] )
 						elseif ( $table_name === 'COURSE_PERIODS' )
 						{
 							if ( isset( $columns['MARKING_PERIOD_ID'] )
-								&& $current[1]['MARKING_PERIOD_ID'] !== $columns['MARKING_PERIOD_ID'] )
+								&& $current_cp[1]['MARKING_PERIOD_ID'] !== $columns['MARKING_PERIOD_ID'] )
 							{
 								// Update schedules marking period too.
 								_updateSchedulesCPMP( $id, $columns['MARKING_PERIOD_ID'] );

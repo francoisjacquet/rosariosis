@@ -28,6 +28,7 @@ Changes in 7.0
 - Format "Show Available Seats" & "Print Schedule" headers in Schedule.php
 - Remove $fy_id global variable in Schedule.php
 - HTML Add tooltips & notes in Rollover.php
+- Fix current CP Marking Period check on update in Courses.php
 
 Changes in 6.9.4
 ----------------
