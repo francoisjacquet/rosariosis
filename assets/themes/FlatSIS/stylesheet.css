@@ -852,6 +852,10 @@ td > .legend-gray:first-child {
 	padding: 13px 11px;
 }
 
+.attendance-code {
+	line-height: 1.82;
+}
+
 #cboxLoadedContent {
 	padding: 8px 12px !important;
 }
