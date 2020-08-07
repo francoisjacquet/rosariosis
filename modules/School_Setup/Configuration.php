@@ -263,7 +263,7 @@ else
 				_( 'Force' ),
 				'',
 				true
-			) . '</td></tr>';
+			) . '</td></tr></table></td></tr>';
 
 			// FJ add Registration to Configuration.
 			echo '<tr><td><br /><fieldset><legend>' . _( 'Registration' ) . '</legend><table>';
