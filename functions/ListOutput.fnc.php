@@ -55,7 +55,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		$result_count = 1000;
 
 		// Remove results above 1000.
-		$result = array_slice( $result, 0, 1001 );
+		$result = array_slice( $result, 0, 1000, true );
 	}
 
 	$num_displayed = 1000;
