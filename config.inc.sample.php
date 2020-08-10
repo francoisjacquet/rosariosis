@@ -68,14 +68,25 @@ $DefaultSyear = '2020';
 
 
 /**
- * Notify email address where to send
- * new administrator account,
- * new student (inactive) / user (No Access) account,
- * new registration notifications
+ * Email address to receive notifications
+ * - new administrator account
+ * - new student / user account
+ * - new registration
  *
  * Leave empty to not receive email notifications
  */
 $RosarioNotifyAddress = '';
+
+
+/**
+ * Email address to receive errors
+ * - PHP fatal error
+ * - database SQL error
+ * - hacking attempts
+ *
+ * Leave empty to not receive errors
+ */
+$RosarioErrorsAddress = '';
 
 
 /**

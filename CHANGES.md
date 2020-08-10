@@ -30,6 +30,7 @@ Changes in 7.0
 - HTML Add tooltips & notes in Rollover.php
 - Fix current CP Marking Period check on update in Courses.php
 - Fix limit list results to 1000, do not remove 1st result in ListOutput.fnc.php
+- Add $RosarioErrorsAddress config variable in config.inc.sample.php
 
 Changes in 6.9.4
 ----------------
