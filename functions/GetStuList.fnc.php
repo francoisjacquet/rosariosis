@@ -1088,7 +1088,7 @@ function makeCheckbox( $value, $column )
  *
  * DBGet() callback function
  *
- * @uses ShowDown jQuery plugin for MarkDown rendering called using the .markdown-to-html CSS class
+ * @uses marked JS plugin for MarkDown rendering called using the .markdown-to-html CSS class
  * @uses ColorBox jQuery plugin to display various lines texts in ListOutput on mobiles called using the .rt2colorBox CSS class
  *
  * @since 2.9

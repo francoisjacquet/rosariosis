@@ -172,12 +172,22 @@ var MarkDownInputPreview = function(input_id) {
 }
 
 var MarkDownToHTML = function() {
-	$('.markdown-to-html').html(function(i, md) {
+	$('.markdown-to-html').html(function(i, txt) {
 
 		var mdc = GetMDConverter();
 
 		// Fix decode &, < and > HTML characters so blockquote are converted.
-		return mdc( md.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>') );
+		var md = mdc( txt.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>') );
+
+		// Remove tags & new lines, add paragraph.
+		var txtP = '<p>' + md.replace(/<\/?[^>]+(>|$)/g, '').replace(/[\n\r]/g, '') + '</p>';
+
+		if ( txtP == md.trim() ) {
+			// No MarkDown in text, return raw text.
+			return txt;
+		}
+
+		return md;
 	});
 }
 

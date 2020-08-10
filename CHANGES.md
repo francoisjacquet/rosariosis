@@ -32,6 +32,7 @@ Changes in 7.0
 - Add $RosarioErrorsAddress config variable in config.inc.sample.php
 - Fix $RosarioNotifyAddress config variable description in INSTALL.md, INSTALL_es.md & INSTALL_fr.md
 - SQL no access to Custom "My Report" program for admin by default in rosariosis.sql
+- JS MarkdownToHTML No MarkDown in text, return raw text in warehouse.js
 
 Changes in 6.9.4
 ----------------
