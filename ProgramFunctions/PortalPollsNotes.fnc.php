@@ -445,8 +445,10 @@ function makePublishing( $value, $name )
 }
 
 /**
- * function called by makePublishing()
+ * Function called by makePublishing()
  * generates the "Visible To" part of the Publishing options
+ *
+ * @todo Use a Multiple select input to gain space.
  *
  * @return $visibleTo HTML form
  */
@@ -568,7 +570,7 @@ function makeFileAttached( $value, $name )
 	$return .= FileInput( $name . '_FILE' );
 	$return .= '</label>
 	</div>';
-	$return .= '<div style="float:left;">
+	$return .= '<div>
 		<label>
 			<input type="radio" name="values[new][FILE_OR_EMBED]" value="EMBED" onclick="javascript:document.getElementById(\'values[new][' . $name . '_EMBED]\').focus();" />&nbsp;' .
 	_( 'Embed Link' ) . ': <input type="text" id="values[new][' . $name . '_EMBED]" name="values[new][' . $name . '_EMBED]" size="14" placeholder="http://" />
