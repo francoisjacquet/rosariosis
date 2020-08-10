@@ -42,7 +42,7 @@ Unzip RosarioSIS, or clone the repository using git to a directory that is acces
 - `$wkhtmltopdfPath` Full path to the PDF generation utility, wkhtmltopdf.
 
 - `$DefaultSyear` Default school year. Only change after running the _Rollover_ program.
-- `$RosarioNotifyAddress` Email address for notifications (new administrator).
+- `$RosarioNotifyAddress` Email address to receive notifications (new administrator, new student / user, new registration).
 - `$RosarioLocales` Comma separated list of locale codes. Check the `locale/` folder for available codes.
 
 #### Optional variables
@@ -57,7 +57,7 @@ Unzip RosarioSIS, or clone the repository using git to a directory that is acces
 - `$FileUploadsPath` Path to file uploads.
 - `$LocalePath` Path to language packs. Restart Apache after changes to this directory.
 - `$PNGQuantPath` Path to [PNGQuant](https://pngquant.org/) (PNG images compression).
-- `$RosarioErrorsAddress` Email address for errors (PHP fatal, database, hacking).
+- `$RosarioErrorsAddress` Email address to receive errors (PHP fatal, database, hacking).
 - `$Timezone` Default time zone used by date/time functions. [List of Supported Timezones](http://php.net/manual/en/timezones.php).
 - `$ETagCache` Set to `false` to deactivate the [ETag cache](https://en.wikipedia.org/wiki/HTTP_ETag) and disable "private" session cache. See [Sessions and security](https://secure.php.net/manual/en/session.security.php).
 - `define( 'ROSARIO_DEBUG', true );` Debug mode activated.

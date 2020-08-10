@@ -31,6 +31,7 @@ Changes in 7.0
 - Fix current CP Marking Period check on update in Courses.php
 - Fix limit list results to 1000, do not remove 1st result in ListOutput.fnc.php
 - Add $RosarioErrorsAddress config variable in config.inc.sample.php
+- Fix $RosarioNotifyAddress config variable description in INSTALL.md, INSTALL_es.md & INSTALL_fr.md
 
 Changes in 6.9.4
 ----------------

@@ -42,7 +42,7 @@ Décompressez l'archive de RosarioSIS, ou bien clonez le dépôt avec git dans u
 - `$wkhtmltopdfPath` Chemin complet vers l'utilitaire de génération de PDF, wkhtmltopdf.
 
 - `$DefaultSyear` Année scolaire par défaut. Ne changer qu'après avoir lancé le programme _Report Final_.
-- `$RosarioNotifyAddress` Adresse email pour les notifications (nouvel administrateur).
+- `$RosarioNotifyAddress` Adresse email pour les notifications (nouvel administrateur, nouvel élève / utilisateur, nouvelle inscription).
 - `$RosarioLocales` Liste des codes de langues séparées par des virgules. Voir le dossier `locale/` pour les codes disponibles.
 
 #### Variables optionelles
