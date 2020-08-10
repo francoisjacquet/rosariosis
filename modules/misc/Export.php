@@ -44,13 +44,16 @@ $_ROSARIO['CustomFields'] = true;
 // Has Address Custom Field.
 $has_address_custom_field = false;
 
-foreach ( (array) $_REQUEST['fields'] as $fields_index => $fields_val )
+if ( isset( $_REQUEST['fields'] ) )
 {
-	if ( mb_strpos( $fields_index, 'ADDRESS_' ) !== false )
+	foreach ( (array) $_REQUEST['fields'] as $fields_index => $fields_val )
 	{
-		$has_address_custom_field = true;
+		if ( mb_strpos( $fields_index, 'ADDRESS_' ) !== false )
+		{
+			$has_address_custom_field = true;
 
-		break;
+			break;
+		}
 	}
 }
 
