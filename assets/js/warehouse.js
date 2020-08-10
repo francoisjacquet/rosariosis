@@ -179,8 +179,8 @@ var MarkDownToHTML = function() {
 		// Fix decode &, < and > HTML characters so blockquote are converted.
 		var md = mdc( txt.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>') );
 
-		// Remove tags & new lines, add paragraph.
-		var txtP = '<p>' + md.replace(/<\/?[^>]+(>|$)/g, '').replace(/[\n\r]/g, '') + '</p>';
+		// Add paragraph to text.
+		var txtP = '<p>' + txt + '</p>';
 
 		if ( txtP == md.trim() ) {
 			// No MarkDown in text, return raw text.
