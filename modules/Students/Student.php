@@ -656,8 +656,7 @@ if (  ( UserStudentID()
 		WHERE " . ( $_REQUEST['student_id'] !== 'new' ? 'TRUE' : "ID='1'" ) .
 		" ORDER BY SORT_ORDER,TITLE" );
 
-	if ( $_REQUEST['modfunc'] !== 'delete_medical'
-		&& $_REQUEST['modfunc'] !== 'delete_address'
+	if ( mb_strpos( $_REQUEST['modfunc'], 'delete_' ) !== 0
 		|| ! empty( $_REQUEST['delete_ok'] ) )
 	{
 		if ( $_REQUEST['student_id'] !== 'new' )
@@ -791,6 +790,7 @@ if (  ( UserStudentID()
 	}
 	elseif ( $can_use_RET['Students/Student.php&category_id=' . $category_id] )
 	{
+		// Is Deleting from Other tab.
 		if ( ! mb_strpos( $include, '/' ) )
 		{
 			require 'modules/Students/includes/' . $include . '.inc.php';
@@ -806,10 +806,6 @@ if (  ( UserStudentID()
 			{
 				require 'modules/' . $include . '.inc.php';
 			}
-
-			$separator = '<hr />';
-
-			require 'modules/Students/includes/Other_Info.inc.php';
 		}
 	}
 }

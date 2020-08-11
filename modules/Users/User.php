@@ -599,63 +599,6 @@ if (  ( UserStaffID()
 	&& $_REQUEST['modfunc'] !== 'delete'
 	&& $_REQUEST['modfunc'] !== 'remove_file' )
 {
-	if ( $_REQUEST['staff_id'] !== 'new' )
-	{
-		$sql = "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
-		s.TITLE,s.FIRST_NAME,s.LAST_NAME,s.MIDDLE_NAME,s.NAME_SUFFIX,
-		s.USERNAME,s.PASSWORD,s.SCHOOLS,s.PROFILE,s.PROFILE_ID,s.EMAIL,
-		s.LAST_LOGIN,s.SYEAR,s.ROLLOVER_ID
-		FROM STAFF s
-		WHERE s.STAFF_ID='" . UserStaffID() . "'";
-
-		$staff = DBGet( $sql );
-
-		$staff = $staff[1];
-	}
-
-	if ( basename( $_SERVER['PHP_SELF'] ) !== 'index.php' )
-	{
-		$form_action = 'Modules.php?modname=' . $_REQUEST['modname'] .
-		'&category_id=' . $category_id . '&staff_id=' . UserStaffID() . '&modfunc=update';
-	}
-	else
-	{
-		// FJ create account.
-		$form_action = 'index.php?create_account=user&staff_id=new&modfunc=update';
-	}
-
-	echo '<form name="staff" id="staff"	action="' . $form_action . '"
-		method="POST" enctype="multipart/form-data">';
-
-	$delete_button = '';
-
-	if ( basename( $_SERVER['PHP_SELF'] ) !== 'index.php' )
-	{
-		if ( UserStaffID()
-			&& UserStaffID() !== User( 'STAFF_ID' )
-			&& User( 'PROFILE' ) === 'admin'
-			&& AllowEdit() )
-		{
-			// @since 5.0 Cannot delete teacher if has course periods.
-			$can_delete = DBTransDryRun( UserDeleteSQL( UserStaffID() ) );
-
-			if ( $can_delete )
-			{
-				$delete_URL = "'Modules.php?modname=" . $_REQUEST['modname'] . '&staff_id=' . UserStaffID() .
-					"&modfunc=delete'";
-
-				$delete_button = '<input type="button" value="' . _( 'Delete' ) . '" onClick="javascript:ajaxLink(' . $delete_URL . ');" />';
-			}
-		}
-	}
-
-	$name = $_REQUEST['staff_id'] !== 'new' ? $staff['FULL_NAME'] . ' - ' . $staff['STAFF_ID'] : '';
-
-	DrawHeader( $name, $delete_button . SubmitButton() );
-
-	// Hook.
-	do_action( 'Users/User.php|header' );
-
 	if ( User( 'PROFILE_ID' ) )
 	{
 		$can_use_RET = DBGet( "SELECT MODNAME
@@ -671,53 +614,131 @@ if (  ( UserStaffID()
 			AND CAN_USE='Y'", array(), array( 'MODNAME' ) );
 	}
 
-	//FJ create account
-
 	if ( basename( $_SERVER['PHP_SELF'] ) == 'index.php' )
 	{
 		$can_use_RET['Users/User.php&category_id=1'] = true;
 	}
 
-	$profile = DBGetOne( "SELECT PROFILE
-		FROM STAFF WHERE
-		STAFF_ID='" . UserStaffID() . "'" );
-
-	$categories_RET = DBGet( "SELECT ID,TITLE,INCLUDE
-		FROM STAFF_FIELD_CATEGORIES
-		WHERE " . ( $profile ? mb_strtoupper( $profile ) . '=\'Y\'' : 'ID=\'1\'' ) . "
-		ORDER BY SORT_ORDER,TITLE" );
-
-	foreach ( (array) $categories_RET as $category )
+	if ( mb_strpos( $_REQUEST['modfunc'], 'delete_' ) !== 0
+		|| ! empty( $_REQUEST['delete_ok'] ) )
 	{
-		if ( $can_use_RET['Users/User.php&category_id=' . $category['ID']] )
+		if ( $_REQUEST['staff_id'] !== 'new' )
 		{
-			//FJ Remove $_REQUEST['include']
-			/*if ( $category['ID']=='1')
-			$include = 'General_Info';
-			elseif ( $category['ID']=='2')
-			$include = 'Schedule';
-			elseif ( $category['INCLUDE'])
-			$include = $category['INCLUDE'];
-			else
-			$include = 'Other_Info';*/
+			$sql = "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
+			s.TITLE,s.FIRST_NAME,s.LAST_NAME,s.MIDDLE_NAME,s.NAME_SUFFIX,
+			s.USERNAME,s.PASSWORD,s.SCHOOLS,s.PROFILE,s.PROFILE_ID,s.EMAIL,
+			s.LAST_LOGIN,s.SYEAR,s.ROLLOVER_ID
+			FROM STAFF s
+			WHERE s.STAFF_ID='" . UserStaffID() . "'";
 
-			$tabs[] = array(
-				'title' => $category['TITLE'],
-				'link' => ( $_REQUEST['staff_id'] !== 'new' ?
-					'Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $category['ID'] . '&staff_id=' . UserStaffID() :
-					'' ),
-			);
+			$staff = DBGet( $sql );
+
+			$staff = $staff[1];
 		}
+
+		if ( basename( $_SERVER['PHP_SELF'] ) !== 'index.php' )
+		{
+			$form_action = 'Modules.php?modname=' . $_REQUEST['modname'] .
+			'&category_id=' . $category_id . '&staff_id=' . UserStaffID() . '&modfunc=update';
+		}
+		else
+		{
+			// FJ create account.
+			$form_action = 'index.php?create_account=user&staff_id=new&modfunc=update';
+		}
+
+		echo '<form name="staff" id="staff"	action="' . $form_action . '"
+			method="POST" enctype="multipart/form-data">';
+
+		$delete_button = '';
+
+		if ( basename( $_SERVER['PHP_SELF'] ) !== 'index.php' )
+		{
+			if ( UserStaffID()
+				&& UserStaffID() !== User( 'STAFF_ID' )
+				&& User( 'PROFILE' ) === 'admin'
+				&& AllowEdit() )
+			{
+				// @since 5.0 Cannot delete teacher if has course periods.
+				$can_delete = DBTransDryRun( UserDeleteSQL( UserStaffID() ) );
+
+				if ( $can_delete )
+				{
+					$delete_URL = "'Modules.php?modname=" . $_REQUEST['modname'] . '&staff_id=' . UserStaffID() .
+						"&modfunc=delete'";
+
+					$delete_button = '<input type="button" value="' . _( 'Delete' ) . '" onClick="javascript:ajaxLink(' . $delete_URL . ');" />';
+				}
+			}
+		}
+
+		$name = $_REQUEST['staff_id'] !== 'new' ? $staff['FULL_NAME'] . ' - ' . $staff['STAFF_ID'] : '';
+
+		DrawHeader( $name, $delete_button . SubmitButton() );
+
+		// Hook.
+		do_action( 'Users/User.php|header' );
+
+		$profile = DBGetOne( "SELECT PROFILE
+			FROM STAFF WHERE
+			STAFF_ID='" . UserStaffID() . "'" );
+
+		$categories_RET = DBGet( "SELECT ID,TITLE,INCLUDE
+			FROM STAFF_FIELD_CATEGORIES
+			WHERE " . ( $profile ? mb_strtoupper( $profile ) . '=\'Y\'' : 'ID=\'1\'' ) . "
+			ORDER BY SORT_ORDER,TITLE" );
+
+		foreach ( (array) $categories_RET as $category )
+		{
+			if ( $can_use_RET['Users/User.php&category_id=' . $category['ID']] )
+			{
+				$tabs[] = array(
+					'title' => $category['TITLE'],
+					'link' => ( $_REQUEST['staff_id'] !== 'new' ?
+						'Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $category['ID'] . '&staff_id=' . UserStaffID() :
+						'' ),
+				);
+			}
+		}
+
+		$_ROSARIO['selected_tab'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $category_id . '&staff_id=' . UserStaffID();
+
+		echo '<br />';
+		PopTable( 'header', $tabs, 'width="100%"' );
+		$PopTable_opened = true;
+
+		if ( $can_use_RET['Users/User.php&category_id=' . $category_id] )
+		{
+			if ( ! mb_strpos( $include, '/' ) )
+			{
+				require 'modules/Users/includes/' . $include . '.inc.php';
+			}
+			else
+			{
+				if ( file_exists( 'plugins/' . $include . '.inc.php' ) )
+				{
+					// @since 4.5 Include Student/User Info tab from custom plugin.
+					require 'plugins/' . $include . '.inc.php';
+				}
+				else
+				{
+					require 'modules/' . $include . '.inc.php';
+				}
+
+				$separator = '<hr />';
+
+				require_once 'modules/Users/includes/Other_Info.inc.php';
+			}
+		}
+
+		PopTable( 'footer' );
+
+		echo '<br /><div class="center">' . SubmitButton() . '</div>';
+		echo '</form>';
 	}
-
-	$_ROSARIO['selected_tab'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $category_id . '&staff_id=' . UserStaffID();
-
-	echo '<br />';
-	PopTable( 'header', $tabs, 'width="100%"' );
-	$PopTable_opened = true;
-
-	if ( $can_use_RET['Users/User.php&category_id=' . $category_id] )
+	elseif ( $can_use_RET['Users/User.php&category_id=' . $category_id] )
 	{
+		// Is Deleting from Other tab.
 		if ( ! mb_strpos( $include, '/' ) )
 		{
 			require 'modules/Users/includes/' . $include . '.inc.php';
@@ -733,15 +754,6 @@ if (  ( UserStaffID()
 			{
 				require 'modules/' . $include . '.inc.php';
 			}
-
-			$separator = '<hr />';
-
-			require_once 'modules/Users/includes/Other_Info.inc.php';
 		}
 	}
-
-	PopTable( 'footer' );
-
-	echo '<br /><div class="center">' . SubmitButton() . '</div>';
-	echo '</form>';
 }
