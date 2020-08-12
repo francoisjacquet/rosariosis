@@ -93,7 +93,7 @@ if ( ! $_REQUEST['modfunc'] )
 		'Immunizations or Physicals',
 		$link,
 		array(),
-		array( 'search' => false )
+		array( 'search' => false, 'save' => false )
 	);
 
 	$table = 'STUDENT_MEDICAL_ALERTS';
@@ -122,7 +122,7 @@ if ( ! $_REQUEST['modfunc'] )
 		'Medical Alerts',
 		$link,
 		array(),
-		array( 'search' => false )
+		array( 'search' => false, 'save' => false )
 	);
 
 	if ( User( 'PROFILE' ) === 'admin'
@@ -175,7 +175,7 @@ if ( ! $_REQUEST['modfunc'] )
 			'Nurse Visits',
 			$link,
 			array(),
-			array( 'search' => false )
+			array( 'search' => false, 'save' => false )
 		);
 	}
 

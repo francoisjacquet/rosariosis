@@ -36,6 +36,7 @@ Changes in 7.0
 - Fix Delete from other Student/User Info tabs in Student.php & User.php
 - Remove deprecated since 4.5 rollover_* action hooks in Rollover.php & Actions.php
 - Fix Error: There is no column for The value for 0. This value was not saved in SaveData.fnc.php
+- Fix Do not Save / Export Medical tab lists in Medical.inc.php
 
 Changes in 6.9.4
 ----------------
