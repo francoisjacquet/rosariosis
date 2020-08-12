@@ -263,6 +263,7 @@ modules/ENP*
 modules/Grades_Import*
 modules/Jitsi_Meet*
 modules/Staff_Absences*
+modules/Human_Resources*
 plugins/Email_SMTP*
 plugins/Public_Pages*
 plugins/Custom_Transcripts*
