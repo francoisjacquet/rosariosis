@@ -81,14 +81,6 @@ $RosarioActions = array();
 
 	'School_Setup/Rollover.php|rollover_warnings' => array(),
 	'School_Setup/Rollover.php|rollover_checks' => array(),
-	// @deprecated since 4.5 use School_Setup/Rollover.php|rollover_after action hook!
-	'School_Setup/Rollover.php|rollover_staff' => array(),
-	// @deprecated since 4.5 use School_Setup/Rollover.php|rollover_after action hook!
-	'School_Setup/Rollover.php|rollover_course_subjects' => array(),
-	// @deprecated since 4.5 use School_Setup/Rollover.php|rollover_after action hook!
-	'School_Setup/Rollover.php|rollover_courses' => array(),
-	// @deprecated since 4.5 use School_Setup/Rollover.php|rollover_after action hook!
-	'School_Setup/Rollover.php|rollover_course_periods' => array(),
 
 	/**
 	 * Portal Alerts.
