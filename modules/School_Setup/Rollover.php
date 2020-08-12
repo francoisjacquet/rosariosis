@@ -8,21 +8,18 @@ $tables = array(
 	'SCHOOL_MARKING_PERIODS' => _( 'Marking Periods' ),
 	'ATTENDANCE_CALENDARS' => _( 'Calendars' ),
 	'ATTENDANCE_CODES' => _( 'Attendance Codes' ),
-	'COURSES' => _( 'Courses' ) .
-		'<div class="tooltip"><i>' .
-		_( 'You <i>must</i> roll users, school periods, marking periods, calendars, attendance codes, and report card codes at the same time or before rolling courses.' ) .
-		'</i></div>',
+	'COURSES' => _( 'Courses' ),
 	'STUDENT_ENROLLMENT_CODES' => _( 'Student Enrollment Codes' ),
-	'STUDENT_ENROLLMENT' => _( 'Students' ) .
-		'<div class="tooltip"><i>' .
-		_( 'You <i>must</i> roll enrollment codes at the same time or before rolling students.' ) .
-		'</i></div>',
+	'STUDENT_ENROLLMENT' => _( 'Students' ),
 	'REPORT_CARD_GRADES' => _( 'Report Card Grade Codes' ),
-	'REPORT_CARD_COMMENTS' => _( 'Report Card Comment Codes' ) .
-		'<div class="tooltip"><i>' .
-		_( 'You <i>must</i> roll courses at the same time or before rolling report card comments.' ) .
-		'</i></div>',
+	'REPORT_CARD_COMMENTS' => _( 'Report Card Comment Codes' ),
 	'PROGRAM_CONFIG' => _( 'School Configuration' ),
+);
+
+$tables_tooltip = array(
+	'COURSES' => _( 'You <i>must</i> roll users, school periods, marking periods, calendars, attendance codes, and report card codes at the same time or before rolling courses.' ),
+	'STUDENT_ENROLLMENT' => _( 'You <i>must</i> roll enrollment codes at the same time or before rolling students.' ),
+	'REPORT_CARD_COMMENTS' => _( 'You <i>must</i> roll courses at the same time or before rolling report card comments.' ),
 );
 
 $no_school_tables = array( 'SCHOOLS' => true, 'STUDENT_ENROLLMENT_CODES' => true, 'STAFF' => true );
@@ -61,15 +58,20 @@ foreach ( (array) $tables as $table => $name )
 			AND exists(SELECT * FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=STAFF.STAFF_ID)" );
 	}
 
+	$input_title = $name;
+
 	if ( $exists_RET[$table][1]['COUNT'] > 0 )
 	{
-		$table_list .= '<tr><td><label><input type="checkbox" value="Y" name="tables[' . $table . ']">
-		<span style="color:grey">&nbsp;' . $name . ' (' . $exists_RET[$table][1]['COUNT'] . ')</span></label></td></tr>';
+		$input_title = '<span style="color:grey">' . $input_title . ' (' . $exists_RET[$table][1]['COUNT'] . ')</span>';
 	}
-	else
+
+	if ( ! empty( $tables_tooltip[ $table ] ) )
 	{
-		$table_list .= '<tr><td><label><input type="checkbox" value="Y" name="tables[' . $table . ']" checked />&nbsp;' . $name . '</label></td></tr>';
+		$input_title .= '<div class="tooltip"><i>' . $tables_tooltip[ $table ] . '</i></div>';
 	}
+
+	$table_list .= '<tr><td><label><input type="checkbox" value="Y" name="tables[' . $table . ']">&nbsp;' .
+		$input_title . '</label></td></tr>';
 }
 
 $table_list .= '</table>';
