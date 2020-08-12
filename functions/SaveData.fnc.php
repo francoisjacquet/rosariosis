@@ -40,6 +40,12 @@ function SaveData( $iu_extra, $field_names = array() )
 
 			$go = false;
 
+			if ( empty( $columns ) )
+			{
+				// Fix Error: There is no column for The value for 0. This value was not saved.
+				continue;
+			}
+
 			// For each column.
 			foreach ( (array) $columns as $column => $value )
 			{
