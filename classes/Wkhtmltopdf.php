@@ -744,6 +744,9 @@ class Wkhtmltopdf
 		$command .= (file_exists($this->getFooterHtml())) ? " --footer-html " . $this->getFooterHtml() : "";
 		$command .= ($this->getTitle()) ? ' --title "' . $this->getTitle() . '"' : '';
 
+		// Fix System error "blocked access to local file" with wkhtmltopdf 0.12.6.
+		$command .= ' --enable-local-file-access';
+
 		$command .= ' "%input%"';
 		$command .= " -";
 		if ( $this->getRunInVirtualX() )

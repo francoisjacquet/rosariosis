@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 7.0.1
+----------------
+- Fix #292 System error "blocked access to local file" with wkhtmltopdf 0.12.6 in Wkhtmltopdf.php
+
 Changes in 7.0
 --------------
 - Update Markdownify from v2.1.11 to v2.3.1 in classes/Markdownify/*
