@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 7.0.2
+----------------
+- JS Fix search form onsubmit in Export.php
+
 Changes in 7.0.1
 ----------------
 - Fix #292 System error "blocked access to local file" with wkhtmltopdf 0.12.6 in Wkhtmltopdf.php

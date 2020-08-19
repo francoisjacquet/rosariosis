@@ -21,17 +21,16 @@ $extra['extra_search'] .= '<tr>
 	</tr>';
 
 $extra['extra_search'] .= '<script>
-		function exportSubmit() {
-			document.search.relation.value=document.getElementById(\'relation\').value;
-			document.search.residence.value=document.getElementById(\'residence\').checked;
-			document.search.mailing.value=document.getElementById(\'mailing\').checked;
-			document.search.bus_pickup.value=document.getElementById(\'bus_pickup\').checked;
-			document.search.bus_dropoff.value=document.getElementById(\'bus_dropoff\').checked;
-		}
-	</script>';
+	function exportSubmit() {
+		document.search.relation.value=document.getElementById("relation").value;
+		document.search.residence.value=document.getElementById("residence").checked;
+		document.search.mailing.value=document.getElementById("mailing").checked;
+		document.search.bus_pickup.value=document.getElementById("bus_pickup").checked;
+		document.search.bus_dropoff.value=document.getElementById("bus_dropoff").checked;
+	}
 
-$extra['action'] = issetVal( $extra['action'], '' );
-$extra['action'] .= '" onsubmit="exportSubmit();';
+	$("form[name=search]").submit(exportSubmit);
+</script>';
 
 $extra['new'] = true;
 
