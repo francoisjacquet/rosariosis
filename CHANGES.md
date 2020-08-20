@@ -5,6 +5,7 @@ Changes in 7.1
 --------------
 - Final Grading Percentages: add "No quarters found" error in Configuration.php
 - Add Start Date input in Scheduler.php
+- Export (Excel) date to YYYY-MM-DD format (ISO) in Date.php & Preferences.php
 
 Changes in 7.0.3
 ----------------

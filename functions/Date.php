@@ -38,6 +38,7 @@ function DBDate()
  * Accepts Oracle or Postgres date
  *
  * @since 3.8 CSS add .proper-date class.
+ * @since 7.1 Export (Excel) date to YYYY-MM-DD format (ISO).
  *
  * @see Preferences & http://php.net/manual/en/function.strftime.php
  *
@@ -67,6 +68,16 @@ function ProperDate( $date, $length = 'long' )
 			$date_exploded['month'] . '/' .
 			$date_exploded['day'] . '/' .
 			$date_exploded['year'];
+	}
+
+	// @since 7.1 Export (Excel) date to YYYY-MM-DD format (ISO).
+	if ( isset( $_REQUEST['LO_save'] )
+		&& Preferences( 'E_DATE' ) === 'YYYY-MM-DD' )
+	{
+		return $comment .
+			$date_exploded['year'] . '-' .
+			$date_exploded['month'] . '-' .
+			$date_exploded['day'];
 	}
 
 	// FJ display locale with strftime().

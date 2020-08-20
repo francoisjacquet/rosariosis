@@ -277,6 +277,8 @@ if ( ! $_REQUEST['modfunc'] )
 			array(
 				'' => _( 'Display Options Format' ),
 				'MM/DD/YYYY' => 'MM/DD/YYYY', // Do not Translate
+				// @since 7.1 Export (Excel) date to YYYY-MM-DD format (ISO).
+				'YYYY-MM-DD' => 'YYYY-MM-DD', // Do not Translate
 			),
 			$allow_na,
 			$extra,
