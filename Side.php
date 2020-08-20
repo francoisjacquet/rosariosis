@@ -311,7 +311,7 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 		<span class="username br-after"><?php echo User( 'NAME' ); ?></span>
 		<?php
 			// Localized today's date.
-			echo '<span class="today-date size-1">' . strftime( '%A %B %d, %Y' ) . '</span>';
+			echo '<span class="today-date size-1">' . strftime( '%A ' . Preferences( 'DATE' ) ) . '</span>';
 		?>
 		<br />
 		<?php // School SELECT (Admins & Teachers only).

@@ -39,6 +39,7 @@ function DBDate()
  *
  * @since 3.8 CSS add .proper-date class.
  * @since 7.1 Export (Excel) date to YYYY-MM-DD format (ISO).
+ * @since 7.1 Select Date Format: Add Preferences( 'DATE' ).
  *
  * @see Preferences & http://php.net/manual/en/function.strftime.php
  *
@@ -80,42 +81,13 @@ function ProperDate( $date, $length = 'long' )
 			$date_exploded['day'];
 	}
 
-	// FJ display locale with strftime().
-	if ( ( Preferences( 'MONTH' ) === '%m'
-			|| Preferences( 'MONTH' ) === '%b' )
-		&& Preferences( 'DAY' ) === '%d'
-		&& Preferences( 'YEAR' ) )
-	{
-		$sep = '/';
-	}
-	else
-		$sep = ' ';
-
-	// Short month name, eg.: "Sep".
-	if ( $length === 'short' )
-	{
-		$pref_month = '%b';
-	}
-	else
-		$pref_month = Preferences( 'MONTH' );
-
-	$pref_date = $pref_month . $sep . Preferences( 'DAY' ) . $sep . Preferences( 'YEAR' );
-
-	$time = mktime(
-		0,
-		0,
-		0,
-		$date_exploded['month'] + 0,
-		$date_exploded['day'] + 0,
-		$date_exploded['year'] + 0
-	);
-
 	// Display localized date with strftime().
 	// CSS add .proper-date class.
 	return $comment .
-		'<span class="proper-date">' .
-			strftime( $pref_date, $time ) .
-		'</span>';
+		'<span class="proper-date">' . strftime(
+			Preferences( 'DATE' ),
+			strtotime( $date_exploded['year'] . '-' . $date_exploded['month'] . '-' . $date_exploded['day'] )
+		) . '</span>';
 }
 
 

@@ -387,54 +387,33 @@ if ( ! $_REQUEST['modfunc'] )
 
 		echo '</td></tr><tr><td>';
 
-		//FJ display locale with strftime()
-		$month_keys = array( '%B', '%b', '%m' );
+		// @since 7.1 Select Date Format: Add Preferences( 'DATE' ).
+		// @link https://en.wikipedia.org/wiki/Date_format_by_country
+		// @link https://www.php.net/strftime
+		$date_options = array(
+			'%B %d %Y' => ucfirst( strftime( '%B %d %Y' ) ), // August 18 2020.
+			'%b %d %Y' => ucfirst( strftime( '%b %d %y' ) ), // Aug 18 20.
+			'%d %B %Y' => strftime( '%d %B %Y' ), // 18 August 2020.
+			'%d %b %Y' => strftime( '%d %b %y' ), // 18 Aug 20.
+			'%m/%d/%Y' => strftime( '%m/%d/%Y' ), // 08/18/2020.
+			'%d/%m/%Y' => strftime( '%d/%m/%Y' ), // 18/08/2020.
+			'%Y/%m/%d' => strftime( '%Y/%m/%d' ), // 2020/08/18.
+			'%d.%m.%Y' => strftime( '%d.%m.%Y' ), // 18.08.2020.
+			'%d-%m-%Y' => strftime( '%d-%m-%Y' ), // 18-08-2020.
+			'%Y-%m-%d' => strftime( '%Y-%m-%d' ), // 2020-08-18.
+		);
 
-		$month_options = array();
-
-		foreach ( (array) $month_keys as $month_key )
-		{
-			$month_options[$month_key] = mb_convert_case(
-				iconv( '', 'UTF-8', strftime( $month_key ) ),
-				MB_CASE_TITLE,
-				"UTF-8"
-			);
-		}
-
-		// Month
 		echo SelectInput(
-			Preferences( 'MONTH' ),
-			'values[Preferences][MONTH]',
-			'',
-			$month_options,
+			Preferences( 'DATE' ),
+			'values[Preferences][DATE]',
+			_( 'Date Format' ),
+			$date_options,
 			$allow_na,
 			$extra,
 			$div
 		);
 
-		// Day
-		echo SelectInput(
-			Preferences( 'DAY' ),
-			'values[Preferences][DAY]',
-			'',
-			array( '%d' => strftime( '%d' ) ),
-			$allow_na,
-			$extra,
-			$div
-		);
-
-		// Year
-		echo SelectInput(
-			Preferences( 'YEAR' ),
-			'values[Preferences][YEAR]',
-			'',
-			array( '%Y' => strftime( '%Y' ), '%y' => strftime( '%y' ) ),
-			$allow_na,
-			$extra,
-			$div
-		);
-
-		echo FormatInputTitle( _( 'Date Format' ) ) . '</td></tr><tr><td>';
+		echo '</td></tr><tr><td>';
 
 		// Disable login alerts
 		echo CheckboxInput(

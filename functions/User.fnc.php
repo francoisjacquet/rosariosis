@@ -137,9 +137,10 @@ function Preferences( $item, $program = 'Preferences' )
 		'HEADER' => '#333366',
 		'HIGHLIGHT' => '#FFFFFF',
 		'THEME' => $default_theme,
-		'MONTH' => '%B',
-		'DAY' => '%d',
-		'YEAR' => '%Y',
+		// @since 7.1 Select Date Format: Add Preferences( 'DATE' ).
+		'DATE' => '%B %d %Y',
+		// @deprecated since 7.1 Use Preferences( 'DATE' ).
+		'MONTH' => '%B', 'DAY' => '%d', 'YEAR' => '%Y',
 		'DEFAULT_ALL_SCHOOLS' => 'N',
 		'ASSIGNMENT_SORTING' => 'ASSIGNMENT_ID',
 		'ANOMALOUS_MAX' => '100',
