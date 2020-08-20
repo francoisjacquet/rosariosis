@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 7.0.3
+----------------
+- Fix Multiple School Periods: Course Period School Period does not match, skip in Scheduler.php
+
 Changes in 7.0.2
 ----------------
 - JS Fix search form onsubmit in Export.php
