@@ -144,7 +144,7 @@ if ( $ok )
 	AND s.SYEAR=r.SYEAR
 	AND s.SCHOOL_ID=r.SCHOOL_ID
 	AND s.COURSE_ID=r.COURSE_ID
-	AND r.STUDENT_ID = s.STUDENT_ID
+	AND r.STUDENT_ID=s.STUDENT_ID
 	AND ('" . DBDate() . "' BETWEEN s.START_DATE AND s.END_DATE OR s.END_DATE IS NULL)";
 
 	$locked_RET = DBGet( $sql, array(), array( 'STUDENT_ID', 'REQUEST_ID' ) );
@@ -501,11 +501,17 @@ function _moveRequest( $request, $not_request = false, $not_parent_id = false )
 
 				if ( $slice['PARENT_ID'] == $slice['COURSE_PERIOD_ID']
 					&& ( ( $request['WITH_TEACHER_ID'] != '' && $slice['TEACHER_ID'] != $request['WITH_TEACHER_ID'] )
-						|| ( $request['WITH_PERIOD_ID'] && $slice['PERIOD_ID'] != $request['WITH_PERIOD_ID'] )
 						|| ( $request['NOT_TEACHER_ID'] && $slice['TEACHER_ID'] == $request['NOT_TEACHER_ID'] )
 						|| ( $request['NOT_PERIOD_ID'] && $slice['PERIOD_ID'] == $request['NOT_PERIOD_ID'] ) ) )
 				{
 					continue 2;
+				}
+
+				if ( $slice['PARENT_ID'] == $slice['COURSE_PERIOD_ID']
+					&& ( $request['WITH_PERIOD_ID'] && $slice['PERIOD_ID'] != $request['WITH_PERIOD_ID'] ) )
+				{
+					// Fix Multiple School Periods: Course Period School Period does not match, skip.
+					continue;
 				}
 
 				if ( ! empty( $schedule[$request['STUDENT_ID']][$slice['PERIOD_ID']] ) )
