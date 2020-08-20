@@ -402,11 +402,17 @@ function _scheduleRequest( $request, $not_parent_id = false )
 
 			if ( $slice['PARENT_ID'] == $slice['COURSE_PERIOD_ID']
 				&& ( ( $request['WITH_TEACHER_ID'] != '' && $slice['TEACHER_ID'] != $request['WITH_TEACHER_ID'] )
-					|| ( $request['WITH_PERIOD_ID'] && $slice['PERIOD_ID'] != $request['WITH_PERIOD_ID'] )
 					|| ( $request['NOT_TEACHER_ID'] && $slice['TEACHER_ID'] == $request['NOT_TEACHER_ID'] )
 					|| ( $request['NOT_PERIOD_ID'] && $slice['PERIOD_ID'] == $request['NOT_PERIOD_ID'] ) ) )
 			{
 				continue 2;
+			}
+
+			if ( $slice['PARENT_ID'] == $slice['COURSE_PERIOD_ID']
+				&& ( $request['WITH_PERIOD_ID'] && $slice['PERIOD_ID'] != $request['WITH_PERIOD_ID'] ) )
+			{
+				// Fix Multiple School Periods: Course Period School Period does not match, skip.
+				continue;
 			}
 
 			if ( ! empty( $schedule[$request['STUDENT_ID']][$slice['PERIOD_ID']] ) )
