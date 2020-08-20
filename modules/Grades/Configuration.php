@@ -363,31 +363,39 @@ foreach ( (array) $semesters as $sem )
 
 		$total = 0;
 
-		foreach ( (array) $quarters[$sem['MARKING_PERIOD_ID']] as $qtr )
-		{
-			$gradebook_config_sem_qtr = isset( $gradebook_config['SEM-' . $qtr['MARKING_PERIOD_ID']] ) ?
-				$gradebook_config['SEM-' . $qtr['MARKING_PERIOD_ID']] :
-				null;
-
-			$value = array(
-				$gradebook_config_sem_qtr,
-				$gradebook_config_sem_qtr . '%'
-			);
-
-			$table .= '<td>' . TextInput(
-				$value,
-				'values[SEM-' . $qtr['MARKING_PERIOD_ID'] . ']',
-				$qtr['TITLE'],
-				'size="4" required type="number" min=0 max=100 step=0.01'
-			) . '</td>';
-
-			$total += $gradebook_config_sem_qtr;
-		}
-
-		if ( $total != 100 )
+		if ( empty( $quarters[$sem['MARKING_PERIOD_ID']] ) )
 		{
 			$table .= '<td><span class="legend-red">' .
-				_( 'Total' ) . ' &#8800; 100%!</span></td>';
+				_( 'Error' ) . ': ' . _( 'No quarters found' ) . '</span></td>';
+		}
+		else
+		{
+			foreach ( (array) $quarters[$sem['MARKING_PERIOD_ID']] as $qtr )
+			{
+				$gradebook_config_sem_qtr = isset( $gradebook_config['SEM-' . $qtr['MARKING_PERIOD_ID']] ) ?
+					$gradebook_config['SEM-' . $qtr['MARKING_PERIOD_ID']] :
+					null;
+
+				$value = array(
+					$gradebook_config_sem_qtr,
+					$gradebook_config_sem_qtr . '%'
+				);
+
+				$table .= '<td>' . TextInput(
+					$value,
+					'values[SEM-' . $qtr['MARKING_PERIOD_ID'] . ']',
+					$qtr['TITLE'],
+					'size="4" required type="number" min=0 max=100 step=0.01'
+				) . '</td>';
+
+				$total += $gradebook_config_sem_qtr;
+			}
+
+			if ( $total != 100 )
+			{
+				$table .= '<td><span class="legend-red">' .
+					_( 'Total' ) . ' &#8800; 100%!</span></td>';
+			}
 		}
 
 		$table .= '</tr></table>';

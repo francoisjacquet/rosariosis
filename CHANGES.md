@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 7.1
+--------------
+- Final Grading Percentages: add "No quarters found" error in Configuration.php
+
 Changes in 7.0.3
 ----------------
 - Fix Multiple School Periods: Course Period School Period does not match, skip in Scheduler.php
