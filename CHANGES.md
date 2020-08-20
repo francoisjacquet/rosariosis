@@ -4,6 +4,7 @@
 Changes in 7.1
 --------------
 - Final Grading Percentages: add "No quarters found" error in Configuration.php
+- Add Start Date input in Scheduler.php
 
 Changes in 7.0.3
 ----------------
