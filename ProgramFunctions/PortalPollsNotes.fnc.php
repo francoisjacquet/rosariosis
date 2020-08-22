@@ -563,19 +563,16 @@ function makeFileAttached( $value, $name )
 
 	$id = 'new';
 
-	$return = '<div id="divFileAttached' . $id . '" class="rt2colorBox">';
-	$return .= '<div>
-		<label>
-			<input type="radio" name="values[new][FILE_OR_EMBED]" value="FILE">&nbsp;';
-	$return .= FileInput( $name . '_FILE' );
-	$return .= '</label>
-	</div>';
-	$return .= '<div>
-		<label>
-			<input type="radio" name="values[new][FILE_OR_EMBED]" value="EMBED" onclick="javascript:document.getElementById(\'values[new][' . $name . '_EMBED]\').focus();" />&nbsp;' .
-	_( 'Embed Link' ) . ': <input type="text" id="values[new][' . $name . '_EMBED]" name="values[new][' . $name . '_EMBED]" size="14" placeholder="http://" />
-		</label>
-	</div></div>';
+	$return = '<div id="divFileAttached' . $id . '" class="rt2colorBox"><div>';
+
+	$return .= FileInput( $name . '_FILE', _( 'File Attached' ) );
+
+	$return .= '<br />' . TextInput(
+		'',
+		'values[' . $id . '][' . $name . '_EMBED]',
+		_( 'Embed Link' ),
+		'size="14" placeholder="http://"'
+	) . '</div></div>';
 
 	return $return;
 }

@@ -126,7 +126,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				//$values = db_seq_nextval('portal_notes_id_seq').",'".UserSchool()."','".UserSyear()."',CURRENT_TIMESTAMP,'".User('STAFF_ID')."',";
 				$values = $portal_note_id . ",'" . UserSchool() . "','" . UserSyear() . "',CURRENT_TIMESTAMP,'" . User( 'STAFF_ID' ) . "',";
 
-				if ( $columns['FILE_OR_EMBED'] == 'FILE' )
+				if ( isset( $_FILES['FILE_ATTACHED_FILE'] ) )
 				{
 					$columns['FILE_ATTACHED'] = FileUpload(
 						'FILE_ATTACHED_FILE',
@@ -139,15 +139,12 @@ if ( $_REQUEST['modfunc'] === 'update'
 					// @since 6.8 Fix SQL error when quote in uploaded file name.
 					$columns['FILE_ATTACHED'] = DBEscapeString( $columns['FILE_ATTACHED'] );
 				}
-				elseif ( $columns['FILE_OR_EMBED'] == 'EMBED' )
+				elseif ( filter_var( $columns['FILE_ATTACHED_EMBED'], FILTER_VALIDATE_URL ) !== false )
 				{
-					if ( filter_var( $columns['FILE_ATTACHED_EMBED'], FILTER_VALIDATE_URL ) !== false )
-					{
-						$columns['FILE_ATTACHED'] = $columns['FILE_ATTACHED_EMBED'];
-					}
+					$columns['FILE_ATTACHED'] = $columns['FILE_ATTACHED_EMBED'];
 				}
 
-				unset( $columns['FILE_ATTACHED_EMBED'], $columns['FILE_OR_EMBED'] );
+				unset( $columns['FILE_ATTACHED_EMBED'] );
 
 				$go = 0;
 
