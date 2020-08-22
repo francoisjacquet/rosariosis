@@ -108,7 +108,8 @@ function User( $item )
  */
 function Preferences( $item, $program = 'Preferences' )
 {
-	global $_ROSARIO;
+	global $_ROSARIO,
+		$locale;
 
 	if ( ! $item
 		|| ! $program )
@@ -127,18 +128,16 @@ function Preferences( $item, $program = 'Preferences' )
 			ORDER BY USER_ID", array(), array( 'TITLE' ) );
 	}
 
-	// FJ add Default Theme to Configuration.
-	$default_theme = Config( 'THEME' );
-
 	$defaults = array(
 		'SORT' => 'Name',
 		'SEARCH' => 'Y',
 		'DELIMITER' => 'Tab',
 		'HEADER' => '#333366',
 		'HIGHLIGHT' => '#FFFFFF',
-		'THEME' => $default_theme,
+		'THEME' => Config( 'THEME' ),
 		// @since 7.1 Select Date Format: Add Preferences( 'DATE' ).
-		'DATE' => '%B %d %Y',
+		// @link https://www.w3.org/International/questions/qa-date-format
+		'DATE' => ( $locale === 'en_US.utf8' ? '%B %d %Y' : '%d %B %Y' ),
 		// @deprecated since 7.1 Use Preferences( 'DATE' ).
 		'MONTH' => '%B', 'DAY' => '%d', 'YEAR' => '%Y',
 		'DEFAULT_ALL_SCHOOLS' => 'N',
