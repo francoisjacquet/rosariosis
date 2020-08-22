@@ -147,7 +147,12 @@ function _makeTextInput( $value, $name )
 	if ( $name !== 'TITLE' )
 	{
 		// @since 5.8 Change short_name column type to character varying(3). Now allows French elementary grade levels.
-		$extra = 'size=3 maxlength=3';
+		$extra .= 'size=3 maxlength=3';
+	}
+	else
+	{
+		// Fix SQL error TITLE column limit to 50 characters.
+		$extra .= 'maxlength=50';
 	}
 
 	if ( $id !== 'new'
@@ -167,7 +172,7 @@ function _makeTextInput( $value, $name )
 	}
 
 	return $comment .
-	TextInput( $value, 'values[' . $id . '][' . $name . ']', '', $extra );
+		TextInput( $value, 'values[' . $id . '][' . $name . ']', '', $extra );
 }
 
 /**
