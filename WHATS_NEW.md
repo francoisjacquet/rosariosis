@@ -11,6 +11,9 @@ Students
 Users
 - Preferences: select among 10 Date Formats.
 
+Grades
+- Report Cards: include Credits.
+
 
 New in 7.0
 ----------

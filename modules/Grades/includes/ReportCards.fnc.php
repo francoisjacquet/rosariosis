@@ -60,6 +60,12 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 
 		$return .= '</tr><tr class="st">';
 
+		// Credits.
+		$return .= '<td><label><input type="checkbox" name="elements[credits]" value="Y"> ' .
+		_( 'Credits' ) . '</label></td>';
+
+		$return .= '</tr><tr class="st">';
+
 		// Year-to-date Daily Absences.
 		$return .= '<td><label><input type="checkbox" name="elements[ytd_absences]" value="Y" checked /> ' .
 		_( 'Year-to-date Daily Absences' ) . '</label></td>';
@@ -391,6 +397,12 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 			$LO_columns[$mp] = GetMP( $mp, $mp_TITLE );
 		}
 
+		if ( isset( $_REQUEST['elements']['credits'] )
+			&& $_REQUEST['elements']['credits'] === 'Y' )
+		{
+			$LO_columns['CREDITS'] = _( 'Credits' );
+		}
+
 		if ( isset( $_REQUEST['elements']['comments'] )
 			&& $_REQUEST['elements']['comments'] === 'Y' )
 		{
@@ -438,6 +450,8 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 					$grade = $mps[$mp][1];
 
 					$grades_RET[$i][$mp] = '<B>' . $grade['GRADE_TITLE'] . '</B>';
+
+					$grades_RET[$i]['CREDITS'] = $grade['CREDITS'];
 
 					if ( isset( $_REQUEST['elements']['percents'] )
 						&& $_REQUEST['elements']['percents'] === 'Y'
@@ -881,13 +895,12 @@ if ( ! function_exists( 'GetReportCardsExtra' ) )
 
 		$extra['SELECT_ONLY'] .= ",sg1.GRADE_LETTER as GRADE_TITLE,sg1.GRADE_PERCENT,WEIGHTED_GP,GP_SCALE,
 			sg1.COMMENT as COMMENT_TITLE,sg1.STUDENT_ID,sg1.COURSE_PERIOD_ID,sg1.MARKING_PERIOD_ID,
-			sg1.COURSE_TITLE as COURSE_TITLE,rc_cp.TEACHER_ID,sp.SORT_ORDER";
-
-		// Period-by-period absences.
+			sg1.COURSE_TITLE as COURSE_TITLE,rc_cp.TEACHER_ID,rc_cp.CREDITS,sp.SORT_ORDER";
 
 		if ( isset( $_REQUEST['elements']['period_absences'] )
 			&& $_REQUEST['elements']['period_absences'] === 'Y' )
 		{
+			// Period-by-period absences.
 			$extra['SELECT_ONLY'] .= ",rc_cp.DOES_ATTENDANCE,
 				(SELECT count(*) FROM ATTENDANCE_PERIOD ap,ATTENDANCE_CODES ac
 					WHERE ac.ID=ap.ATTENDANCE_CODE

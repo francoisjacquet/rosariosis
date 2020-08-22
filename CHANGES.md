@@ -10,6 +10,7 @@ Changes in 7.1
 - Fix SQL error TITLE column limit to 50 characters in GradeLevels.php
 - HTML remove radio buttons (File Attached or Embed Link) in PortalNotes.php & PortalPollsNotes.fnc.php
 - Add Grade Level breakdown in StudentBreakdown.php
+- Include Credits in ReportCards.fnc.php
 
 Changes in 7.0.3
 ----------------
