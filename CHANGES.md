@@ -9,6 +9,7 @@ Changes in 7.1
 - Select Date Format: Add Preferences( 'DATE' ) in User.fnc.php, Preferences.php, Date.php & Side.php
 - Fix SQL error TITLE column limit to 50 characters in GradeLevels.php
 - HTML remove radio buttons (File Attached or Embed Link) in PortalNotes.php & PortalPollsNotes.fnc.php
+- Add Grade Level breakdown in StudentBreakdown.php
 
 Changes in 7.0.3
 ----------------

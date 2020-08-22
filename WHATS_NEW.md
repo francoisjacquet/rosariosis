@@ -2,6 +2,16 @@
 
 ## RosarioSIS Student Information System
 
+New in 7.1
+----------
+
+Students
+- Student Breakdown: Grade Level breakdown.
+
+Users
+- Preferences: select among 10 Date Formats.
+
+
 New in 7.0
 ----------
 
