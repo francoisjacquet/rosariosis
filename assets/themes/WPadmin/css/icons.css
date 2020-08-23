@@ -13,6 +13,10 @@
 	vertical-align: middle;
 }
 
+.header1 .module-icon {
+	vertical-align: -25%;
+}
+
 .module-icon.Accounting {
 	background-image: url("modules/Accounting.png");
 }

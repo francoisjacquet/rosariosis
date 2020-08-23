@@ -200,6 +200,7 @@ code {
 .module-icon {
 	width: 32px;
 	height: 32px;
+	vertical-align: -60%;
 }
 
 .checkbox-label,
