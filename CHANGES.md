@@ -12,6 +12,10 @@ Changes in 7.1
 - Add Grade Level breakdown in StudentBreakdown.php
 - Include Credits in ReportCards.fnc.php
 
+Changes in 7.0.4
+----------------
+- Fix #295 regression since 7.0 cannot save N/A date in Date.php
+
 Changes in 7.0.3
 ----------------
 - Fix Multiple School Periods: Course Period School Period does not match, skip in Scheduler.php

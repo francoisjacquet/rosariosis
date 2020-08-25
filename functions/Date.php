@@ -596,7 +596,7 @@ function RequestedDates( $year_array, $month_array, $day_array )
 
 	foreach ( (array) $month_array as $field_name => $month )
 	{
-		if ( ! $month )
+		if ( $month === false )
 		{
 			// Fix PHP Notice: Array to string conversion when month set to false.
 			continue;
