@@ -22,10 +22,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		$extra['DATE'] = DBDate();
 	}
 
-	$fy_id = GetFullYearMP();
-
-	//FJ multiple school periods for a course period
-	//FJ add subject areas
+	// Multiple school periods for a course period.
+	// Add subject areas.
 	$course_periods_RET = DBGet( "SELECT cp.TITLE,cp.COURSE_PERIOD_ID,cp.TITLE,
 	cp.MARKING_PERIOD_ID,cp.MP,c.TITLE AS COURSE_TITLE,cp.TEACHER_ID,
 	(SELECT " . DisplayNameSQL() . " FROM STAFF WHERE STAFF_ID=cp.TEACHER_ID) AS TEACHER
@@ -37,7 +35,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	$first_extra = $extra;
 	$handle = PDFStart();
 
-	$PCL_UserCoursePeriod = UserCoursePeriod(); // save/restore for teachers
+	$PCL_UserCoursePeriod = UserCoursePeriod(); // Save/restore for teachers.
+
+	$is_include_inactive = isset( $_REQUEST['include_inactive'] ) && $_REQUEST['include_inactive'] === 'Y';
 
 	$no_students_backprompt = true;
 
@@ -55,12 +55,24 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		}
 		elseif ( User( 'PROFILE' ) === 'admin' )
 		{
-			$extra['WHERE'] = $extraWHERE = " AND s.STUDENT_ID IN
+			$extra['WHERE'] = " AND s.STUDENT_ID IN
 			(SELECT STUDENT_ID
 			FROM SCHEDULE
-			WHERE COURSE_PERIOD_ID='" . $course_period['COURSE_PERIOD_ID'] . "'
-			AND '" . DBDate() . "'>=START_DATE
-			AND ('" . DBDate() . "'<=END_DATE OR END_DATE IS NULL))";
+			WHERE COURSE_PERIOD_ID='" . $course_period['COURSE_PERIOD_ID'] . "'";
+
+			if ( $is_include_inactive )
+			{
+				// Include Inactive Students: scheduled.
+				$extra['WHERE'] .= ")";
+			}
+			else
+			{
+				// Active / Scheduled Students.
+				$extra['WHERE'] .= " AND '" . DBDate() . "'>=START_DATE
+					AND ('" . DBDate() . "'<=END_DATE OR END_DATE IS NULL)";
+			}
+
+			$extra_where = $extra['WHERE'];
 		}
 
 		$RET = GetStuList( $extra );
@@ -85,7 +97,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 			if ( User( 'PROFILE' ) === 'admin' )
 			{
-				$extra['WHERE'] .= $extraWHERE;
+				$extra['WHERE'] .= $extra_where;
 			}
 
 			// Warning: do NOT use require_once for Export here!
