@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 7.1.2
+----------------
+- Fix SQL error Include Inactive Students for admin in PrintClassLists.php
+
 Changes in 7.1.1
 ----------------
 - Fix #296 Include Inactive Students for admin in PrintClassLists.php

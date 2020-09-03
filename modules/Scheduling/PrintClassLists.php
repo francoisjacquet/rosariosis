@@ -69,7 +69,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			{
 				// Active / Scheduled Students.
 				$extra['WHERE'] .= " AND '" . DBDate() . "'>=START_DATE
-					AND ('" . DBDate() . "'<=END_DATE OR END_DATE IS NULL)";
+					AND ('" . DBDate() . "'<=END_DATE OR END_DATE IS NULL))";
 			}
 
 			$extra_where = $extra['WHERE'];
