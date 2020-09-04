@@ -165,6 +165,8 @@ function VerifyDate( $date )
  * For the default to be Not Specified,
  * send a date of 00-000-00 or send nothing
  *
+ * @since 7.2 Order Day, Month & Year inputs depending on User date preference.
+ *
  * @global array   $_ROSARIO Sets $_ROSARIO['PrepareDate']
  *
  * @param  string  $date      Date to prepare.
@@ -262,20 +264,22 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 
 	$return .= '<!-- ' . implode( '', $date_exploded ) . ' -->';
 
+	$return_m = $return_d = $return_y = '';
+
 	// MONTH  ---------------.
 	if ( $options['M'] )
 	{
-		$return .= '<select name="month' . $name_attr . '" id="monthSelect' . $_ROSARIO['PrepareDate'] . '"' .
+		$return_m .= '<select name="month' . $name_attr . '" id="monthSelect' . $_ROSARIO['PrepareDate'] . '"' .
 			$extraM . ' autocomplete="off">';
 
 		if ( $allow_na )
 		{
 			if ( $date_exploded['month'] < 1 )
 			{
-				$return .= '<option value="" selected>' . _( 'N/A' );
+				$return_m .= '<option value="" selected>' . _( 'N/A' );
 			}
 			else
-				$return .= '<option value="">' . _( 'N/A' );
+				$return_m .= '<option value="">' . _( 'N/A' );
 		}
 
 		$months_locale = array(
@@ -295,29 +299,29 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 
 		foreach ( (array) $months_locale as $key => $name )
 		{
-			$return .= '<option value="' . $key . '"' . ( $date_exploded['month'] == $key ? ' selected' : '' ) . '>' . $name;
+			$return_m .= '<option value="' . $key . '"' . ( $date_exploded['month'] == $key ? ' selected' : '' ) . '>' . $name;
 		}
 
-		$return .= '</select>';
+		$return_m .= '</select>';
 
-		$return .= '<label for="monthSelect' . $_ROSARIO['PrepareDate'] . '" class="a11y-hidden">' .
+		$return_m .= '<label for="monthSelect' . $_ROSARIO['PrepareDate'] . '" class="a11y-hidden">' .
 			_( 'Month' ) . '</label>';
 	}
 
 	// DAY  ---------------.
 	if ( $options['D'] )
 	{
-		$return .= '<select name="day' . $name_attr . '" id="daySelect' . $_ROSARIO['PrepareDate'] . '"' .
+		$return_d .= '<select name="day' . $name_attr . '" id="daySelect' . $_ROSARIO['PrepareDate'] . '"' .
 			$extraD . ' autocomplete="off">';
 
 		if ( $allow_na )
 		{
 			if ( $date_exploded['day'] < 1 )
 			{
-				$return .= '<option value="" selected>' . _( 'N/A' );
+				$return_d .= '<option value="" selected>' . _( 'N/A' );
 			}
 			else
-				$return .= '<option value="">' . _( 'N/A' );
+				$return_d .= '<option value="">' . _( 'N/A' );
 		}
 
 		for ( $i = 1; $i <= 31; $i++ )
@@ -327,12 +331,12 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 			if ( $i < 10 )
 				$print = '0' . $i;
 
-			$return .= '<option value="' . $print . '"' . ( $date_exploded['day'] == $print ? ' selected' : '' ) . '>' . $i;
+			$return_d .= '<option value="' . $print . '"' . ( $date_exploded['day'] == $print ? ' selected' : '' ) . '>' . $i;
 		}
 
-		$return .= '</select>';
+		$return_d .= '</select>';
 
-		$return .= '<label for="daySelect' . $_ROSARIO['PrepareDate'] . '" class="a11y-hidden">' .
+		$return_d .= '<label for="daySelect' . $_ROSARIO['PrepareDate'] . '" class="a11y-hidden">' .
 			_( 'Day' ) . '</label>';
 	}
 
@@ -352,25 +356,44 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 			$end = $date_exploded['year'] + 5;
 		}
 
-		$return .= '<select name="year' . $name_attr . '" id="yearSelect' . $_ROSARIO['PrepareDate'] . '"' .
+		$return_y .= '<select name="year' . $name_attr . '" id="yearSelect' . $_ROSARIO['PrepareDate'] . '"' .
 			$extraY . ' autocomplete="off">';
 
 		if ( $allow_na )
 		{
-			$return .= $date_exploded['year'] < 1 ?
+			$return_y .= $date_exploded['year'] < 1 ?
 					'<option value="" selected>' . _( 'N/A' ) :
 					'<option value="">' . _( 'N/A' );
 		}
 
 		for ( $i = $begin; $i <= $end; $i++ )
 		{
-			$return .= '<option value="' . $i . '"' . ( $date_exploded['year'] == $i ?' selected' : '' ) . '>' . $i;
+			$return_y .= '<option value="' . $i . '"' . ( $date_exploded['year'] == $i ?' selected' : '' ) . '>' . $i;
 		}
 
-		$return .= '</select>';
+		$return_y .= '</select>';
 
-		$return .= '<label for="yearSelect' . $_ROSARIO['PrepareDate'] . '" class="a11y-hidden">' .
+		$return_y .= '<label for="yearSelect' . $_ROSARIO['PrepareDate'] . '" class="a11y-hidden">' .
 			_( 'Year' ) . '</label>';
+	}
+
+	// @since 7.2 Order Day, Month & Year inputs depending on User date preference.
+	$preferred_date_first = mb_substr( Preferences( 'DATE' ), 0, 2 );
+
+	if ( $preferred_date_first === '%Y' )
+	{
+		// Year, Month, Day.
+		$return .= $return_y . $return_m . $return_d;
+	}
+	elseif ( $preferred_date_first === '%d' )
+	{
+		// Day, Month, Year.
+		$return .= $return_d . $return_m . $return_y;
+	}
+	else
+	{
+		// Month, Day, Year.
+		$return .= $return_m . $return_d . $return_y;
 	}
 
 	// CALENDAR  ---------------.

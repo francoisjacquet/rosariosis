@@ -6,6 +6,7 @@ Changes in 7.2
 - Add Grade Level breakdown in StudentFieldBreakdown.php
 - Add link to Student Info in AddDrop.php
 - Limit students to User schools in AddDrop.php
+- Order Day, Month & Year inputs depending on User date preference in Date.php
 
 Changes in 7.1.2
 ----------------
