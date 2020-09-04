@@ -17,18 +17,32 @@ DrawHeader(
 
 echo '</form>';
 
-$enrollment_RET = DBGet( "SELECT se.START_DATE AS START_DATE,NULL AS END_DATE,se.START_DATE AS DATE,se.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,sch.TITLE
+$schools_where_sql = '';
+
+// Search All Schools.
+if ( User( 'SCHOOLS' ) )
+{
+	$schools_where_sql = " AND se.SCHOOL_ID IN (" . mb_substr( str_replace( ',', "','", User( 'SCHOOLS' ) ), 2, -2 ) . ") ";
+}
+
+$enrollment_RET = DBGet( "SELECT se.START_DATE AS START_DATE,NULL AS END_DATE,se.START_DATE AS DATE,
+se.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,sch.TITLE,se.SCHOOL_ID
 FROM STUDENT_ENROLLMENT se,STUDENTS s,SCHOOLS sch
 WHERE s.STUDENT_ID=se.STUDENT_ID
 AND se.START_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
-AND sch.ID=se.SCHOOL_ID
+AND sch.ID=se.SCHOOL_ID" . $schools_where_sql . "
 UNION
-SELECT NULL AS START_DATE,se.END_DATE AS END_DATE,se.END_DATE AS DATE,se.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,sch.TITLE
+SELECT NULL AS START_DATE,se.END_DATE AS END_DATE,se.END_DATE AS DATE,
+se.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,sch.TITLE,se.SCHOOL_ID
 FROM STUDENT_ENROLLMENT se,STUDENTS s,SCHOOLS sch
 WHERE s.STUDENT_ID=se.STUDENT_ID
 AND se.END_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
-AND sch.ID=se.SCHOOL_ID
-ORDER BY DATE DESC", array( 'START_DATE' => 'ProperDate', 'END_DATE' => 'ProperDate' ) );
+AND sch.ID=se.SCHOOL_ID" . $schools_where_sql . "
+ORDER BY DATE DESC", array(
+	'FULL_NAME' => '_makeStudentInfoLink',
+	'START_DATE' => 'ProperDate',
+	'END_DATE' => 'ProperDate',
+) );
 
 $columns = array(
 	'FULL_NAME' => _( 'Student' ),
@@ -39,3 +53,38 @@ $columns = array(
 );
 
 ListOutput( $enrollment_RET, $columns, 'Enrollment Record', 'Enrollment Records' );
+
+/**
+ * Make Student Info link
+ *
+ * @since 7.2
+ *
+ * Local function
+ * DBGet() callback
+ *
+ * @param  string $value  Student Full Name.
+ * @param  string $column Column.
+ *
+ * @return string         Link to Student Info program.
+ */
+function _makeStudentInfoLink( $value, $column = 'FULL_NAME' )
+{
+	global $THIS_RET;
+
+	$modname = 'Students/Student.php';
+
+	if ( ! AllowUse( $modname )
+		|| ! $THIS_RET['STUDENT_ID'] )
+	{
+		return $value;
+	}
+
+	$link = 'Modules.php?modname=' . $modname . '&student_id=' . $THIS_RET['STUDENT_ID'];
+
+	if ( $THIS_RET['SCHOOL_ID'] !== UserSchool() )
+	{
+		$link .= '&school_id=' . $THIS_RET['SCHOOL_ID'];
+	}
+
+	return '<a href="' . $link . '">' . $value . '</a>';
+}
