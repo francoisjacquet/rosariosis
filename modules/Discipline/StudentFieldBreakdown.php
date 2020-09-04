@@ -55,15 +55,39 @@ if ( $_REQUEST['modfunc'] === 'search' )
 	Search( 'student_id', $extra );
 }
 
-if ( isset( $_REQUEST['field_id'] )
-	&& !empty( $_REQUEST['field_id'] ) )
+if ( ! empty( $_REQUEST['field_id'] ) )
 {
-	$fields_RET = DBGet( "SELECT TITLE,SELECT_OPTIONS AS OPTIONS,TYPE
-		FROM CUSTOM_FIELDS WHERE ID='" . $_REQUEST['field_id'] . "'" );
-
-	if ( $fields_RET[1]['OPTIONS'] ) // Fixes array( 0 => '' ) when no options
+	if ( $_REQUEST['field_id'] === 'grade_level' )
 	{
-		$fields_RET[1]['OPTIONS'] = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $fields_RET[1]['OPTIONS'] ) );
+		// @since 7.2 Add Grade Level breakdown.
+		$fields_RET[1]['TITLE'] = _( 'Grade Level' );
+
+		$fields_RET[1]['TYPE'] = 'select';
+
+		$fields_RET[1]['OPTIONS'] = array();
+
+		$grade_levels_RET = DBGet( "SELECT TITLE
+			FROM SCHOOL_GRADELEVELS
+			WHERE SCHOOL_ID='" . UserSchool() . "'" );
+
+		foreach ( (array) $grade_levels_RET as $grade_level )
+		{
+			$fields_RET[1]['OPTIONS'][] = $grade_level['TITLE'];
+		}
+
+		$field_column = 'ssm.GRADE_ID';
+	}
+	else
+	{
+		$fields_RET = DBGet( "SELECT TITLE,SELECT_OPTIONS AS OPTIONS,TYPE
+			FROM CUSTOM_FIELDS WHERE ID='" . $_REQUEST['field_id'] . "'" );
+
+		if ( $fields_RET[1]['OPTIONS'] ) // Fixes array( 0 => '' ) when no options.
+		{
+			$fields_RET[1]['OPTIONS'] = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $fields_RET[1]['OPTIONS'] ) );
+		}
+
+		$field_column = 's.CUSTOM_' . intval( $_REQUEST['field_id'] );
 	}
 
 	$extra = array();
@@ -80,25 +104,38 @@ if ( isset( $_REQUEST['field_id'] )
 		if ( $fields_RET[1]['TYPE'] === 'autos' )
 		{
 			// add values found in current year
-			$options_RET = DBGet( "SELECT DISTINCT s.CUSTOM_" . intval( $_REQUEST['field_id'] ) . ",upper(s.CUSTOM_" . intval( $_REQUEST['field_id'] ) . ") AS KEY
+			$options_RET = DBGet( "SELECT DISTINCT " . $field_column . ",upper(" . $field_column . ") AS KEY
 				FROM STUDENTS s,STUDENT_ENROLLMENT sse
 				WHERE sse.STUDENT_ID=s.STUDENT_ID
 				AND (sse.SYEAR='" . UserSyear() . "')
-				AND s.CUSTOM_" . intval( $_REQUEST['field_id'] ) . " IS NOT NULL
-				AND s.CUSTOM_" . intval( $_REQUEST['field_id'] ) . " != ''
+				AND " . $field_column . " IS NOT NULL
+				AND " . $field_column . " != ''
 				ORDER BY KEY" );
 
 			foreach ( (array) $options_RET as $option )
 			{
 				if ( ! $fields_RET[1]['OPTIONS']
-					|| !in_array( $option['CUSTOM_' . intval( $_REQUEST['field_id'] )], $fields_RET[1]['OPTIONS'] ) )
+					|| ! in_array( $option['CUSTOM_' . intval( $_REQUEST['field_id'] )], $fields_RET[1]['OPTIONS'] ) )
+				{
 					$fields_RET[1]['OPTIONS'][] = $option['CUSTOM_' . intval( $_REQUEST['field_id'] )];
+				}
 			}
 		}
 
-		$extra['SELECT_ONLY'] = "COALESCE(s.CUSTOM_" . intval( $_REQUEST['field_id'] ) . ",'*BLANK*') AS TITLE,COUNT(*) AS COUNT ";
+		$extra['SELECT_ONLY'] = "COUNT(*) AS COUNT ";
 
-		$extra['GROUP'] = 'CUSTOM_' . intval( $_REQUEST['field_id'] );
+		if ( $_REQUEST['field_id'] === 'grade_level' )
+		{
+			$extra['SELECT_ONLY'] .= ",COALESCE((SELECT TITLE
+				FROM SCHOOL_GRADELEVELS
+				WHERE ID=" . $field_column . "),'*BLANK*') AS TITLE ";
+		}
+		else
+		{
+			$extra['SELECT_ONLY'] .= ",COALESCE(" . $field_column . ",'*BLANK*') AS TITLE ";
+		}
+
+		$extra['GROUP'] = $field_column;
 
 		$extra['group'] = array( 'TITLE' );
 
@@ -119,7 +156,7 @@ if ( isset( $_REQUEST['field_id'] )
 	}
 	elseif ( $fields_RET[1]['TYPE'] === 'multiple' )
 	{
-		$extra['SELECT_ONLY'] = "CUSTOM_" . intval( $_REQUEST['field_id'] ) . " AS TITLE ";
+		$extra['SELECT_ONLY'] = $field_column . " AS TITLE ";
 
 		$referrals_RET = GetStuList( $extra );
 
@@ -128,21 +165,28 @@ if ( isset( $_REQUEST['field_id'] )
 			$referral['TITLE'] = explode( "||", trim( $referral['TITLE'], '|' ) );
 
 			foreach ( (array) $referral['TITLE'] as $option )
+			{
+				if ( ! isset( $options_count[ $option ] ) )
+				{
+					$options_count[ $option ] = 0;
+				}
+
 				$options_count[ $option ]++;
+			}
 		}
 
 		foreach ( (array) $fields_RET[1]['OPTIONS'] as $option )
 		{
 			$chart['chart_data'][0][] = $option;
 
-			$chart['chart_data'][1][] = (int)$options_count[ $option ];
+			$chart['chart_data'][1][] = issetVal( $options_count[ $option ], 0 );
 		}
 	}
 	elseif ( $fields_RET[1]['TYPE'] === 'radio' )
 	{
-		$extra['SELECT_ONLY'] = "COALESCE(s.CUSTOM_" . intval( $_REQUEST['field_id'] ) . ",'N') AS TITLE,COUNT(*) AS COUNT ";
+		$extra['SELECT_ONLY'] = "COALESCE(" . $field_column . ",'N') AS TITLE,COUNT(*) AS COUNT ";
 
-		$extra['GROUP'] = 'CUSTOM_' . intval( $_REQUEST['field_id'] );
+		$extra['GROUP'] = $field_column;
 
 		$extra['group'] = array( 'TITLE' );
 
@@ -158,10 +202,10 @@ if ( isset( $_REQUEST['field_id'] )
 	}
 	elseif ( $fields_RET[1]['TYPE'] === 'numeric' )
 	{
-		$extra['SELECT_ONLY'] = "COALESCE(max(CUSTOM_" . intval( $_REQUEST['field_id'] ) . "),0) as MAX,COALESCE(min(CUSTOM_" . intval( $_REQUEST['field_id'] ) . "),0) AS MIN ";
+		$extra['SELECT_ONLY'] = "COALESCE(max(" . $field_column . "),0) as MAX,COALESCE(min(" . $field_column . "),0) AS MIN ";
 
 		// Remove NULL entries.
-		$extra['WHERE'] .= "AND CUSTOM_" . intval( $_REQUEST['field_id'] ) . " IS NOT NULL ";
+		$extra['WHERE'] .= "AND " . $field_column . " IS NOT NULL ";
 
 		$max_min_RET = GetStuList( $extra );
 
@@ -193,7 +237,7 @@ if ( isset( $_REQUEST['field_id'] )
 			$chartline = true;
 		}
 
-		$extra['SELECT_ONLY'] = "CUSTOM_" . intval( $_REQUEST['field_id'] ) . " AS TITLE";
+		$extra['SELECT_ONLY'] = $field_column . " AS TITLE";
 
 		$extra['functions'] = array( 'TITLE' => 'makeNumeric' );
 
@@ -212,7 +256,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$fields_RET = DBGet( "SELECT ID,TITLE,SELECT_OPTIONS AS OPTIONS,CATEGORY_ID
 		FROM CUSTOM_FIELDS
-		WHERE TYPE NOT IN ('textarea','text','date','log','holder','files')
+		WHERE TYPE NOT IN ('textarea','text','date','files')
 		ORDER BY SORT_ORDER,TITLE", array(), array( 'CATEGORY_ID' ) );
 
 	$categories_RET = DBGet( "SELECT ID,TITLE
@@ -221,6 +265,17 @@ if ( ! $_REQUEST['modfunc'] )
 	$select = '<select name="field_id" onchange="ajaxPostForm(this.form,true);">';
 
 	$select .= '<option value="">' . _( 'Please choose a student field' ) . '</option>';
+
+	$selected = '';
+
+	if ( $_REQUEST['field_id'] === 'grade_level' )
+	{
+		$selected = ' selected';
+		$field_title = _( 'Grade Level' );
+	}
+
+	// @since 7.2 Add Grade Level breakdown.
+	$select .= '<option value="grade_level"' . $selected . '>' . _( 'Grade Level' ) . '</option>';
 
 	foreach ( (array) $fields_RET as $field_id => $fields )
 	{

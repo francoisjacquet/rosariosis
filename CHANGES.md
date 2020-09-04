@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 7.2
+--------------
+- Add Grade Level breakdown in StudentFieldBreakdown.php
+
 Changes in 7.1.2
 ----------------
 - Fix SQL error Include Inactive Students for admin in PrintClassLists.php

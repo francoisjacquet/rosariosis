@@ -2,6 +2,16 @@
 
 ## RosarioSIS Student Information System
 
+New in 7.2
+----------
+
+Discipline
+- Breakdown by Student Field: Grade Level breakdown.
+
+[Email](https://www.rosariosis.org/modules/email/) module:
+- Attach a file, sponsored by English National Program
+
+
 New in 7.1
 ----------
 
