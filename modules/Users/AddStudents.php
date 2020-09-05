@@ -73,7 +73,8 @@ if ( ! $_REQUEST['modfunc'] )
 		}
 	}
 
-	if ( ! UserStaffID() )
+	if ( ! UserStaffID()
+		|| ! empty( $_REQUEST['profile'] ) ) // Fix reset UserStaffID() when pressing back button.
 	{
 		// FJ add # Associated students.
 		$extra['SELECT'] = ",(SELECT count(u.STUDENT_ID)
@@ -86,6 +87,8 @@ if ( ! $_REQUEST['modfunc'] )
 		$extra['columns_after'] = array( 'ASSOCIATED' => '# ' . _( 'Associated' ) );
 
 		$extra['profile'] = 'parent';
+
+		$extra['new'] = true;
 
 		Search( 'staff_id', $extra );
 	}
@@ -100,10 +103,14 @@ if ( ! $_REQUEST['modfunc'] )
 
 		echo '<table class="center"><tr><td>';
 
+		// SQL fix only display enrolled students.
 		$current_RET = DBGet( "SELECT u.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME
-			FROM STUDENTS_JOIN_USERS u,STUDENTS s
+			FROM STUDENTS_JOIN_USERS u,STUDENTS s,STUDENT_ENROLLMENT ssm
 			WHERE s.STUDENT_ID=u.STUDENT_ID
-			AND u.STAFF_ID='" . UserStaffID() . "'" );
+			AND u.STAFF_ID='" . UserStaffID() . "'
+			AND ssm.STUDENT_ID=u.STUDENT_ID
+			AND ssm.SYEAR='" . UserSyear() . "'
+			AND ('" . DBDate() . "' BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL)" );
 
 		$link['remove'] = array(
 			'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete',
