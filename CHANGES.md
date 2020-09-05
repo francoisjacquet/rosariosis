@@ -8,6 +8,7 @@ Changes in 7.2
 - Limit students to User schools in AddDrop.php
 - Order Day, Month & Year inputs depending on User date preference in Date.php
 - SQL fix only display enrolled students in AddStudents.php
+- Link to Student Info redirects to right school in AddStudents.php
 
 Changes in 7.1.2
 ----------------

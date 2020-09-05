@@ -104,22 +104,17 @@ if ( ! $_REQUEST['modfunc'] )
 		echo '<table class="center"><tr><td>';
 
 		// SQL fix only display enrolled students.
-		$current_RET = DBGet( "SELECT u.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME
+		$current_RET = DBGet( "SELECT u.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,ssm.SCHOOL_ID
 			FROM STUDENTS_JOIN_USERS u,STUDENTS s,STUDENT_ENROLLMENT ssm
 			WHERE s.STUDENT_ID=u.STUDENT_ID
 			AND u.STAFF_ID='" . UserStaffID() . "'
 			AND ssm.STUDENT_ID=u.STUDENT_ID
 			AND ssm.SYEAR='" . UserSyear() . "'
-			AND ('" . DBDate() . "' BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL)" );
+			AND ('" . DBDate() . "' BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL)", array( 'FULL_NAME' => '_makeStudentInfoLink' ) );
 
 		$link['remove'] = array(
 			'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete',
 			'variables' => array( 'student_id_remove' => 'STUDENT_ID' ),
-		);
-
-		$link['FULL_NAME'] = array(
-			'link' => 'Modules.php?modname=Students/Student.php',
-			'variables' => array( 'student_id' => 'STUDENT_ID' ),
 		);
 
 		ListOutput(
@@ -153,4 +148,39 @@ if ( ! $_REQUEST['modfunc'] )
 			echo '<br /><div class="center">' . SubmitButton( _( 'Add Selected Students' ) ) . '</div></form>';
 		}
 	}
+}
+
+/**
+ * Make Student Info link
+ *
+ * @since 7.2
+ *
+ * Local function
+ * DBGet() callback
+ *
+ * @param  string $value  Student Full Name.
+ * @param  string $column Column.
+ *
+ * @return string         Link to Student Info program.
+ */
+function _makeStudentInfoLink( $value, $column = 'FULL_NAME' )
+{
+	global $THIS_RET;
+
+	$modname = 'Students/Student.php';
+
+	if ( ! AllowUse( $modname )
+		|| ! $THIS_RET['STUDENT_ID'] )
+	{
+		return $value;
+	}
+
+	$link = 'Modules.php?modname=' . $modname . '&student_id=' . $THIS_RET['STUDENT_ID'];
+
+	if ( $THIS_RET['SCHOOL_ID'] !== UserSchool() )
+	{
+		$link .= '&school_id=' . $THIS_RET['SCHOOL_ID'];
+	}
+
+	return '<a href="' . $link . '">' . $value . '</a>';
 }
