@@ -10,6 +10,10 @@ Changes in 7.2
 - SQL fix only display enrolled students in AddStudents.php
 - Link to Student Info redirects to right school in AddStudents.php
 
+Changes in 7.1.4
+----------------
+- Fix infinite loop when username already exists in CreateParents.php
+
 Changes in 7.1.3
 ----------------
 - Fix #297 regression since 6.9 & SQL error in StudentSummary.php
