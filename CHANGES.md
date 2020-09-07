@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 7.1.3
+----------------
+- Fix #297 regression since 6.9 & SQL error in StudentSummary.php
+
 Changes in 7.1.2
 ----------------
 - Fix SQL error Include Inactive Students for admin in PrintClassLists.php
