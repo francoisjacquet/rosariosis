@@ -151,6 +151,8 @@ if ( $_REQUEST['modfunc'] === 'save'
 		{
 			unset( $id );
 
+			$password = '';
+
 			$student_id = $students[1]['STUDENT_ID'];
 
 			if ( ! $students[1]['STAFF_ID'] )
@@ -215,8 +217,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 						// Hook.
 						do_action( 'Custom/CreateParents.php|create_user' );
 
-						$staff = DBGet( "SELECT " . DisplayNameSQL() . " AS NAME,
-							USERNAME,PASSWORD
+						$staff = DBGet( "SELECT " . DisplayNameSQL() . " AS NAME,USERNAME
 							FROM STAFF
 							WHERE STAFF_ID='" . $id . "'" );
 					}
@@ -231,7 +232,6 @@ if ( $_REQUEST['modfunc'] === 'save'
 									$user['MIDDLE_NAME']
 								),
 								'USERNAME' => $username,
-								'PASSWORD' => $password,
 							),
 						);
 					}
@@ -243,8 +243,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 			{
 				$id = $students[1]['STAFF_ID'];
 
-				$staff = DBGet( "SELECT " . DisplayNameSQL() . " AS NAME,
-					USERNAME,PASSWORD
+				$staff = DBGet( "SELECT " . DisplayNameSQL() . " AS NAME,USERNAME
 					FROM STAFF
 					WHERE STAFF_ID='" . $id . "'" );
 
@@ -306,7 +305,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 			$RET[$email][1]['PARENT'] = $staff['NAME'];
 			$RET[$email][1]['USERNAME'] = $staff['USERNAME'];
-			$RET[$email][1]['PASSWORD'] = ( empty( $password ) ? '' : $password );
+			$RET[$email][1]['PASSWORD'] = $password;
 			$RET[$email][1]['RESULT'] = $result ? _( 'Success' ) : _( 'Fail' );
 		}
 

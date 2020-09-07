@@ -9,6 +9,7 @@ Changes in 7.2
 - Order Day, Month & Year inputs depending on User date preference in Date.php
 - SQL fix only display enrolled students in AddStudents.php
 - Link to Student Info redirects to right school in AddStudents.php
+- Reset password variable for each Contact in CreateParents.php
 
 Changes in 7.1.4
 ----------------
