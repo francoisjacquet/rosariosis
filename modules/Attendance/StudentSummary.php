@@ -80,7 +80,7 @@ if ( ! empty( $_REQUEST['period_id'] ) )
 		{
 			$period_ids_RET = DBGet( "SELECT PERIOD_ID
 				FROM COURSE_PERIOD_SCHOOL_PERIODS
-				WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')" );
+				WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" );
 		}
 		else
 		{
