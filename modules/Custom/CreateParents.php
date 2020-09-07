@@ -171,6 +171,12 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 					while ( DBGet( $username_exists_sql ) )
 					{
+						// Fix infinite loop when username already exists.
+						$username_exists_sql = "SELECT STAFF_ID
+							FROM STAFF
+							WHERE upper(USERNAME)=upper('" . $username . "')
+							AND SYEAR='" . UserSyear() . "'";
+
 						$username = $tmp_username . $i++;
 					}
 
