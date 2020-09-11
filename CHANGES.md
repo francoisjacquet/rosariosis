@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 7.2.1
+----------------
+- Fix ParseMLField for Username field category in Preferences.php
+
 Changes in 7.2
 --------------
 - Add Grade Level breakdown in StudentFieldBreakdown.php

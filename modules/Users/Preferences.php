@@ -524,7 +524,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$THIS_RET['ID'] = 'USERNAME';
 		$username_field = array(
-			'CATEGORY' => '<b>' . $general_info_category_title . '</b>',
+			'CATEGORY' => '<b>' . ParseMLField( $general_info_category_title ) . '</b>',
 			'ID' => 'USERNAME',
 			'TITLE' => _( 'Username' ),
 			'SEARCH' => _make( 'USERNAME', 'SEARCH' ),
