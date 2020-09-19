@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-31 19:23+0200\n"
-"PO-Revision-Date: 2020-07-31 19:24+0200\n"
+"PO-Revision-Date: 2020-09-19 15:19+0200\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS\n"
 "Language: fr\n"
@@ -250,7 +250,7 @@ msgstr "Saisissez votre email de nouveau s'il vous plaît."
 #: PasswordReset.php:279
 msgid "Password reset is not activated for students."
 msgstr ""
-"La réinitialisation de mot de passe n'est pas disponible pour les élèves."
+"La réinitialisation du mot de passe n'est pas disponible pour les élèves."
 
 #: PasswordReset.php:283 PasswordReset.php:288
 msgid "Forgot your password?"
@@ -267,7 +267,7 @@ msgstr "Email"
 
 #: PasswordReset.php:295
 msgid "Send password reset instructions"
-msgstr "Envoyer les instructions pour la réinitialisation de mot de passe"
+msgstr "Envoyer les instructions de réinitialisation du mot de passe"
 
 #: PasswordReset.php:380
 msgid "Please visit the following link to reset your password"
@@ -2417,7 +2417,7 @@ msgid ""
 "password reset instructions."
 msgstr ""
 "Si vous avez fourni une adresse email correcte, vous y trouverez les "
-"instructions pour la réinitialisation du mot de passe."
+"instructions de réinitialisation du mot de passe."
 
 #: index.php:471
 msgid "Language"
