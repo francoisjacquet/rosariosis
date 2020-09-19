@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS Help\n"
-"POT-Creation-Date: 2020-08-03 15:38+0200\n"
-"PO-Revision-Date: 2020-08-03 15:38+0200\n"
+"POT-Creation-Date: 2020-09-19 14:53+0200\n"
+"PO-Revision-Date: 2020-09-19 15:01+0200\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS <info@rosariosis.org>\n"
 "Language: es_ES\n"
@@ -1789,7 +1789,7 @@ msgstr ""
 "Información del Estudiante. Para crear una nueva categoría o \"pestaña\", "
 "haga clic sobre el icono \"+\" debajo de la Categorías existentes."
 
-#: Help_en.php:409 Help_en.php:540
+#: Help_en.php:409 Help_en.php:540 Help_en.php:1024
 msgid "New Category"
 msgstr "Nueva Categoría"
 
@@ -2589,7 +2589,7 @@ msgstr ""
 "calcular la elegibilidad de cada estudiante haciendo clic sobre el enlace "
 "«Usar la Calificaciones del Libro de Calificaciones» de arriba."
 
-#: Help_en.php:605 Help_en.php:1098
+#: Help_en.php:605 Help_en.php:1112
 msgid ""
 "You must enter eligibility each week during the timeframe specified by your "
 "school's administration."
@@ -4279,7 +4279,7 @@ msgstr ""
 "<i>Gráfico de Asistencia</i> es un reporte que muestra la asistencia diaria "
 "de cualquier número de estudiantes para cada día de un transcurso."
 
-#: Help_en.php:990 Help_en.php:1034
+#: Help_en.php:990 Help_en.php:1048
 msgid ""
 "After searching for students, you can alter the date range by changing the "
 "date pull-down menus at the top of the screen and clicking the \"Go\" "
@@ -4294,7 +4294,7 @@ msgstr ""
 "con un código de color. Rojo significa ausente todo el día, amarillo "
 "significa ausente medio día y verde significa presente todo el día."
 
-#: Help_en.php:992 Help_en.php:1036
+#: Help_en.php:992 Help_en.php:1050
 msgid ""
 "You can see the attendance records for each period for any student by "
 "clicking on a student's name from the list. Here, the absence code is "
@@ -4304,7 +4304,7 @@ msgstr ""
 "estudiante haciendo clic sobre el nombre del estudiante. Aquí, el código "
 "está en la casilla de color."
 
-#: Help_en.php:994 Help_en.php:1038
+#: Help_en.php:994 Help_en.php:1052
 msgid ""
 "<i>Student Summary</i> is a report that shows the days for which a student "
 "has an absence."
@@ -4312,7 +4312,7 @@ msgstr ""
 "<i>Resumen de la Ausencia</i> es un reporte que muestra los días por lo "
 "cuales un estudiante tiene una ausencia."
 
-#: Help_en.php:996 Help_en.php:1040
+#: Help_en.php:996 Help_en.php:1054
 msgid ""
 "After selecting a student, you can alter the date range by changing the date "
 "pull-down menus at the top of the screen and clicking the \"Go\" button. The "
@@ -4443,6 +4443,53 @@ msgstr ""
 "confirmar la eliminación."
 
 #: Help_en.php:1020
+msgid "Attendance Categories"
+msgstr "Categorías de Asistencia"
+
+#: Help_en.php:1022
+msgid ""
+"RosarioSIS allows you to add custom categories that will take the form of "
+"new \"Tabs\" in the <i>Scheduling > Take Attendance</i> program. To create a "
+"new category or \"tab\", just click on the \"+\" icon next to the existing "
+"Categories."
+msgstr ""
+"RosarioSIS le permite agregar categorías personalizadas que tomaran la forma "
+"de nuevas \"Pestañas\" en el programa <i>Asistencia > Tomar Asistencia</i>. "
+"Para crear una nueva categoría o \"pestaña\", haga clic sobre el icono \"+\" "
+"al lado de las Categorías existentes."
+
+#: Help_en.php:1026
+msgid ""
+"You can now type in the name of the new Category in the \"Title\" field(s) "
+"provided. Add a sort order (order in which the tabs will appear in the "
+"<i>Take Attendance</i> program). Click \"Save\" when you have finished."
+msgstr ""
+"Se puede ahora entrar el nombre de la nueva categoría en el campo \"Título\" "
+"presente. Agregue una Orden (orden en la cual las pestañas aparecerán en el "
+"programa <i>Tomar Asistencia</i>). Presione \"Guardar\" cuando ha terminado."
+
+#: Help_en.php:1028
+msgid ""
+"To activate the Category for a specific course period, check it when editing "
+"the Course Period from the <i>Scheduling > Courses</i> program."
+msgstr ""
+"Para activar una Categoría para una clase en particular, márquela al momento "
+"de editar la Clase desde el programa <i>Horarios > Cursos</i>."
+
+#: Help_en.php:1030
+msgid "Lunch Category"
+msgstr "Categoría Almuerzo \"Lunch\""
+
+#: Help_en.php:1032
+msgid ""
+"The Lunch Category comes in handy to take Lunch counts in the morning so the "
+"Food Service staff knows how many meals to prepare."
+msgstr ""
+"La categoría Almuerzo \"Lunch\" es practica para tomar la cuenta de los "
+"almuerzos por la mañana de tal manera que el personal del Servicio de Comida "
+"pueda saber cuantas comidas preparar."
+
+#: Help_en.php:1034
 msgid ""
 "<i>Attendance Summary</i> is a report that shows a day by day record of each "
 "student's attendance over the school year in one table."
@@ -4451,7 +4498,7 @@ msgstr ""
 "por día de la asistencia de cada estudiante para todo el año escolar en un "
 "tablero."
 
-#: Help_en.php:1022
+#: Help_en.php:1036
 msgid ""
 "You must first select a (group of) student(s) by using the \"Find a Student"
 "\" search screen. You can search for students who have requested a specific "
@@ -4464,7 +4511,7 @@ msgstr ""
 "enlace «Escoger» al lado de la opción de búsqueda «Curso» y escogiendo un "
 "curso desde la ventana emergente que aparece."
 
-#: Help_en.php:1024
+#: Help_en.php:1038
 msgid ""
 "From the search result, you can select any number of students. You can "
 "select all the students in the list by checking the checkbox in the column "
@@ -4478,7 +4525,7 @@ msgstr ""
 "seleccionar los estudiantes, presione \"Crear Reporte de Asistencia para los "
 "Estudiantes Seleccionados\" para generar el reporte en formato PDF."
 
-#: Help_en.php:1028
+#: Help_en.php:1042
 msgid ""
 "<i>Take Attendance</i> allows you to enter period attendance for all your "
 "students in the current period. By default, this program will list the "
@@ -4490,7 +4537,7 @@ msgstr ""
 "estudiantes de su primera clase. Usted puede cambiar la clase actual en el "
 "menú desplegable en el marco izquierdo."
 
-#: Help_en.php:1030
+#: Help_en.php:1044
 msgid ""
 "Once you are in the correct period, you can enter attendance by selecting "
 "the attendance code corresponding to each student. Once you have entered "
@@ -4502,7 +4549,7 @@ msgstr ""
 "usted ha tomado la asistencia para todos sus estudiantes, presione el botón "
 "«Guardar» en la parte superior de la pantalla."
 
-#: Help_en.php:1032
+#: Help_en.php:1046
 msgid ""
 "<i>Daily Summary</i> is a report that shows the daily attendance status of "
 "any number of students for every date during any timeframe."
@@ -4510,7 +4557,7 @@ msgstr ""
 "<i>Gráfico de Asistencia</i> es un reporte que muestra la asistencia diaria "
 "de cualquier número de estudiantes para cada día de un transcurso."
 
-#: Help_en.php:1045
+#: Help_en.php:1059
 msgid ""
 "<i>Daily Summary</i> is a report that shows the daily attendance status of "
 "your child during any timeframe."
@@ -4518,7 +4565,7 @@ msgstr ""
 "<i>Resumen de la Ausencia</i> es un reporte que muestra los días por lo "
 "cuales un estudiante tiene una ausencia."
 
-#: Help_en.php:1047
+#: Help_en.php:1061
 msgid ""
 "You can alter the date range by changing the date pull-down menus at the top "
 "of the screen and clicking the \"Go\" button. The list shows your child's "
@@ -4533,7 +4580,7 @@ msgstr ""
 "para cada hora de cada día con ausencia. Una cruz roja indica una ausencia "
 "por la hora correspondiente."
 
-#: Help_en.php:1054
+#: Help_en.php:1068
 msgid ""
 "<i>Student Screen</i> is a display of the student's activities and the "
 "current timeframe's eligibility grades. The program also allows you to add "
@@ -4543,7 +4590,7 @@ msgstr ""
 "calificaciones de elegibilidad del transcurso actual. El servicio le permite "
 "también de agregar y eliminar actividades del estudiante."
 
-#: Help_en.php:1056
+#: Help_en.php:1070
 msgid ""
 "You must first select a student by using the \"Find a Student\" search "
 "screen. You can search for students who are enrolled in a specific course by "
@@ -4559,7 +4606,7 @@ msgstr ""
 "también puede buscar estudiantes que toman una actividad especifica y "
 "estudiantes que están inelegibles actualmente."
 
-#: Help_en.php:1058
+#: Help_en.php:1072
 msgid ""
 "To add an activity to the student, select the desired activity from the "
 "activity pull-down next to the add icon (+) and click the \"Add\" button."
@@ -4567,7 +4614,7 @@ msgstr ""
 "Para agregar una actividad a un estudiante, seleccione la actividad deseada "
 "en el menú desplegable al lado del icono «+» y presione el botón «Agregar»."
 
-#: Help_en.php:1060
+#: Help_en.php:1074
 msgid ""
 "To drop an activity, click on the delete icon (-) next to the activity you "
 "want to drop."
@@ -4575,7 +4622,7 @@ msgstr ""
 "Para suprimir una actividad, haga clic en el icono \"-\" al lado de la "
 "actividad."
 
-#: Help_en.php:1062
+#: Help_en.php:1076
 msgid ""
 "You can specify the desired eligibility timeframe by choosing the desired "
 "timeframe from the pull-down menu at the top of the screen. These timeframes "
@@ -4585,7 +4632,7 @@ msgstr ""
 "deseadas en el menú desplegable en la parte superior de la pantalla. Estos "
 "periodos se configuran en el servicio «Tiempos de Entrada»."
 
-#: Help_en.php:1064
+#: Help_en.php:1078
 msgid ""
 "<i>Add Activity</i> allows you to add an activity to a group of students in "
 "one action."
@@ -4593,7 +4640,7 @@ msgstr ""
 "<i>Agregar Actividad</i> le permite agregar una actividad a un grupo de "
 "estudiantes de una vez."
 
-#: Help_en.php:1066
+#: Help_en.php:1080
 msgid ""
 "First, search for students. Notice that you can search for students who are "
 "in a certain activity or course. From the search result, you can select any "
@@ -4612,12 +4659,12 @@ msgstr ""
 "superior de la pantalla. Finalmente, presione el botón «Agregar la Actividad "
 "a los Estudiantes Seleccionados»."
 
-#: Help_en.php:1068
+#: Help_en.php:1082
 msgid "<i>Activities</i> allows you to setup your school's activities."
 msgstr ""
 "<i>Actividades</i> le permite configurar las actividades de su institución."
 
-#: Help_en.php:1070
+#: Help_en.php:1084
 msgid ""
 "To add an activity, fill in the activity's title, beginning date, and ending "
 "date in the empty fields at the bottom of the activities list and click the "
@@ -4626,7 +4673,7 @@ msgstr ""
 "Para agregar una actividad, llene su titulo, fecha de comienzo y fecha de "
 "fin en los campos vacíos al fin de la lista y presione el botón «Guardar»."
 
-#: Help_en.php:1072
+#: Help_en.php:1086
 msgid ""
 "To modify an activity, click on any of the activity's information, change "
 "the value, and click the \"Save\" button."
@@ -4634,7 +4681,7 @@ msgstr ""
 "Para modificar una actividad, haga clic sobre cualquier dato de la "
 "actividad, cambie el dato, y presione el botón «Guardar»."
 
-#: Help_en.php:1074
+#: Help_en.php:1088
 msgid ""
 "To delete an activity, click the delete icon (-) next to the activity you "
 "want to delete. You will be asked to confirm the deletion."
@@ -4643,7 +4690,7 @@ msgstr ""
 "actividad que quiere eliminar. Se le preguntará si desea confirmar la "
 "eliminación."
 
-#: Help_en.php:1076
+#: Help_en.php:1090
 msgid ""
 "<i>Entry Times</i> allows you to setup the weekly timeframe in which "
 "teachers can enter eligibility. Teachers must enter eligibility every week "
@@ -4656,7 +4703,7 @@ msgstr ""
 "servicio «Entrar Elegibilidad» como en la mayor parte de los reportes de "
 "elegibilidad."
 
-#: Help_en.php:1078
+#: Help_en.php:1092
 msgid ""
 "To change the timeframe, simply change the upper and lower bounds of the "
 "timeframe and click the \"Save\" button."
@@ -4664,7 +4711,7 @@ msgstr ""
 "Para cambiar el periodo, simplemente cambie las fechas y presione el botón "
 "«Guardar»."
 
-#: Help_en.php:1080
+#: Help_en.php:1094
 msgid ""
 "<i>Student List</i> is a report that shows every course and eligibility "
 "grade assigned to any number of students."
@@ -4672,7 +4719,7 @@ msgstr ""
 "<i>Lista de Estudiante</i> es un reporte que muestra cada curso y "
 "calificación de elegibilidad asignado a cualquier número de estudiantes."
 
-#: Help_en.php:1082
+#: Help_en.php:1096
 msgid ""
 "After searching for students, you can specify the eligibility timeframe you "
 "want to view. These timeframes are setup in the \"Entry Times\" program."
@@ -4681,7 +4728,7 @@ msgstr ""
 "elegibilidad que quiere ver. Estos transcursos se configuran en el servicio "
 "«Tiempos de Entrada»."
 
-#: Help_en.php:1084
+#: Help_en.php:1098
 msgid ""
 "<i>Teacher Completion</i> is a report that shows which teachers have not "
 "entered eligibility for any given date range. The date range is set in the "
@@ -4691,7 +4738,7 @@ msgstr ""
 "entrado la elegibilidad para cualquier transcurso. Este transcurso se "
 "configura en el servicio «Tiempos de Entrada»."
 
-#: Help_en.php:1086
+#: Help_en.php:1100
 msgid ""
 "The red checks indicate that a teacher has failed to enter the current date "
 "range's eligibility for that period."
@@ -4699,7 +4746,7 @@ msgstr ""
 "La cruz roja indica que el docente no entró la elegibilidad del periodo "
 "actual para esta hora."
 
-#: Help_en.php:1088
+#: Help_en.php:1102
 msgid ""
 "You can select the current date range from the pull-down menu at the top of "
 "the screen. You can also show only one period by choosing that period from "
@@ -4713,7 +4760,7 @@ msgstr ""
 "Después de seleccionar un transcurso o una hora, presione el botón «Ir» para "
 "refrescar la lista."
 
-#: Help_en.php:1092
+#: Help_en.php:1106
 msgid ""
 "<i>Enter Eligibility</i> allows you to enter eligibility grades for all your "
 "students in the current period. By default, this program will list the "
@@ -4725,7 +4772,7 @@ msgstr ""
 "servicio lista los estudiantes de su primera clase. Usted puede cambiar la "
 "clase actual en el menú desplegable del marco izquierdo."
 
-#: Help_en.php:1094
+#: Help_en.php:1108
 msgid ""
 "Once you are in the correct period, you can enter eligibility grades by "
 "selecting the eligibility code corresponding to each student. Once you have "
@@ -4737,7 +4784,7 @@ msgstr ""
 "usted ha entrado la elegibilidad para todos sus estudiantes, presione el "
 "botón «Guardar» en la parte superior de la pantalla."
 
-#: Help_en.php:1096
+#: Help_en.php:1110
 msgid ""
 "If you are using the Gradebook, you can have RosarioSIS calculate each "
 "student's eligibility grades by clicking on the \"Use Gradebook Grades\" "
@@ -4748,7 +4795,7 @@ msgstr ""
 "elegibilidad de cada estudiante haciendo clic sobre el enlace «Usar la "
 "Calificaciones del Libro de Calificaciones» de arriba."
 
-#: Help_en.php:1103
+#: Help_en.php:1117
 msgid ""
 "<i>Student Screen</i> is a display of your child's activities and the "
 "current timeframe's eligibility grades."
@@ -4756,7 +4803,7 @@ msgstr ""
 "<i>Pantalla Estudiante</i> muestra las actividades de su estudiante y las "
 "calificaciones de elegibilidad del transcurso actual."
 
-#: Help_en.php:1105
+#: Help_en.php:1119
 msgid ""
 "You can specify the eligibility timeframe you want to view by choosing the "
 "desired timeframe from the pull-down menu at the top of the screen. "
@@ -4766,7 +4813,7 @@ msgstr ""
 "las fechas en el menú desplegable en la parte superior de la pantalla. La "
 "elegibilidad está entrada cada semana."
 
-#: Help_en.php:1107
+#: Help_en.php:1121
 msgid ""
 "<i>Student List</i> is a report that shows every course and eligibility "
 "grade assigned to your child."
@@ -4774,7 +4821,7 @@ msgstr ""
 "<i>Lista de Estudiante</i> es un reporte que muestra todas las "
 "calificaciones y las calificaciones de elegibilidad de su estudiante."
 
-#: Help_en.php:1109
+#: Help_en.php:1123
 msgid ""
 "You can specify the eligibility timeframe you want to view by choosing the "
 "timeframe from the pull-down menu at the top of the screen and clicking the "

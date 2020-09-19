@@ -5,6 +5,7 @@ Changes in 7.2.1
 ----------------
 - Fix ParseMLField for Username field category in Preferences.php
 - Fix PHP Warning check requested locale exists in Warehouse.php
+- Add Attendance Codes help for (Lunch) Categories in Help_en.php & help.po
 
 Changes in 7.2
 --------------

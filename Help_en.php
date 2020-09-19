@@ -1015,7 +1015,21 @@ if ( User( 'PROFILE' ) === 'admin' ):
 
 	<p>' . _help( 'To modify an attendance code, click on any of the attendance code\'s information, change the value, and click the "Save" button.' ) . '</p>
 
-	<p>' . _help( 'To delete an attendance code, click the delete icon (-) next to the attendance code you want to delete. You will be asked to confirm the deletion.' ) . '</p>';
+	<p>' . _help( 'To delete an attendance code, click the delete icon (-) next to the attendance code you want to delete. You will be asked to confirm the deletion.' ) . '</p>
+
+	<p>' . _help( 'Attendance Categories' ) . '</p>
+
+	<p>' . _help( 'RosarioSIS allows you to add custom categories that will take the form of new "Tabs" in the <i>Scheduling > Take Attendance</i> program. To create a new category or "tab", just click on the "+" icon next to the existing Categories.' ) . '</p>
+
+	<p>' . _help( 'New Category' ) . '</p>
+
+	<p>' . _help( 'You can now type in the name of the new Category in the "Title" field(s) provided. Add a sort order (order in which the tabs will appear in the <i>Take Attendance</i> program). Click "Save" when you have finished.' ) . '</p>
+
+	<p>' . _help( 'To activate the Category for a specific course period, check it when editing the Course Period from the <i>Scheduling > Courses</i> program.' ) . '</p>
+
+	<p>' . _help( 'Lunch Category' ) . '</p>
+
+	<p>' . _help( 'The Lunch Category comes in handy to take Lunch counts in the morning so the Food Service staff knows how many meals to prepare.' ) . '</p>';
 
 	$help['Custom/AttendanceSummary.php'] = '<p>' . _help( '<i>Attendance Summary</i> is a report that shows a day by day record of each student\'s attendance over the school year in one table.' ) . '</p>
 
