@@ -4,6 +4,7 @@
 Changes in 7.2.1
 ----------------
 - Fix ParseMLField for Username field category in Preferences.php
+- Fix PHP Warning check requested locale exists in Warehouse.php
 
 Changes in 7.2
 --------------

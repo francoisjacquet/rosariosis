@@ -188,7 +188,8 @@ array_rwalk( $_REQUEST, 'strip_tags' );
  * Internationalization
  */
 
-if ( ! empty( $_GET['locale'] ) )
+if ( ! empty( $_GET['locale'] )
+	&& in_array( $_GET['locale'], $RosarioLocales ) )
 {
 	$_SESSION['locale'] = $_GET['locale'];
 }
