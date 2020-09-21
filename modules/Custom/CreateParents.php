@@ -424,7 +424,8 @@ if ( ! $_REQUEST['modfunc'] && ! empty( $email_column ) )
 		WHERE sju.STUDENT_ID=s.STUDENT_ID
 		AND st.STAFF_ID=sju.STAFF_ID
 		AND st.SYEAR='" . UserSyear() . "'
-		AND trim(lower(st.EMAIL))=trim(lower(" . $email_column . "))) AS HAS_ASSOCIATED_PARENTS";
+		AND trim(lower(st.EMAIL))=trim(lower(" . $email_column . "))
+		LIMIT 1) AS HAS_ASSOCIATED_PARENTS";
 	//$extra['WHERE'] = " AND " . $email_column . " IS NOT NULL";
 
 	$extra['link'] = array( 'FULL_NAME' => false );
