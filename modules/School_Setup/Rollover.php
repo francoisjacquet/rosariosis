@@ -119,7 +119,8 @@ if ( Prompt(
 		&& ! $_REQUEST['tables']['SCHOOLS'] )
 	{
 		// Fix SQL error foreign keys: Roll Schools before rolling Student Enrollment.
-		$_REQUEST['tables']['SCHOOLS'] = 'Y';
+		// Insert SCHOOLS first.
+		$_REQUEST['tables'] = array_merge( array( 'SCHOOLS' => 'Y' ), $_REQUEST['tables'] );
 	}
 
 	if ( ! ( $_REQUEST['tables']['COURSES']
