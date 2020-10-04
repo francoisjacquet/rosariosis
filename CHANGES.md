@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 7.2.2
+----------------
+- Fix SQL error foreign keys: Roll Schools before rolling Student Enrollment in Rollover.php
+
 Changes in 7.2.1
 ----------------
 - Fix ParseMLField for Username field category in Preferences.php

@@ -114,6 +114,14 @@ if ( Prompt(
 		$_REQUEST['tables']['COURSES'] = 'Y';
 	}
 
+	if ( $_REQUEST['tables']['STUDENT_ENROLLMENT']
+		&& ! $exists_RET['SCHOOLS'][1]['COUNT']
+		&& ! $_REQUEST['tables']['SCHOOLS'] )
+	{
+		// Fix SQL error foreign keys: Roll Schools before rolling Student Enrollment.
+		$_REQUEST['tables']['SCHOOLS'] = 'Y';
+	}
+
 	if ( ! ( $_REQUEST['tables']['COURSES']
 		&& ( ( ! $_REQUEST['tables']['STAFF'] && $exists_RET['STAFF'][1]['COUNT'] < 1 )
 			|| ( ! $_REQUEST['tables']['SCHOOL_PERIODS'] && $exists_RET['SCHOOL_PERIODS'][1]['COUNT'] < 1 )
