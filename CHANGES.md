@@ -4,6 +4,7 @@
 Changes in 7.2.2
 ----------------
 - Fix SQL error foreign keys: Roll Schools before rolling Student Enrollment in Rollover.php
+- Fix SQL error table ADDRESS specified more than once in GetStuList.fnc.php
 
 Changes in 7.2.1
 ----------------
