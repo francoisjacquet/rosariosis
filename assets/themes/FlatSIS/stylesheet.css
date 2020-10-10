@@ -125,7 +125,11 @@ input + .loading {
 
 /* Larger font size */
 
-* {
+html,
+body,
+input,
+select,
+textarea {
 	font-size: 16px;
 	-webkit-font-smoothing: antialiased;
 	-moz-font-smoothing: antialiased;
@@ -415,6 +419,12 @@ a:active,
 a:focus,
 .adminmenu a {
 	color: #0090c3;
+}
+
+a:active,
+a:focus,
+.wp-submenu a:focus {
+	outline: 1px dotted #0090c3;
 }
 
 .adminmenu a:focus,

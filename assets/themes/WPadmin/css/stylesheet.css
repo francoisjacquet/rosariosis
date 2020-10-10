@@ -144,7 +144,16 @@ html,
 body {
 	height: 100%;
 	margin: 0;
-	padding: 0
+	padding: 0;
+	word-wrap: break-word;
+}
+
+html,
+body,
+input,
+select,
+textarea {
+	font-size: 14px;
 }
 
 body,
@@ -155,10 +164,7 @@ select {
 	line-height: 1.4em
 }
 
-* {
-	font-size: 14px;
-	word-wrap: break-word;
-}
+/* https://stackoverflow.com/questions/61992025/google-chrome-showing-black-border-on-focus-state-for-button-user-agent-styles */
 
 a {
 	-webkit-transition: color 0.2s ease-out 0s;
@@ -228,7 +234,7 @@ dd {
 
 small,
 small * {
-	font-size: 14px;
+	font-size: 70%;
 }
 
 h1,
@@ -847,6 +853,7 @@ h3 span {
 div.underline-dots {
 	display: inline-block;
 	max-height: 240px;
+	max-width: 100%;
 	overflow: auto;
 	line-height: inherit;
 }
@@ -950,6 +957,7 @@ textarea {
 
 div.onclick {
 	display: inline-block;
+	max-width: 100%;
 }
 
 .cellspacing-0 {

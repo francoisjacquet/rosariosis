@@ -1,6 +1,10 @@
 /* wkhtmltopdf specific */
 
-* {
+html,
+body,
+input,
+select,
+textarea {
 	font-size: inherit;
 }
 

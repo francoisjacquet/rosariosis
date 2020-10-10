@@ -32,7 +32,8 @@ input[type="search"]:focus,
 input[type="tel"]:focus,
 input[type="url"]:focus,
 select:focus {
-	border-color: #bbb;
+	border-color: #aaa;
+	outline: none;
 }
 
 code {
@@ -195,13 +196,24 @@ button.button-primary:focus,
 a.button-primary:focus {
 	border-color: #10354b;
 	color: #fff;
+	outline: none;
 }
 
 a:hover,
 a:active,
 a:focus,
 .adminmenu a:hover {
-	color: #d54e21
+	color: #d54e21;
+}
+
+a:active,
+a:focus {
+	outline: 1px dotted #d54e21;
+}
+
+input[type="checkbox"]:focus,
+input[type="radio"]:focus {
+	outline: 1px dotted #000;
 }
 
 div.error {
@@ -278,6 +290,10 @@ a,
 #selectedMenuLink {
 	background-color: #EAF2FA;
 	color: #111
+}
+
+.wp-submenu a:focus {
+	outline: 1px dotted #111;
 }
 
 /*added*/
