@@ -191,7 +191,7 @@ if ( empty( $_REQUEST['save'] )
 {
 	if ( ! Config( 'STUDENTS_EMAIL_FIELD' ) )
 	{
-		$student_email_field = '<a href="Modules.php?modname=School_Setup/Configuration.php"><b>' .
+		$student_email_field = '<a href="Modules.php?modname=School_Setup/Configuration.php&tab=system"><b>' .
 			_( 'Student email field' ) . '</b></a>';
 
 		$error[] = sprintf(
