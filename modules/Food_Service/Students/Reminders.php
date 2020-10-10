@@ -32,7 +32,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 		$extra['SELECT'] = ",fsa.ACCOUNT_ID,fsa.STATUS,(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fsa.ACCOUNT_ID LIMIT 1) AS BALANCE";
 
-		if ( $_REQUEST['year_end'] === 'Y' )
+		if ( isset( $_REQUEST['year_end'] )
+			&& $_REQUEST['year_end'] === 'Y' )
 		{
 			$extra['SELECT'] .= ",(SELECT count(1)
 				FROM ATTENDANCE_CALENDAR
@@ -64,7 +65,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		{
 			$payment = $target - $student['BALANCE'];
 
-			if ( $_REQUEST['year_end'] === 'Y' )
+			if ( isset( $_REQUEST['year_end'] )
+				&& $_REQUEST['year_end'] === 'Y' )
 			{
 				$payment = floor( $payment * 2 + 0.99 ) / 2;
 			}
@@ -116,16 +118,17 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				/*$teacher = DBGet( "SELECT s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,cs.TITLE
 				FROM STAFF s,SCHEDULE sch,COURSE_PERIODS cp,COURSES c,COURSE_SUBJECTS cs,SCHOOL_PERIODS sp
 				WHERE s.STAFF_ID=cp.TEACHER_ID AND sch.STUDENT_ID='".$student['STUDENT_ID']."' AND cp.COURSE_ID=sch.COURSE_ID AND c.COURSE_ID=cp.COURSE_ID AND c.SUBJECT_ID=cs.SUBJECT_ID AND sp.PERIOD_ID=cp.PERIOD_ID AND sp.ATTENDANCE='Y' AND sch.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND sch.SYEAR='".UserSyear()."'" );*/
+				// SQL Replace AND p.ATTENDANCE='Y' with AND cp.DOES_ATTENDANCE IS NOT NULL.
 				$teacher = DBGet( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,cs.TITLE
 				FROM STAFF s,SCHEDULE sch,COURSE_PERIODS cp,COURSES c,COURSE_SUBJECTS cs,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
 				WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
+				AND cp.DOES_ATTENDANCE IS NOT NULL
 				AND s.STAFF_ID=cp.TEACHER_ID
 				AND sch.STUDENT_ID='" . $student['STUDENT_ID'] . "'
 				AND cp.COURSE_ID=sch.COURSE_ID
 				AND c.COURSE_ID=cp.COURSE_ID
 				AND c.SUBJECT_ID=cs.SUBJECT_ID
 				AND sp.PERIOD_ID=cpsp.PERIOD_ID
-				AND sp.ATTENDANCE='Y'
 				AND sch.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
 				AND sch.SYEAR='" . UserSyear() . "'" );
 			}
@@ -157,7 +160,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			$last_deposit = ! empty( $last_deposit[1] ) ?
 				$last_deposit[1] : array();
 
-			if ( $_REQUEST['year_end'] === 'Y' )
+			if ( isset( $_REQUEST['year_end'] )
+				&& $_REQUEST['year_end'] === 'Y' )
 			{
 				// Fix Transactions amount for the lat 14 days maybe null.
 				// Set a minimum of 0.99.

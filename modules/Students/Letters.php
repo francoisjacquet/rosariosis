@@ -12,146 +12,150 @@ if ( User( 'PROFILE' ) === 'teacher' )
 if ( $_REQUEST['modfunc'] === 'save'
 	&& AllowEdit() )
 {
-	if ( ! empty( $_REQUEST['st_arr'] ) )
+	if ( empty( $_REQUEST['st_arr'] ) )
 	{
-		$_REQUEST['mailing_labels'] = issetVal( $_REQUEST['mailing_labels'], '' );
+		BackPrompt( _( 'You must choose at least one student.' ) );
+	}
 
-		// Bypass strip_tags on the $_REQUEST vars.
-		$REQUEST_letter_text = SanitizeHTML( $_POST['letter_text'] );
+	$_REQUEST['mailing_labels'] = issetVal( $_REQUEST['mailing_labels'], '' );
 
-		$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
+	// Bypass strip_tags on the $_REQUEST vars.
+	$REQUEST_letter_text = SanitizeHTML( $_POST['letter_text'] );
 
-		$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
+	$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
 
-		if ( $_REQUEST['mailing_labels'] == 'Y' )
-		{
-			Widgets( 'mailing_labels' );
-		}
+	$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
 
-		$extra['SELECT'] = issetVal( $extra['SELECT'], '' );
+	if ( $_REQUEST['mailing_labels'] == 'Y' )
+	{
+		Widgets( 'mailing_labels' );
+	}
 
-		// SELECT s.* Custom Fields for Substitutions.
-		$extra['SELECT'] .= ",s.*";
+	$extra['SELECT'] = issetVal( $extra['SELECT'], '' );
 
-		$extra['SELECT'] .= ",s.FIRST_NAME AS NICK_NAME";
+	// SELECT s.* Custom Fields for Substitutions.
+	$extra['SELECT'] .= ",s.*";
 
-		if ( User( 'PROFILE' ) === 'admin' )
-		{
-			if ( isset( $_REQUEST['w_course_period_id_which'] )
-				&& $_REQUEST['w_course_period_id_which'] == 'course_period'
-				&& $_REQUEST['w_course_period_id'] )
-			{
-				$extra['SELECT'] .= ",(SELECT " . DisplayNameSQL( 'st' ) . "
-				FROM STAFF st,COURSE_PERIODS cp
-				WHERE st.STAFF_ID=cp.TEACHER_ID
-				AND cp.COURSE_PERIOD_ID='" . $_REQUEST['w_course_period_id'] . "') AS TEACHER";
-
-				$extra['SELECT'] .= ",(SELECT cp.ROOM FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID='" . $_REQUEST['w_course_period_id'] . "') AS ROOM";
-			}
-			else
-			{
-				//FJ multiple school periods for a course period
-				//$extra['SELECT'] .= ",(SELECT st.FIRST_NAME||' '||st.LAST_NAME FROM STAFF st,COURSE_PERIODS cp,SCHOOL_PERIODS p,SCHEDULE ss WHERE st.STAFF_ID=cp.TEACHER_ID AND cp.PERIOD_id=p.PERIOD_ID AND p.ATTENDANCE='Y' AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='".UserSyear()."' AND ss.MARKING_PERIOD_ID IN (".GetAllMP('QTR',GetCurrentMP('QTR',DBDate(),false)).") AND (ss.START_DATE<='".DBDate()."' AND (ss.END_DATE>='".DBDate()."' OR ss.END_DATE IS NULL)) ORDER BY p.SORT_ORDER LIMIT 1) AS TEACHER";
-				$extra['SELECT'] .= ",(SELECT " . DisplayNameSQL( 'st' ) . "
-				FROM STAFF st,COURSE_PERIODS cp,SCHOOL_PERIODS p,SCHEDULE ss,COURSE_PERIOD_SCHOOL_PERIODS cpsp
-				WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
-				AND st.STAFF_ID=cp.TEACHER_ID
-				AND cpsp.PERIOD_id=p.PERIOD_ID
-				AND p.ATTENDANCE='Y'
-				AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID
-				AND ss.STUDENT_ID=s.STUDENT_ID
-				AND ss.SYEAR='" . UserSyear() . "'
-				AND ss.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', GetCurrentMP( 'QTR', DBDate(), false ) ) . ")
-				AND (ss.START_DATE<='" . DBDate() . "'
-					AND (ss.END_DATE>='" . DBDate() . "' OR ss.END_DATE IS NULL))
-				ORDER BY p.SORT_ORDER LIMIT 1) AS TEACHER";
-
-				//$extra['SELECT'] .= ",(SELECT cp.ROOM FROM COURSE_PERIODS cp,SCHOOL_PERIODS p,SCHEDULE ss WHERE cp.PERIOD_id=p.PERIOD_ID AND p.ATTENDANCE='Y' AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='".UserSyear()."' AND ss.MARKING_PERIOD_ID IN (".GetAllMP('QTR',GetCurrentMP('QTR',DBDate(),false)).") AND (ss.START_DATE<='".DBDate()."' AND (ss.END_DATE>='".DBDate()."' OR ss.END_DATE IS NULL)) ORDER BY p.SORT_ORDER LIMIT 1) AS ROOM";
-				$extra['SELECT'] .= ",(SELECT cp.ROOM FROM COURSE_PERIODS cp,SCHOOL_PERIODS p,SCHEDULE ss,COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND cpsp.PERIOD_id=p.PERIOD_ID AND p.ATTENDANCE='Y' AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='" . UserSyear() . "' AND ss.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', GetCurrentMP( 'QTR', DBDate(), false ) ) . ") AND (ss.START_DATE<='" . DBDate() . "' AND (ss.END_DATE>='" . DBDate() . "' OR ss.END_DATE IS NULL)) ORDER BY p.SORT_ORDER LIMIT 1) AS ROOM";
-			}
-		}
-		else
+	if ( User( 'PROFILE' ) === 'admin' )
+	{
+		if ( isset( $_REQUEST['w_course_period_id_which'] )
+			&& $_REQUEST['w_course_period_id_which'] == 'course_period'
+			&& $_REQUEST['w_course_period_id'] )
 		{
 			$extra['SELECT'] .= ",(SELECT " . DisplayNameSQL( 'st' ) . "
 			FROM STAFF st,COURSE_PERIODS cp
 			WHERE st.STAFF_ID=cp.TEACHER_ID
-			AND cp.COURSE_PERIOD_ID='" . UserCoursePeriod() . "') AS TEACHER";
+			AND cp.COURSE_PERIOD_ID='" . $_REQUEST['w_course_period_id'] . "') AS TEACHER";
 
-			$extra['SELECT'] .= ",(SELECT cp.ROOM FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID='" . UserCoursePeriod() . "') AS ROOM";
-		}
-
-		if ( empty( $_REQUEST['_search_all_schools'] ) )
-		{
-			// School Title.
-			$extra['SELECT'] .= ",(SELECT sch.TITLE FROM SCHOOLS sch
-				WHERE ssm.SCHOOL_ID=sch.ID
-				AND sch.SYEAR='" . UserSyear() . "') AS SCHOOL_TITLE";
-		}
-
-
-		$RET = GetStuList( $extra );
-
-		if ( ! empty( $RET ) )
-		{
-			SaveTemplate( $REQUEST_letter_text );
-
-			// $REQUEST_letter_text = nl2br(str_replace("''","'",str_replace('  ',' &nbsp;',$REQUEST_letter_text)));
-
-			$handle = PDFStart();
-
-			foreach ( (array) $RET as $student )
-			{
-				$student_points = $total_points = 0;
-				unset( $_ROSARIO['DrawHeader'] );
-
-				if ( $_REQUEST['mailing_labels'] == 'Y' )
-				{
-					echo '<br /><br /><br />';
-				}
-
-				//DrawHeader(ParseMLField(Config('TITLE')).' Letter');
-				DrawHeader( '&nbsp;' );
-				DrawHeader( $student['FULL_NAME'], $student['STUDENT_ID'] );
-				DrawHeader( $student['GRADE_ID'], $student['SCHOOL_TITLE'] );
-				//DrawHeader('',GetMP(GetCurrentMP('QTR',DBDate(),false)));
-				DrawHeader( ProperDate( DBDate() ) );
-
-				if ( $_REQUEST['mailing_labels'] == 'Y' )
-				{
-					echo '<br /><br /><table class="width-100p"><tr><td style="width:50px;"> &nbsp; </td><td>' . $student['MAILING_LABEL'] . '</td></tr></table><br />';
-				}
-
-				$substitutions = array(
-					'__FULL_NAME__' => $student['FULL_NAME'],
-					'__LAST_NAME__' => $student['LAST_NAME'],
-					'__FIRST_NAME__' => $student['FIRST_NAME'],
-					'__MIDDLE_NAME__' =>  $student['MIDDLE_NAME'],
-					'__STUDENT_ID__' => $student['STUDENT_ID'],
-					'__SCHOOL_TITLE__' => $student['SCHOOL_TITLE'],
-					'__GRADE_ID__' => $student['GRADE_ID'],
-					'__TEACHER__' => $student['TEACHER'],
-					'__ROOM__' => $student['ROOM'],
-				);
-
-				$substitutions += SubstitutionsCustomFieldsValues( 'STUDENT', $student );
-
-				$letter_text = SubstitutionsTextMake( $substitutions, $REQUEST_letter_text );
-
-				echo '<br />' . $letter_text;
-				echo '<div style="page-break-after: always;"></div>';
-			}
-
-			PDFStop( $handle );
+			$extra['SELECT'] .= ",(SELECT cp.ROOM FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID='" . $_REQUEST['w_course_period_id'] . "') AS ROOM";
 		}
 		else
 		{
-			BackPrompt( _( 'No Students were found.' ) );
+			//FJ multiple school periods for a course period
+			//$extra['SELECT'] .= ",(SELECT st.FIRST_NAME||' '||st.LAST_NAME FROM STAFF st,COURSE_PERIODS cp,SCHOOL_PERIODS p,SCHEDULE ss WHERE st.STAFF_ID=cp.TEACHER_ID AND cp.PERIOD_id=p.PERIOD_ID AND p.ATTENDANCE='Y' AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='".UserSyear()."' AND ss.MARKING_PERIOD_ID IN (".GetAllMP('QTR',GetCurrentMP('QTR',DBDate(),false)).") AND (ss.START_DATE<='".DBDate()."' AND (ss.END_DATE>='".DBDate()."' OR ss.END_DATE IS NULL)) ORDER BY p.SORT_ORDER LIMIT 1) AS TEACHER";
+			// SQL Replace AND p.ATTENDANCE='Y' with AND cp.DOES_ATTENDANCE IS NOT NULL.
+			$extra['SELECT'] .= ",(SELECT " . DisplayNameSQL( 'st' ) . "
+			FROM STAFF st,COURSE_PERIODS cp,SCHOOL_PERIODS p,SCHEDULE ss,COURSE_PERIOD_SCHOOL_PERIODS cpsp
+			WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
+			AND st.STAFF_ID=cp.TEACHER_ID
+			AND cpsp.PERIOD_id=p.PERIOD_ID
+			AND cp.DOES_ATTENDANCE IS NOT NULL
+			AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID
+			AND ss.STUDENT_ID=s.STUDENT_ID
+			AND ss.SYEAR='" . UserSyear() . "'
+			AND ss.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', GetCurrentMP( 'QTR', DBDate(), false ) ) . ")
+			AND (ss.START_DATE<='" . DBDate() . "'
+				AND (ss.END_DATE>='" . DBDate() . "' OR ss.END_DATE IS NULL))
+			ORDER BY p.SORT_ORDER LIMIT 1) AS TEACHER";
+
+			//$extra['SELECT'] .= ",(SELECT cp.ROOM FROM COURSE_PERIODS cp,SCHOOL_PERIODS p,SCHEDULE ss WHERE cp.PERIOD_id=p.PERIOD_ID AND p.ATTENDANCE='Y' AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='".UserSyear()."' AND ss.MARKING_PERIOD_ID IN (".GetAllMP('QTR',GetCurrentMP('QTR',DBDate(),false)).") AND (ss.START_DATE<='".DBDate()."' AND (ss.END_DATE>='".DBDate()."' OR ss.END_DATE IS NULL)) ORDER BY p.SORT_ORDER LIMIT 1) AS ROOM";
+			// SQL Replace AND p.ATTENDANCE='Y' with AND cp.DOES_ATTENDANCE IS NOT NULL.
+			$extra['SELECT'] .= ",(SELECT cp.ROOM
+			FROM COURSE_PERIODS cp,SCHOOL_PERIODS p,SCHEDULE ss,COURSE_PERIOD_SCHOOL_PERIODS cpsp
+			WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
+			AND cpsp.PERIOD_id=p.PERIOD_ID
+			AND cp.DOES_ATTENDANCE IS NOT NULL
+			AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID
+			AND ss.STUDENT_ID=s.STUDENT_ID
+			AND ss.SYEAR='" . UserSyear() . "'
+			AND ss.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', GetCurrentMP( 'QTR', DBDate(), false ) ) . ")
+			AND (ss.START_DATE<='" . DBDate() . "' AND (ss.END_DATE>='" . DBDate() . "' OR ss.END_DATE IS NULL))
+			ORDER BY p.SORT_ORDER LIMIT 1) AS ROOM";
 		}
 	}
 	else
 	{
-		BackPrompt( _( 'You must choose at least one student.' ) );
+		$extra['SELECT'] .= ",(SELECT " . DisplayNameSQL( 'st' ) . "
+		FROM STAFF st,COURSE_PERIODS cp
+		WHERE st.STAFF_ID=cp.TEACHER_ID
+		AND cp.COURSE_PERIOD_ID='" . UserCoursePeriod() . "') AS TEACHER";
+
+		$extra['SELECT'] .= ",(SELECT cp.ROOM FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID='" . UserCoursePeriod() . "') AS ROOM";
 	}
+
+	if ( empty( $_REQUEST['_search_all_schools'] ) )
+	{
+		// School Title.
+		$extra['SELECT'] .= ",(SELECT sch.TITLE FROM SCHOOLS sch
+			WHERE ssm.SCHOOL_ID=sch.ID
+			AND sch.SYEAR='" . UserSyear() . "') AS SCHOOL_TITLE";
+	}
+
+	$RET = GetStuList( $extra );
+
+	if ( empty( $RET ) )
+	{
+		BackPrompt( _( 'No Students were found.' ) );
+	}
+
+	SaveTemplate( $REQUEST_letter_text );
+
+	// $REQUEST_letter_text = nl2br(str_replace("''","'",str_replace('  ',' &nbsp;',$REQUEST_letter_text)));
+
+	$handle = PDFStart();
+
+	foreach ( (array) $RET as $student )
+	{
+		unset( $_ROSARIO['DrawHeader'] );
+
+		if ( $_REQUEST['mailing_labels'] == 'Y' )
+		{
+			echo '<br /><br /><br />';
+		}
+
+		//DrawHeader(ParseMLField(Config('TITLE')).' Letter');
+		DrawHeader( '&nbsp;' );
+		DrawHeader( $student['FULL_NAME'], $student['STUDENT_ID'] );
+		DrawHeader( $student['GRADE_ID'], $student['SCHOOL_TITLE'] );
+		//DrawHeader('',GetMP(GetCurrentMP('QTR',DBDate(),false)));
+		DrawHeader( ProperDate( DBDate() ) );
+
+		if ( $_REQUEST['mailing_labels'] == 'Y' )
+		{
+			echo '<br /><br /><table class="width-100p"><tr><td style="width:50px;"> &nbsp; </td><td>' . $student['MAILING_LABEL'] . '</td></tr></table><br />';
+		}
+
+		$substitutions = array(
+			'__FULL_NAME__' => $student['FULL_NAME'],
+			'__LAST_NAME__' => $student['LAST_NAME'],
+			'__FIRST_NAME__' => $student['FIRST_NAME'],
+			'__MIDDLE_NAME__' =>  $student['MIDDLE_NAME'],
+			'__STUDENT_ID__' => $student['STUDENT_ID'],
+			'__SCHOOL_TITLE__' => $student['SCHOOL_TITLE'],
+			'__GRADE_ID__' => $student['GRADE_ID'],
+			'__TEACHER__' => $student['TEACHER'],
+			'__ROOM__' => $student['ROOM'],
+		);
+
+		$substitutions += SubstitutionsCustomFieldsValues( 'STUDENT', $student );
+
+		$letter_text = SubstitutionsTextMake( $substitutions, $REQUEST_letter_text );
+
+		echo '<br />' . $letter_text;
+		echo '<div style="page-break-after: always;"></div>';
+	}
+
+	PDFStop( $handle );
 }
 
 if ( ! $_REQUEST['modfunc'] )
