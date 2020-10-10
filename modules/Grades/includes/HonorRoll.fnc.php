@@ -49,21 +49,11 @@ function HonorRollPDF( $student_array, $is_list, $honor_roll_text )
 	WHERE st.STAFF_ID=cp.TEACHER_ID
 	AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID
 	AND ss.STUDENT_ID=s.STUDENT_ID
-	AND ss.SYEAR='".UserSyear()."'
-	AND ss.MARKING_PERIOD_ID IN (".GetAllMP('QTR',GetCurrentMP('QTR',DBDate(),false)).")
-	AND (ss.START_DATE<='".DBDate()."' AND (ss.END_DATE>='".DBDate()."' OR ss.END_DATE IS NULL)) LIMIT 1) AS TEACHER";
+	AND ss.SYEAR='" . UserSyear() . "'
+	AND ss.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', GetCurrentMP( 'QTR', DBDate(), false ) ) . ")
+	AND (ss.START_DATE<='" . DBDate() . "' AND (ss.END_DATE>='" . DBDate() . "' OR ss.END_DATE IS NULL)) LIMIT 1) AS TEACHER";
 
-	$extra['SELECT'] .= ",(SELECT cp.ROOM
-	FROM COURSE_PERIODS cp,SCHOOL_PERIODS p,SCHEDULE ss,COURSE_PERIOD_SCHOOL_PERIODS cpsp
-	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
-	AND cpsp.PERIOD_id=p.PERIOD_ID AND p.ATTENDANCE='Y'
-	AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID
-	AND ss.STUDENT_ID=s.STUDENT_ID
-	AND ss.SYEAR='".UserSyear()."'
-	AND ss.MARKING_PERIOD_ID IN (".GetAllMP('QTR',GetCurrentMP('QTR',DBDate(),false)).")
-	AND (ss.START_DATE<='".DBDate()."' AND (ss.END_DATE>='".DBDate()."' OR ss.END_DATE IS NULL)) ORDER BY p.SORT_ORDER LIMIT 1) AS ROOM";
-
-	$extra['ORDER_BY'] = 'HIGH_HONOR,SORT_ORDER DESC,ROOM,FULL_NAME';
+	$extra['ORDER_BY'] = 'HIGH_HONOR,SORT_ORDER DESC,FULL_NAME';
 
 	if ( $is_list )
 	{
