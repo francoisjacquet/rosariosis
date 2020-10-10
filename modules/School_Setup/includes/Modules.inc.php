@@ -191,6 +191,15 @@ if ( $_REQUEST['modfunc'] === 'activate'
 				DBQuery( $install_sql );
 			}
 
+			$locale_code = mb_substr( $locale, 0, 2 );
+
+			if ( file_exists( 'modules/' . $_REQUEST['module'] . '/install_' . $locale_code . '.sql' ) )
+			{
+				// @since 7.3 Translate database on add-on install: run 'install_fr.sql' file.
+				$install_locale_sql = file_get_contents( 'modules/' . $_REQUEST['module'] . '/install_' . $locale_code . '.sql' );
+				DBQuery( $install_locale_sql );
+			}
+
 			$update_RosarioModules = true;
 		}
 		else

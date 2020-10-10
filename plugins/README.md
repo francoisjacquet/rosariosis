@@ -13,6 +13,7 @@ _School > Configuration > Plugins_
 
 - `functions.php`: required. Contains the functions to be automatically loaded by RosarioSIS.
 - `install.sql`: optional. Contains the SQL queries run on plugin activation: configuration, plugin tables, data, etc.
+- `install_[2 letters locale code].sql`: optional. Contains the SQL queries run on plugin activation to translate texts: templates, etc. For example, to translate to French: `install_fr.sql`. Since RosarioSIS 7.3.
 - `config.inc.php`: optional. Included by the `modules/School_Setup/includes/Plugins.inc.php` file when the _Configuration_ link in the plugin listing is clicked.
 
 ## Example

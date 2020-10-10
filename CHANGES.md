@@ -5,6 +5,7 @@ Changes in 7.3
 --------------
 - SQL Replace AND p.ATTENDANCE='Y' with AND cp.DOES_ATTENDANCE IS NOT NULL in Letters.php, StudentLabels.fnc.php, HonorRoll.fnc.php & Reminders.php
 - SQL remove unused SELECT ROOM in HonorRoll.fnc.php
+- Translate database on add-on install: run 'install_fr.sql' file in Modules.inc.php, Plugins.inc.php, modules/README.md & plugins/README.md
 
 Changes in 7.2.2
 ----------------
