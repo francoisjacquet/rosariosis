@@ -130,7 +130,14 @@ html,
 body,
 input,
 select,
-textarea {
+textarea,
+/* Chosen JS select */
+
+div.chosen-container,
+/* JS calendar */
+
+.calendar,
+.calendar table {
 	font-size: 16px;
 	-webkit-font-smoothing: antialiased;
 	-moz-font-smoothing: antialiased;

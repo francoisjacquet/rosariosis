@@ -152,7 +152,14 @@ html,
 body,
 input,
 select,
-textarea {
+textarea,
+/* Chosen JS select */
+
+div.chosen-container,
+/* JS calendar */
+
+.calendar,
+.calendar table {
 	font-size: 14px;
 }
 
@@ -275,7 +282,7 @@ code {
 	font-family: Consolas, Monaco, monospace;
 	padding: 1px 3px;
 	margin: 0 1px;
-	font-size: 11px
+	font-size: 13px
 }
 
 hr {
