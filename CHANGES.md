@@ -8,6 +8,7 @@ Changes in 7.3
 - Translate database on add-on install: run 'install_fr.sql' file in Modules.inc.php, Plugins.inc.php, modules/README.md & plugins/README.md
 - CSS remove wildcard rules in stylesheet.css & wkhtmltopdf.css
 - CSS remove browser input outline on focus in colors.css
+- Fix Format Phone Number for US in GetStuList.fnc.php, thanks to @dzungdo
 
 Changes in 7.2.2
 ----------------

@@ -889,7 +889,7 @@ function makePhone( $phone, $column = '' )
 		{
 			// US: (012) 345-6789.
 			$fphone = '(' . mb_substr( $phone, 0, 3 ) . ') ' .
-				mb_substr( $phone, 3, 4 ) . '-' . mb_substr( $phone, 7 );
+				mb_substr( $phone, 3, 3 ) . '-' . mb_substr( $phone, 6 );
 		}
 	}
 	elseif ( mb_strlen( $phone ) === 7 )
