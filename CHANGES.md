@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 7.2.3
+----------------
+- Fix regression since 5.9 search text User Field in Search.fnc.php, thanks to @dzungdo
+
 Changes in 7.2.2
 ----------------
 - Fix SQL error foreign keys: Roll Schools before rolling Student Enrollment in Rollover.php
