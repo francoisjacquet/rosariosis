@@ -10,6 +10,10 @@ Changes in 7.3
 - CSS remove browser input outline on focus in colors.css
 - Fix Format Phone Number for US in GetStuList.fnc.php, thanks to @dzungdo
 
+Changes in 7.2.3
+----------------
+- Fix regression since 5.9 search text User Field in Search.fnc.php, thanks to @dzungdo
+
 Changes in 7.2.2
 ----------------
 - Fix SQL error foreign keys: Roll Schools before rolling Student Enrollment in Rollover.php

@@ -488,8 +488,8 @@ function Search( $type, $extra = null )
 				// Text.
 				foreach ( (array) $category['text'] as $col )
 				{
-					if ( $type === 'staff_fields'
-						|| $type === 'staff_fields_all'
+					if ( ( $type === 'staff_fields'
+							|| $type === 'staff_fields_all' )
 						&& $col['COLUMN_NAME'] === 'CUSTOM_200000000' )
 					{
 						// @since 5.9 Move Email & Phone Staff Fields to custom fields.
