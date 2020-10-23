@@ -9,6 +9,7 @@ Changes in 7.3
 - CSS remove wildcard rules in stylesheet.css & wkhtmltopdf.css
 - CSS remove browser input outline on focus in colors.css
 - Fix Format Phone Number for US in GetStuList.fnc.php, thanks to @dzungdo
+- Attendance dashboard limit Absences to past days in Dashboard.inc.php
 
 Changes in 7.2.3
 ----------------
