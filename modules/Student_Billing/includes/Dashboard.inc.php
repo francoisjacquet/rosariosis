@@ -52,7 +52,7 @@ if ( ! function_exists( 'DashboardStudentBillingAdmin' ) )
 			AND SCHOOL_ID='" . UserSchool() . "'
 			GROUP BY YEAR_MONTH
 			ORDER BY YEAR_MONTH DESC
-			LIMIT 4", array(), array( 'YEAR_MONTH' ) );
+			LIMIT 3", array(), array( 'YEAR_MONTH' ) );
 
 		$payments_RET = DBGet( "SELECT TO_CHAR(PAYMENT_DATE,'YYYY-MM') AS YEAR_MONTH,
 			SUM(AMOUNT) AS TOTAL_PAYMENTS
@@ -61,7 +61,7 @@ if ( ! function_exists( 'DashboardStudentBillingAdmin' ) )
 			AND SCHOOL_ID='" . UserSchool() . "'
 			GROUP BY YEAR_MONTH
 			ORDER BY YEAR_MONTH DESC
-			LIMIT 4", array(), array( 'YEAR_MONTH' ) );
+			LIMIT 3", array(), array( 'YEAR_MONTH' ) );
 
 		$fees_payments_RET = array_replace_recursive( $fees_RET, $payments_RET );
 
