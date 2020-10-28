@@ -11,6 +11,11 @@ Changes in 7.3
 - Fix Format Phone Number for US in GetStuList.fnc.php, thanks to @dzungdo
 - Attendance dashboard limit Absences to past days in Dashboard.inc.php
 
+Changes in 7.2.4
+----------------
+- Take in Account Calendar Day Minutes in UpdateAttendanceDaily.fnc.php
+- Return false if School Periods Length sum is 0 in UpdateAttendanceDaily.fnc.php, thanks to @dzungdo
+
 Changes in 7.2.3
 ----------------
 - Fix regression since 5.9 search text User Field in Search.fnc.php, thanks to @dzungdo
