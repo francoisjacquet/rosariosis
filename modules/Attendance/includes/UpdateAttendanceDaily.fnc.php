@@ -5,6 +5,8 @@
  *
  * @uses AttendanceDailyCalculateTotal()
  *
+ * @since 7.2.4 Take in Account Calendar Day Minutes.
+ *
  * @param int         $student_id Student ID.
  * @param string      $date       School Day, defaults to today (optional).
  * @param string|bool $comment    Comment (optional).
@@ -20,18 +22,39 @@ function UpdateAttendanceDaily( $student_id, $date = '', $comment = false )
 
 	$total = AttendanceDailyTotalMinutes( $student_id, $date );
 
-	if ( $total == 0 )
+	if ( $total === false )
 	{
 		return;
 	}
 
 	$length = '0.0';
 
-	if ( $total >= Config( 'ATTENDANCE_FULL_DAY_MINUTES' ) )
+	// @since 7.2.4 Take in Account Calendar Day Minutes.
+	$attendance_day_minutes = DBGetOne( "SELECT MINUTES
+		FROM ATTENDANCE_CALENDAR
+		WHERE SCHOOL_DATE='" . $date . "'
+		AND SCHOOL_ID='" . UserSchool() . "'
+		AND SYEAR='" . UserSyear() . "'
+		AND CALENDAR_ID=(SELECT CALENDAR_ID
+			FROM STUDENT_ENROLLMENT
+			WHERE STUDENT_ID='" . $student_id . "'
+			AND SCHOOL_ID='" . UserSchool() . "'
+			AND SYEAR='" . UserSyear() . "'
+			AND ('" . $date . "' BETWEEN START_DATE AND END_DATE OR (END_DATE IS NULL AND '" . $date . "'>=START_DATE))
+			LIMIT 1)" );
+
+	if ( ! $attendance_day_minutes
+		|| $attendance_day_minutes === '999' )
+	{
+		// Calendar day Minutes is full day (999) or not set, use config.
+		$attendance_day_minutes = Config( 'ATTENDANCE_FULL_DAY_MINUTES' );
+	}
+
+	if ( $total >= $attendance_day_minutes )
 	{
 		$length = '1.0';
 	}
-	elseif ( $total >= ( Config( 'ATTENDANCE_FULL_DAY_MINUTES' ) / 2 ) )
+	elseif ( $total >= ( $attendance_day_minutes / 2 ) )
 	{
 		$length = '.5';
 	}
@@ -77,12 +100,12 @@ function UpdateAttendanceDaily( $student_id, $date = '', $comment = false )
  * @param int    $student_id Student ID.
  * @param string $date       School Day.
  *
- * @return float Total in Minutes.
+ * @return float|bool Total in Minutes or false if School Periods Length sum is 0.
  */
 function AttendanceDailyTotalMinutes( $student_id, $date )
 {
 	$total_sql = "SELECT SUM(sp.LENGTH) AS TOTAL
-	FROM SCHEDULE s,COURSE_PERIODS cp,SCHOOL_PERIODS sp,ATTENDANCE_CALENDAR ac, COURSE_PERIOD_SCHOOL_PERIODS cpsp
+	FROM SCHEDULE s,COURSE_PERIODS cp,SCHOOL_PERIODS sp,ATTENDANCE_CALENDAR ac,COURSE_PERIOD_SCHOOL_PERIODS cpsp
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 	AND s.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
 	AND position(',0,' IN cp.DOES_ATTENDANCE)>0
@@ -123,7 +146,8 @@ function AttendanceDailyTotalMinutes( $student_id, $date )
 
 	if ( $total == 0 )
 	{
-		return 0;
+		// Return false if School Periods Length sum is 0.
+		return false;
 	}
 
 	$total_sql = "SELECT SUM(sp.LENGTH) AS TOTAL
