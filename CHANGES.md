@@ -14,7 +14,7 @@ Changes in 7.3
 Changes in 7.2.4
 ----------------
 - Take in Account Calendar Day Minutes in UpdateAttendanceDaily.fnc.php
-- Return false if School Periods Length sum is 0 in UpdateAttendanceDaily.fnc.php, thanks to @dzungdo
+- Fix regression since 5.3 Return false if School Periods Length sum is 0 in UpdateAttendanceDaily.fnc.php, thanks to @dzungdo
 
 Changes in 7.2.3
 ----------------
