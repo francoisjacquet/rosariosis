@@ -101,11 +101,12 @@ if ( ! $_REQUEST['modfunc'] )
 		AND ad.STUDENT_ID=ssm.STUDENT_ID
 		AND ssm.SYEAR='" . UserSyear() . "'
 		AND ad.SYEAR=ssm.SYEAR
+		AND ssm.SCHOOL_ID='" . UserSchool() . "'
 		AND ad.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
 		AND (ad.SCHOOL_DATE BETWEEN ssm.START_DATE AND ssm.END_DATE OR (ssm.END_DATE IS NULL AND ssm.START_DATE <= ad.SCHOOL_DATE))
 		" . $extra['WHERE'] . "
 		GROUP BY ad.SCHOOL_DATE,ssm.GRADE_ID", array( '' ), array( 'SCHOOL_DATE', 'GRADE_ID' ) );
-//FJ ORDER BY Date
+
 		$student_days_possible = DBGet( "SELECT ac.SCHOOL_DATE,ssm.GRADE_ID,'' AS DAYS_POSSIBLE,count(*) AS ATTENDANCE_POSSIBLE,count(*) AS STUDENTS,'' AS PRESENT,'' AS ABSENT,'' AS ADA,'' AS AVERAGE_ATTENDANCE,'' AS AVERAGE_ABSENT
 		FROM STUDENT_ENROLLMENT ssm,ATTENDANCE_CALENDAR ac,STUDENTS s" . $extra['FROM'] . "
 		WHERE s.STUDENT_ID=ssm.STUDENT_ID
