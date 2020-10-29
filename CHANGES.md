@@ -10,6 +10,7 @@ Changes in 7.3
 - CSS remove browser input outline on focus in colors.css
 - Fix Format Phone Number for US in GetStuList.fnc.php, thanks to @dzungdo
 - Attendance dashboard limit Absences to past days in Dashboard.inc.php
+- Fix #299 Remove trailing slash "/" or dash "-" or dot "." from date in DailySummary.php
 
 Changes in 7.2.4
 ----------------

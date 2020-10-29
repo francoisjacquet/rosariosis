@@ -301,10 +301,13 @@ if ( $_REQUEST['student_id']
 		// Remove year to gain space.
 		$school_date = str_replace( date( 'Y' ), '', $school_date );
 
-		$columns[ $value['SHORT_DATE'] ] = ( isset( $_REQUEST['LO_save'] ) ?
-			strip_tags( $school_date ) :
-			$school_date
-		);
+		$school_date = strip_tags( $school_date );
+
+		// Remove trailing slash "/" or dash "-" or dot ".".
+		$school_date = trim( $school_date, '/-.' );
+
+		$columns[ $value['SHORT_DATE'] ] = isset( $_REQUEST['LO_save'] ) ?
+			$school_date : '<span class="proper-date">' . $school_date . '</span>';
 	}
 
 	// Student view, list courses.
@@ -348,9 +351,13 @@ else
 		// Remove year to gain space.
 		$proper_date = str_replace( date( 'Y' ), '', $proper_date );
 
-		$extra['columns_after'][ $school_date_col ] = isset($_REQUEST['LO_save'] ) ?
-			strip_tags( $proper_date ) :
-			$proper_date;
+		$proper_date = strip_tags( $proper_date );
+
+		// Remove trailing slash "/" or dash "-" or dot ".".
+		$proper_date = trim( $proper_date, '/-.' );
+
+		$extra['columns_after'][ $school_date_col ] = isset( $_REQUEST['LO_save'] ) ?
+			$proper_date : '<span class="proper-date">' . $proper_date . '</span>';
 
 		$extra['functions'][ $school_date_col ] = '_makeColor';
 	}
