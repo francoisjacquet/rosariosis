@@ -214,29 +214,39 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			}
 		}
 
-		$schedule_table_RET = DBGet( "SELECT cp.ROOM," . $display_title_sql . ",sp.TITLE AS SCHOOL_PERIOD,
-		cpsp.DAYS,stu.STUDENT_ID," . DisplayNameSQL( 'sta' ) . " AS FULL_NAME
-		FROM COURSE_PERIODS cp,COURSES c,SCHOOLS s,SCHOOL_PERIODS sp,
-			COURSE_PERIOD_SCHOOL_PERIODS cpsp,STUDENTS stu,SCHEDULE sr,STAFF sta,COURSE_SUBJECTS cs
-		WHERE cp.COURSE_ID=c.COURSE_ID
-		AND c.SUBJECT_ID=cs.SUBJECT_ID
-		AND cp.SYEAR='" . UserSyear() . "'
-		AND s.ID=cp.SCHOOL_ID
-		AND s.ID='" . UserSchool() . "'
-		AND s.SYEAR=cp.SYEAR
-		AND sp.PERIOD_ID=cpsp.PERIOD_ID
-		AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
-		AND sr.MARKING_PERIOD_ID IN (" . GetAllMP( GetMP( $_REQUEST['mp_id'], 'MP' ), $_REQUEST['mp_id'] ) . ")
-		AND stu.STUDENT_ID IN (" . $st_list . ")
-		AND stu.STUDENT_ID=sr.STUDENT_ID
-		AND cp.SCHOOL_ID=sr.SCHOOL_ID
-		AND cp.TEACHER_ID=sta.STAFF_ID
-		AND sr.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
-		AND ('" . $date . "' BETWEEN sr.START_DATE AND sr.END_DATE " . $date_extra . ")
-		AND sp.LENGTH <= " . ( Config( 'ATTENDANCE_FULL_DAY_MINUTES' ) / 2 ) ."
-		ORDER BY sp.SORT_ORDER", array( 'DAYS' => '_GetDays' ), array( 'STUDENT_ID', 'SCHOOL_PERIOD' ) );
+		$schedule_table_sql = "SELECT cp.ROOM," . $display_title_sql . ",sp.TITLE AS SCHOOL_PERIOD,
+			cpsp.DAYS,stu.STUDENT_ID," . DisplayNameSQL( 'sta' ) . " AS FULL_NAME
+			FROM COURSE_PERIODS cp,COURSES c,SCHOOLS s,SCHOOL_PERIODS sp,
+				COURSE_PERIOD_SCHOOL_PERIODS cpsp,STUDENTS stu,SCHEDULE sr,STAFF sta,COURSE_SUBJECTS cs
+			WHERE cp.COURSE_ID=c.COURSE_ID
+			AND c.SUBJECT_ID=cs.SUBJECT_ID
+			AND cp.SYEAR='" . UserSyear() . "'
+			AND s.ID=cp.SCHOOL_ID
+			AND s.ID='" . UserSchool() . "'
+			AND s.SYEAR=cp.SYEAR
+			AND sp.PERIOD_ID=cpsp.PERIOD_ID
+			AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
+			AND sr.MARKING_PERIOD_ID IN (" . GetAllMP( GetMP( $_REQUEST['mp_id'], 'MP' ), $_REQUEST['mp_id'] ) . ")
+			AND stu.STUDENT_ID IN (" . $st_list . ")
+			AND stu.STUDENT_ID=sr.STUDENT_ID
+			AND cp.SCHOOL_ID=sr.SCHOOL_ID
+			AND cp.TEACHER_ID=sta.STAFF_ID
+			AND sr.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
+			AND ('" . $date . "' BETWEEN sr.START_DATE AND sr.END_DATE " . $date_extra . ")";
+
+		$schedule_table_RET = DBGet( $schedule_table_sql .
+			" AND sp.LENGTH <= " . ( Config( 'ATTENDANCE_FULL_DAY_MINUTES' ) / 2 ) .
+			" ORDER BY sp.SORT_ORDER", array( 'DAYS' => '_GetDays' ), array( 'STUDENT_ID', 'SCHOOL_PERIOD' ) );
 		// FJ note the "sp.LENGTH <= (Config('ATTENDANCE_FULL_DAY_MINUTES') / 2)" condition
 		// to remove Full Day and Half Day school periods from the schedule table!
+
+		if ( ! $schedule_table_RET )
+		{
+			// Include Full Day and Half Day school periods in the schedule table.
+			// No Course Periods found, remove the "sp.LENGTH <= (Config('ATTENDANCE_FULL_DAY_MINUTES') / 2)" condition.
+			$schedule_table_RET = DBGet( $schedule_table_sql .
+				" ORDER BY sp.SORT_ORDER", array( 'DAYS' => '_GetDays' ), array( 'STUDENT_ID', 'SCHOOL_PERIOD' ) );
+		}
 
 		$columns_table = array( 'SCHOOL_PERIOD' => _( 'Periods' ) );
 
@@ -254,13 +264,6 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			$error[] = sprintf( _( 'No %s were found.' ), ngettext( 'Course Period', 'Course Periods', 0 ) );
 
 			echo ErrorMessage( $error );
-
-			$note[] = sprintf(
-				_( 'Only course periods with a length <= %d minutes (full school day in minutes divided by 2) are shown in the table schedule.' ),
-				Config( 'ATTENDANCE_FULL_DAY_MINUTES' ) / 2
-			);
-
-			echo ErrorMessage( $note, 'note' );
 		}
 
 		foreach ( (array) $schedule_table_RET as $student_id => $schedule_table )
