@@ -164,7 +164,7 @@ if ( ! function_exists( 'FirstLoginFormAfterInstall' ) )
 }
 
 
-if ( ! function_exists( 'FirstLoginFormForcePasswordChange' ) )
+if ( ! function_exists( 'FirstLoginFormPasswordChange' ) )
 {
 	/**
 	 * Password Change form on First Login.
