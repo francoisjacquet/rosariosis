@@ -14,8 +14,9 @@ RosarioSIS a été testé sur:
 - Debian Stretch avec Apache 2.4.25, Postgres 9.6, et PHP 7.0.14
 - Ubuntu 16.04 avec Apache 2.4.18, Postgres 9.5, et PHP 7.3.4
 - Debian Buster avec Apache 2.4.38, Postgres 11.5, et PHP 7.4.6
+- CentOS 8.2 avec Apache 2.4.37, Postgres 9.6.10, et PHP 7.2.24
 - Hébergement mutualisé avec cPanel, nginx, Postgres 8.4, et PHP 5.6.27
-- à travers Mozilla Firefox
+- à travers Mozilla Firefox et Google Chrome
 - à travers BrowserStack pour la compatibilité navigateurs (incompatible avec Internet Explorer 9 et inférieur)
 
 Minimum requis: **PHP 5.4.45** & **PostgreSQL 8.4**

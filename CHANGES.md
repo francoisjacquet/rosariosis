@@ -13,6 +13,7 @@ Changes in 7.3
 - Fix #299 Remove trailing slash "/" or dash "-" or dot "." from date in DailySummary.php
 - Fix #300 Include Full Day and Half Day school periods in the schedule table in PrintSchedules.php, thanks to @dzungdo
 - Update translations complete % in locale/REFERENCE.md
+- Add tested on CentOS & Google Chrome in INSTALL.md & INSTALL.pdf, thanks to @dd02
 
 Changes in 7.2.4
 ----------------
