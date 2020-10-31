@@ -338,6 +338,13 @@ $RosarioActions = array();
 	 * @since 6.2
 	 */
 	/*'School_Setup/Configuration.php|school_tabs' => array(),
+
+	/**
+	 * Before First Login form.
+	 *
+	 * @since 7.3
+	 */
+	/*'index.php|before_first_login_form' => array(),
 );*/
 
 

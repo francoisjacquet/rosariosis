@@ -35,6 +35,10 @@ if ( isset( $_REQUEST['modfunc'] )
 elseif ( isset( $_REQUEST['modfunc'] )
 	&& $_REQUEST['modfunc'] === 'first-login' )
 {
+	// @since 7.3 Before First Login form action hook.
+	// @example Parent Agreement plugin: Add a form before first login form without interfering with logic.
+	do_action( 'index.php|before_first_login_form' );
+
 	/**
 	 * First Login Form
 	 *
