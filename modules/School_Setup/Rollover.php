@@ -70,7 +70,10 @@ foreach ( (array) $tables as $table => $name )
 		$input_title .= '<div class="tooltip"><i>' . $tables_tooltip[ $table ] . '</i></div>';
 	}
 
-	$table_list .= '<tr><td><label><input type="checkbox" value="Y" name="tables[' . $table . ']">&nbsp;' .
+	$checked = ( $exists_RET[$table][1]['COUNT'] > 0 ) ? '' : ' checked';
+
+	$table_list .= '<tr><td><label><input type="checkbox" value="Y" name="tables[' . $table . ']"' .
+		$checked . '>&nbsp;' .
 		$input_title . '</label></td></tr>';
 }
 

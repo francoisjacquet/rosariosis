@@ -15,6 +15,7 @@ Changes in 7.3
 - Update translations complete % in locale/REFERENCE.md
 - Add tested on CentOS & Google Chrome in INSTALL.md & INSTALL.pdf, thanks to @dd02
 - Add Before First Login form action hook in index.php & Actions.php
+- Fix regression since 7.0 not rolled items are checked in Rollover.php
 
 Changes in 7.2.4
 ----------------
