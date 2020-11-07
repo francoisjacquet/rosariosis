@@ -54,10 +54,10 @@ if ( ! function_exists( 'DashboardAttendanceAdmin' ) )
 		AND ad.STUDENT_ID=ssm.STUDENT_ID
 		AND ssm.SCHOOL_ID='" . UserSchool() . "'
 		AND ad.SCHOOL_DATE<=CURRENT_DATE
-		AND ad.SCHOOL_DATE>=ssm.START_DATE
-		AND ssm.END_DATE IS NULL OR SCHOOL_DATE<=ssm.END_DATE
-		GROUP BY SCHOOL_DATE
-		ORDER BY SCHOOL_DATE DESC
+		AND (ad.SCHOOL_DATE BETWEEN ssm.START_DATE AND ssm.END_DATE
+			OR (ssm.END_DATE IS NULL AND ssm.START_DATE<=ad.SCHOOL_DATE))
+		GROUP BY ad.SCHOOL_DATE
+		ORDER BY ad.SCHOOL_DATE DESC
 		LIMIT 7" );
 
 		if ( ! empty( $absences_RET[1] )
