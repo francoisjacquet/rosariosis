@@ -18,7 +18,11 @@ if ( Prompt( _( 'Confirm' ), _( 'When do you want to recalculate the daily atten
 	flush();
 	set_time_limit( 0 );
 
-	$current_RET = DBGet( "SELECT DISTINCT SCHOOL_DATE FROM ATTENDANCE_CALENDAR WHERE SCHOOL_ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "'", array(), array( 'SCHOOL_DATE' ) );
+	$current_RET = DBGet( "SELECT DISTINCT SCHOOL_DATE
+		FROM ATTENDANCE_CALENDAR
+		WHERE SCHOOL_ID='" . UserSchool() . "'
+		AND SYEAR='" . UserSyear() . "'", array(), array( 'SCHOOL_DATE' ) );
+
 	$students_RET = GetStuList();
 
 	$begin = mktime( 0, 0, 0, MonthNWswitch( $_REQUEST['month_min'], 'to_num' ), $_REQUEST['day_min'] * 1, $_REQUEST['year_min'] ) + 43200;
@@ -26,7 +30,7 @@ if ( Prompt( _( 'Confirm' ), _( 'When do you want to recalculate the daily atten
 
 	for ( $i = $begin; $i <= $end; $i += 86400 )
 	{
-		if ( $current_RET[date( 'Y-m-d', $i )] )
+		if ( isset( $current_RET[date( 'Y-m-d', $i )] ) )
 		{
 			foreach ( (array) $students_RET as $student )
 			{

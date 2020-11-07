@@ -421,7 +421,7 @@ function makeProfile( $value, $column = 'PROFILE' )
 			return $return;
 		}
 
-		$return .= ' / ' . ( $profiles_RET[$THIS_RET['PROFILE_ID']] ?
+		$return .= ' / ' . ( ! empty( $profiles_RET[$THIS_RET['PROFILE_ID']] ) ?
 			$profiles_RET[$THIS_RET['PROFILE_ID']][1]['TITLE'] :
 			'<span style="color:red">' . $THIS_RET['PROFILE_ID'] . '</span>' );
 	}
