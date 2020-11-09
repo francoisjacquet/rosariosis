@@ -233,7 +233,7 @@ $RET = array();
 
 foreach ( (array) $stu_RET as $stu )
 {
-	$RET[$stu['LETTER_GRADE']] = isset( $RET[$stu['LETTER_GRADE']] ) ? $RET[$stu['LETTER_GRADE']]++ : 1;
+	$RET[$stu['LETTER_GRADE']] = isset( $RET[$stu['LETTER_GRADE']] ) ? ++$RET[$stu['LETTER_GRADE']] : 1;
 }
 
 $chart['chart_data'][1] = array();

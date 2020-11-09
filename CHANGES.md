@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 7.3.1
+----------------
+- Fix #304 Count students in GradebookBreakdown.php
+
 Changes in 7.3
 --------------
 - SQL Replace AND p.ATTENDANCE='Y' with AND cp.DOES_ATTENDANCE IS NOT NULL in Letters.php, StudentLabels.fnc.php, HonorRoll.fnc.php & Reminders.php
