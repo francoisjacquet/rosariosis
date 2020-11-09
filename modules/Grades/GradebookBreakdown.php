@@ -143,6 +143,11 @@ if ( $_REQUEST['assignment_id'] === 'totals' )
 
 	if ( Preferences( 'WEIGHT', 'Gradebook' ) === 'Y' )
 	{
+		/**
+		 * Do not include Extra Credit assignments (0 Total Points)
+		 * if the Gradebook is configured to Weight Grades:
+		 * Division by zero is impossible.
+		 */
 		$percent_RET = DBGet( "SELECT gt.ASSIGNMENT_TYPE_ID,gg.STUDENT_ID," .
 			db_case( array(
 				"sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ) ) . ")",
@@ -150,13 +155,14 @@ if ( $_REQUEST['assignment_id'] === 'totals' )
 				"'0'",
 				"(sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'gg.POINTS' ) ) . ")
 					* gt.FINAL_GRADE_PERCENT / sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ) ) . "))",
-			) ) . " AS PARTIAL_PERCENT
+			) ) . " AS PARTIAL_PERCENT,gt.FINAL_GRADE_PERCENT
 			FROM GRADEBOOK_GRADES gg,GRADEBOOK_ASSIGNMENTS ga,GRADEBOOK_ASSIGNMENT_TYPES gt
 			WHERE gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID
 			AND ga.ASSIGNMENT_ID=gg.ASSIGNMENT_ID
 			AND ga.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . ")
 			AND gg.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'
 			AND gt.COURSE_ID='" . $course_id . "'
+			AND ga.POINTS<>'0'
 			GROUP BY gg.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID,gt.FINAL_GRADE_PERCENT",
 			array(),
 			array( 'STUDENT_ID', 'ASSIGNMENT_TYPE_ID' ) );
@@ -371,7 +377,7 @@ function _makeGrade( $value, $column )
 	if ( ! is_numeric( $_REQUEST['assignment_id'] )
 		&& empty( $_REQUEST['student_id'] ) )
 	{
-		$total = 0;
+		$total = $total_percent =  0;
 
 		if ( Preferences( 'WEIGHT', 'Gradebook' ) === 'Y'
 			&& ! empty( $percent_RET[$THIS_RET['STUDENT_ID']] ) )
@@ -379,6 +385,17 @@ function _makeGrade( $value, $column )
 			foreach ( (array) $percent_RET[$THIS_RET['STUDENT_ID']] as $type_id => $type )
 			{
 				$total += $type[1]['PARTIAL_PERCENT'];
+
+				if ( isset( $type[1]['FINAL_GRADE_PERCENT'] ) )
+				{
+					// Only set Assignment Types percent for Totals.
+					$total_percent += $type[1]['FINAL_GRADE_PERCENT'];
+				}
+			}
+
+			if ( $total_percent != 0 )
+			{
+				$total /= $total_percent;
 			}
 		}
 		elseif ( ! empty( $current_RET[$THIS_RET['STUDENT_ID']][1]['TOTAL_POINTS'] ) )

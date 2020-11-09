@@ -3,7 +3,8 @@
 
 Changes in 7.3.1
 ----------------
-- Fix #304 Count students in GradebookBreakdown.php
+- Fix #304 Count students in GradebookBreakdown.php, thanks to @dd02
+- Fix #304 Totals count exclude Extra Credit assignments (0 Total Points), thanks to @dd02
 
 Changes in 7.3
 --------------
