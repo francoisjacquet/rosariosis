@@ -147,14 +147,15 @@ if ( $_REQUEST['assignment_id'] === 'totals' )
 		 * Do not include Extra Credit assignments (0 Total Points)
 		 * if the Gradebook is configured to Weight Grades:
 		 * Division by zero is impossible.
+		 *
+		 * Do not include Excused (`*` or -1) grades.
 		 */
 		$percent_RET = DBGet( "SELECT gt.ASSIGNMENT_TYPE_ID,gg.STUDENT_ID," .
 			db_case( array(
-				"sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ) ) . ")",
+				"sum(ga.POINTS)",
 				"'0'",
 				"'0'",
-				"(sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'gg.POINTS' ) ) . ")
-					* gt.FINAL_GRADE_PERCENT / sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ) ) . "))",
+				"(sum(gg.POINTS) * gt.FINAL_GRADE_PERCENT / sum(ga.POINTS))",
 			) ) . " AS PARTIAL_PERCENT,gt.FINAL_GRADE_PERCENT
 			FROM GRADEBOOK_GRADES gg,GRADEBOOK_ASSIGNMENTS ga,GRADEBOOK_ASSIGNMENT_TYPES gt
 			WHERE gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID
@@ -163,6 +164,7 @@ if ( $_REQUEST['assignment_id'] === 'totals' )
 			AND gg.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'
 			AND gt.COURSE_ID='" . $course_id . "'
 			AND ga.POINTS<>'0'
+			AND gg.POINTS<>'-1'
 			GROUP BY gg.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID,gt.FINAL_GRADE_PERCENT",
 			array(),
 			array( 'STUDENT_ID', 'ASSIGNMENT_TYPE_ID' ) );
