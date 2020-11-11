@@ -603,6 +603,13 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$header .= '</tr><tr class="st">';
 
+		/**
+		 * Note: If the Gradebook is configured to Weight Grades,
+		 * and if there is 1 Extra Credit assignment alone,
+		 * it is useless because Total Points sum 0:
+		 * Division by zero is impossible.
+		 * You should add other assignments with Points to the Type / Category.
+		 */
 		$header .= '<td>' . TextInput(
 			issetVal( $RET['POINTS'] ),
 			'tables[' . $_REQUEST['assignment_id'] . '][POINTS]',
