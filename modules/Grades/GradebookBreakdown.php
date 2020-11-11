@@ -144,7 +144,8 @@ if ( $_REQUEST['assignment_id'] === 'totals' )
 	if ( Preferences( 'WEIGHT', 'Gradebook' ) === 'Y' )
 	{
 		/**
-		 * Do not include Extra Credit assignments (0 Total Points)
+		 * Do not include Extra Credit assignments
+		 * when Total Points is 0 for the Type
 		 * if the Gradebook is configured to Weight Grades:
 		 * Division by zero is impossible.
 		 *
@@ -163,9 +164,9 @@ if ( $_REQUEST['assignment_id'] === 'totals' )
 			AND ga.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . ")
 			AND gg.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'
 			AND gt.COURSE_ID='" . $course_id . "'
-			AND ga.POINTS<>'0'
 			AND gg.POINTS<>'-1'
-			GROUP BY gg.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID,gt.FINAL_GRADE_PERCENT",
+			GROUP BY gg.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID,gt.FINAL_GRADE_PERCENT
+			HAVING sum(ga.POINTS)<>'0'",
 			array(),
 			array( 'STUDENT_ID', 'ASSIGNMENT_TYPE_ID' ) );
 	}

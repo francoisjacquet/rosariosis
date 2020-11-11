@@ -6,7 +6,7 @@ Changes in 7.3.1
 - Fix admin override: no input div when values are not saved yet in Grades/Configuration.php
 - Fix #304 Do not include Excused (`*` or -1) grades in GradebookBreakdown.php, thanks to @dd02
 - Fix #304 regression since 5.0 Count students in GradebookBreakdown.php, thanks to @dd02
-- Fix #304 Totals count exclude Extra Credit assignments (0 Total Points), thanks to @dd02
+- Fix #304 Totals count exclude Extra Credit assignments when Total Points is 0 for the Type, thanks to @dd02
 
 Changes in 7.3
 --------------
