@@ -148,37 +148,47 @@ echo '<tr><td>' . RadioInput(
 ) . '</td></tr>';
 
 echo '<tr><td><hr />' . CheckboxInput(
-	issetVal( $gradebook_config['WEIGHT'], '' ),
+	( array_key_exists( 'WEIGHT', $gradebook_config ) ? $gradebook_config['WEIGHT'] : '' ),
 	'values[WEIGHT]',
-	_( 'Weight Grades' )
+	_( 'Weight Grades' ),
+	'',
+	( ! array_key_exists( 'WEIGHT', $gradebook_config ) )
 ) . '</td></tr>';
 
 echo '<tr><td>' . CheckboxInput(
-	issetVal( $gradebook_config['DEFAULT_ASSIGNED'], '' ),
+	( array_key_exists( 'DEFAULT_ASSIGNED', $gradebook_config ) ? $gradebook_config['DEFAULT_ASSIGNED'] : '' ),
 	'values[DEFAULT_ASSIGNED]',
-	_( 'Assigned Date defaults to today' )
+	_( 'Assigned Date defaults to today' ),
+	'',
+	( ! array_key_exists( 'DEFAULT_ASSIGNED', $gradebook_config ) )
 ) . '</td></tr>';
 
 echo '<tr><td>' . CheckboxInput(
-	issetVal( $gradebook_config['DEFAULT_DUE'], '' ),
+	( array_key_exists( 'DEFAULT_DUE', $gradebook_config ) ? $gradebook_config['DEFAULT_DUE'] : '' ),
 	'values[DEFAULT_DUE]',
-	_( 'Due Date defaults to today' )
+	_( 'Due Date defaults to today' ),
+	'',
+	( ! array_key_exists( 'DEFAULT_DUE', $gradebook_config ) )
 ) . '</td></tr>';
 
 if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) <= 0 )
 {
 	// Global Config allows for Letter grades.
 	echo '<tr><td>' . CheckboxInput(
-		issetVal( $gradebook_config['LETTER_GRADE_ALL'], '' ),
+		( array_key_exists( 'LETTER_GRADE_ALL', $gradebook_config ) ? $gradebook_config['LETTER_GRADE_ALL'] : '' ),
 		'values[LETTER_GRADE_ALL]',
-		_( 'Hide letter grades for all gradebook assignments' )
+		_( 'Hide letter grades for all gradebook assignments' ),
+		'',
+		( ! array_key_exists( 'LETTER_GRADE_ALL', $gradebook_config ) )
 	) . '</td></tr>';
 }
 
 echo '<tr><td>' . CheckboxInput(
-	issetVal( $gradebook_config['HIDE_PREVIOUS_ASSIGNMENT_TYPES'], '' ),
+	( array_key_exists( 'HIDE_PREVIOUS_ASSIGNMENT_TYPES', $gradebook_config ) ? $gradebook_config['HIDE_PREVIOUS_ASSIGNMENT_TYPES'] : '' ),
 	'values[HIDE_PREVIOUS_ASSIGNMENT_TYPES]',
-	_( 'Hide previous quarters assignment types' )
+	_( 'Hide previous quarters assignment types' ),
+	'',
+	( ! array_key_exists( 'HIDE_PREVIOUS_ASSIGNMENT_TYPES', $gradebook_config ) )
 ) . '</td></tr>';
 
 echo '<tr><td><hr />' . TextInput(
@@ -199,14 +209,16 @@ echo '<tr><td>' . TextInput(
 	$anomalous_max_value,
 	'values[ANOMALOUS_MAX]',
 	_( 'Allowed maximum percent in Anomalous grades' ),
-	'size="3" maxlength="3"'
+	'size="3" maxlength="3"',
+	( array_key_exists( 'ANOMALOUS_MAX', $gradebook_config ) )
 ) . '</td></tr>';
 
 echo '<tr><td>' . TextInput(
 	(string) round( issetVal( $gradebook_config['LATENCY'], '' ) ),
 	'values[LATENCY]',
 	_( 'Days until ungraded assignment grade appears in Parent/Student gradebook views' ),
-	'size="3" maxlength="3"'
+	'size="3" maxlength="3"',
+	( isset( $gradebook_config['LATENCY'] ) )
 ) . '</td></tr>';
 
 
@@ -217,9 +229,11 @@ if ( $RosarioModules['Eligibility'] )
 	echo '<fieldset><legend>' . _( 'Eligibility' ) . '</legend><table>';
 
 	echo '<tr><td>' . CheckboxInput(
-		issetVal( $gradebook_config['ELIGIBILITY_CUMULITIVE'], '' ),
+		( array_key_exists( 'ELIGIBILITY_CUMULITIVE', $gradebook_config ) ? $gradebook_config['ELIGIBILITY_CUMULITIVE'] : '' ),
 		'values[ELIGIBILITY_CUMULITIVE]',
-		_( 'Calculate Eligibility using Cumulative Semester Grades' )
+		_( 'Calculate Eligibility using Cumulative Semester Grades' ),
+		'',
+		( ! array_key_exists( 'ELIGIBILITY_CUMULITIVE', $gradebook_config ) )
 	) . '</td></tr>';
 
 	echo '</table></fieldset><br />';
