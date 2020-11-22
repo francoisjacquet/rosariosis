@@ -1546,7 +1546,7 @@ function _makeCommentsA( $value, $column )
 {
 	global $THIS_RET, $current_commentsA_RET, $import_commentsA_RET, $commentsA_select;
 
-	if ( $import_commentsA_RET[$THIS_RET['STUDENT_ID']][$value] )
+	if ( ! empty( $import_commentsA_RET[$THIS_RET['STUDENT_ID']][$value] ) )
 	{
 		$select = $import_commentsA_RET[$THIS_RET['STUDENT_ID']][$value][1]['COMMENT'];
 		$div = false;
