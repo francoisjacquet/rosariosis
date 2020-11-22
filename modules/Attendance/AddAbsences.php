@@ -186,8 +186,15 @@ if ( ! $_REQUEST['modfunc'] )
 		AND EXISTS (SELECT '' FROM COURSE_PERIOD_SCHOOL_PERIODS cpsp, COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND cpsp.PERIOD_ID=SCHOOL_PERIODS.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0)
 		ORDER BY SORT_ORDER" );
 
+		$i = 0;
+
 		foreach ( (array) $periods_RET as $period )
 		{
+		    if ( $i++ % 3 == 0 )
+		    {
+		        echo '</tr><tr>';
+		    }
+
 			echo '<td><label><input type="CHECKBOX" value="Y" name="period[' . $period['PERIOD_ID'] . ']"> ' . $period['SHORT_NAME'] . '</label></td>';
 		}
 
