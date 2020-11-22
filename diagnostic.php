@@ -33,12 +33,6 @@ if ( ! extension_loaded( 'pgsql' ) )
 	$error[] = 'PHP extensions: RosarioSIS relies on the pgsql (PostgreSQL) extension. Please install and activate it.';
 }
 
-// Check for gd extension.
-if ( ! extension_loaded( 'gd' ) )
-{
-	$error[] = 'PHP extensions: RosarioSIS relies on the gd extension. Please install and activate it.';
-}
-
 if ( count( $error ) )
 {
 	echo _ErrorMessage( $error, 'fatal' );
@@ -147,6 +141,18 @@ else
 		$error[] = 'The value for $pg_dumpPath in the config.inc.php file is not correct.';
 	}
 
+}
+
+// Check for gd extension.
+if ( ! extension_loaded( 'gd' ) )
+{
+	$error[] = 'PHP extensions: RosarioSIS relies on the gd extension (used to resize and compress images). Please install and activate it.';
+}
+
+// Check for zip extension.
+if ( ! extension_loaded( 'zip' ) )
+{
+	$error[] = 'PHP extensions: RosarioSIS relies on the zip extension (used to upload add-ons and by Import add-ons). Please install and activate it.';
 }
 
 // Check for xmlrpc extension.

@@ -15,6 +15,7 @@ Changes in 7.4
 - Comment input maxlength increased to 500 in InputFinalGrades.php
 - Comment Code input field is required in ReportCardCommentCodes.php
 - Add php-zip extension to list in INSTALL.md
+- Check for zip extension in diagnostic.php
 
 Changes in 7.3.1
 ----------------
