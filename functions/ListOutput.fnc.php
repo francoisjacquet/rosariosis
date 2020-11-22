@@ -183,11 +183,11 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				}
 
 				// Use value inside comment to sort!
-				$sort_array[] = mb_substr(
+				$sort_array[] = trim( mb_substr(
 					$sort[$LO_sort],
 					4,
-					mb_strpos( $sort[$LO_sort], '-->' ) - 5
-				);
+					mb_strpos( $sort[$LO_sort], '-->' ) - 4
+				) );
 			}
 
 			$dir = $LO_dir == -1 ? SORT_DESC: SORT_ASC;

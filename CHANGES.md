@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 7.4
+--------------
+- List sort comment: trim & fix position in ListOutput.fnc.php
+
 Changes in 7.3.1
 ----------------
 - Fix admin override: no input div when values are not saved yet in Grades/Configuration.php
