@@ -14,6 +14,7 @@ Changes in 7.4
 - HTML display rows of 3 School Period checkboxes in AddAbsences.php
 - Comment input maxlength increased to 500 in InputFinalGrades.php
 - Comment Code input field is required in ReportCardCommentCodes.php
+- Add php-zip extension to list in INSTALL.md
 
 Changes in 7.3.1
 ----------------
