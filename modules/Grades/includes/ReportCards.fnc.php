@@ -1402,9 +1402,17 @@ function GetReportCardGeneralComments( $student_id, $comments_array )
 		}
 	}
 
-	$general_comments = implode( '<br />', $general_comments );
+	if ( ! $general_comments )
+	{
+		// No General Comments.
+		$general_comments = '';
+	}
+	else
+	{
+		$general_comments = implode( '<br />', $general_comments );
 
-	$general_comments .= FormatInputTitle( _( 'General Comments' ) );
+		$general_comments .= FormatInputTitle( _( 'General Comments' ) );
+	}
 
 	return $general_comments;
 }

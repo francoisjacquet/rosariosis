@@ -10,6 +10,7 @@ Changes in 7.4
 - Add Course Widget: select / Pull-Down in Widgets.fnc.php
 - Update French & Spanish translations in rosariosis.po, help.po
 - Add Total Credits in ReportCards.fnc.php
+- Do not display "General Comments" title if no comments in ReportCards.fnc.php
 
 Changes in 7.3.1
 ----------------
