@@ -333,14 +333,88 @@ function Widgets( $item, &$myextra = null )
 				}
 			}
 
-			$extra['search'] .= '<tr class="st"><td>' . _( 'Course' ) . '</td><td>
-			<div id="course_div"></div>
-			<a href="#" onclick=\'popups.open(
-					"Modules.php?modname=misc/ChooseCourse.php"
-				); return false;\'>' .
-				_( 'Choose' ) .
-			'</a>
-			</td></tr>';
+			if ( ! Config( 'COURSE_WIDGET_METHOD' ) )
+			{
+				// Course Widget: Popup window.
+				$extra['search'] .= '<tr class="st"><td>' . _( 'Course' ) . '</td><td>
+				<div id="course_div"></div>
+				<a href="#" onclick=\'popups.open(
+						"Modules.php?modname=misc/ChooseCourse.php"
+					); return false;\'>' .
+					_( 'Choose' ) .
+				'</a>
+				</td></tr>';
+			}
+			else
+			{
+				// @since 7.4 Add Course Widget: select / Pull-Down.
+				$course_periods_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,cp.TITLE,
+				c.COURSE_ID,cs.SUBJECT_ID,cs.TITLE AS SUBJECT_TITLE
+				FROM COURSE_PERIODS cp,COURSES c,COURSE_SUBJECTS cs
+				WHERE cp.SYEAR='" . UserSyear() . "'
+				AND cp.SCHOOL_ID='" . UserSchool() . "'
+				AND cp.COURSE_ID=c.COURSE_ID
+				AND cs.SUBJECT_ID=c.SUBJECT_ID
+				ORDER BY cs.SORT_ORDER,cs.TITLE,cp.SHORT_NAME" );
+
+				$course_period_options = array();
+
+				$subject_group = '';
+
+				foreach ( $course_periods_RET as $course_period )
+				{
+					if ( $subject_group !== $course_period['SUBJECT_TITLE'] )
+					{
+						$subject_group = $course_period['SUBJECT_TITLE'];
+
+						$course_period_options[ $subject_group ] = array();
+					}
+
+					$course_period_value = $course_period['SUBJECT_ID'] . '|' .
+						$course_period['COURSE_ID'] . '|' . $course_period['COURSE_PERIOD_ID'];
+
+					$course_period_options[ $subject_group ][ $course_period_value ] = $course_period['TITLE'];
+				}
+
+				$course_period_chosen_select = SelectInput(
+					'',
+					'course_period_select',
+					'',
+					$course_period_options,
+					'N/A',
+					'group onchange="wCourseIdUpdate(this.value);" autocomplete="off"'
+				);
+
+				$extra['search'] .= '<tr class="st"><td>' . _( 'Course' ) . '</td><td>' .
+				$course_period_chosen_select .
+				'<div id="course_div" class="hide">
+				<label><input type="checkbox" name="w_course_period_id_not" value="Y" /> ' .
+					_( 'Not' ) . '</label>
+				<label><select name="w_course_period_id_which" autocomplete="off">
+				<option value="course_period"> ' . _( 'Course Period' ) . '</option>
+				<option value="course"> ' . _( 'Course' ) . '</option>
+				<option value="subject"> ' . _( 'Subject' ) . '</option>
+				</select></label>
+				<input type="hidden" name="w_course_period_id" value="" />
+				<input type="hidden" name="w_course_id" value="" />
+				<input type="hidden" name="w_subject_id" value="" />
+				</div></td></tr>';
+
+				$extra['search'] .= '<script>var wCourseIdUpdate = function( val ) {
+					if ( ! val ) {
+						$("[name=w_course_period_id]").val( "" );
+						$("[name=w_course_id]").val( "" );
+						$("[name=w_subject_id]").val( "" );
+						$("[name=course_div").hide();
+						return;
+					}
+					$("#course_div").show();
+					var values = val.split("|");
+					$("[name=w_course_period_id]").val( values[2] );
+					$("[name=w_course_id]").val( values[1] );
+					$("[name=w_subject_id]").val( values[0] );
+				};</script>';
+			}
 
 		break;
 
