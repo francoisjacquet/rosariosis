@@ -599,6 +599,22 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 					$i,
 					$_REQUEST['elements']['gpa_or_total']
 				);
+
+				if ( ! empty( $_REQUEST['elements']['credits'] ) )
+				{
+					$credits_total = 0;
+
+					foreach ( $grades_RET as $grade_i )
+					{
+						if ( isset( $grade_i['CREDITS'] ) )
+						{
+							// @since 7.4 Add Total Credits.
+							$credits_total += $grade_i['CREDITS'];
+						}
+					}
+
+					$grades_RET[$i + 1]['CREDITS'] = (float) $credits_total;
+				}
 			}
 
 			if ( ! empty( $_REQUEST['elements']['minmax_grades'] ) )
