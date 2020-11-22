@@ -987,9 +987,12 @@ function GetMPAbsences( $st_list, $last_mp, $student_id )
 
 	$count = 0;
 
-	foreach ( (array) $attendance_day_RET[$student_id][$last_mp] as $abs )
+	if ( isset( $attendance_day_RET[$student_id][$last_mp] ) )
 	{
-		$count += 1 - $abs['STATE_VALUE'];
+		foreach ( (array) $attendance_day_RET[$student_id][$last_mp] as $abs )
+		{
+			$count += 1 - $abs['STATE_VALUE'];
+		}
 	}
 
 	return sprintf( _( 'Absences in %s' ), GetMP( $last_mp, 'TITLE' ) ) . ': ' . $count;
