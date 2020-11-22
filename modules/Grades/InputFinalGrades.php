@@ -294,6 +294,12 @@ if ( $_REQUEST['modfunc'] === 'gradebook' )
 
 					foreach ( (array) $student as $partial_points )
 					{
+						/**
+						 * Do not include Extra Credit assignments
+						 * when Total Points is 0 for the Type
+						 * if the Gradebook is configured to Weight Grades:
+						 * Division by zero is impossible.
+						 */
 						if ( $partial_points['PARTIAL_TOTAL'] != 0
 							|| $gradebook_config['WEIGHT'] != 'Y' )
 						{
@@ -1199,7 +1205,7 @@ if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			$tipmessage .= ' &nbsp; ' . makeTipMessage(
 				$tipmsg,
 				_( 'Comment Codes' ),
-				button( 'comment', implode( $tiplabel, ' / ' ) )
+				button( 'comment', implode( ' / ', $tiplabel ) )
 			);
 		}
 	}
