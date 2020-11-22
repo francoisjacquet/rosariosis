@@ -77,7 +77,7 @@ function _makeCalendar( $value, $column )
 			WHERE SYEAR='" . UserSyear() . "'", array(), array( 'CALENDAR_ID' ) );
 	}
 
-	return $calendars_RET[ $value ][1]['TITLE'];
+	return issetVal( $calendars_RET[ $value ][1]['TITLE'], '' );
 }
 
 
