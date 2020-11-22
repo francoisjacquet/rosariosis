@@ -813,7 +813,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 					if ( $comments_arr_key )
 					{
 						// FJ limit comment scales to the ones used in student's courses.
-						$course_periods_list = implode( array_keys( $course_periods ), ',' );
+						$course_periods_list = implode( ',', array_keys( $course_periods ) );
 
 						$comment_scales = GetReportCardCommentScales( $student_id, $course_periods_list );
 
