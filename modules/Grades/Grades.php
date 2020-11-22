@@ -773,6 +773,12 @@ function _makeExtraAssnCols( $assignment_id, $column )
 				{
 					foreach ( (array) $points_RET[$THIS_RET['STUDENT_ID']] as $partial_points )
 					{
+						/**
+						 * Do not include Extra Credit assignments
+						 * when Total Points is 0 for the Type
+						 * if the Gradebook is configured to Weight Grades:
+						 * Division by zero is impossible.
+						 */
 						if ( $partial_points['PARTIAL_TOTAL'] != 0 || $gradebook_config['WEIGHT'] != 'Y' )
 						{
 							$total += $partial_points['PARTIAL_POINTS'];
@@ -845,6 +851,12 @@ function _makeExtraAssnCols( $assignment_id, $column )
 				{
 					foreach ( (array) $points_RET[$THIS_RET['STUDENT_ID']] as $partial_points )
 					{
+						/**
+						 * Do not include Extra Credit assignments
+						 * when Total Points is 0 for the Type
+						 * if the Gradebook is configured to Weight Grades:
+						 * Division by zero is impossible.
+						 */
 						if ( $partial_points['PARTIAL_TOTAL'] != 0 || $gradebook_config['WEIGHT'] != 'Y' )
 						{
 							$total += $partial_points['PARTIAL_POINTS'] *
@@ -864,7 +876,9 @@ function _makeExtraAssnCols( $assignment_id, $column )
 					}
 				}
 
-				return ( $total > $max_allowed ? '<span style="color:red">' : '' ) . _Percent( $total, 0 ) . ( $total > $max_allowed ? '</span>' : '' );
+				$red_span = $total > $max_allowed;
+
+				return _Percent( $total, 0, $red_span );
 			}
 			else
 			{
@@ -888,7 +902,10 @@ function _makeExtraAssnCols( $assignment_id, $column )
 					{
 						if ( $points != '-1' )
 						{
-							return ( $assignments_RET[$assignment_id][1]['DUE'] || $points != '' ? ( $points > $total_points * $max_allowed ? '<span style="color:red">' : '<span>' ) : '<span>' ) . _Percent( $points / $total_points, 0 ) . '</span>';
+							$red_span = ( $assignments_RET[$assignment_id][1]['DUE'] || $points != '' )
+								&& ( $points > $total_points * $max_allowed );
+
+							return _Percent( $points / $total_points, 0, $red_span );
 						}
 						else
 						{
@@ -1033,7 +1050,14 @@ function _makeExtraStuCols( $value, $column )
 			{
 				if ( $THIS_RET['POINTS'] != '-1' )
 				{
-					return ( $THIS_RET['DUE'] || $THIS_RET['POINTS'] != '' ? ( $THIS_RET['POINTS'] > $THIS_RET['TOTAL_POINTS'] * $max_allowed ? '<span style="color:red">' : '<span>' ) : '<span>' ) . _Percent( $THIS_RET['POINTS'] / $THIS_RET['TOTAL_POINTS'], 0 ) . '</span>';
+					$red_span = ( $THIS_RET['DUE'] || $THIS_RET['POINTS'] != '' )
+						&& ( $THIS_RET['POINTS'] > $THIS_RET['TOTAL_POINTS'] * $max_allowed );
+
+					return _Percent(
+						$THIS_RET['POINTS'] / $THIS_RET['TOTAL_POINTS'],
+						0,
+						$red_span
+					);
 				}
 				else
 				{
@@ -1132,6 +1156,9 @@ function _makeExtraCols( $assignment_id, $column )
 		{
 			if ( $points != '*' )
 			{
+				$percent_red_span = ( $assignments_RET[$assignment_id][1]['DUE'] || $points != '' )
+					&& ( $points > $total_points * $max_allowed );
+
 				// modif Francois: display letter grade according to Configuration
 				return '<span' . ( $div ? ' class="span-grade-points"' : '' ) . '>' .
 				TextInput(
@@ -1141,19 +1168,14 @@ function _makeExtraCols( $assignment_id, $column )
 					' size=2 maxlength=7',
 					$div
 				) . '</span>
-					<span>&nbsp;/&nbsp;' . $total_points .
-					( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) >= 0 ?
-					'&nbsp;&minus;&nbsp;' . ( $assignments_RET[$assignment_id][1]['DUE'] || $points != '' ?
-						( $points > $total_points * $max_allowed ?
-							'<span style="color:red">' :
-							'<span>'
-						) :
-						'<span>' ) .
-					_Percent( $points / $total_points, 0 ) . '</span>' :
+				<span>&nbsp;/&nbsp;' . $total_points .
+				( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) >= 0 ?
+					'&nbsp;&minus;&nbsp;' . _Percent( $points / $total_points, 0, $percent_red_span ) :
 					'' ) .
-					( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) <= 0 ?
+				( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) <= 0 ?
 					'&nbsp;&minus;&nbsp;<b>' . _makeLetterGrade( $points / $total_points ) . '</b>' :
-					'' ) . '</span>';
+					'' ) .
+				'</span>';
 			}
 
 			//return '<table cellspacing=0 cellpadding=1><tr align=center><td>'.TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex).'<hr />'.$total_points.'</td><td>&nbsp;'._('N/A').'<br />&nbsp;'._('N/A').'</td></tr></table>';
@@ -1184,10 +1206,27 @@ function _makeExtraCols( $assignment_id, $column )
 }
 
 /**
- * @param $num
- * @param $decimals
+ * Make Percent HTML
+ *
+ * @since 7.4 Put raw percent inside HTML comment for better sorting.
+ * @since 7.4 Add $red_span parameter.
+ *
+ * @param string $num      Unformatted percent.
+ * @param int    $decimals Percent decimals.
+ * @param bool   $red_span Set to true to color percentage in red. Typically if over 100%.
+ *
+ * @return Percent HTML with raw value inside HTML comment for better sorting.
  */
-function _Percent( $num, $decimals = 2 )
+function _Percent( $num, $decimals = 2, $red_span = false )
 {
-	return number_format( $num * 100, 2 ) . '%';
+	// Raw value in comment so we can sort Percent column the right way.
+	$percent_html = '<!-- ' . number_format( $num * 100, 2 ) . ' -->';
+
+	$percent_html .= ( $red_span ? '<span style="color:red">' : '' );
+
+	$percent_html .= number_format( $num * 100, 2 ) . '%';
+
+	$percent_html .= ( $red_span ? '</span>' : '' );
+
+	return $percent_html;
 }

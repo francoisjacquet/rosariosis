@@ -4,6 +4,7 @@
 Changes in 7.4
 --------------
 - List sort comment: trim & fix position in ListOutput.fnc.php
+- Fix #303 Raw value in comment so we can sort Percent column the right way in Grades.php, thanks to @dd02
 
 Changes in 7.3.1
 ----------------
