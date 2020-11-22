@@ -1,4 +1,13 @@
 <?php
+
+DrawHeader( ProgramTitle() );
+
+if ( AllowEdit( 'School_Setup/DatabaseBackup.php' ) )
+{
+	DrawHeader( '<a href="Modules.php?modname=School_Setup/DatabaseBackup.php">' .
+		_( 'Database Backup' ) . '</a>' );
+}
+
 $next_syear = UserSyear() + 1;
 
 $tables = array(
@@ -86,8 +95,6 @@ $table_list .= ErrorMessage( $note, 'note' );
 
 // Hook.
 do_action( 'School_Setup/Rollover.php|rollover_warnings' );
-
-DrawHeader( ProgramTitle() );
 
 //FJ school year over one/two calendar years format
 
