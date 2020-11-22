@@ -12,6 +12,7 @@ Changes in 7.4
 - Add Total Credits in ReportCards.fnc.php
 - Do not display "General Comments" title if no comments in ReportCards.fnc.php
 - HTML display rows of 3 School Period checkboxes in AddAbsences.php
+- Comment input maxlength increased to 500 in InputFinalGrades.php
 
 Changes in 7.3.1
 ----------------

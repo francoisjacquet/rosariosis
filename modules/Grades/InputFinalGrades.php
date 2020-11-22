@@ -1527,7 +1527,13 @@ function _makeComment( $value, $column )
 
 	if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
-		$return = TextInput( $select, "values[$THIS_RET[STUDENT_ID]][comment]", '', 'size=20 maxlength=255', $div );
+		$return = TextInput(
+			$select,
+			'values[' . $THIS_RET['STUDENT_ID'] . '][comment]',
+			'',
+			'size=20 maxlength=500',
+			$div
+		);
 	}
 	else
 	{
