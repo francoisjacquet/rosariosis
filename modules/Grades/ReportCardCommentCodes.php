@@ -332,10 +332,17 @@ function _makeCommentsInput( $value, $name )
 	elseif ( $name === 'COMMENT' )
 	{
 		$extra = 'size=20 maxlength=100';
+
+		if ( $_REQUEST['tab_id'] !== 'new'
+			&& $id !== 'new' )
+		{
+			// Comment Code input field is required.
+			$extra .= ' required';
+		}
 	}
 	elseif ( $name === 'SHORT_NAME' )
 	{
-		$extra = 'size=15 maxlength=100';
+		$extra = 'size=10 maxlength=100';
 	}
 	elseif ( $name === 'SORT_ORDER' )
 	{
@@ -347,7 +354,7 @@ function _makeCommentsInput( $value, $name )
 
 		if ( $_REQUEST['tab_id'] !== 'new' )
 		{
-			$extra = 'size=5 maxlength=5';
+			$extra = 'size=4 maxlength=5';
 		}
 
 		if ( $id !== 'new' )
@@ -357,7 +364,7 @@ function _makeCommentsInput( $value, $name )
 	}
 	else
 	{
-		$extra = 'size=5 maxlength=5';
+		$extra = 'size=4 maxlength=5';
 	}
 
 	return TextInput(
