@@ -8,6 +8,7 @@ Changes in 7.4
 - Add Database Backup link to header in Rollover.php
 - Add Course Widget configuration option: Popup window or Pull-Down in Configuration.php & Help_en.php
 - Add Course Widget: select / Pull-Down in Widgets.fnc.php
+- Update French & Spanish translations in rosariosis.po, help.po
 
 Changes in 7.3.1
 ----------------
