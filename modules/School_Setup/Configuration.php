@@ -478,7 +478,28 @@ else
 				'values[CONFIG][CURRENCY]',
 				_( 'Currency Symbol' ),
 				'maxlength=8 size=3'
-			) . '</td></tr></table>';
+			) . '</td></tr>';
+
+			// Add "Find a Student" fieldset.
+			echo '<tr><td><br /><fieldset><legend>' . _( 'Find a Student' ) . '</legend><table>';
+
+			// @since 7.4 Add Course Widget configuration option: Popup window or Pull-Down.
+			$course_widget_options = array(
+				'' => _( 'Popup window' ),
+				'select' => _( 'Pull-Down' ),
+			);
+
+			echo '<tr><td>' . SelectInput(
+				Config( 'COURSE_WIDGET_METHOD' ),
+				'values[CONFIG][COURSE_WIDGET_METHOD]',
+				_( 'Course Widget' ),
+				$course_widget_options,
+				false
+			) . '</td></tr>';
+
+			echo '</table></fieldset></td></tr>';
+
+			echo '</table>';
 		}
 
 		if ( $_REQUEST['tab'] === 'students' )

@@ -2,6 +2,13 @@
 
 ## RosarioSIS Student Information System
 
+New in 7.4
+----------
+
+School
+- Configuration: Course Widget select / Pull-Down option, sponsored by English National Program
+
+
 New in 7.2
 ----------
 
