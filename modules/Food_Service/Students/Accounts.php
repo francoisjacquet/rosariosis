@@ -169,7 +169,7 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 		$student['ACCOUNT_ID'],
 		'food_service[ACCOUNT_ID]',
 		_( 'Account ID' ),
-		'required size=12 maxlength=10'
+		'required size=10 maxlength=9'
 	);
 
 	// warn if account non-existent (balance query failed)

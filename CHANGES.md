@@ -16,6 +16,7 @@ Changes in 7.4
 - Comment Code input field is required in ReportCardCommentCodes.php
 - Add php-zip extension to list in INSTALL.md
 - Check for zip extension in diagnostic.php
+- Fix SQL error integer out of range in Food_Service/Students/Accounts.php
 
 Changes in 7.3.1
 ----------------
