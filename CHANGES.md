@@ -17,6 +17,7 @@ Changes in 7.4
 - Add php-zip extension to list in INSTALL.md
 - Check for zip extension in diagnostic.php
 - Fix SQL error integer out of range in Food_Service/Students/Accounts.php
+- French translation: replace "Effacer" with "Supprimer" in rosariosis.po & help.po
 
 Changes in 7.3.1
 ----------------

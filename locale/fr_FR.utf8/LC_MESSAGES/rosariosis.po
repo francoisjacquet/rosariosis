@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-07 16:45+0100\n"
-"PO-Revision-Date: 2020-11-12 20:17+0100\n"
+"PO-Revision-Date: 2020-11-26 20:59+0100\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS\n"
 "Language: fr\n"
@@ -335,7 +335,7 @@ msgstr "Tableau de Bord"
 #: modules/Student_Billing/functions.inc.php:75
 #: modules/Students/Student.php:706 modules/Users/User.php:670
 msgid "Delete"
-msgstr "Effacer"
+msgstr "Supprimer"
 
 #: ProgramFunctions/Fields.fnc.php:329
 msgid "Field Name"
@@ -3172,7 +3172,7 @@ msgstr "Utilitaires"
 
 #: modules/Attendance/Menu.php:25
 msgid "Delete Duplicate Attendance"
-msgstr "Effacer les Absences Redondantes"
+msgstr "supprimer les Absences Redondantes"
 
 #: modules/Attendance/Menu.php:26 modules/Discipline/Menu.php:23
 #: modules/Eligibility/Menu.php:21 modules/Food_Service/Menu.php:26
@@ -5191,7 +5191,7 @@ msgstr "Affecte le Classement"
 
 #: modules/Grades/EditReportCardGrades.php:478
 msgid "Remove Marking Period"
-msgstr "Effacer la Période Scolaire"
+msgstr "Supprimer la Période Scolaire"
 
 #: modules/Grades/FinalGrades.php:12
 msgid "Final Grade"
@@ -6532,7 +6532,7 @@ msgstr "Recréer ce calendrier"
 
 #: modules/School_Setup/Calendar.php:962
 msgid "Delete this calendar"
-msgstr "Effacer ce calendrier"
+msgstr "Supprimer ce calendrier"
 
 #: modules/School_Setup/Calendar.php:971
 msgid "List Events"
@@ -7960,7 +7960,7 @@ msgstr "Widget"
 
 #: modules/Users/Profiles.php:76
 msgid "Confirm Delete"
-msgstr "Confirmer l'Effacement"
+msgstr "Confirmer la suppression"
 
 #: modules/Users/Profiles.php:77
 #, php-format
