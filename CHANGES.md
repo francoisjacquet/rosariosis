@@ -18,6 +18,7 @@ Changes in 7.4
 - Check for zip extension in diagnostic.php
 - Fix SQL error integer out of range in Food_Service/Students/Accounts.php
 - French translation: replace "Effacer" with "Supprimer" in rosariosis.po & help.po
+- Fix Teacher Programs Progress Report PDF, do not echo form in TeacherPrograms.php
 
 Changes in 7.3.1
 ----------------
