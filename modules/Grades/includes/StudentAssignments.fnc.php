@@ -680,11 +680,23 @@ function MakeStudentAssignmentSubmissionView( $value, $column )
 		<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/visualize.png" class="button bigger" /> ' .
 		_( 'View Online' ) . '</a>';
 
+		$file_html = $message_html = '';
+
+		if ( $file )
+		{
+			$file_html = NoInput( GetAssignmentFileLink( $file ), _( 'File' ) ) . '<br />';
+		}
+
+		if ( $message )
+		{
+			$message_html = $message . FormatInputTitle( _( 'Message' ), '', false, '' );
+		}
+
 		$submission_column_html .= '<div class="hide">
 			<div id="submission' . $THIS_RET['ASSIGNMENT_ID'] . '-' . $student_id . '">' .
 			NoInput( $date, _( 'Submission date' ) ) . '<br />' .
-			NoInput( GetAssignmentFileLink( $file ), _( 'File' ) ) . '<br />' .
-			$message . FormatInputTitle( _( 'Message' ), '', false, '' ) .
+			$file_html .
+			$message_html .
 			'</div></div>';
 
 		return $submission_column_html;
