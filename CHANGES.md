@@ -19,6 +19,7 @@ Changes in 7.4
 - Fix SQL error integer out of range in Food_Service/Students/Accounts.php
 - French translation: replace "Effacer" with "Supprimer" in rosariosis.po & help.po
 - Fix Teacher Programs Progress Report PDF, do not echo form in TeacherPrograms.php
+- HTML fix Student Assignment Submission display in StudentAssignments.fnc.php
 
 Changes in 7.3.1
 ----------------

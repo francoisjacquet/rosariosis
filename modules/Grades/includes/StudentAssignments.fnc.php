@@ -682,9 +682,9 @@ function MakeStudentAssignmentSubmissionView( $value, $column )
 
 		$submission_column_html .= '<div class="hide">
 			<div id="submission' . $THIS_RET['ASSIGNMENT_ID'] . '-' . $student_id . '">' .
-		NoInput( $date, _( 'Submission date' ) ) . '<br />' .
-		NoInput( GetAssignmentFileLink( $file ), _( 'File' ) ) .
-		$message . FormatInputTitle( _( 'Message' ), '', false, '' ) .
+			NoInput( $date, _( 'Submission date' ) ) . '<br />' .
+			NoInput( GetAssignmentFileLink( $file ), _( 'File' ) ) . '<br />' .
+			$message . FormatInputTitle( _( 'Message' ), '', false, '' ) .
 			'</div></div>';
 
 		return $submission_column_html;
