@@ -878,7 +878,8 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 				$substitutions += SubstitutionsCustomFieldsValues( 'STUDENT', $student );
 
-				$freetext = SubstitutionsTextMake( $substitutions, $freetext_template );
+				$freetext = '<div class="report-card-free-text">' .
+					SubstitutionsTextMake( $substitutions, $freetext_template ) . '</div>';
 			}
 
 			// @since 7.4 Report Cards PDF footer action hook.

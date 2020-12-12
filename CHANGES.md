@@ -12,6 +12,7 @@ Changes in 7.5
 - Transcripts PDF header action hook: echo your custom text before or append it to $header_html to display it after in Transcripts.fnc.php
 - Transcripts PDF footer action hook: echo your custom text before or append it to $footer_html to display it after in Transcripts.fnc.php
 - Add .transcript-certificate-block1 & .transcript-certificate-block2 CSS classes in Transcripts.fnc.php
+- Add .report-card-free-text CSS class in ReportCards.fnc.php
 - Delete any attendance for this day & student prior to update in FixDailyAttendance.php
 - Use \_makeLetterGrade() for Percent grade so it reflects Teacher's Score rounding configuration in Grades.php & ProgressReports.php
 
