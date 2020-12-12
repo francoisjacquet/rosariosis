@@ -330,7 +330,7 @@ else
 				$school_options
 			) . '</td></tr>';
 
-			$students_email_field_RET = DBGet( "SELECT ID, TITLE
+			$students_email_field_RET = DBGet( "SELECT ID,TITLE
 				FROM CUSTOM_FIELDS
 				WHERE TYPE='text'
 				AND CATEGORY_ID=1" );
@@ -339,7 +339,7 @@ else
 
 			foreach ( (array) $students_email_field_RET as $field )
 			{
-				$students_email_field_options[str_replace( 'custom_', '', $field['ID'] )] = ParseMLField( $field['TITLE'] );
+				$students_email_field_options[ $field['ID'] ] = ParseMLField( $field['TITLE'] );
 			}
 
 			echo '<tr><td>' . SelectInput(
