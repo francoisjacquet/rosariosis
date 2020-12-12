@@ -9,6 +9,9 @@ Changes in 7.5
 - Add phpwkhtmltopdf class & remove Wkhtmltopdf class in classes/
 - Use phpwkhtmltopdf class instead of Wkhtmltopdf (more reliable & faster) in PDF.php
 - Add Report Cards PDF footer action hook in ReportCards.fnc.php & Actions.php
+- Transcripts PDF header action hook: echo your custom text before or append it to $header_html to display it after in Transcripts.fnc.php
+- Transcripts PDF footer action hook: echo your custom text before or append it to $footer_html to display it after in Transcripts.fnc.php
+- Add .transcript-certificate-block1 & .transcript-certificate-block2 CSS classes in Transcripts.fnc.php
 
 Changes in 7.4
 --------------

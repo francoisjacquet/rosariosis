@@ -488,7 +488,8 @@ if ( ! function_exists( 'TranscriptPDFHeader' ) )
 	 * School info and logo on the right.
 	 * And certificate block 1.
 	 *
-	 * @since 4.8 Add Transcript PDF header action hook (before certificate text).
+	 * @since 4.8 Add Transcript PDF header action hook.
+	 * @since 7.5 Echo your custom text before or append it to $header_html to display it after.
 	 *
 	 * @param array  $student          Student data.
 	 * @param array  $school_info      School Info.
@@ -503,6 +504,8 @@ if ( ! function_exists( 'TranscriptPDFHeader' ) )
 		{
 			return '';
 		}
+
+		ob_start();
 
 		if ( is_null( $custom_fields_RET ) )
 		{
@@ -621,20 +624,21 @@ if ( ! function_exists( 'TranscriptPDFHeader' ) )
 				'<br /><br /></span>';
 		}
 
-		echo '<span>' . $school_info['PRINCIPAL'] . '<br /></span></td></tr>';
-
-		// @since 4.8 Add Transcripts PDF header action hook.
-		do_action( 'Grades/includes/Transcripts.fnc.php|pdf_header', $student['ID'] );
+		echo '<span>' . $school_info['PRINCIPAL'] . '<br /></span></td></tr></table>';
 
 		if ( $certificate_text )
 		{
 			// Certificate Text block 1.
-			echo '<tr><td colspan="4"><br />' . $certificate_text . '</td></tr>';
+			echo '<br /><div class="transcript-certificate-block1">' . $certificate_text . '</div>';
 		}
 
-		echo '</table>';
+		$header_html = ob_get_clean();
 
-		echo '<br />';
+		// @since 4.8 Add Transcripts PDF header action hook.
+		// @since 7.5 Echo your custom text before or append it to $header_html to display it after.
+		do_action( 'Grades/includes/Transcripts.fnc.php|pdf_header', array( $student['ID'], &$header_html ) );
+
+		echo $header_html;
 	}
 }
 
@@ -645,7 +649,8 @@ if ( ! function_exists( 'TranscriptPDFFooter' ) )
 	 * Contains School Year, GPA, Class Rank, Total Credit
 	 * Certificate block 2 below.
 	 *
-	 * @since 4.8 Add Transcript PDF footer action hook, before Certificate block 2.
+	 * @since 4.8 Add Transcript PDF footer action hook.
+	 * @since 7.5 Echo your custom text before or append it to $footer_html to display it after.
 	 *
 	 * @param array  $student          Student data.
 	 * @param array  $school_info      School Info.
@@ -653,6 +658,8 @@ if ( ! function_exists( 'TranscriptPDFFooter' ) )
 	 */
 	function TranscriptPDFFooter( $student, $last_grade, $certificate_text = '' )
 	{
+		ob_start();
+
 		// School Year.
 		echo '<table class="width-100p"><tr><td><span><br />' .
 			_( 'School Year' ) . ': ' .
@@ -693,19 +700,22 @@ if ( ! function_exists( 'TranscriptPDFFooter' ) )
 			echo '<tr><td><span>' . _( 'Total' ) . ' ' . _( 'Credit' ) . ': ' .
 			_( 'Credit Attempted' ) . ': ' . (float) $last_grade['total_credit_attempted'] .
 			' &ndash; ' . _( 'Credit Earned' ) . ': ' . (float) $last_grade['total_credit_earned'] .
-			'</span></td></tr>';
+			'</span></td></tr></table>';
 		}
-
-		// @since 4.8 Add Transcripts PDF footer action hook.
-		do_action( 'Grades/includes/Transcripts.fnc.php|pdf_footer', array( $student['ID'], $last_grade ) );
 
 		if ( ! empty( $certificate_text ) )
 		{
 			// Certificate Text block 2.
-			echo '<tr><td><br />' . $certificate_text . '</td></tr>';
+			echo '<br /><div class="transcript-certificate-block2">' . $certificate_text . '</div>';
 		}
 
-		echo '</table>';
+		$footer_html = ob_get_clean();
+
+		// @since 4.8 Add Transcripts PDF footer action hook.
+		// @since 7.5 Echo your custom text before or append it to $footer_html to display it after.
+		do_action( 'Grades/includes/Transcripts.fnc.php|pdf_footer', array( $student['ID'], $last_grade, &$footer_html ) );
+
+		echo $footer_html;
 	}
 }
 
