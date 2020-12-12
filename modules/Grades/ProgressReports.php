@@ -207,29 +207,46 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			{
 				foreach ( (array) $grades_RET as $assignment_type_id => $grades )
 				{
+					$percent_of_grade = '';
+
+					if ( ! empty( $gradebook_config['WEIGHT'] ) && $sum_percent > 0 )
+					{
+						$percent_of_grade = ' (' . sprintf(
+							_( '%s of grade' ),
+							_Percent( ( $percent_weights[$assignment_type_id] / $sum_percent ) * 100 )
+						) . ')';
+					}
+
 					$type_percent = ! empty( $total_points[$assignment_type_id] ) ?
 						$student_points[$assignment_type_id] / $total_points[$assignment_type_id] :
 						'';
 
+					$percent_grade = $letter_grade = '&nbsp;';
+
+					if ( $type_percent )
+					{
+						$percent_grade = _makeLetterGrade( $type_percent, $cp_id, $teacher_id, '%' );
+
+						$percent_grade = '<b>' . _Percent( $percent_grade ) . '</b>';
+
+						$letter_grade = '<b>' . _makeLetterGrade( $type_percent, $cp_id, $teacher_id ) . '</b>';
+					}
+
 					$grades_RET[$assignment_type_id][] = array(
 						'TITLE' => $grades[1]['CATEGORY_TITLE'] . ' &mdash; <b>' . _( 'Total' ) . '</b>' .
-							( ! empty( $gradebook_config['WEIGHT'] ) && $sum_percent > 0 ?
-								' (' . sprintf( _( '%s of grade' ), _Percent( $percent_weights[$assignment_type_id] / $sum_percent ) ) . ')' :
-								'' ),
+							$percent_of_grade,
 						'ASSIGNED_DATE' => '&nbsp;',
 						'DUE_DATE' => '&nbsp;',
 						'POINTS' => '<b>' . $student_points[$assignment_type_id] .
 							'&nbsp;/&nbsp;' . $total_points[$assignment_type_id] . '</b>',
-						'PERCENT_GRADE' => $type_percent ?
-							'<b>' . _Percent( $type_percent ) . '</b>' :
-							'&nbsp;',
-						'LETTER_GRADE' => $type_percent ?
-							'<b>' . _makeLetterGrade( $type_percent, $cp_id, $teacher_id ) . '</b>' :
-							'&nbsp;',
+						'PERCENT_GRADE' => $percent_grade,
+						'LETTER_GRADE' => $letter_grade,
 						'COMMENT' => '&nbsp;',
 					);
 				}
 			}
+
+			$percent = _makeLetterGrade( $sum_points, $cp_id, $teacher_id, '%' );
 
 			// Do not add Total to $link['add']['html']: PDF and no AllowEdit().
 			$total_last_row = array(
@@ -237,7 +254,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				'ASSIGNED_DATE' => '&nbsp;',
 				'DUE_DATE' => '&nbsp;',
 				'POINTS' => '<b>' . $sum_student_points . '&nbsp;/&nbsp;' . $sum_total_points . '</b>',
-				'PERCENT_GRADE' => '<b>' . _Percent( $sum_points ) . '</b>',
+				'PERCENT_GRADE' => '<b>' . _Percent( $percent ) . '</b>',
 				'LETTER_GRADE' => '<b>' . _makeLetterGrade( $sum_points, $cp_id, $teacher_id ) . '</b>',
 				'COMMENT' => '&nbsp;',
 			);
@@ -367,6 +384,11 @@ function _makeExtraPoints( $value, $column )
 
 	if ( $THIS_RET['TOTAL_POINTS'] == '0' )
 	{
+		if ( ! isset( $student_points[$THIS_RET['ASSIGNMENT_TYPE_ID']] ) )
+		{
+			$student_points[$THIS_RET['ASSIGNMENT_TYPE_ID']] = 0;
+		}
+
 		$student_points[$THIS_RET['ASSIGNMENT_TYPE_ID']] += $value;
 
 		return (float) $value . '&nbsp;/&nbsp;' . $THIS_RET['TOTAL_POINTS'];
@@ -440,7 +462,9 @@ function _makeExtraGrade( $value, $column )
 		return _makeLetterGrade( $value / $THIS_RET['TOTAL_POINTS'], $cp_id, $teacher_id );
 	}
 
-	return _Percent( $value / $THIS_RET['TOTAL_POINTS'], 1 );
+	$percent = _makeLetterGrade( $value / $THIS_RET['TOTAL_POINTS'], $cp_id, $teacher_id, '%' );
+
+	return _Percent( $percent, 2 );
 }
 
 /**
@@ -449,5 +473,5 @@ function _makeExtraGrade( $value, $column )
  */
 function _Percent( $num, $decimals = 2 )
 {
-	return (float) number_format( $num * 100, $decimals ) . '%';
+	return (float) number_format( $num, $decimals ) . '%';
 }
