@@ -46,64 +46,11 @@ if ( ! empty( $_REQUEST['student_id'] ) )
 	if ( $_REQUEST['student_id'] !== UserStudentID() )
 	{
 		SetUserStudentID( $_REQUEST['student_id'] );
-
-		//FJ bugfix SQL bug course period
-		/*if ( $_REQUEST['period'] && $_REQUEST['period']!=UserCoursePeriod())
-		$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];*/
-
-		if ( ! empty( $_REQUEST['period'] ) )
-		{
-			list( $CoursePeriod, $CoursePeriodSchoolPeriod ) = explode( '.', $_REQUEST['period'] );
-
-			if ( $CoursePeriod != UserCoursePeriod() )
-			{
-				$_SESSION['UserCoursePeriod'] = $CoursePeriod;
-			}
-		}
 	}
 }
 elseif ( UserStudentID() )
 {
 	unset( $_SESSION['student_id'] );
-	//FJ bugfix SQL bug course period
-	/*if ( $_REQUEST['period'] && $_REQUEST['period']!=UserCoursePeriod())
-	$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];*/
-
-	if ( ! empty( $_REQUEST['period'] ) )
-	{
-		list( $CoursePeriod, $CoursePeriodSchoolPeriod ) = explode( '.', $_REQUEST['period'] );
-
-		if ( $CoursePeriod != UserCoursePeriod() )
-		{
-			$_SESSION['UserCoursePeriod'] = $CoursePeriod;
-		}
-	}
-}
-
-if ( ! empty( $_REQUEST['period'] ) )
-{
-	//FJ bugfix SQL bug course period
-	/*if ( $_REQUEST['period']!=UserCoursePeriod())
-	{
-	$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];*/
-	list( $CoursePeriod, $CoursePeriodSchoolPeriod ) = explode( '.', $_REQUEST['period'] );
-
-	if ( $CoursePeriod != UserCoursePeriod() )
-	{
-		$_SESSION['UserCoursePeriod'] = $CoursePeriod;
-
-		if ( ! empty( $_REQUEST['student_id'] ) )
-		{
-			if ( $_REQUEST['student_id'] != UserStudentID() )
-			{
-				SetUserStudentID( $_REQUEST['student_id'] );
-			}
-		}
-		else
-		{
-			unset( $_SESSION['student_id'] );
-		}
-	}
 }
 
 $types_RET = DBGet( "SELECT ASSIGNMENT_TYPE_ID,TITLE,FINAL_GRADE_PERCENT,COLOR
