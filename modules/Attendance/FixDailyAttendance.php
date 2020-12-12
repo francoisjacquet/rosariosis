@@ -16,7 +16,7 @@ if ( Prompt( _( 'Confirm' ), _( 'When do you want to recalculate the daily atten
 	PopTable( 'footer' );
 	ob_flush();
 	flush();
-	set_time_limit( 0 );
+	set_time_limit( 300 );
 
 	$current_RET = DBGet( "SELECT DISTINCT SCHOOL_DATE
 		FROM ATTENDANCE_CALENDAR
@@ -30,9 +30,17 @@ if ( Prompt( _( 'Confirm' ), _( 'When do you want to recalculate the daily atten
 
 	for ( $i = $begin; $i <= $end; $i += 86400 )
 	{
-		if ( isset( $current_RET[date( 'Y-m-d', $i )] ) )
+		foreach ( (array) $students_RET as $student )
 		{
-			foreach ( (array) $students_RET as $student )
+			// @since 7.5 Delete any attendance for this day & student prior to update.
+			// Fix case where calendar has changed and day is no longer a school day.
+			// Else, the daily attendance will be re-inserted below using UpdateAttendanceDaily().
+			DBQuery( "DELETE FROM ATTENDANCE_DAY
+				WHERE STUDENT_ID='" . $student['STUDENT_ID'] . "'
+				AND SYEAR='" . UserSyear() . "'
+				AND SCHOOL_DATE='" . date( 'Y-m-d', $i ) . "'" );
+
+			if ( isset( $current_RET[date( 'Y-m-d', $i )] ) )
 			{
 				UpdateAttendanceDaily( $student['STUDENT_ID'], date( 'Y-m-d', $i ) );
 			}
