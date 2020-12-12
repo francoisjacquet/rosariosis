@@ -4,6 +4,7 @@
 Changes in 7.5
 --------------
 - HTML fix Student Assignment Submission display in StudentAssignments.fnc.php
+- Percent rounding to 2 decimal places is new School default in \_makeLetterGrade.fnc.php
 
 Changes in 7.4
 --------------

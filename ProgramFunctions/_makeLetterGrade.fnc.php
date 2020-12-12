@@ -20,6 +20,8 @@
  * Grades/ProgressReports.php
  * Grades/StudentGrades.php
  *
+ * @since 7.5 Percent rounding to 2 decimal places is new School default.
+ *
  * @example _makeLetterGrade( $percent, $course_period_id, $staff_id )
  *
  * @uses ProgramUserConfig()
@@ -87,7 +89,7 @@ function _makeLetterGrade( $percent, $course_period_id = 0, $staff_id = 0, $ret 
 		}
 	}
 	else
-		$percent = round( $percent ); // School default.
+		$percent = round( $percent, 2 ); // School default.
 
 	if ( $ret === '%' )
 	{
