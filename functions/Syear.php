@@ -47,6 +47,6 @@ function FormatSyear( $syear, $syear_over_two_years = true )
 	{
 		return $syear . '-' . ( $syear + 1 );
 	}
-	else
-		return $syear;
+
+	return $syear;
 }

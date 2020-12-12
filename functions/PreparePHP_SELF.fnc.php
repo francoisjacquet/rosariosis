@@ -165,8 +165,6 @@ function RedirectURL( $remove )
  * My URL encode
  * RFC 3986 compliant
  *
- * Local function
- *
  * @see http://php.net/manual/en/function.urlencode.php#97969
  *
  * @param  string $string String to encode.
