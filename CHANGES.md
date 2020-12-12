@@ -8,6 +8,7 @@ Changes in 7.5
 - CSS Fix widefat table border color when rendered in PDF inside Chrome in colors.css
 - Add phpwkhtmltopdf class & remove Wkhtmltopdf class in classes/
 - Use phpwkhtmltopdf class instead of Wkhtmltopdf (more reliable & faster) in PDF.php
+- Add Report Cards PDF footer action hook in ReportCards.fnc.php & Actions.php
 
 Changes in 7.4
 --------------

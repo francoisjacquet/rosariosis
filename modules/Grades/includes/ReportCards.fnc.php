@@ -267,6 +267,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 	 * @since 4.5 Add Report Cards PDF header action hook.
 	 * @since 5.0 Add GPA or Total row.
 	 * @since 5.0 Add Min. and Max. Grades.
+	 * @since 7.4 Report Cards PDF footer action hook
 	 *
 	 * @uses _makeTeacher() see below
 	 *
@@ -858,6 +859,8 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 				}
 			}
 
+			$freetext = '';
+
 			if ( ! empty( $_REQUEST['elements']['freetext'] )
 				&& function_exists( 'GetTemplate' ) )
 			{
@@ -876,9 +879,13 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 				$substitutions += SubstitutionsCustomFieldsValues( 'STUDENT', $student );
 
 				$freetext = SubstitutionsTextMake( $substitutions, $freetext_template );
-
-				echo $freetext;
 			}
+
+			// @since 7.4 Report Cards PDF footer action hook.
+			// Echo your custom text before "Free text" or append it to $freetext to display it after.
+			do_action( 'Grades/includes/ReportCards.fnc.php|pdf_footer', array( $student_id, &$freetext ) );
+
+			echo $freetext;
 
 			// Add buffer to Report Cards array.
 			$report_cards[$student_id] = ob_get_clean();

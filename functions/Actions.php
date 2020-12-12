@@ -345,6 +345,13 @@ $RosarioActions = array();
 	 * @since 7.3
 	 */
 	/*'index.php|before_first_login_form' => array(),
+
+	/**
+	 * Report Cards PDF footer.
+	 *
+	 * @since 7.5
+	 */
+	/*'Grades/includes/ReportCards.fnc.php|pdf_footer' => array(),
 );*/
 
 
