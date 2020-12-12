@@ -58,12 +58,14 @@ function PDFStart( $options = array() )
  *
  * @since 3.4 Handle HTML header & footer.
  * @since 4.3 CSS Add .wkhtmltopdf-header, .wkhtmltopdf-footer, .wkhtmltopdf-portrait & .wkhtmltopdf-landscape classes
+ * @since 7.5 Use phpwkhtmltopdf class instead of Wkhtmltopdf (more reliable & faster)
+ * @link https://github.com/mikehaertl/phpwkhtmltopdf
  *
  * @global string $wkhtmltopdfPath
  * @global string $wkhtmltopdfAssetsPath
  * @global string $RosarioPath
  *
- * @param  array $handle from PDFStart().
+ * @param  array $handle from PDFStart(), PDF options.
  *
  * @return string Full path to file if Save mode, else outputs HTML if not wkhtmltopdf or Embed / Download PDF
  */
@@ -149,131 +151,152 @@ function PDFStop( $handle )
 		ProgramTitle()
 	)) . ( $file_number++ );
 
-	// FJ wkhtmltopdf.
-	if ( ! empty( $wkhtmltopdfPath ) )
+	if ( empty( $wkhtmltopdfPath ) )
 	{
-		// You can override the Path definition in the config.inc.php file.
-		if ( ! isset( $wkhtmltopdfAssetsPath ) )
+		// If no wkhtmltopdf, render in HTML.
+		if ( $handle['mode'] !== 3 ) // Display HTML.
 		{
-			// Way wkhtmltopdf accesses the assets/ directory, empty string means no translation.
-			$wkhtmltopdfAssetsPath = $RosarioPath . 'assets/';
-		}
-
-		if ( ! empty( $wkhtmltopdfAssetsPath ) )
-		{
-			// Fix wkhtmltopdf error on Windows: prepend file:///.
-			$html = str_replace( '"assets/', '"file:///' . $wkhtmltopdfAssetsPath, $html );
-
-			$_html['head'] = str_replace( '"assets/', '"file:///' . $wkhtmltopdfAssetsPath, $_html['head'] );
-		}
-
-		// Fix wkhtmltopdf error on Windows: prepend file:///.
-		$html = str_replace( '"modules/', '"file:///' . $RosarioPath . 'modules/', $html );
-
-		require_once 'classes/Wkhtmltopdf.php';
-
-		try {
-			// Indicate to create PDF in the temporary files system directory.
-			$wkhtmltopdf = new Wkhtmltopdf( array( 'path' => $path ) );
-
-			$wkhtmltopdf->setBinPath( $wkhtmltopdfPath );
-
-			if ( Preferences( 'PAGE_SIZE' ) != 'A4' )
-			{
-				$wkhtmltopdf->setPageSize( Preferences( 'PAGE_SIZE' ) );
-			}
-
-			if ( ! empty( $handle['orientation'] )
-				&& $handle['orientation'] === 'landscape' )
-			{
-				$wkhtmltopdf->setOrientation( Wkhtmltopdf::ORIENTATION_LANDSCAPE );
-			}
-
-			if ( ! empty( $handle['margins'] )
-				&& is_array( $handle['margins'] ) )
-			{
-				$wkhtmltopdf->setMargins( $handle['margins'] );
-			}
-
-			if ( $handle['header_html'] )
-			{
-				$header_html = $handle['header_html'];
-
-				if ( mb_stripos( $header_html, '<html' ) === false )
-				{
-					// Build full HMTL page.
-					// Fix HTML header not showing, remove CSS width & height 100%.
-					$header_html = str_replace(
-						'<html',
-						'<html class="wkhtmltopdf-header"',
-						$_html['head']
-					) .
-					$header_html . $_html['foot'];
-				}
-
-				$wkhtmltopdf->setHeaderHtml( $header_html );
-			}
-
-			if ( $handle['footer_html'] )
-			{
-				$footer_html = $handle['footer_html'];
-
-				if ( mb_stripos( $footer_html, '<html' ) === false )
-				{
-					// Build full HMTL page.
-					// Fix HTML footer, remove CSS width & height 100%.
-					$footer_html = str_replace(
-						'<html',
-						'<html class="wkhtmltopdf-footer"',
-						$_html['head']
-					) .
-					$footer_html . $_html['foot'];
-				}
-
-				$wkhtmltopdf->setFooterHtml( $footer_html );
-			}
-
-			$wkhtmltopdf->setTitle( utf8_decode( $page_title ) );
-
-			// Directly pass HTML code.
-			$wkhtmltopdf->setHtml( $html );
-
-			$wkhtmltopdf->output( $handle['mode'], $filename . '.pdf' );
-
-			$full_path = $path . DIRECTORY_SEPARATOR . $filename . '.pdf';
-
-		} catch ( Exception $e ) {
-
-			echo ErrorMessage( array( $e->getMessage() ) );
-		}
-	}
-	// If no wkhtmltopdf, render in html.
-	else
-	{
-		if ( $handle['mode'] === 3 ) // Save.
-		{
-			$base_url = sprintf(
-				'%s://%s%s/',
-				isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http',
-				$_SERVER['SERVER_NAME'],
-				dirname( $_SERVER['PHP_SELF'] )
-			);
-
-			// Set Absolute URLs to images, CSS...
-			$html = str_replace( '"assets/', '"' . $base_url . 'assets/', $html );
-
-			$html = str_replace( '"modules/', '"' . $base_url . 'modules/', $html );
-
-			file_put_contents( $path . DIRECTORY_SEPARATOR . $filename . '.html', $html );
-
-			$full_path = $path . DIRECTORY_SEPARATOR . $filename . '.html';
-		}
-		else
 			echo $html;
+
+			return '';
+		}
+
+		// Save.
+		$base_url = sprintf(
+			'%s://%s%s/',
+			isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http',
+			$_SERVER['SERVER_NAME'],
+			dirname( $_SERVER['PHP_SELF'] )
+		);
+
+		// Set Absolute URLs to images, CSS...
+		$html = str_replace( '"assets/', '"' . $base_url . 'assets/', $html );
+
+		$html = str_replace( '"modules/', '"' . $base_url . 'modules/', $html );
+
+		file_put_contents( $path . DIRECTORY_SEPARATOR . $filename . '.html', $html );
+
+		$full_path = $path . DIRECTORY_SEPARATOR . $filename . '.html';
+
+		return $full_path;
 	}
+
+	// Load phpwkhtmltopdf class.
+	require_once 'classes/phpwkhtmltopdf/php-shellcommand/Command.php';
+	require_once 'classes/phpwkhtmltopdf/php-tmpfile/File.php';
+	require_once 'classes/phpwkhtmltopdf/Command.php';
+	require_once 'classes/phpwkhtmltopdf/Pdf.php';
+
+	// You can override the Path definition in the config.inc.php file.
+	if ( ! isset( $wkhtmltopdfAssetsPath ) )
+	{
+		// Way wkhtmltopdf accesses the assets/ directory, empty string means no translation.
+		$wkhtmltopdfAssetsPath = $RosarioPath . 'assets/';
+	}
+
+	if ( ! empty( $wkhtmltopdfAssetsPath ) )
+	{
+		// Fix wkhtmltopdf error on Windows: prepend file:///.
+		$html = str_replace( '"assets/', '"file:///' . $wkhtmltopdfAssetsPath, $html );
+
+		$_html['head'] = str_replace( '"assets/', '"file:///' . $wkhtmltopdfAssetsPath, $_html['head'] );
+	}
+
+	// Fix wkhtmltopdf error on Windows: prepend file:///.
+	$html = str_replace( '"modules/', '"file:///' . $RosarioPath . 'modules/', $html );
+
+	// Set wkhtmltopdf options.
+	$pdf_options = array(
+		'title' => $page_title,
+	);
+
+	if ( Preferences( 'PAGE_SIZE' ) != 'A4' )
+	{
+		$pdf_options['page-size'] = Preferences( 'PAGE_SIZE' );
+	}
+
+	if ( ! empty( $handle['orientation'] )
+		&& $handle['orientation'] === 'landscape' )
+	{
+		$pdf_options['orientation'] = 'Landscape';
+	}
+
+	if ( ! empty( $handle['margins'] )
+		&& is_array( $handle['margins'] ) )
+	{
+		foreach ( $handle['margins'] as $position => $margin )
+		{
+			if ( is_null( $margin ) )
+			{
+				continue;
+			}
+
+			$pdf_options['margin-' . $position] = $margin;
+		}
+	}
+
+	if ( $handle['header_html'] )
+	{
+		$header_html = $handle['header_html'];
+
+		if ( mb_stripos( $header_html, '<html' ) === false )
+		{
+			// Build full HMTL page.
+			// Fix HTML header not showing, remove CSS width & height 100%.
+			$header_html = str_replace(
+				'<html',
+				'<html class="wkhtmltopdf-header"',
+				$_html['head']
+			) .
+			$header_html . $_html['foot'];
+		}
+
+		$pdf_options['header-html'] = $header_html;
+	}
+
+	if ( $handle['footer_html'] )
+	{
+		$footer_html = $handle['footer_html'];
+
+		if ( mb_stripos( $footer_html, '<html' ) === false )
+		{
+			// Build full HMTL page.
+			// Fix HTML footer, remove CSS width & height 100%.
+			$footer_html = str_replace(
+				'<html',
+				'<html class="wkhtmltopdf-footer"',
+				$_html['head']
+			) .
+			$footer_html . $_html['foot'];
+		}
+
+		$pdf_options['footer-html'] = $footer_html;
+	}
+
+	$pdf = new mikehaertl\wkhtmlto\Pdf( $pdf_options );
+
+	$pdf->binary = $wkhtmltopdfPath;
+
+	$pdf->addPage( $html );
 
 	if ( $handle['mode'] === 3 ) // Save.
 	{
+		$full_path = $path . DIRECTORY_SEPARATOR . $filename . '.pdf';
+
+		// Save the PDF.
+		if ( ! $pdf->saveAs( $full_path ) )
+		{
+			echo ErrorMessage( $pdf->getError() );
+		}
+
 		return $full_path;
 	}
+
+	// Send to client as file download.
+	if ( ! $pdf->send( $filename . '.pdf', (bool) $handle['mode'] ) ) // Embed or Download.
+	{
+		echo ErrorMessage( $pdf->getError() );
+	}
+
+	return '';
 }
