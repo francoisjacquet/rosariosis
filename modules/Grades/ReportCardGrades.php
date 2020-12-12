@@ -26,13 +26,11 @@ if ( $_REQUEST['modfunc'] === 'update' )
 			{
 				if ( $id !== 'new' )
 				{
+					$sql = "UPDATE REPORT_CARD_GRADE_SCALES SET ";
+
 					if ( $_REQUEST['tab_id'] !== 'new' )
 					{
 						$sql = "UPDATE REPORT_CARD_GRADES SET ";
-					}
-					else
-					{
-						$sql = "UPDATE REPORT_CARD_GRADE_SCALES SET ";
 					}
 
 					foreach ( (array) $columns as $column => $value )
@@ -40,14 +38,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 						$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 					}
 
-					if ( $_REQUEST['tab_id'] !== 'new' )
-					{
-						$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . $id . "'";
-					}
-					else
-					{
-						$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . $id . "'";
-					}
+					$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . $id . "'";
 
 					DBQuery( $sql );
 				}
