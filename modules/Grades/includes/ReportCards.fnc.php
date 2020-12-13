@@ -13,8 +13,9 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 	 * @example $extra['extra_header_left'] = ReportCardsIncludeForm();
 	 *
 	 * @since 4.0 Define your custom function in your addon module or plugin.
-	 * @since 5.0 Add GPA or Total row.
+	 * @since 5.0 Add GPA or Total row (only for Report Cards).
 	 * @since 5.0 Add Min. and Max. Grades.
+	 * @since 7.1 Add Credits (only for Report Cards).
 	 *
 	 * @global $extra Get $extra['search'] for Mailing Labels Widget
 	 *
@@ -60,9 +61,12 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 
 		$return .= '</tr><tr class="st">';
 
-		// Credits.
-		$return .= '<td><label><input type="checkbox" name="elements[credits]" value="Y"> ' .
-		_( 'Credits' ) . '</label></td>';
+		if ( $_REQUEST['modname'] !== 'Grades/FinalGrades.php' )
+		{
+			// Credits.
+			$return .= '<td><label><input type="checkbox" name="elements[credits]" value="Y"> ' .
+			_( 'Credits' ) . '</label></td>';
+		}
 
 		$return .= '</tr><tr class="st">';
 

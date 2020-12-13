@@ -15,6 +15,7 @@ Changes in 7.5
 - Add .report-card-free-text CSS class in ReportCards.fnc.php
 - Delete any attendance for this day & student prior to update in FixDailyAttendance.php
 - Use \_makeLetterGrade() for Percent grade so it reflects Teacher's Score rounding configuration in Grades.php & ProgressReports.php
+- Fix Add Credits only for Report Cards in ReportCards.fnc.php
 
 Changes in 7.4
 --------------
