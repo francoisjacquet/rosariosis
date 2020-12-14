@@ -720,7 +720,7 @@ function Widgets( $item, &$myextra = null )
 
 			$extra['search'] .= '<tr class="st"><td>' . _( 'GPA' ) . '<br />
 			<label>
-				<input type="checkbox" name="gpa_weighted" value="Y">&nbsp;' . _( 'Weighted' ) .
+				<input type="checkbox" name="gpa_weighted" value="Y" checked />&nbsp;' . _( 'Weighted' ) .
 			'</label>
 			<br />';
 
@@ -749,9 +749,9 @@ function Widgets( $item, &$myextra = null )
 			}
 
 			$extra['search'] .= '</td><td><label>' . _( 'Between' ) .
-			' <input type="text" name="gpa_low" size="3" maxlength="5" /></label>' .
+			' <input type="number" name="gpa_low" min="0" step="0.01" /></label>' .
 			' <label>&amp;' .
-			' <input type="text" name="gpa_high" size="3" maxlength="5" /></label>
+			' <input type="number" name="gpa_high" min="0" step="0.01" /></label>
 			</td></tr>';
 
 		break;

@@ -17,6 +17,7 @@ Changes in 7.5
 - Use \_makeLetterGrade() for Percent grade so it reflects Teacher's Score rounding configuration in Grades.php & ProgressReports.php
 - Fix Add Credits only for Report Cards in ReportCards.fnc.php
 - Fix SQL error invalid input syntax for integer (Class Rank input) in Widgets.fnc.php
+- HTML Grades GPA Widget: use number input & check Weighted by default in Widgets.fnc.php
 
 Changes in 7.4
 --------------
