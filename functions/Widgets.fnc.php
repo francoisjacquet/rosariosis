@@ -769,6 +769,9 @@ function Widgets( $item, &$myextra = null )
 				&& isset( $_REQUEST['class_rank_high'] )
 				&& is_numeric( $_REQUEST['class_rank_high'] ) )
 			{
+				$_REQUEST['class_rank_low'] = (int) $_REQUEST['class_rank_low'];
+				$_REQUEST['class_rank_high'] = (int) $_REQUEST['class_rank_high'];
+
 				if ( $_REQUEST['class_rank_low'] > $_REQUEST['class_rank_high'] )
 				{
 					$temp = $_REQUEST['class_rank_high'];
@@ -835,9 +838,9 @@ function Widgets( $item, &$myextra = null )
 			}
 
 			$extra['search'] .= '</td><td><label>' . _( 'Between' ) .
-			' <input type="text" name="class_rank_low" size="3" maxlength="5" /></label>' .
+			' <input type="number" name="class_rank_low" min="1" max="9999" /></label>' .
 			' <label>&amp;' .
-			' <input type="text" name="class_rank_high" size="3" maxlength="5" /></label>
+			' <input type="number" name="class_rank_high" min="1" max="9999" /></label>
 			</td></tr>';
 
 		break;

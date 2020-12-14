@@ -16,6 +16,7 @@ Changes in 7.5
 - Delete any attendance for this day & student prior to update in FixDailyAttendance.php
 - Use \_makeLetterGrade() for Percent grade so it reflects Teacher's Score rounding configuration in Grades.php & ProgressReports.php
 - Fix Add Credits only for Report Cards in ReportCards.fnc.php
+- Fix SQL error invalid input syntax for integer (Class Rank input) in Widgets.fnc.php
 
 Changes in 7.4
 --------------
