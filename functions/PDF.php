@@ -208,6 +208,8 @@ function PDFStop( $handle )
 	// Set wkhtmltopdf options.
 	$pdf_options = array(
 		'title' => $page_title,
+		// Fix System error "blocked access to local file" with wkhtmltopdf 0.12.6.
+		'enable-local-file-access',
 	);
 
 	if ( Preferences( 'PAGE_SIZE' ) != 'A4' )
