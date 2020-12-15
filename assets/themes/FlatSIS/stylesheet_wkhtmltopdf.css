@@ -510,6 +510,10 @@ div.updated {
 	width: 220px;
 }
 
+html.no-touch[dir="RTL"] .menu-module:hover .wp-submenu {
+	right: 220px;
+}
+
 #menu .username {
 	font-weight: normal;
 }
