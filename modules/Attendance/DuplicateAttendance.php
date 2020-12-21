@@ -28,7 +28,7 @@ if ( $_REQUEST['delete'] === 'true' )
 	{
 		if ( DeletePrompt( _( 'Duplicate Attendance Record' ) ) )
 		{
-			set_time_limit( 0 );
+			set_time_limit( 300 );
 
 			$i = 0;
 			$ii = 0;
@@ -181,7 +181,11 @@ if ( isset( $_REQUEST['search_modfunc'] )
 				$afterr = "Y";
 			}
 
-			if (  ( $studentidr == $studentid2 ) && ( $courseidr == $courseid2 ) && ( $schooldater == $schooldate2 ) && ( $startr == $start2 ) )
+			if ( isset( $studentid2 )
+				&& $studentidr == $studentid2
+				&& $courseidr == $courseid2
+				&& $schooldater == $schooldate2
+				&& $startr == $start2 )
 			{
 				$totalrows++;
 			}
