@@ -985,7 +985,7 @@ function SelectInput( $values, $name, $title = '', $options = array(), $allow_na
  *
  * @param  string         $value    Input value.
  * @param  string         $name     Input name.
- * @param  string         $title    Input title (optional). Defaults to ''.
+ * @param  string         $title    Input title.
  * @param  array          $options  Input options: array( option_value => option_text ).
  * @param  string|boolean $allow_na Allow N/A (empty value); set to false to disallow (optional). Defaults to N/A.
  * @param  string         $extra    Extra HTML attributes added to the input.
@@ -993,7 +993,7 @@ function SelectInput( $values, $name, $title = '', $options = array(), $allow_na
  *
  * @return string         Input HTML
  */
-function MLSelectInput( $value, $name, $title = '', $options, $allow_na = 'N/A', $extra = '', $div = true )
+function MLSelectInput( $value, $name, $title, $options, $allow_na = 'N/A', $extra = '', $div = true )
 {
 	global $RosarioLocales,
 		$locale;
