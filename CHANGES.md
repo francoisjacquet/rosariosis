@@ -4,6 +4,7 @@
 Changes in 7.6
 --------------
 - Fix login password with single quote, use POST in index.php & Preferences.php
+- HTML Use #! instead of JS return false to not go back to top in Buttons.php & Profiles.php
 
 Changes in 7.5
 --------------

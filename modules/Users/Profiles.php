@@ -318,7 +318,7 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 		echo '<script>new_profile_html = ' . json_encode( $new_profile_form ) . '</script>';
 
 		echo '<tr class="highlight-hover"><td>' .
-		button( 'add', '', '"#" onclick="addHTML(new_profile_html, \'new_profile_div\', true); return false;"' ) .
+		button( 'add', '', '"#!" onclick="addHTML(new_profile_html, \'new_profile_div\', true);"' ) .
 			'</td><td colspan="2">';
 
 		echo '<a href="#" onclick="addHTML(new_profile_html, \'new_profile_div\', true); return false;">' .

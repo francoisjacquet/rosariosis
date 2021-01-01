@@ -36,7 +36,7 @@ function Buttons( $submit_value, $reset_value = '' )
  *
  * @example echo button( 'x', '', '', 'bigger' );
  * @example echo button( 'remove', '', '"' . URLEscape( 'remove_url.php' ) . '"' );
- * @example echo button( 'add', '', '"#" onclick="javascript:popup.open();"' );
+ * @example echo button( 'add', '', '"#!" onclick="javascript:popup.open();"' );
  *
  * @since 4.0 Allow for button files missing the "_button" suffix.
  *
