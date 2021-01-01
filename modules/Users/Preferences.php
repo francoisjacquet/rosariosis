@@ -8,8 +8,8 @@ if ( ! empty( $_REQUEST['values'] )
 {
 	if ( $_REQUEST['tab'] == 'password' )
 	{
-		$current_password = str_replace( "''", "'", $_REQUEST['values']['current'] );
-		$new_password = str_replace( "''", "'", $_REQUEST['values']['new'] );
+		$current_password = $_POST['values']['current'];
+		$new_password = $_POST['values']['new'];
 
 		//hook
 		do_action( 'Users/Preferences.php|update_password_checks' );

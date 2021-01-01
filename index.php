@@ -105,7 +105,7 @@ elseif ( isset( $_POST['USERNAME'] )
 	AND UPPER(USERNAME)=UPPER('" . $username . "')" );
 
 	if ( $login_RET
-		&& match_password( $login_RET[1]['PASSWORD'], $_REQUEST['PASSWORD'] ) )
+		&& match_password( $login_RET[1]['PASSWORD'], $_POST['PASSWORD'] ) )
 	{
 		unset( $_REQUEST['PASSWORD'], $_POST['PASSWORD'] );
 	}
@@ -125,7 +125,7 @@ elseif ( isset( $_POST['USERNAME'] )
 			AND UPPER(s.USERNAME)=UPPER('" . $username . "')" );
 
 		if ( $student_RET
-			&& match_password( $student_RET[1]['PASSWORD'], $_REQUEST['PASSWORD'] ) )
+			&& match_password( $student_RET[1]['PASSWORD'], $_POST['PASSWORD'] ) )
 		{
 			unset( $_REQUEST['PASSWORD'], $_POST['PASSWORD'] );
 		}
@@ -141,7 +141,7 @@ elseif ( isset( $_POST['USERNAME'] )
 			AND UPPER(s.USERNAME)=UPPER('" . $username . "')" );
 
 			if ( ! $student_RET
-				|| ! match_password( $student_RET[1]['PASSWORD'], $_REQUEST['PASSWORD'] ) )
+				|| ! match_password( $student_RET[1]['PASSWORD'], $_POST['PASSWORD'] ) )
 			{
 				$student_RET = false;
 			}

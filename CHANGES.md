@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 7.6
+--------------
+- Fix login password with single quote, use POST in index.php & Preferences.php
+
 Changes in 7.5
 --------------
 - HTML fix Student Assignment Submission display in StudentAssignments.fnc.php
