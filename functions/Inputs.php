@@ -1198,7 +1198,7 @@ function ChosenSelectInput( $value, $name, $title = '', $options = array(), $all
  *
  * @param  string         $value    Input value
  * @param  string         $name     Input name
- * @param  string         $title    Input title (optional). Defaults to ''
+ * @param  string         $title    Input title.
  * @param  array          $options  Input options: array( option_value => option_text )
  * @param  string|boolean $allow_na Allow N/A (empty value); set to false to disallow (optional). Defaults to N/A
  * @param  string         $extra    Extra HTML attributes added to the input (optional).
@@ -1206,7 +1206,7 @@ function ChosenSelectInput( $value, $name, $title = '', $options = array(), $all
  *
  * @return string         Input HTML
  */
-function RadioInput( $value, $name, $title = '', $options, $allow_na = 'N/A', $extra = '', $div = true )
+function RadioInput( $value, $name, $title, $options, $allow_na = 'N/A', $extra = '', $div = true )
 {
 	$id = GetInputID( $name );
 
