@@ -7,6 +7,7 @@ Changes in 7.6
 - HTML Use #! instead of JS return false to not go back to top in Buttons.php & Profiles.php
 - JS remove warehouse.min.js & include warehouse.js inside plugins.min.js in Gruntfile.js, assets/js/ & Warehouse.php
 - Fix PHP8 compatibility issues (warnings & fatal errors), system wide
+- Fix save new Grade with "0" as Title in ReportCardGrades.php
 
 Changes in 7.5
 --------------

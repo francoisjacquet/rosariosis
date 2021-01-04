@@ -44,7 +44,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 				}
 
 				// New: check for Title & Scale Value.
-				elseif ( $columns['TITLE']
+				elseif ( ( $columns['TITLE'] || $columns['TITLE'] == '0' )
 					&& ( $_REQUEST['tab_id'] !== 'new' || $columns['GP_SCALE'] ) )
 				{
 					if ( $_REQUEST['tab_id'] !== 'new' )
