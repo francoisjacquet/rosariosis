@@ -118,7 +118,7 @@ function _makeFeesTextInput( $value, $name )
 	);
 }
 
-function _makeFeesDateInput( $value='', $name )
+function _makeFeesDateInput( $value, $name )
 {
 	global $THIS_RET;
 
