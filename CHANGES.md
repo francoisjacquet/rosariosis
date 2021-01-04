@@ -8,6 +8,7 @@ Changes in 7.6
 - JS remove warehouse.min.js & include warehouse.js inside plugins.min.js in Gruntfile.js, assets/js/ & Warehouse.php
 - Fix PHP8 compatibility issues (warnings & fatal errors), system wide
 - Fix save new Grade with "0" as Title in ReportCardGrades.php
+- PHP8 no xmlrpc ext: load XML_RPC compat classes in plugins/Moodle/client.php, XML_RPC.php, XmlrpcDecoder.php & XmlrpcEncoder.php
 
 Changes in 7.5
 --------------

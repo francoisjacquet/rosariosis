@@ -2,6 +2,14 @@
 
 ## RosarioSIS Student Information System
 
+New in 7.6
+----------
+
+PHP8 compatibility
+
+Moodle plugin: PHP xmlrpc extension no longer required
+
+
 New in 7.4
 ----------
 
