@@ -263,6 +263,11 @@ if ( $_REQUEST['modfunc'] === 'save' )
 						$sep = '; ';
 						$sep_mp = ' | ';
 
+						if ( ! isset( $grades_RET[$i]['COMMENT'] ) )
+						{
+							$grades_RET[$i]['COMMENT'] = '';
+						}
+
 						foreach ( (array) $mps as $mp_id => $mp )
 						{
 							if ( ! empty( $grades_RET[$i]['COMMENT'] ) )
@@ -291,18 +296,11 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 									$color = $comments_RET[$comment['REPORT_CARD_COMMENT_ID']][1]['COLOR'];
 
+									$color_html = '';
+
 									if ( $color )
 									{
 										$color_html = '<span style="color:' . $color . '">';
-									}
-									else
-									{
-										$color_html = '';
-									}
-
-									if ( ! isset( $grades_RET[$i]['COMMENT'] ) )
-									{
-										$grades_RET[$i]['COMMENT'] = '';
 									}
 
 									$grades_RET[$i]['COMMENT'] .= $sep_tmp . $color_html . $comments_RET[$comment['REPORT_CARD_COMMENT_ID']][1]['SORT_ORDER'];
@@ -410,7 +408,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				{
 					$comment_codes_RET = DBGet( "SELECT cc.SCALE_ID,cc.TITLE,cc.SHORT_NAME,cc.COMMENT,cs.TITLE AS SCALE_TITLE
 					FROM REPORT_CARD_COMMENT_CODES cc, REPORT_CARD_COMMENT_CODE_SCALES cs
-					WHERE cs.ID IN (" . implode( $students_comment_scales, ',' ) . ")
+					WHERE cs.ID IN (" . implode( ',', $students_comment_scales ) . ")
 					AND cs.ID=cc.SCALE_ID
 					ORDER BY cs.SORT_ORDER", array(), array( 'SCALE_ID' ) );
 				}
