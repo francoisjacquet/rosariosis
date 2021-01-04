@@ -49,7 +49,6 @@ module.exports = function(grunt) {
 			},
 			my_target: {
 				files: {
-					'assets/js/warehouse.min.js': ['assets/js/warehouse.js'],
 					'assets/js/plugins.min.js': [
 						'assets/js/jquery.form.js',
 						'assets/js/tipmessage/main17.js',
@@ -60,6 +59,7 @@ module.exports = function(grunt) {
 						'assets/js/jquery-fixedmenu/jquery-fixedmenu.js',
 						'assets/js/jquery-captcha/jquery-captcha.js',
 						'assets/js/jquery-passwordstrength/jquery-passwordstrength.js',
+						'assets/js/warehouse.js',
 					]
 				}
 			}

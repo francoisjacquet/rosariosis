@@ -589,6 +589,7 @@ function Warehouse( $mode )
  * Loads theme's scripts.js file if any found.
  *
  * @since 6.0
+ * @since 7.6 JS remove warehouse.min.js & include warehouse.js inside plugins.min.js
  */
 function WarehouseHeaderJS()
 {
@@ -597,7 +598,6 @@ function WarehouseHeaderJS()
 	?>
 	<script src="assets/js/jquery.js?v=2.2.4"></script>
 	<script src="assets/js/plugins.min.js?v=<?php echo ROSARIO_VERSION; ?>"></script>
-	<script src="assets/js/warehouse.min.js?v=<?php echo ROSARIO_VERSION; ?>"></script>
 	<script src="assets/js/jscalendar/lang/calendar-<?php echo file_exists( 'assets/js/jscalendar/lang/calendar-' . $lang_2_chars . '.js' ) ? $lang_2_chars : 'en'; ?>.js"></script>
 	<?php
 	// Add scripts.js file from theme if any found.

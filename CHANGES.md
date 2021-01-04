@@ -5,6 +5,8 @@ Changes in 7.6
 --------------
 - Fix login password with single quote, use POST in index.php & Preferences.php
 - HTML Use #! instead of JS return false to not go back to top in Buttons.php & Profiles.php
+- JS remove warehouse.min.js & include warehouse.js inside plugins.min.js in Gruntfile.js, assets/js/ & Warehouse.php
+- Fix PHP8 compatibility issues (warnings & fatal errors), system wide
 
 Changes in 7.5
 --------------
