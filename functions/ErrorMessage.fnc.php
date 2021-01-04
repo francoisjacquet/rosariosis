@@ -122,7 +122,8 @@ function ErrorSendEmail( $error = array(), $title = 'PHP Fatal error' )
 	{
 		$last_error = error_get_last();
 
-		if ( $last_error['type'] !== 1 )
+		if ( ! isset( $last_error['type'] )
+			|| $last_error['type'] !== 1 )
 		{
 			return false;
 		}

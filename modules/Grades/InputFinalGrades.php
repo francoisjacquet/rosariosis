@@ -301,14 +301,14 @@ if ( $_REQUEST['modfunc'] === 'gradebook' )
 						 * Division by zero is impossible.
 						 */
 						if ( $partial_points['PARTIAL_TOTAL'] != 0
-							|| $gradebook_config['WEIGHT'] != 'Y' )
+							|| empty( $gradebook_config['WEIGHT'] ) )
 						{
-							$total += $partial_points['PARTIAL_POINTS'] * ( $gradebook_config['WEIGHT'] == 'Y' ?
+							$total += $partial_points['PARTIAL_POINTS'] * ( ! empty( $gradebook_config['WEIGHT'] ) ?
 								$partial_points['FINAL_GRADE_PERCENT'] / $partial_points['PARTIAL_TOTAL'] :
 								1
 							);
 
-							$total_percent += ( $gradebook_config['WEIGHT'] == 'Y' ?
+							$total_percent += ( ! empty( $gradebook_config['WEIGHT'] ) ?
 								$partial_points['FINAL_GRADE_PERCENT'] :
 								$partial_points['PARTIAL_TOTAL']
 							);
@@ -1145,6 +1145,8 @@ echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']
 
 if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 {
+	$tipmessage = '';
+
 	if ( ! empty( $commentsB_RET ) )
 	{
 		$tipmsg = '';
@@ -1161,22 +1163,16 @@ if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		);
 	}
 
-	//FJ add All Courses & Course-specific comments scales tipmessage
+	// Add All Courses & Course-specific comments scales tipmessage.
 	elseif ( ! empty( $commentsA_RET ) )
 	{
-		$tipmessage = '';
-
-		//All Courses
+		// Course-specific.
+		$where = " AND CATEGORY_ID='" . $_REQUEST['tab_id'] . "'";
 
 		if ( $_REQUEST['tab_id'] == '0' )
 		{
+			// All Courses.
 			$where = " AND COURSE_ID='" . $_REQUEST['tab_id'] . "'";
-		}
-
-		//Course-specific
-		else
-		{
-			$where = " AND CATEGORY_ID='" . $_REQUEST['tab_id'] . "'";
 		}
 
 		$commentsAbis_RET = DBGet( "SELECT ID,TITLE,SCALE_ID

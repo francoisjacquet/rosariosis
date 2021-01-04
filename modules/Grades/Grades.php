@@ -585,7 +585,7 @@ foreach ( (array) $types_RET as $id => $type )
 
 	$tabs[] = array(
 		'title' => $color . $type[1]['TITLE'] .
-			( isset( $gradebook_config['WEIGHT'] ) && $gradebook_config['WEIGHT'] == 'Y' ?
+			( ! empty( $gradebook_config['WEIGHT'] ) ?
 				'|' . number_format( 100 * $type[1]['FINAL_GRADE_PERCENT'], 0 ) . '%' :
 				'' ),
 		'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&type_id=' . $id .
@@ -726,7 +726,8 @@ function _makeExtraAssnCols( $assignment_id, $column )
 						 * if the Gradebook is configured to Weight Grades:
 						 * Division by zero is impossible.
 						 */
-						if ( $partial_points['PARTIAL_TOTAL'] != 0 || $gradebook_config['WEIGHT'] != 'Y' )
+						if ( $partial_points['PARTIAL_TOTAL'] != 0
+							|| empty( $gradebook_config['WEIGHT'] ) )
 						{
 							$total += $partial_points['PARTIAL_POINTS'];
 							$total_points += $partial_points['PARTIAL_TOTAL'];
@@ -804,14 +805,15 @@ function _makeExtraAssnCols( $assignment_id, $column )
 						 * if the Gradebook is configured to Weight Grades:
 						 * Division by zero is impossible.
 						 */
-						if ( $partial_points['PARTIAL_TOTAL'] != 0 || $gradebook_config['WEIGHT'] != 'Y' )
+						if ( $partial_points['PARTIAL_TOTAL'] != 0
+							|| empty( $gradebook_config['WEIGHT'] ) )
 						{
 							$total += $partial_points['PARTIAL_POINTS'] *
-								( isset( $gradebook_config['WEIGHT'] ) && $gradebook_config['WEIGHT'] == 'Y' ?
+								( ! empty( $gradebook_config['WEIGHT'] ) ?
 									$partial_points['FINAL_GRADE_PERCENT'] / $partial_points['PARTIAL_TOTAL'] :
 									1 );
 
-							$total_percent += ( isset( $gradebook_config['WEIGHT'] ) && $gradebook_config['WEIGHT'] == 'Y' ?
+							$total_percent += ( ! empty( $gradebook_config['WEIGHT'] ) ?
 								$partial_points['FINAL_GRADE_PERCENT'] :
 								$partial_points['PARTIAL_TOTAL'] );
 						}
