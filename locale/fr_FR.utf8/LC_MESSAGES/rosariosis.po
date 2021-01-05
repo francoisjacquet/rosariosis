@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-07 16:45+0100\n"
-"PO-Revision-Date: 2020-12-05 13:28+0100\n"
+"PO-Revision-Date: 2021-01-05 15:46+0100\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS\n"
 "Language: fr\n"
@@ -1365,7 +1365,7 @@ msgstr "Attention"
 
 #: functions/GetMP.php:425
 msgid "You are not currently in a marking period"
-msgstr "Vous n'avez pas sélectionné une période scolaire"
+msgstr "Vous n'êtes pas dans une période scolaire"
 
 #: functions/GetStaffList.fnc.php:47 modules/Students/AddUsers.php:102
 #: modules/Students/includes/General_Info.inc.php:118
