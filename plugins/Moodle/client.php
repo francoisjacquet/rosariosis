@@ -8,11 +8,8 @@
 // Load cURL class.
 require_once 'classes/curl.php';
 
-// @since 7.6 PHP8 no xmlrpc ext: load XML_RPC compat classes.
-require_once 'plugins/Moodle/includes/XML_RPC.php';
-require_once 'plugins/Moodle/includes/XmlrpcDecoder.php';
-require_once 'plugins/Moodle/includes/XmlrpcEncoder.php';
-
+// @since 7.6 PHP8 no xmlrpc ext: load xmlrpc compat functions.
+require_once 'ProgramFunctions/PHPCompatibility/xmlrpc.php';
 
 /**
  * XML-RPC Call
@@ -37,13 +34,13 @@ function moodle_xmlrpc_call( $functionname, $object )
 		return false;
 	}
 
-	$post = XML_RPC::EncodeRequest(
+	$post = xmlrpc_encode_request(
 		$functionname,
 		$object,
 		array( 'encoding' => 'utf-8', 'escaping' => 'markup' )
 	);
 
-	$resp = XML_RPC::Decode( $curl->post( $serverurl, $post ), 'utf-8' );
+	$resp = xmlrpc_decode( $curl->post( $serverurl, $post ), 'utf-8' );
 
 	if ( get_xmlrpc_error( $resp ) )
 	{
@@ -67,7 +64,7 @@ function get_xmlrpc_error( $resp )
 	global $error;
 
 	if ( is_array( $resp )
-		&& XML_RPC::IsFault( $resp ) )
+		&& xmlrpc_is_fault( $resp ) )
 	{
 		$message = 'Moodle: ' . $resp['faultCode'] . ' - ' . $resp['faultString'];
 

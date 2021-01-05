@@ -121,8 +121,8 @@ class XML_RPC
 	 * Generates XML for a method request
 	 *
 	 * @param string $method    - XML-RPC method we wish to call
-	 * @param mixed $params     - additional parameters that acompnay the $method
-	 * @param string $options   - the XML-RPC options
+	 * @param mixed  $params    - additional parameters that acompnay the $method
+	 * @param array  $options   - the XML-RPC options
 	 * @return string Returns a string containing the XML representation of the request.
 	 */
 	public static function EncodeRequest($method, $params, $options)
@@ -148,8 +148,8 @@ class XML_RPC
 	 * the PHP-XMLRPC package installed on their system.
 	 *
 	 * @param string $method    - the XML-RPC method they wish to call
-	 * @param string $params    - the XML-RPC parameters they wish to use along with it
-	 * @param string $options   - the XML-RPC options
+	 * @param mixed  $params    - the XML-RPC parameters they wish to use along with it
+	 * @param array  $options   - the XML-RPC options
 	 * @return string $payload  - the XML-RPC request payload as a string
 	 */
 	public static function xmlrpc_encode_request($method, $params, $options)
