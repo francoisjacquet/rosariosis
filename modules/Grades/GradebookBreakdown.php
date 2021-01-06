@@ -51,7 +51,7 @@ $grades_RET = DBGet( "SELECT ID,TITLE,GPA_VALUE
 	WHERE GRADE_SCALE_ID='" . $grade_scale_id . "'
 	AND SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'
-	ORDER BY SORT_ORDER DESC" );
+	ORDER BY BREAK_OFF IS NOT NULL DESC,BREAK_OFF DESC,SORT_ORDER" );
 
 $grades = array();
 
@@ -136,6 +136,7 @@ if ( $_REQUEST['assignment_id'] === 'totals' )
 		sum(" . db_case( array( 'g.POINTS', "'-1'", "'0'", 'a.POINTS' ) ) . ") AS TOTAL_POINTS
 		FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a
 		WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID
+		AND a.STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND a.MARKING_PERIOD_ID='" . UserMP() . "'
 		AND g.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'
 		AND (a.COURSE_PERIOD_ID='" . UserCoursePeriod() . "' OR a.COURSE_ID='" . $course_id . "')
@@ -161,6 +162,7 @@ if ( $_REQUEST['assignment_id'] === 'totals' )
 			FROM GRADEBOOK_GRADES gg,GRADEBOOK_ASSIGNMENTS ga,GRADEBOOK_ASSIGNMENT_TYPES gt
 			WHERE gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID
 			AND ga.ASSIGNMENT_ID=gg.ASSIGNMENT_ID
+			AND ga.STAFF_ID='" . User( 'STAFF_ID' ) . "'
 			AND ga.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . ")
 			AND gg.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'
 			AND gt.COURSE_ID='" . $course_id . "'
