@@ -504,6 +504,9 @@ if ( empty( $_SESSION['STAFF_ID'] )
 		<input type="submit" value="<?php echo _( 'Login' ); ?>" class="button-primary" />
 	</p>
 
+	<?php // @since 7.6 Login form link action hook.
+	do_action( 'index.php|login_form_link' ); ?>
+
 	<?php if ( Config( 'CREATE_USER_ACCOUNT' ) ) : ?>
 
 		<p class="align-right">

@@ -352,6 +352,13 @@ $RosarioActions = array();
 	 * @since 7.5
 	 */
 	/*'Grades/includes/ReportCards.fnc.php|pdf_footer' => array(),
+
+	/**
+	 * Login form link.
+	 *
+	 * @since 7.6
+	 */
+	/*'index.php|login_form_link' => array(),
 );*/
 
 
