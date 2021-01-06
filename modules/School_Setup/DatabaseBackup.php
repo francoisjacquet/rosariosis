@@ -23,7 +23,7 @@ if ( $_REQUEST['modfunc'] === 'backup'
 
 	if ( empty( $version ) )
 	{
-		$error[] = sprintf( 'The path to the database dump utility specified in the configuration file is wrong! (%s)', $pg_dumpPath );
+		$error[] = sprintf( 'The path to the database dump utility specified in the configuration file (config.inc.php) is wrong! (%s)', $pg_dumpPath );
 
 		ErrorMessage( $error, 'fatal' );
 	}
