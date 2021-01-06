@@ -622,7 +622,7 @@ if ( $_REQUEST['assignment_id'] && $_REQUEST['assignment_id'] != 'all' )
 		( $due ? ' &mdash; <b>' . _( 'Assignment is Due' ) . '</b>' : '' ) );
 }
 
-if ( ! $_ROSARIO['allow_edit']
+if ( empty( $_ROSARIO['allow_edit'] )
 	&& ( ! empty( $_REQUEST['student_id'] )
 		|| ! empty( $_REQUEST['assignment_id'] ) ) )
 {
