@@ -104,7 +104,7 @@ SET title='7.0', gpa_value=7.0, break_off=70, comment='Bien'
 WHERE id=7;
 
 UPDATE report_card_grades
-SET title='6.5', gpa_value=6.5, break_off=65, comment='Bien'
+SET title='6.5', gpa_value=6.5, break_off=65, comment='Assez bien'
 WHERE id=8;
 
 UPDATE report_card_grades
@@ -136,28 +136,28 @@ SET title='3.0', gpa_value=3.0, break_off=30, comment='Médiocre'
 WHERE id=15;
 
 INSERT INTO report_card_grades
-VALUES (NEXTVAL('report_card_grades_id_seq'), (SELECT syear FROM schools WHERE id=1), 1, '2.5', 1, 2.5, 25, 'Insuffisant', 15, NULL);
+VALUES (NEXTVAL('report_card_grades_id_seq'), (SELECT syear FROM schools WHERE id=1), 1, '2.5', 16, 2.5, 25, 'Insuffisant', 1, NULL);
 
 INSERT INTO report_card_grades
-VALUES (NEXTVAL('report_card_grades_id_seq'), (SELECT syear FROM schools WHERE id=1), 1, '2.0', 1, 2.0, 20, 'Insuffisant', 16, NULL);
+VALUES (NEXTVAL('report_card_grades_id_seq'), (SELECT syear FROM schools WHERE id=1), 1, '2.0', 17, 2.0, 20, 'Insuffisant', 1, NULL);
 
 INSERT INTO report_card_grades
-VALUES (NEXTVAL('report_card_grades_id_seq'), (SELECT syear FROM schools WHERE id=1), 1, '1.5', 1, 1.5, 15, 'Insuffisant', 17, NULL);
+VALUES (NEXTVAL('report_card_grades_id_seq'), (SELECT syear FROM schools WHERE id=1), 1, '1.5', 18, 1.5, 15, 'Insuffisant', 1, NULL);
 
 INSERT INTO report_card_grades
-VALUES (NEXTVAL('report_card_grades_id_seq'), (SELECT syear FROM schools WHERE id=1), 1, '1.0', 1, 1.0, 10, 'Insuffisant', 18, NULL);
+VALUES (NEXTVAL('report_card_grades_id_seq'), (SELECT syear FROM schools WHERE id=1), 1, '1.0', 19, 1.0, 10, 'Insuffisant', 1, NULL);
 
 INSERT INTO report_card_grades
-VALUES (NEXTVAL('report_card_grades_id_seq'), (SELECT syear FROM schools WHERE id=1), 1, '0.5', 1, 0.5, 5, 'Insuffisant', 19, NULL);
+VALUES (NEXTVAL('report_card_grades_id_seq'), (SELECT syear FROM schools WHERE id=1), 1, '0.5', 20, 0.5, 5, 'Insuffisant', 1, NULL);
 
 INSERT INTO report_card_grades
-VALUES (NEXTVAL('report_card_grades_id_seq'), (SELECT syear FROM schools WHERE id=1), 1, '0.0', 1, 0.0, 0, 'Insuffisant', 20, NULL);
+VALUES (NEXTVAL('report_card_grades_id_seq'), (SELECT syear FROM schools WHERE id=1), 1, '0.0', 21, 0.0, 0, 'Insuffisant', 1, NULL);
 
 INSERT INTO report_card_grades
-VALUES (NEXTVAL('report_card_grades_id_seq'), (SELECT syear FROM schools WHERE id=1), 1, 'I', 1, 0.0, 0, 'Incomplet', 21, NULL);
+VALUES (NEXTVAL('report_card_grades_id_seq'), (SELECT syear FROM schools WHERE id=1), 1, 'I', 22, 0.0, 0, 'Incomplet', 1, NULL);
 
 INSERT INTO report_card_grades
-VALUES (NEXTVAL('report_card_grades_id_seq'), (SELECT syear FROM schools WHERE id=1), 1, 'N/C', 1, 0.0, NULL, NULL, 22, NULL);
+VALUES (NEXTVAL('report_card_grades_id_seq'), (SELECT syear FROM schools WHERE id=1), 1, 'N/N', 23, NULL, 0.0, 'Non Noté', 1, NULL);
 
 
 --

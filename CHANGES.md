@@ -12,6 +12,7 @@ Changes in 7.6
 - Fix SQL Total points only select assignments for CP teacher (teacher may have changed) in Grades.php, InputFinalGrades.php, StudentGrades.php & GradebookBreakdown.php
 - Fix SQL Grades sort order in GradebookBreakdown.php
 - Add Login form link action hook in index.php & Actions.php
+- SQL fix Report Card Grades insert in rosariosis_fr.sql
 
 Changes in 7.5
 --------------
