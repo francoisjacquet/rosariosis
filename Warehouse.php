@@ -514,7 +514,8 @@ function Warehouse( $mode )
 <br />
 <?php
 
-			if ( $_ROSARIO['page'] === 'modules' ): ?>
+			if ( isset( $_ROSARIO['page'] )
+				&& $_ROSARIO['page'] === 'modules' ): ?>
 <script>
 	var modname = "<?php echo issetVal( $_ROSARIO['ProgramLoaded'], '' ); ?>";
 	if (typeof menuStudentID !== 'undefined'
