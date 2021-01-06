@@ -124,7 +124,7 @@ SET title='I', gpa_value=0.0, break_off=0, comment='Incompleto'
 WHERE id=12;
 
 UPDATE report_card_grades
-SET title='N/A', gpa_value=0.0, break_off=NULL, comment=NULL
+SET title='N/C', gpa_value=0.0, break_off=NULL, comment='No Calificado'
 WHERE id=13;
 
 DELETE FROM report_card_grades WHERE id IN(14,15);
