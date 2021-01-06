@@ -214,7 +214,7 @@ echo '<tr><td>' . TextInput(
 ) . '</td></tr>';
 
 echo '<tr><td>' . TextInput(
-	(string) round( issetVal( $gradebook_config['LATENCY'], '' ) ),
+	(string) round( issetVal( $gradebook_config['LATENCY'] ) ),
 	'values[LATENCY]',
 	_( 'Days until ungraded assignment grade appears in Parent/Student gradebook views' ),
 	'size="3" maxlength="3"',
