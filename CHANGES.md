@@ -9,6 +9,7 @@ Changes in 7.6
 - Fix PHP8 compatibility issues (warnings & fatal errors), system wide
 - Fix save new Grade with "0" as Title in ReportCardGrades.php
 - PHP8 no xmlrpc ext: load xmlrpc compat functions in plugins/Moodle/client.php, xmlrpc.php, XML_RPC.php, XmlrpcDecoder.php & XmlrpcEncoder.php
+- Fix SQL Total points only select assignments for CP teacher (teacher may have changed) in Grades.php
 
 Changes in 7.5
 --------------

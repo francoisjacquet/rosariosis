@@ -420,7 +420,7 @@ else
 				sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", "''", db_case( array( 'ga.DEFAULT_POINTS', "'-1'", "'0'", 'ga.DEFAULT_POINTS' ) ), 'gg.POINTS' ) ) . ") AS PARTIAL_POINTS,
 				sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", "''", db_case( array( 'ga.DEFAULT_POINTS', "'-1'", "'0'", 'ga.POINTS' ) ), 'ga.POINTS' ) ) . ") AS PARTIAL_TOTAL,gt.FINAL_GRADE_PERCENT";
 
-			$extra['FROM'] = " JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID OR ga.COURSE_ID=cp.COURSE_ID AND ga.STAFF_ID=cp.TEACHER_ID)
+			$extra['FROM'] = " JOIN GRADEBOOK_ASSIGNMENTS ga ON (((ga.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID OR ga.COURSE_ID=cp.COURSE_ID) AND ga.STAFF_ID=cp.TEACHER_ID)
 				AND ga.MARKING_PERIOD_ID='" . UserMP() . "')
 			LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.STUDENT_ID=s.STUDENT_ID
 				AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID
