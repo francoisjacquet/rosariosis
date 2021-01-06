@@ -235,9 +235,9 @@ function appendStaffSQL( $sql, $extra = array() )
 {
 	global $_ROSARIO;
 
-	$no_search_terms = isset( $extra['NoSearchTerms'] ) && $extra['NoSearchTerms'];
+	$_ROSARIO['SearchTerms'] = issetVal( $_ROSARIO['SearchTerms'], '' );
 
-	$search_terms = '';
+	$no_search_terms = isset( $extra['NoSearchTerms'] ) && $extra['NoSearchTerms'];
 
 	if ( isset( $_REQUEST['usrid'] )
 		&& $_REQUEST['usrid'] )
@@ -263,7 +263,7 @@ function appendStaffSQL( $sql, $extra = array() )
 
 			if ( ! $no_search_terms )
 			{
-				$search_terms .= '<b>' . _( 'User ID' ) . ':</b> ' . $usrids . '<br />';
+				$_ROSARIO['SearchTerms'] .= '<b>' . _( 'User ID' ) . ':</b> ' . $usrids . '<br />';
 			}
 		}
 	}
@@ -326,7 +326,7 @@ function appendStaffSQL( $sql, $extra = array() )
 		{
 			$sql .= " AND s.PROFILE='" . $_REQUEST['profile'] . "' ";
 
-			$search_terms .= '<b>' . _( 'Profile' ) . ':</b> ' .
+			$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Profile' ) . ':</b> ' .
 				$options[ $_REQUEST['profile'] ] . '<br />';
 
 			if ( ! empty( $_REQUEST['student_grade_level'] )
@@ -352,7 +352,7 @@ function appendStaffSQL( $sql, $extra = array() )
 					WHERE SCHOOL_ID='" . UserSchool() . "'
 					AND ID='" . $_REQUEST['student_grade_level'] . "'" );
 
-				$search_terms .= '<b>' . _( 'Student Grade Level' ) . ':</b> ' .
+				$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Student Grade Level' ) . ':</b> ' .
 					$student_grade_level . '<br />';
 			}
 		}
@@ -371,13 +371,6 @@ function appendStaffSQL( $sql, $extra = array() )
 		);
 
 		$sql .= SearchField( $username, 'staff', $extra );
-	}
-
-	if ( $search_terms )
-	{
-		$_ROSARIO['SearchTerms'] = issetVal( $_ROSARIO['SearchTerms'], '' );
-
-		$_ROSARIO['SearchTerms'] .= $search_terms;
 	}
 
 	return $sql;
