@@ -634,7 +634,7 @@ function _makeMPSelect( $mp_id, $name )
 		{
 			$_ROSARIO['_makeMPSelect'][$sem['MARKING_PERIOD_ID']][1] = $sem;
 
-			if ( is_array( $quarters_indexed_RET[$sem['MARKING_PERIOD_ID']] ) )
+			if ( ! empty( $quarters_indexed_RET[$sem['MARKING_PERIOD_ID']] ) )
 			{
 				foreach ( (array) $quarters_indexed_RET[$sem['MARKING_PERIOD_ID']] as $qtr )
 				{
