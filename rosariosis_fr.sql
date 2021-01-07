@@ -157,7 +157,7 @@ INSERT INTO report_card_grades
 VALUES (NEXTVAL('report_card_grades_id_seq'), (SELECT syear FROM schools WHERE id=1), 1, 'I', 22, 0.0, 0, 'Incomplet', 1, NULL);
 
 INSERT INTO report_card_grades
-VALUES (NEXTVAL('report_card_grades_id_seq'), (SELECT syear FROM schools WHERE id=1), 1, 'N/N', 23, NULL, 0.0, 'Non Noté', 1, NULL);
+VALUES (NEXTVAL('report_card_grades_id_seq'), (SELECT syear FROM schools WHERE id=1), 1, 'N/D', 23, NULL, 0.0, 'Non Noté', 1, NULL);
 
 
 --
