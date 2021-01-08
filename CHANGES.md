@@ -13,6 +13,7 @@ Changes in 7.6
 - Fix SQL Grades sort order in GradebookBreakdown.php
 - Add Login form link action hook in index.php & Actions.php
 - SQL fix Report Card Grades insert in rosariosis_fr.sql
+- SQL fix ORDER Report Cards by Student name & Course list by Title in ReportCards.fnc.php
 
 Changes in 7.5
 --------------

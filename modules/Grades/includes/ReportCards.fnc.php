@@ -951,12 +951,12 @@ if ( ! function_exists( 'GetReportCardsExtra' ) )
 		/*$extra['WHERE'] .= " AND sg1.MARKING_PERIOD_ID IN (".$mp_list.")
 		AND rc_cp.COURSE_PERIOD_ID=sg1.COURSE_PERIOD_ID AND sg1.STUDENT_ID=ssm.STUDENT_ID AND sp.PERIOD_ID=rc_cp.PERIOD_ID";*/
 		$extra['WHERE'] .= " AND sg1.MARKING_PERIOD_ID IN (" . $mp_list . ")
-						AND rc_cp.COURSE_PERIOD_ID=sg1.COURSE_PERIOD_ID
-						AND sg1.STUDENT_ID=ssm.STUDENT_ID
-						AND sp.PERIOD_ID=cpsp.PERIOD_ID
-						AND rc_cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID";
+			AND rc_cp.COURSE_PERIOD_ID=sg1.COURSE_PERIOD_ID
+			AND sg1.STUDENT_ID=ssm.STUDENT_ID
+			AND sp.PERIOD_ID=cpsp.PERIOD_ID
+			AND rc_cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID";
 
-		$extra['ORDER'] = ",sg1.COURSE_TITLE,sp.SORT_ORDER,ac.TITLE";
+		$extra['ORDER_BY'] = "s.LAST_NAME,s.FIRST_NAME,sg1.COURSE_TITLE,sp.SORT_ORDER";
 
 		$extra['group'] = array( 'STUDENT_ID', 'COURSE_PERIOD_ID', 'MARKING_PERIOD_ID' );
 
