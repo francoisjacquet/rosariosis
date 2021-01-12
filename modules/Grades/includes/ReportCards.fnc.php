@@ -146,7 +146,7 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 			$return .= '<div id="divfreetext" style="display:none">';
 
 			$return .= TinyMCEInput(
-				GetTemplate(),
+				GetTemplate( 'Grades/ReportCards.php' ),
 				'inputfreetext',
 				_( 'Free Text' )
 			);
@@ -868,7 +868,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 			if ( ! empty( $_REQUEST['elements']['freetext'] )
 				&& function_exists( 'GetTemplate' ) )
 			{
-				$freetext_template = GetTemplate();
+				$freetext_template = GetTemplate( 'Grades/ReportCards.php' );
 
 				$substitutions = array(
 					'__FULL_NAME__' => $student['FULL_NAME'],
