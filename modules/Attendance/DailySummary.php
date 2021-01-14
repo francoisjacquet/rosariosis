@@ -317,7 +317,8 @@ else
 {
 	// in pre-2.11 versions the attendance data would be queried for all students here but data for #students*#days can be a lot
 	// in 2.11 this was switched to incremental query in the _makeColor function
-	if ( empty( $_REQUEST['period_id'] ) )
+	if ( empty( $_REQUEST['period_id'] )
+		|| ! is_numeric( $_REQUEST['period_id'] ) )
 	{
 		$att_sql = "SELECT ad.STATE_VALUE AS STATE_CODE,
 			SCHOOL_DATE,'_'||to_char(ad.SCHOOL_DATE,'yyyymmdd') AS SHORT_DATE

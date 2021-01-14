@@ -14,6 +14,7 @@ Changes in 7.6
 - Add Login form link action hook in index.php & Actions.php
 - SQL fix Report Card Grades insert in rosariosis_fr.sql
 - SQL fix ORDER Report Cards by Student name & Course list by Title in ReportCards.fnc.php
+- SQL fix error invalid input syntax for integer in DailySummary.php
 
 Changes in 7.5
 --------------
