@@ -51,6 +51,8 @@ function _makeTextInput( $column, $name, $request )
 		{
 			// Moodle integrator, email required.
 			$options .= ' required';
+
+			$div = false;
 		}
 	}
 	else
