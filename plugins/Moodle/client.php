@@ -79,5 +79,12 @@ function get_xmlrpc_error( $resp )
 		return false;
 	}
 
+	if ( isset( $error[0] )
+		&& empty( $error[0] ) )
+	{
+		// Fix error set but empty bug...?
+		unset( $error[0] );
+	}
+
 	return true;
 }
