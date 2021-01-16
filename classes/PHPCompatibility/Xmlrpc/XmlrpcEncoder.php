@@ -131,12 +131,34 @@ class XmlrpcEncoder {
 
 			$xml->startElement("params");
 
+			$has_param_value_elements = false;
+
+			if ( is_array( $data )
+				&& isset( $data[0] )
+				&& is_array( $data[0] ) )
+			{
+				$data = $data[0];
+
+				$xml->startElement("param");
+
+				$xml->startElement("value");
+
+				$has_param_value_elements = true;
+			}
+
 			try {
 
 				$this->encodeValue($xml, $data);
 			} catch (Exception $xe) {
 
 				throw $xe;
+			}
+
+			if ( $has_param_value_elements )
+			{
+				$xml->endElement();
+
+				$xml->endElement();
 			}
 
 			$xml->endElement();
