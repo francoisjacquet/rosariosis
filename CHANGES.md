@@ -16,6 +16,7 @@ Changes in 7.6
 - SQL fix Report Card Grades insert in rosariosis_fr.sql
 - SQL fix ORDER Report Cards by Student name & Course list by Title in ReportCards.fnc.php
 - SQL fix error invalid input syntax for integer in DailySummary.php
+- Replace tested on Ubuntu 16.04 with 18.04 (Buster) in INSTALL.md, INSTALL_es.md & INSTALL_fr.md
 
 Changes in 7.5
 --------------

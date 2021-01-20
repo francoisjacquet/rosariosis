@@ -4,14 +4,14 @@
 
 RosarioSIS est une application web qui dépend d'un serveur web, du langage de script PHP et d'un serveur de base de données PostgreSQL.
 
-Pour que RosarioSIS fonctionne, vous devrez d'abord avoir votre serveur web, PostgreSQL et PHP (extensions `pgsql`, `gettext`, `mbstring`, `gd`, `curl`, `xmlrpc`, `xml` & `zip` incluses) en état de marche. L'installation et la configuration des ces derniers varie selon votre système d'exploitation aussi ne seront-elles pas couvertes ici.
+Pour que RosarioSIS fonctionne, vous devrez d'abord avoir votre serveur web, PostgreSQL et PHP (extensions `pgsql`, `gettext`, `mbstring`, `gd`, `curl`, `xml` & `zip` incluses) en état de marche. L'installation et la configuration des ces derniers varie selon votre système d'exploitation aussi ne seront-elles pas couvertes ici.
 
 RosarioSIS a été testé sur:
 
 - Windows 10 x86 avec Apache 2.4.16, Postgres 9.3.6, et PHP 5.4.45
 - Ubuntu 14.04 avec Apache 2.4.18, Postgres 9.3.10, et PHP 5.5.9
-- Ubuntu 16.04 avec Apache 2.4.18, Postgres 9.5, et PHP 7.3.4
-- Debian Buster avec Apache 2.4.38, Postgres 11.5, et PHP 7.4.6
+- Ubuntu 18.04 avec 2.4.46, Postgres 10.15, et PHP 7.4.13
+- Debian Buster avec Apache 2.4.38, Postgres 11.5, et PHP 8.0.0
 - CentOS 8.2 avec Apache 2.4.37, Postgres 9.6.10, et PHP 7.2.24
 - Hébergement mutualisé avec cPanel, nginx, Postgres 8.4, et PHP 5.6.27
 - à travers Mozilla Firefox et Google Chrome
@@ -109,7 +109,7 @@ Afin de vous aider à identifier les problèmes, pointez votre navigateur sur: `
 Extensions PHP
 --------------
 
-Instructions d'installation pour Ubuntu 16.04:
+Instructions d'installation pour Ubuntu 18.04:
 ```bash
 server$ sudo apt-get install php-pgsql php-gettext php-mbstring php-gd php-curl php-xmlrpc php-xml php-zip
 ```
@@ -130,7 +130,7 @@ Redémarrer PHP et Apache.
 Autres langues
 --------------
 
-Instructions d'installation pour Ubuntu 16.04 et la locale _Espagnol_:
+Instructions d'installation pour Ubuntu 18.04 et la locale _Espagnol_:
 ```bash
 server$ sudo apt-get install language-pack-es
 ```
@@ -140,10 +140,10 @@ Ensuite redémarrez le serveur.
 [wkhtmltopdf](http://wkhtmltopdf.org/)
 --------------------------------------
 
-Instructions d'installation pour Ubuntu 16.04 (Xenial):
+Instructions d'installation pour Ubuntu 18.04 (Bionic):
 ```bash
-server$ wget https://downloads.wkhtmltopdf.org/0.12/0.12.5/wkhtmltox_0.12.5-1.xenial_amd64.deb
-server$ sudo dpkg -i wkhtmltox_0.12.5-1.xenial_amd64.deb
+server$ wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.bionic_amd64.deb
+server$ sudo dpkg -i wkhtmltox_0.12.6-1.bionic_amd64.deb
 ```
 
 Définir le chemin dans le fichier `config.inc.php`:
@@ -153,7 +153,7 @@ Définir le chemin dans le fichier `config.inc.php`:
 Envoi d'email
 -------------
 
-Instructions d'installation pour Ubuntu 16.04. Activer la fonction `mail()` de PHP:
+Instructions d'installation pour Ubuntu 18.04. Activer la fonction `mail()` de PHP:
 ```bash
 server$ sudo apt-get install sendmail
 ```
