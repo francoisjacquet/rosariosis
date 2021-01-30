@@ -149,7 +149,7 @@ if ( empty( $_SESSION['STAFF_ID'] )
 }
 
 /**
- * Array recursive walk
+ * Array recursive walk (values AND keys!)
  *
  * @since 7.6 Fix #308 sanitize key. Pass array keys through function.
  *
