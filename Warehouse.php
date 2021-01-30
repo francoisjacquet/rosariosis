@@ -151,7 +151,7 @@ if ( empty( $_SESSION['STAFF_ID'] )
 /**
  * Array recursive walk
  *
- * @since 7.6 Fix #308 security issue sanitize key. Pass array keys through function.
+ * @since 7.6 Fix #308 sanitize key. Pass array keys through function.
  *
  * @param  array  $array    Array by reference.
  * @param  string $function Function name.
