@@ -156,7 +156,8 @@ if ( ! extension_loaded( 'zip' ) )
 }
 
 // Check for xmlrpc extension.
-if ( ! extension_loaded( 'xmlrpc' ) )
+if ( version_compare( PHP_VERSION, '8.0' ) == -1
+	&& ! extension_loaded( 'xmlrpc' ) )
 {
 	$error[] = 'PHP extensions: RosarioSIS relies on the xmlrpc extension (only used to connect to Moodle). Please install and activate it.';
 }
