@@ -151,6 +151,8 @@ if ( empty( $_SESSION['STAFF_ID'] )
 /**
  * Array recursive walk
  *
+ * @since 7.6 Fix #308 security issue sanitize key. Pass array keys through function.
+ *
  * @param  array  $array    Array by reference.
  * @param  string $function Function name.
  * @return array  &$array Array passed through $function function
@@ -166,10 +168,22 @@ function array_rwalk( &$array, $function )
 		if ( is_array( $array[$key[$i]] ) )
 		{
 			array_rwalk( $array[$key[$i]], $function );
+
+			continue;
 		}
-		else
+
+		$array[$key[$i]] = $function( $array[$key[$i]] );
+
+		// Key is also passed through $function function.
+		$fkey = $function( $key[$i] );
+
+		if ( $fkey != $key[$i] ) // Weak comparison so we do not change integer value type.
 		{
-			$array[$key[$i]] = $function( $array[$key[$i]] );
+			// New key, order in array is lost (added last), sorry.
+			$array[$fkey] = $array[$key[$i]];
+
+			// Key passed through function differs, unset original key.
+			unset( $array[$key[$i]] );
 		}
 	}
 }

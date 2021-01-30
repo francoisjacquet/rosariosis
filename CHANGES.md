@@ -6,6 +6,7 @@ Changes in 7.6.1
 - Fix #307 XSS update CodeIgniter Security class in classes/Security.php, thanks to @DustinBorn
 - Move Portal Poll vote code to modfunc in PortalPollNotes.php & Portal.php
 - Fix #308 Unauthenticated SQL injection. Use sanitized `$_REQUEST` in Portal.php, thanks to @DustinBorn
+- Fix #308 security issue sanitize key. Pass array keys through function in Warehouse.php, thanks to @DustinBorn
 - Fix #309 unset `$_SESSION` so user cannot maintain dummy session in PasswordReset.php, thanks to @DustinBorn
 
 Changes in 7.6
