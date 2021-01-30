@@ -11,6 +11,8 @@ Moodle plugin: PHP xmlrpc extension no longer required
 
 [Automatic Attendance](https://www.rosariosis.org/plugins/automatic-attendance/) plugin, sponsored by Paris'Com Sup
 
+Security improved
+
 
 New in 7.4
 ----------
