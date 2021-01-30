@@ -19,6 +19,25 @@ if ( $_REQUEST['modfunc'] === 'redirect_take_attendance' )
 	_redirectTakeAttendance();
 }
 
+// AJAX poll vote call.
+
+if ( $_REQUEST['modfunc'] === 'poll_vote'
+	&& ! empty( $_POST['votes'] ) )
+{
+	// Fix #308 Unauthenticated SQL injection. Use sanitized $_REQUEST.
+	foreach ( (array) $_REQUEST['votes'] as $poll_id => $votes_array )
+	{
+		if ( ! empty( $votes_array ) )
+		{
+			// Result is displayed inside "divPortalPoll[id]" target div.
+			echo PortalPollsVote( $poll_id, $votes_array );
+
+			// Do not go further.
+			exit();
+		}
+	}
+}
+
 DrawHeader( ProgramTitle() );
 
 DrawHeader( '<span id="salute"></span>' );

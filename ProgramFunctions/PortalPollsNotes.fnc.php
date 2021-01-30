@@ -2,8 +2,6 @@
 /**
  * Portal Polls and Portal Notes functions.
  *
- * @todo Format code!
- *
  * @package RosarioSIS
  * @subpackage ProgramFunctions
  */
@@ -241,7 +239,7 @@ function PortalPollForm( $poll_id, $poll_questions_RET )
 	}
 
 	$poll_form .= '<form method="POST" id="formPortalPoll' . $poll_id . '"
-		action="ProgramFunctions/PortalPollsNotes.fnc.php"
+		action="Modules.php?modname=misc/Portal.php&modfunc=poll_vote"
 		target="divPortalPoll' . $poll_id . '">
 	<table class="width-100p widefat">';
 
@@ -362,33 +360,6 @@ function PortalPollsVotesDisplay( $poll_id, $display_votes, $poll_questions_RET,
 	}
 
 	return $votes_display;
-}
-
-// AJAX vote call:
-
-if ( isset( $_POST['votes'] )
-	&& is_array( $_POST['votes'] ) )
-{
-	if ( empty( $_SERVER['HTTP_X_REQUESTED_WITH'] )
-		|| $_SERVER['HTTP_X_REQUESTED_WITH'] !== 'XMLHttpRequest' )
-	{
-		die( 'Error: no AJAX' );
-	}
-
-	chdir( '../' );
-
-	require_once 'Warehouse.php';
-
-	foreach ( (array) $_POST['votes'] as $poll_id => $votes_array )
-	{
-		if ( ! empty( $votes_array ) )
-		{
-			echo PortalPollsVote( $poll_id, $votes_array );
-			break;
-		}
-	}
-
-	exit();
 }
 
 /**
