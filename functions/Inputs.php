@@ -1778,7 +1778,7 @@ function MakeChooseCheckbox( $value, $column = '', $controller_name = '' )
 
 		if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		{
-			return $checked ? 'x' : '';
+			return $checked ? '🗸' : '';
 		}
 
 		return '</a><input type="checkbox" value="Y" name="controller" id="controller"
@@ -1787,14 +1787,14 @@ function MakeChooseCheckbox( $value, $column = '', $controller_name = '' )
 			<label for="controller" class="a11y-hidden">' . _( 'Check All' ) . '</label><a>';
 	}
 
+	if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
+		return $checked ? '🗸' : '';
+	}
+
 	if ( ! empty( $controller_column ) )
 	{
 		$value = issetVal( $THIS_RET[ $controller_column ], '' );
-	}
-
-	if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
-	{
-		return $checked ? 'x' : '';
 	}
 
 	return '<label><input type="checkbox" name="' . $name . '[]" value="' . $value . '"' .
