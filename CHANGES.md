@@ -8,6 +8,7 @@ Changes in 7.6.1
 - Fix #308 Unauthenticated SQL injection. Use sanitized `$_REQUEST` in Portal.php, thanks to @DustinBorn
 - Fix #308 sanitize key. Pass array keys through function in Warehouse.php, thanks to @DustinBorn
 - Fix #309 unset `$_SESSION` so user cannot maintain dummy session in PasswordReset.php, thanks to @DustinBorn
+- Remove use of `$_SESSION['STAFF_ID'] === '-1'` in User.fnc.php & PasswordReset.php
 
 Changes in 7.6
 --------------

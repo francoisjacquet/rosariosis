@@ -9,11 +9,6 @@
 
 require_once 'Warehouse.php';
 
-// @todo Security. Remove the need for dummy session. Only used here...
-$_SESSION['USERNAME'] = 'PasswordReset';
-$_SESSION['STAFF_ID'] = '-1';
-
-
 /**
  * Send email with password reset link.
  * Activate debug mode for error messages.
@@ -113,10 +108,6 @@ if ( isset( $_POST['email'] )
 
 	if ( ! ROSARIO_DEBUG )
 	{
-		// Fix #309 unset $_SESSION so user cannot maintain dummy session.
-		unset( $_SESSION['USERNAME'] );
-		unset( $_SESSION['STAFF_ID'] );
-
 		// Redirect to login page.
 		header( 'Location: index.php?modfunc=logout&reason=password_reset' );
 
@@ -254,9 +245,6 @@ if ( isset( $_REQUEST['h'] )
 					$_REQUEST['PASSWORD']
 				);
 
-				unset( $_SESSION['USERNAME'] );
-				unset( $_SESSION['STAFF_ID'] );
-
 				// Redirect to login page.
 				header( 'Location: index.php' );
 
@@ -264,9 +252,6 @@ if ( isset( $_REQUEST['h'] )
 			}
 
 			_passwordResetForm( $_REQUEST['h'], $user_id );
-
-			unset( $_SESSION['USERNAME'] );
-			unset( $_SESSION['STAFF_ID'] );
 
 			exit;
 		}
@@ -305,10 +290,6 @@ _printPageHead( _( 'Forgot your password?' ) );
 <?php
 
 Warehouse( 'footer' );
-
-
-unset( $_SESSION['USERNAME'] );
-unset( $_SESSION['STAFF_ID'] );
 
 
 /**
@@ -492,6 +473,8 @@ function _printPageHead( $title )
 	$_ROSARIO['page'] = 'password-reset';
 
 	Warehouse( 'header' );
+
+	$_ROSARIO['HeaderIcon'] = 'misc';
 
 	DrawHeader( _( 'Password help' ) );
 

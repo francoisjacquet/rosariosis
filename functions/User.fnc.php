@@ -11,6 +11,8 @@
  *
  * @example User( 'PROFILE' )
  *
+ * @since 7.6.1 Remove use of `$_SESSION['STAFF_ID'] === '-1'`.
+ *
  * @global array  $_ROSARIO Sets $_ROSARIO['User']
  *
  * @param  string $item     User info item; see STAFF table fields for Admin/Parent/Teacher; STUDENT & STUDENT_ENROLLMENT fields for Student.
@@ -38,7 +40,7 @@ function User( $item )
 	{
 		// Get User Info.
 		if ( ! empty( $_SESSION['STAFF_ID'] )
-			&& $_SESSION['STAFF_ID'] !== '-1' )
+			&& $_SESSION['STAFF_ID'] > 0 )
 		{
 			$sql = "SELECT STAFF_ID,USERNAME," . DisplayNameSQL() . " AS NAME,
 				PROFILE,PROFILE_ID,SCHOOLS,CURRENT_SCHOOL_ID,EMAIL,SYEAR,LAST_LOGIN
@@ -52,7 +54,8 @@ function User( $item )
 			$_ROSARIO['User'] = DBGet( $sql );
 		}
 		// Get Student Info.
-		elseif ( ! empty( $_SESSION['STUDENT_ID'] ) )
+		elseif ( ! empty( $_SESSION['STUDENT_ID'] )
+			&& $_SESSION['STUDENT_ID'] > 0 )
 		{
 			$sql = "SELECT '0' AS STAFF_ID,s.USERNAME," . DisplayNameSQL( 's' ) . " AS NAME,
 				'student' AS PROFILE,'0' AS PROFILE_ID,LAST_LOGIN,
@@ -71,20 +74,9 @@ function User( $item )
 				$_SESSION['UserSchool'] = $_ROSARIO['User'][1]['SCHOOL_ID'];
 			}
 		}
-		// FJ create account, diagnostic, PasswordReset.
-		elseif ( basename( $_SERVER['PHP_SELF'] ) === 'index.php'
-			|| ( isset( $_SESSION['STAFF_ID'] )
-				&& $_SESSION['STAFF_ID'] === '-1' ) )
-		{
-			return false;
-		}
-		// Do not REMOVE else!
 		else
 		{
-			// Fatal error: do not use ErrorMessage() to prevent infinite loop.
-			echo 'Error: User not logged in!'; // Should never be displayed, so do not translate.
-
-			exit;
+			return false;
 		}
 	}
 
