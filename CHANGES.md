@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 7.6.1
+----------------
+- Fix #307 XSS update CodeIgniter Security class in classes/Security.php, thanks to @DustinBorn
+
 Changes in 7.6
 --------------
 - Fix login password with single quote, use POST in index.php & Preferences.php
