@@ -27,6 +27,8 @@ New in 7.2
 Discipline
 - Breakdown by Student Field: Grade Level breakdown.
 
+[Certificate](https://www.rosariosis.org/modules/certificate/) module, sponsored by Paris'Com Sup
+
 [Email](https://www.rosariosis.org/modules/email/) module:
 - Attach a file, sponsored by English National Program
 
