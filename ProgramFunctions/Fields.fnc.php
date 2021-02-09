@@ -24,15 +24,6 @@
  */
 function AddDBField( $table, $sequence, $type )
 {
-	// Please add your TABLE here.
-	/*$allowed_tables = array(
-		'STUDENTS',
-		'ADDRESS',
-		'PEOPLE',
-		'STAFF',
-		'SCHOOLS',
-	);*/
-
 	if ( ! AllowEdit()
 		|| empty( $table )
 		|| empty( $type ) )
@@ -115,15 +106,6 @@ function AddDBField( $table, $sequence, $type )
  */
 function DeleteDBField( $table, $id )
 {
-	// Please add your TABLE here.
-	/*$allowed_tables = array(
-		'STUDENTS',
-		'ADDRESS',
-		'PEOPLE',
-		'STAFF',
-		'SCHOOLS',
-	);*/
-
 	if ( ! AllowEdit()
 		|| empty( $table )
 		|| empty( $id )
@@ -164,14 +146,6 @@ function DeleteDBField( $table, $id )
  */
 function DeleteDBFieldCategory( $table, $id )
 {
-	// Please add your TABLE here.
-	/*$allowed_tables = array(
-		'STUDENTS',
-		'ADDRESS',
-		'PEOPLE',
-		'STAFF',
-	);*/
-
 	if ( ! AllowEdit()
 		|| empty( $table )
 		|| empty( $id )
@@ -232,15 +206,6 @@ function DeleteDBFieldCategory( $table, $id )
  */
 function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), $type_options = null )
 {
-	// Please add your TABLE here.
-	/*$allowed_tables = array(
-		'STUDENT',
-		'ADDRESS',
-		'PEOPLE',
-		'STAFF',
-		'SCHOOL',
-	);*/
-
 	$id = issetVal( $RET['ID'] );
 
 	$category_id = issetVal( $RET['CATEGORY_ID'] );
@@ -665,7 +630,6 @@ function MakeFieldType( $value, $column = '' )
  *
  * @example $_REQUEST['staff'] = FilterCustomFieldsMarkdown( 'STAFF_FIELDS', 'staff' );
  *
- * @since 4.4 Do not check allowed tables, sanitize table name instead.
  * @since 6.0 Add $request_index_3 param.
  *
  * @uses SanitizeMarkDown()
@@ -679,15 +643,6 @@ function MakeFieldType( $value, $column = '' )
  */
 function FilterCustomFieldsMarkdown( $table, $request_index, $request_index_2 = '', $request_index_3 = '' )
 {
-	// Please add your TABLE here.
-	/*$allowed_tables = array(
-		'CUSTOM_FIELDS',
-		'ADDRESS_FIELDS',
-		'PEOPLE_FIELDS',
-		'STAFF_FIELDS',
-		'SCHOOL_FIELDS',
-	);*/
-
 	if ( $request_index_2 === '' )
 	{
 		$request_values = issetVal( $_REQUEST[ $request_index ] );
@@ -707,8 +662,7 @@ function FilterCustomFieldsMarkdown( $table, $request_index, $request_index_2 = 
 		$post_values = issetVal( $_POST[ $request_index ][ $request_index_2 ][ $request_index_3 ] );
 	}
 
-	if ( ! $table
-		/*|| ! in_array( (string) $table, $allowed_tables )*/ )
+	if ( ! $table )
 	{
 		return $request_values;
 	}
@@ -758,15 +712,6 @@ function FilterCustomFieldsMarkdown( $table, $request_index, $request_index_2 = 
  */
 function CheckRequiredCustomFields( $table, $request_values )
 {
-	// Please add your TABLE here.
-	/*$allowed_tables = array(
-		'CUSTOM_FIELDS',
-		'ADDRESS_FIELDS',
-		'PEOPLE_FIELDS',
-		'STAFF_FIELDS',
-		'SCHOOL_FIELDS',
-	);*/
-
 	if ( empty( $table ) )
 	{
 		return false;
