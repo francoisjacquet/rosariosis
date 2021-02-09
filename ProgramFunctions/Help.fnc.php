@@ -222,26 +222,18 @@ function GetHelpTextRaw( $modname )
 		return '';
 	}
 
-	$help_text = '';
-
 	if ( ! empty( $help[ $modname ] ) )
 	{
-		$help_text = $help[ $modname ];
+		return $help[ $modname ];
 	}
-	else
-	{
-		foreach ( (array) $help as $program => $help_txt )
-		{
-			// FJ fix bug URL Modules.php?modname=Student_Billing/Statements.php&_ROSARIO_PDF.
-			if ( ( mb_strpos( $program, $modname ) === 0
-					&& mb_strpos( $_SERVER['QUERY_STRING'], $program ) === 21 ) )
-			{
-				$help_text = $help_txt;
 
-				break;
-			}
+	foreach ( (array) $help as $program => $help_txt )
+	{
+		// FJ fix bug URL Modules.php?modname=Student_Billing/Statements.php&_ROSARIO_PDF.
+		if ( ( mb_strpos( $program, $modname ) === 0
+				&& mb_strpos( $_SERVER['QUERY_STRING'], $program ) === 21 ) )
+		{
+			return $help_txt;
 		}
 	}
-
-	return $help_text;
 }
