@@ -235,7 +235,7 @@ if ( ! function_exists( 'FirstLoginPoll' ) )
 	 * @since 4.6
 	 * @since 5.2 Add Organization radio inputs.
 	 *
-	 * @return array Poll HTML array.
+	 * @return string Poll HTML array or empty string if not 'admin' user or if rosariosis.org not reachable.
 	 */
 	function FirstLoginPoll()
 	{
@@ -244,7 +244,7 @@ if ( ! function_exists( 'FirstLoginPoll' ) )
 
 		if ( User( 'STAFF_ID' ) !== '1' )
 		{
-			return false;
+			return '';
 		}
 
 		// Check if client has Internet connection.
@@ -253,7 +253,7 @@ if ( ! function_exists( 'FirstLoginPoll' ) )
 		if ( ! $has_connection )
 		{
 			// Server may be down?
-			return false;
+			return '';
 		}
 
 		$fields = array();
