@@ -1374,6 +1374,7 @@ function DisplayNameSQL( $table_alias = '' )
 		"LAST_NAME||' '||FIRST_NAME" => "%s.LAST_NAME||' '||%s.FIRST_NAME",
 		"LAST_NAME||', '||FIRST_NAME" => "%s.LAST_NAME||', '||%s.FIRST_NAME",
 		"LAST_NAME||', '||FIRST_NAME||' '||COALESCE(MIDDLE_NAME,' ')" => "%s.LAST_NAME||', '||%s.FIRST_NAME||' '||COALESCE(%s.MIDDLE_NAME,' ')",
+		"LAST_NAME||coalesce(' '||MIDDLE_NAME||' ',' ')||FIRST_NAME" => "%s.LAST_NAME||coalesce(' '||%s.MIDDLE_NAME||' ',' ')||%s.FIRST_NAME",
 	);
 
 	if ( ! isset( $display_names[ $display_name ] ) )
@@ -1421,6 +1422,7 @@ function DisplayName( $first_name, $last_name, $middle_name = '', $name_suffix =
 		"LAST_NAME||' '||FIRST_NAME" => "LAST_NAME FIRST_NAME",
 		"LAST_NAME||', '||FIRST_NAME" => "LAST_NAME, FIRST_NAME",
 		"LAST_NAME||', '||FIRST_NAME||' '||COALESCE(MIDDLE_NAME,' ')" => "LAST_NAME, FIRST_NAME MIDDLE_NAME",
+		"LAST_NAME||coalesce(' '||MIDDLE_NAME||' ',' ')||FIRST_NAME" => "LAST_NAME MIDDLE_NAME FIRST_NAME",
 	);
 
 	$display_name = isset( $display_names[ $display_name ] ) ?
