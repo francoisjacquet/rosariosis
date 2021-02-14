@@ -74,14 +74,13 @@ function Dashboard()
  *
  * @global $_ROSARIO
  * @since 4.0
+ * @since 7.7 Move Dashboard() call outside.
  *
  * @param integer $rows Number of modules per row, defaults to 4. Optional.
  */
 function DashboardOutput( $rows = 4 )
 {
 	global $_ROSARIO;
-
-	Dashboard();
 
 	if ( empty( $_ROSARIO['Dashboard'] ) )
 	{

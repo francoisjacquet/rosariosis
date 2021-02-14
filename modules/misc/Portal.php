@@ -108,6 +108,8 @@ echo ErrorMessage( $note, 'note' );
 echo ErrorMessage( $warning, 'warning' );
 
 // Dashboard.
+Dashboard();
+
 DashboardOutput();
 
 $portal_LO_options = array( 'save' => false, 'search' => false );
