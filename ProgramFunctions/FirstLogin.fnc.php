@@ -33,22 +33,14 @@ if ( ! function_exists( 'DoFirstLoginForm' ) )
 			if ( User( 'STAFF_ID' ) )
 			{
 				DBQuery( "UPDATE STAFF
-					SET PASSWORD='" . $new_password . "'
+					SET PASSWORD='" . $new_password . "',LAST_LOGIN=CURRENT_TIMESTAMP
 					WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 					AND SYEAR='" . UserSyear() . "'" );
-
-				DBQuery( "UPDATE STAFF
-					SET LAST_LOGIN=CURRENT_TIMESTAMP
-					WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'" );
 			}
 			else
 			{
 				DBQuery( "UPDATE STUDENTS
-					SET PASSWORD='" . $new_password . "'
-					WHERE STUDENT_ID='" . $_SESSION['STUDENT_ID'] . "'" );
-
-				DBQuery( "UPDATE STUDENTS
-					SET LAST_LOGIN=CURRENT_TIMESTAMP
+					SET PASSWORD='" . $new_password . "',LAST_LOGIN=CURRENT_TIMESTAMP
 					WHERE STUDENT_ID='" . $_SESSION['STUDENT_ID'] . "'" );
 			}
 
