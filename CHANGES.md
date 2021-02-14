@@ -4,6 +4,7 @@
 Changes in 7.7
 --------------
 - Move Dashboard() call outside in Dashboard.fnc.php & Portal.php
+- Add .xlsm,.key,.midi,.aif,.mpeg,.h264,.mkv,.log,.email,.eml,.emlx,.msg,.vcf extensions to white list in FileUpload.fnc.php
 
 Changes in 7.6.1
 ----------------

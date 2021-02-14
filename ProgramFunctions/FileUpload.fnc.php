@@ -710,6 +710,7 @@ function FileExtensionWhiteList() {
 		'.doc',
 		'.docx',
 		'.xls',
+		'.xlsm',
 		'.xlsx',
 		'.xlr',
 		'.pps',
@@ -722,6 +723,8 @@ function FileExtensionWhiteList() {
 		'.odt',
 		'.ods',
 		'.odp',
+		// Keynote presentation.
+		'.key',
 		// Images.
 		'.jpg',
 		'.jpeg',
@@ -739,24 +742,36 @@ function FileExtensionWhiteList() {
 		'.ogg',
 		'.wav',
 		'.mid',
+		'.midi',
 		'.wma',
+		'.aif',
 		// Video.
 		'.avi',
 		'.mp4',
 		'.mpg',
+		'.mpeg',
 		'.ogv',
 		'.webm',
 		'.wmv',
+		'.h264',
+		'.mkv',
 		'.mov',
 		'.m4v',
-		'.flv',
-		'.swf',
+		'.flv', // @deprecated Adobe Flash.
+		'.swf', // @deprecated Adobe Flash.
 		// Text.
 		'.txt',
 		'.pdf',
 		'.md',
 		'.csv',
 		'.tex',
+		'.log',
+		// Email.
+		'.email',
+		'.eml',
+		'.emlx',
+		'.msg',
+		'.vcf',
 		// Web.
 		'.xml',
 		'.xhtml',
