@@ -48,7 +48,8 @@ function ThemeLiveUpdate( $new_theme, $old_theme, $default = true )
 			AND PROGRAM='Preferences'
 			AND TITLE='THEME'" );
 
-		if ( $real_user_preferred_theme === $new_theme )
+		if ( ( ! $real_user_preferred_theme && $new_theme === $old_theme )
+			|| $real_user_preferred_theme === $new_theme )
 		{
 			// User already had that Theme loaded, do nothing.
 			return false;
