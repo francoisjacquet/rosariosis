@@ -2,6 +2,12 @@
 
 ## RosarioSIS Student Information System
 
+New in 7.7
+----------
+
+[Google Social Login](https://www.rosariosis.org/plugins/google-social-login/) plugin, sponsored by Santa Cecilia school
+
+
 New in 7.6
 ----------
 
