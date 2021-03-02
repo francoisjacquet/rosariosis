@@ -208,7 +208,7 @@ function _makePaymentsCommentsInput( $value, $name )
 			WHERE STUDENT_ID='" . UserStudentID() . "'
 			AND SYEAR='" . UserSyear() . "'
 			AND AMOUNT=bf.AMOUNT
-			AND COMMENTS=bf.TITLE
+			AND (COMMENTS=bf.TITLE OR COMMENTS LIKE '%' || bf.TITLE OR COMMENTS LIKE bf.TITLE || '%')
 			AND PAYMENT_DATE>=bf.ASSIGNED_DATE)
 		ORDER BY ASSIGNED_DATE DESC
 		LIMIT 20" );

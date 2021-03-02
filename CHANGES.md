@@ -8,7 +8,7 @@ Changes in 7.7
 - Add "Last Name Middle Name First Name" option to Display Name in GetStuList.fnc.php & Configuration.php
 - Fix SQL error escape course title in StudentGrades.php
 - SQL Remove Salaries having a Payment (same Amount & Comments (Title), after or on Assigned Date) in Accounting/functions.inc.php
--
+- SQL match Payment Comments LIKE Fee Title in Student_Billing/functions.inc.php
 
 Changes in 7.6.1
 ----------------
