@@ -123,6 +123,7 @@ function _makePaymentsTextInput( $value, $name )
  * Automatically fills the Comments & Amount inputs.
  *
  * @since 5.1
+ * @since 7.7 Remove Salaries having a Payment (same Amount & Comments (Title), after or on Assigned Date).
  *
  * @uses _makePaymentsTextInput()
  *
@@ -144,11 +145,18 @@ function _makePaymentsCommentsInput( $value, $name )
 
 	// Add Salaries dropdown to reconcile Payment.
 	$salaries_RET = DBGet( "SELECT ID,TITLE,ASSIGNED_DATE,DUE_DATE,AMOUNT
-		FROM ACCOUNTING_SALARIES
+		FROM ACCOUNTING_SALARIES sal
 		WHERE STAFF_ID='" . UserStaffID() . "'
 		AND SYEAR='" . UserSyear() . "'
+		AND NOT EXISTS(SELECT 1
+			FROM ACCOUNTING_PAYMENTS
+			WHERE STAFF_ID='" . UserStaffID() . "'
+			AND SYEAR='" . UserSyear() . "'
+			AND AMOUNT=sal.AMOUNT
+			AND (COMMENTS=sal.TITLE OR COMMENTS LIKE '%' || sal.TITLE OR COMMENTS LIKE sal.TITLE || '%')
+			AND PAYMENT_DATE>=sal.ASSIGNED_DATE)
 		ORDER BY ASSIGNED_DATE DESC
-		LIMIT 100" );
+		LIMIT 20" );
 
 	if ( ! $salaries_RET )
 	{
@@ -180,8 +188,8 @@ function _makePaymentsCommentsInput( $value, $name )
 	<?php
 	$js = ob_get_clean();
 
-	// Chosen select so we can search Salaries by date, amount, & title.
-	$select_input = ChosenSelectInput(
+	// Select so we can search Salaries by date, amount, & title.
+	$select_input = SelectInput(
 		'',
 		'accounting_salaries',
 		'',

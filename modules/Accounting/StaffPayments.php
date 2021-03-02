@@ -195,8 +195,5 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 		&& AllowEdit() )
 	{
 		echo '</form>';
-
-		// Add space to bottom for Chosen dropdown.
-		echo '<br /><br /><br /><br /><br />';
 	}
 }

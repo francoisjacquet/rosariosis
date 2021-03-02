@@ -7,6 +7,8 @@ Changes in 7.7
 - Add .xlsm,.key,.midi,.aif,.mpeg,.h264,.mkv,.log,.email,.eml,.emlx,.msg,.vcf extensions to white list in FileUpload.fnc.php
 - Add "Last Name Middle Name First Name" option to Display Name in GetStuList.fnc.php & Configuration.php
 - Fix SQL error escape course title in StudentGrades.php
+- SQL Remove Salaries having a Payment (same Amount & Comments (Title), after or on Assigned Date) in Accounting/functions.inc.php
+-
 
 Changes in 7.6.1
 ----------------
