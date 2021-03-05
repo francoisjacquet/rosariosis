@@ -9,6 +9,7 @@ Changes in 7.7
 - Fix SQL error escape course title in StudentGrades.php
 - SQL Remove Salaries having a Payment (same Amount & Comments (Title), after or on Assigned Date) in Accounting/functions.inc.php
 - SQL match Payment Comments LIKE Fee Title in Student_Billing/functions.inc.php
+- CSS fix list line-height in FlatSIS/stylesheet_wkhtmltopdf.css
 
 Changes in 7.6.1
 ----------------
