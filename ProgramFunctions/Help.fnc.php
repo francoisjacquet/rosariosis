@@ -236,4 +236,6 @@ function GetHelpTextRaw( $modname )
 			return $help_txt;
 		}
 	}
+
+	return '';
 }
