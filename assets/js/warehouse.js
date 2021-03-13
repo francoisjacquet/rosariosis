@@ -587,13 +587,19 @@ var expandMenu = function() {
  * - Clear input.
  *
  * @since 5.2
+ * @since 7.8 Handle `multiple`` files attribute.
+ *
  * @see PHP FileInput() function.
  *
  * @param  {object} file File input object.
  * @param  {int}    max  Max file size in Mb.
  */
 var fileInputSizeValidate = function(file, max) {
-	var fileSize = file.files[0].size / 1024 / 1024; // In Mb.
+	var fileSize = 0;
+
+	for (var i = 0; i < file.files.length; i++) {
+		fileSize += file.files[ i ].size / 1024 / 1024; // In Mb.
+	}
 
 	if (fileSize > max) {
 		alert(file.title);

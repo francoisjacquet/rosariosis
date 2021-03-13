@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 7.8
+--------------
+- Handle `multiple` files attribute in warehouse.js & Inputs.php
+
 Changes in 7.7
 --------------
 - Move Dashboard() call outside in Dashboard.fnc.php & Portal.php

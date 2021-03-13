@@ -1522,8 +1522,10 @@ function CheckCaptcha()
  *
  * @since 3.8.1
  * @since 5.2 Add $max_file_size param & max file size validation.
+ * @since 7.8 Handle `multiple` files attribute. See FileUploadMultiple().
  *
- * @example FileInput( 'values[new][FILE]', _( 'File' ), 'required' )
+ * @example FileInput( 'file', _( 'File' ), 'required' )
+ * @example FileInput( 'files[]', _( 'Files' ), 'multiple' )
  *
  * @uses GetInputID() to generate ID from name
  * @uses FormatInputTitle() to format title
