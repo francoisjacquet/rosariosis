@@ -430,6 +430,63 @@ function FilesUploadUpdate( $table, $request, $path )
 	return $new_file;
 }
 
+/**
+ * Handle `multiple` files attribute for FileUpload().
+ * Move $_FILES[ $input ][...][ $i ] to $_FILES[ {$input}_{$i} ] so FileUpload() can handle it.
+ *
+ * @since 7.8
+ *
+ * @example foreach ( FileUploadMultiple( 'files' ) as $input ) { FileUpload( $input ) }
+ *
+ * @param string $input Input name, without square brackets [].
+ *
+ * @return array Empty if no files. $input if not multiple. {$input}_{$i} if multiple.
+ */
+function FileUploadMultiple( $input )
+{
+	if ( ! isset( $_FILES[ $input ] ) )
+	{
+		return array();
+	}
+
+	if ( ! is_array( $_FILES[ $input ]['name'] ) )
+	{
+		// Not multiple files, return $input.
+		return array( $input );
+	}
+
+	$inputs = array();
+
+	$files = array();
+
+	foreach ( $_FILES[ $input ] as $attribute => $files_info )
+	{
+		foreach ( $files_info as $i => $file_info )
+		{
+			if ( ! isset( $files[ $i ] ) )
+			{
+				$files[ $i ] = array();
+			}
+
+			$files[ $i ][ $attribute ] = $file_info;
+		}
+	}
+
+	foreach ( $files as $i => $file )
+	{
+
+		$input_new_index = $input . '_' . $i;
+
+		$inputs[] = $input_new_index;
+
+		// Move $_FILES[ $input ][...][ $i ] to $_FILES[ {$input}_{$i} ] so FileUpload() can handle it.
+		$_FILES[ $input_new_index ] = $file;
+	}
+
+	unset( $_FILES[ $input ] );
+
+	return $inputs;
+}
 
 /**
  * Removes accents from string.
