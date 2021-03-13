@@ -221,6 +221,12 @@ function SubstitutionsCustomFields( $table )
  */
 function SubstitutionsCustomFieldsValues( $table, $values )
 {
+	if ( ! $table
+		|| ! $values )
+	{
+		return array();
+	}
+
 	$fields = _substitutionsDBGetCustomFields( $table );
 
 	$custom_values = array();
