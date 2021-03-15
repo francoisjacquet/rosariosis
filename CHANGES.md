@@ -5,6 +5,7 @@ Changes in 7.8
 --------------
 - Handle `multiple` files attribute in warehouse.js & Inputs.php
 - Add FileUploadMultiple(). Handle `multiple` files attribute for FileUpload() in FileUpload.fnc.php
+- Remove Reset button from Find a Student / User forms in Students/Search.inc.php & Users/Search.inc.php
 
 Changes in 7.7
 --------------

@@ -89,7 +89,7 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 			echo '<label><input type="checkbox" name="include_inactive" value="Y">&nbsp;' .
 			_( 'Include Inactive Students' ) . '</label><br />';
 
-			echo '<br />' . Buttons( _( 'Submit' ), _( 'Reset' ) ) . '</div><br />';
+			echo '<br />' . Buttons( _( 'Submit' ) ) . '</div><br />';
 
 			if ( ! empty( $extra['search'] )
 				|| ! empty( $extra['extra_search'] )
@@ -169,7 +169,7 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 
 			echo '<tr><td colspan="2" class="center"><br />';
 
-			echo Buttons( _( 'Submit' ), _( 'Reset' ) );
+			echo Buttons( _( 'Submit' ) );
 
 			echo '</td></tr></table></form>';
 
