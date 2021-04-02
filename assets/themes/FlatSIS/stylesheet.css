@@ -505,12 +505,14 @@ div.updated {
 	width: 220px;
 }
 
-.no-touch .menu-module:hover .wp-submenu {
+.no-touch .menu-module:hover .wp-submenu,
+.no-touch .menu-module:focus-within .wp-submenu {
 	left: 220px;
 	width: 220px;
 }
 
-html.no-touch[dir="RTL"] .menu-module:hover .wp-submenu {
+html.no-touch[dir="RTL"] .menu-module:hover .wp-submenu,
+html.no-touch[dir="RTL"] .menu-module:focus-within .wp-submenu {
 	right: 220px;
 }
 
@@ -597,6 +599,10 @@ a.menu-top,
 	background: #1a1a1a;
 	color: #fff;
 	width: 100%;
+}
+
+#menu-top select:focus {
+	border-bottom-color: #298cba;
 }
 
 .wp-submenu {

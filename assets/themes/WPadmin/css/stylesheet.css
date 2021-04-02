@@ -607,7 +607,8 @@ label {
 	position: relative;
 }
 
-.no-touch .menu-module:hover .menu-top:after {
+.no-touch .menu-module:hover .menu-top:after,
+.no-touch .menu-module:focus-within .menu-top:after {
 	content: "\276F";
 	padding-top: 6px;
 	position: absolute;
@@ -618,7 +619,8 @@ label {
 	content: "";
 }
 
-.no-touch .menu-module:hover .wp-submenu {
+.no-touch .menu-module:hover .wp-submenu,
+.no-touch .menu-module:focus-within .wp-submenu {
 	-webkit-transition-delay: .15s;
 	transition-delay: .15s;
 	z-index: 20;

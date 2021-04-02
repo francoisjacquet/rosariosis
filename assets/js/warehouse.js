@@ -526,7 +526,7 @@ var openMenu = function() {
 
 // Adjust Side.php submenu bottom offset.
 function submenuOffset() {
-	$(".adminmenu .menu-top").mouseover(function() {
+	$(".adminmenu .menu-top").on('mouseover focus', function() {
 		var submenu = $(this).next(".wp-submenu"),
 			offsetTop = $("#footer").offset().top;
 
