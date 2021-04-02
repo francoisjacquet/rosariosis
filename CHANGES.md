@@ -7,6 +7,7 @@ Changes in 7.8
 - Add FileUploadMultiple(). Handle `multiple` files attribute for FileUpload() in FileUpload.fnc.php
 - Remove Reset button from Find a Student / User forms in Students/Search.inc.php & Users/Search.inc.php
 - CSS & JS open submenu on focus & focus-within in warehouse.js, stylesheet.css & rtl.css
+- CSS menu link & button color on focus in stylesheet.css & colors.css
 
 Changes in 7.7
 --------------

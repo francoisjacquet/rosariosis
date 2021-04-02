@@ -135,7 +135,9 @@ input[type=submit] {
 }
 
 input[type=button]:hover,
-input[type=submit]:hover {
+input[type=submit]:hover,
+input[type=button]:focus,
+input[type=submit]:focus {
 	color: #000;
 	border-color: #666
 }
@@ -202,7 +204,8 @@ a.button-primary:focus {
 a:hover,
 a:active,
 a:focus,
-.adminmenu a:hover {
+.adminmenu a:hover,
+.adminmenu a:focus {
 	color: #d54e21;
 }
 
@@ -287,6 +290,7 @@ a,
 }
 
 .wp-submenu a:hover,
+.wp-submenu a:focus,
 #selectedMenuLink {
 	background-color: #EAF2FA;
 	color: #111

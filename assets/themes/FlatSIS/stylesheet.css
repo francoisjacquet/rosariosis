@@ -417,10 +417,6 @@ a {
 	color: #0073aa;
 }
 
-.adminmenu a {
-	color: #0090c3
-}
-
 a:hover,
 a:active,
 a:focus,
@@ -432,6 +428,10 @@ a:active,
 a:focus,
 .wp-submenu a:focus {
 	outline: 1px dotted #0090c3;
+}
+
+.wp-submenu a:focus {
+	background-color: transparent;
 }
 
 .adminmenu a:focus,
@@ -570,7 +570,8 @@ a.menu-top,
 	color: #eee;
 }
 
-.no-touch .menu-module:hover .menu-top::after {
+.no-touch .menu-module:hover .menu-top::after,
+.no-touch .menu-module:focus-within .menu-top::after {
 	color: #eee;
 }
 
