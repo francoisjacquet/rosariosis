@@ -91,7 +91,8 @@ function EmailReferralGetReferralSafe( $referral_id )
 		$where = " AND STUDENT_ID IN (SELECT STUDENT_ID FROM SCHEDULE
 		WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'
 		AND '" . DBDate() . "'>=START_DATE
-		AND ('" . DBDate() . "'<=END_DATE OR END_DATE IS NULL))";
+		AND ('" . DBDate() . "'<=END_DATE OR END_DATE IS NULL)
+		AND MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . "))";
 	}
 	elseif ( User( 'PROFILE' ) === 'admin' )
 	{
