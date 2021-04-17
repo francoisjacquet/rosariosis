@@ -109,6 +109,10 @@ Widgets( 'gpa' );
 Widgets( 'class_rank' );
 Widgets( 'letter_grade' );
 
+$extra['SELECT'] = issetVal( $extra['SELECT'], '' );
+$extra['FROM'] = issetVal( $extra['FROM'], '' );
+$extra['WHERE'] = issetVal( $extra['WHERE'], '' );
+
 //$extra['SELECT'] .= ',sgc.GPA,sgc.WEIGHTED_GPA,sgc.CLASS_RANK';
 $extra['SELECT'] .= ',sms.cum_weighted_factor, sms.cum_unweighted_factor, sms.cum_rank';
 
