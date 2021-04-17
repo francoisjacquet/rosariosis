@@ -9,7 +9,7 @@ Changes in 7.8
 - CSS & JS open submenu on focus & focus-within in warehouse.js, stylesheet.css & rtl.css
 - CSS menu link & button color on focus in stylesheet.css & colors.css
 - Fix check students Course Status in PrintClassLists.php & PrintClassPictures.php
-- Add Include Inactive Students checkbox in MasterScheduleReport.php
+- Add Include Inactive Students checkbox in MasterScheduleReport.php & RequestsReport.php
 
 Changes in 7.7
 --------------
