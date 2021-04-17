@@ -11,7 +11,9 @@ Changes in 7.8
 - Fix check students Course Status in PrintClassLists.php, PrintClassPictures.php, ClassSearchWidget.fnc.php, Referrals.php, EmailReferral.fnc.php & Widgets.fnc.php
 - Add Include Inactive Students checkbox in MasterScheduleReport.php & RequestsReport.php
 - Fix unset current student (check Course Status) when MP updated in Side.php
-- SQL fix Discipline Referrals using WHERE EXISTS in WidgetExtra.php
+- SQL fix Discipline Referrals using WHERE EXISTS in Widgets.fnc.php
+- Numeric Discipline field: invert values so BETWEEN works in Widgets.fnc.php
+- Numeric Discipline field: input type number in Widgets.fnc.php
 
 Changes in 7.7
 --------------

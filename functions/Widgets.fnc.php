@@ -1321,7 +1321,7 @@ function Widgets( $item, &$myextra = null )
 				for ( $i = 0; $i < $size; $i++ )
 				{
 					if ( !( $_REQUEST['discipline_begin'][ $key[ $i ] ] )
-						|| !is_numeric( $_REQUEST['discipline_begin'][ $key[ $i ] ] ) )
+						|| ! is_numeric( $_REQUEST['discipline_begin'][ $key[ $i ] ] ) )
 					{
 						unset( $_REQUEST['discipline_begin'][ $key[ $i ] ] );
 					}
@@ -1420,24 +1420,35 @@ function Widgets( $item, &$myextra = null )
 					case 'numeric':
 
 						$extra['search'] .= '<label>' . _( 'Between' ) .
-							' <input type="text" name="discipline_begin[' . $category['ID'] .
-								']" size="3" maxlength="11" /></label>' .
+							' <input type="number" name="discipline_begin[' . $category['ID'] .
+								']" min="-999999999999999999" max="999999999999999999" /></label>' .
 							' <label>&amp;' .
-							' <input type="text" name="discipline_end[' . $category['ID'] .
-								']" size="3" maxlength="11" /></label>';
+							' <input type="number" name="discipline_end[' . $category['ID'] .
+								']" min="-999999999999999999" max="999999999999999999" /></label>';
 
 						if ( ! empty( $_REQUEST['discipline_begin'][ $category['ID'] ] )
 							&& ! empty( $_REQUEST['discipline_end'][ $category['ID'] ] ) )
 						{
+							$discipline_begin = $_REQUEST['discipline_begin'][ $category['ID'] ];
+							$discipline_end = $_REQUEST['discipline_end'][ $category['ID'] ];
+
+							if ( $discipline_begin > $discipline_end )
+							{
+								// Numeric Discipline field: invert values so BETWEEN works.
+								$discipline_begin = $_REQUEST['discipline_end'][ $category['ID'] ];
+
+								$discipline_end = $_REQUEST['discipline_begin'][ $category['ID'] ];
+							}
+
 							$extra['WHERE'] .= " AND dr.CATEGORY_" . $category['ID'] .
-								" BETWEEN '" . $_REQUEST['discipline_begin'][ $category['ID'] ] .
-								"' AND '" . $_REQUEST['discipline_end'][ $category['ID'] ] . "' ";
+								" BETWEEN '" . $discipline_begin .
+								"' AND '" . $discipline_end . "' ";
 
 							if ( ! $extra['NoSearchTerms'] )
 							{
 								$_ROSARIO['SearchTerms'] .= '<b>' . $category['TITLE'] . ' ' . _( 'Between' ) . ': </b>' .
-									$_REQUEST['discipline_begin'][ $category['ID'] ] . ' &amp; ' .
-									$_REQUEST['discipline_end'][ $category['ID'] ] . '<br />';
+									$discipline_begin . ' &amp; ' .
+									$discipline_end . '<br />';
 							}
 						}
 
