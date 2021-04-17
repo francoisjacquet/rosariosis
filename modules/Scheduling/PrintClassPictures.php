@@ -32,7 +32,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 	$handle = PDFStart();
 
-	$PCP_UserCoursePeriod = UserCoursePeriod(); // save/restore for teachers
+	$PCP_UserCoursePeriod = UserCoursePeriod(); // Save/restore for teachers.
+
+	$is_include_inactive = isset( $_REQUEST['include_inactive'] ) && $_REQUEST['include_inactive'] === 'Y';
 
 	$no_students_backprompt = true;
 
@@ -82,23 +84,36 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				"WHERE TRUE" . $extra['WHERE'] .
 				" ORDER BY " . $extra['ORDER_BY'] );
 		}
-		elseif ( User( 'PROFILE' ) === 'teacher' )
+
+		if ( User( 'PROFILE' ) === 'admin'
+			|| User( 'PROFILE' ) === 'teacher' )
 		{
-			$extra['WHERE'] = " AND '" . User( 'STAFF_ID' ) . "'=(SELECT TEACHER_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')";
-		}
-		elseif ( User( 'PROFILE' ) === 'admin' )
-		{
-			$extra['WHERE'] = " AND s.STUDENT_ID IN
+			$extra['WHERE'] = '';
+
+			if ( User( 'PROFILE' ) === 'teacher' )
+			{
+				// Prevent course period ID hacking.
+				$extra['WHERE'] .= " AND '" . User( 'STAFF_ID' ) . "'=(SELECT TEACHER_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')";
+			}
+
+			$extra['WHERE'] .= " AND s.STUDENT_ID IN
 			(SELECT STUDENT_ID
 			FROM SCHEDULE
-			WHERE COURSE_PERIOD_ID='" . $course_period_id . "'
-			AND '" . DBDate() . "'>=START_DATE
-			AND ('" . DBDate() . "'<=END_DATE OR END_DATE IS NULL))";
-		}
+			WHERE COURSE_PERIOD_ID='" . $course_period_id . "'";
 
-		if ( User( 'PROFILE' ) === 'teacher'
-			|| User( 'PROFILE' ) === 'admin' )
-		{
+			if ( $is_include_inactive )
+			{
+				// Include Inactive Students.
+				$extra['WHERE'] .= ")";
+			}
+			else
+			{
+				// Active / Scheduled Students.
+				$extra['WHERE'] .= " AND '" . DBDate() . "'>=START_DATE
+					AND ('" . DBDate() . "'<=END_DATE OR END_DATE IS NULL)
+					AND MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . "))";
+			}
+
 			$RET = GetStuList( $extra );
 		}
 
