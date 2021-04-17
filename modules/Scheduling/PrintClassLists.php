@@ -45,35 +45,36 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	{
 		$_SESSION['UserCoursePeriod'] = $course_period['COURSE_PERIOD_ID'];
 
-		$extra = array( 'SELECT_ONLY' => '1' );
-
-		//FJ prevent course period ID hacking
+		$extra = array(
+			'SELECT_ONLY' => '1',
+			'WHERE' => '',
+		);
 
 		if ( User( 'PROFILE' ) === 'teacher' )
 		{
-			$extra['WHERE'] = " AND '" . User( 'STAFF_ID' ) . "'=(SELECT TEACHER_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')";
+			// Prevent course period ID hacking.
+			$extra['WHERE'] .= " AND '" . User( 'STAFF_ID' ) . "'=(SELECT TEACHER_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')";
 		}
-		elseif ( User( 'PROFILE' ) === 'admin' )
+
+		$extra['WHERE'] .= " AND s.STUDENT_ID IN
+		(SELECT STUDENT_ID
+		FROM SCHEDULE
+		WHERE COURSE_PERIOD_ID='" . $course_period['COURSE_PERIOD_ID'] . "'";
+
+		if ( $is_include_inactive )
 		{
-			$extra['WHERE'] = " AND s.STUDENT_ID IN
-			(SELECT STUDENT_ID
-			FROM SCHEDULE
-			WHERE COURSE_PERIOD_ID='" . $course_period['COURSE_PERIOD_ID'] . "'";
-
-			if ( $is_include_inactive )
-			{
-				// Include Inactive Students: scheduled.
-				$extra['WHERE'] .= ")";
-			}
-			else
-			{
-				// Active / Scheduled Students.
-				$extra['WHERE'] .= " AND '" . DBDate() . "'>=START_DATE
-					AND ('" . DBDate() . "'<=END_DATE OR END_DATE IS NULL))";
-			}
-
-			$extra_where = $extra['WHERE'];
+			// Include Inactive Students.
+			$extra['WHERE'] .= ")";
 		}
+		else
+		{
+			// Active / Scheduled Students.
+			$extra['WHERE'] .= " AND '" . DBDate() . "'>=START_DATE
+				AND ('" . DBDate() . "'<=END_DATE OR END_DATE IS NULL)
+				AND MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . "))";
+		}
+
+		$extra_where = $extra['WHERE'];
 
 		$RET = GetStuList( $extra );
 		//echo '<pre>'; var_dump($RET); echo '</pre>';
@@ -95,10 +96,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 			$extra['WHERE'] = issetVal( $extra['WHERE'], '' );
 
-			if ( User( 'PROFILE' ) === 'admin' )
-			{
-				$extra['WHERE'] .= $extra_where;
-			}
+			$extra['WHERE'] .= $extra_where;
 
 			// Warning: do NOT use require_once for Export here!
 			require 'modules/misc/Export.php';
