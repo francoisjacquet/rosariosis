@@ -137,20 +137,6 @@ if ( isset( $_REQUEST['sidefunc'] )
 		&& $_POST['period'] != $old_period )
 	{
 		$_SESSION['UserCoursePeriod'] = $_POST['period'];
-
-		// If current student.
-		if ( UserStudentID() )
-		{
-			$is_student_scheduled = DBGetOne( "SELECT 'SCHEDULED'
-				FROM SCHEDULE
-				WHERE STUDENT_ID='" . UserStudentID() . "'
-				AND COURSE_PERIOD_ID='" . UserCoursePeriod() . "'
-				AND '" . DBDate() . "'>=START_DATE
-				AND ('" . DBDate() . "'<=END_DATE OR END_DATE IS NULL)" );
-
-			// If student not scheduled in new CoursePeriod, remove.
-			$unset_student = ! $is_student_scheduled;
-		}
 	}
 
 	// Update Parent's current Student.
@@ -167,6 +153,22 @@ if ( isset( $_REQUEST['sidefunc'] )
 		}
 	}
 
+	if ( User( 'PROFILE' ) === 'teacher'
+		&& ! $unset_student
+		&& UserStudentID() )
+	{
+		// If current student and MP or Course Period were updated.
+		$is_student_scheduled = DBGetOne( "SELECT 'SCHEDULED'
+			FROM SCHEDULE
+			WHERE STUDENT_ID='" . UserStudentID() . "'
+			AND COURSE_PERIOD_ID='" . UserCoursePeriod() . "'
+			AND '" . DBDate() . "'>=START_DATE
+			AND ('" . DBDate() . "'<=END_DATE OR END_DATE IS NULL)
+			AND MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . ")" );
+
+		// If student not scheduled in new Course Period or MP, remove.
+		$unset_student = ! $is_student_scheduled;
+	}
 
 	/**
 	 * If current School OR SchoolYear changed from menu,

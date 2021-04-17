@@ -10,6 +10,7 @@ Changes in 7.8
 - CSS menu link & button color on focus in stylesheet.css & colors.css
 - Fix check students Course Status in PrintClassLists.php & PrintClassPictures.php
 - Add Include Inactive Students checkbox in MasterScheduleReport.php & RequestsReport.php
+- Fix unset current student (check Course Status) when MP updated in Side.php
 
 Changes in 7.7
 --------------
