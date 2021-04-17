@@ -245,7 +245,8 @@ function _classSearchWidgetCoursePeriodsListOutput( $extra = '' )
 	{
 		$_SESSION['List_PHP_SELF'] = PreparePHP_SELF( $_SESSION['_REQUEST_vars'], array( 'bottom_back' ) );
 
-		if ( $_SESSION['Back_PHP_SELF'] !== 'course' )
+		if ( empty( $_SESSION['Back_PHP_SELF'] )
+			|| $_SESSION['Back_PHP_SELF'] !== 'course' )
 		{
 			$_SESSION['Back_PHP_SELF'] = 'course';
 			unset( $_SESSION['Search_PHP_SELF'] );
