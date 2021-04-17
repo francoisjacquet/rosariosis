@@ -60,13 +60,14 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		if ( User( 'PROFILE' ) === 'student'
 			|| User( 'PROFILE' ) === 'parent' )
 		{
-			// FJ prevent course period ID hacking.
+			// Prevent course period ID hacking.
 			$extra['WHERE'] = " AND '" . UserStudentID() . "' IN
 			(SELECT STUDENT_ID
 			FROM SCHEDULE
 			WHERE COURSE_PERIOD_ID='" . $course_period_id . "'
 			AND '" . DBDate() . "'>=START_DATE
-			AND ('" . DBDate() . "'<=END_DATE OR END_DATE IS NULL))";
+			AND ('" . DBDate() . "'<=END_DATE OR END_DATE IS NULL)
+			AND MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . "))";
 
 			// Limit to UserCoursePeriod().
 			$extra['FROM'] = "JOIN SCHEDULE ss ON (ss.COURSE_PERIOD_ID='" . $course_period_id . "'
