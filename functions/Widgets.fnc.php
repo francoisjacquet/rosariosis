@@ -1163,16 +1163,13 @@ function Widgets( $item, &$myextra = null )
 
 			if ( ! empty( $_REQUEST['discipline_reporter'] ) )
 			{
-				if ( mb_strpos( $extra['FROM'], 'DISCIPLINE_REFERRALS' ) === false )
-				{
-					$extra['WHERE'] .= ' AND dr.STUDENT_ID=ssm.STUDENT_ID
-						AND dr.SYEAR=ssm.SYEAR
-						AND dr.SCHOOL_ID=ssm.SCHOOL_ID ';
+				$extra['WHERE'] .= ' AND EXISTS(SELECT 1
+					FROM DISCIPLINE_REFERRALS dr
+					WHERE dr.STUDENT_ID=ssm.STUDENT_ID
+					AND dr.SYEAR=ssm.SYEAR
+					AND dr.SCHOOL_ID=ssm.SCHOOL_ID ';
 
-					$extra['FROM'] .= ',DISCIPLINE_REFERRALS dr ';
-				}
-
-				$extra['WHERE'] .= " AND dr.STAFF_ID='" . $_REQUEST['discipline_reporter'] . "' ";
+				$extra['WHERE'] .= " AND dr.STAFF_ID='" . $_REQUEST['discipline_reporter'] . "') ";
 
 				$reporter = $users_RET[ $_REQUEST['discipline_reporter'] ][1];
 
@@ -1217,15 +1214,14 @@ function Widgets( $item, &$myextra = null )
 				( issetVal( $_REQUEST['discipline_entry_end'], '' ) )
 			);
 
-			if ( ( $discipline_entry_begin
+			if ( $discipline_entry_begin
 					|| $discipline_entry_end )
-				&& mb_strpos( $extra['FROM'], 'DISCIPLINE_REFERRALS' ) === false  )
 			{
-				$extra['WHERE'] .= ' AND dr.STUDENT_ID=ssm.STUDENT_ID
+				$extra['WHERE'] .= ' AND EXISTS(SELECT 1
+					FROM DISCIPLINE_REFERRALS dr
+					WHERE dr.STUDENT_ID=ssm.STUDENT_ID
 					AND dr.SYEAR=ssm.SYEAR
 					AND dr.SCHOOL_ID=ssm.SCHOOL_ID ';
-
-				$extra['FROM'] .= ',DISCIPLINE_REFERRALS dr ';
 			}
 
 			if ( $discipline_entry_begin
@@ -1233,7 +1229,7 @@ function Widgets( $item, &$myextra = null )
 			{
 				$extra['WHERE'] .= " AND dr.ENTRY_DATE
 					BETWEEN '" . $discipline_entry_begin .
-					"' AND '" . $discipline_entry_end . "' ";
+					"' AND '" . $discipline_entry_end . "') ";
 
 				if ( ! $extra['NoSearchTerms'] )
 				{
@@ -1244,7 +1240,7 @@ function Widgets( $item, &$myextra = null )
 			}
 			elseif ( $discipline_entry_begin )
 			{
-				$extra['WHERE'] .= " AND dr.ENTRY_DATE>='" . $discipline_entry_begin . "' ";
+				$extra['WHERE'] .= " AND dr.ENTRY_DATE>='" . $discipline_entry_begin . "') ";
 
 				if ( ! $extra['NoSearchTerms'] )
 				{
@@ -1254,7 +1250,7 @@ function Widgets( $item, &$myextra = null )
 			}
 			elseif ( $discipline_entry_end )
 			{
-				$extra['WHERE'] .= " AND dr.ENTRY_DATE<='" . $discipline_entry_end . "' ";
+				$extra['WHERE'] .= " AND dr.ENTRY_DATE<='" . $discipline_entry_end . "') ";
 
 				if ( ! $extra['NoSearchTerms'] )
 				{
@@ -1348,16 +1344,15 @@ function Widgets( $item, &$myextra = null )
 				}
 			}
 
-			if ( ( ! empty( $_REQUEST['discipline'] )
-					|| ! empty( $_REQUEST['discipline_begin'] )
-					|| ! empty( $_REQUEST['discipline_end'] ) )
-				&& mb_strpos( $extra['FROM'], 'DISCIPLINE_REFERRALS' ) === false )
+			if ( ! empty( $_REQUEST['discipline'] )
+				|| ! empty( $_REQUEST['discipline_begin'] )
+				|| ! empty( $_REQUEST['discipline_end'] ) )
 			{
-				$extra['WHERE'] .= ' AND dr.STUDENT_ID=ssm.STUDENT_ID
+				$extra['WHERE'] .= ' AND EXISTS(SELECT 1
+					FROM DISCIPLINE_REFERRALS dr
+					WHERE dr.STUDENT_ID=ssm.STUDENT_ID
 					AND dr.SYEAR=ssm.SYEAR
 					AND dr.SCHOOL_ID=ssm.SCHOOL_ID ';
-
-				$extra['FROM'] .= ',DISCIPLINE_REFERRALS dr ';
 			}
 
 			$categories_RET = DBGet( "SELECT f.ID,u.TITLE,f.DATA_TYPE,u.SELECT_OPTIONS
@@ -1489,6 +1484,13 @@ function Widgets( $item, &$myextra = null )
 				}
 
 				$extra['search'] .= '</td></tr>';
+			}
+
+			if ( ! empty( $_REQUEST['discipline'] )
+				|| ! empty( $_REQUEST['discipline_begin'] )
+				|| ! empty( $_REQUEST['discipline_end'] ) )
+			{
+				$extra['WHERE'] .= ') ';
 			}
 
 		break;
