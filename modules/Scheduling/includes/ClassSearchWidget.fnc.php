@@ -234,7 +234,8 @@ function _classSearchWidgetCoursePeriodsListOutput( $extra = '' )
 		AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID
 		AND ss.SYEAR='" . UserSyear() . "'
 		AND ss.STUDENT_ID='" . UserStudentID() . "'
-		AND (CURRENT_DATE>=ss.START_DATE AND (ss.END_DATE IS NULL OR CURRENT_DATE<=ss.END_DATE))";
+		AND (CURRENT_DATE>=ss.START_DATE AND (ss.END_DATE IS NULL OR CURRENT_DATE<=ss.END_DATE)
+		AND ss.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . "))";
 	}
 
 	$LO_columns = array( 'COURSE_PERIOD_ID' => MakeChooseCheckbox( 'Y', '', 'cp_arr' ), 'TITLE' => _( 'Course Period' ) );
