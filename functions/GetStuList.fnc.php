@@ -187,18 +187,10 @@ function GetStuList( &$extra = array() )
 				p.FIRST_NAME,p.LAST_NAME,p.MIDDLE_NAME,
 				sjp.STUDENT_RELATION,sjp.EMERGENCY,sjp.CUSTODY,pjc.TITLE,pjc.VALUE,a.PHONE,sjp.ADDRESS_ID ';
 
-			$extra2['FROM'] = '';
-
-			if ( empty( $extra['addr'] ) )
-			{
-				// Fix SQL error table ADDRESS specified more than once.
-				$extra2['FROM'] .= ',ADDRESS a';
-			}
-
-			$extra2['FROM'] .= ',STUDENTS_JOIN_ADDRESS sja LEFT OUTER JOIN STUDENTS_JOIN_PEOPLE sjp ON (sja.STUDENT_ID=sjp.STUDENT_ID AND sja.ADDRESS_ID=sjp.ADDRESS_ID)
+			$extra2['FROM'] .= ',ADDRESS a,STUDENTS_JOIN_ADDRESS sja LEFT OUTER JOIN STUDENTS_JOIN_PEOPLE sjp ON (sja.STUDENT_ID=sjp.STUDENT_ID AND sja.ADDRESS_ID=sjp.ADDRESS_ID)
 				LEFT OUTER JOIN PEOPLE p ON (p.PERSON_ID=sjp.PERSON_ID)
 				LEFT OUTER JOIN PEOPLE_JOIN_CONTACTS pjc ON (pjc.PERSON_ID=p.PERSON_ID) ';
-
+				var_dump($extra2['FROM']);
 			$extra2['WHERE'] = ' AND a.ADDRESS_ID=sja.ADDRESS_ID
 				AND sja.STUDENT_ID=ssm.STUDENT_ID
 				AND (sjp.CUSTODY=\'Y\' OR sjp.EMERGENCY=\'Y\') ';

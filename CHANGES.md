@@ -14,6 +14,7 @@ Changes in 7.8
 - SQL fix Discipline Referrals using WHERE EXISTS in Widgets.fnc.php
 - Numeric Discipline field: invert values so BETWEEN works in Widgets.fnc.php
 - Numeric Discipline field: input type number in Widgets.fnc.php
+- Fix SQL error missing FROM ADDRESS table in GetStuList.fnc.php
 
 Changes in 7.7
 --------------
