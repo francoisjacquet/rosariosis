@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-07 16:45+0100\n"
-"PO-Revision-Date: 2021-01-05 15:46+0100\n"
+"PO-Revision-Date: 2021-03-08 20:09+0100\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS\n"
 "Language: fr\n"
@@ -4101,7 +4101,7 @@ msgstr "Transfert"
 #: modules/Food_Service/Users/Transactions.php:94
 #: modules/Food_Service/Users/Transactions.php:129
 msgid "Deposit"
-msgstr "Accompte"
+msgstr "Acompte"
 
 #: modules/Food_Service/ActivityReport.php:87
 #: modules/Food_Service/ActivityReport.php:125
