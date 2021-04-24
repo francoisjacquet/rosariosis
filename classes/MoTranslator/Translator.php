@@ -145,6 +145,7 @@ class Translator
 
 	/**
 	 * Translates a string.
+	 * Fix try searching plural forms adding an 's' to singular form and with number set to 1.
 	 *
 	 * @param string $msgid String to be translated
 	 *
@@ -156,7 +157,10 @@ class Translator
 			return $this->cache_translations[$msgid];
 		}
 
-		return $msgid;
+		// Fix try searching plural forms adding an 's' to singular form and with number set to 1.
+		return $this->ngettext($msgid, $msgid . 's', 1);
+
+		// return $msgid;
 	}
 
 	/**

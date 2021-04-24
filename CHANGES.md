@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 7.8.2
+----------------
+- Fix try searching plural forms adding an 's' to singular form and with number set to 1 in Translator.php
+
 Changes in 7.8.1
 ----------------
 - CSS Edge browser fix: Do not merge focus-within styles with hover styles in stylesheet.css, stylesheet_wkhtmltopdf.css & rtl.css
