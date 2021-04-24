@@ -506,9 +506,22 @@ div.updated {
 	width: 220px;
 }
 
+/* Edge browser fix: Do not merge focus-within styles with hover styles */
+
+.no-touch .menu-module:focus-within .wp-submenu {
+	left: 220px;
+	width: 220px;
+}
+
 .no-touch .menu-module:hover .wp-submenu {
 	left: 220px;
 	width: 220px;
+}
+
+/* Edge browser fix: Do not merge focus-within styles with hover styles */
+
+html.no-touch[dir="RTL"] .menu-module:focus-within .wp-submenu {
+	right: 220px;
 }
 
 html.no-touch[dir="RTL"] .menu-module:hover .wp-submenu {
@@ -566,6 +579,12 @@ html.no-touch[dir="RTL"] .menu-module:hover .wp-submenu {
 
 a.menu-top,
 .BottomButton {
+	color: #eee;
+}
+
+/* Edge browser fix: Do not merge focus-within styles with hover styles */
+
+.no-touch .menu-module:focus-within .menu-top::after {
 	color: #eee;
 }
 

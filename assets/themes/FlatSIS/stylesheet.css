@@ -505,14 +505,25 @@ div.updated {
 	width: 220px;
 }
 
-.no-touch .menu-module:hover .wp-submenu,
+/* Edge browser fix: Do not merge focus-within styles with hover styles */
+
 .no-touch .menu-module:focus-within .wp-submenu {
 	left: 220px;
 	width: 220px;
 }
 
-html.no-touch[dir="RTL"] .menu-module:hover .wp-submenu,
+.no-touch .menu-module:hover .wp-submenu {
+	left: 220px;
+	width: 220px;
+}
+
+/* Edge browser fix: Do not merge focus-within styles with hover styles */
+
 html.no-touch[dir="RTL"] .menu-module:focus-within .wp-submenu {
+	right: 220px;
+}
+
+html.no-touch[dir="RTL"] .menu-module:hover .wp-submenu {
 	right: 220px;
 }
 
@@ -570,8 +581,13 @@ a.menu-top,
 	color: #eee;
 }
 
-.no-touch .menu-module:hover .menu-top::after,
+/* Edge browser fix: Do not merge focus-within styles with hover styles */
+
 .no-touch .menu-module:focus-within .menu-top::after {
+	color: #eee;
+}
+
+.no-touch .menu-module:hover .menu-top::after {
 	color: #eee;
 }
 

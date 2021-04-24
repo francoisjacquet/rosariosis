@@ -24,14 +24,26 @@ html[dir="RTL"] .wp-submenu {
 	transition: 0s top, 0s right;
 }
 
-html.no-touch[dir="RTL"] .menu-module:hover .menu-top:after,
+/* Edge browser fix: Do not merge focus-within styles with hover styles */
+
 html.no-touch[dir="RTL"] .menu-module:focus-within .menu-top:after {
 	left: 5px;
 	right: auto;
 }
 
-html.no-touch[dir="RTL"] .menu-module:hover .wp-submenu,
+html.no-touch[dir="RTL"] .menu-module:hover .menu-top:after {
+	left: 5px;
+	right: auto;
+}
+
+/* Edge browser fix: Do not merge focus-within styles with hover styles */
+
 html.no-touch[dir="RTL"] .menu-module:focus-within .wp-submenu {
+	right: 205px;
+	left: auto;
+}
+
+html.no-touch[dir="RTL"] .menu-module:hover .wp-submenu {
 	right: 205px;
 	left: auto;
 }

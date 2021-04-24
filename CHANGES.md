@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 7.8.1
+----------------
+- CSS Edge browser fix: Do not merge focus-within styles with hover styles in stylesheet.css, stylesheet_wkhtmltopdf.css & rtl.css
+
 Changes in 7.8
 --------------
 - Handle `multiple` files attribute in warehouse.js & Inputs.php
