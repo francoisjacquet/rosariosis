@@ -1,7 +1,7 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
-Changes in 7.8.2
+Changes in 7.8.3
 ----------------
 - Fix trim 0 (float) when percent > 1,000: do not use comma for thousand separator in Grades.php & ProgressReports.php
 
