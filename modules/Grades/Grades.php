@@ -1167,11 +1167,12 @@ function _makeExtraCols( $assignment_id, $column )
 function _Percent( $num, $decimals = 2, $red_span = false )
 {
 	// Raw value in comment so we can sort Percent column the right way.
-	$percent_html = '<!-- ' . number_format( $num, $decimals ) . ' -->';
+	$percent_html = '<!-- ' . number_format( $num, $decimals, '.', '' ) . ' -->';
 
 	$percent_html .= ( $red_span ? '<span style="color:red">' : '' );
 
-	$percent_html .= (float) number_format( $num, $decimals ) . '%';
+	// Fix trim 0 (float) when percent > 1,000: do not use comma for thousand separator.
+	$percent_html .= (float) number_format( $num, $decimals, '.', '' ) . '%';
 
 	$percent_html .= ( $red_span ? '</span>' : '' );
 

@@ -250,7 +250,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 			// Do not add Total to $link['add']['html']: PDF and no AllowEdit().
 			$total_last_row = array(
-				'TITLE' => '<b>Total</b>',
+				'TITLE' => '<b>' . _( 'Total' ) . '</b>',
 				'ASSIGNED_DATE' => '&nbsp;',
 				'DUE_DATE' => '&nbsp;',
 				'POINTS' => '<b>' . $sum_student_points . '&nbsp;/&nbsp;' . $sum_total_points . '</b>',
@@ -473,5 +473,6 @@ function _makeExtraGrade( $value, $column )
  */
 function _Percent( $num, $decimals = 2 )
 {
-	return (float) number_format( $num, $decimals ) . '%';
+	// Fix trim 0 (float) when percent > 1,000: do not use comma for thousand separator.
+	return (float) number_format( $num, $decimals, '.', '' ) . '%';
 }

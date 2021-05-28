@@ -3,6 +3,11 @@
 
 Changes in 7.8.2
 ----------------
+- Fix trim 0 (float) when percent > 1,000: do not use comma for thousand separator in Grades.php & ProgressReports.php
+
+
+Changes in 7.8.2
+----------------
 - Fix try searching plural forms adding an 's' to singular form and with number set to 1 in Translator.php
 
 Changes in 7.8.1
