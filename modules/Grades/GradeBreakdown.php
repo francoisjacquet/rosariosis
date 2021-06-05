@@ -71,16 +71,17 @@ DrawHeader( $mp_select );
 
 echo '</form>';
 
-$grouped_SQL = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,s.STAFF_ID,g.REPORT_CARD_GRADE_ID
+$grouped_sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,s.STAFF_ID,g.REPORT_CARD_GRADE_ID
 	FROM STUDENT_REPORT_CARD_GRADES g,STAFF s,COURSE_PERIODS cp
 	WHERE g.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
 	AND cp.TEACHER_ID=s.STAFF_ID
 	AND cp.SYEAR=s.SYEAR
 	AND cp.SYEAR=g.SYEAR
 	AND cp.SYEAR='" . UserSyear() . "'
-	AND g.MARKING_PERIOD_ID='" . $_REQUEST['mp_id'] . "'";
+	AND g.MARKING_PERIOD_ID='" . $_REQUEST['mp_id'] . "'
+	ORDER BY FULL_NAME";
 
-$grouped_RET = DBGet( $grouped_SQL, array(), array( 'STAFF_ID', 'REPORT_CARD_GRADE_ID' ) );
+$grouped_RET = DBGet( $grouped_sql, array(), array( 'STAFF_ID', 'REPORT_CARD_GRADE_ID' ) );
 
 $grades_RET = DBGet( "SELECT rg.ID,rg.TITLE,rg.GPA_VALUE
 	FROM REPORT_CARD_GRADES rg,REPORT_CARD_GRADE_SCALES rs

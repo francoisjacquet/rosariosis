@@ -4,6 +4,7 @@
 Changes in 7.8.4
 ----------------
 - Fix User Marking Period title in GradeBreakdown.php
+- SQL ORDER BY Teacher name in GradeBreakdown.php
 
 Changes in 7.8.3
 ----------------
