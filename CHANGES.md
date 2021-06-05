@@ -1,10 +1,13 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 7.8.4
+----------------
+- Fix User Marking Period title in GradeBreakdown.php
+
 Changes in 7.8.3
 ----------------
 - Fix trim 0 (float) when percent > 1,000: do not use comma for thousand separator in Grades.php & ProgressReports.php
-
 
 Changes in 7.8.2
 ----------------

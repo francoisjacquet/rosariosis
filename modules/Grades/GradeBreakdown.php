@@ -50,12 +50,17 @@ $mp_select = '<select name="mp_id" id="mp_id" onchange="ajaxPostForm(this.form,t
 
 foreach ( (array) $mps_RET as $mp )
 {
-    if ( $mp['DOES_GRADES'] === 'Y'
-    	|| $mp['MARKING_PERIOD_ID'] === UserMP() )
-    {
-        $mp_select .= '<option value="' . $mp['MARKING_PERIOD_ID'] . '"' .
-        	( $mp['MARKING_PERIOD_ID'] === $_REQUEST['mp_id'] ? ' selected' : '' ) . '>' .
-        	( $user_mp_title = $mp['TITLE'] ) . '</option>';
+	if ( $mp['DOES_GRADES'] === 'Y'
+		|| $mp['MARKING_PERIOD_ID'] === UserMP() )
+	{
+		$mp_select .= '<option value="' . $mp['MARKING_PERIOD_ID'] . '"' .
+			( $mp['MARKING_PERIOD_ID'] === $_REQUEST['mp_id'] ? ' selected' : '' ) . '>' .
+			$mp['TITLE'] . '</option>';
+
+		if ( $mp['MARKING_PERIOD_ID'] === $_REQUEST['mp_id'] )
+		{
+			$user_mp_title = $mp['TITLE'];
+		}
 	}
 }
 
