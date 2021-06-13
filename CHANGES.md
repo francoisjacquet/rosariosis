@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 7.9
+--------------
+- Update default School Year to 2021 in rosariosis.sql & config.inc.sample.php
+
 Changes in 7.8.4
 ----------------
 - Fix User Marking Period title in GradeBreakdown.php
