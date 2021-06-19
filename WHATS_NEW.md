@@ -2,6 +2,12 @@
 
 ## RosarioSIS Student Information System
 
+New in 7.9
+----------
+
+[Class Diary](https://www.rosariosis.org/modules/class-diary/) module
+
+
 New in 7.7
 ----------
 
