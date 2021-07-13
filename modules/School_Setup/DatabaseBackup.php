@@ -37,7 +37,9 @@ if ( $_REQUEST['modfunc'] === 'backup'
 	header( "Content-Description: File Transfer" );
 	header( "Content-Type: $ctype" );
 
-	$filename = Config( 'NAME' ) . '_database_backup_' . date( 'Y.m.d' ) . '.sql';
+	// Fix download backup filename when contains spaces: use double quotes.
+	$filename = '"' . Config( 'NAME' ) . '_database_backup_' . date( 'Y.m.d' ) . '.sql"';
+
 	$header = "Content-Disposition: attachment; filename=" . $filename . ";";
 
 	header( $header );

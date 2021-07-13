@@ -4,6 +4,7 @@
 Changes in 7.9.1
 ----------------
 - Fix remove file when has single quote in its name and actually delete file in Student.php, User.php & Schools.php
+- Fix download backup filename when contains spaces: use double quotes in DatabaseBackup.php
 
 Changes in 7.9
 --------------
