@@ -138,7 +138,9 @@ if ( $_REQUEST['modfunc'] === 'remove_file'
 	{
 		$column = DBEscapeIdentifier( 'CUSTOM_' . $_REQUEST['id'] );
 
-		$file = $FileUploadsPath . 'Schools/' . UserSchool() . '/' . $_REQUEST['filename'];
+		$filename = str_replace( "''", "'", $_REQUEST['filename'] );
+
+		$file = $FileUploadsPath . 'Schools/' . UserSchool() . '/' . $filename;
 
 		DBQuery( "UPDATE SCHOOLS SET " . $column . "=REPLACE(" . $column . ", '" . DBEscapeString( $file ) . "||', '')
 			WHERE ID='" . UserSchool() . "'
@@ -146,7 +148,7 @@ if ( $_REQUEST['modfunc'] === 'remove_file'
 
 		if ( file_exists( $file ) )
 		{
-			unset( $file );
+			unlink( $file );
 		}
 
 		// Unset modfunc, id, filename & redirect URL.

@@ -575,9 +575,11 @@ if ( $_REQUEST['modfunc'] === 'remove_file'
 	{
 		$column = DBEscapeIdentifier( 'CUSTOM_' . $_REQUEST['id'] );
 
+		$filename = str_replace( "''", "'", $_REQUEST['filename'] );
+
 		if ( ! empty( $_REQUEST['person_id'] ) )
 		{
-			$file = $FileUploadsPath . 'People/' . $_REQUEST['person_id'] . '/' . $_REQUEST['filename'];
+			$file = $FileUploadsPath . 'People/' . $_REQUEST['person_id'] . '/' . $filename;
 
 			DBQuery( "UPDATE PEOPLE
 				SET " . $column . "=REPLACE(" . $column . ", '" . DBEscapeString( $file ) . "||', '')
@@ -585,7 +587,7 @@ if ( $_REQUEST['modfunc'] === 'remove_file'
 		}
 		elseif ( ! empty( $_REQUEST['address_id'] ) )
 		{
-			$file = $FileUploadsPath . 'Address/' . $_REQUEST['address_id'] . '/' . $_REQUEST['filename'];
+			$file = $FileUploadsPath . 'Address/' . $_REQUEST['address_id'] . '/' . $filename;
 
 			DBQuery( "UPDATE ADDRESS
 				SET " . $column . "=REPLACE(" . $column . ", '" . DBEscapeString( $file ) . "||', '')
@@ -593,7 +595,7 @@ if ( $_REQUEST['modfunc'] === 'remove_file'
 		}
 		else
 		{
-			$file = $FileUploadsPath . 'Student/' . UserStudentID() . '/' . $_REQUEST['filename'];
+			$file = $FileUploadsPath . 'Student/' . UserStudentID() . '/' . $filename;
 
 			DBQuery( "UPDATE STUDENTS
 				SET " . $column . "=REPLACE(" . $column . ", '" . DBEscapeString( $file ) . "||', '')
@@ -602,7 +604,7 @@ if ( $_REQUEST['modfunc'] === 'remove_file'
 
 		if ( file_exists( $file ) )
 		{
-			unset( $file );
+			unlink( $file );
 		}
 
 		// Unset modfunc, id, filename & redirect URL.

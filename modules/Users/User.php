@@ -571,7 +571,9 @@ if ( $_REQUEST['modfunc'] === 'remove_file'
 	{
 		$column = DBEscapeIdentifier( 'CUSTOM_' . $_REQUEST['id'] );
 
-		$file = $FileUploadsPath . 'User/' . UserStaffID() . '/' . $_REQUEST['filename'];
+		$filename = str_replace( "''", "'", $_REQUEST['filename'] );
+
+		$file = $FileUploadsPath . 'User/' . UserStaffID() . '/' . $filename;
 
 		DBQuery( "UPDATE STAFF
 			SET " . $column . "=REPLACE(" . $column . ", '" . DBEscapeString( $file ) . "||', '')
@@ -579,7 +581,7 @@ if ( $_REQUEST['modfunc'] === 'remove_file'
 
 		if ( file_exists( $file ) )
 		{
-			unset( $file );
+			unlink( $file );
 		}
 
 		// Unset modfunc, id, filename & redirect URL.
