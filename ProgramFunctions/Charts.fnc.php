@@ -13,6 +13,7 @@
  * Chart.js Chart generation
  *
  * @since 6.0
+ * @since 8.0 Upgrade Chart.js from 2.9.3 to 3.4.1 (save 40KB)
  *
  * @link https://www.chartjs.org/docs/latest/
  *
@@ -85,28 +86,24 @@ function ChartjsChart( $type, $data, $title )
 		$datasets = array( $dataset );
 	}
 
-	// Chart Options: Show legend on the right.
-	$chart_options = 'legend: {
-		position: "right"
-	},';
+	// Chart Options.
+	$chart_options = '';
 
 	if ( $type === 'line'
 		|| $type === 'bar' )
 	{
 		// Line & Bar Chart Options.
 		$chart_options .= 'scales: {
-			xAxes: [{
-				gridLines: {
+			x: {
+				grid: {
 					display: false // Turn off only the vertical gridlines.
 				},
 				stacked: true
-			}],
-			yAxes: [{
-				ticks: {
-					beginAtZero: true
-				},
+			},
+			y: {
+				beginAtZero: true,
 				stacked: true
-			}]
+			}
 		},';
 
 		if ( ! is_string( $first_key ) )
@@ -121,14 +118,14 @@ function ChartjsChart( $type, $data, $title )
 	ob_start();
 
 	if ( ! $chart_id ) : ?>
-		<script src="assets/js/Chart.js/Chart.bundle.min.js?v=2.9.3"></script>
+		<script src="assets/js/Chart.js/chart.min.js?v=3.4.1"></script>
 	<?php endif; ?>
 
 	<div class="chart">
 		<canvas id="chart<?php echo $chart_id; ?>"></canvas>
 	</div>
 	<script>
-		Chart.defaults.global.defaultFontSize = 14;
+		Chart.defaults.font.size = 14;
 
 		var chart<?php echo $chart_id; ?> = new Chart(
 			document.getElementById(<?php echo json_encode( 'chart' . $chart_id ); ?>).getContext('2d'), {
@@ -145,10 +142,24 @@ function ChartjsChart( $type, $data, $title )
 			options: {
 				<?php echo $chart_options; ?>
 				responsive: true,
-				title: {
-					display: true,
-					fontSize: 16,
-					text: <?php echo json_encode( $title ); ?>
+				// Canvas aspect ratio (i.e. width / height, a value of 1 representing a square canvas).
+				aspectRatio: 2, // Fix for Pie charts height to big.
+				plugins: {
+					// Chart Options: Show legend on the right.
+					legend: {
+						position: "right",
+						display: <?php // Hide legend on bar & line charts when only 1 dataset and empty label.
+						echo ( ( $type === 'bar' || $type === 'line' )
+							&& count( $datasets ) === 1 && $datasets[0]['label'] === '' ?
+							'false' : 'true' ); ?>
+					},
+					title: {
+						display: true,
+						font: {
+							size: 16
+						},
+						text: <?php echo json_encode( $title ); ?>
+					}
 				}
 			}
 		});

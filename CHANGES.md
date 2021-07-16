@@ -7,6 +7,7 @@ Changes in 8.0
 - Upgrade grunt, grunt-contrib-cssmin, grunt-contrib-uglify & grunt-contrib-watch & remove grunt-phpdoc in package.json & Gruntfile.js
 - CSS minification optimizations in stylesheet.css & stylesheet_wkhtmltopdf.css
 - JS uglify optimizations in plugins.min.js & plugins.min.js.map
+- Upgrade Chart.js from 2.9.3 to 3.4.1 & save 40KB in chart.min.js & Charts.fnc.php
 
 Changes in 7.9.1
 ----------------
