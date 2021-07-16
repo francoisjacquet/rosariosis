@@ -4,6 +4,7 @@
 Changes in 8.0
 --------------
 - Add Total from Payments & Total from Fees fields to Advanced Report in Export.php
+- Upgrade grunt, grunt-contrib-cssmin, grunt-contrib-uglify & grunt-contrib-watch & remove grunt-phpdoc in package.json & Gruntfile.js
 
 Changes in 7.9.1
 ----------------
