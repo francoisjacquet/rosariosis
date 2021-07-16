@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 8.0
+--------------
+- Add Total from Payments & Total from Fees fields to Advanced Report in Export.php
+
 Changes in 7.9.1
 ----------------
 - Fix remove file when has single quote in its name and actually delete file in Student.php, User.php & Schools.php

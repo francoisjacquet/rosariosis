@@ -375,26 +375,49 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 	}
 
 	if ( $RosarioModules['Student_Billing']
-		&& ( isset( $_REQUEST['fields']['SB_BALANCE'] ) && $_REQUEST['fields']['SB_BALANCE'] == 'Y' ) )
+		&& AllowUse( 'Student_Billing/StudentFees.php' ) )
 	{
-
-		// FJ Add Balance field to Advanced Report
-		if ( $_REQUEST['fields']['SB_BALANCE'] == 'Y'
-			&& AllowUse( 'Student_Billing/StudentFees.php' ) )
+		if ( ! empty( $_REQUEST['fields']['SB_BALANCE'] ) )
 		{
-			$extra['SELECT'] .= ",( coalesce( ( SELECT sum( p.AMOUNT )
+			// Add Balance field to Advanced Report.
+			$extra['SELECT'] .= ",(coalesce((SELECT sum(p.AMOUNT)
 				FROM BILLING_PAYMENTS p
 				WHERE p.STUDENT_ID=ssm.STUDENT_ID
-				AND p.SYEAR=ssm.SYEAR ), 0 )
-				- coalesce( ( SELECT sum( f.AMOUNT )
-					FROM BILLING_FEES f
-					WHERE f.STUDENT_ID=ssm.STUDENT_ID
-					AND f.SYEAR=ssm.SYEAR ), 0 ) ) AS SB_BALANCE";
+				AND p.SYEAR=ssm.SYEAR), 0)
+				- coalesce((SELECT sum(f.AMOUNT)
+				FROM BILLING_FEES f
+				WHERE f.STUDENT_ID=ssm.STUDENT_ID
+				AND f.SYEAR=ssm.SYEAR), 0)) AS SB_BALANCE";
+
+			$extra['functions'] += array( 'SB_BALANCE' => 'Currency' );
+
+			$fields_list += array( 'SB_BALANCE' => _( 'Student Billing' ) . ' ' . _( 'Balance' ) );
 		}
 
-		$fields_list += array( 'SB_BALANCE' => _( 'Student Billing' ) . ' ' . _( 'Balance' ) );
+		// @since 8.0 Add Total from Payments & Total from Fees fields to Advanced Report.
+		if ( ! empty( $_REQUEST['fields']['SB_PAYMENTS'] ) )
+		{
+			$extra['SELECT'] .= ",coalesce((SELECT sum(p.AMOUNT)
+				FROM BILLING_PAYMENTS p
+				WHERE p.STUDENT_ID=ssm.STUDENT_ID
+				AND p.SYEAR=ssm.SYEAR), 0) AS SB_PAYMENTS";
 
-		$extra['functions'] += array( 'SB_BALANCE' => 'Currency' );
+			$extra['functions'] += array( 'SB_PAYMENTS' => 'Currency' );
+
+			$fields_list += array( 'SB_PAYMENTS' => _( 'Total from Payments' ) );
+		}
+
+		if ( ! empty( $_REQUEST['fields']['SB_FEES'] ) )
+		{
+			$extra['SELECT'] .= ",coalesce((SELECT sum(f.AMOUNT)
+				FROM BILLING_FEES f
+				WHERE f.STUDENT_ID=ssm.STUDENT_ID
+				AND f.SYEAR=ssm.SYEAR), 0) AS SB_FEES";
+
+			$extra['functions'] += array( 'SB_FEES' => 'Currency' );
+
+			$fields_list += array( 'SB_FEES' => _( 'Total from Fees' ) );
+		}
 	}
 
 
@@ -528,8 +551,9 @@ else
 		// Addresses & Contacts
 		if ( AllowUse( 'Students/Student.php&category_id=3' ) )
 		{
-			//FJ disable mailing address display
+			// Disable mailing address display.
 			if ( Config( 'STUDENTS_USE_MAILING' ) )
+			{
 				$fields_list['Address'] = array(
 					'ADDRESS' => _( 'Address' ),
 					'MAIL_ADDRESS' => _( 'Mailing Address' ),
@@ -542,7 +566,9 @@ else
 					'PHONE' => _( 'Home Phone' ),
 					'PARENTS' => _( 'Contacts' ),
 				);
+			}
 			else
+			{
 				$fields_list['Address'] = array(
 					'ADDRESS' => _( 'Street' ),
 					'CITY' => _( 'City' ),
@@ -551,6 +577,7 @@ else
 					'PHONE' => _( 'Home Phone' ),
 					'PARENTS' => _( 'Contacts' ),
 				);
+			}
 
 			$categories_RET = DBGet( "SELECT ID,TITLE
 				FROM ADDRESS_FIELD_CATEGORIES
@@ -564,7 +591,7 @@ else
 			{
 				foreach ( (array) $address_RET[$category['ID']] as $field )
 				{
-					$fields_list['Address']['ADDRESS_' . $field['ID']] = str_replace( "'", '&#39;', $field['TITLE'] );
+					$fields_list['Address']['ADDRESS_' . $field['ID']] = $field['TITLE'];
 				}
 			}
 		}
@@ -588,11 +615,13 @@ else
 	{
 		if ( AllowUse( 'Students/Student.php&category_id=' . $category['ID'] ) )
 		{
-			//FJ fix error Warning: Invalid argument supplied for foreach()
+			// Fix error Warning: Invalid argument supplied for foreach().
 			if ( isset( $custom_RET[$category['ID']] ) )
 			{
 				foreach ( (array) $custom_RET[$category['ID']] as $field )
-					$fields_list[$category['TITLE']]['CUSTOM_' . $field['ID']] = str_replace( "'", '&#39;', $field['TITLE'] );
+				{
+					$fields_list[$category['TITLE']]['CUSTOM_' . $field['ID']] = $field['TITLE'];
+				}
 			}
 		}
 	}
@@ -610,13 +639,17 @@ else
 	}
 
 	// Student Billing
-	if ( $RosarioModules['Student_Billing'] )
+	if ( $RosarioModules['Student_Billing']
+		&& AllowUse( 'Student_Billing/StudentFees.php' ) )
 	{
-		// FJ Add Balance field to Advanced Report
-		if ( AllowUse( 'Student_Billing/StudentFees.php' ) )
-			$fields_list['Student_Billing'] = array(
-				'SB_BALANCE' => _( 'Balance' ),
-			);
+		// Add Balance field to Advanced Report.
+		$fields_list['Student_Billing'] = array(
+			'SB_BALANCE' => _( 'Balance' ),
+		);
+
+		// @since 8.0 Add Total from Payments & Total from Fees fields to Advanced Report.
+		$fields_list['Student_Billing']['SB_PAYMENTS'] = _( 'Total from Payments' );
+		$fields_list['Student_Billing']['SB_FEES'] = _( 'Total from Fees' );
 	}
 
 	// Scheduling
