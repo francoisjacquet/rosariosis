@@ -150,7 +150,7 @@ input[type="button"] {
 	background: -webkit-linear-gradient(top, #fff, #ededed);
 	background: -moz-linear-gradient(top, #fff, #ededed);
 	background: linear-gradient(top, #fff, #ededed);
-	text-shadow: rgba(255, 255, 255, 1) 0 1px 0
+	text-shadow: #fff 0 1px 0
 }
 
 input[type="submit"]:active,

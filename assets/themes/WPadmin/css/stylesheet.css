@@ -589,11 +589,11 @@ label {
 	padding: 0;
 	margin: 0;
 	overflow: hidden;
-	-webkit-transition: 0s top, 0s left, 0s box-shadow;
-	transition: 0s top, 0s left, 0s box-shadow;
+	-webkit-transition: top 0s, left 0s, box-shadow 0s;
+	transition: top 0s, left 0s, box-shadow 0s;
 	-webkit-transition-delay: .15s;
-	box-shadow: none;
 	transition-delay: .15s;
+	box-shadow: none;
 	border-width: 1px;
 	border-style: solid;
 	box-sizing: border-box;
