@@ -11,8 +11,7 @@ var addHTML = function(html, id, replace) {
 	// jQuery does not handle IDs with brackets [], check _makeMultipleInput().
 	var el = document.getElementById(id);
 
-	// Here we use jQuery
-	// so inline Javascript gets evaluated!
+	// Here we use jQuery so inline Javascript gets evaluated!
 	if (replace) {
 		$(el).html(html);
 	} else {
