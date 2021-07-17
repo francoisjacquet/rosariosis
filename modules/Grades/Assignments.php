@@ -528,19 +528,33 @@ if ( ! $_REQUEST['modfunc'] )
 		$RET = $RET[1];
 
 		$title = $RET['TITLE'];
+
+		if ( $assignment_type_has_assignments
+			&& Preferences( 'WEIGHT', 'Gradebook' ) == 'Y' )
+		{
+			$assignment_type_assignments_warn_all_0_points = ! DBGetOne( "SELECT 1
+				FROM GRADEBOOK_ASSIGNMENTS
+				WHERE ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'
+				AND POINTS<>'0'" );
+
+			if ( $assignment_type_assignments_warn_all_0_points )
+			{
+				// @since 8.0 Add warning in case all Assignments in Type have 0 Points (Extra Credit).
+				// Only when "Weight Grades" is checked under Grades > Configuration.
+				$warning[] = _( 'Every Assignment in this Type have 0 Points (Extra Credit). Enter Points for at least one Assignment so the Total can be calculated correctly.' );
+			}
+		}
 	}
 	elseif ( $_REQUEST['assignment_id'] === 'new' )
 	{
-		// FJ Add Warning if not in current Quarter.
-
 		if ( GetCurrentMP( 'QTR', DBDate(), false ) !== UserMP() )
 		{
+			// Add Warning if not in current Quarter.
 			$warning[] = _( 'You are not in the current Quarter.' );
-
-			echo ErrorMessage( $warning, 'warning' );
 		}
 
 		$title = _( 'New Assignment' );
+
 		$new = true;
 	}
 	elseif ( $_REQUEST['assignment_type_id'] == 'new' )
@@ -561,6 +575,8 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$new = true;
 	}
+
+	echo ErrorMessage( $warning, 'warning' );
 
 	$header = '';
 
