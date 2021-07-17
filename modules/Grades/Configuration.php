@@ -486,9 +486,9 @@ if ( $year[1]['DOES_GRADES'] === 'Y' )
 
 if ( ! $has_final_grading_percentages )
 {
-	$note[] = _( 'Year and Semester marking periods are not graded.' );
-
-	echo ErrorMessage( $note, 'note' );
+	echo ErrorMessage( array(
+		_( 'Year and Semester marking periods are not graded.' )
+	), 'note' );
 }
 
 echo '</table></fieldset>';
