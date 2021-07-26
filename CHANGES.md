@@ -12,6 +12,10 @@ Changes in 8.0
 - Add warning in case all Assignments in Type have 0 Points (Extra Credit) in Assignments.php
 - Update French & Spanish translations in rosariosis.po
 
+Changes in 7.9.2
+----------------
+- Fix SQL error when single quote in Course Title in InputFinalGrades.php
+
 Changes in 7.9.1
 ----------------
 - Fix remove file when has single quote in its name and actually delete file in Student.php, User.php & Schools.php
