@@ -592,7 +592,7 @@ if ( ! empty( $_REQUEST['values'] )
 					"',GP_SCALE='" . $scale . "'";
 
 				// bjj can we use $percent all the time?  TODO: rework this so updates to credits occur when grade is changed
-				$sql .= ",COURSE_TITLE='" . $course_RET[1]['COURSE_NAME'] . "'";
+				$sql .= ",COURSE_TITLE='" . DBEscapeString( $course_RET[1]['COURSE_NAME'] ) . "'";
 				$sql .= ",CREDIT_ATTEMPTED='" . $course_RET[1]['CREDITS'] . "'";
 				$sql .= ",CREDIT_EARNED='" . ( (float) $weighted && $weighted >= $gp_passing ? $course_RET[1]['CREDITS'] : '0' ) . "'";
 				$sep = ',';
@@ -622,7 +622,7 @@ if ( ! empty( $_REQUEST['values'] )
 				$sql .= ",REPORT_CARD_GRADE_ID='" . $grade . "',GRADE_LETTER='" . $letter .
 					"',WEIGHTED_GP='" . $weighted . "',UNWEIGHTED_GP='" . $unweighted .
 					"',GP_SCALE='" . $scale . "'";
-				$sql .= ",COURSE_TITLE='" . $course_RET[1]['COURSE_NAME'] . "'";
+				$sql .= ",COURSE_TITLE='" . DBEscapeString( $course_RET[1]['COURSE_NAME'] ) . "'";
 				$sql .= ",CREDIT_ATTEMPTED='" . $course_RET[1]['CREDITS'] . "'";
 				$sql .= ",CREDIT_EARNED='" . ( (float) $weighted && $weighted >= $gp_passing ? $course_RET[1]['CREDITS'] : '0' ) . "'";
 				$sep = ',';
@@ -636,7 +636,7 @@ if ( ! empty( $_REQUEST['values'] )
 				//$sql .= ",REPORT_CARD_GRADE_ID=NULL,GRADE_LETTER=NULL,WEIGHTED_GP='NULL',UNWEIGHTED_GP='NULL',GP_SCALE='NULL'";
 				$sql .= ",REPORT_CARD_GRADE_ID=NULL,GRADE_LETTER=NULL,WEIGHTED_GP=NULL,
 					UNWEIGHTED_GP=NULL,GP_SCALE=NULL";
-				$sql .= ",COURSE_TITLE='" . $course_RET[1]['COURSE_NAME'] . "'";
+				$sql .= ",COURSE_TITLE='" . DBEscapeString( $course_RET[1]['COURSE_NAME'] ) . "'";
 				$sql .= ",CREDIT_ATTEMPTED='" . $course_RET[1]['CREDITS'] . "'";
 				$sql .= ",CREDIT_EARNED='0'";
 				$sep = ',';

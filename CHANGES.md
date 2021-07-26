@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 7.9.2
+----------------
+- Fix SQL error when single quote in Course Title in InputFinalGrades.php
+
 Changes in 7.9.1
 ----------------
 - Fix remove file when has single quote in its name and actually delete file in Student.php, User.php & Schools.php
