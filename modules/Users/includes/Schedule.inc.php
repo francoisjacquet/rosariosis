@@ -142,10 +142,10 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 	AND s.SYEAR=cp.SYEAR
 	AND sp.PERIOD_ID=cpsp.PERIOD_ID
 	AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
-	AND cp.MARKING_PERIOD_ID IN ((SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "'), '" . UserMP() . "')
-	AND sp.LENGTH <= " . ( Config( 'ATTENDANCE_FULL_DAY_MINUTES' ) / 2 ) . "
+	AND cp.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . ")
+	AND sp.LENGTH<=" . ( Config( 'ATTENDANCE_FULL_DAY_MINUTES' ) / 2 ) . "
 	ORDER BY sp.SORT_ORDER", array( 'DAYS' => '_GetDays' ), array( 'SCHOOL_PERIOD' ) );
-	//FJ note the "sp.LENGTH < (Config('ATTENDANCE_FULL_DAY_MINUTES') / 2)" condition to remove Full Day and Half Day school periods from the schedule table!
+	// FJ note the "sp.LENGTH<=(Config('ATTENDANCE_FULL_DAY_MINUTES') / 2)" condition to remove Full Day school periods from the schedule table!
 
 	$columns = array( 'SCHOOL_PERIOD' => _( 'Periods' ) );
 

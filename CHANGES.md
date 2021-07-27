@@ -4,6 +4,7 @@
 Changes in 7.9.2
 ----------------
 - Fix SQL error when single quote in Course Title in InputFinalGrades.php
+- Fix include Semester course periods in the Schedule table in Schedule.inc.php
 
 Changes in 7.9.1
 ----------------
