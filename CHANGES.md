@@ -16,6 +16,7 @@ Changes in 7.9.2
 ----------------
 - Fix SQL error when single quote in Course Title in InputFinalGrades.php
 - Fix include Semester course periods in the Schedule table in Schedule.inc.php
+- Fix #316 CSRF security issue set cookie samesite to strict, thanks to @huntrdev
 
 Changes in 7.9.1
 ----------------
