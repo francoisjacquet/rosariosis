@@ -109,19 +109,40 @@ register_shutdown_function( 'ErrorSendEmail' );
  */
 session_name( 'RosarioSIS' );
 
-// See http://php.net/manual/en/session.security.php.
+// @link http://php.net/manual/en/session.security.php
 $cookie_path = dirname( $_SERVER['SCRIPT_NAME'] ) === DIRECTORY_SEPARATOR ?
 	'/' : dirname( $_SERVER['SCRIPT_NAME'] ) . '/';
 
-session_set_cookie_params(
-	0,
-	$cookie_path,
-	'',
-	//  Cookie secure flag for https.
-	( ( ! empty( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] !== 'off' ) ||
-		( isset( $_SERVER['SERVER_PORT'] ) && $_SERVER['SERVER_PORT'] == 443 ) ),
-	true
-);
+// Fix #316 CSRF security issue set cookie samesite to strict.
+// @link https://www.php.net/manual/en/function.session-set-cookie-params.php#125072
+$cookie_samesite = 'Strict';
+
+// Cookie secure flag for https.
+$cookie_https_only = ( ! empty( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] !== 'off' ) ||
+	( isset( $_SERVER['SERVER_PORT'] ) && $_SERVER['SERVER_PORT'] == 443 );
+
+if ( PHP_VERSION_ID < 70300 )
+{
+	// PHP version < 7.3.
+	session_set_cookie_params(
+		0,
+		$cookie_path . '; samesite=' . $cookie_samesite,
+		'',
+		$cookie_https_only,
+		true
+	);
+}
+else
+{
+	session_set_cookie_params( array(
+		'lifetime' => 0,
+		'path' => $cookie_path,
+		'domain' => '',
+		'secure' => $cookie_https_only,
+		'httponly' => true,
+		'samesite' => $cookie_samesite,
+	) );
+}
 
 session_cache_limiter( 'nocache' );
 
