@@ -12,6 +12,7 @@ Changes in 8.0
 - Add warning in case all Assignments in Type have 0 Points (Extra Credit) in Assignments.php
 - Update French & Spanish translations in rosariosis.po
 - CSS FlatSIS shorten menu width & submenu links height + better contrast in stylesheet.css
+- Default theme is now FlatSIS in rosariosis.sql
 
 Changes in 7.9.2
 ----------------
