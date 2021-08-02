@@ -13,6 +13,7 @@ Changes in 8.0
 - Update French & Spanish translations in rosariosis.po
 - CSS FlatSIS shorten menu width & submenu links height + better contrast in stylesheet.css
 - Default theme is now FlatSIS in rosariosis.sql
+- CSS remove .radio-attendance-code class in stylesheet.css, rtl.css & TakeAttendance.php
 
 Changes in 7.9.2
 ----------------
