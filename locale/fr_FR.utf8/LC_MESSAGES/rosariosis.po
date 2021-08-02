@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-07-17 19:27+0200\n"
-"PO-Revision-Date: 2021-07-17 19:31+0200\n"
+"PO-Revision-Date: 2021-08-02 18:42+0200\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS\n"
 "Language: fr\n"
@@ -7210,11 +7210,11 @@ msgstr "Ajouter le Paiement pour les Élèves Sélectionnés"
 
 #: modules/Student_Billing/Menu.php:18
 msgid "Mass Assign Fees"
-msgstr "Assigner les Frais de Scolarité en Masse"
+msgstr "Assigner Frais de Scolarité en Masse"
 
 #: modules/Student_Billing/Menu.php:19
 msgid "Mass Assign Payments"
-msgstr "Assigner des Paiements en Masse"
+msgstr "Assigner Paiements en Masse"
 
 #: modules/Student_Billing/Menu.php:21
 msgid "Student Balances"
