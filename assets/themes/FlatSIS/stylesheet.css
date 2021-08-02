@@ -419,8 +419,7 @@ a {
 
 a:hover,
 a:active,
-a:focus,
-.adminmenu a {
+a:focus {
 	color: #0090c3;
 }
 
@@ -434,9 +433,9 @@ a:focus,
 	background-color: transparent;
 }
 
-.adminmenu a:focus,
-.adminmenu a:hover,
+.adminmenu a,
 a.menu-top:hover,
+a.menu-top:focus,
 .BottomButton:hover,
 .BottomButton:active,
 .BottomButton:focus {
@@ -502,29 +501,29 @@ div.updated {
 	background: #121212;
 	border-color: #000;
 	color: #fff;
-	width: 220px;
+	width: 215px;
 }
 
 /* Edge browser fix: Do not merge focus-within styles with hover styles */
 
 .no-touch .menu-module:focus-within .wp-submenu {
-	left: 220px;
-	width: 220px;
+	left: 215px;
+	width: 215px;
 }
 
 .no-touch .menu-module:hover .wp-submenu {
-	left: 220px;
-	width: 220px;
+	left: 215px;
+	width: 215px;
 }
 
 /* Edge browser fix: Do not merge focus-within styles with hover styles */
 
 html.no-touch[dir="RTL"] .menu-module:focus-within .wp-submenu {
-	right: 220px;
+	right: 215px;
 }
 
 html.no-touch[dir="RTL"] .menu-module:hover .wp-submenu {
-	right: 220px;
+	right: 215px;
 }
 
 #menu .username {
@@ -559,13 +558,11 @@ html.no-touch[dir="RTL"] .menu-module:hover .wp-submenu {
 	color: #eee;
 }
 
+.wp-submenu a:focus,
+.wp-submenu a:hover,
 #selectedMenuLink {
 	background-color: #1a1a1a;
 	color: #eee;
-}
-
-.wp-submenu a:hover {
-	background-color: transparent;
 }
 
 .no-touch .menu-module:hover .wp-submenu {
@@ -592,11 +589,12 @@ a.menu-top,
 }
 
 .adminmenu a {
-	padding: 5px 6px;
+	padding: 4px 6px;
 }
 
 .wp-submenu a {
-	padding: 5px 6px 5px 12px;
+	padding: 4px 6px 4px 12px;
+	font-size: 15px;
 }
 
 .wp-submenu {
@@ -605,7 +603,7 @@ a.menu-top,
 }
 
 .menu-inter {
-	padding: 5px 6px 2px 12px;
+	padding: 4px 6px 2px 12px;
 	margin-top: 2px;
 	text-transform: uppercase;
 	font-size: 14px;
