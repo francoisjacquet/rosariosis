@@ -14,6 +14,7 @@ Changes in 8.0
 - CSS FlatSIS shorten menu width & submenu links height + better contrast in stylesheet.css
 - Default theme is now FlatSIS in rosariosis.sql
 - CSS remove .radio-attendance-code class in stylesheet.css, rtl.css & TakeAttendance.php
+- CSS remove Open Sans SVG fonts, format is deprecated in font.css & WPadmin/fonts/open
 
 Changes in 7.9.2
 ----------------
