@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-07-17 19:27+0200\n"
-"PO-Revision-Date: 2021-08-02 18:42+0200\n"
+"PO-Revision-Date: 2021-08-09 16:39+0200\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS\n"
 "Language: fr\n"
@@ -7223,7 +7223,7 @@ msgstr "Soldes Élève"
 #: modules/Student_Billing/StudentFees.php:94
 #: modules/Student_Billing/functions.inc.php:23
 msgid "Waive"
-msgstr "Exemption de Frais de Scolarité"
+msgstr "Exempter"
 
 #: modules/Student_Billing/StudentFees.php:106
 #: modules/Student_Billing/StudentFees.php:111
