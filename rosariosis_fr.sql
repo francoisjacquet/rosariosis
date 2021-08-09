@@ -202,11 +202,11 @@ SET title='Journée Complète', short_name='JOUR'
 WHERE period_id=1;
 
 UPDATE school_periods
-SET title='Demi-journée Matin', short_name='AM'
+SET title='Matin', short_name='AM'
 WHERE period_id=2;
 
 UPDATE school_periods
-SET title='Demi-journée Après-midi', short_name='PM'
+SET title='Après-midi', short_name='PM'
 WHERE period_id=3;
 
 UPDATE school_periods
