@@ -8,9 +8,7 @@
 [![gzip size](https://badgen.net/badgesize/gzip/https://cdn.jsdelivr.net/npm/marked/marked.min.js)](https://cdn.jsdelivr.net/npm/marked/marked.min.js)
 [![install size](https://badgen.net/packagephobia/install/marked)](https://packagephobia.now.sh/result?p=marked)
 [![downloads](https://badgen.net/npm/dt/marked)](https://www.npmjs.com/package/marked)
-[![dep](https://badgen.net/david/dep/markedjs/marked?label=deps)](https://david-dm.org/markedjs/marked)
-[![dev dep](https://badgen.net/david/dev/markedjs/marked?label=devDeps)](https://david-dm.org/markedjs/marked?type=dev)
-[![travis](https://badgen.net/travis/markedjs/marked)](https://travis-ci.org/markedjs/marked)
+[![github actions](https://github.com/markedjs/marked/workflows/Tests/badge.svg)](https://github.com/markedjs/marked/actions)
 [![snyk](https://snyk.io/test/npm/marked/badge.svg)](https://snyk.io/test/npm/marked)
 
 - ⚡ built for speed
