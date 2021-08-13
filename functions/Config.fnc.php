@@ -174,6 +174,7 @@ function ProgramConfig( $program, $item = 'all', $value = null )
  * @since 4.4 Add $values param to INSERT or UPDATE.
  * @since 5.8 Set $staff_id to -1 to override user config.
  * @since 6.0 Handle single quotes in $value with DBEscapeString().
+ * @since 8.0 Fix SQL error when $staff_id is 0 (no user in session).
  *
  * @param string  $program  Gradebook|WidgetsSearch|StaffWidgetsSearch|
  * @param integer $staff_id Staff ID (optional). Defaults to User( 'STAFF_ID' ).
@@ -208,7 +209,8 @@ function ProgramUserConfig( $program, $staff_id = 0, $values = null )
 		}
 	}
 
-	if ( is_array( $values ) )
+	if ( is_array( $values )
+		&& $staff_id )
 	{
 		foreach ( $values as $title => $value )
 		{
