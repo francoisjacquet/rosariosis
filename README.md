@@ -28,7 +28,7 @@ Try RosarioSIS. Access the [online demonstration](https://www.rosariosis.org/dem
 About
 -----
 
-![RosarioSIS screenshot](http://www.rosariosis.org/wp-content/uploads/2013/06/rosariosis_screenshot.png)
+![RosarioSIS screenshot](http://www.rosariosis.org/wp-content/uploads/2021/08/rosariosis_students_en_2021.png)
 
 RosarioSIS has been designed to address the most important needs of administrators,
 teachers, support staff, parents, students, and clerical personnel. However, it
