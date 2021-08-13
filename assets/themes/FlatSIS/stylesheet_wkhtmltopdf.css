@@ -502,29 +502,29 @@ div.updated {
 	background: #121212;
 	border-color: #000;
 	color: #fff;
-	width: 215px;
+	width: 217px;
 }
 
 /* Edge browser fix: Do not merge focus-within styles with hover styles */
 
 .no-touch .menu-module:focus-within .wp-submenu {
-	left: 215px;
-	width: 215px;
+	left: 217px;
+	width: 217px;
 }
 
 .no-touch .menu-module:hover .wp-submenu {
-	left: 215px;
-	width: 215px;
+	left: 217px;
+	width: 217px;
 }
 
 /* Edge browser fix: Do not merge focus-within styles with hover styles */
 
 html.no-touch[dir="RTL"] .menu-module:focus-within .wp-submenu {
-	right: 215px;
+	right: 217px;
 }
 
 html.no-touch[dir="RTL"] .menu-module:hover .wp-submenu {
-	right: 215px;
+	right: 217px;
 }
 
 #menu .username {
