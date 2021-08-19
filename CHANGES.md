@@ -19,6 +19,10 @@ Changes in 8.0
 - Fix SQL error when $staff_id is 0 (no user in session) in Config.fnc.php
 - Remove Waived Fees from list in Student_Billing/functions.inc.php
 
+Changes in 7.9.3
+----------------
+- Fix #318 PHP warning non-numeric value encountered for $LO_dir in ListOutput.fnc.php, thanks to @AhmadKakarr
+
 Changes in 7.9.2
 ----------------
 - Fix SQL error when single quote in Course Title in InputFinalGrades.php
