@@ -17,6 +17,7 @@ Changes in 8.0
 - CSS remove Open Sans SVG fonts, format is deprecated in font.css & WPadmin/fonts/open
 - Upgrade marked.js 0.8.2 to version 1.2.9 in assets/js/marked/
 - Fix SQL error when $staff_id is 0 (no user in session) in Config.fnc.php
+- Remove Waived Fees from list in Student_Billing/functions.inc.php
 
 Changes in 7.9.2
 ----------------
