@@ -231,6 +231,11 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 	if ( $result_count > 0
 		|| $LO_search !== '' )
 	{
+		if ( empty( $LO_dir ) )
+		{
+			$LO_dir = 1;
+		}
+
 		// HANDLE MISC ---.
 
 		if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
@@ -239,11 +244,6 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				|| $LO_page < 1 )
 			{
 				$LO_page = 1;
-			}
-
-			if ( empty( $LO_dir ) )
-			{
-				$LO_dir = 1;
 			}
 
 			$start = ( $LO_page - 1 ) * $num_displayed + 1;
@@ -414,7 +414,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		{
 			foreach ( (array) $column_names as $key => $value )
 			{
-				$direction = $LO_sort == $key ? -1 * $LO_dir : 1;
+				$direction = $LO_sort == $key ? -1 * (int) $LO_dir : 1;
 
 				$i++;
 

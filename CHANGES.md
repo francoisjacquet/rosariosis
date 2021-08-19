@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 7.9.3
+----------------
+- Fix #318 PHP warning non-numeric value encountered for $LO_dir in ListOutput.fnc.php, thanks to @AhmadKakarr
+
 Changes in 7.9.2
 ----------------
 - Fix SQL error when single quote in Course Title in InputFinalGrades.php
