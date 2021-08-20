@@ -24,6 +24,7 @@ Instrucciones de instalación:
 - [**Windows**](https://gitlab.com/francoisjacquet/rosariosis/wikis/Instalar-RosarioSIS-en-Windows)
 - [**cPanel**](https://gitlab.com/francoisjacquet/rosariosis/wikis/How-to-install-RosarioSIS-on-cPanel) (en inglés)
 - [**Docker**](https://github.com/francoisjacquet/docker-rosariosis) (en inglés)
+- **Ubuntu** (o cualquier distribución Linux basada en Debian), ver abajo
 
 
 Instalar el paquete
