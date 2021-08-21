@@ -5,7 +5,7 @@
  * @uses $menu global var
  *
  * @see  Menu.php in root folder
- * 
+ *
  * @package RosarioSIS
  * @subpackage modules
  */
@@ -20,7 +20,6 @@ $menu['Accounting']['admin'] = array(
 	'Accounting/StaffPayments.php' => _( 'Staff Payments' ),
 	2 => _( 'Reports' ),
 	'Accounting/DailyTransactions.php' => _( 'Daily Transactions' ),
-	'Accounting/DailyTotals.php' => _( 'Daily Totals' ),
 	'Accounting/StaffBalances.php' => _( 'Staff Balances' ),
 	'Accounting/Statements.php' => _( 'Print Statements' ),
 );
@@ -35,5 +34,4 @@ $menu['Accounting']['teacher'] = array(
 	'Accounting/Statements.php&_ROSARIO_PDF' => _( 'Print Statements' ),
 );
 
-$menu['Accounting']['parent'] = array(
-);
+$menu['Accounting']['parent'] = array();

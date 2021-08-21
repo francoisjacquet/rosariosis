@@ -21,6 +21,7 @@ Changes in 8.0
 - New ROSARIO_DISABLE_ADDON_DELETE optional config constant in INSTALL.md, INSTALL_es.md & INSTALL_fr.md
 - Add-on disable delete in Modules.inc.php & Plugins.inc.php
 - Merge Daily Transactions & Daily Totals programs in DailyTransactions.php & DailyTotals.php
+- Remove Daily Totals program from Student Billing & Accounting menus in Menu.php & rosariosis.sql
 
 Changes in 7.9.3
 ----------------
