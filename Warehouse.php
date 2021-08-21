@@ -265,8 +265,11 @@ bind_textdomain_codeset( 'rosariosis', 'UTF-8' );
 // Sets the domain name, this means gettext will be looking for a file called rosariosis.mo.
 textdomain( 'rosariosis' );
 
-// Multibyte strings.
-mb_internal_encoding( 'UTF-8' );
+if ( mb_internal_encoding() !== 'UTF-8' )
+{
+	// Multibyte strings: check if not UTF-8 first to avoid cost of setting.
+	mb_internal_encoding( 'UTF-8' );
+}
 
 if ( ROSARIO_DEBUG )
 {

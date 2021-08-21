@@ -23,6 +23,7 @@ Changes in 8.0
 - Merge Daily Transactions & Daily Totals programs in DailyTransactions.php & DailyTotals.php
 - Remove Daily Totals program from Student Billing & Accounting menus in Menu.php & rosariosis.sql
 - Fix Totals calculus in Accounting/includes/DailyTotals.php
+- Multibyte strings: check if not UTF-8 first to avoid cost of setting in Warehouse.php
 
 Changes in 7.9.3
 ----------------
