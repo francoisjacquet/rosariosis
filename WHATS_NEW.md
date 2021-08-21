@@ -5,6 +5,13 @@
 New in 7.9
 ----------
 
+Accounting & Student Billing
+- Daily Transactions: Merge Daily Transactions & Daily Totals programs
+
+
+New in 7.9
+----------
+
 [Class Diary](https://www.rosariosis.org/modules/class-diary/) module
 
 
