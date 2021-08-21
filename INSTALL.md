@@ -62,6 +62,7 @@ Unzip RosarioSIS, or clone the repository using git to a directory that is acces
 - `$ETagCache` Set to `false` to deactivate the [ETag cache](https://en.wikipedia.org/wiki/HTTP_ETag) and disable "private" session cache. See [Sessions and security](https://secure.php.net/manual/en/session.security.php).
 - `define( 'ROSARIO_DEBUG', true );` Debug mode activated.
 - `define( 'ROSARIO_DISABLE_ADDON_UPLOAD', true );` Disable add-ons (modules & plugins) upload.
+- `define( 'ROSARIO_DISABLE_ADDON_DELETE', true );` Disable add-ons (modules & plugins) delete.
 
 
 Database

@@ -18,6 +18,7 @@ Changes in 8.0
 - Upgrade marked.js 0.8.2 to version 1.2.9 in assets/js/marked/
 - Fix SQL error when $staff_id is 0 (no user in session) in Config.fnc.php
 - Remove Waived Fees from list in Student_Billing/functions.inc.php
+- New ROSARIO_DISABLE_ADDON_DELETE optional config constant in INSTALL.md, INSTALL_es.md & INSTALL_fr.md
 
 Changes in 7.9.3
 ----------------

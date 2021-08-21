@@ -62,6 +62,7 @@ Descomprima el archivo de RosarioSIS, o clona el repositorio usando git en un di
 - `$ETagCache` Pasar a `false` para desactivar el [caché ETag](https://es.wikipedia.org/wiki/HTTP_ETag) y desactivar el caché de sesión "privada". Ver [Sesiones y seguridad](https://secure.php.net/manual/es/session.security.php).
 - `define( 'ROSARIO_DEBUG', true );` Modo debug activado.
 - `define( 'ROSARIO_DISABLE_ADDON_UPLOAD', true );` Desactivar el upload de complementos (módulos y plugins).
+- `define( 'ROSARIO_DISABLE_ADDON_DELETE', true );` Desactivar la posibilidad de eliminar complementos (modules & plugins).
 
 
 Base de datos
