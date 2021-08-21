@@ -6,16 +6,15 @@
  * @subpackage modules
  */
 
-DrawHeader( ProgramTitle() );
-
 // Set start date.
 $start_date = RequestedDate( 'start', date( 'Y-m' ) . '-01' );
 
 // Set end date.
 $end_date = RequestedDate( 'end', DBDate() );
 
-echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&accounting=' ) . '" method="GET">';
+DrawHeader( _programMenu( 'totals' ) );
 
+echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&program=totals&accounting=' ) . '" method="GET">';
 
 $header_checkboxes = '<label><input type="checkbox" value="true" name="accounting" id="accounting" ' .
 	( ! isset( $_REQUEST['accounting'] )
@@ -115,13 +114,13 @@ $total = 0;
 if ( ! isset( $_REQUEST['accounting'] )
 	|| $_REQUEST['accounting'] == 'true' )
 {
-	echo '<tr><td>' . _( 'Expenses' ) . ': ' .
-		'</td><td>' . Currency( $accounting_payments ) . '</td></tr>';
-
-	echo '<tr><td>' . _( 'Less' ) . ': ' . _( 'Incomes' ) . ': ' .
+	echo '<tr><td>' . _( 'Incomes' ) . ': ' .
 		'</td><td>' . Currency( $accounting_incomes ) . '</td></tr>';
 
-	$total += $accounting_payments - $accounting_incomes;
+	echo '<tr><td>' . _( 'Less' ) . ': ' . _( 'Expenses' ) . ': ' .
+		'</td><td>' . Currency( $accounting_payments ) . '</td></tr>';
+
+	$total += $accounting_incomes - $accounting_payments;
 }
 
 
@@ -129,12 +128,12 @@ if ( ! isset( $_REQUEST['accounting'] )
 if ( ! empty( $_REQUEST['staff_payroll'] ) )
 {
 	echo '<tr><td>' . _( 'Salaries' ) . ': ' .
-		'</td><td>' . Currency( $staffpayroll_payments ) . '</td></tr>';
-
-	echo '<tr><td>' . _( 'Less' ) . ': ' . _( 'Staff Payments' ) . ': ' .
 		'</td><td>' . Currency( $staffpayroll_incomes ) . '</td></tr>';
 
-	$total += $staffpayroll_payments - $staffpayroll_incomes;
+	echo '<tr><td>' . _( 'Less' ) . ': ' . _( 'Staff Payments' ) . ': ' .
+		'</td><td>' . Currency( $staffpayroll_payments ) . '</td></tr>';
+
+	$total += $staffpayroll_incomes - $staffpayroll_payments;
 }
 
 // Student Billing.
