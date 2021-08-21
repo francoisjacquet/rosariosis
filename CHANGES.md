@@ -19,6 +19,7 @@ Changes in 8.0
 - Fix SQL error when $staff_id is 0 (no user in session) in Config.fnc.php
 - Remove Waived Fees from list in Student_Billing/functions.inc.php
 - New ROSARIO_DISABLE_ADDON_DELETE optional config constant in INSTALL.md, INSTALL_es.md & INSTALL_fr.md
+- Add-on disable delete in Modules.inc.php & Plugins.inc.php
 
 Changes in 7.9.3
 ----------------

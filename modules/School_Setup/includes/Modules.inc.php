@@ -105,11 +105,19 @@ if ( $_REQUEST['modfunc'] === 'delete'
 {
 	if ( DeletePrompt( _( 'Module' ) ) )
 	{
-		//verify if not in $always_activated & not in $RosarioCoreModules but in $RosarioModules
+		// @since 8.0 Add-on disable delete.
+		$can_delete = ! defined( 'ROSARIO_DISABLE_ADDON_DELETE' ) || ! ROSARIO_DISABLE_ADDON_DELETE;
 
-		if ( ! in_array( $_REQUEST['module'], $always_activated ) && ! in_array( $_REQUEST['module'], $RosarioCoreModules ) && in_array( $_REQUEST['module'], array_keys( $RosarioModules ) ) && $RosarioModules[$_REQUEST['module']] == false )
+		// Verify if not in $always_activated & not in $RosarioCoreModules but in $RosarioModules.
+		$can_delete = $can_delete
+			&& ! in_array( $_REQUEST['module'], $always_activated )
+			&& ! in_array( $_REQUEST['module'], $RosarioCoreModules )
+			&& in_array( $_REQUEST['module'], array_keys( $RosarioModules ) )
+			&& $RosarioModules[$_REQUEST['module']] == false;
+
+		if ( $can_delete )
 		{
-			//delete module: execute delete.sql script
+			// Delete module: execute delete.sql script.
 
 			if ( file_exists( 'modules/' . $_REQUEST['module'] . '/delete.sql' ) )
 			{
@@ -368,11 +376,16 @@ function _makeDelete( $module_title, $activated = null )
 				'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=modules&modfunc=activate&module=' . $module_title ) . '"'
 			);
 
-			// If not core module & already installed, delete link.
+			// @since 8.0 Add-on disable delete.
+			$can_delete = ! defined( 'ROSARIO_DISABLE_ADDON_DELETE' ) || ! ROSARIO_DISABLE_ADDON_DELETE;
 
-			if ( ! in_array( $module_title, $always_activated )
+			// If not core module & already installed, delete link.
+			$can_delete = $can_delete
+				&& ! in_array( $module_title, $always_activated )
 				&& ! in_array( $module_title, $RosarioCoreModules )
-				&& in_array( $module_title, array_keys( $RosarioModules ) ) )
+				&& in_array( $module_title, array_keys( $RosarioModules ) );
+
+			if ( $can_delete )
 			{
 				$return .= '&nbsp;' .
 				button(
