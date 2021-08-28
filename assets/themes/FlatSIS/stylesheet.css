@@ -147,6 +147,10 @@ div.chosen-container,
 	background: #0073aa;
 }
 
+ul {
+	list-style-type: square;
+}
+
 .menu-top {
 	text-transform: uppercase;
 }
