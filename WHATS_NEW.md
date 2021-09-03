@@ -5,6 +5,9 @@
 New in 7.9
 ----------
 
+Attendance
+- Attendance Chart: Merge Attendance Chart (Daily Summary) & Absence Summary programs
+
 Accounting & Student Billing
 - Daily Transactions: Merge Daily Transactions & Daily Totals programs
 
