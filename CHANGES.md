@@ -27,6 +27,7 @@ Changes in 8.0
 - Multibyte strings: check if not UTF-8 first to avoid cost of setting in Warehouse.php
 - Fix false positive Hacking Attempt on Print button click when no user in session in Warehouse.php
 - Merge Attendance Chart & Absence Summary programs in DailySummary.php & StudentSummary.php
+- Remove Absence Summary program from Attendance menu in Menu.php, Help_en.php & rosariosis.sql
 
 Changes in 7.9.3
 ----------------

@@ -2732,7 +2732,6 @@ INSERT INTO profile_exceptions VALUES (1, 'Attendance/AddAbsences.php', 'Y', 'Y'
 INSERT INTO profile_exceptions VALUES (1, 'Attendance/TeacherCompletion.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Attendance/Percent.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Attendance/DailySummary.php', 'Y', 'Y');
-INSERT INTO profile_exceptions VALUES (1, 'Attendance/StudentSummary.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Attendance/FixDailyAttendance.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Attendance/DuplicateAttendance.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Attendance/AttendanceCodes.php', 'Y', 'Y');
@@ -2799,7 +2798,6 @@ INSERT INTO profile_exceptions VALUES (2, 'Grades/ReportCardComments.php', 'Y', 
 INSERT INTO profile_exceptions VALUES (2, 'Grades/ReportCardCommentCodes.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (2, 'Attendance/TakeAttendance.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (2, 'Attendance/DailySummary.php', 'Y', NULL);
-INSERT INTO profile_exceptions VALUES (2, 'Attendance/StudentSummary.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (2, 'Eligibility/EnterEligibility.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (2, 'Food_Service/Accounts.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (2, 'Food_Service/Statements.php', 'Y', NULL);
@@ -2832,7 +2830,6 @@ INSERT INTO profile_exceptions VALUES (3, 'Grades/ReportCards.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (3, 'Grades/ProgressReports.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (3, 'Grades/Transcripts.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (3, 'Grades/GPARankList.php', 'Y', NULL);
-INSERT INTO profile_exceptions VALUES (3, 'Attendance/StudentSummary.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (3, 'Attendance/DailySummary.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (3, 'Eligibility/Student.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (3, 'Eligibility/StudentList.php', 'Y', NULL);

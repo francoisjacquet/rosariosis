@@ -19,7 +19,6 @@ $menu['Attendance']['admin'] = array(
 	'Attendance/TeacherCompletion.php' => _( 'Teacher Completion' ),
 	'Attendance/Percent.php' => _( 'Average Daily Attendance' ),
 	'Attendance/DailySummary.php' => _( 'Attendance Chart' ),
-	'Attendance/StudentSummary.php' => _( 'Absence Summary' ),
 	2 => _( 'Utilities' ),
 	'Attendance/FixDailyAttendance.php' => _( 'Recalculate Daily Attendance' ),
 	'Attendance/DuplicateAttendance.php' => _( 'Delete Duplicate Attendance' ),
@@ -32,13 +31,11 @@ $menu['Attendance']['teacher'] = array(
 	'default' => 'Attendance/TakeAttendance.php',
 	'Attendance/TakeAttendance.php' => _( 'Take Attendance' ),
 	'Attendance/DailySummary.php' => _( 'Attendance Chart' ),
-	'Attendance/StudentSummary.php' => _( 'Absence Summary' )
 );
 
 $menu['Attendance']['parent'] = array(
 	'title' => _( 'Attendance' ),
 	'default' => 'Attendance/StudentSummary.php',
-	'Attendance/StudentSummary.php' => _( 'Absences' ),
 	'Attendance/DailySummary.php' => _( 'Daily Summary' )
 );
 

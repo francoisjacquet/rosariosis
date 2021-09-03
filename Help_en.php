@@ -992,10 +992,6 @@ if ( User( 'PROFILE' ) === 'admin' ):
 
 	<p>' . _help( 'You can see the attendance records for each period for any student by clicking on a student\'s name from the list. Here, the absence code is displayed in the color-coded box.' ) . '</p>';
 
-	$help['Attendance/StudentSummary.php'] = '<p>' . _help( '<i>Student Summary</i> is a report that shows the days for which a student has an absence.' ) . '</p>
-
-	<p>' . _help( 'After selecting a student, you can alter the date range by changing the date pull-down menus at the top of the screen and clicking the "Go" button. The list shows the student\'s absences for each period of each day that he had an absence. A red "x" indicates the student was absent in the corresponding period.' ) . '</p>';
-
 	$help['Attendance/TeacherCompletion.php'] = '<p>' . _help( '<i>Teacher Completion</i> is a report that shows which teachers have not entered attendance for any given day.' ) . '</p>
 
 	<p>' . _help( 'The red checks indicate that a teacher has failed to enter the current day\'s attendance for that period.' ) . '</p>
@@ -1049,10 +1045,6 @@ elseif ( User( 'PROFILE' ) === 'teacher' ):
 	<p>' . _help( 'After searching for students, you can alter the date range by changing the date pull-down menus at the top of the screen and clicking the "Go" button. The list shows each student\'s daily attendance value for each day with color codes. A red box signifies that the student was absent all day, a yellow box signifies that a student was absent half-day, and a green box signifies that a student was present all day long.' ) . '</p>
 
 	<p>' . _help( 'You can see the attendance records for each period for any student by clicking on a student\'s name from the list. Here, the absence code is displayed in the color-coded box.' ) . '</p>';
-
-	$help['Attendance/StudentSummary.php'] = '<p>' . _help( '<i>Student Summary</i> is a report that shows the days for which a student has an absence.' ) . '</p>
-
-	<p>' . _help( 'After selecting a student, you can alter the date range by changing the date pull-down menus at the top of the screen and clicking the "Go" button. The list shows the student\'s absences for each period of each day that he had an absence. A red "x" indicates the student was absent in the corresponding period.' ) . '</p>';
 
 // Parent & Student.
 else:
