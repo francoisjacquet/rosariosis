@@ -1,8 +1,6 @@
 <?php
 require_once 'modules/Attendance/includes/AttendanceCodes.fnc.php';
 
-DrawHeader( ProgramTitle() );
-
 $_REQUEST['student_id'] = issetVal( $_REQUEST['student_id'] );
 $_REQUEST['period_id'] = issetVal( $_REQUEST['period_id'] );
 
@@ -145,22 +143,28 @@ else
 	$extra['columns_after']['STATE_ABS'] = _( 'Days Absent' );
 }
 
-$extra['link']['FULL_NAME']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] .
-	'&day_start=' . issetVal( $_REQUEST['day_start'], '' ) .
-	'&day_end=' . issetVal( $_REQUEST['day_end'], '' ) .
-	'&month_start=' . issetVal( $_REQUEST['month_start'], '' ) .
-	'&month_end=' . issetVal( $_REQUEST['month_end'], '' ) .
-	'&year_start=' . issetVal( $_REQUEST['year_start'], '' ) .
-	'&year_end=' . issetVal( $_REQUEST['year_end'], '' ) .
-	'&period_id=' . issetVal( $_REQUEST['period_id'], '' );
+$extra['link']['FULL_NAME']['link'] = PreparePHP_SELF();
 
 $extra['link']['FULL_NAME']['variables'] = array( 'student_id' => 'STUDENT_ID' );
+
+Widgets( 'course' );
+
+Widgets( 'absences' );
 
 $extra['new'] = true;
 
 Search( 'student_id', $extra );
 
-if ( UserStudentID() )
+$is_student_report = UserStudentID();
+
+if ( User( 'PROFILE' ) === 'student'
+	|| User( 'PROFILE' ) === 'parent' )
+{
+	$is_student_report = ! empty( $_REQUEST['student_id'] )
+		&& $_REQUEST['student_id'] === UserStudentID();
+}
+
+if ( $is_student_report )
 {
 	$full_name = DBGetOne( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
 		FROM STUDENTS
