@@ -26,7 +26,7 @@ Changes in 8.0
 - Fix Totals calculus in Accounting/includes/DailyTotals.php
 - Multibyte strings: check if not UTF-8 first to avoid cost of setting in Warehouse.php
 - Fix false positive Hacking Attempt on Print button click when no user in session in Warehouse.php
-- Merge Attendance Chart & Absence Summary programs in DailySummary.php & StudentSummary.php
+- Merge Attendance Chart & Absence Summary programs in DailySummary.php & StudentSummary.php & Help_en.php
 - Remove Absence Summary program from Attendance menu in Menu.php, Help_en.php & rosariosis.sql
 
 Changes in 7.9.3

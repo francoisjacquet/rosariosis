@@ -990,7 +990,9 @@ if ( User( 'PROFILE' ) === 'admin' ):
 
 	<p>' . _help( 'After searching for students, you can alter the date range by changing the date pull-down menus at the top of the screen and clicking the "Go" button. The list shows each student\'s daily attendance value for each day with color codes. A red box signifies that the student was absent all day, a yellow box signifies that a student was absent half-day, and a green box signifies that a student was present all day long.' ) . '</p>
 
-	<p>' . _help( 'You can see the attendance records for each period for any student by clicking on a student\'s name from the list. Here, the absence code is displayed in the color-coded box.' ) . '</p>';
+	<p>' . _help( 'You can see the attendance records for each period for any student by clicking on a student\'s name from the list. Here, the absence code is displayed in the color-coded box.' ) . '</p>
+
+	<p>' . _help( '<i>Absence Summary</i> is a report that shows the days for which a student has an absence. Select the <i>Absence Summary</i> from the pull-down at the top of the screen.' ) . '</p>';
 
 	$help['Attendance/TeacherCompletion.php'] = '<p>' . _help( '<i>Teacher Completion</i> is a report that shows which teachers have not entered attendance for any given day.' ) . '</p>
 
@@ -1044,14 +1046,18 @@ elseif ( User( 'PROFILE' ) === 'teacher' ):
 
 	<p>' . _help( 'After searching for students, you can alter the date range by changing the date pull-down menus at the top of the screen and clicking the "Go" button. The list shows each student\'s daily attendance value for each day with color codes. A red box signifies that the student was absent all day, a yellow box signifies that a student was absent half-day, and a green box signifies that a student was present all day long.' ) . '</p>
 
-	<p>' . _help( 'You can see the attendance records for each period for any student by clicking on a student\'s name from the list. Here, the absence code is displayed in the color-coded box.' ) . '</p>';
+	<p>' . _help( 'You can see the attendance records for each period for any student by clicking on a student\'s name from the list. Here, the absence code is displayed in the color-coded box.' ) . '</p>
+
+	<p>' . _help( '<i>Absence Summary</i> is a report that shows the days for which a student has an absence. Select the <i>Absence Summary</i> from the pull-down at the top of the screen.' ) . '</p>';
 
 // Parent & Student.
 else:
 
 	$help['Attendance/DailySummary.php'] = '<p>' . _help( '<i>Daily Summary</i> is a report that shows the daily attendance status of your child during any timeframe.' ) . '</p>
 
-	<p>' . _help( 'You can alter the date range by changing the date pull-down menus at the top of the screen and clicking the "Go" button. The list shows your child\'s daily attendance value for each period of each day with color codes. A red box signifies that the student was absent that period, and a green box indicates that the student was either present or tardy that period. The absence code is displayed in the box.' ) . '</p>';
+	<p>' . _help( 'You can alter the date range by changing the date pull-down menus at the top of the screen and clicking the "Go" button. The list shows your child\'s daily attendance value for each period of each day with color codes. A red box signifies that the student was absent that period, and a green box indicates that the student was either present or tardy that period. The absence code is displayed in the box.' ) . '</p>
+
+	<p>' . _help( '<i>Absence Summary</i> is a report that shows the days for which a student has an absence. Select the <i>Absence Summary</i> from the pull-down at the top of the screen.' ) . '</p>';
 
 endif;
 
