@@ -33,9 +33,7 @@ $report_select = SelectInput(
 		'' => ( User( 'PROFILE' ) === 'admin' || User( 'PROFILE' ) === 'teacher' ?
 			_( 'Attendance Chart' ) :
 			_( 'Daily Summary' ) ),
-		'absence' => ( User( 'PROFILE' ) === 'admin' || User( 'PROFILE' ) === 'teacher' ?
-			_( 'Absence Summary' ) :
-			_( 'Absences' ) ),
+		'absence' => _( 'Absence Summary' ),
 	),
 	false,
 	'onchange="ajaxLink(\'' . $report_link . '\' + this.value);" autocomplete="off"',
