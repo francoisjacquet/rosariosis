@@ -377,6 +377,8 @@ else
 
 	$extra['new'] = true;
 
+	$extra['action'] = '&report=' . $_REQUEST['report'];
+
 	Search( 'student_id', $extra );
 
 	if ( ! empty( $has_edit_form ) ) {
