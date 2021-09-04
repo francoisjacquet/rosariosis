@@ -2,7 +2,7 @@
 
 ## RosarioSIS Student Information System
 
-New in 7.9
+New in 8.0
 ----------
 
 Attendance
@@ -10,6 +10,9 @@ Attendance
 
 Accounting & Student Billing
 - Daily Transactions: Merge Daily Transactions & Daily Totals programs
+
+Students
+- Advanced Report: Total from Fees & Total from Payments
 
 
 New in 7.9
