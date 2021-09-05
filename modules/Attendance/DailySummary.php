@@ -12,7 +12,7 @@ $_REQUEST['report'] = issetVal( $_REQUEST['report'], '' );
 
 $report_link = PreparePHP_SELF(
 	array(),
-	array( 'report', 'attendance' ),
+	array( 'report', 'attendance' )
 ) . '&report=';
 
 $tmp_allow_edit = false;

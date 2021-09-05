@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 8.0.1
+----------------
+- Fix #322 PHP syntax error, unexpected ')' in DailySummary.php
+
 Changes in 8.0
 --------------
 - Add Total from Payments & Total from Fees fields to Advanced Report in Export.php
