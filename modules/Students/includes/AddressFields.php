@@ -66,7 +66,7 @@ if ( isset( $_POST['tables'] )
 							unset( $columns['CATEGORY_ID'] );
 						}
 
-						$_REQUEST['id'] = AddDBField( 'ADDRESS', 'address_fields_seq', $columns['TYPE'] );
+						$_REQUEST['id'] = AddDBField( 'ADDRESS', 'address_fields_id_seq', $columns['TYPE'] );
 
 						$fields = 'ID,CATEGORY_ID,';
 

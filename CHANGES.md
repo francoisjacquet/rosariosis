@@ -4,6 +4,7 @@
 Changes in 8.1
 --------------
 - Remove @ error control operator on pg_exec: allow PHP Warning in database.inc.php
+- Fix Address Field sequence name in AddressFields.php
 
 Changes in 8.0.1
 ----------------
