@@ -5,6 +5,7 @@ Changes in 8.1
 --------------
 - Remove @ error control operator on pg_exec: allow PHP Warning in database.inc.php
 - Fix Address Field sequence name in AddressFields.php
+- Remove deprecated DBSeqConvertSerialName() function in database.inc.php
 
 Changes in 8.0.1
 ----------------
