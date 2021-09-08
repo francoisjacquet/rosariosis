@@ -74,6 +74,7 @@ function db_start()
  *
  * @since 5.1
  * @since 5.2 Add $show_error optional param.
+ * @since 8.1 Remove @ error control operator on pg_exec: allow PHP Warning
  *
  * @uses db_start()
  * @uses db_show_error()
@@ -92,7 +93,7 @@ function db_query( $sql, $show_error = true )
 		$connection = db_start();
 	}
 
-	$result = @pg_exec( $connection, $sql );
+	$result = pg_exec( $connection, $sql );
 
 	if ( $result === false
 		&& $show_error )
@@ -416,7 +417,8 @@ function db_trans_query( $sql, $show_error = true )
 {
 	$sql = db_sql_filter( $sql );
 
-	$result = db_query( $sql, $show_error );
+	// Use @ error control operator to silence PHP Warning in case of failure.
+	$result = @db_query( $sql, $show_error );
 
 	if ( $result === false )
 	{

@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 8.1
+--------------
+- Remove @ error control operator on pg_exec: allow PHP Warning in database.inc.php
+
 Changes in 8.0.1
 ----------------
 - Fix #322 PHP syntax error, unexpected ')' in DailySummary.php
