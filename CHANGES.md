@@ -7,6 +7,10 @@ Changes in 8.1
 - Fix Address Field sequence name in AddressFields.php
 - Remove deprecated DBSeqConvertSerialName() function in database.inc.php
 
+Changes in 8.0.2
+----------------
+- Fix User Widgets Search Terms in Users/Search.inc.php
+
 Changes in 8.0.1
 ----------------
 - Fix #322 PHP syntax error, unexpected ')' in DailySummary.php
