@@ -167,9 +167,14 @@ else
 		$_REQUEST['next_modname'] = 'Users/User.php';
 	}
 
-	if ( ! isset( $extra ) )
+	if ( User( 'PROFILE' ) === 'admin' || User( 'PROFILE' ) === 'teacher' )
 	{
-		$extra = array();
+		if ( ! isset( $extra ) )
+		{
+			$extra = array();
+		}
+
+		StaffWidgets( 'user', $extra );
 	}
 
 	if ( empty( $extra['NoSearchTerms'] ) )

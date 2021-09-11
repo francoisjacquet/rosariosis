@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 8.0.2
+----------------
+- Fix User Widgets Search Terms in Users/Search.inc.php
+
 Changes in 8.0.1
 ----------------
 - Fix #322 PHP syntax error, unexpected ')' in DailySummary.php
