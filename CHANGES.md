@@ -7,6 +7,7 @@ Changes in 8.1
 - Fix Address Field sequence name in AddressFields.php
 - Remove deprecated DBSeqConvertSerialName() function in database.inc.php
 - Fix Conflict Warning displayed twice in Courses.php
+- Fix PHP Notice Undefined index in miscExport.fnc.php
 
 Changes in 8.0.2
 ----------------

@@ -25,6 +25,11 @@ function _makeNextSchool( $value, $column )
 
 	static $schools_RET;
 
+	if ( is_null( $value ) )
+	{
+		return '';
+	}
+
 	if ( $value == '0' )
 	{
 		return _( 'Retain' );
