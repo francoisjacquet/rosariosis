@@ -844,8 +844,6 @@ if (  ( ! $_REQUEST['modfunc']
 					&& CoursePeriodTeacherConflictCheck( $RET['TEACHER_ID'] ) )
 				{
 					$warning[] = _( 'Conflict: Teacher already scheduled for this period.' );
-
-					echo ErrorMessage( $warning, 'warning' );
 				}
 
 				// Check for Course Period Secondary Teacher conflict.
@@ -854,9 +852,9 @@ if (  ( ! $_REQUEST['modfunc']
 					&& CoursePeriodTeacherConflictCheck( $RET['SECONDARY_TEACHER_ID'] ) )
 				{
 					$warning[] = _( 'Conflict: Secondary Teacher already scheduled for this period.' );
-
-					echo ErrorMessage( $warning, 'warning' );
 				}
+
+				echo ErrorMessage( $warning, 'warning' );
 			}
 			else
 			{
