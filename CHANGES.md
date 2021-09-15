@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 8.0.3
+----------------
+- Fix #324 Show Student Photo in Transcripts.fnc.php
+
 Changes in 8.0.2
 ----------------
 - Fix User Widgets Search Terms in Users/Search.inc.php
