@@ -520,10 +520,10 @@ if ( ! function_exists( 'TranscriptPDFHeader' ) )
 
 		if ( ! empty( $_REQUEST['showstudentpic'] ) )
 		{
-			//Student Photo.
+			// Student Photo.
 			$stu_pic = $StudentPicturesPath . Config( 'SYEAR' ) . '/' . $student['ID'] . '.jpg';
 			$stu_pic2 = $StudentPicturesPath . $student['SYEAR'] . '/' . $student['ID'] . '.jpg';
-			$picwidth = 70;
+			$picwidth = 120;
 
 			if ( file_exists( $stu_pic ) )
 			{
