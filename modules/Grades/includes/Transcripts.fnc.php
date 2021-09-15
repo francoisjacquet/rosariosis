@@ -497,6 +497,8 @@ if ( ! function_exists( 'TranscriptPDFHeader' ) )
 	 */
 	function TranscriptPDFHeader( $student, $school_info, $certificate_text = '' )
 	{
+		global $StudentPicturesPath;
+
 		static $custom_fields_RET = null;
 
 		if ( ! $student
