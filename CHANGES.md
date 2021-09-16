@@ -9,6 +9,10 @@ Changes in 8.1
 - Fix Conflict Warning displayed twice in Courses.php
 - Fix PHP Notice Undefined index in miscExport.fnc.php
 
+Changes in 8.0.4
+----------------
+- Fix default Student/Parent program in Attendance/Menu.php
+
 Changes in 8.0.3
 ----------------
 - Fix #324 Show Student Photo in Transcripts.fnc.php
