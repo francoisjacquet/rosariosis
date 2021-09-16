@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 8.0.4
+----------------
+- Fix default Student/Parent program in Attendance/Menu.php
+
 Changes in 8.0.3
 ----------------
 - Fix #324 Show Student Photo in Transcripts.fnc.php

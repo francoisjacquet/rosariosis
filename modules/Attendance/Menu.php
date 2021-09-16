@@ -35,7 +35,7 @@ $menu['Attendance']['teacher'] = array(
 
 $menu['Attendance']['parent'] = array(
 	'title' => _( 'Attendance' ),
-	'default' => 'Attendance/StudentSummary.php',
+	'default' => 'Attendance/DailySummary.php',
 	'Attendance/DailySummary.php' => _( 'Daily Summary' )
 );
 
