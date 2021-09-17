@@ -196,6 +196,10 @@ function Update()
 		case version_compare( $from_version, '6.9-beta', '<' ) :
 
 			$return = _update69beta();
+
+		case version_compare( $from_version, '8.1', '<' ) :
+
+			$return = _update81();
 	}
 
 	// Update version in DB CONFIG table.
@@ -334,6 +338,40 @@ function _update69beta()
 	{
 		DBQuery( "ALTER TABLE ONLY course_periods
 			ADD COLUMN secondary_teacher_id integer REFERENCES staff(staff_id);" );
+	}
+
+	return $return;
+}
+
+
+/**
+ * Update to version 8.1
+ *
+ * 1. ACCOUNTING_SALARIES table: Add FILE_ATTACHED column.
+ *
+ * Local function
+ *
+ * @since 8.1
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update81()
+{
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. ACCOUNTING_SALARIES table: Add FILE_ATTACHED column.
+	 */
+	$file_attached_column_exists = DBGetOne( "SELECT 1 FROM pg_attribute
+		WHERE attrelid=(SELECT oid FROM pg_class WHERE relname='accounting_salaries')
+		AND attname='file_attached';" );
+
+	if ( ! $file_attached_column_exists )
+	{
+		DBQuery( "ALTER TABLE ONLY accounting_salaries
+			ADD COLUMN file_attached text;" );
 	}
 
 	return $return;

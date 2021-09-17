@@ -512,6 +512,7 @@ CREATE TABLE accounting_salaries (
     id serial PRIMARY KEY,
     title text NOT NULL,
     amount numeric,
+    file_attached text,
     school_id integer NOT NULL,
     syear numeric(4,0) NOT NULL,
     created_at timestamp DEFAULT current_timestamp,
