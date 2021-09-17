@@ -8,6 +8,9 @@ New in 8.1
 Accounting
 - Salaries: add File Attached
 
+Student Billing
+- Fees: add File Attached
+
 
 New in 8.0
 ----------

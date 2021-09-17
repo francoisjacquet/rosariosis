@@ -1,5 +1,6 @@
 <?php
 
+require_once 'ProgramFunctions/FileUpload.fnc.php';
 require_once 'modules/Student_Billing/functions.inc.php';
 
 if ( empty( $_REQUEST['print_statements'] ) )
@@ -40,6 +41,20 @@ if ( ! empty( $_REQUEST['values'] )
 			$fields = 'ID,STUDENT_ID,SCHOOL_ID,SYEAR,ASSIGNED_DATE,';
 			$values = db_seq_nextval( 'billing_fees_id_seq' ) . ",'" . UserStudentID() . "','" . UserSchool() . "','" . UserSyear() . "','" . DBDate() . "',";
 
+			if ( isset( $_FILES['FILE_ATTACHED'] ) )
+			{
+				$columns['FILE_ATTACHED'] = FileUpload(
+					'FILE_ATTACHED',
+					$FileUploadsPath . UserSyear() . '/student_' . UserStudentID() . '/',
+					FileExtensionWhiteList(),
+					0,
+					$error
+				);
+
+				// Fix SQL error when quote in uploaded file name.
+				$columns['FILE_ATTACHED'] = DBEscapeString( $columns['FILE_ATTACHED'] );
+			}
+
 			$go = 0;
 
 			foreach ( (array) $columns as $column => $value )
@@ -75,6 +90,17 @@ if ( $_REQUEST['modfunc'] === 'remove'
 {
 	if ( DeletePrompt( _( 'Fee' ) ) )
 	{
+		$file_attached = DBGetOne( "SELECT FILE_ATTACHED
+			FROM ACCOUNTING_SALARIES
+			WHERE ID='" . $_REQUEST['id'] . "'" );
+
+		if ( ! empty( $file_attached )
+			&& file_exists( $file_attached ) )
+		{
+			// Delete File Attached.
+			unlink( $file_attached );
+		}
+
 		$delete_sql = "DELETE FROM BILLING_FEES
 			WHERE ID='" . $_REQUEST['id'] . "';";
 
@@ -126,17 +152,18 @@ if ( UserStudentID()
 		'DUE_DATE' => '_makeFeesDateInput',
 		'COMMENTS' => '_makeFeesTextInput',
 		'AMOUNT' => '_makeFeesAmount',
+		'FILE_ATTACHED' => '_makeFeesFileInput',
 	);
 
 	$waived_fees_RET = DBGet( "SELECT '' AS REMOVE,f.ID,f.TITLE,f.ASSIGNED_DATE,
-		f.DUE_DATE,f.COMMENTS,f.AMOUNT,f.WAIVED_FEE_ID
+		f.DUE_DATE,f.COMMENTS,f.AMOUNT,f.WAIVED_FEE_ID,f.FILE_ATTACHED
 		FROM BILLING_FEES f
 		WHERE f.STUDENT_ID='" . UserStudentID() . "'
 		AND f.SYEAR='" . UserSyear() . "'
 		AND f.WAIVED_FEE_ID IS NOT NULL", $functions, array( 'WAIVED_FEE_ID' ) );
 
 	$fees_RET = DBGet( "SELECT '' AS REMOVE,f.ID,f.TITLE,f.ASSIGNED_DATE,
-		f.DUE_DATE,f.COMMENTS,f.AMOUNT,f.WAIVED_FEE_ID
+		f.DUE_DATE,f.COMMENTS,f.AMOUNT,f.WAIVED_FEE_ID,f.FILE_ATTACHED
 		FROM BILLING_FEES f
 		WHERE f.STUDENT_ID='" . UserStudentID() . "'
 		AND f.SYEAR='" . UserSyear() . "'
@@ -177,6 +204,13 @@ if ( UserStudentID()
 		'COMMENTS' => _( 'Comment' ),
 	);
 
+	if ( empty( $_REQUEST['print_statements'] )
+		&& AllowEdit()
+		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
+		$columns += array( 'FILE_ATTACHED' => _( 'File Attached' ) );
+	}
+
 	$link = array();
 
 	if ( empty( $_REQUEST['print_statements'] ) )
@@ -188,6 +222,7 @@ if ( UserStudentID()
 			'ASSIGNED_DATE' => ProperDate( DBDate() ),
 			'DUE_DATE' => _makeFeesDateInput( '', 'DUE_DATE' ),
 			'COMMENTS' => _makeFeesTextInput( '', 'COMMENTS' ),
+			'FILE_ATTACHED' => _makeFeesFileInput( '', 'FILE_ATTACHED' ),
 		);
 	}
 
