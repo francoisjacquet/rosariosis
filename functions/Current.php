@@ -171,7 +171,7 @@ function SetUserStaffID( $staff_id )
 						AND _sem.SYEAR='" . UserSyear() . "'
 						AND _ss.STUDENT_ID=_sem.STUDENT_ID
 						AND _ss.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'))
-					AND s.STAFF_ID='" . $staff_id . "'", array(), array( 'STAFF_ID' ) );
+					AND s.STAFF_ID='" . (int) $staff_id . "'", array(), array( 'STAFF_ID' ) );
 
 				if ( ! $is_related_parent )
 				{
@@ -186,7 +186,7 @@ function SetUserStaffID( $staff_id )
 			// Check $staff_id is in current Year.
 			$admin_schools = DBGetOne( "SELECT SCHOOLS
 				FROM STAFF
-				WHERE STAFF_ID='" . $staff_id . "'
+				WHERE STAFF_ID='" . (int) $staff_id . "'
 				AND SYEAR='" . UserSyear() . "'" );
 
 			if ( ! trim( User( 'SCHOOLS' ), ',' )
@@ -234,7 +234,7 @@ function SetUserStaffID( $staff_id )
 		HackingLog();
 	}
 
-	$_SESSION['staff_id'] = $staff_id;
+	$_SESSION['staff_id'] = (int) $staff_id;
 }
 
 
@@ -280,7 +280,7 @@ function SetUserStudentID( $student_id )
 				AND se.SYEAR='" . UserSyear() . "'
 				AND se.STUDENT_ID=sju.STUDENT_ID
 				AND ('" . DBDate() . "'>=se.START_DATE AND ('" . DBDate() . "'<=se.END_DATE OR se.END_DATE IS NULL))
-				AND sju.STUDENT_ID='" . $student_id . "'" );
+				AND sju.STUDENT_ID='" . (int) $student_id . "'" );
 
 			if ( ! $is_related_student )
 			{
@@ -314,7 +314,7 @@ function SetUserStudentID( $student_id )
 						AND SYEAR=ssm.SYEAR
 						ORDER BY START_DATE DESC
 						LIMIT 1))
-				AND s.STUDENT_ID='" . $student_id . "'" );
+				AND s.STUDENT_ID='" . (int) $student_id . "'" );
 
 			if ( ! $is_related_student )
 			{
@@ -327,7 +327,7 @@ function SetUserStudentID( $student_id )
 			// Check $student_id is in current Year & School.
 			$is_admin_student = DBGet( "SELECT 1
 				FROM STUDENT_ENROLLMENT
-				WHERE STUDENT_ID='" . $student_id . "'
+				WHERE STUDENT_ID='" . (int) $student_id . "'
 				AND SCHOOL_ID='" . UserSchool() . "'
 				AND SYEAR='" . UserSyear() . "'" );
 
@@ -355,5 +355,5 @@ function SetUserStudentID( $student_id )
 		HackingLog();
 	}
 
-	$_SESSION['student_id'] = $student_id;
+	$_SESSION['student_id'] = (int) $student_id;
 }
