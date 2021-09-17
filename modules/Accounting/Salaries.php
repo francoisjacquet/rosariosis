@@ -52,7 +52,7 @@ if ( ! empty( $_REQUEST['values'] )
 			{
 				$columns['FILE_ATTACHED'] = FileUpload(
 					'FILE_ATTACHED',
-					$FileUploadsPath . UserSyear() . '/' . UserStaffID() . '/',
+					$FileUploadsPath . UserSyear() . '/staff_' . UserStaffID() . '/',
 					FileExtensionWhiteList(),
 					0,
 					$error
