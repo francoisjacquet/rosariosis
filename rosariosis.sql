@@ -753,6 +753,7 @@ CREATE TABLE billing_fees (
     id serial PRIMARY KEY,
     title text NOT NULL,
     amount numeric,
+    file_attached text,
     school_id integer NOT NULL,
     syear numeric(4,0) NOT NULL,
     waived_fee_id integer,

@@ -348,6 +348,7 @@ function _update69beta()
  * Update to version 8.1
  *
  * 1. ACCOUNTING_SALARIES table: Add FILE_ATTACHED column.
+ * 2. BILLING_FEES table: Add FILE_ATTACHED column.
  *
  * Local function
  *
@@ -371,6 +372,19 @@ function _update81()
 	if ( ! $file_attached_column_exists )
 	{
 		DBQuery( "ALTER TABLE ONLY accounting_salaries
+			ADD COLUMN file_attached text;" );
+	}
+
+	/**
+	 * 2. BILLING_FEES table: Add FILE_ATTACHED column.
+	 */
+	$file_attached_column_exists = DBGetOne( "SELECT 1 FROM pg_attribute
+		WHERE attrelid=(SELECT oid FROM pg_class WHERE relname='billing_fees')
+		AND attname='file_attached';" );
+
+	if ( ! $file_attached_column_exists )
+	{
+		DBQuery( "ALTER TABLE ONLY billing_fees
 			ADD COLUMN file_attached text;" );
 	}
 
