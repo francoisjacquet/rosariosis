@@ -227,3 +227,51 @@ function _makePaymentsAmount( $value, $column )
 
 	return Currency( $value );
 }
+
+/**
+ * Make Salaries File Attached Input
+ *
+ * @since 8.1
+ *
+ * @param  string $value File path value.
+ * @param  string $name  Column name, 'FILE_ATTACHED'.
+ *
+ * @return string        File Input HTML or link to download File.
+ */
+function _makeSalariesFileInput( $value, $column )
+{
+	global $THIS_RET;
+
+	if ( empty( $THIS_RET['ID'] ) )
+	{
+		return FileInput(
+			'FILE_ATTACHED'
+		);
+	}
+
+	if ( empty( $value )
+		|| ! file_exists( $value ) )
+	{
+		return '';
+	}
+
+	$file_path = $value;
+
+	$file_name = mb_substr( mb_strrchr( $file_path, '/' ), 1 );
+
+	$file_size = HumanFilesize( filesize( $file_path ) );
+
+	// Truncate file name if > 36 chars.
+	$file_name_display = mb_strlen( $file_name ) <= 36 ?
+		$file_name :
+		mb_substr( $file_name, 0, 30 ) . '..' . mb_strrchr( $file_name, '.' );
+
+	$file = button(
+		'download',
+		$file_name_display,
+		'"' . URLEscape( $file_path ) . '" target="_blank" title="' . $file_name . ' (' . $file_size . ')"',
+		'bigger'
+	);
+
+	return $file;
+}

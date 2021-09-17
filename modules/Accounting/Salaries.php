@@ -1,5 +1,6 @@
 <?php
 
+require_once 'ProgramFunctions/FileUpload.fnc.php';
 require_once 'modules/Accounting/functions.inc.php';
 
 $_REQUEST['print_statements'] = issetVal( $_REQUEST['print_statements'], '' );
@@ -47,6 +48,20 @@ if ( ! empty( $_REQUEST['values'] )
 			$fields = 'ID,STAFF_ID,SCHOOL_ID,SYEAR,ASSIGNED_DATE,';
 			$values = db_seq_nextval( 'accounting_salaries_id_seq' ) . ",'" . UserStaffID() . "','" . UserSchool() . "','" . UserSyear() . "','" . DBDate() . "',";
 
+			if ( isset( $_FILES['FILE_ATTACHED'] ) )
+			{
+				$columns['FILE_ATTACHED'] = FileUpload(
+					'FILE_ATTACHED',
+					$FileUploadsPath . UserSyear() . '/' . UserStaffID() . '/',
+					FileExtensionWhiteList(),
+					0,
+					$error
+				);
+
+				// Fix SQL error when quote in uploaded file name.
+				$columns['FILE_ATTACHED'] = DBEscapeString( $columns['FILE_ATTACHED'] );
+			}
+
 			$go = 0;
 
 			foreach ( (array) $columns as $column => $value )
@@ -77,11 +92,24 @@ if ( ! empty( $_REQUEST['values'] )
 	RedirectURL( 'values' );
 }
 
+echo ErrorMessage( $error );
+
 if ( $_REQUEST['modfunc'] === 'remove'
 	&& AllowEdit() )
 {
 	if ( DeletePrompt( _( 'Salary' ) ) )
 	{
+		$file_attached = DBGetOne( "SELECT FILE_ATTACHED
+			FROM ACCOUNTING_SALARIES
+			WHERE ID='" . $_REQUEST['id'] . "'" );
+
+		if ( ! empty( $file_attached )
+			&& file_exists( $file_attached ) )
+		{
+			// Delete File Attached.
+			unlink( $file_attached );
+		}
+
 		DBQuery( "DELETE FROM ACCOUNTING_SALARIES
 			WHERE ID='" . $_REQUEST['id'] . "'" );
 
@@ -93,8 +121,25 @@ if ( $_REQUEST['modfunc'] === 'remove'
 if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 {
 	$salaries_total = 0;
-	$functions = array( 'REMOVE' => '_makeSalariesRemove', 'ASSIGNED_DATE' => 'ProperDate', 'DUE_DATE' => '_makeSalariesDateInput', 'COMMENTS' => '_makeSalariesTextInput', 'AMOUNT' => '_makeSalariesAmount' );
-	$salaries_RET = DBGet( "SELECT '' AS REMOVE,f.ID,f.TITLE,f.ASSIGNED_DATE,f.DUE_DATE,f.COMMENTS,f.AMOUNT FROM ACCOUNTING_SALARIES f WHERE f.STAFF_ID='" . UserStaffID() . "' AND f.SYEAR='" . UserSyear() . "' AND f.SCHOOL_ID='" . UserSchool() . "' ORDER BY f.ASSIGNED_DATE", $functions );
+	$functions = array(
+		'REMOVE' => '_makeSalariesRemove',
+		'ASSIGNED_DATE' => 'ProperDate',
+		'DUE_DATE' => '_makeSalariesDateInput',
+		'COMMENTS' => '_makeSalariesTextInput',
+		'AMOUNT' => '_makeSalariesAmount',
+		'FILE_ATTACHED' => '_makeSalariesFileInput',
+	);
+
+	$salaries_RET = DBGet( "SELECT '' AS REMOVE,f.ID,f.TITLE,f.ASSIGNED_DATE,f.DUE_DATE,f.COMMENTS,
+		f.AMOUNT,f.FILE_ATTACHED
+		FROM ACCOUNTING_SALARIES f
+		WHERE f.STAFF_ID='" . UserStaffID() . "'
+		AND f.SYEAR='" . UserSyear() . "'
+		AND f.SCHOOL_ID='" . UserSchool() . "'
+		ORDER BY f.ASSIGNED_DATE",
+		$functions
+	);
+
 	$i = 1;
 	$RET = array();
 
@@ -104,7 +149,10 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 		$i++;
 	}
 
-	if ( ! empty( $RET ) && ! $_REQUEST['print_statements'] && AllowEdit() && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	if ( ! empty( $RET )
+		&& ! $_REQUEST['print_statements']
+		&& AllowEdit()
+		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		$columns = array( 'REMOVE' => '<span class="a11y-hidden">' . _( 'Delete' ) . '</span>' );
 	}
@@ -121,6 +169,13 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 		'COMMENTS' => _( 'Comment' ),
 	);
 
+	if ( ! $_REQUEST['print_statements']
+		&& AllowEdit()
+		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
+		$columns += array( 'FILE_ATTACHED' => _( 'File Attached' ) );
+	}
+
 	$link = array();
 
 	if ( empty( $_REQUEST['print_statements'] )
@@ -133,6 +188,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 			'ASSIGNED_DATE' => ProperDate( DBDate() ),
 			'DUE_DATE' => _makeSalariesDateInput( '', 'DUE_DATE' ),
 			'COMMENTS' => _makeSalariesTextInput( '', 'COMMENTS' ),
+			'FILE_ATTACHED' => _makeSalariesFileInput( '', 'FILE_ATTACHED' ),
 		);
 	}
 

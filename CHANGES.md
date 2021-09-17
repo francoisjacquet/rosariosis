@@ -10,6 +10,7 @@ Changes in 8.1
 - Fix PHP Notice Undefined index in miscExport.fnc.php
 - Fix SQL error when Student / Staff ID is hacked / not an integer in URL in Current.php
 - SQL ACCOUNTING_SALARIES table: Add FILE_ATTACHED column in Update.fnc.php & rosariosis.sql
+- Add File Attached to Salaries in Salaries.php & Accounting/functions.inc.php
 
 Changes in 8.0.4
 ----------------
