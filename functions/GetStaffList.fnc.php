@@ -12,12 +12,22 @@ function GetStaffList( &$extra = array() )
 		return;
 	}
 
+	if ( ! isset( $extra ) )
+	{
+		$extra = array();
+	}
+
 	if ( isset( $_REQUEST['advanced'] )
 		&& $_REQUEST['advanced'] === 'Y' )
 	{
 		// Advanced Search: all Widgets.
 		StaffWidgets( 'all', $extra );
 	}
+	else
+	{
+		StaffWidgets( 'user', $extra );
+	}
+
 
 	$extra['SELECT'] = issetVal( $extra['SELECT'], '' );
 

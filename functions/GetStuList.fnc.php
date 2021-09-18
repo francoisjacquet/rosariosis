@@ -38,13 +38,20 @@ function GetStuList( &$extra = array() )
 	global $contacts_RET,
 		$view_other_RET;
 
-	// FJ fix Advanced Search.
-	if ( ( User( 'PROFILE' ) === 'admin'
-			|| User( 'PROFILE' ) === 'teacher' )
-		&& isset( $_REQUEST['advanced'] )
+	if ( ! isset( $extra ) )
+	{
+		$extra = array();
+	}
+
+	// Fix Advanced Search.
+	if ( isset( $_REQUEST['advanced'] )
 		&& $_REQUEST['advanced'] === 'Y' )
 	{
 		Widgets( 'all', $extra );
+	}
+	else
+	{
+		Widgets( 'user', $extra );
 	}
 
 	$extra['SELECT'] = issetVal( $extra['SELECT'], '' );

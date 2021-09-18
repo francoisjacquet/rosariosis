@@ -187,16 +187,6 @@ else
 		$_REQUEST['next_modname'] = 'Students/Student.php';
 	}
 
-	if ( User( 'PROFILE' ) === 'admin' || User( 'PROFILE' ) === 'teacher' )
-	{
-		if ( ! isset( $extra ) )
-		{
-			$extra = array();
-		}
-
-		Widgets( 'user', $extra );
-	}
-
 	if ( empty( $extra['NoSearchTerms'] ) )
 	{
 		if ( isset( $_REQUEST['_search_all_schools'] )
