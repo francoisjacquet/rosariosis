@@ -141,6 +141,8 @@ if ( $_REQUEST['modfunc'] === 'waive'
 	}
 }
 
+echo ErrorMessage( $error );
+
 if ( UserStudentID()
 	&& ! $_REQUEST['modfunc'] )
 {
