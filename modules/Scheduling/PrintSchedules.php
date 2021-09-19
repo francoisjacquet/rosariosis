@@ -232,21 +232,14 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			AND cp.SCHOOL_ID=sr.SCHOOL_ID
 			AND cp.TEACHER_ID=sta.STAFF_ID
 			AND sr.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
-			AND ('" . $date . "' BETWEEN sr.START_DATE AND sr.END_DATE " . $date_extra . ")";
+			AND ('" . $date . "' BETWEEN sr.START_DATE AND sr.END_DATE " . $date_extra . ")
+			ORDER BY sp.SORT_ORDER";
 
-		$schedule_table_RET = DBGet( $schedule_table_sql .
-			" AND sp.LENGTH <= " . ( Config( 'ATTENDANCE_FULL_DAY_MINUTES' ) / 2 ) .
-			" ORDER BY sp.SORT_ORDER", array( 'DAYS' => '_GetDays' ), array( 'STUDENT_ID', 'SCHOOL_PERIOD' ) );
-		// FJ note the "sp.LENGTH <= (Config('ATTENDANCE_FULL_DAY_MINUTES') / 2)" condition
-		// to remove Full Day and Half Day school periods from the schedule table!
-
-		if ( ! $schedule_table_RET )
-		{
-			// Include Full Day and Half Day school periods in the schedule table.
-			// No Course Periods found, remove the "sp.LENGTH <= (Config('ATTENDANCE_FULL_DAY_MINUTES') / 2)" condition.
-			$schedule_table_RET = DBGet( $schedule_table_sql .
-				" ORDER BY sp.SORT_ORDER", array( 'DAYS' => '_GetDays' ), array( 'STUDENT_ID', 'SCHOOL_PERIOD' ) );
-		}
+		$schedule_table_RET = DBGet(
+			$schedule_table_sql,
+			array( 'DAYS' => '_GetDays' ),
+			array( 'STUDENT_ID', 'SCHOOL_PERIOD' )
+		);
 
 		$columns_table = array( 'SCHOOL_PERIOD' => _( 'Periods' ) );
 
