@@ -359,8 +359,25 @@ $RosarioActions = array();
 	 * @since 7.6
 	 */
 	/*'index.php|login_form_link' => array(),
-);*/
 
+	/**
+	 * Export fields list (form).
+	 * Add or remove any field (& category) to/from the global variable $fields_list.
+	 *
+	 * @since 8.1
+	 */
+	/*'misc/Export.php|fields_list' => array(),
+
+	/**
+	 * Export fields list + extra SQL (student list).
+	 * Add or remove any field to/from the global variable $fields_list.
+	 * Add or remove SQL for any field to/from the global variable $extra.
+	 * Use in conjonction with the 'misc/Export.php|fields_list' action hook.
+	 *
+	 * @since 8.1
+	 */
+	/*'misc/Export.php|fields_list_extra_sql' => array(),
+);*/
 
 /**
  * Hooks a function on to a specific action.

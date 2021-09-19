@@ -420,6 +420,17 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 		}
 	}
 
+	/**
+	 * Export fields list + extra SQL (student list) action hook.
+	 *
+	 * @since 8.1
+	 *
+	 * Add or remove any field to/from the global variable $fields_list.
+	 * Add or remove SQL for any field to/from the global variable $extra.
+	 * Use in conjonction with the 'misc/Export.php|fields_list' action hook.
+	 */
+	do_action( 'misc/Export.php|fields_list_extra_sql' );
+
 
 	if ( ! empty( $_REQUEST['fields'] ) )
 	{
@@ -669,6 +680,15 @@ else
 				_( 'Room' );
 	}
 
+	/**
+	 * Export fields list (form) action hook.
+	 *
+	 * @since 8.1
+	 *
+	 * Add or remove any field (& category) to/from the global variable $fields_list.
+	 */
+	do_action( 'misc/Export.php|fields_list' );
+
 	DrawHeader( '<ol><span id="names_div"></span></ol>' );
 
 	echo '<div class="st"><br />';
@@ -683,9 +703,13 @@ else
 
 		// Draw category box
 		if ( ParseMLField( $category ) == $category )
+		{
 			$category_title = _( str_replace( '_', ' ', $category ) );
+		}
 		else
+		{
 			$category_title = ParseMLField( $category );
+		}
 
 		echo '<table class="widefat width-100p"><tr>
 				<th colspan="2">' . $category_title . '</th>
