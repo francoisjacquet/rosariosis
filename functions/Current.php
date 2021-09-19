@@ -234,7 +234,7 @@ function SetUserStaffID( $staff_id )
 		HackingLog();
 	}
 
-	$_SESSION['staff_id'] = (int) $staff_id;
+	$_SESSION['staff_id'] = (string) (int) $staff_id;
 }
 
 
@@ -355,5 +355,5 @@ function SetUserStudentID( $student_id )
 		HackingLog();
 	}
 
-	$_SESSION['student_id'] = (int) $student_id;
+	$_SESSION['student_id'] = (string) (int) $student_id;
 }
