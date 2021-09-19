@@ -170,7 +170,6 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 	);
 
 	if ( ! $_REQUEST['print_statements']
-		&& AllowEdit()
 		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		$columns += array( 'FILE_ATTACHED' => _( 'File Attached' ) );
