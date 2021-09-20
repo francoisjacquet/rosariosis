@@ -370,8 +370,9 @@ function Widgets( $item, &$myextra = null )
 						$course_period_options[ $subject_group ] = array();
 					}
 
-					$course_period_value = $course_period['SUBJECT_ID'] . '|' .
-						$course_period['COURSE_ID'] . '|' . $course_period['COURSE_PERIOD_ID'];
+					// Fix 403 Forbidden error due to pipe "|" in URL when using Apache 5G rules.
+					$course_period_value = $course_period['SUBJECT_ID'] . ',' .
+						$course_period['COURSE_ID'] . ',' . $course_period['COURSE_PERIOD_ID'];
 
 					$course_period_options[ $subject_group ][ $course_period_value ] = $course_period['TITLE'];
 				}
@@ -409,7 +410,7 @@ function Widgets( $item, &$myextra = null )
 						return;
 					}
 					$("#course_div").show();
-					var values = val.split("|");
+					var values = val.split(",");
 					$("[name=w_course_period_id]").val( values[2] );
 					$("[name=w_course_id]").val( values[1] );
 					$("[name=w_subject_id]").val( values[0] );

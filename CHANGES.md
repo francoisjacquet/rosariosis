@@ -16,6 +16,7 @@ Changes in 8.1
 - Fix User Widgets for Advanced Search / Print Class Lists exports in GetStaffList.fnc.php, GetStuList.fnc.php & Search.inc.php
 - Add Export fields list (form) & Export fields list + extra SQL (student list) action hooks in Export.php & Actions.php
 - Do not remove Full Day and Half Day school periods from the Schedule table in PrintSchedules.php
+- Fix 403 Forbidden error due to pipe "|" in URL when using Apache 5G rules in Widgets.fnc.php
 
 Changes in 8.0.4
 ----------------
