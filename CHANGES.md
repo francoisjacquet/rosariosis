@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 8.1.1
+----------------
+- Fix security issue #328 unauthenticated access to Side.php in Warehouse.php, thanks to @ijdpuzon
+
 Changes in 8.1
 --------------
 - Remove @ error control operator on pg_exec: allow PHP Warning in database.inc.php
@@ -13,7 +17,7 @@ Changes in 8.1
 - Add File Attached to Salaries in Salaries.php & Accounting/functions.inc.php
 - SQL BILLING_FEES table: Add FILE_ATTACHED column in Update.fnc.php & rosariosis.sql
 - Add File Attached to Fees in StudentFees.php & Student_Billing/functions.inc.php
-- Fix User Widgets for Advanced Search / Print Class Lists exports in GetStaffList.fnc.php, GetStuList.fnc.php & Search.inc.php
+- Fix Student Widgets for Advanced Search exports in GetStaffList.fnc.php, GetStuList.fnc.php & Search.inc.php
 - Add Export fields list (form) & Export fields list + extra SQL (student list) action hooks in Export.php & Actions.php
 - Do not remove Full Day and Half Day school periods from the Schedule table in PrintSchedules.php
 - Fix 403 Forbidden error due to pipe "|" in URL when using Apache 5G rules in Widgets.fnc.php

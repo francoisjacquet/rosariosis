@@ -151,7 +151,8 @@ session_start();
 if ( empty( $_SESSION['STAFF_ID'] )
 	&& empty( $_SESSION['STUDENT_ID'] )
 	&& ( basename( $_SERVER['SCRIPT_NAME'] ) === 'Modules.php'
-		|| basename( $_SERVER['SCRIPT_NAME'] ) === 'Bottom.php' ) )
+		|| basename( $_SERVER['SCRIPT_NAME'] ) === 'Bottom.php'
+		|| basename( $_SERVER['SCRIPT_NAME'] ) === 'Side.php' ) )
 {
 	// Logout if no Staff or Student session ID.
 	/**
