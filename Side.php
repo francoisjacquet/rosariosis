@@ -39,7 +39,7 @@ if ( isset( $_REQUEST['sidefunc'] )
 	{
 		$unset_student = $unset_staff = true;
 
-		$_SESSION['UserSchool'] = $_POST['school'];
+		$_SESSION['UserSchool'] = (string) (int) $_POST['school'];
 
 		DBQuery( "UPDATE STAFF
 			SET CURRENT_SCHOOL_ID='" . UserSchool() . "'
@@ -53,7 +53,7 @@ if ( isset( $_REQUEST['sidefunc'] )
 	elseif ( isset( $_POST['syear'] )
 		&& $_POST['syear'] != $old_syear )
 	{
-		$_SESSION['UserSyear'] = $_POST['syear'];
+		$_SESSION['UserSyear'] = (string) (int) $_POST['syear'];
 
 		// Reset current MarkingPeriod.
 		$_SESSION['UserMP'] = GetCurrentMP( 'QTR', DBDate(), false );
@@ -128,7 +128,7 @@ if ( isset( $_REQUEST['sidefunc'] )
 	elseif ( isset( $_POST['mp'] )
 		&& $_POST['mp'] != $_SESSION['UserMP'] )
 	{
-		$_SESSION['UserMP'] = $_POST['mp'];
+		$_SESSION['UserMP'] = (string) (int) $_POST['mp'];
 	}
 
 	// Update Teacher's current CoursePeriod.
@@ -136,7 +136,7 @@ if ( isset( $_REQUEST['sidefunc'] )
 		&& isset( $_POST['period'] )
 		&& $_POST['period'] != $old_period )
 	{
-		$_SESSION['UserCoursePeriod'] = $_POST['period'];
+		$_SESSION['UserCoursePeriod'] = (string) (int) $_POST['period'];
 	}
 
 	// Update Parent's current Student.

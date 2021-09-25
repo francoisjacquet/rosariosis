@@ -4,6 +4,7 @@
 Changes in 8.1.1
 ----------------
 - Fix security issue #328 unauthenticated access to Side.php in Warehouse.php, thanks to @ijdpuzon
+- Fix security issue #328 sanitize `$_POST` school, syear, mp & period parameters in Side.php
 
 Changes in 8.1
 --------------
