@@ -470,7 +470,7 @@ function core_role_unassign_roles_response( $response )
 function core_files_upload_object()
 {
 	//first, gather the necessary variables
-	global $_POST;
+	global $_REQUEST;
 
 	//then, convert variables for the Moodle object:
 	/*
@@ -503,9 +503,9 @@ function core_files_upload_object()
 
 	return null;
 
-	$rosario_id = $_POST['userId'];
+	$rosario_id = $_REQUEST['userId'];
 	//gather the Moodle user ID
-	$column = ( mb_strpos( $_POST['modname'], 'Users' ) !== false ? 'staff_id' : 'student_id' );
+	$column = ( mb_strpos( $_REQUEST['modname'], 'Users' ) !== false ? 'staff_id' : 'student_id' );
 
 	$instanceid = MoodleXRosarioGet( $column, $rosario_id );
 
@@ -519,7 +519,7 @@ function core_files_upload_object()
 	$filearea = 'draft';
 	$itemid = 1;
 	$filepath = '/';
-	$filename = $_POST['userId'] . '.jpg';
+	$filename = $_REQUEST['userId'] . '.jpg';
 
 	function base64_encode_file( $file )
 	{
@@ -540,7 +540,7 @@ function core_files_upload_object()
 
 	global $RosarioPath;
 	$filecontent = base64_encode_file(
-		$RosarioPath . $_POST['photoPath'] . $_POST['sYear'] . '/' . $_POST['userId'] . '.jpg'
+		$RosarioPath . $_REQUEST['photoPath'] . $_REQUEST['sYear'] . '/' . $_REQUEST['userId'] . '.jpg'
 	);
 
 	if ( ! $filecontent )
