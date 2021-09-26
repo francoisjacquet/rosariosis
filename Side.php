@@ -34,12 +34,12 @@ if ( isset( $_REQUEST['sidefunc'] )
 	// Update Admin & Teachers's current School.
 	if ( ( User( 'PROFILE' ) === 'admin'
 			|| User( 'PROFILE' ) === 'teacher' )
-		&& isset( $_POST['school'] )
-		&& $_POST['school'] != $old_school )
+		&& isset( $_REQUEST['school'] )
+		&& $_REQUEST['school'] != $old_school )
 	{
 		$unset_student = $unset_staff = true;
 
-		$_SESSION['UserSchool'] = (string) (int) $_POST['school'];
+		$_SESSION['UserSchool'] = (string) (int) $_REQUEST['school'];
 
 		DBQuery( "UPDATE STAFF
 			SET CURRENT_SCHOOL_ID='" . UserSchool() . "'
@@ -50,10 +50,10 @@ if ( isset( $_REQUEST['sidefunc'] )
 	}
 
 	// Update current SchoolYear.
-	elseif ( isset( $_POST['syear'] )
-		&& $_POST['syear'] != $old_syear )
+	elseif ( isset( $_REQUEST['syear'] )
+		&& $_REQUEST['syear'] != $old_syear )
 	{
-		$_SESSION['UserSyear'] = (string) (int) $_POST['syear'];
+		$_SESSION['UserSyear'] = (string) (int) $_REQUEST['syear'];
 
 		// Reset current MarkingPeriod.
 		$_SESSION['UserMP'] = GetCurrentMP( 'QTR', DBDate(), false );
@@ -125,31 +125,31 @@ if ( isset( $_REQUEST['sidefunc'] )
 	}
 
 	// Update current MarkingPeriod.
-	elseif ( isset( $_POST['mp'] )
-		&& $_POST['mp'] != $_SESSION['UserMP'] )
+	elseif ( isset( $_REQUEST['mp'] )
+		&& $_REQUEST['mp'] != $_SESSION['UserMP'] )
 	{
-		$_SESSION['UserMP'] = (string) (int) $_POST['mp'];
+		$_SESSION['UserMP'] = (string) (int) $_REQUEST['mp'];
 	}
 
 	// Update Teacher's current CoursePeriod.
 	elseif ( User( 'PROFILE' ) === 'teacher'
-		&& isset( $_POST['period'] )
-		&& $_POST['period'] != $old_period )
+		&& isset( $_REQUEST['period'] )
+		&& $_REQUEST['period'] != $old_period )
 	{
-		$_SESSION['UserCoursePeriod'] = (string) (int) $_POST['period'];
+		$_SESSION['UserCoursePeriod'] = (string) (int) $_REQUEST['period'];
 	}
 
 	// Update Parent's current Student.
 	elseif ( User( 'PROFILE' ) === 'parent'
-		&& isset( $_POST['student_id'] )
-		&& UserStudentID() != $_POST['student_id'] )
+		&& isset( $_REQUEST['student_id'] )
+		&& UserStudentID() != $_REQUEST['student_id'] )
 	{
-		SetUserStudentID( $_POST['student_id'] );
+		SetUserStudentID( $_REQUEST['student_id'] );
 
 		if ( ! empty( $_SESSION['_REQUEST_vars']['student_id'] ) )
 		{
 			// Fix Hacking Log when Parent switching Student.
-			$_SESSION['_REQUEST_vars']['student_id'] = $_POST['student_id'];
+			$_SESSION['_REQUEST_vars']['student_id'] = (string) (int) $_REQUEST['student_id'];
 		}
 	}
 
