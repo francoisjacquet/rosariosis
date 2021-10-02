@@ -834,7 +834,8 @@ function _makeExtraAssnCols( $assignment_id, $column )
 			else
 			{
 				if ( ! empty( $_REQUEST['include_all'] )
-					|| ( $current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['POINTS'] != ''
+					|| ( ( isset( $current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['POINTS'] )
+							&& $current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['POINTS'] != '' )
 						|| ! $assignments_RET[$assignment_id][1]['DUE_EPOCH']
 						|| $assignments_RET[$assignment_id][1]['DUE_EPOCH'] >= $THIS_RET['START_EPOCH']
 						&& ( ! $THIS_RET['END_EPOCH']
@@ -882,7 +883,8 @@ function _makeExtraAssnCols( $assignment_id, $column )
 			else
 			{
 				if ( ! empty( $_REQUEST['include_all'] )
-					|| ( $current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['POINTS'] != ''
+					|| ( ( isset( $current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['POINTS'] )
+							&& $current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['POINTS'] != '' )
 						|| ! $assignments_RET[$assignment_id][1]['DUE_EPOCH']
 						|| $assignments_RET[$assignment_id][1]['DUE_EPOCH'] >= $THIS_RET['START_EPOCH']
 						&& ( ! $THIS_RET['END_EPOCH']
@@ -924,7 +926,8 @@ function _makeExtraAssnCols( $assignment_id, $column )
 			else
 			{
 				if ( ! empty( $_REQUEST['include_all'] )
-					|| ( $current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['POINTS'] != ''
+					|| ( ( isset( $current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['POINTS'] )
+							&& $current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['POINTS'] != '' )
 						|| ! $assignments_RET[$assignment_id][1]['DUE_EPOCH']
 						|| $assignments_RET[$assignment_id][1]['DUE_EPOCH'] >= $THIS_RET['START_EPOCH']
 						&& ( ! $THIS_RET['END_EPOCH']
