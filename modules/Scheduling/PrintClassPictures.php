@@ -139,12 +139,23 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 			echo '<tr><td style="vertical-align:bottom;"><table>';
 
-			if ( $UserPicturesPath
-				&& ( ( $size = @getimagesize( $picture_path = $UserPicturesPath . UserSyear() . '/' . $teacher_id . '.JPG' ) )
-					|| ! empty( $_REQUEST['last_year'] )
-					&& $staff['ROLLOVER_ID']
-					&& ( $size = @getimagesize( $picture_path = $UserPicturesPath . ( UserSyear() - 1 ) . '/' . $staff['ROLLOVER_ID'] . '.JPG' ) ) ) )
+			$picture_path = $UserPicturesPath . UserSyear() . '/' . $teacher_id . '.jpg';
+
+			if ( ! file_exists( $picture_path ) )
 			{
+				// Use Last Year's if Missing.
+				$picture_path = $UserPicturesPath . ( UserSyear() - 1 ) . '/' . $teacher['ROLLOVER_ID'] . '.jpg';
+
+				if ( ! file_exists( $picture_path ) )
+				{
+					$picture_path = '';
+				}
+			}
+
+			if ( $picture_path )
+			{
+				$size = getimagesize( $picture_path );
+
 				if ( $size[1] / $size[0] > 172 / 130 )
 				{
 					echo '<tr><td style="width:130px;"><img src="' . $picture_path . '" height="172"></td></tr>';
@@ -175,11 +186,23 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 			echo '<td style="vertical-align:bottom;"><table>';
 
-			if ( $StudentPicturesPath
-				&& ( ( $size = @getimagesize( $picture_path = $StudentPicturesPath . UserSyear() . '/' . $student_id . '.jpg' ) )
-					|| ! empty( $_REQUEST['last_year'] )
-					&& ( $size = @getimagesize( $picture_path = $StudentPicturesPath . ( UserSyear() - 1 ) . '/' . $student_id . '.jpg' ) ) ) )
+			$picture_path = $StudentPicturesPath . UserSyear() . '/' . $student_id . '.jpg';
+
+			if ( ! file_exists( $picture_path ) )
 			{
+				// Use Last Year's if Missing.
+				$picture_path = $StudentPicturesPath . ( UserSyear() - 1 ) . '/' . $student_id . '.jpg';
+
+				if ( ! file_exists( $picture_path ) )
+				{
+					$picture_path = '';
+				}
+			}
+
+			if ( $picture_path )
+			{
+				$size = getimagesize( $picture_path );
+
 				if ( $size[1] / $size[0] > 172 / 130 )
 				{
 					echo '<tr><td style="width:130px;"><img src="' . $picture_path . '" height="172"></td></tr>';
@@ -243,7 +266,6 @@ if ( ! $_REQUEST['modfunc']
 
 		//FJ add <label> on checkbox
 		$extra['extra_header_left'] .= '<tr class="st"><td><label><input type="checkbox" name="include_teacher" value="Y" checked /> ' . _( 'Include Teacher' ) . '</label></td>';
-		$extra['extra_header_left'] .= '<td><label><input type="checkbox" name="last_year" value="Y"> ' . _( 'Use Last Year\'s if Missing' ) . '</label></td></tr>';
 
 		if ( User( 'PROFILE' ) === 'admin' || User( 'PROFILE' ) === 'teacher' )
 		{

@@ -4,6 +4,7 @@
 Changes in 8.2
 --------------
 - Fix replace regex: remove slash & allow space in FileUpload.fnc.php
+- Always Use Last Year's Picture if Missing in PrintClassLists.php
 
 Changes in 8.1.1
 ----------------
