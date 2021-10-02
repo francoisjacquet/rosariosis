@@ -225,10 +225,10 @@ array_rwalk( $_REQUEST, 'strip_tags' );
  * Internationalization
  */
 
-if ( ! empty( $_GET['locale'] )
-	&& in_array( $_GET['locale'], $RosarioLocales ) )
+if ( ! empty( $_REQUEST['locale'] )
+	&& in_array( $_REQUEST['locale'], $RosarioLocales ) )
 {
-	$_SESSION['locale'] = $_GET['locale'];
+	$_SESSION['locale'] = $_REQUEST['locale'];
 }
 elseif ( empty( $_SESSION['locale'] ) )
 {
