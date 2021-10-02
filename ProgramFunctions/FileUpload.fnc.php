@@ -490,11 +490,12 @@ function FileUploadMultiple( $input )
 
 /**
  * Removes accents from string.
- * Also replaces spaces and chars other than point, dashes & numbers
+ * Also replaces characters others than letters, space, numbers & points
  * with underscores '_'.
  * Perfect to sanitize a filename.
  *
  * @since 3.4 uses PHP intl extension or return microtime in case string does not contain ASCII chars.
+ * @since 8.2 Fix replace regex: remove slash & allow space
  *
  * @link http://stackoverflow.com/questions/1017599/how-do-i-remove-accents-from-characters-in-a-php-string
  *
@@ -514,7 +515,12 @@ function no_accents( $string )
 {
 	if ( ! preg_match( '/[\x80-\xff]/', $string) )
 	{
-		return $string;
+		// Replace characters others than letters, space, numbers & points with underscores  "_".
+		$string = preg_replace(
+			'/([^ _\-.a-z0-9]+)/i',
+			'_',
+			$string
+		);
 	}
 
 	if ( function_exists( 'transliterator_transliterate' ) )
@@ -531,9 +537,9 @@ function no_accents( $string )
 			$string
 		);
 
-		// Replace characters others than letters, numbers & points with underscores  "_".
+		// Replace characters others than letters, space, numbers & points with underscores  "_".
 		$string = preg_replace(
-			'/([^_\-.a-z\/0-9]+)/i',
+			'/([^ _\-.a-z0-9]+)/i',
 			'_',
 			$string
 		);
@@ -644,9 +650,9 @@ function no_accents( $string )
 
 	$string = strtr( $string, $chars );
 
-	// Replace characters others than letters, numbers & points with underscores  "_".
+	// Replace characters others than letters, space, numbers & points with underscores  "_".
 	$string = preg_replace(
-		'/([^_\-.a-z\/0-9]+)/i',
+		'/([^ _\-.a-z0-9]+)/i',
 		'_',
 		$string
 	);

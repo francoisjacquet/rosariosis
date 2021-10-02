@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 8.2
+--------------
+- Fix replace regex: remove slash & allow space in FileUpload.fnc.php
+
 Changes in 8.1.1
 ----------------
 - Fix security issue #328 unauthenticated access to Side.php in Warehouse.php, thanks to @ijdpuzon
