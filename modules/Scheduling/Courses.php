@@ -380,6 +380,8 @@ if ( ! empty( $_REQUEST['tables'] )
 
 							$base_title = CoursePeriodTitleGenerate( $id, $columns );
 
+							$base_title = DBEscapeString( $base_title );
+
 							$sql .= "TITLE='" . $base_title . "',";
 
 							if ( isset( $columns['MARKING_PERIOD_ID'] ) )
@@ -531,6 +533,8 @@ if ( ! empty( $_REQUEST['tables'] )
 							}
 
 							$base_title = CoursePeriodTitleGenerate( 0, $columns );
+
+							$base_title = DBEscapeString( $base_title );
 
 							$values = "'" . UserSyear() . "','" . UserSchool() . "','" . $id . "','" . $_REQUEST['course_id'] . "','" . $base_title . "','0',";
 
