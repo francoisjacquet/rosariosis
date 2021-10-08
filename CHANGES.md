@@ -7,6 +7,7 @@ Changes in 8.2
 - Always Use Last Year's Picture if Missing in PrintClassLists.php
 - Fix #329 SQL error division by zero in t_update_mp_stats(): set min Credits to 1 in Courses.fnc.php
 - Fix SQL error when Teacher name has single quote in Courses.php
+- CSS FlatSIS remove useless line-height for tabs in stylesheet.css
 
 Changes in 8.1.1
 ----------------
