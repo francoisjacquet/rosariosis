@@ -2,6 +2,13 @@
 
 ## RosarioSIS Student Information System
 
+New in 8.2
+----------
+
+Class Diary Premium
+- Send email reminder to Teachers who did not add an entry for yesterday's classes, sponsored by Paris'Com Sup
+
+
 New in 8.1
 ----------
 
