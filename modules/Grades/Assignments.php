@@ -532,12 +532,23 @@ if ( ! $_REQUEST['modfunc'] )
 		if ( $assignment_type_has_assignments
 			&& Preferences( 'WEIGHT', 'Gradebook' ) == 'Y' )
 		{
+			$assignment_type_has_assignments = DBGetOne( "SELECT 1
+				FROM GRADEBOOK_ASSIGNMENTS
+				WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
+				AND (COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
+				AND ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'
+				AND MARKING_PERIOD_ID='" . UserMP() . "'" );
+
 			$assignment_type_assignments_warn_all_0_points = ! DBGetOne( "SELECT 1
 				FROM GRADEBOOK_ASSIGNMENTS
-				WHERE ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'
-				AND POINTS<>'0'" );
+				WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
+				AND (COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
+				AND ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'
+				AND POINTS<>'0'
+				AND MARKING_PERIOD_ID='" . UserMP() . "'" );
 
-			if ( $assignment_type_assignments_warn_all_0_points )
+			if ( $assignment_type_has_assignments
+				&& $assignment_type_assignments_warn_all_0_points )
 			{
 				// @since 8.0 Add warning in case all Assignments in Type have 0 Points (Extra Credit).
 				// Only when "Weight Grades" is checked under Grades > Configuration.

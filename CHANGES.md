@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 8.2.1
+----------------
+- Fix SQL for Warning when only 0 points assignments in Assigments.php
+
 Changes in 8.2
 --------------
 - Fix replace regex: remove slash & allow space in FileUpload.fnc.php
