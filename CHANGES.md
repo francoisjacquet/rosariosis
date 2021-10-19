@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 8.3
+--------------
+- Fix PHP Warning non-numeric value encountered, use rounded percent grade in StudentGrades.php
+
 Changes in 8.2.1
 ----------------
 - Fix SQL for Warning when only 0 points assignments in Assigments.php

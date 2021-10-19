@@ -223,15 +223,15 @@ if ( UserStudentID()
 
 						$avg_percent /= count( $all_RET );
 
-						//FJ bargraph with the grade not the percent
+						// FJ bargraph with rounded percent.
 						//$bargraph1 = bargraph1($percent===false?true:$percent,$min_percent,$avg_percent,$max_percent,1);
 						$bargraph1 = bargraph1(
 							$percent === false ?
-							true : _makeLetterGrade( $percent, $course_period_id, $staff_id ),
-							_makeLetterGrade( $min_percent, $course_period_id, $staff_id ),
-							_makeLetterGrade( $avg_percent, $course_period_id, $staff_id ),
-							_makeLetterGrade( $max_percent, $course_period_id, $staff_id ),
-							1
+							true : _makeLetterGrade( $percent, $course_period_id, $staff_id, '%' ),
+							_makeLetterGrade( $min_percent, $course_period_id, $staff_id, '%' ),
+							_makeLetterGrade( $avg_percent, $course_period_id, $staff_id, '%' ),
+							_makeLetterGrade( $max_percent, $course_period_id, $staff_id, '%' ),
+							100
 						);
 
 						$bargraph2 = bargraph2( $percent === false ? true : 0, $lower, $higher );
