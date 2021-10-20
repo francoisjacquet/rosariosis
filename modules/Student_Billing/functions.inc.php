@@ -259,7 +259,7 @@ function _makePaymentsCommentsInput( $value, $name )
 		'',
 		$fees_options,
 		'N/A',
-		'onchange="billingPaymentsFeeReconcile(this.value);"'
+		'onchange="billingPaymentsFeeReconcile(this.value);" style="width: 300px;"'
 	);
 
 	return $text_input . ' ' . $js . $select_input;
@@ -356,4 +356,19 @@ function _makeFeesFileInput( $value, $column )
 	);
 
 	return $file;
+}
+
+/**
+ * Make Payments File Attached Input
+ *
+ * @since 8.3
+ *
+ * @param  string $value File path value.
+ * @param  string $name  Column name, 'FILE_ATTACHED'.
+ *
+ * @return string        File Input HTML or link to download File.
+ */
+function _makePaymentsFileInput( $value, $column )
+{
+	return _makeFeesFileInput( $value, $column );
 }

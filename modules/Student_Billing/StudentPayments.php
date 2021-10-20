@@ -1,5 +1,6 @@
 <?php
 
+require_once 'ProgramFunctions/FileUpload.fnc.php';
 require_once 'modules/Student_Billing/functions.inc.php';
 
 if ( empty( $_REQUEST['print_statements'] ) )
@@ -41,6 +42,20 @@ if ( ! empty( $_REQUEST['values'] )
 
 			$fields = 'ID,STUDENT_ID,SYEAR,SCHOOL_ID,';
 			$values = "'" . $id . "','" . UserStudentID() . "','" . UserSyear() . "','" . UserSchool() . "',";
+
+			if ( isset( $_FILES['FILE_ATTACHED'] ) )
+			{
+				$columns['FILE_ATTACHED'] = FileUpload(
+					'FILE_ATTACHED',
+					$FileUploadsPath . UserSyear() . '/student_' . UserStudentID() . '/',
+					FileExtensionWhiteList(),
+					0,
+					$error
+				);
+
+				// Fix SQL error when quote in uploaded file name.
+				$columns['FILE_ATTACHED'] = DBEscapeString( $columns['FILE_ATTACHED'] );
+			}
 
 			$go = 0;
 
@@ -84,6 +99,17 @@ if ( $_REQUEST['modfunc'] === 'remove'
 {
 	if ( DeletePrompt( _( 'Payment' ) ) )
 	{
+		$file_attached = DBGetOne( "SELECT FILE_ATTACHED
+			FROM BILLING_PAYMENTS
+			WHERE ID='" . $_REQUEST['id'] . "'" );
+
+		if ( ! empty( $file_attached )
+			&& file_exists( $file_attached ) )
+		{
+			// Delete File Attached.
+			unlink( $file_attached );
+		}
+
 		DBQuery( "DELETE FROM BILLING_PAYMENTS
 			WHERE ID='" . $_REQUEST['id'] . "'
 			OR REFUNDED_PAYMENT_ID='" . $_REQUEST['id'] . "'" );
@@ -136,6 +162,7 @@ if ( UserStudentID()
 		'PAYMENT_DATE' => 'ProperDate',
 		'COMMENTS' => '_makePaymentsCommentsInput',
 		'LUNCH_PAYMENT' => '_lunchInput',
+		'FILE_ATTACHED' => '_makePaymentsFileInput',
 	);
 
 	$refunded_payments_RET = DBGet( "SELECT '' AS REMOVE,ID,REFUNDED_PAYMENT_ID,
@@ -184,6 +211,12 @@ if ( UserStudentID()
 		'LUNCH_PAYMENT' => _( 'Lunch Payment' ),
 	);
 
+	if ( empty( $_REQUEST['print_statements'] )
+		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
+		$columns += array( 'FILE_ATTACHED' => _( 'File Attached' ) );
+	}
+
 	$link = array();
 
 	if ( empty( $_REQUEST['print_statements'] )
@@ -195,6 +228,7 @@ if ( UserStudentID()
 			'PAYMENT_DATE' => _makePaymentsDateInput( DBDate(), 'PAYMENT_DATE' ),
 			'COMMENTS' => _makePaymentsCommentsInput( '', 'COMMENTS' ),
 			'LUNCH_PAYMENT' => _lunchInput( '', 'LUNCH_PAYMENT' ),
+			'FILE_ATTACHED' => _makePaymentsFileInput( '', 'FILE_ATTACHED' ),
 		);
 	}
 

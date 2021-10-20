@@ -8,6 +8,9 @@ New in 8.3
 Accounting
 - Staff Payments: add File Attached
 
+Student Billing
+- Payments: add File Attached, sponsored by Paris'Com Sup
+
 
 New in 8.2
 ----------

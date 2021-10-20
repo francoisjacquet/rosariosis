@@ -6,6 +6,7 @@ Changes in 8.3
 - Fix PHP Warning non-numeric value encountered, use rounded percent grade in StudentGrades.php
 - Security Fix reflected XSS: encode HTML special chars for search_term in Courses.php
 - Add File Attached to Staff Payments in StaffPayments.php & Accounting/functions.inc.php
+- Add File Attached to Payments in StudentPayments.php & Student_Billing/functions.inc.php
 
 Changes in 8.2.1
 ----------------
