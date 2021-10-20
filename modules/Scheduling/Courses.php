@@ -72,14 +72,14 @@ if ( isset( $_REQUEST['course_modfunc'] )
 		$_REQUEST['last_year']  ) . '" method="POST">'; // Fix Search: Use POST for Public Pages plugin compatibility.
 
 	echo '<table><tr><td><input type="text" name="search_term" value="' .
-		issetVal( $_REQUEST['search_term'], '' ) . '" required autofocus /></td>
+		// Security Fix reflected XSS: encode HTML special chars for search_term.
+		htmlspecialchars( issetVal( $_REQUEST['search_term'], '' ), ENT_QUOTES ) . '" required autofocus /></td>
 		<td>' . Buttons( _( 'Search' ) ) . '</td></tr></table>';
 
 	if ( $_REQUEST['modfunc'] === 'choose_course'
 		&& $_REQUEST['modname'] === 'Scheduling/Schedule.php' )
 	{
-		echo '<input type="hidden" name="include_child_mps" value="' .
-			$_REQUEST['include_child_mps'] . '" />
+		echo '<input type="hidden" name="include_child_mps" value="' . $_REQUEST['include_child_mps'] . '" />
 			<input type="hidden" name="year_date" value="' . $_REQUEST['year_date'] . '" />
 			<input type="hidden" name="month_date" value="' . $_REQUEST['month_date'] . '" />
 			<input type="hidden" name="day_date" value="' . $_REQUEST['day_date'] . '" />';
