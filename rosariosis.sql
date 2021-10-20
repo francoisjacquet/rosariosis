@@ -535,6 +535,7 @@ CREATE TABLE accounting_payments (
     amount numeric NOT NULL,
     payment_date date,
     comments text,
+    file_attached text,
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp,
     FOREIGN KEY (school_id,syear) REFERENCES schools(id,syear)
@@ -777,6 +778,7 @@ CREATE TABLE billing_payments (
     comments text,
     refunded_payment_id integer,
     lunch_payment character varying(1),
+    file_attached text,
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp,
     FOREIGN KEY (school_id,syear) REFERENCES schools(id,syear)

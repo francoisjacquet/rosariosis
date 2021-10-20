@@ -390,3 +390,51 @@ function _update81()
 
 	return $return;
 }
+
+
+/**
+ * Update to version 8.3
+ *
+ * 1. ACCOUNTING_PAYMENTS table: Add FILE_ATTACHED column.
+ * 2. BILLING_PAYMENTS table: Add FILE_ATTACHED column.
+ *
+ * Local function
+ *
+ * @since 8.3
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update83()
+{
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. ACCOUNTING_SALARIES table: Add FILE_ATTACHED column.
+	 */
+	$file_attached_column_exists = DBGetOne( "SELECT 1 FROM pg_attribute
+		WHERE attrelid=(SELECT oid FROM pg_class WHERE relname='accounting_payments')
+		AND attname='file_attached';" );
+
+	if ( ! $file_attached_column_exists )
+	{
+		DBQuery( "ALTER TABLE ONLY accounting_payments
+			ADD COLUMN file_attached text;" );
+	}
+
+	/**
+	 * 2. BILLING_PAYMENTS table: Add FILE_ATTACHED column.
+	 */
+	$file_attached_column_exists = DBGetOne( "SELECT 1 FROM pg_attribute
+		WHERE attrelid=(SELECT oid FROM pg_class WHERE relname='billing_payments')
+		AND attname='file_attached';" );
+
+	if ( ! $file_attached_column_exists )
+	{
+		DBQuery( "ALTER TABLE ONLY billing_payments
+			ADD COLUMN file_attached text;" );
+	}
+
+	return $return;
+}

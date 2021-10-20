@@ -7,6 +7,8 @@ Changes in 8.3
 - Security Fix reflected XSS: encode HTML special chars for search_term in Courses.php
 - Add File Attached to Staff Payments in StaffPayments.php & Accounting/functions.inc.php
 - Add File Attached to Payments in StudentPayments.php & Student_Billing/functions.inc.php
+- SQL ACCOUNTING_PAYMENTS table: Add FILE_ATTACHED column in Update.fnc.php & rosariosis.sql
+- SQL BILLING_PAYMENTS table: Add FILE_ATTACHED column in Update.fnc.php & rosariosis.sql
 
 Changes in 8.2.1
 ----------------
