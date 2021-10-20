@@ -3,8 +3,6 @@
 require_once 'ProgramFunctions/FileUpload.fnc.php';
 require_once 'modules/Accounting/functions.inc.php';
 
-$_REQUEST['print_statements'] = issetVal( $_REQUEST['print_statements'], '' );
-
 if ( User( 'PROFILE' ) === 'teacher' ) //limit to teacher himself
 {
 	$_REQUEST['staff_id'] = User( 'STAFF_ID' );
@@ -150,7 +148,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 	}
 
 	if ( ! empty( $RET )
-		&& ! $_REQUEST['print_statements']
+		&& empty( $_REQUEST['print_statements'] )
 		&& AllowEdit()
 		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
@@ -169,7 +167,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 		'COMMENTS' => _( 'Comment' ),
 	);
 
-	if ( ! $_REQUEST['print_statements']
+	if ( empty( $_REQUEST['print_statements'] )
 		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		$columns += array( 'FILE_ATTACHED' => _( 'File Attached' ) );
