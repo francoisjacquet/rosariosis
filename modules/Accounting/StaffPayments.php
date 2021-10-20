@@ -1,4 +1,5 @@
 <?php
+require_once 'ProgramFunctions/FileUpload.fnc.php';
 require_once 'modules/Accounting/functions.inc.php';
 
 if ( User( 'PROFILE' ) === 'teacher' ) //limit to teacher himself
@@ -46,6 +47,20 @@ if ( ! empty( $_REQUEST['values'] )
 			$fields = 'ID,STAFF_ID,SYEAR,SCHOOL_ID,';
 			$values = "'" . $id . "','" . UserStaffID() . "','" . UserSyear() . "','" . UserSchool() . "',";
 
+			if ( isset( $_FILES['FILE_ATTACHED'] ) )
+			{
+				$columns['FILE_ATTACHED'] = FileUpload(
+					'FILE_ATTACHED',
+					$FileUploadsPath . UserSyear() . '/staff_' . UserStaffID() . '/',
+					FileExtensionWhiteList(),
+					0,
+					$error
+				);
+
+				// Fix SQL error when quote in uploaded file name.
+				$columns['FILE_ATTACHED'] = DBEscapeString( $columns['FILE_ATTACHED'] );
+			}
+
 			$go = 0;
 
 			foreach ( (array) $columns as $column => $value )
@@ -88,6 +103,17 @@ if ( $_REQUEST['modfunc'] === 'remove'
 {
 	if ( DeletePrompt( _( 'Payment' ) ) )
 	{
+		$file_attached = DBGetOne( "SELECT FILE_ATTACHED
+			FROM ACCOUNTING_PAYMENTS
+			WHERE ID='" . $_REQUEST['id'] . "'" );
+
+		if ( ! empty( $file_attached )
+			&& file_exists( $file_attached ) )
+		{
+			// Delete File Attached.
+			unlink( $file_attached );
+		}
+
 		DBQuery( "DELETE FROM ACCOUNTING_PAYMENTS
 			WHERE ID='" . $_REQUEST['id'] . "'" );
 
@@ -105,6 +131,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 		'AMOUNT' => '_makePaymentsAmount',
 		'PAYMENT_DATE' => 'ProperDate',
 		'COMMENTS' => '_makePaymentsCommentsInput',
+		'FILE_ATTACHED' => '_makePaymentsFileInput',
 	);
 
 	$payments_RET = DBGet( "SELECT '' AS REMOVE,ID,AMOUNT,PAYMENT_DATE,COMMENTS
@@ -140,6 +167,12 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 		'COMMENTS' => _( 'Comment' ),
 	);
 
+	if ( empty( $_REQUEST['print_statements'] )
+		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
+		$columns += array( 'FILE_ATTACHED' => _( 'File Attached' ) );
+	}
+
 	$link = array();
 
 	if ( empty( $_REQUEST['print_statements'] )
@@ -150,6 +183,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 			'AMOUNT' => _makePaymentsTextInput( '', 'AMOUNT' ),
 			'PAYMENT_DATE' => _makePaymentsDateInput( DBDate(), 'PAYMENT_DATE' ),
 			'COMMENTS' => _makePaymentsCommentsInput( '', 'COMMENTS' ),
+			'FILE_ATTACHED' => _makePaymentsFileInput( '', 'FILE_ATTACHED' ),
 		);
 	}
 

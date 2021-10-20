@@ -195,7 +195,7 @@ function _makePaymentsCommentsInput( $value, $name )
 		'',
 		$salaries_options,
 		'N/A',
-		'onchange="accountingPaymentsSalariesReconcile(this.value);"'
+		'onchange="accountingPaymentsSalariesReconcile(this.value);" style="width: 300px;"'
 	);
 
 	return $text_input . ' ' . $js . $select_input;
@@ -274,4 +274,19 @@ function _makeSalariesFileInput( $value, $column )
 	);
 
 	return $file;
+}
+
+/**
+ * Make Payments File Attached Input
+ *
+ * @since 8.3
+ *
+ * @param  string $value File path value.
+ * @param  string $name  Column name, 'FILE_ATTACHED'.
+ *
+ * @return string        File Input HTML or link to download File.
+ */
+function _makePaymentsFileInput( $value, $column )
+{
+	return _makeSalariesFileInput( $value, $column );
 }

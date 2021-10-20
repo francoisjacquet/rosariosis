@@ -2,6 +2,13 @@
 
 ## RosarioSIS Student Information System
 
+New in 8.3
+----------
+
+Accounting
+- Staff Payments: add File Attached
+
+
 New in 8.2
 ----------
 
