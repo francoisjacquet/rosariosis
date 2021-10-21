@@ -10,6 +10,7 @@ Changes in 8.3
 - SQL ACCOUNTING_PAYMENTS table: Add FILE_ATTACHED column in Update.fnc.php & rosariosis.sql
 - SQL BILLING_PAYMENTS table: Add FILE_ATTACHED column in Update.fnc.php & rosariosis.sql
 - Add help note for student deletion & translate in Help_en.php & help.po
+- Add RosarioSIS URL to image path in MarkDownHTML.fnc.php
 
 Changes in 8.2.1
 ----------------

@@ -152,15 +152,17 @@ function SanitizeMarkDown( $md )
  *
  * @since 2.9
  * @since 5.5.3 Better base64 images detection.
+ * @since 8.3   Add RosarioSIS URL to image path.
  *
  * @global object $security
  *
- * @param  string $html       HTML text.
- * @param  string $image_path Path where to upload base64 images. Defaults to "assets/FileUploads/[Syear]/[staff_or_student_ID]/" (optional).
+ * @param  string $html                  HTML text.
+ * @param  string $image_path            Path where to upload base64 images. Defaults to "assets/FileUploads/[Syear]/[staff_or_student_ID]/" (optional).
+ * @param  bool   $add_url_to_image_path Add RosarioSIS URL to image path. Useful when HTML used in email to display remote images.
  *
  * @return string Sanitized input with HTML encoded single quotes
  */
-function SanitizeHTML( $html, $image_path = '' )
+function SanitizeHTML( $html, $image_path = '', $add_url_to_image_path = false )
 {
 	global $security;
 
@@ -211,21 +213,6 @@ function SanitizeHTML( $html, $image_path = '' )
 	}
 
 	$sanitized_html = $security->xss_clean( $html_no_base64 );
-
-	if ( ROSARIO_DEBUG
-		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
-	{
-		if ( function_exists( 'd' ) )
-		{
-			// Dump using Kint.
-			d( $sanitized_html );
-		}
-		else
-		{
-			echo 'Sanitized HTML:<br />';
-			var_dump( $sanitized_html );
-		}
-	}
 
 	/**
 	 * Convert single quotes to HTML entities
@@ -278,11 +265,72 @@ function SanitizeHTML( $html, $image_path = '' )
 
 		$image_path = ImageUpload( $data, $target_dim, $image_path );
 
+		/**
+		 * RosarioSIS login page URL
+		 * Removes part beginning with 'Modules.php' or 'index.php' from URI.
+		 *
+		 * Local function
+		 *
+		 * @since 8.3
+		 *
+		 * @return string Login page URL.
+		 */
+		function _rosarioLoginURL()
+		{
+			$page_url = 'http';
+
+			if ( isset( $_SERVER['HTTPS'] )
+				&& $_SERVER['HTTPS'] == 'on' )
+			{
+				$page_url .= 's';
+			}
+
+			$page_url .= '://';
+
+			$root_pos = strpos( $_SERVER['REQUEST_URI'], 'Modules.php' ) ?
+				strpos( $_SERVER['REQUEST_URI'], 'Modules.php' ) : strpos( $_SERVER['REQUEST_URI'], 'index.php' );
+
+			$root_uri = substr( $_SERVER['REQUEST_URI'], 0, $root_pos );
+
+			if ( $_SERVER['SERVER_PORT'] != '80'
+				&& $_SERVER['SERVER_PORT'] != '443' )
+			{
+				$page_url .= $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $root_uri;
+			}
+			else
+			{
+				$page_url .= $_SERVER['SERVER_NAME'] . $root_uri;
+			}
+
+			return $page_url;
+		}
+
+		if ( $add_url_to_image_path )
+		{
+			// Add URL to image path.
+			$image_path = _rosarioLoginURL() . $image_path;
+		}
+
 		$base64_images[1][ $key ] = $image_path;
 	}
 
 	// Replace TinyMCE base64 images.
 	$sanitized_html_quotes = str_replace( $base64_replace, $base64_images[1], $sanitized_html_quotes );
+
+	if ( ROSARIO_DEBUG
+		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
+		if ( function_exists( 'd' ) )
+		{
+			// Dump using Kint.
+			d( $sanitized_html_quotes );
+		}
+		else
+		{
+			echo 'Sanitized HTML:<br />';
+			var_dump( $sanitized_html_quotes );
+		}
+	}
 
 	return $sanitized_html_quotes;
 }
