@@ -9,6 +9,7 @@ Changes in 8.3
 - Add File Attached to Payments in StudentPayments.php & Student_Billing/functions.inc.php
 - SQL ACCOUNTING_PAYMENTS table: Add FILE_ATTACHED column in Update.fnc.php & rosariosis.sql
 - SQL BILLING_PAYMENTS table: Add FILE_ATTACHED column in Update.fnc.php & rosariosis.sql
+- Add help note for student deletion & translate in Help_en.php & help.po
 
 Changes in 8.2.1
 ----------------

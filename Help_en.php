@@ -247,7 +247,9 @@ if ( User( 'PROFILE' ) === 'admin' ):
 
 	$help['Students/Student.php&include=General_Info&student_id=new'] = '<p>' . _help( '<i>Add a Student</i> allows you to add a student to the system and enroll it.' ) . '</p>
 
-	<p>' . _help( 'To add the student, enter the birth date, social security number, ethnicity, gender, birthplace, and grade. Then, select the effective date of the student\'s enrollment and the enrollment code from the pull-down menus at the bottom of the page. If you wish to specify a student ID for this student, enter the student ID into the text field labeled RosarioSIS ID. if you leave this field blank, RosarioSIS will generate an unused student ID and assign it to the new student. Finally, click the "Save" button at the top of the screen.' ) . '</p>';
+	<p>' . _help( 'To add the student, enter the birth date, social security number, ethnicity, gender, birthplace, and grade. Then, select the effective date of the student\'s enrollment and the enrollment code from the pull-down menus at the bottom of the page. If you wish to specify a student ID for this student, enter the student ID into the text field labeled RosarioSIS ID. if you leave this field blank, RosarioSIS will generate an unused student ID and assign it to the new student. Finally, click the "Save" button at the top of the screen.' ) . '</p>
+
+	<p>' . _help( 'Note: a student cannot be deleted once it is enrolled in courses, has grades, attendance records, discipline referrals, or billing fees. You can drop him instead.' ) . '</p>';
 
 	$help['Students/AddUsers.php'] = '<p>' . _help( '<i>Associate Parents with Students</i> allows you to associate parents to students.' ) . '</p>
 
