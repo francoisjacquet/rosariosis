@@ -200,6 +200,10 @@ function Update()
 		case version_compare( $from_version, '8.1', '<' ) :
 
 			$return = _update81();
+
+		case version_compare( $from_version, '8.3', '<' ) :
+
+			$return = _update83();
 	}
 
 	// Update version in DB CONFIG table.
