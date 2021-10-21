@@ -134,7 +134,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 		'FILE_ATTACHED' => '_makePaymentsFileInput',
 	);
 
-	$payments_RET = DBGet( "SELECT '' AS REMOVE,ID,AMOUNT,PAYMENT_DATE,COMMENTS
+	$payments_RET = DBGet( "SELECT '' AS REMOVE,ID,AMOUNT,PAYMENT_DATE,COMMENTS,FILE_ATTACHED
 		FROM ACCOUNTING_PAYMENTS
 		WHERE STAFF_ID='" . UserStaffID() . "'
 		AND SYEAR='" . UserSyear() . "'
