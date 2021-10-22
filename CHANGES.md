@@ -11,6 +11,7 @@ Changes in 8.3
 - SQL BILLING_PAYMENTS table: Add FILE_ATTACHED column in Update.fnc.php & rosariosis.sql
 - Add help note for student deletion & translate in Help_en.php & help.po
 - Add RosarioSIS URL to image path in MarkDownHTML.fnc.php
+- Fix SQL error invalid byte sequence for encoding "UTF8": 0xde 0x20 in Security.php
 
 Changes in 8.2.1
 ----------------
