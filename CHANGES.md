@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 8.3.1
+----------------
+- Fix SQL exclude fields of 'files' type in Substitutions.php
+
 Changes in 8.3
 --------------
 - Fix PHP Warning non-numeric value encountered, use rounded percent grade in StudentGrades.php
