@@ -4,6 +4,7 @@
 Changes in 8.3.1
 ----------------
 - Fix SQL exclude fields of 'files' type in Substitutions.php
+- SQL order fields list by Category & SORT_ORDER in Substitutions.php
 
 Changes in 8.3
 --------------

@@ -148,7 +148,8 @@ function _substitutionsDBGetCustomFields( $table )
 	{
 		return DBGet( "SELECT '' AS CATEGORY,ID,TITLE,TYPE,SELECT_OPTIONS
 			FROM " . DBEscapeIdentifier( $table_name ) . "
-			WHERE TYPE<>'files'" );
+			WHERE TYPE<>'files'
+			ORER BY SORT_ORDER" );
 	}
 
 	$category_table_name = $table . '_FIELD_CATEGORIES';
@@ -171,7 +172,8 @@ function _substitutionsDBGetCustomFields( $table )
 	return DBGet( "SELECT c.TITLE AS CATEGORY,f.ID,f.TITLE,f.TYPE,f.SELECT_OPTIONS
 		FROM " . DBEscapeIdentifier( $table_name ) . " f," . DBEscapeIdentifier( $category_table_name ) . " c
 		WHERE f.TYPE<>'files'
-		AND c.ID=f.CATEGORY_ID" . $profile_category_sql );
+		AND c.ID=f.CATEGORY_ID" . $profile_category_sql .
+		" ORDER BY c.SORT_ORDER,f.SORT_ORDER" );
 }
 
 /**
