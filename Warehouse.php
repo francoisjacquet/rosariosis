@@ -250,12 +250,12 @@ else
 }
 
 // Numeric separator ".".
-setlocale( LC_NUMERIC, 'english', 'en_US', 'en_US.utf8' );
+setlocale( LC_NUMERIC, 'C', 'english', 'en_US', 'en_US.utf8', 'en_US.UTF-8' );
 
 if ( $locale === 'tr_TR.utf8' )
 {
 	// Bugfix for Turkish characters conversion.
-	setlocale( LC_CTYPE, 'english', 'en_US', 'en_US.utf8' );
+	setlocale( LC_CTYPE, 'C', 'english', 'en_US', 'en_US.utf8', 'en_US.UTF-8' );
 }
 
 // Binds the messages domain to the locale folder.

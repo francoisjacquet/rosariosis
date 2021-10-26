@@ -5,6 +5,7 @@ Changes in 8.3.1
 ----------------
 - Fix SQL exclude fields of 'files' type in Substitutions.php
 - SQL order fields list by Category & SORT_ORDER in Substitutions.php
+- Fix force numeric separator "." when no en_US locale, use C locale in Warehouse.php
 
 Changes in 8.3
 --------------
