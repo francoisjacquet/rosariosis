@@ -402,7 +402,7 @@ function Search( $type, $extra = null )
 					}
 
 					// Add Username to Staff General Info.
-					$categories_RET[1]['text'][ $i++ ] = array(
+					$categories_RET[1]['text'][ ++$i ] = array(
 						'ID' => '1',
 						'CATEGORY_TITLE' => $general_info_category_title,
 						'COLUMN_NAME' => 'USERNAME',
@@ -418,7 +418,7 @@ function Search( $type, $extra = null )
 
 				if ( Preferences( 'USERNAME', 'StudentFieldsSearch' ) === 'Y' )
 				{
-					// Add USername to Find a User form.
+					// Add Username to Find a User form.
 					$categories_RET[1]['text'][ $i++ ] = array(
 						'ID' => '1',
 						'CATEGORY_TITLE' => '',
