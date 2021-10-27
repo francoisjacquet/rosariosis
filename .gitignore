@@ -268,6 +268,7 @@ modules/Certificate*
 modules/Class_Diary*
 modules/Utilities*
 modules/ParentAttendance*
+modules/Quiz_Premium*
 plugins/Email_SMTP*
 plugins/Public_Pages*
 plugins/Custom_Transcripts*
