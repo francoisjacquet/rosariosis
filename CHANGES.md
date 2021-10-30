@@ -10,6 +10,7 @@ Changes in 8.4
 - Fix SQL error numeric field overflow when entering percent > 100 in Assignments.php
 - Comments length > 60 chars, responsive table ColorBox in EditReportCardGrades.php, FinalGrades.php, Grades.php, InputFinalGrades.php & StudentGrades.php
 - Add File Attached to Incomes in Incomes.php & Accounting/functions.inc.php
+- Add File Attached to Expenses in Expenses.php
 
 Changes in 8.3.1
 ----------------

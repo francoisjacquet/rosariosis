@@ -1,4 +1,6 @@
 <?php
+
+require_once 'ProgramFunctions/FileUpload.fnc.php';
 require_once 'modules/Accounting/functions.inc.php';
 
 $_REQUEST['print_statements'] = issetVal( $_REQUEST['print_statements'], '' );
@@ -38,6 +40,20 @@ if ( ! empty( $_REQUEST['values'] )
 
 			$fields = 'ID,SYEAR,SCHOOL_ID,';
 			$values = "'" . $id . "','" . UserSyear() . "','" . UserSchool() . "',";
+
+			if ( isset( $_FILES['FILE_ATTACHED'] ) )
+			{
+				$columns['FILE_ATTACHED'] = FileUpload(
+					'FILE_ATTACHED',
+					$FileUploadsPath . UserSyear() . '/staff_' . User( 'STAFF_ID' ) . '/',
+					FileExtensionWhiteList(),
+					0,
+					$error
+				);
+
+				// Fix SQL error when quote in uploaded file name.
+				$columns['FILE_ATTACHED'] = DBEscapeString( $columns['FILE_ATTACHED'] );
+			}
 
 			$go = 0;
 
@@ -80,6 +96,17 @@ if ( $_REQUEST['modfunc'] === 'remove'
 {
 	if ( DeletePrompt( _( 'Expense' ) ) )
 	{
+		$file_attached = DBGetOne( "SELECT FILE_ATTACHED
+			FROM ACCOUNTING_PAYMENTS
+			WHERE ID='" . $_REQUEST['id'] . "'" );
+
+		if ( ! empty( $file_attached )
+			&& file_exists( $file_attached ) )
+		{
+			// Delete File Attached.
+			unlink( $file_attached );
+		}
+
 		DBQuery( "DELETE FROM ACCOUNTING_PAYMENTS
 			WHERE ID='" . $_REQUEST['id'] . "'" );
 
@@ -97,9 +124,10 @@ if ( ! $_REQUEST['modfunc'] )
 		'AMOUNT' => '_makePaymentsAmount',
 		'PAYMENT_DATE' => 'ProperDate',
 		'COMMENTS' => '_makePaymentsTextInput',
+		'FILE_ATTACHED' => '_makePaymentsFileInput',
 	);
 
-	$payments_RET = DBGet( "SELECT '' AS REMOVE,ID,AMOUNT,PAYMENT_DATE,COMMENTS
+	$payments_RET = DBGet( "SELECT '' AS REMOVE,ID,AMOUNT,PAYMENT_DATE,COMMENTS,FILE_ATTACHED
 		FROM ACCOUNTING_PAYMENTS
 		WHERE SYEAR='" . UserSyear() . "'
 		AND STAFF_ID IS NULL
@@ -130,6 +158,12 @@ if ( ! $_REQUEST['modfunc'] )
 		'COMMENTS' => _( 'Comment' ),
 	);
 
+	if ( empty( $_REQUEST['print_statements'] )
+		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
+		$columns += array( 'FILE_ATTACHED' => _( 'File Attached' ) );
+	}
+
 	if ( ! $_REQUEST['print_statements']
 		&& AllowEdit() )
 	{
@@ -138,6 +172,7 @@ if ( ! $_REQUEST['modfunc'] )
 			'AMOUNT' => _makePaymentsTextInput( '', 'AMOUNT' ),
 			'PAYMENT_DATE' => _makePaymentsDateInput( DBDate(), 'PAYMENT_DATE' ),
 			'COMMENTS' => _makePaymentsTextInput( '', 'COMMENTS' ),
+			'FILE_ATTACHED' => _makePaymentsFileInput( '', 'FILE_ATTACHED' ),
 		);
 	}
 
