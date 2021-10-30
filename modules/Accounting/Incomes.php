@@ -1,5 +1,6 @@
 <?php
 
+require_once 'ProgramFunctions/FileUpload.fnc.php';
 require_once 'modules/Accounting/functions.inc.php';
 
 $_REQUEST['print_statements'] = issetVal( $_REQUEST['print_statements'], '' );
@@ -38,6 +39,20 @@ if ( ! empty( $_REQUEST['values'] )
 			$fields = 'ID,SCHOOL_ID,SYEAR,';
 			$values = db_seq_nextval( 'accounting_incomes_id_seq' ) . ",'" . UserSchool() . "','" . UserSyear() . "',";
 
+			if ( isset( $_FILES['FILE_ATTACHED'] ) )
+			{
+				$columns['FILE_ATTACHED'] = FileUpload(
+					'FILE_ATTACHED',
+					$FileUploadsPath . UserSyear() . '/staff_' . User( 'STAFF_ID' ) . '/',
+					FileExtensionWhiteList(),
+					0,
+					$error
+				);
+
+				// Fix SQL error when quote in uploaded file name.
+				$columns['FILE_ATTACHED'] = DBEscapeString( $columns['FILE_ATTACHED'] );
+			}
+
 			$go = 0;
 
 			foreach ( (array) $columns as $column => $value )
@@ -73,6 +88,17 @@ if ( $_REQUEST['modfunc'] === 'remove'
 {
 	if ( DeletePrompt( _( 'Income' ) ) )
 	{
+		$file_attached = DBGetOne( "SELECT FILE_ATTACHED
+			FROM ACCOUNTING_INCOMES
+			WHERE ID='" . $_REQUEST['id'] . "'" );
+
+		if ( ! empty( $file_attached )
+			&& file_exists( $file_attached ) )
+		{
+			// Delete File Attached.
+			unlink( $file_attached );
+		}
+
 		DBQuery( "DELETE FROM ACCOUNTING_INCOMES
 			WHERE ID='" . $_REQUEST['id'] . "'" );
 
@@ -90,9 +116,11 @@ if ( ! $_REQUEST['modfunc'] )
 		'ASSIGNED_DATE' => 'ProperDate',
 		'COMMENTS' => '_makeIncomesTextInput',
 		'AMOUNT' => '_makeIncomesAmount',
+		'FILE_ATTACHED' => '_makeIncomesFileInput',
 	);
 
-	$incomes_RET = DBGet( "SELECT '' AS REMOVE,f.ID,f.TITLE,f.ASSIGNED_DATE,f.COMMENTS,f.AMOUNT
+	$incomes_RET = DBGet( "SELECT '' AS REMOVE,f.ID,f.TITLE,f.ASSIGNED_DATE,f.COMMENTS,
+		f.AMOUNT,f.FILE_ATTACHED
 		FROM ACCOUNTING_INCOMES f
 		WHERE f.SYEAR='" . UserSyear() . "'
 		AND f.SCHOOL_ID='" . UserSchool() . "'
@@ -107,7 +135,10 @@ if ( ! $_REQUEST['modfunc'] )
 		$i++;
 	}
 
-	if ( ! empty( $RET ) && ! $_REQUEST['print_statements'] && AllowEdit() && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	if ( ! empty( $RET )
+		&& ! $_REQUEST['print_statements']
+		&& AllowEdit()
+		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		$columns = array( 'REMOVE' => '<span class="a11y-hidden">' . _( 'Delete' ) . '</span>' );
 	}
@@ -123,6 +154,12 @@ if ( ! $_REQUEST['modfunc'] )
 		'COMMENTS' => _( 'Comment' ),
 	);
 
+	if ( empty( $_REQUEST['print_statements'] )
+		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
+		$columns += array( 'FILE_ATTACHED' => _( 'File Attached' ) );
+	}
+
 	if ( empty( $_REQUEST['print_statements'] ) )
 	{
 		$link['add']['html'] = array(
@@ -131,6 +168,7 @@ if ( ! $_REQUEST['modfunc'] )
 			'AMOUNT' => _makeIncomesTextInput( '', 'AMOUNT' ),
 			'ASSIGNED_DATE' => _makeIncomesDateInput( DBDate(), 'ASSIGNED_DATE' ),
 			'COMMENTS' => _makeIncomesTextInput( '', 'COMMENTS' ),
+			'FILE_ATTACHED' => _makeIncomesFileInput( '', 'FILE_ATTACHED' ),
 		);
 	}
 

@@ -2,6 +2,13 @@
 
 ## RosarioSIS Student Information System
 
+New in 8.4
+----------
+
+Accounting
+- Incomes: add File Attached
+
+
 New in 8.3
 ----------
 

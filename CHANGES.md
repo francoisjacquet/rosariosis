@@ -9,6 +9,7 @@ Changes in 8.4
 - SQL order fields list by Category & SORT_ORDER in AssignOtherInfo.php
 - Fix SQL error numeric field overflow when entering percent > 100 in Assignments.php
 - Comments length > 60 chars, responsive table ColorBox in EditReportCardGrades.php, FinalGrades.php, Grades.php, InputFinalGrades.php & StudentGrades.php
+- Add File Attached to Incomes in Incomes.php & Accounting/functions.inc.php
 
 Changes in 8.3.1
 ----------------

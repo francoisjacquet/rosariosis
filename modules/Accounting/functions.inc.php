@@ -290,3 +290,18 @@ function _makePaymentsFileInput( $value, $column )
 {
 	return _makeSalariesFileInput( $value, $column );
 }
+
+/**
+ * Make Incomes File Attached Input
+ *
+ * @since 8.4
+ *
+ * @param  string $value File path value.
+ * @param  string $name  Column name, 'FILE_ATTACHED'.
+ *
+ * @return string        File Input HTML or link to download File.
+ */
+function _makeIncomesFileInput( $value, $column )
+{
+	return _makeSalariesFileInput( $value, $column );
+}
