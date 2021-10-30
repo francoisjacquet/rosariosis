@@ -1530,6 +1530,13 @@ function _makeComment( $value, $column )
 			'size=20 maxlength=500',
 			$div
 		);
+
+		if ( mb_strlen( $select ) > 60 )
+		{
+			// Comments length > 60 chars, responsive table ColorBox.
+			$return = '<div id="divInputFinalGradesComment' . $THIS_RET['STUDENT_ID']. '" class="rt2colorBox">' .
+				$return . '</div>';
+		}
 	}
 	else
 	{

@@ -422,7 +422,7 @@ if ( UserStudentID()
 
 				$LO_ret = array( 0 => array() );
 
-				foreach ( (array) $assignments_RET as $assignment )
+				foreach ( (array) $assignments_RET as $i => $assignment )
 				{
 					if ( $do_stats && $_REQUEST['do_stats'] )
 					{
@@ -462,6 +462,19 @@ if ( UserStudentID()
 						}
 					}
 
+					$comment = $assignment['COMMENT'] . ( $assignment['POINTS'] == '' ?
+						( $assignment['COMMENT'] ? '<br />' : '' ) .
+						'<span style="color:red">' . _( 'No Grade' ) . '</span>' :
+						'' );
+
+					if ( mb_strlen( $comment ) > 60
+						&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+					{
+						// Comments length > 60 chars, responsive table ColorBox.
+						$comment = '<div id="divStudentGradesComment' . $course_period_id . $i . '" class="rt2colorBox">' .
+							$comment . '</div>';
+					}
+
 					$LO_ret[] = array(
 						'TITLE' => $assignment['TITLE'],
 						'CATEGORY' => $assignment['CATEGORY'],
@@ -475,7 +488,7 @@ if ( UserStudentID()
 							_( 'E/C' ) :
 							( $assignment['POINTS'] == '-1' ?
 								'*' :
-								number_format( 100 * $assignment['POINTS'] / $assignment['POINTS_POSSIBLE'], 1 ) . '%' ) ),
+								(float) number_format( 100 * $assignment['POINTS'] / $assignment['POINTS_POSSIBLE'], 2, '.', '' ) . '%' ) ),
 						'LETTER' => ( $assignment['POINTS_POSSIBLE'] == '0' ?
 							_( 'N/A' ) :
 							( $assignment['POINTS'] == '-1' ?
@@ -487,10 +500,7 @@ if ( UserStudentID()
 										$staff_id
 									) . '</b>' :
 									'' ) ) ),
-						'COMMENT' => $assignment['COMMENT'] . ( $assignment['POINTS'] == '' ?
-							( $assignment['COMMENT'] ? '<br />' : '' ) .
-							'<span style="color:red">' . _( 'No Grade' ) . '</span>' :
-							'' ),
+						'COMMENT' => $comment,
 					) +
 						( $do_stats && $_REQUEST['do_stats'] ?
 						array( 'BAR1' => $bargraph1, 'BAR2' => $bargraph2 ) :

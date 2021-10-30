@@ -933,12 +933,22 @@ function _makeExtraAssnCols( $assignment_id, $column )
 						&& ( ! $THIS_RET['END_EPOCH']
 							|| $assignments_RET[$assignment_id][1]['DUE_EPOCH'] <= $THIS_RET['END_EPOCH'] ) ) )
 				{
-					return TextInput(
+					$return = TextInput(
 						issetVal( $current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['COMMENT'] ),
 						'values[' . $THIS_RET['STUDENT_ID'] . '][' . $assignment_id . '][COMMENT]',
 						'',
 						'size=20 maxlength=500'
 					);
+
+					if ( mb_strlen( $current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['COMMENT'] ) > 60
+						&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+					{
+						// Comments length > 60 chars, responsive table ColorBox.
+						$return = '<div id="divGradesComment' . $THIS_RET['STUDENT_ID'] . '" class="rt2colorBox">' .
+							$return . '</div>';
+					}
+
+					return $return;
 				}
 			}
 
@@ -1039,12 +1049,22 @@ function _makeExtraStuCols( $value, $column )
 			break;
 
 		case 'COMMENT':
-			return TextInput(
+			$return = TextInput(
 				$value,
 				'values[' . $THIS_RET['STUDENT_ID'] . '][' . $THIS_RET['ASSIGNMENT_ID'] . '][COMMENT]',
 				'',
 				'size=20 maxlength=500'
 			);
+
+			if ( mb_strlen( $value ) > 60
+				&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+			{
+				// Comments length > 60 chars, responsive table ColorBox.
+				$return = '<div id="divGradesComment' . $THIS_RET['STUDENT_ID'] . '" class="rt2colorBox">' .
+					$return . '</div>';
+			}
+
+			return $return;
 
 			break;
 	}

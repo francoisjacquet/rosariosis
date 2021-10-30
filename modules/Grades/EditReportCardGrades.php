@@ -511,7 +511,7 @@ function _makeTextInput( $value, $name )
 	}
 	elseif ( $name === 'COMMENT' )
 	{
-		$extra = 'size=13 maxlength=255';
+		$extra = 'size=20 maxlength=500';
 	}
 	elseif ( $name === 'GRADE_PERCENT' )
 	{
@@ -542,13 +542,24 @@ function _makeTextInput( $value, $name )
 		$value = (float) $value;
 	}
 
-	return TextInput(
+	$return = TextInput(
 		$value,
 		"values[" . $id . "][" . $name . "]",
 		'',
 		$extra,
 		( $id !== 'new' )
 	);
+
+	if ( $name === 'COMMENT'
+		&& mb_strlen( $value ) > 60
+		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
+		// Comments length > 60 chars, responsive table ColorBox.
+		$return = '<div id="divStudentGradesComment' . $id . '" class="rt2colorBox">' .
+			$return . '</div>';
+	}
+
+	return $return;
 }
 
 /**

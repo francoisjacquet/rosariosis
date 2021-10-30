@@ -317,6 +317,14 @@ if ( $_REQUEST['modfunc'] === 'save' )
 								$grades_RET[$i]['COMMENT'] .= ( empty( $grades_RET[$i]['COMMENT'] ) || mb_substr( $grades_RET[$i]['COMMENT'], -3 ) == $sep_mp ? '' : $sep ) . $mp[1]['COMMENT_TITLE'];
 							}
 						}
+
+						if ( mb_strlen( $grades_RET[$i]['COMMENT'] ) > 60
+							&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+						{
+							// Comments length > 60 chars, responsive table ColorBox.
+							$grades_RET[$i]['COMMENT'] = '<div id="divFinalGradesComments' . $i . '" class="rt2colorBox">' .
+								$grades_RET[$i]['COMMENT'] . '</div>';
+						}
 					}
 				}
 			}

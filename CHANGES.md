@@ -8,6 +8,7 @@ Changes in 8.4
 - Fix use more coherent number_format() precision & no thousand separator in Percent.php, Assignments.php, StudentGrades.php, Grades.fnc.php & EditReportCardGrades.php
 - SQL order fields list by Category & SORT_ORDER in AssignOtherInfo.php
 - Fix SQL error numeric field overflow when entering percent > 100 in Assignments.php
+- Comments length > 60 chars, responsive table ColorBox in EditReportCardGrades.php, FinalGrades.php, Grades.php, InputFinalGrades.php & StudentGrades.php
 
 Changes in 8.3.1
 ----------------
