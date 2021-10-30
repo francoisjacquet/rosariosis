@@ -280,21 +280,21 @@ if ( UserStudentID() )
 
 		echo '<table class="cellpadding-5"><tr><td>' . _( 'GPA' ) . '</td><td>' .
 			NoInput(
-				(float) number_format( issetVal( $g_mp[$mp_id]['weighted_gpa'], 0 ), 3 ),
+				(float) number_format( issetVal( $g_mp[$mp_id]['weighted_gpa'], 0 ), 2, '.', '' ),
 				_( 'Weighted' )
 			) . '</td><td>' .
 			NoInput(
-				(float) number_format( issetVal( $g_mp[$mp_id]['unweighted_gpa'], 0 ), 3 ),
+				(float) number_format( issetVal( $g_mp[$mp_id]['unweighted_gpa'], 0 ), 2, '.', '' ),
 				_( 'Unweighted' )
 			) . '</td></tr>';
 
 		echo '<tr><td>' . _( 'Class Rank GPA' ) . '</td><td>' .
 			NoInput(
-				(float) number_format( issetVal( $g_mp[$mp_id]['cr_weighted'], 0 ), 3 ),
+				(float) number_format( issetVal( $g_mp[$mp_id]['cr_weighted'], 0 ), 2, '.', '' ),
 				_( 'Weighted' )
 			) . '</td><td>' .
 			NoInput(
-				(float) number_format( issetVal( $g_mp[$mp_id]['cr_unweighted'], 0 ), 3 ),
+				(float) number_format( issetVal( $g_mp[$mp_id]['cr_unweighted'], 0 ), 2, '.', '' ),
 				_( 'Unweighted' )
 			) . '</td></tr></table>';
 
