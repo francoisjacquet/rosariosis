@@ -214,19 +214,23 @@ if ( ! $_REQUEST['modfunc'] )
 		{
 			$fields_RET = DBGet( "SELECT ID,TITLE,TYPE,SELECT_OPTIONS
 				FROM CUSTOM_FIELDS
-				WHERE CATEGORY_ID='" . $_REQUEST['category_id'] . "'", array(), array( 'TYPE' ) );
+				WHERE CATEGORY_ID='" . $_REQUEST['category_id'] . "'
+				ORDER BY SORT_ORDER,TITLE", array(), array( 'TYPE' ) );
 		}
 		else
 		{
-			$fields_RET = DBGet( "SELECT ID,TITLE,TYPE,SELECT_OPTIONS
-				FROM CUSTOM_FIELDS", array(), array( 'TYPE' ) );
+			$fields_RET = DBGet( "SELECT f.ID,f.TITLE,f.TYPE,f.SELECT_OPTIONS
+				FROM CUSTOM_FIELDS f,STUDENT_FIELD_CATEGORIES c
+				WHERE f.CATEGORY_ID=c.ID
+				ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE", array(), array( 'TYPE' ) );
 		}
 
 		// Only display Categories having fields.
 		$categories_RET = DBGet( "SELECT sfc.ID,sfc.TITLE
 			FROM STUDENT_FIELD_CATEGORIES sfc
 			WHERE EXISTS(SELECT 1 FROM CUSTOM_FIELDS cf
-				WHERE cf.CATEGORY_ID=sfc.ID)" );
+				WHERE cf.CATEGORY_ID=sfc.ID)
+			ORDER BY sfc.SORT_ORDER,sfc.TITLE" );
 
 		echo '<table class="widefat center"><tr><td><div class="center">';
 
