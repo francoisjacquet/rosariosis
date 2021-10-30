@@ -419,7 +419,7 @@ function _update83()
 	$return = true;
 
 	/**
-	 * 1. ACCOUNTING_SALARIES table: Add FILE_ATTACHED column.
+	 * 1. ACCOUNTING_PAYMENTS table: Add FILE_ATTACHED column.
 	 */
 	$file_attached_column_exists = DBGetOne( "SELECT 1 FROM pg_attribute
 		WHERE attrelid=(SELECT oid FROM pg_class WHERE relname='accounting_payments')
@@ -452,6 +452,7 @@ function _update83()
  * Update to version 8.4
  *
  * 1. GRADEBOOK_GRADES table: Change comment column type to text.
+ * 2. ACCOUNTING_INCOMES table: Add FILE_ATTACHED column.
  *
  * Local function
  *
@@ -472,6 +473,19 @@ function _update84()
 	 */
 	DBQuery( "ALTER TABLE gradebook_grades
 		ALTER COLUMN comment TYPE text;" );
+
+	/**
+	 * 2. ACCOUNTING_INCOMES table: Add FILE_ATTACHED column.
+	 */
+	$file_attached_column_exists = DBGetOne( "SELECT 1 FROM pg_attribute
+		WHERE attrelid=(SELECT oid FROM pg_class WHERE relname='accounting_incomes')
+		AND attname='file_attached';" );
+
+	if ( ! $file_attached_column_exists )
+	{
+		DBQuery( "ALTER TABLE ONLY accounting_incomes
+			ADD COLUMN file_attached text;" );
+	}
 
 	return $return;
 }
