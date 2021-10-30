@@ -204,6 +204,10 @@ function Update()
 		case version_compare( $from_version, '8.3', '<' ) :
 
 			$return = _update83();
+
+		case version_compare( $from_version, '8.4', '<' ) :
+
+			$return = _update84();
 	}
 
 	// Update version in DB CONFIG table.
@@ -439,6 +443,35 @@ function _update83()
 		DBQuery( "ALTER TABLE ONLY billing_payments
 			ADD COLUMN file_attached text;" );
 	}
+
+	return $return;
+}
+
+
+/**
+ * Update to version 8.4
+ *
+ * 1. GRADEBOOK_GRADES table: Change comment column type to text.
+ *
+ * Local function
+ *
+ * @since 8.4
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update84()
+{
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. GRADEBOOK_GRADES table:
+	 * Change comment column type to text
+	 * Was character varying(100) which was too short for teachers.
+	 */
+	DBQuery( "ALTER TABLE gradebook_grades
+		ALTER COLUMN comment TYPE text;" );
 
 	return $return;
 }

@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 8.4
+--------------
+- SQL GRADEBOOK_GRADES table: Change comment column type to text in Update.fnc.php & rosariosis.sql
+
 Changes in 8.3.1
 ----------------
 - Fix SQL exclude fields of 'files' type in Substitutions.php

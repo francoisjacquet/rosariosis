@@ -1235,7 +1235,7 @@ CREATE TABLE gradebook_grades (
     course_period_id integer NOT NULL REFERENCES course_periods(course_period_id),
     assignment_id integer NOT NULL,
     points numeric(6,2),
-    comment character varying(100),
+    comment text,
     created_at timestamp DEFAULT current_timestamp,
     updated_at timestamp,
     PRIMARY KEY (student_id, assignment_id, course_period_id)
