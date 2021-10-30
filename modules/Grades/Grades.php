@@ -937,7 +937,7 @@ function _makeExtraAssnCols( $assignment_id, $column )
 						issetVal( $current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['COMMENT'] ),
 						'values[' . $THIS_RET['STUDENT_ID'] . '][' . $assignment_id . '][COMMENT]',
 						'',
-						' maxlength=100'
+						'size=20 maxlength=500'
 					);
 				}
 			}
@@ -1043,8 +1043,9 @@ function _makeExtraStuCols( $value, $column )
 				$value,
 				'values[' . $THIS_RET['STUDENT_ID'] . '][' . $THIS_RET['ASSIGNMENT_ID'] . '][COMMENT]',
 				'',
-				' maxlength=100'
+				'size=20 maxlength=500'
 			);
+
 			break;
 	}
 }
