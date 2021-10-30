@@ -375,5 +375,6 @@ function _makeByDay( $value, $column )
  */
 function _Percent( $num, $decimals = 2 )
 {
-	return number_format( $num * 100, 2 ) . '%';
+	// Fix trim 0 (float) when percent > 1,000: do not use comma for thousand separator.
+	return (float) number_format( $num * 100, $decimals, '.', '' ) . '%';
 }

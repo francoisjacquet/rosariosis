@@ -5,6 +5,7 @@ Changes in 8.4
 --------------
 - SQL GRADEBOOK_GRADES table: Change comment column type to text in Update.fnc.php & rosariosis.sql
 - Increase Grades Comment input maxlength to 500 chars in Grades.php
+- Fix use more coherent number_format() precision & no thousand separator in Percent.php, Assignments.php, StudentGrades.php & Grades.fnc.php
 
 Changes in 8.3.1
 ----------------

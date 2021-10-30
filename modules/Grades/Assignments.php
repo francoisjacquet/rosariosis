@@ -924,5 +924,6 @@ if ( ! $_REQUEST['modfunc'] )
  */
 function _makePercent( $value, $column )
 {
-	return number_format( $value * 100, 2 ) . '%';
+	// Fix trim 0 (float) when percent > 1,000: do not use comma for thousand separator.
+	return (float) number_format( $value * 100, 2, '.', '' ) . '%';
 }

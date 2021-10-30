@@ -258,7 +258,7 @@ if ( UserStudentID()
 						'TITLE' => $course['COURSE_TITLE'],
 						'TEACHER' => mb_substr( $course_title, mb_strrpos( str_replace( ' - ', ' ^ ', $course_title ), '^' ) + 2 ),
 						'PERCENT' => ( $percent !== false ?
-							number_format( 100 * $percent, 1 ) . '%' :
+							(float) number_format( 100 * $percent, 2, '.', '' ) . '%' :
 							_( 'N/A' ) ),
 						'GRADE' => $percent !== false ?
 						'<b>' . _makeLetterGrade( $percent, $course_period_id, $staff_id ) . '</b>' :
