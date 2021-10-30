@@ -523,11 +523,6 @@ function _makeTextInput( $value, $name )
 	{
 		$extra = 'size=3 maxlength=5';
 	}
-	elseif ( $name === 'CLASS_RANK' )
-	{
-		$extra = 'size=1 maxlength=1';
-	}
-
 	//elseif ( $name=='GP_VALUE')
 	//    $extra = 'size=5 maxlength=5';
 	//elseif ( $name=='UNWEIGHTED_GP_VALUE')
@@ -536,7 +531,10 @@ function _makeTextInput( $value, $name )
 		$extra = 'size=4 maxlength=10';
 	}
 
-	if ( $name === 'GP_SCALE' )
+	if ( ( $name === 'GP_SCALE'
+			|| $name === 'CREDIT_ATTEMPTED'
+			|| $name === 'CREDIT_EARNED' )
+		&& $value )
 	{
 		// Remove trailing 0.
 		$value = (float) $value;
