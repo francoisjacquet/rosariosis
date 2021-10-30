@@ -7,6 +7,7 @@ Changes in 8.4
 - Increase Grades Comment input maxlength to 500 chars in Grades.php
 - Fix use more coherent number_format() precision & no thousand separator in Percent.php, Assignments.php, StudentGrades.php & Grades.fnc.php
 - SQL order fields list by Category & SORT_ORDER in AssignOtherInfo.php
+- Fix SQL error numeric field overflow when entering percent > 100 in Assignments.php
 
 Changes in 8.3.1
 ----------------

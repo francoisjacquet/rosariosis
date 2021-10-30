@@ -136,6 +136,12 @@ if ( ! empty( $_POST['tables'] ) )
 					&& $table == 'GRADEBOOK_ASSIGNMENT_TYPES' )
 				{
 					$value = preg_replace( '/[^0-9.]/', '', $value ) / 100;
+
+					if ( $value > 1 ) // 100%.
+					{
+						// Fix SQL error numeric field overflow when entering percent > 100.
+						$value = '';
+					}
 				}
 
 				// FJ default points.
@@ -219,6 +225,12 @@ if ( ! empty( $_POST['tables'] ) )
 					&& $table == 'GRADEBOOK_ASSIGNMENT_TYPES' )
 				{
 					$value = preg_replace( '/[^0-9.]/', '', $value ) / 100;
+
+					if ( $value > 1 ) // 100%.
+					{
+						// Fix SQL error numeric field overflow when entering percent > 100.
+						$value = '';
+					}
 				}
 
 				//FJ default points
