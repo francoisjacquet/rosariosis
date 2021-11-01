@@ -34,10 +34,18 @@ function GetTemplate( $modname = '', $staff_id = 0 ) {
 		$staff_id = User( 'STAFF_ID' );
 	}
 
+	$staff_id_sql = '';
+
+	if ( $staff_id )
+	{
+		// Fix SQL error when no user in session.
+		$staff_id_sql = ",'" . $staff_id . "'";
+	}
+
 	$template_RET = DBGet( "SELECT TEMPLATE,STAFF_ID
 		FROM TEMPLATES
 		WHERE MODNAME='" . $modname . "'
-		AND STAFF_ID IN(0,'" . $staff_id . "')", array(), array( 'STAFF_ID' ) );
+		AND STAFF_ID IN(0" . $staff_id_sql . ")", array(), array( 'STAFF_ID' ) );
 
 	if ( ! $template_RET )
 	{
