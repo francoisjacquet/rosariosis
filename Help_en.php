@@ -468,7 +468,9 @@ endif;
 // USERS ---.
 if ( User( 'PROFILE' ) === 'admin' ):
 
-	$help['Users/User.php'] = '<p>' . _help( '<i>General Information</i> is a display of a user\'s fundamental information. This includes his name, username, password, profile, school, email address, and phone number. If you are an administrator, you can change any of this information by clicking on the value you want to change, changing the value, and clicking the "Save" button at the top of the page. You can delete a user by clicking the "Delete" button at the top of the screen and confirming your action. Notice, you should never delete teachers after they have taught even one class, since the user record must remain for the teacher\'s name to appear correctly on student transcripts.' ) . '</p>';
+	$help['Users/User.php'] = '<p>' . _help( '<i>General Information</i> is a display of a user\'s fundamental information. This includes his name, username, password, profile, school, email address, and phone number. If you are an administrator, you can change any of this information by clicking on the value you want to change, changing the value, and clicking the "Save" button at the top of the page. You can delete a user by clicking the "Delete" button at the top of the screen and confirming your action.' ) . '</p>
+
+	<p>' . _help( 'Note: you cannot delete a user, for example a teacher, once they are assigned to a course; or a parent, once they are associated to a student.' ) . '</p>';
 
 	$help['Users/User.php&staff_id=new'] = '<p>' . _help( '<i>Add a User</i> allows you to add a user to the system. This includes administrators, teachers, and parents. Simply fill in the new user\'s name, username, password, profile, school, email address, and phone number. Click the "Save" button.' ) . '</p>';
 

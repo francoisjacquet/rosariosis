@@ -13,6 +13,7 @@ Changes in 8.4
 - Add File Attached to Expenses in Expenses.php
 - SQL ACCOUNTING_INCOMES table: Add FILE_ATTACHED column in Update.fnc.php & rosariosis.sql
 - Fix SQL error when no user in session in Template.fnc.php
+- Correct help text note for User deletion in Help_en.php & help.po
 
 Changes in 8.3.1
 ----------------
