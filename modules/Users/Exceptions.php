@@ -83,6 +83,13 @@ if ( $_REQUEST['modfunc'] === 'update'
 		}
 	}
 
+	if ( $xprofile === 'admin' )
+	{
+		// @since 8.5 Admin Student Payments Delete restriction.
+		$file = 'Student_Billing/StudentPayments.php&modfunc=remove';
+		$tmp_menu['Student_Billing'][$xprofile][$file] = '&nbsp;&nbsp;&rsaquo; ' . _( 'Delete' );
+	}
+
 	foreach ( (array) $tmp_menu as $modcat => $profiles )
 	{
 		$values = isset( $profiles[$xprofile] ) ? $profiles[$xprofile] : array();
@@ -360,6 +367,31 @@ if ( UserStaffID()
 
 								echo '<td>' . $title . '</td></tr>';
 							}
+						}
+					}
+					elseif ( $modcat === 'Student_Billing'
+						&& $file === 'Student_Billing/StudentPayments.php' )
+					{
+						if ( $xprofile === 'admin' )
+						{
+							// @since 8.5 Admin Student Payments Delete restriction.
+							$file = 'Student_Billing/StudentPayments.php&modfunc=remove';
+							$title = '&nbsp;&nbsp;&rsaquo; ' . _( 'Delete' );
+
+							$can_use = issetVal( $exceptions_RET[$file][1]['CAN_USE'] );
+							$can_edit = issetVal( $exceptions_RET[$file][1]['CAN_EDIT'] );
+
+							echo '<tr><td class="align-right"><input type="checkbox" name="can_use[' .
+							str_replace( '.', '_', $file ) . ']" value="true"' .
+							( $can_use == 'Y' ? ' checked' : '' ) .
+							( AllowEdit() ? '' : ' DISABLED' ) . '></td>';
+
+							echo '<td class="align-right"><input type="checkbox" name="can_edit[' .
+							str_replace( '.', '_', $file ) . ']" value="true"' .
+							( $can_edit == 'Y' ? ' checked' : '' ) .
+							( AllowEdit() ? '' : ' DISABLED' ) . ' /></td>';
+
+							echo '<td>' . $title . '</td></tr>';
 						}
 					}
 				}
