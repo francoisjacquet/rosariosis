@@ -2,6 +2,25 @@
 
 ## RosarioSIS Student Information System
 
+New in 8.5
+----------
+
+Users
+- User Profiles: Admin Student Payments Delete restriction, sponsored by Rousseau International school
+
+[Email Parents](https://www.rosariosis.org/modules/email-parents/)
+- Automatically send (child's) Birthday notifications
+- Automatically send Payment reminders (outstanding fees), X days before or after Due date
+Sponsored by Rousseau International school
+
+[SMS Premium](https://www.rosariosis.org/modules/sms/#premium-module)
+- Automatically send (child's) Birthday Notifications to Parents
+- Automatically send Payment Reminders (outstanding fees) to Parents, X days before or after Due date
+Sponsored by Rousseau International school
+
+[Quiz Premium](https://www.rosariosis.org/modules/quiz/#premium-module) module, sponsored by Dzung Do
+
+
 New in 8.4
 ----------
 
@@ -23,7 +42,7 @@ Student Billing
 New in 8.2
 ----------
 
-Class Diary Premium
+[Class Diary Premium](https://www.rosariosis.org/modules/class-diary/#premium-module)
 - Send email reminder to Teachers who did not add an entry for yesterday's classes, sponsored by Paris'Com Sup
 
 
