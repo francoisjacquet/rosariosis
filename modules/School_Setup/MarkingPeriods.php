@@ -478,7 +478,7 @@ if ( ! $_REQUEST['modfunc'] )
 			issetVal( $RET['SORT_ORDER'], '' ),
 			'tables[' . $_REQUEST['marking_period_id'] . '][SORT_ORDER]',
 			_( 'Sort Order' ),
-			'size="3" maxlength="4"'
+			'type="number" step="any"'
 		) . '</td></tr>';
 	}
 

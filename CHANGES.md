@@ -8,6 +8,7 @@ Changes in 8.5
 - SQL PROFILE_EXCEPTIONS & STAFF_EXCEPTIONS tables: Add Admin Student Payments Delete restriction in Update.fnc.php & rosariosis.sql
 - Add Admin Student Payments Delete restriction in Profiles.php & Exceptions.php
 - Fix SQL error numeric field overflow when entering percent > 100 in MassCreateAssignments.php
+- HTML Sort Order input type number in MarkingPeriods.php
 
 Changes in 8.4
 --------------
