@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 8.5
+--------------
+- Fix SQL error duplicate key value violates unique constraint "food_service_menus_title" in Menus.php
+
 Changes in 8.4
 --------------
 - SQL GRADEBOOK_GRADES table: Change comment column type to text in Update.fnc.php & rosariosis.sql

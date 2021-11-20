@@ -29,6 +29,20 @@ if ( $_REQUEST['modfunc'] === 'update' )
 
 						foreach ( (array) $columns as $column => $value )
 						{
+							if ( $column === 'TITLE'
+								&& $_REQUEST['tab_id'] === 'new' )
+							{
+								$menu_title_exists = DBGetOne( "SELECT 1
+									FROM FOOD_SERVICE_MENUS
+									WHERE TITLE='" . $value . "'" );
+
+								// Fix SQL error duplicate key value violates unique constraint "food_service_menus_title"
+								if ( $menu_title_exists )
+								{
+									$value = $value . ' (2)';
+								}
+							}
+
 							$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 						}
 
@@ -68,6 +82,20 @@ if ( $_REQUEST['modfunc'] === 'update' )
 						{
 							if ( ! empty( $value ) || $value == '0' )
 							{
+								if ( $column === 'TITLE'
+									&& $_REQUEST['tab_id'] === 'new' )
+								{
+									$menu_title_exists = DBGetOne( "SELECT 1
+										FROM FOOD_SERVICE_MENUS
+										WHERE TITLE='" . $value . "'" );
+
+									// Fix SQL error duplicate key value violates unique constraint "food_service_menus_title"
+									if ( $menu_title_exists )
+									{
+										$value = $value . ' (2)';
+									}
+								}
+
 								$fields .= DBEscapeIdentifier( $column ) . ',';
 								$values .= "'" . $value . "',";
 								$go = true;
