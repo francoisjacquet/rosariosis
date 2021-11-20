@@ -2897,6 +2897,7 @@ INSERT INTO profile_exceptions VALUES (1, 'School_Setup/Configuration.php', 'Y',
 INSERT INTO profile_exceptions VALUES (1, 'School_Setup/AccessLog.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Student_Billing/StudentFees.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Student_Billing/StudentPayments.php', 'Y', 'Y');
+INSERT INTO profile_exceptions VALUES (1, 'Student_Billing/StudentPayments.php&modfunc=remove', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Student_Billing/MassAssignFees.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Student_Billing/MassAssignPayments.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Student_Billing/StudentBalances.php', 'Y', 'Y');

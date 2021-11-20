@@ -208,6 +208,10 @@ function Update()
 		case version_compare( $from_version, '8.4', '<' ) :
 
 			$return = _update84();
+
+		case version_compare( $from_version, '8.5', '<' ) :
+
+			$return = _update85();
 	}
 
 	// Update version in DB CONFIG table.
@@ -486,6 +490,54 @@ function _update84()
 		DBQuery( "ALTER TABLE ONLY accounting_incomes
 			ADD COLUMN file_attached text;" );
 	}
+
+	return $return;
+}
+
+
+/**
+ * Update to version 8.5
+ *
+ * 1. PROFILE_EXCEPTIONS table: Add Admin Student Payments Delete restriction.
+ * 2. STAFF_EXCEPTIONS table: Add Admin Student Payments Delete restriction.
+ *
+ * Local function
+ *
+ * @since 8.5
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update85()
+{
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. PROFILE_EXCEPTIONS table
+	 * Add Admin Student Payments Delete restriction.
+	 */
+	DBQuery( "INSERT INTO profile_exceptions
+		SELECT profile_id,'Student_Billing/StudentPayments.php&modfunc=remove','Y','Y'
+		FROM profile_exceptions
+		WHERE modname='Student_Billing/StudentPayments.php'
+		AND can_edit='Y'
+		AND profile_id NOT IN(SELECT profile_id
+			FROM profile_exceptions
+			WHERE modname='Student_Billing/StudentPayments.php&modfunc=remove');" );
+
+	/**
+	 * 2. STAFF_EXCEPTIONS table
+	 * Add Admin Student Payments Delete restriction.
+	 */
+	DBQuery( "INSERT INTO staff_exceptions
+		SELECT user_id,'Student_Billing/StudentPayments.php&modfunc=remove','Y','Y'
+		FROM staff_exceptions
+		WHERE modname='Student_Billing/StudentPayments.php'
+		AND can_edit='Y'
+		AND user_id NOT IN(SELECT user_id
+			FROM staff_exceptions
+			WHERE modname='Student_Billing/StudentPayments.php&modfunc=remove');" );
 
 	return $return;
 }
