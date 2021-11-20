@@ -95,7 +95,8 @@ if ( ! empty( $_REQUEST['values'] )
 }
 
 if ( $_REQUEST['modfunc'] === 'remove'
-	&& AllowEdit() )
+	// @since 8.5 Admin Student Payments Delete restriction.
+	&& AllowEdit( 'Student_Billing/StudentPayments.php&modfunc=remove' ) )
 {
 	if ( DeletePrompt( _( 'Payment' ) ) )
 	{

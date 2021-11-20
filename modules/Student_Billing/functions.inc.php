@@ -72,12 +72,18 @@ function _makePaymentsRemove( $value, $column )
 		$return = '<span style="color:#00A642">' . _( 'Refunded' ) . '</span> ';
 	}
 
-	return $return . button(
-		'remove',
-		_( 'Delete' ),
-		'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
-			'&modfunc=remove&id=' . $THIS_RET['ID'] ) . '"'
-	);
+	if ( AllowEdit( 'Student_Billing/StudentPayments.php&modfunc=remove' ) )
+	{
+		// @since 8.5 Admin Student Payments Delete restriction.
+		$return .= button(
+			'remove',
+			_( 'Delete' ),
+			'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+				'&modfunc=remove&id=' . $THIS_RET['ID'] ) . '"'
+		);
+	}
+
+	return $return;
 }
 
 function _makeFeesTextInput( $value, $name )
