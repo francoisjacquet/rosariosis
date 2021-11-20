@@ -127,7 +127,13 @@ if ( isset( $_POST['tables'] )
 			elseif ( $column == 'FINAL_GRADE_PERCENT'
 				&& $table == 'GRADEBOOK_ASSIGNMENT_TYPES' )
 			{
-				$value = preg_replace('/[^0-9.]/','',$value) / 100;
+				$value = preg_replace( '/[^0-9.]/', '', $value ) / 100;
+
+				if ( $value > 1 ) // 100%.
+				{
+					// Fix SQL error numeric field overflow when entering percent > 100.
+					$value = '';
+				}
 			}
 			//FJ default points
 			elseif ( $column == 'DEFAULT_POINTS'
