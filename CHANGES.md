@@ -4,6 +4,7 @@
 Changes in 8.5
 --------------
 - Fix SQL error duplicate key value violates unique constraint "food_service_menus_title" in Menus.php
+- SQL add PRIMARY KEY to STAFF_EXCEPTIONS table in rosariosis.sql
 
 Changes in 8.4
 --------------

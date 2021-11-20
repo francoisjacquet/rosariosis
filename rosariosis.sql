@@ -1761,7 +1761,8 @@ CREATE TABLE staff_exceptions (
     can_use character varying(1),
     can_edit character varying(1),
     created_at timestamp DEFAULT current_timestamp,
-    updated_at timestamp
+    updated_at timestamp,
+    PRIMARY KEY (user_id, modname)
 );
 
 
