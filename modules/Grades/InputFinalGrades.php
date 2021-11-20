@@ -1649,7 +1649,7 @@ function _makeCommentsB( $value, $column )
 	}
 	else
 	{
-		$return = '' . $commentsB_RET[$select][1]['TITLE'] . '';
+		$return = issetVal( $commentsB_RET[$select][1]['TITLE'] );
 	}
 
 	return $return;
