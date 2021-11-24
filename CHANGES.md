@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 8.6
+--------------
+- Add (Student) RosarioSIS\Widgets class in classes/core/Widgets.php
+
 Changes in 8.5
 --------------
 - Fix SQL error duplicate key value violates unique constraint "food_service_menus_title" in Menus.php
