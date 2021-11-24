@@ -2,7 +2,7 @@
 /**
  * (Student) Widgets class
  *
- * @since 8.1
+ * @since 8.6
  *
  * @see Widget.php for individual Widgets
  *
