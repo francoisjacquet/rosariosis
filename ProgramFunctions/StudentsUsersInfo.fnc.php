@@ -38,7 +38,7 @@ function _makeTextInput( $column, $name, $request )
 
 	if ( $field['TYPE'] === 'numeric' )
 	{
-		$value[ $column ] = str_replace( '.00', '', $value[ $column ] );
+		$value[ $column ] = str_replace( '.00', '', issetVal( $value[ $column ], '' ) );
 
 		// Fix Number Field SQL column limit: type numeric(20,2).
 		$options = ' type="number" step="any" max="999999999999999999" min="-999999999999999999"';
