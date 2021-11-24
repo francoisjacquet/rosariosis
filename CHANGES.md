@@ -7,7 +7,8 @@ Changes in 8.6
 - Add (Student) Widget interface and individual Widget classes in classes/core/Widget.php
 - Use RosarioSIS\Widgets in Widgets.fnc.php
 - Add StaffWidgets class in classes/core/StaffWidgets.php
-- Add StaffWidget interface and individual StaffWidget classes in classes/core/Widget.php
+- Add StaffWidget interface and individual StaffWidget classes in classes/core/StaffWidget.php
+- Use RosarioSIS\StaffWidgets in StaffWidgets.fnc.php
 
 Changes in 8.5
 --------------
