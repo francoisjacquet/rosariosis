@@ -3,7 +3,8 @@
 
 Changes in 8.6
 --------------
-- Add (Student) RosarioSIS\Widgets class in classes/core/Widgets.php
+- Add (Student) Widgets class in classes/core/Widgets.php
+- Add (Student) Widget interface and individual Widget classes in classes/core/Widget.php
 
 Changes in 8.5
 --------------
