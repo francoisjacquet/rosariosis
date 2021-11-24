@@ -49,8 +49,8 @@ if ( ! function_exists( 'DashboardStudentsAdmin' ) )
 		FROM STUDENT_ENROLLMENT se, SCHOOL_GRADELEVELS sgl
 		WHERE se.SYEAR='" . UserSyear() . "'
 		AND se.SCHOOL_ID='" . UserSchool() . "'
-		AND CURRENT_DATE>=se.START_DATE
-		AND se.END_DATE IS NULL OR CURRENT_DATE<=se.END_DATE
+		AND (CURRENT_DATE>=se.START_DATE
+			AND (se.END_DATE IS NULL OR CURRENT_DATE<=se.END_DATE))
 		AND sgl.SCHOOL_ID='" . UserSchool() . "'
 		AND se.GRADE_ID=sgl.ID
 		GROUP BY sgl.SHORT_NAME,sgl.SORT_ORDER
