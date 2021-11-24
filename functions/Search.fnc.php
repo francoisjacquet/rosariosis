@@ -478,6 +478,8 @@ function Search( $type, $extra = null )
 						&& isset( $category['text'][1]['ID'] )
 						&& $category['text'][1]['ID'] === '2' )
 					{
+						$extra['search'] = '';
+
 						// @since 5.1 Medical Immunization or Physical Widget.
 						Widgets( 'medical_date', $extra );
 
