@@ -60,12 +60,17 @@ function _makePaymentsRemove( $value, $column )
 	if ( empty( $THIS_RET['REFUNDED_PAYMENT_ID'] )
 		&& empty( $refunded_payments_RET[ $THIS_RET['ID'] ] ) )
 	{
-		$return = button(
-			'remove',
-			_( 'Refund' ),
-			'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
-				'&modfunc=refund&id=' . $THIS_RET['ID'] ) . '"'
-		) . ' ';
+		if ( AllowEdit( 'Student_Billing/StudentPayments.php&modfunc=remove' ) )
+		{
+			// @since 8.5 Admin Student Payments Delete restriction.
+			// @since 8.6 Also exclude Refund.
+			$return = button(
+				'remove',
+				_( 'Refund' ),
+				'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
+					'&modfunc=refund&id=' . $THIS_RET['ID'] ) . '"'
+			) . ' ';
+		}
 	}
 	elseif ( ! empty( $refunded_payments_RET[ $THIS_RET['ID'] ] ) )
 	{

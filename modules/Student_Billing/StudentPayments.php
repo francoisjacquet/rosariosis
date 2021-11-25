@@ -121,7 +121,8 @@ if ( $_REQUEST['modfunc'] === 'remove'
 }
 
 if ( $_REQUEST['modfunc'] === 'refund'
-	&& AllowEdit() )
+	// @since 8.5 Also exclude Refund.
+	&& AllowEdit( 'Student_Billing/StudentPayments.php&modfunc=remove' ) )
 {
 	if ( DeletePrompt( _( 'Payment' ), _( 'Refund' ) ) )
 	{

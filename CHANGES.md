@@ -9,6 +9,7 @@ Changes in 8.6
 - Add StaffWidgets class in classes/core/StaffWidgets.php
 - Add StaffWidget interface and individual StaffWidget classes in classes/core/StaffWidget.php
 - Use RosarioSIS\StaffWidgets in StaffWidgets.fnc.php
+- Admin Student Payments Delete restriction: also exclude Refund in StudentPayments.php & Student_Billing/functions.inc.php
 
 Changes in 8.5
 --------------
