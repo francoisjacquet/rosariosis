@@ -82,7 +82,12 @@ function StaffWidgets( $item, &$myextra = null )
 
 	$extra = $widgets->getExtra();
 
-	$_ROSARIO['SearchTerms'] = $widgets->getSearchTerms();
+	if ( ! isset( $_ROSARIO['SearchTerms'] ) )
+	{
+		$_ROSARIO['SearchTerms'] = '';
+	}
+
+	$_ROSARIO['SearchTerms'] .= $widgets->getSearchTerms();
 
 	return true;
 }
