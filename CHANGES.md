@@ -11,6 +11,7 @@ Changes in 8.6
 - Use RosarioSIS\StaffWidgets in StaffWidgets.fnc.php
 - Admin Student Payments Delete restriction: also exclude Refund in StudentPayments.php & Student_Billing/functions.inc.php
 - Fix PHP Fatal error unsupported operand types when (Staff)Widgets() & $extra used for Parent / Student in Widgets.fnc.php & StaffWidgets.fnc.php
+- Fix PHP Fatal error canBuild() must be compatible with Widget::canBuild(array $modules) in Widget.php & StaffWidget.php
 
 Changes in 8.5
 --------------

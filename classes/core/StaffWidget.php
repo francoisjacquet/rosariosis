@@ -24,7 +24,7 @@ interface StaffWidget
 	 *
 	 * @return bool True if can build StaffWidget, else false.
 	 */
-	public function canBuild( array $modules );
+	public function canBuild( $modules );
 
 	/**
 	 * Build extra SQL, and search terms
@@ -33,7 +33,7 @@ interface StaffWidget
 	 *
 	 * @return array         $extra array with StaffWidget extra added.
 	 */
-	public function extra( array $extra );
+	public function extra( $extra );
 
 	/**
 	 * Build HTML form
