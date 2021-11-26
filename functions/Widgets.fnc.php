@@ -28,13 +28,6 @@ function Widgets( $item, &$myextra = null )
 
 	static $widgets;
 
-	// If insufficient rights, exit.
-	if ( User( 'PROFILE' ) !== 'admin'
-		&& User( 'PROFILE' ) !== 'teacher' )
-	{
-		return false;
-	}
-
 	// (Re)create it, if it's gone missing.
 	if ( ! ( $widgets instanceof RosarioSIS\Widgets ) )
 	{
@@ -51,6 +44,16 @@ function Widgets( $item, &$myextra = null )
 	}
 
 	$widgets->setExtra( $extra );
+
+	// Fix PHP Fatal error unsupported operand types when Widgets() & $extra used for Student.
+	$extra = $widgets->getExtra();
+
+	// If insufficient rights, exit.
+	if ( User( 'PROFILE' ) !== 'admin'
+		&& User( 'PROFILE' ) !== 'teacher' )
+	{
+		return false;
+	}
 
 	switch ( $item )
 	{

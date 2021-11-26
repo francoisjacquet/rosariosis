@@ -27,13 +27,6 @@ function StaffWidgets( $item, &$myextra = null )
 
 	static $widgets;
 
-	// If insufficient rights, exit.
-	if ( User('PROFILE') !== 'admin'
-		&& User( 'PROFILE' ) !== 'teacher' )
-	{
-		return false;
-	}
-
 	// (Re)create it, if it's gone missing.
 	if ( ! ( $widgets instanceof RosarioSIS\StaffWidgets ) )
 	{
@@ -51,6 +44,16 @@ function StaffWidgets( $item, &$myextra = null )
 	}
 
 	$widgets->setExtra( $extra );
+
+	// Fix PHP Fatal error unsupported operand types when StaffWidgets() & $extra used for Parent.
+	$extra = $widgets->getExtra();
+
+	// If insufficient rights, exit.
+	if ( User('PROFILE') !== 'admin'
+		&& User( 'PROFILE' ) !== 'teacher' )
+	{
+		return false;
+	}
 
 	switch ( (string) $item )
 	{
