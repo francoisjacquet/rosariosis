@@ -149,7 +149,7 @@ function _substitutionsDBGetCustomFields( $table )
 		return DBGet( "SELECT '' AS CATEGORY,ID,TITLE,TYPE,SELECT_OPTIONS
 			FROM " . DBEscapeIdentifier( $table_name ) . "
 			WHERE TYPE<>'files'
-			ORER BY SORT_ORDER,TITLE" );
+			ORDER BY SORT_ORDER,TITLE" );
 	}
 
 	$category_table_name = $table . '_FIELD_CATEGORIES';
