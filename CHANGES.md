@@ -13,6 +13,10 @@ Changes in 8.6
 - Fix PHP Fatal error unsupported operand types when (Staff)Widgets() & $extra used for Parent / Student in Widgets.fnc.php & StaffWidgets.fnc.php
 - Fix PHP Fatal error canBuild() must be compatible with Widget::canBuild(array $modules) in Widget.php & StaffWidget.php
 
+Changes in 8.5.1
+----------------
+- Fix SQL syntax error in ORDER BY (regression since 8.3.1) in Substitutions.php
+
 Changes in 8.5
 --------------
 - Fix SQL error duplicate key value violates unique constraint "food_service_menus_title" in Menus.php
