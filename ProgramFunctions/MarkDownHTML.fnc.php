@@ -275,7 +275,7 @@ function SanitizeHTML( $html, $image_path = '', $add_url_to_image_path = false )
 		 *
 		 * @return string Login page URL.
 		 */
-		function _rosarioLoginURL()
+		$rosarioLoginURL = function()
 		{
 			$page_url = 'http';
 
@@ -303,12 +303,12 @@ function SanitizeHTML( $html, $image_path = '', $add_url_to_image_path = false )
 			}
 
 			return $page_url;
-		}
+		};
 
 		if ( $add_url_to_image_path )
 		{
 			// Add URL to image path.
-			$image_path = _rosarioLoginURL() . $image_path;
+			$image_path = $rosarioLoginURL() . $image_path;
 		}
 
 		$base64_images[1][ $key ] = $image_path;

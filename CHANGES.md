@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 8.5.2
+----------------
+- Fix PHP Fatal error cannot redeclare `_rosarioLoginURL()` (regression since 8.3) in MarkDownHTML.fnc.php
+
 Changes in 8.5.1
 ----------------
 - Fix SQL syntax error in ORDER BY (regression since 8.3.1) in Substitutions.php
