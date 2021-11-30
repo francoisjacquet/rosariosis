@@ -368,11 +368,12 @@ function Search( $type, $extra = null )
 						"PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
 						"STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'") . "
 					AND MODNAME='Students/Student.php&category_id='||cf.CATEGORY_ID)='Y'
-				AND ((SELECT VALUE
+				AND (SELECT VALUE
 					FROM PROGRAM_USER_CONFIG
 					WHERE TITLE=cast(cf.ID AS TEXT)
 					AND PROGRAM='StudentFieldsSearch'
-					AND USER_ID='" . User( 'STAFF_ID' ) . "')='Y')
+					AND USER_ID='" . User( 'STAFF_ID' ) . "'
+					LIMIT 1)='Y'
 				ORDER BY cf.SORT_ORDER,cf.TITLE";
 			}
 

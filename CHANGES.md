@@ -12,6 +12,7 @@ Changes in 8.6
 - Admin Student Payments Delete restriction: also exclude Refund in StudentPayments.php & Student_Billing/functions.inc.php
 - Fix PHP Fatal error unsupported operand types when (Staff)Widgets() & $extra used for Parent / Student in Widgets.fnc.php & StaffWidgets.fnc.php
 - Fix PHP Fatal error canBuild() must be compatible with Widget::canBuild(array $modules) in Widget.php & StaffWidget.php
+- Fix SQL error more than one row returned by a subquery in Search.fnc.php
 
 Changes in 8.5.2
 ----------------
