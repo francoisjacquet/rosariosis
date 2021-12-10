@@ -1217,7 +1217,8 @@ class Widget_incident_date implements Widget
 			return $extra;
 		}
 
-		if ( $discipline_entry_begin > $discipline_entry_end )
+		if ( $discipline_entry_end
+			&& $discipline_entry_begin > $discipline_entry_end )
 		{
 			// Begin date > end date, switch.
 			$discipline_entry_begin_tmp = $discipline_entry_begin;
@@ -1771,7 +1772,8 @@ class Widget_enrolled implements Widget
 			return $extra;
 		}
 
-		if ( $enrolled_begin > $enrolled_end )
+		if ( $enrolled_end
+			&& $enrolled_begin > $enrolled_end )
 		{
 			// Begin date > end date, switch.
 			$enrolled_begin_tmp = $enrolled_begin;
