@@ -800,6 +800,7 @@ function FileExtensionWhiteList() {
 		'.ai',
 		'.eps',
 		'.ps',
+		'.webp',
 		// Audio.
 		'.mp3',
 		'.ogg',

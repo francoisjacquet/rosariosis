@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 8.7
+--------------
+- Add .webp image to FileExtensionWhiteList() in FileUpload.fnc.php
+
 Changes in 8.6
 --------------
 - Add (Student) Widgets class in classes/core/Widgets.php
