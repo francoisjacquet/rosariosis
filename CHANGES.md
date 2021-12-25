@@ -1,9 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
-Changes in 8.7
---------------
+Changes in 8.6.1
+----------------
 - Add .webp image to FileExtensionWhiteList() in FileUpload.fnc.php
+- Fix SQL error table name "sam" specified more than once in Widget.php
 
 Changes in 8.6
 --------------

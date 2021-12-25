@@ -1035,13 +1035,13 @@ class Widget_mailing_labels implements Widget
 
 		require_once 'ProgramFunctions/MailingLabel.fnc.php';
 
-		$extra['SELECT'] .= ',coalesce(sam.ADDRESS_ID,-ssm.STUDENT_ID) AS ADDRESS_ID,
-			sam.ADDRESS_ID AS MAILING_LABEL';
+		$extra['SELECT'] .= ',coalesce(saml.ADDRESS_ID,-ssm.STUDENT_ID) AS ADDRESS_ID,
+			saml.ADDRESS_ID AS MAILING_LABEL';
 
-		$extra['FROM'] = " LEFT OUTER JOIN STUDENTS_JOIN_ADDRESS sam
-			ON (sam.STUDENT_ID=ssm.STUDENT_ID
-				AND sam.MAILING='Y'" .
-				( isset( $_REQUEST['residence'] ) && $_REQUEST['residence'] == 'Y' ? " AND sam.RESIDENCE='Y'" : '' ) . ")" .
+		$extra['FROM'] = " LEFT OUTER JOIN STUDENTS_JOIN_ADDRESS saml
+			ON (saml.STUDENT_ID=ssm.STUDENT_ID
+				AND saml.MAILING='Y'" .
+				( isset( $_REQUEST['residence'] ) && $_REQUEST['residence'] == 'Y' ? " AND saml.RESIDENCE='Y'" : '' ) . ")" .
 			$extra['FROM'];
 
 		$extra['functions'] += array( 'MAILING_LABEL' => 'MailingLabel' );
