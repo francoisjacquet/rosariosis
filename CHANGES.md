@@ -4,6 +4,7 @@
 Changes in 8.7
 --------------
 - Rector fix bad code in functions/*
+- Update tested on: not compatible with Internet Explorer in INSTALL.md, INSTALL_es.md & INSTALL_fr.md
 
 Changes in 8.6.1
 ----------------

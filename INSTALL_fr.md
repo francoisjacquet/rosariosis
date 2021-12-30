@@ -15,7 +15,7 @@ RosarioSIS a été testé sur:
 - CentOS 8.2 avec Apache 2.4.37, Postgres 9.6.10, et PHP 7.2.24
 - Hébergement mutualisé avec cPanel, nginx, Postgres 8.4, et PHP 5.6.27
 - à travers Mozilla Firefox et Google Chrome
-- à travers BrowserStack pour la compatibilité navigateurs (incompatible avec Internet Explorer 9 et inférieur)
+- à travers BrowserStack pour la compatibilité navigateurs (incompatible avec Internet Explorer)
 
 Minimum requis: **PHP 5.4.45** & **PostgreSQL 8.4**
 
