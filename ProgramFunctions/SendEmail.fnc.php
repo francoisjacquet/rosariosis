@@ -11,7 +11,8 @@
  * And eventual Attachment(s)
  * From: RosarioSIS <rosariosis@yourdomain.com>
  *
- * @since 3.6.1 ProgramFunctions/SendEmail.fnc.php|before_send hook.
+ * @since 3.6.1 ProgramFunctions/SendEmail.fnc.php|before_send action hook.
+ * @since 8.7 ProgramFunctions/SendEmail.fnc.php|send_error action hook.
  *
  * @example SendEmail( $to, $subject, $msg, 'Foo <bar@from.address>', $cc, array( array( $pdf_file, $pdf_name ) ) );
  *
@@ -224,6 +225,9 @@ function SendEmail( $to, $subject, $message, $reply_to = null, $cc = null, $atta
 	catch ( phpmailerException $e )
 	{
 		global $error;
+
+		// Hook.
+		do_action( 'ProgramFunctions/SendEmail.fnc.php|send_error', $e->errorMessage() );
 
 		$error[] = $e->errorMessage();
 

@@ -377,6 +377,13 @@ $RosarioActions = array();
 	 * @since 8.1
 	 */
 	/*'misc/Export.php|fields_list_extra_sql' => array(),
+
+	/**
+	 * Send email error.
+	 *
+	 * @since 8.7
+	 */
+	/*'ProgramFunctions/SendEmail.fnc.php|send_error' => array(),
 );*/
 
 /**
