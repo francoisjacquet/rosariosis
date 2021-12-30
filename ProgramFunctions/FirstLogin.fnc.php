@@ -198,7 +198,7 @@ if ( ! function_exists( 'FirstLoginFormFields' ) )
 	{
 		global $_ROSARIO;
 
-		$fields = array();
+		$fields = [];
 
 		if ( $mode === 'after_install' )
 		{
@@ -256,7 +256,7 @@ if ( ! function_exists( 'FirstLoginPoll' ) )
 			return '';
 		}
 
-		$fields = array();
+		$fields = [];
 
 		$fields[] = '<input type="hidden" name="locale" value="' . $locale . '" />';
 
@@ -264,27 +264,27 @@ if ( ! function_exists( 'FirstLoginPoll' ) )
 
 		$_ROSARIO['allow_edit'] = true;
 
-		$usage_options = array(
+		$usage_options = [
 			'testing' => _( 'Testing' ),
 			'production' => _( 'Production' ),
-		);
+		];
 
 		$fields[] = RadioInput( '', 'usage', _( 'Usage' ), $usage_options, false );
 
-		$school_options = array(
+		$school_options = [
 			'primary' => _( 'Primary' ),
 			'secondary' => _( 'Secondary' ),
 			'superior' => _( 'Superior' ),
 			'other' => _( 'Other' ),
-		);
+		];
 
 		$fields[] = RadioInput( '', 'school', _( 'School' ), $school_options, false );
 
-		$organization_options = array(
+		$organization_options = [
 			'private' => _( 'Private' ),
 			'public' => _( 'Public' ),
 			'non-profit' => _( 'Non-profit' ),
-		);
+		];
 
 		$fields[] = RadioInput( '', 'organization', _( 'Organization' ), $organization_options, false );
 

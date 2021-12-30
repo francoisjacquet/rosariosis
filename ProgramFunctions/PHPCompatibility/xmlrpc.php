@@ -34,7 +34,7 @@ endif;
 
 if ( ! function_exists( 'xmlrpc_encode_request' ) ) :
 
-	function xmlrpc_encode_request( $method, $params, $options = array() )
+	function xmlrpc_encode_request( $method, $params, $options = [] )
 	{
 		return XML_RPC::xmlrpc_encode_request( $method, $params, $options );
 	}

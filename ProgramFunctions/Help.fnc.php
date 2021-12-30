@@ -53,7 +53,7 @@ function HelpBindTextDomain( $domain )
 {
 	global $LocalePath;
 
-	static $domains_bound = array();
+	static $domains_bound = [];
 
 	$locale_path = $LocalePath;
 
@@ -185,8 +185,8 @@ function GetHelpText( $modname )
 	if ( User( 'PROFILE' ) === 'student' )
 	{
 		$help_text = str_replace(
-			array( 'your child\'s', 'your child' ),
-			array( 'your', 'yourself' ),
+			[ 'your child\'s', 'your child' ],
+			[ 'your', 'yourself' ],
 			$help_text
 		);
 	}

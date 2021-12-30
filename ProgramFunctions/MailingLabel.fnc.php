@@ -20,7 +20,7 @@ function MailingLabel( $address_id )
 {
 	global $THIS_RET;
 
-	static $mailing_labels = array();
+	static $mailing_labels = [];
 
 	if ( ! $address_id )
 	{
@@ -41,7 +41,7 @@ function MailingLabel( $address_id )
 		LEFT OUTER JOIN PEOPLE p ON (p.PERSON_ID=sjp.PERSON_ID)
 		WHERE sja.STUDENT_ID='" . $student_id . "'
 		AND sja.ADDRESS_ID='" . $address_id . "'
-		ORDER BY sjp.STUDENT_RELATION", array(), array( 'LAST_NAME' ) );
+		ORDER BY sjp.STUDENT_RELATION", [], [ 'LAST_NAME' ] );
 
 		$return = '';
 

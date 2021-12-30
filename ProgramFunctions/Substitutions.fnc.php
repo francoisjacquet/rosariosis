@@ -142,7 +142,7 @@ function _substitutionsDBGetCustomFields( $table )
 {
 	$table_name = ( $table === 'STUDENT' ? 'CUSTOM' : $table ) . '_FIELDS';
 
-	$has_categories = array( 'STUDENT', 'ADDRESS', 'PEOPLE', 'STAFF' );
+	$has_categories = [ 'STUDENT', 'ADDRESS', 'PEOPLE', 'STAFF' ];
 
 	if ( ! in_array( $table, $has_categories ) )
 	{
@@ -193,7 +193,7 @@ function SubstitutionsCustomFields( $table )
 {
 	$fields = _substitutionsDBGetCustomFields( $table );
 
-	$custom_fields = array();
+	$custom_fields = [];
 
 	foreach ( $fields as $field )
 	{
@@ -226,12 +226,12 @@ function SubstitutionsCustomFieldsValues( $table, $values )
 	if ( ! $table
 		|| ! $values )
 	{
-		return array();
+		return [];
 	}
 
 	$fields = _substitutionsDBGetCustomFields( $table );
 
-	$custom_values = array();
+	$custom_values = [];
 
 	foreach ( $fields as $field )
 	{
@@ -247,7 +247,7 @@ function SubstitutionsCustomFieldsValues( $table, $values )
 
 		$custom_values[ $code ] = $value = $values[ $column ];
 
-		if ( in_array( $field['TYPE'], array( 'text', 'numeric' ) ) )
+		if ( in_array( $field['TYPE'], [ 'text', 'numeric' ] ) )
 		{
 			// No formatting, use raw for text & numeric types.
 			continue;

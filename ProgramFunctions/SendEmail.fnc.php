@@ -30,7 +30,7 @@
  *
  * @return boolean true if email sent, or false
  */
-function SendEmail( $to, $subject, $message, $reply_to = null, $cc = null, $attachments = array() )
+function SendEmail( $to, $subject, $message, $reply_to = null, $cc = null, $attachments = [] )
 {
 	global $phpmailer;
 

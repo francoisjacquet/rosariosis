@@ -31,7 +31,7 @@ function PortalPollsVote( $poll_id, $votes_array )
 	if ( ! $poll_RET || ! $poll_questions_RET )
 	{
 		// Should never be displayed, so do not translate.
-		return ErrorMessage( array( 'Poll does not exist' ) );
+		return ErrorMessage( [ 'Poll does not exist' ] );
 	}
 
 	// Add user to excluded users list, format = '|[profile_id]:[user_id]'.
@@ -41,7 +41,7 @@ function PortalPollsVote( $poll_id, $votes_array )
 		|| mb_strpos( $poll_RET[1]['EXCLUDED_USERS'] . '|', $excluded_user . '|' ) !== false )
 	{
 		// Should never be displayed, so do not translate.
-		return ErrorMessage( array( 'User excluded from this poll' ) );
+		return ErrorMessage( [ 'User excluded from this poll' ] );
 	}
 
 	$excluded_users = $poll_RET[1]['EXCLUDED_USERS'] . $excluded_user;
@@ -74,7 +74,7 @@ function PortalPollsVote( $poll_id, $votes_array )
 function PortalPollsSaveVotes( $poll_questions_RET, $votes_array )
 {
 	// Add votes.
-	$voted_array = array();
+	$voted_array = [];
 
 	foreach ( (array) $poll_questions_RET as $key => $question )
 	{
@@ -96,9 +96,9 @@ function PortalPollsSaveVotes( $poll_questions_RET, $votes_array )
 		}
 		else // First vote.
 		{
-			$voted_array[$question['ID']] = array();
+			$voted_array[$question['ID']] = [];
 
-			$options_array = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $question['OPTIONS'] ) );
+			$options_array = explode( "\r", str_replace( [ "\r\n", "\n" ], "\r", $question['OPTIONS'] ) );
 
 			if ( is_array( $votes_array[$question['ID']] ) ) // Multiple.
 			{
@@ -155,12 +155,12 @@ function PortalPollsDisplay( $value, $name )
 	$poll_questions_RET = DBGet( "SELECT ID,QUESTION,OPTIONS,TYPE,VOTES
 		FROM PORTAL_POLL_QUESTIONS
 		WHERE PORTAL_POLL_ID='" . $poll_id . "'
-		ORDER BY ID", array( 'OPTIONS' => 'Linkify' ) );
+		ORDER BY ID", [ 'OPTIONS' => 'Linkify' ] );
 
 	if ( ! $poll_RET || ! $poll_questions_RET )
 	{
 		// Should never be displayed, so do not translate.
-		return ErrorMessage( array( 'Poll does not exist' ) );
+		return ErrorMessage( [ 'Poll does not exist' ] );
 	}
 
 	$excluded_user = GetPortalPollUser();
@@ -168,7 +168,7 @@ function PortalPollsDisplay( $value, $name )
 	if ( ! $excluded_user )
 	{
 		// Should never be displayed, so do not translate.
-		return ErrorMessage( array( 'User not logged in' ) );
+		return ErrorMessage( [ 'User not logged in' ] );
 	}
 
 	// Check if user is in excluded users list (format = '|[profile_id]:[user_id]').
@@ -248,7 +248,7 @@ function PortalPollForm( $poll_id, $poll_questions_RET )
 		$poll_form .= '<tr><td class="valign-top"><b>' . $question['QUESTION'] . '</b></td>
 		<td><table class="width-100p cellspacing-0">';
 
-		$options_array = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $question['OPTIONS'] ) );
+		$options_array = explode( "\r", str_replace( [ "\r\n", "\n" ], "\r", $question['OPTIONS'] ) );
 
 		$checked = true;
 
@@ -334,7 +334,7 @@ function PortalPollsVotesDisplay( $poll_id, $display_votes, $poll_questions_RET,
 		}
 
 		// Options.
-		$options_array = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $question['OPTIONS'] ) );
+		$options_array = explode( "\r", str_replace( [ "\r\n", "\n" ], "\r", $question['OPTIONS'] ) );
 
 		$options_array_count = count( $options_array );
 
@@ -396,11 +396,11 @@ function makePublishing( $value, $name )
 		$profiles_RET = DBGet( "SELECT ID,TITLE FROM USER_PROFILES ORDER BY ID" );
 
 		//add Profiles with Custom permissions to profiles list
-		$profiles = array_merge( array(
-			array( 'ID' => 'admin', 'TITLE' => _( 'Administrator w/Custom' ) ),
-			array( 'ID' => 'teacher', 'TITLE' => _( 'Teacher w/Custom' ) ),
-			array( 'ID' => 'parent', 'TITLE' => _( 'Parent w/Custom' ) ),
-		), $profiles_RET );
+		$profiles = array_merge( [
+			[ 'ID' => 'admin', 'TITLE' => _( 'Administrator w/Custom' ) ],
+			[ 'ID' => 'teacher', 'TITLE' => _( 'Teacher w/Custom' ) ],
+			[ 'ID' => 'parent', 'TITLE' => _( 'Parent w/Custom' ) ],
+		], $profiles_RET );
 	}
 
 	$return .= makePublishingVisibleTo( $profiles, $THIS_RET, $id );
@@ -439,7 +439,7 @@ function makePublishingVisibleTo( $profiles, $THIS_RET, $id )
 	AND PROFILE='teacher'
 	ORDER BY LAST_NAME,FIRST_NAME" );
 
-	$teachers = array();
+	$teachers = [];
 
 	foreach ( (array) $teachers_RET as $teacher )
 	{

@@ -144,11 +144,11 @@ function _makeSelectInput( $column, $name, $request )
 		$div = false;
 	}
 
-	$select_options = $options = array();
+	$select_options = $options = [];
 
 	if ( $field['SELECT_OPTIONS'] )
 	{
-		$select_options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $field['SELECT_OPTIONS'] ) );
+		$select_options = explode( "\r", str_replace( [ "\r\n", "\n" ], "\r", $field['SELECT_OPTIONS'] ) );
 	}
 
 	foreach ( (array) $select_options as $option )
@@ -194,7 +194,7 @@ function _makeSelectInput( $column, $name, $request )
  *
  * @return string          Auto Select Input
  */
-function _makeAutoSelectInput( $column, $name, $request, $options_RET = array() )
+function _makeAutoSelectInput( $column, $name, $request, $options_RET = [] )
 {
 	global $value,
 		$field;
@@ -211,11 +211,11 @@ function _makeAutoSelectInput( $column, $name, $request, $options_RET = array() 
 
 	// Build the select list...
 	// Get the standard selects.
-	$select_options = array();
+	$select_options = [];
 
 	if ( $field['SELECT_OPTIONS'] )
 	{
-		$select_options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $field['SELECT_OPTIONS'] ) );
+		$select_options = explode( "\r", str_replace( [ "\r\n", "\n" ], "\r", $field['SELECT_OPTIONS'] ) );
 	}
 
 	foreach ( (array) $select_options as $option )
@@ -285,10 +285,10 @@ function _makeAutoSelectInput( $column, $name, $request, $options_RET = array() 
 			if ( $option_value != ''
 				&& ! isset( $options[ $option_value ] ) )
 			{
-				$options[ $option_value ] = array(
+				$options[ $option_value ] = [
 					$option_value,
 					'<span style="color:blue">' . $option_value . '</span>'
-				);
+				];
 			}
 		}
 	}
@@ -297,10 +297,10 @@ function _makeAutoSelectInput( $column, $name, $request, $options_RET = array() 
 	if ( $value[ $column ] != ''
 		&& ! isset( $options[ $value[ $column ] ] ) )
 	{
-		$options[ $value[ $column ] ] = array(
+		$options[ $value[ $column ] ] = [
 			$value[ $column ],
 			'<span style="color:' . ( $field['TYPE'] === 'autos' ? 'blue' : 'green' ) . '">' . $value[ $column ] . '</span>'
-		);
+		];
 	}
 
 	if ( $value[ $column ] != '---'
@@ -323,7 +323,7 @@ function _makeAutoSelectInput( $column, $name, $request, $options_RET = array() 
 	// FJ new option.
 	return TextInput(
 		$value[ $column ] === '---' ?
-			array( '---', '<span style="color:red">-' . _( 'Edit' ) . '-</span>' ) :
+			[ '---', '<span style="color:red">-' . _( 'Edit' ) . '-</span>' ] :
 			$value[ $column ],
 		$request . '[' . $column . ']',
 		$name,
@@ -445,7 +445,7 @@ function _makeFilesInput( $column, $name, $request, $remove_url = '' )
 
 	$file_paths = explode( '||', trim( issetVal( $value[ $column ] ), '||' ) );
 
-	$files = array();
+	$files = [];
 
 	foreach ( (array) $file_paths as $file_path )
 	{
@@ -544,11 +544,11 @@ function _makeMultipleInput( $column, $name, $request )
 			FormatInputTitle( $name );
 	}
 
-	$select_options = array();
+	$select_options = [];
 
 	if ( $field['SELECT_OPTIONS'] )
 	{
-		$select_options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $field['SELECT_OPTIONS'] ) );
+		$select_options = explode( "\r", str_replace( [ "\r\n", "\n" ], "\r", $field['SELECT_OPTIONS'] ) );
 	}
 
 	foreach ( (array) $select_options as $option )
@@ -673,7 +673,7 @@ function _makeType( $value, $column )
 		$value,
 		'values[STUDENT_MEDICAL][' . $THIS_RET['ID'] . '][TYPE]',
 		'',
-		array( 'Immunization' => _( 'Immunization' ), 'Physical' => _( 'Physical' ) )
+		[ 'Immunization' => _( 'Immunization' ), 'Physical' => _( 'Physical' ) ]
 	);
 }
 
@@ -969,7 +969,7 @@ function _makeSchoolInput( $value, $column )
 	{
 		$schools = DBGet( "SELECT ID,TITLE
 			FROM SCHOOLS
-			WHERE SYEAR='" . UserSyear() . "'", array(), array( 'ID' ) );
+			WHERE SYEAR='" . UserSyear() . "'", [], [ 'ID' ] );
 	}
 
 	foreach ( (array) $schools as $sid => $school )

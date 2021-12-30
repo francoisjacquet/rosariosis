@@ -43,7 +43,7 @@ function _makeNextSchool( $value, $column )
 	{
 		$schools_RET = DBGet( "SELECT ID,TITLE
 			FROM SCHOOLS WHERE
-			SYEAR='" . UserSyear() . "'", array(), array( 'ID' ) );
+			SYEAR='" . UserSyear() . "'", [], [ 'ID' ] );
 	}
 
 	$school_title = $schools_RET[ $value ][1]['TITLE'];
@@ -79,7 +79,7 @@ function _makeCalendar( $value, $column )
 	{
 		$calendars_RET = DBGet( "SELECT CALENDAR_ID,DEFAULT_CALENDAR,TITLE
 			FROM ATTENDANCE_CALENDARS
-			WHERE SYEAR='" . UserSyear() . "'", array(), array( 'CALENDAR_ID' ) );
+			WHERE SYEAR='" . UserSyear() . "'", [], [ 'CALENDAR_ID' ] );
 	}
 
 	return issetVal( $calendars_RET[ $value ][1]['TITLE'], '' );

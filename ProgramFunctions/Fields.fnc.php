@@ -204,7 +204,7 @@ function DeleteDBFieldCategory( $table, $id )
  *
  * @return string Field or Field Category Form HTML
  */
-function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), $type_options = null )
+function GetFieldsForm( $table, $title, $RET, $extra_category_fields = [], $type_options = null )
 {
 	$id = issetVal( $RET['ID'] );
 
@@ -222,8 +222,8 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 	$form = '<form action="';
 
 	$form .= PreparePHP_SELF(
-		array(),
-		array( 'category_id', 'id', 'table', 'ML_tables' )
+		[],
+		[ 'category_id', 'id', 'table', 'ML_tables' ]
 	);
 
 	if ( $category_id
@@ -265,13 +265,13 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 					|| $category_id > 2 ) ) ) ) // Don't Delete first 2 User Fields Categories.
 	{
 		$delete_url = PreparePHP_SELF(
-			array(),
-			array( 'table', 'ML_tables' ),
-			array(
+			[],
+			[ 'table', 'ML_tables' ],
+			[
 				'modfunc' => 'delete',
 				'category_id' => $category_id,
 				'id' => $id,
-			)
+			]
 		);
 
 		$delete_button = '<input type="button" value="' . _( 'Delete' ) . '" onClick="ajaxLink(\'' . $delete_url . '\');" /> ';
@@ -297,7 +297,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 
 		if ( ! $type_options )
 		{
-			$type_options = array(
+			$type_options = [
 				'select' => _( 'Pull-Down' ),
 				'autos' => _( 'Auto Pull-Down' ),
 				'exports' => _( 'Export Pull-Down' ),
@@ -308,7 +308,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 				'numeric' => _( 'Number' ),
 				'date' => _( 'Date' ),
 				'files' => _( 'Files' ),
-			);
+			];
 		}
 
 		if ( ! $new )
@@ -316,16 +316,16 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 			// Mab - allow changing between select and autos and text and exports.
 			if ( ( $table !== 'STAFF'
 					|| $id < 200000000 ) // Don't change Email & Phone User Fields type.
-				&& in_array( $RET['TYPE'], array( 'select', 'autos', 'text', 'exports' ) ) )
+				&& in_array( $RET['TYPE'], [ 'select', 'autos', 'text', 'exports' ] ) )
 			{
 				$type_options = array_intersect_key(
 					$type_options,
-					array(
+					[
 						'select' => _( 'Pull-Down' ),
 						'autos' => _( 'Auto Pull-Down' ),
 						'exports' => _( 'Export Pull-Down' ),
 						'text' => _( 'Text' ),
-					)
+					]
 				);
 			}
 			// You can't change a student field type after it has been created.
@@ -391,11 +391,11 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 
 		// Select Options TextArea field.
 		if ( isset( $RET['TYPE'] )
-			&& in_array( $RET['TYPE'], array( 'autos', 'select', 'multiple', 'exports' ) )
+			&& in_array( $RET['TYPE'], [ 'autos', 'select', 'multiple', 'exports' ] )
 			|| ( $new
 				&& array_intersect(
 					array_keys( $type_options ),
-					array( 'autos', 'select', 'multiple', 'exports' ) ) ) )
+					[ 'autos', 'select', 'multiple', 'exports' ] ) ) )
 		{
 			$header .= '<td colspan="3">' . TextAreaInput(
 				issetVal( $RET['SELECT_OPTIONS'], '' ),
@@ -527,12 +527,12 @@ function FieldsMenuOutput( $RET, $id, $category_id = '0' )
 		}
 	}
 
-	$LO_options = array( 'save' => false, 'search' => false, 'responsive' => false );
+	$LO_options = [ 'save' => false, 'search' => false, 'responsive' => false ];
 
-	$LO_columns = array(
+	$LO_columns = [
 		'TITLE' => ( $category_id || $category_id === false ? _( 'Field' ) : _( 'Category' ) ),
 		'SORT_ORDER' => _( 'Sort Order' ),
-	);
+	];
 
 	if ( $category_id
 		|| $category_id === false )
@@ -540,11 +540,11 @@ function FieldsMenuOutput( $RET, $id, $category_id = '0' )
 		$LO_columns['TYPE'] = _( 'Data Type' );
 	}
 
-	$LO_link = array();
+	$LO_link = [];
 
 	$LO_link['TITLE']['link'] = PreparePHP_SELF(
-		array(),
-		array( 'category_id', 'id', 'table', 'ML_tables' )
+		[],
+		[ 'category_id', 'id', 'table', 'ML_tables' ]
 	);
 
 	if ( $category_id )
@@ -552,11 +552,11 @@ function FieldsMenuOutput( $RET, $id, $category_id = '0' )
 		$LO_link['TITLE']['link'] .= '&category_id=' . $category_id;
 	}
 
-	$LO_link['TITLE']['variables'] = array( ( ! $category_id && $category_id !== false ? 'category_id' : 'id' ) => 'ID' );
+	$LO_link['TITLE']['variables'] = [ ( ! $category_id && $category_id !== false ? 'category_id' : 'id' ) => 'ID' ];
 
 	$LO_link['add']['link'] = PreparePHP_SELF(
-		array(),
-		array( 'category_id', 'id', 'table', 'ML_tables' )
+		[],
+		[ 'category_id', 'id', 'table', 'ML_tables' ]
 	) . '&category_id=';
 
 	$LO_link['add']['link'] .= $category_id || $category_id === false ? $category_id . '&id=new' : 'new';
@@ -572,7 +572,7 @@ function FieldsMenuOutput( $RET, $id, $category_id = '0' )
 			'Field Category',
 			'Field Categories',
 			$LO_link,
-			array(),
+			[],
 			$LO_options
 		);
 	}
@@ -584,7 +584,7 @@ function FieldsMenuOutput( $RET, $id, $category_id = '0' )
 			'Field',
 			'Fields',
 			$LO_link,
-			array(),
+			[],
 			$LO_options
 		);
 	}
@@ -607,7 +607,7 @@ function FieldsMenuOutput( $RET, $id, $category_id = '0' )
  */
 function MakeFieldType( $value, $column = '' )
 {
-	$type_options = array(
+	$type_options = [
 		'select' => _( 'Pull-Down' ),
 		'autos' => _( 'Auto Pull-Down' ),
 		'exports' => _( 'Export Pull-Down' ),
@@ -618,7 +618,7 @@ function MakeFieldType( $value, $column = '' )
 		'numeric' => _( 'Number' ),
 		'date' => _( 'Date' ),
 		'files' => _( 'Files' ),
-	);
+	];
 
 	return isset( $type_options[ $value ] ) ? $type_options[ $value ] : $value;
 }

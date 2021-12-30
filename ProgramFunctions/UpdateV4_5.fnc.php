@@ -501,7 +501,7 @@ function _update47beta2()
 		{
 			$mps_RET = DBGet( "SELECT MARKING_PERIOD_ID
 				FROM MARKING_PERIODS
-				WHERE SCHOOL_ID='" . $school['ID'] . "'", array(), array( 'MARKING_PERIOD_ID' ) );
+				WHERE SCHOOL_ID='" . $school['ID'] . "'", [], [ 'MARKING_PERIOD_ID' ] );
 
 			$mps = array_keys( $mps_RET );
 
@@ -805,7 +805,7 @@ function _update50beta()
 
 	$add_foreign_key = function( $table, $column, $reference )
 	{
-		$fcolumn = str_replace( array( ',', ' ' ), array( '_' ), $column );
+		$fcolumn = str_replace( [ ',', ' ' ], [ '_' ], $column );
 
 		$fk_name = $table . '_' . $fcolumn . '_fk';
 
@@ -1058,7 +1058,7 @@ function _update52beta()
 			ALTER COLUMN " . $column_escaped . " SET NOT NULL;" );
 	};
 
-	$tables_columns = array(
+	$tables_columns = [
 		'schools' => 'TITLE',
 		'school_marking_periods' => 'TITLE',
 		'accounting_salaries' => 'TITLE',
@@ -1096,7 +1096,7 @@ function _update52beta()
 		'student_field_categories' => 'TITLE',
 		'student_report_card_grades' => 'COURSE_TITLE',
 		'user_profiles' => 'TITLE',
-	);
+	];
 
 	foreach ( (array) $tables_columns as $table => $column )
 	{
@@ -1189,7 +1189,7 @@ function _update541()
 			ADD COLUMN updated_at timestamp;";
 	};
 
-	$tables = array(
+	$tables = [
 		'schools',
 		'students',
 		'staff',
@@ -1283,7 +1283,7 @@ function _update541()
 		'students_join_users',
 		'templates',
 		'user_profiles',
-	);
+	];
 
 	$sql_add_created_updated_at_columns = '';
 

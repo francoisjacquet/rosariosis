@@ -34,7 +34,7 @@ function Dashboard()
 
 	if ( ! isset( $_ROSARIO['Dashboard'] ) )
 	{
-		$_ROSARIO['Dashboard'] = array();
+		$_ROSARIO['Dashboard'] = [];
 	}
 
 	if ( ! empty( $_REQUEST['_ROSARIO_DASHBOARD'] ) )

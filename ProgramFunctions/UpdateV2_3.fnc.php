@@ -91,14 +91,14 @@ function _update29alpha()
 	if ( is_array( $comments_RET )
 		&& ! unserialize( $comments_RET[0]['COMMENT'] ) )
 	{
-		$ser_comments = array();
+		$ser_comments = [];
 
 		$SQL_updt_coms = '';
 
 		foreach ( (array) $comments_RET as $comment )
 		{
 			$coms = explode( '||', $comment['COMMENT'] );
-			$ser_coms = array();
+			$ser_coms = [];
 			$i = 0;
 
 			foreach ( (array) $coms as $com )

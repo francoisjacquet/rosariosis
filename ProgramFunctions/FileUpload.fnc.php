@@ -117,7 +117,7 @@ function FileUpload( $input, $path, $ext_white_list, $size_limit, &$error, $fina
  *
  * @return string|boolean Full path to file, or false if error
  */
-function ImageUpload( $input, $target_dim = array(), $path = '', $ext_white_list = array(), $final_ext = null, $file_name_no_ext = '' )
+function ImageUpload( $input, $target_dim = [], $path = '', $ext_white_list = [], $final_ext = null, $file_name_no_ext = '' )
 {
 	global $FileUploadsPath,
 		$PNGQuantPath,
@@ -138,11 +138,11 @@ function ImageUpload( $input, $target_dim = array(), $path = '', $ext_white_list
 	if ( ! $ext_white_list )
 	{
 		// Defaults to JPG, PNG & GIF.
-		$ext_white_list = array( '.jpg', '.jpeg', '.png', '.gif' );
+		$ext_white_list = [ '.jpg', '.jpeg', '.png', '.gif' ];
 	}
 
 	// Defaults to horizontal PDF target dimensions.
-	$target_dim_default = array( 'width' => 994, 'height' => 1405 );
+	$target_dim_default = [ 'width' => 994, 'height' => 1405 ];
 
 	$target_dim = array_replace_recursive( $target_dim_default, (array) $target_dim );
 
@@ -446,18 +446,18 @@ function FileUploadMultiple( $input )
 {
 	if ( ! isset( $_FILES[ $input ] ) )
 	{
-		return array();
+		return [];
 	}
 
 	if ( ! is_array( $_FILES[ $input ]['name'] ) )
 	{
 		// Not multiple files, return $input.
-		return array( $input );
+		return [ $input ];
 	}
 
-	$inputs = array();
+	$inputs = [];
 
-	$files = array();
+	$files = [];
 
 	foreach ( $_FILES[ $input ] as $attribute => $files_info )
 	{
@@ -465,7 +465,7 @@ function FileUploadMultiple( $input )
 		{
 			if ( ! isset( $files[ $i ] ) )
 			{
-				$files[ $i ] = array();
+				$files[ $i ] = [];
 			}
 
 			$files[ $i ][ $attribute ] = $file_info;
@@ -551,7 +551,7 @@ function no_accents( $string )
 	$c196 = chr( 196 );
 	$c197 = chr( 197 );
 
-	$chars = array(
+	$chars = [
 	// Decompositions for Latin-1 Supplement.
 	$c195 . chr(128) => 'A', $c195 . chr(129) => 'A',
 	$c195 . chr(130) => 'A', $c195 . chr(131) => 'A',
@@ -646,7 +646,7 @@ function no_accents( $string )
 	$c197 . chr(186) => 'z', $c197 . chr(187) => 'Z',
 	$c197 . chr(188) => 'z', $c197 . chr(189) => 'Z',
 	$c197 . chr(190) => 'z', $c197 . chr(191) => 's'
-	);
+	];
 
 	$string = strtr( $string, $chars );
 
@@ -768,7 +768,7 @@ function HumanFilesize( $bytes, $decimals = 1 )
  * @link http://fileinfo.com/filetypes/common
  */
 function FileExtensionWhiteList() {
-	$file_ext_white_list = array(
+	$file_ext_white_list = [
 		// Micro$oft Office.
 		'.doc',
 		'.docx',
@@ -849,7 +849,7 @@ function FileExtensionWhiteList() {
 		'.7z',
 		'.tar',
 		'.gz',
-	);
+	];
 
 	return $file_ext_white_list;
 }

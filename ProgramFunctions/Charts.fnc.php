@@ -31,7 +31,7 @@ function ChartjsChart( $type, $data, $title )
 {
 	static $chart_id = 0;
 
-	$types = array( 'line', 'bar', 'doughnut', 'pie' );
+	$types = [ 'line', 'bar', 'doughnut', 'pie' ];
 
 	if ( ! in_array( $type, $types )
 		|| ! is_array( $data )
@@ -42,14 +42,14 @@ function ChartjsChart( $type, $data, $title )
 
 	// @link https://github.com/chartjs/Chart.js/issues/815#issuecomment-270186793
 	// @link http://clrs.cc/
-	$colors_default = array( '#FF851B', '#2ECC40', '#0074D9', '#F012BE', '#FFDC00', '#3D9970', '#001f3f', '#85144b', '#FF4136', '#01FF70', '#39CCCC', '#B10DC9', '#DD6300', '#50EE62', '#2296FB', '#CE009C', '#DDBA00', '#5FBB92', '#224161', '#A7366D', '#DD1914', '#23FF91', '#61EEEE', '#8F00A7' );
+	$colors_default = [ '#FF851B', '#2ECC40', '#0074D9', '#F012BE', '#FFDC00', '#3D9970', '#001f3f', '#85144b', '#FF4136', '#01FF70', '#39CCCC', '#B10DC9', '#DD6300', '#50EE62', '#2296FB', '#CE009C', '#DDBA00', '#5FBB92', '#224161', '#A7366D', '#DD1914', '#23FF91', '#61EEEE', '#8F00A7' ];
 
-	$dataset_default = array(
+	$dataset_default = [
 		'label' => '',
 		'backgroundColor' => $colors_default,
 		// 'borderColor' => 'rgb(255, 99, 132)',
-		'data' => array(),
-	);
+		'data' => [],
+	];
 
 	$first_key = key( $data );
 
@@ -83,7 +83,7 @@ function ChartjsChart( $type, $data, $title )
 
 		$dataset['data'] = array_values( (array) $data[1] ); // Force start index to 0.
 
-		$datasets = array( $dataset );
+		$datasets = [ $dataset ];
 	}
 
 	// Chart Options.

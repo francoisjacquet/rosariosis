@@ -49,7 +49,7 @@ function SchoolPeriodsSelectInput( $value, $name, $title, $extra = '' )
 		}
 
 		// FJ days display to locale.
-		$days_convert = array(
+		$days_convert = [
 			'U' => _( 'Sunday' ),
 			'M' => _( 'Monday' ),
 			'T' => _( 'Tuesday' ),
@@ -57,12 +57,12 @@ function SchoolPeriodsSelectInput( $value, $name, $title, $extra = '' )
 			'H' => _( 'Thursday' ),
 			'F' => _( 'Friday' ),
 			'S' => _( 'Saturday' ),
-		);
+		];
 
 		// FJ days numbered.
 		if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 		{
-			$days_convert = array(
+			$days_convert = [
 				'U' => '7',
 				'M' => '1',
 				'T' => '2',
@@ -70,7 +70,7 @@ function SchoolPeriodsSelectInput( $value, $name, $title, $extra = '' )
 				'H' => '4',
 				'F' => '5',
 				'S' => '6',
-			);
+			];
 		}
 
 		$period_days = '';

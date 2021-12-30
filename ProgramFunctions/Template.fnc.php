@@ -45,7 +45,7 @@ function GetTemplate( $modname = '', $staff_id = 0 ) {
 	$template_RET = DBGet( "SELECT TEMPLATE,STAFF_ID
 		FROM TEMPLATES
 		WHERE MODNAME='" . $modname . "'
-		AND STAFF_ID IN(0" . $staff_id_sql . ")", array(), array( 'STAFF_ID' ) );
+		AND STAFF_ID IN(0" . $staff_id_sql . ")", [], [ 'STAFF_ID' ] );
 
 	if ( ! $template_RET )
 	{
@@ -91,7 +91,7 @@ function SaveTemplate( $template, $modname = '', $staff_id = -1 )
 	$is_template_update = DBGet( "SELECT STAFF_ID
 		FROM TEMPLATES
 		WHERE MODNAME='" . $modname . "'
-		AND STAFF_ID IN(0,'" . $staff_id . "')", array(), array( 'STAFF_ID' ) );
+		AND STAFF_ID IN(0,'" . $staff_id . "')", [], [ 'STAFF_ID' ] );
 
 	/*if ( ! $is_template_update )
 	{

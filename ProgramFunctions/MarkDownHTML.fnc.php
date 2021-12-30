@@ -188,7 +188,7 @@ function SanitizeHTML( $html, $image_path = '', $add_url_to_image_path = false )
 
 	if ( $has_base64_images )
 	{
-		$base64_replace = array();
+		$base64_replace = [];
 
 		foreach ( (array) $base64_images[1] as $key => $data )
 		{
@@ -239,7 +239,7 @@ function SanitizeHTML( $html, $image_path = '', $add_url_to_image_path = false )
 
 		$img_tag = mb_substr( $img_tag, 0, strpos( $img_tag, ' />' ) );
 
-		$target_dim = array();
+		$target_dim = [];
 
 		$target_width_pos = strpos( $img_tag, 'width="' );
 
