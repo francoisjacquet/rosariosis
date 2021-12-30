@@ -23,7 +23,7 @@ function GetTeacher( $teacher_id, $column = 'FULL_NAME', $schools = true )
 	if ( $column !== 'FULL_NAME'
 		&& ( $column === 'STAFF_ID'
 			|| $column === 'TEACHER_ID'
-			|| ! in_array( $column, array( 'LAST_NAME', 'FIRST_NAME', 'MIDDLE_NAME', 'USERNAME', 'PROFILE' ) ) ) )
+			|| ! in_array( $column, [ 'LAST_NAME', 'FIRST_NAME', 'MIDDLE_NAME', 'USERNAME', 'PROFILE' ] ) ) )
 	{
 		$column = 'FULL_NAME';
 	}
@@ -35,8 +35,8 @@ function GetTeacher( $teacher_id, $column = 'FULL_NAME', $schools = true )
 			FROM STAFF
 			WHERE SYEAR='" . UserSyear() . "'" .
 			( $schools ? " AND (SCHOOLS IS NULL OR SCHOOLS LIKE '%," . UserSchool() . ",%')" : '' ),
-			array(),
-			array( 'STAFF_ID' )
+			[],
+			[ 'STAFF_ID' ]
 		);
 	}
 

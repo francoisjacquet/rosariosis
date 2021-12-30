@@ -33,14 +33,14 @@
  *
  * @return array DBGet return of the built SQL query
  */
-function GetStuList( &$extra = array() )
+function GetStuList( &$extra = [] )
 {
 	global $contacts_RET,
 		$view_other_RET;
 
 	if ( ! isset( $extra ) )
 	{
-		$extra = array();
+		$extra = [];
 	}
 
 	// Fix Advanced Search.
@@ -68,10 +68,10 @@ function GetStuList( &$extra = array() )
 			|| mb_strpos( $extra['SELECT_ONLY'], 'GRADE_ID' ) !== false )
 		&& ! isset( $extra['functions']['GRADE_ID'] ) )
 	{
-		$functions = array( 'GRADE_ID' => 'GetGrade' );
+		$functions = [ 'GRADE_ID' => 'GetGrade' ];
 	}
 	else
-		$functions = array();
+		$functions = [];
 
 	if ( isset( $extra['functions'] ) )
 	{
@@ -110,7 +110,7 @@ function GetStuList( &$extra = array() )
 
 		if ( empty( $extra['columns_after'] ) )
 		{
-			$extra['columns_after'] = array();
+			$extra['columns_after'] = [];
 		}
 
 		$view_fields_RET = DBGet( "SELECT cf.ID,cf.TYPE,cf.TITLE
@@ -136,7 +136,7 @@ function GetStuList( &$extra = array() )
 			FROM PROGRAM_USER_CONFIG
 			WHERE PROGRAM='StudentFieldsView'
 			AND TITLE IN ('USERNAME','CONTACT_INFO','HOME_PHONE','GUARDIANS','ALL_CONTACTS')
-			AND USER_ID='" . User( 'STAFF_ID' ) . "'", array(), array( 'TITLE' ) );
+			AND USER_ID='" . User( 'STAFF_ID' ) . "'", [], [ 'TITLE' ] );
 
 		$select = '';
 
@@ -144,11 +144,11 @@ function GetStuList( &$extra = array() )
 			&& ! $view_address_RET
 			&& empty( $view_other_RET['CONTACT_INFO'][1]['VALUE'] ) )
 		{
-			$extra['columns_after'] = array(
+			$extra['columns_after'] = [
 				'ADDRESS' => _( 'Mailing Address' ),
 				'CITY' => _( 'City' ),
 				'STATE' => _( 'State' ),
-				'ZIPCODE' => _( 'Zipcode' ) )
+				'ZIPCODE' => _( 'Zipcode' ) ]
 				+ $extra['columns_after'];
 
 			// Add Gender + Ethnicity fields if exist.
@@ -158,8 +158,8 @@ function GetStuList( &$extra = array() )
 
 			foreach ( $custom_fields_RET as $field)
 			{
-				$extra['columns_after'] = array(
-					'CUSTOM_' . $field['ID'] => ParseMLField( $field['TITLE'] ) )
+				$extra['columns_after'] = [
+					'CUSTOM_' . $field['ID'] => ParseMLField( $field['TITLE'] ) ]
 					+ $extra['columns_after'];
 
 				// If gender and ethnicity are converted to exports type.
@@ -171,8 +171,8 @@ function GetStuList( &$extra = array() )
 				$select .= ',s.CUSTOM_' . $field['ID'];
 			}
 
-			$extra['columns_after'] = array(
-				'CONTACT_INFO' => button( 'down_phone' ) )
+			$extra['columns_after'] = [
+				'CONTACT_INFO' => button( 'down_phone' ) ]
 				+ $extra['columns_after'];
 
 			$select .= ',ssm.STUDENT_ID AS CONTACT_INFO,coalesce(a.MAIL_ADDRESS,a.ADDRESS) AS ADDRESS,
@@ -204,7 +204,7 @@ function GetStuList( &$extra = array() )
 
 			$extra2['ORDER_BY'] = 'sjp.CUSTODY';
 
-			$extra2['group'] = array( 'STUDENT_ID', 'PERSON_ID' );
+			$extra2['group'] = [ 'STUDENT_ID', 'PERSON_ID' ];
 
 			// EXPANDED VIEW AND ADDR BREAKS THIS QUERY ... SO, TURN 'EM OFF.
 			if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
@@ -267,11 +267,11 @@ function GetStuList( &$extra = array() )
 
 				$extra2['ORDER_BY'] .= 'sjp.CUSTODY';
 
-				$extra2['group'] = array( 'STUDENT_ID', 'PERSON_ID' );
+				$extra2['group'] = [ 'STUDENT_ID', 'PERSON_ID' ];
 
-				$extra2['functions'] = array();
+				$extra2['functions'] = [];
 
-				$extra2['link'] = array();
+				$extra2['link'] = [];
 
 				// EXPANDED VIEW AND ADDR BREAKS THIS QUERY ... SO, TURN 'EM OFF.
 				$expanded_view = issetVal( $_REQUEST['expanded_view'] );
@@ -319,11 +319,11 @@ function GetStuList( &$extra = array() )
 				$extra['FROM'] = " LEFT OUTER JOIN STUDENTS_JOIN_ADDRESS sam ON (ssm.STUDENT_ID=sam.STUDENT_ID AND sam." . $view_address_RET . "='Y')
 					LEFT OUTER JOIN ADDRESS a ON (sam.ADDRESS_ID=a.ADDRESS_ID) " . $extra['FROM'];
 
-				$extra['columns_after'] += array(
+				$extra['columns_after'] += [
 					'ADDRESS' => _( ucwords( mb_strtolower( str_replace( '_', ' ', $view_address_RET ) ) ) ) . ' ' . _( 'Address' ),
 					'CITY' => _( 'City' ),
 					'STATE' => _( 'State' ),
-					'ZIPCODE' => _( 'Zipcode' ) );
+					'ZIPCODE' => _( 'Zipcode' ) ];
 
 				if ( $view_address_RET != 'MAILING' )
 				{
@@ -381,7 +381,7 @@ function GetStuList( &$extra = array() )
 		{
 			if ( ! isset( $extra['columns_after'] ) )
 			{
-				$extra['columns_after'] = array();
+				$extra['columns_after'] = [];
 			}
 
 			$view_fields_RET = DBGet( "SELECT cf.ID,cf.TYPE,cf.TITLE
@@ -474,7 +474,7 @@ function GetStuList( &$extra = array() )
 					$inactive = "'" . DBEscapeString( '<span style="color:red">' . _( 'Inactive' ) . '</span>' ) . "'";
 
 					$sql .= ',' . db_case(
-						array(
+						[
 							"(ssm.SYEAR='" . UserSyear() . "'
 								AND ('" . $extra['DATE'] . "'>=ssm.START_DATE
 									AND ('" . $extra['DATE'] . "'<=ssm.END_DATE
@@ -482,7 +482,7 @@ function GetStuList( &$extra = array() )
 							'TRUE',
 							$active,
 							$inactive
-						) ) . ' AS ACTIVE';
+						] ) . ' AS ACTIVE';
 
 					$extra['columns_after']['ACTIVE'] = _( 'Status' );
 				}
@@ -547,7 +547,7 @@ function GetStuList( &$extra = array() )
 					$inactive = "'" . DBEscapeString( '<span style="color:red">' . _( 'Inactive' ) . '</span>' ) . "'";
 
 					$sql .= ',' . db_case(
-						array(
+						[
 							"(ssm.SYEAR='" . UserSyear() . "'
 								AND ('" . $extra['DATE'] . "'>=ssm.START_DATE
 									AND ('" . $extra['DATE'] . "'<=ssm.END_DATE
@@ -555,10 +555,10 @@ function GetStuList( &$extra = array() )
 							'TRUE',
 							$active,
 							$inactive
-						) ) . ' AS ACTIVE';
+						] ) . ' AS ACTIVE';
 
 					$sql .= ',' . db_case(
-						array(
+						[
 							"('" . $extra['DATE'] . "'>=ss.START_DATE
 								AND (ss.END_DATE IS NULL
 									OR '" . $extra['DATE'] . "'<=ss.END_DATE))
@@ -566,7 +566,7 @@ function GetStuList( &$extra = array() )
 							'TRUE',
 							$active,
 							$inactive
-						) ) . ' AS ACTIVE_SCHEDULE';
+						] ) . ' AS ACTIVE_SCHEDULE';
 
 					$extra['columns_after']['ACTIVE'] = _( 'School Status' );
 					$extra['columns_after']['ACTIVE_SCHEDULE'] = _( 'Course Status' );
@@ -689,7 +689,7 @@ function GetStuList( &$extra = array() )
 	}
 
 	// DBGet group arg.
-	$group = issetVal( $extra['group'], array() );
+	$group = issetVal( $extra['group'], [] );
 
 	// Execute Query & return.
 	return DBGet( $sql, $functions, $group );
@@ -1013,7 +1013,7 @@ function makeParents( $student_id, $column )
  */
 function DeCodeds( $value, $column, $table = 'auto' )
 {
-	static $decodeds = array();
+	static $decodeds = [];
 
 	$field = explode( '_', $column );
 
@@ -1030,9 +1030,9 @@ function DeCodeds( $value, $column, $table = 'auto' )
 
 		if ( $RET[1]['TYPE'] === 'exports' )
 		{
-			$select_options = array();
+			$select_options = [];
 
-			$options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $RET[1]['SELECT_OPTIONS'] ) );
+			$options = explode( "\r", str_replace( [ "\r\n", "\n" ], "\r", $RET[1]['SELECT_OPTIONS'] ) );
 
 			foreach ( $options as $option )
 			{
@@ -1163,7 +1163,7 @@ function makeMultiple( $value, $column )
  *
  * @return string Appended SQL WHERE part
  */
-function appendSQL( $sql, $extra = array() )
+function appendSQL( $sql, $extra = [] )
 {
 	global $_ROSARIO;
 
@@ -1201,13 +1201,13 @@ function appendSQL( $sql, $extra = array() )
 	if ( isset( $_REQUEST['last'] )
 		&& $_REQUEST['last'] !== '' )
 	{
-		$last_name = array(
+		$last_name = [
 			'COLUMN' => 'LAST_NAME',
 			'VALUE' => $_REQUEST['last'],
 			'TITLE' => _( 'Last Name' ),
 			'TYPE' => 'text',
 			'SELECT_OPTIONS' => null,
-		);
+		];
 
 		$sql .= SearchField( $last_name, 'student', $extra );
 	}
@@ -1216,13 +1216,13 @@ function appendSQL( $sql, $extra = array() )
 	if ( isset( $_REQUEST['first'] )
 		&& $_REQUEST['first'] !== '' )
 	{
-		$first_name = array(
+		$first_name = [
 			'COLUMN' => 'FIRST_NAME',
 			'VALUE' => $_REQUEST['first'],
 			'TITLE' => _( 'First Name' ),
 			'TYPE' => 'text',
 			'SELECT_OPTIONS' => null,
-		);
+		];
 
 		$sql .= SearchField( $first_name, 'student', $extra );
 	}
@@ -1365,7 +1365,7 @@ function DisplayNameSQL( $table_alias = '' )
 	$display_name = Config( 'DISPLAY_NAME' );
 
 	// Values have %s. placeholders for table alias.
-	$display_names = array(
+	$display_names = [
 		"FIRST_NAME||' '||LAST_NAME" => "%s.FIRST_NAME||' '||%s.LAST_NAME",
 		"FIRST_NAME||' '||LAST_NAME||coalesce(' '||NAME_SUFFIX,' ')" => "%s.FIRST_NAME||' '||%s.LAST_NAME||coalesce(' '||%s.NAME_SUFFIX,' ')",
 		"FIRST_NAME||coalesce(' '||MIDDLE_NAME||' ',' ')||LAST_NAME" => "%s.FIRST_NAME||coalesce(' '||%s.MIDDLE_NAME||' ',' ')||%s.LAST_NAME",
@@ -1374,7 +1374,7 @@ function DisplayNameSQL( $table_alias = '' )
 		"LAST_NAME||', '||FIRST_NAME" => "%s.LAST_NAME||', '||%s.FIRST_NAME",
 		"LAST_NAME||', '||FIRST_NAME||' '||COALESCE(MIDDLE_NAME,' ')" => "%s.LAST_NAME||', '||%s.FIRST_NAME||' '||COALESCE(%s.MIDDLE_NAME,' ')",
 		"LAST_NAME||coalesce(' '||MIDDLE_NAME||' ',' ')||FIRST_NAME" => "%s.LAST_NAME||coalesce(' '||%s.MIDDLE_NAME||' ',' ')||%s.FIRST_NAME",
-	);
+	];
 
 	if ( ! isset( $display_names[ $display_name ] ) )
 	{
@@ -1413,7 +1413,7 @@ function DisplayName( $first_name, $last_name, $middle_name = '', $name_suffix =
 	$display_name = Config( 'DISPLAY_NAME' );
 
 	// Values are not SQL formatted.
-	$display_names = array(
+	$display_names = [
 		"FIRST_NAME||' '||LAST_NAME" => "FIRST_NAME LAST_NAME",
 		"FIRST_NAME||' '||LAST_NAME||coalesce(' '||NAME_SUFFIX,' ')" => "FIRST_NAME LAST_NAME NAME_SUFFIX",
 		"FIRST_NAME||coalesce(' '||MIDDLE_NAME||' ',' ')||LAST_NAME" => "FIRST_NAME MIDDLE_NAME LAST_NAME",
@@ -1422,15 +1422,15 @@ function DisplayName( $first_name, $last_name, $middle_name = '', $name_suffix =
 		"LAST_NAME||', '||FIRST_NAME" => "LAST_NAME, FIRST_NAME",
 		"LAST_NAME||', '||FIRST_NAME||' '||COALESCE(MIDDLE_NAME,' ')" => "LAST_NAME, FIRST_NAME MIDDLE_NAME",
 		"LAST_NAME||coalesce(' '||MIDDLE_NAME||' ',' ')||FIRST_NAME" => "LAST_NAME MIDDLE_NAME FIRST_NAME",
-	);
+	];
 
 	$display_name = isset( $display_names[ $display_name ] ) ?
 		$display_names[ $display_name ] :
 		$display_names["FIRST_NAME||' '||LAST_NAME"];
 
 	return str_replace(
-		array( 'FIRST_NAME', 'LAST_NAME', 'MIDDLE_NAME', 'NAME_SUFFIX' ),
-		array( $first_name, $last_name, $middle_name, $name_suffix ),
+		[ 'FIRST_NAME', 'LAST_NAME', 'MIDDLE_NAME', 'NAME_SUFFIX' ],
+		[ $first_name, $last_name, $middle_name, $name_suffix ],
 		$display_name
 	);
 }

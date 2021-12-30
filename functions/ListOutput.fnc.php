@@ -8,9 +8,9 @@
  * @since 4.0 Add List Before and After action hooks
  */
 
-function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $link = array(), $group = array(), $options = array() )
+function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $link = [], $group = [], $options = [] )
 {
-	$default_options = array(
+	$default_options = [
 		'save' => '1',
 		'search' => true,
 		'center' => true,
@@ -19,7 +19,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		'header_color' => Preferences( 'HEADER' ),
 		'responsive' => true,
 		'add' => true,
-	);
+	];
 
 	$options = empty( $options ) ?
 		$default_options :
@@ -68,13 +68,13 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 	$PHP_tmp_SELF = PreparePHP_SELF(
 		$_REQUEST,
-		array(
+		[
 			'LO_page',
 			'LO_sort',
 			'LO_dir',
 			'LO_search',
 			'LO_save',
-		)
+		]
 	);
 
 	// END PREPARE LINKS ---.
@@ -373,7 +373,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			echo '<td class="align-right">';
 
 			// Do not remove search URL due to document.URL = 'index.php' in old IE browsers.
-			$search_URL = PreparePHP_SELF( $_REQUEST, array( 'LO_search' ) );
+			$search_URL = PreparePHP_SELF( $_REQUEST, [ 'LO_search' ] );
 
 			echo '<input type="text" id="LO_search" name="LO_search" value="' .
 			htmlspecialchars( str_replace( "''", "'", $LO_search ), ENT_QUOTES ) .
@@ -507,7 +507,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				$button_title = issetVal( $link['remove']['title'] );
 
 				$button_link = empty( $link['remove']['link'] ) ?
-					PreparePHP_SELF( array(), array_keys( $link['remove']['variables'] ) ) :
+					PreparePHP_SELF( [], array_keys( $link['remove']['variables'] ) ) :
 					URLEscape( $link['remove']['link'] );
 
 				foreach ( (array) $link['remove']['variables'] as $var => $val )
@@ -711,7 +711,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
  */
 function _ReindexResults( $array )
 {
-	$new = array();
+	$new = [];
 
 	$i = 1;
 
@@ -758,7 +758,7 @@ function _listSearch( $result, $LO_search )
 
 	$search_term = trim( mb_strtolower( str_replace( "''", "'", $LO_search ) ) );
 
-	$terms = array();
+	$terms = [];
 
 	if ( mb_substr( $search_term, 0, 1 ) != '"'
 		|| mb_substr( $search_term, -1, 1 ) != '"' )
@@ -880,13 +880,13 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 			'/ +/', // Remove double spaces.
 			' ',
 			str_replace(
-				array( "\r", "\n", "\t", '[br][br]' ), // Convert new lines to [br], remove tabs.
-				array( '', '[br]', '', '[br]' ),
+				[ "\r", "\n", "\t", '[br][br]' ], // Convert new lines to [br], remove tabs.
+				[ '', '[br]', '', '[br]' ],
 				html_entity_decode(  // Decode HTML entities.
 					strip_tags(  // Remove HTML tags.
 						str_ireplace(
-							array( '&nbsp;', '<br />' ), // Convert &nbsp; to space, <br /> to [br].
-							array( ' ', '[br]' ),
+							[ '&nbsp;', '<br />' ], // Convert &nbsp; to space, <br /> to [br].
+							[ ' ', '[br]' ],
 							$value
 						)
 					),
@@ -922,7 +922,7 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 	// Clear output.
 	ob_end_clean();
 
-	$formatted_columns = $formatted_result = array();
+	$formatted_columns = $formatted_result = [];
 
 	// Format Columns.
 	foreach ( (array) $column_names as $column )
@@ -949,7 +949,7 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 	// Format Results.
 	foreach ( (array) $result as $item )
 	{
-		$formatted_result[$i] = array();
+		$formatted_result[$i] = [];
 
 		foreach ( (array) $column_names as $key => $value )
 		{
@@ -995,7 +995,7 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 
 		$excel_xml = new Excel_XML;
 
-		$formatted_rows = array_merge( array( $formatted_columns ), $formatted_result );
+		$formatted_rows = array_merge( [ $formatted_columns ], $formatted_result );
 
 		$excel_xml->addWorksheet( ProgramTitle(), $formatted_rows );
 

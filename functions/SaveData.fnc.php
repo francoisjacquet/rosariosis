@@ -19,7 +19,7 @@
  *
  * @return void  INSERT or UPDATE data
  */
-function SaveData( $iu_extra, $field_names = array() )
+function SaveData( $iu_extra, $field_names = [] )
 {
 	// Add eventual Dates to $_REQUEST['values'].
 	AddRequestedDates( 'values' );
@@ -34,7 +34,7 @@ function SaveData( $iu_extra, $field_names = array() )
 		foreach ( (array) $values as $id => $columns )
 		{
 			// Reset vars.
-			$error = $sql = $ins_fields = $ins_values = array();
+			$error = $sql = $ins_fields = $ins_values = [];
 
 			$sql[ $table ] = $ins_fields[ $table ] = $ins_values[ $table ] = '';
 

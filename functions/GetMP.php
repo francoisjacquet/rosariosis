@@ -25,7 +25,7 @@ function GetMP( $mp_id, $column = 'TITLE' )
 	// Mab - need to translate marking_period_id to title to be useful as a function call from dbget
 	// also, it doesn't make sense to ask for same thing you give.
 	if ( $column === 'MARKING_PERIOD_ID'
-		|| ! in_array( $column, array( 'TITLE', 'POST_START_DATE', 'POST_END_DATE', 'POST_END_DATE', 'MP', 'SORT_ORDER', 'SHORT_NAME', 'START_DATE', 'END_DATE', 'DOES_GRADES', 'DOES_COMMENTS' ) ) )
+		|| ! in_array( $column, [ 'TITLE', 'POST_START_DATE', 'POST_END_DATE', 'POST_END_DATE', 'MP', 'SORT_ORDER', 'SHORT_NAME', 'START_DATE', 'END_DATE', 'DOES_GRADES', 'DOES_COMMENTS' ] ) )
 	{
 		$column = 'TITLE';
 	}
@@ -36,7 +36,7 @@ function GetMP( $mp_id, $column = 'TITLE' )
 			POST_END_DATE,MP,SORT_ORDER,SHORT_NAME,START_DATE,END_DATE,DOES_GRADES,DOES_COMMENTS
 			FROM SCHOOL_MARKING_PERIODS
 			WHERE SYEAR='" . UserSyear() . "'
-			AND SCHOOL_ID='" . UserSchool() . "'", array(), array( 'MARKING_PERIOD_ID' ) );
+			AND SCHOOL_ID='" . UserSchool() . "'", [], [ 'MARKING_PERIOD_ID' ] );
 	}
 
 	return empty( $_ROSARIO['GetMP'][ $mp_id ][1][ $column ] ) ?
@@ -117,12 +117,12 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 			$qtr_RET = DBGet( $qtr_SQL );
 		}
 		else
-			$qtr_RET = DBGet( $qtr_SQL, array(), array( 'PARENT_ID' ) );
+			$qtr_RET = DBGet( $qtr_SQL, [], [ 'PARENT_ID' ] );
 
 		// FJ Fatal error if no quarters.
 		if ( ! $qtr_RET )
 		{
-			return ErrorMessage( array( _( 'No quarters found' ) ), 'fatal' );
+			return ErrorMessage( [ _( 'No quarters found' ) ], 'fatal' );
 		}
 
 		switch ( $mp )
@@ -264,7 +264,7 @@ function GetParentMP( $mp, $marking_period_id )
 				return false;
 		}
 
-		$parent_mp[ $mp ] = DBGet( $parent_SQL, array(), array( 'MARKING_PERIOD_ID' ) );
+		$parent_mp[ $mp ] = DBGet( $parent_SQL, [], [ 'MARKING_PERIOD_ID' ] );
 	}
 
 	return empty( $parent_mp[ $mp ][ $marking_period_id ] ) ?
@@ -311,7 +311,7 @@ function GetChildrenMP( $mp, $marking_period_id = '0' )
 		{
 			case 'FY':
 
-				$qtr_RET = DBGet( $qtr_SQL, array(), array( 'PARENT_ID' ) );
+				$qtr_RET = DBGet( $qtr_SQL, [], [ 'PARENT_ID' ] );
 
 				foreach ( $qtr_RET as $sem => $qtrs )
 				{
@@ -334,7 +334,7 @@ function GetChildrenMP( $mp, $marking_period_id = '0' )
 
 			case 'SEM':
 
-				$qtr_RET = DBGet( $qtr_SQL, array(), array( 'PARENT_ID' ) );
+				$qtr_RET = DBGet( $qtr_SQL, [], [ 'PARENT_ID' ] );
 
 				foreach ( $qtr_RET as $sem => $qtrs )
 				{
@@ -362,7 +362,7 @@ function GetChildrenMP( $mp, $marking_period_id = '0' )
 					FROM SCHOOL_MARKING_PERIODS
 					WHERE MP='PRO'
 					AND SYEAR='" . UserSyear() . "'
-					AND SCHOOL_ID='" . UserSchool() . "'", array(), array( 'PARENT_ID' ) );
+					AND SCHOOL_ID='" . UserSchool() . "'", [], [ 'PARENT_ID' ] );
 
 				foreach ( $pro_RET as $qtr => $pros )
 				{
@@ -418,6 +418,6 @@ function GetCurrentMP( $mp, $date, $error = true )
 	}
 	elseif ( $error )
 	{
-		return ErrorMessage( array( _( 'You are not currently in a marking period' ) ), 'fatal' );
+		return ErrorMessage( [ _( 'You are not currently in a marking period' ) ], 'fatal' );
 	}
 }

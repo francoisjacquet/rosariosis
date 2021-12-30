@@ -7,7 +7,7 @@
  */
 
 // Declare Error & Note & Warning global arrays.
-$note = $error = $warning = array();
+$note = $error = $warning = [];
 
 /**
  * Error Message
@@ -110,7 +110,7 @@ function ErrorMessage( $errors, $code = 'error' )
  * @param array  $error Error messages. Optional.
  * @param $title string Email title. Optional.
  */
-function ErrorSendEmail( $error = array(), $title = 'PHP Fatal error' )
+function ErrorSendEmail( $error = [], $title = 'PHP Fatal error' )
 {
 	global $RosarioErrorsAddress;
 
@@ -129,11 +129,11 @@ function ErrorSendEmail( $error = array(), $title = 'PHP Fatal error' )
 		}
 
 		// Fatal error.
-		$error = array(
+		$error = [
 			'PHP Fatal error: ' . $last_error['message'],
 			'File: ' . $last_error['file'],
 			'Line: ' . $last_error['line'],
-		);
+		];
 
 		if ( ROSARIO_DEBUG )
 		{

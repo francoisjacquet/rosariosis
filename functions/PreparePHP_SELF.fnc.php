@@ -20,7 +20,7 @@
  *
  * @return string Modules.php SELF URL
  */
-function PreparePHP_SELF( $tmp_REQUEST = array(), $remove = array(), $add = array() )
+function PreparePHP_SELF( $tmp_REQUEST = [], $remove = [], $add = [] )
 {
 	if ( empty( $tmp_REQUEST ) )
 	{
@@ -128,7 +128,7 @@ function PreparePHP_SELF( $tmp_REQUEST = array(), $remove = array(), $add = arra
  */
 function RedirectURL( $remove )
 {
-	static $remove_all = array();
+	static $remove_all = [];
 
 	if ( ! $remove )
 	{
@@ -173,7 +173,7 @@ function RedirectURL( $remove )
  */
 function URLEscape( $string )
 {
-	$entities = array(
+	$entities = [
 		'%21',
 		'%2A',
 		'%27',
@@ -193,9 +193,9 @@ function URLEscape( $string )
 		'%23',
 		'%5B',
 		'%5D',
-	);
+	];
 
-	$replacements = array(
+	$replacements = [
 		'!',
 		'*',
 		"'",
@@ -215,7 +215,7 @@ function URLEscape( $string )
 		'#',
 		'[',
 		']',
-	);
+	];
 
 	return str_replace(
 		$entities,

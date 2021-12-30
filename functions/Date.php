@@ -176,7 +176,7 @@ function VerifyDate( $date )
  *
  * @return string  ProperDate (PDF) or date selection series of pull-down menus with an optional JS calendar
  */
-function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array() )
+function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = [] )
 {
 	global $_ROSARIO;
 
@@ -188,7 +188,7 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 
 	$return = $extraY = $extraM = $extraD = '';
 
-	$defaults = array(
+	$defaults = [
 		'Y' => false, // Year.
 		'M' => false, // Month.
 		'D' => false, // Day.
@@ -196,7 +196,7 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 		'short' => false, // Short month.
 		'submit' => false, // Submit onchange.
 		'required' => false, // Required fields.
-	);
+	];
 
 	$options = array_replace_recursive( $defaults, (array) $options );
 
@@ -221,7 +221,7 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 	// Submit on date change.
 	if ( $options['submit'] )
 	{
-		$URL_args = array( 'month' . $name_attr, 'day' . $name_attr, 'year' . $name_attr );
+		$URL_args = [ 'month' . $name_attr, 'day' . $name_attr, 'year' . $name_attr ];
 
 		$date_onchange_href = PreparePHP_SELF(
 			$_REQUEST,
@@ -230,7 +230,7 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 
 		// Create date onchange link
 		// Add year / month / day parameters to href.
-		$add_args_js = array();
+		$add_args_js = [];
 
 		foreach ( $URL_args as $URL_arg )
 		{
@@ -282,7 +282,7 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 				$return_m .= '<option value="">' . _( 'N/A' );
 		}
 
-		$months_locale = array(
+		$months_locale = [
 			'01' => _( 'January' ),
 			'02' => _( 'February' ),
 			'03' => _( 'March' ),
@@ -295,7 +295,7 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 			'10' => _( 'October' ),
 			'11' => _( 'November' ),
 			'12' => _( 'December' ),
-		);
+		];
 
 		foreach ( $months_locale as $key => $name )
 		{
@@ -490,7 +490,7 @@ function ExplodeDate( $date )
 		$day = mb_substr( $date, 0, 2 );
 	}
 
-	return array( 'year' => $year, 'month' => $month, 'day' => $day );
+	return [ 'year' => $year, 'month' => $month, 'day' => $day ];
 }
 
 /**
@@ -615,7 +615,7 @@ function RequestedDate( $year_or_request_index, $month_or_default, $day_or_mode 
  */
 function RequestedDates( $year_array, $month_array, $day_array )
 {
-	$return = array();
+	$return = [];
 
 	foreach ( (array) $month_array as $field_name => $month )
 	{
@@ -758,7 +758,7 @@ function MonthNWSwitch( $month, $direction = 'both' )
  */
 function __mnwswitch_num2char( $month )
 {
-	$months_number = array(
+	$months_number = [
 		'01' => 'JAN',
 		'02' => 'FEB',
 		'03' => 'MAR',
@@ -772,7 +772,7 @@ function __mnwswitch_num2char( $month )
 		'11' => 'NOV',
 		'12' => 'DEC',
 		'00' => 'DEC',
-	);
+	];
 
 	if ( mb_strlen( $month ) === 1 )
 	{
@@ -800,7 +800,7 @@ function __mnwswitch_num2char( $month )
  */
 function __mnwswitch_char2num( $month )
 {
-	$months_number = array(
+	$months_number = [
 		'JAN' => '01',
 		'FEB' => '02',
 		'MAR' => '03',
@@ -813,7 +813,7 @@ function __mnwswitch_char2num( $month )
 		'OCT' => '10',
 		'NOV' => '11',
 		'DEC' => '12',
-	);
+	];
 
 	$month = mb_strtoupper( $month );
 

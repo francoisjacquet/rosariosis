@@ -34,9 +34,9 @@ function DeletePrompt( $title, $action = 'Delete', $remove_modfunc_on_cancel = t
 
 		$PHP_tmp_SELF = PreparePHP_SELF( $_REQUEST );
 
-		$remove = $remove_modfunc_on_cancel ? array( 'modfunc' ) : array();
+		$remove = $remove_modfunc_on_cancel ? [ 'modfunc' ] : [];
 
-		$PHP_tmp_SELF_cancel = PreparePHP_SELF( $_REQUEST, $remove, array( 'delete_cancel' => true ) );
+		$PHP_tmp_SELF_cancel = PreparePHP_SELF( $_REQUEST, $remove, [ 'delete_cancel' => true ] );
 
 		PopTable( 'header', _( 'Confirm' ) . ( mb_strpos( $action, ' ' ) === false ? ' '. $action : '' ) );
 
@@ -55,7 +55,7 @@ function DeletePrompt( $title, $action = 'Delete', $remove_modfunc_on_cancel = t
 	}
 
 	// If user clicked OK or Cancel + modfunc.
-	RedirectURL( array( 'delete_ok', 'delete_cancel' ) );
+	RedirectURL( [ 'delete_ok', 'delete_cancel' ] );
 
 	return true;
 }

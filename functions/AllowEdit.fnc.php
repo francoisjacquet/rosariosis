@@ -66,7 +66,7 @@ function AllowEdit( $modname = false )
 
 		$_ROSARIO['AllowEdit'] = DBGet( "SELECT MODNAME " .
 			$from_where_sql .
-			" AND CAN_EDIT='Y'", array(), array( 'MODNAME' ) );
+			" AND CAN_EDIT='Y'", [], [ 'MODNAME' ] );
 	}
 
 	return isset( $_ROSARIO['AllowEdit'][ $modname ] );
@@ -109,7 +109,7 @@ function AllowUse( $modname = false )
 			WHERE USER_ID='" . User( 'STAFF_ID' ) . "'";
 
 		$_ROSARIO['AllowUse'] = DBGet( "SELECT MODNAME " . $from_where_sql .
-			" AND CAN_USE='Y'", array(), array( 'MODNAME' ) );
+			" AND CAN_USE='Y'", [], [ 'MODNAME' ] );
 	}
 
 	return isset( $_ROSARIO['AllowUse'][ $modname ] );

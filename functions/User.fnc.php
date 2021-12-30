@@ -117,10 +117,10 @@ function Preferences( $item, $program = 'Preferences' )
 			FROM PROGRAM_USER_CONFIG
 			WHERE (USER_ID='" . User( 'STAFF_ID' ) . "' OR USER_ID='-1')
 			AND PROGRAM='" . $program . "'
-			ORDER BY USER_ID", array(), array( 'TITLE' ) );
+			ORDER BY USER_ID", [], [ 'TITLE' ] );
 	}
 
-	$defaults = array(
+	$defaults = [
 		'SORT' => 'Name',
 		'SEARCH' => 'Y',
 		'DELIMITER' => 'Tab',
@@ -138,7 +138,7 @@ function Preferences( $item, $program = 'Preferences' )
 		'PAGE_SIZE' => 'A4',
 		'HIDE_ALERTS' => 'N',
 		'DEFAULT_FAMILIES' => 'N',
-	);
+	];
 
 	if ( ! isset( $_ROSARIO['Preferences'][ $program ][ $item ][1]['VALUE'] ) )
 	{
@@ -201,17 +201,17 @@ function UserImpersonateTeacher( $teacher_id = 0 )
 			WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" );
 	}
 
-	$_ROSARIO['User'] = array(
+	$_ROSARIO['User'] = [
 		0 => $_ROSARIO['User'][1],
-		1 => array(
+		1 => [
 			'STAFF_ID' => $teacher_id,
 			'NAME' => GetTeacher( $teacher_id ),
 			'USERNAME' => GetTeacher( $teacher_id, 'USERNAME' ),
 			'PROFILE' => 'teacher',
 			'SCHOOLS' => ',' . UserSchool() . ',',
 			'SYEAR' => UserSyear(),
-		),
-	);
+		],
+	];
 
 	return true;
 }

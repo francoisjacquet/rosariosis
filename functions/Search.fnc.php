@@ -86,7 +86,7 @@ function Search( $type, $extra = null )
 			// Convert profile string to array for legacy compatibility.
 			if ( ! is_array( $extra ) )
 			{
-				$extra = array( 'profile' => $extra );
+				$extra = [ 'profile' => $extra ];
 			}
 
 			if ( ! empty( $_REQUEST['bottom_back'] )
@@ -227,27 +227,27 @@ function Search( $type, $extra = null )
 				<input type="text" name="username" id="username" size="24" maxlength="255" />
 				</td></tr>';
 
-			$options = array(
+			$options = [
 				'' => _( 'N/A' ),
 				'teacher' => _( 'Teacher' ),
 				'parent' => _( 'Parent' ),
-			);
+			];
 
 			// Profile.
 			if ( User( 'PROFILE' ) === 'admin' )
 			{
-				$options = array(
+				$options = [
 					'' => _( 'N/A' ),
 					'admin' => _( 'Administrator' ),
 					'teacher' => _( 'Teacher' ),
 					'parent' => _( 'Parent' ),
 					'none' => _( 'No Access' ),
-				);
+				];
 			}
 
 			if ( ! empty( $extra['profile'] ) )
 			{
-				$options = array( $extra['profile'] => $options[ $extra['profile'] ] );
+				$options = [ $extra['profile'] => $options[ $extra['profile'] ] ];
 			}
 
 			echo '<tr><td><label for="profile">' . _( 'Profile' ) . '</label></td>
@@ -380,9 +380,9 @@ function Search( $type, $extra = null )
 			$categories_RET = ParseMLArray(
 				DBGet(
 					$categories_SQL,
-					array(),
-					array( 'ID', 'TYPE' ) ),
-				array( 'CATEGORY_TITLE', 'TITLE' )
+					[],
+					[ 'ID', 'TYPE' ] ),
+				[ 'CATEGORY_TITLE', 'TITLE' ]
 			);
 
 			if ( $type === 'student_fields_all' )
@@ -399,18 +399,18 @@ function Search( $type, $extra = null )
 					if ( ! isset( $categories_RET[1] ) )
 					{
 						// Empty General Info category.
-						$categories_RET[1] = array();
+						$categories_RET[1] = [];
 					}
 
 					// Add Username to Staff General Info.
-					$categories_RET[1]['text'][ ++$i ] = array(
+					$categories_RET[1]['text'][ ++$i ] = [
 						'ID' => '1',
 						'CATEGORY_TITLE' => $general_info_category_title,
 						'COLUMN_NAME' => 'USERNAME',
 						'TYPE' => 'text',
 						'TITLE' => _( 'Username' ),
 						'SELECT_OPTIONS' => null,
-					);
+					];
 				}
 			}
 			elseif ( $type === 'student_fields' )
@@ -420,14 +420,14 @@ function Search( $type, $extra = null )
 				if ( Preferences( 'USERNAME', 'StudentFieldsSearch' ) === 'Y' )
 				{
 					// Add Username to Find a User form.
-					$categories_RET[1]['text'][ $i++ ] = array(
+					$categories_RET[1]['text'][ $i++ ] = [
 						'ID' => '1',
 						'CATEGORY_TITLE' => '',
 						'COLUMN_NAME' => 'USERNAME',
 						'TYPE' => 'text',
 						'TITLE' => _( 'Username' ),
 						'SELECT_OPTIONS' => null,
-					);
+					];
 				}
 			}
 			elseif ( $type === 'staff_fields_all' )
@@ -443,15 +443,15 @@ function Search( $type, $extra = null )
 			{
 				$TR_classes = '';
 
-				$category_default = array(
-					'text' => array(),
-					'numeric' => array(),
-					'select' => array(),
-					'autos' => array(),
-					'exports' => array(),
-					'date' => array(),
-					'radio' => array(),
-				);
+				$category_default = [
+					'text' => [],
+					'numeric' => [],
+					'select' => [],
+					'autos' => [],
+					'exports' => [],
+					'date' => [],
+					'radio' => [],
+				];
 
 				$category = array_replace_recursive( $category_default, (array) $category );
 
@@ -534,7 +534,7 @@ function Search( $type, $extra = null )
 				// Select.
 				foreach ( $category['select_autos_exports'] as $col )
 				{
-					$options = array();
+					$options = [];
 
 					$col_name = $col['COLUMN_NAME'];
 
@@ -542,7 +542,7 @@ function Search( $type, $extra = null )
 					{
 						$options = explode(
 							"\r",
-							str_replace( array( "\r\n", "\n" ), "\r", $col['SELECT_OPTIONS'] )
+							str_replace( [ "\r\n", "\n" ], "\r", $col['SELECT_OPTIONS'] )
 						);
 					}
 
@@ -631,14 +631,14 @@ function Search( $type, $extra = null )
 						'',
 						'_cust_begin[' . $col['COLUMN_NAME'] . ']',
 						true,
-						array( 'short' => true )
+						[ 'short' => true ]
 					) . '</td></tr>
 					<tr><td><span class="sizep2">&le;</span>&nbsp;</td>
 					<td>' . PrepareDate(
 						'',
 						'_cust_end[' . $col['COLUMN_NAME'] . ']',
 						true,
-						array( 'short' => true )
+						[ 'short' => true ]
 					) . '</td></tr>
 					</table></td></tr>';
 				}
@@ -696,7 +696,7 @@ function Search( $type, $extra = null )
  *
  * @return string         (Custom) Field SQL WHERE
  */
-function SearchField( $field, $type = 'student', $extra = array() )
+function SearchField( $field, $type = 'student', $extra = [] )
 {
 	global $_ROSARIO;
 
@@ -814,10 +814,10 @@ function SearchField( $field, $type = 'student', $extra = array() )
 			}
 
 			// Default: compares to equal.
-			$part = array(
+			$part = [
 				'operator' => '=',
 				'html' => '=',
-			);
+			];
 
 			if ( isset( $field['PART'] ) )
 			{
@@ -825,19 +825,19 @@ function SearchField( $field, $type = 'student', $extra = array() )
 				{
 					// Begin Dates / Number.
 					// Compares to greater than or equal.
-					$part = array(
+					$part = [
 						'operator' => '>=',
 						'html' => '&ge;',
-					);
+					];
 				}
 				elseif ( $field['PART'] === 'end' )
 				{
 					// End Dates / Number.
 					// Compares to lower than or equal.
-					$part = array(
+					$part = [
 						'operator' => '<=',
 						'html' => '&le;',
-					);
+					];
 				}
 			}
 
@@ -873,7 +873,7 @@ function SearchField( $field, $type = 'student', $extra = array() )
 
 			if ( ! $no_search_terms )
 			{
-				$select_options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $field['SELECT_OPTIONS'] ) );
+				$select_options = explode( "\r", str_replace( [ "\r\n", "\n" ], "\r", $field['SELECT_OPTIONS'] ) );
 
 				foreach ( $select_options as $option )
 				{
@@ -918,7 +918,7 @@ function SearchField( $field, $type = 'student', $extra = array() )
 					$_ROSARIO['SearchTerms'] .= _( 'Other Value' ) . '<br />';
 				}
 
-				$select_options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $field['SELECT_OPTIONS'] ) );
+				$select_options = explode( "\r", str_replace( [ "\r\n", "\n" ], "\r", $field['SELECT_OPTIONS'] ) );
 
 				$select_options_list = "'" . implode( "','", $select_options ) . "'";
 

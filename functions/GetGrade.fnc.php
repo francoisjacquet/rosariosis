@@ -21,7 +21,7 @@ function GetGrade( $grade, $column = 'TITLE' )
 	// Column defaults to TITLE.
 	if ( $column !== 'TITLE'
 		&& ( $column === 'GRADE_ID' // Default from GetStuList().
-			|| ! in_array( $column, array( 'TITLE', 'SHORT_NAME', 'SORT_ORDER', 'NEXT_GRADE_ID' ) ) ) )
+			|| ! in_array( $column, [ 'TITLE', 'SHORT_NAME', 'SORT_ORDER', 'NEXT_GRADE_ID' ] ) ) )
 	{
 		$column = 'TITLE';
 	}
@@ -29,7 +29,7 @@ function GetGrade( $grade, $column = 'TITLE' )
 	if ( ! $grades )
 	{
 		$grades = DBGet( "SELECT ID,TITLE,SHORT_NAME,SORT_ORDER,NEXT_GRADE_ID
-			FROM SCHOOL_GRADELEVELS", array(), array( 'ID' ) );
+			FROM SCHOOL_GRADELEVELS", [], [ 'ID' ] );
 	}
 
 	if ( ! isset( $grades[ $grade ] ) )

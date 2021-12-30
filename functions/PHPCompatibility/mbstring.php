@@ -39,7 +39,7 @@ if (!function_exists('mb_strlen')) {
 	function mb_check_encoding($var = null, $encoding = null) { return p\Mbstring::mb_check_encoding($var, $encoding); }
 	function mb_detect_encoding($str, $encodingList = null, $strict = false) { return p\Mbstring::mb_detect_encoding($str, $encodingList, $strict); }
 	function mb_detect_order($encodingList = null) { return p\Mbstring::mb_detect_order($encodingList); }
-	function mb_parse_str($s, &$result = array()) { parse_str($s, $result); }
+	function mb_parse_str($s, &$result = []) { parse_str($s, $result); }
 	function mb_strlen($s, $enc = null) { return p\Mbstring::mb_strlen($s, $enc); }
 	function mb_strpos($s, $needle, $offset = 0, $enc = null) { return p\Mbstring::mb_strpos($s, $needle, $offset, $enc); }
 	function mb_strtolower($s, $enc = null) { return p\Mbstring::mb_strtolower($s, $enc); }

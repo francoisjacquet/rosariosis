@@ -39,9 +39,9 @@ function DateInput( $value, $name, $title = '', $div = true, $allow_na = true, $
 		return ( $value != '' ? ProperDate( $value ) : '-' ) . FormatInputTitle( $title );
 	}
 
-	$options = array(
+	$options = [
 		'required' => $required,
-	);
+	];
 
 	if ( $value == ''
 		|| ! $div )
@@ -49,7 +49,7 @@ function DateInput( $value, $name, $title = '', $div = true, $allow_na = true, $
 		return PrepareDate( $value, '_' . $name, $allow_na, $options ) . $ftitle;
 	}
 
-	$options = $options + array( 'Y' => 1, 'M' => 1, 'D' => 1 );
+	$options = $options + [ 'Y' => 1, 'M' => 1, 'D' => 1 ];
 
 	$input = PrepareDate( $value, '_' . $name, $allow_na, $options ) . $ftitle;
 
@@ -495,8 +495,8 @@ function TinyMCEInput( $value, $name, $title = '', $extra = '' )
 		}
 
 		$extra = str_replace(
-			array( 'class="', "class='" ),
-			array( 'class="tinymce ', "class='tinymce " ),
+			[ 'class="', "class='" ],
+			[ 'class="tinymce ', "class='tinymce " ],
 			$extra
 		);
 	}
@@ -546,7 +546,7 @@ function TinyMCEInput( $value, $name, $title = '', $extra = '' )
 				$lang_2_chars = mb_substr( $locale, 0, 2 );
 
 				// Right to left direction.
-				$RTL_languages = array( 'ar', 'he', 'dv', 'fa', 'ur' );
+				$RTL_languages = [ 'ar', 'he', 'dv', 'fa', 'ur' ];
 
 				$tinymce_directionality = in_array( $lang_2_chars, $RTL_languages ) ? 'rtl' : 'ltr';
 			}
@@ -814,7 +814,7 @@ function MultipleCheckboxInput( $value, $name, $title, $options, $extra = '', $d
  *
  * @return string         Input HTML
  */
-function SelectInput( $values, $name, $title = '', $options = array(), $allow_na = 'N/A', $extra = '', $div = true )
+function SelectInput( $values, $name, $title = '', $options = [], $allow_na = 'N/A', $extra = '', $div = true )
 {
 	$id = GetInputID( $name );
 
@@ -825,11 +825,11 @@ function SelectInput( $values, $name, $title = '', $options = array(), $allow_na
 	$values = $is_multiple ?
 		(array) $values :
 		// Mab - support array style $option values.
-		( is_array( $values ) ? array( $values[0] ) : array( $values ) );
+		( is_array( $values ) ? [ $values[0] ] : [ $values ] );
 
 	$make_display_val = function( $values, $options )
 	{
-		$display_val = array();
+		$display_val = [];
 
 		foreach ( (array) $values as $value )
 		{
@@ -846,7 +846,7 @@ function SelectInput( $values, $name, $title = '', $options = array(), $allow_na
 
 	if ( $is_group )
 	{
-		$display_val = array();
+		$display_val = [];
 
 		foreach ( (array) $options as $group_options )
 		{
@@ -932,7 +932,7 @@ function SelectInput( $values, $name, $title = '', $options = array(), $allow_na
 			&& ( ! is_array( $options )
 				|| ! array_key_exists( $values[0], $options ) ) )
 		{
-			$options[ $values[0] ] = array( $values[0], '<span style="color:red">' . $values[0] . '</span>' );
+			$options[ $values[0] ] = [ $values[0], '<span style="color:red">' . $values[0] . '</span>' ];
 
 			$display_val = '<span style="color:red">' . $values[0] . '</span>';
 		}
@@ -1013,7 +1013,7 @@ function MLSelectInput( $value, $name, $title, $options, $allow_na = 'N/A', $ext
 		&& ( ! is_array( $options )
 			|| !array_key_exists( $value, $options ) ) )
 	{
-		$options[ $value ] = array( $value, '<span style="color:red">' . $value . '</span>' );
+		$options[ $value ] = [ $value, '<span style="color:red">' . $value . '</span>' ];
 	}
 
 	if ( AllowEdit()
@@ -1106,7 +1106,7 @@ function MLSelectInput( $value, $name, $title, $options, $allow_na = 'N/A', $ext
  *
  * @return string         Input HTML
  */
-function ChosenSelectInput( $value, $name, $title = '', $options = array(), $allow_na = 'N/A', $extra = '', $div = true )
+function ChosenSelectInput( $value, $name, $title = '', $options = [], $allow_na = 'N/A', $extra = '', $div = true )
 {
 	static $chosen_included = false;
 
@@ -1132,7 +1132,7 @@ function ChosenSelectInput( $value, $name, $title = '', $options = array(), $all
 	}
 
 	// Right to left direction.
-	$RTL_languages = array( 'ar', 'he', 'dv', 'fa', 'ur' );
+	$RTL_languages = [ 'ar', 'he', 'dv', 'fa', 'ur' ];
 
 	$chosen_rtl = in_array( mb_substr( $_SESSION['locale'], 0, 2 ), $RTL_languages ) ? ' chosen-rtl' : '';
 
@@ -1144,8 +1144,8 @@ function ChosenSelectInput( $value, $name, $title = '', $options = array(), $all
 	elseif ( mb_strpos( $extra, 'class=' ) !== false )
 	{
 		$extra = str_replace(
-			array( 'class="', "class='" ),
-			array( 'class="chosen-select' . $chosen_rtl . ' ', "class='chosen-select" . $chosen_rtl . ' ' ),
+			[ 'class="', "class='" ],
+			[ 'class="chosen-select' . $chosen_rtl . ' ', "class='chosen-select" . $chosen_rtl . ' ' ],
 			$extra
 		);
 	}
@@ -1215,7 +1215,7 @@ function RadioInput( $value, $name, $title, $options, $allow_na = 'N/A', $extra 
 		&& ( ! is_array( $options )
 			|| ! array_key_exists( $value, $options ) ) )
 	{
-		$options[ $value ] = array( $value, '<span style="color:red">' . $value . '</span>' );
+		$options[ $value ] = [ $value, '<span style="color:red">' . $value . '</span>' ];
 	}
 
 	if ( AllowEdit()
@@ -1507,7 +1507,7 @@ function CheckCaptcha()
 	// Get submitted captcha using captcha name saved in session.
 	$captcha = isset( $_REQUEST[ $_SESSION['CaptchaInput'] ] ) ?
 		$_REQUEST[ $_SESSION['CaptchaInput'] ] :
-		array();
+		[];
 
 	// Compare input & answer.
 	return $captcha && $captcha['input'] === $captcha['answer'];
@@ -1610,8 +1610,8 @@ function CheckBoxOnclick( $name, $title = '' )
 {
 	$onclick_URL = "'" . PreparePHP_SELF(
 		$_REQUEST,
-		array(),
-		isset( $_REQUEST[ $name ] ) && $_REQUEST[ $name ] == 'Y' ? array( $name => '' ) : array( $name => 'Y' )
+		[],
+		isset( $_REQUEST[ $name ] ) && $_REQUEST[ $name ] == 'Y' ? [ $name => '' ] : [ $name => 'Y' ]
 	) . "'";
 
 	$input = '<input type="checkbox" name="' . $name . '" value="Y"' .
@@ -1646,7 +1646,7 @@ function GetInputID( $name )
 		return $name;
 	}
 
-	return str_replace( array( '[', ']', '-', ' ' ), '', $name );
+	return str_replace( [ '[', ']', '-', ' ' ], '', $name );
 }
 
 

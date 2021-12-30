@@ -171,7 +171,7 @@ function SetUserStaffID( $staff_id )
 						AND _sem.SYEAR='" . UserSyear() . "'
 						AND _ss.STUDENT_ID=_sem.STUDENT_ID
 						AND _ss.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'))
-					AND s.STAFF_ID='" . (int) $staff_id . "'", array(), array( 'STAFF_ID' ) );
+					AND s.STAFF_ID='" . (int) $staff_id . "'", [], [ 'STAFF_ID' ] );
 
 				if ( ! $is_related_parent )
 				{

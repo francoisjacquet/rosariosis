@@ -44,7 +44,7 @@
  *
  * @return array    null if no results, else an array of formatted results
  */
-function DBGet( $QI, $functions = array(), $index = array() )
+function DBGet( $QI, $functions = [], $index = [] )
 {
 	global $THIS_RET;
 
@@ -63,9 +63,9 @@ function DBGet( $QI, $functions = array(), $index = array() )
 
 	$index_count = count( $index );
 
-	$s = ( $index_count ? array() : 0 );
+	$s = ( $index_count ? [] : 0 );
 
-	$results = array();
+	$results = [];
 
 	if ( is_string( $QI )
 		&& stripos( $QI, 'SELECT' ) === 0 )
@@ -80,7 +80,7 @@ function DBGet( $QI, $functions = array(), $index = array() )
 
 		if ( $index_count )
 		{
-			$ind = array();
+			$ind = [];
 
 			foreach ( (array) $index as $col )
 			{

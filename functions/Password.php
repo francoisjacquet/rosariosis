@@ -64,7 +64,7 @@ function match_password( $crypted, $plain )
 	 * Used to provide external authentication method.
 	 * @see LDAP plugin for example.
 	 */
-	do_action( 'functions/Password.php|match_password', array( &$crypted, $plain ) );
+	do_action( 'functions/Password.php|match_password', [ &$crypted, $plain ] );
 
 	return function_exists( 'hash_equals' ) ? // PHP < 5.6 compat.
 		hash_equals(

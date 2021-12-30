@@ -1,9 +1,9 @@
 <?php
 
 // @since 4.8 Search Parents by Student Grade Level.
-function GetStaffList( &$extra = array() )
+function GetStaffList( &$extra = [] )
 {
-	$functions = array( 'PROFILE' => 'makeProfile' );
+	$functions = [ 'PROFILE' => 'makeProfile' ];
 
 	if ( User( 'PROFILE' ) !== 'admin'
 		&& User( 'PROFILE' ) !== 'teacher' )
@@ -14,7 +14,7 @@ function GetStaffList( &$extra = array() )
 
 	if ( ! isset( $extra ) )
 	{
-		$extra = array();
+		$extra = [];
 	}
 
 	if ( isset( $_REQUEST['advanced'] )
@@ -108,7 +108,7 @@ function GetStaffList( &$extra = array() )
 	{
 		if ( empty( $extra['columns_after'] ) )
 		{
-			$extra['columns_after'] = array();
+			$extra['columns_after'] = [];
 		}
 
 		if ( ! empty( $extra['staff_fields']['view'] ) )
@@ -241,7 +241,7 @@ function GetStaffList( &$extra = array() )
  *
  * @return string Appended SQL WHERE part
  */
-function appendStaffSQL( $sql, $extra = array() )
+function appendStaffSQL( $sql, $extra = [] )
 {
 	global $_ROSARIO;
 
@@ -255,7 +255,7 @@ function appendStaffSQL( $sql, $extra = array() )
 		// FJ allow comma separated list of staff IDs
 		$usrid_array = explode( ',', $_REQUEST['usrid'] );
 
-		$usrids = array();
+		$usrids = [];
 
 		foreach ( $usrid_array as $usrid )
 		{
@@ -282,13 +282,13 @@ function appendStaffSQL( $sql, $extra = array() )
 	if ( isset( $_REQUEST['last'] )
 		&& $_REQUEST['last'] !== '' )
 	{
-		$last_name = array(
+		$last_name = [
 			'COLUMN' => 'LAST_NAME',
 			'VALUE' => $_REQUEST['last'],
 			'TITLE' => _( 'Last Name' ),
 			'TYPE' => 'text',
 			'SELECT_OPTIONS' => null,
-		);
+		];
 
 		$sql .= SearchField( $last_name, 'staff', $extra );
 	}
@@ -297,13 +297,13 @@ function appendStaffSQL( $sql, $extra = array() )
 	if ( isset( $_REQUEST['first'] )
 		&& $_REQUEST['first'] !== '' )
 	{
-		$first_name = array(
+		$first_name = [
 			'COLUMN' => 'FIRST_NAME',
 			'VALUE' => $_REQUEST['first'],
 			'TITLE' => _( 'First Name' ),
 			'TYPE' => 'text',
 			'SELECT_OPTIONS' => null,
-		);
+		];
 
 		$sql .= SearchField( $first_name, 'staff', $extra );
 	}
@@ -312,24 +312,24 @@ function appendStaffSQL( $sql, $extra = array() )
 	if ( isset( $_REQUEST['profile'] )
 		&& $_REQUEST['profile'] !== '' )
 	{
-		$options = array(
+		$options = [
 			'teacher' => _( 'Teacher' ),
 			'parent' => _( 'Parent' ),
-		);
+		];
 
 		if ( User( 'PROFILE' ) === 'admin' )
 		{
-			$options = array(
+			$options = [
 				'admin' => _( 'Administrator' ),
 				'teacher' => _( 'Teacher' ),
 				'parent' => _( 'Parent' ),
 				'none' => _( 'No Access' ),
-			);
+			];
 		}
 
 		if ( ! empty( $extra['profile'] ) )
 		{
-			$options = array( $extra['profile'] => $options[ $extra['profile'] ] );
+			$options = [ $extra['profile'] => $options[ $extra['profile'] ] ];
 		}
 
 		if ( isset( $options[ $_REQUEST['profile'] ] ) )
@@ -372,13 +372,13 @@ function appendStaffSQL( $sql, $extra = array() )
 	if ( isset( $_REQUEST['username'] )
 		&& $_REQUEST['username'] !== '' )
 	{
-		$username = array(
+		$username = [
 			'COLUMN' => 'USERNAME',
 			'VALUE' => $_REQUEST['username'],
 			'TITLE' => _( 'Username' ),
 			'TYPE' => 'text',
 			'SELECT_OPTIONS' => null,
-		);
+		];
 
 		$sql .= SearchField( $username, 'staff', $extra );
 	}
@@ -395,7 +395,7 @@ function makeProfile( $value, $column = 'PROFILE' )
 	if ( empty( $profiles_RET ) )
 	{
 		$profiles_RET = DBGet( "SELECT ID,PROFILE,TITLE
-			FROM USER_PROFILES", array(), array( 'ID' ) );
+			FROM USER_PROFILES", [], [ 'ID' ] );
 	}
 
 	$return = $value;

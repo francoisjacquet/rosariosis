@@ -44,7 +44,7 @@ function Config( $item, $value = null )
 
 		$_ROSARIO['Config'] = DBGet( "SELECT TITLE,CONFIG_VALUE,SCHOOL_ID
 			FROM CONFIG
-			WHERE " . $school_where, array(), array( 'TITLE' ) );
+			WHERE " . $school_where, [], [ 'TITLE' ] );
 
 		$_ROSARIO['Config']['SYEAR'][1]['CONFIG_VALUE'] = $DefaultSyear;
 	}
@@ -116,7 +116,7 @@ function ProgramConfig( $program, $item = 'all', $value = null )
 		$_ROSARIO['ProgramConfig'] = DBGet( "SELECT PROGRAM,TITLE,VALUE
 			FROM PROGRAM_CONFIG
 			WHERE SYEAR='" . UserSyear() . "'
-			AND SCHOOL_ID='" . UserSchool() . "'", array(), array( 'PROGRAM', 'TITLE' ) );
+			AND SCHOOL_ID='" . UserSchool() . "'", [], [ 'PROGRAM', 'TITLE' ] );
 	}
 
 	if ( ! is_null( $value )
@@ -188,7 +188,7 @@ function ProgramUserConfig( $program, $staff_id = 0, $values = null )
 
 	if ( ! $program )
 	{
-		return array();
+		return [];
 	}
 
 	$staff_id = $staff_id ? (int) $staff_id : User( 'STAFF_ID' );
@@ -199,7 +199,7 @@ function ProgramUserConfig( $program, $staff_id = 0, $values = null )
 			FROM PROGRAM_USER_CONFIG
 			WHERE (USER_ID='" . $staff_id . "' OR USER_ID='-1')
 			AND PROGRAM='" . $program . "'
-			ORDER BY USER_ID", array(), array( 'TITLE' ) );
+			ORDER BY USER_ID", [], [ 'TITLE' ] );
 
 		$program_config[ $program ][ $staff_id ] = null;
 

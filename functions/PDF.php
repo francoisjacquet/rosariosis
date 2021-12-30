@@ -25,20 +25,20 @@
  *
  * @return array PDF options
  */
-function PDFStart( $options = array() )
+function PDFStart( $options = [] )
 {
 	global $pdf_options;
 
 	$_REQUEST['_ROSARIO_PDF'] = true;
 
-	$default_options = array(
+	$default_options = [
 		'css' => true, // Include CSS.
-		'margins' => array(), // Default margins.
+		'margins' => [], // Default margins.
 		'mode' => 2, // MODE_EMBEDDED.
         'header_html' => '', // No HTML header.
         'footer_html' => '', // No HTML footer.
         'orientation' => '', // Portrait, can be set to 'landscape'.
-	);
+	];
 
 	$pdf_options = array_replace_recursive( $default_options, (array) $options );
 
@@ -92,7 +92,7 @@ function PDFStop( $handle )
 	$lang_2_chars = mb_substr( $_SESSION['locale'], 0, 2 );
 
 	// Right to left direction.
-	$RTL_languages = array( 'ar', 'he', 'dv', 'fa', 'ur' );
+	$RTL_languages = [ 'ar', 'he', 'dv', 'fa', 'ur' ];
 
 	$dir_RTL = in_array( $lang_2_chars, $RTL_languages ) ? ' dir="RTL"' : '';
 
@@ -108,7 +108,7 @@ function PDFStop( $handle )
 	// Page title.
 	$page_title = str_replace( _( 'Print' ) . ' ', '', ProgramTitle() );
 
-	$_html = array();
+	$_html = [];
 
 	// Convert to HTML page with CSS.
 	$_html['head'] = '<!doctype html>
@@ -146,8 +146,8 @@ function PDFStop( $handle )
 
 	// File name.
 	$filename = utf8_decode( str_replace(
-		array( _( 'Print' ) . ' ', ' ' ),
-		array( '', '_' ),
+		[ _( 'Print' ) . ' ', ' ' ],
+		[ '', '_' ],
 		ProgramTitle()
 	)) . ( $file_number++ );
 
@@ -204,11 +204,11 @@ function PDFStop( $handle )
 	$html = str_replace( '"modules/', '"file:///' . $RosarioPath . 'modules/', $html );
 
 	// Set wkhtmltopdf options.
-	$pdf_options = array(
+	$pdf_options = [
 		'title' => $page_title,
 		// Fix System error "blocked access to local file" with wkhtmltopdf 0.12.6.
 		'enable-local-file-access',
-	);
+	];
 
 	if ( Preferences( 'PAGE_SIZE' ) != 'A4' )
 	{

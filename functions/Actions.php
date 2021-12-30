@@ -18,7 +18,7 @@
  *
  * @var array RosarioSIS actions
  */
-$RosarioActions = array();
+$RosarioActions = [];
 /*	'Students/Student.php|header' => array(),
 	'Students/Student.php|create_student_checks' => array(),
 	'Students/Student.php|create_student' => array(),
@@ -474,7 +474,7 @@ function do_action( $tag, $arg = '' )
 {
 	global $RosarioActions;
 
-	$args = array();
+	$args = [];
 
 	// By default, the only argument passed to the function is the tag.
 	$args[] = $tag;

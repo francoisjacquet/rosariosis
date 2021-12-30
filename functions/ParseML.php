@@ -98,7 +98,7 @@ function ParseMLArray( $array, $keys )
 	if ( ! $array
 		|| ! $keys )
 	{
-		return array();
+		return [];
 	}
 
 	// Modify loop: use for instead of foreach.

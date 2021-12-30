@@ -21,7 +21,7 @@
  *
  * @return string           Custom Fields SQL WHERE
  */
-function CustomFields( $location, $type = 'student', $extra = array() )
+function CustomFields( $location, $type = 'student', $extra = [] )
 {
 	$return = '';
 
@@ -34,7 +34,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 	// if location === 'where':
 
 	// Unset empty values.
-	$cust = array();
+	$cust = [];
 
 	if ( isset( $_REQUEST['cust'] ) )
 	{
@@ -68,17 +68,17 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 		$fields = ParseMLArray( DBGet( "SELECT TITLE,'CUSTOM_'||ID AS COLUMN,
 			TYPE,SELECT_OPTIONS
 			FROM " . ( $type === 'staff' ? 'STAFF' : 'CUSTOM' ) . "_FIELDS",
-			array(), array( 'COLUMN' )	), 'TITLE' );
+			[], [ 'COLUMN' ]	), 'TITLE' );
 
 		if ( $type !== 'staff' )
 		{
 			// Student Fields: search Username.
-			$fields['USERNAME'][1] = array(
+			$fields['USERNAME'][1] = [
 				'TITLE' => _( 'Username' ),
 				'COLUMN' => 'USERNAME',
 				'TYPE' => 'text',
 				'SELECT_OPTIONS' => null,
-			);
+			];
 		}
 	}
 
@@ -93,7 +93,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 			$fields[ $column ][1]['COLUMN'] = 'EMAIL';
 		}
 
-		$field = $fields[ $column ][1] + array( 'VALUE' => $value );
+		$field = $fields[ $column ][1] + [ 'VALUE' => $value ];
 
 		$return .= SearchField( $field, $type, $extra );
 	}
@@ -101,7 +101,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 	// Begin Dates / Number.
 	foreach ( (array) $cust_begin as $column => $value )
 	{
-		$field = $fields[ $column ][1] + array( 'VALUE' => $value );
+		$field = $fields[ $column ][1] + [ 'VALUE' => $value ];
 
 		$field['PART'] = 'begin';
 
@@ -111,7 +111,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 	// End Dates / Number.
 	foreach ( (array) $cust_end as $column => $value )
 	{
-		$field = $fields[ $column ][1] + array( 'VALUE' => $value );
+		$field = $fields[ $column ][1] + [ 'VALUE' => $value ];
 
 		$field['PART'] = 'end';
 
