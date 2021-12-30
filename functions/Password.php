@@ -66,12 +66,10 @@ function match_password( $crypted, $plain )
 	 */
 	do_action( 'functions/Password.php|match_password', array( &$crypted, $plain ) );
 
-	$match = function_exists( 'hash_equals' ) ? // PHP < 5.6 compat.
+	return function_exists( 'hash_equals' ) ? // PHP < 5.6 compat.
 		hash_equals(
 			(string) $crypted,
 			crypt( (string) $plain, (string) $crypted )
 		) :
 		$crypted == crypt( (string) $plain, (string) $crypted );
-
-	return $match;
 }

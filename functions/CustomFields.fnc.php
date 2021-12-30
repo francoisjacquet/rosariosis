@@ -82,7 +82,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 		}
 	}
 
-	foreach ( (array) $cust as $column => $value )
+	foreach ( $cust as $column => $value )
 	{
 		if ( $type === 'staff'
 			&& $column === 'EMAIL' )

@@ -156,7 +156,7 @@ function GetStuList( &$extra = array() )
 				FROM CUSTOM_FIELDS
 				WHERE ID IN (200000000, 200000001)" );
 
-			foreach ( (array) $custom_fields_RET as $field)
+			foreach ( $custom_fields_RET as $field)
 			{
 				$extra['columns_after'] = array(
 					'CUSTOM_' . $field['ID'] => ParseMLField( $field['TITLE'] ) )
@@ -297,7 +297,7 @@ function GetStuList( &$extra = array() )
 				$select .= ',s.USERNAME';
 			}
 
-			foreach ( (array) $view_fields_RET as $field )
+			foreach ( $view_fields_RET as $field )
 			{
 				$field_key = 'CUSTOM_' . $field['ID'];
 				$extra['columns_after'][ $field_key ] = $field['TITLE'];
@@ -389,7 +389,7 @@ function GetStuList( &$extra = array() )
 				WHERE cf.ID IN (" . $extra['student_fields']['view'] . ")
 				ORDER BY cf.SORT_ORDER,cf.TITLE" );
 
-			foreach ( (array) $view_fields_RET as $field )
+			foreach ( $view_fields_RET as $field )
 			{
 				$field_key = 'CUSTOM_' . $field['ID'];
 
@@ -972,7 +972,7 @@ function makeParents( $student_id, $column )
 
 	$parents = '';
 
-	foreach ( (array) $people_RET as $person )
+	foreach ( $people_RET as $person )
 	{
 		$img = $person['CUSTODY'] == 'Y' ? 'gavel' :
 			( $person['EMERGENCY'] == 'Y' ? 'emergency' : '' );
@@ -1034,7 +1034,7 @@ function DeCodeds( $value, $column, $table = 'auto' )
 
 			$options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $RET[1]['SELECT_OPTIONS'] ) );
 
-			foreach ( (array) $options as $option )
+			foreach ( $options as $option )
 			{
 				$option = explode( '|', $option );
 
@@ -1428,13 +1428,11 @@ function DisplayName( $first_name, $last_name, $middle_name = '', $name_suffix =
 		$display_names[ $display_name ] :
 		$display_names["FIRST_NAME||' '||LAST_NAME"];
 
-	$display_name = str_replace(
+	return str_replace(
 		array( 'FIRST_NAME', 'LAST_NAME', 'MIDDLE_NAME', 'NAME_SUFFIX' ),
 		array( $first_name, $last_name, $middle_name, $name_suffix ),
 		$display_name
 	);
-
-	return $display_name;
 }
 
 

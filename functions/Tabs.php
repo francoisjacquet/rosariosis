@@ -42,9 +42,7 @@ function WrapTabs( $tabs, $selected = '' )
 		$tabs_html .= DrawTab( $tab['title'], $tab['link'], $selected_tab );
 	}
 
-	$tabs_html .= '</div>';
-
-	return $tabs_html;
+	return $tabs_html . '</div>';
 }
 
 

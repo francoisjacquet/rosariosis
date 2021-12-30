@@ -203,7 +203,7 @@ function ProgramUserConfig( $program, $staff_id = 0, $values = null )
 
 		$program_config[ $program ][ $staff_id ] = null;
 
-		foreach ( (array) $config_RET as $title => $value )
+		foreach ( $config_RET as $title => $value )
 		{
 			$program_config[ $program ][ $staff_id ][ $title ] = $value[1]['VALUE'];
 		}

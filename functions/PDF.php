@@ -176,9 +176,7 @@ function PDFStop( $handle )
 
 		file_put_contents( $path . DIRECTORY_SEPARATOR . $filename . '.html', $html );
 
-		$full_path = $path . DIRECTORY_SEPARATOR . $filename . '.html';
-
-		return $full_path;
+		return $path . DIRECTORY_SEPARATOR . $filename . '.html';
 	}
 
 	// Load phpwkhtmltopdf class.

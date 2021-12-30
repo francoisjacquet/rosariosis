@@ -232,7 +232,7 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 		// Add year / month / day parameters to href.
 		$add_args_js = array();
 
-		foreach ( (array) $URL_args as $URL_arg )
+		foreach ( $URL_args as $URL_arg )
 		{
 			$add_args_js[] = '(this.form.' . $URL_arg . ' ? \'&' . $URL_arg . '=\' + this.form.' . $URL_arg . '.value : \'\')';
 		}
@@ -297,7 +297,7 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 			'12' => _( 'December' ),
 		);
 
-		foreach ( (array) $months_locale as $key => $name )
+		foreach ( $months_locale as $key => $name )
 		{
 			$return_m .= '<option value="' . $key . '"' . ( $date_exploded['month'] == $key ? ' selected' : '' ) . '>' . $name;
 		}
@@ -682,15 +682,15 @@ function AddRequestedDates( $request_index, $add_to_post = '' )
 	if ( isset( $_REQUEST[ $request_index ] ) && is_array( $_REQUEST[ $request_index ] ) )
 	{
 		$_REQUEST[ $request_index ] = array_replace_recursive(
-			(array) $_REQUEST[ $request_index ],
-			(array) $requested_dates
+			$_REQUEST[ $request_index ],
+			$requested_dates
 		);
 
 		if ( $add_to_post === 'post' )
 		{
 			$_POST[ $request_index ] = array_replace_recursive(
 				(array) $_POST[ $request_index ],
-				(array) $requested_dates
+				$requested_dates
 			);
 		}
 
@@ -741,9 +741,8 @@ function MonthNWSwitch( $month, $direction = 'both' )
 	// Both.
 
 	$month = __mnwswitch_num2char( $month );
-	$month = __mnwswitch_char2num( $month );
 
-	return $month;
+	return __mnwswitch_char2num( $month );
 }
 
 

@@ -93,8 +93,6 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 	if ( is_null( $all_mp )
 		|| ! isset( $all_mp[ $mp ] ) )
 	{
-		$error_no_qtr = array( _( 'No quarters found' ) );
-
 		$fy = GetFullYearMP();
 
 		$sem_SQL = "SELECT MARKING_PERIOD_ID
@@ -124,14 +122,14 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 		// FJ Fatal error if no quarters.
 		if ( ! $qtr_RET )
 		{
-			return ErrorMessage( $error_no_qtr, 'fatal' );
+			return ErrorMessage( array( _( 'No quarters found' ) ), 'fatal' );
 		}
 
 		switch ( $mp )
 		{
 			case 'PRO':
 
-				foreach ( (array) $qtr_RET as $qtr )
+				foreach ( $qtr_RET as $qtr )
 				{
 					$qtr_id = $qtr['MARKING_PERIOD_ID'];
 
@@ -150,7 +148,7 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 
 			case 'QTR':
 
-				foreach ( (array) $qtr_RET as $qtr )
+				foreach ( $qtr_RET as $qtr )
 				{
 					$qtr_id = $qtr['MARKING_PERIOD_ID'];
 
@@ -161,7 +159,7 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 
 			case 'SEM':
 
-				foreach ( (array) $qtr_RET as $sem => $qtrs )
+				foreach ( $qtr_RET as $sem => $qtrs )
 				{
 					$all_mp[ $mp ][ $sem ] = "'" . $fy . "','" . $sem . "'";
 
@@ -173,7 +171,7 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 
 				$sem_RET = DBGet( $sem_SQL );
 
-				foreach ( (array) $sem_RET as $sem )
+				foreach ( $sem_RET as $sem )
 				{
 					$sem_id = $sem['MARKING_PERIOD_ID'];
 
@@ -187,7 +185,7 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 				// There should be exactly one FY marking period which better be $marking_period_id.
 				$all_mp[ $mp ][ $marking_period_id ] = "'" . $marking_period_id . "'";
 
-				foreach ( (array) $qtr_RET as $sem => $qtrs )
+				foreach ( $qtr_RET as $sem => $qtrs )
 				{
 					$all_mp[ $mp ][ $marking_period_id ] .= ",'" . $sem . "'";
 
@@ -199,7 +197,7 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 
 				$sem_RET = DBGet( $sem_SQL );
 
-				foreach ( (array) $sem_RET as $sem )
+				foreach ( $sem_RET as $sem )
 				{
 					$all_mp[ $mp ][ $marking_period_id ] .= ",'" . $sem['MARKING_PERIOD_ID'] . "'";
 				}
@@ -208,7 +206,7 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 		}
 	}
 
-	return $all_mp[ $mp ][ $marking_period_id ];
+	return issetVal( $all_mp[ $mp ][ $marking_period_id ] );
 }
 
 
@@ -315,7 +313,7 @@ function GetChildrenMP( $mp, $marking_period_id = '0' )
 
 				$qtr_RET = DBGet( $qtr_SQL, array(), array( 'PARENT_ID' ) );
 
-				foreach ( (array) $qtr_RET as $sem => $qtrs )
+				foreach ( $qtr_RET as $sem => $qtrs )
 				{
 					if ( ! isset( $children_mp[ $mp ]['0'] ) )
 					{
@@ -334,13 +332,11 @@ function GetChildrenMP( $mp, $marking_period_id = '0' )
 
 				return $children_mp[ $mp ]['0'];
 
-			break;
-
 			case 'SEM':
 
 				$qtr_RET = DBGet( $qtr_SQL, array(), array( 'PARENT_ID' ) );
 
-				foreach ( (array) $qtr_RET as $sem => $qtrs )
+				foreach ( $qtr_RET as $sem => $qtrs )
 				{
 					$children_mp[ $mp ][ $sem ] = '';
 
@@ -368,7 +364,7 @@ function GetChildrenMP( $mp, $marking_period_id = '0' )
 					AND SYEAR='" . UserSyear() . "'
 					AND SCHOOL_ID='" . UserSchool() . "'", array(), array( 'PARENT_ID' ) );
 
-				foreach ( (array) $pro_RET as $qtr => $pros )
+				foreach ( $pro_RET as $qtr => $pros )
 				{
 					$children_mp[ $mp ][ $qtr ] = '';
 

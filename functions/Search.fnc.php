@@ -166,7 +166,7 @@ function Search( $type, $extra = null )
 
 				$i = 0;
 
-				foreach ( (array) $grade_levels_RET as $grade_level )
+				foreach ( $grade_levels_RET as $grade_level )
 				{
 					$id = $grade_level['ID'];
 
@@ -193,7 +193,7 @@ function Search( $type, $extra = null )
 				<select name="grade" id="grade">
 				<option value="">' . _( 'Not Specified' ) . '</option>';
 
-				foreach ( (array) $grade_levels_RET as $grade_level )
+				foreach ( $grade_levels_RET as $grade_level )
 				{
 					$id = $grade_level['ID'];
 
@@ -253,7 +253,7 @@ function Search( $type, $extra = null )
 			echo '<tr><td><label for="profile">' . _( 'Profile' ) . '</label></td>
 				<td><select name="profile" id="profile" onchange="_selectStudentGradeLevel(this);" autocomplete="off">';
 
-			foreach ( (array) $options as $key => $val )
+			foreach ( $options as $key => $val )
 			{
 				echo '<option value="' . $key . '">' . $val . '</option>';
 			}
@@ -274,7 +274,7 @@ function Search( $type, $extra = null )
 				<td><select name="student_grade_level" id="student_grade_level">
 				<option value="">' . _( 'Not Specified' ) . '</option>';
 
-			foreach ( (array) $grade_levels_RET as $grade_level )
+			foreach ( $grade_levels_RET as $grade_level )
 			{
 				echo '<option value="' . $grade_level['ID'] . '">' .
 					$grade_level['TITLE'] . '</option>';
@@ -439,7 +439,7 @@ function Search( $type, $extra = null )
 				$i = isset( $i ) ? $i : 0;
 			}
 
-			foreach ( (array) $categories_RET as $category )
+			foreach ( $categories_RET as $category )
 			{
 				$TR_classes = '';
 
@@ -532,7 +532,7 @@ function Search( $type, $extra = null )
 				);
 
 				// Select.
-				foreach ( (array) $category['select_autos_exports'] as $col )
+				foreach ( $category['select_autos_exports'] as $col )
 				{
 					$options = array();
 
@@ -556,7 +556,7 @@ function Search( $type, $extra = null )
 						<option value="">' . _( 'N/A' ) . '</option>
 						<option value="!">' . _( 'No Value' ) . '</option>';
 
-					foreach ( (array) $options as $option )
+					foreach ( $options as $option )
 					{
 						$value = $option;
 
@@ -605,7 +605,7 @@ function Search( $type, $extra = null )
 						// Add the 'new' option, is also the separator.
 						echo '<option value="---">-' . _( 'Edit' ) . '-</option>';
 
-						foreach ( (array) $options_RET as $option )
+						foreach ( $options_RET as $option )
 						{
 							if ( ! in_array( $option[ $col_name ], $options ) )
 							{
@@ -759,8 +759,6 @@ function SearchField( $field, $type = 'student', $extra = array() )
 
 			return ' AND LOWER(' . $sql_col . ") LIKE '" . mb_strtolower( $value ) . "%' ";
 
-		break;
-
 		// Checkbox.
 		case 'radio':
 
@@ -859,8 +857,6 @@ function SearchField( $field, $type = 'student', $extra = array() )
 
 			return ' AND ' . $sql_col . " " . $part['operator'] . " '" . $value . "' ";
 
-		break;
-
 		// Export Pull-Down.
 		case 'exports':
 
@@ -879,7 +875,7 @@ function SearchField( $field, $type = 'student', $extra = array() )
 			{
 				$select_options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $field['SELECT_OPTIONS'] ) );
 
-				foreach ( (array) $select_options as $option )
+				foreach ( $select_options as $option )
 				{
 					$option = explode( '|', $option );
 
@@ -896,8 +892,6 @@ function SearchField( $field, $type = 'student', $extra = array() )
 			}
 
 			return ' AND ' . $sql_col . "='" . $value . "' ";
-
-		break;
 
 		// Pull-Down.
 		case 'select':
@@ -939,8 +933,6 @@ function SearchField( $field, $type = 'student', $extra = array() )
 			}
 
 			return ' AND ' . $sql_col . "='" . $value . "' ";
-
-		break;
 	}
 
 	return '';

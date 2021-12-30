@@ -344,9 +344,7 @@ function setMLvalue(id, loc, value){
 		$title_break = '<br />';
 	}
 
-	$return .= FormatInputTitle( $title, '', false, $title_break );
-
-	return $return;
+	return $return . FormatInputTitle( $title, '', false, $title_break );
 }
 
 
@@ -1479,9 +1477,8 @@ function CaptchaInput( $name, $title, $extra = '' )
 	</div>
 	<script>captcha(<?php echo json_encode( $id_base ); ?>);</script>
 	<?php
-	$captcha_html = ob_get_clean();
 
-	return $captcha_html;
+	return ob_get_clean();
 }
 
 
@@ -1561,11 +1558,9 @@ function FileInput( $name, $title = '', $extra = '', $max_file_size = 0 )
 		$extra .= ' title="' . sprintf( _( 'Maximum file size: %01.0fMb' ), $max_file_size ) . '"';
 	}
 
-	$input = '<input type="file" id="' . $id . '" name="' . $name . '" ' . $extra .
+	return '<input type="file" id="' . $id . '" name="' . $name . '" ' . $extra .
 		' onchange="fileInputSizeValidate(this,' . $max_file_size . ');" /><span class="loading"></span>' .
 		$ftitle;
-
-	return $input;
 }
 
 
@@ -1728,18 +1723,18 @@ function FormatInputTitle( $title, $id = '', $required = false, $break = '<br />
  */
 function InputDivOnclick( $id, $input_html, $value, $input_ftitle )
 {
-	$div_onclick = '<script>var html' . $id . '=' . json_encode( $input_html ).';</script>';
+	$script = '<script>var html' . $id . '=' . json_encode( $input_html ).';</script>';
 
 	$value = $value == '' ? '-' : $value;
 
-	$div_onclick .= '<div id="div' . $id . '">
+	$div_onclick = '<div id="div' . $id . '">
 		<div class="onclick" tabindex="0" onfocus=\'addHTML(html' . $id . ',"div' . $id . '",true); $("#' . $id . '").focus(); $("#div' . $id . '").click();\'>' .
 		( mb_strpos( $value, '<div' ) === 0 ?
 			'<div class="underline-dots">' . $value . '</div>' :
 			'<span class="underline-dots">' . $value . '</span>' ) .
 		$input_ftitle . '</div></div>';
 
-	return $div_onclick;
+	return $script . $div_onclick;
 }
 
 

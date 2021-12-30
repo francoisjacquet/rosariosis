@@ -201,7 +201,7 @@ function SetUserStaffID( $staff_id )
 			// Check both users have at least one school in common.
 			$user_schools = explode( ',', trim( User( 'SCHOOLS' ), ',' ) );
 
-			foreach ( (array) $user_schools as $user_school )
+			foreach ( $user_schools as $user_school )
 			{
 				if ( mb_strpos( $admin_schools, ',' . $user_school . ',' ) !== false )
 				{

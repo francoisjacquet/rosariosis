@@ -62,7 +62,7 @@ function StaffWidgets( $item, &$myextra = null )
 
 			$user_widgets = ProgramUserConfig( 'StaffWidgetsSearch' );
 
-			foreach ( (array) $user_widgets as $user_widget_title => $value )
+			foreach ( $user_widgets as $user_widget_title => $value )
 			{
 				if ( $value )
 				{

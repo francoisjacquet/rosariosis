@@ -77,7 +77,7 @@ function GetStaffList( &$extra = array() )
 			AND cf.CATEGORY_ID=sfc.ID
 			ORDER BY sfc.SORT_ORDER,cf.SORT_ORDER,cf.TITLE" );
 
-		foreach ( (array) $view_fields_RET as $field )
+		foreach ( $view_fields_RET as $field )
 		{
 			$field_key = 'CUSTOM_' . $field['ID'];
 
@@ -118,7 +118,7 @@ function GetStaffList( &$extra = array() )
 				WHERE cf.ID IN (" . $extra['staff_fields']['view'] . ")
 				ORDER BY cf.SORT_ORDER,cf.TITLE" );
 
-			foreach ( (array) $view_fields_RET as $field )
+			foreach ( $view_fields_RET as $field )
 			{
 				$field_key = 'CUSTOM_' . $field['ID'];
 				$extra['columns_after'][ $field_key ] = $field['TITLE'];

@@ -28,7 +28,7 @@ function PreparePHP_SELF( $tmp_REQUEST = array(), $remove = array(), $add = arra
 	}
 
 	// Remove Cookie vars.
-	foreach ( (array) $_COOKIE as $key => $value )
+	foreach ( $_COOKIE as $key => $value )
 	{
 		unset( $tmp_REQUEST[ $key ] );
 	}
@@ -64,15 +64,15 @@ function PreparePHP_SELF( $tmp_REQUEST = array(), $remove = array(), $add = arra
 	{
 		if ( is_array( $value ) )
 		{
-			foreach ( (array) $value as $key1 => $value1 )
+			foreach ( $value as $key1 => $value1 )
 			{
 				if ( is_array( $value1 ) )
 				{
-					foreach ( (array) $value1 as $key2 => $value2 )
+					foreach ( $value1 as $key2 => $value2 )
 					{
 						if ( is_array( $value2 ) )
 						{
-							foreach ( (array) $value2 as $key3 => $value3 )
+							foreach ( $value2 as $key3 => $value3 )
 							{
 								if ( $value3 !== '' )
 								{

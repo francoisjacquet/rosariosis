@@ -657,7 +657,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 				echo '<th><span class="a11y-hidden">' . _( 'Delete' ) . '</span></th>';
 
-				foreach ( (array) $column_names as $key => $value )
+				foreach ( (array) $column_names as $value )
 				{
 					echo '<th>' . str_replace( ' ', '&nbsp;', $value ) . '</th>';
 				}
@@ -758,6 +758,8 @@ function _listSearch( $result, $LO_search )
 
 	$search_term = trim( mb_strtolower( str_replace( "''", "'", $LO_search ) ) );
 
+	$terms = array();
+
 	if ( mb_substr( $search_term, 0, 1 ) != '"'
 		|| mb_substr( $search_term, -1, 1 ) != '"' )
 	{
@@ -805,7 +807,7 @@ function _listSearch( $result, $LO_search )
 				continue;
 			}
 
-			foreach ( (array) $terms as $term => $one )
+			foreach ( $terms as $term => $one )
 			{
 				if ( mb_strpos( $val, $term ) !== FALSE )
 				{
@@ -1009,7 +1011,7 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 		$output .= "\n";
 
 		// Then values.
-		foreach ( (array) $formatted_result as $result_line )
+		foreach ( $formatted_result as $result_line )
 		{
 			$output .= implode( $delimiter, $result_line );
 
@@ -1051,11 +1053,11 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 
 		$output = '<?xml version="1.0" encoding="UTF-8"?>' . "\n" . '<' . $elements . '>' . "\n";
 
-		foreach ( (array) $formatted_result as $result_line )
+		foreach ( $formatted_result as $result_line )
 		{
 			$output .= "\t" . '<' . $element . '>' . "\n";
 
-			foreach ( (array) $result_line as $key => $value )
+			foreach ( $result_line as $key => $value )
 			{
 				if ( $formatted_columns[$key] === '' )
 				{

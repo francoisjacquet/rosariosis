@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 8.7
+--------------
+- Rector fix bad code in functions/*
+
 Changes in 8.6.1
 ----------------
 - Add .webp image to FileExtensionWhiteList() in FileUpload.fnc.php
