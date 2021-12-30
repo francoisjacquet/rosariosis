@@ -173,7 +173,7 @@ class Widget_course implements Widget
 		AND cs.SUBJECT_ID=c.SUBJECT_ID
 		ORDER BY cs.SORT_ORDER,cs.TITLE,cp.SHORT_NAME" );
 
-		$course_period_options = array();
+		$course_period_options = [];
 
 		$subject_group = '';
 
@@ -183,7 +183,7 @@ class Widget_course implements Widget
 			{
 				$subject_group = $course_period['SUBJECT_TITLE'];
 
-				$course_period_options[ $subject_group ] = array();
+				$course_period_options[ $subject_group ] = [];
 			}
 
 			// Fix 403 Forbidden error due to pipe "|" in URL when using Apache 5G rules.
@@ -756,7 +756,7 @@ class Widget_letter_grade implements Widget
 		$letter_grades_RET = DBGet( "SELECT ID,TITLE
 			FROM REPORT_CARD_GRADES
 			WHERE SCHOOL_ID='" . UserSchool() . "'
-			AND SYEAR='" . UserSyear() . "'", array(), array( 'ID' ) );
+			AND SYEAR='" . UserSyear() . "'", [], [ 'ID' ] );
 
 		$letter_grades = '';
 
@@ -858,7 +858,7 @@ class Widget_letter_grade implements Widget
 						WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')" :
 				'' ) .
 				" ORDER BY rs.SORT_ORDER,rs.ID,rg.BREAK_OFF IS NOT NULL DESC,rg.BREAK_OFF DESC,rg.SORT_ORDER",
-				array(), array( 'GRADE_SCALE_ID' ) );
+				[], [ 'GRADE_SCALE_ID' ] );
 
 			$j = 0;
 
@@ -986,7 +986,7 @@ class Widget_activity implements Widget
 
 	function html()
 	{
-		$activities_RET = array();
+		$activities_RET = [];
 
 		if ( empty( $_REQUEST['search_modfunc'] ) )
 		{
@@ -1044,7 +1044,7 @@ class Widget_mailing_labels implements Widget
 				( isset( $_REQUEST['residence'] ) && $_REQUEST['residence'] == 'Y' ? " AND saml.RESIDENCE='Y'" : '' ) . ")" .
 			$extra['FROM'];
 
-		$extra['functions'] += array( 'MAILING_LABEL' => 'MailingLabel' );
+		$extra['functions'] += [ 'MAILING_LABEL' => 'MailingLabel' ];
 
 		return $extra;
 	}
@@ -1170,7 +1170,7 @@ class Widget_reporter implements Widget
 			WHERE SYEAR='" . UserSyear() . "'
 			AND (SCHOOLS IS NULL OR SCHOOLS LIKE '%," . UserSchool() . ",%')
 			AND (PROFILE='admin' OR PROFILE='teacher')
-			ORDER BY LAST_NAME,FIRST_NAME,MIDDLE_NAME", array(), array( 'STAFF_ID' ) );
+			ORDER BY LAST_NAME,FIRST_NAME,MIDDLE_NAME", [], [ 'STAFF_ID' ] );
 
 		$html = '<tr class="st"><td><label for="discipline_reporter">' .
 		_( 'Reporter' ) . '</label></td><td>
@@ -1289,11 +1289,11 @@ class Widget_incident_date implements Widget
 		<table class="cellspacing-0"><tr><td>
 		<span class="sizep2">&ge;</span>&nbsp;
 		</td><td>
-		' . PrepareDate( $discipline_entry_begin_default, '_discipline_entry_begin', true, array( 'short' => true ) ).'
+		' . PrepareDate( $discipline_entry_begin_default, '_discipline_entry_begin', true, [ 'short' => true ] ).'
 		</td></tr><tr><td>
 		<span class="sizep2">&le;</span>&nbsp;
 		</td><td>
-		' . PrepareDate( '', '_discipline_entry_end', true, array( 'short' => true ) ).'
+		' . PrepareDate( '', '_discipline_entry_end', true, [ 'short' => true ] ).'
 		</td></tr></table>
 		</td></tr>';
 
@@ -1554,7 +1554,7 @@ class Widget_discipline_fields implements Widget
 				case 'multiple_radio':
 				case 'select':
 
-					$category['SELECT_OPTIONS'] = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS'] ) );
+					$category['SELECT_OPTIONS'] = explode( "\r", str_replace( [ "\r\n", "\n" ], "\r", $category['SELECT_OPTIONS'] ) );
 
 					$html .= '<select name="' . $input_name . '" id="' . $input_id . '">
 						<option value="">' . _( 'N/A' ) . '</option>';
@@ -1592,13 +1592,13 @@ class Widget_next_year implements Widget
 			WHERE ID!='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'" );
 
-		$next_year_options = array(
+		$next_year_options = [
 			'' => _( 'N/A' ),
 			'!' => _( 'No Value' ),
 			UserSchool() => _( 'Next grade at current school' ),
 			'0' => _( 'Retain' ),
 			'-1' => _( 'Do not enroll after this school year' ),
-		);
+		];
 
 		foreach ( (array) $schools_RET as $school )
 		{
@@ -1624,13 +1624,13 @@ class Widget_next_year implements Widget
 
 	function html()
 	{
-		$next_year_options = array(
+		$next_year_options = [
 			'' => _( 'N/A' ),
 			'!' => _( 'No Value' ),
 			UserSchool() => _( 'Next grade at current school' ),
 			'0' => _( 'Retain' ),
 			'-1' => _( 'Do not enroll after this school year' ),
-		);
+		];
 
 		$schools_RET = DBGet( "SELECT ID,TITLE
 			FROM SCHOOLS
@@ -1826,11 +1826,11 @@ class Widget_enrolled implements Widget
 		<table class="cellspacing-0"><tr><td class="sizep2">
 		&ge;
 		</td><td>
-		' . PrepareDate( '', '_enrolled_begin', true, array( 'short' => true ) ) . '
+		' . PrepareDate( '', '_enrolled_begin', true, [ 'short' => true ] ) . '
 		</td></tr><tr><td class="sizep2">
 		&le;
 		</td><td>
-		' . PrepareDate( '', '_enrolled_end', true, array( 'short' => true ) ) . '
+		' . PrepareDate( '', '_enrolled_end', true, [ 'short' => true ] ) . '
 		</td></tr></table>
 		</td></tr>';
 
@@ -2257,11 +2257,11 @@ class Widget_medical_date implements Widget
 		<table class="cellspacing-0"><tr><td>
 		<span class="sizep2">&ge;</span>&nbsp;
 		</td><td>
-		' . PrepareDate( $medical_begin_default, '_medical_begin', true, array( 'short' => true ) ).'
+		' . PrepareDate( $medical_begin_default, '_medical_begin', true, [ 'short' => true ] ).'
 		</td></tr><tr><td>
 		<span class="sizep2">&le;</span>&nbsp;
 		</td><td>
-		' . PrepareDate( '', '_medical_end', true, array( 'short' => true ) ).'
+		' . PrepareDate( '', '_medical_end', true, [ 'short' => true ] ).'
 		</td></tr></table>
 		</td></tr>';
 

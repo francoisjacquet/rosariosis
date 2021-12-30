@@ -3,10 +3,10 @@
 
 Changes in 8.7
 --------------
-- Rector fix bad code in functions/*
+- Rector fix bad code in functions/
 - Update tested on: not compatible with Internet Explorer in INSTALL.md, INSTALL_es.md & INSTALL_fr.md
 - Add ProgramFunctions/SendEmail.fnc.php|send_error action hook in SendEmail.fnc.php
-- EasyCodingStandard use short array notation in functions/*
+- EasyCodingStandard use short array notation in functions/, classes/core/
 
 Changes in 8.6.1
 ----------------

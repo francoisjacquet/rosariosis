@@ -21,14 +21,14 @@ class Widgets
 	 *
 	 * @var array Built Widgets
 	 */
-	protected $built = array();
+	protected $built = [];
 
 	/**
 	 * Global Widgets HTML
 	 *
 	 * @var array Widgets HTML + eventually $extra['search'].
 	 */
-	protected $html = array();
+	protected $html = [];
 
 	/**
 	 * Widgets extra, sent to GetStuList() or GetStaffList()
@@ -43,15 +43,15 @@ class Widgets
 	 *
 	 * @var array $extra for GetStuList() or GetStaffList()
 	 */
-	protected $empty_extra = array(
-		'functions' => array(),
+	protected $empty_extra = [
+		'functions' => [],
 		'search' => '',
 		'NoSearchTerms' => '',
 		'SearchTerms' => '',
 		'SELECT' => '',
 		'FROM' => '',
 		'WHERE' => '',
-	);
+	];
 
 	protected $extra;
 
@@ -65,7 +65,7 @@ class Widgets
 	{
 		$this->extra = array_replace_recursive( $this->empty_extra, (array) $extra );
 
-		$this->html = array();
+		$this->html = [];
 
 		if ( ! empty( $extra['search'] ) )
 		{
