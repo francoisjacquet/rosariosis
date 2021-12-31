@@ -134,14 +134,14 @@ if ( PHP_VERSION_ID < 70300 )
 }
 else
 {
-	session_set_cookie_params( array(
+	session_set_cookie_params( [
 		'lifetime' => 0,
 		'path' => $cookie_path,
 		'domain' => '',
 		'secure' => $cookie_https_only,
 		'httponly' => true,
 		'samesite' => $cookie_samesite,
-	) );
+	] );
 }
 
 session_cache_limiter( 'nocache' );
@@ -312,7 +312,7 @@ if ( version_compare( Config( 'VERSION' ), ROSARIO_VERSION, '<' ) )
  *
  * Core modules (packaged with RosarioSIS): cannot be deleted.
  */
-$RosarioCoreModules = array(
+$RosarioCoreModules = [
 	'School_Setup',
 	'Students',
 	'Users',
@@ -326,7 +326,7 @@ $RosarioCoreModules = array(
 	'Food_Service',
 	'Resources',
 	'Custom',
-);
+];
 
 $RosarioModules = unserialize( Config( 'MODULES' ) );
 
@@ -339,9 +339,9 @@ _LoadAddons( $non_core_modules, 'modules/' );
  *
  * Core plugins (packaged with RosarioSIS): cannot be deleted.
  */
-$RosarioCorePlugins = array(
+$RosarioCorePlugins = [
 	'Moodle',
-);
+];
 
 $RosarioPlugins = unserialize( Config( 'PLUGINS' ) );
 
@@ -471,7 +471,7 @@ function Warehouse( $mode )
 			$lang_2_chars = mb_substr( $_SESSION['locale'], 0, 2 );
 
 			// Right to left direction.
-			$RTL_languages = array( 'ar', 'he', 'dv', 'fa', 'ur' );
+			$RTL_languages = [ 'ar', 'he', 'dv', 'fa', 'ur' ];
 
 			$dir_RTL = in_array( $lang_2_chars, $RTL_languages ) ? ' dir="RTL"' : '';
 			?>
@@ -689,23 +689,23 @@ function isPopup( $modname = '', $modfunc = '' )
 
 	if ( in_array(
 		$modname,
-		array(
+		[
 			'misc/ChooseRequest.php',
 			'misc/ChooseCourse.php',
 			'misc/ViewContact.php',
-		)
+		]
 	)
 		|| ( $modname === 'School_Setup/Calendar.php'
 			&& $modfunc === 'detail' )
 		|| ( in_array(
 			$modname,
-			array(
+			[
 				'Scheduling/MassDrops.php',
 				'Scheduling/Schedule.php',
 				'Scheduling/MassSchedule.php',
 				'Scheduling/MassRequests.php',
 				'Scheduling/Courses.php',
-			)
+			]
 		)
 			&& $modfunc === 'choose_course' ) )
 	{

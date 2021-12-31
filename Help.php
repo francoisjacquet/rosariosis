@@ -14,12 +14,12 @@ require_once 'Menu.php';
 
 require_once 'ProgramFunctions/Help.fnc.php';
 
-$profiles = array(
+$profiles = [
 	'admin' => _( 'Administrator' ),
 	'teacher' => _( 'Teacher' ),
 	'parent' => _( 'Parent' ),
 	'student' => _( 'Student' ),
-);
+];
 
 $title = $profiles[ User( 'PROFILE' ) ];
 

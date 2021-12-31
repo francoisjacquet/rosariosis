@@ -52,12 +52,12 @@ Warehouse( 'header' );
  */
 $allowed = in_array(
 	$modname,
-	array(
+	[
 		'misc/ChooseRequest.php',
 		'misc/ChooseCourse.php',
 		'misc/Portal.php',
 		'misc/ViewContact.php',
-	)
+	]
 );
 
 // Browse allowed programs and look for requested modname.

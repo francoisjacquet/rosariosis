@@ -105,7 +105,7 @@ if ( isset( $_REQUEST['sidefunc'] )
 		}
 
 		// If current Student not enrolled in new SchoolYear, remove.
-		if ( in_array( User( 'PROFILE' ), array( 'admin', 'teacher', 'parent' ) )
+		if ( in_array( User( 'PROFILE' ), [ 'admin', 'teacher', 'parent' ] )
 			&& UserStudentID() )
 		{
 			$is_student_enrolled_sql = "SELECT 'ENROLLED'
@@ -283,7 +283,7 @@ if ( $update_body )
 	}
 	else
 	{
-		$ajax_link = PreparePHP_SELF( $_SESSION['_REQUEST_vars'], array( 'advanced' ) );
+		$ajax_link = PreparePHP_SELF( $_SESSION['_REQUEST_vars'], [ 'advanced' ] );
 	}
 
 	$addJavascripts .= 'ajaxLink("' . $ajax_link .	'");';
@@ -462,7 +462,7 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 			<select name="mp" id="mp" autocomplete="off" onChange="ajaxPostForm(this.form,true);">
 		<?php if ( count( $RET ) ) :
 
-			$mp_array = array();
+			$mp_array = [];
 
 			foreach ( $RET as $quarter ) : ?>
 				<option value="<?php echo $quarter['MARKING_PERIOD_ID']; ?>"<?php echo ( UserMP() == $quarter['MARKING_PERIOD_ID'] ? ' selected' : '' ); ?>><?php

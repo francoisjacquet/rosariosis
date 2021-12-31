@@ -129,7 +129,7 @@ if ( isset( $_REQUEST['h'] )
 		WHERE LAST_LOGIN > CURRENT_TIMESTAMP
 		AND SYEAR='" . Config( 'SYEAR' ) . "'" );
 
-	$student_RET = array();
+	$student_RET = [];
 
 	if ( Config( 'STUDENTS_EMAIL_FIELD' ) )
 	{

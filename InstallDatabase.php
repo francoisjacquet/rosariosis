@@ -87,7 +87,7 @@ if ( file_exists( 'rosariosis_addons.sql' ) )
 		if ( strpos( $line, '\include' ) !== false )
 		{
 			// \include files.
-			$sql_addon_include_file = trim( str_replace( array( '\include', "'", ';' ), '', $line ) );
+			$sql_addon_include_file = trim( str_replace( [ '\include', "'", ';' ], '', $line ) );
 
 			if ( file_exists( $sql_addon_include_file ) )
 			{

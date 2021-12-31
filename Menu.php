@@ -56,7 +56,7 @@ if ( empty( $_ROSARIO['Menu'] ) )
 		$profile = 'parent';
 	}
 
-	$_ROSARIO['AllowUse'] = DBGet( $allow_use_sql, array(), array( 'MODNAME' ) );
+	$_ROSARIO['AllowUse'] = DBGet( $allow_use_sql, [], [ 'MODNAME' ] );
 
 	// Loop menu entries for each module & profile.
 	// Save menu entries in $_ROSARIO['Menu'] global var.
@@ -65,7 +65,7 @@ if ( empty( $_ROSARIO['Menu'] ) )
 		// FJ bugfix remove modules with no programs.
 		$no_programs_in_module = true;
 
-		$programs = issetVal( $profiles[ $profile ], array() );
+		$programs = issetVal( $profiles[ $profile ], [] );
 
 		foreach ( (array) $programs as $program => $title )
 		{
