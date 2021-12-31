@@ -49,8 +49,8 @@ function core_user_create_users_object()
 	$auth = 'manual';
 	$idnumber = (string) $id;
 
-	$users = array(
-		array(
+	$users = [
+		[
 			'username' => $username,
 			'password' => $password,
 			'firstname' => $firstname,
@@ -58,10 +58,10 @@ function core_user_create_users_object()
 			'email' => $email,
 			'auth' => $auth,
 			'idnumber' => $idnumber,
-		),
-	);
+		],
+	];
 
-	return array( $users );
+	return [ $users ];
 }
 
 /**
@@ -136,16 +136,16 @@ function core_role_assign_roles_object()
 	$roleid = MOODLE_PARENT_ROLE_ID;
 	$instanceid = $studentid;
 
-	$assignments = array(
-		array(
+	$assignments = [
+		[
 			'roleid' => $roleid,
 			'userid' => $userid,
 			'contextlevel' => $contextlevel,
 			'instanceid' => $instanceid,
-		),
-	);
+		],
+	];
 
-	return array( $assignments );
+	return [ $assignments ];
 }
 
 /**

@@ -35,18 +35,18 @@ function core_notes_create_notes_object()
 	$format = 2;
 	$clientnoteid = $portal_note_id;
 
-	$notes = array(
-		array(
+	$notes = [
+		[
 			'userid' => $userid,
 			'publishstate' => $publishstate,
 			'courseid' => $courseid,
 			'text' => $text,
 			'format' => $format,
 			'clientnoteid' => $clientnoteid,
-		),
-	);
+		],
+	];
 
-	return array( $notes );
+	return [ $notes ];
 }
 
 /**
@@ -105,11 +105,11 @@ function core_notes_delete_notes_object()
 		return null;
 	}
 
-	$notes = array(
+	$notes = [
 		$noteid,
-	);
+	];
 
-	return array( $notes );
+	return [ $notes ];
 }
 
 /**
@@ -188,16 +188,16 @@ function core_notes_update_notes_object()
 
 	$format = 2;
 
-	$notes = array(
-		array(
+	$notes = [
+		[
 			'id' => $moodle_id,
 			'publishstate' => $publishstate,
 			'text' => $text,
 			'format' => $format,
-		),
-	);
+		],
+	];
 
-	return array( $notes );
+	return [ $notes ];
 }
 
 /**

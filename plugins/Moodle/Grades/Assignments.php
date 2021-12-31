@@ -54,18 +54,18 @@ function core_calendar_create_calendar_events_object()
 
 	$timestart = strtotime( $columns['DUE_DATE'] );
 
-	$events = array(
-		array(
+	$events = [
+		[
 			'name' => $name,
 			'description' => $description,
 			'format' => $format,
 			'courseid' => $courseid,
 			'timestart' => $timestart,
 			'eventtype' => $eventtype,
-		),
-	);
+		],
+	];
 
-	return array( $events );
+	return [ $events ];
 }
 
 /**
@@ -166,14 +166,14 @@ function core_calendar_delete_calendar_events_object()
 
 	$repeat = 0;
 
-	$events = array(
-		array(
+	$events = [
+		[
 			'eventid' => $eventid,
 			'repeat' => $repeat,
-		),
-	);
+		],
+	];
 
-	return array( $events );
+	return [ $events ];
 }
 
 /**

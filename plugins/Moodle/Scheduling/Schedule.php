@@ -35,15 +35,15 @@ function enrol_manual_unenrol_users_object()
 	//student's roleid = student = 5
 	$roleid = 5;
 
-	$enrolments = array(
-		array(
+	$enrolments = [
+		[
 			'userid' => $userid,
 			'courseid' => $courseid,
 			'roleid' => $roleid,
-		),
-	);
+		],
+	];
 
-	return array( $enrolments );
+	return [ $enrolments ];
 }
 
 /**
@@ -95,16 +95,16 @@ function enrol_manual_enrol_users_object()
 	//convert YYYY-MM-DD to timestamp
 	$timestart = strtotime( $date );
 
-	$enrolments = array(
-		array(
+	$enrolments = [
+		[
 			'roleid' => $roleid,
 			'userid' => $userid,
 			'courseid' => $courseid,
 			'timestart' => $timestart,
-		),
-	);
+		],
+	];
 
-	return array( $enrolments );
+	return [ $enrolments ];
 }
 
 /**

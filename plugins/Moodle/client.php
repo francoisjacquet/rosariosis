@@ -37,7 +37,7 @@ function moodle_xmlrpc_call( $functionname, $object )
 	$post = xmlrpc_encode_request(
 		$functionname,
 		$object,
-		array( 'encoding' => 'utf-8', 'escaping' => 'markup' )
+		[ 'encoding' => 'utf-8', 'escaping' => 'markup' ]
 	);
 
 	$resp = xmlrpc_decode( $curl->post( $serverurl, $post ), 'utf-8' );

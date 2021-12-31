@@ -78,8 +78,8 @@ function core_course_create_courses_object()
 	$groupmodeforce = 0;
 	$defaultgroupingid = 0;
 
-	$courses = array(
-		array(
+	$courses = [
+		[
 			'fullname' => $fullname,
 			'shortname' => $shortname,
 			'categoryid' => $categoryid,
@@ -96,10 +96,10 @@ function core_course_create_courses_object()
 			'groupmode' => $groupmode,
 			'groupmodeforce' => $groupmodeforce,
 			'defaultgroupingid' => $defaultgroupingid,
-		),
-	);
+		],
+	];
 
-	return array( $courses );
+	return [ $courses ];
 }
 
 /**
@@ -166,16 +166,16 @@ function core_role_assign_roles_object()
 	$contextlevel = 'course';
 	$instanceid = $courseid;
 
-	$assignments = array(
-		array(
+	$assignments = [
+		[
 			'roleid' => $roleid,
 			'userid' => $userid,
 			'contextlevel' => $contextlevel,
 			'instanceid' => $instanceid,
-		),
-	);
+		],
+	];
 
-	return array( $assignments );
+	return [ $assignments ];
 }
 
 /**
@@ -221,16 +221,16 @@ function core_role_unassign_roles_object()
 	$contextlevel = 'course';
 	$instanceid = $courseperiodid;
 
-	$unassignments = array(
-		array(
+	$unassignments = [
+		[
 			'roleid' => $roleid,
 			'userid' => $userid,
 			'contextlevel' => $contextlevel,
 			'instanceid' => $instanceid,
-		),
-	);
+		],
+	];
 
-	return array( $unassignments );
+	return [ $unassignments ];
 }
 
 /**
@@ -255,9 +255,9 @@ function core_course_delete_courses_object()
 	int   //course ID
 	)*/
 
-	$courses = array( $id );
+	$courses = [ $id ];
 
-	return array( $courses );
+	return [ $courses ];
 }
 
 /**

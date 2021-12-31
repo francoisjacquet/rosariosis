@@ -7,12 +7,12 @@ function core_user_get_users_object()
 	$username = DBGetOne( "SELECT USERNAME FROM STUDENTS
 		WHERE STUDENT_ID='" . UserStudentID() . "'" );
 
-	$criteria = array(
+	$criteria = [
 		'key' => 'username',
 		'value' => $username,
-	);
+	];
 
-	$object = array( 'criteria' => $criteria );
+	$object = [ 'criteria' => $criteria ];
 
 	return $object;
 }
@@ -117,8 +117,8 @@ function core_user_create_users_object()
 	// @since 5.9 Moodle creates user password if left empty.
 	$createpassword = empty( $password ) ? 1 : 0;
 
-	$users = array(
-		array(
+	$users = [
+		[
 			'username' => $username,
 			'password' => $password,
 			'firstname' => $firstname,
@@ -127,10 +127,10 @@ function core_user_create_users_object()
 			'auth' => $auth,
 			'idnumber' => $idnumber,
 			'createpassword' => $createpassword,
-		),
-	);
+		],
+	];
 
-	return array( $users );
+	return [ $users ];
 }
 
 /**
@@ -222,7 +222,7 @@ function core_user_update_users_object()
 	$lastname = issetVal( $_REQUEST['students']['LAST_NAME'], false );
 	$email = issetVal( $_REQUEST['students'][ROSARIO_STUDENTS_EMAIL_FIELD], false );
 
-	$user = array( 'id' => $moodle_id );
+	$user = [ 'id' => $moodle_id ];
 
 	if ( $username )
 	{
@@ -277,9 +277,9 @@ function core_user_update_users_object()
 		return null;
 	}
 
-	$users = array( $user );
+	$users = [ $user ];
 
-	return array( $users );
+	return [ $users ];
 }
 
 /**
@@ -308,9 +308,9 @@ function core_user_delete_users_object()
 	)
 	 */
 
-	$user_ids = array( $moodle_id );
+	$user_ids = [ $moodle_id ];
 
-	return array( $user_ids );
+	return [ $user_ids ];
 }
 
 /**
@@ -370,16 +370,16 @@ function core_role_assign_roles_object()
 	$roleid = MOODLE_PARENT_ROLE_ID;
 	$instanceid = $studentid;
 
-	$assignments = array(
-		array(
+	$assignments = [
+		[
 			'roleid' => $roleid,
 			'userid' => $userid,
 			'contextlevel' => $contextlevel,
 			'instanceid' => $instanceid,
-		),
-	);
+		],
+	];
 
-	return array( $assignments );
+	return [ $assignments ];
 }
 
 /**
@@ -478,7 +478,7 @@ function core_files_upload_object()
 		return false;
 	}
 
-	$file = array(
+	$file = [
 		$component,
 		$filearea,
 		$itemid,
@@ -487,7 +487,7 @@ function core_files_upload_object()
 		$filecontent,
 		$contextlevel,
 		$instanceid,
-	);
+	];
 
 	return $file;
 }

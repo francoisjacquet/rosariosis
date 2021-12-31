@@ -39,15 +39,15 @@ function enrol_manual_enrol_users_object()
 		return null;
 	}
 
-	$enrolments = array(
-		array(
+	$enrolments = [
+		[
 			'roleid' => $roleid,
 			'userid' => $userid,
 			'courseid' => $courseid,
-		),
-	);
+		],
+	];
 
-	return array( $enrolments );
+	return [ $enrolments ];
 }
 
 /**

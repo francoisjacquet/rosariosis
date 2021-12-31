@@ -35,15 +35,15 @@ function enrol_manual_unenrol_users_object()
 	//student roleid = student = 5
 	$roleid = 5;
 
-	$enrolments = array(
-		array(
+	$enrolments = [
+		[
 			'userid' => $userid,
 			'courseid' => $courseid,
 			'roleid' => $roleid,
-		),
-	);
+		],
+	];
 
-	return array( $enrolments );
+	return [ $enrolments ];
 }
 
 /**

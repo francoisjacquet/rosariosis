@@ -30,9 +30,9 @@ if ( ! empty( $_REQUEST['save'] ) )
 		{
 			foreach ( (array) $columns as $column => $value )
 			{
-				$numeric_columns = array(
+				$numeric_columns = [
 					'MOODLE_PARENT_ROLE_ID',
-				);
+				];
 
 				if ( in_array( $column, $numeric_columns )
 					&& $value != ''
@@ -126,7 +126,7 @@ if ( ! empty( $_REQUEST['import_users'] ) )
 		$note[] = sprintf( _( '%s users were imported.' ), $moodle_users_imported );
 
 		// Unset values & import_users & redirect URL.
-		RedirectURL( array( 'values', 'import_users' ) );
+		RedirectURL( [ 'values', 'import_users' ] );
 	}
 	else
 	{
@@ -154,7 +154,7 @@ if ( ! empty( $_REQUEST['import_users'] ) )
 			MoodleUsersStudentEnrollmentForm()
 		);
 
-		$columns = array(
+		$columns = [
 			'CHECKBOX' => MakeChooseCheckbox( '', '', 'values[ID]' ),
 			'PROFILE' => _( 'Profile' ),
 			'FIRST_NAME' => _( 'First Name' ),
@@ -162,7 +162,7 @@ if ( ! empty( $_REQUEST['import_users'] ) )
 			'EMAIL_ADDRESS' => _( 'Email Address' ),
 			'USERNAME' => _( 'Username' ),
 			'ID' => _( 'Moodle ID' ),
-		);
+		];
 
 		if ( ROSARIO_DEBUG && function_exists( 'd' ) )
 		{
@@ -330,12 +330,12 @@ function _validMoodleURLandToken()
 
 	$id = 2; // Default Admin ID.
 
-	$criteria = array(
+	$criteria = [
 		'key' => 'id',
 		'value' => $id,
-	);
+	];
 
-	$object = array( 'criteria' => $criteria );
+	$object = [ 'criteria' => $criteria ];
 
 	return moodle_xmlrpc_call( $functionname, $object );
 }

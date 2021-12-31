@@ -609,7 +609,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 
 			if ( ! empty( $error ) )
 			{
-				echo ErrorMessage( array( $error ), 'fatal' ); //display inside popup, before JS closing
+				echo ErrorMessage( [ $error ], 'fatal' ); //display inside popup, before JS closing
 			}
 
 			break;

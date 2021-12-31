@@ -20,14 +20,14 @@ function MoodleUsersList( $key, $value )
 	if ( ! MOODLE_URL
 		|| ! MOODLE_TOKEN )
 	{
-		return array();
+		return [];
 	}
 
 	$serverurl = MOODLE_URL . '/webservice/xmlrpc/server.php?wstoken=' . MOODLE_TOKEN;
 
 	if ( ! filter_var( $serverurl, FILTER_VALIDATE_URL ) )
 	{
-		return array();
+		return [];
 	}
 
 	// Check URL is responding with cURL.
@@ -40,16 +40,16 @@ function MoodleUsersList( $key, $value )
 		return $response;
 	}
 
-	$criteria = array(
+	$criteria = [
 		'key' => $key,
 		'value' => $value,
-	);
+	];
 
-	$object = array( 'criteria' => $criteria );
+	$object = [ 'criteria' => $criteria ];
 
 	$users = moodle_xmlrpc_call( $functionname, $object );
 
-	return empty( $users['users'] ) ? array() : $users['users'];
+	return empty( $users['users'] ) ? [] : $users['users'];
 }
 
 /**
@@ -64,12 +64,12 @@ function MoodleUsersList( $key, $value )
  */
 function MoodleUsersFilter( $users )
 {
-	$filtered_users = array();
+	$filtered_users = [];
 
 	$moodlexrosario_user_ids_RET = DBGet( "SELECT MOODLE_ID
 		FROM MOODLEXROSARIO
 		WHERE " . DBEscapeIdentifier( 'COLUMN' ) . "='student_id'
-		OR " . DBEscapeIdentifier( 'COLUMN' ) . "='staff_id'", array(), array( 'MOODLE_ID' ) );
+		OR " . DBEscapeIdentifier( 'COLUMN' ) . "='staff_id'", [], [ 'MOODLE_ID' ] );
 
 	$moodlexrosario_user_ids = array_keys( $moodlexrosario_user_ids_RET );
 
@@ -107,7 +107,7 @@ function MoodleUsersFilter( $users )
  */
 function MoodleUsersMake( $users )
 {
-	$formatted_users = array( 0 => array() );
+	$formatted_users = [ 0 => [] ];
 
 	foreach ( $users as $user )
 	{
@@ -121,7 +121,7 @@ function MoodleUsersMake( $users )
 			$user['lastname'] = $names[1];
 		}
 
-		$formatted_users[] = array(
+		$formatted_users[] = [
 			'CHECKBOX' => MakeChooseCheckbox( $user['id'] ),
 			'PROFILE' => MoodleUsersMakeProfile( $user['id'] ),
 			'FIRST_NAME' => MoodleUsersMakeName( $user['firstname'], $user['profileimageurl'] ),
@@ -129,7 +129,7 @@ function MoodleUsersMake( $users )
 			'EMAIL_ADDRESS' => issetVal( $user['email'] ),
 			'USERNAME' => $user['username'],
 			'ID' => $user['id'],
-		);
+		];
 	}
 
 	unset( $formatted_users[0] );
@@ -148,12 +148,12 @@ function MoodleUsersMake( $users )
  */
 function MoodleUsersMakeProfile( $user_id )
 {
-	$profiles = array(
+	$profiles = [
 		'student' => _( 'Student' ),
 		'teacher' => _( 'Teacher' ),
 		'parent' => _( 'Parent' ),
 		'admin' => _( 'Administrator' ),
-	);
+	];
 
 	$profile_select = SelectInput(
 		'student',
@@ -211,7 +211,7 @@ function MoodleUsersStudentEnrollmentForm()
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		ORDER BY SORT_ORDER" );
 
-	$options = array();
+	$options = [];
 
 	foreach ( (array) $gradelevels_RET as $gradelevel )
 	{
@@ -232,7 +232,7 @@ function MoodleUsersStudentEnrollmentForm()
 		AND SCHOOL_ID='" . UserSchool() . "'
 		ORDER BY DEFAULT_CALENDAR ASC" );
 
-	$options = array();
+	$options = [];
 
 	foreach ( (array) $calendars_RET as $calendar )
 	{
@@ -252,11 +252,11 @@ function MoodleUsersStudentEnrollmentForm()
 		WHERE ID!='" . UserSchool() . "'
 		AND SYEAR='" . UserSyear() . "'" );
 
-	$options = array(
+	$options = [
 		UserSchool() => _( 'Next grade at current school' ),
 		'0' => _( 'Retain' ),
 		'-1' => _( 'Do not enroll after this school year' ),
-	);
+	];
 
 	foreach ( (array) $schools_RET as $school )
 	{
@@ -277,7 +277,7 @@ function MoodleUsersStudentEnrollmentForm()
 		AND TYPE='Add'
 		ORDER BY SORT_ORDER" );
 
-	$options = array();
+	$options = [];
 
 	foreach ( (array) $enrollment_codes_RET as $enrollment_code )
 	{

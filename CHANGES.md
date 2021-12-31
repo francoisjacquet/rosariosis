@@ -6,7 +6,7 @@ Changes in 8.7
 - Rector fix bad code in functions/
 - Update tested on: not compatible with Internet Explorer in INSTALL.md, INSTALL_es.md & INSTALL_fr.md
 - Add ProgramFunctions/SendEmail.fnc.php|send_error action hook in SendEmail.fnc.php
-- EasyCodingStandard use short array notation in functions/, classes/core/, ProgramFunctions/ & modules/
+- EasyCodingStandard use short array notation in functions/, classes/core/, ProgramFunctions/, modules/ & plugins/
 - Fix month + year format, remove day (regression since 7.1) in Dashboard.inc.php
 
 Changes in 8.6.1

@@ -42,16 +42,16 @@ function enrol_manual_enrol_users_object()
 	//convert YYYY-MM-DD to timestamp
 	$timestart = strtotime( $start_date );
 
-	$enrolments = array(
-		array(
+	$enrolments = [
+		[
 			'roleid' => $roleid,
 			'userid' => $userid,
 			'courseid' => $courseid,
 			'timestart' => $timestart,
-		),
-	);
+		],
+	];
 
-	return array( $enrolments );
+	return [ $enrolments ];
 }
 
 /**

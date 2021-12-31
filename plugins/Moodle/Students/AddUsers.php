@@ -40,16 +40,16 @@ function core_role_assign_roles_object()
 	$roleid = MOODLE_PARENT_ROLE_ID;
 	$instanceid = $studentid;
 
-	$assignments = array(
-		array(
+	$assignments = [
+		[
 			'roleid' => $roleid,
 			'userid' => $userid,
 			'contextlevel' => $contextlevel,
 			'instanceid' => $instanceid,
-		),
-	);
+		],
+	];
 
-	return array( $assignments );
+	return [ $assignments ];
 }
 
 /**
@@ -99,16 +99,16 @@ function core_role_unassign_roles_object()
 	$contextlevel = 'user';
 	$instanceid = $studentid;
 
-	$unassignments = array(
-		array(
+	$unassignments = [
+		[
 			'roleid' => $roleid,
 			'userid' => $userid,
 			'contextlevel' => $contextlevel,
 			'instanceid' => $instanceid,
-		),
-	);
+		],
+	];
 
-	return array( $unassignments );
+	return [ $unassignments ];
 }
 
 /**
