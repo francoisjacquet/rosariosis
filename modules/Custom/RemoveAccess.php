@@ -60,7 +60,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 		$error[] = _( 'You must choose at least one student.' );
 	}
 
-	RedirectURL( array( 'modfunc', 'st_arr' ) );
+	RedirectURL( [ 'modfunc', 'st_arr' ] );
 }
 
 if ( ! $_REQUEST['modfunc'] )
@@ -149,13 +149,13 @@ if ( ! $_REQUEST['modfunc'] )
 		$extra['WHERE'] .= " AND s.USERNAME NOT LIKE '" . DBEscapeString( $username_prefix_add ) . "%'";
 	}
 
-	$extra['columns_after'] = array( 'USERNAME' => _( 'Username' ) );
+	$extra['columns_after'] = [ 'USERNAME' => _( 'Username' ) ];
 
 	$extra['SELECT'] = issetVal( $extra['SELECT'], '' );
 	$extra['SELECT'] .= ",s.STUDENT_ID AS CHECKBOX,s.USERNAME";
-	$extra['link'] = array( 'FULL_NAME' => false );
-	$extra['functions'] = array( 'CHECKBOX' => 'MakeChooseCheckbox' );
-	$extra['columns_before'] = array( 'CHECKBOX' => MakeChooseCheckbox( 'Y', '', 'st_arr' ) );
+	$extra['link'] = [ 'FULL_NAME' => false ];
+	$extra['functions'] = [ 'CHECKBOX' => 'MakeChooseCheckbox' ];
+	$extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( 'Y', '', 'st_arr' ) ];
 	$extra['new'] = true;
 
 	$extra['action'] = '&accessfunc=' . $accessfunc;

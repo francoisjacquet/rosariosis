@@ -115,7 +115,7 @@ if ( ! $_REQUEST['modfunc'] )
 		WHERE USER_ID='" . User( 'STAFF_ID' ) . "'
 		AND PROGRAM IN ('Preferences','StudentFieldsSearch','StudentFieldsView',
 			'WidgetsSearch','StaffFieldsSearch','StaffFieldsView','StaffWidgetsSearch')",
-		array(), array( 'PROGRAM', 'TITLE' ) );
+		[], [ 'PROGRAM', 'TITLE' ] );
 
 	if ( empty( $_REQUEST['tab'] ) )
 	{
@@ -133,90 +133,90 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		$_ROSARIO['allow_edit'] = true;
 
-		$tabs = array(
-			array(
+		$tabs = [
+			[
 				'title' => _( 'Display Options' ),
 				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=display_options',
-			),
-			array(
+			],
+			[
 				'title' => _( 'Print Options' ),
 				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=print_options',
-			),
-			array(
+			],
+			[
 				'title' => _( 'Student Listing' ),
 				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=student_listing',
-			),
-			array(
+			],
+			[
 				'title' => _( 'Password' ),
 				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=password',
-			),
-			array(
+			],
+			[
 				'title' => _( 'Student Fields' ),
 				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=student_fields',
-			),
-			array(
+			],
+			[
 				'title' => _( 'Widgets' ),
 				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=widgets',
-			),
-		);
+			],
+		];
 
 		if ( User( 'PROFILE' ) === 'admin' )
 		{
-			$tabs[] = array(
+			$tabs[] = [
 				'title' => _( 'User Fields' ),
 				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=staff_fields',
-			);
+			];
 
-			$tabs[] = array(
+			$tabs[] = [
 				'title' => _( 'User Widgets' ),
 				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=staff_widgets',
-			);
+			];
 		}
 	}
 	elseif ( User( 'PROFILE' ) === 'parent' )
 	{
 		$_ROSARIO['allow_edit'] = true;
 
-		$tabs = array(
-			array(
+		$tabs = [
+			[
 				'title' => _( 'Display Options' ),
 				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=display_options',
-			),
-			array(
+			],
+			[
 				'title' => _( 'Print Options' ),
 				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=print_options',
-			),
-			array(
+			],
+			[
 				'title' => _( 'Password' ),
 				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=password',
-			),
-			array(
+			],
+			[
 				'title' => _( 'Student Fields' ),
 				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=student_fields',
-			),
-		);
+			],
+		];
 	}
 
 	// FJ enable password change for students.
 	else
 	{
-		$tabs = array(
-			array(
+		$tabs = [
+			[
 				'title' => _( 'Password' ),
 				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=password',
-			),
-		);
+			],
+		];
 	}
 
 	$_ROSARIO['selected_tab'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=' . $_REQUEST['tab'];
 
-	$LO_options = array(
+	$LO_options = [
 		'responsive' => false,
 		'search' => false,
 		'save' => false,
-	);
+	];
 
-	if ( ! in_array( $_REQUEST['tab'], array( 'student_fields', 'staff_fields' ) ) )
+	if ( ! in_array( $_REQUEST['tab'], [ 'student_fields', 'staff_fields' ] ) )
 	{
 		PopTable( 'header', $tabs );
 	}
@@ -244,7 +244,7 @@ if ( ! $_REQUEST['modfunc'] )
 			Preferences( 'SORT' ),
 			'values[Preferences][SORT]',
 			_( 'Student Sorting' ),
-			array( 'Name' => _( 'Name' ), 'Grade' => _( 'Grade Level' ) . ', ' . _( 'Name' ) ),
+			[ 'Name' => _( 'Name' ), 'Grade' => _( 'Grade Level' ) . ', ' . _( 'Name' ) ],
 			$allow_na,
 			$extra,
 			$div
@@ -257,11 +257,11 @@ if ( ! $_REQUEST['modfunc'] )
 			Preferences( 'DELIMITER' ),
 			'values[Preferences][DELIMITER]',
 			_( 'File Export Type' ),
-			array(
+			[
 				'Tab' => _( 'Excel' ),
 				'CSV' => 'CSV (OpenOffice / LibreOffice) (UTF-8)', // Do not Translate
 				'XML' => 'XML', // Do not Translate
-			),
+			],
 			$allow_na,
 			$extra,
 			$div
@@ -274,12 +274,12 @@ if ( ! $_REQUEST['modfunc'] )
 			Preferences( 'E_DATE' ),
 			'values[Preferences][E_DATE]',
 			_( 'Date Export Format' ),
-			array(
+			[
 				'' => _( 'Display Options Format' ),
 				'MM/DD/YYYY' => 'MM/DD/YYYY', // Do not Translate
 				// @since 7.1 Export (Excel) date to YYYY-MM-DD format (ISO).
 				'YYYY-MM-DD' => 'YYYY-MM-DD', // Do not Translate
-			),
+			],
 			$allow_na,
 			$extra,
 			$div
@@ -338,7 +338,7 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		echo '<table class="cellpadding-5"><tr><td>';
 
-		$theme_options = array();
+		$theme_options = [];
 
 		$themes = glob( 'assets/themes/*', GLOB_ONLYDIR );
 
@@ -390,7 +390,7 @@ if ( ! $_REQUEST['modfunc'] )
 		// @since 7.1 Select Date Format: Add Preferences( 'DATE' ).
 		// @link https://en.wikipedia.org/wiki/Date_format_by_country
 		// @link https://www.php.net/strftime
-		$date_options = array(
+		$date_options = [
 			'%B %d %Y' => ucfirst( strftime( '%B %d %Y' ) ), // August 18 2020.
 			'%b %d %Y' => ucfirst( strftime( '%b %d %y' ) ), // Aug 18 20.
 			'%d %B %Y' => strftime( '%d %B %Y' ), // 18 August 2020.
@@ -401,7 +401,7 @@ if ( ! $_REQUEST['modfunc'] )
 			'%d.%m.%Y' => strftime( '%d.%m.%Y' ), // 18.08.2020.
 			'%d-%m-%Y' => strftime( '%d-%m-%Y' ), // 18-08-2020.
 			'%Y-%m-%d' => strftime( '%Y-%m-%d' ), // 2020-08-18.
-		);
+		];
 
 		echo SelectInput(
 			Preferences( 'DATE' ),
@@ -438,7 +438,7 @@ if ( ! $_REQUEST['modfunc'] )
 			Preferences( 'PAGE_SIZE' ),
 			'values[Preferences][PAGE_SIZE]',
 			_( 'Page Size' ),
-			array( 'A4' => 'A4', 'LETTER' => _( 'US Letter' ) ),
+			[ 'A4' => 'A4', 'LETTER' => _( 'US Letter' ) ],
 			$allow_na,
 			$extra,
 			$div
@@ -497,9 +497,9 @@ if ( ! $_REQUEST['modfunc'] )
 			ORDER BY sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER,cf.TITLE";
 
 		$custom_fields_RET = DBGet(
-			DBQuery( $custom_fields_sql ),
-			array( 'SEARCH' => '_make', 'DISPLAY' => '_make' ),
-			array( 'CATEGORY' )
+			$custom_fields_sql,
+			[ 'SEARCH' => '_make', 'DISPLAY' => '_make' ],
+			[ 'CATEGORY' ]
 		);
 
 		foreach ( $custom_fields_RET as &$category_RET )
@@ -519,113 +519,113 @@ if ( ! $_REQUEST['modfunc'] )
 		if ( ! isset( $custom_fields_RET[$general_info_category_title] ) )
 		{
 			// Empty General Info category.
-			$custom_fields_RET[$general_info_category_title] = array();
+			$custom_fields_RET[$general_info_category_title] = [];
 		}
 
 		$THIS_RET['ID'] = 'USERNAME';
-		$username_field = array(
+		$username_field = [
 			'CATEGORY' => '<b>' . ParseMLField( $general_info_category_title ) . '</b>',
 			'ID' => 'USERNAME',
 			'TITLE' => _( 'Username' ),
 			'SEARCH' => _make( 'USERNAME', 'SEARCH' ),
 			'DISPLAY' => _make( 'USERNAME', 'DISPLAY' ),
-		);
+		];
 
 		// Add Username to General Info fields.
 		$custom_fields_RET[$general_info_category_title] = array_merge(
-			array( $username_field ),
+			[ $username_field ],
 			$custom_fields_RET[$general_info_category_title]
 		);
 
 		$THIS_RET['ID'] = 'CONTACT_INFO';
-		$custom_fields_RET[-1][1] = array(
+		$custom_fields_RET[-1][1] = [
 			'CATEGORY' => '<b>' . _( 'Contact Information' ) . '</b>',
 			'ID' => 'CONTACT_INFO',
 			'TITLE' => button( 'down_phone', '', '', 'bigger' ) . ' ' . _( 'Contact Information' ),
 			'DISPLAY' => _make( '', 'DISPLAY' ),
-		);
+		];
 
 		$THIS_RET['ID'] = 'HOME_PHONE';
-		$custom_fields_RET[-1][] = array(
+		$custom_fields_RET[-1][] = [
 			'CATEGORY' => '<b>' . _( 'Contact Information' ) . '</b>',
 			'ID' => 'HOME_PHONE',
 			'TITLE' => _( 'Home Phone Number' ),
 			'DISPLAY' => _make( '', 'DISPLAY' ),
-		);
+		];
 
 		$THIS_RET['ID'] = 'GUARDIANS';
-		$custom_fields_RET[-1][] = array(
+		$custom_fields_RET[-1][] = [
 			'CATEGORY' => '<b>' . _( 'Contact Information' ) . '</b>',
 			'ID' => 'GUARDIANS',
 			'TITLE' => _( 'Guardians' ),
 			'DISPLAY' => _make( '', 'DISPLAY' ),
-		);
+		];
 
 		$THIS_RET['ID'] = 'ALL_CONTACTS';
-		$custom_fields_RET[-1][] = array(
+		$custom_fields_RET[-1][] = [
 			'CATEGORY' => '<b>' . _( 'Contact Information' ) . '</b>',
 			'ID' => 'ALL_CONTACTS',
 			'TITLE' => _( 'All Contacts' ),
 			'DISPLAY' => _make( '', 'DISPLAY' ),
-		);
+		];
 
-		$custom_fields_RET[0][1] = array(
+		$custom_fields_RET[0][1] = [
 			'CATEGORY' => '<b>' . _( 'Addresses' ) . '</b>',
 			'ID' => 'ADDRESS',
 			'TITLE' => _( 'None' ),
 			'DISPLAY' => _makeAddress( '' ),
-		);
+		];
 
-		$custom_fields_RET[0][] = array(
+		$custom_fields_RET[0][] = [
 			'CATEGORY' => '<b>' . _( 'Addresses' ) . '</b>',
 			'ID' => 'ADDRESS',
 			'TITLE' => button( 'house', '', '', 'bigger' ) . ' ' . _( 'Residence' ),
 			'DISPLAY' => _makeAddress( 'RESIDENCE' ),
-		);
+		];
 
 		//FJ disable mailing address display
 
 		if ( Config( 'STUDENTS_USE_MAILING' ) )
 		{
-			$custom_fields_RET[0][] = array(
+			$custom_fields_RET[0][] = [
 				'CATEGORY' => '<b>' . _( 'Addresses' ) . '</b>',
 				'ID' => 'ADDRESS',
 				'TITLE' => button( 'mailbox', '', '', 'bigger' ) . ' ' . _( 'Mailing' ),
 				'DISPLAY' => _makeAddress( 'MAILING' ),
-			);
+			];
 		}
 
-		$custom_fields_RET[0][] = array(
+		$custom_fields_RET[0][] = [
 			'CATEGORY' => '<b>' . _( 'Addresses' ) . '</b>',
 			'ID' => 'ADDRESS',
 			'TITLE' => button( 'bus', '', '', 'bigger' ) . ' ' . _( 'Bus Pickup' ),
 			'DISPLAY' => _makeAddress( 'BUS_PICKUP' ),
-		);
+		];
 
-		$custom_fields_RET[0][] = array(
+		$custom_fields_RET[0][] = [
 			'CATEGORY' => '<b>' . _( 'Addresses' ) . '</b>',
 			'ID' => 'ADDRESS',
 			'TITLE' => button( 'bus', '', '', 'bigger' ) . ' ' . _( 'Bus Dropoff' ),
 			'DISPLAY' => _makeAddress( 'BUS_DROPOFF' ),
-		);
+		];
 
 		if ( User( 'PROFILE' ) === 'admin'
 			|| User( 'PROFILE' ) === 'teacher' )
 		{
-			$columns = array(
+			$columns = [
 				'CATEGORY' => '<span class="a11y-hidden">' . _( 'Category' ) . '</span>',
 				'TITLE' => _( 'Field' ),
 				'SEARCH' => _( 'Search' ),
 				'DISPLAY' => _( 'Expanded View' ),
-			);
+			];
 		}
 		else
 		{
-			$columns = array(
+			$columns = [
 				'CATEGORY' => '<span class="a11y-hidden">' . _( 'Category' ) . '</span>',
 				'TITLE' => _( 'Field' ),
 				'DISPLAY' => _( 'Expanded View' ),
-			);
+			];
 		}
 
 		ListOutput(
@@ -633,8 +633,8 @@ if ( ! $_REQUEST['modfunc'] )
 			$columns,
 			'.',
 			'.',
-			array(),
-			array( array( 'CATEGORY' ) ),
+			[],
+			[ [ 'CATEGORY' ] ],
 			$LO_options
 		);
 	}
@@ -643,85 +643,85 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( $_REQUEST['tab'] === 'widgets' )
 	{
-		$widgets = array();
+		$widgets = [];
 
 		if ( $RosarioModules['Students'] )
 		{
-			$widgets += array(
+			$widgets += [
 				'calendar' => _( 'Calendar' ),
 				'next_year' => _( 'Next School Year' ),
-			);
+			];
 		}
 
 		if ( $RosarioModules['Scheduling'] && User( 'PROFILE' ) === 'admin' )
 		{
-			$widgets += array( 'course' => _( 'Course' ), 'request' => _( 'Request' ) );
+			$widgets += [ 'course' => _( 'Course' ), 'request' => _( 'Request' ) ];
 		}
 
 		if ( $RosarioModules['Attendance'] )
 		{
-			$widgets += array( 'absences' => _( 'Days Absent' ) );
+			$widgets += [ 'absences' => _( 'Days Absent' ) ];
 		}
 
 		if ( $RosarioModules['Grades'] )
 		{
-			$widgets += array(
+			$widgets += [
 				'gpa' => _( 'GPA' ),
 				'class_rank' => _( 'Class Rank' ),
 				'letter_grade' => _( 'Grade' ),
-			);
+			];
 		}
 
 		if ( $RosarioModules['Eligibility'] )
 		{
-			$widgets += array( 'eligibility' => _( 'Eligibility' ), 'activity' => _( 'Activity' ) );
+			$widgets += [ 'eligibility' => _( 'Eligibility' ), 'activity' => _( 'Activity' ) ];
 		}
 
 		if ( $RosarioModules['Food_Service'] )
 		{
-			$widgets += array(
+			$widgets += [
 				'fsa_balance' => _( 'Food Service Balance' ),
 				'fsa_discount' => _( 'Food Service Discount' ),
 				'fsa_status' => _( 'Food Service Status' ),
 				'fsa_barcode' => _( 'Food Service Barcode' ),
-			);
+			];
 		}
 
 		if ( $RosarioModules['Discipline'] )
 		{
-			$widgets += array(
+			$widgets += [
 				'reporter' => _( 'Discipline Reporter' ),
 				'incident_date' => _( 'Discipline Incident Date' ),
 				'discipline_fields' => _( 'Discipline Fields' ),
-			);
+			];
 		}
 
 		if ( $RosarioModules['Student_Billing'] )
 		{
-			$widgets += array( 'balance' => _( 'Student Billing Balance' ) );
+			$widgets += [ 'balance' => _( 'Student Billing Balance' ) ];
 		}
 
-		$widgets_RET[0] = array();
+		$widgets_RET[0] = [];
 
 		foreach ( (array) $widgets as $widget => $title )
 		{
 			$THIS_RET['ID'] = $widget;
-			$widgets_RET[] = array( 'ID' => $widget, 'TITLE' => $title, 'WIDGET' => _make( '', 'WIDGET' ) );
+			$widgets_RET[] = [ 'ID' => $widget, 'TITLE' => $title, 'WIDGET' => _make( '', 'WIDGET' ) ];
 		}
 
 		unset( $widgets_RET[0] );
 
 		echo '<input type="hidden" name="values[WidgetsSearch]" />';
 
-		$columns = array( 'TITLE' => _( 'Widget' ), 'WIDGET' => _( 'Search' ) );
+		$columns = [ 'TITLE' => _( 'Widget' ), 'WIDGET' => _( 'Search' ) ];
 
 		ListOutput(
 			$widgets_RET,
 			$columns,
 			'.',
 			'.',
-			array(),
-			array(),
+			[],
+			[],
 			$LO_options
 		);
 	}
@@ -747,8 +747,8 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$custom_fields_RET = DBGet(
 			DBQuery( $custom_fields_sql ),
-			array( 'STAFF_SEARCH' => '_make', 'STAFF_DISPLAY' => '_make' ),
-			array( 'CATEGORY' )
+			[ 'STAFF_SEARCH' => '_make', 'STAFF_DISPLAY' => '_make' ],
+			[ 'CATEGORY' ]
 		);
 
 		foreach ( $custom_fields_RET as &$category_RET )
@@ -774,18 +774,18 @@ if ( ! $_REQUEST['modfunc'] )
 			$i = 1;
 
 			// Empty General Info category.
-			$custom_fields_RET[$general_info_category_title] = array();
+			$custom_fields_RET[$general_info_category_title] = [];
 		}
 
 		echo '<input type="hidden" name="values[StaffFieldsSearch]" />
 			<input type="hidden" name="values[StaffFieldsView]" />';
 
-		$columns = array(
+		$columns = [
 			'CATEGORY' => '<span class="a11y-hidden">' . _( 'Category' ) . '</span>',
 			'TITLE' => _( 'Field' ),
 			'STAFF_SEARCH' => _( 'Search' ),
 			'STAFF_DISPLAY' => _( 'Expanded View' ),
-		);
+		];
 
 		//FJ no responsive table
 		ListOutput(
@@ -793,8 +793,8 @@ if ( ! $_REQUEST['modfunc'] )
 			$columns,
 			'.',
 			'.',
-			array(),
-			array( array( 'CATEGORY' ) ),
+			[],
+			[ [ 'CATEGORY' ] ],
 			$LO_options
 		);
 	}
@@ -804,52 +804,52 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( $_REQUEST['tab'] === 'staff_widgets'
 		&& User( 'PROFILE' ) === 'admin' )
 	{
-		$widgets = array();
+		$widgets = [];
 
 		if ( $RosarioModules['Users'] )
 		{
-			$widgets += array( 'permissions' => _( 'Permissions' ) );
+			$widgets += [ 'permissions' => _( 'Permissions' ) ];
 		}
 
 		if ( $RosarioModules['Food_Service'] )
 		{
-			$widgets += array(
+			$widgets += [
 				'fsa_balance' => _( 'Food Service Balance' ),
 				'fsa_status' => _( 'Food Service Status' ),
 				'fsa_barcode' => _( 'Food Service Barcode' ),
-			);
+			];
 		}
 
 		if ( $RosarioModules['Accounting'] )
 		{
-			$widgets += array( 'staff_balance' => _( 'Staff Payroll Balance' ) );
+			$widgets += [ 'staff_balance' => _( 'Staff Payroll Balance' ) ];
 		}
 
-		$widgets_RET[0] = array();
+		$widgets_RET[0] = [];
 
 		foreach ( (array) $widgets as $widget => $title )
 		{
 			$THIS_RET['ID'] = $widget;
-			$widgets_RET[] = array( 'ID' => $widget, 'TITLE' => $title, 'STAFF_WIDGET' => _make( '', 'STAFF_WIDGET' ) );
+			$widgets_RET[] = [ 'ID' => $widget, 'TITLE' => $title, 'STAFF_WIDGET' => _make( '', 'STAFF_WIDGET' ) ];
 		}
 
 		unset( $widgets_RET[0] );
 
 		echo '<input type="hidden" name="values[StaffWidgetsSearch]" />';
-		$columns = array( 'TITLE' => _( 'Widget' ), 'STAFF_WIDGET' => _( 'Search' ) );
+		$columns = [ 'TITLE' => _( 'Widget' ), 'STAFF_WIDGET' => _( 'Search' ) ];
 
 		ListOutput(
 			$widgets_RET,
 			$columns,
 			'.',
 			'.',
-			array(),
-			array(),
+			[],
+			[],
 			$LO_options
 		);
 	}
 
-	if ( ! in_array( $_REQUEST['tab'], array( 'student_fields', 'staff_fields' ) ) )
+	if ( ! in_array( $_REQUEST['tab'], [ 'student_fields', 'staff_fields' ] ) )
 	{
 		PopTable( 'footer' );
 	}

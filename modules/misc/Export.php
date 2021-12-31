@@ -69,10 +69,10 @@ if ( ! empty( $_REQUEST['fields'] )
 		|| ! empty( $_REQUEST['fields']['PARENTS'] ) ) )
 {
 	$extra['SELECT'] .= ',a.ADDRESS_ID,a.ADDRESS,a.CITY,a.STATE,a.ZIPCODE,a.PHONE,' .
-		db_case( array( 'sam.MAILING', "'Y'", 'coalesce(a.MAIL_ADDRESS,a.ADDRESS)', 'NULL' ) ) . ' AS MAIL_ADDRESS,' .
-		db_case( array( 'sam.MAILING', "'Y'", 'coalesce(a.MAIL_CITY,a.CITY)', 'NULL' ) ) . ' AS MAIL_CITY,' .
-		db_case( array( 'sam.MAILING', "'Y'", 'coalesce(a.MAIL_STATE,a.STATE)', 'NULL' ) ) . ' AS MAIL_STATE,' .
-		db_case( array( 'sam.MAILING', "'Y'", 'coalesce(a.MAIL_ZIPCODE,a.ZIPCODE)', 'NULL' ) ) . ' AS MAIL_ZIPCODE';
+		db_case( [ 'sam.MAILING', "'Y'", 'coalesce(a.MAIL_ADDRESS,a.ADDRESS)', 'NULL' ] ) . ' AS MAIL_ADDRESS,' .
+		db_case( [ 'sam.MAILING', "'Y'", 'coalesce(a.MAIL_CITY,a.CITY)', 'NULL' ] ) . ' AS MAIL_CITY,' .
+		db_case( [ 'sam.MAILING', "'Y'", 'coalesce(a.MAIL_STATE,a.STATE)', 'NULL' ] ) . ' AS MAIL_STATE,' .
+		db_case( [ 'sam.MAILING', "'Y'", 'coalesce(a.MAIL_ZIPCODE,a.ZIPCODE)', 'NULL' ] ) . ' AS MAIL_ZIPCODE';
 
 	$extra['addr'] = true;
 
@@ -148,12 +148,12 @@ if ( ! empty( $_REQUEST['fields']['SCHOOL_TITLE'] ) )
 
 if ( empty( $extra['functions'] ) )
 {
-	$extra['functions'] = array(
+	$extra['functions'] = [
 		'NEXT_SCHOOL' => '_makeNextSchool',
 		'CALENDAR_ID' => '_makeCalendar',
 		'PARENTS' => 'makeParents',
 		'LAST_LOGIN' => 'makeLogin',
-	);
+	];
 }
 
 // Generate Report.
@@ -163,11 +163,11 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 		if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			BackPrompt( _( 'You must choose at least one field' ) );
 		else
-			echo ErrorMessage( array( _( 'You must choose at least one field' ) ), 'fatal' );
+			echo ErrorMessage( [ _( 'You must choose at least one field' ) ], 'fatal' );
 
 	if ( empty( $fields_list ) )
 	{
-		$fields_list = array(
+		$fields_list = [
 			'FULL_NAME' => _( 'Display Name' ),
 			'FIRST_NAME' => _( 'First Name' ),
 			'FIRST_INIT' => _( 'First Name Initial' ),
@@ -192,17 +192,17 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 			'PHONE' => _( 'Home Phone' ),
 			'PARENTS' => _( 'Contacts' ),
 			'LAST_LOGIN'=> _( 'Last Login' ),
-		);
+		];
 
 		//FJ disable mailing address display
 		if ( Config( 'STUDENTS_USE_MAILING' ) )
 		{
-			$fields_list += array(
+			$fields_list += [
 				'MAIL_ADDRESS' => _( 'Mailing Address' ),
 				'MAIL_CITY' => _( 'Mailing City' ),
 				'MAIL_STATE' => _( 'Mailing State' ),
 				'MAIL_ZIPCODE' => _( 'Mailing Zipcode' ),
-			);
+			];
 		}
 
 		if ( ! empty( $extra['field_names'] ) )
@@ -226,7 +226,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 
 	$custom_RET = DBGet( "SELECT TITLE,ID,TYPE
 		FROM CUSTOM_FIELDS
-		ORDER BY SORT_ORDER,TITLE", array(), array( 'ID' ) );
+		ORDER BY SORT_ORDER,TITLE", [], [ 'ID' ] );
 
 	foreach ( (array) $custom_RET as $id => $field )
 	{
@@ -244,7 +244,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 
 	$address_RET = DBGet( "SELECT TITLE,ID,TYPE
 		FROM ADDRESS_FIELDS
-		ORDER BY SORT_ORDER,TITLE", array(), array( 'ID' ) );
+		ORDER BY SORT_ORDER,TITLE", [], [ 'ID' ] );
 
 	foreach ( (array) $address_RET as $id => $field )
 	{
@@ -365,13 +365,13 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 				WHERE fsa.ACCOUNT_ID=fssa.ACCOUNT_ID) AS FS_BALANCE';
 		}
 
-		$fields_list += array(
+		$fields_list += [
 			'FS_ACCOUNT_ID' => _( 'Food Service' ) . ' ' . _( 'Account ID' ),
 			'FS_DISCOUNT' => _( 'Food Service' ) . ' ' . _( 'Discount' ),
 			'FS_STATUS' => _( 'Food Service' ) . ' ' . _( 'Status' ),
 			'FS_BARCODE' => _( 'Food Service' ) . ' ' . _( 'Barcode' ),
 			'FS_BALANCE' => _( 'Food Service' ) . ' ' . _( 'Balance' ),
-		);
+		];
 	}
 
 	if ( $RosarioModules['Student_Billing']
@@ -389,9 +389,9 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 				WHERE f.STUDENT_ID=ssm.STUDENT_ID
 				AND f.SYEAR=ssm.SYEAR), 0)) AS SB_BALANCE";
 
-			$extra['functions'] += array( 'SB_BALANCE' => 'Currency' );
+			$extra['functions'] += [ 'SB_BALANCE' => 'Currency' ];
 
-			$fields_list += array( 'SB_BALANCE' => _( 'Student Billing' ) . ' ' . _( 'Balance' ) );
+			$fields_list += [ 'SB_BALANCE' => _( 'Student Billing' ) . ' ' . _( 'Balance' ) ];
 		}
 
 		// @since 8.0 Add Total from Payments & Total from Fees fields to Advanced Report.
@@ -402,9 +402,9 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 				WHERE p.STUDENT_ID=ssm.STUDENT_ID
 				AND p.SYEAR=ssm.SYEAR), 0) AS SB_PAYMENTS";
 
-			$extra['functions'] += array( 'SB_PAYMENTS' => 'Currency' );
+			$extra['functions'] += [ 'SB_PAYMENTS' => 'Currency' ];
 
-			$fields_list += array( 'SB_PAYMENTS' => _( 'Total from Payments' ) );
+			$fields_list += [ 'SB_PAYMENTS' => _( 'Total from Payments' ) ];
 		}
 
 		if ( ! empty( $_REQUEST['fields']['SB_FEES'] ) )
@@ -414,9 +414,9 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 				WHERE f.STUDENT_ID=ssm.STUDENT_ID
 				AND f.SYEAR=ssm.SYEAR), 0) AS SB_FEES";
 
-			$extra['functions'] += array( 'SB_FEES' => 'Currency' );
+			$extra['functions'] += [ 'SB_FEES' => 'Currency' ];
 
-			$fields_list += array( 'SB_FEES' => _( 'Total from Fees' ) );
+			$fields_list += [ 'SB_FEES' => _( 'Total from Fees' ) ];
 		}
 	}
 
@@ -468,7 +468,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 			}
 		}
 
-		$extra['LO_group'] = array();
+		$extra['LO_group'] = [];
 
 		if ( ! empty( $_REQUEST['address_group'] ) )
 		{
@@ -477,7 +477,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 				WHERE STUDENT_ID=ssm.STUDENT_ID
 				AND RESIDENCE='Y' LIMIT 1),-ssm.STUDENT_ID) AS FAMILY_ID";
 
-			$extra['group'] = $extra['LO_group'] = array( 'FAMILY_ID' );
+			$extra['group'] = $extra['LO_group'] = [ 'FAMILY_ID' ];
 		}
 
 		$RET = GetStuList( $extra );
@@ -491,7 +491,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 		if ( empty( $_REQUEST['LO_save'] )
 			&& empty( $extra['suppress_save'] ) )
 		{
-			$_SESSION['List_PHP_SELF'] = PreparePHP_SELF( $_SESSION['_REQUEST_vars'], array( 'bottom_back' ) );
+			$_SESSION['List_PHP_SELF'] = PreparePHP_SELF( $_SESSION['_REQUEST_vars'], [ 'bottom_back' ] );
 
 			if ( $_SESSION['Back_PHP_SELF'] != 'student' )
 			{
@@ -507,11 +507,11 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 		{
 			if ( empty( $_REQUEST['address_group'] ) )
 			{
-				$header_left = '<a href="' . PreparePHP_SELF( $_REQUEST, array(), array( 'address_group' => 'Y' ) ) . '">' .
+				$header_left = '<a href="' . PreparePHP_SELF( $_REQUEST, [], [ 'address_group' => 'Y' ] ) . '">' .
 					_( 'Group by Family' ) . '</a>';
 			}
 			else
-				$header_left = '<a href="' . PreparePHP_SELF( $_REQUEST, array(), array( 'address_group' => '' ) ) . '">'.
+				$header_left = '<a href="' . PreparePHP_SELF( $_REQUEST, [], [ 'address_group' => '' ] ) . '">'.
 					_( 'Ungroup by Family' ) . '</a>';
 
 			DrawHeader( $header_left );
@@ -521,11 +521,11 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 
 		if ( ! empty( $_REQUEST['address_group'] ) )
 		{
-			ListOutput( $RET, $columns, 'Family', 'Families', array(), $extra['LO_group'] );
+			ListOutput( $RET, $columns, 'Family', 'Families', [], $extra['LO_group'] );
 		}
 		else
 		{
-			ListOutput( $RET, $columns, 'Student', 'Students', array(), $extra['LO_group'] );
+			ListOutput( $RET, $columns, 'Student', 'Students', [], $extra['LO_group'] );
 		}
 	}
 }
@@ -537,7 +537,7 @@ else
 		// General Info
 		if ( AllowUse( 'Students/Student.php&category_id=1' ) )
 		{
-			$fields_list['General'] = array(
+			$fields_list['General'] = [
 				'FULL_NAME' => _( 'Display Name' ),
 				'FIRST_NAME' => _( 'First Name' ),
 				'FIRST_INIT' => _( 'First Name Initial' ),
@@ -556,7 +556,7 @@ else
 				'ENROLLMENT_SHORT' => _( 'Enrollment Code' ),
 				'DROP_SHORT' => _( 'Drop Code' ),
 				'LAST_LOGIN' => _( 'Last Login' ),
-			);
+			];
 		}
 
 		// Addresses & Contacts
@@ -565,7 +565,7 @@ else
 			// Disable mailing address display.
 			if ( Config( 'STUDENTS_USE_MAILING' ) )
 			{
-				$fields_list['Address'] = array(
+				$fields_list['Address'] = [
 					'ADDRESS' => _( 'Address' ),
 					'MAIL_ADDRESS' => _( 'Mailing Address' ),
 					'CITY' => _( 'City' ),
@@ -576,18 +576,18 @@ else
 					'MAIL_ZIPCODE' => _( 'Mailing Zipcode' ),
 					'PHONE' => _( 'Home Phone' ),
 					'PARENTS' => _( 'Contacts' ),
-				);
+				];
 			}
 			else
 			{
-				$fields_list['Address'] = array(
+				$fields_list['Address'] = [
 					'ADDRESS' => _( 'Street' ),
 					'CITY' => _( 'City' ),
 					'STATE' => _( 'State' ),
 					'ZIPCODE' => _( 'Zip Code' ),
 					'PHONE' => _( 'Home Phone' ),
 					'PARENTS' => _( 'Contacts' ),
-				);
+				];
 			}
 
 			$categories_RET = DBGet( "SELECT ID,TITLE
@@ -596,7 +596,7 @@ else
 
 			$address_RET = DBGet( "SELECT TITLE,ID,TYPE,CATEGORY_ID
 				FROM ADDRESS_FIELDS
-				ORDER BY SORT_ORDER,TITLE", array() ,array ( 'CATEGORY_ID' ) );
+				ORDER BY SORT_ORDER,TITLE", [] , [ 'CATEGORY_ID' ] );
 
 			foreach ( (array) $categories_RET as $category )
 			{
@@ -620,7 +620,7 @@ else
 
 	$custom_RET = DBGet( "SELECT TITLE,ID,TYPE,CATEGORY_ID
 		FROM CUSTOM_FIELDS
-		ORDER BY SORT_ORDER,TITLE", array(), array('CATEGORY_ID') );
+		ORDER BY SORT_ORDER,TITLE", [], ['CATEGORY_ID'] );
 
 	foreach ( (array) $categories_RET as $category )
 	{
@@ -640,13 +640,13 @@ else
 	// Food Service
 	if ( $RosarioModules['Food_Service'] )
 	{
-		$fields_list['Food_Service'] = array(
+		$fields_list['Food_Service'] = [
 			'FS_ACCOUNT_ID' => _( 'Account ID' ),
 			'FS_DISCOUNT' => _( 'Discount' ),
 			'FS_STATUS' => _( 'Status' ),
 			'FS_BARCODE' => _( 'Barcode' ),
 			'FS_BALANCE' => _( 'Balance' ),
-		);
+		];
 	}
 
 	// Student Billing
@@ -654,9 +654,9 @@ else
 		&& AllowUse( 'Student_Billing/StudentFees.php' ) )
 	{
 		// Add Balance field to Advanced Report.
-		$fields_list['Student_Billing'] = array(
+		$fields_list['Student_Billing'] = [
 			'SB_BALANCE' => _( 'Balance' ),
-		);
+		];
 
 		// @since 8.0 Add Total from Payments & Total from Fees fields to Advanced Report.
 		$fields_list['Student_Billing']['SB_PAYMENTS'] = _( 'Total from Payments' );

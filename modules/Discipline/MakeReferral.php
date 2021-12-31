@@ -34,7 +34,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 			$go = 0;
 
-			$categories_RET = DBGet( "SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du WHERE du.SYEAR='" . UserSyear() . "' AND du.SCHOOL_ID='" . UserSchool() . "' AND du.DISCIPLINE_FIELD_ID=df.ID ORDER BY du.SORT_ORDER", array(), array( 'ID' ) );
+			$categories_RET = DBGet( "SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du WHERE du.SYEAR='" . UserSyear() . "' AND du.SCHOOL_ID='" . UserSchool() . "' AND du.DISCIPLINE_FIELD_ID=df.ID ORDER BY du.SORT_ORDER", [], [ 'ID' ] );
 
 			foreach ( (array) $_REQUEST['values'] as $column => $value )
 			{
@@ -131,7 +131,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	}
 
 	// Unset modfunc, values & st_arr & redirect URL.
-	RedirectURL( array( 'modfunc', 'values', 'st_arr' ) );
+	RedirectURL( [ 'modfunc', 'values', 'st_arr' ] );
 }
 
 echo ErrorMessage( $error );
@@ -171,7 +171,7 @@ if ( ! $_REQUEST['modfunc'] )
 			AND PROFILE IN ('admin','teacher')
 			ORDER BY FULL_NAME" );
 
-		$users_options = array();
+		$users_options = [];
 
 		foreach ( (array) $users_RET as $user )
 		{
@@ -205,7 +205,7 @@ if ( ! $_REQUEST['modfunc'] )
 		// FJ email Discipline Referral feature
 		// email Referral to: Administrators and/or Teachers
 		// get Administrators & Teachers with valid emails:
-		$emailadmin_options = $emailteacher_options = array();
+		$emailadmin_options = $emailteacher_options = [];
 
 		foreach ( (array) $users_RET as $user )
 		{
@@ -267,18 +267,18 @@ if ( ! $_REQUEST['modfunc'] )
 		echo '<br />';
 	}
 
-	$extra = array();
+	$extra = [];
 
-	$extra['link'] = array( 'FULL_NAME' => false );
+	$extra['link'] = [ 'FULL_NAME' => false ];
 
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
 
-	$extra['functions'] = array(
+	$extra['functions'] = [
 		'CHECKBOX' => 'MakeChooseCheckbox',
 		'FULL_NAME' => 'makePhotoTipMessage',
-	);
+	];
 
-	$extra['columns_before'] = array( 'CHECKBOX' => MakeChooseCheckbox( '', '', 'st_arr' ) );
+	$extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( '', '', 'st_arr' ) ];
 
 	$extra['new'] = true;
 

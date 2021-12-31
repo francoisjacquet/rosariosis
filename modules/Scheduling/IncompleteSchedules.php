@@ -33,7 +33,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 	$extra['WHERE'] .= ' AND cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND (\'' . DBDate() . '\' BETWEEN ss.START_DATE AND ss.END_DATE OR ss.END_DATE IS NULL) AND ss.SCHOOL_ID=ssm.SCHOOL_ID AND ss.MARKING_PERIOD_ID IN (' . GetAllMP( 'QTR', UserMP() ) . ') AND ss.STUDENT_ID=ssm.STUDENT_ID AND ss.SYEAR=ssm.SYEAR AND ss.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND cpsp.PERIOD_ID=sp.PERIOD_ID ';
 	//if (UserStudentID())
 	//	$extra['WHERE'] .= " AND s.STUDENT_ID='".UserStudentID()."' ";
-	$extra['group'] = array( 'STUDENT_ID', 'PERIOD_ID' );
+	$extra['group'] = [ 'STUDENT_ID', 'PERIOD_ID' ];
 
 	$schedule_RET = GetStuList( $extra );
 	unset( $extra );
@@ -65,7 +65,7 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 else
 {
 	$students_RET = GetStuList( $extra );
-	$bad_students[0] = array();
+	$bad_students[0] = [];
 
 	foreach ( (array) $students_RET as $student )
 	{
@@ -78,7 +78,7 @@ else
 
 	if ( ! isset( $extra['columns_after'] ) || ! is_array( $extra['columns_after'] ) )
 	{
-		$extra['columns_after'] = array();
+		$extra['columns_after'] = [];
 	}
 
 	unset( $bad_students[0] );
@@ -86,20 +86,20 @@ else
 	if ( AllowUse( 'Scheduling/Schedule.php' ) )
 	{
 		$link['FULL_NAME']['link'] = "Modules.php?modname=Scheduling/Schedule.php";
-		$link['FULL_NAME']['variables'] = array( 'student_id' => 'STUDENT_ID' );
+		$link['FULL_NAME']['variables'] = [ 'student_id' => 'STUDENT_ID' ];
 	}
 	else
 	{
-		$link = array();
+		$link = [];
 	}
 
 	ListOutput(
 		$bad_students,
-		array(
+		[
 			'FULL_NAME' => _( 'Student' ),
 			'STUDENT_ID' => sprintf( _( '%s ID' ), Config( 'NAME' ) ),
 			'GRADE_ID' => _( 'Grade Level' )
-		) + $extra['columns_after'],
+		] + $extra['columns_after'],
 		'Student with an incomplete schedule',
 		'Students with incomplete schedules',
 		$link

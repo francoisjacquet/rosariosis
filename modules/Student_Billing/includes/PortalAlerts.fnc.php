@@ -29,7 +29,7 @@ function StudentBillingPortalAlerts()
 
 	$last_login_date = mb_substr( $_SESSION['LAST_LOGIN'], 0, 10 );
 
-	$extra = array();
+	$extra = [];
 
 	$extra['SELECT_ONLY'] = 'count(*) AS COUNT';
 

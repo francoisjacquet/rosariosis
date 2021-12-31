@@ -8,39 +8,39 @@ $end_date = RequestedDate( 'end', DBDate(), 'set' );
 
 DrawHeader( ProgramTitle() );
 
-$types = array(
-	'Student' => array(
-		'DEPOSIT' => array( 'CASH' => 0, 'CHECK' => 0, 'CREDIT CARD' => 0, 'DEBIT CARD' => 0, 'TRANSFER' => 0, '' => 0 ),
-		'CREDIT' => array( 'CASH' => 0, 'CHECK' => 0, 'CREDIT CARD' => 0, 'DEBIT CARD' => 0, 'TRANSFER' => 0, '' => 0 ),
-		'DEBIT' => array( 'CASH' => 0, 'CHECK' => 0, 'CREDIT CARD' => 0, 'DEBIT CARD' => 0, 'TRANSFER' => 0, '' => 0 ),
-	),
-	'User' => array(
-		'DEPOSIT' => array( 'CASH' => 0, 'CHECK' => 0, 'CREDIT CARD' => 0, 'DEBIT CARD' => 0, 'TRANSFER' => 0, '' => 0 ),
-		'CREDIT' => array( 'CASH' => 0, 'CHECK' => 0, 'CREDIT CARD' => 0, 'DEBIT CARD' => 0, 'TRANSFER' => 0, '' => 0 ),
-		'DEBIT' => array( 'CASH' => 0, 'CHECK' => 0, 'CREDIT CARD' => 0, 'DEBIT CARD' => 0, 'TRANSFER' => 0, '' => 0 ),
-	),
-);
+$types = [
+	'Student' => [
+		'DEPOSIT' => [ 'CASH' => 0, 'CHECK' => 0, 'CREDIT CARD' => 0, 'DEBIT CARD' => 0, 'TRANSFER' => 0, '' => 0 ],
+		'CREDIT' => [ 'CASH' => 0, 'CHECK' => 0, 'CREDIT CARD' => 0, 'DEBIT CARD' => 0, 'TRANSFER' => 0, '' => 0 ],
+		'DEBIT' => [ 'CASH' => 0, 'CHECK' => 0, 'CREDIT CARD' => 0, 'DEBIT CARD' => 0, 'TRANSFER' => 0, '' => 0 ],
+	],
+	'User' => [
+		'DEPOSIT' => [ 'CASH' => 0, 'CHECK' => 0, 'CREDIT CARD' => 0, 'DEBIT CARD' => 0, 'TRANSFER' => 0, '' => 0 ],
+		'CREDIT' => [ 'CASH' => 0, 'CHECK' => 0, 'CREDIT CARD' => 0, 'DEBIT CARD' => 0, 'TRANSFER' => 0, '' => 0 ],
+		'DEBIT' => [ 'CASH' => 0, 'CHECK' => 0, 'CREDIT CARD' => 0, 'DEBIT CARD' => 0, 'TRANSFER' => 0, '' => 0 ],
+	],
+];
 
-$types_totals = array(
-	'Student' => array( 'CASH' => 0, 'CHECK' => 0, 'CREDIT CARD' => 0, 'DEBIT CARD' => 0, 'TRANSFER' => 0, '' => 0 ),
-	'User' => array( 'CASH' => 0, 'CHECK' => 0, 'CREDIT CARD' => 0, 'DEBIT CARD' => 0, 'TRANSFER' => 0, '' => 0 ),
-	'' => array( 'CASH' => 0, 'CHECK' => 0, 'CREDIT CARD' => 0, 'DEBIT CARD' => 0, 'TRANSFER' => 0, '' => 0 ),
-);
+$types_totals = [
+	'Student' => [ 'CASH' => 0, 'CHECK' => 0, 'CREDIT CARD' => 0, 'DEBIT CARD' => 0, 'TRANSFER' => 0, '' => 0 ],
+	'User' => [ 'CASH' => 0, 'CHECK' => 0, 'CREDIT CARD' => 0, 'DEBIT CARD' => 0, 'TRANSFER' => 0, '' => 0 ],
+	'' => [ 'CASH' => 0, 'CHECK' => 0, 'CREDIT CARD' => 0, 'DEBIT CARD' => 0, 'TRANSFER' => 0, '' => 0 ],
+];
 
-$types_rows = array(
+$types_rows = [
 	'DEPOSIT' => _( 'Deposit' ),
 	'CREDIT' => _( 'Credit' ),
 	'DEBIT' => _( 'Debit' ),
-);
+];
 
-$types_columns = array(
+$types_columns = [
 	'CASH' => _( 'Cash' ),
 	'CHECK' => _( 'Check' ),
 	'CREDIT CARD' => _( 'Credit Card' ),
 	'DEBIT CARD' => _( 'Debit Card' ),
 	'TRANSFER' => _( 'Transfer' ),
 	'' => 'n/s'
-);
+];
 
 
 echo '<form action="' . PreparePHP_SELF() . '" method="GET">';
@@ -58,7 +58,7 @@ AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID
 AND fst.SYEAR='" . UserSyear() . "'
 AND fst.SCHOOL_ID='" . UserSchool() . "'
 AND fst.TIMESTAMP BETWEEN '" . $start_date . "' AND date '" . $end_date . "' +1
-GROUP BY fst.SHORT_NAME,fsti.SHORT_NAME", array( 'ITEM_SHORT_NAME' => 'bump_amount' ) );
+GROUP BY fst.SHORT_NAME,fsti.SHORT_NAME", [ 'ITEM_SHORT_NAME' => 'bump_amount' ] );
 //echo '<pre>'; var_dump($RET); echo '</pre>';
 
 $RET = DBGet( "SELECT 'User' AS TYPE,fst.SHORT_NAME,fsti.SHORT_NAME AS ITEM_SHORT_NAME,sum(fsti.AMOUNT) AS AMOUNT
@@ -68,16 +68,16 @@ AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID
 AND fst.SYEAR='" . UserSyear() . "'
 AND fst.SCHOOL_ID='" . UserSchool() . "'
 AND fst.TIMESTAMP BETWEEN '" . $start_date . "' AND date '" . $end_date . "' +1
-GROUP BY fst.SHORT_NAME,fsti.SHORT_NAME", array( 'ITEM_SHORT_NAME' => 'bump_amount' ) );
+GROUP BY fst.SHORT_NAME,fsti.SHORT_NAME", [ 'ITEM_SHORT_NAME' => 'bump_amount' ] );
 //echo '<pre>'; var_dump($RET); echo '</pre>';
 
-$LO_types = array( 0 => array() );
+$LO_types = [ 0 => [] ];
 //FJ add translation
-$users_locale = array( 'Student' => _( 'Student' ), 'User' => _( 'User' ) );
+$users_locale = [ 'Student' => _( 'Student' ), 'User' => _( 'User' ) ];
 
 foreach ( (array) $types as $user => $trans )
 {
-	$TMP_types = array( 0 => array() );
+	$TMP_types = [ 0 => [] ];
 
 	foreach ( (array) $trans as $tran => $value )
 	{
@@ -86,21 +86,21 @@ foreach ( (array) $types as $user => $trans )
 
 		if ( $total != 0 )
 		{
-			$TMP_types[] = array(
+			$TMP_types[] = [
 				'TYPE' => ( empty( $users_locale[$user] ) ? $user : $users_locale[$user] ),
 				'TRANSACTION' => $types_rows[$tran],
 				'TOTAL' => '<b>' . number_format( $total, 2 ) . '</b>'
-			) + array_map( 'format', $value );
+			] + array_map( 'format', $value );
 		}
 	}
 
 	$total = array_sum( $types_totals[$user] );
 
-	$TMP_types[] = array(
+	$TMP_types[] = [
 		'TYPE' => '<b>' . ( empty( $users_locale[$user] ) ? $user : $users_locale[$user] ) . '</b>',
 		'TRANSACTION' => '<b>' . _( 'Totals' ) . '</b>',
 		'TOTAL' => '<b>' . number_format( $total, 2 ) . '</b>'
-	) + array_map( 'bold_format', $types_totals[$user] );
+	] + array_map( 'bold_format', $types_totals[$user] );
 
 	unset( $TMP_types[0] );
 	$LO_types[] = $TMP_types;
@@ -117,17 +117,17 @@ foreach ( (array) $types_totals[''] as $key => $value )
 	}
 }
 
-$LO_types[] = array( array(
+$LO_types[] = [ [
 	'TYPE' => '<b>' . _( 'Totals' ) . '</b>',
 	'TOTAL' => '<b>' . number_format( $total, 2 ) . '</b>'
-) + array_map( 'bold_format', $types_totals[''] ) );
+] + array_map( 'bold_format', $types_totals[''] ) ];
 
 unset( $LO_types[0] );
 
-$LO_columns = array(
+$LO_columns = [
 	'TYPE' => _( 'Type' ),
 	'TRANSACTION' => _( 'Transaction' )
-) + $types_columns + array( 'TOTAL' => _( 'Total' ) );
+] + $types_columns + [ 'TOTAL' => _( 'Total' ) ];
 
 ListOutput(
 	$LO_types,
@@ -135,8 +135,8 @@ ListOutput(
 	'Type',
 	'Types',
 	false,
-	array( array() ),
-	array( 'save' => false, 'search' => false, 'print' => false )
+	[ [] ],
+	[ 'save' => false, 'search' => false, 'print' => false ]
 );
 
 /**
@@ -178,13 +178,13 @@ function bump_amount( $value, $column )
 	}
 	else
 	{
-		$types[$THIS_RET['TYPE']] += array( $THIS_RET['SHORT_NAME'] => array( $value => $THIS_RET['AMOUNT'] ) );
+		$types[$THIS_RET['TYPE']] += [ $THIS_RET['SHORT_NAME'] => [ $value => $THIS_RET['AMOUNT'] ] ];
 		$types_rows[$THIS_RET['SHORT_NAME']] = $THIS_RET['SHORT_NAME'];
 	}
 
 	if ( ! $types_columns[$value] )
 	{
-		$types_columns += array( $value => $value );
+		$types_columns += [ $value => $value ];
 		$types_totals['Student'][$value] = 0;
 		$types_totals['User'][$value] = 0;
 		$types_totals[$THIS_RET['TYPE']][$value] = 0;

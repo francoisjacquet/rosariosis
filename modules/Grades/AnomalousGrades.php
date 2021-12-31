@@ -136,11 +136,11 @@ if ( $_REQUEST['include_all_courses'] == 'Y' )
 	$extra['all_courses'] = 'Y';
 }
 
-$extra['functions'] = array( 'POINTS' => '_makePoints' );
+$extra['functions'] = [ 'POINTS' => '_makePoints' ];
 
 if ( ! UserStudentID() )
 {
-	$extra['group'] = array( 'STUDENT_ID' );
+	$extra['group'] = [ 'STUDENT_ID' ];
 }
 
 $students_RET = GetStuList( $extra );
@@ -148,65 +148,65 @@ $students_RET = GetStuList( $extra );
 
 if ( UserStudentID() )
 {
-	$columns = array( 'POINTS' => _( 'Problem' ) );
-	$link = array();
-	$group = array();
+	$columns = [ 'POINTS' => _( 'Problem' ) ];
+	$link = [];
+	$group = [];
 }
 else
 {
-	$columns = array(
+	$columns = [
 		'FULL_NAME' => _( 'Name' ),
 		'STUDENT_ID' => sprintf( _( '%s ID' ), Config( 'NAME' ) ),
 		'POINTS' => _( 'Problem' ),
-	);
+	];
 
-	$link = array(
-		'FULL_NAME' => array(
+	$link = [
+		'FULL_NAME' => [
 			'link' => 'Modules.php?modname=' . $_REQUEST['modname'] .
 				'&include_all_courses=' . $_REQUEST['include_all_courses'] .
 				'&include_inactive=' . $_REQUEST['include_inactive'] .
 				'&missing=' . issetVal( $_REQUEST['missing'], '' ) .
 				'&negative=' . issetVal( $_REQUEST['negative'], '' ) .
 				'&max_allowed=' . issetVal( $_REQUEST['max_allowed'], '' ),
-			'variables' => array( 'student_id' => 'STUDENT_ID' ),
-		)
-	);
+			'variables' => [ 'student_id' => 'STUDENT_ID' ],
+		]
+	];
 
 	if ( $_REQUEST['include_all_courses'] == 'Y' )
 	{
 		$link['FULL_NAME']['variables']['period'] = 'COURSE_PERIOD_ID';
 	}
 
-	$group = array( 'STUDENT_ID' );
+	$group = [ 'STUDENT_ID' ];
 }
 
 if ( $_REQUEST['include_all_courses'] == 'Y' )
 {
-	$columns += array( 'COURSE_TITLE' => _( 'Course' ) );
+	$columns += [ 'COURSE_TITLE' => _( 'Course' ) ];
 }
 
-$columns += array( 'TYPE_TITLE' => _( 'Category' ), 'TITLE' => _( 'Assignment' ), 'COMMENT' => _( 'Comment' ) );
+$columns += [ 'TYPE_TITLE' => _( 'Category' ), 'TITLE' => _( 'Assignment' ), 'COMMENT' => _( 'Comment' ) ];
 
 if ( $_REQUEST['include_inactive'] )
 {
-	$columns += array( 'ACTIVE' => _( 'School Status' ), 'ACTIVE_SCHEDULE' => _( 'Course Status' ) );
+	$columns += [ 'ACTIVE' => _( 'School Status' ), 'ACTIVE_SCHEDULE' => _( 'Course Status' ) ];
 }
 
 $modname = str_replace( 'AnomalousGrades', 'Grades', $_REQUEST['modname'] );
 
 if ( AllowUse( $modname ) )
 {
-	$link += array(
-		'TITLE' => array(
+	$link += [
+		'TITLE' => [
 			'link' => 'Modules.php?modname=' . $modname .
 			'&include_inactive=' . $_REQUEST['include_inactive'],
-			'variables' => array(
+			'variables' => [
 				'type_id' => 'ASSIGNMENT_TYPE_ID',
 				'assignment_id' => 'ASSIGNMENT_ID',
 				'student_id' => 'STUDENT_ID',
-			),
-		),
-	);
+			],
+		],
+	];
 
 	if ( $_REQUEST['include_all_courses'] == 'Y' )
 	{
@@ -218,11 +218,11 @@ if ( AllowUse( $modname ) )
 
 if ( UserStudentID() )
 {
-	ListOutput( $students_RET, $columns, 'Anomalous Grade', 'Anomalous Grades', $link, $group, array( 'center' => false, 'save' => false, 'search' => false ) );
+	ListOutput( $students_RET, $columns, 'Anomalous Grade', 'Anomalous Grades', $link, $group, [ 'center' => false, 'save' => false, 'search' => false ] );
 }
 else
 {
-	ListOutput( $students_RET, $columns, 'Student with Anomalous Grades', 'Students with Anomalous Grades', $link, $group, array( 'center' => false, 'save' => false, 'search' => false ) );
+	ListOutput( $students_RET, $columns, 'Student with Anomalous Grades', 'Students with Anomalous Grades', $link, $group, [ 'center' => false, 'save' => false, 'search' => false ] );
 }
 
 /**

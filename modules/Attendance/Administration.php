@@ -15,7 +15,7 @@ if ( ! empty( $_SESSION['Administration.php']['date'] )
 	&& $_SESSION['Administration.php']['date'] !== $date )
 {
 	// Unset attendance & attendance day & redirect URL.
-	RedirectURL( array( 'attendance', 'attendance_day' ) );
+	RedirectURL( [ 'attendance', 'attendance_day' ] );
 }
 
 if ( $_REQUEST['table'] == '' )
@@ -40,16 +40,16 @@ $current_mp = GetCurrentMP( 'QTR', $date, false );
 if ( ! $current_mp )
 {
 	echo '<form action="' .
-		PreparePHP_SELF( $_REQUEST, array( 'codes', 'month_date', 'day_date', 'year_date' ) ) .
+		PreparePHP_SELF( $_REQUEST, [ 'codes', 'month_date', 'day_date', 'year_date' ] ) .
 		'" method="GET">';
 
 	DrawHeader(
-		PrepareDate( $date, '_date', false, array( 'submit' => true ) )
+		PrepareDate( $date, '_date', false, [ 'submit' => true ] )
 	);
 
 	echo '</form>';
 
-	ErrorMessage( array( _( 'The selected date is not in a school quarter.' ) ), 'fatal' );
+	ErrorMessage( [ _( 'The selected date is not in a school quarter.' ) ], 'fatal' );
 }
 
 $all_mp = GetAllMP( 'QTR', $current_mp );
@@ -105,7 +105,7 @@ else
 }
 
 // TODO: can be optimized? Remove PERIOD_ID index.
-$current_RET = DBGet( $current_Q, array(), array( 'STUDENT_ID', 'PERIOD_ID' ) );
+$current_RET = DBGet( $current_Q, [], [ 'STUDENT_ID', 'PERIOD_ID' ] );
 
 if ( ! empty( $_REQUEST['attendance'] ) // Fix GET form: do not check $_POST.
 	&& AllowEdit() )
@@ -114,7 +114,7 @@ if ( ! empty( $_REQUEST['attendance'] ) // Fix GET form: do not check $_POST.
 	{
 		if ( empty( $current_schedule_RET[$student_id] ) )
 		{
-			$current_schedule_RET[$student_id] = DBGet( str_replace( '__student_id__', $student_id, $current_schedule_Q ), array(), array( 'PERIOD_ID' ) );
+			$current_schedule_RET[$student_id] = DBGet( str_replace( '__student_id__', $student_id, $current_schedule_Q ), [], [ 'PERIOD_ID' ] );
 
 			if ( empty( $current_schedule_RET[$student_id] ) )
 			{
@@ -186,7 +186,7 @@ if ( ! empty( $_REQUEST['attendance'] ) // Fix GET form: do not check $_POST.
 	}
 
 	// TODO: can be optimized? Remove PERIOD_ID index.
-	$current_RET = DBGet( $current_Q, array(), array( 'STUDENT_ID', 'PERIOD_ID' ) );
+	$current_RET = DBGet( $current_Q, [], [ 'STUDENT_ID', 'PERIOD_ID' ] );
 
 	// Unset attendance & redirect URL.
 	RedirectURL( 'attendance' );
@@ -229,7 +229,7 @@ $headerl = '';
 
 if ( ! empty( $categories_RET ) )
 {
-	$tmp_PHP_SELF = PreparePHP_SELF( $_REQUEST, array( 'table', 'codes' ) );
+	$tmp_PHP_SELF = PreparePHP_SELF( $_REQUEST, [ 'table', 'codes' ] );
 
 	$headerl .= '<a href="' . $tmp_PHP_SELF . '&table=0">';
 
@@ -254,12 +254,12 @@ if ( isset( $_REQUEST['student_id'] ) && $_REQUEST['student_id'] !== 'new' )
 		SetUserStudentID( $_REQUEST['student_id'] );
 	}
 
-	$functions = array(
+	$functions = [
 		'ATTENDANCE_CODE' => '_makeCodePulldown',
 		'ATTENDANCE_TEACHER_CODE' => '_makeCode',
 		'ATTENDANCE_REASON' => '_makeReasonInput',
 		'COMMENT' => '_makeReason',
-	);
+	];
 
 	if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 	{
@@ -316,25 +316,25 @@ if ( isset( $_REQUEST['student_id'] ) && $_REQUEST['student_id'] !== 'new' )
 		ORDER BY p.SORT_ORDER", $functions );
 	}
 
-	$columns = array(
+	$columns = [
 		'PERIOD_TITLE' => _( 'Period' ),
 		'COURSE' => _( 'Course' ),
 		'ATTENDANCE_CODE' => _( 'Attendance Code' ),
 		'ATTENDANCE_TEACHER_CODE' => _( 'Teacher\'s Entry' ),
 		'ATTENDANCE_REASON' => _( 'Office Comment' ),
 		'COMMENT' => _( 'Teacher Comment' ),
-	);
+	];
 
 	echo '<form action="' .
-		PreparePHP_SELF( $_REQUEST, array( 'codes', 'month_date', 'day_date', 'year_date' ) ) .
+		PreparePHP_SELF( $_REQUEST, [ 'codes', 'month_date', 'day_date', 'year_date' ] ) .
 		'" method="GET">';
 
 	DrawHeader(
-		PrepareDate( $date, '_date', false, array( 'submit' => true ) ),
+		PrepareDate( $date, '_date', false, [ 'submit' => true ] ),
 		SubmitButton( _( 'Update' ) )
 	);
 
-	$headerr = '<a href="' . PreparePHP_Self( $_REQUEST, array( 'student_id' ) ) . '">' .
+	$headerr = '<a href="' . PreparePHP_Self( $_REQUEST, [ 'student_id' ] ) . '">' .
 	_( 'Student List' ) . '</a>';
 
 	DrawHeader( $headerl, $headerr );
@@ -441,13 +441,13 @@ else
 
 		$extra2['ORDER_BY'] = 'COALESCE(sjp.CUSTODY,\'N\') DESC';
 
-		$extra2['group'] = array( 'STUDENT_ID', 'PERSON_ID' );
+		$extra2['group'] = [ 'STUDENT_ID', 'PERSON_ID' ];
 
 		$contacts_RET = GetStuList( $extra2 );
 		$extra['columns_before']['PHONE'] = button( 'down_phone' );
 	}
 
-	$columns = array();
+	$columns = [];
 
 	$extra['SELECT'] = issetVal( $extra['SELECT'], '' );
 
@@ -468,7 +468,7 @@ else
 
 	// $extra['link']['FULL_NAME']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date'].'&year_date='.$_REQUEST['year_date'].'&table='.$_REQUEST['table'];
 	$extra['link']['FULL_NAME']['link'] = PreparePHP_SELF( $_REQUEST );
-	$extra['link']['FULL_NAME']['variables'] = array( 'student_id' => 'STUDENT_ID' );
+	$extra['link']['FULL_NAME']['variables'] = [ 'student_id' => 'STUDENT_ID' ];
 	$extra['BackPrompt'] = false;
 	$extra['Redirect'] = false;
 	$extra['new'] = true;
@@ -499,11 +499,11 @@ else
 	}
 
 	echo '<form action="' .
-		PreparePHP_SELF( $_REQUEST, array( 'codes', 'month_date', 'day_date', 'year_date' ) ) .
+		PreparePHP_SELF( $_REQUEST, [ 'codes', 'month_date', 'day_date', 'year_date' ] ) .
 		'" method="GET">';
 
 	DrawHeader(
-		PrepareDate( $date, '_date', false, array( 'submit' => true ) ),
+		PrepareDate( $date, '_date', false, [ 'submit' => true ] ),
 		SubmitButton( _( 'Update' ) )
 	);
 
@@ -512,7 +512,7 @@ else
 	if ( UserStudentID() )
 	{
 		$current_student_link = ' <a href="' .
-		PreparePHP_Self( $_REQUEST, array(), array( 'student_id' => UserStudentID() ) ) . '">' .
+		PreparePHP_Self( $_REQUEST, [], [ 'student_id' => UserStudentID() ] ) . '">' .
 		_( 'Current Student' ) . '</a></td><td>';
 	}
 
@@ -551,7 +551,7 @@ function _makeCodePulldown( $value, $title )
 
 	if ( empty( $current_schedule_RET[$value] ) )
 	{
-		$current_schedule_RET[$value] = DBGet( str_replace( '__student_id__', $value, $current_schedule_Q ), array(), array( 'PERIOD_ID' ) );
+		$current_schedule_RET[$value] = DBGet( str_replace( '__student_id__', $value, $current_schedule_Q ), [], [ 'PERIOD_ID' ] );
 
 		if ( empty( $current_schedule_RET[$value] ) )
 		{

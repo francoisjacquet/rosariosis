@@ -32,22 +32,22 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		BackPrompt( _( 'No Students were found.' ) );
 	}
 
-	$LO_columns = array( 'TITLE' => _( 'Assignment' ) );
+	$LO_columns = [ 'TITLE' => _( 'Assignment' ) ];
 
 	if ( isset( $_REQUEST['assigned_date'] )
 		&& $_REQUEST['assigned_date'] == 'Y' )
 	{
-		$LO_columns += array( 'ASSIGNED_DATE' => _( 'Assigned Date' ) );
+		$LO_columns += [ 'ASSIGNED_DATE' => _( 'Assigned Date' ) ];
 	}
 
 	if ( isset( $_REQUEST['due_date'] )
 		&& $_REQUEST['due_date'] == 'Y' )
 	{
-		$LO_columns += array( 'DUE_DATE' => _( 'Due Date' ) );
+		$LO_columns += [ 'DUE_DATE' => _( 'Due Date' ) ];
 	}
 
 	// modif Francois: display percent grade according to Configuration
-	$LO_columns += array( 'POINTS' => _( 'Points' ) );
+	$LO_columns += [ 'POINTS' => _( 'Points' ) ];
 
 	if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) >= 0 )
 	{
@@ -62,7 +62,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	}
 
 	//$LO_columns += array('POINTS' => _('Points'),'PERCENT_GRADE' => _('Percent'),'LETTER_GRADE' => _('Letter'),'COMMENT' => _('Comment'));
-	$LO_columns += array( 'COMMENT' => _( 'Comment' ) );
+	$LO_columns += [ 'COMMENT' => _( 'Comment' ) ];
 
 	$extra2['SELECT_ONLY'] = "ga.TITLE,ga.ASSIGNED_DATE,ga.DUE_DATE,gt.ASSIGNMENT_TYPE_ID,gg.POINTS,ga.POINTS AS TOTAL_POINTS,gt.FINAL_GRADE_PERCENT,gg.COMMENT,gg.POINTS AS PERCENT_GRADE,gg.POINTS AS LETTER_GRADE,CASE WHEN (ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID)) THEN 'Y' ELSE NULL END AS DUE,gt.TITLE AS CATEGORY_TITLE";
 
@@ -87,21 +87,21 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 	$extra2['ORDER_BY'] = "ga.ASSIGNMENT_ID";
 
-	$LO_group = array();
+	$LO_group = [];
 
 	if ( isset( $_REQUEST['by_category'] )
 		&& $_REQUEST['by_category'] == 'Y' )
 	{
-		$extra2['group'] = $LO_group = array( 'ASSIGNMENT_TYPE_ID' );
+		$extra2['group'] = $LO_group = [ 'ASSIGNMENT_TYPE_ID' ];
 	}
 
-	$extra2['functions'] = array(
+	$extra2['functions'] = [
 		'ASSIGNED_DATE' => 'ProperDate',
 		'DUE_DATE' => 'ProperDate',
 		'POINTS' => '_makeExtraPoints',
 		'PERCENT_GRADE' => '_makeExtraGrade',
 		'LETTER_GRADE' => '_makeExtraGrade',
-	);
+	];
 
 	$handle = PDFStart();
 
@@ -138,14 +138,14 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				AND ss.START_DATE<'" . GetMP( UserMP(), 'END_DATE' ) . "'
 				AND (ss.END_DATE IS NULL OR ss.END_DATE>='" . GetMP( UserMP(), 'START_DATE' ) . "')
 				AND cp.MARKING_PERIOD_ID IN(" . GetAllMP( 'QTR', UserMP() ) . ")
-				AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID", array(), array( 'COURSE_PERIOD_ID' ) );
+				AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID", [], [ 'COURSE_PERIOD_ID' ] );
 
 			$extra2['FROM'] = " JOIN SCHEDULE ss ON (ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='" . UserSyear() . "')";
 		}
 		else
 		{
 			// Course Period is eacher current CP.
-			$cp_RET = array( UserCoursePeriod() => array() );
+			$cp_RET = [ UserCoursePeriod() => [] ];
 		}
 
 		foreach ( $cp_RET as $cp_id => $cp )
@@ -170,7 +170,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 			$extra['WHERE'] .= " AND ss.COURSE_PERIOD_ID='" . $cp_id . "'";
 
-			$student_points = $total_points = $percent_weights = array();
+			$student_points = $total_points = $percent_weights = [];
 
 			$grades_RET = GetStuList( $extra );
 
@@ -232,7 +232,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 						$letter_grade = '<b>' . _makeLetterGrade( $type_percent, $cp_id, $teacher_id ) . '</b>';
 					}
 
-					$grades_RET[$assignment_type_id][] = array(
+					$grades_RET[$assignment_type_id][] = [
 						'TITLE' => $grades[1]['CATEGORY_TITLE'] . ' &mdash; <b>' . _( 'Total' ) . '</b>' .
 							$percent_of_grade,
 						'ASSIGNED_DATE' => '&nbsp;',
@@ -242,14 +242,14 @@ if ( $_REQUEST['modfunc'] === 'save' )
 						'PERCENT_GRADE' => $percent_grade,
 						'LETTER_GRADE' => $letter_grade,
 						'COMMENT' => '&nbsp;',
-					);
+					];
 				}
 			}
 
 			$percent = _makeLetterGrade( $sum_points, $cp_id, $teacher_id, '%' );
 
 			// Do not add Total to $link['add']['html']: PDF and no AllowEdit().
-			$total_last_row = array(
+			$total_last_row = [
 				'TITLE' => '<b>' . _( 'Total' ) . '</b>',
 				'ASSIGNED_DATE' => '&nbsp;',
 				'DUE_DATE' => '&nbsp;',
@@ -257,7 +257,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				'PERCENT_GRADE' => '<b>' . _Percent( $percent ) . '</b>',
 				'LETTER_GRADE' => '<b>' . _makeLetterGrade( $sum_points, $cp_id, $teacher_id ) . '</b>',
 				'COMMENT' => '&nbsp;',
-			);
+			];
 
 			if ( isset( $_REQUEST['by_category'] )
 				&& $_REQUEST['by_category'] == 'Y' )
@@ -269,9 +269,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					$LO_columns,
 					'Assignment Type',
 					'Assignment Types',
-					array(),
+					[],
 					$LO_group,
-					array( 'center' => false, 'add' => true )
+					[ 'center' => false, 'add' => true ]
 				);
 			}
 			else
@@ -283,9 +283,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					$LO_columns,
 					'Assignment',
 					'Assignments',
-					array(),
+					[],
 					$LO_group,
-					array( 'center' => false, 'add' => true )
+					[ 'center' => false, 'add' => true ]
 				);
 			}
 		}
@@ -342,10 +342,10 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$extra['new'] = true;
 
-	$extra['link'] = array( 'FULL_NAME' => false );
+	$extra['link'] = [ 'FULL_NAME' => false ];
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
-	$extra['functions'] = array( 'CHECKBOX' => 'MakeChooseCheckbox' );
-	$extra['columns_before'] = array( 'CHECKBOX' => MakeChooseCheckbox( 'Y', '', 'st_arr' ) );
+	$extra['functions'] = [ 'CHECKBOX' => 'MakeChooseCheckbox' ];
+	$extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( 'Y', '', 'st_arr' ) ];
 	$extra['options']['search'] = false;
 
 	// Parent: associated students.

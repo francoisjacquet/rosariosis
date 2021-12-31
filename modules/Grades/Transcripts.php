@@ -24,7 +24,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		$transcripts = TranscriptsGenerate(
 			$_REQUEST['st_arr'],
 			$_REQUEST['mp_type_arr'],
-			issetVal( $_REQUEST['syear_arr'], array() )
+			issetVal( $_REQUEST['syear_arr'], [] )
 		);
 
 		/**
@@ -87,10 +87,10 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$extra['new'] = true;
 
-	$extra['link'] = array( 'FULL_NAME' => false );
+	$extra['link'] = [ 'FULL_NAME' => false ];
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
-	$extra['functions'] = array( 'CHECKBOX' => 'MakeChooseCheckbox' );
-	$extra['columns_before'] = array( 'CHECKBOX' => MakeChooseCheckbox( 'Y', '', 'st_arr' ) );
+	$extra['functions'] = [ 'CHECKBOX' => 'MakeChooseCheckbox' ];
+	$extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( 'Y', '', 'st_arr' ) ];
 	$extra['options']['search'] = false;
 
 	// Parent: associated students.

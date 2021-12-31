@@ -35,7 +35,7 @@ foreach ( (array) $eligibility_config as $value )
 	${$value[1]['TITLE']} = $value[1]['VALUE'];
 }
 
-$days = array(
+$days = [
 	_( 'Monday' ),
 	_( 'Tuesday' ),
 	_( 'Wednesday' ),
@@ -43,7 +43,7 @@ $days = array(
 	_( 'Friday' ),
 	_( 'Saturday' ),
 	_( 'Sunday' ),
-);
+];
 
 for ( $i = 0; $i < 7; $i++ )
 {
@@ -62,7 +62,7 @@ for ( $i = 0; $i <= 59; $i++ )
 	$minute_options[$i] = str_pad( $i, 2, '0', STR_PAD_LEFT );
 }
 
-$m_options = array( 'AM' => 'AM', 'PM' => 'PM' );
+$m_options = [ 'AM' => 'AM', 'PM' => 'PM' ];
 
 if ( $START_HOUR > 12 )
 {

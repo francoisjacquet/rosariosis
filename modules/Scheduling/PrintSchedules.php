@@ -45,12 +45,12 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 	// FJ multiple school periods for a course period.
 	//$columns = array('PERIOD_TITLE' => _('Period').' '._('Days').' - '._('Short Name').' - '._('Teacher'),'MARKING_PERIOD_ID' => _('Term'),'DAYS' => _('Days'),'ROOM' => _('Room'),'COURSE_TITLE' => _('Course'));
-	$columns = array(
+	$columns = [
 		'PERIOD_TITLE' => _( 'Period' ) . ' ' . _( 'Days' ) . ' - ' . _( 'Short Name' ) . ' - ' . _( 'Teacher' ),
 		'MARKING_PERIOD_ID' => _( 'Term' ),
 		'ROOM' => _( 'Room' ),
 		'TITLE' => $display_title_column,
-	);
+	];
 
 	/*	$extra['SELECT'] .= ',c.TITLE AS COURSE_TITLE,p_cp.TITLE AS PERIOD_TITLE,sr.MARKING_PERIOD_ID,p_cp.DAYS,p_cp.ROOM';
 	$extra['FROM'] .= ' LEFT OUTER JOIN SCHEDULE sr ON (sr.STUDENT_ID=ssm.STUDENT_ID),COURSES c,COURSE_PERIODS p_cp,SCHOOL_PERIODS sp ';
@@ -77,8 +77,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 	//	$extra['functions'] = array('MARKING_PERIOD_ID' => 'GetMP','DAYS' => '_makeDays');
 	//FJ add subject areas
-	$extra['functions'] = array( 'MARKING_PERIOD_ID' => 'GetMP' );
-	$extra['group'] = array( 'STUDENT_ID' );
+	$extra['functions'] = [ 'MARKING_PERIOD_ID' => 'GetMP' ];
+	$extra['group'] = [ 'STUDENT_ID' ];
 	//	$extra['ORDER'] = ',sp.SORT_ORDER';
 
 	if ( isset( $_REQUEST['mailing_labels'] )
@@ -127,9 +127,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 						$columns,
 						'Course',
 						'Courses',
-						array(),
-						array(),
-						array( 'center' => false, 'print' => false )
+						[],
+						[],
+						[ 'center' => false, 'print' => false ]
 					);
 
 					echo '<div style="page-break-after: always;"></div>';
@@ -153,9 +153,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					$columns,
 					'Course',
 					'Courses',
-					array(),
-					array(),
-					array( 'center' => false, 'print' => false )
+					[],
+					[],
+					[ 'center' => false, 'print' => false ]
 				);
 
 				echo '<div style="page-break-after: always;"></div>';
@@ -165,7 +165,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 	if ( $_REQUEST['schedule_table'] == 'Yes' )
 	{
-		$schedule_table_days = array(
+		$schedule_table_days = [
 			'U' => false,
 			'M' => false,
 			'T' => false,
@@ -173,10 +173,10 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			'H' => false,
 			'F' => false,
 			'S' => false,
-		);
+		];
 
 		// FJ days display to locale.
-		$days_convert = array(
+		$days_convert = [
 			'U' => _( 'Sunday' ),
 			'M' => _( 'Monday' ),
 			'T' => _( 'Tuesday' ),
@@ -184,11 +184,11 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			'H' => _( 'Thursday' ),
 			'F' => _( 'Friday' ),
 			'S' => _( 'Saturday' ),
-		);
+		];
 
 		if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 		{
-			$days_convert = array(
+			$days_convert = [
 				'U' => _( 'Day' ) . ' 7',
 				'M' => _( 'Day' ) . ' 1',
 				'T' => _( 'Day' ) . ' 2',
@@ -196,7 +196,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				'H' => _( 'Day' ) . ' 4',
 				'F' => _( 'Day' ) . ' 5',
 				'S' => _( 'Day' ) . ' 6',
-			);
+			];
 		}
 
 		// @since 5.5 Display Title of: Subject, Course, Course Period.
@@ -237,11 +237,11 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 		$schedule_table_RET = DBGet(
 			$schedule_table_sql,
-			array( 'DAYS' => '_GetDays' ),
-			array( 'STUDENT_ID', 'SCHOOL_PERIOD' )
+			[ 'DAYS' => '_GetDays' ],
+			[ 'STUDENT_ID', 'SCHOOL_PERIOD' ]
 		);
 
-		$columns_table = array( 'SCHOOL_PERIOD' => _( 'Periods' ) );
+		$columns_table = [ 'SCHOOL_PERIOD' => _( 'Periods' ) ];
 
 		// Leave after $schedule_table_RET as _GetDays() callback modifies $schedule_table_days global.
 		foreach ( $schedule_table_days as $day => $true )
@@ -287,7 +287,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 						'Period',
 						'Periods',
 						false,
-						array()
+						[]
 					);
 				}
 			}
@@ -312,7 +312,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					'Period',
 					'Periods',
 					false,
-					array()
+					[]
 				);
 			}
 
@@ -330,7 +330,7 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
 		$mp_RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE," .
-			db_case( array( 'MP', "'FY'", "'0'", "'SEM'", "'1'", "'QTR'", "'2'" ) ) . " AS TBL
+			db_case( [ 'MP', "'FY'", "'0'", "'SEM'", "'1'", "'QTR'", "'2'" ] ) . " AS TBL
 			FROM SCHOOL_MARKING_PERIODS
 			WHERE (MP='FY' OR MP='SEM' OR MP='QTR')
 			AND SCHOOL_ID='" . UserSchool() . "'
@@ -373,10 +373,10 @@ if ( ! $_REQUEST['modfunc'] )
 			'Yes',
 			'schedule_table',
 			'',
-			array(
+			[
 				'Yes' => _( 'Table' ),
 				'No' => _( 'List' ),
-			),
+			],
 			false,
 			'',
 			false
@@ -396,11 +396,11 @@ if ( ! $_REQUEST['modfunc'] )
 			'course',
 			'display_title',
 			_( 'Display Title of' ),
-			array(
+			[
 				'subject' => _( 'Subject' ),
 				'course' => _( 'Course' ),
 				'course_period' => _( 'Course Period' ),
-			),
+			],
 			false,
 			'',
 			false
@@ -418,10 +418,10 @@ if ( ! $_REQUEST['modfunc'] )
 
 	}
 
-	$extra['link'] = array( 'FULL_NAME' => false );
+	$extra['link'] = [ 'FULL_NAME' => false ];
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
-	$extra['functions'] = array( 'CHECKBOX' => 'MakeChooseCheckbox' );
-	$extra['columns_before'] = array( 'CHECKBOX' => MakeChooseCheckbox( 'Y', '', 'st_arr' ) );
+	$extra['functions'] = [ 'CHECKBOX' => 'MakeChooseCheckbox' ];
+	$extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( 'Y', '', 'st_arr' ) ];
 	$extra['options']['search'] = false;
 	$extra['new'] = true;
 
@@ -466,7 +466,7 @@ function _GetDays( $value, $column )
  */
 function _schedule_table_RET( $schedule_table_RET )
 {
-	$schedule_table_body = array();
+	$schedule_table_body = [];
 	$i = 1;
 
 	foreach ( (array) $schedule_table_RET as $period => $course_periods )
@@ -479,7 +479,7 @@ function _schedule_table_RET( $schedule_table_RET )
 			{
 				if ( ! isset( $schedule_table_body[$i][$course_period_day] ) || ! is_array( $schedule_table_body[$i][$course_period_day] ) )
 				{
-					$schedule_table_body[$i][$course_period_day] = array();
+					$schedule_table_body[$i][$course_period_day] = [];
 				}
 
 				$schedule_table_body[$i][$course_period_day][] = '<td>' . $course_period['TITLE'] . '<br />' .
@@ -504,7 +504,7 @@ function _schedule_table_RET( $schedule_table_RET )
 
 			if ( count( (array) $schedule_table_day ) == 1 )
 			{
-				$schedule_table_body[$i][$day_key] = str_replace( array( '<td>', '</td>' ), '', $schedule_table_day[0] );
+				$schedule_table_body[$i][$day_key] = str_replace( [ '<td>', '</td>' ], '', $schedule_table_day[0] );
 			}
 			else
 			{

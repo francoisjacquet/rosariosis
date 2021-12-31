@@ -13,7 +13,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			$current_RET = DBGet( "SELECT STUDENT_ID
 				FROM STUDENT_ELIGIBILITY_ACTIVITIES
 				WHERE ACTIVITY_ID='" . $_REQUEST['activity_id'] . "'
-				AND SYEAR='" . UserSyear() . "'", array(), array( 'STUDENT_ID' ) );
+				AND SYEAR='" . UserSyear() . "'", [], [ 'STUDENT_ID' ] );
 
 			// Group SQL inserts.
 			$sql = '';
@@ -80,10 +80,10 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 }
 
 //FJ fix bug no Search when student already selected
-$extra['link'] = array( 'FULL_NAME' => false );
+$extra['link'] = [ 'FULL_NAME' => false ];
 $extra['SELECT'] = ",CAST (NULL AS CHAR(1)) AS CHECKBOX";
-$extra['functions'] = array( 'CHECKBOX' => 'MakeChooseCheckbox' );
-$extra['columns_before'] = array( 'CHECKBOX' => MakeChooseCheckbox( '', 'STUDENT_ID', 'student' ) );
+$extra['functions'] = [ 'CHECKBOX' => 'MakeChooseCheckbox' ];
+$extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( '', 'STUDENT_ID', 'student' ) ];
 $extra['new'] = true;
 Widgets( 'activity' );
 Widgets( 'course' );

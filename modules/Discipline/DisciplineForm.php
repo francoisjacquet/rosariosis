@@ -138,7 +138,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 			DROP COLUMN " . $column_name );
 
 		// Unset modfunc & ID & redirect URL.
-		RedirectURL( array( 'modfunc', 'id' ) );
+		RedirectURL( [ 'modfunc', 'id' ] );
 	}
 }
 
@@ -151,7 +151,7 @@ if ( $_REQUEST['modfunc'] === 'delete_usage'
 		DBQuery( "DELETE FROM DISCIPLINE_FIELD_USAGE WHERE ID='" . $id . "'" );
 
 		// Unset modfunc & ID & redirect URL.
-		RedirectURL( array( 'modfunc', 'id' ) );
+		RedirectURL( [ 'modfunc', 'id' ] );
 	}
 }
 
@@ -164,7 +164,7 @@ if ( $_REQUEST['modfunc'] === 'add_usage'
 		FROM DISCIPLINE_FIELDS WHERE ID='" . $_REQUEST['id'] . "'" );
 
 	// Unset modfunc & ID & redirect URL.
-	RedirectURL( array( 'modfunc', 'id' ) );
+	RedirectURL( [ 'modfunc', 'id' ] );
 }
 
 // FJ fix SQL bug invalid sort order
@@ -181,13 +181,13 @@ if ( ! $_REQUEST['modfunc'] )
 			AND du.SYEAR='" . UserSyear() . "'
 			AND du.SCHOOL_ID='" . UserSchool() . "')
 		ORDER BY du.SORT_ORDER,du.ID",
-		array(
+		[
 			'REMOVE' => '_makeRemove',
 			'TITLE' => '_makeTextInput',
 			'SORT_ORDER' => '_makeTextInput',
 			'DATA_TYPE' => '_makeType',
 			'SELECT_OPTIONS' => '_makeTextAreaInput',
-		)
+		]
 	);
 
 	foreach ( (array) $referrals_RET as $key => $item )
@@ -200,28 +200,28 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( ! empty( $referrals_RET ) )
 	{
-		$columns = array( 'REMOVE' => '<span class="a11y-hidden">' . _( 'Delete' ) . '</span>' );
+		$columns = [ 'REMOVE' => '<span class="a11y-hidden">' . _( 'Delete' ) . '</span>' ];
 	}
 	else
 	{
-		$columns = array();
+		$columns = [];
 	}
 
-	$columns += array(
+	$columns += [
 		'TITLE' => _( 'Title' ),
 		'SORT_ORDER' => _( 'Sort Order' ),
 		'DATA_TYPE' => _( 'Data Type' ),
 		'SELECT_OPTIONS' => _( 'Pull-Down' ) . '/' . _( 'Select Multiple from Options' ) . '/' .
 			_( 'Select One from Options' ),
-	);
+	];
 
-	$link['add']['html'] = array(
+	$link['add']['html'] = [
 		'REMOVE' => button( 'add' ),
 		'TITLE' => _makeTextInput( '', 'TITLE' ),
 		'SORT_ORDER' => _makeTextInput( '', 'SORT_ORDER' ),
 		'SELECT_OPTIONS' => _makeTextAreaInput( '', 'SELECT_OPTIONS' ),
 		'DATA_TYPE' => _makeType( '', 'DATA_TYPE' ),
-	);
+	];
 
 	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="POST">';
 
@@ -250,7 +250,7 @@ function _makeType( $value, $name )
 		$id = 'new';
 	}
 
-	$new_options = array(
+	$new_options = [
 		'checkbox' => _( 'Checkbox' ),
 		'text' => _( 'Text' ),
 		'multiple_checkbox' => _( 'Select Multiple from Options' ),
@@ -259,7 +259,7 @@ function _makeType( $value, $name )
 		'date' => _( 'Date' ),
 		'numeric' => _( 'Number' ),
 		'textarea' => _( 'Long Text' ),
-	);
+	];
 
 	if ( ! empty( $THIS_RET['ID'] ) )
 	{

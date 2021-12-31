@@ -58,9 +58,9 @@ else
 			// Upload school logo.
 			ImageUpload(
 				'LOGO_FILE',
-				array(),
+				[],
 				'assets/',
-				array(),
+				[],
 				'.jpg',
 				'school_logo_' . UserSchool()
 			);
@@ -78,10 +78,10 @@ else
 
 			foreach ( (array) $_REQUEST['values']['CONFIG'] as $column => $value )
 			{
-				$numeric_columns = array(
+				$numeric_columns = [
 					'FAILED_LOGIN_LIMIT',
 					'PASSWORD_STRENGTH',
-				);
+				];
 
 				if ( in_array( $column, $numeric_columns )
 					&& $value != ''
@@ -103,14 +103,14 @@ else
 			{
 				foreach ( (array) $columns as $column => $value )
 				{
-					$numeric_columns = array(
+					$numeric_columns = [
 						'ATTENDANCE_FULL_DAY_MINUTES',
 						'ATTENDANCE_EDIT_DAYS_BEFORE',
 						'ATTENDANCE_EDIT_DAYS_AFTER',
 						'FOOD_SERVICE_BALANCE_WARNING',
 						'FOOD_SERVICE_BALANCE_MINIMUM',
 						'FOOD_SERVICE_BALANCE_TARGET',
-					);
+					];
 
 					if ( in_array( $column, $numeric_columns )
 						&& $value != ''
@@ -143,7 +143,7 @@ else
 		}
 
 		// Unset modfunc & values & redirect URL.
-		RedirectURL( array( 'modfunc', 'values' ) );
+		RedirectURL( [ 'modfunc', 'values' ] );
 	}
 
 	if ( ! $_REQUEST['modfunc'] )
@@ -161,52 +161,52 @@ else
 
 		echo '<br />';
 
-		$tabs = array();
+		$tabs = [];
 
 		if ( ! $multiple_schools_admin_has_1_school )
 		{
 			// Hide System config options if Administrator of 1 school only.
-			$tabs[] = array(
+			$tabs[] = [
 				'title' => Config( 'NAME' ),
 				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=system',
-			);
+			];
 		}
 
-		$tabs[] = array(
+		$tabs[] = [
 			'title' => _( 'School' ),
 			'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=school',
-		);
+		];
 
 		if ( $RosarioModules['Students'] )
 		{
-			$tabs[] = array(
+			$tabs[] = [
 				'title' => _( 'Students' ),
 				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=students',
-			);
+			];
 		}
 
 		if ( $RosarioModules['Grades'] )
 		{
-			$tabs[] = array(
+			$tabs[] = [
 				'title' => _( 'Grades' ),
 				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=grades',
-			);
+			];
 		}
 
 		if ( $RosarioModules['Attendance'] )
 		{
-			$tabs[] = array(
+			$tabs[] = [
 				'title' => _( 'Attendance' ),
 				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=attendance',
-			);
+			];
 		}
 
 		if ( $RosarioModules['Food_Service'] )
 		{
-			$tabs[] = array(
+			$tabs[] = [
 				'title' => _( 'Food Service' ),
 				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=food_service',
-			);
+			];
 		}
 
 		/**
@@ -215,7 +215,7 @@ else
 		 *
 		 * @since 6.2
 		 */
-		do_action( 'School_Setup/Configuration.php|school_tabs', array( &$tabs ) );
+		do_action( 'School_Setup/Configuration.php|school_tabs', [ &$tabs ] );
 
 		$_ROSARIO['selected_tab'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=' . $_REQUEST['tab'];
 
@@ -237,7 +237,7 @@ else
 
 			$themes = glob( 'assets/themes/*', GLOB_ONLYDIR );
 
-			$theme_options = array();
+			$theme_options = [];
 
 			foreach ( (array) $themes as $theme )
 			{
@@ -310,7 +310,7 @@ else
 				button( 'x' )
 			) . '</td></tr>';
 
-			$school_options = array();
+			$school_options = [];
 
 			$schools_RET = DBGet( "SELECT ID,TITLE
 				FROM SCHOOLS
@@ -335,7 +335,7 @@ else
 				WHERE TYPE='text'
 				AND CATEGORY_ID=1" );
 
-			$students_email_field_options = array( 'USERNAME' => _( 'Username' ) );
+			$students_email_field_options = [ 'USERNAME' => _( 'Username' ) ];
 
 			foreach ( (array) $students_email_field_RET as $field )
 			{
@@ -430,7 +430,7 @@ else
 
 			// Display Name.
 			// @link https://www.w3.org/International/questions/qa-personal-names
-			$display_name_options = array(
+			$display_name_options = [
 				"FIRST_NAME||' '||LAST_NAME" => _( 'First Name' ) . ' ' . _( 'Last Name' ),
 				"FIRST_NAME||' '||LAST_NAME||coalesce(' '||NAME_SUFFIX,' ')" => _( 'First Name' ) . ' ' . _( 'Last Name' ) . ' ' . _( 'Suffix' ),
 				"FIRST_NAME||coalesce(' '||MIDDLE_NAME||' ',' ')||LAST_NAME" => _( 'First Name' ) . ' ' . _( 'Middle Name' ) . ' ' . _( 'Last Name' ),
@@ -439,7 +439,7 @@ else
 				"LAST_NAME||', '||FIRST_NAME" => _( 'Last Name' ) . ', ' . _( 'First Name' ),
 				"LAST_NAME||', '||FIRST_NAME||' '||COALESCE(MIDDLE_NAME,' ')" => _( 'Last Name' ) . ', ' . _( 'First Name' ) . ' ' . _( 'Middle Name' ),
 				"LAST_NAME||coalesce(' '||MIDDLE_NAME||' ',' ')||FIRST_NAME" => _( 'Last Name' ) . ' ' . _( 'Middle Name' ) . ' ' . _( 'First Name' ),
-			);
+			];
 
 			echo '<tr><td>' . SelectInput(
 				Config( 'DISPLAY_NAME' ),
@@ -485,10 +485,10 @@ else
 			echo '<tr><td><br /><fieldset><legend>' . _( 'Find a Student' ) . '</legend><table>';
 
 			// @since 7.4 Add Course Widget configuration option: Popup window or Pull-Down.
-			$course_widget_options = array(
+			$course_widget_options = [
 				'' => _( 'Popup window' ),
 				'select' => _( 'Pull-Down' ),
-			);
+			];
 
 			echo '<tr><td>' . SelectInput(
 				Config( 'COURSE_WIDGET_METHOD' ),
@@ -556,11 +556,11 @@ else
 
 		if ( $_REQUEST['tab'] === 'grades' )
 		{
-			$grades_options = array(
+			$grades_options = [
 				'-1' => _( 'Use letter grades only' ),
 				'0' => _( 'Use letter and percent grades' ),
 				'1' => _( 'Use percent grades only' ),
-			);
+			];
 
 			echo '<table class="cellpadding-5"><tr><td>' . SelectInput(
 				ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ),

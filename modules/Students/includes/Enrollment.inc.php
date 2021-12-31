@@ -1,11 +1,11 @@
 <?php
 require_once 'ProgramFunctions/StudentsUsersInfo.fnc.php';
 
-$functions = array(
+$functions = [
 	'START_DATE' => '_makeStartInput',
 	'END_DATE' => '_makeEndInput',
 	'SCHOOL_ID' => '_makeSchoolInput',
-);
+];
 
 unset( $THIS_RET );
 
@@ -29,32 +29,32 @@ foreach ( (array) $enrollment_RET as $value )
 	}
 }
 
-$link = array();
+$link = [];
 
 if ( $add )
 {
-	$link['add']['html'] = array(
+	$link['add']['html'] = [
 		'START_DATE' => _makeStartInput( '','START_DATE' ),
 		'SCHOOL_ID' => _makeSchoolInput( '', 'SCHOOL_ID' ),
-	);
+	];
 }
 
-$columns = array(
+$columns = [
 	'START_DATE' => _( 'Attendance Start Date this School Year' ),
 	'END_DATE' => _( 'Dropped' ),
 	'SCHOOL_ID' => _( 'School' ),
-);
+];
 
 $schools_RET = DBGet( "SELECT ID,TITLE
 	FROM SCHOOLS
 	WHERE ID!='" . UserSchool() . "'
 	AND SYEAR='" . UserSyear() . "'" );
 
-$next_school_options = array(
+$next_school_options = [
 	UserSchool() => _( 'Next grade at current school' ),
 	'0' => _( 'Retain' ),
 	'-1' => _( 'Do not enroll after this school year' ),
-);
+];
 
 foreach ( (array) $schools_RET as $school )
 {
@@ -67,7 +67,7 @@ $calendars_RET = DBGet( "SELECT CALENDAR_ID,DEFAULT_CALENDAR,TITLE
 	AND SCHOOL_ID='" . UserSchool() . "'
 	ORDER BY DEFAULT_CALENDAR ASC" );
 
-$calendar_options = array();
+$calendar_options = [];
 
 foreach ( (array) $calendars_RET as $calendar )
 {
@@ -79,7 +79,7 @@ $gradelevels_RET = DBGet( "SELECT ID,TITLE
 	WHERE SCHOOL_ID='" . UserSchool() . "'
 	ORDER BY SORT_ORDER" );
 
-$gradelevel_options = array();
+$gradelevel_options = [];
 
 foreach ( (array) $gradelevels_RET as $gradelevel )
 {
@@ -158,8 +158,8 @@ ListOutput(
 	'Enrollment Record',
 	'Enrollment Records',
 	$link,
-	array(),
-	array( 'save' => false, 'search' => false )
+	[],
+	[ 'save' => false, 'search' => false ]
 );
 
 if ( ! empty( $PopTable_opened ) )

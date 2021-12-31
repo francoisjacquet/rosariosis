@@ -88,7 +88,7 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 
 		if ( $file )
 		{
-			$files = array( $file );
+			$files = [ $file ];
 
 			if ( $old_submission )
 			{
@@ -109,7 +109,7 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 	$message = isset( $_POST['message'] ) ? SanitizeHTML( $_POST['message'], $assignments_path ) : '';
 
 	// Serialize Assignment Data.
-	$data = array( 'files' => $files, 'message' => $message, 'date' => $timestamp );
+	$data = [ 'files' => $files, 'message' => $message, 'date' => $timestamp ];
 
 	$data = DBEScapeString( serialize( $data ) );
 
@@ -227,7 +227,7 @@ function StudentAssignmentSubmissionOutput( $assignment_id )
 				FormatInputTitle( _( 'Message' ), '', false, '' ) );
 		}
 
-		echo ErrorMessage( array( _( 'Submissions for this assignment are closed.' ) ), 'note' );
+		echo ErrorMessage( [ _( 'Submissions for this assignment are closed.' ) ], 'note' );
 
 		return false;
 	}
@@ -334,7 +334,7 @@ function GetAssignment( $assignment_id )
 	/**
 	 * @var array
 	 */
-	static $assignment = array();
+	static $assignment = [];
 
 	if ( isset( $assignment[$assignment_id] ) )
 	{
@@ -381,7 +381,7 @@ function GetAssignment( $assignment_id )
 		" AND ga.ASSIGNMENT_ID='" . $assignment_id . "'
 		AND gat.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID"; // Why not?
 
-	$assignment_RET = DBGet( $assignment_sql, array(), array( 'ASSIGNMENT_ID' ) );
+	$assignment_RET = DBGet( $assignment_sql, [], [ 'ASSIGNMENT_ID' ] );
 
 	$assignment[$assignment_id] = isset( $assignment_RET[$assignment_id] ) ?
 	$assignment_RET[$assignment_id][1] : false;
@@ -521,35 +521,35 @@ function StudentAssignmentsListOutput()
 
 	$assignments_RET = DBGet(
 		DBQuery( $assignments_sql ),
-		array(
+		[
 			'TITLE' => 'MakeAssignmentTitle',
 			'STAFF_ID' => 'GetTeacher',
 			'DUE_DATE' => 'MakeAssignmentDueDate',
 			'ASSIGNED_DATE' => 'ProperDate',
 			'SUBMITTED' => 'MakeAssignmentSubmitted',
-		)
+		]
 	);
 
-	$columns = array(
+	$columns = [
 		'TITLE' => _( 'Title' ),
 		'DUE_DATE' => _( 'Due Date' ),
 		'ASSIGNED_DATE' => _( 'Assigned Date' ),
 		'COURSE_TITLE' => _( 'Course Title' ),
 		'STAFF_ID' => _( 'Teacher' ),
 		'SUBMITTED' => _( 'Submitted' ),
-	);
+	];
 
-	$LO_options = array(
+	$LO_options = [
 		'save' => false,
-	);
+	];
 
 	ListOutput(
 		$assignments_RET,
 		$columns,
 		_( 'Assignment' ),
 		_( 'Assignments' ),
-		array(),
-		array(),
+		[],
+		[],
 		$LO_options
 	);
 

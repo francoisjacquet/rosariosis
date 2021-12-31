@@ -17,7 +17,7 @@ function EmailReferral( $referral_id, $emails )
 	require_once 'ProgramFunctions/SendEmail.fnc.php';
 
 	// Verify emails array and build TO.
-	$to_emails = array();
+	$to_emails = [];
 
 	foreach ( (array) $emails as $email )
 	{
@@ -83,7 +83,7 @@ function EmailReferralGetReferralSafe( $referral_id )
 	if ( User( 'PROFILE' ) !== 'teacher'
 		&& User( 'PROFILE' ) !== 'admin' )
 	{
-		return array();
+		return [];
 	}
 
 	if ( User( 'PROFILE' ) === 'teacher' )
@@ -103,7 +103,7 @@ function EmailReferralGetReferralSafe( $referral_id )
 		FROM DISCIPLINE_REFERRALS
 		WHERE ID='" . $referral_id . "'" . $where );
 
-	return empty( $referral_RET[1] ) ? array() : $referral_RET[1];
+	return empty( $referral_RET[1] ) ? [] : $referral_RET[1];
 }
 
 
@@ -125,9 +125,9 @@ function EmailReferralFormatFields( $referral )
 		WHERE u.DISCIPLINE_FIELD_ID=f.ID
 		AND u.SCHOOL_ID='" . UserSchool() . "'
 		AND u.SYEAR='" . UserSyear() . "'
-		ORDER BY " . db_case( array( 'DATA_TYPE', "'textarea'", "'1'", "'0'" ) ) . ",SORT_ORDER", array(), array( 'ID' ) );
+		ORDER BY " . db_case( [ 'DATA_TYPE', "'textarea'", "'1'", "'0'" ] ) . ",SORT_ORDER", [], [ 'ID' ] );
 
-	$referral_fields = array();
+	$referral_fields = [];
 
 	foreach ( (array) $referral as $column => $Y )
 	{

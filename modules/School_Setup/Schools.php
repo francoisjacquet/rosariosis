@@ -46,7 +46,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 
 				$fields_RET = DBGet( "SELECT ID,TYPE
 					FROM SCHOOL_FIELDS
-					ORDER BY SORT_ORDER", array(), array( 'ID' ) );
+					ORDER BY SORT_ORDER", [], [ 'ID' ] );
 
 				$go = 0;
 
@@ -97,7 +97,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 		}
 
 		// Unset modfunc, values & redirect URL.
-		RedirectURL( array( 'modfunc', 'values' ) );
+		RedirectURL( [ 'modfunc', 'values' ] );
 	}
 	elseif ( ( $_REQUEST['button'] === _( 'Delete' )
 		|| isset( $_POST['delete_ok'] ) )
@@ -152,7 +152,7 @@ if ( $_REQUEST['modfunc'] === 'remove_file'
 		}
 
 		// Unset modfunc, id, filename & redirect URL.
-		RedirectURL( array( 'modfunc', 'id', 'filename' ) );
+		RedirectURL( [ 'modfunc', 'id', 'filename' ] );
 	}
 }
 

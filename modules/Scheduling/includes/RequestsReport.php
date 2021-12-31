@@ -41,12 +41,12 @@ $count_RET = DBGet( "SELECT cs.TITLE as SUBJECT_TITLE,c.TITLE as COURSE_TITLE,sr
 	AND sr.SCHOOL_ID='" . UserSchool() . "'
 	GROUP BY cs.SORT_ORDER,cs.TITLE,sr.COURSE_ID,c.TITLE" );
 
-$columns = array(
+$columns = [
 	'SUBJECT_TITLE' => _( 'Subject' ),
 	'COURSE_TITLE' => _( 'Course' ),
 	'COUNT' => _( 'Number of Requests' ),
 	'SEATS' => _( 'Seats' ),
 	'STUDENTS' => _( 'Students' ),
-);
+];
 
 ListOutput( $count_RET, $columns, 'Subject', 'Subjects' );

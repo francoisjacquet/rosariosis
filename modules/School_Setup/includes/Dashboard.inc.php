@@ -61,7 +61,7 @@ if ( ! function_exists( 'DashboardSchoolSetupAdmin' ) )
 
 		$login_records = (int) $access_log_RET[1]['LOGIN_RECORDS'];
 
-		$data = array(
+		$data = [
 			// Login records for today and yesterday.
 			ngettext( 'Login record', 'Login records', $login_records ) => $login_records,
 			// Login records per profile.
@@ -71,7 +71,7 @@ if ( ! function_exists( 'DashboardSchoolSetupAdmin' ) )
 			_( 'Student' ) => $access_log_RET[1]['LOGIN_STUDENT'],
 			// Failed login records.
 			_( 'Fail' ) => (int) $access_log_RET[1]['LOGIN_FAIL'],
-		);
+		];
 
 		return $data;
 	}

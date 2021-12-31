@@ -49,7 +49,7 @@ User( 'PROFILE' ) === 'student' ? '' : DrawHeader( $header );
 $menus_RET = DBGet( "SELECT MENU_ID,TITLE
 	FROM FOOD_SERVICE_MENUS
 	WHERE SCHOOL_ID='" . UserSchool() . "'
-	ORDER BY SORT_ORDER", array(), array( 'MENU_ID' ) );
+	ORDER BY SORT_ORDER", [], [ 'MENU_ID' ] );
 
 if ( empty( $_REQUEST['menu_id'] ) )
 {
@@ -61,7 +61,7 @@ if ( empty( $_REQUEST['menu_id'] ) )
 		}
 		else
 		{
-			ErrorMessage( array( _( 'There are no menus yet setup.' ) ), 'fatal' );
+			ErrorMessage( [ _( 'There are no menus yet setup.' ) ], 'fatal' );
 		}
 	}
 	else
@@ -84,7 +84,7 @@ if ( $_REQUEST['modfunc'] === 'add' )
 	}
 
 	// Unset modfunc & item sn & redirect URL.
-	RedirectURL( array( 'modfunc', 'item_sn' ) );
+	RedirectURL( [ 'modfunc', 'item_sn' ] );
 }
 
 if ( $_REQUEST['modfunc'] === 'remove' )
@@ -95,7 +95,7 @@ if ( $_REQUEST['modfunc'] === 'remove' )
 	}
 
 	// Unset modfunc & ID & redirect URL.
-	RedirectURL( array( 'modfunc', 'id' ) );
+	RedirectURL( [ 'modfunc', 'id' ] );
 }
 
 require_once 'modules/Food_Service/' . ( $_SESSION['FSA_type'] == 'staff' ? 'Users/' : 'Students/' ) . '/ServeMenus.php';

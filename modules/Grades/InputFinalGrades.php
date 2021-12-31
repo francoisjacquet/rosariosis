@@ -31,7 +31,7 @@ $course_period_id = UserCoursePeriod();
 
 if ( empty( $course_period_id ) )
 {
-	ErrorMessage( array( _( 'You cannot enter grades for this course period.' ) ), 'fatal' );
+	ErrorMessage( [ _( 'You cannot enter grades for this course period.' ) ], 'fatal' );
 }
 
 //FJ add CLASS_RANK
@@ -48,7 +48,7 @@ $course_RET = DBGet( "SELECT cp.COURSE_ID,c.TITLE AS COURSE_NAME,cp.TITLE,
 
 if ( ! $course_RET[1]['GRADE_SCALE_ID'] )
 {
-	ErrorMessage( array( _( 'You cannot enter grades for this course period.' ) ), 'fatal' );
+	ErrorMessage( [ _( 'You cannot enter grades for this course period.' ) ], 'fatal' );
 }
 
 $course_title = $course_RET[1]['TITLE'];
@@ -60,7 +60,7 @@ $current_RET = DBGet( "SELECT g.STUDENT_ID,g.REPORT_CARD_GRADE_ID,g.GRADE_PERCEN
 	FROM STUDENT_REPORT_CARD_GRADES g,COURSE_PERIODS cp
 	WHERE cp.COURSE_PERIOD_ID=g.COURSE_PERIOD_ID
 	AND cp.COURSE_PERIOD_ID='" . $course_period_id . "'
-	AND g.MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'", array(), array( 'STUDENT_ID' ) );
+	AND g.MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'", [], [ 'STUDENT_ID' ] );
 
 $current_completed = count( (array) DBGet( "SELECT 1
 	FROM GRADES_COMPLETED
@@ -75,7 +75,7 @@ $grades_RET = DBGet( "SELECT rcg.ID,rcg.TITLE,rcg.GPA_VALUE AS WEIGHTED_GP,
 	AND rcg.SYEAR='" . UserSyear() . "'
 	AND rcg.SCHOOL_ID='" . UserSchool() . "'
 	AND rcg.GRADE_SCALE_ID='" . $grade_scale_id . "'
-	ORDER BY rcg.BREAK_OFF IS NOT NULL DESC,rcg.BREAK_OFF DESC,rcg.SORT_ORDER", array(), array( 'ID' ) );
+	ORDER BY rcg.BREAK_OFF IS NOT NULL DESC,rcg.BREAK_OFF DESC,rcg.SORT_ORDER", [], [ 'ID' ] );
 
 $categories_RET = DBGet( "SELECT rc.ID,rc.TITLE,rc.COLOR,1,rc.SORT_ORDER
 	FROM REPORT_CARD_COMMENT_CATEGORIES rc
@@ -98,7 +98,7 @@ $categories_RET = DBGet( "SELECT rc.ID,rc.TITLE,rc.COLOR,1,rc.SORT_ORDER
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		AND COURSE_ID IS NULL
 		AND SYEAR='" . UserSyear() . "')>0
-	ORDER BY 4,SORT_ORDER", array(), array( 'ID' ) );
+	ORDER BY 4,SORT_ORDER", [], [ 'ID' ] );
 
 if ( ! isset( $_REQUEST['tab_id'] )
 	|| $_REQUEST['tab_id'] == ''
@@ -110,16 +110,16 @@ if ( ! isset( $_REQUEST['tab_id'] )
 $comment_codes_RET = DBGet( "SELECT SCALE_ID,TITLE,SHORT_NAME,COMMENT
 	FROM REPORT_CARD_COMMENT_CODES
 	WHERE SCHOOL_ID='" . UserSchool() . "'
-	ORDER BY SORT_ORDER,ID", array(), array( 'SCALE_ID' ) );
+	ORDER BY SORT_ORDER,ID", [], [ 'SCALE_ID' ] );
 
-$commentsA_select = array();
+$commentsA_select = [];
 
 foreach ( (array) $comment_codes_RET as $scale_id => $codes )
 {
 	foreach ( (array) $codes as $code )
 	{
 		$commentsA_select[$scale_id][$code['TITLE']] = $code['SHORT_NAME'] ?
-		array( $code['TITLE'], $code['SHORT_NAME'] ) :
+		[ $code['TITLE'], $code['SHORT_NAME'] ] :
 		$code['TITLE'];
 	}
 }
@@ -133,7 +133,7 @@ if ( $_REQUEST['tab_id'] == '-1' )
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		AND SYEAR='" . UserSyear() . "'
 		AND COURSE_ID IS NULL
-		ORDER BY SORT_ORDER", array(), array( 'ID' ) );
+		ORDER BY SORT_ORDER", [], [ 'ID' ] );
 
 	$current_commentsB_RET = DBGet( "SELECT g.STUDENT_ID,g.REPORT_CARD_COMMENT_ID
 		FROM STUDENT_REPORT_CARD_COMMENTS g,COURSE_PERIODS cp
@@ -142,7 +142,7 @@ if ( $_REQUEST['tab_id'] == '-1' )
 		AND g.MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'
 		AND g.REPORT_CARD_COMMENT_ID IN (SELECT ID
 			FROM REPORT_CARD_COMMENTS
-			WHERE COURSE_ID IS NULL)", array(), array( 'STUDENT_ID' ) );
+			WHERE COURSE_ID IS NULL)", [], [ 'STUDENT_ID' ] );
 
 	foreach ( (array) $current_commentsB_RET as $comments )
 	{
@@ -167,7 +167,7 @@ elseif ( $_REQUEST['tab_id'] == '0' )
 		AND cp.COURSE_PERIOD_ID='" . $course_period_id . "'
 		AND g.MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'
 		AND g.REPORT_CARD_COMMENT_ID IN (SELECT ID
-			FROM REPORT_CARD_COMMENTS WHERE COURSE_ID='0')", array(), array( 'STUDENT_ID', 'REPORT_CARD_COMMENT_ID' ) );
+			FROM REPORT_CARD_COMMENTS WHERE COURSE_ID='0')", [], [ 'STUDENT_ID', 'REPORT_CARD_COMMENT_ID' ] );
 }
 elseif ( ! empty( $_REQUEST['tab_id'] ) )
 {
@@ -186,31 +186,31 @@ elseif ( ! empty( $_REQUEST['tab_id'] ) )
 		AND g.MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'
 		AND g.REPORT_CARD_COMMENT_ID IN (SELECT ID
 			FROM REPORT_CARD_COMMENTS
-			WHERE CATEGORY_ID='" . $_REQUEST['tab_id'] . "')", array(), array( 'STUDENT_ID', 'REPORT_CARD_COMMENT_ID' ) );
+			WHERE CATEGORY_ID='" . $_REQUEST['tab_id'] . "')", [], [ 'STUDENT_ID', 'REPORT_CARD_COMMENT_ID' ] );
 }
 
-$grades_select = array( '' => '' );
+$grades_select = [ '' => '' ];
 
 foreach ( (array) $grades_RET as $key => $grade )
 {
 	$grade = $grade[1];
-	$grades_select += array( $grade['ID'] => array( $grade['TITLE'], '<b>' . $grade['TITLE'] . '</b>' ) );
+	$grades_select += [ $grade['ID'] => [ $grade['TITLE'], '<b>' . $grade['TITLE'] . '</b>' ] ];
 }
 
-$commentsB_select = array();
+$commentsB_select = [];
 
 if ( 0 )
 {
 	foreach ( (array) $commentsB_RET as $id => $comment )
 	{
-		$commentsB_select += array( $id => array( $comment[1]['SORT_ORDER'], $comment[1]['TITLE'] ) );
+		$commentsB_select += [ $id => [ $comment[1]['SORT_ORDER'], $comment[1]['TITLE'] ] ];
 	}
 }
 elseif ( ! empty( $commentsB_RET ) )
 {
 	foreach ( (array) $commentsB_RET as $id => $comment )
 	{
-		$commentsB_select += array( $id => array( $comment[1]['SORT_ORDER'] . ' - ' . ( mb_strlen( $comment[1]['TITLE'] ) > 99 + 3 ? mb_substr( $comment[1]['TITLE'], 0, 99 ) . '...' : $comment[1]['TITLE'] ), $comment[1]['TITLE'] ) );
+		$commentsB_select += [ $id => [ $comment[1]['SORT_ORDER'] . ' - ' . ( mb_strlen( $comment[1]['TITLE'] ) > 99 + 3 ? mb_substr( $comment[1]['TITLE'], 0, 99 ) . '...' : $comment[1]['TITLE'] ), $comment[1]['TITLE'] ] ];
 	}
 }
 
@@ -231,8 +231,8 @@ if ( $_REQUEST['modfunc'] === 'gradebook' )
 			// Note: The 'active assignment' determination is not fully correct.  It would be easy to be fully correct here but the same determination
 			// as in Grades.php is used to avoid apparent inconsistencies in the grade calculations.  See also the note at top of Grades.php.
 			$extra['SELECT_ONLY'] = "s.STUDENT_ID, gt.ASSIGNMENT_TYPE_ID,sum(" .
-			db_case( array( 'gg.POINTS', "'-1'", "'0'", 'gg.POINTS' ) ) . ") AS PARTIAL_POINTS,sum(" .
-			db_case( array( 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ) ) . ") AS PARTIAL_TOTAL,gt.FINAL_GRADE_PERCENT";
+			db_case( [ 'gg.POINTS', "'-1'", "'0'", 'gg.POINTS' ] ) . ") AS PARTIAL_POINTS,sum(" .
+			db_case( [ 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ] ) . ") AS PARTIAL_TOTAL,gt.FINAL_GRADE_PERCENT";
 
 			$extra['FROM'] = " JOIN GRADEBOOK_ASSIGNMENTS ga ON
 				(((ga.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
@@ -279,7 +279,7 @@ if ( $_REQUEST['modfunc'] === 'gradebook' )
 
 			$extra['GROUP'] = "gt.ASSIGNMENT_TYPE_ID,gt.FINAL_GRADE_PERCENT,s.STUDENT_ID";
 
-			$extra['group'] = array( 'STUDENT_ID' );
+			$extra['group'] = [ 'STUDENT_ID' ];
 
 			$points_RET = GetStuList( $extra );
 			//echo '<pre>'; var_dump($points_RET); echo '</pre>';
@@ -320,12 +320,12 @@ if ( $_REQUEST['modfunc'] === 'gradebook' )
 						$total /= $total_percent;
 					}
 
-					$import_RET[$student_id] = array(
-						1 => array(
+					$import_RET[$student_id] = [
+						1 => [
 							'REPORT_CARD_GRADE_ID' => _makeLetterGrade( $total, $course_period_id, 0, 'ID' ),
 							'GRADE_PERCENT' => round( 100 * $total, 1 ),
-						),
-					);
+						],
+					];
 				}
 			}
 		}
@@ -380,7 +380,7 @@ if ( $_REQUEST['modfunc'] === 'gradebook' )
 			$percents_RET = DBGet( "SELECT STUDENT_ID,GRADE_PERCENT,MARKING_PERIOD_ID
 				FROM STUDENT_REPORT_CARD_GRADES
 				WHERE COURSE_PERIOD_ID='" . $course_period_id . "'
-				AND MARKING_PERIOD_ID IN (" . $mps . ")", array(), array( 'STUDENT_ID' ) );
+				AND MARKING_PERIOD_ID IN (" . $mps . ")", [], [ 'STUDENT_ID' ] );
 
 			foreach ( (array) $percents_RET as $student_id => $percents )
 			{
@@ -398,12 +398,12 @@ if ( $_REQUEST['modfunc'] === 'gradebook' )
 					$total /= $total_percent;
 				}
 
-				$import_RET[$student_id] = array(
-					1 => array(
+				$import_RET[$student_id] = [
+					1 => [
 						'REPORT_CARD_GRADE_ID' => _makeLetterGrade( $total / 100, $course_period_id, 0, 'ID' ),
 						'GRADE_PERCENT' => round( $total, 1 ),
-					),
-				);
+					],
+				];
 
 				// FJ automatic comment on yearly grades.
 
@@ -418,7 +418,7 @@ if ( $_REQUEST['modfunc'] === 'gradebook' )
 	}
 
 	// Unset modfunc & redirect URL.
-	RedirectURL( array( 'modfunc' ) );
+	RedirectURL( [ 'modfunc' ] );
 }
 
 if ( $_REQUEST['modfunc'] === 'grades' )
@@ -431,7 +431,7 @@ if ( $_REQUEST['modfunc'] === 'grades' )
 			FROM STUDENT_REPORT_CARD_GRADES g,COURSE_PERIODS cp
 			WHERE cp.COURSE_PERIOD_ID=g.COURSE_PERIOD_ID
 			AND cp.COURSE_PERIOD_ID='" . $course_period_id . "'
-			AND g.MARKING_PERIOD_ID='" . $_REQUEST['prev_mp'] . "'", array(), array( 'STUDENT_ID' ) );
+			AND g.MARKING_PERIOD_ID='" . $_REQUEST['prev_mp'] . "'", [], [ 'STUDENT_ID' ] );
 
 		foreach ( (array) $import_RET as $student_id => $grade )
 		{
@@ -445,7 +445,7 @@ if ( $_REQUEST['modfunc'] === 'grades' )
 	}
 
 	// Unset modfunc & prev MP & redirect URL.
-	RedirectURL( array( 'modfunc', 'prev_mp' ) );
+	RedirectURL( [ 'modfunc', 'prev_mp' ] );
 }
 
 if ( $_REQUEST['modfunc'] === 'comments' )
@@ -455,20 +455,20 @@ if ( $_REQUEST['modfunc'] === 'comments' )
 		$import_comments_RET = DBGet( "SELECT g.STUDENT_ID,g.REPORT_CARD_COMMENT_ID,g.COMMENT
 		FROM STUDENT_REPORT_CARD_GRADES g
 		WHERE g.COURSE_PERIOD_ID='" . $course_period_id . "'
-		AND g.MARKING_PERIOD_ID='" . $_REQUEST['prev_mp'] . "'", array(), array( 'STUDENT_ID' ) );
+		AND g.MARKING_PERIOD_ID='" . $_REQUEST['prev_mp'] . "'", [], [ 'STUDENT_ID' ] );
 
 		$import_commentsA_RET = DBGet( "SELECT g.STUDENT_ID,g.REPORT_CARD_COMMENT_ID,g.COMMENT
 		FROM STUDENT_REPORT_CARD_COMMENTS g
 		WHERE g.COURSE_PERIOD_ID='" . $course_period_id . "'
 		AND g.MARKING_PERIOD_ID='" . $_REQUEST['prev_mp'] . "'
-		AND g.REPORT_CARD_COMMENT_ID IN (SELECT ID FROM REPORT_CARD_COMMENTS WHERE COURSE_ID IS NOT NULL)", array(), array( 'STUDENT_ID', 'REPORT_CARD_COMMENT_ID' ) );
+		AND g.REPORT_CARD_COMMENT_ID IN (SELECT ID FROM REPORT_CARD_COMMENTS WHERE COURSE_ID IS NOT NULL)", [], [ 'STUDENT_ID', 'REPORT_CARD_COMMENT_ID' ] );
 
 		//echo '<pre>'; var_dump($import_commentsA_RET); echo '</pre>';
 		$import_commentsB_RET = DBGet( "SELECT g.STUDENT_ID,g.REPORT_CARD_COMMENT_ID
 		FROM STUDENT_REPORT_CARD_COMMENTS g
 		WHERE g.COURSE_PERIOD_ID='" . $course_period_id . "'
 		AND g.MARKING_PERIOD_ID='" . $_REQUEST['prev_mp'] . "'
-		AND g.REPORT_CARD_COMMENT_ID IN (SELECT ID FROM REPORT_CARD_COMMENTS WHERE COURSE_ID IS NULL)", array(), array( 'STUDENT_ID' ) );
+		AND g.REPORT_CARD_COMMENT_ID IN (SELECT ID FROM REPORT_CARD_COMMENTS WHERE COURSE_ID IS NULL)", [], [ 'STUDENT_ID' ] );
 
 		foreach ( (array) $import_commentsB_RET as $comments )
 		{
@@ -480,7 +480,7 @@ if ( $_REQUEST['modfunc'] === 'comments' )
 	}
 
 	// Unset modfunc & prev MP & redirect URL.
-	RedirectURL( array( 'modfunc', 'prev_mp' ) );
+	RedirectURL( [ 'modfunc', 'prev_mp' ] );
 }
 
 if ( $_REQUEST['modfunc'] === 'clearall' )
@@ -814,7 +814,7 @@ if ( ! empty( $_REQUEST['values'] )
 		}
 
 		// create mapping for current
-		$old = array();
+		$old = [];
 
 		if ( isset( $current_commentsB_RET[$student_id] ) && is_array( $current_commentsB_RET[$student_id] ) )
 		{
@@ -825,13 +825,13 @@ if ( ! empty( $_REQUEST['values'] )
 		}
 
 		// create change list
-		$change = array();
+		$change = [];
 
 		if ( isset( $columns['commentsB'] ) && is_array( $columns['commentsB'] ) )
 		{
 			foreach ( (array) $columns['commentsB'] as $i => $comment )
 			{
-				$change[$i] = array( 'REPORT_CARD_COMMENT_ID' => 0 );
+				$change[$i] = [ 'REPORT_CARD_COMMENT_ID' => 0 ];
 			}
 		}
 
@@ -857,7 +857,7 @@ if ( ! empty( $_REQUEST['values'] )
 		}
 
 		// assign changes at their index if possible
-		$new = array();
+		$new = [];
 
 		if ( isset( $columns['commentsB'] ) && is_array( $columns['commentsB'] ) )
 		{
@@ -966,7 +966,7 @@ if ( ! empty( $_REQUEST['values'] )
 		g.REPORT_CARD_COMMENT_ID,g.COMMENT
 		FROM STUDENT_REPORT_CARD_GRADES g
 		WHERE g.COURSE_PERIOD_ID='" . $course_period_id . "'
-		AND g.MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'", array(), array( 'STUDENT_ID' ) );
+		AND g.MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'", [], [ 'STUDENT_ID' ] );
 
 	if ( $_REQUEST['tab_id'] == '-1' )
 	{
@@ -975,7 +975,7 @@ if ( ! empty( $_REQUEST['values'] )
 		WHERE cp.COURSE_PERIOD_ID=g.COURSE_PERIOD_ID
 		AND cp.COURSE_PERIOD_ID='" . $course_period_id . "'
 		AND g.MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'
-		AND g.REPORT_CARD_COMMENT_ID IN (SELECT ID FROM REPORT_CARD_COMMENTS WHERE COURSE_ID IS NULL)", array(), array( 'STUDENT_ID' ) );
+		AND g.REPORT_CARD_COMMENT_ID IN (SELECT ID FROM REPORT_CARD_COMMENTS WHERE COURSE_ID IS NULL)", [], [ 'STUDENT_ID' ] );
 
 		$max_current_commentsB = 0;
 
@@ -994,7 +994,7 @@ if ( ! empty( $_REQUEST['values'] )
 		WHERE cp.COURSE_PERIOD_ID=g.COURSE_PERIOD_ID
 		AND cp.COURSE_PERIOD_ID='" . $course_period_id . "'
 		AND g.MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'
-		AND g.REPORT_CARD_COMMENT_ID IN (SELECT ID FROM REPORT_CARD_COMMENTS WHERE COURSE_ID='0')", array(), array( 'STUDENT_ID', 'REPORT_CARD_COMMENT_ID' ) );
+		AND g.REPORT_CARD_COMMENT_ID IN (SELECT ID FROM REPORT_CARD_COMMENTS WHERE COURSE_ID='0')", [], [ 'STUDENT_ID', 'REPORT_CARD_COMMENT_ID' ] );
 	}
 	elseif ( ! empty( $_REQUEST['tab_id'] ) )
 	{
@@ -1003,7 +1003,7 @@ if ( ! empty( $_REQUEST['values'] )
 		WHERE cp.COURSE_PERIOD_ID=g.COURSE_PERIOD_ID
 		AND cp.COURSE_PERIOD_ID='" . $course_period_id . "'
 		AND g.MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'
-		AND g.REPORT_CARD_COMMENT_ID IN (SELECT ID FROM REPORT_CARD_COMMENTS WHERE CATEGORY_ID='" . $_REQUEST['tab_id'] . "')", array(), array( 'STUDENT_ID', 'REPORT_CARD_COMMENT_ID' ) );
+		AND g.REPORT_CARD_COMMENT_ID IN (SELECT ID FROM REPORT_CARD_COMMENTS WHERE CATEGORY_ID='" . $_REQUEST['tab_id'] . "')", [], [ 'STUDENT_ID', 'REPORT_CARD_COMMENT_ID' ] );
 	}
 
 	$current_completed = count( (array) DBGet( "SELECT 1
@@ -1100,10 +1100,10 @@ if ( User( 'PROFILE' ) === 'teacher'
 
 $extra['SELECT'] = ",ssm.STUDENT_ID AS REPORT_CARD_GRADE";
 
-$extra['functions'] = array(
+$extra['functions'] = [
 	'FULL_NAME' => 'makePhotoTipMessage',
 	'REPORT_CARD_GRADE' => '_makeLetterPercent',
-);
+];
 
 if ( GetMP( $_REQUEST['mp'], 'DOES_COMMENTS' ) == 'Y' )
 {
@@ -1114,25 +1114,25 @@ if ( GetMP( $_REQUEST['mp'], 'DOES_COMMENTS' ) == 'Y' )
 		foreach ( (array) $commentsA_RET as $value )
 		{
 			$extra['SELECT'] .= ',\'' . $value['ID'] . '\' AS CA' . $value['ID'] . ',\'' . $value['SCALE_ID'] . '\' AS CAC' . $value['ID'];
-			$extra['functions'] += array( 'CA' . $value['ID'] => '_makeCommentsA' );
+			$extra['functions'] += [ 'CA' . $value['ID'] => '_makeCommentsA' ];
 		}
 	}
 
 	for ( $i = 1; $i <= $max_current_commentsB; $i++ )
 	{
 		$extra['SELECT'] .= ',\'' . $i . '\' AS CB' . $i;
-		$extra['functions'] += array( 'CB' . $i => '_makeCommentsB' );
+		$extra['functions'] += [ 'CB' . $i => '_makeCommentsB' ];
 	}
 
 	if ( ! empty( $commentsB_select ) && AllowEdit() )
 	{
 		$extra['SELECT'] .= ',\'' . $i . '\' AS CB' . $i;
-		$extra['functions'] += array( 'CB' . $i => '_makeCommentsB' );
+		$extra['functions'] += [ 'CB' . $i => '_makeCommentsB' ];
 	}
 }
 
 $extra['SELECT'] .= ",'' AS COMMENTS,'' AS COMMENT";
-$extra['functions'] += array( 'COMMENT' => '_makeComment' );
+$extra['functions'] += [ 'COMMENT' => '_makeComment' ];
 $extra['MP'] = UserMP();
 $extra['DATE'] = GetMP( $_REQUEST['mp'], 'END_DATE' );
 
@@ -1180,13 +1180,13 @@ if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'" .
 			$where . "
-			ORDER BY SORT_ORDER", array(), array( 'SCALE_ID' ) );
+			ORDER BY SORT_ORDER", [], [ 'SCALE_ID' ] );
 
 		foreach ( (array) $commentsAbis_RET as $scale_id => $commentsAbis )
 		{
 			$tipmsg = '';
 
-			$tiplabel = array();
+			$tiplabel = [];
 
 			foreach ( (array) $comment_codes_RET[$scale_id] as $comment )
 			{
@@ -1242,7 +1242,7 @@ if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			AND START_DATE<'" . GetMP( $_REQUEST['mp'], 'START_DATE' ) . "'
 			ORDER BY START_DATE DESC LIMIT 1" );
 
-		$prev_mp = issetVal( $prev_mp[1], array() );
+		$prev_mp = issetVal( $prev_mp[1], [] );
 
 		// Remove Get previous MP Grades & Comments if course period's marking period is a quarter.
 		$mp_is_quarter = DBGetOne( "SELECT 1
@@ -1281,18 +1281,18 @@ else
 	DrawHeader( GetMP( UserMP() ) );
 }
 
-$LO_columns = array( 'FULL_NAME' => _( 'Student' ), 'STUDENT_ID' => sprintf( _( '%s ID' ), Config( 'NAME' ) ) );
+$LO_columns = [ 'FULL_NAME' => _( 'Student' ), 'STUDENT_ID' => sprintf( _( '%s ID' ), Config( 'NAME' ) ) ];
 
 if ( $_REQUEST['include_inactive'] == 'Y' )
 {
-	$LO_columns += array( 'ACTIVE' => _( 'School Status' ), 'ACTIVE_SCHEDULE' => _( 'Course Status' ) );
+	$LO_columns += [ 'ACTIVE' => _( 'School Status' ), 'ACTIVE_SCHEDULE' => _( 'Course Status' ) ];
 }
 
-$LO_columns += array(
+$LO_columns += [
 	'REPORT_CARD_GRADE' => ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) < 0 ? _( 'Letter' ) :
 		( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) > 0 ? _( 'Percent' ) :
 			'<span class="nobr">' . _( 'Letter' ) . ' ' . _( 'Percent' ) . '</span>' ) ),
-);
+];
 
 if ( GetMP( $_REQUEST['mp'], 'DOES_COMMENTS' ) == 'Y' )
 {
@@ -1302,35 +1302,35 @@ if ( GetMP( $_REQUEST['mp'], 'DOES_COMMENTS' ) == 'Y' )
 	{
 		foreach ( (array) $commentsA_RET as $value )
 		{
-			$LO_columns += array( 'CA' . $value['ID'] => $value['TITLE'] );
+			$LO_columns += [ 'CA' . $value['ID'] => $value['TITLE'] ];
 		}
 	}
 
 	for ( $i = 1; $i <= $max_current_commentsB; $i++ )
 	{
-		$LO_columns += array( 'CB' . $i => sprintf( _( 'Comment %d' ), $i ) );
+		$LO_columns += [ 'CB' . $i => sprintf( _( 'Comment %d' ), $i ) ];
 	}
 
 	if ( ! empty( $commentsB_select ) && AllowEdit() && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
-		$LO_columns += array( 'CB' . $i => _( 'Add Comment' ) );
+		$LO_columns += [ 'CB' . $i => _( 'Add Comment' ) ];
 	}
 }
 
 if ( ! ProgramConfig( 'grades', 'GRADES_HIDE_NON_ATTENDANCE_COMMENT' ) )
 {
-	$LO_columns += array( 'COMMENT' => _( 'Comment' ) );
+	$LO_columns += [ 'COMMENT' => _( 'Comment' ) ];
 }
 
 foreach ( (array) $categories_RET as $id => $category )
 {
-	$tabs[] = array(
+	$tabs[] = [
 		'title' => $category[1]['TITLE'],
 		'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&mp=' . $_REQUEST['mp'] . '&tab_id=' . $id,
-	) + ( $category[1]['COLOR'] ? array( 'color' => $category[1]['COLOR'] ) : array() );
+	] + ( $category[1]['COLOR'] ? [ 'color' => $category[1]['COLOR'] ] : [] );
 }
 
-$LO_options = array( 'save' => false, 'search' => false );
+$LO_options = [ 'save' => false, 'search' => false ];
 
 if ( ! empty( $categories_RET ) && GetMP( $_REQUEST['mp'], 'DOES_COMMENTS' ) == 'Y' )
 {
@@ -1344,7 +1344,7 @@ if ( ! empty( $categories_RET ) && GetMP( $_REQUEST['mp'], 'DOES_COMMENTS' ) == 
 
 echo '<br />';
 
-ListOutput( $stu_RET, $LO_columns, 'Student', 'Students', false, array(), $LO_options );
+ListOutput( $stu_RET, $LO_columns, 'Student', 'Students', false, [], $LO_options );
 
 // @since 4.6 Navigate form inputs vertically using tab key.
 // @link https://stackoverflow.com/questions/38575817/set-tabindex-in-vertical-order-of-columns

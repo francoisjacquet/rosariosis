@@ -13,8 +13,8 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 	}
 
 	$all_schools_onclick_URL = "'" . ( $_REQUEST['all_schools'] == 'Y' ?
-		PreparePHP_SELF( $_REQUEST, array(), array( 'all_schools' => '' ) ) :
-		PreparePHP_SELF( $_REQUEST, array(), array( 'all_schools' => 'Y' ) ) ) . "'";
+		PreparePHP_SELF( $_REQUEST, [], [ 'all_schools' => '' ] ) :
+		PreparePHP_SELF( $_REQUEST, [], [ 'all_schools' => 'Y' ] ) ) . "'";
 
 	$input_all_schools = '<input type="checkbox" name="all_schools" value="Y" onclick="ajaxLink(' . $all_schools_onclick_URL . ');"' . ( $_REQUEST['all_schools'] == 'Y' ? 'checked' : '' ) . ' />';
 
@@ -27,24 +27,24 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 			MP,SORT_ORDER,SHORT_NAME,START_DATE,END_DATE,DOES_GRADES,DOES_COMMENTS
 			FROM SCHOOL_MARKING_PERIODS
 			WHERE SYEAR='" . UserSyear() . "'",
-			array(),
-			array( 'MARKING_PERIOD_ID' )
+			[],
+			[ 'MARKING_PERIOD_ID' ]
 		);
 	}
 
-	$columns = array(
+	$columns = [
 		'TITLE' => _( 'Course' ),
 		'COURSE_PERIOD' => _( 'Course Period' ),
 		'ROOM' => _( 'Room' ),
 		'MARKING_PERIOD_ID' => _( 'Marking Period' ),
-	);
+	];
 
-	$group = array();
+	$group = [];
 
 	if ( $_REQUEST['all_schools'] == 'Y' )
 	{
-		$columns += array( 'SCHOOL' => _( 'School' ) );
-		$group = array( 'SCHOOL_ID' );
+		$columns += [ 'SCHOOL' => _( 'School' ) ];
+		$group = [ 'SCHOOL_ID' ];
 	}
 
 	/*$schedule_RET = DBGet( "SELECT cp.PERIOD_ID,cp.ROOM,c.TITLE,cp.MARKING_PERIOD_ID,cp.SCHOOL_ID,s.TITLE AS SCHOOL FROM COURSE_PERIODS cp,COURSES c,SCHOOLS s WHERE cp.COURSE_ID=c.COURSE_ID AND cp.TEACHER_ID='".UserStaffID()."' AND cp.SYEAR='".UserSyear()."'".($_REQUEST['all_schools']=='Y'?'':" AND cp.SCHOOL_ID='".UserSchool()."'")." AND s.ID=cp.SCHOOL_ID AND s.SYEAR=cp.SYEAR ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID)",array('PERIOD_ID' => 'GetPeriod','MARKING_PERIOD_ID' => 'GetMP'),$group);*/
@@ -56,7 +56,7 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 		( $_REQUEST['all_schools'] == 'Y' ? '' : " AND cp.SCHOOL_ID='" . UserSchool() . "'" ) . "
 	AND s.ID=cp.SCHOOL_ID
 	AND s.SYEAR=cp.SYEAR
-	ORDER BY cp.SHORT_NAME,cp.TITLE", array( 'MARKING_PERIOD_ID' => 'GetMP' ), $group );
+	ORDER BY cp.SHORT_NAME,cp.TITLE", [ 'MARKING_PERIOD_ID' => 'GetMP' ], $group );
 
 	if ( $_REQUEST['all_schools'] == 'Y' )
 	{
@@ -95,10 +95,10 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 	if ( ! UserMP() )
 	{
 		// Fix SQL error when no quarters MP are setup yet.
-		ErrorMessage( array( _( 'No quarters found' ) ), 'fatal' );
+		ErrorMessage( [ _( 'No quarters found' ) ], 'fatal' );
 	}
 
-	$schedule_table_days = array(
+	$schedule_table_days = [
 		'U' => false,
 		'M' => false,
 		'T' => false,
@@ -106,9 +106,9 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 		'H' => false,
 		'F' => false,
 		'S' => false,
-	);
+	];
 	//FJ days display to locale
-	$days_convert = array(
+	$days_convert = [
 		'U' => _( 'Sunday' ),
 		'M' => _( 'Monday' ),
 		'T' => _( 'Tuesday' ),
@@ -116,12 +116,12 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 		'H' => _( 'Thursday' ),
 		'F' => _( 'Friday' ),
 		'S' => _( 'Saturday' ),
-	);
+	];
 	//FJ days numbered
 
 	if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 	{
-		$days_convert = array(
+		$days_convert = [
 			'U' => _( 'Day' ) . ' 7',
 			'M' => _( 'Day' ) . ' 1',
 			'T' => _( 'Day' ) . ' 2',
@@ -129,7 +129,7 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 			'H' => _( 'Day' ) . ' 4',
 			'F' => _( 'Day' ) . ' 5',
 			'S' => _( 'Day' ) . ' 6',
-		);
+		];
 	}
 
 	$schedule_table_RET = DBGet( "SELECT cp.ROOM,cp.SHORT_NAME,c.TITLE,sp.TITLE AS SCHOOL_PERIOD,cpsp.DAYS
@@ -144,10 +144,10 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 	AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
 	AND cp.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . ")
 	AND sp.LENGTH<=" . ( Config( 'ATTENDANCE_FULL_DAY_MINUTES' ) / 2 ) . "
-	ORDER BY sp.SORT_ORDER", array( 'DAYS' => '_GetDays' ), array( 'SCHOOL_PERIOD' ) );
+	ORDER BY sp.SORT_ORDER", [ 'DAYS' => '_GetDays' ], [ 'SCHOOL_PERIOD' ] );
 	// FJ note the "sp.LENGTH<=(Config('ATTENDANCE_FULL_DAY_MINUTES') / 2)" condition to remove Full Day school periods from the schedule table!
 
-	$columns = array( 'SCHOOL_PERIOD' => _( 'Periods' ) );
+	$columns = [ 'SCHOOL_PERIOD' => _( 'Periods' ) ];
 
 	foreach ( $schedule_table_days as $day => $true )
 	{
@@ -165,8 +165,8 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 		'Period',
 		'Periods',
 		false,
-		array(),
-		array( 'save' => false )
+		[],
+		[ 'save' => false ]
 	);
 
 	if ( $PopTable_opened )
@@ -201,7 +201,7 @@ function _GetDays( $value, $column )
  */
 function _schedule_table_RET( $schedule_table_RET )
 {
-	$schedule_table_body = array();
+	$schedule_table_body = [];
 	$i = 1;
 
 	foreach ( (array) $schedule_table_RET as $period => $course_periods )
@@ -214,7 +214,7 @@ function _schedule_table_RET( $schedule_table_RET )
 			{
 				if ( empty( $schedule_table_body[$i][$course_period_day] ) )
 				{
-					$schedule_table_body[$i][$course_period_day] = array();
+					$schedule_table_body[$i][$course_period_day] = [];
 				}
 
 				$schedule_table_body[$i][$course_period_day][] = '<div style="display:table-cell;">' . $course_period['TITLE'] . ' ' . ( empty( $course_period['SHORT_NAME'] ) ? '' : '<span style="font-size:smaller;">(' . $course_period['SHORT_NAME'] ) . ')' . ( empty( $course_period['ROOM'] ) ? '' : ' ' . _( 'Room' ) . ': ' . $course_period['ROOM'] . '</span>' ) . '&nbsp;</div>';
@@ -234,7 +234,7 @@ function _schedule_table_RET( $schedule_table_RET )
 
 			if ( count( $schedule_table_day ) == 1 )
 			{
-				$schedule_table_body[$i][$day_key] = str_replace( array( '<div style="display:table-cell;">', '</div>' ), '', $schedule_table_day[0] );
+				$schedule_table_body[$i][$day_key] = str_replace( [ '<div style="display:table-cell;">', '</div>' ], '', $schedule_table_day[0] );
 			}
 			else
 			{

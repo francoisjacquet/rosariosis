@@ -101,7 +101,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 			WHERE PERIOD_ID='" . $_REQUEST['id'] . "'" );
 
 		// Unset modfunc & ID & redirect.
-		RedirectURL( array( 'modfunc', 'id' ) );
+		RedirectURL( [ 'modfunc', 'id' ] );
 	}
 }
 
@@ -123,32 +123,32 @@ if ( ! $_REQUEST['modfunc'] )
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		ORDER BY SORT_ORDER",
-	array(
+	[
 		'REMOVE' => '_makeRemoveButton',
 		'TITLE' => '_makeTextInput',
 		'SHORT_NAME' => '_makeTextInput',
 		'SORT_ORDER' => '_makeTextInput',
 		'BLOCK' => '_makeTextInput',
 		'LENGTH' => '_makeTextInput',
-	) ); //	'ATTENDANCE' => '_makeCheckboxInput','START_TIME' => '_makeTimeInput','END_TIME' => '_makeTimeInput'
+	] ); //	'ATTENDANCE' => '_makeCheckboxInput','START_TIME' => '_makeTimeInput','END_TIME' => '_makeTimeInput'
 
-	$columns = array(
+	$columns = [
 		'REMOVE' => '<span class="a11y-hidden">' . _( 'Delete' ) . '</span>',
 		'TITLE' => _( 'Title' ),
 		'SHORT_NAME' => _( 'Short Name' ),
 		'SORT_ORDER' => _( 'Sort Order' ),
 		'LENGTH' => _( 'Length (minutes)' ),
 		'BLOCK' => _( 'Block' ),
-	); // 'ATTENDANCE' => _('Used for Attendance'),'START_TIME' => _('Start Time'),'END_TIME' => _('End Time'));
+	]; // 'ATTENDANCE' => _('Used for Attendance'),'START_TIME' => _('Start Time'),'END_TIME' => _('End Time'));
 
-	$link['add']['html'] = array(
+	$link['add']['html'] = [
 		'REMOVE' => _makeRemoveButton( '', 'REMOVE' ),
 		'TITLE' => _makeTextInput( '', 'TITLE' ),
 		'SHORT_NAME' => _makeTextInput( '', 'SHORT_NAME' ),
 		'LENGTH' => _makeTextInput( '', 'LENGTH' ),
 		'SORT_ORDER' => _makeTextInput( '', 'SORT_ORDER' ),
 		'BLOCK' => _makeTextInput( '', 'BLOCK' ),
-	); // 'ATTENDANCE'=>_makeCheckboxInput('','ATTENDANCE'),'START_TIME'=>_makeTimeInput('','START_TIME'),'END_TIME'=>_makeTimeInput('','END_TIME')
+	]; // 'ATTENDANCE'=>_makeCheckboxInput('','ATTENDANCE'),'START_TIME'=>_makeTimeInput('','START_TIME'),'END_TIME'=>_makeTimeInput('','END_TIME')
 
 	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update' ) . '" method="POST">';
 
@@ -261,7 +261,7 @@ function _makeTimeInput( $value, $name )
 		$minute_options[ $i ] = '' . $i;
 	}
 
-	$m_options = array( 'AM' => 'AM', 'PM' => 'PM' );
+	$m_options = [ 'AM' => 'AM', 'PM' => 'PM' ];
 
 	$time_html = '<table><tr><td>' . SelectInput(
 		$hour,

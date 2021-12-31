@@ -9,13 +9,13 @@ $course_RET = DBGet( "SELECT DOES_FS_COUNTS,DAYS,CALENDAR_ID,MP,MARKING_PERIOD_I
 
 if ( ! trim( $course_RET[1]['DOES_FS_COUNTS'], ',' ) )
 {
-	ErrorMessage( array( _( 'You cannot take meal counts for this period.' ) ), 'fatal' );
+	ErrorMessage( [ _( 'You cannot take meal counts for this period.' ) ], 'fatal' );
 }
 
 // the following query is for when doea_fs_counts is a comma quoted string of meal_id's, ex. ,1,2,4,
 //$menus_RET = DBGet( 'SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\''.UserSchool().'\' AND MENU_ID IN ('.trim($course_RET[1]['DOES_FS_COUNTS'],',').') ORDER BY SORT_ORDER'),array(),array('MENU_ID'));
 // use all meal_id's for now
-$menus_RET = DBGet( 'SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY SORT_ORDER', array(), array( 'MENU_ID' ) );
+$menus_RET = DBGet( 'SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY SORT_ORDER', [], [ 'MENU_ID' ] );
 //echo '<pre>'; var_dump($menus_RET); echo '</pre>';
 
 if ( empty( $_REQUEST['menu_id'] ) )
@@ -28,7 +28,7 @@ if ( empty( $_REQUEST['menu_id'] ) )
 		}
 		else
 		{
-			ErrorMessage( array( _( 'You cannot take meal counts for this period.' ) ), 'fatal' );
+			ErrorMessage( [ _( 'You cannot take meal counts for this period.' ) ], 'fatal' );
 		}
 	}
 	else
@@ -57,17 +57,17 @@ $calendar_RET = DBGet( "SELECT MINUTES FROM ATTENDANCE_CALENDAR WHERE CALENDAR_I
 if ( ! $calendar_RET[1]['MINUTES'] )
 {
 	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&menu_id=' . $_REQUEST['menu_id']  ) . '" method="POST">';
-	DrawHeader( PrepareDate( $date, '_date', false, array( 'submit' => true ) ) );
+	DrawHeader( PrepareDate( $date, '_date', false, [ 'submit' => true ] ) );
 	echo '</form>';
-	ErrorMessage( array( _( 'The selected date is not a school day!' ) ), 'fatal' );
+	ErrorMessage( [ _( 'The selected date is not a school day!' ) ], 'fatal' );
 }
 
 if ( GetCurrentMP( $course_RET[1]['MP'], $date ) != $course_RET[1]['MARKING_PERIOD_ID'] )
 {
 	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&menu_id=' . $_REQUEST['menu_id']  ) . '" method="POST">';
-	DrawHeader( PrepareDate( $date, '_date', false, array( 'submit' => true ) ) );
+	DrawHeader( PrepareDate( $date, '_date', false, [ 'submit' => true ] ) );
 	echo '</form>';
-	ErrorMessage( array( _( 'This period does not meet in the marking period of the selected date.' ) ), 'fatal' );
+	ErrorMessage( [ _( 'This period does not meet in the marking period of the selected date.' ) ], 'fatal' );
 }
 
 $qtr_id = GetCurrentMP( 'QTR', $date );
@@ -91,9 +91,9 @@ switch ( $day )
 if ( mb_strpos( $days, $day ) === false )
 {
 	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=' . $_REQUEST['table']  ) . '" method="POST">';
-	DrawHeader( PrepareDate( $date, '_date', false, array( 'submit' => true ) ) );
+	DrawHeader( PrepareDate( $date, '_date', false, [ 'submit' => true ] ) );
 	echo '</form>';
-	ErrorMessage( array( _( 'This period does not meet on the selected date.' ) ), 'fatal' );
+	ErrorMessage( [ _( 'This period does not meet on the selected date.' ) ], 'fatal' );
 }
 
 // if running as a teacher program then rosario[allow_edit] will already be set according to admin permissions
@@ -109,7 +109,7 @@ if ( ! isset( $_ROSARIO['allow_edit'] ) )
 	}
 }
 
-$current_RET = DBGet( 'SELECT ITEM_ID FROM FOOD_SERVICE_COMPLETED WHERE STAFF_ID=\'' . User( 'STAFF_ID' ) . '\' AND SCHOOL_DATE=\'' . $date . '\' AND PERIOD_ID=\'' . UserPeriod() . '\' AND MENU_ID=\'' . $_REQUEST['menu_id'] . '\'', array(), array( 'ITEM_ID' ) );
+$current_RET = DBGet( 'SELECT ITEM_ID FROM FOOD_SERVICE_COMPLETED WHERE STAFF_ID=\'' . User( 'STAFF_ID' ) . '\' AND SCHOOL_DATE=\'' . $date . '\' AND PERIOD_ID=\'' . UserPeriod() . '\' AND MENU_ID=\'' . $_REQUEST['menu_id'] . '\'', [], [ 'ITEM_ID' ] );
 //echo '<pre>'; var_dump($current_RET); echo '</pre>';
 
 if ( $_REQUEST['values']
@@ -157,7 +157,7 @@ if ( $completed[1]['COMPLETED'] )
 }
 
 echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="POST">';
-DrawHeader( PrepareDate( $date, '_date', false, array( 'submit' => true ) ) . $date_note, SubmitButton() );
+DrawHeader( PrepareDate( $date, '_date', false, [ 'submit' => true ] ) . $date_note, SubmitButton() );
 
 echo ErrorMessage( $note, 'note' );
 
@@ -176,27 +176,27 @@ if ( $meal_description )
 	echo '</td></tr></table><hr />';
 }
 
-$items_RET = DBGet( 'SELECT fsi.ITEM_ID,fsi.DESCRIPTION,fsmi.DOES_COUNT,(SELECT COUNT FROM FOOD_SERVICE_COMPLETED WHERE STAFF_ID=\'' . User( 'STAFF_ID' ) . '\' AND SCHOOL_DATE=\'' . $date . '\' AND PERIOD_ID=\'' . UserPeriod() . '\' AND ITEM_ID=fsi.ITEM_ID AND MENU_ID=fsmi.MENU_ID) AS COUNT FROM FOOD_SERVICE_ITEMS fsi,FOOD_SERVICE_MENU_ITEMS fsmi WHERE fsmi.MENU_ID=\'' . $_REQUEST['menu_id'] . '\' AND fsi.ITEM_ID=fsmi.ITEM_ID AND fsmi.DOES_COUNT IS NOT NULL ORDER BY fsmi.SORT_ORDER', array( 'COUNT' => 'makeTextInput' ) );
+$items_RET = DBGet( 'SELECT fsi.ITEM_ID,fsi.DESCRIPTION,fsmi.DOES_COUNT,(SELECT COUNT FROM FOOD_SERVICE_COMPLETED WHERE STAFF_ID=\'' . User( 'STAFF_ID' ) . '\' AND SCHOOL_DATE=\'' . $date . '\' AND PERIOD_ID=\'' . UserPeriod() . '\' AND ITEM_ID=fsi.ITEM_ID AND MENU_ID=fsmi.MENU_ID) AS COUNT FROM FOOD_SERVICE_ITEMS fsi,FOOD_SERVICE_MENU_ITEMS fsmi WHERE fsmi.MENU_ID=\'' . $_REQUEST['menu_id'] . '\' AND fsi.ITEM_ID=fsmi.ITEM_ID AND fsmi.DOES_COUNT IS NOT NULL ORDER BY fsmi.SORT_ORDER', [ 'COUNT' => 'makeTextInput' ] );
 
 echo '<table class="width-100p"><tr><td style="width:50%;">';
-$LO_columns = array( 'DESCRIPTION' => _( 'Item' ), 'COUNT' => _( 'Count' ) );
+$LO_columns = [ 'DESCRIPTION' => _( 'Item' ), 'COUNT' => _( 'Count' ) ];
 
 if ( count( (array) $menus_RET ) > 1 )
 {
-	$tabs = array();
+	$tabs = [];
 
 	foreach ( (array) $menus_RET as $id => $meal )
 	{
-		$tabs[] = array( 'title' => $meal[1]['TITLE'], 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&menu_id=' . $id . '&day_date=' . $_REQUEST['day_date'] . '&month_date=' . $_REQUEST['month_date'] . '&year_date=' . $_REQUEST['year_date'] );
+		$tabs[] = [ 'title' => $meal[1]['TITLE'], 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&menu_id=' . $id . '&day_date=' . $_REQUEST['day_date'] . '&month_date=' . $_REQUEST['month_date'] . '&year_date=' . $_REQUEST['year_date'] ];
 	}
 
 	echo '<br />';
 	echo '<div class="center">' . WrapTabs( $tabs, 'Modules.php?modname=' . $_REQUEST['modname'] . '&menu_id=' . $_REQUEST['menu_id'] . '&day_date=' . $_REQUEST['day_date'] . '&month_date=' . $_REQUEST['month_date'] . '&year_date=' . $_REQUEST['year_date'] ) . '</div>';
-	$extra = array( 'count' => false, 'download' => false, 'search' => false );
+	$extra = [ 'count' => false, 'download' => false, 'search' => false ];
 }
 else
 {
-	$extra = array( 'search' => false );
+	$extra = [ 'search' => false ];
 	$plural = $menus_RET[1][1]['TITLE'] . ' ' . _( 'Items' );
 	$singular = $menus_RET[1][1]['TITLE'] . ' ' . _( 'Item' );
 }
@@ -212,15 +212,15 @@ $extra['WHERE'] .= ' AND fssa.STUDENT_ID=s.STUDENT_ID AND fsa.ACCOUNT_ID=fssa.AC
 
 if ( ! $extra['functions'] )
 {
-	$extra['functions'] = array();
+	$extra['functions'] = [];
 }
 
-$extra['functions'] += array( 'BALANCE' => 'red' );
+$extra['functions'] += [ 'BALANCE' => 'red' ];
 
 $stu_RET = GetStuList( $extra );
 
-$LO_columns = array( 'FULL_NAME' => _( 'Student' ), 'STUDENT_ID' => sprintf( _( '%s ID' ), Config( 'NAME' ) ), 'GRADE_ID' => _( 'Grade Level' ), 'BALANCE' => _( 'Balance' ), 'STATUS' => _( 'Status' ) );
-ListOutput( $stu_RET, $LO_columns, 'Ineligible Student', 'Ineligible Students', false, false, array( 'save' => false, 'search' => false ) );
+$LO_columns = [ 'FULL_NAME' => _( 'Student' ), 'STUDENT_ID' => sprintf( _( '%s ID' ), Config( 'NAME' ) ), 'GRADE_ID' => _( 'Grade Level' ), 'BALANCE' => _( 'Balance' ), 'STATUS' => _( 'Status' ) ];
+ListOutput( $stu_RET, $LO_columns, 'Ineligible Student', 'Ineligible Students', false, false, [ 'save' => false, 'search' => false ] );
 echo '</td></tr></table>';
 echo '</form>';
 

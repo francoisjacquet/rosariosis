@@ -13,7 +13,7 @@ DrawHeader( ProgramTitle() );
 $menus_RET = DBGet( "SELECT MENU_ID,TITLE
 	FROM FOOD_SERVICE_MENUS
 	WHERE SCHOOL_ID='" . UserSchool() . "'
-	ORDER BY SORT_ORDER", array(), array( 'MENU_ID' ) );
+	ORDER BY SORT_ORDER", [], [ 'MENU_ID' ] );
 
 if ( ! empty( $_REQUEST['menu_id'] ) )
 {
@@ -29,7 +29,7 @@ if ( ! empty( $_REQUEST['menu_id'] ) )
 		}
 		else
 		{
-			ErrorMessage( array( _( 'There are no menus yet setup.' ) ), 'fatal' );
+			ErrorMessage( [ _( 'There are no menus yet setup.' ) ], 'fatal' );
 		}
 	}
 	elseif ( ! empty( $menus_RET ) )
@@ -38,7 +38,7 @@ if ( ! empty( $_REQUEST['menu_id'] ) )
 	}
 	else
 	{
-		ErrorMessage( array( _( 'There are no menus yet setup.' ) ), 'fatal' );
+		ErrorMessage( [ _( 'There are no menus yet setup.' ) ], 'fatal' );
 	}
 }
 else
@@ -55,7 +55,7 @@ else
 		}
 		else
 		{
-			ErrorMessage( array( _( 'There are no menus yet setup.' ) ), 'fatal' );
+			ErrorMessage( [ _( 'There are no menus yet setup.' ) ], 'fatal' );
 		}
 	}
 	elseif ( ! empty( $menus_RET ) )
@@ -64,63 +64,63 @@ else
 	}
 	else
 	{
-		ErrorMessage( array( _( 'There are no menus yet setup.' ) ), 'fatal' );
+		ErrorMessage( [ _( 'There are no menus yet setup.' ) ], 'fatal' );
 	}
 }
 
-$users = array(
-	'Student' => array(
-		'' => array( 'ELLIGIBLE' => 0, 'PARTICIPATED' => 0 ),
-		'Reduced' => array( 'ELLIGIBLE' => 0, 'PARTICIPATED' => 0 ),
-		'Free' => array( 'ELLIGIBLE' => 0, 'PARTICIPATED' => 0 ),
-	),
-	'User' => array(
-		'' => array( 'ELLIGIBLE' => 0, 'PARTICIPATED' => 0 ),
-	),
-);
+$users = [
+	'Student' => [
+		'' => [ 'ELLIGIBLE' => 0, 'PARTICIPATED' => 0 ],
+		'Reduced' => [ 'ELLIGIBLE' => 0, 'PARTICIPATED' => 0 ],
+		'Free' => [ 'ELLIGIBLE' => 0, 'PARTICIPATED' => 0 ],
+	],
+	'User' => [
+		'' => [ 'ELLIGIBLE' => 0, 'PARTICIPATED' => 0 ],
+	],
+];
 
-$users_totals = array(
-	'Student' => array( 'ELLIGIBLE' => 0, 'PARTICIPATED' => 0 ),
-	'User' => array( 'ELLIGIBLE' => 0, 'PARTICIPATED' => 0 ),
-	'' => array( 'ELLIGIBLE' => 0, 'PARTICIPATED' => 0 ),
-);
+$users_totals = [
+	'Student' => [ 'ELLIGIBLE' => 0, 'PARTICIPATED' => 0 ],
+	'User' => [ 'ELLIGIBLE' => 0, 'PARTICIPATED' => 0 ],
+	'' => [ 'ELLIGIBLE' => 0, 'PARTICIPATED' => 0 ],
+];
 
-$users_columns = array(
+$users_columns = [
 	'ELLIGIBLE' => _( 'Eligible' ),
 	'DAYS_POSSIBLE' => _( 'Days Possible' ),
 	'TOTAL_ELLIGIBLE' => _( 'Total Eligible' ),
 	'PARTICIPATED' => _( 'Participated' ),
-);
+];
 
 $items_RET = DBGet( "SELECT SHORT_NAME,DESCRIPTION
 	FROM FOOD_SERVICE_ITEMS
 	WHERE SCHOOL_ID='" . UserSchool() . "'
 	ORDER BY SORT_ORDER" );
 
-$items = array();
-$items_columns = array();
+$items = [];
+$items_columns = [];
 
 foreach ( (array) $items_RET as $value )
 {
-	$items += array( $value['SHORT_NAME'] => 0 );
-	$items_columns += array( $value['SHORT_NAME'] => $value['DESCRIPTION'] );
+	$items += [ $value['SHORT_NAME'] => 0 ];
+	$items_columns += [ $value['SHORT_NAME'] => $value['DESCRIPTION'] ];
 }
 
 //echo '<pre>'; var_dump($items); echo '</pre>';
 //echo '<pre>'; var_dump($items_columns); echo '</pre>';
 
-$types = array( 'Student' => array( '' => $items,
+$types = [ 'Student' => [ '' => $items,
 	'Reduced' => $items,
 	'Free' => $items,
-),
-	'User' => array( '' => $items,
-	),
-);
+],
+	'User' => [ '' => $items,
+	],
+];
 
-$types_totals = array( 'Student' => $items,
+$types_totals = [ 'Student' => $items,
 	'User' => $items,
 	'' => $items,
-);
+];
 
 $types_columns = $items_columns;
 
@@ -140,7 +140,7 @@ AND ssm.STUDENT_ID=fssa.STUDENT_ID
 AND ssm.SYEAR='" . UserSyear() . "'
 AND ssm.SCHOOL_ID='" . UserSchool() . "'
 AND (ac.SCHOOL_DATE BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL AND ac.SCHOOL_DATE>=ssm.START_DATE)
-GROUP BY fssa.DISCOUNT,ac.CALENDAR_ID", array( 'ELLIGIBLE' => 'bump_dep', 'DAYS' => 'bump_dep' ) );
+GROUP BY fssa.DISCOUNT,ac.CALENDAR_ID", [ 'ELLIGIBLE' => 'bump_dep', 'DAYS' => 'bump_dep' ] );
 //echo '<pre>'; var_dump($RET); echo '</pre>';
 
 $RET = DBGet( "SELECT 'User' AS TYPE,'' AS DISCOUNT,count(1) AS DAYS,(SELECT count(1)
@@ -153,7 +153,7 @@ AND ac.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
 AND fssa.STATUS IS NULL
 AND s.STAFF_ID=fssa.STAFF_ID
 AND (s.SCHOOLS IS NULL OR position(','||'" . UserSchool() . "'||',' IN s.SCHOOLS)>0)
-GROUP BY ac.CALENDAR_ID", array( 'ELLIGIBLE' => 'bump_dep', 'DAYS' => 'bump_dep' ) );
+GROUP BY ac.CALENDAR_ID", [ 'ELLIGIBLE' => 'bump_dep', 'DAYS' => 'bump_dep' ] );
 //echo '<pre>'; var_dump($RET); echo '</pre>';
 
 $RET = DBGet( "SELECT 1 AS PARTICIPATED,'Student' AS TYPE,DISCOUNT
@@ -162,7 +162,7 @@ WHERE SYEAR='" . UserSyear() . "'
 AND SHORT_NAME='" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "'
 AND TIMESTAMP BETWEEN '" . $start_date . "' AND date '" . $end_date . "' +1
 AND SCHOOL_ID='" . UserSchool() . "'
-GROUP BY STUDENT_ID,DISCOUNT", array( 'PARTICIPATED' => 'bump_dep' ) );
+GROUP BY STUDENT_ID,DISCOUNT", [ 'PARTICIPATED' => 'bump_dep' ] );
 
 $RET = DBGet( "SELECT 1 AS PARTICIPATED,'User' AS TYPE,'' AS DISCOUNT
 FROM FOOD_SERVICE_STAFF_TRANSACTIONS
@@ -170,10 +170,10 @@ WHERE SYEAR='" . UserSyear() . "'
 AND SHORT_NAME='" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "'
 AND TIMESTAMP BETWEEN '" . $start_date . "' AND date '" . $end_date . "' +1
 AND SCHOOL_ID='" . UserSchool() . "'
-GROUP BY STAFF_ID", array( 'PARTICIPATED' => 'bump_dep' ) );
+GROUP BY STAFF_ID", [ 'PARTICIPATED' => 'bump_dep' ] );
 
 //FJ add translation
-$users_locale = array( 'Student' => _( 'Student' ), 'User' => _( 'User' ) );
+$users_locale = [ 'Student' => _( 'Student' ), 'User' => _( 'User' ) ];
 
 if ( 'sales' == $_REQUEST['type_select'] )
 {
@@ -187,7 +187,7 @@ if ( 'sales' == $_REQUEST['type_select'] )
 	AND fst.SCHOOL_ID='" . UserSchool() . "'
 	AND fst.SHORT_NAME='" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "'
 	AND fst.TIMESTAMP BETWEEN '" . $start_date . "' AND date '" . $end_date . "' +1
-	GROUP BY fsti.SHORT_NAME,fst.DISCOUNT", array( 'SHORT_NAME' => 'bump_count' ) );
+	GROUP BY fsti.SHORT_NAME,fst.DISCOUNT", [ 'SHORT_NAME' => 'bump_count' ] );
 	$RET = DBGet( "SELECT 'User' AS TYPE,fsti.SHORT_NAME,'' AS DISCOUNT,-sum((SELECT sum(AMOUNT)
 		FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS
 		WHERE TRANSACTION_ID=fsti.TRANSACTION_ID
@@ -198,19 +198,19 @@ if ( 'sales' == $_REQUEST['type_select'] )
 	AND fst.SCHOOL_ID='" . UserSchool() . "'
 	AND fst.SHORT_NAME='" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "'
 	AND fst.TIMESTAMP BETWEEN '" . $start_date . "' AND date '" . $end_date . "' +1
-	GROUP BY fsti.SHORT_NAME", array( 'SHORT_NAME' => 'bump_count' ) );
+	GROUP BY fsti.SHORT_NAME", [ 'SHORT_NAME' => 'bump_count' ] );
 
-	$LO_types = array( 0 => array( array() ) );
+	$LO_types = [ 0 => [ [] ] ];
 
 	foreach ( (array) $users as $user => $discounts )
 	{
-		$TMP_types = array( 0 => array() );
+		$TMP_types = [ 0 => [] ];
 
 		foreach ( (array) $discounts as $discount => $value )
 		{
 			$total = array_sum( $types[$user][$discount] );
 
-			$TMP_types[] = array(
+			$TMP_types[] = [
 				'TYPE' => ( empty( $users_locale[$user] ) ? $user : $users_locale[$user] ),
 				'DISCOUNT' => $discount,
 				'ELLIGIBLE' => number_format( $value['ELLIGIBLE'], 1 ),
@@ -218,12 +218,12 @@ if ( 'sales' == $_REQUEST['type_select'] )
 				'TOTAL_ELLIGIBLE' => $value['DAYS'],
 				'PARTICIPATED' => $value['PARTICIPATED'],
 				'TOTAL' => '<b>' . format( $total ) . '</b>',
-			) + array_map( 'format', $types[$user][$discount] );
+			] + array_map( 'format', $types[$user][$discount] );
 		}
 
 		$total = array_sum( $types_totals[$user] );
 
-		$TMP_types[] = array(
+		$TMP_types[] = [
 			'TYPE' => '<b>' . ( empty( $users_locale[$user] ) ? $user : $users_locale[$user] ) . '</b>',
 			'DISCOUNT' => '<b>' . _( 'Totals' ) . '</b>',
 			'ELLIGIBLE' => '<b>' . number_format( $users_totals['']['ELLIGIBLE'], 1 ) . '</b>',
@@ -231,7 +231,7 @@ if ( 'sales' == $_REQUEST['type_select'] )
 			'TOTAL_ELLIGIBLE' => '<b>' . $users_totals[$user]['DAYS'] . '</b>',
 			'PARTICIPATED' => '<b>' . $users_totals[$user]['PARTICIPATED'] . '</b>',
 			'TOTAL' => '<b>' . format( $total ) . '</b>',
-		) + array_map( 'bold_format', $types_totals[$user] );
+		] + array_map( 'bold_format', $types_totals[$user] );
 
 		unset( $TMP_types[0] );
 
@@ -248,23 +248,23 @@ if ( 'sales' == $_REQUEST['type_select'] )
 		}
 	}
 
-	$LO_types[] = array(
-		array(
+	$LO_types[] = [
+		[
 			'TYPE' => '<b>' . _( 'Totals' ) . '</b>',
 			'ELLIGIBLE' => '<b>' . number_format( $users_totals['']['ELLIGIBLE'], 1 ) . '</b>',
 			'DAYS_POSSIBLE' => '<b>' . number_format(  ( ! empty( $users_totals['']['ELLIGIBLE'] ) ? $users_totals['']['DAYS'] / $users_totals['']['ELLIGIBLE'] : 0 ), 1 ) . '</b>',
 			'TOTAL_ELLIGIBLE' => '<b>' . $users_totals['']['DAYS'] . '</b>',
 			'PARTICIPATED' => '<b>' . $users_totals['']['PARTICIPATED'] . '</b>',
 			'TOTAL' => '<b>' . format( $total ) . '</b>',
-		) + array_map( 'bold_format', $types_totals[''] ),
-	);
+		] + array_map( 'bold_format', $types_totals[''] ),
+	];
 
 	unset( $LO_types[0] );
 
-	$LO_columns = array(
+	$LO_columns = [
 		'TYPE' => _( 'Type' ),
 		'DISCOUNT' => _( 'Discount' ),
-	) + $users_columns + $types_columns + array( 'TOTAL' => _( 'Total' ) );
+	] + $users_columns + $types_columns + [ 'TOTAL' => _( 'Total' ) ];
 }
 else
 {
@@ -275,7 +275,7 @@ else
 	AND fst.SCHOOL_ID='" . UserSchool() . "'
 	AND fst.SHORT_NAME='" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "'
 	AND fst.TIMESTAMP BETWEEN '" . $start_date . "' AND date '" . $end_date . "' +1
-	GROUP BY fsti.SHORT_NAME,fst.DISCOUNT", array( 'SHORT_NAME' => 'bump_count' ) );
+	GROUP BY fsti.SHORT_NAME,fst.DISCOUNT", [ 'SHORT_NAME' => 'bump_count' ] );
 
 	$RET = DBGet( "SELECT 'User' AS TYPE,'' AS DISCOUNT,fsti.SHORT_NAME,count(*)
 	FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst,FOOD_SERVICE_STAFF_TRANSACTION_ITEMS fsti
@@ -284,28 +284,28 @@ else
 	AND fst.SCHOOL_ID='" . UserSchool() . "'
 	AND fst.SHORT_NAME='" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "'
 	AND fst.TIMESTAMP BETWEEN '" . $start_date . "' AND date '" . $end_date . "' +1
-	GROUP BY fsti.SHORT_NAME", array( 'SHORT_NAME' => 'bump_count' ) );
+	GROUP BY fsti.SHORT_NAME", [ 'SHORT_NAME' => 'bump_count' ] );
 
-	$LO_types = array( 0 => array() );
+	$LO_types = [ 0 => [] ];
 
 	foreach ( (array) $users as $user => $discounts )
 	{
-		$TMP_types = array( 0 => array() );
+		$TMP_types = [ 0 => [] ];
 
 		foreach ( (array) $discounts as $discount => $value )
 		{
 			//FJ fix error Warning: Division by zero
-			$TMP_types[] = array(
+			$TMP_types[] = [
 				'TYPE' => ( empty( $users_locale[$user] ) ? $user : $users_locale[$user] ),
 				'DISCOUNT' => $discount,
 				'ELLIGIBLE' => number_format( $value['ELLIGIBLE'], 1 ),
 				'DAYS_POSSIBLE' => ( 0 == $value['ELLIGIBLE'] ? '0.0' : number_format( $value['DAYS'] / $value['ELLIGIBLE'], 1 ) ),
 				'TOTAL_ELLIGIBLE' => issetVal( $value['DAYS'] ),
 				'PARTICIPATED' => $value['PARTICIPATED'],
-			) + $types[$user][$discount];
+			] + $types[$user][$discount];
 		}
 
-		$TMP_types[] = array(
+		$TMP_types[] = [
 			'TYPE' => '<b>' . ( empty( $users_locale[$user] ) ? $user : $users_locale[$user] ) . '</b>',
 			'DISCOUNT' => '<b>' . _( 'Totals' ) . '</b>',
 			'ELLIGIBLE' => '<b>' . number_format( $users_totals[$user]['ELLIGIBLE'], 1 ) . '</b>',
@@ -316,7 +316,7 @@ else
 			) . '</b>',
 			'TOTAL_ELLIGIBLE' => '<b>' . issetVal( $users_totals[$user]['DAYS'], '' ) . '</b>',
 			'PARTICIPATED' => '<b>' . $users_totals[$user]['PARTICIPATED'] . '</b>',
-		) + array_map( 'bold', $types_totals[$user] );
+		] + array_map( 'bold', $types_totals[$user] );
 
 		unset( $TMP_types[0] );
 
@@ -331,17 +331,17 @@ else
 		}
 	}
 
-	$LO_types[] = array( array(
+	$LO_types[] = [ [
 		'TYPE' => '<b>' . _( 'Totals' ) . '</b>',
 		'ELLIGIBLE' => '<b>' . number_format( $users_totals['']['ELLIGIBLE'], 1 ) . '</b>',
 		'DAYS_POSSIBLE' => '<b>' . number_format( ( empty( $users_totals['']['ELLIGIBLE'] ) ? 0 : $users_totals['']['DAYS'] / $users_totals['']['ELLIGIBLE'] ), 1 ) . '</b>',
 		'TOTAL_ELLIGIBLE' => '<b>' . $users_totals['']['DAYS'] . '</b>',
 		'PARTICIPATED' => '<b>' . $users_totals['']['PARTICIPATED'] . '</b>',
-	) + array_map( 'bold', $types_totals[''] ) );
+	] + array_map( 'bold', $types_totals[''] ) ];
 
 	unset( $LO_types[0] );
 
-	$LO_columns = array( 'TYPE' => _( 'Type' ), 'DISCOUNT' => _( 'Discount' ) ) + $users_columns + $types_columns;
+	$LO_columns = [ 'TYPE' => _( 'Type' ), 'DISCOUNT' => _( 'Discount' ) ] + $users_columns + $types_columns;
 }
 
 $PHP_tmp_SELF = PreparePHP_SELF();
@@ -362,18 +362,18 @@ $date_start_end_type_url_params = '&day_start=' . $_REQUEST['day_start'] .
 	'&day_end=' . $_REQUEST['day_end'] . '&month_end=' . $_REQUEST['month_end'] .
 	'&year_end=' . $_REQUEST['year_end'] . '&type_select=' . $_REQUEST['type_select'];
 
-$tabs = array();
+$tabs = [];
 
 foreach ( (array) $menus_RET as $id => $menu )
 {
-	$tabs[] = array(
+	$tabs[] = [
 		'title' => $menu[1]['TITLE'],
 		'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&menu_id=' . $id .
 		$date_start_end_type_url_params,
-	);
+	];
 }
 
-$LO_options = array(
+$LO_options = [
 	'count' => false,
 	'download' => false,
 	'search' => false,
@@ -382,9 +382,9 @@ $LO_options = array(
 		'Modules.php?modname=' . $_REQUEST['modname'] . '&menu_id=' . $_REQUEST['menu_id'] .
 		$date_start_end_type_url_params
 	),
-);
+];
 
-ListOutput( $LO_types, $LO_columns, '.', '.', array(), array( array( '' ) ), $LO_options );
+ListOutput( $LO_types, $LO_columns, '.', '.', [], [ [ '' ] ], $LO_options );
 echo '</form>';
 
 /**
@@ -447,7 +447,7 @@ function bump_dep( $value, $column )
 
 	if ( ! $users[$THIS_RET['TYPE']][$THIS_RET['DISCOUNT']] )
 	{
-		$users[$THIS_RET['TYPE']][$THIS_RET['DISCOUNT']] = array( 'DAYS' => 0, 'ELLIGIBLE' => 0, 'PARTICIPATED' => 0 );
+		$users[$THIS_RET['TYPE']][$THIS_RET['DISCOUNT']] = [ 'DAYS' => 0, 'ELLIGIBLE' => 0, 'PARTICIPATED' => 0 ];
 	}
 
 	if ( ! isset( $users[$THIS_RET['TYPE']][$THIS_RET['DISCOUNT']][$column] ) )
@@ -495,12 +495,12 @@ function bump_count( $value, $column )
 	}
 	else
 	{
-		$types[$THIS_RET['TYPE']] += array( $THIS_RET['DISCOUNT'] => array( $value => $THIS_RET['COUNT'] ) );
+		$types[$THIS_RET['TYPE']] += [ $THIS_RET['DISCOUNT'] => [ $value => $THIS_RET['COUNT'] ] ];
 	}
 
 	if ( ! $types_columns[$value] )
 	{
-		$types_columns += array( $value => '<span style="color:red">' . $value . '</span>' );
+		$types_columns += [ $value => '<span style="color:red">' . $value . '</span>' ];
 		$types_totals['Student'][$value] = 0;
 		$types_totals['User'][$value] = 0;
 		$types_totals[$THIS_RET['TYPE']][$value] = $THIS_RET['COUNT'];

@@ -84,7 +84,7 @@ if ( isset( $_POST['tables'] )
 
 				$assignment_courses_teachers_RET = DBGet( "SELECT DISTINCT COURSE_ID,TEACHER_ID
 				FROM COURSE_PERIODS
-				WHERE COURSE_ID IN (" . $c_list . ")", array(), array( 'COURSE_ID' ) );
+				WHERE COURSE_ID IN (" . $c_list . ")", [], [ 'COURSE_ID' ] );
 			}
 
 			$fields = "ASSIGNMENT_TYPE_ID,"; // COURSE_ID,STAFF_ID added for each Course below.
@@ -430,24 +430,24 @@ if ( ! $_REQUEST['modfunc'] )
 		}
 	}
 
-	$columns = array( 'TITLE' => _( 'Assignment Type' ) );
+	$columns = [ 'TITLE' => _( 'Assignment Type' ) ];
 
-	$link = array();
+	$link = [];
 
 	$link['TITLE']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=' . $_REQUEST['modfunc'];
 
-	$link['TITLE']['variables'] = array( 'assignment_type' => 'TITLE' );
+	$link['TITLE']['variables'] = [ 'assignment_type' => 'TITLE' ];
 
 	$link['add']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&assignment_type=new';
 
 	$link['add']['first'] = 5; // number before add link moves to top
 
-	$LO_options = array(
+	$LO_options = [
 		'save' => false,
 		'search' => false,
 		'add' => true,
 		'responsive' => false,
-	);
+	];
 
 	echo '<div class="st">';
 
@@ -457,7 +457,7 @@ if ( ! $_REQUEST['modfunc'] )
 		'Assignment Type',
 		'Assignment Types',
 		$link,
-		array(),
+		[],
 		$LO_options
 	);
 
@@ -467,11 +467,11 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		if ( $_REQUEST['assignment_type'] === 'new' )
 		{
-			$columns = array(
+			$columns = [
 				'COURSE_ID' => MakeChooseCheckbox( 'Y', '', 'c_arr' ),
 				'TITLE' => _( 'Title' ),
 				'SUBJECT' => _( 'Subject' ),
-			);
+			];
 
 			// Display the courses list.
 			// Fix SQL error when course has no periods.
@@ -489,7 +489,7 @@ if ( ! $_REQUEST['modfunc'] )
 					AND cp.SYEAR=c.SYEAR
 					AND cp.COURSE_ID=c.COURSE_ID)
 				ORDER BY cs.TITLE, c.TITLE",
-				array( 'COURSE_ID' => 'MakeChooseCheckbox', 'MARKING_PERIOD_ID' => 'GetMP' )
+				[ 'COURSE_ID' => 'MakeChooseCheckbox', 'MARKING_PERIOD_ID' => 'GetMP' ]
 			);
 
 			ListOutput(
@@ -513,13 +513,13 @@ if ( ! $_REQUEST['modfunc'] )
 				AND gat.COURSE_ID=cp2.COURSE_ID
 				AND cp2.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . "))";
 
-			$columns = array(
+			$columns = [
 				'COURSE_PERIOD_ID' => MakeChooseCheckbox( 'Y', '', 'cp_arr' ),
 				'TITLE' => _( 'Title' ),
 				'COURSE' => _( 'Course' ),
 				'MARKING_PERIOD_ID' => _( 'Marking Period' ),
 				// 'SUBJECT' => _( 'Subject' ),
-			);
+			];
 
 			// Display the course periods list.
 			$course_periods_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID, cp.TITLE,
@@ -534,7 +534,7 @@ if ( ! $_REQUEST['modfunc'] )
 				AND cp.COURSE_ID=c.COURSE_ID
 				AND cs.SUBJECT_ID=c.SUBJECT_ID" . $course_periods_limit_sql .
 				" ORDER BY COURSE, cp.SHORT_NAME",
-				array( 'COURSE_PERIOD_ID' => 'MakeChooseCheckbox', 'MARKING_PERIOD_ID' => 'GetMP' )
+				[ 'COURSE_PERIOD_ID' => 'MakeChooseCheckbox', 'MARKING_PERIOD_ID' => 'GetMP' ]
 			);
 
 			ListOutput(

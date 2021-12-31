@@ -18,18 +18,18 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 }
 else
 {
-	$columns = array(
+	$columns = [
 		'COURSE_TITLE' => _( 'Course' ),
 		'WITH_FULL_NAME' => '<span class="a11y-hidden">' . _( 'Request' ) . '</span>',
-	);
+	];
 
 	$extra['SELECT'] .= ",c.TITLE AS COURSE_TITLE,srp.PRIORITY,srp.MARKING_PERIOD_ID,srp.WITH_TEACHER_ID,srp.NOT_TEACHER_ID,srp.WITH_PERIOD_ID,srp.NOT_PERIOD_ID,'' AS WITH_FULL_NAME";
 	$extra['FROM'] .= ',COURSES c,SCHEDULE_REQUESTS srp';
 	$extra['WHERE'] .= ' AND ssm.STUDENT_ID=srp.STUDENT_ID AND ssm.SYEAR=srp.SYEAR AND srp.COURSE_ID = c.COURSE_ID';
 
 //FJ add subject areas
-	$extra['functions'] += array( 'WITH_FULL_NAME' => '_makeExtra' );
-	$extra['group'] = array( 'STUDENT_ID' );
+	$extra['functions'] += [ 'WITH_FULL_NAME' => '_makeExtra' ];
+	$extra['group'] = [ 'STUDENT_ID' ];
 	//FJ add ORDER BY COURSE_TITLE
 	$extra['ORDER_BY'] = 'COURSE_TITLE';
 
@@ -59,7 +59,7 @@ else
 
 					echo '<br /><br /><br /><table class="width-100p"><tr><td style="width:50px;"> &nbsp; </td><td>' . $address[1]['MAILING_LABEL'] . '</td></tr></table><br />';
 
-					ListOutput( $address, $columns, 'Request', 'Requests', array(), array(), array( 'center' => false, 'print' => false ) );
+					ListOutput( $address, $columns, 'Request', 'Requests', [], [], [ 'center' => false, 'print' => false ] );
 					echo '<div style="page-break-after: always;"></div>';
 				}
 			}
@@ -71,7 +71,7 @@ else
 				DrawHeader( $courses[1]['GRADE_ID'] );
 				DrawHeader( SchoolInfo( 'TITLE' ), ProperDate( DBDate() ) );
 
-				ListOutput( $courses, $columns, 'Request', 'Requests', array(), array(), array( 'center' => false, 'print' => false ) );
+				ListOutput( $courses, $columns, 'Request', 'Requests', [], [], [ 'center' => false, 'print' => false ] );
 				echo '<div style="page-break-after: always;"></div>';
 			}
 		}
@@ -93,7 +93,7 @@ function _makeExtra( $value, $title = '' )
 {
 	global $THIS_RET;
 
-	$return = array();
+	$return = [];
 
 	if ( ! empty( $THIS_RET['WITH_TEACHER_ID'] ) )
 	{
@@ -142,7 +142,7 @@ function _getPeriod( $period_id )
 	{
 		$periods_RET = DBGet( "SELECT TITLE,PERIOD_ID
 			FROM SCHOOL_PERIODS
-			WHERE SYEAR='" . UserSyear() . "'", array(), array( 'PERIOD_ID' ) );
+			WHERE SYEAR='" . UserSyear() . "'", [], [ 'PERIOD_ID' ] );
 	}
 
 	return $periods_RET[$period_id][1]['TITLE'];

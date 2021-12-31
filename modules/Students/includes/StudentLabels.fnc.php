@@ -167,7 +167,7 @@ if ( ! function_exists( 'GetStudentLabelsExtra' ) )
 	 *
 	 * @return array Student Labels Extra
 	 */
-	function GetStudentLabelsExtra( $extra = array() )
+	function GetStudentLabelsExtra( $extra = [] )
 	{
 		$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
 
@@ -306,7 +306,7 @@ if ( ! function_exists( 'GetMailingLabelsExtra' ) )
 	 *
 	 * @return array Mailing Labels Extra
 	 */
-	function GetMailingLabelsExtra( $extra = array() )
+	function GetMailingLabelsExtra( $extra = [] )
 	{
 		$st_list = "'" . implode( "','", $_REQUEST['st_arr'] ) . "'";
 
@@ -323,7 +323,7 @@ if ( ! function_exists( 'GetMailingLabelsExtra' ) )
 
 		Widgets( 'mailing_labels', $extra );
 
-		$extra['group'] = array( 'ADDRESS_ID' );
+		$extra['group'] = [ 'ADDRESS_ID' ];
 
 		return $extra;
 	}
@@ -374,11 +374,11 @@ if ( ! function_exists( 'StudentLabelsHTML' ) )
 
 		$cols = $rows = 0;
 
-		$skipRET = array();
+		$skipRET = [];
 
 		for ( $i = ( $_REQUEST['start_row'] - 1 ) * $max_cols + $_REQUEST['start_col']; $i > 1; $i-- )
 		{
-			$skipRET[-$i] = array( 'LAST_NAME' => '&nbsp;' );
+			$skipRET[-$i] = [ 'LAST_NAME' => '&nbsp;' ];
 		}
 
 		foreach ( (array) $skipRET + $RET as $i => $student )
@@ -546,7 +546,7 @@ if ( ! function_exists( 'MailingLabelsHTML' ) )
 			}
 			else
 			{
-				$addresses = array( 1 => array( 'MAILING_LABEL' => ' ' ) );
+				$addresses = [ 1 => [ 'MAILING_LABEL' => ' ' ] ];
 			}
 
 			foreach ( (array) $addresses as $address )
@@ -646,7 +646,7 @@ if ( ! function_exists( 'MailingLabelFormatAddressesToFamily' ) )
 	function MailingLabelFormatAddressesToFamily( $addresses )
 	{
 		// If grouping by address, replace people list in mailing labels with students list.
-		$lasts = array();
+		$lasts = [];
 
 		foreach ( (array) $addresses as $address )
 		{
@@ -688,16 +688,16 @@ if ( ! function_exists( 'MailingLabelFormatAddressesToFamily' ) )
 
 		$to_family = _( 'To the parents of' ) . ':';
 
-		$addresses = array(
-			1 => array(
+		$addresses = [
+			1 => [
 				'MAILING_LABEL' => $to_family . '<br />' . mb_substr( $students, 0, -2 ) .
 				'<br />' .
 				mb_substr(
 					$addresses[1]['MAILING_LABEL'],
 					mb_strpos( $addresses[1]['MAILING_LABEL'], '<!-- -->' )
 				),
-			),
-		);
+			],
+		];
 
 		return $addresses;
 	}

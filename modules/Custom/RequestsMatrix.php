@@ -27,7 +27,7 @@ AND r.COURSE_ID=cp.COURSE_ID
 AND c.COURSE_ID=cp.COURSE_ID
 AND r.STUDENT_ID='" . UserStudentID() . "'
 AND sp.PERIOD_ID=cpsp.PERIOD_ID
-ORDER BY " . db_case( array( 's.STUDENT_ID', "''", "NULL", 'sp.SORT_ORDER' ) ) . " ", array(), array( 'CRS', 'PERIOD_ID' ) );
+ORDER BY " . db_case( [ 's.STUDENT_ID', "''", "NULL", 'sp.SORT_ORDER' ] ) . " ", [], [ 'CRS', 'PERIOD_ID' ] );
 
 $periods_RET = DBGet( "SELECT PERIOD_ID,SHORT_NAME FROM SCHOOL_PERIODS WHERE SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' ORDER BY SORT_ORDER" );
 echo '<table class="center" style="border: 1px solid;">';

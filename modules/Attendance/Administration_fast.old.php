@@ -13,7 +13,7 @@ else
 	$date = DBDate();
 }
 
-$current_RET = DBGet( "SELECT ATTENDANCE_TEACHER_CODE,ATTENDANCE_CODE,ATTENDANCE_REASON,STUDENT_ID,ADMIN,COURSE_PERIOD_ID FROM ATTENDANCE_PERIOD WHERE SCHOOL_DATE='" . $date . "'", array(), array( 'STUDENT_ID', 'COURSE_PERIOD_ID' ) );
+$current_RET = DBGet( "SELECT ATTENDANCE_TEACHER_CODE,ATTENDANCE_CODE,ATTENDANCE_REASON,STUDENT_ID,ADMIN,COURSE_PERIOD_ID FROM ATTENDANCE_PERIOD WHERE SCHOOL_DATE='" . $date . "'", [], [ 'STUDENT_ID', 'COURSE_PERIOD_ID' ] );
 
 if ( $_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit() )
 {
@@ -66,7 +66,7 @@ if ( $_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit() )
 		UpdateAttendanceDaily( $student_id, $date );
 	}
 
-	$current_RET = DBGet( "SELECT ATTENDANCE_TEACHER_CODE,ATTENDANCE_CODE,ATTENDANCE_REASON,STUDENT_ID,ADMIN,COURSE_PERIOD_ID FROM ATTENDANCE_PERIOD WHERE SCHOOL_DATE='" . $date . "'", array(), array( 'STUDENT_ID', 'COURSE_PERIOD_ID' ) );
+	$current_RET = DBGet( "SELECT ATTENDANCE_TEACHER_CODE,ATTENDANCE_CODE,ATTENDANCE_REASON,STUDENT_ID,ADMIN,COURSE_PERIOD_ID FROM ATTENDANCE_PERIOD WHERE SCHOOL_DATE='" . $date . "'", [], [ 'STUDENT_ID', 'COURSE_PERIOD_ID' ] );
 
 	// Unset attendance & redirect URL.
 	RedirectURL( 'attendance' );
@@ -82,7 +82,7 @@ if ( isset( $_REQUEST['student_id'] ) && $_REQUEST['student_id'] !== 'new' )
 		SetUserStudentID( $_REQUEST['student_id'] );
 	}
 
-	$functions = array( 'ATTENDANCE_CODE' => '_makeCodePulldown', 'ATTENDANCE_TEACHER_CODE' => '_makeCode', 'ATTENDANCE_REASON' => '_makeReasonInput' );
+	$functions = [ 'ATTENDANCE_CODE' => '_makeCodePulldown', 'ATTENDANCE_TEACHER_CODE' => '_makeCode', 'ATTENDANCE_REASON' => '_makeReasonInput' ];
 
 	$schedule_RET = DBGet( "SELECT s.STUDENT_ID,c.TITLE AS COURSE,cp.PERIOD_ID,cp.COURSE_PERIOD_ID,
 	p.TITLE AS PERIOD_TITLE,'' AS ATTENDANCE_CODE,'' AS ATTENDANCE_TEACHER_CODE,'' AS ATTENDANCE_REASON
@@ -98,7 +98,7 @@ if ( isset( $_REQUEST['student_id'] ) && $_REQUEST['student_id'] !== 'new' )
 	AND ('" . $date . "' BETWEEN s.START_DATE AND s.END_DATE OR s.END_DATE IS NULL)
 	ORDER BY p.SORT_ORDER", $functions );
 
-	$columns = array( 'PERIOD_TITLE' => _( 'Period' ), 'COURSE' => _( 'Course' ), 'ATTENDANCE_CODE' => _( 'Attendance Code' ), 'ATTENDANCE_TEACHER_CODE' => _( 'Teacher\'s Entry' ), 'ATTENDANCE_REASON' => _( 'Comments' ) );
+	$columns = [ 'PERIOD_TITLE' => _( 'Period' ), 'COURSE' => _( 'Course' ), 'ATTENDANCE_CODE' => _( 'Attendance Code' ), 'ATTENDANCE_TEACHER_CODE' => _( 'Teacher\'s Entry' ), 'ATTENDANCE_REASON' => _( 'Comments' ) ];
 	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=student&student_id=' . $_REQUEST['student_id']  ) . '" method="POST">';
 	DrawHeader( ProgramTitle(), '<input type="submit" value="' . _( 'Update' ) . '" />' );
 	DrawHeader( PrepareDate( $date, '_date' ) );
@@ -166,10 +166,10 @@ else
 	sjp.STUDENT_RELATION,pjc.TITLE,pjc.VALUE,a.PHONE,sjp.ADDRESS_ID ';
 	$extra2['FROM'] .= ',ADDRESS a,PEOPLE p,PEOPLE_JOIN_CONTACTS pjc,STUDENTS_JOIN_PEOPLE sjp,STUDENTS_JOIN_ADDRESS sja ';
 	$extra2['WHERE'] .= ' AND sja.STUDENT_ID=ssm.STUDENT_ID AND sjp.STUDENT_ID=sja.STUDENT_ID AND pjc.PERSON_ID=sjp.PERSON_ID AND p.PERSON_ID=sjp.PERSON_ID AND sjp.ADDRESS_ID=a.ADDRESS_ID AND (sjp.CUSTODY=\'Y\' OR sjp.EMERGENCY=\'Y\') ';
-	$extra2['group'] = array( 'STUDENT_ID', 'PERSON_ID' );
+	$extra2['group'] = [ 'STUDENT_ID', 'PERSON_ID' ];
 	$contacts_RET = GetStuList( $extra2 );
 
-	$columns = array();
+	$columns = [];
 	$extra['SELECT'] .= ',NULL AS STATE_VALUE,NULL AS PHONE';
 	$extra['functions']['PHONE'] = 'makeContactInfo';
 	$extra['functions']['STATE_VALUE'] = '_makeStateValue';
@@ -238,11 +238,11 @@ function _makeCodePulldown( $value, $title )
 		AND cp.COURSE_PERIOD_ID = s.COURSE_PERIOD_ID
 		AND cp.DOES_ATTENDANCE='Y'
 		AND s.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', GetCurrentMP( 'QTR', $date ) ) . ")
-		AND ('" . $date . "' BETWEEN s.START_DATE AND s.END_DATE OR s.END_DATE IS NULL)", array(), array( 'PERIOD_ID' ) );
+		AND ('" . $date . "' BETWEEN s.START_DATE AND s.END_DATE OR s.END_DATE IS NULL)", [], [ 'PERIOD_ID' ] );
 
 		if ( ! $current_schedule_RET[$THIS_RET['STUDENT_ID']] )
 		{
-			$current_schedule_RET[$THIS_RET['STUDENT_ID']] = array();
+			$current_schedule_RET[$THIS_RET['STUDENT_ID']] = [];
 		}
 	}
 

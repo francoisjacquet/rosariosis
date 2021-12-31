@@ -99,7 +99,7 @@ function red( $value )
  * @param  string $note        Note to user.
  * @param  array  $xstudents   Other students on this account (optional).
  */
-function FoodServiceReminderOutput( $user, $target, $last_deposit, $payment, $note, $xstudents = array() )
+function FoodServiceReminderOutput( $user, $target, $last_deposit, $payment, $note, $xstudents = [] )
 {
 	echo '<h2 class="center">' .
 		( ! empty( $_REQUEST['year_end'] ) ? _( 'Year End' ) . ' ' : '' ) .
@@ -181,12 +181,12 @@ function FoodServiceReminderOutput( $user, $target, $last_deposit, $payment, $no
 	}
 	elseif ( ! empty( $user['PROFILE'] ) )
 	{
-		$profiles = array(
+		$profiles = [
 			'admin' => _( 'Administrator' ),
 			'teacher' => _( 'Teacher' ),
 			'parent' => _( 'Parent' ),
 			'none' => _( 'No Access' ),
-		);
+		];
 
 		echo NoInput( $profiles[ $user['PROFILE'] ], _( 'Profile' ) );
 	}
@@ -200,8 +200,8 @@ function FoodServiceReminderOutput( $user, $target, $last_deposit, $payment, $no
 	// $note = str_replace( '%F', $user['FIRST_NAME'], $note );
 
 	$note = str_replace(
-		array( '%g', '%h' ),
-		array( 'he/she', 'his/her' ),
+		[ '%g', '%h' ],
+		[ 'he/she', 'his/her' ],
 		$note
 	);
 

@@ -31,7 +31,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					//$current_RET = DBGet( "SELECT STUDENT_ID FROM SCHEDULE WHERE COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."' AND SYEAR='".UserSyear()."' AND (('".$start_date."' BETWEEN START_DATE AND END_DATE OR END_DATE IS NULL) AND '".$start_date."'>=START_DATE)",array(),array('STUDENT_ID'));
 					$current_RET = DBGet( "SELECT STUDENT_ID
 						FROM SCHEDULE
-						WHERE COURSE_PERIOD_ID='" . $_SESSION['MassDrops.php']['course_period_id'] . "'", array(), array( 'STUDENT_ID' ) );
+						WHERE COURSE_PERIOD_ID='" . $_SESSION['MassDrops.php']['course_period_id'] . "'", [], [ 'STUDENT_ID' ] );
 
 					foreach ( (array) $_REQUEST['student'] as $student_id )
 					{
@@ -185,7 +185,7 @@ if ( $_REQUEST['modfunc'] != 'choose_course' )
 		echo '<select name=marking_period_id>';
 
 		$mp_RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE," .
-			db_case( array( 'MP', "'FY'", "'0'", "'SEM'", "'1'", "'QTR'", "'2'" ) ) . " AS TBL
+			db_case( [ 'MP', "'FY'", "'0'", "'SEM'", "'1'", "'QTR'", "'2'" ] ) . " AS TBL
 			FROM SCHOOL_MARKING_PERIODS
 			WHERE (MP='FY' OR MP='SEM' OR MP='QTR')
 			AND SCHOOL_ID='" . UserSchool() . "'
@@ -213,10 +213,10 @@ if ( ! $_REQUEST['modfunc'] )
 		unset( $_SESSION['MassDrops.php'] );
 	}
 
-	$extra['link'] = array( 'FULL_NAME' => false );
+	$extra['link'] = [ 'FULL_NAME' => false ];
 	$extra['SELECT'] = ",CAST (NULL AS CHAR(1)) AS CHECKBOX";
-	$extra['functions'] = array( 'CHECKBOX' => 'MakeChooseCheckbox' );
-	$extra['columns_before'] = array( 'CHECKBOX' => MakeChooseCheckbox( '', 'STUDENT_ID', 'student' ) );
+	$extra['functions'] = [ 'CHECKBOX' => 'MakeChooseCheckbox' ];
+	$extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( '', 'STUDENT_ID', 'student' ) ];
 	$extra['new'] = true;
 
 	Widgets( 'course' );

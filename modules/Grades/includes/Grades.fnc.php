@@ -21,12 +21,12 @@ function GetGpaOrTotalRow( $student_id, $grades_total, $course_number, $mode = '
 {
 	if ( ! is_array( $grades_total ) )
 	{
-		return array();
+		return [];
 	}
 
-	$gpa_row = array(
+	$gpa_row = [
 		'COURSE_TITLE' => ( $mode === 'total' ? _( 'Total' ) : _( 'GPA' ) ),
-	);
+	];
 
 	foreach ( (array) $grades_total as $mp => $grades_total_mp )
 	{

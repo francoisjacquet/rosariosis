@@ -69,7 +69,7 @@ if ( $_REQUEST['modfunc'] === 'remove' )
 		DBQuery( $delete_sql );
 
 		// Unset modfunc & ID & redirect URL.
-		RedirectURL( array( 'modfunc', 'id' ) );
+		RedirectURL( [ 'modfunc', 'id' ] );
 	}
 }
 
@@ -81,33 +81,33 @@ if ( ! $_REQUEST['modfunc'] )
 
 	echo '<br />';
 
-	$functions = array(
+	$functions = [
 		'MP_TYPE' => '_makeSelectInput',
 		'NAME' => '_makeTextInput',
 		'SHORT_NAME' => '_makeTextInput',
 		'POST_END_DATE' => '_makeDateInput',
 		'SYEAR' => '_makeSchoolYearSelectInput',
-	);
+	];
 
 	//FJ add translation
-	$LO_columns = array(
+	$LO_columns = [
 		'MP_TYPE' => _( 'Type' ),
 		'NAME' => _( 'Name' ),
 		'SHORT_NAME' => _( 'Short Name' ),
 		'POST_END_DATE' => _( 'Grade Post Date' ),
 		'SYEAR' => _( 'School Year' ),
-	);
+	];
 
-	$link['add']['html'] = array(
+	$link['add']['html'] = [
 		'MP_TYPE' => _makeSelectInput( '', 'MP_TYPE' ),
 		'NAME' => _makeTextInput( '', 'NAME' ),
 		'SHORT_NAME' => _makeTextInput( '', 'SHORT_NAME' ),
 		'POST_END_DATE' => _makeDateInput( '', 'POST_END_DATE' ),
 		'SYEAR' => _makeSchoolYearSelectInput( '', 'SYEAR' ),
-	);
+	];
 
 	$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove';
-	$link['remove']['variables'] = array( 'id' => 'MARKING_PERIOD_ID' );
+	$link['remove']['variables'] = [ 'id' => 'MARKING_PERIOD_ID' ];
 	$link['add']['html']['remove'] = button( 'add' );
 
 	$LO_ret = DBGet( "SELECT * FROM history_marking_periods
@@ -120,8 +120,8 @@ if ( ! $_REQUEST['modfunc'] )
 		'History Marking Period',
 		'History Marking Periods',
 		$link,
-		array(),
-		array( 'count' => true, 'download' => false, 'search' => false )
+		[],
+		[ 'count' => true, 'download' => false, 'search' => false ]
 	);
 
 	echo '<div class="center">' . SubmitButton() . '</div>';
@@ -210,7 +210,7 @@ function _makeSelectInput( $value, $name )
 		$id = 'new';
 	}
 
-	$options = array( 'year' => _( 'Year' ), 'semester' => _( 'Semester' ), 'quarter' => _( 'Quarter' ) );
+	$options = [ 'year' => _( 'Year' ), 'semester' => _( 'Semester' ), 'quarter' => _( 'Quarter' ) ];
 
 	return SelectInput(
 		trim( $value ),
@@ -238,7 +238,7 @@ function _makeSchoolYearSelectInput( $value, $name )
 		$id = 'new';
 	}
 
-	$options = array();
+	$options = [];
 
 	$years = range( UserSyear() - 5, UserSyear() );
 

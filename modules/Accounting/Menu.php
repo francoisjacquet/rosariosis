@@ -10,7 +10,7 @@
  * @subpackage modules
  */
 
-$menu['Accounting']['admin'] = array(
+$menu['Accounting']['admin'] = [
 	'title' => _( 'Accounting' ),
 	'default' => 'Accounting/Incomes.php',
 	'Accounting/Incomes.php' => _( 'Incomes' ),
@@ -22,9 +22,9 @@ $menu['Accounting']['admin'] = array(
 	'Accounting/DailyTransactions.php' => _( 'Daily Transactions' ),
 	'Accounting/StaffBalances.php' => _( 'Staff Balances' ),
 	'Accounting/Statements.php' => _( 'Print Statements' ),
-);
+];
 
-$menu['Accounting']['teacher'] = array(
+$menu['Accounting']['teacher'] = [
 	'title' => _( 'Accounting' ),
 	'default' => 'Accounting/Salaries.php',
 	1 => _( 'Staff Payroll' ),
@@ -32,6 +32,6 @@ $menu['Accounting']['teacher'] = array(
 	'Accounting/StaffPayments.php' => _( 'Staff Payments' ),
 	2 => _( 'Reports' ),
 	'Accounting/Statements.php&_ROSARIO_PDF' => _( 'Print Statements' ),
-);
+];
 
-$menu['Accounting']['parent'] = array();
+$menu['Accounting']['parent'] = [];

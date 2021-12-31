@@ -46,19 +46,19 @@ else
 function _fieldsCategoryMenu( $category )
 {
 	$link = PreparePHP_SELF(
-		array(),
-		array( 'category', 'category_id', 'id', 'table', 'ML_tables' )
+		[],
+		[ 'category', 'category_id', 'id', 'table', 'ML_tables' ]
 	) . '&category=';
 
 	$menu = SelectInput(
 		$category,
 		'category',
 		'',
-		array(
+		[
 			'student' => _( 'Student Fields' ),
 			'address' => _( 'Address Fields' ),
 			'contact' => _( 'Contact Fields' ),
-		),
+		],
 		false,
 		'onchange="ajaxLink(\'' . $link . '\' + this.value);" autocomplete="off"',
 		false

@@ -21,7 +21,7 @@ if ( Prompt( _( 'Confirm' ), _( 'When do you want to recalculate the daily atten
 	$current_RET = DBGet( "SELECT DISTINCT SCHOOL_DATE
 		FROM ATTENDANCE_CALENDAR
 		WHERE SCHOOL_ID='" . UserSchool() . "'
-		AND SYEAR='" . UserSyear() . "'", array(), array( 'SCHOOL_DATE' ) );
+		AND SYEAR='" . UserSyear() . "'", [], [ 'SCHOOL_DATE' ] );
 
 	$students_RET = GetStuList();
 
@@ -50,5 +50,5 @@ if ( Prompt( _( 'Confirm' ), _( 'When do you want to recalculate the daily atten
 	$_REQUEST['modfunc'] = false;
 
 	//FJ display notice while calculating daily attendance
-	echo '<script>var msg_done=' . json_encode( ErrorMessage( array( _( 'The Daily Attendance for that timeframe has been recalculated.' ) ), 'note' ) ) . '; document.getElementById("messageDIV").innerHTML = msg_done;</script>';
+	echo '<script>var msg_done=' . json_encode( ErrorMessage( [ _( 'The Daily Attendance for that timeframe has been recalculated.' ) ], 'note' ) ) . '; document.getElementById("messageDIV").innerHTML = msg_done;</script>';
 }

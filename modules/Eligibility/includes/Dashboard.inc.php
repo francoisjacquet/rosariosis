@@ -49,16 +49,16 @@ if ( ! function_exists( 'DashboardEligibilityAdmin' ) )
 		AND START_DATE<=CURRENT_DATE
 		AND END_DATE>=CURRENT_DATE" );
 
-		$data = array(
+		$data = [
 			_( 'Activities' ) => $activities_nb,
-		);
+		];
 
 		// Activities this week.
 		$activities_nb = (int) $activities_nb;
 
 		if ( ! $activities_nb )
 		{
-			return array();
+			return [];
 		}
 
 		$activity_students_RET = DBGet( "SELECT TITLE,

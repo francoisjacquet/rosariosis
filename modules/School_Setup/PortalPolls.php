@@ -26,7 +26,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 		$poll_id = $poll_id['ID'];
 		$_REQUEST['values'][$poll_id]['PUBLISHED_PROFILES'] = '';
 
-		foreach ( array( 'admin', 'teacher', 'parent' ) as $profile_id )
+		foreach ( [ 'admin', 'teacher', 'parent' ] as $profile_id )
 		{
 			if ( ! empty( $_REQUEST['profiles'][$poll_id][$profile_id] ) )
 			{
@@ -70,8 +70,8 @@ if ( $_REQUEST['modfunc'] === 'update'
 				$sql = "UPDATE PORTAL_POLLS SET ";
 				$sql_question = "UPDATE PORTAL_POLL_QUESTIONS SET ";
 
-				$sql_questions = array();
-				$id_questions = array();
+				$sql_questions = [];
+				$id_questions = [];
 
 				foreach ( (array) $columns as $column => $value )
 				{
@@ -118,7 +118,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 			{
 				$_REQUEST['values']['new']['PUBLISHED_PROFILES'] = '';
 
-				foreach ( array( 'admin', 'teacher', 'parent' ) as $profile_id )
+				foreach ( [ 'admin', 'teacher', 'parent' ] as $profile_id )
 				{
 					if ( isset( $_REQUEST['profiles']['new'][$profile_id] )
 						&& $_REQUEST['profiles']['new'][$profile_id] )
@@ -151,7 +151,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				$values = $portal_poll_id . ",'" . UserSchool() . "','" . UserSyear() . "',CURRENT_TIMESTAMP,'" . User( 'STAFF_ID' ) . "',";
 
 				$go = 0;
-				$sql_questions = array();
+				$sql_questions = [];
 
 				foreach ( (array) $columns as $column => $value )
 				{
@@ -215,7 +215,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 	}
 
 	// Unset modfunc & values & profiles & redirect URL.
-	RedirectURL( array( 'modfunc', 'values', 'profiles' ) );
+	RedirectURL( [ 'modfunc', 'values', 'profiles' ] );
 }
 
 if ( $_REQUEST['modfunc'] === 'remove'
@@ -229,7 +229,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 		DBQuery( $delete_sql );
 
 		// Unset modfunc & ID & redirect URL.
-		RedirectURL( array( 'modfunc', 'id' ) );
+		RedirectURL( [ 'modfunc', 'id' ] );
 	}
 }
 
@@ -242,7 +242,7 @@ if ( ! $_REQUEST['modfunc'] )
 		WHERE pp.SCHOOL_ID='" . UserSchool() . "'
 		AND pp.SYEAR='" . UserSyear() . "'
 		AND pp.ID=ppq.PORTAL_POLL_ID
-		ORDER BY ppq.ID", array( 'OPTIONS' => '_makeOptionsInput' ) );
+		ORDER BY ppq.ID", [ 'OPTIONS' => '_makeOptionsInput' ] );
 
 	$polls_RET = DBGet(
 		"SELECT pp.ID,pp.SORT_ORDER,pp.TITLE,'See_PORTAL_POLL_QUESTIONS' AS OPTIONS,
@@ -252,35 +252,35 @@ if ( ! $_REQUEST['modfunc'] )
 			WHERE pp.SCHOOL_ID='" . UserSchool() . "'
 			AND pp.SYEAR='" . UserSyear() . "'
 			ORDER BY EXPIRED DESC,pp.SORT_ORDER,pp.PUBLISHED_DATE DESC",
-		array(
+		[
 			'TITLE' => '_makeTextInput',
 			'OPTIONS' => '_makeOptionsInputs',
 			'VOTES_NUMBER' => '_makePollVotes',
 			'SORT_ORDER' => '_makeTextInput',
 			'START_DATE' => 'makePublishing',
-		)
+		]
 	);
 
-	$columns = array(
+	$columns = [
 		'TITLE' => _( 'Title' ),
 		'OPTIONS' => _( 'Poll' ),
 		'VOTES_NUMBER' => _( 'Results' ),
 		'SORT_ORDER' => _( 'Sort Order' ),
 		'START_DATE' => _( 'Publishing Options' ),
-	);
+	];
 	//,'START_TIME' => 'Start Time','END_TIME' => 'End Time'
 
-	$link['add']['html'] = array(
+	$link['add']['html'] = [
 		'TITLE' => _makeTextInput( '', 'TITLE' ),
 		'OPTIONS' => _makeOptionsInputs( '', 'OPTIONS' ),
 		'VOTES_NUMBER' => _makePollVotes( '', 'VOTES_NUMBER' ),
 		'SHORT_NAME' => _makeTextInput( '', 'SHORT_NAME' ),
 		'SORT_ORDER' => _makeTextInput( '', 'SORT_ORDER' ),
 		'START_DATE' => makePublishing( '', 'START_DATE' ),
-	);
+	];
 
 	$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove';
-	$link['remove']['variables'] = array( 'id' => 'ID' );
+	$link['remove']['variables'] = [ 'id' => 'ID' ];
 
 	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update' ) . '" method="POST">';
 	DrawHeader( '', SubmitButton() );
@@ -325,7 +325,7 @@ function _makeTextInput( $value, $name )
 
 	return TextInput(
 		( $name == 'TITLE' && ! empty( $THIS_RET['EXPIRED'] ) ?
-			array( $value, '<span style="color:red">' . $value . '</span>' ) :
+			[ $value, '<span style="color:red">' . $value . '</span>' ] :
 			$value ),
 		'values[' . $id . '][' . $name . ']',
 		'',
@@ -353,7 +353,7 @@ function _makeOptionsInput( $value, $name )
 		$id = 'new' . $option_nb;
 	}
 
-	$type_options = array( 'multiple_radio' => _( 'Select One from Options' ), 'multiple' => _( 'Select Multiple from Options' ) );
+	$type_options = [ 'multiple_radio' => _( 'Select One from Options' ), 'multiple' => _( 'Select Multiple from Options' ) ];
 
 	return '<tr' . ( $portal_poll_id == 'new' ? ' id="new-option-1"' : '' ) . '><td><div>' .
 	TextInput(

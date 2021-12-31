@@ -71,13 +71,13 @@ if ( ! function_exists( 'DashboardGradesAdmin' ) )
 			ORDER BY DUE_DATE ASC
 			LIMIT 7" );
 
-			$assignments_data = array();
+			$assignments_data = [];
 
 			$assignments_total = 0;
 
 			$assignments_data[ _( 'Assignments' ) ] = 0;
 
-			$sql_submissions = array();
+			$sql_submissions = [];
 
 			foreach ( $assignments_RET as $assignments )
 			{
@@ -94,7 +94,7 @@ if ( ! function_exists( 'DashboardGradesAdmin' ) )
 			if ( ! $assignments_total
 				&& count( $assignments_data ) < 2 )
 			{
-				return array();
+				return [];
 			}
 
 			$assignments_data[ _( 'Assignments' ) ] = $assignments_total;
@@ -128,9 +128,9 @@ if ( ! function_exists( 'DashboardGradesAdmin' ) )
 
 		$label = _( 'GPA' ) . ' &mdash; ' . GetMP( UserMP(), 'SHORT_NAME' );
 
-		$gpa_data = array(
+		$gpa_data = [
 			$label => ( $gpa ? number_format( $gpa, 2 ) : _( 'N/A' ) ),
-		);
+		];
 
 		$gpa_gradelevel_RET = DBGet( "SELECT ROUND(AVG(CUM_WEIGHTED_GPA)) AS CUM_WEIGHTED_GPA,
 		ROUND(AVG(UNWEIGHTED_GPA)) AS CUM_UNWEIGHTED_GPA,
@@ -139,7 +139,7 @@ if ( ! function_exists( 'DashboardGradesAdmin' ) )
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		AND MARKING_PERIOD_ID='" . UserMP() . "'
-		GROUP BY GRADE_LEVEL_SHORT", array(), array( 'GRADE_LEVEL_SHORT' ) );
+		GROUP BY GRADE_LEVEL_SHORT", [], [ 'GRADE_LEVEL_SHORT' ] );
 
 		foreach ( (array) $gpa_gradelevel_RET as $gradelevel => $gpa_gradelevel )
 		{
@@ -155,7 +155,7 @@ if ( ! function_exists( 'DashboardGradesAdmin' ) )
 		if ( ! $gpa
 			&& ! $gpa_data )
 		{
-			return array();
+			return [];
 		}
 
 		return $gpa_data;

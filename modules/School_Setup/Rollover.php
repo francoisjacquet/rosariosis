@@ -10,7 +10,7 @@ if ( AllowEdit( 'School_Setup/DatabaseBackup.php' ) )
 
 $next_syear = UserSyear() + 1;
 
-$tables = array(
+$tables = [
 	'SCHOOLS' => _( 'Schools' ),
 	'STAFF' => _( 'Users' ),
 	'SCHOOL_PERIODS' => _( 'School Periods' ),
@@ -23,29 +23,29 @@ $tables = array(
 	'REPORT_CARD_GRADES' => _( 'Report Card Grade Codes' ),
 	'REPORT_CARD_COMMENTS' => _( 'Report Card Comment Codes' ),
 	'PROGRAM_CONFIG' => _( 'School Configuration' ),
-);
+];
 
-$tables_tooltip = array(
+$tables_tooltip = [
 	'COURSES' => _( 'You <i>must</i> roll users, school periods, marking periods, calendars, attendance codes, and report card codes at the same time or before rolling courses.' ),
 	'STUDENT_ENROLLMENT' => _( 'You <i>must</i> roll enrollment codes at the same time or before rolling students.' ),
 	'REPORT_CARD_COMMENTS' => _( 'You <i>must</i> roll courses at the same time or before rolling report card comments.' ),
-);
+];
 
-$no_school_tables = array( 'SCHOOLS' => true, 'STUDENT_ENROLLMENT_CODES' => true, 'STAFF' => true );
+$no_school_tables = [ 'SCHOOLS' => true, 'STUDENT_ENROLLMENT_CODES' => true, 'STAFF' => true ];
 
 if ( $RosarioModules['Eligibility'] )
 {
-	$tables += array( 'ELIGIBILITY_ACTIVITIES' => _( 'Eligibility Activities' ) );
+	$tables += [ 'ELIGIBILITY_ACTIVITIES' => _( 'Eligibility Activities' ) ];
 }
 
 if ( $RosarioModules['Food_Service'] )
 {
-	$tables += array( 'FOOD_SERVICE_STAFF_ACCOUNTS' => _( 'Food Service Staff Accounts' ) );
+	$tables += [ 'FOOD_SERVICE_STAFF_ACCOUNTS' => _( 'Food Service Staff Accounts' ) ];
 }
 
 if ( $RosarioModules['Discipline'] )
 {
-	$tables += array( 'DISCIPLINE_FIELD_USAGE' => _( 'Referral Form' ) );
+	$tables += [ 'DISCIPLINE_FIELD_USAGE' => _( 'Referral Form' ) ];
 }
 
 $table_list = '<table class="widefat center">';
@@ -130,7 +130,7 @@ if ( Prompt(
 	{
 		// Fix SQL error foreign keys: Roll Schools before rolling Student Enrollment.
 		// Insert SCHOOLS first.
-		$_REQUEST['tables'] = array_merge( array( 'SCHOOLS' => 'Y' ), $_REQUEST['tables'] );
+		$_REQUEST['tables'] = array_merge( [ 'SCHOOLS' => 'Y' ], $_REQUEST['tables'] );
 	}
 
 	if ( ! ( $_REQUEST['tables']['COURSES']
@@ -189,10 +189,10 @@ if ( Prompt(
 	if ( ! $error )
 	{
 		echo ErrorMessage(
-			array(
+			[
 				button( 'check', '', '', 'bigger' ) .
 				'&nbsp;' . _( 'The data have been rolled.' ),
-			),
+			],
 			'note'
 		);
 
@@ -214,9 +214,9 @@ if ( Prompt(
 		}
 
 		echo ErrorMessage(
-			array(
+			[
 				$update_syear_warning,
-			),
+			],
 			'warning'
 		);
 	}
@@ -447,7 +447,7 @@ function Rollover( $table, $mode = 'delete' )
 				STATE_CODE,DEFAULT_CODE,TABLE_NAME,SORT_ORDER)
 				SELECT " . db_seq_nextval( 'attendance_codes_id_seq' ) . ",c.SYEAR+1,c.SCHOOL_ID,c.TITLE,
 				c.SHORT_NAME,c.TYPE,c.STATE_CODE,c.DEFAULT_CODE," .
-				db_case( array( 'c.TABLE_NAME', "'0'", "'0'", '(SELECT ID FROM ATTENDANCE_CODE_CATEGORIES WHERE SCHOOL_ID=c.SCHOOL_ID AND ROLLOVER_ID=c.TABLE_NAME)' ) ) . ",c.SORT_ORDER
+				db_case( [ 'c.TABLE_NAME', "'0'", "'0'", '(SELECT ID FROM ATTENDANCE_CODE_CATEGORIES WHERE SCHOOL_ID=c.SCHOOL_ID AND ROLLOVER_ID=c.TABLE_NAME)' ] ) . ",c.SORT_ORDER
 				FROM ATTENDANCE_CODES c
 				WHERE c.SYEAR='" . UserSyear() . "'
 				AND c.SCHOOL_ID='" . UserSchool() . "'" );
@@ -485,7 +485,7 @@ function Rollover( $table, $mode = 'delete' )
 				AND SCHOOL_ID='" . UserSchool() . "'" );
 
 			//FJ ROLL Gradebook Config's Final Grading Percentages
-			$db_case_array = array( 'puc.TITLE' );
+			$db_case_array = [ 'puc.TITLE' ];
 
 			$mp_next = DBGet( "SELECT MARKING_PERIOD_ID,ROLLOVER_ID,MP
 				FROM SCHOOL_MARKING_PERIODS
@@ -495,7 +495,7 @@ function Rollover( $table, $mode = 'delete' )
 				ORDER BY SORT_ORDER" );
 
 			// Fix SQL error NULL as TITLE when various. Explicitely list rollover MP titles.
-			$mp_titles = array();
+			$mp_titles = [];
 
 			foreach ( (array) $mp_next as $mp )
 			{
@@ -819,7 +819,7 @@ function Rollover( $table, $mode = 'delete' )
 				SORT_ORDER,COURSE_ID,ROLLOVER_ID)
 				SELECT " . db_seq_nextval( 'report_card_comment_categories_id_seq' ) . ",SYEAR+1,
 				SCHOOL_ID,TITLE,SORT_ORDER," .
-				db_case( array( 'COURSE_ID', "''", 'NULL', "(SELECT COURSE_ID FROM COURSES WHERE ROLLOVER_ID=rc.COURSE_ID LIMIT 1)" ) ) . ",ID
+				db_case( [ 'COURSE_ID', "''", 'NULL', "(SELECT COURSE_ID FROM COURSES WHERE ROLLOVER_ID=rc.COURSE_ID LIMIT 1)" ] ) . ",ID
 				FROM REPORT_CARD_COMMENT_CATEGORIES rc
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
@@ -828,8 +828,8 @@ function Rollover( $table, $mode = 'delete' )
 				COURSE_ID,CATEGORY_ID,SCALE_ID)
 				SELECT " . db_seq_nextval( 'report_card_comments_id_seq' ) . ",SYEAR+1,SCHOOL_ID,TITLE,
 				SORT_ORDER," .
-				db_case( array( 'COURSE_ID', "''", 'NULL', "(SELECT COURSE_ID FROM COURSES WHERE ROLLOVER_ID=rc.COURSE_ID LIMIT 1)" ) ) . "," .
-				db_case( array( 'CATEGORY_ID', "''", 'NULL', "(SELECT ID FROM REPORT_CARD_COMMENT_CATEGORIES WHERE ROLLOVER_ID=rc.CATEGORY_ID)" ) ) . ",SCALE_ID
+				db_case( [ 'COURSE_ID', "''", 'NULL', "(SELECT COURSE_ID FROM COURSES WHERE ROLLOVER_ID=rc.COURSE_ID LIMIT 1)" ] ) . "," .
+				db_case( [ 'CATEGORY_ID', "''", 'NULL', "(SELECT ID FROM REPORT_CARD_COMMENT_CATEGORIES WHERE ROLLOVER_ID=rc.CATEGORY_ID)" ] ) . ",SCALE_ID
 				FROM REPORT_CARD_COMMENTS rc
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );

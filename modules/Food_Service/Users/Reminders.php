@@ -75,7 +75,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			WHERE fst.SHORT_NAME='DEPOSIT'
 			AND fst.STAFF_ID='" . $staff['STAFF_ID'] . "'
 			AND SYEAR='" . UserSyear() . "'
-			ORDER BY fst.TRANSACTION_ID DESC LIMIT 1", array( 'DATE' => 'ProperDate' ) );
+			ORDER BY fst.TRANSACTION_ID DESC LIMIT 1", [ 'DATE' => 'ProperDate' ] );
 			$last_deposit = $last_deposit[1];
 
 			$staff['SCHOOL_TITLE'] = SchoolInfo( 'TITLE' );
@@ -105,10 +105,10 @@ if ( ! $_REQUEST['modfunc'] || $_REQUEST['search_modfunc'] === 'list' )
 		DrawHeader( '', SubmitButton( _( 'Create Reminders for Selected Users' ) ) );
 	}
 
-	$extra['link'] = array( 'FULL_NAME' => false );
+	$extra['link'] = [ 'FULL_NAME' => false ];
 	$extra['SELECT'] = ",s.STAFF_ID AS CHECKBOX";
-	$extra['functions'] = array( 'CHECKBOX' => '_makeChooseCheckbox' );
-	$extra['columns_before'] = array( 'CHECKBOX' => MakeChooseCheckbox( 'Y', '', 'st_arr' ) );
+	$extra['functions'] = [ 'CHECKBOX' => '_makeChooseCheckbox' ];
+	$extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( 'Y', '', 'st_arr' ) ];
 	$extra['new'] = true;
 	$extra['options']['search'] = false;
 
@@ -129,20 +129,20 @@ if ( ! $_REQUEST['modfunc'] || $_REQUEST['search_modfunc'] === 'list' )
 		$extra['WHERE'] .= ' AND fsa.STAFF_ID=s.STAFF_ID';
 	}
 
-	$extra['functions'] += array(
+	$extra['functions'] += [
 		'BALANCE' => 'red',
 		'WARNING' => 'x',
 		'NEGATIVE' => 'x',
 		'MINIMUM' => 'x',
-	);
+	];
 
-	$extra['columns_after'] = array(
+	$extra['columns_after'] = [
 		'BALANCE' => _( 'Balance' ),
 		'STATUS' => _( 'Status' ),
 		'WARNING' => _( 'Warning' ) . '<br />&lt; ' . $warning,
 		'NEGATIVE' => _( 'Negative' ),
 		'MINIMUM' => _( 'Minimum' ) . '<br />' . $minimum,
-	);
+	];
 
 	Search( 'staff_id', $extra );
 

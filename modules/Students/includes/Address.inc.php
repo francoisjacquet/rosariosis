@@ -68,7 +68,7 @@ if ( ! empty( $_POST['values'] )
 
 			$fields_RET = DBGet( "SELECT ID,TYPE
 				FROM ADDRESS_FIELDS
-				ORDER BY SORT_ORDER", array(), array( 'ID' ) );
+				ORDER BY SORT_ORDER", [], [ 'ID' ] );
 
 			$go = 0;
 
@@ -161,7 +161,7 @@ if ( ! empty( $_POST['values'] )
 
 			$fields_RET = DBGet( "SELECT ID,TYPE
 				FROM PEOPLE_FIELDS
-				ORDER BY SORT_ORDER", array(), array( 'ID' ) );
+				ORDER BY SORT_ORDER", [], [ 'ID' ] );
 
 			$go = 0;
 
@@ -319,7 +319,7 @@ if ( ! empty( $_POST['values'] )
 	}
 
 	// Unset modfunc & values & redirect URL.
-	RedirectURL( array( 'modfunc', 'values' ) );
+	RedirectURL( [ 'modfunc', 'values' ] );
 }
 
 if ( $_REQUEST['modfunc'] === 'delete_address'
@@ -333,7 +333,7 @@ if ( $_REQUEST['modfunc'] === 'delete_address'
 				WHERE ID='" . $_REQUEST['contact_id'] . "'" );
 
 			// Unset modfunc & contact ID redirect URL.
-			RedirectURL( array( 'modfunc', 'contact_id' ) );
+			RedirectURL( [ 'modfunc', 'contact_id' ] );
 		}
 	}
 	elseif ( ! empty( $_REQUEST['person_id'] ) )
@@ -367,7 +367,7 @@ if ( $_REQUEST['modfunc'] === 'delete_address'
 			}
 
 			// Unset modfunc & address ID & person ID redirect URL.
-			RedirectURL( array( 'modfunc', 'address_id', 'person_id' ) );
+			RedirectURL( [ 'modfunc', 'address_id', 'person_id' ] );
 		}
 	}
 	elseif ( ! empty( $_REQUEST['address_id'] ) )
@@ -409,7 +409,7 @@ if ( $_REQUEST['modfunc'] === 'delete_address'
 			}
 
 			// Unset modfunc & address ID redirect URL.
-			RedirectURL( array( 'modfunc', 'address_id' ) );
+			RedirectURL( [ 'modfunc', 'address_id' ] );
 		}
 	}
 }
@@ -421,7 +421,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$addresses_RET = DBGet( "SELECT a.ADDRESS_ID, sjp.STUDENT_RELATION,a.ADDRESS,
 		a.CITY,a.STATE,a.ZIPCODE,a.PHONE,a.MAIL_ADDRESS,a.MAIL_CITY,a.MAIL_STATE,a.MAIL_ZIPCODE,
 		sjp.CUSTODY,sja.MAILING,sja.RESIDENCE,sja.BUS_PICKUP,sja.BUS_DROPOFF," .
-		db_case( array( 'a.ADDRESS_ID', "'0'", '1', '0' ) ) . "AS SORT_ORDER
+		db_case( [ 'a.ADDRESS_ID', "'0'", '1', '0' ] ) . "AS SORT_ORDER
 	FROM ADDRESS a,STUDENTS_JOIN_ADDRESS sja,STUDENTS_JOIN_PEOPLE sjp
 	WHERE a.ADDRESS_ID=sja.ADDRESS_ID
 	AND sja.STUDENT_ID='" . UserStudentID() . "'
@@ -431,7 +431,7 @@ if ( ! $_REQUEST['modfunc'] )
 	SELECT a.ADDRESS_ID,'" . DBEscapeString( _( 'No Contact' ) ) . "' AS STUDENT_RELATION,
 		a.ADDRESS,a.CITY,a.STATE,a.ZIPCODE,a.PHONE,a.MAIL_ADDRESS,a.MAIL_CITY,a.MAIL_STATE,
 		a.MAIL_ZIPCODE,'' AS CUSTODY,sja.MAILING,sja.RESIDENCE,sja.BUS_PICKUP,sja.BUS_DROPOFF," .
-		db_case( array( 'a.ADDRESS_ID', "'0'", '1', '0' ) ) . " AS SORT_ORDER
+		db_case( [ 'a.ADDRESS_ID', "'0'", '1', '0' ] ) . " AS SORT_ORDER
 	FROM ADDRESS a,STUDENTS_JOIN_ADDRESS sja
 	WHERE a.ADDRESS_ID=sja.ADDRESS_ID
 	AND sja.STUDENT_ID='" . UserStudentID() . "'
@@ -439,7 +439,7 @@ if ( ! $_REQUEST['modfunc'] )
 		FROM STUDENTS_JOIN_PEOPLE sjp
 		WHERE sjp.STUDENT_ID=sja.STUDENT_ID
 		AND sjp.ADDRESS_ID=a.ADDRESS_ID)
-	ORDER BY SORT_ORDER,RESIDENCE,CUSTODY,STUDENT_RELATION", array(), array( 'ADDRESS_ID' ) );
+	ORDER BY SORT_ORDER,RESIDENCE,CUSTODY,STUDENT_RELATION", [], [ 'ADDRESS_ID' ] );
 
 	//echo '<pre>'; var_dump($addresses_RET); echo '</pre>';
 
@@ -466,7 +466,7 @@ if ( ! $_REQUEST['modfunc'] )
 		echo '<tr>';
 
 		// Do not find other students associated with "No Address".
-		$xstudents = array();
+		$xstudents = [];
 
 		if ( $address_id )
 		{
@@ -481,7 +481,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		if ( $xstudents )
 		{
-			$warning = array();
+			$warning = [];
 
 			foreach ( (array) $xstudents as $xstudent )
 			{
@@ -728,7 +728,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 				if ( $xstudents )
 				{
-					$warning = array();
+					$warning = [];
 
 					foreach ( (array) $xstudents as $xstudent )
 					{
@@ -842,31 +842,31 @@ if ( ! $_REQUEST['modfunc'] )
 			$city_options = _makeAutoSelect(
 				'CITY',
 				'ADDRESS',
-				array(
-					array( 'CITY' => issetVal( $this_address['CITY'] ) ),
-					array( 'CITY' => issetVal( $this_address['MAIL_CITY'] ) ),
-				),
-				array()
+				[
+					[ 'CITY' => issetVal( $this_address['CITY'] ) ],
+					[ 'CITY' => issetVal( $this_address['MAIL_CITY'] ) ],
+				],
+				[]
 			);
 
 			$state_options = _makeAutoSelect(
 				'STATE',
 				'ADDRESS',
-				array(
-					array( 'STATE' => issetVal( $this_address['STATE'] ) ),
-					array( 'STATE' => issetVal( $this_address['MAIL_STATE'] ) ),
-				),
-				array()
+				[
+					[ 'STATE' => issetVal( $this_address['STATE'] ) ],
+					[ 'STATE' => issetVal( $this_address['MAIL_STATE'] ) ],
+				],
+				[]
 			);
 
 			$zip_options = _makeAutoSelect(
 				'ZIPCODE',
 				'ADDRESS',
-				array(
-					array( 'ZIPCODE' => issetVal( $this_address['ZIPCODE'] ) ),
-					array( 'ZIPCODE' => issetVal( $this_address['MAIL_ZIPCODE'] ) ),
-				),
-				array()
+				[
+					[ 'ZIPCODE' => issetVal( $this_address['ZIPCODE'] ) ],
+					[ 'ZIPCODE' => issetVal( $this_address['MAIL_ZIPCODE'] ) ],
+				],
+				[]
 			);
 
 			echo '<table class="widefat width-100p"><tr><th colspan="3">' .
@@ -972,11 +972,11 @@ if ( ! $_REQUEST['modfunc'] )
 
 				echo '<tr><td colspan="3">' . TextInput( $this_address['MAIL_ADDRESS'], 'values[ADDRESS][MAIL_ADDRESS]', _( 'Street' ), ! $this_address['MAIL_ADDRESS'] ? 'size=20' : '' ) . '</td></tr>';
 
-				echo '<tr><td>' . _makeAutoSelectInputX( $this_address['MAIL_CITY'], 'MAIL_CITY', 'ADDRESS', _( 'City' ), array() ) . '</td>';
+				echo '<tr><td>' . _makeAutoSelectInputX( $this_address['MAIL_CITY'], 'MAIL_CITY', 'ADDRESS', _( 'City' ), [] ) . '</td>';
 
-				echo '<td>' . _makeAutoSelectInputX( $this_address['MAIL_STATE'], 'MAIL_STATE', 'ADDRESS', _( 'State' ), array() ) . '</td>';
+				echo '<td>' . _makeAutoSelectInputX( $this_address['MAIL_STATE'], 'MAIL_STATE', 'ADDRESS', _( 'State' ), [] ) . '</td>';
 
-				echo '<td>' . _makeAutoSelectInputX( $this_address['MAIL_ZIPCODE'], 'MAIL_ZIPCODE', 'ADDRESS', _( 'Zip' ), array() ) . '</td></tr>';
+				echo '<td>' . _makeAutoSelectInputX( $this_address['MAIL_ZIPCODE'], 'MAIL_ZIPCODE', 'ADDRESS', _( 'Zip' ), [] ) . '</td></tr>';
 
 				echo '</table>';
 				echo '</div>';
@@ -1009,7 +1009,7 @@ if ( ! $_REQUEST['modfunc'] )
 				$limit_current_school_sql .
 				" ORDER BY ADDRESS,CITY,STATE,ZIPCODE" );
 
-			$address_select = array();
+			$address_select = [];
 
 			foreach ( (array) $addresses_RET as $address )
 			{
@@ -1037,7 +1037,7 @@ if ( ! $_REQUEST['modfunc'] )
 					'STUDENT_RELATION',
 					'STUDENTS_JOIN_PEOPLE',
 					issetVal( $this_contact['STUDENT_RELATION'] ),
-					array()
+					[]
 				);
 
 				//FJ css WPadmin
@@ -1107,7 +1107,7 @@ if ( ! $_REQUEST['modfunc'] )
 						'TITLE',
 						'PEOPLE_JOIN_CONTACTS',
 						$info_RET,
-						array()
+						[]
 					);
 
 					foreach ( (array) $info_RET as $info )
@@ -1272,7 +1272,7 @@ if ( ! $_REQUEST['modfunc'] )
 					c.CUSTODY,c.EMERGENCY,f.ID,f.TITLE,f.TYPE,f.SELECT_OPTIONS,f.DEFAULT_SELECTION,f.REQUIRED
 					FROM PEOPLE_FIELD_CATEGORIES c,PEOPLE_FIELDS f
 					WHERE f.CATEGORY_ID=c.ID
-					ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE", array(), array( 'CATEGORY_ID' ) );
+					ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE", [], [ 'CATEGORY_ID' ] );
 
 				if ( $categories_RET )
 				{
@@ -1285,7 +1285,7 @@ if ( ! $_REQUEST['modfunc'] )
 					}
 					else
 					{
-						$value = array();
+						$value = [];
 					}
 
 					$request = 'values[PEOPLE]';
@@ -1334,7 +1334,7 @@ if ( ! $_REQUEST['modfunc'] )
 					$limit_current_school_sql .
 					" ORDER BY LAST_NAME,FIRST_NAME" );
 
-				$people_select = array();
+				$people_select = [];
 
 				foreach ( (array) $people_RET as $people )
 				{
@@ -1359,7 +1359,7 @@ if ( ! $_REQUEST['modfunc'] )
 				c.RESIDENCE,c.MAILING,c.BUS,f.ID,f.TITLE,f.TYPE,f.SELECT_OPTIONS,f.DEFAULT_SELECTION,f.REQUIRED
 				FROM ADDRESS_FIELD_CATEGORIES c,ADDRESS_FIELDS f
 				WHERE f.CATEGORY_ID=c.ID
-				ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE", array(), array( 'CATEGORY_ID' ) );
+				ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE", [], [ 'CATEGORY_ID' ] );
 
 			if ( $categories_RET )
 			{
@@ -1372,7 +1372,7 @@ if ( ! $_REQUEST['modfunc'] )
 				}
 				else
 				{
-					$value = array();
+					$value = [];
 				}
 
 				$request = 'values[ADDRESS]';
@@ -1451,16 +1451,16 @@ function _makePeopleInput( $value, $column, $title = '' )
  * @param array $options
  * @return mixed
  */
-function _makeAutoSelect( $column, $table, $values = '', $options = array() )
+function _makeAutoSelect( $column, $table, $values = '', $options = [] )
 {
-	$fatal_error = array();
+	$fatal_error = [];
 
 	// Tables white list, prevent hacking.
-	$tables_white_list = array(
+	$tables_white_list = [
 		'ADDRESS',
 		'STUDENTS_JOIN_PEOPLE',
 		'PEOPLE_JOIN_CONTACTS',
-	);
+	];
 
 	if ( ! in_array( $table, $tables_white_list ) )
 	{
@@ -1510,7 +1510,7 @@ function _makeAutoSelect( $column, $table, $values = '', $options = array() )
 			if ( $option[$column] != ''
 				&& ! isset( $options[$option[$column]] ) )
 			{
-				$options[$option[$column]] = array( $option[$column], $option[$column] );
+				$options[$option[$column]] = [ $option[$column], $option[$column] ];
 			}
 		}
 	}
@@ -1525,14 +1525,14 @@ function _makeAutoSelect( $column, $table, $values = '', $options = array() )
 			if ( $value[$column] != ''
 				&& ! isset( $options[$value[$column]] ) )
 			{
-				$options[$value[$column]] = array( $value[$column], $value[$column] );
+				$options[$value[$column]] = [ $value[$column], $value[$column] ];
 			}
 		}
 	}
 	elseif ( $values != ''
 		&& ! isset( $options[$values] ) )
 	{
-		$options[$values] = array( $values, $values );
+		$options[$values] = [ $values, $values ];
 	}
 
 	return $options;
@@ -1655,7 +1655,7 @@ function _makeAutoSelectInputX( $value, $column, $table, $title, $select, $id = 
 	{
 		// FJ new option.
 		return TextInput(
-			$value === '---' ? array( '---', '<span style="color:red">-' . _( 'Edit' ) . '-</span>' ) : $value,
+			$value === '---' ? [ '---', '<span style="color:red">-' . _( 'Edit' ) . '-</span>' ] : $value,
 			$input_name,
 			$title,
 			$options,

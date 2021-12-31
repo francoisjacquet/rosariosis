@@ -37,18 +37,18 @@ else
 function _programMenu( $program )
 {
 	$link = PreparePHP_SELF(
-		array(),
-		array( 'program' )
+		[],
+		[ 'program' ]
 	) . '&program=';
 
 	$menu = SelectInput(
 		$program,
 		'program',
 		'',
-		array(
+		[
 			'transactions' => _( 'Daily Transactions' ),
 			'totals' => _( 'Daily Totals' ),
-		),
+		],
 		false,
 		'onchange="ajaxLink(\'' . $link . '\' + this.value);" autocomplete="off"',
 		false

@@ -160,7 +160,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 				AND MENU_ITEM_ID='" . $_REQUEST['menu_item_id'] . "'" );
 
 			// Unset modfunc & menu item ID & redirect URL.
-			RedirectURL( array( 'modfunc', 'menu_item_id' ) );
+			RedirectURL( [ 'modfunc', 'menu_item_id' ] );
 		}
 	}
 	elseif ( DeletePrompt( _( 'Item' ) ) )
@@ -174,7 +174,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 		DBQuery( $delete_sql );
 
 		// Unset modfunc & item ID & redirect URL.
-		RedirectURL( array( 'modfunc', 'item_id' ) );
+		RedirectURL( [ 'modfunc', 'item_id' ] );
 	}
 }
 
@@ -183,7 +183,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$menus_RET = DBGet( "SELECT MENU_ID,TITLE
 		FROM FOOD_SERVICE_MENUS
 		WHERE SCHOOL_ID='" . UserSchool() . "'
-		ORDER BY SORT_ORDER", array(), array( 'MENU_ID' ) );
+		ORDER BY SORT_ORDER", [], [ 'MENU_ID' ] );
 
 	if ( ! empty( $_REQUEST['tab_id'] ) )
 	{
@@ -230,11 +230,11 @@ if ( ! $_REQUEST['modfunc'] )
 		}
 	}
 
-	$tabs = array();
+	$tabs = [];
 
 	foreach ( (array) $menus_RET as $id => $menu )
 	{
-		$tabs[] = array( 'title' => $menu[1]['TITLE'], 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=' . $id );
+		$tabs[] = [ 'title' => $menu[1]['TITLE'], 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=' . $id ];
 	}
 
 	if ( $_REQUEST['tab_id'] !== 'new' )
@@ -244,11 +244,11 @@ if ( ! $_REQUEST['modfunc'] )
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			ORDER BY SORT_ORDER" );
 
-		$items_select = array();
+		$items_select = [];
 
 		foreach ( (array) $items_RET as $item )
 		{
-			$items_select += array( $item['ITEM_ID'] => $item['DESCRIPTION'] );
+			$items_select += [ $item['ITEM_ID'] => $item['DESCRIPTION'] ];
 		}
 
 		$categories_RET = DBGet( "SELECT CATEGORY_ID,TITLE
@@ -256,47 +256,47 @@ if ( ! $_REQUEST['modfunc'] )
 			WHERE MENU_ID='" . $_REQUEST['tab_id'] . "'
 			ORDER BY SORT_ORDER" );
 
-		$categories_select = array();
+		$categories_select = [];
 
 		foreach ( (array) $categories_RET as $category )
 		{
-			$categories_select += array( $category['CATEGORY_ID'] => $category['TITLE'] );
+			$categories_select += [ $category['CATEGORY_ID'] => $category['TITLE'] ];
 		}
 
 		$sql = 'SELECT *,(SELECT ICON FROM FOOD_SERVICE_ITEMS WHERE ITEM_ID=fsmi.ITEM_ID) AS ICON FROM FOOD_SERVICE_MENU_ITEMS fsmi WHERE MENU_ID=\'' . $_REQUEST['tab_id'] . '\' ORDER BY (SELECT SORT_ORDER FROM FOOD_SERVICE_CATEGORIES WHERE CATEGORY_ID=fsmi.CATEGORY_ID),SORT_ORDER';
 
-		$functions = array(
+		$functions = [
 			'ITEM_ID' => 'makeSelectInput',
 			'ICON' => 'makeIcon',
 			'CATEGORY_ID' => 'makeSelectInput',
 			'DOES_COUNT' => 'makeCheckboxInput',
 			'SORT_ORDER' => 'makeTextInput',
-		);
+		];
 
-		$LO_columns = array(
+		$LO_columns = [
 			'ITEM_ID' => _( 'Menu Item' ),
 			'ICON' => _( 'Icon' ),
 			'CATEGORY_ID' => _( 'Category' ),
 			'DOES_COUNT' => _( 'Include in Counts' ),
 			'SORT_ORDER' => _( 'Sort Order' ),
-		);
+		];
 
-		$link['add']['html'] = array(
+		$link['add']['html'] = [
 			'ITEM_ID' => makeSelectInput( '', 'ITEM_ID' ),
 			'CATEGORY_ID' => makeSelectInput( '', 'CATEGORY_ID' ),
 			'DOES_COUNT' => makeCheckboxInput( '', 'DOES_COUNT' ),
 			'SORT_ORDER' => makeTextInput( '', 'SORT_ORDER' )
-		);
+		];
 
 		$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove&tab_id=' . $_REQUEST['tab_id'];
-		$link['remove']['variables'] = array( 'menu_item_id' => 'MENU_ITEM_ID' );
+		$link['remove']['variables'] = [ 'menu_item_id' => 'MENU_ITEM_ID' ];
 
 		$link['add']['html']['remove'] = button( 'add' );
 
-		$tabs[] = array(
+		$tabs[] = [
 			'title' => button( 'add', '', '', 'smaller' ),
 			'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=new',
-		);
+		];
 
 //FJ add translation
 		$singular = sprintf( _( '%s Item' ), $menus_RET[$_REQUEST['tab_id']][1]['TITLE'] );
@@ -311,7 +311,7 @@ if ( ! $_REQUEST['modfunc'] )
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		ORDER BY SORT_ORDER";
 
-		$functions = array(
+		$functions = [
 			'DESCRIPTION' => 'makeTextInput',
 			'SHORT_NAME' => 'makeTextInput',
 			'ICON' => 'makeSelectInput',
@@ -320,11 +320,11 @@ if ( ! $_REQUEST['modfunc'] )
 			'PRICE_REDUCED' => 'makeTextInput',
 			'PRICE_FREE' => 'makeTextInput',
 			'PRICE_STAFF' => 'makeTextInput',
-		);
+		];
 
 		if ( User( 'PROFILE' ) === 'admin' || User( 'PROFILE' ) === 'teacher' )
 		{
-			$LO_columns = array(
+			$LO_columns = [
 				'DESCRIPTION' => _( 'Item Description' ),
 				'SHORT_NAME' => _( 'Short Name' ),
 				'ICON' => _( 'Icon' ),
@@ -333,16 +333,16 @@ if ( ! $_REQUEST['modfunc'] )
 				'PRICE_REDUCED' => _( 'Reduced Price' ),
 				'PRICE_FREE' => _( 'Free Price' ),
 				'PRICE_STAFF' => _( 'Staff Price' ),
-			);
+			];
 		}
 		else
 		{
-			$LO_columns = array(
+			$LO_columns = [
 				'DESCRIPTION' => _( 'Item Description' ),
 				'SHORT_NAME' => _( 'Short Name' ),
 				'ICON' => _( 'Icon' ),
 				'PRICE' => _( 'Student Price' ),
-			);
+			];
 
 			if ( UserStudentID() )
 			{
@@ -352,18 +352,18 @@ if ( ! $_REQUEST['modfunc'] )
 
 				if ( $discount == 'Reduced' )
 				{
-					$LO_columns += array( 'PRICE_REDUCED' => _( 'Reduced Price' ) );
+					$LO_columns += [ 'PRICE_REDUCED' => _( 'Reduced Price' ) ];
 				}
 				elseif ( $discount == 'Free' )
 				{
-					$LO_columns += array( 'PRICE_FREE' => _( 'Free Price' ) );
+					$LO_columns += [ 'PRICE_FREE' => _( 'Free Price' ) ];
 				}
 			}
 
-			$LO_columns += array( 'PRICE_STAFF' => _( 'Staff Price' ) );
+			$LO_columns += [ 'PRICE_STAFF' => _( 'Staff Price' ) ];
 		}
 
-		$link['add']['html'] = array(
+		$link['add']['html'] = [
 			'DESCRIPTION' => makeTextInput( '', 'DESCRIPTION' ),
 			'SHORT_NAME' => makeTextInput( '', 'SHORT_NAME' ),
 			'ICON' => makeSelectInput( '', 'ICON' ),
@@ -372,16 +372,16 @@ if ( ! $_REQUEST['modfunc'] )
 			'PRICE_REDUCED' => makeTextInput( '', 'PRICE_REDUCED' ),
 			'PRICE_FREE' => makeTextInput( '', 'PRICE_FREE' ),
 			'PRICE_STAFF' => makeTextInput( '', 'PRICE_STAFF' ),
-		);
+		];
 
 		$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove&tab_id=' . $_REQUEST['tab_id'];
-		$link['remove']['variables'] = array( 'item_id' => 'ITEM_ID' );
+		$link['remove']['variables'] = [ 'item_id' => 'ITEM_ID' ];
 		$link['add']['html']['remove'] = button( 'add' );
 
-		$tabs[] = array(
+		$tabs[] = [
 			'title' => button( 'add', '', '', 'smaller' ),
 			'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=new',
-		);
+		];
 	}
 
 	$LO_ret = DBGet( $sql, $functions );
@@ -394,17 +394,17 @@ if ( ! $_REQUEST['modfunc'] )
 	// FJ fix SQL bug invalid sort order
 	echo ErrorMessage( $error );
 
-	$extra = array( 'save' => false, 'search' => false,
-		'header' => WrapTabs( $tabs, 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=' . $_REQUEST['tab_id'] ) );
+	$extra = [ 'save' => false, 'search' => false,
+		'header' => WrapTabs( $tabs, 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=' . $_REQUEST['tab_id'] ) ];
 
 	if ( $_REQUEST['tab_id'] !== 'new' )
 	{
-		ListOutput( $LO_ret, $LO_columns, $singular, $plural, $link, array(), $extra );
+		ListOutput( $LO_ret, $LO_columns, $singular, $plural, $link, [], $extra );
 	}
 	else
 //FJ add translation
 	{
-		ListOutput( $LO_ret, $LO_columns, 'Meal Item', 'Meal Items', $link, array(), $extra );
+		ListOutput( $LO_ret, $LO_columns, 'Meal Item', 'Meal Items', $link, [], $extra );
 	}
 
 	echo '<br /><div class="center">' . SubmitButton() . '</div>';
@@ -546,22 +546,22 @@ function makeCheckboxInput( $value, $name )
  */
 function get_icons_select( $path )
 {
-	$icons = array();
+	$icons = [];
 
 	if ( is_dir( $path ) )
 	{
 		$icons = scandir( $path );
 	}
 
-	$files = array();
+	$files = [];
 
 	foreach ( $icons as $icon )
 	{
 		//filter images
 
-		if ( in_array( mb_strtolower( mb_strrchr( $icon, '.' ) ), array( '.jpg', '.jpeg', '.png', '.gif' ) ) )
+		if ( in_array( mb_strtolower( mb_strrchr( $icon, '.' ) ), [ '.jpg', '.jpeg', '.png', '.gif' ] ) )
 		{
-			$files[$icon] = array( $icon, '<img src="' . $path . $icon . '" width="45" />' );
+			$files[$icon] = [ $icon, '<img src="' . $path . $icon . '" width="45" />' ];
 		}
 	}
 

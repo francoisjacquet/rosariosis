@@ -20,7 +20,7 @@ if ( $_REQUEST['modfunc'] == 'verify' )
 	$courses_RET = DBGet( "SELECT TITLE,COURSE_ID,SUBJECT_ID
 		FROM COURSES
 		WHERE SCHOOL_ID='" . UserSchool() . "'
-		AND SYEAR='" . UserSyear() . "'", array(), array( 'COURSE_ID' ) );
+		AND SYEAR='" . UserSyear() . "'", [], [ 'COURSE_ID' ] );
 
 	DBQuery( "DELETE FROM SCHEDULE_REQUESTS
 		WHERE STUDENT_ID='" . UserStudentID() . "'
@@ -60,7 +60,7 @@ if ( $_REQUEST['modfunc'] == 'verify' )
 
 if ( $_REQUEST['modfunc'] == 'choose' )
 {
-	$functions = array( 'WITH_PERIOD_ID' => '_makeWithSelects', 'NOT_PERIOD_ID' => '_makeWithoutSelects' );
+	$functions = [ 'WITH_PERIOD_ID' => '_makeWithSelects', 'NOT_PERIOD_ID' => '_makeWithoutSelects' ];
 	$requests_RET = DBGet( "SELECT sr.COURSE_ID,c.COURSE_TITLE,sr.WITH_PERIOD_ID,sr.NOT_PERIOD_ID,sr.WITH_TEACHER_ID,sr.NOT_TEACHER_ID
 	FROM SCHEDULE_REQUESTS sr,COURSES c
 	WHERE sr.SYEAR='" . UserSyear() . "'
@@ -70,7 +70,7 @@ if ( $_REQUEST['modfunc'] == 'choose' )
 	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=verify' ) . '" method="POST">';
 	DrawHeader( '', SubmitButton() );
 
-	$columns = array( '' );
+	$columns = [ '' ];
 	ListOutput( $requests_RET, $columns, 'Request', 'Requests' );
 
 	echo '<div class="center">' . SubmitButton() . '</div></form>';

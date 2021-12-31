@@ -155,10 +155,10 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			WHERE fst.SHORT_NAME='DEPOSIT'
 			AND fst.ACCOUNT_ID='" . $student['ACCOUNT_ID'] . "'
 			AND SYEAR='" . UserSyear() . "'
-			ORDER BY fst.TRANSACTION_ID DESC LIMIT 1", array( 'DATE' => 'ProperDate' ) );
+			ORDER BY fst.TRANSACTION_ID DESC LIMIT 1", [ 'DATE' => 'ProperDate' ] );
 
 			$last_deposit = ! empty( $last_deposit[1] ) ?
-				$last_deposit[1] : array();
+				$last_deposit[1] : [];
 
 			if ( isset( $_REQUEST['year_end'] )
 				&& $_REQUEST['year_end'] === 'Y' )
@@ -203,10 +203,10 @@ if ( ! $_REQUEST['modfunc'] )
 		$extra['extra_header_left'] = '<label><input type="checkbox" name="year_end" value="Y" />&nbsp;' . _( 'Estimate for year end' ) . '</label>';
 	}
 
-	$extra['link'] = array( 'FULL_NAME' => false );
+	$extra['link'] = [ 'FULL_NAME' => false ];
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
-	$extra['functions'] = array( 'CHECKBOX' => '_makeChooseCheckbox' );
-	$extra['columns_before'] = array( 'CHECKBOX' => MakeChooseCheckbox( 'Y', '', 'st_arr' ) );
+	$extra['functions'] = [ 'CHECKBOX' => '_makeChooseCheckbox' ];
+	$extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( 'Y', '', 'st_arr' ) ];
 	$extra['new'] = true;
 	$extra['options']['search'] = false;
 
@@ -232,20 +232,20 @@ if ( ! $_REQUEST['modfunc'] )
 		$extra['WHERE'] .= ' AND fsa.ACCOUNT_ID=fssa.ACCOUNT_ID';
 	}
 
-	$extra['functions'] += array(
+	$extra['functions'] += [
 		'BALANCE' => 'red',
 		'WARNING' => 'x',
 		'NEGATIVE' => 'x',
 		'MINIMUM' => 'x',
-	);
+	];
 
-	$extra['columns_after'] = array(
+	$extra['columns_after'] = [
 		'BALANCE' => _( 'Balance' ),
 		'STATUS' => _( 'Status' ),
 		'WARNING' => _( 'Warning' ) . '<br />&lt; ' . $warning,
 		'NEGATIVE' => _( 'Negative' ),
 		'MINIMUM' => _( 'Minimum' ) . '<br />' . $minimum,
-	);
+	];
 
 	Search( 'student_id', $extra );
 

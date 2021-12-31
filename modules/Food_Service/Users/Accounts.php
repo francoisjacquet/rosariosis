@@ -122,7 +122,7 @@ if ( $_REQUEST['modfunc'] === 'create' )
 	}
 
 	// Unset modfunc & food service & redirect URL.
-	RedirectURL( array( 'modfunc', 'food_service' ) );
+	RedirectURL( [ 'modfunc', 'food_service' ] );
 }
 
 StaffWidgets( 'fsa_balance' );
@@ -133,8 +133,8 @@ StaffWidgets( 'fsa_exists_Y' );
 $extra['SELECT'] = issetVal( $extra['SELECT'], '' );
 $extra['SELECT'] .= ",(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE";
 $extra['SELECT'] .= ",(SELECT coalesce(STATUS,'" . DBEscapeString( _( 'Active' ) ) . "') FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS STATUS";
-$extra['functions'] += array( 'BALANCE' => 'red' );
-$extra['columns_after'] = array( 'BALANCE' => _( 'Balance' ), 'STATUS' => _( 'Status' ) );
+$extra['functions'] += [ 'BALANCE' => 'red' ];
+$extra['columns_after'] = [ 'BALANCE' => _( 'Balance' ), 'STATUS' => _( 'Status' ) ];
 
 Search( 'staff_id', $extra );
 
@@ -196,7 +196,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 
 	echo '<table class="width-100p valign-top fixed-col"><tr><td>';
 
-	$options = array( 'Inactive' => _( 'Inactive' ), 'Disabled' => _( 'Disabled' ), 'Closed' => _( 'Closed' ) );
+	$options = [ 'Inactive' => _( 'Inactive' ), 'Disabled' => _( 'Disabled' ), 'Closed' => _( 'Closed' ) ];
 	echo ( $staff['ACCOUNT_ID'] ? SelectInput( $staff['STATUS'], 'food_service[STATUS]', _( 'Status' ), $options, _( 'Active' ) ) : NoInput( '-', _( 'Status' ) ) );
 	echo '</td>';
 	echo '<td>';

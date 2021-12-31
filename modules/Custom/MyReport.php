@@ -38,7 +38,7 @@ if ( ! $_REQUEST['modfunc'] )
 			$extra['SELECT'] .= ",p.CUSTOM_" . $field['ID'] . " AS PEOPLE_" . $field['ID'];
 		}
 
-		$extra['functions'] = array();
+		$extra['functions'] = [];
 
 		$maxTV = 0;
 
@@ -46,7 +46,7 @@ if ( ! $_REQUEST['modfunc'] )
 		{
 			$extra['SELECT'] .= ",NULL AS TITLE_" . $i . ",NULL AS VALUE_" . $i;
 
-			$extra['functions'] += array( 'TITLE_' . $i => '_makeTV', 'VALUE_' . $i => '_makeTV' );
+			$extra['functions'] += [ 'TITLE_' . $i => '_makeTV', 'VALUE_' . $i => '_makeTV' ];
 		}
 
 		$extra['FROM'] = " LEFT OUTER JOIN STUDENTS_JOIN_ADDRESS sja
@@ -73,61 +73,61 @@ if ( ! $_REQUEST['modfunc'] )
 				WHERE STUDENT_ID=ssm.STUDENT_ID
 				AND RESIDENCE='Y' LIMIT 1),-ssm.STUDENT_ID) AS FAMILY_ID";
 
-			$extra['group'] = $LO_group = array( 'FAMILY_ID', 'STUDENT_ID' );
+			$extra['group'] = $LO_group = [ 'FAMILY_ID', 'STUDENT_ID' ];
 
 			//$LO_group = array(array('FAMILY_ID','STUDENT_ID'));
 
-			$LO_columns = array( 'FAMILY_ID' => _( 'Address ID' ) );
+			$LO_columns = [ 'FAMILY_ID' => _( 'Address ID' ) ];
 
 			if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			{
-				$header_left = '<a href="' . PreparePHP_SELF( $_REQUEST, array(), array( 'address_group' => '' ) ) . '">' .
+				$header_left = '<a href="' . PreparePHP_SELF( $_REQUEST, [], [ 'address_group' => '' ] ) . '">' .
 					_( 'Ungroup by Family' ) . '</a>';
 			}
 		}
 		else
 		{
-			$extra['group'] = $LO_group = array('STUDENT_ID');
+			$extra['group'] = $LO_group = ['STUDENT_ID'];
 
-			$LO_columns = array();
+			$LO_columns = [];
 
 			if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			{
-				$header_left = '<a href="' . PreparePHP_SELF( $_REQUEST, array(), array( 'address_group' => 'Y' ) ) . '">' .
+				$header_left = '<a href="' . PreparePHP_SELF( $_REQUEST, [], [ 'address_group' => 'Y' ] ) . '">' .
 					_( 'Group by Family' ) . '</a>';
 			}
 		}
 
-		$LO_columns += array(
+		$LO_columns += [
 			'FULL_NAME' => _( 'Student' ),
 			'STUDENT_ID' => sprintf( _( '%s ID' ), Config( 'NAME' ) ),
 			'GRADE_ID' => _( 'Grade Level' ),
-		);
+		];
 
 		foreach ( (array) $custom_fields_RET as $field )
 		{
-			$LO_columns += array( 'CUSTOM_' . $field['ID'] => ParseMLField( $field['TITLE'] ) );
+			$LO_columns += [ 'CUSTOM_' . $field['ID'] => ParseMLField( $field['TITLE'] ) ];
 		}
 
-		$LO_columns += array(
+		$LO_columns += [
 			'ADDRESS' => _( 'Street' ),
 			'CITY' => _( 'City' ),
 			'STATE' => _( 'State' ),
 			'ZIPCODE' => _( 'Zipcode' ),
 			'PHONE' => _( 'Phone' ),
-		);
+		];
 
 		$extra['functions']['PHONE'] = 'makePhone';
 
 		// FJ disable mailing address display.
 		if ( Config( 'STUDENTS_USE_MAILING' ) )
 		{
-			$LO_columns += array(
+			$LO_columns += [
 				'MAIL_ADDRESS' => _( 'Mailing Street' ),
 				'MAIL_CITY' => _( 'Mailing City' ),
 				'MAIL_STATE' => _( 'Mailing State' ),
 				'MAIL_ZIPCODE' => _( 'Mailing Zipcode' ),
-			);
+			];
 		}
 
 		foreach ( (array) $address_fields_RET as $field )
@@ -139,7 +139,7 @@ if ( ! $_REQUEST['modfunc'] )
 			$LO_columns[ $field_key ] = ParseMLField( $field['TITLE'] );
 		}
 
-		$LO_columns += array( 'PERSON_NAME' => _( 'Person Name' ) );
+		$LO_columns += [ 'PERSON_NAME' => _( 'Person Name' ) ];
 
 		foreach ( (array) $people_fields_RET as $field )
 		{
@@ -152,10 +152,10 @@ if ( ! $_REQUEST['modfunc'] )
 
 		for ( $i = 1; $i <= $maxTV; $i++ )
 		{
-			$LO_columns += array(
+			$LO_columns += [
 				'TITLE_' . $i => _( 'Title' ) . ' ' . $i,
 				'VALUE_' . $i => _( 'Value' ) . ' ' . $i,
-			);
+			];
 		}
 
 		$students_RET = GetStuList( $extra );
@@ -166,7 +166,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		if ( empty( $_REQUEST['LO_save'] ) )
 		{
-			$_SESSION['List_PHP_SELF'] = PreparePHP_SELF( $_SESSION['_REQUEST_vars'], array( 'bottom_back' ) );
+			$_SESSION['List_PHP_SELF'] = PreparePHP_SELF( $_SESSION['_REQUEST_vars'], [ 'bottom_back' ] );
 
 			if ( $_SESSION['Back_PHP_SELF'] !== 'student' )
 			{

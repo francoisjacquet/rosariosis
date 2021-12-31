@@ -105,7 +105,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 				WHERE ID='" . $_REQUEST['id'] . "'" );
 
 			// Unset modfunc & ID & redirect URL.
-			RedirectURL( array( 'modfunc', 'id' ) );
+			RedirectURL( [ 'modfunc', 'id' ] );
 		}
 	}
 	elseif ( DeletePrompt( _( 'Report Card Grading Scale' ) ) )
@@ -123,7 +123,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 		DBQuery( $delete_sql );
 
 		// Unset modfunc & ID & redirect URL.
-		RedirectURL( array( 'modfunc', 'id' ) );
+		RedirectURL( [ 'modfunc', 'id' ] );
 	}
 }
 
@@ -135,7 +135,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$comment_scales_RET = DBGet( "SELECT ID,TITLE
 		FROM REPORT_CARD_COMMENT_CODE_SCALES
 		WHERE SCHOOL_ID='" . UserSchool() . "'
-		ORDER BY SORT_ORDER,ID", array(), array( 'ID' ) );
+		ORDER BY SORT_ORDER,ID", [], [ 'ID' ] );
 
 	if ( ! isset( $_REQUEST['tab_id'] )
 		|| $_REQUEST['tab_id'] == ''
@@ -152,15 +152,15 @@ if ( ! $_REQUEST['modfunc'] )
 		}
 	}
 
-	$tabs = array();
-	$comment_scale_select = array();
+	$tabs = [];
+	$comment_scale_select = [];
 
 	foreach ( (array) $comment_scales_RET as $id => $comment_scale )
 	{
-		$tabs[] = array(
+		$tabs[] = [
 			'title' => $comment_scale[1]['TITLE'],
 			'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=' . $id,
-		);
+		];
 
 		$comment_scale_select[$id] = $comment_scale[1]['TITLE'];
 	}
@@ -173,44 +173,44 @@ if ( ! $_REQUEST['modfunc'] )
 		AND SCHOOL_ID='" . UserSchool() . "'
 		ORDER BY SORT_ORDER,ID";
 
-		$functions = array(
+		$functions = [
 			'TITLE' => '_makeCommentsInput',
 			'SHORT_NAME' => '_makeCommentsInput',
 			'COMMENT' => '_makeCommentsInput',
 			'SORT_ORDER' => '_makeCommentsInput',
-		);
+		];
 
-		$LO_columns = array( 'TITLE' => _( 'Title' ),
+		$LO_columns = [ 'TITLE' => _( 'Title' ),
 			'SHORT_NAME' => _( 'Short Name' ),
 			'COMMENT' => _( 'Comment' ),
 			'SORT_ORDER' => _( 'Sort Order' ),
-		);
+		];
 
 		if ( User( 'PROFILE' ) === 'admin' && AllowEdit() )
 		{
-			$functions += array( 'SCALE_ID' => '_makeCommentsInput' );
-			$LO_columns += array( 'SCALE_ID' => _( 'Comment Scale' ) );
+			$functions += [ 'SCALE_ID' => '_makeCommentsInput' ];
+			$LO_columns += [ 'SCALE_ID' => _( 'Comment Scale' ) ];
 		}
 
-		$link['add']['html'] = array(
+		$link['add']['html'] = [
 			'TITLE' => _makeCommentsInput( '', 'TITLE' ),
 			'SHORT_NAME' => _makeCommentsInput( '', 'SHORT_NAME' ),
 			'COMMENT' => _makeCommentsInput( '', 'COMMENT' ),
 			'SORT_ORDER' => _makeCommentsInput( '', 'SORT_ORDER' ),
-		);
+		];
 
 		$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] .
 			'&modfunc=remove&tab_id=' . $_REQUEST['tab_id'];
 
-		$link['remove']['variables'] = array( 'id' => _( 'ID' ) );
+		$link['remove']['variables'] = [ 'id' => _( 'ID' ) ];
 		$link['add']['html']['remove'] = button( 'add' );
 
 		if ( User( 'PROFILE' ) === 'admin' )
 		{
-			$tabs[] = array(
+			$tabs[] = [
 				'title' => button( 'add', '', '', 'smaller' ),
 				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=new',
-			);
+			];
 		}
 
 		$subject = 'Codes';
@@ -222,34 +222,34 @@ if ( ! $_REQUEST['modfunc'] )
 		WHERE SCHOOL_ID=\'' . UserSchool() . '\'
 		ORDER BY SORT_ORDER,ID';
 
-		$functions = array(
+		$functions = [
 			'TITLE' => '_makeCommentsInput',
 			'COMMENT' => '_makeCommentsInput',
 			'SORT_ORDER' => '_makeCommentsInput',
-		);
+		];
 
-		$LO_columns = array(
+		$LO_columns = [
 			'TITLE' => _( 'Comment Scale' ),
 			'COMMENT' => _( 'Comment' ),
 			'SORT_ORDER' => _( 'Sort Order' ),
-		);
+		];
 
-		$link['add']['html'] = array(
+		$link['add']['html'] = [
 			'TITLE' => _makeCommentsInput( '', 'TITLE' ),
 			'COMMENT' => _makeCommentsInput( '', 'COMMENT' ),
 			/*'HHR_GPA_VALUE' => _makeCommentsInput( '', 'HHR_GPA_VALUE' ),
 			'HR_GPA_VALUE' => _makeCommentsInput( '', 'HR_GPA_VALUE' ),*/
 			'SORT_ORDER' => _makeCommentsInput( '', 'SORT_ORDER' ),
-		);
+		];
 
 		$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove&tab_id=new';
-		$link['remove']['variables'] = array( 'id' => _( 'ID' ) );
+		$link['remove']['variables'] = [ 'id' => _( 'ID' ) ];
 		$link['add']['html']['remove'] = button( 'add' );
 
-		$tabs[] = array(
+		$tabs[] = [
 			'title' => button( 'add', '', '', 'smaller' ),
 			'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=new',
-		);
+		];
 
 		$subject = 'Comment Code Scales';
 	}
@@ -262,18 +262,18 @@ if ( ! $_REQUEST['modfunc'] )
 	DrawHeader( '', SubmitButton() );
 	echo '<br />';
 
-	$LO_options = array(
+	$LO_options = [
 		'save' => false,
 		'search' => false,
 		'header' => WrapTabs(
 			$tabs,
 			'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=' . $_REQUEST['tab_id']
 		),
-	);
+	];
 
 	if ( $subject == 'Codes' )
 	{
-		ListOutput( $LO_ret, $LO_columns, 'Code', 'Codes', $link, array(), $LO_options );
+		ListOutput( $LO_ret, $LO_columns, 'Code', 'Codes', $link, [], $LO_options );
 	}
 	elseif ( $subject == 'Comment Code Scales' )
 	{
@@ -283,7 +283,7 @@ if ( ! $_REQUEST['modfunc'] )
 			'Comment Code Scale',
 			'Comment Code Scales',
 			$link,
-			array(),
+			[],
 			$LO_options
 		);
 	}

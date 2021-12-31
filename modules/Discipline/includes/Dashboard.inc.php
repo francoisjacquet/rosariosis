@@ -60,22 +60,22 @@ if ( ! function_exists( 'DashboardDisciplineAdmin' ) )
 			$referrals_nb = (int) $referrals_RET[1]['REFERRALS_NB'];
 		}
 
-		$referrals_data = array(
+		$referrals_data = [
 			_( 'Referrals' ) => $referrals_nb,
-		);
+		];
 
 		foreach ( (array) $referrals_RET as $referrals )
 		{
 			$proper_date = ProperDate( $referrals['YEAR_MONTH'] . '-28' );
 
 			// Remove dummy day from proper date.
-			$proper_month_year = str_replace( array( '/28', ' 28' ), '', $proper_date );
+			$proper_month_year = str_replace( [ '/28', ' 28' ], '', $proper_date );
 
 			// Referrals by month.
 			$referrals_data[$proper_month_year] = $referrals['REFERRALS_NB'];
 		}
 
-		$data = array();
+		$data = [];
 
 		if ( $referrals_nb
 			|| count( $referrals_data ) > 1 )

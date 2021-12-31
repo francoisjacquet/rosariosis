@@ -18,7 +18,7 @@ if ( $_REQUEST['modfunc'] === 'backup'
 	$exe = escapeShellCmd( $pg_dumpPath );
 
 	// Obtain the pg_dump version number and check if the path is good.
-	$version = array();
+	$version = [];
 	preg_match( "/(\d+(?:\.\d+)?)(?:\.\d+)?.*$/", exec( $exe . " --version" ), $version );
 
 	if ( empty( $version ) )

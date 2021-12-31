@@ -54,7 +54,7 @@ if ( ! function_exists( 'DashboardFoodServiceAdmin' ) )
 			AND STUDENT_ID IS NOT NULL
 			GROUP BY TRANSACTION_DATE,STUDENT_ID
 			ORDER BY TRANSACTION_DATE DESC
-			LIMIT 7", array(), array( 'TRANSACTION_DATE' ) );
+			LIMIT 7", [], [ 'TRANSACTION_DATE' ] );
 
 		$meals_staff_RET = DBGet( "SELECT
 			COUNT(DISTINCT STAFF_ID) AS PARTICIPATED,
@@ -64,7 +64,7 @@ if ( ! function_exists( 'DashboardFoodServiceAdmin' ) )
 			AND SCHOOL_ID='" . UserSchool() . "'
 			GROUP BY TRANSACTION_DATE,STAFF_ID
 			ORDER BY TRANSACTION_DATE DESC
-			LIMIT 7", array(), array( 'TRANSACTION_DATE' ) );
+			LIMIT 7", [], [ 'TRANSACTION_DATE' ] );
 
 		if ( ! empty( $meals_RET[date( 'Y-m-d' )] ) )
 		{
@@ -77,9 +77,9 @@ if ( ! function_exists( 'DashboardFoodServiceAdmin' ) )
 			}
 		}
 
-		$meals_data = array(
+		$meals_data = [
 			_( 'Participated' ) => $meals_today,
-		);
+		];
 
 		foreach ( (array) $meals_RET as $transaction_date => $meals )
 		{
@@ -100,7 +100,7 @@ if ( ! function_exists( 'DashboardFoodServiceAdmin' ) )
 			}
 		}
 
-		$data = array();
+		$data = [];
 
 		if ( $meals_today
 			|| count( $meals_data ) > 1 )

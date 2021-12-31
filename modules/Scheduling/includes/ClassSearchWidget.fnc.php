@@ -56,7 +56,7 @@ function ClassSearchWidget( $extra = '' )
  */
 function _classSearchWidgetFindCourse( $extra )
 {
-	$_SESSION['Search_PHP_SELF'] = PreparePHP_SELF( $_SESSION['_REQUEST_vars'], array( 'bottom_back' ) );
+	$_SESSION['Search_PHP_SELF'] = PreparePHP_SELF( $_SESSION['_REQUEST_vars'], [ 'bottom_back' ] );
 
 	if ( empty( $_SESSION['Back_PHP_SELF'] )
 		|| $_SESSION['Back_PHP_SELF'] !== 'course' )
@@ -238,13 +238,13 @@ function _classSearchWidgetCoursePeriodsListOutput( $extra = '' )
 		AND ss.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . "))";
 	}
 
-	$LO_columns = array( 'COURSE_PERIOD_ID' => MakeChooseCheckbox( 'Y', '', 'cp_arr' ), 'TITLE' => _( 'Course Period' ) );
+	$LO_columns = [ 'COURSE_PERIOD_ID' => MakeChooseCheckbox( 'Y', '', 'cp_arr' ), 'TITLE' => _( 'Course Period' ) ];
 
-	$course_periods_RET = DBGet( $sql, array( 'COURSE_PERIOD_ID' => 'MakeChooseCheckbox' ) );
+	$course_periods_RET = DBGet( $sql, [ 'COURSE_PERIOD_ID' => 'MakeChooseCheckbox' ] );
 
 	if ( empty( $_REQUEST['LO_save'] ) && empty( $extra['suppress_save'] ) )
 	{
-		$_SESSION['List_PHP_SELF'] = PreparePHP_SELF( $_SESSION['_REQUEST_vars'], array( 'bottom_back' ) );
+		$_SESSION['List_PHP_SELF'] = PreparePHP_SELF( $_SESSION['_REQUEST_vars'], [ 'bottom_back' ] );
 
 		if ( empty( $_SESSION['Back_PHP_SELF'] )
 			|| $_SESSION['Back_PHP_SELF'] !== 'course' )
@@ -266,10 +266,10 @@ function _classSearchWidgetCoursePeriodsListOutput( $extra = '' )
 		$LO_columns,
 		'Course Period',
 		'Course Periods',
-		array(),
-		array(),
-		array(
+		[],
+		[],
+		[
 			'save' => '0',
-		)
+		]
 	);
 }

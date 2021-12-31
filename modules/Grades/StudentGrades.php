@@ -32,7 +32,7 @@ if ( UserStudentID()
 	AND cp.GRADE_SCALE_ID IS NOT NULL" .
 		( User( 'PROFILE' ) === 'teacher' ? ' AND cp.TEACHER_ID=\'' . User( 'STAFF_ID' ) . '\'' : '' ) . "
 	AND c.COURSE_ID=cp.COURSE_ID
-	ORDER BY cp.SHORT_NAME, cp.TITLE", array(), array( 'COURSE_PERIOD_ID' ) );
+	ORDER BY cp.SHORT_NAME, cp.TITLE", [], [ 'COURSE_PERIOD_ID' ] );
 //echo '<pre>'; var_dump($courses_RET); echo '</pre>';
 
 	if ( isset( $_REQUEST['id'] )
@@ -57,7 +57,7 @@ if ( UserStudentID()
 			);
 		}
 
-		$LO_columns = array( 'TITLE' => _( 'Course Title' ), 'TEACHER' => _( 'Teacher' ), 'UNGRADED' => _( 'Ungraded' ) );
+		$LO_columns = [ 'TITLE' => _( 'Course Title' ), 'TEACHER' => _( 'Teacher' ), 'UNGRADED' => _( 'Ungraded' ) ];
 
 		if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) >= 0 )
 		{
@@ -71,12 +71,12 @@ if ( UserStudentID()
 
 		if ( $do_stats && $_REQUEST['do_stats'] )
 		{
-			$LO_columns += array( 'BAR1' => _( 'Grade Range' ), 'BAR2' => _( 'Class Rank' ) );
+			$LO_columns += [ 'BAR1' => _( 'Grade Range' ), 'BAR2' => _( 'Class Rank' ) ];
 		}
 
 		if ( ! empty( $courses_RET ) )
 		{
-			$LO_ret = array( 0 => array() );
+			$LO_ret = [ 0 => [] ];
 
 			foreach ( (array) $courses_RET as $course_period_id => $course )
 			{
@@ -99,7 +99,7 @@ if ( UserStudentID()
 
 				$gradebook_config[$staff_id]['WEIGHT'] = issetVal( $gradebook_config[$staff_id]['WEIGHT'] );
 
-				$sql = "SELECT s.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID,sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'gg.POINTS' ) ) . ") AS PARTIAL_POINTS,sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ) ) . ") AS PARTIAL_TOTAL,gt.FINAL_GRADE_PERCENT,sum(" . db_case( array( 'gg.POINTS', "''", "1", "0" ) ) . ") AS UNGRADED
+				$sql = "SELECT s.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID,sum(" . db_case( [ 'gg.POINTS', "'-1'", "'0'", 'gg.POINTS' ] ) . ") AS PARTIAL_POINTS,sum(" . db_case( [ 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ] ) . ") AS PARTIAL_TOTAL,gt.FINAL_GRADE_PERCENT,sum(" . db_case( [ 'gg.POINTS', "''", "1", "0" ] ) . ") AS UNGRADED
 				FROM STUDENTS s
 				JOIN SCHEDULE ss ON (ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='" . UserSyear() . "'";
 
@@ -135,7 +135,7 @@ if ( UserStudentID()
 				if ( $do_stats
 					&& $_REQUEST['do_stats'] )
 				{
-					$all_RET = DBGet( $sql, array(), array( 'STUDENT_ID' ) );
+					$all_RET = DBGet( $sql, [], [ 'STUDENT_ID' ] );
 
 					$points_RET = $all_RET[UserStudentID()];
 				}
@@ -253,7 +253,7 @@ if ( UserStudentID()
 							break;
 					}
 
-					$LO_ret[] = array(
+					$LO_ret[] = [
 						'ID' => $course_period_id,
 						'TITLE' => $course['COURSE_TITLE'],
 						'TEACHER' => mb_substr( $course_title, mb_strrpos( str_replace( ' - ', ' ^ ', $course_title ), '^' ) + 2 ),
@@ -264,10 +264,10 @@ if ( UserStudentID()
 						'<b>' . _makeLetterGrade( $percent, $course_period_id, $staff_id ) . '</b>' :
 						_( 'N/A' ),
 						'UNGRADED' => $ungraded,
-					)
+					]
 					 	+ ( $do_stats && $_REQUEST['do_stats'] ?
-						array( 'BAR1' => $bargraph1, 'BAR2' => $bargraph2 ) :
-						array()
+						[ 'BAR1' => $bargraph1, 'BAR2' => $bargraph2 ] :
+						[]
 					);
 				}
 
@@ -277,13 +277,13 @@ if ( UserStudentID()
 
 			unset( $LO_ret[0] );
 
-			$link = array(
-				'TITLE' => array(
+			$link = [
+				'TITLE' => [
 					'link' => 'Modules.php?modname=' . $_REQUEST['modname'] .
 					( $do_stats ? '&do_stats=' . $_REQUEST['do_stats'] : '' ),
-					'variables' => array( 'id' => 'ID' ),
-				),
-			);
+					'variables' => [ 'id' => 'ID' ],
+				],
+			];
 
 			ListOutput(
 				$LO_ret,
@@ -291,8 +291,8 @@ if ( UserStudentID()
 				'Course',
 				'Courses',
 				$link,
-				array(),
-				array( 'center' => false, 'save' => false, 'search' => false )
+				[],
+				[ 'center' => false, 'save' => false, 'search' => false ]
 			);
 		}
 		else
@@ -310,7 +310,7 @@ if ( UserStudentID()
 		}
 		else
 		{
-			$courses_RET = array( $_REQUEST['id'] => $courses_RET[$_REQUEST['id']] );
+			$courses_RET = [ $_REQUEST['id'] => $courses_RET[$_REQUEST['id']] ];
 
 			$req_course_title = $courses_RET[$_REQUEST['id']][1]['COURSE_TITLE'];
 
@@ -366,7 +366,7 @@ if ( UserStudentID()
 				OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID)
 				OR gg.POINTS IS NOT NULL)
 			AND (ga.POINTS!='0' OR gg.POINTS IS NOT NULL AND gg.POINTS!='-1')
-			ORDER BY ga.ASSIGNMENT_ID DESC", array( 'TITLE' => '_makeTipAssignment' ) );
+			ORDER BY ga.ASSIGNMENT_ID DESC", [ 'TITLE' => '_makeTipAssignment' ] );
 			//echo '<pre>'; var_dump($assignments_RET); echo '</pre>';
 
 			if ( ! empty( $assignments_RET ) )
@@ -375,9 +375,9 @@ if ( UserStudentID()
 				//FJ bugfix broken statistics, MIN calculus when gg.POINTS is NULL
 				{
 					$all_RET = DBGet( "SELECT ga.ASSIGNMENT_ID,
-					min(" . db_case( array( 'gg.POINTS', "'-1'", 'ga.POINTS', db_case( array( 'gg.POINTS', "''", '0', 'gg.POINTS' ) ) ) ) . ") AS MIN,
-					max(" . db_case( array( 'gg.POINTS', "'-1'", '0', 'gg.POINTS' ) ) . ") AS MAX,
-					" . db_case( array( "sum(" . db_case( array( 'gg.POINTS', "'-1'", '0', '1' ) ) . ")", "'0'", "'0'", "sum(" . db_case( array( 'gg.POINTS', "'-1'", '0', 'gg.POINTS' ) ) . ") / sum(" . db_case( array( 'gg.POINTS', "'-1'", '0', '1' ) ) . ")" ) ) . " AS AVG,
+					min(" . db_case( [ 'gg.POINTS', "'-1'", 'ga.POINTS', db_case( [ 'gg.POINTS', "''", '0', 'gg.POINTS' ] ) ] ) . ") AS MIN,
+					max(" . db_case( [ 'gg.POINTS', "'-1'", '0', 'gg.POINTS' ] ) . ") AS MAX,
+					" . db_case( [ "sum(" . db_case( [ 'gg.POINTS', "'-1'", '0', '1' ] ) . ")", "'0'", "'0'", "sum(" . db_case( [ 'gg.POINTS', "'-1'", '0', 'gg.POINTS' ] ) . ") / sum(" . db_case( [ 'gg.POINTS', "'-1'", '0', '1' ] ) . ")" ] ) . " AS AVG,
 					sum(CASE WHEN gg.POINTS!='-1' AND gg.POINTS<=g.POINTS AND gg.STUDENT_ID!=g.STUDENT_ID THEN 1 ELSE 0 END) AS LOWER,
 					sum(CASE WHEN gg.POINTS!='-1' AND gg.POINTS>g.POINTS THEN 1 ELSE 0 END) AS HIGHER
 					FROM GRADEBOOK_GRADES gg,GRADEBOOK_ASSIGNMENTS ga
@@ -389,16 +389,16 @@ if ( UserStudentID()
 					AND at.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID
 					AND ((ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE+" . round( $gradebook_config[$staff_id]['LATENCY'] ) . ") OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID) OR g.POINTS IS NOT NULL)
 					AND ga.POINTS!='0'
-					GROUP BY ga.ASSIGNMENT_ID", array(), array( 'ASSIGNMENT_ID' ) );
+					GROUP BY ga.ASSIGNMENT_ID", [], [ 'ASSIGNMENT_ID' ] );
 				}
 
 				//echo '<pre>'; var_dump($all_RET); echo '</pre>';
 
-				$LO_columns = array(
+				$LO_columns = [
 					'TITLE' => _( 'Title' ),
 					'CATEGORY' => _( 'Category' ),
 					'POINTS' => _( 'Points / Possible' ),
-				);
+				];
 
 				if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) >= 0 )
 				{
@@ -413,14 +413,14 @@ if ( UserStudentID()
 					}
 				}
 
-				$LO_columns += array( 'COMMENT' => _( 'Comment' ) );
+				$LO_columns += [ 'COMMENT' => _( 'Comment' ) ];
 
 				if ( $do_stats && $_REQUEST['do_stats'] )
 				{
-					$LO_columns += array( 'BAR1' => _( 'Grade Range' ), 'BAR2' => _( 'Class Rank' ) );
+					$LO_columns += [ 'BAR1' => _( 'Grade Range' ), 'BAR2' => _( 'Class Rank' ) ];
 				}
 
-				$LO_ret = array( 0 => array() );
+				$LO_ret = [ 0 => [] ];
 
 				foreach ( (array) $assignments_RET as $i => $assignment )
 				{
@@ -475,7 +475,7 @@ if ( UserStudentID()
 							$comment . '</div>';
 					}
 
-					$LO_ret[] = array(
+					$LO_ret[] = [
 						'TITLE' => $assignment['TITLE'],
 						'CATEGORY' => $assignment['CATEGORY'],
 						'POINTS' => ( $assignment['POINTS'] == '-1' ?
@@ -501,10 +501,10 @@ if ( UserStudentID()
 									) . '</b>' :
 									'' ) ) ),
 						'COMMENT' => $comment,
-					) +
+					] +
 						( $do_stats && $_REQUEST['do_stats'] ?
-						array( 'BAR1' => $bargraph1, 'BAR2' => $bargraph2 ) :
-						array()
+						[ 'BAR1' => $bargraph1, 'BAR2' => $bargraph2 ] :
+						[]
 					);
 				}
 
@@ -532,9 +532,9 @@ if ( UserStudentID()
 					$LO_columns,
 					'Assignment',
 					'Assignments',
-					array(),
-					array(),
-					array( 'center' => false, 'save' => $_REQUEST['id'] != 'all', 'search' => false )
+					[],
+					[],
+					[ 'center' => false, 'save' => $_REQUEST['id'] != 'all', 'search' => false ]
 				);
 			}
 			elseif ( $_REQUEST['id'] !== 'all' )

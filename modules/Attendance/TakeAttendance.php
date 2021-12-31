@@ -44,7 +44,7 @@ if ( empty( $categories_RET ) )
 		DrawHeader( $cp_title );
 	}
 
-	ErrorMessage( array( _( 'You cannot take attendance for this course period.' ) ), 'fatal' );
+	ErrorMessage( [ _( 'You cannot take attendance for this course period.' ) ], 'fatal' );
 }
 
 if ( ! isset( $_REQUEST['table'] )
@@ -66,7 +66,7 @@ $school_periods_select = SchoolPeriodsSelectInput(
 	issetVal( $_REQUEST['school_period'] ),
 	'school_period',
 	'',
-	'autocomplete="off" onchange=\'ajaxLink(' . json_encode( PreparePHP_SELF( array(), array( 'school_period' ) ) ) . ' + "&school_period=" + this.value);\''
+	'autocomplete="off" onchange=\'ajaxLink(' . json_encode( PreparePHP_SELF( [], [ 'school_period' ] ) ) . ' + "&school_period=" + this.value);\''
 );
 
 if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
@@ -121,7 +121,7 @@ else
 }
 
 // Instead of displaying a fatal error which could confuse user, display a warning and exit.
-$fatal_warning = array();
+$fatal_warning = [];
 
 if ( empty( $course_RET ) )
 {
@@ -153,7 +153,7 @@ if ( $fatal_warning )
 			$date,
 			'_date',
 			false,
-			array( 'submit' => true )
+			[ 'submit' => true ]
 		)
 	);
 
@@ -210,7 +210,7 @@ $current_Q = "SELECT ATTENDANCE_TEACHER_CODE,ATTENDANCE_CODE,STUDENT_ID,ADMIN,CO
 	AND PERIOD_ID='" . $_REQUEST['school_period'] . "'" .
 	( $table == 'LUNCH_PERIOD' ? " AND TABLE_NAME='" . $_REQUEST['table'] . "'" : '' );
 
-$current_RET = DBGet( $current_Q, array(), array( 'STUDENT_ID' ) );
+$current_RET = DBGet( $current_Q, [], [ 'STUDENT_ID' ] );
 
 if ( ! empty( $_REQUEST['attendance'] )
 	&& ! empty( $_POST['attendance'] ) )
@@ -282,7 +282,7 @@ if ( ! empty( $_REQUEST['attendance'] )
 		do_action( 'Attendance/TakeAttendance.php|update_attendance' );
 	}
 
-	$current_RET = DBGet( $current_Q, array(), array( 'STUDENT_ID' ) );
+	$current_RET = DBGet( $current_Q, [], [ 'STUDENT_ID' ] );
 
 	// Unset attendance & redirect URL.
 	RedirectURL( 'attendance' );
@@ -297,7 +297,7 @@ $codes_RET = DBGet( "SELECT ID,TITLE,DEFAULT_CODE,STATE_CODE
 	( $_REQUEST['table'] == '0' && $course_RET[1]['HALF_DAY'] ? " AND STATE_CODE!='H'" : '' ) .
 	" ORDER BY SORT_ORDER" );
 
-$columns = array();
+$columns = [];
 
 $extra['SELECT'] = issetVal( $extra['SELECT'], '' );
 
@@ -319,23 +319,23 @@ foreach ( (array) $codes_RET as $code )
 
 $extra['SELECT'] .= ',s.STUDENT_ID AS COMMENT,s.STUDENT_ID AS ATTENDANCE_REASON,s.STUDENT_ID AS DAILY_COMMENT';
 
-$columns += array(
+$columns += [
 	'COMMENT' => _( 'Teacher Comment' ),
-);
+];
 
 if ( ! isset( $extra['functions'] )
 	|| ! is_array( $extra['functions'] ) )
 {
-	$extra['functions'] = array();
+	$extra['functions'] = [];
 }
 
-$extra['functions'] += array(
+$extra['functions'] += [
 	'FULL_NAME' => 'makePhotoTipMessage',
 	'COMMENT' => 'makeCommentInput',
 	'ATTENDANCE_REASON' => 'makeAttendanceReason',
 	// @since 3.9.1 Add Daily Comment column.
 	'DAILY_COMMENT' => 'makeDailyComment',
-);
+];
 
 $extra['DATE'] = $date;
 
@@ -343,18 +343,18 @@ $stu_RET = GetStuList( $extra );
 
 if ( ! empty( $attendance_reason ) )
 {
-	$columns += array(
+	$columns += [
 		'ATTENDANCE_REASON' => _( 'Office Comment' ),
-	);
+	];
 }
 
 // @since 3.9.1 Add Daily Comment column.
 
 if ( ! empty( $daily_comment ) )
 {
-	$columns += array(
+	$columns += [
 		'DAILY_COMMENT' => _( 'Day Comment' ),
-	);
+	];
 }
 
 DrawHeader( $cp_title );
@@ -384,7 +384,7 @@ if ( $completed_RET )
 	_( 'You already have taken attendance today for this period.' );
 }
 
-DrawHeader( PrepareDate( $date, '_date', false, array( 'submit' => true ) ) . $date_note );
+DrawHeader( PrepareDate( $date, '_date', false, [ 'submit' => true ] ) . $date_note );
 
 // Hook.
 do_action( 'Attendance/TakeAttendance.php|header' );
@@ -393,25 +393,25 @@ echo ErrorMessage( $error );
 
 echo ErrorMessage( $note, 'note' );
 
-$LO_columns = array(
+$LO_columns = [
 	'FULL_NAME' => _( 'Student' ),
 	'STUDENT_ID' => sprintf( _( '%s ID' ), Config( 'NAME' ) ),
 	'GRADE_ID' => _( 'Grade Level' ),
-) + $columns;
+] + $columns;
 
 foreach ( (array) $categories_RET as $category )
 {
-	$tabs[] = array(
+	$tabs[] = [
 		'title' => ParseMLField( $category['TITLE'] ),
 		'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=' . $category['ID'] .
 		'&month_date=' . $_REQUEST['month_date'] . '&day_date=' . $_REQUEST['day_date'] .
 		'&year_date=' . $_REQUEST['year_date'],
-	);
+	];
 }
 
 if ( ! empty( $categories_RET ) )
 {
-	$LO_options = array(
+	$LO_options = [
 		'download' => false,
 		'search' => false,
 		'header' => WrapTabs(
@@ -420,11 +420,11 @@ if ( ! empty( $categories_RET ) )
 			'&month_date=' . $_REQUEST['month_date'] . '&day_date=' . $_REQUEST['day_date'] .
 			'&year_date=' . $_REQUEST['year_date']
 		),
-	);
+	];
 }
 else
 {
-	$LO_options = array();
+	$LO_options = [];
 }
 
 echo '<br />';
@@ -435,7 +435,7 @@ ListOutput(
 	'Student',
 	'Students',
 	false,
-	array(),
+	[],
 	$LO_options
 );
 
@@ -451,12 +451,12 @@ function _makeRadio( $value, $title )
 	global $THIS_RET,
 		$current_RET;
 
-	$classes = array(
+	$classes = [
 		'P' => 'present',
 		'A' => 'absent',
 		'H' => 'half-day',
 		// 'T' => '#0000FF',
-	);
+	];
 
 	if ( isset( $current_RET[$THIS_RET['STUDENT_ID']][1]['ATTENDANCE_TEACHER_CODE'] )
 		&& $current_RET[$THIS_RET['STUDENT_ID']][1]['ATTENDANCE_TEACHER_CODE'] == mb_substr( $title, 5 ) )
@@ -491,21 +491,21 @@ function _makeRadioSelected( $value, $title )
 	global $THIS_RET,
 		$current_RET;
 
-	$classes = array(
+	$classes = [
 		'P' => 'present',
 		'A' => 'absent',
 		'H' => 'half-day',
 		// 'T' => '#0000FF',
-	);
+	];
 
 	$class = issetVal( $classes[$value], '' );
 
-	$classes_alt = array(
+	$classes_alt = [
 		'P' => 'present-alt',
 		'A' => 'absent-alt',
 		'H' => 'half-day-alt',
 		// 'T' => '#DDDDFF',
-	);
+	];
 
 	$class_alt = issetVal( $classes_alt[$value], '' );
 

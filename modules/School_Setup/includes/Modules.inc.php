@@ -22,13 +22,13 @@ $RosarioCoreModules = array(
 );*/
 
 // Core modules that will generate errors if deactivated
-$always_activated = array(
+$always_activated = [
 	'School_Setup',
-);
+];
 
-$directories_bypass = array(
+$directories_bypass = [
 	'modules/misc',
-);
+];
 
 //hacking protections
 
@@ -45,7 +45,7 @@ if ( $_REQUEST['modfunc'] === 'upload'
 	if ( ( ! defined( 'ROSARIO_DISABLE_ADDON_UPLOAD' )
 			|| ! ROSARIO_DISABLE_ADDON_UPLOAD )
 		&& class_exists( 'ZipArchive' )
-		&& ( $addon_zip_path = FileUpload( 'upload', $FileUploadsPath, array( '.zip' ), FileUploadMaxSize(), $error ) ) )
+		&& ( $addon_zip_path = FileUpload( 'upload', $FileUploadsPath, [ '.zip' ], FileUploadMaxSize(), $error ) ) )
 	{
 		// Extract zip file.
 		$zip = new ZipArchive;
@@ -97,7 +97,7 @@ if ( $_REQUEST['modfunc'] === 'upload'
 	}
 
 	// Unset modfunc & redirect URL.
-	RedirectURL( array( 'modfunc' ) );
+	RedirectURL( 'modfunc' );
 }
 
 if ( $_REQUEST['modfunc'] === 'delete'
@@ -143,7 +143,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 		}
 
 		// Unset modfunc & module & redirect URL.
-		RedirectURL( array( 'modfunc', 'module' ) );
+		RedirectURL( [ 'modfunc', 'module' ] );
 	}
 }
 
@@ -174,7 +174,7 @@ if ( $_REQUEST['modfunc'] === 'deactivate'
 		}
 
 		// Unset modfunc & module & redirect URL.
-		RedirectURL( array( 'modfunc', 'module' ) );
+		RedirectURL( [ 'modfunc', 'module' ] );
 	}
 }
 
@@ -241,7 +241,7 @@ if ( $_REQUEST['modfunc'] === 'activate'
 	}
 
 	// Unset modfunc & module & redirect URL.
-	RedirectURL( array( 'modfunc', 'module' ) );
+	RedirectURL( [ 'modfunc', 'module' ] );
 }
 
 if ( ! $_REQUEST['modfunc'] )
@@ -250,11 +250,11 @@ if ( ! $_REQUEST['modfunc'] )
 
 	echo ErrorMessage( $note, 'note' );
 
-	$modules_RET = array( '' );
+	$modules_RET = [ '' ];
 
 	foreach ( (array) $RosarioModules as $module_title => $activated )
 	{
-		$THIS_RET = array();
+		$THIS_RET = [];
 		$THIS_RET['DELETE'] = _makeDelete( $module_title, $activated );
 		$THIS_RET['TITLE'] = _makeReadMe( $module_title, $activated );
 		$THIS_RET['ACTIVATED'] = _makeActivated( $activated );
@@ -271,7 +271,7 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		$module_title = str_replace( 'modules/', '', $module );
 
-		$THIS_RET = array();
+		$THIS_RET = [];
 		$THIS_RET['DELETE'] = _makeDelete( $module_title );
 		$THIS_RET['TITLE'] = _makeReadMe( $module_title );
 		$THIS_RET['ACTIVATED'] = _makeActivated( false );
@@ -279,11 +279,11 @@ if ( ! $_REQUEST['modfunc'] )
 		$modules_RET[] = $THIS_RET;
 	}
 
-	$columns = array(
+	$columns = [
 		'DELETE' => '<span class="a11y-hidden">' . _( 'Delete' ) . '</span>',
 		'TITLE' => _( 'Title' ),
 		'ACTIVATED' => _( 'Activated' ),
-	);
+	];
 
 	unset( $modules_RET[0] );
 
@@ -501,7 +501,7 @@ function _delTree( $dir, $mode = 'delete' )
 		}
 	}
 
-	$files = array_diff( scandir( $dir ), array( '.', '..' ) );
+	$files = array_diff( scandir( $dir ), [ '.', '..' ] );
 
 	foreach ( (array) $files as $file )
 	{

@@ -10,7 +10,7 @@
  * @subpackage modules
  */
 
-$menu['Attendance']['admin'] = array(
+$menu['Attendance']['admin'] = [
 	'title' => _( 'Attendance' ),
 	'default' => 'Attendance/Administration.php',
 	'Attendance/Administration.php' => _( 'Administration' ),
@@ -24,28 +24,28 @@ $menu['Attendance']['admin'] = array(
 	'Attendance/DuplicateAttendance.php' => _( 'Delete Duplicate Attendance' ),
 	3 => _( 'Setup' ),
 	'Attendance/AttendanceCodes.php' => _( 'Attendance Codes' ),
-);
+];
 
-$menu['Attendance']['teacher'] = array(
+$menu['Attendance']['teacher'] = [
 	'title' => _( 'Attendance' ),
 	'default' => 'Attendance/TakeAttendance.php',
 	'Attendance/TakeAttendance.php' => _( 'Take Attendance' ),
 	'Attendance/DailySummary.php' => _( 'Attendance Chart' ),
-);
+];
 
-$menu['Attendance']['parent'] = array(
+$menu['Attendance']['parent'] = [
 	'title' => _( 'Attendance' ),
 	'default' => 'Attendance/DailySummary.php',
 	'Attendance/DailySummary.php' => _( 'Daily Summary' )
-);
+];
 
 if ( $RosarioModules['Users'] )
 {
-	$menu['Users']['admin'] += array(
+	$menu['Users']['admin'] += [
 		'Users/TeacherPrograms.php&include=Attendance/TakeAttendance.php' => _( 'Take Attendance' ),
-	);
+	];
 }
 
-$exceptions['Attendance'] = array(
+$exceptions['Attendance'] = [
 	'Attendance/AddAbsences.php' => true
-);
+];

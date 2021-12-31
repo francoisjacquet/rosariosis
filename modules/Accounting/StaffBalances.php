@@ -15,11 +15,11 @@ $extra['SELECT'] = ",(COALESCE(
 		AND p.SYEAR=s.SYEAR)
 	,0)) AS BALANCE";
 
-$extra['columns_after'] = array( 'BALANCE' => _( 'Balance' ) );
+$extra['columns_after'] = [ 'BALANCE' => _( 'Balance' ) ];
 
 $extra['link']['FULL_NAME'] = false;
 $extra['new'] = true;
-$extra['functions'] = array( 'BALANCE' => '_makeCurrency' );
+$extra['functions'] = [ 'BALANCE' => '_makeCurrency' ];
 
 if ( User( 'PROFILE' ) === 'parent' || User( 'PROFILE' ) === 'teacher' )
 {

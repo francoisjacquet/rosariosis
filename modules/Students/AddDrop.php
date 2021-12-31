@@ -38,19 +38,19 @@ FROM STUDENT_ENROLLMENT se,STUDENTS s,SCHOOLS sch
 WHERE s.STUDENT_ID=se.STUDENT_ID
 AND se.END_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
 AND sch.ID=se.SCHOOL_ID" . $schools_where_sql . "
-ORDER BY DATE DESC", array(
+ORDER BY DATE DESC", [
 	'FULL_NAME' => '_makeStudentInfoLink',
 	'START_DATE' => 'ProperDate',
 	'END_DATE' => 'ProperDate',
-) );
+] );
 
-$columns = array(
+$columns = [
 	'FULL_NAME' => _( 'Student' ),
 	'STUDENT_ID' => sprintf( _( '%s ID' ), Config( 'NAME' ) ),
 	'TITLE' => _( 'School' ),
 	'START_DATE' => _( 'Enrolled' ),
 	'END_DATE' => _( 'Dropped' ),
-);
+];
 
 ListOutput( $enrollment_RET, $columns, 'Enrollment Record', 'Enrollment Records' );
 

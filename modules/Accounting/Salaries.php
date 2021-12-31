@@ -112,21 +112,21 @@ if ( $_REQUEST['modfunc'] === 'remove'
 			WHERE ID='" . $_REQUEST['id'] . "'" );
 
 		// Unset modfunc & ID & redirect URL.
-		RedirectURL( array( 'modfunc', 'id' ) );
+		RedirectURL( [ 'modfunc', 'id' ] );
 	}
 }
 
 if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 {
 	$salaries_total = 0;
-	$functions = array(
+	$functions = [
 		'REMOVE' => '_makeSalariesRemove',
 		'ASSIGNED_DATE' => 'ProperDate',
 		'DUE_DATE' => '_makeSalariesDateInput',
 		'COMMENTS' => '_makeSalariesTextInput',
 		'AMOUNT' => '_makeSalariesAmount',
 		'FILE_ATTACHED' => '_makeSalariesFileInput',
-	);
+	];
 
 	$salaries_RET = DBGet( "SELECT '' AS REMOVE,f.ID,f.TITLE,f.ASSIGNED_DATE,f.DUE_DATE,f.COMMENTS,
 		f.AMOUNT,f.FILE_ATTACHED
@@ -139,7 +139,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 	);
 
 	$i = 1;
-	$RET = array();
+	$RET = [];
 
 	foreach ( (array) $salaries_RET as $salary )
 	{
@@ -152,33 +152,33 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 		&& AllowEdit()
 		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
-		$columns = array( 'REMOVE' => '<span class="a11y-hidden">' . _( 'Delete' ) . '</span>' );
+		$columns = [ 'REMOVE' => '<span class="a11y-hidden">' . _( 'Delete' ) . '</span>' ];
 	}
 	else
 	{
-		$columns = array();
+		$columns = [];
 	}
 
-	$columns += array(
+	$columns += [
 		'TITLE' => _( 'Salary' ),
 		'AMOUNT' => _( 'Amount' ),
 		'ASSIGNED_DATE' => _( 'Assigned' ),
 		'DUE_DATE' => _( 'Due' ),
 		'COMMENTS' => _( 'Comment' ),
-	);
+	];
 
 	if ( empty( $_REQUEST['print_statements'] )
 		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
-		$columns += array( 'FILE_ATTACHED' => _( 'File Attached' ) );
+		$columns += [ 'FILE_ATTACHED' => _( 'File Attached' ) ];
 	}
 
-	$link = array();
+	$link = [];
 
 	if ( empty( $_REQUEST['print_statements'] )
 		&& AllowEdit() )
 	{
-		$link['add']['html'] = array(
+		$link['add']['html'] = [
 			'REMOVE' => button( 'add' ),
 			'TITLE' => _makeSalariesTextInput( '', 'TITLE' ),
 			'AMOUNT' => _makeSalariesTextInput( '', 'AMOUNT' ),
@@ -186,7 +186,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 			'DUE_DATE' => _makeSalariesDateInput( '', 'DUE_DATE' ),
 			'COMMENTS' => _makeSalariesTextInput( '', 'COMMENTS' ),
 			'FILE_ATTACHED' => _makeSalariesFileInput( '', 'FILE_ATTACHED' ),
-		);
+		];
 	}
 
 	if ( empty( $_REQUEST['print_statements'] ) )
@@ -198,14 +198,14 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 			DrawHeader( '', SubmitButton() );
 		}
 
-		$options = array();
+		$options = [];
 	}
 	else
 	{
-		$options = array( 'center' => false );
+		$options = [ 'center' => false ];
 	}
 
-	ListOutput( $RET, $columns, 'Salary', 'Salaries', $link, array(), $options );
+	ListOutput( $RET, $columns, 'Salary', 'Salaries', $link, [], $options );
 
 	if ( empty( $_REQUEST['print_statements'] )
 		&& AllowEdit() )

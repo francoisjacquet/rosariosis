@@ -56,7 +56,7 @@ if ( ! function_exists( 'DashboardStudentsAdmin' ) )
 		GROUP BY sgl.SHORT_NAME,sgl.SORT_ORDER
 		ORDER BY sgl.SORT_ORDER" );
 
-		$students_gradelevel_data = array();
+		$students_gradelevel_data = [];
 
 		foreach ( $students_RET as $students )
 		{
@@ -67,10 +67,10 @@ if ( ! function_exists( 'DashboardStudentsAdmin' ) )
 
 		if ( ! $students_nb )
 		{
-			return array();
+			return [];
 		}
 
-		$data = array();
+		$data = [];
 
 		// Active students in school.
 		$data[_( 'Students' )] = (int) $students_nb;

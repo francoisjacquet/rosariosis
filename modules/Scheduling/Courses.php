@@ -54,11 +54,11 @@ if ( $_REQUEST['modfunc'] !== 'delete'
 	}
 }
 
-$LO_options = array(
+$LO_options = [
 	'save' => false,
 	'search' => false,
 	'responsive' => false,
-);
+];
 
 if ( isset( $_REQUEST['course_modfunc'] )
 	&& $_REQUEST['course_modfunc'] === 'search' )
@@ -146,7 +146,7 @@ if ( isset( $_REQUEST['course_modfunc'] )
 		//if ( $_REQUEST['modname']=='Scheduling/Schedule.php')
 		calcSeats1( $periods_RET, $date );
 
-		$link = array();
+		$link = [];
 
 		$link['TITLE']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] .
 			'&modfunc=' . $_REQUEST['modfunc'] . '&last_year=' . $_REQUEST['last_year'];
@@ -159,40 +159,40 @@ if ( isset( $_REQUEST['course_modfunc'] )
 				'&month_date=' . $_REQUEST['month_date'] . '&day_date=' . $_REQUEST['day_date'];
 		}
 
-		$link['TITLE']['variables'] = array( 'subject_id' => 'SUBJECT_ID' );
+		$link['TITLE']['variables'] = [ 'subject_id' => 'SUBJECT_ID' ];
 
 		echo '<div class="st">';
 
 		ListOutput(
 			$subjects_RET,
-			array( 'TITLE' => _( 'Subject' ) ),
+			[ 'TITLE' => _( 'Subject' ) ],
 			'Subject',
 			'Subjects',
 			$link,
-			array(),
+			[],
 			$LO_options
 		);
 
-		$link['TITLE']['variables'] = array(
+		$link['TITLE']['variables'] = [
 			'subject_id' => 'SUBJECT_ID',
 			'course_id' => 'COURSE_ID',
-		);
+		];
 
 		echo '</div><div class="st">';
 
 		ListOutput(
 			$courses_RET,
-			array( 'TITLE' => _( 'Course' ) ),
+			[ 'TITLE' => _( 'Course' ) ],
 			'Course',
 			'Courses',
 			$link,
-			array(),
+			[],
 			$LO_options
 		);
 
-		$columns = array( 'TITLE' => _( 'Course Period' ) );
+		$columns = [ 'TITLE' => _( 'Course Period' ) ];
 
-		$link = array();
+		$link = [];
 
 		if ( $_REQUEST['modname'] !== 'Scheduling/Schedule.php'
 			|| ( $_REQUEST['modname'] === 'Scheduling/Schedule.php'
@@ -201,11 +201,11 @@ if ( isset( $_REQUEST['course_modfunc'] )
 			$link['TITLE']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] .
 				'&modfunc=' . $_REQUEST['modfunc'] . '&last_year=' . $_REQUEST['last_year'];
 
-			$link['TITLE']['variables'] = array(
+			$link['TITLE']['variables'] = [
 				'subject_id' => 'SUBJECT_ID',
 				'course_id' => 'COURSE_ID',
 				'course_period_id' => 'COURSE_PERIOD_ID',
-			);
+			];
 
 			if ( $_REQUEST['modfunc'] === 'choose_course' )
 			{
@@ -215,11 +215,11 @@ if ( isset( $_REQUEST['course_modfunc'] )
 		}
 
 		//if ( $_REQUEST['modname']=='Scheduling/Schedule.php')
-		$columns += array(
+		$columns += [
 			'AVAILABLE_SEATS' => ( ! empty( $_REQUEST['include_child_mps'] ) ?
 				_( 'MP' ) . '(' . _( 'Available Seats' ) . ')' :
 				_( 'Available Seats' ) ),
-		);
+		];
 
 		echo '</div><div class="st">';
 
@@ -229,7 +229,7 @@ if ( isset( $_REQUEST['course_modfunc'] )
 			'Course Period',
 			'Course Periods',
 			$link,
-			array(),
+			[],
 			$LO_options
 		);
 
@@ -238,7 +238,7 @@ if ( isset( $_REQUEST['course_modfunc'] )
 }
 
 // FJ days display to locale.
-$days_convert = array(
+$days_convert = [
 	'U' => _( 'Sunday' ),
 	'M' => _( 'Monday' ),
 	'T' => _( 'Tuesday' ),
@@ -246,13 +246,13 @@ $days_convert = array(
 	'H' => _( 'Thursday' ),
 	'F' => _( 'Friday' ),
 	'S' => _( 'Saturday' ),
-);
+];
 
 // FJ days numbered.
 
 if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 {
-	$days_convert = array(
+	$days_convert = [
 		'U' => '7',
 		'M' => '1',
 		'T' => '2',
@@ -260,7 +260,7 @@ if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 		'H' => '4',
 		'F' => '5',
 		'S' => '6',
-	);
+	];
 }
 
 // UPDATING.
@@ -269,12 +269,12 @@ if ( ! empty( $_REQUEST['tables'] )
 	&& $_POST['tables']
 	&& AllowEdit() )
 {
-	$where = array(
+	$where = [
 		'COURSE_SUBJECTS' => 'SUBJECT_ID',
 		'COURSES' => 'COURSE_ID',
 		'COURSE_PERIODS' => 'COURSE_PERIOD_ID',
 		'COURSE_PERIOD_SCHOOL_PERIODS' => 'COURSE_PERIOD_SCHOOL_PERIODS_ID',
-	);
+	];
 
 	if ( isset( $_REQUEST['tables']['parent_id'] ) )
 	{
@@ -302,7 +302,7 @@ if ( ! empty( $_REQUEST['tables'] )
 		}
 	}
 
-	$temp_PERIOD_ID = array();
+	$temp_PERIOD_ID = [];
 
 	foreach ( (array) $_REQUEST['tables'] as $table_name => $tables )
 	{
@@ -553,7 +553,7 @@ if ( ! empty( $_REQUEST['tables'] )
 
 							$other_school_p = DBGet( "SELECT PERIOD_ID,DAYS
 								FROM COURSE_PERIOD_SCHOOL_PERIODS
-								WHERE " . $where['COURSE_PERIODS'] . "='" . $_REQUEST['course_period_id'] . "'", array(), array( 'PERIOD_ID' ) );
+								WHERE " . $where['COURSE_PERIODS'] . "='" . $_REQUEST['course_period_id'] . "'", [], [ 'PERIOD_ID' ] );
 
 							if ( in_array( $columns['PERIOD_ID'], $temp_PERIOD_ID ) || in_array( $columns['PERIOD_ID'], array_keys( $other_school_p ) ) )
 							{
@@ -655,13 +655,13 @@ if ( ! empty( $_REQUEST['tables'] )
 	}
 
 	// Unset tables & redirect URL.
-	RedirectURL( array( 'tables' ) );
+	RedirectURL( [ 'tables' ] );
 }
 
 if ( $_REQUEST['modfunc'] === 'delete'
 	&& AllowEdit() )
 {
-	$delete_sql = array();
+	$delete_sql = [];
 
 	if ( $_REQUEST['course_period_id'] )
 	{
@@ -710,7 +710,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 		}
 
 		// Unset modfunc & ID redirect URL.
-		RedirectURL( array( 'modfunc', $unset_get ) );
+		RedirectURL( [ 'modfunc', $unset_get ] );
 	}
 }
 
@@ -733,11 +733,11 @@ if (  ( ! $_REQUEST['modfunc']
 		if ( ! $subject_RET )
 		{
 			// Unset subject, course & course period IDs & redirect URL.
-			RedirectURL( array(
+			RedirectURL( [
 				'subject_id',
 				'course_id',
 				'course_period_id',
-			) );
+			] );
 		}
 	}
 
@@ -868,7 +868,7 @@ if (  ( ! $_REQUEST['modfunc']
 
 				$title = $RET[1]['TITLE'] . ' - ' . _( 'New Course Period' );
 
-				$RET = array();
+				$RET = [];
 
 				$new = true;
 			}
@@ -901,7 +901,7 @@ if (  ( ! $_REQUEST['modfunc']
 				AND PROFILE='teacher'
 				ORDER BY LAST_NAME,FIRST_NAME" );
 
-			$teachers = array();
+			$teachers = [];
 
 			foreach ( (array) $teachers_RET as $teacher )
 			{
@@ -969,7 +969,7 @@ if (  ( ! $_REQUEST['modfunc']
 
 			//$header .= '<td>' . SelectInput($RET['MP'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][MP]','Length',array('FY' => 'Full Year','SEM' => 'Semester','QTR' => 'Marking Period')) . '</td>';
 			$mp_RET = DBGet( "SELECT MARKING_PERIOD_ID,SHORT_NAME," .
-				db_case( array( 'MP', "'FY'", "'0'", "'SEM'", "'1'", "'QTR'", "'2'" ) ) . " AS TBL
+				db_case( [ 'MP', "'FY'", "'0'", "'SEM'", "'1'", "'QTR'", "'2'" ] ) . " AS TBL
 				FROM SCHOOL_MARKING_PERIODS
 				WHERE (MP='FY' OR MP='SEM' OR MP='QTR')
 				AND SCHOOL_ID='" . UserSchool() . "'
@@ -1013,7 +1013,7 @@ if (  ( ! $_REQUEST['modfunc']
 
 			$header .= '</tr><tr><td colspan="6"><hr /></td></tr>';
 
-			$days = array( 'M', 'T', 'W', 'H', 'F', 'S', 'U' );
+			$days = [ 'M', 'T', 'W', 'H', 'F', 'S', 'U' ];
 
 			// FJ days numbered.
 
@@ -1075,7 +1075,7 @@ if (  ( ! $_REQUEST['modfunc']
 
 				$days_html = '<table class="cellspacing-0"><tr class="st">';
 
-				$day_titles = array();
+				$day_titles = [];
 
 				foreach ( (array) $days as $day )
 				{
@@ -1322,7 +1322,7 @@ if (  ( ! $_REQUEST['modfunc']
 
 				$title = $RET[1]['TITLE'] . ' - ' . _( 'New Course' );
 
-				$RET = array();
+				$RET = [];
 			}
 
 			echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&subject_id=' . $_REQUEST['subject_id'] . '&course_id=' . $_REQUEST['course_id']  ) . '" method="POST">';
@@ -1434,7 +1434,7 @@ if (  ( ! $_REQUEST['modfunc']
 
 			DrawHeader(
 				$choose_a_header_html,
-				_( 'Enrollment Date' ) . ' ' . PrepareDate( $date, '_date', false, array( 'submit' => true ) ),
+				_( 'Enrollment Date' ) . ' ' . PrepareDate( $date, '_date', false, [ 'submit' => true ] ),
 				''
 			);
 
@@ -1479,10 +1479,10 @@ if (  ( ! $_REQUEST['modfunc']
 		}
 	}
 
-	$columns = array( 'TITLE' => _( 'Subject' ) );
-	$link = array();
+	$columns = [ 'TITLE' => _( 'Subject' ) ];
+	$link = [];
 	$link['TITLE']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'];
-	$link['TITLE']['variables'] = array( 'subject_id' => 'SUBJECT_ID' );
+	$link['TITLE']['variables'] = [ 'subject_id' => 'SUBJECT_ID' ];
 
 	if ( $_REQUEST['modfunc'] === 'choose_course' )
 	{
@@ -1506,7 +1506,7 @@ if (  ( ! $_REQUEST['modfunc']
 		'Subject',
 		'Subjects',
 		$link,
-		array(),
+		[],
 		$LO_options
 	);
 
@@ -1532,13 +1532,13 @@ if (  ( ! $_REQUEST['modfunc']
 			}
 		}
 
-		$columns = array( 'TITLE' => _( 'Course' ) );
+		$columns = [ 'TITLE' => _( 'Course' ) ];
 
-		$link = array();
+		$link = [];
 
 		$link['TITLE']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&subject_id=' . $_REQUEST['subject_id'];
 
-		$link['TITLE']['variables'] = array( 'course_id' => 'COURSE_ID' );
+		$link['TITLE']['variables'] = [ 'course_id' => 'COURSE_ID' ];
 
 		if ( $_REQUEST['modfunc'] === 'choose_course' )
 		{
@@ -1562,7 +1562,7 @@ if (  ( ! $_REQUEST['modfunc']
 			'Course',
 			'Courses',
 			$link,
-			array(),
+			[],
 			$LO_options
 		);
 
@@ -1609,9 +1609,9 @@ if (  ( ! $_REQUEST['modfunc']
 				}
 			}
 
-			$columns = array( 'TITLE' => _( 'Course Period' ) );
+			$columns = [ 'TITLE' => _( 'Course Period' ) ];
 
-			$link = array();
+			$link = [];
 
 			if ( $_REQUEST['modname'] !== 'Scheduling/Schedule.php'
 				|| ( $_REQUEST['modname'] === 'Scheduling/Schedule.php'
@@ -1619,7 +1619,7 @@ if (  ( ! $_REQUEST['modfunc']
 			{
 				$link['TITLE']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&subject_id=' . $_REQUEST['subject_id'] . '&course_id=' . $_REQUEST['course_id'];
 
-				$link['TITLE']['variables'] = array( 'course_period_id' => 'COURSE_PERIOD_ID', 'course_marking_period_id' => 'MARKING_PERIOD_ID' );
+				$link['TITLE']['variables'] = [ 'course_period_id' => 'COURSE_PERIOD_ID', 'course_marking_period_id' => 'MARKING_PERIOD_ID' ];
 
 				if ( $_REQUEST['modfunc'] === 'choose_course' )
 				{
@@ -1632,11 +1632,11 @@ if (  ( ! $_REQUEST['modfunc']
 			}
 
 			//if ( $_REQUEST['modname']=='Scheduling/Schedule.php')
-			$columns += array(
+			$columns += [
 				'AVAILABLE_SEATS' => ( ! empty( $_REQUEST['include_child_mps'] ) ?
 					_( 'MP' ) . '(' . _( 'Available Seats' ) . ')' :
 					_( 'Available Seats' ) ),
-			);
+			];
 
 			echo '<div class="st">';
 
@@ -1646,7 +1646,7 @@ if (  ( ! $_REQUEST['modfunc']
 				'Course Period',
 				'Course Periods',
 				$link,
-				array(),
+				[],
 				$LO_options
 			);
 

@@ -110,7 +110,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 		DBQuery( $delete_sql );
 
 		// Unset modfunc & ID & redirect URL.
-		RedirectURL( array( 'modfunc', 'id' ) );
+		RedirectURL( [ 'modfunc', 'id' ] );
 	}
 }
 
@@ -137,7 +137,7 @@ if ( $_REQUEST['modfunc'] === 'waive'
 			DBEscapeString( _( 'Waiver' ) ) . "')" );
 
 		// Unset modfunc & ID & redirect URL.
-		RedirectURL( array( 'modfunc', 'id' ) );
+		RedirectURL( [ 'modfunc', 'id' ] );
 	}
 }
 
@@ -148,21 +148,21 @@ if ( UserStudentID()
 {
 	$fees_total = 0;
 
-	$functions = array(
+	$functions = [
 		'REMOVE' => '_makeFeesRemove',
 		'ASSIGNED_DATE' => 'ProperDate',
 		'DUE_DATE' => '_makeFeesDateInput',
 		'COMMENTS' => '_makeFeesTextInput',
 		'AMOUNT' => '_makeFeesAmount',
 		'FILE_ATTACHED' => '_makeFeesFileInput',
-	);
+	];
 
 	$waived_fees_RET = DBGet( "SELECT '' AS REMOVE,f.ID,f.TITLE,f.ASSIGNED_DATE,
 		f.DUE_DATE,f.COMMENTS,f.AMOUNT,f.WAIVED_FEE_ID,f.FILE_ATTACHED
 		FROM BILLING_FEES f
 		WHERE f.STUDENT_ID='" . UserStudentID() . "'
 		AND f.SYEAR='" . UserSyear() . "'
-		AND f.WAIVED_FEE_ID IS NOT NULL", $functions, array( 'WAIVED_FEE_ID' ) );
+		AND f.WAIVED_FEE_ID IS NOT NULL", $functions, [ 'WAIVED_FEE_ID' ] );
 
 	$fees_RET = DBGet( "SELECT '' AS REMOVE,f.ID,f.TITLE,f.ASSIGNED_DATE,
 		f.DUE_DATE,f.COMMENTS,f.AMOUNT,f.WAIVED_FEE_ID,f.FILE_ATTACHED
@@ -173,7 +173,7 @@ if ( UserStudentID()
 		ORDER BY f.ASSIGNED_DATE", $functions );
 
 	$i = 1;
-	$RET = array();
+	$RET = [];
 
 	foreach ( (array) $fees_RET as $fee )
 	{
@@ -182,41 +182,41 @@ if ( UserStudentID()
 		if ( ! empty( $waived_fees_RET[$fee['ID']] ) )
 		{
 			$i++;
-			$RET[$i] = ( $waived_fees_RET[$fee['ID']][1] + array( 'row_color' => '00FF66' ) );
+			$RET[$i] = ( $waived_fees_RET[$fee['ID']][1] + [ 'row_color' => '00FF66' ] );
 		}
 
 		$i++;
 	}
 
-	$columns = array();
+	$columns = [];
 
 	if ( ! empty( $RET )
 		&& empty( $_REQUEST['print_statements'] )
 		&& AllowEdit()
 		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
-		$columns = array( 'REMOVE' => '<span class="a11y-hidden">' . _( 'Delete' ) . '</span>' );
+		$columns = [ 'REMOVE' => '<span class="a11y-hidden">' . _( 'Delete' ) . '</span>' ];
 	}
 
-	$columns += array(
+	$columns += [
 		'TITLE' => _( 'Fee' ),
 		'AMOUNT' => _( 'Amount' ),
 		'ASSIGNED_DATE' => _( 'Assigned' ),
 		'DUE_DATE' => _( 'Due' ),
 		'COMMENTS' => _( 'Comment' ),
-	);
+	];
 
 	if ( empty( $_REQUEST['print_statements'] )
 		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
-		$columns += array( 'FILE_ATTACHED' => _( 'File Attached' ) );
+		$columns += [ 'FILE_ATTACHED' => _( 'File Attached' ) ];
 	}
 
-	$link = array();
+	$link = [];
 
 	if ( empty( $_REQUEST['print_statements'] ) )
 	{
-		$link['add']['html'] = array(
+		$link['add']['html'] = [
 			'REMOVE' => button( 'add' ),
 			'TITLE' => _makeFeesTextInput( '', 'TITLE' ),
 			'AMOUNT' => _makeFeesTextInput( '', 'AMOUNT' ),
@@ -224,7 +224,7 @@ if ( UserStudentID()
 			'DUE_DATE' => _makeFeesDateInput( '', 'DUE_DATE' ),
 			'COMMENTS' => _makeFeesTextInput( '', 'COMMENTS' ),
 			'FILE_ATTACHED' => _makeFeesFileInput( '', 'FILE_ATTACHED' ),
-		);
+		];
 	}
 
 	if ( empty( $_REQUEST['print_statements'] ) )
@@ -237,17 +237,17 @@ if ( UserStudentID()
 			DrawHeader( '', SubmitButton() );
 		}
 
-		$options = array();
+		$options = [];
 	}
 	else
 	{
-		$options = array( 'center' => false );
+		$options = [ 'center' => false ];
 	}
 
 	// Do hook.
 	do_action( 'Student_Billing/StudentFees.php|student_fees_header' );
 
-	ListOutput( $RET, $columns, 'Fee', 'Fees', $link, array(), $options );
+	ListOutput( $RET, $columns, 'Fee', 'Fees', $link, [], $options );
 
 	if ( empty( $_REQUEST['print_statements'] )
 		&& AllowEdit() )

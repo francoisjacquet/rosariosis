@@ -18,12 +18,12 @@ if ( User( 'PROFILE' ) === 'admin' )
 
 	if ( $_REQUEST['modfunc'] === 'save' )
 	{
-		$values = array(
+		$values = [
 			'parent' => $_REQUEST['parent'],
-			'address' => issetVal( $_REQUEST['address'], array() ),
-			'contact' => issetVal( $_REQUEST['contact'], array() ),
-			'student' => issetVal( $_REQUEST['student'], array() ),
-		);
+			'address' => issetVal( $_REQUEST['address'], [] ),
+			'contact' => issetVal( $_REQUEST['contact'], [] ),
+			'student' => issetVal( $_REQUEST['student'], [] ),
+		];
 
 		if ( RegistrationFormConfigSave( $values ) )
 		{
@@ -31,7 +31,7 @@ if ( User( 'PROFILE' ) === 'admin' )
 		}
 
 		// Delete modfunc, values & redirect URL.
-		RedirectURL( array( 'modfunc', 'parent', 'address', 'contact', 'student' ) );
+		RedirectURL( [ 'modfunc', 'parent', 'address', 'contact', 'student' ] );
 	}
 
 	if ( $_REQUEST['modfunc'] === 'preview' )
@@ -95,12 +95,12 @@ else
 		// Add eventual Dates to $_REQUEST['students'].
 		AddRequestedDates( 'students' );
 
-		$values = array(
-			'parent' => issetVal( $_REQUEST['parent'], array() ),
-			'address' => issetVal( $_REQUEST['address'], array() ),
-			'contact' => issetVal( $_REQUEST['contact'], array() ),
-			'student' => issetVal( $_REQUEST['students'], array() ),
-		);
+		$values = [
+			'parent' => issetVal( $_REQUEST['parent'], [] ),
+			'address' => issetVal( $_REQUEST['address'], [] ),
+			'contact' => issetVal( $_REQUEST['contact'], [] ),
+			'student' => issetVal( $_REQUEST['students'], [] ),
+		];
 
 		$config = RegistrationFormConfig();
 
@@ -138,7 +138,7 @@ else
 		}
 
 		// Delete modfunc, values & redirect URL.
-		RedirectURL( array( 'modfunc', 'parent', 'address', 'contact', 'student' ) );
+		RedirectURL( [ 'modfunc', 'parent', 'address', 'contact', 'student' ] );
 	}
 
 	// Student check.

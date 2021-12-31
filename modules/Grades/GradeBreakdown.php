@@ -10,7 +10,7 @@ if ( empty( $_REQUEST['mp_id'] ) )
 	$_REQUEST['mp_id'] = UserMP();
 }
 
-$chart_types = array( 'line', 'bar', 'list' );
+$chart_types = [ 'line', 'bar', 'list' ];
 
 // Set Chart Type.
 if ( ! isset( $_REQUEST['chart_type'] )
@@ -81,7 +81,7 @@ $grouped_sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,s.STAFF_ID,g.R
 	AND g.MARKING_PERIOD_ID='" . $_REQUEST['mp_id'] . "'
 	ORDER BY FULL_NAME";
 
-$grouped_RET = DBGet( $grouped_sql, array(), array( 'STAFF_ID', 'REPORT_CARD_GRADE_ID' ) );
+$grouped_RET = DBGet( $grouped_sql, [], [ 'STAFF_ID', 'REPORT_CARD_GRADE_ID' ] );
 
 $grades_RET = DBGet( "SELECT rg.ID,rg.TITLE,rg.GPA_VALUE
 	FROM REPORT_CARD_GRADES rg,REPORT_CARD_GRADE_SCALES rs
@@ -95,26 +95,26 @@ if ( $grouped_RET )
 {
 	echo '<br />';
 
-	$tabs = array(
-		array(
+	$tabs = [
+		[
 			'title' => _( 'Line' ),
-			'link' => PreparePHP_SELF( $_REQUEST, array(), array( 'chart_type' => 'line' ) ),
-		)
-	);
+			'link' => PreparePHP_SELF( $_REQUEST, [], [ 'chart_type' => 'line' ] ),
+		]
+	];
 
 	// Allow bar chart only if grades count <=21.
 	if ( empty( $grades_RET ) || count( $grades_RET ) <= 21 )
 	{
-		$tabs[] = array(
+		$tabs[] = [
 			'title' => _( 'Column' ),
-			'link' => PreparePHP_SELF( $_REQUEST, array(), array( 'chart_type' => 'bar' ) ),
-		);
+			'link' => PreparePHP_SELF( $_REQUEST, [], [ 'chart_type' => 'bar' ] ),
+		];
 	}
 
-	$tabs[] = array(
+	$tabs[] = [
 		'title' => _( 'List' ),
-		'link' => PreparePHP_SELF( $_REQUEST, array(), array( 'chart_type' => 'list' ) ),
-	);
+		'link' => PreparePHP_SELF( $_REQUEST, [], [ 'chart_type' => 'list' ] ),
+	];
 
 	$_ROSARIO['selected_tab'] = PreparePHP_SELF( $_REQUEST );
 
@@ -123,7 +123,7 @@ if ( $grouped_RET )
 	// List.
 	if ( $_REQUEST['chart_type'] === 'list' )
 	{
-		$LO_columns = array( 'GRADES' => _( 'Grades' ) );
+		$LO_columns = [ 'GRADES' => _( 'Grades' ) ];
 
 		$i = $j = 0;
 
@@ -151,14 +151,14 @@ if ( $grouped_RET )
 
 		$LO_options['responsive'] = false;
 
-		ListOutput( $teachers_RET, $LO_columns, 'Grade', 'Grades', array(), array(), $LO_options );
+		ListOutput( $teachers_RET, $LO_columns, 'Grade', 'Grades', [], [], $LO_options );
 	}
 	// Chart.js charts.
 	else
 	{
 		foreach ( (array) $grouped_RET as $staff_id => $grades )
 		{
-			$chart_data = array();
+			$chart_data = [];
 
 			$chart_title = $grades[key($grades)][1]['FULL_NAME'] . ' - ' . $user_mp_title . ' - ' . _( 'Grade Breakdown' );
 

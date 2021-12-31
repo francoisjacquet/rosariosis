@@ -96,7 +96,7 @@ if ( ! empty( $_REQUEST['period_id'] ) )
 				ORDER BY SORT_ORDER" );
 		}
 
-		$period_ids_list = array();
+		$period_ids_list = [];
 
 		foreach ( (array) $period_ids_RET as $period_id )
 		{
@@ -152,7 +152,7 @@ else
 
 $extra['link']['FULL_NAME']['link'] = PreparePHP_SELF();
 
-$extra['link']['FULL_NAME']['variables'] = array( 'student_id' => 'STUDENT_ID' );
+$extra['link']['FULL_NAME']['variables'] = [ 'student_id' => 'STUDENT_ID' ];
 
 Widgets( 'course' );
 
@@ -192,9 +192,9 @@ if ( $is_student_report )
 	AND ap.SCHOOL_DATE BETWEEN '" . $start_date . "'
 	AND '" . $end_date . "'
 	AND ad.SYEAR='" . UserSyear() . "'
-	ORDER BY ap.SCHOOL_DATE", array(), array( 'SCHOOL_DATE', 'PERIOD_ID' ) );
+	ORDER BY ap.SCHOOL_DATE", [], [ 'SCHOOL_DATE', 'PERIOD_ID' ] );
 
-	$days_RET = array();
+	$days_RET = [];
 
 	$i = 0;
 

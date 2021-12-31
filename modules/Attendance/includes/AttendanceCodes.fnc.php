@@ -26,7 +26,7 @@ function MakeAttendanceCode( $state_code, $name = '', $title = '' )
 		return '';
 	}
 
-	$attendance_codes_locale = array(
+	$attendance_codes_locale = [
 		// Attendance codes.
 		'P' => _( 'Present' ),
 		'A' => _( 'Absent' ),
@@ -35,9 +35,9 @@ function MakeAttendanceCode( $state_code, $name = '', $title = '' )
 		'1.0' => _( 'Present' ),
 		'0.0' => _( 'Absent' ),
 		'0.5' => _( 'Half Day' ),
-	);
+	];
 
-	$attendance_code_classes = array(
+	$attendance_code_classes = [
 		// Attendance codes.
 		'P' => 'present',
 		'A' => 'absent',
@@ -46,7 +46,7 @@ function MakeAttendanceCode( $state_code, $name = '', $title = '' )
 		'1.0' => 'present',
 		'0.0' => 'absent',
 		'0.5' => 'half-day',
-	);
+	];
 
 	$class = 'attendance-code';
 

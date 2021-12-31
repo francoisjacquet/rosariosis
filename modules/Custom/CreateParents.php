@@ -140,7 +140,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 			AND SYEAR=ssm.SYEAR
 			LIMIT 1) AS STAFF_ID";
 		$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
-		$extra['group'] = array( 'EMAIL' );
+		$extra['group'] = [ 'EMAIL' ];
 		$extra['addr'] = true;
 		$extra['STUDENTS_JOIN_ADDRESS'] = "AND sam.RESIDENCE='Y'";
 
@@ -224,16 +224,16 @@ if ( $_REQUEST['modfunc'] === 'save'
 					else
 					{
 						$id = true;
-						$staff = array(
-							1 => array(
+						$staff = [
+							1 => [
 								'NAME' => DisplayName(
 									$user['FIRST_NAME'],
 									$user['LAST_NAME'],
 									$user['MIDDLE_NAME']
 								),
 								'USERNAME' => $username,
-							),
-						);
+							],
+						];
 					}
 
 					$account = 'new';
@@ -283,13 +283,13 @@ if ( $_REQUEST['modfunc'] === 'save'
 				$student_list .= str_replace( '&nbsp;', ' ', $student['FULL_NAME'] ) . "\r";
 			}
 
-			$substitutions = array(
+			$substitutions = [
 				'__PARENT_NAME__' => $staff['NAME'],
 				'__ASSOCIATED_STUDENTS__' => $student_list,
 				'__SCHOOL_ID__' => SchoolInfo( 'TITLE' ),
 				'__USERNAME__' => $staff['USERNAME'],
 				'__PASSWORD__' => $password,
-			);
+			];
 
 			$msg = SubstitutionsTextMake( $substitutions, $message[$account] );
 
@@ -309,14 +309,14 @@ if ( $_REQUEST['modfunc'] === 'save'
 			$RET[$email][1]['RESULT'] = $result ? _( 'Success' ) : _( 'Fail' );
 		}
 
-		$columns = array(
+		$columns = [
 			'FULL_NAME' => _( 'Student' ),
 			'PARENT' => _( 'Parent' ),
 			'USERNAME' => _( 'Username' ),
 			'PASSWORD' => _( 'Password' ),
 			'EMAIL' => _( 'Email' ),
 			'RESULT' => _( 'Result' ),
-		);
+		];
 
 		ListOutput(
 			$RET,
@@ -324,19 +324,19 @@ if ( $_REQUEST['modfunc'] === 'save'
 			'Creation Result',
 			'Creation Results',
 			false,
-			array( 'EMAIL' ),
-			array( 'save' => false, 'search' => false )
+			[ 'EMAIL' ],
+			[ 'save' => false, 'search' => false ]
 		);
 
 		// Unset student, contact & redirect URL.
-		RedirectURL( array( 'student', 'contact' ) );
+		RedirectURL( [ 'student', 'contact' ] );
 	}
 	else
 	{
 		$error[] = _( 'You must choose at least one student.' );
 
 		// Unset modfunc, student, contact & redirect URL.
-		RedirectURL( array( 'modfunc', 'student', 'contact' ) );
+		RedirectURL( [ 'modfunc', 'student', 'contact' ] );
 	}
 
 	// Reset $email_column var.
@@ -388,13 +388,13 @@ if ( ! $_REQUEST['modfunc'] && ! empty( $email_column ) )
 			'inputcreateparentstext_old'
 		) . '<br /><br /></td></tr>';
 
-		$substitutions = array(
+		$substitutions = [
 			'__PARENT_NAME__' => _( 'Parent Name' ),
 			'__ASSOCIATED_STUDENTS__' => _( 'Associated Students' ),
 			'__SCHOOL_ID__' => _( 'School' ),
 			'__USERNAME__' => _( 'Username' ),
 			'__PASSWORD__' => _( 'Password' ),
-		);
+		];
 
 		$extra['extra_header_left'] .= '<tr class="st"><td class="valign-top">' .
 			SubstitutionsInput( $substitutions ) .
@@ -428,15 +428,15 @@ if ( ! $_REQUEST['modfunc'] && ! empty( $email_column ) )
 		LIMIT 1) AS HAS_ASSOCIATED_PARENTS";
 	//$extra['WHERE'] = " AND " . $email_column . " IS NOT NULL";
 
-	$extra['link'] = array( 'FULL_NAME' => false );
-	$extra['functions'] = array(
+	$extra['link'] = [ 'FULL_NAME' => false ];
+	$extra['functions'] = [
 		'CHECKBOX' => '_makeChooseCheckbox',
 		'CONTACT' => '_makeContactSelect',
 		'EMAIL' => '_makeEmail',
-	);
-	$extra['columns_before'] = array( 'CHECKBOX' => MakeChooseCheckbox( '', '', 'student' ) );
-	$extra['columns_after'] = array( 'EMAIL' => _( 'Email' ), 'CONTACT' => _( 'Contact' ) );
-	$extra['LO_group'] = $extra['group'] = array( 'EMAIL' );
+	];
+	$extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( '', '', 'student' ) ];
+	$extra['columns_after'] = [ 'EMAIL' => _( 'Email' ), 'CONTACT' => _( 'Contact' ) ];
+	$extra['LO_group'] = $extra['group'] = [ 'EMAIL' ];
 	$extra['addr'] = true;
 	$extra['SELECT'] .= ",a.ADDRESS_ID";
 

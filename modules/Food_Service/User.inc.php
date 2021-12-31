@@ -24,7 +24,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 	// $_REQUEST['modfunc'] = false;
 
 	// Unset food service & redirect URL.
-	RedirectURL( array( 'food_service' ) );
+	RedirectURL( [ 'food_service' ] );
 }
 
 if ( ! $_REQUEST['modfunc']
@@ -68,7 +68,7 @@ if ( ! $_REQUEST['modfunc']
 
 	echo '<table class="width-100p">';
 	echo '<tr>';
-	$options = array( 'Inactive' => _( 'Inactive' ), 'Disabled' => _( 'Disabled' ), 'Closed' => _( 'Closed' ) );
+	$options = [ 'Inactive' => _( 'Inactive' ), 'Disabled' => _( 'Disabled' ), 'Closed' => _( 'Closed' ) ];
 	echo '<td>' . ( $staff['ACCOUNT_ID'] ? SelectInput( $staff['STATUS'], 'food_service[STATUS]', _( 'Status' ), $options, _( 'Active' ) ) : NoInput( '-', _( 'Status' ) ) ) . '</td>';
 	echo '<td>' . ( $staff['ACCOUNT_ID'] ? TextInput( $staff['BARCODE'], 'food_service[BARCODE]', _( 'Barcode' ), 'size=12 maxlength=25' ) : NoInput( '-', _( 'Barcode' ) ) ) . '</td>';
 	echo '</tr>';

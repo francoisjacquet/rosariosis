@@ -122,10 +122,10 @@ if ( mb_strpos( $extra['FROM'], 'STUDENT_MP_STATS sms' ) === false )
 	$extra['WHERE'] .= " AND sms.STUDENT_ID=ssm.STUDENT_ID AND sms.MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'";
 }
 
-$extra['columns_after'] = array( 'CUM_UNWEIGHTED_FACTOR' => _( 'Unweighted GPA' ), 'CUM_WEIGHTED_FACTOR' => _( 'Weighted GPA' ), 'CUM_RANK' => _( 'Class Rank' ) );
+$extra['columns_after'] = [ 'CUM_UNWEIGHTED_FACTOR' => _( 'Unweighted GPA' ), 'CUM_WEIGHTED_FACTOR' => _( 'Weighted GPA' ), 'CUM_RANK' => _( 'Class Rank' ) ];
 $extra['link']['FULL_NAME'] = false;
 $extra['new'] = true;
-$extra['functions'] = array( 'CUM_UNWEIGHTED_FACTOR' => '_roundGPA', 'CUM_WEIGHTED_FACTOR' => '_roundGPA' );
+$extra['functions'] = [ 'CUM_UNWEIGHTED_FACTOR' => '_roundGPA', 'CUM_WEIGHTED_FACTOR' => '_roundGPA' ];
 $extra['ORDER_BY'] = 'GRADE_ID, CUM_RANK';
 
 // Parent: associated students.

@@ -103,7 +103,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 			WHERE ID='" . $_REQUEST['id'] . "'" );
 
 		// Unset modfunc & ID & redirect URL.
-		RedirectURL( array( 'modfunc', 'id' ) );
+		RedirectURL( [ 'modfunc', 'id' ] );
 	}
 }
 
@@ -111,13 +111,13 @@ if ( ! $_REQUEST['modfunc'] )
 {
 	$incomes_total = 0;
 
-	$functions = array(
+	$functions = [
 		'REMOVE' => '_makeIncomesRemove',
 		'ASSIGNED_DATE' => 'ProperDate',
 		'COMMENTS' => '_makeIncomesTextInput',
 		'AMOUNT' => '_makeIncomesAmount',
 		'FILE_ATTACHED' => '_makeIncomesFileInput',
-	);
+	];
 
 	$incomes_RET = DBGet( "SELECT '' AS REMOVE,f.ID,f.TITLE,f.ASSIGNED_DATE,f.COMMENTS,
 		f.AMOUNT,f.FILE_ATTACHED
@@ -127,7 +127,7 @@ if ( ! $_REQUEST['modfunc'] )
 		ORDER BY f.ASSIGNED_DATE", $functions );
 
 	$i = 1;
-	$RET = array();
+	$RET = [];
 
 	foreach ( (array) $incomes_RET as $income )
 	{
@@ -140,36 +140,36 @@ if ( ! $_REQUEST['modfunc'] )
 		&& AllowEdit()
 		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
-		$columns = array( 'REMOVE' => '<span class="a11y-hidden">' . _( 'Delete' ) . '</span>' );
+		$columns = [ 'REMOVE' => '<span class="a11y-hidden">' . _( 'Delete' ) . '</span>' ];
 	}
 	else
 	{
-		$columns = array();
+		$columns = [];
 	}
 
-	$columns += array(
+	$columns += [
 		'TITLE' => _( 'Income' ),
 		'AMOUNT' => _( 'Amount' ),
 		'ASSIGNED_DATE' => _( 'Assigned' ),
 		'COMMENTS' => _( 'Comment' ),
-	);
+	];
 
 	if ( empty( $_REQUEST['print_statements'] )
 		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
-		$columns += array( 'FILE_ATTACHED' => _( 'File Attached' ) );
+		$columns += [ 'FILE_ATTACHED' => _( 'File Attached' ) ];
 	}
 
 	if ( empty( $_REQUEST['print_statements'] ) )
 	{
-		$link['add']['html'] = array(
+		$link['add']['html'] = [
 			'REMOVE' => button( 'add' ),
 			'TITLE' => _makeIncomesTextInput( '', 'TITLE' ),
 			'AMOUNT' => _makeIncomesTextInput( '', 'AMOUNT' ),
 			'ASSIGNED_DATE' => _makeIncomesDateInput( DBDate(), 'ASSIGNED_DATE' ),
 			'COMMENTS' => _makeIncomesTextInput( '', 'COMMENTS' ),
 			'FILE_ATTACHED' => _makeIncomesFileInput( '', 'FILE_ATTACHED' ),
-		);
+		];
 	}
 
 	if ( empty( $_REQUEST['print_statements'] ) )
@@ -181,14 +181,14 @@ if ( ! $_REQUEST['modfunc'] )
 			DrawHeader( '', SubmitButton() );
 		}
 
-		$options = array();
+		$options = [];
 	}
 	else
 	{
-		$options = array( 'center' => false );
+		$options = [ 'center' => false ];
 	}
 
-	ListOutput( $RET, $columns, 'Income', 'Incomes', $link, array(), $options );
+	ListOutput( $RET, $columns, 'Income', 'Incomes', $link, [], $options );
 
 	if ( ! $_REQUEST['print_statements']
 		&& AllowEdit() )

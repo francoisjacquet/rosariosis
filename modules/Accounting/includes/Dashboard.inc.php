@@ -51,7 +51,7 @@ if ( ! function_exists( 'DashboardAccountingAdmin' ) )
 			AND SCHOOL_ID='" . UserSchool() . "'
 			GROUP BY YEAR_MONTH
 			ORDER BY YEAR_MONTH DESC
-			LIMIT 2", array(), array( 'YEAR_MONTH' ) );
+			LIMIT 2", [], [ 'YEAR_MONTH' ] );
 
 		$expenses_RET = DBGet( "SELECT TO_CHAR(PAYMENT_DATE,'YYYY-MM') AS YEAR_MONTH,
 			SUM(CASE WHEN STAFF_ID IS NULL THEN AMOUNT END) AS TOTAL_EXPENSES
@@ -60,7 +60,7 @@ if ( ! function_exists( 'DashboardAccountingAdmin' ) )
 			AND SCHOOL_ID='" . UserSchool() . "'
 			GROUP BY YEAR_MONTH
 			ORDER BY YEAR_MONTH DESC
-			LIMIT 2", array(), array( 'YEAR_MONTH' ) );
+			LIMIT 2", [], [ 'YEAR_MONTH' ] );
 
 		$staff_payments_RET = DBGet( "SELECT TO_CHAR(PAYMENT_DATE,'YYYY-MM') AS YEAR_MONTH,
 			SUM(CASE WHEN STAFF_ID IS NOT NULL THEN AMOUNT END) AS TOTAL_STAFF
@@ -69,7 +69,7 @@ if ( ! function_exists( 'DashboardAccountingAdmin' ) )
 			AND SCHOOL_ID='" . UserSchool() . "'
 			GROUP BY YEAR_MONTH
 			ORDER BY YEAR_MONTH DESC
-			LIMIT 2", array(), array( 'YEAR_MONTH' ) );
+			LIMIT 2", [], [ 'YEAR_MONTH' ] );
 
 		$student_payments_RET = DBGet( "SELECT TO_CHAR(PAYMENT_DATE,'YYYY-MM') AS YEAR_MONTH,
 			SUM(AMOUNT) AS TOTAL_STUDENT_PAYMENTS
@@ -78,7 +78,7 @@ if ( ! function_exists( 'DashboardAccountingAdmin' ) )
 			AND SCHOOL_ID='" . UserSchool() . "'
 			GROUP BY YEAR_MONTH
 			ORDER BY YEAR_MONTH DESC
-			LIMIT 2", array(), array( 'YEAR_MONTH' ) );
+			LIMIT 2", [], [ 'YEAR_MONTH' ] );
 
 		$accounting_RET = array_replace_recursive( $incomes_RET, $expenses_RET, $staff_payments_RET, $student_payments_RET );
 
@@ -118,7 +118,7 @@ if ( ! function_exists( 'DashboardAccountingAdmin' ) )
 			$proper_date = ProperDate( $year_month . '-29' );
 
 			// Remove dummy day from proper date.
-			$proper_month_year = str_replace( array( '/29', ' 29' ), '', $proper_date );
+			$proper_month_year = str_replace( [ '/29', ' 29' ], '', $proper_date );
 
 			$month_balance = 0;
 
@@ -174,7 +174,7 @@ if ( ! function_exists( 'DashboardAccountingAdmin' ) )
 			$accounting_data[$month_key] = mb_substr( $accounting_data_month, 0, ( mb_strlen( $accounting_data_month ) - 6 ) );
 		}
 
-		$data = array();
+		$data = [];
 
 		if ( $general_balance
 			|| count( $accounting_data ) > 1 )

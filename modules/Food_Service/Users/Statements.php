@@ -11,9 +11,9 @@ $extra['SELECT'] .= ",(SELECT coalesce(STATUS,'" . DBEscapeString( _( 'Active' )
 
 $extra['SELECT'] .= ",(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE";
 
-$extra['functions'] += array( 'BALANCE' => 'red' );
+$extra['functions'] += [ 'BALANCE' => 'red' ];
 
-$extra['columns_after'] = array( 'BALANCE' => _( 'Balance' ), 'STATUS' => _( 'Status' ) );
+$extra['columns_after'] = [ 'BALANCE' => _( 'Balance' ), 'STATUS' => _( 'Status' ) ];
 
 Search( 'staff_id', $extra );
 
@@ -47,11 +47,11 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 
 	if ( $_REQUEST['detailed_view'] != 'true' )
 	{
-		DrawHeader( "<a href=" . PreparePHP_SELF( $_REQUEST, array(), array( 'detailed_view' => 'true' ) ) . ">" . _( 'Detailed View' ) . "</a>" );
+		DrawHeader( "<a href=" . PreparePHP_SELF( $_REQUEST, [], [ 'detailed_view' => 'true' ] ) . ">" . _( 'Detailed View' ) . "</a>" );
 	}
 	else
 	{
-		DrawHeader( "<a href=" . PreparePHP_SELF( $_REQUEST, array(), array( 'detailed_view' => 'false' ) ) . ">" . _( 'Original View' ) . "</a>" );
+		DrawHeader( "<a href=" . PreparePHP_SELF( $_REQUEST, [], [ 'detailed_view' => 'false' ] ) . ">" . _( 'Original View' ) . "</a>" );
 	}
 
 	if ( $staff['ACCOUNT_ID'] && $staff['BALANCE'] != '' )
@@ -68,18 +68,18 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 			$RET = DBGet( "SELECT fst.TRANSACTION_ID AS TRANS_ID,fst.TRANSACTION_ID,
 			(SELECT sum(AMOUNT) FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
 			fst.STAFF_ID,fst.BALANCE,fst.TIMESTAMP AS DATE,fst.DESCRIPTION," .
-				db_case( array(
+				db_case( [
 					'fst.SELLER_ID',
 					"''",
 					'NULL',
 					"(SELECT " . DisplayNameSQL() . " FROM STAFF WHERE STAFF_ID=fst.SELLER_ID)",
-				) ) . " AS SELLER
+				] ) . " AS SELLER
 			FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst
 			WHERE fst.STAFF_ID='" . UserStaffID() . "'
 			AND fst.SYEAR='" . UserSyear() . "'
 			AND fst.TIMESTAMP BETWEEN '" . $start_date . "'	AND date '" . $end_date . "' +1" .
 				$where . "
-			ORDER BY fst.TRANSACTION_ID DESC", array( 'DATE' => 'ProperDateTime', 'BALANCE' => 'red' ) );
+			ORDER BY fst.TRANSACTION_ID DESC", [ 'DATE' => 'ProperDateTime', 'BALANCE' => 'red' ] );
 
 			foreach ( (array) $RET as $RET_key => $RET_val )
 			{
@@ -98,30 +98,30 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 				}
 
 				// merge transaction and detail records
-				$RET[$key] = array( $RET[$key] ) + $tmpRET;
+				$RET[$key] = [ $RET[$key] ] + $tmpRET;
 			}
 
-			$columns = array(
+			$columns = [
 				'TRANSACTION_ID' => _( 'ID' ),
 				'DATE' => _( 'Date' ),
 				'BALANCE' => _( 'Balance' ),
 				'DESCRIPTION' => _( 'Description' ),
 				'AMOUNT' => _( 'Amount' ),
 				'SELLER' => _( 'User' ),
-			);
+			];
 
-			$group = array( array( 'TRANSACTION_ID' ) );
+			$group = [ [ 'TRANSACTION_ID' ] ];
 
 			$link['remove']['link'] = PreparePHP_SELF(
 				$_REQUEST,
-				array( 'delete_cancel' ),
-				array( 'modfunc' => 'delete' )
+				[ 'delete_cancel' ],
+				[ 'modfunc' => 'delete' ]
 			);
 
-			$link['remove']['variables'] = array(
+			$link['remove']['variables'] = [
 				'transaction_id' => 'TRANS_ID',
 				'item_id' => 'ITEM_ID',
-			);
+			];
 		}
 		else
 		{
@@ -133,28 +133,28 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 			AND SYEAR='" . UserSyear() . "'
 			AND fst.TIMESTAMP BETWEEN '" . $start_date . "' AND date '" . $end_date . "' +1" .
 				$where . "
-			ORDER BY fst.TRANSACTION_ID DESC", array( 'DATE' => 'ProperDateTime', 'BALANCE' => 'red' ) );
+			ORDER BY fst.TRANSACTION_ID DESC", [ 'DATE' => 'ProperDateTime', 'BALANCE' => 'red' ] );
 
-			$columns = array(
+			$columns = [
 				'TRANSACTION_ID' => _( 'ID' ),
 				'DATE' => _( 'Date' ),
 				'BALANCE' => _( 'Balance' ),
 				'DESCRIPTION' => _( 'Description' ),
 				'AMOUNT' => _( 'Amount' ),
-			);
+			];
 
 			foreach ( (array) $RET as $RET_key => $RET_val )
 			{
 				$RET[$RET_key] = array_map( 'types_locale', $RET_val );
 			}
 
-			$link = $group = array();
+			$link = $group = [];
 		}
 
 		ListOutput( $RET, $columns, 'Transaction', 'Transactions', $link, $group );
 	}
 	else
 	{
-		echo ErrorMessage( array( _( 'This user does not have a Meal Account.' ) ) );
+		echo ErrorMessage( [ _( 'This user does not have a Meal Account.' ) ] );
 	}
 }

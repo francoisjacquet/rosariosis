@@ -45,7 +45,7 @@ function RegistrationSave( $config, $values )
 		elseif ( $config_parent['address'] == '2' )
 		{
 			// New Address.
-			$contact_address_id = RegistrationSaveAddress( array(), issetVal( $values['parent'][ $id ]['address'] ) );
+			$contact_address_id = RegistrationSaveAddress( [], issetVal( $values['parent'][ $id ]['address'] ) );
 		}
 
 		RegistrationSaveJoinContact(
@@ -65,7 +65,7 @@ function RegistrationSave( $config, $values )
 
 		$values['contact'][ $id ]['fields'] = FilterCustomFieldsMarkdown( 'PEOPLE_FIELDS', 'contact', $id, 'fields' );
 
-		$contact_id = RegistrationSaveContact( array(), issetVal( $values['contact'][ $id ] ) );
+		$contact_id = RegistrationSaveContact( [], issetVal( $values['contact'][ $id ] ) );
 
 		$contact_address_id = 0;
 
@@ -167,7 +167,7 @@ function RegistrationSaveStudent( $config, $values )
 
 	$custom_fields_RET = DBGet( "SELECT ID
 		FROM CUSTOM_FIELDS
-		WHERE CATEGORY_ID IN(" . $category_ids . ")", array(), array( 'ID' ) );
+		WHERE CATEGORY_ID IN(" . $category_ids . ")", [], [ 'ID' ] );
 
 	$allowed_columns = array_keys( $custom_fields_RET );
 
@@ -220,7 +220,7 @@ function RegistrationSaveStudent( $config, $values )
  */
 function RegistrationSaveAddress( $config, $values )
 {
-	static $inserted_addresses = array();
+	static $inserted_addresses = [];
 
 	if ( empty( $values['ADDRESS'] ) )
 	{
@@ -288,22 +288,22 @@ function RegistrationSaveJoinAddress( $address_id )
 	static $inserted_address;
 
 	// Contact Address.
-	$students_join_address = array(
+	$students_join_address = [
 		'MAILING' => '',
 		'RESIDENCE' => '',
 		'BUS_PICKUP' => '',
 		'BUS_DROPOFF' => '',
-	);
+	];
 
 	if ( empty( $inserted_address ) )
 	{
 		// Your Address.
-		$students_join_address = array(
+		$students_join_address = [
 			'MAILING' => 'Y',
 			'RESIDENCE' => 'Y',
 			'BUS_PICKUP' => ProgramConfig( 'students', 'STUDENTS_USE_BUS' ),
 			'BUS_DROPOFF' => ProgramConfig( 'students', 'STUDENTS_USE_BUS' ),
-		);
+		];
 
 		$inserted_address = true;
 	}

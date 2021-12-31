@@ -41,7 +41,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 		DeleteTransaction( $_REQUEST['id'], $_REQUEST['type'] );
 
 		// Unset modfunc & ID redirect URL.
-		RedirectURL( array( 'modfunc', 'id' ) );
+		RedirectURL( [ 'modfunc', 'id' ] );
 	}
 }
 

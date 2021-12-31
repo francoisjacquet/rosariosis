@@ -9,7 +9,7 @@ DrawHeader( ProgramTitle() );
 $menus_RET = DBGet( "SELECT MENU_ID,TITLE
 	FROM FOOD_SERVICE_MENUS
 	WHERE SCHOOL_ID='" . UserSchool() . "'
-	ORDER BY SORT_ORDER", array(), array( 'MENU_ID' ) );
+	ORDER BY SORT_ORDER", [], [ 'MENU_ID' ] );
 
 if ( ! empty( $_REQUEST['menu_id'] ) )
 {
@@ -25,7 +25,7 @@ if ( ! empty( $_REQUEST['menu_id'] ) )
 		}
 		else
 		{
-			ErrorMessage( array( _( 'There are no menus yet setup.' ) ), 'fatal' );
+			ErrorMessage( [ _( 'There are no menus yet setup.' ) ], 'fatal' );
 		}
 	}
 	elseif ( ! empty( $menus_RET ) )
@@ -34,7 +34,7 @@ if ( ! empty( $_REQUEST['menu_id'] ) )
 	}
 	else
 	{
-		ErrorMessage( array( _( 'There are no menus yet setup.' ) ), 'fatal' );
+		ErrorMessage( [ _( 'There are no menus yet setup.' ) ], 'fatal' );
 	}
 }
 else
@@ -51,7 +51,7 @@ else
 		}
 		else
 		{
-			ErrorMessage( array( _( 'There are no menus yet setup.' ) ), 'fatal' );
+			ErrorMessage( [ _( 'There are no menus yet setup.' ) ], 'fatal' );
 		}
 	}
 	elseif ( ! empty( $menus_RET ) )
@@ -60,14 +60,14 @@ else
 	}
 	else
 	{
-		ErrorMessage( array( _( 'There are no menus yet setup.' ) ), 'fatal' );
+		ErrorMessage( [ _( 'There are no menus yet setup.' ) ], 'fatal' );
 	}
 }
 
 $categories_RET = DBGet( "SELECT MENU_ID,CATEGORY_ID,TITLE
 	FROM FOOD_SERVICE_CATEGORIES
 	WHERE SCHOOL_ID='" . UserSchool() . "'
-	ORDER BY SORT_ORDER", array(), array( 'MENU_ID', 'CATEGORY_ID' ) );
+	ORDER BY SORT_ORDER", [], [ 'MENU_ID', 'CATEGORY_ID' ] );
 //FJ fix error Warning: key() expects parameter 1 to be array, null given
 //if ( ! $_REQUEST['cat_id'] || ! $categories_RET[$_REQUEST['menu_id']][$_REQUEST['cat_id']])
 
@@ -76,28 +76,28 @@ if ( ( ! $_REQUEST['cat_id'] || ! $categories_RET[$_REQUEST['menu_id']][$_REQUES
 	$_REQUEST['cat_id'] = key( $categories_RET[$_REQUEST['menu_id']] );
 }
 
-$meals = array();
+$meals = [];
 
 foreach ( (array) $menus_RET as $id => $menu )
 {
-	$meals[] = array(
+	$meals[] = [
 		'title' => $menu[1]['TITLE'],
 		'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&menu_id=' . $id,
-	);
+	];
 }
 
-$cats = array();
+$cats = [];
 //FJ fix error Warning: Invalid argument supplied for foreach()
 
 if ( isset( $categories_RET[$_REQUEST['menu_id']] ) )
 {
 	foreach ( (array) $categories_RET[$_REQUEST['menu_id']] as $category_id => $category )
 	{
-		$cats[ $category_id ] = array(
+		$cats[ $category_id ] = [
 			'title' => $category[1]['TITLE'],
 			'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&menu_id=' . $_REQUEST['menu_id'] .
 				'&cat_id=' . $category_id,
-		);
+		];
 	}
 }
 

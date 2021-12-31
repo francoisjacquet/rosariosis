@@ -61,7 +61,7 @@ AND (SELECT count(1) FROM GRADEBOOK_ASSIGNMENTS WHERE STAFF_ID=gt.STAFF_ID
 AND ((COURSE_ID=gt.COURSE_ID AND STAFF_ID=gt.STAFF_ID) OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 AND MARKING_PERIOD_ID='" . UserMP() . "'
 AND ASSIGNMENT_TYPE_ID=gt.ASSIGNMENT_TYPE_ID)>0
-ORDER BY SORT_ORDER,TITLE", array(), array( 'ASSIGNMENT_TYPE_ID' ) );
+ORDER BY SORT_ORDER,TITLE", [], [ 'ASSIGNMENT_TYPE_ID' ] );
 //echo '<pre>'; var_dump($types_RET); echo '</pre>';
 
 if ( $_REQUEST['type_id']
@@ -79,7 +79,7 @@ WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 AND ((COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') AND STAFF_ID='" . User( 'STAFF_ID' ) . "') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 AND MARKING_PERIOD_ID='" . UserMP() . "'" . ( $_REQUEST['type_id'] ? "
 AND ASSIGNMENT_TYPE_ID='" . $_REQUEST['type_id'] . "'" : '' ) . "
-ORDER BY " . Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) . " DESC,ASSIGNMENT_ID DESC,TITLE", array(), array( 'ASSIGNMENT_ID' ) );
+ORDER BY " . Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) . " DESC,ASSIGNMENT_ID DESC,TITLE", [], [ 'ASSIGNMENT_ID' ] );
 //echo '<pre>'; var_dump($assignments_RET); echo '</pre>';
 
 // when changing course periods the assignment_id will be wrong except for '' (totals) and 'all'
@@ -119,8 +119,8 @@ if ( ! empty( $_REQUEST['values'] )
 			AND g.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" .
 			( $_REQUEST['assignment_id'] === 'all' ? '' :
 				" AND g.ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'" ),
-			array(),
-			array( 'ASSIGNMENT_ID' )
+			[],
+			[ 'ASSIGNMENT_ID' ]
 		);
 	}
 	elseif ( $_REQUEST['assignment_id'] === 'all' )
@@ -130,8 +130,8 @@ if ( ! empty( $_REQUEST['values'] )
 			WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID
 			AND a.MARKING_PERIOD_ID='" . UserMP() . "'
 			AND g.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'",
-			array(),
-			array( 'STUDENT_ID', 'ASSIGNMENT_ID' )
+			[],
+			[ 'STUDENT_ID', 'ASSIGNMENT_ID' ]
 		);
 	}
 	else
@@ -140,8 +140,8 @@ if ( ! empty( $_REQUEST['values'] )
 			FROM GRADEBOOK_GRADES
 			WHERE ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'
 			AND COURSE_PERIOD_ID='" . UserCoursePeriod() . "'",
-			array(),
-			array( 'STUDENT_ID', 'ASSIGNMENT_ID' )
+			[],
+			[ 'STUDENT_ID', 'ASSIGNMENT_ID' ]
 		);
 	}
 
@@ -215,7 +215,7 @@ if ( ! empty( $_REQUEST['values'] )
 $_SESSION['type_id'] = ! empty( $_REQUEST['type_id'] ) ? $_REQUEST['type_id'] : null;
 $_SESSION['assignment_id'] = ! empty( $_REQUEST['assignment_id'] ) ? $_REQUEST['assignment_id'] : null;
 
-$LO_options = array( 'search' => false );
+$LO_options = [ 'search' => false ];
 
 if ( UserStudentID() )
 {
@@ -223,19 +223,19 @@ if ( UserStudentID() )
 
 	if ( empty( $_REQUEST['type_id'] ) )
 	{
-		$LO_columns = array( 'TYPE_TITLE' => _( 'Category' ) );
+		$LO_columns = [ 'TYPE_TITLE' => _( 'Category' ) ];
 	}
 	else
 	{
-		$LO_columns = array();
+		$LO_columns = [];
 	}
 
-	$LO_columns += array(
+	$LO_columns += [
 		'TITLE' => _( 'Assignment' ),
 		'POINTS' => _( 'Points' ),
 		'COMMENT' => _( 'Comment' ),
 		'SUBMISSION' => _( 'Submission' ),
-	);
+	];
 
 	// modif Francois: display percent grade according to Configuration.
 
@@ -256,10 +256,10 @@ if ( UserStudentID() )
 
 	$link['TITLE']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&include_inactive=' . $_REQUEST['include_inactive'] . '&include_all=' . $_REQUEST['include_all'];
 
-	$link['TITLE']['variables'] = array(
+	$link['TITLE']['variables'] = [
 		'type_id' => 'ASSIGNMENT_TYPE_ID',
 		'assignment_id' => 'ASSIGNMENT_ID',
-	);
+	];
 
 	$current_RET[UserStudentID()] = DBGet( "SELECT g.ASSIGNMENT_ID
 	FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a
@@ -267,7 +267,7 @@ if ( UserStudentID() )
 	AND a.MARKING_PERIOD_ID='" . UserMP() . "'
 	AND g.STUDENT_ID='" . UserStudentID() . "'
 	AND g.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" .
-		( $_REQUEST['assignment_id'] == 'all' ? '' : " AND g.ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'" ), array(), array( 'ASSIGNMENT_ID' ) );
+		( $_REQUEST['assignment_id'] == 'all' ? '' : " AND g.ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'" ), [], [ 'ASSIGNMENT_ID' ] );
 
 	$count_assignments = count( (array) $assignments_RET );
 
@@ -286,7 +286,7 @@ if ( UserStudentID() )
 
 		$link['TYPE_TITLE']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&include_inactive=' . $_REQUEST['include_inactive'] . '&include_all=' . $_REQUEST['include_all'];
 
-		$link['TYPE_TITLE']['variables'] = array( 'type_id' => 'ASSIGNMENT_TYPE_ID' );
+		$link['TYPE_TITLE']['variables'] = [ 'type_id' => 'ASSIGNMENT_TYPE_ID' ];
 	}
 
 	$extra['FROM'] = " JOIN GRADEBOOK_ASSIGNMENTS ga ON (ga.STAFF_ID=cp.TEACHER_ID AND ((ga.COURSE_ID=cp.COURSE_ID AND ga.STAFF_ID=cp.TEACHER_ID) OR ga.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID) AND ga.MARKING_PERIOD_ID='" . UserMP() . "'" . ( $_REQUEST['assignment_id'] == 'all' ? '' : " AND ga.ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'" ) . ( $_REQUEST['type_id'] ? " AND ga.ASSIGNMENT_TYPE_ID='" . $_REQUEST['type_id'] . "'" : '' ) . ") LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.STUDENT_ID=s.STUDENT_ID AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID)";
@@ -298,17 +298,17 @@ if ( UserStudentID() )
 
 	$extra['ORDER_BY'] = Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) . " DESC";
 
-	$extra['functions'] = array(
+	$extra['functions'] = [
 		'POINTS' => '_makeExtraStuCols',
 		'PERCENT_GRADE' => '_makeExtraStuCols',
 		'LETTER_GRADE' => '_makeExtraStuCols',
 		'COMMENT' => '_makeExtraStuCols',
 		'SUBMISSION' => 'MakeStudentAssignmentSubmissionView',
-	);
+	];
 }
 else
 {
-	$LO_columns = array( 'FULL_NAME' => _( 'Student' ) );
+	$LO_columns = [ 'FULL_NAME' => _( 'Student' ) ];
 
 	// Gain 1 column: replace it with "Submission".
 	/*if ( $_REQUEST['assignment_id'] != 'all' )
@@ -318,16 +318,16 @@ else
 
 	if ( $_REQUEST['include_inactive'] == 'Y' )
 	{
-		$LO_columns += array(
+		$LO_columns += [
 			'ACTIVE' => _( 'School Status' ),
-			'ACTIVE_SCHEDULE' => _( 'Course Status' ) );
+			'ACTIVE_SCHEDULE' => _( 'Course Status' ) ];
 	}
 
 	$link['FULL_NAME']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] .
 		'&include_inactive=' . $_REQUEST['include_inactive'] .
 		'&include_all=' . $_REQUEST['include_all'] . '&type_id=' . $_REQUEST['type_id'] . '&assignment_id=all';
 
-	$link['FULL_NAME']['variables'] = array( 'student_id' => 'STUDENT_ID' );
+	$link['FULL_NAME']['variables'] = [ 'student_id' => 'STUDENT_ID' ];
 
 	if ( $_REQUEST['assignment_id'] == 'all' )
 	{
@@ -337,12 +337,12 @@ else
 			AND a.MARKING_PERIOD_ID='" . UserMP() . "'
 			AND g.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" .
 			( $_REQUEST['type_id'] ? " AND a.ASSIGNMENT_TYPE_ID='" . $_REQUEST['type_id'] . "'" : '' ),
-			array(),
-			array( 'STUDENT_ID', 'ASSIGNMENT_ID' )
+			[],
+			[ 'STUDENT_ID', 'ASSIGNMENT_ID' ]
 		);
 
 		// Fix PHP Fatal error: Cannot pass parameter 1 by reference.
-		$count_extra = array( 'SELECT_ONLY' => 'ssm.STUDENT_ID' );
+		$count_extra = [ 'SELECT_ONLY' => 'ssm.STUDENT_ID' ];
 
 		$count_students = GetStuList( $count_extra );
 		$count_students = count( (array) $count_students );
@@ -350,7 +350,7 @@ else
 		$extra['SELECT'] = ",extract(EPOCH FROM GREATEST(ssm.START_DATE, ss.START_DATE)) AS START_EPOCH,
 			extract(EPOCH FROM LEAST(ssm.END_DATE, ss.END_DATE)) AS END_EPOCH";
 
-		$extra['functions'] = array();
+		$extra['functions'] = [];
 
 		foreach ( (array) $assignments_RET as $id => $assignment )
 		{
@@ -358,7 +358,7 @@ else
 
 			$extra['SELECT'] .= ",'" . $id . "' AS G" . $id;
 
-			$extra['functions'] += array( 'G' . $id => '_makeExtraCols' );
+			$extra['functions'] += [ 'G' . $id => '_makeExtraCols' ];
 
 			$column_title = $assignment['TITLE'];
 
@@ -392,24 +392,24 @@ else
 		$extra['SELECT'] .= ",extract(EPOCH FROM GREATEST(ssm.START_DATE, ss.START_DATE)) AS START_EPOCH,
 			extract(EPOCH FROM LEAST(ssm.END_DATE,ss.END_DATE)) AS END_EPOCH";
 
-		$extra['functions'] = array(
+		$extra['functions'] = [
 			'POINTS' => '_makeExtraAssnCols',
 			'PERCENT_GRADE' => '_makeExtraAssnCols',
 			'LETTER_GRADE' => '_makeExtraAssnCols',
 			'COMMENT' => '_makeExtraAssnCols',
 			'SUBMISSION' => 'MakeStudentAssignmentSubmissionView',
-		);
+		];
 
-		$LO_columns += array(
+		$LO_columns += [
 			'POINTS' => _( 'Points' ),
 			'COMMENT' => _( 'Comment' ),
 			'SUBMISSION' => _( 'Submission' ),
-		);
+		];
 
 		$current_RET = DBGet( "SELECT STUDENT_ID,POINTS,COMMENT,ASSIGNMENT_ID
 			FROM GRADEBOOK_GRADES
 			WHERE ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'
-			AND COURSE_PERIOD_ID='" . UserCoursePeriod() . "'", array(), array( 'STUDENT_ID', 'ASSIGNMENT_ID' ) );
+			AND COURSE_PERIOD_ID='" . UserCoursePeriod() . "'", [], [ 'STUDENT_ID', 'ASSIGNMENT_ID' ] );
 	}
 	else
 	{
@@ -417,8 +417,8 @@ else
 		{
 			//FJ default points
 			$extra['SELECT_ONLY'] = "s.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID,
-				sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", "''", db_case( array( 'ga.DEFAULT_POINTS', "'-1'", "'0'", 'ga.DEFAULT_POINTS' ) ), 'gg.POINTS' ) ) . ") AS PARTIAL_POINTS,
-				sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", "''", db_case( array( 'ga.DEFAULT_POINTS', "'-1'", "'0'", 'ga.POINTS' ) ), 'ga.POINTS' ) ) . ") AS PARTIAL_TOTAL,gt.FINAL_GRADE_PERCENT";
+				sum(" . db_case( [ 'gg.POINTS', "'-1'", "'0'", "''", db_case( [ 'ga.DEFAULT_POINTS', "'-1'", "'0'", 'ga.DEFAULT_POINTS' ] ), 'gg.POINTS' ] ) . ") AS PARTIAL_POINTS,
+				sum(" . db_case( [ 'gg.POINTS', "'-1'", "'0'", "''", db_case( [ 'ga.DEFAULT_POINTS', "'-1'", "'0'", 'ga.POINTS' ] ), 'ga.POINTS' ] ) . ") AS PARTIAL_TOTAL,gt.FINAL_GRADE_PERCENT";
 
 			$extra['FROM'] = " JOIN GRADEBOOK_ASSIGNMENTS ga ON (((ga.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID OR ga.COURSE_ID=cp.COURSE_ID) AND ga.STAFF_ID=cp.TEACHER_ID)
 				AND ga.MARKING_PERIOD_ID='" . UserMP() . "')
@@ -445,7 +445,7 @@ else
 			}
 
 			$extra['GROUP'] = "gt.ASSIGNMENT_TYPE_ID,gt.FINAL_GRADE_PERCENT,s.STUDENT_ID";
-			$extra['group'] = array( 'STUDENT_ID' );
+			$extra['group'] = [ 'STUDENT_ID' ];
 
 			$points_RET = GetStuList( $extra );
 			//echo '<pre>'; var_dump($points_RET); echo '</pre>';
@@ -455,11 +455,11 @@ else
 				extract(EPOCH FROM LEAST(ssm.END_DATE,ss.END_DATE)) AS END_EPOCH,
 				'' AS POINTS,'' AS PERCENT_GRADE,'' AS LETTER_GRADE";
 
-			$extra['functions'] = array(
+			$extra['functions'] = [
 				'POINTS' => '_makeExtraAssnCols',
 				'PERCENT_GRADE' => '_makeExtraAssnCols',
 				'LETTER_GRADE' => '_makeExtraAssnCols',
-			);
+			];
 
 			$LO_columns['POINTS'] = _( 'Points' );
 		}
@@ -567,12 +567,12 @@ $assignment_select .= '</select><label for="assignment_id" class="a11y-hidden">'
 
 // echo '<form action="' . URLEscape( 'Modules.php?modname='.$_REQUEST['modname'].'&student_id='.UserStudentID().'' ) . '" method="POST">';
 
-echo '<form action="' . PreparePHP_SELF( array(), array( 'values' ) ) . '" method="POST">';
+echo '<form action="' . PreparePHP_SELF( [], [ 'values' ] ) . '" method="POST">';
 
-$tabs = array( array(
+$tabs = [ [
 	'title' => _( 'All' ),
 	'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&type_id=' . ( $_REQUEST['assignment_id'] == 'all' ? '&assignment_id=all' : '' ) . ( UserStudentID() ? '&student_id=' . UserStudentID() : '' ) . '&include_inactive=' . $_REQUEST['include_inactive'] . '&include_all=' . $_REQUEST['include_all'],
-) );
+] ];
 
 foreach ( (array) $types_RET as $id => $type )
 {
@@ -583,7 +583,7 @@ foreach ( (array) $types_RET as $id => $type )
 		$color = '<span style="background-color: ' . $type[1]['COLOR'] . ';">&nbsp;</span>&nbsp;';
 	}
 
-	$tabs[] = array(
+	$tabs[] = [
 		'title' => $color . $type[1]['TITLE'] .
 			( ! empty( $gradebook_config['WEIGHT'] ) ?
 				'|' . number_format( 100 * $type[1]['FINAL_GRADE_PERCENT'], 0 ) . '%' :
@@ -592,7 +592,7 @@ foreach ( (array) $types_RET as $id => $type )
 			( $_REQUEST['assignment_id'] == 'all' ? '&assignment_id=all' : '' ) .
 			( UserStudentID() ? '&student_id=' . UserStudentID() : '' ) .
 			'&include_inactive=' . $_REQUEST['include_inactive'] . '&include_all=' . $_REQUEST['include_all'],
-	);
+	];
 }
 
 DrawHeader(
@@ -653,7 +653,7 @@ if ( UserStudentID() )
 		'Assignment',
 		'Assignments',
 		$link,
-		array(),
+		[],
 		$LO_options
 	);
 }
@@ -665,7 +665,7 @@ else
 		'Student',
 		'Students',
 		$link,
-		array(),
+		[],
 		$LO_options
 	);
 }

@@ -52,14 +52,14 @@ if ( ! function_exists( 'DashboardUsersAdmin' ) )
 			OR SCHOOLS='')
 		GROUP BY PROFILE" );
 
-		$users_profile_data = array();
+		$users_profile_data = [];
 
-		$profiles = array(
+		$profiles = [
 			'admin' => _( 'Administrator' ),
 			'teacher' => _( 'Teacher' ),
 			'parent' => _( 'Parent' ),
 			'none' => _( 'No Access' ),
-		);
+		];
 
 		foreach ( $users_RET as $users )
 		{
@@ -72,10 +72,10 @@ if ( ! function_exists( 'DashboardUsersAdmin' ) )
 
 		if ( ! $users_nb )
 		{
-			return array();
+			return [];
 		}
 
-		$data = array();
+		$data = [];
 
 		// Users in school.
 		$data[_( 'Users' )] = (int) $users_nb;

@@ -27,22 +27,22 @@ if ( $_REQUEST['staff_id'] !== 'new' && ( $file = @fopen( $picture_path = $UserP
 
 echo '</td><td colspan="2">';
 
-$titles_array = array(
+$titles_array = [
 	'Mr' => _( 'Mr' ),
 	'Mrs' => _( 'Mrs' ),
 	'Ms' => _( 'Ms' ),
 	'Miss' => _( 'Miss' ),
 	'Dr' => _( 'Dr' ),
-);
+];
 
-$suffixes_array = array(
+$suffixes_array = [
 	'Jr' => _( 'Jr' ),
 	'Sr' => _( 'Sr' ),
 	'II' => _( 'II' ),
 	'III' => _( 'III' ),
 	'IV' => _( 'IV' ),
 	'V' => _( 'V' ),
-);
+];
 
 $staff_title = isset( $staff['TITLE'] ) && isset( $titles_array[ $staff['TITLE'] ] ) ?
 	$titles_array[ $staff['TITLE'] ] : '';
@@ -189,12 +189,12 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 
 	echo '<tr class="st"><td>';
 
-	$profile_options = array(
+	$profile_options = [
 		'admin' => _( 'Administrator' ),
 		'teacher' => _( 'Teacher' ),
 		'parent' => _( 'Parent' ),
 		'none' => _( 'No Access' ),
-	);
+	];
 
 	$admin_user_profile_restriction = false;
 
@@ -212,11 +212,11 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 		else
 		{
 			// Remove Administrator from profile options.
-			$profile_options = array(
+			$profile_options = [
 				'teacher' => _( 'Teacher' ),
 				'parent' => _( 'Parent' ),
 				'none' => _( 'No Access' ),
-			);
+			];
 		}
 
 		$admin_user_profile_restriction = true;
@@ -245,7 +245,7 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 	if ( $staff['PROFILE'] !== 'none' )
 	{
 		// Permissions (not for "No Access" profile).
-		$permissions_options = array();
+		$permissions_options = [];
 
 		if ( $_REQUEST['staff_id'] !== 'new' )
 		{
@@ -328,7 +328,7 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 
 			$schools_html = '<table class="cellspacing-0 width-100p"><tr class="st">';
 
-			$school_titles = array();
+			$school_titles = [];
 
 			foreach ( (array) $schools_RET as $school )
 			{

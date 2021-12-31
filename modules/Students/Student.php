@@ -29,13 +29,13 @@ if ( User( 'PROFILE' ) !== 'admin'
 	}
 }
 
-$categories = array(
+$categories = [
 	'1' => 'General_Info',
 	'2' => 'Medical',
 	'3' => 'Address',
 	'4' => 'Comments',
 	'Other_Info' => 'Other_Info',
-);
+];
 
 if ( ! isset( $_REQUEST['category_id'] ) )
 {
@@ -250,7 +250,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 				$fields_RET = DBGet( "SELECT ID,TYPE
 					FROM CUSTOM_FIELDS
-					ORDER BY SORT_ORDER", array(), array( 'ID' ) );
+					ORDER BY SORT_ORDER", [], [ 'ID' ] );
 
 				$go = false;
 
@@ -346,7 +346,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 				$fields_RET = DBGet( "SELECT ID,TYPE
 					FROM CUSTOM_FIELDS
-					ORDER BY SORT_ORDER", array(), array( 'ID' ) );
+					ORDER BY SORT_ORDER", [], [ 'ID' ] );
 
 				foreach ( (array) $_REQUEST['students'] as $column => $value )
 				{
@@ -430,9 +430,9 @@ if ( $_REQUEST['modfunc'] === 'update'
 		{
 			$new_photo_file = ImageUpload(
 				'photo',
-				array( 'width' => 150, 'height' => 150 ),
+				[ 'width' => 150, 'height' => 150 ],
 				$StudentPicturesPath . UserSyear() . '/',
-				array(),
+				[],
 				'.jpg',
 				UserStudentID()
 			);
@@ -490,7 +490,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 	}
 
 	// Unset modfunc, students (& values if no current Student).
-	$unset_request = array( 'modfunc', 'students' );
+	$unset_request = [ 'modfunc', 'students' ];
 
 	if ( ! UserStudentID() )
 	{
@@ -563,7 +563,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 		unset( $_SESSION['student_id'] );
 
 		// Unset modfunc & student_id & redirect URL.
-		RedirectURL( array( 'modfunc', 'student_id' ) );
+		RedirectURL( [ 'modfunc', 'student_id' ] );
 	}
 }
 
@@ -608,7 +608,7 @@ if ( $_REQUEST['modfunc'] === 'remove_file'
 		}
 
 		// Unset modfunc, id, filename & redirect URL.
-		RedirectURL( array( 'modfunc', 'id', 'filename' ) );
+		RedirectURL( [ 'modfunc', 'id', 'filename' ] );
 	}
 }
 
@@ -643,7 +643,7 @@ if (  ( UserStudentID()
 			AND MODNAME LIKE 'Students/Student.php%'";
 	}
 
-	$can_use_RET = DBGet( $can_use_sql, array(), array( 'MODNAME' ) );
+	$can_use_RET = DBGet( $can_use_sql, [], [ 'MODNAME' ] );
 
 	if ( basename( $_SERVER['PHP_SELF'] ) === 'index.php' )
 	{
@@ -743,12 +743,12 @@ if (  ( UserStudentID()
 				else
 				$include = 'Other_Info';*/
 
-				$tabs[] = array(
+				$tabs[] = [
 					'title' => $category['TITLE'],
 					'link' => ( $_REQUEST['student_id'] !== 'new' ?
 						'Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $category['ID'] . '&student_id=' . UserStudentID() :
 						'' ),
-				);
+				];
 			}
 		}
 

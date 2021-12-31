@@ -64,7 +64,7 @@ if ( $confirm_ok )
 
 	$custom_fields_RET = DBGet( "SELECT ID,TITLE,TYPE
 		FROM CUSTOM_FIELDS
-		WHERE ID=200000000", array(), array( 'ID' ) );
+		WHERE ID=200000000", [], [ 'ID' ] );
 
 	$sql_gender = ",'None' as GENDER";
 
@@ -83,7 +83,7 @@ if ( $confirm_ok )
 	AND r.SCHOOL_ID='" . UserSchool() . "'
 	ORDER BY REQUEST_ID"; // ORDER BY SECTIONS.
 
-	$requests_RET = DBGet( $sql, array(), array( 'REQUEST_ID' ) );
+	$requests_RET = DBGet( $sql, [], [ 'REQUEST_ID' ] );
 
 	if ( ! empty( $_REQUEST['delete'] )
 		&& ! empty( $requests_RET ) )
@@ -122,7 +122,7 @@ if ( $confirm_ok )
 	AND SYEAR='" . UserSyear() . "'
 	ORDER BY COURSE_ID,SHORT_NAME"; //ORDER BY SECTIONS,AVAILABLE_SEATS
 
-	$cp_parent_RET = DBGet( $sql, array(), array( 'PARENT_ID' ) );
+	$cp_parent_RET = DBGet( $sql, [], [ 'PARENT_ID' ] );
 
 	//$sql = "SELECT PARENT_ID,COURSE_PERIOD_ID,COURSE_ID,COURSE_ID AS COURSE,GENDER_RESTRICTION,PERIOD_ID,DAYS,TEACHER_ID,MARKING_PERIOD_ID,MP,COALESCE(TOTAL_SEATS,0)-COALESCE(FILLED_SEATS,0) AS AVAILABLE_SEATS,(SELECT COUNT(*) FROM COURSE_PERIODS cp2 WHERE cp2.COURSE_ID=cp.COURSE_ID) AS SECTIONS FROM COURSE_PERIODS cp WHERE PARENT_ID=COURSE_PERIOD_ID ORDER BY SECTIONS,AVAILABLE_SEATS";
 	$sql = "SELECT PARENT_ID,cp.COURSE_PERIOD_ID,COURSE_ID,SHORT_NAME,COURSE_ID AS COURSE,GENDER_RESTRICTION,cpsp.PERIOD_ID,cpsp.DAYS,TEACHER_ID,MARKING_PERIOD_ID,MP,COALESCE(TOTAL_SEATS,0)-COALESCE(FILLED_SEATS,0) AS AVAILABLE_SEATS,
@@ -134,13 +134,13 @@ if ( $confirm_ok )
 	AND SYEAR='" . UserSyear() . "'
 	ORDER BY COURSE_ID,SHORT_NAME"; //ORDER BY SECTIONS,AVAILABLE_SEATS
 
-	$cp_course_RET = DBGet( $sql, array(), array( 'COURSE' ) );
+	$cp_course_RET = DBGet( $sql, [], [ 'COURSE' ] );
 
 	$mps_RET = DBGet( "SELECT PARENT_ID,MARKING_PERIOD_ID
 		FROM SCHOOL_MARKING_PERIODS
 		WHERE MP='QTR'
 		AND SYEAR='" . UserSyear() . "'
-		AND SCHOOL_ID='" . UserSchool() . "'", array(), array( 'PARENT_ID', 'MARKING_PERIOD_ID' ) );
+		AND SCHOOL_ID='" . UserSchool() . "'", [], [ 'PARENT_ID', 'MARKING_PERIOD_ID' ] );
 
 	// GET FILLED/LOCKED REQUESTS
 	//FJ multiple school periods for a course period
@@ -162,9 +162,9 @@ if ( $confirm_ok )
 	AND r.STUDENT_ID=s.STUDENT_ID
 	AND ('" . $start_date . "' BETWEEN s.START_DATE AND s.END_DATE OR s.END_DATE IS NULL)";
 
-	$locked_RET = DBGet( $sql, array(), array( 'STUDENT_ID', 'REQUEST_ID' ) );
+	$locked_RET = DBGet( $sql, [], [ 'STUDENT_ID', 'REQUEST_ID' ] );
 
-	$schedule = array();
+	$schedule = [];
 
 	foreach ( (array) $locked_RET as $student_id => $courses )
 	{
@@ -174,7 +174,7 @@ if ( $confirm_ok )
 
 			foreach ( (array) $cp_parent_RET[$course['PARENT_ID']] as $slice )
 			{
-				$schedule[$student_id][$slice['PERIOD_ID']][] = $slice + array( 'REQUEST_ID' => $request_id );
+				$schedule[$student_id][$slice['PERIOD_ID']][] = $slice + [ 'REQUEST_ID' => $request_id ];
 				$filled[$request_id] = true;
 			}
 		}
@@ -189,7 +189,7 @@ if ( $confirm_ok )
 	$completed = 0;
 	$requests_count = count( (array) $requests_RET );
 //FJ fix error Warning: Invalid argument supplied for foreach()
-	$unfilled = array();
+	$unfilled = [];
 
 	foreach ( (array) $requests_RET as $request_id => $request )
 	{
@@ -205,7 +205,7 @@ if ( $confirm_ok )
 
 		if ( ! $scheduled )
 		{
-			$not_request = array();
+			$not_request = [];
 
 			if ( ! empty( $locked_RET[$request[1]['STUDENT_ID']] ) )
 			{
@@ -259,7 +259,7 @@ if ( $confirm_ok )
 
 		if ( ! $scheduled )
 		{
-			$not_request = array();
+			$not_request = [];
 
 			if ( ! empty( $locked_RET[$request[1]['STUDENT_ID']] ) )
 			{
@@ -302,7 +302,7 @@ if ( $confirm_ok )
 
 		foreach ( (array) $schedule as $student_id => $periods )
 		{
-			$course_periods_temp = array();
+			$course_periods_temp = [];
 
 			foreach ( (array) $periods as $course_periods )
 			{
@@ -386,7 +386,7 @@ function _scheduleRequest( $request, $not_parent_id = false )
 {
 	global $cp_parent_RET, $cp_course_RET, $schedule, $filled;
 
-	$possible = array();
+	$possible = [];
 
 	foreach ( (array) $cp_course_RET[$request['COURSE_ID']] as $course_period )
 	{
@@ -487,7 +487,7 @@ function _moveRequest( $request, $not_request = false, $not_parent_id = false )
 
 	if ( ! $not_request || ! is_array( $not_request ) )
 	{
-		$not_request = array();
+		$not_request = [];
 	}
 
 	if ( ! empty( $cp_course_RET[$request['COURSE_ID']] ) )
@@ -671,7 +671,7 @@ function _scheduleBest( $request, $possible )
 
 	foreach ( (array) $cp_parent_RET[$best['COURSE_PERIOD_ID']] as $key => $slice )
 	{
-		$schedule[$request['STUDENT_ID']][$slice['PERIOD_ID']][] = $slice + array( 'REQUEST_ID' => $request['REQUEST_ID'] );
+		$schedule[$request['STUDENT_ID']][$slice['PERIOD_ID']][] = $slice + [ 'REQUEST_ID' => $request['REQUEST_ID'] ];
 
 		$cp_parent_RET[$best['COURSE_PERIOD_ID']][$key]['AVAILABLE_SEATS']--;
 	}

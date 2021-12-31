@@ -18,7 +18,7 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 
 			$_SESSION['Search_PHP_SELF'] = PreparePHP_SELF(
 				$_SESSION['_REQUEST_vars'],
-				array( 'bottom_back', 'advanced' )
+				[ 'bottom_back', 'advanced' ]
 			);
 
 			if ( empty( $_SESSION['Back_PHP_SELF'] )
@@ -44,11 +44,11 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 
 			echo '<table class="width-100p col1-align-right" id="general_table">';
 
-			Search( 'general_info', issetVal( $extra['grades'], array() ) );
+			Search( 'general_info', issetVal( $extra['grades'], [] ) );
 
 			if ( ! isset( $extra ) )
 			{
-				$extra = array();
+				$extra = [];
 			}
 
 			Widgets( 'user', $extra );
@@ -57,7 +57,7 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 				'student_fields',
 				isset( $extra['student_fields'] ) && is_array( $extra['student_fields'] ) ?
 				$extra['student_fields'] :
-				array()
+				[]
 			);
 
 			echo '</table><div class="center">';
@@ -131,17 +131,17 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 
 				Search(
 					'student_fields_all',
-					! empty( $extra['student_fields'] ) ? $extra['student_fields'] : array()
+					! empty( $extra['student_fields'] ) ? $extra['student_fields'] : []
 				);
 
 				echo PopTable( 'footer' ) . '<br />';
 
-				echo '<a href="' . PreparePHP_SELF( $_REQUEST, array(), array( 'advanced' => 'N' ) ) . '">' .
+				echo '<a href="' . PreparePHP_SELF( $_REQUEST, [], [ 'advanced' => 'N' ] ) . '">' .
 					_( 'Basic Search' ) . '</a>';
 			}
 			else
 			{
-				echo '<br /><a href="' . PreparePHP_SELF( $_REQUEST, array(), array( 'advanced' => 'Y' ) ) . '">' .
+				echo '<br /><a href="' . PreparePHP_SELF( $_REQUEST, [], [ 'advanced' => 'Y' ] ) . '">' .
 					_( 'Advanced Search' ) . '</a>';
 			}
 
@@ -206,7 +206,7 @@ else
 	if ( ! empty( $_REQUEST['address_group'] ) )
 	{
 		$extra['SELECT'] .= ",coalesce((SELECT ADDRESS_ID FROM STUDENTS_JOIN_ADDRESS WHERE STUDENT_ID=ssm.STUDENT_ID AND RESIDENCE='Y' LIMIT 1),-ssm.STUDENT_ID) AS FAMILY_ID";
-		$extra['group'] = $extra['LO_group'] = array( 'FAMILY_ID' );
+		$extra['group'] = $extra['LO_group'] = [ 'FAMILY_ID' ];
 	}
 
 	$students_RET = GetStuList( $extra );
@@ -228,7 +228,7 @@ else
 	}
 
 	$name_link['FULL_NAME']['link'] = 'Modules.php?modname=' . $_REQUEST['next_modname'];
-	$name_link['FULL_NAME']['variables'] = array( 'student_id' => 'STUDENT_ID' );
+	$name_link['FULL_NAME']['variables'] = [ 'student_id' => 'STUDENT_ID' ];
 
 	if ( isset( $_REQUEST['_search_all_schools'] )
 		&& $_REQUEST['_search_all_schools'] === 'Y' )
@@ -252,7 +252,7 @@ else
 	}
 	else
 	{
-		$columns = array( 'FULL_NAME' => _( 'Student' ), 'STUDENT_ID' => sprintf( _( '%s ID' ), Config( 'NAME' ) ), 'GRADE_ID' => _( 'Grade Level' ) );
+		$columns = [ 'FULL_NAME' => _( 'Student' ), 'STUDENT_ID' => sprintf( _( '%s ID' ), Config( 'NAME' ) ), 'GRADE_ID' => _( 'Grade Level' ) ];
 	}
 
 	if ( isset( $extra['columns_before'] ) && is_array( $extra['columns_before'] ) )
@@ -285,23 +285,23 @@ else
 		{
 			if ( ! isset( $_REQUEST['expanded_view'] ) || $_REQUEST['expanded_view'] !== 'true' )
 			{
-				$header_left = '<a href="' . PreparePHP_SELF( $_REQUEST, array(), array( 'expanded_view' => 'true' ) ) . '">' .
+				$header_left = '<a href="' . PreparePHP_SELF( $_REQUEST, [], [ 'expanded_view' => 'true' ] ) . '">' .
 				_( 'Expanded View' ) . '</a>';
 			}
 			else
 			{
-				$header_left = '<a href="' . PreparePHP_SELF( $_REQUEST, array(), array( 'expanded_view' => 'false' ) ) . '">' .
+				$header_left = '<a href="' . PreparePHP_SELF( $_REQUEST, [], [ 'expanded_view' => 'false' ] ) . '">' .
 				_( 'Original View' ) . '</a>';
 			}
 
 			if ( empty( $_REQUEST['address_group'] ) )
 			{
-				$header_left .= ' | <a href="' . PreparePHP_SELF( $_REQUEST, array(), array( 'address_group' => 'Y' ) ) . '">' .
+				$header_left .= ' | <a href="' . PreparePHP_SELF( $_REQUEST, [], [ 'address_group' => 'Y' ] ) . '">' .
 				_( 'Group by Family' ) . '</a>';
 			}
 			else
 			{
-				$header_left .= ' | <a href="' . PreparePHP_SELF( $_REQUEST, array(), array( 'address_group' => '' ) ) . '">' .
+				$header_left .= ' | <a href="' . PreparePHP_SELF( $_REQUEST, [], [ 'address_group' => '' ] ) . '">' .
 				_( 'Ungroup by Family' ) . '</a>';
 			}
 		}
@@ -324,7 +324,7 @@ else
 
 		if ( empty( $_REQUEST['LO_save'] ) && empty( $extra['suppress_save'] ) )
 		{
-			$_SESSION['List_PHP_SELF'] = PreparePHP_SELF( $_SESSION['_REQUEST_vars'], array( 'bottom_back' ) );
+			$_SESSION['List_PHP_SELF'] = PreparePHP_SELF( $_SESSION['_REQUEST_vars'], [ 'bottom_back' ] );
 
 			if ( empty( $_SESSION['Back_PHP_SELF'] )
 				|| $_SESSION['Back_PHP_SELF'] != 'student' )
@@ -343,9 +343,9 @@ else
 			}
 		}
 
-		$extra['LO_group'] = issetVal( $extra['LO_group'], array() );
+		$extra['LO_group'] = issetVal( $extra['LO_group'], [] );
 
-		$extra['options'] = issetVal( $extra['options'], array() );
+		$extra['options'] = issetVal( $extra['options'], [] );
 
 		if ( ! empty( $_REQUEST['address_group'] ) )
 		{
@@ -451,6 +451,6 @@ else
 
 		DrawHeader( mb_substr( $_ROSARIO['SearchTerms'], 0, -6 ) );
 
-		echo ErrorMessage( array( _( 'No Students were found.' ) ) );
+		echo ErrorMessage( [ _( 'No Students were found.' ) ] );
 	}
 }

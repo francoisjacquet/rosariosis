@@ -11,7 +11,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 	{
 		$current_RET = DBGet( "SELECT STAFF_ID
 			FROM STUDENTS_JOIN_USERS
-			WHERE STUDENT_ID='" . UserStudentID() . "'", array(), array( 'STAFF_ID' ) );
+			WHERE STUDENT_ID='" . UserStudentID() . "'", [], [ 'STAFF_ID' ] );
 
 		foreach ( (array) $_REQUEST['staff'] as $staff_id )
 		{
@@ -51,7 +51,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 		do_action( 'Students/AddUsers.php|user_unassign_role' );
 
 		// Unset modfunc & staff ID remove & redirect URL.
-		RedirectURL( array( 'modfunc', 'staff_id_remove' ) );
+		RedirectURL( [ 'modfunc', 'staff_id_remove' ] );
 	}
 }
 
@@ -62,7 +62,7 @@ echo ErrorMessage( $error );
 if ( ! $_REQUEST['modfunc'] )
 {
 	$extra['SELECT'] = ",(SELECT count(u.STAFF_ID) FROM STUDENTS_JOIN_USERS u,STAFF st WHERE u.STUDENT_ID=s.STUDENT_ID AND st.STAFF_ID=u.STAFF_ID AND st.SYEAR=ssm.SYEAR) AS ASSOCIATED";
-	$extra['columns_after'] = array( 'ASSOCIATED' => '# ' . _( 'Associated' ) );
+	$extra['columns_after'] = [ 'ASSOCIATED' => '# ' . _( 'Associated' ) ];
 
 	if ( ! UserStudentID() )
 	{
@@ -85,26 +85,26 @@ if ( ! $_REQUEST['modfunc'] )
 			FROM STUDENTS_JOIN_USERS u,STAFF s
 			WHERE s.STAFF_ID=u.STAFF_ID
 			AND u.STUDENT_ID='" . UserStudentID() . "'
-			AND s.SYEAR='" . UserSyear() . "'", array( 'LAST_LOGIN' => 'makeLogin' ) );
+			AND s.SYEAR='" . UserSyear() . "'", [ 'LAST_LOGIN' => 'makeLogin' ] );
 
-		$link['remove'] = array(
+		$link['remove'] = [
 			'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete',
-			'variables' => array( 'staff_id_remove' => 'STAFF_ID' ),
-		);
+			'variables' => [ 'staff_id_remove' => 'STAFF_ID' ],
+		];
 
-		$link['FULL_NAME'] = array(
+		$link['FULL_NAME'] = [
 			'link' => 'Modules.php?modname=Users/User.php',
-			'variables' => array( 'staff_id' => 'STAFF_ID' ),
-		);
+			'variables' => [ 'staff_id' => 'STAFF_ID' ],
+		];
 
 		ListOutput(
 			$current_RET,
-			array( 'FULL_NAME' => _( 'Parents' ), 'LAST_LOGIN' => _( 'Last Login' ) ),
+			[ 'FULL_NAME' => _( 'Parents' ), 'LAST_LOGIN' => _( 'Last Login' ) ],
 			'Associated Parent',
 			'Associated Parents',
 			$link,
-			array(),
-			array( 'search' => false )
+			[],
+			[ 'search' => false ]
 		);
 
 		echo '</td></tr><tr><td>';
@@ -112,10 +112,10 @@ if ( ! $_REQUEST['modfunc'] )
 		if ( AllowEdit() )
 		{
 			unset( $extra );
-			$extra['link'] = array( 'FULL_NAME' => false );
+			$extra['link'] = [ 'FULL_NAME' => false ];
 			$extra['SELECT'] = ",CAST (NULL AS CHAR(1)) AS CHECKBOX";
-			$extra['functions'] = array( 'CHECKBOX' => 'MakeChooseCheckbox' );
-			$extra['columns_before'] = array( 'CHECKBOX' => MakeChooseCheckbox( '', 'STAFF_ID', 'staff' ) );
+			$extra['functions'] = [ 'CHECKBOX' => 'MakeChooseCheckbox' ];
+			$extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( '', 'STAFF_ID', 'staff' ) ];
 			$extra['new'] = true;
 			$extra['options']['search'] = false;
 			$extra['profile'] = 'parent';

@@ -283,7 +283,7 @@ if ( ! empty( $_POST['tables'] )
 	}
 
 	// Unset tables & redirect URL.
-	RedirectURL( array( 'tables' ) );
+	RedirectURL( [ 'tables' ] );
 }
 
 // DELETING
@@ -356,7 +356,7 @@ if ( ! $_REQUEST['modfunc'] )
 			$_REQUEST['mp_term'] = 'FY';
 
 			// Unset year & semester & quarter IDs & redirect URL.
-			RedirectURL( array( 'year_id', 'semester_id', 'quarter_id' ) );
+			RedirectURL( [ 'year_id', 'semester_id', 'quarter_id' ] );
 		}
 
 		if ( AllowEdit()
@@ -590,7 +590,7 @@ if ( ! $_REQUEST['modfunc'] )
 	//unset($_SESSION['_REQUEST_vars']['mp_term']);
 
 	// DISPLAY THE MENU
-	$LO_options = array( 'save' => false, 'search' => false, 'responsive' => false );
+	$LO_options = [ 'save' => false, 'search' => false, 'responsive' => false ];
 
 	// FY
 	$fy_RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE
@@ -620,20 +620,20 @@ if ( ! $_REQUEST['modfunc'] )
 
 	echo '<div class="st">';
 
-	$columns = array( 'TITLE' => _( 'Year' ) );
+	$columns = [ 'TITLE' => _( 'Year' ) ];
 
-	$link = array();
+	$link = [];
 
 	$link['TITLE']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=' . $_REQUEST['modfunc'] . '&mp_term=FY';
 
-	$link['TITLE']['variables'] = array( 'marking_period_id' => 'MARKING_PERIOD_ID' );
+	$link['TITLE']['variables'] = [ 'marking_period_id' => 'MARKING_PERIOD_ID' ];
 
 	if ( empty( $fy_RET ) )
 	{
 		$link['add']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&mp_term=FY&marking_period_id=new';
 	}
 
-	ListOutput( $fy_RET, $columns, 'Year', 'Years', $link, array(), $LO_options );
+	ListOutput( $fy_RET, $columns, 'Year', 'Years', $link, [], $LO_options );
 
 	echo '</div>';
 
@@ -675,17 +675,17 @@ if ( ! $_REQUEST['modfunc'] )
 
 		echo '<div class="st">';
 
-		$columns = array( 'TITLE' => _( 'Semester' ) );
+		$columns = [ 'TITLE' => _( 'Semester' ) ];
 
-		$link = array();
+		$link = [];
 
 		$link['TITLE']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=' . $_REQUEST['modfunc'] . '&mp_term=SEM&year_id=' . $_REQUEST['year_id'];
 
-		$link['TITLE']['variables'] = array( 'marking_period_id' => 'MARKING_PERIOD_ID' );
+		$link['TITLE']['variables'] = [ 'marking_period_id' => 'MARKING_PERIOD_ID' ];
 
 		$link['add']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&mp_term=SEM&marking_period_id=new&year_id=' . $_REQUEST['year_id'];
 
-		ListOutput( $sem_RET, $columns, 'Semester', 'Semesters', $link, array(), $LO_options );
+		ListOutput( $sem_RET, $columns, 'Semester', 'Semesters', $link, [], $LO_options );
 
 		echo '</div>';
 
@@ -727,17 +727,17 @@ if ( ! $_REQUEST['modfunc'] )
 
 			echo '<div class="st">';
 
-			$columns = array( 'TITLE' => _( 'Quarter' ) );
+			$columns = [ 'TITLE' => _( 'Quarter' ) ];
 
-			$link = array();
+			$link = [];
 
 			$link['TITLE']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=' . $_REQUEST['modfunc'] . '&mp_term=QTR&year_id=' . $_REQUEST['year_id'] . '&semester_id=' . $_REQUEST['semester_id'];
 
-			$link['TITLE']['variables'] = array( 'marking_period_id' => 'MARKING_PERIOD_ID' );
+			$link['TITLE']['variables'] = [ 'marking_period_id' => 'MARKING_PERIOD_ID' ];
 
 			$link['add']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&mp_term=QTR&marking_period_id=new&year_id=' . $_REQUEST['year_id'] . '&semester_id=' . $_REQUEST['semester_id'];
 
-			ListOutput( $qtr_RET, $columns, 'Quarter', 'Quarters', $link, array(), $LO_options );
+			ListOutput( $qtr_RET, $columns, 'Quarter', 'Quarters', $link, [], $LO_options );
 
 			echo '</div>';
 
@@ -774,17 +774,17 @@ if ( ! $_REQUEST['modfunc'] )
 
 				echo '<div class="st">';
 
-				$columns = array( 'TITLE' => _( 'Progress Period' ) );
+				$columns = [ 'TITLE' => _( 'Progress Period' ) ];
 
-				$link = array();
+				$link = [];
 
 				$link['TITLE']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=' . $_REQUEST['modfunc'] . '&mp_term=PRO&year_id=' . $_REQUEST['year_id'] . '&semester_id=' . $_REQUEST['semester_id'] . '&quarter_id=' . $_REQUEST['quarter_id'];
 
-				$link['TITLE']['variables'] = array( 'marking_period_id' => 'MARKING_PERIOD_ID' );
+				$link['TITLE']['variables'] = [ 'marking_period_id' => 'MARKING_PERIOD_ID' ];
 
 				$link['add']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&mp_term=PRO&marking_period_id=new&year_id=' . $_REQUEST['year_id'] . '&semester_id=' . $_REQUEST['semester_id'] . '&quarter_id=' . $_REQUEST['quarter_id'];
 
-				ListOutput( $pro_RET, $columns, 'Progress Period', 'Progress Periods', $link, array(), $LO_options );
+				ListOutput( $pro_RET, $columns, 'Progress Period', 'Progress Periods', $link, [], $LO_options );
 
 				echo '</div>';
 			}

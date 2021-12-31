@@ -114,7 +114,7 @@ if ( isset( $_POST['tables'] )
 	}
 
 	// Unset tables & redirect URL.
-	RedirectURL( array( 'tables' ) );
+	RedirectURL( 'tables' );
 }
 
 // Delete Field / Category.
@@ -129,7 +129,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 			DeleteDBField( 'ADDRESS', $_REQUEST['id'] );
 
 			// Unset modfunc & ID & redirect URL.
-			RedirectURL( array( 'modfunc', 'id' ) );
+			RedirectURL( [ 'modfunc', 'id' ] );
 		}
 	}
 	elseif ( isset( $_REQUEST['category_id'] )
@@ -141,7 +141,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 			DeleteDBFieldCategory( 'ADDRESS', $_REQUEST['category_id'] );
 
 			// Unset modfunc & category ID & redirect URL.
-			RedirectURL( array( 'modfunc', 'category_id' ) );
+			RedirectURL( [ 'modfunc', 'category_id' ] );
 		}
 	}
 }
@@ -153,7 +153,7 @@ if ( ! $_REQUEST['modfunc'] )
 	// Category menu: student|address|contact.
 	DrawHeader( _fieldsCategoryMenu( $_REQUEST['category'] ) );
 
-	$RET = array();
+	$RET = [];
 
 	// ADDING & EDITING FORM.
 	if ( $_REQUEST['id']
@@ -201,7 +201,7 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( $_REQUEST['category_id']
 		&& ! $_REQUEST['id'] )
 	{
-		$extra_fields = array(
+		$extra_fields = [
 			'<table class="width-100p cellspacing-0"><tr class="st"><td>' .
 			CheckboxInput(
 				issetVal( $RET['RESIDENCE'], '' ),
@@ -236,14 +236,14 @@ if ( ! $_REQUEST['modfunc'] )
 				false,
 				''
 			)
-		);
+		];
 	}
 
 	echo GetFieldsForm(
 		'ADDRESS',
 		$title,
 		$RET,
-		issetVal( $extra_fields, array() )
+		issetVal( $extra_fields, [] )
 	);
 
 	// CATEGORIES.
@@ -266,7 +266,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$fields_RET = DBGet( "SELECT ID,TITLE,TYPE,SORT_ORDER
 			FROM ADDRESS_FIELDS
 			WHERE CATEGORY_ID='" . $_REQUEST['category_id'] . "'
-			ORDER BY SORT_ORDER,TITLE", array( 'TYPE' => 'MakeFieldType' ) );
+			ORDER BY SORT_ORDER,TITLE", [ 'TYPE' => 'MakeFieldType' ] );
 
 		echo '<div class="st">';
 

@@ -116,7 +116,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 			OR REFUNDED_PAYMENT_ID='" . $_REQUEST['id'] . "'" );
 
 		// Unset modfunc & ID & redirect URL.
-		RedirectURL( array( 'modfunc', 'id' ) );
+		RedirectURL( [ 'modfunc', 'id' ] );
 	}
 }
 
@@ -147,7 +147,7 @@ if ( $_REQUEST['modfunc'] === 'refund'
 			$_REQUEST['id'] . "')" );
 
 		// Unset modfunc & ID & redirect URL.
-		RedirectURL( array( 'modfunc', 'id' ) );
+		RedirectURL( [ 'modfunc', 'id' ] );
 	}
 }
 
@@ -158,21 +158,21 @@ if ( UserStudentID()
 
 	$payments_total = 0;
 
-	$functions = array(
+	$functions = [
 		'REMOVE' => '_makePaymentsRemove',
 		'AMOUNT' => '_makePaymentsAmount',
 		'PAYMENT_DATE' => 'ProperDate',
 		'COMMENTS' => '_makePaymentsCommentsInput',
 		'LUNCH_PAYMENT' => '_lunchInput',
 		'FILE_ATTACHED' => '_makePaymentsFileInput',
-	);
+	];
 
 	$refunded_payments_RET = DBGet( "SELECT '' AS REMOVE,ID,REFUNDED_PAYMENT_ID,
 		AMOUNT,PAYMENT_DATE,COMMENTS
 		FROM BILLING_PAYMENTS
 		WHERE STUDENT_ID='" . UserStudentID() . "'
 		AND SYEAR='" . UserSyear() . "'
-		AND (REFUNDED_PAYMENT_ID IS NOT NULL)", $functions, array( 'REFUNDED_PAYMENT_ID' ) );
+		AND (REFUNDED_PAYMENT_ID IS NOT NULL)", $functions, [ 'REFUNDED_PAYMENT_ID' ] );
 
 	$payments_RET = DBGet( "SELECT '' AS REMOVE,ID,REFUNDED_PAYMENT_ID,
 		AMOUNT,PAYMENT_DATE,COMMENTS,LUNCH_PAYMENT,FILE_ATTACHED
@@ -182,7 +182,7 @@ if ( UserStudentID()
 		AND (REFUNDED_PAYMENT_ID IS NULL OR REFUNDED_PAYMENT_ID='') ORDER BY ID", $functions );
 
 	$i = 1;
-	$RET = array();
+	$RET = [];
 
 	foreach ( (array) $payments_RET as $payment )
 	{
@@ -191,47 +191,47 @@ if ( UserStudentID()
 		if ( ! empty( $refunded_payments_RET[$payment['ID']] ) )
 		{
 			$i++;
-			$RET[$i] = ( $refunded_payments_RET[$payment['ID']][1] + array( 'row_color' => 'FF0000' ) );
+			$RET[$i] = ( $refunded_payments_RET[$payment['ID']][1] + [ 'row_color' => 'FF0000' ] );
 		}
 
 		$i++;
 	}
 
-	$columns = array();
+	$columns = [];
 
 	if ( ! empty( $RET )
 		&& empty( $_REQUEST['print_statements'] )
 		&& AllowEdit() )
 	{
-		$columns = array( 'REMOVE' => '<span class="a11y-hidden">' . _( 'Delete' ) . '</span>' );
+		$columns = [ 'REMOVE' => '<span class="a11y-hidden">' . _( 'Delete' ) . '</span>' ];
 	}
 
-	$columns += array(
+	$columns += [
 		'AMOUNT' => _( 'Amount' ),
 		'PAYMENT_DATE' => _( 'Date' ),
 		'COMMENTS' => _( 'Comment' ),
 		'LUNCH_PAYMENT' => _( 'Lunch Payment' ),
-	);
+	];
 
 	if ( empty( $_REQUEST['print_statements'] )
 		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
-		$columns += array( 'FILE_ATTACHED' => _( 'File Attached' ) );
+		$columns += [ 'FILE_ATTACHED' => _( 'File Attached' ) ];
 	}
 
-	$link = array();
+	$link = [];
 
 	if ( empty( $_REQUEST['print_statements'] )
 		&& AllowEdit() )
 	{
-		$link['add']['html'] = array(
+		$link['add']['html'] = [
 			'REMOVE' => button( 'add' ),
 			'AMOUNT' => _makePaymentsTextInput( '', 'AMOUNT' ),
 			'PAYMENT_DATE' => _makePaymentsDateInput( DBDate(), 'PAYMENT_DATE' ),
 			'COMMENTS' => _makePaymentsCommentsInput( '', 'COMMENTS' ),
 			'LUNCH_PAYMENT' => _lunchInput( '', 'LUNCH_PAYMENT' ),
 			'FILE_ATTACHED' => _makePaymentsFileInput( '', 'FILE_ATTACHED' ),
-		);
+		];
 	}
 
 	// Do hook.
@@ -247,11 +247,11 @@ if ( UserStudentID()
 			DrawHeader( '', SubmitButton() );
 		}
 
-		$options = array();
+		$options = [];
 	}
 	else
 	{
-		$options = array( 'center' => false, 'add' => false );
+		$options = [ 'center' => false, 'add' => false ];
 	}
 
 	ListOutput(
@@ -260,7 +260,7 @@ if ( UserStudentID()
 		'Payment',
 		'Payments',
 		$link,
-		array(),
+		[],
 		$options
 	);
 

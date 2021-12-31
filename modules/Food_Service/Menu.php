@@ -10,7 +10,7 @@
  * @subpackage modules
  */
 
-$menu['Food_Service']['admin'] = array(
+$menu['Food_Service']['admin'] = [
 	'title' => _( 'Food Service' ),
 	'default' => 'Food_Service/Accounts.php',
 	'Food_Service/Accounts.php' => _( 'Accounts' ),
@@ -30,9 +30,9 @@ $menu['Food_Service']['admin'] = array(
 	'Food_Service/Kiosk.php' => _( 'Kiosk Preview' )
 	//3 => 'Utilities',
 	//'Food_Service/AssignSchool.php' => 'Assign School'
-);
+];
 
-$menu['Food_Service']['teacher'] = array(
+$menu['Food_Service']['teacher'] = [
 	'title' => _( 'Food Service' ),
 	'default' => 'Food_Service/Accounts.php',
 	'Food_Service/Accounts.php' => _( 'Accounts' ),
@@ -40,9 +40,9 @@ $menu['Food_Service']['teacher'] = array(
 	1 => _( 'Menu' ),
 	'Food_Service/DailyMenus.php' => _( 'Daily Menus' ),
 	'Food_Service/MenuItems.php' => _( 'Meal Items' )
-);
+];
 
-$menu['Food_Service']['parent'] = array(
+$menu['Food_Service']['parent'] = [
 	'title' => _( 'Food Service' ),
 	'default' => 'Food_Service/Accounts.php',
 	'Food_Service/Accounts.php' => _( 'Accounts' ),
@@ -50,8 +50,8 @@ $menu['Food_Service']['parent'] = array(
 	1 => _( 'Menu' ),
 	'Food_Service/DailyMenus.php' => _( 'Daily Menus' ),
 	'Food_Service/MenuItems.php' => _( 'Meal Items' )
-);
+];
 
-$exceptions['Food_Service'] = array(
+$exceptions['Food_Service'] = [
 	'Food_Service/ServeMenus.php' => true
-);
+];

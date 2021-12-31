@@ -106,11 +106,11 @@ $sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,sp.TITLE,cpsp.PERIOD_I
 		AND ac.PERIOD_ID=sp.PERIOD_ID
 		AND ac.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "')";
 
-$RET = DBGet( $sql, array(), array( 'STAFF_ID', 'PERIOD_ID' ) );
+$RET = DBGet( $sql, [], [ 'STAFF_ID', 'PERIOD_ID' ] );
 
 $i = 0;
 
-$staff_RET = array();
+$staff_RET = [];
 
 foreach ( (array) $RET as $staff_id => $periods )
 {
@@ -128,7 +128,7 @@ foreach ( (array) $RET as $staff_id => $periods )
 				continue;
 			}
 
-			$cp_titles = array();
+			$cp_titles = [];
 
 			foreach ( (array) $course_periods as $course_period )
 			{
@@ -144,7 +144,7 @@ foreach ( (array) $RET as $staff_id => $periods )
 	}
 }
 
-$columns = array( 'FULL_NAME' => _( 'Teacher' ) );
+$columns = [ 'FULL_NAME' => _( 'Teacher' ) ];
 
 if ( empty( $_REQUEST['period'] ) )
 {

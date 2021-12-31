@@ -38,7 +38,7 @@ function CoursePeriodTeacherConflictCheck( $teacher_id )
 		return false;
 	}
 
-	$school_periods = array();
+	$school_periods = [];
 
 	foreach ( (array) $school_periods_RET as $school_period )
 	{
@@ -83,7 +83,7 @@ function CoursePeriodAttendanceInput( $does_attendance, $array )
 {
 	$attendance_html = '<table class="cellspacing-0"><tr class="st">';
 
-	$attendance_cat = array();
+	$attendance_cat = [];
 
 	$i = 0;
 
@@ -139,7 +139,7 @@ function CoursePeriodAttendanceInput( $does_attendance, $array )
  */
 function CoursePeriodOptionInputs( $course_period_RET, $array, $new )
 {
-	$inputs = array();
+	$inputs = [];
 
 	$options_RET = DBGet( "SELECT TITLE,CALENDAR_ID
 		FROM ATTENDANCE_CALENDARS
@@ -147,7 +147,7 @@ function CoursePeriodOptionInputs( $course_period_RET, $array, $new )
 		AND SCHOOL_ID='" . UserSchool() . "'
 		ORDER BY DEFAULT_CALENDAR ASC,TITLE" );
 
-	$options = array();
+	$options = [];
 
 	foreach ( (array) $options_RET as $option )
 	{
@@ -180,7 +180,7 @@ function CoursePeriodOptionInputs( $course_period_RET, $array, $new )
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'" );
 
-	$options = array();
+	$options = [];
 
 	foreach ( (array) $options_RET as $option )
 	{
@@ -240,11 +240,11 @@ function CoursePeriodOptionInputs( $course_period_RET, $array, $new )
 		issetVal( $course_period_RET['GENDER_RESTRICTION'], '' ),
 		$array . '[GENDER_RESTRICTION]',
 		_( 'Gender Restriction' ),
-		array(
+		[
 			'N' => _( 'None' ),
 			'M' => _( 'Male' ),
 			'F' => _( 'Female' ),
-		),
+		],
 		false
 	);
 
@@ -362,7 +362,7 @@ function CoursePeriodTitleGenerate( $cp_id, $columns )
 function CoursePeriodSchoolPeriodsTitlePartGenerate( $cpsp_id, $cp_id, $columns )
 {
 	// FJ days display to locale.
-	$days_convert = array(
+	$days_convert = [
 		'U' => _( 'Sunday' ),
 		'M' => _( 'Monday' ),
 		'T' => _( 'Tuesday' ),
@@ -370,12 +370,12 @@ function CoursePeriodSchoolPeriodsTitlePartGenerate( $cpsp_id, $cp_id, $columns 
 		'H' => _( 'Thursday' ),
 		'F' => _( 'Friday' ),
 		'S' => _( 'Saturday' ),
-	);
+	];
 
 	if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 	{
 		// FJ days numbered.
-		$days_convert = array(
+		$days_convert = [
 			'U' => '7',
 			'M' => '1',
 			'T' => '2',
@@ -383,7 +383,7 @@ function CoursePeriodSchoolPeriodsTitlePartGenerate( $cpsp_id, $cp_id, $columns 
 			'H' => '4',
 			'F' => '5',
 			'S' => '6',
-		);
+		];
 	}
 
 	$other_school_p = DBGet( "SELECT PERIOD_ID,DAYS

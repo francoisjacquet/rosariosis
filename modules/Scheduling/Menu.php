@@ -10,7 +10,7 @@
  * @subpackage modules
  */
 
-$menu['Scheduling']['admin'] = array(
+$menu['Scheduling']['admin'] = [
 	'title' => _( 'Scheduling' ),
 	'default' => 'Scheduling/Schedule.php',
 	'Scheduling/Schedule.php' => _( 'Student Schedule' ),
@@ -30,9 +30,9 @@ $menu['Scheduling']['admin'] = array(
 	2 => _( 'Setup' ),
 	'Scheduling/Courses.php' => _( 'Courses' ),
 	'Scheduling/Scheduler.php' => _( 'Run Scheduler' ),
-);
+];
 
-$menu['Scheduling']['teacher'] = array(
+$menu['Scheduling']['teacher'] = [
 	'title' => _( 'Scheduling' ),
 	'default' => 'Scheduling/Schedule.php',
 	'Scheduling/Schedule.php' => _( 'Schedule' ),
@@ -42,9 +42,9 @@ $menu['Scheduling']['teacher'] = array(
 	'Scheduling/PrintSchedules.php' => _( 'Print Schedules' ),
 	'Scheduling/PrintClassLists.php' => _( 'Print Class Lists' ),
 	'Scheduling/PrintClassPictures.php' => _( 'Print Class Pictures' ),
-);
+];
 
-$menu['Scheduling']['parent'] = array(
+$menu['Scheduling']['parent'] = [
 	'title' => _( 'Scheduling' ),
 	'default' => 'Scheduling/Schedule.php',
 	'Scheduling/Schedule.php' => _( 'Schedule' ),
@@ -55,10 +55,10 @@ $menu['Scheduling']['parent'] = array(
 	// Activate Print Schedules for parents and students.
 	'Scheduling/PrintSchedules.php' => _( 'Print Schedules' ),
 	'Scheduling/PrintClassPictures.php' => _( 'Class Pictures' ),
-);
+];
 
-$exceptions['Scheduling'] = array(
+$exceptions['Scheduling'] = [
 	'Scheduling/Requests.php' => true,
 	'Scheduling/MassRequests.php' => true,
 	'Scheduling/Scheduler.php' => true
-);
+];

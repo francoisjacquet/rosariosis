@@ -48,7 +48,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 			);
 
 			// Unset modfunc & transaction ID & item ID & redirect URL.
-			RedirectURL( array( 'modfunc', 'transaction_id', 'item_id' ) );
+			RedirectURL( [ 'modfunc', 'transaction_id', 'item_id' ] );
 		}
 	}
 	elseif ( DeletePrompt( _( 'Transaction' ) ) )
@@ -58,11 +58,11 @@ if ( $_REQUEST['modfunc'] === 'delete'
 		DeleteTransaction( $_REQUEST['transaction_id'], $_REQUEST['type'] );
 
 		// Unset modfunc & transaction ID & redirect URL.
-		RedirectURL( array( 'modfunc', 'transaction_id' ) );
+		RedirectURL( [ 'modfunc', 'transaction_id' ] );
 	}
 }
 
-$types = array( 'DEPOSIT' => _( 'Deposit' ), 'CREDIT' => _( 'Credit' ), 'DEBIT' => _( 'Debit' ) );
+$types = [ 'DEPOSIT' => _( 'Deposit' ), 'CREDIT' => _( 'Credit' ), 'DEBIT' => _( 'Debit' ) ];
 
 $menus_RET = DBGet( "SELECT TITLE
 	FROM FOOD_SERVICE_MENUS
@@ -95,7 +95,7 @@ $type_select .= '</select></label>';
  */
 function types_locale( $type )
 {
-	$types = array( 'Deposit' => _( 'Deposit' ), 'Credit' => _( 'Credit' ), 'Debit' => _( 'Debit' ) );
+	$types = [ 'Deposit' => _( 'Deposit' ), 'Credit' => _( 'Credit' ), 'Debit' => _( 'Debit' ) ];
 
 	if ( array_key_exists( $type, $types ) )
 	{
@@ -111,7 +111,7 @@ function types_locale( $type )
  */
 function options_locale( $option )
 {
-	$options = array( 'Cash ' => _( 'Cash' ), 'Check' => _( 'Check' ), 'Credit Card' => _( 'Credit Card' ), 'Debit Card' => _( 'Debit Card' ), 'Transfer' => _( 'Transfer' ) );
+	$options = [ 'Cash ' => _( 'Cash' ), 'Check' => _( 'Check' ), 'Credit Card' => _( 'Credit Card' ), 'Debit Card' => _( 'Debit Card' ), 'Transfer' => _( 'Transfer' ) ];
 
 	if ( array_key_exists( $option, $options ) )
 	{

@@ -22,7 +22,7 @@ foreach ( (array) $eligibility_config as $value )
 // Day of the week: 1 (for Monday) through 7 (for Sunday).
 $today = date( 'w' ) ? date( 'w' ) : 7;
 
-$days = array( _( 'Sunday' ), _( 'Monday' ), _( 'Tuesday' ), _( 'Wednesday' ), _( 'Thursday' ), _( 'Friday' ), _( 'Saturday' ) );
+$days = [ _( 'Sunday' ), _( 'Monday' ), _( 'Tuesday' ), _( 'Wednesday' ), _( 'Thursday' ), _( 'Friday' ), _( 'Saturday' ) ];
 
 if ( mb_strlen( $START_MINUTE ) == 1 )
 {
@@ -41,7 +41,7 @@ $end_date = date( 'Y-m-d', time() + ( $END_DAY - $today ) * 60 * 60 * 24 );
 $current_RET = DBGet( "SELECT ELIGIBILITY_CODE,STUDENT_ID
 	FROM ELIGIBILITY
 	WHERE SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
-	AND COURSE_PERIOD_ID='" . UserCoursePeriod() . "'", array(), array( 'STUDENT_ID' ) );
+	AND COURSE_PERIOD_ID='" . UserCoursePeriod() . "'", [], [ 'STUDENT_ID' ] );
 
 if ( $_REQUEST['modfunc'] == 'gradebook' )
 {
@@ -58,11 +58,11 @@ if ( $_REQUEST['modfunc'] == 'gradebook' )
 	$grades_RET = DBGet( "SELECT ID,TITLE,GPA_VALUE
 		FROM REPORT_CARD_GRADES
 		WHERE SCHOOL_ID='" . UserSchool() . "'
-		AND SYEAR='" . UserSyear() . "'", array(), array( 'ID' ) );
+		AND SYEAR='" . UserSyear() . "'", [], [ 'ID' ] );
 
 	if ( ! empty( $gradebook_config['WEIGHT'] ) )
 	{
-		$points_RET = DBGet( "SELECT DISTINCT ON (s.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID) s.STUDENT_ID, gt.ASSIGNMENT_TYPE_ID,sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'gg.POINTS' ) ) . ") AS PARTIAL_POINTS,sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ) ) . ") AS PARTIAL_TOTAL, gt.FINAL_GRADE_PERCENT
+		$points_RET = DBGet( "SELECT DISTINCT ON (s.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID) s.STUDENT_ID, gt.ASSIGNMENT_TYPE_ID,sum(" . db_case( [ 'gg.POINTS', "'-1'", "'0'", 'gg.POINTS' ] ) . ") AS PARTIAL_POINTS,sum(" . db_case( [ 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ] ) . ") AS PARTIAL_TOTAL, gt.FINAL_GRADE_PERCENT
 		FROM STUDENTS s
 		JOIN SCHEDULE ss ON (ss.STUDENT_ID=s.STUDENT_ID AND ss.COURSE_PERIOD_ID='" . $course_period_id . "')
 		JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID OR ga.COURSE_ID='" . $course_id . "' AND ga.STAFF_ID='" . User( 'STAFF_ID' ) . "') AND ga.MARKING_PERIOD_ID" .
@@ -75,11 +75,11 @@ if ( $_REQUEST['modfunc'] == 'gradebook' )
 		AND gt.COURSE_ID='" . $course_id . "'
 		AND ((ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE)
 		AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE) OR gg.POINTS IS NOT NULL)
-		GROUP BY s.STUDENT_ID,ss.START_DATE,gt.ASSIGNMENT_TYPE_ID,gt.FINAL_GRADE_PERCENT", array(), array( 'STUDENT_ID' ) );
+		GROUP BY s.STUDENT_ID,ss.START_DATE,gt.ASSIGNMENT_TYPE_ID,gt.FINAL_GRADE_PERCENT", [], [ 'STUDENT_ID' ] );
 	}
 	else
 	{
-		$points_RET = DBGet( "SELECT DISTINCT ON (s.STUDENT_ID) s.STUDENT_ID,'-1' AS ASSIGNMENT_TYPE_ID,sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'gg.POINTS' ) ) . ") AS PARTIAL_POINTS,sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ) ) . ") AS PARTIAL_TOTAL,'1' AS FINAL_GRADE_PERCENT
+		$points_RET = DBGet( "SELECT DISTINCT ON (s.STUDENT_ID) s.STUDENT_ID,'-1' AS ASSIGNMENT_TYPE_ID,sum(" . db_case( [ 'gg.POINTS', "'-1'", "'0'", 'gg.POINTS' ] ) . ") AS PARTIAL_POINTS,sum(" . db_case( [ 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ] ) . ") AS PARTIAL_TOTAL,'1' AS FINAL_GRADE_PERCENT
 		FROM STUDENTS s
 		JOIN SCHEDULE ss ON (ss.STUDENT_ID=s.STUDENT_ID AND ss.COURSE_PERIOD_ID='" . $course_period_id . "')
 		JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID OR ga.COURSE_ID='" . $course_id . "' AND ga.STAFF_ID='" . User( 'STAFF_ID' ) . "') AND ga.MARKING_PERIOD_ID" .
@@ -89,7 +89,7 @@ if ( $_REQUEST['modfunc'] == 'gradebook' )
 		LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.STUDENT_ID=s.STUDENT_ID AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID)
 		WHERE ((ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE)
 		AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE) OR gg.POINTS IS NOT NULL)
-		GROUP BY s.STUDENT_ID,ss.START_DATE", array(), array( 'STUDENT_ID' ) );
+		GROUP BY s.STUDENT_ID,ss.START_DATE", [], [ 'STUDENT_ID' ] );
 	}
 
 	if ( ! empty( $points_RET ) )
@@ -147,7 +147,7 @@ if ( $_REQUEST['modfunc'] == 'gradebook' )
 			FROM ELIGIBILITY
 			WHERE SCHOOL_DATE
 			BETWEEN '" . $start_date . "' AND '" . $end_date . "'
-			AND COURSE_PERIOD_ID='" . $course_period_id . "'", array(), array( 'STUDENT_ID' ) );
+			AND COURSE_PERIOD_ID='" . $course_period_id . "'", [], [ 'STUDENT_ID' ] );
 	}
 
 	RedirectURL( 'modfunc' );
@@ -196,7 +196,7 @@ if ( ! empty( $_REQUEST['values'] )
 	$current_RET = DBGet( "SELECT ELIGIBILITY_CODE,STUDENT_ID
 		FROM ELIGIBILITY
 		WHERE SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
-		AND COURSE_PERIOD_ID='" . $course_period_id . "'", array(), array( 'STUDENT_ID' ) );
+		AND COURSE_PERIOD_ID='" . $course_period_id . "'", [], [ 'STUDENT_ID' ] );
 
 	RedirectURL( 'values' );
 }
@@ -204,19 +204,19 @@ if ( ! empty( $_REQUEST['values'] )
 $extra['SELECT'] = issetVal( $extra['SELECT'], '' );
 $extra['SELECT'] .= ",'' AS PASSING,'' AS BORDERLINE,'' AS FAILING,'' AS INCOMPLETE";
 
-$extra['functions'] = array(
+$extra['functions'] = [
 	'PASSING' => 'makeRadio',
 	'BORDERLINE' => 'makeRadio',
 	'FAILING' => 'makeRadio',
 	'INCOMPLETE' => 'makeRadio',
-);
+];
 
-$columns = array(
+$columns = [
 	'PASSING' => _( 'Passing' ),
 	'BORDERLINE' => _( 'Borderline' ),
 	'FAILING' => _( 'Failing' ),
 	'INCOMPLETE' => _( 'Incomplete' ),
-);
+];
 
 $stu_RET = GetStuList( $extra );
 
@@ -239,7 +239,7 @@ if ( $today > $END_DAY
 	|| ( $today == $START_DAY && date( 'Gi' ) < ( $START_HOUR . $START_MINUTE ) )
 	|| ( $today == $END_DAY && date( 'Gi' ) > ( $END_HOUR . $END_MINUTE ) ) )
 {
-	echo ErrorMessage( array( sprintf( _( 'You can only enter eligibility from %s %s to %s %s.' ), $days[$START_DAY], $START_HOUR . ':' . $START_MINUTE, $days[$END_DAY], $END_HOUR . ':' . $END_MINUTE ) ), 'error' );
+	echo ErrorMessage( [ sprintf( _( 'You can only enter eligibility from %s %s to %s %s.' ), $days[$START_DAY], $START_HOUR . ':' . $START_MINUTE, $days[$END_DAY], $END_HOUR . ':' . $END_MINUTE ) ], 'error' );
 }
 else
 {
@@ -264,11 +264,11 @@ else
 		echo ErrorMessage( $note, 'note' );
 	}
 
-	$LO_columns = array(
+	$LO_columns = [
 		'FULL_NAME' => _( 'Student' ),
 		'STUDENT_ID' => sprintf( _( '%s ID' ), Config( 'NAME' ) ),
 		'GRADE_ID' => _( 'Grade Level' ),
-	) + $columns;
+	] + $columns;
 
 	ListOutput( $stu_RET, $LO_columns, 'Student', 'Students' );
 

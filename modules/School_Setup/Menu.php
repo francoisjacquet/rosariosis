@@ -10,7 +10,7 @@
  * @see  Menu.php in root folder
  */
 
-$menu['School_Setup']['admin'] = array(
+$menu['School_Setup']['admin'] = [
 	'title' => _( 'School' ),
 	'default' => 'School_Setup/Calendar.php',
 	'School_Setup/PortalNotes.php' => _( 'Portal Notes' ),
@@ -29,9 +29,9 @@ $menu['School_Setup']['admin'] = array(
 	3 => dgettext( 'Access_Log', _( 'Security' ) ),
 	'School_Setup/AccessLog.php' => _( 'Access Log' ),
 	'School_Setup/DatabaseBackup.php' => _( 'Database Backup' ),
-);
+];
 
-$menu['School_Setup']['teacher'] = array(
+$menu['School_Setup']['teacher'] = [
 	'title' => _( 'School' ),
 	'default' => 'School_Setup/Calendar.php',
 	'School_Setup/Schools.php' => _( 'School Information' ),
@@ -39,18 +39,18 @@ $menu['School_Setup']['teacher'] = array(
 	'School_Setup/MarkingPeriods.php' => _( 'Marking Periods' ),
 	// Add Periods to teachers.
 	'School_Setup/Periods.php' => _( 'Periods' ),
-);
+];
 
-$menu['School_Setup']['parent'] = array(
+$menu['School_Setup']['parent'] = [
 	'title' => _( 'School' ),
 	'default' => 'School_Setup/Calendar.php',
 	'School_Setup/Schools.php' => _( 'School Information' ),
 	'School_Setup/Calendar.php' => _( 'Calendars' ),
 	// Add Marking Periods to parents & students.
 	'School_Setup/MarkingPeriods.php' => _( 'Marking Periods' ),
-);
+];
 
-$exceptions['School_Setup'] = array(
+$exceptions['School_Setup'] = [
 	'School_Setup/PortalNotes.php' => true,
 	'School_Setup/Rollover.php' => true,
-);
+];

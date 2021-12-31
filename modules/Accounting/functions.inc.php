@@ -163,7 +163,7 @@ function _makePaymentsCommentsInput( $value, $name )
 		return $text_input;
 	}
 
-	$salaries_options = array();
+	$salaries_options = [];
 
 	foreach ( $salaries_RET as $salary )
 	{

@@ -23,7 +23,7 @@ if ( ! function_exists( 'CalendarDayClasses' ) )
 	 *
 	 * @return string HTML
 	 */
-	function CalendarDayClasses( $date, $minutes, $events = array(), $assignments = array(), $mode = 'day' )
+	function CalendarDayClasses( $date, $minutes, $events = [], $assignments = [], $mode = 'day' )
 	{
 		return CalendarDayClassesDefault( $date, $minutes, $events, $assignments, $mode );
 	}
@@ -43,7 +43,7 @@ if ( ! function_exists( 'CalendarDayClasses' ) )
  *
  * @return string HTML
  */
-function CalendarDayClassesDefault( $date, $minutes, $events = array(), $assignments = array(), $mode = 'day' )
+function CalendarDayClassesDefault( $date, $minutes, $events = [], $assignments = [], $mode = 'day' )
 {
 	global $return_counter;
 
@@ -229,7 +229,7 @@ function CalendarDayBlockHTMLDefault( $date, $minutes, $day_block )
 			AND BLOCK IS NOT NULL
 			ORDER BY BLOCK" );
 
-		$block_options = array();
+		$block_options = [];
 
 		foreach ( (array) $blocks_RET as $block )
 		{

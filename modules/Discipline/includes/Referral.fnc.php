@@ -86,7 +86,7 @@ function ReferralInput( $category, $value = '', $new = true )
 
 		case 'multiple_checkbox':
 
-			$options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS'] ) );
+			$options = explode( "\r", str_replace( [ "\r\n", "\n" ], "\r", $category['SELECT_OPTIONS'] ) );
 
 			// @since 4.2
 			$input = MultipleCheckboxInput(
@@ -101,9 +101,9 @@ function ReferralInput( $category, $value = '', $new = true )
 		case 'multiple_radio':
 		case 'select':
 
-			$options = array();
+			$options = [];
 
-			$radio_select_options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS'] ) );
+			$radio_select_options = explode( "\r", str_replace( [ "\r\n", "\n" ], "\r", $category['SELECT_OPTIONS'] ) );
 
 			foreach ( (array) $radio_select_options as $option )
 			{
@@ -137,12 +137,12 @@ function ReferralInput( $category, $value = '', $new = true )
 	// @deprecated Filter $_ROSARIO['ReferralInput'] global.
 	$_ROSARIO['ReferralInput'] = $input;
 
-	$action_args = array(
+	$action_args = [
 		'category' => $category,
 		'value' => $value,
 		'new' => $new,
 		'input' => &$input,
-	);
+	];
 
 	// @since 4.5 Referral Input action hook.
 	do_action( 'Discipline/includes/Referral.fnc.php|referral_input', $action_args );

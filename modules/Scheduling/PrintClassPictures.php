@@ -25,7 +25,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			FROM STAFF
 			WHERE STAFF_ID IN (SELECT TEACHER_ID
 				FROM COURSE_PERIODS
-				WHERE COURSE_PERIOD_ID IN (" . $cp_list . "))", array(), array( 'STAFF_ID' ) );
+				WHERE COURSE_PERIOD_ID IN (" . $cp_list . "))", [], [ 'STAFF_ID' ] );
 	}
 
 	//echo '<pre>'; var_dump($teachers_RET); echo '</pre>';
@@ -50,12 +50,12 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 		$_SESSION['UserCoursePeriod'] = $course_period_id;
 
-		$extra = array(
+		$extra = [
 			'SELECT_ONLY' => 's.STUDENT_ID,s.LAST_NAME,s.FIRST_NAME',
 			'ORDER_BY' => 's.LAST_NAME,s.FIRST_NAME,s.MIDDLE_NAME',
 			'MP' => $course_period['MARKING_PERIOD_ID'],
 			'MPTable' => $course_period['MP'],
-		);
+		];
 
 		if ( User( 'PROFILE' ) === 'student'
 			|| User( 'PROFILE' ) === 'parent' )
@@ -254,7 +254,7 @@ if ( ! $_REQUEST['modfunc']
 		$_REQUEST['modfunc'] = 'list';
 	}
 
-	$extra = issetVal( $extra, array() );
+	$extra = issetVal( $extra, [] );
 
 	if ( $_REQUEST['modfunc'] === 'list' )
 	{

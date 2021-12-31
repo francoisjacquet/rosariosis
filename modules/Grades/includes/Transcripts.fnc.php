@@ -87,15 +87,15 @@ if ( ! function_exists( 'TranscriptsIncludeForm' ) )
 		$mp_types = DBGet( "SELECT DISTINCT MP_TYPE
 			FROM MARKING_PERIODS
 			WHERE NOT MP_TYPE IS NULL
-			AND SCHOOL_ID='" . UserSchool() . "'", array(), array() );
+			AND SCHOOL_ID='" . UserSchool() . "'", [], [] );
 
 		$return .= '<tr class="st"><td class="valign-top">';
 
-		$marking_periods_locale = array(
+		$marking_periods_locale = [
 			'Year' => _( 'Year' ),
 			'Semester' => _( 'Semester' ),
 			'Quarter' => _( 'Quarter' ),
-		);
+		];
 
 		foreach ( (array) $mp_types as $mp_type )
 		{
@@ -127,10 +127,10 @@ if ( ! function_exists( 'TranscriptsIncludeForm' ) )
 			_( 'Credit Hours' ) . '</label>';
 
 		// Add GPA or Total row.
-		$gpa_or_total_options = array(
+		$gpa_or_total_options = [
 			'gpa' => _( 'GPA' ),
 			'total' => _( 'Total' ),
-		);
+		];
 
 		if ( User( 'PROFILE' ) !== 'admin' )
 		{
@@ -158,7 +158,7 @@ if ( ! function_exists( 'TranscriptsIncludeForm' ) )
 				_( 'Studies Certificate Text' )
 			);
 
-			$substitutions = array(
+			$substitutions = [
 				'__SSECURITY__' => $field_SSECURITY[1]['TITLE'],
 				'__FULL_NAME__' => _( 'Display Name' ),
 				'__LAST_NAME__' => _( 'Last Name' ),
@@ -169,7 +169,7 @@ if ( ! function_exists( 'TranscriptsIncludeForm' ) )
 				'__SCHOOL_ID__' => _( 'School' ),
 				'__YEAR__' => _( 'School Year' ),
 				'__BLOCK2__' => _( 'Text Block 2' ),
-			);
+			];
 
 			$substitutions += SubstitutionsCustomFields( 'STUDENT' );
 
@@ -244,18 +244,18 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 			AND mp_type in (" . $mp_type_list . ")
 			AND school_id='" . $school_id . "'
 			AND syear in (" . $syear_list . ")
-			ORDER BY mp_type, end_date", array(), array( 'STUDENT_ID', 'SYEAR', 'MARKING_PERIOD_ID' ) );
+			ORDER BY mp_type, end_date", [], [ 'STUDENT_ID', 'SYEAR', 'MARKING_PERIOD_ID' ] );
 
 		if ( empty( $t_grades ) || empty( $RET ) )
 		{
-			return array();
+			return [];
 		}
 
 		$syear = ( User( 'PROFILE' ) === 'admin' && $syear_array ?
 			$syear_array[0] :
 			UserSyear() );
 
-		$show = array(
+		$show = [
 			'studentpic' => ! empty( $_REQUEST['showstudentpic'] ),
 			'sat' => ! empty( $_REQUEST['showsat'] ),
 			'grades' => ! empty( $_REQUEST['showgrades'] ),
@@ -264,7 +264,7 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 			'credithours' => ! empty( $_REQUEST['showcredithours'] ),
 			'certificate' => ( User( 'PROFILE' ) === 'admin' && ! empty( $_REQUEST['showcertificate'] ) ),
 			'gpa_or_total' => $_REQUEST['showgpa_or_total'],
-		);
+		];
 
 		if ( $show['certificate'] )
 		{
@@ -289,7 +289,7 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 		$school_info = $school_info[1];
 
 		// Transcripts array.
-		$transcripts = array();
+		$transcripts = [];
 
 		foreach ( (array) $t_grades as $student_id => $t_sgrades )
 		{
@@ -312,7 +312,7 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 
 				if ( $show['certificate'] )
 				{
-					$substitutions = array(
+					$substitutions = [
 						'__SSECURITY__' => $student['SSECURITY'],
 						'__FULL_NAME__' => $student['FULL_NAME'],
 						'__LAST_NAME__' => $student['LAST_NAME'],
@@ -322,7 +322,7 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 						'__NEXT_GRADE_ID__' => $student['NEXT_GRADE_LEVEL'],
 						'__SCHOOL_ID__' => $school_info['TITLE'],
 						'__YEAR__' => $syear,
-					);
+					];
 
 					$substitutions += SubstitutionsCustomFieldsValues( 'STUDENT', $student );
 
@@ -339,12 +339,12 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 				TranscriptPDFHeader( $student, $school_info, $certificate_block1 );
 
 				// Generate ListOutput friendly array.
-				$grades_RET = array();
+				$grades_RET = [];
 
 				$total_credit_earned = 0;
 				$total_credit_attempted = 0;
 
-				$columns = array( 'COURSE_TITLE' => _( 'Course' ) );
+				$columns = [ 'COURSE_TITLE' => _( 'Course' ) ];
 
 				foreach ( (array) $mps as $mp_id => $grades )
 				{
@@ -379,7 +379,7 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 						{
 							if ( ! isset( $grades_total ) )
 							{
-								$grades_total = array();
+								$grades_total = [];
 							}
 
 							$grades_total[$mp_id] = 0;
@@ -460,7 +460,7 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 
 				ListOutput( $grades_RET, $columns, '.', '.', false );
 
-				$last_grade = $show['grades'] ? $grade : array();
+				$last_grade = $show['grades'] ? $grade : [];
 
 				if ( $show['credits'] )
 				{
@@ -513,7 +513,7 @@ if ( ! function_exists( 'TranscriptPDFHeader' ) )
 		{
 			$custom_fields_RET = DBGet( "SELECT ID,TITLE,TYPE
 				FROM CUSTOM_FIELDS
-				WHERE ID IN (200000000, 200000003, 200000004)", array(), array( 'ID' ) );
+				WHERE ID IN (200000000, 200000003, 200000004)", [], [ 'ID' ] );
 		}
 
 		echo '<table class="width-100p"><tr class="valign-top"><td>';
@@ -638,7 +638,7 @@ if ( ! function_exists( 'TranscriptPDFHeader' ) )
 
 		// @since 4.8 Add Transcripts PDF header action hook.
 		// @since 7.5 Echo your custom text before or append it to $header_html to display it after.
-		do_action( 'Grades/includes/Transcripts.fnc.php|pdf_header', array( $student['ID'], &$header_html ) );
+		do_action( 'Grades/includes/Transcripts.fnc.php|pdf_header', [ $student['ID'], &$header_html ] );
 
 		echo $header_html;
 	}
@@ -715,7 +715,7 @@ if ( ! function_exists( 'TranscriptPDFFooter' ) )
 
 		// @since 4.8 Add Transcripts PDF footer action hook.
 		// @since 7.5 Echo your custom text before or append it to $footer_html to display it after.
-		do_action( 'Grades/includes/Transcripts.fnc.php|pdf_footer', array( $student['ID'], $last_grade, &$footer_html ) );
+		do_action( 'Grades/includes/Transcripts.fnc.php|pdf_footer', [ $student['ID'], $last_grade, &$footer_html ] );
 
 		echo $footer_html;
 	}
@@ -737,7 +737,7 @@ function _getTranscriptsStudents( $st_list, $syear )
 
 	$custom_fields_RET = DBGet( "SELECT ID,TITLE,TYPE
 		FROM CUSTOM_FIELDS
-		WHERE ID IN (200000000,200000003,200000004)", array(), array( 'ID' ) );
+		WHERE ID IN (200000000,200000003,200000004)", [], [ 'ID' ] );
 
 	if ( $custom_fields_RET['200000000']
 		&& $custom_fields_RET['200000000'][1]['TYPE'] == 'select' )
@@ -791,7 +791,7 @@ function _getTranscriptsStudents( $st_list, $syear )
 
 	$students_RET = DBGet( $students_dataquery .
 		' WHERE s.student_id IN (' . $st_list . ')
-		ORDER BY LAST_NAME,FIRST_NAME', array(), array( 'STUDENT_ID' ) );
+		ORDER BY LAST_NAME,FIRST_NAME', [], [ 'STUDENT_ID' ] );
 
 	return $students_RET;
 }

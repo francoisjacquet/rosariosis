@@ -28,7 +28,7 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 
 		$items_RET = DBGet( "SELECT DESCRIPTION,SHORT_NAME,PRICE,PRICE_REDUCED,PRICE_FREE
 			FROM FOOD_SERVICE_ITEMS
-			WHERE SCHOOL_ID='" . UserSchool() . "'", array(), array( 'SHORT_NAME' ) );
+			WHERE SCHOOL_ID='" . UserSchool() . "'", [], [ 'SHORT_NAME' ] );
 
 		// get next transaction id
 		$id = DBSeqNextID( 'food_service_transactions_transaction_id_seq' );
@@ -143,13 +143,13 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 			AND fst.TIMESTAMP BETWEEN CURRENT_DATE AND \'tomorrow\'
 			AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID' );
 
-		$columns = array( 'DESCRIPTION' => _( 'Item' ), 'AMOUNT' => _( 'Amount' ) );
+		$columns = [ 'DESCRIPTION' => _( 'Item' ), 'AMOUNT' => _( 'Amount' ) ];
 
 		$singular = sprintf( _( 'Earlier %s Sale' ), $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] );
 
 		$plural = sprintf( _( 'Earlier %s Sales' ), $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] );
 
-		ListOutput( $RET, $columns, $singular, $plural, array(), false, array( 'save' => false, 'search' => false ) );
+		ListOutput( $RET, $columns, $singular, $plural, [], false, [ 'save' => false, 'search' => false ] );
 
 		// IMAGE
 		//FJ fix error Warning: fclose() expects parameter 1 to be resource, boolean given
@@ -169,15 +169,15 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 		AND fsi.ITEM_ID=fsmi.ITEM_ID
 		AND fsmi.CATEGORY_ID IS NOT NULL
 		AND fsi.SCHOOL_ID='" . UserSchool() . "'
-		ORDER BY fsi.SORT_ORDER", array( 'ICON' => 'makeIcon' ), array( 'SHORT_NAME' ) );
-		$items = array();
+		ORDER BY fsi.SORT_ORDER", [ 'ICON' => 'makeIcon' ], [ 'SHORT_NAME' ] );
+		$items = [];
 
 		foreach ( (array) $items_RET as $sn => $item )
 		{
-			$items += array( $sn => $item[1]['DESCRIPTION'] );
+			$items += [ $sn => $item[1]['DESCRIPTION'] ];
 		}
 
-		$LO_ret = array( array() );
+		$LO_ret = [ [] ];
 //FJ fix error Warning: Invalid argument supplied for foreach()
 
 		if ( isset( $_SESSION['FSA_sale'] ) && is_array( $_SESSION['FSA_sale'] ) )
@@ -202,42 +202,42 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 					}
 				}
 
-				$LO_ret[] = array( 'SALE_ID' => $id, 'PRICE' => $price, 'DESCRIPTION' => $items_RET[$item_sn][1]['DESCRIPTION'], 'ICON' => $items_RET[$item_sn][1]['ICON'] );
+				$LO_ret[] = [ 'SALE_ID' => $id, 'PRICE' => $price, 'DESCRIPTION' => $items_RET[$item_sn][1]['DESCRIPTION'], 'ICON' => $items_RET[$item_sn][1]['ICON'] ];
 			}
 		}
 
 		unset( $LO_ret[0] );
 
-		$link['remove'] = array( 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove&menu_id=' . $_REQUEST['menu_id'],
-			'variables' => array( 'id' => 'SALE_ID' ) );
+		$link['remove'] = [ 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove&menu_id=' . $_REQUEST['menu_id'],
+			'variables' => [ 'id' => 'SALE_ID' ] ];
 //FJ css WPadmin
 		//		$link['add']['html'] = array('DESCRIPTION' => '<table class="cellspacing-0"><tr><td>'.SelectInput('','item_sn','',$items).'</td></tr></table>','ICON' => '<table class="cellspacing-0"><tr><td><input type=submit value='._('Add').'></td></tr></table>','remove'=>button('add'));
-		$link['add']['html'] = array(
+		$link['add']['html'] = [
 			'DESCRIPTION' => SelectInput( '', 'item_sn', '', $items ),
 			'ICON' => SubmitButton( _( 'Add' ) ),
 			'PRICE' => '&nbsp;',
 			'remove' => button( 'add' ),
-		);
+		];
 
-		$columns = array( 'DESCRIPTION' => _( 'Item' ), 'ICON' => _( 'Icon' ), 'PRICE' => _( 'Price' ) );
+		$columns = [ 'DESCRIPTION' => _( 'Item' ), 'ICON' => _( 'Icon' ), 'PRICE' => _( 'Price' ) ];
 
-		$tabs = array();
+		$tabs = [];
 
 		foreach ( (array) $menus_RET as $id => $menu )
 		{
-			$tabs[] = array( 'title' => $menu[1]['TITLE'], 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&menu_id=' . $id );
+			$tabs[] = [ 'title' => $menu[1]['TITLE'], 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&menu_id=' . $id ];
 		}
 
-		$extra = array(
+		$extra = [
 			'save' => false,
 			'search' => false,
 			'header' => WrapTabs( $tabs, 'Modules.php?modname=' . $_REQUEST['modname'] . '&menu_id=' . $_REQUEST['menu_id'] ),
-		);
+		];
 
 		echo '<br />';
 		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=add&menu_id=' . $_REQUEST['menu_id']  ) . '" method="POST">';
 
-		ListOutput( $LO_ret, $columns, 'Item', 'Items', $link, array(), $extra );
+		ListOutput( $LO_ret, $columns, 'Item', 'Items', $link, [], $extra );
 
 		echo '</form>';
 
@@ -245,6 +245,6 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 	}
 	else
 	{
-		ErrorMessage( array( _( 'This student does not have a valid Meal Account.' ) ), 'fatal' );
+		ErrorMessage( [ _( 'This student does not have a valid Meal Account.' ) ], 'fatal' );
 	}
 }

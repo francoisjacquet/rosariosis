@@ -111,7 +111,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 			WHERE ID='" . $_REQUEST['id'] . "'" );
 
 		// Unset modfunc & ID & redirect URL.
-		RedirectURL( array( 'modfunc', 'id' ) );
+		RedirectURL( [ 'modfunc', 'id' ] );
 	}
 }
 
@@ -119,13 +119,13 @@ if ( ! $_REQUEST['modfunc'] )
 {
 	$payments_total = 0;
 
-	$functions = array(
+	$functions = [
 		'REMOVE' => '_makePaymentsRemove',
 		'AMOUNT' => '_makePaymentsAmount',
 		'PAYMENT_DATE' => 'ProperDate',
 		'COMMENTS' => '_makePaymentsTextInput',
 		'FILE_ATTACHED' => '_makePaymentsFileInput',
-	);
+	];
 
 	$payments_RET = DBGet( "SELECT '' AS REMOVE,ID,AMOUNT,PAYMENT_DATE,COMMENTS,FILE_ATTACHED
 		FROM ACCOUNTING_PAYMENTS
@@ -135,7 +135,7 @@ if ( ! $_REQUEST['modfunc'] )
 		ORDER BY ID", $functions );
 
 	$i = 1;
-	$RET = array();
+	$RET = [];
 
 	foreach ( (array) $payments_RET as $payment )
 	{
@@ -145,49 +145,49 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( ! empty( $RET ) && ! $_REQUEST['print_statements'] && AllowEdit() )
 	{
-		$columns = array( 'REMOVE' => '' );
+		$columns = [ 'REMOVE' => '' ];
 	}
 	else
 	{
-		$columns = array();
+		$columns = [];
 	}
 
-	$columns += array(
+	$columns += [
 		'AMOUNT' => _( 'Amount' ),
 		'PAYMENT_DATE' => _( 'Date' ),
 		'COMMENTS' => _( 'Comment' ),
-	);
+	];
 
 	if ( empty( $_REQUEST['print_statements'] )
 		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
-		$columns += array( 'FILE_ATTACHED' => _( 'File Attached' ) );
+		$columns += [ 'FILE_ATTACHED' => _( 'File Attached' ) ];
 	}
 
 	if ( ! $_REQUEST['print_statements']
 		&& AllowEdit() )
 	{
-		$link['add']['html'] = array(
+		$link['add']['html'] = [
 			'REMOVE' => button( 'add' ),
 			'AMOUNT' => _makePaymentsTextInput( '', 'AMOUNT' ),
 			'PAYMENT_DATE' => _makePaymentsDateInput( DBDate(), 'PAYMENT_DATE' ),
 			'COMMENTS' => _makePaymentsTextInput( '', 'COMMENTS' ),
 			'FILE_ATTACHED' => _makePaymentsFileInput( '', 'FILE_ATTACHED' ),
-		);
+		];
 	}
 
 	if ( ! $_REQUEST['print_statements'] && AllowEdit() )
 	{
 		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="POST">';
 		DrawHeader( '', SubmitButton() );
-		$options = array();
+		$options = [];
 	}
 	else
 	{
-		$options = array( 'center' => false, 'add' => false );
+		$options = [ 'center' => false, 'add' => false ];
 	}
 
-	ListOutput( $RET, $columns, 'Expense', 'Expenses', $link, array(), $options );
+	ListOutput( $RET, $columns, 'Expense', 'Expenses', $link, [], $options );
 
 	if ( ! $_REQUEST['print_statements'] && AllowEdit() )
 	{

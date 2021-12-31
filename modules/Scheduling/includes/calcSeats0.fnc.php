@@ -28,12 +28,12 @@ function calcSeats0( $period, $date = '' )
 	WHERE ac.CALENDAR_ID='" . $period['CALENDAR_ID'] . "'
 	AND ac.SCHOOL_DATE BETWEEN " . ( $date ?
 		"'" . $date . "'" :
-		db_case( array(
+		db_case( [
 			"(CURRENT_DATE>'" . GetMP( $mp, 'END_DATE' ) . "')",
 			'TRUE',
 			"'" . GetMP( $mp, 'START_DATE' ) . "'",
 			'CURRENT_DATE',
-		) )
+		] )
 	) . " AND '" . GetMP( $mp, 'END_DATE' ) . "'" );
 
 	return (string) (int) $filled_seats;

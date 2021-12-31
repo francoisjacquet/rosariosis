@@ -135,7 +135,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 			echo '<br /><br /><table class="width-100p"><tr><td style="width:50px;"> &nbsp; </td><td>' . $student['MAILING_LABEL'] . '</td></tr></table><br />';
 		}
 
-		$substitutions = array(
+		$substitutions = [
 			'__FULL_NAME__' => $student['FULL_NAME'],
 			'__LAST_NAME__' => $student['LAST_NAME'],
 			'__FIRST_NAME__' => $student['FIRST_NAME'],
@@ -145,7 +145,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 			'__GRADE_ID__' => $student['GRADE_ID'],
 			'__TEACHER__' => $student['TEACHER'],
 			'__ROOM__' => $student['ROOM'],
-		);
+		];
 
 		$substitutions += SubstitutionsCustomFieldsValues( 'STUDENT', $student );
 
@@ -182,7 +182,7 @@ if ( ! $_REQUEST['modfunc'] )
 			_( 'Letter Text' )
 		) . '</td></tr>';
 
-		$substitutions = array(
+		$substitutions = [
 			'__FULL_NAME__' => _( 'Display Name' ),
 			'__LAST_NAME__' => _( 'Last Name' ),
 			'__FIRST_NAME__' => _( 'First Name' ),
@@ -190,7 +190,7 @@ if ( ! $_REQUEST['modfunc'] )
 			'__STUDENT_ID__' => sprintf( _( '%s ID' ), Config( 'NAME' ) ),
 			'__SCHOOL_TITLE__' => _( 'School' ),
 			'__GRADE_ID__' => _( 'Grade Level' ),
-		);
+		];
 
 		if ( User( 'PROFILE' ) === 'admin' )
 		{
@@ -213,9 +213,9 @@ if ( ! $_REQUEST['modfunc'] )
 	$extra['SELECT'] = issetVal( $extra['SELECT'], '' );
 
 	$extra['SELECT'] .= ",s.STUDENT_ID AS CHECKBOX";
-	$extra['link'] = array( 'FULL_NAME' => false );
-	$extra['functions'] = array( 'CHECKBOX' => 'MakeChooseCheckbox' );
-	$extra['columns_before'] = array( 'CHECKBOX' => MakeChooseCheckbox( 'Y', '', 'st_arr' ) );
+	$extra['link'] = [ 'FULL_NAME' => false ];
+	$extra['functions'] = [ 'CHECKBOX' => 'MakeChooseCheckbox' ];
+	$extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( 'Y', '', 'st_arr' ) ];
 	$extra['options']['search'] = false;
 	$extra['new'] = true;
 

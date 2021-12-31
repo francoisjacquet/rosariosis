@@ -66,7 +66,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 			WHERE ID='" . $_REQUEST['id'] . "'" );
 
 		// Unset modfunc & ID & redirect URL.
-		RedirectURL( array( 'modfunc', 'id' ) );
+		RedirectURL( [ 'modfunc', 'id' ] );
 	}
 }
 
@@ -75,12 +75,12 @@ if ( ! $_REQUEST['modfunc'] )
 	$resources_RET = DBGet( "SELECT ID,TITLE,LINK
 		FROM RESOURCES
 		WHERE SCHOOL_ID='" . UserSchool() . "'
-		ORDER BY ID", array( 'TITLE' => '_makeTextInput', 'LINK' => '_makeLink' ) );
+		ORDER BY ID", [ 'TITLE' => '_makeTextInput', 'LINK' => '_makeLink' ] );
 
-	$columns = array( 'TITLE' => _( 'Title' ), 'LINK' => _( 'Link' ) );
-	$link['add']['html'] = array( 'TITLE' => _makeTextInput( '', 'TITLE' ), 'LINK' => _makeLink( '', 'LINK' ) );
+	$columns = [ 'TITLE' => _( 'Title' ), 'LINK' => _( 'Link' ) ];
+	$link['add']['html'] = [ 'TITLE' => _makeTextInput( '', 'TITLE' ), 'LINK' => _makeLink( '', 'LINK' ) ];
 	$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove';
-	$link['remove']['variables'] = array( 'id' => 'ID' );
+	$link['remove']['variables'] = [ 'id' => 'ID' ];
 
 	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update' ) . '" method="POST">';
 	DrawHeader( '', SubmitButton() );

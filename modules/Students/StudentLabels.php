@@ -11,7 +11,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 	if ( empty( $extra ) )
 	{
-		$extra = array();
+		$extra = [];
 	}
 
 	if ( ! empty( $_REQUEST['mailing_labels'] ) )
@@ -83,13 +83,13 @@ if ( ! $_REQUEST['modfunc'] )
 
 	Widgets( 'course' );
 
-	$extra['link'] = array( 'FULL_NAME' => false );
+	$extra['link'] = [ 'FULL_NAME' => false ];
 
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
 
-	$extra['functions'] = array( 'CHECKBOX' => 'MakeChooseCheckbox' );
+	$extra['functions'] = [ 'CHECKBOX' => 'MakeChooseCheckbox' ];
 
-	$extra['columns_before'] = array( 'CHECKBOX' => MakeChooseCheckbox( 'Y', '', 'st_arr' ) );
+	$extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( 'Y', '', 'st_arr' ) ];
 
 	$extra['options']['search'] = false;
 

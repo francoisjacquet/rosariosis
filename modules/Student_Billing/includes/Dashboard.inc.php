@@ -52,7 +52,7 @@ if ( ! function_exists( 'DashboardStudentBillingAdmin' ) )
 			AND SCHOOL_ID='" . UserSchool() . "'
 			GROUP BY YEAR_MONTH
 			ORDER BY YEAR_MONTH DESC
-			LIMIT 3", array(), array( 'YEAR_MONTH' ) );
+			LIMIT 3", [], [ 'YEAR_MONTH' ] );
 
 		$payments_RET = DBGet( "SELECT TO_CHAR(PAYMENT_DATE,'YYYY-MM') AS YEAR_MONTH,
 			SUM(AMOUNT) AS TOTAL_PAYMENTS
@@ -61,7 +61,7 @@ if ( ! function_exists( 'DashboardStudentBillingAdmin' ) )
 			AND SCHOOL_ID='" . UserSchool() . "'
 			GROUP BY YEAR_MONTH
 			ORDER BY YEAR_MONTH DESC
-			LIMIT 3", array(), array( 'YEAR_MONTH' ) );
+			LIMIT 3", [], [ 'YEAR_MONTH' ] );
 
 		$fees_payments_RET = array_replace_recursive( $fees_RET, $payments_RET );
 
@@ -91,7 +91,7 @@ if ( ! function_exists( 'DashboardStudentBillingAdmin' ) )
 			$proper_date = ProperDate( $year_month . '-29' );
 
 			// Remove dummy day from proper date.
-			$proper_month_year = str_replace( array( '/29', ' 29' ), '', $proper_date );
+			$proper_month_year = str_replace( [ '/29', ' 29' ], '', $proper_date );
 
 			$month_balance = 0;
 
@@ -126,7 +126,7 @@ if ( ! function_exists( 'DashboardStudentBillingAdmin' ) )
 			$billing_data[$month_key] = mb_substr( $billing_data_month, 0, ( mb_strlen( $billing_data_month ) - 6 ) );
 		}
 
-		$data = array();
+		$data = [];
 
 		if ( $balance
 			|| count( $billing_data ) > 1 )

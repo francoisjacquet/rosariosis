@@ -47,7 +47,7 @@ if ( ! function_exists( 'DashboardSchedulingAdmin' ) )
 		// Fix SQL error when no Quarter MP.
 		if ( ! $all_qtr_mp )
 		{
-			return array();
+			return [];
 		}
 
 		$courses_RET = DBGet( "SELECT COUNT(COURSE_ID) AS COURSES_NB,
@@ -64,11 +64,11 @@ if ( ! function_exists( 'DashboardSchedulingAdmin' ) )
 
 		$cp_mp_title = _( 'Course Periods' ) . ' (' . GetMP( UserMP(), 'SHORT_NAME' ) . ')';
 
-		$data = array(
+		$data = [
 			_( 'Courses' ) => $courses_RET[1]['COURSES_NB'],
 			ngettext( 'Subject', 'Subjects', $courses_RET[1]['SUBJECTS_NB'] ) => $courses_RET[1]['SUBJECTS_NB'],
 			$cp_mp_title => $cp_nb,
-		);
+		];
 
 		return $data;
 	}

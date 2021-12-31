@@ -10,7 +10,7 @@
  * @subpackage modules
  */
 
-$menu['Eligibility']['admin'] = array(
+$menu['Eligibility']['admin'] = [
 	'title' => _( 'Activities' ),
 	'default' => 'Eligibility/Student.php',
 	'Eligibility/Student.php' => _( 'Student Screen' ),
@@ -21,35 +21,35 @@ $menu['Eligibility']['admin'] = array(
 	2 => _( 'Setup' ),
 	'Eligibility/Activities.php' => _( 'Activities' ),
 	'Eligibility/EntryTimes.php' => _( 'Entry Times' )
-);
+];
 
-$menu['Eligibility']['teacher'] = array(
+$menu['Eligibility']['teacher'] = [
 	'title' => _( 'Activities' ),
 	'default' => 'Eligibility/EnterEligibility.php',
 	'Eligibility/EnterEligibility.php' => _( 'Enter Eligibility' )
-);
+];
 
-$menu['Eligibility']['parent'] = array(
+$menu['Eligibility']['parent'] = [
 	'title' => _( 'Activities' ),
 	'default' => 'Eligibility/Student.php',
 	'Eligibility/Student.php' => _( 'Student Screen' ),
 	'Eligibility/StudentList.php' => _( 'Student List' )
-);
+];
 
 if ( $RosarioModules['Users'] )
 {
-	$menu['Users']['admin'] += array(
+	$menu['Users']['admin'] += [
 		'Users/TeacherPrograms.php&include=Eligibility/EnterEligibility.php' => _( 'Enter Eligibility' )
-	);
+	];
 }
 
-$exceptions['Eligibility'] = array(
+$exceptions['Eligibility'] = [
 	'Eligibility/AddActivity.php' => true
-);
+];
 
 if ( $RosarioModules['Users'] )
 {
-	$exceptions['Users'] += array(
+	$exceptions['Users'] += [
 		'Users/TeacherPrograms.php&include=Eligibility/EnterEligibility.php' => true
-	);
+	];
 }

@@ -52,9 +52,9 @@ $sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,sp.TITLE,cpsp.PERIOD_I
 	(  ( $_REQUEST['period'] ) ? " AND cpsp.PERIOD_ID='" . $_REQUEST['period'] . "'" : '' ) .
 	" AND position('" . $day . "' in cpsp.DAYS)>0";
 
-$RET = DBGet( $sql, array(), array( 'STAFF_ID', 'PERIOD_ID' ) );
+$RET = DBGet( $sql, [], [ 'STAFF_ID', 'PERIOD_ID' ] );
 
-$menus_RET = DBGet( 'SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY SORT_ORDER', array(), array( 'MENU_ID' ) );
+$menus_RET = DBGet( 'SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY SORT_ORDER', [], [ 'MENU_ID' ] );
 
 if ( empty( $_REQUEST['menu_id'] ) )
 {
@@ -66,7 +66,7 @@ if ( empty( $_REQUEST['menu_id'] ) )
 		}
 		else
 		{
-			ErrorMessage( array( 'There are no menus yet setup.' ), 'fatal' );
+			ErrorMessage( [ 'There are no menus yet setup.' ], 'fatal' );
 		}
 	}
 	else
@@ -81,7 +81,7 @@ else
 	$_SESSION['FSA_menu_id'] = $_REQUEST['menu_id'];
 }
 
-$totals = array( array() );
+$totals = [ [] ];
 
 if ( ! empty( $RET ) )
 {
@@ -121,7 +121,7 @@ if ( ! empty( $RET ) )
 					}
 					else
 					{
-						$totals += array( $item['SHORT_NAME'] => array( 'DESCRIPTION' => $item['DESCRIPTION'], 'COUNT' => $item['COUNT'] ) );
+						$totals += [ $item['SHORT_NAME'] => [ 'DESCRIPTION' => $item['DESCRIPTION'], 'COUNT' => $item['COUNT'] ] ];
 					}
 				}
 
@@ -135,7 +135,7 @@ if ( ! empty( $RET ) )
 	}
 }
 
-$columns = array( 'FULL_NAME' => 'Teacher' );
+$columns = [ 'FULL_NAME' => 'Teacher' ];
 
 if ( empty( $_REQUEST['period'] ) )
 {
@@ -153,11 +153,11 @@ echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']
 
 if ( count( (array) $menus_RET ) > 1 )
 {
-	$tabs = array();
+	$tabs = [];
 
 	foreach ( (array) $menus_RET as $id => $menu )
 	{
-		$tabs[] = array( 'title' => $menu[1]['TITLE'], 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&menu_id=' . $id );
+		$tabs[] = [ 'title' => $menu[1]['TITLE'], 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&menu_id=' . $id ];
 	}
 
 	echo '<br />';
@@ -173,7 +173,7 @@ echo '</td></tr>';
 $totals = array_values( $totals );
 unset( $totals[0] );
 echo '<tr><td>';
-ListOutput( $totals, array( 'DESCRIPTION' => _( 'Item' ), 'COUNT' => _( 'Total Count' ) ), 'Item Total', 'Item Totals' );
+ListOutput( $totals, [ 'DESCRIPTION' => _( 'Item' ), 'COUNT' => _( 'Total Count' ) ], 'Item Total', 'Item Totals' );
 echo '</td></tr></table>';
 
 echo '</form>';

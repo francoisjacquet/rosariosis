@@ -48,7 +48,7 @@ if ( UserStaffID() )
 	// Fix SQL error when no Quarter MP.
 	if ( ! $all_qtr_mp )
 	{
-		$cp_RET = array();
+		$cp_RET = [];
 	}
 	else
 	{

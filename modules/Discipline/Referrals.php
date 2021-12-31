@@ -21,7 +21,7 @@ if ( ! empty( $_POST['values'] )
 		WHERE du.SYEAR='" . UserSyear() . "'
 		AND du.SCHOOL_ID='" . UserSchool() . "'
 		AND du.DISCIPLINE_FIELD_ID=df.ID
-		ORDER BY du.SORT_ORDER", array(), array( 'ID' ) );
+		ORDER BY du.SORT_ORDER", [], [ 'ID' ] );
 
 	foreach ( (array) $_REQUEST['values'] as $column_name => $value )
 	{
@@ -91,7 +91,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 			WHERE ID='" . $_REQUEST['id'] . "'" );
 
 		// Unset modfunc & ID & redirect URL.
-		RedirectURL( array( 'modfunc', 'id' ) );
+		RedirectURL( [ 'modfunc', 'id' ] );
 	}
 }
 
@@ -117,8 +117,8 @@ if ( mb_strpos( $extra['FROM'], 'DISCIPLINE_REFERRALS' ) === false )
 
 $extra['ORDER_BY'] = 'dr.ENTRY_DATE DESC,s.LAST_NAME,s.FIRST_NAME,s.MIDDLE_NAME';
 
-$extra['columns_after'] = array( 'STAFF_ID' => _( 'Reporter' ), 'ENTRY_DATE' => _( 'Incident Date' ) );
-$extra['functions'] = array( 'STAFF_ID' => 'GetTeacher', 'ENTRY_DATE' => 'ProperDate' );
+$extra['columns_after'] = [ 'STAFF_ID' => _( 'Reporter' ), 'ENTRY_DATE' => _( 'Incident Date' ) ];
+$extra['functions'] = [ 'STAFF_ID' => 'GetTeacher', 'ENTRY_DATE' => 'ProperDate' ];
 
 foreach ( (array) $categories_RET as $category )
 {
@@ -131,9 +131,9 @@ $extra['new'] = true;
 $extra['singular'] = _( 'Referral' );
 $extra['plural'] = _( 'Referrals' );
 $extra['link']['FULL_NAME']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'];
-$extra['link']['FULL_NAME']['variables'] = array( 'referral_id' => 'ID' );
+$extra['link']['FULL_NAME']['variables'] = [ 'referral_id' => 'ID' ];
 $extra['link']['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove';
-$extra['link']['remove']['variables'] = array( 'id' => 'ID' );
+$extra['link']['remove']['variables'] = [ 'id' => 'ID' ];
 
 // Parent: associated students.
 $extra['ASSOCIATED'] = User( 'STAFF_ID' );
@@ -206,7 +206,7 @@ if ( ! $_REQUEST['modfunc']
 			AND PROFILE IN ('admin','teacher')
 			ORDER BY FULL_NAME" );
 
-		$users_options = array();
+		$users_options = [];
 
 		foreach ( (array) $users_RET as $user )
 		{

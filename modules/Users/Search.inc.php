@@ -13,7 +13,7 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 				unset( $_SESSION['staff_id'] );
 			}
 
-			$_SESSION['Search_PHP_SELF'] = PreparePHP_SELF( $_SESSION['_REQUEST_vars'], array( 'bottom_back', 'advanced' ) );
+			$_SESSION['Search_PHP_SELF'] = PreparePHP_SELF( $_SESSION['_REQUEST_vars'], [ 'bottom_back', 'advanced' ] );
 
 			if ( empty( $_SESSION['Back_PHP_SELF'] )
 				|| $_SESSION['Back_PHP_SELF'] !== 'staff' )
@@ -42,7 +42,7 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 
 			if ( ! isset( $extra ) )
 			{
-				$extra = array();
+				$extra = [];
 			}
 
 			StaffWidgets( 'user', $extra );
@@ -51,7 +51,7 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 				'staff_fields',
 				isset( $extra['staff_fields'] ) && is_array( $extra['staff_fields'] ) ?
 				$extra['staff_fields'] :
-				array()
+				[]
 			);
 
 			echo '</table><div class="center">';
@@ -126,7 +126,7 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 
 				Search(
 					'staff_fields_all',
-					! empty( $extra['staff_fields'] ) ? $extra['staff_fields'] : array()
+					! empty( $extra['staff_fields'] ) ? $extra['staff_fields'] : []
 				);
 
 				$staff_fields_all = ob_get_clean();
@@ -140,11 +140,11 @@ if ( empty( $_REQUEST['search_modfunc'] ) )
 					echo PopTable( 'footer' ) . '<br />';
 				}
 
-				echo '<a href="' . PreparePHP_SELF( $_REQUEST, array(), array( 'advanced' => 'N' ) ) . '">' . _( 'Basic Search' ) . '</a>';
+				echo '<a href="' . PreparePHP_SELF( $_REQUEST, [], [ 'advanced' => 'N' ] ) . '">' . _( 'Basic Search' ) . '</a>';
 			}
 			else
 			{
-				echo '<br /><a href="' . PreparePHP_SELF( $_REQUEST, array(), array( 'advanced' => 'Y' ) ) . '">' . _( 'Advanced Search' ) . '</a>';
+				echo '<br /><a href="' . PreparePHP_SELF( $_REQUEST, [], [ 'advanced' => 'Y' ] ) . '">' . _( 'Advanced Search' ) . '</a>';
 			}
 
 			echo '</form>';
@@ -187,28 +187,28 @@ else
 	if ( ! empty( $extra['profile'] ) )
 	{
 		// DO NOT translate those strings since they will be passed to ListOutput ultimately.
-		$options = array(
+		$options = [
 			'admin' => 'Administrator',
 			'teacher' => 'Teacher',
 			'parent' => 'Parent',
 			'none' => 'No Access',
-		);
+		];
 
-		$options_plural = array(
+		$options_plural = [
 			'admin' => 'Administrators',
 			'teacher' => 'Teachers',
 			'parent' => 'Parents',
 			'none' => 'No Access',
-		);
+		];
 
 		$singular = $options[$extra['profile']];
 
 		$plural = $options_plural[$extra['profile']];
 
-		$columns = array(
+		$columns = [
 			'FULL_NAME' => $singular,
 			'STAFF_ID' => sprintf( _( '%s ID' ), Config( 'NAME' ) ),
-		);
+		];
 	}
 	else
 	{
@@ -216,15 +216,15 @@ else
 
 		$plural = 'Users';
 
-		$columns = array(
+		$columns = [
 			'FULL_NAME' => _( 'User' ),
 			'PROFILE' => _( 'Profile' ),
 			'STAFF_ID' => sprintf( _( '%s ID' ), Config( 'NAME' ) ),
-		);
+		];
 	}
 
 	$name_link['FULL_NAME']['link'] = 'Modules.php?modname=' . $_REQUEST['next_modname'];
-	$name_link['FULL_NAME']['variables'] = array( 'staff_id' => 'STAFF_ID' );
+	$name_link['FULL_NAME']['variables'] = [ 'staff_id' => 'STAFF_ID' ];
 
 	if ( isset( $extra['link'] )
 		&& is_array( $extra['link'] ) )
@@ -261,7 +261,7 @@ else
 		if ( ! isset( $_REQUEST['expanded_view'] ) || $_REQUEST['expanded_view'] !== 'true' )
 		{
 			DrawHeader(
-				'<a href="' . PreparePHP_SELF( $_REQUEST, array(), array( 'expanded_view' => 'true' ) ) .
+				'<a href="' . PreparePHP_SELF( $_REQUEST, [], [ 'expanded_view' => 'true' ] ) .
 				'">' . _( 'Expanded View' ) . '</a>',
 				$extra['header_right']
 			);
@@ -269,7 +269,7 @@ else
 		else
 		{
 			DrawHeader(
-				'<a href="' . PreparePHP_SELF( $_REQUEST, array(), array( 'expanded_view' => 'false' ) ) .
+				'<a href="' . PreparePHP_SELF( $_REQUEST, [], [ 'expanded_view' => 'false' ] ) .
 				'">' . _( 'Original View' ) . '</a>',
 				$extra['header_right']
 			);
@@ -291,7 +291,7 @@ else
 
 		if ( empty( $_REQUEST['LO_save'] ) && empty( $extra['suppress_save'] ) )
 		{
-			$_SESSION['List_PHP_SELF'] = PreparePHP_SELF( $_SESSION['_REQUEST_vars'], array( 'bottom_back' ) );
+			$_SESSION['List_PHP_SELF'] = PreparePHP_SELF( $_SESSION['_REQUEST_vars'], [ 'bottom_back' ] );
 
 			if ( $_SESSION['Back_PHP_SELF'] != 'staff' )
 			{
@@ -312,7 +312,7 @@ else
 			$plural,
 			$link,
 			false,
-			( issetVal( $extra['options'], array() ) )
+			( issetVal( $extra['options'], [] ) )
 		);
 	}
 	elseif ( count( (array) $staff_RET ) == 1 )
@@ -374,6 +374,6 @@ else
 
 		DrawHeader( mb_substr( $_ROSARIO['SearchTerms'], 0, -6 ) );
 
-		echo ErrorMessage( array( _( 'No Users were found.' ) ) );
+		echo ErrorMessage( [ _( 'No Users were found.' ) ] );
 	}
 }

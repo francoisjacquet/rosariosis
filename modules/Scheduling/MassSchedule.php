@@ -7,7 +7,7 @@ require_once 'modules/Scheduling/functions.inc.php';
 if ( ! $_REQUEST['modfunc']
 	&& $_REQUEST['search_modfunc'] !== 'list' )
 {
-	$_SESSION['MassSchedule.php'] = array();
+	$_SESSION['MassSchedule.php'] = [];
 }
 
 if ( $_REQUEST['modfunc'] !== 'choose_course' )
@@ -68,7 +68,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 								WHERE COURSE_PERIOD_ID='" . $course_to_add['course_period_id'] . "'
 								AND SYEAR='" . UserSyear() . "'
 								AND (('" . $start_date . "'	BETWEEN START_DATE AND END_DATE OR END_DATE IS NULL)
-									AND '" . $start_date . "'>=START_DATE)", array(), array( 'STUDENT_ID' ) );
+									AND '" . $start_date . "'>=START_DATE)", [], [ 'STUDENT_ID' ] );
 
 							foreach ( (array) $_REQUEST['student'] as $student_id )
 							{
@@ -116,7 +116,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 	// Unset modfunc redirect URL.
 	RedirectURL( 'modfunc' );
 
-	$_SESSION['MassSchedule.php'] = array();
+	$_SESSION['MassSchedule.php'] = [];
 }
 
 echo ErrorMessage( $error );
@@ -153,7 +153,7 @@ if ( ! $_REQUEST['modfunc'] )
 		echo '<tr class="st"><td>' . _( 'Marking Period' ) . '</td>';
 
 		$mp_RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE," .
-			db_case( array( 'MP', "'FY'", "'0'", "'SEM'", "'1'", "'QTR'", "'2'" ) ) . " AS TBL
+			db_case( [ 'MP', "'FY'", "'0'", "'SEM'", "'1'", "'QTR'", "'2'" ] ) . " AS TBL
 			FROM SCHOOL_MARKING_PERIODS
 			WHERE (MP='FY' OR MP='SEM' OR MP='QTR')
 			AND SCHOOL_ID='" . UserSchool() . "'
@@ -175,13 +175,13 @@ if ( ! $_REQUEST['modfunc'] )
 		echo '<br />';
 	}
 
-	$extra['link'] = array( 'FULL_NAME' => false );
+	$extra['link'] = [ 'FULL_NAME' => false ];
 
 	$extra['SELECT'] = ",CAST (NULL AS CHAR(1)) AS CHECKBOX";
 
-	$extra['functions'] = array( 'CHECKBOX' => 'MakeChooseCheckbox' );
+	$extra['functions'] = [ 'CHECKBOX' => 'MakeChooseCheckbox' ];
 
-	$extra['columns_before'] = array( 'CHECKBOX' => MakeChooseCheckbox( '', 'STUDENT_ID', 'student' )  );
+	$extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( '', 'STUDENT_ID', 'student' )  ];
 
 	$extra['new'] = true;
 
@@ -220,13 +220,13 @@ if ( $_REQUEST['modfunc'] === 'choose_course' )
 		// Add course period if not already chosen...
 		if ( ! isset( $_SESSION['MassSchedule.php'][ $_REQUEST['course_period_id'] ] ) )
 		{
-			$_SESSION['MassSchedule.php'][ $_REQUEST['course_period_id'] ] = array(
+			$_SESSION['MassSchedule.php'][ $_REQUEST['course_period_id'] ] = [
 				'subject_id' => $_REQUEST['subject_id'],
 				'course_id' => $_REQUEST['course_id'],
 				'course_title' => $course_title,
 				'course_period_id' => $_REQUEST['course_period_id'],
 				'course_period_title' => $period_title,
-			);
+			];
 
 			// Update main window.
 			echo '<script>opener.document.getElementById("course_div").innerHTML += ' .

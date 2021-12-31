@@ -71,7 +71,7 @@ if ( $_REQUEST['search_modfunc']
 	}
 
 	// Fix GET parameters appearing multiple times in URL.
-	$remove_request_params = array(
+	$remove_request_params = [
 		'month_start',
 		'day_start',
 		'year_start',
@@ -79,7 +79,7 @@ if ( $_REQUEST['search_modfunc']
 		'day_end',
 		'year_end',
 		'period_id',
-	);
+	];
 
 	$PHP_tmp_SELF = PreparePHP_SELF( $_REQUEST, $remove_request_params );
 
@@ -236,27 +236,27 @@ if ( $_REQUEST['student_id']
 			AND ap.ATTENDANCE_CODE=ac.ID
 			AND ap.STUDENT_ID='" . UserStudentID() . "'";
 
-		$attendance_RET = DBGet( $sql, array(), array( 'SCHOOL_DATE', 'PERIOD_ID' ) );
+		$attendance_RET = DBGet( $sql, [], [ 'SCHOOL_DATE', 'PERIOD_ID' ] );
 	}
 	else
 	{
-		$schedule_RET[1] = array(
+		$schedule_RET[1] = [
 			'COURSE_PERIOD' => _( 'Daily Attendance' ),
 			'PERIOD_ID' => '0',
-		);
+		];
 
 		$attendance_RET = DBGet( "SELECT ad.SCHOOL_DATE,'0' AS PERIOD_ID,
 			ad.STATE_VALUE AS STATE_CODE," .
-			db_case( array( 'ad.STATE_VALUE', "'0.0'", "'A'", "'1.0'", "'P'", "'H'" ) ) . " AS SHORT_NAME
+			db_case( [ 'ad.STATE_VALUE', "'0.0'", "'A'", "'1.0'", "'P'", "'H'" ] ) . " AS SHORT_NAME
 			FROM ATTENDANCE_DAY ad
 			WHERE ad.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
-			AND ad.STUDENT_ID='" . UserStudentID() . "'", array(), array( 'SCHOOL_DATE', 'PERIOD_ID' ) );
+			AND ad.STUDENT_ID='" . UserStudentID() . "'", [], [ 'SCHOOL_DATE', 'PERIOD_ID' ] );
 	}
 
 	$i = 0;
 	$col_period = false;
 
-	$student_RET = array();
+	$student_RET = [];
 
 	foreach ( (array) $schedule_RET as $course )
 	{
@@ -291,7 +291,7 @@ if ( $_REQUEST['student_id']
 		}
 	}
 
-	$columns = array( 'TITLE' => _( 'Course' ) );
+	$columns = [ 'TITLE' => _( 'Course' ) ];
 
 	if ( $col_period )
 	{
@@ -369,7 +369,7 @@ else
 
 	$extra['link']['FULL_NAME']['link'] = PreparePHP_SELF();
 
-	$extra['link']['FULL_NAME']['variables'] = array( 'student_id' => 'STUDENT_ID' );
+	$extra['link']['FULL_NAME']['variables'] = [ 'student_id' => 'STUDENT_ID' ];
 
 	Widgets( 'course' );
 
@@ -394,13 +394,13 @@ function _makeColor( $value, $column )
 	global $THIS_RET,
 		$att_sql;
 
-	static $att_RET = array(),
+	static $att_RET = [],
 		$attendance_codes_RET;
 
 	if ( empty( $att_RET[ $THIS_RET['STUDENT_ID'] ] ) )
 	{
 		$att_RET[ $THIS_RET['STUDENT_ID'] ] = DBGet( $att_sql .
-			"'" . $THIS_RET['STUDENT_ID'] . "'", array(), array( 'SHORT_DATE' ) );
+			"'" . $THIS_RET['STUDENT_ID'] . "'", [], [ 'SHORT_DATE' ] );
 	}
 
 	if ( empty( $att_RET[ $THIS_RET['STUDENT_ID'] ][ $column ][1] ) )
@@ -418,7 +418,7 @@ function _makeColor( $value, $column )
 				FROM ATTENDANCE_CODES
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'
-				AND TABLE_NAME='0'", array(), array( 'ID' ) );
+				AND TABLE_NAME='0'", [], [ 'ID' ] );
 		}
 
 		return MakeAttendanceCode(
@@ -445,7 +445,7 @@ function makeCodePulldown( $value, $student_id, $date )
 			FROM ATTENDANCE_CODES
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
-			AND TABLE_NAME='0'", array(), array( 'ID' ) );
+			AND TABLE_NAME='0'", [], [ 'ID' ] );
 	}
 
 	if ( empty( $attendance_code_options ) )

@@ -55,7 +55,7 @@ var hours = new Date().getHours(),
 </script>
 <?php
 
-$welcome = array();
+$welcome = [];
 
 if ( ! empty( $_SESSION['LAST_LOGIN'] ) )
 {
@@ -68,10 +68,10 @@ if ( ! empty( $_SESSION['LAST_LOGIN'] ) )
 if ( ! empty( $failed_login ) )
 {
 	$welcome[] = ErrorMessage(
-		array( sprintf(
+		[ sprintf(
 			_( 'There have been <b>%d</b> failed login attempts since your last successful login.' ),
 			$failed_login
-		) ),
+		) ],
 		'warning'
 	);
 }
@@ -112,32 +112,32 @@ Dashboard();
 
 DashboardOutput();
 
-$portal_LO_options = array( 'save' => false, 'search' => false );
+$portal_LO_options = [ 'save' => false, 'search' => false ];
 
-$notes_LO_columns = array(
+$notes_LO_columns = [
 	'PUBLISHED_DATE' => _( 'Date Posted' ),
 	'TITLE' => _( 'Title' ),
 	'CONTENT' => _( 'Note' ),
 	'FILE_ATTACHED' => _( 'File Attached' ),
-);
+];
 
-$polls_LO_columns = array(
+$polls_LO_columns = [
 	'PUBLISHED_DATE' => _( 'Date Posted' ),
 	'TITLE' => _( 'Title' ),
 	'OPTIONS' => _( 'Poll' ),
-);
+];
 
-$events_LO_columns = array(
+$events_LO_columns = [
 	'DAY' => _( 'Day' ),
 	'SCHOOL_DATE' => _( 'Date' ),
 	'TITLE' => _( 'Event' ),
 	'DESCRIPTION' => _( 'Description' ),
-);
+];
 
-$missing_attendance_LO_columns = array(
+$missing_attendance_LO_columns = [
 	'SCHOOL_DATE' => _( 'Date' ),
 	'TITLE' => _( 'Period' ) . ' ' . _( 'Days' ) . ' - ' . _( 'Short Name' ) . ' - ' . _( 'Teacher' ),
-);
+];
 
 if ( User( 'PROFILE' ) !== 'student'
 	|| SchoolInfo( 'SCHOOLS_NB' ) > 1 )
@@ -156,13 +156,13 @@ if ( User( 'PROFILE' ) === 'admin'
 	$missing_attendance_LO_columns['SCHOOL'] = _( 'School' );
 }
 
-$assignments_LO_columns = array(
+$assignments_LO_columns = [
 	// 'DAY' => _( 'Day' ),
 	'DUE_DATE' => _( 'Due Date' ),
 	'ASSIGNMENT_TITLE' => _( 'Assignment' ),
 	// 'DESCRIPTION' => _( 'Notes' ),
 	'COURSE' => _( 'Course' ),
-);
+];
 
 if ( User( 'PROFILE' ) === 'student'
 	|| User( 'PROFILE' ) === 'parent' )
@@ -196,11 +196,11 @@ switch ( User( 'PROFILE' ) )
 		AND s.ID=pn.SCHOOL_ID
 		AND s.SYEAR=pn.SYEAR
 		ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC",
-			array(
+			[
 				'PUBLISHED_DATE' => 'ProperDate',
 				'CONTENT' => 'makeTextarea',
 				'FILE_ATTACHED' => 'makeFileAttached',
-			) );
+			] );
 
 		if ( $notes_RET )
 		{
@@ -209,8 +209,8 @@ switch ( User( 'PROFILE' ) )
 				$notes_LO_columns,
 				'Note',
 				'Notes',
-				array(),
-				array(),
+				[],
+				[],
 				$portal_LO_options
 			);
 		}
@@ -225,7 +225,7 @@ switch ( User( 'PROFILE' ) )
 		AND (st.SCHOOLS IS NULL OR position(','||pp.SCHOOL_ID||',' IN st.SCHOOLS)>0)
 		AND (st.PROFILE_ID IS NULL AND position(',admin,' IN pp.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(','||st.PROFILE_ID||',' IN pp.PUBLISHED_PROFILES)>0)
 		AND s.ID=pp.SCHOOL_ID AND s.SYEAR=pp.SYEAR
-		ORDER BY pp.SORT_ORDER,pp.PUBLISHED_DATE DESC", array( 'PUBLISHED_DATE' => 'ProperDate', 'OPTIONS' => 'PortalPollsDisplay' ) );
+		ORDER BY pp.SORT_ORDER,pp.PUBLISHED_DATE DESC", [ 'PUBLISHED_DATE' => 'ProperDate', 'OPTIONS' => 'PortalPollsDisplay' ] );
 
 		if ( $polls_RET )
 		{
@@ -234,8 +234,8 @@ switch ( User( 'PROFILE' ) )
 				$polls_LO_columns,
 				'Poll',
 				'Polls',
-				array(),
-				array(),
+				[],
+				[],
 				$portal_LO_options
 			);
 		}
@@ -249,11 +249,11 @@ switch ( User( 'PROFILE' ) )
 		AND (st.SCHOOLS IS NULL OR position(','||ce.SCHOOL_ID||',' IN st.SCHOOLS)>0)
 		AND s.ID=ce.SCHOOL_ID
 		AND s.SYEAR=ce.SYEAR
-		ORDER BY ce.SCHOOL_DATE,s.TITLE", array(
+		ORDER BY ce.SCHOOL_DATE,s.TITLE", [
 			'SCHOOL_DATE' => 'ProperDate',
 			'DAY' => '_eventDay',
 			'DESCRIPTION' => 'makeTextarea',
-		) );
+		] );
 
 		if ( $events_RET )
 		{
@@ -262,8 +262,8 @@ switch ( User( 'PROFILE' ) )
 				$events_LO_columns,
 				'Day With Upcoming Events',
 				'Days With Upcoming Events',
-				array(),
-				array(),
+				[],
+				[],
 				$portal_LO_options
 			);
 		}
@@ -284,12 +284,12 @@ switch ( User( 'PROFILE' ) )
 
 			if ( $do_rollover )
 			{
-				$do_rollover_warning = array(
+				$do_rollover_warning = [
 					sprintf(
 						_( 'The school year has ended. It is time to proceed to %s.' ),
 						'<a href="Modules.php?modname=School_Setup/Rollover.php">' . _( 'Rollover' ) . '</a>'
 					)
-				);
+				];
 
 				echo ErrorMessage( $do_rollover_warning, 'warning' );
 			}
@@ -347,7 +347,7 @@ switch ( User( 'PROFILE' ) )
 					AND position('," . $category['ID'] . ",' IN cp.DOES_ATTENDANCE)>0
 					AND s.ID=acc.SCHOOL_ID
 					AND s.SYEAR=acc.SYEAR
-					ORDER BY cp.TITLE,acc.SCHOOL_DATE", array( 'SCHOOL_DATE' => '_makeTakeAttendanceLink' ), array( 'COURSE_PERIOD_ID' ) );
+					ORDER BY cp.TITLE,acc.SCHOOL_DATE", [ 'SCHOOL_DATE' => '_makeTakeAttendanceLink' ], [ 'COURSE_PERIOD_ID' ] );
 				}
 				else
 				{
@@ -376,20 +376,20 @@ switch ( User( 'PROFILE' ) )
 					AND position('," . $category['ID'] . ",' IN cp.DOES_ATTENDANCE)>0
 					AND s.ID=acc.SCHOOL_ID
 					AND s.SYEAR=acc.SYEAR
-					ORDER BY cp.TITLE,acc.SCHOOL_DATE", array( 'SCHOOL_DATE' => '_makeTakeAttendanceLink' ), array( 'COURSE_PERIOD_ID' ) );
+					ORDER BY cp.TITLE,acc.SCHOOL_DATE", [ 'SCHOOL_DATE' => '_makeTakeAttendanceLink' ], [ 'COURSE_PERIOD_ID' ] );
 				}
 
 				if ( $missing_attendance_RET )
 				{
-					echo ErrorMessage( array( _( 'Teachers have missing attendance data' ) ), 'warning' );
+					echo ErrorMessage( [ _( 'Teachers have missing attendance data' ) ], 'warning' );
 
 					ListOutput(
 						$missing_attendance_RET,
 						$missing_attendance_LO_columns,
 						'Course Period with missing attendance data',
 						'Course Periods with missing attendance data',
-						array(),
-						array( 'COURSE_PERIOD_ID' ),
+						[],
+						[ 'COURSE_PERIOD_ID' ],
 						$portal_LO_options
 					);
 				}
@@ -417,13 +417,13 @@ switch ( User( 'PROFILE' ) )
 				&& $staff['BALANCE'] < 0 )
 			{
 				echo ErrorMessage(
-					array( sprintf( _( 'You have a <b>negative</b> food service balance of <span style="color:red">%s</span>' ), $staff['BALANCE'] ) ),
+					[ sprintf( _( 'You have a <b>negative</b> food service balance of <span style="color:red">%s</span>' ), $staff['BALANCE'] ) ],
 					'warning'
 				);
 			}
 
 			// warn if students with food service balances below minimum
-			$extra = array();
+			$extra = [];
 			$extra['SELECT'] = ',fssa.STATUS,fsa.BALANCE';
 			$extra['FROM'] = ',FOOD_SERVICE_ACCOUNTS fsa,FOOD_SERVICE_STUDENT_ACCOUNTS fssa';
 			$extra['WHERE'] = " AND fssa.STUDENT_ID=s.STUDENT_ID
@@ -437,19 +437,19 @@ switch ( User( 'PROFILE' ) )
 
 			if ( $RET )
 			{
-				echo ErrorMessage( array( sprintf( _( 'Some students have food service balances below %1.2f' ), $FS_config['FOOD_SERVICE_BALANCE_MINIMUM'][1]['VALUE'] ) ), 'warning' );
+				echo ErrorMessage( [ sprintf( _( 'Some students have food service balances below %1.2f' ), $FS_config['FOOD_SERVICE_BALANCE_MINIMUM'][1]['VALUE'] ) ], 'warning' );
 
 				ListOutput(
 					$RET,
-					array(
+					[
 						'FULL_NAME' => _( 'Student' ),
 						'GRADE_ID' => _( 'Grade Level' ),
 						'BALANCE' => _( 'Balance' ),
-					),
+					],
 					'Student',
 					'Students',
-					array(),
-					array(),
+					[],
+					[],
 					$portal_LO_options
 				);
 			}
@@ -472,7 +472,7 @@ switch ( User( 'PROFILE' ) )
 		AND position(','||st.PROFILE_ID||',' IN pn.PUBLISHED_PROFILES)>0)
 		AND s.ID=pn.SCHOOL_ID
 		AND s.SYEAR=pn.SYEAR
-		ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC", array( 'PUBLISHED_DATE' => 'ProperDate', 'CONTENT' => 'makeTextarea', 'FILE_ATTACHED' => 'makeFileAttached' ) );
+		ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC", [ 'PUBLISHED_DATE' => 'ProperDate', 'CONTENT' => 'makeTextarea', 'FILE_ATTACHED' => 'makeFileAttached' ] );
 
 		if ( $notes_RET )
 		{
@@ -481,8 +481,8 @@ switch ( User( 'PROFILE' ) )
 				$notes_LO_columns,
 				'Note',
 				'Notes',
-				array(),
-				array(),
+				[],
+				[],
 				$portal_LO_options
 			);
 		}
@@ -499,7 +499,7 @@ switch ( User( 'PROFILE' ) )
 		AND position(','||st.PROFILE_ID||',' IN pp.PUBLISHED_PROFILES)>0)
 		AND s.ID=pp.SCHOOL_ID
 		AND s.SYEAR=pp.SYEAR
-		ORDER BY pp.SORT_ORDER,pp.PUBLISHED_DATE DESC", array( 'PUBLISHED_DATE' => 'ProperDate', 'OPTIONS' => 'PortalPollsDisplay' ) );
+		ORDER BY pp.SORT_ORDER,pp.PUBLISHED_DATE DESC", [ 'PUBLISHED_DATE' => 'ProperDate', 'OPTIONS' => 'PortalPollsDisplay' ] );
 
 		if ( $polls_RET )
 		{
@@ -508,8 +508,8 @@ switch ( User( 'PROFILE' ) )
 				$polls_LO_columns,
 				'Poll',
 				'Polls',
-				array(),
-				array(),
+				[],
+				[],
 				$portal_LO_options
 			);
 		}
@@ -522,11 +522,11 @@ switch ( User( 'PROFILE' ) )
 		AND position(','||ce.SCHOOL_ID||',' IN (SELECT SCHOOLS FROM STAFF WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'))>0
 		AND s.ID=ce.SCHOOL_ID
 		AND s.SYEAR=ce.SYEAR
-		ORDER BY ce.SCHOOL_DATE,s.TITLE", array(
+		ORDER BY ce.SCHOOL_DATE,s.TITLE", [
 			'SCHOOL_DATE' => 'ProperDate',
 			'DAY' => '_eventDay',
 			'DESCRIPTION' => 'makeTextarea',
-		) );
+		] );
 
 		if ( $events_RET )
 		{
@@ -535,8 +535,8 @@ switch ( User( 'PROFILE' ) )
 				$events_LO_columns,
 				'Day With Upcoming Events',
 				'Days With Upcoming Events',
-				array(),
-				array(),
+				[],
+				[],
 				$portal_LO_options
 			);
 		}
@@ -554,12 +554,12 @@ switch ( User( 'PROFILE' ) )
 		AND (a.ASSIGNED_DATE<=CURRENT_DATE OR a.ASSIGNED_DATE IS NULL)
 		AND a.DUE_DATE>=CURRENT_DATE
 		ORDER BY a.DUE_DATE,a.TITLE",
-			array(
+			[
 				'DUE_DATE' => 'ProperDate',
 				/*'DAY' => '_eventDay',*/
 				'ASSIGNED_DATE' => 'ProperDate',
 				'ASSIGNMENT_TITLE' => 'MakeAssignmentTitle',
-			) );
+			] );
 
 		if ( $assignments_RET )
 		{
@@ -568,8 +568,8 @@ switch ( User( 'PROFILE' ) )
 				$assignments_LO_columns,
 				'Upcoming Assignment',
 				'Upcoming Assignments',
-				array(),
-				array(),
+				[],
+				[],
 				$portal_LO_options
 			);
 		}
@@ -625,7 +625,7 @@ switch ( User( 'PROFILE' ) )
 					AS INT) FOR 1) IN cpsp.DAYS)>0 OR (sp.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK))
 					AND acc.SCHOOL_DATE NOT IN(SELECT ac.SCHOOL_DATE FROM ATTENDANCE_COMPLETED ac WHERE ac.STAFF_ID=cp.TEACHER_ID AND ac.PERIOD_ID=cpsp.PERIOD_ID AND TABLE_NAME='" . $category['ID'] . "')
 					AND position('," . $category['ID'] . ",' IN cp.DOES_ATTENDANCE)>0
-					ORDER BY cp.TITLE,acc.SCHOOL_DATE", array( 'SCHOOL_DATE' => '_makeTakeAttendanceLink' ), array( 'COURSE_PERIOD_ID' ) );
+					ORDER BY cp.TITLE,acc.SCHOOL_DATE", [ 'SCHOOL_DATE' => '_makeTakeAttendanceLink' ], [ 'COURSE_PERIOD_ID' ] );
 				}
 				else
 				{
@@ -652,20 +652,20 @@ switch ( User( 'PROFILE' ) )
 					AND (sp.BLOCK IS NULL AND position(substring('UMTWHFS' FROM cast(extract(DOW FROM acc.SCHOOL_DATE) AS INT)+1 FOR 1) IN cpsp.DAYS)>0 OR (sp.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK))
 					AND acc.SCHOOL_DATE NOT IN(SELECT ac.SCHOOL_DATE FROM ATTENDANCE_COMPLETED ac WHERE ac.STAFF_ID=cp.TEACHER_ID AND ac.PERIOD_ID=cpsp.PERIOD_ID AND TABLE_NAME='" . $category['ID'] . "')
 					AND position('," . $category['ID'] . ",' IN cp.DOES_ATTENDANCE)>0
-					ORDER BY cp.TITLE,acc.SCHOOL_DATE", array( 'SCHOOL_DATE' => '_makeTakeAttendanceLink' ), array( 'COURSE_PERIOD_ID' ) );
+					ORDER BY cp.TITLE,acc.SCHOOL_DATE", [ 'SCHOOL_DATE' => '_makeTakeAttendanceLink' ], [ 'COURSE_PERIOD_ID' ] );
 				}
 
 				if ( $missing_attendance_RET )
 				{
-					echo ErrorMessage( array( _( 'You have missing attendance data' ) ), 'warning' );
+					echo ErrorMessage( [ _( 'You have missing attendance data' ) ], 'warning' );
 
 					ListOutput(
 						$missing_attendance_RET,
 						$missing_attendance_LO_columns,
 						'Course Period with missing attendance data',
 						'Course Periods with missing attendance data',
-						array(),
-						array( 'COURSE_PERIOD_ID' ),
+						[],
+						[ 'COURSE_PERIOD_ID' ],
 						$portal_LO_options
 					);
 				}
@@ -683,7 +683,7 @@ switch ( User( 'PROFILE' ) )
 
 			if ( $staff['BALANCE'] && $staff['BALANCE'] < 0 )
 			{
-				echo ErrorMessage( array( sprintf( _( 'You have a <b>negative</b> food service balance of <span style="color:red">%s</span>' ), $staff['BALANCE'] ) ), 'warning' );
+				echo ErrorMessage( [ sprintf( _( 'You have a <b>negative</b> food service balance of <span style="color:red">%s</span>' ), $staff['BALANCE'] ) ], 'warning' );
 			}
 		}
 
@@ -704,7 +704,7 @@ switch ( User( 'PROFILE' ) )
 		AND (st.PROFILE_ID IS NULL AND position(',parent,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(','||st.PROFILE_ID||',' IN pn.PUBLISHED_PROFILES)>0)
 		AND s.ID=pn.SCHOOL_ID
 		AND s.SYEAR=pn.SYEAR
-		ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC", array( 'PUBLISHED_DATE' => 'ProperDate', 'CONTENT' => 'makeTextarea', 'FILE_ATTACHED' => 'makeFileAttached' ) );
+		ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC", [ 'PUBLISHED_DATE' => 'ProperDate', 'CONTENT' => 'makeTextarea', 'FILE_ATTACHED' => 'makeFileAttached' ] );
 
 		if ( $notes_RET )
 		{
@@ -713,8 +713,8 @@ switch ( User( 'PROFILE' ) )
 				$notes_LO_columns,
 				'Note',
 				'Notes',
-				array(),
-				array(),
+				[],
+				[],
 				$portal_LO_options
 			);
 		}
@@ -731,7 +731,7 @@ switch ( User( 'PROFILE' ) )
 		AND position(','||st.PROFILE_ID||',' IN pp.PUBLISHED_PROFILES)>0)
 		AND s.ID=pp.SCHOOL_ID
 		AND s.SYEAR=pp.SYEAR
-		ORDER BY pp.SORT_ORDER,pp.PUBLISHED_DATE DESC", array( 'PUBLISHED_DATE' => 'ProperDate', 'OPTIONS' => 'PortalPollsDisplay' ) );
+		ORDER BY pp.SORT_ORDER,pp.PUBLISHED_DATE DESC", [ 'PUBLISHED_DATE' => 'ProperDate', 'OPTIONS' => 'PortalPollsDisplay' ] );
 
 		if ( $polls_RET )
 		{
@@ -740,8 +740,8 @@ switch ( User( 'PROFILE' ) )
 				$polls_LO_columns,
 				'Poll',
 				'Polls',
-				array(),
-				array(),
+				[],
+				[],
 				$portal_LO_options
 			);
 		}
@@ -753,11 +753,11 @@ switch ( User( 'PROFILE' ) )
 		AND ce.SCHOOL_ID IN (SELECT DISTINCT SCHOOL_ID FROM STUDENTS_JOIN_USERS sju, STUDENT_ENROLLMENT se WHERE sju.STAFF_ID='" . User( 'STAFF_ID' ) . "' AND se.SYEAR=ce.SYEAR AND se.STUDENT_ID=sju.STUDENT_ID AND se.START_DATE<=CURRENT_DATE AND (se.END_DATE>=CURRENT_DATE OR se.END_DATE IS NULL))
 		AND s.ID=ce.SCHOOL_ID
 		AND s.SYEAR=ce.SYEAR
-		ORDER BY ce.SCHOOL_DATE,s.TITLE", array(
+		ORDER BY ce.SCHOOL_DATE,s.TITLE", [
 			'SCHOOL_DATE' => 'ProperDate',
 			'DAY' => '_eventDay',
 			'DESCRIPTION' => 'makeTextarea',
-		) );
+		] );
 
 		if ( $events_RET )
 		{
@@ -766,8 +766,8 @@ switch ( User( 'PROFILE' ) )
 				$events_LO_columns,
 				'Day With Upcoming Events',
 				'Days With Upcoming Events',
-				array(),
-				array(),
+				[],
+				[],
 				$portal_LO_options
 			);
 		}
@@ -795,14 +795,14 @@ switch ( User( 'PROFILE' ) )
 			AND (a.ASSIGNED_DATE<=CURRENT_DATE OR a.ASSIGNED_DATE IS NULL)
 			AND a.DUE_DATE>=CURRENT_DATE
 			ORDER BY a.DUE_DATE,a.TITLE",
-				array(
+				[
 					'DUE_DATE' => 'MakeAssignmentDueDate',
 					/*'DAY' => '_eventDay',*/
 					/*'DESCRIPTION' => 'makeTextarea',*/
 					'STAFF_ID' => 'GetTeacher',
 					'SUBMITTED' => 'MakeAssignmentSubmitted',
 					'ASSIGNMENT_TITLE' => 'MakeAssignmentTitle',
-				) );
+				] );
 
 			if ( $assignments_RET )
 			{
@@ -811,8 +811,8 @@ switch ( User( 'PROFILE' ) )
 					$assignments_LO_columns,
 					'Upcoming Assignment',
 					'Upcoming Assignments',
-					array(),
-					array(),
+					[],
+					[],
 					$portal_LO_options
 				);
 			}
@@ -838,23 +838,23 @@ switch ( User( 'PROFILE' ) )
 			if ( $RET )
 			{
 				echo ErrorMessage(
-					array( sprintf( _( 'You have students with food service balance below %1.2f - please deposit at least the Minimum Deposit into you children\'s accounts.' ), $FS_config['FOOD_SERVICE_BALANCE_WARNING'][1]['VALUE'] ) ),
+					[ sprintf( _( 'You have students with food service balance below %1.2f - please deposit at least the Minimum Deposit into you children\'s accounts.' ), $FS_config['FOOD_SERVICE_BALANCE_WARNING'][1]['VALUE'] ) ],
 					'warning'
 				);
 
 				ListOutput(
 					$RET,
-					array(
+					[
 						'FULL_NAME' => _( 'Student' ),
 						'GRADE_ID' => _( 'Grade Level' ),
 						'ACCOUNT_ID' => _( 'Account ID' ),
 						'BALANCE' => _( 'Balance' ),
 						'DEPOSIT' => _( 'Minimum Deposit' ),
-					),
+					],
 					'Student',
 					'Students',
-					array(),
-					array(),
+					[],
+					[],
 					$portal_LO_options
 				);
 			}
@@ -868,7 +868,7 @@ switch ( User( 'PROFILE' ) )
 
 			if ( $staff['BALANCE'] && $staff['BALANCE'] < 0 )
 			{
-				echo ErrorMessage( array( sprintf( _( 'You have a <b>negative</b> food service balance of <span style="color:red">%s</span>' ), Currency( $staff['BALANCE'] ) ) ), 'warning' );
+				echo ErrorMessage( [ sprintf( _( 'You have a <b>negative</b> food service balance of <span style="color:red">%s</span>' ), Currency( $staff['BALANCE'] ) ) ], 'warning' );
 			}
 		}
 
@@ -887,7 +887,7 @@ switch ( User( 'PROFILE' ) )
 		AND position(',0,' IN pn.PUBLISHED_PROFILES)>0
 		AND s.ID=pn.SCHOOL_ID
 		AND s.SYEAR=pn.SYEAR
-		ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC", array( 'PUBLISHED_DATE' => 'ProperDate', 'CONTENT' => 'makeTextarea', 'FILE_ATTACHED' => 'makeFileAttached' ) );
+		ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC", [ 'PUBLISHED_DATE' => 'ProperDate', 'CONTENT' => 'makeTextarea', 'FILE_ATTACHED' => 'makeFileAttached' ] );
 
 		if ( $notes_RET )
 		{
@@ -896,8 +896,8 @@ switch ( User( 'PROFILE' ) )
 				$notes_LO_columns,
 				'Note',
 				'Notes',
-				array(),
-				array(),
+				[],
+				[],
 				$portal_LO_options
 			);
 		}
@@ -914,7 +914,7 @@ switch ( User( 'PROFILE' ) )
 		AND s.ID=pp.SCHOOL_ID
 		AND s.SYEAR=pp.SYEAR
 		AND (pp.STUDENTS_TEACHER_ID IS NULL OR pp.STUDENTS_TEACHER_ID IN (SELECT cp.TEACHER_ID FROM SCHEDULE sch, COURSE_PERIODS cp WHERE sch.SYEAR='" . UserSyear() . "' AND sch.SCHOOL_ID='" . UserSchool() . "' AND sch.STUDENT_ID='" . UserStudentID() . "' AND sch.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID))
-		ORDER BY pp.SORT_ORDER,pp.PUBLISHED_DATE DESC", array( 'PUBLISHED_DATE' => 'ProperDate', 'OPTIONS' => 'PortalPollsDisplay' ) );
+		ORDER BY pp.SORT_ORDER,pp.PUBLISHED_DATE DESC", [ 'PUBLISHED_DATE' => 'ProperDate', 'OPTIONS' => 'PortalPollsDisplay' ] );
 
 		if ( $polls_RET )
 		{
@@ -923,8 +923,8 @@ switch ( User( 'PROFILE' ) )
 				$polls_LO_columns,
 				'Poll',
 				'Polls',
-				array(),
-				array(),
+				[],
+				[],
 				$portal_LO_options
 			);
 		}
@@ -933,11 +933,11 @@ switch ( User( 'PROFILE' ) )
 		FROM CALENDAR_EVENTS
 		WHERE SCHOOL_DATE BETWEEN CURRENT_DATE AND CURRENT_DATE+11
 		AND SYEAR='" . UserSyear() . "'
-		AND SCHOOL_ID='" . UserSchool() . "'", array(
+		AND SCHOOL_ID='" . UserSchool() . "'", [
 			'SCHOOL_DATE' => 'ProperDate',
 			'DAY' => '_eventDay',
 			'DESCRIPTION' => 'makeTextarea',
-		) );
+		] );
 
 		if ( $events_RET )
 		{
@@ -946,8 +946,8 @@ switch ( User( 'PROFILE' ) )
 				$events_LO_columns,
 				'Day With Upcoming Events',
 				'Days With Upcoming Events',
-				array(),
-				array(),
+				[],
+				[],
 				$portal_LO_options
 			);
 		}
@@ -975,14 +975,14 @@ switch ( User( 'PROFILE' ) )
 			AND (a.ASSIGNED_DATE<=CURRENT_DATE OR a.ASSIGNED_DATE IS NULL)
 			AND a.DUE_DATE>=CURRENT_DATE
 			ORDER BY a.DUE_DATE,a.TITLE",
-				array(
+				[
 					'DUE_DATE' => 'MakeAssignmentDueDate',
 					/*'DAY' => '_eventDay',*/
 					/*'DESCRIPTION' => 'makeTextarea',*/
 					'STAFF_ID' => 'GetTeacher',
 					'SUBMITTED' => 'MakeAssignmentSubmitted',
 					'ASSIGNMENT_TITLE' => 'MakeAssignmentTitle',
-				) );
+				] );
 
 			if ( $assignments_RET )
 			{
@@ -991,8 +991,8 @@ switch ( User( 'PROFILE' ) )
 					$assignments_LO_columns,
 					'Upcoming Assignment',
 					'Upcoming Assignments',
-					array(),
-					array(),
+					[],
+					[],
 					$portal_LO_options
 				);
 			}
@@ -1008,7 +1008,7 @@ switch ( User( 'PROFILE' ) )
  */
 function PHPCheck()
 {
-	$ret = array();
+	$ret = [];
 
 	if ( version_compare( PHP_VERSION, '5.4.45' ) == -1 )
 	{

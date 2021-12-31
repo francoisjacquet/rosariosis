@@ -11,7 +11,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 	$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
 
-	$months = array(
+	$months = [
 		1 => _( 'January' ),
 		2 => _( 'February' ),
 		3 => _( 'March' ),
@@ -24,12 +24,12 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		10 => _( 'October' ),
 		11 => _( 'November' ),
 		12 => _( 'December' ),
-	);
+	];
 
 	// Check Social Security + Gender fields exists before adding them to SELECT.
 	$custom_RET = DBGet( "SELECT TITLE,ID
 		FROM CUSTOM_FIELDS
-		WHERE ID IN ('200000000','200000003')", array(), array( 'ID' ) );
+		WHERE ID IN ('200000000','200000003')", [], [ 'ID' ] );
 
 	$extra['SELECT'] = ",ssm.CALENDAR_ID,ssm.START_DATE,ssm.END_DATE";
 
@@ -42,12 +42,12 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	$active = "'" . DBEscapeString( _( 'Active' ) ) . "'";
 	$inactive = "'" . DBEscapeString( _( 'Inactive' ) ) . "'";
 
-	$extra['SELECT'] .= ',' . db_case( array(
+	$extra['SELECT'] .= ',' . db_case( [
 		"(ssm.SYEAR='" . UserSyear() . "' AND ('" . DBDate() . "'>=ssm.START_DATE AND ('" . DBDate() . "'<=ssm.END_DATE OR ssm.END_DATE IS NULL)))",
 		'TRUE',
 		$active,
 		$inactive,
-	) ) . ' AS STATUS';
+	] ) . ' AS STATUS';
 
 	$RET = GetStuList( $extra );
 
@@ -80,8 +80,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			WHERE CALENDAR_ID='" . $student['CALENDAR_ID'] . "'
 			AND SCHOOL_DATE>='" . $student['START_DATE'] . "'" .
 			( $student['END_DATE'] ? " AND SCHOOL_DATE<='" . $student['END_DATE'] . "'" : '' ),
-			array(),
-			array( 'MON', 'DAY' ) );
+			[],
+			[ 'MON', 'DAY' ] );
 
 		$attendance_RET = DBGet( "SELECT
 			trim(leading '0' from to_char(ad.SCHOOL_DATE,'MM')) AS MON,
@@ -89,7 +89,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			ad.STATE_VALUE
 			FROM ATTENDANCE_DAY ad
 			WHERE ad.STUDENT_ID='" . $student['STUDENT_ID'] . "'
-			AND ad.SYEAR='" . UserSyear() . "'", array(), array( 'MON', 'DAY' ) );
+			AND ad.SYEAR='" . UserSyear() . "'", [], [ 'MON', 'DAY' ] );
 		//echo '<pre>'; var_dump($calendar_RET); echo '</pre>';
 
 		echo '<h2 class="center">' . $student['FULL_NAME'] . '</h2>';
@@ -167,7 +167,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			$last_month_tmp = 12;
 		}
 
-		$attendance_codes_locale = array(
+		$attendance_codes_locale = [
 			// Attendance codes.
 			'P' => _( 'Present' ),
 			'A' => _( 'Absent' ),
@@ -176,9 +176,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			'1.0' => _( 'Present' ),
 			'0.0' => _( 'Absent' ),
 			'0.5' => _( 'Half Day' ),
-		);
+		];
 
-		$attendance_code_classes = array(
+		$attendance_code_classes = [
 			// Attendance codes.
 			'P' => 'present',
 			'A' => 'absent',
@@ -187,7 +187,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			'1.0' => 'present',
 			'0.0' => 'absent',
 			'0.5' => 'half-day',
-		);
+		];
 
 		for ( $month = $first_month; $month <= $last_month_tmp; $month++ )
 		{
@@ -290,13 +290,13 @@ if ( ! $_REQUEST['modfunc'] )
 		$extra['header_right'] = SubmitButton( _( 'Create Attendance Report for Selected Students' ) );
 	}
 
-	$extra['link'] = array( 'FULL_NAME' => false );
+	$extra['link'] = [ 'FULL_NAME' => false ];
 
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
 
-	$extra['functions'] = array( 'CHECKBOX' => 'MakeChooseCheckbox' );
+	$extra['functions'] = [ 'CHECKBOX' => 'MakeChooseCheckbox' ];
 
-	$extra['columns_before'] = array( 'CHECKBOX' => MakeChooseCheckbox( 'Y', '', 'st_arr' ) );
+	$extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( 'Y', '', 'st_arr' ) ];
 
 	$extra['options']['search'] = false;
 

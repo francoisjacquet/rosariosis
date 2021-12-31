@@ -10,7 +10,7 @@
  * @subpackage modules
  */
 
-$menu['Discipline']['admin'] = array(
+$menu['Discipline']['admin'] = [
 	'title' => _( 'Discipline' ),
 	'default' => 'Discipline/Referrals.php',
 	'Discipline/MakeReferral.php' => _( 'Add Referral' ),
@@ -22,20 +22,20 @@ $menu['Discipline']['admin'] = array(
 	'Discipline/ReferralLog.php' => _( 'Discipline Log' ),
 	2 => _( 'Setup' ),
 	'Discipline/DisciplineForm.php' => _( 'Referral Form' ),
-);
+];
 
-$menu['Discipline']['teacher'] = array(
+$menu['Discipline']['teacher'] = [
 	'title' => _( 'Discipline' ),
 	'default' => 'Discipline/Referrals.php',
 	'Discipline/MakeReferral.php' => _( 'Add Referral' ),
 	'Discipline/Referrals.php' => _( 'Referrals' ),
-);
+];
 
-$menu['Discipline']['parent'] = array(
+$menu['Discipline']['parent'] = [
 	'title' => _( 'Discipline' ),
 	'default' => 'Discipline/Referrals.php',
 	'Discipline/Referrals.php' => _( 'Referrals' ),
-);
+];
 
-$exceptions['Discipline'] = array(
-);
+$exceptions['Discipline'] = [
+];

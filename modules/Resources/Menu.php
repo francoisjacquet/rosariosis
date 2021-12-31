@@ -10,16 +10,16 @@
  * @subpackage modules
  */
 
-$menu['Resources']['admin'] = array(
+$menu['Resources']['admin'] = [
 	'title' => _( 'Resources' ),
 	'default' => 'Resources/Resources.php',
 	'Resources/Resources.php' => _( 'Resources' ),
-);
+];
 
-$menu['Resources']['teacher'] = array(
+$menu['Resources']['teacher'] = [
 	'title' => _( 'Resources' ),
 	'default' => 'Resources/Resources.php',
 	'Resources/Resources.php' => _( 'Resources' ),
-);
+];
 
 $menu['Resources']['parent'] = $menu['Resources']['teacher'];

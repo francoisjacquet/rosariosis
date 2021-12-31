@@ -62,7 +62,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 			WHERE REQUEST_ID='" . $_REQUEST['id'] . "'" );
 
 		// Unset modfunc & ID & redirect URL.
-		RedirectURL( array( 'modfunc', 'id' ) );
+		RedirectURL( [ 'modfunc', 'id' ] );
 	}
 }
 
@@ -122,7 +122,7 @@ if ( $_REQUEST['modfunc'] === 'add' )
 	}
 
 	// Unset modfunc & course & redirect URL.
-	RedirectURL( array( 'modfunc', 'course' ) );
+	RedirectURL( [ 'modfunc', 'course' ] );
 }
 
 if ( ! $_REQUEST['modfunc']
@@ -173,11 +173,11 @@ function processRequest()
 </script>
 <?php
 
-	$functions = array(
+	$functions = [
 		'COURSE' => '_makeCourse',
 		'WITH_TEACHER_ID' => '_makeTeacher',
 		'WITH_PERIOD_ID' => '_makePeriod',
-	);
+	];
 
 	$requests_RET = DBGet( "SELECT r.REQUEST_ID,c.TITLE as COURSE,r.COURSE_ID,
 		r.MARKING_PERIOD_ID,r.WITH_TEACHER_ID,r.NOT_TEACHER_ID,r.WITH_PERIOD_ID,r.NOT_PERIOD_ID
@@ -186,11 +186,11 @@ function processRequest()
 		AND r.SYEAR='" . UserSyear() . "'
 		AND r.STUDENT_ID='" . UserStudentID() . "'", $functions );
 
-	$columns = array(
+	$columns = [
 		'COURSE' => _( 'Course' ),
 		'WITH_TEACHER_ID' => _( 'Teacher' ),
 		'WITH_PERIOD_ID' => _( 'Period' ),
-	);
+	];
 
 	// $link['add']['html'] = array('COURSE_ID'=>_makeCourse('','COURSE_ID'),'WITH_TEACHER_ID'=>_makeTeacher('','WITH_TEACHER_ID'),'WITH_PERIOD_ID'=>_makePeriod('','WITH_PERIOD_ID'),'MARKING_PERIOD_ID'=>_makeMP('','MARKING_PERIOD_ID'));
 	$subjects_RET = DBGet( "SELECT SUBJECT_ID,TITLE
@@ -208,10 +208,10 @@ function processRequest()
 
 	$subjects .= '</select>';
 
-	$link['remove'] = array(
+	$link['remove'] = [
 		'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove',
-		'variables' => array( 'id' => 'REQUEST_ID' ),
-	);
+		'variables' => [ 'id' => 'REQUEST_ID' ],
+	];
 
 	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update' ) . '" method="POST">';
 
@@ -254,7 +254,7 @@ function _makeTeacher( $value, $column )
 		WHERE s.STAFF_ID=cp.TEACHER_ID
 		AND cp.COURSE_ID='" . $THIS_RET['COURSE_ID'] . "'" );
 
-	$options = array();
+	$options = [];
 
 	foreach ( (array) $teachers_RET as $teacher )
 	{
@@ -293,7 +293,7 @@ function _makePeriod( $value, $column )
 		AND p.PERIOD_ID=cpsp.PERIOD_ID
 		AND cp.COURSE_ID='" . $THIS_RET['COURSE_ID'] . "'" );
 
-	$options = array();
+	$options = [];
 
 	foreach ( (array) $periods_RET as $period )
 	{

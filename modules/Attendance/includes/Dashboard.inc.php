@@ -72,9 +72,9 @@ if ( ! function_exists( 'DashboardAttendanceAdmin' ) )
 			}
 		}
 
-		$absences_data = array(
+		$absences_data = [
 			_( 'Absences' ) => $absences_today,
-		);
+		];
 
 		foreach ( (array) $absences_RET as $absences )
 		{
@@ -89,7 +89,7 @@ if ( ! function_exists( 'DashboardAttendanceAdmin' ) )
 			}
 		}
 
-		$data = array();
+		$data = [];
 
 		if ( $absences_today
 			|| count( $absences_data ) > 1 )

@@ -103,7 +103,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 			DBQuery( $delete_sql );
 
 			// Unset modfunc & ID & redirect URL.
-			RedirectURL( array( 'modfunc', 'id' ) );
+			RedirectURL( [ 'modfunc', 'id' ] );
 		}
 	}
 	elseif ( $_REQUEST['tab_id'] == '-1' )
@@ -114,7 +114,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 				WHERE ID='" . $_REQUEST['id'] . "'" );
 
 			// Unset modfunc & ID & redirect URL.
-			RedirectURL( array( 'modfunc', 'id' ) );
+			RedirectURL( [ 'modfunc', 'id' ] );
 		}
 	}
 	elseif ( DeletePrompt( _( 'Report Card Comment' ) ) )
@@ -123,7 +123,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 			WHERE ID='" . $_REQUEST['id'] . "'" );
 
 		// Unset modfunc & ID & redirect URL.
-		RedirectURL( array( 'modfunc', 'id' ) );
+		RedirectURL( [ 'modfunc', 'id' ] );
 	}
 }
 
@@ -139,7 +139,7 @@ if ( ! $_REQUEST['modfunc'] )
 				FROM COURSE_PERIODS
 				WHERE SUBJECT_ID=COURSE_SUBJECTS.SUBJECT_ID
 				AND GRADE_SCALE_ID IS NOT NULL)>0
-			ORDER BY SORT_ORDER,TITLE", array(), array( 'SUBJECT_ID' ) );
+			ORDER BY SORT_ORDER,TITLE", [], [ 'SUBJECT_ID' ] );
 
 		if ( ! $_REQUEST['subject_id'] || ! $subjects_RET[$_REQUEST['subject_id']] )
 		{
@@ -155,7 +155,7 @@ if ( ! $_REQUEST['modfunc'] )
 				FROM COURSE_PERIODS
 				WHERE COURSE_ID=COURSES.COURSE_ID
 				AND GRADE_SCALE_ID IS NOT NULL)>0
-			ORDER BY TITLE", array(), array( 'COURSE_ID' ) );
+			ORDER BY TITLE", [], [ 'COURSE_ID' ] );
 
 		if ( ! $_REQUEST['course_id'] || ! $courses_RET[$_REQUEST['course_id']] )
 		{
@@ -213,7 +213,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		if ( ! $course_period_RET[1]['GRADE_SCALE_ID'] )
 		{
-			ErrorMessage( array( _( 'This course is not graded.' ) ), 'fatal' );
+			ErrorMessage( [ _( 'This course is not graded.' ) ], 'fatal' );
 		}
 
 		//FJ add subject areas
@@ -237,7 +237,7 @@ if ( ! $_REQUEST['modfunc'] )
 	SELECT 0,'" . _( 'All Courses' ) . "',NULL,2,NULL,(SELECT count(1) FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='" . UserSchool() . "' AND COURSE_ID='0' AND SYEAR='" . UserSyear() . "')
 	UNION
 	SELECT -1,'" . _( 'General' ) . "',NULL,3,NULL,(SELECT count(1) FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='" . UserSchool() . "' AND COURSE_ID IS NULL AND SYEAR='" . UserSyear() . "')
-	ORDER BY 4,SORT_ORDER", array(), array( 'ID' ) );
+	ORDER BY 4,SORT_ORDER", [], [ 'ID' ] );
 
 	if ( ! isset( $_REQUEST['tab_id'] )
 		|| $_REQUEST['tab_id'] == ''
@@ -248,18 +248,18 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 	//FJ default to -1 (General)
 
-	$tabs = array();
+	$tabs = [];
 
 	foreach ( (array) $categories_RET as $id => $category )
 	{
 		if ( $category[1]['COUNT'] || AllowEdit() )
 		{
-			$tabs[] = array(
+			$tabs[] = [
 				'title' => $category[1]['TITLE'],
 				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&subject_id=' .
 				$_REQUEST['subject_id'] . '&course_id=' . $_REQUEST['course_id'] . '&tab_id=' . $id
-			) +
-			( $category[1]['COLOR'] ? array( 'color' => $category[1]['COLOR'] ) : array() );
+			] +
+			( $category[1]['COLOR'] ? [ 'color' => $category[1]['COLOR'] ] : [] );
 
 			if ( $id > 0 )
 			{
@@ -277,35 +277,35 @@ if ( ! $_REQUEST['modfunc'] )
 			AND SCHOOL_ID='" . UserSchool() . "'
 			ORDER BY SORT_ORDER";
 
-		$functions = array(
+		$functions = [
 			'TITLE' => '_makeCommentsInput',
 			'SORT_ORDER' => '_makeCommentsInput',
 			'COLOR' => '_makeColorInput',
-		);
+		];
 
-		$LO_columns = array(
+		$LO_columns = [
 			'TITLE' => _( 'Comment Category' ),
 			'SORT_ORDER' => _( 'Sort Order' ),
 			'COLOR' => _( 'Color' ),
-		);
+		];
 
-		$link['add']['html'] = array(
+		$link['add']['html'] = [
 			'TITLE' => _makeCommentsInput( '', 'TITLE' ),
 			'SORT_ORDER' => _makeCommentsInput( '', 'SORT_ORDER' ),
 			'COLOR' => _makeColorInput( '', 'COLOR' ),
-		);
+		];
 
 		$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] .
 			'&modfunc=remove&course_id=' . $_REQUEST['course_id'] . '&tab_id=new';
 
-		$link['remove']['variables'] = array( 'id' => 'ID' );
+		$link['remove']['variables'] = [ 'id' => 'ID' ];
 		$link['add']['html']['remove'] = button( 'add' );
 
-		$tabs[] = array(
+		$tabs[] = [
 			'title' => button( 'add', '', '', 'smaller' ),
 			'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&subject_id=' .
 				$_REQUEST['subject_id'] . '&course_id=' . $_REQUEST['course_id'] . '&tab_id=new',
-		);
+		];
 	}
 	elseif ( $_REQUEST['tab_id'] == '-1' )
 	{
@@ -316,28 +316,28 @@ if ( ! $_REQUEST['modfunc'] )
 		AND COURSE_ID IS NULL
 		ORDER BY SORT_ORDER";
 
-		$functions = array( 'TITLE' => '_makeCommentsInput', 'SORT_ORDER' => '_makeCommentsInput' );
-		$LO_columns = array( 'TITLE' => _( 'Comment' ), 'SORT_ORDER' => _( 'Sort Order' ) );
+		$functions = [ 'TITLE' => '_makeCommentsInput', 'SORT_ORDER' => '_makeCommentsInput' ];
+		$LO_columns = [ 'TITLE' => _( 'Comment' ), 'SORT_ORDER' => _( 'Sort Order' ) ];
 
-		$link['add']['html'] = array(
+		$link['add']['html'] = [
 			'TITLE' => _makeCommentsInput( '', 'TITLE' ),
 			'SORT_ORDER' => _makeCommentsInput( '', 'SORT_ORDER' ),
-		);
+		];
 
 		$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] .
 			'&modfunc=remove&subject_id=' . $_REQUEST['subject_id'] .
 			'&course_id=' . $_REQUEST['course_id'] . '&tab_id=-1';
 
-		$link['remove']['variables'] = array( 'id' => 'ID' );
+		$link['remove']['variables'] = [ 'id' => 'ID' ];
 		$link['add']['html']['remove'] = button( 'add' );
 
 		if ( User( 'PROFILE' ) === 'admin' )
 		{
-			$tabs[] = array(
+			$tabs[] = [
 				'title' => button( 'add', '', '', 'smaller' ),
 				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&subject_id=' .
 					$_REQUEST['subject_id'] . '&course_id=' . $_REQUEST['course_id'] . '&tab_id=new',
-			);
+			];
 		}
 	}
 	else
@@ -347,24 +347,24 @@ if ( ! $_REQUEST['modfunc'] )
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			ORDER BY SORT_ORDER,TITLE" );
 
-		$code_select = array( '' => _( 'N/A' ) );
+		$code_select = [ '' => _( 'N/A' ) ];
 
 		foreach ( (array) $codes_RET as $code )
 		{
 			$code_select[$code['ID']] = $code['TITLE'];
 		}
 
-		$functions = array(
+		$functions = [
 			'TITLE' => '_makeCommentsInput',
 			'SCALE_ID' => '_makeCommentsInput',
 			'SORT_ORDER' => '_makeCommentsInput',
-		);
+		];
 
-		$LO_columns = array(
+		$LO_columns = [
 			'TITLE' => _( 'Comment' ),
 			'SCALE_ID' => _( 'Code Scale' ),
 			'SORT_ORDER' => _( 'Sort Order' ),
-		);
+		];
 
 		if ( $_REQUEST['tab_id'] == '0' )
 		{
@@ -385,31 +385,31 @@ if ( ! $_REQUEST['modfunc'] )
 
 			if ( User( 'PROFILE' ) === 'admin' && AllowEdit() )
 			{
-				$functions += array( 'CATEGORY_ID' => '_makeCommentsInput' );
-				$LO_columns += array( 'CATEGORY_ID' => _( 'Category' ) );
+				$functions += [ 'CATEGORY_ID' => '_makeCommentsInput' ];
+				$LO_columns += [ 'CATEGORY_ID' => _( 'Category' ) ];
 			}
 		}
 
-		$link['add']['html'] = array(
+		$link['add']['html'] = [
 			'TITLE' => _makeCommentsInput( '', 'TITLE' ),
 			'SCALE_ID' => _makeCommentsInput( '', 'SCALE_ID' ),
 			'SORT_ORDER' => _makeCommentsInput( '', 'SORT_ORDER' ),
-		);
+		];
 
 		$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] .
 			'&modfunc=remove&subject_id=' . $_REQUEST['subject_id'] . '&course_id=' .
 			$_REQUEST['course_id'] . '&tab_id=' . $_REQUEST['tab_id'];
 
-		$link['remove']['variables'] = array( 'id' => 'ID' );
+		$link['remove']['variables'] = [ 'id' => 'ID' ];
 		$link['add']['html']['remove'] = button( 'add' );
 
 		if ( User( 'PROFILE' ) === 'admin' )
 		{
-			$tabs[] = array(
+			$tabs[] = [
 				'title' => button( 'add', '', '', 'smaller' ),
 				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&subject_id=' .
 					$_REQUEST['subject_id'] . '&course_id=' . $_REQUEST['course_id'] . '&tab_id=new',
-			);
+			];
 		}
 	}
 
@@ -424,23 +424,23 @@ if ( ! $_REQUEST['modfunc'] )
 	//FJ fix SQL bug invalid sort order
 	echo ErrorMessage( $error );
 
-	$LO_options = array(
+	$LO_options = [
 		'save' => false,
 		'search' => false,
 		'header_color' => issetVal( $categories_RET[$_REQUEST['tab_id']][1]['COLOR'], '' ),
 		'header' => WrapTabs( $tabs, 'Modules.php?modname=' . $_REQUEST['modname'] . '&subject_id=' .
 			$_REQUEST['subject_id'] . '&course_id=' . $_REQUEST['course_id'] . '&tab_id=' . $_REQUEST['tab_id'] ),
-	);
+	];
 
 	//ListOutput($LO_ret,$LO_columns,$singular,$plural,$link,array(),$LO_options);
 
 	if ( $_REQUEST['tab_id'] == 'new' )
 	{
-		ListOutput( $LO_ret, $LO_columns, 'Category', 'Categories', $link, array(), $LO_options );
+		ListOutput( $LO_ret, $LO_columns, 'Category', 'Categories', $link, [], $LO_options );
 	}
 	else
 	{
-		ListOutput( $LO_ret, $LO_columns, 'Comment', 'Comments', $link, array(), $LO_options );
+		ListOutput( $LO_ret, $LO_columns, 'Comment', 'Comments', $link, [], $LO_options );
 	}
 
 	echo '<br /><div class="center">' . SubmitButton() . '</div>';

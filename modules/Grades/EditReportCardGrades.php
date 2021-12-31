@@ -181,7 +181,7 @@ if ( UserStudentID() )
 			}
 
 			// Unset modfunc & ID & redirect URL.
-			RedirectURL( array( 'modfunc', 'id' ) );
+			RedirectURL( [ 'modfunc', 'id' ] );
 		}
 	}
 
@@ -215,8 +215,8 @@ if ( UserStudentID() )
 		$g_RET = DBGet( $g_sql );
 
 		$last_posted = null;
-		$g_mp = array(); // Grade marking_periods.
-		$grecs = array(); // Grade records.
+		$g_mp = []; // Grade marking_periods.
+		$grecs = []; // Grade records.
 
 		if ( $g_RET )
 		{
@@ -227,7 +227,7 @@ if ( UserStudentID() )
 					$mp_id = $g_rec['MP_ID'];
 				}
 
-				$g_mp[$g_rec['MP_ID']] = array(
+				$g_mp[$g_rec['MP_ID']] = [
 					'schoolyear' => formatSyear( $g_rec['SYEAR'], Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) ),
 					'mp_name' => $g_rec['MP_NAME'],
 					'grade_level' => $g_rec['GRADE_LEVEL'],
@@ -238,7 +238,7 @@ if ( UserStudentID() )
 					'cr_weighted' => $g_rec['CR_WEIGHTED'],
 					'cr_unweighted' => $g_rec['CR_UNWEIGHTED'],
 					'gpa' => issetVal( $g_rec['GPA'] ),
-				);
+				];
 			}
 		}
 		else
@@ -321,7 +321,7 @@ if ( UserStudentID() )
 
 			if ( $mp_RET )
 			{
-				$mp_options = array();
+				$mp_options = [];
 
 				foreach ( $mp_RET as $id => $mp )
 				{
@@ -351,19 +351,19 @@ if ( UserStudentID() )
 
 			$tab_url = 'Modules.php?modname=' . $_REQUEST['modname'] . '&mp_id=' . $mp_id . '&tab_id=';
 
-			$tabs = array();
+			$tabs = [];
 
-			$tabs[] = array(
+			$tabs[] = [
 				'title' => 'Grades',
 				'link' => $tab_url . 'grades',
-			);
+			];
 
-			$tabs[] = array(
+			$tabs[] = [
 				'title' => 'Credits',
 				'link' => $tab_url . 'credit',
-			);
+			];
 
-			$LO_options = array(
+			$LO_options = [
 				'count' => false,
 				'download' => false,
 				'search' => false,
@@ -371,11 +371,11 @@ if ( UserStudentID() )
 					$tabs,
 					$tab_url . $tab_id
 				),
-			);
+			];
 
-			$LO_columns = array(
+			$LO_columns = [
 				'COURSE_TITLE' => _( 'Course' ),
-			);
+			];
 
 			// MP has Course Periods?
 			$mp_has_course_periods = DBGet( "SELECT COUNT(COURSE_PERIOD_ID)
@@ -393,7 +393,7 @@ if ( UserStudentID() )
 
 			if ( $tab_id == 'grades' )
 			{
-				$functions = array(
+				$functions = [
 					'COURSE_TITLE' => '_makeTextInput',
 					'COURSE_PERIOD_ID' => '_makeSelectInput',
 					'GRADE_PERCENT' => '_makeTextInput',
@@ -402,18 +402,18 @@ if ( UserStudentID() )
 					'UNWEIGHTED_GP' => '_makeTextInput',
 					'GP_SCALE' => '_makeTextInput',
 					'COMMENT' => '_makeTextInput',
-				);
+				];
 
-				$LO_columns += array(
+				$LO_columns += [
 					'GRADE_PERCENT' => _( 'Percentage' ),
 					'GRADE_LETTER' => _( 'Grade' ),
 					'WEIGHTED_GP' => _( 'Grade Points' ),
 					'UNWEIGHTED_GP' => _( 'Unweighted Grade Points' ),
 					'GP_SCALE' => _( 'Grade Scale' ),
 					'COMMENT' => _( 'Comments' ),
-				);
+				];
 
-				$link['add']['html'] = array(
+				$link['add']['html'] = [
 					'COURSE_TITLE' => _makeTextInput( '', 'COURSE_TITLE' ),
 					'COURSE_PERIOD_ID' => _makeSelectInput( '', 'COURSE_PERIOD_ID' ),
 					'GRADE_PERCENT' => _makeTextInput( '', 'GRADE_PERCENT' ),
@@ -422,40 +422,40 @@ if ( UserStudentID() )
 					'UNWEIGHTED_GP' => _makeTextInput( '', 'UNWEIGHTED_GP' ),
 					'GP_SCALE' => _makeTextInput( SchoolInfo( 'REPORTING_GP_SCALE' ), 'GP_SCALE' ),
 					'COMMENT' => _makeTextInput( '', 'COMMENT' ),
-				);
+				];
 			}
 			else
 			{
-				$functions = array(
+				$functions = [
 					'COURSE_TITLE' => '_makeTextInput',
 					'COURSE_PERIOD_ID' => '_makeSelectInput',
 					'CREDIT_ATTEMPTED' => '_makeTextInput',
 					'CREDIT_EARNED' => '_makeTextInput',
 					'CREDIT_CATEGORY' => '_makeTextInput',
 					'CLASS_RANK' => '_makeCheckBoxInput',
-				);
+				];
 
-				$LO_columns += array(
+				$LO_columns += [
 					'CREDIT_ATTEMPTED' => _( 'Credit Attempted' ),
 					'CREDIT_EARNED' => _( 'Credit Earned' ),
 					'CREDIT_CATEGORY' => _( 'Credit Category' ),
 					'CLASS_RANK' => _( 'Affects Class Rank' ),
-				);
+				];
 
-				$link['add']['html'] = array(
+				$link['add']['html'] = [
 					'COURSE_TITLE' => _makeTextInput( '', 'COURSE_TITLE' ),
 					'COURSE_PERIOD_ID' => _makeSelectInput( '', 'COURSE_PERIOD_ID' ),
 					'CREDIT_ATTEMPTED' => _makeTextInput( '', 'CREDIT_ATTEMPTED' ),
 					'CREDIT_EARNED' => _makeTextInput( '', 'CREDIT_EARNED' ),
 					'CREDIT_CATEGORY' => _makeTextInput( '', 'CREDIT_CATEGORY' ),
 					'CLASS_RANK' => _makeCheckBoxInput( '', 'CLASS_RANK' ),
-				);
+				];
 			}
 
 			$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] .
 				'&modfunc=remove&mp_id=' . $mp_id;
 
-			$link['remove']['variables'] = array( 'id' => 'ID' );
+			$link['remove']['variables'] = [ 'id' => 'ID' ];
 
 			$link['add']['html']['remove'] = button( 'add' );
 
@@ -468,7 +468,7 @@ if ( UserStudentID() )
 				AND cast(MARKING_PERIOD_ID as integer)='" . $mp_id . "'
 				ORDER BY ID", $functions );
 
-			ListOutput( $student_grades_RET, $LO_columns, '.', '.', $link, array(), $LO_options );
+			ListOutput( $student_grades_RET, $LO_columns, '.', '.', $link, [], $LO_options );
 		}
 
 		echo '<br /><div class="center">';
@@ -594,7 +594,7 @@ function _makeSelectInput( $value, $name )
 
 	if ( is_null( $options ) )
 	{
-		$options = array();
+		$options = [];
 
 		// Get MP Course Periods.
 		$mp_course_periods_RET = DBGet( "SELECT COURSE_PERIOD_ID,TITLE

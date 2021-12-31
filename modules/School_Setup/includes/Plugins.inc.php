@@ -9,7 +9,7 @@ $RosarioCorePlugins = array(
 'Moodle'
 );*/
 
-$directories_bypass = array();
+$directories_bypass = [];
 
 //hacking protections
 
@@ -30,7 +30,7 @@ if ( $_REQUEST['modfunc'] === 'config' )
 	else
 	{
 		// Unset modfunc & plugin & redirect URL.
-		RedirectURL( array( 'modfunc', 'plugin' ) );
+		RedirectURL( [ 'modfunc', 'plugin' ] );
 	}
 }
 
@@ -75,7 +75,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 		}
 
 		// Unset modfunc & plugin & redirect URL.
-		RedirectURL( array( 'modfunc', 'plugin' ) );
+		RedirectURL( [ 'modfunc', 'plugin' ] );
 	}
 }
 
@@ -86,7 +86,7 @@ if ( $_REQUEST['modfunc'] === 'upload'
 	if ( ( ! defined( 'ROSARIO_DISABLE_ADDON_UPLOAD' )
 			|| ! ROSARIO_DISABLE_ADDON_UPLOAD )
 		&& class_exists( 'ZipArchive' )
-		&& ( $addon_zip_path = FileUpload( 'upload', $FileUploadsPath, array( '.zip' ), FileUploadMaxSize(), $error ) ) )
+		&& ( $addon_zip_path = FileUpload( 'upload', $FileUploadsPath, [ '.zip' ], FileUploadMaxSize(), $error ) ) )
 	{
 		// Extract zip file.
 		$zip = new ZipArchive;
@@ -138,7 +138,7 @@ if ( $_REQUEST['modfunc'] === 'upload'
 	}
 
 	// Unset modfunc & redirect URL.
-	RedirectURL( array( 'modfunc' ) );
+	RedirectURL( 'modfunc' );
 }
 
 if ( $_REQUEST['modfunc'] == 'deactivate'
@@ -165,7 +165,7 @@ if ( $_REQUEST['modfunc'] == 'deactivate'
 		}
 
 		// Unset modfunc & plugin & redirect URL.
-		RedirectURL( array( 'modfunc', 'plugin' ) );
+		RedirectURL( [ 'modfunc', 'plugin' ] );
 	}
 }
 
@@ -229,18 +229,18 @@ if ( $_REQUEST['modfunc'] === 'activate'
 	}
 
 	// Unset modfunc & plugin & redirect URL.
-	RedirectURL( array( 'modfunc', 'plugin' ) );
+	RedirectURL( [ 'modfunc', 'plugin' ] );
 }
 
 if ( ! $_REQUEST['modfunc'] )
 {
 	echo ErrorMessage( $error );
 
-	$plugins_RET = array( '' );
+	$plugins_RET = [ '' ];
 
 	foreach ( (array) $RosarioPlugins as $plugin_title => $activated )
 	{
-		$THIS_RET = array();
+		$THIS_RET = [];
 		$THIS_RET['DELETE'] = _makeDelete( $plugin_title, $activated );
 		$THIS_RET['TITLE'] = _makeReadMe( $plugin_title, $activated );
 		$THIS_RET['ACTIVATED'] = _makeActivated( $activated );
@@ -258,7 +258,7 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		$plugin_title = str_replace( 'plugins/', '', $plugin );
 
-		$THIS_RET = array();
+		$THIS_RET = [];
 		$THIS_RET['DELETE'] = _makeDelete( $plugin_title );
 		$THIS_RET['TITLE'] = _makeReadMe( $plugin_title );
 		$THIS_RET['ACTIVATED'] = _makeActivated( false );
@@ -267,12 +267,12 @@ if ( ! $_REQUEST['modfunc'] )
 		$plugins_RET[] = $THIS_RET;
 	}
 
-	$columns = array(
+	$columns = [
 		'DELETE' => '<span class="a11y-hidden">' . _( 'Delete' ) . '</span>',
 		'TITLE' => _( 'Title' ),
 		'ACTIVATED' => _( 'Activated' ),
 		'CONFIGURATION' => _( 'Configuration' ),
-	);
+	];
 
 	unset( $plugins_RET[0] );
 
@@ -498,7 +498,7 @@ function _delTree( $dir, $mode = 'delete' )
 		}
 	}
 
-	$files = array_diff( scandir( $dir ), array( '.', '..' ) );
+	$files = array_diff( scandir( $dir ), [ '.', '..' ] );
 
 	foreach ( (array) $files as $file )
 	{

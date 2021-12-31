@@ -13,35 +13,35 @@
 // Custom Students programs
 if ( $RosarioModules['Students'] )
 {
-	$menu['Students']['admin'] += array(
+	$menu['Students']['admin'] += [
 		3 => _( 'Utilities' ),
 		'Custom/MyReport.php' => _( 'My Report' ),
 		'Custom/CreateParents.php' => _( 'Create Parent Users' ),
 		// @since 6.6 Add Registration program for Administrators.
 		'Custom/Registration.php' => _( 'Registration' ),
 		'Custom/RemoveAccess.php' => _( 'Remove Access' ),
-	);
+	];
 
-	$exceptions['Students'] += array(
+	$exceptions['Students'] += [
 		'Custom/CreateParents.php' => true,
-	);
+	];
 
-	$menu['Students']['parent'] += array(
+	$menu['Students']['parent'] += [
 		'Custom/Registration.php' => _( 'Registration' ),
-	);
+	];
 }
 
 // Custom Users programs
 if ( $RosarioModules['Users'] )
 {
-	$menu['Users']['admin'] += array(
+	$menu['Users']['admin'] += [
 		3 => _( 'Utilities' ),
 		'Custom/NotifyParents.php' => _( 'Notify Parents' ),
-	);
+	];
 
-	$exceptions['Users'] += array(
+	$exceptions['Users'] += [
 		'Custom/NotifyParents.php' => true,
-	);
+	];
 }
 
 // Custom Attendance programs
@@ -52,7 +52,7 @@ if ( $RosarioModules['Attendance'] )
 
 	$menu['Attendance']['admin'] = array_merge(
 	    array_slice( $menu['Attendance']['admin'], 0, $utilities_pos ),
-	    array( 'Custom/AttendanceSummary.php' => _( 'Attendance Summary' ) ),
+	    [ 'Custom/AttendanceSummary.php' => _( 'Attendance Summary' ) ],
 	    array_slice( $menu['Attendance']['admin'], $utilities_pos )
 	);
 }

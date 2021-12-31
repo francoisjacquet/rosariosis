@@ -21,11 +21,11 @@ if ( AllowEdit()
 	if ( $comment )
 	{
 		// Add time and user to comments "thread" like.
-		$comment = array( array(
+		$comment = [ [
 			'date' => date( 'Y-m-d G:i:s' ),
 			'staff_id' => User( 'STAFF_ID' ),
 			'comment' => $comment,
-		) );
+		] ];
 
 		$existing_comment = DBGetOne( "SELECT COMMENT
 			FROM STUDENT_MP_COMMENTS
@@ -52,18 +52,18 @@ if ( AllowEdit()
 		$_REQUEST['values']['STUDENT_MP_COMMENTS'][ UserStudentID() ]['COMMENT'] = DBEscapeString( serialize( $comment ) );
 
 		SaveData(
-			array(
+			[
 				'STUDENT_MP_COMMENTS' => "STUDENT_ID='" . UserStudentID() . "'
 				AND SYEAR='" . UserSyear() . "'
 				AND MARKING_PERIOD_ID='" . $comments_MP . "'",
-				'fields' => array(
+				'fields' => [
 					'STUDENT_MP_COMMENTS' => 'STUDENT_ID,SYEAR,MARKING_PERIOD_ID,',
-				),
-				'values' => array(
+				],
+				'values' => [
 					'STUDENT_MP_COMMENTS' => "'" . UserStudentID() . "','" . UserSyear() . "','" . $comments_MP . "',",
-				)
-			),
-			array( 'COMMENT' => _( 'Comment' ) )
+				]
+			],
+			[ 'COMMENT' => _( 'Comment' ) ]
 		);
 	}
 }
@@ -93,7 +93,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( $comments )
 	{
-		$comments_HTML = $staff_name = array();
+		$comments_HTML = $staff_name = [];
 
 		foreach ( (array) $comments as $comment )
 		{

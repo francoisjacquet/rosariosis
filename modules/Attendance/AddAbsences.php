@@ -33,7 +33,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		WHERE EXTRACT(MONTH FROM SCHOOL_DATE)='" . ( $_REQUEST['month'] * 1 ) . "'
 		AND EXTRACT(YEAR FROM SCHOOL_DATE)='" . $_REQUEST['year'] . "'
 		AND PERIOD_ID IN (" . $periods_list . ")
-		AND STUDENT_ID IN (" . $students_list . ")", array(), array( 'STUDENT_ID', 'SCHOOL_DATE', 'PERIOD_ID' ) );
+		AND STUDENT_ID IN (" . $students_list . ")", [], [ 'STUDENT_ID', 'SCHOOL_DATE', 'PERIOD_ID' ] );
 
 		$state_code = DBGetOne( "SELECT STATE_CODE
 			FROM ATTENDANCE_CODES
@@ -79,7 +79,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					AS INT) FOR 1) IN cpsp.DAYS)>0
 					AND s.MARKING_PERIOD_ID IN (" . $all_mp . ")
 					AND ac.SCHOOL_ID=s.SCHOOL_ID
-					AND ac.SYEAR=s.SYEAR", array(), array( 'PERIOD_ID' ) );
+					AND ac.SYEAR=s.SYEAR", [], [ 'PERIOD_ID' ] );
 				}
 				else
 				{
@@ -94,7 +94,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 						AND cpsp.PERIOD_ID IN (" . $periods_list . ")
 						AND position(',0,' IN cp.DOES_ATTENDANCE)>0
 						AND (ac.SCHOOL_DATE BETWEEN s.START_DATE AND s.END_DATE OR (s.END_DATE IS NULL AND ac.SCHOOL_DATE>=s.START_DATE))
-						AND position(substring('UMTWHFS' FROM cast(extract(DOW FROM ac.SCHOOL_DATE) AS INT)+1 FOR 1) IN cpsp.DAYS)>0 AND s.MARKING_PERIOD_ID IN (" . $all_mp . ")", array(), array( 'PERIOD_ID' ) );
+						AND position(substring('UMTWHFS' FROM cast(extract(DOW FROM ac.SCHOOL_DATE) AS INT)+1 FOR 1) IN cpsp.DAYS)>0 AND s.MARKING_PERIOD_ID IN (" . $all_mp . ")", [], [ 'PERIOD_ID' ] );
 				}
 
 				//echo '<pre>'; var_dump($course_periods_RET); echo '</pre>';
@@ -162,7 +162,7 @@ echo ErrorMessage( $error );
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	$extra['link'] = array( 'FULL_NAME' => false );
+	$extra['link'] = [ 'FULL_NAME' => false ];
 	$extra['SELECT'] = ",CAST (NULL AS CHAR(1)) AS CHECKBOX";
 
 	if ( $_REQUEST['search_modfunc'] === 'list' )
@@ -229,7 +229,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$time = mktime( 0, 0, 0, $_REQUEST['month'] * 1, 1, mb_substr( $_REQUEST['year'], 2 ) );
 
-		echo PrepareDate( mb_strtoupper( date( "d-M-y", $time ) ), '', false, array( 'M' => 1, 'Y' => 1, 'submit' => true ) );
+		echo PrepareDate( mb_strtoupper( date( "d-M-y", $time ) ), '', false, [ 'M' => 1, 'Y' => 1, 'submit' => true ] );
 
 		$skip = date( "w", $time );
 		$last = 31;
@@ -256,7 +256,7 @@ if ( ! $_REQUEST['modfunc'] )
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND MINUTES!='0'
-			AND EXTRACT(MONTH FROM SCHOOL_DATE)='" . ( $_REQUEST['month'] * 1 ) . "'", array(), array( 'SCHOOL_DATE' ) );
+			AND EXTRACT(MONTH FROM SCHOOL_DATE)='" . ( $_REQUEST['month'] * 1 ) . "'", [], [ 'SCHOOL_DATE' ] );
 
 		for ( $i = 1; $i <= $skip; $i++ )
 		{
@@ -301,11 +301,11 @@ if ( ! $_REQUEST['modfunc'] )
 	Widgets( 'course' );
 	Widgets( 'absences' );
 
-	$extra['functions'] = array( 'CHECKBOX' => 'MakeChooseCheckbox' );
+	$extra['functions'] = [ 'CHECKBOX' => 'MakeChooseCheckbox' ];
 
-	$extra['columns_before'] = array(
+	$extra['columns_before'] = [
 		'CHECKBOX' => MakeChooseCheckbox( '', 'STUDENT_ID', 'student' ),
-	);
+	];
 
 	$extra['new'] = true;
 

@@ -11,8 +11,8 @@ DrawHeader( ProgramTitle() );
 $_REQUEST['report'] = issetVal( $_REQUEST['report'], '' );
 
 $report_link = PreparePHP_SELF(
-	array(),
-	array( 'report', 'attendance' )
+	[],
+	[ 'report', 'attendance' ]
 ) . '&report=';
 
 $tmp_allow_edit = false;
@@ -29,12 +29,12 @@ $report_select = SelectInput(
 	$_REQUEST['report'],
 	'report',
 	'',
-	array(
+	[
 		'' => ( User( 'PROFILE' ) === 'admin' || User( 'PROFILE' ) === 'teacher' ?
 			_( 'Attendance Chart' ) :
 			_( 'Daily Summary' ) ),
 		'absence' => _( 'Absence Summary' ),
-	),
+	],
 	false,
 	'onchange="ajaxLink(\'' . $report_link . '\' + this.value);" autocomplete="off"',
 	false

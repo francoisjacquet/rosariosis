@@ -38,7 +38,7 @@ if ( $_REQUEST['profile_id'] !== false )
 {
 	$exceptions_RET = DBGet( "SELECT PROFILE_ID,MODNAME,CAN_USE,CAN_EDIT
 		FROM PROFILE_EXCEPTIONS
-		WHERE PROFILE_ID='" . $_REQUEST['profile_id'] . "'", array(), array( 'MODNAME' ) );
+		WHERE PROFILE_ID='" . $_REQUEST['profile_id'] . "'", [], [ 'MODNAME' ] );
 
 	$xprofile = DBGetOne( "SELECT PROFILE
 		FROM USER_PROFILES
@@ -100,13 +100,13 @@ if ( $_REQUEST['modfunc'] === 'delete'
 				AND s.PROFILE_ID=e.PROFILE_ID" );
 
 			// Unset modfunc & profile ID & redirect URL.
-			RedirectURL( array( 'modfunc', 'profile_id' ) );
+			RedirectURL( [ 'modfunc', 'profile_id' ] );
 		}
 	}
 	else // bad or already deleted profile ID
 	{
 		// Unset modfunc & profile ID & redirect URL.
-		RedirectURL( array( 'modfunc', 'profile_id' ) );
+		RedirectURL( [ 'modfunc', 'profile_id' ] );
 	}
 }
 
@@ -155,7 +155,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 	{
 		foreach ( (array) $tmp_menu as $modcat => $profiles )
 		{
-			$values = isset( $profiles[$xprofile] ) ? $profiles[$xprofile] : array();
+			$values = isset( $profiles[$xprofile] ) ? $profiles[$xprofile] : [];
 
 			foreach ( (array) $values as $modname => $title )
 			{
@@ -213,12 +213,12 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 	$exceptions_RET = DBGet( "SELECT MODNAME,CAN_USE,CAN_EDIT
 		FROM PROFILE_EXCEPTIONS
-		WHERE PROFILE_ID='" . $_REQUEST['profile_id'] . "'", array(), array( 'MODNAME' ) );
+		WHERE PROFILE_ID='" . $_REQUEST['profile_id'] . "'", [], [ 'MODNAME' ] );
 
 	unset( $tmp_menu );
 
 	// Unset modfunc & can edit & can use & redirect URL.
-	RedirectURL( array( 'modfunc', 'can_edit', 'can_use' ) );
+	RedirectURL( [ 'modfunc', 'can_edit', 'can_use' ] );
 
 	// If Admin Profile updated, reload menu.
 
@@ -237,11 +237,11 @@ if ( $_REQUEST['modfunc']
 	&& AllowEdit() )
 {
 	$id = DBSeqNextID( 'user_profiles_id_seq' );
-	$exceptions_RET = array();
+	$exceptions_RET = [];
 
 	$xprofile = $_REQUEST['new_profile_type'];
 
-	if ( ! in_array( $xprofile, array( 'admin', 'teacher', 'parent' ) ) )
+	if ( ! in_array( $xprofile, [ 'admin', 'teacher', 'parent' ] ) )
 	{
 		// Sanitize requested profile type.
 		$xprofile = 'parent';
@@ -253,7 +253,7 @@ if ( $_REQUEST['modfunc']
 	$_REQUEST['profile_id'] = $id;
 
 	// Unset modfunc & new profile type & new profile title & redirect URL.
-	RedirectURL( array( 'modfunc', 'new_profile_title', 'new_profile_type' ) );
+	RedirectURL( [ 'modfunc', 'new_profile_title', 'new_profile_type' ] );
 }
 
 if ( $_REQUEST['modfunc'] != 'delete' )
@@ -267,13 +267,13 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 
 	//$profiles_RET = DBGet( "SELECT ID,TITLE,PROFILE FROM USER_PROFILES" );
 	$profiles_RET = DBGet( "SELECT ID,TITLE,PROFILE FROM USER_PROFILES ORDER BY ID",
-		array(),
-		array( 'PROFILE', 'ID' )
+		[],
+		[ 'PROFILE', 'ID' ]
 	);
 
 	echo '<tr><th colspan="3">' . _( 'Profiles' ) . '</th></tr>';
 
-	foreach ( array( 'admin', 'teacher', 'parent', 'student' ) as $profiles )
+	foreach ( [ 'admin', 'teacher', 'parent', 'student' ] as $profiles )
 	{
 		foreach ( (array) $profiles_RET[$profiles] as $id => $profile )
 		{
@@ -345,7 +345,7 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 
 		foreach ( (array) $menu as $modcat => $profiles )
 		{
-			$values = isset( $profiles[$xprofile] ) ? $profiles[$xprofile] : array();
+			$values = isset( $profiles[$xprofile] ) ? $profiles[$xprofile] : [];
 
 			if ( empty( $values ) )
 			{

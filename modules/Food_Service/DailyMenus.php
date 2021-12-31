@@ -42,14 +42,14 @@ else
 
 	if ( ! $calendar_id )
 	{
-		ErrorMessage( array( _( 'There are no calendars yet setup.' ) ), 'fatal' );
+		ErrorMessage( [ _( 'There are no calendars yet setup.' ) ], 'fatal' );
 	}
 }
 
 $menus_RET = DBGet( "SELECT MENU_ID,TITLE
 	FROM FOOD_SERVICE_MENUS
 	WHERE SCHOOL_ID='" . UserSchool() . "'
-	ORDER BY SORT_ORDER", array(), array( 'MENU_ID' ) );
+	ORDER BY SORT_ORDER", [], [ 'MENU_ID' ] );
 
 if ( empty( $_REQUEST['menu_id'] ) )
 {
@@ -61,7 +61,7 @@ if ( empty( $_REQUEST['menu_id'] ) )
 		}
 		else
 		{
-			ErrorMessage( array( _( 'There are no menus yet setup.' ) ), 'fatal' );
+			ErrorMessage( [ _( 'There are no menus yet setup.' ) ], 'fatal' );
 		}
 	}
 	else
@@ -84,7 +84,7 @@ if ( ! empty( $_REQUEST['submit']['save'] )
 	WHERE SCHOOL_DATE BETWEEN '" . date( 'Y-m-d', $time ) . "' AND '" . date( 'Y-m-d', $time_last ) . "'
 	AND SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'
-	AND TITLE='" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "'", array(), array( 'SCHOOL_DATE' ) );
+	AND TITLE='" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "'", [], [ 'SCHOOL_DATE' ] );
 	//echo '<pre>'; var_dump($events_RET); echo '</pre>';
 
 	foreach ( (array) $_REQUEST['food_service'] as $school_date => $description )
@@ -123,7 +123,7 @@ if ( ! empty( $_REQUEST['submit']['print'] ) )
 	WHERE SCHOOL_DATE BETWEEN '" . date( 'Y-m-d', $time ) . "' AND '" . date( 'Y-m-d', $time_last ) . "'
 	AND SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'
-	AND (TITLE='" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "' OR TITLE='No School')", array(), array( 'SCHOOL_DATE' ) );
+	AND (TITLE='" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "' OR TITLE='No School')", [], [ 'SCHOOL_DATE' ] );
 
 	$skip = date( "w", $time );
 
@@ -274,7 +274,7 @@ else
 	AND SCHOOL_ID='" . UserSchool() . "'
 	AND CALENDAR_ID='" . $calendar_id . "'
 	AND MINUTES>0
-	ORDER BY SCHOOL_DATE", array(), array( 'SCHOOL_DATE' ) );
+	ORDER BY SCHOOL_DATE", [], [ 'SCHOOL_DATE' ] );
 
 	$events_RET = DBGet( "SELECT ID,TITLE,DESCRIPTION,SCHOOL_DATE
 	FROM CALENDAR_EVENTS
@@ -282,24 +282,24 @@ else
 	AND SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'
 	AND TITLE='" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "'
-	ORDER BY SCHOOL_DATE", array( 'DESCRIPTION' => 'makeDescriptionInput', 'SCHOOL_DATE' => 'ProperDate' ) );
+	ORDER BY SCHOOL_DATE", [ 'DESCRIPTION' => 'makeDescriptionInput', 'SCHOOL_DATE' => 'ProperDate' ] );
 
-	$events_RET[0] = array(); // make sure indexing from 1
+	$events_RET[0] = []; // make sure indexing from 1
 
 	foreach ( (array) $calendar_RET as $school_date => $value )
 	{
-		$events_RET[] = array(
+		$events_RET[] = [
 			'ID' => '',
 			'SCHOOL_DATE' => ProperDate( $school_date ),
 			'DESCRIPTION' => TextInput( '', 'food_service[' . $school_date . '][text]', '', 'size=20' ) .
 			( $description_select ? '<select name="food_service[' . $school_date . '][select]">' .
 				$description_select : '' ),
-		);
+		];
 	}
 
 	unset( $events_RET[0] );
 
-	$LO_columns = array( 'ID' => _( 'ID' ), 'SCHOOL_DATE' => _( 'Date' ), 'DESCRIPTION' => _( 'Description' ) );
+	$LO_columns = [ 'ID' => _( 'ID' ), 'SCHOOL_DATE' => _( 'Date' ), 'DESCRIPTION' => _( 'Description' ) ];
 
 	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&menu_id=' . $_REQUEST['menu_id'] .
 		'&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year']  ) . '" method="POST">';
@@ -309,11 +309,11 @@ else
 			mb_strtoupper( date( "d-M-y", $time ) ),
 			'',
 			false,
-			array(
+			[
 				'M' => 1,
 				'Y' => 1,
 				'submit' => true,
-			)
+			]
 		),
 		SubmitButton( _( 'Save' ), 'submit[save]' ) .
 		SubmitButton( _( 'Generate Menu' ), 'submit[print]', '' ) // No .primary button class.
@@ -321,28 +321,28 @@ else
 
 	echo '<br />';
 
-	$tabs = array();
+	$tabs = [];
 
 	foreach ( (array) $menus_RET as $id => $meal )
 	{
-		$tabs[] = array(
+		$tabs[] = [
 			'title' => $meal[1]['TITLE'],
 			'link' => 'Modules.php?modname=' . $_REQUEST['modname'] .
 			'&menu_id=' . $id . '&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year'],
-		);
+		];
 	}
 
-	$extra = array(
+	$extra = [
 		'save' => false,
 		'search' => false,
 		'header' => WrapTabs( $tabs, 'Modules.php?modname=' . $_REQUEST['modname'] .
 			'&menu_id=' . $_REQUEST['menu_id'] . '&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year'] ),
-	);
+	];
 
 	$singular = sprintf( _( '%s Day' ), $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] );
 	$plural = sprintf( _( '%s Days' ), $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] );
 
-	ListOutput( $events_RET, $LO_columns, $singular, $plural, array(), array(), $extra );
+	ListOutput( $events_RET, $LO_columns, $singular, $plural, [], [], $extra );
 
 	echo '<br /><div class="center">' . SubmitButton( _( 'Save' ), 'submit[save]' ) . '</div>';
 	echo '</form>';

@@ -104,7 +104,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 				WHERE ID='" . $_REQUEST['id'] . "'" );
 
 			// Unset modfunc & ID & redirect URL.
-			RedirectURL( array( 'modfunc', 'id' ) );
+			RedirectURL( [ 'modfunc', 'id' ] );
 		}
 	}
 	elseif ( DeletePrompt( _( 'Report Card Grading Scale' ) ) )
@@ -118,7 +118,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 		DBQuery( $delete_sql );
 
 		// Unset modfunc & ID & redirect URL.
-		RedirectURL( array( 'modfunc', 'id' ) );
+		RedirectURL( [ 'modfunc', 'id' ] );
 	}
 }
 
@@ -133,7 +133,7 @@ if ( ! $_REQUEST['modfunc'] )
 			FROM REPORT_CARD_GRADE_SCALES
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
-			ORDER BY SORT_ORDER", array(), array( 'ID' ) );
+			ORDER BY SORT_ORDER", [], [ 'ID' ] );
 
 		if ( ! isset( $_REQUEST['tab_id'] )
 			|| $_REQUEST['tab_id'] == ''
@@ -158,12 +158,12 @@ if ( ! $_REQUEST['modfunc'] )
 
 		if ( ! $course_period_RET[1]['GRADE_SCALE_ID'] )
 		{
-			ErrorMessage( array( _( 'This course is not graded.' ) ), 'fatal' );
+			ErrorMessage( [ _( 'This course is not graded.' ) ], 'fatal' );
 		}
 
 		$grade_scales_RET = DBGet( "SELECT ID,TITLE
 			FROM REPORT_CARD_GRADE_SCALES
-			WHERE ID='" . $course_period_RET[1]['GRADE_SCALE_ID'] . "'", array(), array( 'ID' ) );
+			WHERE ID='" . $course_period_RET[1]['GRADE_SCALE_ID'] . "'", [], [ 'ID' ] );
 
 		if ( $course_period_RET[1]['DOES_BREAKOFF'] == 'Y' )
 		{
@@ -175,12 +175,12 @@ if ( ! $_REQUEST['modfunc'] )
 		$_REQUEST['tab_id'] = key( $grade_scales_RET ) . '';
 	}
 
-	$tabs = array();
-	$grade_scale_select = array();
+	$tabs = [];
+	$grade_scale_select = [];
 
 	foreach ( (array) $grade_scales_RET as $id => $grade_scale )
 	{
-		$tabs[] = array( 'title' => $grade_scale[1]['TITLE'], 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=' . $id );
+		$tabs[] = [ 'title' => $grade_scale[1]['TITLE'], 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=' . $id ];
 		$grade_scale_select[$id] = $grade_scale[1]['TITLE'];
 	}
 
@@ -192,49 +192,49 @@ if ( ! $_REQUEST['modfunc'] )
 			AND SCHOOL_ID='" . UserSchool() . "'
 			ORDER BY BREAK_OFF IS NOT NULL DESC,BREAK_OFF DESC,SORT_ORDER";
 
-		$functions = array(
+		$functions = [
 			'TITLE' => '_makeTextInput',
 			'BREAK_OFF' => '_makeGradesInput',
 			'SORT_ORDER' => '_makeTextInput',
 			'GPA_VALUE' => '_makeGradesInput',
 			'UNWEIGHTED_GP' => '_makeGradesInput',
 			'COMMENT' => '_makeTextInput',
-		);
+		];
 
-		$LO_columns = array(
+		$LO_columns = [
 			'TITLE' => _( 'Title' ),
 			'BREAK_OFF' => _( 'Breakoff' ),
 			'GPA_VALUE' => _( 'GPA Value' ),
 			'UNWEIGHTED_GP' => _( 'Unweighted GP Value' ),
 			'SORT_ORDER' => _( 'Order' ),
 			'COMMENT' => _( 'Comment' ),
-		);
+		];
 
 		if ( User( 'PROFILE' ) === 'admin' && AllowEdit() )
 		{
-			$functions += array( 'GRADE_SCALE_ID' => '_makeGradesInput' );
-			$LO_columns += array( 'GRADE_SCALE_ID' => _( 'Grade Scale' ) );
+			$functions += [ 'GRADE_SCALE_ID' => '_makeGradesInput' ];
+			$LO_columns += [ 'GRADE_SCALE_ID' => _( 'Grade Scale' ) ];
 		}
 
-		$link['add']['html'] = array(
+		$link['add']['html'] = [
 			'TITLE' => _makeTextInput( '', 'TITLE' ),
 			'BREAK_OFF' => _makeGradesInput( '', 'BREAK_OFF' ),
 			'GPA_VALUE' => _makeGradesInput( '', 'GPA_VALUE' ),
 			'UNWEIGHTED_GP' => _makeGradesInput( '', 'UNWEIGHTED_GP' ),
 			'SORT_ORDER' => _makeTextInput( '', 'SORT_ORDER' ),
 			'COMMENT' => _makeTextInput( '', 'COMMENT' ),
-		);
+		];
 
 		$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove&tab_id=' . $_REQUEST['tab_id'];
-		$link['remove']['variables'] = array( 'id' => 'ID' );
+		$link['remove']['variables'] = [ 'id' => 'ID' ];
 		$link['add']['html']['remove'] = button( 'add' );
 
 		if ( User( 'PROFILE' ) === 'admin' )
 		{
-			$tabs[] = array(
+			$tabs[] = [
 				'title' => button( 'add', '', '', 'smaller' ),
 				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=new',
-			);
+			];
 		}
 	}
 	else
@@ -244,7 +244,7 @@ if ( ! $_REQUEST['modfunc'] )
 			AND SYEAR='" . UserSyear() . "'
 			ORDER BY SORT_ORDER,ID";
 
-		$functions = array(
+		$functions = [
 			'TITLE' => '_makeTextInput',
 			'GP_SCALE' => '_makeGradesInput',
 			'GP_PASSING_VALUE' => '_makeGradesInput',
@@ -253,9 +253,9 @@ if ( ! $_REQUEST['modfunc'] )
 			'HR_GPA_VALUE' => '_makeGradesInput',
 			'HRS_GPA_VALUE' => '_makeGradesInput',
 			'SORT_ORDER' => '_makeTextInput',
-		);
+		];
 
-		$LO_columns = array(
+		$LO_columns = [
 			'TITLE' => _( 'Grade Scale' ),
 			'GP_SCALE' => _( 'Scale Value' ),
 			'GP_PASSING_VALUE' => _( 'Minimum Passing Grade' ),
@@ -264,9 +264,9 @@ if ( ! $_REQUEST['modfunc'] )
 			'HR_GPA_VALUE' => _( 'Honor Roll GPA Min' ),
 			'HRS_GPA_VALUE' => _( 'Honor Roll by Subject GPA Min' ),
 			'SORT_ORDER' => _( 'Sort Order' ),
-		);
+		];
 
-		$link['add']['html'] = array(
+		$link['add']['html'] = [
 			'TITLE' => _makeTextInput( '', 'TITLE' ),
 			'GP_SCALE' => _makeGradesInput( '', 'GP_SCALE' ),
 			'GP_PASSING_VALUE' => _makeGradesInput( '', 'GP_PASSING_VALUE' ),
@@ -275,16 +275,16 @@ if ( ! $_REQUEST['modfunc'] )
 			'HR_GPA_VALUE' => _makeGradesInput( '', 'HR_GPA_VALUE' ),
 			'HRS_GPA_VALUE' => _makeGradesInput( '', 'HRS_GPA_VALUE' ),
 			'SORT_ORDER' => _makeTextInput( '', 'SORT_ORDER' ),
-		);
+		];
 
 		$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove&tab_id=new';
-		$link['remove']['variables'] = array( 'id' => 'ID' );
+		$link['remove']['variables'] = [ 'id' => 'ID' ];
 		$link['add']['html']['remove'] = button( 'add' );
 
-		$tabs[] = array(
+		$tabs[] = [
 			'title' => button( 'add', '', '', 'smaller' ),
 			'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=new',
-		);
+		];
 	}
 
 	$LO_ret = DBGet( $sql, $functions );
@@ -293,16 +293,16 @@ if ( ! $_REQUEST['modfunc'] )
 	DrawHeader( '', SubmitButton() );
 	echo '<br />';
 
-	$LO_options = array( 'search' => false,
-		'header' => WrapTabs( $tabs, 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=' . $_REQUEST['tab_id'] ) );
+	$LO_options = [ 'search' => false,
+		'header' => WrapTabs( $tabs, 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=' . $_REQUEST['tab_id'] ) ];
 
 	if ( $_REQUEST['tab_id'] !== 'new' )
 	{
-		ListOutput( $LO_ret, $LO_columns, 'Grade', 'Grades', $link, array(), $LO_options );
+		ListOutput( $LO_ret, $LO_columns, 'Grade', 'Grades', $link, [], $LO_options );
 	}
 	else
 	{
-		ListOutput( $LO_ret, $LO_columns, 'Grade Scale', 'Grade Scales', $link, array(), $LO_options );
+		ListOutput( $LO_ret, $LO_columns, 'Grade Scale', 'Grade Scales', $link, [], $LO_options );
 	}
 
 	echo '<br /><div class="center">' . SubmitButton() . '</div>';
@@ -374,7 +374,7 @@ function _makeGradesInput( $value, $name )
 		&& $value !== '' )
 	{
 		// Append "%" to displayed Breakoff value.
-		$value = array( $value, $value . '%' );
+		$value = [ $value, $value . '%' ];
 	}
 
 	return TextInput(

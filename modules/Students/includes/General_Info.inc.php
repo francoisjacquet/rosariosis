@@ -57,14 +57,14 @@ if ( AllowEdit() && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		issetVal( $student['NAME_SUFFIX'], '' ),
 		'students[NAME_SUFFIX]',
 		_( 'Suffix' ),
-		array(
+		[
 			'Jr' => _( 'Jr' ),
 			'Sr' => _( 'Sr' ),
 			'II' => _( 'II' ),
 			'III' => _( 'III' ),
 			'IV' => _( 'IV' ),
 			'V' => _( 'V' ),
-		),
+		],
 		'',
 		'',
 		$div
@@ -190,7 +190,7 @@ else
 		WHERE SYEAR='" . UserSyear() . "'
 		ORDER BY ID" );
 
-	$school_options = array();
+	$school_options = [];
 
 	foreach ( (array) $schools_RET as $school )
 	{
@@ -222,7 +222,7 @@ else
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			ORDER BY SCHOOL_ID,SORT_ORDER" );
 
-		$gradelevel_options = array();
+		$gradelevel_options = [];
 
 		foreach ( (array) $gradelevels_RET as $gradelevel )
 		{

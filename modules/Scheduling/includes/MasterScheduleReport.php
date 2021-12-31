@@ -45,9 +45,9 @@ WHERE cs.SUBJECT_ID=c.SUBJECT_ID
 AND cp.COURSE_ID=c.COURSE_ID
 AND cp.SYEAR='" . UserSyear() . "'
 AND cp.SCHOOL_ID='" . UserSchool() . "'
-ORDER BY cs.SORT_ORDER,COURSE", array( 'TEACHER_ID' => 'GetTeacher', 'MARKING_PERIOD_ID' => '_makeMP' ) );
+ORDER BY cs.SORT_ORDER,COURSE", [ 'TEACHER_ID' => 'GetTeacher', 'MARKING_PERIOD_ID' => '_makeMP' ] );
 
-$columns = array(
+$columns = [
 	'SUBJECT_TITLE' => _( 'Subject' ),
 	'COURSE' => _( 'Course' ),
 	'PERIODS' => _( 'Periods' ),
@@ -56,7 +56,7 @@ $columns = array(
 	'SEATS' => _( 'Seats' ),
 	'STUDENTS' => _( 'Students' ),
 	'MARKING_PERIOD_ID' => _( 'Marking Period' ),
-);
+];
 
 ListOutput( $sections_RET, $columns, 'Course Period', 'Course Periods' );
 

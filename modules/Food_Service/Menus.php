@@ -137,7 +137,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 				WHERE CATEGORY_ID='" . $_REQUEST['category_id'] . "'" );
 
 			// Unset modfunc & category ID & redirect URL.
-			RedirectURL( array( 'modfunc', 'category_id' ) );
+			RedirectURL( [ 'modfunc', 'category_id' ] );
 		}
 	}
 	elseif ( DeletePrompt( _( 'Meal' ) ) )
@@ -154,7 +154,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 		DBQuery( $delete_sql );
 
 		// Unset modfunc & menu ID & redirect URL.
-		RedirectURL( array( 'modfunc', 'menu_id' ) );
+		RedirectURL( [ 'modfunc', 'menu_id' ] );
 	}
 }
 
@@ -163,7 +163,7 @@ echo ErrorMessage( $error );
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	$menus_RET = DBGet( 'SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY SORT_ORDER', array(), array( 'MENU_ID' ) );
+	$menus_RET = DBGet( 'SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY SORT_ORDER', [], [ 'MENU_ID' ] );
 
 	if ( ! empty( $_REQUEST['tab_id'] ) )
 	{
@@ -210,44 +210,44 @@ if ( ! $_REQUEST['modfunc'] )
 		}
 	}
 
-	$tabs = array();
+	$tabs = [];
 
 	foreach ( (array) $menus_RET as $id => $menu )
 	{
-		$tabs[] = array( 'title' => $menu[1]['TITLE'], 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=' . $id );
+		$tabs[] = [ 'title' => $menu[1]['TITLE'], 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=' . $id ];
 	}
 
 	if ( $_REQUEST['tab_id'] !== 'new' )
 	{
 		$sql = 'SELECT * FROM FOOD_SERVICE_CATEGORIES WHERE MENU_ID=\'' . $_REQUEST['tab_id'] . '\' AND SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY SORT_ORDER';
 
-		$functions = array(
+		$functions = [
 			'TITLE' => '_makeTextInput',
 			'SORT_ORDER' => '_makeTextInput',
-		);
+		];
 
-		$LO_columns = array(
+		$LO_columns = [
 			'TITLE' => sprintf( _( '%s Category' ), $menus_RET[$_REQUEST['tab_id']][1]['TITLE'] ),
 			'SORT_ORDER' => _( 'Sort Order' ),
-		);
+		];
 
-		$link['add']['html'] = array(
+		$link['add']['html'] = [
 			'TITLE' => _makeTextInput( '', 'TITLE' ),
 			'SORT_ORDER' => _makeTextInput( '', 'SORT_ORDER' ),
-		);
+		];
 
 		$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] .
 			'&modfunc=remove&tab_id=' . $_REQUEST['tab_id'] .
 			'&category_id=' . issetVal( $_REQUEST['category_id'], '' );
 
-		$link['remove']['variables'] = array( 'category_id' => 'CATEGORY_ID' );
+		$link['remove']['variables'] = [ 'category_id' => 'CATEGORY_ID' ];
 
 		$link['add']['html']['remove'] = button( 'add' );
 
-		$tabs[] = array(
+		$tabs[] = [
 			'title' => button( 'add', '', '', 'smaller' ),
 			'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=new',
-		);
+		];
 
 		$singular = sprintf( _( '%s Category' ), $menus_RET[$_REQUEST['tab_id']][1]['TITLE'] );
 
@@ -257,30 +257,30 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		$sql = 'SELECT * FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\'' . UserSchool() . '\' ORDER BY SORT_ORDER';
 
-		$functions = array(
+		$functions = [
 			'TITLE' => '_makeTextInput',
 			'SORT_ORDER' => '_makeTextInput',
-		);
+		];
 
-		$LO_columns = array(
+		$LO_columns = [
 			'TITLE' => _( 'Meal' ),
 			'SORT_ORDER' => _( 'Sort Order' ),
-		);
+		];
 
-		$link['add']['html'] = array(
+		$link['add']['html'] = [
 			'TITLE' => _makeTextInput( '', 'TITLE' ),
 			'SORT_ORDER' => _makeTextInput( '', 'SORT_ORDER' ),
-		);
+		];
 
 		$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove&tab_id=new';
 
-		$link['remove']['variables'] = array( 'menu_id' => 'MENU_ID' );
+		$link['remove']['variables'] = [ 'menu_id' => 'MENU_ID' ];
 
 		$link['add']['html']['remove'] = button( 'add' );
 
-		$tabs[] = array( 'title' => button( 'add', '', '', 'smaller' ),
+		$tabs[] = [ 'title' => button( 'add', '', '', 'smaller' ),
 			'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=new',
-		);
+		];
 	}
 
 	$LO_ret = DBGet( $sql, $functions );
@@ -289,17 +289,17 @@ if ( ! $_REQUEST['modfunc'] )
 	DrawHeader( '', SubmitButton() );
 	echo '<br />';
 
-	$extra = array( 'save' => false, 'search' => false,
-		'header' => WrapTabs( $tabs, 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=' . $_REQUEST['tab_id'] ) );
+	$extra = [ 'save' => false, 'search' => false,
+		'header' => WrapTabs( $tabs, 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=' . $_REQUEST['tab_id'] ) ];
 
 	if ( $_REQUEST['tab_id'] !== 'new' )
 	{
-		ListOutput( $LO_ret, $LO_columns, $singular, $plural, $link, array(), $extra );
+		ListOutput( $LO_ret, $LO_columns, $singular, $plural, $link, [], $extra );
 	}
 	else
 //FJ add translation
 	{
-		ListOutput( $LO_ret, $LO_columns, 'Meal', 'Meals', $link, array(), $extra );
+		ListOutput( $LO_ret, $LO_columns, 'Meal', 'Meals', $link, [], $extra );
 	}
 
 	echo '<br /><div class="center">' . SubmitButton() . '</div>';

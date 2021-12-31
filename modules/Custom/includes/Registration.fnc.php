@@ -22,9 +22,9 @@ function RegistrationFormConfig()
 	}
 
 	// Default values.
-	$default_values = array(
-		'parent' => array(
-			0 => array(
+	$default_values = [
+		'parent' => [
+			0 => [
 				'relation' => _( 'Parent' ),
 				'custody' => 'Y',
 				'emergency' => 'Y',
@@ -32,8 +32,8 @@ function RegistrationFormConfig()
 				'info' => '',
 				'info_required' => '',
 				'fields' => '', // No Contact Fields categories.
-			),
-			1 => array(
+			],
+			1 => [
 				'relation' => _( 'Parent' ),
 				'custody' => 'Y',
 				'emergency' => '',
@@ -41,16 +41,16 @@ function RegistrationFormConfig()
 				'info' => '',
 				'info_required' => '',
 				'fields' => '', // No Contact Fields categories.
-			),
-		),
-		'address' => array(
+			],
+		],
+		'address' => [
 			'fields' => '', // No Address Fields categories.
-		),
-		'contact' => array(), // No Other Contacts / Grandparents.
-		'student' => array(
+		],
+		'contact' => [], // No Other Contacts / Grandparents.
+		'student' => [
 			'fields' => '||1||2||', // General Info, Medical.
-		),
-	);
+		],
+	];
 
 	// Save default.
 	DBQuery( "INSERT INTO CONFIG (CONFIG_VALUE,TITLE,SCHOOL_ID)
@@ -361,7 +361,7 @@ function RegistrationContactFields( $name, $categories )
 		FROM PEOPLE_FIELD_CATEGORIES c,PEOPLE_FIELDS f
 		WHERE f.CATEGORY_ID=c.ID
 		AND f.CATEGORY_ID IN(" . $category_ids . ")
-		ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE", array(), array( 'CATEGORY_ID' ) );
+		ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE", [], [ 'CATEGORY_ID' ] );
 
 	foreach ( (array) $categories_RET as $fields_RET )
 	{
@@ -425,7 +425,7 @@ function RegistrationAddressFields( $name, $categories )
 		FROM ADDRESS_FIELD_CATEGORIES c,ADDRESS_FIELDS f
 		WHERE f.CATEGORY_ID=c.ID
 		AND f.CATEGORY_ID IN(" . $category_ids . ")
-		ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE", array(), array( 'CATEGORY_ID' ) );
+		ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE", [], [ 'CATEGORY_ID' ] );
 
 	foreach ( (array) $categories_RET as $fields_RET )
 	{

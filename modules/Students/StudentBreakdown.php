@@ -6,7 +6,7 @@ DrawHeader( ProgramTitle() );
 
 $_REQUEST['field_id'] = issetVal( $_REQUEST['field_id'] );
 
-$chart_types = array( 'bar', 'pie', 'list' );
+$chart_types = [ 'bar', 'pie', 'list' ];
 
 // set Chart Type
 if ( ! isset( $_REQUEST['chart_type'] )
@@ -42,7 +42,7 @@ if ( ! empty( $_REQUEST['field_id'] ) )
 
 		$fields_RET[1]['TYPE'] = 'select';
 
-		$fields_RET[1]['OPTIONS'] = array();
+		$fields_RET[1]['OPTIONS'] = [];
 
 		$grade_levels_RET = DBGet( "SELECT TITLE
 			FROM SCHOOL_GRADELEVELS
@@ -62,15 +62,15 @@ if ( ! empty( $_REQUEST['field_id'] ) )
 
 		if ( $fields_RET[1]['OPTIONS'] )
 		{
-			$fields_RET[1]['OPTIONS'] = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $fields_RET[1]['OPTIONS'] ) );
+			$fields_RET[1]['OPTIONS'] = explode( "\r", str_replace( [ "\r\n", "\n" ], "\r", $fields_RET[1]['OPTIONS'] ) );
 		}
 
 		$field_column = 's.CUSTOM_' . intval( $_REQUEST['field_id'] );
 	}
 
-	$extra = array();
+	$extra = [];
 
-	if ( in_array( $fields_RET[1]['TYPE'], array( 'select', 'autos', 'exports' ) ) )
+	if ( in_array( $fields_RET[1]['TYPE'], [ 'select', 'autos', 'exports' ] ) )
 	{
 		// Autos pull-down fields.
 		if ( $fields_RET[1]['TYPE'] === 'autos' )
@@ -109,7 +109,7 @@ if ( ! empty( $_REQUEST['field_id'] ) )
 
 		$extra['GROUP'] = $field_column;
 
-		$extra['group'] = array( 'TITLE' );
+		$extra['group'] = [ 'TITLE' ];
 
 		$totals_RET = GetStuList( $extra );
 
@@ -158,7 +158,7 @@ if ( ! empty( $_REQUEST['field_id'] ) )
 
 		$extra['GROUP'] = $field_column;
 
-		$extra['group'] = array( 'TITLE' );
+		$extra['group'] = [ 'TITLE' ];
 
 		$totals_RET = GetStuList( $extra );
 
@@ -209,7 +209,7 @@ if ( ! empty( $_REQUEST['field_id'] ) )
 
 		$extra['SELECT_ONLY'] = $field_column . " AS TITLE";
 
-		$extra['functions'] = array( 'TITLE' => 'makeNumeric' );
+		$extra['functions'] = [ 'TITLE' => 'makeNumeric' ];
 
 		$students_RET = GetStuList( $extra );
 
@@ -227,10 +227,10 @@ if ( ! $_REQUEST['modfunc'] )
 	$fields_RET = DBGet( "SELECT ID,TITLE,SELECT_OPTIONS AS OPTIONS,CATEGORY_ID
 		FROM CUSTOM_FIELDS
 		WHERE TYPE NOT IN ('textarea','text','date','log','holder','files')
-		ORDER BY SORT_ORDER,TITLE", array(), array( 'CATEGORY_ID' ) );
+		ORDER BY SORT_ORDER,TITLE", [], [ 'CATEGORY_ID' ] );
 
 	$categories_RET = DBGet( "SELECT ID,TITLE
-		FROM STUDENT_FIELD_CATEGORIES", array(), array( 'ID' ) );
+		FROM STUDENT_FIELD_CATEGORIES", [], [ 'ID' ] );
 
 	$select = '<select name="field_id" onchange="ajaxPostForm(this.form,true);">';
 
@@ -269,10 +269,10 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$select .= '</select>';
 
-	$advanced_link = ' <a href="' . PreparePHP_SELF( $_REQUEST, array( 'search_modfunc' ), array(
+	$advanced_link = ' <a href="' . PreparePHP_SELF( $_REQUEST, [ 'search_modfunc' ], [
 		'modfunc' => 'search',
 		'include_top' => 'false',
-	) ) . '">' . _( 'Advanced' ) . '</a>';
+	] ) . '">' . _( 'Advanced' ) . '</a>';
 
 	DrawHeader( $select . $advanced_link );
 
@@ -294,33 +294,33 @@ if ( ! $_REQUEST['modfunc'] )
 				$_REQUEST['chart_type'] = 'bar';
 			}
 
-			$tabs = array(
-				array(
+			$tabs = [
+				[
 					'title' => _( 'Line' ),
-					'link' => PreparePHP_SELF( $_REQUEST, array(), array( 'chart_type' => 'bar' ) ),
-				),
-				array(
+					'link' => PreparePHP_SELF( $_REQUEST, [], [ 'chart_type' => 'bar' ] ),
+				],
+				[
 					'title' => _( 'List' ),
-					'link' => PreparePHP_SELF( $_REQUEST, array(), array( 'chart_type' => 'list' ) ),
-				)
-			);
+					'link' => PreparePHP_SELF( $_REQUEST, [], [ 'chart_type' => 'list' ] ),
+				]
+			];
 		}
 		else
 		{
-			$tabs = array(
-				array(
+			$tabs = [
+				[
 					'title' => _( 'Column' ),
-					'link' => PreparePHP_SELF( $_REQUEST, array(), array( 'chart_type' => 'bar' ) ),
-				),
-				array(
+					'link' => PreparePHP_SELF( $_REQUEST, [], [ 'chart_type' => 'bar' ] ),
+				],
+				[
 					'title' => _( 'Pie' ),
-					'link' => PreparePHP_SELF( $_REQUEST, array(), array( 'chart_type' => 'pie' ) ),
-				),
-				array(
+					'link' => PreparePHP_SELF( $_REQUEST, [], [ 'chart_type' => 'pie' ] ),
+				],
+				[
 					'title' => _( 'List' ),
-					'link' => PreparePHP_SELF( $_REQUEST, array(), array( 'chart_type' => 'list' ) ),
-				)
-			);
+					'link' => PreparePHP_SELF( $_REQUEST, [], [ 'chart_type' => 'list' ] ),
+				]
+			];
 		}
 
 		$_ROSARIO['selected_tab'] = PreparePHP_SELF( $_REQUEST );
@@ -329,20 +329,20 @@ if ( ! $_REQUEST['modfunc'] )
 
 		if ( $_REQUEST['chart_type'] === 'list' )
 		{
-			$chart_data = array( '0' => '' );
+			$chart_data = [ '0' => '' ];
 
 			foreach ( (array) $chart['chart_data'][1] as $key => $value )
 			{
-				$chart_data[] = array( 'TITLE' => $chart['chart_data'][0][ $key ], 'VALUE' => $value );
+				$chart_data[] = [ 'TITLE' => $chart['chart_data'][0][ $key ], 'VALUE' => $value ];
 			}
 
 			unset( $chart_data[0] );
 
 			$LO_options['responsive'] = false;
 
-			$LO_columns = array( 'TITLE' => _( 'Option' ), 'VALUE' => _( 'Number of Students' ) );
+			$LO_columns = [ 'TITLE' => _( 'Option' ), 'VALUE' => _( 'Number of Students' ) ];
 
-			ListOutput( $chart_data, $LO_columns, 'Option', 'Options', array(), array(), $LO_options );
+			ListOutput( $chart_data, $LO_columns, 'Option', 'Options', [], [], $LO_options );
 		}
 		// Chart.js charts.
 		else

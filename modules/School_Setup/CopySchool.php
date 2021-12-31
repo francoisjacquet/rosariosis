@@ -1,6 +1,6 @@
 <?php
 
-$tables = array(
+$tables = [
 	'CONFIG' => _( 'School Configuration' ),
 	'SCHOOL_MARKING_PERIODS' => _( 'Marking Periods' ),
 	'SCHOOL_PERIODS' => _( 'School Periods' ),
@@ -9,9 +9,9 @@ $tables = array(
 	'REPORT_CARD_COMMENTS' => _( 'Report Card Comment Codes' ),
 	'ELIGIBILITY_ACTIVITIES' => _( 'Eligibility Activities' ),
 	'ATTENDANCE_CODES' => _( 'Attendance Codes' ),
-);
+];
 
-$table_list = array();
+$table_list = [];
 
 foreach ( (array) $tables as $table => $name )
 {

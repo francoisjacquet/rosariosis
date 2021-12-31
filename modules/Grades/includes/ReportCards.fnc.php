@@ -116,10 +116,10 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 			$return .= '</tr><tr class="st">';
 
 			// Add GPA or Total row.
-			$gpa_or_total_options = array(
+			$gpa_or_total_options = [
 				'gpa' => _( 'GPA' ),
 				'total' => _( 'Total' ),
-			);
+			];
 
 			if ( User( 'PROFILE' ) !== 'admin' )
 			{
@@ -151,7 +151,7 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 				_( 'Free Text' )
 			);
 
-			$substitutions = array(
+			$substitutions = [
 				'__FULL_NAME__' => _( 'Display Name' ),
 				'__LAST_NAME__' => _( 'Last Name' ),
 				'__FIRST_NAME__' => _( 'First Name' ),
@@ -159,7 +159,7 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 				'__GRADE_ID__' => _( 'Grade Level' ),
 				'__SCHOOL_ID__' => _( 'School' ),
 				'__YEAR__' => _( 'School Year' ),
-			);
+			];
 
 			$substitutions += SubstitutionsCustomFields( 'STUDENT' );
 
@@ -176,7 +176,7 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 			WHERE MP='QTR'
 			AND SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
-			ORDER BY SORT_ORDER", array(), array( 'PARENT_ID' ) );
+			ORDER BY SORT_ORDER", [], [ 'PARENT_ID' ] );
 
 		// Marking Periods.
 		$return .= '<tr class="st"><td colspan="2"><hr /><table class="cellpadding-5">';
@@ -320,7 +320,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 			AND SYEAR='" . UserSyear() . "'
 			AND COURSE_ID IS NOT NULL
 			AND COURSE_ID='0'
-			ORDER BY SORT_ORDER,ID", array(), array( 'ID' ) );
+			ORDER BY SORT_ORDER,ID", [], [ 'ID' ] );
 
 			// FJ get color for Course specific categories & get comment scale.
 			//$commentsA_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND COURSE_ID IS NOT NULL AND COURSE_ID!='0'",array(),array('ID'));
@@ -338,13 +338,13 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 			AND cc.ID=c.CATEGORY_ID
 			AND cs.SCHOOL_ID=c.SCHOOL_ID
 			AND cs.ID=c.SCALE_ID
-			ORDER BY c.SORT_ORDER,c.ID", array(), array( 'ID' ) );
+			ORDER BY c.SORT_ORDER,c.ID", [], [ 'ID' ] );
 
 			$commentsB_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER
 			FROM REPORT_CARD_COMMENTS
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
-			AND COURSE_ID IS NULL", array(), array( 'ID' ) );
+			AND COURSE_ID IS NULL", [], [ 'ID' ] );
 		}
 
 		// Mailing Labels.
@@ -365,7 +365,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 			$extra['SELECT'] = '';
 
-			$extra['group'] = array( 'STUDENT_ID', 'ADDRESS_ID' );
+			$extra['group'] = [ 'STUDENT_ID', 'ADDRESS_ID' ];
 
 			// Parent: associated students.
 			$extra['ASSOCIATED'] = User( 'STAFF_ID' );
@@ -374,7 +374,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 		}
 
 		// ListOutput columns.
-		$LO_columns = array( 'COURSE_TITLE' => _( 'Course' ) );
+		$LO_columns = [ 'COURSE_TITLE' => _( 'Course' ) ];
 
 		if ( isset( $_REQUEST['elements']['teacher'] )
 			&& $_REQUEST['elements']['teacher'] === 'Y' )
@@ -420,14 +420,14 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 		}
 
 		// Report Cards array.
-		$report_cards = array();
+		$report_cards = [];
 
 		foreach ( (array) $student_RET as $student_id => $course_periods )
 		{
 			// Start buffer.
 			ob_start();
 
-			$comments_arr = array();
+			$comments_arr = [];
 
 			$comments_arr_key = ! empty( $all_commentsA_RET );
 
@@ -470,7 +470,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 					{
 						if ( ! isset( $grades_total ) )
 						{
-							$grades_total = array();
+							$grades_total = [];
 						}
 
 						$grades_total[$mp] = 0;
@@ -498,7 +498,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 						$temp_grades_COMMENTS = $grades_RET[$i]['COMMENT'];
 
-						$comments_RET[$student_id][$course_period_id][$mp] = issetVal( $comments_RET[$student_id][$course_period_id][$mp], array() );
+						$comments_RET[$student_id][$course_period_id][$mp] = issetVal( $comments_RET[$student_id][$course_period_id][$mp], [] );
 
 						foreach ( (array) $comments_RET[$student_id][$course_period_id][$mp] as $comment )
 						{
@@ -665,16 +665,16 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 				}
 				else
 				{
-					$addresses = array( 0 => array( 1 => array(
+					$addresses = [ 0 => [ 1 => [
 						'STUDENT_ID' => $student_id,
 						'ADDRESS_ID' => '0',
 						'MAILING_LABEL' => '<BR /><BR />',
-					) ) );
+					] ] ];
 				}
 			}
 			else
 			{
-				$addresses = array( 0 => array() );
+				$addresses = [ 0 => [] ];
 			}
 
 			foreach ( (array) $addresses as $address )
@@ -804,7 +804,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 				echo '<BR />';
 
-				ListOutput( $grades_RET, $LO_columns, '.', '.', array(), array(), array( 'print' => false ) );
+				ListOutput( $grades_RET, $LO_columns, '.', '.', [], [], [ 'print' => false ] );
 
 				// Comments.
 
@@ -870,7 +870,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 			{
 				$freetext_template = GetTemplate( 'Grades/ReportCards.php' );
 
-				$substitutions = array(
+				$substitutions = [
 					'__FULL_NAME__' => $student['FULL_NAME'],
 					'__LAST_NAME__' => $student['LAST_NAME'],
 					'__FIRST_NAME__' => $student['FIRST_NAME'],
@@ -878,7 +878,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 					'__GRADE_ID__' => $student['GRADE_ID'],
 					'__SCHOOL_ID__' => $student['SCHOOL_TITLE'],
 					'__YEAR__' => $syear,
-				);
+				];
 
 				$substitutions += SubstitutionsCustomFieldsValues( 'STUDENT', $student );
 
@@ -888,7 +888,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 			// @since 7.5 Report Cards PDF footer action hook.
 			// Echo your custom text before "Free text" or append it to $freetext to display it after.
-			do_action( 'Grades/includes/ReportCards.fnc.php|pdf_footer', array( $student_id, &$freetext ) );
+			do_action( 'Grades/includes/ReportCards.fnc.php|pdf_footer', [ $student_id, &$freetext ] );
 
 			echo $freetext;
 
@@ -958,7 +958,7 @@ if ( ! function_exists( 'GetReportCardsExtra' ) )
 
 		$extra['ORDER_BY'] = "s.LAST_NAME,s.FIRST_NAME,sg1.COURSE_TITLE,sp.SORT_ORDER";
 
-		$extra['group'] = array( 'STUDENT_ID', 'COURSE_PERIOD_ID', 'MARKING_PERIOD_ID' );
+		$extra['group'] = [ 'STUDENT_ID', 'COURSE_PERIOD_ID', 'MARKING_PERIOD_ID' ];
 
 		// Parent: associated students.
 		$extra['ASSOCIATED'] = User( 'STAFF_ID' );
@@ -1072,7 +1072,7 @@ function _getAttendanceDayRET( $st_list, $last_mp )
 			AND (ad.STATE_VALUE='0.0' OR ad.STATE_VALUE='.5')
 			AND ad.SCHOOL_DATE<='" . GetMP( $last_mp, 'END_DATE' ) . "'";
 
-		$extra['group'] = array( 'STUDENT_ID', 'MARKING_PERIOD_ID' );
+		$extra['group'] = [ 'STUDENT_ID', 'MARKING_PERIOD_ID' ];
 
 		// Parent: associated students.
 		$extra['ASSOCIATED'] = User( 'STAFF_ID' );
@@ -1181,7 +1181,7 @@ function _getAttendanceRET( $st_list )
 			AND ac.SYEAR=ssm.SYEAR
 			AND ap.STUDENT_ID=ssm.STUDENT_ID";
 
-		$extra['group'] = array( 'STUDENT_ID', 'ATTENDANCE_CODE', 'MARKING_PERIOD_ID' );
+		$extra['group'] = [ 'STUDENT_ID', 'ATTENDANCE_CODE', 'MARKING_PERIOD_ID' ];
 
 		// Parent: associated students.
 		$extra['ASSOCIATED'] = User( 'STAFF_ID' );
@@ -1215,7 +1215,7 @@ function _getOtherAttendanceCodes()
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND (DEFAULT_CODE!='Y' OR DEFAULT_CODE IS NULL)
-			AND TABLE_NAME='0'", array(), array( 'ID' ) );
+			AND TABLE_NAME='0'", [], [ 'ID' ] );
 	}
 
 	return $other_attendance_codes;
@@ -1257,7 +1257,7 @@ function GetReportCardsComments( $st_list, $mp_list )
 
 	$extra['ORDER_BY'] = 'SORT_ORDER,SORT_ORDER2';
 
-	$extra['group'] = array( 'STUDENT_ID', 'COURSE_PERIOD_ID', 'MARKING_PERIOD_ID' );
+	$extra['group'] = [ 'STUDENT_ID', 'COURSE_PERIOD_ID', 'MARKING_PERIOD_ID' ];
 
 	// Parent: associated students.
 	$extra['ASSOCIATED'] = User( 'STAFF_ID' );
@@ -1315,13 +1315,13 @@ function GetReportCardCommentScales( $student_id, $course_periods_list )
 			OR c.COURSE_ID=0)
 		AND c.SCHOOL_ID=cs.SCHOOL_ID
 		AND c.SYEAR='" . UserSyear() . "')
-	AND cs.SCHOOL_ID='" . UserSchool() . "'", array(), array( 'ID' ) );
+	AND cs.SCHOOL_ID='" . UserSchool() . "'", [], [ 'ID' ] );
 
 	$student_comment_scales = array_keys( $student_comment_scales_RET );
 
-	$comments = array();
+	$comments = [];
 
-	$scale_titles = array();
+	$scale_titles = [];
 
 	$scale_title = '';
 
@@ -1343,7 +1343,7 @@ function GetReportCardCommentScales( $student_id, $course_periods_list )
 
 		if ( ! isset( $comments[ $comment['SCALE_ID'] ] ) )
 		{
-			$comments[ $comment['SCALE_ID'] ] = array();
+			$comments[ $comment['SCALE_ID'] ] = [];
 		}
 
 		$comments[ $comment['SCALE_ID'] ][] = '(' . $comment['TITLE'] . ') ' . $comment['COMMENT'];
@@ -1351,7 +1351,7 @@ function GetReportCardCommentScales( $student_id, $course_periods_list )
 		$scale_title = $comment['SCALE_TITLE'];
 	}
 
-	$comments_scales = array();
+	$comments_scales = [];
 
 	foreach ( $comments as $scale_id => $comments_array )
 	{
@@ -1384,14 +1384,14 @@ function GetReportCardGeneralComments( $student_id, $comments_array )
 		FROM REPORT_CARD_COMMENTS
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		AND SYEAR='" . UserSyear() . "'
-		AND COURSE_ID IS NULL", array(), array( 'ID' ) );
+		AND COURSE_ID IS NULL", [], [ 'ID' ] );
 	}
 
 	$personalizations = _getReportCardCommentPersonalizations( $student_id );
 
-	$commentsB_displayed = array();
+	$commentsB_displayed = [];
 
-	$general_comments = array();
+	$general_comments = [];
 
 	foreach ( (array) $comments_array as $comment_course_title => $comments )
 	{
@@ -1463,12 +1463,12 @@ function GetReportCardCourseSpecificComments( $student_id, $comments_array )
 		AND cc.ID=c.CATEGORY_ID
 		AND cs.SCHOOL_ID=c.SCHOOL_ID
 		AND cs.ID=c.SCALE_ID
-		ORDER BY c.SORT_ORDER,c.ID", array(), array( 'ID' ) );
+		ORDER BY c.SORT_ORDER,c.ID", [], [ 'ID' ] );
 	}
 
 	$personalizations = _getReportCardCommentPersonalizations( $student_id );
 
-	$course_comments = array();
+	$course_comments = [];
 
 	$course_title = '';
 
@@ -1476,7 +1476,7 @@ function GetReportCardCourseSpecificComments( $student_id, $comments_array )
 
 	foreach ( (array) $comments_array as $comment_course_title => $comments )
 	{
-		$course_comments[ $comment_course_title ] = array();
+		$course_comments[ $comment_course_title ] = [];
 
 		foreach ( (array) $comments as $comment => $sort_order )
 		{
@@ -1559,10 +1559,10 @@ function _getReportCardCommentPersonalizations( $student_id )
 		}
 	}
 
-	$personalizations = array(
+	$personalizations = [
 		'^n' => ( $student_RET[1]['FIRST_NAME'] ),
 		'^s' => ( $gender == 'M' ? _( 'his' ) :
-			( $gender == 'F' ? _( 'her' ) : _( 'his/her' ) ) ) );
+			( $gender == 'F' ? _( 'her' ) : _( 'his/her' ) ) ) ];
 
 	return $personalizations;
 }
@@ -1579,9 +1579,9 @@ function _getReportCardCommentPersonalizations( $student_id )
  */
 function GetReportCardMinMaxGrades( $course_periods )
 {
-	static $min_max_grades = array();
+	static $min_max_grades = [];
 
-	$mp_list = $cp_list = array();
+	$mp_list = $cp_list = [];
 
 	foreach ( (array) $course_periods as $course_period_id => $mps )
 	{
@@ -1612,7 +1612,7 @@ function GetReportCardMinMaxGrades( $course_periods )
 			WHERE SYEAR='" . UserSyear() . "'
 			AND COURSE_PERIOD_ID IN(" . $cp_list . ")
 			AND MARKING_PERIOD_ID IN(" . $mp_list . ")
-			GROUP BY COURSE_PERIOD_ID,MARKING_PERIOD_ID", array(), array( 'COURSE_PERIOD_ID', 'MARKING_PERIOD_ID' ) );
+			GROUP BY COURSE_PERIOD_ID,MARKING_PERIOD_ID", [], [ 'COURSE_PERIOD_ID', 'MARKING_PERIOD_ID' ] );
 	}
 
 	return $min_max_grades[$cp_list][$mp_list];

@@ -45,7 +45,7 @@ if ( $_REQUEST['search_modfunc']
 
 	if ( is_null( $begin_year ) )
 	{
-		ErrorMessage( array( _( 'There are no calendars yet setup.' ) ), 'fatal' );
+		ErrorMessage( [ _( 'There are no calendars yet setup.' ) ], 'fatal' );
 	}
 
 	$date_select = '<option value="' . $start . '">' . ProperDate( date( 'Y-m-d', $start ) ) . ' - ' . ProperDate( DBDate() ) . '</option>';
@@ -66,8 +66,8 @@ $extra['SELECT'] = ",e.ELIGIBILITY_CODE,c.TITLE as COURSE_TITLE";
 $extra['FROM'] = ",ELIGIBILITY e,COURSES c,COURSE_PERIODS cp";
 $extra['WHERE'] = "AND e.STUDENT_ID=ssm.STUDENT_ID AND e.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND cp.COURSE_ID=c.COURSE_ID AND e.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'";
 
-$extra['functions'] = array( 'ELIGIBILITY_CODE' => '_makeLower' );
-$extra['group'] = array( 'STUDENT_ID' );
+$extra['functions'] = [ 'ELIGIBILITY_CODE' => '_makeLower' ];
+$extra['group'] = [ 'STUDENT_ID' ];
 
 Widgets( 'eligibility' );
 Widgets( 'activity' );
@@ -85,19 +85,19 @@ else
 {
 	$student_RET = GetStuList( $extra );
 
-	$columns = array(
+	$columns = [
 		'FULL_NAME' => _( 'Student' ),
 		'COURSE_TITLE' => _( 'Course' ),
 		'ELIGIBILITY_CODE' => _( 'Grade' ),
-	);
+	];
 
 	ListOutput(
 		$student_RET,
 		$columns,
 		'Student',
 		'Students',
-		array(),
-		array( 'STUDENT_ID' => array( 'FULL_NAME', 'STUDENT_ID' ) )
+		[],
+		[ 'STUDENT_ID' => [ 'FULL_NAME', 'STUDENT_ID' ] ]
 	);
 }
 

@@ -111,7 +111,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 			$_REQUEST['modfunc'] = false;
 
 			// Unset modfunc & ID & redirect URL.
-			RedirectURL( array( 'modfunc', 'id' ) );
+			RedirectURL( [ 'modfunc', 'id' ] );
 		}
 	}
 }
@@ -120,7 +120,7 @@ if ( ! $_REQUEST['modfunc'] )
 {
 	echo ErrorMessage( $error );
 
-	$RET = array();
+	$RET = [];
 
 	// ADDING & EDITING FORM.
 	if ( $_REQUEST['id']
@@ -146,14 +146,14 @@ if ( ! $_REQUEST['modfunc'] )
 		'SCHOOL',
 		$title,
 		$RET,
-		array()
+		[]
 	);
 
 	// DISPLAY THE MENU.
 	// FIELDS.
 	$fields_RET = DBGet( "SELECT ID,TITLE,TYPE,SORT_ORDER
 		FROM SCHOOL_FIELDS
-		ORDER BY SORT_ORDER,TITLE", array( 'TYPE' => 'MakeFieldType' ) );
+		ORDER BY SORT_ORDER,TITLE", [ 'TYPE' => 'MakeFieldType' ] );
 
 	echo '<div class="st">';
 

@@ -7,7 +7,7 @@ $sql = "SELECT a.attnum,a.attname AS field,t.typname AS type,
 					a.attnum > 0 and a.attrelid = c.oid
 					and c.relkind='r' and c.relname not like 'pg\_%' and a.attname not like '...%'
 					and a.atttypid = t.oid ORDER BY c.relname";
-$RET = DBGet( $sql, array(), array( 'RELNAME' ) );
+$RET = DBGet( $sql, [], [ 'RELNAME' ] );
 
 $PDF = PDFStart();
 echo '<table>';

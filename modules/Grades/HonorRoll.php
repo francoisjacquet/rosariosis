@@ -61,14 +61,14 @@ if ( ! $_REQUEST['modfunc'] )
 			'class="tinymce-horizontal"'
 		) . '</td></tr>';
 
-		$substitutions = array(
+		$substitutions = [
 			'__FULL_NAME__' => _( 'Display Name' ),
 			'__LAST_NAME__' => _( 'Last Name' ),
 			'__FIRST_NAME__' => _( 'First Name' ),
 			'__MIDDLE_NAME__' =>  _( 'Middle Name' ),
 			'__SCHOOL_ID__' => _( 'School' ),
 			'__GRADE_ID__' => _( 'Grade Level' ),
-		);
+		];
 
 		if ( ! empty( $_REQUEST['subject_id'] ) )
 		{
@@ -91,11 +91,11 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
-		$extra['functions'] = array( 'CHECKBOX' => 'MakeChooseCheckbox' );
-		$extra['columns_before'] = array( 'CHECKBOX' => MakeChooseCheckbox( '', '', 'st_arr' ) );
+		$extra['functions'] = [ 'CHECKBOX' => 'MakeChooseCheckbox' ];
+		$extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( '', '', 'st_arr' ) ];
 	}
 
-	$extra['link'] = array( 'FULL_NAME' => false );
+	$extra['link'] = [ 'FULL_NAME' => false ];
 	$extra['options']['search'] = false;
 
 	Widgets( 'course' );

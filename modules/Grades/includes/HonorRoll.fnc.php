@@ -28,7 +28,7 @@ function HonorRollPDF( $student_array, $is_list, $honor_roll_text )
 
 	$extra['SELECT'] .= ",(SELECT SORT_ORDER FROM SCHOOL_GRADELEVELS WHERE ID=ssm.GRADE_ID) AS SORT_ORDER";
 
-	$extra['SELECT'] .= "," . db_case( array( "exists(SELECT rg.GPA_VALUE
+	$extra['SELECT'] .= "," . db_case( [ "exists(SELECT rg.GPA_VALUE
 	FROM STUDENT_REPORT_CARD_GRADES sg,COURSE_PERIODS cp,REPORT_CARD_GRADES rg
 	WHERE sg.STUDENT_ID=s.STUDENT_ID
 	AND cp.SYEAR=ssm.SYEAR
@@ -38,7 +38,7 @@ function HonorRollPDF( $student_array, $is_list, $honor_roll_text )
 	AND cp.DOES_HONOR_ROLL='Y'
 	AND rg.GRADE_SCALE_ID=cp.GRADE_SCALE_ID
 	AND sg.REPORT_CARD_GRADE_ID=rg.ID
-	AND rg.GPA_VALUE<(SELECT HHR_GPA_VALUE FROM REPORT_CARD_GRADE_SCALES WHERE ID=rg.GRADE_SCALE_ID))", 'true', 'NULL', "'Y'" ) ) . " AS HIGH_HONOR";
+	AND rg.GPA_VALUE<(SELECT HHR_GPA_VALUE FROM REPORT_CARD_GRADE_SCALES WHERE ID=rg.GRADE_SCALE_ID))", 'true', 'NULL', "'Y'" ] ) . " AS HIGH_HONOR";
 
 	//$extra['SELECT'] .= ",(SELECT TITLE FROM SCHOOLS WHERE ID=ssm.SCHOOL_ID AND SYEAR=ssm.SYEAR) AS SCHOOL";
 	//$extra['SELECT'] .= ",(SELECT PRINCIPAL FROM SCHOOLS WHERE ID=ssm.SCHOOL_ID AND SYEAR=ssm.SYEAR) AS PRINCIPAL";
@@ -57,7 +57,7 @@ function HonorRollPDF( $student_array, $is_list, $honor_roll_text )
 
 	if ( $is_list )
 	{
-		$extra['group'] = array( 'HIGH_HONOR' );
+		$extra['group'] = [ 'HIGH_HONOR' ];
 	}
 
 	$RET = GetStuList( $extra );
@@ -70,13 +70,13 @@ function HonorRollPDF( $student_array, $is_list, $honor_roll_text )
 
 		DrawHeader( $mp_RET[1]['TITLE'] . ' - ' . date( 'F j, Y', strtotime( $mp_RET[1]['END_DATE'] ) ) );
 
-		$columns = array(
+		$columns = [
 			'FULL_NAME' => _( 'Student' ),
 			'GRADE_ID' => _( 'Grade Level' ),
 			'TEACHER' => _( 'Teacher' ),
-		);
+		];
 
-		foreach ( array( 'Y', '' ) AS $high )
+		foreach ( [ 'Y', '' ] AS $high )
 		{
 			if ( ! empty( $RET[ $high ] ) )
 			{
@@ -100,12 +100,12 @@ function HonorRollPDF( $student_array, $is_list, $honor_roll_text )
 
 		SaveTemplate( $REQUEST_honor_roll_text );
 
-		$no_margins = array( 'top' => 0, 'bottom' => 0, 'left' => 0, 'right' => 0 );
+		$no_margins = [ 'top' => 0, 'bottom' => 0, 'left' => 0, 'right' => 0 ];
 
-		$pdf_options = array(
+		$pdf_options = [
 			'css' => false,
 			'margins' => $no_margins,
-		);
+		];
 
 		// @since 6.7 Remove PDF Header Footer plugin action.
 		remove_action( 'functions/PDF.php|pdf_start', 'PDFHeaderFooterTriggered' ); // @deprecated.
@@ -143,14 +143,14 @@ function HonorRollPDF( $student_array, $is_list, $honor_roll_text )
 		{
 			echo '<table style="margin:auto auto;">';
 
-			$substitutions = array(
+			$substitutions = [
 				'__FULL_NAME__' => $student['FULL_NAME'],
 				'__FIRST_NAME__' => $student['FIRST_NAME'],
 				'__LAST_NAME__' => $student['LAST_NAME'],
 				'__MIDDLE_NAME__' => $student['MIDDLE_NAME'],
 				'__GRADE_ID__' => $student['GRADE_ID'],
 				'__SCHOOL_ID__' => SchoolInfo( 'TITLE' ),
-			);
+			];
 
 			$substitutions += SubstitutionsCustomFieldsValues( 'STUDENT', $student );
 
@@ -242,11 +242,11 @@ function HonorRollSubjectPDF( $student_array, $is_list, $honor_roll_text )
 
 		DrawHeader( '<b>' . _( 'Honor Roll by Subject' ) . ':</b> ' . $subject_RET[1]['TITLE'] );
 
-		$columns = array(
+		$columns = [
 			'FULL_NAME' => _( 'Student' ),
 			'GRADE_ID' => _( 'Grade Level' ),
 			'TEACHER' => _( 'Teacher' ),
-		);
+		];
 
 		ListOutput(
 			$RET,
@@ -262,12 +262,12 @@ function HonorRollSubjectPDF( $student_array, $is_list, $honor_roll_text )
 
 		SaveTemplate( $REQUEST_honor_roll_text );
 
-		$no_margins = array( 'top' => 0, 'bottom' => 0, 'left' => 0, 'right' => 0 );
+		$no_margins = [ 'top' => 0, 'bottom' => 0, 'left' => 0, 'right' => 0 ];
 
-		$pdf_options = array(
+		$pdf_options = [
 			'css' => false,
 			'margins' => $no_margins,
-		);
+		];
 
 		$handle = PDFStart( $pdf_options );
 
@@ -300,7 +300,7 @@ function HonorRollSubjectPDF( $student_array, $is_list, $honor_roll_text )
 		{
 			echo '<table style="margin:auto auto;">';
 
-			$substitutions = array(
+			$substitutions = [
 				'__FULL_NAME__' => $student['FULL_NAME'],
 				'__FIRST_NAME__' => $student['FIRST_NAME'],
 				'__LAST_NAME__' => $student['LAST_NAME'],
@@ -308,7 +308,7 @@ function HonorRollSubjectPDF( $student_array, $is_list, $honor_roll_text )
 				'__GRADE_ID__' => $student['GRADE_ID'],
 				'__SCHOOL_ID__' => SchoolInfo( 'TITLE' ),
 				'__SUBJECT__' => $subject_RET[1]['TITLE'],
-			);
+			];
 
 			$substitutions += SubstitutionsCustomFieldsValues( 'STUDENT', $student );
 
@@ -402,7 +402,7 @@ function HonorRollWidgets( $item )
 			elseif ( ! empty( $_REQUEST['honor_roll'] )
 				&& ! empty( $_REQUEST['high_honor_roll'] ) )
 			{
-				$extra['SELECT'] .= ",".db_case(array("exists(SELECT rg.GPA_VALUE
+				$extra['SELECT'] .= ",".db_case(["exists(SELECT rg.GPA_VALUE
 				FROM STUDENT_REPORT_CARD_GRADES sg,COURSE_PERIODS cp,REPORT_CARD_GRADES rg
 				WHERE sg.STUDENT_ID=s.STUDENT_ID
 				AND cp.SYEAR=ssm.SYEAR
@@ -412,7 +412,7 @@ function HonorRollWidgets( $item )
 				AND cp.DOES_HONOR_ROLL='Y'
 				AND rg.GRADE_SCALE_ID=cp.GRADE_SCALE_ID
 				AND sg.REPORT_CARD_GRADE_ID=rg.ID
-				AND rg.GPA_VALUE<(SELECT HHR_GPA_VALUE FROM REPORT_CARD_GRADE_SCALES WHERE ID=rg.GRADE_SCALE_ID))",'true','NULL',"'".button('check')."'"))." AS HIGH_HONOR";
+				AND rg.GPA_VALUE<(SELECT HHR_GPA_VALUE FROM REPORT_CARD_GRADE_SCALES WHERE ID=rg.GRADE_SCALE_ID))",'true','NULL',"'".button('check')."'"])." AS HIGH_HONOR";
 
 				$extra['WHERE'] .=  " AND exists(SELECT ''
 				FROM STUDENT_REPORT_CARD_GRADES sg,COURSE_PERIODS cp
@@ -548,7 +548,7 @@ function HonorRollWidgets( $item )
  *
  * @return string Base64 frame image or Frame image upload input HTML.
  */
-function HonorRollFrame( $frame_file = array() )
+function HonorRollFrame( $frame_file = [] )
 {
 	global $error;
 
@@ -557,7 +557,7 @@ function HonorRollFrame( $frame_file = array() )
 
 	if ( $frame_file )
 	{
-		$ext_white_list = array( '.jpg', '.jpeg', '.png', '.gif' );
+		$ext_white_list = [ '.jpg', '.jpeg', '.png', '.gif' ];
 
 		$file_ext = mb_strtolower( mb_strrchr( $frame_file['name'], '.' ) );
 

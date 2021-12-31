@@ -47,7 +47,7 @@ $xprofile = DBGetOne( "SELECT PROFILE
 
 $exceptions_RET = DBGet( "SELECT MODNAME,CAN_USE,CAN_EDIT
 	FROM STAFF_EXCEPTIONS
-	WHERE USER_ID='" . $user_id . "'", array(), array( 'MODNAME' ) );
+	WHERE USER_ID='" . $user_id . "'", [], [ 'MODNAME' ] );
 
 if ( $_REQUEST['modfunc'] === 'update'
 	&& AllowEdit()
@@ -92,7 +92,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 	foreach ( (array) $tmp_menu as $modcat => $profiles )
 	{
-		$values = isset( $profiles[$xprofile] ) ? $profiles[$xprofile] : array();
+		$values = isset( $profiles[$xprofile] ) ? $profiles[$xprofile] : [];
 
 		foreach ( (array) $values as $modname => $title )
 		{
@@ -149,12 +149,12 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 	$exceptions_RET = DBGet( "SELECT MODNAME,CAN_USE,CAN_EDIT
 		FROM STAFF_EXCEPTIONS
-		WHERE USER_ID='" . $user_id . "'", array(), array( 'MODNAME' ) );
+		WHERE USER_ID='" . $user_id . "'", [], [ 'MODNAME' ] );
 
 	unset( $tmp_menu );
 
 	// Unset modfunc & can edit & can use & redirect URL.
-	RedirectURL( array( 'modfunc', 'can_edit', 'can_use' ) );
+	RedirectURL( [ 'modfunc', 'can_edit', 'can_use' ] );
 }
 
 if ( UserStaffID()

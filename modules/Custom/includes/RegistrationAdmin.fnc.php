@@ -79,7 +79,7 @@ function RegistrationAdminFormOutput( $config )
 
 	echo '</td><td>';
 
-	RegistrationAdminContact( 'parent[1]', issetVal( $config['parent'][1], array() ) );
+	RegistrationAdminContact( 'parent[1]', issetVal( $config['parent'][1], [] ) );
 
 	echo '</td></tr></table><br />';
 
@@ -107,7 +107,7 @@ function RegistrationAdminFormOutput( $config )
 
 	echo '<td>';
 
-	RegistrationAdminContact( 'contact[' . ++$id . ']', array() );
+	RegistrationAdminContact( 'contact[' . ++$id . ']', [] );
 
 	echo '</td></tr></table><br />';
 
@@ -179,9 +179,9 @@ function RegistrationAdminContactInfoRequired( $name, $info_required )
  */
 function RegistrationAdminContact( $name, $contact )
 {
-	$default_contact = array(
+	$default_contact = [
 		'relation' => ( strpos( $name, 'parent' ) !== false ? _( 'Parent' ) : _( 'Grandparent' ) ),
-	);
+	];
 
 	echo '<fieldset id="fieldset' . GetInputID( $name ) . '"><legend>';
 
@@ -318,10 +318,10 @@ function RegistrationAdminContactRelation( $name, $relation )
  */
 function RegistrationAdminContactAddress( $name, $address )
 {
-	$address_options = array(
+	$address_options = [
 		'1' => _( 'Same as Student' ),
 		'2' => _( 'New Address' ),
-	);
+	];
 
 	return SelectInput(
 		$address,
@@ -348,7 +348,7 @@ function RegistrationAdminContactInfo( $name, $info )
 		FROM PEOPLE_JOIN_CONTACTS
 		ORDER BY SORT_KEY" );
 
-	$info_options = array();
+	$info_options = [];
 
 	foreach ( (array) $options_RET as $option )
 	{
@@ -405,7 +405,7 @@ function RegistrationAdminContactFields( $name, $fields, $custody, $emergency )
 		WHERE TRUE" . $where_sql .
 		" ORDER BY SORT_ORDER" );
 
-	$fields_options = array();
+	$fields_options = [];
 
 	foreach ( $fields_options_RET as $fields_option )
 	{
@@ -468,7 +468,7 @@ function RegistrationAdminAddressFields( $name, $fields )
 		WHERE RESIDENCE='Y' OR MAILING='Y'
 		ORDER BY SORT_ORDER" );
 
-	$fields_options = array();
+	$fields_options = [];
 
 	foreach ( $fields_options_RET as $fields_option )
 	{
@@ -532,7 +532,7 @@ function RegistrationAdminStudentFields( $name, $fields )
 			WHERE CATEGORY_ID=sfc.ID)
 		ORDER BY SORT_ORDER" );
 
-	$fields_options = array();
+	$fields_options = [];
 
 	foreach ( $fields_options_RET as $fields_option )
 	{

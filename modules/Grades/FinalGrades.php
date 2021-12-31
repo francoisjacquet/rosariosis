@@ -111,20 +111,20 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			LEFT OUTER JOIN REPORT_CARD_COMMENT_CATEGORIES cc ON (cc.SYEAR=c.SYEAR AND cc.SCHOOL_ID=c.SCHOOL_ID AND cc.ID=c.CATEGORY_ID)
 			LEFT OUTER JOIN REPORT_CARD_COMMENT_CODE_SCALES cs ON (cs.SCHOOL_ID=c.SCHOOL_ID AND cs.ID=c.SCALE_ID)
 			WHERE c.SCHOOL_ID='" . UserSchool() . "'
-			AND c.SYEAR='" . UserSyear() . "'", array(), array( 'ID' ) );
+			AND c.SYEAR='" . UserSyear() . "'", [], [ 'ID' ] );
 
 			//FJ add columns for All Courses comments
-			$all_commentsA_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "' AND COURSE_ID IS NOT NULL AND COURSE_ID='0' ORDER BY SORT_ORDER,ID", array(), array( 'ID' ) );
+			$all_commentsA_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "' AND COURSE_ID IS NOT NULL AND COURSE_ID='0' ORDER BY SORT_ORDER,ID", [], [ 'ID' ] );
 		}
 
 		if ( ! empty( $RET ) )
 		{
-			$columns = array( 'FULL_NAME' => _( 'Student' ), 'COURSE_TITLE' => _( 'Course' ) );
+			$columns = [ 'FULL_NAME' => _( 'Student' ), 'COURSE_TITLE' => _( 'Course' ) ];
 
 			if ( isset( $_REQUEST['elements']['teacher'] )
 				&& $_REQUEST['elements']['teacher'] === 'Y' )
 			{
-				$columns += array( 'TEACHER_ID' => _( 'Teacher' ) );
+				$columns += [ 'TEACHER_ID' => _( 'Teacher' ) ];
 			}
 
 			if ( isset( $_REQUEST['elements']['period_absences'] )
@@ -277,7 +277,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 							$mp_comments = isset( $rc_comments_RET[ $student_id ][ $course_period_id ][ $mp_id ] ) ?
 								$rc_comments_RET[ $student_id ][ $course_period_id ][ $mp_id ] :
-								array();
+								[];
 
 							foreach ( (array) $mp_comments as $comment )
 							{
@@ -341,18 +341,18 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				);
 			}
 
-			$link = array();
+			$link = [];
 
 			if ( count( (array) $_REQUEST['mp_arr'] ) == 1 && AllowEdit() )
 			{
 				$link['remove']['link'] = PreparePHP_SELF(
-					$_REQUEST, array( 'delete_cancel' ),
-					array( 'modfunc' => 'delete' )
+					$_REQUEST, [ 'delete_cancel' ],
+					[ 'modfunc' => 'delete' ]
 				);
 
-				$link['remove']['variables'] = array( 'student_id' => 'STUDENT_ID',
+				$link['remove']['variables'] = [ 'student_id' => 'STUDENT_ID',
 					'course_period_id' => 'COURSE_PERIOD_ID',
-					'marking_period_id' => 'MARKING_PERIOD_ID' );
+					'marking_period_id' => 'MARKING_PERIOD_ID' ];
 			}
 
 			//Display comment codes tooltips
@@ -366,7 +366,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					WHERE SCHOOL_ID='" . UserSchool() . "'
 					AND SYEAR='" . UserSyear() . "'
 					AND COURSE_ID IS NULL
-					ORDER BY SORT_ORDER", array(), array( 'ID' ) );
+					ORDER BY SORT_ORDER", [], [ 'ID' ] );
 
 				if ( $commentsB_RET )
 				{
@@ -388,7 +388,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					);
 				}
 
-				$cp_list = array();
+				$cp_list = [];
 
 				foreach ( (array) $grades_RET as $grade )
 				{
@@ -406,7 +406,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					WHERE (c.COURSE_ID IN(SELECT COURSE_ID FROM SCHEDULE WHERE STUDENT_ID IN (" . $st_list . ") AND COURSE_PERIOD_ID IN(" . $cp_list . ")) OR c.COURSE_ID=0)
 					AND c.SCHOOL_ID=cs.SCHOOL_ID
 					AND c.SYEAR='" . UserSyear() . "')
-				AND cs.SCHOOL_ID='" . UserSchool() . "'", array(), array( 'ID' ) );
+				AND cs.SCHOOL_ID='" . UserSchool() . "'", [], [ 'ID' ] );
 				$students_comment_scales = array_keys( $students_comment_scales_RET );
 
 				//FJ add Comment Scales tipmessage
@@ -418,7 +418,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					FROM REPORT_CARD_COMMENT_CODES cc, REPORT_CARD_COMMENT_CODE_SCALES cs
 					WHERE cs.ID IN (" . implode( ',', $students_comment_scales ) . ")
 					AND cs.ID=cc.SCALE_ID
-					ORDER BY cs.SORT_ORDER", array(), array( 'SCALE_ID' ) );
+					ORDER BY cs.SORT_ORDER", [], [ 'SCALE_ID' ] );
 				}
 
 				if ( $comment_codes_RET )
@@ -453,7 +453,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				AND c.CATEGORY_ID=cc.ID
 				AND co.COURSE_ID=c.COURSE_ID
 				AND c.SCALE_ID=cs.ID
-				ORDER BY c.SORT_ORDER", array(), array( 'COURSE_ID' ) );
+				ORDER BY c.SORT_ORDER", [], [ 'COURSE_ID' ] );
 
 				if ( $commentsA_RET )
 				{
@@ -538,10 +538,10 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$extra['new'] = true;
 
-	$extra['link'] = array( 'FULL_NAME' => false );
+	$extra['link'] = [ 'FULL_NAME' => false ];
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
-	$extra['functions'] = array( 'CHECKBOX' => 'MakeChooseCheckbox' );
-	$extra['columns_before'] = array( 'CHECKBOX' => MakeChooseCheckbox( 'Y', '', 'st' ) );
+	$extra['functions'] = [ 'CHECKBOX' => 'MakeChooseCheckbox' ];
+	$extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( 'Y', '', 'st' ) ];
 	$extra['options']['search'] = false;
 
 	// Parent: associated students.

@@ -98,7 +98,7 @@ AND cp.SYEAR='" . UserSyear() . "'
 AND rcg.GRADE_SCALE_ID=cp.GRADE_SCALE_ID
 AND cp.GRADE_SCALE_ID IS NOT NULL
 AND cp.DOES_BREAKOFF='Y'
-ORDER BY rcg.BREAK_OFF IS NOT NULL DESC,rcg.BREAK_OFF DESC,rcg.SORT_ORDER DESC", array(), array( 'COURSE_PERIOD_ID' ) );
+ORDER BY rcg.BREAK_OFF IS NOT NULL DESC,rcg.BREAK_OFF DESC,rcg.SORT_ORDER DESC", [], [ 'COURSE_PERIOD_ID' ] );
 
 echo '<fieldset><legend>' . _( 'Assignments' ) . '</legend><table>';
 
@@ -110,11 +110,11 @@ if ( ! empty( $grades ) )
 	//if ( ! $gradebook_config['ROUNDING'])
 	//	$gradebook_config['ROUNDING'] = 'NORMAL';
 
-	$rounding_options = array(
+	$rounding_options = [
 		'UP' => _( 'Up' ),
 		'DOWN' => _( 'Down' ),
 		'NORMAL' => _( 'Normal' ),
-	);
+	];
 
 	echo '<tr><td>' . RadioInput(
 		$gradebook_config['ROUNDING'],
@@ -133,11 +133,11 @@ if ( empty( $gradebook_config['ASSIGNMENT_SORTING'] ) )
 	$gradebook_config['ASSIGNMENT_SORTING'] = 'ASSIGNMENT_ID';
 }
 
-$sorting_options = array(
+$sorting_options = [
 	'ASSIGNMENT_ID' => _( 'Newest First' ),
 	'DUE_DATE' => _( 'Due Date' ),
 	'ASSIGNED_DATE' => _( 'Assigned Date' ),
-);
+];
 
 echo '<tr><td>' . RadioInput(
 	$gradebook_config['ASSIGNMENT_SORTING'],
@@ -200,10 +200,10 @@ echo '<tr><td><hr />' . TextInput(
 
 $anomalous_max_value = ( ! empty( $gradebook_config['ANOMALOUS_MAX'] ) ? $gradebook_config['ANOMALOUS_MAX'] : '100' );
 
-$anomalous_max_value = array(
+$anomalous_max_value = [
 	$anomalous_max_value,
 	$anomalous_max_value . '%'
-);
+];
 
 echo '<tr><td>' . TextInput(
 	$anomalous_max_value,
@@ -243,7 +243,7 @@ $comment_codes_RET = DBGet( "SELECT rccs.ID,rccs.TITLE,rccc.TITLE AS CODE_TITLE
 FROM REPORT_CARD_COMMENT_CODE_SCALES rccs,REPORT_CARD_COMMENT_CODES rccc
 WHERE rccs.SCHOOL_ID='" . UserSchool() . "'
 AND rccc.SCALE_ID=rccs.ID
-ORDER BY rccc.SORT_ORDER,rccs.SORT_ORDER,rccs.ID,rccc.ID", array(), array( 'ID' ) );
+ORDER BY rccc.SORT_ORDER,rccs.SORT_ORDER,rccs.ID,rccc.ID", [], [ 'ID' ] );
 
 if ( $comment_codes_RET )
 {
@@ -251,7 +251,7 @@ if ( $comment_codes_RET )
 
 	foreach ( (array) $comment_codes_RET as $id => $comments )
 	{
-		$select_options = array();
+		$select_options = [];
 
 		$value = '';
 
@@ -359,7 +359,7 @@ $quarters = DBGet( "SELECT TITLE,MARKING_PERIOD_ID,PARENT_ID,DOES_GRADES
 	WHERE MP='QTR'
 	AND SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'
-	ORDER BY SORT_ORDER", array(), array( 'PARENT_ID' ) );
+	ORDER BY SORT_ORDER", [], [ 'PARENT_ID' ] );
 
 echo '<fieldset><legend>' . _( 'Final Grading Percentages' ) . '</legend><table>';
 
@@ -390,10 +390,10 @@ foreach ( (array) $semesters as $sem )
 					$gradebook_config['SEM-' . $qtr['MARKING_PERIOD_ID']] :
 					null;
 
-				$value = array(
+				$value = [
 					$gradebook_config_sem_qtr,
 					$gradebook_config_sem_qtr . '%'
-				);
+				];
 
 				$table .= '<td>' . TextInput(
 					$value,
@@ -436,10 +436,10 @@ if ( $year[1]['DOES_GRADES'] === 'Y' )
 				$gradebook_config['FY-' . $qtr['MARKING_PERIOD_ID']] :
 				null;
 
-			$value = array(
+			$value = [
 				$gradebook_config_fy_qtr,
 				$gradebook_config_fy_qtr . '%'
-			);
+			];
 
 			$table .= '<td>' . TextInput(
 				$value,
@@ -457,10 +457,10 @@ if ( $year[1]['DOES_GRADES'] === 'Y' )
 				$gradebook_config['FY-' . $sem['MARKING_PERIOD_ID']] :
 				null;
 
-			$value = array(
+			$value = [
 				$gradebook_config_fy_sem,
 				$gradebook_config_fy_sem . '%'
-			);
+			];
 
 			$table .= '<td>' . TextInput(
 				$value,
@@ -486,9 +486,9 @@ if ( $year[1]['DOES_GRADES'] === 'Y' )
 
 if ( ! $has_final_grading_percentages )
 {
-	echo ErrorMessage( array(
+	echo ErrorMessage( [
 		_( 'Year and Semester marking periods are not graded.' )
-	), 'note' );
+	], 'note' );
 }
 
 echo '</table></fieldset>';

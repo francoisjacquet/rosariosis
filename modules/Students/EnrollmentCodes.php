@@ -73,7 +73,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 			WHERE ID='" . $_REQUEST['id'] . "'" );
 
 		// Unset modfunc & ID & redirect URL.
-		RedirectURL( array( 'modfunc', 'id' ) );
+		RedirectURL( [ 'modfunc', 'id' ] );
 	}
 }
 
@@ -100,33 +100,33 @@ if ( ! $_REQUEST['modfunc'] )
 	$codes_RET = DBGet( "SELECT ID,TITLE,SHORT_NAME,TYPE,DEFAULT_CODE,SORT_ORDER
 		FROM STUDENT_ENROLLMENT_CODES
 		WHERE SYEAR='" . UserSyear() . "'
-		ORDER BY SORT_ORDER,TITLE", array(
+		ORDER BY SORT_ORDER,TITLE", [
 			'TITLE' => '_makeTextInput',
 			'SHORT_NAME' => '_makeTextInput',
 			'TYPE' => '_makeSelectInput',
 			'DEFAULT_CODE' => '_makeCheckBoxInput',
 			'SORT_ORDER' => '_makeTextInput',
-		)
+		]
 	);
 
-	$columns = array(
+	$columns = [
 		'TITLE' => _( 'Title' ),
 		'SHORT_NAME' => _( 'Short Name' ),
 		'TYPE' => _( 'Type' ),
 		'DEFAULT_CODE' => _( 'Rollover Default' ),
 		'SORT_ORDER' => _( 'Sort Order' ),
-	);
+	];
 
-	$link['add']['html'] = array(
+	$link['add']['html'] = [
 		'TITLE' => _makeTextInput( '', 'TITLE' ),
 		'SHORT_NAME' => _makeTextInput( '', 'SHORT_NAME' ),
 		'TYPE' => _makeSelectInput( '', 'TYPE' ),
 		'DEFAULT_CODE' => _makeCheckBoxInput( '', 'DEFAULT_CODE' ),
 		'SORT_ORDER' => _makeTextInput( '', 'SORT_ORDER' ),
-	);
+	];
 
 	$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove';
-	$link['remove']['variables'] = array( 'id' => _( 'ID' ) );
+	$link['remove']['variables'] = [ 'id' => _( 'ID' ) ];
 
 	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update' ) . '" method="POST">';
 	DrawHeader( '', SubmitButton() );
@@ -193,7 +193,7 @@ function _makeSelectInput( $value, $name )
 
 	if ( $name === 'TYPE' )
 	{
-		$options = array( 'Add' => _( 'Add' ), 'Drop' => _( 'Drop' ) );
+		$options = [ 'Add' => _( 'Add' ), 'Drop' => _( 'Drop' ) ];
 	}
 
 	return SelectInput(

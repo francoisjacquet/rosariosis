@@ -149,7 +149,7 @@ if ( $_REQUEST['modfunc'] === 'modify'
 	if ( empty( $schedule_deletion_pending ) )
 	{
 		// Unset modfunc & schedule & redirect URL.
-		RedirectURL( array( 'modfunc', 'schedule' ) );
+		RedirectURL( [ 'modfunc', 'schedule' ] );
 	}
 }
 
@@ -158,7 +158,7 @@ if ( UserStudentID()
 {
 	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=modify' ) . '" method="POST">';
 
-	DrawHeader( PrepareDate( $date, '_date', false, array( 'submit' => true ) ), SubmitButton() );
+	DrawHeader( PrepareDate( $date, '_date', false, [ 'submit' => true ] ), SubmitButton() );
 
 	DrawHeader(
 		CheckBoxOnclick( 'include_inactive', _( 'Include Inactive Courses' ) ),
@@ -258,13 +258,13 @@ if ( UserStudentID()
 
 	$schedule_RET = DBGet(
 		$sql,
-		array(
+		[
 			'PERIOD_PULLDOWN' => '_makePeriodSelect',
 			'COURSE_MARKING_PERIOD_ID' => '_makeMPSelect',
 			'SCHEDULER_LOCK' => '_makeLock',
 			'START_DATE' => '_makeDate',
 			'END_DATE' => '_makeDate',
-		)
+		]
 	);
 
 	//FJ bugfix SQL bug $_SESSION['student_id'] is not set
@@ -276,7 +276,7 @@ if ( UserStudentID()
 
 	$link['add']['title'] = _( 'Add a Course' );
 
-	$columns = array(
+	$columns = [
 		'TITLE' => _( 'Course' ),
 		'PERIOD_PULLDOWN' => _( 'Period' ) . ' ' . _( 'Days' ) . ' - ' . _( 'Short Name' ) . ' - ' . _( 'Teacher' ),
 		'ROOM' => _( 'Room' ),
@@ -286,7 +286,7 @@ if ( UserStudentID()
 			'<span class="a11y-hidden">' . _( 'Locked' ) . '</span>',
 		'START_DATE' => _( 'Enrolled' ),
 		'END_DATE' => _( 'Dropped' ),
-	);
+	];
 
 	/*//FJ multiple school periods for a course period
 	//$days_RET = DBGet( "SELECT DISTINCT DAYS FROM COURSE_PERIODS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'" );
@@ -331,7 +331,7 @@ if ( UserStudentID()
 
 		$custom_fields_RET = DBGet( "SELECT ID,TITLE,TYPE
 			FROM CUSTOM_FIELDS
-			WHERE ID=200000000", array(), array( 'ID' ) );
+			WHERE ID=200000000", [], [ 'ID' ] );
 
 		if ( $custom_fields_RET['200000000'] && $custom_fields_RET['200000000'][1]['TYPE'] == 'select' )
 		{
@@ -343,32 +343,32 @@ if ( UserStudentID()
 		}
 
 		$extra['WHERE'] .= ' AND sr.STUDENT_ID=ssm.STUDENT_ID AND sr.SYEAR=ssm.SYEAR AND sr.SCHOOL_ID=ssm.SCHOOL_ID AND sr.COURSE_ID=c.COURSE_ID AND NOT EXISTS (SELECT \'\' FROM SCHEDULE s WHERE s.STUDENT_ID=sr.STUDENT_ID AND s.COURSE_ID=sr.COURSE_ID)';
-		$extra['functions'] = array( 'WITH_TEACHER_ID' => '_makeRequestTeacher', 'WITH_PERIOD_ID' => '_makeRequestPeriod' );
+		$extra['functions'] = [ 'WITH_TEACHER_ID' => '_makeRequestTeacher', 'WITH_PERIOD_ID' => '_makeRequestPeriod' ];
 
-		$columns = array(
+		$columns = [
 			'COURSE' => _( 'Request' ),
 			'SECTIONS' => _( 'Sections' ),
 			'WITH_TEACHER_ID' => _( 'Teacher' ),
 			'WITH_PERIOD_ID' => _( 'Period' ),
-		);
+		];
 
 		if ( ! empty( $_REQUEST['include_seats'] ) )
 		{
-			$columns += array( 'AVAILABLE_SEATS' => _( 'Available Seats' ) );
-			$extra['functions'] += array( 'AVAILABLE_SEATS' => 'CalcSeats' );
+			$columns += [ 'AVAILABLE_SEATS' => _( 'Available Seats' ) ];
+			$extra['functions'] += [ 'AVAILABLE_SEATS' => 'CalcSeats' ];
 		}
 
 		$link['COURSE']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=choose_course';
 
-		$link['COURSE']['variables'] = array(
+		$link['COURSE']['variables'] = [
 			'subject_id' => 'SUBJECT_ID',
 			'course_id' => 'COURSE_ID',
 			'student_id' => 'STUDENT_ID',
-		);
+		];
 
 		$link['COURSE']['js'] = true;
 
-		$options = array( 'search' => false, 'save' => false );
+		$options = [ 'search' => false, 'save' => false ];
 
 		$unfilled_requests_RET = GetStuList( $extra );
 
@@ -378,7 +378,7 @@ if ( UserStudentID()
 			'Unfilled Request',
 			'Unfilled Requests',
 			$link,
-			array(),
+			[],
 			$options
 		);
 	}
@@ -607,11 +607,11 @@ function _makeMPSelect( $mp_id, $name )
 			AND SCHOOL_ID='" . UserSchool() . "'
 			ORDER BY SORT_ORDER" );
 
-		$_ROSARIO['_makeMPSelect'][$fy_id][1] = array(
+		$_ROSARIO['_makeMPSelect'][$fy_id][1] = [
 			'MARKING_PERIOD_ID' => $fy_id,
 			'TITLE' => _( 'Full Year' ),
 			'PARENT_ID' => '',
-		);
+		];
 
 		foreach ( (array) $semesters_RET as $sem )
 		{
@@ -628,7 +628,7 @@ function _makeMPSelect( $mp_id, $name )
 			WHERE MP='QTR'
 			AND SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
-			ORDER BY SORT_ORDER", array(), array( 'PARENT_ID' ) );
+			ORDER BY SORT_ORDER", [], [ 'PARENT_ID' ] );
 
 		foreach ( (array) $semesters_RET as $sem )
 		{
@@ -673,7 +673,7 @@ function _makeMPSelect( $mp_id, $name )
 	}
 	else
 	{
-		$mps = array();
+		$mps = [];
 	}
 
 	return SelectInput(
@@ -716,7 +716,7 @@ function _makeDate( $value, $column )
  */
 function VerifySchedule( &$schedule )
 {
-	$conflicts = array();
+	$conflicts = [];
 
 	$ij = count( $schedule );
 
@@ -782,7 +782,7 @@ function VerifySchedule( &$schedule )
  */
 function _str_split( $str )
 {
-	$ret = array();
+	$ret = [];
 	$len = mb_strlen( $str );
 
 	for ( $i = 0; $i < $len; $i++ )

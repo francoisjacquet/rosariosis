@@ -45,8 +45,8 @@ StaffWidgets( 'fsa_exists_Y' );
 
 $extra['SELECT'] .= ",(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE";
 $extra['SELECT'] .= ",(SELECT STATUS FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS STATUS";
-$extra['functions'] += array( 'BALANCE' => 'red' );
-$extra['columns_after'] = array( 'BALANCE' => _( 'Balance' ), 'STATUS' => _( 'Status' ) );
+$extra['functions'] += [ 'BALANCE' => 'red' ];
+$extra['columns_after'] = [ 'BALANCE' => _( 'Balance' ), 'STATUS' => _( 'Status' ) ];
 
 Search( 'staff_id', $extra );
 
@@ -91,7 +91,7 @@ if ( UserStaffID()
 		 */
 		function types_locale( $type )
 		{
-			$types = array( 'Deposit' => _( 'Deposit' ), 'Credit' => _( 'Credit' ), 'Debit' => _( 'Debit' ) );
+			$types = [ 'Deposit' => _( 'Deposit' ), 'Credit' => _( 'Credit' ), 'Debit' => _( 'Debit' ) ];
 
 			if ( array_key_exists( $type, $types ) )
 			{
@@ -107,7 +107,7 @@ if ( UserStaffID()
 		 */
 		function options_locale( $option )
 		{
-			$options = array( 'Cash ' => _( 'Cash' ), 'Check' => _( 'Check' ), 'Credit Card' => _( 'Credit Card' ), 'Debit Card' => _( 'Debit Card' ), 'Transfer' => _( 'Transfer' ) );
+			$options = [ 'Cash ' => _( 'Cash' ), 'Check' => _( 'Check' ), 'Credit Card' => _( 'Credit Card' ), 'Debit Card' => _( 'Debit Card' ), 'Transfer' => _( 'Transfer' ) ];
 
 			if ( array_key_exists( $option, $options ) )
 			{
@@ -125,21 +125,21 @@ if ( UserStaffID()
 
 		if ( AllowEdit() )
 		{
-			$types = array(
+			$types = [
 				'Deposit' => _( 'Deposit' ),
 				'Credit' => _( 'Credit' ),
 				'Debit' => _( 'Debit' ),
-			);
+			];
 
 			$link['add']['html']['TYPE'] = SelectInput( '', 'values[TYPE]', '', $types, false );
 
-			$options = array(
+			$options = [
 				'Cash' => _( 'Cash' ),
 				'Check' => _( 'Check' ),
 				'Credit Card' => _( 'Credit Card' ),
 				'Debit Card' => _( 'Debit Card' ),
 				'Transfer' => _( 'Transfer' ),
-			);
+			];
 
 			$link['add']['html']['DESCRIPTION'] = SelectInput( '', 'values[OPTION]', '', $options, false ) . ' ' .
 				TextInput( '', 'values[DESCRIPTION]', '', 'size=20 maxlength=50' );
@@ -155,10 +155,10 @@ if ( UserStaffID()
 
 			$link['remove']['link'] = "Modules.php?modname=" . $_REQUEST['modname'] . "&modfunc=delete";
 
-			$link['remove']['variables'] = array( 'id' => 'TRANSACTION_ID' );
+			$link['remove']['variables'] = [ 'id' => 'TRANSACTION_ID' ];
 		}
 
-		$columns = array( 'TYPE' => _( 'Type' ), 'DESCRIPTION' => _( 'Description' ), 'AMOUNT' => _( 'Amount' ) );
+		$columns = [ 'TYPE' => _( 'Type' ), 'DESCRIPTION' => _( 'Description' ), 'AMOUNT' => _( 'Amount' ) ];
 
 		ListOutput(
 			$RET,
@@ -167,14 +167,14 @@ if ( UserStaffID()
 			'Earlier Transactions',
 			$link,
 			false,
-			array( 'save' => false, 'search' => false )
+			[ 'save' => false, 'search' => false ]
 		);
 
 		echo '<div class="center">' . SubmitButton() . '</div>';
 	}
 	else
 	{
-		echo ErrorMessage( array( _( 'This user does not have a Meal Account.' ) ) );
+		echo ErrorMessage( [ _( 'This user does not have a Meal Account.' ) ] );
 	}
 
 	echo '</form>';

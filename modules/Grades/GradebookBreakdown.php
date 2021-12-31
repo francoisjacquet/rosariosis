@@ -19,7 +19,7 @@ if ( ! isset( $_REQUEST['assignment_id'] )
 	$_REQUEST['assignment_id'] = 'totals';
 }
 
-$chart_types = array( 'line', 'pie', 'list' );
+$chart_types = [ 'line', 'pie', 'list' ];
 
 // Set Chart Type.
 if ( ! isset( $_REQUEST['chart_type'] )
@@ -37,7 +37,7 @@ $course_id = DBGet( "SELECT cp.COURSE_ID,cp.TITLE,c.TITLE AS COURSE_TITLE,c.SHOR
 
 if ( ! isset( $course_id[1]['GRADE_SCALE_ID'] ) )
 {
-	ErrorMessage( array( _( 'This course is not graded.' ) ), 'fatal' );
+	ErrorMessage( [ _( 'This course is not graded.' ) ], 'fatal' );
 }
 
 $grade_scale_id = $course_id[1]['GRADE_SCALE_ID'];
@@ -53,11 +53,11 @@ $grades_RET = DBGet( "SELECT ID,TITLE,GPA_VALUE
 	AND SCHOOL_ID='" . UserSchool() . "'
 	ORDER BY BREAK_OFF IS NOT NULL DESC,BREAK_OFF DESC,SORT_ORDER" );
 
-$grades = array();
+$grades = [];
 
 foreach ( (array) $grades_RET as $grade )
 {
-	$grades[] = array( 'TITLE' => $grade['TITLE'], 'GPA_VALUE' => $grade['GPA_VALUE'] );
+	$grades[] = [ 'TITLE' => $grade['TITLE'], 'GPA_VALUE' => $grade['GPA_VALUE'] ];
 }
 
 $sql = "SELECT ASSIGNMENT_TYPE_ID,TITLE
@@ -124,7 +124,7 @@ $assignment_select .= '</select>
 $extra['SELECT_ONLY'] = issetVal( $extra['SELECT_ONLY'], '' );
 $extra['SELECT_ONLY'] .= "ssm.STUDENT_ID,'' AS LETTER_GRADE";
 
-$extra['functions'] = array( 'LETTER_GRADE' => '_makeGrade' );
+$extra['functions'] = [ 'LETTER_GRADE' => '_makeGrade' ];
 
 // Totals.
 if ( $_REQUEST['assignment_id'] === 'totals' )
@@ -132,15 +132,15 @@ if ( $_REQUEST['assignment_id'] === 'totals' )
 	$title = _( 'Grade' );
 
 	$current_RET = DBGet( "SELECT g.STUDENT_ID,
-		sum(" . db_case( array( 'g.POINTS', "'-1'", "'0'", 'g.POINTS' ) ) . ") AS POINTS,
-		sum(" . db_case( array( 'g.POINTS', "'-1'", "'0'", 'a.POINTS' ) ) . ") AS TOTAL_POINTS
+		sum(" . db_case( [ 'g.POINTS', "'-1'", "'0'", 'g.POINTS' ] ) . ") AS POINTS,
+		sum(" . db_case( [ 'g.POINTS', "'-1'", "'0'", 'a.POINTS' ] ) . ") AS TOTAL_POINTS
 		FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a
 		WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID
 		AND a.STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND a.MARKING_PERIOD_ID='" . UserMP() . "'
 		AND g.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'
 		AND (a.COURSE_PERIOD_ID='" . UserCoursePeriod() . "' OR a.COURSE_ID='" . $course_id . "')
-		GROUP BY g.STUDENT_ID", array(), array( 'STUDENT_ID' ) );
+		GROUP BY g.STUDENT_ID", [], [ 'STUDENT_ID' ] );
 
 	if ( Preferences( 'WEIGHT', 'Gradebook' ) === 'Y' )
 	{
@@ -153,12 +153,12 @@ if ( $_REQUEST['assignment_id'] === 'totals' )
 		 * Do not include Excused (`*` or -1) grades.
 		 */
 		$percent_RET = DBGet( "SELECT gt.ASSIGNMENT_TYPE_ID,gg.STUDENT_ID," .
-			db_case( array(
+			db_case( [
 				"sum(ga.POINTS)",
 				"'0'",
 				"'0'",
 				"(sum(gg.POINTS) * gt.FINAL_GRADE_PERCENT / sum(ga.POINTS))",
-			) ) . " AS PARTIAL_PERCENT,gt.FINAL_GRADE_PERCENT
+			] ) . " AS PARTIAL_PERCENT,gt.FINAL_GRADE_PERCENT
 			FROM GRADEBOOK_GRADES gg,GRADEBOOK_ASSIGNMENTS ga,GRADEBOOK_ASSIGNMENT_TYPES gt
 			WHERE gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID
 			AND ga.ASSIGNMENT_ID=gg.ASSIGNMENT_ID
@@ -169,8 +169,8 @@ if ( $_REQUEST['assignment_id'] === 'totals' )
 			AND gg.POINTS<>'-1'
 			GROUP BY gg.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID,gt.FINAL_GRADE_PERCENT
 			HAVING sum(ga.POINTS)<>'0'",
-			array(),
-			array( 'STUDENT_ID', 'ASSIGNMENT_TYPE_ID' ) );
+			[],
+			[ 'STUDENT_ID', 'ASSIGNMENT_TYPE_ID' ] );
 	}
 
 	foreach ( (array) $assignments_RET as $assignment )
@@ -185,26 +185,26 @@ elseif ( ! is_numeric( $_REQUEST['assignment_id'] ) )
 	$type_id = mb_substr( $_REQUEST['assignment_id'], 6 );
 
 	$current_RET = DBGet( "SELECT g.STUDENT_ID,
-		sum(" . db_case( array( 'g.POINTS', "'-1'", "'0'", 'g.POINTS' ) ) . ") AS POINTS,
-		sum(" . db_case( array( 'g.POINTS', "'-1'", "'0'", 'a.POINTS' ) ) . ") AS TOTAL_POINTS
+		sum(" . db_case( [ 'g.POINTS', "'-1'", "'0'", 'g.POINTS' ] ) . ") AS POINTS,
+		sum(" . db_case( [ 'g.POINTS', "'-1'", "'0'", 'a.POINTS' ] ) . ") AS TOTAL_POINTS
 		FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a
 		WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID
 		AND a.MARKING_PERIOD_ID='" . UserMP() . "'
 		AND g.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'
 		AND (a.COURSE_PERIOD_ID='" . UserCoursePeriod() . "' OR a.COURSE_ID='" . $course_id . "')
 		AND a.ASSIGNMENT_TYPE_ID='" . $type_id . "'
-		GROUP BY g.STUDENT_ID", array(), array( 'STUDENT_ID' ) );
+		GROUP BY g.STUDENT_ID", [], [ 'STUDENT_ID' ] );
 
 	if ( Preferences( 'WEIGHT', 'Gradebook' ) === 'Y' )
 	{
 		$percent_RET = DBGet( "SELECT gt.ASSIGNMENT_TYPE_ID,gg.STUDENT_ID," .
-			db_case( array(
-				"sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ) ) . ")",
+			db_case( [
+				"sum(" . db_case( [ 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ] ) . ")",
 				"'0'",
 				"'0'",
-				"(sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'gg.POINTS' ) ) . ")
-					/ sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ) ) . "))",
-			) ) . " AS PARTIAL_PERCENT
+				"(sum(" . db_case( [ 'gg.POINTS', "'-1'", "'0'", 'gg.POINTS' ] ) . ")
+					/ sum(" . db_case( [ 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ] ) . "))",
+			] ) . " AS PARTIAL_PERCENT
 			FROM GRADEBOOK_GRADES gg,GRADEBOOK_ASSIGNMENTS ga,GRADEBOOK_ASSIGNMENT_TYPES gt
 			WHERE gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID
 			AND ga.ASSIGNMENT_TYPE_ID='" . $type_id . "'
@@ -213,8 +213,8 @@ elseif ( ! is_numeric( $_REQUEST['assignment_id'] ) )
 			AND gg.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'
 			AND gt.COURSE_ID='" . $course_id . "'
 			GROUP BY gg.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID,gt.FINAL_GRADE_PERCENT",
-			array(),
-			array( 'STUDENT_ID', 'ASSIGNMENT_TYPE_ID' ) );
+			[],
+			[ 'STUDENT_ID', 'ASSIGNMENT_TYPE_ID' ] );
 	}
 
 	foreach ( (array) $assignments_RET as $assignment )
@@ -234,20 +234,20 @@ elseif ( ! empty( $_REQUEST['assignment_id'] ) )
 		FROM GRADEBOOK_GRADES
 		WHERE ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'
 		AND COURSE_PERIOD_ID='" . UserCoursePeriod() . "'",
-		array(),
-		array( 'STUDENT_ID', 'ASSIGNMENT_ID' ) );
+		[],
+		[ 'STUDENT_ID', 'ASSIGNMENT_ID' ] );
 }
 
 $stu_RET = GetStuList( $extra );
 
-$RET = array();
+$RET = [];
 
 foreach ( (array) $stu_RET as $stu )
 {
 	$RET[$stu['LETTER_GRADE']] = isset( $RET[$stu['LETTER_GRADE']] ) ? ++$RET[$stu['LETTER_GRADE']] : 1;
 }
 
-$chart['chart_data'][1] = array();
+$chart['chart_data'][1] = [];
 
 foreach ( (array) $grades as $option )
 {
@@ -267,7 +267,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( empty( $RET ) )
 	{
-		echo ErrorMessage( array( _( 'No Students were found.' ) ), 'fatal' );
+		echo ErrorMessage( [ _( 'No Students were found.' ) ], 'fatal' );
 	}
 
 	DrawHeader( $assignment_select, SubmitButton( _( 'Go' ) ) );
@@ -276,20 +276,20 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( ! empty( $_REQUEST['assignment_id'] ) )
 	{
-		$tabs = array(
-			array(
+		$tabs = [
+			[
 				'title' => _( 'Line' ),
-				'link' => PreparePHP_SELF( $_REQUEST, array(), array( 'chart_type' => 'line' ) ),
-			),
-			array(
+				'link' => PreparePHP_SELF( $_REQUEST, [], [ 'chart_type' => 'line' ] ),
+			],
+			[
 				'title' => _( 'Pie' ),
-				'link' => PreparePHP_SELF( $_REQUEST, array(), array( 'chart_type' => 'pie' ) ),
-			),
-			array(
+				'link' => PreparePHP_SELF( $_REQUEST, [], [ 'chart_type' => 'pie' ] ),
+			],
+			[
 				'title' => _( 'List' ),
-				'link' => PreparePHP_SELF( $_REQUEST, array(), array( 'chart_type' => 'list' ) ),
-			),
-		);
+				'link' => PreparePHP_SELF( $_REQUEST, [], [ 'chart_type' => 'list' ] ),
+			],
+		];
 
 		$_ROSARIO['selected_tab'] = PreparePHP_SELF( $_REQUEST );
 
@@ -300,28 +300,28 @@ if ( ! $_REQUEST['modfunc'] )
 		// List.
 		if ( $_REQUEST['chart_type'] === 'list' )
 		{
-			$chart_data = array( '0' => '' );
+			$chart_data = [ '0' => '' ];
 
 			foreach ( (array) $chart['chart_data'][1] as $key => $y )
 			{
-				$chart_data[] = array(
+				$chart_data[] = [
 					'TITLE' => $chart['chart_data'][2][$key],
 					'GPA' => $chart['chart_data'][0][$key],
 					'VALUE' => $y,
-				);
+				];
 			}
 
 			unset( $chart_data[0] );
 
 			$LO_options['responsive'] = false;
 
-			$LO_columns = array(
+			$LO_columns = [
 				'TITLE' => _( 'Title' ),
 				'GPA' => _( 'GPA Value' ),
 				'VALUE' => _( 'Number of Students' ),
-			);
+			];
 
-			ListOutput( $chart_data, $LO_columns, 'Grade', 'Grades', array(), array(), $LO_options );
+			ListOutput( $chart_data, $LO_columns, 'Grade', 'Grades', [], [], $LO_options );
 		}
 
 		// Chart.js charts.

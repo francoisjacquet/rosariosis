@@ -52,13 +52,13 @@ if ( ! $_REQUEST['modfunc'] )
 	echo '</form>';
 
 	// Format DB data.
-	$access_logs_functions = array(
+	$access_logs_functions = [
 		'STATUS' => '_makeAccessLogStatus', // Translate status.
 		'PROFILE' => '_makeAccessLogProfile', // Translate profile.
 		'USERNAME' => '_makeAccessLogUsername', // Add link to user info.
 		'LOGIN_TIME' => 'ProperDateTime', // Display localized & preferred Date & Time.
 		'USER_AGENT' => '_makeAccessLogUserAgent', // Display Browser & OS.
-	);
+	];
 
 	$access_logs_RET = DBGet( "SELECT
 		DISTINCT USERNAME,PROFILE,LOGIN_TIME,IP_ADDRESS,STATUS,USER_AGENT
@@ -73,19 +73,19 @@ if ( ! $_REQUEST['modfunc'] )
 
 	ListOutput(
 		$access_logs_RET,
-		array(
+		[
 			'LOGIN_TIME' => _( 'Date' ),
 			'USERNAME' => _( 'Username' ),
 			'PROFILE' => _( 'User Profile' ),
 			'STATUS' => _( 'Status' ),
 			'IP_ADDRESS' => _( 'IP Address' ),
 			'USER_AGENT' => _( 'Browser' ),
-		),
+		],
 		'Login record',
 		'Login records',
-		array(),
-		array(),
-		array( 'count' => true, 'save' => true )
+		[],
+		[],
+		[ 'count' => true, 'save' => true ]
 	);
 
 	echo '</form>';
@@ -156,13 +156,13 @@ function _makeAccessLogStatus( $value, $column )
  */
 function _makeAccessLogProfile( $value, $column )
 {
-	$profile_options = array(
+	$profile_options = [
 		'student' => _( 'Student' ),
 		'admin' => _( 'Administrator' ),
 		'teacher' => _( 'Teacher' ),
 		'parent' => _( 'Parent' ),
 		'none' => _( 'No Access' ),
-	);
+	];
 
 	if ( ! isset( $profile_options[ $value ] ) )
 	{

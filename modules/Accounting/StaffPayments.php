@@ -118,7 +118,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 			WHERE ID='" . $_REQUEST['id'] . "'" );
 
 		// Unset modfunc & ID & redirect URL.
-		RedirectURL( array( 'modfunc', 'id' ) );
+		RedirectURL( [ 'modfunc', 'id' ] );
 	}
 }
 
@@ -126,13 +126,13 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 {
 	$payments_total = 0;
 
-	$functions = array(
+	$functions = [
 		'REMOVE' => '_makePaymentsRemove',
 		'AMOUNT' => '_makePaymentsAmount',
 		'PAYMENT_DATE' => 'ProperDate',
 		'COMMENTS' => '_makePaymentsCommentsInput',
 		'FILE_ATTACHED' => '_makePaymentsFileInput',
-	);
+	];
 
 	$payments_RET = DBGet( "SELECT '' AS REMOVE,ID,AMOUNT,PAYMENT_DATE,COMMENTS,FILE_ATTACHED
 		FROM ACCOUNTING_PAYMENTS
@@ -142,7 +142,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 		ORDER BY ID", $functions );
 
 	$i = 1;
-	$RET = array();
+	$RET = [];
 
 	foreach ( (array) $payments_RET as $payment )
 	{
@@ -154,37 +154,37 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 		&& empty( $_REQUEST['print_statements'] )
 		&& AllowEdit() )
 	{
-		$columns = array( 'REMOVE' => '<span class="a11y-hidden">' . _( 'Delete' ) . '</span>' );
+		$columns = [ 'REMOVE' => '<span class="a11y-hidden">' . _( 'Delete' ) . '</span>' ];
 	}
 	else
 	{
-		$columns = array();
+		$columns = [];
 	}
 
-	$columns += array(
+	$columns += [
 		'AMOUNT' => _( 'Amount' ),
 		'PAYMENT_DATE' => _( 'Date' ),
 		'COMMENTS' => _( 'Comment' ),
-	);
+	];
 
 	if ( empty( $_REQUEST['print_statements'] )
 		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
-		$columns += array( 'FILE_ATTACHED' => _( 'File Attached' ) );
+		$columns += [ 'FILE_ATTACHED' => _( 'File Attached' ) ];
 	}
 
-	$link = array();
+	$link = [];
 
 	if ( empty( $_REQUEST['print_statements'] )
 		&& AllowEdit() )
 	{
-		$link['add']['html'] = array(
+		$link['add']['html'] = [
 			'REMOVE' => button( 'add' ),
 			'AMOUNT' => _makePaymentsTextInput( '', 'AMOUNT' ),
 			'PAYMENT_DATE' => _makePaymentsDateInput( DBDate(), 'PAYMENT_DATE' ),
 			'COMMENTS' => _makePaymentsCommentsInput( '', 'COMMENTS' ),
 			'FILE_ATTACHED' => _makePaymentsFileInput( '', 'FILE_ATTACHED' ),
-		);
+		];
 	}
 
 	if ( empty( $_REQUEST['print_statements'] )
@@ -192,14 +192,14 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 	{
 		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="POST">';
 		DrawHeader( '', SubmitButton() );
-		$options = array();
+		$options = [];
 	}
 	else
 	{
-		$options = array( 'center' => false, 'add' => false );
+		$options = [ 'center' => false, 'add' => false ];
 	}
 
-	ListOutput( $RET, $columns, 'Payment', 'Payments', $link, array(), $options );
+	ListOutput( $RET, $columns, 'Payment', 'Payments', $link, [], $options );
 
 	if ( empty( $_REQUEST['print_statements'] )
 		&& AllowEdit() )

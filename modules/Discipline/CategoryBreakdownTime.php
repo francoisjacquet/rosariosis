@@ -22,7 +22,7 @@ $start_date = RequestedDate( 'start', $min_date, 'set' );
 // Set end date.
 $end_date = RequestedDate( 'end', DBDate(), 'set' );
 
-$chart_types = array( 'bar', 'list' );
+$chart_types = [ 'bar', 'list' ];
 
 // Set Chart Type.
 if ( ! isset( $_REQUEST['chart_type'] )
@@ -31,7 +31,7 @@ if ( ! isset( $_REQUEST['chart_type'] )
 	$_REQUEST['chart_type'] = 'bar';
 }
 
-$timeframes = array( 'month', 'SYEAR' );
+$timeframes = [ 'month', 'SYEAR' ];
 
 // Set Timeframe.
 if ( ! isset( $_REQUEST['timeframe'] )
@@ -72,7 +72,7 @@ if ( ! empty( $_REQUEST['category_id'] ) )
 		AND du.SYEAR='" . UserSyear() . "'
 		AND du.SCHOOL_ID='" . UserSchool() . "'" );
 
-	$category_RET[1]['SELECT_OPTIONS'] = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category_RET[1]['SELECT_OPTIONS'] ) );
+	$category_RET[1]['SELECT_OPTIONS'] = explode( "\r", str_replace( [ "\r\n", "\n" ], "\r", $category_RET[1]['SELECT_OPTIONS'] ) );
 
 	if ( $_REQUEST['timeframe'] === 'month' )
 	{
@@ -103,7 +103,7 @@ if ( ! empty( $_REQUEST['category_id'] ) )
 		}
 	}
 
-	$months = array(
+	$months = [
 		'1' => mb_substr( _( 'January' ), 0, 4 ),
 		'2' => mb_substr( _( 'February' ), 0, 4 ),
 		'3' => mb_substr( _( 'March' ), 0, 4 ),
@@ -116,9 +116,9 @@ if ( ! empty( $_REQUEST['category_id'] ) )
 		'10' => mb_substr( _( 'October' ), 0, 4 ),
 		'11' => mb_substr( _( 'November' ), 0, 4 ),
 		'12' => mb_substr( _( 'December' ), 0, 4 ),
-	);
+	];
 
-	$extra = array();
+	$extra = [];
 
 	$extra['FROM'] = ',DISCIPLINE_REFERRALS dr ';
 
@@ -133,7 +133,7 @@ if ( ! empty( $_REQUEST['category_id'] ) )
 
 		$extra['GROUP'] = 'CATEGORY_' . intval( $_REQUEST['category_id'] ) . ',TIMEFRAME';
 
-		$extra['group'] = array( 'TITLE', 'TIMEFRAME' );
+		$extra['group'] = [ 'TITLE', 'TIMEFRAME' ];
 
 		$totals_RET = GetStuList( $extra );
 
@@ -179,7 +179,7 @@ if ( ! empty( $_REQUEST['category_id'] ) )
 
 		$extra['GROUP'] = 'CATEGORY_' . intval( $_REQUEST['category_id'] ) . ',TIMEFRAME';
 
-		$extra['group'] = array( 'TITLE', 'TIMEFRAME' );
+		$extra['group'] = [ 'TITLE', 'TIMEFRAME' ];
 
 		$totals_RET = GetStuList( $extra );
 
@@ -346,7 +346,7 @@ if ( ! empty( $_REQUEST['category_id'] ) )
 
 		$extra['SELECT_ONLY'] = "CATEGORY_" . intval( $_REQUEST['category_id'] ) . " AS TITLE," . $timeframe . " AS TIMEFRAME";
 
-		$extra['functions'] = array( 'TITLE' => '_makeNumericTime' );
+		$extra['functions'] = [ 'TITLE' => '_makeNumericTime' ];
 
 		$referrals_RET = GetStuList( $extra );
 
@@ -357,7 +357,7 @@ if ( ! empty( $_REQUEST['category_id'] ) )
 	if ( $_REQUEST['chart_type'] !== 'list' )
 	{
 		$datacolumns = 0;
-		$ticks = array();
+		$ticks = [];
 
 		foreach ( (array) $chart['chart_data'] as $chart_data )
 		{
@@ -416,7 +416,7 @@ if ( ! $_REQUEST['modfunc'] )
 		AND du.DISCIPLINE_FIELD_ID=df.ID
 		ORDER BY du.SORT_ORDER" );
 
-	$select_options = array();
+	$select_options = [];
 
 	foreach ( (array) $categories_RET as $category )
 	{
@@ -433,10 +433,10 @@ if ( ! $_REQUEST['modfunc'] )
 		false
 	);
 
-	$advanced_link = ' <a href="' . PreparePHP_SELF( $_REQUEST, array( 'search_modfunc' ), array(
+	$advanced_link = ' <a href="' . PreparePHP_SELF( $_REQUEST, [ 'search_modfunc' ], [
 		'modfunc' => 'search',
 		'include_top' => 'false',
-	) ) . '">' . _( 'Advanced' ) . '</a>';
+	] ) . '">' . _( 'Advanced' ) . '</a>';
 
 	DrawHeader( $select );
 
@@ -467,16 +467,16 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( ! empty( $_REQUEST['category_id'] ) )
 	{
-		$tabs = array(
-			array(
+		$tabs = [
+			[
 				'title' => _( 'Column' ),
-				'link' => PreparePHP_SELF( $_REQUEST, array(), array( 'chart_type' => 'bar' ) ),
-			),
-			array(
+				'link' => PreparePHP_SELF( $_REQUEST, [], [ 'chart_type' => 'bar' ] ),
+			],
+			[
 				'title' => _( 'List' ),
-				'link' => PreparePHP_SELF( $_REQUEST, array(), array( 'chart_type' => 'list' ) ),
-			)
-		);
+				'link' => PreparePHP_SELF( $_REQUEST, [], [ 'chart_type' => 'list' ] ),
+			]
+		];
 
 		$_ROSARIO['selected_tab'] = PreparePHP_SELF( $_REQUEST );
 
@@ -485,7 +485,7 @@ if ( ! $_REQUEST['modfunc'] )
 		if ( $_REQUEST['chart_type'] === 'list' )
 		{
 			// IGNORE THE 'Series' RECORD.
-			$LO_columns = array( 'TITLE' => _( 'Option' ) );
+			$LO_columns = [ 'TITLE' => _( 'Option' ) ];
 
 			foreach ( (array) $chart['chart_data'] as $timeframe => $values )
 			{
@@ -515,7 +515,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 			$LO_options['responsive'] = false;
 
-			ListOutput( $chart_data, $LO_columns, 'Option', 'Options', array(), array(), $LO_options );
+			ListOutput( $chart_data, $LO_columns, 'Option', 'Options', [], [], $LO_options );
 		}
 		// Chart.js charts.
 		else

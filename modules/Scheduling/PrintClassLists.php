@@ -45,10 +45,10 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	{
 		$_SESSION['UserCoursePeriod'] = $course_period['COURSE_PERIOD_ID'];
 
-		$extra = array(
+		$extra = [
 			'SELECT_ONLY' => '1',
 			'WHERE' => '',
-		);
+		];
 
 		if ( User( 'PROFILE' ) === 'teacher' )
 		{

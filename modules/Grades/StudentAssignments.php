@@ -45,13 +45,13 @@ if ( isset( $_REQUEST['assignment_id'] )
 		echo ErrorMessage( $error );
 	}
 
-	$assignments_link = PreparePHP_SELF( $_REQUEST, array( 'search_modfunc', 'assignment_id' ) );
+	$assignments_link = PreparePHP_SELF( $_REQUEST, [ 'search_modfunc', 'assignment_id' ] );
 
 	DrawHeader( '<a href="' . URLEscape( $assignments_link ) . '">&laquo; ' . _( 'Back' ) . '</a>' );
 
 	$_ROSARIO['allow_edit'] = true;
 
-	$form_action = PreparePHP_SELF( $_REQUEST, array(), array( 'modfunc' => 'submit' ) );
+	$form_action = PreparePHP_SELF( $_REQUEST, [], [ 'modfunc' => 'submit' ] );
 
 	echo '<form method="POST" action="">';
 

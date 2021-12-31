@@ -24,7 +24,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 		$note_id = $note_id['ID'];
 		$_REQUEST['values'][$note_id]['PUBLISHED_PROFILES'] = '';
 
-		foreach ( array( 'admin', 'teacher', 'parent' ) as $profile_id )
+		foreach ( [ 'admin', 'teacher', 'parent' ] as $profile_id )
 		{
 			if ( ! empty( $_REQUEST['profiles'][$note_id][$profile_id] ) )
 			{
@@ -92,7 +92,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 			{
 				$_REQUEST['values']['new']['PUBLISHED_PROFILES'] = '';
 
-				foreach ( array( 'admin', 'teacher', 'parent' ) as $profile_id )
+				foreach ( [ 'admin', 'teacher', 'parent' ] as $profile_id )
 				{
 					if ( isset( $_REQUEST['profiles']['new'][$profile_id] )
 						&& $_REQUEST['profiles']['new'][$profile_id] )
@@ -176,7 +176,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 	}
 
 	// Unset modfunc & values & profiles & redirect URL.
-	RedirectURL( array( 'modfunc', 'values', 'profiles' ) );
+	RedirectURL( [ 'modfunc', 'values', 'profiles' ] );
 }
 
 if ( $_REQUEST['modfunc'] === 'remove'
@@ -201,7 +201,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 		do_action( 'School_Setup/PortalNotes.php|delete_portal_note' );
 
 		// Unset modfunc & ID & redirect URL.
-		RedirectURL( array( 'modfunc', 'id' ) );
+		RedirectURL( [ 'modfunc', 'id' ] );
 	}
 }
 
@@ -215,34 +215,34 @@ if ( ! $_REQUEST['modfunc'] )
 	FROM PORTAL_NOTES
 	WHERE SCHOOL_ID='" . UserSchool() . "'
 	AND SYEAR='" . UserSyear() . "'
-	ORDER BY EXPIRED DESC,SORT_ORDER,PUBLISHED_DATE DESC", array(
+	ORDER BY EXPIRED DESC,SORT_ORDER,PUBLISHED_DATE DESC", [
 		'TITLE' => '_makeTextInput',
 		'CONTENT' => '_makeContentInput',
 		'SORT_ORDER' => '_makeTextInput',
 		'FILE_ATTACHED' => 'makeFileAttached',
 		'START_DATE' => 'makePublishing'
-	) );
+	] );
 
-	$columns = array(
+	$columns = [
 		'TITLE' => _( 'Title' ),
 		'CONTENT' => _( 'Note' ),
 		'SORT_ORDER' => _( 'Sort Order' ),
 		'FILE_ATTACHED' => _( 'File Attached' ),
 		'START_DATE' => _( 'Publishing Options' ),
-	);
+	];
 
 	//,'START_TIME' => 'Start Time','END_TIME' => 'End Time'
-	$link['add']['html'] = array(
+	$link['add']['html'] = [
 		'TITLE' => _makeTextInput( '', 'TITLE' ),
 		'CONTENT' => _makeContentInput( '', 'CONTENT' ),
 		'SHORT_NAME' => _makeTextInput( '', 'SHORT_NAME' ),
 		'SORT_ORDER' => _makeTextInput( '', 'SORT_ORDER' ),
 		'FILE_ATTACHED' => makeFileAttached( '', 'FILE_ATTACHED' ),
 		'START_DATE' => makePublishing( '', 'START_DATE' ),
-	);
+	];
 
 	$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove';
-	$link['remove']['variables'] = array( 'id' => 'ID' );
+	$link['remove']['variables'] = [ 'id' => 'ID' ];
 
 	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update' ) . '" method="POST" enctype="multipart/form-data">';
 
@@ -288,7 +288,7 @@ function _makeTextInput( $value, $name )
 
 	return TextInput(
 		( $name == 'TITLE' && ! empty( $THIS_RET['EXPIRED'] ) ?
-			array( $value, '<span style="color:red">' . $value . '</span>' ) :
+			[ $value, '<span style="color:red">' . $value . '</span>' ] :
 			$value ),
 		'values[' . $id . '][' . $name . ']',
 		'',

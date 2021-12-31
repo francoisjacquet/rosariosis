@@ -72,7 +72,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 		DBQuery( "DELETE FROM SCHOOL_GRADELEVELS WHERE ID='" . $_REQUEST['id'] . "'" );
 
 		// Unset modfunc & ID & redirect URL.
-		RedirectURL( array( 'modfunc', 'id' ) );
+		RedirectURL( [ 'modfunc', 'id' ] );
 	}
 }
 
@@ -90,30 +90,30 @@ if ( ! $_REQUEST['modfunc'] )
 		FROM SCHOOL_GRADELEVELS sg
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		ORDER BY SORT_ORDER",
-		array(
+		[
 			'REMOVE' => '_makeRemoveButton',
 			'TITLE' => '_makeTextInput',
 			'SHORT_NAME' => '_makeTextInput',
 			'SORT_ORDER' => '_makeTextInput',
 			'NEXT_GRADE_ID' => '_makeGradeInput',
-		)
+		]
 	);
 
-	$columns = array(
+	$columns = [
 		'REMOVE' => '<span class="a11y-hidden">' . _( 'Delete' ) . '</span>',
 		'TITLE' => _( 'Title' ),
 		'SHORT_NAME' => _( 'Short Name' ),
 		'SORT_ORDER' => _( 'Sort Order' ),
 		'NEXT_GRADE_ID' => _( 'Next Grade' ),
-	);
+	];
 
-	$link['add']['html'] = array(
+	$link['add']['html'] = [
 		'REMOVE' => _makeRemoveButton( '', 'REMOVE' ),
 		'TITLE' => _makeTextInput( '', 'TITLE' ),
 		'SHORT_NAME' => _makeTextInput( '', 'SHORT_NAME' ),
 		'SORT_ORDER' => _makeTextInput( '', 'SORT_ORDER' ),
 		'NEXT_GRADE_ID' => _makeGradeInput( '', 'NEXT_GRADE_ID' ),
-	);
+	];
 
 	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update' ) . '" method="POST">';
 

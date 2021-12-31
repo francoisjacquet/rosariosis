@@ -21,7 +21,7 @@ if ( User( 'PROFILE' ) !== 'admin'
 	exit;
 }
 
-$categories = array( '1' => 'General_Info', '2' => 'Schedule', 'Other_Info' => 'Other_Info' );
+$categories = [ '1' => 'General_Info', '2' => 'Schedule', 'Other_Info' => 'Other_Info' ];
 
 if ( ! isset( $_REQUEST['category_id'] ) )
 {
@@ -294,7 +294,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 				$fields_RET = DBGet( "SELECT ID,TYPE
 					FROM STAFF_FIELDS
-					ORDER BY SORT_ORDER", array(), array( 'ID' ) );
+					ORDER BY SORT_ORDER", [], [ 'ID' ] );
 
 				$go = false;
 
@@ -381,7 +381,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 				$fields_RET = DBGet( "SELECT ID,TYPE
 					FROM STAFF_FIELDS
-					ORDER BY SORT_ORDER", array(), array( 'ID' ) );
+					ORDER BY SORT_ORDER", [], [ 'ID' ] );
 
 				foreach ( (array) $_REQUEST['staff'] as $column => $value )
 				{
@@ -438,9 +438,9 @@ if ( $_REQUEST['modfunc'] === 'update'
 		{
 			$new_photo_file = ImageUpload(
 				'photo',
-				array( 'width' => 150, 'height' => 150 ),
+				[ 'width' => 150, 'height' => 150 ],
 				$UserPicturesPath . UserSyear() . '/',
-				array(),
+				[],
 				'.jpg',
 				UserStaffID()
 			);
@@ -503,7 +503,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 	}
 
 	// Unset modfunc & staff & redirect URL.
-	RedirectURL( array( 'modfunc', 'staff' ) );
+	RedirectURL( [ 'modfunc', 'staff' ] );
 
 	if ( User( 'STAFF_ID' ) == $_REQUEST['staff_id'] )
 	{
@@ -559,7 +559,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 		unset( $_SESSION['staff_id'] );
 
 		// Unset modfunc & staff_id & redirect URL.
-		RedirectURL( array( 'modfunc', 'staff_id' ) );
+		RedirectURL( [ 'modfunc', 'staff_id' ] );
 	}
 }
 
@@ -585,7 +585,7 @@ if ( $_REQUEST['modfunc'] === 'remove_file'
 		}
 
 		// Unset modfunc, id, filename & redirect URL.
-		RedirectURL( array( 'modfunc', 'id', 'filename' ) );
+		RedirectURL( [ 'modfunc', 'id', 'filename' ] );
 	}
 }
 
@@ -593,7 +593,7 @@ echo ErrorMessage( $error );
 
 echo ErrorMessage( $note, 'note' );
 
-Search( 'staff_id', issetVal( $extra, array() ) );
+Search( 'staff_id', issetVal( $extra, [] ) );
 
 if (  ( UserStaffID()
 	|| ( isset( $_REQUEST['staff_id'] )
@@ -606,14 +606,14 @@ if (  ( UserStaffID()
 		$can_use_RET = DBGet( "SELECT MODNAME
 			FROM PROFILE_EXCEPTIONS
 			WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'
-			AND CAN_USE='Y'", array(), array( 'MODNAME' ) );
+			AND CAN_USE='Y'", [], [ 'MODNAME' ] );
 	}
 	else
 	{
 		$can_use_RET = DBGet( "SELECT MODNAME
 			FROM STAFF_EXCEPTIONS
 			WHERE USER_ID='" . User( 'STAFF_ID' ) . "'
-			AND CAN_USE='Y'", array(), array( 'MODNAME' ) );
+			AND CAN_USE='Y'", [], [ 'MODNAME' ] );
 	}
 
 	if ( basename( $_SERVER['PHP_SELF'] ) == 'index.php' )
@@ -694,12 +694,12 @@ if (  ( UserStaffID()
 		{
 			if ( $can_use_RET['Users/User.php&category_id=' . $category['ID']] )
 			{
-				$tabs[] = array(
+				$tabs[] = [
 					'title' => $category['TITLE'],
 					'link' => ( $_REQUEST['staff_id'] !== 'new' ?
 						'Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $category['ID'] . '&staff_id=' . UserStaffID() :
 						'' ),
-				);
+				];
 			}
 		}
 

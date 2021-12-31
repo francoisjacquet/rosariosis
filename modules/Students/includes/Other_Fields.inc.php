@@ -61,7 +61,7 @@ foreach ( (array) $fields_RET as $field )
 
 		case 'files':
 
-			$request_no_array = str_replace( array( '[', ']' ), '', $request );
+			$request_no_array = str_replace( [ '[', ']' ], '', $request );
 
 			echo _makeFilesInput(
 				'CUSTOM_' . $field['ID'],

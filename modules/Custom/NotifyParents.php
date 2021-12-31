@@ -48,7 +48,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		$RET = GetStaffList( $extra );
 		//echo '<pre>'; var_dump($RET); echo '</pre>';
 
-		$LO_result = array( 0 => array() );
+		$LO_result = [ 0 => [] ];
 
 		$i = 0;
 
@@ -78,13 +78,13 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				$student_list .= $student['FULL_NAME'] . "\r";
 			}
 
-			$substitutions = array(
+			$substitutions = [
 				'__PARENT_NAME__' => $staff['NAME'],
 				'__ASSOCIATED_STUDENTS__' => $student_list,
 				'__SCHOOL_ID__' => SchoolInfo( 'TITLE' ),
 				'__USERNAME__' => $staff['USERNAME'],
 				'__PASSWORD__' => $password,
-			);
+			];
 
 			$msg = SubstitutionsTextMake( $substitutions, $message );
 
@@ -92,24 +92,24 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 			$result = SendEmail( $to, $subject, $msg, $reply_to );
 
-			$LO_result[] = array(
+			$LO_result[] = [
 				'PARENT' => $staff['FULL_NAME'],
 				'USERNAME' => $staff['USERNAME'],
 				'EMAIL' => $to,
 				'RESULT' => $result ? _( 'Success' ) : _( 'Fail' ),
-			);
+			];
 
 			$i++;
 		}
 
 		unset( $LO_result[0] );
 
-		$columns = array(
+		$columns = [
 			'PARENT' => _( 'Parent' ),
 			'USERNAME' => _( 'Username' ),
 			'EMAIL' => _( 'Email' ),
 			'RESULT' => _( 'Result' ),
-		);
+		];
 
 		ListOutput(
 			$LO_result,
@@ -117,19 +117,19 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			'Notification Result',
 			'Notification Results',
 			false,
-			array(),
-			array( 'save' => false, 'search' => false, 'sort' => false )
+			[],
+			[ 'save' => false, 'search' => false, 'sort' => false ]
 		);
 
 		// Unset staff, inputnotifyparentstext & redirect URL.
-		RedirectURL( array( 'staff', 'inputnotifyparentstext' ) );
+		RedirectURL( [ 'staff', 'inputnotifyparentstext' ] );
 	}
 	else
 	{
 		$error[] = _( 'You must choose at least one user' );
 
 		// Unset modfunc, staff, inputnotifyparentstext & redirect URL.
-		RedirectURL( array( 'modfunc', 'staff', 'inputnotifyparentstext' ) );
+		RedirectURL( [ 'modfunc', 'staff', 'inputnotifyparentstext' ] );
 	}
 }
 
@@ -154,13 +154,13 @@ if ( ! $_REQUEST['modfunc'] || $_REQUEST['search_modfunc'] === 'list' )
 			'inputnotifyparentstext'
 		) . '<br /><br /></td></tr>';
 
-		$substitutions = array(
+		$substitutions = [
 			'__PARENT_NAME__' => _( 'Parent Name' ),
 			'__ASSOCIATED_STUDENTS__' => _( 'Associated Students' ),
 			'__SCHOOL_ID__' => _( 'School' ),
 			'__USERNAME__' => _( 'Username' ),
 			'__PASSWORD__' => _( 'Password' ),
-		);
+		];
 
 		$extra['extra_header_left'] .= '<tr class="st"><td class="valign-top">' .
 			SubstitutionsInput( $substitutions ) .
@@ -184,21 +184,21 @@ if ( ! $_REQUEST['modfunc'] || $_REQUEST['search_modfunc'] === 'list' )
 
 	$extra['WHERE'] = " AND s.LAST_LOGIN IS NULL";
 
-	$extra['functions'] = array(
+	$extra['functions'] = [
 		'CHECKBOX' => '_makeChooseCheckbox',
 		'ASSOCIATED' => '_makeAssociated',
 		'EMAIL' => '_makeEmail',
-	);
+	];
 
-	$extra['columns_before'] = array( 'CHECKBOX' => MakeChooseCheckbox( '', '', 'staff' ) );
+	$extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( '', '', 'staff' ) ];
 
-	$extra['columns_after'] = array(
+	$extra['columns_after'] = [
 		'ASSOCIATED' => _( 'Associated Students' ),
 		'USERNAME' => _( 'Username' ),
 		'EMAIL' => _( 'Email' ),
-	);
+	];
 
-	$extra['link'] = array( 'FULL_NAME' => false );
+	$extra['link'] = [ 'FULL_NAME' => false ];
 
 	$extra['profile'] = 'parent';
 

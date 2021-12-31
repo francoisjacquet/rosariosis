@@ -28,7 +28,7 @@ $periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE
 		AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
 		AND cp.SCHOOL_ID='" . UserSchool() . "'
 		AND cp.SYEAR='" . UserSyear() . "')
-	ORDER BY sp.SORT_ORDER", array(), array( 'PERIOD_ID' ) );
+	ORDER BY sp.SORT_ORDER", [], [ 'PERIOD_ID' ] );
 
 $period_select = '<select name="period" onChange="ajaxPostForm(this.form,true);"><option value="">' . _( 'All' ) . '</option>';
 
@@ -105,7 +105,7 @@ $RET = DBGet( "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,sp.T
 	AND cp.SCHOOL_ID='" . UserSchool() . "'
 	AND s.PROFILE='teacher'" .
 	( $_REQUEST['period'] ? " AND cpsp.PERIOD_ID='" . $_REQUEST['period'] . "'" : '' ) .
-	" ORDER BY FULL_NAME", array(), array( 'STAFF_ID' ) );
+	" ORDER BY FULL_NAME", [], [ 'STAFF_ID' ] );
 
 if ( empty( $_REQUEST['period'] ) )
 {
@@ -141,7 +141,7 @@ if ( empty( $_REQUEST['period'] ) )
 		}
 	}
 
-	$columns = array( 'FULL_NAME' => _( 'Teacher' ) );
+	$columns = [ 'FULL_NAME' => _( 'Teacher' ) ];
 
 	foreach ( (array) $periods_RET as $id => $period )
 	{
@@ -171,10 +171,10 @@ else
 
 	ListOutput(
 		$RET,
-		array( 'FULL_NAME' => _( 'Teacher' ), 'COURSE_TITLE' => _( 'Course' ), 'COMPLETED' => _( 'Completed' ) ),
+		[ 'FULL_NAME' => _( 'Teacher' ), 'COURSE_TITLE' => _( 'Course' ), 'COMPLETED' => _( 'Completed' ) ],
 		sprintf( _( 'Teacher who enters grades for %s' ), $period_title ),
 		sprintf( _( 'Teachers who enter grades for %s' ), $period_title ),
 		false,
-		array( 'STAFF_ID' )
+		[ 'STAFF_ID' ]
 	);
 }

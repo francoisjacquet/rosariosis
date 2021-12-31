@@ -30,7 +30,7 @@ DrawHeader( ProgramTitle() . ' - ' . GetMP( UserMP() ) );
 
 if ( ! UserCoursePeriod() )
 {
-	echo ErrorMessage( array( _( 'No courses assigned to teacher.' ) ), 'fatal' );
+	echo ErrorMessage( [ _( 'No courses assigned to teacher.' ) ], 'fatal' );
 }
 
 $gradebook_config = ProgramUserConfig( 'Gradebook' );
@@ -293,7 +293,7 @@ if ( ! empty( $_POST['tables'] ) )
 	}
 
 	// Unset tables & redirect URL.
-	RedirectURL( array( 'tables' ) );
+	RedirectURL( [ 'tables' ] );
 }
 
 // DELETE
@@ -333,7 +333,7 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 		if ( $assignment_type_has_assignments )
 		{
 			// Do NOT translate, hacking prevention.
-			echo ErrorMessage( array( 'Assignment Type has assignments, delete them first.' ), 'fatal' );
+			echo ErrorMessage( [ 'Assignment Type has assignments, delete them first.' ], 'fatal' );
 		}
 
 		// Assignment Type.
@@ -427,7 +427,7 @@ if ( ! $_REQUEST['modfunc'] )
 		if ( ! $assignment_type_RET )
 		{
 			// Unset assignment & type IDs & redirect URL.
-			RedirectURL( array( 'assignment_type_id', 'assignment_id' ) );
+			RedirectURL( [ 'assignment_type_id', 'assignment_id' ] );
 		}
 	}
 
@@ -450,7 +450,7 @@ if ( ! $_REQUEST['modfunc'] )
 		if ( ! $assignment_type_RET )
 		{
 			// Unset assignment & type IDs & redirect URL.
-			RedirectURL( array( 'assignment_type_id', 'assignment_id' ) );
+			RedirectURL( [ 'assignment_type_id', 'assignment_id' ] );
 		}
 		else
 		{
@@ -535,7 +535,7 @@ if ( ! $_REQUEST['modfunc'] )
 		FROM GRADEBOOK_ASSIGNMENT_TYPES at
 		WHERE at.ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'";
 
-		$RET = DBGet( $assignment_type_sql, array( 'FINAL_GRADE_PERCENT' => '_makePercent' ) );
+		$RET = DBGet( $assignment_type_sql, [ 'FINAL_GRADE_PERCENT' => '_makePercent' ] );
 
 		$RET = $RET[1];
 
@@ -590,7 +590,7 @@ if ( ! $_REQUEST['modfunc'] )
 			AND STAFF_ID='" . User( 'STAFF_ID' ) . "'" .
 			$hide_previous_assignment_types_sql;
 
-		$RET = DBGet( $assignment_type_sql, array( 'FINAL_GRADE_PERCENT' => '_makePercent' ) );
+		$RET = DBGet( $assignment_type_sql, [ 'FINAL_GRADE_PERCENT' => '_makePercent' ] );
 
 		$RET = $RET[1];
 
@@ -843,12 +843,12 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 
 	// DISPLAY THE MENU
-	$LO_options = array(
+	$LO_options = [
 		'save' => false,
 		'search' => false,
 		'add' => true,
 		'responsive' => false,
-	);
+	];
 
 	if ( ! empty( $types_RET ) )
 	{
@@ -866,13 +866,13 @@ if ( ! $_REQUEST['modfunc'] )
 
 	echo '<div class="st">';
 
-	$columns = array( 'TITLE' => _( 'Assignment Type' ), 'SORT_ORDER' => _( 'Order' ) );
+	$columns = [ 'TITLE' => _( 'Assignment Type' ), 'SORT_ORDER' => _( 'Order' ) ];
 
-	$link = array();
+	$link = [];
 
 	$link['TITLE']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=' . $_REQUEST['modfunc'];
 
-	$link['TITLE']['variables'] = array( 'assignment_type_id' => 'ASSIGNMENT_TYPE_ID' );
+	$link['TITLE']['variables'] = [ 'assignment_type_id' => 'ASSIGNMENT_TYPE_ID' ];
 
 	$link['add']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&assignment_type_id=new';
 
@@ -884,7 +884,7 @@ if ( ! $_REQUEST['modfunc'] )
 		'Assignment Type',
 		'Assignment Types',
 		$link,
-		array(),
+		[],
 		$LO_options
 	);
 
@@ -917,14 +917,14 @@ if ( ! $_REQUEST['modfunc'] )
 		}
 
 		echo '<div class="st">';
-		$columns = array( 'TITLE' => _( 'Assignment' ), 'POINTS' => _( 'Points' ) );
-		$link = array();
+		$columns = [ 'TITLE' => _( 'Assignment' ), 'POINTS' => _( 'Points' ) ];
+		$link = [];
 		$link['TITLE']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&assignment_type_id=' . $_REQUEST['assignment_type_id'];
-		$link['TITLE']['variables'] = array( 'assignment_id' => 'ASSIGNMENT_ID' );
+		$link['TITLE']['variables'] = [ 'assignment_id' => 'ASSIGNMENT_ID' ];
 		$link['add']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&assignment_type_id=' . $_REQUEST['assignment_type_id'] . '&assignment_id=new';
 		$link['add']['first'] = 5; // number before add link moves to top
 
-		ListOutput( $assn_RET, $columns, 'Assignment', 'Assignments', $link, array(), $LO_options );
+		ListOutput( $assn_RET, $columns, 'Assignment', 'Assignments', $link, [], $LO_options );
 
 		echo '</div>';
 	}

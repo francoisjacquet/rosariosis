@@ -11,7 +11,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			$current_RET = DBGet( "SELECT STUDENT_ID
 				FROM SCHEDULE_REQUESTS
 				WHERE COURSE_ID='" . $_REQUEST['MassRequests.php']['course_id'] . "'
-				AND SYEAR='" . UserSyear() . "'", array(), array( 'STUDENT_ID' ) );
+				AND SYEAR='" . UserSyear() . "'", [], [ 'STUDENT_ID' ] );
 
 			foreach ( (array) $_REQUEST['student'] as $student_id )
 			{
@@ -151,10 +151,10 @@ if ( ! $_REQUEST['modfunc'] )
 		unset( $_SESSION['MassRequests.php'] );
 	}
 
-	$extra['link'] = array( 'FULL_NAME' => false );
+	$extra['link'] = [ 'FULL_NAME' => false ];
 	$extra['SELECT'] = ",CAST (NULL AS CHAR(1)) AS CHECKBOX";
-	$extra['functions'] = array( 'CHECKBOX' => 'MakeChooseCheckbox' );
-	$extra['columns_before'] = array( 'CHECKBOX' => MakeChooseCheckbox( '', 'STUDENT_ID', 'student' ) );
+	$extra['functions'] = [ 'CHECKBOX' => 'MakeChooseCheckbox' ];
+	$extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( '', 'STUDENT_ID', 'student' ) ];
 	$extra['new'] = true;
 
 	Widgets( 'request' );

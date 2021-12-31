@@ -69,8 +69,8 @@ if ( ! mb_strpos( $extra['FROM'], 'fssa' ) )
 	$extra['WHERE'] .= " AND fssa.STUDENT_ID=s.STUDENT_ID";
 }
 
-$extra['functions'] += array( 'BALANCE' => 'red' );
-$extra['columns_after'] = array( 'BALANCE' => _( 'Balance' ), 'STATUS' => _( 'Status' ) );
+$extra['functions'] += [ 'BALANCE' => 'red' ];
+$extra['columns_after'] = [ 'BALANCE' => _( 'Balance' ), 'STATUS' => _( 'Status' ) ];
 
 Search( 'student_id', $extra );
 
@@ -115,7 +115,7 @@ if ( UserStudentID()
 		 */
 		function types_locale( $type )
 		{
-			$types = array( 'Deposit' => _( 'Deposit' ), 'Credit' => _( 'Credit' ), 'Debit' => _( 'Debit' ) );
+			$types = [ 'Deposit' => _( 'Deposit' ), 'Credit' => _( 'Credit' ), 'Debit' => _( 'Debit' ) ];
 
 			if ( array_key_exists( $type, $types ) )
 			{
@@ -131,7 +131,7 @@ if ( UserStudentID()
 		 */
 		function options_locale( $option )
 		{
-			$options = array( 'Cash ' => _( 'Cash' ), 'Check' => _( 'Check' ), 'Credit Card' => _( 'Credit Card' ), 'Debit Card' => _( 'Debit Card' ), 'Transfer' => _( 'Transfer' ) );
+			$options = [ 'Cash ' => _( 'Cash' ), 'Check' => _( 'Check' ), 'Credit Card' => _( 'Credit Card' ), 'Debit Card' => _( 'Debit Card' ), 'Transfer' => _( 'Transfer' ) ];
 
 			if ( array_key_exists( $option, $options ) )
 			{
@@ -149,21 +149,21 @@ if ( UserStudentID()
 
 		if ( AllowEdit() )
 		{
-			$types = array(
+			$types = [
 				'Deposit' => _( 'Deposit' ),
 				'Credit' => _( 'Credit' ),
 				'Debit' => _( 'Debit' ),
-			);
+			];
 
 			$link['add']['html']['TYPE'] = SelectInput( '', 'values[TYPE]', '', $types, false );
 
-			$options = array(
+			$options = [
 				'Cash' => _( 'Cash' ),
 				'Check' => _( 'Check' ),
 				'Credit Card' => _( 'Credit Card' ),
 				'Debit Card' => _( 'Debit Card' ),
 				'Transfer' => _( 'Transfer' ),
-			);
+			];
 
 			$link['add']['html']['DESCRIPTION'] = SelectInput( '', 'values[OPTION]', '', $options, false ) . ' ' .
 				TextInput( '', 'values[DESCRIPTION]', '', 'size=20 maxlength=50' );
@@ -178,10 +178,10 @@ if ( UserStudentID()
 			$link['add']['html']['remove'] = button( 'add' );
 
 			$link['remove']['link'] = "Modules.php?modname=" . $_REQUEST['modname'] . "&modfunc=delete";
-			$link['remove']['variables'] = array( 'id' => 'TRANSACTION_ID' );
+			$link['remove']['variables'] = [ 'id' => 'TRANSACTION_ID' ];
 		}
 
-		$columns = array( 'TYPE' => _( 'Type' ), 'DESCRIPTION' => _( 'Description' ), 'AMOUNT' => _( 'Amount' ) );
+		$columns = [ 'TYPE' => _( 'Type' ), 'DESCRIPTION' => _( 'Description' ), 'AMOUNT' => _( 'Amount' ) ];
 
 		ListOutput(
 			$RET,
@@ -190,14 +190,14 @@ if ( UserStudentID()
 			'Earlier Transactions',
 			$link,
 			false,
-			array( 'save' => false, 'search' => false )
+			[ 'save' => false, 'search' => false ]
 		);
 
 		echo '<br /><div class="center">' . SubmitButton() . '</div>';
 	}
 	else
 	{
-		echo ErrorMessage( array( _( 'This student does not have a valid Meal Account.' ) ) );
+		echo ErrorMessage( [ _( 'This student does not have a valid Meal Account.' ) ] );
 	}
 
 	echo '</form>';

@@ -10,7 +10,7 @@
  * @subpackage modules
  */
 
-$menu['Students']['admin'] = array(
+$menu['Students']['admin'] = [
 	'title' => _( 'Students' ),
 	'default' => 'Students/Student.php',
 	'Students/Student.php' => _( 'Student Info' ),
@@ -29,9 +29,9 @@ $menu['Students']['admin'] = array(
 	2 => _( 'Setup' ),
 	'Students/StudentFields.php' => _( 'Student Fields' ),
 	'Students/EnrollmentCodes.php' => _( 'Enrollment Codes' ),
-);
+];
 
-$menu['Students']['teacher'] = array(
+$menu['Students']['teacher'] = [
 	'title' => _( 'Students' ),
 	'default' => 'Students/Student.php',
 	'Students/Student.php' => _( 'Student Info' ),
@@ -40,15 +40,15 @@ $menu['Students']['teacher'] = array(
 	'Students/AdvancedReport.php' => _( 'Advanced Report' ),
 	'Students/StudentLabels.php' => _( 'Print Student Labels' ),
 	'Students/Letters.php' => _( 'Print Letters' ),
-);
+];
 
-$menu['Students']['parent'] = array(
+$menu['Students']['parent'] = [
 	'title' => _( 'Students' ),
 	'default' => 'Students/Student.php',
 	'Students/Student.php' => _( 'Student Info' ),
-);
+];
 
-$exceptions['Students'] = array(
+$exceptions['Students'] = [
 	'Students/Student.php&include=General_Info&student_id=new' => true,
 	'Students/AssignOtherInfo.php' => true,
-);
+];

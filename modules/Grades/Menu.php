@@ -10,7 +10,7 @@
  * @subpackage modules
  */
 
-$menu['Grades']['admin'] = array(
+$menu['Grades']['admin'] = [
 	'title' => _( 'Grades' ),
 	'default' => 'Grades/GPARankList.php',
 	'Grades/ReportCards.php' => _( 'Report Cards' ),
@@ -31,9 +31,9 @@ $menu['Grades']['admin'] = array(
 	3 => _( 'Utilities' ),
 	'Grades/EditReportCardGrades.php' => _( 'Historical Grades' ),
 	'Grades/MassCreateAssignments.php' => _( 'Mass Create Assignments' ),
-);
+];
 
-$menu['Grades']['teacher'] = array(
+$menu['Grades']['teacher'] = [
 	'title' => _( 'Grades' ),
 	'default' => 'Grades/Grades.php',
 	'Grades/InputFinalGrades.php' => _( 'Input Final Grades' ),
@@ -55,9 +55,9 @@ $menu['Grades']['teacher'] = array(
 	'Grades/ReportCardGrades.php' => _( 'Grading Scales' ),
 	'Grades/ReportCardComments.php' => _( 'Report Card Comments' ),
 	'Grades/ReportCardCommentCodes.php' => _( 'Comment Codes' ),
-);
+];
 
-$menu['Grades']['parent'] = array(
+$menu['Grades']['parent'] = [
 	'title' => _( 'Grades' ),
 	'default' => 'Grades/StudentGrades.php',
 	'Grades/StudentGrades.php' => _( 'Gradebook Grades' ),
@@ -67,14 +67,14 @@ $menu['Grades']['parent'] = array(
 	'Grades/ProgressReports.php' => _( 'Progress Reports' ),
 	'Grades/Transcripts.php' => _( 'Transcripts' ),
 	'Grades/GPARankList.php' => _( 'GPA / Class Rank' ),
-);
+];
 
 if ( $RosarioModules['Users'] )
 {
-	$menu['Users']['admin'] += array(
+	$menu['Users']['admin'] += [
 		'Users/TeacherPrograms.php&include=Grades/InputFinalGrades.php' => _( 'Input Final Grades' ),
 		'Users/TeacherPrograms.php&include=Grades/Grades.php' => _( 'Gradebook Grades' ),
 		'Users/TeacherPrograms.php&include=Grades/AnomalousGrades.php' => _( 'Anomalous Grades' ),
 		'Users/TeacherPrograms.php&include=Grades/ProgressReports.php' => _( 'Progress Reports' ),
-	);
+	];
 }

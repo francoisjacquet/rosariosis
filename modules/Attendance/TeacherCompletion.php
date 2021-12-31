@@ -35,7 +35,7 @@ $periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE
 		WHERE SYEAR=sp.SYEAR
 		AND PERIOD_ID=sp.PERIOD_ID
 		AND position('," . $_REQUEST['table'] . ",' IN DOES_ATTENDANCE)>0)
-	ORDER BY sp.SORT_ORDER", array(), array( 'PERIOD_ID' ) );
+	ORDER BY sp.SORT_ORDER", [], [ 'PERIOD_ID' ] );
 
 $period_select = "<select name=period onChange='ajaxPostForm(this.form,true);'><option value=''>" . _( 'All' ) . "</option>";
 
@@ -47,7 +47,7 @@ foreach ( (array) $periods_RET as $id => $period )
 $period_select .= "</select>";
 
 echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="GET">';
-DrawHeader( PrepareDate( $date, '_date', false, array( 'submit' => true ) ) . ' - ' . $period_select );
+DrawHeader( PrepareDate( $date, '_date', false, [ 'submit' => true ] ) . ' - ' . $period_select );
 DrawHeader( '', $category_select );
 echo '</form>';
 
@@ -127,14 +127,14 @@ else
 		ORDER BY FULL_NAME";
 }
 
-$RET = DBGet( $sql, array(), array( 'STAFF_ID' ) );
+$RET = DBGet( $sql, [], [ 'STAFF_ID' ] );
 
 if ( ! isset( $_REQUEST['period'] )
 	|| ! $_REQUEST['period'] )
 {
 	$i = 0;
 
-	$staff_RET = array();
+	$staff_RET = [];
 
 	foreach ( (array) $RET as $staff_id => $periods )
 	{
@@ -160,7 +160,7 @@ if ( ! isset( $_REQUEST['period'] )
 		}
 	}
 
-	$columns = array( 'FULL_NAME' => _( 'Teacher' ) );
+	$columns = [ 'FULL_NAME' => _( 'Teacher' ) ];
 
 	foreach ( (array) $periods_RET as $id => $period )
 	{
@@ -185,14 +185,14 @@ else
 
 	ListOutput(
 		$RET,
-		array(
+		[
 			'FULL_NAME' => _( 'Teacher' ),
 			'CP_TITLE' => _( 'Course Period' ),
 			'COMPLETED' => _( 'Completed' ),
-		),
+		],
 		sprintf( _( 'Teacher who takes %s attendance' ), $period_title ),
 		sprintf( _( 'Teachers who take %s attendance' ), $period_title ),
 		false,
-		array( 'STAFF_ID' )
+		[ 'STAFF_ID' ]
 	);
 }

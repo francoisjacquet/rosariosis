@@ -51,7 +51,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 		$fields_RET = DBGet( "SELECT ID,TYPE
 			FROM CUSTOM_FIELDS
-			ORDER BY SORT_ORDER", array(), array( 'ID' ) );
+			ORDER BY SORT_ORDER", [], [ 'ID' ] );
 
 		$update = '';
 
@@ -190,7 +190,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 	}
 
 	// Unset modfunc & values & redirect URL.
-	RedirectURL( array( 'modfunc', 'values' ) );
+	RedirectURL( [ 'modfunc', 'values' ] );
 }
 
 echo ErrorMessage( $error );
@@ -201,7 +201,7 @@ echo ErrorMessage( $warning, 'warning' );
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	$extra['link'] = array( 'FULL_NAME' => false );
+	$extra['link'] = [ 'FULL_NAME' => false ];
 	$extra['SELECT'] = ",CAST (NULL AS CHAR(1)) AS CHECKBOX";
 
 	if ( $_REQUEST['search_modfunc'] === 'list' )
@@ -215,14 +215,14 @@ if ( ! $_REQUEST['modfunc'] )
 			$fields_RET = DBGet( "SELECT ID,TITLE,TYPE,SELECT_OPTIONS
 				FROM CUSTOM_FIELDS
 				WHERE CATEGORY_ID='" . $_REQUEST['category_id'] . "'
-				ORDER BY SORT_ORDER,TITLE", array(), array( 'TYPE' ) );
+				ORDER BY SORT_ORDER,TITLE", [], [ 'TYPE' ] );
 		}
 		else
 		{
 			$fields_RET = DBGet( "SELECT f.ID,f.TITLE,f.TYPE,f.SELECT_OPTIONS
 				FROM CUSTOM_FIELDS f,STUDENT_FIELD_CATEGORIES c
 				WHERE f.CATEGORY_ID=c.ID
-				ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE", array(), array( 'TYPE' ) );
+				ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE", [], [ 'TYPE' ] );
 		}
 
 		// Only display Categories having fields.
@@ -234,7 +234,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		echo '<table class="widefat center"><tr><td><div class="center">';
 
-		$category_onchange_URL = "'" . PreparePHP_SELF( $_REQUEST, array( 'category_id' ) ) . "&category_id='";
+		$category_onchange_URL = "'" . PreparePHP_SELF( $_REQUEST, [ 'category_id' ] ) . "&category_id='";
 
 		echo '<select name="category_id" id="category_id" onchange="ajaxLink(' .
 			$category_onchange_URL . ' + this.value);">';
@@ -290,16 +290,16 @@ if ( ! $_REQUEST['modfunc'] )
 		// Merge select, autos, exports
 		// (same or similar SELECT output).
 		$fields_RET['select_autos_exports'] = array_merge(
-			issetVal( $fields_RET['select'], array() ),
-			issetVal( $fields_RET['autos'], array() ),
-			issetVal( $fields_RET['exports'], array() )
+			issetVal( $fields_RET['select'], [] ),
+			issetVal( $fields_RET['autos'], [] ),
+			issetVal( $fields_RET['exports'], [] )
 		);
 
 		// Select.
 
 		foreach ( (array) $fields_RET['select_autos_exports'] as $field )
 		{
-			$options = $select_options = array();
+			$options = $select_options = [];
 
 			$col_name = 'CUSTOM_' . $field['ID'];
 
@@ -307,7 +307,7 @@ if ( ! $_REQUEST['modfunc'] )
 			{
 				$options = explode(
 					"\r",
-					str_replace( array( "\r\n", "\n" ), "\r", $field['SELECT_OPTIONS'] )
+					str_replace( [ "\r\n", "\n" ], "\r", $field['SELECT_OPTIONS'] )
 				);
 			}
 
@@ -378,7 +378,7 @@ if ( ! $_REQUEST['modfunc'] )
 				WHERE SCHOOL_ID='" . UserSchool() . "'
 				ORDER BY SORT_ORDER" );
 
-			$options = array();
+			$options = [];
 
 			foreach ( (array) $gradelevels_RET as $gradelevel )
 			{
@@ -394,11 +394,11 @@ if ( ! $_REQUEST['modfunc'] )
 				WHERE ID!='" . UserSchool() . "'
 				AND SYEAR='" . UserSyear() . "'" );
 
-			$options = array(
+			$options = [
 				UserSchool() => _( 'Next grade at current school' ),
 				'0' => _( 'Retain' ),
 				'-1' => _( 'Do not enroll after this school year' ),
-			);
+			];
 
 			foreach ( (array) $schools_RET as $school )
 			{
@@ -415,7 +415,7 @@ if ( ! $_REQUEST['modfunc'] )
 				AND SCHOOL_ID='" . UserSchool() . "'
 				ORDER BY DEFAULT_CALENDAR ASC" );
 
-			$options = array();
+			$options = [];
 
 			foreach ( (array) $calendars_RET as $calendar )
 			{
@@ -432,7 +432,7 @@ if ( ! $_REQUEST['modfunc'] )
 				AND TYPE='Add'
 				ORDER BY SORT_ORDER" );
 
-			$options = array();
+			$options = [];
 
 			foreach ( (array) $enrollment_codes_RET as $enrollment_code )
 			{
@@ -463,8 +463,8 @@ if ( ! $_REQUEST['modfunc'] )
 	//Widgets('course');
 	//Widgets('absences');
 
-	$extra['functions'] = array( 'CHECKBOX' => 'MakeChooseCheckbox' );
-	$extra['columns_before'] = array( 'CHECKBOX' => MakeChooseCheckbox( '', 'STUDENT_ID', 'student' ) );
+	$extra['functions'] = [ 'CHECKBOX' => 'MakeChooseCheckbox' ];
+	$extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( '', 'STUDENT_ID', 'student' ) ];
 	$extra['new'] = true;
 
 	Search( 'student_id', $extra );

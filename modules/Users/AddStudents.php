@@ -11,7 +11,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 	{
 		$current_RET = DBGet( "SELECT STUDENT_ID
 			FROM STUDENTS_JOIN_USERS
-			WHERE STAFF_ID='" . UserStaffID() . "'", array(), array( 'STUDENT_ID' ) );
+			WHERE STAFF_ID='" . UserStaffID() . "'", [], [ 'STUDENT_ID' ] );
 
 		foreach ( (array) $_REQUEST['student'] as $student_id )
 		{
@@ -51,7 +51,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 		do_action( 'Users/AddStudents.php|user_unassign_role' );
 
 		// Unset modfunc & student ID remove & redirect URL.
-		RedirectURL( array( 'modfunc', 'student_id_remove' ) );
+		RedirectURL( [ 'modfunc', 'student_id_remove' ] );
 	}
 }
 
@@ -84,7 +84,7 @@ if ( ! $_REQUEST['modfunc'] )
 		AND ssm.SYEAR='" . UserSyear() . "'
 		AND ('" . DBDate() . "' BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL)) AS ASSOCIATED";
 
-		$extra['columns_after'] = array( 'ASSOCIATED' => '# ' . _( 'Associated' ) );
+		$extra['columns_after'] = [ 'ASSOCIATED' => '# ' . _( 'Associated' ) ];
 
 		$extra['profile'] = 'parent';
 
@@ -110,29 +110,29 @@ if ( ! $_REQUEST['modfunc'] )
 			AND u.STAFF_ID='" . UserStaffID() . "'
 			AND ssm.STUDENT_ID=u.STUDENT_ID
 			AND ssm.SYEAR='" . UserSyear() . "'
-			AND ('" . DBDate() . "' BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL)", array( 'FULL_NAME' => '_makeStudentInfoLink' ) );
+			AND ('" . DBDate() . "' BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL)", [ 'FULL_NAME' => '_makeStudentInfoLink' ] );
 
-		$link['remove'] = array(
+		$link['remove'] = [
 			'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete',
-			'variables' => array( 'student_id_remove' => 'STUDENT_ID' ),
-		);
+			'variables' => [ 'student_id_remove' => 'STUDENT_ID' ],
+		];
 
 		ListOutput(
 			$current_RET,
-			array( 'FULL_NAME' => _( 'Students' ) ),
+			[ 'FULL_NAME' => _( 'Students' ) ],
 			'Student',
 			'Students',
 			$link,
-			array(),
-			array( 'search' => false )
+			[],
+			[ 'search' => false ]
 		);
 
 		echo '</td></tr><tr><td>';
 
-		$extra['link'] = array( 'FULL_NAME' => false );
+		$extra['link'] = [ 'FULL_NAME' => false ];
 		$extra['SELECT'] = ",CAST (NULL AS CHAR(1)) AS CHECKBOX";
-		$extra['functions'] = array( 'CHECKBOX' => 'MakeChooseCheckbox' );
-		$extra['columns_before'] = array( 'CHECKBOX' => MakeChooseCheckbox( '', 'STUDENT_ID', 'student' ) );
+		$extra['functions'] = [ 'CHECKBOX' => 'MakeChooseCheckbox' ];
+		$extra['columns_before'] = [ 'CHECKBOX' => MakeChooseCheckbox( '', 'STUDENT_ID', 'student' ) ];
 		$extra['new'] = true;
 		$extra['options']['search'] = false;
 

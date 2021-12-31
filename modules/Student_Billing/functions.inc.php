@@ -12,7 +12,7 @@ function _makeFeesRemove( $value, $column )
 			WHERE f.STUDENT_ID='" . UserStudentID() . "'
 			AND f.WAIVED_FEE_ID IS NOT NULL
 			AND f.SYEAR='" . UserSyear() . "'
-			AND f.SCHOOL_ID='" . UserSchool() . "'", array(), array( 'WAIVED_FEE_ID' ) );
+			AND f.SCHOOL_ID='" . UserSchool() . "'", [], [ 'WAIVED_FEE_ID' ] );
 	}
 
 	$return = '';
@@ -52,7 +52,7 @@ function _makePaymentsRemove( $value, $column )
 			WHERE p.STUDENT_ID='" . UserStudentID() . "'
 			AND (p.REFUNDED_PAYMENT_ID IS NOT NULL)
 			AND p.SYEAR='" . UserSyear() . "'
-			AND p.SCHOOL_ID='" . UserSchool() . "'", array(), array( 'REFUNDED_PAYMENT_ID' ) );
+			AND p.SCHOOL_ID='" . UserSchool() . "'", [], [ 'REFUNDED_PAYMENT_ID' ] );
 	}
 
 	$return = '';
@@ -238,7 +238,7 @@ function _makePaymentsCommentsInput( $value, $name )
 		return $text_input;
 	}
 
-	$fees_options = array();
+	$fees_options = [];
 
 	foreach ( $fees_RET as $fee )
 	{

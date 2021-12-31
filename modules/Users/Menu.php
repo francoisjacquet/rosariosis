@@ -10,7 +10,7 @@
  * @subpackage modules
  */
 
-$menu['Users']['admin'] = array(
+$menu['Users']['admin'] = [
 	'title' => _( 'Users' ),
 	'default' => 'Users/User.php',
 	'Users/User.php' => _( 'User Info' ),
@@ -23,26 +23,26 @@ $menu['Users']['admin'] = array(
 	'Users/Exceptions.php' => _( 'User Permissions' ),
 	'Users/UserFields.php' => _( 'User Fields' ),
 	2 => _( 'Teacher Programs' ),
-);
+];
 
-$menu['Users']['teacher'] = array(
+$menu['Users']['teacher'] = [
 	'title' => _( 'Users' ),
 	'default' => 'Users/User.php',
 	'Users/User.php' => _( 'User Info' ),
 	'Users/Preferences.php' => _( 'My Preferences' )
-);
+];
 
-$menu['Users']['parent'] = array(
+$menu['Users']['parent'] = [
 	'title' => _( 'Users' ),
 	'default' => 'Users/User.php',
 	'Users/User.php' => _( 'User Info' ),
 	'Users/Preferences.php' => _( 'My Preferences' )
-);
+];
 
 // FJ enable password change for students
 if ( User( 'PROFILE' ) === 'student' )
 	unset( $menu['Users']['parent']['Users/User.php'] );
 
-$exceptions['Users'] = array(
+$exceptions['Users'] = [
 	'Users/User.php&staff_id=new' => true
-);
+];

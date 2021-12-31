@@ -69,8 +69,8 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		echo '<form action="' . PreparePHP_SELF(
 			$_REQUEST,
-			array( 'search_modfunc' ),
-			array( 'modfunc' => 'save', '_ROSARIO_PDF' => 'true' )
+			[ 'search_modfunc' ],
+			[ 'modfunc' => 'save', '_ROSARIO_PDF' => 'true' ]
 		) .	'" method="POST">';
 
 		$extra['header_right'] = Buttons( _( 'Create Report Cards for Selected Students' ) );
@@ -83,15 +83,15 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$extra['new'] = true;
 
-	$extra['link'] = array( 'FULL_NAME' => false );
+	$extra['link'] = [ 'FULL_NAME' => false ];
 
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
 
-	$extra['functions'] = array( 'CHECKBOX' => 'MakeChooseCheckbox' );
+	$extra['functions'] = [ 'CHECKBOX' => 'MakeChooseCheckbox' ];
 
-	$extra['columns_before'] = array(
+	$extra['columns_before'] = [
 		'CHECKBOX' => MakeChooseCheckbox( 'Y', '', 'st_arr' )
-	);
+	];
 
 	$extra['options']['search'] = false;
 
