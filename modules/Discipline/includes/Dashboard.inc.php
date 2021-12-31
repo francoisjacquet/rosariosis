@@ -66,10 +66,11 @@ if ( ! function_exists( 'DashboardDisciplineAdmin' ) )
 
 		foreach ( (array) $referrals_RET as $referrals )
 		{
-			$proper_date = ProperDate( $referrals['YEAR_MONTH'] . '-28' );
-
 			// Remove dummy day from proper date.
-			$proper_month_year = str_replace( [ '/28', ' 28' ], '', $proper_date );
+			$proper_month_year = strftime(
+				trim( str_replace( [ '%d', '//' ], [ '', '/'], Preferences( 'DATE' ) ), '-./ ' ),
+				strtotime( $referrals['YEAR_MONTH'] . '-29' )
+			);
 
 			// Referrals by month.
 			$referrals_data[$proper_month_year] = $referrals['REFERRALS_NB'];

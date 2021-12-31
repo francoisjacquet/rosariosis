@@ -88,10 +88,11 @@ if ( ! function_exists( 'DashboardStudentBillingAdmin' ) )
 
 		foreach ( (array) $fees_payments_RET as $year_month => $fees_payments )
 		{
-			$proper_date = ProperDate( $year_month . '-29' );
-
 			// Remove dummy day from proper date.
-			$proper_month_year = str_replace( [ '/29', ' 29' ], '', $proper_date );
+			$proper_month_year = strftime(
+				trim( str_replace( [ '%d', '//' ], [ '', '/'], Preferences( 'DATE' ) ), '-./ ' ),
+				strtotime( $year_month . '-29' )
+			);
 
 			$month_balance = 0;
 
