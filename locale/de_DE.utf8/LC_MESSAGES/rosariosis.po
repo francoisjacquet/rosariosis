@@ -10,10 +10,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.7.6\n"
+"X-Generator: Poedit 2.4.2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-KeywordsList: ListOutput:3,4\n"
-"X-Poedit-Basepath: ../../../\n"
+"X-Poedit-Basepath: ../../..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: .\n"
 
@@ -313,9 +313,8 @@ msgstr "Löschen"
 #: modules/Scheduling/Requests.php:220 modules/Scheduling/Requests.php:240
 #: modules/Scheduling/Schedule.php:145 modules/Scheduling/Schedule.php:261
 #: modules/Scheduling/new_Requests.php:51
-#: modules/Scheduling/new_Requests.php:56
-#: modules/School_Setup/Calendar.php:481 modules/School_Setup/Calendar.php:713
-#: modules/School_Setup/Calendar.php:1018
+#: modules/Scheduling/new_Requests.php:56 modules/School_Setup/Calendar.php:481
+#: modules/School_Setup/Calendar.php:713 modules/School_Setup/Calendar.php:1018
 #: modules/School_Setup/Calendar.php:1305
 #: modules/School_Setup/Configuration.php:152
 #: modules/School_Setup/Configuration.php:445
@@ -429,10 +428,10 @@ msgstr "Anzahl"
 #: modules/Student_Billing/MassAssignPayments.php:64
 #: modules/Student_Billing/StudentPayments.php:161
 #: modules/Students/includes/Medical.inc.php:61
-#: modules/Students/includes/Medical.inc.php:82
-#: modules/misc/Portal.php:150 modules/misc/Portal.php:216
-#: modules/misc/Portal.php:306 modules/misc/Portal.php:403
-#: modules/misc/Portal.php:476 modules/misc/Portal.php:613
+#: modules/Students/includes/Medical.inc.php:82 modules/misc/Portal.php:150
+#: modules/misc/Portal.php:216 modules/misc/Portal.php:306
+#: modules/misc/Portal.php:403 modules/misc/Portal.php:476
+#: modules/misc/Portal.php:613
 msgid "Date"
 msgstr "Datum"
 
@@ -3042,8 +3041,8 @@ msgid "Select Parents email field"
 msgstr "%s Studenten E-Mail-Feld ID"
 
 #: modules/Custom/CreateParents.php:41 modules/Students/Menu.php:30
-#: modules/Students/Search.inc.php:108
-#: modules/Users/Preferences.php:165 modules/Users/Preferences.php:205
+#: modules/Students/Search.inc.php:108 modules/Users/Preferences.php:165
+#: modules/Users/Preferences.php:205
 msgid "Student Fields"
 msgstr "Schüler Felder"
 
@@ -3427,9 +3426,9 @@ msgstr "Verwenden Sie an dieser Schule"
 #: modules/Students/Student.php:156 modules/Students/Student.php:226
 #: modules/Students/Student.php:254 modules/Students/StudentFields.php:144
 #: modules/Students/includes/Address.inc.php:73
-#: modules/Students/includes/Address.inc.php:157
-#: modules/Users/User.php:234 modules/Users/User.php:323
-#: modules/Users/UserFields.php:144 plugins/Moodle/config.inc.php:41
+#: modules/Students/includes/Address.inc.php:157 modules/Users/User.php:234
+#: modules/Users/User.php:323 modules/Users/UserFields.php:144
+#: plugins/Moodle/config.inc.php:41
 msgid "Please enter valid Numeric data."
 msgstr "Bitte geben Sie gültige numerische Daten ein."
 
@@ -6627,8 +6626,8 @@ msgstr ""
 
 #: modules/School_Setup/Rollover.php:36
 msgid ""
-"Greyed items have already have data in the next school year (They might have "
-"been rolled)."
+"Greyed items already have data in the next school year (They might have been "
+"rolled)."
 msgstr ""
 "Graue Begriffe haben bereits Daten im nächsten Schuljahr (Sie könnten "
 "gerollt haben)."
@@ -6974,8 +6973,7 @@ msgid "All Categories"
 msgstr "Alle Kategorien"
 
 #: modules/Students/AssignOtherInfo.php:320
-#: modules/Students/includes/Enrollment.inc.php:139
-#: modules/misc/Export.php:478
+#: modules/Students/includes/Enrollment.inc.php:139 modules/misc/Export.php:478
 msgid "Rolling / Retention Options"
 msgstr "Roll / Eigentums Optionen"
 
@@ -7194,8 +7192,7 @@ msgid_plural "Families"
 msgstr[0] "Familie"
 msgstr[1] "Familien"
 
-#: modules/Students/Student.php:128
-#: modules/Users/User.php:193
+#: modules/Students/Student.php:128 modules/Users/User.php:193
 #, fuzzy
 msgid ""
 "A user with that username already exists. Choose a different username and "

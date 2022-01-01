@@ -88,7 +88,7 @@ foreach ( (array) $tables as $table => $name )
 
 $table_list .= '</table>';
 
-$note[] = _( 'Greyed items have already have data in the next school year (They might have been rolled).' );
+$note[] = _( 'Greyed items already have data in the next school year (They might have been rolled).' );
 $note[] = _( 'Rolling greyed items will delete already existing data in the next school year.' );
 
 $table_list .= ErrorMessage( $note, 'note' );
