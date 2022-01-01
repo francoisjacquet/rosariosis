@@ -1,0 +1,1791 @@
+#wrap {
+	height: auto;
+	min-height: 100%;
+	width: 100%;
+	padding-top: 39px;
+	box-sizing: border-box;
+}
+
+/*ScrollToFixed bug when menu hidden*/
+
+#menu.scroll-to-fixed-fixed.hide + div {
+	width: 0!important
+}
+
+#menu {
+	width: 217px;
+	border-width: 0 1px 0 0;
+	border-style: solid
+}
+
+#menu {
+	position: relative;
+	float: left;
+	overflow: visible;
+	z-index: 1 !important;
+	min-height: 100vh;
+	/* 100% of browser screen height */
+}
+
+#menu-top select {
+	width: 100%;
+}
+
+#body {
+	padding: 0 16px 16px;
+}
+
+#footer {
+	clear: both;
+	position: fixed;
+	z-index: 99;
+	top: 0;
+	left: 0;
+	/*height: 40px;*/
+	width: 100%
+}
+
+#footerwrap {
+	height: 32px;
+	padding: 3px 6px;
+	text-align: center;
+	border-width: 1px 0;
+	border-style: solid;
+}
+
+#footerhelp {
+	display: none;
+	max-height: 210px;
+	max-height: 33vh;
+	overflow-y: scroll;
+	height: auto;
+}
+
+/* Better readability: format Help text in 3 columns max., 480px width min. (70 to 100 characters). */
+
+#footerhelp .footerhelp-content {
+	padding: 6px 12px;
+	columns: 3 480px;
+	widows: 6;
+}
+
+.footerhelp-content p:first-child {
+	margin-top: 0;
+}
+
+#footerhelp .footerhelp-content p:first-child:first-letter {
+	font-weight: bold;
+	font-size: larger;
+}
+
+.mod {
+	overflow: hidden
+}
+
+.mod:after {
+	content: "";
+	display: table;
+	clear: both
+}
+
+input,
+select {
+	max-width: 100%
+}
+
+#search input,
+#search select {
+	max-width: 217px;
+}
+
+#search #general_table select {
+	width: 100%;
+}
+
+/* Fix date (year and day) select width */
+
+#search #general_table select[name^="day_"],
+#search #general_table select[name^="year_"] {
+	width: auto;
+}
+
+input[type=text],
+input[type=password],
+textarea {
+	-ms-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+input[type=checkbox],
+input[type=radio] {
+	margin-bottom: 2px;
+	margin-right: 0;
+	vertical-align: middle;
+	height: 16px;
+	width: 16px;
+	cursor: pointer;
+}
+
+input[type=number] {
+	width: 50px
+}
+
+input[type=number][name*=AMOUNT],
+input[type=number][name*=amount],
+input[type=number][name*=balance],
+input[type=number][name*=PRICE] {
+	width: 80px
+}
+
+input[type=color] {
+	border-width: 0;
+	border-style: solid;
+	padding: 0;
+	cursor: pointer;
+}
+
+input[type=color],
+.color-input-value {
+	height: 26px;
+	width: 40px;
+}
+
+fieldset[disabled] button,
+button[disabled],
+fieldset[disabled] input,
+input[disabled],
+fieldset[disabled] select,
+select[disabled],
+fieldset[disabled] textarea,
+textarea[disabled] {
+	cursor: not-allowed;
+}
+
+::selection {
+	color: white;
+	background: #0073aa;
+}
+
+html,
+body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	word-wrap: break-word;
+}
+
+html,
+body,
+input,
+select,
+textarea,
+/* Chosen JS select */
+
+div.chosen-container,
+/* JS calendar */
+
+.calendar,
+.calendar table {
+	font-size: 16px;
+	-webkit-font-smoothing: antialiased;
+	-moz-font-smoothing: antialiased;
+	/* Fix font size auto-adjust on iPhone. */
+	-webkit-text-size-adjust: none;
+}
+
+body,
+textarea,
+input,
+select {
+	font-family: 'Lato', sans-serif;
+	line-height: 1.27;
+}
+
+/* https://stackoverflow.com/questions/61992025/google-chrome-showing-black-border-on-focus-state-for-button-user-agent-styles */
+
+a {
+	-webkit-transition: color 0.2s ease-out 0s;
+	transition: color 0.2s ease-out 0s
+}
+
+iframe,
+img {
+	border: 0
+}
+
+/* Responsive image */
+
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+td {
+	line-height: inherit
+}
+
+input,
+select,
+textarea {
+	line-height: 1.3;
+	margin: 1px 1px 1px 0;
+	padding: 2px;
+}
+
+select {
+	padding: 0 3px;
+	height: 27px
+}
+
+a,
+input,
+select:focus {
+	text-decoration: none
+}
+
+blockquote,
+q {
+	quotes: none
+}
+
+p {
+	margin: 1em 0
+}
+
+blockquote {
+	margin: 1em
+}
+
+label {
+	cursor: pointer
+}
+
+legend {
+	text-transform: uppercase;
+	padding: 0 7px;
+	font-size: 14px;
+}
+
+li,
+dd {
+	margin-bottom: 6px
+}
+
+small {
+	font-size: 70%;
+}
+
+h1,
+h2,
+h3,
+h4 {
+	display: block;
+	font-weight: bold;
+	line-height: 1em
+}
+
+h1 {
+	font-size: 2em;
+	margin: .67em 0
+}
+
+h2 {
+	font-size: 1.58em;
+	margin: .83em 0
+}
+
+h3 {
+	font-size: 1.17em;
+	margin: 1em 0
+}
+
+h4 {
+	font-size: 1.05em;
+	margin: 1.33em 0
+}
+
+ul {
+	list-style-type: square;
+}
+
+/*ul,ol{
+	padding:0
+}
+*/
+
+code {
+	font-family: Consolas, Monaco, monospace;
+	padding: 1px 3px;
+	margin: 0 1px;
+	font-size: 14px;
+}
+
+hr {
+	height: 2px;
+	border: 0 none;
+	margin: 14px 0
+}
+
+sub,
+sup {
+	font-size: smaller;
+}
+
+/* Fix place cellpadding-5 before widefat */
+
+.cellpadding-5 td {
+	padding-right: 5px;
+	padding-bottom: 5px
+}
+
+.widefat,
+textarea,
+input[type=text],
+input[type=password],
+input[type=file],
+input[type=button],
+input[type=submit],
+input[type=reset],
+input[type=email],
+input[type=number],
+input[type=search],
+input[type=tel],
+input[type=url],
+select,
+.postbox {
+	border-width: 1px;
+	border-style: solid
+}
+
+.postbox {
+	border-bottom-width: 2px
+}
+
+.widefat {
+	clear: both;
+	margin: 0;
+	/* Move .cellspacing-0 directly here */
+	border-spacing: 0;
+}
+
+.widefat * {
+	word-wrap: break-word
+}
+
+.widefat a {
+	text-decoration: none
+}
+
+.widefat thead th:first-of-type {
+	border-top-left-radius: 3px
+}
+
+.widefat thead th:last-of-type {
+	border-top-right-radius: 3px
+}
+
+.widefat tfoot th:first-of-type {
+	border-bottom-left-radius: 3px
+}
+
+.widefat tfoot th:last-of-type {
+	border-bottom-right-radius: 3px
+}
+
+/* listOutput sorting icon */
+
+.widefat th a[href*="LO_dir"]:after {
+	font-family: monospace;
+	font-size: larger;
+	line-height: 0.5em;
+	content: "\0000a0";
+	padding-left: 3px;
+}
+
+.widefat th a[href*="LO_dir=1"]:hover:after {
+	content: "\25b4";
+}
+
+.widefat th a[href*="LO_dir=-1"]:hover:after {
+	content: "\25be";
+}
+
+/*empty header link (checkbox / checkAll)*/
+
+.widefat th a:empty:after {
+	content: "";
+	padding-left: 0;
+}
+
+.widefat td,
+.widefat th {
+	text-align: left;
+	border-width: 1px 0;
+	border-style: solid;
+	padding: 6px 11px;
+	vertical-align: top
+}
+
+.list.widefat th {
+	padding: 1px 11px;
+	line-height: 2.226em;
+}
+
+/* @since 7.0 CSS Add .widefat.files class */
+
+.widefat.files td {
+	padding: 1px 7px;
+	font-weight: normal;
+}
+
+.widefat.files td .button + b {
+	font-weight: normal;
+}
+
+.widefat tfoot th {
+	border-bottom: none
+}
+
+.widefat th {
+	overflow: hidden;
+	font-weight: normal;
+	line-height: 1.4em
+}
+
+.widefat th,
+.widefat th a {
+	font-size: 16px;
+}
+
+.widefat td p {
+	margin: 2px 0 .8em
+}
+
+/* Lists */
+
+.list-wrapper {
+	overflow-x: auto;
+}
+
+.list-nav,
+.list {
+	/* Move .width-100p here */
+	width: 100%;
+	border-spacing: 0;
+}
+
+.list-nav {
+	margin-top: 16px;
+}
+
+.list-nav td {
+	padding: 4px 12px;
+}
+
+.list {
+	margin-bottom: 16px;
+}
+
+.list-no-nav {
+	margin-top: 24px;
+}
+
+.list-header {
+	margin-bottom: 0;
+	border-bottom: solid 1px #f1f1f1;
+}
+
+.list-header + .postbox {
+	padding: 5px;
+	border-top: none;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	box-shadow: none;
+}
+
+#LO_search {
+	padding-right: 28px;
+	height: inherit;
+	width: 160px;
+	float: right;
+}
+
+#LO_search + .button {
+	position: relative;
+	left: 157px;
+	top: 3px;
+	cursor: pointer;
+	height: 22px;
+	float: right;
+}
+
+div.error,
+div.updated {
+	padding: 3px 7px;
+	margin: 16px 0
+}
+
+select option {
+	padding: 2px
+}
+
+input[type=submit],
+input[type=reset],
+input[type=button] {
+	text-decoration: none;
+	font-size: 15px;
+	text-transform: uppercase;
+	line-height: 14px;
+	padding: 6px 10px;
+	margin: 0 8px;
+	cursor: pointer;
+	border-width: 1px;
+	border-style: solid;
+	-ms-box-sizing: content-box;
+	box-sizing: content-box;
+	/* Display button text on multiple lines if too long */
+	white-space: normal;
+	/* Fix button on iPhone iPad. */
+	-webkit-appearance: none;
+}
+
+input[type="button"],
+input[type="email"],
+input[type="file"],
+input[type="number"],
+input[type="password"],
+input[type="reset"],
+input[type="search"],
+input[type="submit"],
+input[type="tel"],
+input[type="text"],
+input[type="url"],
+input[type="color"],
+select,
+textarea {
+	border-bottom-width: 2px;
+	transition: border .2s;
+	border-radius: 0;
+}
+
+.header2.align-right input[type="button"],
+.header2.align-right input[type="reset"],
+.header2.align-right input[type="submit"] {
+	margin: 0 0 0 16px;
+}
+
+.button-primary {
+	line-height: 16px;
+	white-space: nowrap;
+}
+
+label {
+	vertical-align: middle
+}
+
+/* Proper Date, see ProperDate() */
+
+.proper-date {
+	white-space: nowrap;
+	text-transform: capitalize;
+}
+
+/**
+ * Side Menu form: add CSS classes.
+ *
+ * @since 3.8
+ */
+
+#menu form {
+	padding: 0 6px;
+}
+
+#menu-top span {
+	padding-top: 3px;
+}
+
+#menu-top .today-date {
+	text-transform: capitalize;
+}
+
+#menu-top .username,
+#menu-top .today-date {
+	padding-left: 6px;
+}
+
+.adminmenu,
+.wp-submenu {
+	width: 100%;
+	list-style: outside none none;
+}
+
+.adminmenu {
+	clear: left;
+	margin: 0;
+	padding: 0;
+	margin-top: 5px;
+}
+
+.adminmenu *,
+.widefat th {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none
+}
+
+.wp-submenu {
+	top: -1000em;
+	left: 0;
+	position: absolute;
+	min-width: 215px;
+	padding: 0;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	margin: 0;
+	overflow: hidden;
+	-webkit-transition: top 0s, left 0s, box-shadow 0s;
+	transition: top 0s, left 0s, box-shadow 0s;
+	-webkit-transition-delay: .15s;
+	transition-delay: .15s;
+	box-shadow: none;
+	border-width: 1px;
+	border-style: solid;
+	box-sizing: border-box;
+}
+
+.adminmenu li {
+	margin-bottom: 0;
+}
+
+.menu-module {
+	position: relative;
+}
+
+/* Edge browser fix: Do not merge focus-within styles with hover styles */
+
+.no-touch .menu-module:focus-within .menu-top:after {
+	content: "\276F";
+	padding-top: 6px;
+	position: absolute;
+	right: 5px;
+}
+
+.no-touch .menu-module:hover .menu-top:after {
+	content: "\276F";
+	position: absolute;
+	right: 5px;
+	bottom: 13px;
+}
+
+#selectedModuleLink:after {
+	content: "";
+}
+
+/* Edge browser fix: Do not merge focus-within styles with hover styles */
+
+.no-touch .menu-module:focus-within .wp-submenu {
+	-webkit-transition-delay: .15s;
+	transition-delay: .15s;
+	z-index: 20;
+	top: 0;
+	left: 217px;
+	width: 217px;
+	overflow: visible;
+	word-wrap: break-word;
+	min-height: 36px;
+}
+
+.no-touch .menu-module:hover .wp-submenu {
+	-webkit-transition-delay: .15s;
+	transition-delay: .15s;
+	z-index: 20;
+	top: 0;
+	left: 217px;
+	width: 217px;
+	overflow: visible;
+	word-wrap: break-word;
+	min-height: 36px;
+}
+
+/* @since 4.4 Open submenu on touch (mobile & tablet), see warehouse.js */
+
+#selectedModuleLink + .wp-submenu {
+	transition-delay: 0s;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	position: relative;
+	margin-top: 0 !important;
+	border: 0;
+	min-height: 0;
+	min-width: 205px;
+	box-shadow: none;
+}
+
+.menu-inter {
+	text-transform: uppercase;
+	font-size: 14px;
+	border-width: 1px 0 0;
+	border-style: solid;
+	padding: 4px 6px 2px 12px;
+	margin-top: 2px;
+}
+
+.adminmenu a {
+	display: block;
+	line-height: 18px;
+	padding: 4px 6px;
+}
+
+.menu-top {
+	font-size: 15px;
+	min-width: 10em;
+	border-width: 1px 0 1px;
+	border-style: solid;
+	text-transform: uppercase;
+}
+
+.menu-top span {
+	padding-right: 4px;
+}
+
+.menu-top img {
+	height: 32px;
+	vertical-align: middle
+}
+
+.wp-submenu a {
+	padding: 4px 6px 4px 12px;
+	font-size: 15px;
+	margin: 0
+}
+
+.current-person {
+	padding: 1px 5px;
+	margin-top: 5px;
+	font-weight: bold;
+}
+
+.postbox {
+	margin-bottom: 20px;
+	padding: 0;
+	line-height: 1.1
+}
+
+.postbox > thead th {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	padding: 0 6px;
+}
+
+.postbox th h3,
+.postbox .h3multi {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none
+}
+
+.postbox th h3 {
+	line-height: 31px;
+	height: 32px;
+	margin: 0;
+	border: 0
+}
+
+.postbox th h3,
+.postbox th h3 a {
+	display: inline-block;
+	font-weight: normal
+}
+
+.postbox .h3selected a {
+	font-weight: bold;
+}
+
+.postbox th h3,
+.postbox th h3 a,
+.postbox > thead th,
+.widefat tfoot tr th,
+.widefat th,
+.widefat th a,
+.widefat th span,
+.widefat th label {
+	font-size: 14px;
+	text-transform: uppercase;
+}
+
+.postbox th h3 a {
+	padding: 0 10px
+}
+
+.postbox .h3multi {
+	overflow-y: hidden
+}
+
+th a {
+	display: block;
+	overflow: hidden;
+}
+
+.postbox {
+	margin: 0 auto;
+	position: relative;
+	min-width: 255px
+}
+
+fieldset {
+	border-width: 1px;
+	border-style: solid;
+	margin: 0
+}
+
+.error a {
+	text-decoration: underline
+}
+
+.updated a {
+	text-decoration: none;
+	padding-bottom: 2px
+}
+
+div.error p,
+div.updated p {
+	margin: .2em 0;
+	padding: 2px
+}
+
+h3 span {
+	font-weight: normal
+}
+
+.highlight {
+	padding: 3px 3px 3px 12px;
+	margin-left: -12px;
+	font-weight: bold;
+	border: 0 none
+}
+
+/*added*/
+
+.hide {
+	display: none
+}
+
+.user-photo {
+	max-width: 150px;
+	max-height: 150px
+}
+
+.alignImg {
+	vertical-align: middle;
+	height: 32px
+}
+
+.underline-dots .button {
+	vertical-align: baseline;
+	height: 16px;
+}
+
+#body {
+	padding: 0 15px 38px;
+}
+
+.header {
+	/* Move .cellspacing-0 & width-100p directly here */
+	border-spacing: 0;
+	width: 100%;
+}
+
+.header1 h2 {
+	font-size: 32px;
+	font-family: 'Lato', sans-serif;
+	font-weight: normal;
+	margin: 0;
+	padding: 16px 16px 16px 0;
+}
+
+.header2 {
+	padding: 5px 12px;
+}
+
+.header2 table {
+	line-height: 1.1;
+	margin-left: -3px
+}
+
+.header2 .widefat {
+	margin-left: 0;
+}
+
+/* Scheduling Requests Courses div */
+
+#courses_div {
+	position: absolute;
+	border-style: solid;
+	border-width: 1px;
+	padding: 4px;
+	right: 0;
+	left: 0;
+	display: none;
+	max-height: 80px;
+	overflow: auto;
+	width: auto
+}
+
+.size-3 {
+	font-size: 12px;
+}
+
+.size-1 {
+	font-size: 14px;
+}
+
+.sizep1 {
+	font-size: 15px
+}
+
+.sizep2 {
+	font-size: 16px
+}
+
+.underline-dots {
+	border-bottom-style: dotted;
+	border-bottom-width: 1px
+}
+
+/* Textarea MarkDown */
+
+div.underline-dots {
+	display: inline-block;
+	max-height: 240px;
+	max-width: 100%;
+	overflow: auto;
+	line-height: inherit;
+}
+
+.underline-dots,
+.checkbox-label,
+.no-input-value {
+	line-height: 28px;
+	padding-bottom: 1px;
+}
+
+.checkbox-label,
+.underline-dots {
+	line-height: 31px;
+}
+
+.span-grade-points + label {
+	line-height: 31px;
+}
+
+textarea {
+	width: 100%;
+	min-width: 280px;
+	/* Max width: 1024px for PDF */
+	max-width: 1024px;
+}
+
+/* MarkDown */
+
+.md-preview {
+	min-width: 280px;
+	/* Max width: 1024px for PDF */
+	max-width: 1024px;
+}
+
+.md-preview > .tab {
+	border-width: 1px;
+	border-bottom: 0;
+	border-style: solid;
+	padding: 6px 10px;
+	margin: 0 2px 0 0;
+	line-height: 28px;
+	text-transform: uppercase;
+	font-size: 14px;
+}
+
+.md-preview > .tab.disabled {
+	padding-top: 5px;
+	pointer-events: none;
+	cursor: default
+}
+
+.md-preview .md-link {
+	line-height: 26px;
+	float: right
+}
+
+.md-preview > div {
+	display: none;
+	border-width: 1px;
+	border-bottom-width: 2px;
+	border-style: solid;
+	padding: 2px 7px;
+	margin-bottom: 2px;
+	box-sizing: border-box;
+	overflow-y: auto;
+}
+
+.md-preview + textarea {
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	margin-top: 0;
+	resize: vertical;
+}
+
+/*MarkDown to HTML table styling*/
+
+.markdown-to-html table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+.markdown-to-html th,
+.markdown-to-html td {
+	border: 1px solid #bbb;
+	padding: 5px;
+}
+
+.list.widefat td .markdown-to-html {
+	line-height: 1.236em;
+}
+
+.legend-gray,
+.legend-red {
+	font-size: 15px;
+	margin-bottom: 12px;
+	display: inline-block
+}
+
+/* Fix Dashboard tip message row too tall */
+
+td > .legend-gray:first-child {
+	margin-bottom: 0;
+}
+
+.logo {
+	max-width: 64px;
+	max-height: 64px;
+}
+
+#menu .logo {
+	margin-top: 4px
+}
+
+.onclick {
+	cursor: pointer
+}
+
+div.onclick {
+	display: inline-block;
+	max-width: 100%;
+}
+
+.cellspacing-0 {
+	/*cellspacing="0"*/
+	border-spacing: 0
+}
+
+.width-100p {
+	/*width="100%"*/
+	width: 100%
+}
+
+.fixed-col {
+	table-layout: fixed;
+	word-wrap: break-word;
+	/* Fix cell content overflow */
+}
+
+.popTable {
+	padding: 13px 11px;
+}
+
+td.valign-top,
+tr.valign-top,
+table.valign-top td {
+	vertical-align: top
+}
+
+td.valign-bottom,
+tr.valign-bottom td,
+table.valign-bottom td {
+	vertical-align: bottom
+}
+
+.align-right,
+.align-right td,
+td.align-right,
+th.align-right {
+	text-align: right
+}
+
+.col1-align-right > tbody > tr > td:first-child {
+	text-align: right;
+	vertical-align: middle
+}
+
+.center {
+	/*<CENTER> && <td align="center">*/
+	text-align: center
+}
+
+span.center,
+a.center {
+	display: block
+}
+
+img.center {
+	display: block;
+	margin: 0 auto;
+}
+
+table.center {
+	text-align: inherit;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+span.nobr {
+	white-space: nowrap
+}
+
+div.nobr div {
+	display: inline
+}
+
+tr.address > td {
+	border-style: none dotted none none;
+	border: 1;
+	padding: 0 12px 0 12px
+}
+
+.br-after {
+	display: block
+}
+
+/*Honor Roll cliparts + frames*/
+
+td.image-radio-list {
+	height: 160px;
+	padding: 0;
+	margin: 0;
+	float: left;
+	position: relative
+}
+
+label.image-radio-list {
+	padding: 0 20px
+}
+
+img.image-radio-list {
+	vertical-align: top;
+	max-width: 150px;
+	max-height: 150px
+}
+
+/*buttons*/
+
+.button {
+	vertical-align: middle;
+	height: 16px;
+	max-width: none;
+}
+
+a > .button {
+	padding: 1px;
+}
+
+.button.bigger {
+	height: 24px
+}
+
+.button.smaller {
+	height: 14px
+}
+
+.button.cal {
+	cursor: pointer;
+	height: 32px;
+	margin-top: -9px
+}
+
+.login .popTable td {
+	padding-bottom: 16px;
+}
+
+.login .popTable tr:last-of-type td {
+	padding-bottom: 0;
+}
+
+/* Login form */
+
+.login #loginform input[type=text],
+.login #loginform input[type=password] {
+	font-weight: 200;
+	font-size: 20px;
+	width: 100%;
+	max-width: 100%;
+	padding: 3px;
+	margin-top: 2px;
+	margin-right: 6px;
+	box-shadow: inset 1px 1px 2px rgba(200, 200, 200, .2)
+}
+
+/*bottom*/
+
+.BottomButton {
+	line-height: 32px;
+	margin-right: 8px;
+	display: inline-block;
+}
+
+.BottomButton span {
+	vertical-align: top;
+	text-transform: uppercase;
+	font-size: 14px;
+	padding-left: 4px;
+}
+
+.BottomButton img {
+	height: 24px;
+	border-radius: 50%;
+	padding: 3px;
+}
+
+#BottomButtonMenu {
+	height: 32px;
+	line-height: 28px;
+	float: left;
+}
+
+#BottomButtonMenu:before {
+	content: "\2261";
+	font-size: 1.9rem;
+	font-weight: 700;
+	line-height: 21px;
+	height: 24px;
+	width: 24px;
+	border-radius: 50%;
+	padding: 3px;
+	display: inline-block;
+}
+
+.BottomButton.loading {
+	float: right;
+	padding-bottom: 13px;
+}
+
+/* Loading spinner */
+
+.loading {
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	background: url('spinning.gif') no-repeat center;
+	background-size: contain;
+	visibility: hidden;
+	/* Tofix */
+	padding-bottom: 0 !important;
+}
+
+input + .loading {
+	vertical-align: bottom;
+}
+
+/* Adjust File input size with spinner on its right */
+
+input[type=file] {
+	padding: 0;
+	max-width: calc( 100% - 38px);
+	height: 25px;
+}
+
+/*bars*/
+
+.bar {
+	word-wrap: normal;
+}
+
+/*stackable tables*/
+
+div.st {
+	float: left;
+	padding: 4px
+}
+
+/*student comments*/
+
+#student-comments {
+	max-width: 100%;
+	width: 500px;
+}
+
+#student-comments span {
+	font-size: 14px;
+	color: #333;
+}
+
+#student-comments div {
+	padding: 1px 12px;
+	margin-bottom: 12px;
+	border-bottom: 1px solid;
+}
+
+/*calendar*/
+
+#calendar {
+	table-layout: fixed;
+	height: 80%;
+}
+
+#calendar > thead > tr > th {
+	text-transform: uppercase;
+	font-size: 15px;
+	font-weight: 400;
+	line-height: 1.6;
+}
+
+.calendar-day {
+	min-width: 109px;
+}
+
+.calendar-day > table {
+	height: 100%;
+}
+
+.calendar-event {
+	height: 32px;
+}
+
+/*http://stackoverflow.com/questions/9789723/css-text-overflow-in-a-table-cell*/
+
+.calendar-day td {
+	max-width: 103px;
+	overflow: hidden;
+	white-space: nowrap;
+	line-height: 1.231
+}
+
+.calendar-day .bold {
+	font-weight: bold
+}
+
+.calendar-day .number {
+	font-size: 1.2em;
+}
+
+.calendar-event div {
+	border-left-width: 4px;
+	border-left-style: solid;
+	margin: 1px 0
+}
+
+.calendar-event a,
+.calendar-event span {
+	padding: 4px 2px;
+	display: inline-block
+}
+
+.calendar-menu {
+	white-space: normal;
+	max-width: none
+}
+
+/* colorBox */
+
+#cboxLoadedContent {
+	margin: 1px;
+	padding: 8px 12px !important;
+}
+
+/*responsive tables*/
+
+.rt .link2colorBox {
+	display: none
+}
+
+/*portal polls*/
+
+.divPortalPoll {
+	max-height: 350px;
+	overflow-y: auto;
+	min-width: 300px
+}
+
+.divPortalPoll .widefat {
+	margin-bottom: 0.8em;
+}
+
+.widefat .divPortalPoll > p {
+	margin-bottom: 2px;
+}
+
+/* Grades */
+
+.span-grade-points {
+	float: left;
+}
+
+/* Take Attendance */
+
+/* Attendance Codes */
+
+.attendance-code {
+	display: inline-block;
+	padding: 2px 8px;
+	/* One letter codes: same width */
+	min-width: 10px;
+	text-align: center;
+	line-height: 1.82;
+}
+
+/*arrows*/
+
+.arrow.right:before,
+.switchMenu:before {
+	content: "\25b6\0000a0";
+	vertical-align: 10%;
+}
+
+.switchMenu.switched:before {
+	content: "\25bc\0000a0";
+}
+
+.arrow,
+.switchMenu {
+	display: inline-block;
+}
+
+.switchMenu {
+	padding: 5px
+}
+
+/* Chart.js */
+
+.chart {
+	position: relative;
+	/* 90% viewport width - menu width. */
+	width: calc( 90vw - 205px);
+	max-width: 1024px;
+}
+
+/*tipmessage (DO NOT EDIT)*/
+
+#tipMsg {
+	visibility: hidden;
+	position: absolute;
+	z-index: 1000;
+	top: -100px;
+	max-width: 300px
+}
+
+.tipmsg-label {
+	display: inline-block;
+	border-bottom: 1px dashed #bbb;
+}
+
+.tipmsg-label .button + b,
+a .button + b {
+	font-weight: normal;
+	text-transform: uppercase;
+	font-size: 14px;
+}
+
+/* Tooltip */
+
+.tooltip {
+	position: absolute;
+	display: inline-block;
+	margin-left: 5px;
+	cursor: help
+}
+
+.tooltip:before {
+	content: "i";
+	font-family: monospace;
+	font-size: 0.85em;
+	font-weight: bold;
+	width: 16px;
+	height: 16px;
+	line-height: 16px;
+	display: inline-block;
+	text-align: center;
+	border-radius: 50%;
+}
+
+.tooltip > i {
+	visibility: hidden;
+	opacity: 0;
+	position: absolute;
+	bottom: 110%;
+	left: -90px;
+	width: 180px;
+	z-index: 999;
+	display: inline-block;
+	padding: 7px;
+	transition: opacity .3s;
+	text-align: left;
+	font-size: 14px;
+	line-height: 1.5
+}
+
+.tooltip:hover > i {
+	visibility: visible;
+	opacity: 1
+}
+
+/* Toggle, CSS checkbox hack */
+
+.toggle {
+	cursor: pointer;
+}
+
+input[type=checkbox].toggle {
+	position: absolute;
+	left: -9999px;
+}
+
+.toggle ~ .toggle-me {
+	/* Hidden State */
+	display: none;
+}
+
+.toggle:checked ~ .toggle-me {
+	/* Toggled State */
+	display: block;
+}
+
+.toggle:before {
+	content: "\25b6\0000a0";
+	vertical-align: 10%
+}
+
+.toggle:checked + .toggle:before {
+	content: "\25bc\0000a0"
+}
+
+/* MiniColors */
+
+.minicolors {
+	margin: 2px 2px 2px 0;
+}
+
+/* Accessibility (a11y) */
+
+.a11y-hidden {
+	position: absolute !important;
+	clip: rect(1px 1px 1px 1px);
+	/* IE6, IE7 */
+	clip: rect(1px, 1px, 1px, 1px);
+}
+
+#footerwrap a.a11y-hidden:active,
+#footerwrap a.a11y-hidden:focus {
+	clip: auto !important;
+	position: absolute;
+	text-decoration: underline;
+	left: 9%;
+}
+
+/* Login, First login & Password Reset pages */
+
+.login,
+.first-login,
+.password-reset {
+	height: auto;
+}
+
+.login #body,
+.first-login #body,
+.password-reset #body {
+	padding: 64px 2px;
+	margin-bottom: 0;
+}
+
+.password-reset #body {
+	padding-top: 0;
+}
+
+.login .postbox,
+.password-reset .postbox {
+	max-width: 320px;
+}
+
+/* Create account page */
+
+.create-account {
+	padding: 0 2px;
+}
+
+/* AJAX error message */
+
+.ajax-error {
+	position: fixed;
+	top: 0;
+	right: 0;
+	padding: 11px;
+	background-color: red;
+	font-weight: bold;
+	color: #fff;
+	z-index: 100000;
+	display: none;
+}
+
+/**
+ * TinyMCE
+ */
+
+.tinymce {
+	min-height: 200px;
+}
+
+.mce-tinymce.mce-container {
+	/* Max width: 1024px for PDF */
+	max-width: 1024px;
+}
+
+.tinymce-horizontal .mce-tinymce.mce-container {
+	/* Max width: 1448px for Horizontal PDF */
+	max-width: 1448px;
+}
+
+/* Hide "Powered by TinyMCE" */
+
+.mce-branding {
+	display: none !important;
+}
+
+.mce-tinymce.mce-fullscreen,
+.tinymce-horizontal .mce-tinymce.mce-fullscreen {
+	max-width: none;
+}
+
+/* TinyMCE responsive toolbar buttons */
+
+.mce-btn-group .mce-btn {
+	float: left;
+}
+
+.tinymce-html img,
+.markdown-to-html img {
+	/* Responsive image for TinyMCE & Markdown HTML. */
+	height: auto;
+}
+
+/* Chosen select: add 15px to original width so Chosen options ALL fit */
+
+.chosen-select {
+	min-width: 55px;
+	padding-right: 15px;
+}
+
+/* Add 23px to multiple Chosen select */
+
+.chosen-select[multiple] {
+	padding-right: 23px;
+}
+
+/**
+ * Disguise phone number "tel" links on desktop
+ * http://stackoverflow.com/questions/15425356/how-to-disable-link-to-phone-number-when-on-desktop
+ */
+
+.no-touch .phone-link {
+	color: #333;
+	/*pointer-events: none;*/
+	cursor: default;
+}
+
+/* Dashboard */
+
+.dashboard-module-title {
+	text-transform: uppercase;
+	font-size: 15px;
+	font-weight: 400;
+	margin: 0.85em 0;
+}
+
+.dashboard-module-title span {
+	padding-right: 4px;
+}
+
+.dashboard-module-data {
+	padding-left: 8px;
+}
+
+.dashboard-module-data .tipmsg-label {
+	margin-bottom: 11px;
+}
+
+.dashboard-module-data .tipmsg-label .legend-gray {
+	margin-bottom: 1px;
+}
+
+.dashboard-module-data-tipmsg .legend-gray,
+.dashboard-module-data-tipmsg .legend-gray .proper-date {
+	font-size: 14px;
+}
+
+.dashboard-module-title img {
+	vertical-align: middle;
+}
+
+/* Teacher Programs */
+
+.teacher-programs-wrapper {
+	/*border-width: 3px;*/
+	border-style: dashed;
+	padding: 7px;
+	width: 100%;
+	margin-left: -9px;
+}
+
+/* Password Input */
+
+.password-input-wrapper {
+	display: inline-block;
+}
+
+.password-strength-bars {
+	/*height: 6px;*/
+	line-height: 5px;
+	font-size: 5px;
+}
+
+.password-strength-bars + br {
+	display: none;
+}
+
+.password-toggle {
+	float: right;
+	margin-left: -22px;
+	margin-top: 5px;
+	cursor: pointer;
+	z-index: 2;
+	position: relative;
+	margin-right: 3px;
+	background: #fff;
+}
+
+.password-hide {
+	display: none;
+}
+
+.password-strength-bars span {
+	display: inline-block;
+	width: 18.5%;
+	line-height: 5px;
+	height: 5px;
+	padding: 0 1px 0 0;
+	visibility: hidden;
+}
+
+.password-strength-bars ~ label {
+	display: inline-block;
+	margin-top: -2px;
+}

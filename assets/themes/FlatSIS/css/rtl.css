@@ -1,0 +1,157 @@
+/**
+ * CSS rules for Right To Left languages (Arabic...)
+ *
+ * @since 3.4.2
+ */
+
+/* Place side menu on the right */
+
+html[dir="RTL"] #menu {
+	float: right;
+	border-width: 0 0 0 1px;
+}
+
+html[dir="RTL"] #BottomButtonMenu {
+	float: right;
+}
+
+/* Submenu on module hover */
+
+html[dir="RTL"] .wp-submenu {
+	right: 0;
+	left: auto;
+	-webkit-transition: 0s top, 0s right;
+	transition: 0s top, 0s right;
+}
+
+/* Edge browser fix: Do not merge focus-within styles with hover styles */
+
+html.no-touch[dir="RTL"] .menu-module:focus-within .menu-top:after {
+	left: 5px;
+	right: auto;
+}
+
+html.no-touch[dir="RTL"] .menu-module:hover .menu-top:after {
+	left: 5px;
+	right: auto;
+}
+
+/* Edge browser fix: Do not merge focus-within styles with hover styles */
+
+html.no-touch[dir="RTL"] .menu-module:focus-within .wp-submenu {
+	right: 217px;
+}
+
+html.no-touch[dir="RTL"] .menu-module:hover .wp-submenu {
+	right: 217px;
+}
+
+html[dir="RTL"] #selectedModuleLink:after,
+html[dir="RTL"] #selectedModuleLink + .wp-submenu {
+	right: 0;
+	left: auto;
+}
+
+/* ListOutput */
+
+html[dir="RTL"] .widefat td,
+html[dir="RTL"] .widefat th {
+	text-align: right;
+}
+
+/* stackable tables */
+
+html[dir="RTL"] div.st {
+	float: right;
+}
+
+/* Tooltip */
+
+html[dir="RTL"] .tooltip > i {
+	text-align: right;
+}
+
+/*arrows*/
+
+html[dir="RTL"] .arrow.right:before,
+html[dir="RTL"] .switchMenu:before,
+html[dir="RTL"] .switchMenu.switched:before,
+html[dir="RTL"] .toggle:before {
+	content: "\25c0\0000a0";
+}
+
+/* Fix for RTL languages */
+
+html[dir=RTL] input[type=checkbox].toggle {
+	right: -9999px;
+}
+
+/* colors.css */
+
+html[dir="RTL"] #menu,
+html[dir="RTL"] .menu-top,
+html[dir="RTL"] .menu-top:hover,
+html[dir="RTL"] .menu-top:focus,
+html[dir="RTL"] #selectedModuleLink + .wp-submenu {
+	background-image: url(menu-shadow-rtl.png);
+	background-position: top left;
+}
+
+/* Grades */
+
+html[dir="RTL"] .span-grade-points {
+	float: right;
+}
+
+/* Login inputs */
+
+html[dir="RTL"] .login form input[type="password"],
+html[dir="RTL"] .login form input[type="text"] {
+	margin-left: 6px;
+	margin-right: 0;
+}
+
+/* Align right: left */
+
+html[dir="RTL"] .align-right,
+html[dir="RTL"] .align-right td,
+html[dir="RTL"] td.align-right,
+html[dir="RTL"] th.align-right {
+	text-align: left
+}
+
+html[dir="RTL"] table.col1-align-right > tbody > tr > td:first-child {
+	text-align: left;
+}
+
+/* List */
+
+html[dir="RTL"] #LO_search + .button {
+	left: 24px;
+}
+
+html[dir="RTL"] #LO_search {
+	padding-right: 2px;
+	padding-left: 28px;
+}
+
+@media only screen and (max-width:1023px) {
+	/* Calendar responsive */
+	html[dir="RTL"] .calendar-day .hover:hover {
+		right: 0;
+	}
+	/*fridays, saturdays*/
+	html[dir="RTL"] .calendar-day.thu-fri-sat .hover:hover {
+		left: 0;
+		right: auto;
+	}
+}
+
+/*mobile*/
+
+@media only screen and (max-width:736px) {
+	html[dir="RTL"] .header1 h2 {
+		padding-left: 0;
+		padding-right: 42px;
+	}
+}

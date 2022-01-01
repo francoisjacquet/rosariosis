@@ -1,0 +1,581 @@
+html {
+	background: #fff;
+}
+
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="file"],
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="tel"],
+input[type="url"],
+select {
+	border-color: #cacaca;
+	background: #fff;
+}
+
+input[type="button"]:hover,
+input[type="email"]:hover,
+input[type="file"]:hover,
+input[type="number"]:hover,
+input[type="password"]:hover,
+input[type="reset"]:hover,
+input[type="search"]:hover,
+input[type="submit"]:hover,
+input[type="tel"]:hover,
+input[type="text"]:hover,
+input[type="url"]:hover,
+input[type="color"]:hover,
+select:hover,
+textarea:hover {
+	border-color: #aaa;
+}
+
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="file"]:focus,
+input[type="button"]:focus,
+input[type="submit"]:focus,
+input[type="reset"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+select:focus {
+	border-color: #aaa;
+	border-bottom-color: #298cba;
+	outline: none;
+}
+
+code {
+	background: #eaeaea;
+}
+
+hr {
+	background: #dfdfdf
+}
+
+input[readonly] {
+	background: #eee;
+}
+
+/* Body bg grey + elements bg white */
+
+html,
+body {
+	background: #efefef;
+}
+
+body {
+	color: #111;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	color: #2d2d2d;
+}
+
+#menu {
+	background: #121212;
+	border-color: #000;
+	color: #fff;
+}
+
+#menu-top select {
+	border-color: #222;
+	background: #1a1a1a;
+	color: #fff;
+}
+
+#menu-top select:focus {
+	border-bottom-color: #298cba;
+}
+
+.menu-inter {
+	border-color: #333;
+	color: #eee;
+}
+
+#footer {
+	background: #111;
+	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.23);
+}
+
+#footerwrap {
+	border-color: #000;
+}
+
+#footerhelp {
+	background: #fff;
+}
+
+.widefat {
+	border-color: #cacaca;
+}
+
+.postbox,
+.widefat {
+	background: #fcfcfc;
+}
+
+.postbox > thead th,
+.widefat th,
+.widefat tfoot tr th {
+	background: #f9f9f9;
+}
+
+.postbox .h3selected {
+	border-top: 2px solid #21759b;
+	background: #fcfcfc;
+}
+
+.postbox > thead th {
+	border-bottom-color: #dfdfdf;
+}
+
+.widefat tr:nth-child(odd),
+.alternate,
+.alt {
+	background: #fcfcfc
+}
+
+.widefat tr:nth-child(even) {
+	background: #f9f9f9
+}
+
+.widefat tr:hover {
+	background: #fff;
+}
+
+.wp-submenu,
+.highlight,
+.widefat tr.highlight {
+	background: #fff
+}
+
+input[type=button],
+input[type=submit] {
+	border-color: #bbb;
+	color: #464646
+}
+
+input[type=button]:hover,
+input[type=submit]:hover,
+input[type=button]:focus,
+input[type=submit]:focus {
+	color: #000;
+	border-color: #666
+}
+
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+	background: #f9f9f9;
+}
+
+input[type="submit"]:active,
+input[type="reset"]:active,
+input[type="button"]:active {
+	background: #ededed;
+}
+
+/* Primary button */
+
+input.button-primary,
+button.button-primary,
+a.button-primary {
+	border-color: #15556b;
+	font-weight: bold;
+	color: #fff;
+	background: #298cba;
+}
+
+input.button-primary:active,
+button.button-primary:active,
+a.button-primary:active {
+	background: #1d6385;
+}
+
+input.button-primary:hover,
+button.button-primary:hover,
+a.button-primary:hover,
+input.button-primary:focus,
+button.button-primary:focus,
+a.button-primary:focus {
+	border-color: #10354b;
+	color: #fff;
+	outline: none;
+}
+
+a:hover,
+a:active,
+a:focus,
+.adminmenu a:hover,
+.adminmenu a:focus {
+	color: #d54e21;
+}
+
+input[type="checkbox"]:focus,
+input[type="radio"]:focus {
+	outline: 1px dotted #000;
+}
+
+div.error,
+div.updated {
+	background: #fff;
+	border-left: 4px solid #b80a04;
+}
+
+div.error a {
+	color: #c00
+}
+
+div.updated {
+	border-left-color: #0baa38;
+}
+
+.widefat td,
+.widefat th {
+	border-color: #fff;
+	border-bottom-color: #dfdfdf
+}
+
+a {
+	color: #0073aa;
+}
+
+a:hover,
+a:active,
+a:focus {
+	color: #0090c3;
+}
+
+a:active,
+a:focus,
+.wp-submenu a:focus {
+	outline: 1px dotted #0090c3;
+}
+
+.adminmenu a,
+a.menu-top:hover,
+a.menu-top:focus,
+.BottomButton:hover,
+.BottomButton:active,
+.BottomButton:focus {
+	color: #00b9eb;
+}
+
+a.menu-top,
+.BottomButton {
+	color: #eee;
+}
+
+.BottomButton img {
+	background-color: #fff;
+}
+
+.postbox {
+	border-color: #cacaca;
+	background: #f9f9f9;
+}
+
+.postbox th {
+	color: #464646
+}
+
+.postbox th:hover,
+.postbox th:hover h3 {
+	color: #000
+}
+
+.adminmenu {
+	background: #121212;
+	border-color: #222;
+}
+
+.menu-top {
+	background-color: #121212;
+	text-shadow: none;
+	border-top-color: #222;
+	border-bottom-color: #000;
+}
+
+#selectedModuleLink,
+.menu-top:hover,
+.menu-top:focus {
+	background-color: #1a1a1a;
+}
+
+/* Edge browser fix: Do not merge focus-within styles with hover styles */
+
+.no-touch .menu-module:focus-within .menu-top::after {
+	color: #eee;
+}
+
+.no-touch .menu-module:hover .menu-top::after {
+	color: #eee;
+}
+
+.wp-submenu {
+	background: #111;
+	border-color: #222 #000;
+}
+
+.wp-submenu a:focus,
+.wp-submenu a:hover,
+#selectedMenuLink {
+	background-color: #1a1a1a;
+	color: #eee;
+}
+
+/*added*/
+
+.header2 {
+	background: #f9f9f9;
+	border-bottom: 1px solid #dfdfdf;
+	border-top: 1px solid #fff
+}
+
+#courses_div {
+	background: #fff
+}
+
+fieldset {
+	border-color: #dfdfdf
+}
+
+.bgcolor {
+	background: #ececec
+}
+
+.legend-gray {
+	color: #333;
+}
+
+.legend-red {
+	color: red
+}
+
+.underline-dots {
+	border-bottom-color: gray
+}
+
+/* MarkDown */
+
+.md-preview .tab,
+.md-preview > div {
+	border-color: #cacaca;
+}
+
+.md-preview .tab:hover,
+.md-preview .tab.disabled {
+	background: #fff;
+	border-color: #aaa;
+}
+
+.md-preview > .tab.disabled {
+	border-top: 2px solid #21759b;
+}
+
+hr {
+	color: #fff
+}
+
+/*Side current person*/
+
+.current-person,
+.current-person a {
+	color: #fff
+}
+
+.current-person.student {
+	background: #0073aa;
+}
+
+.current-person.staff {
+	background: #0baa38;
+}
+
+.current-person.self {
+	background: #fbb429;
+}
+
+.current-person a:hover,
+.current-person a:active,
+.current-person a:focus {
+	color: #fff;
+}
+
+/*student comments*/
+
+#student-comments div {
+	background: #fff
+}
+
+/*calendar*/
+
+#calendar {
+	background: #DFDFDF
+}
+
+#calendar th {
+	background: #333;
+	color: #fff
+}
+
+.calendar-day.full {
+	background: #EEFFEE
+}
+
+.calendar-day.minutes {
+	background: #EEEEFF
+}
+
+.calendar-day.no-school {
+	background: #FFEEEE
+}
+
+.calendar-event {
+	border-color: #000
+}
+
+.calendar-event.assignment {
+	border-color: #FF0000
+}
+
+.calendar-event.assigned {
+	border-color: #00FF00
+}
+
+/* Attendance Codes */
+
+.attendance-code {
+	color: #fff;
+}
+
+.attendance-code.present {
+	background-color: #20DD30;
+	/* Green */
+}
+
+.attendance-code.absent {
+	background-color: #FF0000;
+	/* Red */
+}
+
+.attendance-code.half-day {
+	background-color: #FFCC00;
+	/* Yellow */
+}
+
+.attendance-code.present-alt {
+	background-color: #DDFFDD;
+	/* Green */
+}
+
+.attendance-code.absent-alt {
+	background-color: #FFDDDD;
+	/* Red */
+}
+
+.attendance-code.half-day-alt {
+	background-color: #FFEEDD;
+	/* Yellow */
+}
+
+/*arrows*/
+
+.switchMenu:before {
+	color: gray
+}
+
+/*bottom*/
+
+#BottomButtonMenu:before {
+	color: #000;
+	background-color: #fff;
+}
+
+/*bars*/
+
+.bar {
+	color: transparent;
+}
+
+.bar.relevance {
+	background: gray;
+}
+
+.divPortalPoll .bar {
+	background: #b80a04;
+}
+
+/* colorBox */
+
+#cboxLoadedContent {
+	background: #fff !important
+}
+
+/* Tooltip */
+
+.tooltip {
+	color: #fff
+}
+
+.tooltip:before {
+	background: #27b4b4
+}
+
+.tooltip > i {
+	background: #111;
+	border: 1px solid #000;
+}
+
+/* Teacher Programs */
+
+.teacher-programs-wrapper {
+	border-color: #dfdfdf;
+}
+
+/* Password Input */
+
+/* @link http://clrs.cc/ */
+
+.password-strength-bars span {
+	background-color: #FF4136;
+}
+
+.password-strength-bars .score2 {
+	background-color: #FF851B;
+}
+
+.password-strength-bars .score3,
+.password-strength-bars .score4 {
+	background-color: #2ECC40;
+}
+
+/*responsive tables*/
+
+@media only screen and (max-width: 1023px) {
+	.rt tr {
+		border-right-color: #dfdfdf
+	}
+}
+
+@media only screen and (max-width:736px) {
+	.wp-submenu a:hover {
+		background: transparent;
+		color: #21759b
+	}
+}

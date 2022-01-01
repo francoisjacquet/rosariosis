@@ -1,0 +1,98 @@
+/**
+ * CSS rules for icons (modules)
+ *
+ * @since 4.0
+ */
+
+.module-icon {
+	width: 32px;
+	height: 32px;
+	background-size: contain;
+	background-repeat: no-repeat;
+	display: inline-block;
+	vertical-align: -60%;
+}
+
+.header1 .module-icon {
+	vertical-align: bottom;
+}
+
+.module-icon.Accounting {
+	background-image: url("modules/Accounting.png");
+}
+
+.module-icon.Attendance {
+	background-image: url("modules/Attendance.png");
+}
+
+.module-icon.Discipline {
+	background-image: url("modules/Discipline.png");
+}
+
+.module-icon.Grades {
+	background-image: url("modules/Grades.png");
+}
+
+.module-icon.Eligibility {
+	background-image: url("modules/Eligibility.png");
+}
+
+.module-icon.Example {
+	background-image: url("modules/Example.png") !important;
+}
+
+.module-icon.Food_Service {
+	background-image: url("modules/Food_Service.png");
+}
+
+.module-icon.Library {
+	background-image: url("modules/Library.png");
+}
+
+.module-icon.Messaging {
+	background-image: url("modules/Messaging.png") !important;
+}
+
+.module-icon.misc {
+	background-image: url("modules/misc.png");
+}
+
+.module-icon.Quiz {
+	background-image: url("modules/Quiz.png") !important;
+}
+
+.module-icon.Resources {
+	background-image: url("modules/Resources.png");
+}
+
+.module-icon.Reports {
+	background-image: url("modules/Reports.png") !important;
+}
+
+.module-icon.Scheduling {
+	background-image: url("modules/Scheduling.png");
+}
+
+.module-icon.School_Setup {
+	background-image: url("modules/School_Setup.png");
+}
+
+.module-icon.SMS {
+	background-image: url("modules/SMS.png");
+}
+
+.module-icon.Staff_Absences {
+	background-image: url("modules/Staff_Absences.png") !important;
+}
+
+.module-icon.Student_Billing {
+	background-image: url("modules/Student_Billing.png");
+}
+
+.module-icon.Students {
+	background-image: url("modules/Students.png");
+}
+
+.module-icon.Users {
+	background-image: url("modules/Users.png");
+}

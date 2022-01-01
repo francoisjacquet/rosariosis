@@ -3,9 +3,7 @@ FlatSIS theme
 
 ![screenshot](https://gitlab.com/francoisjacquet/FlatSIS/raw/master/screenshot.png?inline=false)
 
-https://gitlab.com/francoisjacquet/FlatSIS
-
-Version 1.3 - July, 2019
+Version 2.0 - December, 2021
 
 License: see icon folders for their respective license.
 
@@ -13,10 +11,7 @@ Author François Jacquet
 
 DESCRIPTION
 -----------
-This theme extends the default WPadmin theme and provides a flat design.
-Also, the footer menu is now placed at the top of the screen.
-
-It is part of RosarioSIS since version 5.0.
+This theme is now the default since RosarioSIS 8.0
 
 CONTENT
 -------
@@ -37,20 +32,7 @@ Rebrand RosarioSIS: replace the `logo.png` file with your own logo.
 
 This theme uses _Lato_ font instead of default _Open Sans_.
 
-### Stylesheet
+### Grunt
 
-The `stylesheet.css` file simply links to the `WPadmin` theme's stylesheet
-and redefines the module icons.
-
-Feel free to add your custom styles or redefine the `WPadmin` ones in the stylesheet.
-
-
-INSTALL
--------
-Copy the `FlatSIS/` folder (if named `FlatSIS-master`, rename it) and its content inside the `assets/themes/` folder of RosarioSIS.
-
-Go to _School > Configuration_ and select it as **Default Theme**.
-Please remember users can choose their preferred theme by going to _Users > My Preferences_.
-
-Requires RosarioSIS 4.4+
+The `stylesheet.css` file is generated using [Grunt](https://gruntjs.com/getting-started) (see `package.json` & `Gruntfile.js` files at the root of this project).
 

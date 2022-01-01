@@ -1,0 +1,388 @@
+/*tablet vertical*/
+
+@media only screen and (max-width:800px) {
+	.BottomButton span {
+		display: none
+	}
+}
+
+/*mobile*/
+
+@media only screen and (max-width:736px) {
+	/*quick smartphone reset*/
+	.mod {
+		position: relative !important;
+		float: none !important;
+		clear: none !important;
+		margin-left: 0 !important;
+		margin-right: 0 !important;
+		border: 0
+	}
+	#wrap {
+		height: 100%;
+	}
+	#footer {
+		position: fixed !important;
+		top: 0;
+		bottom: auto;
+	}
+	#footerhelp {
+		border-width: 1px 0;
+		border-style: solid;
+	}
+	#menu .logo {
+		max-width: 64px;
+		max-height: 64px;
+		margin: 5px;
+		float: right
+	}
+	#menu {
+		position: fixed !important;
+		top: 39px;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		width: 100%;
+		overflow-y: scroll;
+		padding-bottom: 0;
+		min-height: auto;
+	}
+	.adminmenu {
+		margin-bottom: 5px;
+	}
+	.adminmenu a {
+		padding: 2px 5px
+	}
+	.wp-submenu a {
+		padding: 5px
+	}
+	#menu form {
+		padding: 5px;
+	}
+	.menu-top img {
+		height: 30px
+	}
+	#menu-top select {
+		max-width: none;
+	}
+	.no-touch .menu-module:hover .menu-top:after {
+		content: "";
+	}
+	.no-touch .menu-module:hover .wp-submenu {
+		top: -1000em;
+	}
+	#body {
+		width: auto !important;
+		padding: 0 5px;
+		box-sizing: border-box;
+	}
+	#menu + #body {
+		padding-top: 0;
+		height: 100%;
+		overflow: scroll;
+	}
+	.header1 h2 {
+		font-size: 24px;
+		line-height: 26px;
+		padding-left: 36px;
+		text-indent: -36px;
+	}
+	#search input,
+	#search select,
+	#LO_search {
+		max-width: 150px
+	}
+	#LO_search {
+		float: left;
+	}
+	#LO_search + .button {
+		left: -28px;
+		float: left;
+	}
+	#modulesBody textarea {
+		width: 100% !important
+	}
+	tr.address > td {
+		border-style: none none dotted none;
+		padding: 12px 0 12px 0
+	}
+	/* Chart.js */
+	.chart {
+		width: 90vw;
+		min-width: 450px;
+	}
+	input[type=submit],
+	input[type=reset],
+	input[type=button] {
+		margin: 0 4px;
+	}
+	/*stackable tables*/
+	tr.st > td {
+		float: left;
+		width: 100%;
+		box-sizing: border-box
+	}
+	table.col1-align-right > tbody > tr.st > td:first-child {
+		text-align: left;
+		border-bottom: none;
+	}
+	table.col1-align-right > tbody > tr.st > td:nth-child(2) {
+		border-top: none;
+	}
+	.fixed-col {
+		table-layout: auto;
+		/*no fixed layout for stackable tables*/
+	}
+	.divPortalPoll {
+		min-width: 0
+	}
+	/*bigger tooltip i*/
+	.tooltip::before {
+		font-size: 0.9em;
+		width: 20px;
+		height: 20px;
+		line-height: 20px;
+	}
+	/* Smaller tooltip size */
+	.tooltip > i {
+		bottom: 150%;
+		left: -55px;
+		width: 120px;
+		padding: 5px;
+		border-radius: 3px;
+		font-size: 0.9em;
+		line-height: 1.5
+	}
+	/* Login, First login & Password Reset pages */
+	.login,
+	.first-login,
+	.password-reset {
+		padding: 32px 2px;
+	}
+	.password-reset {
+		padding-top: 0;
+	}
+	/* TinyMCE "Insert/Edit image" popup too large on mobile devices */
+	.mce-container .mce-dropzone {
+		height: 60px !important;
+	}
+	/*.mce-container.mce-floatpanel .mce-textbox {
+		/* Max width: 1024px for PDF */
+	/*	max-width: 100% !important;
+	}*/
+	/* Teacher Programs */
+	.teacher-programs-wrapper {
+		padding: 0.5%;
+		width: 99%;
+		margin-left: -0.5%;
+	}
+	#cboxLoadedContent {
+		padding: 5px !important;
+	}
+}
+
+@media only screen and (max-width:1023px) {
+	#body {
+		padding: 0 6px 0;
+	}
+	#calendar > thead > tr > th {
+		font-size: 13px;
+	}
+	/*responsive tables*/
+	.rt {
+		display: block;
+		position: relative;
+		width: 100%
+	}
+	.rt thead {
+		display: block;
+		float: left;
+		max-width: 160px;
+	}
+	.rt tbody {
+		display: block;
+		width: auto;
+		position: relative;
+		overflow-x: auto;
+		white-space: nowrap
+	}
+	.rt thead tr {
+		display: block
+	}
+	.rt th {
+		display: block;
+		line-height: 2em;
+		height: 2em
+	}
+	.rt th,
+	.rt th a {
+		font-size: 15px;
+		line-height: 2em;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+	.rt tbody tr {
+		display: inline-block;
+		vertical-align: top
+	}
+	.rt td {
+		display: block;
+		line-height: 1.87em;
+		height: 1.87em;
+	}
+	.rt img {
+		max-height: 2em
+	}
+	.rt input,
+	.rt select {
+		margin: 0
+	}
+	.rt tr {
+		border-right-width: 1px;
+		border-right-style: solid
+	}
+	/*rt td too large*/
+	.rt input,
+	.rt select,
+	.rt textarea {
+		max-width: 150px
+	}
+	.list.rt td,
+	.list.rt th {
+		padding: 6px 11px;
+	}
+	.rt .link2colorBox {
+		display: block
+	}
+	.rt .link2colorBox .colorboxinline {
+		background: url('btn/visualize.png') no-repeat;
+		background-size: contain;
+		width: 24px;
+		height: 24px;
+		display: block
+	}
+	.rt2colorBox {
+		overflow: auto
+	}
+	/*if content on 1 line & text <= 36 chars*/
+	.widefat td .rt2colorBox p {
+		margin-top: 0
+	}
+	.rt .link2colorBox + .rt2colorBox {
+		display: none
+	}
+	.rt div.error,
+	.rt div.updated {
+		padding: 0;
+		margin: 0
+	}
+	/*no THEAD repeat*/
+	.rt .thead-repeat {
+		display: none;
+	}
+	.divPortalPoll {
+		max-height: none;
+		overflow-y: visible
+	}
+	/*calendar*/
+	#calendar > thead > tr > th {
+		font-size: 1em;
+		line-height: 1.3;
+		overflow: hidden;
+		word-wrap: normal;
+		padding: 4px;
+	}
+	.calendar-day {
+		position: relative;
+		min-height: 48px
+	}
+	.calendar-day > table {
+		display: block;
+		width: inherit;
+		z-index: 1
+	}
+	.calendar-day td {
+		display: none;
+	}
+	.calendar-day .hover:hover td,
+	.calendar-day .number {
+		display: table-cell;
+	}
+	.calendar-day .number {
+		font-size: 1em;
+	}
+	/*.calendar-day .hover:hover .calendar-event{
+		display:inherit;
+	}*/
+	.calendar-day .hover:hover {
+		height: auto;
+		min-width: 202px;
+		min-height: 102px;
+		z-index: 2;
+		position: absolute;
+		top: 0;
+		left: 0;
+		background-color: inherit;
+		box-shadow: 2px 2px 2px 1px #9f9f9f
+	}
+	/*fridays, saturdays*/
+	.calendar-day.thu-fri-sat .hover:hover {
+		right: 0;
+		left: auto;
+		box-shadow: -2px 2px 2px 1px #9f9f9f
+	}
+	/*jscalendar+colorbox*/
+	.calendar {
+		z-index: 10000
+	}
+	/* Scheduling Requests Courses div */
+	#courses_div {
+		position: relative;
+		width: 210px;
+		float: right;
+	}
+	/* Hide List sorting icons */
+	.widefat th a[href*="LO_dir"]:after {
+		content: "";
+		padding-left: 0;
+	}
+	.widefat th a[href*="LO_dir"]:hover:after {
+		content: "";
+	}
+}
+
+/*320 & 360px mobile*/
+
+@media only screen and (max-width:479px) {
+	/*Stackable tables: columns always align left*/
+	.st > .align-right {
+		text-align: left;
+	}
+	.header2.align-right input[type="button"],
+	.header2.align-right input[type="reset"],
+	.header2.align-right input[type="submit"] {
+		margin: 0 16px 0 0;
+	}
+	/*calendar*/
+	.calendar-day {
+		height: 36px
+	}
+	.calendar-day .hover:hover {
+		min-width: 177px;
+		min-height: 78px
+	}
+	input,
+	select {
+		max-width: 260px
+	}
+	/* Teacher Programs */
+	.teacher-programs-wrapper {
+		padding: 1%;
+		width: 98%;
+		margin-left: -1%;
+	}
+	/*responsive tables*/
+	.rt thead {
+		max-width: 130px;
+	}
+}
