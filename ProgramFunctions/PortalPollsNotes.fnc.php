@@ -84,7 +84,7 @@ function PortalPollsSaveVotes( $poll_questions_RET, $votes_array )
 
 			if ( is_array( $votes_array[$question['ID']] ) ) // Multiple.
 			{
-				foreach ( (array) $votes_array[$question['ID']] as $checked_box )
+				foreach ( $votes_array[$question['ID']] as $checked_box )
 				{
 					$voted_array[$question['ID']][$checked_box]++;
 				}
@@ -102,19 +102,19 @@ function PortalPollsSaveVotes( $poll_questions_RET, $votes_array )
 
 			if ( is_array( $votes_array[$question['ID']] ) ) // Multiple.
 			{
-				foreach ( (array) $options_array as $option_nb => $option_label )
+				foreach ( $options_array as $option_nb => $option_label )
 				{
 					$voted_array[$question['ID']][$option_nb] = 0;
 				}
 
-				foreach ( (array) $votes_array[$question['ID']] as $checked_box )
+				foreach ( $votes_array[$question['ID']] as $checked_box )
 				{
 					$voted_array[$question['ID']][$checked_box]++;
 				}
 			}
 			else // Multiple_radio.
 			{
-				foreach ( (array) $options_array as $option_nb => $option_label )
+				foreach ( $options_array as $option_nb => $option_label )
 				{
 					$voted_array[$question['ID']][$option_nb] = ( $votes_array[$question['ID']] == $option_nb ? 1 : 0 );
 				}
@@ -302,10 +302,8 @@ function PortalPollsVotesDisplay( $poll_id, $display_votes, $poll_questions_RET,
 {
 	if ( ! $display_votes )
 	{
-		$note = button( 'check' ) .
+		return button( 'check' ) .
 		'&nbsp;' . _( 'Poll completed' );
-
-		return $note;
 	}
 
 	$votes_display = '';
@@ -328,7 +326,7 @@ function PortalPollsVotesDisplay( $poll_id, $display_votes, $poll_questions_RET,
 		// Votes.
 		$votes_array = explode( '||', $question['VOTES'] );
 
-		foreach ( (array) $votes_array as $votes )
+		foreach ( $votes_array as $votes )
 		{
 			$total_votes += $votes;
 		}
@@ -492,9 +490,7 @@ function makePublishingVisibleTo( $profiles, $THIS_RET, $id )
 		do_action( 'School_Setup/PortalNotes.php|portal_note_field', $args );
 	}
 
-	$visibleTo .= '</table>';
-
-	return $visibleTo;
+	return $visibleTo . '</table>';
 }
 
 //FJ file attached to portal notes

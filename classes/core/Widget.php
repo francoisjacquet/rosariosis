@@ -217,7 +217,7 @@ class Widget_course implements Widget
 		<input type="hidden" name="w_subject_id" value="" />
 		</div></td></tr>';
 
-		$html .= '<script>var wCourseIdUpdate = function( val ) {
+		return $html . '<script>var wCourseIdUpdate = function( val ) {
 			if ( ! val ) {
 				$("[name=w_course_period_id]").val( "" );
 				$("[name=w_course_id]").val( "" );
@@ -231,8 +231,6 @@ class Widget_course implements Widget
 			$("[name=w_course_id]").val( values[1] );
 			$("[name=w_subject_id]").val( values[0] );
 		};</script>';
-
-		return $html;
 	}
 }
 
@@ -297,9 +295,7 @@ class Widget_request implements Widget
 
 	function html()
 	{
-		$html = '<tr class="st"><td>
-		'. _( 'Request' ) . '
-		</td><td>
+		return '<tr class="st"><td>'. _( 'Request' ) . '</td><td>
 		<div id="request_div"></div>
 		<a href="#" onclick=\'popups.open(
 				"Modules.php?modname=misc/ChooseRequest.php"
@@ -307,8 +303,6 @@ class Widget_request implements Widget
 			_( 'Choose' ) .
 		'</a>
 		</td></tr>';
-
-		return $html;
 	}
 }
 
@@ -379,7 +373,7 @@ class Widget_absences implements Widget
 
 	function html()
 	{
-		$html = '<tr class="st"><td>' .	_( 'Days Absent' ) .
+		return '<tr class="st"><td>' .	_( 'Days Absent' ) .
 		'<br />
 		<label title="' . _( 'this school year to date' ) . '">
 			<input type="radio" name="absences_term" value="FY" checked />&nbsp;' .
@@ -398,8 +392,6 @@ class Widget_absences implements Widget
 		' <label>&amp; ' .
 		'<input type="text" name="absences_high" size="3" maxlength="3" /><label>
 		</td></tr>';
-
-		return $html;
 	}
 }
 
@@ -494,7 +486,7 @@ class Widget_cp_absences implements Widget
 
 	function html()
 	{
-		$html = '<tr class="st"><td>' .	_( 'Course Period Absences' ) .
+		return '<tr class="st"><td>' .	_( 'Course Period Absences' ) .
 		'<div class="tooltip"><i>' .
 			_( 'Use the Choose link of the Course widget (under Scheduling) to select a Course Period.' ) .
 		'</i></div>' .
@@ -516,8 +508,6 @@ class Widget_cp_absences implements Widget
 		' <label>&amp;' .
 		' <input type="text" name="cp_absences_high" size="3" maxlength="3" /></label>
 		</td></tr>';
-
-		return $html;
 	}
 }
 
@@ -613,13 +603,11 @@ class Widget_gpa implements Widget
 				'</label>';
 		}
 
-		$html .= '</td><td><label>' . _( 'Between' ) .
+		return $html . '</td><td><label>' . _( 'Between' ) .
 		' <input type="number" name="gpa_low" min="0" step="0.01" /></label>' .
 		' <label>&amp;' .
 		' <input type="number" name="gpa_high" min="0" step="0.01" /></label>
 		</td></tr>';
-
-		return $html;
 	}
 }
 
@@ -706,7 +694,7 @@ class Widget_class_rank implements Widget
 		{
 			$pros = explode( ',', str_replace( "'", '', $pros ) );
 
-			foreach ( (array) $pros as $pro )
+			foreach ( $pros as $pro )
 			{
 				if ( GetMP( $pro, 'DOES_GRADES' ) !== 'Y' )
 				{
@@ -720,13 +708,11 @@ class Widget_class_rank implements Widget
 			}
 		}
 
-		$html .= '</td><td><label>' . _( 'Between' ) .
+		return $html . '</td><td><label>' . _( 'Between' ) .
 		' <input type="text" name="class_rank_low" size="3" maxlength="5" /></label>' .
 		' <label>&amp;' .
 		' <input type="text" name="class_rank_high" size="3" maxlength="5" /></label>
 		</td></tr>';
-
-		return $html;
 	}
 }
 
@@ -827,7 +813,7 @@ class Widget_letter_grade implements Widget
 		{
 			$pros = explode( ',', str_replace( "'", '', $pros ) );
 
-			foreach ( (array) $pros as $pro )
+			foreach ( $pros as $pro )
 			{
 				if ( GetMP( $pro, 'DOES_GRADES' ) !== 'Y' )
 				{
@@ -886,9 +872,7 @@ class Widget_letter_grade implements Widget
 			}
 		}
 
-		$html .= '</td></tr>';
-
-		return $html;
+		return $html . '</td></tr>';
 	}
 }
 
@@ -938,14 +922,12 @@ class Widget_eligibility implements Widget
 
 	function html()
 	{
-		$html = '<tr class="st"><td>
+		return '<tr class="st"><td>
 		</td><td>
 		<label>
 			<input type="checkbox" name="ineligible" value="Y" />&nbsp;' . _( 'Ineligible' ) .
 		'</label>
 		</td></tr>';
-
-		return $html;
 	}
 }
 
@@ -1006,13 +988,11 @@ class Widget_activity implements Widget
 
 		$select .= '</select>';
 
-		$html = '<tr class="st"><td><label for="activity_id">' .
+		return '<tr class="st"><td><label for="activity_id">' .
 		_( 'Activity' ) .
 		'</label></td><td>' .
 		$select .
 		'</td></tr>';
-
-		return $html;
 	}
 }
 
@@ -1051,13 +1031,11 @@ class Widget_mailing_labels implements Widget
 
 	function html()
 	{
-		$html = '<tr class="st"><td>' .
+		return '<tr class="st"><td>' .
 			'<label for="mailing_labels">' . _( 'Mailing Labels' ) . '</label>' .
 			'</td><td>' .
 			'<input type="checkbox" id="mailing_labels" name="mailing_labels" value="Y" />' .
 			'</td>';
-
-		return $html;
 	}
 }
 
@@ -1112,13 +1090,11 @@ class Widget_balance implements Widget
 
 	function html()
 	{
-		$html = '<tr class="st"><td>' . _( 'Balance' ) . '</td><td><label>' . _( 'Between' ) .
+		return '<tr class="st"><td>' . _( 'Balance' ) . '</td><td><label>' . _( 'Between' ) .
 		' <input type="number" name="balance_low" step="any" /></label>' .
 		' <label>&amp;' .
 		' <input type="number" name="balance_high" step="any" /></label>
 		</td></tr>';
-
-		return $html;
 	}
 }
 
@@ -1184,9 +1160,7 @@ class Widget_reporter implements Widget
 				'</option>';
 		}
 
-		$html .= '</select></td></tr>';
-
-		return $html;
+		return $html . '</select></td></tr>';
 	}
 }
 
@@ -1285,19 +1259,17 @@ class Widget_incident_date implements Widget
 			$discipline_entry_begin_default = date( 'Y-m' ) . '-01';
 		}
 
-		$html = '<tr class="st"><td>' . _( 'Incident Date' ) . '</td><td>
+		return '<tr class="st"><td>' . _( 'Incident Date' ) . '</td><td>
 		<table class="cellspacing-0"><tr><td>
 		<span class="sizep2">&ge;</span>&nbsp;
-		</td><td>
-		' . PrepareDate( $discipline_entry_begin_default, '_discipline_entry_begin', true, [ 'short' => true ] ).'
-		</td></tr><tr><td>
+		</td><td>' .
+		PrepareDate( $discipline_entry_begin_default, '_discipline_entry_begin', true, [ 'short' => true ] ) .
+		'</td></tr><tr><td>
 		<span class="sizep2">&le;</span>&nbsp;
-		</td><td>
-		' . PrepareDate( '', '_discipline_entry_end', true, [ 'short' => true ] ).'
-		</td></tr></table>
+		</td><td>' .
+		PrepareDate( '', '_discipline_entry_end', true, [ 'short' => true ] ) .
+		'</td></tr></table>
 		</td></tr>';
-
-		return $html;
 	}
 }
 
@@ -1399,8 +1371,6 @@ class Widget_discipline_fields implements Widget
 
 		foreach ( (array) $categories_RET as $category )
 		{
-			$input_name = 'discipline[' . $category['ID'] . ']';
-
 			switch ( $category['DATA_TYPE'] )
 			{
 				case 'text':
@@ -1645,14 +1615,12 @@ class Widget_next_year implements Widget
 		$html = '<tr class="st"><td><label for="next_year">' . _( 'Next Year' ) . '</label></td><td>
 		<select name="next_year" id="next_year">';
 
-		foreach ( (array) $next_year_options as $id => $option )
+		foreach ( $next_year_options as $id => $option )
 		{
 			$html .= '<option value="' . $id . '">' . $option . '</option>';
 		}
 
-		$html .= '</select></td></tr>';
-
-		return $html;
+		return $html . '</select></td></tr>';
 	}
 }
 
@@ -1739,9 +1707,7 @@ class Widget_calendar implements Widget
 				$calendar['TITLE'] . '</option>';
 		}
 
-		$html .= '</select></td></tr>';
-
-		return $html;
+		return $html . '</select></td></tr>';
 	}
 }
 
@@ -1822,19 +1788,17 @@ class Widget_enrolled implements Widget
 
 	function html()
 	{
-		$html = '<tr class="st"><td>' . _( 'Attendance Start' ) . '</td><td>
+		return '<tr class="st"><td>' . _( 'Attendance Start' ) . '</td><td>
 		<table class="cellspacing-0"><tr><td class="sizep2">
 		&ge;
-		</td><td>
-		' . PrepareDate( '', '_enrolled_begin', true, [ 'short' => true ] ) . '
-		</td></tr><tr><td class="sizep2">
+		</td><td>' .
+		PrepareDate( '', '_enrolled_begin', true, [ 'short' => true ] ) .
+		'</td></tr><tr><td class="sizep2">
 		&le;
-		</td><td>
-		' . PrepareDate( '', '_enrolled_end', true, [ 'short' => true ] ) . '
-		</td></tr></table>
+		</td><td>' .
+		PrepareDate( '', '_enrolled_end', true, [ 'short' => true ] ) .
+		'</td></tr></table>
 		</td></tr>';
-
-		return $html;
 	}
 }
 
@@ -1871,7 +1835,7 @@ class Widget_rolled implements Widget
 
 	function html()
 	{
-		$html = '<tr class="st"><td>' . _( 'Previously Enrolled' ) . '</td><td>
+		return '<tr class="st"><td>' . _( 'Previously Enrolled' ) . '</td><td>
 		<label>
 			<input type="radio" value="" name="rolled" checked />&nbsp;' . _( 'N/A' ) .
 		'</label> &nbsp;
@@ -1882,8 +1846,6 @@ class Widget_rolled implements Widget
 			<input type="radio" value="N" name="rolled" />&nbsp;' . _( 'No' ) .
 		'</label>
 		</td></tr>';
-
-		return $html;
 	}
 }
 
@@ -1928,7 +1890,7 @@ class Widget_fsa_balance implements Widget
 
 	function html( $value = '' )
 	{
-		$html = '<tr class="st"><td><label for="fsa_balance">' . _( 'Balance' ) . '</label></td><td>
+		return '<tr class="st"><td><label for="fsa_balance">' . _( 'Balance' ) . '</label></td><td>
 		<label class="sizep2">
 			<input type="radio" name="fsa_bal_ge" value="" checked /> &lt;</label>&nbsp;
 		<label  class="sizep2">
@@ -1936,8 +1898,6 @@ class Widget_fsa_balance implements Widget
 		<input name="fsa_balance" id="fsa_balance" type="number" step="any"' .
 			( $value ? ' value="' . $value . '"' : '') . ' />
 		</td></tr>';
-
-		return $html;
 	}
 }
 
@@ -1991,7 +1951,7 @@ class Widget_fsa_discount implements Widget
 
 	function html()
 	{
-		$html = '<tr class="st"><td><label for="fsa_discount">' . _( 'Discount' ) . '</label></td><td>
+		return '<tr class="st"><td><label for="fsa_discount">' . _( 'Discount' ) . '</label></td><td>
 		<select name="fsa_discount" id="fsa_discount">
 		<option value="">' . _( 'Not Specified' ) . '</option>
 		<option value="Full">' . _( 'Full' ) . '</option>
@@ -1999,8 +1959,6 @@ class Widget_fsa_discount implements Widget
 		<option value="Free">' . _( 'Free' ) . '</option>
 		</select>
 		</td></tr>';
-
-		return $html;
 	}
 }
 
@@ -2042,7 +2000,7 @@ class Widget_fsa_status implements Widget
 
 	function html( $value = '' )
 	{
-		$html = '<tr class="st"><td><label for="fsa_status">' . _( 'Account Status' ) . '</label></td><td>
+		return '<tr class="st"><td><label for="fsa_status">' . _( 'Account Status' ) . '</label></td><td>
 		<select name="fsa_status" id="fsa_status">
 		<option value="">' . _( 'Not Specified' ) . '</option>
 		<option value="Active"' . ( $value == 'active' ? ' selected' : '' ) . '>' . _( 'Active' ) . '</option>
@@ -2051,8 +2009,6 @@ class Widget_fsa_status implements Widget
 		<option value="Closed">' . _( 'Closed' ) . '</option>
 		</select>
 		</td></tr>';
-
-		return $html;
 	}
 }
 
@@ -2102,12 +2058,10 @@ class Widget_fsa_barcode implements Widget
 
 	function html()
 	{
-		$html = '<tr class="st"><td><label for="fsa_barcode">' . _( 'Barcode' ) .
+		return '<tr class="st"><td><label for="fsa_barcode">' . _( 'Barcode' ) .
 		'</label></td><td>
 		<input type="text" name="fsa_barcode" id="fsa_barcode" size="15" maxlength="50" />
 		</td></tr>';
-
-		return $html;
 	}
 }
 
@@ -2148,11 +2102,9 @@ class Widget_fsa_account_id implements Widget
 
 	function html()
 	{
-		$html = '<tr class="st"><td><label for="fsa_account_id">' . _( 'Account ID' ) . '</label></td><td>
+		return '<tr class="st"><td><label for="fsa_account_id">' . _( 'Account ID' ) . '</label></td><td>
 		<input type="text" name="fsa_account_id" id="fsa_account_id" size="5" maxlength="9" />
 		</td></tr>';
-
-		return $html;
 	}
 }
 
@@ -2245,7 +2197,7 @@ class Widget_medical_date implements Widget
 	{
 		$medical_begin_default = '';
 
-		$html = '<tr class="st"><td>
+		return '<tr class="st"><td>
 		<label>
 			<input type="radio" name="medical_type" value="Immunization" checked />&nbsp;' .
 			_( 'Immunization' ) .
@@ -2256,15 +2208,13 @@ class Widget_medical_date implements Widget
 		'</label></td><td>
 		<table class="cellspacing-0"><tr><td>
 		<span class="sizep2">&ge;</span>&nbsp;
-		</td><td>
-		' . PrepareDate( $medical_begin_default, '_medical_begin', true, [ 'short' => true ] ).'
-		</td></tr><tr><td>
+		</td><td>' .
+		PrepareDate( $medical_begin_default, '_medical_begin', true, [ 'short' => true ] ) .
+		'</td></tr><tr><td>
 		<span class="sizep2">&le;</span>&nbsp;
-		</td><td>
-		' . PrepareDate( '', '_medical_end', true, [ 'short' => true ] ).'
-		</td></tr></table>
+		</td><td>' .
+		PrepareDate( '', '_medical_end', true, [ 'short' => true ] ) .
+		'</td></tr></table>
 		</td></tr>';
-
-		return $html;
 	}
 }

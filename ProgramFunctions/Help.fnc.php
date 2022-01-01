@@ -136,7 +136,7 @@ function HelpLoad( $force = false )
 	// @deprecated since 3.9 use help text domain: help.po Gettext files.
 	$help_translated = 'Help_' . substr( $locale, 0, 2 ) . '.php';
 
-	foreach ( (array) $non_core_modules as $non_core_module )
+	foreach ( $non_core_modules as $non_core_module )
 	{
 		$non_core_dir = 'modules/' . $non_core_module . '/';
 
@@ -227,7 +227,7 @@ function GetHelpTextRaw( $modname )
 		return $help[ $modname ];
 	}
 
-	foreach ( (array) $help as $program => $help_txt )
+	foreach ( $help as $program => $help_txt )
 	{
 		// FJ fix bug URL Modules.php?modname=Student_Billing/Statements.php&_ROSARIO_PDF.
 		if ( ( mb_strpos( $program, $modname ) === 0

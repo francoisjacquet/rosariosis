@@ -143,10 +143,8 @@ if ( ! function_exists( 'DashboardModuleData' ) )
 		$message = '<table class="dashboard-module-data-tipmsg widefat col1-align-right"><tr>' .
 			$message . '</tr></table>';
 
-		$html = '<div class="dashboard-module-data">' .
+		return '<div class="dashboard-module-data">' .
 		MakeTipMessage( $message, $first_key, NoInput( $first_value, $first_key ) ) . '</div>';
-
-		return $html;
 	}
 }
 

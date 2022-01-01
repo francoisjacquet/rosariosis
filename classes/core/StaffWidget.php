@@ -73,7 +73,7 @@ class StaffWidget_permissions implements StaffWidget
 
 	function html( $value = '' )
 	{
-		$html = '<tr class="st"><td>' .	_( 'Permissions' ) . '</td><td>
+		return '<tr class="st"><td>' .	_( 'Permissions' ) . '</td><td>
 		<label><input type="radio" name="permissions" value=""' . ( empty( $value ) ? ' checked' : '' ) . '> ' .
 			_( 'All' ) . '</label> &nbsp;
 		<label><input type="radio" name="permissions" value="Y"' . ( $value == 'Y' ? ' checked' : '' ) . '> ' .
@@ -81,8 +81,6 @@ class StaffWidget_permissions implements StaffWidget
 		<label><input type="radio" name="permissions" value="N"' . ( $value == 'N' ? ' checked' : '' ) . '> ' .
 			_( 'Custom' ) . '</label>
 		</td></tr>';
-
-		return $html;
 	}
 }
 
@@ -145,7 +143,7 @@ class StaffWidget_fsa_balance implements StaffWidget
 
 	function html( $value = '' )
 	{
-		$html = '<tr class="st"><td><label for="fsa_balance">' . _( 'Balance' ) . '</label></td><td>
+		return '<tr class="st"><td><label for="fsa_balance">' . _( 'Balance' ) . '</label></td><td>
 		<label class="sizep2">
 			<input type="radio" name="fsa_bal_ge" value="" checked /> &lt;</label>&nbsp;
 		<label  class="sizep2">
@@ -153,8 +151,6 @@ class StaffWidget_fsa_balance implements StaffWidget
 		<input name="fsa_balance" id="fsa_balance" type="number" step="any"' .
 			( $value ? ' value="' . $value . '"' : '') . ' />
 		</td></tr>';
-
-		return $html;
 	}
 }
 
@@ -211,7 +207,7 @@ class StaffWidget_fsa_status implements StaffWidget
 
 	function html( $value = '' )
 	{
-		$html = '<tr class="st"><td><label for="fsa_status">' . _( 'Account Status' ) . '</label></td><td>
+		return '<tr class="st"><td><label for="fsa_status">' . _( 'Account Status' ) . '</label></td><td>
 		<select name="fsa_status" id="fsa_status">
 		<option value="">' . _( 'Not Specified' ) . '</option>
 		<option value="Active"' . ( $value == 'active' ? ' selected' : '' ) . '>' . _( 'Active' ) . '</option>
@@ -220,8 +216,6 @@ class StaffWidget_fsa_status implements StaffWidget
 		<option value="Closed">' . _( 'Closed' ) . '</option>
 		</select>
 		</td></tr>';
-
-		return $html;
 	}
 }
 
@@ -271,12 +265,10 @@ class StaffWidget_fsa_barcode implements StaffWidget
 
 	function html()
 	{
-		$html = '<tr class="st"><td><label for="fsa_barcode">' . _( 'Barcode' ) .
+		return '<tr class="st"><td><label for="fsa_barcode">' . _( 'Barcode' ) .
 		'</label></td><td>
 		<input type="text" name="fsa_barcode" id="fsa_barcode" size="15" maxlength="50" />
 		</td></tr>';
-
-		return $html;
 	}
 }
 
@@ -312,7 +304,7 @@ class StaffWidget_fsa_exists implements StaffWidget
 
 	function html( $value = '' )
 	{
-		$html = '<tr class="st"><td>' . _( 'Has Account' ) . '</td><td>
+		return '<tr class="st"><td>' . _( 'Has Account' ) . '</td><td>
 		<label><input type="radio" name="fsa_exists" value=""' . ( empty( $value ) ? ' checked' : '' ) . ' /> ' .
 			_( 'All') . '</label> &nbsp;
 		<label><input type="radio" name="fsa_exists" value="Y"' . ( $value == 'Y' ? ' checked' : '' ).' /> '.
@@ -320,8 +312,6 @@ class StaffWidget_fsa_exists implements StaffWidget
 		<label><input type="radio" name="fsa_exists" value="N"' . ( $value == 'N' ? ' checked' : '' ) . ' /> '.
 			_( 'No' ) . '</label>
 		</td></tr>';
-
-		return $html;
 	}
 }
 
@@ -396,12 +386,10 @@ class StaffWidget_staff_balance implements StaffWidget
 
 	function html()
 	{
-		$html = '<tr class="st"><td>' . _( 'Staff Payroll Balance' ) . '</td><td><label>' .
+		return '<tr class="st"><td>' . _( 'Staff Payroll Balance' ) . '</td><td><label>' .
 		_( 'Between' ) .
 		' <input type="number" name="balance_low" step="any" /></label> <label>&amp;
 		<input type="number" name="balance_high" step="any" /></label>
 		</td></tr>';
-
-		return $html;
 	}
 }

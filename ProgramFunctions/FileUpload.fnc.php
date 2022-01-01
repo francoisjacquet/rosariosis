@@ -576,7 +576,7 @@ function no_accents( $string )
 	$c195 . chr(174) => 'i', $c195 . chr(175) => 'i',
 	$c195 . chr(177) => 'n', $c195 . chr(178) => 'o',
 	$c195 . chr(179) => 'o', $c195 . chr(180) => 'o',
-	$c195 . chr(181) => 'o', $c195 . chr(182) => 'o',
+	$c195 . chr(181) => 'o',
 	$c195 . chr(182) => 'o', $c195 . chr(185) => 'u',
 	$c195 . chr(186) => 'u', $c195 . chr(187) => 'u',
 	$c195 . chr(188) => 'u', $c195 . chr(189) => 'y',
@@ -768,7 +768,7 @@ function HumanFilesize( $bytes, $decimals = 1 )
  * @link http://fileinfo.com/filetypes/common
  */
 function FileExtensionWhiteList() {
-	$file_ext_white_list = [
+	return [
 		// Micro$oft Office.
 		'.doc',
 		'.docx',
@@ -850,6 +850,4 @@ function FileExtensionWhiteList() {
 		'.tar',
 		'.gz',
 	];
-
-	return $file_ext_white_list;
 }

@@ -106,5 +106,5 @@ function _makeTeachers( $value, $column )
 
 	$teachers = explode( '","', mb_substr( $value, 2, -2 ) );
 
-	return implode( '<br />', (array) $teachers );
+	return implode( '<br />', $teachers );
 }

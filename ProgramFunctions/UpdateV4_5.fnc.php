@@ -829,13 +829,13 @@ function _update50beta()
 	$delete_obsolete_sql = "DELETE FROM schedule
 		WHERE student_id NOT IN(SELECT student_id FROM students);";
 
-	$delete_obsolete_sql = "DELETE FROM food_service_student_accounts
+	$delete_obsolete_sql .= "DELETE FROM food_service_student_accounts
 		WHERE student_id NOT IN(SELECT student_id FROM students);";
 
-	$delete_obsolete_sql = "DELETE FROM gradebook_assignments
+	$delete_obsolete_sql .= "DELETE FROM gradebook_assignments
 		WHERE staff_id NOT IN(SELECT staff_id FROM staff);";
 
-	$delete_obsolete_sql = "DELETE FROM gradebook_assignment_types
+	$delete_obsolete_sql .= "DELETE FROM gradebook_assignment_types
 		WHERE staff_id NOT IN(SELECT staff_id FROM staff);";
 
 	DBQuery( $delete_obsolete_sql );
@@ -1098,7 +1098,7 @@ function _update52beta()
 		'user_profiles' => 'TITLE',
 	];
 
-	foreach ( (array) $tables_columns as $table => $column )
+	foreach ( $tables_columns as $table => $column )
 	{
 		$add_not_null_constraint( $table, $column );
 	}

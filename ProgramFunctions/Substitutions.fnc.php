@@ -120,13 +120,11 @@ function SubstitutionsTextMake( $substitutions, $text )
 		return $text;
 	}
 
-	$text_substituted = str_replace(
+	return str_replace(
 		array_keys( $substitutions ),
 		$substitutions,
 		$text
 	);
-
-	return $text_substituted;
 }
 
 /**

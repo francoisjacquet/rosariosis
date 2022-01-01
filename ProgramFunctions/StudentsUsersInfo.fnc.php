@@ -151,7 +151,7 @@ function _makeSelectInput( $column, $name, $request )
 		$select_options = explode( "\r", str_replace( [ "\r\n", "\n" ], "\r", $field['SELECT_OPTIONS'] ) );
 	}
 
-	foreach ( (array) $select_options as $option )
+	foreach ( $select_options as $option )
 	{
 		if ( $field['TYPE'] === 'exports' )
 		{
@@ -218,7 +218,7 @@ function _makeAutoSelectInput( $column, $name, $request, $options_RET = [] )
 		$select_options = explode( "\r", str_replace( [ "\r\n", "\n" ], "\r", $field['SELECT_OPTIONS'] ) );
 	}
 
-	foreach ( (array) $select_options as $option )
+	foreach ( $select_options as $option )
 	{
 		if ( $option != '' )
 		{
@@ -447,7 +447,7 @@ function _makeFilesInput( $column, $name, $request, $remove_url = '' )
 
 	$files = [];
 
-	foreach ( (array) $file_paths as $file_path )
+	foreach ( $file_paths as $file_path )
 	{
 		if ( ! file_exists( $file_path ) )
 		{
@@ -505,14 +505,12 @@ function _makeFilesInput( $column, $name, $request, $remove_url = '' )
 		$files_html = '-';
 	}
 
-	$files_html .= FormatInputTitle(
+	return $files_html . FormatInputTitle(
 		$name,
 		( AllowEdit() ? $request . $column : '' ),
 		$required,
 		( AllowEdit() || ! $files ? '<br />' : '' )
 	);
-
-	return $files_html;
 }
 
 
@@ -551,7 +549,7 @@ function _makeMultipleInput( $column, $name, $request )
 		$select_options = explode( "\r", str_replace( [ "\r\n", "\n" ], "\r", $field['SELECT_OPTIONS'] ) );
 	}
 
-	foreach ( (array) $select_options as $option )
+	foreach ( $select_options as $option )
 	{
 		$options[ $option ] = $option;
 	}

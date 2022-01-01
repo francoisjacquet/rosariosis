@@ -218,9 +218,7 @@ function SendEmail( $to, $subject, $message, $reply_to = null, $cc = null, $atta
 		// Hook.
 		do_action( 'ProgramFunctions/SendEmail.fnc.php|before_send' );
 
-		$return = $phpmailer->send();
-
-		return $return;
+		return $phpmailer->send();
 	}
 	catch ( phpmailerException $e )
 	{

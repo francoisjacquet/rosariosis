@@ -104,7 +104,7 @@ function DashboardOutput( $rows = 4 )
 
 	// Output Dashboard modules, 4 per row.
 
-	foreach ( $_ROSARIO['Dashboard'] as $module => $html ): ?>
+	foreach ( $_ROSARIO['Dashboard'] as $html ): ?>
 
 		<td><?php echo $html; ?></td>
 

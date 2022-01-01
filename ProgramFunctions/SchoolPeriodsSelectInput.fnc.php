@@ -113,7 +113,5 @@ function SchoolPeriodsSelectInput( $value, $name, $title, $extra = '' )
 		$_REQUEST[ $name ] = $school_periods_RET[1]['PERIOD_ID'];
 	}
 
-	$input .= '</select>' . ( $title ? FormatInputTitle( $title ) : '' ) . '</label>';
-
-	return $input;
+	return $input . '</select>' . ( $title ? FormatInputTitle( $title ) : '' ) . '</label>';
 }

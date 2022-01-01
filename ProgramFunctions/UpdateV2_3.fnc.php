@@ -95,13 +95,13 @@ function _update29alpha()
 
 		$SQL_updt_coms = '';
 
-		foreach ( (array) $comments_RET as $comment )
+		foreach ( $comments_RET as $comment )
 		{
 			$coms = explode( '||', $comment['COMMENT'] );
 			$ser_coms = [];
 			$i = 0;
 
-			foreach ( (array) $coms as $com )
+			foreach ( $coms as $com )
 			{
 				if ( is_array( list( $date, $staff_id ) = explode( '|', $com ) )
 					&& (int) $staff_id > 0 )
