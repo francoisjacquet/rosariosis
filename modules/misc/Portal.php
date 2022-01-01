@@ -1181,7 +1181,7 @@ function _redirectTakeAttendance()
 		$_SESSION['UserSchool'] = $cp_RET[1]['SCHOOL_ID'];
 	}
 
-	$cp_mp_id = GetCurrentMP( 'QTR', $_REQUEST['school_date'] );
+	$cp_mp_id = GetCurrentMP( 'QTR', $_REQUEST['school_date'], false );
 
 	if ( UserMP() != $cp_mp_id )
 	{

@@ -9,6 +9,7 @@ Changes in 8.7
 - EasyCodingStandard use short array notation in functions/, classes/core/, ProgramFunctions/, modules/ & plugins/
 - Fix month + year format, remove day (regression since 7.1) in Dashboard.inc.php
 - ProgramUserConfig() always return array, not null in Config.fnc.php & \_makeLetterGrade.fnc.php
+- Allow redirect to Take Attendance, no fatal error if no current MP in Portal.php
 
 Changes in 8.6.1
 ----------------
