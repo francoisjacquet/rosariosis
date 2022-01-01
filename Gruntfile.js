@@ -16,7 +16,7 @@ module.exports = function(grunt) {
 				livereload: true,
 			},
 			css: {
-				files: ['assets/themes/WPadmin/css/*.css'],
+				files: ['assets/themes/**/css/*.css'],
 				tasks: ['cssmin'],
 				/*'autoprefixer', */
 				options: {
@@ -33,7 +33,7 @@ module.exports = function(grunt) {
 			livereload: {
 				// Reload page when css, js, images or php files change.
 				files: [
-					'assets/themes/WPadmin/css/*.css',
+					'assets/themes/**/css/*.css',
 					'assets/js/**/*.js',
 					'assets/**/*.{png,jpg,jpeg,gif,webp,svg}',
 					'**/*.php'
@@ -93,6 +93,24 @@ module.exports = function(grunt) {
 						'assets/themes/WPadmin/css/stylesheet.css',
 						'assets/themes/WPadmin/css/rtl.css',
 						'assets/themes/WPadmin/css/wkhtmltopdf.css'
+					],
+					'assets/themes/FlatSIS/stylesheet.css': [
+						'assets/themes/FlatSIS/css/calendar-blue.css',
+						'assets/themes/FlatSIS/css/colorbox.css',
+						'assets/themes/FlatSIS/css/colors.css',
+						'assets/themes/FlatSIS/css/font.css',
+						'assets/themes/FlatSIS/css/icons.css',
+						'assets/themes/FlatSIS/css/stylesheet.css',
+						'assets/themes/FlatSIS/css/zresponsive.css',
+						'assets/themes/FlatSIS/css/rtl.css'
+					],
+					'assets/themes/FlatSIS/stylesheet_wkhtmltopdf.css': [
+						'assets/themes/FlatSIS/css/colors.css',
+						'assets/themes/FlatSIS/css/font.css',
+						'assets/themes/FlatSIS/css/icons.css',
+						'assets/themes/FlatSIS/css/stylesheet.css',
+						'assets/themes/FlatSIS/css/rtl.css',
+						'assets/themes/FlatSIS/css/wkhtmltopdf.css'
 					]
 				}
 			}

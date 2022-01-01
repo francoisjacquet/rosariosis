@@ -15,6 +15,7 @@ Changes in 8.7
 - CSS fix font-size auto-adjust on iPhone in stylesheet.css
 - Fix typo in English string, update translations in Rollover.php & rosariosis.mo
 - JS fix menu & scroll issue on smartphone landscape > 735px in warehouse.js
+- FlatSIS theme: use Grunt to minify in Gruntfile.js
 
 Changes in 8.6.1
 ----------------
