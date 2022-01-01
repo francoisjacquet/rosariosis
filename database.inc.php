@@ -137,8 +137,8 @@ function db_sql_filter( $sql )
 	 * @link http://www.postgresql.org/docs/current/static/functions-comparison.html
 	 */
 	$sql = str_replace(
-		array( '<>NULL', '!=NULL' ),
-		array( ' IS NOT NULL', ' IS NOT NULL' ),
+		[ '<>NULL', '!=NULL' ],
+		[ ' IS NOT NULL', ' IS NOT NULL' ],
 		$sql
 	);
 
@@ -168,7 +168,7 @@ function DBQuery( $sql )
 	$result = db_query( $sql );
 
 	// Do DBQuery after action hook.
-	do_action( 'database.inc.php|dbquery_after', array( $sql, $result ) );
+	do_action( 'database.inc.php|dbquery_after', [ $sql, $result ] );
 
 	return $result;
 }
@@ -468,11 +468,11 @@ function db_show_error( $sql, $failnote, $additional = '' )
 
 	if ( function_exists( 'ErrorSendEmail' ) )
 	{
-		$db_error = array(
+		$db_error = [
 			'Failure Notice: ' . $failnote,
 			'Additional Info: ' . $additional,
 			$sql,
-		);
+		];
 
 		ErrorSendEmail( $db_error, 'Database Error' );
 	}

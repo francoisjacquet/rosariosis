@@ -238,11 +238,11 @@ elseif ( isset( $_POST['USERNAME'] )
 	else
 	{
 		DBQuery( "UPDATE STAFF
-			SET FAILED_LOGIN=" . db_case( array( 'FAILED_LOGIN', "''", '1', 'FAILED_LOGIN+1' ) ) . "
+			SET FAILED_LOGIN=" . db_case( [ 'FAILED_LOGIN', "''", '1', 'FAILED_LOGIN+1' ] ) . "
 			WHERE UPPER(USERNAME)=UPPER('" . $username . "')
 			AND SYEAR='" . Config( 'SYEAR' ) . "';
 			UPDATE STUDENTS
-			SET FAILED_LOGIN=" . db_case( array( 'FAILED_LOGIN', "''", '1', 'FAILED_LOGIN+1' ) ) . "
+			SET FAILED_LOGIN=" . db_case( [ 'FAILED_LOGIN', "''", '1', 'FAILED_LOGIN+1' ] ) . "
 			WHERE UPPER(USERNAME)=UPPER('" . $username . "')" );
 
 		if ( $is_banned )
@@ -581,7 +581,7 @@ elseif ( ! isset( $_REQUEST['create_account'] ) )
 	$redirect_to = empty( $_REQUEST['redirect_to'] ) ?
 		'modname=misc/Portal.php' : // Fix #173 resend login form: redirect to Modules.php.
 		str_replace(
-			array( '&_ROSARIO_PDF=true', '&_ROSARIO_PDF', '&LO_save=1' ),
+			[ '&_ROSARIO_PDF=true', '&_ROSARIO_PDF', '&LO_save=1' ],
 			'',
 			$_REQUEST['redirect_to']
 		);

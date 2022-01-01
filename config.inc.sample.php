@@ -100,4 +100,4 @@ $RosarioErrorsAddress = '';
  *
  * @example array( 'en_US.utf8', 'fr_FR.utf8', 'es_ES.utf8' );
  */
-$RosarioLocales = array( 'en_US.utf8' );
+$RosarioLocales = [ 'en_US.utf8' ];
