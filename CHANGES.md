@@ -12,6 +12,7 @@ Changes in 8.7
 - Allow redirect to Take Attendance, no fatal error if no current MP in Portal.php
 - CSS fix checkbox & radio input vertical align on Firefox in stylesheet.css
 - CSS fix menu hover right arrow position when module name on 2 lines in stylesheet.css
+- CSS fix font-size auto-adjust on iPhone in stylesheet.css
 - Fix typo in English string, update translations in Rollover.php & rosariosis.mo
 
 Changes in 8.6.1

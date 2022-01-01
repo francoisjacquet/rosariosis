@@ -161,6 +161,8 @@ div.chosen-container,
 .calendar,
 .calendar table {
 	font-size: 14px;
+	/* Fix font size auto-adjust on iPhone. */
+	-webkit-text-size-adjust: none;
 }
 
 body,
