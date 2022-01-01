@@ -96,9 +96,9 @@ textarea {
 
 input[type=checkbox],
 input[type=radio] {
-	margin-bottom: 0;
+	margin-bottom: 2px;
 	margin-right: 0;
-	vertical-align: -15%;
+	vertical-align: middle;
 	height: 16px;
 	width: 16px;
 	cursor: pointer;

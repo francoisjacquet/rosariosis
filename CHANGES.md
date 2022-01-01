@@ -10,6 +10,7 @@ Changes in 8.7
 - Fix month + year format, remove day (regression since 7.1) in Dashboard.inc.php
 - ProgramUserConfig() always return array, not null in Config.fnc.php & \_makeLetterGrade.fnc.php
 - Allow redirect to Take Attendance, no fatal error if no current MP in Portal.php
+- CSS fix checkbox & radio input vertical align on Firefox in stylesheet.css
 
 Changes in 8.6.1
 ----------------
