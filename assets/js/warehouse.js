@@ -81,6 +81,11 @@ function isTouchDevice() {
 	}
 }
 
+function isResponsiveMenu() {
+	// #menu width is 100% viewport width.
+	return Math.round($('#menu').width()) === window.innerWidth;
+}
+
 if (!isTouchDevice()) {
 	// Add .no-touch CSS class.
 	document.documentElement.className += " no-touch";
@@ -371,7 +376,7 @@ var ajaxPrepare = function(target) {
 		if (window.modname) {
 			openMenu(modname);
 		}
-		if (screen.width > 736) {
+		if (!isResponsiveMenu()) {
 			submenuOffset();
 		}
 	}
@@ -385,7 +390,7 @@ var ajaxPrepare = function(target) {
 
 		openMenu();
 
-		if (screen.width < 735) {
+		if (isResponsiveMenu()) {
 			$('#menu').addClass('hide');
 		}
 
@@ -434,7 +439,7 @@ window.onload = function() {
 				$('#menu').scrollTop($('#menu')[0].scrollTop - Math.abs($(this).offset().top) - this.scrollHeight);
 			}
 
-			if (screen.width > 736) {
+			if (!isResponsiveMenu()) {
 				fixedMenu();
 			}
 
@@ -446,7 +451,7 @@ window.onload = function() {
 		return $(this).css('pointer-events') == 'none' ? e.preventDefault() : ajaxLink(this);
 	});
 
-	if (screen.width > 736) {
+	if (!isResponsiveMenu()) {
 		fixedMenu();
 
 		submenuOffset();
@@ -572,7 +577,7 @@ var expandMenu = function() {
 
 	$('body').css('overflow', '');
 
-	if (screen.width < 736 &&
+	if (isResponsiveMenu() &&
 		!$('#menu').hasClass('hide')) {
 		// @since 5.1 Prevent scrolling body while Menu is open.
 		$('body').css('overflow', 'hidden');
