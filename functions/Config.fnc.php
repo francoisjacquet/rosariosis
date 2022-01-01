@@ -175,6 +175,7 @@ function ProgramConfig( $program, $item = 'all', $value = null )
  * @since 5.8 Set $staff_id to -1 to override user config.
  * @since 6.0 Handle single quotes in $value with DBEscapeString().
  * @since 8.0 Fix SQL error when $staff_id is 0 (no user in session).
+ * @since 8.7 Always return array, not null.
  *
  * @param string  $program  Gradebook|WidgetsSearch|StaffWidgetsSearch|
  * @param integer $staff_id Staff ID (optional). Defaults to User( 'STAFF_ID' ).
@@ -201,7 +202,7 @@ function ProgramUserConfig( $program, $staff_id = 0, $values = null )
 			AND PROGRAM='" . $program . "'
 			ORDER BY USER_ID", [], [ 'TITLE' ] );
 
-		$program_config[ $program ][ $staff_id ] = null;
+		$program_config[ $program ][ $staff_id ] = array();
 
 		foreach ( $config_RET as $title => $value )
 		{

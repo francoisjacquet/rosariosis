@@ -73,7 +73,7 @@ function _makeLetterGrade( $percent, $course_period_id = 0, $staff_id = 0, $ret 
 
 	// If Teacher Grade Scale.
 	if ( $does_breakoff === 'Y'
-		&& is_array( $gradebook_config ) )
+		&& $gradebook_config )
 	{
 		if ( $gradebook_config['ROUNDING'] === 'UP' )
 		{
@@ -110,7 +110,7 @@ function _makeLetterGrade( $percent, $course_period_id = 0, $staff_id = 0, $ret 
 	// Fix error invalid input syntax for type numeric
 	// If Teacher Grade Scale.
 	if ( $does_breakoff === 'Y'
-		&& is_array( $gradebook_config ) )
+		&& $gradebook_config )
 	{
 		foreach ( (array) $_ROSARIO['_makeLetterGrade']['grades'][ $grade_scale_id ] as $grade )
 		{
