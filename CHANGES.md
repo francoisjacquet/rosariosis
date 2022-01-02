@@ -14,7 +14,7 @@ Changes in 8.7
 - CSS fix menu hover right arrow position when module name on 2 lines in stylesheet.css
 - CSS fix font-size auto-adjust on iPhone in stylesheet.css
 - Fix typo in English string, update translations in Rollover.php & rosariosis.mo
-- JS fix menu & scroll issue on smartphone landscape > 735px in warehouse.js
+- JS fix menu & scroll issue on smartphone landscape > 735px in warehouse.js & jquery-fixed.menu.js
 - FlatSIS theme: use Grunt to minify in Gruntfile.js
 - FlatSIS theme: do not import WPadmin theme stylesheet anymore in stylesheet.css, stylesheet_wkhtmltopdf.css
 
