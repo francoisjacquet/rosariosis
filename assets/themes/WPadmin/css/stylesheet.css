@@ -1635,7 +1635,6 @@ input[type=checkbox].toggle {
 	margin-left: -22px;
 	margin-top: 5px;
 	cursor: pointer;
-	z-index: 2;
 	position: relative;
 	margin-right: 3px;
 	background: #fff;
