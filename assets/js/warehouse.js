@@ -447,9 +447,9 @@ window.onload = function() {
 		return $(this).css('pointer-events') == 'none' ? e.preventDefault() : ajaxLink(this);
 	});
 
-	if (!isResponsiveMenu()) {
-		fixedMenu();
+	fixedMenu();
 
+	if (!isResponsiveMenu()) {
 		submenuOffset();
 	}
 
@@ -457,8 +457,6 @@ window.onload = function() {
 		if (!isResponsiveMenu()) {
 			// @since 8.7 Allow scrolling body whether Menu is open or not.
 			$('body').css('overflow', '');
-
-			fixedMenu();
 		}
 	});
 
