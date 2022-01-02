@@ -392,6 +392,8 @@ var ajaxPrepare = function(target) {
 
 		if (isMobileMenu()) {
 			$('#menu').addClass('hide');
+
+			$('body').css('overflow', '');
 		}
 
 		document.body.scrollIntoView();
@@ -447,9 +449,9 @@ window.onload = function() {
 		return $(this).css('pointer-events') == 'none' ? e.preventDefault() : ajaxLink(this);
 	});
 
-	fixedMenu();
-
 	if (!isMobileMenu()) {
+		fixedMenu();
+
 		submenuOffset();
 	}
 
@@ -457,6 +459,8 @@ window.onload = function() {
 		if (!isMobileMenu()) {
 			// @since 8.7 Allow scrolling body whether Menu is open or not.
 			$('body').css('overflow', '');
+
+			fixedMenu();
 		}
 	});
 

@@ -74,10 +74,6 @@
 		padding: 0 5px;
 		box-sizing: border-box;
 	}
-	#menu + #body {
-		height: 100%;
-		overflow: scroll;
-	}
 	.header1 h2 {
 		font-size: 22px;
 		line-height: 24px;
