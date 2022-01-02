@@ -457,6 +457,8 @@ window.onload = function() {
 		if (!isResponsiveMenu()) {
 			// @since 8.7 Allow scrolling body whether Menu is open or not.
 			$('body').css('overflow', '');
+
+			fixedMenu();
 		}
 	});
 
