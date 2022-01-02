@@ -439,10 +439,6 @@ window.onload = function() {
 				$('#menu').scrollTop($('#menu')[0].scrollTop - Math.abs($(this).offset().top) - this.scrollHeight);
 			}
 
-			if (!isResponsiveMenu()) {
-				fixedMenu();
-			}
-
 			return false;
 		});
 	}
@@ -456,6 +452,13 @@ window.onload = function() {
 
 		submenuOffset();
 	}
+
+	$(window).resize(function(){
+		if (!isResponsiveMenu()) {
+			// @since 8.7 Allow scrolling body whether Menu is open or not.
+			$('body').css('overflow', '');
+		}
+	});
 
 	ajaxPrepare('body');
 
