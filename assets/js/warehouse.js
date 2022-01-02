@@ -81,7 +81,7 @@ function isTouchDevice() {
 	}
 }
 
-function isResponsiveMenu() {
+function isMobileMenu() {
 	// #menu width is 100% viewport width.
 	return Math.round($('#menu').width()) === window.innerWidth;
 }
@@ -376,7 +376,7 @@ var ajaxPrepare = function(target) {
 		if (window.modname) {
 			openMenu(modname);
 		}
-		if (!isResponsiveMenu()) {
+		if (!isMobileMenu()) {
 			submenuOffset();
 		}
 	}
@@ -390,7 +390,7 @@ var ajaxPrepare = function(target) {
 
 		openMenu();
 
-		if (isResponsiveMenu()) {
+		if (isMobileMenu()) {
 			$('#menu').addClass('hide');
 		}
 
@@ -449,12 +449,12 @@ window.onload = function() {
 
 	fixedMenu();
 
-	if (!isResponsiveMenu()) {
+	if (!isMobileMenu()) {
 		submenuOffset();
 	}
 
 	$(window).resize(function(){
-		if (!isResponsiveMenu()) {
+		if (!isMobileMenu()) {
 			// @since 8.7 Allow scrolling body whether Menu is open or not.
 			$('body').css('overflow', '');
 		}
@@ -580,7 +580,7 @@ var expandMenu = function() {
 
 	$('body').css('overflow', '');
 
-	if (isResponsiveMenu() &&
+	if (isMobileMenu() &&
 		!$('#menu').hasClass('hide')) {
 		// @since 5.1 Prevent scrolling body while Menu is open.
 		$('body').css('overflow', 'hidden');

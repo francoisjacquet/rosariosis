@@ -10,7 +10,7 @@
  * @since 2.9.3
  * @since 3.4.2 Handle RTL languages (menu on the right).
  * @since 4.4 Load once on page load & always check height on resize & scroll.
- * @since 8.7 Unfix menu on resize if responsive menu.
+ * @since 8.7 Unfix menu on resize if is mobile menu.
  */
 
 function fixedMenu() {
@@ -69,7 +69,7 @@ function fixedMenu() {
 			bodyHeight = body.height();
 
 		if (! menu.is(':visible') ||
-			isResponsiveMenu() ||
+			Math.round(menu.width()) === window.innerWidth || // isMobileMenu(), #menu width is 100% viewport width.
 			bodyHeight <= windowHeight ||
 			menu.height() >= bodyHeight ||
 			($window.scrollTop() + windowHeight <= menu.outerHeight())) {
