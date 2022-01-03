@@ -2179,7 +2179,7 @@ CREATE VIEW transcript_grades AS
         LEFT OUTER JOIN schools
         ON mp.school_id = schools.id
             AND (mp.mp_source<>'History' AND mp.syear = schools.syear)
-                OR mp.syear=(SELECT syear FROM schools WHERE mp.school_id = id ORDER BY syear LIMIT 1)
+                OR (mp.mp_source='History' AND mp.syear=(SELECT syear FROM schools WHERE mp.school_id = id ORDER BY syear LIMIT 1))
     ORDER BY srcg.course_period_id;
 
 

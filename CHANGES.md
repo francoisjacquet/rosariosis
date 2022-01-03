@@ -17,6 +17,7 @@ Changes in 8.7
 - JS fix menu & scroll issue on smartphone landscape > 735px in warehouse.js & jquery-fixed.menu.js
 - FlatSIS theme: use Grunt to minify in Gruntfile.js
 - FlatSIS theme: do not import WPadmin theme stylesheet anymore in stylesheet.css, stylesheet_wkhtmltopdf.css
+- Fix SQL TRANSCRIPT_GRADES view, grades were duplicated for each school year in rosariosis.sql & Update.fnc.php
 
 Changes in 8.6.1
 ----------------
