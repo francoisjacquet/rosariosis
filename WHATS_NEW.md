@@ -2,6 +2,17 @@
 
 ## RosarioSIS Student Information System
 
+New in 8.7
+----------
+
+Fix menu & scroll issue on recent smartphones (landscape resolution > 735px)
+
+FlatSIS theme
+- Do not import WPadmin theme stylesheet anymore
+- Use Grunt to minify
+- Improve load time & payload
+
+
 New in 8.5
 ----------
 
