@@ -275,6 +275,21 @@ function PDFStop( $handle )
 
 	$pdf = new mikehaertl\wkhtmlto\Pdf( $pdf_options );
 
+	if ( ! function_exists( 'proc_open' ) )
+	{
+		// @since 8.7.1 Fix proc_open() PHP function not allowed.
+		// Use `exec()` instead of `proc_open()`.
+		$pdf->commandOptions['useExec'] = true;
+
+		if ( ! function_exists( 'exec' ) )
+		{
+			// exec() PHP function not allowed either, error.
+			echo ErrorMessage( [ 'proc_open and exec PHP functions are disabled. Cannot call wkhtmltopdf and generate PDF. Contact your server administrator for more information.' ] );
+
+			return '';
+		}
+	}
+
 	$pdf->binary = $wkhtmltopdfPath;
 
 	$pdf->addPage( $html );
@@ -286,7 +301,7 @@ function PDFStop( $handle )
 		// Save the PDF.
 		if ( ! $pdf->saveAs( $full_path ) )
 		{
-			echo ErrorMessage( $pdf->getError() );
+			echo ErrorMessage( [ $pdf->getError() ] );
 		}
 
 		return $full_path;
@@ -295,7 +310,7 @@ function PDFStop( $handle )
 	// Send to client as file download.
 	if ( ! $pdf->send( $filename . '.pdf', (bool) $handle['mode'] ) ) // Embed or Download.
 	{
-		echo ErrorMessage( $pdf->getError() );
+		echo ErrorMessage( [ $pdf->getError() ] );
 	}
 
 	return '';

@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 8.7.1
+----------------
+- Fix proc_open() PHP function not allowed in PDF.php
+
 Changes in 8.7
 --------------
 - Rector fix bad code in functions/, classes/core/, ProgramFunctions/
