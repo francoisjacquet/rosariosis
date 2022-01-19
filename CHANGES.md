@@ -4,6 +4,7 @@
 Changes in 8.7.1
 ----------------
 - Fix proc_open() PHP function not allowed in PDF.php
+- Fix PHP Warning A non-numeric value encountered in ReportCards.fnc.php
 
 Changes in 8.7
 --------------

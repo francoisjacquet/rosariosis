@@ -1652,8 +1652,8 @@ function AddReportCardMinMaxGrades( $min_max_grades, $grades_RET, &$LO_columns )
 
 		foreach ( (array) $min_max_grades_cp as $mp_id => $min_max )
 		{
-			$min_grade = issetVal( $min_max[1]['GRADE_MIN'], '' );
-			$max_grade = issetVal( $min_max[1]['GRADE_MAX'], '' );
+			$min_grade = issetVal( $min_max[1]['GRADE_MIN'], '0' );
+			$max_grade = issetVal( $min_max[1]['GRADE_MAX'], '0' );
 
 			$min_grade = _makeLetterGrade( $min_grade / 100, $cp_id );
 			$max_grade = _makeLetterGrade( $max_grade / 100, $cp_id );
