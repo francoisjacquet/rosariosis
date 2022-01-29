@@ -1452,7 +1452,7 @@ function _makeLetterPercent( $student_id, $column )
 				$return = InputDivOnclick(
 					$id,
 					$select_html,
-					'<span class="nobr">' . ( $grades_select[$select_grade] ?
+					'<span class="nobr">' . ( isset( $grades_select[$select_grade] ) ?
 						$grades_select[$select_grade][1] :
 						'<span style="color:red">' . $select_grade . '</span>' ) .
 					' ' . $select_percent . '%</span>',
