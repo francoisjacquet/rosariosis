@@ -291,6 +291,9 @@ function appendStaffSQL( $sql, $extra = [] )
 		];
 
 		$sql .= SearchField( $last_name, 'staff', $extra );
+
+		// Fix for Teacher Programs: do not search Students List: unset!
+		$_REQUEST['last'] = '';
 	}
 
 	// First Name.
@@ -306,6 +309,9 @@ function appendStaffSQL( $sql, $extra = [] )
 		];
 
 		$sql .= SearchField( $first_name, 'staff', $extra );
+
+		// Fix for Teacher Programs: do not search Students List: unset!
+		$_REQUEST['first'] = '';
 	}
 
 	// Profile.

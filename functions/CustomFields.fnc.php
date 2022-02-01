@@ -15,6 +15,8 @@
  *
  * @uses SearchField()
  *
+ * @since 8.7.1 Fix PHP Fatal error Unsupported operand types in Teacher Programs: do not search Students List, unset!
+ *
  * @param  string $location part of the SQL statement (always 'where').
  * @param  string $type     student|staff (optional).
  * @param  array  $extra    disable search terms: array( 'NoSearchTerms' => true ) (optional).
@@ -68,7 +70,7 @@ function CustomFields( $location, $type = 'student', $extra = [] )
 		$fields = ParseMLArray( DBGet( "SELECT TITLE,'CUSTOM_'||ID AS COLUMN,
 			TYPE,SELECT_OPTIONS
 			FROM " . ( $type === 'staff' ? 'STAFF' : 'CUSTOM' ) . "_FIELDS",
-			[], [ 'COLUMN' ]	), 'TITLE' );
+			[], [ 'COLUMN' ] ), 'TITLE' );
 
 		if ( $type !== 'staff' )
 		{
@@ -93,29 +95,62 @@ function CustomFields( $location, $type = 'student', $extra = [] )
 			$fields[ $column ][1]['COLUMN'] = 'EMAIL';
 		}
 
+		if ( ! isset( $fields[ $column ] ) )
+		{
+			continue;
+		}
+
 		$field = $fields[ $column ][1] + [ 'VALUE' => $value ];
 
 		$return .= SearchField( $field, $type, $extra );
+
+		if ( $type === 'staff' )
+		{
+			// Fix for Teacher Programs: do not search Students List: unset!
+			$_REQUEST['cust'][ $column ] = '';
+		}
 	}
 
 	// Begin Dates / Number.
 	foreach ( (array) $cust_begin as $column => $value )
 	{
+		if ( ! isset( $fields[ $column ] ) )
+		{
+			continue;
+		}
+
 		$field = $fields[ $column ][1] + [ 'VALUE' => $value ];
 
 		$field['PART'] = 'begin';
 
 		$return .= SearchField( $field, $type, $extra );
+
+		if ( $type === 'staff' )
+		{
+			// Fix for Teacher Programs: do not search Students List: unset!
+			$_REQUEST['cust_begin'][ $column ] = '';
+		}
 	}
 
 	// End Dates / Number.
 	foreach ( (array) $cust_end as $column => $value )
 	{
+		if ( ! isset( $fields[ $column ] ) )
+		{
+			continue;
+		}
+
 		$field = $fields[ $column ][1] + [ 'VALUE' => $value ];
 
 		$field['PART'] = 'end';
 
 		$return .= SearchField( $field, $type, $extra );
+
+		if ( $type === 'staff' )
+		{
+			// Fix for Teacher Programs: do not search Students List: unset!
+			$_REQUEST['cust_end'][ $column ] = '';
+		}
 	}
 
 	return $return;
