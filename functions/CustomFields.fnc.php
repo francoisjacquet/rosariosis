@@ -104,9 +104,10 @@ function CustomFields( $location, $type = 'student', $extra = [] )
 
 		$return .= SearchField( $field, $type, $extra );
 
-		if ( $type === 'staff' )
+		if ( $type === 'staff'
+			&& $_REQUEST['modname'] === 'Users/TeacherPrograms.php' )
 		{
-			// Fix for Teacher Programs: do not search Students List: unset!
+			// Fix for Teacher Programs: do not search Students List, unset!
 			$_REQUEST['cust'][ $column ] = '';
 		}
 	}
@@ -125,9 +126,10 @@ function CustomFields( $location, $type = 'student', $extra = [] )
 
 		$return .= SearchField( $field, $type, $extra );
 
-		if ( $type === 'staff' )
+		if ( $type === 'staff'
+			&& $_REQUEST['modname'] === 'Users/TeacherPrograms.php' )
 		{
-			// Fix for Teacher Programs: do not search Students List: unset!
+			// Fix for Teacher Programs: do not search Students List, unset!
 			$_REQUEST['cust_begin'][ $column ] = '';
 		}
 	}
@@ -146,9 +148,10 @@ function CustomFields( $location, $type = 'student', $extra = [] )
 
 		$return .= SearchField( $field, $type, $extra );
 
-		if ( $type === 'staff' )
+		if ( $type === 'staff'
+			&& $_REQUEST['modname'] === 'Users/TeacherPrograms.php' )
 		{
-			// Fix for Teacher Programs: do not search Students List: unset!
+			// Fix for Teacher Programs: do not search Students List, unset!
 			$_REQUEST['cust_end'][ $column ] = '';
 		}
 	}
