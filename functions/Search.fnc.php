@@ -209,12 +209,12 @@ function Search( $type, $extra = null )
 		// Find a User form General Info & Profile.
 		case 'staff_general_info':
 
-			echo '<tr><td><label for="last">' . _( 'Last Name' ) . '</label></td><td>
-				<input type="text" name="last" id="last" size="24" maxlength="50" autofocus />
+			echo '<tr><td><label for="staff_last">' . _( 'Last Name' ) . '</label></td><td>
+				<input type="text" name="staff_last" id="staff_last" size="24" maxlength="50" autofocus />
 				</td></tr>';
 
-			echo '<tr><td><label for="first">' . _( 'First Name' ) . '</label></td><td>
-				<input type="text" name="first" id="first" size="24" maxlength="50" />
+			echo '<tr><td><label for="staff_first">' . _( 'First Name' ) . '</label></td><td>
+				<input type="text" name="staff_first" id="staff_first" size="24" maxlength="50" />
 				</td></tr>';
 
 			echo '<tr><td><label for="usrid">' . _( 'User ID' ) .

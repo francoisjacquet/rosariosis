@@ -279,39 +279,33 @@ function appendStaffSQL( $sql, $extra = [] )
 	}
 
 	// Last Name.
-	if ( isset( $_REQUEST['last'] )
-		&& $_REQUEST['last'] !== '' )
+	if ( isset( $_REQUEST['staff_last'] )
+		&& $_REQUEST['staff_last'] !== '' )
 	{
 		$last_name = [
 			'COLUMN' => 'LAST_NAME',
-			'VALUE' => $_REQUEST['last'],
+			'VALUE' => $_REQUEST['staff_last'],
 			'TITLE' => _( 'Last Name' ),
 			'TYPE' => 'text',
 			'SELECT_OPTIONS' => null,
 		];
 
 		$sql .= SearchField( $last_name, 'staff', $extra );
-
-		// Fix for Teacher Programs: do not search Students List: unset!
-		$_REQUEST['last'] = '';
 	}
 
 	// First Name.
-	if ( isset( $_REQUEST['first'] )
-		&& $_REQUEST['first'] !== '' )
+	if ( isset( $_REQUEST['staff_first'] )
+		&& $_REQUEST['staff_first'] !== '' )
 	{
 		$first_name = [
 			'COLUMN' => 'FIRST_NAME',
-			'VALUE' => $_REQUEST['first'],
+			'VALUE' => $_REQUEST['staff_first'],
 			'TITLE' => _( 'First Name' ),
 			'TYPE' => 'text',
 			'SELECT_OPTIONS' => null,
 		];
 
 		$sql .= SearchField( $first_name, 'staff', $extra );
-
-		// Fix for Teacher Programs: do not search Students List: unset!
-		$_REQUEST['first'] = '';
 	}
 
 	// Profile.
