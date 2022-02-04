@@ -237,20 +237,9 @@ if ( UserStudentID()
 						$bargraph2 = bargraph2( $percent === false ? true : 0, $lower, $higher );
 					}
 
-					//FJ css WPadmin
-
-					switch ( $ungraded )
+					if ( ! $ungraded )
 					{
-						case 0:
-							$ungraded = button( 'x' );
-							break;
-
-						case 1:
-							$ungraded = button( 'check' );
-							break;
-
-						default:
-							break;
+						$ungraded = '';
 					}
 
 					$LO_ret[] = [

@@ -7,6 +7,7 @@ Changes in 8.7.1
 - Fix PHP Warning A non-numeric value encountered in ReportCards.fnc.php
 - Fix PHP Fatal error Unsupported operand types in Teacher Programs: do not search Students List, unset in CustomFields.fnc.php
 - Add 'staff_' prefix to first & last inputs on Find a User form in GetStaffList.fnc.php & Search.fnc.php
+- Remove icons from Ungraded column, use only number in StudentGrades.php
 
 Changes in 8.7
 --------------
