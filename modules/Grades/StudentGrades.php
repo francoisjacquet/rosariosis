@@ -99,7 +99,11 @@ if ( UserStudentID()
 
 				$gradebook_config[$staff_id]['WEIGHT'] = issetVal( $gradebook_config[$staff_id]['WEIGHT'] );
 
-				$sql = "SELECT s.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID,sum(" . db_case( [ 'gg.POINTS', "'-1'", "'0'", 'gg.POINTS' ] ) . ") AS PARTIAL_POINTS,sum(" . db_case( [ 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ] ) . ") AS PARTIAL_TOTAL,gt.FINAL_GRADE_PERCENT,sum(" . db_case( [ 'gg.POINTS', "''", "1", "0" ] ) . ") AS UNGRADED
+				// @since 8.7.1 Exclude 0 points assignments from Ungraded count.
+				$sql = "SELECT s.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID,
+				sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'gg.POINTS' ) ) . ") AS PARTIAL_POINTS,
+				sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ) ) . ") AS PARTIAL_TOTAL,
+				gt.FINAL_GRADE_PERCENT,sum(CASE WHEN gg.POINTS IS NULL AND ga.POINTS>0 THEN 1 ELSE 0 END) AS UNGRADED
 				FROM STUDENTS s
 				JOIN SCHEDULE ss ON (ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='" . UserSyear() . "'";
 
