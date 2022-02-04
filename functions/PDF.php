@@ -277,7 +277,7 @@ function PDFStop( $handle )
 
 	if ( ! function_exists( 'proc_open' ) )
 	{
-		// @since 8.7.1 Fix proc_open() PHP function not allowed.
+		// @since 8.8 Fix proc_open() PHP function not allowed.
 		// Use `exec()` instead of `proc_open()`.
 		$pdf->commandOptions['useExec'] = true;
 

@@ -1,8 +1,8 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
-Changes in 8.7.1
-----------------
+Changes in 8.8
+--------------
 - Fix proc_open() PHP function not allowed in PDF.php
 - Fix PHP Warning A non-numeric value encountered in ReportCards.fnc.php
 - Fix PHP Fatal error Unsupported operand types in Teacher Programs: do not search Students List, unset in CustomFields.fnc.php

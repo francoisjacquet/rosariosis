@@ -15,7 +15,7 @@
  *
  * @uses SearchField()
  *
- * @since 8.7.1 Fix PHP Fatal error Unsupported operand types in Teacher Programs: do not search Students List, unset!
+ * @since 8.8 Fix PHP Fatal error Unsupported operand types in Teacher Programs: do not search Students List, unset!
  *
  * @param  string $location part of the SQL statement (always 'where').
  * @param  string $type     student|staff (optional).
