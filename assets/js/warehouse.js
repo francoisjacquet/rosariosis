@@ -541,7 +541,17 @@ function submenuOffset() {
 		var submenu = $(this).next(".wp-submenu"),
 			offsetTop = $("#footer").offset().top;
 
-		offsetTop += ($("#footer").css('bottom') != '0px' ? window.innerHeight : 0);
+		if ( $("#footer").css('bottom') != '0px' ) {
+			// Footer is on top of the screen.
+			offsetTop += window.innerHeight;
+
+			// Unless module is the last visible on screen.
+			if ( $(this).parent()[0].getBoundingClientRect().top < ( window.innerHeight - $(this).parent().outerHeight() * 2 ) ) {
+				// Raise height by 1 submenu item so we stay above browser URL.
+				offsetTop -= submenu.children("li").first().outerHeight();
+			}
+		}
+
 		moveup = offsetTop - $(this).offset().top - submenu.outerHeight();
 		submenu.css("margin-top", (moveup < 0 ? moveup : 0) + 'px');
 	});

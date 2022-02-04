@@ -10,6 +10,7 @@ Changes in 8.7.1
 - Remove icons from Ungraded column, use only number in StudentGrades.php
 - Exclude 0 points assignments from Ungraded count in StudentGrades.php
 - Date select increase years options from +5 to +20 in Date.php
+- JS Raise height by 1 submenu item so we stay above browser URL in warehouse.js
 
 Changes in 8.7
 --------------
