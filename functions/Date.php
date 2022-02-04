@@ -353,7 +353,7 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = [] )
 		{
 			// Show 20 previous years.
 			$begin = $date_exploded['year'] - 20;
-			$end = $date_exploded['year'] + 5;
+			$end = $date_exploded['year'] + 20;
 		}
 
 		$return_y .= '<select name="year' . $name_attr . '" id="yearSelect' . $_ROSARIO['PrepareDate'] . '"' .
