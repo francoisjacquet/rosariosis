@@ -224,11 +224,11 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					$grades_RET[$i]['MARKING_PERIOD_ID'] = key( $mps );
 
 					$grades_RET[$i]['COURSE_TITLE'] = $mps[key( $mps )][1]['COURSE_TITLE'];
-					$grades_RET[$i]['TEACHER_ID'] = GetTeacher( $mps[$last_mp][1]['TEACHER_ID'] );
+					$grades_RET[$i]['TEACHER_ID'] = GetTeacher( $mps[key( $mps )][1]['TEACHER_ID'] );
 
 					foreach ( (array) $_REQUEST['mp_arr'] as $mp )
 					{
-						if ( $mps[$mp] )
+						if ( ! empty( $mps[$mp] ) )
 						{
 							$grades_RET[$i][$mp] = $mps[$mp][1]['GRADE_TITLE'];
 
