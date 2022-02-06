@@ -88,6 +88,11 @@ function GetClassRankRow( $student_id, $mp_array )
 
 	foreach ( $class_rank_RET as $class_rank )
 	{
+		if ( ! $class_rank['CUM_RANK'] )
+		{
+			continue;
+		}
+
 		$mp_id = $class_rank['MARKING_PERIOD_ID'];
 
 		$class_rank_row[ $mp_id ] = $class_rank['CUM_RANK'] . ' / ' . $class_rank['CLASS_SIZE'];
