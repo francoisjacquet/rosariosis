@@ -462,7 +462,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 						&& $_REQUEST['elements']['percents'] === 'Y'
 						&& $grade['GRADE_PERCENT'] > 0 )
 					{
-						$grades_RET[$i][$mp] .= '&nbsp;&nbsp;' . $grade['GRADE_PERCENT'] . '%';
+						$grades_RET[$i][$mp] .= '&nbsp;&nbsp;' . (float) $grade['GRADE_PERCENT'] . '%';
 					}
 
 					// @since 5.0 Add GPA or Total row.
@@ -1572,6 +1572,7 @@ function _getReportCardCommentPersonalizations( $student_id )
  * Get Report Card Min. and Max. Grades
  *
  * @since 5.0
+ * @since 8.8 Add Min. and Max. GPA to Last row
  *
  * @param array $course_periods Course Periods array, with MPs array.
  *
@@ -1587,11 +1588,6 @@ function GetReportCardMinMaxGrades( $course_periods )
 	{
 		$cp_list[] = $course_period_id;
 
-		if ( ! empty( $mp_list ) )
-		{
-			continue;
-		}
-
 		foreach ( (array) $mps as $mp )
 		{
 			$mp_list[] = $mp[1]['MARKING_PERIOD_ID'];
@@ -1604,7 +1600,6 @@ function GetReportCardMinMaxGrades( $course_periods )
 
 	if ( ! isset( $min_max_grades[$cp_list][$mp_list] ) )
 	{
-
 		// Get Min. Max. Grades for each CP, and each MP.
 		$min_max_grades[$cp_list][$mp_list] = DBGet( "SELECT COURSE_PERIOD_ID,MARKING_PERIOD_ID,
 			MIN(GRADE_PERCENT) AS GRADE_MIN,MAX(GRADE_PERCENT) AS GRADE_MAX
@@ -1613,6 +1608,23 @@ function GetReportCardMinMaxGrades( $course_periods )
 			AND COURSE_PERIOD_ID IN(" . $cp_list . ")
 			AND MARKING_PERIOD_ID IN(" . $mp_list . ")
 			GROUP BY COURSE_PERIOD_ID,MARKING_PERIOD_ID", [], [ 'COURSE_PERIOD_ID', 'MARKING_PERIOD_ID' ] );
+
+		if ( ! empty( $_REQUEST['elements']['gpa_or_total'] )
+			&& $_REQUEST['elements']['gpa_or_total'] === 'gpa' )
+		{
+			// @since 8.8 Add Min. and Max. GPA to Last row.
+			$min_max_grades[$cp_list][$mp_list]['-1'] = DBGet( "SELECT '-1' AS COURSE_PERIOD_ID,MARKING_PERIOD_ID,
+				MIN(CUM_WEIGHTED_GPA) AS GRADE_MIN,MAX(CUM_WEIGHTED_GPA) AS GRADE_MAX
+				FROM TRANSCRIPT_GRADES
+				WHERE SYEAR='" . UserSyear() . "'
+				AND MARKING_PERIOD_ID IN(" . $mp_list . ")
+				AND STUDENT_ID IN(SELECT STUDENT_ID
+					FROM STUDENT_REPORT_CARD_GRADES
+					WHERE SYEAR='" . UserSyear() . "'
+					AND COURSE_PERIOD_ID IN(" . $cp_list . ")
+					AND MARKING_PERIOD_ID IN(" . $mp_list . "))
+				GROUP BY MARKING_PERIOD_ID", [], [ 'MARKING_PERIOD_ID' ] );
+		}
 	}
 
 	return $min_max_grades[$cp_list][$mp_list];
@@ -1633,7 +1645,7 @@ function GetReportCardMinMaxGrades( $course_periods )
  */
 function AddReportCardMinMaxGrades( $min_max_grades, $grades_RET, &$LO_columns )
 {
-	static $columns_done = false;
+	static $columns_done = array();
 
 	require_once 'ProgramFunctions/_makeLetterGrade.fnc.php';
 
@@ -1652,17 +1664,31 @@ function AddReportCardMinMaxGrades( $min_max_grades, $grades_RET, &$LO_columns )
 
 		foreach ( (array) $min_max_grades_cp as $mp_id => $min_max )
 		{
+			if ( ! isset( $grades_RET[$i][$mp_id] ) )
+			{
+				continue;
+			}
+
 			$min_grade = issetVal( $min_max[1]['GRADE_MIN'], '0' );
 			$max_grade = issetVal( $min_max[1]['GRADE_MAX'], '0' );
 
-			$min_grade = _makeLetterGrade( $min_grade / 100, $cp_id );
-			$max_grade = _makeLetterGrade( $max_grade / 100, $cp_id );
+			if ( $cp_id > 0 )
+			{
+				$min_grade = _makeLetterGrade( $min_grade / 100, $cp_id );
+				$max_grade = _makeLetterGrade( $max_grade / 100, $cp_id );
+			}
+			else
+			{
+				// CP ID=-1 is Total GPA, format float.
+				$min_grade = number_format( $min_grade, 2, '.', '' );
+				$max_grade = number_format( $max_grade, 2, '.', '' );
+			}
 
 			$grades_RET[$i][$mp_id] = '<div style="float: left;width: 23%;" class="size-1">' . $min_grade . '</div>
 				<div style="float: left;width: 48%;text-align: center;">' . $grades_RET[$i][$mp_id] . '</div>
 				<div style="float: left;width: 23%;text-align: right;" class="size-1">' . $max_grade . '</div>';
 
-			if ( $columns_done )
+			if ( ! empty( $columns_done[$mp_id] ) )
 			{
 				continue;
 			}
@@ -1671,9 +1697,9 @@ function AddReportCardMinMaxGrades( $min_max_grades, $grades_RET, &$LO_columns )
 			$LO_columns[$mp_id] = '<div style="float: left;width: 23%;" class="size-1">' . _( 'Min.' ) . '</div>
 				<div style="float: left;width: 48%;text-align: center;"><b>' . $LO_columns[$mp_id] . '</b></div>
 				<div style="float: left;width: 23%;text-align: right;" class="size-1">' . _( 'Max.' ) . '</div>';
-		}
 
-		$columns_done = true;
+			$columns_done[$mp_id] = true;
+		}
 	}
 
 	return $grades_RET;

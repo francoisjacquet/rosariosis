@@ -26,6 +26,7 @@ function GetGpaOrTotalRow( $student_id, $grades_total, $course_number, $mode = '
 
 	$gpa_row = [
 		'COURSE_TITLE' => ( $mode === 'total' ? _( 'Total' ) : _( 'GPA' ) ),
+		'COURSE_PERIOD_ID' => '-1',
 	];
 
 	foreach ( (array) $grades_total as $mp => $grades_total_mp )

@@ -11,6 +11,7 @@ Changes in 8.8
 - Exclude 0 points assignments from Ungraded count in StudentGrades.php
 - Date select increase years options from +5 to +20 in Date.php
 - JS Raise height by 1 submenu item so we stay above browser URL in warehouse.js
+- Add Min. and Max. GPA to Last row in Grades.fnc.php & ReportCards.fnc.php
 
 Changes in 8.7
 --------------
