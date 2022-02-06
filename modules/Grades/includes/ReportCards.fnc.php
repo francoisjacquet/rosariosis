@@ -127,6 +127,10 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 			}
 
 			$return .= '<td>' . RadioInput( '', 'elements[gpa_or_total]', _( 'Last row' ), $gpa_or_total_options ) . '</td>';
+
+			// Class Rank.
+			$return .= '<td class="valign-top"><label><input type="checkbox" name="elements[class_rank]" value="Y"> ' .
+				_( 'Class Rank' ) . '</label></td>';
 		}
 
 		$return .= '</tr></table></td></tr>';
@@ -272,6 +276,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 	 * @since 5.0 Add GPA or Total row.
 	 * @since 5.0 Add Min. and Max. Grades.
 	 * @since 7.5 Report Cards PDF footer action hook
+	 * @since 8.0 Add Class Rank row.
 	 *
 	 * @uses _makeTeacher() see below
 	 *
@@ -620,6 +625,17 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 
 					$grades_RET[$i + 1]['CREDITS'] = (float) $credits_total;
 				}
+			}
+
+			if ( ! empty( $_REQUEST['elements']['class_rank'] ) )
+			{
+				// @since 8.0 Add Class Rank row.
+				$plus_one_or_two = ! empty( $_REQUEST['elements']['gpa_or_total'] ) ? 2 : 1;
+
+				$grades_RET[$i + $plus_one_or_two] = GetClassRankRow(
+					$student_id,
+					$mp_array
+				);
 			}
 
 			if ( ! empty( $_REQUEST['elements']['minmax_grades'] ) )

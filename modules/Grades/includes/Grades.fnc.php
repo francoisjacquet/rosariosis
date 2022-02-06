@@ -11,6 +11,7 @@
  *
  * @since 5.0 Add GPA or Total.
  *
+ * @param int   $student_id     Student ID.
  * @param array $grades_total   Grades total points for each MP.
  * @param int   $courses_number Number of courses (rows).
  * @param bool  $percent        Show Percent grade.
@@ -48,9 +49,54 @@ function GetGpaOrTotalRow( $student_id, $grades_total, $course_number, $mode = '
 
 		if ( ! empty( $_REQUEST['elements']['minmax_grades'] ) )
 		{
-			$gpa_row[$mp] = '<div style="text-align: center;">' . $gpa_row[$mp] . '</div>';
+			$gpa_row[$mp] = '<div class="center">' . $gpa_row[$mp] . '</div>';
 		}
 	}
 
 	return $gpa_row;
+}
+
+
+/**
+ * Get Class Rank row
+ * Used by ReportCardsGenerate().
+ *
+ * @example $grades_RET[$i + 2] = GetClassRankRow( $student_id, $mp_list );
+ *
+ * @since 8.0 Add Class Rank row.
+ *
+ * @param int   $student_id Student ID.
+ * @param array $mp_array   Marking Periods.
+ *
+ * @return array Class Rank row.
+ */
+function GetClassRankRow( $student_id, $mp_array )
+{
+	$mp_list = "'" . implode( "','", $mp_array ) . "'";
+
+	$class_rank_RET = DBGet( "SELECT MARKING_PERIOD_ID,
+		CLASS_SIZE,CUM_RANK
+		FROM TRANSCRIPT_GRADES
+		WHERE SYEAR='" . UserSyear() . "'
+		AND MARKING_PERIOD_ID IN(" . $mp_list . ")
+		AND STUDENT_ID='" . $student_id . "'" );
+
+	$class_rank_row = [
+		'COURSE_PERIOD_ID' => '-2',
+		'COURSE_TITLE' => _( 'Class Rank' ),
+	];
+
+	foreach ( $class_rank_RET as $class_rank )
+	{
+		$mp_id = $class_rank['MARKING_PERIOD_ID'];
+
+		$class_rank_row[ $mp_id ] = $class_rank['CUM_RANK'] . ' / ' . $class_rank['CLASS_SIZE'];
+
+		if ( ! empty( $_REQUEST['elements']['minmax_grades'] ) )
+		{
+			$class_rank_row[ $mp_id ] = '<div class="center">' . $class_rank_row[ $mp_id ] . '</div>';
+		}
+	}
+
+	return $class_rank_row;
 }
