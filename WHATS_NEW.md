@@ -2,6 +2,21 @@
 
 ## RosarioSIS Student Information System
 
+New in 8.8
+----------
+
+Grades
+- Report Cards:
+  - Min. and Max. cumulated GPA
+  - Class Rank
+
+[Email Students](https://www.rosariosis.org/modules/email-students/)
+- Automatically send Absence notifications, after X registered absences
+- Automatically send Birthday notifications
+- Automatically send Payment reminders (outstanding fees), X days before or after Due date
+Sponsored by Mr Marinsek, Argentina
+
+
 New in 8.7
 ----------
 
