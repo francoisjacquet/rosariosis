@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 8.9
+--------------
+- Fix GetTeacher() when newly inserted teacher in GetTeacher.fnc.php
+
 Changes in 8.8
 --------------
 - Fix proc_open() PHP function not allowed in PDF.php

@@ -28,7 +28,7 @@ function GetTeacher( $teacher_id, $column = 'FULL_NAME', $schools = true )
 		$column = 'FULL_NAME';
 	}
 
-	if ( is_null( $teachers ) )
+	if ( empty( $teachers[ $teacher_id ] ) )
 	{
 		$teachers = DBGet( "SELECT STAFF_ID,FIRST_NAME,LAST_NAME,MIDDLE_NAME,
 			" . DisplayNameSQL() . " AS FULL_NAME,USERNAME,PROFILE
