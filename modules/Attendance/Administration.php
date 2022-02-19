@@ -124,7 +124,7 @@ if ( ! empty( $_REQUEST['attendance'] ) // Fix GET form: do not check $_POST.
 
 		foreach ( (array) $values as $period_id => $columns )
 		{
-			if ( $current_RET[$student_id][$period_id] )
+			if ( ! empty( $current_RET[$student_id][$period_id] ) )
 			{
 				$sql = "UPDATE " . DBEscapeIdentifier( $table ) .
 					" SET ADMIN='Y',
@@ -608,7 +608,8 @@ function _makeCode( $value, $title )
 
 	foreach ( (array) $codes_RET as $code )
 	{
-		if ( $current_RET[$value][$THIS_RET['PERIOD_ID']][1]['ATTENDANCE_TEACHER_CODE'] == $code['ID'] )
+		if ( isset( $current_RET[$value][$THIS_RET['PERIOD_ID']][1]['ATTENDANCE_TEACHER_CODE'] )
+			&& $current_RET[$value][$THIS_RET['PERIOD_ID']][1]['ATTENDANCE_TEACHER_CODE'] == $code['ID'] )
 		{
 			return $code['TITLE'];
 		}
@@ -642,7 +643,7 @@ function _makeReason( $value, $title )
 {
 	global $THIS_RET, $current_RET;
 
-	return $current_RET[$value][$THIS_RET['PERIOD_ID']][1]['COMMENT'];
+	return issetVal( $current_RET[$value][$THIS_RET['PERIOD_ID']][1]['COMMENT'], '' );
 }
 
 /**

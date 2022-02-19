@@ -106,9 +106,10 @@ if ( $_REQUEST['modfunc'] === 'save' )
 						continue;
 					}
 
-					$course_period_id = $course_periods_RET[$period_id][1]['COURSE_PERIOD_ID'];
+					$course_period_id = issetVal( $course_periods_RET[$period_id][1]['COURSE_PERIOD_ID'] );
 
-					if ( $course_period_id && ! ( $course_periods_RET[$period_id][1]['COURSE_PERIOD_ID'] == 'Y' && $state_code == 'H' ) )
+					if ( $course_period_id
+						&& ! ( $course_periods_RET[$period_id][1]['COURSE_PERIOD_ID'] == 'Y' && $state_code == 'H' ) )
 					{
 						if ( empty( $current_RET[$student_id][$date][$period_id] ) )
 						{
