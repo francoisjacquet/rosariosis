@@ -52,7 +52,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				{
 					// FJ days numbered.
 					// FJ multiple school periods for a course period.
-					$course_periods_RET = DBGet( "SELECT s.COURSE_PERIOD_ID,cpsp.PERIOD_ID,cp.HALF_DAY
+					$course_periods_RET = DBGet( "SELECT s.COURSE_PERIOD_ID,cpsp.PERIOD_ID
 					FROM SCHEDULE s,COURSE_PERIODS cp,ATTENDANCE_CALENDAR ac,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
 					WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 					AND sp.PERIOD_ID=cpsp.PERIOD_ID
@@ -83,7 +83,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				}
 				else
 				{
-					$course_periods_RET = DBGet( "SELECT s.COURSE_PERIOD_ID,cpsp.PERIOD_ID,cp.HALF_DAY
+					$course_periods_RET = DBGet( "SELECT s.COURSE_PERIOD_ID,cpsp.PERIOD_ID
 						FROM SCHEDULE s,COURSE_PERIODS cp,ATTENDANCE_CALENDAR ac,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
 						WHERE sp.PERIOD_ID=cpsp.PERIOD_ID
 						AND ac.SCHOOL_DATE='" . $date . "'

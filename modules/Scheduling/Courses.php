@@ -828,7 +828,7 @@ if (  ( ! $_REQUEST['modfunc']
 				$RET = DBGet( "SELECT PARENT_ID,TITLE,SHORT_NAME,MP,MARKING_PERIOD_ID,TEACHER_ID,
 					SECONDARY_TEACHER_ID,CALENDAR_ID,ROOM,TOTAL_SEATS,DOES_ATTENDANCE,GRADE_SCALE_ID,
 					DOES_HONOR_ROLL,DOES_CLASS_RANK,GENDER_RESTRICTION,
-					HOUSE_RESTRICTION,CREDITS,HALF_DAY,DOES_BREAKOFF
+					HOUSE_RESTRICTION,CREDITS,DOES_BREAKOFF
 					FROM COURSE_PERIODS
 					WHERE COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'" );
 
@@ -1202,18 +1202,15 @@ if (  ( ! $_REQUEST['modfunc']
 
 			if ( AllowEdit() || $RET['DOES_ATTENDANCE'] )
 			{
-				// Hide Calendar, Half Day if CP "No Attendance".
+				// Hide Calendar if CP "No Attendance".
 				// Calendar.
 				$header .= '<td colspan="2">' . $cp_inputs[0] . '</td>';
-
-				// Half Day.
-				$header .= '<td colspan="3">' . $cp_inputs[2] . '</td>';
 			}
 
 			$header .= '</tr><tr><td colspan="6"><hr /></td></tr>';
 
 			// Grading Scale.
-			$header .= '<tr class="st"><td>' . $cp_inputs[3] . '</td>';
+			$header .= '<tr class="st"><td>' . $cp_inputs[2] . '</td>';
 
 			if ( AllowEdit() || $RET['GRADE_SCALE_ID'] )
 			{
@@ -1222,7 +1219,7 @@ if (  ( ! $_REQUEST['modfunc']
 				{
 					// Show only to Teachers and Admins.
 					// Allow Teacher Grade Scale.
-					$header .= '<td colspan="2">' . $cp_inputs[4] . '</td>';
+					$header .= '<td colspan="2">' . $cp_inputs[3] . '</td>';
 				}
 				else
 				{
@@ -1230,13 +1227,13 @@ if (  ( ! $_REQUEST['modfunc']
 				}
 
 				// Credits.
-				$header .= '<td>' . $cp_inputs[5] . '</td>';
+				$header .= '<td>' . $cp_inputs[4] . '</td>';
 
 				// Affects Class Rank.
-				$header .= '<td>' . $cp_inputs[6] . '</td>';
+				$header .= '<td>' . $cp_inputs[5] . '</td>';
 
 				// Affects Honor Roll.
-				$header .= '<td>' . $cp_inputs[7] . '</td>';
+				$header .= '<td>' . $cp_inputs[6] . '</td>';
 			}
 
 			$header .= '</tr>';
@@ -1254,7 +1251,7 @@ if (  ( ! $_REQUEST['modfunc']
 			{
 				// Hide from non editing users if no Gender Restriction set.
 				// Gender Restriction.
-				$header .= '<td colspan="3">' . $cp_inputs[8] . '</td>';
+				$header .= '<td colspan="3">' . $cp_inputs[7] . '</td>';
 			}
 
 			if ( AllowEdit()

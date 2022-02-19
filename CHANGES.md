@@ -4,6 +4,7 @@
 Changes in 8.9
 --------------
 - Fix GetTeacher() when newly inserted teacher in GetTeacher.fnc.php
+- Remove Half Day option in AddAbsences.php, Administration.php, TakeAttendance.php, Courses.php, Courses.fnc.php & Rollover.php
 
 Changes in 8.8
 --------------

@@ -130,6 +130,7 @@ function CoursePeriodAttendanceInput( $does_attendance, $array )
  * Course Period option inputs
  *
  * @since 4.9
+ * @since 8.9 Remove Half Day option
  *
  * @param array  $course_period_RET Course Period data array from DB.
  * @param string $array             Input name prefix, before value index (array).
@@ -164,16 +165,6 @@ function CoursePeriodOptionInputs( $course_period_RET, $array, $new )
 	);
 
 	$inputs[] = CoursePeriodAttendanceInput( issetVal( $course_period_RET['DOES_ATTENDANCE'], '' ), $array );
-
-	$inputs[] = CheckboxInput(
-		issetVal( $course_period_RET['HALF_DAY'], '' ),
-		$array . '[HALF_DAY]',
-		_( 'Half Day' ),
-		'',
-		$new,
-		button( 'check' ),
-		button( 'x' )
-	);
 
 	$options_RET = DBGet( "SELECT TITLE,ID
 		FROM REPORT_CARD_GRADE_SCALES

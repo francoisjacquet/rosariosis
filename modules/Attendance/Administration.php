@@ -63,7 +63,7 @@ if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 {
 	// FJ days numbered.
 	// FJ multiple school periods for a course period.
-	$current_schedule_Q = "SELECT cpsp.PERIOD_ID,cp.COURSE_PERIOD_ID,cp.HALF_DAY
+	$current_schedule_Q = "SELECT cpsp.PERIOD_ID,cp.COURSE_PERIOD_ID
 	FROM SCHEDULE s,COURSE_PERIODS cp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 	AND s.STUDENT_ID='__student_id__'
@@ -90,7 +90,7 @@ if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 }
 else
 {
-	$current_schedule_Q = "SELECT cpsp.PERIOD_ID,cp.COURSE_PERIOD_ID,cp.HALF_DAY
+	$current_schedule_Q = "SELECT cpsp.PERIOD_ID,cp.COURSE_PERIOD_ID
 	FROM SCHEDULE s,COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 	AND s.STUDENT_ID='__student_id__'
@@ -577,10 +577,7 @@ function _makeCodePulldown( $value, $title )
 
 		foreach ( (array) $codes_RET as $code )
 		{
-			if ( $current_schedule_RET[$value][$period_id][1]['HALF_DAY'] != 'Y' || $code['STATE_CODE'] != 'H' ) // prune half day codes for half day courses
-			{
-				$options[$code['ID']] = $code[$code_title];
-			}
+			$options[$code['ID']] = $code[$code_title];
 
 			if ( $val === $code['ID'] )
 			{

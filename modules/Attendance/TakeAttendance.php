@@ -73,7 +73,7 @@ if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 {
 	// FJ days numbered.
 	// FJ multiple school periods for a course period.
-	$course_RET = DBGet( "SELECT cp.HALF_DAY
+	$course_RET = DBGet( "SELECT 1
 	FROM ATTENDANCE_CALENDAR acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 	AND acc.SYEAR='" . UserSyear() . "'
@@ -104,7 +104,7 @@ if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 }
 else
 {
-	$course_RET = DBGet( "SELECT cp.HALF_DAY
+	$course_RET = DBGet( "SELECT 1
 	FROM ATTENDANCE_CALENDAR acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp, COURSE_PERIOD_SCHOOL_PERIODS cpsp
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 	AND acc.SYEAR='" . UserSyear() . "'
@@ -293,9 +293,8 @@ $codes_RET = DBGet( "SELECT ID,TITLE,DEFAULT_CODE,STATE_CODE
 	WHERE SCHOOL_ID='" . UserSchool() . "'
 	AND SYEAR='" . UserSyear() . "'
 	AND TYPE='teacher'
-	AND TABLE_NAME='" . $_REQUEST['table'] . "'" .
-	( $_REQUEST['table'] == '0' && $course_RET[1]['HALF_DAY'] ? " AND STATE_CODE!='H'" : '' ) .
-	" ORDER BY SORT_ORDER" );
+	AND TABLE_NAME='" . $_REQUEST['table'] . "'
+	ORDER BY SORT_ORDER" );
 
 $columns = [];
 
