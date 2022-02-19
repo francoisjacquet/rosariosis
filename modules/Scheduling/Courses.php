@@ -844,14 +844,14 @@ if (  ( ! $_REQUEST['modfunc']
 				$new = false;
 
 				// Check for Course Period Teacher conflict.
-				if ( User( 'PROFILE' ) === 'admin'
+				if ( AllowEdit()
 					&& CoursePeriodTeacherConflictCheck( $RET['TEACHER_ID'] ) )
 				{
 					$warning[] = _( 'Conflict: Teacher already scheduled for this period.' );
 				}
 
 				// Check for Course Period Secondary Teacher conflict.
-				if ( User( 'PROFILE' ) === 'admin'
+				if ( AllowEdit()
 					&& $RET['SECONDARY_TEACHER_ID']
 					&& CoursePeriodTeacherConflictCheck( $RET['SECONDARY_TEACHER_ID'] ) )
 				{
