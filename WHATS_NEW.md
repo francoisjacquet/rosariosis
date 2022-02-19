@@ -7,7 +7,7 @@ New in 8.8
 
 Grades
 - Report Cards:
-  - Min. and Max. cumulated GPA
+  - Min. and Max. cumulative GPA
   - Class Rank
 
 [Email Students](https://www.rosariosis.org/modules/email-students/)
