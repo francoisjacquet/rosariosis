@@ -1150,7 +1150,7 @@ if (  ( ! $_REQUEST['modfunc']
 					<a href="#" onclick="' .
 				( $new ?
 					'newSchoolPeriod();' :
-					'document.getElementById(\'schoolPeriod\'+' . $i . ').style.display=\'table-row\';' ) .
+					'document.getElementById(\'schoolPeriod\'+' . $i . ').style.display=\'table-row\'; this.style.display=\'none\';' ) .
 				' return false;">' .
 				button( 'add' ) . ' ' . _( 'New Period' ) . '</a>
 					</td></tr>';
