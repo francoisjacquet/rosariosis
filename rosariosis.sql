@@ -448,7 +448,7 @@ CREATE TABLE course_periods (
     availability numeric,
     parent_id integer,
     calendar_id integer,
-    half_day character varying(1),
+    half_day character varying(1), -- @deprecated since 8.9
     does_breakoff character varying(1),
     rollover_id integer,
     grade_scale_id integer,
