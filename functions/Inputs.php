@@ -339,7 +339,7 @@ function setMLvalue(id, loc, value){
 	}
 	else
 	{
-		$return .= ParseMLField( $value );
+		$return = ParseMLField( $value );
 
 		$title_break = '<br />';
 	}
@@ -945,7 +945,8 @@ function SelectInput( $values, $name, $title = '', $options = [], $allow_na = 'N
 
 	$select .= '</select>' . FormatInputTitle( $title, $id, $required );
 
-	if ( $values[0] == ''
+	if ( ! isset( $values[0] )
+		|| $values[0] == ''
 		|| ! $div )
 	{
 		return $select;
