@@ -254,7 +254,12 @@ else
 				false
 			);
 
-			echo FormatInputTitle( _( 'Default Theme' ), '', false, '' ) . ' ';
+			echo FormatInputTitle(
+				_( 'Default Theme' ),
+				'',
+				false,
+				( AllowEdit() ? '' : '<br />' )
+			) . ' ';
 
 			// Add Force Default Theme.
 			echo CheckboxInput(
