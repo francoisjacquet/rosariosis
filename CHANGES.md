@@ -6,6 +6,7 @@ Changes in 8.9
 - Fix GetTeacher() when newly inserted teacher in GetTeacher.fnc.php
 - Remove Half Day option in AddAbsences.php, Administration.php, TakeAttendance.php, Courses.php, Courses.fnc.php & Rollover.php
 - JS Hide "+ New Period" link onclick in Courses.php
+- CSS FlatSIS fix bottom button line height in stylesheet.css
 
 Changes in 8.8
 --------------

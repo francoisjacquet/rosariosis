@@ -1238,7 +1238,6 @@ a > .button {
 /*bottom*/
 
 .BottomButton {
-	line-height: 32px;
 	margin-right: 8px;
 	display: inline-block;
 }
@@ -1248,6 +1247,7 @@ a > .button {
 	text-transform: uppercase;
 	font-size: 14px;
 	padding-left: 4px;
+	line-height: 32px;
 }
 
 .BottomButton img {
