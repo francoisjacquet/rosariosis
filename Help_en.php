@@ -730,6 +730,24 @@ if ( User( 'PROFILE' ) === 'admin' ):
 
 	<p>' . _help( 'Finally, to delete something, select it by clicking on its title on the list and click the "Delete" button at the top of the screen. You will be asked to confirm the deletion.' ) . '</p>
 
+	<p>' . _help( 'Course' ) . '<ul>
+		<li>' . _help( '<i>Description</i>: the description is optional. You can, for example, enter the course syllabus. By default, students and parents can browse the courses list and thus consult descriptions.' ) . '</li>
+		<li>' . _help( '<i>Credit Hours</i> (abbreviated "C.H."), or the number of hours to complete the course; can be displayed on Transcripts. This field is optional.' ) . '</li>
+	</ul>
+	</p>
+
+	<p>' . _help( 'Course Period (or Class)' ) . '<ul>
+		<li>' . _help( '<i>Seats</i>: this field is optional. When set, you can check how many seats are available (based on the number of students enrolled in the class).' ) . '</li>
+		<li>' . _help( '<i>Period - Days</i>: you can add various Periods, each with their own Days. Click on the "Add a Period" link. To remove a Period, uncheck all Days and click on the "Save" button. A Course Period must have at least one Period, or else it will not appear in the Teacher\'s left menu.' ) . '</li>
+		<li>' . _help( '<i>Calendar</i>: associate a Calendar. Students in the class should be associated to that same Calendar. Note: you can create various calendars using the <i>School > Calendars</i> program.' ) . '</li>
+		<li>' . _help( '<i>Grading Scale</i>: choose the "Not Graded" option if you do not wish to enter Final Grades for this class (the Gradebook will still be available). Note: you can create various grading scales using the <i>Grades > Grading Scales</i> program.' ) . '</li>
+		<li>' . _help( '<i>Allow Teacher Grade Scale</i>: when checked, the teacher will be able to define custom Breakoff values for the Grading Scale.' ) . '</li>
+		<li>' . _help( '<i>Credits</i> is both the <b>coefficient</b> used to weigh Final Grades in order to calculate the overall / cumulative GPA, and the Credits attempted by students. 0 credits will be earned by a student whose grade is below the minimum (see the "Minimum Passing Grade" field in the <i>Grades > Grading Scales</i> program for configuration). Credits earned can be displayed on Transcripts and Credits can be displayed on Report Cards. For example, if you assign 4 credits to a Full Year Course Period and have 4 Quarters, students will earn 1 credit for each Quarter.' ) . '</li>
+		<li>' . _help( '<i>Gender Restriction</i>: the <i>Run Scheduler</i>, <i>Student Schedule</i> ("Unfilled Requests" list) and <i>Requests Report</i> programs make use of this restriction.' ) . '</li>
+		<li>' . _help( '<i>Parent Course Period</i>: optionally choose a parent course period. The <i>Run Scheduler</i> program makes use of it.' ) . '</li>
+	</ul>
+	</p>
+
 	<p>' . _help( 'Note: a course period cannot be deleted once it has students enrolled.' ) . '</p>';
 
 	$help['Scheduling/Scheduler.php'] = '<p>' . _help( '<i>Run Scheduler</i> schedules every student at your school according to the requests entered for them.' ) . '</p>

@@ -7,6 +7,7 @@ Changes in 8.9
 - Remove Half Day option in AddAbsences.php, Administration.php, TakeAttendance.php, Courses.php, Courses.fnc.php & Rollover.php
 - JS Hide "+ New Period" link onclick in Courses.php
 - CSS FlatSIS fix bottom button line height in stylesheet.css
+- Add help texts & translations for the Scheduling > Courses program in Help_en.php & help.po
 
 Changes in 8.8
 --------------
