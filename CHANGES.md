@@ -8,6 +8,7 @@ Changes in 8.9
 - JS Hide "+ New Period" link onclick in Courses.php
 - CSS FlatSIS fix bottom button line height in stylesheet.css
 - Add help texts & translations for the Scheduling > Courses program in Help_en.php & help.po
+- Correct typos in Spanish help texts in help.po
 
 Changes in 8.8
 --------------
