@@ -26,9 +26,10 @@ $title = $profiles[ User( 'PROFILE' ) ];
 $handle = PDFStart(); ?>
 
 <style>.header2{ font-size: larger; }</style>
-<h1><img src="assets/themes/<?php echo Preferences( 'THEME' ); ?>/logo.png" class="module-icon" />
-	<?php echo sprintf( _( '%s Handbook' ), $title ); ?></h1>
-<hr />
+<div class="header1">
+	<h2><img src="assets/themes/<?php echo Preferences( 'THEME' ); ?>/logo.png" class="module-icon" />
+		<?php echo sprintf( _( '%s Handbook' ), $title ); ?></h2>
+</div>
 
 <?php
 $help = HelpLoad();
