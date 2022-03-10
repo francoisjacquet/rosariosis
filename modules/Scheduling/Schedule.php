@@ -496,6 +496,11 @@ function _makeLock( $value, $column )
 
 	static $js_included = false;
 
+	if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
+		return $value == 'Y' ? _( 'Locked' ) : _( 'Unlocked' );
+	}
+
 	$return = '';
 
 	if ( ! $js_included )

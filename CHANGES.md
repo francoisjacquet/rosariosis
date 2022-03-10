@@ -9,6 +9,7 @@ Changes in 8.9
 - CSS FlatSIS fix bottom button line height in stylesheet.css
 - Add help texts & translations for the Scheduling > Courses program in Help_en.php & help.po
 - Correct typos in Spanish help texts in help.po
+- Fix Locked column value on list export in Schedule.php
 
 Changes in 8.8
 --------------
