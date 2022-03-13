@@ -17,7 +17,7 @@ The plugin is designed and intended for ONE school only in RosarioSIS.
 Plugin Configuration
 
 - Configure Moodle API and Test
-- Import Users
+- Import Users (Moodle 3.1 and above only)
 
 Create Student Account
 
