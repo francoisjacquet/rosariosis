@@ -10,6 +10,7 @@ Changes in 8.9
 - Add help texts & translations for the Scheduling > Courses program in Help_en.php & help.po
 - Correct typos in Spanish help texts in help.po
 - Fix Locked column value on list export in Schedule.php
+- Student / User Photo input: only accept .jpg,.jpeg,.png,.gif in General_Info.inc.php
 
 Changes in 8.8
 --------------

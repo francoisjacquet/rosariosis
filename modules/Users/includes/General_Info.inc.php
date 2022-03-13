@@ -13,7 +13,7 @@ echo button( 'add', '', '', 'smaller' ) . '&nbsp;' . _( 'User Photo' );
 echo FileInput(
 	'photo',
 	_( 'User Photo' ) . ' (.jpg, .png, .gif)',
-	'accept="image/*"'
+	'accept=".jpg,.jpeg,.png,.gif"'
 );
 ?></div>
 <?php endif;
