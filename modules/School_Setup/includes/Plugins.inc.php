@@ -285,14 +285,17 @@ if ( ! $_REQUEST['modfunc'] )
 		&& is_writable( 'plugins/' ) )
 	{
 		// @since 6.4 Add-on zip upload.
-		echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=' . $_REQUEST['tab'] .
+		echo '<br /><form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab=' . $_REQUEST['tab'] .
 			'&modfunc=upload' ) . '" method="POST" enctype="multipart/form-data">';
 
-		echo button( 'add' ) . ' ';
-
-		echo FileInput( 'upload', '', 'required accept=".zip"', FileUploadMaxSize() );
+		echo FileInput( 'upload', '', 'required accept=".zip"' );
 
 		echo SubmitButton( _( 'Upload' ) );
+
+		echo FormatInputTitle(
+			button( 'add', '', '', 'smaller' ) . ' ' . _( 'Plugin' ) . ' (.zip)',
+			'upload'
+		);
 
 		echo '</form>';
 	}

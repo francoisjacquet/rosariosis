@@ -12,6 +12,7 @@ Changes in 8.9
 - Fix Locked column value on list export in Schedule.php
 - Student / User Photo input: only accept .jpg,.jpeg,.png,.gif in General_Info.inc.php
 - Increase Food Service icon width to 48px in FS_Icons.inc.php & MenuItems.php
+- HTML add Add-on upload input title in Modules.inc.php & Plugins.inc.php
 
 Changes in 8.8
 --------------
