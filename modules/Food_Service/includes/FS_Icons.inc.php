@@ -22,7 +22,7 @@ if ( ! isset( $FS_IconsPath ) )
  *
  * @return string HTML image with icon.
  */
-function makeIcon( $value, $name, $width = '36' )
+function makeIcon( $value, $name, $width = '48' )
 {
 	global $FS_IconsPath,
 		$THIS_RET;

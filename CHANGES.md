@@ -11,6 +11,7 @@ Changes in 8.9
 - Correct typos in Spanish help texts in help.po
 - Fix Locked column value on list export in Schedule.php
 - Student / User Photo input: only accept .jpg,.jpeg,.png,.gif in General_Info.inc.php
+- Increase Food Service icon width to 48px in FS_Icons.inc.php & MenuItems.php
 
 Changes in 8.8
 --------------

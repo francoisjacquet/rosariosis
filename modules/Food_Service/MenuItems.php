@@ -557,11 +557,10 @@ function get_icons_select( $path )
 
 	foreach ( $icons as $icon )
 	{
-		//filter images
-
+		// Filter images.
 		if ( in_array( mb_strtolower( mb_strrchr( $icon, '.' ) ), [ '.jpg', '.jpeg', '.png', '.gif' ] ) )
 		{
-			$files[$icon] = [ $icon, '<img src="' . $path . $icon . '" width="45" />' ];
+			$files[$icon] = [ $icon, '<img src="' . $path . $icon . '" width="48" />' ];
 		}
 	}
 
