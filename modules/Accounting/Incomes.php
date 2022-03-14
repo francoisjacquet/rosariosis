@@ -135,16 +135,14 @@ if ( ! $_REQUEST['modfunc'] )
 		$i++;
 	}
 
+	$columns = [];
+
 	if ( ! empty( $RET )
 		&& ! $_REQUEST['print_statements']
 		&& AllowEdit()
 		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		$columns = [ 'REMOVE' => '<span class="a11y-hidden">' . _( 'Delete' ) . '</span>' ];
-	}
-	else
-	{
-		$columns = [];
 	}
 
 	$columns += [
@@ -154,8 +152,7 @@ if ( ! $_REQUEST['modfunc'] )
 		'COMMENTS' => _( 'Comment' ),
 	];
 
-	if ( empty( $_REQUEST['print_statements'] )
-		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	if ( empty( $_REQUEST['print_statements'] ) )
 	{
 		$columns += [ 'FILE_ATTACHED' => _( 'File Attached' ) ];
 	}

@@ -206,8 +206,7 @@ if ( UserStudentID()
 		'COMMENTS' => _( 'Comment' ),
 	];
 
-	if ( empty( $_REQUEST['print_statements'] )
-		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	if ( empty( $_REQUEST['print_statements'] ) )
 	{
 		$columns += [ 'FILE_ATTACHED' => _( 'File Attached' ) ];
 	}
