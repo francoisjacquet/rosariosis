@@ -7,14 +7,14 @@ require_once 'modules/School_Setup/includes/Schools.fnc.php';
 
 DrawHeader( ProgramTitle() );
 
-// Add eventual Dates to $_REQUEST['values'].
-AddRequestedDates( 'values', 'post' );
-
 if ( $_REQUEST['modfunc'] === 'update' )
 {
 	if ( $_REQUEST['button'] === _( 'Save' )
 		&& AllowEdit() )
 	{
+		// Add eventual Dates to $_REQUEST['values'].
+		AddRequestedDates( 'values', 'post' );
+
 		if ( ! empty( $_REQUEST['values'] )
 			&& ! empty( $_POST['values'] )
 			|| ! empty( $_FILES ) )
