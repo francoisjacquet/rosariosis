@@ -13,6 +13,7 @@ Changes in 8.9
 - Student / User Photo input: only accept .jpg,.jpeg,.png,.gif in General_Info.inc.php
 - Increase Food Service icon width to 48px in FS_Icons.inc.php & MenuItems.php
 - HTML add Add-on upload input title in Modules.inc.php & Plugins.inc.php
+- Fix do not resubmit form on list export in Incomes.php & Expenses.php
 
 Changes in 8.8
 --------------

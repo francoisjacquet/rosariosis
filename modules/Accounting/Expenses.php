@@ -10,13 +10,13 @@ if ( empty( $_REQUEST['print_statements'] ) )
 	DrawHeader( ProgramTitle() );
 }
 
-// Add eventual Dates to $_REQUEST['values'].
-AddRequestedDates( 'values', 'post' );
-
 if ( ! empty( $_REQUEST['values'] )
 	&& $_POST['values']
 	&& AllowEdit() )
 {
+	// Add eventual Dates to $_REQUEST['values'].
+	AddRequestedDates( 'values', 'post' );
+
 	foreach ( (array) $_REQUEST['values'] as $id => $columns )
 	{
 		if ( $id !== 'new' )
@@ -87,8 +87,8 @@ if ( ! empty( $_REQUEST['values'] )
 		}
 	}
 
-	// Unset modfunc & redirect URL.
-	RedirectURL( 'modfunc' );
+	// Unset values & redirect URL.
+	RedirectURL( 'values' );
 }
 
 if ( $_REQUEST['modfunc'] === 'remove'
