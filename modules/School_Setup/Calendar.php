@@ -432,12 +432,13 @@ unset( $_SESSION['_REQUEST_vars']['calendar_id'] );
 // Event / Assignment details
 if ( $_REQUEST['modfunc'] === 'detail' )
 {
-	AddRequestedDates( 'values' );
-
 	if ( isset( $_POST['button'] )
 		&& $_POST['button'] === _( 'Save' )
 		&& AllowEdit() )
 	{
+		// Add eventual Dates to $_REQUEST['values'].
+		AddRequestedDates( 'values' );
+
 		if ( ! empty( $_REQUEST['values'] ) )
 		{
 			// FJ textarea fields MarkDown sanitize.
@@ -527,15 +528,13 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 	window.close();
 </script>
 			<?php
-
-			// Unset values & redirect URL.
-			RedirectURL( 'values' );
 		}
 	}
 	// Delete Event
 	elseif ( isset( $_REQUEST['button'] )
 		&& $_REQUEST['button'] == _( 'Delete' )
-		&& ! isset( $_REQUEST['delete_cancel'] ) )
+		&& ! isset( $_REQUEST['delete_cancel'] )
+		&& AllowEdit() )
 	{
 		if ( DeletePrompt( _( 'Event' ), 'Delete', false ) )
 		{
@@ -553,9 +552,6 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 	window.close();
 </script>
 			<?php
-
-			// Unset button & values & redirect URL.
-			RedirectURL( [ 'button', 'values' ] );
 		}
 	}
 	// Display Event / Assignment
@@ -691,10 +687,10 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 
 		if ( ! empty( $_REQUEST['event_id'] ) )
 			echo '</form>';
-
-		// Unset button & values & redirect URL.
-		RedirectURL( [ 'button', 'values' ] );
 	}
+
+	// Unset button & values & redirect URL.
+	RedirectURL( [ 'button', 'values' ] );
 }
 
 // List Events

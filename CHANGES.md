@@ -15,6 +15,7 @@ Changes in 8.9
 - HTML add Add-on upload input title in Modules.inc.php & Plugins.inc.php
 - Fix do not resubmit form on List Export in Incomes.php & Expenses.php
 - Fix List Export columns: hide Delete & show File Attached in Expenses.php, Incomes.php, Salaries.php, StaffPayments.php, StudentFees.php & StudentPayments.php
+- Check AllowEdit() on Event deletion in Calendar.php
 
 Changes in 8.8
 --------------
