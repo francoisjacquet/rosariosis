@@ -1,7 +1,28 @@
 <?php
 require_once 'modules/Food_Service/includes/FS_Icons.inc.php';
+require_once 'ProgramFunctions/FileUpload.fnc.php';
 
 DrawHeader( ProgramTitle() );
+
+if ( $_REQUEST['modfunc'] === 'upload'
+	&& AllowEdit() )
+{
+	// @since 8.9 Food Service icon upload.
+	$icon_path = ImageUpload(
+		'upload',
+		[ 'witdh' => 256, 'height' => 256 ],
+		$FS_IconsPath,
+		[ '.jpg', '.jpeg', '.png', '.gif' ]
+	);
+
+	if ( $icon_path )
+	{
+		$note[] = button( 'check' ) . '&nbsp;' . _( 'Icon successfully uploaded.' );
+	}
+
+	// Unset modfunc & redirect URL.
+	RedirectURL( 'modfunc' );
+}
 
 if ( $_REQUEST['modfunc'] === 'update' )
 {
@@ -36,7 +57,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 					//FJ fix SQL bug PRICE_FREE & PRICE_REDUCED numeric
 
 					if ( $_REQUEST['tab_id'] !== 'new'
-						|| (  ( empty( $columns['PRICE_FREE'] ) || is_numeric( $columns['PRICE_FREE'] ) )
+						|| ( ( empty( $columns['PRICE_FREE'] ) || is_numeric( $columns['PRICE_FREE'] ) )
 							&& ( empty( $columns['PRICE_REDUCED'] ) || is_numeric( $columns['PRICE_REDUCED'] ) )
 							&& ( empty( $columns['PRICE_STAFF'] ) || is_numeric( $columns['PRICE_STAFF'] ) )
 							&& ( empty( $columns['PRICE'] ) || is_numeric( $columns['PRICE'] ) ) ) )
@@ -298,13 +319,12 @@ if ( ! $_REQUEST['modfunc'] )
 			'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=new',
 		];
 
-//FJ add translation
 		$singular = sprintf( _( '%s Item' ), $menus_RET[$_REQUEST['tab_id']][1]['TITLE'] );
 		$plural = sprintf( _( '%s Items' ), $menus_RET[$_REQUEST['tab_id']][1]['TITLE'] );
 	}
 	else
 	{
-		$icons_select = get_icons_select( $FS_IconsPath );
+		$icons_select = getFSIcons( $FS_IconsPath );
 
 		$sql = "SELECT *
 		FROM FOOD_SERVICE_ITEMS fsmi
@@ -388,11 +408,15 @@ if ( ! $_REQUEST['modfunc'] )
 	//echo '<pre>'; var_dump($LO_ret); echo '</pre>';
 
 	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=update&tab_id=' . $_REQUEST['tab_id']  ) . '" method="POST">';
+
 	DrawHeader( '', SubmitButton() );
+
 	echo '<br />';
 
 	// FJ fix SQL bug invalid sort order
 	echo ErrorMessage( $error );
+
+	echo ErrorMessage( $note, 'note' );
 
 	$extra = [ 'save' => false, 'search' => false,
 		'header' => WrapTabs( $tabs, 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=' . $_REQUEST['tab_id'] ) ];
@@ -402,13 +426,31 @@ if ( ! $_REQUEST['modfunc'] )
 		ListOutput( $LO_ret, $LO_columns, $singular, $plural, $link, [], $extra );
 	}
 	else
-//FJ add translation
 	{
 		ListOutput( $LO_ret, $LO_columns, 'Meal Item', 'Meal Items', $link, [], $extra );
 	}
 
-	echo '<br /><div class="center">' . SubmitButton() . '</div>';
-	echo '</form>';
+	echo '<br /><div class="center">' . SubmitButton() . '</div></form>';
+
+
+	if ( AllowEdit()
+		&& $_REQUEST['tab_id'] === 'new'
+		&& is_writable( $FS_IconsPath ) )
+	{
+		// @since 8.9 Food Service icon upload.
+		echo '<br /><form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=new&modfunc=upload' ) . '" method="POST" enctype="multipart/form-data">';
+
+		echo FileInput( 'upload', '', 'required accept=".jpg,.jpeg,.png,.gif"' );
+
+		echo SubmitButton( _( 'Upload' ) );
+
+		echo FormatInputTitle(
+			button( 'add', '', '', 'smaller' ) . ' ' . _( 'Icon' ) . ' (.jpg, .png, .gif)',
+			'upload'
+		);
+
+		echo '</form>';
+	}
 }
 
 /**
@@ -542,9 +584,9 @@ function makeCheckboxInput( $value, $name )
 
 /**
  * @param $path
- * @return mixed
+ * @return array
  */
-function get_icons_select( $path )
+function getFSIcons( $path )
 {
 	$icons = [];
 

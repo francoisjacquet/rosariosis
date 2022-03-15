@@ -2,6 +2,13 @@
 
 ## RosarioSIS Student Information System
 
+New in 8.9
+----------
+
+Food Service
+- Meal Items: icon upload
+
+
 New in 8.8
 ----------
 

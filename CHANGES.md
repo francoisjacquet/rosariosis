@@ -16,6 +16,7 @@ Changes in 8.9
 - Fix do not resubmit form on List Export in Incomes.php & Expenses.php
 - Fix List Export columns: hide Delete & show File Attached in Expenses.php, Incomes.php, Salaries.php, StaffPayments.php, StudentFees.php & StudentPayments.php
 - Check AllowEdit() on Event deletion in Calendar.php
+- Food Service icon upload in MenuItems.php
 
 Changes in 8.8
 --------------
