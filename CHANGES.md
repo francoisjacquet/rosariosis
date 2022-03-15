@@ -17,6 +17,7 @@ Changes in 8.9
 - Fix List Export columns: hide Delete & show File Attached in Expenses.php, Incomes.php, Salaries.php, StaffPayments.php, StudentFees.php & StudentPayments.php
 - Check AllowEdit() on Event deletion in Calendar.php
 - Food Service icon upload in MenuItems.php
+- Add French & Spanish translation for "Icon successfully uploaded." in rosariosis.po
 
 Changes in 8.8
 --------------
