@@ -8,6 +8,9 @@ New in 8.9
 Food Service
 - Meal Items: icon upload
 
+Scheduling
+- Courses: Half Day option removed
+
 
 New in 8.8
 ----------
