@@ -4,6 +4,7 @@
 Changes in 9.0
 --------------
 - CSS add length to previous meals select in DailyMenus.php
+- CSS FlatSIS fix calendar menu text wrapping in stylesheet.css
 
 Changes in 8.9
 --------------

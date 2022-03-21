@@ -1391,7 +1391,7 @@ div.st {
 	display: inline-block
 }
 
-.calendar-menu {
+td.calendar-menu {
 	white-space: normal;
 	max-width: none
 }
