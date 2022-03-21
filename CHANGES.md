@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 9.0
+--------------
+- CSS add length to previous meals select in DailyMenus.php
+
 Changes in 8.9
 --------------
 - Fix GetTeacher() when newly inserted teacher in GetTeacher.fnc.php
