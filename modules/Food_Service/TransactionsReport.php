@@ -136,7 +136,7 @@ ListOutput(
 	'Types',
 	false,
 	[ [] ],
-	[ 'save' => false, 'search' => false, 'print' => false ]
+	[ 'search' => false, 'print' => false ]
 );
 
 /**
