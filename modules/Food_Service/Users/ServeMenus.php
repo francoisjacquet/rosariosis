@@ -81,8 +81,10 @@ if ( UserStaffID()
 
 	echo '</form>';
 
+	$staff_name_photo = MakeUserPhotoTipMessage( $staff['STAFF_ID'], $staff['FULL_NAME'] );
+
 	DrawHeader(
-		NoInput( $staff['FULL_NAME'], $staff['STAFF_ID'] ),
+		NoInput( $staff_name_photo, $staff['STAFF_ID'] ),
 		NoInput( red( $staff['BALANCE'] ), _( 'Balance' ) )
 	);
 
@@ -110,17 +112,6 @@ if ( UserStaffID()
 		$plural = sprintf( _( 'Earlier %s Sales' ), $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] );
 
 		ListOutput( $RET, $columns, $singular, $plural, [], false, [ 'save' => false, 'search' => false ] );
-
-		// IMAGE
-
-		if ( $file = @fopen( $picture = $UserPicturesPath . UserSyear() . '/' . UserStaffID() . '.jpg', 'r' ) || $file = @fopen( $picture = $UserPicturesPath . ( UserSyear() - 1 ) . '/' . UserStaffID() . '.jpg', 'r' ) )
-		{
-			fclose( $file );
-			echo '</td><td rowspan="2"><img src="' . $picture . '" width="150" />';
-		}
-
-		echo '</td></tr>';
-		echo '<tr><td class="width-100p valign-top">';
 
 		$items_RET = DBGet( "SELECT fsi.SHORT_NAME,fsi.DESCRIPTION,fsi.PRICE_STAFF,fsi.ICON
 		FROM FOOD_SERVICE_ITEMS fsi,FOOD_SERVICE_MENU_ITEMS fsmi
@@ -151,7 +142,7 @@ if ( UserStaffID()
 
 		$link['remove'] = [ 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove&menu_id=' . $_REQUEST['menu_id'],
 			'variables' => [ 'id' => 'SALE_ID' ] ];
-//FJ css WPadmin
+
 		//		$link['add']['html'] = array('DESCRIPTION' => '<table class="cellspacing-0"><tr><td>'.SelectInput('','item_sn','',$items).'</td></tr></table>','ICON' => '<table class="cellspacing-0"><tr><td><input type=submit value='._('Add').'></td></tr></table>','remove'=>button('add'));
 		$link['add']['html'] = [
 			'DESCRIPTION' => SelectInput( '', 'item_sn', '', $items ),
@@ -185,8 +176,6 @@ if ( UserStaffID()
 		ListOutput( $LO_ret, $columns, 'Item', 'Items', $link, [], $extra );
 
 		echo '</form>';
-
-		echo '</td></tr></table>';
 	}
 	else
 	{

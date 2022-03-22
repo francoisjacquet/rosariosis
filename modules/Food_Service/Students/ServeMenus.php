@@ -126,8 +126,10 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 
 	echo '</form>';
 
+	$student_name_photo = MakeStudentPhotoTipMessage( $student['STUDENT_ID'], $student['FULL_NAME'] );
+
 	DrawHeader(
-		NoInput( $student['FULL_NAME'], $student['STUDENT_ID'] ),
+		NoInput( $student_name_photo, $student['STUDENT_ID'] ),
 		NoInput( red( $student['BALANCE'] ), _( 'Balance' ) )
 	);
 
@@ -158,18 +160,6 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 
 		ListOutput( $RET, $columns, $singular, $plural, [], false, [ 'save' => false, 'search' => false ] );
 
-		// IMAGE
-		//FJ fix error Warning: fclose() expects parameter 1 to be resource, boolean given
-
-		if ( file_exists( $picture = $StudentPicturesPath . UserSyear() . '/' . UserStudentID() . '.jpg' )
-			|| file_exists( $picture = $StudentPicturesPath . ( UserSyear() - 1 ) . '/' . UserStudentID() . '.jpg' ) )
-		{
-			echo '</td><td rowspan="2"><img src="' . $picture . '" width="150" />';
-		}
-
-		echo '</td></tr>';
-		echo '<tr><td class="width-100p valign-top">';
-
 		$items_RET = DBGet( "SELECT fsi.SHORT_NAME,fsi.DESCRIPTION,fsi.PRICE,fsi.PRICE_REDUCED,fsi.PRICE_FREE,fsi.ICON
 		FROM FOOD_SERVICE_ITEMS fsi,FOOD_SERVICE_MENU_ITEMS fsmi
 		WHERE fsmi.MENU_ID='" . $_REQUEST['menu_id'] . "'
@@ -185,7 +175,7 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 		}
 
 		$LO_ret = [ [] ];
-//FJ fix error Warning: Invalid argument supplied for foreach()
+		//FJ fix error Warning: Invalid argument supplied for foreach()
 
 		if ( isset( $_SESSION['FSA_sale'] ) && is_array( $_SESSION['FSA_sale'] ) )
 		{
@@ -217,7 +207,7 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 
 		$link['remove'] = [ 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=remove&menu_id=' . $_REQUEST['menu_id'],
 			'variables' => [ 'id' => 'SALE_ID' ] ];
-//FJ css WPadmin
+
 		//		$link['add']['html'] = array('DESCRIPTION' => '<table class="cellspacing-0"><tr><td>'.SelectInput('','item_sn','',$items).'</td></tr></table>','ICON' => '<table class="cellspacing-0"><tr><td><input type=submit value='._('Add').'></td></tr></table>','remove'=>button('add'));
 		$link['add']['html'] = [
 			'DESCRIPTION' => SelectInput( '', 'item_sn', '', $items ),
@@ -247,8 +237,6 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 		ListOutput( $LO_ret, $columns, 'Item', 'Items', $link, [], $extra );
 
 		echo '</form>';
-
-		echo '</td></tr></table>';
 	}
 	else
 	{
