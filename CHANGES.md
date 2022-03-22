@@ -7,7 +7,7 @@ Changes in 9.0
 - CSS FlatSIS fix calendar menu text wrapping in stylesheet.css
 - Add Export list button in TransactionsReport.php
 - Add Food Service icon to list in ServeMenus.php
-- Add User / Student photo tooltip in ServeMenus.php
+- Add User / Student photo tooltip in ServeMenus.php & Transactions.php
 
 Changes in 8.9
 --------------

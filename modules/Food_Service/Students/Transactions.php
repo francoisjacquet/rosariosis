@@ -1,4 +1,5 @@
 <?php
+require_once 'ProgramFunctions/TipMessage.fnc.php';
 
 if ( ! empty( $_REQUEST['values'] )
 	&& $_POST['values']
@@ -93,8 +94,10 @@ if ( UserStudentID()
 
 	DrawHeader( '', ResetButton( _( 'Cancel' ) ) . SubmitButton() );
 
+	$student_name_photo = MakeStudentPhotoTipMessage( $student['STUDENT_ID'], $student['FULL_NAME'] );
+
 	DrawHeader(
-		NoInput( $student['FULL_NAME'], $student['STUDENT_ID'] ),
+		NoInput( $student_name_photo, $student['STUDENT_ID'] ),
 		NoInput( red( $student['BALANCE'] ), _( 'Balance' ) )
 	);
 

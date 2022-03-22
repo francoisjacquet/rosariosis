@@ -1,4 +1,5 @@
 <?php
+require_once 'ProgramFunctions/TipMessage.fnc.php';
 
 if ( ! empty( $_REQUEST['values'] )
 	&& $_POST['values']
@@ -68,10 +69,10 @@ if ( UserStaffID()
 
 	DrawHeader( '', ResetButton( _( 'Cancel' ) ) . SubmitButton() );
 
-//FJ fix bug no balance
-	//	DrawHeader(NoInput($staff['FULL_NAME'],'&nbsp;'.$staff['STAFF_ID']),'', NoInput(red($student['BALANCE']),_('Balance')));
+	$staff_name_photo = MakeUserPhotoTipMessage( $staff['STAFF_ID'], $staff['FULL_NAME'] );
+
 	DrawHeader(
-		NoInput( $staff['FULL_NAME'], $staff['STAFF_ID'] ),
+		NoInput( $staff_name_photo, $staff['STAFF_ID'] ),
 		NoInput( red( $staff['BALANCE'] ), _( 'Balance' ) )
 	);
 
