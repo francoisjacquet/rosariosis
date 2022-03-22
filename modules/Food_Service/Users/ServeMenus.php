@@ -1,4 +1,6 @@
 <?php
+require_once 'modules/Food_Service/includes/FS_Icons.inc.php';
+require_once 'ProgramFunctions/TipMessage.fnc.php';
 
 StaffWidgets( 'fsa_status_active' );
 StaffWidgets( 'fsa_barcode' );
@@ -86,18 +88,24 @@ if ( UserStaffID()
 
 	if ( $staff['ACCOUNT_ID'] && $staff['BALANCE'] != '' )
 	{
-		echo '<table class="width-100p">';
-		echo '<tr class="st"><td class="width-100p valign-top">';
+		// @since 9.0 Add Food Service icon to list.
+		$functions = [ 'ICON' => 'makeIcon' ];
 
-		$RET = DBGet( "SELECT fsti.DESCRIPTION,fsti.AMOUNT
+		$RET = DBGet( "SELECT fsti.DESCRIPTION,fsti.AMOUNT,
+		(SELECT ICON FROM FOOD_SERVICE_ITEMS WHERE SHORT_NAME=fsti.SHORT_NAME LIMIT 1) AS ICON
 		FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst,FOOD_SERVICE_STAFF_TRANSACTION_ITEMS fsti
 		WHERE fst.STAFF_ID='" . UserStaffID() . "'
 		AND fst.SYEAR='" . UserSyear() . "'
 		AND fst.SHORT_NAME='" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "'
 		AND fst.TIMESTAMP BETWEEN CURRENT_DATE AND CURRENT_DATE+1
-		AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID" );
+		AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID", $functions );
 
-		$columns = [ 'DESCRIPTION' => _( 'Item' ), 'AMOUNT' => _( 'Amount' ) ];
+		$columns = [
+			'DESCRIPTION' => _( 'Item' ),
+			'ICON' => _( 'Icon' ),
+			'AMOUNT' => _( 'Amount' ),
+		];
+
 		$singular = sprintf( _( 'Earlier %s Sale' ), $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] );
 		$plural = sprintf( _( 'Earlier %s Sales' ), $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] );
 
