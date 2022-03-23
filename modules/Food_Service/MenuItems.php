@@ -442,7 +442,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		echo FileInput( 'upload', '', 'required accept=".jpg,.jpeg,.png,.gif"' );
 
-		echo SubmitButton( _( 'Upload' ) );
+		echo SubmitButton( _( 'Upload' ), '', '' );
 
 		echo FormatInputTitle(
 			button( 'add', '', '', 'smaller' ) . ' ' . _( 'Icon' ) . ' (.jpg, .png, .gif)',
