@@ -178,6 +178,11 @@ input[type=submit]:focus {
 	border-color: #666
 }
 
+input[type=button]:focus,
+input[type=submit]:focus {
+	border-bottom-color: #298cba;
+}
+
 input[type="submit"],
 input[type="reset"],
 input[type="button"] {
