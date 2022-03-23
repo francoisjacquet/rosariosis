@@ -8,6 +8,7 @@ Changes in 9.0
 - Add Export list button in TransactionsReport.php
 - Add Food Service icon to list in ServeMenus.php
 - Add User / Student photo tooltip in ServeMenus.php & Transactions.php
+- HTML add horizontal ruler before each category in MakeReferral.php
 
 Changes in 8.9
 --------------
