@@ -9,6 +9,7 @@ Changes in 9.0
 - Add Food Service icon to list in ServeMenus.php
 - Add User / Student photo tooltip in ServeMenus.php & Transactions.php
 - HTML add horizontal ruler before each category in MakeReferral.php
+- Fix SQL error when generating Schedule table with PHP8.1 in GetMP.php
 
 Changes in 8.9
 --------------

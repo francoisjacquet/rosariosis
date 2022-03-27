@@ -79,7 +79,7 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 {
 	static $all_mp = null;
 
-	if ( $marking_period_id == 0 )
+	if ( $marking_period_id < 1 )
 	{
 		$marking_period_id = GetFullYearMP();
 
