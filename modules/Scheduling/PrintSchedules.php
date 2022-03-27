@@ -46,10 +46,10 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	// FJ multiple school periods for a course period.
 	//$columns = array('PERIOD_TITLE' => _('Period').' '._('Days').' - '._('Short Name').' - '._('Teacher'),'MARKING_PERIOD_ID' => _('Term'),'DAYS' => _('Days'),'ROOM' => _('Room'),'COURSE_TITLE' => _('Course'));
 	$columns = [
-		'PERIOD_TITLE' => _( 'Period' ) . ' ' . _( 'Days' ) . ' - ' . _( 'Short Name' ) . ' - ' . _( 'Teacher' ),
-		'MARKING_PERIOD_ID' => _( 'Term' ),
-		'ROOM' => _( 'Room' ),
 		'TITLE' => $display_title_column,
+		'PERIOD_TITLE' => _( 'Period' ) . ' ' . _( 'Days' ) . ' - ' . _( 'Short Name' ) . ' - ' . _( 'Teacher' ),
+		'ROOM' => _( 'Room' ),
+		'MARKING_PERIOD_ID' => _( 'Term' ),
 	];
 
 	/*	$extra['SELECT'] .= ',c.TITLE AS COURSE_TITLE,p_cp.TITLE AS PERIOD_TITLE,sr.MARKING_PERIOD_ID,p_cp.DAYS,p_cp.ROOM';

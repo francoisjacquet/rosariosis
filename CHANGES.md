@@ -10,6 +10,7 @@ Changes in 9.0
 - Add User / Student photo tooltip in ServeMenus.php & Transactions.php
 - HTML add horizontal ruler before each category in MakeReferral.php
 - Fix SQL error when generating Schedule table with PHP8.1 in GetMP.php
+- Reorder PDF list columns to match Schedule columns in PrintSchedules.php
 
 Changes in 8.9
 --------------
