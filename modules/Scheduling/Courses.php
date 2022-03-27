@@ -427,7 +427,7 @@ if ( ! empty( $_REQUEST['tables'] )
 									$current_cp[1]['TITLE'],
 									( GetMP( $current_cp[1]['MARKING_PERIOD_ID'], 'MP' ) != 'FY' ?
 										GetMP( $current_cp[1]['MARKING_PERIOD_ID'], 'SHORT_NAME' ) :
-										$current_cp[1]['SHORT_NAME'] )
+										DBEscapeString( $current_cp[1]['SHORT_NAME'] ) )
 								)
 							);
 
