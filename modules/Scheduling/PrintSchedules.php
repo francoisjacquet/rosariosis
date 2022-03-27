@@ -79,7 +79,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 	//FJ add subject areas
 	$extra['functions'] = [ 'MARKING_PERIOD_ID' => 'GetMP' ];
 	$extra['group'] = [ 'STUDENT_ID' ];
-	//	$extra['ORDER'] = ',sp.SORT_ORDER';
+	$extra['ORDER'] = ',c.TITLE,p_cp.TITLE,sr.MARKING_PERIOD_ID';
 
 	if ( isset( $_REQUEST['mailing_labels'] )
 		&& $_REQUEST['mailing_labels'] == 'Y' )

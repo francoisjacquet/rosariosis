@@ -254,7 +254,7 @@ if ( UserStudentID()
 	}
 
 	//$sql .= " ORDER BY sp.SORT_ORDER,s.MARKING_PERIOD_ID";
-	$sql .= " ORDER BY cp.SHORT_NAME,s.MARKING_PERIOD_ID";
+	$sql .= " ORDER BY c.TITLE,cp.SHORT_NAME,s.MARKING_PERIOD_ID";
 
 	$schedule_RET = DBGet(
 		$sql,
