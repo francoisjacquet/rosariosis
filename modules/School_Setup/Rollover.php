@@ -329,7 +329,10 @@ function Rollover( $table, $mode = 'delete' )
 			if ( $RosarioModules['Food_Service'] )
 			{
 				DBQuery( "UPDATE FOOD_SERVICE_STAFF_ACCOUNTS
-					SET STAFF_ID=(SELECT ROLLOVER_ID FROM STAFF WHERE STAFF_ID=FOOD_SERVICE_STAFF_ACCOUNTS.STAFF_ID)
+					SET STAFF_ID=(SELECT ROLLOVER_ID
+						FROM STAFF
+						WHERE STAFF_ID=FOOD_SERVICE_STAFF_ACCOUNTS.STAFF_ID
+						LIMIT 1)
 					WHERE exists(SELECT * FROM STAFF
 						WHERE STAFF_ID=FOOD_SERVICE_STAFF_ACCOUNTS.STAFF_ID
 						AND ROLLOVER_ID IS NOT NULL
@@ -480,7 +483,8 @@ function Rollover( $table, $mode = 'delete' )
 					FROM SCHOOL_MARKING_PERIODS mp
 					WHERE mp.SYEAR=school_marking_periods.SYEAR
 					AND mp.SCHOOL_ID=school_marking_periods.SCHOOL_ID
-					AND mp.ROLLOVER_ID=school_marking_periods.PARENT_ID)
+					AND mp.ROLLOVER_ID=school_marking_periods.PARENT_ID
+					LIMIT 1)
 				WHERE SYEAR='" . $next_syear . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
 
@@ -568,10 +572,12 @@ function Rollover( $table, $mode = 'delete' )
 			// ROLL COURSES
 			DBQuery( "INSERT INTO COURSES (SYEAR,COURSE_ID,SUBJECT_ID,SCHOOL_ID,GRADE_LEVEL,TITLE,
 				SHORT_NAME,CREDIT_HOURS,DESCRIPTION,ROLLOVER_ID)
-				SELECT SYEAR+1," . db_seq_nextval( 'courses_course_id_seq' ) . ",(SELECT SUBJECT_ID
+				SELECT SYEAR+1," . db_seq_nextval( 'courses_course_id_seq' ) . ",
+				(SELECT SUBJECT_ID
 					FROM COURSE_SUBJECTS s
 					WHERE s.SCHOOL_ID=c.SCHOOL_ID
-					AND s.ROLLOVER_ID=c.SUBJECT_ID),SCHOOL_ID,GRADE_LEVEL,TITLE,SHORT_NAME,
+					AND s.ROLLOVER_ID=c.SUBJECT_ID
+					LIMIT 1),SCHOOL_ID,GRADE_LEVEL,TITLE,SHORT_NAME,
 				CREDIT_HOURS,DESCRIPTION,COURSE_ID FROM COURSES c
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
@@ -586,24 +592,29 @@ function Rollover( $table, $mode = 'delete' )
 				(SELECT COURSE_ID
 					FROM COURSES c
 					WHERE c.SCHOOL_ID=p.SCHOOL_ID
-					AND c.ROLLOVER_ID=p.COURSE_ID),TITLE,SHORT_NAME,MP,
+					AND c.ROLLOVER_ID=p.COURSE_ID
+					LIMIT 1),TITLE,SHORT_NAME,MP,
 				(SELECT MARKING_PERIOD_ID
 					FROM SCHOOL_MARKING_PERIODS n
 					WHERE n.MP=p.MP
 					AND n.SCHOOL_ID=p.SCHOOL_ID
-					AND n.ROLLOVER_ID=p.MARKING_PERIOD_ID),
+					AND n.ROLLOVER_ID=p.MARKING_PERIOD_ID
+					LIMIT 1),
 				(SELECT STAFF_ID
 					FROM STAFF n
-					WHERE n.ROLLOVER_ID=p.TEACHER_ID),ROOM,TOTAL_SEATS,0 AS FILLED_SEATS,
+					WHERE n.ROLLOVER_ID=p.TEACHER_ID
+					LIMIT 1),ROOM,TOTAL_SEATS,0 AS FILLED_SEATS,
 				DOES_ATTENDANCE,(SELECT ID
 					FROM REPORT_CARD_GRADE_SCALES
 					WHERE SCHOOL_ID=p.SCHOOL_ID
-					AND ROLLOVER_ID=p.GRADE_SCALE_ID),DOES_HONOR_ROLL,DOES_CLASS_RANK,DOES_BREAKOFF,
+					AND ROLLOVER_ID=p.GRADE_SCALE_ID
+					LIMIT 1),DOES_HONOR_ROLL,DOES_CLASS_RANK,DOES_BREAKOFF,
 				GENDER_RESTRICTION,HOUSE_RESTRICTION,CREDITS,AVAILABILITY,PARENT_ID,
 				(SELECT CALENDAR_ID
 					FROM ATTENDANCE_CALENDARS
 					WHERE SCHOOL_ID=p.SCHOOL_ID
-					AND ROLLOVER_ID=p.CALENDAR_ID),COURSE_PERIOD_ID
+					AND ROLLOVER_ID=p.CALENDAR_ID
+					LIMIT 1),COURSE_PERIOD_ID
 				FROM COURSE_PERIODS p
 				WHERE SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
@@ -611,7 +622,8 @@ function Rollover( $table, $mode = 'delete' )
 			DBQuery( "UPDATE COURSE_PERIODS
 				SET PARENT_ID=(SELECT cp.COURSE_PERIOD_ID
 					FROM COURSE_PERIODS cp
-					WHERE cp.ROLLOVER_ID=course_periods.PARENT_ID)
+					WHERE cp.ROLLOVER_ID=course_periods.PARENT_ID
+					LIMIT 1)
 				WHERE PARENT_ID IS NOT NULL
 				AND SYEAR='" . $next_syear . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
@@ -641,12 +653,14 @@ function Rollover( $table, $mode = 'delete' )
 				db_seq_nextval( 'course_period_school_periods_course_period_school_periods_i_seq' ) . ",
 					(SELECT cp.COURSE_PERIOD_ID
 						FROM COURSE_PERIODS cp
-						WHERE cpsp.COURSE_PERIOD_ID=cp.ROLLOVER_ID),
+						WHERE cpsp.COURSE_PERIOD_ID=cp.ROLLOVER_ID
+						LIMIT 1),
 					(SELECT n.PERIOD_ID
 						FROM SCHOOL_PERIODS n
 						WHERE n.ROLLOVER_ID=cpsp.PERIOD_ID
 						AND n.SYEAR='" . $next_syear . "'
-						AND n.SCHOOL_ID='" . UserSchool() . "'),
+						AND n.SCHOOL_ID='" . UserSchool() . "'
+						LIMIT 1),
 					DAYS
 				FROM COURSE_PERIOD_SCHOOL_PERIODS cpsp, COURSE_PERIODS cp
 				WHERE cp.SYEAR='" . UserSyear() . "'
@@ -676,7 +690,8 @@ function Rollover( $table, $mode = 'delete' )
 				SELECT " . db_seq_nextval( 'student_enrollment_id_seq' ) . ",SYEAR+1,SCHOOL_ID,STUDENT_ID,
 					(SELECT NEXT_GRADE_ID
 						FROM SCHOOL_GRADELEVELS g
-						WHERE g.ID=e.GRADE_ID),
+						WHERE g.ID=e.GRADE_ID
+						LIMIT 1),
 					'" . $next_start_date . "' AS START_DATE,NULL AS END_DATE,
 					(SELECT ID
 						FROM STUDENT_ENROLLMENT_CODES
@@ -696,7 +711,8 @@ function Rollover( $table, $mode = 'delete' )
 				AND e.NEXT_SCHOOL='" . UserSchool() . "'
 				AND (SELECT NEXT_GRADE_ID
 					FROM SCHOOL_GRADELEVELS g
-					WHERE g.ID=e.GRADE_ID) IS NOT NULL" );
+					WHERE g.ID=e.GRADE_ID
+					LIMIT 1) IS NOT NULL" );
 
 			// ROLL STUDENTS WHO ARE TO BE RETAINED.
 			DBQuery( "INSERT INTO STUDENT_ENROLLMENT
@@ -713,7 +729,8 @@ function Rollover( $table, $mode = 'delete' )
 						LIMIT 1) AS ENROLLMENT_CODE,NULL AS DROP_CODE,
 					(SELECT CALENDAR_ID
 						FROM ATTENDANCE_CALENDARS
-						WHERE ROLLOVER_ID=e.CALENDAR_ID),SCHOOL_ID,SCHOOL_ID
+						WHERE ROLLOVER_ID=e.CALENDAR_ID
+						LIMIT 1),SCHOOL_ID,SCHOOL_ID
 				FROM STUDENT_ENROLLMENT e
 				WHERE e.SYEAR='" . UserSyear() . "'
 				AND e.SCHOOL_ID='" . UserSchool() . "'

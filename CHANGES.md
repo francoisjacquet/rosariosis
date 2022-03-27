@@ -12,6 +12,7 @@ Changes in 9.0
 - Fix SQL error when generating Schedule table with PHP8.1 in GetMP.php
 - Reorder PDF list columns to match Schedule columns in PrintSchedules.php
 - SQL order Schedule list by Course Title & Course Period Short Name in Schedule.php & PrintSchedules.php
+- Fix SQL error more than one row returned by a subquery in Rollover.php
 
 Changes in 8.9
 --------------
