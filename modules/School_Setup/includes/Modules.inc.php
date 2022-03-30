@@ -301,7 +301,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		echo FileInput( 'upload', '', 'required accept=".zip"' );
 
-		echo SubmitButton( _( 'Upload' ) );
+		echo SubmitButton( _( 'Upload' ), '', '' );
 
 		echo FormatInputTitle(
 			button( 'add', '', '', 'smaller' ) . ' ' . _( 'Module' ) . ' (.zip)',
