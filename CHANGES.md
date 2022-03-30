@@ -14,6 +14,7 @@ Changes in 9.0
 - SQL order Schedule list by Course Title & Course Period Short Name in Schedule.php & PrintSchedules.php
 - Fix SQL error more than one row returned by a subquery in Rollover.php
 - Fix update Course Period title when Short Name contains single quote in Courses.php
+- Fix PHP8.1 deprecated str_replace $subject is null in PreparePHP_SELF.fnc.php
 
 Changes in 8.9
 --------------
