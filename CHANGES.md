@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 8.9.1
+----------------
+- Fix regression since 8.6 Mailing Labels widget HTML in Widgets.php
+
 Changes in 8.9
 --------------
 - Fix GetTeacher() when newly inserted teacher in GetTeacher.fnc.php
