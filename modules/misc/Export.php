@@ -280,6 +280,9 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
         	$extra['FROM'] .= ',STUDENT_ENROLLMENT xse';
 
 			$extra['WHERE'] .= " AND xse.STUDENT_ID=s.STUDENT_ID AND xse.SYEAR='" . UserSyear() . "'";
+
+			$extra['functions']['START_DATE'] = 'ProperDate';
+			$extra['functions']['END_DATE'] = 'ProperDate';
 	}
 
 	if ( ! empty( $_REQUEST['month_include_active_date'] ) )

@@ -16,6 +16,7 @@ Changes in 9.0
 - Fix update Course Period title when Short Name contains single quote in Courses.php
 - Fix PHP8.1 deprecated str_replace $subject is null in PreparePHP_SELF.fnc.php
 - Add Student Photo Tip Message in AddDrop.php
+- Format Enrollment Start & End Date in Export.php
 
 Changes in 8.9.1
 ----------------
