@@ -1,4 +1,5 @@
 <?php
+require_once 'ProgramFunctions/TipMessage.fnc.php';
 
 DrawHeader( ProgramTitle() );
 
@@ -58,6 +59,7 @@ ListOutput( $enrollment_RET, $columns, 'Enrollment Record', 'Enrollment Records'
  * Make Student Info link
  *
  * @since 7.2
+ * @since 9.0 Add Student Photo Tip Message
  *
  * Local function
  * DBGet() callback
@@ -86,5 +88,5 @@ function _makeStudentInfoLink( $value, $column = 'FULL_NAME' )
 		$link .= '&school_id=' . $THIS_RET['SCHOOL_ID'];
 	}
 
-	return '<a href="' . $link . '">' . $value . '</a>';
+	return '<a href="' . $link . '">' . MakeStudentPhotoTipMessage( $THIS_RET['STUDENT_ID'], $value ) . '</a>';
 }
