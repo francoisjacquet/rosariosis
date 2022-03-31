@@ -232,7 +232,7 @@ if ( ! $_REQUEST['modfunc'] )
 		if ( User( 'PROFILE' ) === 'admin' )
 		{
 			$tabs[] = [
-				'title' => button( 'add', '', '', 'smaller' ),
+				'title' => button( 'add', '', '', 'class="button smaller"' ),
 				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=new',
 			];
 		}
@@ -282,7 +282,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$link['add']['html']['remove'] = button( 'add' );
 
 		$tabs[] = [
-			'title' => button( 'add', '', '', 'smaller' ),
+			'title' => button( 'add', '', '', 'class="button smaller"' ),
 			'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=new',
 		];
 	}

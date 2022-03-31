@@ -7,7 +7,7 @@ if ( AllowEdit()
 	&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) ):
 ?>
 	<a href="#" onclick="$('.user-photo-form,.user-photo').toggle(); return false;"><?php
-echo button( 'add', '', '', 'smaller' ) . '&nbsp;' . _( 'User Photo' );
+echo button( 'add', '', '', 'class="button smaller"' ) . '&nbsp;' . _( 'User Photo' );
 ?></a><br />
 	<div class="user-photo-form hide"><?php
 echo FileInput(
