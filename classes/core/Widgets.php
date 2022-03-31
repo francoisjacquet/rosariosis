@@ -143,9 +143,10 @@ class Widgets
 		{
 			$this->extra = $widget->extra( $this->extra );
 
-			if ( $this->isSearch() )
+			if ( $this->isSearch()
+				|| $name === 'mailing_labels' )
 			{
-				// Do NOT generate search HTML if not on the Find a Student / User screen.
+				// Do NOT generate search HTML if not on the Find a Student / User screen (Mailing Labels is exception).
 				$this->html[] = $widget->html();
 			}
 		}

@@ -16,6 +16,10 @@ Changes in 9.0
 - Fix update Course Period title when Short Name contains single quote in Courses.php
 - Fix PHP8.1 deprecated str_replace $subject is null in PreparePHP_SELF.fnc.php
 
+Changes in 8.9.1
+----------------
+- Fix regression since 8.6 Mailing Labels widget HTML in Widgets.php
+
 Changes in 8.9
 --------------
 - Fix GetTeacher() when newly inserted teacher in GetTeacher.fnc.php
