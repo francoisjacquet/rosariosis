@@ -297,7 +297,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$link['add']['html']['remove'] = button( 'add' );
 		$link['add']['first'] = 1; // number before add link moves to top
 
-		$tabs[] = [ 'title' => button( 'add', '', '', 'class="button smaller"' ), 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=new&allow_edit=' . $_REQUEST['allow_edit'] ];
+		$tabs[] = [ 'title' => button( 'add', '', '', 'smaller' ), 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=new&allow_edit=' . $_REQUEST['allow_edit'] ];
 
 		$subject = 'Assignments';
 	}
@@ -340,7 +340,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$link['remove']['variables'] = [ 'id' => 'ASSIGNMENT_TYPE_ID' ];
 		$link['add']['html']['remove'] = button( 'add' );
 
-		$tabs[] = [ 'title' => button( 'add', '', '', 'class="button smaller"' ), 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=new&allow_edit=' . $_REQUEST['allow_edit'] ];
+		$tabs[] = [ 'title' => button( 'add', '', '', 'smaller' ), 'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&tab_id=new&allow_edit=' . $_REQUEST['allow_edit'] ];
 
 		$subject = 'Assignmemt Types';
 	}

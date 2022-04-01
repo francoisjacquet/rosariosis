@@ -302,7 +302,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$link['add']['html']['remove'] = button( 'add' );
 
 		$tabs[] = [
-			'title' => button( 'add', '', '', 'class="button smaller"' ),
+			'title' => button( 'add', '', '', 'smaller' ),
 			'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&subject_id=' .
 				$_REQUEST['subject_id'] . '&course_id=' . $_REQUEST['course_id'] . '&tab_id=new',
 		];
@@ -334,7 +334,7 @@ if ( ! $_REQUEST['modfunc'] )
 		if ( User( 'PROFILE' ) === 'admin' )
 		{
 			$tabs[] = [
-				'title' => button( 'add', '', '', 'class="button smaller"' ),
+				'title' => button( 'add', '', '', 'smaller' ),
 				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&subject_id=' .
 					$_REQUEST['subject_id'] . '&course_id=' . $_REQUEST['course_id'] . '&tab_id=new',
 			];
@@ -406,7 +406,7 @@ if ( ! $_REQUEST['modfunc'] )
 		if ( User( 'PROFILE' ) === 'admin' )
 		{
 			$tabs[] = [
-				'title' => button( 'add', '', '', 'class="button smaller"' ),
+				'title' => button( 'add', '', '', 'smaller' ),
 				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&subject_id=' .
 					$_REQUEST['subject_id'] . '&course_id=' . $_REQUEST['course_id'] . '&tab_id=new',
 			];

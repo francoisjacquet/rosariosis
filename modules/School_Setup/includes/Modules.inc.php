@@ -304,7 +304,7 @@ if ( ! $_REQUEST['modfunc'] )
 		echo SubmitButton( _( 'Upload' ), '', '' );
 
 		echo FormatInputTitle(
-			button( 'add', '', '', 'class="button smaller"' ) . ' ' . _( 'Module' ) . ' (.zip)',
+			button( 'add', '', '', 'smaller' ) . ' ' . _( 'Module' ) . ' (.zip)',
 			'upload'
 		);
 

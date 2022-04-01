@@ -226,7 +226,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$link['remove']['variables'] = [ 'id' => 'ID' ];
 
 		$tabs[] = [
-			'title' => button( 'add', '', '', 'class="button smaller"' ),
+			'title' => button( 'add', '', '', 'smaller' ),
 			'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=new',
 		];
 	}
@@ -251,7 +251,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$link['remove']['variables'] = [ 'id' => 'ID' ];
 
 		$tabs[] = [
-			'title' => button( 'add', '', '', 'class="button smaller"' ),
+			'title' => button( 'add', '', '', 'smaller' ),
 			'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&table=new',
 		];
 	}

@@ -39,16 +39,15 @@ function Buttons( $submit_value, $reset_value = '' )
  * @example echo button( 'add', '', '"#!" onclick="javascript:popup.open();"' );
  *
  * @since 4.0 Allow for button files missing the "_button" suffix.
- * @since 9.0 Replace $class parameter with $extra to add HTML attributes
  *
  * @param  string $type  [type]_button.png; ie. 'remove' will display the assets/themes/[user_theme]/btn/remove_button.png image.
  * @param  string $text  button text (optional).
  * @param  string $link  button link (optional). Use URLEscape() to encode URL!
- * @param  string $extra Extra HTML attributes added to the img (optional).
+ * @param  string $class CSS classes (optional).
  *
  * @return string        button HTML
  */
-function button( $type, $text = '', $link = '', $extra = 'class="button"' )
+function button( $type, $text = '', $link = '', $class = '' )
 {
 	$button = '';
 
@@ -74,7 +73,7 @@ function button( $type, $text = '', $link = '', $extra = 'class="button"' )
 		$button_file = str_replace( '_button', '', $button_file );
 	}
 
-	$button .= '<img src="' . $button_file . '" ' . $extra . ' alt="' . ucfirst( str_replace( '_', ' ', $type ) ) . '" />';
+	$button .= '<img src="' . $button_file . '" class="button ' . $class . '" alt="' . ucfirst( str_replace( '_', ' ', $type ) ) . '" />';
 
 	if ( $text )
 	{
