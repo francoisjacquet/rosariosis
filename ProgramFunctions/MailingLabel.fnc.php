@@ -12,6 +12,8 @@
  * @global $THIS_RET DBGet() Current row: $THIS_RET['STUDENT_ID'].
  * @static $mailing_labels Mailing Labels cache.
  *
+ * @since 9.0 Add Student name if no Contacts at address
+ *
  * @param string $address_id Address ID.
  *
  * @return string Formatted mailing address.
@@ -60,6 +62,13 @@ function MailingLabel( $address_id )
 				$people[ $i ]['LAST_NAME'],
 				$people[ $i ]['MIDDLE_NAME']
 			) . '<br />';
+		}
+
+		if ( $i === 1
+			&& empty( $people[ $i ]['FIRST_NAME'] ) )
+		{
+			// Add Student name if no Contacts at address.
+			$return .= $THIS_RET['FULL_NAME'] . '<br />';
 		}
 
 		// Mab - this is a bit of a kludge but insert an html comment so people and address can be split later.

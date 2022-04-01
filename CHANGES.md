@@ -17,6 +17,7 @@ Changes in 9.0
 - Fix PHP8.1 deprecated function parameter is null in Inputs.php, PreparePHP_SELF.fnc.php
 - Add Student Photo Tip Message in AddDrop.php
 - Format Enrollment Start & End Date in Export.php
+- Add Student name if no Contacts at address in MailingLabel.fnc.php
 
 Changes in 8.9.1
 ----------------
