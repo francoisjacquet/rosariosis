@@ -510,7 +510,14 @@ else
 
 		if ( $_REQUEST['tab'] === 'students' )
 		{
-			echo '<table class="cellpadding-5"><tr><td>' . CheckboxInput( Config( 'STUDENTS_USE_MAILING' ), 'values[CONFIG][STUDENTS_USE_MAILING]', _( 'Display Mailing Address' ), '', false, button( 'check' ), button( 'x' ) ) . '</td></tr>';
+			$addresses_contacts_cat_title = DBGetOne( "SELECT TITLE
+				FROM STUDENT_FIELD_CATEGORIES
+				WHERE ID='3'" );
+
+			echo '<table class="cellpadding-5"><tr><td><fieldset><legend>' .
+				ParseMLField( $addresses_contacts_cat_title ) . '</legend><table>';
+
+			echo '<tr><td>' . CheckboxInput( Config( 'STUDENTS_USE_MAILING' ), 'values[CONFIG][STUDENTS_USE_MAILING]', _( 'Display Mailing Address' ), '', false, button( 'check' ), button( 'x' ) ) . '</td></tr>';
 
 			echo '<tr><td>' . CheckboxInput(
 				ProgramConfig( 'students', 'STUDENTS_USE_BUS' ),
@@ -532,16 +539,6 @@ else
 				button( 'x' )
 			) . '</td></tr>';
 
-			echo '<tr><td>' . CheckboxInput(
-				ProgramConfig( 'students', 'STUDENTS_SEMESTER_COMMENTS' ),
-				'values[PROGRAM_CONFIG][students][STUDENTS_SEMESTER_COMMENTS]',
-				_( 'Use Semester Comments instead of Quarter Comments' ),
-				'',
-				false,
-				button( 'check' ),
-				button( 'x' )
-			) . '</td></tr>';
-
 			if ( ! $multiple_schools_admin_has_1_school )
 			{
 				// Hide All schools config options if Administrator of 1 school only.
@@ -555,6 +552,18 @@ else
 					button( 'x' )
 				) . '</td></tr>';
 			}
+
+			echo '</table></td></tr>';
+
+			echo '<tr><td>' . CheckboxInput(
+				ProgramConfig( 'students', 'STUDENTS_SEMESTER_COMMENTS' ),
+				'values[PROGRAM_CONFIG][students][STUDENTS_SEMESTER_COMMENTS]',
+				_( 'Use Semester Comments instead of Quarter Comments' ),
+				'',
+				false,
+				button( 'check' ),
+				button( 'x' )
+			) . '</td></tr>';
 
 			echo '</table>';
 		}
@@ -574,6 +583,9 @@ else
 				$grades_options,
 				false
 			) . '</td></tr>';
+
+			echo '<table class="cellpadding-5"><tr><td><fieldset><legend>' .
+				_( 'Input Final Grades' ) . '</legend><table>';
 
 			echo '<tr><td>' . CheckboxInput(
 				ProgramConfig( 'grades', 'GRADES_HIDE_NON_ATTENDANCE_COMMENT' ),
@@ -595,6 +607,11 @@ else
 				button( 'x' )
 			) . '</td></tr>';
 
+			echo '</table></td></tr>';
+
+			echo '<table class="cellpadding-5"><tr><td><fieldset><legend>' .
+				_( 'Gradebook' ) . ' - ' . _( 'Grades' ) . '</legend><table>';
+
 			echo '<tr><td>' . CheckboxInput(
 				ProgramConfig( 'grades', 'GRADES_GRADEBOOK_TEACHER_ALLOW_EDIT' ),
 				'values[PROGRAM_CONFIG][grades][GRADES_GRADEBOOK_TEACHER_ALLOW_EDIT]',
@@ -604,6 +621,11 @@ else
 				button( 'check' ),
 				button( 'x' )
 			) . '</td></tr>';
+
+			echo '</table></td></tr>';
+
+			echo '<table class="cellpadding-5"><tr><td><fieldset><legend>' .
+				_( 'Student Grades' ) . '</legend><table>';
 
 			echo '<tr><td>' . CheckboxInput(
 				ProgramConfig( 'grades', 'GRADES_DO_STATS_STUDENTS_PARENTS' ),
@@ -624,6 +646,8 @@ else
 				button( 'check' ),
 				button( 'x' )
 			) . '</td></tr></table>';
+
+			echo '</table></td></tr>';
 		}
 
 		if ( $_REQUEST['tab'] === 'attendance' )

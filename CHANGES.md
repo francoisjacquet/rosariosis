@@ -19,6 +19,7 @@ Changes in 9.0
 - Format Enrollment Start & End Date in Export.php
 - Add Student name if no Contacts at address in MailingLabel.fnc.php
 - Do not Export Delete column in Periods.php & GradeLevels.php
+- HTML group inputs inside fieldset (tab title or program name) in Configuration.php
 
 Changes in 8.9.1
 ----------------
