@@ -18,6 +18,7 @@ Changes in 9.0
 - Add Student Photo Tip Message in AddDrop.php
 - Format Enrollment Start & End Date in Export.php
 - Add Student name if no Contacts at address in MailingLabel.fnc.php
+- Do not Export Delete column in Periods.php & GradeLevels.php
 
 Changes in 8.9.1
 ----------------

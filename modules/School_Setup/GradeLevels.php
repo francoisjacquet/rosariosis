@@ -99,8 +99,15 @@ if ( ! $_REQUEST['modfunc'] )
 		]
 	);
 
-	$columns = [
-		'REMOVE' => '<span class="a11y-hidden">' . _( 'Delete' ) . '</span>',
+	$columns = [];
+
+	if ( empty( $_REQUEST['LO_save'] ) )
+	{
+		// Do not Export Delete column.
+		$columns['REMOVE'] = '<span class="a11y-hidden">' . _( 'Delete' ) . '</span>';
+	}
+
+	$columns += [
 		'TITLE' => _( 'Title' ),
 		'SHORT_NAME' => _( 'Short Name' ),
 		'SORT_ORDER' => _( 'Sort Order' ),
