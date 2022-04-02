@@ -39,11 +39,16 @@ if ( ! function_exists( 'DashboardGradesAdmin' ) )
 	 * You have to Caluclate GPA for the Quarter first!
 	 *
 	 * @since 4.0
+	 * @since 9.0 Fix PHP8.1 deprecated use PostgreSQL $db_connection global variable
+	 *
+	 * @global $db_connection PgSql\Connection instance
 	 *
 	 * @return array Dashboard data
 	 */
 	function DashboardGradesAdmin()
 	{
+		global $db_connection;
+
 		$gpa_RET = DBGet( "SELECT ROUND(AVG(CUM_WEIGHTED_GPA)) AS CUM_WEIGHTED_GPA,
 		ROUND(AVG(UNWEIGHTED_GPA)) AS CUM_UNWEIGHTED_GPA
 		FROM TRANSCRIPT_GRADES
@@ -54,7 +59,7 @@ if ( ! function_exists( 'DashboardGradesAdmin' ) )
 		// GPA for MP, if graded.
 		$gpa = 0;
 
-		$postgresql_version = pg_version();
+		$postgresql_version = pg_version( $db_connection );
 
 		if ( ! isset( $gpa_RET[1]['CUM_WEIGHTED_GPA'] )
 			&& version_compare( $postgresql_version['server'], '8.4', '>=' ) )

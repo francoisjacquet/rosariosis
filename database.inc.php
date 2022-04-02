@@ -51,11 +51,11 @@ function db_start()
 		$connectstring .= ' password=' . $DatabasePassword;
 	}
 
-	$connection = pg_connect( $connectstring );
+	$db_connection = pg_connect( $connectstring );
 
 	// Error code for both.
 
-	if ( $connection === false )
+	if ( $db_connection === false )
 	{
 		// TRANSLATION: do NOT translate these since error messages need to stay in English for technical support.
 		db_show_error(
@@ -65,7 +65,7 @@ function db_start()
 		);
 	}
 
-	return $connection;
+	return $db_connection;
 }
 
 /**
@@ -75,9 +75,12 @@ function db_start()
  * @since 5.1
  * @since 5.2 Add $show_error optional param.
  * @since 8.1 Remove @ error control operator on pg_exec: allow PHP Warning
+ * @since 9.0 Fix PHP8.1 deprecated use PostgreSQL $db_connection global variable
  *
  * @uses db_start()
  * @uses db_show_error()
+ *
+ * @global $db_connection PgSql\Connection instance
  *
  * @param  string $sql        SQL statement.
  * @param  bool   $show_error Show error and die. Optional, defaults to true.
@@ -86,20 +89,20 @@ function db_start()
  */
 function db_query( $sql, $show_error = true )
 {
-	static $connection;
+	global $db_connection;
 
-	if ( ! isset( $connection ) )
+	if ( ! isset( $db_connection ) )
 	{
-		$connection = db_start();
+		$db_connection = db_start();
 	}
 
-	$result = pg_exec( $connection, $sql );
+	$result = pg_exec( $db_connection, $sql );
 
 	if ( $result === false
 		&& $show_error )
 	{
 		// TRANSLATION: do NOT translate these since error messages need to stay in English for technical support.
-		db_show_error( $sql, 'DB Execute Failed.', pg_last_error( $connection ) );
+		db_show_error( $sql, 'DB Execute Failed.', pg_last_error( $db_connection ) );
 	}
 
 	return $result;
@@ -484,14 +487,19 @@ function db_show_error( $sql, $failnote, $additional = '' )
  * Escapes single quotes by using two for every one.
  *
  * @example $safe_string = DBEscapeString( $string );
+ * @since 9.0 Fix PHP8.1 deprecated use PostgreSQL $db_connection global variable
+ *
+ * @global $db_connection PgSql\Connection instance
  *
  * @param  string $input  Input string.
  * @return string escaped string
  */
 function DBEscapeString( $input )
 {
+	global $db_connection;
+
 	// return str_replace("'","''",$input);
-	return pg_escape_string( $input );
+	return pg_escape_string( $db_connection, (string) $input );
 }
 
 /**
@@ -502,12 +510,17 @@ function DBEscapeString( $input )
  * @example $safe_sql = "SELECT COLUMN FROM " . DBEscapeIdentifier( $table ) . " WHERE " . DBEscapeIdentifier( $column ) . "='Y'";
  * @uses pg_escape_identifier(), requires PHP 5.4.4+
  * @since 3.0
+ * @since 9.0 Fix PHP8.1 deprecated use PostgreSQL $db_connection global variable
+ *
+ * @global $db_connection PgSql\Connection instance
  *
  * @param  string $identifier SQL identifier (table, column).
  * @return string Escaped identifier.
  */
 function DBEscapeIdentifier( $identifier )
 {
+	global $db_connection;
+
 	$identifier = mb_strtolower( $identifier );
 
 	if ( ! function_exists( 'pg_escape_identifier' ) )
@@ -515,5 +528,5 @@ function DBEscapeIdentifier( $identifier )
 		return '"' . $identifier . '"';
 	}
 
-	return pg_escape_identifier( $identifier );
+	return pg_escape_identifier( $db_connection, $identifier );
 }
