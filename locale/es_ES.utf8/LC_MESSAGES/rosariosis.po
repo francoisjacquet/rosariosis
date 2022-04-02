@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-15 21:19+0100\n"
-"PO-Revision-Date: 2022-03-15 21:19+0100\n"
+"PO-Revision-Date: 2022-04-02 19:06+0200\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS\n"
 "Language: es\n"
@@ -1685,7 +1685,7 @@ msgstr[1] "Calificaciones"
 
 #: classes/core/Widget.php:784
 msgid "Did not receive"
-msgstr "No fue recibido"
+msgstr "No fue recibida"
 
 #: classes/core/Widget.php:916 classes/core/Widgets.php:294
 #: modules/Grades/Configuration.php:229 modules/Users/Preferences.php:677
