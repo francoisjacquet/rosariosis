@@ -1147,7 +1147,8 @@ if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 {
 	$tipmessage = '';
 
-	if ( ! empty( $commentsB_RET ) )
+	if ( ! empty( $commentsB_RET )
+		&& GetMP( $_REQUEST['mp'], 'DOES_COMMENTS' ) == 'Y' )
 	{
 		$tipmsg = '';
 
@@ -1164,7 +1165,8 @@ if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	}
 
 	// Add All Courses & Course-specific comments scales tipmessage.
-	elseif ( ! empty( $commentsA_RET ) )
+	elseif ( ! empty( $commentsA_RET )
+		&& GetMP( $_REQUEST['mp'], 'DOES_COMMENTS' ) == 'Y' )
 	{
 		// Course-specific.
 		$where = " AND CATEGORY_ID='" . $_REQUEST['tab_id'] . "'";
