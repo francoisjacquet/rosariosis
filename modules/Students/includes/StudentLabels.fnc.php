@@ -18,7 +18,7 @@ if ( ! function_exists( 'GetStudentLabelsFormHTML' ) )
 	 */
 	function GetStudentLabelsFormHTML()
 	{
-		$form = '<fieldset><legend><label><input type="radio" name="mailing_labels" value="" checked /> ' .
+		$form = '<fieldset><legend><label><input type="radio" name="mailing_labels" value="" autocomplete="off" checked /> ' .
 		_( 'Student Labels' ) . '</label></legend>';
 
 		$form .= '<span>' . _( 'Include On Labels' ) . ':</span>';
@@ -81,16 +81,22 @@ if ( ! function_exists( 'GetMailingLabelsFormHTML' ) )
 			return '';
 		}
 
-		$form = '<fieldset><legend><label><input type="radio" name="mailing_labels" value="Y" /> ' .
+		$form = '<fieldset disabled><legend><label><input type="radio" name="mailing_labels" value="Y" autocomplete="off" /> ' .
 		_( 'Address Labels' ) . '</label></legend>';
 
 		$form .= '<label>
 			<input type="radio" name="to_address" value="" checked /> ' .
 		_( 'To Contacts' ) . '</label>';
 
+		$form .= '<br /><label><input type="radio" name="to_address" value="student" /> ' .
+		_( 'To Student' ) . '</label>';
+
+		$form .= '<br /><label><input type="radio" name="to_address" value="family" /> ' .
+		_( 'To the parents of' ) . '</label>';
+
 		if ( Config( 'STUDENTS_USE_MAILING' ) )
 		{
-			$form .= '<br /><label><input type="radio" name="residence" value="" checked /> ' .
+			$form .= '<br /><br /><label><input type="radio" name="residence" value="" checked /> ' .
 			_( 'Mailing' ) . '</label>';
 
 			$form .= '<br /><label><input type="radio" name="residence" value="Y" /> ' .
@@ -101,15 +107,43 @@ if ( ! function_exists( 'GetMailingLabelsFormHTML' ) )
 			$form .= '<input type="hidden" name="residence" value="Y" />';
 		}
 
-		$form .= '<br /><label><input type="radio" name="to_address" value="student" /> ' .
-		_( 'To Student' ) . '</label>';
-
-		$form .= '<br /><label><input type="radio" name="to_address" value="family" /> ' .
-		_( 'To the parents of' ) . '</label>';
-
 		$form .= '</fieldset><br />';
 
 		return $form;
+	}
+}
+
+if ( ! function_exists( 'GetStudentLabelsFormJS' ) )
+{
+	/**
+	 * Get Student Labels Form JS
+	 * Disable unchecked fieldset
+	 *
+	 * @since 9.0
+	 *
+	 * @return string Student Labels Form JS
+	 */
+	function GetStudentLabelsFormJS()
+	{
+		// No JS if User cannot access Addresses & Contacts Student Info tab.
+		if ( ! AllowUse( 'Students/Student.php&category_id=3' ) )
+		{
+			return '';
+		}
+
+		ob_start();
+		?>
+		<script>
+			$('input[name=mailing_labels]').click(function(event){
+				// Toggle fieldset disabled attribute.
+				$('input[name=mailing_labels]').parents('fieldset').prop('disabled', function(i, v) {
+					return !v;
+				});
+			});
+		</script>
+		<?php
+
+		return ob_get_clean();
 	}
 }
 

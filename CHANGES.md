@@ -20,7 +20,8 @@ Changes in 9.0
 - Add Student name if no Contacts at address in MailingLabel.fnc.php
 - Do not Export Delete column in Periods.php & GradeLevels.php
 - HTML group inputs inside fieldset (tab title or program name) in Configuration.php
-- Hide Comments tip message if Comments unchecked for Marking Period in InputFinalGrades.php
+- Hide Comment Codes tip message if Comments unchecked for Marking Period in InputFinalGrades.php
+- Add Get Student Labels Form JS (Disable unchecked fieldset) in StudentLabels.fnc.php & StudentLabels.php
 
 Changes in 8.9.1
 ----------------

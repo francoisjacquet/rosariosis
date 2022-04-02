@@ -75,6 +75,8 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$extra['extra_header_left'] .= GetMailingLabelsFormHTML();
 
+		$extra['extra_header_left'] .= GetStudentLabelsFormJS();
+
 		$max_cols = 3;
 		$max_rows = 10;
 
