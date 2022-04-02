@@ -1637,12 +1637,27 @@ function _makeCommentsB( $value, $column )
 	{
 		if ( $value > $max_current_commentsB )
 		{
-			$return = SelectInput( '', 'values[' . $THIS_RET['STUDENT_ID'] . '][commentsB][' . $value . ']', '', $commentsB_select, _( 'N/A' ) );
+			$return = SelectInput(
+				'',
+				'values[' . $THIS_RET['STUDENT_ID'] . '][commentsB][' . $value . ']',
+				'',
+				$commentsB_select,
+				_( 'N/A' ),
+				'style="width:200px"'
+			);
 		}
 		elseif ( ! empty( $import_commentsB_RET[$THIS_RET['STUDENT_ID']][$value] )
 			|| isset( $current_commentsB_RET[$THIS_RET['STUDENT_ID']][$value] ) )
 		{
-			$return = SelectInput( $select, 'values[' . $THIS_RET['STUDENT_ID'] . '][commentsB][' . $value . ']', '', $commentsB_select, _( 'N/A' ), '', $div );
+			$return = SelectInput(
+				$select,
+				'values[' . $THIS_RET['STUDENT_ID'] . '][commentsB][' . $value . ']',
+				'',
+				$commentsB_select,
+				_( 'N/A' ),
+				'style="width:200px"',
+				$div
+			);
 		}
 		else
 		{
