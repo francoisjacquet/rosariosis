@@ -256,7 +256,10 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = [], $type
 		&& ! $new
 		&& ( ( $id
 				&& ( $table !== 'STAFF'
-					|| $id < 200000000 ) ) // Don't Delete Email & Phone User Fields.
+					|| $id < 200000000 ) // Don't Delete Email & Phone User Fields.
+				&& ( $table !== 'STUDENT'
+					|| ( $id != 200000000
+						&& $id != 200000004 ) ) ) // Don't Delete Gender & Birthday Student Fields.
 			|| ( $category_id
 				&& ( $table !== 'STUDENT'
 					|| $category_id > 4 ) // Don't Delete first 4 Student Fields Categories.
