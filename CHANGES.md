@@ -24,6 +24,7 @@ Changes in 9.0
 - Add Get Student Labels Form JS (Disable unchecked fieldset) in StudentLabels.fnc.php & StudentLabels.php
 - Fix PHP8.1 deprecated use PostgreSQL $db_connection global variable in database.inc.php & Grades/includes/Dashboard.inc.php
 - Don't Delete Gender & Birthday Student Fields in Fields.fnc.php
+- CSS set cursor for .tipmsg-label in stylesheet.css
 
 Changes in 8.9.1
 ----------------

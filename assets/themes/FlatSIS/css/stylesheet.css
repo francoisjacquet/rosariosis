@@ -1487,6 +1487,11 @@ td.calendar-menu {
 .tipmsg-label {
 	display: inline-block;
 	border-bottom: 1px dashed #bbb;
+	cursor: default;
+}
+
+a > .tipmsg-label {
+	cursor: pointer;
 }
 
 .tipmsg-label .button + b,
