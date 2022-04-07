@@ -405,7 +405,7 @@ if ( ! $_REQUEST['modfunc'] && ! empty( $email_column ) )
 			'',
 			'test_email',
 			_( 'Email' ),
-			'type="email" pattern="[^ @]*@[^ @]*" placeholder="' . _( 'Email' ) . '"',
+			'type="email" pattern="[^ @]*@[^ @]*" placeholder="' . _( 'Email' ) . '" size="24"',
 			false
 		) . '</td></tr>';
 
