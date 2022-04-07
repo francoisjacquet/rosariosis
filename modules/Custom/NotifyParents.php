@@ -171,7 +171,7 @@ if ( ! $_REQUEST['modfunc'] || $_REQUEST['search_modfunc'] === 'list' )
 			'',
 			'test_email',
 			_( 'Email' ),
-			'size="24"',
+			'type="email" pattern="[^ @]*@[^ @]*" placeholder="' . _( 'Email' ) . '"',
 			false
 		) . '</td></tr>';
 
