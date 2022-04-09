@@ -1029,16 +1029,38 @@ if ( ! $_REQUEST['modfunc'] )
 
 				echo '</th></tr>';
 
-				echo '<tr><td colspan="3">' . TextInput( $this_address['MAIL_ADDRESS'], 'values[ADDRESS][MAIL_ADDRESS]', _( 'Street' ), ! $this_address['MAIL_ADDRESS'] ? 'size=20' : '' ) . '</td></tr>';
+				echo '<tr><td colspan="3">' . TextInput(
+					issetVal( $this_address['MAIL_ADDRESS'], '' ),
+					'values[ADDRESS][MAIL_ADDRESS]',
+					_( 'Street' ),
+					! $this_address['MAIL_ADDRESS'] ? 'size=20' : ''
+				) . '</td></tr>';
 
-				echo '<tr><td>' . _makeAutoSelectInputX( $this_address['MAIL_CITY'], 'MAIL_CITY', 'ADDRESS', _( 'City' ), [] ) . '</td>';
+				echo '<tr><td>' . _makeAutoSelectInputX(
+					$this_address['MAIL_CITY'],
+					'MAIL_CITY',
+					'ADDRESS',
+					_( 'City' ),
+					[]
+				) . '</td>';
 
-				echo '<td>' . _makeAutoSelectInputX( $this_address['MAIL_STATE'], 'MAIL_STATE', 'ADDRESS', _( 'State' ), [] ) . '</td>';
+				echo '<td>' . _makeAutoSelectInputX(
+					$this_address['MAIL_STATE'],
+					'MAIL_STATE',
+					'ADDRESS',
+					_( 'State' ),
+					[]
+				) . '</td>';
 
-				echo '<td>' . _makeAutoSelectInputX( $this_address['MAIL_ZIPCODE'], 'MAIL_ZIPCODE', 'ADDRESS', _( 'Zip' ), [] ) . '</td></tr>';
+				echo '<td>' . _makeAutoSelectInputX(
+					$this_address['MAIL_ZIPCODE'],
+					'MAIL_ZIPCODE',
+					'ADDRESS',
+					_( 'Zip' ),
+					[]
+				) . '</td></tr>';
 
-				echo '</table>';
-				echo '</div>';
+				echo '</table></div>';
 			}
 			else
 			{
