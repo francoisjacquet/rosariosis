@@ -167,7 +167,7 @@ h6 {
 input[type=button],
 input[type=submit] {
 	border-color: #bbb;
-	color: #464646
+	color: #333
 }
 
 input[type=button]:hover,
@@ -296,7 +296,7 @@ a.menu-top,
 }
 
 .postbox th {
-	color: #464646
+	color: #333
 }
 
 .postbox th:hover,
