@@ -27,6 +27,7 @@ Changes in 9.0
 - CSS set cursor for .tipmsg-label in stylesheet.css
 - Add Username to Password Reset email in PasswordReset.php
 - `intl` PHP extension is now required in diagnostic.php & INSTALL.md
+- Fix PHP8.1 deprecated strftime() use strftime_compat() instead in Side.php, Date.php, PHPCompatibility.php, strftime_compat.php, Dashboard.inc.php & Preferences.php
 
 Changes in 8.9.1
 ----------------

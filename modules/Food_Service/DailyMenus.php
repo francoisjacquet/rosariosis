@@ -144,7 +144,6 @@ if ( ! empty( $_REQUEST['submit']['print'] ) )
 		}
 	}
 
-	//FJ display locale with strftime()
 	echo '<tr class="center"><td>' . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . '</td>
 		<td><b class="sizep2">' . ProperDate( date( 'Y-m-d', mktime( 0, 0, 0, $_REQUEST['month'], 1, $_REQUEST['year'] ) ) ) . '</b></td>
 		<td>' . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . '</td></tr></table>';

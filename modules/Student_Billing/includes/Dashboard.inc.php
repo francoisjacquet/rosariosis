@@ -89,7 +89,8 @@ if ( ! function_exists( 'DashboardStudentBillingAdmin' ) )
 		foreach ( (array) $fees_payments_RET as $year_month => $fees_payments )
 		{
 			// Remove dummy day from proper date.
-			$proper_month_year = strftime(
+			// @since 9.0 Fix PHP8.1 deprecated strftime() use strftime_compat() instead
+			$proper_month_year = strftime_compat(
 				trim( str_replace( [ '%d', '//' ], [ '', '/'], Preferences( 'DATE' ) ), '-./ ' ),
 				strtotime( $year_month . '-29' )
 			);

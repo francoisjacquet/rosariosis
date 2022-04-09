@@ -7,6 +7,14 @@
  * @subpackage functions
  */
 
+/**
+ * Include PHP strftime function replacement.
+ * It is deprecated since PHP 8.1
+ *
+ * @since 9.0 Fix PHP8.1 deprecated strftime() use strftime_compat() instead
+ */
+require_once 'functions/PHPCompatibility/strftime_compat.php';
+
 if ( ! function_exists( 'gettext' ) )
 {
 	/**

@@ -390,17 +390,18 @@ if ( ! $_REQUEST['modfunc'] )
 		// @since 7.1 Select Date Format: Add Preferences( 'DATE' ).
 		// @link https://en.wikipedia.org/wiki/Date_format_by_country
 		// @link https://www.php.net/strftime
+		// @since 9.0 Fix PHP8.1 deprecated strftime() use strftime_compat() instead
 		$date_options = [
-			'%B %d %Y' => ucfirst( strftime( '%B %d %Y' ) ), // August 18 2020.
-			'%b %d %Y' => ucfirst( strftime( '%b %d %y' ) ), // Aug 18 20.
-			'%d %B %Y' => strftime( '%d %B %Y' ), // 18 August 2020.
-			'%d %b %Y' => strftime( '%d %b %y' ), // 18 Aug 20.
-			'%m/%d/%Y' => strftime( '%m/%d/%Y' ), // 08/18/2020.
-			'%d/%m/%Y' => strftime( '%d/%m/%Y' ), // 18/08/2020.
-			'%Y/%m/%d' => strftime( '%Y/%m/%d' ), // 2020/08/18.
-			'%d.%m.%Y' => strftime( '%d.%m.%Y' ), // 18.08.2020.
-			'%d-%m-%Y' => strftime( '%d-%m-%Y' ), // 18-08-2020.
-			'%Y-%m-%d' => strftime( '%Y-%m-%d' ), // 2020-08-18.
+			'%B %d %Y' => ucfirst( strftime_compat( '%B %d %Y' ) ), // August 18 2020.
+			'%b %d %Y' => ucfirst( strftime_compat( '%b %d %y' ) ), // Aug 18 20.
+			'%d %B %Y' => strftime_compat( '%d %B %Y' ), // 18 August 2020.
+			'%d %b %Y' => strftime_compat( '%d %b %y' ), // 18 Aug 20.
+			'%m/%d/%Y' => strftime_compat( '%m/%d/%Y' ), // 08/18/2020.
+			'%d/%m/%Y' => strftime_compat( '%d/%m/%Y' ), // 18/08/2020.
+			'%Y/%m/%d' => strftime_compat( '%Y/%m/%d' ), // 2020/08/18.
+			'%d.%m.%Y' => strftime_compat( '%d.%m.%Y' ), // 18.08.2020.
+			'%d-%m-%Y' => strftime_compat( '%d-%m-%Y' ), // 18-08-2020.
+			'%Y-%m-%d' => strftime_compat( '%Y-%m-%d' ), // 2020-08-18.
 		];
 
 		echo SelectInput(

@@ -67,7 +67,8 @@ if ( ! function_exists( 'DashboardDisciplineAdmin' ) )
 		foreach ( (array) $referrals_RET as $referrals )
 		{
 			// Remove dummy day from proper date.
-			$proper_month_year = strftime(
+			// @since 9.0 Fix PHP8.1 deprecated strftime() use strftime_compat() instead
+			$proper_month_year = strftime_compat(
 				trim( str_replace( [ '%d', '//' ], [ '', '/'], Preferences( 'DATE' ) ), '-./ ' ),
 				strtotime( $referrals['YEAR_MONTH'] . '-29' )
 			);

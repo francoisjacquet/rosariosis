@@ -91,7 +91,6 @@ if ( UserStudentID()
 		ErrorMessage( [ _( 'There are no calendars yet setup.' ) ], 'fatal' );
 	}
 
-//FJ display locale with strftime()
 	//	$date_select = "<option value=$start>".date('M d, Y',$start).' - '.date('M d, Y',$end).'</option>';
 	$date_select = '<option value="' . $start . '">' . ProperDate( date( 'Y-m-d', $start ) ) . ' - ' . ProperDate( DBDate() ) . '</option>';
 	//exit(var_dump($begin_year));
