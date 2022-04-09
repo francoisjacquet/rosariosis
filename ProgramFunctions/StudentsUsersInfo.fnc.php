@@ -443,7 +443,7 @@ function _makeFilesInput( $column, $name, $request, $remove_url = '' )
 
 	$div = true;
 
-	$file_paths = explode( '||', trim( issetVal( $value[ $column ] ), '||' ) );
+	$file_paths = explode( '||', trim( issetVal( $value[ $column ], '' ), '||' ) );
 
 	$files = [];
 
