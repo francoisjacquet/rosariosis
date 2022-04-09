@@ -20,7 +20,7 @@
  * @return string
  * @author BohwaZ <https://bohwaz.net/>
  */
-function strftime_compat(string $format, $timestamp = null)
+function strftime_compat($format, $timestamp = null)
 {
 	if ( ! class_exists( 'IntlDateFormatter' ) ) {
 		if ( ! function_exists( 'strftime' ) ) {
