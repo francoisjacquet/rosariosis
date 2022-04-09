@@ -26,6 +26,7 @@ Changes in 9.0
 - Don't Delete Gender & Birthday Student Fields in Fields.fnc.php
 - CSS set cursor for .tipmsg-label in stylesheet.css
 - Add Username to Password Reset email in PasswordReset.php
+- `intl` PHP extension is now required in diagnostic.php & INSTALL.md
 
 Changes in 8.9.1
 ----------------

@@ -2,6 +2,14 @@
 
 ## RosarioSIS Student Information System
 
+New in 9.0
+----------
+
+PHP8.1 compatibility
+
+`intl` PHP extension is now required
+
+
 New in 8.9
 ----------
 

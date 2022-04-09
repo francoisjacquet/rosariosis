@@ -168,6 +168,12 @@ if ( ! extension_loaded( 'curl' ) )
 	$error[] = 'PHP extensions: RosarioSIS relies on the curl extension (only used to connect to Moodle). Please install and activate it.';
 }
 
+// Check for intl extension.
+if ( ! extension_loaded( 'intl' ) )
+{
+	$error[] = 'PHP extensions: RosarioSIS relies on the intl extension. Please install and activate it.';
+}
+
 // Check session.auto_start.
 if ( (bool) ini_get( 'session.auto_start' ) )
 {
