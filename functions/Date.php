@@ -263,7 +263,7 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = [] )
 		$extraY .= ' required';
 	}
 
-	$date_exploded = ExplodeDate( $date );
+	$date_exploded = ExplodeDate( (string) $date );
 
 	$return .= '<!-- ' . implode( '', $date_exploded ) . ' -->';
 
@@ -426,6 +426,11 @@ function ExplodeDate( $date )
 	// Invalid format.
 	$year = $month = $day = '';
 
+	if ( empty( $date ) )
+	{
+		return [ 'year' => $year, 'month' => $month, 'day' => $day ];
+	}
+
 	// Oracle format DD-MMM-YY.
 	if ( mb_strlen( $date ) === 9 )
 	{
@@ -547,7 +552,7 @@ function RequestedDate( $year_or_request_index, $month_or_default, $day_or_mode 
 		if ( $mode === 'set'
 			&& $default )
 		{
-			$exploded_date = ExplodeDate( $default );
+			$exploded_date = ExplodeDate( (string) $default );
 
 			$_REQUEST['year_' . $request_index ] = $exploded_date['year'];
 			$_REQUEST['month_' . $request_index ] = $exploded_date['month'];
