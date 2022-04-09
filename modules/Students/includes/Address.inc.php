@@ -531,17 +531,28 @@ if ( ! $_REQUEST['modfunc'] )
 
 		if ( $address['RESIDENCE'] == 'Y' )
 		{
-			$images .= ' ' . button( 'house' );
+			$images .= ' ' . button( 'house', '', '', '" title="' . _( 'Residence' ) );
 		}
 
 		if ( $address['BUS_PICKUP'] == 'Y' || $address['BUS_DROPOFF'] == 'Y' )
 		{
-			$images .= ' ' . button( 'bus' );
+			$button_title = _( 'Bus Dropoff' );
+
+			if ( $address['BUS_PICKUP'] == 'Y' && $address['BUS_DROPOFF'] == 'Y' )
+			{
+				$button_title = _( 'Bus Pickup' ) . ' - ' . _( 'Bus Dropoff' );
+			}
+			elseif ( $address['BUS_PICKUP'] == 'Y' )
+			{
+				$button_title = _( 'Bus Pickup' );
+			}
+
+			$images .= ' ' . button( 'bus', '', '', '" title="' . $button_title );
 		}
 
 		if ( $address['MAILING'] == 'Y' )
 		{
-			$images .= ' ' . button( 'mailbox' );
+			$images .= ' ' . button( 'mailbox', '', '', '" title="' . _( 'Mailing Address' ) );
 		}
 
 		echo '<th colspan="2">' . $images . '&nbsp;' . $relation_list . '</th>';
@@ -758,12 +769,12 @@ if ( ! $_REQUEST['modfunc'] )
 
 				if ( $contact['CUSTODY'] === 'Y' )
 				{
-					$images .= button( 'gavel' ) . ' ';
+					$images .= button( 'gavel', '', '', '" title="' . _( 'Custody' ) ) . ' ';
 				}
 
 				if ( $contact['EMERGENCY'] === 'Y' )
 				{
-					$images .= button( 'emergency' ) . ' ';
+					$images .= button( 'emergency', '', '', '" title="' . _( 'Emergency' ) ) . ' ';
 				}
 
 				echo $images .
@@ -951,22 +962,70 @@ if ( ! $_REQUEST['modfunc'] )
 				}
 			}
 
-			//FJ css WPadmin
-			echo '<br /><table class="widefat"><tr><td>' . CheckboxInput( $this_address['RESIDENCE'], 'values[STUDENTS_JOIN_ADDRESS][RESIDENCE]', '', 'CHECKED', $new, button( 'check' ), button( 'x' ) ) . '</td><td>' . button( 'house', '', '', 'bigger' ) . '</td><td>' . _( 'Residence' ) . '</td></tr>';
+			echo '<br /><table class="widefat width-100p"><tr><td>' .
+				button( 'house', '', '', 'bigger' ) .
+				'</td><td>' .
+				CheckboxInput(
+					$this_address['RESIDENCE'],
+					'values[STUDENTS_JOIN_ADDRESS][RESIDENCE]',
+					_( 'Residence' ),
+					'CHECKED',
+					$new,
+					button( 'check' ),
+					button( 'x' )
+				) . '</td></tr>';
 
-			echo '<tr><td>' . CheckboxInput( $this_address['BUS_PICKUP'], 'values[STUDENTS_JOIN_ADDRESS][BUS_PICKUP]', '', 'CHECKED', $new, button( 'check' ), button( 'x' ) ) . '</td><td>' . button( 'bus', '', '', 'bigger' ) . '</td><td>' . _( 'Bus Pickup' ) . '</td></tr>';
+			echo '<tr><td>' .
+				button( 'bus', '', '', 'bigger' ) .
+				'</td><td>' .
+				CheckboxInput(
+					$this_address['BUS_PICKUP'],
+					'values[STUDENTS_JOIN_ADDRESS][BUS_PICKUP]',
+					_( 'Bus Pickup' ),
+					'CHECKED',
+					$new,
+					button( 'check' ),
+					button( 'x' )
+				) . '</td></tr>';
 
-			echo '<tr><td>' . CheckboxInput( $this_address['BUS_DROPOFF'], 'values[STUDENTS_JOIN_ADDRESS][BUS_DROPOFF]', '', 'CHECKED', $new, button( 'check' ), button( 'x' ) ) . '</td><td>' . button( 'bus', '', '', 'bigger' ) . '</td><td>' . _( 'Bus Dropoff' ) . '</td></tr>';
+			echo '<tr><td>' .
+				button( 'bus', '', '', 'bigger' ) .
+				'</td><td>' .
+				CheckboxInput(
+					$this_address['BUS_DROPOFF'],
+					'values[STUDENTS_JOIN_ADDRESS][BUS_DROPOFF]',
+					_( 'Bus Dropoff' ),
+					'CHECKED',
+					$new,
+					button( 'check' ),
+					button( 'x' )
+				) . '</td></tr>';
 
-			if ( Config( 'STUDENTS_USE_MAILING' ) || $this_address['MAIL_CITY'] || $this_address['MAIL_STATE'] || $this_address['MAIL_ZIPCODE'] )
+			if ( Config( 'STUDENTS_USE_MAILING' )
+				|| $this_address['MAIL_CITY']
+				|| $this_address['MAIL_STATE']
+				|| $this_address['MAIL_ZIPCODE'] )
 			{
 				echo '<script> function show_mailing(checkbox){if (checkbox.checked==true) document.getElementById(\'mailing_address_div\').style.visibility=\'visible\'; else document.getElementById(\'mailing_address_div\').style.visibility=\'hidden\';}</script>';
 
-				echo '<tr><td>' . CheckboxInput( $this_address['MAILING'], 'values[STUDENTS_JOIN_ADDRESS][MAILING]', '', 'CHECKED', $new, button( 'check' ), button( 'x' ), true, 'onclick=show_mailing(this);' ) . '</td><td>' . button( 'mailbox', '', '', 'bigger' ) . '</td><td>' . _( 'Mailing Address' ) . '</td></tr></table>';
+				echo '<tr><td>' .
+					button( 'mailbox', '', '', 'bigger' ) .
+					'</td><td>' .
+					CheckboxInput(
+						$this_address['MAILING'],
+						'values[STUDENTS_JOIN_ADDRESS][MAILING]',
+						_( 'Mailing Address' ),
+						'CHECKED',
+						$new,
+						button( 'check' ),
+						button( 'x' ),
+						true,
+						'onclick=show_mailing(this);'
+					) . '</td></tr></table>';
 
-				echo '<div id="mailing_address_div" style="visibility: ' . (  ( $this_address['MAILING'] || $_REQUEST['address_id'] == 'new' ) ? 'visible' : 'hidden' ) . ';">';
+				echo '<div id="mailing_address_div" style="visibility: ' . ( ( $this_address['MAILING'] || $_REQUEST['address_id'] == 'new' ) ? 'visible' : 'hidden' ) . ';">';
 
-				echo '<br /><table class="widefat"><tr><th colspan="3">' . _( 'Mailing Address' ) . '&nbsp;(' . _( 'If different than above' ) . ')';
+				echo '<br /><table class="widefat width-100p"><tr><th colspan="3">' . _( 'Mailing Address' ) . '&nbsp;(' . _( 'If different than above' ) . ')';
 
 				echo '</th></tr>';
 
@@ -983,7 +1042,18 @@ if ( ! $_REQUEST['modfunc'] )
 			}
 			else
 			{
-				echo '<tr><td>' . CheckboxInput( $this_address['MAILING'], 'values[STUDENTS_JOIN_ADDRESS][MAILING]', '', 'CHECKED', $new, button( 'check' ), button( 'x' ) ) . '</td><td>' . button( 'mailbox', '', '', 'bigger' ) . '</td><td>' . _( 'Mailing Address' ) . '</td></tr></table>';
+				echo '<tr><td>' .
+					button( 'mailbox', '', '', 'bigger' ) .
+					'</td><td>' .
+					CheckboxInput(
+						$this_address['MAILING'],
+						'values[STUDENTS_JOIN_ADDRESS][MAILING]',
+						_( 'Mailing Address' ),
+						'CHECKED',
+						$new,
+						button( 'check' ),
+						button( 'x' )
+					) . '</td></tr></table>';
 			}
 		}
 
