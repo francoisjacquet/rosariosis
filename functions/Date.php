@@ -529,7 +529,7 @@ function RequestedDate( $year_or_request_index, $month_or_default, $day_or_mode 
 	{
 		$request_index = $year_or_request_index;
 
-		$default = strlen( $month_or_default ) > 7 && VerifyDate( $month_or_default ) ? $month_or_default : '';
+		$default = strlen( (string) $month_or_default ) > 7 && VerifyDate( $month_or_default ) ? $month_or_default : '';
 
 		$mode = $day_or_mode;
 
