@@ -342,8 +342,8 @@ function GetAssignment( $assignment_id )
 	}
 
 	// Check Assignment ID is int > 0.
-
-	if ( $assignment_id < 1 )
+	if ( (string) (int) $assignment_id != $assignment_id
+		|| $assignment_id < 1 )
 	{
 		return false;
 	}
