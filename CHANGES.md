@@ -25,6 +25,7 @@ Changes in 9.0
 - Fix PHP8.1 deprecated use PostgreSQL $db_connection global variable in database.inc.php & Grades/includes/Dashboard.inc.php
 - Don't Delete Gender & Birthday Student Fields in Fields.fnc.php
 - CSS set cursor for .tipmsg-label in stylesheet.css
+- Add Username to Password Reset email in PasswordReset.php
 
 Changes in 8.9.1
 ----------------
