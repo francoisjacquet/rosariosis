@@ -11,12 +11,14 @@
  *
  * @since 4.8
  * @since 6.9 Add Secondary Teacher.
+ * @since 9.0 Add $course_period_id param to limit check to a single Course Period.
  *
- * @param int $teacher_id Teacher ID.
+ * @param int $teacher_id       Teacher ID.
+ * @param int $course_period_id Course Period ID.
  *
  * @return boolean True if confliciting days for the same period, else false.
  */
-function CoursePeriodTeacherConflictCheck( $teacher_id )
+function CoursePeriodTeacherConflictCheck( $teacher_id, $course_period_id )
 {
 	if ( ! $teacher_id )
 	{
@@ -24,7 +26,7 @@ function CoursePeriodTeacherConflictCheck( $teacher_id )
 	}
 
 	// Get school periods for Teacher course periods.
-	$school_periods_RET = DBGet( "SELECT cpsp.PERIOD_ID,cpsp.DAYS
+	$school_periods_RET = DBGet( "SELECT cpsp.PERIOD_ID,cpsp.DAYS,cp.COURSE_PERIOD_ID
 		FROM COURSE_PERIOD_SCHOOL_PERIODS cpsp,COURSE_PERIODS cp
 		WHERE cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
 		AND cp.SYEAR='" . UserSyear() . "'
@@ -39,6 +41,7 @@ function CoursePeriodTeacherConflictCheck( $teacher_id )
 	}
 
 	$school_periods = [];
+	$course_periods = [];
 
 	foreach ( (array) $school_periods_RET as $school_period )
 	{
@@ -50,7 +53,9 @@ function CoursePeriodTeacherConflictCheck( $teacher_id )
 
 			$common_days = array_intersect( $days_array, $days_array2 );
 
-			if ( $common_days )
+			if ( $common_days
+				&& ( $course_periods[ $school_period['PERIOD_ID'] ] == $course_period_id
+					|| $school_period['COURSE_PERIOD_ID'] == $course_period_id ) )
 			{
 				return true;
 			}
@@ -61,6 +66,7 @@ function CoursePeriodTeacherConflictCheck( $teacher_id )
 		}
 
 		$school_periods[ $school_period['PERIOD_ID'] ] .= $school_period['DAYS'];
+		$course_periods[ $school_period['PERIOD_ID'] ] = $school_period['COURSE_PERIOD_ID'];
 	}
 
 	return false;

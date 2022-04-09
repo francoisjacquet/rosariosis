@@ -28,6 +28,7 @@ Changes in 9.0
 - Add Username to Password Reset email in PasswordReset.php
 - `intl` PHP extension is now required in diagnostic.php & INSTALL.md
 - Fix PHP8.1 deprecated strftime() use strftime_compat() instead in Side.php, Date.php, PHPCompatibility.php, strftime_compat.php, Dashboard.inc.php & Preferences.php
+- Add $course_period_id param to limit check to a single Course Period in Courses.fnc.php
 
 Changes in 8.9.1
 ----------------
