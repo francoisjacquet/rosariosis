@@ -767,7 +767,7 @@ function _makeStartInput( $value, $column )
 	global $THIS_RET,
 		$_ROSARIO;
 
-	static $add_codes = false;
+	static $add_codes = [];
 
 	$add = '';
 
