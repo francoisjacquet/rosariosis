@@ -6,6 +6,8 @@
  *
  * @link https://gist.github.com/bohwaz/42fc223031e2b2dd2585aab159a20f30
  *
+ * Requires PHP intl extension
+ *
  * Usage:
  * echo strftime_compat('%A %e %B %Y %X', new \DateTime('2021-09-28 00:00:00'));
  *
@@ -21,6 +23,13 @@
 function strftime_compat(string $format, $timestamp = null)
 {
 	if ( ! class_exists( 'IntlDateFormatter' ) ) {
+		if ( ! function_exists( 'strftime' ) ) {
+			// strftime() function does not exist either, exit.
+			$error[] = 'PHP extensions: RosarioSIS relies on the intl extension. Please install and activate it.';
+
+			echo ErrorMessage( $error, 'fatal' );
+		}
+
 		// Revert to strftime() if PHP intl extension not installed...
 		return strftime( $format, $timestamp );
 	}
