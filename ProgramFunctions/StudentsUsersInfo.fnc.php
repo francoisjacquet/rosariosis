@@ -628,9 +628,9 @@ function _makeStudentAge( $column, $name )
 	global $value;
 
 	if ( $_REQUEST['student_id'] !== 'new'
-		&& date_create( $value[ $column ] ) )
+		&& date_create( (string) $value[ $column ] ) )
 	{
-		$datetime1 = date_create( $value[ $column ] );
+		$datetime1 = date_create( (string) $value[ $column ] );
 
 		$datetime2 = date_create( 'now' );
 

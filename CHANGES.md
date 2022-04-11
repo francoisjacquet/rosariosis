@@ -14,7 +14,7 @@ Changes in 9.0
 - SQL order Schedule list by Course Title & Course Period Short Name in Schedule.php & PrintSchedules.php
 - Fix SQL error more than one row returned by a subquery in Rollover.php
 - Fix update Course Period title when Short Name contains single quote in Courses.php
-- Fix PHP8.1 deprecated function parameter is null in Inputs.php, PreparePHP_SELF.fnc.php, Date.php & StudentsUsersInfo.fnc.php
+- Fix PHP8.1 deprecated function parameter is null in Inputs.php, PreparePHP_SELF.fnc.php, Date.php, StudentsUsersInfo.fnc.php & Grades.php
 - Fix PHP8.1 deprecated automatic conversion of false to array in StudentsUsersInfo.fnc.php
 - Add Student Photo Tip Message in AddDrop.php
 - Format Enrollment Start & End Date in Export.php

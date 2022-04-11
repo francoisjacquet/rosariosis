@@ -768,7 +768,7 @@ function _makeExtraAssnCols( $assignment_id, $column )
 					{
 						$points = '*';
 					}
-					elseif ( mb_strpos( $points, '.' ) )
+					elseif ( mb_strpos( (string) $points, '.' ) )
 					{
 						$points = rtrim( rtrim( $points, '0' ), '.' );
 					}
@@ -943,7 +943,7 @@ function _makeExtraAssnCols( $assignment_id, $column )
 						'size=20 maxlength=500'
 					);
 
-					if ( mb_strlen( $current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['COMMENT'] ) > 60
+					if ( mb_strlen( (string) $current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['COMMENT'] ) > 60
 						&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 					{
 						// Comments length > 60 chars, responsive table ColorBox.
