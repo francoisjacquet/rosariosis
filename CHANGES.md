@@ -31,6 +31,7 @@ Changes in 9.0
 - Fix PHP8.1 deprecated strftime() use strftime_compat() instead in Side.php, Date.php, PHPCompatibility.php, strftime_compat.php, Dashboard.inc.php & Preferences.php
 - Add $course_period_id param to limit check to a single Course Period in Courses.fnc.php
 - Add title to Contact & Address button images in Address.inc.php
+- CSS Assignment select max-width 440px in Grades.php
 
 Changes in 8.9.1
 ----------------
