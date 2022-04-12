@@ -996,7 +996,7 @@ function _makeExtraStuCols( $value, $column )
 			{
 				$value = '*';
 			}
-			elseif ( mb_strpos( $value, '.' ) )
+			elseif ( mb_strpos( (string) $value, '.' ) )
 			{
 				$value = rtrim( rtrim( $value, '0' ), '.' );
 			}
@@ -1059,7 +1059,7 @@ function _makeExtraStuCols( $value, $column )
 				'size=20 maxlength=500'
 			);
 
-			if ( mb_strlen( $value ) > 60
+			if ( mb_strlen( (string) $value ) > 60
 				&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			{
 				// Comments length > 60 chars, responsive table ColorBox.
@@ -1119,7 +1119,7 @@ function _makeExtraCols( $assignment_id, $column )
 		{
 			$points = '*';
 		}
-		elseif ( mb_strpos( $points, '.' ) )
+		elseif ( mb_strpos( (string) $points, '.' ) )
 		{
 			$points = rtrim( rtrim( $points, '0' ), '.' );
 		}
