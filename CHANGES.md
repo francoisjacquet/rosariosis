@@ -32,6 +32,7 @@ Changes in 9.0
 - Add $course_period_id param to limit check to a single Course Period in Courses.fnc.php
 - Add title to Contact & Address button images in Address.inc.php
 - CSS Assignment select max-width 440px in Grades.php
+- HTML add label to Points inputs to correct alignment in Grades.php
 
 Changes in 8.9.1
 ----------------

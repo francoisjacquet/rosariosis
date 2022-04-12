@@ -1003,15 +1003,19 @@ function _makeExtraStuCols( $value, $column )
 
 //			return '<table cellspacing=0 cellpadding=1><tr><td>'.TextInput($value,'values['.$THIS_RET['STUDENT_ID'].']['.$THIS_RET['ASSIGNMENT_ID'].'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex).'</td><td>&nbsp;/&nbsp;</td><td>'.$THIS_RET['TOTAL_POINTS'].'</td></tr></table>';
 
+			$name = 'values[' . $THIS_RET['STUDENT_ID'] . '][' . $THIS_RET['ASSIGNMENT_ID'] . '][POINTS]';
+
+			$id = GetInputID( $name );
+
 			return '<span' . ( $div ? ' class="span-grade-points"' : '' ) . '>' .
 			TextInput(
 				$value,
-				'values[' . $THIS_RET['STUDENT_ID'] . '][' . $THIS_RET['ASSIGNMENT_ID'] . '][POINTS]',
+				$name,
 				'',
 				' size=2 maxlength=7',
 				$div
 			) . '</span>
-				<span>&nbsp;/&nbsp;' . $THIS_RET['TOTAL_POINTS'] . '</span>';
+				<label for="' . $id . '">&nbsp;/&nbsp;' . $THIS_RET['TOTAL_POINTS'] . '</label>';
 			break;
 
 		case 'PERCENT_GRADE':
@@ -1124,6 +1128,10 @@ function _makeExtraCols( $assignment_id, $column )
 			$points = rtrim( rtrim( $points, '0' ), '.' );
 		}
 
+		$name = 'values[' . $THIS_RET['STUDENT_ID'] . '][' . $assignment_id . '][POINTS]';
+
+		$id = GetInputID( $name );
+
 		if ( $total_points != 0 )
 		{
 			if ( $points != '*' )
@@ -1137,12 +1145,12 @@ function _makeExtraCols( $assignment_id, $column )
 				return '<span' . ( $div ? ' class="span-grade-points"' : '' ) . '>' .
 				TextInput(
 					$points,
-					'values[' . $THIS_RET['STUDENT_ID'] . '][' . $assignment_id . '][POINTS]',
+					$name,
 					'',
 					' size=2 maxlength=7',
 					$div
 				) . '</span>
-				<span>&nbsp;/&nbsp;' . $total_points .
+				<label for="' . $id . '">&nbsp;/&nbsp;' . $total_points . '</label><span>' .
 				( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) >= 0 ?
 					'&nbsp;&minus;&nbsp;' . _Percent( $percent, 2, $percent_red_span ) :
 					'' ) .
@@ -1157,12 +1165,13 @@ function _makeExtraCols( $assignment_id, $column )
 			return '<span' . ( $div ? ' class="span-grade-points"' : '' ) . '>' .
 			TextInput(
 				$points,
-				'values[' . $THIS_RET['STUDENT_ID'] . '][' . $assignment_id . '][POINTS]',
+				$name,
 				'',
 				' size=2 maxlength=7',
 				$div
 			) . '</span>
-				<span>&nbsp;/&nbsp;' . $total_points . '&nbsp;&minus;&nbsp;' . _( 'N/A' ) . '</span>';
+			<label for="' . $id . '">&nbsp;/&nbsp;' . $total_points . '</label>
+			<span>&nbsp;&minus;&nbsp;' . _( 'N/A' ) . '</span>';
 		}
 
 		//return '<table class="cellspacing-0"><tr class="center"><td>'.TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex).'<hr />'.$total_points.'</td><td>&nbsp;E/C</td></tr></table>';
@@ -1170,12 +1179,13 @@ function _makeExtraCols( $assignment_id, $column )
 		return '<span' . ( $div ? ' class="span-grade-points"' : '' ) . '>' .
 		TextInput(
 			$points,
-			'values[' . $THIS_RET['STUDENT_ID'] . '][' . $assignment_id . '][POINTS]',
+			$name,
 			'',
 			' size=2 maxlength=7',
 			$div
 		) . '</span>
-			<span>&nbsp;/&nbsp;' . $total_points . '&nbsp;&minus;&nbsp;' . _( 'E/C' ) . '</span>';
+		<label for="' . $id . '">&nbsp;/&nbsp;' . $total_points . '</label>
+		<span>&nbsp;&minus;&nbsp;' . _( 'E/C' ) . '</span>';
 	}
 }
 
