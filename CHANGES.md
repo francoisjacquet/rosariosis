@@ -35,6 +35,7 @@ Changes in 9.0
 - HTML add label to Points inputs to correct alignment in Grades.php
 - Place Go button right after Timeframe in DailyTransactions.php & DailyTotals.php
 - Fix French translation for "Not due" in rosariosis.po
+- Move Transcript Include form checkboxes up in Transcripts.fnc.php
 
 Changes in 8.9.1
 ----------------
