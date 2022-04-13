@@ -20,7 +20,7 @@ if ( User( 'PROFILE' ) === 'admin' )
 echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&program=transactions'  ) . '" method="GET">';
 
 DrawHeader( _( 'Report Timeframe' ) . ': ' . PrepareDate( $start_date, '_start', false ) .
-	' ' . _( 'to' ) . ' ' . PrepareDate( $end_date, '_end', false ), Buttons( _( 'Go' ) ) );
+	' ' . _( 'to' ) . ' ' . PrepareDate( $end_date, '_end', false ) . ' ' . Buttons( _( 'Go' ) ) );
 
 echo '</form>';
 

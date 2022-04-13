@@ -33,6 +33,7 @@ Changes in 9.0
 - Add title to Contact & Address button images in Address.inc.php
 - CSS Assignment select max-width 440px in Grades.php
 - HTML add label to Points inputs to correct alignment in Grades.php
+- Place Go button right after Timeframe in DailyTransactions.php & DailyTotals.php
 
 Changes in 8.9.1
 ----------------
