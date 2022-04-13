@@ -29,7 +29,7 @@ Changes in 9.0
 - Add Username to Password Reset email in PasswordReset.php
 - `intl` PHP extension is now required in diagnostic.php & INSTALL.md
 - Fix PHP8.1 deprecated strftime() use strftime_compat() instead in Side.php, Date.php, PHPCompatibility.php, strftime_compat.php, Dashboard.inc.php & Preferences.php
-- Add $course_period_id param to limit check to a single Course Period in Courses.fnc.php
+- Add $course_period_id param to limit check to a single Course Period in Courses.fnc.php & Courses.php
 - Add title to Contact & Address button images in Address.inc.php
 - CSS Assignment select max-width 440px in Grades.php
 - HTML add label to Points inputs to correct alignment in Grades.php
