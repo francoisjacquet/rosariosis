@@ -423,7 +423,8 @@ if ( ! $_REQUEST['modfunc'] )
 		$select_options[$category['ID']] = $category['TITLE'];
 	}
 
-	$select = SelectInput(
+	// @link https://stackoverflow.com/questions/10672586/how-to-make-select-elements-shrink-to-max-width-percent-style-within-fieldset
+	$select = '<div style="display: inline-block; max-width: 440px;">' . SelectInput(
 		$_REQUEST['category_id'],
 		'category_id',
 		'',
@@ -431,7 +432,7 @@ if ( ! $_REQUEST['modfunc'] )
 		_( 'Please choose a category' ),
 		'onchange="ajaxPostForm(this.form,true);"',
 		false
-	);
+	) . '</div>';
 
 	$advanced_link = ' <a href="' . PreparePHP_SELF( $_REQUEST, [ 'search_modfunc' ], [
 		'modfunc' => 'search',
