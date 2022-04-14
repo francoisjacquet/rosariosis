@@ -55,6 +55,11 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 	// Old submission.
 	$old_submission = GetAssignmentSubmission( $assignment_id, UserStudentID() );
 
+	if ( $old_submission )
+	{
+		$old_data = unserialize( $old_submission['DATA'] );
+	}
+
 	// TODO: check if Student not dropped?
 
 	$files = issetVal( $old_data['files'] );
@@ -64,7 +69,6 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 	$assignments_path = GetAssignmentsFilesPath( $assignment['STAFF_ID'] );
 
 	// Check if file submitted.
-
 	if ( isset( $_FILES['submission_file'] ) )
 	{
 		$student_name = DBGetOne( "SELECT " . DisplayNameSQL() . " AS NAME
@@ -89,18 +93,20 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 		if ( $file )
 		{
 			$files = [ $file ];
+		}
+	}
 
-			if ( $old_submission )
+	if ( isset( $_REQUEST['submission_file'] ) )
+	{
+		// Submission file input enabled (may be empty).
+		if ( $old_data )
+		{
+			$old_file = issetVal( $old_data['files'][0], '' );
+
+			if ( file_exists( $old_file ) )
 			{
-				$old_data = unserialize( $old_submission['DATA'] );
-
-				$old_file = issetVal( $old_data['files'][0], '' );
-
-				if ( file_exists( $old_file ) )
-				{
-					// Delete old file if any.
-					unlink( $old_file );
-				}
+				// Delete old file if any.
+				unlink( $old_file );
 			}
 		}
 	}
@@ -115,7 +121,6 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 
 	// Save assignment submission.
 	// Update or insert?
-
 	if ( $old_submission )
 	{
 		// Update.
@@ -127,7 +132,6 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 	else
 	{
 		// If no file & no message.
-
 		if ( $message = ''
 			&& ! $files )
 		{
@@ -189,7 +193,7 @@ function StudentAssignmentSubmissionOutput( $assignment_id )
 		UserStudentID()
 	);
 
-	$old_file = $old_message = '';
+	$old_file = $old_message = $old_date = '';
 
 	if ( isset( $submission['DATA'] ) )
 	{
@@ -233,14 +237,29 @@ function StudentAssignmentSubmissionOutput( $assignment_id )
 	}
 
 	// File upload.
-	$file_id = 'submission_file';
+	$file_html = '<div id="submission_file_input"' . ( $old_file ? 'class="hide"' : '' ) . '>' .
+	FileInput(
+		'submission_file',
+		_( 'File' ),
+		( $old_file ? 'disabled' : '' )
+	) . '</div>';
 
-	$file_html = FileInput( $file_id, _( 'File' ) );
+	if ( $old_file )
+	{
+		// Delete file icon.
+		$old_file = button(
+			'remove',
+			'',
+			'"#!" onclick="$(\'#submission_file_link\').hide(); $(\'#submission_file_input\').show();$(\'#submission_file\').prop(\'disabled\', false);"'
+		) . ' ' . $old_file;
+
+		$old_file = '<div id="submission_file_link">' . NoInput( $old_file, _( 'File' ) ) . '</div>';
+	}
 
 	// Input div onclick only if old file.
 	DrawHeader(
 		$old_file ? $old_file . '<br />' . $file_html : $file_html,
-		$old_file ? NoInput( $old_date, _( 'Submission date' ) ) : ''
+		$old_date ? NoInput( $old_date, _( 'Submission date' ) ) : ''
 	);
 
 	// HTML message (TinyMCE).

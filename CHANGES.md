@@ -36,6 +36,7 @@ Changes in 9.0
 - Place Go button right after Timeframe in DailyTransactions.php & DailyTotals.php
 - Fix French translation for "Not due" in rosariosis.po
 - Move Transcript Include form checkboxes up in Transcripts.fnc.php
+- Add Delete button for Submission File in StudentAssignments.fnc.php
 
 Changes in 8.9.1
 ----------------
