@@ -110,18 +110,8 @@ function ProperDate( $date, $length = 'long' )
  */
 function ProperDateTime( $datetime, $length = 'long' )
 {
-	$time = mb_substr( $datetime, 11, 8 );
-
-	$time_raw = str_replace( ':', '', $time );
-
-	$time = mktime(
-		mb_substr( $time_raw, 0, 2 ) + 0,
-		mb_substr( $time_raw, 2, 2 ) + 0,
-		mb_substr( $time_raw, 4, 2 ) + 0
-	);
-
 	// @since 9.0 Fix PHP8.1 deprecated strftime() use strftime_compat() instead
-	$locale_time = strftime_compat( '%X', $time );
+	$locale_time = strftime_compat( '%X', $datetime );
 
 	$date = mb_substr( $datetime, 0, 10 );
 
