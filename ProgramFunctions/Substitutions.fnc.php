@@ -34,7 +34,8 @@ function SubstitutionsInput( $substitutions )
 
 	$id++;
 
-	$input_html = SelectInput(
+	// @link https://stackoverflow.com/questions/10672586/how-to-make-select-elements-shrink-to-max-width-percent-style-within-fieldset
+	$input_html = '<div style="display: inline-block; max-width: 440px;">' . SelectInput(
 		'',
 		'substitutions_input_' . $id,
 		'',
@@ -42,7 +43,7 @@ function SubstitutionsInput( $substitutions )
 		$allow_na,
 		'autocomplete="off"',
 		$div
-	);
+	) . '</div>';
 
 	$code_value = key( $substitutions );
 
