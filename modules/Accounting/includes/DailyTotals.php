@@ -36,7 +36,7 @@ DrawHeader( $header_checkboxes, '' );
 
 DrawHeader( _( 'Report Timeframe' ) . ': ' .
 	PrepareDate( $start_date, '_start', false ) . ' &nbsp; ' . _( 'to' ) . ' &nbsp; ' .
-	PrepareDate( $end_date, '_end', false ), SubmitButton( _( 'Go' ) ) );
+	PrepareDate( $end_date, '_end', false ) . ' ' . SubmitButton( _( 'Go' ) ) );
 
 echo '</form>';
 
