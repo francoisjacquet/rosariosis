@@ -30,6 +30,11 @@ function strftime_compat($format, $timestamp = null)
 			echo ErrorMessage( $error, 'fatal' );
 		}
 
+		if ( ! is_numeric( $timestamp )
+			&& is_string( $timestamp ) ) {
+			$timestamp = strtotime( $timestamp );
+		}
+
 		// Revert to strftime() if PHP intl extension not installed...
 		return strftime( $format, $timestamp );
 	}
@@ -39,9 +44,13 @@ function strftime_compat($format, $timestamp = null)
 	}
 	elseif (is_numeric($timestamp)) {
 		$timestamp = date_create('@' . $timestamp);
+
+		if ($timestamp) {
+			$timestamp->setTimezone(new \DateTimezone(date_default_timezone_get()));
+		}
 	}
 	elseif (is_string($timestamp)) {
-		$timestamp = date_create('!' . $timestamp);
+		$timestamp = date_create($timestamp);
 	}
 
 	if (!($timestamp instanceof \DateTimeInterface)) {
