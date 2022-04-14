@@ -234,9 +234,9 @@ if ( ! $_REQUEST['modfunc'] )
 	DrawHeader(
 		_( 'Report Timeframe' ) . ': ' .
 			PrepareDate( $start_date, '_start', false ) . ' &nbsp; ' . _( 'to' ) . ' &nbsp; ' .
-			PrepareDate( $end_date, '_end', false ) .
-			$advanced_link,
-		SubmitButton( _( 'Go' ) )
+			PrepareDate( $end_date, '_end', false ) . ' ' .
+			SubmitButton( _( 'Go' ) ),
+		$advanced_link
 	);
 
 	if ( isset( $_ROSARIO['SearchTerms'] )

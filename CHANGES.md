@@ -33,7 +33,7 @@ Changes in 9.0
 - Add title to Contact & Address button images in Address.inc.php
 - CSS select max-width 440px in Grades.php & Substitutions.fnc.php
 - HTML add label to Points inputs to correct alignment in Grades.php
-- Place Go button right after Timeframe in DailyTransactions.php & DailyTotals.php
+- Place Go button right after Timeframe in DailyTransactions.php, DailyTotals.php, CategoryBreakdown.php, CategoryBreakdownTime.php & StudentFieldBreakdown.php
 - Fix French translation for "Not due" in rosariosis.po
 - Move Transcript Include form checkboxes up in Transcripts.fnc.php
 - Add Delete button for Submission File in StudentAssignments.fnc.php
