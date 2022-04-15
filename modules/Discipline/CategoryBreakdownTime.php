@@ -427,7 +427,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$select = '<div style="display: inline-block; max-width: 440px;">' . SelectInput(
 		$_REQUEST['category_id'],
 		'category_id',
-		'',
+		'<span class="a11y-hidden">' . _( 'Category' ) . '</span>',
 		$select_options,
 		_( 'Please choose a category' ),
 		'onchange="ajaxPostForm(this.form,true);"',

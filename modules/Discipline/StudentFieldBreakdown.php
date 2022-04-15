@@ -299,7 +299,8 @@ if ( ! $_REQUEST['modfunc'] )
 		$select .= '</optgroup>';
 	}
 
-	$select .= '</select></div>';
+	$select .= '</select>
+		<label for="field_id" class="a11y-hidden">' . _( 'Category' ) . '</label></div>';
 
 	$advanced_link = ' <a href="' . PreparePHP_SELF( $_REQUEST, [ 'search_modfunc' ], [
 		'modfunc' => 'search',
