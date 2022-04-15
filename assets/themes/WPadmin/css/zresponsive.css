@@ -126,6 +126,9 @@
 		table-layout: auto;
 		/*no fixed layout for stackable tables*/
 	}
+	.fixed-col select {
+		max-width: 440px;
+	}
 	.divPortalPoll {
 		min-width: 0
 	}
@@ -351,7 +354,8 @@
 		min-height: 78px
 	}
 	input,
-	select {
+	select,
+	.fixed-col select {
 		max-width: 260px
 	}
 	/* Teacher Programs */

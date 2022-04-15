@@ -31,7 +31,7 @@ Changes in 9.0
 - Fix PHP8.1 deprecated strftime() use strftime_compat() instead in Side.php, Date.php, PHPCompatibility.php, strftime_compat.php, Dashboard.inc.php & Preferences.php
 - Add $course_period_id param to limit check to a single Course Period in Courses.fnc.php & Courses.php
 - Add title to Contact & Address button images in Address.inc.php
-- CSS select max-width 440px in Grades.php, Substitutions.fnc.php, CategoryBreakdown.php, CategoryBreakdownTime.php & StudentFieldBreakdown.php
+- CSS select max-width 440px in stylesheet.css & zresponsive.css
 - HTML add label to Points inputs to correct alignment in Grades.php
 - HTML add a11y-hidden label to select in CategoryBreakdown.php, CategoryBreakdownTime.php & StudentFieldBreakdown.php
 - Place Go button right after Timeframe in DailyTransactions.php, DailyTotals.php, CategoryBreakdown.php, CategoryBreakdownTime.php & StudentFieldBreakdown.php

@@ -89,8 +89,14 @@
 }
 
 input,
-select {
+.fixed-col select {
 	max-width: 100%
+}
+
+/* @link https://stackoverflow.com/questions/10672586/how-to-make-select-elements-shrink-to-max-width-percent-style-within-fieldset */
+
+select {
+	max-width: 440px;
 }
 
 #search input,

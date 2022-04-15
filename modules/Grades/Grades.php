@@ -522,9 +522,7 @@ $assignment_onchange_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
 	'&type_id=' . $_REQUEST['type_id'] .
 	"&assignment_id='";
 
-// @link https://stackoverflow.com/questions/10672586/how-to-make-select-elements-shrink-to-max-width-percent-style-within-fieldset
-$assignment_select = '<div style="display: inline-block; max-width: 440px;">
-	<select name="assignment_id" id="assignment_id" onchange="ajaxLink(' .
+$assignment_select = '<select name="assignment_id" id="assignment_id" onchange="ajaxLink(' .
 	$assignment_onchange_URL . ' + this.value);">';
 
 $assignment_select .= '<option value="">' . _( 'Totals' ) . '</option>';
@@ -565,7 +563,7 @@ if ( $assignments_RET )
 	$assignment_select .= '</optgroup>';
 }
 
-$assignment_select .= '</select></div>
+$assignment_select .= '</select>
 	<label for="assignment_id" class="a11y-hidden">' . _( 'Assignments' ) . '</label>';
 
 // echo '<form action="' . URLEscape( 'Modules.php?modname='.$_REQUEST['modname'].'&student_id='.UserStudentID().'' ) . '" method="POST">';
