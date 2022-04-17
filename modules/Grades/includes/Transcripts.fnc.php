@@ -522,7 +522,8 @@ if ( ! function_exists( 'TranscriptPDFHeader' ) )
 		{
 			// Student Photo.
 			$stu_pic = $StudentPicturesPath . Config( 'SYEAR' ) . '/' . $student['ID'] . '.jpg';
-			$stu_pic2 = $StudentPicturesPath . $student['SYEAR'] . '/' . $student['ID'] . '.jpg';
+			$stu_pic2 = $StudentPicturesPath . ( Config( 'SYEAR' ) -1 ) . '/' . $student['ID'] . '.jpg';
+			$stu_pic3 = $StudentPicturesPath . $student['SYEAR'] . '/' . $student['ID'] . '.jpg';
 			$picwidth = 120;
 
 			if ( file_exists( $stu_pic ) )
@@ -532,6 +533,10 @@ if ( ! function_exists( 'TranscriptPDFHeader' ) )
 			elseif ( file_exists( $stu_pic2 ) )
 			{
 				echo '<img src="' . $stu_pic2 . '" width="' . $picwidth . '" />';
+			}
+			elseif ( file_exists( $stu_pic3 ) )
+			{
+				echo '<img src="' . $stu_pic3 . '" width="' . $picwidth . '" />';
 			}
 			else
 			{
