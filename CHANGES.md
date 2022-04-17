@@ -38,6 +38,7 @@ Changes in 9.0
 - Fix French translation for "Not due" in rosariosis.po
 - Move Transcript Include form checkboxes up in Transcripts.fnc.php
 - Add Delete button for Submission File in StudentAssignments.fnc.php
+- Fix SQL error null value in column "title" violates not-null constraint in MassCreateAssignments.php
 
 Changes in 8.9.1
 ----------------

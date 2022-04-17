@@ -27,7 +27,9 @@ if ( isset( $_POST['tables'] )
 		if ( ( isset( $columns['TITLE'] )
 				&& $columns['TITLE'] === '' )
 			|| ( isset( $columns['POINTS'] )
-				&& $columns['POINTS'] === '' ) )
+				&& $columns['POINTS'] === '' )
+			|| ( $table === 'GRADEBOOK_ASSIGNMENTS'
+				&& ! isset( $columns['TITLE'] ) ) )
 		{
 			$error[] = _( 'Please fill in the required fields' );
 		}
