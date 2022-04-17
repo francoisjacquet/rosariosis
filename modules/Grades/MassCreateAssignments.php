@@ -471,7 +471,7 @@ if ( ! $_REQUEST['modfunc'] )
 		{
 			$columns = [
 				'COURSE_ID' => MakeChooseCheckbox( 'Y', '', 'c_arr' ),
-				'TITLE' => _( 'Title' ),
+				'TITLE' => _( 'Course' ),
 				'SUBJECT' => _( 'Subject' ),
 			];
 
@@ -517,8 +517,8 @@ if ( ! $_REQUEST['modfunc'] )
 
 			$columns = [
 				'COURSE_PERIOD_ID' => MakeChooseCheckbox( 'Y', '', 'cp_arr' ),
-				'TITLE' => _( 'Title' ),
 				'COURSE' => _( 'Course' ),
+				'TITLE' => _( 'Period' ) . ' ' . _( 'Days' ) . ' - ' . _( 'Short Name' ) . ' - ' . _( 'Teacher' ),
 				'MARKING_PERIOD_ID' => _( 'Marking Period' ),
 				// 'SUBJECT' => _( 'Subject' ),
 			];
