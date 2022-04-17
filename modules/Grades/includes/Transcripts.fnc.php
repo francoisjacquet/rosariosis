@@ -303,7 +303,8 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 
 				$certificate_block1 = $certificate_block2 = '';
 
-				if ( $mps[key( $mps )][1]['GRADE_LEVEL_SHORT'] )
+				if ( empty( $student['GRADE_LEVEL'] )
+					&& $mps[key( $mps )][1]['GRADE_LEVEL_SHORT'] )
 				{
 					// History grades in Transripts.
 					$student['GRADE_LEVEL'] = $mps[key( $mps )][1]['GRADE_LEVEL_SHORT'];

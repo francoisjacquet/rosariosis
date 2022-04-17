@@ -40,6 +40,7 @@ Changes in 9.0
 - Add Delete button for Submission File in StudentAssignments.fnc.php
 - Fix SQL error null value in column "title" violates not-null constraint in MassCreateAssignments.php
 - Reorder & rename Course Periods columns to match Schedule program in MassCreateAssignments.php
+- Fix get History Grades Grade Level short name only if no Grade Level available in Transcripts.fnc.php
 
 Changes in 8.9.1
 ----------------
