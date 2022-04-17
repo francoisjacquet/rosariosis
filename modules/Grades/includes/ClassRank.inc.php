@@ -34,7 +34,7 @@ function ClassRankMaybeCalculate( $mp_id )
 	$class_rank_mps = Config( 'CLASS_RANK_CALCULATE_MPS' );
 
 	if ( ! $mp_id
-		|| strpos( $class_rank_mps, '|' . $mp_id . '|' ) === false )
+		|| strpos( (string) $class_rank_mps, '|' . $mp_id . '|' ) === false )
 	{
 		return false;
 	}
@@ -64,7 +64,7 @@ function ClassRankCalculateAJAX( $mp_id )
 	$class_rank_mps = Config( 'CLASS_RANK_CALCULATE_MPS' );
 
 	if ( ! $mp_id
-		|| strpos( $class_rank_mps, '|' . $mp_id . '|' ) === false )
+		|| strpos( (string) $class_rank_mps, '|' . $mp_id . '|' ) === false )
 	{
 		die( 0 );
 	}
@@ -94,7 +94,7 @@ function ClassRankCalculateAddMP( $mp_id )
 	$class_rank_mps = Config( 'CLASS_RANK_CALCULATE_MPS' );
 
 	if ( ! $mp_id
-		|| strpos( $class_rank_mps, '|' . $mp_id . '|' ) !== false )
+		|| strpos( (string) $class_rank_mps, '|' . $mp_id . '|' ) !== false )
 	{
 		return false;
 	}
