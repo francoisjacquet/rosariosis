@@ -320,7 +320,7 @@ if ( ! function_exists( 'TranscriptsGenerate' ) )
 						'__GRADE_ID__' => $student['GRADE_LEVEL'],
 						'__NEXT_GRADE_ID__' => $student['NEXT_GRADE_LEVEL'],
 						'__SCHOOL_ID__' => $school_info['TITLE'],
-						'__YEAR__' => $syear,
+						'__YEAR__' => FormatSyear( $syear, Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) ),
 					];
 
 					$substitutions += SubstitutionsCustomFieldsValues( 'STUDENT', $student );
@@ -695,7 +695,8 @@ if ( ! function_exists( 'TranscriptPDFFooter' ) )
 			echo '</span></td></tr>';
 		}
 
-		if ( $last_grade['total_credit_attempted'] > 0 )
+		if ( $last_grade
+			&& $last_grade['total_credit_attempted'] > 0 )
 		{
 			// Total Credits.
 			echo '<tr><td><span>' . _( 'Total' ) . ' ' . _( 'Credit' ) . ': ' .
