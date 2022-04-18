@@ -853,7 +853,7 @@ function makePhone( $phone, $column = '' )
 {
 	global $locale;
 
-	$phone = trim( $phone );
+	$phone = trim( (string) $phone );
 
 	if ( $phone === '' )
 	{
