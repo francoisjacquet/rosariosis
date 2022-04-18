@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 8.9.2
+----------------
+- Fix invalidate User School in session on login in index.php
+
 Changes in 8.9.1
 ----------------
 - Fix regression since 8.6 Mailing Labels widget HTML in Widgets.php
