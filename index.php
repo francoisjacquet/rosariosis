@@ -188,6 +188,8 @@ elseif ( isset( $_POST['USERNAME'] )
 		// Invalidate any active Student session.
 		unset( $_SESSION['STUDENT_ID'] );
 
+		unset( $_SESSION['UserSchool'] );
+
 		$_SESSION['LAST_LOGIN'] = $login_RET[1]['LAST_LOGIN'];
 
 		$failed_login = $login_RET[1]['FAILED_LOGIN'];
@@ -226,6 +228,8 @@ elseif ( isset( $_POST['USERNAME'] )
 
 		// Invalidate any active User session.
 		unset( $_SESSION['STAFF_ID'] );
+
+		unset( $_SESSION['UserSchool'] );
 
 		$_SESSION['LAST_LOGIN'] = $student_RET[1]['LAST_LOGIN'];
 
