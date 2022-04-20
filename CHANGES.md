@@ -34,7 +34,7 @@ Changes in 9.0
 - CSS select max-width 440px in stylesheet.css & zresponsive.css
 - HTML add label to Points inputs to correct alignment in Grades.php
 - HTML add a11y-hidden label to select in CategoryBreakdown.php, CategoryBreakdownTime.php & StudentFieldBreakdown.php
-- Place Go button right after Timeframe in DailyTransactions.php, DailyTotals.php, CategoryBreakdown.php, CategoryBreakdownTime.php & StudentFieldBreakdown.php
+- Place Go button right after Timeframe in DailyTransactions.php, DailyTotals.php, CategoryBreakdown.php, CategoryBreakdownTime.php, StudentFieldBreakdown.php & Percent.php
 - Fix French translation for "Not due" in rosariosis.po
 - Move Transcript Include form checkboxes up in Transcripts.fnc.php
 - Add Delete button for Submission File in StudentAssignments.fnc.php

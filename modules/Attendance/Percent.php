@@ -79,9 +79,10 @@ if ( ! $_REQUEST['modfunc'] )
 
 	DrawHeader(
 		_( 'Timeframe' ) . ': ' . PrepareDate( $start_date, '_start', false ) .
-		' &nbsp; ' . _( 'to' ) . ' &nbsp; ' . PrepareDate( $end_date, '_end', false ) .
-		' <a href="' . URLEscape( $advanced_link ) . '">' . _( 'Advanced' ) . '</a>',
-		SubmitButton( _( 'Go' ) )
+		' &nbsp; ' . _( 'to' ) . ' &nbsp; ' . PrepareDate( $end_date, '_end', false ) . ' ' .
+		SubmitButton( _( 'Go' ) ),
+		'<a href="' . URLEscape( $advanced_link ) . '">' . _( 'Advanced' ) . '</a>',
+
 	);
 
 	echo '</form>';
