@@ -1,4 +1,6 @@
 <?php
+require_once 'ProgramFunctions/TipMessage.fnc.php';
+
 // GET ALL THE CONFIG ITEMS FOR ELIGIBILITY
 $eligibility_config = ProgramConfig( 'eligibility' );
 
@@ -66,7 +68,7 @@ $extra['SELECT'] = ",e.ELIGIBILITY_CODE,c.TITLE as COURSE_TITLE";
 $extra['FROM'] = ",ELIGIBILITY e,COURSES c,COURSE_PERIODS cp";
 $extra['WHERE'] = "AND e.STUDENT_ID=ssm.STUDENT_ID AND e.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND cp.COURSE_ID=c.COURSE_ID AND e.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'";
 
-$extra['functions'] = [ 'ELIGIBILITY_CODE' => '_makeLower' ];
+$extra['functions'] = [ 'ELIGIBILITY_CODE' => '_makeLower', 'FULL_NAME' => '_makeStudentPhotoTipMessage' ];
 $extra['group'] = [ 'STUDENT_ID' ];
 
 Widgets( 'eligibility' );
@@ -107,4 +109,26 @@ else
 function _makeLower( $word )
 {
 	return ucwords( mb_strtolower( $word ) );
+}
+
+/**
+ * Make Student Photo Tip Message
+ *
+ * @since 9.0
+ *
+ * @uses MakeStudentPhotoTipMessage()
+ *
+ * @param  string $value  Student name.
+ * @param  string $column Column name FULL_NAME.
+ * @return string         Student Photo Tip Message
+ */
+function _makeStudentPhotoTipMessage( $value, $column = 'FULL_NAME' )
+{
+	global $THIS_RET;
+
+	$student_id = $THIS_RET['STUDENT_ID'];
+
+	$student_name = $value;
+
+	return MakeStudentPhotoTipMessage( $student_id, $student_name );
 }

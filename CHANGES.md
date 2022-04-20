@@ -16,7 +16,7 @@ Changes in 9.0
 - Fix update Course Period title when Short Name contains single quote in Courses.php
 - Fix PHP8.1 deprecated function parameter is null in Inputs.php, PreparePHP_SELF.fnc.php, Date.php, StudentsUsersInfo.fnc.php, Grades.php & ClassRank.inc.php
 - Fix PHP8.1 deprecated automatic conversion of false to array in StudentsUsersInfo.fnc.php
-- Add Student Photo Tip Message in AddDrop.php
+- Add Student Photo Tip Message in AddDrop.php & StudentList.php
 - Format Enrollment Start & End Date in Export.php
 - Add Student name if no Contacts at address in MailingLabel.fnc.php
 - Do not Export Delete column in Periods.php & GradeLevels.php
