@@ -1,6 +1,6 @@
 <?php
 
-$_REQUEST['mp_id'] = issetVal( $_REQUEST['mp_id'], '' );
+$_REQUEST['mp_id'] = (int) issetVal( $_REQUEST['mp_id'], '' );
 
 if ( $_REQUEST['modfunc'] === 'save' )
 {

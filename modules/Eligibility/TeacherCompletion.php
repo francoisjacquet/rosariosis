@@ -1,7 +1,7 @@
 <?php
 require_once 'ProgramFunctions/TipMessage.fnc.php';
 
-$_REQUEST['period'] = issetVal( $_REQUEST['period'] );
+$_REQUEST['period'] = (int) issetVal( $_REQUEST['period'] );
 
 DrawHeader( ProgramTitle() );
 
@@ -28,7 +28,7 @@ if ( empty( $_REQUEST['start_date'] ) )
 }
 else
 {
-	$start_time = $_REQUEST['start_date'];
+	$start_time = (int) $_REQUEST['start_date'];
 
 	$start_date = date( 'Y-m-d', $start_time );
 

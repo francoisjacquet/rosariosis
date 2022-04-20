@@ -42,6 +42,7 @@ Changes in 9.0
 - Reorder & rename Course Periods columns to match Schedule program in MassCreateAssignments.php
 - Fix get History Grades Grade Level short name only if no Grade Level available in Transcripts.fnc.php
 - Fix get Student Photo from previous year in Transcripts.fnc.php
+- Fix SQL error invalid input syntax in PrintSchedules.php & TeacherCompletion.php, thanks to @scgajge12
 
 Changes in 8.9.2
 ----------------
