@@ -449,7 +449,7 @@ function makePublishingVisibleTo( $profiles, $THIS_RET, $id )
 	foreach ( (array) $profiles as $profile )
 	{
 		$i++;
-		$checked = mb_strpos( issetVal( $THIS_RET['PUBLISHED_PROFILES'] ), ',' . $profile['ID'] . ',' ) !== false;
+		$checked = mb_strpos( issetVal( $THIS_RET['PUBLISHED_PROFILES'], '' ), ',' . $profile['ID'] . ',' ) !== false;
 
 		$visibleTo .= '<td>' . CheckboxInput( $checked, 'profiles[' . $id . '][' . $profile['ID'] . ']', _( $profile['TITLE'] ), '', true );
 
