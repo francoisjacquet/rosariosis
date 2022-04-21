@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 8.9.3
+----------------
+- Fix stored XSS security issue: do not allow unsanitized SVG in FileUpload.fnc.php, thanks to @scgajge12 & @crowdoverflow
+
 Changes in 8.9.2
 ----------------
 - Fix invalidate User School in session on login in index.php
