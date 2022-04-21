@@ -44,6 +44,10 @@ Changes in 9.0
 - Fix get Student Photo from previous year in Transcripts.fnc.php
 - Fix SQL error invalid input syntax in PrintSchedules.php & TeacherCompletion.php, thanks to @scgajge12
 
+Changes in 8.9.3
+----------------
+- Fix stored XSS security issue: do not allow unsanitized SVG in FileUpload.fnc.php, thanks to @scgajge12 & @crowdoverflow
+
 Changes in 8.9.2
 ----------------
 - Fix invalidate User School in session on login in index.php

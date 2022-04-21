@@ -794,7 +794,8 @@ function FileExtensionWhiteList() {
 		'.png',
 		'.gif',
 		'.bmp',
-		'.svg',
+		// @since 8.9.3 Fix stored XSS security issue: do not allow unsanitized SVG
+		// '.svg',
 		'.ico',
 		'.psd',
 		'.ai',
