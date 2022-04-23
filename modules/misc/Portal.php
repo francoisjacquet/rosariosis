@@ -1126,7 +1126,7 @@ function _redirectTakeAttendance()
 	// @since 6.9 Add Secondary Teacher.
 	$cp_RET = DBGet( "SELECT SCHOOL_ID,TEACHER_ID,SECONDARY_TEACHER_ID
 		FROM COURSE_PERIODS
-		WHERE COURSE_PERIOD_ID='" . $_REQUEST['period'] . "'
+		WHERE COURSE_PERIOD_ID='" . (int) $_REQUEST['period'] . "'
 		AND SYEAR='" . UserSyear() . "'
 		LIMIT 1" );
 

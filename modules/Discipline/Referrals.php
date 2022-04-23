@@ -167,7 +167,9 @@ if ( ! $_REQUEST['modfunc']
 			AND SCHOOL_ID='" . UserSchool() . "'";
 	}
 
-	$RET = DBGet( "SELECT * FROM DISCIPLINE_REFERRALS WHERE ID='" . $_REQUEST['referral_id'] . "'" . $where );
+	$RET = DBGet( "SELECT *
+		FROM DISCIPLINE_REFERRALS
+		WHERE ID='" . (int) $_REQUEST['referral_id'] . "'" . $where );
 
 	if ( ! empty( $RET ) )
 	{

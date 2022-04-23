@@ -54,7 +54,7 @@ else
 	{
 		$category_include = DBGet( "SELECT INCLUDE
 			FROM STUDENT_FIELD_CATEGORIES
-			WHERE ID='" . $_REQUEST['category_id'] . "'" );
+			WHERE ID='" . (int) $_REQUEST['category_id'] . "'" );
 
 		if ( ! empty( $category_include ) )
 		{
