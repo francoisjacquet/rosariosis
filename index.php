@@ -94,7 +94,8 @@ elseif ( isset( $_POST['USERNAME'] )
 		session_regenerate_id( true ); // And invalidate old session.
 	}
 
-	$username = $_REQUEST['USERNAME'];
+	// Fix SQL error value too long for type character varying(100).
+	$username = mb_substr( $_REQUEST['USERNAME'], 0, 100 );
 
 	unset( $_REQUEST['USERNAME'], $_POST['USERNAME'] );
 
