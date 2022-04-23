@@ -49,7 +49,8 @@ function FileUpload( $input, $path, $ext_white_list, $size_limit, &$error, $fina
 	{
 		$error[] = sprintf(
 			_( 'Wrong file type: %s (%s required)' ),
-			$_FILES[ $input ]['type'],
+			// Fix reflected XSS via mime-type.
+			strip_tags( $_FILES[ $input ]['type'] ),
 			implode( ', ', $ext_white_list )
 		);
 	}

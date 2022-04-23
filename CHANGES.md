@@ -47,6 +47,7 @@ Changes in 9.0
 Changes in 8.9.4
 ----------------
 - Fix SQL injection sanitize all `$_REQUEST` keys in Warehouse.php, thanks to @nhienit2010
+- Fix reflected XSS via mime-type in FileUpload.fnc.php, thanks to @nhienit2010
 
 Changes in 8.9.3
 ----------------
