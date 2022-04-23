@@ -769,7 +769,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$last = 31;
 
-	while( ! checkdate( $_REQUEST['month'], $last, $_REQUEST['year'] ) )
+	while( ! checkdate( (int) $_REQUEST['month'], $last, (int) $_REQUEST['year'] ) )
 	{
 		$last--;
 	}
