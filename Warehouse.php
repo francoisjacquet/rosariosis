@@ -191,11 +191,11 @@ function array_rwalk( &$array, $function )
 		if ( is_array( $array[$key[$i]] ) )
 		{
 			array_rwalk( $array[$key[$i]], $function );
-
-			continue;
 		}
-
-		$array[$key[$i]] = $function( $array[$key[$i]] );
+		else
+		{
+			$array[$key[$i]] = $function( $array[$key[$i]] );
+		}
 
 		// Key is also passed through $function function.
 		$fkey = $function( $key[$i] );

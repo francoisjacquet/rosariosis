@@ -44,6 +44,10 @@ Changes in 9.0
 - Fix get Student Photo from previous year in Transcripts.fnc.php
 - Fix SQL error invalid input syntax in PrintSchedules.php & TeacherCompletion.php, thanks to @scgajge12
 
+Changes in 8.9.4
+----------------
+- Fix SQL injection sanitize all `$_REQUEST` keys in Warehouse.php, thanks to @nhienit2010
+
 Changes in 8.9.3
 ----------------
 - Fix stored XSS security issue: do not allow unsanitized SVG in FileUpload.fnc.php, thanks to @scgajge12 & @crowdoverflow
