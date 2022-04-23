@@ -269,6 +269,11 @@ if ( empty( $_REQUEST['referral_id'] )
  */
 function _make( $value, $column )
 {
+	if ( is_null( $value ) )
+	{
+		return $value;
+	}
+
 	if ( mb_substr_count( $value, '-' ) === 2
 		&& VerifyDate( $value ) )
 	{
