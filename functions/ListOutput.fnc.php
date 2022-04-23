@@ -241,6 +241,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		{
 			if ( empty( $LO_page )
+				|| (int) $LO_page != $LO_page
 				|| $LO_page < 1 )
 			{
 				$LO_page = 1;
@@ -725,7 +726,7 @@ function _ReindexResults( $array )
 	return $new;
 }
 
-class Rosario_List implements Countable
+/*class Rosario_List implements Countable
 {
 	/**
 	 * Get the count of elements in the container array.
@@ -734,11 +735,11 @@ class Rosario_List implements Countable
 	 *
 	 * @return int
 	 */
-	public function count()
+	/*public function count()
 	{
 		return count( $this->container );
 	}
-}
+}*/
 
 /**
  * Search List
