@@ -189,7 +189,7 @@ function SetUserStaffID( $staff_id )
 				WHERE STAFF_ID='" . (int) $staff_id . "'
 				AND SYEAR='" . UserSyear() . "'" );
 
-			if ( ! trim( User( 'SCHOOLS' ), ',' )
+			if ( ! trim( (string) User( 'SCHOOLS' ), ',' )
 				|| ! trim( $admin_schools, ',' ) )
 			{
 				// (Current) User is assigned to "All Schools".

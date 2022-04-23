@@ -770,7 +770,7 @@ function MultipleCheckboxInput( $value, $name, $title, $options, $extra = '', $d
 		$multiple_html .= '<td><label>
 			<input type="checkbox" name="' . $name . '"
 				value="' . htmlspecialchars( $option_value, ENT_QUOTES ) . '" ' . $extra . ' ' .
-				( $option != '' && mb_strpos( $value, '||' . $option_value . '||' ) !== false ? ' checked' : '' ) . ' />&nbsp;' .
+				( $option != '' && mb_strpos( (string) $value, '||' . $option_value . '||' ) !== false ? ' checked' : '' ) . ' />&nbsp;' .
 			( $option != '' ? $option : '-' ) .
 		'</label></td>';
 	}
