@@ -7,14 +7,16 @@ DrawHeader( ProgramTitle() );
 
 // Set Month.
 if ( ! isset( $_REQUEST['month'] )
-	|| mb_strlen( $_REQUEST['month'] ) !== 2 )
+	|| mb_strlen( $_REQUEST['month'] ) !== 2
+	|| (int) $_REQUEST['month'] != $_REQUEST['month'] )
 {
 	$_REQUEST['month'] = date( 'm' );
 }
 
 // Set Year.
 if ( ! isset( $_REQUEST['year'] )
-	|| mb_strlen( $_REQUEST['year'] ) !== 4 )
+	|| mb_strlen( $_REQUEST['year'] ) !== 4
+	|| (int) $_REQUEST['year'] != $_REQUEST['year'] )
 {
 	$_REQUEST['year'] = date( 'Y' );
 }
@@ -764,7 +766,6 @@ if ( $_REQUEST['modfunc'] === 'list_events' )
 // Display Calendar View.
 if ( ! $_REQUEST['modfunc'] )
 {
-
 	echo ErrorMessage( $error );
 
 	$last = 31;
