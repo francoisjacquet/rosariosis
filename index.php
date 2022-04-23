@@ -262,6 +262,11 @@ elseif ( isset( $_POST['USERNAME'] )
 		}
 	}
 
+	$ip = ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] )
+		// Filter IP, HTTP_* headers can be forged.
+		&& filter_var( $_SERVER['HTTP_X_FORWARDED_FOR'], FILTER_VALIDATE_IP ) ?
+		$_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'] );
+
 	// Access Log.
 	if ( ! function_exists( 'AccessLogRecord' ) )
 	{
@@ -271,8 +276,7 @@ elseif ( isset( $_POST['USERNAME'] )
 			'" . $username . "',
 			'" . User( 'PROFILE' ) . "',
 			CURRENT_TIMESTAMP,
-			'" . ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ?
-				$_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'] ) . "',
+			'" . $ip . "',
 			'" . DBEscapeString( $_SERVER['HTTP_USER_AGENT'] ) .
 			"','" . $login_status . "' )" );
 	}

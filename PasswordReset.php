@@ -514,12 +514,10 @@ function _notifyServerAdminPasswordReset( $user_id )
 
 	$username = $staff_RET[1]['USERNAME'];
 
-	if ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) )
-	{
-		$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-	}
-	else
-		$ip = $_SERVER['REMOTE_ADDR'];
+	$ip = ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] )
+		// Filter IP, HTTP_* headers can be forged.
+		&& filter_var( $_SERVER['HTTP_X_FORWARDED_FOR'], FILTER_VALIDATE_IP ) ?
+		$_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'] );
 
 	$message = sprintf( 'Password Reset for: %s
 Profile: %s

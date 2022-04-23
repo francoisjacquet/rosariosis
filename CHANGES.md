@@ -43,6 +43,7 @@ Changes in 9.0
 - Fix get History Grades Grade Level short name only if no Grade Level available in Transcripts.fnc.php
 - Fix get Student Photo from previous year in Transcripts.fnc.php
 - Fix SQL error invalid input syntax in PrintSchedules.php & TeacherCompletion.php, thanks to @scgajge12
+- Filter IP, HTTP_* headers can be forged in index.php, PasswordReset.php & ErrorMessage.fnc.php
 
 Changes in 8.9.4
 ----------------
