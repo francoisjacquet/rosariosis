@@ -48,6 +48,7 @@ Changes in 9.0
 - Fix SQL error invalid input syntax for integer in Student.php, User.php, Referrals.php & Portal.php
 - Fix PHP8.1 fatal error checkdate argument must be of type int in Calendar.php
 - Fix SQL error invalid input syntax for type date in Calendar.php
+- Fix SQL error duplicate key value violates unique constraint "attendance_calendar_pkey" in Calendar.php
 
 Changes in 8.9.4
 ----------------

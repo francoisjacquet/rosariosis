@@ -851,7 +851,7 @@ if ( ! $_REQUEST['modfunc'] )
 		{
 			if ( $yes === 'Y' )
 			{
-				if ( $calendar_RET[ $date ] )
+				if ( ! empty( $calendar_RET[ $date ] ) )
 				{
 					DBQuery( "UPDATE ATTENDANCE_CALENDAR
 						SET MINUTES='999'
@@ -864,7 +864,13 @@ if ( ! $_REQUEST['modfunc'] )
 				{
 					DBQuery( "INSERT INTO ATTENDANCE_CALENDAR
 						(SYEAR,SCHOOL_ID,SCHOOL_DATE,CALENDAR_ID,MINUTES)
-						values('" . UserSyear() . "','" . UserSchool()."','" . $date . "','" . $_REQUEST['calendar_id'] . "','999')" );
+						SELECT '" . UserSyear() . "','" . UserSchool()."','" . $date . "','" . $_REQUEST['calendar_id'] . "','999'
+						WHERE NOT EXISTS(SELECT 1
+						FROM ATTENDANCE_CALENDAR
+						WHERE SCHOOL_DATE='" . $date . "'
+						AND SYEAR='" . UserSyear() . "'
+						AND SCHOOL_ID='" . UserSchool() . "'
+						AND CALENDAR_ID='" . $_REQUEST['calendar_id'] . "')" );
 				}
 
 				$update_calendar = true;
