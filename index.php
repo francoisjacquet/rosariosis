@@ -153,6 +153,11 @@ elseif ( isset( $_POST['USERNAME'] )
 
 	$is_banned = false;
 
+	$ip = ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] )
+		// Filter IP, HTTP_* headers can be forged.
+		&& filter_var( $_SERVER['HTTP_X_FORWARDED_FOR'], FILTER_VALIDATE_IP ) ?
+		$_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'] );
+
 	if ( Config( 'FAILED_LOGIN_LIMIT' ) )
 	{
 		// Failed login ban if >= X failed attempts within 10 minutes.
@@ -162,8 +167,7 @@ elseif ( isset( $_POST['USERNAME'] )
 			FROM ACCESS_LOG
 			WHERE LOGIN_TIME > (CURRENT_TIMESTAMP - INTERVAL '10 minutes')
 			AND USER_AGENT='" . DBEscapeString( $_SERVER['HTTP_USER_AGENT'] ) . "'
-			AND IP_ADDRESS='" . ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ?
-				$_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'] ) . "'" );
+			AND IP_ADDRESS='" . $ip . "'" );
 
 		if ( $failed_login_RET[1]['BANNED_COUNT']
 			|| $failed_login_RET[1]['FAILED_COUNT'] >= Config( 'FAILED_LOGIN_LIMIT' ) )
@@ -262,11 +266,6 @@ elseif ( isset( $_POST['USERNAME'] )
 				. _( 'Please try logging in again.' );
 		}
 	}
-
-	$ip = ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] )
-		// Filter IP, HTTP_* headers can be forged.
-		&& filter_var( $_SERVER['HTTP_X_FORWARDED_FOR'], FILTER_VALIDATE_IP ) ?
-		$_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'] );
 
 	// Access Log.
 	if ( ! function_exists( 'AccessLogRecord' ) )
