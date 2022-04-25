@@ -45,7 +45,7 @@ Changes in 9.0
 - Fix SQL error invalid input syntax in PrintSchedules.php & TeacherCompletion.php, thanks to @scgajge12
 - Filter IP, HTTP_* headers can be forged in index.php, PasswordReset.php & ErrorMessage.fnc.php
 - Fix SQL error value too long for type character varying(100) in index.php
-- Fix SQL error invalid input syntax for integer in Student.php, User.php, Referrals.php & Portal.php
+- Fix SQL error invalid input syntax for integer in Student.php, User.php, Referrals.php, Portal.php, PortalNotes.php, PortalNotes.php & Moodle/functions.php
 - Fix PHP8.1 fatal error checkdate argument must be of type int in Calendar.php
 - Fix SQL error invalid input syntax for type date in Calendar.php
 - Fix SQL error duplicate key value violates unique constraint "attendance_calendar_pkey" in Calendar.php

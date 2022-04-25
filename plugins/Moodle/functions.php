@@ -834,6 +834,6 @@ function MoodleXRosarioGet( $column, $rosario_id )
 
 	return (int) DBGetOne( "SELECT moodle_id
 		FROM moodlexrosario
-		WHERE rosario_id='" . $rosario_id . "'
+		WHERE rosario_id='" . (int) $rosario_id . "'
 		AND \"column\"='" . DBEscapeString( $column ) . "'" );
 }
