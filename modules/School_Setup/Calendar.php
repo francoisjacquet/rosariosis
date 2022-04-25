@@ -500,7 +500,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 						if ( ! empty( $value )
 							|| $value == '0' )
 						{
-							$fields .= $column . ',';
+							$fields .= DBEscapeIdentifier( $column ) . ',';
 							$values .= "'" . $value . "',";
 							$go = true;
 						}

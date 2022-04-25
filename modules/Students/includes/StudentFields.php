@@ -125,7 +125,7 @@ if ( isset( $_POST['tables'] )
 						if ( ! empty( $value )
 							|| $value == '0' )
 						{
-							$fields .= $column . ',';
+							$fields .= DBEscapeIdentifier( $column ) . ',';
 
 							$values .= "'" . $value . "',";
 

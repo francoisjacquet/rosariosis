@@ -407,7 +407,7 @@ function RegistrationSaveContactNameFields( $config, $values )
 			if ( ! empty( $value )
 				|| $value == '0' )
 			{
-				$fields .= $column . ',';
+				$fields .= DBEscapeIdentifier( $column ) . ',';
 
 				$values_sql .= "'" . $value . "',";
 			}
