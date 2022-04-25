@@ -148,6 +148,17 @@ session_cache_limiter( 'nocache' );
 
 session_start();
 
+if ( empty( $_SESSION['token'] ) )
+{
+	/**
+	 * Add CSRF token to protect unauthenticated requests
+	 *
+	 * @since 9.0
+	 * @link https://stackoverflow.com/questions/5207160/what-is-a-csrf-token-what-is-its-importance-and-how-does-it-work
+	 */
+	$_SESSION['token'] = bin2hex( openssl_random_pseudo_bytes( 16 ) );
+}
+
 if ( empty( $_SESSION['STAFF_ID'] )
 	&& empty( $_SESSION['STUDENT_ID'] )
 	&& ( basename( $_SERVER['SCRIPT_NAME'] ) === 'Modules.php'

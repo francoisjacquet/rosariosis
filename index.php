@@ -92,6 +92,14 @@ elseif ( isset( $_POST['USERNAME'] )
 	elseif ( isset( $_COOKIE['RosarioSIS'] ) )
 	{
 		session_regenerate_id( true ); // And invalidate old session.
+
+		/**
+		 * Add CSRF token to protect unauthenticated requests
+		 *
+		 * @since 9.0
+		 * @link https://stackoverflow.com/questions/5207160/what-is-a-csrf-token-what-is-its-importance-and-how-does-it-work
+		 */
+		$_SESSION['token'] = bin2hex( openssl_random_pseudo_bytes( 16 ) );
 	}
 
 	// Fix SQL error value too long for type character varying(100).

@@ -58,6 +58,7 @@ Changes in 9.0
 - JS add DOMPurify 2.3.6 in assets/js/DOMPurify/ & Gruntfile.js
 - JS fix stored XSS issue related to MarkDown in warehouse.js & plugins.min.js, thanks to @intrapus
 - JS remove logged in check on history back in warehouse.js & plugins.min.js
+- Add CSRF token to protect unauthenticated requests in Warehouse.php & login.php, thanks to @khanhchauminh
 
 Changes in 8.9.5
 ----------------
