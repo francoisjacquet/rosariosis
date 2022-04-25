@@ -52,6 +52,7 @@ Changes in 9.0
 - Fix PHP fatal error Unsupported operand types in ListOutput.php
 - Add AttrEscape() function in Inputs.php
 - Use AttrEscape() instead of htmlspecialchars(), program wide
+- Maintain Advanced search when editing Timeframe in Percent.php
 
 Changes in 8.9.4
 ----------------

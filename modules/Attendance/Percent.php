@@ -66,23 +66,16 @@ if ( ! $_REQUEST['modfunc'] )
 
 	$extra['WHERE'] .= CustomFields( 'where', 'student', $extra );
 
-	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&list_by_day=' . $_REQUEST['list_by_day']  ) . '" method="GET">';
-
-	$advanced_link = 'Modules.php?modname=' . $_REQUEST['modname'] .
-		'&modfunc=search&list_by_day=' . $_REQUEST['list_by_day'] .
-		'&day_start=' . $_REQUEST['day_start'] .
-		'&day_end=' . $_REQUEST['day_end'] .
-		'&month_start=' . $_REQUEST['month_start'] .
-		'&month_end=' . $_REQUEST['month_end'] .
-		'&year_start=' . $_REQUEST['year_start'] .
-		'&year_end=' . $_REQUEST['year_end'] . '"';
+	echo '<form action="' . PreparePHP_SELF( $_REQUEST ) . '" method="GET">';
 
 	DrawHeader(
 		_( 'Timeframe' ) . ': ' . PrepareDate( $start_date, '_start', false ) .
 		' &nbsp; ' . _( 'to' ) . ' &nbsp; ' . PrepareDate( $end_date, '_end', false ) . ' ' .
 		SubmitButton( _( 'Go' ) ),
-		'<a href="' . URLEscape( $advanced_link ) . '">' . _( 'Advanced' ) . '</a>',
-
+		'<a href="' . PreparePHP_SELF( $_REQUEST, [ 'search_modfunc' ], [
+			'modfunc' => 'search',
+			'include_top' => 'false',
+		] ) . '">' . _( 'Advanced' ) . '</a>'
 	);
 
 	echo '</form>';
