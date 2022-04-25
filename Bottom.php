@@ -76,7 +76,7 @@ if ( empty( $_REQUEST['bottomfunc'] ) ) : ?>
 			<img src="<?php echo $btn_path; ?>help.png" alt="" />
 			<span><?php echo _( 'Help' ); ?></span>
 		</a>
-		<a href="index.php?modfunc=logout" target="_top" title="<?php echo AttrEscape( _( 'Logout' ) ); ?>" class="BottomButton">
+		<a href="<?php echo URLEscape( 'index.php?modfunc=logout&token=' . $_SESSION['token'] ); ?>" target="_top" title="<?php echo AttrEscape( _( 'Logout' ) ); ?>" class="BottomButton">
 			<img src="<?php echo $btn_path; ?>logout.png" alt="" />
 			<span><?php echo _( 'Logout' ); ?></span>
 		</a>

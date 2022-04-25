@@ -109,7 +109,7 @@ if ( isset( $_POST['email'] )
 	if ( ! ROSARIO_DEBUG )
 	{
 		// Redirect to login page.
-		header( 'Location: index.php?modfunc=logout&reason=password_reset' );
+		header( 'Location: index.php?modfunc=logout&reason=password_reset&token=' . $_SESSION['token'] );
 
 		exit;
 	}

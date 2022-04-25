@@ -536,7 +536,7 @@ else
 {
 	// Account created, return to index.
 	?>
-	<script>window.location.href = "index.php?modfunc=logout&reason=account_created";</script>
+	<script>window.location.href = "index.php?modfunc=logout&reason=account_created&token=" + <?php echo json_encode( $_SESSION['token'] ); ?>;</script>
 <?php
 exit;
 }

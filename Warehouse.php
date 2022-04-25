@@ -177,7 +177,8 @@ if ( empty( $_SESSION['STAFF_ID'] )
 	// Redirection is done in Javascript in case current request is AJAX.
 	?>
 	<script>window.location.href = "index.php?modfunc=logout" +
-		<?php echo json_encode( $redirect_to ); ?>;</script>
+		<?php echo json_encode( $redirect_to ); ?> +
+		"&token=" + <?php echo json_encode( $_SESSION['token'] ); ?>;</script>
 	<?php
 	exit;
 }
@@ -472,7 +473,7 @@ function Warehouse( $mode )
 				// If jQuery not available, log out.
 
 				if ( $_ROSARIO['page'] === 'modules' ): ?>
-<script>if (!window.$) window.location.href = 'index.php?modfunc=logout';</script>
+<script>if (!window.$) window.location.href = 'index.php?modfunc=logout&token=' + <?php echo json_encode( $_SESSION['token'] ); ?>;</script>
 				<?php endif;
 
 				// AJAX: we only need to generate #body content.
@@ -521,7 +522,7 @@ function Warehouse( $mode )
 			do_action( 'Warehouse.php|header_head' );
 		?>
 	<noscript>
-		<meta http-equiv="REFRESH" content="0;url=index.php?modfunc=logout&amp;reason=javascript" />
+		<meta http-equiv="REFRESH" content="0;url=<?php echo URLEscape( 'index.php?modfunc=logout&amp;reason=javascript&amp;token=' . $_SESSION['token'] ); ?>" />
 	</noscript>
 </head>
 <body class="<?php echo $_ROSARIO['page']; ?>">

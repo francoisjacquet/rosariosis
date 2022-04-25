@@ -24,9 +24,13 @@ if ( isset( $_REQUEST['modfunc'] )
 			'&redirect_to=' . urlencode( $_REQUEST['redirect_to'] ) :
 			'' ) );
 
-	session_unset();
+	if ( ! empty( $_REQUEST['token'] )
+		&& $_SESSION['token'] === $_REQUEST['token'] )
+	{
+		session_unset();
 
-	session_destroy();
+		session_destroy();
+	}
 
 	exit;
 }
@@ -83,7 +87,7 @@ elseif ( isset( $_POST['USERNAME'] )
 	if ( ! isset( $_COOKIE['RosarioSIS'] )
 		&& ! isset( $_COOKIE[ $default_session_name ] ) )
 	{
-		header( 'Location: index.php?modfunc=logout&reason=cookie' );
+		header( 'Location: index.php?modfunc=logout&reason=cookie&token=' . $_SESSION['token'] );
 
 		exit;
 	}
