@@ -15,27 +15,52 @@
  * @since 4.1 Redirect automatically to Portal after 5 seconds.
  * @since 4.3 Reload menu now so it does not contain links to disallowed programs.
  * @since 6.4.1 Only send email and redirect to Portal without displaying error.
+ * @since 9.0 Logout after 10 Hacking attempts within 1 minute.
  */
 function HackingLog()
 {
 	global $error;
 
-	$portal_url = 'Modules.php?modname=misc/Portal.php';
+	$redirect_url = 'Modules.php?modname=misc/Portal.php';
 
 	if ( ! empty( $_SERVER['HTTP_REFERER'] )
 		&& mb_strpos( $_SERVER['HTTP_REFERER'], '&redirect_to=' ) !== false
 		&& ! headers_sent() )
 	{
 		// If User has just logged in, take him back to Portal without sending email!
-		header( 'Location: ' . $portal_url );
+		header( 'Location: ' . $redirect_url );
 
 		exit;
 	}
 
+	// Log Hacking time in session.
+	$_SESSION['HackingLog'][] = time();
+
+	if ( count( $_SESSION['HackingLog'] ) >= 10 )
+	{
+		$one_minute_ago = time() - 60;
+
+		$attempts_within_one_minute = 0;
+
+		foreach ( $_SESSION['HackingLog'] as $i => $time )
+		{
+			if ( $time >= $one_minute_ago )
+			{
+				$attempts_within_one_minute++;
+			}
+		}
+
+		if ( $attempts_within_one_minute >= 10 )
+		{
+			// Logout after 10 Hacking attempts within 1 minute.
+			$redirect_url = 'index.php?modfunc=logout&token=' . $_SESSION['token'];
+		}
+	}
+
 	?>
 	<script>
-		// Redirect automatically to Portal.
-		window.location.href = <?php echo json_encode( $portal_url ); ?>;
+		// Redirect automatically to Portal or Logout.
+		window.location.href = <?php echo json_encode( $redirect_url ); ?>;
 	</script>
 	<?php
 

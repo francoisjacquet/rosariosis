@@ -60,6 +60,7 @@ Changes in 9.0
 - JS remove logged in check on history back in warehouse.js & plugins.min.js
 - Add CSRF token to protect unauthenticated requests in Warehouse.php & login.php
 - Add CSRF token to logout URL in login.php, Warehouse.php, PasswordReset.php, Bottom.php, Student.php & User.php, thanks to @khanhchauminh
+- Logout after 10 Hacking attempts within 1 minute in HackingLog.fnc.php
 
 Changes in 8.9.5
 ----------------
