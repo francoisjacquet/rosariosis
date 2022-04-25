@@ -839,7 +839,8 @@ function FileExtensionWhiteList() {
 		'.msg',
 		'.vcf',
 		// Web.
-		'.xml',
+		// @since 8.9.5 Fix stored XSS security issue: do not allow unsanitized XML
+		// '.xml',
 		'.xhtml',
 		'.html',
 		'.htm',
