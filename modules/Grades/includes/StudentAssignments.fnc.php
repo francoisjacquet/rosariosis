@@ -309,7 +309,7 @@ function StudentAssignmentDrawHeaders( $assignment )
 	if ( $assignment['ASSIGNMENT_TYPE_COLOR'] )
 	{
 		$type_color = '<span style="background-color: ' .
-			$assignment['ASSIGNMENT_TYPE_COLOR'] . ';">&nbsp;</span>&nbsp;';
+			AttrEscape( $assignment['ASSIGNMENT_TYPE_COLOR'] ) . ';">&nbsp;</span>&nbsp;';
 	}
 
 	// Title - Type.
