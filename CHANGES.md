@@ -57,6 +57,7 @@ Changes in 9.0
 - JS update marked to v4.0.14 in assets/js/marked/
 - JS add DOMPurify 2.3.6 in assets/js/DOMPurify/ & Gruntfile.js
 - JS fix stored XSS issue related to MarkDown in warehouse.js & plugins.min.js, thanks to @intrapus
+- JS remove logged in check on history back in warehouse.js & plugins.min.js
 
 Changes in 8.9.5
 ----------------
