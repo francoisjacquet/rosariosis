@@ -55,6 +55,10 @@ Changes in 9.0
 - Maintain Advanced search when editing Timeframe in Percent.php
 - Fix SQL injection escape DB identifier in RegistrationSave.fnc.php, Calendar.php, MarkingPeriods.php, Courses.php, SchoolFields.php, AddressFields.php, PeopleFields.php, StudentFields.php & UserFields.php
 
+Changes in 8.9.5
+----------------
+- Fix stored XSS security issue: do not allow unsanitized XML in FileUpload.fnc.php, thanks to @nhienit2010
+
 Changes in 8.9.4
 ----------------
 - Fix SQL injection sanitize all `$_REQUEST` keys in Warehouse.php, thanks to @nhienit2010
