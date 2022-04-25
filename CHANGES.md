@@ -55,6 +55,7 @@ Changes in 9.0
 - Maintain Advanced search when editing Timeframe in Percent.php
 - Fix SQL injection escape DB identifier in RegistrationSave.fnc.php, Calendar.php, MarkingPeriods.php, Courses.php, SchoolFields.php, AddressFields.php, PeopleFields.php, StudentFields.php & UserFields.php
 - JS update marked to v4.0.14 in assets/js/marked/
+- JS add DOMPurify 2.3.6 in assets/js/DOMPurify/ & Gruntfile.js
 
 Changes in 8.9.5
 ----------------
