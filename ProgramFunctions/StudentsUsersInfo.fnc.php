@@ -578,7 +578,7 @@ function _makeMultipleInput( $column, $name, $request )
 		// FJ add <label> on checkbox.
 		$table .= '<td><label>
 			<input type="checkbox" name="' . $request . '[' . $column . '][]" value="' .
-				htmlspecialchars( $option, ENT_QUOTES ) . '"' .
+				AttrEscape( $option ) . '"' .
 				( ! empty( $value[ $column ] )
 					&& mb_strpos( $value[ $column ], '||' . $option . '||' ) !== false ? ' checked' : '' ) . ' /> ' .
 				$option .

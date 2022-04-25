@@ -532,7 +532,7 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 				if ( ! empty( $period['COURSE_TITLE'] )
 					&& $optgroup != $period['COURSE_TITLE'] ) : // New optgroup. ?>
 
-					<optgroup label="<?php echo htmlspecialchars( $optgroup = $period['COURSE_TITLE'] ); ?>">
+					<optgroup label="<?php echo AttrEscape( $optgroup = $period['COURSE_TITLE'] ); ?>">
 
 				<?php endif;
 
