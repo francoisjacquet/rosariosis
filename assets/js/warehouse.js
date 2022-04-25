@@ -138,12 +138,16 @@ var GetMDConverter = function() {
 
 			// Set options.
 			// @link https://marked.js.org/#/USING_ADVANCED.md
-			return marked(markDown, {
+			marked.setOptions({
 				breaks: true, // Add <br> on a single line break. Requires gfm be true.
 				gfm: true, // GitHub Flavored Markdown (GFM).
 				headerIds: false, // Include an id attribute when emitting headings (h1, h2, h3, etc).
 				renderer: renderer,
 			});
+
+			var md = marked.parse(markDown);
+
+			return DOMPurify.sanitize(md);
 		};
 	}
 
@@ -180,8 +184,8 @@ var MarkDownToHTML = function() {
 
 		var mdc = GetMDConverter();
 
-		// Fix decode &, < and > HTML characters so blockquote are converted.
-		var md = mdc( txt.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>') );
+		// Fix decode > HTML characters so blockquote are converted.
+		var md = mdc( txt.replace(/&gt;/g, '>') );
 
 		// Add paragraph to text.
 		var txtP = '<p>' + txt + '</p>';
