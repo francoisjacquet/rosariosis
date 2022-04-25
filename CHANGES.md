@@ -4,6 +4,7 @@
 Changes in 8.9.5
 ----------------
 - Fix stored XSS security issue: do not allow unsanitized XML in FileUpload.fnc.php, thanks to @nhienit2010
+- Fix stored XSS security issue: escape HTML attribute in StudentAssignments.fnc.php, thanks to @dungtuanha
 
 Changes in 8.9.4
 ----------------
