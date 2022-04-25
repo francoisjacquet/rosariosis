@@ -22,7 +22,7 @@ if ( empty( $_REQUEST['bottomfunc'] ) ) : ?>
 		<a href="#body" class="a11y-hidden BottomButton">
 			<?php echo _( 'Skip to main content' ); // Accessibility link to skip menus. ?>
 		</a>
-		<a id="BottomButtonMenu" href="#" onclick="expandMenu(); return false;" title="<?php echo htmlspecialchars( _( 'Menu' ), ENT_QUOTES ); ?>" class="BottomButton">
+		<a id="BottomButtonMenu" href="#" onclick="expandMenu(); return false;" title="<?php echo AttrEscape( _( 'Menu' ) ); ?>" class="BottomButton">
 			<span><?php echo _( 'Menu' ); ?></span>
 		</a>
 
@@ -56,7 +56,7 @@ if ( empty( $_REQUEST['bottomfunc'] ) ) : ?>
 					$back_text = sprintf( _( '%s List' ), $_SESSION['Back_PHP_SELF'] );
 			} ?>
 
-			<a href="<?php echo $_SESSION['List_PHP_SELF']; ?>&amp;bottom_back=true" title="<?php echo htmlspecialchars( $back_text, ENT_QUOTES ); ?>" class="BottomButton">
+			<a href="<?php echo URLEscape( $_SESSION['List_PHP_SELF'] ); ?>&amp;bottom_back=true" title="<?php echo AttrEscape( $back_text ); ?>" class="BottomButton">
 				<img src="<?php echo $btn_path; ?>back.png" alt="" />
 				<span><?php echo $back_text; ?></span>
 			</a>
@@ -68,15 +68,15 @@ if ( empty( $_REQUEST['bottomfunc'] ) ) : ?>
 		// Do bottom_buttons hook.
 		do_action( 'Bottom.php|bottom_buttons' ); ?>
 
-		<a href="Bottom.php?bottomfunc=print" target="_blank" title="<?php echo htmlspecialchars( _( 'Print' ), ENT_QUOTES ); ?>" class="BottomButton">
+		<a href="Bottom.php?bottomfunc=print" target="_blank" title="<?php echo AttrEscape( _( 'Print' ) ); ?>" class="BottomButton">
 			<img src="<?php echo $btn_path; ?>print.png" alt="" />
 			<span><?php echo _( 'Print' ); ?></span>
 		</a>
-		<a href="#" onclick="toggleHelp();return false;" title="<?php echo htmlspecialchars( _( 'Help' ), ENT_QUOTES ); ?>" class="BottomButton">
+		<a href="#" onclick="toggleHelp();return false;" title="<?php echo AttrEscape( _( 'Help' ) ); ?>" class="BottomButton">
 			<img src="<?php echo $btn_path; ?>help.png" alt="" />
 			<span><?php echo _( 'Help' ); ?></span>
 		</a>
-		<a href="index.php?modfunc=logout" target="_top" title="<?php echo htmlspecialchars( _( 'Logout' ), ENT_QUOTES ); ?>" class="BottomButton">
+		<a href="index.php?modfunc=logout" target="_top" title="<?php echo AttrEscape( _( 'Logout' ) ); ?>" class="BottomButton">
 			<img src="<?php echo $btn_path; ?>logout.png" alt="" />
 			<span><?php echo _( 'Logout' ); ?></span>
 		</a>

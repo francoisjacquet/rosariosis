@@ -324,7 +324,7 @@ function RegistrationContactInfo( $name, $info, $info_required )
 	{
 		echo TextInput(
 			'',
-			$name . '[info][' . htmlspecialchars( $field, ENT_QUOTES ) . ']',
+			$name . '[info][' . AttrEscape( $field ) . ']',
 			$field,
 			'maxlength="100"' . $required
 		) . '<br />';

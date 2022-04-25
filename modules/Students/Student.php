@@ -541,7 +541,7 @@ else
 	$reason = Config( 'CREATE_STUDENT_ACCOUNT_AUTOMATIC_ACTIVATION' ) ?
 		'account_activated' : 'account_created';
 	?>
-	<script>window.location.href = "index.php?modfunc=logout&reason=" + <?php echo json_encode( $reason ); ?>;</script>
+	<script>window.location.href = "index.php?modfunc=logout&reason=" + <?php echo json_encode( $reason ); ?> + "&token=" + <?php echo json_encode( $_SESSION['token'] ); ?>;</script>
 	<?php
 	exit;
 }

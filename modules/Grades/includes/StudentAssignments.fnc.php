@@ -594,7 +594,7 @@ if ( ! function_exists( 'MakeAssignmentTitle' ) )
 		// Truncate value to 36 chars.
 		$title = mb_strlen( $value ) <= 36 ?
 		$value :
-		'<span title="' . $value . '">' . mb_substr( $value, 0, 33 ) . '...</span>';
+		'<span title="' . AttrEscape( $value ) . '">' . mb_substr( $value, 0, 33 ) . '...</span>';
 
 		if ( User( 'PROFILE' ) === 'teacher' )
 		{

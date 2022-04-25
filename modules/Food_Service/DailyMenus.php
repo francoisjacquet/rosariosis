@@ -218,7 +218,7 @@ if ( ! empty( $_REQUEST['submit']['print'] ) )
 					echo '<i>' . $event['TITLE'] . '</i><br />';
 				}
 
-				echo htmlspecialchars( $event['DESCRIPTION'], ENT_QUOTES );
+				echo AttrEscape( $event['DESCRIPTION'] );
 			}
 		}
 

@@ -15,7 +15,7 @@ if ( $_REQUEST['modfunc'] === 'XMLHttpRequest' )
 	foreach ( (array) $courses_RET as $course )
 	{
 		echo '<course><id>' . $course['COURSE_ID'] . '</id>
-		<title>' . htmlspecialchars( $course['TITLE'], ENT_QUOTES ) . '</title>
+		<title>' . AttrEscape( $course['TITLE'] ) . '</title>
 		</course>';
 	}
 

@@ -50,6 +50,8 @@ Changes in 9.0
 - Fix SQL error invalid input syntax for type date in Calendar.php
 - Fix SQL error duplicate key value violates unique constraint "attendance_calendar_pkey" in Calendar.php
 - Fix PHP fatal error Unsupported operand types in ListOutput.php
+- Add AttrEscape() function in Inputs.php
+- Use AttrEscape() instead of htmlspecialchars(), program wide
 
 Changes in 8.9.4
 ----------------

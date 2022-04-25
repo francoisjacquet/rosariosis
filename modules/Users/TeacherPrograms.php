@@ -92,7 +92,7 @@ if ( UserStaffID() )
 			&& $optgroup != $period['COURSE_TITLE'] )
 		{
 			// New optgroup.
-			$period_select .= '<optgroup label="' . htmlspecialchars( $optgroup = $period['COURSE_TITLE'] ) . '">';
+			$period_select .= '<optgroup label="' . AttrEscape( $optgroup = $period['COURSE_TITLE'] ) . '">';
 		}
 
 		if ( $optgroup !== false

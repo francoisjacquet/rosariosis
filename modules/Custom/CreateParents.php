@@ -58,14 +58,14 @@ if ( empty( $email_column ) )
 	//display SELECT input
 	$select_html = _( 'Select Parents email field' ) . ': <select id="email_column" name="email_column">';
 
-	$select_html .= '<optgroup label="' . htmlspecialchars( _( 'Student Fields' ) ) . '">';
+	$select_html .= '<optgroup label="' . AttrEscape( _( 'Student Fields' ) ) . '">';
 
 	foreach ( (array) $student_columns as $student_column )
 	{
 		$select_html .= '<option value="' . $student_column['COLUMN'] . '">' . ParseMLField( $student_column['CATEGORY'] ) . ' - ' . ParseMLField( $student_column['TITLE'] ) . '</option>';
 	}
 
-	$select_html .= '</optgroup><optgroup label="' . htmlspecialchars( _( 'Address Fields' ) ) . '">';
+	$select_html .= '</optgroup><optgroup label="' . AttrEscape( _( 'Address Fields' ) ) . '">';
 
 	foreach ( (array) $address_columns as $address_column )
 	{

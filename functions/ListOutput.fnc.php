@@ -377,12 +377,12 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			$search_URL = PreparePHP_SELF( $_REQUEST, [ 'LO_search' ] );
 
 			echo '<input type="text" id="LO_search" name="LO_search" value="' .
-			htmlspecialchars( str_replace( "''", "'", $LO_search ), ENT_QUOTES ) .
+			AttrEscape( str_replace( "''", "'", $LO_search ) ) .
 			'" placeholder="' . _( 'Search' ) . '" onkeypress="LOSearch(event, this.value, \'' .
 			$search_URL . '\');" autocomplete="off" />
 				<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/visualize.png"
 				onclick="LOSearch(event, $(\'#LO_search\').val(), \'' . $search_URL . '\');"
-				class="button" alt="" title="' . htmlspecialchars( _( 'Search' ), ENT_QUOTES ) . '" />
+				class="button" alt="" title="' . AttrEscape( _( 'Search' ) ) . '" />
 				<label for="LO_search" class="a11y-hidden">' . _( 'Search' ) . '</label>';
 
 			echo '</td>';
@@ -1071,7 +1071,7 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 				}
 
 				// http://stackoverflow.com/questions/1091945/what-characters-do-i-need-to-escape-in-xml-documents
-				$value = str_replace( '[br]', '<br />', htmlspecialchars( $value, ENT_QUOTES ) );
+				$value = str_replace( '[br]', '<br />', AttrEscape( $value ) );
 
 				$output .= "\t\t" . '<' . $column . '>' . $value .
 					'</' . $column . '>' . "\n";

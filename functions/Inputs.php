@@ -108,7 +108,7 @@ function TextInput( $value, $name, $title = '', $extra = '', $div = true )
 	$type = mb_strpos( $extra, 'type=' ) === false ? 'type="text"' : '';
 
 	$input = '<input ' . $type . ' id="' . $id . '" name="' . $name .
-		'" value="' . htmlspecialchars( (string) $value, ENT_QUOTES ) . '" ' . $extra . ' />' .
+		'" value="' . AttrEscape( (string) $value ) . '" ' . $extra . ' />' .
 		FormatInputTitle( $title, $id, $required );
 
 	if ( is_null( $value )
@@ -319,7 +319,7 @@ function setMLvalue(id, loc, value){
 				ucfirst( locale_get_display_language( $loc, $locale ) ) :
 				str_replace( '.utf8', '', $loc );
 
-			$return .= '<label><img src="locale/' . $loc . '/flag.png" class="button bigger" alt="' . htmlspecialchars( $language, ENT_QUOTES ) . '" title="' . htmlspecialchars( $language, ENT_QUOTES ) . '" /> ';
+			$return .= '<label><img src="locale/' . $loc . '/flag.png" class="button bigger" alt="' . AttrEscape( $language ) . '" title="' . AttrEscape( $language ) . '" /> ';
 
 			//$return .= TextInput(ParseMLField($value, $loc),'ML_'.$name.'['.$loc.']','',$extra." onchange=\"javascript:setMLvalue('".$name."','".($id==0?'':$loc)."',this.value);\"",false);
 			$return .= TextInput(
@@ -632,8 +632,8 @@ function MarkDownInputPreview( $input_id )
 
 		<a href="#" onclick="MarkDownInputPreview('<?php echo $input_id; ?>'); return false;" class="tab"><?php echo _( 'Preview' ); ?></a>
 
-		<a href="https://gitlab.com/francoisjacquet/rosariosis/wikis/Markdown-Cheatsheet" title="<?php echo htmlspecialchars( _( 'Mastering MarkDown' ), ENT_QUOTES ); ?>" target="_blank" class="md-link">
-			<img class="button" src="assets/themes/<?php echo Preferences( 'THEME' ); ?>/btn/md_button.png" alt="<?php echo htmlspecialchars( _( 'Mastering MarkDown' ), ENT_QUOTES ); ?>" />
+		<a href="https://gitlab.com/francoisjacquet/rosariosis/wikis/Markdown-Cheatsheet" title="<?php echo AttrEscape( _( 'Mastering MarkDown' ) ); ?>" target="_blank" class="md-link">
+			<img class="button" src="assets/themes/<?php echo Preferences( 'THEME' ); ?>/btn/md_button.png" alt="<?php echo AttrEscape( _( 'Mastering MarkDown' ) ); ?>" />
 		</a>
 		<div class="markdown-to-html" id="divMDPreview<?php echo $input_id; ?>"></div>
 	</div>
@@ -769,7 +769,7 @@ function MultipleCheckboxInput( $value, $name, $title, $options, $extra = '', $d
 
 		$multiple_html .= '<td><label>
 			<input type="checkbox" name="' . $name . '"
-				value="' . htmlspecialchars( $option_value, ENT_QUOTES ) . '" ' . $extra . ' ' .
+				value="' . AttrEscape( $option_value ) . '" ' . $extra . ' ' .
 				( $option != '' && mb_strpos( (string) $value, '||' . $option_value . '||' ) !== false ? ' checked' : '' ) . ' />&nbsp;' .
 			( $option != '' ? $option : '-' ) .
 		'</label></td>';
@@ -907,7 +907,7 @@ function SelectInput( $values, $name, $title = '', $options = [], $allow_na = 'N
 			}
 		}
 
-		return '<option value="' . htmlspecialchars( $key, ENT_QUOTES ) . '"' .
+		return '<option value="' . AttrEscape( $key ) . '"' .
 			$selected . '>' . ( is_array( $val ) ? $val[0] : $val ) . '</option>';
 	};
 
@@ -915,7 +915,7 @@ function SelectInput( $values, $name, $title = '', $options = [], $allow_na = 'N
 	{
 		foreach ( (array) $options as $group => $group_options )
 		{
-			$select .= '<optgroup label="' . htmlspecialchars( $group, ENT_QUOTES ) . '">';
+			$select .= '<optgroup label="' . AttrEscape( $group ) . '">';
 
 			foreach ( (array) $group_options as $key => $val )
 			{
@@ -1021,7 +1021,7 @@ function MLSelectInput( $value, $name, $title, $options, $allow_na = 'N/A', $ext
 	if ( AllowEdit()
 		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
-		$select = '<select name="'.$name.'" id="' . $id . '" '.$extra.'>';
+		$select = '<select name="' . $name . '" id="' . $id . '" '.$extra.'>';
 
 		if ( $allow_na !== false )
 		{
@@ -1043,7 +1043,7 @@ function MLSelectInput( $value, $name, $title, $options, $allow_na = 'N/A', $ext
 
 			$val_locale = ParseMLField( ( is_array( $val ) ? $val[0] : $val ), $locale );
 
-			$select .= '<option value="' . htmlspecialchars( $key, ENT_QUOTES ) . '"' .
+			$select .= '<option value="' . AttrEscape( $key ) . '"' .
 				$selected . '>' . $val_locale . '</option>';
 		}
 
@@ -1156,7 +1156,7 @@ function ChosenSelectInput( $value, $name, $title = '', $options = [], $allow_na
 	if ( mb_strpos( $extra, 'multiple' ) !== false
 		&& mb_strpos( $extra, 'data-placeholder=' ) === false )
 	{
-		$extra .= ' data-placeholder="' . htmlspecialchars( _( 'Select some Options' ), ENT_QUOTES ) . '"';
+		$extra .= ' data-placeholder="' . AttrEscape( _( 'Select some Options' ) ) . '"';
 	}
 
 	$return = $js . SelectInput(
@@ -1255,7 +1255,7 @@ function RadioInput( $value, $name, $title, $options, $allow_na = 'N/A', $extra 
 			}
 
 			$table .= '<td><label><input type="radio" name="' . $name . '" value="' .
-				htmlspecialchars( $key, ENT_QUOTES ) . '"' . $checked . ' ' . $extra . ' /> ' .
+				AttrEscape( $key ) . '"' . $checked . ' ' . $extra . ' /> ' .
 				( is_array( $val ) ? $val[0] : $val ) . '</label></td>';
 		}
 
@@ -1332,7 +1332,7 @@ function ColorInput( $value, $name, $title = '', $extra = '', $div = true )
 	}
 
 	$input = '<input type="color" name="' . $name . '" id="' . $id . '" value="' .
-		htmlspecialchars( $value, ENT_QUOTES ) . '"' . $extra . ' />';
+		AttrEscape( $value ) . '"' . $extra . ' />';
 
 	$input .= FormatInputTitle( $title, $id, $required );
 
@@ -1799,4 +1799,27 @@ function MakeChooseCheckbox( $value, $column = '', $controller_name = '' )
 	return '<label><input type="checkbox" name="' . $name . '[]" value="' . $value . '"' .
 		( $checked ? ' checked' : '' ) . ' /><span class="a11y-hidden">' .
 		_( 'Select' ) . '</span></label>';
+}
+
+/**
+ * Escape HTML attribute
+ * Protects against XSS (Javascript execution)
+ *
+ * @see URLEscape() to escape href, action & src attributes
+ * @see GetInputID() to escape id attribute
+ *
+ * @example $html = '<span title="' . AttrEscape( $value ) . '">' . _( 'Text' ) . '</span>';
+ * @example <span title="<?php echo AttrEscape( $value ); ?>"><?php echo _( 'Text' ); ?></span>
+ *
+ * @uses htmlspecialchars
+ *
+ * @since 9.0
+ *
+ * @param string $value Text to be escaped.
+ *
+ * @return string Escaped string.
+ */
+function AttrEscape( $value )
+{
+	return htmlspecialchars( $value, ENT_QUOTES, null, false );
 }

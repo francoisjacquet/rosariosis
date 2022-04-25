@@ -474,8 +474,8 @@ if ( empty( $_SESSION['STAFF_ID'] )
 					ucfirst( locale_get_display_language( $loc, $locale ) ) :
 					str_replace( '.utf8', '', $loc ); ?>
 
-				<a href="index.php?locale=<?php echo $loc; ?>" title="<?php echo htmlspecialchars( $language, ENT_QUOTES ); ?>">
-					<img src="locale/<?php echo $loc; ?>/flag.png" width="32" alt="<?php echo htmlspecialchars( $language, ENT_QUOTES ); ?>" />
+				<a href="index.php?locale=<?php echo $loc; ?>" title="<?php echo AttrEscape( $language ); ?>">
+					<img src="locale/<?php echo $loc; ?>/flag.png" width="32" alt="<?php echo AttrEscape( $language ); ?>" />
 				</a>&nbsp;
 
 			<?php endforeach; ?>
@@ -542,7 +542,7 @@ if ( empty( $_SESSION['STAFF_ID'] )
 		 * @since 3.8
 		 */
 		?>
-		<input type="hidden" name="redirect_to" value="<?php echo htmlspecialchars( $_REQUEST['redirect_to'], ENT_QUOTES ); ?>" />
+		<input type="hidden" name="redirect_to" value="<?php echo AttrEscape( $_REQUEST['redirect_to'] ); ?>" />
 	<?php endif; ?>
 	</form>
 	<input class="toggle" type="checkbox" id="toggle1" />
