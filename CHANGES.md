@@ -53,7 +53,7 @@ Changes in 9.0
 - Add AttrEscape() function in Inputs.php
 - Use AttrEscape() instead of htmlspecialchars(), program wide
 - Maintain Advanced search when editing Timeframe in Percent.php
-- Fix SQL injection escape DB identifier in RegistrationSave.fnc.php, Calendar.php, MarkingPeriods.php, SchoolFields.php, AddressFields.php, PeopleFields.php, StudentFields.php & UserFields.php
+- Fix SQL injection escape DB identifier in RegistrationSave.fnc.php, Calendar.php, MarkingPeriods.php, Courses.php, SchoolFields.php, AddressFields.php, PeopleFields.php, StudentFields.php & UserFields.php
 
 Changes in 8.9.4
 ----------------

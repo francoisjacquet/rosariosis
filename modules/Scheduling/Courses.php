@@ -456,7 +456,7 @@ if ( ! empty( $_REQUEST['tables'] )
 						}
 
 						$sql = mb_substr( $sql, 0, -1 ) .
-							" WHERE " . $where[$table_name] . "='" . $id . "'";
+							" WHERE " . DBEscapeIdentifier( $where[$table_name] ) . "='" . $id . "'";
 
 						DBQuery( $sql );
 
@@ -485,7 +485,7 @@ if ( ! empty( $_REQUEST['tables'] )
 					}
 					else
 					{
-						$sql = "INSERT INTO " . $table_name . " ";
+						$sql = "INSERT INTO " . DBEscapeIdentifier( $table_name ) . " ";
 
 						if ( $table_name == 'COURSE_SUBJECTS' )
 						{
