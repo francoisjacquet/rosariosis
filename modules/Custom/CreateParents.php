@@ -188,11 +188,10 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 					$user = $user[1];
 
-					//FJ change parent password generation
-					//$password = $passwords[rand(0,count( $passwords )-1)];
-					$password = $username . rand( 100, 999 );
+					// Use big random number for parent password generation.
+					$password = $username . rand( 1, 99999999999 );
 
-					// FJ Moodle integrator / password.
+					// Moodle integrator / password.
 					$password = ucfirst( $password ) . '*';
 
 					if ( ! $test_email )
@@ -200,7 +199,6 @@ if ( $_REQUEST['modfunc'] === 'save'
 						// Get Staff ID.
 						$id = DBSeqNextID( 'staff_staff_id_seq' );
 
-						// FJ add password encryption.
 						$password_encrypted = encrypt_password( $password );
 
 						$sql = "INSERT INTO STAFF (STAFF_ID,SYEAR,PROFILE,PROFILE_ID,
