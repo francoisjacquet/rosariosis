@@ -839,11 +839,11 @@ function FileExtensionWhiteList() {
 		'.msg',
 		'.vcf',
 		// Web.
-		// @since 8.9.5 Fix stored XSS security issue: do not allow unsanitized XML
+		// @since 8.9.5 Fix stored XSS security issue: do not allow unsanitized XML & HTML
 		// '.xml',
-		'.xhtml',
-		'.html',
-		'.htm',
+		// '.xhtml',
+		// '.html',
+		// '.htm',
 		'.css',
 		'.rss',
 		// Compressed.
