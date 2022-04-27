@@ -56,9 +56,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		{
 			$staff_id = $staff['STAFF_ID'];
 
-			//FJ change parent password generation
-			$password = $staff['USERNAME'] . rand( 1000, 9999 );
-			//FJ add password encryption
+			// Use big random number for parent password generation.
+			$password = $staff['USERNAME'] . rand( 1, 9999999999 );
+
 			$password_encrypted = encrypt_password( $password );
 			DBQuery( "UPDATE STAFF SET PASSWORD='" . $password_encrypted . "' WHERE STAFF_ID='" . $staff_id . "'" );
 
