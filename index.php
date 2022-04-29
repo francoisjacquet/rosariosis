@@ -106,8 +106,7 @@ elseif ( isset( $_POST['USERNAME'] )
 		$_SESSION['token'] = bin2hex( openssl_random_pseudo_bytes( 16 ) );
 	}
 
-	// Fix SQL error value too long for type character varying(100).
-	$username = mb_substr( $_REQUEST['USERNAME'], 0, 100 );
+	$username = $_REQUEST['USERNAME'];
 
 	unset( $_REQUEST['USERNAME'], $_POST['USERNAME'] );
 
