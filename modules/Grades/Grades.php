@@ -509,7 +509,7 @@ _( 'All' ) .
 
 foreach ( (array) $types_RET as $id => $type )
 {
-	$type_select .= '<option value="' . $id . '"' . ( $_REQUEST['type_id'] == $id ? ' selected' : '' ) . '>' .
+	$type_select .= '<option value="' . AttrEscape( $id ) . '"' . ( $_REQUEST['type_id'] == $id ? ' selected' : '' ) . '>' .
 		$type[1]['TITLE'] .
 		'</option>';
 }
@@ -553,7 +553,7 @@ foreach ( (array) $assignments_RET as $id => $assignment )
 		$assignment_select .= '<optgroup label="' . AttrEscape( $optgroup ) . '">';
 	}
 
-	$assignment_select .= '<option value="' . $id . '"' .
+	$assignment_select .= '<option value="' . AttrEscape( $id ) . '"' .
 		( $_REQUEST['assignment_id'] == $id ? ' selected' : '' ) . '>' .
 		$assignment[1]['TITLE'] . '</option>';
 }

@@ -1037,7 +1037,7 @@ if ( $pros != '' )
 
 		if ( GetMP( $pro, 'DOES_GRADES' ) == 'Y' )
 		{
-			$mps_select .= '<option value="' . $pro . '"' . (  ( $pro == $_REQUEST['mp'] ) ? ' selected' : '' ) . ">" . GetMP( $pro ) . "</option>";
+			$mps_select .= '<option value="' . AttrEscape( $pro ) . '"' . ( ( $pro == $_REQUEST['mp'] ) ? ' selected' : '' ) . ">" . GetMP( $pro ) . "</option>";
 		}
 	}
 }
@@ -1050,7 +1050,7 @@ if ( $_REQUEST['mp'] == UserMP()
 	$allow_edit = true;
 }
 
-$mps_select .= '<option value="' . UserMP() . '"' . ( UserMP() == $_REQUEST['mp'] ? ' selected' : '' ) . '>' .
+$mps_select .= '<option value="' . AttrEscape( UserMP() ) . '"' . ( UserMP() == $_REQUEST['mp'] ? ' selected' : '' ) . '>' .
 	GetMP( UserMP() ) . '</option>';
 
 if ( $_REQUEST['mp'] == $sem
@@ -1063,7 +1063,7 @@ if ( $_REQUEST['mp'] == $sem
 
 if ( GetMP( $sem, 'DOES_GRADES' ) == 'Y' )
 {
-	$mps_select .= '<option value="' . $sem . '"' . ( $sem == $_REQUEST['mp'] ? ' selected' : '' ) . '>' .
+	$mps_select .= '<option value="' . AttrEscape( $sem ) . '"' . ( $sem == $_REQUEST['mp'] ? ' selected' : '' ) . '>' .
 		GetMP( $sem ) . '</option>';
 }
 
@@ -1077,7 +1077,7 @@ if ( $_REQUEST['mp'] == $fy
 
 if ( GetMP( $fy, 'DOES_GRADES' ) == 'Y' )
 {
-	$mps_select .= '<option value="' . $fy . '"' . ( $fy == $_REQUEST['mp'] ? ' selected' : '' ) . '>' .
+	$mps_select .= '<option value="' . AttrEscape( $fy ) . '"' . ( $fy == $_REQUEST['mp'] ? ' selected' : '' ) . '>' .
 		GetMP( $fy ) . '</option>';
 }
 

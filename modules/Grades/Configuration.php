@@ -315,8 +315,8 @@ if ( ! empty( $grades ) )
 			$input_id = GetInputID( $input_name );
 
 			$table .= '<td><span class="nobr">
-				<input name="' . $input_name . '" id="' . $input_id . '" value="' .
-				issetVal( $gradebook_config[$course_period_id . '-' . $grade['ID']], '' ) .
+				<input name="' . AttrEscape( $input_name ) . '" id="' . $input_id . '" value="' .
+				AttrEscape( issetVal( $gradebook_config[$course_period_id . '-' . $grade['ID']], '' ) ) .
 				'" size="4" type="number" min=0 max=100 step=0.01 />%</span>' .
 				FormatInputTitle(
 					'&nbsp;' . $grade['TITLE'],

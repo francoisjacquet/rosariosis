@@ -253,7 +253,7 @@ if ( UserStudentID() )
 
 		foreach ( $g_mp as $id => $mp_array )
 		{
-			$mp_select .= '<option value="' . $id . '"' . ( $id == $mp_id ? ' selected' : '' ) . '>' .
+			$mp_select .= '<option value="' . AttrEscape( $id ) . '"' . ( $id == $mp_id ? ' selected' : '' ) . '>' .
 			$mp_array['schoolyear'] . ' ' . $mp_array['mp_name'] . ', ' .
 			_( 'Grade Level' ) . ' ' . $mp_array['grade_level'] .
 				'</option>';

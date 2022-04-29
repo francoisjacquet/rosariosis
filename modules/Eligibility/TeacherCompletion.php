@@ -45,7 +45,7 @@ $period_select = '<select name="period"><option value="">' . _( 'All' ) . '</opt
 
 foreach ( (array) $periods_RET as $period )
 {
-	$period_select .= '<option value="' . $period['PERIOD_ID'] . '"' .
+	$period_select .= '<option value="' . AttrEscape( $period['PERIOD_ID'] ) . '"' .
 		( $_REQUEST['period'] == $period['PERIOD_ID'] ? ' selected' : '' ) . '>' .
 		$period['TITLE'] . '</option>';
 }
@@ -62,12 +62,12 @@ $begin_year = DBGetOne( "SELECT min(date_part('epoch',SCHOOL_DATE)) AS SCHOOL_DA
 if ( $start
 	&& $begin_year )
 {
-	$date_select = '<option value="' . $start . '">' .
+	$date_select = '<option value="' . AttrEscape( $start ) . '">' .
 	ProperDate( date( 'Y-m-d', $start ) ) . ' - ' . ProperDate( DBDate() ) . '</option>';
 
 	for ( $i = $start - ( 60 * 60 * 24 * 7 ); $i >= $begin_year; $i -= ( 60 * 60 * 24 * 7 ) )
 	{
-		$date_select .= '<option value="' . $i . '"' .
+		$date_select .= '<option value="' . AttrEscape( $i ) . '"' .
 		(  ( $i + 86400 >= $start_time && $i - 86400 <= $start_time ) ? ' selected' : '' ) . '>' .
 		ProperDate( date( 'Y-m-d', $i ) ) . ' - ' .
 		ProperDate( date( 'Y-m-d', ( $i + 1 + (  ( $END_DAY - $START_DAY ) ) * 60 * 60 * 24 ) ) ) . '</option>';

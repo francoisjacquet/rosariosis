@@ -285,7 +285,7 @@ function RegistrationAdminContactEnable( $name, $value )
 		'Yes',
 		'No',
 		false,
-		'autocomplete="off" title="' . _( 'Activate' ) . '" onclick="RegistrationAdminContactEnable(this.id,this.checked);"'
+		'autocomplete="off" title="' . AttrEscape( _( 'Activate' ) ) . '" onclick="RegistrationAdminContactEnable(this.id,this.checked);"'
 	) . ' ';
 }
 
@@ -303,7 +303,7 @@ function RegistrationAdminContactRelation( $name, $relation )
 		$relation,
 		$name . '[relation]',
 		'<span class="a11y-hidden">' . _( 'Relation' ) . '</span>',
-		'title="' . _( 'Relation' ) . '"',
+		'title="' . AttrEscape( _( 'Relation' ) ) . '"',
 		false
 	);
 }

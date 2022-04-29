@@ -290,8 +290,8 @@ function makeRadio( $value, $title )
 		|| ( $title == 'PASSING'
 			&& empty( $current_RET[$THIS_RET['STUDENT_ID']][1]['ELIGIBILITY_CODE'] ) ) )
 	{
-		return '<input type="radio" name="values[' . $THIS_RET['STUDENT_ID'] . ']" value="' . $title . '" checked />';
+		return '<input type="radio" name="values[' . AttrEscape( $THIS_RET['STUDENT_ID'] ) . ']" value="' . AttrEscape( $title ) . '" checked />';
 	}
 
-	return '<input type="radio" name="values[' . $THIS_RET['STUDENT_ID'] . ']" value="' . $title . '">';
+	return '<input type="radio" name="values[' . AttrEscape( $THIS_RET['STUDENT_ID'] ) . ']" value="' . AttrEscape( $title ) . '">';
 }

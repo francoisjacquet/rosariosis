@@ -54,8 +54,8 @@ if ( $_REQUEST['search_modfunc']
 
 			foreach ( (array) $periods_RET as $period )
 			{
-				$period_select .= '<option value="' . $period['PERIOD_ID'] . '"' .
-					( isseT( $_REQUEST['period_id'] ) && $_REQUEST['period_id'] == $period['PERIOD_ID'] ? ' selected' : '' ) .
+				$period_select .= '<option value="' . AttrEscape( $period['PERIOD_ID'] ) . '"' .
+					( isset( $_REQUEST['period_id'] ) && $_REQUEST['period_id'] == $period['PERIOD_ID'] ? ' selected' : '' ) .
 					'>' . $period['TITLE'] . '</option>';
 			}
 		}

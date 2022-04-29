@@ -149,7 +149,7 @@ class StaffWidget_fsa_balance implements StaffWidget
 		<label  class="sizep2">
 			<input type="radio" name="fsa_bal_ge" value="Y" /> &ge;</label>
 		<input name="fsa_balance" id="fsa_balance" type="number" step="any"' .
-			( $value ? ' value="' . $value . '"' : '') . ' />
+			( $value ? ' value="' . AttrEscape( $value ) . '"' : '') . ' />
 		</td></tr>';
 	}
 }

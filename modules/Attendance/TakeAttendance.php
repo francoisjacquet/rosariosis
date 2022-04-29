@@ -470,14 +470,14 @@ function _makeRadio( $value, $title )
 
 			return '<div class="attendance-code ' . $class . '">
 				<input type="radio" name="attendance[' . $THIS_RET['STUDENT_ID'] . ']"
-					value="' . $title . '" checked /></div>';
+					value="' . AttrEscape( $title ) . '" checked /></div>';
 		}
 	}
 	else
 	{
 		return '<div class="attendance-code">
 			<input type="radio" name="attendance[' . $THIS_RET['STUDENT_ID'] . ']"
-				value="' . $title . '"' . ( AllowEdit() ? '' : ' disabled' ) . '></div>';
+				value="' . AttrEscape( $title ) . '"' . ( AllowEdit() ? '' : ' disabled' ) . '></div>';
 	}
 }
 
@@ -519,12 +519,12 @@ function _makeRadioSelected( $value, $title )
 
 			return '<div class="attendance-code ' . $class . '">
 				<input type="radio" name="attendance[' . $THIS_RET['STUDENT_ID'] . ']"
-					value="' . $title . '" checked /></div>';
+					value="' . AttrEscape( $title ) . '" checked /></div>';
 		}
 
 		return '<div class="attendance-code">
 			<input type="radio" name="attendance[' . $THIS_RET['STUDENT_ID'] . ']"
-				value="' . $title . '"' . ( AllowEdit() ? '' : ' disabled' ) . '></div>';
+				value="' . AttrEscape( $title ) . '"' . ( AllowEdit() ? '' : ' disabled' ) . '></div>';
 	}
 
 	if ( isset( $_REQUEST['LO_save'] ) )
@@ -534,7 +534,7 @@ function _makeRadioSelected( $value, $title )
 
 	return '<div class="attendance-code ' . $class_alt . '">
 		<input type="radio" name="attendance[' . $THIS_RET['STUDENT_ID'] . ']"
-		value="' . $title . '" checked /></div>';
+		value="' . AttrEscape( $title ) . '" checked /></div>';
 }
 
 /**

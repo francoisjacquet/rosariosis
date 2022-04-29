@@ -72,7 +72,7 @@ function MakeAttendanceCode( $state_code, $name = '', $title = '' )
 		$class .= ' size-1';
 	}
 
-	return '<div class="' . $class . '" title="' . $title . '">' . $name . '</div>';
+	return '<div class="' . $class . '" title="' . AttrEscape( $title ) . '">' . $name . '</div>';
 }
 
 

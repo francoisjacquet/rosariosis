@@ -666,7 +666,7 @@ function _makeCodeSearch( $value = '' )
 	{
 		foreach ( (array) $codes_RET as $code )
 		{
-			$return .= '<option value="' . $code['ID'] . '"' . ( $value == $code['ID'] ? ' selected' : '' ) . '>' . $code['TITLE'] . '</option>';
+			$return .= '<option value="' . AttrEscape( $code['ID'] ) . '"' . ( $value == $code['ID'] ? ' selected' : '' ) . '>' . $code['TITLE'] . '</option>';
 		}
 	}
 

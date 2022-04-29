@@ -13,7 +13,7 @@ else
 		WHERE COURSE_ID='" . $_REQUEST['course_id'] . "'" );
 
 	$html_to_escape = $course_title .
-	'<input type="hidden" name="request_course_id" value="' . $_REQUEST['course_id'] . '" /><br />
+	'<input type="hidden" name="request_course_id" value="' . AttrEscape( $_REQUEST['course_id'] ) . '" /><br />
 	<label><input type="checkbox" name="missing_request_course" value="Y" /> ' .
 	_( 'Not Requested' ) . '</label>';
 

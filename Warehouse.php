@@ -525,7 +525,7 @@ function Warehouse( $mode )
 		<meta http-equiv="REFRESH" content="0;url=<?php echo URLEscape( 'index.php?modfunc=logout&amp;reason=javascript&amp;token=' . $_SESSION['token'] ); ?>" />
 	</noscript>
 </head>
-<body class="<?php echo $_ROSARIO['page']; ?>">
+<body class="<?php echo AttrEscape( $_ROSARIO['page'] ); ?>">
 <?php
 			if ( $_ROSARIO['page'] === 'modules' ):
 				// If popup window, verify it is an actual popup.

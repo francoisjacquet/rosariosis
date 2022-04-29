@@ -486,11 +486,11 @@ if ( ! $_REQUEST['modfunc'] )
 		if ( $is_assignment
 			|| ! $assignment_type_has_assignments )
 		{
-			$delete_url = "'Modules.php?modname=" . $_REQUEST['modname'] .
+			$delete_url = "'" . URLEscape( "Modules.php?modname=" . $_REQUEST['modname'] .
 				'&modfunc=delete&assignment_type_id=' . $_REQUEST['assignment_type_id'] .
-				'&assignment_id=' . $_REQUEST['assignment_id'] . "'";
+				'&assignment_id=' . $_REQUEST['assignment_id'] ) . "'";
 
-			$delete_button = '<input type="button" value="' . _( 'Delete' ) . '" onClick="javascript:ajaxLink(' . $delete_url . ');" />';
+			$delete_button = '<input type="button" value="' . AttrEscape( _( 'Delete' ) ) . '" onClick="javascript:ajaxLink(' . $delete_url . ');" />';
 		}
 	}
 

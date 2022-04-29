@@ -436,7 +436,7 @@ function _passwordResetForm( $hash, $user_id )
 	?>
 	<form action="PasswordReset.php" method="POST" target="_top">
 
-		<input type="hidden" name="h" value="<?php echo $hash; ?>" />
+		<input type="hidden" name="h" value="<?php echo AttrEscape( $hash ); ?>" />
 
 		<?php PopTable( 'header', _( 'Reset your password' ) ); ?>
 

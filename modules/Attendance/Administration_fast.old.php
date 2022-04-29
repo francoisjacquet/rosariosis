@@ -100,7 +100,7 @@ if ( isset( $_REQUEST['student_id'] ) && $_REQUEST['student_id'] !== 'new' )
 
 	$columns = [ 'PERIOD_TITLE' => _( 'Period' ), 'COURSE' => _( 'Course' ), 'ATTENDANCE_CODE' => _( 'Attendance Code' ), 'ATTENDANCE_TEACHER_CODE' => _( 'Teacher\'s Entry' ), 'ATTENDANCE_REASON' => _( 'Comments' ) ];
 	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=student&student_id=' . $_REQUEST['student_id']  ) . '" method="POST">';
-	DrawHeader( ProgramTitle(), '<input type="submit" value="' . _( 'Update' ) . '" />' );
+	DrawHeader( ProgramTitle(), '<input type="submit" value="' . AttrEscape( _( 'Update' ) ) . '" />' );
 	DrawHeader( PrepareDate( $date, '_date' ) );
 	ListOutput( $schedule_RET, $columns, _( 'Course' ), _( 'Courses' ) );
 	echo '</form>';
@@ -187,7 +187,7 @@ else
 	}
 
 	echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="POST">';
-	DrawHeader( ProgramTitle(), '<input type="submit" value="' . _( 'Update' ) . '" />' );
+	DrawHeader( ProgramTitle(), '<input type="submit" value="' . AttrEscape( _( 'Update' ) ) . '" />' );
 
 	if ( $REQ_codes )
 	{
@@ -326,11 +326,11 @@ function _makeCodeSearch( $value = '' )
 		{
 			if ( $value == $code['ID'] )
 			{
-				$return .= '<option value="' . $code[ID] . '" selected>' . $code[SHORT_NAME] . '</option>';
+				$return .= '<option value="' . AttrEscape( $code['ID'] ) . '" selected>' . $code['SHORT_NAME'] . '</option>';
 			}
 			else
 			{
-				$return .= '<option value="' . $code[ID] . '">' . $code[SHORT_NAME] . '</option>';
+				$return .= '<option value="' . AttrEscape( $code['ID'] ) . '">' . $code['SHORT_NAME'] . '</option>';
 			}
 		}
 	}

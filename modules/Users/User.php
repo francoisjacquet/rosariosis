@@ -666,10 +666,10 @@ if (  ( UserStaffID()
 
 				if ( $can_delete )
 				{
-					$delete_URL = "'Modules.php?modname=" . $_REQUEST['modname'] . '&staff_id=' . UserStaffID() .
-						"&modfunc=delete'";
+					$delete_URL = "'" . URLEscape( "Modules.php?modname=" . $_REQUEST['modname'] .
+						'&staff_id=' . UserStaffID() . "&modfunc=delete" ) . "'";
 
-					$delete_button = '<input type="button" value="' . _( 'Delete' ) . '" onClick="javascript:ajaxLink(' . $delete_URL . ');" />';
+					$delete_button = '<input type="button" value="' . AttrEscape( _( 'Delete' ) ) . '" onClick="javascript:ajaxLink(' . $delete_URL . ');" />';
 				}
 			}
 		}

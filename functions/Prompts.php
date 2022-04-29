@@ -44,7 +44,7 @@ function DeletePrompt( $title, $action = 'Delete', $remove_modfunc_on_cancel = t
 			'<h4>' .	sprintf( _( 'Are you sure you want to %s that %s?' ), $action, $title ) . '</h4>
 			<form action="' . $PHP_tmp_SELF . '" method="POST">' .
 				SubmitButton( _( 'OK' ), 'delete_ok', '' ) .
-				'<input type="button" name="delete_cancel" class="button-primary" value="' . _( 'Cancel' ) . '"
+				'<input type="button" name="delete_cancel" class="button-primary" value="' . AttrEscape( _( 'Cancel' ) ) . '"
 					onclick="ajaxLink(\'' . $PHP_tmp_SELF_cancel . '\');" />
 			</form>
 		</div><br />';
@@ -97,7 +97,7 @@ function Prompt( $title = 'Confirm', $question = '', $message = '' )
 				$message .
 				'<div class="center"><br />' .
 				SubmitButton( _( 'OK' ), 'delete_ok', '' ) .
-				'<input type="button" name="delete_cancel" class="button-primary" value="' . _( 'Cancel' ) . '" onclick="javascript:self.history.go(-1);">
+				'<input type="button" name="delete_cancel" class="button-primary" value="' . AttrEscape( _( 'Cancel' ) ) . '" onclick="javascript:self.history.go(-1);">
 				</div>
 			</form><br />';
 

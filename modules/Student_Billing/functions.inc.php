@@ -362,7 +362,7 @@ function _makeFeesFileInput( $value, $column )
 	$file = button(
 		'download',
 		$file_name_display,
-		'"' . URLEscape( $file_path ) . '" target="_blank" title="' . $file_name . ' (' . $file_size . ')"',
+		'"' . URLEscape( $file_path ) . '" target="_blank" title="' . AttrEscape( $file_name . ' (' . $file_size . ')' ) . '"',
 		'bigger'
 	);
 

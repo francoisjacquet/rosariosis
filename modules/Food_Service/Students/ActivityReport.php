@@ -154,7 +154,7 @@ if ( UserStudentID()
 
 	foreach ( (array) $types as $short_name => $type )
 	{
-		$type_select .= '<option value="' . $short_name . '"' . ( $_REQUEST['type_select'] == $short_name ? ' selected' : '' ) . '>' . $type['DESCRIPTION'] . '</option>';
+		$type_select .= '<option value="' . AttrEscape( $short_name ) . '"' . ( $_REQUEST['type_select'] == $short_name ? ' selected' : '' ) . '>' . $type['DESCRIPTION'] . '</option>';
 	}
 
 	$type_select .= '</select></label>';
@@ -171,7 +171,7 @@ if ( UserStudentID()
 
 	foreach ( (array) $staff_RET as $staff )
 	{
-		$staff_select .= '<option value="' . $staff['STAFF_ID'] . '"' .
+		$staff_select .= '<option value="' . AttrEscape( $staff['STAFF_ID'] ) . '"' .
 			( isset( $_REQUEST['staff_select'] ) && $_REQUEST['staff_select'] == $staff['STAFF_ID'] ? ' selected' : '' ) . '>' .
 			$staff['FULL_NAME'] . '</option>';
 	}

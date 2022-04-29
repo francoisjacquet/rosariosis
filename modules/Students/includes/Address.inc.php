@@ -531,7 +531,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		if ( $address['RESIDENCE'] == 'Y' )
 		{
-			$images .= ' ' . button( 'house', '', '', '" title="' . _( 'Residence' ) );
+			$images .= ' ' . button( 'house', '', '', '" title="' . AttrEscape( _( 'Residence' ) ) );
 		}
 
 		if ( $address['BUS_PICKUP'] == 'Y' || $address['BUS_DROPOFF'] == 'Y' )
@@ -547,12 +547,12 @@ if ( ! $_REQUEST['modfunc'] )
 				$button_title = _( 'Bus Pickup' );
 			}
 
-			$images .= ' ' . button( 'bus', '', '', '" title="' . $button_title );
+			$images .= ' ' . button( 'bus', '', '', '" title="' . AttrEscape( $button_title ) );
 		}
 
 		if ( $address['MAILING'] == 'Y' )
 		{
-			$images .= ' ' . button( 'mailbox', '', '', '" title="' . _( 'Mailing Address' ) );
+			$images .= ' ' . button( 'mailbox', '', '', '" title="' . AttrEscape( _( 'Mailing Address' ) ) );
 		}
 
 		echo '<th colspan="2">' . $images . '&nbsp;' . $relation_list . '</th>';
@@ -667,7 +667,7 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( isset( $_REQUEST['address_id'] ) )
 	{
 		echo '<td class="valign-top">';
-		echo '<input type="hidden" name="address_id" value="' . $_REQUEST['address_id'] . '">';
+		echo '<input type="hidden" name="address_id" value="' . AttrEscape( $_REQUEST['address_id'] ) . '">';
 
 		if ( $_REQUEST['address_id'] !== 'new' && $_REQUEST['address_id'] != 'old' )
 		{
@@ -769,12 +769,12 @@ if ( ! $_REQUEST['modfunc'] )
 
 				if ( $contact['CUSTODY'] === 'Y' )
 				{
-					$images .= button( 'gavel', '', '', '" title="' . _( 'Custody' ) ) . ' ';
+					$images .= button( 'gavel', '', '', '" title="' . AttrEscape( _( 'Custody' ) ) ) . ' ';
 				}
 
 				if ( $contact['EMERGENCY'] === 'Y' )
 				{
-					$images .= button( 'emergency', '', '', '" title="' . _( 'Emergency' ) ) . ' ';
+					$images .= button( 'emergency', '', '', '" title="' . AttrEscape( _( 'Emergency' ) ) ) . ' ';
 				}
 
 				echo $images .
@@ -1121,7 +1121,7 @@ if ( ! $_REQUEST['modfunc'] )
 		if ( ! empty( $_REQUEST['person_id'] ) )
 		{
 			echo '<td class="valign-top">';
-			echo '<input type="hidden" name="person_id" value="' . $_REQUEST['person_id'] . '" />';
+			echo '<input type="hidden" name="person_id" value="' . AttrEscape( $_REQUEST['person_id'] ) . '" />';
 
 			if ( $_REQUEST['person_id'] != 'old' )
 			{

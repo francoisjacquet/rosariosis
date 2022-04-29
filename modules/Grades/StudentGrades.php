@@ -640,9 +640,9 @@ function bargraph1( $x, $lo = 0, $avg = 0, $hi = 0, $max = 0 )
 			return '<div style="float:left; width:150px; border: #333 1px solid;">' .
 				( $w1 > 0 ? '<div style="width:' . ( $w1 - $correction ) . '%;float:left; background-color:#fff;">&nbsp;</div>' : '' ) .
 				( $w2 > 0 ? '<div style="width:' . ( $w2 - $correction ) . '%; background-color:#00a000;float:left;">&nbsp;</div>' : '' ) .
-				'<div style="width:2%; background-color:' . $c2 . '; cursor:pointer;float:left;" title="' . $legendc2 . '" >&nbsp;</div>' .
+				'<div style="width:2%; background-color:' . $c2 . '; cursor:pointer;float:left;" title="' . AttrEscape( $legendc2 ) . '" >&nbsp;</div>' .
 				( $w3 > 0 ? '<div style="width:' . ( $w3 - $correction ) . '%; background-color:#00a000;float:left;">&nbsp;</div>' : '' ) .
-				'<div style="width:2%; background-color:' . $c4 . '; cursor:pointer;float:left;" title="' . $legendc4 . '">&nbsp;</div>' .
+				'<div style="width:2%; background-color:' . $c4 . '; cursor:pointer;float:left;" title="' . AttrEscape( $legendc4 ) . '">&nbsp;</div>' .
 				( $w4 > 0 ? '<div style="width:' . ( $w4 - $correction ) . '%; background-color:#00a000;float:left;">&nbsp;</div>' : '' ) .
 				( $w5 > 0 ? '<div style="width:' . ( $w5 - $correction ) . '%;float:left;background-color:#fff;">&nbsp;</div>' : '' ) .
 				'</div>';

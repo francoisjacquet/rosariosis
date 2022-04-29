@@ -62,21 +62,21 @@ function DrawHeader( $left, $right = '', $center = '' )
 			$left = '<h2>' . $header_icon . $left . '</h2>';
 		}
 
-		echo '<td class="' . $_ROSARIO['DrawHeader'] . '">' .
+		echo '<td class="' . AttrEscape( $_ROSARIO['DrawHeader'] ) . '">' .
 			$left .
 		'</td>';
 	}
 
 	if ( $center )
 	{
-		echo '<td class="' . $_ROSARIO['DrawHeader'] . ' center">' .
+		echo '<td class="' . AttrEscape( $_ROSARIO['DrawHeader'] ) . ' center">' .
 			$center .
 		'</td>';
 	}
 
 	if ( $right )
 	{
-		echo '<td class="' . $_ROSARIO['DrawHeader'] . ' align-right">' .
+		echo '<td class="' . AttrEscape( $_ROSARIO['DrawHeader'] ) . ' align-right">' .
 			$right .
 		'</td>';
 	}

@@ -99,7 +99,7 @@ if ( $_REQUEST['modfunc'] != 'choose_course' )
 
 		foreach ( (array) $teachers_RET as $teacher )
 		{
-			echo '<option value="' . $teacher['STAFF_ID'] . '">' . $teacher['FULL_NAME'] . '</option>';
+			echo '<option value="' . AttrEscape( $teacher['STAFF_ID'] ) . '">' . $teacher['FULL_NAME'] . '</option>';
 		}
 
 		echo '</select>' . FormatInputTitle( _( 'Teacher' ) ) . '</label></td></td></tr>
@@ -113,7 +113,7 @@ if ( $_REQUEST['modfunc'] != 'choose_course' )
 
 		foreach ( (array) $periods_RET as $period )
 		{
-			echo '<option value="' . $period['PERIOD_ID'] . '">' . $period['TITLE'] . '</option>';
+			echo '<option value="' . AttrEscape( $period['PERIOD_ID'] ) . '">' . $period['TITLE'] . '</option>';
 		}
 
 		echo '</select>' . FormatInputTitle( _( 'Period' ) ) . '</td></tr></table>';
@@ -124,7 +124,7 @@ if ( $_REQUEST['modfunc'] != 'choose_course' )
 
 		foreach ( (array) $teachers_RET as $teacher )
 		{
-			echo '<option value="' . $teacher['STAFF_ID'] . '">' . $teacher['FULL_NAME'] . '</option>';
+			echo '<option value="' . AttrEscape( $teacher['STAFF_ID'] ) . '">' . $teacher['FULL_NAME'] . '</option>';
 		}
 
 		echo '</select>' . FormatInputTitle( _( 'Teacher' ) ) . '</label></td></tr><tr class="st"><td>
@@ -132,7 +132,7 @@ if ( $_REQUEST['modfunc'] != 'choose_course' )
 
 		foreach ( (array) $periods_RET as $period )
 		{
-			echo '<option value="' . $period['PERIOD_ID'] . '">' . $period['TITLE'] . '</option>';
+			echo '<option value="' . AttrEscape( $period['PERIOD_ID'] ) . '">' . $period['TITLE'] . '</option>';
 		}
 
 		echo '</select>' . FormatInputTitle( _( 'Period' ) ) . '</label></td></tr></table>';

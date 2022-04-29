@@ -47,11 +47,11 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 	if ( ! empty( $xstudents ) )
 	{
 		$student_select = _( 'Student' ) . ' <select name="student_select"><option value="">' . _( 'Not Specified' ) . '</option>';
-		$student_select .= '<option value="' . $student['STUDENT_ID'] . '"' . ( $_REQUEST['student_select'] == $student['STUDENT_ID'] ? ' selected' : '' ) . '>' . $student['FULL_NAME'] . '</option>';
+		$student_select .= '<option value="' . AttrEscape( $student['STUDENT_ID'] ) . '"' . ( $_REQUEST['student_select'] == $student['STUDENT_ID'] ? ' selected' : '' ) . '>' . $student['FULL_NAME'] . '</option>';
 
 		foreach ( (array) $xstudents as $xstudent )
 		{
-			$student_select .= '<option value="' . $xstudent['STUDENT_ID'] . '"' . ( $_REQUEST['student_select'] == $xstudent['STUDENT_ID'] ? ' selected' : '' ) . '>' . $xstudent['FULL_NAME'] . '</option>';
+			$student_select .= '<option value="' . AttrEscape( $xstudent['STUDENT_ID'] ) . '"' . ( $_REQUEST['student_select'] == $xstudent['STUDENT_ID'] ? ' selected' : '' ) . '>' . $xstudent['FULL_NAME'] . '</option>';
 		}
 
 		$student_select .= '</select>';

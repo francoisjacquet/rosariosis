@@ -203,9 +203,9 @@ if ( ! empty( $_REQUEST['submit']['print'] ) )
 			$day_number_classes .= ' bold';
 		}
 
-		echo '<td class="calendar-day' . $day_classes . '" style="background-color:' . ( ! empty( $events_RET[$date] ) ? '#ffaaaa;' : '#fff' ) . '">
-			<table class="' . $day_inner_classes . '">
-				<tr><td class="' . $day_number_classes . '">' . $i . '</td></tr>';
+		echo '<td class="calendar-day' . AttrEscape( $day_classes ) . '" style="background-color:' . ( ! empty( $events_RET[$date] ) ? '#ffaaaa;' : '#fff' ) . '">
+			<table class="' . AttrEscape( $day_inner_classes ) . '">
+				<tr><td class="' . AttrEscape( $day_number_classes ) . '">' . $i . '</td></tr>';
 
 		echo '<tr><td class="calendar-menu">';
 
@@ -259,7 +259,7 @@ else
 
 			foreach ( (array) $description_RET as $description )
 			{
-				$description_select .= '<option value="' . $description['DESCRIPTION'] . '">' . $description['DESCRIPTION'] . '</option>';
+				$description_select .= '<option value="' . AttrEscape( $description['DESCRIPTION'] ) . '">' . $description['DESCRIPTION'] . '</option>';
 			}
 
 			$description_select .= '</select>';

@@ -19,12 +19,12 @@ else
 
 	// @since 6.5 Course Widget: add Subject and Not options.
 	$html_to_escape = '<span id="w_course_period_title">' .$course[1]['TITLE'] . '</span>
-		<span id="w_course_title" class="hide">' .$course[1]['COURSE_TITLE'] . '</span>
-		<span id="w_subject_title" class="hide">' .$course[1]['SUBJECT_TITLE'] . '</span>';
+		<span id="w_course_title" class="hide">' . $course[1]['COURSE_TITLE'] . '</span>
+		<span id="w_subject_title" class="hide">' . $course[1]['SUBJECT_TITLE'] . '</span>';
 
-	$html_to_escape .= '<input type="hidden" name="w_' . $last_year . 'course_period_id" value="' . $_REQUEST['course_period_id'] . '" />
-	<input type="hidden" name="w_' . $last_year . 'course_id" value="' . $_REQUEST['course_id'] . '" />
-	<input type="hidden" name="w_' . $last_year . 'subject_id" value="' . $_REQUEST['subject_id'] . '" />';
+	$html_to_escape .= '<input type="hidden" name="w_' . $last_year . 'course_period_id" value="' . AttrEscape( $_REQUEST['course_period_id'] ) . '" />
+	<input type="hidden" name="w_' . $last_year . 'course_id" value="' . AttrEscape( $_REQUEST['course_id'] ) . '" />
+	<input type="hidden" name="w_' . $last_year . 'subject_id" value="' . AttrEscape( $_REQUEST['subject_id'] ) . '" />';
 
 	$html_to_escape .= '<br />
 	<label><input type="checkbox" name="w_' . $last_year . 'course_period_id_not" value="Y" /> ' .

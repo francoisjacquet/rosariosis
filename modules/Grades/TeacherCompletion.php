@@ -36,7 +36,7 @@ $_REQUEST['period'] = issetVal( $_REQUEST['period'], false );
 
 foreach ( (array) $periods_RET as $id => $period )
 {
-	$period_select .= '<option value="' . $id . '"' .
+	$period_select .= '<option value="' . AttrEscape( $id ) . '"' .
 		(  ( $_REQUEST['period'] == $id ) ? ' selected' : '' ) . '>' .
 		$period[1]['TITLE'] . '</option>';
 }
@@ -51,24 +51,24 @@ if ( $pros != '' )
 	{
 		if ( GetMP( $pro, 'DOES_GRADES' ) == 'Y' )
 		{
-			$mp_select .= '<option value="' . $pro . '"' . (  ( $pro == $_REQUEST['mp'] ) ? ' selected' : '' ) . '>' .
+			$mp_select .= '<option value="' . AttrEscape( $pro ) . '"' . (  ( $pro == $_REQUEST['mp'] ) ? ' selected' : '' ) . '>' .
 				GetMP( $pro ) . '</option>';
 		}
 	}
 }
 
-$mp_select .= '<option value="' . UserMP() . '"' . (  ( UserMP() == $_REQUEST['mp'] ) ? ' selected' : '' ) . '>' .
+$mp_select .= '<option value="' . AttrEscape( UserMP() ) . '"' . (  ( UserMP() == $_REQUEST['mp'] ) ? ' selected' : '' ) . '>' .
 	GetMP( UserMP() ) . '</option>';
 
 if ( GetMP( $sem, 'DOES_GRADES' ) == 'Y' )
 {
-	$mp_select .= '<option value="' . $sem . '"' . (  ( $sem == $_REQUEST['mp'] ) ? ' selected' : '' ) . '>' .
+	$mp_select .= '<option value="' . AttrEscape( $sem ) . '"' . (  ( $sem == $_REQUEST['mp'] ) ? ' selected' : '' ) . '>' .
 		GetMP( $sem ) . '</option>';
 }
 
 if ( GetMP( $fy, 'DOES_GRADES' ) == 'Y' )
 {
-	$mp_select .= '<option value="' . $fy . '"' . (  ( $fy == $_REQUEST['mp'] ) ? ' selected' : '' ) . '>' .
+	$mp_select .= '<option value="' . AttrEscape( $fy ) . '"' . (  ( $fy == $_REQUEST['mp'] ) ? ' selected' : '' ) . '>' .
 		GetMP( $fy ) . '</option>';
 }
 

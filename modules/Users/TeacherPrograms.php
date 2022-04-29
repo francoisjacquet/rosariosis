@@ -117,7 +117,7 @@ if ( UserStaffID() )
 			$mp_text = GetMP( $period['MARKING_PERIOD_ID'], 'SHORT_NAME' ) . ' - ';
 		}
 
-		$period_select .= '<option value="' . $period['COURSE_PERIOD_ID'] . '"' . $selected . '>' .
+		$period_select .= '<option value="' . AttrEscape( $period['COURSE_PERIOD_ID'] ) . '"' . $selected . '>' .
 			$mp_text . $period['CP_SHORT_NAME'] . '</option>';
 	}
 

@@ -160,7 +160,7 @@ function CalendarDayMinutesHTMLDefault( $date, $minutes )
 			button( 'check' ),
 			'',
 			$div,
-			'title="' . _( 'All Day' ) . '"'
+			'title="' . AttrEscape( _( 'All Day' ) ) . '"'
 		);
 
 		if ( empty( $minutes ) )
@@ -176,7 +176,7 @@ function CalendarDayMinutesHTMLDefault( $date, $minutes )
 			$minutes,
 			'minutes[' . $date . ']',
 			'<span class="a11y-hidden">' . _( 'Minutes' ) . '</span>',
-			'size="3" type="number" min="1" max="998" title="' . _( 'Minutes' ) . '"',
+			'size="3" type="number" min="1" max="998" title="' . AttrEscape( _( 'Minutes' ) ) . '"',
 			$div
 		);
 	}
@@ -249,7 +249,7 @@ function CalendarDayBlockHTMLDefault( $date, $minutes, $day_block )
 			'<span class="a11y-hidden">' . _( 'Block' ) . '</span>',
 			$block_options,
 			( isset( $_REQUEST['_ROSARIO_PDF'] ) || ! AllowEdit() ? '' : 'N/A' ),
-			'title="' . _( 'Block' ) . '"'
+			'title="' . AttrEscape( _( 'Block' ) ) . '"'
 		);
 	}
 
@@ -295,9 +295,9 @@ function CalendarDayEventsHTMLDefault( $date, $events )
 
 		$html .= '<div>' .
 			( AllowEdit() || $event['DESCRIPTION'] ?
-				'<a href="#" onclick="CalEventPopup(popupURL + \'&event_id=' . $event['ID'] . '\'); return false;" title="' . htmlentities( $title ) . '">' .
+				'<a href="#" onclick="CalEventPopup(popupURL + \'&event_id=' . $event['ID'] . '\'); return false;" title="' . AttrEscape( $title ) . '">' .
 				$title . '</a>'
-				: '<span title="' . htmlentities( $title ) . '">' . $title . '</span>'
+				: '<span title="' . AttrEscape( $title ) . '">' . $title . '</span>'
 			) .
 		'</div>';
 	}
@@ -342,7 +342,7 @@ function CalendarDayAssignmentsHTMLDefault( $date, $assignments )
 	foreach ( (array) $assignments as $assignment )
 	{
 		$html .= '<div class="calendar-event assignment' . ( $assignment['ASSIGNED'] == 'Y' ? ' assigned' : '' ) . '">' .
-			'<a href="#" onclick="CalEventPopup(popupURL + \'&assignment_id=' . $assignment['ID'] . '\'); return false;" title="' . htmlentities( $assignment['TITLE'] ) . '">' .
+			'<a href="#" onclick="CalEventPopup(popupURL + \'&assignment_id=' . $assignment['ID'] . '\'); return false;" title="' . AttrEscape( $assignment['TITLE'] ) . '">' .
 				$assignment['TITLE'] .
 			'</a>
 		</div>';
@@ -393,7 +393,7 @@ function CalendarDayNewAssignmentHTMLDefault( $date, $assignments )
 			button(
 				'add',
 				'',
-				'"#" onclick="CalEventPopup(popupURL + \'&school_date=' . $date . '&event_id=new\'); return false;" title="' . htmlentities( _( 'New Event' ) ) . '"'
+				'"#" onclick="CalEventPopup(popupURL + \'&school_date=' . $date . '&event_id=new\'); return false;" title="' . AttrEscape( _( 'New Event' ) ) . '"'
 			) .
 		'</td>';
 	}

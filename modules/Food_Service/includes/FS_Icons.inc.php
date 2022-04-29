@@ -29,7 +29,7 @@ function makeIcon( $value, $name, $width = '48' )
 
 	if ( $value )
 	{
-		$return = '<img src="' . $FS_IconsPath . $value . '" width="' . $width . '" />';
+		$return = '<img src="' . $FS_IconsPath . $value . '" width="' . AttrEscape( $width ) . '" />';
 
 		if ( $THIS_RET )
 		{

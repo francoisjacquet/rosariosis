@@ -203,7 +203,7 @@ function processRequest()
 
 	foreach ( (array) $subjects_RET as $subject )
 	{
-		$subjects .= '<option value="' . $subject['SUBJECT_ID'] . '">' . $subject['TITLE'] . '</option>';
+		$subjects .= '<option value="' . AttrEscape( $subject['SUBJECT_ID'] ) . '">' . $subject['TITLE'] . '</option>';
 	}
 
 	$subjects .= '</select>';

@@ -69,7 +69,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 
 	foreach ( (array) $activities_RET as $activity )
 	{
-		echo '<option value="' . $activity['ID'] . '">' . $activity['TITLE'] . '</option>';
+		echo '<option value="' . AttrEscape( $activity['ID'] ) . '">' . $activity['TITLE'] . '</option>';
 	}
 
 	echo '</select>' . FormatInputTitle( _( 'Activity' ) ) . '</label>';

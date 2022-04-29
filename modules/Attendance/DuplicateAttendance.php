@@ -315,9 +315,9 @@ if ( isset( $_REQUEST['search_modfunc'] )
 				if ( $URIcount > $startrow && $URIcount < $endrow )
 				{
 					echo '<input type="hidden" name="delete" value="true">
-						<input type="hidden" name="studentidx[' . $count . ']" value="' . $studentid . '">
-						<input type="hidden" name="periodidx[' . $count . ']" value="' . $courseid . '">
-						<input type="hidden" name="schooldatex[' . $count . ']" value="' . $schooldate . '">';
+						<input type="hidden" name="studentidx[' . $count . ']" value="' . AttrEscape( $studentid ) . '">
+						<input type="hidden" name="periodidx[' . $count . ']" value="' . AttrEscape( $courseid ) . '">
+						<input type="hidden" name="schooldatex[' . $count . ']" value="' . AttrEscape( $schooldate ) . '">';
 
 					if ( $yellow == 0 )
 					{
@@ -331,7 +331,7 @@ if ( isset( $_REQUEST['search_modfunc'] )
 					}
 
 					echo '<tr>
-						<td><input type="checkbox" name="deletecheck[' . $count . ']" value="' . $count . '"></td>
+						<td><input type="checkbox" name="deletecheck[' . $count . ']" value="' . AttrEscape( $count ) . '"></td>
 						<td>' . $full_name . ' (' . $studentid . ')</td>
 						<td>' . $short_name . ' (' . $courseid . ')</td>
 						<td>' . ProperDate( $start ) . '</td>
@@ -350,9 +350,9 @@ if ( isset( $_REQUEST['search_modfunc'] )
 				if ( $URIcount > $startrow && $URIcount < $endrow )
 				{
 					echo '<input type="hidden" name="delete" value="true">
-						<input type="hidden" name="studentidx[' . $count . ']" value="' . $studentid . '">
-						<input type="hidden" name="periodidx[' . $count . ']" value="' . $courseid . '">
-						<input type="hidden" name="schooldatex[' . $count . ']" value="' . $schooldate . '">';
+						<input type="hidden" name="studentidx[' . $count . ']" value="' . AttrEscape( $studentid ) . '">
+						<input type="hidden" name="periodidx[' . $count . ']" value="' . AttrEscape( $courseid ) . '">
+						<input type="hidden" name="schooldatex[' . $count . ']" value="' . AttrEscape( $schooldate ) . '">';
 
 					if ( $yellow == 0 )
 					{
@@ -366,7 +366,7 @@ if ( isset( $_REQUEST['search_modfunc'] )
 					}
 
 					echo '<tr>
-						<td><input type="checkbox" name="deletecheck[' . $count . ']" value="' . $count . '"></td>
+						<td><input type="checkbox" name="deletecheck[' . $count . ']" value="' . AttrEscape( $count ) . '"></td>
 						<td>' . $full_name . ' (' . $studentid . ')</td>
 						<td>' . $short_name . ' (' . $courseid . ')</td>
 						<td>' . ProperDate( $start ) . '</td>

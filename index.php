@@ -521,7 +521,7 @@ if ( empty( $_SESSION['STAFF_ID'] )
 		</tr>
 	</table>
 	<p class="center">
-		<input type="submit" value="<?php echo _( 'Login' ); ?>" class="button-primary" />
+		<input type="submit" value="<?php echo AttrEscape( _( 'Login' ) ); ?>" class="button-primary" />
 	</p>
 
 	<?php // @since 7.6 Login form link action hook.
@@ -554,7 +554,7 @@ if ( empty( $_SESSION['STAFF_ID'] )
 		 * @since 3.8
 		 */
 		?>
-		<input type="hidden" name="redirect_to" value="<?php echo AttrEscape( $_REQUEST['redirect_to'] ); ?>" />
+		<input type="hidden" name="redirect_to" value="<?php echo URLEscape( $_REQUEST['redirect_to'] ); ?>" />
 	<?php endif; ?>
 	</form>
 	<input class="toggle" type="checkbox" id="toggle1" />

@@ -80,7 +80,7 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 
 		foreach ( (array) $other_attendance_codes as $code )
 		{
-			$return .= '<option value="' . $code[1]['ID'] . '">' . $code[1]['TITLE'] . '</option>';
+			$return .= '<option value="' . AttrEscape( $code[1]['ID'] ) . '">' . $code[1]['TITLE'] . '</option>';
 		}
 
 		$return .= '</select>
@@ -99,7 +99,7 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 
 		foreach ( (array) $other_attendance_codes as $code )
 		{
-			$return .= '<option value="' . $code[1]['ID'] . '">' . $code[1]['TITLE'] . '</option>';
+			$return .= '<option value="' . AttrEscape( $code[1]['ID'] ) . '">' . $code[1]['TITLE'] . '</option>';
 		}
 
 		$return .= '</select>
@@ -202,21 +202,21 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 						if ( GetMP( $pro, 'DOES_GRADES' ) === 'Y' )
 						{
 							$return .= '<td><label>
-								<input type="checkbox" name="mp_arr[]" value="' . $pro . '" /> ' .
+								<input type="checkbox" name="mp_arr[]" value="' . AttrEscape( $pro ) . '" /> ' .
 							GetMP( $pro, 'TITLE' ) . '</label></td>';
 						}
 					}
 				}
 
 				$return .= '<td><label>
-					<input type="checkbox" name="mp_arr[]" value="' . $qtr['MARKING_PERIOD_ID'] . '" /> ' .
+					<input type="checkbox" name="mp_arr[]" value="' . AttrEscape( $qtr['MARKING_PERIOD_ID'] ) . '" /> ' .
 					$qtr['TITLE'] . '</label></td>';
 			}
 
 			if ( GetMP( $sem, 'DOES_GRADES' ) === 'Y' )
 			{
 				$return .= '<td><label>
-					<input type="checkbox" name="mp_arr[]" value="' . $sem . '" /> ' .
+					<input type="checkbox" name="mp_arr[]" value="' . AttrEscape( $sem ) . '" /> ' .
 				GetMP( $sem, 'TITLE' ) . '</label></td>';
 			}
 
@@ -232,7 +232,7 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 			if ( GetMP( $fy, 'DOES_GRADES' ) === 'Y' )
 			{
 				$return .= '<td><label>
-					<input type="checkbox" name="mp_arr[]" value="' . $fy . '" /> ' .
+					<input type="checkbox" name="mp_arr[]" value="' . AttrEscape( $fy ) . '" /> ' .
 				GetMP( $fy, 'TITLE' ) . '</label></td>';
 			}
 
@@ -712,7 +712,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 				{
 					echo '<table class="width-100p"><tr>
 					<td style="width:' . $picwidth . 'px;">
-						<img src="' . $logo_pic . '" width="' . $picwidth . '" />
+						<img src="' . $logo_pic . '" width="' . AttrEscape( $picwidth ) . '" />
 					</td>
 					<td>';
 				}

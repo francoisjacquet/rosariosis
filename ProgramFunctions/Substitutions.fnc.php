@@ -46,12 +46,12 @@ function SubstitutionsInput( $substitutions )
 
 	$code_value = key( $substitutions );
 
-	$code = ' <input id="substitutions_code_' . $id . '" type="text" readonly size="' . ( strlen( $code_value ) - 1 ) .
-		'" value="' . $code_value . '" autocomplete="off" />';
+	$code = ' <input id="substitutions_code_' . $id . '" type="text" readonly size="' . AttrEscape( strlen( $code_value ) - 1 ) .
+		'" value="' . AttrEscape( $code_value ) . '" autocomplete="off" />';
 
 	$code .= '<label for="substitutions_code_' . $id . '" class="a11y-hidden">' . _( 'Code' ) . '</label>';
 
-	$copy_button = '<input id="substitutions_button_' . $id . '" type="button" value="' . _( 'Copy' ) . '" />';
+	$copy_button = '<input id="substitutions_button_' . $id . '" type="button" value="' . AttrEscape( _( 'Copy' ) ) . '" />';
 
 	$tooltip_html = '<div class="tooltip"><i>' .
 		_( 'Copy the substitution code and paste it into your text. The code will be dynamically replaced with the corresponding value.' ) .

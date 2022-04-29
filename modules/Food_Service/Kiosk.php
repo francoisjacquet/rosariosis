@@ -130,7 +130,7 @@ if ( ! empty( $items_RET ) )
 			$i = $per_row;
 		}
 
-		echo '<td style="border: 1px solid" title="' . $item['DESCRIPTION'] . '">' .
+		echo '<td style="border: 1px solid" title="' . AttrEscape( $item['DESCRIPTION'] ) . '">' .
 			makeIcon( $item['ICON'], '', '128' ) . '</td>';
 		$i--;
 

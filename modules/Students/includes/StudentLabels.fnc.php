@@ -165,7 +165,7 @@ if ( ! function_exists( 'GetStudentLabelsStartingRowColumnFormHTML' ) )
 
 		for ( $row = 1; $row <= $max_rows; $row++ )
 		{
-			$form .= '<option value="' . $row . '">' . $row;
+			$form .= '<option value="' . AttrEscape( $row ) . '">' . $row;
 		}
 
 		$form .= '</select>';
@@ -176,7 +176,7 @@ if ( ! function_exists( 'GetStudentLabelsStartingRowColumnFormHTML' ) )
 
 		for ( $col = 1; $col <= $max_cols; $col++ )
 		{
-			$form .= '<option value="' . $col . '">' . $col;
+			$form .= '<option value="' . AttrEscape( $col ) . '">' . $col;
 		}
 
 		$form .= '</select>';

@@ -256,20 +256,24 @@ function PortalPollForm( $poll_id, $poll_questions_RET )
 		{
 			if ( $question['TYPE'] == 'multiple_radio' )
 			{
+				$name = 'votes[' . $poll_id . '][' . $question['ID'] . ']';
+
 				$poll_form .= '<tr><td>
 					<label>
-					<input type="radio" name="votes[' . $poll_id . '][' . $question['ID'] . ']" value="' .
-					$option_nb . '" ' . ( $checked ? 'checked' : '' ) . ' />&nbsp;' .
+					<input type="radio" name="' . AttrEscape( $name ) . '" value="' .
+					AttrEscape( $option_nb ) . '" ' . ( $checked ? 'checked' : '' ) . ' />&nbsp;' .
 					$option_label .
 					'</label>
 					</td></tr>' . "\n";
 			}
 			else // Multiple.
 			{
+				$name = 'votes[' . $poll_id . '][' . $question['ID'] . '][]';
+
 				$poll_form .= '<tr><td>
 					<label>
-					<input type="checkbox" name="votes[' . $poll_id . '][' . $question['ID'] . '][]" value="' .
-					$option_nb . '" />&nbsp;' . $option_label .
+					<input type="checkbox" name="' . AttrEscape( $name ) . '" value="' .
+					AttrEscape( $option_nb ) . '" />&nbsp;' . $option_label .
 					'</label>
 					</td></tr>' . "\n";
 			}
@@ -522,10 +526,10 @@ function makeFileAttached( $value, $name )
 
 		if ( filter_var( $value, FILTER_VALIDATE_URL ) !== false ) //embed link
 		{
-			return '<a href="' . URLEscape( $value ) . '" title="' . $value . '" class="colorboxiframe">' . $view_online . '</a>';
+			return '<a href="' . URLEscape( $value ) . '" title="' . AttrEscape( $value ) . '" class="colorboxiframe">' . $view_online . '</a>';
 		}
 
-		return '<a href="' . URLEscape( $value ) . '" title="' . str_replace( $PortalNotesFilesPath, '', $value ) . '" target="_blank">' . $download . '</a>';
+		return '<a href="' . URLEscape( $value ) . '" title="' . AttrEscape( str_replace( $PortalNotesFilesPath, '', $value ) ) . '" target="_blank">' . $download . '</a>';
 	}
 
 	$id = 'new';

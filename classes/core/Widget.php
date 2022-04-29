@@ -375,15 +375,15 @@ class Widget_absences implements Widget
 	{
 		return '<tr class="st"><td>' .	_( 'Days Absent' ) .
 		'<br />
-		<label title="' . _( 'this school year to date' ) . '">
+		<label title="' . AttrEscape( _( 'this school year to date' ) ) . '">
 			<input type="radio" name="absences_term" value="FY" checked />&nbsp;' .
 			_( 'YTD' ) .
 		'</label> &nbsp;
-		<label title="' . _( 'this semester to date' ) . '">
+		<label title="' . AttrEscape( _( 'this semester to date' ) ) . '">
 			<input type="radio" name="absences_term" value="SEM" />&nbsp;' .
 			GetMP( GetParentMP( 'SEM', UserMP() ), 'SHORT_NAME' ) .
 		'</label> &nbsp;
-		<label title="' . _( 'this marking period to date' ) . '">
+		<label title="' . AttrEscape( _( 'this marking period to date' ) ) . '">
 			<input type="radio" name="absences_term" value="QTR" />&nbsp;' .
 			GetMP( UserMP(), 'SHORT_NAME' ) .
 		'</label>
@@ -491,15 +491,15 @@ class Widget_cp_absences implements Widget
 			_( 'Use the Choose link of the Course widget (under Scheduling) to select a Course Period.' ) .
 		'</i></div>' .
 		'<br />
-		<label title="' . _( 'this school year to date' ) . '">
+		<label title="' . AttrEscape( _( 'this school year to date' ) ) . '">
 			<input type="radio" name="cp_absences_term" value="FY" checked />&nbsp;' .
 			_( 'YTD' ) .
 		'</label> &nbsp;
-		<label title="' . _( 'this semester to date' ) . '">
+		<label title="' . AttrEscape( _( 'this semester to date' ) ) . '">
 			<input type="radio" name="cp_absences_term" value="SEM" />&nbsp;' .
 			GetMP( GetParentMP( 'SEM', UserMP() ), 'SHORT_NAME' ) .
 		'</label> &nbsp;
-		<label title="' . _( 'this marking period to date' ) . '">
+		<label title="' . AttrEscape( _( 'this marking period to date' ) ) . '">
 			<input type="radio" name="cp_absences_term" value="QTR" />&nbsp;' .
 			GetMP( UserMP(), 'SHORT_NAME' ) .
 		'</label>
@@ -581,24 +581,24 @@ class Widget_gpa implements Widget
 
 		if ( GetMP( $MPfy = GetParentMP( 'FY', GetParentMP( 'SEM', UserMP() ) ), 'DOES_GRADES') == 'Y' )
 		{
-			$html .= '<label title="' . GetMP( $MPfy, 'TITLE' ) . '">
-					<input type="radio" name="gpa_term" value="' . $MPfy . '" checked />&nbsp;' .
+			$html .= '<label title="' . AttrEscape( GetMP( $MPfy, 'TITLE' ) ) . '">
+					<input type="radio" name="gpa_term" value="' . AttrEscape( $MPfy ) . '" checked />&nbsp;' .
 					GetMP( $MPfy, 'SHORT_NAME' ) .
 				'</label> &nbsp; ';
 		}
 
 		if ( GetMP( $MPsem = GetParentMP( 'SEM', UserMP() ), 'DOES_GRADES' ) == 'Y' )
 		{
-			$html .= '<label title="' . GetMP( $MPsem, 'TITLE' ) . '">
-					<input type="radio" name="gpa_term" value="' . $MPsem . '">&nbsp;' .
+			$html .= '<label title="' . AttrEscape( GetMP( $MPsem, 'TITLE' ) ) . '">
+					<input type="radio" name="gpa_term" value="' . AttrEscape( $MPsem ) . '">&nbsp;' .
 					GetMP( $MPsem, 'SHORT_NAME' ) .
 				'</label> &nbsp; ';
 		}
 
 		if ( GetMP( $MPtrim = UserMP(), 'DOES_GRADES' ) == 'Y' )
 		{
-			$html .= '<label title="' . GetMP( $MPtrim, 'TITLE' ) . '">
-					<input type="radio" name="gpa_term" value="' . $MPtrim . '" checked />&nbsp;' .
+			$html .= '<label title="' . AttrEscape( GetMP( $MPtrim, 'TITLE' ) ) . '">
+					<input type="radio" name="gpa_term" value="' . AttrEscape( $MPtrim ) . '" checked />&nbsp;' .
 					GetMP( $MPtrim, 'SHORT_NAME' ) .
 				'</label>';
 		}
@@ -668,24 +668,24 @@ class Widget_class_rank implements Widget
 
 		if ( GetMP( $MPfy = GetParentMP( 'FY', GetParentMP( 'SEM', UserMP() ) ), 'DOES_GRADES' ) == 'Y' )
 		{
-			$html .= '<label title="' . GetMP( $MPfy, 'TITLE' ) . '">
-					<input type="radio" name="class_rank_term" value="' . $MPfy . '">&nbsp;' .
+			$html .= '<label title="' . AttrEscape( GetMP( $MPfy, 'TITLE' ) ) . '">
+					<input type="radio" name="class_rank_term" value="' . AttrEscape( $MPfy ) . '">&nbsp;' .
 					GetMP( $MPfy, 'SHORT_NAME' ) .
 				'</label> &nbsp; ';
 		}
 
 		if ( GetMP( $MPsem = GetParentMP( 'SEM', UserMP() ), 'DOES_GRADES' ) == 'Y' )
 		{
-			$html .= '<label title="' . GetMP( $MPsem, 'TITLE' ) . '">
-					<input type="radio" name="class_rank_term" value="' . $MPsem . '">&nbsp;' .
+			$html .= '<label title="' . AttrEscape( GetMP( $MPsem, 'TITLE' ) ) . '">
+					<input type="radio" name="class_rank_term" value="' . AttrEscape( $MPsem ) . '">&nbsp;' .
 					GetMP( $MPsem, 'SHORT_NAME' ) .
 				'</label> &nbsp; ';
 		}
 
 		if ( GetMP( $MPtrim = UserMP(), 'DOES_GRADES' ) == 'Y' )
 		{
-			$html .= '<label title="' . GetMP( $MPtrim, 'TITLE' ) . '">
-					<input type="radio" name="class_rank_term" value="' . $MPtrim . '" checked />&nbsp;' .
+			$html .= '<label title="' . AttrEscape( GetMP( $MPtrim, 'TITLE' ) ) . '">
+					<input type="radio" name="class_rank_term" value="' . AttrEscape( $MPtrim ) . '" checked />&nbsp;' .
 					GetMP( $MPtrim, 'SHORT_NAME' ) .
 				'</label> &nbsp; ';
 		}
@@ -701,8 +701,8 @@ class Widget_class_rank implements Widget
 					continue;
 				}
 
-				$html .= '<label title="' . GetMP( $pro, 'TITLE' ) . '">
-						<input type="radio" name="class_rank_term" value="' . $pro . '">&nbsp;' .
+				$html .= '<label title="' . AttrEscape( GetMP( $pro, 'TITLE' ) ) . '">
+						<input type="radio" name="class_rank_term" value="' . AttrEscape( $pro ) . '">&nbsp;' .
 						GetMP( $pro, 'SHORT_NAME' ) .
 					'</label> &nbsp; ';
 			}
@@ -787,24 +787,24 @@ class Widget_letter_grade implements Widget
 
 		if ( GetMP( $MPfy = GetParentMP( 'FY', GetParentMP( 'SEM', UserMP() ) ), 'DOES_GRADES' ) == 'Y' )
 		{
-			$html .= '<label title="' . GetMP( $MPfy, 'TITLE' ) . '">
-					<input type="radio" name="letter_grade_term" value="' . $MPfy . '">&nbsp;' .
+			$html .= '<label title="' . AttrEscape( GetMP( $MPfy, 'TITLE' ) ) . '">
+					<input type="radio" name="letter_grade_term" value="' . AttrEscape( $MPfy ) . '">&nbsp;' .
 					GetMP( $MPfy, 'SHORT_NAME' ) .
 				'</label> &nbsp; ';
 		}
 
 		if ( GetMP( $MPsem = GetParentMP( 'SEM', UserMP() ), 'DOES_GRADES' ) == 'Y' )
 		{
-			$html .= '<label title="' . GetMP( $MPsem, 'TITLE' ) . '">
-					<input type="radio" name="letter_grade_term" value="' . $MPsem . '">&nbsp;' .
+			$html .= '<label title="' . AttrEscape( GetMP( $MPsem, 'TITLE' ) ) . '">
+					<input type="radio" name="letter_grade_term" value="' . AttrEscape( $MPsem ) . '">&nbsp;' .
 					GetMP( $MPsem, 'SHORT_NAME' ) .
 				'</label> &nbsp; ';
 		}
 
 		if ( GetMP( $MPtrim = UserMP(), 'DOES_GRADES' ) == 'Y' )
 		{
-			$html .= '<label title="' . GetMP( $MPtrim, 'TITLE' ) . '">
-					<input type="radio" name="letter_grade_term" value="' . $MPtrim . '" checked />&nbsp;' .
+			$html .= '<label title="' . AttrEscape( GetMP( $MPtrim, 'TITLE' ) ) . '">
+					<input type="radio" name="letter_grade_term" value="' . AttrEscape( $MPtrim ) . '" checked />&nbsp;' .
 					GetMP( $MPtrim, 'SHORT_NAME' ) .
 				'</label> &nbsp; ';
 		}
@@ -820,8 +820,8 @@ class Widget_letter_grade implements Widget
 					continue;
 				}
 
-				$html .= '<label title="' . GetMP( $pro, 'TITLE' ) . '">
-						<input type="radio" name="letter_grade_term" value="' . $pro . '" />&nbsp;' .
+				$html .= '<label title="' . AttrEscape( GetMP( $pro, 'TITLE' ) ) . '">
+						<input type="radio" name="letter_grade_term" value="' . AttrEscape( $pro ) . '" />&nbsp;' .
 						GetMP( $pro, 'SHORT_NAME' ) .
 					'</label> &nbsp; ';
 			}
@@ -983,7 +983,7 @@ class Widget_activity implements Widget
 
 		foreach ( (array) $activities_RET as $activity )
 		{
-			$select .= '<option value="' . $activity['ID'] . '">' . $activity['TITLE'] . '</option>';
+			$select .= '<option value="' . AttrEscape( $activity['ID'] ) . '">' . $activity['TITLE'] . '</option>';
 		}
 
 		$select .= '</select>';
@@ -1155,7 +1155,7 @@ class Widget_reporter implements Widget
 
 		foreach ( (array) $users_RET as $id => $user )
 		{
-			$html .= '<option value="' . $id . '">' .
+			$html .= '<option value="' . AttrEscape( $id ) . '">' .
 					$user[1]['FULL_NAME'] .
 				'</option>';
 		}
@@ -1497,14 +1497,14 @@ class Widget_discipline_fields implements Widget
 			{
 				case 'text':
 
-					$html .= '<input type="text" name="' . $input_name .
+					$html .= '<input type="text" name="' . AttrEscape( $input_name ) .
 						'" id="' . $input_id . '" size="24" maxlength="255" />';
 
 				break;
 
 				case 'checkbox':
 
-					$html .= '<input type="checkbox" name="' . $input_name .
+					$html .= '<input type="checkbox" name="' . AttrEscape( $input_name ) .
 						'" id="' . $input_id . '" value="Y" />';
 
 				break;
@@ -1526,12 +1526,12 @@ class Widget_discipline_fields implements Widget
 
 					$category['SELECT_OPTIONS'] = explode( "\r", str_replace( [ "\r\n", "\n" ], "\r", $category['SELECT_OPTIONS'] ) );
 
-					$html .= '<select name="' . $input_name . '" id="' . $input_id . '">
+					$html .= '<select name="' . AttrEscape( $input_name ) . '" id="' . $input_id . '">
 						<option value="">' . _( 'N/A' ) . '</option>';
 
 					foreach ( (array) $category['SELECT_OPTIONS'] as $option )
 					{
-						$html .= '<option value="' . $option . '">' . $option . '</option>';
+						$html .= '<option value="' . AttrEscape( $option ) . '">' . $option . '</option>';
 					}
 
 					$html .= '</select>';
@@ -1617,7 +1617,7 @@ class Widget_next_year implements Widget
 
 		foreach ( $next_year_options as $id => $option )
 		{
-			$html .= '<option value="' . $id . '">' . $option . '</option>';
+			$html .= '<option value="' . AttrEscape( $id ) . '">' . $option . '</option>';
 		}
 
 		return $html . '</select></td></tr>';
@@ -1703,7 +1703,7 @@ class Widget_calendar implements Widget
 
 		foreach ( (array) $calendars_RET as $calendar )
 		{
-			$html .= '<option value="' . $calendar['CALENDAR_ID'] . '">' .
+			$html .= '<option value="' . AttrEscape( $calendar['CALENDAR_ID'] ) . '">' .
 				$calendar['TITLE'] . '</option>';
 		}
 
@@ -1896,7 +1896,7 @@ class Widget_fsa_balance implements Widget
 		<label  class="sizep2">
 			<input type="radio" name="fsa_bal_ge" value="Y" /> &ge;</label>
 		<input name="fsa_balance" id="fsa_balance" type="number" step="any"' .
-			( $value ? ' value="' . $value . '"' : '') . ' />
+			( $value ? ' value="' . AttrEscape( $value ) . '"' : '') . ' />
 		</td></tr>';
 	}
 }

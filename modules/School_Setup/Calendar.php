@@ -1112,12 +1112,12 @@ if ( ! $_REQUEST['modfunc'] )
 			'number'
 		);
 
-		echo '<td class="calendar-day' . $day_classes . '">
-			<table class="' . $day_inner_classes . '"><tr>';
+		echo '<td class="calendar-day' . AttrEscape( $day_classes ) . '">
+			<table class="' . AttrEscape( $day_inner_classes ) . '"><tr>';
 
 
 		// Calendar Day number.
-		echo '<td class="' . $day_number_classes . '">' . $i . '</td>
+		echo '<td class="' . AttrEscape( $day_number_classes ) . '">' . $i . '</td>
 		<td class="width-100p align-right">';
 
 		echo CalendarDayMinutesHTML( $date, $minutes );

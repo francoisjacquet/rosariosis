@@ -52,6 +52,7 @@ Changes in 9.0
 - Fix PHP fatal error Unsupported operand types in ListOutput.php
 - Add AttrEscape() function in Inputs.php
 - Use AttrEscape() instead of htmlspecialchars(), program wide
+- Add use of AttrEscape(), program wide
 - Maintain Advanced search when editing Timeframe in Percent.php
 - Fix SQL injection escape DB identifier in RegistrationSave.fnc.php, Calendar.php, MarkingPeriods.php, Courses.php, SchoolFields.php, AddressFields.php, PeopleFields.php, StudentFields.php & UserFields.php
 - JS update marked to v4.0.14 in assets/js/marked/

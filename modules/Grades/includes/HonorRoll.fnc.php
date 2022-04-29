@@ -521,7 +521,7 @@ function HonorRollWidgets( $item )
 
 			foreach ( (array) $subjects_RET as $subject)
 			{
-				$select .= '<option value="' . $subject['SUBJECT_ID'] . '">' . $subject['TITLE'] . '</option>';
+				$select .= '<option value="' . AttrEscape( $subject['SUBJECT_ID'] ) . '">' . $subject['TITLE'] . '</option>';
 			}
 
 			$select .= '</select>';

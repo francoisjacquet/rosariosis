@@ -113,7 +113,7 @@ foreach ( (array) $assignments_RET as $assignment )
 		$selected = ' selected';
 	}
 
-	$assignment_select .= '<option value="' . $assignment['ASSIGNMENT_ID'] . '"' . $selected . '>' .
+	$assignment_select .= '<option value="' . AttrEscape( $assignment['ASSIGNMENT_ID'] ) . '"' . $selected . '>' .
 		$assignment['TITLE'] .
 		'</option>';
 }

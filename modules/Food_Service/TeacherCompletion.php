@@ -33,7 +33,7 @@ $period_select = '<select name="period"<option value="">' . _( 'All' ) . '</opti
 
 foreach ( (array) $periods_RET as $period )
 {
-	$period_select .= '<option value="' . $period[PERIOD_ID] . '"' . (  ( $_REQUEST['period'] == $period['PERIOD_ID'] ) ? ' selected' : '' ) . ">" . $period['TITLE'] . '</option>';
+	$period_select .= '<option value="' . AttrEscape( $period['PERIOD_ID'] ) . '"' . (  ( $_REQUEST['period'] == $period['PERIOD_ID'] ) ? ' selected' : '' ) . ">" . $period['TITLE'] . '</option>';
 }
 
 $period_select .= '</select>';

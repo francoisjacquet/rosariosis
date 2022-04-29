@@ -225,7 +225,7 @@ if ( Prompt(
 		echo ErrorMessage( $error );
 	}
 
-	echo '<div class="center"><input type="submit" value="' . _( 'OK' ) . '" /></div></form>';
+	echo '<div class="center"><input type="submit" value="' . AttrEscape( _( 'OK' ) ) . '" /></div></form>';
 
 	// Unset tables & redirect URL.
 	RedirectURL( 'tables' );

@@ -45,7 +45,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 {
 	$PHP_tmp_SELF = PreparePHP_SELF();
 	echo '<form action="' . $PHP_tmp_SELF . '" method="POST">';
-	DrawHeader( PrepareDate( $date, '_date' ) . ' : <input type="submit" value="' . _( 'Go' ) . '" />' );
+	DrawHeader( PrepareDate( $date, '_date' ) . ' : <input type="submit" value="' . AttrEscape( _( 'Go' ) ) . '" />' );
 	echo '</form>';
 
 	require_once 'modules/Food_Service/' . ( $_REQUEST['type'] == 'staff' ? 'Users' : 'Students' ) . '/BalanceReport.php';

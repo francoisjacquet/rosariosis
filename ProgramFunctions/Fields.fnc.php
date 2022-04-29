@@ -276,7 +276,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = [], $type
 			]
 		);
 
-		$delete_button = '<input type="button" value="' . _( 'Delete' ) . '" onClick="ajaxLink(\'' . $delete_url . '\');" /> ';
+		$delete_button = '<input type="button" value="' . AttrEscape( _( 'Delete' ) ) . '" onClick="ajaxLink(\'' . $delete_url . '\');" /> ';
 	}
 
 	ob_start();

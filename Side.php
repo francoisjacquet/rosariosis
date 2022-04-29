@@ -342,7 +342,7 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 				<label for="school" class="a11y-hidden"><?php echo _( 'School' ); ?></label>
 				<select name="school" id="school" autocomplete="off" onChange="ajaxPostForm(this.form,true);">
 			<?php foreach ( (array) $schools_RET as $school ) : ?>
-				<option value="<?php echo $school['ID']; ?>"<?php echo ( ( UserSchool() == $school['ID'] ) ? ' selected' : '' ); ?>><?php
+				<option value="<?php echo AttrEscape( $school['ID'] ); ?>"<?php echo ( ( UserSchool() == $school['ID'] ) ? ' selected' : '' ); ?>><?php
 					echo ( $school['SHORT_NAME'] ? $school['SHORT_NAME'] : $school['TITLE'] );
 				?></option>
 			<?php endforeach; ?>
@@ -380,7 +380,7 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 				<label for="student_id" class="a11y-hidden"><?php echo _( 'Student' ); ?></label>
 				<select name="student_id" id="student_id" autocomplete="off" onChange="ajaxPostForm(this.form,true);">
 			<?php foreach ( (array) $students_RET as $student ) : ?>
-				<option value="<?php echo $student['STUDENT_ID']; ?>"<?php echo ( ( UserStudentID() == $student['STUDENT_ID'] ) ? ' selected' : '' ); ?>><?php
+				<option value="<?php echo AttrEscape( $student['STUDENT_ID'] ); ?>"<?php echo ( ( UserStudentID() == $student['STUDENT_ID'] ) ? ' selected' : '' ); ?>><?php
 					echo $student['FULL_NAME'];
 				?></option>
 				<?php // Set current School.
@@ -441,7 +441,7 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 			<label for="syear" class="a11y-hidden"><?php echo _( 'School Year' ); ?></label>
 			<select name="syear" id="syear" autocomplete="off" onChange="ajaxPostForm(this.form,true);">
 		<?php foreach ( (array) $years_RET as $year ) : ?>
-			<option value="<?php echo $year['SYEAR']; ?>"<?php echo ( ( UserSyear() == $year['SYEAR'] ) ? ' selected' : '' ); ?>><?php
+			<option value="<?php echo AttrEscape( $year['SYEAR'] ); ?>"<?php echo ( ( UserSyear() == $year['SYEAR'] ) ? ' selected' : '' ); ?>><?php
 				echo FormatSyear( $year['SYEAR'], Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) );
 			?></option>
 		<?php endforeach; ?>
@@ -465,7 +465,7 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 			$mp_array = [];
 
 			foreach ( $RET as $quarter ) : ?>
-				<option value="<?php echo $quarter['MARKING_PERIOD_ID']; ?>"<?php echo ( UserMP() == $quarter['MARKING_PERIOD_ID'] ? ' selected' : '' ); ?>><?php
+				<option value="<?php echo AttrEscape( $quarter['MARKING_PERIOD_ID'] ); ?>"<?php echo ( UserMP() == $quarter['MARKING_PERIOD_ID'] ? ' selected' : '' ); ?>><?php
 					echo $quarter['TITLE'];
 				?></option>
 			<?php $mp_array[] = $quarter['MARKING_PERIOD_ID'];
@@ -565,7 +565,7 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 					$mp_text = GetMP( $period['MARKING_PERIOD_ID'], 'SHORT_NAME' ) . ' - ';
 				}
 				?>
-				<option value="<?php echo $period['COURSE_PERIOD_ID']; ?>"<?php echo $selected; ?>><?php
+				<option value="<?php echo AttrEscape( $period['COURSE_PERIOD_ID'] ); ?>"<?php echo $selected; ?>><?php
 					echo $mp_text . $period['CP_SHORT_NAME'];
 				?></option>
 
@@ -609,11 +609,11 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 			WHERE STUDENT_ID='" . UserStudentID() . "'" ); ?>
 
 		<div class="current-person student">
-			<a href="Side.php?sidefunc=update&amp;side_student_id=new" target="menu-top" title="<?php echo _( 'Clear working student' ); ?>">
+			<a href="Side.php?sidefunc=update&amp;side_student_id=new" target="menu-top" title="<?php echo AttrEscape( _( 'Clear working student' ) ); ?>">
 				<?php echo button( 'x', '', '', 'bigger' ); ?>
 			</a>
 			<?php if ( AllowUse( 'Students/Student.php' ) ) : ?>
-				<a href="Modules.php?modname=Students/Student.php&amp;student_id=<?php echo (int) UserStudentID(); ?>" title="<?php echo _( 'Student Info' ); ?>">
+				<a href="Modules.php?modname=Students/Student.php&amp;student_id=<?php echo (int) UserStudentID(); ?>" title="<?php echo AttrEscape( _( 'Student Info' ) ); ?>">
 					<?php echo $current_student_name; ?>
 				</a>
 			<?php else : ?>
@@ -633,11 +633,11 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 			WHERE STAFF_ID='" . UserStaffID() . "'" ); ?>
 
 		<div class="current-person <?php echo ( UserStaffID() == User( 'STAFF_ID' ) ? 'self' : 'staff' ); ?>">
-			<a href="Side.php?sidefunc=update&amp;side_staff_id=new" target="menu-top" title="<?php echo _( 'Clear working user' ); ?>">
+			<a href="Side.php?sidefunc=update&amp;side_staff_id=new" target="menu-top" title="<?php echo AttrEscape( _( 'Clear working user' ) ); ?>">
 				<?php echo button( 'x', '', '', 'bigger' ); ?>
 			</a>
 			<?php if ( AllowUse( 'Users/User.php' ) ) : ?>
-				<a href="Modules.php?modname=Users/User.php&amp;staff_id=<?php echo (int) UserStaffID(); ?>" title="<?php echo _( 'User Info' ); ?>">
+				<a href="Modules.php?modname=Users/User.php&amp;staff_id=<?php echo (int) UserStaffID(); ?>" title="<?php echo AttrEscape( _( 'User Info' ) ); ?>">
 					<?php echo $current_user_name; ?>
 				</a>
 			<?php else : ?>

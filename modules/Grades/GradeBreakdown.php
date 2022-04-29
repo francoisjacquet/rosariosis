@@ -53,7 +53,7 @@ foreach ( (array) $mps_RET as $mp )
 	if ( $mp['DOES_GRADES'] === 'Y'
 		|| $mp['MARKING_PERIOD_ID'] === UserMP() )
 	{
-		$mp_select .= '<option value="' . $mp['MARKING_PERIOD_ID'] . '"' .
+		$mp_select .= '<option value="' . AttrEscape( $mp['MARKING_PERIOD_ID'] ) . '"' .
 			( $mp['MARKING_PERIOD_ID'] === $_REQUEST['mp_id'] ? ' selected' : '' ) . '>' .
 			$mp['TITLE'] . '</option>';
 

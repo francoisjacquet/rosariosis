@@ -21,7 +21,7 @@ $category_select = "<select name=table onChange='ajaxPostForm(this.form,true);'>
 
 foreach ( (array) $categories_RET as $category )
 {
-	$category_select .= '<option value="' . $category['ID'] . '"' .
+	$category_select .= '<option value="' . AttrEscape( $category['ID'] ) . '"' .
 		( ( $_REQUEST['table'] == $category['ID'] ) ? ' selected' : '' ) . ">" . $category['TITLE'] . "</option>";
 }
 
@@ -41,7 +41,7 @@ $period_select = "<select name=period onChange='ajaxPostForm(this.form,true);'><
 
 foreach ( (array) $periods_RET as $id => $period )
 {
-	$period_select .= '<option value="' . $id . '"' . (  ( $_REQUEST['period'] == $id ) ? ' selected' : '' ) . ">" . $period[1]['TITLE'] . "</option>";
+	$period_select .= '<option value="' . AttrEscape( $id ) . '"' . ( ( $_REQUEST['period'] == $id ) ? ' selected' : '' ) . ">" . $period[1]['TITLE'] . "</option>";
 }
 
 $period_select .= "</select>";

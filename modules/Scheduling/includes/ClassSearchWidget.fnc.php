@@ -107,7 +107,7 @@ function _classSearchWidgetFindCourse( $extra )
 
 	foreach ( (array) $RET as $subject )
 	{
-		echo '<option value="' . $subject['SUBJECT_ID'] . '">' . $subject['TITLE'] . '</option>';
+		echo '<option value="' . AttrEscape( $subject['SUBJECT_ID'] ) . '">' . $subject['TITLE'] . '</option>';
 	}
 
 	echo '</select></td></tr>';
@@ -124,7 +124,7 @@ function _classSearchWidgetFindCourse( $extra )
 
 	foreach ( (array) $RET as $period )
 	{
-		echo '<option value="' . $period['PERIOD_ID'] . '">' . $period['TITLE'] . '</option>';
+		echo '<option value="' . AttrEscape( $period['PERIOD_ID'] ) . '">' . $period['TITLE'] . '</option>';
 	}
 
 	echo '</select></td></tr>';

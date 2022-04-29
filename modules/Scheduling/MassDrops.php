@@ -194,7 +194,7 @@ if ( $_REQUEST['modfunc'] != 'choose_course' )
 
 		foreach ( (array) $mp_RET as $mp )
 		{
-			echo '<option value="' . $mp['MARKING_PERIOD_ID'] . '">' . $mp['TITLE'] . '</option>';
+			echo '<option value="' . AttrEscape( $mp['MARKING_PERIOD_ID'] ) . '">' . $mp['TITLE'] . '</option>';
 		}
 
 		echo '</select>';

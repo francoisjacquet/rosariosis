@@ -45,7 +45,7 @@ function _makeTextInput( $column, $name, $request )
 	}
 	elseif ( Config( 'STUDENTS_EMAIL_FIELD' ) === str_replace( 'CUSTOM_', '', $column ) )
 	{
-		$options = 'maxlength=255 type="email" pattern="[^ @]*@[^ @]*" placeholder="' . _( 'Email' ) . '"';
+		$options = 'maxlength=255 type="email" pattern="[^ @]*@[^ @]*" placeholder="' . AttrEscape( _( 'Email' ) ) . '"';
 
 		if ( ! empty( $_REQUEST['moodle_create_student'] ) )
 		{
@@ -466,7 +466,7 @@ function _makeFilesInput( $column, $name, $request, $remove_url = '' )
 		$file = button(
 			'download',
 			$file_name_display,
-			'"' . URLEscape( $file_path ) . '" target="_blank" title="' . $file_name . ' (' . $file_size . ')"',
+			'"' . URLEscape( $file_path ) . '" target="_blank" title="' . AttrEscape( $file_name . ' (' . $file_size . ')' ) . '"',
 			'bigger'
 		);
 
@@ -475,7 +475,7 @@ function _makeFilesInput( $column, $name, $request, $remove_url = '' )
 			$file = button(
 				'remove',
 				'',
-				'"' . URLEscape( $remove_url . $file_name ) . '" title="' . _( 'Delete' ) . '"'
+				'"' . URLEscape( $remove_url . $file_name ) . '" title="' . AttrEscape( _( 'Delete' ) ) . '"'
 			) . '&nbsp;' . $file;
 		}
 
@@ -577,7 +577,7 @@ function _makeMultipleInput( $column, $name, $request )
 
 		// FJ add <label> on checkbox.
 		$table .= '<td><label>
-			<input type="checkbox" name="' . $request . '[' . $column . '][]" value="' .
+			<input type="checkbox" name="' . AttrEscape( $request . '[' . $column . '][]' ) . '" value="' .
 				AttrEscape( $option ) . '"' .
 				( ! empty( $value[ $column ] )
 					&& mb_strpos( $value[ $column ], '||' . $option . '||' ) !== false ? ' checked' : '' ) . ' /> ' .
@@ -590,7 +590,7 @@ function _makeMultipleInput( $column, $name, $request )
 	$table .= '</tr><tr><td colspan="2">';
 
 	// FJ fix bug none selected not saved.
-	$table .= '<input type="hidden" name="' . $request . '[' . $column . '][none]" value="" />';
+	$table .= '<input type="hidden" name="' . AttrEscape( $request . '[' . $column . '][none]' ) . '" value="" />';
 
 	$table .= '<table class="width-100p" style="height:7px; border:1; border-style:none solid solid solid;"><tr><td></td></tr></table>';
 
@@ -744,7 +744,7 @@ function _makeComments( $value, $column )
 		$value,
 		'values[' . $table . '][' . $THIS_RET['ID'] . '][' . $column . ']',
 		'',
-		'size="' . $input_size . '"'
+		'size="' . AttrEscape( $input_size ) . '"'
 	);
 }
 
@@ -1005,7 +1005,7 @@ function _makeSchoolInput( $value, $column )
 	}
 
 	// FJ save new Student's Enrollment in Enrollment.inc.php.
-	return '<input type="hidden" name="values[STUDENT_ENROLLMENT][new][SCHOOL_ID]" value="' . UserSchool() . '" />' .
+	return '<input type="hidden" name="values[STUDENT_ENROLLMENT][new][SCHOOL_ID]" value="' . AttrEscape( UserSchool() ) . '" />' .
 		$schools[ UserSchool() ][1]['TITLE'];
 }
 

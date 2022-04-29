@@ -35,7 +35,7 @@ if ( ! function_exists( 'TranscriptsIncludeForm' ) )
 			$include_on_title );
 
 		$return .= '<tr><td colspan="2"><b>' . $include_on_title .
-		'</b><input type="hidden" name="SCHOOL_ID" value="' . UserSchool() . '" /><br /></td></tr>';
+		'</b><input type="hidden" name="SCHOOL_ID" value="' . AttrEscape( UserSchool() ) . '" /><br /></td></tr>';
 
 		$return .= '<tr class="st"><td class="valign-top">';
 
@@ -176,7 +176,7 @@ if ( ! function_exists( 'TranscriptsIncludeForm' ) )
 		foreach ( (array) $mp_types as $mp_type )
 		{
 			// Add <label> on checkbox.
-			$return .= '<label><input type="checkbox" name="mp_type_arr[]" value="' . $mp_type['MP_TYPE'] . '"> ' . $marking_periods_locale[ucwords( $mp_type['MP_TYPE'] )] . '</label> ';
+			$return .= '<label><input type="checkbox" name="mp_type_arr[]" value="' . AttrEscape( $mp_type['MP_TYPE'] ) . '"> ' . $marking_periods_locale[ucwords( $mp_type['MP_TYPE'] )] . '</label> ';
 		}
 
 		$return .= FormatInputTitle( _( 'Marking Periods' ) ) . '</td></tr></table>';
@@ -528,15 +528,15 @@ if ( ! function_exists( 'TranscriptPDFHeader' ) )
 
 			if ( file_exists( $stu_pic ) )
 			{
-				echo '<img src="' . $stu_pic . '" width="' . $picwidth . '" />';
+				echo '<img src="' . $stu_pic . '" width="' . AttrEscape( $picwidth ) . '" />';
 			}
 			elseif ( file_exists( $stu_pic2 ) )
 			{
-				echo '<img src="' . $stu_pic2 . '" width="' . $picwidth . '" />';
+				echo '<img src="' . $stu_pic2 . '" width="' . AttrEscape( $picwidth ) . '" />';
 			}
 			elseif ( file_exists( $stu_pic3 ) )
 			{
-				echo '<img src="' . $stu_pic3 . '" width="' . $picwidth . '" />';
+				echo '<img src="' . $stu_pic3 . '" width="' . AttrEscape( $picwidth ) . '" />';
 			}
 			else
 			{
@@ -601,11 +601,11 @@ if ( ! function_exists( 'TranscriptPDFHeader' ) )
 
 		if ( file_exists( $logo_pic ) )
 		{
-			echo '<img src="' . $logo_pic . '" width="' . $picwidth . '" />';
+			echo '<img src="' . $logo_pic . '" width="' . AttrEscape( $picwidth ) . '" />';
 		}
 
 		// School Info.
-		echo '</td><td style="width:384px;">';
+		echo '</td><td>';
 
 		echo '<span style="font-size:x-large;">' . $school_info['TITLE'] . '<br /></span>';
 
@@ -661,7 +661,7 @@ if ( ! function_exists( 'TranscriptPDFFooter' ) )
 	 *
 	 * @param array  $student          Student data.
 	 * @param array  $school_info      School Info.
-	 * @param string $certificate_text Certificate text, block 1 only (optional).
+	 * @param string $certificate_text Certificate text, block 2 only (optional).
 	 */
 	function TranscriptPDFFooter( $student, $last_grade, $certificate_text = '' )
 	{

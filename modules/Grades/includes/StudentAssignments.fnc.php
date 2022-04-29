@@ -752,7 +752,7 @@ function GetAssignmentFileLink( $file_path )
 	return button(
 		'download',
 		_( 'Download' ),
-		'"' . URLEscape( $file_path ) . '" target="_blank" title="' . $file_name . ' (' . $file_size . ')"',
+		'"' . URLEscape( $file_path ) . '" target="_blank" title="' . AttrEscape( $file_name . ' (' . $file_size . ')' ) . '"',
 		'bigger'
 	);
 }

@@ -35,7 +35,7 @@ function SchoolPeriodsSelectInput( $value, $name, $title, $extra = '' )
 
 	$period_selected = false;
 
-	$input = '<label><select name="' . $name . '" id="' . GetInputID( $name ) . '" ' . $extra . '>';
+	$input = '<label><select name="' . AttrEscape( $name ) . '" id="' . GetInputID( $name ) . '" ' . $extra . '>';
 
 	foreach ( (array) $school_periods_RET as $school_period )
 	{
@@ -96,7 +96,7 @@ function SchoolPeriodsSelectInput( $value, $name, $title, $extra = '' )
 				' ' . $period_days;
 		}
 
-		$input .= '<option value="' . $school_period['PERIOD_ID'] . '"' . $selected . '>' .
+		$input .= '<option value="' . AttrEscape( $school_period['PERIOD_ID'] ) . '"' . $selected . '>' .
 			$school_period['TITLE'] . $period_days_text . '</option>';
 	}
 

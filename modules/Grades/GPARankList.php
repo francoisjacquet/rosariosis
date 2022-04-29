@@ -95,7 +95,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
 		if ( $mp['DOES_GRADES'] == 'Y' || $mp['MARKING_PERIOD_ID'] == UserMP() )
 		{
-			$mp_select .= '<option value="' . $mp['MARKING_PERIOD_ID'] . '"' . ( $mp['MARKING_PERIOD_ID'] == $_REQUEST['mp'] ? ' selected' : '' ) . '>' . $mp['TITLE'] . '</option>';
+			$mp_select .= '<option value="' . AttrEscape( $mp['MARKING_PERIOD_ID'] ) . '"' . ( $mp['MARKING_PERIOD_ID'] == $_REQUEST['mp'] ? ' selected' : '' ) . '>' . $mp['TITLE'] . '</option>';
 		}
 	}
 

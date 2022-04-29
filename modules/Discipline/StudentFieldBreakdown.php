@@ -279,7 +279,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	foreach ( (array) $fields_RET as $field_id => $fields )
 	{
-		$select .= '<optgroup label="' . ParseMLField( $categories_RET[ $field_id ][1]['TITLE'] ) . '">';
+		$select .= '<optgroup label="' . AttrEscape( ParseMLField( $categories_RET[ $field_id ][1]['TITLE'] ) ) . '">';
 
 		foreach ( (array) $fields as $field )
 		{
@@ -291,7 +291,7 @@ if ( ! $_REQUEST['modfunc'] )
 				$field_title = $field['TITLE'];
 			}
 
-			$select .= '<option value="' . $field['ID'] . '"' . $selected . '>' . ParseMLField( $field['TITLE'] ) . '</option>';
+			$select .= '<option value="' . AttrEscape( $field['ID'] ) . '"' . $selected . '>' . ParseMLField( $field['TITLE'] ) . '</option>';
 		}
 
 		$select .= '</optgroup>';

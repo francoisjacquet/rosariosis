@@ -107,7 +107,7 @@ function TextInput( $value, $name, $title = '', $extra = '', $div = true )
 	// Specify input type via $extra (email,...).
 	$type = mb_strpos( $extra, 'type=' ) === false ? 'type="text"' : '';
 
-	$input = '<input ' . $type . ' id="' . $id . '" name="' . $name .
+	$input = '<input ' . $type . ' id="' . $id . '" name="' . AttrEscape( $name ) .
 		'" value="' . AttrEscape( (string) $value ) . '" ' . $extra . ' />' .
 		FormatInputTitle( $title, $id, $required );
 
@@ -304,7 +304,7 @@ function setMLvalue(id, loc, value){
 </script>
 <?php 	$return = ob_get_clean();
 
-		$return .= '<div class="ml-text-input"><input type="hidden" id="' . $id . '" name="' . $name . '" value="' . $value . '" autocomplete="off" />';
+		$return .= '<div class="ml-text-input"><input type="hidden" id="' . $id . '" name="' . AttrEscape( $name ) . '" value="' . AttrEscape( $value ) . '" autocomplete="off" />';
 
 		if ( mb_strpos( $extra, 'size=' ) === false
 			&& $value != '' )
@@ -422,7 +422,7 @@ function TextAreaInput( $value, $name, $title = '', $extra = '', $div = true, $t
 	}
 
 	$textarea =  ( $type === 'markdown' ? MarkDownInputPreview( $id ) : '' ) .
-		'<textarea id="' . $id . '" name="' . $name . '" ' . $extra . '>' .
+		'<textarea id="' . $id . '" name="' . AttrEscape( $name ) . '" ' . $extra . '>' .
 		$value . '</textarea>' . ( $type === 'tinymce' ? $ftitle_nobr : $ftitle );
 
 	if ( $value == ''
@@ -680,9 +680,9 @@ function CheckboxInput( $value, $name, $title = '', $checked = '', $new = false,
 	{
 		$id = GetInputID( $name );
 
-		$checkbox = '<input type="hidden" name="' . $name . '" value="" />' . // Save unchecked value!
+		$checkbox = '<input type="hidden" name="' . AttrEscape( $name ) . '" value="" />' . // Save unchecked value!
 			'<label class="checkbox-label">
-			<input type="checkbox" name="' . $name . '" id="' . $id . '" value="Y"' . $checked . ' ' . $extra . ' />&nbsp;' .
+			<input type="checkbox" name="' . AttrEscape( $name ) . '" id="' . $id . '" value="Y"' . $checked . ' ' . $extra . ' />&nbsp;' .
 			$title . '</label>';
 
 		if ( $new
@@ -768,7 +768,7 @@ function MultipleCheckboxInput( $value, $name, $title, $options, $extra = '', $d
 		}
 
 		$multiple_html .= '<td><label>
-			<input type="checkbox" name="' . $name . '"
+			<input type="checkbox" name="' . AttrEscape( $name ) . '"
 				value="' . AttrEscape( $option_value ) . '" ' . $extra . ' ' .
 				( $option != '' && mb_strpos( (string) $value, '||' . $option_value . '||' ) !== false ? ' checked' : '' ) . ' />&nbsp;' .
 			( $option != '' ? $option : '-' ) .
@@ -882,7 +882,7 @@ function SelectInput( $values, $name, $title = '', $options = [], $allow_na = 'N
 		return $display_val . FormatInputTitle( $title );
 	}
 
-	$select = '<select name="' . $name . '" id="' . $id . '" ' . $extra . '>';
+	$select = '<select name="' . AttrEscape( $name ) . '" id="' . $id . '" ' . $extra . '>';
 
 	if ( $allow_na !== false )
 	{
@@ -1021,7 +1021,7 @@ function MLSelectInput( $value, $name, $title, $options, $allow_na = 'N/A', $ext
 	if ( AllowEdit()
 		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
-		$select = '<select name="' . $name . '" id="' . $id . '" '.$extra.'>';
+		$select = '<select name="' . AttrEscape( $name ) . '" id="' . $id . '" '.$extra.'>';
 
 		if ( $allow_na !== false )
 		{
@@ -1229,7 +1229,7 @@ function RadioInput( $value, $name, $title, $options, $allow_na = 'N/A', $extra 
 
 		if ( $allow_na !== false )
 		{
-			$table .= '<td><label><input type="radio" name="' . $name . '" value=""' .
+			$table .= '<td><label><input type="radio" name="' . AttrEscape( $name ) . '" value=""' .
 				( $value == '' ? ' checked' : '' ) . ' ' . $extra . ' /> ' .
 				( $allow_na === 'N/A' ? _( 'N/A' ) : $allow_na ) . '</label></td>';
 
@@ -1254,7 +1254,7 @@ function RadioInput( $value, $name, $title, $options, $allow_na = 'N/A', $extra 
 				$checked = ' checked';
 			}
 
-			$table .= '<td><label><input type="radio" name="' . $name . '" value="' .
+			$table .= '<td><label><input type="radio" name="' . AttrEscape( $name ) . '" value="' .
 				AttrEscape( $key ) . '"' . $checked . ' ' . $extra . ' /> ' .
 				( is_array( $val ) ? $val[0] : $val ) . '</label></td>';
 		}
@@ -1331,7 +1331,7 @@ function ColorInput( $value, $name, $title = '', $extra = '', $div = true )
 		return $color_rect . FormatInputTitle( $title, '', '', '' );
 	}
 
-	$input = '<input type="color" name="' . $name . '" id="' . $id . '" value="' .
+	$input = '<input type="color" name="' . AttrEscape( $name ) . '" id="' . $id . '" value="' .
 		AttrEscape( $value ) . '"' . $extra . ' />';
 
 	$input .= FormatInputTitle( $title, $id, $required );
@@ -1416,8 +1416,8 @@ function ColorInputMiniColors( $value, $name, $title = '', $type = 'hidden', $ex
 
 	ob_start();
 	?>
-	<input type="<?php echo $type; ?>" name="<?php echo $name; ?>" id="<?php echo $id; ?>"
-		class="minicolors" value="<?php echo $value; ?>" <?php echo $extra; ?> />
+	<input type="<?php echo AttrEscape( $type ); ?>" name="<?php echo AttrEscape( $name ); ?>" id="<?php echo $id; ?>"
+		class="minicolors" value="<?php echo AttrEscape( $value ); ?>" <?php echo $extra; ?> />
 	<?php
 
 	$color = ob_get_clean() . FormatInputTitle( $title, $id, $required );
@@ -1473,8 +1473,8 @@ function CaptchaInput( $name, $title, $extra = '' )
 
 	ob_start(); ?>
 	<div class="captcha">
-		<span id="<?php echo $id_base; ?>-n1"></span> + <span id="<?php echo $id_base; ?>-n2"></span> = <input id="<?php echo $id_base; ?>-input" name="<?php echo $name; ?>[input]" type="number" required />
-		<input id="<?php echo $id_base; ?>-answer" name="<?php echo $name; ?>[answer]" type="hidden" <?php echo $extra; ?> />
+		<span id="<?php echo $id_base; ?>-n1"></span> + <span id="<?php echo $id_base; ?>-n2"></span> = <input id="<?php echo $id_base; ?>-input" name="<?php echo AttrEscape( $name ); ?>[input]" type="number" required />
+		<input id="<?php echo $id_base; ?>-answer" name="<?php echo AttrEscape( $name ); ?>[answer]" type="hidden" <?php echo $extra; ?> />
 		<?php echo FormatInputTitle( $title, $id_base . '-input', $required ); ?>
 	</div>
 	<script>captcha(<?php echo json_encode( $id_base ); ?>);</script>
@@ -1557,10 +1557,10 @@ function FileInput( $name, $title = '', $extra = '', $max_file_size = 0 )
 	// Input title indicating Maximum file size.
 	if ( mb_strpos( $extra, 'title=' ) === false )
 	{
-		$extra .= ' title="' . sprintf( _( 'Maximum file size: %01.0fMb' ), $max_file_size ) . '"';
+		$extra .= ' title="' . AttrEscape( sprintf( _( 'Maximum file size: %01.0fMb' ), $max_file_size ) ) . '"';
 	}
 
-	return '<input type="file" id="' . $id . '" name="' . $name . '" ' . $extra .
+	return '<input type="file" id="' . $id . '" name="' . AttrEscape( $name ) . '" ' . $extra .
 		' onchange="fileInputSizeValidate(this,' . $max_file_size . ');" /><span class="loading"></span>' .
 		$ftitle;
 }
@@ -1616,7 +1616,7 @@ function CheckBoxOnclick( $name, $title = '' )
 		isset( $_REQUEST[ $name ] ) && $_REQUEST[ $name ] == 'Y' ? [ $name => '' ] : [ $name => 'Y' ]
 	) . "'";
 
-	$input = '<input type="checkbox" name="' . $name . '" value="Y"' .
+	$input = '<input type="checkbox" name="' . AttrEscape( $name ) . '" value="Y"' .
 		( isset( $_REQUEST[ $name ] ) && $_REQUEST[ $name ] == 'Y' ? ' checked' : '' ) .
 		' onclick="ajaxLink(' . $onclick_URL . ');" />';
 
@@ -1689,7 +1689,7 @@ function FormatInputTitle( $title, $id = '', $required = false, $break = '<br />
 		// Not hidden, add legend class color.
 		$class = $required && AllowEdit() ? 'legend-red' : 'legend-gray';
 
-		$title = '<span class="' . $class . '">' . $title . '</span>';
+		$title = '<span class="' . AttrEscape( $class ) . '">' . $title . '</span>';
 	}
 
 	// Add label only if id attribute given
@@ -1796,7 +1796,7 @@ function MakeChooseCheckbox( $value, $column = '', $controller_name = '' )
 		$value = issetVal( $THIS_RET[ $controller_column ], '' );
 	}
 
-	return '<label><input type="checkbox" name="' . $name . '[]" value="' . $value . '"' .
+	return '<label><input type="checkbox" name="' . AttrEscape( $name ) . '[]" value="' . AttrEscape( $value ) . '"' .
 		( $checked ? ' checked' : '' ) . ' /><span class="a11y-hidden">' .
 		_( 'Select' ) . '</span></label>';
 }

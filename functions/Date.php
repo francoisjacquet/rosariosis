@@ -300,7 +300,7 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = [] )
 
 		foreach ( $months_locale as $key => $name )
 		{
-			$return_m .= '<option value="' . $key . '"' . ( $date_exploded['month'] == $key ? ' selected' : '' ) . '>' . $name;
+			$return_m .= '<option value="' . AttrEscape( $key ) . '"' . ( $date_exploded['month'] == $key ? ' selected' : '' ) . '>' . $name;
 		}
 
 		$return_m .= '</select>';
@@ -332,7 +332,7 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = [] )
 			if ( $i < 10 )
 				$print = '0' . $i;
 
-			$return_d .= '<option value="' . $print . '"' . ( $date_exploded['day'] == $print ? ' selected' : '' ) . '>' . $i;
+			$return_d .= '<option value="' . AttrEscape( $print ) . '"' . ( $date_exploded['day'] == $print ? ' selected' : '' ) . '>' . $i;
 		}
 
 		$return_d .= '</select>';
@@ -369,7 +369,7 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = [] )
 
 		for ( $i = $begin; $i <= $end; $i++ )
 		{
-			$return_y .= '<option value="' . $i . '"' . ( $date_exploded['year'] == $i ?' selected' : '' ) . '>' . $i;
+			$return_y .= '<option value="' . AttrEscape( $i ) . '"' . ( $date_exploded['year'] == $i ?' selected' : '' ) . '>' . $i;
 		}
 
 		$return_y .= '</select>';
@@ -400,7 +400,7 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = [] )
 	// CALENDAR  ---------------.
 	if ( $options['C'] )
 	{
-		$return .= '<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/calendar.png" title="' . _( 'Open calendar' ) . '" class="button cal" alt="' . _( 'Open calendar' ) . '" id="trigger' . $_ROSARIO['PrepareDate'] . '" />';
+		$return .= '<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/calendar.png" title="' . AttrEscape( _( 'Open calendar' ) ) . '" class="button cal" alt="' . AttrEscape( _( 'Open calendar' ) ) . '" id="trigger' . $_ROSARIO['PrepareDate'] . '" />';
 	}
 
 	// NOBR on date input.

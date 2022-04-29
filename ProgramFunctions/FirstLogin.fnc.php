@@ -258,9 +258,9 @@ if ( ! function_exists( 'FirstLoginPoll' ) )
 
 		$fields = [];
 
-		$fields[] = '<input type="hidden" name="locale" value="' . $locale . '" />';
+		$fields[] = '<input type="hidden" name="locale" value="' . AttrEscape( $locale ) . '" />';
 
-		$fields[] = '<input type="hidden" name="version" value="' . ROSARIO_VERSION . '" />';
+		$fields[] = '<input type="hidden" name="version" value="' . AttrEscape( ROSARIO_VERSION ) . '" />';
 
 		$_ROSARIO['allow_edit'] = true;
 

@@ -945,5 +945,5 @@ function _makeAddress( $value )
 	|| ( ! empty( $current_RET['StudentFieldsView']['ADDRESS'][1]['VALUE'] ) == $value
 		&& $current_RET['StudentFieldsView']['ADDRESS'][1]['VALUE'] == $value ) ? ' checked' : '';
 
-	return '<input type="radio" name="values[StudentFieldsView][ADDRESS]" value="' . $value . '"' . $checked . ' />';
+	return '<input type="radio" name="values[StudentFieldsView][ADDRESS]" value="' . AttrEscape( $value ) . '"' . $checked . ' />';
 }

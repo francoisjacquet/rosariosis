@@ -808,12 +808,12 @@ if (  ( ! $_REQUEST['modfunc']
 
 			if ( $can_delete )
 			{
-				$delete_url = "'Modules.php?modname=" . $_REQUEST['modname'] .
+				$delete_url = "'" . URLEscape( "Modules.php?modname=" . $_REQUEST['modname'] .
 					'&modfunc=delete&subject_id=' . $_REQUEST['subject_id'] .
 					'&course_id=' . $_REQUEST['course_id'] .
-					'&course_period_id=' . $_REQUEST['course_period_id'] . "'";
+					'&course_period_id=' . $_REQUEST['course_period_id'] ) . "'";
 
-				$delete_button = '<input type="button" value="' . _( 'Delete' ) . '" onClick="javascript:ajaxLink(' . $delete_url . ');" />';
+				$delete_button = '<input type="button" value="' . AttrEscape( _( 'Delete' ) ) . '" onClick="javascript:ajaxLink(' . $delete_url . ');" />';
 			}
 		}
 
@@ -1661,7 +1661,7 @@ if ( $_REQUEST['modname'] === 'Scheduling/Courses.php'
 		WHERE COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'" );
 
 	$html_to_escape = $course_title .
-		'<input type="hidden" name="tables[parent_id]" value="' . $_REQUEST['course_period_id'] . '" />';
+		'<input type="hidden" name="tables[parent_id]" value="' . AttrEscape( $_REQUEST['course_period_id'] ) . '" />';
 
 	echo '<script>opener.document.getElementById("' .
 	( $_REQUEST['last_year'] === 'true' ? 'ly_' : '' ) . 'course_div").innerHTML=' .

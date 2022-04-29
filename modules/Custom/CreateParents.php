@@ -62,14 +62,14 @@ if ( empty( $email_column ) )
 
 	foreach ( (array) $student_columns as $student_column )
 	{
-		$select_html .= '<option value="' . $student_column['COLUMN'] . '">' . ParseMLField( $student_column['CATEGORY'] ) . ' - ' . ParseMLField( $student_column['TITLE'] ) . '</option>';
+		$select_html .= '<option value="' . AttrEscape( $student_column['COLUMN'] ) . '">' . ParseMLField( $student_column['CATEGORY'] ) . ' - ' . ParseMLField( $student_column['TITLE'] ) . '</option>';
 	}
 
 	$select_html .= '</optgroup><optgroup label="' . AttrEscape( _( 'Address Fields' ) ) . '">';
 
 	foreach ( (array) $address_columns as $address_column )
 	{
-		$select_html .= '<option value="' . $address_column['COLUMN'] . '">' . ParseMLField( $address_column['CATEGORY'] ) . ' - ' . ParseMLField( $address_column['TITLE'] ) . '</option>';
+		$select_html .= '<option value="' . AttrEscape( $address_column['COLUMN'] ) . '">' . ParseMLField( $address_column['CATEGORY'] ) . ' - ' . ParseMLField( $address_column['TITLE'] ) . '</option>';
 	}
 
 	$select_html .= '</optgroup></select>';
@@ -403,7 +403,7 @@ if ( ! $_REQUEST['modfunc'] && ! empty( $email_column ) )
 			'',
 			'test_email',
 			_( 'Email' ),
-			'type="email" pattern="[^ @]*@[^ @]*" placeholder="' . _( 'Email' ) . '" size="24"',
+			'type="email" pattern="[^ @]*@[^ @]*" placeholder="' . AttrEscape( _( 'Email' ) ) . '" size="24"',
 			false
 		) . '</td></tr>';
 

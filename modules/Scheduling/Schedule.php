@@ -282,7 +282,7 @@ if ( UserStudentID()
 		'ROOM' => _( 'Room' ),
 		'COURSE_MARKING_PERIOD_ID' => _( 'Term' ),
 		'SCHEDULER_LOCK' => '<img src="assets/themes/' . Preferences( 'THEME' ) .
-			'/btn/locked.png" class="button bigger" alt="' . _( 'Locked' ) . '">' .
+			'/btn/locked.png" class="button bigger" alt="' . AttrEscape( _( 'Locked' ) ) . '">' .
 			'<span class="a11y-hidden">' . _( 'Locked' ) . '</span>',
 		'START_DATE' => _( 'Enrolled' ),
 		'END_DATE' => _( 'Dropped' ),
@@ -523,17 +523,19 @@ function _makeLock( $value, $column )
 		$js_included = true;
 	}
 
-	$lock_id = 'lock' . $THIS_RET['COURSE_PERIOD_ID'] . '-' . $THIS_RET['START_DATE'];
+	$lock_id = GetInputID( 'lock' . $THIS_RET['COURSE_PERIOD_ID'] . '-' . $THIS_RET['START_DATE'] );
 
-	//FJ icons
+	$lock_name = 'schedule[' . $THIS_RET['COURSE_PERIOD_ID'] . '][' . $THIS_RET['START_DATE'] . '][SCHEDULER_LOCK]';
+
+	$title_alt = $value == 'Y' ? _( 'Locked' ) : _( 'Unlocked' );
 
 	return $return . '<img src="assets/themes/' .
 	Preferences( 'THEME' ) . '/btn/' . ( $value == 'Y' ? 'locked' : 'unlocked' ) .
-		'.png" title="' . ( $value == 'Y' ? _( 'Locked' ) : _( 'Unlocked' ) ) . '"
-		alt="' . ( $value == 'Y' ? _( 'Locked' ) : _( 'Unlocked' ) ) . '"
+		'.png" title="' . AttrEscape( $title_alt ) . '"
+		alt="' . AttrEscape( $title_alt ) . '"
 		class="button bigger" style="cursor: pointer;"' .
 		( AllowEdit() ? ' onclick="switchLock(this, \'' . $lock_id . '\');" />
-			<input type="hidden" name="schedule[' . $THIS_RET['COURSE_PERIOD_ID'] . '][' . $THIS_RET['START_DATE'] . '][SCHEDULER_LOCK]" id="' . $lock_id . '" value="' . $value . '" />' :
+			<input type="hidden" name="' . AttrEscape( $lock_name ) . '" id="' . $lock_id . '" value="' . AttrEscape( $value ) . '" />' :
 		' />' );
 }
 

@@ -173,7 +173,7 @@ function Search( $type, $extra = null )
 					$checked = ! empty( $extra[ $id ] ) || $extra == $id ? ' checked' : '';
 
 					echo '<td><label class="nobr">
-					<input type="checkbox" name="grades[' . $id . ']" value="Y"' . $checked . ' />&nbsp;' .
+					<input type="checkbox" name="' . AttrEscape( 'grades[' . $id . ']' ) . '" value="Y"' . $checked . ' />&nbsp;' .
 						$grade_level['SHORT_NAME'] . '</label></td>';
 
 					$i++;
@@ -197,7 +197,7 @@ function Search( $type, $extra = null )
 				{
 					$id = $grade_level['ID'];
 
-					echo '<option value="' . $id . '"' . ( $extra == $id ? ' selected' : '' ) . '>' .
+					echo '<option value="' . AttrEscape( $id ) . '"' . ( $extra == $id ? ' selected' : '' ) . '>' .
 						$grade_level['TITLE'] . '</option>';
 				}
 
@@ -255,7 +255,7 @@ function Search( $type, $extra = null )
 
 			foreach ( $options as $key => $val )
 			{
-				echo '<option value="' . $key . '">' . $val . '</option>';
+				echo '<option value="' . AttrEscape( $key ) . '">' . $val . '</option>';
 			}
 
 			echo '</select></td></tr>';
@@ -276,7 +276,7 @@ function Search( $type, $extra = null )
 
 			foreach ( $grade_levels_RET as $grade_level )
 			{
-				echo '<option value="' . $grade_level['ID'] . '">' .
+				echo '<option value="' . AttrEscape( $grade_level['ID'] ) . '">' .
 					$grade_level['TITLE'] . '</option>';
 			}
 
@@ -506,19 +506,19 @@ function Search( $type, $extra = null )
 					echo '<tr class="' . $TR_classes . '"><td>
 					<label for="' . $id . '">' . $col['TITLE'] . '</label>
 					</td><td>
-					<input type="text" name="' . $name . '" id="' . $id . '" size="24" maxlength="1000" />
+					<input type="text" name="' . AttrEscape( $name ) . '" id="' . $id . '" size="24" maxlength="1000" />
 					</td></tr>';
 				}
 
 				// Numeric.
 				foreach ( (array) $category['numeric'] as $col )
 				{
-					echo '<tr class="' . $TR_classes . '"><td>' . $col['TITLE'] . '</td><td>
+					echo '<tr class="' . AttrEscape( $TR_classes ) . '"><td>' . $col['TITLE'] . '</td><td>
 					<span class="sizep2">&ge;</span>
-					<input type="text" name="cust_begin[' . $col['COLUMN_NAME'] . ']" size="3" maxlength="11" />
+					<input type="text" name="' . AttrEscape( 'cust_begin[' . $col['COLUMN_NAME'] . ']' ) . '" size="3" maxlength="11" />
 					<span class="sizep2">&le;</span>
-					<input type="text" name="cust_end[' . $col['COLUMN_NAME'] . ']" size="3" maxlength="11" />
-					<label><input type="checkbox" name="cust_null[' . $col['COLUMN_NAME'] . ']" /> ' . _( 'No Value' ) .
+					<input type="text" name="' . AttrEscape( 'cust_end[' . $col['COLUMN_NAME'] . ']' ) . '" size="3" maxlength="11" />
+					<label><input type="checkbox" name="' . AttrEscape( 'cust_null[' . $col['COLUMN_NAME'] . ']' ) . '" /> ' . _( 'No Value' ) .
 					'</label>&nbsp;
 					</td></tr>';
 				}
@@ -550,9 +550,9 @@ function Search( $type, $extra = null )
 
 					$id = GetInputID( $name );
 
-					echo '<tr class="' . $TR_classes . '">
+					echo '<tr class="' . AttrEscape( $TR_classes ) . '">
 					<td><label for="' . $id . '">' . $col['TITLE'] . '</label></td><td>
-					<select name="' . $name . '" id="' . $id . '">
+					<select name="' . AttrEscape( $name ) . '" id="' . $id . '">
 						<option value="">' . _( 'N/A' ) . '</option>
 						<option value="!">' . _( 'No Value' ) . '</option>';
 
@@ -571,7 +571,7 @@ function Search( $type, $extra = null )
 						if ( $value !== ''
 							&& $option !== '' )
 						{
-							echo '<option value="' . $value . '">' . $option . '</option>';
+							echo '<option value="' . AttrEscape( $value ) . '">' . $option . '</option>';
 						}
 					}
 
@@ -609,7 +609,7 @@ function Search( $type, $extra = null )
 						{
 							if ( ! in_array( $option[ $col_name ], $options ) )
 							{
-								echo '<option value="' . $option[ $col_name ] . '">' .
+								echo '<option value="' . AttrEscape( $option[ $col_name ] ) . '">' .
 									$option[ $col_name ] . '</option>';
 							}
 						}
@@ -621,8 +621,8 @@ function Search( $type, $extra = null )
 				// Date.
 				foreach ( (array) $category['date'] as $col )
 				{
-					echo '<tr class="' . $TR_classes . '"><td>' . $col['TITLE'] . '<br />
-					<label>&nbsp;<input type="checkbox" name="cust_null[' . $col['COLUMN_NAME'] . ']" /> ' .
+					echo '<tr class="' . AttrEscape( $TR_classes ) . '"><td>' . $col['TITLE'] . '<br />
+					<label>&nbsp;<input type="checkbox" name="' . AttrEscape( 'cust_null[' . $col['COLUMN_NAME'] . ']' ) . '" /> ' .
 					_( 'No Value' ) . '</label>
 					</td>
 					<td><table class="cellspacing-0">
@@ -648,12 +648,12 @@ function Search( $type, $extra = null )
 				{
 					$name = 'cust[' . $col['COLUMN_NAME'] . ']';
 
-					echo '<tr class="' . $TR_classes . '"><td>' . $col['TITLE'] . '</td>
-					<td><label><input name="' . $name . '" type="radio" value="" checked /> ' .
+					echo '<tr class="' . AttrEscape( $TR_classes ) . '"><td>' . $col['TITLE'] . '</td>
+					<td><label><input name="' . AttrEscape( $name ) . '" type="radio" value="" checked /> ' .
 					_( 'All' ) . '</label> &nbsp;
-					<label><input name="' . $name . '" type="radio" value="Y" /> ' .
+					<label><input name="' . AttrEscape( $name ) . '" type="radio" value="Y" /> ' .
 					_( 'Yes' ) . '</label> &nbsp;
-					<label><input name="' . $name . '" type="radio" value="N" /> ' .
+					<label><input name="' . AttrEscape( $name ) . '" type="radio" value="N" /> ' .
 					_( 'No' ) . '</label></td></tr>';
 				}
 

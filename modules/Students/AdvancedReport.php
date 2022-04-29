@@ -47,7 +47,7 @@ function MyWidgets( $item )
 
 			foreach ( (array) $options as $key => $val )
 			{
-				$extra['search'] .= '<option value="' . $key . '">' . $val . '</option>';
+				$extra['search'] .= '<option value="' . AttrEscape( $key ) . '">' . $val . '</option>';
 			}
 
 			$extra['search'] .= '</select></td></tr>';
@@ -72,7 +72,7 @@ function MyWidgets( $item )
 
 			foreach ( (array) $options as $key => $val )
 			{
-				$extra['search'] .= '<option value="' . $key . '">' . $val . '</option>';
+				$extra['search'] .= '<option value="' . AttrEscape( $key ) . '">' . $val . '</option>';
 			}
 
 			$extra['search'] .= '</select></td></tr>';

@@ -177,7 +177,7 @@ if ( ! $_REQUEST['modfunc'] )
 		{
 			foreach ( (array) $subjects_RET as $id => $subject )
 			{
-				$subject_select .= '<option value="' . $id . '"' . ( $_REQUEST['subject_id'] == $id ? ' selected' : '' ) . '>' . $subject[1]['TITLE'] . '</option>';
+				$subject_select .= '<option value="' . AttrEscape( $id ) . '"' . ( $_REQUEST['subject_id'] == $id ? ' selected' : '' ) . '>' . $subject[1]['TITLE'] . '</option>';
 			}
 		}
 
@@ -199,7 +199,7 @@ if ( ! $_REQUEST['modfunc'] )
 		{
 			foreach ( (array) $courses_RET as $id => $course )
 			{
-				$course_select .= '<option value="' . $id . '"' . ( $_REQUEST['course_id'] == $id ? ' selected' : '' ) . '>' . $course[1]['TITLE'] . '</option>';
+				$course_select .= '<option value="' . AttrEscape( $id ) . '"' . ( $_REQUEST['course_id'] == $id ? ' selected' : '' ) . '>' . $course[1]['TITLE'] . '</option>';
 			}
 		}
 

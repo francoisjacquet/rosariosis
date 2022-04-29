@@ -788,7 +788,7 @@ else
 
 				foreach ( (array) $relations_RET as $relation )
 					if ( $relation['STUDENT_RELATION'] != '' )
-						$select .= '<option value="' . $relation['STUDENT_RELATION'] . '">' . $relation['STUDENT_RELATION'];
+						$select .= '<option value="' . AttrEscape( $_REQUEST['course_id'] ) . '">' . $relation['STUDENT_RELATION'];
 					else
 						$select .= '<option value="!">' . _( 'No Value' );
 

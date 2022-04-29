@@ -243,7 +243,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		foreach ( (array) $categories_RET as $category )
 		{
-			echo '<option value="' . $category['ID'] . '"' .
+			echo '<option value="' . AttrEscape( $category['ID'] ) . '"' .
 				( $_REQUEST['category_id'] == $category['ID'] ? ' selected' : '' ) . '>' .
 				ParseMLField( $category['TITLE'] ) . '</option>';
 		}
