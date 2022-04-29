@@ -24,7 +24,7 @@ if ( UserStudentID() )
 		//DBQuery("DELETE FROM STUDENT_MP_STATS WHERE student_id = $student_id and marking_period_id = $mp_id");
 		DBQuery( "DELETE FROM STUDENT_MP_STATS
 			WHERE student_id='" . $student_id . "'
-			AND marking_period_id='" . $_REQUEST['new_sms'] . "'" );
+			AND marking_period_id='" . (int) $_REQUEST['new_sms'] . "'" );
 
 		unset( $mp_id );
 
@@ -228,7 +228,7 @@ if ( UserStudentID() )
 				}
 
 				$g_mp[$g_rec['MP_ID']] = [
-					'schoolyear' => formatSyear( $g_rec['SYEAR'], Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) ),
+					'schoolyear' => FormatSyear( $g_rec['SYEAR'], Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) ),
 					'mp_name' => $g_rec['MP_NAME'],
 					'grade_level' => $g_rec['GRADE_LEVEL'],
 					'weighted_cum' => $g_rec['WEIGHTED_CUM'],
@@ -274,33 +274,36 @@ if ( UserStudentID() )
 		DrawHeader( '', SubmitButton() );
 		echo '<br />';
 
-		echo PopTable( 'header', $displayname );
+		if ( $mp_id != '0' )
+		{
+			echo PopTable( 'header', $displayname );
 
-		echo '<fieldset><legend>' . _( 'Marking Period Statistics' ) . '</legend>';
+			echo '<fieldset><legend>' . _( 'Marking Period Statistics' ) . '</legend>';
 
-		echo '<table class="cellpadding-5"><tr><td>' . _( 'GPA' ) . '</td><td>' .
-			NoInput(
-				(float) number_format( issetVal( $g_mp[$mp_id]['weighted_gpa'], 0 ), 2, '.', '' ),
-				_( 'Weighted' )
-			) . '</td><td>' .
-			NoInput(
-				(float) number_format( issetVal( $g_mp[$mp_id]['unweighted_gpa'], 0 ), 2, '.', '' ),
-				_( 'Unweighted' )
-			) . '</td></tr>';
+			echo '<table class="cellpadding-5"><tr><td>' . _( 'GPA' ) . '</td><td>' .
+				NoInput(
+					(float) number_format( issetVal( $g_mp[$mp_id]['weighted_gpa'], 0 ), 2, '.', '' ),
+					_( 'Weighted' )
+				) . '</td><td>' .
+				NoInput(
+					(float) number_format( issetVal( $g_mp[$mp_id]['unweighted_gpa'], 0 ), 2, '.', '' ),
+					_( 'Unweighted' )
+				) . '</td></tr>';
 
-		echo '<tr><td>' . _( 'Class Rank GPA' ) . '</td><td>' .
-			NoInput(
-				(float) number_format( issetVal( $g_mp[$mp_id]['cr_weighted'], 0 ), 2, '.', '' ),
-				_( 'Weighted' )
-			) . '</td><td>' .
-			NoInput(
-				(float) number_format( issetVal( $g_mp[$mp_id]['cr_unweighted'], 0 ), 2, '.', '' ),
-				_( 'Unweighted' )
-			) . '</td></tr></table>';
+			echo '<tr><td>' . _( 'Class Rank GPA' ) . '</td><td>' .
+				NoInput(
+					(float) number_format( issetVal( $g_mp[$mp_id]['cr_weighted'], 0 ), 2, '.', '' ),
+					_( 'Weighted' )
+				) . '</td><td>' .
+				NoInput(
+					(float) number_format( issetVal( $g_mp[$mp_id]['cr_unweighted'], 0 ), 2, '.', '' ),
+					_( 'Unweighted' )
+				) . '</td></tr></table>';
 
-		echo '</fieldset>';
+			echo '</fieldset>';
 
-		echo PopTable( 'footer' ) . '<br />';
+			echo PopTable( 'footer' ) . '<br />';
+		}
 
 		$sms_grade_level = TextInput(
 			issetVal( $g_mp[$mp_id]['grade_level'] ),
@@ -309,7 +312,7 @@ if ( UserStudentID() )
 			'size=3 maxlength=3'
 		);
 
-		if ( $mp_id == "0" )
+		if ( $mp_id == '0' )
 		{
 			$syear = UserSyear();
 
@@ -325,13 +328,15 @@ if ( UserStudentID() )
 
 				foreach ( $mp_RET as $id => $mp )
 				{
-					$mp_options[$mp['MARKING_PERIOD_ID']] = formatSyear(
+					$mp_options[$mp['MARKING_PERIOD_ID']] = FormatSyear(
 						$mp['SYEAR'],
 						Config( 'SCHOOL_SYEAR_OVER_2_YEARS' )
 					) . ', ' . $mp['TITLE'];
 				}
 
-				echo '<table class="postbox cellpadding-5"><tr><td>';
+				echo PopTable( 'header', _( 'Add another marking period' ) );
+
+				echo '<table class="cellpadding-5"><tr><td>';
 				echo SelectInput(
 					null,
 					'new_sms',
@@ -343,6 +348,8 @@ if ( UserStudentID() )
 				echo '</td><td>';
 				echo $sms_grade_level;
 				echo '</td></tr></table>';
+
+				echo PopTable( 'footer' );
 			}
 		}
 		else

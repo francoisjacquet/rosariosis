@@ -64,6 +64,7 @@ Changes in 9.0
 - Add use of URLEscape(), program wide
 - Use URLEscape() for img src attribute, program wide
 - Sanitize / escape URL as THEME is often included for button img src attribute in User.fnc.php
+- Better format for "Add another marking period" form in EditReportCardGrades.php
 
 Changes in 8.9.5
 ----------------
