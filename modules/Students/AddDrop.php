@@ -88,5 +88,5 @@ function _makeStudentInfoLink( $value, $column = 'FULL_NAME' )
 		$link .= '&school_id=' . $THIS_RET['SCHOOL_ID'];
 	}
 
-	return '<a href="' . $link . '">' . MakeStudentPhotoTipMessage( $THIS_RET['STUDENT_ID'], $value ) . '</a>';
+	return '<a href="' . URLEscape( $link ) . '">' . MakeStudentPhotoTipMessage( $THIS_RET['STUDENT_ID'], $value ) . '</a>';
 }

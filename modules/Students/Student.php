@@ -715,7 +715,7 @@ if (  ( UserStudentID()
 			$form_action = 'index.php?create_account=student&student_id=new&school_id=' . UserSchool() . '&modfunc=update';
 		}
 
-		echo '<form name="student" id="student"	action="' . $form_action . '"
+		echo '<form name="student" id="student"	action="' . URLEscape( $form_action ) . '"
 			method="POST" enctype="multipart/form-data">';
 
 		$name = $_REQUEST['student_id'] !== 'new' ? $student['FULL_NAME'] . ' - ' . $student['STUDENT_ID'] : '';

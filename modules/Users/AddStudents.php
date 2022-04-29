@@ -182,5 +182,5 @@ function _makeStudentInfoLink( $value, $column = 'FULL_NAME' )
 		$link .= '&school_id=' . $THIS_RET['SCHOOL_ID'];
 	}
 
-	return '<a href="' . $link . '">' . $value . '</a>';
+	return '<a href="' . URLEscape( $link ) . '">' . $value . '</a>';
 }

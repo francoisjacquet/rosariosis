@@ -44,6 +44,6 @@ function Linkify( $text )
 			);
 		}
 
-		return '<a href="' . $url . '" target="_blank">' . $input . '</a>';
+		return '<a href="' . URLEscape( $url ) . '" target="_blank">' . $input . '</a>';
 	}, $text );
 }

@@ -649,7 +649,7 @@ if (  ( UserStaffID()
 			$form_action = 'index.php?create_account=user&staff_id=new&modfunc=update';
 		}
 
-		echo '<form name="staff" id="staff"	action="' . $form_action . '"
+		echo '<form name="staff" id="staff"	action="' . URLEscape( $form_action ) . '"
 			method="POST" enctype="multipart/form-data">';
 
 		$delete_button = '';
