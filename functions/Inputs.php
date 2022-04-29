@@ -820,9 +820,9 @@ function SelectInput( $values, $name, $title = '', $options = [], $allow_na = 'N
 {
 	$id = GetInputID( $name );
 
-	$required = $values == '' && mb_strpos( $extra, 'required' ) !== false;
+	$required = $values == '' && mb_strpos( (string) $extra, 'required' ) !== false;
 
-	$is_multiple = is_array( $options ) && mb_strpos( $extra, 'multiple' ) !== false;
+	$is_multiple = is_array( $options ) && mb_strpos( (string) $extra, 'multiple' ) !== false;
 
 	$values = $is_multiple ?
 		(array) $values :

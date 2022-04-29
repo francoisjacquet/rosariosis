@@ -549,7 +549,7 @@ function _makeTextInput( $value, $name )
 	);
 
 	if ( $name === 'COMMENT'
-		&& mb_strlen( $value ) > 60
+		&& mb_strlen( (string) $value ) > 60
 		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		// Comments length > 60 chars, responsive table ColorBox.
