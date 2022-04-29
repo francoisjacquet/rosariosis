@@ -470,7 +470,7 @@ if ( empty( $_SESSION['STAFF_ID'] )
 
 ?>
 
-	<img src="assets/themes/<?php echo Config( 'THEME' ); ?>/logo.png" class="logo center" alt="Logo" />
+	<img src="assets/themes/<?php echo URLEscape( Config( 'THEME' ) ); ?>/logo.png" class="logo center" alt="Logo" />
 	<h4 class="center"><?php echo ParseMLField( Config( 'TITLE' ) ); ?></h4>
 	<form name="loginform" id="loginform" method="post">
 	<table class="cellspacing-0 width-100p">

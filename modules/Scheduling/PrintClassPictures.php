@@ -158,11 +158,11 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 				if ( $size[1] / $size[0] > 172 / 130 )
 				{
-					echo '<tr><td style="width:130px;"><img src="' . $picture_path . '" height="172"></td></tr>';
+					echo '<tr><td style="width:130px;"><img src="' . URLEscape( $picture_path ) . '" height="172"></td></tr>';
 				}
 				else
 				{
-					echo '<tr><td style="width:130px;"><img src="' . $picture_path . '" width="130"></td></tr>';
+					echo '<tr><td style="width:130px;"><img src="' . URLEscape( $picture_path ) . '" width="130"></td></tr>';
 				}
 			}
 			else
@@ -205,11 +205,11 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 				if ( $size[1] / $size[0] > 172 / 130 )
 				{
-					echo '<tr><td style="width:130px;"><img src="' . $picture_path . '" height="172"></td></tr>';
+					echo '<tr><td style="width:130px;"><img src="' . URLEscape( $picture_path ) . '" height="172"></td></tr>';
 				}
 				else
 				{
-					echo '<tr><td style="width:130px;"><img src="' . $picture_path . '" width="130"></td></tr>';
+					echo '<tr><td style="width:130px;"><img src="' . URLEscape( $picture_path ) . '" width="130"></td></tr>';
 				}
 			}
 			else

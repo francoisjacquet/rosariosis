@@ -70,7 +70,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 				if ( file_exists( $logo_pic ) )
 				{
-					DrawHeader( _( 'Student Info' ), '<img src="' . $logo_pic . '" width="280" />' );
+					DrawHeader( _( 'Student Info' ), '<img src="' . URLEscape( $logo_pic ) . '" width="280" />' );
 				}
 				else
 				{

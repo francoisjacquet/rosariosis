@@ -188,7 +188,7 @@ function MoodleUsersMakeName( $name, $photo_url )
 	}
 
 	return makeTipMessage(
-		'<img src="' . $photo_url . '" style="max-height: 150px;" />',
+		'<img src="' . URLEscape( $photo_url ) . '" style="max-height: 150px;" />',
 		_( 'User Photo' ),
 		$name
 	);

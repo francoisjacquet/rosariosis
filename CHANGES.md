@@ -62,6 +62,7 @@ Changes in 9.0
 - Add CSRF token to logout URL in login.php, Warehouse.php, PasswordReset.php, Bottom.php, Student.php & User.php, thanks to @khanhchauminh
 - Logout after 10 Hacking attempts within 1 minute in HackingLog.fnc.php
 - Add use of URLEscape(), program wide
+- Use URLEscape() for img src attribute, program wide
 
 Changes in 8.9.5
 ----------------

@@ -528,15 +528,15 @@ if ( ! function_exists( 'TranscriptPDFHeader' ) )
 
 			if ( file_exists( $stu_pic ) )
 			{
-				echo '<img src="' . $stu_pic . '" width="' . AttrEscape( $picwidth ) . '" />';
+				echo '<img src="' . URLEscape( $stu_pic ) . '" width="' . AttrEscape( $picwidth ) . '" />';
 			}
 			elseif ( file_exists( $stu_pic2 ) )
 			{
-				echo '<img src="' . $stu_pic2 . '" width="' . AttrEscape( $picwidth ) . '" />';
+				echo '<img src="' . URLEscape( $stu_pic2 ) . '" width="' . AttrEscape( $picwidth ) . '" />';
 			}
 			elseif ( file_exists( $stu_pic3 ) )
 			{
-				echo '<img src="' . $stu_pic3 . '" width="' . AttrEscape( $picwidth ) . '" />';
+				echo '<img src="' . URLEscape( $stu_pic3 ) . '" width="' . AttrEscape( $picwidth ) . '" />';
 			}
 			else
 			{
@@ -601,7 +601,7 @@ if ( ! function_exists( 'TranscriptPDFHeader' ) )
 
 		if ( file_exists( $logo_pic ) )
 		{
-			echo '<img src="' . $logo_pic . '" width="' . AttrEscape( $picwidth ) . '" />';
+			echo '<img src="' . URLEscape( $logo_pic ) . '" width="' . AttrEscape( $picwidth ) . '" />';
 		}
 
 		// School Info.

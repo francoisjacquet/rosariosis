@@ -29,7 +29,7 @@ function makeIcon( $value, $name, $width = '48' )
 
 	if ( $value )
 	{
-		$return = '<img src="' . $FS_IconsPath . $value . '" width="' . AttrEscape( $width ) . '" />';
+		$return = '<img src="' . URLEscape( $FS_IconsPath . $value ) . '" width="' . AttrEscape( $width ) . '" />';
 
 		if ( $THIS_RET )
 		{
@@ -38,7 +38,7 @@ function makeIcon( $value, $name, $width = '48' )
 			require_once 'ProgramFunctions/TipMessage.fnc.php';
 
 			return MakeTipMessage(
-				'<img src="' . $FS_IconsPath . $value . '" width="128" />',
+				'<img src="' . URLEscape( $FS_IconsPath . $value ) . '" width="128" />',
 				_( 'Icon' ),
 				$return
 			);

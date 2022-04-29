@@ -712,7 +712,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 				{
 					echo '<table class="width-100p"><tr>
 					<td style="width:' . $picwidth . 'px;">
-						<img src="' . $logo_pic . '" width="' . AttrEscape( $picwidth ) . '" />
+						<img src="' . URLEscape( $logo_pic ) . '" width="' . AttrEscape( $picwidth ) . '" />
 					</td>
 					<td>';
 				}

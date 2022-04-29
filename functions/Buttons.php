@@ -73,7 +73,7 @@ function button( $type, $text = '', $link = '', $class = '' )
 		$button_file = str_replace( '_button', '', $button_file );
 	}
 
-	$button .= '<img src="' . $button_file . '" class="button ' . $class . '" alt="' . AttrEscape( ucfirst( str_replace( '_', ' ', $type ) ) ) . '" />';
+	$button .= '<img src="' . URLEscape( $button_file ) . '" class="button ' . $class . '" alt="' . AttrEscape( ucfirst( str_replace( '_', ' ', $type ) ) ) . '" />';
 
 	if ( $text )
 	{
