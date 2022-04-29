@@ -12,7 +12,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			// $current_RET = DBGet( "SELECT STUDENT_ID FROM STUDENT_ELIGIBILITY_ACTIVITIES WHERE ACTIVITY_ID='".$_SESSION['activity_id']."' AND SYEAR='".UserSyear()."'",array(),array('STUDENT_ID'));
 			$current_RET = DBGet( "SELECT STUDENT_ID
 				FROM STUDENT_ELIGIBILITY_ACTIVITIES
-				WHERE ACTIVITY_ID='" . $_REQUEST['activity_id'] . "'
+				WHERE ACTIVITY_ID='" . (int) $_REQUEST['activity_id'] . "'
 				AND SYEAR='" . UserSyear() . "'", [], [ 'STUDENT_ID' ] );
 
 			// Group SQL inserts.

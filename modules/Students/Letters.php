@@ -45,9 +45,9 @@ if ( $_REQUEST['modfunc'] === 'save'
 			$extra['SELECT'] .= ",(SELECT " . DisplayNameSQL( 'st' ) . "
 			FROM STAFF st,COURSE_PERIODS cp
 			WHERE st.STAFF_ID=cp.TEACHER_ID
-			AND cp.COURSE_PERIOD_ID='" . $_REQUEST['w_course_period_id'] . "') AS TEACHER";
+			AND cp.COURSE_PERIOD_ID='" . (int) $_REQUEST['w_course_period_id'] . "') AS TEACHER";
 
-			$extra['SELECT'] .= ",(SELECT cp.ROOM FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID='" . $_REQUEST['w_course_period_id'] . "') AS ROOM";
+			$extra['SELECT'] .= ",(SELECT cp.ROOM FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID='" . (int) $_REQUEST['w_course_period_id'] . "') AS ROOM";
 		}
 		else
 		{

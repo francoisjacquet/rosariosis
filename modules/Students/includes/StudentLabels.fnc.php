@@ -32,7 +32,7 @@ if ( ! function_exists( 'GetStudentLabelsFormHTML' ) )
 				$course_RET = DBGet( "SELECT " . DisplayNameSQL( 's' ) . " AS TEACHER,cp.ROOM
 				FROM STAFF s,COURSE_PERIODS cp
 				WHERE s.STAFF_ID=cp.TEACHER_ID
-				AND cp.COURSE_PERIOD_ID='" . $_REQUEST['w_course_period_id'] . "'" );
+				AND cp.COURSE_PERIOD_ID='" . (int) $_REQUEST['w_course_period_id'] . "'" );
 
 				$form .= '<br /><label><input type="checkbox" name="teacher" value="Y"> ' .
 				_( 'Teacher' ) . ' (' . $course_RET[1]['TEACHER'] . ')</label>';
@@ -244,14 +244,14 @@ if ( ! function_exists( 'GetStudentLabelsExtraAdmin' ) )
 				$extra_select .= ",(SELECT " . DisplayNameSQL( 'st' ) . "
 				FROM STAFF st,COURSE_PERIODS cp
 				WHERE st.STAFF_ID=cp.TEACHER_ID
-				AND cp.COURSE_PERIOD_ID='" . $_REQUEST['w_course_period_id'] . "') AS TEACHER";
+				AND cp.COURSE_PERIOD_ID='" . (int) $_REQUEST['w_course_period_id'] . "') AS TEACHER";
 			}
 
 			if ( ! empty( $_REQUEST['room'] ) )
 			{
 				$extra_select .= ",(SELECT cp.ROOM
 					FROM COURSE_PERIODS cp
-					WHERE cp.COURSE_PERIOD_ID='" . $_REQUEST['w_course_period_id'] . "') AS ROOM";
+					WHERE cp.COURSE_PERIOD_ID='" . (int) $_REQUEST['w_course_period_id'] . "') AS ROOM";
 			}
 
 			return $extra_select;

@@ -105,7 +105,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	{
 		$file_attached = DBGetOne( "SELECT FILE_ATTACHED
 			FROM ACCOUNTING_PAYMENTS
-			WHERE ID='" . $_REQUEST['id'] . "'" );
+			WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 		if ( ! empty( $file_attached )
 			&& file_exists( $file_attached ) )
@@ -115,7 +115,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 		}
 
 		DBQuery( "DELETE FROM ACCOUNTING_PAYMENTS
-			WHERE ID='" . $_REQUEST['id'] . "'" );
+			WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 		// Unset modfunc & ID & redirect URL.
 		RedirectURL( [ 'modfunc', 'id' ] );

@@ -10,7 +10,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		{
 			$current_RET = DBGet( "SELECT STUDENT_ID
 				FROM SCHEDULE_REQUESTS
-				WHERE COURSE_ID='" . $_REQUEST['MassRequests.php']['course_id'] . "'
+				WHERE COURSE_ID='" . (int) $_REQUEST['MassRequests.php']['course_id'] . "'
 				AND SYEAR='" . UserSyear() . "'", [], [ 'STUDENT_ID' ] );
 
 			foreach ( (array) $_REQUEST['student'] as $student_id )

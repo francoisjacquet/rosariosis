@@ -78,7 +78,7 @@ FROM GRADEBOOK_ASSIGNMENTS
 WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 AND ((COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') AND STAFF_ID='" . User( 'STAFF_ID' ) . "') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 AND MARKING_PERIOD_ID='" . UserMP() . "'" . ( $_REQUEST['type_id'] ? "
-AND ASSIGNMENT_TYPE_ID='" . $_REQUEST['type_id'] . "'" : '' ) . "
+AND ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['type_id'] . "'" : '' ) . "
 ORDER BY " . Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) . " DESC,ASSIGNMENT_ID DESC,TITLE", [], [ 'ASSIGNMENT_ID' ] );
 //echo '<pre>'; var_dump($assignments_RET); echo '</pre>';
 
@@ -118,7 +118,7 @@ if ( ! empty( $_REQUEST['values'] )
 			AND g.STUDENT_ID='" . UserStudentID() . "'
 			AND g.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" .
 			( $_REQUEST['assignment_id'] === 'all' ? '' :
-				" AND g.ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'" ),
+				" AND g.ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'" ),
 			[],
 			[ 'ASSIGNMENT_ID' ]
 		);
@@ -138,7 +138,7 @@ if ( ! empty( $_REQUEST['values'] )
 	{
 		$current_RET = DBGet( "SELECT STUDENT_ID,POINTS,COMMENT,ASSIGNMENT_ID
 			FROM GRADEBOOK_GRADES
-			WHERE ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'
+			WHERE ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'
 			AND COURSE_PERIOD_ID='" . UserCoursePeriod() . "'",
 			[],
 			[ 'STUDENT_ID', 'ASSIGNMENT_ID' ]
@@ -267,7 +267,7 @@ if ( UserStudentID() )
 	AND a.MARKING_PERIOD_ID='" . UserMP() . "'
 	AND g.STUDENT_ID='" . UserStudentID() . "'
 	AND g.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" .
-		( $_REQUEST['assignment_id'] == 'all' ? '' : " AND g.ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'" ), [], [ 'ASSIGNMENT_ID' ] );
+		( $_REQUEST['assignment_id'] == 'all' ? '' : " AND g.ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'" ), [], [ 'ASSIGNMENT_ID' ] );
 
 	$count_assignments = count( (array) $assignments_RET );
 
@@ -289,11 +289,26 @@ if ( UserStudentID() )
 		$link['TYPE_TITLE']['variables'] = [ 'type_id' => 'ASSIGNMENT_TYPE_ID' ];
 	}
 
-	$extra['FROM'] = " JOIN GRADEBOOK_ASSIGNMENTS ga ON (ga.STAFF_ID=cp.TEACHER_ID AND ((ga.COURSE_ID=cp.COURSE_ID AND ga.STAFF_ID=cp.TEACHER_ID) OR ga.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID) AND ga.MARKING_PERIOD_ID='" . UserMP() . "'" . ( $_REQUEST['assignment_id'] == 'all' ? '' : " AND ga.ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'" ) . ( $_REQUEST['type_id'] ? " AND ga.ASSIGNMENT_TYPE_ID='" . $_REQUEST['type_id'] . "'" : '' ) . ") LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.STUDENT_ID=s.STUDENT_ID AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID)";
+	$extra['FROM'] = " JOIN GRADEBOOK_ASSIGNMENTS ga ON
+	(ga.STAFF_ID=cp.TEACHER_ID
+	AND ((ga.COURSE_ID=cp.COURSE_ID AND ga.STAFF_ID=cp.TEACHER_ID)
+		OR ga.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID)
+	AND ga.MARKING_PERIOD_ID='" . UserMP() . "'" .
+	( $_REQUEST['assignment_id'] == 'all' ? '' : " AND ga.ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'" ) .
+	( $_REQUEST['type_id'] ? " AND ga.ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['type_id'] . "'" : '' ) . ")
+	LEFT OUTER JOIN GRADEBOOK_GRADES gg ON
+	(gg.STUDENT_ID=s.STUDENT_ID
+	AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID
+	AND gg.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID)";
 
 	if ( empty( $_REQUEST['include_all'] ) )
 	{
-		$extra['WHERE'] .= " AND (gg.POINTS IS NOT NULL OR (ga.DUE_DATE IS NULL OR (GREATEST(ssm.START_DATE,ss.START_DATE)<=ga.DUE_DATE) AND (LEAST(ssm.END_DATE,ss.END_DATE) IS NULL OR LEAST(ssm.END_DATE,ss.END_DATE)>=ga.DUE_DATE)))" . ( $_REQUEST['type_id'] ? " AND ga.ASSIGNMENT_TYPE_ID='" . $_REQUEST['type_id'] . "'" : '' );
+		$extra['WHERE'] .= " AND (gg.POINTS IS NOT NULL
+		OR (ga.DUE_DATE IS NULL
+			OR (GREATEST(ssm.START_DATE,ss.START_DATE)<=ga.DUE_DATE)
+			AND (LEAST(ssm.END_DATE,ss.END_DATE) IS NULL
+			OR LEAST(ssm.END_DATE,ss.END_DATE)>=ga.DUE_DATE)))" .
+		( $_REQUEST['type_id'] ? " AND ga.ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['type_id'] . "'" : '' );
 	}
 
 	$extra['ORDER_BY'] = Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) . " DESC";
@@ -336,7 +351,7 @@ else
 			WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID
 			AND a.MARKING_PERIOD_ID='" . UserMP() . "'
 			AND g.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" .
-			( $_REQUEST['type_id'] ? " AND a.ASSIGNMENT_TYPE_ID='" . $_REQUEST['type_id'] . "'" : '' ),
+			( $_REQUEST['type_id'] ? " AND a.ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['type_id'] . "'" : '' ),
 			[],
 			[ 'STUDENT_ID', 'ASSIGNMENT_ID' ]
 		);
@@ -385,7 +400,7 @@ else
 			'" . $_REQUEST['assignment_id'] . "' AS LETTER_GRADE,
 			'" . $_REQUEST['assignment_id'] . "' AS COMMENT,
 			(SELECT 'Y' FROM GRADEBOOK_ASSIGNMENTS ga
-				WHERE ga.ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'
+				WHERE ga.ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'
 				AND ga.SUBMISSION='Y') AS SUBMISSION,
 			'" . $_REQUEST['assignment_id'] . "' AS ASSIGNMENT_ID";
 
@@ -408,7 +423,7 @@ else
 
 		$current_RET = DBGet( "SELECT STUDENT_ID,POINTS,COMMENT,ASSIGNMENT_ID
 			FROM GRADEBOOK_GRADES
-			WHERE ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'
+			WHERE ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'
 			AND COURSE_PERIOD_ID='" . UserCoursePeriod() . "'", [], [ 'STUDENT_ID', 'ASSIGNMENT_ID' ] );
 	}
 	else
@@ -433,7 +448,7 @@ else
 				OR CURRENT_DATE>(SELECT END_DATE
 					FROM SCHOOL_MARKING_PERIODS
 					WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID))" .
-			( $_REQUEST['type_id'] ? " AND ga.ASSIGNMENT_TYPE_ID='" . $_REQUEST['type_id'] . "'" : '' );
+			( $_REQUEST['type_id'] ? " AND ga.ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['type_id'] . "'" : '' );
 
 			if ( empty( $_REQUEST['include_all'] ) )
 			{

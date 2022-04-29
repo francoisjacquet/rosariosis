@@ -38,11 +38,11 @@ if ( $_REQUEST['profile_id'] !== false )
 {
 	$exceptions_RET = DBGet( "SELECT PROFILE_ID,MODNAME,CAN_USE,CAN_EDIT
 		FROM PROFILE_EXCEPTIONS
-		WHERE PROFILE_ID='" . $_REQUEST['profile_id'] . "'", [], [ 'MODNAME' ] );
+		WHERE PROFILE_ID='" . (int) $_REQUEST['profile_id'] . "'", [], [ 'MODNAME' ] );
 
 	$xprofile = DBGetOne( "SELECT PROFILE
 		FROM USER_PROFILES
-		WHERE ID='" . $_REQUEST['profile_id'] . "'" );
+		WHERE ID='" . (int) $_REQUEST['profile_id'] . "'" );
 
 	if ( $xprofile === 'student' )
 	{
@@ -63,7 +63,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 
 		$profile_RET = DBGet( "SELECT TITLE
 			FROM USER_PROFILES
-			WHERE ID='" . $_REQUEST['profile_id'] . "'" );
+			WHERE ID='" . (int) $_REQUEST['profile_id'] . "'" );
 	}
 	else // bad profile ID
 	{
@@ -81,22 +81,22 @@ if ( $_REQUEST['modfunc'] === 'delete'
 		if ( $go )
 		{
 			$delete_sql = "DELETE FROM USER_PROFILES
-				WHERE ID='" . $_REQUEST['profile_id'] . "';";
+				WHERE ID='" . (int) $_REQUEST['profile_id'] . "';";
 
 			$delete_sql .= "DELETE FROM STAFF_EXCEPTIONS
 				WHERE USER_ID IN (SELECT STAFF_ID
 					FROM STAFF
-					WHERE PROFILE_ID='" . $_REQUEST['profile_id'] . "');";
+					WHERE PROFILE_ID='" . (int) $_REQUEST['profile_id'] . "');";
 
 			$delete_sql .= "DELETE FROM PROFILE_EXCEPTIONS
-				WHERE PROFILE_ID='" . $_REQUEST['profile_id'] . "';";
+				WHERE PROFILE_ID='" . (int) $_REQUEST['profile_id'] . "';";
 
 			DBQuery( $delete_sql );
 
 			DBQuery( "INSERT INTO STAFF_EXCEPTIONS (USER_ID,MODNAME,CAN_USE,CAN_EDIT)
 				SELECT s.STAFF_ID,e.MODNAME,e.CAN_USE,e.CAN_EDIT
 				FROM STAFF s,PROFILE_EXCEPTIONS e
-				WHERE s.PROFILE_ID='" . $_REQUEST['profile_id'] . "'
+				WHERE s.PROFILE_ID='" . (int) $_REQUEST['profile_id'] . "'
 				AND s.PROFILE_ID=e.PROFILE_ID" );
 
 			// Unset modfunc & profile ID & redirect URL.
@@ -175,7 +175,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 						&& empty( $_REQUEST['can_use'][str_replace( '.', '_', $modname )] ) )
 					{
 						DBQuery( "DELETE FROM PROFILE_EXCEPTIONS
-							WHERE PROFILE_ID='" . $_REQUEST['profile_id'] . "'
+							WHERE PROFILE_ID='" . (int) $_REQUEST['profile_id'] . "'
 							AND MODNAME='" . $modname . "'" );
 					}
 
@@ -202,7 +202,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 							$update .= "CAN_USE=NULL";
 						}
 
-						$update .= " WHERE PROFILE_ID='" . $_REQUEST['profile_id'] . "' AND MODNAME='" . $modname . "'";
+						$update .= " WHERE PROFILE_ID='" . (int) $_REQUEST['profile_id'] . "' AND MODNAME='" . $modname . "'";
 
 						DBQuery( $update );
 					}
@@ -213,7 +213,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 	$exceptions_RET = DBGet( "SELECT MODNAME,CAN_USE,CAN_EDIT
 		FROM PROFILE_EXCEPTIONS
-		WHERE PROFILE_ID='" . $_REQUEST['profile_id'] . "'", [], [ 'MODNAME' ] );
+		WHERE PROFILE_ID='" . (int) $_REQUEST['profile_id'] . "'", [], [ 'MODNAME' ] );
 
 	unset( $tmp_menu );
 

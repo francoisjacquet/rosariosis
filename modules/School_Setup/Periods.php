@@ -98,7 +98,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	if ( DeletePrompt( _( 'Period' ) ) )
 	{
 		DBQuery( "DELETE FROM SCHOOL_PERIODS
-			WHERE PERIOD_ID='" . $_REQUEST['id'] . "'" );
+			WHERE PERIOD_ID='" . (int) $_REQUEST['id'] . "'" );
 
 		// Unset modfunc & ID & redirect.
 		RedirectURL( [ 'modfunc', 'id' ] );

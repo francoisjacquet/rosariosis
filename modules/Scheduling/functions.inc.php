@@ -21,11 +21,11 @@ function MyWidgets( $item )
 						WHERE STUDENT_ID=ssm.STUDENT_ID
 						AND COURSE_ID IN(SELECT COURSE_ID
 							FROM COURSES
-							WHERE SUBJECT_ID='" . $_REQUEST['w_ly_subject_id'] . "'))";
+							WHERE SUBJECT_ID='" . (int) $_REQUEST['w_ly_subject_id'] . "'))";
 
 					$subject_title = DBGetOne( "SELECT TITLE
 						FROM COURSE_SUBJECTS
-						WHERE SUBJECT_ID='" . $_REQUEST['w_ly_subject_id'] . "'" );
+						WHERE SUBJECT_ID='" . (int) $_REQUEST['w_ly_subject_id'] . "'" );
 
 					if ( ! $extra['NoSearchTerms'] )
 					{
@@ -39,11 +39,11 @@ function MyWidgets( $item )
 				{
 					$extra['WHERE'] .= " EXISTS(SELECT 1 FROM SCHEDULE
 						WHERE STUDENT_ID=ssm.STUDENT_ID
-						AND COURSE_ID='" . $_REQUEST['w_ly_course_id'] . "')";
+						AND COURSE_ID='" . (int) $_REQUEST['w_ly_course_id'] . "')";
 
 					$course_title = DBGetOne( "SELECT TITLE
 						FROM COURSES
-						WHERE COURSE_ID='" . $_REQUEST['w_ly_course_id'] . "'" );
+						WHERE COURSE_ID='" . (int) $_REQUEST['w_ly_course_id'] . "'" );
 
 					if ( ! $extra['NoSearchTerms'] )
 					{
@@ -57,12 +57,12 @@ function MyWidgets( $item )
 				{
 					$extra['WHERE'] .= " EXISTS(SELECT 1 FROM SCHEDULE
 						WHERE STUDENT_ID=ssm.STUDENT_ID
-						AND COURSE_PERIOD_ID='" . $_REQUEST['w_ly_course_period_id'] . "')";
+						AND COURSE_PERIOD_ID='" . (int) $_REQUEST['w_ly_course_period_id'] . "')";
 
 					$course = DBGet( "SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,cp.COURSE_ID
 						FROM COURSE_PERIODS cp,COURSES c
 						WHERE c.COURSE_ID=cp.COURSE_ID
-						AND cp.COURSE_PERIOD_ID='" . $_REQUEST['w_ly_course_period_id'] . "'" );
+						AND cp.COURSE_PERIOD_ID='" . (int) $_REQUEST['w_ly_course_period_id'] . "'" );
 
 					if ( ! $extra['NoSearchTerms'] )
 					{

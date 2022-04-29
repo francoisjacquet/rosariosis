@@ -149,7 +149,7 @@ $completed = DBGet( "SELECT count('Y') AS COMPLETED
 	WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 	AND SCHOOL_DATE='" . $date . "'
 	AND PERIOD_ID='" . UserPeriod() . "'
-	AND MENU_ID='" . $_REQUEST['menu_id'] . "'" );
+	AND MENU_ID='" . (int) $_REQUEST['menu_id'] . "'" );
 
 if ( $completed[1]['COMPLETED'] )
 {

@@ -63,7 +63,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	if ( DeletePrompt( _( 'Activity' ) ) )
 	{
 		DBQuery( "DELETE FROM ELIGIBILITY_ACTIVITIES
-			WHERE ID='" . $_REQUEST['id'] . "'" );
+			WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 		// Unset modfunc & ID & redirect URL.
 		RedirectURL( [ 'modfunc', 'id' ] );

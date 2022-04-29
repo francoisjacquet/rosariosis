@@ -94,7 +94,7 @@ if ( isset( $_REQUEST['student_id'] ) && $_REQUEST['student_id'] !== 'new' )
 	AND s.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
 	AND cp.PERIOD_ID=p.PERIOD_ID
 	AND cp.DOES_ATTENDANCE='Y'
-	AND s.STUDENT_ID='" . $_REQUEST['student_id'] . "'
+	AND s.STUDENT_ID='" . (int) $_REQUEST['student_id'] . "'
 	AND ('" . $date . "' BETWEEN s.START_DATE AND s.END_DATE OR s.END_DATE IS NULL)
 	ORDER BY p.SORT_ORDER", $functions );
 

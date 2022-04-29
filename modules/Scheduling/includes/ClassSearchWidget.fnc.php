@@ -174,7 +174,7 @@ function _classSearchWidgetCoursePeriodsListOutput( $extra = '' )
 
 		if ( ! empty( $_REQUEST['teacher_id'] ) )
 		{
-			$where .= " AND cp.TEACHER_ID='" . $_REQUEST['teacher_id'] . "'";
+			$where .= " AND cp.TEACHER_ID='" . (int) $_REQUEST['teacher_id'] . "'";
 		}
 
 		if ( ! empty( $_REQUEST['first'] ) )
@@ -186,24 +186,24 @@ function _classSearchWidgetCoursePeriodsListOutput( $extra = '' )
 		{
 			if ( $_REQUEST['w_course_period_id_which'] == 'course' )
 			{
-				$where .= " AND cp.COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . $_REQUEST['w_course_period_id'] . "')";
+				$where .= " AND cp.COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . (int) $_REQUEST['w_course_period_id'] . "')";
 			}
 			else
 			{
-				$where .= " AND cp.COURSE_PERIOD_ID='" . $_REQUEST['w_course_period_id'] . "'";
+				$where .= " AND cp.COURSE_PERIOD_ID='" . (int) $_REQUEST['w_course_period_id'] . "'";
 			}
 		}
 
 		if ( ! empty( $_REQUEST['subject_id'] ) )
 		{
 			$from .= ",COURSES c";
-			$where .= " AND c.COURSE_ID=cp.COURSE_ID AND c.SUBJECT_ID='" . $_REQUEST['subject_id'] . "'";
+			$where .= " AND c.COURSE_ID=cp.COURSE_ID AND c.SUBJECT_ID='" . (int) $_REQUEST['subject_id'] . "'";
 		}
 
 		if ( ! empty( $_REQUEST['period_id'] ) )
 		{
 			// FJ multiple school periods for a course period.
-			$where .= " AND cpsp.PERIOD_ID='" . $_REQUEST['period_id'] . "'
+			$where .= " AND cpsp.PERIOD_ID='" . (int) $_REQUEST['period_id'] . "'
 				AND cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID";
 
 			$from .= ",COURSE_PERIOD_SCHOOL_PERIODS cpsp";

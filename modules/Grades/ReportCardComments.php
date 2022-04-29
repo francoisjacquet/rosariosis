@@ -95,10 +95,10 @@ if ( $_REQUEST['modfunc'] === 'remove'
 		if ( DeletePrompt( _( 'Report Card Comment Category' ) ) )
 		{
 			$delete_sql = "DELETE FROM REPORT_CARD_COMMENTS
-				WHERE CATEGORY_ID='" . $_REQUEST['id'] . "';";
+				WHERE CATEGORY_ID='" . (int) $_REQUEST['id'] . "';";
 
 			$delete_sql .= "DELETE FROM REPORT_CARD_COMMENT_CATEGORIES
-				WHERE ID='" . $_REQUEST['id'] . "';";
+				WHERE ID='" . (int) $_REQUEST['id'] . "';";
 
 			DBQuery( $delete_sql );
 
@@ -111,7 +111,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 		if ( DeletePrompt( _( 'Report Card Comment' ) ) )
 		{
 			DBQuery( "DELETE FROM REPORT_CARD_COMMENTS
-				WHERE ID='" . $_REQUEST['id'] . "'" );
+				WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 			// Unset modfunc & ID & redirect URL.
 			RedirectURL( [ 'modfunc', 'id' ] );
@@ -120,7 +120,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	elseif ( DeletePrompt( _( 'Report Card Comment' ) ) )
 	{
 		DBQuery( "DELETE FROM REPORT_CARD_COMMENTS
-			WHERE ID='" . $_REQUEST['id'] . "'" );
+			WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 		// Unset modfunc & ID & redirect URL.
 		RedirectURL( [ 'modfunc', 'id' ] );
@@ -148,7 +148,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$courses_RET = DBGet( "SELECT COURSE_ID,TITLE
 			FROM COURSES
-			WHERE SUBJECT_ID='" . $_REQUEST['subject_id'] . "'
+			WHERE SUBJECT_ID='" . (int) $_REQUEST['subject_id'] . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
 			AND (SELECT count(1)
@@ -232,7 +232,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$categories_RET = DBGet( "SELECT rc.ID,rc.TITLE,rc.COLOR,1,rc.SORT_ORDER,
 	(SELECT count(1) FROM REPORT_CARD_COMMENTS WHERE COURSE_ID=rc.COURSE_ID AND CATEGORY_ID=rc.ID) AS COUNT
 	FROM REPORT_CARD_COMMENT_CATEGORIES rc
-	WHERE rc.COURSE_ID='" . $_REQUEST['course_id'] . "'
+	WHERE rc.COURSE_ID='" . (int) $_REQUEST['course_id'] . "'
 	UNION
 	SELECT 0,'" . _( 'All Courses' ) . "',NULL,2,NULL,(SELECT count(1) FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='" . UserSchool() . "' AND COURSE_ID='0' AND SYEAR='" . UserSyear() . "')
 	UNION
@@ -272,7 +272,7 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		$sql = "SELECT *
 			FROM REPORT_CARD_COMMENT_CATEGORIES
-			WHERE COURSE_ID='" . $_REQUEST['course_id'] . "'
+			WHERE COURSE_ID='" . (int) $_REQUEST['course_id'] . "'
 			AND SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			ORDER BY SORT_ORDER";
@@ -380,7 +380,7 @@ if ( ! $_REQUEST['modfunc'] )
 		{
 			$sql = "SELECT *
 			FROM REPORT_CARD_COMMENTS
-			WHERE CATEGORY_ID='" . $_REQUEST['tab_id'] . "'
+			WHERE CATEGORY_ID='" . (int) $_REQUEST['tab_id'] . "'
 			ORDER BY SORT_ORDER,TITLE";
 
 			if ( User( 'PROFILE' ) === 'admin' && AllowEdit() )

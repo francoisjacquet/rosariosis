@@ -165,7 +165,7 @@ if ( ! $_REQUEST['modfunc'] )
 				FROM PEOPLE_FIELD_CATEGORIES
 				WHERE ID=CATEGORY_ID) AS CATEGORY_TITLE
 			FROM PEOPLE_FIELDS
-			WHERE ID='" . $_REQUEST['id'] . "'" );
+			WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 		$RET = $RET[1];
 
@@ -177,7 +177,7 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		$RET = DBGet( "SELECT ID AS CATEGORY_ID,TITLE,CUSTODY,EMERGENCY,SORT_ORDER
 			FROM PEOPLE_FIELD_CATEGORIES
-			WHERE ID='" . $_REQUEST['category_id'] . "'" );
+			WHERE ID='" . (int) $_REQUEST['category_id'] . "'" );
 
 		$RET = $RET[1];
 
@@ -256,7 +256,7 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		$fields_RET = DBGet( "SELECT ID,TITLE,TYPE,SORT_ORDER
 			FROM PEOPLE_FIELDS
-			WHERE CATEGORY_ID='" . $_REQUEST['category_id'] . "'
+			WHERE CATEGORY_ID='" . (int) $_REQUEST['category_id'] . "'
 			ORDER BY SORT_ORDER,TITLE", [ 'TYPE' => 'MakeFieldType' ] );
 
 		echo '<div class="st">';

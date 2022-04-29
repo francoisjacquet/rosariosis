@@ -223,8 +223,8 @@ if ( $_REQUEST['modfunc'] === 'remove'
 {
 	if ( DeletePrompt( _( 'Poll' ) ) )
 	{
-		$delete_sql = "DELETE FROM PORTAL_POLLS WHERE ID='" . $_REQUEST['id'] . "';";
-		$delete_sql .= "DELETE FROM PORTAL_POLL_QUESTIONS WHERE PORTAL_POLL_ID='" . $_REQUEST['id'] . "';";
+		$delete_sql = "DELETE FROM PORTAL_POLLS WHERE ID='" . (int) $_REQUEST['id'] . "';";
+		$delete_sql .= "DELETE FROM PORTAL_POLL_QUESTIONS WHERE PORTAL_POLL_ID='" . (int) $_REQUEST['id'] . "';";
 
 		DBQuery( $delete_sql );
 

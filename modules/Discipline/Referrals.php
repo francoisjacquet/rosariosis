@@ -69,7 +69,7 @@ if ( ! empty( $_POST['values'] )
 		}
 	}
 
-	$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . $_REQUEST['referral_id'] . "'";
+	$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . (int) $_REQUEST['referral_id'] . "'";
 
 	if ( $go )
 	{
@@ -88,7 +88,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	if ( DeletePrompt( _( 'Referral' ) ) )
 	{
 		DBQuery( "DELETE FROM DISCIPLINE_REFERRALS
-			WHERE ID='" . $_REQUEST['id'] . "'" );
+			WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 		// Unset modfunc & ID & redirect URL.
 		RedirectURL( [ 'modfunc', 'id' ] );

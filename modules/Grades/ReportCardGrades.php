@@ -101,7 +101,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 		if ( DeletePrompt( _( 'Report Card Grade' ) ) )
 		{
 			DBQuery( "DELETE FROM REPORT_CARD_GRADES
-				WHERE ID='" . $_REQUEST['id'] . "'" );
+				WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 			// Unset modfunc & ID & redirect URL.
 			RedirectURL( [ 'modfunc', 'id' ] );
@@ -110,10 +110,10 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	elseif ( DeletePrompt( _( 'Report Card Grading Scale' ) ) )
 	{
 		$delete_sql = "DELETE FROM REPORT_CARD_GRADES
-			WHERE GRADE_SCALE_ID='" . $_REQUEST['id'] . "';";
+			WHERE GRADE_SCALE_ID='" . (int) $_REQUEST['id'] . "';";
 
 		$delete_sql .= "DELETE FROM REPORT_CARD_GRADE_SCALES
-			WHERE ID='" . $_REQUEST['id'] . "';";
+			WHERE ID='" . (int) $_REQUEST['id'] . "';";
 
 		DBQuery( $delete_sql );
 
@@ -187,7 +187,7 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( $_REQUEST['tab_id'] !== 'new' )
 	{
 		$sql = "SELECT * FROM REPORT_CARD_GRADES
-			WHERE GRADE_SCALE_ID='" . $_REQUEST['tab_id'] . "'
+			WHERE GRADE_SCALE_ID='" . (int) $_REQUEST['tab_id'] . "'
 			AND SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			ORDER BY BREAK_OFF IS NOT NULL DESC,BREAK_OFF DESC,SORT_ORDER";

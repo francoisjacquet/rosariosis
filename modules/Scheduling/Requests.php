@@ -59,7 +59,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	if ( DeletePrompt( _( 'Request' ) ) )
 	{
 		DBQuery( "DELETE FROM SCHEDULE_REQUESTS
-			WHERE REQUEST_ID='" . $_REQUEST['id'] . "'" );
+			WHERE REQUEST_ID='" . (int) $_REQUEST['id'] . "'" );
 
 		// Unset modfunc & ID & redirect URL.
 		RedirectURL( [ 'modfunc', 'id' ] );

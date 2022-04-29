@@ -3,11 +3,11 @@ require_once 'ProgramFunctions/StudentsUsersInfo.fnc.php';
 
 $columns = DBGetOne( "SELECT COLUMNS
 	FROM STUDENT_FIELD_CATEGORIES
-	WHERE ID='" . $_REQUEST['category_id'] . "'" );
+	WHERE ID='" . (int) $_REQUEST['category_id'] . "'" );
 
 $fields_RET = DBGet( "SELECT ID,TITLE,TYPE,SELECT_OPTIONS,DEFAULT_SELECTION,REQUIRED
 	FROM CUSTOM_FIELDS
-	WHERE CATEGORY_ID='" . $_REQUEST['category_id'] . "'
+	WHERE CATEGORY_ID='" . (int) $_REQUEST['category_id'] . "'
 	ORDER BY SORT_ORDER,TITLE" );
 
 $fields_RET = ParseMLArray( $fields_RET, 'TITLE' );

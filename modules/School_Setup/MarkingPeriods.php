@@ -347,7 +347,7 @@ if ( ! $_REQUEST['modfunc'] )
 			FROM SCHOOL_MARKING_PERIODS
 			WHERE SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
-			AND MARKING_PERIOD_ID='" . $_REQUEST['marking_period_id'] . "'" );
+			AND MARKING_PERIOD_ID='" . (int) $_REQUEST['marking_period_id'] . "'" );
 
 		if ( ! $marking_period_RET )
 		{
@@ -398,7 +398,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$RET = DBGet( "SELECT TITLE,SHORT_NAME,SORT_ORDER,DOES_GRADES,DOES_COMMENTS,
 				START_DATE,END_DATE,POST_START_DATE,POST_END_DATE
 			FROM SCHOOL_MARKING_PERIODS
-			WHERE MARKING_PERIOD_ID='" . $_REQUEST['marking_period_id'] . "'" );
+			WHERE MARKING_PERIOD_ID='" . (int) $_REQUEST['marking_period_id'] . "'" );
 
 		$RET = $RET[1];
 

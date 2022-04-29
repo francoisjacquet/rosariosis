@@ -307,7 +307,7 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 
 		$assignment_has_grades = DBGet( "SELECT 1
 			FROM GRADEBOOK_GRADES
-			WHERE ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'" );
+			WHERE ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'" );
 
 		if ( $assignment_has_grades )
 		{
@@ -316,17 +316,17 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 
 		$assignment_file = DBGetOne( "SELECT FILE
 			FROM GRADEBOOK_ASSIGNMENTS
-			WHERE ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'" );
+			WHERE ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'" );
 
 		$sql = "DELETE
 			FROM GRADEBOOK_ASSIGNMENTS
-			WHERE ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'";
+			WHERE ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'";
 	}
 	else
 	{
 		$assignment_type_has_assignments = DBGet( "SELECT 1
 			FROM GRADEBOOK_ASSIGNMENTS
-			WHERE ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'" );
+			WHERE ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['assignment_type_id'] . "'" );
 
 		// Can't delete Assignment Type if has Assignments!
 
@@ -341,7 +341,7 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 
 		$sql = "DELETE
 			FROM GRADEBOOK_ASSIGNMENT_TYPES
-			WHERE ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'";
+			WHERE ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['assignment_type_id'] . "'";
 	}
 
 	// Confirm Delete.
@@ -354,7 +354,7 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 		{
 			$assignments_RET = DBGet( "SELECT ASSIGNMENT_ID
 				FROM GRADEBOOK_ASSIGNMENTS
-				WHERE ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'" );
+				WHERE ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['assignment_type_id'] . "'" );
 
 			foreach ( (array) $assignments_RET as $assignment_id )
 			{
@@ -368,7 +368,7 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 			}
 
 			DBQuery( "DELETE FROM GRADEBOOK_ASSIGNMENTS
-				WHERE ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'" );
+				WHERE ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['assignment_type_id'] . "'" );
 
 			// Unset assignment type ID & redirect URL.
 			RedirectURL( 'assignment_type_id' );
@@ -376,7 +376,7 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 		else
 		{
 			DBQuery( "DELETE FROM GRADEBOOK_GRADES
-				WHERE ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'" );
+				WHERE ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'" );
 
 			if ( ! empty( $assignment_file )
 				&& file_exists( $assignment_file ) )
@@ -419,7 +419,7 @@ if ( ! $_REQUEST['modfunc'] )
 			WHERE COURSE_ID=(SELECT COURSE_ID
 				FROM COURSE_PERIODS
 				WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
-			AND ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'" .
+			AND ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['assignment_type_id'] . "'" .
 			$hide_previous_assignment_types_sql;
 
 		$assignment_type_RET = DBGet( $assignment_type_sql );
@@ -444,7 +444,7 @@ if ( ! $_REQUEST['modfunc'] )
 				FROM COURSE_PERIODS
 				WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 				OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
-			AND ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'
+			AND ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'
 			AND STAFF_ID='" . User( 'STAFF_ID' ) . "'" );
 
 		if ( ! $assignment_type_RET )
@@ -479,7 +479,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$assignment_type_has_assignments = DBGet( "SELECT 1
 			FROM GRADEBOOK_ASSIGNMENTS
-			WHERE ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'" );
+			WHERE ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['assignment_type_id'] . "'" );
 
 		// Can't delete Assignment Type if has Assignments!
 
@@ -511,7 +511,7 @@ if ( ! $_REQUEST['modfunc'] )
 			FROM SCHOOL_MARKING_PERIODS
 			WHERE MARKING_PERIOD_ID='" . UserMP() . "') THEN 'Y' ELSE NULL END AS DUE_ERROR
 		FROM GRADEBOOK_ASSIGNMENTS
-		WHERE ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'";
+		WHERE ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'";
 
 		$RET = DBGet( $sql );
 
@@ -533,7 +533,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$hide_previous_assignment_types_sql .
 		") AS TOTAL_PERCENT
 		FROM GRADEBOOK_ASSIGNMENT_TYPES at
-		WHERE at.ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'";
+		WHERE at.ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['assignment_type_id'] . "'";
 
 		$RET = DBGet( $assignment_type_sql, [ 'FINAL_GRADE_PERCENT' => '_makePercent' ] );
 
@@ -548,14 +548,14 @@ if ( ! $_REQUEST['modfunc'] )
 				FROM GRADEBOOK_ASSIGNMENTS
 				WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 				AND (COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
-				AND ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'
+				AND ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['assignment_type_id'] . "'
 				AND MARKING_PERIOD_ID='" . UserMP() . "'" );
 
 			$assignment_type_assignments_warn_all_0_points = ! DBGetOne( "SELECT 1
 				FROM GRADEBOOK_ASSIGNMENTS
 				WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 				AND (COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
-				AND ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'
+				AND ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['assignment_type_id'] . "'
 				AND POINTS<>'0'
 				AND MARKING_PERIOD_ID='" . UserMP() . "'" );
 
@@ -898,7 +898,7 @@ if ( ! $_REQUEST['modfunc'] )
 		FROM GRADEBOOK_ASSIGNMENTS
 		WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND (COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
-		AND ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'
+		AND ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['assignment_type_id'] . "'
 		AND MARKING_PERIOD_ID='" . UserMP() . "'
 		ORDER BY " . Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) . " DESC" );
 

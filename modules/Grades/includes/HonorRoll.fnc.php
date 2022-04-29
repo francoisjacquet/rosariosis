@@ -213,7 +213,7 @@ function HonorRollSubjectPDF( $student_array, $is_list, $honor_roll_text )
 
 	$subject_RET = DBGet( "SELECT TITLE
 		FROM COURSE_SUBJECTS
-		WHERE SUBJECT_ID='" . $_REQUEST['subject_id'] . "'
+		WHERE SUBJECT_ID='" . (int) $_REQUEST['subject_id'] . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		AND SYEAR='" . UserSyear() . "'" );
 
@@ -388,7 +388,7 @@ function HonorRollWidgets( $item )
 				{
 					$subject_RET = DBGet( "SELECT TITLE
 						FROM COURSE_SUBJECTS
-						WHERE SUBJECT_ID='" . $_REQUEST['subject_id'] . "'
+						WHERE SUBJECT_ID='" . (int) $_REQUEST['subject_id'] . "'
 						AND SCHOOL_ID='" . UserSchool() . "'
 						AND SYEAR='" . UserSyear() . "'" );
 

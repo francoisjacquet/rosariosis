@@ -78,7 +78,7 @@ $grouped_sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,s.STAFF_ID,g.R
 	AND cp.SYEAR=s.SYEAR
 	AND cp.SYEAR=g.SYEAR
 	AND cp.SYEAR='" . UserSyear() . "'
-	AND g.MARKING_PERIOD_ID='" . $_REQUEST['mp_id'] . "'
+	AND g.MARKING_PERIOD_ID='" . (int) $_REQUEST['mp_id'] . "'
 	ORDER BY FULL_NAME";
 
 $grouped_RET = DBGet( $grouped_sql, [], [ 'STAFF_ID', 'REPORT_CARD_GRADE_ID' ] );

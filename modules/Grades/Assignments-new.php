@@ -188,12 +188,12 @@ if ( $_REQUEST['modfunc'] === 'remove' )
 	{
 		if ( $_REQUEST['tab_id'] !== 'new' )
 		{
-			$delete_sql = "DELETE FROM GRADEBOOK_GRADES WHERE ASSIGNMENT_ID='" . $_REQUEST['id'] . "';";
-			$delete_sql .= "DELETE FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_ID='" . $_REQUEST['id'] . "';";
+			$delete_sql = "DELETE FROM GRADEBOOK_GRADES WHERE ASSIGNMENT_ID='" . (int) $_REQUEST['id'] . "';";
+			$delete_sql .= "DELETE FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_ID='" . (int) $_REQUEST['id'] . "';";
 		}
 		else
 		{
-			$assignments_RET = DBGet( "SELECT ASSIGNMENT_ID FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_TYPE_ID='" . $_REQUEST['id'] . "'" );
+			$assignments_RET = DBGet( "SELECT ASSIGNMENT_ID FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['id'] . "'" );
 
 			$delete_sql = '';
 
@@ -205,8 +205,8 @@ if ( $_REQUEST['modfunc'] === 'remove' )
 				}
 			}
 
-			$delete_sql .= "DELETE FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_TYPE_ID='" . $_REQUEST['id'] . "';";
-			$delete_sql .= "DELETE FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE ASSIGNMENT_TYPE_ID='" . $_REQUEST['id'] . "';";
+			$delete_sql .= "DELETE FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['id'] . "';";
+			$delete_sql .= "DELETE FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['id'] . "';";
 		}
 
 		DBQuery( $delete_sql );
@@ -258,7 +258,7 @@ if ( ! $_REQUEST['modfunc'] )
 		db_case( [ '(ASSIGNED_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=\'' . UserMP() . '\'))', 'TRUE', "'Y'", 'NULL' ] ) . " AS ASSIGNED_ERROR," .
 		db_case( [ 'DUE_DATE>(SELECT END_DATE+1 FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=\'' . UserMP() . '\')', 'TRUE', "'Y'", 'NULL' ] ) . " AS DUE_ERROR " .
 		"FROM GRADEBOOK_ASSIGNMENTS " .
-		"WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "' AND (COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')" . ( $_REQUEST['tab_id'] ? " AND ASSIGNMENT_TYPE_ID='" . $_REQUEST['tab_id'] . "'" : '' ) .
+		"WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "' AND (COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')" . ( $_REQUEST['tab_id'] ? " AND ASSIGNMENT_TYPE_ID='" . (int) $_REQUEST['tab_id'] . "'" : '' ) .
 		" AND MARKING_PERIOD_ID='" . UserMP() . "' ORDER BY " . Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) . " DESC,ASSIGNMENT_ID DESC,TITLE";
 		$functions = [ 'TITLE' => '_makeAssnInput', 'POINTS' => '_makeAssnInput', 'ASSIGNED_DATE' => '_makeAssnInput', 'DUE_DATE' => '_makeAssnInput', 'COURSE_ID' => '_makeAssnInput', 'DESCRIPTION' => '_makeAssnInput', 'DEFAULT_POINTS' => '_makeAssnInput' ];
 

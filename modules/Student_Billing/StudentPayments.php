@@ -102,7 +102,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	{
 		$file_attached = DBGetOne( "SELECT FILE_ATTACHED
 			FROM BILLING_PAYMENTS
-			WHERE ID='" . $_REQUEST['id'] . "'" );
+			WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 		if ( ! empty( $file_attached )
 			&& file_exists( $file_attached ) )
@@ -112,8 +112,8 @@ if ( $_REQUEST['modfunc'] === 'remove'
 		}
 
 		DBQuery( "DELETE FROM BILLING_PAYMENTS
-			WHERE ID='" . $_REQUEST['id'] . "'
-			OR REFUNDED_PAYMENT_ID='" . $_REQUEST['id'] . "'" );
+			WHERE ID='" . (int) $_REQUEST['id'] . "'
+			OR REFUNDED_PAYMENT_ID='" . (int) $_REQUEST['id'] . "'" );
 
 		// Unset modfunc & ID & redirect URL.
 		RedirectURL( [ 'modfunc', 'id' ] );
@@ -128,7 +128,7 @@ if ( $_REQUEST['modfunc'] === 'refund'
 	{
 		$payment_RET = DBGet( "SELECT COMMENTS,AMOUNT
 			FROM BILLING_PAYMENTS
-			WHERE ID='" . $_REQUEST['id'] . "'" );
+			WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 		$comments = $payment_RET[1]['COMMENTS'] ?
 			$payment_RET[1]['COMMENTS'] . ' &mdash; ' . _( 'Refund' ) :
@@ -144,7 +144,7 @@ if ( $_REQUEST['modfunc'] === 'refund'
 			( $payment_RET[1]['AMOUNT'] * -1 ) . "','" .
 			DBDate() . "','" .
 			DBEscapeString( $comments ) . "','" .
-			$_REQUEST['id'] . "')" );
+			(int) $_REQUEST['id'] . "')" );
 
 		// Unset modfunc & ID & redirect URL.
 		RedirectURL( [ 'modfunc', 'id' ] );

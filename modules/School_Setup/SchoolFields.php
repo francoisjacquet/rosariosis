@@ -129,7 +129,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$RET = DBGet( "SELECT ID,(SELECT NULL) AS CATEGORY_ID,TITLE,TYPE,
 			SELECT_OPTIONS,DEFAULT_SELECTION,SORT_ORDER,REQUIRED
 			FROM SCHOOL_FIELDS
-			WHERE ID='" . $_REQUEST['id'] . "'" );
+			WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 		$RET = $RET[1];
 

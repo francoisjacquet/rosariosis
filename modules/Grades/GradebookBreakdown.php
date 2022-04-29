@@ -228,11 +228,11 @@ elseif ( ! empty( $_REQUEST['assignment_id'] ) )
 {
 	$total_points = DBGetOne( "SELECT POINTS
 		FROM GRADEBOOK_ASSIGNMENTS
-		WHERE ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'" );
+		WHERE ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'" );
 
 	$current_RET = DBGet( "SELECT STUDENT_ID,POINTS,COMMENT,ASSIGNMENT_ID
 		FROM GRADEBOOK_GRADES
-		WHERE ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'
+		WHERE ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'
 		AND COURSE_PERIOD_ID='" . UserCoursePeriod() . "'",
 		[],
 		[ 'STUDENT_ID', 'ASSIGNMENT_ID' ] );

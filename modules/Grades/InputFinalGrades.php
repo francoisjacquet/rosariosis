@@ -176,7 +176,7 @@ elseif ( ! empty( $_REQUEST['tab_id'] ) )
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		AND SYEAR='" . UserSyear() . "'
 		AND COURSE_ID='" . $course_id . "'
-		AND CATEGORY_ID='" . $_REQUEST['tab_id'] . "'
+		AND CATEGORY_ID='" . (int) $_REQUEST['tab_id'] . "'
 		ORDER BY SORT_ORDER" );
 
 	$current_commentsA_RET = DBGet( "SELECT g.STUDENT_ID,g.REPORT_CARD_COMMENT_ID,g.COMMENT
@@ -186,7 +186,7 @@ elseif ( ! empty( $_REQUEST['tab_id'] ) )
 		AND g.MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'
 		AND g.REPORT_CARD_COMMENT_ID IN (SELECT ID
 			FROM REPORT_CARD_COMMENTS
-			WHERE CATEGORY_ID='" . $_REQUEST['tab_id'] . "')", [], [ 'STUDENT_ID', 'REPORT_CARD_COMMENT_ID' ] );
+			WHERE CATEGORY_ID='" . (int) $_REQUEST['tab_id'] . "')", [], [ 'STUDENT_ID', 'REPORT_CARD_COMMENT_ID' ] );
 }
 
 $grades_select = [ '' => '' ];
@@ -1003,7 +1003,7 @@ if ( ! empty( $_REQUEST['values'] )
 		WHERE cp.COURSE_PERIOD_ID=g.COURSE_PERIOD_ID
 		AND cp.COURSE_PERIOD_ID='" . $course_period_id . "'
 		AND g.MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'
-		AND g.REPORT_CARD_COMMENT_ID IN (SELECT ID FROM REPORT_CARD_COMMENTS WHERE CATEGORY_ID='" . $_REQUEST['tab_id'] . "')", [], [ 'STUDENT_ID', 'REPORT_CARD_COMMENT_ID' ] );
+		AND g.REPORT_CARD_COMMENT_ID IN (SELECT ID FROM REPORT_CARD_COMMENTS WHERE CATEGORY_ID='" . (int) $_REQUEST['tab_id'] . "')", [], [ 'STUDENT_ID', 'REPORT_CARD_COMMENT_ID' ] );
 	}
 
 	$current_completed = count( (array) DBGet( "SELECT 1
@@ -1169,12 +1169,12 @@ if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		&& GetMP( $_REQUEST['mp'], 'DOES_COMMENTS' ) == 'Y' )
 	{
 		// Course-specific.
-		$where = " AND CATEGORY_ID='" . $_REQUEST['tab_id'] . "'";
+		$where = " AND CATEGORY_ID='" . (int) $_REQUEST['tab_id'] . "'";
 
 		if ( $_REQUEST['tab_id'] == '0' )
 		{
 			// All Courses.
-			$where = " AND COURSE_ID='" . $_REQUEST['tab_id'] . "'";
+			$where = " AND COURSE_ID='" . (int) $_REQUEST['tab_id'] . "'";
 		}
 
 		$commentsAbis_RET = DBGet( "SELECT ID,TITLE,SCALE_ID

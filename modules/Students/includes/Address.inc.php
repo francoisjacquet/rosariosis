@@ -19,15 +19,19 @@ if ( ! empty( $_POST['values'] )
 
 			if ( ! DBGetOne( "SELECT 1
 				FROM STUDENTS_JOIN_ADDRESS
-				WHERE ADDRESS_ID='" . $_REQUEST['address_id'] . "'
+				WHERE ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'
 				AND STUDENT_ID='" . UserStudentID() . "'" ) )
 			{
 				DBQuery( "INSERT INTO STUDENTS_JOIN_ADDRESS (ID,STUDENT_ID,ADDRESS_ID)
-					values(" . db_seq_nextval( 'students_join_address_id_seq' ) . ",'" . UserStudentID() . "','" . $_REQUEST['address_id'] . "')" );
+					values(" . db_seq_nextval( 'students_join_address_id_seq' ) . ",
+						'" . UserStudentID() . "','" . $_REQUEST['address_id'] . "')" );
 
 				DBQuery( "INSERT INTO STUDENTS_JOIN_PEOPLE
 					(ID,STUDENT_ID,PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION)
-					SELECT DISTINCT ON (PERSON_ID) " . db_seq_nextval( 'students_join_people_id_seq' ) . ",'" . UserStudentID() . "',PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION FROM STUDENTS_JOIN_PEOPLE WHERE ADDRESS_ID='" . $_REQUEST['address_id'] . "'" );
+					SELECT DISTINCT ON (PERSON_ID) " . db_seq_nextval( 'students_join_people_id_seq' ) . ",
+					'" . UserStudentID() . "',PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION
+					FROM STUDENTS_JOIN_PEOPLE
+					WHERE ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'" );
 			}
 		}
 		elseif ( $_REQUEST['values']['EXISTING']['person_id'] && $_REQUEST['person_id'] == 'old' )
@@ -36,10 +40,15 @@ if ( ! empty( $_POST['values'] )
 
 			if ( ! DBGetOne( "SELECT 1
 				FROM STUDENTS_JOIN_PEOPLE
-				WHERE PERSON_ID='" . $_REQUEST['person_id'] . "'
+				WHERE PERSON_ID='" . (int) $_REQUEST['person_id'] . "'
 				AND STUDENT_ID='" . UserStudentID() . "'" ) )
 			{
-				DBQuery( "INSERT INTO STUDENTS_JOIN_PEOPLE (ID,STUDENT_ID,PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION) SELECT DISTINCT ON (PERSON_ID) " . db_seq_nextval( 'students_join_people_id_seq' ) . ",'" . UserStudentID() . "',PERSON_ID,'" . $_REQUEST['address_id'] . "',CUSTODY,EMERGENCY,STUDENT_RELATION FROM STUDENTS_JOIN_PEOPLE WHERE PERSON_ID='" . $_REQUEST['person_id'] . "'" );
+				DBQuery( "INSERT INTO STUDENTS_JOIN_PEOPLE (ID,STUDENT_ID,PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION)
+					SELECT DISTINCT ON (PERSON_ID) " . db_seq_nextval( 'students_join_people_id_seq' ) . ",
+					'" . UserStudentID() . "',PERSON_ID,'" . $_REQUEST['address_id'] . "',
+					CUSTODY,EMERGENCY,STUDENT_RELATION
+					FROM STUDENTS_JOIN_PEOPLE
+					WHERE PERSON_ID='" . (int) $_REQUEST['person_id'] . "'" );
 
 				if ( $_REQUEST['address_id'] == '0'
 					&& ! DBGetOne( "SELECT 1
@@ -96,7 +105,7 @@ if ( ! empty( $_POST['values'] )
 				$go = true;
 			}
 
-			$sql = mb_substr( $sql, 0, -1 ) . " WHERE ADDRESS_ID='" . $_REQUEST['address_id'] . "'";
+			$sql = mb_substr( $sql, 0, -1 ) . " WHERE ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'";
 
 			if ( $go )
 			{
@@ -183,7 +192,7 @@ if ( ! empty( $_POST['values'] )
 				$go = true;
 			}
 
-			$sql = mb_substr( $sql, 0, -1 ) . " WHERE PERSON_ID='" . $_REQUEST['person_id'] . "'";
+			$sql = mb_substr( $sql, 0, -1 ) . " WHERE PERSON_ID='" . (int) $_REQUEST['person_id'] . "'";
 
 			if ( $go )
 			{
@@ -295,7 +304,7 @@ if ( ! empty( $_POST['values'] )
 			$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 		}
 
-		$sql = mb_substr( $sql, 0, -1 ) . " WHERE PERSON_ID='" . $_REQUEST['person_id'] . "' AND STUDENT_ID='" . UserStudentID() . "'";
+		$sql = mb_substr( $sql, 0, -1 ) . " WHERE PERSON_ID='" . (int) $_REQUEST['person_id'] . "' AND STUDENT_ID='" . UserStudentID() . "'";
 		DBQuery( $sql );
 	}
 
@@ -309,7 +318,7 @@ if ( ! empty( $_POST['values'] )
 			$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 		}
 
-		$sql = mb_substr( $sql, 0, -1 ) . " WHERE ADDRESS_ID='" . $_REQUEST['address_id'] . "' AND STUDENT_ID='" . UserStudentID() . "'";
+		$sql = mb_substr( $sql, 0, -1 ) . " WHERE ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "' AND STUDENT_ID='" . UserStudentID() . "'";
 		DBQuery( $sql );
 	}
 
@@ -330,7 +339,7 @@ if ( $_REQUEST['modfunc'] === 'delete_address'
 		if ( DeletePrompt( _( 'Contact Information' ) ) )
 		{
 			DBQuery( "DELETE FROM PEOPLE_JOIN_CONTACTS
-				WHERE ID='" . $_REQUEST['contact_id'] . "'" );
+				WHERE ID='" . (int) $_REQUEST['contact_id'] . "'" );
 
 			// Unset modfunc & contact ID redirect URL.
 			RedirectURL( [ 'modfunc', 'contact_id' ] );
@@ -341,16 +350,16 @@ if ( $_REQUEST['modfunc'] === 'delete_address'
 		if ( DeletePrompt( _( 'Contact' ) ) )
 		{
 			DBQuery( "DELETE FROM STUDENTS_JOIN_PEOPLE
-				WHERE PERSON_ID='" . $_REQUEST['person_id'] . "'
-				AND ADDRESS_ID='" . $_REQUEST['address_id'] . "'
+				WHERE PERSON_ID='" . (int) $_REQUEST['person_id'] . "'
+				AND ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'
 				AND STUDENT_ID='" . UserStudentID() . "'" );
 
 			if ( ! DBGetOne( "SELECT 1
 				FROM STUDENTS_JOIN_PEOPLE
-				WHERE PERSON_ID='" . $_REQUEST['person_id'] . "'" ) )
+				WHERE PERSON_ID='" . (int) $_REQUEST['person_id'] . "'" ) )
 			{
-				$delete_sql = "DELETE FROM PEOPLE WHERE PERSON_ID='" . $_REQUEST['person_id'] . "';";
-				$delete_sql .= "DELETE FROM PEOPLE_JOIN_CONTACTS WHERE PERSON_ID='" . $_REQUEST['person_id'] . "';";
+				$delete_sql = "DELETE FROM PEOPLE WHERE PERSON_ID='" . (int) $_REQUEST['person_id'] . "';";
+				$delete_sql .= "DELETE FROM PEOPLE_JOIN_CONTACTS WHERE PERSON_ID='" . (int) $_REQUEST['person_id'] . "';";
 
 				DBQuery( $delete_sql );
 			}
@@ -377,7 +386,7 @@ if ( $_REQUEST['modfunc'] === 'delete_address'
 			DBQuery( "UPDATE STUDENTS_JOIN_PEOPLE
 				SET ADDRESS_ID='0'
 				WHERE STUDENT_ID='" . UserStudentID() . "'
-				AND ADDRESS_ID='" . $_REQUEST['address_id'] . "'" );
+				AND ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'" );
 
 			if ( ! DBGetOne( "SELECT 1
 				FROM STUDENTS_JOIN_PEOPLE
@@ -391,21 +400,21 @@ if ( $_REQUEST['modfunc'] === 'delete_address'
 				DBQuery( "UPDATE STUDENTS_JOIN_ADDRESS
 					SET ADDRESS_ID='0',RESIDENCE=NULL,MAILING=NULL,BUS_PICKUP=NULL,BUS_DROPOFF=NULL
 					WHERE STUDENT_ID='" . UserStudentID() . "'
-					AND ADDRESS_ID='" . $_REQUEST['address_id'] . "'" );
+					AND ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'" );
 			}
 			else
 			{
 				DBQuery( "DELETE FROM STUDENTS_JOIN_ADDRESS
 					WHERE STUDENT_ID='" . UserStudentID() . "'
-					AND ADDRESS_ID='" . $_REQUEST['address_id'] . "'" );
+					AND ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'" );
 			}
 
 			if ( ! DBGetOne( "SELECT 1
 				FROM STUDENTS_JOIN_ADDRESS
-				WHERE ADDRESS_ID='" . $_REQUEST['address_id'] . "'" ) )
+				WHERE ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'" ) )
 			{
 				DBQuery( "DELETE FROM ADDRESS
-					WHERE ADDRESS_ID='" . $_REQUEST['address_id'] . "'" );
+					WHERE ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'" );
 			}
 
 			// Unset modfunc & address ID redirect URL.
@@ -676,7 +685,7 @@ if ( ! $_REQUEST['modfunc'] )
 				FROM PEOPLE p,STUDENTS_JOIN_PEOPLE sjp
 				WHERE p.PERSON_ID=sjp.PERSON_ID
 				AND sjp.STUDENT_ID='" . UserStudentID() . "'
-				AND sjp.ADDRESS_ID='" . $_REQUEST['address_id'] . "'
+				AND sjp.ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'
 				ORDER BY sjp.STUDENT_RELATION" );
 
 			if ( ! empty( $contacts_RET ) || AllowEdit() )
@@ -1193,7 +1202,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 					$info_RET = DBGet( "SELECT ID,TITLE,VALUE
 						FROM PEOPLE_JOIN_CONTACTS
-						WHERE PERSON_ID='" . $_REQUEST['person_id'] . "'" );
+						WHERE PERSON_ID='" . (int) $_REQUEST['person_id'] . "'" );
 
 					$info_options = _makeAutoSelect(
 						'TITLE',
@@ -1372,7 +1381,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 					if ( $_REQUEST['person_id'] !== 'new' )
 					{
-						$value = DBGet( "SELECT * FROM PEOPLE WHERE PERSON_ID='" . $_REQUEST['person_id'] . "'" );
+						$value = DBGet( "SELECT * FROM PEOPLE WHERE PERSON_ID='" . (int) $_REQUEST['person_id'] . "'" );
 						$value = $value[1];
 					}
 					else
@@ -1459,7 +1468,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 				if ( $_REQUEST['address_id'] !== 'new' )
 				{
-					$value = DBGet( "SELECT * FROM ADDRESS WHERE ADDRESS_ID='" . $_REQUEST['address_id'] . "'" );
+					$value = DBGet( "SELECT * FROM ADDRESS WHERE ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'" );
 					$value = $value[1];
 				}
 				else

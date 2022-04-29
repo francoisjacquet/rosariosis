@@ -26,7 +26,7 @@ if ( $_REQUEST['subject_id'] )
 		FROM COURSE_SUBJECTS
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		AND SYEAR='" . UserSyear() . "'
-		AND SUBJECT_ID='" . $_REQUEST['subject_id'] . "'" );
+		AND SUBJECT_ID='" . (int) $_REQUEST['subject_id'] . "'" );
 
 	if ( ! $subject_RET )
 	{
@@ -39,7 +39,7 @@ if ( $_REQUEST['subject_id'] )
 {
 	$subject_title = DBGetOne( "SELECT TITLE
 		FROM COURSE_SUBJECTS
-		WHERE SUBJECT_ID='" . $_REQUEST['subject_id'] . "'" );
+		WHERE SUBJECT_ID='" . (int) $_REQUEST['subject_id'] . "'" );
 
 	$header = '<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 		'&include_child_mps=' . $_REQUEST['include_child_mps'] ) . '">' . _( 'Top' ) . '</a>
@@ -54,7 +54,7 @@ if ( $_REQUEST['subject_id'] )
 
 		$course_RET = DBGet( "SELECT TITLE
 			FROM COURSES
-			WHERE COURSE_ID='" . $_REQUEST['course_id'] . "'" );
+			WHERE COURSE_ID='" . (int) $_REQUEST['course_id'] . "'" );
 
 		$course_link_url = 'Modules.php?modname=' . $_REQUEST['modname'] .
 			'&modfunc=students&subject_id=' . $_REQUEST['subject_id'] .
@@ -137,7 +137,7 @@ if ( $_REQUEST['modfunc'] === 'courses'
 		cp.MARKING_PERIOD_ID,cp.MP,cp.CALENDAR_ID,
 		(SELECT count(*) FROM SCHEDULE_REQUESTS sr WHERE sr.COURSE_ID=c.COURSE_ID) AS COUNT_REQUESTS
 		FROM COURSES c,COURSE_PERIODS cp
-		WHERE c.SUBJECT_ID='" . $_REQUEST['subject_id'] . "'
+		WHERE c.SUBJECT_ID='" . (int) $_REQUEST['subject_id'] . "'
 		AND c.COURSE_ID=cp.COURSE_ID
 		AND c.SYEAR='" . UserSyear() . "'
 		AND c.SCHOOL_ID='" . UserSchool() . "'
@@ -198,7 +198,7 @@ if ( $_REQUEST['modfunc'] === 'course_periods'
 	//$QI = DBQuery("SELECT COURSE_PERIOD_ID,TITLE,MARKING_PERIOD_ID,MP,CALENDAR_ID,TOTAL_SEATS FROM COURSE_PERIODS cp WHERE COURSE_ID='".$_REQUEST['course_id']."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID),TITLE");
 	$RET = DBGet( "SELECT COURSE_PERIOD_ID,TITLE,MARKING_PERIOD_ID,MP,CALENDAR_ID,TOTAL_SEATS
 		FROM COURSE_PERIODS cp
-		WHERE COURSE_ID='" . $_REQUEST['course_id'] . "'
+		WHERE COURSE_ID='" . (int) $_REQUEST['course_id'] . "'
 		AND SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		ORDER BY SHORT_NAME,TITLE" );
@@ -335,11 +335,11 @@ if ( $_REQUEST['modfunc'] == 'students' )
 
 		if ( $_REQUEST['course_id'] )
 		{
-			$sql .= "AND sr.COURSE_ID='" . $_REQUEST['course_id'] . "' ";
+			$sql .= "AND sr.COURSE_ID='" . (int) $_REQUEST['course_id'] . "' ";
 		}
 		elseif ( $_REQUEST['subject_id'] )
 		{
-			$sql .= "AND sr.SUBJECT_ID='" . $_REQUEST['subject_id'] . "' ";
+			$sql .= "AND sr.SUBJECT_ID='" . (int) $_REQUEST['subject_id'] . "' ";
 		}
 
 		$sql .= "AND NOT EXISTS (SELECT ''
@@ -362,11 +362,11 @@ if ( $_REQUEST['modfunc'] == 'students' )
 
 		if ( $_REQUEST['course_period_id'] )
 		{
-			$sql .= "AND ss.COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'";
+			$sql .= "AND ss.COURSE_PERIOD_ID='" . (int) $_REQUEST['course_period_id'] . "'";
 		}
 		elseif ( $_REQUEST['course_id'] )
 		{
-			$sql .= "AND ss.COURSE_ID='" . $_REQUEST['course_id'] . "'";
+			$sql .= "AND ss.COURSE_ID='" . (int) $_REQUEST['course_id'] . "'";
 		}
 	}
 

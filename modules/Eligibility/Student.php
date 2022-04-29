@@ -40,7 +40,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	{
 		DBQuery( "DELETE FROM STUDENT_ELIGIBILITY_ACTIVITIES
 			WHERE STUDENT_ID='" . UserStudentID() . "'
-			AND ACTIVITY_ID='" . $_REQUEST['activity_id'] . "'
+			AND ACTIVITY_ID='" . (int) $_REQUEST['activity_id'] . "'
 			AND SYEAR='" . UserSyear() . "'" );
 
 		// Unset modfunc & activity ID & redirect URL.

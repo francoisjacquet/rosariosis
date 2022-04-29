@@ -39,7 +39,7 @@ if ( $_REQUEST['modfunc'] === 'delete_medical'
 	if ( DeletePrompt( $_REQUEST['title'] ) )
 	{
 		DBQuery( "DELETE FROM " . DBEscapeIdentifier( $_REQUEST['table'] ) . "
-			WHERE ID='" . $_REQUEST['id'] . "'" );
+			WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 		// Unset modfunc & ID & table & title & redirect URL.
 		RedirectURL( [ 'modfunc', 'id', 'table', 'title' ] );

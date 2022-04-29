@@ -583,7 +583,7 @@ if ( $_REQUEST['modfunc'] === 'remove_file'
 
 			DBQuery( "UPDATE PEOPLE
 				SET " . $column . "=REPLACE(" . $column . ", '" . DBEscapeString( $file ) . "||', '')
-				WHERE PERSON_ID='" . $_REQUEST['person_id'] . "'" );
+				WHERE PERSON_ID='" . (int) $_REQUEST['person_id'] . "'" );
 		}
 		elseif ( ! empty( $_REQUEST['address_id'] ) )
 		{
@@ -591,7 +591,7 @@ if ( $_REQUEST['modfunc'] === 'remove_file'
 
 			DBQuery( "UPDATE ADDRESS
 				SET " . $column . "=REPLACE(" . $column . ", '" . DBEscapeString( $file ) . "||', '')
-				WHERE ADDRESS_ID='" . $_REQUEST['address_id'] . "'" );
+				WHERE ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'" );
 		}
 		else
 		{

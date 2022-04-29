@@ -10,7 +10,7 @@ else
 {
 	$course_title = DBGetOne( "SELECT TITLE
 		FROM COURSES
-		WHERE COURSE_ID='" . $_REQUEST['course_id'] . "'" );
+		WHERE COURSE_ID='" . (int) $_REQUEST['course_id'] . "'" );
 
 	$html_to_escape = $course_title .
 	'<input type="hidden" name="request_course_id" value="' . AttrEscape( $_REQUEST['course_id'] ) . '" /><br />

@@ -172,7 +172,7 @@ if ( UserStudentID() )
 		if ( DeletePrompt( _( 'Student Grade' ) ) )
 		{
 			DBQuery( "DELETE FROM STUDENT_REPORT_CARD_GRADES
-				WHERE ID='" . $_REQUEST['id'] . "'" );
+				WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 			if ( $mp_id )
 			{

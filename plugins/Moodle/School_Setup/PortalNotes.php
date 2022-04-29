@@ -145,7 +145,7 @@ function core_notes_delete_notes_response( $response )
 
 	DBQuery( "DELETE FROM MOODLEXROSARIO
 		WHERE \"column\"='portal_note_id'
-		AND rosario_id='" . $_REQUEST['id'] . "'" );
+		AND rosario_id='" . (int) $_REQUEST['id'] . "'" );
 
 	return null;
 }

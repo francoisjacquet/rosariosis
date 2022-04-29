@@ -104,7 +104,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	{
 		if ( DeletePrompt( _( 'Attendance Code' ) ) )
 		{
-			DBQuery( "DELETE FROM ATTENDANCE_CODES WHERE ID='" . $_REQUEST['id'] . "'" );
+			DBQuery( "DELETE FROM ATTENDANCE_CODES WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 			// Unset modfunc & ID & redirect URL.
 			RedirectURL( [ 'modfunc', 'id' ] );
@@ -113,15 +113,15 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	elseif ( DeletePrompt( _( 'Category' ) ) )
 	{
 		$delete_sql = "DELETE FROM ATTENDANCE_CODE_CATEGORIES
-			WHERE ID='" . $_REQUEST['id'] . "';";
+			WHERE ID='" . (int) $_REQUEST['id'] . "';";
 
 		$delete_sql .= "DELETE FROM ATTENDANCE_CODES
-			WHERE TABLE_NAME='" . $_REQUEST['id'] . "';";
+			WHERE TABLE_NAME='" . (int) $_REQUEST['id'] . "';";
 
 		DBQuery( $delete_sql );
 
 		DBQuery( "UPDATE COURSE_PERIODS
-			SET DOES_ATTENDANCE=replace(DOES_ATTENDANCE,'," . $_REQUEST['id'] . ",',',')
+			SET DOES_ATTENDANCE=replace(DOES_ATTENDANCE,'," . (int) $_REQUEST['id'] . ",',',')
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'" );
 

@@ -406,11 +406,11 @@ function FilesUploadUpdate( $table, $request, $path )
 			}
 			elseif ( $table === 'ADDRESS' )
 			{
-				$where_sql = "ADDRESS_ID='" . $_REQUEST['address_id'] . "'";
+				$where_sql = "ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'";
 			}
 			elseif ( $table === 'PEOPLE' )
 			{
-				$where_sql = "PERSON_ID='" . $_REQUEST['person_id'] . "'";
+				$where_sql = "PERSON_ID='" . (int) $_REQUEST['person_id'] . "'";
 			}
 			elseif ( $table === 'STAFF' )
 			{
@@ -418,7 +418,7 @@ function FilesUploadUpdate( $table, $request, $path )
 			}
 			else
 			{
-				$where_sql = "ID='" . $_REQUEST['id'] . "'";
+				$where_sql = "ID='" . (int) $_REQUEST['id'] . "'";
 			}
 
 			DBQuery( "UPDATE " . DBEscapeIdentifier( $table ) . "

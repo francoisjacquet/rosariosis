@@ -444,7 +444,7 @@ function core_course_delete_courses_response( $response )
 	//delete the reference the moodlexrosario cross-reference table:
 	DBQuery( "DELETE FROM MOODLEXROSARIO
 		WHERE \"column\"='course_period_id'
-		AND rosario_id='" . $_REQUEST['course_period_id'] . "'" );
+		AND rosario_id='" . (int) $_REQUEST['course_period_id'] . "'" );
 
 	return null;
 }

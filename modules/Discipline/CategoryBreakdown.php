@@ -59,7 +59,7 @@ if ( ! empty( $_REQUEST['category_id'] ) )
 {
 	$category_RET = DBGet( "SELECT du.TITLE,du.SELECT_OPTIONS,df.DATA_TYPE
 		FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du
-		WHERE df.ID='" . $_REQUEST['category_id'] . "'
+		WHERE df.ID='" . (int) $_REQUEST['category_id'] . "'
 		AND du.DISCIPLINE_FIELD_ID=df.ID
 		AND du.SYEAR='" . UserSyear() . "'
 		AND du.SCHOOL_ID='" . UserSchool() . "'" );

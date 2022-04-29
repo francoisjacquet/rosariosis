@@ -80,7 +80,7 @@ if ( ! empty( $_REQUEST['field_id'] ) )
 	else
 	{
 		$fields_RET = DBGet( "SELECT TITLE,SELECT_OPTIONS AS OPTIONS,TYPE
-			FROM CUSTOM_FIELDS WHERE ID='" . $_REQUEST['field_id'] . "'" );
+			FROM CUSTOM_FIELDS WHERE ID='" . (int) $_REQUEST['field_id'] . "'" );
 
 		if ( $fields_RET[1]['OPTIONS'] ) // Fixes array( 0 => '' ) when no options.
 		{

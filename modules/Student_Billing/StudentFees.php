@@ -92,7 +92,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	{
 		$file_attached = DBGetOne( "SELECT FILE_ATTACHED
 			FROM ACCOUNTING_SALARIES
-			WHERE ID='" . $_REQUEST['id'] . "'" );
+			WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 		if ( ! empty( $file_attached )
 			&& file_exists( $file_attached ) )
@@ -102,10 +102,10 @@ if ( $_REQUEST['modfunc'] === 'remove'
 		}
 
 		$delete_sql = "DELETE FROM BILLING_FEES
-			WHERE ID='" . $_REQUEST['id'] . "';";
+			WHERE ID='" . (int) $_REQUEST['id'] . "';";
 
 		$delete_sql .= "DELETE FROM BILLING_FEES
-			WHERE WAIVED_FEE_ID='" . $_REQUEST['id'] . "';";
+			WHERE WAIVED_FEE_ID='" . (int) $_REQUEST['id'] . "';";
 
 		DBQuery( $delete_sql );
 
@@ -121,7 +121,7 @@ if ( $_REQUEST['modfunc'] === 'waive'
 	{
 		$fee_RET = DBGet( "SELECT TITLE,AMOUNT
 			FROM BILLING_FEES
-			WHERE ID='" . $_REQUEST['id'] . "'" );
+			WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 		DBQuery( "INSERT INTO BILLING_FEES (ID,SYEAR,SCHOOL_ID,TITLE,AMOUNT,WAIVED_FEE_ID,
 			STUDENT_ID,ASSIGNED_DATE,COMMENTS)
@@ -131,7 +131,7 @@ if ( $_REQUEST['modfunc'] === 'waive'
 			UserSchool() . "','" .
 			DBEscapeString( $fee_RET[1]['TITLE'] . " " . _( 'Waiver' ) ) . "','" .
 			( $fee_RET[1]['AMOUNT'] * -1 ) . "','" .
-			$_REQUEST['id'] . "','" .
+			(int) $_REQUEST['id'] . "','" .
 			UserStudentID() . "','" .
 			DBDate() . "','" .
 			DBEscapeString( _( 'Waiver' ) ) . "')" );

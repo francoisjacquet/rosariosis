@@ -177,8 +177,8 @@ if ( $_REQUEST['modfunc'] === 'remove'
 		if ( DeletePrompt( _( 'Meal Item' ) ) )
 		{
 			DBQuery( "DELETE FROM FOOD_SERVICE_MENU_ITEMS
-				WHERE MENU_ID='" . $_REQUEST['tab_id'] . "'
-				AND MENU_ITEM_ID='" . $_REQUEST['menu_item_id'] . "'" );
+				WHERE MENU_ID='" . (int) $_REQUEST['tab_id'] . "'
+				AND MENU_ITEM_ID='" . (int) $_REQUEST['menu_item_id'] . "'" );
 
 			// Unset modfunc & menu item ID & redirect URL.
 			RedirectURL( [ 'modfunc', 'menu_item_id' ] );
@@ -187,10 +187,10 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	elseif ( DeletePrompt( _( 'Item' ) ) )
 	{
 		$delete_sql = "DELETE FROM FOOD_SERVICE_MENU_ITEMS
-			WHERE ITEM_ID='" . $_REQUEST['item_id'] . "';";
+			WHERE ITEM_ID='" . (int) $_REQUEST['item_id'] . "';";
 
 		$delete_sql .= "DELETE FROM FOOD_SERVICE_ITEMS
-			WHERE ITEM_ID='" . $_REQUEST['item_id'] . "';";
+			WHERE ITEM_ID='" . (int) $_REQUEST['item_id'] . "';";
 
 		DBQuery( $delete_sql );
 
@@ -274,7 +274,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$categories_RET = DBGet( "SELECT CATEGORY_ID,TITLE
 			FROM FOOD_SERVICE_CATEGORIES
-			WHERE MENU_ID='" . $_REQUEST['tab_id'] . "'
+			WHERE MENU_ID='" . (int) $_REQUEST['tab_id'] . "'
 			ORDER BY SORT_ORDER" );
 
 		$categories_select = [];

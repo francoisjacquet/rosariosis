@@ -34,7 +34,7 @@ if ( ! empty( $_REQUEST['attendance'] )
 			}
 
 			$sql = mb_substr( $sql, 0, -1 ) . " WHERE SCHOOL_DATE='" . $school_date . "'
-				AND PERIOD_ID='" . $_REQUEST['period_id'] . "'
+				AND PERIOD_ID='" . (int) $_REQUEST['period_id'] . "'
 				AND STUDENT_ID='" . $student_id . "'";
 
 			DBQuery( $sql );
@@ -340,7 +340,7 @@ else
 		FROM ATTENDANCE_PERIOD ap,STUDENT_ENROLLMENT ssm
 		WHERE ap.STUDENT_ID=ssm.STUDENT_ID
 		AND ap.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
-		AND ap.PERIOD_ID='" . $_REQUEST['period_id'] . "'
+		AND ap.PERIOD_ID='" . (int) $_REQUEST['period_id'] . "'
 		AND ap.STUDENT_ID=";
 	}
 

@@ -10,7 +10,7 @@
  * Prompt before Delete
  * and display OK & Cancel buttons
  *
- * @example if ( DeletePrompt( _( 'Title' ) ) ) DBQuery( "DELETE FROM BOK WHERE id='" . $_REQUEST['benchmark_id'] . "'" );
+ * @example if ( DeletePrompt( _( 'Title' ) ) ) DBQuery( "DELETE FROM BOK WHERE ID='" . (int) $_REQUEST['benchmark_id'] . "'" );
  *
  * @param  string  $title                    Prompt title.
  * @param  string  $action                   Prompt action (optional). Defaults to 'Delete'.

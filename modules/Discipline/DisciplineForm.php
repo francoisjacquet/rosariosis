@@ -158,10 +158,12 @@ if ( $_REQUEST['modfunc'] === 'delete_usage'
 if ( $_REQUEST['modfunc'] === 'add_usage'
 	&& AllowEdit() )
 {
-	DBQuery( "INSERT INTO DISCIPLINE_FIELD_USAGE (ID,DISCIPLINE_FIELD_ID,SYEAR,SCHOOL_ID,TITLE,SELECT_OPTIONS,SORT_ORDER) SELECT " . db_seq_nextval( 'discipline_field_usage_id_seq' ) . " AS ID,'" . $_REQUEST['id'] . "' AS DISCIPLINE_FIELD_ID,
+	DBQuery( "INSERT INTO DISCIPLINE_FIELD_USAGE (ID,DISCIPLINE_FIELD_ID,SYEAR,SCHOOL_ID,TITLE,SELECT_OPTIONS,SORT_ORDER)
+		SELECT " . db_seq_nextval( 'discipline_field_usage_id_seq' ) . " AS ID,
+		'" . (int) $_REQUEST['id'] . "' AS DISCIPLINE_FIELD_ID,
 		'" . UserSyear() . "' AS SYEAR,'" . UserSchool() . "' AS SCHOOL_ID,TITLE,
 		NULL AS SELECT_OPTIONS,NULL AS SORT_ORDER
-		FROM DISCIPLINE_FIELDS WHERE ID='" . $_REQUEST['id'] . "'" );
+		FROM DISCIPLINE_FIELDS WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 	// Unset modfunc & ID & redirect URL.
 	RedirectURL( [ 'modfunc', 'id' ] );

@@ -214,7 +214,7 @@ if ( ! $_REQUEST['modfunc'] )
 		{
 			$fields_RET = DBGet( "SELECT ID,TITLE,TYPE,SELECT_OPTIONS
 				FROM CUSTOM_FIELDS
-				WHERE CATEGORY_ID='" . $_REQUEST['category_id'] . "'
+				WHERE CATEGORY_ID='" . (int) $_REQUEST['category_id'] . "'
 				ORDER BY SORT_ORDER,TITLE", [], [ 'TYPE' ] );
 		}
 		else

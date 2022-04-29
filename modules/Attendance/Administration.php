@@ -278,7 +278,7 @@ if ( isset( $_REQUEST['student_id'] ) && $_REQUEST['student_id'] !== 'new' )
 		AND s.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
 		AND cpsp.PERIOD_ID=p.PERIOD_ID
 		AND position('," . $_REQUEST['table'] . ",' IN cp.DOES_ATTENDANCE)>0
-		AND s.STUDENT_ID='" . $_REQUEST['student_id'] . "'
+		AND s.STUDENT_ID='" . (int) $_REQUEST['student_id'] . "'
 		AND ('" . $date . "' BETWEEN s.START_DATE AND s.END_DATE OR (s.END_DATE IS NULL AND '" . $date . "'>=s.START_DATE))
 		AND position(substring('MTWHFSU' FROM cast(
 			(SELECT CASE COUNT(SCHOOL_DATE)%" . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " WHEN 0 THEN " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " ELSE COUNT(SCHOOL_DATE)%" . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " END AS day_number
@@ -309,7 +309,7 @@ if ( isset( $_REQUEST['student_id'] ) && $_REQUEST['student_id'] !== 'new' )
 		AND s.MARKING_PERIOD_ID IN (" . $all_mp . ")
 		AND s.COURSE_ID=c.COURSE_ID
 		AND s.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND cpsp.PERIOD_ID=p.PERIOD_ID AND position(',$_REQUEST[table],' IN cp.DOES_ATTENDANCE)>0
-		AND s.STUDENT_ID='" . $_REQUEST['student_id'] . "'
+		AND s.STUDENT_ID='" . (int) $_REQUEST['student_id'] . "'
 		AND ('" . $date . "' BETWEEN s.START_DATE AND s.END_DATE OR (s.END_DATE IS NULL AND '" . $date . "'>=s.START_DATE))
 		AND position(substring('UMTWHFS' FROM cast(extract(DOW FROM cast('" . $date . "' AS DATE)) AS INT)+1 FOR 1) IN cpsp.DAYS)>0
 		AND ac.CALENDAR_ID=cp.CALENDAR_ID AND ac.SCHOOL_DATE='" . $date . "' AND ac.MINUTES!='0'

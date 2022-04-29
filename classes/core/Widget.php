@@ -72,13 +72,13 @@ class Widget_course implements Widget
 				AND w_ss.SCHOOL_ID=ssm.SCHOOL_ID
 				AND w_ss.COURSE_ID IN(SELECT COURSE_ID
 					FROM COURSES
-					WHERE SUBJECT_ID='" . $_REQUEST['w_subject_id'] . "'
+					WHERE SUBJECT_ID='" . (int) $_REQUEST['w_subject_id'] . "'
 					AND SYEAR=ssm.SYEAR
 					AND SCHOOL_ID=ssm.SCHOOL_ID)";
 
 			$subject_title = DBGetOne( "SELECT TITLE
 				FROM COURSE_SUBJECTS
-				WHERE SUBJECT_ID='" . $_REQUEST['w_subject_id'] . "'" );
+				WHERE SUBJECT_ID='" . (int) $_REQUEST['w_subject_id'] . "'" );
 
 			if ( ! $extra['NoSearchTerms'] )
 			{
@@ -95,11 +95,11 @@ class Widget_course implements Widget
 				WHERE w_ss.STUDENT_ID=s.STUDENT_ID
 				AND w_ss.SYEAR=ssm.SYEAR
 				AND w_ss.SCHOOL_ID=ssm.SCHOOL_ID
-				AND w_ss.COURSE_ID='" . $_REQUEST['w_course_id'] . "'";
+				AND w_ss.COURSE_ID='" . (int) $_REQUEST['w_course_id'] . "'";
 
 			$course_title = DBGetOne( "SELECT TITLE
 				FROM COURSES
-				WHERE COURSE_ID='" . $_REQUEST['w_course_id'] . "'" );
+				WHERE COURSE_ID='" . (int) $_REQUEST['w_course_id'] . "'" );
 
 			if ( ! $extra['NoSearchTerms'] )
 			{
@@ -116,12 +116,12 @@ class Widget_course implements Widget
 				WHERE w_ss.STUDENT_ID=s.STUDENT_ID
 				AND w_ss.SYEAR=ssm.SYEAR
 				AND w_ss.SCHOOL_ID=ssm.SCHOOL_ID
-				AND w_ss.COURSE_PERIOD_ID='" . $_REQUEST['w_course_period_id'] . "'";
+				AND w_ss.COURSE_PERIOD_ID='" . (int) $_REQUEST['w_course_period_id'] . "'";
 
 			$course = DBGet( "SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,cp.COURSE_ID
 				FROM COURSE_PERIODS cp,COURSES c
 				WHERE c.COURSE_ID=cp.COURSE_ID
-				AND cp.COURSE_PERIOD_ID='" . $_REQUEST['w_course_period_id'] . "'" );
+				AND cp.COURSE_PERIOD_ID='" . (int) $_REQUEST['w_course_period_id'] . "'" );
 
 			if ( ! $extra['NoSearchTerms'] )
 			{
@@ -254,7 +254,7 @@ class Widget_request implements Widget
 
 		$course_title = DBGetOne( "SELECT c.TITLE
 			FROM COURSES c
-			WHERE c.COURSE_ID='" . $_REQUEST['request_course_id'] . "'" );
+			WHERE c.COURSE_ID='" . (int) $_REQUEST['request_course_id'] . "'" );
 
 		// Request.
 		if ( ! isset( $_REQUEST['missing_request_course'] )
@@ -265,7 +265,7 @@ class Widget_request implements Widget
 			$extra['WHERE'] .= " AND sr.STUDENT_ID=s.STUDENT_ID
 				AND sr.SYEAR=ssm.SYEAR
 				AND sr.SCHOOL_ID=ssm.SCHOOL_ID
-				AND sr.COURSE_ID='" . $_REQUEST['request_course_id'] . "' ";
+				AND sr.COURSE_ID='" . (int) $_REQUEST['request_course_id'] . "' ";
 
 			if ( ! $extra['NoSearchTerms'] )
 			{
@@ -281,7 +281,7 @@ class Widget_request implements Widget
 					SCHEDULE_REQUESTS sr
 					WHERE sr.STUDENT_ID=ssm.STUDENT_ID
 					AND sr.SYEAR=ssm.SYEAR
-					AND sr.COURSE_ID='" . $_REQUEST['request_course_id'] . "' ) ";
+					AND sr.COURSE_ID='" . (int) $_REQUEST['request_course_id'] . "' ) ";
 
 			if ( ! $extra['NoSearchTerms'] )
 			{
@@ -447,7 +447,7 @@ class Widget_cp_absences implements Widget
 			FROM ATTENDANCE_PERIOD ap,ATTENDANCE_CODES ac
 			WHERE ac.ID=ap.ATTENDANCE_CODE
 			AND ac.STATE_CODE='A'
-			AND ap.COURSE_PERIOD_ID='" . $_REQUEST['w_course_period_id'] . "'" .
+			AND ap.COURSE_PERIOD_ID='" . (int) $_REQUEST['w_course_period_id'] . "'" .
 			$term_sql .
 			" AND ap.STUDENT_ID=ssm.STUDENT_ID)" .
 			$absences_sql;
@@ -951,11 +951,11 @@ class Widget_activity implements Widget
 
 		$extra['WHERE'] .= " AND sea.STUDENT_ID=s.STUDENT_ID
 			AND sea.SYEAR=ssm.SYEAR
-			AND sea.ACTIVITY_ID='" . $_REQUEST['activity_id'] . "'";
+			AND sea.ACTIVITY_ID='" . (int) $_REQUEST['activity_id'] . "'";
 
 		$activity_title = DBGetOne( "SELECT TITLE
 			FROM ELIGIBILITY_ACTIVITIES
-			WHERE ID='" . $_REQUEST['activity_id'] . "'" );
+			WHERE ID='" . (int) $_REQUEST['activity_id'] . "'" );
 
 		if ( ! $extra['NoSearchTerms'] )
 		{

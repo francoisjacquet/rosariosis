@@ -33,7 +33,7 @@ function core_calendar_create_calendar_events_object()
 		//get calendar event title & description
 		$calendar_event = DBGet( "SELECT TITLE,DESCRIPTION
 			FROM CALENDAR_EVENTS
-			WHERE ID='" . $_REQUEST['event_id'] . "'" );
+			WHERE ID='" . (int) $_REQUEST['event_id'] . "'" );
 	}
 
 	if ( empty( $_REQUEST['values']['TITLE'] ) )

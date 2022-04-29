@@ -234,7 +234,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 		case 'Students/Student.php|update_student_address':
 			$residence = DBGetOne( "SELECT RESIDENCE
 				FROM STUDENTS_JOIN_ADDRESS
-				WHERE ADDRESS_ID='" . $_REQUEST['address_id'] . "'" );
+				WHERE ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'" );
 
 			if ( $residence == 'Y' )
 			{

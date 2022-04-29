@@ -2,13 +2,13 @@
 
 $person_RET = DBGet( "SELECT *
 	FROM PEOPLE p,STUDENTS_JOIN_PEOPLE sjp
-	WHERE p.PERSON_ID='" . $_REQUEST['person_id'] . "'
+	WHERE p.PERSON_ID='" . (int) $_REQUEST['person_id'] . "'
 	AND sjp.PERSON_ID=p.PERSON_ID
-	AND sjp.STUDENT_ID='" . $_REQUEST['student_id'] . "'" );
+	AND sjp.STUDENT_ID='" . (int) $_REQUEST['student_id'] . "'" );
 
 $contacts_RET = DBGet( "SELECT TITLE,VALUE
 	FROM PEOPLE_JOIN_CONTACTS
-	WHERE PERSON_ID='" . $_REQUEST['person_id'] . "'" );
+	WHERE PERSON_ID='" . (int) $_REQUEST['person_id'] . "'" );
 
 $fields_RET = DBGet( "SELECT pf.ID,pf.TITLE
 	FROM PEOPLE_FIELDS pf,PEOPLE_FIELD_CATEGORIES pfc

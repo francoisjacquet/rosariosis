@@ -297,7 +297,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 					(SYEAR,SCHOOL_ID,SCHOOL_DATE,MINUTES,CALENDAR_ID)
 					(SELECT '" . UserSyear() . "','" . UserSchool() . "',SCHOOL_DATE," . $minutes . ",'" . $calendar_id . "'
 						FROM ATTENDANCE_CALENDAR
-						WHERE CALENDAR_ID='" . $_REQUEST['copy_id'] . "'" .
+						WHERE CALENDAR_ID='" . (int) $_REQUEST['copy_id'] . "'" .
 						( $weekdays_list ?
 							" AND extract(DOW FROM SCHOOL_DATE) IN (" . $weekdays_list . ")" : '' );
 
@@ -367,10 +367,10 @@ if ( $_REQUEST['modfunc'] === 'delete_calendar'
 	if ( DeletePrompt( _( 'Calendar' ) ) )
 	{
 		$delete_sql = "DELETE FROM ATTENDANCE_CALENDAR
-			WHERE CALENDAR_ID='" . $_REQUEST['calendar_id'] . "';";
+			WHERE CALENDAR_ID='" . (int) $_REQUEST['calendar_id'] . "';";
 
 		$delete_sql .= "DELETE FROM ATTENDANCE_CALENDARS
-			WHERE CALENDAR_ID='" . $_REQUEST['calendar_id'] . "';";
+			WHERE CALENDAR_ID='" . (int) $_REQUEST['calendar_id'] . "';";
 
 		DBQuery( $delete_sql );
 
@@ -459,7 +459,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 					$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 				}
 
-				$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . $_REQUEST['event_id'] . "'";
+				$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . (int) $_REQUEST['event_id'] . "'";
 
 				DBQuery( $sql );
 
@@ -541,7 +541,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 		if ( DeletePrompt( _( 'Event' ), 'Delete', false ) )
 		{
 			DBQuery( "DELETE FROM CALENDAR_EVENTS
-				WHERE ID='" . $_REQUEST['event_id'] . "'" );
+				WHERE ID='" . (int) $_REQUEST['event_id'] . "'" );
 
 			//hook
 			do_action( 'School_Setup/Calendar.php|delete_calendar_event' );
@@ -566,7 +566,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 			{
 				$RET = DBGet( "SELECT TITLE,DESCRIPTION,SCHOOL_DATE
 					FROM CALENDAR_EVENTS
-					WHERE ID='" . $_REQUEST['event_id'] . "'" );
+					WHERE ID='" . (int) $_REQUEST['event_id'] . "'" );
 
 				$title = $RET[1]['TITLE'];
 			}
@@ -591,7 +591,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 					OR c.COURSE_ID=(SELECT cp.COURSE_ID
 						FROM COURSE_PERIODS cp
 						WHERE cp.COURSE_PERIOD_ID=a.COURSE_PERIOD_ID))
-				AND a.ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'" );
+				AND a.ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'" );
 
 			$title = $RET[1]['TITLE'];
 
@@ -785,7 +785,7 @@ if ( ! $_REQUEST['modfunc'] )
 		AND '" . $last_day_month . "'
 		AND SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
-		AND CALENDAR_ID='" . $_REQUEST['calendar_id'] . "'";
+		AND CALENDAR_ID='" . (int) $_REQUEST['calendar_id'] . "'";
 
 	$calendar_RET = DBGet( $calendar_SQL, [], [ 'SCHOOL_DATE' ] );
 
@@ -814,7 +814,7 @@ if ( ! $_REQUEST['modfunc'] )
 						WHERE SCHOOL_DATE='" . $date . "'
 						AND SYEAR='" . UserSyear() . "'
 						AND SCHOOL_ID='" . UserSchool() . "'
-						AND CALENDAR_ID='" . $_REQUEST['calendar_id'] . "'" );
+						AND CALENDAR_ID='" . (int) $_REQUEST['calendar_id'] . "'" );
 				}
 				else
 				{
@@ -822,7 +822,7 @@ if ( ! $_REQUEST['modfunc'] )
 						WHERE SCHOOL_DATE='" . $date . "'
 						AND SYEAR='" . UserSyear() . "'
 						AND SCHOOL_ID='" . UserSchool() . "'
-						AND CALENDAR_ID='" . $_REQUEST['calendar_id'] . "'" );
+						AND CALENDAR_ID='" . (int) $_REQUEST['calendar_id'] . "'" );
 				}
 
 				$update_calendar = true;
@@ -858,7 +858,7 @@ if ( ! $_REQUEST['modfunc'] )
 						WHERE SCHOOL_DATE='" . $date . "'
 						AND SYEAR='" . UserSyear() . "'
 						AND SCHOOL_ID='" . UserSchool() . "'
-						AND CALENDAR_ID='" . $_REQUEST['calendar_id'] . "'" );
+						AND CALENDAR_ID='" . (int) $_REQUEST['calendar_id'] . "'" );
 				}
 				else
 				{
@@ -870,7 +870,7 @@ if ( ! $_REQUEST['modfunc'] )
 						WHERE SCHOOL_DATE='" . $date . "'
 						AND SYEAR='" . UserSyear() . "'
 						AND SCHOOL_ID='" . UserSchool() . "'
-						AND CALENDAR_ID='" . $_REQUEST['calendar_id'] . "')" );
+						AND CALENDAR_ID='" . (int) $_REQUEST['calendar_id'] . "')" );
 				}
 
 				$update_calendar = true;
@@ -881,7 +881,7 @@ if ( ! $_REQUEST['modfunc'] )
 					WHERE SCHOOL_DATE='" . $date . "'
 					AND SYEAR='" . UserSyear() . "'
 					AND SCHOOL_ID='" . UserSchool() . "'
-					AND CALENDAR_ID='" . $_REQUEST['calendar_id'] . "'" );
+					AND CALENDAR_ID='" . (int) $_REQUEST['calendar_id'] . "'" );
 
 				$update_calendar = true;
 			}
@@ -904,7 +904,7 @@ if ( ! $_REQUEST['modfunc'] )
 					WHERE SCHOOL_DATE='" . $date . "'
 					AND SYEAR='" . UserSyear() . "'
 					AND SCHOOL_ID='" . UserSchool() . "'
-					AND CALENDAR_ID='" . $_REQUEST['calendar_id'] . "'" );
+					AND CALENDAR_ID='" . (int) $_REQUEST['calendar_id'] . "'" );
 
 				$update_calendar = true;
 			}

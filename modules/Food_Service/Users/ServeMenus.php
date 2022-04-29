@@ -115,7 +115,7 @@ if ( UserStaffID()
 
 		$items_RET = DBGet( "SELECT fsi.SHORT_NAME,fsi.DESCRIPTION,fsi.PRICE_STAFF,fsi.ICON
 		FROM FOOD_SERVICE_ITEMS fsi,FOOD_SERVICE_MENU_ITEMS fsmi
-		WHERE fsmi.MENU_ID='" . $_REQUEST['menu_id'] . "'
+		WHERE fsmi.MENU_ID='" . (int) $_REQUEST['menu_id'] . "'
 		AND fsi.ITEM_ID=fsmi.ITEM_ID
 		AND fsmi.CATEGORY_ID IS NOT NULL
 		AND fsi.SCHOOL_ID='" . UserSchool() . "'

@@ -397,7 +397,7 @@ if ( $_REQUEST['modfunc'] == 'choose_course' )
 			cpsp.DAYS,cpsp.PERIOD_ID,cp.MARKING_PERIOD_ID,cp.TOTAL_SEATS,cp.CALENDAR_ID
 			FROM COURSE_PERIODS cp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
 			WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
-			AND cp.COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'" );
+			AND cp.COURSE_PERIOD_ID='" . (int) $_REQUEST['course_period_id'] . "'" );
 
 		if ( ! empty( $_REQUEST['course_marking_period_id'] ) )
 		{
@@ -419,7 +419,12 @@ if ( $_REQUEST['modfunc'] == 'choose_course' )
 
 		// the course being scheduled has start date of $date but no end date by default, and scheduled into the course marking period by default
 		// if marking periods overlap and dates overlap (already scheduled course does not end or ends after $date) then not okay
-		$current_RET = DBGet( "SELECT COURSE_PERIOD_ID FROM SCHEDULE WHERE STUDENT_ID='" . UserStudentID() . "' AND COURSE_ID='" . $_REQUEST['course_id'] . "' AND MARKING_PERIOD_ID IN (" . $mps . ") AND (END_DATE IS NULL OR '" . DBDate() . "'<=END_DATE)" );
+		$current_RET = DBGet( "SELECT COURSE_PERIOD_ID
+			FROM SCHEDULE
+			WHERE STUDENT_ID='" . UserStudentID() . "'
+			AND COURSE_ID='" . (int) $_REQUEST['course_id'] . "'
+			AND MARKING_PERIOD_ID IN (" . $mps . ")
+			AND (END_DATE IS NULL OR '" . DBDate() . "'<=END_DATE)" );
 
 		if ( ! empty( $current_RET ) )
 		{
