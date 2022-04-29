@@ -6,6 +6,7 @@ Changes in 8.9.5
 - Fix stored XSS security issue: do not allow unsanitized XML & HTML in FileUpload.fnc.php, thanks to @nhienit2010
 - Fix stored XSS security issue: escape HTML attribute in StudentAssignments.fnc.php, thanks to @dungtuanha
 - Use big random number for parent password generation in NotifyParents.php & CreateParents.php, thanks to @intrapus
+- Fix stored XSS security issue: remove inline JS from URL in PreparePHP_SELF.fnc.php, thanks to @intrapus
 
 Changes in 8.9.4
 ----------------

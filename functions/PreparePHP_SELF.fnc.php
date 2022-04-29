@@ -193,6 +193,8 @@ function URLEscape( $string )
 		'%23',
 		'%5B',
 		'%5D',
+		// Fix stored XSS security issue: remove inline JS from URL.
+		'javascript:',
 	];
 
 	$replacements = [
@@ -215,6 +217,7 @@ function URLEscape( $string )
 		'#',
 		'[',
 		']',
+		'',
 	];
 
 	return str_replace(
