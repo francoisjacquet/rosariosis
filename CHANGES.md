@@ -63,6 +63,7 @@ Changes in 9.0
 - Logout after 10 Hacking attempts within 1 minute in HackingLog.fnc.php
 - Add use of URLEscape(), program wide
 - Use URLEscape() for img src attribute, program wide
+- Sanitize / escape URL as THEME is often included for button img src attribute in User.fnc.php
 
 Changes in 8.9.5
 ----------------

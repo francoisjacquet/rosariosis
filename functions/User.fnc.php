@@ -157,15 +157,20 @@ function Preferences( $item, $program = 'Preferences' )
 		$_ROSARIO['Preferences'][ $program ]['SEARCH'][1]['VALUE'] = 'N';
 	}
 
-	/**
-	 * Force Default Theme.
-	 * Override user preference if any.
-	 */
-	if ( $item === 'THEME'
-		&& Config( 'THEME_FORCE' )
-		&& ! empty( $_SESSION['STAFF_ID'] ) )
+	if ( $item === 'THEME' )
 	{
-		$_ROSARIO['Preferences'][ $program ]['THEME'][1]['VALUE'] = $defaults['THEME'];
+		if ( Config( 'THEME_FORCE' )
+			&& ! empty( $_SESSION['STAFF_ID'] ) )
+		{
+			/**
+			 * Force Default Theme.
+			 * Override user preference if any.
+			 */
+			$_ROSARIO['Preferences'][ $program ]['THEME'][1]['VALUE'] = $defaults['THEME'];
+		}
+
+		// Sanitize / escape URL as THEME is often included for button img src attribute.
+		$_ROSARIO['Preferences'][ $program ]['THEME'][1]['VALUE'] = URLEscape( $_ROSARIO['Preferences'][ $program ]['THEME'][1]['VALUE'] );
 	}
 
 	return $_ROSARIO['Preferences'][ $program ][ $item ][1]['VALUE'];
