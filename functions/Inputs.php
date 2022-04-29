@@ -221,7 +221,8 @@ function PasswordInput( $value, $name, $title = '', $extra = '', $div = true )
 
 	$input = '<div class="password-input-wrapper">' . $input . '</div>';
 
-	if ( trim( $value ) == ''
+	if ( is_null( $value )
+		|| trim( $value ) == ''
 		|| ! $div )
 	{
 		return $input;
