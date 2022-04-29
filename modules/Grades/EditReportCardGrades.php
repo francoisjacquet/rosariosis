@@ -475,7 +475,7 @@ if ( UserStudentID() )
 
 		if ( $mp_id == "0" )
 		{
-			echo SubmitButton( _( 'Remove Marking Period' ), 'removemp' );
+			echo SubmitButton( _( 'Remove Marking Period' ), 'removemp', '' );
 		}
 
 		echo SubmitButton() . '</div>';
