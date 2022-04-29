@@ -127,7 +127,7 @@ else
 		ORDER BY FULL_NAME";
 }
 
-$RET = DBGet( $sql, [], [ 'STAFF_ID' ] );
+$RET = DBGet( $sql, [ 'FULL_NAME' => '_makeUserPhotoTipMessage' ], [ 'STAFF_ID' ] );
 
 if ( ! isset( $_REQUEST['period'] )
 	|| ! $_REQUEST['period'] )
@@ -195,4 +195,30 @@ else
 		false,
 		[ 'STAFF_ID' ]
 	);
+}
+
+/**
+ * Make User Photo Tip Message
+ *
+ * Local function
+ *
+ * @uses MakeUserPhotoTipMessage()
+ *
+ * @global $THIS_RET
+ *
+ * @since 9.0
+ *
+ * @param  string $value  User full name.
+ * @param  string $column Column, defaults to 'FULL_NAME'.
+ * @return string         User full name plus photo tip message.
+ */
+function _makeUserPhotoTipMessage( $value, $column = 'FULL_NAME' )
+{
+	global $THIS_RET;
+
+	$staff_id = $THIS_RET['STAFF_ID'];
+
+	$title = $value;
+
+	return MakeUserPhotoTipMessage( $staff_id, $title );
 }
