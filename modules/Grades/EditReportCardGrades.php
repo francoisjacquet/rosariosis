@@ -336,7 +336,7 @@ if ( UserStudentID() )
 
 				echo PopTable( 'header', _( 'Add another marking period' ) );
 
-				echo '<table class="cellpadding-5"><tr><td>';
+				echo '<table class="cellpadding-5"><tr class="st"><td>';
 				echo SelectInput(
 					null,
 					'new_sms',
