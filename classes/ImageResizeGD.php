@@ -240,9 +240,9 @@ class ImageResizeGD {
 
 		$imageCropped = $this->imageModified;
 
-		$this->imageModified = imagecreatetruecolor($newWidth , $newHeight);
+		$this->imageModified = imagecreatetruecolor((int) $newWidth , (int) $newHeight);
 
-		imagecopy($this->imageModified, $imageCropped , 0, 0, $cropStartX, $cropStartY, $newWidth, $newHeight);
+		imagecopy($this->imageModified, $imageCropped , 0, 0, $cropStartX, $cropStartY, (int) $newWidth, (int) $newHeight);
 
 		$this->newWidth = $newWidth;
 		$this->newHeight = $newHeight;
@@ -437,10 +437,10 @@ class ImageResizeGD {
 		$decGreen = hexdec(substr($backgroundColor, 2, 2));
 		$decBlue = hexdec(substr($backgroundColor, 4, 2));
 
-		$imageSolidBackground = imagecreatetruecolor($this->newWidth, $this->newHeight);
+		$imageSolidBackground = imagecreatetruecolor((int) $this->newWidth, (int) $this->newHeight);
 		$solidColor = imagecolorallocate($imageSolidBackground, $decRed, $decGreen, $decBlue);
-		imagefilledrectangle($imageSolidBackground, 0, 0, $this->newWidth, $this->newHeight, $solidColor);
-		imagecopy($imageSolidBackground, $this->imageModified, 0, 0, 0, 0, $this->newWidth, $this->newHeight);
+		imagefilledrectangle($imageSolidBackground, 0, 0, (int) $this->newWidth, (int) $this->newHeight, $solidColor);
+		imagecopy($imageSolidBackground, $this->imageModified, 0, 0, 0, 0, (int) $this->newWidth, (int) $this->newHeight);
 
 		$this->imageModified = $imageSolidBackground;
 	}
@@ -459,12 +459,12 @@ class ImageResizeGD {
 	 * @return void
 	 */
 	protected function copyImageData() {
-		$this->imageModified = imagecreatetruecolor($this->newWidth, $this->newHeight);
+		$this->imageModified = imagecreatetruecolor((int) $this->newWidth, (int) $this->newHeight);
 
 		imagealphablending($this->imageModified, false);
 		imagesavealpha($this->imageModified, true);
 
-		imagecopyresampled($this->imageModified, $this->image, 0, 0, 0, 0, $this->newWidth, $this->newHeight, $this->sourceWidth, $this->sourceHeight);
+		imagecopyresampled($this->imageModified, $this->image, 0, 0, 0, 0, (int) $this->newWidth, (int) $this->newHeight, $this->sourceWidth, $this->sourceHeight);
 	}
 
 	/**
