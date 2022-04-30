@@ -631,7 +631,7 @@ function GetStuList( &$extra = [] )
 				AND ('" . $extra['DATE'] . "'>=ssm.START_DATE
 					AND (ssm.END_DATE IS NULL OR '" . $extra['DATE'] . "'<=ssm.END_DATE))
 				AND s.STUDENT_ID" . ( ! empty( $extra['ASSOCIATED'] ) ?
-					" IN (SELECT STUDENT_ID FROM STUDENTS_JOIN_USERS WHERE STAFF_ID='" . $extra['ASSOCIATED'] . "')" :
+					" IN (SELECT STUDENT_ID FROM STUDENTS_JOIN_USERS WHERE STAFF_ID='" . (int) $extra['ASSOCIATED'] . "')" :
 					"='" . UserStudentID() . "'" );
 
 		break;
@@ -961,8 +961,8 @@ function makeParents( $student_id, $column )
 		sjp.CUSTODY,sjp.EMERGENCY
 		FROM STUDENTS_JOIN_PEOPLE sjp,PEOPLE p
 		WHERE sjp.PERSON_ID=p.PERSON_ID
-		AND sjp.STUDENT_ID='" . $student_id . "'
-		AND sjp.ADDRESS_ID='" . $THIS_RET['ADDRESS_ID'] . "'" . $constraint .
+		AND sjp.STUDENT_ID='" . (int) $student_id . "'
+		AND sjp.ADDRESS_ID='" . (int) $THIS_RET['ADDRESS_ID'] . "'" . $constraint .
 		" ORDER BY sjp.CUSTODY,sjp.STUDENT_RELATION,p.LAST_NAME,p.FIRST_NAME" );
 
 	if ( ! $people_RET )
@@ -1026,7 +1026,7 @@ function DeCodeds( $value, $column, $table = 'auto' )
 	{
 		$RET = DBGet( "SELECT TYPE,SELECT_OPTIONS
 			FROM " . DBEscapeIdentifier( $table . '_FIELDS' ) .
-			" WHERE ID='" . $field[1] . "'" );
+			" WHERE ID='" . (int) $field[1] . "'" );
 
 		if ( $RET[1]['TYPE'] === 'exports' )
 		{

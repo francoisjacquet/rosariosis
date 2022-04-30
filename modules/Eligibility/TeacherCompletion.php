@@ -99,7 +99,7 @@ $sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,sp.TITLE,cpsp.PERIOD_I
 	AND cp.SYEAR='" . UserSyear() . "'
 	AND cp.SCHOOL_ID='" . UserSchool() . "'
 	AND s.PROFILE='teacher'" .
-	( $_REQUEST['period'] ? " AND cpsp.PERIOD_ID='" . $_REQUEST['period'] . "'" : '' ) .
+	( $_REQUEST['period'] ? " AND cpsp.PERIOD_ID='" . (int) $_REQUEST['period'] . "'" : '' ) .
 	"AND NOT EXISTS (SELECT ''
 		FROM ELIGIBILITY_COMPLETED ac
 		WHERE ac.STAFF_ID=cp.TEACHER_ID

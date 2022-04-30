@@ -16,7 +16,7 @@ if ( $_REQUEST['modfunc'] === 'add'
 	$activity_RET = DBGet( "SELECT ACTIVITY_ID
 		FROM STUDENT_ELIGIBILITY_ACTIVITIES
 		WHERE STUDENT_ID='" . UserStudentID() . "'
-		AND ACTIVITY_ID='" . $_REQUEST['new_activity'] . "'
+		AND ACTIVITY_ID='" . (int) $_REQUEST['new_activity'] . "'
 		AND SYEAR='" . UserSyear() . "'" );
 
 	if ( ! empty( $activity_RET ) )

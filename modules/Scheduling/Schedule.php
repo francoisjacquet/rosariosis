@@ -74,7 +74,7 @@ if ( $_REQUEST['modfunc'] === 'modify'
 			}
 
 			$sql = mb_substr( $sql, 0, -1 ) . " WHERE STUDENT_ID='" . UserStudentID() . "'
-			AND COURSE_PERIOD_ID='" . $course_period_id . "'
+			AND COURSE_PERIOD_ID='" . (int) $course_period_id . "'
 			AND START_DATE='" . $start_date . "'";
 
 			DBQuery( $sql );
@@ -84,7 +84,7 @@ if ( $_REQUEST['modfunc'] === 'modify'
 				$start_end_RET = DBGet( "SELECT START_DATE,END_DATE
 				FROM SCHEDULE
 				WHERE STUDENT_ID='" . UserStudentID() . "'
-				AND COURSE_PERIOD_ID='" . $course_period_id . "'
+				AND COURSE_PERIOD_ID='" . (int) $course_period_id . "'
 				AND END_DATE<START_DATE" );
 
 				if ( ! empty( $start_end_RET ) )
@@ -104,19 +104,19 @@ if ( $_REQUEST['modfunc'] === 'modify'
 							// If user clicked OK.
 							$delete_sql = "DELETE FROM GRADEBOOK_GRADES
 								WHERE STUDENT_ID='" . UserStudentID() . "'
-								AND COURSE_PERIOD_ID='" . $course_period_id . "';";
+								AND COURSE_PERIOD_ID='" . (int) $course_period_id . "';";
 
 							$delete_sql .= "DELETE FROM STUDENT_REPORT_CARD_GRADES
 								WHERE STUDENT_ID='" . UserStudentID() . "'
-								AND COURSE_PERIOD_ID='" . $course_period_id . "';";
+								AND COURSE_PERIOD_ID='" . (int) $course_period_id . "';";
 
 							$delete_sql .= "DELETE FROM STUDENT_REPORT_CARD_COMMENTS
 								WHERE STUDENT_ID='" . UserStudentID() . "'
-								AND COURSE_PERIOD_ID='" . $course_period_id . "';";
+								AND COURSE_PERIOD_ID='" . (int) $course_period_id . "';";
 
 							$delete_sql .= "DELETE FROM ATTENDANCE_PERIOD
 								WHERE STUDENT_ID='" . UserStudentID() . "'
-								AND COURSE_PERIOD_ID='" . $course_period_id . "';";
+								AND COURSE_PERIOD_ID='" . (int) $course_period_id . "';";
 
 							DBQuery( $delete_sql );
 						}
@@ -124,7 +124,7 @@ if ( $_REQUEST['modfunc'] === 'modify'
 						// Else simply delete schedule entry.
 						DBQuery( "DELETE FROM SCHEDULE
 							WHERE STUDENT_ID='" . UserStudentID() . "'
-							AND COURSE_PERIOD_ID='" . $course_period_id . "'" );
+							AND COURSE_PERIOD_ID='" . (int) $course_period_id . "'" );
 
 						// Hook.
 						do_action( 'Scheduling/Schedule.php|drop_student' );
@@ -138,7 +138,7 @@ if ( $_REQUEST['modfunc'] === 'modify'
 				{
 					DBQuery( "DELETE FROM ATTENDANCE_PERIOD
 						WHERE STUDENT_ID='" . UserStudentID() . "'
-						AND COURSE_PERIOD_ID='" . $course_period_id . "'
+						AND COURSE_PERIOD_ID='" . (int) $course_period_id . "'
 						AND (" . ( $columns['START_DATE'] ? "SCHOOL_DATE<'" . $columns['START_DATE'] . "'" : 'FALSE' ) .
 							' OR ' . ( $columns['END_DATE'] ? "SCHOOL_DATE>'" . $columns['END_DATE'] . "'" : 'FALSE' ) . ")" );
 				}
@@ -438,7 +438,7 @@ if ( $_REQUEST['modfunc'] == 'choose_course' )
 		FROM SCHEDULE s,COURSE_PERIOD_SCHOOL_PERIODS cpsp
 		WHERE cpsp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID
 		AND s.STUDENT_ID='" . UserStudentID() . "'
-		AND cpsp.PERIOD_ID='" . $mp_RET[1]['PERIOD_ID'] . "'
+		AND cpsp.PERIOD_ID='" . (int) $mp_RET[1]['PERIOD_ID'] . "'
 		AND s.MARKING_PERIOD_ID IN (" . $mps . ")
 		AND (s.END_DATE IS NULL OR '" . DBDate() . "'<=s.END_DATE)" );
 
@@ -559,7 +559,7 @@ function _makePeriodSelect( $course_period_id, $column )
 	$orders_RET = DBGet( "SELECT COURSE_PERIOD_ID,PARENT_ID,TITLE,MARKING_PERIOD_ID,MP,CALENDAR_ID,
 		(SELECT SHORT_NAME FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID=cp.PARENT_ID) AS PARENT,TOTAL_SEATS
 		FROM COURSE_PERIODS cp
-		WHERE COURSE_ID='" . $THIS_RET['COURSE_ID'] . "'
+		WHERE COURSE_ID='" . (int) $THIS_RET['COURSE_ID'] . "'
 		ORDER BY SHORT_NAME,TITLE" );
 
 	foreach ( (array) $orders_RET as $value )

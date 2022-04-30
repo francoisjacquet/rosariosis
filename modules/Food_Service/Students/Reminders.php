@@ -104,7 +104,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				$teacher = DBGet( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,cs.TITLE
 				FROM STAFF s,SCHEDULE sch,COURSE_PERIODS cp,COURSES c,COURSE_SUBJECTS cs
 				WHERE s.STAFF_ID=cp.TEACHER_ID
-				AND sch.STUDENT_ID='" . $student['STUDENT_ID'] . "'
+				AND sch.STUDENT_ID='" . (int) $student['STUDENT_ID'] . "'
 				AND cp.COURSE_ID=sch.COURSE_ID
 				AND c.COURSE_ID=cp.COURSE_ID
 				AND c.SUBJECT_ID=cs.SUBJECT_ID
@@ -124,7 +124,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 				AND cp.DOES_ATTENDANCE IS NOT NULL
 				AND s.STAFF_ID=cp.TEACHER_ID
-				AND sch.STUDENT_ID='" . $student['STUDENT_ID'] . "'
+				AND sch.STUDENT_ID='" . (int) $student['STUDENT_ID'] . "'
 				AND cp.COURSE_ID=sch.COURSE_ID
 				AND c.COURSE_ID=cp.COURSE_ID
 				AND c.SUBJECT_ID=cs.SUBJECT_ID
@@ -138,7 +138,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 			$xstudents = DBGet( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME
 			FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa
-			WHERE fssa.ACCOUNT_ID='" . $student['ACCOUNT_ID'] . "'
+			WHERE fssa.ACCOUNT_ID='" . (int) $student['ACCOUNT_ID'] . "'
 			AND s.STUDENT_ID=fssa.STUDENT_ID
 			AND s.STUDENT_ID!='" . $student['STUDENT_ID'] . "'
 			AND exists(SELECT ''
@@ -153,7 +153,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				to_char(fst.TIMESTAMP,'YYYY-MM-DD') AS DATE
 			FROM FOOD_SERVICE_TRANSACTIONS fst
 			WHERE fst.SHORT_NAME='DEPOSIT'
-			AND fst.ACCOUNT_ID='" . $student['ACCOUNT_ID'] . "'
+			AND fst.ACCOUNT_ID='" . (int) $student['ACCOUNT_ID'] . "'
 			AND SYEAR='" . UserSyear() . "'
 			ORDER BY fst.TRANSACTION_ID DESC LIMIT 1", [ 'DATE' => 'ProperDate' ] );
 

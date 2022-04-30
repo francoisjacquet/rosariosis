@@ -313,7 +313,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				{
 					if ( DBGetOne( "SELECT STUDENT_ID
 						FROM STUDENTS
-						WHERE STUDENT_ID='" . $student_id . "'" ) )
+						WHERE STUDENT_ID='" . (int) $student_id . "'" ) )
 					{
 						$error[] = sprintf( _( 'That %s ID is already taken. Please select a different one.' ), Config( 'NAME' ) );
 					}
@@ -337,7 +337,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 					}
 					while ( DBGetOne( "SELECT STUDENT_ID
 						FROM STUDENTS
-						WHERE STUDENT_ID='" . $student_id . "'" ) );
+						WHERE STUDENT_ID='" . (int) $student_id . "'" ) );
 				}
 
 				$sql = "INSERT INTO STUDENTS ";

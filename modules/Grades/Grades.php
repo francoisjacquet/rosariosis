@@ -188,8 +188,8 @@ if ( ! empty( $_REQUEST['values'] )
 					$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 				}
 
-				$sql = mb_substr( $sql, 0, -1 ) . " WHERE STUDENT_ID='" . $student_id . "'
-					AND ASSIGNMENT_ID='" . $assignment_id . "'
+				$sql = mb_substr( $sql, 0, -1 ) . " WHERE STUDENT_ID='" . (int) $student_id . "'
+					AND ASSIGNMENT_ID='" . (int) $assignment_id . "'
 					AND COURSE_PERIOD_ID='" . UserCoursePeriod() . "'";
 			}
 			elseif ( $columns['POINTS'] != '' || $columns['COMMENT'] )

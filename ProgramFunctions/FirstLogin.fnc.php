@@ -41,7 +41,7 @@ if ( ! function_exists( 'DoFirstLoginForm' ) )
 			{
 				DBQuery( "UPDATE STUDENTS
 					SET PASSWORD='" . $new_password . "',LAST_LOGIN=CURRENT_TIMESTAMP
-					WHERE STUDENT_ID='" . $_SESSION['STUDENT_ID'] . "'" );
+					WHERE STUDENT_ID='" . (int) $_SESSION['STUDENT_ID'] . "'" );
 			}
 
 			unset( $values['PASSWORD'], $new_password );

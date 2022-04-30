@@ -127,7 +127,7 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 		$assignment_submission_sql = "UPDATE STUDENT_ASSIGNMENTS
 			SET DATA='" . $data . "'
 			WHERE STUDENT_ID='" . UserStudentID() . "'
-			AND ASSIGNMENT_ID='" . $assignment_id . "'";
+			AND ASSIGNMENT_ID='" . (int) $assignment_id . "'";
 	}
 	else
 	{
@@ -397,7 +397,7 @@ function GetAssignment( $assignment_id )
 		gat.TITLE AS CATEGORY, gat.COLOR AS ASSIGNMENT_TYPE_COLOR
 		FROM GRADEBOOK_ASSIGNMENTS ga,COURSES c,GRADEBOOK_ASSIGNMENT_TYPES gat
 		" . $where_user .
-		" AND ga.ASSIGNMENT_ID='" . $assignment_id . "'
+		" AND ga.ASSIGNMENT_ID='" . (int) $assignment_id . "'
 		AND gat.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID"; // Why not?
 
 	$assignment_RET = DBGet( $assignment_sql, [], [ 'ASSIGNMENT_ID' ] );
@@ -426,8 +426,8 @@ function GetAssignmentSubmission( $assignment_id, $student_id )
 
 	$submission_sql = "SELECT DATA
 		FROM STUDENT_ASSIGNMENTS
-		WHERE ASSIGNMENT_ID='" . $assignment_id . "'
-		AND STUDENT_ID='" . $student_id . "'";
+		WHERE ASSIGNMENT_ID='" . (int) $assignment_id . "'
+		AND STUDENT_ID='" . (int) $student_id . "'";
 
 	$submission_RET = DBGet( $submission_sql );
 

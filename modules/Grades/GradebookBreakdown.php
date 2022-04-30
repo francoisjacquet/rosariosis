@@ -48,7 +48,7 @@ $course_id = $course_id[1]['COURSE_ID'];
 //$grades_RET = DBGet( "SELECT ID,TITLE FROM REPORT_CARD_GRADES WHERE SCALE_ID='".$grade_scale_id."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER" );
 $grades_RET = DBGet( "SELECT ID,TITLE,GPA_VALUE
 	FROM REPORT_CARD_GRADES
-	WHERE GRADE_SCALE_ID='" . $grade_scale_id . "'
+	WHERE GRADE_SCALE_ID='" . (int) $grade_scale_id . "'
 	AND SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'
 	ORDER BY BREAK_OFF IS NOT NULL DESC,BREAK_OFF DESC,SORT_ORDER" );
@@ -63,7 +63,7 @@ foreach ( (array) $grades_RET as $grade )
 $sql = "SELECT ASSIGNMENT_TYPE_ID,TITLE
 	FROM GRADEBOOK_ASSIGNMENT_TYPES
 	WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
-	AND COURSE_ID='" . $course_id . "'
+	AND COURSE_ID='" . (int) $course_id . "'
 	ORDER BY TITLE";
 
 $types_RET = DBGet( $sql );
@@ -71,7 +71,7 @@ $types_RET = DBGet( $sql );
 $assignments_RET = DBGet( "SELECT ASSIGNMENT_ID,TITLE,POINTS
 	FROM GRADEBOOK_ASSIGNMENTS
 	WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
-	AND ((COURSE_ID='" . $course_id . "'
+	AND ((COURSE_ID='" . (int) $course_id . "'
 	AND STAFF_ID='" . User( 'STAFF_ID' ) . "') OR COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
 	AND MARKING_PERIOD_ID='" . UserMP() . "'
 	ORDER BY " . Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) . " DESC" );
@@ -139,7 +139,7 @@ if ( $_REQUEST['assignment_id'] === 'totals' )
 		AND a.STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND a.MARKING_PERIOD_ID='" . UserMP() . "'
 		AND g.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'
-		AND (a.COURSE_PERIOD_ID='" . UserCoursePeriod() . "' OR a.COURSE_ID='" . $course_id . "')
+		AND (a.COURSE_PERIOD_ID='" . UserCoursePeriod() . "' OR a.COURSE_ID='" . (int) $course_id . "')
 		GROUP BY g.STUDENT_ID", [], [ 'STUDENT_ID' ] );
 
 	if ( Preferences( 'WEIGHT', 'Gradebook' ) === 'Y' )
@@ -165,7 +165,7 @@ if ( $_REQUEST['assignment_id'] === 'totals' )
 			AND ga.STAFF_ID='" . User( 'STAFF_ID' ) . "'
 			AND ga.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . ")
 			AND gg.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'
-			AND gt.COURSE_ID='" . $course_id . "'
+			AND gt.COURSE_ID='" . (int) $course_id . "'
 			AND gg.POINTS<>'-1'
 			GROUP BY gg.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID,gt.FINAL_GRADE_PERCENT
 			HAVING sum(ga.POINTS)<>'0'",
@@ -191,8 +191,8 @@ elseif ( ! is_numeric( $_REQUEST['assignment_id'] ) )
 		WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID
 		AND a.MARKING_PERIOD_ID='" . UserMP() . "'
 		AND g.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'
-		AND (a.COURSE_PERIOD_ID='" . UserCoursePeriod() . "' OR a.COURSE_ID='" . $course_id . "')
-		AND a.ASSIGNMENT_TYPE_ID='" . $type_id . "'
+		AND (a.COURSE_PERIOD_ID='" . UserCoursePeriod() . "' OR a.COURSE_ID='" . (int) $course_id . "')
+		AND a.ASSIGNMENT_TYPE_ID='" . (int) $type_id . "'
 		GROUP BY g.STUDENT_ID", [], [ 'STUDENT_ID' ] );
 
 	if ( Preferences( 'WEIGHT', 'Gradebook' ) === 'Y' )
@@ -207,11 +207,11 @@ elseif ( ! is_numeric( $_REQUEST['assignment_id'] ) )
 			] ) . " AS PARTIAL_PERCENT
 			FROM GRADEBOOK_GRADES gg,GRADEBOOK_ASSIGNMENTS ga,GRADEBOOK_ASSIGNMENT_TYPES gt
 			WHERE gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID
-			AND ga.ASSIGNMENT_TYPE_ID='" . $type_id . "'
+			AND ga.ASSIGNMENT_TYPE_ID='" . (int) $type_id . "'
 			AND ga.ASSIGNMENT_ID=gg.ASSIGNMENT_ID
 			AND ga.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . ")
 			AND gg.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'
-			AND gt.COURSE_ID='" . $course_id . "'
+			AND gt.COURSE_ID='" . (int) $course_id . "'
 			GROUP BY gg.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID,gt.FINAL_GRADE_PERCENT",
 			[],
 			[ 'STUDENT_ID', 'ASSIGNMENT_TYPE_ID' ] );

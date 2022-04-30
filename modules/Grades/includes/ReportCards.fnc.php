@@ -653,7 +653,7 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 			asort( $comments_arr, SORT_NUMERIC );
 
 			// Student Info.
-			$extra2['WHERE'] = " AND s.STUDENT_ID='" . $student_id . "'";
+			$extra2['WHERE'] = " AND s.STUDENT_ID='" . (int) $student_id . "'";
 
 			// SELECT s.* Custom Fields for Substitutions.
 			$extra2['SELECT'] = ",s.*";
@@ -1326,7 +1326,7 @@ function GetReportCardCommentScales( $student_id, $course_periods_list )
 		FROM REPORT_CARD_COMMENTS c
 		WHERE (c.COURSE_ID IN(SELECT COURSE_ID
 			FROM SCHEDULE
-			WHERE STUDENT_ID='" . $student_id . "'
+			WHERE STUDENT_ID='" . (int) $student_id . "'
 			AND COURSE_PERIOD_ID IN(" . $course_periods_list . "))
 			OR c.COURSE_ID=0)
 		AND c.SCHOOL_ID=cs.SCHOOL_ID
@@ -1562,7 +1562,7 @@ function _getReportCardCommentPersonalizations( $student_id )
 
 	$student_RET = DBGet( "SELECT CUSTOM_200000000 AS GENDER,FIRST_NAME
 		FROM STUDENTS
-		WHERE STUDENT_ID='" . $student_id . "'" );
+		WHERE STUDENT_ID='" . (int) $student_id . "'" );
 
 	// Gender field.
 	$gender = 'M';

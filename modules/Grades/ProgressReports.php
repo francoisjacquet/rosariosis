@@ -133,7 +133,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			// @since 5.4 Is Parent or Student: display all Course Period Assignments.
 			$cp_RET = DBGet( "SELECT ss.COURSE_PERIOD_ID
 				FROM SCHEDULE ss,COURSE_PERIODS cp
-				WHERE ss.STUDENT_ID='" . $student['STUDENT_ID'] . "'
+				WHERE ss.STUDENT_ID='" . (int) $student['STUDENT_ID'] . "'
 				AND ss.SYEAR='" . UserSyear() . "'
 				AND ss.START_DATE<'" . GetMP( UserMP(), 'END_DATE' ) . "'
 				AND (ss.END_DATE IS NULL OR ss.END_DATE>='" . GetMP( UserMP(), 'START_DATE' ) . "')
@@ -153,7 +153,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			$course_RET = DBGet( "SELECT c.TITLE,c.COURSE_ID,cp.TEACHER_ID
 				FROM COURSE_PERIODS cp,COURSES c
 				WHERE c.COURSE_ID=cp.COURSE_ID
-				AND cp.COURSE_PERIOD_ID='" . $cp_id . "'" );
+				AND cp.COURSE_PERIOD_ID='" . (int) $cp_id . "'" );
 
 			$course_id = $course_RET[1]['COURSE_ID'];
 
@@ -161,14 +161,14 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 			$extra = $extra2;
 
-			$extra['FROM'] .= " JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID='" . $cp_id . "' OR ga.COURSE_ID='" . $course_id . "' AND ga.STAFF_ID='" . $teacher_id . "') AND ga.MARKING_PERIOD_ID='" . UserMP() . "')
-				LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.STUDENT_ID=s.STUDENT_ID AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.COURSE_PERIOD_ID='" . $cp_id . "'),GRADEBOOK_ASSIGNMENT_TYPES gt";
+			$extra['FROM'] .= " JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID='" . (int) $cp_id . "' OR ga.COURSE_ID='" . (int) $course_id . "' AND ga.STAFF_ID='" . (int) $teacher_id . "') AND ga.MARKING_PERIOD_ID='" . UserMP() . "')
+				LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.STUDENT_ID=s.STUDENT_ID AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.COURSE_PERIOD_ID='" . (int) $cp_id . "'),GRADEBOOK_ASSIGNMENT_TYPES gt";
 
-			$extra['WHERE'] .= " AND gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID AND gt.COURSE_ID='" . $course_id . "' AND (gg.POINTS IS NOT NULL OR (ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE) OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID))";
+			$extra['WHERE'] .= " AND gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID AND gt.COURSE_ID='" . (int) $course_id . "' AND (gg.POINTS IS NOT NULL OR (ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE) OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID))";
 
-			$extra['WHERE'] .= " AND s.STUDENT_ID='" . $student['STUDENT_ID'] . "'";
+			$extra['WHERE'] .= " AND s.STUDENT_ID='" . (int) $student['STUDENT_ID'] . "'";
 
-			$extra['WHERE'] .= " AND ss.COURSE_PERIOD_ID='" . $cp_id . "'";
+			$extra['WHERE'] .= " AND ss.COURSE_PERIOD_ID='" . (int) $cp_id . "'";
 
 			$student_points = $total_points = $percent_weights = [];
 

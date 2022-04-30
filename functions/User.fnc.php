@@ -49,7 +49,7 @@ function User( $item )
 				AND USERNAME=(SELECT USERNAME
 					FROM STAFF
 					WHERE SYEAR='" . Config( 'SYEAR' ) . "'
-					AND STAFF_ID='" . $_SESSION['STAFF_ID'] . "')";
+					AND STAFF_ID='" . (int) $_SESSION['STAFF_ID'] . "')";
 
 			$_ROSARIO['User'] = DBGet( $sql );
 		}
@@ -61,7 +61,7 @@ function User( $item )
 				'student' AS PROFILE,'0' AS PROFILE_ID,LAST_LOGIN,
 				','||se.SCHOOL_ID||',' AS SCHOOLS,se.SYEAR,se.SCHOOL_ID
 				FROM STUDENTS s,STUDENT_ENROLLMENT se
-				WHERE s.STUDENT_ID='" . $_SESSION['STUDENT_ID'] . "'
+				WHERE s.STUDENT_ID='" . (int) $_SESSION['STUDENT_ID'] . "'
 				AND se.SYEAR='" . UserSyear() . "'
 				AND se.STUDENT_ID=s.STUDENT_ID
 				ORDER BY se.END_DATE DESC LIMIT 1";

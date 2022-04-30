@@ -187,7 +187,7 @@ function _rollover( $table )
 					AND mp.SCHOOL_ID=school_marking_periods.SCHOOL_ID
 					AND mp.ROLLOVER_ID=school_marking_periods.PARENT_ID)
 				WHERE SYEAR='" . UserSyear() . "'
-				AND SCHOOL_ID='" . $id . "'" );
+				AND SCHOOL_ID='" . (int) $id . "'" );
 
 		break;
 
@@ -209,7 +209,7 @@ function _rollover( $table )
 					(SELECT ID
 						FROM REPORT_CARD_GRADE_SCALES
 						WHERE ROLLOVER_ID=report_card_grades.GRADE_SCALE_ID
-						AND SCHOOL_ID='" . $id . "'),
+						AND SCHOOL_ID='" . (int) $id . "'),
 					SORT_ORDER
 				FROM REPORT_CARD_GRADES
 				WHERE SYEAR='" . UserSyear() . "'

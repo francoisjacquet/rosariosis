@@ -78,7 +78,7 @@ if ( $_REQUEST['modfunc'] != 'choose_course' )
 		{
 			$course_title = DBGetOne( "SELECT TITLE
 				FROM COURSES
-				WHERE COURSE_ID='" . $_SESSION['MassRequests.php']['course_id'] . "'" );
+				WHERE COURSE_ID='" . (int) $_SESSION['MassRequests.php']['course_id'] . "'" );
 
 			echo $course_title;
 		}
@@ -184,7 +184,7 @@ if ( $_REQUEST['modfunc'] == 'choose_course' )
 
 		$course_title = DBGetOne( "SELECT TITLE
 			FROM COURSES
-			WHERE COURSE_ID='" . $_SESSION['MassRequests.php']['course_id'] . "'" );
+			WHERE COURSE_ID='" . (int) $_SESSION['MassRequests.php']['course_id'] . "'" );
 
 		echo '<script>opener.document.getElementById("course_div").innerHTML = ' .
 		json_encode( $course_title ) . '; window.close();</script>';

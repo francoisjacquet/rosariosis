@@ -135,7 +135,7 @@ function RegistrationSiblingUseContactsAddress( $student_id )
 
 	$sibling_name = DBGetOne( "SELECT " . DisplayNameSQL() . "
 		FROM STUDENTS
-		WHERE STUDENT_ID='" . $student_id . "'" );
+		WHERE STUDENT_ID='" . (int) $student_id . "'" );
 
 	$sibling_id_input = '<input type="hidden" name="sibling_id" value="' . AttrEscape( $student_id ) . '" />';
 
@@ -485,7 +485,7 @@ function RegistrationStudentFields( $name, $categories )
 	{
 		$category_title = DBGetOne( "SELECT TITLE
 			FROM STUDENT_FIELD_CATEGORIES
-			WHERE ID='" . $category_id . "'" );
+			WHERE ID='" . (int) $category_id . "'" );
 
 		echo '<br /><fieldset class="cellpadding-5"><legend>' . ParseMLField( $category_title ) . '</legend>';
 

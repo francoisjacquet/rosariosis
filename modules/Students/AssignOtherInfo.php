@@ -89,12 +89,12 @@ if ( $_REQUEST['modfunc'] === 'save'
 			if ( ! empty( $grade_id ) )
 			{
 				DBQuery( "UPDATE STUDENT_ENROLLMENT
-					SET GRADE_ID='" . $grade_id . "'
+					SET GRADE_ID='" . (int) $grade_id . "'
 					WHERE ID=(SELECT ID
 						FROM STUDENT_ENROLLMENT
 						WHERE SYEAR='" . UserSyear() . "'
 						AND SCHOOL_ID='" . UserSchool() . "'
-						AND STUDENT_ID='" . $student_id . "'
+						AND STUDENT_ID='" . (int) $student_id . "'
 						ORDER BY START_DATE DESC LIMIT 1)" );
 			}
 
@@ -106,18 +106,18 @@ if ( $_REQUEST['modfunc'] === 'save'
 						FROM STUDENT_ENROLLMENT
 						WHERE SYEAR='" . UserSyear() . "'
 						AND SCHOOL_ID='" . UserSchool() . "'
-						AND STUDENT_ID='" . $student_id . "'
+						AND STUDENT_ID='" . (int) $student_id . "'
 						ORDER BY START_DATE DESC LIMIT 1)" );
 			}
 
 			if ( ! empty( $calendar ) )
 			{
 				DBQuery( "UPDATE STUDENT_ENROLLMENT
-					SET CALENDAR_ID='" . $calendar . "'
+					SET CALENDAR_ID='" . (int) $calendar . "'
 					WHERE ID=(SELECT ID FROM STUDENT_ENROLLMENT
 						WHERE SYEAR='" . UserSyear() . "'
 						AND SCHOOL_ID='" . UserSchool() . "'
-						AND STUDENT_ID='" . $student_id . "'
+						AND STUDENT_ID='" . (int) $student_id . "'
 						ORDER BY START_DATE DESC LIMIT 1)" );
 			}
 
@@ -126,7 +126,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 				//FJ check if student already enrolled on that date when updating START_DATE
 				$found_RET = DBGet( "SELECT ID
 					FROM STUDENT_ENROLLMENT
-					WHERE STUDENT_ID='" . $student_id . "'
+					WHERE STUDENT_ID='" . (int) $student_id . "'
 					AND SYEAR='" . UserSyear() . "'
 					AND '" . $start_date . "' BETWEEN START_DATE AND END_DATE" );
 
@@ -142,7 +142,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 							FROM STUDENT_ENROLLMENT
 							WHERE SYEAR='" . UserSyear() . "'
 							AND SCHOOL_ID='" . UserSchool() . "'
-							AND STUDENT_ID='" . $student_id . "'
+							AND STUDENT_ID='" . (int) $student_id . "'
 							ORDER BY START_DATE DESC LIMIT 1)" );
 				}
 			}
@@ -155,7 +155,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 						FROM STUDENT_ENROLLMENT
 						WHERE SYEAR='" . UserSyear() . "'
 						AND SCHOOL_ID='" . UserSchool() . "'
-						AND STUDENT_ID='" . $student_id . "'
+						AND STUDENT_ID='" . (int) $student_id . "'
 						ORDER BY START_DATE DESC LIMIT 1)" );
 			}
 		}

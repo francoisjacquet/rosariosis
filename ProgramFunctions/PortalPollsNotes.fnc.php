@@ -21,11 +21,11 @@ function PortalPollsVote( $poll_id, $votes_array )
 	// Get poll:
 	$poll_RET = DBGet( "SELECT EXCLUDED_USERS, VOTES_NUMBER, DISPLAY_VOTES
 		FROM PORTAL_POLLS
-		WHERE ID='" . $poll_id . "'" );
+		WHERE ID='" . (int) $poll_id . "'" );
 
 	$poll_questions_RET = DBGet( "SELECT ID, QUESTION, OPTIONS, VOTES
 		FROM PORTAL_POLL_QUESTIONS
-		WHERE PORTAL_POLL_ID='" . $poll_id . "'
+		WHERE PORTAL_POLL_ID='" . (int) $poll_id . "'
 		ORDER BY ID" );
 
 	if ( ! $poll_RET || ! $poll_questions_RET )
@@ -53,8 +53,8 @@ function PortalPollsVote( $poll_id, $votes_array )
 		SET EXCLUDED_USERS='" . $excluded_users . "',
 		VOTES_NUMBER=(SELECT CASE WHEN VOTES_NUMBER ISNULL THEN 1 ELSE VOTES_NUMBER+1 END
 			FROM PORTAL_POLLS
-			WHERE ID='" . $poll_id . "')
-		WHERE ID='" . $poll_id . "'" );
+			WHERE ID='" . (int) $poll_id . "')
+		WHERE ID='" . (int) $poll_id . "'" );
 
 	return PortalPollsVotesDisplay(
 		$poll_id,
@@ -126,7 +126,7 @@ function PortalPollsSaveVotes( $poll_questions_RET, $votes_array )
 		// Submit query.
 		DBQuery( "UPDATE PORTAL_POLL_QUESTIONS
 			SET VOTES='" . $voted_array[$question['ID']] . "'
-			WHERE ID='" . $question['ID'] . "'" );
+			WHERE ID='" . (int) $question['ID'] . "'" );
 
 		// Update the $poll_questions_RET array with Votes.
 		$poll_questions_RET[$key]['VOTES'] = $voted_array[$question['ID']];
@@ -148,13 +148,13 @@ function PortalPollsDisplay( $value, $name )
 	// Get poll:
 	$poll_RET = DBGet( "SELECT EXCLUDED_USERS,VOTES_NUMBER,DISPLAY_VOTES
 		FROM PORTAL_POLLS
-		WHERE ID='" . $poll_id . "'" );
+		WHERE ID='" . (int) $poll_id . "'" );
 
 	require_once 'ProgramFunctions/Linkify.fnc.php';
 
 	$poll_questions_RET = DBGet( "SELECT ID,QUESTION,OPTIONS,TYPE,VOTES
 		FROM PORTAL_POLL_QUESTIONS
-		WHERE PORTAL_POLL_ID='" . $poll_id . "'
+		WHERE PORTAL_POLL_ID='" . (int) $poll_id . "'
 		ORDER BY ID", [ 'OPTIONS' => 'Linkify' ] );
 
 	if ( ! $poll_RET || ! $poll_questions_RET )

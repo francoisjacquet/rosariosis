@@ -440,7 +440,7 @@ if ( ! empty( $_REQUEST['tables'] )
 							if ( empty( $columns['DAYS'] ) ) //delete school period
 							{
 								DBQuery( "DELETE FROM COURSE_PERIOD_SCHOOL_PERIODS
-									WHERE COURSE_PERIOD_SCHOOL_PERIODS_ID='" . $id . "'" );
+									WHERE COURSE_PERIOD_SCHOOL_PERIODS_ID='" . (int) $id . "'" );
 
 								break; //no update
 							}
@@ -1266,7 +1266,7 @@ if (  ( ! $_REQUEST['modfunc']
 					$parent = DBGet( "SELECT cp.TITLE as CP_TITLE,c.TITLE AS C_TITLE
 						FROM COURSE_PERIODS cp,COURSES c
 						WHERE c.COURSE_ID=cp.COURSE_ID
-						AND cp.COURSE_PERIOD_ID='" . $RET['PARENT_ID'] . "'" );
+						AND cp.COURSE_PERIOD_ID='" . (int) $RET['PARENT_ID'] . "'" );
 
 					$parent = $parent[1]['C_TITLE'] . ': ' . $parent[1]['CP_TITLE'];
 				}
@@ -1809,8 +1809,8 @@ function _updateSchedulesCPMP( $cp_id, $mp_id )
 	// than the new course period marking period.
 	$update = DBQuery( "UPDATE SCHEDULE SET
 		MP='" . $cp_mp . "',
-		MARKING_PERIOD_ID='" . $mp_id . "'
-		WHERE COURSE_PERIOD_ID='" . $cp_id . "'
+		MARKING_PERIOD_ID='" . (int) $mp_id . "'
+		WHERE COURSE_PERIOD_ID='" . (int) $cp_id . "'
 		AND MP IN (" . $schedule_mp_in . ")" );
 
 	// Return number of updated schedules.

@@ -64,7 +64,7 @@ function Config( $item, $value = null )
 			DBQuery( "UPDATE CONFIG
 				SET CONFIG_VALUE='" . $value . "'
 				WHERE TITLE='" . $item . "'
-				AND SCHOOL_ID='" . $_ROSARIO['Config'][ (string) $item ][1]['SCHOOL_ID'] . "'" );
+				AND SCHOOL_ID='" . (int) $_ROSARIO['Config'][ (string) $item ][1]['SCHOOL_ID'] . "'" );
 		}
 
 		if ( $value !== DBEscapeString( $value ) )
@@ -198,7 +198,7 @@ function ProgramUserConfig( $program, $staff_id = 0, $values = null )
 	{
 		$config_RET = DBGet( "SELECT TITLE,VALUE
 			FROM PROGRAM_USER_CONFIG
-			WHERE (USER_ID='" . $staff_id . "' OR USER_ID='-1')
+			WHERE (USER_ID='" . (int) $staff_id . "' OR USER_ID='-1')
 			AND PROGRAM='" . $program . "'
 			ORDER BY USER_ID", [], [ 'TITLE' ] );
 
@@ -235,7 +235,7 @@ function ProgramUserConfig( $program, $staff_id = 0, $values = null )
 					SET VALUE='" . $value . "'
 					WHERE TITLE='" . $title . "'
 					AND PROGRAM='" . $program . "'
-					AND USER_ID='" . $staff_id . "'" );
+					AND USER_ID='" . (int) $staff_id . "'" );
 			}
 
 			if ( $value !== DBEscapeString( $value ) )

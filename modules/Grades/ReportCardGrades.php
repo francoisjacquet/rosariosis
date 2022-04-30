@@ -38,7 +38,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 						$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 					}
 
-					$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . $id . "'";
+					$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . (int) $id . "'";
 
 					DBQuery( $sql );
 				}
@@ -163,7 +163,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$grade_scales_RET = DBGet( "SELECT ID,TITLE
 			FROM REPORT_CARD_GRADE_SCALES
-			WHERE ID='" . $course_period_RET[1]['GRADE_SCALE_ID'] . "'", [], [ 'ID' ] );
+			WHERE ID='" . (int) $course_period_RET[1]['GRADE_SCALE_ID'] . "'", [], [ 'ID' ] );
 
 		if ( $course_period_RET[1]['DOES_BREAKOFF'] == 'Y' )
 		{

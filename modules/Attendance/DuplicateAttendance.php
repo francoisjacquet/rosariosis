@@ -69,7 +69,7 @@ if ( $_REQUEST['delete'] === 'true' )
 										if ( $val1 == $iii )
 										{
 											//echo "$val1 - $val2 - $val3 - $val4 ||| ";
-											DBQuery( "DELETE FROM ATTENDANCE_PERIOD WHERE STUDENT_ID='" . $val2 . "' AND SCHOOL_DATE='" . $val4 . "' AND COURSE_PERIOD_ID='" . $val3 . "'" );
+											DBQuery( "DELETE FROM ATTENDANCE_PERIOD WHERE STUDENT_ID='" . (int) $val2 . "' AND SCHOOL_DATE='" . $val4 . "' AND COURSE_PERIOD_ID='" . (int) $val3 . "'" );
 										}
 
 										$iii++;

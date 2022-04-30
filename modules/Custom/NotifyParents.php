@@ -60,11 +60,11 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			$password = $staff['USERNAME'] . rand( 1, 9999999999 );
 
 			$password_encrypted = encrypt_password( $password );
-			DBQuery( "UPDATE STAFF SET PASSWORD='" . $password_encrypted . "' WHERE STAFF_ID='" . $staff_id . "'" );
+			DBQuery( "UPDATE STAFF SET PASSWORD='" . $password_encrypted . "' WHERE STAFF_ID='" . (int) $staff_id . "'" );
 
 			$students_RET = DBGet( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME
 			FROM STUDENTS s,STUDENT_ENROLLMENT sse,STUDENTS_JOIN_USERS sju
-			WHERE sju.STAFF_ID='" . $staff_id . "'
+			WHERE sju.STAFF_ID='" . (int) $staff_id . "'
 			AND s.STUDENT_ID=sju.STUDENT_ID
 			AND sse.STUDENT_ID=sju.STUDENT_ID
 			AND sse.SYEAR='" . UserSyear() . "'

@@ -77,7 +77,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			trim(leading '0' from to_char(SCHOOL_DATE,'MM')) AS MON,
 			trim(leading '0' from to_char(SCHOOL_DATE,'DD')) AS DAY
 			FROM ATTENDANCE_CALENDAR
-			WHERE CALENDAR_ID='" . $student['CALENDAR_ID'] . "'
+			WHERE CALENDAR_ID='" . (int) $student['CALENDAR_ID'] . "'
 			AND SCHOOL_DATE>='" . $student['START_DATE'] . "'" .
 			( $student['END_DATE'] ? " AND SCHOOL_DATE<='" . $student['END_DATE'] . "'" : '' ),
 			[],
@@ -88,7 +88,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			trim(leading '0' from to_char(ad.SCHOOL_DATE,'DD')) AS DAY,
 			ad.STATE_VALUE
 			FROM ATTENDANCE_DAY ad
-			WHERE ad.STUDENT_ID='" . $student['STUDENT_ID'] . "'
+			WHERE ad.STUDENT_ID='" . (int) $student['STUDENT_ID'] . "'
 			AND ad.SYEAR='" . UserSyear() . "'", [], [ 'MON', 'DAY' ] );
 		//echo '<pre>'; var_dump($calendar_RET); echo '</pre>';
 

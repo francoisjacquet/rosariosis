@@ -11,7 +11,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 		{
 			if ( $school_id )
 			{
-				DBQuery( "UPDATE FOOD_SERVICE_TRANSACTIONS SET SCHOOL_ID='" . $school_id . "' WHERE TRANSACTION_ID='" . $transaction_id . "'" );
+				DBQuery( "UPDATE FOOD_SERVICE_TRANSACTIONS SET SCHOOL_ID='" . (int) $school_id . "' WHERE TRANSACTION_ID='" . (int) $transaction_id . "'" );
 			}
 		}
 	}
@@ -23,7 +23,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 		{
 			if ( $school_id )
 			{
-				DBQuery( "UPDATE FOOD_SERVICE_STAFF_TRANSACTIONS SET SCHOOL_ID='" . $school_id . "' WHERE TRANSACTION_ID='" . $transaction_id . "'" );
+				DBQuery( "UPDATE FOOD_SERVICE_STAFF_TRANSACTIONS SET SCHOOL_ID='" . (int) $school_id . "' WHERE TRANSACTION_ID='" . (int) $transaction_id . "'" );
 			}
 		}
 	}
@@ -79,7 +79,7 @@ echo '</form>';
  */
 function _students( $value, $column )
 {
-	$RET = DBGet( "SELECT s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fsa WHERE s.STUDENT_ID=fsa.STUDENT_ID AND fsa.ACCOUNT_ID='" . $value . "'" );
+	$RET = DBGet( "SELECT s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fsa WHERE s.STUDENT_ID=fsa.STUDENT_ID AND fsa.ACCOUNT_ID='" . (int) $value . "'" );
 
 	foreach ( (array) $RET as $student )
 	{

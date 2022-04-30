@@ -223,7 +223,7 @@ if ( isset( $_REQUEST['h'] )
 					// Update password.
 					DBQuery( "UPDATE STAFF SET PASSWORD='" .
 						encrypt_password( $new_password ) . "'
-						WHERE STAFF_ID='" . $user_id . "'
+						WHERE STAFF_ID='" . (int) $user_id . "'
 						AND SYEAR='" . Config( 'SYEAR' ) . "'" );
 
 					// If admin, send notification email to server admin.
@@ -237,7 +237,7 @@ if ( isset( $_REQUEST['h'] )
 					// Update password.
 					DBQuery( "UPDATE STUDENTS SET PASSWORD='" .
 						encrypt_password( $new_password ) . "'
-						WHERE STUDENT_ID='" . $user_id . "'" );
+						WHERE STUDENT_ID='" . (int) $user_id . "'" );
 				}
 
 				unset(
@@ -313,7 +313,7 @@ function _sendPasswordResetEmail( $user_id, $user_type = 'staff', $email )
 		$staff_RET = DBGet( "SELECT USERNAME, PASSWORD,
 			" . DisplayNameSQL() . " AS FULL_NAME
 			FROM STAFF
-			WHERE STAFF_ID='" . $user_id . "'
+			WHERE STAFF_ID='" . (int) $user_id . "'
 			AND SYEAR='" . Config( 'SYEAR' ) . "'" );
 
 		$username = $staff_RET[1]['USERNAME'];
@@ -328,7 +328,7 @@ function _sendPasswordResetEmail( $user_id, $user_type = 'staff', $email )
 		$student_RET = DBGet( "SELECT USERNAME,PASSWORD,
 			" . DisplayNameSQL( 's' ) . " AS FULL_NAME
 			FROM STUDENTS s,STUDENT_ENROLLMENT ssm
-			WHERE s.STUDENT_ID='" . $user_id . "'
+			WHERE s.STUDENT_ID='" . (int) $user_id . "'
 			AND s.STUDENT_ID=ssm.STUDENT_ID
 			AND ssm.SYEAR='" . Config( 'SYEAR' ) . "'
 			AND ('" . DBDate() . "'>=ssm.START_DATE
@@ -381,14 +381,14 @@ function _sendPasswordResetEmail( $user_id, $user_type = 'staff', $email )
 		// Update Last login = now + 2 hours.
 		DBQuery( "UPDATE STAFF
 			SET LAST_LOGIN='" . $last_login . "'
-			WHERE STAFF_ID='" . $user_id . "'" ); // CURRENT_TIMESTAMP + interval '2 hours'.
+			WHERE STAFF_ID='" . (int) $user_id . "'" ); // CURRENT_TIMESTAMP + interval '2 hours'.
 	}
 	elseif ( $user_type === 'student' )
 	{
 		// Update Last login = now + 2 hours.
 		DBQuery( "UPDATE STUDENTS
 			SET LAST_LOGIN='" . $last_login . "'
-			WHERE STUDENT_ID='" . $user_id . "'" ); // CURRENT_TIMESTAMP + interval '2 hours'.
+			WHERE STUDENT_ID='" . (int) $user_id . "'" ); // CURRENT_TIMESTAMP + interval '2 hours'.
 	}
 
 	return true;
@@ -498,7 +498,7 @@ function _notifyServerAdminPasswordReset( $user_id )
 
 	$staff_RET = DBGet( "SELECT USERNAME," . DisplayNameSQL() . " AS FULL_NAME,PROFILE
 		FROM STAFF
-		WHERE STAFF_ID='" . $user_id . "'
+		WHERE STAFF_ID='" . (int) $user_id . "'
 		AND SYEAR='" . Config( 'SYEAR' ) . "'" );
 
 	// FJ add SendEmail function.

@@ -31,7 +31,7 @@ if ( AllowEdit()
 			FROM STUDENT_MP_COMMENTS
 			WHERE STUDENT_ID='" . UserStudentID() . "'
 			AND SYEAR='" . UserSyear() . "'
-			AND MARKING_PERIOD_ID='" . $comments_MP . "'" );
+			AND MARKING_PERIOD_ID='" . (int) $comments_MP . "'" );
 
 		if ( $existing_comment )
 		{
@@ -55,7 +55,7 @@ if ( AllowEdit()
 			[
 				'STUDENT_MP_COMMENTS' => "STUDENT_ID='" . UserStudentID() . "'
 				AND SYEAR='" . UserSyear() . "'
-				AND MARKING_PERIOD_ID='" . $comments_MP . "'",
+				AND MARKING_PERIOD_ID='" . (int) $comments_MP . "'",
 				'fields' => [
 					'STUDENT_MP_COMMENTS' => 'STUDENT_ID,SYEAR,MARKING_PERIOD_ID,',
 				],
@@ -87,7 +87,7 @@ if ( ! $_REQUEST['modfunc'] )
 		FROM STUDENT_MP_COMMENTS
 		WHERE STUDENT_ID='" . UserStudentID() . "'
 		AND SYEAR='" . UserSyear() . "'
-		AND MARKING_PERIOD_ID='" . $comments_MP . "'" );
+		AND MARKING_PERIOD_ID='" . (int) $comments_MP . "'" );
 
 	$comments = unserialize( $comments );
 
@@ -114,7 +114,7 @@ if ( ! $_REQUEST['modfunc'] )
 							SELECT USERNAME
 							FROM STAFF
 							WHERE SYEAR='" . Config( 'SYEAR' ) . "'
-							AND STAFF_ID='" . $id . "'
+							AND STAFF_ID='" . (int) $id . "'
 						)" );
 				}
 			}

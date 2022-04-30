@@ -33,7 +33,7 @@ if ( ! empty( $_REQUEST['values'] )
 				$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 			}
 
-			$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . $id . "'";
+			$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . (int) $id . "'";
 
 			DBQuery( $sql );
 		}

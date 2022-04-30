@@ -702,7 +702,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 
 				foreach ( (array) $staff_RET as $value )
 				{
-					DBQuery( "UPDATE MOODLEXROSARIO SET ROSARIO_ID='" . $value['STAFF_ID'] . "' WHERE ROSARIO_ID='" . $value['ROLLOVER_ID'] . "' AND \"column\"='staff_id'" );
+					DBQuery( "UPDATE MOODLEXROSARIO SET ROSARIO_ID='" . (int) $value['STAFF_ID'] . "' WHERE ROSARIO_ID='" . (int) $value['ROLLOVER_ID'] . "' AND \"column\"='staff_id'" );
 				}
 			}
 
@@ -713,7 +713,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 
 				foreach ( (array) $course_subjects_RET as $value )
 				{
-					DBQuery( "UPDATE MOODLEXROSARIO SET ROSARIO_ID='" . $value['SUBJECT_ID'] . "' WHERE ROSARIO_ID='" . $value['ROLLOVER_ID'] . "' AND \"column\"='subject_id'" );
+					DBQuery( "UPDATE MOODLEXROSARIO SET ROSARIO_ID='" . (int) $value['SUBJECT_ID'] . "' WHERE ROSARIO_ID='" . (int) $value['ROLLOVER_ID'] . "' AND \"column\"='subject_id'" );
 				}
 
 				// COURSES ROLLOVER.
@@ -726,8 +726,8 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 				foreach ( (array) $courses_RET as $value )
 				{
 					DBQuery( "UPDATE MOODLEXROSARIO
-						SET ROSARIO_ID='" . $value['COURSE_ID'] . "'
-						WHERE ROSARIO_ID='" . $value['ROLLOVER_ID'] . "'
+						SET ROSARIO_ID='" . (int) $value['COURSE_ID'] . "'
+						WHERE ROSARIO_ID='" . (int) $value['ROLLOVER_ID'] . "'
 						AND \"column\"='course_id'" );
 				}
 

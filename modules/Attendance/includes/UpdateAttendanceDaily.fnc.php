@@ -37,7 +37,7 @@ function UpdateAttendanceDaily( $student_id, $date = '', $comment = false )
 		AND SYEAR='" . UserSyear() . "'
 		AND CALENDAR_ID=(SELECT CALENDAR_ID
 			FROM STUDENT_ENROLLMENT
-			WHERE STUDENT_ID='" . $student_id . "'
+			WHERE STUDENT_ID='" . (int) $student_id . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'
 			AND ('" . $date . "' BETWEEN START_DATE AND END_DATE OR (END_DATE IS NULL AND '" . $date . "'>=START_DATE))
@@ -61,7 +61,7 @@ function UpdateAttendanceDaily( $student_id, $date = '', $comment = false )
 
 	$current_RET = DBGet( "SELECT MINUTES_PRESENT,STATE_VALUE,COMMENT
 		FROM ATTENDANCE_DAY
-		WHERE STUDENT_ID='" . $student_id . "' AND SCHOOL_DATE='" . $date . "'" );
+		WHERE STUDENT_ID='" . (int) $student_id . "' AND SCHOOL_DATE='" . $date . "'" );
 
 	if ( empty( $current_RET ) )
 	{
@@ -78,7 +78,7 @@ function UpdateAttendanceDaily( $student_id, $date = '', $comment = false )
 		DBQuery( "UPDATE ATTENDANCE_DAY
 			SET MINUTES_PRESENT='" . $total . "',STATE_VALUE='" . $length . "'" .
 			( $comment !== false ? ",COMMENT='" . $comment . "'" : '' ) . "
-			WHERE STUDENT_ID='" . $student_id . "'
+			WHERE STUDENT_ID='" . (int) $student_id . "'
 			AND SCHOOL_DATE='" . $date . "'" );
 	}
 	elseif ( $comment !== false
@@ -86,7 +86,7 @@ function UpdateAttendanceDaily( $student_id, $date = '', $comment = false )
 	{
 		DBQuery( "UPDATE ATTENDANCE_DAY
 			SET COMMENT='" . $comment . "'
-			WHERE STUDENT_ID='" . $student_id . "'
+			WHERE STUDENT_ID='" . (int) $student_id . "'
 			AND SCHOOL_DATE='" . $date . "'" );
 	}
 }
@@ -116,7 +116,7 @@ function AttendanceDailyTotalMinutes( $student_id, $date )
 	AND ac.SYEAR=s.SYEAR
 	AND s.SYEAR=cp.SYEAR
 	AND sp.PERIOD_ID=cpsp.PERIOD_ID
-	AND s.STUDENT_ID='" . $student_id . "'
+	AND s.STUDENT_ID='" . (int) $student_id . "'
 	AND s.SYEAR='" . UserSyear() . "'
 	AND ('" . $date . "' BETWEEN s.START_DATE AND s.END_DATE OR (s.END_DATE IS NULL AND '" . $date . "'>=s.START_DATE))
 	AND s.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', GetCurrentMP( 'QTR', $date, false ) ) . ")";
@@ -152,7 +152,7 @@ function AttendanceDailyTotalMinutes( $student_id, $date )
 
 	$total_sql = "SELECT SUM(sp.LENGTH) AS TOTAL
 		FROM ATTENDANCE_PERIOD ap,SCHOOL_PERIODS sp,ATTENDANCE_CODES ac
-		WHERE ap.STUDENT_ID='" . $student_id . "'
+		WHERE ap.STUDENT_ID='" . (int) $student_id . "'
 		AND ap.SCHOOL_DATE='" . $date . "'
 		AND ap.PERIOD_ID=sp.PERIOD_ID
 		AND ac.ID=ap.ATTENDANCE_CODE

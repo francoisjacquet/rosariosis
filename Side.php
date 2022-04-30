@@ -421,7 +421,7 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 				AND (s.SCHOOLS IS NULL OR position(','||sy.ID||',' IN s.SCHOOLS)>0)
 				AND s.USERNAME=(SELECT USERNAME
 					FROM STAFF
-					WHERE STAFF_ID='" . $_SESSION['STAFF_ID'] . "')";
+					WHERE STAFF_ID='" . (int) $_SESSION['STAFF_ID'] . "')";
 		}
 		else
 		{

@@ -108,7 +108,7 @@ function RegistrationSaveSibling( $config, $values, $student_id )
 
 	$address_id = DBGetOne( "SELECT ADDRESS_ID
 		FROM STUDENTS_JOIN_ADDRESS
-		WHERE STUDENT_ID='" . $student_id . "'
+		WHERE STUDENT_ID='" . (int) $student_id . "'
 		AND MAILING='Y'
 		AND RESIDENCE='Y'" );
 
@@ -133,7 +133,7 @@ function RegistrationSaveSiblingContacts( $student_id )
 {
 	$contacts_RET = DBGet( "SELECT PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION
 		FROM STUDENTS_JOIN_PEOPLE
-		WHERE STUDENT_ID='" . $student_id . "'" );
+		WHERE STUDENT_ID='" . (int) $student_id . "'" );
 
 	foreach ( (array) $contacts_RET as $contact )
 	{

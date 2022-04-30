@@ -34,7 +34,7 @@ if ( UserStudentID()
 
 	if ( ! empty( $_REQUEST['staff_select'] ) )
 	{
-		$where .= "AND fst.SELLER_ID='" . $_REQUEST['staff_select'] . "' ";
+		$where .= "AND fst.SELLER_ID='" . (int) $_REQUEST['staff_select'] . "' ";
 	}
 
 	if ( $_REQUEST['detailed_view'] == 'true' )
@@ -71,7 +71,7 @@ if ( UserStudentID()
 		foreach ( (array) $RET as $key => $value )
 		{
 			// get details of each transaction
-			$tmpRET = DBGet( "SELECT TRANSACTION_ID AS TRANS_ID,*,'" . $value['SHORT_NAME'] . "' AS TRANSACTION_SHORT_NAME FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID='" . $value['TRANSACTION_ID'] . "'", [ 'SHORT_NAME' => 'bump_items_count' ] );
+			$tmpRET = DBGet( "SELECT TRANSACTION_ID AS TRANS_ID,*,'" . $value['SHORT_NAME'] . "' AS TRANSACTION_SHORT_NAME FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID='" . (int) $value['TRANSACTION_ID'] . "'", [ 'SHORT_NAME' => 'bump_items_count' ] );
 
 			foreach ( (array) $tmpRET as $RET_key => $RET_val )
 			{

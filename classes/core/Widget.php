@@ -550,7 +550,7 @@ class Widget_gpa implements Widget
 			$extra['FROM'] .= ",STUDENT_MP_STATS sms";
 
 			$extra['WHERE'] .= " AND sms.STUDENT_ID=s.STUDENT_ID
-				AND sms.MARKING_PERIOD_ID='" . $_REQUEST['gpa_term'] . "'";
+				AND sms.MARKING_PERIOD_ID='" . (int) $_REQUEST['gpa_term'] . "'";
 		}
 
 		$extra['WHERE'] .= " AND sms.CUM_" .
@@ -645,7 +645,7 @@ class Widget_class_rank implements Widget
 			$extra['FROM'] .= ",STUDENT_MP_STATS sms";
 
 			$extra['WHERE'] .= " AND sms.STUDENT_ID=s.STUDENT_ID
-				AND sms.MARKING_PERIOD_ID='" . $_REQUEST['class_rank_term'] . "'";
+				AND sms.MARKING_PERIOD_ID='" . (int) $_REQUEST['class_rank_term'] . "'";
 		}
 
 		$extra['WHERE'] .= " AND sms.CUM_RANK BETWEEN
@@ -772,7 +772,7 @@ class Widget_letter_grade implements Widget
 				WHERE sg3.STUDENT_ID=ssm.STUDENT_ID
 				AND sg3.SYEAR=ssm.SYEAR
 				AND sg3.REPORT_CARD_GRADE_ID IN (" . mb_substr( $letter_grades, 1 ) . ")
-				AND sg3.MARKING_PERIOD_ID='" . $_REQUEST['letter_grade_term'] . "' )";
+				AND sg3.MARKING_PERIOD_ID='" . (int) $_REQUEST['letter_grade_term'] . "' )";
 
 		return $extra;
 	}
@@ -1120,7 +1120,7 @@ class Widget_reporter implements Widget
 			AND dr.SYEAR=ssm.SYEAR
 			AND dr.SCHOOL_ID=ssm.SCHOOL_ID ';
 
-		$extra['WHERE'] .= " AND dr.STAFF_ID='" . $_REQUEST['discipline_reporter'] . "') ";
+		$extra['WHERE'] .= " AND dr.STAFF_ID='" . (int) $_REQUEST['discipline_reporter'] . "') ";
 
 		if ( ! $extra['NoSearchTerms'] )
 		{
@@ -1129,7 +1129,7 @@ class Widget_reporter implements Widget
 				WHERE SYEAR='" . UserSyear() . "'
 				AND (SCHOOLS IS NULL OR SCHOOLS LIKE '%," . UserSchool() . ",%')
 				AND (PROFILE='admin' OR PROFILE='teacher')
-				AND STAFF_ID='" . $_REQUEST['discipline_reporter'] . "'
+				AND STAFF_ID='" . (int) $_REQUEST['discipline_reporter'] . "'
 				ORDER BY LAST_NAME,FIRST_NAME,MIDDLE_NAME" );
 
 			$extra['SearchTerms'] .= '<b>' . _( 'Reporter' ) . ': </b>' .

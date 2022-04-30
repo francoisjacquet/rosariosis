@@ -164,7 +164,7 @@ if ( isset( $_POST['tables'] )
 			{
 				$cp_teacher = DBGetOne( "SELECT TEACHER_ID
 				FROM COURSE_PERIODS
-				WHERE COURSE_PERIOD_ID='" . $cp_id . "'
+				WHERE COURSE_PERIOD_ID='" . (int) $cp_id . "'
 				AND SYEAR='" . UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
 
@@ -172,12 +172,12 @@ if ( isset( $_POST['tables'] )
 				FROM GRADEBOOK_ASSIGNMENT_TYPES
 				WHERE COURSE_ID=(SELECT COURSE_ID
 					FROM COURSE_PERIODS
-					WHERE COURSE_PERIOD_ID='" . $cp_id . "'
+					WHERE COURSE_PERIOD_ID='" . (int) $cp_id . "'
 					AND SYEAR='" . UserSyear() . "'
 					AND SCHOOL_ID='" . UserSchool() . "'
 					LIMIT 1)
 				AND TRIM(TITLE)='" . $_REQUEST['assignment_type'] . "'
-				AND STAFF_ID='" . $cp_teacher . "'
+				AND STAFF_ID='" . (int) $cp_teacher . "'
 				LIMIT 1" );
 
 				if ( ! $cp_assignment_type )

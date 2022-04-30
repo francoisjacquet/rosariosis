@@ -272,7 +272,7 @@ if ( ! empty( $_POST['tables'] ) )
 				{
 					DBQuery( "UPDATE GRADEBOOK_ASSIGNMENTS
 						SET FILE='" . $file . "'
-						WHERE ASSIGNMENT_ID='" . $id . "';" );
+						WHERE ASSIGNMENT_ID='" . (int) $id . "';" );
 				}
 			}
 
@@ -359,7 +359,7 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 			foreach ( (array) $assignments_RET as $assignment_id )
 			{
 				DBQuery( "DELETE FROM GRADEBOOK_GRADES
-					WHERE ASSIGNMENT_ID='" . $assignment_id['ASSIGNMENT_ID'] . "'" );
+					WHERE ASSIGNMENT_ID='" . (int) $assignment_id['ASSIGNMENT_ID'] . "'" );
 
 				$_REQUEST['assignment_id'] = $assignment_id['ASSIGNMENT_ID'];
 

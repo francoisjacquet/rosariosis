@@ -76,11 +76,11 @@ if ( $_REQUEST['modfunc'] === 'update' )
 
 						if ( $_REQUEST['tab_id'] !== 'new' )
 						{
-							$sql = mb_substr( $sql, 0, -1 ) . " WHERE ASSIGNMENT_ID='" . $id . "'";
+							$sql = mb_substr( $sql, 0, -1 ) . " WHERE ASSIGNMENT_ID='" . (int) $id . "'";
 						}
 						else
 						{
-							$sql = mb_substr( $sql, 0, -1 ) . " WHERE ASSIGNMENT_TYPE_ID='" . $id . "'";
+							$sql = mb_substr( $sql, 0, -1 ) . " WHERE ASSIGNMENT_TYPE_ID='" . (int) $id . "'";
 						}
 
 						DBQuery( $sql );
@@ -201,7 +201,7 @@ if ( $_REQUEST['modfunc'] === 'remove' )
 			{
 				foreach ( (array) $assignments_RET as $assignment_id )
 				{
-					$delete_sql .= "DELETE FROM GRADEBOOK_GRADES WHERE ASSIGNMENT_ID='" . $assignment_id['ASSIGNMENT_ID'] . "';";
+					$delete_sql .= "DELETE FROM GRADEBOOK_GRADES WHERE ASSIGNMENT_ID='" . (int) $assignment_id['ASSIGNMENT_ID'] . "';";
 				}
 			}
 

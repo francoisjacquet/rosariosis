@@ -91,7 +91,7 @@ if ( ! empty( $_POST['tables'] )
 					//FJ verify END_DATE > START_DATE
 					$mp_dates_RET = DBGet( "SELECT START_DATE, END_DATE, POST_START_DATE, POST_END_DATE
 						FROM SCHOOL_MARKING_PERIODS
-						WHERE MARKING_PERIOD_ID='" . $id . "'" );
+						WHERE MARKING_PERIOD_ID='" . (int) $id . "'" );
 
 					$start_date = ! empty( $columns['START_DATE'] ) ?
 						$columns['START_DATE'] :
@@ -131,7 +131,7 @@ if ( ! empty( $_POST['tables'] )
 				$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 			}
 
-			$sql = mb_substr( $sql, 0, -1 ) . " WHERE MARKING_PERIOD_ID='" . $id . "'";
+			$sql = mb_substr( $sql, 0, -1 ) . " WHERE MARKING_PERIOD_ID='" . (int) $id . "'";
 
 			$go = true;
 		}

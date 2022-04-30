@@ -147,7 +147,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 							FROM PEOPLE p,STUDENTS_JOIN_PEOPLE sjp
 							WHERE p.PERSON_ID=sjp.PERSON_ID
 							AND sjp.STUDENT_ID='" . UserStudentID() . "'
-							AND sjp.ADDRESS_ID='" . $address['ADDRESS_ID'] . "'" );
+							AND sjp.ADDRESS_ID='" . (int) $address['ADDRESS_ID'] . "'" );
 
 							foreach ( (array) $contacts_RET as $contact )
 							{
@@ -161,7 +161,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 								$info_RET = DBGet( "SELECT ID,TITLE,VALUE
 								FROM PEOPLE_JOIN_CONTACTS
-								WHERE PERSON_ID='" . $contact['PERSON_ID'] . "'" );
+								WHERE PERSON_ID='" . (int) $contact['PERSON_ID'] . "'" );
 
 								echo '<table>';
 

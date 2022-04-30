@@ -48,11 +48,11 @@ if ( $_REQUEST['modfunc'] === 'update' )
 
 						if ( $_REQUEST['tab_id'] !== 'new' )
 						{
-							$sql = mb_substr( $sql, 0, -1 ) . " WHERE CATEGORY_ID='" . $id . "'";
+							$sql = mb_substr( $sql, 0, -1 ) . " WHERE CATEGORY_ID='" . (int) $id . "'";
 						}
 						else
 						{
-							$sql = mb_substr( $sql, 0, -1 ) . " WHERE MENU_ID='" . $id . "'";
+							$sql = mb_substr( $sql, 0, -1 ) . " WHERE MENU_ID='" . (int) $id . "'";
 						}
 
 						DBQuery( $sql );

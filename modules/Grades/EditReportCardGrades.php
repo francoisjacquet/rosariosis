@@ -40,8 +40,8 @@ if ( UserStudentID() )
 			// FJ fix SQL bug when marking period already exist.
 			$sms_RET = DBGet( "SELECT *
 				FROM STUDENT_MP_STATS
-				WHERE STUDENT_ID='" . $student_id . "'
-				AND MARKING_PERIOD_ID='" . $_REQUEST['new_sms'] . "'" );
+				WHERE STUDENT_ID='" . (int) $student_id . "'
+				AND MARKING_PERIOD_ID='" . (int) $_REQUEST['new_sms'] . "'" );
 
 			if ( empty( $sms_RET ) )
 			{
@@ -57,8 +57,8 @@ if ( UserStudentID() )
 		{
 			DBQuery( "UPDATE STUDENT_MP_STATS
 				SET GRADE_LEVEL_SHORT='" . $_REQUEST['SMS_GRADE_LEVEL'] . "'
-				WHERE MARKING_PERIOD_ID='" . $mp_id . "'
-				AND STUDENT_ID='" . $student_id . "'" );
+				WHERE MARKING_PERIOD_ID='" . (int) $mp_id . "'
+				AND STUDENT_ID='" . (int) $student_id . "'" );
 		}
 
 		foreach ( (array) $_REQUEST['values'] as $id => $columns )
@@ -76,7 +76,7 @@ if ( UserStudentID() )
 						$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 					}
 
-					$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . $id . "'";
+					$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . (int) $id . "'";
 
 					DBQuery( $sql );
 
@@ -91,7 +91,7 @@ if ( UserStudentID() )
 					// FJ fix bug SQL SYEAR=NULL.
 					$syear = DBGetOne( "SELECT SYEAR
 						FROM MARKING_PERIODS
-						WHERE MARKING_PERIOD_ID='" . $mp_id . "'" );
+						WHERE MARKING_PERIOD_ID='" . (int) $mp_id . "'" );
 
 					//$fields = 'ID, SCHOOL_ID, STUDENT_ID, MARKING_PERIOD_ID, ';
 					$fields = 'ID,SCHOOL_ID,STUDENT_ID,MARKING_PERIOD_ID,SYEAR,';
@@ -192,7 +192,7 @@ if ( UserStudentID() )
 	{
 		$student_RET = DBGet( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
 			FROM STUDENTS
-			WHERE STUDENT_ID='" . $student_id . "'" );
+			WHERE STUDENT_ID='" . (int) $student_id . "'" );
 
 		$student = $student_RET[1];
 
@@ -387,7 +387,7 @@ if ( UserStudentID() )
 			// MP has Course Periods?
 			$mp_has_course_periods = DBGet( "SELECT COUNT(COURSE_PERIOD_ID)
 				FROM COURSE_PERIODS
-				WHERE MARKING_PERIOD_ID='" . $mp_id . "'
+				WHERE MARKING_PERIOD_ID='" . (int) $mp_id . "'
 				AND SCHOOL_ID='" . UserSchool() . "'" );
 
 			if ( $mp_has_course_periods )
@@ -471,7 +471,7 @@ if ( UserStudentID() )
 
 			$student_grades_RET = DBGet( "SELECT *
 				FROM STUDENT_REPORT_CARD_GRADES
-				WHERE STUDENT_ID='" . $student_id . "'
+				WHERE STUDENT_ID='" . (int) $student_id . "'
 				AND cast(MARKING_PERIOD_ID as integer)='" . $mp_id . "'
 				ORDER BY ID", $functions );
 
@@ -608,7 +608,7 @@ function _makeSelectInput( $value, $name )
 			FROM COURSE_PERIODS
 			WHERE SYEAR=(SELECT SYEAR
 				FROM SCHOOL_MARKING_PERIODS
-				WHERE MARKING_PERIOD_ID='" . $mp_id . "')
+				WHERE MARKING_PERIOD_ID='" . (int) $mp_id . "')
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND GRADE_SCALE_ID IS NOT NULL
 			ORDER BY COURSE_ID,TITLE" );

@@ -18,7 +18,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 				$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 			}
 
-			$sql = mb_substr( $sql, 0, -1 ) . " WHERE MARKING_PERIOD_ID='" . $id . "'";
+			$sql = mb_substr( $sql, 0, -1 ) . " WHERE MARKING_PERIOD_ID='" . (int) $id . "'";
 
 			DBQuery( $sql );
 		}

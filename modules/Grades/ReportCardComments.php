@@ -38,7 +38,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 							$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 						}
 
-						$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . $id . "'";
+						$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . (int) $id . "'";
 						DBQuery( $sql );
 					}
 
@@ -220,7 +220,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$courses_RET = DBGet( "SELECT TITLE,SUBJECT_ID,
 			(SELECT TITLE FROM COURSE_SUBJECTS WHERE SUBJECT_ID=COURSES.SUBJECT_ID) AS SUBJECT
 			FROM COURSES
-			WHERE COURSE_ID='" . $course_period_RET[1]['COURSE_ID'] . "'" );
+			WHERE COURSE_ID='" . (int) $course_period_RET[1]['COURSE_ID'] . "'" );
 
 		$_REQUEST['subject_id'] = $courses_RET[1]['SUBJECT_ID'];
 		$_REQUEST['course_id'] = $course_period_RET[1]['COURSE_ID'];

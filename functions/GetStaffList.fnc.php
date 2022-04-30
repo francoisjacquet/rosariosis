@@ -347,7 +347,7 @@ function appendStaffSQL( $sql, $extra = [] )
 					FROM STUDENTS_JOIN_USERS _sju,STUDENT_ENROLLMENT _sem
 					WHERE _sem.STUDENT_ID=_sju.STUDENT_ID
 					AND _sem.SYEAR='" . UserSyear() . "'
-					AND _sem.GRADE_ID='" . $_REQUEST['student_grade_level'] . "'";
+					AND _sem.GRADE_ID='" . (int) $_REQUEST['student_grade_level'] . "'";
 
 				if ( empty( $_REQUEST['include_inactive'] ) )
 				{
@@ -360,7 +360,7 @@ function appendStaffSQL( $sql, $extra = [] )
 				$student_grade_level = DBGetOne( "SELECT TITLE
 					FROM SCHOOL_GRADELEVELS
 					WHERE SCHOOL_ID='" . UserSchool() . "'
-					AND ID='" . $_REQUEST['student_grade_level'] . "'" );
+					AND ID='" . (int) $_REQUEST['student_grade_level'] . "'" );
 
 				$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Student Grade Level' ) . ':</b> ' .
 					$student_grade_level . '<br />';

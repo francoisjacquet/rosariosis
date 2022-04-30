@@ -21,7 +21,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			{
 				$course_mp = DBGetOne( "SELECT MARKING_PERIOD_ID
 					FROM COURSE_PERIODS
-					WHERE COURSE_PERIOD_ID='" . $_SESSION['MassDrops.php']['course_period_id'] . "'" );
+					WHERE COURSE_PERIOD_ID='" . (int) $_SESSION['MassDrops.php']['course_period_id'] . "'" );
 
 				$course_mp_table = GetMP( $course_mp, 'MP' );
 
@@ -31,7 +31,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					//$current_RET = DBGet( "SELECT STUDENT_ID FROM SCHEDULE WHERE COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."' AND SYEAR='".UserSyear()."' AND (('".$start_date."' BETWEEN START_DATE AND END_DATE OR END_DATE IS NULL) AND '".$start_date."'>=START_DATE)",array(),array('STUDENT_ID'));
 					$current_RET = DBGet( "SELECT STUDENT_ID
 						FROM SCHEDULE
-						WHERE COURSE_PERIOD_ID='" . $_SESSION['MassDrops.php']['course_period_id'] . "'", [], [ 'STUDENT_ID' ] );
+						WHERE COURSE_PERIOD_ID='" . (int) $_SESSION['MassDrops.php']['course_period_id'] . "'", [], [ 'STUDENT_ID' ] );
 
 					foreach ( (array) $_REQUEST['student'] as $student_id )
 					{
@@ -40,14 +40,14 @@ if ( $_REQUEST['modfunc'] === 'save' )
 						{
 							DBQuery( "UPDATE SCHEDULE
 								SET END_DATE='" . $drop_date . "'
-								WHERE STUDENT_ID='" . $student_id . "'
-								AND COURSE_PERIOD_ID='" . $_SESSION['MassDrops.php']['course_period_id'] . "'" );
+								WHERE STUDENT_ID='" . (int) $student_id . "'
+								AND COURSE_PERIOD_ID='" . (int) $_SESSION['MassDrops.php']['course_period_id'] . "'" );
 
 							//$start_end_RET = DBGet( "SELECT START_DATE,END_DATE FROM SCHEDULE WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."' AND END_DATE<START_DATE" );
 							$start_end_RET = DBGet( "SELECT START_DATE,END_DATE
 								FROM SCHEDULE
-								WHERE STUDENT_ID='" . $student_id . "'
-								AND COURSE_PERIOD_ID='" . $_SESSION['MassDrops.php']['course_period_id'] . "'
+								WHERE STUDENT_ID='" . (int) $student_id . "'
+								AND COURSE_PERIOD_ID='" . (int) $_SESSION['MassDrops.php']['course_period_id'] . "'
 								AND END_DATE<START_DATE" );
 
 							if ( ! empty( $start_end_RET ) )
@@ -69,26 +69,26 @@ if ( $_REQUEST['modfunc'] === 'save' )
 									{
 										// If user clicked OK.
 										$delete_sql .= "DELETE FROM GRADEBOOK_GRADES
-											WHERE STUDENT_ID='" . $student_id . "'
-											AND COURSE_PERIOD_ID='" . $_SESSION['MassDrops.php']['course_period_id'] . "';";
+											WHERE STUDENT_ID='" . (int) $student_id . "'
+											AND COURSE_PERIOD_ID='" . (int) $_SESSION['MassDrops.php']['course_period_id'] . "';";
 
 										$delete_sql .= "DELETE FROM STUDENT_REPORT_CARD_GRADES
-											WHERE STUDENT_ID='" . $student_id . "'
-											AND COURSE_PERIOD_ID='" . $_SESSION['MassDrops.php']['course_period_id'] . "';";
+											WHERE STUDENT_ID='" . (int) $student_id . "'
+											AND COURSE_PERIOD_ID='" . (int) $_SESSION['MassDrops.php']['course_period_id'] . "';";
 
 										$delete_sql .= "DELETE FROM STUDENT_REPORT_CARD_COMMENTS
-											WHERE STUDENT_ID='" . $student_id . "'
-											AND COURSE_PERIOD_ID='" . $_SESSION['MassDrops.php']['course_period_id'] . "';";
+											WHERE STUDENT_ID='" . (int) $student_id . "'
+											AND COURSE_PERIOD_ID='" . (int) $_SESSION['MassDrops.php']['course_period_id'] . "';";
 
 										$delete_sql .= "DELETE FROM ATTENDANCE_PERIOD
-											WHERE STUDENT_ID='" . $student_id . "'
-											AND COURSE_PERIOD_ID='" . $_SESSION['MassDrops.php']['course_period_id'] . "';";
+											WHERE STUDENT_ID='" . (int) $student_id . "'
+											AND COURSE_PERIOD_ID='" . (int) $_SESSION['MassDrops.php']['course_period_id'] . "';";
 									}
 
 									// Else simply delete schedule entry.
 									$delete_sql .= "DELETE FROM SCHEDULE
-										WHERE STUDENT_ID='" . $student_id . "'
-										AND COURSE_PERIOD_ID='" . $_SESSION['MassDrops.php']['course_period_id'] . "';";
+										WHERE STUDENT_ID='" . (int) $student_id . "'
+										AND COURSE_PERIOD_ID='" . (int) $_SESSION['MassDrops.php']['course_period_id'] . "';";
 
 									DBQuery( $delete_sql );
 
@@ -103,8 +103,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 							else
 							{
 								DBQuery( "DELETE FROM ATTENDANCE_PERIOD
-									WHERE STUDENT_ID='" . $student_id . "'
-									AND COURSE_PERIOD_ID='" . $_SESSION['MassDrops.php']['course_period_id'] . "'
+									WHERE STUDENT_ID='" . (int) $student_id . "'
+									AND COURSE_PERIOD_ID='" . (int) $_SESSION['MassDrops.php']['course_period_id'] . "'
 									AND SCHOOL_DATE>'" . $drop_date . "'" );
 							}
 						}
@@ -165,11 +165,11 @@ if ( $_REQUEST['modfunc'] != 'choose_course' )
 		{
 			$course_title = DBGetOne( "SELECT TITLE
 				FROM COURSES
-				WHERE COURSE_ID='" . $_SESSION['MassDrops.php']['course_id'] . "'" );
+				WHERE COURSE_ID='" . (int) $_SESSION['MassDrops.php']['course_id'] . "'" );
 
 			$period_title = DBGetOne( "SELECT TITLE
 				FROM COURSE_PERIODS
-				WHERE COURSE_PERIOD_ID='" . $_SESSION['MassDrops.php']['course_period_id'] . "'" );
+				WHERE COURSE_PERIOD_ID='" . (int) $_SESSION['MassDrops.php']['course_period_id'] . "'" );
 
 			echo $course_title . '<br />' . $period_title;
 		}
@@ -246,11 +246,11 @@ if ( $_REQUEST['modfunc'] === 'choose_course' )
 
 		$course_title = DBGetOne( "SELECT TITLE
 			FROM COURSES
-			WHERE COURSE_ID='" . $_SESSION['MassDrops.php']['course_id'] . "'" );
+			WHERE COURSE_ID='" . (int) $_SESSION['MassDrops.php']['course_id'] . "'" );
 
 		$period_title = DBGetOne( "SELECT TITLE
 			FROM COURSE_PERIODS
-			WHERE COURSE_PERIOD_ID='" . $_SESSION['MassDrops.php']['course_period_id'] . "'" );
+			WHERE COURSE_PERIOD_ID='" . (int) $_SESSION['MassDrops.php']['course_period_id'] . "'" );
 
 		echo '<script>opener.document.getElementById("course_div").innerHTML = ' .
 			json_encode( $course_title . '<br />' . $period_title ) . '; window.close();</script>';

@@ -193,7 +193,7 @@ if ( ! $_REQUEST['modfunc']
 
 		$student_full_name = DBGetOne( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
 			FROM STUDENTS
-			WHERE STUDENT_ID='" . $RET['STUDENT_ID'] . "'" );
+			WHERE STUDENT_ID='" . (int) $RET['STUDENT_ID'] . "'" );
 
 		echo '<tr><td>' . NoInput(
 			MakeStudentPhotoTipMessage( $RET['STUDENT_ID'], $student_full_name ),

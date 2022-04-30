@@ -119,7 +119,7 @@ $extra['SELECT'] .= ',sms.cum_weighted_factor, sms.cum_unweighted_factor, sms.cu
 if ( mb_strpos( $extra['FROM'], 'STUDENT_MP_STATS sms' ) === false )
 {
 	$extra['FROM'] .= ',STUDENT_MP_STATS sms';
-	$extra['WHERE'] .= " AND sms.STUDENT_ID=ssm.STUDENT_ID AND sms.MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'";
+	$extra['WHERE'] .= " AND sms.STUDENT_ID=ssm.STUDENT_ID AND sms.MARKING_PERIOD_ID='" . (int) $_REQUEST['mp'] . "'";
 }
 
 $extra['columns_after'] = [ 'CUM_UNWEIGHTED_FACTOR' => _( 'Unweighted GPA' ), 'CUM_WEIGHTED_FACTOR' => _( 'Weighted GPA' ), 'CUM_RANK' => _( 'Class Rank' ) ];

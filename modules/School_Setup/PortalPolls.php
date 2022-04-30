@@ -107,7 +107,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 				foreach ( (array) $sql_questions as $sql_question )
 				{
-					$sql_question = mb_substr( $sql_question, 0, -1 ) . " WHERE ID='" . $id_questions[$q] . "'";
+					$sql_question = mb_substr( $sql_question, 0, -1 ) . " WHERE ID='" . (int) $id_questions[$q] . "'";
 					DBQuery( $sql_question );
 					$q++;
 				}
@@ -472,11 +472,11 @@ function _makePollVotes( $value, $name )
 	if ( ! empty( $THIS_RET['ID'] ) )
 	{
 		$poll_id = $THIS_RET['ID'];
-		$poll_questions_RET = DBGet( "SELECT QUESTION, VOTES, OPTIONS FROM PORTAL_POLL_QUESTIONS WHERE PORTAL_POLL_ID='" . $poll_id . "'" );
+		$poll_questions_RET = DBGet( "SELECT QUESTION, VOTES, OPTIONS FROM PORTAL_POLL_QUESTIONS WHERE PORTAL_POLL_ID='" . (int) $poll_id . "'" );
 
 		$display_votes = DBGetOne( "SELECT DISPLAY_VOTES
 			FROM PORTAL_POLLS
-			WHERE ID='" . $poll_id . "'" );
+			WHERE ID='" . (int) $poll_id . "'" );
 
 		$checkbox = CheckboxInput(
 			$display_votes,

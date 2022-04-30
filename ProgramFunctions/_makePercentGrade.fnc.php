@@ -43,7 +43,7 @@ function _makePercentGrade( $grade_id_or_title, $course_period_id = 0, $staff_id
 	{
 		$_ROSARIO['_makeLetterGrade']['courses'][ $course_period_id ] = DBGet( "SELECT DOES_BREAKOFF,GRADE_SCALE_ID
 			FROM COURSE_PERIODS
-			WHERE COURSE_PERIOD_ID='" . $course_period_id . "'" );
+			WHERE COURSE_PERIOD_ID='" . (int) $course_period_id . "'" );
 	}
 
 	$does_breakoff = $_ROSARIO['_makeLetterGrade']['courses'][ $course_period_id ][1]['DOES_BREAKOFF'];
@@ -56,7 +56,7 @@ function _makePercentGrade( $grade_id_or_title, $course_period_id = 0, $staff_id
 			FROM REPORT_CARD_GRADES
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
-			AND GRADE_SCALE_ID='" . $grade_scale_id . "'
+			AND GRADE_SCALE_ID='" . (int) $grade_scale_id . "'
 			ORDER BY BREAK_OFF IS NOT NULL DESC,BREAK_OFF DESC,SORT_ORDER" );
 	}
 	//$grades = array('A+','A','A-','B+','B','B-','C+','C','C-','D+','D','D-','F');

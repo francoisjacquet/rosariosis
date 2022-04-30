@@ -25,7 +25,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 
 	if ( ! empty( $_REQUEST['staff_select'] ) )
 	{
-		$where .= "AND fst.SELLER_ID='" . $_REQUEST['staff_select'] . "' ";
+		$where .= "AND fst.SELLER_ID='" . (int) $_REQUEST['staff_select'] . "' ";
 	}
 
 	if ( $_REQUEST['detailed_view'] == 'true' )
@@ -60,7 +60,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 		foreach ( (array) $RET as $key => $value )
 		{
 			// get details of each transaction
-			$tmpRET = DBGet( "SELECT TRANSACTION_ID AS TRANS_ID,*,'" . $value['SHORT_NAME'] . "' AS TRANSACTION_SHORT_NAME FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID='" . $value['TRANSACTION_ID'] . "'", [ 'SHORT_NAME' => 'bump_items_count' ] );
+			$tmpRET = DBGet( "SELECT TRANSACTION_ID AS TRANS_ID,*,'" . $value['SHORT_NAME'] . "' AS TRANSACTION_SHORT_NAME FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID='" . (int) $value['TRANSACTION_ID'] . "'", [ 'SHORT_NAME' => 'bump_items_count' ] );
 
 			//FJ add translation
 
@@ -178,7 +178,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 
 	if ( ! empty( $_REQUEST['staff_select'] ) )
 	{
-		$where = "AND fst.SELLER_ID='" . $_REQUEST['staff_select'] . "' ";
+		$where = "AND fst.SELLER_ID='" . (int) $_REQUEST['staff_select'] . "' ";
 	}
 
 	if ( $_REQUEST['detailed_view'] != 'true' )

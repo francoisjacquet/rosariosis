@@ -41,7 +41,7 @@ if ( ! $_REQUEST['modfunc']
 	// Find other students associated with the same account.
 	$xstudents = DBGet( "SELECT s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME
 		FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa
-		WHERE fssa.ACCOUNT_ID='" . $student['ACCOUNT_ID'] . "'
+		WHERE fssa.ACCOUNT_ID='" . (int) $student['ACCOUNT_ID'] . "'
 		AND s.STUDENT_ID=fssa.STUDENT_ID
 		AND s.STUDENT_ID!='" . UserStudentID() . "'" );
 

@@ -261,7 +261,7 @@ if ( ! empty( $_POST['values'] )
 					$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 				}
 
-				$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . $id . "'";
+				$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . (int) $id . "'";
 				DBQuery( $sql );
 			}
 			elseif ( $info_apd
@@ -484,7 +484,7 @@ if ( ! $_REQUEST['modfunc'] )
 			RESIDENCE,BUS_PICKUP,BUS_DROPOFF,MAILING
 			FROM STUDENTS s,STUDENTS_JOIN_ADDRESS sja
 			WHERE s.STUDENT_ID=sja.STUDENT_ID
-			AND sja.ADDRESS_ID='" . $address_id . "'
+			AND sja.ADDRESS_ID='" . (int) $address_id . "'
 			AND sja.STUDENT_ID!='" . UserStudentID() . "'" );
 		}
 
@@ -743,7 +743,7 @@ if ( ! $_REQUEST['modfunc'] )
 					STUDENT_RELATION,CUSTODY,EMERGENCY
 					FROM STUDENTS s,STUDENTS_JOIN_PEOPLE sjp
 					WHERE s.STUDENT_ID=sjp.STUDENT_ID
-					AND sjp.PERSON_ID='" . $contact['PERSON_ID'] . "'
+					AND sjp.PERSON_ID='" . (int) $contact['PERSON_ID'] . "'
 					AND sjp.STUDENT_ID!='" . UserStudentID() . "'" );
 
 				if ( $xstudents )

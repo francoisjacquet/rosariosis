@@ -82,7 +82,7 @@ if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 	AND acc.SCHOOL_DATE='" . $date . "'
 	AND cp.CALENDAR_ID=acc.CALENDAR_ID
 	AND cpsp.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'
-	AND cpsp.PERIOD_ID='" . $_REQUEST['school_period'] . "'
+	AND cpsp.PERIOD_ID='" . (int) $_REQUEST['school_period'] . "'
 	AND cp.MARKING_PERIOD_ID IN (SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE (MP='FY' OR MP='SEM' OR MP='QTR')
 	AND SCHOOL_ID=acc.SCHOOL_ID
 	AND acc.SCHOOL_DATE BETWEEN START_DATE AND END_DATE)
@@ -113,7 +113,7 @@ else
 	AND acc.SCHOOL_DATE='" . $date . "'
 	AND cp.CALENDAR_ID=acc.CALENDAR_ID
 	AND cpsp.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'
-	AND cpsp.PERIOD_ID='" . $_REQUEST['school_period'] . "'
+	AND cpsp.PERIOD_ID='" . (int) $_REQUEST['school_period'] . "'
 	AND cp.MARKING_PERIOD_ID IN (SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE (MP='FY' OR MP='SEM' OR MP='QTR') AND SCHOOL_ID=acc.SCHOOL_ID AND acc.SCHOOL_DATE BETWEEN START_DATE AND END_DATE)
 	AND sp.PERIOD_ID=cpsp.PERIOD_ID
 	AND (sp.BLOCK IS NULL AND position(substring('UMTWHFS' FROM cast(extract(DOW FROM acc.SCHOOL_DATE) AS INT)+1 FOR 1) IN cpsp.DAYS)>0 OR sp.BLOCK IS NOT NULL AND acc.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK)
@@ -207,7 +207,7 @@ $current_Q = "SELECT ATTENDANCE_TEACHER_CODE,ATTENDANCE_CODE,STUDENT_ID,ADMIN,CO
 		AND SCHOOL_DATE='" . $date . "') AS DAILY_COMMENT
 	FROM " . DBEscapeIdentifier( $table ) . " t
 	WHERE SCHOOL_DATE='" . $date . "'
-	AND PERIOD_ID='" . $_REQUEST['school_period'] . "'" .
+	AND PERIOD_ID='" . (int) $_REQUEST['school_period'] . "'" .
 	( $table == 'LUNCH_PERIOD' ? " AND TABLE_NAME='" . $_REQUEST['table'] . "'" : '' );
 
 $current_RET = DBGet( $current_Q, [], [ 'STUDENT_ID' ] );
@@ -235,7 +235,7 @@ if ( ! empty( $_REQUEST['attendance'] )
 				$sql .= ",COMMENT='" . trim( $_REQUEST['comment'][$student_id] ) . "'";
 			}
 
-			$sql .= " WHERE SCHOOL_DATE='" . $date . "' AND PERIOD_ID='" . $_REQUEST['school_period'] . "' AND STUDENT_ID='" . $student_id . "'";
+			$sql .= " WHERE SCHOOL_DATE='" . $date . "' AND PERIOD_ID='" . (int) $_REQUEST['school_period'] . "' AND STUDENT_ID='" . (int) $student_id . "'";
 		}
 		else
 		{
@@ -261,7 +261,7 @@ if ( ! empty( $_REQUEST['attendance'] )
 		FROM ATTENDANCE_COMPLETED
 		WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND SCHOOL_DATE='" . $date . "'
-		AND PERIOD_ID='" . $_REQUEST['school_period'] . "'
+		AND PERIOD_ID='" . (int) $_REQUEST['school_period'] . "'
 		AND TABLE_NAME='" . $_REQUEST['table'] . "'" );
 
 	if ( empty( $completed_RET ) )
@@ -374,7 +374,7 @@ $completed_RET = DBGet( "SELECT 'Y' AS COMPLETED
 	FROM ATTENDANCE_COMPLETED
 	WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 	AND SCHOOL_DATE='" . $date . "'
-	AND PERIOD_ID='" . $_REQUEST['school_period'] . "'
+	AND PERIOD_ID='" . (int) $_REQUEST['school_period'] . "'
 	AND TABLE_NAME='" . $_REQUEST['table'] . "'" );
 
 if ( $completed_RET )

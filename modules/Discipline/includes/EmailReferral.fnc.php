@@ -49,7 +49,7 @@ function EmailReferral( $referral_id, $emails )
 
 	$student_full_name = DBGetOne( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
 		FROM STUDENTS
-		WHERE STUDENT_ID='" . $referral['STUDENT_ID'] . "'" );
+		WHERE STUDENT_ID='" . (int) $referral['STUDENT_ID'] . "'" );
 
 	$student = _( 'Student' ) . ': ' . $student_full_name . ' (' . $referral['STUDENT_ID'] . ')';
 
@@ -101,7 +101,7 @@ function EmailReferralGetReferralSafe( $referral_id )
 
 	$referral_RET = DBGet( "SELECT *
 		FROM DISCIPLINE_REFERRALS
-		WHERE ID='" . $referral_id . "'" . $where );
+		WHERE ID='" . (int) $referral_id . "'" . $where );
 
 	return empty( $referral_RET[1] ) ? [] : $referral_RET[1];
 }

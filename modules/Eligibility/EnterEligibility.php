@@ -64,15 +64,15 @@ if ( $_REQUEST['modfunc'] == 'gradebook' )
 	{
 		$points_RET = DBGet( "SELECT DISTINCT ON (s.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID) s.STUDENT_ID, gt.ASSIGNMENT_TYPE_ID,sum(" . db_case( [ 'gg.POINTS', "'-1'", "'0'", 'gg.POINTS' ] ) . ") AS PARTIAL_POINTS,sum(" . db_case( [ 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ] ) . ") AS PARTIAL_TOTAL, gt.FINAL_GRADE_PERCENT
 		FROM STUDENTS s
-		JOIN SCHEDULE ss ON (ss.STUDENT_ID=s.STUDENT_ID AND ss.COURSE_PERIOD_ID='" . $course_period_id . "')
-		JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID OR ga.COURSE_ID='" . $course_id . "' AND ga.STAFF_ID='" . User( 'STAFF_ID' ) . "') AND ga.MARKING_PERIOD_ID" .
+		JOIN SCHEDULE ss ON (ss.STUDENT_ID=s.STUDENT_ID AND ss.COURSE_PERIOD_ID='" . (int) $course_period_id . "')
+		JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID OR ga.COURSE_ID='" . (int) $course_id . "' AND ga.STAFF_ID='" . User( 'STAFF_ID' ) . "') AND ga.MARKING_PERIOD_ID" .
 		( isset( $gradebook_config['ELIGIBILITY_CUMULITIVE'] ) && $gradebook_config['ELIGIBILITY_CUMULITIVE'] == 'Y' ?
 			" IN (" . GetChildrenMP( 'SEM', UserMP() ) . ")" :
 			"='" . UserMP() . "'" ) . ")
 		LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.STUDENT_ID=s.STUDENT_ID AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID),
 		GRADEBOOK_ASSIGNMENT_TYPES gt
 		WHERE gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID
-		AND gt.COURSE_ID='" . $course_id . "'
+		AND gt.COURSE_ID='" . (int) $course_id . "'
 		AND ((ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE)
 		AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE) OR gg.POINTS IS NOT NULL)
 		GROUP BY s.STUDENT_ID,ss.START_DATE,gt.ASSIGNMENT_TYPE_ID,gt.FINAL_GRADE_PERCENT", [], [ 'STUDENT_ID' ] );
@@ -81,8 +81,8 @@ if ( $_REQUEST['modfunc'] == 'gradebook' )
 	{
 		$points_RET = DBGet( "SELECT DISTINCT ON (s.STUDENT_ID) s.STUDENT_ID,'-1' AS ASSIGNMENT_TYPE_ID,sum(" . db_case( [ 'gg.POINTS', "'-1'", "'0'", 'gg.POINTS' ] ) . ") AS PARTIAL_POINTS,sum(" . db_case( [ 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ] ) . ") AS PARTIAL_TOTAL,'1' AS FINAL_GRADE_PERCENT
 		FROM STUDENTS s
-		JOIN SCHEDULE ss ON (ss.STUDENT_ID=s.STUDENT_ID AND ss.COURSE_PERIOD_ID='" . $course_period_id . "')
-		JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID OR ga.COURSE_ID='" . $course_id . "' AND ga.STAFF_ID='" . User( 'STAFF_ID' ) . "') AND ga.MARKING_PERIOD_ID" .
+		JOIN SCHEDULE ss ON (ss.STUDENT_ID=s.STUDENT_ID AND ss.COURSE_PERIOD_ID='" . (int) $course_period_id . "')
+		JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID OR ga.COURSE_ID='" . (int) $course_id . "' AND ga.STAFF_ID='" . User( 'STAFF_ID' ) . "') AND ga.MARKING_PERIOD_ID" .
 		( isset( $gradebook_config['ELIGIBILITY_CUMULITIVE'] ) && $gradebook_config['ELIGIBILITY_CUMULITIVE'] == 'Y' ?
 			" IN (" . GetChildrenMP( 'SEM', UserMP() ) . ")" :
 			"='" . UserMP() . "'" ) . ")
@@ -132,8 +132,8 @@ if ( $_REQUEST['modfunc'] == 'gradebook' )
 				$sql = "UPDATE ELIGIBILITY
 					SET ELIGIBILITY_CODE='" . $code . "'
 					WHERE SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
-					AND COURSE_PERIOD_ID='" . $course_period_id . "'
-					AND STUDENT_ID='" . $student_id . "'";
+					AND COURSE_PERIOD_ID='" . (int) $course_period_id . "'
+					AND STUDENT_ID='" . (int) $student_id . "'";
 			}
 			else
 			{
@@ -147,7 +147,7 @@ if ( $_REQUEST['modfunc'] == 'gradebook' )
 			FROM ELIGIBILITY
 			WHERE SCHOOL_DATE
 			BETWEEN '" . $start_date . "' AND '" . $end_date . "'
-			AND COURSE_PERIOD_ID='" . $course_period_id . "'", [], [ 'STUDENT_ID' ] );
+			AND COURSE_PERIOD_ID='" . (int) $course_period_id . "'", [], [ 'STUDENT_ID' ] );
 	}
 
 	RedirectURL( 'modfunc' );
@@ -165,8 +165,8 @@ if ( ! empty( $_REQUEST['values'] )
 			$sql = "UPDATE ELIGIBILITY
 				SET ELIGIBILITY_CODE='" . $value . "'
 				WHERE SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
-				AND COURSE_PERIOD_ID='" . $course_period_id . "'
-				AND STUDENT_ID='" . $student_id . "'";
+				AND COURSE_PERIOD_ID='" . (int) $course_period_id . "'
+				AND STUDENT_ID='" . (int) $student_id . "'";
 		}
 		else
 		{
@@ -182,7 +182,7 @@ if ( ! empty( $_REQUEST['values'] )
 		WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND SCHOOL_DATE BETWEEN '" . $start_date . "'
 		AND '" . $end_date . "'
-		AND PERIOD_ID='" . $school_period . "'" );
+		AND PERIOD_ID='" . (int) $school_period . "'" );
 
 	if ( empty( $completed_RET ) )
 	{
@@ -190,13 +190,13 @@ if ( ! empty( $_REQUEST['values'] )
 		DBQuery( "INSERT INTO ELIGIBILITY_COMPLETED (STAFF_ID,SCHOOL_DATE,PERIOD_ID)
 			SELECT '" . User( 'STAFF_ID' ) . "' AS STAFF_ID,'" . DBDate() . "' AS SCHOOL_DATE,PERIOD_ID
 			FROM COURSE_PERIOD_SCHOOL_PERIODS
-			WHERE COURSE_PERIOD_ID='" . $course_period_id . "'" );
+			WHERE COURSE_PERIOD_ID='" . (int) $course_period_id . "'" );
 	}
 
 	$current_RET = DBGet( "SELECT ELIGIBILITY_CODE,STUDENT_ID
 		FROM ELIGIBILITY
 		WHERE SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
-		AND COURSE_PERIOD_ID='" . $course_period_id . "'", [], [ 'STUDENT_ID' ] );
+		AND COURSE_PERIOD_ID='" . (int) $course_period_id . "'", [], [ 'STUDENT_ID' ] );
 
 	RedirectURL( 'values' );
 }
@@ -254,7 +254,7 @@ else
 		WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND SCHOOL_DATE BETWEEN '" . $start_date . "'
 		AND '" . $end_date . "'
-		AND PERIOD_ID='" . $school_period . "'" );
+		AND PERIOD_ID='" . (int) $school_period . "'" );
 
 	if ( ! empty( $completed_RET ) )
 	{

@@ -30,12 +30,12 @@ if ( $_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit() )
 					$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 				}
 
-				$sql = mb_substr( $sql, 0, -1 ) . " WHERE SCHOOL_DATE='" . $date . "' AND COURSE_PERIOD_ID='" . $period . "' AND STUDENT_ID='" . $student_id . "'";
+				$sql = mb_substr( $sql, 0, -1 ) . " WHERE SCHOOL_DATE='" . $date . "' AND COURSE_PERIOD_ID='" . (int) $period . "' AND STUDENT_ID='" . (int) $student_id . "'";
 				DBQuery( $sql );
 			}
 			else
 			{
-				$period_id = DBGetOne( "SELECT PERIOD_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . $period . "'" );
+				$period_id = DBGetOne( "SELECT PERIOD_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . (int) $period . "'" );
 
 				$sql = "INSERT INTO ATTENDANCE_PERIOD ";
 
@@ -232,7 +232,7 @@ function _makeCodePulldown( $value, $title )
 	{
 		$current_schedule_RET[$THIS_RET['STUDENT_ID']] = DBGet( "SELECT cp.PERIOD_ID,cp.COURSE_PERIOD_ID
 		FROM SCHEDULE s,COURSE_PERIODS cp
-		WHERE s.STUDENT_ID='" . $THIS_RET['STUDENT_ID'] . "'
+		WHERE s.STUDENT_ID='" . (int) $THIS_RET['STUDENT_ID'] . "'
 		AND s.SYEAR='" . UserSyear() . "'
 		AND s.SCHOOL_ID='" . UserSchool() . "'
 		AND cp.COURSE_PERIOD_ID = s.COURSE_PERIOD_ID
@@ -350,7 +350,7 @@ function _makeStateValue( $value, $name )
 
 	$value = DBGetOne( "SELECT STATE_VALUE
 		FROM ATTENDANCE_DAY
-		WHERE STUDENT_ID='" . $THIS_RET['STUDENT_ID'] . "'
+		WHERE STUDENT_ID='" . (int) $THIS_RET['STUDENT_ID'] . "'
 		AND SCHOOL_DATE='" . $date . "'" );
 
 	if ( $value == '0.0' )

@@ -72,7 +72,7 @@ if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
 	AND cp.SYEAR='" . UserSyear() . "'
 	AND cp.SCHOOL_ID='" . UserSchool() . "'
 	AND s.PROFILE='teacher'
-	" . ( $_REQUEST['period'] ? " AND cpsp.PERIOD_ID='" . $_REQUEST['period'] . "'" : '' ) . "
+	" . ( $_REQUEST['period'] ? " AND cpsp.PERIOD_ID='" . (int) $_REQUEST['period'] . "'" : '' ) . "
 	AND acc.CALENDAR_ID=cp.CALENDAR_ID
 	AND acc.SCHOOL_DATE='" . $date . "'
 	AND acc.SYEAR='" . UserSyear() . "'
@@ -114,7 +114,7 @@ else
 		AND cp.SYEAR='" . UserSyear() . "'
 		AND cp.SCHOOL_ID='" . UserSchool() . "'
 		AND s.PROFILE='teacher'" .
-	( $_REQUEST['period'] ? " AND cpsp.PERIOD_ID='" . $_REQUEST['period'] . "'" : '' ) .
+	( $_REQUEST['period'] ? " AND cpsp.PERIOD_ID='" . (int) $_REQUEST['period'] . "'" : '' ) .
 	" AND acc.CALENDAR_ID=cp.CALENDAR_ID
 		AND acc.SCHOOL_DATE='" . $date . "'
 		AND acc.SYEAR='" . UserSyear() . "'

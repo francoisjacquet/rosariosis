@@ -41,8 +41,8 @@ function MailingLabel( $address_id )
 			AND sjp.STUDENT_ID=sja.STUDENT_ID
 			AND (sjp.CUSTODY='Y' OR sja.RESIDENCE IS NULL))
 		LEFT OUTER JOIN PEOPLE p ON (p.PERSON_ID=sjp.PERSON_ID)
-		WHERE sja.STUDENT_ID='" . $student_id . "'
-		AND sja.ADDRESS_ID='" . $address_id . "'
+		WHERE sja.STUDENT_ID='" . (int) $student_id . "'
+		AND sja.ADDRESS_ID='" . (int) $address_id . "'
 		ORDER BY sjp.STUDENT_RELATION", [], [ 'LAST_NAME' ] );
 
 		$return = '';

@@ -131,7 +131,7 @@ if ( ! empty( $_REQUEST['period_id'] ) )
 		{
 			$extra['SELECT'] .= ",(SELECT count(*) FROM ATTENDANCE_PERIOD ap,ATTENDANCE_CODES ac
 				WHERE ac.ID=ap.ATTENDANCE_CODE
-				AND ac.ID='" . $code['ID'] . "'
+				AND ac.ID='" . (int) $code['ID'] . "'
 				AND ap.PERIOD_ID IN (" . $period_ids_list . ")
 				AND ap.STUDENT_ID=ssm.STUDENT_ID
 				AND ap.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "') AS ABS_" . $code['ID'];

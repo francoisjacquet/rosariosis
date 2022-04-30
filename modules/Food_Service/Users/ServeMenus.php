@@ -39,7 +39,7 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 			DBQuery( $sql );
 		}
 
-		$sql1 = "UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET TRANSACTION_ID='" . $id . "',BALANCE=BALANCE+(SELECT sum(AMOUNT) FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID='" . $id . "') WHERE STAFF_ID='" . UserStaffID() . "'";
+		$sql1 = "UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET TRANSACTION_ID='" . (int) $id . "',BALANCE=BALANCE+(SELECT sum(AMOUNT) FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID='" . (int) $id . "') WHERE STAFF_ID='" . UserStaffID() . "'";
 		$fields = 'TRANSACTION_ID,STAFF_ID,SYEAR,SCHOOL_ID,BALANCE,TIMESTAMP,SHORT_NAME,DESCRIPTION,SELLER_ID';
 		$values = "'" . $id . "','" . UserStaffID() . "','" . UserSyear() . "','" . UserSchool() . "',(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID='" . UserStaffID() . "'),CURRENT_TIMESTAMP,'" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "','" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . ' - ' . DBDate() . "','" . User( 'STAFF_ID' ) . "'";
 		$sql2 = 'INSERT INTO FOOD_SERVICE_STAFF_TRANSACTIONS (' . $fields . ') values (' . $values . ')';

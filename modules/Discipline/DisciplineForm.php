@@ -21,7 +21,7 @@ if ( ! empty( $_REQUEST['values'] )
 					$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 				}
 
-				$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . $id . "'";
+				$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . (int) $id . "'";
 				$go = true;
 			}
 
@@ -125,10 +125,10 @@ if ( $_REQUEST['modfunc'] === 'delete'
 		$id = issetVal( $_REQUEST['id'] );
 
 		$delete_sql = "DELETE FROM DISCIPLINE_FIELDS
-			WHERE ID='" . $id . "';";
+			WHERE ID='" . (int) $id . "';";
 
 		$delete_sql .= "DELETE FROM DISCIPLINE_FIELD_USAGE
-			WHERE DISCIPLINE_FIELD_ID='" . $id . "';";
+			WHERE DISCIPLINE_FIELD_ID='" . (int) $id . "';";
 
 		DBQuery( $delete_sql );
 
@@ -148,7 +148,7 @@ if ( $_REQUEST['modfunc'] === 'delete_usage'
 	if ( DeletePrompt( _( 'Category' ), _( 'Don\'t use' ) ) )
 	{
 		$id = issetVal( $_REQUEST['id'] );
-		DBQuery( "DELETE FROM DISCIPLINE_FIELD_USAGE WHERE ID='" . $id . "'" );
+		DBQuery( "DELETE FROM DISCIPLINE_FIELD_USAGE WHERE ID='" . (int) $id . "'" );
 
 		// Unset modfunc & ID & redirect URL.
 		RedirectURL( [ 'modfunc', 'id' ] );

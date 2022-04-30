@@ -32,7 +32,7 @@ function dayToNumber( $date, $calendar_id = 0 )
 	$is_school_day = DBGetOne( "SELECT 1
 		FROM ATTENDANCE_CALENDAR
 		WHERE SCHOOL_DATE='" . $date . "'
-		AND CALENDAR_ID='" . $calendar_id . "'" );
+		AND CALENDAR_ID='" . (int) $calendar_id . "'" );
 
 	if ( ! $is_school_day )
 	{
@@ -58,7 +58,7 @@ function dayToNumber( $date, $calendar_id = 0 )
 		FROM ATTENDANCE_CALENDAR
 		WHERE SCHOOL_DATE>='" . $begin_quarter_date . "'
 		AND SCHOOL_DATE<='" . $date . "'
-		AND CALENDAR_ID='" . $calendar_id . "'" );
+		AND CALENDAR_ID='" . (int) $calendar_id . "'" );
 
 	if ( $school_days % SchoolInfo( 'NUMBER_DAYS_ROTATION' ) == 0 )
 	{

@@ -36,14 +36,14 @@ function SendNotificationCreateStudentAccount( $student_id, $to = '' )
 
 	$student_name = DBGetOne( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
 		FROM STUDENTS
-		WHERE STUDENT_ID='" . $student_id . "'" );
+		WHERE STUDENT_ID='" . (int) $student_id . "'" );
 
 	$message = _( 'New student account was created for %s (%d) (inactive).' );
 
 	// Student was Inactive and is enrolled as of today, in Default School Year: Account Activation.
 	$student_account_activated = DBGetOne( "SELECT 1
 		FROM STUDENT_ENROLLMENT
-		WHERE STUDENT_ID='" . $student_id . "'
+		WHERE STUDENT_ID='" . (int) $student_id . "'
 		AND SYEAR='" . Config( 'SYEAR' ) . "'
 		AND START_DATE IS NOT NULL
 		AND CURRENT_DATE>=START_DATE
@@ -89,7 +89,7 @@ function SendNotificationCreateUserAccount( $staff_id, $to = '' )
 
 	$user_name = DBGetOne( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
 		FROM STAFF
-		WHERE STAFF_ID='" . $staff_id . "'" );
+		WHERE STAFF_ID='" . (int) $staff_id . "'" );
 
 	$message = sprintf(
 		_( 'New user account was created for %s (%d) (No Access).' ),
@@ -128,7 +128,7 @@ function SendNotificationNewAdministrator( $staff_id, $to = '' )
 	}
 
 	$is_admin_profile = DBGetOne( "SELECT 1 FROM STAFF
-		WHERE STAFF_ID='" . $staff_id . "'
+		WHERE STAFF_ID='" . (int) $staff_id . "'
 		AND PROFILE='admin'" );
 
 	if ( ! $is_admin_profile )
@@ -138,7 +138,7 @@ function SendNotificationNewAdministrator( $staff_id, $to = '' )
 
 	$admin_name = DBGetOne( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
 		FROM STAFF
-		WHERE STAFF_ID='" . $staff_id . "'" );
+		WHERE STAFF_ID='" . (int) $staff_id . "'" );
 
 	$message = sprintf(
 		_( 'New Administrator account was created for %s, by %s.' ),
@@ -179,7 +179,7 @@ function SendNotificationActivateStudentAccount( $student_id, $to = '' )
 			'USERNAME' : 'CUSTOM_' . Config( 'STUDENTS_EMAIL_FIELD' );
 
 		$to = DBGetOne( "SELECT " . $student_email_field . " FROM STUDENTS
-			WHERE STUDENT_ID='" . $student_id . "'" );
+			WHERE STUDENT_ID='" . (int) $student_id . "'" );
 	}
 
 	if ( ! $student_id
@@ -189,7 +189,7 @@ function SendNotificationActivateStudentAccount( $student_id, $to = '' )
 	}
 
 	$is_password_set = DBGetOne( "SELECT 1 FROM STUDENTS
-		WHERE STUDENT_ID='" . $student_id . "'
+		WHERE STUDENT_ID='" . (int) $student_id . "'
 		AND PASSWORD IS NOT NULL" );
 
 	if ( ! $is_password_set )
@@ -211,7 +211,7 @@ function SendNotificationActivateStudentAccount( $student_id, $to = '' )
 
 	$student_username = DBGetOne( "SELECT USERNAME
 		FROM STUDENTS
-		WHERE STUDENT_ID='" . $student_id . "'" );
+		WHERE STUDENT_ID='" . (int) $student_id . "'" );
 
 	$message .= "\n\n" . _( 'Username' ) . ': ' . $student_username;
 
@@ -241,7 +241,7 @@ function SendNotificationActivateUserAccount( $staff_id, $to = '' )
 	if ( empty( $to ) )
 	{
 		$to = DBGetOne( "SELECT EMAIL FROM STAFF
-			WHERE STAFF_ID='" . $staff_id . "'" );
+			WHERE STAFF_ID='" . (int) $staff_id . "'" );
 	}
 
 	if ( ! $staff_id
@@ -251,11 +251,11 @@ function SendNotificationActivateUserAccount( $staff_id, $to = '' )
 	}
 
 	$is_no_access_profile = DBGetOne( "SELECT 1 FROM STAFF
-		WHERE STAFF_ID='" . $staff_id . "'
+		WHERE STAFF_ID='" . (int) $staff_id . "'
 		AND PROFILE='none'" );
 
 	$is_password_set = DBGetOne( "SELECT 1 FROM STAFF
-		WHERE STAFF_ID='" . $staff_id . "'
+		WHERE STAFF_ID='" . (int) $staff_id . "'
 		AND PASSWORD IS NOT NULL" );
 
 	if ( $is_no_access_profile
@@ -278,7 +278,7 @@ function SendNotificationActivateUserAccount( $staff_id, $to = '' )
 
 	$staff_username = DBGetOne( "SELECT USERNAME
 		FROM STAFF
-		WHERE STAFF_ID='" . $staff_id . "'" );
+		WHERE STAFF_ID='" . (int) $staff_id . "'" );
 
 	$message .= "\n\n" . _( 'Username' ) . ': ' . $staff_username;
 
@@ -318,7 +318,7 @@ function SendNotificationNewStudentAccount( $student_id, $to = '', $password = '
 			'USERNAME' : 'CUSTOM_' . Config( 'STUDENTS_EMAIL_FIELD' );
 
 		$to = DBGetOne( "SELECT " . $student_email_field . " FROM STUDENTS
-			WHERE STUDENT_ID='" . $student_id . "'" );
+			WHERE STUDENT_ID='" . (int) $student_id . "'" );
 	}
 
 	if ( ! $student_id
@@ -328,7 +328,7 @@ function SendNotificationNewStudentAccount( $student_id, $to = '', $password = '
 	}
 
 	$is_password_set = DBGetOne( "SELECT 1 FROM STUDENTS
-		WHERE STUDENT_ID='" . $student_id . "'
+		WHERE STUDENT_ID='" . (int) $student_id . "'
 		AND PASSWORD IS NOT NULL" );
 
 	if ( ! $is_password_set )
@@ -342,7 +342,7 @@ function SendNotificationNewStudentAccount( $student_id, $to = '', $password = '
 
 	$student_username = DBGetOne( "SELECT USERNAME
 		FROM STUDENTS
-		WHERE STUDENT_ID='" . $student_id . "'" );
+		WHERE STUDENT_ID='" . (int) $student_id . "'" );
 
 	$message .= "\n\n" . _( 'Username' ) . ': ' . $student_username;
 
@@ -379,7 +379,7 @@ function SendNotificationNewUserAccount( $staff_id, $to = '', $password = '' )
 	if ( empty( $to ) )
 	{
 		$to = DBGetOne( "SELECT EMAIL FROM STAFF
-			WHERE STAFF_ID='" . $staff_id . "'" );
+			WHERE STAFF_ID='" . (int) $staff_id . "'" );
 	}
 
 	if ( ! $staff_id
@@ -389,11 +389,11 @@ function SendNotificationNewUserAccount( $staff_id, $to = '', $password = '' )
 	}
 
 	$is_no_access_profile = DBGetOne( "SELECT 1 FROM STAFF
-		WHERE STAFF_ID='" . $staff_id . "'
+		WHERE STAFF_ID='" . (int) $staff_id . "'
 		AND PROFILE='none'" );
 
 	$is_password_set = DBGetOne( "SELECT 1 FROM STAFF
-		WHERE STAFF_ID='" . $staff_id . "'
+		WHERE STAFF_ID='" . (int) $staff_id . "'
 		AND PASSWORD IS NOT NULL" );
 
 	if ( $is_no_access_profile
@@ -408,7 +408,7 @@ function SendNotificationNewUserAccount( $staff_id, $to = '', $password = '' )
 
 	$staff_username = DBGetOne( "SELECT USERNAME
 		FROM STAFF
-		WHERE STAFF_ID='" . $staff_id . "'" );
+		WHERE STAFF_ID='" . (int) $staff_id . "'" );
 
 	$message .= "\n\n" . _( 'Username' ) . ': ' . $staff_username;
 

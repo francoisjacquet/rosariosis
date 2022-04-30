@@ -81,11 +81,11 @@ if ( $_REQUEST['modfunc'] === 'update' )
 
 						if ( $_REQUEST['tab_id'] !== 'new' )
 						{
-							$sql = mb_substr( $sql, 0, -1 ) . " WHERE MENU_ITEM_ID='" . $id . "'";
+							$sql = mb_substr( $sql, 0, -1 ) . " WHERE MENU_ITEM_ID='" . (int) $id . "'";
 						}
 						else
 						{
-							$sql = mb_substr( $sql, 0, -1 ) . " WHERE ITEM_ID='" . $id . "'";
+							$sql = mb_substr( $sql, 0, -1 ) . " WHERE ITEM_ID='" . (int) $id . "'";
 						}
 
 						if ( $go )

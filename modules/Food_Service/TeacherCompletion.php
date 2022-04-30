@@ -49,7 +49,7 @@ $sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,sp.TITLE,cpsp.PERIOD_I
 	AND cp.SCHOOL_ID='" . UserSchool() . "'
 	AND s.PROFILE='teacher'
 	AND cp.DOES_FS_COUNTS='Y' " .
-	(  ( $_REQUEST['period'] ) ? " AND cpsp.PERIOD_ID='" . $_REQUEST['period'] . "'" : '' ) .
+	(  ( $_REQUEST['period'] ) ? " AND cpsp.PERIOD_ID='" . (int) $_REQUEST['period'] . "'" : '' ) .
 	" AND position('" . $day . "' in cpsp.DAYS)>0";
 
 $RET = DBGet( $sql, [], [ 'STAFF_ID', 'PERIOD_ID' ] );

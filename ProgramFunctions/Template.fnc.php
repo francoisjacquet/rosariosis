@@ -112,7 +112,7 @@ function SaveTemplate( $template, $modname = '', $staff_id = -1 )
 		DBQuery( "UPDATE TEMPLATES
 			SET TEMPLATE='" . $template . "'
 			WHERE MODNAME='" . $modname . "'
-			AND STAFF_ID='" . $staff_id . "'" );
+			AND STAFF_ID='" . (int) $staff_id . "'" );
 	}
 
 	return true;

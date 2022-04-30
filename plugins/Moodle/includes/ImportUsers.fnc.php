@@ -357,7 +357,7 @@ function MoodleUserImportStudent( $user )
 	}
 	while ( DBGetOne( "SELECT STUDENT_ID
 		FROM STUDENTS
-		WHERE STUDENT_ID='" . $student_id . "'" ) );
+		WHERE STUDENT_ID='" . (int) $student_id . "'" ) );
 
 	if ( ! isset( $user['firstname'] ) )
 	{

@@ -58,7 +58,7 @@ if ( $confirm_ok )
 	PopTable( 'footer' );
 	ob_flush();
 	flush();
-	set_time_limit( 0 );
+	set_time_limit( 300 );
 
 	$fy_id = GetFullYearMP();
 
@@ -105,7 +105,7 @@ if ( $confirm_ok )
 
 		DBQuery( "UPDATE COURSE_PERIODS
 			SET FILLED_SEATS='" . $seats . "'
-			WHERE COURSE_PERIOD_ID='" . $period['COURSE_PERIOD_ID'] . "'" );
+			WHERE COURSE_PERIOD_ID='" . (int) $period['COURSE_PERIOD_ID'] . "'" );
 	}
 
 	$count = DBGet( "SELECT COUNT(*) AS COUNT
@@ -241,7 +241,7 @@ if ( $confirm_ok )
 
 			for ( $i = $last_percent + 1; $i <= $percent; $i++ )
 			{
-				echo 'cell' . $i . '.bgColor="' . Preferences( 'HIGHLIGHT' ) . '";' . "\r";
+				echo 'cell' . $i . '.bgColor=' . json_encode( Preferences( 'HIGHLIGHT' ) ) . ';' . "\r";
 			}
 
 			echo 'document.getElementById("percentDIV").innerHTML = ' . json_encode( sprintf( _( '%d%% Done' ), $percent ) ) . ';</script>';
@@ -345,7 +345,7 @@ if ( $confirm_ok )
 			//	echo $course_period['COURSE_ID'].': '.$course_period['COURSE_PERIOD_ID'].'<br />';
 			db_trans_query( "UPDATE COURSE_PERIODS
 				SET FILLED_SEATS=TOTAL_SEATS-'" . $course_period['AVAILABLE_SEATS'] . "'
-				WHERE PARENT_ID='" . $parent_id . "'" );
+				WHERE PARENT_ID='" . (int) $parent_id . "'" );
 		}
 
 		db_trans_commit();

@@ -93,7 +93,7 @@ $RET = DBGet( "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,sp.T
 	(SELECT 'Y'
 		FROM GRADES_COMPLETED ac
 		WHERE ac.STAFF_ID=cp.TEACHER_ID
-		AND ac.MARKING_PERIOD_ID='" . $_REQUEST['mp'] . "'
+		AND ac.MARKING_PERIOD_ID='" . (int) $_REQUEST['mp'] . "'
 		AND ac.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID) AS COMPLETED
 	FROM STAFF s,COURSE_PERIODS cp,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
@@ -104,7 +104,7 @@ $RET = DBGet( "SELECT s.STAFF_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,sp.T
 	AND cp.SYEAR='" . UserSyear() . "'
 	AND cp.SCHOOL_ID='" . UserSchool() . "'
 	AND s.PROFILE='teacher'" .
-	( $_REQUEST['period'] ? " AND cpsp.PERIOD_ID='" . $_REQUEST['period'] . "'" : '' ) .
+	( $_REQUEST['period'] ? " AND cpsp.PERIOD_ID='" . (int) $_REQUEST['period'] . "'" : '' ) .
 	" ORDER BY FULL_NAME", [], [ 'STAFF_ID' ] );
 
 if ( empty( $_REQUEST['period'] ) )

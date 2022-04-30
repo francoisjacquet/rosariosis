@@ -95,12 +95,12 @@ if ( ! empty( $_REQUEST['submit']['save'] )
 			{
 				DBQuery( "UPDATE CALENDAR_EVENTS
 					SET DESCRIPTION='" . $description['text'] . $description['select'] . "'
-					WHERE ID='" . $events_RET[$school_date][1]['ID'] . "'" );
+					WHERE ID='" . (int) $events_RET[$school_date][1]['ID'] . "'" );
 			}
 			else
 			{
 				DBQuery( "DELETE FROM CALENDAR_EVENTS
-					WHERE ID='" . $events_RET[$school_date][1]['ID'] . "'" );
+					WHERE ID='" . (int) $events_RET[$school_date][1]['ID'] . "'" );
 			}
 		}
 		elseif ( ! empty( $description['text'] ) || ! empty( $description['select'] ) )
@@ -271,7 +271,7 @@ else
 	WHERE SCHOOL_DATE BETWEEN '" . date( 'Y-m-d', $time ) . "' AND '" . date( 'Y-m-d', $time_last ) . "'
 	AND SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'
-	AND CALENDAR_ID='" . $calendar_id . "'
+	AND CALENDAR_ID='" . (int) $calendar_id . "'
 	AND MINUTES>0
 	ORDER BY SCHOOL_DATE", [], [ 'SCHOOL_DATE' ] );
 

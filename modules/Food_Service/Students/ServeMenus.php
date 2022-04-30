@@ -73,16 +73,16 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 		}
 
 		$sql1 = "UPDATE FOOD_SERVICE_ACCOUNTS
-			SET TRANSACTION_ID='" . $id . "',BALANCE=BALANCE+(SELECT sum(AMOUNT)
+			SET TRANSACTION_ID='" . (int) $id . "',BALANCE=BALANCE+(SELECT sum(AMOUNT)
 				FROM FOOD_SERVICE_TRANSACTION_ITEMS
-				WHERE TRANSACTION_ID='" . $id . "')
-			WHERE ACCOUNT_ID='" . $student['ACCOUNT_ID'] . "'";
+				WHERE TRANSACTION_ID='" . (int) $id . "')
+			WHERE ACCOUNT_ID='" . (int) $student['ACCOUNT_ID'] . "'";
 
 		$fields = 'TRANSACTION_ID,ACCOUNT_ID,STUDENT_ID,SYEAR,SCHOOL_ID,DISCOUNT,BALANCE,TIMESTAMP,SHORT_NAME,DESCRIPTION,SELLER_ID';
 
 		$values = "'" . $id . "','" . $student['ACCOUNT_ID'] . "','" . UserStudentID() . "','" .
 			UserSyear() . "','" . UserSchool() . "','" . $discount .
-			"',(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID='" . $student['ACCOUNT_ID'] .
+			"',(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID='" . (int) $student['ACCOUNT_ID'] .
 			"'),CURRENT_TIMESTAMP,'" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "','" .
 			$menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . ' - ' . DBDate() . "','" . User( 'STAFF_ID' ) . "'";
 
@@ -141,7 +141,7 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 		$RET = DBGet( "SELECT fsti.DESCRIPTION,fsti.AMOUNT,
 			(SELECT ICON FROM FOOD_SERVICE_ITEMS WHERE SHORT_NAME=fsti.SHORT_NAME LIMIT 1) AS ICON
 			FROM FOOD_SERVICE_TRANSACTIONS fst,FOOD_SERVICE_TRANSACTION_ITEMS fsti
-			WHERE fst.ACCOUNT_ID='" . $student['ACCOUNT_ID'] . "'
+			WHERE fst.ACCOUNT_ID='" . (int) $student['ACCOUNT_ID'] . "'
 			AND fst.STUDENT_ID='" . UserStudentID() . "'
 			AND fst.SYEAR='" . UserSyear() . "'
 			AND fst.SHORT_NAME='" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "'

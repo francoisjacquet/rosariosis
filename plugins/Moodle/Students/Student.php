@@ -350,7 +350,7 @@ function core_role_assign_roles_object()
 	$userid = (int) DBGetOne( "SELECT moodle_id
 		FROM moodlexrosario
 		WHERE rosario_id=(SELECT STAFF_ID FROM STUDENTS_JOIN_USERS
-			WHERE STUDENT_ID='" . $student_id . "' LIMIT 1)
+			WHERE STUDENT_ID='" . (int) $student_id . "' LIMIT 1)
 		AND \"column\"='staff_id'" );
 
 	if ( empty( $userid ) )

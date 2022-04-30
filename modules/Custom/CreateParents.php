@@ -184,7 +184,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 					$user = DBGet( "SELECT FIRST_NAME,MIDDLE_NAME,LAST_NAME
 						FROM PEOPLE
-						WHERE PERSON_ID='" . $_REQUEST['contact'][$student_id] . "'" );
+						WHERE PERSON_ID='" . (int) $_REQUEST['contact'][$student_id] . "'" );
 
 					$user = $user[1];
 
@@ -217,7 +217,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 						$staff = DBGet( "SELECT " . DisplayNameSQL() . " AS NAME,USERNAME
 							FROM STAFF
-							WHERE STAFF_ID='" . $id . "'" );
+							WHERE STAFF_ID='" . (int) $id . "'" );
 					}
 					else
 					{
@@ -243,7 +243,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 				$staff = DBGet( "SELECT " . DisplayNameSQL() . " AS NAME,USERNAME
 					FROM STAFF
-					WHERE STAFF_ID='" . $id . "'" );
+					WHERE STAFF_ID='" . (int) $id . "'" );
 
 				$account = 'old';
 			}
@@ -264,8 +264,8 @@ if ( $_REQUEST['modfunc'] === 'save'
 				// Fix SQL error, check if student not already associated!
 				$parent_associated_to_student_RET = DBGet( "SELECT 1
 					FROM STUDENTS_JOIN_USERS
-					WHERE STAFF_ID='" . $id . "'
-					AND STUDENT_ID='" . $student['STUDENT_ID'] . "'" );
+					WHERE STAFF_ID='" . (int) $id . "'
+					AND STUDENT_ID='" . (int) $student['STUDENT_ID'] . "'" );
 
 				if ( ! $test_email
 					&& ! $parent_associated_to_student_RET )
@@ -475,8 +475,8 @@ function _makeChooseCheckbox( $value, $column )
 		$has_parents = DBGet( "SELECT 1
 			FROM STUDENTS_JOIN_PEOPLE sjp,PEOPLE p
 			WHERE p.PERSON_ID=sjp.PERSON_ID
-			AND sjp.STUDENT_ID='" . $value . "'
-			AND sjp.ADDRESS_ID='" . $THIS_RET['ADDRESS_ID'] . "'
+			AND sjp.STUDENT_ID='" . (int) $value . "'
+			AND sjp.ADDRESS_ID='" . (int) $THIS_RET['ADDRESS_ID'] . "'
 			ORDER BY sjp.STUDENT_RELATION" );
 	}
 	else
@@ -511,8 +511,8 @@ function _makeContactSelect( $value, $column )
 			p.FIRST_NAME,p.LAST_NAME,p.MIDDLE_NAME
 		FROM STUDENTS_JOIN_PEOPLE sjp,PEOPLE p
 		WHERE p.PERSON_ID=sjp.PERSON_ID
-		AND sjp.STUDENT_ID='" . $value . "'
-		AND sjp.ADDRESS_ID='" . $THIS_RET['ADDRESS_ID'] . "'
+		AND sjp.STUDENT_ID='" . (int) $value . "'
+		AND sjp.ADDRESS_ID='" . (int) $THIS_RET['ADDRESS_ID'] . "'
 		ORDER BY sjp.STUDENT_RELATION" );
 	}
 	else
@@ -520,7 +520,7 @@ function _makeContactSelect( $value, $column )
 		$RET = DBGet( "SELECT '' AS PERSON_ID,STAFF_ID AS STUDENT_RELATION,
 			FIRST_NAME,LAST_NAME,MIDDLE_NAME
 			FROM STAFF WHERE
-			STAFF_ID='" . $THIS_RET['STAFF_ID'] . "'" );
+			STAFF_ID='" . (int) $THIS_RET['STAFF_ID'] . "'" );
 	}
 
 	if ( empty( $RET ) )

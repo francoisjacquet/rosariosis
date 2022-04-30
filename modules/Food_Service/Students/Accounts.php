@@ -23,7 +23,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 				$student_full_name = DBGetOne( "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME
 					FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa
 					WHERE s.STUDENT_ID=fssa.STUDENT_ID
-					AND fssa.ACCOUNT_ID='" . $account_id . "'" );
+					AND fssa.ACCOUNT_ID='" . (int) $account_id . "'" );
 
 				$message = sprintf(
 					_( "That barcode is already assigned to Student <b>%s</b>." ),
@@ -41,7 +41,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 				{
 					$staff_full_name = DBGetOne( "SELECT " . DisplayNameSQL() . " AS FULL_NAME
 						FROM STAFF
-						WHERE STAFF_ID='" . $account_id . "'" );
+						WHERE STAFF_ID='" . (int) $account_id . "'" );
 
 					$message = sprintf(
 						_( "That barcode is already assigned to User <b>%s</b>." ),
@@ -128,7 +128,7 @@ if ( UserStudentID() && ! $_REQUEST['modfunc'] )
 	// Find other students associated with the same account.
 	$xstudents = DBGet( "SELECT s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME
 	FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa
-	WHERE fssa.ACCOUNT_ID='" . $student['ACCOUNT_ID'] . "'
+	WHERE fssa.ACCOUNT_ID='" . (int) $student['ACCOUNT_ID'] . "'
 	AND s.STUDENT_ID=fssa.STUDENT_ID
 	AND s.STUDENT_ID!='" . UserStudentID() . "'" .
 		( ! empty( $_REQUEST['include_inactive'] ) ? '' :

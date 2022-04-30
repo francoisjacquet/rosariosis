@@ -37,7 +37,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 		$state_code = DBGetOne( "SELECT STATE_CODE
 			FROM ATTENDANCE_CODES
-			WHERE ID='" . $_REQUEST['absence_code'] . "'" );
+			WHERE ID='" . (int) $_REQUEST['absence_code'] . "'" );
 
 		$go = false;
 
@@ -60,7 +60,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					AND ac.CALENDAR_ID=cp.CALENDAR_ID
 					AND (ac.BLOCK=sp.BLOCK OR sp.BLOCK IS NULL)
 					AND s.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
-					AND s.STUDENT_ID='" . $student_id . "'
+					AND s.STUDENT_ID='" . (int) $student_id . "'
 					AND cpsp.PERIOD_ID IN (" . $periods_list . ")
 					AND position(',0,' IN cp.DOES_ATTENDANCE)>0
 					AND (ac.SCHOOL_DATE BETWEEN s.START_DATE AND s.END_DATE OR (s.END_DATE IS NULL AND ac.SCHOOL_DATE>=s.START_DATE))
@@ -90,7 +90,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 						AND ac.CALENDAR_ID=cp.CALENDAR_ID
 						AND (ac.BLOCK=sp.BLOCK OR sp.BLOCK IS NULL)
 						AND s.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
-						AND s.STUDENT_ID='" . $student_id . "'
+						AND s.STUDENT_ID='" . (int) $student_id . "'
 						AND cpsp.PERIOD_ID IN (" . $periods_list . ")
 						AND position(',0,' IN cp.DOES_ATTENDANCE)>0
 						AND (ac.SCHOOL_DATE BETWEEN s.START_DATE AND s.END_DATE OR (s.END_DATE IS NULL AND ac.SCHOOL_DATE>=s.START_DATE))
@@ -123,10 +123,10 @@ if ( $_REQUEST['modfunc'] === 'save' )
 						{
 							$sql = "UPDATE ATTENDANCE_PERIOD
 							SET ATTENDANCE_CODE='" . $_REQUEST['absence_code'] . "',ATTENDANCE_REASON='" .
-							$_REQUEST['absence_reason'] . "',ADMIN='Y',COURSE_PERIOD_ID='" . $course_period_id . "'
-							WHERE STUDENT_ID='" . $student_id . "'
+							$_REQUEST['absence_reason'] . "',ADMIN='Y',COURSE_PERIOD_ID='" . (int) $course_period_id . "'
+							WHERE STUDENT_ID='" . (int) $student_id . "'
 							AND SCHOOL_DATE='" . $date . "'
-							AND PERIOD_ID='" . $period_id . "'";
+							AND PERIOD_ID='" . (int) $period_id . "'";
 						}
 
 						$go = true;

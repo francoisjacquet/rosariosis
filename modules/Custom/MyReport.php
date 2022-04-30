@@ -200,7 +200,7 @@ function _makeTV( $value, $column )
 	{
 		$person_RET = DBGet( "SELECT TITLE,VALUE
 			FROM PEOPLE_JOIN_CONTACTS
-			WHERE PERSON_ID='" . $THIS_RET['PERSON_ID'] . "'
+			WHERE PERSON_ID='" . (int) $THIS_RET['PERSON_ID'] . "'
 			LIMIT 10" );
 
 		if ( count( (array) $person_RET ) > $maxTV )

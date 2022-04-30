@@ -35,7 +35,7 @@ if ( ! empty( $_REQUEST['attendance'] )
 
 			$sql = mb_substr( $sql, 0, -1 ) . " WHERE SCHOOL_DATE='" . $school_date . "'
 				AND PERIOD_ID='" . (int) $_REQUEST['period_id'] . "'
-				AND STUDENT_ID='" . $student_id . "'";
+				AND STUDENT_ID='" . (int) $student_id . "'";
 
 			DBQuery( $sql );
 

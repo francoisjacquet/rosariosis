@@ -227,7 +227,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 		{
 			DBQuery( "UPDATE ATTENDANCE_CALENDARS
 				SET TITLE='" . $_REQUEST['title'] . "',DEFAULT_CALENDAR='" . $_REQUEST['default'] . "'
-				WHERE CALENDAR_ID='" . $calendar_id . "'" );
+				WHERE CALENDAR_ID='" . (int) $calendar_id . "'" );
 		}
 		// Create
 		else
@@ -271,7 +271,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 				&& $_REQUEST['calendar_id'] === $_REQUEST['copy_id'] )
 			{
 				DBQuery( "DELETE FROM ATTENDANCE_CALENDAR
-					WHERE CALENDAR_ID='" . $calendar_id . "'
+					WHERE CALENDAR_ID='" . (int) $calendar_id . "'
 					AND (SCHOOL_DATE NOT BETWEEN '" . $date_min . "' AND '" . $date_max . "'" .
 					( $weekdays_list ?
 						" OR extract(DOW FROM SCHOOL_DATE) NOT IN (" . $weekdays_list . ")" : '' ) .
@@ -281,7 +281,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 				{
 					DBQuery( "UPDATE ATTENDANCE_CALENDAR
 						SET MINUTES='" . $minutes . "'
-						WHERE CALENDAR_ID='" . $calendar_id . "'" );
+						WHERE CALENDAR_ID='" . (int) $calendar_id . "'" );
 				}
 			}
 			else
@@ -289,7 +289,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 				if ( ! empty( $_REQUEST['calendar_id'] ) )
 				{
 					DBQuery( "DELETE FROM ATTENDANCE_CALENDAR
-						WHERE CALENDAR_ID='" . $calendar_id . "'" );
+						WHERE CALENDAR_ID='" . (int) $calendar_id . "'" );
 				}
 
 				// Insert Days.
@@ -325,7 +325,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 			if ( ! empty( $_REQUEST['calendar_id'] ) )
 			{
 				DBQuery( "DELETE FROM ATTENDANCE_CALENDAR
-					WHERE CALENDAR_ID='" . $calendar_id . "'" );
+					WHERE CALENDAR_ID='" . (int) $calendar_id . "'" );
 			}
 
 			$sql_calendar_days = '';

@@ -128,7 +128,7 @@ if ( ! empty( $_REQUEST['attendance'] ) // Fix GET form: do not check $_POST.
 			{
 				$sql = "UPDATE " . DBEscapeIdentifier( $table ) .
 					" SET ADMIN='Y',
-					COURSE_PERIOD_ID='" . $current_schedule_RET[$student_id][$period_id][1]['COURSE_PERIOD_ID'] . "',";
+					COURSE_PERIOD_ID='" . (int) $current_schedule_RET[$student_id][$period_id][1]['COURSE_PERIOD_ID'] . "',";
 
 				foreach ( (array) $columns as $column => $value )
 				{
@@ -136,8 +136,8 @@ if ( ! empty( $_REQUEST['attendance'] ) // Fix GET form: do not check $_POST.
 				}
 
 				$sql = mb_substr( $sql, 0, -1 ) . " WHERE SCHOOL_DATE='" . $date . "'
-					AND PERIOD_ID='" . $period_id . "'
-					AND STUDENT_ID='" . $student_id . "'" .
+					AND PERIOD_ID='" . (int) $period_id . "'
+					AND STUDENT_ID='" . (int) $student_id . "'" .
 					$extra_sql;
 
 				DBQuery( $sql );

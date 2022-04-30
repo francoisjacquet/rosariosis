@@ -73,7 +73,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			to_char(fst.TIMESTAMP,'YYYY-MM-DD') AS DATE
 			FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst
 			WHERE fst.SHORT_NAME='DEPOSIT'
-			AND fst.STAFF_ID='" . $staff['STAFF_ID'] . "'
+			AND fst.STAFF_ID='" . (int) $staff['STAFF_ID'] . "'
 			AND SYEAR='" . UserSyear() . "'
 			ORDER BY fst.TRANSACTION_ID DESC LIMIT 1", [ 'DATE' => 'ProperDate' ] );
 			$last_deposit = $last_deposit[1];

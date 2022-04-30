@@ -31,8 +31,8 @@ function CoursePeriodTeacherConflictCheck( $teacher_id, $course_period_id )
 		WHERE cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
 		AND cp.SYEAR='" . UserSyear() . "'
 		AND cp.SCHOOL_ID='" . UserSchool() . "'
-		AND (TEACHER_ID='" . $teacher_id . "'
-			OR SECONDARY_TEACHER_ID='" . $teacher_id . "')" );
+		AND (TEACHER_ID='" . (int) $teacher_id . "'
+			OR SECONDARY_TEACHER_ID='" . (int) $teacher_id . "')" );
 
 	if ( empty( $school_periods_RET )
 		|| count( $school_periods_RET ) < 2 )
@@ -281,7 +281,7 @@ function CoursePeriodTitleGenerate( $cp_id, $columns )
 		$current = DBGet( "SELECT TEACHER_ID,MARKING_PERIOD_ID,
 			SHORT_NAME,TITLE
 			FROM COURSE_PERIODS
-			WHERE COURSE_PERIOD_ID='" . $cp_id . "'" );
+			WHERE COURSE_PERIOD_ID='" . (int) $cp_id . "'" );
 	}
 
 	if ( isset( $columns['TEACHER_ID'] ) )
@@ -385,7 +385,7 @@ function CoursePeriodSchoolPeriodsTitlePartGenerate( $cpsp_id, $cp_id, $columns 
 
 	$other_school_p = DBGet( "SELECT PERIOD_ID,DAYS
 		FROM COURSE_PERIOD_SCHOOL_PERIODS
-		WHERE COURSE_PERIOD_ID='" . $cp_id . "'
+		WHERE COURSE_PERIOD_ID='" . (int) $cp_id . "'
 		AND COURSE_PERIOD_SCHOOL_PERIODS_ID<>'" . $cpsp_id . "'" );
 
 	$periods_title = '';
@@ -394,7 +394,7 @@ function CoursePeriodSchoolPeriodsTitlePartGenerate( $cpsp_id, $cp_id, $columns 
 	{
 		$school_p_title = DBGetOne( "SELECT TITLE
 			FROM SCHOOL_PERIODS
-			WHERE PERIOD_ID='" . $school_p['PERIOD_ID'] . "'
+			WHERE PERIOD_ID='" . (int) $school_p['PERIOD_ID'] . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'" );
 
@@ -431,7 +431,7 @@ function CoursePeriodSchoolPeriodsTitlePartGenerate( $cpsp_id, $cp_id, $columns 
 		$school_period_title = DBGetOne( "SELECT sp.TITLE
 			FROM SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
 			WHERE sp.PERIOD_ID=cpsp.PERIOD_ID
-			AND cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID='" . $cpsp_id . "'
+			AND cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID='" . (int) $cpsp_id . "'
 			AND sp.SCHOOL_ID='" . UserSchool() . "'
 			AND sp.SYEAR='" . UserSyear() . "'" );
 	}
@@ -439,7 +439,7 @@ function CoursePeriodSchoolPeriodsTitlePartGenerate( $cpsp_id, $cp_id, $columns 
 	{
 		$school_period_title = DBGetOne( "SELECT TITLE
 			FROM SCHOOL_PERIODS
-			WHERE PERIOD_ID='" . $columns['PERIOD_ID'] . "'
+			WHERE PERIOD_ID='" . (int) $columns['PERIOD_ID'] . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'" );
 	}
@@ -482,19 +482,19 @@ function CoursePeriodDeleteSQL( $course_period_id )
 
 	$delete_sql = "UPDATE COURSE_PERIODS
 		SET PARENT_ID=NULL
-		WHERE PARENT_ID='" . $course_period_id . "';";
+		WHERE PARENT_ID='" . (int) $course_period_id . "';";
 
 	$delete_sql .= "DELETE FROM SCHEDULE
-		WHERE COURSE_PERIOD_ID='" . $course_period_id . "';";
+		WHERE COURSE_PERIOD_ID='" . (int) $course_period_id . "';";
 
 	$delete_sql .= "DELETE FROM GRADEBOOK_ASSIGNMENTS
-		WHERE COURSE_PERIOD_ID='" . $course_period_id . "';";
+		WHERE COURSE_PERIOD_ID='" . (int) $course_period_id . "';";
 
 	$delete_sql .= "DELETE FROM COURSE_PERIOD_SCHOOL_PERIODS
-		WHERE COURSE_PERIOD_ID='" . $course_period_id . "';";
+		WHERE COURSE_PERIOD_ID='" . (int) $course_period_id . "';";
 
 	$delete_sql .= "DELETE FROM COURSE_PERIODS
-		WHERE COURSE_PERIOD_ID='" . $course_period_id . "';";
+		WHERE COURSE_PERIOD_ID='" . (int) $course_period_id . "';";
 
 	return $delete_sql;
 }
@@ -516,22 +516,22 @@ function CourseDeleteSQL( $course_id )
 		SET PARENT_ID=NULL
 		WHERE PARENT_ID IN (SELECT COURSE_PERIOD_ID
 			FROM COURSE_PERIODS
-			WHERE COURSE_ID='" . $course_id . "');";
+			WHERE COURSE_ID='" . (int) $course_id . "');";
 
 	$delete_sql .= "DELETE FROM COURSE_PERIODS
-		WHERE COURSE_ID='" . $course_id . "';";
+		WHERE COURSE_ID='" . (int) $course_id . "';";
 
 	$delete_sql .= "DELETE FROM SCHEDULE
-		WHERE COURSE_ID='" . $course_id . "';";
+		WHERE COURSE_ID='" . (int) $course_id . "';";
 
 	$delete_sql .= "DELETE FROM SCHEDULE_REQUESTS
-		WHERE COURSE_ID='" . $course_id . "';";
+		WHERE COURSE_ID='" . (int) $course_id . "';";
 
 	$delete_sql .= "DELETE FROM GRADEBOOK_ASSIGNMENT_TYPES
-		WHERE COURSE_ID='" . $course_id . "';";
+		WHERE COURSE_ID='" . (int) $course_id . "';";
 
 	$delete_sql .= "DELETE FROM COURSES
-		WHERE COURSE_ID='" . $course_id . "';";
+		WHERE COURSE_ID='" . (int) $course_id . "';";
 
 	return $delete_sql;
 }

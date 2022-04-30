@@ -24,7 +24,7 @@ if ( ! empty( $_REQUEST['values'] )
 			$sql = "INSERT INTO FOOD_SERVICE_STAFF_TRANSACTION_ITEMS (" . $fields . ") values (" . $values . ")";
 			DBQuery( $sql );
 
-			$sql1 = "UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET TRANSACTION_ID='" . $id . "',BALANCE=BALANCE+(SELECT sum(AMOUNT) FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID='" . $id . "') WHERE STAFF_ID='" . UserStaffID() . "'";
+			$sql1 = "UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET TRANSACTION_ID='" . (int) $id . "',BALANCE=BALANCE+(SELECT sum(AMOUNT) FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID='" . (int) $id . "') WHERE STAFF_ID='" . UserStaffID() . "'";
 			$fields = 'TRANSACTION_ID,SYEAR,SCHOOL_ID,STAFF_ID,BALANCE,TIMESTAMP,SHORT_NAME,DESCRIPTION,SELLER_ID';
 			$values = "'" . $id . "','" . UserSyear() . "','" . UserSchool() . "','" . UserStaffID() . "',(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID='" . UserStaffID() . "'),CURRENT_TIMESTAMP,'" . mb_strtoupper( $_REQUEST['values']['TYPE'] ) . "','" . $_REQUEST['values']['TYPE'] . "','" . User( 'STAFF_ID' ) . "'";
 			$sql2 = "INSERT INTO FOOD_SERVICE_STAFF_TRANSACTIONS (" . $fields . ") values (" . $values . ")";

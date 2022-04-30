@@ -44,7 +44,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 		&& ! empty( $_REQUEST['staff_id_remove'] ) )
 	{
 		DBQuery( "DELETE FROM STUDENTS_JOIN_USERS
-			WHERE STAFF_ID='" . $_REQUEST['staff_id_remove'] . "'
+			WHERE STAFF_ID='" . (int) $_REQUEST['staff_id_remove'] . "'
 			AND STUDENT_ID='" . UserStudentID() . "'" );
 
 		// Hook.

@@ -84,7 +84,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 
 			$sql = mb_substr( $sql, 0, -1 ) .
 				" WHERE STUDENT_ID='" . UserStudentID() . "'
-				AND REQUEST_ID='" . $request_id . "'";
+				AND REQUEST_ID='" . (int) $request_id . "'";
 
 			DBQuery( $sql );
 		}
@@ -104,7 +104,7 @@ if ( $_REQUEST['modfunc'] === 'add' )
 
 		$subject_id = DBGetOne( "SELECT SUBJECT_ID
 			FROM COURSES
-			WHERE COURSE_ID='" . $course_id . "'" );
+			WHERE COURSE_ID='" . (int) $course_id . "'" );
 
 		DBQuery( "INSERT INTO SCHEDULE_REQUESTS (REQUEST_ID,SYEAR,SCHOOL_ID,STUDENT_ID,SUBJECT_ID,COURSE_ID)
 			SELECT " . db_seq_nextval( 'schedule_requests_request_id_seq' ) . ",'" .
@@ -118,7 +118,7 @@ if ( $_REQUEST['modfunc'] === 'add' )
 				WHERE SYEAR='" .UserSyear() . "'
 				AND SCHOOL_ID='" . UserSchool() . "'
 				AND STUDENT_ID='" . UserStudentID() . "'
-				AND COURSE_ID='" . $course_id . "')" );
+				AND COURSE_ID='" . (int) $course_id . "')" );
 	}
 
 	// Unset modfunc & course & redirect URL.
@@ -252,7 +252,7 @@ function _makeTeacher( $value, $column )
 		s.STAFF_ID AS TEACHER_ID
 		FROM STAFF s,COURSE_PERIODS cp
 		WHERE s.STAFF_ID=cp.TEACHER_ID
-		AND cp.COURSE_ID='" . $THIS_RET['COURSE_ID'] . "'" );
+		AND cp.COURSE_ID='" . (int) $THIS_RET['COURSE_ID'] . "'" );
 
 	$options = [];
 
@@ -291,7 +291,7 @@ function _makePeriod( $value, $column )
 		FROM SCHOOL_PERIODS p,COURSE_PERIODS cp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
 		WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 		AND p.PERIOD_ID=cpsp.PERIOD_ID
-		AND cp.COURSE_ID='" . $THIS_RET['COURSE_ID'] . "'" );
+		AND cp.COURSE_ID='" . (int) $THIS_RET['COURSE_ID'] . "'" );
 
 	$options = [];
 

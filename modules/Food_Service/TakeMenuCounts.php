@@ -51,7 +51,7 @@ else
 	$calendar_id = $calendar_id['CALENDAR_ID'];
 }
 
-$calendar_RET = DBGet( "SELECT MINUTES FROM ATTENDANCE_CALENDAR WHERE CALENDAR_ID='" . $calendar_id . "' AND SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' AND SCHOOL_DATE='" . $date . "'" );
+$calendar_RET = DBGet( "SELECT MINUTES FROM ATTENDANCE_CALENDAR WHERE CALENDAR_ID='" . (int) $calendar_id . "' AND SYEAR='" . UserSyear() . "' AND SCHOOL_ID='" . UserSchool() . "' AND SCHOOL_DATE='" . $date . "'" );
 //echo '<pre>'; var_dump($calendar_RET); echo '</pre>';
 
 if ( ! $calendar_RET[1]['MINUTES'] )

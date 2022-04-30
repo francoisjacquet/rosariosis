@@ -43,11 +43,11 @@ $user_id = UserStaffID();
 
 $xprofile = DBGetOne( "SELECT PROFILE
 	FROM STAFF
-	WHERE STAFF_ID='" . $user_id . "'" );
+	WHERE STAFF_ID='" . (int) $user_id . "'" );
 
 $exceptions_RET = DBGet( "SELECT MODNAME,CAN_USE,CAN_EDIT
 	FROM STAFF_EXCEPTIONS
-	WHERE USER_ID='" . $user_id . "'", [], [ 'MODNAME' ] );
+	WHERE USER_ID='" . (int) $user_id . "'", [], [ 'MODNAME' ] );
 
 if ( $_REQUEST['modfunc'] === 'update'
 	&& AllowEdit()
@@ -112,7 +112,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 					&& empty( $_REQUEST['can_use'][str_replace( '.', '_', $modname )] ) )
 				{
 					DBQuery( "DELETE FROM STAFF_EXCEPTIONS
-						WHERE USER_ID='" . $user_id . "'
+						WHERE USER_ID='" . (int) $user_id . "'
 						AND MODNAME='" . $modname . "'" );
 				}
 
@@ -139,7 +139,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 						$update .= "CAN_USE=NULL";
 					}
 
-					$update .= " WHERE USER_ID='" . $user_id . "' AND MODNAME='" . $modname . "'";
+					$update .= " WHERE USER_ID='" . (int) $user_id . "' AND MODNAME='" . $modname . "'";
 
 					DBQuery( $update );
 				}
@@ -149,7 +149,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 	$exceptions_RET = DBGet( "SELECT MODNAME,CAN_USE,CAN_EDIT
 		FROM STAFF_EXCEPTIONS
-		WHERE USER_ID='" . $user_id . "'", [], [ 'MODNAME' ] );
+		WHERE USER_ID='" . (int) $user_id . "'", [], [ 'MODNAME' ] );
 
 	unset( $tmp_menu );
 
@@ -418,7 +418,7 @@ if ( UserStaffID()
 	{
 		$profile_title = DBGetOne( "SELECT TITLE
 		FROM USER_PROFILES
-		WHERE ID='" . $staff_RET[1]['PROFILE_ID'] . "'" );
+		WHERE ID='" . (int) $staff_RET[1]['PROFILE_ID'] . "'" );
 
 		echo '<br />';
 
