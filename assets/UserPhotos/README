@@ -1,11 +1,14 @@
 This directory holds the user photos.
 
-You should create one subdirectory for every school year, and store user pictures in as <user_id>.JPG
+You should create one subdirectory for every school year, and store user pictures in as <user_id>.<random_string>.jpg
+
+Note: The random string makes it impossible to predict the file name so photos cannot be accessed without being logged in.
+
 For example:
 
-2009
-       1.JPG
-       2.JPG
-2010
-       1.JPG
-       2.JPG
+2021/
+       1.d84cb7b5ffad38b086153f82c1bb27ca.jpg
+       2.d5e76d354876d7a137abac5bb19ba5bd.jpg
+2022/
+       3.3f9509cc43cb8e121f50f2a0ef003fdf.jpg
+       4.8302107827639bc1e7411ed52410dc1e.jpg

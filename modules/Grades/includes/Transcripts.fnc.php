@@ -521,22 +521,16 @@ if ( ! function_exists( 'TranscriptPDFHeader' ) )
 		if ( ! empty( $_REQUEST['showstudentpic'] ) )
 		{
 			// Student Photo.
-			$stu_pic = $StudentPicturesPath . Config( 'SYEAR' ) . '/' . $student['ID'] . '.jpg';
-			$stu_pic2 = $StudentPicturesPath . ( Config( 'SYEAR' ) -1 ) . '/' . $student['ID'] . '.jpg';
-			$stu_pic3 = $StudentPicturesPath . $student['SYEAR'] . '/' . $student['ID'] . '.jpg';
+			// @since 9.0 Fix Improper Access Control security issue: add random string to photo file name.
+			$picture_path = (array) glob( $StudentPicturesPath . '*/' . UserStudentID() . '.*jpg' );
+
+			$picture_path = end( $picture_path );
+
 			$picwidth = 120;
 
-			if ( file_exists( $stu_pic ) )
+			if ( $picture_path )
 			{
-				echo '<img src="' . URLEscape( $stu_pic ) . '" width="' . AttrEscape( $picwidth ) . '" />';
-			}
-			elseif ( file_exists( $stu_pic2 ) )
-			{
-				echo '<img src="' . URLEscape( $stu_pic2 ) . '" width="' . AttrEscape( $picwidth ) . '" />';
-			}
-			elseif ( file_exists( $stu_pic3 ) )
-			{
-				echo '<img src="' . URLEscape( $stu_pic3 ) . '" width="' . AttrEscape( $picwidth ) . '" />';
+				echo '<img src="' . URLEscape( $picture_path ) . '" width="' . AttrEscape( $picwidth ) . '" />';
 			}
 			else
 			{

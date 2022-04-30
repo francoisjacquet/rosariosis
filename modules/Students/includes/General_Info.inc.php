@@ -7,22 +7,26 @@ if ( AllowEdit()
 	&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) ):
 ?>
 	<a href="#" onclick="$('.user-photo-form,.user-photo').toggle(); return false;"><?php
-echo button( 'add', '', '', 'smaller' ) . '&nbsp;' . _( 'Student Photo' );
+	echo button( 'add', '', '', 'smaller' ) . '&nbsp;' . _( 'Student Photo' );
 ?></a><br />
 	<div class="user-photo-form hide"><?php
-echo FileInput(
-	'photo',
-	_( 'Student Photo' ) . ' (.jpg, .png, .gif)',
-	'accept=".jpg,.jpeg,.png,.gif"'
-);
+	echo FileInput(
+		'photo',
+		_( 'Student Photo' ) . ' (.jpg, .png, .gif)',
+		'accept=".jpg,.jpeg,.png,.gif"'
+	);
 ?></div>
 <?php endif;
 
-if ( $_REQUEST['student_id'] !== 'new' && ( $file = @fopen( $picture_path = $StudentPicturesPath . UserSyear() . '/' . UserStudentID() . '.jpg', 'r' ) ) || ( $file = @fopen( $picture_path = $StudentPicturesPath . ( UserSyear() - 1 ) . '/' . UserStudentID() . '.jpg', 'r' ) ) ):
-	fclose( $file );
-	?>
-			<img src="<?php echo URLEscape( $picture_path . ( ! empty( $new_photo_file ) ? '?cacheKiller=' . rand() : '' ) ); ?>" class="user-photo" alt="<?php echo AttrEscape( _( 'Student Photo' ) ); ?>" />
-		<?php endif;
+// @since 9.0 Fix Improper Access Control security issue: add random string to photo file name.
+$picture_path = (array) glob( $StudentPicturesPath . '*/' . UserStudentID() . '.*jpg' );
+
+$picture_path = end( $picture_path );
+
+if ( $_REQUEST['student_id'] !== 'new' && $picture_path ):
+?>
+	<img src="<?php echo URLEscape( $picture_path ); ?>" class="user-photo" alt="<?php echo AttrEscape( _( 'Student Photo' ) ); ?>" />
+<?php endif;
 // END IMAGE.
 
 echo '</td><td colspan="2">';

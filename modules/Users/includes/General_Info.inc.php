@@ -2,27 +2,40 @@
 echo '<table class="general-info width-100p valign-top fixed-col"><tr class="st"><td rowspan="4">';
 
 // IMAGE.
-
 if ( AllowEdit()
 	&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) ):
 ?>
 	<a href="#" onclick="$('.user-photo-form,.user-photo').toggle(); return false;"><?php
-echo button( 'add', '', '', 'smaller' ) . '&nbsp;' . _( 'User Photo' );
+	echo button( 'add', '', '', 'smaller' ) . '&nbsp;' . _( 'User Photo' );
 ?></a><br />
 	<div class="user-photo-form hide"><?php
-echo FileInput(
-	'photo',
-	_( 'User Photo' ) . ' (.jpg, .png, .gif)',
-	'accept=".jpg,.jpeg,.png,.gif"'
-);
+	echo FileInput(
+		'photo',
+		_( 'User Photo' ) . ' (.jpg, .png, .gif)',
+		'accept=".jpg,.jpeg,.png,.gif"'
+	);
 ?></div>
 <?php endif;
 
-if ( $_REQUEST['staff_id'] !== 'new' && ( $file = @fopen( $picture_path = $UserPicturesPath . UserSyear() . '/' . UserStaffID() . '.jpg', 'r' ) ) || ( $file = @fopen( $picture_path = $UserPicturesPath . ( UserSyear() - 1 ) . '/' . UserStaffID() . '.jpg', 'r' ) ) ):
-	fclose( $file );
-	?>
-		<img src="<?php echo URLEscape( $picture_path . ( ! empty( $new_photo_file ) ? '?cacheKiller=' . rand() : '' ) ); ?>" class="user-photo" alt="<?php echo AttrEscape( _( 'User Photo' ) ); ?>" />
-	<?php endif;
+// @since 9.0 Fix Improper Access Control security issue: add random string to photo file name.
+$picture_path = (array) glob( $UserPicturesPath . UserSyear() . '/' . UserStaffID() . '.*jpg' );
+
+$picture_path = end( $picture_path );
+
+if ( ! $picture_path
+	&& $staff['ROLLOVER_ID'] )
+{
+	// Use Last Year's if Missing.
+	// @since 9.0 Fix Improper Access Control security issue: add random string to photo file name.
+	$picture_path = (array) glob( $UserPicturesPath . ( UserSyear() - 1 ) . '/' . $staff['ROLLOVER_ID'] . '.*jpg' );
+
+	$picture_path = end( $picture_path );
+}
+
+if ( $_REQUEST['staff_id'] !== 'new' && $picture_path ):
+?>
+	<img src="<?php echo URLEscape( $picture_path ); ?>" class="user-photo" alt="<?php echo AttrEscape( _( 'User Photo' ) ); ?>" />
+<?php endif;
 // END IMAGE
 
 echo '</td><td colspan="2">';

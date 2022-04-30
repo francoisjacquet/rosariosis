@@ -66,6 +66,7 @@ Changes in 9.0
 - Use URLEscape() for img src attribute, program wide
 - Sanitize / escape URL as THEME is often included for button img src attribute in User.fnc.php
 - Better format for "Add another marking period" form in EditReportCardGrades.php
+- Fix Improper Access Control security issue: add random string to photo file name in TipMessage.fnc.php, Transcripts.fnc.php, PrintClassPictures.php, Student.php, User.php & General_Info.inc.php, thanks to @dungtuanha
 
 Changes in 8.9.5
 ----------------

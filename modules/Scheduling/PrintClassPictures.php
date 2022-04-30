@@ -139,17 +139,19 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 			echo '<tr><td style="vertical-align:bottom;"><table>';
 
-			$picture_path = $UserPicturesPath . UserSyear() . '/' . $teacher_id . '.jpg';
+			// @since 9.0 Fix Improper Access Control security issue: add random string to photo file name.
+			$picture_path = (array) glob( $UserPicturesPath . UserSyear() . '/' . $teacher_id . '.*jpg' );
 
-			if ( ! file_exists( $picture_path ) )
+			$picture_path = end( $picture_path );
+
+			if ( ! $picture_path
+				&& $teacher['ROLLOVER_ID'] )
 			{
 				// Use Last Year's if Missing.
-				$picture_path = $UserPicturesPath . ( UserSyear() - 1 ) . '/' . $teacher['ROLLOVER_ID'] . '.jpg';
+				// @since 9.0 Fix Improper Access Control security issue: add random string to photo file name.
+				$picture_path = (array) glob( $UserPicturesPath . ( UserSyear() - 1 ) . '/' . $teacher['ROLLOVER_ID'] . '.*jpg' );
 
-				if ( ! file_exists( $picture_path ) )
-				{
-					$picture_path = '';
-				}
+				$picture_path = end( $picture_path );
 			}
 
 			if ( $picture_path )
@@ -186,18 +188,10 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 			echo '<td style="vertical-align:bottom;"><table>';
 
-			$picture_path = $StudentPicturesPath . UserSyear() . '/' . $student_id . '.jpg';
+			// @since 9.0 Fix Improper Access Control security issue: add random string to photo file name.
+			$picture_path = (array) glob( $StudentPicturesPath . '*/' . $student_id . '.*jpg' );
 
-			if ( ! file_exists( $picture_path ) )
-			{
-				// Use Last Year's if Missing.
-				$picture_path = $StudentPicturesPath . ( UserSyear() - 1 ) . '/' . $student_id . '.jpg';
-
-				if ( ! file_exists( $picture_path ) )
-				{
-					$picture_path = '';
-				}
-			}
+			$picture_path = end( $picture_path );
 
 			if ( $picture_path )
 			{

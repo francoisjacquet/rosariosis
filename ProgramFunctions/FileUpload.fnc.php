@@ -9,7 +9,7 @@
 /**
  * File Upload
  *
- * @example FileUpload( 'photo', $StudentPicturesPath . UserSyear() . '/', array( '.jpg', '.jpeg' ), 2, $error, '.jpg', UserStudentID() );
+ * @example FileUpload( 'FILE_ATTACHED', $FileUploadsPath . UserSyear() . '/staff_' . User( 'STAFF_ID' ) . '/', FileExtensionWhiteList(), 0, $error );
  *
  * @global $_FILES
  *
@@ -101,8 +101,8 @@ function FileUpload( $input, $path, $ext_white_list, $size_limit, &$error, $fina
 /**
  * Image File Upload
  *
- * @example ImageUpload( 'photo', array( 'width' => 150, 'height' => '150' ), $StudentPicturesPath . UserSyear() . '/', array(), '.jpg', UserStudentID() );
- * @example ImageUpload( $base64_img, array( 'width' => 640, 'height' => '320' ) );
+ * @example ImageUpload( 'photo', [ 'width' => 150, 'height' => '150' ], $StudentPicturesPath . UserSyear() . '/', [], '.jpg', UserStudentID() . '.' . bin2hex( openssl_random_pseudo_bytes( 16 ) ) );
+ * @example ImageUpload( $base64_img, [ 'width' => 640, 'height' => '320' ] );
  *
  * @since 3.3
  *
@@ -110,11 +110,11 @@ function FileUpload( $input, $path, $ext_white_list, $size_limit, &$error, $fina
  * @uses ImageResizeGD class.
  *
  * @param string $input            Name of the input file field, for example 'photo', or base64 encoded data, src attribute value.
- * @param array  $target_dim       Target dimensions to determine if can be resized. Defaults to array( 'width' => 994, 'height' => 1405 ) (optional).
+ * @param array  $target_dim       Target dimensions to determine if can be resized. Defaults to [ 'width' => 994, 'height' => 1405 ] (optional).
  * @param string $path             Final path with trailing slash, for example $StudentPicturesPath . UserSyear() . '/'. Defaults to "assets/FileUploads/[Syear]/[staff_or_student_ID]/" (optional).
- * @param array  $ext_white_list   Extensions white list, for example array('.jpg', '.jpeg').
+ * @param array  $ext_white_list   Extensions white list, for example ['.jpg', '.jpeg'].
  * @param string $final_ext        Final file extension (useful for .jpg, if .jpeg submitted) (optional).
- * @param string $file_name_no_ext Final file name without extension, for example UserStudentID() (optional).
+ * @param string $file_name_no_ext Final file name without extension, for example UserStudentID() . '.' . bin2hex( openssl_random_pseudo_bytes( 16 ) ) (optional).
  *
  * @return string|boolean Full path to file, or false if error
  */

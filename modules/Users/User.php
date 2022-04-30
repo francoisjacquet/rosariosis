@@ -442,11 +442,27 @@ if ( $_REQUEST['modfunc'] === 'update'
 				$UserPicturesPath . UserSyear() . '/',
 				[],
 				'.jpg',
-				UserStaffID()
+				// @since 9.0 Fix Improper Access Control security issue: add random string to photo file name.
+				UserStaffID() . '.' . bin2hex( openssl_random_pseudo_bytes( 16 ) )
 			);
 
+			if ( $new_photo_file )
+			{
+				// Remove old photos.
+				$old_photo_files = glob( $UserPicturesPath . UserSyear() . '/' . UserStaffID() . '.*jpg' );
+
+				foreach ( $old_photo_files as $old_photo_file )
+				{
+					if ( $old_photo_file !== $new_photo_file )
+					{
+						unlink( $old_photo_file );
+					}
+				}
+			}
+
 			// Hook.
-			do_action( 'Users/User.php|upload_user_photo' );
+			// @since 9.0 Add $new_photo_file argument to action hook.
+			do_action( 'Users/User.php|upload_user_photo', $new_photo_file );
 		}
 
 		if ( UserStaffID() )
