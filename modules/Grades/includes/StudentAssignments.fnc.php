@@ -27,6 +27,7 @@ if ( ! isset( $AssignmentsFilesPath ) )
  * @uses FileUpload()
  * @uses SanitizeHTML()
  * @since 2.9
+ * @since 8.9.5 Add microseconds to filename format to make it harder to predict.
  *
  * @param  string  $assignment_id Assignment ID.
  * @param  array   $error         Global errors array.
@@ -59,7 +60,10 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 
 	$files = issetVal( $old_data['files'] );
 
-	$timestamp = date( 'Y-m-d H:i:s' );
+	$timestamp = new \DateTime();
+
+	// @since 8.9.5 Add microseconds to filename format to make it harder to predict.
+	$timestamp = $timestamp->format( 'Y-m-d H:i:s.u' );
 
 	$assignments_path = GetAssignmentsFilesPath( $assignment['STAFF_ID'] );
 
