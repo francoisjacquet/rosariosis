@@ -35,19 +35,20 @@ function MarkDownToHTML() {
 
 	// Set options.
 	// @link https://marked.js.org/#/USING_ADVANCED.md
-	var markedOptions = {
+	marked.setOptions({
 		breaks: true, // Add <br> on a single line break. Requires gfm be true.
 		gfm: true, // GitHub Flavored Markdown (GFM).
 		headerIds: false, // Include an id attribute when emitting headings (h1, h2, h3, etc).
 		renderer: renderer,
-	};
+	});
 
 	var els = document.getElementsByClassName('markdown-to-html'),
 		i;
 
 	for (i in els) {
 		if ( els[i].innerHTML ) {
-			els[i].innerHTML = marked(els[i].innerHTML, markedOptions);
+			// Note: DOMPurify is not used here. Does not load (PDF only).
+			els[i].innerHTML = marked.parse(els[i].innerHTML);
 		}
 	}
 }
