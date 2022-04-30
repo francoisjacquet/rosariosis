@@ -1469,7 +1469,9 @@ function makePhotoTipMessage( $full_name, $column )
 
 	if ( ! empty( $THIS_RET['STAFF_ID'] ) )
 	{
-		return MakeUserPhotoTipMessage( $THIS_RET['STAFF_ID'], $full_name );
+		$rollover_id = ( empty( $THIS_RET['ROLLOVER_ID'] ) ? 0 : $THIS_RET['ROLLOVER_ID'] );
+
+		return MakeUserPhotoTipMessage( $THIS_RET['STAFF_ID'], $full_name, $rollover_id );
 	}
 	elseif ( ! empty( $THIS_RET['STUDENT_ID'] ) )
 	{
