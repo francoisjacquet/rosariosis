@@ -493,6 +493,11 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 				for ( $j = 0; $j < $size; $j++ )
 				{
+					if ( empty( $item[$key[$j]] ) )
+					{
+						continue;
+					}
+
 					$value = preg_replace( '!<select.*selected\>([^<]+)<.*</select\>!i', '\\1', $item[$key[$j]] );
 					$value = preg_replace( '!<select.*</select\>!i', '', $value );
 					$item[$key[$j]] = preg_replace( "/<div onclick=[^']+'>/", '', $value );
