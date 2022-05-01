@@ -173,6 +173,9 @@ function RedirectURL( $remove )
  */
 function URLEscape( $string )
 {
+	// Fix stored XSS security issue: decode HTML entities from URL.
+	$decoded_string = html_entity_decode( $string );
+
 	$entities = [
 		'%21',
 		'%2A',
@@ -223,7 +226,7 @@ function URLEscape( $string )
 	return str_replace(
 		$entities,
 		$replacements,
-		rawurlencode( (string) $string )
+		rawurlencode( (string) $decoded_string )
 	);
 }
 

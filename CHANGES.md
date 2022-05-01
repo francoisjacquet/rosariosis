@@ -67,6 +67,7 @@ Changes in 9.0
 - Sanitize / escape URL as THEME is often included for button img src attribute in User.fnc.php
 - Better format for "Add another marking period" form in EditReportCardGrades.php
 - Fix Improper Access Control security issue: add random string to photo file name in TipMessage.fnc.php, Transcripts.fnc.php, PrintClassPictures.php, Student.php, User.php & General_Info.inc.php, thanks to @dungtuanha
+- Fix stored XSS security issue: decode HTML entities from URL in PreparePHP_SELF.fnc.php, thanks to @khanhchauminh
 
 Changes in 8.9.5
 ----------------
