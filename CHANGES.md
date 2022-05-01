@@ -54,7 +54,7 @@ Changes in 9.0
 - Use AttrEscape() instead of htmlspecialchars(), program wide
 - Add use of AttrEscape(), program wide
 - Maintain Advanced search when editing Timeframe in Percent.php
-- Fix SQL injection escape DB identifier in RegistrationSave.fnc.php, Calendar.php, MarkingPeriods.php, Courses.php, SchoolFields.php, AddressFields.php, PeopleFields.php, StudentFields.php & UserFields.php
+- Fix SQL injection escape DB identifier in RegistrationSave.fnc.php, Calendar.php, MarkingPeriods.php, Courses.php, SchoolFields.php, AddressFields.php, PeopleFields.php, StudentFields.php, UserFields.php & Referrals.php
 - JS update marked to v4.0.14 in assets/js/marked/ & warehouse_wkhtmltopdf.js
 - JS add DOMPurify 2.3.6 in assets/js/DOMPurify/ & Gruntfile.js
 - JS fix stored XSS issue related to MarkDown in warehouse.js & plugins.min.js, thanks to @intrapus

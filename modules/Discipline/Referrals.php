@@ -25,48 +25,45 @@ if ( ! empty( $_POST['values'] )
 
 	foreach ( (array) $_REQUEST['values'] as $column_name => $value )
 	{
-		if ( 1 ) //!empty($value) || $value=='0')
+		$column_data_type = $categories_RET[str_replace( 'CATEGORY_', '', $column_name )][1]['DATA_TYPE'];
+
+		//FJ check numeric fields
+
+		if ( $column_data_type === 'numeric'
+			&& $value !== ''
+			&& ! is_numeric( $value ) )
 		{
-			$column_data_type = $categories_RET[str_replace( 'CATEGORY_', '', $column_name )][1]['DATA_TYPE'];
-
-			//FJ check numeric fields
-
-			if ( $column_data_type === 'numeric'
-				&& $value !== ''
-				&& ! is_numeric( $value ) )
-			{
-				$error[] = _( 'Please enter valid Numeric data.' );
-				continue;
-			}
-
-			// FJ textarea fields MarkDown sanitize.
-
-			if ( $column_data_type === 'textarea' )
-			{
-				$value = SanitizeMarkDown( $_POST['values'][$column_name] );
-			}
-
-			if ( ! is_array( $value ) )
-			{
-				$sql .= "$column_name='" . str_replace( "&rsquo;", "''", $value ) . "',";
-			}
-			else
-			{
-				$sql .= $column_name . "='||";
-
-				foreach ( (array) $value as $val )
-				{
-					if ( $val )
-					{
-						$sql .= str_replace( '&quot;', '"', $val ) . '||';
-					}
-				}
-
-				$sql .= "',";
-			}
-
-			$go = true;
+			$error[] = _( 'Please enter valid Numeric data.' );
+			continue;
 		}
+
+		// FJ textarea fields MarkDown sanitize.
+
+		if ( $column_data_type === 'textarea' )
+		{
+			$value = SanitizeMarkDown( $_POST['values'][$column_name] );
+		}
+
+		if ( ! is_array( $value ) )
+		{
+			$sql .= DBEscapeIdentifier( $column_name ) . "='" . str_replace( "&rsquo;", "''", $value ) . "',";
+		}
+		else
+		{
+			$sql .= DBEscapeIdentifier( $column_name ) . "='||";
+
+			foreach ( (array) $value as $val )
+			{
+				if ( $val )
+				{
+					$sql .= str_replace( '&quot;', '"', $val ) . '||';
+				}
+			}
+
+			$sql .= "',";
+		}
+
+		$go = true;
 	}
 
 	$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . (int) $_REQUEST['referral_id'] . "'";
