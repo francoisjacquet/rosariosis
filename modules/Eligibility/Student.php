@@ -131,9 +131,7 @@ if ( UserStudentID()
 		'&modfunc=remove&start_date=' . issetVal( $_REQUEST['start_date'], '' );
 
 	$link['remove']['variables'] = [ 'activity_id' => 'ACTIVITY_ID' ];
-//FJ css WPadmin
-	//	$link['add']['html']['TITLE'] = '<table class="cellspacing-0"><tr><td>'.SelectInput('','new_activity','',$activities).'</td><td><input type=submit value="'._('Add').'"></td></tr></table>';
-	//	$link['add']['html']['remove'] = button('add');
+
 	$link['add']['html'] = [
 		'remove' => button( 'add' ),
 		'TITLE' => SelectInput( '', 'new_activity', '', $activities ) . SubmitButton( _( 'Add' ) ),
@@ -151,7 +149,10 @@ if ( UserStudentID()
 		'END_DATE' => _( 'Ends' ),
 	];
 
-	ListOutput( $RET, $columns, 'Activity', 'Activities', $link );
+	// Two Lists on same page: export only first, no search.
+	$LO_options = [ 'search' => false ];
+
+	ListOutput( $RET, $columns, 'Activity', 'Activities', $link, [], $LO_options );
 
 	echo '</form>';
 
@@ -163,8 +164,13 @@ if ( UserStudentID()
 	AND cp.COURSE_ID=c.COURSE_ID
 	AND e.SCHOOL_DATE BETWEEN '" . $start_date . "'
 	AND '" . $end_date . "'", [ 'ELIGIBILITY_CODE' => '_makeLower' ] );
+
 	$columns = [ 'COURSE_TITLE' => _( 'Course' ), 'ELIGIBILITY_CODE' => _( 'Grade' ) ];
-	ListOutput( $RET, $columns, 'Course', 'Courses' );
+
+	// Two Lists on same page: export only first, no search.
+	$LO_options = [ 'search' => false, 'save' => '0' ];
+
+	ListOutput( $RET, $columns, 'Course', 'Courses', [], [], $LO_options );
 }
 
 /**
