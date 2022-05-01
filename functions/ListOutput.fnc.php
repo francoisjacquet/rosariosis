@@ -165,7 +165,8 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 		// END SEARCHES ---.
 
-		if ( $LO_sort )
+		if ( $LO_sort
+			&& isset( $result[1][$LO_sort] ) )
 		{
 			foreach ( (array) $result as $sort )
 			{
