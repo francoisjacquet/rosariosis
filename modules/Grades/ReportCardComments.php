@@ -49,7 +49,14 @@ if ( $_REQUEST['modfunc'] === 'update' )
 
 						$fields = "ID,SCHOOL_ID,SYEAR,COURSE_ID," . ( $_REQUEST['tab_id'] == 'new' ? '' : "CATEGORY_ID," );
 
-						$values = db_seq_nextval( $table . '_ID_SEQ' ) . ",'" . UserSchool() . "','" . UserSyear() . "'," . ( $_REQUEST['tab_id'] == 'new' ? "'" . $_REQUEST['course_id'] . "'" : ( $_REQUEST['tab_id'] == '-1' ? "NULL,NULL" : ( $_REQUEST['tab_id'] == '0' ? "'0',NULL" : "'" . $_REQUEST['course_id'] . "','" . $_REQUEST['tab_id'] . "'" ) ) ) . ",";
+						$values = db_seq_nextval( $table . '_ID_SEQ' ) . ",'" . UserSchool() . "','" . UserSyear() . "'," .
+						( $_REQUEST['tab_id'] == 'new' ?
+							"'" . $_REQUEST['course_id'] . "'" :
+							( $_REQUEST['tab_id'] == '-1' ?
+								"NULL,NULL" :
+								( $_REQUEST['tab_id'] == '0' ?
+									"'0',NULL" :
+									"'" . $_REQUEST['course_id'] . "','" . $_REQUEST['tab_id'] . "'" ) ) ) . ",";
 
 						$go = false;
 
@@ -165,7 +172,8 @@ if ( ! $_REQUEST['modfunc'] )
 		$subject_onchange_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
 			"&subject_id='";
 
-		$subject_select = '<select name="subject_id" onchange="ajaxLink(' . $subject_onchange_URL . ' + this.value);">';
+		$subject_select = '<label for="subject_id" class="a11y-hidden">' . _( 'Subject' ) . '</label>
+		<select name="subject_id" onchange="ajaxLink(' . $subject_onchange_URL . ' + this.value);">';
 
 		//FJ Add No Courses were found error
 
@@ -187,7 +195,8 @@ if ( ! $_REQUEST['modfunc'] )
 			'&subject_id=' . $_REQUEST['subject_id'] .
 			"&course_id='";
 
-		$course_select  = '<select name="course_id" onchange="ajaxLink(' . $course_onchange_URL . ' + this.value);">';
+		$course_select  = '<label for="course_id" class="a11y-hidden">' . _( 'Course' ) . '</label>
+		<select name="course_id" onchange="ajaxLink(' . $course_onchange_URL . ' + this.value);">';
 
 		//FJ Add No Courses were found error
 
