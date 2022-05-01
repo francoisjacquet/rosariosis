@@ -1016,8 +1016,8 @@ if ( ! empty( $_REQUEST['values'] )
 	RedirectURL( 'values' );
 }
 
-$mps_onchange_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
-	'&include_inactive=' . $_REQUEST['include_inactive'] . "&mp='";
+$mps_onchange_URL = "'" . URLEscape( "Modules.php?modname=" . $_REQUEST['modname'] .
+	'&include_inactive=' . $_REQUEST['include_inactive'] . "&mp=" ) . "'";
 
 $mps_select = '<select name="mp_select" id="mp_select" onchange="ajaxLink(' . $mps_onchange_URL . ' + this.value);">';
 

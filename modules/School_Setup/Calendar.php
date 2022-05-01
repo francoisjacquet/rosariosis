@@ -944,7 +944,7 @@ if ( ! $_REQUEST['modfunc'] )
 		}
 
 		//FJ bugfix erase calendar onchange
-		$calendar_onchange_URL = "'Modules.php?modname=" . $_REQUEST['modname'] . "&calendar_id='";
+		$calendar_onchange_URL = "'" . URLEscape( "Modules.php?modname=" . $_REQUEST['modname'] . "&calendar_id=" ) . "'";
 
 		$links = SelectInput(
 			$_REQUEST['calendar_id'],

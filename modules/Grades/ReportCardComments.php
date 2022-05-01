@@ -169,8 +169,8 @@ if ( ! $_REQUEST['modfunc'] )
 			$_REQUEST['course_id'] = key( $courses_RET ) . '';
 		}
 
-		$subject_onchange_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
-			"&subject_id='";
+		$subject_onchange_URL = "'" . URLEscape( "Modules.php?modname=" . $_REQUEST['modname'] .
+			"&subject_id=" ) . "'";
 
 		$subject_select = '<label for="subject_id" class="a11y-hidden">' . _( 'Subject' ) . '</label>
 		<select name="subject_id" onchange="ajaxLink(' . $subject_onchange_URL . ' + this.value);">';
@@ -191,9 +191,9 @@ if ( ! $_REQUEST['modfunc'] )
 
 		$subject_select .= '</select>';
 
-		$course_onchange_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
+		$course_onchange_URL = "'" . URLEscape( "Modules.php?modname=" . $_REQUEST['modname'] .
 			'&subject_id=' . $_REQUEST['subject_id'] .
-			"&course_id='";
+			"&course_id=" ) . "'";
 
 		$course_select  = '<label for="course_id" class="a11y-hidden">' . _( 'Course' ) . '</label>
 		<select name="course_id" onchange="ajaxLink(' . $course_onchange_URL . ' + this.value);">';

@@ -507,13 +507,12 @@ else
 $stu_RET = GetStuList( $extra );
 //echo '<pre>'; var_dump($stu_RET); echo '</pre>';
 
-//FJ add translation
-$type_onchange_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
+$type_onchange_URL = "'" . URLEscape( "Modules.php?modname=" . $_REQUEST['modname'] .
 	'&include_inactive=' . $_REQUEST['include_inactive'] .
 	'&include_all=' . $_REQUEST['include_all'] .
 	( $_REQUEST['assignment_id'] === 'all' ? '&assignment_id=all' : '' ) .
 	( UserStudentID() ? '&student_id=' . UserStudentID() : '' ) .
-	"&type_id='";
+	"&type_id=" ) . "'";
 
 $type_select = '<select name="type_id" id="type_id" onchange="ajaxLink(' .
 	$type_onchange_URL . ' + this.value);">';
@@ -531,11 +530,11 @@ foreach ( (array) $types_RET as $id => $type )
 
 $type_select .= '</select><label for="type_id" class="a11y-hidden">' . _( 'Assignment Types' ) . '</label>';
 
-$assignment_onchange_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
+$assignment_onchange_URL = "'" . URLEscape( "Modules.php?modname=" . $_REQUEST['modname'] .
 	'&include_inactive=' . $_REQUEST['include_inactive'] .
 	'&include_all=' . $_REQUEST['include_all'] .
 	'&type_id=' . $_REQUEST['type_id'] .
-	"&assignment_id='";
+	"&assignment_id=" ) . "'";
 
 $assignment_select = '<select name="assignment_id" id="assignment_id" onchange="ajaxLink(' .
 	$assignment_onchange_URL . ' + this.value);">';
