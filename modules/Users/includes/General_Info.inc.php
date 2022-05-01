@@ -23,7 +23,7 @@ $picture_path = (array) glob( $UserPicturesPath . UserSyear() . '/' . UserStaffI
 $picture_path = end( $picture_path );
 
 if ( ! $picture_path
-	&& $staff['ROLLOVER_ID'] )
+	&& ! empty( $staff['ROLLOVER_ID'] ) )
 {
 	// Use Last Year's if Missing.
 	// @since 9.0 Fix Improper Access Control security issue: add random string to photo file name.
