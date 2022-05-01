@@ -574,10 +574,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 
 		foreach ( $old_photo_files as $old_photo_file )
 		{
-			if ( $old_photo_file !== $new_photo_file )
-			{
-				unlink( $old_photo_file );
-			}
+			unlink( $old_photo_file );
 		}
 
 		// Hook.
