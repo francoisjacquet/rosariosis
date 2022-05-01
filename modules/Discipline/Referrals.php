@@ -285,6 +285,11 @@ function _make( $value, $column )
 	elseif ( $value === 'Y' )
 	{
 		$value = button( 'check' );
+
+		if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
+		{
+			$value = _( 'Yes' );
+		}
 	}
 
 	return str_replace( '||', ', ', trim( $value, '|' ) );
