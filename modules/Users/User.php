@@ -569,6 +569,17 @@ if ( $_REQUEST['modfunc'] === 'delete'
 
 		DBQuery( $delete_sql );
 
+		// Remove photos on delete.
+		$old_photo_files = glob( $UserPicturesPath . UserSyear() . '/' . $_REQUEST['staff_id'] . '.*jpg' );
+
+		foreach ( $old_photo_files as $old_photo_file )
+		{
+			if ( $old_photo_file !== $new_photo_file )
+			{
+				unlink( $old_photo_file );
+			}
+		}
+
 		// Hook.
 		do_action( 'Users/User.php|delete_user' );
 

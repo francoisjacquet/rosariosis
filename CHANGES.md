@@ -70,6 +70,7 @@ Changes in 9.0
 - Fix stored XSS security issue: decode HTML entities from URL in PreparePHP_SELF.fnc.php, thanks to @khanhchauminh
 - Accessibility: add hidden input label using .a11y-hidden class in ReportCardComments.php
 - Two Lists on same page: export only first, no search in Eligibility/Student.php
+- Remove photos on delete in Student.php & User.php, thank to @jo125ker
 
 Changes in 8.9.5
 ----------------
