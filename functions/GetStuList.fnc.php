@@ -977,7 +977,10 @@ function makeParents( $student_id, $column )
 		$img = $person['CUSTODY'] == 'Y' ? 'gavel' :
 			( $person['EMERGENCY'] == 'Y' ? 'emergency' : '' );
 
-		$parents .= '<div>' . ( ! empty( $img ) ? button( $img ) . '&nbsp;' : '' );
+		$img_title = $person['CUSTODY'] == 'Y' ? _( 'Custody' ) :
+			( $person['EMERGENCY'] == 'Y' ? _( 'Emergency' ) : '' );
+
+		$parents .= '<div>' . ( ! empty( $img ) ? button( $img, '', '', '" title="' . $img_title ) . '&nbsp;' : '' );
 
 		if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		{
