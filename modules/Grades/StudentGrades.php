@@ -141,7 +141,7 @@ if ( UserStudentID()
 				{
 					$all_RET = DBGet( $sql, [], [ 'STUDENT_ID' ] );
 
-					$points_RET = $all_RET[UserStudentID()];
+					$points_RET = issetVal( $all_RET[UserStudentID()] );
 				}
 				else
 				{
@@ -419,7 +419,7 @@ if ( UserStudentID()
 				{
 					if ( $do_stats && $_REQUEST['do_stats'] )
 					{
-						if ( $all_RET[$assignment['ASSIGNMENT_ID']] )
+						if ( ! empty( $all_RET[$assignment['ASSIGNMENT_ID']] ) )
 						{
 							$all = $all_RET[$assignment['ASSIGNMENT_ID']][1];
 
