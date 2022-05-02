@@ -365,7 +365,7 @@ function GetStuList( &$extra = [] )
 			elseif ( ! empty( $_REQUEST['addr'] )
 				|| ! empty( $extra['addr'] ) )
 			{
-				$extra['FROM'] = " LEFT OUTER JOIN STUDENTS_JOIN_ADDRESS sam ON (ssm.STUDENT_ID=sam.STUDENT_ID " . $extra['STUDENTS_JOIN_ADDRESS'] . ")
+				$extra['FROM'] = " LEFT OUTER JOIN STUDENTS_JOIN_ADDRESS sam ON (ssm.STUDENT_ID=sam.STUDENT_ID " . issetVal( $extra['STUDENTS_JOIN_ADDRESS'], '' ) . ")
 					LEFT OUTER JOIN ADDRESS a ON (sam.ADDRESS_ID=a.ADDRESS_ID) " . $extra['FROM'];
 
 				$distinct = 'DISTINCT ';
@@ -413,7 +413,7 @@ function GetStuList( &$extra = [] )
 		if ( ! empty( $_REQUEST['addr'] )
 			|| ! empty( $extra['addr'] ) )
 		{
-			$extra['FROM'] = " LEFT OUTER JOIN STUDENTS_JOIN_ADDRESS sam ON (ssm.STUDENT_ID=sam.STUDENT_ID " . $extra['STUDENTS_JOIN_ADDRESS'] . ")
+			$extra['FROM'] = " LEFT OUTER JOIN STUDENTS_JOIN_ADDRESS sam ON (ssm.STUDENT_ID=sam.STUDENT_ID " . issetVal( $extra['STUDENTS_JOIN_ADDRESS'], '' ) . ")
 			LEFT OUTER JOIN ADDRESS a ON (sam.ADDRESS_ID=a.ADDRESS_ID) " . $extra['FROM'];
 
 			$distinct = 'DISTINCT ';
