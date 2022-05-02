@@ -262,7 +262,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$categories_RET = DBGet( "SELECT ID,TITLE
 		FROM STUDENT_FIELD_CATEGORIES", [], [ 'ID' ] );
 
-	$select = '<select name="field_id" onchange="ajaxPostForm(this.form,true);">';
+	$select = '<select name="field_id" id="field_id" onchange="ajaxPostForm(this.form,true);">';
 
 	$select .= '<option value="">' . _( 'Please choose a student field' ) . '</option>';
 
@@ -298,7 +298,7 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 
 	$select .= '</select>
-		<label for="field_id" class="a11y-hidden">' . _( 'Category' ) . '</label>';
+		<label for="field_id" class="a11y-hidden">' . _( 'Student Field' ) . '</label>';
 
 	$advanced_link = ' <a href="' . PreparePHP_SELF( $_REQUEST, [ 'search_modfunc' ], [
 		'modfunc' => 'search',
