@@ -496,7 +496,8 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 		{
 			$_SESSION['List_PHP_SELF'] = PreparePHP_SELF( $_SESSION['_REQUEST_vars'], [ 'bottom_back' ] );
 
-			if ( $_SESSION['Back_PHP_SELF'] != 'student' )
+			if ( isset( $_SESSION['Back_PHP_SELF'] )
+				&& $_SESSION['Back_PHP_SELF'] != 'student' )
 			{
 				$_SESSION['Back_PHP_SELF'] = 'student';
 
@@ -787,14 +788,20 @@ else
 				$select = '<select id="relation"><option value="">' . _( 'N/A' );
 
 				foreach ( (array) $relations_RET as $relation )
+				{
 					if ( $relation['STUDENT_RELATION'] != '' )
-						$select .= '<option value="' . AttrEscape( $_REQUEST['course_id'] ) . '">' . $relation['STUDENT_RELATION'];
+					{
+						$select .= '<option value="' . AttrEscape( $relation['STUDENT_RELATION'] ) . '">' . $relation['STUDENT_RELATION'];
+					}
 					else
+					{
 						$select .= '<option value="!">' . _( 'No Value' );
+					}
+				}
 
 				$select .= '</select>';
 
-				echo '&nbsp;-&nbsp;<label for="relation">' .
+				echo '&nbsp;&mdash;&nbsp;<label for="relation">' .
 					_( 'Relation' ) . ':</label>&nbsp;' . $select;
 			}
 
