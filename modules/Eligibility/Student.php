@@ -101,11 +101,12 @@ if ( UserStudentID()
 		$date_select .= '<option value="' . AttrEscape( $i ) . '"' . (  ( $i + 86400 >= $start_time && $i - 86400 <= $start_time ) ? ' selected' : '' ) . ">" . ProperDate( date( 'Y-m-d', $i ) ) . ' - ' . ProperDate( date( 'Y-m-d', ( $i + 1 + (  ( $END_DAY - $START_DAY ) ) * 60 * 60 * 24 ) ) ) . '</option>';
 	}
 
-	$date_select = '<select name="start_date" autocomplete="off">' . $date_select . '</select>';
+	$date_select = '<select name="start_date" id="start_date" autocomplete="off">' . $date_select . '</select>';
 
 	echo '<form action="' . PreparePHP_SELF( $_REQUEST, [ 'start_date' ] ) . '" method="GET">';
 
-	DrawHeader( $date_select . ' ' . SubmitButton( _( 'Go' ) ) );
+	DrawHeader( '<label for="start_date">' . _( 'Timeframe' ) . ':</label> ' . $date_select . ' ' .
+		SubmitButton( _( 'Go' ) ) );
 
 	echo '</form>';
 

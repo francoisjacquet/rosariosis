@@ -56,9 +56,10 @@ if ( $_REQUEST['search_modfunc']
 		$date_select .= '<option value="' . AttrEscape( $i ) . '"' . (  ( $i + 86400 >= $start_time && $i - 86400 <= $start_time ) ? ' selected' : '' ) . '>' . ProperDate( date( 'Y-m-d', $i ) ) . ' - ' . ProperDate( date( 'Y-m-d', ( $i + 1 + (  ( $END_DAY - $START_DAY ) ) * 60 * 60 * 24 ) ) ) . '</option>';
 	}
 
-	$date_select = '<select name="start_date">' . $date_select . '</select>';
+	$date_select = '<select name="start_date" id="start_date">' . $date_select . '</select>';
 
-	DrawHeader( $date_select . ' ' . Buttons( _( 'Go' ) ) );
+	DrawHeader( '<label for="start_date">' . _( 'Timeframe' ) . ':</label> ' . $date_select . ' ' .
+		Buttons( _( 'Go' ) ) );
 
 	echo '</form>';
 }
