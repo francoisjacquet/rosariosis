@@ -1822,5 +1822,5 @@ function MakeChooseCheckbox( $value, $column = '', $controller_name = '' )
  */
 function AttrEscape( $value )
 {
-	return htmlspecialchars( $value, ENT_QUOTES, null, false );
+	return htmlspecialchars( (string) $value, ENT_QUOTES, null, false );
 }
