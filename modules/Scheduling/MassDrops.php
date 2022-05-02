@@ -159,7 +159,7 @@ if ( $_REQUEST['modfunc'] != 'choose_course' )
 
 		PopTable( 'header', _( 'Course to Drop' ) );
 
-		echo '<table><tr><td colspan="2"><div id=course_div>';
+		echo '<table><tr><td><div id="course_div">';
 
 		if ( ! empty( $_SESSION['MassDrops.php'] ) )
 		{
@@ -171,20 +171,24 @@ if ( $_REQUEST['modfunc'] != 'choose_course' )
 				FROM COURSE_PERIODS
 				WHERE COURSE_PERIOD_ID='" . (int) $_SESSION['MassDrops.php']['course_period_id'] . "'" );
 
-			echo $course_title . '<br />' . $period_title;
+			echo $course_title . '<br />' . $period_title . '<br /><br />';
 		}
 
 		$popup_url = URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=choose_course' );
 
-		echo '</div>' . '<a href="#" onclick=\'popups.open(
+		echo '</div><a href="#" onclick=\'popups.open(
 				"' . $popup_url . '"
 			); return false;\'>' . _( 'Choose a Course' ) . '</a></td></tr>';
 
-		echo '<tr class="st"><td>' . _( 'Drop Date' ) . '</td>
-			<td>' . DateInput( DBDate(), 'drop', '', false, false ) . '</td></tr>';
+		echo '<tr><td><br />' . DateInput(
+			DBDate(),
+			'drop',
+			_( 'Drop Date' ),
+			false,
+			false
+		) . '</td></tr>';
 
-		echo '<tr class="st"><td>' . _( 'Marking Period' ) . '</td><td>';
-		echo '<select name="marking_period_id">';
+		echo '<tr><td><select name="marking_period_id" id="marking_period_id">';
 
 		$mp_RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE," .
 			db_case( [ 'MP', "'FY'", "'0'", "'SEM'", "'1'", "'QTR'", "'2'" ] ) . " AS TBL
@@ -200,6 +204,9 @@ if ( $_REQUEST['modfunc'] != 'choose_course' )
 		}
 
 		echo '</select>';
+
+		echo FormatInputTitle( _( 'Marking Period' ), 'marking_period_id' );
+
 		echo '</td></tr></table>';
 
 		PopTable( 'footer' );

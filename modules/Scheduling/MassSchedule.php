@@ -135,7 +135,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		PopTable( 'header', _( 'Courses to Add' ) );
 
-		echo '<table><tr><td colspan="2"><div id=course_div>';
+		echo '<table><tr><td><div id="course_div">';
 
 		foreach ( (array) $_SESSION['MassSchedule.php'] as $course_to_add )
 		{
@@ -149,10 +149,13 @@ if ( ! $_REQUEST['modfunc'] )
 				"' . $popup_url . '"
 			); return false;\'>' . _( 'Choose a Course' ) . '</a></td></tr>';
 
-		echo '<tr class="st"><td>' . _( 'Start Date' ) . '</td>
-			<td>' . DateInput( DBDate(), 'start', '', false, false ) . '</td></tr>';
-
-		echo '<tr class="st"><td>' . _( 'Marking Period' ) . '</td>';
+		echo '<tr><td><br />' . DateInput(
+			DBDate(),
+			'start',
+			_( 'Start Date' ),
+			false,
+			false
+		) . '</td></tr>';
 
 		$mp_RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE," .
 			db_case( [ 'MP', "'FY'", "'0'", "'SEM'", "'1'", "'QTR'", "'2'" ] ) . " AS TBL
@@ -162,7 +165,7 @@ if ( ! $_REQUEST['modfunc'] )
 			AND SYEAR='" . UserSyear() . "'
 			ORDER BY TBL,SORT_ORDER" );
 
-		echo '<td><select name="marking_period_id">';
+		echo '<tr><td><select name="marking_period_id" id="marking_period_id">';
 
 		foreach ( (array) $mp_RET as $mp )
 		{
@@ -170,6 +173,9 @@ if ( ! $_REQUEST['modfunc'] )
 		}
 
 		echo '</select>';
+
+		echo FormatInputTitle( _( 'Marking Period' ), 'marking_period_id' );
+
 		echo '</td></tr></table>';
 
 		PopTable( 'footer' );
