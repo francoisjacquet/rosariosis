@@ -1039,8 +1039,8 @@ if ( ! $_REQUEST['modfunc'] )
 		$assignments_RET = DBGet( $assignments_SQL, [], [ 'SCHOOL_DATE' ] );
 	}
 
-	// Calendar Events onclick popup
-	$popup_URL = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=detail&year=' . $_REQUEST['year'] . '&month=' . $_REQUEST['month'];
+	// Calendar Events onclick popup.
+	$popup_URL = URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=detail&year=' . $_REQUEST['year'] . '&month=' . $_REQUEST['month'] );
 ?>
 <script>
 	var popupURL = <?php echo json_encode( $popup_URL ); ?>;

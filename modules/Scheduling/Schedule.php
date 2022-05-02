@@ -267,11 +267,13 @@ if ( UserStudentID()
 		]
 	);
 
-	//FJ bugfix SQL bug $_SESSION['student_id'] is not set
-	$link['add']['link'] = '# onclick=\'popups.open("Modules.php?modname=' . $_REQUEST['modname'] .
+	$popup_url = URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 		'&modfunc=choose_course&day_date=' . $_REQUEST['day_date'] .
 		'&month_date=' . $_REQUEST['month_date'] .
-		'&year_date=' . $_REQUEST['year_date'] . '","",
+		'&year_date=' . $_REQUEST['year_date'] );
+
+	// FJ bugfix SQL bug $_SESSION['student_id'] is not set
+	$link['add']['link'] = '# onclick=\'popups.open("' . $popup_url . '","",
 		"scrollbars=yes,resizable=yes,width=900,height=400"); return false;\'';
 
 	$link['add']['title'] = _( 'Add a Course' );

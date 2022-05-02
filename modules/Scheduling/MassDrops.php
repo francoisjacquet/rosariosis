@@ -174,15 +174,17 @@ if ( $_REQUEST['modfunc'] != 'choose_course' )
 			echo $course_title . '<br />' . $period_title;
 		}
 
+		$popup_url = URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=choose_course' );
+
 		echo '</div>' . '<a href="#" onclick=\'popups.open(
-				"Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=choose_course"
+				"' . $popup_url . '"
 			); return false;\'>' . _( 'Choose a Course' ) . '</a></td></tr>';
 
 		echo '<tr class="st"><td>' . _( 'Drop Date' ) . '</td>
 			<td>' . DateInput( DBDate(), 'drop', '', false, false ) . '</td></tr>';
 
 		echo '<tr class="st"><td>' . _( 'Marking Period' ) . '</td><td>';
-		echo '<select name=marking_period_id>';
+		echo '<select name="marking_period_id">';
 
 		$mp_RET = DBGet( "SELECT MARKING_PERIOD_ID,TITLE," .
 			db_case( [ 'MP', "'FY'", "'0'", "'SEM'", "'1'", "'QTR'", "'2'" ] ) . " AS TBL

@@ -143,8 +143,10 @@ if ( ! $_REQUEST['modfunc'] )
 				$course_to_add['course_period_title'] . '<br /><br />';
 		}
 
-		echo '</div>' . '<a href="#" onclick=\'popups.open(
-				"Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=choose_course"
+		$popup_url = URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=choose_course' );
+
+		echo '</div><a href="#" onclick=\'popups.open(
+				"' . $popup_url . '"
 			); return false;\'>' . _( 'Choose a Course' ) . '</a></td></tr>';
 
 		echo '<tr class="st"><td>' . _( 'Start Date' ) . '</td>

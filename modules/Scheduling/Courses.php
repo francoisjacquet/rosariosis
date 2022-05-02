@@ -1280,13 +1280,20 @@ if (  ( ! $_REQUEST['modfunc']
 					$parent = ! empty( $children ) ? _( 'N/A' ) : _( 'None' );
 				}
 
+				$popup_link = '';
+
+				if ( $parent != _( 'N/A' ) && AllowEdit() )
+				{
+					$popup_url = URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=choose_course' );
+
+					$popup_link = '<a href="#" onclick=\'popups.open(
+							"' . $popup_url . '"
+						); return false;\'>' . _( 'Choose' ) . '</a><br />';
+				}
+
 				// Parent Course Period.
 				$header .= '<td colspan="2"><div id="course_div">' . $parent . '</div> ' .
-				( $parent != _( 'N/A' ) && AllowEdit() ?
-					'<a href="#" onclick=\'popups.open(
-							"Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=choose_course"
-						); return false;\'>' . _( 'Choose' ) . '</a><br />' :
-					'' ) .
+				$popup_link .
 				'<span class="legend-gray">' . _( 'Parent Course Period' ) . '</span></td>';
 			}
 

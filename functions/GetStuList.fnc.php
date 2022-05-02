@@ -986,9 +986,11 @@ function makeParents( $student_id, $column )
 			continue;
 		}
 
+		$popup_url = URLEscape( 'Modules.php?modname=misc/ViewContact.php&person_id=' .
+			$person['PERSON_ID'] . '&student_id=' . $student_id );
+
 		$parents .= '<a href="#" onclick=\'popups.open(
-				"Modules.php?modname=misc/ViewContact.php&person_id=' .
-				$person['PERSON_ID'] . '&student_id=' . $student_id . '",
+				"' . $popup_url . '",
 				"scrollbars=yes,resizable=yes,width=400,height=300"
 			); return false;\'>' .
 				$person['FIRST_NAME'] . ' ' . $person['LAST_NAME'] .
