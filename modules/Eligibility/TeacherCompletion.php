@@ -41,7 +41,7 @@ $periods_RET = DBGet( "SELECT PERIOD_ID,TITLE
 	AND SYEAR='" . UserSyear() . "'
 	ORDER BY SORT_ORDER" );
 
-$period_select = '<select name="period"><option value="">' . _( 'All' ) . '</option>';
+$period_select = '<select name="period" id="period"><option value="">' . _( 'All' ) . '</option>';
 
 foreach ( (array) $periods_RET as $period )
 {
@@ -74,8 +74,11 @@ if ( $start
 	}
 }
 
-DrawHeader( _( 'Timeframe' ) . ': <select name="start_date">' . $date_select . '</select> &mdash; ' .
-	_( 'Period' ) . ': ' . $period_select . ' ' . SubmitButton( _( 'Go' ) ) );
+$date_select = '<select name="start_date" id="start_date">' . $date_select . '</select>';
+
+DrawHeader( '<label for="start_date">' . _( 'Timeframe' ) . ':</label> ' . $date_select . ' &mdash; ' .
+	'<label for="period">' . _( 'Period' ) . ':</label> ' . $period_select . ' ' .
+	SubmitButton( _( 'Go' ) ) );
 
 echo '</form>';
 
@@ -90,7 +93,7 @@ AND cp.SYEAR='".UserSyear()."' AND cp.SCHOOL_ID='".UserSchool()."' AND s.PROFILE
 AND NOT EXISTS (SELECT '' FROM ELIGIBILITY_COMPLETED ac WHERE ac.STAFF_ID=cp.TEACHER_ID AND ac.PERIOD_ID = sp.PERIOD_ID AND ac.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."')
 ";*/
 $sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,sp.TITLE,cpsp.PERIOD_ID,
-	s.STAFF_ID,cp.TITLE AS CP_TITLE
+	s.STAFF_ID,s.ROLLOVER_ID,cp.TITLE AS CP_TITLE
 	FROM STAFF s,COURSE_PERIODS cp,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 	AND sp.PERIOD_ID=cpsp.PERIOD_ID
@@ -115,7 +118,11 @@ $staff_RET = [];
 foreach ( (array) $RET as $staff_id => $periods )
 {
 	$i++;
-	$staff_RET[$i]['FULL_NAME'] = $periods[key( $periods )][1]['FULL_NAME'];
+	$staff_RET[$i]['FULL_NAME'] = MakeUserPhotoTipMessage(
+		$periods[key( $periods )][1]['STAFF_ID'],
+		$periods[key( $periods )][1]['FULL_NAME'],
+		$periods[key( $periods )][1]['ROLLOVER_ID']
+	);
 
 	if ( empty( $_REQUEST['period'] ) )
 	{
