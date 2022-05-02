@@ -547,7 +547,8 @@ _( 'All' ) .
 
 if ( UserStudentID() && $_REQUEST['assignment_id'] === 'all' )
 {
-	$assignment_select .= '<option value="all" selected>' . $stu_RET[1]['FULL_NAME'] . '</option>';
+	$assignment_select .= '<option value="all" selected>' .
+		( isset( $stu_RET[1]['FULL_NAME'] ) ? $stu_RET[1]['FULL_NAME'] : '' ) . '</option>';
 }
 
 $optgroup = '';
