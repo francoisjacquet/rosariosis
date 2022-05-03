@@ -68,6 +68,7 @@ Changes in 9.0
 - Better format for "Add another marking period" form in EditReportCardGrades.php
 - Fix Improper Access Control security issue: add random string to photo file name in TipMessage.fnc.php, Transcripts.fnc.php, PrintClassPictures.php, Student.php, User.php & General_Info.inc.php, thanks to @dungtuanha
 - Fix stored XSS security issue: decode HTML entities from URL in PreparePHP_SELF.fnc.php, thanks to @khanhchauminh
+- Fix stored XSS security issue: remove inline JS from URL in PreparePHP_SELF.fnc.php, thanks to @intrapus
 - Accessibility: add hidden input label using .a11y-hidden class in ReportCardComments.php
 - Accessibility: add select label in Eligibility/TeacherCompletion.php, Student.php, StudentList.php, MassDrops.php & MassSchedule.php
 - Two Lists on same page: export only first, no search in Eligibility/Student.php
@@ -78,7 +79,6 @@ Changes in 8.9.5
 - Fix stored XSS security issue: do not allow unsanitized XML & HTML in FileUpload.fnc.php, thanks to @nhienit2010
 - Fix stored XSS security issue: escape HTML attribute in StudentAssignments.fnc.php, thanks to @dungtuanha
 - Use big random number for parent password generation in NotifyParents.php & createParents.php, thanks to @intrapus
-- Fix stored XSS security issue: remove inline JS from URL in PreparePHP_SELF.fnc.php, thanks to @intrapus
 - Add microseconds to filename format to make it harder to predict in StudentAssignments.fnc.php, thanks to @dungtuanha
 
 Changes in 8.9.4

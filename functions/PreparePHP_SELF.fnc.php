@@ -174,7 +174,18 @@ function RedirectURL( $remove )
 function URLEscape( $string )
 {
 	// Fix stored XSS security issue: decode HTML entities from URL.
-	$decoded_string = html_entity_decode( $string );
+	$decoded_string = html_entity_decode( (string) $string );
+
+	$remove = [
+		// Fix stored XSS security issue: remove inline JS from URL.
+		'javascript:',
+	];
+
+	$decoded_sanitized_string = str_ireplace(
+		$remove,
+		'',
+		$decoded_string
+	);
 
 	$entities = [
 		'%21',
@@ -196,8 +207,6 @@ function URLEscape( $string )
 		'%23',
 		'%5B',
 		'%5D',
-		// Fix stored XSS security issue: remove inline JS from URL.
-		'javascript:',
 	];
 
 	$replacements = [
@@ -220,13 +229,12 @@ function URLEscape( $string )
 		'#',
 		'[',
 		']',
-		'',
 	];
 
 	return str_replace(
 		$entities,
 		$replacements,
-		rawurlencode( (string) $decoded_string )
+		rawurlencode( $decoded_sanitized_string )
 	);
 }
 
