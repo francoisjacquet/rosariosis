@@ -1,6 +1,7 @@
 <?php
 
 require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
+require_once 'ProgramFunctions/FileUpload.fnc.php';
 require_once 'modules/Grades/includes/StudentAssignments.fnc.php';
 
 if ( ! empty( $_SESSION['is_secondary_teacher'] ) )
@@ -318,6 +319,12 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 			FROM GRADEBOOK_ASSIGNMENTS
 			WHERE ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'" );
 
+		$assignment_course_title = DBGetOne( "SELECT c.TITLE
+			FROM GRADEBOOK_ASSIGNMENTS ga,COURSES c,GRADEBOOK_ASSIGNMENT_TYPES gat
+			WHERE c.COURSE_ID=gat.COURSE_ID
+			AND ga.ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'
+			AND gat.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID" );
+
 		$sql = "DELETE
 			FROM GRADEBOOK_ASSIGNMENTS
 			WHERE ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'";
@@ -383,6 +390,24 @@ if ( $_REQUEST['modfunc'] === 'delete' )
 			{
 				// Delete File Attached.
 				unlink( $assignment_file );
+			}
+
+			// Delete Student Assignment Submissions.
+			DBQuery( "DELETE FROM STUDENT_ASSIGNMENTS
+				WHERE ASSIGNMENT_ID='" . (int) $_REQUEST['assignment_id'] . "'" );
+
+			// Filename match = [course_title]_[assignment_ID]_*.
+			$student_assignments_file_name = no_accents( $assignment_course_title . '_' . $_REQUEST['assignment_id'] . '_' ) . '*';
+
+			// Files uploaded to AssignmentsFiles/[School_Year]/Teacher[teacher_ID]/Quarter[1,2,3,4...]/.
+			$student_assignments_path = GetAssignmentsFilesPath( User( 'STAFF_ID' ) );
+
+			$student_assignments_files = glob( $student_assignments_path . $student_assignments_file_name );
+
+			foreach ( $student_assignments_files as $student_assignments_file )
+			{
+				// Remove Student Assignment Submission files.
+				unlink( $student_assignments_file );
 			}
 
 			// Hook.

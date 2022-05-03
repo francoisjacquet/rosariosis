@@ -73,6 +73,7 @@ Changes in 9.0
 - Accessibility: add select label in Eligibility/TeacherCompletion.php, Student.php, StudentList.php, MassDrops.php & MassSchedule.php
 - Two Lists on same page: export only first, no search in Eligibility/Student.php
 - Remove photos on delete in Student.php & User.php, thank to @jo125ker
+- Remove Student Assignment Submission files on delete in Assignments.php, thank to @khanhchauminh
 
 Changes in 8.9.5
 ----------------
