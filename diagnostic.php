@@ -86,7 +86,7 @@ else
 
 		if ( ! $connection )
 		{
-			$error[] = 'RosarioSIS cannot connect to the PostgreSQL database. Either Postgres is not running, it was not started with the -i option, or connections from this host are not allowed in the pg_hba.conf file. Last Postgres Error: ' . pg_last_error();
+			$error[] = 'RosarioSIS cannot connect to the PostgreSQL database. Either Postgres is not running, it was not started with the -i option, or connections from this host are not allowed in the pg_hba.conf file. Last Postgres Error: ' . pg_last_error( $connection );
 		}
 		else
 		{
@@ -98,7 +98,7 @@ else
 
 				if ( mb_strpos( $errstring, 'permission denied' ) !== false )
 				{
-					$error[] = 'The database was created with the wrong permissions. The user specified in the config.inc.php file does not have permission to access the rosario database. Use the super-user (postgres) or recreate the database adding \connect - YOUR_USERNAME to the top of the rosariosis.sql file.';
+					$error[] = 'The database was created with the wrong permissions. The user specified in the config.inc.php file does not have permission to access the database. Use the super-user (postgres) or recreate the database adding \connect - YOUR_USERNAME to the top of the rosariosis.sql file.';
 				}
 				elseif ( mb_strpos( $errstring, 'elation "config" does not exist' ) !== false )
 				{
@@ -109,38 +109,54 @@ else
 					$error[] = $errstring;
 				}
 			}
-
-			$result = @pg_exec( $connection, "SELECT * FROM STAFF WHERE SYEAR='" . $DefaultSyear . "'" );
-
-			if ( ! pg_fetch_all( $result ) )
+			else
 			{
-				$error[] = 'The value for $DefaultSyear in the config.inc.php file is incorrect.';
-			}
+				// OK, we can connect to database & CONFIG table exists.
+				$result = @pg_exec( $connection, "SELECT * FROM STAFF WHERE SYEAR='" . $DefaultSyear . "'" );
 
-			if ( ! is_array( $RosarioLocales )
-				|| empty( $RosarioLocales ) )
-			{
-				$error[] = 'The value for $RosarioLocales in the config.inc.php file is not correct.';
+				if ( ! pg_fetch_all( $result ) )
+				{
+					$error[] = 'The value for $DefaultSyear in the config.inc.php file is incorrect.';
+				}
+				else
+				{
+					// OK, $DefaultSyear is correct so we can login.
+					if ( ( isset( $_SESSION['STAFF_ID'] )
+							&& $_SESSION['STAFF_ID'] < 1 )
+						|| User( 'PROFILE' ) !== 'admin' )
+					{
+						// @since 9.0 Restrict diagnostic access to logged in admin.
+						$error[] = 'Please login as an administrator before accessing the diagnostic.php page.';
+
+						// Exit.
+						echo _ErrorMessage( $error, 'fatal' );
+					}
+				}
 			}
 		}
 	}
+}
 
-	// FJ check wkhtmltopdf binary exists.
-	if ( ! empty( $wkhtmltopdfPath )
-		&& ( ! file_exists( $wkhtmltopdfPath )
-			|| strpos( basename( $wkhtmltopdfPath ), 'wkhtmltopdf' ) !== 0 ) )
-	{
-		$error[] = 'The value for $wkhtmltopdfPath in the config.inc.php file is not correct.';
-	}
+if ( ! is_array( $RosarioLocales )
+	|| empty( $RosarioLocales ) )
+{
+	$error[] = 'The value for $RosarioLocales in the config.inc.php file is not correct.';
+}
 
-	// FJ check pg_dump binary exists.
-	if ( ! empty( $pg_dumpPath )
-		&& ( ! file_exists( $pg_dumpPath )
-			|| strpos( basename( $pg_dumpPath ), 'pg_dump' ) !== 0 ) )
-	{
-		$error[] = 'The value for $pg_dumpPath in the config.inc.php file is not correct.';
-	}
+// Check wkhtmltopdf binary exists.
+if ( ! empty( $wkhtmltopdfPath )
+	&& ( ! file_exists( $wkhtmltopdfPath )
+		|| strpos( basename( $wkhtmltopdfPath ), 'wkhtmltopdf' ) !== 0 ) )
+{
+	$error[] = 'The value for $wkhtmltopdfPath in the config.inc.php file is not correct.';
+}
 
+// Check pg_dump binary exists.
+if ( ! empty( $pg_dumpPath )
+	&& ( ! file_exists( $pg_dumpPath )
+		|| strpos( basename( $pg_dumpPath ), 'pg_dump' ) !== 0 ) )
+{
+	$error[] = 'The value for $pg_dumpPath in the config.inc.php file is not correct.';
 }
 
 // Check for gd extension.
@@ -242,12 +258,6 @@ function _ErrorMessage( $error, $code = 'error' )
 		if ( $code === 'fatal' )
 		{
 			echo $return;
-
-			if ( ! isset( $_REQUEST['_ROSARIO_PDF'] )
-				&& function_exists( 'Warehouse' ) )
-			{
-				Warehouse( 'footer' );
-			}
 
 			exit;
 		}

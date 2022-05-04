@@ -78,6 +78,7 @@ Changes in 9.0
 - Restrict Sort Order input number range, program wide
 - Restrict Price / Amount / Balance input number range, program wide, thanks to @nhienit2010
 - Restrict input number step in Courses.fnc.php
+- Restrict diagnostic access to logged in admin in diagnostic.php, thanks to @intrapus
 
 Changes in 8.9.5
 ----------------
