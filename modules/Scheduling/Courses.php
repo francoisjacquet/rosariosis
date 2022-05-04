@@ -1411,7 +1411,7 @@ if (  ( ! $_REQUEST['modfunc']
 					issetVal( $RET['SORT_ORDER'] ),
 					'tables[COURSE_SUBJECTS][' . $_REQUEST['subject_id'] . '][SORT_ORDER]',
 					_( 'Sort Order' ),
-					' type="number" step="any"'
+					' type="number" min="0" max="9999"'
 				) . '</td>';
 			}
 

@@ -836,7 +836,7 @@ if ( ! $_REQUEST['modfunc'] )
 			issetVal( $RET['SORT_ORDER'] ),
 			'tables[' . $_REQUEST['assignment_type_id'] . '][SORT_ORDER]',
 			_( 'Sort Order' ),
-			' type="number" step="any"'
+			' type="number" min="0" max="9999"'
 		) . '</td>';
 
 		$header .= '<td>' . ColorInput(

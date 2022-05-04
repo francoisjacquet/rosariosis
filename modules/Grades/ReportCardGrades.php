@@ -425,7 +425,7 @@ function _makeTextInput( $value, $name )
 	}
 	elseif ( $name === 'SORT_ORDER' )
 	{
-		$extra = ' type="number" step="any"';
+		$extra = ' type="number" min="0" max="9999"';
 	}
 	else
 	{

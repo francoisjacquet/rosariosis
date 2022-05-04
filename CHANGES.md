@@ -75,6 +75,7 @@ Changes in 9.0
 - Remove photos on delete in Student.php & User.php, thank to @jo125ker
 - Remove Student Assignment Submission files on delete in Assignments.php, thank to @khanhchauminh
 - Add microseconds to filename format to make it harder to predict in Assignments.php & StudentAssignments.fnc.php, thanks to @khanhchauminh
+- Restrict Sort Order input number range, program wide
 
 Changes in 8.9.5
 ----------------
