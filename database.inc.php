@@ -54,14 +54,13 @@ function db_start()
 	$db_connection = pg_connect( $connectstring );
 
 	// Error code for both.
-
 	if ( $db_connection === false )
 	{
 		// TRANSLATION: do NOT translate these since error messages need to stay in English for technical support.
 		db_show_error(
 			'',
 			sprintf( "Could not Connect to Database Server '%s'.", $DatabaseServer ),
-			pg_last_error()
+			error_get_last()['message']
 		);
 	}
 
