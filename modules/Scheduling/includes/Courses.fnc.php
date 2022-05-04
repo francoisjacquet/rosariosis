@@ -209,7 +209,7 @@ function CoursePeriodOptionInputs( $course_period_RET, $array, $new )
 		$array . '[CREDITS]',
 		_( 'Credits' ),
 		// Fix #329 SQL error division by zero in t_update_mp_stats(): set min Credits to 1.
-		' type="number" step="any" min="1"',
+		' type="number" step="0.01" min="1" max="9999"',
 		( ! isset( $course_period_RET['CREDITS'] ) || is_null( $course_period_RET['CREDITS'] ) ? false : true )
 	);
 

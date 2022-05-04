@@ -77,6 +77,7 @@ Changes in 9.0
 - Add microseconds to filename format to make it harder to predict in Assignments.php & StudentAssignments.fnc.php, thanks to @khanhchauminh
 - Restrict Sort Order input number range, program wide
 - Restrict Price / Amount / Balance input number range, program wide, thanks to @nhienit2010
+- Restrict input number step in Courses.fnc.php
 
 Changes in 8.9.5
 ----------------
