@@ -45,8 +45,6 @@ if ( ! file_exists( './Warehouse.php' ) )
 }
 else
 {
-	require_once './Warehouse.php';
-
 	if ( ! @opendir( $RosarioPath . '/functions' ) )
 	{
 		$error[] = 'The value for $RosarioPath in the config.inc.php file is not correct or else the functions directory does not have the correct permissions to be read by the webserver. Make sure $RosarioPath points to the RosarioSIS installation directory and that it is readable by all users.';
@@ -58,6 +56,8 @@ else
 	}
 	else
 	{
+		require_once './Warehouse.php';
+
 		/**
 		 * Fix pg_connect(): Unable to connect to PostgreSQL server:
 		 * could not connect to server:
