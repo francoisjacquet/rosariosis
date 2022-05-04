@@ -484,7 +484,7 @@ function makeTextInput( $value, $name )
 	}
 	elseif ( mb_strpos( $name, 'PRICE' ) !== false )
 	{
-		$extra = ' type="number" step="any" min="-9999999" max="9999999"';
+		$extra = ' type="number" step="0.01" min="-999999999" max="999999999"';
 	}
 	else
 	{

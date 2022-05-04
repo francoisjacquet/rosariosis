@@ -115,7 +115,7 @@ function _makeFeesTextInput( $value, $name )
 
 	if ( $name === 'AMOUNT' )
 	{
-		$extra = ' type="number" step="any"';
+		$extra = ' type="number" step="0.01" max="999999999999" min="-999999999999"';
 	}
 	elseif ( ! $value )
 	{
@@ -173,7 +173,7 @@ function _makePaymentsTextInput( $value, $name )
 
 	if ( $name === 'AMOUNT' )
 	{
-		$extra = ' type="number" step="any"';
+		$extra = ' type="number" step="0.01" max="999999999999" min="-999999999999"';
 	}
 	elseif ( ! $value )
 	{

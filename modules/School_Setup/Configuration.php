@@ -686,21 +686,21 @@ else
 				ProgramConfig( 'food_service', 'FOOD_SERVICE_BALANCE_WARNING' ),
 				'values[PROGRAM_CONFIG][food_service][FOOD_SERVICE_BALANCE_WARNING]',
 				_( 'Food Service Balance minimum amount for warning' ),
-				' type="number" step="any" required'
+				' type="number" step="0.01" max="999999999999" min="-999999999999" required'
 			) . '</td></tr>';
 
 			echo '<tr><td>' . TextInput(
 				ProgramConfig( 'food_service', 'FOOD_SERVICE_BALANCE_MINIMUM' ),
 				'values[PROGRAM_CONFIG][food_service][FOOD_SERVICE_BALANCE_MINIMUM]',
 				_( 'Food Service Balance minimum amount' ),
-				' type="number" step="any" required'
+				' type="number" step="0.01" max="999999999999" min="-999999999999" required'
 			) . '</td></tr>';
 
 			echo '<tr><td>' . TextInput(
 				ProgramConfig( 'food_service', 'FOOD_SERVICE_BALANCE_TARGET' ),
 				'values[PROGRAM_CONFIG][food_service][FOOD_SERVICE_BALANCE_TARGET]',
 				_( 'Food Service Balance target amount' ),
-				' type="number" step="any" required'
+				' type="number" step="0.01" max="999999999999" min="-999999999999" required'
 			) . '</td></tr></table>';
 		}
 

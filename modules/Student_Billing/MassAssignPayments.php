@@ -72,7 +72,7 @@ if ( ! $_REQUEST['modfunc'] )
 			'',
 			'amount',
 			_( 'Amount' ),
-			'  type="number" step="any" required'
+			'  type="number" step="0.01" max="999999999999" min="-999999999999" required'
 		) . '</td></tr>';
 
 		echo '<tr><td>' . DateInput(

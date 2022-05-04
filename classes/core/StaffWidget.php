@@ -148,8 +148,8 @@ class StaffWidget_fsa_balance implements StaffWidget
 			<input type="radio" name="fsa_bal_ge" value="" checked /> &lt;</label>&nbsp;
 		<label  class="sizep2">
 			<input type="radio" name="fsa_bal_ge" value="Y" /> &ge;</label>
-		<input name="fsa_balance" id="fsa_balance" type="number" step="any"' .
-			( $value ? ' value="' . AttrEscape( $value ) . '"' : '') . ' />
+		<input name="fsa_balance" id="fsa_balance" type="number" step="0.01"' .
+			( $value ? ' value="' . AttrEscape( $value ) . '"' : '') . ' min="-999999999999999" max="999999999999999" />
 		</td></tr>';
 	}
 }
@@ -388,8 +388,8 @@ class StaffWidget_staff_balance implements StaffWidget
 	{
 		return '<tr class="st"><td>' . _( 'Staff Payroll Balance' ) . '</td><td><label>' .
 		_( 'Between' ) .
-		' <input type="number" name="balance_low" step="any" /></label> <label>&amp;
-		<input type="number" name="balance_high" step="any" /></label>
+		' <input type="number" name="balance_low" step="0.01" min="-999999999999999" max="999999999999999" /></label> <label>&amp;
+		<input type="number" name="balance_high" step="0.01" min="-999999999999999" max="999999999999999" /></label>
 		</td></tr>';
 	}
 }
