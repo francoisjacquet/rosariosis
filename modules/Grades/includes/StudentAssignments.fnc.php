@@ -487,8 +487,13 @@ function UploadAssignmentTeacherFile( $assignment_id, $teacher_id, $file_input_i
 		return '';
 	}
 
+	$microseconds = new \DateTime();
+
+	// @since 9.0 Add microseconds to filename format to make it harder to predict.
+	$microseconds = $microseconds->format( 'u' );
+
 	// Filename = [course_title]_[assignment_ID].ext.
-	$file_name_no_ext = no_accents( $assignment['COURSE_TITLE'] . '_' . $assignment_id );
+	$file_name_no_ext = no_accents( $assignment['COURSE_TITLE'] . '_' . $assignment_id . '.' . $microseconds );
 
 	if ( ! empty( $assignment['FILE'] )
 		&& file_exists( $assignment['FILE'] ) )

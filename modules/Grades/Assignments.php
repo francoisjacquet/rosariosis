@@ -271,6 +271,17 @@ if ( ! empty( $_POST['tables'] ) )
 
 				if ( $file )
 				{
+					$old_assignment_file = DBGetOne( "SELECT FILE
+						FROM GRADEBOOK_ASSIGNMENTS
+						WHERE ASSIGNMENT_ID='" . (int) $id . "'" );
+
+					if ( ! empty( $old_assignment_file )
+						&& file_exists( $old_assignment_file ) )
+					{
+						// Remove old File Attached.
+						unlink( $old_assignment_file );
+					}
+
 					DBQuery( "UPDATE GRADEBOOK_ASSIGNMENTS
 						SET FILE='" . $file . "'
 						WHERE ASSIGNMENT_ID='" . (int) $id . "';" );
