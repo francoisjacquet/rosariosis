@@ -139,9 +139,9 @@ function VerifyDate( $date )
 {
 	$date_exploded = ExplodeDate( (string) $date );
 
-	if ( (int) $date_exploded['month'] != $date_exploded['month']
-		|| (int) $date_exploded['day'] != $date_exploded['day']
-		|| (int) $date_exploded['year'] != $date_exploded['year'] )
+	if ( (string) (int) $date_exploded['month'] != $date_exploded['month']
+		|| (string) (int) $date_exploded['day'] != $date_exploded['day']
+		|| (string) (int) $date_exploded['year'] != $date_exploded['year'] )
 	{
 		// Exploded date components are not integer.
 		return false;
