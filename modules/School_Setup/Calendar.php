@@ -8,7 +8,7 @@ DrawHeader( ProgramTitle() );
 // Set Month.
 if ( ! isset( $_REQUEST['month'] )
 	|| mb_strlen( $_REQUEST['month'] ) !== 2
-	|| (int) $_REQUEST['month'] != $_REQUEST['month'] )
+	|| (string) (int) $_REQUEST['month'] != $_REQUEST['month'] )
 {
 	$_REQUEST['month'] = date( 'm' );
 }
@@ -16,7 +16,7 @@ if ( ! isset( $_REQUEST['month'] )
 // Set Year.
 if ( ! isset( $_REQUEST['year'] )
 	|| mb_strlen( $_REQUEST['year'] ) !== 4
-	|| (int) $_REQUEST['year'] != $_REQUEST['year'] )
+	|| (string) (int) $_REQUEST['year'] != $_REQUEST['year'] )
 {
 	$_REQUEST['year'] = date( 'Y' );
 }
