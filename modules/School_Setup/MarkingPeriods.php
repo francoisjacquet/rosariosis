@@ -231,7 +231,7 @@ if ( ! empty( $_POST['tables'] )
 			AND SYEAR='" . UserSyear() . "'" .
 			( $id !== 'new' ? " AND SCHOOL_ID='" . UserSchool() . "'
 				AND SYEAR='" . UserSyear() . "'
-				AND MARKING_PERIOD_ID!='" . $id . "'" : '' ) );
+				AND MARKING_PERIOD_ID!='" . (int) $id . "'" : '' ) );
 
 		$posting_RET = DBGet( "SELECT MARKING_PERIOD_ID
 			FROM SCHOOL_MARKING_PERIODS
@@ -246,7 +246,7 @@ if ( ! empty( $_POST['tables'] )
 				" OR POST_END_DATE BETWEEN '" . $columns['POST_START_DATE'] . "' AND '" . $columns['POST_END_DATE'] . "'" : '' ) . ")
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'" .
-			( $id !== 'new' ? " AND MARKING_PERIOD_ID!='" . $id . "'" : '' ) );
+			( $id !== 'new' ? " AND MARKING_PERIOD_ID!='" . (int) $id . "'" : '' ) );
 
 		if ( ! empty( $dates_RET ) )
 		{

@@ -140,7 +140,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa
 			WHERE fssa.ACCOUNT_ID='" . (int) $student['ACCOUNT_ID'] . "'
 			AND s.STUDENT_ID=fssa.STUDENT_ID
-			AND s.STUDENT_ID!='" . $student['STUDENT_ID'] . "'
+			AND s.STUDENT_ID!='" . (int) $student['STUDENT_ID'] . "'
 			AND exists(SELECT ''
 				FROM STUDENT_ENROLLMENT
 				WHERE STUDENT_ID=s.STUDENT_ID

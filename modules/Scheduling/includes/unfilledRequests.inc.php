@@ -10,7 +10,7 @@ function calcSeats()
 	WHERE COURSE_ID='" . (int) $THIS_RET['COURSE_ID'] . "'
 	AND (GENDER_RESTRICTION='N' OR GENDER_RESTRICTION='" . mb_substr( $THIS_RET['CUSTOM_200000000'], 0, 1 ) . "')" .
 		( $THIS_RET['WITH_TEACHER_ID'] ? " AND TEACHER_ID='" . (int) $THIS_RET['WITH_TEACHER_ID'] . "'" : '' ) .
-		( $THIS_RET['NOT_TEACHER_ID'] ? " AND TEACHER_ID!='" . $THIS_RET['NOT_TEACHER_ID'] . "'" : '' ) .
+		( $THIS_RET['NOT_TEACHER_ID'] ? " AND TEACHER_ID!='" . (int) $THIS_RET['NOT_TEACHER_ID'] . "'" : '' ) .
 		//FJ bugfix SQL error column "period_id" does not exist
 		( $THIS_RET['WITH_PERIOD_ID'] ? " AND '" . $THIS_RET['WITH_PERIOD_ID'] . "' IN(SELECT cpsp.PERIOD_ID FROM COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID)" : '' ) .
 		( $THIS_RET['NOT_PERIOD_ID'] ? " AND '" . $THIS_RET['NOT_PERIOD_ID'] . "' NOT IN(SELECT cpsp.PERIOD_ID FROM COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID)" : '' ) );

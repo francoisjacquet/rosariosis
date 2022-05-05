@@ -386,7 +386,7 @@ function CoursePeriodSchoolPeriodsTitlePartGenerate( $cpsp_id, $cp_id, $columns 
 	$other_school_p = DBGet( "SELECT PERIOD_ID,DAYS
 		FROM COURSE_PERIOD_SCHOOL_PERIODS
 		WHERE COURSE_PERIOD_ID='" . (int) $cp_id . "'
-		AND COURSE_PERIOD_SCHOOL_PERIODS_ID<>'" . $cpsp_id . "'" );
+		AND COURSE_PERIOD_SCHOOL_PERIODS_ID<>'" . (int) $cpsp_id . "'" );
 
 	$periods_title = '';
 

@@ -70,7 +70,7 @@ function SaveEnrollment()
 					FROM STUDENT_ENROLLMENT
 					WHERE STUDENT_ID='" . UserStudentID() . "'
 					AND SYEAR='" . UserSyear() . "'
-					AND ID<>'" . $stu_enrol_id . "'
+					AND ID<>'" . (int) $stu_enrol_id . "'
 					AND START_DATE<(SELECT START_DATE
 						FROM STUDENT_ENROLLMENT
 						WHERE ID='" . (int) $stu_enrol_id . "');" );
