@@ -476,7 +476,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 					if ( $i > 0 ) // School date + 1 day.
 					{
 						$_REQUEST['values']['SCHOOL_DATE'] = date(
-							'd-M-Y',
+							'Y-m-d',
 							mktime( 0, 0, 0,
 								$_REQUEST['month_values']['SCHOOL_DATE'],
  								$_REQUEST['day_values']['SCHOOL_DATE'] + $i,
