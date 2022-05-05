@@ -47,7 +47,11 @@ function HackingLog()
 			if ( $time >= $one_minute_ago )
 			{
 				$attempts_within_one_minute++;
+
+				continue;
 			}
+
+			unset( $_SESSION['HackingLog'][ $i ] );
 		}
 
 		if ( $attempts_within_one_minute >= 10 )
@@ -57,17 +61,24 @@ function HackingLog()
 		}
 	}
 
+	$error[] = _( 'You\'re not allowed to use this program!' );
+
+	ErrorSendEmail( $error, 'HACKING ATTEMPT' );
+
+	if ( ! headers_sent() )
+	{
+		// Redirect automatically to Portal or Logout.
+		header( 'Location: ' . $redirect_url );
+
+		exit;
+	}
+
 	?>
 	<script>
 		// Redirect automatically to Portal or Logout.
 		window.location.href = <?php echo json_encode( $redirect_url ); ?>;
 	</script>
 	<?php
-
-	// Use link target="_top" so we reload side menu.
-	$error[] = _( 'You\'re not allowed to use this program!' );
-
-	ErrorSendEmail( $error, 'HACKING ATTEMPT' );
 
 	exit;
 }
