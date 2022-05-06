@@ -54,7 +54,10 @@ function SaveData( $iu_extra, $field_names = [] )
 					$name = sprintf( _( 'The value for %s' ), $field_names[ $table ][ $column ] );
 				}
 				else
-					$name = sprintf( _( 'The value for %s' ), ucwords( mb_strtolower( str_replace( '_', ' ', $column ) ) ) );
+					$name = sprintf(
+						_( 'The value for %s' ),
+						_( ucwords( mb_strtolower( str_replace( '_', ' ', $column ) ) ) )
+					);
 
 				// COLUMN DOESN'T EXIST.
 				if ( ! isset( $table_properties[ $column ] ) )
@@ -78,6 +81,15 @@ function SaveData( $iu_extra, $field_names = [] )
 					&& preg_match( '/[^0-9-.]/', $value ) )
 				{
 					$value = preg_replace( '/[^0-9-.]/', '', $value );
+
+					$error[] = sprintf( _( '%s, a numerical field, contained non-numerical characters. These characters were removed.' ), $name );
+				}
+
+				// FIELD IS INTEGER, VALUE CONTAINS NON-INTEGER CHARACTERS.
+				elseif ( strpos( $table_properties[ $column ]['TYPE'], 'INT' ) === 0
+					&& preg_match( '/[^0-9-]/', $value ) )
+				{
+					$value = (int) $value;
 
 					$error[] = sprintf( _( '%s, a numerical field, contained non-numerical characters. These characters were removed.' ), $name );
 				}
