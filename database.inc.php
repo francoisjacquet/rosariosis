@@ -388,32 +388,34 @@ function db_properties( $table )
 
 	while ( $row = db_fetch_row( $result ) )
 	{
-		$properties[mb_strtoupper( $row['FIELD'] )]['TYPE'] = mb_strtoupper( $row['TYPE'] );
+		$field = mb_strtoupper( $row['FIELD'] );
+
+		$properties[$field]['TYPE'] = mb_strtoupper( $row['TYPE'] );
 
 		if ( mb_strtoupper( $row['TYPE'] ) == 'NUMERIC' )
 		{
-			$properties[mb_strtoupper( $row['FIELD'] )]['SIZE'] = ( $row['LENGTHVAR'] >> 16 ) & 0xffff;
-			$properties[mb_strtoupper( $row['FIELD'] )]['SCALE'] = ( $row['LENGTHVAR'] - 4 ) & 0xffff;
+			$properties[$field]['SIZE'] = ( $row['LENGTHVAR'] >> 16 ) & 0xffff;
+			$properties[$field]['SCALE'] = ( $row['LENGTHVAR'] - 4 ) & 0xffff;
 		}
 		else
 		{
 			if ( $row['LENGTH'] > 0 )
 			{
-				$properties[mb_strtoupper( $row['FIELD'] )]['SIZE'] = $row['LENGTH'];
+				$properties[$field]['SIZE'] = $row['LENGTH'];
 			}
 			elseif ( $row['LENGTHVAR'] > 0 )
 			{
-				$properties[mb_strtoupper( $row['FIELD'] )]['SIZE'] = $row['LENGTHVAR'] - 4;
+				$properties[$field]['SIZE'] = $row['LENGTHVAR'] - 4;
 			}
 		}
 
 		if ( $row['NOTNULL'] === 't' )
 		{
-			$properties[mb_strtoupper( $row['FIELD'] )]['NULL'] = 'N';
+			$properties[$field]['NULL'] = 'N';
 		}
 		else
 		{
-			$properties[mb_strtoupper( $row['FIELD'] )]['NULL'] = 'Y';
+			$properties[$field]['NULL'] = 'Y';
 		}
 	}
 
