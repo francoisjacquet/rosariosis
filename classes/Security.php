@@ -174,18 +174,14 @@ class Security {
 			{
 				$oldstr = $str;
 
-				// FJ fix SQL error invalid byte sequence for encoding "UTF8": 0xde 0x20.
-				// @link https://www.php.net/manual/en/function.rawurldecode.php#114205
-				// Convert '%[a-f]' to '%25[a-f]' first.
-				$str = preg_replace('#%([a-f]){2,}#i', '%25$1', $str);
-
 				$str = rawurldecode($str);
 
 				// FJ fix SQL error invalid byte sequence for encoding "UTF8": 0xde 0x20.
 				// @link https://www.php.net/manual/en/function.rawurldecode.php#114205
+				// @link https://github.com/bcit-ci/CodeIgniter/issues/5125#issuecomment-1119494853
 				// Regex fix: check *number* first, then number or letter a-f.
 				// $str = preg_replace_callback('#%(?:\s*[0-9a-f]){2,}#i', array($this, '_urldecodespaces'), $str);
-				$str = preg_replace_callback('#%(?:\s*[0-9][0-9a-f])#i', array($this, '_urldecodespaces'), $str);
+				$str = preg_replace_callback('#%(?:\s*[0-9]\s*[0-9a-f])#i', array($this, '_urldecodespaces'), $str);
 			}
 			while ($oldstr !== $str);
 			unset($oldstr);
