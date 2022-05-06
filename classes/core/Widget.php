@@ -1655,7 +1655,7 @@ class Widget_calendar implements Widget
 			$where_not = ( isset( $_REQUEST['calendar_not'] ) && $_REQUEST['calendar_not'] === 'Y' ?
 				'!' : '' );
 
-			$extra['WHERE'] .= " AND ssm.CALENDAR_ID" . $where_not . "='" . $_REQUEST['calendar'] . "'";
+			$extra['WHERE'] .= " AND ssm.CALENDAR_ID" . $where_not . "='" . (int) $_REQUEST['calendar'] . "'";
 
 			$calendars_RET = DBGet( "SELECT CALENDAR_ID,TITLE
 				FROM ATTENDANCE_CALENDARS
