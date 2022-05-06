@@ -299,7 +299,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$schooldata['SCHOOL_NUMBER'],
 		'values[SCHOOL_NUMBER]',
 		_( 'School Number' ),
-		'maxlength=100'
+		'maxlength=50'
 	) . '</td></tr>';
 
 	echo '<tr><td colspan="3">' . TextInput(

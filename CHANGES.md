@@ -79,6 +79,7 @@ Changes in 9.0
 - Restrict Price / Amount / Balance input number range, program wide, thanks to @nhienit2010
 - Restrict input number step in Courses.fnc.php
 - Restrict diagnostic access to logged in admin in diagnostic.php, thanks to @intrapus
+- Fix SQL error value too long for type character varying(50) in Schools.php
 
 Changes in 8.9.5
 ----------------
