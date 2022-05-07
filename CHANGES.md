@@ -83,6 +83,7 @@ Changes in 9.0
 - Add Secure RosarioSIS link in INSTALL.md
 - Add Calendar days legend in Calendar.php
 - CSS add .legend-square class in stylesheet.css & colors.css
+- Create / Edit / Delete calendar: use button() in Calendar.php
 
 Changes in 8.9.6
 ----------------

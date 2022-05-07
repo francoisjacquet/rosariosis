@@ -960,16 +960,23 @@ if ( ! $_REQUEST['modfunc'] )
 			false,
 			' onchange="ajaxLink(' . $calendar_onchange_URL . ' + document.getElementById(\'calendar_id\').value);" ',
 			false
-		) .
-		'<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=create' ) . '" class="nobr">' .
-			button( 'add' ) . _( 'Create new calendar' ) .
-		'</a> | ' .
-		'<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=create&calendar_id=' . $_REQUEST['calendar_id'] ) . '" class="nobr">' .
-			_( 'Recreate this calendar' ) .
-		'</a>&nbsp; ' .
-		'<a href="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete_calendar&calendar_id=' . $_REQUEST['calendar_id'] ) . '" class="nobr">' .
-			button( 'remove' ) . _( 'Delete this calendar' ) .
-		'</a>';
+		);
+
+		$links_right = button(
+			'add',
+			_( 'Create' ),
+			URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=create' )
+		) . ' &nbsp; ' .
+		button(
+			'pencil',
+			_( 'Edit' ),
+			URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=create&calendar_id=' . $_REQUEST['calendar_id'] )
+		) . ' &nbsp; ' .
+		button(
+			'remove',
+			_( 'Delete' ),
+			URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete_calendar&calendar_id=' . $_REQUEST['calendar_id'] )
+		);
 	}
 
 	$list_events_URL = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=list_events&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year'];
@@ -984,7 +991,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	if ( ! empty( $links ) )
 	{
-		DrawHeader( $links );
+		DrawHeader( $links, $links_right );
 	}
 
 	// @since 4.5 Calendars header hook.
