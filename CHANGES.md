@@ -84,6 +84,7 @@ Changes in 9.0
 - Add Calendar days legend in Calendar.php
 - CSS add .legend-square class in stylesheet.css & colors.css
 - Create / Edit / Delete calendar: use button() in Calendar.php
+- Update Calendars help text in Help_en.php & help.po
 
 Changes in 8.9.6
 ----------------
