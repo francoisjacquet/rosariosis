@@ -422,7 +422,9 @@ function TextAreaInput( $value, $name, $title = '', $extra = '', $div = true, $t
 
 	$textarea =  ( $type === 'markdown' ? MarkDownInputPreview( $id ) : '' ) .
 		'<textarea id="' . $id . '" name="' . $name . '" ' . $extra . '>' .
-		$value . '</textarea>' . ( $type === 'tinymce' ? $ftitle_nobr : $ftitle );
+		// Fix Stored XSS security issue: escape textarea HTML.
+		htmlspecialchars( (string) $value ) .
+		'</textarea>' . ( $type === 'tinymce' ? $ftitle_nobr : $ftitle );
 
 	if ( $value == ''
 		|| ! $div )
