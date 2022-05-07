@@ -164,3 +164,5 @@ Additional configuration
 ------------------------
 
 [Quick Setup Guide](https://www.rosariosis.org/quick-setup-guide/)
+
+[Secure RosarioSIS](https://gitlab.com/francoisjacquet/rosariosis/-/wikis/Secure-RosarioSIS)

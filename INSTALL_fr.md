@@ -165,3 +165,5 @@ Configuration additionnelle
 ---------------------------
 
 [Guide de Configuration Rapide](https://www.rosariosis.org/fr/quick-setup-guide/)
+
+[Sécuriser RosarioSIS](https://gitlab.com/francoisjacquet/rosariosis/-/wikis/Secure-RosarioSIS)

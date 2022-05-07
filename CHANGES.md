@@ -80,6 +80,7 @@ Changes in 9.0
 - Restrict input number step in Courses.fnc.php
 - Restrict diagnostic access to logged in admin in diagnostic.php, thanks to @intrapus
 - Fix SQL error value too long for type character varying(50) in Schools.php
+- Add Secure RosarioSIS link in INSTALL.md
 
 Changes in 8.9.5
 ----------------
