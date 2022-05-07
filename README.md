@@ -25,10 +25,26 @@ Demo
 Try RosarioSIS. Access the [online demonstration](https://www.rosariosis.org/demo/).
 
 
+Screenshots
+-----------
+
+![Calendars](https://www.rosariosis.org/wp-content/uploads/2021/08/rosariosis_calendar_en_2021.png)
+
+![Student Info](https://www.rosariosis.org/wp-content/uploads/2021/08/rosariosis_students_en_2021.png)
+
+![Student Schedule](https://www.rosariosis.org/wp-content/uploads/2021/08/rosariosis_scheduling_en_2021.png)
+
+![Gradebook](https://www.rosariosis.org/wp-content/uploads/2021/08/rosariosis_grades_en_2021.png)
+
+![Take Attendance](https://www.rosariosis.org/wp-content/uploads/2021/08/rosariosis_attendance_en_2021.png)
+
+![Discipline](https://www.rosariosis.org/wp-content/uploads/2021/08/rosariosis_discipline_en_2021.png)
+
+![Fees](https://www.rosariosis.org/wp-content/uploads/2021/08/rosariosis_student_billing_en_2021.png)
+
+
 About
 -----
-
-![RosarioSIS screenshot](http://www.rosariosis.org/wp-content/uploads/2021/08/rosariosis_students_en_2021.png)
 
 RosarioSIS has been designed to address the most important needs of administrators,
 teachers, support staff, parents, students, and clerical personnel. However, it
@@ -97,6 +113,14 @@ Consider the following:
 	or a school could establish its only system of marking periods with 3
 	semesters, 18 quarters, and 36 progress periods.  Everything is
 	completely customizable.
+
+* Keep track of student billing by easily assigning fees and their corresponding
+	payments. As well, you can consult balances, daily transactions and print
+	statements.
+
+* A full set of [additional modules and plugins](https://www.rosariosis.org/add-ons/) to expand the possibilities
+	of your school and staff in terms of communication, additional reports,
+	data import and integrations with other solutions.
 
 You will find RosarioSIS to be a full-featured Student Information System that
 facilitates your decision-making, provides data necessary for reports to the
