@@ -85,6 +85,7 @@ Changes in 9.0
 - CSS add .legend-square class in stylesheet.css & colors.css
 - Create / Edit / Delete calendar: use button() in Calendar.php
 - Update Calendars help text in Help_en.php & help.po
+- Add translations for Calendar days legend in rosariosis.po
 
 Changes in 8.9.6
 ----------------
