@@ -82,6 +82,10 @@ Changes in 9.0
 - Fix SQL error value too long for type character varying(50) in Schools.php
 - Add Secure RosarioSIS link in INSTALL.md
 
+Changes in 8.9.6
+----------------
+- Fix Stored XSS security issue: escape textarea HTML in Inputs.php, thanks to @jo125ker
+
 Changes in 8.9.5
 ----------------
 - Fix stored XSS security issue: do not allow unsanitized XML & HTML in FileUpload.fnc.php, thanks to @nhienit2010
