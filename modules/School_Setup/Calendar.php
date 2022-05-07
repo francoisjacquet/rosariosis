@@ -1167,4 +1167,17 @@ if ( ! $_REQUEST['modfunc'] )
 
 	echo '<br /><div class="center">' . SubmitButton() . '</div>';
 	echo '<br /><br /></form>';
+
+	if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
+		// @since 9.0 Add Calendar days legend.
+		$legend_html = '<table class="width-100p"><tr><td class="legend-square full"></td><td>' . _( 'Full school day' ) . '</td></tr>';
+		$legend_html .= '<tr><td class="legend-square minutes"></td><td>' . _( 'Partial school day (minutes)' ) . '</td></tr>';
+		$legend_html .= '<tr><td class="legend-square no-school"></td><td>' . _( 'Holiday or weekend' ) . '</td></tr></table>';
+
+		DrawHeader(
+			$legend_html .
+			FormatInputTitle( _( 'Legend' ), '', false, '' )
+		);
+	}
 }
