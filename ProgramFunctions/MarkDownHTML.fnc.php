@@ -226,6 +226,13 @@ function SanitizeHTML( $html, $image_path = '', $add_url_to_image_path = false )
 
 	if ( ! $has_base64_images )
 	{
+		if ( ROSARIO_DEBUG
+			&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+		{
+			echo 'Sanitized HTML:<br />';
+			var_dump( $sanitized_html_quotes );
+		}
+
 		return $sanitized_html_quotes;
 	}
 
