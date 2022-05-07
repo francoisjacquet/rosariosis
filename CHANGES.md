@@ -82,6 +82,7 @@ Changes in 9.0
 - Fix SQL error value too long for type character varying(50) in Schools.php
 - Add Secure RosarioSIS link in INSTALL.md
 - Add Calendar days legend in Calendar.php
+- CSS add .legend-square class in stylesheet.css & colors.css
 
 Changes in 8.9.6
 ----------------

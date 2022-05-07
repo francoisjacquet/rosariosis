@@ -1294,6 +1294,14 @@ td.calendar-menu {
 	max-width: none
 }
 
+/* Legend */
+
+.legend-square {
+	width: 32px;
+	height: 32px;
+	border-radius: 3px;
+}
+
 /* colorBox */
 
 #cboxLoadedContent {

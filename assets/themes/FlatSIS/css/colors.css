@@ -463,6 +463,20 @@ hr {
 	border-color: #00FF00
 }
 
+/* Legend */
+
+.legend-square.full {
+	background-color: #afa;
+}
+
+.legend-square.minutes {
+	background-color: #aaf;
+}
+
+.legend-square.no-school {
+	background-color: #faa;
+}
+
 /* Attendance Codes */
 
 .attendance-code {
