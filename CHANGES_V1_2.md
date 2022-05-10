@@ -722,7 +722,7 @@ Changes in 2.6.3
 - Bugfix check Visible to profiles w/ Custom in PortalPollsNotes.fnc.php
 - Remove Warehouse('footer_plain')
 - Move popup & not_ajax HTML code to Warehouse('header')
-- Replace check if $_REQUEST['_ROSARIO_PDF']=='true'
+- Replace check if `$_REQUEST['_ROSARIO_PDF']=='true'`
 - Remove Side_PHP_SELF in Side.php & Warehouse.php
 - remove ProgramLink function
 - move Attendance.php from functions/ to ProgramFunctions/
@@ -739,7 +739,7 @@ Changes in 2.6.3
 - Remove GetSchool function
 - unset Password and Username request vars after login in index.php
 - Program wide: Replace Current SESSION vars with Current functions
-- Bypass strip_tags on the $_REQUEST vars in Modules.php, ProgramFunctions/getRawPOSTvar.fnc.php, Letters.php, HonorRoll.php & HonorRollSubject.php
+- Bypass strip_tags on the `$_REQUEST` vars in Modules.php, ProgramFunctions/getRawPOSTvar.fnc.php, Letters.php, HonorRoll.php & HonorRollSubject.php
 - UpdateSchoolArray when calling SchoolInfo() in functions/School.php
 - Bugfix Copy calendar when date_min & date_max in Calendar.php
 - Add FileUpload function in ProgramFunctions/FileUpload.fnc.php
