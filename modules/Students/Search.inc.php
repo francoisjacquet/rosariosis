@@ -337,7 +337,7 @@ else
 				|| User( 'PROFILE' ) === 'teacher' )
 			{
 				// Update Bottom.php.
-				$bottom_url = 'Bottom.php?modname=' . $_REQUEST['modname'] . '&search_modfunc=list';
+				$bottom_url = URLEscape( 'Bottom.php?modname=' . $_REQUEST['modname'] . '&search_modfunc=list' );
 
 				echo '<script>ajaxLink(' . json_encode( $bottom_url ) . '); old_modname="";</script>';
 			}
