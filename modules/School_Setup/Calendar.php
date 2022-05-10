@@ -950,7 +950,7 @@ if ( ! $_REQUEST['modfunc'] )
 		}
 
 		//FJ bugfix erase calendar onchange
-		$calendar_onchange_URL = "'" . URLEscape( "Modules.php?modname=" . $_REQUEST['modname'] . "&calendar_id=" ) . "'";
+		$calendar_onchange_URL = URLEscape( "Modules.php?modname=" . $_REQUEST['modname'] . "&calendar_id=" );
 
 		$links = SelectInput(
 			$_REQUEST['calendar_id'],
@@ -958,7 +958,8 @@ if ( ! $_REQUEST['modfunc'] )
 			'<span class="a11y-hidden">' . _( 'Calendar' ) . '</span>',
 			$options,
 			false,
-			' onchange="ajaxLink(' . $calendar_onchange_URL . ' + document.getElementById(\'calendar_id\').value);" ',
+			' onchange="' . AttrEscape( 'ajaxLink(' . json_encode( $calendar_onchange_URL ) .
+				' + document.getElementById("calendar_id").value);' ) . '" ',
 			false
 		);
 

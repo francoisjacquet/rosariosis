@@ -234,10 +234,10 @@ if ( ! $_REQUEST['modfunc'] )
 
 		echo '<table class="widefat center"><tr><td><div class="center">';
 
-		$category_onchange_URL = "'" . PreparePHP_SELF( $_REQUEST, [ 'category_id' ] ) . "&category_id='";
+		$category_onchange_URL = PreparePHP_SELF( $_REQUEST, [ 'category_id' ] ) . '&category_id=';
 
-		echo '<select name="category_id" id="category_id" onchange="ajaxLink(' .
-			$category_onchange_URL . ' + this.value);">';
+		echo '<select name="category_id" id="category_id" onchange="' .
+			AttrEscape( 'ajaxLink(' . json_encode( $category_onchange_URL ) . ' + this.value);' ) . '">';
 
 		echo '<option value="">' . _( 'All Categories' ) . '</option>';
 

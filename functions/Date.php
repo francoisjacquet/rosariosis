@@ -238,7 +238,8 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = [] )
 			$add_args_js[] = '(this.form.' . $URL_arg . ' ? \'&' . $URL_arg . '=\' + this.form.' . $URL_arg . '.value : \'\')';
 		}
 
-		$e = ' onchange="ajaxLink( \'' . $date_onchange_href . '\' + ' . implode( '+', $add_args_js ) . ' );"';
+		$e = ' onchange="' . AttrEscape( 'ajaxLink(' . json_encode( $date_onchange_href ) .
+			' + ' . implode( '+', $add_args_js ) . ' );' ) . '"';
 
 		$extraM .= $e;
 

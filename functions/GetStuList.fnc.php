@@ -941,6 +941,8 @@ function makeParents( $student_id, $column )
 		return '';
 	}
 
+	$constraint = '';
+
 	if ( $_ROSARIO['makeParents'] )
 	{
 		$constraint = " AND sjp.STUDENT_RELATION IS NULL";
@@ -980,7 +982,7 @@ function makeParents( $student_id, $column )
 		$img_title = $person['CUSTODY'] == 'Y' ? _( 'Custody' ) :
 			( $person['EMERGENCY'] == 'Y' ? _( 'Emergency' ) : '' );
 
-		$parents .= '<div>' . ( ! empty( $img ) ? button( $img, '', '', '" title="' . $img_title ) . '&nbsp;' : '' );
+		$parents .= '<div>' . ( ! empty( $img ) ? button( $img, '', '', '" title="' . AttrEscape( $img_title ) ) . '&nbsp;' : '' );
 
 		if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		{
@@ -992,10 +994,10 @@ function makeParents( $student_id, $column )
 		$popup_url = URLEscape( 'Modules.php?modname=misc/ViewContact.php&person_id=' .
 			$person['PERSON_ID'] . '&student_id=' . $student_id );
 
-		$parents .= '<a href="#" onclick=\'popups.open(
-				"' . $popup_url . '",
+		$parents .= '<a href="#" onclick="' . AttrEscape( 'popups.open(
+				' . json_encode( $popup_url ) . ',
 				"scrollbars=yes,resizable=yes,width=400,height=300"
-			); return false;\'>' .
+			); return false;' ) . '">' .
 				$person['FIRST_NAME'] . ' ' . $person['LAST_NAME'] .
 			'</a></div>';
 	}

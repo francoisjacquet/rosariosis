@@ -66,7 +66,7 @@ $school_periods_select = SchoolPeriodsSelectInput(
 	issetVal( $_REQUEST['school_period'] ),
 	'school_period',
 	'',
-	'autocomplete="off" onchange=\'ajaxLink(' . json_encode( PreparePHP_SELF( [], [ 'school_period' ] ) ) . ' + "&school_period=" + this.value);\''
+	'autocomplete="off" onchange="' . AttrEscape( 'ajaxLink(' . json_encode( PreparePHP_SELF( [], [ 'school_period' ] ) ) . ' + "&school_period=" + this.value);' ) . '"'
 );
 
 if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )

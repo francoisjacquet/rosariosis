@@ -86,6 +86,7 @@ Changes in 9.0
 - Create / Edit / Delete calendar: use button() in Calendar.php
 - Update Calendars help text in Help_en.php & help.po
 - Add translations for Calendar days legend in rosariosis.po
+- Use json_encode() for AjaxLink() URL, program wide
 
 Changes in 8.9.6
 ----------------

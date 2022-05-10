@@ -24,7 +24,7 @@ $report_select = SelectInput(
 		'unfilled' => _( 'Unfilled Requests' ),
 	],
 	false,
-	'onchange="ajaxLink(\'' . $report_link . '\' + this.value);" autocomplete="off"',
+	'onchange="' . AttrEscape( 'ajaxLink(' . json_encode( $report_link ) . ' + this.value);' ) . '" autocomplete="off"',
 	false
 );
 

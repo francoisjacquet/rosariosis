@@ -497,12 +497,6 @@ function TinyMCEInput( $value, $name, $title = '', $extra = '' )
 
 			$wrapper = '<div class="tinymce-horizontal">';
 		}
-
-		$extra = str_replace(
-			[ 'class="', "class='" ],
-			[ 'class="tinymce ', "class='tinymce " ],
-			$extra
-		);
 	}
 
 	if ( mb_strpos( (string) $extra, 'required' ) !== false )
@@ -1595,8 +1589,8 @@ function NoInput( $value, $title = '' )
 			$value .
 			'</span>' . $ftitle;
 	}
-	else
-		return $value . $ftitle;
+
+	return $value . $ftitle;
 }
 
 
@@ -1613,15 +1607,15 @@ function NoInput( $value, $title = '' )
  */
 function CheckBoxOnclick( $name, $title = '' )
 {
-	$onclick_URL = "'" . PreparePHP_SELF(
+	$onclick_URL = PreparePHP_SELF(
 		$_REQUEST,
 		[],
 		isset( $_REQUEST[ $name ] ) && $_REQUEST[ $name ] == 'Y' ? [ $name => '' ] : [ $name => 'Y' ]
-	) . "'";
+	);
 
 	$input = '<input type="checkbox" name="' . AttrEscape( $name ) . '" value="Y"' .
 		( isset( $_REQUEST[ $name ] ) && $_REQUEST[ $name ] == 'Y' ? ' checked' : '' ) .
-		' onclick="ajaxLink(' . $onclick_URL . ');" />';
+		' onclick="' . AttrEscape( 'ajaxLink(' . json_encode( $onclick_URL ) . ');' ) . '" />';
 
 	if ( $title != '' )
 	{

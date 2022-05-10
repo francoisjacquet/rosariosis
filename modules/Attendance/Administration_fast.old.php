@@ -212,7 +212,14 @@ else
 			'">' . _( 'Current Student' ) . '</a></td><td>';
 	}
 
-	DrawHeader( PrepareDate( $date, '_date' ), '<table><tr><td>' . $current_student_link . button( 'add', '', "# onclick='javascript:addHTML(\"" . str_replace( '"', '\"', _makeCodeSearch() ) . "\",\"code_pulldowns\"); return false;'" ) . '</td><td><div id="code_pulldowns">' . $code_pulldowns . '</div></td></tr></table>' );
+	DrawHeader(
+		PrepareDate( $date, '_date' ),
+		'<table><tr><td>' . $current_student_link .
+		button(
+			'add',
+			'',
+			'"#" onclick="' . AttrEscape( 'addHTML(' . json_encode( _makeCodeSearch() ) . ',\'code_pulldowns\'); return false;' ) . '"'
+		) . '</td><td><div id="code_pulldowns">' . $code_pulldowns . '</div></td></tr></table>' );
 
 	$_REQUEST['search_modfunc'] = 'list';
 	Search( 'student_id', $extra );

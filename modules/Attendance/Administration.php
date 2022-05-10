@@ -522,8 +522,8 @@ else
 	button(
 		'add',
 		'',
-		'"#" onclick=\'javascript:addHTML("' . str_replace( '"', '\"', _makeCodeSearch() ) .
-		'","code_pulldowns"); return false;\''
+		'"#" onclick="' . AttrEscape( 'addHTML(' . json_encode( _makeCodeSearch() ) .
+			',\'code_pulldowns\'); return false;' ) . '"'
 	) . '</td><td><div id="code_pulldowns">' . $code_pulldowns . '</div></td>' .
 		'<td class="align-right">' . $current_student_link . '</td></tr></table>';
 

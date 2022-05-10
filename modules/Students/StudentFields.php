@@ -60,7 +60,7 @@ function _fieldsCategoryMenu( $category )
 			'contact' => _( 'Contact Fields' ),
 		],
 		false,
-		'onchange="ajaxLink(\'' . $link . '\' + this.value);" autocomplete="off"',
+		'onchange="' . AttrEscape( 'ajaxLink(' . json_encode( $link ) . ' + this.value);' ) . '" autocomplete="off"',
 		false
 	);
 

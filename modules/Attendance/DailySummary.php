@@ -36,7 +36,7 @@ $report_select = SelectInput(
 		'absence' => _( 'Absence Summary' ),
 	],
 	false,
-	'onchange="ajaxLink(\'' . $report_link . '\' + this.value);" autocomplete="off"',
+	'onchange="' . AttrEscape( 'ajaxLink(' . json_encode( $report_link ) . ' + this.value);' ) . '" autocomplete="off"',
 	false
 );
 

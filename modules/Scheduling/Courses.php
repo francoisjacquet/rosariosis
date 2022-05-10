@@ -808,12 +808,13 @@ if (  ( ! $_REQUEST['modfunc']
 
 			if ( $can_delete )
 			{
-				$delete_url = "'" . URLEscape( "Modules.php?modname=" . $_REQUEST['modname'] .
+				$delete_url = URLEscape( "Modules.php?modname=" . $_REQUEST['modname'] .
 					'&modfunc=delete&subject_id=' . $_REQUEST['subject_id'] .
 					'&course_id=' . $_REQUEST['course_id'] .
-					'&course_period_id=' . $_REQUEST['course_period_id'] ) . "'";
+					'&course_period_id=' . $_REQUEST['course_period_id'] );
 
-				$delete_button = '<input type="button" value="' . AttrEscape( _( 'Delete' ) ) . '" onClick="javascript:ajaxLink(' . $delete_url . ');" />';
+				$delete_button = '<input type="button" value="' . AttrEscape( _( 'Delete' ) ) .
+					'" onclick="' . AttrEscape( 'ajaxLink(' . json_encode( $delete_url ) . ');' ) . '" />';
 			}
 		}
 
