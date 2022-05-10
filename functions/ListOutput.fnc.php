@@ -452,7 +452,11 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			if ( $link['add']['link'] && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			{
 				echo '<tr><td colspan="' . ( $remove ? $cols + 1 : $cols ) . '">' .
-					button( 'add', $link['add']['title'], $link['add']['link'] ) . '</td></tr>';
+					button(
+						'add',
+						$link['add']['title'],
+						'"' . URLEscape( $link['add']['link'] ) . '"'
+					) . '</td></tr>';
 			}
 			elseif ( $link['add']['span'] && ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			{

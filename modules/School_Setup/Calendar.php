@@ -966,17 +966,17 @@ if ( ! $_REQUEST['modfunc'] )
 		$links_right = button(
 			'add',
 			_( 'Create' ),
-			URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=create' )
+			'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=create' ) . '"'
 		) . ' &nbsp; ' .
 		button(
 			'pencil',
 			_( 'Edit' ),
-			URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=create&calendar_id=' . $_REQUEST['calendar_id'] )
+			'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=create&calendar_id=' . $_REQUEST['calendar_id'] ) . '"'
 		) . ' &nbsp; ' .
 		button(
 			'remove',
 			_( 'Delete' ),
-			URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete_calendar&calendar_id=' . $_REQUEST['calendar_id'] )
+			'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete_calendar&calendar_id=' . $_REQUEST['calendar_id'] ) . '"'
 		);
 	}
 
@@ -1181,7 +1181,7 @@ if ( ! $_REQUEST['modfunc'] )
 		// @since 9.0 Add Calendar days legend.
 		$legend_html = '<table class="width-100p"><tr><td class="legend-square full"></td><td>' . _( 'Full school day' ) . '</td></tr>';
 		$legend_html .= '<tr><td class="legend-square minutes"></td><td>' . _( 'Partial school day (minutes)' ) . '</td></tr>';
-		$legend_html .= '<tr><td class="legend-square no-school"></td><td>' . _( 'Holiday or weekend' ) . '</td></tr></table>';
+		$legend_html .= '<tr><td class="legend-square no-school"></td><td>' . _( 'No school day' ) . '</td></tr></table>';
 
 		DrawHeader(
 			$legend_html .

@@ -42,7 +42,7 @@ function Buttons( $submit_value, $reset_value = '' )
  *
  * @param  string $type  [type]_button.png; ie. 'remove' will display the assets/themes/[user_theme]/btn/remove_button.png image.
  * @param  string $text  button text (optional).
- * @param  string $link  button link (optional). Use URLEscape() to encode URL!
+ * @param  string $link  button link (optional). Use URLEscape() to encode URL! Add double quotes '"' around URL!
  * @param  string $class CSS classes (optional).
  *
  * @return string        button HTML
