@@ -286,7 +286,7 @@ if ( $update_body )
 		$ajax_link = PreparePHP_SELF( $_SESSION['_REQUEST_vars'], [ 'advanced' ] );
 	}
 
-	$addJavascripts .= 'ajaxLink("' . $ajax_link .	'");';
+	$addJavascripts .= 'ajaxLink(' . json_encode( $ajax_link ) . ');';
 }
 
 /**

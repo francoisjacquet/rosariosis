@@ -481,13 +481,13 @@ if ( $_REQUEST['modfunc'] == 'choose_course' )
 			// Hook.
 			do_action( 'Scheduling/Schedule.php|schedule_student' );
 
-			$opener_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
+			$opener_URL = URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] .
 			'&year_date=' . $_REQUEST['year_date'] .
 			'&month_date=' . $_REQUEST['month_date'] .
 			'&day_date=' . $_REQUEST['day_date'] .
-			'&time=' . time() . "'";
+			'&time=' . time() );
 
-			echo '<script>window.opener.ajaxLink(' . $opener_URL . '); window.close();</script>';
+			echo '<script>window.opener.ajaxLink(' . json_encode( $opener_URL ) . '); window.close();</script>';
 		}
 	}
 }

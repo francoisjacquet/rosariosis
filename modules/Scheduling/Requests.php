@@ -137,13 +137,13 @@ function SendXMLRequest(subject_id,course)
 	else if (window.ActiveXObject)
 		connection = new ActiveXObject("Microsoft.XMLHTTP");
 	connection.onreadystatechange = processRequest;
-	connection.open("GET","Modules.php?modname=<?php echo $_REQUEST['modname']; ?>&_ROSARIO_PDF=true&modfunc=XMLHttpRequest&subject_id=" + subject_id + "&course_title=" + encodeURIComponent(course), true );
+	connection.open("GET",<?php echo json_encode( URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&_ROSARIO_PDF=true&modfunc=XMLHttpRequest&subject_id=' ) ); ?> + subject_id + "&course_title=" + encodeURIComponent(course), true );
 	connection.send(null);
 }
 
 function doOnClick(course)
 {
-	ajaxLink("Modules.php?modname=<?php echo $_REQUEST['modname']; ?>&modfunc=add&course=" + course);
+	ajaxLink(<?php echo json_encode( URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] ) . '&modfunc=add&course=' ); ?> + course);
 }
 
 function processRequest()
