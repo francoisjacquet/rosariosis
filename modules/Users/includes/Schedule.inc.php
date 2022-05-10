@@ -56,7 +56,7 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 		( $_REQUEST['all_schools'] == 'Y' ? '' : " AND cp.SCHOOL_ID='" . UserSchool() . "'" ) . "
 	AND s.ID=cp.SCHOOL_ID
 	AND s.SYEAR=cp.SYEAR
-	ORDER BY cp.SHORT_NAME,cp.TITLE", [ 'MARKING_PERIOD_ID' => 'GetMP' ], $group );
+	ORDER BY c.TITLE,cp.SHORT_NAME,cp.TITLE", [ 'MARKING_PERIOD_ID' => 'GetMP' ], $group );
 
 	if ( $_REQUEST['all_schools'] == 'Y' )
 	{
