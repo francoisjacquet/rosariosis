@@ -695,7 +695,7 @@ function AddRequestedDates( $request_index, $add_to_post = '' )
 		if ( $add_to_post === 'post' )
 		{
 			$_POST[ $request_index ] = array_replace_recursive(
-				(array) $_POST[ $request_index ],
+				isset( $_POST[ $request_index ] ) ? $_POST[ $request_index ] : [],
 				$requested_dates
 			);
 		}
