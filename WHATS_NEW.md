@@ -9,6 +9,11 @@ PHP8.1 compatibility
 
 `intl` PHP extension is now required
 
+Security improvements
+
+School Setup
+- Calendars: legend
+
 
 New in 8.9
 ----------
