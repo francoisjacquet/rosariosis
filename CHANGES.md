@@ -87,6 +87,7 @@ Changes in 9.0
 - Update Calendars help text in Help_en.php & help.po
 - Add translations for Calendar days legend in rosariosis.po
 - Use json_encode() for AjaxLink() URL, program wide
+- SQL skip "No Address" contacts to avoid lines with empty Address fields in Export.php
 
 Changes in 8.9.6
 ----------------

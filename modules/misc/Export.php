@@ -99,6 +99,14 @@ if ( ! empty( $_REQUEST['fields'] )
 
 		$extra['STUDENTS_JOIN_ADDRESS'] .= 'FALSE)';
 	}
+	elseif ( empty( $_REQUEST['fields']['PARENTS'] ) )
+	{
+		$extra['STUDENTS_JOIN_ADDRESS'] = issetVal( $extra['STUDENTS_JOIN_ADDRESS'], '' );
+
+		// SQL skip "No Address" contacts to avoid lines with empty Address fields.
+		$extra['STUDENTS_JOIN_ADDRESS'] .= " AND sam.ADDRESS_ID<>'0'";
+	}
+
 
 	if ( ! empty( $_REQUEST['fields']['PARENTS'] ) )
 	{
