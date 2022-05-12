@@ -82,7 +82,8 @@ function PortalPollsSaveVotes( $poll_questions_RET, $votes_array )
 		{
 			$voted_array[$question['ID']] = explode( '||', $question['VOTES'] );
 
-			if ( is_array( $votes_array[$question['ID']] ) ) // Multiple.
+			if ( isset( $votes_array[$question['ID']] )
+				&& is_array( $votes_array[$question['ID']] ) ) // Multiple.
 			{
 				foreach ( $votes_array[$question['ID']] as $checked_box )
 				{
