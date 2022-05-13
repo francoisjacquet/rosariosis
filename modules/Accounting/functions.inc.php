@@ -74,7 +74,7 @@ function _makeSalariesTextInput( $value, $name )
 	return _makeIncomesTextInput( $value, $name );
 }
 
-function _makeSalariesDateInput( $value='', $name )
+function _makeSalariesDateInput( $value, $name )
 {	global $THIS_RET;
 
 	if ( ! empty( $THIS_RET['ID'] ) )
