@@ -53,7 +53,7 @@ function _fieldsCategoryMenu( $category )
 	$menu = SelectInput(
 		$category,
 		'category',
-		'',
+		'<span class="a11y-hidden">' . _( 'Category' ) . '</span>',
 		[
 			'student' => _( 'Student Fields' ),
 			'address' => _( 'Address Fields' ),
