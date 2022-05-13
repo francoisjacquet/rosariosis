@@ -332,7 +332,7 @@ UPDATE custom_fields
 SET title='Ethnicity|es_ES.utf8:Origen étnico', select_options='Blanco, No Hispano
 Negro, No Hispano
 Indio Americano o Nativo de Alaska
-Asiatico o de las Islas del Pacifico
+Asiático o de las Islas del Pacífico
 Hispano
 Otro'
 WHERE id=200000001;
