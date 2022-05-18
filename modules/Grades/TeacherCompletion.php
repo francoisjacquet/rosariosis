@@ -30,7 +30,8 @@ $periods_RET = DBGet( "SELECT sp.PERIOD_ID,sp.TITLE
 		AND cp.SYEAR='" . UserSyear() . "')
 	ORDER BY sp.SORT_ORDER", [], [ 'PERIOD_ID' ] );
 
-$period_select = '<select name="period" onChange="ajaxPostForm(this.form,true);"><option value="">' . _( 'All' ) . '</option>';
+$period_select = '<select name="period" id="period" onchange="ajaxPostForm(this.form,true);">
+	<option value="">' . _( 'All' ) . '</option>';
 
 $_REQUEST['period'] = issetVal( $_REQUEST['period'], false );
 
@@ -41,9 +42,10 @@ foreach ( (array) $periods_RET as $id => $period )
 		$period[1]['TITLE'] . '</option>';
 }
 
-$period_select .= "</select>";
+$period_select .= '</select>
+	<label for="period" class="a11y-hidden">' . _( 'Periods' ) . '</label>';
 
-$mp_select = '<select name="mp" onChange="ajaxPostForm(this.form,true);">';
+$mp_select = '<select name="mp" id="mp" onchange="ajaxPostForm(this.form,true);">';
 
 if ( $pros != '' )
 {
@@ -72,10 +74,11 @@ if ( GetMP( $fy, 'DOES_GRADES' ) == 'Y' )
 		GetMP( $fy ) . '</option>';
 }
 
-$mp_select .= '</select>';
+$mp_select .= '</select>
+	<label for="mp" class="a11y-hidden">' . _( 'Marking Period' ) . '</label>';
 
 echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="GET">';
-DrawHeader( $mp_select . ' - ' . $period_select );
+DrawHeader( $mp_select . ' &mdash; ' . $period_select );
 echo '</form>';
 
 //FJ multiple school periods for a course period
