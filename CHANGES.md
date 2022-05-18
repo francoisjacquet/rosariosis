@@ -88,6 +88,7 @@ Changes in 9.0
 - Add translations for Calendar days legend in rosariosis.po
 - Use json_encode() for AjaxLink() URL, program wide
 - SQL skip "No Address" contacts to avoid lines with empty Address fields in Export.php
+- French translation: remove capitalization & use articles in rosariosis.po, help.po & rosariosis_fr.sql
 
 Changes in 8.9.6
 ----------------

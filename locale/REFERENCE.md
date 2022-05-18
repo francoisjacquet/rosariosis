@@ -21,7 +21,7 @@ Do not forget to add the `.utf8` suffix to the locale code.
 | fa_IR | Persian (Iran)                | 32%       |                     |
 | fi_FI | Finnish (Finland)             | 33%       |                     |
 | ga_IE | Irish (Ireland)               | 33%       |                     |
-| fr_FR | French (France)               | **100%**  | RosarioSIS          |
+| fr_FR | French (France)               | **100%**  | RosarioSIS, Étienne de Blois |
 | gl_GL | Galician                      | 33%       |                     |
 | hr_HR | Croatian (Croatia)            | 33%       |                     |
 | hu_HU | Hungarian (Hungary)           | 33%       |                     |
