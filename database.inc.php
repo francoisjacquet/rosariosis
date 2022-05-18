@@ -524,10 +524,5 @@ function DBEscapeIdentifier( $identifier )
 
 	$identifier = mb_strtolower( $identifier );
 
-	if ( ! function_exists( 'pg_escape_identifier' ) )
-	{
-		return '"' . $identifier . '"';
-	}
-
 	return pg_escape_identifier( $db_connection, $identifier );
 }
