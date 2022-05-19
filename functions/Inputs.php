@@ -625,14 +625,18 @@ function MarkDownInputPreview( $input_id )
 
 	?>
 	<div class="md-preview">
-		<a href="#" onclick="MarkDownInputPreview('<?php echo $input_id; ?>'); return false;" class="tab disabled"><?php echo _( 'Write' ); ?></a>
+		<a href="#" onclick="<?php echo AttrEscape( 'MarkDownInputPreview(' .
+			json_encode( $input_id ) .
+			'); return false;' ); ?>" class="tab disabled"><?php echo _( 'Write' ); ?></a>
 
-		<a href="#" onclick="MarkDownInputPreview('<?php echo $input_id; ?>'); return false;" class="tab"><?php echo _( 'Preview' ); ?></a>
+		<a href="#" onclick="<?php echo AttrEscape( 'MarkDownInputPreview(' .
+			json_encode( $input_id ) .
+			'); return false;' ); ?>" class="tab"><?php echo _( 'Preview' ); ?></a>
 
 		<a href="https://gitlab.com/francoisjacquet/rosariosis/wikis/Markdown-Cheatsheet" title="<?php echo AttrEscape( _( 'Mastering MarkDown' ) ); ?>" target="_blank" class="md-link">
 			<img class="button" src="assets/themes/<?php echo Preferences( 'THEME' ); ?>/btn/md_button.png" alt="<?php echo AttrEscape( _( 'Mastering MarkDown' ) ); ?>" />
 		</a>
-		<div class="markdown-to-html" id="divMDPreview<?php echo $input_id; ?>"></div>
+		<div class="markdown-to-html" id="<?php echo GetInputID( 'divMDPreview' . $input_id ); ?>"></div>
 	</div>
 	<?php
 
