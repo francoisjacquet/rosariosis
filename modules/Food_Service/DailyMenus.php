@@ -292,7 +292,7 @@ else
 			'SCHOOL_DATE' => ProperDate( $school_date ),
 			'DESCRIPTION' => TextInput( '', 'food_service[' . $school_date . '][text]', '', 'size=20' ) .
 			( $description_select ?
-				'<select name="food_service[' . $school_date . '][select]" style="width: 217px">' .
+				'<select name="' . AttrEscape( 'food_service[' . $school_date . '][select]' ) . '" style="width: 217px">' .
 				$description_select :
 				'' ),
 		];
