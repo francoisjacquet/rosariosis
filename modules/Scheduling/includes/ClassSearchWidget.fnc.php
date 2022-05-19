@@ -5,23 +5,6 @@
  * Primarily used in PrintClassLists.php & PrintClassPictures.php programs.
  */
 
-if ( ! function_exists( 'mySearch' ) )
-{
-	/**
-	 * mySearch
-	 * ClassSearchWidget() was named mySearch in PrintClassPitcures.php & PrintClassLists.php
-	 *
-	 * @deprecated since 5.6
-	 *
-	 * @param string $type  'course_period'.
-	 * @param array  $extra Search or Header Extra.
-	 */
-	function mySearch( $type, $extra = '' )
-	{
-		ClassSearchWidget( $extra );
-	}
-}
-
 /**
  * Class Search Widget
  * Find a Course PopTable + Course Periods ListOutput
