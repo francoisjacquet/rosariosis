@@ -89,6 +89,7 @@ Changes in 9.0
 - Use json_encode() for AjaxLink() URL, program wide
 - SQL skip "No Address" contacts to avoid lines with empty Address fields in Export.php
 - French translation: remove capitalization & use articles in rosariosis.po, help.po & rosariosis_fr.sql
+- JS Sanitize string for legal variable name in Export.php
 
 Changes in 8.9.6
 ----------------

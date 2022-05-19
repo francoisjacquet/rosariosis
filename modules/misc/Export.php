@@ -772,18 +772,27 @@ else
 
 			echo '<td>';
 
-			$addJS = '<script>
-					var field' . $field . '=' .
-						json_encode( '<li>' . ParseMLField( $title ) . '</li>' ) . ';
-					var fielddiv' . $field . '=' .
-						json_encode( '<input type="hidden" name="fields[' . $field . ']" value="Y" />' ) . ';
-				</script>';
+			// @since 9.0 JS Sanitize string for legal variable name.
+			// @link https://stackoverflow.com/questions/12339942/sanitize-strings-for-legal-variable-names-in-php
+			$pattern = '/^(?![a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)$/';
 
-			echo $addJS .
+			$field_var_name_sanitized = preg_replace( $pattern, '', $field );
+
+			$add_js = '<script>
+				var field' . $field_var_name_sanitized . '=' .
+					json_encode( '<li>' . ParseMLField( $title ) . '</li>' ) . ';
+				var fielddiv' . $field_var_name_sanitized . '=' .
+					json_encode( '<input type="hidden" name="' . AttrEscape( 'fields[' . $field_var_name_sanitized . ']' ) . '" value="Y" />' ) . ';
+			</script>';
+
+			$onclick_js = 'addHTML(field' . $field_var_name_sanitized . ',"names_div",false);
+				addHTML(fielddiv' . $field_var_name_sanitized . ',"fields_div",false);
+				this.disabled=true';
+
+			echo $add_js .
 				'<label>
-					<input type="checkbox" autocomplete="off" onclick=\'addHTML(field' . $field . ',"names_div",false);
-						addHTML(fielddiv'.$field.',"fields_div",false);
-						this.disabled=true\' />&nbsp;' . ParseMLField( $title ) .
+					<input type="checkbox" autocomplete="off" onclick="' . AttrEscape( $onclick_js ) . '" />&nbsp;' .
+					ParseMLField( $title ) .
 				'</label>';
 
 			if ( ParseMLField( $category, 'default' ) == 'Address'
