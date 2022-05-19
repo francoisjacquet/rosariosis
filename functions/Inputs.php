@@ -1635,6 +1635,7 @@ function CheckBoxOnclick( $name, $title = '' )
  * From name attribute value
  *
  * @since 2.9
+ * @since 9.0 Use AttrEscape()
  *
  * @example GetInputID( 'cust[CUSTOM_1]' ); will return "custCUSTOM_1"
  *
@@ -1649,7 +1650,9 @@ function GetInputID( $name )
 		return $name;
 	}
 
-	return str_replace( [ '[', ']', '-', ' ' ], '', $name );
+	$id = str_replace( [ '[', ']', '-', ' ' ], '', $name );
+
+	return AttrEscape( $id );
 }
 
 
