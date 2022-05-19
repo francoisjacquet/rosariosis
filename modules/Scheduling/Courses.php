@@ -1287,9 +1287,9 @@ if (  ( ! $_REQUEST['modfunc']
 				{
 					$popup_url = URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=choose_course' );
 
-					$popup_link = '<a href="#" onclick=\'popups.open(
-							"' . $popup_url . '"
-						); return false;\'>' . _( 'Choose' ) . '</a><br />';
+					$popup_link = '<a href="#" onclick="' . AttrEscape( 'popups.open(
+						' . json_encode( $popup_url ) . '
+						); return false;' ) . '">' . _( 'Choose' ) . '</a><br />';
 				}
 
 				// Parent Course Period.
