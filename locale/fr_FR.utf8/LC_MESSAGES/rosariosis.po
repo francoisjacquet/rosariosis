@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-13 17:56+0200\n"
-"PO-Revision-Date: 2022-05-17 13:55+0200\n"
+"PO-Revision-Date: 2022-05-19 12:21+0200\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS\n"
 "Language: fr\n"
@@ -5585,7 +5585,7 @@ msgstr "Grouper par catégorie de devoir"
 
 #: modules/Grades/ProgressReports.php:457
 msgid "Not due"
-msgstr "Pas de rendu"
+msgstr "Pas à échéance"
 
 #: modules/Grades/ReportCardCommentCodes.php:102
 #: modules/Grades/ReportCardComments.php:118
