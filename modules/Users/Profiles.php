@@ -370,9 +370,9 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 
 			echo '<table class="widefat fixed-col"><tr><th class="align-right"><label>' . _( 'Can Use' ) . ' ' .
 				( AllowEdit() ?
-				'<input type="checkbox" name="can_use_' . $modcat .
-				'" onclick="checkAll(this.form,this.form.can_use_' . $modcat .
-				'.checked,\'can_use[' . $modcat . '\');">' :
+				'<input type="checkbox" name="' . AttrEscape( 'can_use_' . $modcat ) .
+				'" onclick="' . AttrEscape( 'checkAll(this.form,this.form.can_use_' . $modcat .
+					'.checked,"can_use[' . $modcat . '");' ) . '">' :
 				'' ) .
 				'</label></th>';
 
@@ -385,9 +385,9 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 			{
 				echo '<th class="align-right"><label>' . _( 'Can Edit' ) . ' ' .
 					( AllowEdit() ?
-					'<input type="checkbox" name="can_edit_' . $modcat .
-					'" onclick="checkAll(this.form,this.form.can_edit_' . $modcat .
-					'.checked,\'can_edit[' . $modcat . '\');">' :
+					'<input type="checkbox" name="' . AttrEscape( 'can_edit_' . $modcat ) .
+					'" onclick="' . AttrEscape( 'checkAll(this.form,this.form.can_edit_' . $modcat .
+						'.checked,"can_edit[' . $modcat . '");' ) . '">' :
 					'' ) .
 					'</label></th>';
 			}
