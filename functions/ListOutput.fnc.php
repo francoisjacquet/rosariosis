@@ -242,7 +242,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		{
 			if ( empty( $LO_page )
-				|| (int) $LO_page != $LO_page
+				|| (string) (int) $LO_page != $LO_page
 				|| $LO_page < 1 )
 			{
 				$LO_page = 1;
