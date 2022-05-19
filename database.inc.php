@@ -222,12 +222,9 @@ function DBSeqNextID( $seqname )
 /**
  * Start transaction
  *
- * @deprecated $connection param since 5.2
- *
- * @param  PostgreSQL connection resource $connection Connection. DEPRECATED.
  * @return void
  */
-function db_trans_start( $connection = false )
+function db_trans_start()
 {
 	db_query( 'BEGIN TRANSACTION;' );
 }
