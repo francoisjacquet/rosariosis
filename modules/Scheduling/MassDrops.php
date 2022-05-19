@@ -176,9 +176,9 @@ if ( $_REQUEST['modfunc'] != 'choose_course' )
 
 		$popup_url = URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=choose_course' );
 
-		echo '</div><a href="#" onclick=\'popups.open(
-				"' . $popup_url . '"
-			); return false;\'>' . _( 'Choose a Course' ) . '</a></td></tr>';
+		echo '</div><a href="#" onclick="' . AttrEscape( 'popups.open(
+			' . json_encode( $popup_url ) . '
+			); return false;' ) . '">' . _( 'Choose a Course' ) . '</a></td></tr>';
 
 		echo '<tr><td><br />' . DateInput(
 			DBDate(),

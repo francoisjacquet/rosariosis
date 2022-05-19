@@ -273,8 +273,9 @@ if ( UserStudentID()
 		'&year_date=' . $_REQUEST['year_date'] );
 
 	// FJ bugfix SQL bug $_SESSION['student_id'] is not set
-	$link['add']['link'] = '# onclick=\'popups.open("' . $popup_url . '","",
-		"scrollbars=yes,resizable=yes,width=900,height=400"); return false;\'';
+	$link['add']['link'] = '"#" onclick="' . AttrEscape( 'popups.open(
+		' . json_encode( $popup_url ) . '
+		); return false;' ) . '"';
 
 	$link['add']['title'] = _( 'Add a Course' );
 

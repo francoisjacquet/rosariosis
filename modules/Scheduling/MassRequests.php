@@ -83,7 +83,11 @@ if ( $_REQUEST['modfunc'] != 'choose_course' )
 			echo $course_title;
 		}
 
-		echo '</div><a href="#" onclick=\'window.open("Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=choose_course","","scrollbars=yes,resizable=yes,width=800,height=400");\'>' . _( 'Choose a Course' ) . '</a></td></tr>';
+		$popup_url = URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=choose_course' );
+
+		echo '</div><a href="#" onclick="' . AttrEscape( 'popups.open(
+			' . json_encode( $popup_url ) . '
+			); return false;' ) . '">' . _( 'Choose a Course' ) . '</a></td></tr>';
 
 		echo '<tr><td>' . _( 'With' ) . '</td><td>';
 

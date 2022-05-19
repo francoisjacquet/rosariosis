@@ -293,9 +293,12 @@ function CalendarDayEventsHTMLDefault( $date, $events )
 	{
 		$title = ( $event['TITLE'] ? $event['TITLE'] : '***' );
 
+		$onclick_js = 'CalEventPopup(popupURL + ' .
+			json_encode( URLEscape( '&event_id=' . $event['ID'] ) ) . '); return false;';
+
 		$html .= '<div>' .
 			( AllowEdit() || $event['DESCRIPTION'] ?
-				'<a href="#" onclick="CalEventPopup(popupURL + \'&event_id=' . $event['ID'] . '\'); return false;" title="' . AttrEscape( $title ) . '">' .
+				'<a href="#" onclick="' . AttrEscape( $onclick_js ) . '" title="' . AttrEscape( $title ) . '">' .
 				$title . '</a>'
 				: '<span title="' . AttrEscape( $title ) . '">' . $title . '</span>'
 			) .
@@ -341,8 +344,11 @@ function CalendarDayAssignmentsHTMLDefault( $date, $assignments )
 
 	foreach ( (array) $assignments as $assignment )
 	{
+		$onclick_js = 'CalEventPopup(popupURL + ' .
+			json_encode( URLEscape( '&assignment_id=' . $assignment['ID'] ) ) . '); return false;';
+
 		$html .= '<div class="calendar-event assignment' . ( $assignment['ASSIGNED'] == 'Y' ? ' assigned' : '' ) . '">' .
-			'<a href="#" onclick="CalEventPopup(popupURL + \'&assignment_id=' . $assignment['ID'] . '\'); return false;" title="' . AttrEscape( $assignment['TITLE'] ) . '">' .
+			'<a href="#" onclick="' . AttrEscape( $onclick_js ) . '" title="' . AttrEscape( $assignment['TITLE'] ) . '">' .
 				$assignment['TITLE'] .
 			'</a>
 		</div>';
@@ -388,12 +394,15 @@ function CalendarDayNewAssignmentHTMLDefault( $date, $assignments )
 	if ( AllowEdit()
 		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
+		$onclick_js = 'CalEventPopup(popupURL + ' .
+			json_encode( URLEscape( '&school_date=' . $date . '&event_id=new' ) ) . '); return false;';
+
 		// New Event.
 		$html .= '<td>' .
 			button(
 				'add',
 				'',
-				'"#" onclick="CalEventPopup(popupURL + \'&school_date=' . $date . '&event_id=new\'); return false;" title="' . AttrEscape( _( 'New Event' ) ) . '"'
+				'"#" onclick="' . AttrEscape( $onclick_js ) . '" title="' . AttrEscape( _( 'New Event' ) ) . '"'
 			) .
 		'</td>';
 	}

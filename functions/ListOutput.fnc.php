@@ -552,27 +552,24 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 						continue;
 					}
 
+					$link_url = $link[$key]['link'];
+
+					foreach ( (array) $link[$key]['variables'] as $var => $val )
+					{
+						$link_url .= '&' . $var . '=' . $item[$val];
+					}
+
+					$link_url = URLEscape( $link_url );
+
 					if ( ! empty( $link[$key]['js'] ) )
 					{
-						echo '<a href="#" onclick=\'popups.open("' . URLEscape( $link[$key]['link'] );
-
-						foreach ( (array) $link[$key]['variables'] as $var => $val )
-						{
-							echo URLEscape( '&' . $var . '=' . $item[$val] );
-						}
-
-						echo '"); return false;\'';
+						echo '<a href="#" onclick="' . AttrEscape( 'popups.open(' .
+							json_encode( $link_url ) .
+							'); return false;' ) . '"';
 					}
 					else
 					{
-						echo '<a href="' . URLEscape( $link[$key]['link'] );
-
-						foreach ( (array) $link[$key]['variables'] as $var => $val )
-						{
-							echo URLEscape( '&' . $var . '=' . $item[$val] );
-						}
-
-						echo '"';
+						echo '<a href="' . $link_url . '"';
 					}
 
 					echo empty( $link[$key]['extra'] ) ? '' : ' ' . $link[$key]['extra'];

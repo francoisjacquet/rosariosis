@@ -938,18 +938,18 @@ if ( ! $_REQUEST['modfunc'] )
 
 			if ( $_REQUEST['address_id'] !== 'new' && $_REQUEST['address_id'] != '0' )
 			{
-				$display_address = URLEscape( $this_address['ADDRESS'] . ', ' . ( $this_address['CITY'] ? ' ' . $this_address['CITY'] . ', ' : '' ) . $this_address['STATE'] . ( $this_address['ZIPCODE'] ? ' ' . $this_address['ZIPCODE'] : '' ) );
+				$display_address = $this_address['ADDRESS'] . ', ' . ( $this_address['CITY'] ? ' ' . $this_address['CITY'] . ', ' : '' ) . $this_address['STATE'] . ( $this_address['ZIPCODE'] ? ' ' . $this_address['ZIPCODE'] : '' );
 
-				$link = 'https://www.openstreetmap.org/search?query=' . $display_address;
+				$link = URLEscape( 'https://www.openstreetmap.org/search?query=' . $display_address );
 
 				echo '<tr><td class="valign-top" colspan="3">' .
 				button(
 					'compass_rose',
 					_( 'Map It' ),
-					'# onclick=\'popups.open(
-							"' . $link . '",
-							"scrollbars=yes,resizable=yes,width=1000,height=700"
-						); return false;\'',
+					'"#" onclick="' . AttrEscape( 'popups.open(
+						' . json_encode( $link ) . ',
+						"scrollbars=yes,resizable=yes,width=1000,height=700"
+						); return false;' ) . '"',
 					'bigger'
 				) . '</td></tr>';
 			}

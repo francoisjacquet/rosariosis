@@ -1782,7 +1782,9 @@ function MakeChooseCheckbox( $value, $column = '', $controller_name = '' )
 		}
 
 		return '</a><input type="checkbox" value="Y" name="controller" id="controller"
-			onclick="checkAll(this.form,this.checked,\'' . $controller_name .'\');"' .
+			onclick="' . AttrEscape( 'checkAll(this.form,this.checked,' .
+				json_encode( $controller_name ) .
+				');' ) . '"' .
 			( $checked ? ' checked' : '' ) . ' />
 			<label for="controller" class="a11y-hidden">' . _( 'Check All' ) . '</label><a>';
 	}
