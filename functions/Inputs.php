@@ -323,12 +323,15 @@ function setMLvalue(id, loc, value){
 			$return .= '<label><img src="locale/' . $loc . '/flag.png" class="button bigger" alt="' . AttrEscape( $language ) . '" title="' . AttrEscape( $language ) . '" /> ';
 
 			//$return .= TextInput(ParseMLField($value, $loc),'ML_'.$name.'['.$loc.']','',$extra." onchange=\"javascript:setMLvalue('".$name."','".($id==0?'':$loc)."',this.value);\"",false);
+
+			$onchange_js = 'setMLvalue(' . json_encode( $id ) . ',' . json_encode( $loc ) . ',this.value);';
+
 			$return .= TextInput(
 				ParseMLField( $value, $loc ),
 				'ML_' . $name . '[' . $loc . ']',
 				'',
 				$extra . ( $key == 0 ? ' required' : '' ) .
-					" onchange=\"setMLvalue('" . $id . "','" . $loc . "',this.value);\"",
+					' onchange="' . AttrEscape( $onchange_js ) . '"',
 				false
 			);
 
@@ -1562,7 +1565,7 @@ function FileInput( $name, $title = '', $extra = '', $max_file_size = 0 )
 	}
 
 	return '<input type="file" id="' . $id . '" name="' . AttrEscape( $name ) . '" ' . $extra .
-		' onchange="fileInputSizeValidate(this,' . $max_file_size . ');" /><span class="loading"></span>' .
+		' onchange="fileInputSizeValidate(this,' . (float) $max_file_size . ');" /><span class="loading"></span>' .
 		$ftitle;
 }
 
