@@ -278,8 +278,6 @@ if ( ! function_exists( 'ReportCardsGenerate' ) )
 	 * @since 7.5 Report Cards PDF footer action hook
 	 * @since 8.0 Add Class Rank row.
 	 *
-	 * @uses _makeTeacher() see below
-	 *
 	 * @param  array         $student_array Students IDs
 	 * @param  array         $mp_array      Marking Periods IDs
 	 * @return boolean|array False if No Students or Report Cards associative array (key = $student_id)
@@ -981,22 +979,6 @@ if ( ! function_exists( 'GetReportCardsExtra' ) )
 
 		return $extra;
 	}
-}
-
-/**
- * Make Teacher
- * DBGet callback
- * Local function
- *
- * @deprecated since 3.4.3. Use Teacher ID instead of extracting Teacher name from CP title.
- *
- * @param  string $teacher  Teacher
- * @param  string $column   'TEACHER'
- * @return string Formatted Teacher
- */
-function _makeTeacher( $teacher, $column )
-{
-	return mb_substr( $teacher, mb_strrpos( str_replace( ' - ', ' ^ ', $teacher ), '^' ) + 2 );
 }
 
 /**
