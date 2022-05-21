@@ -11,6 +11,8 @@ PHP8.1 compatibility
 
 Security improvements
 
+French translation revised, thanks to Étienne de Blois
+
 School Setup
 - Calendars: legend
 
