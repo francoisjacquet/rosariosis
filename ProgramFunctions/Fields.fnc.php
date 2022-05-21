@@ -438,7 +438,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = [], $type
 			issetVal( $RET['SORT_ORDER'], '' ),
 			'tables[' . $id . '][SORT_ORDER]',
 			_( 'Sort Order' ),
-			' type="number" min="0" max="9999"'
+			' type="number" min="-9999" max="9999"'
 		) . '</td>';
 
 		$header .= '</tr></table>';
@@ -459,7 +459,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = [], $type
 			issetVal( $RET['SORT_ORDER'], '' ),
 			'tables[' . $category_id . '][SORT_ORDER]',
 			_( 'Sort Order' ),
-			' type="number" min="0" max="9999"'
+			' type="number" min="-9999" max="9999"'
 		) . '</td>';
 
 		// Extra Fields.

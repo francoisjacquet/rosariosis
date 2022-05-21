@@ -312,7 +312,7 @@ function _makeTextInput( $value, $name )
 
 	if ( $name === 'SORT_ORDER' )
 	{
-		$extra = ' type="number" min="0" max="9999"';
+		$extra = ' type="number" min="-9999" max="9999"';
 	}
 	elseif ( $name !== 'TITLE' )
 	{
