@@ -377,12 +377,16 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			// Do not remove search URL due to document.URL = 'index.php' in old IE browsers.
 			$search_URL = PreparePHP_SELF( $_REQUEST, [ 'LO_search' ] );
 
+			$onkeypress_js = 'LOSearch(event, this.value, ' . json_encode( $search_URL ) . ');';
+
+			$onclick_js = 'LOSearch(event, $(\'#LO_search\').val(), ' . json_encode( $search_URL ) . ');';
+
 			echo '<input type="text" id="LO_search" name="LO_search" value="' .
 			AttrEscape( str_replace( "''", "'", $LO_search ) ) .
-			'" placeholder="' . AttrEscape( _( 'Search' ) ) . '" onkeypress="LOSearch(event, this.value, \'' .
-			$search_URL . '\');" autocomplete="off" />
+			'" placeholder="' . AttrEscape( _( 'Search' ) ) .
+			'" onkeypress="' . AttrEscape( $onkeypress_js ) . '" autocomplete="off" />
 				<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/visualize.png"
-				onclick="LOSearch(event, $(\'#LO_search\').val(), \'' . $search_URL . '\');"
+				onclick="' . AttrEscape( $onclick_js ) . '"
 				class="button" alt="" title="' . AttrEscape( _( 'Search' ) ) . '" />
 				<label for="LO_search" class="a11y-hidden">' . _( 'Search' ) . '</label>';
 
