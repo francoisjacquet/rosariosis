@@ -746,16 +746,19 @@ class Widget_letter_grade implements Widget
 
 		$letter_grades = '';
 
-		foreach ( (array) $_REQUEST['letter_grade'] as $grade => $yes )
+		foreach ( (array) $_REQUEST['letter_grade'] as $grades )
 		{
-			if ( ! $yes )
+			foreach ( $grades as $grade )
 			{
-				continue;
+				if ( ! $grade )
+				{
+					continue;
+				}
+
+				$letter_grades .= ",'" . $grade . "'";
+
+				$LetterGradeSearchTerms .= $letter_grades_RET[ $grade ][1]['TITLE'] . ', ';
 			}
-
-			$letter_grades .= ",'" . $grade . "'";
-
-			$LetterGradeSearchTerms .= $letter_grades_RET[ $grade ][1]['TITLE'] . ', ';
 		}
 
 		$LetterGradeSearchTerms = mb_substr( $LetterGradeSearchTerms, 0, -2 ) . '<br />';
@@ -832,7 +835,7 @@ class Widget_letter_grade implements Widget
 		// FJ fix error Invalid argument supplied for foreach().
 		if ( empty( $_REQUEST['search_modfunc'] ) )
 		{
-			$letter_grades_RET = DBGet( "SELECT rg.ID,rg.TITLE,rg.GRADE_SCALE_ID
+			$letter_grades_RET = DBGet( "SELECT rg.ID,rg.TITLE,rg.GRADE_SCALE_ID,rs.TITLE AS SCALE_TITLE
 				FROM REPORT_CARD_GRADES rg,REPORT_CARD_GRADE_SCALES rs
 				WHERE rg.SCHOOL_ID='" . UserSchool() . "'
 				AND rg.SYEAR='" . UserSyear() . "'
@@ -850,27 +853,32 @@ class Widget_letter_grade implements Widget
 
 			foreach ( (array) $letter_grades_RET as $grades )
 			{
-				$i = 0;
-
 				if ( $j++ > 0 )
 				{
-					$html .= '<br /><br />';
+					$html .= '<br />';
 				}
+
+				$grades_options = [];
 
 				foreach ( (array) $grades as $grade )
 				{
-					$html .= '<label>
-							<input type="checkbox" value="Y" name="letter_grade[' . $grade['ID'] . ']" />&nbsp;' .
-							$grade['TITLE'] .
-						'</label> &nbsp; ';
-
-					if ( ++$i%6 === 0 )
-					{
-						$html .= '<br /><br />';
-					}
+					$grades_options[ $grade['ID'] ] = $grade['TITLE'];
 				}
+
+				// @since 9.0 Use multiple select input for grades list to gain space.
+				$html .= ChosenSelectInput(
+					'',
+					'letter_grade[' . $grade['GRADE_SCALE_ID'] . '][]',
+					$grade['SCALE_TITLE'],
+					$grades_options,
+					'N/A',
+					'multiple'
+				);
 			}
 		}
+
+		// CSS fix chosen width when parent has display none.
+		$html .= '<style>.chosen-container-multi { width: 100% !important; }</style>';
 
 		return $html . '</td></tr>';
 	}

@@ -91,6 +91,7 @@ Changes in 9.0
 - French translation: remove capitalization & use articles in rosariosis.po, help.po & rosariosis_fr.sql
 - JS Sanitize string for legal variable name in Export.php & Inputs.php
 - Remove deprecated `_makeTeacher()` function in ReportCards.fnc.php
+- Use multiple select input for grades list to gain space in Widget.php
 
 Changes in 8.9.6
 ----------------
