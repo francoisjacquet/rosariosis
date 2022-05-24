@@ -808,6 +808,12 @@ function _listSearch( $result, $LO_search )
 
 		foreach ( (array) $value as $val )
 		{
+			if ( empty( $val )
+				&& $val !== '0' )
+			{
+				continue;
+			}
+
 			// FJ better list searching by isolating the values.
 			$val = mb_strtolower( strip_tags( preg_replace( '/<script\b[^>]*>(.*?)<\/script>/is', "", $val ) ) );
 
@@ -821,7 +827,7 @@ function _listSearch( $result, $LO_search )
 
 			foreach ( $terms as $term => $one )
 			{
-				if ( mb_strpos( $val, $term ) !== FALSE )
+				if ( mb_strpos( $val, $term ) !== false )
 				{
 					// +3 for each Term found.
 					$values[$key] += 3;
