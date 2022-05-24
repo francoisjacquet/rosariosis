@@ -92,6 +92,7 @@ Changes in 9.0
 - JS Sanitize string for legal variable name in Export.php & Inputs.php
 - Remove deprecated `_makeTeacher()` function in ReportCards.fnc.php
 - Use multiple select input for grades list to gain space in Widget.php
+- Fix regression since 5.0, allow Administration of "Lunch" attendance categories in Administration.php, AttendanceCodes.fnc.php & colors.css
 
 Changes in 8.9.6
 ----------------

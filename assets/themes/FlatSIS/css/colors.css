@@ -479,36 +479,38 @@ hr {
 
 /* Attendance Codes */
 
-.attendance-code {
-	color: #fff;
-}
-
 .attendance-code.present {
+	color: #fff;
 	background-color: #20DD30;
 	/* Green */
 }
 
 .attendance-code.absent {
+	color: #fff;
 	background-color: #FF0000;
 	/* Red */
 }
 
 .attendance-code.half-day {
+	color: #fff;
 	background-color: #FFCC00;
 	/* Yellow */
 }
 
 .attendance-code.present-alt {
+	color: #fff;
 	background-color: #DDFFDD;
 	/* Green */
 }
 
 .attendance-code.absent-alt {
+	color: #fff;
 	background-color: #FFDDDD;
 	/* Red */
 }
 
 .attendance-code.half-day-alt {
+	color: #fff;
 	background-color: #FFEEDD;
 	/* Yellow */
 }

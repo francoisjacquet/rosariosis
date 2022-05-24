@@ -516,7 +516,13 @@ else
 		_( 'Current Student' ) . '</a></td><td>';
 	}
 
-	$headerl = AttendanceCodesTipMessage();
+	if ( $headerl )
+	{
+		// Header already has Attendance categories: add spacing.
+		$headerl .= ' &mdash; ';
+	}
+
+	$headerl .= AttendanceCodesTipMessage( '', $_REQUEST['table'] );
 
 	$headerr = '<table style="float: right;"><tr><td class="align-right">' .
 	button(

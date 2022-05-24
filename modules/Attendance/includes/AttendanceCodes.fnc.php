@@ -9,9 +9,10 @@
 /**
  * Make Attendance Code
  *
- * @todo use in TakeAttendance & oher reports than DailySummary.php.
+ * @todo use in TakeAttendance & other reports than DailySummary.php.
  *
  * @since 3.8
+ * @since 9.0 Allow empty State code.
  *
  * @param array  $state_code Attendance State code.
  * @param string $name       Name or HTML to display. Defaults to localized attendance code.
@@ -21,11 +22,6 @@
  */
 function MakeAttendanceCode( $state_code, $name = '', $title = '' )
 {
-	if ( empty( $state_code ) )
-	{
-		return '';
-	}
-
 	$attendance_codes_locale = [
 		// Attendance codes.
 		'P' => _( 'Present' ),
@@ -58,12 +54,15 @@ function MakeAttendanceCode( $state_code, $name = '', $title = '' )
 		$state_code = '0.5';
 	}
 
-	if ( $title === '' )
+	if ( $state_code )
 	{
-		$title = $attendance_codes_locale[ $state_code ];
-	}
+		if ( $title === '' )
+		{
+			$title = $attendance_codes_locale[ $state_code ];
+		}
 
-	$class .= ' ' . $attendance_code_classes[ $state_code ];
+		$class .= ' ' . $attendance_code_classes[ $state_code ];
+	}
 
 	if ( $name === '' )
 	{
@@ -82,6 +81,7 @@ function MakeAttendanceCode( $state_code, $name = '', $title = '' )
  * @since 3.8
  *
  * @since 3.9 Added $type param.
+ * @since 9.0 Added $table param.
  *
  * @uses MakeAttendanceCode
  * @uses MakeTipMessage
@@ -90,7 +90,7 @@ function MakeAttendanceCode( $state_code, $name = '', $title = '' )
  *
  * @return string Attendance Codes Tip Message.
  */
-function AttendanceCodesTipMessage( $type = '' )
+function AttendanceCodesTipMessage( $type = '', $table = '0' )
 {
 	static $attendance_codes_RET;
 
@@ -112,7 +112,7 @@ function AttendanceCodesTipMessage( $type = '' )
 		FROM ATTENDANCE_CODES
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
-		AND TABLE_NAME='0'" .
+		AND TABLE_NAME='" . (int) $table . "'" .
 		$type_where .
 		" ORDER BY TABLE_NAME,SORT_ORDER" );
 	}
