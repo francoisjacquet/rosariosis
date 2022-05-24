@@ -267,7 +267,7 @@ elseif ( isset( $_POST['USERNAME'] )
 
 		if ( $is_banned )
 		{
-			// Failed login: ban because >= 6 attempts within 10 minutes.
+			// Failed login ban if >= X failed attempts within 10 minutes.
 			$error[] = _( 'Too many Failed Login Attempts.' ) . '&nbsp;'
 				. _( 'Please try logging in later.' );
 		}

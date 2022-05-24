@@ -93,6 +93,7 @@ Changes in 9.0
 - Remove deprecated `_makeTeacher()` function in ReportCards.fnc.php
 - Use multiple select input for grades list to gain space in Widget.php
 - Fix regression since 5.0, allow Administration of "Lunch" attendance categories in Administration.php, AttendanceCodes.fnc.php & colors.css
+- SQL set default FAILED_LOGIN_LIMIT to 30 in rosariosis.sql, thanks to @domiee13
 
 Changes in 8.9.6
 ----------------
