@@ -182,7 +182,7 @@ if ( ! empty( $_POST['tables'] ) )
 
 				$fields = "ASSIGNMENT_ID,ASSIGNMENT_TYPE_ID,STAFF_ID,MARKING_PERIOD_ID,";
 
-				$values = $id . ",'" . $_REQUEST['assignment_type_id'] . "','" .
+				$values = $id . ",'" . (int) $_REQUEST['assignment_type_id'] . "','" .
 				User( 'STAFF_ID' ) . "','" . UserMP() . "',";
 
 				$_REQUEST['assignment_id'] = $id;

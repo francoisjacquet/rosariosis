@@ -26,7 +26,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 						SET DEFAULT_CODE=NULL
 						WHERE SYEAR='" . UserSyear() . "'
 						AND SCHOOL_ID='" . UserSchool() . "'
-						AND TABLE_NAME='" . $_REQUEST['table'] . "'" );
+						AND TABLE_NAME='" . (int) $_REQUEST['table'] . "'" );
 				}
 
 				if ( $id !== 'new' )
@@ -147,7 +147,7 @@ if ( ! $_REQUEST['modfunc'] )
 			FROM ATTENDANCE_CODES
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
-			AND TABLE_NAME='" . $_REQUEST['table'] . "'
+			AND TABLE_NAME='" . (int) $_REQUEST['table'] . "'
 			ORDER BY SORT_ORDER,TITLE",
 			[
 				'TITLE' => '_makeTextInput',
@@ -184,7 +184,7 @@ if ( ! $_REQUEST['modfunc'] )
 		FROM ATTENDANCE_CODES
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
-		AND TABLE_NAME='" . $_REQUEST['table'] . "'
+		AND TABLE_NAME='" . (int) $_REQUEST['table'] . "'
 		ORDER BY SORT_ORDER,TITLE";
 
 		$functions = [

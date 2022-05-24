@@ -208,7 +208,7 @@ $current_Q = "SELECT ATTENDANCE_TEACHER_CODE,ATTENDANCE_CODE,STUDENT_ID,ADMIN,CO
 	FROM " . DBEscapeIdentifier( $table ) . " t
 	WHERE SCHOOL_DATE='" . $date . "'
 	AND PERIOD_ID='" . (int) $_REQUEST['school_period'] . "'" .
-	( $table == 'LUNCH_PERIOD' ? " AND TABLE_NAME='" . $_REQUEST['table'] . "'" : '' );
+	( $table == 'LUNCH_PERIOD' ? " AND TABLE_NAME='" . (int) $_REQUEST['table'] . "'" : '' );
 
 $current_RET = DBGet( $current_Q, [], [ 'STUDENT_ID' ] );
 
@@ -262,7 +262,7 @@ if ( ! empty( $_REQUEST['attendance'] )
 		WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND SCHOOL_DATE='" . $date . "'
 		AND PERIOD_ID='" . (int) $_REQUEST['school_period'] . "'
-		AND TABLE_NAME='" . $_REQUEST['table'] . "'" );
+		AND TABLE_NAME='" . (int) $_REQUEST['table'] . "'" );
 
 	if ( empty( $completed_RET ) )
 	{
@@ -293,7 +293,7 @@ $codes_RET = DBGet( "SELECT ID,TITLE,DEFAULT_CODE,STATE_CODE
 	WHERE SCHOOL_ID='" . UserSchool() . "'
 	AND SYEAR='" . UserSyear() . "'
 	AND TYPE='teacher'
-	AND TABLE_NAME='" . $_REQUEST['table'] . "'
+	AND TABLE_NAME='" . (int) $_REQUEST['table'] . "'
 	ORDER BY SORT_ORDER" );
 
 $columns = [];
@@ -375,7 +375,7 @@ $completed_RET = DBGet( "SELECT 'Y' AS COMPLETED
 	WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 	AND SCHOOL_DATE='" . $date . "'
 	AND PERIOD_ID='" . (int) $_REQUEST['school_period'] . "'
-	AND TABLE_NAME='" . $_REQUEST['table'] . "'" );
+	AND TABLE_NAME='" . (int) $_REQUEST['table'] . "'" );
 
 if ( $completed_RET )
 {

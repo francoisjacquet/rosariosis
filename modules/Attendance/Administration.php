@@ -31,7 +31,7 @@ if ( $_REQUEST['table'] == '0' )
 else
 {
 	$table = 'LUNCH_PERIOD';
-	$extra_sql = " AND TABLE_NAME='" . $_REQUEST['table'] . "'";
+	$extra_sql = " AND TABLE_NAME='" . (int) $_REQUEST['table'] . "'";
 }
 
 $_SESSION['Administration.php']['date'] = $date;
@@ -211,7 +211,7 @@ $codes_RET = DBGet( "SELECT ID,SHORT_NAME,TITLE,STATE_CODE
 	FROM ATTENDANCE_CODES
 	WHERE SCHOOL_ID='" . UserSchool() . "'
 	AND SYEAR='" . UserSyear() . "'
-	AND TABLE_NAME='" . $_REQUEST['table'] . "'" );
+	AND TABLE_NAME='" . (int) $_REQUEST['table'] . "'" );
 
 $periods_RET = DBGet( "SELECT PERIOD_ID,SHORT_NAME,TITLE
 FROM SCHOOL_PERIODS
@@ -402,7 +402,7 @@ else
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND (DEFAULT_CODE!='Y' OR DEFAULT_CODE IS NULL)
-			AND TABLE_NAME='" . $_REQUEST['table'] . "'" );
+			AND TABLE_NAME='" . (int) $_REQUEST['table'] . "'" );
 
 		if ( ! empty( $RET ) )
 		{
