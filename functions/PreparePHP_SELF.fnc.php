@@ -173,8 +173,25 @@ function RedirectURL( $remove )
  */
 function URLEscape( $string )
 {
+	$fixed_entities_string = preg_replace_callback(
+		// Match both decimal & hex code (although hex codes can contain a-f letters).
+		// Should be enough as the alphabet hex codes only have numbers.
+		"/(&#x?[0-9]+;?)/i",
+		function( $match ) {
+			if ( mb_substr( $match[1], -1 ) !== ';' )
+			{
+				// Fix stored XSS security issue: add semicolon to HTML entity so it can be decoded.
+				// @link https://www.php.net/manual/en/function.html-entity-decode.php#104617
+				$match[1] .= ';';
+			}
+
+			return $match[1];
+		},
+		$string
+	);
+
 	// Fix stored XSS security issue: decode HTML entities from URL.
-	$decoded_string = html_entity_decode( (string) $string );
+	$decoded_string = html_entity_decode( (string) $fixed_entities_string );
 
 	$remove = [
 		// Fix stored XSS security issue: remove inline JS from URL.

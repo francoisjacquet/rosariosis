@@ -69,6 +69,7 @@ Changes in 9.0
 - Fix Improper Access Control security issue: add random string to photo file name in TipMessage.fnc.php, Transcripts.fnc.php, PrintClassPictures.php, Student.php, User.php & General_Info.inc.php, thanks to @dungtuanha
 - Fix stored XSS security issue: decode HTML entities from URL in PreparePHP_SELF.fnc.php, thanks to @khanhchauminh
 - Fix stored XSS security issue: remove inline JS from URL in PreparePHP_SELF.fnc.php, thanks to @intrapus
+- Fix stored XSS security issue: add semicolon to HTML entity so it can be decoded in PreparePHP_SELF.fnc.php, thanks to @intrapus
 - Accessibility: add hidden input label using .a11y-hidden class in ReportCardComments.php, StudentFields.php & Grades/TeacherCompletion.php
 - Accessibility: add select label in Eligibility/TeacherCompletion.php, Student.php, StudentList.php, MassDrops.php & MassSchedule.php
 - Two Lists on same page: export only first, no search in Eligibility/Student.php
