@@ -10,6 +10,8 @@ $extra['link']['FULL_NAME'] = false;
 $extra['new'] = true;
 $extra['functions'] = [ 'BALANCE' => '_makeCurrency' ];
 
+Widgets( 'balance' );
+
 if ( User( 'PROFILE' ) === 'parent' || User( 'PROFILE' ) === 'student' )
 {
 	$_REQUEST['search_modfunc'] = 'list';

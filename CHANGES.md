@@ -96,6 +96,7 @@ Changes in 9.0
 - Fix regression since 5.0, allow Administration of "Lunch" attendance categories in Administration.php, AttendanceCodes.fnc.php & colors.css
 - SQL set default FAILED_LOGIN_LIMIT to 30 in rosariosis.sql, thanks to @domiee13
 - JS Hide Options textarea if Field not of select type in Fields.fnc.php
+- Add Balance widget in StudentBalances.php
 
 Changes in 8.9.6
 ----------------
