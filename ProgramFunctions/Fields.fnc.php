@@ -353,8 +353,22 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = [], $type
 				'tables[' . $id . '][TYPE]',
 				_( 'Data Type' ),
 				$type_options,
-				false
+				false,
+				'onchange="FieldTypeSwitchSelectOptions(this.value);"'
 			) . '</td>';
+
+			// @since 9.0 JS Hide Options textarea if Field not of select type.
+			$header .= '<script>function FieldTypeSwitchSelectOptions(type) {
+				if (type == "select"
+					|| type == "autos"
+					|| type == "exports"
+					|| type == "multiple" ) {
+					$("#select_options_wrapper").show();
+				} else {
+					$("#select_options_wrapper").hide();
+				}
+			}
+			</script>';
 		}
 
 		if ( $category_id )
@@ -400,7 +414,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = [], $type
 					array_keys( $type_options ),
 					[ 'autos', 'select', 'multiple', 'exports' ] ) ) )
 		{
-			$header .= '<td colspan="3">' . TextAreaInput(
+			$header .= '<td colspan="3"><div id="select_options_wrapper">' . TextAreaInput(
 				issetVal( $RET['SELECT_OPTIONS'], '' ),
 				'tables[' . $id . '][SELECT_OPTIONS]',
 				_( 'Options' ) .
@@ -410,7 +424,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = [], $type
 				'rows=5 cols=40',
 				true,
 				false
-			) . '</td>';
+			) . '</div></td>';
 
 			$header .= '</tr><tr class="st">';
 		}
