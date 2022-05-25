@@ -97,6 +97,7 @@ Changes in 9.0
 - SQL set default FAILED_LOGIN_LIMIT to 30 in rosariosis.sql, thanks to @domiee13
 - JS Hide Options textarea if Field not of select type in Fields.fnc.php
 - Add Balance widget in StudentBalances.php
+- Add Total sum of balances in StudentBalances.php
 
 Changes in 8.9.6
 ----------------

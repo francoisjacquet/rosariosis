@@ -17,6 +17,18 @@ if ( User( 'PROFILE' ) === 'parent' || User( 'PROFILE' ) === 'student' )
 	$_REQUEST['search_modfunc'] = 'list';
 }
 
+if ( $_REQUEST['search_modfunc'] === 'list' )
+{
+	// Call GetStuList() only so we calculate the $total.
+	GetStuList( $extra );
+}
+
+// @since 9.0 Add Total sum of balances.
+$extra['link']['add']['html'] = [
+	'FULL_NAME' => '<b>' . _( 'Total' ) . '</b>',
+	'BALANCE' => '<b>' . Currency( ( isset( $total ) ? $total * -1 : 0 ) ) . '</b>',
+];
+
 Search( 'student_id', $extra );
 
 /**
@@ -25,5 +37,14 @@ Search( 'student_id', $extra );
  */
 function _makeCurrency( $value, $column )
 {
+	global $total;
+
+	if ( ! isset( $total ) )
+	{
+		$total = 0;
+	}
+
+	$total += (float) $value;
+
 	return Currency( $value * -1 );
 }
