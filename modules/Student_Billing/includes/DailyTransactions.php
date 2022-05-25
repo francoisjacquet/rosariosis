@@ -104,7 +104,7 @@ function _makeCurrency( $value, $column )
 		$totals[$column] = 0;
 	}
 
-	$totals[$column] += (int) $value;
+	$totals[$column] += (float) $value;
 
 	if ( ! empty( $value ) || $value == '0' )
 	{
