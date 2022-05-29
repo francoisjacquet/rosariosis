@@ -17,6 +17,9 @@ if ( User( 'PROFILE' ) === 'parent' || User( 'PROFILE' ) === 'student' )
 	$_REQUEST['search_modfunc'] = 'list';
 }
 
+// Fix SQL error table name "sam" specified more than once
+$extra2 = $extra;
+
 if ( $_REQUEST['search_modfunc'] === 'list' )
 {
 	// Call GetStuList() only so we calculate the $total.
@@ -29,7 +32,7 @@ $extra['link']['add']['html'] = [
 	'BALANCE' => '<b>' . Currency( ( isset( $total ) ? $total * -1 : 0 ) ) . '</b>',
 ];
 
-Search( 'student_id', $extra );
+Search( 'student_id', $extra2 );
 
 /**
  * @param $value
