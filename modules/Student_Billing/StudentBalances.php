@@ -27,7 +27,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 }
 
 // @since 9.0 Add Total sum of balances.
-$extra['link']['add']['html'] = [
+$extra2['link']['add']['html'] = [
 	'FULL_NAME' => '<b>' . _( 'Total' ) . '</b>',
 	'BALANCE' => '<b>' . Currency( ( isset( $total ) ? $total * -1 : 0 ) ) . '</b>',
 ];
