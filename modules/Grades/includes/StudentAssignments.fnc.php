@@ -121,7 +121,7 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 	// Serialize Assignment Data.
 	$data = [ 'files' => $files, 'message' => $message, 'date' => $timestamp ];
 
-	$data = DBEScapeString( serialize( $data ) );
+	$data = DBEscapeString( serialize( $data ) );
 
 	// Save assignment submission.
 	// Update or insert?
