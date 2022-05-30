@@ -50,7 +50,9 @@ function Search( $type, $extra = null )
 					if ( ! empty( $_REQUEST['school_id'] )
 						&& $_REQUEST['school_id'] != UserSchool() )
 					{
-						$_SESSION['UserSchool'] = $_REQUEST['school_id'];
+						$_SESSION['UserSchool'] = DBGetOne( "SELECT ID FROM SCHOOLS
+							WHERE SYEAR='" . UserSyear() . "'
+							AND ID='" . (int) $_REQUEST['school_id'] . "'" );
 					}
 
 					SetUserStudentID( $_REQUEST['student_id'] );

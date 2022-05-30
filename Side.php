@@ -39,7 +39,9 @@ if ( isset( $_REQUEST['sidefunc'] )
 	{
 		$unset_student = $unset_staff = true;
 
-		$_SESSION['UserSchool'] = (string) (int) $_REQUEST['school'];
+		$_SESSION['UserSchool'] = DBGetOne( "SELECT ID FROM SCHOOLS
+			WHERE SYEAR='" . UserSyear() . "'
+			AND ID='" . (int) $_REQUEST['school'] . "'" );
 
 		DBQuery( "UPDATE STAFF
 			SET CURRENT_SCHOOL_ID='" . UserSchool() . "'
@@ -53,7 +55,9 @@ if ( isset( $_REQUEST['sidefunc'] )
 	elseif ( isset( $_REQUEST['syear'] )
 		&& $_REQUEST['syear'] != $old_syear )
 	{
-		$_SESSION['UserSyear'] = (string) (int) $_REQUEST['syear'];
+		$_SESSION['UserSyear'] = DBGetOne( "SELECT SYEAR FROM SCHOOLS
+			WHERE SYEAR='" . (int) $_REQUEST['syear'] . "'
+			AND ID='" . UserSchool() . "'" );
 
 		// Reset current MarkingPeriod.
 		$_SESSION['UserMP'] = GetCurrentMP( 'QTR', DBDate(), false );

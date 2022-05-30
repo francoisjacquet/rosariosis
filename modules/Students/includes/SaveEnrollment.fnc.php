@@ -25,10 +25,14 @@ function SaveEnrollment()
 			elseif ( $stu_enrol_id == 'new'
 				&& $_REQUEST['values']['STUDENT_ENROLLMENT']['new']['SCHOOL_ID'] )
 			{
-				if ( $_REQUEST['values']['STUDENT_ENROLLMENT']['new']['SCHOOL_ID'] !== UserSchool() )
+				$enrollment_school_id = $_REQUEST['values']['STUDENT_ENROLLMENT']['new']['SCHOOL_ID'];
+
+				if ( $enrollment_school_id != UserSchool() )
 				{
 					// @since 5.4 Update current school to enrollment school.
-					$_SESSION['UserSchool'] = $_REQUEST['values']['STUDENT_ENROLLMENT']['new']['SCHOOL_ID'];
+					$_SESSION['UserSchool'] = DBGetOne( "SELECT ID FROM SCHOOLS
+						WHERE SYEAR='" . UserSyear() . "'
+						AND ID='" . (int) $enrollment_school_id . "'" );
 				}
 			}
 			elseif ( UserStudentID() && ! empty( $stu_enrol_month['START_DATE'] ) )
