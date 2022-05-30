@@ -6,10 +6,10 @@ Do not forget to add the `.utf8` suffix to the locale code.
 | Code  | Language (Country)            | Completed | Translator          |
 | ----- | ----------------------------- | --------- | ------------------- |
 | af_ZA | Afrikaans (South Africa)      | 32%       |                     |
-| ar_AE | Arabic (United Arab Emirates) | **84%**   | Husam Shabeeb, Ali Al-Hassan |
+| ar_AE | Arabic (United Arab Emirates) | **86%**   | Husam Shabeeb, Ali Al-Hassan |
 | ar_DZ | Arabic (Saudi Arabia)         | 33%       |                     |
 | be_BY | Belarusian (Belarus)          | 32%       |                     |
-| bg_BG | Bulgarian (Bulgaria)          | **100%**  | Vanyo Georgiev, Martin Krastev |
+| bg_BG | Bulgarian (Bulgaria)          | **96%**  | Vanyo Georgiev, Martin Krastev |
 | bn_BD | Bengali (Bangladesh)          | 32%       |                     |
 | cs_CZ | Czech (Czech Republic)        | 32%       |                     |
 | da_DK | Danish (Denmark)              | 32%       |                     |
