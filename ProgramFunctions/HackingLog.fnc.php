@@ -36,11 +36,11 @@ function HackingLog()
 	// Log Hacking time in session.
 	$_SESSION['HackingLog'][] = time();
 
+	$attempts_within_one_minute = 0;
+
 	if ( count( $_SESSION['HackingLog'] ) >= 10 )
 	{
 		$one_minute_ago = time() - 60;
-
-		$attempts_within_one_minute = 0;
 
 		foreach ( $_SESSION['HackingLog'] as $i => $time )
 		{
@@ -64,6 +64,14 @@ function HackingLog()
 	$error[] = _( 'You\'re not allowed to use this program!' );
 
 	ErrorSendEmail( $error, 'HACKING ATTEMPT' );
+
+	if ( $attempts_within_one_minute >= 10 )
+	{
+		// Destroy session now: some clients do not follow redirection.
+		session_unset();
+
+		session_destroy();
+	}
 
 	if ( ! headers_sent() )
 	{
