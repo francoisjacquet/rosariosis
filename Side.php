@@ -662,7 +662,7 @@ if ( ! isset( $_REQUEST['sidefunc'] )
 	require_once 'Menu.php';
 
 	// Modify loop: use for instead of foreach.
-	$menu_key = array_keys( $_ROSARIO['Menu'] );
+	$menu_key = array_keys( (array) $_ROSARIO['Menu'] );
 	$size_menu = count( $menu_key );
 
 	global $RosarioCoreModules;
