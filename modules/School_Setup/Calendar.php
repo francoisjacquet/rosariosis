@@ -980,17 +980,22 @@ if ( ! $_REQUEST['modfunc'] )
 			'add',
 			_( 'Create' ),
 			'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=create' ) . '"'
-		) . ' &nbsp; ' .
-		button(
-			'pencil',
-			_( 'Edit' ),
-			'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=create&calendar_id=' . $_REQUEST['calendar_id'] ) . '"'
-		) . ' &nbsp; ' .
-		button(
-			'remove',
-			_( 'Delete' ),
-			'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete_calendar&calendar_id=' . $_REQUEST['calendar_id'] ) . '"'
 		);
+
+		if ( $_REQUEST['calendar_id'] )
+		{
+			$links_right .= ' &nbsp; ' .
+			button(
+				'pencil',
+				_( 'Edit' ),
+				'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=create&calendar_id=' . $_REQUEST['calendar_id'] ) . '"'
+			) . ' &nbsp; ' .
+			button(
+				'remove',
+				_( 'Delete' ),
+				'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete_calendar&calendar_id=' . $_REQUEST['calendar_id'] ) . '"'
+			);
+		}
 	}
 
 	$list_events_URL = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=list_events&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year'];
