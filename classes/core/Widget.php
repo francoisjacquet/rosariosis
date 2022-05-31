@@ -871,14 +871,14 @@ class Widget_letter_grade implements Widget
 					'letter_grade[' . $grade['GRADE_SCALE_ID'] . '][]',
 					$grade['SCALE_TITLE'],
 					$grades_options,
-					'N/A',
+					false,
 					'multiple'
 				);
 			}
 		}
 
 		// CSS fix chosen width when parent has display none.
-		$html .= '<style>.chosen-container-multi { width: 100% !important; }</style>';
+		$html .= '<style>.chosen-container-multi { width: 100% !important; max-width: 300px; }</style>';
 
 		return $html . '</td></tr>';
 	}
