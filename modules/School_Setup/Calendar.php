@@ -1,4 +1,4 @@
-	<?php
+<?php
 
 require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 require_once 'modules/School_Setup/includes/CalendarDay.inc.php';
@@ -24,6 +24,10 @@ if ( ! isset( $_REQUEST['year'] )
 if ( isset( $_REQUEST['calendar_id'] ) )
 {
 	$_REQUEST['calendar_id'] = (string) (int) $_REQUEST['calendar_id'];
+}
+else
+{
+	$_REQUEST['calendar_id'] = '';
 }
 
 // Create / Recreate Calendar.
@@ -950,6 +954,8 @@ if ( ! $_REQUEST['modfunc'] )
 			ORDER BY DEFAULT_CALENDAR ASC,TITLE" );
 
 		$defaults = 0;
+
+		$options = [];
 
 		foreach ( (array) $title_RET as $title )
 		{
