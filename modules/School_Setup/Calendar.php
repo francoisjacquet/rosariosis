@@ -104,9 +104,22 @@ if ( $_REQUEST['modfunc'] === 'create'
 		$div
 	) . '</td></tr>';
 
+	// Check default if recreate default calendar.
+	$default_checked = $recreate_calendar && $recreate_calendar['DEFAULT_CALENDAR'] == 'Y';
+
+	if ( ! $default_checked )
+	{
+		// @since 9.0 Check default if school has no default calendar.
+		$default_checked = ! DBGetOne( "SELECT 1
+			FROM ATTENDANCE_CALENDARS
+			WHERE SCHOOL_ID='" . UserSchool() . "'
+			AND SYEAR='" . UserSyear() . "'
+			AND DEFAULT_CALENDAR='Y'" );
+	}
+
 	// Default.
 	$message .= '<tr><td colspan="2">' . CheckboxInput(
-		$recreate_calendar && $recreate_calendar['DEFAULT_CALENDAR'] == 'Y',
+		$default_checked,
 		'default',
 		_( 'Default Calendar for this School' ),
 		'',
