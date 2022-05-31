@@ -100,6 +100,7 @@ Changes in 9.0
 - Add Balance widget in StudentBalances.php
 - Add Total sum of balances in StudentBalances.php
 - Fix SQL error check requested UserSyear & UserSchool exists in DB in Side.php, Search.fnc.php & SaveEnrollment.fnc.php
+- HTML use number input for Class Rank widget in Widget.php
 
 Changes in 8.9.6
 ----------------

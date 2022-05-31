@@ -709,9 +709,9 @@ class Widget_class_rank implements Widget
 		}
 
 		return $html . '</td><td><label>' . _( 'Between' ) .
-		' <input type="text" name="class_rank_low" size="3" maxlength="5" /></label>' .
+		' <input type="number" name="class_rank_low" min="0" max="99999" step="1" /></label>' .
 		' <label>&amp;' .
-		' <input type="text" name="class_rank_high" size="3" maxlength="5" /></label>
+		' <input type="number" name="class_rank_high" min="0" max="99999" step="1" /></label>
 		</td></tr>';
 	}
 }
