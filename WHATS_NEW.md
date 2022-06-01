@@ -16,6 +16,9 @@ French translation revised, thanks to Étienne de Blois
 School Setup
 - Calendars: legend
 
+[Quiz Premium](https://www.rosariosis.org/modules/quiz/)
+- Answer Breakdown: Identify questions for which students have difficulties to answer
+
 
 New in 8.9
 ----------
