@@ -102,6 +102,7 @@ Changes in 9.0
 - Fix SQL error check requested UserSyear & UserSchool exists in DB in Side.php, Search.fnc.php & SaveEnrollment.fnc.php
 - HTML use number input for Class Rank widget in Widget.php
 - Check default if school has no default calendar in Calendar.php
+- CSS do not capitalize date in stylesheet.css
 
 Changes in 8.9.6
 ----------------

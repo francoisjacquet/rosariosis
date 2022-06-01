@@ -593,7 +593,6 @@ label {
 
 .proper-date {
 	white-space: nowrap;
-	text-transform: capitalize;
 }
 
 /**
