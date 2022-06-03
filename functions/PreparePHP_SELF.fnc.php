@@ -173,7 +173,7 @@ function RedirectURL( $remove )
  */
 function URLEscape( $string )
 {
-	$fixed_entities_string = preg_replace_callback(
+	$string = preg_replace_callback(
 		// Match both decimal & hex code (although hex codes can contain a-f letters).
 		// Should be enough as the alphabet hex codes only have numbers.
 		"/(&#x?[0-9]+;?)/i",
@@ -191,18 +191,20 @@ function URLEscape( $string )
 	);
 
 	// Fix stored XSS security issue: decode HTML entities from URL.
-	$decoded_string = html_entity_decode( (string) $fixed_entities_string );
+	$string = html_entity_decode( (string) $string );
 
 	$remove = [
 		// Fix stored XSS security issue: remove inline JS from URL.
 		'javascript:',
 	];
 
-	$decoded_sanitized_string = str_ireplace(
-		$remove,
-		'',
-		$decoded_string
-	);
+	foreach ( $remove as $remove_string )
+	{
+		while ( strpos( $string, $remove_string ) !== false )
+		{
+			$string = str_ireplace( $remove, '', $string );
+		}
+	}
 
 	$entities = [
 		'%21',
@@ -251,7 +253,7 @@ function URLEscape( $string )
 	return str_replace(
 		$entities,
 		$replacements,
-		rawurlencode( $decoded_sanitized_string )
+		rawurlencode( $string )
 	);
 }
 
