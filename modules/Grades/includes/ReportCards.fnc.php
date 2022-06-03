@@ -1551,7 +1551,8 @@ function _getReportCardCommentPersonalizations( $student_id )
 
 	if ( $gender_field_type === 'select' )
 	{
-		if ( mb_substr( $student_RET[1]['GENDER'], 0, 1 ) === 'F' )
+		if ( ! empty( $student_RET[1]['GENDER'] )
+			&& mb_substr( $student_RET[1]['GENDER'], 0, 1 ) === 'F' )
 		{
 			$gender = 'F';
 		}
