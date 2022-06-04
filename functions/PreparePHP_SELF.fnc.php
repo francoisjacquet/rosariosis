@@ -200,7 +200,7 @@ function URLEscape( $string )
 
 	foreach ( $remove as $remove_string )
 	{
-		while ( strpos( $string, $remove_string ) !== false )
+		while ( stripos( $string, $remove_string ) !== false )
 		{
 			$string = str_ireplace( $remove, '', $string );
 		}
