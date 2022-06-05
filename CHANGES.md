@@ -322,7 +322,7 @@ Changes in 8.0
 - Add-on disable delete in Modules.inc.php & Plugins.inc.php
 - Merge Daily Transactions & Daily Totals programs in DailyTransactions.php & DailyTotals.php
 - Remove Daily Totals program from Student Billing & Accounting menus in Menu.php & rosariosis.sql
-- Fix Totals calculus in Accounting/includes/DailyTotals.php
+- Fix Totals calculation in Accounting/includes/DailyTotals.php
 - Multibyte strings: check if not UTF-8 first to avoid cost of setting in Warehouse.php
 - Fix false positive Hacking Attempt on Print button click when no user in session in Warehouse.php
 - Merge Attendance Chart & Absence Summary programs in DailySummary.php & StudentSummary.php & Help_en.php

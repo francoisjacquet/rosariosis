@@ -365,7 +365,7 @@ if ( UserStudentID()
 			if ( ! empty( $assignments_RET ) )
 			{
 				if ( $do_stats && $_REQUEST['do_stats'] )
-				//FJ bugfix broken statistics, MIN calculus when gg.POINTS is NULL
+				//FJ bugfix broken statistics, MIN calculation when gg.POINTS is NULL
 				{
 					$all_RET = DBGet( "SELECT ga.ASSIGNMENT_ID,
 					min(" . db_case( [ 'gg.POINTS', "'-1'", 'ga.POINTS', db_case( [ 'gg.POINTS', "''", '0', 'gg.POINTS' ] ) ] ) . ") AS MIN,
