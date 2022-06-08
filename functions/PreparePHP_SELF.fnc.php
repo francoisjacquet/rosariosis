@@ -191,7 +191,7 @@ function URLEscape( $string )
 	);
 
 	// Fix stored XSS security issue: decode HTML entities from URL.
-	$string = html_entity_decode( (string) $string );
+	$string = html_entity_decode( (string) $string, ENT_QUOTES | ENT_HTML5 );
 
 	$remove = [
 		// Fix stored XSS security issue: remove inline JS from URL.

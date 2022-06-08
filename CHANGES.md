@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 9.0.1
+----------------
+- Fix stored XSS security issue: decode HTML entities from URL in PreparePHP_SELF.fnc.php, thanks to @domiee13
+
 Changes in 9.0
 --------------
 - CSS add length to previous meals select in DailyMenus.php
