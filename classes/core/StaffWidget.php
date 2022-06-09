@@ -134,8 +134,8 @@ class StaffWidget_fsa_balance implements StaffWidget
 		if ( ! $extra['NoSearchTerms'] )
 		{
 			$extra['SearchTerms'] .= '<b>' . _( 'Food Service Balance' ) . ' </b>
-				<span class="sizep2">' . ( ! empty( $_REQUEST['fsa_bal_ge'] ) ? '&ge;' : '&lt;' ) . '</span>' .
-				number_format( $_REQUEST['fsa_balance'], 2, '.', '' ) . '<br />';
+				<span class="sizep2">' . ( ! empty( $_REQUEST['fsa_bal_ge'] ) ? '&ge;' : '&lt;' ) . '</span> ' .
+				Currency( $_REQUEST['fsa_balance'] ) . '<br />';
 		}
 
 		return $extra;

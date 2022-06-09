@@ -1889,8 +1889,8 @@ class Widget_fsa_balance implements Widget
 		if ( ! $extra['NoSearchTerms'] )
 		{
 			$extra['SearchTerms'] .= '<b>' . _( 'Food Service Balance' ) . ' </b> ' .
-				'<span class="sizep2">' . ( empty( $_REQUEST['fsa_bal_ge'] ) ? '&lt;' : '&ge;' ) . '</span>' .
-				number_format( $_REQUEST['fsa_balance'], 2, '.', '' ) . '<br />';
+				'<span class="sizep2">' . ( empty( $_REQUEST['fsa_bal_ge'] ) ? '&lt;' : '&ge;' ) . '</span> ' .
+				Currency( $_REQUEST['fsa_balance'] ) . '<br />';
 		}
 
 		return $extra;
