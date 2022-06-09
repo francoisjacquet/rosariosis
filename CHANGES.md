@@ -7,6 +7,7 @@ Changes in 9.1
 - Capitalize month when date is only month and year in Dashboard.inc.php
 - Add decimal & thousands separator configuration in Help_en.php, Currency.fnc.php, Configuration.php, rosariosis.sql & rosariosis_fr.sql
 - Use Currency() for Food Service Balance value in Widget.php & StaffWidget.php
+- Add Class average in InputFinalGrades.php & Grades.fnc.php
 
 Changes in 9.0
 --------------

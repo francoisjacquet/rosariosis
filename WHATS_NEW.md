@@ -8,6 +8,9 @@ New in 9.1
 School
 - Configuration: Decimal & thousands separator
 
+Grades
+- Input Final Grades: add Class average, sponsored by Paris'Com Sup
+
 
 New in 9.0
 ----------

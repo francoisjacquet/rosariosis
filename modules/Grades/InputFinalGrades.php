@@ -1,6 +1,7 @@
 <?php
 
 require_once 'modules/Grades/includes/ClassRank.inc.php';
+require_once 'modules/Grades/includes/Grades.fnc.php';
 require_once 'ProgramFunctions/TipMessage.fnc.php';
 
 if ( ! empty( $_SESSION['is_secondary_teacher'] ) )
@@ -1345,9 +1346,24 @@ if ( ! empty( $categories_RET ) && GetMP( $_REQUEST['mp'], 'DOES_COMMENTS' ) == 
 	}
 }
 
+$link = [];
+
+if ( $stu_RET )
+{
+	// @since 9.1 Add Class average.
+	$link['add']['html'] = [
+		'FULL_NAME' => '<b>' . _( 'Class average' ) . '</b>',
+		'REPORT_CARD_GRADE' => GetClassAverage(
+			$course_period_id,
+			$_REQUEST['mp'],
+			ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' )
+		),
+	];
+}
+
 echo '<br />';
 
-ListOutput( $stu_RET, $LO_columns, 'Student', 'Students', false, [], $LO_options );
+ListOutput( $stu_RET, $LO_columns, 'Student', 'Students', $link, [], $LO_options );
 
 // @since 4.6 Navigate form inputs vertically using tab key.
 // @link https://stackoverflow.com/questions/38575817/set-tabindex-in-vertical-order-of-columns

@@ -105,3 +105,91 @@ function GetClassRankRow( $student_id, $mp_array )
 
 	return $class_rank_row;
 }
+
+/**
+ * Get Class average
+ * String formatted for display
+ *
+ * @since 9.1
+ *
+ * @uses GetClassAveragePercent()
+ * @uses _makeLetterGrade()
+ *
+ * @example GetClassAverage( $course_period_id, $_REQUEST['mp'], ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) )
+ *
+ * @param int $course_period_id  Course Period ID.
+ * @param int $marking_period_id Marking Period ID.
+ * @param int $letter_or_percent Letter or percent or both grades.
+ *
+ * @return string Empty if no grades yet, else formatted average HTML (letter grade in bold followed by percent grade).
+ */
+function GetClassAverage( $course_period_id, $marking_period_id, $letter_or_percent = 0 )
+{
+	$percent_average = GetClassAveragePercent( $course_period_id, $marking_period_id );
+
+	if ( ! $percent_average )
+	{
+		return '';
+	}
+
+	$percent = number_format( $percent_average, 1, '.', '' ) . '%';
+
+	if ( $letter_or_percent > 0 )
+	{
+		return $percent;
+	}
+
+	require_once 'ProgramFunctions/_makeLetterGrade.fnc.php';
+
+	$grade = _makeLetterGrade( ( $percent_average / 100 ), $course_period_id );
+
+	if ( $letter_or_percent < 0 )
+	{
+		return $grade;
+	}
+
+	return '<b>' . $grade . '</b> ' . $percent;
+}
+
+/**
+ * Get Class average percent
+ * Get raw percent value
+ *
+ * @since 9.1
+ *
+ * @param int $course_period_id  Course Period ID.
+ * @param int $marking_period_id Marking Period ID.
+ *
+ * @return float Percent average.
+ */
+function GetClassAveragePercent( $course_period_id, $marking_period_id )
+{
+	$extra['SELECT_ONLY'] = "sg1.GRADE_PERCENT";
+
+	$extra['FROM'] = ",STUDENT_REPORT_CARD_GRADES sg1,COURSE_PERIODS rc_cp";
+
+	$extra['WHERE'] = " AND sg1.MARKING_PERIOD_ID='" . (int) $marking_period_id . "'
+		AND rc_cp.COURSE_PERIOD_ID='" . (int) $course_period_id . "'
+		AND rc_cp.COURSE_PERIOD_ID=sg1.COURSE_PERIOD_ID
+		AND sg1.STUDENT_ID=ssm.STUDENT_ID";
+
+	$students_RET = GetStuList( $extra );
+
+	if ( ! $students_RET )
+	{
+		return 0.0;
+	}
+
+	$total_percent = $grades_i = 0;
+
+	foreach ( $students_RET as $grade )
+	{
+		$grades_i++;
+
+		$total_percent += $grade['GRADE_PERCENT'];
+	}
+
+	$percent_average = $total_percent / $grades_i;
+
+	return $percent_average;
+}
