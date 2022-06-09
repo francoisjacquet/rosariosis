@@ -134,7 +134,7 @@ if ( ! function_exists( 'DashboardGradesAdmin' ) )
 		$label = _( 'GPA' ) . ' &mdash; ' . GetMP( UserMP(), 'SHORT_NAME' );
 
 		$gpa_data = [
-			$label => ( $gpa ? number_format( $gpa, 2 ) : _( 'N/A' ) ),
+			$label => ( $gpa ? number_format( $gpa, 2, '.', '' ) : _( 'N/A' ) ),
 		];
 
 		$gpa_gradelevel_RET = DBGet( "SELECT ROUND(AVG(CUM_WEIGHTED_GPA)) AS CUM_WEIGHTED_GPA,
@@ -154,7 +154,7 @@ if ( ! function_exists( 'DashboardGradesAdmin' ) )
 			}
 
 			// GPA detail by Grade Level.
-			$gpa_data[ $gradelevel ] = number_format( $gpa_gradelevel[1]['CUM_WEIGHTED_GPA'], 2 );
+			$gpa_data[ $gradelevel ] = number_format( $gpa_gradelevel[1]['CUM_WEIGHTED_GPA'], 2, '.', '' );
 		}
 
 		if ( ! $gpa
