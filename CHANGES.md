@@ -8,6 +8,7 @@ Changes in 9.1
 - Add decimal & thousands separator configuration in Help_en.php, Currency.fnc.php, Configuration.php, rosariosis.sql & rosariosis_fr.sql
 - Use Currency() for Food Service Balance value in Widget.php & StaffWidget.php
 - Add Class average in InputFinalGrades.php & Grades.fnc.php
+- Update French & Spanish translation in rosariosis.po & help.po
 
 Changes in 9.0
 --------------
