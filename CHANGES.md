@@ -1,9 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
-Changes in 9.0.1
-----------------
+Changes in 9.1
+--------------
 - Fix stored XSS security issue: decode HTML entities from URL in PreparePHP_SELF.fnc.php, thanks to @domiee13
+- Capitalize month when date is only month and year in Dashboard.inc.php
 
 Changes in 9.0
 --------------

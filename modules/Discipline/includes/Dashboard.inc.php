@@ -68,10 +68,10 @@ if ( ! function_exists( 'DashboardDisciplineAdmin' ) )
 		{
 			// Remove dummy day from proper date.
 			// @since 9.0 Fix PHP8.1 deprecated strftime() use strftime_compat() instead
-			$proper_month_year = strftime_compat(
+			$proper_month_year = ucfirst( strftime_compat(
 				trim( str_replace( [ '%d', '//' ], [ '', '/'], Preferences( 'DATE' ) ), '-./ ' ),
 				strtotime( $referrals['YEAR_MONTH'] . '-29' )
-			);
+			) );
 
 			// Referrals by month.
 			$referrals_data[$proper_month_year] = $referrals['REFERRALS_NB'];
