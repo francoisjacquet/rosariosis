@@ -2,6 +2,13 @@
 
 ## RosarioSIS Student Information System
 
+New in 9.1
+----------
+
+School
+- Configuration: Decimal & thousands separator
+
+
 New in 9.0
 ----------
 
@@ -13,7 +20,7 @@ Security improvements
 
 French translation revised, thanks to Étienne de Blois
 
-School Setup
+School
 - Calendars: legend
 
 [Quiz Premium](https://www.rosariosis.org/modules/quiz/)

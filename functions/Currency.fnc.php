@@ -41,7 +41,14 @@ function Currency( $num, $sign = 'before', $red = false )
 	}
 
 	// Add currency symbol & format amount.
-	$num = Config( 'CURRENCY' ) . number_format( $num, 2, '.', ',' );
+	// @since 9.1 Add decimal & thousands separator configuration.
+	// @link https://en.wikipedia.org/wiki/Decimal_separator
+	$num = Config( 'CURRENCY' ) . number_format(
+		$num,
+		2,
+		Config( 'DECIMAL_SEPARATOR' ),
+		Config( 'THOUSANDS_SEPARATOR' )
+	);
 
 	// Add minus if negative.
 	if ( $negative )

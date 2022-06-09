@@ -164,6 +164,8 @@ if ( User( 'PROFILE' ) === 'admin' ):
 				<li>' . _help( '<i>School year over two calendar years</i>: whether the school year should be displayed as "2014" or "2014-2015"' ) . '</li>
 				<li>' . _help( '<i>School logo (.jpg)</i>: upload the school logo (displayed in Report Cards, Transcripts, School Information & Print student Info)' ) . '</li>
 				<li>' . _help( '<i>Currency Symbol</i>: the currency / monetary symbol used in Accounting & Student Billing modules' ) . '</li>
+				<li>' . _help( '<i>Thousands separator</i>: use a comma or point or non-breaking space in digit grouping' ) . '</li>
+				<li>' . _help( '<i>Decimal separator</i>: use a point or comma to separate the integer part from the fractional part of a number' ) . '</li>
 				<li>' . _help( '<i>Course Widget</i>: whether the method for selecting a course is done through a Popup window (default) or using a select drop-down listing all course periods at once.' ) . '</li>
 			</ul>
 		</li>

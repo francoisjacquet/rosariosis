@@ -479,12 +479,50 @@ else
 			) . '</td></tr>';
 
 			// Currency.
-			echo '<tr><td>' . TextInput(
+			echo '<tr><td><table><tr class="st"><td>' . TextInput(
 				Config( 'CURRENCY' ),
 				'values[CONFIG][CURRENCY]',
 				_( 'Currency Symbol' ),
 				'maxlength=8 size=3'
-			) . '</td></tr>';
+			) . '</td>';
+
+			// @since 9.1 Add decimal & thousands separator configuration.
+			// @link https://en.wikipedia.org/wiki/Decimal_separator
+			$thousands_separator_options = [
+				',' => ',',
+				'.' => '.',
+				'&amp;nbsp;' => '&nbsp;',
+			];
+
+			$thousands_separator_value = Config( 'THOUSANDS_SEPARATOR' );
+
+			if ( $thousands_separator_value === '&nbsp;' )
+			{
+				$thousands_separator_value = '&amp;nbsp;';
+			}
+
+			echo '<td>' . SelectInput(
+				$thousands_separator_value,
+				'values[CONFIG][THOUSANDS_SEPARATOR]',
+				_( 'Thousands separator' ),
+				$thousands_separator_options,
+				false
+			) . '</td>';
+
+			$decimal_separator_options = [
+				'.' => '.',
+				',' => ',',
+			];
+
+			echo '<td>' . SelectInput(
+				Config( 'DECIMAL_SEPARATOR' ),
+				'values[CONFIG][DECIMAL_SEPARATOR]',
+				_( 'Decimal separator' ),
+				$decimal_separator_options,
+				false
+			) . '</td>';
+
+			echo '<td>' . Currency( 1250.00 ) . '</td></tr></table></td></tr>';
 
 			// Add "Find a Student" fieldset.
 			echo '<tr><td><br /><fieldset><legend>' . _( 'Find a Student' ) . '</legend><table>';

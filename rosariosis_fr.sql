@@ -32,6 +32,15 @@ UPDATE config
 SET config_value='Rosario Student Information System|fr_FR.utf8:Logiciel de Gestion Scolaire Rosario'
 WHERE title='TITLE';
 
+UPDATE config
+SET config_value=','
+WHERE title='DECIMAL_SEPARATOR';
+
+UPDATE config
+SET config_value='&nbsp;'
+WHERE title='THOUSANDS_SEPARATOR';
+
+
 --
 -- Data for Name: student_enrollment_codes; Type: TABLE DATA; Schema: public; Owner: rosariosis
 --
