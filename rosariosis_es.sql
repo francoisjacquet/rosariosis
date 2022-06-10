@@ -172,11 +172,11 @@ SET title='Día Completo', short_name='DIA'
 WHERE period_id=1;
 
 UPDATE school_periods
-SET title='Media Jornada Mañana', short_name='AM'
+SET title='Mañana', short_name='AM'
 WHERE period_id=2;
 
 UPDATE school_periods
-SET title='Media Jornada Tarde', short_name='PM'
+SET title='Tarde', short_name='PM'
 WHERE period_id=3;
 
 UPDATE school_periods
