@@ -9,6 +9,7 @@ Changes in 9.1
 - Use Currency() for Food Service Balance value in Widget.php & StaffWidget.php
 - Add Class average in InputFinalGrades.php & Grades.fnc.php
 - Update French & Spanish translation in rosariosis.po & help.po
+- Update Default School Year to 2022 in config.inc.sample.php & rosariosis.sql
 
 Changes in 9.0
 --------------
