@@ -29,7 +29,7 @@ WHERE calendar_id=1;
 --
 
 UPDATE config
-SET config_value='Rosario Student Information System|fr_FR.utf8:Logiciel de Gestion Scolaire Rosario'
+SET config_value='Rosario Student Information System|fr_FR.utf8:Logiciel de gestion scolaire Rosario'
 WHERE title='TITLE';
 
 UPDATE config
