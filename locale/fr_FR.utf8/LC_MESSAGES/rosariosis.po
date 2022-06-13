@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-06-09 16:47+0200\n"
-"PO-Revision-Date: 2022-06-09 21:02+0200\n"
+"PO-Revision-Date: 2022-06-13 12:20+0200\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS\n"
 "Language: fr\n"
@@ -1677,7 +1677,7 @@ msgstr "Avec"
 
 #: classes/core/Widget.php:740 modules/Grades/ReportCardGrades.php:101
 msgid "Report Card Grade"
-msgstr "Notes du BulletinParticule"
+msgstr "Note du bulletin"
 
 #: classes/core/Widget.php:785 modules/Eligibility/Student.php:169
 #: modules/Eligibility/StudentList.php:93
