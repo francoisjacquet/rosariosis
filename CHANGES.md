@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 9.2
+--------------
+- Fix SQL error invalid input syntax for integer in Administration.php
+
 Changes in 9.1
 --------------
 - Fix stored XSS security issue: decode HTML entities from URL in PreparePHP_SELF.fnc.php, thanks to @domiee13

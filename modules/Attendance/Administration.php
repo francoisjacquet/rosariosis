@@ -383,7 +383,7 @@ else
 
 		foreach ( (array) $REQ_codes as $code )
 		{
-			$extra['WHERE'] .= "'" . $code . "',";
+			$extra['WHERE'] .= "'" . (int) $code . "',";
 		}
 
 		if ( $_REQUEST['expanded_view'] != 'true' )
@@ -410,7 +410,7 @@ else
 
 			foreach ( (array) $RET as $code )
 			{
-				$extra['WHERE'] .= "'" . $code['ID'] . "',";
+				$extra['WHERE'] .= "'" . (int) $code['ID'] . "',";
 			}
 
 			if ( $_REQUEST['expanded_view'] != 'true' )
