@@ -5,11 +5,13 @@
 New in 9.1
 ----------
 
+PHP8.1 compatibility
+
 School
 - Configuration: Decimal & thousands separator
 
 Grades
-- Input Final Grades: add Class average, sponsored by Paris'Com Sup
+- Input Final Grades: Class average, sponsored by Paris'Com Sup
 
 
 New in 9.0
