@@ -12,6 +12,7 @@ Changes in 9.1.1
 - Fix selected Subject lost on Comment Category delete in ReportCardComments.php
 - Fix Color Input was hidden in ReportCardComments.php
 - Fix use Course ID in session in MassRequests.php
+- Fix SQL error primary key exists on table FOOD_SERVICE_STAFF_ACCOUNTS in Rollover.php
 
 Changes in 9.1
 --------------
