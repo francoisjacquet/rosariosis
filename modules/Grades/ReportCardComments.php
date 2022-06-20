@@ -307,7 +307,8 @@ if ( ! $_REQUEST['modfunc'] )
 		];
 
 		$link['remove']['link'] = 'Modules.php?modname=' . $_REQUEST['modname'] .
-			'&modfunc=remove&course_id=' . $_REQUEST['course_id'] . '&tab_id=new';
+			'&modfunc=remove&subject_id=' . $_REQUEST['subject_id'] .
+			'&course_id=' . $_REQUEST['course_id'] . '&tab_id=new';
 
 		$link['remove']['variables'] = [ 'id' => 'ID' ];
 		$link['add']['html']['remove'] = button( 'add' );

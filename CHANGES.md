@@ -9,6 +9,7 @@ Changes in 9.2
 Changes in 9.1.1
 ----------------
 - Fix PHP8.1 fatal error unsupported operand types: string / int in Assignments.php & MassCreateAssignments.php
+- Fix selected Subject lost on Comment Category delete in ReportCardComments.php
 
 Changes in 9.1
 --------------
