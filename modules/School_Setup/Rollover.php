@@ -536,7 +536,27 @@ function Rollover( $table, $mode = 'delete' )
 
 			if ( $mode === 'delete' )
 			{
-				$delete_sql = "DELETE FROM COURSE_PERIOD_SCHOOL_PERIODS cpsp
+				// Fix SQL error foreign key exists on tables GRADEBOOK_ASSIGNMENTS,GRADEBOOK_ASSIGNMENT_TYPES,SCHEDULE_REQUESTS
+				// Error happens when an Assignment,or a Schedule request
+				// was added for a rolled-over Course.
+				$delete_sql = "DELETE FROM GRADEBOOK_ASSIGNMENTS
+					WHERE COURSE_ID IN(SELECT COURSE_ID FROM COURSES
+						WHERE SYEAR='" . $next_syear . "'
+						AND SCHOOL_ID='" . UserSchool() . "')
+					OR COURSE_PERIOD_ID IN(SELECT COURSE_PERIOD_ID FROM COURSE_PERIODS
+						WHERE SYEAR='" . $next_syear . "'
+						AND SCHOOL_ID='" . UserSchool() . "');";
+
+				$delete_sql .= "DELETE FROM GRADEBOOK_ASSIGNMENT_TYPES
+					WHERE COURSE_ID IN(SELECT COURSE_ID FROM COURSES
+						WHERE SYEAR='" . $next_syear . "'
+						AND SCHOOL_ID='" . UserSchool() . "');";
+
+				$delete_sql .= "DELETE FROM SCHEDULE_REQUESTS
+					WHERE SYEAR='" . $next_syear . "'
+					AND SCHOOL_ID='" . UserSchool() . "';";
+
+				$delete_sql .= "DELETE FROM COURSE_PERIOD_SCHOOL_PERIODS cpsp
 					WHERE EXISTS (SELECT COURSE_PERIOD_ID
 						FROM COURSE_PERIODS cp
 						WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
