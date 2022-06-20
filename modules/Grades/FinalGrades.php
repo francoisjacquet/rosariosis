@@ -62,7 +62,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		(SELECT count(*) FROM ATTENDANCE_PERIOD ap,ATTENDANCE_CODES ac
 		WHERE ac.ID=ap.ATTENDANCE_CODE AND ac.STATE_CODE='A'
 		AND ap.COURSE_PERIOD_ID=sg1.COURSE_PERIOD_ID
-		AND cast(sg1.MARKING_PERIOD_ID as integer)=ap.MARKING_PERIOD_ID
+		AND sg1.MARKING_PERIOD_ID=ap.MARKING_PERIOD_ID
 		AND ap.STUDENT_ID=ssm.STUDENT_ID) AS MP_ABSENCES";*/
 
 		//FJ multiple school periods for a course period

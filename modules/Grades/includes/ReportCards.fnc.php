@@ -953,7 +953,7 @@ if ( ! function_exists( 'GetReportCardsExtra' ) )
 					WHERE ac.ID=ap.ATTENDANCE_CODE
 					AND ac.STATE_CODE='A'
 					AND ap.COURSE_PERIOD_ID=sg1.COURSE_PERIOD_ID
-					AND sg1.MARKING_PERIOD_ID=cast(ap.MARKING_PERIOD_ID as text)
+					AND sg1.MARKING_PERIOD_ID=ap.MARKING_PERIOD_ID
 					AND ap.STUDENT_ID=ssm.STUDENT_ID) AS MP_ABSENCES";
 		}
 

@@ -606,3 +606,73 @@ function _update87()
 
 	return $return;
 }
+
+/**
+ * Update to version 9.2
+ *
+ * 1. Drop TRANSCRIPT_GRADES view, so we can alter STUDENT_REPORT_CARD_GRADES table
+ * 2. SQL STUDENT_REPORT_CARD_GRADES table: convert MARKING_PERIOD_ID column to integer
+ * 3. Recreate TRANSCRIPT_GRADES view
+ *
+ * Local function
+ *
+ * @since 9.2
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update92()
+{
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	// 1. Drop TRANSCRIPT_GRADES view, so we can alter STUDENT_REPORT_CARD_GRADES table
+	DBQuery( "DROP VIEW transcript_grades;" );
+
+	// 2. SQL STUDENT_REPORT_CARD_GRADES table: convert MARKING_PERIOD_ID column to integer
+	DBQuery( "ALTER TABLE student_report_card_grades
+	ALTER marking_period_id TYPE integer USING marking_period_id::integer;" );
+
+	// 3. Recreate TRANSCRIPT_GRADES view
+	DBQuery( "CREATE VIEW transcript_grades AS
+	SELECT mp.syear,mp.school_id,mp.marking_period_id,mp.mp_type,
+	mp.short_name,mp.parent_id,mp.grandparent_id,
+	(SELECT mp2.end_date
+		FROM student_report_card_grades
+			JOIN marking_periods mp2
+			ON mp2.marking_period_id = student_report_card_grades.marking_period_id
+		WHERE student_report_card_grades.student_id = sms.student_id
+		AND (student_report_card_grades.marking_period_id = mp.parent_id
+			OR student_report_card_grades.marking_period_id = mp.grandparent_id)
+		AND student_report_card_grades.course_title = srcg.course_title
+		ORDER BY mp2.end_date LIMIT 1) AS parent_end_date,
+	mp.end_date,sms.student_id,
+	(sms.cum_weighted_factor * COALESCE(schools.reporting_gp_scale, (SELECT reporting_gp_scale FROM schools WHERE mp.school_id = id ORDER BY syear LIMIT 1))) AS cum_weighted_gpa,
+	(sms.cum_unweighted_factor * schools.reporting_gp_scale) AS cum_unweighted_gpa,
+	sms.cum_rank,sms.mp_rank,sms.class_size,
+	((sms.sum_weighted_factors / sms.count_weighted_factors) * schools.reporting_gp_scale) AS weighted_gpa,
+	((sms.sum_unweighted_factors / sms.count_unweighted_factors) * schools.reporting_gp_scale) AS unweighted_gpa,
+	sms.grade_level_short,srcg.comment,srcg.grade_percent,srcg.grade_letter,
+	srcg.weighted_gp,srcg.unweighted_gp,srcg.gp_scale,srcg.credit_attempted,
+	srcg.credit_earned,srcg.course_title,srcg.school AS school_name,
+	schools.reporting_gp_scale AS school_scale,
+	((sms.cr_weighted_factors / sms.count_cr_factors::numeric) * schools.reporting_gp_scale) AS cr_weighted_gpa,
+	((sms.cr_unweighted_factors / sms.count_cr_factors::numeric) * schools.reporting_gp_scale) AS cr_unweighted_gpa,
+	(sms.cum_cr_weighted_factor * schools.reporting_gp_scale) AS cum_cr_weighted_gpa,
+	(sms.cum_cr_unweighted_factor * schools.reporting_gp_scale) AS cum_cr_unweighted_gpa,
+	srcg.class_rank,sms.comments,
+	srcg.credit_hours
+	FROM marking_periods mp
+		JOIN student_report_card_grades srcg
+		ON mp.marking_period_id = srcg.marking_period_id
+		JOIN student_mp_stats sms
+		ON sms.marking_period_id = mp.marking_period_id
+			AND sms.student_id = srcg.student_id
+		LEFT OUTER JOIN schools
+		ON mp.school_id = schools.id
+			AND (mp.mp_source<>'History' AND mp.syear = schools.syear)
+				OR (mp.mp_source='History' AND mp.syear=(SELECT syear FROM schools WHERE mp.school_id = id ORDER BY syear LIMIT 1))
+	ORDER BY srcg.course_period_id;" );
+
+	return $return;
+}

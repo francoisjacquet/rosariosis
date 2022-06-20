@@ -2000,7 +2000,7 @@ CREATE TABLE student_report_card_grades (
     report_card_comment_id integer,
     comment text,
     grade_percent numeric(4,1),
-    marking_period_id character varying(10) NOT NULL, -- EditReportCardGrades.php, so no REFERENCES school_marking_periods(marking_period_id).
+    marking_period_id integer NOT NULL, -- EditReportCardGrades.php, so no REFERENCES school_marking_periods(marking_period_id).
     grade_letter character varying(5),
     weighted_gp numeric,
     unweighted_gp numeric,

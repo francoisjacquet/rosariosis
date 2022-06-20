@@ -472,7 +472,7 @@ if ( UserStudentID() )
 			$student_grades_RET = DBGet( "SELECT *
 				FROM STUDENT_REPORT_CARD_GRADES
 				WHERE STUDENT_ID='" . (int) $student_id . "'
-				AND cast(MARKING_PERIOD_ID as integer)='" . $mp_id . "'
+				AND MARKING_PERIOD_ID='" . (int) $mp_id . "'
 				ORDER BY ID", $functions );
 
 			ListOutput( $student_grades_RET, $LO_columns, '.', '.', $link, [], $LO_options );
