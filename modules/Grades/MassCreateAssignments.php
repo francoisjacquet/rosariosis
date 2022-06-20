@@ -129,7 +129,8 @@ if ( isset( $_POST['tables'] )
 			elseif ( $column == 'FINAL_GRADE_PERCENT'
 				&& $table == 'GRADEBOOK_ASSIGNMENT_TYPES' )
 			{
-				$value = preg_replace( '/[^0-9.]/', '', $value ) / 100;
+				// Fix PHP8.1 fatal error unsupported operand types: string / int
+				$value = ( (float) preg_replace( '/[^0-9.]/', '', $value ) ) / 100;
 
 				if ( $value > 1 ) // 100%.
 				{

@@ -5,6 +5,8 @@
 New in 9.1
 ----------
 
+PHP8.1 compatibility
+
 School
 - Configuration: Decimal & thousands separator
 
