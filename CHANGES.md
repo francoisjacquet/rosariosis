@@ -11,6 +11,7 @@ Changes in 9.1.1
 - Fix PHP8.1 fatal error unsupported operand types: string / int in Assignments.php & MassCreateAssignments.php
 - Fix selected Subject lost on Comment Category delete in ReportCardComments.php
 - Fix Color Input was hidden in ReportCardComments.php
+- Fix use Course ID in session in MassRequests.php
 
 Changes in 9.1
 --------------
