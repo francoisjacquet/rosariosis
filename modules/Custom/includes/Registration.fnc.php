@@ -299,7 +299,7 @@ function RegistrationAddress( $name )
 	echo '<br /><table><tr class="st"><td>' .
 		TextInput( '', $name . '[CITY]', _( 'City' ), 'maxlength="60"' ) . '</td>';
 
-	echo '<td>' . TextInput( '', $name . '[address][STATE]', _( 'State' ), 'size="3" maxlength="50"' ) . '</td>';
+	echo '<td>' . TextInput( '', $name . '[STATE]', _( 'State' ), 'size="3" maxlength="50"' ) . '</td>';
 
 	echo '<td>' . TextInput( '', $name . '[ZIPCODE]', _( 'Zip' ), 'size="6" maxlength="10"' ) .
 		'</td></tr></table>';
