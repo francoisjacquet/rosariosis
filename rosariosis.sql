@@ -15,8 +15,7 @@ SET client_min_messages = warning;
 -- Name: create_language_plpgsql(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
-CREATE FUNCTION create_language_plpgsql()
-RETURNS BOOLEAN AS $$
+CREATE OR REPLACE FUNCTION create_language_plpgsql() RETURNS boolean AS $$
     CREATE LANGUAGE plpgsql;
     SELECT TRUE;
 $$ LANGUAGE SQL;
@@ -45,21 +44,15 @@ DROP FUNCTION create_language_plpgsql();
 -- Name: calc_cum_cr_gpa(character varying, integer); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
-CREATE FUNCTION calc_cum_cr_gpa(character varying, integer) RETURNS integer
-    LANGUAGE plpgsql
-    AS $_$DECLARE
-  mp_id ALIAS for $1;
-  s_id ALIAS for $2;
-  mpinfo marking_periods%ROWTYPE;
-  s student_mp_stats%ROWTYPE;
+CREATE OR REPLACE FUNCTION calc_cum_cr_gpa(mp_id integer, s_id integer) RETURNS integer AS $$
 BEGIN
     UPDATE student_mp_stats
     SET cum_cr_weighted_factor = cr_weighted_factors/cr_credits,
         cum_cr_unweighted_factor = cr_unweighted_factors/cr_credits
-    WHERE student_mp_stats.student_id = s_id and cast(student_mp_stats.marking_period_id as text) = mp_id;
-  RETURN 1;
+    WHERE student_mp_stats.student_id = s_id and student_mp_stats.marking_period_id = mp_id;
+    RETURN 1;
 END;
-$_$;
+$$ LANGUAGE plpgsql;
 
 
 --modif Francois: fix calc_cum_gpa()
@@ -67,21 +60,15 @@ $_$;
 -- Name: calc_cum_gpa(character varying, integer); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
-CREATE FUNCTION calc_cum_gpa(character varying, integer) RETURNS integer
-    LANGUAGE plpgsql
-    AS $_$DECLARE
-  mp_id ALIAS for $1;
-  s_id ALIAS for $2;
-  mpinfo marking_periods%ROWTYPE;
-  s student_mp_stats%ROWTYPE;
+CREATE OR REPLACE FUNCTION calc_cum_gpa(mp_id integer, s_id integer) RETURNS integer AS $$
 BEGIN
     UPDATE student_mp_stats
     SET cum_weighted_factor = sum_weighted_factors/gp_credits,
         cum_unweighted_factor = sum_unweighted_factors/gp_credits
-    WHERE student_mp_stats.student_id = s_id and cast(student_mp_stats.marking_period_id as text) = mp_id;
-  RETURN 1;
+    WHERE student_mp_stats.student_id = s_id and student_mp_stats.marking_period_id = mp_id;
+    RETURN 1;
 END;
-$_$;
+$$ LANGUAGE plpgsql;
 
 
 --modif Francois: fix calc_gpa_mp() + credit()
@@ -89,14 +76,11 @@ $_$;
 -- Name: calc_gpa_mp(integer, character varying); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
-CREATE OR REPLACE FUNCTION calc_gpa_mp(integer, character varying) RETURNS integer
-    AS $_$
+CREATE OR REPLACE FUNCTION calc_gpa_mp(s_id integer, mp_id integer) RETURNS integer AS $$
 DECLARE
-  s_id ALIAS for $1;
-  mp_id ALIAS for $2;
-  oldrec student_mp_stats%ROWTYPE;
+    oldrec student_mp_stats%ROWTYPE;
 BEGIN
-  SELECT * INTO oldrec FROM student_mp_stats WHERE student_id = s_id and cast(marking_period_id as text) = mp_id;
+  SELECT * INTO oldrec FROM student_mp_stats WHERE student_id = s_id and marking_period_id = mp_id;
 
   IF FOUND THEN
     UPDATE STUDENT_MP_STATS SET
@@ -106,28 +90,25 @@ BEGIN
         cr_unweighted_factors = rcg.cr_unweighted,
         gp_credits = rcg.gp_credits,
         cr_credits = rcg.cr_credits
-
-      FROM (
-      select
+    FROM (
+    select
         sum(weighted_gp*credit_attempted/gp_scale) as sum_weighted_factors,
         sum(unweighted_gp*credit_attempted/gp_scale) as sum_unweighted_factors,
         sum(credit_attempted) as gp_credits,
         sum( case when class_rank = 'Y' THEN weighted_gp*credit_attempted/gp_scale END ) as cr_weighted,
         sum( case when class_rank = 'Y' THEN unweighted_gp*credit_attempted/gp_scale END ) as cr_unweighted,
         sum( case when class_rank = 'Y' THEN credit_attempted END) as cr_credits
-
-        from student_report_card_grades where student_id = s_id
-        and cast(marking_period_id as text) = mp_id
-         and not gp_scale = 0 group by student_id, marking_period_id
-        ) as rcg
-WHERE student_id = s_id and cast(marking_period_id as text) = mp_id;
+    from student_report_card_grades where student_id = s_id
+        and marking_period_id = mp_id
+        and not gp_scale = 0 group by student_id, marking_period_id
+    ) as rcg
+    WHERE student_id = s_id and marking_period_id = mp_id;
     RETURN 1;
   ELSE
     INSERT INTO STUDENT_MP_STATS (student_id, marking_period_id, sum_weighted_factors, sum_unweighted_factors, grade_level_short, cr_weighted_factors, cr_unweighted_factors, gp_credits, cr_credits)
-
         select
             srcg.student_id,
-            (srcg.marking_period_id::text)::int,
+            srcg.marking_period_id,
             sum(weighted_gp*credit_attempted/gp_scale) as sum_weighted_factors,
             sum(unweighted_gp*credit_attempted/gp_scale) as sum_unweighted_factors,
             (select eg.short_name
@@ -136,7 +117,7 @@ WHERE student_id = s_id and cast(marking_period_id as text) = mp_id;
                 and eg.syear = mp.syear
                 and eg.school_id = mp.school_id
                 and eg.start_date <= mp.end_date
-                and cast(mp.marking_period_id as text) = mp_id
+                and mp.marking_period_id = mp_id
                 order by eg.start_date desc
                 limit 1) as short_name,
             sum( case when class_rank = 'Y' THEN weighted_gp*credit_attempted/gp_scale END ) as cr_weighted,
@@ -144,60 +125,54 @@ WHERE student_id = s_id and cast(marking_period_id as text) = mp_id;
             sum(credit_attempted) as gp_credits,
             sum(case when class_rank = 'Y' THEN credit_attempted END) as cr_credits
         from student_report_card_grades srcg
-        where srcg.student_id = s_id and cast(srcg.marking_period_id as text) = mp_id and not srcg.gp_scale = 0
+        where srcg.student_id = s_id and srcg.marking_period_id = mp_id and not srcg.gp_scale = 0
         group by srcg.student_id, srcg.marking_period_id, short_name;
   END IF;
   RETURN 0;
-END
-$_$
-    LANGUAGE plpgsql;
+END;
+$$ LANGUAGE plpgsql;
 
 
 --
 -- Name: credit(integer, character varying); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
-CREATE OR REPLACE FUNCTION credit(integer, character varying) RETURNS numeric
-    AS $_$
+CREATE OR REPLACE FUNCTION credit(cp_id integer, mp_id integer) RETURNS numeric AS $$
 DECLARE
     course_detail RECORD;
     mp_detail RECORD;
-    values RECORD;
-
+    val RECORD;
 BEGIN
-select * into course_detail from course_periods where course_period_id = $1;
-select * into mp_detail from marking_periods where cast(marking_period_id as text) = $2;
+select * into course_detail from course_periods where course_period_id = cp_id;
+select * into mp_detail from marking_periods where marking_period_id = mp_id;
 
 IF course_detail.marking_period_id = mp_detail.marking_period_id THEN
     return course_detail.credits;
 ELSIF course_detail.mp = 'FY' AND mp_detail.mp_type = 'semester' THEN
-    select into values count(*) as mp_count from marking_periods where parent_id = course_detail.marking_period_id group by parent_id;
+    select into val count(*) as mp_count from marking_periods where parent_id = course_detail.marking_period_id group by parent_id;
 ELSIF course_detail.mp = 'FY' and mp_detail.mp_type = 'quarter' THEN
-    select into values count(*) as mp_count from marking_periods where grandparent_id = course_detail.marking_period_id group by grandparent_id;
+    select into val count(*) as mp_count from marking_periods where grandparent_id = course_detail.marking_period_id group by grandparent_id;
 ELSIF course_detail.mp = 'SEM' and mp_detail.mp_type = 'quarter' THEN
-    select into values count(*) as mp_count from marking_periods where parent_id = course_detail.marking_period_id group by parent_id;
+    select into val count(*) as mp_count from marking_periods where parent_id = course_detail.marking_period_id group by parent_id;
 ELSE
     return course_detail.credits;
 END IF;
 
-IF values.mp_count > 0 THEN
-    return course_detail.credits/values.mp_count;
+IF val.mp_count > 0 THEN
+    return course_detail.credits/val.mp_count;
 ELSE
     return course_detail.credits;
 END IF;
+END;
+$$ LANGUAGE plpgsql;
 
-END$_$
-    LANGUAGE plpgsql;
 
 --modif Francois: fix set_class_rank_mp()
 --
 -- Name: set_class_rank_mp(character varying); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
-CREATE OR REPLACE FUNCTION set_class_rank_mp(character varying) RETURNS integer
-    AS $_$
-DECLARE
-    mp_id alias for $1;
+CREATE OR REPLACE FUNCTION set_class_rank_mp(mp_id integer) RETURNS integer AS $$
 BEGIN
 update student_mp_stats
 set cum_rank = rank.rank, class_size = rank.class_size
@@ -222,30 +197,26 @@ from (select mp.marking_period_id, sgm.student_id,
     from student_enrollment se, student_mp_stats sgm, marking_periods mp
     where se.student_id = sgm.student_id
     and sgm.marking_period_id = mp.marking_period_id
-    and cast(mp.marking_period_id as text) = mp_id
+    and mp.marking_period_id = mp_id
     and se.syear = mp.syear
     and not sgm.cum_cr_weighted_factor is null) as rank
 where student_mp_stats.marking_period_id = rank.marking_period_id
 and student_mp_stats.student_id = rank.student_id;
 RETURN 1;
 END;
-$_$
-    LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;
 
 
 --
 -- Name: t_update_mp_stats(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
-CREATE OR REPLACE FUNCTION t_update_mp_stats() RETURNS "trigger"
-    AS $$
-begin
-
+CREATE OR REPLACE FUNCTION t_update_mp_stats() RETURNS "trigger" AS $$
+BEGIN
   IF tg_op = 'DELETE' THEN
-    PERFORM calc_gpa_mp(OLD.student_id::int, OLD.marking_period_id::varchar);
-    PERFORM calc_cum_gpa(OLD.marking_period_id::varchar, OLD.student_id::int);
-    PERFORM calc_cum_cr_gpa(OLD.marking_period_id::varchar, OLD.student_id::int);
-
+    PERFORM calc_gpa_mp(OLD.student_id, OLD.marking_period_id);
+    PERFORM calc_cum_gpa(OLD.marking_period_id, OLD.student_id);
+    PERFORM calc_cum_cr_gpa(OLD.marking_period_id, OLD.student_id);
   ELSE
     --IF tg_op = 'INSERT' THEN
         --we need to do stuff here to gather other information since it's a new record.
@@ -253,14 +224,13 @@ begin
         --if report_card_grade_id changes, then we need to reset gp values
     --  IF NOT NEW.report_card_grade_id = OLD.report_card_grade_id THEN
             --
-    PERFORM calc_gpa_mp(NEW.student_id::int, NEW.marking_period_id::varchar);
-    PERFORM calc_cum_gpa(NEW.marking_period_id::varchar, NEW.student_id::int);
-    PERFORM calc_cum_cr_gpa(NEW.marking_period_id::varchar, NEW.student_id::int);
+    PERFORM calc_gpa_mp(NEW.student_id, NEW.marking_period_id);
+    PERFORM calc_cum_gpa(NEW.marking_period_id, NEW.student_id);
+    PERFORM calc_cum_cr_gpa(NEW.marking_period_id, NEW.student_id);
   END IF;
-  return NULL;
-end
-$$
-    LANGUAGE plpgsql;
+  RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;
 
 
 --
@@ -2148,11 +2118,11 @@ CREATE VIEW transcript_grades AS
     (SELECT mp2.end_date
         FROM student_report_card_grades
             JOIN marking_periods mp2
-            ON mp2.marking_period_id::text = student_report_card_grades.marking_period_id::text
-        WHERE student_report_card_grades.student_id = sms.student_id::numeric
-        AND (student_report_card_grades.marking_period_id::text = mp.parent_id::text
-            OR student_report_card_grades.marking_period_id::text = mp.grandparent_id::text)
-        AND student_report_card_grades.course_title::text = srcg.course_title::text
+            ON mp2.marking_period_id = student_report_card_grades.marking_period_id
+        WHERE student_report_card_grades.student_id = sms.student_id
+        AND (student_report_card_grades.marking_period_id = mp.parent_id
+            OR student_report_card_grades.marking_period_id = mp.grandparent_id)
+        AND student_report_card_grades.course_title = srcg.course_title
         ORDER BY mp2.end_date LIMIT 1) AS parent_end_date,
     mp.end_date,sms.student_id,
     (sms.cum_weighted_factor * COALESCE(schools.reporting_gp_scale, (SELECT reporting_gp_scale FROM schools WHERE mp.school_id = id ORDER BY syear LIMIT 1))) AS cum_weighted_gpa,
@@ -2172,10 +2142,10 @@ CREATE VIEW transcript_grades AS
     srcg.credit_hours
     FROM marking_periods mp
         JOIN student_report_card_grades srcg
-        ON mp.marking_period_id::text = srcg.marking_period_id::text
+        ON mp.marking_period_id = srcg.marking_period_id
         JOIN student_mp_stats sms
-        ON sms.marking_period_id::numeric = mp.marking_period_id
-            AND sms.student_id::numeric = srcg.student_id
+        ON sms.marking_period_id = mp.marking_period_id
+            AND sms.student_id = srcg.student_id
         LEFT OUTER JOIN schools
         ON mp.school_id = schools.id
             AND (mp.mp_source<>'History' AND mp.syear = schools.syear)

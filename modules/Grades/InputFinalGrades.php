@@ -40,8 +40,7 @@ if ( empty( $course_period_id ) )
 //FJ add explicit type cast
 //$course_RET = DBGet( "SELECT cp.COURSE_ID,c.TITLE as COURSE_NAME, cp.TITLE, cp.GRADE_SCALE_ID, credit($course_period_id, '".$_REQUEST['mp']."') AS CREDITS, (SELECT ATTENDANCE FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID) AS ATTENDANCE FROM COURSE_PERIODS cp, COURSES c WHERE cp.COURSE_ID = c.COURSE_ID AND cp.COURSE_PERIOD_ID='".$course_period_id."'" );
 $course_RET = DBGet( "SELECT cp.COURSE_ID,c.TITLE AS COURSE_NAME,cp.TITLE,
-	cp.GRADE_SCALE_ID, credit(CAST(" . $course_period_id . " AS integer),
-	CAST( '" . $_REQUEST['mp'] . "' AS character varying)) AS CREDITS,
+	cp.GRADE_SCALE_ID,credit('" . (int) $course_period_id . "','" . (int) $_REQUEST['mp'] . "') AS CREDITS,
 	DOES_CLASS_RANK AS CLASS_RANK,c.CREDIT_HOURS
 	FROM COURSE_PERIODS cp,COURSES c
 	WHERE cp.COURSE_ID=c.COURSE_ID
