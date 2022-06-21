@@ -10,6 +10,7 @@ Changes in 9.1.1
 - Fix SQL error primary key exists on table FOOD_SERVICE_STAFF_ACCOUNTS in Rollover.php
 - Fix SQL error foreign key exists on tables GRADEBOOK_ASSIGNMENTS,GRADEBOOK_ASSIGNMENT_TYPES,SCHEDULE_REQUESTS in Rollover.php
 - Fix save State input value in Registration.fnc.php
+- Fix SchoolInfo() on user School Year update in School.php
 
 Changes in 9.1
 --------------

@@ -45,7 +45,8 @@ function UpdateSchoolArray( $school_id = null )
 function SchoolInfo( $field = null )
 {
 	if ( ! isset( $_SESSION['SchoolData'] )
-		|| $_SESSION['SchoolData']['ID'] != UserSchool() )
+		|| $_SESSION['SchoolData']['ID'] != UserSchool()
+		|| $_SESSION['SchoolData']['SYEAR'] != UserSyear() )
 	{
 		UpdateSchoolArray( UserSchool() );
 	}
