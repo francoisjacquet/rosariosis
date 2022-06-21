@@ -4,6 +4,7 @@
 Changes in 9.2.1
 ----------------
 - Remove use of db_seq_nextval(), use auto increment, program wide
+- SQL set default nextval (auto increment) for RosarioSIS version < 5.0 on install & old add-ons in Update.fnc.php
 
 Changes in 9.2
 --------------

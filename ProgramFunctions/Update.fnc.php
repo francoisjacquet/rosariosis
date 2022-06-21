@@ -680,3 +680,127 @@ function _update92()
 
 	return $return;
 }
+
+
+/**
+ * Update to version 9.2.1
+ *
+ * 1. SQL set default nextval (auto increment) for RosarioSIS version < 5.0 on install,
+ * serial column (auto increment was implemented in RosarioSIS 5.0)
+ * 2. SQL set default nextval (auto increment) for old add-on modules.
+ *
+ * Local function
+ *
+ * @since 9.2.1
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update921()
+{
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	$set_default_nextval = function( $table, $id_column, $sequence )
+	{
+		if ( strlen( $sequence) > 63 )
+		{
+			$cut_at_char = ( 63 - strlen( '_seq' ) );
+
+			// Note: sequence name is limited to 63 chars
+			// @link https://www.postgresql.org/docs/9.0/sql-syntax-lexical.html#SQL-SYNTAX-IDENTIFIERS
+			$sequence = substr( $sequence, 0, $cut_at_char ) . '_seq';
+		}
+
+		$sequence_exists = DBGetOne( "SELECT 1 FROM pg_class
+			WHERE relname='" . DBEscapeString( $sequence ) . "';" );
+
+		if ( $sequence_exists )
+		{
+			DBQuery( "ALTER TABLE " . DBEscapeIdentifier( $table ) .
+				" ALTER COLUMN " . DBEscapeIdentifier( $id_column ) .
+				" SET DEFAULT NEXTVAL('" . DBEscapeString( $sequence ) . "');" );
+		}
+	};
+
+
+	/**
+	 * 1. Set default nextval (auto increment) for RosarioSIS version < 5.0 on install,
+	 * serial column (auto increment was implemented in RosarioSIS 5.0)
+	 */
+	$set_default_nextval( 'user_profiles', 'id', 'user_profiles_id_seq' );
+	$set_default_nextval( 'students_join_people', 'id', 'students_join_people_id_seq' );
+	$set_default_nextval( 'students_join_address', 'id', 'students_join_address_id_seq' );
+	$set_default_nextval( 'students', 'student_id', 'students_student_id_seq' );
+	$set_default_nextval( 'student_report_card_grades', 'id', 'student_report_card_grades_id_seq' );
+	$set_default_nextval( 'student_medical_visits', 'id', 'student_medical_visits_id_seq' );
+	$set_default_nextval( 'student_medical_alerts', 'id', 'student_medical_alerts_id_seq' );
+	$set_default_nextval( 'student_medical', 'id', 'student_medical_id_seq' );
+	$set_default_nextval( 'student_field_categories', 'id', 'student_field_categories_id_seq' );
+	$set_default_nextval( 'student_enrollment_codes', 'id', 'student_enrollment_codes_id_seq' );
+	$set_default_nextval( 'student_enrollment', 'id', 'student_enrollment_id_seq' );
+	$set_default_nextval( 'staff_fields', 'id', 'staff_fields_id_seq' );
+	$set_default_nextval( 'staff_field_categories', 'id', 'staff_field_categories_id_seq' );
+	$set_default_nextval( 'staff', 'staff_id', 'staff_staff_id_seq' );
+	$set_default_nextval( 'school_periods', 'period_id', 'school_periods_period_id_seq' );
+	$set_default_nextval( 'schools', 'id', 'schools_id_seq' );
+	$set_default_nextval( 'school_gradelevels', 'id', 'school_gradelevels_id_seq' );
+	$set_default_nextval( 'school_fields', 'id', 'school_fields_id_seq' );
+	$set_default_nextval( 'schedule_requests', 'request_id', 'schedule_requests_request_id_seq' );
+	$set_default_nextval( 'resources', 'id', 'resources_id_seq' );
+	$set_default_nextval( 'report_card_grades', 'id', 'report_card_grades_id_seq' );
+	$set_default_nextval( 'report_card_grade_scales', 'id', 'report_card_grade_scales_id_seq' );
+	$set_default_nextval( 'report_card_comments', 'id', 'report_card_comments_id_seq' );
+	$set_default_nextval( 'report_card_comment_codes', 'id', 'report_card_comment_codes_id_seq' );
+	$set_default_nextval( 'report_card_comment_code_scales', 'id', 'report_card_comment_code_scales_id_seq' );
+	$set_default_nextval( 'report_card_comment_categories', 'id', 'report_card_comment_categories_id_seq' );
+	$set_default_nextval( 'portal_polls', 'id', 'portal_polls_id_seq' );
+	$set_default_nextval( 'portal_poll_questions', 'id', 'portal_poll_questions_id_seq' );
+	$set_default_nextval( 'portal_notes', 'id', 'portal_notes_id_seq' );
+	$set_default_nextval( 'people_join_contacts', 'id', 'people_join_contacts_id_seq' );
+	$set_default_nextval( 'people_fields', 'id', 'people_fields_id_seq' );
+	$set_default_nextval( 'people_field_categories', 'id', 'people_field_categories_id_seq' );
+	$set_default_nextval( 'people', 'person_id', 'people_person_id_seq' );
+	$set_default_nextval( 'school_marking_periods', 'marking_period_id', 'school_marking_periods_marking_period_id_seq' );
+	$set_default_nextval( 'gradebook_assignments', 'assignment_id', 'gradebook_assignments_assignment_id_seq' );
+	$set_default_nextval( 'gradebook_assignment_types', 'assignment_type_id', 'gradebook_assignment_types_assignment_type_id_seq' );
+	$set_default_nextval( 'food_service_transactions', 'transaction_id', 'food_service_transactions_transaction_id_seq' );
+	$set_default_nextval( 'food_service_staff_transactions', 'transaction_id', 'food_service_staff_transactions_transaction_id_seq' );
+	$set_default_nextval( 'food_service_menus', 'menu_id', 'food_service_menus_menu_id_seq' );
+	$set_default_nextval( 'food_service_menu_items', 'menu_item_id', 'food_service_menu_items_menu_item_id_seq' );
+	$set_default_nextval( 'food_service_items', 'item_id', 'food_service_items_item_id_seq' );
+	$set_default_nextval( 'food_service_categories', 'category_id', 'food_service_categories_category_id_seq' );
+	$set_default_nextval( 'eligibility_activities', 'id', 'eligibility_activities_id_seq' );
+	$set_default_nextval( 'discipline_referrals', 'id', 'discipline_referrals_id_seq' );
+	$set_default_nextval( 'discipline_fields', 'id', 'discipline_fields_id_seq' );
+	$set_default_nextval( 'discipline_field_usage', 'id', 'discipline_field_usage_id_seq' );
+	$set_default_nextval( 'custom_fields', 'id', 'custom_fields_id_seq' );
+	$set_default_nextval( 'course_subjects', 'subject_id', 'course_subjects_subject_id_seq' );
+	$set_default_nextval( 'course_period_school_periods', 'course_period_school_periods_id', 'course_period_school_periods_course_period_school_periods_id_seq' );
+	$set_default_nextval( 'courses', 'course_id', 'courses_course_id_seq' );
+	$set_default_nextval( 'course_periods', 'course_period_id', 'course_periods_course_period_id_seq' );
+	$set_default_nextval( 'calendar_events', 'id', 'calendar_events_id_seq' );
+	$set_default_nextval( 'billing_payments', 'id', 'billing_payments_id_seq' );
+	$set_default_nextval( 'billing_fees', 'id', 'billing_fees_id_seq' );
+	$set_default_nextval( 'attendance_codes', 'id', 'attendance_codes_id_seq' );
+	$set_default_nextval( 'attendance_code_categories', 'id', 'attendance_code_categories_id_seq' );
+	$set_default_nextval( 'attendance_calendars', 'calendar_id', 'attendance_calendars_calendar_id_seq' );
+	$set_default_nextval( 'address_fields', 'id', 'address_fields_id_seq' );
+	$set_default_nextval( 'address_field_categories', 'id', 'address_field_categories_id_seq' );
+	$set_default_nextval( 'address', 'address_id', 'address_address_id_seq' );
+	$set_default_nextval( 'accounting_payments', 'id', 'accounting_payments_id_seq' );
+	$set_default_nextval( 'accounting_salaries', 'id', 'accounting_salaries_id_seq' );
+	$set_default_nextval( 'accounting_incomes', 'id', 'accounting_incomes_id_seq' );
+
+	/**
+	 * 2. Set default nextval (auto increment) for old add-on modules.
+	 */
+	$set_default_nextval( 'billing_fees_monthly', 'id', 'billing_fees_monthly_id_seq' );
+	$set_default_nextval( 'school_inventory_categories', 'category_id', 'school_inventory_categories_category_id_seq' );
+	$set_default_nextval( 'school_inventory_items', 'item_id', 'school_inventory_items_item_id_seq' );
+	$set_default_nextval( 'saved_reports', 'id', 'saved_reports_id_seq' );
+	$set_default_nextval( 'saved_calculations', 'id', 'saved_calculations_id_seq' );
+	$set_default_nextval( 'messages', 'message_id', 'messages_message_id_seq' );
+
+	return $return;
+}
