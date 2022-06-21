@@ -433,7 +433,7 @@ class Widget_cp_absences implements Widget
 
 		if ( $_REQUEST['cp_absences_term'] !== 'FY' )
 		{
-			$term_sql = " AND cast(ap.MARKING_PERIOD_ID as text)
+			$term_sql = " AND ap.MARKING_PERIOD_ID
 				IN(" . GetChildrenMP( $_REQUEST['cp_absences_term'], UserMP() ) . ")";
 		}
 
