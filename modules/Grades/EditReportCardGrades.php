@@ -93,14 +93,9 @@ if ( UserStudentID() )
 						FROM MARKING_PERIODS
 						WHERE MARKING_PERIOD_ID='" . (int) $mp_id . "'" );
 
-					//$fields = 'ID, SCHOOL_ID, STUDENT_ID, MARKING_PERIOD_ID, ';
-					$fields = 'ID,SCHOOL_ID,STUDENT_ID,MARKING_PERIOD_ID,SYEAR,';
+					$fields = 'SCHOOL_ID,STUDENT_ID,MARKING_PERIOD_ID,SYEAR,';
 
-					$id = DBSeqNextID( 'student_report_card_grades_id_seq' );
-
-					//$values = db_seq_nextval('student_report_card_grades_id_seq').','.UserSchool().", $student_id, $mp_id, ";
-					$values = $id . ",'" .
-					UserSchool() . "','" . $student_id . "','" . $mp_id . "','" . $syear . "',";
+					$values = "'" . UserSchool() . "','" . $student_id . "','" . $mp_id . "','" . $syear . "',";
 
 					if ( empty( $columns['GP_SCALE'] ) )
 					{

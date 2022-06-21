@@ -406,12 +406,9 @@ function MoodleUserEnrollStudent( $student_id )
 {
 	$sql = "INSERT INTO STUDENT_ENROLLMENT ";
 
-	$fields = 'ID,SYEAR,SCHOOL_ID,STUDENT_ID,';
+	$fields = 'SYEAR,SCHOOL_ID,STUDENT_ID,';
 
-	// Uses new serial ID sequence.
-	$values = db_seq_nextval( 'student_enrollment_id_seq' );
-
-	$values .= ",'" . UserSyear() . "','" . UserSchool() . "','" . $student_id . "',";
+	$values .= "'" . UserSyear() . "','" . UserSchool() . "','" . $student_id . "',";
 
 	$fields .= 'START_DATE,GRADE_ID,ENROLLMENT_CODE,NEXT_SCHOOL,CALENDAR_ID';
 

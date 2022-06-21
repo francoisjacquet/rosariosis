@@ -562,12 +562,9 @@ if ( ! empty( $_REQUEST['tables'] )
 
 							$temp_PERIOD_ID[] = $columns['PERIOD_ID'];
 
-							$fields = 'COURSE_PERIOD_SCHOOL_PERIODS_ID,COURSE_PERIOD_ID,';
+							$fields = 'COURSE_PERIOD_ID,';
 
-							// Note: sequence name is limited to 63 chars
-							// @link https://www.postgresql.org/docs/9.0/sql-syntax-lexical.html#SQL-SYNTAX-IDENTIFIERS
-							$values = db_seq_nextval( 'course_period_school_periods_course_period_school_periods_i_seq' ) .
-								",'" . $_REQUEST['course_period_id'] . "',";
+							$values = "'" . $_REQUEST['course_period_id'] . "',";
 
 							$title_add = CoursePeriodSchoolPeriodsTitlePartGenerate(
 								0,

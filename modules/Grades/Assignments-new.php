@@ -90,8 +90,8 @@ if ( $_REQUEST['modfunc'] === 'update' )
 						if ( $_REQUEST['tab_id'] !== 'new' )
 						{
 							$sql = 'INSERT INTO GRADEBOOK_ASSIGNMENTS ';
-							$fields = "ASSIGNMENT_ID,STAFF_ID,MARKING_PERIOD_ID,";
-							$values = db_seq_nextval( 'gradebook_assignments_assignment_id_seq' ) . ",'" . User( 'STAFF_ID' ) . "','" . UserMP() . "',";
+							$fields = "STAFF_ID,MARKING_PERIOD_ID,";
+							$values = "'" . User( 'STAFF_ID' ) . "','" . UserMP() . "',";
 
 							if ( ! empty( $_REQUEST['tab_id'] ) )
 							{
@@ -107,8 +107,8 @@ if ( $_REQUEST['modfunc'] === 'update' )
 						else
 						{
 							$sql = 'INSERT INTO GRADEBOOK_ASSIGNMENT_TYPES ';
-							$fields = 'ASSIGNMENT_TYPE_ID,STAFF_ID,COURSE_ID,';
-							$values = db_seq_nextval( 'gradebook_assignment_types_assignment_type_id_seq' ) . ",'" . User( 'STAFF_ID' ) . "',(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'),";
+							$fields = 'STAFF_ID,COURSE_ID,';
+							$values = "'" . User( 'STAFF_ID' ) . "',(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'),";
 						}
 
 						$go = false;

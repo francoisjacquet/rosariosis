@@ -64,16 +64,14 @@ if ( $_REQUEST['modfunc'] === 'update' )
 						if ( $_REQUEST['tab_id'] !== 'new' )
 						{
 							$sql = 'INSERT INTO FOOD_SERVICE_CATEGORIES ';
-							$fields = 'CATEGORY_ID,MENU_ID,SCHOOL_ID,';
-							$values = db_seq_nextval( 'food_service_categories_category_id_seq' ) .
-								",'" . $_REQUEST['tab_id'] . "','" . UserSchool() . "',";
+							$fields = 'MENU_ID,SCHOOL_ID,';
+							$values = "'" . $_REQUEST['tab_id'] . "','" . UserSchool() . "',";
 						}
 						else
 						{
 							$sql = 'INSERT INTO FOOD_SERVICE_MENUS ';
-							$fields = 'MENU_ID,SCHOOL_ID,';
-							$values = db_seq_nextval( 'food_service_menus_menu_id_seq' ) .
-								",'" . UserSchool() . "',";
+							$fields = 'SCHOOL_ID,';
+							$values = "'" . UserSchool() . "',";
 						}
 
 						$go = false;

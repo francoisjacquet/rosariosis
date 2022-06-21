@@ -47,9 +47,9 @@ if ( $_REQUEST['modfunc'] === 'update' )
 					{
 						$sql = "INSERT INTO " . DBEscapeIdentifier( $table ) . " ";
 
-						$fields = "ID,SCHOOL_ID,SYEAR,COURSE_ID," . ( $_REQUEST['tab_id'] == 'new' ? '' : "CATEGORY_ID," );
+						$fields = "SCHOOL_ID,SYEAR,COURSE_ID," . ( $_REQUEST['tab_id'] == 'new' ? '' : "CATEGORY_ID," );
 
-						$values = db_seq_nextval( $table . '_ID_SEQ' ) . ",'" . UserSchool() . "','" . UserSyear() . "'," .
+						$values = "'" . UserSchool() . "','" . UserSyear() . "'," .
 						( $_REQUEST['tab_id'] == 'new' ?
 							"'" . $_REQUEST['course_id'] . "'" :
 							( $_REQUEST['tab_id'] == '-1' ?

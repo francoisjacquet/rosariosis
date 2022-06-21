@@ -106,8 +106,8 @@ if ( $_REQUEST['modfunc'] === 'add' )
 			FROM COURSES
 			WHERE COURSE_ID='" . (int) $course_id . "'" );
 
-		DBQuery( "INSERT INTO SCHEDULE_REQUESTS (REQUEST_ID,SYEAR,SCHOOL_ID,STUDENT_ID,SUBJECT_ID,COURSE_ID)
-			SELECT " . db_seq_nextval( 'schedule_requests_request_id_seq' ) . ",'" .
+		DBQuery( "INSERT INTO SCHEDULE_REQUESTS (SYEAR,SCHOOL_ID,STUDENT_ID,SUBJECT_ID,COURSE_ID)
+			SELECT '" .
 				UserSyear() . "','" .
 				UserSchool() . "','" .
 				UserStudentID() . "','" .

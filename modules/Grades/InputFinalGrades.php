@@ -739,11 +739,11 @@ if ( ! empty( $_REQUEST['values'] )
 			//FJ fix bug SQL ID=NULL
 			//FJ add CLASS_RANK
 			//FJ add Credit Hours
-			$sql = "INSERT INTO STUDENT_REPORT_CARD_GRADES (ID,SYEAR,SCHOOL_ID,STUDENT_ID,
+			$sql = "INSERT INTO STUDENT_REPORT_CARD_GRADES (SYEAR,SCHOOL_ID,STUDENT_ID,
 			COURSE_PERIOD_ID,MARKING_PERIOD_ID,REPORT_CARD_GRADE_ID,GRADE_PERCENT,COMMENT,
 			GRADE_LETTER,WEIGHTED_GP,UNWEIGHTED_GP,GP_SCALE,COURSE_TITLE,CREDIT_ATTEMPTED,
 			CREDIT_EARNED,CLASS_RANK,CREDIT_HOURS)
-			VALUES(" . db_seq_nextval( 'student_report_card_grades_id_seq' ) . ",'" .
+			VALUES('" .
 			UserSyear() . "','" . UserSchool() . "','" . $student_id . "','" .
 			$course_period_id . "','" . $_REQUEST['mp'] . "','" . $grade . "','" . $percent . "','" .
 			$columns['comment'] . "','" . $grades_RET[$grade][1]['TITLE'] . "','" . $weighted . "','" .

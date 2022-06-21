@@ -50,16 +50,14 @@ if ( $_REQUEST['modfunc'] === 'update' )
 					if ( $_REQUEST['tab_id'] !== 'new' )
 					{
 						$sql = 'INSERT INTO REPORT_CARD_GRADES ';
-						$fields = 'ID,SCHOOL_ID,SYEAR,GRADE_SCALE_ID,';
-						$values = db_seq_nextval( 'report_card_grades_id_seq' ) .
-							",'" . UserSchool() . "','" . UserSyear() . "','" . $_REQUEST['tab_id'] . "',";
+						$fields = 'SCHOOL_ID,SYEAR,GRADE_SCALE_ID,';
+						$values = "'" . UserSchool() . "','" . UserSyear() . "','" . $_REQUEST['tab_id'] . "',";
 					}
 					else
 					{
 						$sql = 'INSERT INTO REPORT_CARD_GRADE_SCALES ';
-						$fields = 'ID,SCHOOL_ID,SYEAR,';
-						$values = db_seq_nextval( 'report_card_grade_scales_id_seq' ) .
-							",'" . UserSchool() . "','" . UserSyear() . "',";
+						$fields = 'SCHOOL_ID,SYEAR,';
+						$values = "'" . UserSchool() . "','" . UserSyear() . "',";
 					}
 
 					$go = false;

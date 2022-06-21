@@ -137,11 +137,11 @@ function RegistrationSaveSiblingContacts( $student_id )
 
 	foreach ( (array) $contacts_RET as $contact )
 	{
-		$sql_values = db_seq_nextval( 'students_join_people_id_seq' ) . ",'" . UserStudentID() . "','" .
+		$sql_values = "'" . UserStudentID() . "','" .
 			$contact['PERSON_ID'] . "','" . $contact['ADDRESS_ID'] . "','" . $contact['CUSTODY'] . "','" .
 			$contact['EMERGENCY'] . "','" . $contact['STUDENT_RELATION'] . "'";
 
-		DBQuery( "INSERT INTO STUDENTS_JOIN_PEOPLE (ID,STUDENT_ID,PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION)
+		DBQuery( "INSERT INTO STUDENTS_JOIN_PEOPLE (STUDENT_ID,PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION)
 			VALUES(" . $sql_values . ")" );
 	}
 }
@@ -308,10 +308,9 @@ function RegistrationSaveJoinAddress( $address_id )
 		$inserted_address = true;
 	}
 
-	DBQuery( "INSERT INTO STUDENTS_JOIN_ADDRESS (ID,STUDENT_ID,ADDRESS_ID,
+	DBQuery( "INSERT INTO STUDENTS_JOIN_ADDRESS (STUDENT_ID,ADDRESS_ID,
 		RESIDENCE,MAILING,BUS_PICKUP,BUS_DROPOFF)
-		values(" . db_seq_nextval( 'students_join_address_id_seq' ) . ",'" .
-			UserStudentID() . "','" . $address_id . "','" .
+		values('" . UserStudentID() . "','" . $address_id . "','" .
 			$students_join_address['MAILING'] . "','" .
 			$students_join_address['RESIDENCE'] . "','" .
 			$students_join_address['BUS_PICKUP'] . "','" .
@@ -359,11 +358,11 @@ function RegistrationSaveJoinContact( $contact_id, $address_id, $config )
 		return false;
 	}
 
-	$sql_values = db_seq_nextval( 'students_join_people_id_seq' ) . ",'" . UserStudentID() . "','" .
+	$sql_values = "'" . UserStudentID() . "','" .
 		$contact_id . "','" . $address_id . "','" . issetVal( $config['custody'] ) . "','" .
 		issetVal( $config['emergency'] ) . "','" . $config['relation'] . "'";
 
-	DBQuery( "INSERT INTO STUDENTS_JOIN_PEOPLE (ID,STUDENT_ID,PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION)
+	DBQuery( "INSERT INTO STUDENTS_JOIN_PEOPLE (STUDENT_ID,PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION)
 		VALUES(" . $sql_values . ")" );
 
 	return true;
@@ -442,10 +441,9 @@ function RegistrationSaveContactInfo( $contact_id, $config, $values )
 		{
 			$sql = "INSERT INTO PEOPLE_JOIN_CONTACTS ";
 
-			$fields = 'ID,PERSON_ID,TITLE,VALUE,';
+			$fields = 'PERSON_ID,TITLE,VALUE,';
 
-			$values_sql = db_seq_nextval( 'people_join_contacts_id_seq' ) . ",'" .
-				$contact_id . "','" . $column . "','" . $value . "',";
+			$values_sql = "'" . $contact_id . "','" . $column . "','" . $value . "',";
 
 			$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values_sql, 0, -1 ) . ')';
 

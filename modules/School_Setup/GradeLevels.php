@@ -31,8 +31,8 @@ if ( $_REQUEST['modfunc'] === 'update'
 			{
 				$sql = "INSERT INTO SCHOOL_GRADELEVELS ";
 
-				$fields = 'ID,SCHOOL_ID,';
-				$values = db_seq_nextval( 'school_gradelevels_id_seq' ) . ",'" . UserSchool() . "',";
+				$fields = 'SCHOOL_ID,';
+				$values = "'" . UserSchool() . "',";
 
 				$go = 0;
 

@@ -105,8 +105,8 @@ if ( ! empty( $_REQUEST['submit']['save'] )
 		}
 		elseif ( ! empty( $description['text'] ) || ! empty( $description['select'] ) )
 		{
-			DBQuery( "INSERT INTO CALENDAR_EVENTS (ID,SYEAR,SCHOOL_ID,SCHOOL_DATE,TITLE,DESCRIPTION)
-				VALUES(" . db_seq_nextval( 'calendar_events_id_seq' ) . ",'" . UserSyear() . "','" .
+			DBQuery( "INSERT INTO CALENDAR_EVENTS (SYEAR,SCHOOL_ID,SCHOOL_DATE,TITLE,DESCRIPTION)
+				VALUES('" . UserSyear() . "','" .
 				UserSchool() . "','" . $school_date . "','" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "','" .
 				$description['text'] . issetVal( $description['select'], '' ) . "')" );
 		}

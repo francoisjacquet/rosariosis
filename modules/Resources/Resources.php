@@ -28,8 +28,8 @@ if ( $_REQUEST['modfunc'] === 'update' )
 			{
 				$sql = "INSERT INTO RESOURCES ";
 
-				$fields = 'ID,SCHOOL_ID,';
-				$values = db_seq_nextval( 'resources_id_seq' ) . ",'" . UserSchool() . "',";
+				$fields = 'SCHOOL_ID,';
+				$values = "'" . UserSchool() . "',";
 
 				$go = 0;
 

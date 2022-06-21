@@ -90,9 +90,8 @@ function SaveEnrollment()
 		}
 
 		$iu_extra['STUDENT_ENROLLMENT'] = "STUDENT_ID='" . ( UserStudentID() ? UserStudentID() : $student_id ) . "' AND ID='__ID__'";
-		$iu_extra['fields']['STUDENT_ENROLLMENT'] = 'ID,SYEAR,STUDENT_ID,';
-		$iu_extra['values']['STUDENT_ENROLLMENT'] = db_seq_nextval( 'student_enrollment_id_seq' ) .
-			",'" . UserSyear() . "','" . ( UserStudentID() ? UserStudentID() : $student_id ) . "',";
+		$iu_extra['fields']['STUDENT_ENROLLMENT'] = 'SYEAR,STUDENT_ID,';
+		$iu_extra['values']['STUDENT_ENROLLMENT'] = "'" . UserSyear() . "','" . ( UserStudentID() ? UserStudentID() : $student_id ) . "',";
 
 		SaveData( $iu_extra );
 	}

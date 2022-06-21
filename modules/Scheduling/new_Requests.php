@@ -39,8 +39,8 @@ if ( $_REQUEST['modfunc'] == 'verify' )
 				continue;
 			}
 
-			$sql = "INSERT INTO SCHEDULE_REQUESTS (REQUEST_ID,SYEAR,SCHOOL_ID,STUDENT_ID,SUBJECT_ID,COURSE_ID,MARKING_PERIOD_ID,WITH_TEACHER_ID,NOT_TEACHER_ID,WITH_PERIOD_ID,NOT_PERIOD_ID)
-			VALUES(" . db_seq_nextval( 'schedule_requests_request_id_seq' ) . ",'" . UserSyear() . "','" .
+			$sql = "INSERT INTO SCHEDULE_REQUESTS (SYEAR,SCHOOL_ID,STUDENT_ID,SUBJECT_ID,COURSE_ID,MARKING_PERIOD_ID,WITH_TEACHER_ID,NOT_TEACHER_ID,WITH_PERIOD_ID,NOT_PERIOD_ID)
+			VALUES('" . UserSyear() . "','" .
 			UserSchool() . "','" . UserStudentID() . "','" . $courses_RET[$course][1]['SUBJECT_ID'] . "','" .
 			$course . "',NULL,'" . $_REQUEST['with_teacher'][$subject][$i] . "','" .
 			$_REQUEST['without_teacher'][$subject][$i] . "','" . $_REQUEST['with_period'][$subject][$i] . "','" .

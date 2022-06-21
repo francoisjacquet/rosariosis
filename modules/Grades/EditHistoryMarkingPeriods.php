@@ -28,7 +28,7 @@ if ( $_REQUEST['modfunc'] === 'update' )
 		{
 			$sql = 'INSERT INTO HISTORY_MARKING_PERIODS ';
 			$fields = 'MARKING_PERIOD_ID,SCHOOL_ID,';
-			$values = db_seq_nextval( 'school_marking_periods_marking_period_id_seq' ) . ",'" . UserSchool() . "',";
+			$values = DBSeqNextID( 'school_marking_periods_marking_period_id_seq' ) . ",'" . UserSchool() . "',";
 
 			$go = false;
 

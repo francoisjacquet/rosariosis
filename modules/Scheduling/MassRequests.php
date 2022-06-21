@@ -20,11 +20,10 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					continue;
 				}
 
-				$sql = "INSERT INTO SCHEDULE_REQUESTS (REQUEST_ID,SYEAR,SCHOOL_ID,
+				$sql = "INSERT INTO SCHEDULE_REQUESTS (SYEAR,SCHOOL_ID,
 					STUDENT_ID,SUBJECT_ID,COURSE_ID,MARKING_PERIOD_ID,WITH_TEACHER_ID,
 					NOT_TEACHER_ID,WITH_PERIOD_ID,NOT_PERIOD_ID)
-					values(" . db_seq_nextval( 'schedule_requests_request_id_seq' ) . ",'" .
-					UserSyear() . "','" . UserSchool() . "','" . $student_id . "','" .
+					values('" . UserSyear() . "','" . UserSchool() . "','" . $student_id . "','" .
 					$_SESSION['MassRequests.php']['subject_id'] . "','" .
 					$_SESSION['MassRequests.php']['course_id'] . "',NULL,'" .
 					$_REQUEST['with_teacher_id'] . "','" .

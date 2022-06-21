@@ -36,8 +36,8 @@ if ( ! empty( $_REQUEST['values'] )
 		{
 			$sql = "INSERT INTO ACCOUNTING_INCOMES ";
 
-			$fields = 'ID,SCHOOL_ID,SYEAR,';
-			$values = db_seq_nextval( 'accounting_incomes_id_seq' ) . ",'" . UserSchool() . "','" . UserSyear() . "',";
+			$fields = 'SCHOOL_ID,SYEAR,';
+			$values = "'" . UserSchool() . "','" . UserSyear() . "',";
 
 			if ( isset( $_FILES['FILE_ATTACHED'] ) )
 			{

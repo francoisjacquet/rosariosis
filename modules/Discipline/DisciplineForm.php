@@ -50,8 +50,8 @@ if ( ! empty( $_REQUEST['values'] )
 
 				$usage_sql = "INSERT INTO DISCIPLINE_FIELD_USAGE ";
 
-				$fields = "ID,DISCIPLINE_FIELD_ID,SYEAR,SCHOOL_ID,";
-				$values = db_seq_nextval( 'discipline_field_usage_id_seq' ) . ",'" . $id . "','" . UserSyear() . "','" . UserSchool() . "',";
+				$fields = "DISCIPLINE_FIELD_ID,SYEAR,SCHOOL_ID,";
+				$values = "'" . $id . "','" . UserSyear() . "','" . UserSchool() . "',";
 
 				foreach ( (array) $columns as $column => $value )
 				{
@@ -158,9 +158,8 @@ if ( $_REQUEST['modfunc'] === 'delete_usage'
 if ( $_REQUEST['modfunc'] === 'add_usage'
 	&& AllowEdit() )
 {
-	DBQuery( "INSERT INTO DISCIPLINE_FIELD_USAGE (ID,DISCIPLINE_FIELD_ID,SYEAR,SCHOOL_ID,TITLE,SELECT_OPTIONS,SORT_ORDER)
-		SELECT " . db_seq_nextval( 'discipline_field_usage_id_seq' ) . " AS ID,
-		'" . (int) $_REQUEST['id'] . "' AS DISCIPLINE_FIELD_ID,
+	DBQuery( "INSERT INTO DISCIPLINE_FIELD_USAGE (DISCIPLINE_FIELD_ID,SYEAR,SCHOOL_ID,TITLE,SELECT_OPTIONS,SORT_ORDER)
+		SELECT '" . (int) $_REQUEST['id'] . "' AS DISCIPLINE_FIELD_ID,
 		'" . UserSyear() . "' AS SYEAR,'" . UserSchool() . "' AS SCHOOL_ID,TITLE,
 		NULL AS SELECT_OPTIONS,NULL AS SORT_ORDER
 		FROM DISCIPLINE_FIELDS WHERE ID='" . (int) $_REQUEST['id'] . "'" );

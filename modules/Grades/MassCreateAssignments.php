@@ -69,9 +69,9 @@ if ( isset( $_POST['tables'] )
 				$cp_list = "'" . implode( "','", $_REQUEST['cp_arr'] ) . "'";
 			}
 
-			$fields = "ASSIGNMENT_ID,MARKING_PERIOD_ID,"; // ASSIGNMENT_TYPE_ID,STAFF_ID added for each CP below.
+			$fields = "MARKING_PERIOD_ID,"; // ASSIGNMENT_TYPE_ID,STAFF_ID added for each CP below.
 
-			$values = db_seq_nextval( 'gradebook_assignments_assignment_id_seq' ) . ",'" . UserMP() . "',";
+			$values = "'" . UserMP() . "',";
 		}
 		elseif ( $table === 'GRADEBOOK_ASSIGNMENT_TYPES' )
 		{
@@ -89,9 +89,9 @@ if ( isset( $_POST['tables'] )
 				WHERE COURSE_ID IN (" . $c_list . ")", [], [ 'COURSE_ID' ] );
 			}
 
-			$fields = "ASSIGNMENT_TYPE_ID,"; // COURSE_ID,STAFF_ID added for each Course below.
+			$fields = ""; // COURSE_ID,STAFF_ID added for each Course below.
 
-			$values = db_seq_nextval( 'gradebook_assignment_types_assignment_type_id_seq' ) . ",";
+			$values = "";
 		}
 
 		$go = false;

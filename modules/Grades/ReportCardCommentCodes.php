@@ -51,16 +51,14 @@ if ( $_REQUEST['modfunc'] === 'update' )
 					if ( $_REQUEST['tab_id'] !== 'new' )
 					{
 						$sql = 'INSERT INTO REPORT_CARD_COMMENT_CODES ';
-						$fields = 'ID,SCHOOL_ID,SCALE_ID,';
-						$values = db_seq_nextval( 'report_card_comment_codes_id_seq' ) .
-							",'" . UserSchool() . "','" . $_REQUEST['tab_id'] . "',";
+						$fields = 'SCHOOL_ID,SCALE_ID,';
+						$values = "'" . UserSchool() . "','" . $_REQUEST['tab_id'] . "',";
 					}
 					else
 					{
 						$sql = 'INSERT INTO REPORT_CARD_COMMENT_CODE_SCALES ';
-						$fields = 'ID,SCHOOL_ID,';
-						$values = db_seq_nextval( 'report_card_comment_code_scales_id_seq' ) .
-							",'" . UserSchool() . "',";
+						$fields = 'SCHOOL_ID,';
+						$values = "'" . UserSchool() . "',";
 					}
 
 					$go = false;

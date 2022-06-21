@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 9.2.1
+----------------
+- Remove use of db_seq_nextval(), use auto increment, program wide
+
 Changes in 9.2
 --------------
 - Fix SQL error invalid input syntax for integer in Administration.php

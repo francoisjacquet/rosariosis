@@ -134,11 +134,9 @@ if ( $_REQUEST['modfunc'] === 'refund'
 			$payment_RET[1]['COMMENTS'] . ' &mdash; ' . _( 'Refund' ) :
 			_( 'Refund' );
 
-		DBQuery( "INSERT INTO BILLING_PAYMENTS (ID,SYEAR,SCHOOL_ID,STUDENT_ID,AMOUNT,
+		DBQuery( "INSERT INTO BILLING_PAYMENTS (SYEAR,SCHOOL_ID,STUDENT_ID,AMOUNT,
 			PAYMENT_DATE,COMMENTS,REFUNDED_PAYMENT_ID)
-			VALUES(" .
-			db_seq_nextval( 'billing_payments_id_seq' ) . ",'" .
-			UserSyear() . "','" .
+			VALUES('" . UserSyear() . "','" .
 			UserSchool() . "','" .
 			UserStudentID() . "','" .
 			( $payment_RET[1]['AMOUNT'] * -1 ) . "','" .
