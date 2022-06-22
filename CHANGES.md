@@ -8,6 +8,7 @@ Changes in 9.2.1
 - SQL no more cast MARKING_PERIOD_ID column as text/varchar in rosariosis.sql & InputFinalGrades.php
 - PLpgSQL compact & consistent function declaration in rosariosis.sql
 - Use DB transaction statements compatible with MySQL in database.inc.php
+- Add DBLastInsertID() & deprecate DBSeqNextID() + db_seq_nextval() in database.inc.php
 
 Changes in 9.2
 --------------

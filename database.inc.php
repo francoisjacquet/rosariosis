@@ -191,6 +191,8 @@ function db_fetch_row( $result )
 /**
  * Returns code to go into SQL statement for accessing the next value of a sequence
  *
+ * @deprecated since 9.2.1 Use DBLastInsertID() instead
+ *
  * @param  string $seqname PostgreSQL sequence name.
  * @return sting  nextval code
  */
@@ -202,6 +204,8 @@ function db_seq_nextval( $seqname )
 
 /**
  * DB Sequence Next ID
+ *
+ * @deprecated since 9.2.1 Use DBLastInsertID() instead
  *
  * @example $id = DBSeqNextID( 'people_person_id_seq' );
  *
@@ -218,6 +222,19 @@ function DBSeqNextID( $seqname )
 	return $seq_next_RET['ID'];
 }
 
+/**
+ * DB Last Inserted ID
+ *
+ * @since 9.2.1
+ *
+ * @link https://stackoverflow.com/questions/2944297/postgresql-function-for-last-inserted-id
+ *
+ * @return int Last ID.
+ */
+function DBLastInsertID()
+{
+	return DBGetOne( "SELECT LASTVAL();" );
+}
 
 /**
  * Start transaction
