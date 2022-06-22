@@ -226,7 +226,7 @@ function DBSeqNextID( $seqname )
  */
 function db_trans_start()
 {
-	db_query( 'BEGIN TRANSACTION;' );
+	db_query( 'BEGIN;' );
 }
 
 /**
@@ -263,7 +263,7 @@ function db_trans_query( $sql, $show_error = true )
  */
 function db_trans_commit( $connection = false )
 {
-	db_query( 'COMMIT TRANSACTION;' );
+	db_query( 'COMMIT;' );
 }
 
 /**
@@ -275,7 +275,7 @@ function db_trans_commit( $connection = false )
  */
 function db_trans_rollback()
 {
-	db_query( 'ROLLBACK TRANSACTION;' );
+	db_query( 'ROLLBACK;' );
 }
 
 /**
