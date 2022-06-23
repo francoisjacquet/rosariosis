@@ -41,7 +41,7 @@ DROP FUNCTION create_language_plpgsql();
 
 --modif Francois: fix calc_cum_cr_gpa()
 --
--- Name: calc_cum_cr_gpa(character varying, integer); Type: FUNCTION; Schema: public; Owner: postgres
+-- Name: calc_cum_cr_gpa(mp_id integer, s_id integer); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
 CREATE OR REPLACE FUNCTION calc_cum_cr_gpa(mp_id integer, s_id integer) RETURNS integer AS $$
@@ -57,7 +57,7 @@ $$ LANGUAGE plpgsql;
 
 --modif Francois: fix calc_cum_gpa()
 --
--- Name: calc_cum_gpa(character varying, integer); Type: FUNCTION; Schema: public; Owner: postgres
+-- Name: calc_cum_gpa(mp_id integer, s_id integer); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
 CREATE OR REPLACE FUNCTION calc_cum_gpa(mp_id integer, s_id integer) RETURNS integer AS $$
@@ -73,7 +73,7 @@ $$ LANGUAGE plpgsql;
 
 --modif Francois: fix calc_gpa_mp() + credit()
 --
--- Name: calc_gpa_mp(integer, character varying); Type: FUNCTION; Schema: public; Owner: postgres
+-- Name: calc_gpa_mp(s_id integer, mp_id integer); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
 CREATE OR REPLACE FUNCTION calc_gpa_mp(s_id integer, mp_id integer) RETURNS integer AS $$
@@ -134,7 +134,7 @@ $$ LANGUAGE plpgsql;
 
 
 --
--- Name: credit(integer, character varying); Type: FUNCTION; Schema: public; Owner: postgres
+-- Name: credit(cp_id integer, mp_id integer); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
 CREATE OR REPLACE FUNCTION credit(cp_id integer, mp_id integer) RETURNS numeric AS $$
@@ -169,7 +169,7 @@ $$ LANGUAGE plpgsql;
 
 --modif Francois: fix set_class_rank_mp()
 --
--- Name: set_class_rank_mp(character varying); Type: FUNCTION; Schema: public; Owner: postgres
+-- Name: set_class_rank_mp(mp_id integer); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
 CREATE OR REPLACE FUNCTION set_class_rank_mp(mp_id integer) RETURNS integer AS $$
