@@ -9,6 +9,7 @@ Changes in 9.2.1
 - PLpgSQL compact & consistent function declaration in rosariosis.sql
 - Use DB transaction statements compatible with MySQL in database.inc.php
 - Add DBLastInsertID() & deprecate DBSeqNextID() + db_seq_nextval() in database.inc.php
+- SQL rename character varying & character data types to varchar & char in rosariosis.sql
 
 Changes in 9.2
 --------------
