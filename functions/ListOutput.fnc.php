@@ -527,7 +527,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 				foreach ( (array) $link['remove']['variables'] as $var => $val )
 				{
-					$button_link .= URLEscape( '&' . $var . '=' . $item[$val] );
+					$button_link .= URLEscape( '&' . $var . '=' . issetVal( $item[$val], '' ) );
 				}
 
 				echo '<td>' . button(
