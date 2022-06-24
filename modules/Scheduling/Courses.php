@@ -893,8 +893,9 @@ if (  ( ! $_REQUEST['modfunc']
 				empty( $_REQUEST['moodle_create_course_period'] )
 			) . '</td>';
 
+			// @since 9.2.1 SQL replace use of STRPOS() with LIKE, compatible with MySQL.
 			$teachers_RET = DBGet( "SELECT STAFF_ID
-				FROM STAFF WHERE (SCHOOLS IS NULL OR STRPOS(SCHOOLS,'," . UserSchool() . ",')>0)
+				FROM STAFF WHERE (SCHOOLS LIKE '%," . UserSchool() . ",%' OR SCHOOLS IS NULL)
 				AND SYEAR='" . UserSyear() . "'
 				AND PROFILE='teacher'
 				ORDER BY LAST_NAME,FIRST_NAME" );

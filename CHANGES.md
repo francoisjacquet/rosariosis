@@ -10,6 +10,7 @@ Changes in 9.2.1
 - Use DB transaction statements compatible with MySQL in database.inc.php
 - Add DBLastInsertID() & deprecate DBSeqNextID() + db_seq_nextval() in database.inc.php
 - SQL rename character varying & character data types to varchar & char in rosariosis.sql
+- SQL replace use of STRPOS() with LIKE, compatible with MySQL in PortalPollNotes.fnc.php & Courses.php
 
 Changes in 9.2
 --------------
