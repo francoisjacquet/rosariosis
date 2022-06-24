@@ -289,12 +289,12 @@ WHERE modname='Grades/Transcripts.php';
 UPDATE templates
 SET template='Cher __PARENT_NAME__,
 
-Un compte Parent pour l''école __SCHOOL_ID__ a été créé pour accéder aux informations de l''école et des élèves suivants:
+Un compte Parent pour l''école __SCHOOL_ID__ a été créé pour accéder aux informations de l''école et des élèves suivants :
 __ASSOCIATED_STUDENTS__
 
-Vos identifiants:
-Nom d''utilisateur: __USERNAME__
-Mot de passe: __PASSWORD__
+Vos identifiants :
+Nom d''utilisateur : __USERNAME__
+Mot de passe : __PASSWORD__
 
 Un lien vers le site du logiciel de gestion scolaire et les instructions pour y accéder sont disponibles sur le site de l''école.__BLOCK2__Cher __PARENT_NAME__,
 
@@ -305,12 +305,12 @@ WHERE modname='Custom/CreateParents.php';
 UPDATE templates
 SET template='Cher __PARENT_NAME__,
 
-Un compte Parent pour l''école __SCHOOL_ID__ a été créé pour accéder aux informations de l''école et des élèves suivants:
+Un compte Parent pour l''école __SCHOOL_ID__ a été créé pour accéder aux informations de l''école et des élèves suivants :
 __ASSOCIATED_STUDENTS__
 
-Vos identifiants:
-Nom d''utilisateur: __USERNAME__
-Mot de passe: __PASSWORD__
+Vos identifiants :
+Nom d''utilisateur : __USERNAME__
+Mot de passe : __PASSWORD__
 
 Un lien vers le site du logiciel de gestion scolaire et les instructions pour y accéder sont disponibles sur le site de l''école.'
 WHERE modname='Custom/NotifyParents.php';

@@ -11,6 +11,7 @@ Changes in 9.2.1
 - Add DBLastInsertID() & deprecate DBSeqNextID() + db_seq_nextval() in database.inc.php
 - SQL rename character varying & character data types to varchar & char in rosariosis.sql
 - SQL replace use of STRPOS() with LIKE, compatible with MySQL in PortalPollNotes.fnc.php & Courses.php
+- SQL fix French & Spanish translation for Create Parent Users & Notifiy Parents email templates in rosariosis_fr.sql & rosariosis_es.sql
 
 Changes in 9.2
 --------------

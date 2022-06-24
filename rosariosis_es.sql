@@ -250,14 +250,14 @@ WHERE modname='Grades/Transcripts.php';
 UPDATE templates
 SET template='Estimado __PARENT_NAME__,
 
-Una cuenta de padres para el __SCHOOL_ID__ ha sido creada para acceder información de la institución e información del estudiante para los siguientes estudiantes:
+Una cuenta de padres para el __SCHOOL_ID__ ha sido creada para acceder a la información de la institución y de los siguientes estudiantes:
 __ASSOCIATED_STUDENTS__
 
 Sus datos de cuenta son:
 Nombre de usuario: __USERNAME__
 Contraseña: __PASSWORD__
 
-Un enlace a la pagina del Sistema de Información Académica e instrucciones para el acceso estan disponibles en la pagina de la institución.__BLOCK2__Estimado __PARENT_NAME__,
+Un enlace hacia el Sistema de Información Académica e instrucciones para el acceso están disponibles en el sitio de la institución.__BLOCK2__Estimado __PARENT_NAME__,
 
 Los siguientes estudiantes han sido adicionados a su cuenta de padres en el Sistema de Información Académica:
 __ASSOCIATED_STUDENTS__'
@@ -266,14 +266,14 @@ WHERE modname='Custom/CreateParents.php';
 UPDATE templates
 SET template='Estimado __PARENT_NAME__,
 
-Una cuenta de padres para el __SCHOOL_ID__ ha sido creada para acceder información de la institución e información del estudiante para los siguientes estudiantes:
+Una cuenta de padres para el __SCHOOL_ID__ ha sido creada para acceder a la información de la institución y de los siguientes estudiantes:
 __ASSOCIATED_STUDENTS__
 
 Sus datos de cuenta son:
 Nombre de usuario: __USERNAME__
 Contraseña: __PASSWORD__
 
-Un enlace a la pagina del Sistema de Información Académica e instrucciones para el acceso estan disponibles en la pagina de la institución.'
+Un enlace hacia el Sistema de Información Académica e instrucciones para el acceso están disponibles en el sitio de la institución.'
 WHERE modname='Custom/NotifyParents.php';
 
 
