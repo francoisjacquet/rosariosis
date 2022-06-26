@@ -220,7 +220,7 @@ UPDATE templates
 SET template='<br /><br /><br />
 <div style="text-align: center;"><span style="font-size: xx-large;"><strong>__SCHOOL_ID__</strong><br /></span><br /><span style="font-size: xx-large;">Nosotros por medio de la presente reconocimos<br /><br /></span></div>
 <div style="text-align: center;"><span style="font-size: xx-large;"><strong>__FIRST_NAME__ __LAST_NAME__</strong><br /><br /></span></div>
-<div style="text-align: center;"><span style="font-size: xx-large;">Quien a completado todos los requisitos acad&eacute;micos para el <br />Cuadro de Honor</span></div>'
+<div style="text-align: center;"><span style="font-size: xx-large;">Quien ha completado todos los requisitos acad&eacute;micos para el <br />Cuadro de Honor</span></div>'
 WHERE modname='Grades/HonorRoll.php';
 
 UPDATE templates
