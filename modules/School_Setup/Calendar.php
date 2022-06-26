@@ -659,7 +659,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 		do_action( 'School_Setup/Calendar.php|event_field' );
 
 
-		// FJ bugfix SQL bug value too long for type character varying(50).
+		// FJ bugfix SQL bug value too long for type varchar(50).
 		echo '<tr><td>' .
 			TextInput(
 				issetVal( $RET[1]['TITLE'], '' ),
