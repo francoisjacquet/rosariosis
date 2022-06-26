@@ -14,21 +14,36 @@ if ( ! empty( $_REQUEST['values'] )
 
 		if (  ( $_REQUEST['values']['TYPE'] == 'Deposit' || $_REQUEST['values']['TYPE'] == 'Credit' || $_REQUEST['values']['TYPE'] == 'Debit' ) && ( $amount = is_money( $_REQUEST['values']['AMOUNT'] ) ) )
 		{
-			// get next transaction id
-			$id = DBSeqNextID( 'food_service_staff_transactions_transaction_id_seq' );
+			$fields = 'SYEAR,SCHOOL_ID,STAFF_ID,BALANCE,TIMESTAMP,SHORT_NAME,DESCRIPTION,SELLER_ID';
+
+			$values = "'" . UserSyear() . "','" . UserSchool() . "','" . UserStaffID() . "',
+				(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID='" . UserStaffID() . "'),
+				CURRENT_TIMESTAMP,'" . mb_strtoupper( $_REQUEST['values']['TYPE'] ) . "','" .
+				$_REQUEST['values']['TYPE'] . "','" . User( 'STAFF_ID' ) . "'";
+
+			$sql = "INSERT INTO FOOD_SERVICE_STAFF_TRANSACTIONS (" . $fields . ") values (" . $values . ")";
+
+			DBQuery( $sql );
+
+			$transaction_id = DBLastInsertID();
 
 			$full_description = DBEscapeString( _( $_REQUEST['values']['OPTION'] ) ) . ' ' . $_REQUEST['values']['DESCRIPTION'];
 
 			$fields = 'ITEM_ID,TRANSACTION_ID,AMOUNT,SHORT_NAME,DESCRIPTION';
-			$values = "'0','" . $id . "','" . ( $_REQUEST['values']['TYPE'] == 'Debit' ? -$amount : $amount ) . "','" . mb_strtoupper( $_REQUEST['values']['OPTION'] ) . "','" . $full_description . "'";
+
+			$values = "'0','" . $transaction_id . "','" .
+			( $_REQUEST['values']['TYPE'] == 'Debit' ? -$amount : $amount ) . "','" .
+			mb_strtoupper( $_REQUEST['values']['OPTION'] ) . "','" . $full_description . "'";
+
 			$sql = "INSERT INTO FOOD_SERVICE_STAFF_TRANSACTION_ITEMS (" . $fields . ") values (" . $values . ")";
+
 			DBQuery( $sql );
 
-			$sql1 = "UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET TRANSACTION_ID='" . (int) $id . "',BALANCE=BALANCE+(SELECT sum(AMOUNT) FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID='" . (int) $id . "') WHERE STAFF_ID='" . UserStaffID() . "'";
-			$fields = 'TRANSACTION_ID,SYEAR,SCHOOL_ID,STAFF_ID,BALANCE,TIMESTAMP,SHORT_NAME,DESCRIPTION,SELLER_ID';
-			$values = "'" . $id . "','" . UserSyear() . "','" . UserSchool() . "','" . UserStaffID() . "',(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID='" . UserStaffID() . "'),CURRENT_TIMESTAMP,'" . mb_strtoupper( $_REQUEST['values']['TYPE'] ) . "','" . $_REQUEST['values']['TYPE'] . "','" . User( 'STAFF_ID' ) . "'";
-			$sql2 = "INSERT INTO FOOD_SERVICE_STAFF_TRANSACTIONS (" . $fields . ") values (" . $values . ")";
-			DBQuery( 'BEGIN; ' . $sql1 . '; ' . $sql2 . '; COMMIT' );
+			DBQuery( "UPDATE FOOD_SERVICE_STAFF_ACCOUNTS
+				SET TRANSACTION_ID='" . (int) $transaction_id . "',BALANCE=BALANCE+(SELECT sum(AMOUNT)
+					FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS
+					WHERE TRANSACTION_ID='" . (int) $transaction_id . "')
+				WHERE STAFF_ID='" . UserStaffID() . "'" );
 		}
 		else
 		{

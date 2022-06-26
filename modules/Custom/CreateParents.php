@@ -196,14 +196,11 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 					if ( ! $test_email )
 					{
-						// Get Staff ID.
-						$id = DBSeqNextID( 'staff_staff_id_seq' );
-
 						$password_encrypted = encrypt_password( $password );
 
-						$sql = "INSERT INTO STAFF (STAFF_ID,SYEAR,PROFILE,PROFILE_ID,
+						$sql = "INSERT INTO STAFF (SYEAR,PROFILE,PROFILE_ID,
 							FIRST_NAME,MIDDLE_NAME,LAST_NAME,USERNAME,PASSWORD,EMAIL) values (
-							'" . $id . "','" . UserSyear() . "','parent','" . $profile_id . "',
+							'" . UserSyear() . "','parent','" . $profile_id . "',
 							'" . DBEscapeString( $user['FIRST_NAME'] ) . "',
 							'" . DBEscapeString( $user['MIDDLE_NAME'] ) . "',
 							'" . DBEscapeString( $user['LAST_NAME'] ) . "',
@@ -211,6 +208,9 @@ if ( $_REQUEST['modfunc'] === 'save'
 							'" . $students[1]['EMAIL'] . "')";
 
 						DBQuery( $sql );
+
+						// Get Staff ID.
+						$id = DBLastInsertID();
 
 						// Hook.
 						do_action( 'Custom/CreateParents.php|create_user' );

@@ -179,24 +179,16 @@ if ( ! empty( $_POST['tables'] ) )
 					unset( $columns['ASSIGNMENT_TYPE_ID'] );
 				}
 
-				$id = DBSeqNextID( 'gradebook_assignments_assignment_id_seq' );
+				$fields = "ASSIGNMENT_TYPE_ID,STAFF_ID,MARKING_PERIOD_ID,";
 
-				$fields = "ASSIGNMENT_ID,ASSIGNMENT_TYPE_ID,STAFF_ID,MARKING_PERIOD_ID,";
-
-				$values = $id . ",'" . (int) $_REQUEST['assignment_type_id'] . "','" .
+				$values = "'" . (int) $_REQUEST['assignment_type_id'] . "','" .
 				User( 'STAFF_ID' ) . "','" . UserMP() . "',";
-
-				$_REQUEST['assignment_id'] = $id;
 			}
 			elseif ( $table == 'GRADEBOOK_ASSIGNMENT_TYPES' )
 			{
-				$id = DBSeqNextID( 'gradebook_assignment_types_assignment_type_id_seq' );
+				$fields = "STAFF_ID,COURSE_ID,CREATED_MP,";
 
-				$fields = "ASSIGNMENT_TYPE_ID,STAFF_ID,COURSE_ID,CREATED_MP,";
-
-				$values = $id . ",'" . User( 'STAFF_ID' ) . "','" . $course_id . "','" . UserMP() . "',";
-
-				$_REQUEST['assignment_type_id'] = $id;
+				$values = "'" . User( 'STAFF_ID' ) . "','" . $course_id . "','" . UserMP() . "',";
 			}
 
 			$go = false;
@@ -260,6 +252,17 @@ if ( ! empty( $_POST['tables'] ) )
 		if ( ! $error && $go )
 		{
 			DBQuery( $sql );
+
+			$id = DBLastInsertID();
+
+			if ( $table == 'GRADEBOOK_ASSIGNMENTS' )
+			{
+				$_REQUEST['assignment_id'] = $id;
+			}
+			elseif ( $table == 'GRADEBOOK_ASSIGNMENT_TYPES' )
+			{
+				$_REQUEST['assignment_type_id'] = $id;
+			}
 
 			// Check if file submitted.
 

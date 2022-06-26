@@ -364,7 +364,7 @@ if ( ! empty( $_REQUEST['tables'] )
 					if ( mb_strpos( $id, 'new' ) === false )
 					{
 						if ( $table_name == 'COURSES'
-							&& $columns['SUBJECT_ID']
+							&& ! empty( $columns['SUBJECT_ID'] )
 							&& $columns['SUBJECT_ID'] != $_REQUEST['subject_id'] )
 						{
 							$_REQUEST['subject_id'] = $columns['SUBJECT_ID'];
@@ -489,30 +489,19 @@ if ( ! empty( $_REQUEST['tables'] )
 
 						if ( $table_name == 'COURSE_SUBJECTS' )
 						{
-							$id = DBSeqNextID( 'course_subjects_subject_id_seq' );
-							$fields = 'SUBJECT_ID,SCHOOL_ID,SYEAR,';
-							$values = "'" . $id . "','" . UserSchool() . "','" . UserSyear() . "',";
-							$_REQUEST['subject_id'] = $id;
+							$fields = 'SCHOOL_ID,SYEAR,';
+							$values = "'" . UserSchool() . "','" . UserSyear() . "',";
 						}
 						elseif ( $table_name == 'COURSES' )
 						{
-							$id = DBSeqNextID( 'courses_course_id_seq' );
-							$fields = 'COURSE_ID,SUBJECT_ID,SCHOOL_ID,SYEAR,';
-							$values = "'" . $id . "','" . $_REQUEST['subject_id'] . "','" . UserSchool() . "','" . UserSyear() . "',";
+							$fields = 'SUBJECT_ID,SCHOOL_ID,SYEAR,';
+							$values = "'" . $_REQUEST['subject_id'] . "','" . UserSchool() . "','" . UserSyear() . "',";
 							/*					$fields = 'COURSE_ID,SCHOOL_ID,SYEAR,';
 							$values = "'".$id."','".UserSchool()."','".UserSyear()."',";*/
-							$_REQUEST['course_id'] = $id;
 						}
 						elseif ( $table_name == 'COURSE_PERIODS' )
 						{
-							$id = DBSeqNextID( 'course_periods_course_period_id_seq' );
-
-							$fields = 'SYEAR,SCHOOL_ID,COURSE_PERIOD_ID,COURSE_ID,TITLE,FILLED_SEATS,';
-
-							if ( ! isset( $columns['PARENT_ID'] ) )
-							{
-								$columns['PARENT_ID'] = $id;
-							}
+							$fields = 'SYEAR,SCHOOL_ID,COURSE_ID,TITLE,FILLED_SEATS,';
 
 							$mp_title = '';
 
@@ -536,9 +525,7 @@ if ( ! empty( $_REQUEST['tables'] )
 
 							$base_title = DBEscapeString( $base_title );
 
-							$values = "'" . UserSyear() . "','" . UserSchool() . "','" . $id . "','" . $_REQUEST['course_id'] . "','" . $base_title . "','0',";
-
-							$_REQUEST['course_period_id'] = $id;
+							$values = "'" . UserSyear() . "','" . UserSchool() . "','" . $_REQUEST['course_id'] . "','" . $base_title . "','0',";
 						}
 
 						//FJ multiple school period for a course period
@@ -611,18 +598,35 @@ if ( ! empty( $_REQUEST['tables'] )
 						{
 							DBQuery( $sql );
 
+							$id = DBLastInsertID();
+
 							if ( $table_name == 'COURSE_SUBJECTS' )
 							{
+								$_REQUEST['subject_id'] = $id;
+
 								// Hook.
 								do_action( 'Scheduling/Courses.php|create_course_subject' );
 							}
 							elseif ( $table_name == 'COURSES' )
 							{
+								$_REQUEST['course_id'] = $id;
+
 								// Hook.
 								do_action( 'Scheduling/Courses.php|create_course' );
 							}
 							elseif ( $table_name == 'COURSE_PERIODS' )
 							{
+								$_REQUEST['course_period_id'] = $id;
+
+								if ( ! isset( $columns['PARENT_ID'] ) )
+								{
+									$columns['PARENT_ID'] = $id;
+
+									DBQuery( "UPDATE COURSE_PERIODS
+										SET PARENT_ID='" . (int) $id . "'
+										WHERE COURSE_PERIOD_ID='" . (int) $id . "'" );
+								}
+
 								// Hook.
 								do_action( 'Scheduling/Courses.php|create_course_period' );
 							}

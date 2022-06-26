@@ -28,12 +28,23 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 
 		$student = $student[1];
 
+		$fields = 'ACCOUNT_ID,STUDENT_ID,SYEAR,SCHOOL_ID,DISCOUNT,BALANCE,TIMESTAMP,SHORT_NAME,DESCRIPTION,SELLER_ID';
+
+		$values = "'" . $student['ACCOUNT_ID'] . "','" . UserStudentID() . "','" .
+			UserSyear() . "','" . UserSchool() . "','" . $discount .
+			"',(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID='" . (int) $student['ACCOUNT_ID'] .
+			"'),CURRENT_TIMESTAMP,'" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "','" .
+			$menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . ' - ' . DBDate() . "','" . User( 'STAFF_ID' ) . "'";
+
+		$sql = "INSERT INTO FOOD_SERVICE_TRANSACTIONS (" . $fields . ") values (" . $values . ")";
+
+		DBQuery( $sql );
+
+		$transaction_id = DBLastInsertID();
+
 		$items_RET = DBGet( "SELECT DESCRIPTION,SHORT_NAME,PRICE,PRICE_REDUCED,PRICE_FREE
 			FROM FOOD_SERVICE_ITEMS
 			WHERE SCHOOL_ID='" . UserSchool() . "'", [], [ 'SHORT_NAME' ] );
-
-		// get next transaction id
-		$id = DBSeqNextID( 'food_service_transactions_transaction_id_seq' );
 
 		$item_id = 0;
 
@@ -67,28 +78,19 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 			}
 
 			$fields = 'ITEM_ID,TRANSACTION_ID,AMOUNT,DISCOUNT,SHORT_NAME,DESCRIPTION';
-			$values = "'" . $item_id++ . "','" . $id . "','-" . $price . "','" . $discount . "','" . $items_RET[$item_sn][1]['SHORT_NAME'] . "','" . $items_RET[$item_sn][1]['DESCRIPTION'] . "'";
+
+			$values = "'" . $item_id++ . "','" . $transaction_id . "','-" . $price . "','" . $discount . "','" . $items_RET[$item_sn][1]['SHORT_NAME'] . "','" . $items_RET[$item_sn][1]['DESCRIPTION'] . "'";
+
 			$sql = "INSERT INTO FOOD_SERVICE_TRANSACTION_ITEMS (" . $fields . ") values (" . $values . ")";
+
 			DBQuery( $sql );
 		}
 
-		$sql1 = "UPDATE FOOD_SERVICE_ACCOUNTS
-			SET TRANSACTION_ID='" . (int) $id . "',BALANCE=BALANCE+(SELECT sum(AMOUNT)
+		DBQuery( "UPDATE FOOD_SERVICE_ACCOUNTS
+			SET TRANSACTION_ID='" . (int) $transaction_id . "',BALANCE=BALANCE+(SELECT sum(AMOUNT)
 				FROM FOOD_SERVICE_TRANSACTION_ITEMS
-				WHERE TRANSACTION_ID='" . (int) $id . "')
-			WHERE ACCOUNT_ID='" . (int) $student['ACCOUNT_ID'] . "'";
-
-		$fields = 'TRANSACTION_ID,ACCOUNT_ID,STUDENT_ID,SYEAR,SCHOOL_ID,DISCOUNT,BALANCE,TIMESTAMP,SHORT_NAME,DESCRIPTION,SELLER_ID';
-
-		$values = "'" . $id . "','" . $student['ACCOUNT_ID'] . "','" . UserStudentID() . "','" .
-			UserSyear() . "','" . UserSchool() . "','" . $discount .
-			"',(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID='" . (int) $student['ACCOUNT_ID'] .
-			"'),CURRENT_TIMESTAMP,'" . $menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . "','" .
-			$menus_RET[$_REQUEST['menu_id']][1]['TITLE'] . ' - ' . DBDate() . "','" . User( 'STAFF_ID' ) . "'";
-
-		$sql2 = "INSERT INTO FOOD_SERVICE_TRANSACTIONS (" . $fields . ") values (" . $values . ")";
-
-		DBQuery( 'BEGIN; ' . $sql1 . '; ' . $sql2 . '; COMMIT' );
+				WHERE TRANSACTION_ID='" . (int) $transaction_id . "')
+			WHERE ACCOUNT_ID='" . (int) $student['ACCOUNT_ID'] . "'" );
 
 		unset( $_SESSION['FSA_sale'] );
 

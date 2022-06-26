@@ -22,17 +22,17 @@ if ( ! empty( $_REQUEST['values'] )
 				}
 
 				$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . (int) $id . "'";
-				$go = true;
+
+				DBQuery( $sql );
 			}
 
 			// New: check for Title.
 			elseif ( $columns['TITLE'] )
 			{
-				$id = DBSeqNextID( 'discipline_fields_id_seq' );
 				$sql = "INSERT INTO DISCIPLINE_FIELDS ";
 
-				$fields = "ID,COLUMN_NAME,";
-				$values = "'" . $id . "','CATEGORY_" . $id . "',";
+				$fields = "COLUMN_NAME,";
+				$values = "'CATEGORY_',"; // ID is added to CATEGORY_ after INSERT, when we retrieve the ID...
 
 				$go = 0;
 
@@ -47,6 +47,20 @@ if ( ! empty( $_REQUEST['values'] )
 				}
 
 				$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
+
+				if ( ! $go )
+				{
+					continue;
+				}
+
+				DBQuery( $sql );
+
+				$id = DBLastInsertID();
+
+				// Update CATEGORY_ with ID now we have it.
+				DBQuery( "UPDATE DISCIPLINE_FIELDS
+					SET COLUMN_NAME='CATEGORY_" . $id . "'
+					WHERE ID='" . (int) $id . "'" );
 
 				$usage_sql = "INSERT INTO DISCIPLINE_FIELD_USAGE ";
 
@@ -100,11 +114,6 @@ if ( ! empty( $_REQUEST['values'] )
 				}
 
 				DBQuery( $usage_sql );
-			}
-
-			if ( $go )
-			{
-				DBQuery( $sql );
 			}
 		}
 		else
@@ -391,7 +400,7 @@ function _makeRemove( $value, $column )
 				'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete_usage&id=' . $THIS_RET['USAGE_ID'] ) . '"'
 			);
 
-			$return .= ' &nbsp; ' . button(
+			$return .= '<br />' . button(
 				'remove',
 				_( 'Delete' ),
 				'"' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete&id=' . $THIS_RET['ID'] ) . '"'

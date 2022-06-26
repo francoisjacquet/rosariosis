@@ -40,12 +40,10 @@ if ( ! empty( $_REQUEST['values'] )
 		elseif ( $columns['AMOUNT'] != ''
 			&& $columns['PAYMENT_DATE'] )
 		{
-			$id = DBSeqNextID( 'accounting_payments_id_seq' );
-
 			$sql = "INSERT INTO ACCOUNTING_PAYMENTS ";
 
-			$fields = 'ID,STAFF_ID,SYEAR,SCHOOL_ID,';
-			$values = "'" . $id . "','" . UserStaffID() . "','" . UserSyear() . "','" . UserSchool() . "',";
+			$fields = 'STAFF_ID,SYEAR,SCHOOL_ID,';
+			$values = "'" . UserStaffID() . "','" . UserSyear() . "','" . UserSchool() . "',";
 
 			if ( isset( $_FILES['FILE_ATTACHED'] ) )
 			{

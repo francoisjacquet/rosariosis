@@ -21,10 +21,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		{
 			$sql = "INSERT INTO DISCIPLINE_REFERRALS ";
 
-			$referral_id = DBSeqNextID( 'discipline_referrals_id_seq' );
-
-			$fields = "ID,SYEAR,SCHOOL_ID,STUDENT_ID,";
-			$values = $referral_id . ",'" . UserSyear() . "','" . UserSchool() . "','" . $student_id . "',";
+			$fields = "SYEAR,SCHOOL_ID,STUDENT_ID,";
+			$values = "'" . UserSyear() . "','" . UserSchool() . "','" . $student_id . "',";
 
 			if ( User( 'PROFILE' ) === 'teacher' )
 			{
@@ -96,6 +94,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			if ( $go )
 			{
 				DBQuery( $sql );
+
+				$referral_id = DBLastInsertID();
 
 				// FJ email Discipline Referral feature.
 

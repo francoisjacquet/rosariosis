@@ -14,14 +14,24 @@ if ( ! empty( $_REQUEST['values'] )
 
 		if (  ( $_REQUEST['values']['TYPE'] == 'Deposit' || $_REQUEST['values']['TYPE'] == 'Credit' || $_REQUEST['values']['TYPE'] == 'Debit' ) && ( $amount = is_money( $_REQUEST['values']['AMOUNT'] ) ) )
 		{
-			// get next transaction id
-			$id = DBSeqNextID( 'food_service_transactions_transaction_id_seq' );
+			$fields = 'SYEAR,SCHOOL_ID,ACCOUNT_ID,BALANCE,TIMESTAMP,SHORT_NAME,DESCRIPTION,SELLER_ID';
+
+			$values = "'" . UserSyear() . "','" . UserSchool() . "','" . $account_id . "',
+				(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID='" . (int) $account_id . "'),
+				CURRENT_TIMESTAMP,'" . mb_strtoupper( $_REQUEST['values']['TYPE'] ) . "','" .
+				$_REQUEST['values']['TYPE'] . "','" . User( 'STAFF_ID' ) . "'";
+
+			$sql = "INSERT INTO FOOD_SERVICE_TRANSACTIONS (" . $fields . ") values (" . $values . ")";
+
+			DBQuery( $sql );
+
+			$transaction_id = DBLastInsertID();
 
 			$full_description = DBEscapeString( _( $_REQUEST['values']['OPTION'] ) ) . ' ' . $_REQUEST['values']['DESCRIPTION'];
 
 			$fields = 'ITEM_ID,TRANSACTION_ID,AMOUNT,DISCOUNT,SHORT_NAME,DESCRIPTION';
 
-			$values = "'0','" . $id . "','" .
+			$values = "'0','" . $transaction_id . "','" .
 			( $_REQUEST['values']['TYPE'] === 'Debit' ? -$amount : $amount ) . "',NULL,'" .
 			mb_strtoupper( $_REQUEST['values']['OPTION'] ) . "','" . $full_description . "'";
 
@@ -29,22 +39,11 @@ if ( ! empty( $_REQUEST['values'] )
 
 			DBQuery( $sql );
 
-			$sql1 = "UPDATE FOOD_SERVICE_ACCOUNTS
-				SET TRANSACTION_ID='" . (int) $id . "',BALANCE=BALANCE+(SELECT sum(AMOUNT)
+			DBQuery( "UPDATE FOOD_SERVICE_ACCOUNTS
+				SET TRANSACTION_ID='" . (int) $transaction_id . "',BALANCE=BALANCE+(SELECT sum(AMOUNT)
 					FROM FOOD_SERVICE_TRANSACTION_ITEMS
-					WHERE TRANSACTION_ID='" . (int) $id . "')
-				WHERE ACCOUNT_ID='" . (int) $account_id . "'";
-
-			$fields = 'TRANSACTION_ID,SYEAR,SCHOOL_ID,ACCOUNT_ID,BALANCE,TIMESTAMP,SHORT_NAME,DESCRIPTION,SELLER_ID';
-
-			$values = "'" . $id . "','" . UserSyear() . "','" . UserSchool() . "','" . $account_id . "',
-				(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID='" . (int) $account_id . "'),
-				CURRENT_TIMESTAMP,'" . mb_strtoupper( $_REQUEST['values']['TYPE'] ) . "','" .
-				$_REQUEST['values']['TYPE'] . "','" . User( 'STAFF_ID' ) . "'";
-
-			$sql2 = "INSERT INTO FOOD_SERVICE_TRANSACTIONS (" . $fields . ") values (" . $values . ")";
-
-			DBQuery( 'BEGIN; ' . $sql1 . '; ' . $sql2 . '; COMMIT' );
+					WHERE TRANSACTION_ID='" . (int) $transaction_id . "')
+				WHERE ACCOUNT_ID='" . (int) $account_id . "'" );
 		}
 		else
 		{
