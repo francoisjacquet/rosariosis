@@ -25,6 +25,9 @@ function MyWidgets( $item )
 	global $extra, $_ROSARIO;
 
 	$extra['search'] = issetVal( $extra['search'], '' );
+	$extra['WHERE'] = issetVal( $extra['WHERE'], '' );
+	$extra['NoSearchTerms'] = issetVal( $extra['NoSearchTerms'], '' );
+	$_ROSARIO['SearchTerms'] = issetVal( $_ROSARIO['SearchTerms'], '' );
 
 	switch ( $item )
 	{
