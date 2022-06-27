@@ -108,7 +108,7 @@ if ( Prompt(
 	$table_list
 ) )
 {
-	if ( $_REQUEST['tables']['COURSES']
+	if ( isset( $_REQUEST['tables']['COURSES'] )
 		&& $exists_RET['REPORT_CARD_COMMENTS'][1]['COUNT']
 		&& ! $_REQUEST['tables']['REPORT_CARD_COMMENTS'] )
 	{
@@ -116,32 +116,32 @@ if ( Prompt(
 		$_REQUEST['tables']['REPORT_CARD_COMMENTS'] = 'Y';
 	}
 
-	if ( $_REQUEST['tables']['SCHOOL_MARKING_PERIODS']
+	if ( isset( $_REQUEST['tables']['SCHOOL_MARKING_PERIODS'] )
 		&& $exists_RET['COURSES'][1]['COUNT']
-		&& ! $_REQUEST['tables']['COURSES'] )
+		&& ! isset( $_REQUEST['tables']['COURSES'] ) )
 	{
 		// Fix SQL error foreign keys: Roll again Courses when rolling Marking Periods.
 		$_REQUEST['tables']['COURSES'] = 'Y';
 	}
 
-	if ( $_REQUEST['tables']['STUDENT_ENROLLMENT']
+	if ( isset( $_REQUEST['tables']['STUDENT_ENROLLMENT'] )
 		&& ! $exists_RET['SCHOOLS'][1]['COUNT']
-		&& ! $_REQUEST['tables']['SCHOOLS'] )
+		&& ! isset( $_REQUEST['tables']['SCHOOLS'] ) )
 	{
 		// Fix SQL error foreign keys: Roll Schools before rolling Student Enrollment.
 		// Insert SCHOOLS first.
 		$_REQUEST['tables'] = array_merge( [ 'SCHOOLS' => 'Y' ], $_REQUEST['tables'] );
 	}
 
-	if ( ! ( $_REQUEST['tables']['COURSES']
-		&& ( ( ! $_REQUEST['tables']['STAFF'] && $exists_RET['STAFF'][1]['COUNT'] < 1 )
-			|| ( ! $_REQUEST['tables']['SCHOOL_PERIODS'] && $exists_RET['SCHOOL_PERIODS'][1]['COUNT'] < 1 )
-			|| ( ! $_REQUEST['tables']['SCHOOL_MARKING_PERIODS'] && $exists_RET['SCHOOL_MARKING_PERIODS'][1]['COUNT'] < 1 )
-			|| ( ! $_REQUEST['tables']['ATTENDANCE_CALENDARS'] && $exists_RET['ATTENDANCE_CALENDARS'][1]['COUNT'] < 1 )
-			|| ( ! $_REQUEST['tables']['REPORT_CARD_GRADES'] && $exists_RET['REPORT_CARD_GRADES'][1]['COUNT'] < 1 ) ) ) )
+	if ( ! ( isset( $_REQUEST['tables']['COURSES'] )
+		&& ( ( ! isset( $_REQUEST['tables']['STAFF'] ) && $exists_RET['STAFF'][1]['COUNT'] < 1 )
+			|| ( ! isset( $_REQUEST['tables']['SCHOOL_PERIODS'] ) && $exists_RET['SCHOOL_PERIODS'][1]['COUNT'] < 1 )
+			|| ( ! isset( $_REQUEST['tables']['SCHOOL_MARKING_PERIODS'] ) && $exists_RET['SCHOOL_MARKING_PERIODS'][1]['COUNT'] < 1 )
+			|| ( ! isset( $_REQUEST['tables']['ATTENDANCE_CALENDARS'] ) && $exists_RET['ATTENDANCE_CALENDARS'][1]['COUNT'] < 1 )
+			|| ( ! isset( $_REQUEST['tables']['REPORT_CARD_GRADES'] ) && $exists_RET['REPORT_CARD_GRADES'][1]['COUNT'] < 1 ) ) ) )
 	{
-		if ( ! ( $_REQUEST['tables']['REPORT_CARD_COMMENTS']
-			&&  ( ! $_REQUEST['tables']['COURSES']
+		if ( ! ( isset( $_REQUEST['tables']['REPORT_CARD_COMMENTS'] )
+			&&  ( ! isset( $_REQUEST['tables']['COURSES'] )
 				&& $exists_RET['COURSES'][1]['COUNT'] < 1 ) ) )
 		{
 			if ( ! empty( $_REQUEST['tables'] ) )
