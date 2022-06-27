@@ -15,6 +15,8 @@
  */
 function RegistrationSave( $config, $values )
 {
+	static $student_join_no_address = false;
+
 	if ( ! $config
 		|| ! $values )
 	{
@@ -46,6 +48,15 @@ function RegistrationSave( $config, $values )
 		{
 			// New Address.
 			$contact_address_id = RegistrationSaveAddress( [], issetVal( $values['parent'][ $id ]['address'] ) );
+		}
+		elseif ( empty( $config_parent['address'] )
+			&& ! $student_join_no_address )
+		{
+			// No Address.
+			RegistrationSaveJoinAddress( '0' );
+
+			// Only join "No Address" once.
+			$student_join_no_address = true;
 		}
 
 		RegistrationSaveJoinContact(

@@ -14,6 +14,7 @@ Changes in 9.2.1
 - SQL fix French & Spanish translation for Create Parent Users & Notifiy Parents email templates in rosariosis_fr.sql & rosariosis_es.sql
 - Use DBLastInsertID() instead of DBSeqNextID(), program wide
 - SQL TRIM() both compatible with PostgreSQL and MySQL in AttendanceSummary.php & CopySchool.php
+- Fix No Address contact not properly saved for student / parent in RegistrationSave.fnc.php
 
 Changes in 9.2
 --------------
