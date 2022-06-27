@@ -67,8 +67,14 @@ if ( $go
 			WHERE ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'))" );
 
+
+	/**
+	 * SQL TRIM() both compatible with PostgreSQL and MySQL.
+	 *
+	 * @link https://www.sqltutorial.org/sql-string-functions/sql-trim/
+	 */
 	DBQuery( "UPDATE STAFF
-		SET SCHOOLS=rtrim(SCHOOLS,',')||'," . $id . ",'
+		SET SCHOOLS=trim(trailing ',' from SCHOOLS)||'," . $id . ",'
 		WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND SCHOOLS IS NOT NULL" );
 

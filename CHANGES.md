@@ -13,6 +13,7 @@ Changes in 9.2.1
 - SQL replace use of STRPOS() with LIKE, compatible with MySQL in PortalPollNotes.fnc.php & Courses.php
 - SQL fix French & Spanish translation for Create Parent Users & Notifiy Parents email templates in rosariosis_fr.sql & rosariosis_es.sql
 - Use DBLastInsertID() instead of DBSeqNextID(), program wide
+- SQL TRIM() both compatible with PostgreSQL and MySQL in AttendanceSummary.php & CopySchool.php
 
 Changes in 9.2
 --------------
