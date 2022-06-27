@@ -173,7 +173,8 @@ if ( $_REQUEST['search_modfunc']
 	);
 }
 
-$cal_RET = DBGet( "SELECT DISTINCT SCHOOL_DATE,'_'||to_char(SCHOOL_DATE,'yyyymmdd') AS SHORT_DATE
+// @since 9.2.1 SQL use REPLACE() instead of to_char() for MySQL compatibility
+$cal_RET = DBGet( "SELECT DISTINCT SCHOOL_DATE,'_'||REPLACE(CAST(SCHOOL_DATE AS varchar(10)),'-','') AS SHORT_DATE
 	FROM ATTENDANCE_CALENDAR
 	WHERE SCHOOL_ID='" . UserSchool() . "'
 	AND SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
@@ -324,8 +325,9 @@ else
 	if ( empty( $_REQUEST['period_id'] )
 		|| ! is_numeric( $_REQUEST['period_id'] ) )
 	{
+		// @since 9.2.1 SQL use REPLACE() instead of to_char() for MySQL compatibility
 		$att_sql = "SELECT ad.STATE_VALUE AS STATE_CODE,
-			SCHOOL_DATE,'_'||to_char(ad.SCHOOL_DATE,'yyyymmdd') AS SHORT_DATE
+			SCHOOL_DATE,'_'||REPLACE(CAST(ad.SCHOOL_DATE AS varchar(10)),'-','') AS SHORT_DATE
 		FROM ATTENDANCE_DAY ad,STUDENT_ENROLLMENT ssm
 		WHERE ad.STUDENT_ID=ssm.STUDENT_ID
 		AND (('" . DBDate() . "' BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL)
@@ -336,7 +338,8 @@ else
 	}
 	else
 	{
-		$att_sql = "SELECT ap.ATTENDANCE_CODE,ap.SCHOOL_DATE,'_'||to_char(ap.SCHOOL_DATE,'yyyymmdd') AS SHORT_DATE
+		// @since 9.2.1 SQL use REPLACE() instead of to_char() for MySQL compatibility
+		$att_sql = "SELECT ap.ATTENDANCE_CODE,ap.SCHOOL_DATE,'_'||REPLACE(CAST(ap.SCHOOL_DATE AS varchar(10)),'-','') AS SHORT_DATE
 		FROM ATTENDANCE_PERIOD ap,STUDENT_ENROLLMENT ssm
 		WHERE ap.STUDENT_ID=ssm.STUDENT_ID
 		AND ap.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'

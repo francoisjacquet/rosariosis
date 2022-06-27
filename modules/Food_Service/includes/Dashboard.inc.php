@@ -37,6 +37,7 @@ if ( ! function_exists( 'DashboardFoodServiceAdmin' ) )
 	 * Food Service module & admin profile
 	 *
 	 * @since 4.0
+	 * @since 9.2.1 SQL use SUBSTRING() instead of to_char() for MySQL compatibility
 	 *
 	 * @return array Dashboard data
 	 */
@@ -47,7 +48,7 @@ if ( ! function_exists( 'DashboardFoodServiceAdmin' ) )
 		// Meals served.
 		$meals_RET = DBGet( "SELECT
 			COUNT(DISTINCT STUDENT_ID) AS PARTICIPATED,
-			TO_CHAR(" . DBEscapeIdentifier( 'TIMESTAMP' ) . ",'YYYY-MM-DD') AS TRANSACTION_DATE
+			SUBSTRING(CAST(" . DBEscapeIdentifier( 'TIMESTAMP' ) . " AS varchar(10)),1,10) AS TRANSACTION_DATE
 			FROM FOOD_SERVICE_TRANSACTIONS
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
@@ -58,7 +59,7 @@ if ( ! function_exists( 'DashboardFoodServiceAdmin' ) )
 
 		$meals_staff_RET = DBGet( "SELECT
 			COUNT(DISTINCT STAFF_ID) AS PARTICIPATED,
-			TO_CHAR(" . DBEscapeIdentifier( 'TIMESTAMP' ) . ",'YYYY-MM-DD') AS TRANSACTION_DATE
+			SUBSTRING(CAST(" . DBEscapeIdentifier( 'TIMESTAMP' ) . " AS varchar(10)),1,10) AS TRANSACTION_DATE
 			FROM FOOD_SERVICE_STAFF_TRANSACTIONS
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'

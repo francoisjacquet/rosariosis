@@ -240,7 +240,7 @@ switch ( User( 'PROFILE' ) )
 			);
 		}
 
-		$events_RET = DBGet( "SELECT ce.ID,ce.TITLE,ce.DESCRIPTION,ce.SCHOOL_DATE AS SCHOOL_DATE,to_char(ce.SCHOOL_DATE,'Day') AS DAY,s.TITLE AS SCHOOL
+		$events_RET = DBGet( "SELECT ce.ID,ce.TITLE,ce.DESCRIPTION,ce.SCHOOL_DATE AS SCHOOL_DATE,ce.SCHOOL_DATE AS DAY,s.TITLE AS SCHOOL
 		FROM CALENDAR_EVENTS ce,SCHOOLS s,STAFF st
 		WHERE ce.SCHOOL_DATE BETWEEN CURRENT_DATE
 		AND CURRENT_DATE+11
@@ -522,7 +522,7 @@ switch ( User( 'PROFILE' ) )
 			);
 		}
 
-		$events_RET = DBGet( "SELECT ce.ID,ce.TITLE,ce.DESCRIPTION,ce.SCHOOL_DATE,to_char(ce.SCHOOL_DATE,'Day') AS DAY,s.TITLE AS SCHOOL
+		$events_RET = DBGet( "SELECT ce.ID,ce.TITLE,ce.DESCRIPTION,ce.SCHOOL_DATE,ce.SCHOOL_DATE AS DAY,s.TITLE AS SCHOOL
 		FROM CALENDAR_EVENTS ce,SCHOOLS s
 		WHERE ce.SCHOOL_DATE BETWEEN CURRENT_DATE
 		AND CURRENT_DATE+11
@@ -553,7 +553,7 @@ switch ( User( 'PROFILE' ) )
 
 		// FJ Portal Assignments.
 		$assignments_RET = DBGet( "SELECT a.ASSIGNMENT_ID,a.TITLE AS ASSIGNMENT_TITLE,
-			a.DUE_DATE,to_char(a.DUE_DATE,'Day') AS DAY,a.ASSIGNED_DATE,a.DESCRIPTION,a.STAFF_ID,
+			a.DUE_DATE,a.DUE_DATE AS DAY,a.ASSIGNED_DATE,a.DESCRIPTION,a.STAFF_ID,
 			c.TITLE AS COURSE,a.MARKING_PERIOD_ID
 		FROM GRADEBOOK_ASSIGNMENTS a,COURSES c
 		WHERE (a.COURSE_ID=c.COURSE_ID
@@ -762,7 +762,7 @@ switch ( User( 'PROFILE' ) )
 			);
 		}
 
-		$events_RET = DBGet( "SELECT ce.ID,ce.TITLE,ce.SCHOOL_DATE,to_char(ce.SCHOOL_DATE,'Day') AS DAY,ce.DESCRIPTION,s.TITLE AS SCHOOL
+		$events_RET = DBGet( "SELECT ce.ID,ce.TITLE,ce.SCHOOL_DATE,ce.SCHOOL_DATE AS DAY,ce.DESCRIPTION,s.TITLE AS SCHOOL
 		FROM CALENDAR_EVENTS ce,SCHOOLS s
 		WHERE ce.SCHOOL_DATE BETWEEN CURRENT_DATE AND CURRENT_DATE+11
 		AND ce.SYEAR='" . UserSyear() . "'
@@ -795,7 +795,7 @@ switch ( User( 'PROFILE' ) )
 			require_once 'modules/Grades/includes/StudentAssignments.fnc.php';
 
 			$assignments_RET = DBGet( "SELECT a.ASSIGNMENT_ID,a.TITLE AS ASSIGNMENT_TITLE,
-				a.DUE_DATE,to_char(a.DUE_DATE,'Day') AS DAY,a.ASSIGNED_DATE,a.DESCRIPTION,a.STAFF_ID,
+				a.DUE_DATE,a.DUE_DATE AS DAY,a.ASSIGNED_DATE,a.DESCRIPTION,a.STAFF_ID,
 				c.TITLE AS COURSE,a.SUBMISSION,a.MARKING_PERIOD_ID,
 				(SELECT 1
 				FROM STUDENT_ASSIGNMENTS sa
@@ -945,7 +945,7 @@ switch ( User( 'PROFILE' ) )
 			);
 		}
 
-		$events_RET = DBGet( "SELECT ID,TITLE,SCHOOL_DATE,to_char(SCHOOL_DATE,'Day') AS DAY,DESCRIPTION
+		$events_RET = DBGet( "SELECT ID,TITLE,SCHOOL_DATE,SCHOOL_DATE AS DAY,DESCRIPTION
 		FROM CALENDAR_EVENTS
 		WHERE SCHOOL_DATE BETWEEN CURRENT_DATE AND CURRENT_DATE+11
 		AND SYEAR='" . UserSyear() . "'
@@ -975,7 +975,7 @@ switch ( User( 'PROFILE' ) )
 			require_once 'modules/Grades/includes/StudentAssignments.fnc.php';
 
 			$assignments_RET = DBGet( "SELECT a.ASSIGNMENT_ID,a.TITLE AS ASSIGNMENT_TITLE,
-				a.DUE_DATE,to_char(a.DUE_DATE,'Day') AS DAY,a.ASSIGNED_DATE,a.DESCRIPTION,a.STAFF_ID,
+				a.DUE_DATE,a.DUE_DATE AS DAY,a.ASSIGNED_DATE,a.DESCRIPTION,a.STAFF_ID,
 				c.TITLE AS COURSE,a.SUBMISSION,a.MARKING_PERIOD_ID,
 				(SELECT 1
 				FROM STUDENT_ASSIGNMENTS sa
@@ -1045,12 +1045,20 @@ function PHPCheck()
 }
 
 /**
- * @param $string
- * @param $key
+ * Get day of week (textual) from Date
+ *
+ * @since 9.2.1 SQL use PHP strftime_compat() instead of SQL to_char() for MySQL compatibility
+ *
+ * DBGet() callback
+ *
+ * @param string $date   Date.
+ * @param string $column Column "DAY".
+ *
+ * @return string Day of week (textual)
  */
-function _eventDay( $string, $key )
+function _eventDay( $date, $column )
 {
-	return _( trim( $string ) );
+	return strftime_compat( '%A', $date );
 }
 
 /**

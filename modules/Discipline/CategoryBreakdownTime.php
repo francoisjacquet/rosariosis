@@ -76,7 +76,8 @@ if ( ! empty( $_REQUEST['category_id'] ) )
 
 	if ( $_REQUEST['timeframe'] === 'month' )
 	{
-		$timeframe = "to_char(dr.ENTRY_DATE,'mm')";
+		// @since 9.2.1 SQL use extract() instead of to_char() for MySQL compatibility
+		$timeframe = "extract(MONTH from dr.ENTRY_DATE)";
 
 		$start = $_REQUEST['month_start'] * 1;
 
@@ -253,7 +254,7 @@ if ( ! empty( $_REQUEST['category_id'] ) )
 			if ( $_REQUEST['timeframe'] === 'month' )
 			{
 				//FJ bugfix data showed in the wrong month
-				$tf = str_pad( ( $i%12 == 0 ? 12 : $i%12 ), 2, '0', STR_PAD_LEFT );
+				$tf = ( $i%12 == 0 ? 12 : $i%12 );
 
 				//FJ add translation
 				$chart['chart_data'][ $index ][0] = $months[ (int) $tf ];

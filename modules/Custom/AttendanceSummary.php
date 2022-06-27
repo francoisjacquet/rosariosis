@@ -71,16 +71,12 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 	foreach ( (array) $RET as $student )
 	{
-		/**
-		 * SQL TRIM() both compatible with PostgreSQL and MySQL.
-		 *
-		 * @link https://www.sqltutorial.org/sql-string-functions/sql-trim/
-		 */
+		// @since 9.2.1 SQL use extract() instead of to_char() for MySQL compatibility
 		$calendar_RET = DBGet( "SELECT CASE WHEN
 			MINUTES>=" . Config( 'ATTENDANCE_FULL_DAY_MINUTES' ) .
 					" THEN '1.0' ELSE '0.5' END AS POS,
-			trim(leading '0' from to_char(SCHOOL_DATE,'MM')) AS MON,
-			trim(leading '0' from to_char(SCHOOL_DATE,'DD')) AS DAY
+			extract(MONTH from SCHOOL_DATE) AS MON,
+			extract(DAY from SCHOOL_DATE) AS DAY
 			FROM ATTENDANCE_CALENDAR
 			WHERE CALENDAR_ID='" . (int) $student['CALENDAR_ID'] . "'
 			AND SCHOOL_DATE>='" . $student['START_DATE'] . "'" .
@@ -88,14 +84,10 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			[],
 			[ 'MON', 'DAY' ] );
 
-		/**
-		 * SQL TRIM() both compatible with PostgreSQL and MySQL.
-		 *
-		 * @link https://www.sqltutorial.org/sql-string-functions/sql-trim/
-		 */
+		// @since 9.2.1 SQL use extract() instead of to_char() for MySQL compatibility
 		$attendance_RET = DBGet( "SELECT
-			trim(leading '0' from to_char(ad.SCHOOL_DATE,'MM')) AS MON,
-			trim(leading '0' from to_char(ad.SCHOOL_DATE,'DD')) AS DAY,
+			extract(MONTH from ad.SCHOOL_DATE) AS MON,
+			extract(DAY from ad.SCHOOL_DATE) AS DAY,
 			ad.STATE_VALUE
 			FROM ATTENDANCE_DAY ad
 			WHERE ad.STUDENT_ID='" . (int) $student['STUDENT_ID'] . "'

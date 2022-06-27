@@ -37,6 +37,7 @@ if ( ! function_exists( 'DashboardAccountingAdmin' ) )
 	 * Accounting module & admin profile
 	 *
 	 * @since 4.0
+	 * @since 9.2.1 SQL use SUBSTRING() instead of to_char() for MySQL compatibility
 	 *
 	 * @return array Dashboard data
 	 */
@@ -44,7 +45,7 @@ if ( ! function_exists( 'DashboardAccountingAdmin' ) )
 	{
 		$general_balance = 0;
 
-		$incomes_RET = DBGet( "SELECT TO_CHAR(ASSIGNED_DATE,'YYYY-MM') AS YEAR_MONTH,
+		$incomes_RET = DBGet( "SELECT SUBSTRING(CAST(ASSIGNED_DATE AS varchar(10)),1,7) AS YEAR_MONTH,
 			SUM(AMOUNT) AS TOTAL_INCOMES
 			FROM ACCOUNTING_INCOMES
 			WHERE SYEAR='" . UserSyear() . "'
@@ -53,7 +54,7 @@ if ( ! function_exists( 'DashboardAccountingAdmin' ) )
 			ORDER BY YEAR_MONTH DESC
 			LIMIT 2", [], [ 'YEAR_MONTH' ] );
 
-		$expenses_RET = DBGet( "SELECT TO_CHAR(PAYMENT_DATE,'YYYY-MM') AS YEAR_MONTH,
+		$expenses_RET = DBGet( "SELECT SUBSTRING(CAST(PAYMENT_DATE AS varchar(10)),1,7) AS YEAR_MONTH,
 			SUM(CASE WHEN STAFF_ID IS NULL THEN AMOUNT END) AS TOTAL_EXPENSES
 			FROM ACCOUNTING_PAYMENTS
 			WHERE SYEAR='" . UserSyear() . "'
@@ -62,7 +63,7 @@ if ( ! function_exists( 'DashboardAccountingAdmin' ) )
 			ORDER BY YEAR_MONTH DESC
 			LIMIT 2", [], [ 'YEAR_MONTH' ] );
 
-		$staff_payments_RET = DBGet( "SELECT TO_CHAR(PAYMENT_DATE,'YYYY-MM') AS YEAR_MONTH,
+		$staff_payments_RET = DBGet( "SELECT SUBSTRING(CAST(PAYMENT_DATE AS varchar(10)),1,7) AS YEAR_MONTH,
 			SUM(CASE WHEN STAFF_ID IS NOT NULL THEN AMOUNT END) AS TOTAL_STAFF
 			FROM ACCOUNTING_PAYMENTS
 			WHERE SYEAR='" . UserSyear() . "'
@@ -71,7 +72,7 @@ if ( ! function_exists( 'DashboardAccountingAdmin' ) )
 			ORDER BY YEAR_MONTH DESC
 			LIMIT 2", [], [ 'YEAR_MONTH' ] );
 
-		$student_payments_RET = DBGet( "SELECT TO_CHAR(PAYMENT_DATE,'YYYY-MM') AS YEAR_MONTH,
+		$student_payments_RET = DBGet( "SELECT SUBSTRING(CAST(PAYMENT_DATE AS varchar(10)),1,7) AS YEAR_MONTH,
 			SUM(AMOUNT) AS TOTAL_STUDENT_PAYMENTS
 			FROM BILLING_PAYMENTS
 			WHERE SYEAR='" . UserSyear() . "'

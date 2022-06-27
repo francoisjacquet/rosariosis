@@ -36,9 +36,7 @@ function MyWidgets( $item )
 
 			if ( ! empty( $_REQUEST['birthmonth'] ) )
 			{
-				$extra['SELECT'] .= ",to_char(s.CUSTOM_200000004,'Mon DD') AS BIRTHMONTH";
 				$extra['WHERE'] .= " AND extract(month from s.CUSTOM_200000004)='" . $_REQUEST['birthmonth'] . "'";
-				$extra['columns_after']['BIRTHMONTH'] = _( 'Birth Month' );
 
 				if ( ! $extra['NoSearchTerms'] )
 				{
@@ -61,9 +59,7 @@ function MyWidgets( $item )
 
 			if ( ! empty( $_REQUEST['birthday'] ) )
 			{
-				$extra['SELECT'] .= ",to_char(s.CUSTOM_200000004,'DD') AS BIRTHDAY";
 				$extra['WHERE'] .= " AND extract(day from s.CUSTOM_200000004)='" . $_REQUEST['birthday'] . "'";
-				$extra['columns_after']['BIRTHDAY'] = _( 'Birth Day' );
 
 				if ( ! $extra['NoSearchTerms'] )
 				{

@@ -147,10 +147,11 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				AND SYEAR='" . UserSyear() . "'
 				AND (START_DATE<=CURRENT_DATE AND (END_DATE IS NULL OR CURRENT_DATE<=END_DATE)))" );
 
+			// @since 9.2.1 SQL use SUBSTRING() instead of to_char() for MySQL compatibility
 			$last_deposit = DBGet( "SELECT (SELECT sum(AMOUNT)
 				FROM FOOD_SERVICE_TRANSACTION_ITEMS
 				WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
-				to_char(fst.TIMESTAMP,'YYYY-MM-DD') AS DATE
+				SUBSTRING(CAST(fst.TIMESTAMP AS varchar(10)),1,10) AS DATE
 			FROM FOOD_SERVICE_TRANSACTIONS fst
 			WHERE fst.SHORT_NAME='DEPOSIT'
 			AND fst.ACCOUNT_ID='" . (int) $student['ACCOUNT_ID'] . "'

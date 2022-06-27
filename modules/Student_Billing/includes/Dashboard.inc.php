@@ -37,6 +37,7 @@ if ( ! function_exists( 'DashboardStudentBillingAdmin' ) )
 	 * Student Billing module & admin profile
 	 *
 	 * @since 4.0
+	 * @since 9.2.1 SQL use SUBSTRING() instead of to_char() for MySQL compatibility
 	 *
 	 * @return array Dashboard data
 	 */
@@ -45,7 +46,7 @@ if ( ! function_exists( 'DashboardStudentBillingAdmin' ) )
 		$balance = 0;
 
 		// Limit Results to Months between User MP Start & End Date.
-		$fees_RET = DBGet( "SELECT TO_CHAR(ASSIGNED_DATE,'YYYY-MM') AS YEAR_MONTH,
+		$fees_RET = DBGet( "SELECT SUBSTRING(CAST(ASSIGNED_DATE AS varchar(10)),1,7) AS YEAR_MONTH,
 			SUM(AMOUNT) AS TOTAL_FEES
 			FROM BILLING_FEES
 			WHERE SYEAR='" . UserSyear() . "'
@@ -54,7 +55,7 @@ if ( ! function_exists( 'DashboardStudentBillingAdmin' ) )
 			ORDER BY YEAR_MONTH DESC
 			LIMIT 3", [], [ 'YEAR_MONTH' ] );
 
-		$payments_RET = DBGet( "SELECT TO_CHAR(PAYMENT_DATE,'YYYY-MM') AS YEAR_MONTH,
+		$payments_RET = DBGet( "SELECT SUBSTRING(CAST(PAYMENT_DATE AS varchar(10)),1,7) AS YEAR_MONTH,
 			SUM(AMOUNT) AS TOTAL_PAYMENTS
 			FROM BILLING_PAYMENTS
 			WHERE SYEAR='" . UserSyear() . "'
