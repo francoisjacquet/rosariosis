@@ -58,15 +58,14 @@ if ( $go
 	&& ! empty( $_REQUEST['tables'] )
 	&& ! empty( $_REQUEST['title'] ) )
 {
-	$id = DBSeqNextID( 'schools_id_seq' );
-
-	DBQuery( "INSERT INTO SCHOOLS (ID,SYEAR,TITLE,REPORTING_GP_SCALE)
-		values('" . $id . "','" . UserSyear() . "','" . $_REQUEST['title'] . "',
+	DBQuery( "INSERT INTO SCHOOLS (SYEAR,TITLE,REPORTING_GP_SCALE)
+		values('" . UserSyear() . "','" . $_REQUEST['title'] . "',
 		(SELECT REPORTING_GP_SCALE
 			FROM SCHOOLS
 			WHERE ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'))" );
 
+	$id = DBLastInsertID();
 
 	/**
 	 * SQL TRIM() both compatible with PostgreSQL and MySQL.

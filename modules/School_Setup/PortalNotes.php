@@ -119,12 +119,9 @@ if ( $_REQUEST['modfunc'] === 'update'
 				$sql = "INSERT INTO PORTAL_NOTES ";
 
 				//FJ file attached to portal notes
-				$fields = 'ID,SCHOOL_ID,SYEAR,PUBLISHED_DATE,PUBLISHED_USER,';
+				$fields = 'SCHOOL_ID,SYEAR,PUBLISHED_DATE,PUBLISHED_USER,';
 
-				// Global var used by Moodle plugin.
-				$portal_note_id = DBSeqNextID( 'portal_notes_id_seq' );
-
-				$values = $portal_note_id . ",'" . UserSchool() . "','" . UserSyear() . "',CURRENT_TIMESTAMP,'" . User( 'STAFF_ID' ) . "',";
+				$values = "'" . UserSchool() . "','" . UserSyear() . "',CURRENT_TIMESTAMP,'" . User( 'STAFF_ID' ) . "',";
 
 				if ( isset( $_FILES['FILE_ATTACHED_FILE'] ) )
 				{
@@ -163,6 +160,9 @@ if ( $_REQUEST['modfunc'] === 'update'
 				if ( $go && empty( $error ) )
 				{
 					DBQuery( $sql );
+
+					// Global var used by Moodle plugin.
+					$portal_note_id = DBLastInsertID();
 
 					//hook
 					do_action( 'School_Setup/PortalNotes.php|create_portal_note' );

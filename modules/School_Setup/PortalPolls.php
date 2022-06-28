@@ -143,14 +143,12 @@ if ( $_REQUEST['modfunc'] === 'update'
 				'';
 
 				$sql = "INSERT INTO PORTAL_POLLS ";
-				$sql_question = "INSERT INTO PORTAL_POLL_QUESTIONS ";
-				$fields = 'ID,SCHOOL_ID,SYEAR,PUBLISHED_DATE,PUBLISHED_USER,';
+				$fields = 'SCHOOL_ID,SYEAR,PUBLISHED_DATE,PUBLISHED_USER,';
 
-				$portal_poll_id = DBSeqNextID( 'portal_polls_id_seq' );
-
-				$values = $portal_poll_id . ",'" . UserSchool() . "','" . UserSyear() . "',CURRENT_TIMESTAMP,'" . User( 'STAFF_ID' ) . "',";
+				$values = "'" . UserSchool() . "','" . UserSyear() . "',CURRENT_TIMESTAMP,'" . User( 'STAFF_ID' ) . "',";
 
 				$go = 0;
+				$sql_question = "INSERT INTO PORTAL_POLL_QUESTIONS ";
 				$sql_questions = [];
 
 				foreach ( (array) $columns as $column => $value )
@@ -167,7 +165,9 @@ if ( $_REQUEST['modfunc'] === 'update'
 							$go_question = 0;
 							$fields_question = 'PORTAL_POLL_ID,';
 
-							$values_question = $portal_poll_id . ",";
+							// Substitution code so we can replace with actual Poll ID
+							// when we retrieve it using DBLastInsertID(), see below.
+							$values_question = "__PORTAL_POLL_ID__,";
 
 							foreach ( (array) $value as $col => $val )
 							{
@@ -200,9 +200,18 @@ if ( $_REQUEST['modfunc'] === 'update'
 				{
 					DBQuery( $sql );
 
+					$portal_poll_id = DBLastInsertID();
+
 					foreach ( (array) $sql_questions as $sql_question )
 					{
-						DBQuery( $sql_question );
+						// Replace substitution code with actual Poll ID.
+						$sql_question_with_poll_id = str_replace(
+							'__PORTAL_POLL_ID__',
+							"'" . $portal_poll_id . "'",
+							$sql_question
+						);
+
+						DBQuery( $sql_question_with_poll_id );
 					}
 				}
 			}

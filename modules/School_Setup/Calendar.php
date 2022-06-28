@@ -221,16 +221,6 @@ if ( $_REQUEST['modfunc'] === 'create'
 	// If Confirm Create / Recreate
 	if ( $OK )
 	{
-		// Set Calendar ID
-		if ( ! empty( $_REQUEST['calendar_id'] ) )
-		{
-			$calendar_id = $_REQUEST['calendar_id'];
-		}
-		else
-		{
-			$calendar_id = DBSeqNextID( 'attendance_calendars_calendar_id_seq' );
-		}
-
 		if ( ! empty( $_REQUEST['default'] ) )
 		{
 			DBQuery( "UPDATE ATTENDANCE_CALENDARS
@@ -242,6 +232,8 @@ if ( $_REQUEST['modfunc'] === 'create'
 		// Recreate
 		if ( ! empty( $_REQUEST['calendar_id'] ) )
 		{
+			$calendar_id = $_REQUEST['calendar_id'];
+
 			DBQuery( "UPDATE ATTENDANCE_CALENDARS
 				SET TITLE='" . $_REQUEST['title'] . "',DEFAULT_CALENDAR='" . $_REQUEST['default'] . "'
 				WHERE CALENDAR_ID='" . (int) $calendar_id . "'" );
@@ -250,8 +242,11 @@ if ( $_REQUEST['modfunc'] === 'create'
 		else
 		{
 			DBQuery( "INSERT INTO ATTENDANCE_CALENDARS
-				(CALENDAR_ID,SYEAR,SCHOOL_ID,TITLE,DEFAULT_CALENDAR)
-				values('" . $calendar_id . "','" . UserSyear() . "','" . UserSchool() . "','" . $_REQUEST['title'] . "','" . $_REQUEST['default'] . "')" );
+				(SYEAR,SCHOOL_ID,TITLE,DEFAULT_CALENDAR)
+				values('" . UserSyear() . "','" . UserSchool() . "','" . $_REQUEST['title'] . "','" . $_REQUEST['default'] . "')" );
+
+			// Set Calendar ID
+			$calendar_id = DBLastInsertID();
 		}
 
 		//FJ fix bug MINUTES not numeric
@@ -504,11 +499,9 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 
 					$sql = "INSERT INTO CALENDAR_EVENTS ";
 
-					$fields = 'ID,SYEAR,SCHOOL_ID,';
+					$fields = 'SYEAR,SCHOOL_ID,';
 
-					$calendar_event_id = DBSeqNextID( 'calendar_events_id_seq' );
-
-					$values = $calendar_event_id . ",'" . UserSyear() . "','" . UserSchool() . "',";
+					$values = "'" . UserSyear() . "','" . UserSchool() . "',";
 
 					$go = false;
 
@@ -528,6 +521,8 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 					if ( $go )
 					{
 						DBQuery( $sql );
+
+						$calendar_event_id = DBLastInsertID();
 
 						// Hook.
 						do_action( 'School_Setup/Calendar.php|create_calendar_event' );

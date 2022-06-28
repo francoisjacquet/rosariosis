@@ -115,12 +115,10 @@ if ( ! empty( $_POST['values'] )
 		}
 		else
 		{
-			$id = DBSeqNextID( 'address_address_id_seq' );
-
 			$sql = "INSERT INTO ADDRESS ";
 
-			$fields = 'ADDRESS_ID,';
-			$values = "'" . $id . "',";
+			$fields = '';
+			$values = '';
 
 			$go = 0;
 
@@ -145,8 +143,12 @@ if ( ! empty( $_POST['values'] )
 			if ( $go )
 			{
 				DBQuery( $sql );
+
+				$id = DBLastInsertID();
+
 				DBQuery( "INSERT INTO STUDENTS_JOIN_ADDRESS (STUDENT_ID,ADDRESS_ID,RESIDENCE,MAILING,BUS_PICKUP,BUS_DROPOFF)
 					values('" . UserStudentID() . "','" . $id . "','" . $_REQUEST['values']['STUDENTS_JOIN_ADDRESS']['RESIDENCE'] . "','" . $_REQUEST['values']['STUDENTS_JOIN_ADDRESS']['MAILING'] . "','" . $_REQUEST['values']['STUDENTS_JOIN_ADDRESS']['BUS_PICKUP'] . "','" . $_REQUEST['values']['STUDENTS_JOIN_ADDRESS']['BUS_DROPOFF'] . "')" );
+
 				$_REQUEST['address_id'] = $id;
 
 				//hook

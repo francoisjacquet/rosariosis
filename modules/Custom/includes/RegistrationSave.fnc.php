@@ -245,13 +245,11 @@ function RegistrationSaveAddress( $config, $values )
 		return $inserted_addresses[ $address_key ];
 	}
 
-	$address_id = DBSeqNextID( 'address_address_id_seq' );
-
 	$sql = "INSERT INTO ADDRESS ";
 
-	$fields = 'ADDRESS_ID,ADDRESS,CITY,STATE,ZIPCODE,';
+	$fields = 'ADDRESS,CITY,STATE,ZIPCODE,';
 
-	$values_sql = "'" . $address_id . "','" . $values['ADDRESS'] . "','" . $values['CITY'] . "','" . $values['STATE'] . "','" . $values['ZIPCODE'] . "',";
+	$values_sql = "'" . $values['ADDRESS'] . "','" . $values['CITY'] . "','" . $values['STATE'] . "','" . $values['ZIPCODE'] . "',";
 
 	// Textarea fields MarkDown sanitize.
 	$values = FilterCustomFieldsMarkdown( 'ADDRESS_FIELDS', 'address' );
@@ -280,6 +278,8 @@ function RegistrationSaveAddress( $config, $values )
 	$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values_sql, 0, -1 ) . ')';
 
 	DBQuery( $sql );
+
+	$address_id = DBLastInsertID();
 
 	RegistrationSaveJoinAddress( $address_id );
 
@@ -395,13 +395,11 @@ function RegistrationSaveContactNameFields( $config, $values )
 		return 0;
 	}
 
-	$person_id = DBSeqNextID( 'people_person_id_seq' );
-
 	$sql = "INSERT INTO PEOPLE ";
 
-	$fields = 'PERSON_ID,LAST_NAME,FIRST_NAME,MIDDLE_NAME,';
+	$fields = 'LAST_NAME,FIRST_NAME,MIDDLE_NAME,';
 
-	$values_sql = "'" . $person_id . "','" . $values['LAST_NAME'] . "','" . $values['FIRST_NAME'] . "','" . $values['MIDDLE_NAME'] . "',";
+	$values_sql = "'" . $values['LAST_NAME'] . "','" . $values['FIRST_NAME'] . "','" . $values['MIDDLE_NAME'] . "',";
 
 	if ( $config
 		&& ! empty( $values['fields'] ) )
@@ -427,6 +425,8 @@ function RegistrationSaveContactNameFields( $config, $values )
 	$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values_sql, 0, -1 ) . ')';
 
 	DBQuery( $sql );
+
+	$person_id = DBLastInsertID();
 
 	return $person_id;
 }
