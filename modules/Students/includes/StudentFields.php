@@ -88,34 +88,16 @@ if ( isset( $_POST['tables'] )
 							unset( $columns['CATEGORY_ID'] );
 						}
 
-						$_REQUEST['id'] = AddDBField( 'STUDENTS', 'custom_fields_id_seq', $columns['TYPE'] );
+						$fields = 'CATEGORY_ID,';
 
-						$fields = 'ID,CATEGORY_ID,';
-
-						$values = $_REQUEST['id'] . ",'" . $_REQUEST['category_id'] . "',";
+						$values = "'" . $_REQUEST['category_id'] . "',";
 					}
 					// New Category.
 					elseif ( $table === 'STUDENT_FIELD_CATEGORIES' )
 					{
-						$id = DBSeqNextID( 'student_field_categories_id_seq' );
+						$fields = '';
 
-						$fields = "ID,";
-
-						$values = $id . ",";
-
-						$_REQUEST['category_id'] = $id;
-
-						// Add to profile or permissions of user creating it.
-						if ( User( 'PROFILE_ID' ) )
-						{
-							DBQuery( "INSERT INTO PROFILE_EXCEPTIONS (PROFILE_ID,MODNAME,CAN_USE,CAN_EDIT)
-								values('" . User( 'PROFILE_ID' ) . "','Students/Student.php&category_id=" . $id . "','Y','Y')" );
-						}
-						else
-						{
-							DBQuery( "INSERT INTO STAFF_EXCEPTIONS (USER_ID,MODNAME,CAN_USE,CAN_EDIT)
-								values('" . User( 'STAFF_ID' ) . "','Students/Student.php&category_id=" . $id . "','Y','Y')" );
-						}
+						$values = '';
 					}
 
 					$go = false;
@@ -138,6 +120,31 @@ if ( isset( $_POST['tables'] )
 				if ( $go )
 				{
 					DBQuery( $sql );
+
+					$id = DBLastInsertID();
+
+					if ( $table === 'CUSTOM_FIELDS' )
+					{
+						AddDBField( 'STUDENTS', $id, $columns['TYPE'] );
+
+						$_REQUEST['id'] = $id;
+					}
+					elseif ( $table === 'STUDENT_FIELD_CATEGORIES' )
+					{
+						// Add to profile or permissions of user creating it.
+						if ( User( 'PROFILE_ID' ) )
+						{
+							DBQuery( "INSERT INTO PROFILE_EXCEPTIONS (PROFILE_ID,MODNAME,CAN_USE,CAN_EDIT)
+								values('" . User( 'PROFILE_ID' ) . "','Students/Student.php&category_id=" . $id . "','Y','Y')" );
+						}
+						else
+						{
+							DBQuery( "INSERT INTO STAFF_EXCEPTIONS (USER_ID,MODNAME,CAN_USE,CAN_EDIT)
+								values('" . User( 'STAFF_ID' ) . "','Students/Student.php&category_id=" . $id . "','Y','Y')" );
+						}
+
+						$_REQUEST['category_id'] = $id;
+					}
 				}
 			}
 			else

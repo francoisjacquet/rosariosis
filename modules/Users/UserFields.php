@@ -97,34 +97,16 @@ if ( isset( $_POST['tables'] )
 							unset( $columns['CATEGORY_ID'] );
 						}
 
-						$_REQUEST['id'] = AddDBField( 'STAFF', 'staff_fields_id_seq', $columns['TYPE'] );
+						$fields = 'CATEGORY_ID,';
 
-						$fields = 'ID,CATEGORY_ID,';
-
-						$values = $_REQUEST['id'] . ",'" . $_REQUEST['category_id'] . "',";
+						$values = "'" . $_REQUEST['category_id'] . "',";
 					}
 					// New Category.
 					elseif ( $table === 'STAFF_FIELD_CATEGORIES' )
 					{
-						$id = DBSeqNextID( 'staff_field_categories_id_seq' );
+						$fields = '';
 
-						$fields = "ID,";
-
-						$values = $id . ",";
-
-						$_REQUEST['category_id'] = $id;
-
-						// Add to profile or permissions of user creating it.
-						if ( User( 'PROFILE_ID' ) )
-						{
-							DBQuery( "INSERT INTO PROFILE_EXCEPTIONS (PROFILE_ID,MODNAME,CAN_USE,CAN_EDIT)
-								values('" . User( 'PROFILE_ID' ) . "','Users/User.php&category_id=" . $id . "','Y','Y')" );
-						}
-						else
-						{
-							DBQuery( "INSERT INTO STAFF_EXCEPTIONS (USER_ID,MODNAME,CAN_USE,CAN_EDIT)
-								values('" . User( 'STAFF_ID' ) . "','Users/User.php&category_id=" . $id . "','Y','Y')" );
-						}
+						$values = '';
 					}
 
 					$go = false;
@@ -147,6 +129,31 @@ if ( isset( $_POST['tables'] )
 				if ( $go )
 				{
 					DBQuery( $sql );
+
+					$id = DBLastInsertID();
+
+					if ( $table === 'STAFF_FIELDS' )
+					{
+						AddDBField( 'STAFF', $id, $columns['TYPE'] );
+
+						$_REQUEST['id'] = $id;
+					}
+					elseif ( $table === 'STAFF_FIELD_CATEGORIES' )
+					{
+						// Add to profile or permissions of user creating it.
+						if ( User( 'PROFILE_ID' ) )
+						{
+							DBQuery( "INSERT INTO PROFILE_EXCEPTIONS (PROFILE_ID,MODNAME,CAN_USE,CAN_EDIT)
+								values('" . User( 'PROFILE_ID' ) . "','Users/User.php&category_id=" . $id . "','Y','Y')" );
+						}
+						else
+						{
+							DBQuery( "INSERT INTO STAFF_EXCEPTIONS (USER_ID,MODNAME,CAN_USE,CAN_EDIT)
+								values('" . User( 'STAFF_ID' ) . "','Users/User.php&category_id=" . $id . "','Y','Y')" );
+						}
+
+						$_REQUEST['category_id'] = $id;
+					}
 				}
 			}
 			else

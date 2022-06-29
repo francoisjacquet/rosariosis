@@ -66,22 +66,16 @@ if ( isset( $_POST['tables'] )
 							unset( $columns['CATEGORY_ID'] );
 						}
 
-						$_REQUEST['id'] = AddDBField( 'PEOPLE', 'people_fields_id_seq', $columns['TYPE'] );
+						$fields = 'CATEGORY_ID,';
 
-						$fields = 'ID,CATEGORY_ID,';
-
-						$values = $_REQUEST['id'] . ",'" . $_REQUEST['category_id'] . "',";
+						$values = "'" . $_REQUEST['category_id'] . "',";
 					}
 					// New Category.
 					elseif ( $table === 'PEOPLE_FIELD_CATEGORIES' )
 					{
-						$id = DBSeqNextID( 'people_field_categories_id_seq' );
+						$fields = '';
 
-						$fields = "ID,";
-
-						$values = $id . ",";
-
-						$_REQUEST['category_id'] = $id;
+						$values = '';
 					}
 
 					$go = false;
@@ -104,6 +98,19 @@ if ( isset( $_POST['tables'] )
 				if ( $go )
 				{
 					DBQuery( $sql );
+
+					$id = DBLastInsertID();
+
+					if ( $table === 'PEOPLE_FIELDS' )
+					{
+						AddDBField( 'PEOPLE', $id, $columns['TYPE'] );
+
+						$_REQUEST['id'] = $id;
+					}
+					elseif ( $table === 'PEOPLE_FIELD_CATEGORIES' )
+					{
+						$_REQUEST['category_id'] = $id;
+					}
 				}
 			}
 			else

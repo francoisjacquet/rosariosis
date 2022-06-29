@@ -59,11 +59,9 @@ if ( isset( $_POST['tables'] )
 					// New Field.
 					if ( $table === 'SCHOOL_FIELDS' )
 					{
-						$_REQUEST['id'] = AddDBField( 'SCHOOLS', 'school_fields_id_seq', $columns['TYPE'] );
+						$fields = '';
 
-						$fields = 'ID,';
-
-						$values = $_REQUEST['id'] . ",";
+						$values = '';
 					}
 
 					$go = false;
@@ -86,6 +84,15 @@ if ( isset( $_POST['tables'] )
 				if ( $go )
 				{
 					DBQuery( $sql );
+
+					$id = DBLastInsertID();
+
+					if ( $table === 'SCHOOL_FIELDS' )
+					{
+						AddDBField( 'SCHOOLS', $id, $columns['TYPE'] );
+
+						$_REQUEST['id'] = $id;
+					}
 				}
 			}
 			else

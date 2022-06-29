@@ -12,16 +12,17 @@
  *
  * @since 4.6 Add Files type
  * @since 5.0 SQL fix Change index suffix from '_IND' to '_IDX' to avoid collision.
+ * @since 9.2.1 Change $sequence param to $field_id, adapted for use with DBLastInsertID()
  *
- * @example $_REQUEST['id'] = AddDBField( 'SCHOOLS', 'school_fields_id_seq', $columns['TYPE'] );
+ * @example AddDBField( 'SCHOOLS', $school_fields_id, $columns['TYPE'] );
  *
  * @param string  $table    DB Table name.
- * @param string  $sequence DB Sequence name.
+ * @param int     $field_id Field ID (or DB Sequence name: deprecated).
  * @param string  $type     Field Type: radio|text|exports|select|autos|edits|codeds|multiple|numeric|date|textarea|files.
  *
  * @return string Field ID or empty string
  */
-function AddDBField( $table, $sequence, $type )
+function AddDBField( $table, $field_id, $type )
 {
 	if ( ! AllowEdit()
 		|| empty( $table )
@@ -30,9 +31,25 @@ function AddDBField( $table, $sequence, $type )
 		return '';
 	}
 
-	$id = DBSeqNextID( $sequence );
+	if ( (string) (int) $field_id == $field_id )
+	{
+		$id = $field_id;
+	}
+	else
+	{
+		/**
+		 * Field ID is actually a DB Sequence name (old param).
+		 * So get ID from sequence for compatibility with old signature.
+		 *
+		 * @deprecated since 9.2.1
+		 */
+		$id = DBSeqNextID( $field_id );
+	}
 
-	$fields = 'ID,CATEGORY_ID,';
+	if ( empty( $id ) )
+	{
+		return '';
+	}
 
 	$create_index = true;
 
