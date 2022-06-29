@@ -17,6 +17,7 @@ Changes in 9.2.1
 - SQL use extract() or SUBSTRING() or REPLACE() instead of to_char() for MySQL compatibility, program wide
 - Fix No Address contact not properly saved for student / parent in RegistrationSave.fnc.php
 - AddDBField() Change $sequence param to $field_id, adapted for use with DBLastInsertID() in Fields.fnc.php, SchoolFields.php, AddressFields.php, PoepleFields.php, StudentFields.php & UserFields.php
+- Raise Frame file size limit to 5MB in HonorRoll.fnc.php
 
 Changes in 9.2
 --------------

@@ -552,8 +552,8 @@ function HonorRollFrame( $frame_file = [] )
 {
 	global $error;
 
-	// 2 MB file size limit.
-	$size_limit = 2;
+	// 5 MB file size limit.
+	$size_limit = 5;
 
 	if ( $frame_file )
 	{

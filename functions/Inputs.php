@@ -1556,7 +1556,7 @@ function FileInput( $name, $title = '', $extra = '', $max_file_size = 0 )
 		$extra .= ' size="10"';
 	}
 
-	$max_file_size = $max_file_size > 0 ? $max_file_size : FileUploadMaxSize();
+	$max_file_size = $max_file_size > 0 && $max_file_size < FileUploadMaxSize() ? $max_file_size : FileUploadMaxSize();
 
 	// Input title indicating Maximum file size.
 	if ( mb_strpos( $extra, 'title=' ) === false )
