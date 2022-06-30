@@ -367,11 +367,9 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 			if ( ! $error )
 			{
-				$staff_id = DBSeqNextID( 'staff_staff_id_seq' );
-
 				$sql = "INSERT INTO STAFF ";
-				$fields = 'SYEAR,STAFF_ID,';
-				$values = "'" . UserSyear() . "','" . $staff_id . "',";
+				$fields = 'SYEAR,';
+				$values = "'" . UserSyear() . "',";
 
 				if ( basename( $_SERVER['PHP_SELF'] ) == 'index.php' )
 				{
@@ -415,6 +413,8 @@ if ( $_REQUEST['modfunc'] === 'update'
 				$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
 
 				DBQuery( $sql );
+
+				$staff_id = DBLastInsertID();
 
 				SetUserStaffID( $_REQUEST['staff_id'] = $staff_id );
 

@@ -236,7 +236,6 @@ if ( $_REQUEST['modfunc']
 	&& ! empty( $_REQUEST['new_profile_title'] )
 	&& AllowEdit() )
 {
-	$id = DBSeqNextID( 'user_profiles_id_seq' );
 	$exceptions_RET = [];
 
 	$xprofile = $_REQUEST['new_profile_type'];
@@ -247,8 +246,10 @@ if ( $_REQUEST['modfunc']
 		$xprofile = 'parent';
 	}
 
-	DBQuery( "INSERT INTO USER_PROFILES (ID,TITLE,PROFILE)
-		values('" . $id . "','" . $_REQUEST['new_profile_title'] . "','" . $xprofile . "')" );
+	DBQuery( "INSERT INTO USER_PROFILES (TITLE,PROFILE)
+		values('" . $_REQUEST['new_profile_title'] . "','" . $xprofile . "')" );
+
+	$id = DBLastInsertID();
 
 	$_REQUEST['profile_id'] = $id;
 

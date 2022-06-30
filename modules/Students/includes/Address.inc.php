@@ -202,12 +202,10 @@ if ( ! empty( $_POST['values'] )
 		}
 		else
 		{
-			$id = DBSeqNextID( 'people_person_id_seq' );
-
 			$sql = "INSERT INTO PEOPLE ";
 
-			$fields = 'PERSON_ID,';
-			$values = "'" . $id . "',";
+			$fields = '';
+			$values = '';
 
 			$go = 0;
 
@@ -232,6 +230,9 @@ if ( ! empty( $_POST['values'] )
 			if ( $go )
 			{
 				DBQuery( $sql );
+
+				$id = DBLastInsertID();
+
 				DBQuery( "INSERT INTO STUDENTS_JOIN_PEOPLE (PERSON_ID,STUDENT_ID,ADDRESS_ID,CUSTODY,EMERGENCY)
 					values('" . $id . "','" . UserStudentID() . "','" . $_REQUEST['address_id'] . "','" . $_REQUEST['values']['STUDENTS_JOIN_PEOPLE']['CUSTODY'] . "','" . $_REQUEST['values']['STUDENTS_JOIN_PEOPLE']['EMERGENCY'] . "')" );
 
