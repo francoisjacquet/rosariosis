@@ -19,6 +19,7 @@ Changes in 9.2.1
 - AddDBField() Change $sequence param to $field_id, adapted for use with DBLastInsertID() in Fields.fnc.php, SchoolFields.php, AddressFields.php, PoepleFields.php, StudentFields.php & UserFields.php
 - Raise Frame file size limit to 5MB in HonorRoll.fnc.php
 - Fix Marking Period not found in user School Year (multiple tabs case) in MassSchedule.php
+- Fix Course not found in user School Year (multiple tabs case) in MassRequests.php
 
 Changes in 9.2
 --------------

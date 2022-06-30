@@ -8,34 +8,46 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		if ( isset( $_REQUEST['student'] )
 			&& is_array( $_REQUEST['student'] ) )
 		{
-			$current_RET = DBGet( "SELECT STUDENT_ID
-				FROM SCHEDULE_REQUESTS
+			$course_exists = DBGetOne( "SELECT 1
+				FROM COURSES
 				WHERE COURSE_ID='" . (int) $_SESSION['MassRequests.php']['course_id'] . "'
-				AND SYEAR='" . UserSyear() . "'", [], [ 'STUDENT_ID' ] );
+				AND SYEAR='" . UserSyear() . "'" );
 
-			foreach ( (array) $_REQUEST['student'] as $student_id )
+			if ( $course_exists )
 			{
-				if ( ! empty( $current_RET[$student_id] ) )
+				$current_RET = DBGet( "SELECT STUDENT_ID
+					FROM SCHEDULE_REQUESTS
+					WHERE COURSE_ID='" . (int) $_SESSION['MassRequests.php']['course_id'] . "'
+					AND SYEAR='" . UserSyear() . "'", [], [ 'STUDENT_ID' ] );
+
+				foreach ( (array) $_REQUEST['student'] as $student_id )
 				{
-					continue;
+					if ( ! empty( $current_RET[$student_id] ) )
+					{
+						continue;
+					}
+
+					$sql = "INSERT INTO SCHEDULE_REQUESTS (SYEAR,SCHOOL_ID,
+						STUDENT_ID,SUBJECT_ID,COURSE_ID,MARKING_PERIOD_ID,WITH_TEACHER_ID,
+						NOT_TEACHER_ID,WITH_PERIOD_ID,NOT_PERIOD_ID)
+						values('" . UserSyear() . "','" . UserSchool() . "','" . $student_id . "','" .
+						$_SESSION['MassRequests.php']['subject_id'] . "','" .
+						$_SESSION['MassRequests.php']['course_id'] . "',NULL,'" .
+						$_REQUEST['with_teacher_id'] . "','" .
+						$_REQUEST['without_teacher_id'] . "','" .
+						$_REQUEST['with_period_id'] . "','" .
+						$_REQUEST['without_period_id'] . "')";
+
+					DBQuery( $sql );
 				}
 
-				$sql = "INSERT INTO SCHEDULE_REQUESTS (SYEAR,SCHOOL_ID,
-					STUDENT_ID,SUBJECT_ID,COURSE_ID,MARKING_PERIOD_ID,WITH_TEACHER_ID,
-					NOT_TEACHER_ID,WITH_PERIOD_ID,NOT_PERIOD_ID)
-					values('" . UserSyear() . "','" . UserSchool() . "','" . $student_id . "','" .
-					$_SESSION['MassRequests.php']['subject_id'] . "','" .
-					$_SESSION['MassRequests.php']['course_id'] . "',NULL,'" .
-					$_REQUEST['with_teacher_id'] . "','" .
-					$_REQUEST['without_teacher_id'] . "','" .
-					$_REQUEST['with_period_id'] . "','" .
-					$_REQUEST['without_period_id'] . "')";
-
-				DBQuery( $sql );
+				$note[] = button( 'check' ) . '&nbsp;' .
+				_( 'This course has been added as a request for the selected students.' );
 			}
-
-			$note[] = button( 'check' ) . '&nbsp;' .
-			_( 'This course has been added as a request for the selected students.' );
+			else
+			{
+				$error[] = _( 'No courses found' );
+			}
 		}
 		else
 		{
