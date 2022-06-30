@@ -31,9 +31,11 @@ if ( $_REQUEST['modfunc'] === 'save'
 					$course_period_RET = DBGet( "SELECT MARKING_PERIOD_ID,TOTAL_SEATS,
 						COURSE_PERIOD_ID,CALENDAR_ID
 						FROM COURSE_PERIODS
-						WHERE COURSE_PERIOD_ID='" . (int) $course_to_add['course_period_id'] . "'" );
+						WHERE COURSE_PERIOD_ID='" . (int) $course_to_add['course_period_id'] . "'
+						AND SYEAR='" . UserSyear() . "'" );
 
-					$course_mp = $course_period_RET[1]['MARKING_PERIOD_ID'];
+					// Fix Marking Period not found in user School Year (multiple tabs case).
+					$course_mp = empty( $course_period_RET ) ? null : $course_period_RET[1]['MARKING_PERIOD_ID'];
 					$course_mp_table = GetMP( $course_mp,'MP' );
 
 					if ( $course_mp_table === 'FY'
