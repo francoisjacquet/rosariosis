@@ -21,7 +21,8 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			{
 				$course_mp = DBGetOne( "SELECT MARKING_PERIOD_ID
 					FROM COURSE_PERIODS
-					WHERE COURSE_PERIOD_ID='" . (int) $_SESSION['MassDrops.php']['course_period_id'] . "'" );
+					WHERE COURSE_PERIOD_ID='" . (int) $_SESSION['MassDrops.php']['course_period_id'] . "'
+					AND SYEAR='" . UserSyear() . "'" );
 
 				$course_mp_table = GetMP( $course_mp, 'MP' );
 
