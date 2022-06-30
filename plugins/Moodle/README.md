@@ -17,7 +17,7 @@ The plugin is designed and intended for ONE school only in RosarioSIS.
 Plugin Configuration
 
 - Configure Moodle API and Test
-- Import Users (Moodle 3.1 and above only)
+- Import Users
 
 Create Student Account
 
@@ -55,4 +55,4 @@ Grades
 
 Please follow [this tutorial](https://gitlab.com/francoisjacquet/rosariosis/wikis/Moodle-integrator-setup)
 
-Requires Moodle **3.0** or higher & PHP `curl` & `xmlrpc` extensions.
+Requires Moodle **3.1** or higher & PHP `curl` & `xmlrpc` extensions.
