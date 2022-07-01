@@ -85,13 +85,16 @@ if ( isset( $_POST['tables'] )
 				{
 					DBQuery( $sql );
 
-					$id = DBLastInsertID();
-
-					if ( $table === 'SCHOOL_FIELDS' )
+					if ( $id === 'new' )
 					{
-						AddDBField( 'SCHOOLS', $id, $columns['TYPE'] );
+						$id = DBLastInsertID();
 
-						$_REQUEST['id'] = $id;
+						if ( $table === 'SCHOOL_FIELDS' )
+						{
+							AddDBField( 'SCHOOLS', $id, $columns['TYPE'] );
+
+							$_REQUEST['id'] = $id;
+						}
 					}
 				}
 			}

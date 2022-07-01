@@ -121,29 +121,32 @@ if ( isset( $_POST['tables'] )
 				{
 					DBQuery( $sql );
 
-					$id = DBLastInsertID();
-
-					if ( $table === 'CUSTOM_FIELDS' )
+					if ( $id === 'new' )
 					{
-						AddDBField( 'STUDENTS', $id, $columns['TYPE'] );
+						$id = DBLastInsertID();
 
-						$_REQUEST['id'] = $id;
-					}
-					elseif ( $table === 'STUDENT_FIELD_CATEGORIES' )
-					{
-						// Add to profile or permissions of user creating it.
-						if ( User( 'PROFILE_ID' ) )
+						if ( $table === 'CUSTOM_FIELDS' )
 						{
-							DBQuery( "INSERT INTO PROFILE_EXCEPTIONS (PROFILE_ID,MODNAME,CAN_USE,CAN_EDIT)
-								values('" . User( 'PROFILE_ID' ) . "','Students/Student.php&category_id=" . $id . "','Y','Y')" );
-						}
-						else
-						{
-							DBQuery( "INSERT INTO STAFF_EXCEPTIONS (USER_ID,MODNAME,CAN_USE,CAN_EDIT)
-								values('" . User( 'STAFF_ID' ) . "','Students/Student.php&category_id=" . $id . "','Y','Y')" );
-						}
+							AddDBField( 'STUDENTS', $id, $columns['TYPE'] );
 
-						$_REQUEST['category_id'] = $id;
+							$_REQUEST['id'] = $id;
+						}
+						elseif ( $table === 'STUDENT_FIELD_CATEGORIES' )
+						{
+							// Add to profile or permissions of user creating it.
+							if ( User( 'PROFILE_ID' ) )
+							{
+								DBQuery( "INSERT INTO PROFILE_EXCEPTIONS (PROFILE_ID,MODNAME,CAN_USE,CAN_EDIT)
+									values('" . User( 'PROFILE_ID' ) . "','Students/Student.php&category_id=" . $id . "','Y','Y')" );
+							}
+							else
+							{
+								DBQuery( "INSERT INTO STAFF_EXCEPTIONS (USER_ID,MODNAME,CAN_USE,CAN_EDIT)
+									values('" . User( 'STAFF_ID' ) . "','Students/Student.php&category_id=" . $id . "','Y','Y')" );
+							}
+
+							$_REQUEST['category_id'] = $id;
+						}
 					}
 				}
 			}

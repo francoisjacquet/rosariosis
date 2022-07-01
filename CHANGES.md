@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 9.2.2
+----------------
+- Fix SQL error lastval is not yet defined when editing field in SchoolFields.php, AddressFields.php, PeopleFields.php, StudentFields.php & UserFields.php
+
 Changes in 9.2.1
 ----------------
 - Remove use of db_seq_nextval(), use auto increment, program wide
@@ -16,7 +20,7 @@ Changes in 9.2.1
 - SQL TRIM() both compatible with PostgreSQL and MySQL in AttendanceSummary.php & CopySchool.php
 - SQL use extract() or SUBSTRING() or REPLACE() instead of to_char() for MySQL compatibility, program wide
 - Fix No Address contact not properly saved for student / parent in RegistrationSave.fnc.php
-- AddDBField() Change $sequence param to $field_id, adapted for use with DBLastInsertID() in Fields.fnc.php, SchoolFields.php, AddressFields.php, PoepleFields.php, StudentFields.php & UserFields.php
+- AddDBField() Change $sequence param to $field_id, adapted for use with DBLastInsertID() in Fields.fnc.php, SchoolFields.php, AddressFields.php, PeopleFields.php, StudentFields.php & UserFields.php
 - Raise Frame file size limit to 5MB in HonorRoll.fnc.php
 - Fix Marking Period not found in user School Year (multiple browser tabs case) in MassSchedule.php & MassDrops.php
 - Fix Course not found in user School Year (multiple browser tabs case) in MassRequests.php

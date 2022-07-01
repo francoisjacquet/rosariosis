@@ -99,17 +99,20 @@ if ( isset( $_POST['tables'] )
 				{
 					DBQuery( $sql );
 
-					$id = DBLastInsertID();
-
-					if ( $table === 'ADDRESS_FIELDS' )
+					if ( $id === 'new' )
 					{
-						AddDBField( 'ADDRESS', $id, $columns['TYPE'] );
+						$id = DBLastInsertID();
 
-						$_REQUEST['id'] = $id;
-					}
-					elseif ( $table === 'ADDRESS_FIELD_CATEGORIES' )
-					{
-						$_REQUEST['category_id'] = $id;
+						if ( $table === 'ADDRESS_FIELDS' )
+						{
+							AddDBField( 'ADDRESS', $id, $columns['TYPE'] );
+
+							$_REQUEST['id'] = $id;
+						}
+						elseif ( $table === 'ADDRESS_FIELD_CATEGORIES' )
+						{
+							$_REQUEST['category_id'] = $id;
+						}
 					}
 				}
 			}
