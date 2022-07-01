@@ -20,6 +20,7 @@ Changes in 9.2.1
 - Raise Frame file size limit to 5MB in HonorRoll.fnc.php
 - Fix Marking Period not found in user School Year (multiple browser tabs case) in MassSchedule.php & MassDrops.php
 - Fix Course not found in user School Year (multiple browser tabs case) in MassRequests.php
+- HTML add label to inputs in Requests.php
 
 Changes in 9.2
 --------------

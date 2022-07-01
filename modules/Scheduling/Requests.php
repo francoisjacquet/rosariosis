@@ -217,10 +217,10 @@ function processRequest()
 
 	DrawHeader( '', SubmitButton() );
 
-	$link['add']['span'] = ' ' . _( 'Add a Request' ) .
-		': <span class="nobr"> ' . _( 'Subject' ) . ' ' . $subjects .
-		' ' . _( 'Course Title' ) .
-		' <input type="text" id="course_title" name="course_title" onkeypress="if (event.keyCode==13)return false;" onkeyup="document.getElementById(\'courses_div\').innerHTML = \'\';SendXMLRequest(this.form.subject_id.options[this.form.subject_id.selectedIndex].value,this.form.course_title.value);"></span>
+	$link['add']['span'] = ' <span class="size-1">' . _( 'Add a Request' ) .
+		'</span> &nbsp; <span class="nobr"> <label>' . _( 'Subject' ) . ' ' . $subjects .
+		'</label> <label>' . _( 'Course Title' ) .
+		' <input type="text" id="course_title" name="course_title" onkeypress="if (event.keyCode==13)return false;" onkeyup="document.getElementById(\'courses_div\').innerHTML = \'\';SendXMLRequest(this.form.subject_id.options[this.form.subject_id.selectedIndex].value,this.form.course_title.value);"></label></span>
 		<div id="courses_div"></div>';
 
 	echo '<div style="position:relative;">';
@@ -261,24 +261,27 @@ function _makeTeacher( $value, $column )
 		$options[ $teacher['TEACHER_ID'] ] = $teacher['FULL_NAME'];
 	}
 
-	return '<div style="display:table-cell;">' . _( 'With' ) . ':&nbsp;</div>
-		<div style="display:table-cell;">' .
+	$extra = 'style="max-width: 100px;"';
+
+	return '<label>' . _( 'With' ) . '&nbsp;<div style="display:inline-block;">' .
 		SelectInput(
 			$value,
 			'values[' . $THIS_RET['REQUEST_ID'] . '][WITH_TEACHER_ID]',
 			'',
-			$options
+			$options,
+			'N/A',
+			$extra
 		) .
-		'</div>
-		<div style="display:table-cell;">&nbsp;-&nbsp;' . _( 'Without' ) . ':&nbsp;</div>
-		<div style="display:table-cell;">' .
+		'</div></label> &mdash; <label>' . _( 'Without' ) . '&nbsp;<div style="display:inline-block;">' .
 		SelectInput(
 			$THIS_RET['NOT_TEACHER_ID'],
 			'values[' . $THIS_RET['REQUEST_ID'] . '][NOT_TEACHER_ID]',
 			'',
-			$options
+			$options,
+			'N/A',
+			$extra
 		) .
-		'</div>';
+		'</div></label>';
 }
 
 function _makePeriod( $value, $column )
@@ -300,24 +303,27 @@ function _makePeriod( $value, $column )
 		$options[ $period['PERIOD_ID'] ] = $period['TITLE'];
 	}
 
-	return '<div style="display:table-cell;">' . _( 'On' ) . ':&nbsp;</div>
-		<div style="display:table-cell;">' .
+	$extra = 'style="max-width: 100px;"';
+
+	return '<label>' . _( 'On' ) . '&nbsp;<div style="display:inline-block;">' .
 		SelectInput(
 			$value,
 			'values[' . $THIS_RET['REQUEST_ID'] . '][WITH_PERIOD_ID]',
 			'',
-			$options
+			$options,
+			'N/A',
+			$extra
 		) .
-		'</div>
-		<div style="display:table-cell;">&nbsp;-&nbsp;' . _( 'Not on' ) . ':&nbsp;</div>
-		<div style="display:table-cell;">' .
+		'</div></label> &mdash; <label>' . _( 'Not on' ) . '&nbsp;<div style="display:inline-block;">' .
 		SelectInput(
 			$THIS_RET['NOT_PERIOD_ID'],
 			'values[' . $THIS_RET['REQUEST_ID'] . '][NOT_PERIOD_ID]',
 			'',
-			$options
+			$options,
+			'N/A',
+			$extra
 		) .
-		'</div>';
+		'</div></label>';
 }
 
 // DOESN'T SUPPORT MP REQUEST.
