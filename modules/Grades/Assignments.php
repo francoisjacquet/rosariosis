@@ -253,15 +253,18 @@ if ( ! empty( $_POST['tables'] ) )
 		{
 			DBQuery( $sql );
 
-			$id = DBLastInsertID();
+			if ( $id === 'new' )
+			{
+				$id = DBLastInsertID();
 
-			if ( $table == 'GRADEBOOK_ASSIGNMENTS' )
-			{
-				$_REQUEST['assignment_id'] = $id;
-			}
-			elseif ( $table == 'GRADEBOOK_ASSIGNMENT_TYPES' )
-			{
-				$_REQUEST['assignment_type_id'] = $id;
+				if ( $table == 'GRADEBOOK_ASSIGNMENTS' )
+				{
+					$_REQUEST['assignment_id'] = $id;
+				}
+				elseif ( $table == 'GRADEBOOK_ASSIGNMENT_TYPES' )
+				{
+					$_REQUEST['assignment_type_id'] = $id;
+				}
 			}
 
 			// Check if file submitted.
