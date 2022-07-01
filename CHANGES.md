@@ -21,6 +21,7 @@ Changes in 9.2.1
 - Fix Marking Period not found in user School Year (multiple browser tabs case) in MassSchedule.php & MassDrops.php
 - Fix Course not found in user School Year (multiple browser tabs case) in MassRequests.php
 - HTML add label to inputs in Requests.php
+- Remove help sentence. The Scheduler is not run by the Student Requests program in Help_en.php
 
 Changes in 9.2
 --------------
