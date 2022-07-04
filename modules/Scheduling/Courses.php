@@ -1258,12 +1258,13 @@ if (  ( ! $_REQUEST['modfunc']
 			}
 
 			if ( AllowEdit()
-				|| $RET['PARENT_ID'] !== $_REQUEST['course_period_id'] )
+				|| ( $RET['PARENT_ID'] && $RET['PARENT_ID'] !== $_REQUEST['course_period_id'] ) )
 			{
 				// Hide from non editing users if no Parent Course Period set.
 				$parent = '';
 
 				if ( $_REQUEST['course_period_id'] !== 'new'
+					&& $RET['PARENT_ID']
 					&& $RET['PARENT_ID'] !== $_REQUEST['course_period_id'] )
 				{
 					$parent = DBGet( "SELECT cp.TITLE as CP_TITLE,c.TITLE AS C_TITLE

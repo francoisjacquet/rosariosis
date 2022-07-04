@@ -1,6 +1,10 @@
 # CHANGES
 ## RosarioSIS Student Information System
 
+Changes in 9.3
+--------------
+- Handle case where Course Period Parent ID is null in Courses.php
+
 Changes in 9.2.2
 ----------------
 - Fix SQL error lastval is not yet defined when editing field in SchoolFields.php, AddressFields.php, PeopleFields.php, StudentFields.php, UserFields.php & Assignments.php
