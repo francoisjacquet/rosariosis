@@ -104,7 +104,7 @@ if ( $_REQUEST['search_modfunc']
 				AND cpsp.PERIOD_ID=sp.PERIOD_ID
 				AND cp.SYEAR=sp.SYEAR
 				AND cp.SCHOOL_ID=sp.SCHOOL_ID)>0
-			ORDER BY sp.SORT_ORDER" );
+			ORDER BY sp.SORT_ORDER,sp.TITLE" );
 		}
 		else
 		{

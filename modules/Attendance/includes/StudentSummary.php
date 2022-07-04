@@ -38,7 +38,7 @@ if ( $_REQUEST['search_modfunc']
 			AND cpsp.PERIOD_ID=sp.PERIOD_ID
 			AND position(',0,' IN cp.DOES_ATTENDANCE)>0
 			" . ( User( 'PROFILE' ) === 'teacher' ? " AND cp.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" : '' ) . ")
-		ORDER BY sp.SORT_ORDER" );
+		ORDER BY sp.SORT_ORDER,sp.TITLE" );
 
 		$period_select = '<select name="period_id" id="period_id" onchange="ajaxPostForm(this.form,true);">
 			<option value="">' . _( 'Daily' ) . '</option>';

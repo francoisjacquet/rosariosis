@@ -121,7 +121,7 @@ if ( ! $_REQUEST['modfunc'] )
 		FROM SCHOOL_PERIODS sp
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
-		ORDER BY SORT_ORDER",
+		ORDER BY SORT_ORDER,TITLE",
 	[
 		'REMOVE' => '_makeRemoveButton',
 		'TITLE' => '_makeTextInput',
