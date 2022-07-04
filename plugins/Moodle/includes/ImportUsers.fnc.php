@@ -461,8 +461,6 @@ function MoodleUserImportUser( $user, $profile )
 		return 0;
 	}
 
-	$staff_id = DBSeqNextID( 'staff_staff_id_seq' );
-
 	if ( ! isset( $user['firstname'] ) )
 	{
 		// First and last name requires 'moodle/site:viewfullnames' capabitility.
@@ -487,8 +485,8 @@ function MoodleUserImportUser( $user, $profile )
 	}
 
 	$sql = "INSERT INTO STAFF ";
-	$fields = 'SYEAR,STAFF_ID,LAST_NAME,FIRST_NAME,USERNAME,PROFILE,PROFILE_ID';
-	$values = "'" . UserSyear() . "','" . $staff_id . "','" . $user['firstname'] . "','" . $user['lastname'] . "','" .
+	$fields = 'SYEAR,LAST_NAME,FIRST_NAME,USERNAME,PROFILE,PROFILE_ID';
+	$values = "'" . UserSyear() . "','" . $user['firstname'] . "','" . $user['lastname'] . "','" .
 		$username . "','" . $profile . "','" . $profile_id . "'";
 
 	if ( ! empty( $user['email'] ) )
@@ -505,6 +503,8 @@ function MoodleUserImportUser( $user, $profile )
 
 	$sql .= '(' . $fields . ') values(' . $values . ')';
 	DBQuery( $sql );
+
+	$staff_id = DBLastInsertID();
 
 	DBQuery( "INSERT INTO MOODLEXROSARIO (\"column\",rosario_id,moodle_id)
 		VALUES('staff_id','" . $staff_id . "'," . $user['id'] . ")" );
