@@ -5,6 +5,7 @@ Changes in 9.3
 --------------
 - Handle case where Course Period Parent ID is null in Courses.php
 - SQL order by Period title in Periods.php, DailySummary.php & StudentSummary.php
+- SQL get Period title if no short name set in AddAbsences.php
 
 Changes in 9.2.2
 ----------------
