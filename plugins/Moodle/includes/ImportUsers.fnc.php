@@ -312,6 +312,7 @@ function MoodleUsersStudentEnrollmentForm()
  * Import Moodle user create Student
  *
  * @since 5.9
+ * @since 9.3 Still use DBSeqNextID() for student ID, adapt for MySQL
  *
  * @param array $user Moodle user info.
  *
@@ -319,7 +320,8 @@ function MoodleUsersStudentEnrollmentForm()
  */
 function MoodleUserImportStudent( $user )
 {
-	global $error;
+	global $error,
+		$DatabaseType;
 
 	$username = $user['username'];
 
@@ -353,7 +355,8 @@ function MoodleUserImportStudent( $user )
 
 	do
 	{
-		$student_id = DBSeqNextID( 'students_student_id_seq' );
+		// @since 9.3 Still use DBSeqNextID() for student ID, adapt for MySQL
+		$student_id = DBSeqNextID( $DatabaseType === 'mysql' ? 'students' : 'students_student_id_seq' );
 	}
 	while ( DBGetOne( "SELECT STUDENT_ID
 		FROM STUDENTS

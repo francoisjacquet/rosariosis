@@ -7,6 +7,7 @@ Changes in 9.3
 - SQL order by Period title in Periods.php, DailySummary.php & StudentSummary.php
 - SQL get Period title if no short name set in AddAbsences.php
 - Use DBLastInsertID() instead of DBSeqNextID() in Moodle/includes/ImportUsers.fnc.php
+- Still use DBSeqNextID() for student ID, adapt for MySQL in Student.php & Moodle/includes/ImportUsers.fnc.php
 
 Changes in 9.2.2
 ----------------

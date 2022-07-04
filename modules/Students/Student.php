@@ -333,15 +333,8 @@ if ( $_REQUEST['modfunc'] === 'update'
 				{
 					do
 					{
-						/**
-						 * Note: DBSeqNextID() will return 0 for MySQL,
-						 * and AUTO_INCREMENT automagically selects highest ID +1 so no problem!
-						 *
-						 * As for PostgreSQL, AUTO_INCREMENT (serial) does not
-						 * automagically select highest ID +1,
-						 * so we still need to call DBSeqNextID() here
-						 */
-						$student_id = DBSeqNextID( 'students_student_id_seq' );
+						// @since 9.3 Still use DBSeqNextID() for student ID, adapt for MySQL
+						$student_id = DBSeqNextID( $DatabaseType === 'mysql' ? 'students' : 'students_student_id_seq' );
 					}
 					while ( DBGetOne( "SELECT STUDENT_ID
 						FROM STUDENTS
