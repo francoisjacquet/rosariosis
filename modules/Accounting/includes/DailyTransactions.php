@@ -86,9 +86,11 @@ if ( ! isset( $_REQUEST['accounting'] )
 
 	$payments_RET = DBGet( $payments_SQL, $extra['functions'] );
 
+	$i = count( $RET ) + 1;
+
 	foreach ( (array) $payments_RET as $payment )
 	{
-		$RET[] = $payment;
+		$RET[$i++] = $payment;
 	}
 
 	$credit_col[] = _( 'Income' );
@@ -122,9 +124,11 @@ if ( ! empty( $_REQUEST['staff_payroll'] ) )
 
 	$salaries_RET = GetStaffList( $salaries_extra );
 
+	$i = count( $RET ) + 1;
+
 	foreach ( (array) $salaries_RET as $salary )
 	{
-		$RET[] = $salary;
+		$RET[$i++] = $salary;
 	}
 
 	$staff_payments_extra = $extra;
@@ -144,9 +148,11 @@ if ( ! empty( $_REQUEST['staff_payroll'] ) )
 
 	$staff_payments_RET = GetStaffList( $staff_payments_extra );
 
+	$i = count( $RET ) + 1;
+
 	foreach ( (array) $staff_payments_RET as $staff_payment )
 	{
-		$RET[] = $staff_payment;
+		$RET[$i++] = $staff_payment;
 	}
 
 	$credit_col[] = _( 'Salary' );
@@ -179,9 +185,11 @@ if ( ! empty( $_REQUEST['student_billing'] )
 
 	$fees_RET = GetStuList( $fees_extra );
 
+	$i = count( $RET ) + 1;
+
 	foreach ( (array) $fees_RET as $fee )
 	{
-		$RET[] = $fee;
+		$RET[$i++] = $fee;
 	}
 
 	$student_payments_extra = $extra;
@@ -198,9 +206,11 @@ if ( ! empty( $_REQUEST['student_billing'] )
 
 	$student_payments_RET = GetStuList( $student_payments_extra );
 
+	$i = count( $RET ) + 1;
+
 	foreach ( (array) $student_payments_RET as $student_payment )
 	{
-		$RET[] = $student_payment;
+		$RET[$i++] = $student_payment;
 	}
 
 	$credit_col[] = _( 'Fee' );
