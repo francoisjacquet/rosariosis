@@ -422,7 +422,7 @@ $addJavascripts .= 'var menuStudentID="' . UserStudentID() . '",
 				FROM SCHOOLS sy,STAFF s
 				WHERE sy.ID='" . UserSchool() . "'
 				AND s.SYEAR=sy.SYEAR
-				AND (s.SCHOOLS IS NULL OR position(','||sy.ID||',' IN s.SCHOOLS)>0)
+				AND (s.SCHOOLS IS NULL OR position(CONCAT(',', sy.ID, ',') IN s.SCHOOLS)>0)
 				AND s.USERNAME=(SELECT USERNAME
 					FROM STAFF
 					WHERE STAFF_ID='" . (int) $_SESSION['STAFF_ID'] . "')";

@@ -25,7 +25,7 @@ $categories_RET = DBGet( "SELECT '0' AS ID,'" . DBEscapeString( _( 'Attendance' 
 	FROM ATTENDANCE_CODE_CATEGORIES
 	WHERE SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'
-	AND position(','||ID||',' IN
+	AND position(CONCAT(',', ID, ',') IN
 		(SELECT DOES_ATTENDANCE
 		FROM COURSE_PERIODS
 		WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')

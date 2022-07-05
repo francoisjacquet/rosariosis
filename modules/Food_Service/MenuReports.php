@@ -152,7 +152,7 @@ WHERE ac.CALENDAR_ID=(SELECT CALENDAR_ID FROM ATTENDANCE_CALENDARS WHERE SCHOOL_
 AND ac.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
 AND fssa.STATUS IS NULL
 AND s.STAFF_ID=fssa.STAFF_ID
-AND (s.SCHOOLS IS NULL OR position(','||'" . UserSchool() . "'||',' IN s.SCHOOLS)>0)
+AND (s.SCHOOLS IS NULL OR position(CONCAT(',', '" . UserSchool() . "', ',') IN s.SCHOOLS)>0)
 GROUP BY ac.CALENDAR_ID", [ 'ELLIGIBLE' => 'bump_dep', 'DAYS' => 'bump_dep' ] );
 //echo '<pre>'; var_dump($RET); echo '</pre>';
 

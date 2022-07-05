@@ -8,6 +8,7 @@ Changes in 9.3
 - SQL get Period title if no short name set in AddAbsences.php
 - Use DBLastInsertID() instead of DBSeqNextID() in Moodle/includes/ImportUsers.fnc.php
 - Still use DBSeqNextID() for student ID, adapt for MySQL in Student.php & Moodle/includes/ImportUsers.fnc.php
+- SQL use CONCAT() instead of pipes || for MySQL compatibility, program wide
 
 Changes in 9.2.2
 ----------------

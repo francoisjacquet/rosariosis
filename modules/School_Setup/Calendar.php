@@ -57,7 +57,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 		FROM ATTENDANCE_CALENDARS ac,STAFF s
 		WHERE ac.SYEAR='" . UserSyear() . "'
 		AND s.STAFF_ID='" . User( 'STAFF_ID' ) . "'
-		AND (s.SCHOOLS IS NULL OR position(','||ac.SCHOOL_ID||',' IN s.SCHOOLS)>0)
+		AND (s.SCHOOLS IS NULL OR position(CONCAT(',', ac.SCHOOL_ID, ',') IN s.SCHOOLS)>0)
 		ORDER BY " . db_case( [ 'ac.SCHOOL_ID', "'" . UserSchool() . "'", 0, 'ac.SCHOOL_ID' ] ) . ",ac.DEFAULT_CALENDAR ASC,ac.TITLE" );
 
 	// Prepare table for Copy Calendar & add ' (Default)' mention.
