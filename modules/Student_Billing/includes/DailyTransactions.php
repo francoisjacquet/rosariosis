@@ -38,7 +38,7 @@ $extra['functions'] = [ 'DEBIT' => '_makeCurrency', 'CREDIT' => '_makeCurrency',
 $fees_extra = $extra;
 
 $fees_extra['SELECT'] = issetVal( $fees_extra['SELECT'], '' );
-$fees_extra['SELECT'] .= ",f.AMOUNT AS DEBIT,'' AS CREDIT,f.TITLE||COALESCE(' &mdash; '||f.COMMENTS,'') AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID";
+$fees_extra['SELECT'] .= ",f.AMOUNT AS DEBIT,'' AS CREDIT,CONCAT(f.TITLE, ' ', COALESCE(f.COMMENTS,'')) AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID";
 
 $fees_extra['FROM'] = issetVal( $fees_extra['FROM'], '' );
 $fees_extra['FROM'] .= ',BILLING_FEES f';

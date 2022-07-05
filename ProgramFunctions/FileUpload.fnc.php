@@ -422,8 +422,8 @@ function FilesUploadUpdate( $table, $request, $path )
 			}
 
 			DBQuery( "UPDATE " . DBEscapeIdentifier( $table ) . "
-				SET " . DBEscapeIdentifier( $column ) . "=COALESCE(" .
-				DBEscapeIdentifier( $column ) . ",'')||'" . DBEscapeString( $value_append ) . "'
+				SET " . DBEscapeIdentifier( $column ) . "=CONCAT(COALESCE(" .
+				DBEscapeIdentifier( $column ) . ",''),'" . DBEscapeString( $value_append ) . "')
 				WHERE " . $where_sql );
 		}
 	}

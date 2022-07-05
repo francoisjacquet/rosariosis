@@ -59,7 +59,7 @@ function User( $item )
 		{
 			$sql = "SELECT '0' AS STAFF_ID,s.USERNAME," . DisplayNameSQL( 's' ) . " AS NAME,
 				'student' AS PROFILE,'0' AS PROFILE_ID,LAST_LOGIN,
-				','||se.SCHOOL_ID||',' AS SCHOOLS,se.SYEAR,se.SCHOOL_ID
+				CONCAT(',', se.SCHOOL_ID, ',') AS SCHOOLS,se.SYEAR,se.SCHOOL_ID
 				FROM STUDENTS s,STUDENT_ENROLLMENT se
 				WHERE s.STUDENT_ID='" . (int) $_SESSION['STUDENT_ID'] . "'
 				AND se.SYEAR='" . UserSyear() . "'

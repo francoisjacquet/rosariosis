@@ -492,7 +492,7 @@ if ( ! $_REQUEST['modfunc'] )
 			( User( 'PROFILE_ID' ) ?
 			"PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
 			"STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'" ) .
-			" AND MODNAME='Students/Student.php&category_id='||cf.CATEGORY_ID
+			" AND MODNAME=CONCAT('Students/Student.php&category_id=', cf.CATEGORY_ID)
 			LIMIT 1)='Y'
 			AND cf.TYPE<>'files'
 			ORDER BY sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER,cf.TITLE";
@@ -741,7 +741,7 @@ if ( ! $_REQUEST['modfunc'] )
 			( User( 'PROFILE_ID' ) ?
 			"PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
 			"STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'" ) .
-			" AND MODNAME='Users/User.php&category_id='||cf.CATEGORY_ID
+			" AND MODNAME=CONCAT('Users/User.php&category_id=', cf.CATEGORY_ID)
 			LIMIT 1)='Y'
 			AND cf.TYPE<>'files'
 			ORDER BY sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER,cf.TITLE";

@@ -73,7 +73,7 @@ if ( $go
 	 * @link https://www.sqltutorial.org/sql-string-functions/sql-trim/
 	 */
 	DBQuery( "UPDATE STAFF
-		SET SCHOOLS=trim(trailing ',' from SCHOOLS)||'," . $id . ",'
+		SET SCHOOLS=CONCAT(trim(trailing ',' from SCHOOLS), '," . $id . ",')
 		WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND SCHOOLS IS NOT NULL" );
 

@@ -31,7 +31,7 @@ if ( ! $_REQUEST['modfunc'] )
 			$extra['SELECT'] .= ",adr.CUSTOM_" . $field['ID'] . " AS ADDRESS_" . $field['ID'];
 		}
 
-		$extra['SELECT'] .= ",p.PERSON_ID,p.FIRST_NAME||' '||p.LAST_NAME AS PERSON_NAME";
+		$extra['SELECT'] .= ",p.PERSON_ID,CONCAT(p.FIRST_NAME, ' ', p.LAST_NAME) AS PERSON_NAME";
 
 		foreach ( (array) $people_fields_RET as $field )
 		{

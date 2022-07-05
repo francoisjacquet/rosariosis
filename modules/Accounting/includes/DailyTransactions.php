@@ -69,7 +69,7 @@ if ( ! isset( $_REQUEST['accounting'] )
 		$name_col_sql = "'' AS FULL_NAME,";
 	}
 
-	$RET = DBGet( "SELECT " . $name_col_sql . "f.AMOUNT AS CREDIT,'' AS DEBIT,f.TITLE||' '||COALESCE(f.COMMENTS,'') AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID
+	$RET = DBGet( "SELECT " . $name_col_sql . "f.AMOUNT AS CREDIT,'' AS DEBIT,CONCAT(f.TITLE,' ',COALESCE(f.COMMENTS,'')) AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID
 	FROM ACCOUNTING_INCOMES f
 	WHERE f.SYEAR='" . UserSyear() . "'
 	AND f.SCHOOL_ID='" . UserSchool() . "'
@@ -111,7 +111,7 @@ if ( ! empty( $_REQUEST['staff_payroll'] ) )
 	$salaries_extra['FROM'] = issetVal( $salaries_extra['FROM'], '' );
 	$salaries_extra['WHERE'] = issetVal( $salaries_extra['WHERE'], '' );
 
-	$salaries_extra['SELECT'] .= $name_col_sql . ",'' AS DEBIT,f.AMOUNT AS CREDIT,f.TITLE||COALESCE(' &mdash; '||f.COMMENTS,'') AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID";
+	$salaries_extra['SELECT'] .= $name_col_sql . ",'' AS DEBIT,f.AMOUNT AS CREDIT,CONCAT(f.TITLE, ' ', COALESCE(f.COMMENTS,'')) AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID";
 
 	$salaries_extra['FROM'] .= ',ACCOUNTING_SALARIES f';
 
@@ -171,7 +171,7 @@ if ( ! empty( $_REQUEST['student_billing'] )
 	$fees_extra['FROM'] = issetVal( $fees_extra['FROM'], '' );
 	$fees_extra['WHERE'] = issetVal( $fees_extra['WHERE'], '' );
 
-	$fees_extra['SELECT'] .= $name_col_sql . ",f.AMOUNT AS DEBIT,'' AS CREDIT,f.TITLE||' '||COALESCE(f.COMMENTS,' ') AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID";
+	$fees_extra['SELECT'] .= $name_col_sql . ",f.AMOUNT AS DEBIT,'' AS CREDIT,CONCAT(f.TITLE,' ',COALESCE(f.COMMENTS,' ')) AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID";
 
 	$fees_extra['FROM'] .= ',BILLING_FEES f';
 

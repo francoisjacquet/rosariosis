@@ -303,13 +303,13 @@ function Search( $type, $extra = null )
 			if ( $type === 'staff_fields_all' )
 			{
 				$categories_SQL = "SELECT sfc.ID,sfc.TITLE AS CATEGORY_TITLE,
-				'CUSTOM_'||cf.ID AS COLUMN_NAME,cf.TYPE,cf.TITLE,SELECT_OPTIONS
+				CONCAT('CUSTOM_', cf.ID) AS COLUMN_NAME,cf.TYPE,cf.TITLE,SELECT_OPTIONS
 				FROM STAFF_FIELD_CATEGORIES sfc,STAFF_FIELDS cf
 				WHERE (SELECT CAN_USE
 					FROM " . ( User( 'PROFILE_ID' ) ?
 						"PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
 						"STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'" ) . "
-					AND MODNAME='Users/User.php&category_id='||sfc.ID
+					AND MODNAME=CONCAT('Users/User.php&category_id=', sfc.ID)
 					LIMIT 1)='Y'
 				AND cf.CATEGORY_ID=sfc.ID
 				AND NOT EXISTS(SELECT ''
@@ -324,7 +324,7 @@ function Search( $type, $extra = null )
 			elseif ( $type === 'staff_fields' )
 			{
 				$categories_SQL = "SELECT '0' AS ID,'' AS CATEGORY_TITLE,
-				'CUSTOM_'||cf.ID AS COLUMN_NAME,cf.TYPE,cf.TITLE,cf.SELECT_OPTIONS
+				CONCAT('CUSTOM_', cf.ID) AS COLUMN_NAME,cf.TYPE,cf.TITLE,cf.SELECT_OPTIONS
 				FROM STAFF_FIELDS cf
 				WHERE (SELECT CAN_USE
 					FROM " . ( User( 'PROFILE_ID' ) ?
@@ -343,7 +343,7 @@ function Search( $type, $extra = null )
 			elseif ( $type === 'student_fields_all' )
 			{
 				$categories_SQL = "SELECT sfc.ID,sfc.TITLE AS CATEGORY_TITLE,
-				'CUSTOM_'||cf.ID AS COLUMN_NAME,cf.TYPE,cf.TITLE,SELECT_OPTIONS
+				CONCAT('CUSTOM_', cf.ID) AS COLUMN_NAME,cf.TYPE,cf.TITLE,SELECT_OPTIONS
 				FROM STUDENT_FIELD_CATEGORIES sfc,CUSTOM_FIELDS cf
 				WHERE (SELECT CAN_USE
 					FROM " . ( User( 'PROFILE_ID' ) ?
@@ -363,7 +363,7 @@ function Search( $type, $extra = null )
 			else
 			{
 				$categories_SQL = "SELECT '0' AS ID,'' AS CATEGORY_TITLE,
-				'CUSTOM_'||cf.ID AS COLUMN_NAME,cf.TYPE,cf.TITLE,cf.SELECT_OPTIONS
+				CONCAT('CUSTOM_', cf.ID) AS COLUMN_NAME,cf.TYPE,cf.TITLE,cf.SELECT_OPTIONS
 				FROM CUSTOM_FIELDS cf
 				WHERE (SELECT CAN_USE
 					FROM " . ( User( 'PROFILE_ID' ) ?

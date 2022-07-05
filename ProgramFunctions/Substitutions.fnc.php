@@ -162,8 +162,8 @@ function _substitutionsDBGetCustomFields( $table )
 		( User( 'PROFILE_ID' ) ?
 			"PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
 			"STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'" ) .
-		" AND MODNAME='" . ( $table === 'STUDENT' ? 'Students/Student.php' : 'Users/User.php' ) .
-		"&category_id='||f.CATEGORY_ID
+		" AND MODNAME=CONCAT('" . ( $table === 'STUDENT' ? 'Students/Student.php' : 'Users/User.php' ) .
+		"&category_id=', f.CATEGORY_ID)
 		LIMIT 1)='Y'";
 	}
 
