@@ -79,7 +79,7 @@ echo '</form>';
  */
 function _students( $value, $column )
 {
-	$RET = DBGet( "SELECT s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fsa WHERE s.STUDENT_ID=fsa.STUDENT_ID AND fsa.ACCOUNT_ID='" . (int) $value . "'" );
+	$RET = DBGet( "SELECT " . DisplayNameSQL( 's' ) . "  AS FULL_NAME FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fsa WHERE s.STUDENT_ID=fsa.STUDENT_ID AND fsa.ACCOUNT_ID='" . (int) $value . "'" );
 
 	foreach ( (array) $RET as $student )
 	{
