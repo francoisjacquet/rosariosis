@@ -10,6 +10,7 @@ Changes in 9.3
 - Still use DBSeqNextID() for student ID, adapt for MySQL in Student.php & Moodle/includes/ImportUsers.fnc.php
 - SQL use CONCAT() instead of pipes || for MySQL compatibility, program wide
 - Fix first item in the list not displayed in Accounting/includes/DailyTransactions.php
+- SQL time interval for MySQL compatibility in PasswordReset.php & index.php
 
 Changes in 9.2.2
 ----------------

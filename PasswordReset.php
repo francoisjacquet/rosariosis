@@ -302,6 +302,8 @@ Warehouse( 'footer' );
  */
 function _sendPasswordResetEmail( $user_id, $user_type = 'staff', $email )
 {
+	global $DatabaseType;
+
 	if ( ! $user_id )
 	{
 		return false;
@@ -349,10 +351,8 @@ function _sendPasswordResetEmail( $user_id, $user_type = 'staff', $email )
 	}
 
 	// Last login = now + 2 hours.
-	$last_login_RET = DBGet( "SELECT
-		CAST(CURRENT_TIMESTAMP + INTERVAL '2 hours' AS TIMESTAMP(0)) AS LAST_LOGIN" );
-
-	$last_login = $last_login_RET[1]['LAST_LOGIN'];
+	$last_login = DBGetOne( "SELECT
+		CAST(CURRENT_TIMESTAMP + INTERVAL " . ( $DatabaseType === 'mysql' ? '2 hour' : "'2 hour'" ) . " AS VARCHAR(19)) AS LAST_LOGIN" );
 
 	// Generate hash from user ID, username, name, password, email & last login.
 	$hash = encrypt_password( $user_id . $username . $name . $password . $email . $last_login );
@@ -381,14 +381,14 @@ function _sendPasswordResetEmail( $user_id, $user_type = 'staff', $email )
 		// Update Last login = now + 2 hours.
 		DBQuery( "UPDATE STAFF
 			SET LAST_LOGIN='" . $last_login . "'
-			WHERE STAFF_ID='" . (int) $user_id . "'" ); // CURRENT_TIMESTAMP + interval '2 hours'.
+			WHERE STAFF_ID='" . (int) $user_id . "'" ); // CURRENT_TIMESTAMP + interval '2 hour'.
 	}
 	elseif ( $user_type === 'student' )
 	{
 		// Update Last login = now + 2 hours.
 		DBQuery( "UPDATE STUDENTS
 			SET LAST_LOGIN='" . $last_login . "'
-			WHERE STUDENT_ID='" . (int) $user_id . "'" ); // CURRENT_TIMESTAMP + interval '2 hours'.
+			WHERE STUDENT_ID='" . (int) $user_id . "'" ); // CURRENT_TIMESTAMP + interval '2 hour'.
 	}
 
 	return true;
