@@ -224,6 +224,10 @@ function Update()
 		case version_compare( $from_version, '9.2.1', '<' ) :
 
 			$return = _update921();
+
+		case version_compare( $from_version, '9.3', '<' ) :
+
+			$return = _update93();
 	}
 
 	// Update version in DB CONFIG table.
@@ -805,6 +809,52 @@ function _update921()
 	$set_default_nextval( 'saved_reports', 'id', 'saved_reports_id_seq' );
 	$set_default_nextval( 'saved_calculations', 'id', 'saved_calculations_id_seq' );
 	$set_default_nextval( 'messages', 'message_id', 'messages_message_id_seq' );
+
+	return $return;
+}
+
+
+/**
+ * Update to version 9.3
+ *
+ * 1. CONFIG table: update DISPLAY_NAME to use CONCAT() instead of pipes ||.
+ *
+ * Local function
+ *
+ * @since 9.3
+ *
+ * @return boolean false if update failed or if not called by Update(), else true
+ */
+function _update93()
+{
+	_isCallerUpdate( debug_backtrace() );
+
+	$return = true;
+
+	/**
+	 * 1. CONFIG table: update DISPLAY_NAME to use CONCAT() instead of pipes ||.
+	 */
+	$display_names_update = [
+		"FIRST_NAME||' '||LAST_NAME" => "CONCAT(FIRST_NAME,' ',LAST_NAME)",
+		"FIRST_NAME||' '||LAST_NAME||coalesce(' '||NAME_SUFFIX,' ')" => "CONCAT(FIRST_NAME,' ',LAST_NAME,coalesce(NULLIF(CONCAT(' ',NAME_SUFFIX),' '),''))",
+		"FIRST_NAME||coalesce(' '||MIDDLE_NAME||' ',' ')||LAST_NAME" => "CONCAT(FIRST_NAME,coalesce(NULLIF(CONCAT(' ',MIDDLE_NAME,' '),'  '),' '),LAST_NAME)",
+		"FIRST_NAME||', '||LAST_NAME||coalesce(' '||MIDDLE_NAME,' ')" => "CONCAT(FIRST_NAME,', ',LAST_NAME,coalesce(NULLIF(CONCAT(' ',MIDDLE_NAME),' '),''))",
+		"LAST_NAME||' '||FIRST_NAME" => "CONCAT(LAST_NAME,' ',FIRST_NAME)",
+		"LAST_NAME||', '||FIRST_NAME" => "CONCAT(LAST_NAME,', ',FIRST_NAME)",
+		"LAST_NAME||', '||FIRST_NAME||' '||COALESCE(MIDDLE_NAME,' ')" => "CONCAT(LAST_NAME,', ',FIRST_NAME,coalesce(NULLIF(CONCAT(' ',MIDDLE_NAME),' '),''))",
+		"LAST_NAME||coalesce(' '||MIDDLE_NAME||' ',' ')||FIRST_NAME" => "CONCAT(LAST_NAME,coalesce(NULLIF(CONCAT(' ',MIDDLE_NAME,' '),'  '),' '),FIRST_NAME)",
+	];
+
+	$display_name_sql = '';
+
+	foreach ( $display_names_update as $display_name_pipes => $display_name_concat )
+	{
+		$display_name_sql .= "UPDATE config SET CONFIG_VALUE='" . DBEscapeString( $display_name_concat ) . "'
+			WHERE CONFIG_VALUE='" . DBEscapeString( $display_name_pipes ) . "'
+			AND TITLE='DISPLAY_NAME';";
+	}
+
+	DBQuery( $display_name_sql );
 
 	return $return;
 }
