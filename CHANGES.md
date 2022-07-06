@@ -12,6 +12,7 @@ Changes in 9.3
 - Fix first item in the list not displayed in Accounting/includes/DailyTransactions.php
 - SQL time interval for MySQL compatibility in PasswordReset.php & index.php
 - SQL use CAST(X AS varchar(X)) instead of to_char() for MySQL compatibility in Dashboard.inc.php & Reminders.php
+- SQL result as comma separated list for MySQL compatibility in Grades/includes/Dashboard.inc.php & MasterScheduleReport.php
 
 Changes in 9.2.2
 ----------------

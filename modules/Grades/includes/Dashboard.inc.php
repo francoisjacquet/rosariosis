@@ -59,15 +59,35 @@ if ( ! function_exists( 'DashboardGradesAdmin' ) )
 		// GPA for MP, if graded.
 		$gpa = 0;
 
-		$postgresql_version = pg_version( $db_connection );
-
-		if ( ! isset( $gpa_RET[1]['CUM_WEIGHTED_GPA'] )
-			&& version_compare( $postgresql_version['server'], '8.4', '>=' ) )
+		if ( ! isset( $gpa_RET[1]['CUM_WEIGHTED_GPA'] ) )
 		{
+			/**
+			 * SQL result as comma separated list
+			 *
+			 * @since 9.3 Add MySQL support
+			 * @link https://dev.mysql.com/doc/refman/5.7/en/aggregate-functions.html#function_group-concat
+			 *
+			 * @param string $column    SQL column.
+			 * @param string $separator List separator, default to comma.
+			 *
+			 * @return string MySQL or PostgreSQL function
+			 */
+			$sql_comma_separated_result = function( $column, $separator = ',' )
+			{
+				global $DatabaseType;
+
+				if ( $DatabaseType === 'mysql' )
+				{
+					return "GROUP_CONCAT(" . $column . " SEPARATOR '" . DBEscapeString( $separator ) . "')";
+				}
+
+				return "ARRAY_TO_STRING(ARRAY_AGG(" . $column . "), '" . DBEscapeString( $separator ) . "')";
+			};
+
 			// PostgreSQL version >= 8.4 required for ARRAY_TO_STRING() function.
 			// Assignments.
 			$assignments_RET = DBGet( "SELECT COUNT(ASSIGNMENT_ID) AS ASSIGNMENTS_NB,
-			ARRAY_TO_STRING(ARRAY_AGG(ASSIGNMENT_ID), ',') AS ASSIGNMENTS_LIST,
+			" . $sql_comma_separated_result( 'ASSIGNMENT_ID' ) . " AS ASSIGNMENTS_LIST,
 			DUE_DATE
 			FROM GRADEBOOK_ASSIGNMENTS
 			WHERE MARKING_PERIOD_ID='" . UserMP() . "'
