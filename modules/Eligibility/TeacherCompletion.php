@@ -83,7 +83,7 @@ DrawHeader( '<label for="start_date">' . _( 'Timeframe' ) . ':</label> ' . $date
 echo '</form>';
 
 //FJ multiple school periods for a course period
-/*$sql = "SELECT s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,sp.TITLE,cp.PERIOD_ID,s.STAFF_ID
+/*$sql = "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME,sp.TITLE,cp.PERIOD_ID,s.STAFF_ID
 FROM STAFF s,COURSE_PERIODS cp,SCHOOL_PERIODS sp
 WHERE
 sp.PERIOD_ID = cp.PERIOD_ID
