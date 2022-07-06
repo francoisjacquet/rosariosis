@@ -235,8 +235,10 @@ if ( UserStudentID()
 	AND s.STUDENT_ID='".UserStudentID()."'
 	AND s.SYEAR='".UserSyear()."'
 	AND s.SCHOOL_ID = '".UserSchool()."'";*/
+
 	$sql = "SELECT s.COURSE_ID,s.COURSE_PERIOD_ID,s.MARKING_PERIOD_ID,s.START_DATE,s.END_DATE,
-		extract(EPOCH FROM s.START_DATE) AS START_EPOCH,extract(EPOCH FROM s.END_DATE) AS END_EPOCH,
+		" . _SQLUnixTimestamp( 's.START_DATE' ) . " AS START_EPOCH,
+		" . _SQLUnixTimestamp( 's.END_DATE' ) . " AS END_EPOCH,
 		cp.MARKING_PERIOD_ID AS COURSE_MARKING_PERIOD_ID,cp.MP,cp.CALENDAR_ID,cp.TOTAL_SEATS,
 		c.TITLE,cp.COURSE_PERIOD_ID AS PERIOD_PULLDOWN,s.STUDENT_ID,ROOM,SCHEDULER_LOCK
 		FROM SCHEDULE s,COURSES c,COURSE_PERIODS cp
@@ -806,4 +808,28 @@ function _str_split( $str )
 	}
 
 	return $ret;
+}
+
+/**
+ * SQL to extract Unix timestamp or epoch from date
+ * Use UNIX_TIMESTAMP() for MySQL and extract(EPOCH) for PostgreSQL
+ *
+ * Local function
+ *
+ * @since 9.3
+ *
+ * @param  string $column Date column.
+ *
+ * @return string         MySQL or PostgreSQL function
+ */
+function _SQLUnixTimestamp( $column )
+{
+	global $DatabaseType;
+
+	if ( $DatabaseType === 'mysql' )
+	{
+		return "UNIX_TIMESTAMP(" . $column . ")";
+	}
+
+	return "extract(EPOCH FROM " . $column . ")";
 }

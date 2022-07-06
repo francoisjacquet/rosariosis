@@ -72,7 +72,8 @@ if ( $_REQUEST['type_id']
 }
 
 //FJ default points
-$assignments_RET = DBGet( "SELECT ASSIGNMENT_ID,ASSIGNMENT_TYPE_ID,TITLE,POINTS,ASSIGNED_DATE,DUE_DATE,DEFAULT_POINTS,extract(EPOCH FROM DUE_DATE) AS DUE_EPOCH,
+$assignments_RET = DBGet( "SELECT ASSIGNMENT_ID,ASSIGNMENT_TYPE_ID,TITLE,POINTS,ASSIGNED_DATE,
+DUE_DATE,DEFAULT_POINTS," . _SQLUnixTimestamp( 'DUE_DATE' ) . " AS DUE_EPOCH,
 CASE WHEN (ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ASSIGNED_DATE) AND (DUE_DATE IS NULL OR CURRENT_DATE>=DUE_DATE) OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=gradebook_assignments.MARKING_PERIOD_ID) THEN 'Y' ELSE NULL END AS DUE
 FROM GRADEBOOK_ASSIGNMENTS
 WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
@@ -344,6 +345,9 @@ else
 
 	$link['FULL_NAME']['variables'] = [ 'student_id' => 'STUDENT_ID' ];
 
+	$sql_start_end_epoch = "," . _SQLUnixTimestamp( 'GREATEST(ssm.START_DATE, ss.START_DATE)' ) . " AS START_EPOCH," .
+		_SQLUnixTimestamp( 'LEAST(ssm.END_DATE, ss.END_DATE)' ) . " AS END_EPOCH";
+
 	if ( $_REQUEST['assignment_id'] == 'all' )
 	{
 		$current_RET = DBGet( "SELECT g.STUDENT_ID,g.ASSIGNMENT_ID,g.POINTS
@@ -362,8 +366,7 @@ else
 		$count_students = GetStuList( $count_extra );
 		$count_students = count( (array) $count_students );
 
-		$extra['SELECT'] = ",extract(EPOCH FROM GREATEST(ssm.START_DATE, ss.START_DATE)) AS START_EPOCH,
-			extract(EPOCH FROM LEAST(ssm.END_DATE, ss.END_DATE)) AS END_EPOCH";
+		$extra['SELECT'] = $sql_start_end_epoch;
 
 		$extra['functions'] = [];
 
@@ -404,8 +407,7 @@ else
 				AND ga.SUBMISSION='Y') AS SUBMISSION,
 			'" . $_REQUEST['assignment_id'] . "' AS ASSIGNMENT_ID";
 
-		$extra['SELECT'] .= ",extract(EPOCH FROM GREATEST(ssm.START_DATE, ss.START_DATE)) AS START_EPOCH,
-			extract(EPOCH FROM LEAST(ssm.END_DATE,ss.END_DATE)) AS END_EPOCH";
+		$extra['SELECT'] .= $sql_start_end_epoch;
 
 		$extra['functions'] = [
 			'POINTS' => '_makeExtraAssnCols',
@@ -466,9 +468,8 @@ else
 			//echo '<pre>'; var_dump($points_RET); echo '</pre>';
 
 			unset( $extra );
-			$extra['SELECT'] = ",extract(EPOCH FROM GREATEST(ssm.START_DATE,ss.START_DATE)) AS START_EPOCH,
-				extract(EPOCH FROM LEAST(ssm.END_DATE,ss.END_DATE)) AS END_EPOCH,
-				'' AS POINTS,'' AS PERCENT_GRADE,'' AS LETTER_GRADE";
+			$extra['SELECT'] = $sql_start_end_epoch .
+				",'' AS POINTS,'' AS PERCENT_GRADE,'' AS LETTER_GRADE";
 
 			$extra['functions'] = [
 				'POINTS' => '_makeExtraAssnCols',
@@ -1227,4 +1228,28 @@ function _Percent( $num, $decimals = 2, $red_span = false )
 	$percent_html .= ( $red_span ? '</span>' : '' );
 
 	return $percent_html;
+}
+
+/**
+ * SQL to extract Unix timestamp or epoch from date
+ * Use UNIX_TIMESTAMP() for MySQL and extract(EPOCH) for PostgreSQL
+ *
+ * Local function
+ *
+ * @since 9.3
+ *
+ * @param  string $column Date column.
+ *
+ * @return string         MySQL or PostgreSQL function
+ */
+function _SQLUnixTimestamp( $column )
+{
+	global $DatabaseType;
+
+	if ( $DatabaseType === 'mysql' )
+	{
+		return "UNIX_TIMESTAMP(" . $column . ")";
+	}
+
+	return "extract(EPOCH FROM " . $column . ")";
 }

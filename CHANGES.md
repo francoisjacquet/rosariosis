@@ -14,6 +14,7 @@ Changes in 9.3
 - SQL use CAST(X AS varchar(X)) instead of to_char() for MySQL compatibility in Dashboard.inc.php & Reminders.php
 - SQL result as comma separated list for MySQL compatibility in Grades/includes/Dashboard.inc.php & MasterScheduleReport.php
 - Use DBEscapeIdentifier() for MySQL reserved 'TIMESTAMP' keyword in ServeMenus.php & Transactions.php
+- SQL add `_SQLUnixTimestamp()` to extract Unix timestamp or epoch from date in Grades.php & Schedule.php
 
 Changes in 9.2.2
 ----------------
