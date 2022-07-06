@@ -28,7 +28,7 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 
 		$student = $student[1];
 
-		$fields = 'ACCOUNT_ID,STUDENT_ID,SYEAR,SCHOOL_ID,DISCOUNT,BALANCE,TIMESTAMP,SHORT_NAME,DESCRIPTION,SELLER_ID';
+		$fields = 'ACCOUNT_ID,STUDENT_ID,SYEAR,SCHOOL_ID,DISCOUNT,BALANCE,' . DBEscapeIdentifier( 'TIMESTAMP' ) . ',SHORT_NAME,DESCRIPTION,SELLER_ID';
 
 		$values = "'" . $student['ACCOUNT_ID'] . "','" . UserStudentID() . "','" .
 			UserSyear() . "','" . UserSchool() . "','" . $discount .

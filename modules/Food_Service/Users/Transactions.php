@@ -14,7 +14,7 @@ if ( ! empty( $_REQUEST['values'] )
 
 		if (  ( $_REQUEST['values']['TYPE'] == 'Deposit' || $_REQUEST['values']['TYPE'] == 'Credit' || $_REQUEST['values']['TYPE'] == 'Debit' ) && ( $amount = is_money( $_REQUEST['values']['AMOUNT'] ) ) )
 		{
-			$fields = 'SYEAR,SCHOOL_ID,STAFF_ID,BALANCE,TIMESTAMP,SHORT_NAME,DESCRIPTION,SELLER_ID';
+			$fields = 'SYEAR,SCHOOL_ID,STAFF_ID,BALANCE,' . DBEscapeIdentifier( 'TIMESTAMP' ) . ',SHORT_NAME,DESCRIPTION,SELLER_ID';
 
 			$values = "'" . UserSyear() . "','" . UserSchool() . "','" . UserStaffID() . "',
 				(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID='" . UserStaffID() . "'),

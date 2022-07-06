@@ -23,7 +23,7 @@ if ( $_REQUEST['modfunc'] === 'submit' )
 	elseif ( $_REQUEST['submit']['save']
 		&& ! empty( $_SESSION['FSA_sale'] ) )
 	{
-		$fields = 'STAFF_ID,SYEAR,SCHOOL_ID,BALANCE,TIMESTAMP,SHORT_NAME,DESCRIPTION,SELLER_ID';
+		$fields = 'STAFF_ID,SYEAR,SCHOOL_ID,BALANCE,' . DBEscapeIdentifier( 'TIMESTAMP' ) . ',SHORT_NAME,DESCRIPTION,SELLER_ID';
 
 		$values = "'" . UserStaffID() . "','" . UserSyear() . "','" . UserSchool() .
 			"',(SELECT BALANCE
