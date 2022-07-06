@@ -1359,6 +1359,7 @@ function makeFieldTypeFunction( $field_type, $table = 'auto' )
  * Must be used when retrieving Student or User full names.
  *
  * @since 3.7
+ * @since 9.3 SQL use CONCAT() instead of pipes || for MySQL compatibility
  *
  * @example "SELECT " . DisplayNameSQL( 's' ) . " AS FULL_NAME FROM STUDENTS s"
  *
@@ -1373,14 +1374,14 @@ function DisplayNameSQL( $table_alias = '' )
 
 	// Values have %s. placeholders for table alias.
 	$display_names = [
-		"FIRST_NAME||' '||LAST_NAME" => "%s.FIRST_NAME||' '||%s.LAST_NAME",
-		"FIRST_NAME||' '||LAST_NAME||coalesce(' '||NAME_SUFFIX,' ')" => "%s.FIRST_NAME||' '||%s.LAST_NAME||coalesce(' '||%s.NAME_SUFFIX,' ')",
-		"FIRST_NAME||coalesce(' '||MIDDLE_NAME||' ',' ')||LAST_NAME" => "%s.FIRST_NAME||coalesce(' '||%s.MIDDLE_NAME||' ',' ')||%s.LAST_NAME",
-		"FIRST_NAME||', '||LAST_NAME||coalesce(' '||MIDDLE_NAME,' ')" => "%s.FIRST_NAME||', '||%s.LAST_NAME||coalesce(' '||%s.MIDDLE_NAME,' ')",
-		"LAST_NAME||' '||FIRST_NAME" => "%s.LAST_NAME||' '||%s.FIRST_NAME",
-		"LAST_NAME||', '||FIRST_NAME" => "%s.LAST_NAME||', '||%s.FIRST_NAME",
-		"LAST_NAME||', '||FIRST_NAME||' '||COALESCE(MIDDLE_NAME,' ')" => "%s.LAST_NAME||', '||%s.FIRST_NAME||' '||COALESCE(%s.MIDDLE_NAME,' ')",
-		"LAST_NAME||coalesce(' '||MIDDLE_NAME||' ',' ')||FIRST_NAME" => "%s.LAST_NAME||coalesce(' '||%s.MIDDLE_NAME||' ',' ')||%s.FIRST_NAME",
+		"CONCAT(FIRST_NAME,' ',LAST_NAME)" => "CONCAT(%s.FIRST_NAME,' ',%s.LAST_NAME)",
+		"CONCAT(FIRST_NAME,' ',LAST_NAME,coalesce(NULLIF(CONCAT(' ',NAME_SUFFIX),' '),''))" => "CONCAT(%s.FIRST_NAME,' ',%s.LAST_NAME,coalesce(NULLIF(CONCAT(' ',%s.NAME_SUFFIX),' '),''))",
+		"CONCAT(FIRST_NAME,coalesce(NULLIF(CONCAT(' ',MIDDLE_NAME,' '),'  '),' '),LAST_NAME)" => "CONCAT(%s.FIRST_NAME,coalesce(NULLIF(CONCAT(' ',%s.MIDDLE_NAME,' '),'  '),' '),%s.LAST_NAME)",
+		"CONCAT(FIRST_NAME,', ',LAST_NAME,coalesce(NULLIF(CONCAT(' ',MIDDLE_NAME),' '),''))" => "CONCAT(%s.FIRST_NAME,', ',%s.LAST_NAME,coalesce(NULLIF(CONCAT(' ',%s.MIDDLE_NAME),' '),''))",
+		"CONCAT(LAST_NAME,' ',FIRST_NAME)" => "CONCAT(%s.LAST_NAME,' ',%s.FIRST_NAME)",
+		"CONCAT(LAST_NAME,', ',FIRST_NAME)" => "CONCAT(%s.LAST_NAME,', ',%s.FIRST_NAME)",
+		"CONCAT(LAST_NAME,', ',FIRST_NAME,coalesce(NULLIF(CONCAT(' ',MIDDLE_NAME),' '),''))" => "CONCAT(%s.LAST_NAME,', ',%s.FIRST_NAME,' ',coalesce(%s.MIDDLE_NAME,''))",
+		"CONCAT(LAST_NAME,coalesce(NULLIF(CONCAT(' ',MIDDLE_NAME,' '),'  '),' '),FIRST_NAME)" => "CONCAT(%s.LAST_NAME,coalesce(NULLIF(CONCAT(' ',%s.MIDDLE_NAME,' '),'  '),' '),%s.FIRST_NAME)",
 	];
 
 	if ( ! isset( $display_names[ $display_name ] ) )
@@ -1404,6 +1405,7 @@ function DisplayNameSQL( $table_alias = '' )
  * Must be used when displaying Student or User full names.
  *
  * @since 3.7
+ * @since 9.3 SQL use CONCAT() instead of pipes || for MySQL compatibility
  *
  * @example echo DisplayName( 'John', 'Smith', 'Simon', 'Jr.' );
  *
@@ -1421,19 +1423,19 @@ function DisplayName( $first_name, $last_name, $middle_name = '', $name_suffix =
 
 	// Values are not SQL formatted.
 	$display_names = [
-		"FIRST_NAME||' '||LAST_NAME" => "FIRST_NAME LAST_NAME",
-		"FIRST_NAME||' '||LAST_NAME||coalesce(' '||NAME_SUFFIX,' ')" => "FIRST_NAME LAST_NAME NAME_SUFFIX",
-		"FIRST_NAME||coalesce(' '||MIDDLE_NAME||' ',' ')||LAST_NAME" => "FIRST_NAME MIDDLE_NAME LAST_NAME",
-		"FIRST_NAME||', '||LAST_NAME||coalesce(' '||MIDDLE_NAME,' ')" => "FIRST_NAME, LAST_NAME MIDDLE_NAME",
-		"LAST_NAME||' '||FIRST_NAME" => "LAST_NAME FIRST_NAME",
-		"LAST_NAME||', '||FIRST_NAME" => "LAST_NAME, FIRST_NAME",
-		"LAST_NAME||', '||FIRST_NAME||' '||COALESCE(MIDDLE_NAME,' ')" => "LAST_NAME, FIRST_NAME MIDDLE_NAME",
-		"LAST_NAME||coalesce(' '||MIDDLE_NAME||' ',' ')||FIRST_NAME" => "LAST_NAME MIDDLE_NAME FIRST_NAME",
+		"CONCAT(FIRST_NAME,' ',LAST_NAME)" => "FIRST_NAME LAST_NAME",
+		"CONCAT(FIRST_NAME,' ',LAST_NAME,coalesce(NULLIF(CONCAT(' ',NAME_SUFFIX),' '),''))" => "FIRST_NAME LAST_NAME NAME_SUFFIX",
+		"CONCAT(FIRST_NAME,coalesce(NULLIF(CONCAT(' ',MIDDLE_NAME,' '),'  '),' '),LAST_NAME)" => "FIRST_NAME MIDDLE_NAME LAST_NAME",
+		"CONCAT(FIRST_NAME,', ',LAST_NAME,coalesce(NULLIF(CONCAT(' ',MIDDLE_NAME),' '),''))" => "FIRST_NAME, LAST_NAME MIDDLE_NAME",
+		"CONCAT(LAST_NAME,' ',FIRST_NAME)" => "CONCAT(%s.LAST_NAME,' ',%s.FIRST_NAME)",
+		"CONCAT(LAST_NAME,', ',FIRST_NAME)" => "CONCAT(%s.LAST_NAME,', ',%s.FIRST_NAME)",
+		"CONCAT(LAST_NAME,', ',FIRST_NAME,coalesce(NULLIF(CONCAT(' ',MIDDLE_NAME),' '),''))" => "LAST_NAME, FIRST_NAME MIDDLE_NAME",
+		"CONCAT(LAST_NAME,coalesce(NULLIF(CONCAT(' ',MIDDLE_NAME,' '),'  '),' '),FIRST_NAME)" => "LAST_NAME MIDDLE_NAME FIRST_NAME",
 	];
 
 	$display_name = isset( $display_names[ $display_name ] ) ?
 		$display_names[ $display_name ] :
-		$display_names["FIRST_NAME||' '||LAST_NAME"];
+		$display_names["CONCAT(FIRST_NAME,' ',LAST_NAME)"];
 
 	return str_replace(
 		[ 'FIRST_NAME', 'LAST_NAME', 'MIDDLE_NAME', 'NAME_SUFFIX' ],

@@ -16,6 +16,7 @@ Changes in 9.3
 - Use DBEscapeIdentifier() for MySQL reserved 'TIMESTAMP' keyword in ServeMenus.php & Transactions.php
 - SQL add `_SQLUnixTimestamp()` to extract Unix timestamp or epoch from date in Grades.php & Schedule.php
 - Add case for MySQL: get next MP ID & set AUTO_INCREMENT+1 in EditHistoryMarkingPeriods.php
+- Display Name: SQL use CONCAT() instead of pipes || for MySQL compatibility in Configuration.php & GetStuList.fnc.php
 
 Changes in 9.2.2
 ----------------

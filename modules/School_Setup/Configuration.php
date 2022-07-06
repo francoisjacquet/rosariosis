@@ -433,17 +433,21 @@ else
 
 			echo '</table></fieldset>';
 
-			// Display Name.
-			// @link https://www.w3.org/International/questions/qa-personal-names
+			/**
+			 * Display Name.
+			 *
+			 * @since 9.3 SQL use CONCAT() instead of pipes || for MySQL compatibility
+			 * @link https://www.w3.org/International/questions/qa-personal-names
+			 */
 			$display_name_options = [
-				"FIRST_NAME||' '||LAST_NAME" => _( 'First Name' ) . ' ' . _( 'Last Name' ),
-				"FIRST_NAME||' '||LAST_NAME||coalesce(' '||NAME_SUFFIX,' ')" => _( 'First Name' ) . ' ' . _( 'Last Name' ) . ' ' . _( 'Suffix' ),
-				"FIRST_NAME||coalesce(' '||MIDDLE_NAME||' ',' ')||LAST_NAME" => _( 'First Name' ) . ' ' . _( 'Middle Name' ) . ' ' . _( 'Last Name' ),
-				"FIRST_NAME||', '||LAST_NAME||coalesce(' '||MIDDLE_NAME,' ')" => _( 'First Name' ) . ', ' . _( 'Last Name' ) . ' ' . _( 'Middle Name' ),
-				"LAST_NAME||' '||FIRST_NAME" => _( 'Last Name' ) . ' ' . _( 'First Name' ),
-				"LAST_NAME||', '||FIRST_NAME" => _( 'Last Name' ) . ', ' . _( 'First Name' ),
-				"LAST_NAME||', '||FIRST_NAME||' '||COALESCE(MIDDLE_NAME,' ')" => _( 'Last Name' ) . ', ' . _( 'First Name' ) . ' ' . _( 'Middle Name' ),
-				"LAST_NAME||coalesce(' '||MIDDLE_NAME||' ',' ')||FIRST_NAME" => _( 'Last Name' ) . ' ' . _( 'Middle Name' ) . ' ' . _( 'First Name' ),
+				"CONCAT(FIRST_NAME,' ',LAST_NAME)" => _( 'First Name' ) . ' ' . _( 'Last Name' ),
+				"CONCAT(FIRST_NAME,' ',LAST_NAME,coalesce(NULLIF(CONCAT(' ',NAME_SUFFIX),' '),''))" => _( 'First Name' ) . ' ' . _( 'Last Name' ) . ' ' . _( 'Suffix' ),
+				"CONCAT(FIRST_NAME,coalesce(NULLIF(CONCAT(' ',MIDDLE_NAME,' '),'  '),' '),LAST_NAME)" => _( 'First Name' ) . ' ' . _( 'Middle Name' ) . ' ' . _( 'Last Name' ),
+				"CONCAT(FIRST_NAME,', ',LAST_NAME,coalesce(NULLIF(CONCAT(' ',MIDDLE_NAME),' '),''))" => _( 'First Name' ) . ', ' . _( 'Last Name' ) . ' ' . _( 'Middle Name' ),
+				"CONCAT(LAST_NAME,' ',FIRST_NAME)" => _( 'Last Name' ) . ' ' . _( 'First Name' ),
+				"CONCAT(LAST_NAME,', ',FIRST_NAME)" => _( 'Last Name' ) . ', ' . _( 'First Name' ),
+				"CONCAT(LAST_NAME,', ',FIRST_NAME,coalesce(NULLIF(CONCAT(' ',MIDDLE_NAME),' '),''))" => _( 'Last Name' ) . ', ' . _( 'First Name' ) . ' ' . _( 'Middle Name' ),
+				"CONCAT(LAST_NAME,coalesce(NULLIF(CONCAT(' ',MIDDLE_NAME,' '),'  '),' '),FIRST_NAME)" => _( 'Last Name' ) . ' ' . _( 'Middle Name' ) . ' ' . _( 'First Name' ),
 			];
 
 			echo '<tr><td>' . SelectInput(
