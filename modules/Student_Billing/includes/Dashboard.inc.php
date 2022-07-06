@@ -37,7 +37,7 @@ if ( ! function_exists( 'DashboardStudentBillingAdmin' ) )
 	 * Student Billing module & admin profile
 	 *
 	 * @since 4.0
-	 * @since 9.2.1 SQL use SUBSTRING() instead of to_char() for MySQL compatibility
+	 * @since 9.3 SQL use CAST(X AS varchar(X)) instead of to_char() for MySQL compatibility
 	 *
 	 * @return array Dashboard data
 	 */
@@ -55,7 +55,7 @@ if ( ! function_exists( 'DashboardStudentBillingAdmin' ) )
 			ORDER BY YEAR_MONTH DESC
 			LIMIT 3", [], [ 'YEAR_MONTH' ] );
 
-		$payments_RET = DBGet( "SELECT SUBSTRING(CAST(PAYMENT_DATE AS varchar(10)),1,7) AS YEAR_MONTH,
+		$payments_RET = DBGet( "SELECT CAST(PAYMENT_DATE AS varchar(7)) AS YEAR_MONTH,
 			SUM(AMOUNT) AS TOTAL_PAYMENTS
 			FROM BILLING_PAYMENTS
 			WHERE SYEAR='" . UserSyear() . "'

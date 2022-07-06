@@ -68,10 +68,10 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				echo '<div style="page-break-after: always;"></div>';
 			}
 
-			// @since 9.2.1 SQL use SUBSTRING() instead of to_char() for MySQL compatibility
+			// @since 9.3 SQL use CAST(X AS varchar(X)) instead of to_char() for MySQL compatibility
 			$last_deposit = DBGet( "SELECT
 			(SELECT sum(AMOUNT) FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
-			SUBSTRING(CAST(fst.TIMESTAMP AS varchar(10)),1,10) AS DATE
+			CAST(fst.TIMESTAMP AS varchar(10)) AS DATE
 			FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst
 			WHERE fst.SHORT_NAME='DEPOSIT'
 			AND fst.STAFF_ID='" . (int) $staff['STAFF_ID'] . "'

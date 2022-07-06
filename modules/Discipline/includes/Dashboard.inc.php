@@ -37,7 +37,7 @@ if ( ! function_exists( 'DashboardDisciplineAdmin' ) )
 	 * Discipline module & admin profile
 	 *
 	 * @since 4.0
-	 * @since 9.2.1 SQL use SUBSTRING() instead of to_char() for MySQL compatibility
+	 * @since 9.3 SQL use CAST(X AS varchar(X)) instead of to_char() for MySQL compatibility
 	 *
 	 * @return array Dashboard data
 	 */
@@ -45,7 +45,7 @@ if ( ! function_exists( 'DashboardDisciplineAdmin' ) )
 	{
 		$referrals_nb = 0;
 
-		$referrals_RET = DBGet( "SELECT SUBSTRING(CAST(ENTRY_DATE AS varchar(10)),1,7) AS YEAR_MONTH,
+		$referrals_RET = DBGet( "SELECT CAST(ENTRY_DATE AS varchar(7)) AS YEAR_MONTH,
 		COUNT(ID) AS REFERRALS_NB
 		FROM DISCIPLINE_REFERRALS
 		WHERE SYEAR='" . UserSyear() . "'
