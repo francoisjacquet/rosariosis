@@ -15,6 +15,7 @@ Changes in 9.3
 - SQL result as comma separated list for MySQL compatibility in Grades/includes/Dashboard.inc.php & MasterScheduleReport.php
 - Use DBEscapeIdentifier() for MySQL reserved 'TIMESTAMP' keyword in ServeMenus.php & Transactions.php
 - SQL add `_SQLUnixTimestamp()` to extract Unix timestamp or epoch from date in Grades.php & Schedule.php
+- Add case for MySQL: get next MP ID & set AUTO_INCREMENT+1 in EditHistoryMarkingPeriods.php
 
 Changes in 9.2.2
 ----------------

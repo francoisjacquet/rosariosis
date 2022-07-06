@@ -26,9 +26,23 @@ if ( $_REQUEST['modfunc'] === 'update' )
 		// New: check for Title.
 		elseif ( $columns['NAME'] )
 		{
+			// Note: we get next ID from SCHOOL_MARKING_PERIODS table's MARKING_PERIOD_ID column.
+			// Will fail for MySQL (returns 0).
+			$mp_id = DBSeqNextID( 'school_marking_periods_marking_period_id_seq' );
+
+			if ( $DatabaseType === 'mysql' )
+			{
+				// @since 9.3 Add MySQL support
+				$mp_id = DBSeqNextID( 'school_marking_periods' );
+
+				// Manually set AUTO_INCREMENT+1 as we do not INSERT into SCHOOL_MARKING_PERIODS table here.
+				DBQuery( "ALTER TABLE SCHOOL_MARKING_PERIODS
+					AUTO_INCREMENT=" . (int) ( $mp_id + 1 ) );
+			}
+
 			$sql = 'INSERT INTO HISTORY_MARKING_PERIODS ';
 			$fields = 'MARKING_PERIOD_ID,SCHOOL_ID,';
-			$values = DBSeqNextID( 'school_marking_periods_marking_period_id_seq' ) . ",'" . UserSchool() . "',";
+			$values = $mp_id . ",'" . UserSchool() . "',";
 
 			$go = false;
 
