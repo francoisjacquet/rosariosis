@@ -251,7 +251,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 	}
 
 	$address_RET = DBGet( "SELECT TITLE,ID,TYPE
-		FROM ADDRESS_FIELDS
+		FROM address_fields
 		ORDER BY SORT_ORDER,TITLE", [], [ 'ID' ] );
 
 	foreach ( (array) $address_RET as $id => $field )
@@ -607,7 +607,7 @@ else
 				ORDER BY SORT_ORDER,TITLE" );
 
 			$address_RET = DBGet( "SELECT TITLE,ID,TYPE,CATEGORY_ID
-				FROM ADDRESS_FIELDS
+				FROM address_fields
 				ORDER BY SORT_ORDER,TITLE", [] , [ 'CATEGORY_ID' ] );
 
 			foreach ( (array) $categories_RET as $category )

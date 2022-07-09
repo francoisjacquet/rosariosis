@@ -252,7 +252,7 @@ function RegistrationSaveAddress( $config, $values )
 	$values_sql = "'" . $values['ADDRESS'] . "','" . $values['CITY'] . "','" . $values['STATE'] . "','" . $values['ZIPCODE'] . "',";
 
 	// Textarea fields MarkDown sanitize.
-	$values = FilterCustomFieldsMarkdown( 'ADDRESS_FIELDS', 'address' );
+	$values = FilterCustomFieldsMarkdown( 'address_fields', 'address' );
 
 	if ( $config
 		&& ! empty( $values['fields'] ) )

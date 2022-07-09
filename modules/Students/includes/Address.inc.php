@@ -64,17 +64,17 @@ if ( ! empty( $_POST['values'] )
 	if ( ! empty( $_REQUEST['values']['address'] ) )
 	{
 		// FJ other fields required.
-		$required_error = CheckRequiredCustomFields( 'ADDRESS_FIELDS', $_REQUEST['values']['address'] );
+		$required_error = CheckRequiredCustomFields( 'address_fields', $_REQUEST['values']['address'] );
 
 		// FJ textarea fields MarkDown sanitize.
-		$_REQUEST['values']['address'] = FilterCustomFieldsMarkdown( 'ADDRESS_FIELDS', 'values', 'address' );
+		$_REQUEST['values']['address'] = FilterCustomFieldsMarkdown( 'address_fields', 'values', 'address' );
 
 		if ( $_REQUEST['address_id'] !== 'new' )
 		{
 			$sql = "UPDATE address SET ";
 
 			$fields_RET = DBGet( "SELECT ID,TYPE
-				FROM ADDRESS_FIELDS
+				FROM address_fields
 				ORDER BY SORT_ORDER", [], [ 'ID' ] );
 
 			$go = 0;
@@ -1466,7 +1466,7 @@ if ( ! $_REQUEST['modfunc'] )
 		{
 			$categories_RET = DBGet( "SELECT c.ID AS CATEGORY_ID,c.TITLE AS CATEGORY_TITLE,
 				c.RESIDENCE,c.MAILING,c.BUS,f.ID,f.TITLE,f.TYPE,f.SELECT_OPTIONS,f.DEFAULT_SELECTION,f.REQUIRED
-				FROM ADDRESS_FIELD_CATEGORIES c,ADDRESS_FIELDS f
+				FROM ADDRESS_FIELD_CATEGORIES c,address_fields f
 				WHERE f.CATEGORY_ID=c.ID
 				ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE", [], [ 'CATEGORY_ID' ] );
 

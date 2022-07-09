@@ -11,7 +11,7 @@ if ( ! $_REQUEST['modfunc'] )
 			WHERE ID IN (200000000, 200000001)" );
 
 		$address_fields_RET = DBGet( "SELECT ID,TITLE,TYPE
-			FROM ADDRESS_FIELDS" );
+			FROM address_fields" );
 
 		$people_fields_RET = DBGet( "SELECT ID,TITLE,TYPE
 			FROM PEOPLE_FIELDS" );
