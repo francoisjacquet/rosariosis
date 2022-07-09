@@ -313,7 +313,7 @@ switch ( User( 'PROFILE' ) )
 					// FJ multiple school periods for a course period.
 					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,s.TITLE AS SCHOOL,
 					acc.SCHOOL_DATE,cp.TITLE,'" . $category['ID'] . "' AS CATEGORY_ID,sp.PERIOD_ID
-					FROM ATTENDANCE_CALENDAR acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp,SCHOOLS s,
+					FROM attendance_calendar acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp,SCHOOLS s,
 					STAFF st,COURSE_PERIOD_SCHOOL_PERIODS cpsp
 					WHERE EXISTS(SELECT 1
 						FROM SCHEDULE se
@@ -332,7 +332,7 @@ switch ( User( 'PROFILE' ) )
 					AND sp.PERIOD_ID=cpsp.PERIOD_ID
 					AND (sp.BLOCK IS NULL AND position(substring('MTWHFSU' FROM cast(
 						(SELECT CASE COUNT(SCHOOL_DATE)%" . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " WHEN 0 THEN " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " ELSE COUNT(SCHOOL_DATE)%" . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " END AS day_number
-						FROM ATTENDANCE_CALENDAR
+						FROM attendance_calendar
 						WHERE SCHOOL_DATE<=acc.SCHOOL_DATE
 						AND SCHOOL_DATE>=(SELECT START_DATE
 							FROM SCHOOL_MARKING_PERIODS
@@ -357,7 +357,7 @@ switch ( User( 'PROFILE' ) )
 				{
 					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,s.TITLE AS SCHOOL,
 					acc.SCHOOL_DATE,cp.TITLE,'" . $category['ID'] . "' AS CATEGORY_ID,sp.PERIOD_ID
-					FROM ATTENDANCE_CALENDAR acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp,SCHOOLS s,
+					FROM attendance_calendar acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp,SCHOOLS s,
 					STAFF st, COURSE_PERIOD_SCHOOL_PERIODS cpsp
 					WHERE EXISTS(SELECT 1
 						FROM SCHEDULE se
@@ -601,7 +601,7 @@ switch ( User( 'PROFILE' ) )
 					// @since 6.9 Add Secondary Teacher.
 					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,acc.SCHOOL_DATE,
 					cp.TITLE,'" . $category['ID'] . "' AS CATEGORY_ID,sp.PERIOD_ID
-					FROM ATTENDANCE_CALENDAR acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp,
+					FROM attendance_calendar acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp,
 					COURSE_PERIOD_SCHOOL_PERIODS cpsp
 					WHERE EXISTS(SELECT 1
 						FROM SCHEDULE se
@@ -620,7 +620,7 @@ switch ( User( 'PROFILE' ) )
 					AND sp.PERIOD_ID=cpsp.PERIOD_ID
 					AND (sp.BLOCK IS NULL AND position(substring('MTWHFSU' FROM cast(
 						(SELECT CASE COUNT(SCHOOL_DATE)%" . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " WHEN 0 THEN " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " ELSE COUNT(SCHOOL_DATE)%" . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " END AS day_number
-						FROM ATTENDANCE_CALENDAR
+						FROM attendance_calendar
 						WHERE SCHOOL_DATE<=acc.SCHOOL_DATE
 						AND SCHOOL_DATE>=(SELECT START_DATE
 							FROM SCHOOL_MARKING_PERIODS
@@ -644,7 +644,7 @@ switch ( User( 'PROFILE' ) )
 					// @since 6.9 Add Secondary Teacher.
 					$missing_attendance_RET = DBGet( "SELECT cp.COURSE_PERIOD_ID,acc.SCHOOL_DATE,
 					cp.TITLE,'" . $category['ID'] . "' AS CATEGORY_ID,sp.PERIOD_ID
-					FROM ATTENDANCE_CALENDAR acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp,
+					FROM attendance_calendar acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp,
 					COURSE_PERIOD_SCHOOL_PERIODS cpsp
 					WHERE EXISTS(SELECT 1
 						FROM SCHEDULE se

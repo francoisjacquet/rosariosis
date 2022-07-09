@@ -102,7 +102,7 @@ if ( ! $_REQUEST['modfunc'] )
 		GROUP BY ad.SCHOOL_DATE,ssm.GRADE_ID", [ '' ], [ 'SCHOOL_DATE', 'GRADE_ID' ] );
 
 		$student_days_possible = DBGet( "SELECT ac.SCHOOL_DATE,ssm.GRADE_ID,'' AS DAYS_POSSIBLE,count(*) AS ATTENDANCE_POSSIBLE,count(*) AS STUDENTS,'' AS PRESENT,'' AS ABSENT,'' AS ADA,'' AS AVERAGE_ATTENDANCE,'' AS AVERAGE_ABSENT
-		FROM STUDENT_ENROLLMENT ssm,ATTENDANCE_CALENDAR ac,STUDENTS s" . $extra['FROM'] . "
+		FROM STUDENT_ENROLLMENT ssm,attendance_calendar ac,STUDENTS s" . $extra['FROM'] . "
 		WHERE s.STUDENT_ID=ssm.STUDENT_ID
 		AND ssm.SYEAR='" . UserSyear() . "'
 		AND ac.SYEAR=ssm.SYEAR
@@ -144,7 +144,7 @@ if ( ! $_REQUEST['modfunc'] )
 	else
 	{
 		$cal_days = DBGet( "SELECT count(*) AS COUNT,CALENDAR_ID
-			FROM ATTENDANCE_CALENDAR
+			FROM attendance_calendar
 			WHERE " . ( $_REQUEST['_search_all_schools'] != 'Y' ? "SCHOOL_ID='" . UserSchool() . "' AND " : '' ) .
 			" SYEAR='" . UserSyear() . "'
 			AND SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
@@ -170,7 +170,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$student_days_possible = DBGet( "SELECT ssm.GRADE_ID,ssm.CALENDAR_ID,'' AS DAYS_POSSIBLE,
 			count(*) AS ATTENDANCE_POSSIBLE,count(*) AS STUDENTS,'' AS PRESENT,'' AS ABSENT,
 			'' AS ADA,'' AS AVERAGE_ATTENDANCE,'' AS AVERAGE_ABSENT
-		FROM STUDENT_ENROLLMENT ssm,ATTENDANCE_CALENDAR ac,STUDENTS s" . $extra['FROM'] . "
+		FROM STUDENT_ENROLLMENT ssm,attendance_calendar ac,STUDENTS s" . $extra['FROM'] . "
 		WHERE s.STUDENT_ID=ssm.STUDENT_ID
 		AND ssm.SYEAR='" . UserSyear() . "'
 		AND ac.SYEAR=ssm.SYEAR

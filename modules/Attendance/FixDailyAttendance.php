@@ -19,7 +19,7 @@ if ( Prompt( _( 'Confirm' ), _( 'When do you want to recalculate the daily atten
 	set_time_limit( 300 );
 
 	$current_RET = DBGet( "SELECT DISTINCT SCHOOL_DATE
-		FROM ATTENDANCE_CALENDAR
+		FROM attendance_calendar
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		AND SYEAR='" . UserSyear() . "'", [], [ 'SCHOOL_DATE' ] );
 

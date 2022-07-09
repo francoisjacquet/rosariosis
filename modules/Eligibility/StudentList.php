@@ -40,7 +40,7 @@ if ( $_REQUEST['search_modfunc']
 	echo '<form action="' . $tmp_PHP_SELF . '" method="POST">';
 
 	$begin_year = DBGetOne( "SELECT min(date_part('epoch',SCHOOL_DATE)) AS SCHOOL_DATE
-		FROM ATTENDANCE_CALENDAR
+		FROM attendance_calendar
 		WHERE SCHOOL_ID='" . UserSchool() . "'
 		AND SYEAR='" . UserSyear() . "'" );
 

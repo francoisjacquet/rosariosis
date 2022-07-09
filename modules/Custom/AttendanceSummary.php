@@ -77,7 +77,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 					" THEN '1.0' ELSE '0.5' END AS POS,
 			extract(MONTH from SCHOOL_DATE) AS MON,
 			extract(DAY from SCHOOL_DATE) AS DAY
-			FROM ATTENDANCE_CALENDAR
+			FROM attendance_calendar
 			WHERE CALENDAR_ID='" . (int) $student['CALENDAR_ID'] . "'
 			AND SCHOOL_DATE>='" . $student['START_DATE'] . "'" .
 			( $student['END_DATE'] ? " AND SCHOOL_DATE<='" . $student['END_DATE'] . "'" : '' ),

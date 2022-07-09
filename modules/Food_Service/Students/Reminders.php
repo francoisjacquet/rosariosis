@@ -36,7 +36,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			&& $_REQUEST['year_end'] === 'Y' )
 		{
 			$extra['SELECT'] .= ",(SELECT count(1)
-				FROM ATTENDANCE_CALENDAR
+				FROM attendance_calendar
 				WHERE CALENDAR_ID=ssm.CALENDAR_ID
 				AND SCHOOL_DATE>CURRENT_DATE) AS DAYS,
 			(SELECT -sum(fsti.AMOUNT)
@@ -48,7 +48,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 				AND fst.TIMESTAMP BETWEEN CURRENT_DATE-14
 				AND CURRENT_DATE-1) AS T_AMOUNT,
 			(SELECT count(1)
-				FROM ATTENDANCE_CALENDAR
+				FROM attendance_calendar
 				WHERE CALENDAR_ID=ssm.CALENDAR_ID
 				AND SCHOOL_DATE BETWEEN CURRENT_DATE-14 AND CURRENT_DATE-1) AS T_DAYS";
 		}

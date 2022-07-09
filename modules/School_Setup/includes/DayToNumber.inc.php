@@ -30,7 +30,7 @@ function dayToNumber( $date, $calendar_id = 0 )
 
 	// Check if the day is attendance day.
 	$is_school_day = DBGetOne( "SELECT 1
-		FROM ATTENDANCE_CALENDAR
+		FROM attendance_calendar
 		WHERE SCHOOL_DATE='" . $date . "'
 		AND CALENDAR_ID='" . (int) $calendar_id . "'" );
 
@@ -55,7 +55,7 @@ function dayToNumber( $date, $calendar_id = 0 )
 
 	// Number of school days since the beginning of the quarter.
 	$school_days = DBGetOne( "SELECT COUNT(SCHOOL_DATE) AS SCHOOL_DAYS
-		FROM ATTENDANCE_CALENDAR
+		FROM attendance_calendar
 		WHERE SCHOOL_DATE>='" . $begin_quarter_date . "'
 		AND SCHOOL_DATE<='" . $date . "'
 		AND CALENDAR_ID='" . (int) $calendar_id . "'" );

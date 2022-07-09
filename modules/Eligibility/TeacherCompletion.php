@@ -55,7 +55,7 @@ $period_select .= '</select>';
 echo '<form action="' . URLEscape( 'Modules.php?modname=' . $_REQUEST['modname']  ) . '" method="GET">';
 
 $begin_year = DBGetOne( "SELECT min(date_part('epoch',SCHOOL_DATE)) AS SCHOOL_DATE
-	FROM ATTENDANCE_CALENDAR
+	FROM attendance_calendar
 	WHERE SCHOOL_ID='" . UserSchool() . "'
 	AND SYEAR='" . UserSyear() . "'" );
 

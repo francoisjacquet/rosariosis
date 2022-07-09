@@ -21,7 +21,7 @@ function SchoolDeleteSQL( $school_id )
 
 	$delete_sql = "DELETE FROM SCHOOL_GRADELEVELS WHERE SCHOOL_ID='" . (int) $school_id . "';";
 
-	$delete_sql .= "DELETE FROM ATTENDANCE_CALENDAR WHERE SCHOOL_ID='" . (int) $school_id . "';";
+	$delete_sql .= "DELETE FROM attendance_calendar WHERE SCHOOL_ID='" . (int) $school_id . "';";
 
 	$delete_sql .= "DELETE FROM attendance_calendars WHERE SCHOOL_ID='" . (int) $school_id . "';";
 

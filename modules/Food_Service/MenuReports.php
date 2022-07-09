@@ -126,13 +126,13 @@ $types_columns = $items_columns;
 
 $type_select = '<select name="type_select" onchange="ajaxPostForm(this.form,true);"><option value=participation' . ( 'sales' == $_REQUEST['type_select'] ? '' : ' selected' ) . '>' . _( 'Participation' ) . '</option><option value="sales"' . ( 'sales' == $_REQUEST['type_select'] ? ' selected' : '' ) . '>' . _( 'Sales' ) . '</option></select>';
 
-//$calendars_RET = DBGet( "SELECT acs.CALENDAR_ID,(SELECT count(1) FROM ATTENDANCE_CALENDAR WHERE CALENDAR_ID=acs.CALENDAR_ID AND SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."') AS DAY_COUNT FROM attendance_calendars acs WHERE acs.SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'" );
+//$calendars_RET = DBGet( "SELECT acs.CALENDAR_ID,(SELECT count(1) FROM attendance_calendar WHERE CALENDAR_ID=acs.CALENDAR_ID AND SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."') AS DAY_COUNT FROM attendance_calendars acs WHERE acs.SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'" );
 
 $RET = DBGet( "SELECT 'Student' AS TYPE, fssa.DISCOUNT,count(1) AS DAYS,(SELECT count(1)
-	FROM ATTENDANCE_CALENDAR
+	FROM attendance_calendar
 	WHERE CALENDAR_ID=ac.CALENDAR_ID
 	AND SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "') AS ELLIGIBLE
-FROM FOOD_SERVICE_STUDENT_ACCOUNTS fssa,STUDENT_ENROLLMENT ssm,ATTENDANCE_CALENDAR ac
+FROM FOOD_SERVICE_STUDENT_ACCOUNTS fssa,STUDENT_ENROLLMENT ssm,attendance_calendar ac
 WHERE ac.CALENDAR_ID=ssm.CALENDAR_ID
 AND ac.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
 AND fssa.STATUS IS NULL
@@ -144,10 +144,10 @@ GROUP BY fssa.DISCOUNT,ac.CALENDAR_ID", [ 'ELLIGIBLE' => 'bump_dep', 'DAYS' => '
 //echo '<pre>'; var_dump($RET); echo '</pre>';
 
 $RET = DBGet( "SELECT 'User' AS TYPE,'' AS DISCOUNT,count(1) AS DAYS,(SELECT count(1)
-	FROM ATTENDANCE_CALENDAR
+	FROM attendance_calendar
 	WHERE CALENDAR_ID=ac.CALENDAR_ID
 	AND SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "') AS ELLIGIBLE
-FROM FOOD_SERVICE_STAFF_ACCOUNTS fssa,STAFF s,ATTENDANCE_CALENDAR ac
+FROM FOOD_SERVICE_STAFF_ACCOUNTS fssa,STAFF s,attendance_calendar ac
 WHERE ac.CALENDAR_ID=(SELECT CALENDAR_ID FROM attendance_calendars WHERE SCHOOL_ID='" . UserSchool() . "' AND SYEAR='" . UserSyear() . "' AND DEFAULT_CALENDAR='Y')
 AND ac.SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
 AND fssa.STATUS IS NULL

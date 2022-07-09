@@ -788,7 +788,7 @@ function _makeStartInput( $value, $column )
 		$id = 'new';
 
 		$default = DBGetOne( "SELECT min(SCHOOL_DATE) AS START_DATE
-			FROM ATTENDANCE_CALENDAR
+			FROM attendance_calendar
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'" );
 

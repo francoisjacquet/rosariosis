@@ -24,7 +24,7 @@ function calcSeats0( $period, $date = '' )
 		AND (ss.MARKING_PERIOD_ID='" . (int) $mp . "' OR ss.MARKING_PERIOD_ID IN (" . $all_mp . "))
 		AND (ac.SCHOOL_DATE>=ss.START_DATE AND (ss.END_DATE IS NULL OR ac.SCHOOL_DATE<=ss.END_DATE))
 		AND (ac.SCHOOL_DATE>=sem.START_DATE AND (sem.END_DATE IS NULL OR ac.SCHOOL_DATE<=sem.END_DATE)))) AS FILLED_SEATS
-	FROM ATTENDANCE_CALENDAR ac
+	FROM attendance_calendar ac
 	WHERE ac.CALENDAR_ID='" . (int) $period['CALENDAR_ID'] . "'
 	AND ac.SCHOOL_DATE BETWEEN " . ( $date ?
 		"'" . $date . "'" :

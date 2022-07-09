@@ -456,7 +456,7 @@ function calcSeats1( $period, &$total_seats, &$filled_seats )
 				OR ss.MARKING_PERIOD_ID IN (" . GetAllMP( GetMP( $mp, 'MP' ), $mp ) . "))
 			AND (ac.SCHOOL_DATE>=ss.START_DATE AND (ss.END_DATE IS NULL OR ac.SCHOOL_DATE<=ss.END_DATE))
 			AND (ac.SCHOOL_DATE>=sem.START_DATE AND (sem.END_DATE IS NULL OR ac.SCHOOL_DATE<=sem.END_DATE)))) AS FILLED_SEATS
-		FROM ATTENDANCE_CALENDAR ac
+		FROM attendance_calendar ac
 		WHERE ac.CALENDAR_ID='" . (int) $period['CALENDAR_ID'] . "'
 		AND ac.SCHOOL_DATE BETWEEN " . db_case( [
 			"(CURRENT_DATE>'" . GetMP( $mp, 'END_DATE' ) . "')",

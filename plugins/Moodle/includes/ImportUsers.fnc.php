@@ -285,7 +285,7 @@ function MoodleUsersStudentEnrollmentForm()
 	}
 
 	$default = DBGetOne( "SELECT min(SCHOOL_DATE) AS START_DATE
-		FROM ATTENDANCE_CALENDAR
+		FROM attendance_calendar
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'" );
 

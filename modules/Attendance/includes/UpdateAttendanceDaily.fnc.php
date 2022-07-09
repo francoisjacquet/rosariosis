@@ -31,7 +31,7 @@ function UpdateAttendanceDaily( $student_id, $date = '', $comment = false )
 
 	// @since 7.2.4 Take in Account Calendar Day Minutes.
 	$attendance_day_minutes = DBGetOne( "SELECT MINUTES
-		FROM ATTENDANCE_CALENDAR
+		FROM attendance_calendar
 		WHERE SCHOOL_DATE='" . $date . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
 		AND SYEAR='" . UserSyear() . "'
@@ -105,7 +105,7 @@ function UpdateAttendanceDaily( $student_id, $date = '', $comment = false )
 function AttendanceDailyTotalMinutes( $student_id, $date )
 {
 	$total_sql = "SELECT SUM(sp.LENGTH) AS TOTAL
-	FROM SCHEDULE s,COURSE_PERIODS cp,SCHOOL_PERIODS sp,ATTENDANCE_CALENDAR ac,COURSE_PERIOD_SCHOOL_PERIODS cpsp
+	FROM SCHEDULE s,COURSE_PERIODS cp,SCHOOL_PERIODS sp,attendance_calendar ac,COURSE_PERIOD_SCHOOL_PERIODS cpsp
 	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 	AND s.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
 	AND position(',0,' IN cp.DOES_ATTENDANCE)>0
@@ -126,7 +126,7 @@ function AttendanceDailyTotalMinutes( $student_id, $date )
 		$total_sql .= " AND position(substring('MTWHFSU' FROM cast((SELECT CASE COUNT(SCHOOL_DATE)% " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " WHEN 0
 			THEN " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . "
 			ELSE COUNT(SCHOOL_DATE)% " . SchoolInfo( 'NUMBER_DAYS_ROTATION' ) . " END AS day_number
-			FROM ATTENDANCE_CALENDAR
+			FROM attendance_calendar
 			WHERE SCHOOL_DATE<=ac.SCHOOL_DATE
 			AND SCHOOL_DATE>=(SELECT START_DATE
 				FROM SCHOOL_MARKING_PERIODS

@@ -7,7 +7,7 @@ $_REQUEST['field_id'] = issetVal( $_REQUEST['field_id'] );
 DrawHeader( ProgramTitle() );
 
 $min_date = DBGetOne( "SELECT min(SCHOOL_DATE) AS MIN_DATE
-	FROM ATTENDANCE_CALENDAR
+	FROM attendance_calendar
 	WHERE SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'" );
 

@@ -49,10 +49,10 @@ if ( $_REQUEST['modfunc'] === 'create'
 			WHERE SYEAR=ac.SYEAR
 			AND ID=ac.SCHOOL_ID) AS SCHOOL_TITLE,
 		(SELECT min(SCHOOL_DATE)
-			FROM ATTENDANCE_CALENDAR
+			FROM attendance_calendar
 			WHERE CALENDAR_ID=ac.CALENDAR_ID) AS START_DATE,
 		(SELECT max(SCHOOL_DATE)
-			FROM ATTENDANCE_CALENDAR
+			FROM attendance_calendar
 			WHERE CALENDAR_ID=ac.CALENDAR_ID) AS END_DATE
 		FROM attendance_calendars ac,STAFF s
 		WHERE ac.SYEAR='" . UserSyear() . "'
@@ -282,7 +282,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 			if ( $_REQUEST['calendar_id']
 				&& $_REQUEST['calendar_id'] === $_REQUEST['copy_id'] )
 			{
-				DBQuery( "DELETE FROM ATTENDANCE_CALENDAR
+				DBQuery( "DELETE FROM attendance_calendar
 					WHERE CALENDAR_ID='" . (int) $calendar_id . "'
 					AND (SCHOOL_DATE NOT BETWEEN '" . $date_min . "' AND '" . $date_max . "'" .
 					( $weekdays_list ?
@@ -291,7 +291,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 
 				if ( $minutes != '999' )
 				{
-					DBQuery( "UPDATE ATTENDANCE_CALENDAR
+					DBQuery( "UPDATE attendance_calendar
 						SET MINUTES='" . $minutes . "'
 						WHERE CALENDAR_ID='" . (int) $calendar_id . "'" );
 				}
@@ -300,15 +300,15 @@ if ( $_REQUEST['modfunc'] === 'create'
 			{
 				if ( ! empty( $_REQUEST['calendar_id'] ) )
 				{
-					DBQuery( "DELETE FROM ATTENDANCE_CALENDAR
+					DBQuery( "DELETE FROM attendance_calendar
 						WHERE CALENDAR_ID='" . (int) $calendar_id . "'" );
 				}
 
 				// Insert Days.
-				$create_calendar_sql = "INSERT INTO ATTENDANCE_CALENDAR
+				$create_calendar_sql = "INSERT INTO attendance_calendar
 					(SYEAR,SCHOOL_ID,SCHOOL_DATE,MINUTES,CALENDAR_ID)
 					(SELECT '" . UserSyear() . "','" . UserSchool() . "',SCHOOL_DATE," . $minutes . ",'" . $calendar_id . "'
-						FROM ATTENDANCE_CALENDAR
+						FROM attendance_calendar
 						WHERE CALENDAR_ID='" . (int) $_REQUEST['copy_id'] . "'" .
 						( $weekdays_list ?
 							" AND extract(DOW FROM SCHOOL_DATE) IN (" . $weekdays_list . ")" : '' );
@@ -336,7 +336,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 
 			if ( ! empty( $_REQUEST['calendar_id'] ) )
 			{
-				DBQuery( "DELETE FROM ATTENDANCE_CALENDAR
+				DBQuery( "DELETE FROM attendance_calendar
 					WHERE CALENDAR_ID='" . (int) $calendar_id . "'" );
 			}
 
@@ -347,7 +347,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 			{
 				if ( $_REQUEST['weekdays'][ $weekday ] == 'Y' )
 				{
-					$sql_calendar_days .= "INSERT INTO ATTENDANCE_CALENDAR
+					$sql_calendar_days .= "INSERT INTO attendance_calendar
 						(SYEAR,SCHOOL_ID,SCHOOL_DATE,MINUTES,CALENDAR_ID)
 						VALUES('" . UserSyear() . "','" . UserSchool() . "','" . date( 'Y-m-d', $i ) . "'," . $minutes . ",'" . $calendar_id . "');";
 				}
@@ -378,7 +378,7 @@ if ( $_REQUEST['modfunc'] === 'delete_calendar'
 {
 	if ( DeletePrompt( _( 'Calendar' ) ) )
 	{
-		$delete_sql = "DELETE FROM ATTENDANCE_CALENDAR
+		$delete_sql = "DELETE FROM attendance_calendar
 			WHERE CALENDAR_ID='" . (int) $_REQUEST['calendar_id'] . "';";
 
 		$delete_sql .= "DELETE FROM attendance_calendars
@@ -715,7 +715,7 @@ if ( $_REQUEST['modfunc'] === 'list_events' )
 	if ( ! $start_date )
 	{
 		$min_date = DBGet( "SELECT min(SCHOOL_DATE) AS MIN_DATE
-			FROM ATTENDANCE_CALENDAR
+			FROM attendance_calendar
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'" );
 
@@ -732,7 +732,7 @@ if ( $_REQUEST['modfunc'] === 'list_events' )
 	if ( ! $end_date )
 	{
 		$max_date = DBGet( "SELECT max(SCHOOL_DATE) AS MAX_DATE
-			FROM ATTENDANCE_CALENDAR
+			FROM attendance_calendar
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'" );
 
@@ -792,7 +792,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$last_day_month = $_REQUEST['year'] . '-' . $_REQUEST['month'] . '-' . $last;
 
 	$calendar_SQL = "SELECT SCHOOL_DATE,MINUTES,BLOCK
-		FROM ATTENDANCE_CALENDAR
+		FROM attendance_calendar
 		WHERE SCHOOL_DATE BETWEEN '" . $first_day_month . "'
 		AND '" . $last_day_month . "'
 		AND SYEAR='" . UserSyear() . "'
@@ -821,7 +821,7 @@ if ( ! $_REQUEST['modfunc'] )
 				//FJ fix bug MINUTES not numeric
 				if ( intval( $minutes ) > 0 )
 				{
-					DBQuery( "UPDATE ATTENDANCE_CALENDAR
+					DBQuery( "UPDATE attendance_calendar
 						SET MINUTES='" . intval( $minutes ) . "'
 						WHERE SCHOOL_DATE='" . $date . "'
 						AND SYEAR='" . UserSyear() . "'
@@ -830,7 +830,7 @@ if ( ! $_REQUEST['modfunc'] )
 				}
 				else
 				{
-					DBQuery( "DELETE FROM ATTENDANCE_CALENDAR
+					DBQuery( "DELETE FROM attendance_calendar
 						WHERE SCHOOL_DATE='" . $date . "'
 						AND SYEAR='" . UserSyear() . "'
 						AND SCHOOL_ID='" . UserSchool() . "'
@@ -843,11 +843,11 @@ if ( ! $_REQUEST['modfunc'] )
 			//FJ fix bug MINUTES not numeric
 			elseif ( intval( $minutes ) > 0 )
 			{
-				DBQuery( "INSERT INTO ATTENDANCE_CALENDAR
+				DBQuery( "INSERT INTO attendance_calendar
 					(SYEAR,SCHOOL_ID,SCHOOL_DATE,CALENDAR_ID,MINUTES)
 					SELECT '" . UserSyear() . "','" . UserSchool() . "','" . $date . "','" . $_REQUEST['calendar_id'] . "','" . intval( $minutes ) . "'
 					WHERE NOT EXISTS(SELECT 1
-					FROM ATTENDANCE_CALENDAR
+					FROM attendance_calendar
 					WHERE SCHOOL_DATE='" . $date . "'
 					AND SYEAR='" . UserSyear() . "'
 					AND SCHOOL_ID='" . UserSchool() . "'
@@ -871,7 +871,7 @@ if ( ! $_REQUEST['modfunc'] )
 			{
 				if ( ! empty( $calendar_RET[ $date ] ) )
 				{
-					DBQuery( "UPDATE ATTENDANCE_CALENDAR
+					DBQuery( "UPDATE attendance_calendar
 						SET MINUTES='999'
 						WHERE SCHOOL_DATE='" . $date . "'
 						AND SYEAR='" . UserSyear() . "'
@@ -880,11 +880,11 @@ if ( ! $_REQUEST['modfunc'] )
 				}
 				else
 				{
-					DBQuery( "INSERT INTO ATTENDANCE_CALENDAR
+					DBQuery( "INSERT INTO attendance_calendar
 						(SYEAR,SCHOOL_ID,SCHOOL_DATE,CALENDAR_ID,MINUTES)
 						SELECT '" . UserSyear() . "','" . UserSchool()."','" . $date . "','" . $_REQUEST['calendar_id'] . "','999'
 						WHERE NOT EXISTS(SELECT 1
-						FROM ATTENDANCE_CALENDAR
+						FROM attendance_calendar
 						WHERE SCHOOL_DATE='" . $date . "'
 						AND SYEAR='" . UserSyear() . "'
 						AND SCHOOL_ID='" . UserSchool() . "'
@@ -895,7 +895,7 @@ if ( ! $_REQUEST['modfunc'] )
 			}
 			elseif ( ! empty( $calendar_RET[ $date ] ) )
 			{
-				DBQuery( "DELETE FROM ATTENDANCE_CALENDAR
+				DBQuery( "DELETE FROM attendance_calendar
 					WHERE SCHOOL_DATE='" . $date . "'
 					AND SYEAR='" . UserSyear() . "'
 					AND SCHOOL_ID='" . UserSchool() . "'
@@ -917,7 +917,7 @@ if ( ! $_REQUEST['modfunc'] )
 		{
 			if ( $calendar_RET[ $date ] )
 			{
-				DBQuery( "UPDATE ATTENDANCE_CALENDAR
+				DBQuery( "UPDATE attendance_calendar
 					SET BLOCK='" . $block . "'
 					WHERE SCHOOL_DATE='" . $date . "'
 					AND SYEAR='" . UserSyear() . "'

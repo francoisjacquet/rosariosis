@@ -267,7 +267,7 @@ else
 	}
 
 	$calendar_RET = DBGet( "SELECT SCHOOL_DATE
-	FROM ATTENDANCE_CALENDAR
+	FROM attendance_calendar
 	WHERE SCHOOL_DATE BETWEEN '" . date( 'Y-m-d', $time ) . "' AND '" . date( 'Y-m-d', $time_last ) . "'
 	AND SYEAR='" . UserSyear() . "'
 	AND SCHOOL_ID='" . UserSchool() . "'

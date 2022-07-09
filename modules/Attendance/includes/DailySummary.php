@@ -175,7 +175,7 @@ if ( $_REQUEST['search_modfunc']
 
 // @since 9.2.1 SQL use REPLACE() instead of to_char() for MySQL compatibility
 $cal_RET = DBGet( "SELECT DISTINCT SCHOOL_DATE,CONCAT('_', REPLACE(CAST(SCHOOL_DATE AS varchar(10)),'-','')) AS SHORT_DATE
-	FROM ATTENDANCE_CALENDAR
+	FROM attendance_calendar
 	WHERE SCHOOL_ID='" . UserSchool() . "'
 	AND SCHOOL_DATE BETWEEN '" . $start_date . "' AND '" . $end_date . "'
 	ORDER BY SCHOOL_DATE" );

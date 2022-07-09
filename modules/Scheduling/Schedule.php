@@ -16,7 +16,7 @@ $date = RequestedDate( 'date', '' );
 if ( ! $date )
 {
 	$min_date = DBGetOne( "SELECT min(SCHOOL_DATE) AS MIN_DATE
-		FROM ATTENDANCE_CALENDAR
+		FROM attendance_calendar
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'" );
 
