@@ -71,7 +71,7 @@ if ( ! empty( $_POST['values'] )
 
 		if ( $_REQUEST['address_id'] !== 'new' )
 		{
-			$sql = "UPDATE ADDRESS SET ";
+			$sql = "UPDATE address SET ";
 
 			$fields_RET = DBGet( "SELECT ID,TYPE
 				FROM ADDRESS_FIELDS
@@ -115,7 +115,7 @@ if ( ! empty( $_POST['values'] )
 		}
 		else
 		{
-			$sql = "INSERT INTO ADDRESS ";
+			$sql = "INSERT INTO address ";
 
 			$fields = '';
 			$values = '';
@@ -434,7 +434,7 @@ if ( ! $_REQUEST['modfunc'] )
 		a.CITY,a.STATE,a.ZIPCODE,a.PHONE,a.MAIL_ADDRESS,a.MAIL_CITY,a.MAIL_STATE,a.MAIL_ZIPCODE,
 		sjp.CUSTODY,sja.MAILING,sja.RESIDENCE,sja.BUS_PICKUP,sja.BUS_DROPOFF," .
 		db_case( [ 'a.ADDRESS_ID', "'0'", '1', '0' ] ) . "AS SORT_ORDER
-	FROM ADDRESS a,students_join_address sja,STUDENTS_JOIN_PEOPLE sjp
+	FROM address a,students_join_address sja,STUDENTS_JOIN_PEOPLE sjp
 	WHERE a.ADDRESS_ID=sja.ADDRESS_ID
 	AND sja.STUDENT_ID='" . UserStudentID() . "'
 	AND a.ADDRESS_ID=sjp.ADDRESS_ID
@@ -444,7 +444,7 @@ if ( ! $_REQUEST['modfunc'] )
 		a.ADDRESS,a.CITY,a.STATE,a.ZIPCODE,a.PHONE,a.MAIL_ADDRESS,a.MAIL_CITY,a.MAIL_STATE,
 		a.MAIL_ZIPCODE,'' AS CUSTODY,sja.MAILING,sja.RESIDENCE,sja.BUS_PICKUP,sja.BUS_DROPOFF," .
 		db_case( [ 'a.ADDRESS_ID', "'0'", '1', '0' ] ) . " AS SORT_ORDER
-	FROM ADDRESS a,students_join_address sja
+	FROM address a,students_join_address sja
 	WHERE a.ADDRESS_ID=sja.ADDRESS_ID
 	AND sja.STUDENT_ID='" . UserStudentID() . "'
 	AND NOT EXISTS (SELECT ''
@@ -1476,7 +1476,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 				if ( $_REQUEST['address_id'] !== 'new' )
 				{
-					$value = DBGet( "SELECT * FROM ADDRESS WHERE ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'" );
+					$value = DBGet( "SELECT * FROM address WHERE ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'" );
 					$value = $value[1];
 				}
 				else
@@ -1662,7 +1662,7 @@ function _makeAutoSelect( $column, $table, $values = '', $options = [] )
  *
  * @param  string  $value  Input value.
  * @param  string  $column Column.
- * @param  string  $table  DB table (ADDRESS or PEOPLE_JOIN_CONTACTS or STUDENTS_JOIN_PEOPLE).
+ * @param  string  $table  DB table (address or PEOPLE_JOIN_CONTACTS or STUDENTS_JOIN_PEOPLE).
  * @param  string  $title  Input title.
  * @param  array   $select Select options.
  * @param  string  $id     ID. Optional. Defaults to ''.

@@ -614,7 +614,7 @@ if ( $_REQUEST['modfunc'] === 'remove_file'
 		{
 			$file = $FileUploadsPath . 'Address/' . $_REQUEST['address_id'] . '/' . $filename;
 
-			DBQuery( "UPDATE ADDRESS
+			DBQuery( "UPDATE address
 				SET " . $column . "=REPLACE(" . $column . ", '" . DBEscapeString( $file ) . "||', '')
 				WHERE ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'" );
 		}

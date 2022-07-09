@@ -452,7 +452,7 @@ Changes in 7.8
 - SQL fix Discipline Referrals using WHERE EXISTS in Widgets.fnc.php
 - Numeric Discipline field: invert values so BETWEEN works in Widgets.fnc.php
 - Numeric Discipline field: input type number in Widgets.fnc.php
-- Fix SQL error missing FROM ADDRESS table in GetStuList.fnc.php
+- Fix SQL error missing FROM address table in GetStuList.fnc.php
 
 Changes in 7.7
 --------------
@@ -562,7 +562,7 @@ Changes in 7.2.3
 Changes in 7.2.2
 ----------------
 - Fix SQL error foreign keys: Roll Schools before rolling Student Enrollment in Rollover.php
-- Fix SQL error table ADDRESS specified more than once in GetStuList.fnc.php
+- Fix SQL error table address specified more than once in GetStuList.fnc.php
 
 Changes in 7.2.1
 ----------------

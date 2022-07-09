@@ -424,7 +424,7 @@ function _update47beta()
 
 	foreach ( (array) $fields_column_RET as $field_column )
 	{
-		$sql_fields_column_type .= "ALTER TABLE ADDRESS
+		$sql_fields_column_type .= "ALTER TABLE address
 			ALTER COLUMN " . DBEscapeIdentifier( 'CUSTOM_' . $field_column['ID'] ) . " TYPE text;";
 	}
 
@@ -1518,10 +1518,10 @@ function _update55beta3()
 /**
  * Update to version 5.7
  *
- * 1. ADDRESS table:
+ * 1. address table:
  * Change city & mail_city column type to text
  * Was character varying(60) which could prevent long city names.
- * 2. ADDRESS table:
+ * 2. address table:
  * Change state & mail_state column type to character varying(50)
  * Was character varying(10). Now allows storing country.
  *
@@ -1538,7 +1538,7 @@ function _update57()
 	$return = true;
 
 	/**
-	 * 1. ADDRESS table:
+	 * 1. address table:
 	 * Change city & mail_city column type to text
 	 * Was character varying(60) which could prevent long city names.
 	 */
@@ -1548,7 +1548,7 @@ function _update57()
 		ALTER COLUMN mail_city TYPE text;" );
 
 	/**
-	 * 2. ADDRESS table:
+	 * 2. address table:
 	 * Change state & mail_state column type to character varying(50)
 	 * Was character varying(10). Now allows storing country.
 	 */

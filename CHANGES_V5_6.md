@@ -251,7 +251,7 @@ Changes in 6.0
 
 Changes in 5.9.6
 ----------------
-- Fix SQL error missing FROM-clause entry for table ADDRESS in GetStuList.fnc.php
+- Fix SQL error missing FROM-clause entry for table address in GetStuList.fnc.php
 
 Changes in 5.9.5
 ----------------
@@ -278,7 +278,7 @@ Changes in 5.9.2
 Changes in 5.9.1
 ----------------
 - Fix Number Field SQL column limit: type numeric(20,2) in StudentsUsersInfo.fnc.php
-- Fix SQL error table ADDRESS specified more than once in GetStuList.fnc.php
+- Fix SQL error table address specified more than once in GetStuList.fnc.php
 - SQL Fix School Base Grading Scale for Historical Grades in TRANSCRIPT_GRADES view in Update.fnc.php & rosariosis.sql
 
 Changes in 5.9
@@ -396,8 +396,8 @@ Changes in 5.7.1
 
 Changes in 5.7
 --------------
-- SQL ADDRESS table: city & mail_city column type to text in rosariosis.sql, Address.inc.php & Update.fnc.php
-- SQL ADDRESS table: state & mail_state column type to character varying(50) in rosariosis.sql, Address.inc.php & Update.fnc.php
+- SQL address table: city & mail_city column type to text in rosariosis.sql, Address.inc.php & Update.fnc.php
+- SQL address table: state & mail_state column type to character varying(50) in rosariosis.sql, Address.inc.php & Update.fnc.php
 - Send Create Student / User Account email to Notify in Student.php, User.php, config.inc.sample.php
 - Do not find other students associated with "No Address" in Address.inc.php
 - Fix error when start date < first school year start date in CategoryBreakdownTime.php

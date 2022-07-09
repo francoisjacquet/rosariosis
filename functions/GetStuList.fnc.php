@@ -180,7 +180,7 @@ function GetStuList( &$extra = [] )
 				coalesce(a.MAIL_ZIPCODE,a.ZIPCODE) AS ZIPCODE ';
 
 			$extra['FROM'] = " LEFT OUTER JOIN students_join_address sam ON (ssm.STUDENT_ID=sam.STUDENT_ID AND sam.RESIDENCE='Y')
-				LEFT OUTER JOIN ADDRESS a ON (sam.ADDRESS_ID=a.ADDRESS_ID) " . $extra['FROM'];
+				LEFT OUTER JOIN address a ON (sam.ADDRESS_ID=a.ADDRESS_ID) " . $extra['FROM'];
 
 			$functions['CONTACT_INFO'] = 'makeContactInfo';
 
@@ -194,7 +194,7 @@ function GetStuList( &$extra = [] )
 				p.FIRST_NAME,p.LAST_NAME,p.MIDDLE_NAME,
 				sjp.STUDENT_RELATION,sjp.EMERGENCY,sjp.CUSTODY,pjc.TITLE,pjc.VALUE,a.PHONE,sjp.ADDRESS_ID ';
 
-			$extra2['FROM'] = ',ADDRESS a,students_join_address sja LEFT OUTER JOIN STUDENTS_JOIN_PEOPLE sjp ON (sja.STUDENT_ID=sjp.STUDENT_ID AND sja.ADDRESS_ID=sjp.ADDRESS_ID)
+			$extra2['FROM'] = ',address a,students_join_address sja LEFT OUTER JOIN STUDENTS_JOIN_PEOPLE sjp ON (sja.STUDENT_ID=sjp.STUDENT_ID AND sja.ADDRESS_ID=sjp.ADDRESS_ID)
 				LEFT OUTER JOIN PEOPLE p ON (p.PERSON_ID=sjp.PERSON_ID)
 				LEFT OUTER JOIN PEOPLE_JOIN_CONTACTS pjc ON (pjc.PERSON_ID=p.PERSON_ID) ';
 
@@ -247,11 +247,11 @@ function GetStuList( &$extra = [] )
 					sjp.STUDENT_RELATION,sjp.EMERGENCY,sjp.CUSTODY,pjc.TITLE,pjc.VALUE,a.PHONE,sjp.ADDRESS_ID ';
 
 				if ( ( empty( $extra2['FROM'] )
-						|| stripos( $extra2['FROM'], 'ADDRESS a' ) === false )
+						|| stripos( $extra2['FROM'], 'address a' ) === false )
 					&& empty( $extra['addr'] ) )
 				{
-					// Fix SQL error table ADDRESS specified more than once.
-					$extra2['FROM'] .= ',ADDRESS a';
+					// Fix SQL error table address specified more than once.
+					$extra2['FROM'] .= ',address a';
 				}
 
 				$extra2['FROM'] .= ',students_join_address sja
@@ -317,7 +317,7 @@ function GetStuList( &$extra = [] )
 			if ( $view_address_RET )
 			{
 				$extra['FROM'] = " LEFT OUTER JOIN students_join_address sam ON (ssm.STUDENT_ID=sam.STUDENT_ID AND sam." . $view_address_RET . "='Y')
-					LEFT OUTER JOIN ADDRESS a ON (sam.ADDRESS_ID=a.ADDRESS_ID) " . $extra['FROM'];
+					LEFT OUTER JOIN address a ON (sam.ADDRESS_ID=a.ADDRESS_ID) " . $extra['FROM'];
 
 				$extra['columns_after'] += [
 					'ADDRESS' => _( ucwords( mb_strtolower( str_replace( '_', ' ', $view_address_RET ) ) ) ) . ' ' . _( 'Address' ),
@@ -366,7 +366,7 @@ function GetStuList( &$extra = [] )
 				|| ! empty( $extra['addr'] ) )
 			{
 				$extra['FROM'] = " LEFT OUTER JOIN students_join_address sam ON (ssm.STUDENT_ID=sam.STUDENT_ID " . issetVal( $extra['STUDENTS_JOIN_ADDRESS'], '' ) . ")
-					LEFT OUTER JOIN ADDRESS a ON (sam.ADDRESS_ID=a.ADDRESS_ID) " . $extra['FROM'];
+					LEFT OUTER JOIN address a ON (sam.ADDRESS_ID=a.ADDRESS_ID) " . $extra['FROM'];
 
 				$distinct = 'DISTINCT ';
 			}
@@ -414,7 +414,7 @@ function GetStuList( &$extra = [] )
 			|| ! empty( $extra['addr'] ) )
 		{
 			$extra['FROM'] = " LEFT OUTER JOIN students_join_address sam ON (ssm.STUDENT_ID=sam.STUDENT_ID " . issetVal( $extra['STUDENTS_JOIN_ADDRESS'], '' ) . ")
-			LEFT OUTER JOIN ADDRESS a ON (sam.ADDRESS_ID=a.ADDRESS_ID) " . $extra['FROM'];
+			LEFT OUTER JOIN address a ON (sam.ADDRESS_ID=a.ADDRESS_ID) " . $extra['FROM'];
 
 			$distinct = 'DISTINCT ';
 		}

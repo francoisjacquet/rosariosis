@@ -245,7 +245,7 @@ function RegistrationSaveAddress( $config, $values )
 		return $inserted_addresses[ $address_key ];
 	}
 
-	$sql = "INSERT INTO ADDRESS ";
+	$sql = "INSERT INTO address ";
 
 	$fields = 'ADDRESS,CITY,STATE,ZIPCODE,';
 

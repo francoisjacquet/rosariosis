@@ -36,7 +36,7 @@ function MailingLabel( $address_id )
 		$people_RET = DBGet( "SELECT p.FIRST_NAME,p.MIDDLE_NAME,p.LAST_NAME,
 		coalesce(a.MAIL_ADDRESS,a.ADDRESS) AS ADDRESS,coalesce(a.MAIL_CITY,a.CITY) AS CITY,
 		coalesce(a.MAIL_STATE,a.STATE) AS STATE,coalesce(a.MAIL_ZIPCODE,a.ZIPCODE) AS ZIPCODE
-		FROM ADDRESS a JOIN students_join_address sja ON (a.ADDRESS_ID=sja.ADDRESS_ID)
+		FROM address a JOIN students_join_address sja ON (a.ADDRESS_ID=sja.ADDRESS_ID)
 		LEFT OUTER JOIN STUDENTS_JOIN_PEOPLE sjp ON (sjp.ADDRESS_ID=sja.ADDRESS_ID
 			AND sjp.STUDENT_ID=sja.STUDENT_ID
 			AND (sjp.CUSTODY='Y' OR sja.RESIDENCE IS NULL))
