@@ -14,7 +14,7 @@
  * @since 5.0 SQL fix Change index suffix from '_IND' to '_IDX' to avoid collision.
  * @since 9.2.1 Change $sequence param to $field_id, adapted for use with DBLastInsertID()
  *
- * @example AddDBField( 'SCHOOLS', $school_fields_id, $columns['TYPE'] );
+ * @example AddDBField( 'schools', $school_fields_id, $columns['TYPE'] );
  *
  * @param string  $table    DB Table name.
  * @param int     $field_id Field ID (or DB Sequence name: deprecated).
@@ -30,6 +30,8 @@ function AddDBField( $table, $field_id, $type )
 	{
 		return '';
 	}
+
+	$table = mb_strtolower( $table );
 
 	if ( (string) (int) $field_id == $field_id )
 	{
@@ -99,7 +101,7 @@ function AddDBField( $table, $field_id, $type )
 	if ( $create_index )
 	{
 		// @since 5.0 SQL fix Change index suffix from '_IND' to '_IDX' to avoid collision.
-		$index_name = $table === 'STUDENTS' ? 'CUSTOM_IND' : $table . '_IDX';
+		$index_name = $table === 'students' ? 'CUSTOM_IND' : $table . '_IDX';
 
 		DBQuery( 'CREATE INDEX ' . DBEscapeIdentifier( $index_name . (int) $id ) .
 			' ON ' . DBEscapeIdentifier( $table ) .
@@ -113,7 +115,7 @@ function AddDBField( $table, $field_id, $type )
 /**
  * Delete Field from DB
  *
- * @example DeleteDBField( 'STUDENTS', $_REQUEST['id'] );
+ * @example DeleteDBField( 'students', $_REQUEST['id'] );
  *
  * @param  string  $table DB Table name.
  * @param  string  $id    Field ID.
@@ -130,14 +132,16 @@ function DeleteDBField( $table, $id )
 		return false;
 	}
 
-	$fields_table = $table === 'STUDENTS' ? 'CUSTOM' : $table;
+	$table = mb_strtolower( $table );
 
-	// Remove trailing / plural 'S', excepted for ADDRESS.
+	$fields_table = $table === 'students' ? 'custom' : $table;
+
+	// Remove trailing / plural 'S', excepted for address.
 	$fields_table = mb_substr( $fields_table, -1 ) === 'S' && mb_substr( $fields_table, -2 ) !== 'SS' ?
 		mb_substr( $fields_table, 0, -1 ) :
 		$fields_table;
 
-	DBQuery( "DELETE FROM " . DBEscapeIdentifier( $fields_table . '_FIELDS' ) .
+	DBQuery( "DELETE FROM " . DBEscapeIdentifier( $fields_table . '_fields' ) .
 		" WHERE ID='" . (int) $id . "'" );
 
 	DBQuery( 'ALTER TABLE ' . DBEscapeIdentifier( $table ) . '
@@ -151,7 +155,7 @@ function DeleteDBField( $table, $id )
  * Delete Field Category from DB
  * And all fields in Category
  *
- * @example DeleteDBFieldCategory( 'STUDENTS', $_REQUEST['category_id'] );
+ * @example DeleteDBFieldCategory( 'students', $_REQUEST['category_id'] );
  *
  * @uses DeleteDBField()
  *
@@ -170,11 +174,13 @@ function DeleteDBFieldCategory( $table, $id )
 		return false;
 	}
 
-	$fields_table = $table === 'STUDENTS' ? 'CUSTOM' : $table;
+	$table = mb_strtolower( $table );
+
+	$fields_table = $table === 'students' ? 'custom' : $table;
 
 	// Delete all fields in Category.
 	$fields = DBGet( "SELECT ID
-		FROM " . DBEscapeIdentifier( $fields_table . '_FIELDS' ) .
+		FROM " . DBEscapeIdentifier( $fields_table . '_fields' ) .
 		" WHERE CATEGORY_ID='" . (int) $id . "'" );
 
 	foreach ( (array) $fields as $field )
@@ -187,7 +193,7 @@ function DeleteDBFieldCategory( $table, $id )
 		mb_substr( $table, 0, -1 ) :
 		$table;
 
-	DBQuery( "DELETE FROM " . DBEscapeIdentifier( $field_categories_table . '_FIELD_CATEGORIES' ) .
+	DBQuery( "DELETE FROM " . DBEscapeIdentifier( $field_categories_table . '_field_categories' ) .
 		" WHERE ID='" . (int) $id . "'" );
 
 	return true;
@@ -199,7 +205,7 @@ function DeleteDBFieldCategory( $table, $id )
  *
  * @since 4.6 Add Files type.
  *
- * @example echo GetFieldsForm( 'STUDENT', $title, $RET, $extra_fields );
+ * @example echo GetFieldsForm( 'student', $title, $RET, $extra_fields );
  *
  * @example echo GetFieldsForm(
  *              'SCHOOL',
@@ -233,6 +239,8 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = [], $type
 		return '';
 	}
 
+	$table = mb_strtolower( $table );
+
 	$new = $id === 'new' || $category_id === 'new';
 
 	$form = '<form action="';
@@ -256,13 +264,13 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = [], $type
 
 	if ( $id )
 	{
-		$full_table = $table === 'STUDENT' ? 'CUSTOM' : $table;
+		$full_table = $table === 'student' ? 'custom' : $table;
 
-		$full_table .= '_FIELDS';
+		$full_table .= '_fields';
 	}
 	else
 	{
-		$full_table = $table . '_FIELD_CATEGORIES';
+		$full_table = $table . '_field_categories';
 	}
 
 	$form .= '&table=' . $full_table . '" method="POST">';
@@ -272,15 +280,15 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = [], $type
 	if ( AllowEdit()
 		&& ! $new
 		&& ( ( $id
-				&& ( $table !== 'STAFF'
+				&& ( $table !== 'staff'
 					|| $id < 200000000 ) // Don't Delete Email & Phone User Fields.
-				&& ( $table !== 'STUDENT'
+				&& ( $table !== 'student'
 					|| ( $id != 200000000
 						&& $id != 200000004 ) ) ) // Don't Delete Gender & Birthday Student Fields.
 			|| ( $category_id
-				&& ( $table !== 'STUDENT'
+				&& ( $table !== 'student'
 					|| $category_id > 4 ) // Don't Delete first 4 Student Fields Categories.
-				&& ( $table !== 'STAFF'
+				&& ( $table !== 'staff'
 					|| $category_id > 2 ) ) ) ) // Don't Delete first 2 User Fields Categories.
 	{
 		$delete_url = PreparePHP_SELF(
@@ -392,7 +400,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = [], $type
 		{
 			// CATEGORIES.
 			$categories_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER
-				FROM " . DBEscapeIdentifier( $table . '_FIELD_CATEGORIES' ) .
+				FROM " . DBEscapeIdentifier( $table . '_field_categories' ) .
 				" ORDER BY SORT_ORDER,TITLE" );
 
 			foreach ( (array) $categories_RET as $type )
@@ -737,7 +745,7 @@ function FilterCustomFieldsMarkdown( $table, $request_index, $request_index_2 = 
  * Check Required Custom Fields for empty values.
  * Use before inserting/updating Fields.
  *
- * @example $required_error = $required_error || CheckRequiredCustomFields( 'CUSTOM_FIELDS', $_REQUEST['students'] );
+ * @example $required_error = $required_error || CheckRequiredCustomFields( 'custom_fields', $_REQUEST['students'] );
  *
  * @param string $table          Custom fields TABLE name.
  * @param string $request_values $_REQUEST var array of fields values.
