@@ -61,13 +61,13 @@ if ( ! empty( $_POST['values'] )
 		}
 	}
 
-	if ( ! empty( $_REQUEST['values']['ADDRESS'] ) )
+	if ( ! empty( $_REQUEST['values']['address'] ) )
 	{
 		// FJ other fields required.
-		$required_error = CheckRequiredCustomFields( 'ADDRESS_FIELDS', $_REQUEST['values']['ADDRESS'] );
+		$required_error = CheckRequiredCustomFields( 'ADDRESS_FIELDS', $_REQUEST['values']['address'] );
 
 		// FJ textarea fields MarkDown sanitize.
-		$_REQUEST['values']['ADDRESS'] = FilterCustomFieldsMarkdown( 'ADDRESS_FIELDS', 'values', 'ADDRESS' );
+		$_REQUEST['values']['address'] = FilterCustomFieldsMarkdown( 'ADDRESS_FIELDS', 'values', 'address' );
 
 		if ( $_REQUEST['address_id'] !== 'new' )
 		{
@@ -79,7 +79,7 @@ if ( ! empty( $_POST['values'] )
 
 			$go = 0;
 
-			foreach ( (array) $_REQUEST['values']['ADDRESS'] as $column => $value )
+			foreach ( (array) $_REQUEST['values']['address'] as $column => $value )
 			{
 				if ( isset( $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] )
 					&& $fields_RET[str_replace( 'CUSTOM_', '', $column )][1]['TYPE'] == 'numeric'
@@ -122,7 +122,7 @@ if ( ! empty( $_POST['values'] )
 
 			$go = 0;
 
-			foreach ( (array) $_REQUEST['values']['ADDRESS'] as $column => $value )
+			foreach ( (array) $_REQUEST['values']['address'] as $column => $value )
 			{
 				if ( is_array( $value ) )
 				{
@@ -864,7 +864,7 @@ if ( ! $_REQUEST['modfunc'] )
 			// Get City, State & Zip options for auto pull-downs.
 			$city_options = _makeAutoSelect(
 				'CITY',
-				'ADDRESS',
+				'address',
 				[
 					[ 'CITY' => issetVal( $this_address['CITY'] ) ],
 					[ 'CITY' => issetVal( $this_address['MAIL_CITY'] ) ],
@@ -874,7 +874,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 			$state_options = _makeAutoSelect(
 				'STATE',
-				'ADDRESS',
+				'address',
 				[
 					[ 'STATE' => issetVal( $this_address['STATE'] ) ],
 					[ 'STATE' => issetVal( $this_address['MAIL_STATE'] ) ],
@@ -884,7 +884,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 			$zip_options = _makeAutoSelect(
 				'ZIPCODE',
-				'ADDRESS',
+				'address',
 				[
 					[ 'ZIPCODE' => issetVal( $this_address['ZIPCODE'] ) ],
 					[ 'ZIPCODE' => issetVal( $this_address['MAIL_ZIPCODE'] ) ],
@@ -898,7 +898,7 @@ if ( ! $_REQUEST['modfunc'] )
 			echo '<tr><td colspan="3">' .
 			TextInput(
 				issetVal( $this_address['ADDRESS'] ),
-				'values[ADDRESS][ADDRESS]',
+				'values[address][ADDRESS]',
 				_( 'Street' ),
 				$size ? 'required maxlength=255 size=20' : 'required maxlength=255' ) .
 				'</td></tr>';
@@ -908,7 +908,7 @@ if ( ! $_REQUEST['modfunc'] )
 			_makeAutoSelectInputX(
 				issetVal( $this_address['CITY'] ),
 				'CITY',
-				'ADDRESS',
+				'address',
 				_( 'City' ),
 				$city_options
 			) . '</td>';
@@ -917,7 +917,7 @@ if ( ! $_REQUEST['modfunc'] )
 			_makeAutoSelectInputX(
 				issetVal( $this_address['STATE'] ),
 				'STATE',
-				'ADDRESS',
+				'address',
 				_( 'State' ),
 				$state_options
 			) . '</td>';
@@ -926,7 +926,7 @@ if ( ! $_REQUEST['modfunc'] )
 			_makeAutoSelectInputX(
 				issetVal( $this_address['ZIPCODE'] ),
 				'ZIPCODE',
-				'ADDRESS',
+				'address',
 				_( 'Zip' ),
 				$zip_options
 			) . '</td></tr>';
@@ -934,7 +934,7 @@ if ( ! $_REQUEST['modfunc'] )
 			echo '<tr><td colspan="3">' .
 			TextInput(
 				issetVal( $this_address['PHONE'] ),
-				'values[ADDRESS][PHONE]',
+				'values[address][PHONE]',
 				_( 'Phone' ),
 				$size ? 'size=13' : ''
 			) . '</td></tr>';
@@ -1043,7 +1043,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 				echo '<tr><td colspan="3">' . TextInput(
 					issetVal( $this_address['MAIL_ADDRESS'], '' ),
-					'values[ADDRESS][MAIL_ADDRESS]',
+					'values[address][MAIL_ADDRESS]',
 					_( 'Street' ),
 					! $this_address['MAIL_ADDRESS'] ? 'size=20' : ''
 				) . '</td></tr>';
@@ -1051,7 +1051,7 @@ if ( ! $_REQUEST['modfunc'] )
 				echo '<tr><td>' . _makeAutoSelectInputX(
 					$this_address['MAIL_CITY'],
 					'MAIL_CITY',
-					'ADDRESS',
+					'address',
 					_( 'City' ),
 					[]
 				) . '</td>';
@@ -1059,7 +1059,7 @@ if ( ! $_REQUEST['modfunc'] )
 				echo '<td>' . _makeAutoSelectInputX(
 					$this_address['MAIL_STATE'],
 					'MAIL_STATE',
-					'ADDRESS',
+					'address',
 					_( 'State' ),
 					[]
 				) . '</td>';
@@ -1067,7 +1067,7 @@ if ( ! $_REQUEST['modfunc'] )
 				echo '<td>' . _makeAutoSelectInputX(
 					$this_address['MAIL_ZIPCODE'],
 					'MAIL_ZIPCODE',
-					'ADDRESS',
+					'address',
 					_( 'Zip' ),
 					[]
 				) . '</td></tr>';
@@ -1566,7 +1566,7 @@ function _makeAutoSelect( $column, $table, $values = '', $options = [] )
 
 	// Tables white list, prevent hacking.
 	$tables_white_list = [
-		'ADDRESS',
+		'address',
 		'STUDENTS_JOIN_PEOPLE',
 		'PEOPLE_JOIN_CONTACTS',
 	];
@@ -1597,7 +1597,7 @@ function _makeAutoSelect( $column, $table, $values = '', $options = [] )
 	{
 		$limit_current_school_sql = '';
 
-		if ( $table === 'ADDRESS'
+		if ( $table === 'address'
 			&& Config( 'LIMIT_EXISTING_CONTACTS_ADDRESSES' ) )
 		{
 			// Limit Existing Addresses to current school.

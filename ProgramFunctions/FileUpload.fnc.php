@@ -404,7 +404,7 @@ function FilesUploadUpdate( $table, $request, $path )
 			{
 				$where_sql = "STUDENT_ID='" . UserStudentID() . "'";
 			}
-			elseif ( $table === 'ADDRESS' )
+			elseif ( $table === 'address' )
 			{
 				$where_sql = "ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'";
 			}

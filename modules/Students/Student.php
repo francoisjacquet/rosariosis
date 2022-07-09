@@ -419,8 +419,8 @@ if ( $_REQUEST['modfunc'] === 'update'
 			if ( ! empty( $_REQUEST['address_id'] ) )
 			{
 				$uploaded = FilesUploadUpdate(
-					'ADDRESS',
-					'valuesADDRESS',
+					'address',
+					'valuesaddress',
 					$FileUploadsPath . 'Address/' . $_REQUEST['address_id'] . '/'
 				);
 			}

@@ -105,7 +105,7 @@ if ( isset( $_POST['tables'] )
 
 						if ( $table === 'ADDRESS_FIELDS' )
 						{
-							AddDBField( 'ADDRESS', $id, $columns['TYPE'] );
+							AddDBField( 'address', $id, $columns['TYPE'] );
 
 							$_REQUEST['id'] = $id;
 						}
@@ -136,7 +136,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 	{
 		if ( DeletePrompt( _( 'Address Field' ) ) )
 		{
-			DeleteDBField( 'ADDRESS', $_REQUEST['id'] );
+			DeleteDBField( 'address', $_REQUEST['id'] );
 
 			// Unset modfunc & ID & redirect URL.
 			RedirectURL( [ 'modfunc', 'id' ] );
@@ -148,7 +148,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 		if ( DeletePrompt( _( 'Address Field Category' ) . ' ' .
 				_( 'and all fields in the category' ) ) )
 		{
-			DeleteDBFieldCategory( 'ADDRESS', $_REQUEST['category_id'] );
+			DeleteDBFieldCategory( 'address', $_REQUEST['category_id'] );
 
 			// Unset modfunc & category ID & redirect URL.
 			RedirectURL( [ 'modfunc', 'category_id' ] );
@@ -250,7 +250,7 @@ if ( ! $_REQUEST['modfunc'] )
 	}
 
 	echo GetFieldsForm(
-		'ADDRESS',
+		'address',
 		$title,
 		$RET,
 		issetVal( $extra_fields, [] )

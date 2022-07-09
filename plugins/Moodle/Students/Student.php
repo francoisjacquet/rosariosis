@@ -253,10 +253,10 @@ function core_user_update_users_object()
 	//Update Address
 	//Residence only
 	//Address and Phone not possible...
-	//$address = (!empty($_REQUEST['values']['ADDRESS']['ADDRESS']) ? $_REQUEST['values']['ADDRESS']['ADDRESS'] : false);
-	$city = issetVal( $_REQUEST['values']['ADDRESS']['CITY'], false );
+	//$address = (!empty($_REQUEST['values']['address']['ADDRESS']) ? $_REQUEST['values']['address']['ADDRESS'] : false);
+	$city = issetVal( $_REQUEST['values']['address']['CITY'], false );
 	//$country = 'CO'; //Hardcoded (Colombia)
-	//$phone1 = (!empty($_REQUEST['values']['ADDRESS']['PHONE']) ? $_REQUEST['values']['ADDRESS']['PHONE'] : false);
+	//$phone1 = (!empty($_REQUEST['values']['address']['PHONE']) ? $_REQUEST['values']['address']['PHONE'] : false);
 
 	/*if ($address)
 	$user['address'] = $address;*/
