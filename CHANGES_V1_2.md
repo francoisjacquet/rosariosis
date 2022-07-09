@@ -1012,7 +1012,7 @@ Changes in 2.2.5
 - Organize Report Cards Comments Codes in ReportCards.php
 - X button reference fix in Courses.php
 - Update french & spanish translations
-- SQL bugfix: remove search + system_field in CUSTOM_FIELDS INSERTS in rosariosis.sql
+- SQL bugfix: remove search + system_field in custom_fields INSERTS in rosariosis.sql
 - fr_FR.utf8 & es_ES.utf8 locales works on Windows: unify locales files & directories
 
 Changes in 2.2.4

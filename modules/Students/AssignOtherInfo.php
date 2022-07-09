@@ -47,10 +47,10 @@ if ( $_REQUEST['modfunc'] === 'save'
 		}
 
 		// FJ textarea fields MarkDown sanitize.
-		$_REQUEST['values'] = FilterCustomFieldsMarkdown( 'CUSTOM_FIELDS', 'values' );
+		$_REQUEST['values'] = FilterCustomFieldsMarkdown( 'custom_fields', 'values' );
 
 		$fields_RET = DBGet( "SELECT ID,TYPE
-			FROM CUSTOM_FIELDS
+			FROM custom_fields
 			ORDER BY SORT_ORDER", [], [ 'ID' ] );
 
 		$update = '';
@@ -213,14 +213,14 @@ if ( ! $_REQUEST['modfunc'] )
 		if ( ! empty( $_REQUEST['category_id'] ) )
 		{
 			$fields_RET = DBGet( "SELECT ID,TITLE,TYPE,SELECT_OPTIONS
-				FROM CUSTOM_FIELDS
+				FROM custom_fields
 				WHERE CATEGORY_ID='" . (int) $_REQUEST['category_id'] . "'
 				ORDER BY SORT_ORDER,TITLE", [], [ 'TYPE' ] );
 		}
 		else
 		{
 			$fields_RET = DBGet( "SELECT f.ID,f.TITLE,f.TYPE,f.SELECT_OPTIONS
-				FROM CUSTOM_FIELDS f,STUDENT_FIELD_CATEGORIES c
+				FROM custom_fields f,STUDENT_FIELD_CATEGORIES c
 				WHERE f.CATEGORY_ID=c.ID
 				ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE", [], [ 'TYPE' ] );
 		}
@@ -228,7 +228,7 @@ if ( ! $_REQUEST['modfunc'] )
 		// Only display Categories having fields.
 		$categories_RET = DBGet( "SELECT sfc.ID,sfc.TITLE
 			FROM STUDENT_FIELD_CATEGORIES sfc
-			WHERE EXISTS(SELECT 1 FROM CUSTOM_FIELDS cf
+			WHERE EXISTS(SELECT 1 FROM custom_fields cf
 				WHERE cf.CATEGORY_ID=sfc.ID)
 			ORDER BY sfc.SORT_ORDER,sfc.TITLE" );
 

@@ -142,7 +142,7 @@ if ( ! function_exists( 'ReportCardsIncludeForm' ) )
 		{
 			// Add Free text option.
 			$field_SSECURITY = ParseMLArray( DBGet( "SELECT TITLE
-				FROM CUSTOM_FIELDS
+				FROM custom_fields
 				WHERE ID = 200000003" ), 'TITLE' );
 
 			$return .= '<tr><td><label><input type="checkbox" name="elements[freetext]" autocomplete="off" value="1" onclick=\'javascript: document.getElementById("divfreetext").style.display="block"; document.getElementById("elements[freetext]").focus();\'> ' . _( 'Free Text' ) . '</label>';
@@ -1538,7 +1538,7 @@ function _getReportCardCommentPersonalizations( $student_id )
 	if ( ! $gender_field_type )
 	{
 		$gender_field_type = DBGetOne( "SELECT TYPE
-		FROM CUSTOM_FIELDS
+		FROM custom_fields
 		WHERE ID=200000000" );
 	}
 

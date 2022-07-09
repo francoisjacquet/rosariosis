@@ -7,7 +7,7 @@ if ( ! $_REQUEST['modfunc'] )
 	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
 		$custom_fields_RET = DBGet( "SELECT ID,TITLE,TYPE
-			FROM CUSTOM_FIELDS
+			FROM custom_fields
 			WHERE ID IN (200000000, 200000001)" );
 
 		$address_fields_RET = DBGet( "SELECT ID,TITLE,TYPE

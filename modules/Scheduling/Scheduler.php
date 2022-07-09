@@ -63,7 +63,7 @@ if ( $confirm_ok )
 	$fy_id = GetFullYearMP();
 
 	$custom_fields_RET = DBGet( "SELECT ID,TITLE,TYPE
-		FROM CUSTOM_FIELDS
+		FROM custom_fields
 		WHERE ID=200000000", [], [ 'ID' ] );
 
 	$sql_gender = ",'None' as GENDER";

@@ -6,7 +6,7 @@ $columns = DBGetOne( "SELECT COLUMNS
 	WHERE ID='" . (int) $_REQUEST['category_id'] . "'" );
 
 $fields_RET = DBGet( "SELECT ID,TITLE,TYPE,SELECT_OPTIONS,DEFAULT_SELECTION,REQUIRED
-	FROM CUSTOM_FIELDS
+	FROM custom_fields
 	WHERE CATEGORY_ID='" . (int) $_REQUEST['category_id'] . "'
 	ORDER BY SORT_ORDER,TITLE" );
 

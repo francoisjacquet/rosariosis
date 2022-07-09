@@ -344,7 +344,7 @@ function Search( $type, $extra = null )
 			{
 				$categories_SQL = "SELECT sfc.ID,sfc.TITLE AS CATEGORY_TITLE,
 				CONCAT('CUSTOM_', cf.ID) AS COLUMN_NAME,cf.TYPE,cf.TITLE,SELECT_OPTIONS
-				FROM STUDENT_FIELD_CATEGORIES sfc,CUSTOM_FIELDS cf
+				FROM STUDENT_FIELD_CATEGORIES sfc,custom_fields cf
 				WHERE (SELECT CAN_USE
 					FROM " . ( User( 'PROFILE_ID' ) ?
 						"PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
@@ -364,7 +364,7 @@ function Search( $type, $extra = null )
 			{
 				$categories_SQL = "SELECT '0' AS ID,'' AS CATEGORY_TITLE,
 				CONCAT('CUSTOM_', cf.ID) AS COLUMN_NAME,cf.TYPE,cf.TITLE,cf.SELECT_OPTIONS
-				FROM CUSTOM_FIELDS cf
+				FROM custom_fields cf
 				WHERE (SELECT CAN_USE
 					FROM " . ( User( 'PROFILE_ID' ) ?
 						"PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :

@@ -302,7 +302,7 @@ if ( $_REQUEST['modfunc'] === 'course_periods'
 if ( $_REQUEST['modfunc'] == 'students' )
 {
 	$custom_fields_RET = DBGet( "SELECT ID,TITLE,TYPE
-		FROM CUSTOM_FIELDS
+		FROM custom_fields
 		WHERE ID=200000004
 		AND TYPE='date'", [], [ 'ID' ] );
 

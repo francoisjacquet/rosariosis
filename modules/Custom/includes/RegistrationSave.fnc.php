@@ -177,13 +177,13 @@ function RegistrationSaveStudent( $config, $values )
 	$category_ids = "'" . str_replace( '||', "','", mb_substr( $config['fields'], 2, -2 ) ) . "'";
 
 	$custom_fields_RET = DBGet( "SELECT ID
-		FROM CUSTOM_FIELDS
+		FROM custom_fields
 		WHERE CATEGORY_ID IN(" . $category_ids . ")", [], [ 'ID' ] );
 
 	$allowed_columns = array_keys( $custom_fields_RET );
 
 	// Textarea fields MarkDown sanitize.
-	$values = FilterCustomFieldsMarkdown( 'CUSTOM_FIELDS', 'students' );
+	$values = FilterCustomFieldsMarkdown( 'custom_fields', 'students' );
 
 	$sql = "UPDATE STUDENTS SET ";
 

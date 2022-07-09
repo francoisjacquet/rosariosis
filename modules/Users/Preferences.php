@@ -486,7 +486,7 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		$custom_fields_sql = "SELECT sfc.TITLE AS CATEGORY,cf.ID,cf.TITLE,cf.TYPE,
 				'' AS SEARCH,'' AS DISPLAY
-			FROM CUSTOM_FIELDS cf,STUDENT_FIELD_CATEGORIES sfc
+			FROM custom_fields cf,STUDENT_FIELD_CATEGORIES sfc
 			WHERE sfc.ID=cf.CATEGORY_ID
 			AND (SELECT CAN_USE FROM " .
 			( User( 'PROFILE_ID' ) ?

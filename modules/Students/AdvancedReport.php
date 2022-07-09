@@ -5,7 +5,7 @@ DrawHeader( ProgramTitle() );
 //$extra['header_left'] .= sprintf(_('Include courses active as of %s'),PrepareDate('','_include_active_date'));
 
 $custom_fields_RET = DBGet( "SELECT ID,TITLE,TYPE
-	FROM CUSTOM_FIELDS
+	FROM custom_fields
 	WHERE ID=200000004
 	AND TYPE='date'", [], [ 'ID' ] );
 

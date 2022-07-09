@@ -233,7 +233,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 	}
 
 	$custom_RET = DBGet( "SELECT TITLE,ID,TYPE
-		FROM CUSTOM_FIELDS
+		FROM custom_fields
 		ORDER BY SORT_ORDER,TITLE", [], [ 'ID' ] );
 
 	foreach ( (array) $custom_RET as $id => $field )
@@ -631,7 +631,7 @@ else
 		ORDER BY SORT_ORDER,TITLE" );
 
 	$custom_RET = DBGet( "SELECT TITLE,ID,TYPE,CATEGORY_ID
-		FROM CUSTOM_FIELDS
+		FROM custom_fields
 		ORDER BY SORT_ORDER,TITLE", [], ['CATEGORY_ID'] );
 
 	foreach ( (array) $categories_RET as $category )

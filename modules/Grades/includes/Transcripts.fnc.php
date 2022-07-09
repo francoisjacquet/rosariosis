@@ -77,7 +77,7 @@ if ( ! function_exists( 'TranscriptsIncludeForm' ) )
 		{
 			// Add Show Studies Certificate option.
 			$field_SSECURITY = ParseMLArray( DBGet( "SELECT TITLE
-				FROM CUSTOM_FIELDS
+				FROM custom_fields
 				WHERE ID=200000003" ), 'TITLE' );
 
 			$return .= '<br /><br /><label><input type="checkbox" name="showcertificate" autocomplete="off" value="1" onclick=\'javascript: document.getElementById("divcertificatetext").style.display="block"; document.getElementById("inputcertificatetext").focus();\'> ' . _( 'Studies Certificate' ) . '</label>';
@@ -512,7 +512,7 @@ if ( ! function_exists( 'TranscriptPDFHeader' ) )
 		if ( is_null( $custom_fields_RET ) )
 		{
 			$custom_fields_RET = DBGet( "SELECT ID,TITLE,TYPE
-				FROM CUSTOM_FIELDS
+				FROM custom_fields
 				WHERE ID IN (200000000, 200000003, 200000004)", [], [ 'ID' ] );
 		}
 
@@ -736,7 +736,7 @@ function _getTranscriptsStudents( $st_list, $syear )
 	$students_dataquery = "SELECT s.*," . DisplayNameSQL( 's' ) . " AS FULL_NAME";
 
 	$custom_fields_RET = DBGet( "SELECT ID,TITLE,TYPE
-		FROM CUSTOM_FIELDS
+		FROM custom_fields
 		WHERE ID IN (200000000,200000003,200000004)", [], [ 'ID' ] );
 
 	if ( $custom_fields_RET['200000000']

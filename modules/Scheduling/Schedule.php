@@ -335,7 +335,7 @@ if ( UserStudentID()
 		$extra['FROM'] = ',SCHEDULE_REQUESTS sr,COURSES c';
 
 		$custom_fields_RET = DBGet( "SELECT ID,TITLE,TYPE
-			FROM CUSTOM_FIELDS
+			FROM custom_fields
 			WHERE ID=200000000", [], [ 'ID' ] );
 
 		if ( $custom_fields_RET['200000000'] && $custom_fields_RET['200000000'][1]['TYPE'] == 'select' )

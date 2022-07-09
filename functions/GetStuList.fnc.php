@@ -114,7 +114,7 @@ function GetStuList( &$extra = [] )
 		}
 
 		$view_fields_RET = DBGet( "SELECT cf.ID,cf.TYPE,cf.TITLE
-			FROM CUSTOM_FIELDS cf,STUDENT_FIELD_CATEGORIES sfc
+			FROM custom_fields cf,STUDENT_FIELD_CATEGORIES sfc
 			WHERE ((SELECT VALUE
 				FROM PROGRAM_USER_CONFIG
 				WHERE TITLE=cast(cf.ID AS TEXT)
@@ -153,7 +153,7 @@ function GetStuList( &$extra = [] )
 
 			// Add Gender + Ethnicity fields if exist.
 			$custom_fields_RET = DBGet( "SELECT ID,TITLE,TYPE
-				FROM CUSTOM_FIELDS
+				FROM custom_fields
 				WHERE ID IN (200000000, 200000001)" );
 
 			foreach ( $custom_fields_RET as $field)
@@ -385,7 +385,7 @@ function GetStuList( &$extra = [] )
 			}
 
 			$view_fields_RET = DBGet( "SELECT cf.ID,cf.TYPE,cf.TITLE
-				FROM CUSTOM_FIELDS cf
+				FROM custom_fields cf
 				WHERE cf.ID IN (" . $extra['student_fields']['view'] . ")
 				ORDER BY cf.SORT_ORDER,cf.TITLE" );
 

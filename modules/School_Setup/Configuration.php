@@ -336,7 +336,7 @@ else
 			) . '</td></tr>';
 
 			$students_email_field_RET = DBGet( "SELECT ID,TITLE
-				FROM CUSTOM_FIELDS
+				FROM custom_fields
 				WHERE TYPE='text'
 				AND CATEGORY_ID=1" );
 

@@ -44,7 +44,7 @@ if ( empty( $email_column ) )
 
 	//get Student / Address fields
 	$student_columns = DBGet( "SELECT 's.CUSTOM_' || f.ID AS COLUMN, f.TITLE, c.TITLE AS CATEGORY
-		FROM CUSTOM_FIELDS f, STUDENT_FIELD_CATEGORIES c
+		FROM custom_fields f, STUDENT_FIELD_CATEGORIES c
 		WHERE f.TYPE='text'
 		AND c.ID=f.CATEGORY_ID
 		ORDER BY f.CATEGORY_ID, f.SORT_ORDER" );

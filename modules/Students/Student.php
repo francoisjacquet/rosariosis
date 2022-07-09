@@ -133,10 +133,10 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 		// FJ other fields required.
 		$required_error = $required_error
-			|| ( isset( $_REQUEST['students'] ) && CheckRequiredCustomFields( 'CUSTOM_FIELDS', $_REQUEST['students'] ) );
+			|| ( isset( $_REQUEST['students'] ) && CheckRequiredCustomFields( 'custom_fields', $_REQUEST['students'] ) );
 
 		// FJ textarea fields MarkDown sanitize.
-		$_REQUEST['students'] = FilterCustomFieldsMarkdown( 'CUSTOM_FIELDS', 'students' );
+		$_REQUEST['students'] = FilterCustomFieldsMarkdown( 'custom_fields', 'students' );
 
 		// FJ create account.
 
@@ -249,7 +249,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				$sql = "UPDATE STUDENTS SET ";
 
 				$fields_RET = DBGet( "SELECT ID,TYPE
-					FROM CUSTOM_FIELDS
+					FROM custom_fields
 					ORDER BY SORT_ORDER", [], [ 'ID' ] );
 
 				$go = false;
@@ -346,7 +346,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				$values = "'" . $student_id . "',";
 
 				$fields_RET = DBGet( "SELECT ID,TYPE
-					FROM CUSTOM_FIELDS
+					FROM custom_fields
 					ORDER BY SORT_ORDER", [], [ 'ID' ] );
 
 				foreach ( (array) $_REQUEST['students'] as $column => $value )

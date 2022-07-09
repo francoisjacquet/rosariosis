@@ -28,7 +28,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 	// Check Social Security + Gender fields exists before adding them to SELECT.
 	$custom_RET = DBGet( "SELECT TITLE,ID
-		FROM CUSTOM_FIELDS
+		FROM custom_fields
 		WHERE ID IN ('200000000','200000003')", [], [ 'ID' ] );
 
 	$extra['SELECT'] = ",ssm.CALENDAR_ID,ssm.START_DATE,ssm.END_DATE";

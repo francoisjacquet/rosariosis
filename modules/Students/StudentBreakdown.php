@@ -58,7 +58,7 @@ if ( ! empty( $_REQUEST['field_id'] ) )
 	else
 	{
 		$fields_RET = DBGet( "SELECT TITLE,SELECT_OPTIONS AS OPTIONS,TYPE
-			FROM CUSTOM_FIELDS WHERE ID='" . (int) $_REQUEST['field_id'] . "'" );
+			FROM custom_fields WHERE ID='" . (int) $_REQUEST['field_id'] . "'" );
 
 		if ( $fields_RET[1]['OPTIONS'] )
 		{
@@ -225,7 +225,7 @@ if ( ! $_REQUEST['modfunc'] )
 	echo '<form action="' . PreparePHP_SELF( $_REQUEST ) . '" method="GET">';
 
 	$fields_RET = DBGet( "SELECT ID,TITLE,SELECT_OPTIONS AS OPTIONS,CATEGORY_ID
-		FROM CUSTOM_FIELDS
+		FROM custom_fields
 		WHERE TYPE NOT IN ('textarea','text','date','log','holder','files')
 		ORDER BY SORT_ORDER,TITLE", [], [ 'CATEGORY_ID' ] );
 
