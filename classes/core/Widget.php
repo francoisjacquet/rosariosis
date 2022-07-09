@@ -1026,7 +1026,7 @@ class Widget_mailing_labels implements Widget
 		$extra['SELECT'] .= ',coalesce(saml.ADDRESS_ID,-ssm.STUDENT_ID) AS ADDRESS_ID,
 			saml.ADDRESS_ID AS MAILING_LABEL';
 
-		$extra['FROM'] = " LEFT OUTER JOIN STUDENTS_JOIN_ADDRESS saml
+		$extra['FROM'] = " LEFT OUTER JOIN students_join_address saml
 			ON (saml.STUDENT_ID=ssm.STUDENT_ID
 				AND saml.MAILING='Y'" .
 				( isset( $_REQUEST['residence'] ) && $_REQUEST['residence'] == 'Y' ? " AND saml.RESIDENCE='Y'" : '' ) . ")" .

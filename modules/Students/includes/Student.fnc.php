@@ -19,7 +19,7 @@ function StudentDeleteSQL( $student_id )
 {
 	// Do not try to delete Grades, Attendance, or Schedule records
 	// in case records exist, we must keep them.
-	$delete_sql = "DELETE FROM STUDENTS_JOIN_ADDRESS
+	$delete_sql = "DELETE FROM students_join_address
 		WHERE STUDENT_ID='" . (int) $student_id . "';";
 
 	$delete_sql .= "DELETE FROM STUDENTS_JOIN_PEOPLE

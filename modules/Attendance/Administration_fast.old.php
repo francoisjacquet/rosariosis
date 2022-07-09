@@ -164,7 +164,7 @@ else
 
 	$extra2['SELECT'] .= ',p.PERSON_ID,p.FIRST_NAME,p.LAST_NAME,p.MIDDLE_NAME,
 	sjp.STUDENT_RELATION,pjc.TITLE,pjc.VALUE,a.PHONE,sjp.ADDRESS_ID ';
-	$extra2['FROM'] .= ',ADDRESS a,PEOPLE p,PEOPLE_JOIN_CONTACTS pjc,STUDENTS_JOIN_PEOPLE sjp,STUDENTS_JOIN_ADDRESS sja ';
+	$extra2['FROM'] .= ',ADDRESS a,PEOPLE p,PEOPLE_JOIN_CONTACTS pjc,STUDENTS_JOIN_PEOPLE sjp,students_join_address sja ';
 	$extra2['WHERE'] .= ' AND sja.STUDENT_ID=ssm.STUDENT_ID AND sjp.STUDENT_ID=sja.STUDENT_ID AND pjc.PERSON_ID=sjp.PERSON_ID AND p.PERSON_ID=sjp.PERSON_ID AND sjp.ADDRESS_ID=a.ADDRESS_ID AND (sjp.CUSTODY=\'Y\' OR sjp.EMERGENCY=\'Y\') ';
 	$extra2['group'] = [ 'STUDENT_ID', 'PERSON_ID' ];
 	$contacts_RET = GetStuList( $extra2 );

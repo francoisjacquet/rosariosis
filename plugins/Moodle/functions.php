@@ -224,7 +224,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 			break;
 
 		case 'Students/Student.php|add_student_address':
-			if ( ! empty( $_REQUEST['values']['STUDENTS_JOIN_ADDRESS']['RESIDENCE'] ) )
+			if ( ! empty( $_REQUEST['values']['students_join_address']['RESIDENCE'] ) )
 			{
 				Moodle( $modname, 'core_user_update_users' );
 			}
@@ -233,7 +233,7 @@ function MoodleTriggered( $hook_tag, $arg1 = '' )
 
 		case 'Students/Student.php|update_student_address':
 			$residence = DBGetOne( "SELECT RESIDENCE
-				FROM STUDENTS_JOIN_ADDRESS
+				FROM students_join_address
 				WHERE ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'" );
 
 			if ( $residence == 'Y' )

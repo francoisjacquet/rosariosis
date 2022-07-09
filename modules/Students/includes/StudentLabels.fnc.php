@@ -348,7 +348,7 @@ if ( ! function_exists( 'GetMailingLabelsExtra' ) )
 
 		// Force no Students found error if no Addresses found!
 		$extra['WHERE'] .= " AND EXISTS(SELECT 1
-		FROM STUDENTS_JOIN_ADDRESS WHERE STUDENT_ID=s.STUDENT_ID)";
+		FROM students_join_address WHERE STUDENT_ID=s.STUDENT_ID)";
 
 		if ( ! empty( $_REQUEST['to_address'] ) )
 		{

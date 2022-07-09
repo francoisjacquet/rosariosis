@@ -82,7 +82,7 @@ function RegistrationSiblingRegistered()
 	{
 		// Find already registered (has address) student related to same parent.
 		return (int) DBGetOne( "SELECT sju.STUDENT_ID
-			FROM STUDENTS_JOIN_USERS sju,STUDENTS_JOIN_ADDRESS sja
+			FROM STUDENTS_JOIN_USERS sju,students_join_address sja
 			WHERE sju.STAFF_ID='" . UserStaffID() . "'
 			AND sju.STUDENT_ID<>'" . UserStudentID() . "'
 			AND sja.STUDENT_ID=sju.STUDENT_ID" );
@@ -98,7 +98,7 @@ function RegistrationSiblingRegistered()
 
 	// Find already registered (has address) student having same email address.
 	$student_id = (int) DBGetOne( "SELECT s.STUDENT_ID
-		FROM STUDENTS s,STUDENTS_JOIN_ADDRESS sja
+		FROM STUDENTS s,students_join_address sja
 		WHERE s.STUDENT_ID<>'" . UserStudentID() . "'
 		AND sja.STUDENT_ID=s.STUDENT_ID
 		AND s." . DBEscapeIdentifier( $email_field ) . " IS NOT NULL

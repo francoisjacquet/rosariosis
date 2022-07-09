@@ -484,7 +484,7 @@ if ( $_REQUEST['search_modfunc'] === 'list' )
 		if ( ! empty( $_REQUEST['address_group'] ) )
 		{
 			$extra['SELECT'] .= ",coalesce((SELECT ADDRESS_ID
-				FROM STUDENTS_JOIN_ADDRESS
+				FROM students_join_address
 				WHERE STUDENT_ID=ssm.STUDENT_ID
 				AND RESIDENCE='Y' LIMIT 1),-ssm.STUDENT_ID) AS FAMILY_ID";
 

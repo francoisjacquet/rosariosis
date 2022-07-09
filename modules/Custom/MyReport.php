@@ -49,12 +49,12 @@ if ( ! $_REQUEST['modfunc'] )
 			$extra['functions'] += [ 'TITLE_' . $i => '_makeTV', 'VALUE_' . $i => '_makeTV' ];
 		}
 
-		$extra['FROM'] = " LEFT OUTER JOIN STUDENTS_JOIN_ADDRESS sja
+		$extra['FROM'] = " LEFT OUTER JOIN students_join_address sja
 				ON (sja.STUDENT_ID=ssm.STUDENT_ID AND sja.ADDRESS_ID!='0')
 			LEFT OUTER JOIN ADDRESS a
 				ON (adr.ADDRESS_ID=sja.ADDRESS_ID)";
 
-		$extra['FROM'] = " LEFT OUTER JOIN STUDENTS_JOIN_ADDRESS sja
+		$extra['FROM'] = " LEFT OUTER JOIN students_join_address sja
 				ON (sja.STUDENT_ID=ssm.STUDENT_ID)
 			LEFT OUTER JOIN ADDRESS adr
 				ON (adr.ADDRESS_ID=sja.ADDRESS_ID)";
@@ -69,7 +69,7 @@ if ( ! $_REQUEST['modfunc'] )
 		if ( ! empty( $_REQUEST['address_group'] ) )
 		{
 			$extra['SELECT'] .= ",coalesce((SELECT ADDRESS_ID
-				FROM STUDENTS_JOIN_ADDRESS
+				FROM students_join_address
 				WHERE STUDENT_ID=ssm.STUDENT_ID
 				AND RESIDENCE='Y' LIMIT 1),-ssm.STUDENT_ID) AS FAMILY_ID";
 

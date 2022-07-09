@@ -18,11 +18,11 @@ if ( ! empty( $_POST['values'] )
 			$_REQUEST['address_id'] = $_REQUEST['values']['EXISTING']['address_id'];
 
 			if ( ! DBGetOne( "SELECT 1
-				FROM STUDENTS_JOIN_ADDRESS
+				FROM students_join_address
 				WHERE ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'
 				AND STUDENT_ID='" . UserStudentID() . "'" ) )
 			{
-				DBQuery( "INSERT INTO STUDENTS_JOIN_ADDRESS (STUDENT_ID,ADDRESS_ID)
+				DBQuery( "INSERT INTO students_join_address (STUDENT_ID,ADDRESS_ID)
 					values('" . UserStudentID() . "','" . $_REQUEST['address_id'] . "')" );
 
 				DBQuery( "INSERT INTO STUDENTS_JOIN_PEOPLE
@@ -50,11 +50,11 @@ if ( ! empty( $_POST['values'] )
 
 				if ( $_REQUEST['address_id'] == '0'
 					&& ! DBGetOne( "SELECT 1
-						FROM STUDENTS_JOIN_ADDRESS
+						FROM students_join_address
 						WHERE ADDRESS_ID='0'
 						AND STUDENT_ID='" . UserStudentID() . "'" ) )
 				{
-					DBQuery( "INSERT INTO STUDENTS_JOIN_ADDRESS (ADDRESS_ID,STUDENT_ID)
+					DBQuery( "INSERT INTO students_join_address (ADDRESS_ID,STUDENT_ID)
 						values ('0','" . UserStudentID() . "')" );
 				}
 			}
@@ -146,8 +146,8 @@ if ( ! empty( $_POST['values'] )
 
 				$id = DBLastInsertID();
 
-				DBQuery( "INSERT INTO STUDENTS_JOIN_ADDRESS (STUDENT_ID,ADDRESS_ID,RESIDENCE,MAILING,BUS_PICKUP,BUS_DROPOFF)
-					values('" . UserStudentID() . "','" . $id . "','" . $_REQUEST['values']['STUDENTS_JOIN_ADDRESS']['RESIDENCE'] . "','" . $_REQUEST['values']['STUDENTS_JOIN_ADDRESS']['MAILING'] . "','" . $_REQUEST['values']['STUDENTS_JOIN_ADDRESS']['BUS_PICKUP'] . "','" . $_REQUEST['values']['STUDENTS_JOIN_ADDRESS']['BUS_DROPOFF'] . "')" );
+				DBQuery( "INSERT INTO students_join_address (STUDENT_ID,ADDRESS_ID,RESIDENCE,MAILING,BUS_PICKUP,BUS_DROPOFF)
+					values('" . UserStudentID() . "','" . $id . "','" . $_REQUEST['values']['students_join_address']['RESIDENCE'] . "','" . $_REQUEST['values']['students_join_address']['MAILING'] . "','" . $_REQUEST['values']['students_join_address']['BUS_PICKUP'] . "','" . $_REQUEST['values']['students_join_address']['BUS_DROPOFF'] . "')" );
 
 				$_REQUEST['address_id'] = $id;
 
@@ -238,11 +238,11 @@ if ( ! empty( $_POST['values'] )
 
 				if ( $_REQUEST['address_id'] == '0'
 					&& ! DBGetOne( "SELECT 1
-						FROM STUDENTS_JOIN_ADDRESS
+						FROM students_join_address
 						WHERE ADDRESS_ID='0'
 						AND STUDENT_ID='" . UserStudentID() . "'" ) )
 				{
-					DBQuery( "INSERT INTO STUDENTS_JOIN_ADDRESS (ADDRESS_ID,STUDENT_ID)
+					DBQuery( "INSERT INTO students_join_address (ADDRESS_ID,STUDENT_ID)
 						values ('0','" . UserStudentID() . "')" );
 				}
 
@@ -311,12 +311,12 @@ if ( ! empty( $_POST['values'] )
 		DBQuery( $sql );
 	}
 
-	if ( ! empty( $_REQUEST['values']['STUDENTS_JOIN_ADDRESS'] )
+	if ( ! empty( $_REQUEST['values']['students_join_address'] )
 		&& $_REQUEST['address_id'] !== 'new' )
 	{
-		$sql = "UPDATE STUDENTS_JOIN_ADDRESS SET ";
+		$sql = "UPDATE students_join_address SET ";
 
-		foreach ( (array) $_REQUEST['values']['STUDENTS_JOIN_ADDRESS'] as $column => $value )
+		foreach ( (array) $_REQUEST['values']['students_join_address'] as $column => $value )
 		{
 			$sql .= DBEscapeIdentifier( $column ) . "='" . $value . "',";
 		}
@@ -373,7 +373,7 @@ if ( $_REQUEST['modfunc'] === 'delete_address'
 					WHERE ADDRESS_ID='0'
 					AND STUDENT_ID='" . UserStudentID() . "'" ) )
 			{
-				DBQuery( "DELETE FROM STUDENTS_JOIN_ADDRESS
+				DBQuery( "DELETE FROM students_join_address
 					WHERE ADDRESS_ID='0'
 					AND STUDENT_ID='" . UserStudentID() . "'" );
 			}
@@ -396,24 +396,24 @@ if ( $_REQUEST['modfunc'] === 'delete_address'
 				WHERE STUDENT_ID='" . UserStudentID() . "'
 				AND ADDRESS_ID='0'" )
 				&& DBGetOne( "SELECT 1
-					FROM STUDENTS_JOIN_ADDRESS
+					FROM students_join_address
 					WHERE ADDRESS_ID='0'
 					AND STUDENT_ID='" . UserStudentID() . "'" ) )
 			{
-				DBQuery( "UPDATE STUDENTS_JOIN_ADDRESS
+				DBQuery( "UPDATE students_join_address
 					SET ADDRESS_ID='0',RESIDENCE=NULL,MAILING=NULL,BUS_PICKUP=NULL,BUS_DROPOFF=NULL
 					WHERE STUDENT_ID='" . UserStudentID() . "'
 					AND ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'" );
 			}
 			else
 			{
-				DBQuery( "DELETE FROM STUDENTS_JOIN_ADDRESS
+				DBQuery( "DELETE FROM students_join_address
 					WHERE STUDENT_ID='" . UserStudentID() . "'
 					AND ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'" );
 			}
 
 			if ( ! DBGetOne( "SELECT 1
-				FROM STUDENTS_JOIN_ADDRESS
+				FROM students_join_address
 				WHERE ADDRESS_ID='" . (int) $_REQUEST['address_id'] . "'" ) )
 			{
 				DBQuery( "DELETE FROM ADDRESS
@@ -434,7 +434,7 @@ if ( ! $_REQUEST['modfunc'] )
 		a.CITY,a.STATE,a.ZIPCODE,a.PHONE,a.MAIL_ADDRESS,a.MAIL_CITY,a.MAIL_STATE,a.MAIL_ZIPCODE,
 		sjp.CUSTODY,sja.MAILING,sja.RESIDENCE,sja.BUS_PICKUP,sja.BUS_DROPOFF," .
 		db_case( [ 'a.ADDRESS_ID', "'0'", '1', '0' ] ) . "AS SORT_ORDER
-	FROM ADDRESS a,STUDENTS_JOIN_ADDRESS sja,STUDENTS_JOIN_PEOPLE sjp
+	FROM ADDRESS a,students_join_address sja,STUDENTS_JOIN_PEOPLE sjp
 	WHERE a.ADDRESS_ID=sja.ADDRESS_ID
 	AND sja.STUDENT_ID='" . UserStudentID() . "'
 	AND a.ADDRESS_ID=sjp.ADDRESS_ID
@@ -444,7 +444,7 @@ if ( ! $_REQUEST['modfunc'] )
 		a.ADDRESS,a.CITY,a.STATE,a.ZIPCODE,a.PHONE,a.MAIL_ADDRESS,a.MAIL_CITY,a.MAIL_STATE,
 		a.MAIL_ZIPCODE,'' AS CUSTODY,sja.MAILING,sja.RESIDENCE,sja.BUS_PICKUP,sja.BUS_DROPOFF," .
 		db_case( [ 'a.ADDRESS_ID', "'0'", '1', '0' ] ) . " AS SORT_ORDER
-	FROM ADDRESS a,STUDENTS_JOIN_ADDRESS sja
+	FROM ADDRESS a,students_join_address sja
 	WHERE a.ADDRESS_ID=sja.ADDRESS_ID
 	AND sja.STUDENT_ID='" . UserStudentID() . "'
 	AND NOT EXISTS (SELECT ''
@@ -485,7 +485,7 @@ if ( ! $_REQUEST['modfunc'] )
 			// Find other students associated with this address.
 			$xstudents = DBGet( "SELECT s.STUDENT_ID," . DisplayNameSQL( 's' ) . " AS FULL_NAME,
 			RESIDENCE,BUS_PICKUP,BUS_DROPOFF,MAILING
-			FROM STUDENTS s,STUDENTS_JOIN_ADDRESS sja
+			FROM STUDENTS s,students_join_address sja
 			WHERE s.STUDENT_ID=sja.STUDENT_ID
 			AND sja.ADDRESS_ID='" . (int) $address_id . "'
 			AND sja.STUDENT_ID!='" . UserStudentID() . "'" );
@@ -979,7 +979,7 @@ if ( ! $_REQUEST['modfunc'] )
 				'</td><td>' .
 				CheckboxInput(
 					$this_address['RESIDENCE'],
-					'values[STUDENTS_JOIN_ADDRESS][RESIDENCE]',
+					'values[students_join_address][RESIDENCE]',
 					_( 'Residence' ),
 					'CHECKED',
 					$new,
@@ -992,7 +992,7 @@ if ( ! $_REQUEST['modfunc'] )
 				'</td><td>' .
 				CheckboxInput(
 					$this_address['BUS_PICKUP'],
-					'values[STUDENTS_JOIN_ADDRESS][BUS_PICKUP]',
+					'values[students_join_address][BUS_PICKUP]',
 					_( 'Bus Pickup' ),
 					'CHECKED',
 					$new,
@@ -1005,7 +1005,7 @@ if ( ! $_REQUEST['modfunc'] )
 				'</td><td>' .
 				CheckboxInput(
 					$this_address['BUS_DROPOFF'],
-					'values[STUDENTS_JOIN_ADDRESS][BUS_DROPOFF]',
+					'values[students_join_address][BUS_DROPOFF]',
 					_( 'Bus Dropoff' ),
 					'CHECKED',
 					$new,
@@ -1025,7 +1025,7 @@ if ( ! $_REQUEST['modfunc'] )
 					'</td><td>' .
 					CheckboxInput(
 						$this_address['MAILING'],
-						'values[STUDENTS_JOIN_ADDRESS][MAILING]',
+						'values[students_join_address][MAILING]',
 						_( 'Mailing Address' ),
 						'CHECKED',
 						$new,
@@ -1081,7 +1081,7 @@ if ( ! $_REQUEST['modfunc'] )
 					'</td><td>' .
 					CheckboxInput(
 						$this_address['MAILING'],
-						'values[STUDENTS_JOIN_ADDRESS][MAILING]',
+						'values[students_join_address][MAILING]',
 						_( 'Mailing Address' ),
 						'CHECKED',
 						$new,
@@ -1099,7 +1099,7 @@ if ( ! $_REQUEST['modfunc'] )
 			{
 				// Limit Existing Addresses to current school.
 				$limit_current_school_sql = " AND ADDRESS_ID IN (SELECT sja.ADDRESS_ID
-					FROM STUDENTS_JOIN_ADDRESS sja, STUDENT_ENROLLMENT se
+					FROM students_join_address sja, STUDENT_ENROLLMENT se
 					WHERE sja.STUDENT_ID=se.STUDENT_ID
 					AND se.SCHOOL_ID='" . UserSchool() . "')";
 			}
@@ -1108,7 +1108,7 @@ if ( ! $_REQUEST['modfunc'] )
 				FROM ADDRESS
 				WHERE ADDRESS_ID!='0'
 				AND ADDRESS_ID NOT IN (SELECT ADDRESS_ID
-					FROM STUDENTS_JOIN_ADDRESS
+					FROM students_join_address
 					WHERE STUDENT_ID='" . UserStudentID() . "')" .
 				$limit_current_school_sql .
 				" ORDER BY ADDRESS,CITY,STATE,ZIPCODE" );
@@ -1602,7 +1602,7 @@ function _makeAutoSelect( $column, $table, $values = '', $options = [] )
 		{
 			// Limit Existing Addresses to current school.
 			$limit_current_school_sql = " WHERE ADDRESS_ID IN (SELECT sja.ADDRESS_ID
-				FROM STUDENTS_JOIN_ADDRESS sja, STUDENT_ENROLLMENT se
+				FROM students_join_address sja, STUDENT_ENROLLMENT se
 				WHERE sja.STUDENT_ID=se.STUDENT_ID
 				AND se.SCHOOL_ID='" . UserSchool() . "')";
 		}

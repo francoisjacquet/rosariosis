@@ -118,7 +118,7 @@ function RegistrationSaveSibling( $config, $values, $student_id )
 	}
 
 	$address_id = DBGetOne( "SELECT ADDRESS_ID
-		FROM STUDENTS_JOIN_ADDRESS
+		FROM students_join_address
 		WHERE STUDENT_ID='" . (int) $student_id . "'
 		AND MAILING='Y'
 		AND RESIDENCE='Y'" );
@@ -319,7 +319,7 @@ function RegistrationSaveJoinAddress( $address_id )
 		$inserted_address = true;
 	}
 
-	DBQuery( "INSERT INTO STUDENTS_JOIN_ADDRESS (STUDENT_ID,ADDRESS_ID,
+	DBQuery( "INSERT INTO students_join_address (STUDENT_ID,ADDRESS_ID,
 		RESIDENCE,MAILING,BUS_PICKUP,BUS_DROPOFF)
 		values('" . UserStudentID() . "','" . $address_id . "','" .
 			$students_join_address['MAILING'] . "','" .

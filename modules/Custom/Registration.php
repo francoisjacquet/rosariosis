@@ -150,7 +150,7 @@ else
 	}
 
 	$registration_done = DBGetOne( "SELECT 1
-		FROM STUDENTS_JOIN_ADDRESS
+		FROM students_join_address
 		WHERE STUDENT_ID='" . UserStudentID() . "'" );
 
 	// Registration check.

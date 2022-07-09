@@ -179,7 +179,7 @@ function GetStuList( &$extra = [] )
 				coalesce(a.MAIL_CITY,a.CITY) AS CITY,coalesce(a.MAIL_STATE,a.STATE) AS STATE,
 				coalesce(a.MAIL_ZIPCODE,a.ZIPCODE) AS ZIPCODE ';
 
-			$extra['FROM'] = " LEFT OUTER JOIN STUDENTS_JOIN_ADDRESS sam ON (ssm.STUDENT_ID=sam.STUDENT_ID AND sam.RESIDENCE='Y')
+			$extra['FROM'] = " LEFT OUTER JOIN students_join_address sam ON (ssm.STUDENT_ID=sam.STUDENT_ID AND sam.RESIDENCE='Y')
 				LEFT OUTER JOIN ADDRESS a ON (sam.ADDRESS_ID=a.ADDRESS_ID) " . $extra['FROM'];
 
 			$functions['CONTACT_INFO'] = 'makeContactInfo';
@@ -194,7 +194,7 @@ function GetStuList( &$extra = [] )
 				p.FIRST_NAME,p.LAST_NAME,p.MIDDLE_NAME,
 				sjp.STUDENT_RELATION,sjp.EMERGENCY,sjp.CUSTODY,pjc.TITLE,pjc.VALUE,a.PHONE,sjp.ADDRESS_ID ';
 
-			$extra2['FROM'] = ',ADDRESS a,STUDENTS_JOIN_ADDRESS sja LEFT OUTER JOIN STUDENTS_JOIN_PEOPLE sjp ON (sja.STUDENT_ID=sjp.STUDENT_ID AND sja.ADDRESS_ID=sjp.ADDRESS_ID)
+			$extra2['FROM'] = ',ADDRESS a,students_join_address sja LEFT OUTER JOIN STUDENTS_JOIN_PEOPLE sjp ON (sja.STUDENT_ID=sjp.STUDENT_ID AND sja.ADDRESS_ID=sjp.ADDRESS_ID)
 				LEFT OUTER JOIN PEOPLE p ON (p.PERSON_ID=sjp.PERSON_ID)
 				LEFT OUTER JOIN PEOPLE_JOIN_CONTACTS pjc ON (pjc.PERSON_ID=p.PERSON_ID) ';
 
@@ -254,7 +254,7 @@ function GetStuList( &$extra = [] )
 					$extra2['FROM'] .= ',ADDRESS a';
 				}
 
-				$extra2['FROM'] .= ',STUDENTS_JOIN_ADDRESS sja
+				$extra2['FROM'] .= ',students_join_address sja
 					LEFT OUTER JOIN STUDENTS_JOIN_PEOPLE sjp ON (sja.STUDENT_ID=sjp.STUDENT_ID AND sja.ADDRESS_ID=sjp.ADDRESS_ID)
 					LEFT OUTER JOIN PEOPLE p ON (p.PERSON_ID=sjp.PERSON_ID)
 					LEFT OUTER JOIN PEOPLE_JOIN_CONTACTS pjc ON (pjc.PERSON_ID=p.PERSON_ID) ';
@@ -316,7 +316,7 @@ function GetStuList( &$extra = [] )
 
 			if ( $view_address_RET )
 			{
-				$extra['FROM'] = " LEFT OUTER JOIN STUDENTS_JOIN_ADDRESS sam ON (ssm.STUDENT_ID=sam.STUDENT_ID AND sam." . $view_address_RET . "='Y')
+				$extra['FROM'] = " LEFT OUTER JOIN students_join_address sam ON (ssm.STUDENT_ID=sam.STUDENT_ID AND sam." . $view_address_RET . "='Y')
 					LEFT OUTER JOIN ADDRESS a ON (sam.ADDRESS_ID=a.ADDRESS_ID) " . $extra['FROM'];
 
 				$extra['columns_after'] += [
@@ -365,7 +365,7 @@ function GetStuList( &$extra = [] )
 			elseif ( ! empty( $_REQUEST['addr'] )
 				|| ! empty( $extra['addr'] ) )
 			{
-				$extra['FROM'] = " LEFT OUTER JOIN STUDENTS_JOIN_ADDRESS sam ON (ssm.STUDENT_ID=sam.STUDENT_ID " . issetVal( $extra['STUDENTS_JOIN_ADDRESS'], '' ) . ")
+				$extra['FROM'] = " LEFT OUTER JOIN students_join_address sam ON (ssm.STUDENT_ID=sam.STUDENT_ID " . issetVal( $extra['STUDENTS_JOIN_ADDRESS'], '' ) . ")
 					LEFT OUTER JOIN ADDRESS a ON (sam.ADDRESS_ID=a.ADDRESS_ID) " . $extra['FROM'];
 
 				$distinct = 'DISTINCT ';
@@ -413,7 +413,7 @@ function GetStuList( &$extra = [] )
 		if ( ! empty( $_REQUEST['addr'] )
 			|| ! empty( $extra['addr'] ) )
 		{
-			$extra['FROM'] = " LEFT OUTER JOIN STUDENTS_JOIN_ADDRESS sam ON (ssm.STUDENT_ID=sam.STUDENT_ID " . issetVal( $extra['STUDENTS_JOIN_ADDRESS'], '' ) . ")
+			$extra['FROM'] = " LEFT OUTER JOIN students_join_address sam ON (ssm.STUDENT_ID=sam.STUDENT_ID " . issetVal( $extra['STUDENTS_JOIN_ADDRESS'], '' ) . ")
 			LEFT OUTER JOIN ADDRESS a ON (sam.ADDRESS_ID=a.ADDRESS_ID) " . $extra['FROM'];
 
 			$distinct = 'DISTINCT ';
