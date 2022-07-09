@@ -401,7 +401,7 @@ function RegistrationAdminContactFields( $name, $fields, $custody, $emergency )
 
 	// Categories according to Emergency / Custody settings.
 	$fields_options_RET = DBGet( "SELECT ID,TITLE
-		FROM PEOPLE_FIELD_CATEGORIES
+		FROM people_field_categories
 		WHERE TRUE" . $where_sql .
 		" ORDER BY SORT_ORDER" );
 

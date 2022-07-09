@@ -41,7 +41,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 
 			$people_categories_RET = DBGet( "SELECT c.ID AS CATEGORY_ID,c.TITLE AS CATEGORY_TITLE,
 				c.CUSTODY,c.EMERGENCY,f.ID,f.TITLE,f.TYPE,f.SELECT_OPTIONS,f.DEFAULT_SELECTION,f.REQUIRED
-				FROM PEOPLE_FIELD_CATEGORIES c,people_fields f
+				FROM people_field_categories c,people_fields f
 				WHERE f.CATEGORY_ID=c.ID
 				ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE", [], [ 'CATEGORY_ID' ] );
 
