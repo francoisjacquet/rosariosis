@@ -63,7 +63,7 @@ function GetStaffList( &$extra = [] )
 		$functions['FAILED_LOGIN'] = 'makeLogin';
 
 		$view_fields_RET = DBGet( "SELECT cf.ID,cf.TYPE,cf.TITLE
-			FROM staff_fields cf,STAFF_FIELD_CATEGORIES sfc
+			FROM staff_fields cf,staff_field_categories sfc
 			WHERE ((SELECT VALUE
 				FROM PROGRAM_USER_CONFIG
 				WHERE TITLE=cast(cf.ID AS TEXT)

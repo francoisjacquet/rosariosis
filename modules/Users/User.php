@@ -39,7 +39,7 @@ else
 	else
 	{
 		$category_include = DBGet( "SELECT INCLUDE
-			FROM STAFF_FIELD_CATEGORIES
+			FROM staff_field_categories
 			WHERE ID='" . (int) $_REQUEST['category_id'] . "'" );
 
 		if ( ! empty( $category_include ) )
@@ -711,7 +711,7 @@ if (  ( UserStaffID()
 			STAFF_ID='" . UserStaffID() . "'" );
 
 		$categories_RET = DBGet( "SELECT ID,TITLE,INCLUDE
-			FROM STAFF_FIELD_CATEGORIES
+			FROM staff_field_categories
 			WHERE " . ( $profile ? mb_strtoupper( $profile ) . '=\'Y\'' : 'ID=\'1\'' ) . "
 			ORDER BY SORT_ORDER,TITLE" );
 

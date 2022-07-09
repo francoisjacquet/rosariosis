@@ -124,7 +124,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 		$tmp_menu['Students'][$xprofile][$file] = ' &nbsp; &nbsp; &rsaquo; ' . $category['TITLE'];
 	}
 
-	$categories_RET = DBGet( "SELECT ID,TITLE FROM STAFF_FIELD_CATEGORIES" );
+	$categories_RET = DBGet( "SELECT ID,TITLE FROM staff_field_categories" );
 
 	foreach ( (array) $categories_RET as $category )
 	{
@@ -475,7 +475,7 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 						}
 
 						$categories_RET = DBGet( "SELECT ID,TITLE
-							FROM STAFF_FIELD_CATEGORIES
+							FROM staff_field_categories
 							WHERE " . $categories_profiles_where .
 							" ORDER BY SORT_ORDER,TITLE" );
 

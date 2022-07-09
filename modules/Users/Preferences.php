@@ -734,7 +734,7 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		$custom_fields_sql = "SELECT sfc.TITLE AS CATEGORY,cf.ID,cf.TITLE,cf.TYPE,
 				'' AS STAFF_SEARCH,'' AS STAFF_DISPLAY
-			FROM staff_fields cf,STAFF_FIELD_CATEGORIES sfc
+			FROM staff_fields cf,staff_field_categories sfc
 			WHERE sfc.ID=cf.CATEGORY_ID
 			AND (SELECT CAN_USE
 				FROM " .
@@ -763,7 +763,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		// User Fields: search Email Address & Phone.
 		$general_info_category_title = DBGetOne( "SELECT sfc.TITLE
-			FROM STAFF_FIELD_CATEGORIES sfc
+			FROM staff_field_categories sfc
 			WHERE sfc.ID=1" );
 
 		if ( isset( $custom_fields_RET[$general_info_category_title] ) )
