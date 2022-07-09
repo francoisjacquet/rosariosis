@@ -215,7 +215,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 	if ( empty( $_REQUEST['print_statements'] ) )
 	{
 		$payments_total = DBGetOne( "SELECT SUM(p.AMOUNT) AS TOTAL
-			FROM ACCOUNTING_PAYMENTS p
+			FROM accounting_payments p
 			WHERE p.STAFF_ID='" . UserStaffID() . "'
 			AND p.SYEAR='" . UserSyear() . "'
 			AND p.SCHOOL_ID='" . UserSchool() . "'" );

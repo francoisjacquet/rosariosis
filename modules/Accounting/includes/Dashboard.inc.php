@@ -56,7 +56,7 @@ if ( ! function_exists( 'DashboardAccountingAdmin' ) )
 
 		$expenses_RET = DBGet( "SELECT CAST(PAYMENT_DATE AS varchar(7)) AS YEAR_MONTH,
 			SUM(CASE WHEN STAFF_ID IS NULL THEN AMOUNT END) AS TOTAL_EXPENSES
-			FROM ACCOUNTING_PAYMENTS
+			FROM accounting_payments
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			GROUP BY YEAR_MONTH
@@ -65,7 +65,7 @@ if ( ! function_exists( 'DashboardAccountingAdmin' ) )
 
 		$staff_payments_RET = DBGet( "SELECT CAST(PAYMENT_DATE AS varchar(7)) AS YEAR_MONTH,
 			SUM(CASE WHEN STAFF_ID IS NOT NULL THEN AMOUNT END) AS TOTAL_STAFF
-			FROM ACCOUNTING_PAYMENTS
+			FROM accounting_payments
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			GROUP BY YEAR_MONTH

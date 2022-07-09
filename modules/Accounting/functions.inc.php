@@ -149,7 +149,7 @@ function _makePaymentsCommentsInput( $value, $name )
 		WHERE STAFF_ID='" . UserStaffID() . "'
 		AND SYEAR='" . UserSyear() . "'
 		AND NOT EXISTS(SELECT 1
-			FROM ACCOUNTING_PAYMENTS
+			FROM accounting_payments
 			WHERE STAFF_ID='" . UserStaffID() . "'
 			AND SYEAR='" . UserSyear() . "'
 			AND AMOUNT=sal.AMOUNT

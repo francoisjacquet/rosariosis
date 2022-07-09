@@ -9,7 +9,7 @@ $extra['SELECT'] = ",(COALESCE(
 		AND f.SYEAR=s.SYEAR),0)
 	-COALESCE(
 	(SELECT SUM(p.AMOUNT)
-		FROM ACCOUNTING_PAYMENTS p
+		FROM accounting_payments p
 		WHERE p.STAFF_ID=s.STAFF_ID
 		AND p.SCHOOL_ID='" . UserSchool() . "'
 		AND p.SYEAR=s.SYEAR)

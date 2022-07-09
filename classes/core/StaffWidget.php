@@ -364,7 +364,7 @@ class StaffWidget_staff_balance implements StaffWidget
 		}
 
 		$extra['WHERE'] .= " AND (coalesce((SELECT sum(p.AMOUNT)
-				FROM ACCOUNTING_PAYMENTS p
+				FROM accounting_payments p
 				WHERE p.STAFF_ID=s.STAFF_ID
 				AND p.SYEAR=s.SYEAR),0)
 			-coalesce((SELECT sum(f.AMOUNT)

@@ -77,7 +77,7 @@ if ( ! isset( $_REQUEST['accounting'] )
 	AND '" . $end_date . "'", $extra['functions'] );
 
 	$payments_SQL = "SELECT " . $name_col_sql . "'' AS CREDIT,p.AMOUNT AS DEBIT,COALESCE(p.COMMENTS,'') AS EXPLANATION,p.PAYMENT_DATE AS DATE,p.ID AS ID
-	FROM ACCOUNTING_PAYMENTS p
+	FROM accounting_payments p
 	WHERE p.SYEAR='" . UserSyear() . "'
 	AND p.SCHOOL_ID='" . UserSchool() . "'
 	AND p.PAYMENT_DATE BETWEEN '" . $start_date . "'
@@ -139,7 +139,7 @@ if ( ! empty( $_REQUEST['staff_payroll'] ) )
 
 	$staff_payments_extra['SELECT'] .= ",'' AS CREDIT,p.AMOUNT AS DEBIT,COALESCE(p.COMMENTS,' ') AS EXPLANATION,p.PAYMENT_DATE AS DATE,p.ID AS ID";
 
-	$staff_payments_extra['FROM'] .= ',ACCOUNTING_PAYMENTS p';
+	$staff_payments_extra['FROM'] .= ',accounting_payments p';
 
 	$staff_payments_extra['WHERE'] .= " AND p.STAFF_ID=s.STAFF_ID
 		AND p.SYEAR=s.SYEAR

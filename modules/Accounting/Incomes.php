@@ -196,7 +196,7 @@ if ( ! $_REQUEST['modfunc'] )
 	echo '<br />';
 
 	$payments_total = DBGetOne( "SELECT SUM(p.AMOUNT) AS TOTAL
-		FROM ACCOUNTING_PAYMENTS p
+		FROM accounting_payments p
 		WHERE p.STAFF_ID IS NULL
 		AND p.SYEAR='" . UserSyear() . "'
 		AND p.SCHOOL_ID='" . UserSchool() . "'" );
@@ -227,7 +227,7 @@ if ( ! $_REQUEST['modfunc'] )
 	$table .= '<tr><td>' . _( 'Less' ) . ': ' . _( 'Total from Expenses' ) . ': ' . '</td><td>' . Currency( $payments_total ) . '</td></tr>';
 
 	$staff_payments_total = DBGetOne( "SELECT SUM(p.AMOUNT) AS TOTAL
-		FROM ACCOUNTING_PAYMENTS p
+		FROM accounting_payments p
 		WHERE p.STAFF_ID IS NOT NULL
 		AND p.SYEAR='" . UserSyear() . "'
 		AND p.SCHOOL_ID='" . UserSchool() . "'" );
