@@ -627,7 +627,7 @@ else
 
 	// Other Student Field Categories
 	$categories_RET = DBGet( "SELECT ID,TITLE
-		FROM STUDENT_FIELD_CATEGORIES
+		FROM student_field_categories
 		ORDER BY SORT_ORDER,TITLE" );
 
 	$custom_RET = DBGet( "SELECT TITLE,ID,TYPE,CATEGORY_ID

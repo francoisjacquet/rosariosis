@@ -29,7 +29,7 @@ if ( $_REQUEST['modfunc'] === 'save'
 			require_once 'ProgramFunctions/StudentsUsersInfo.fnc.php';
 
 			$categories_RET = DBGet( "SELECT ID,TITLE,INCLUDE
-				FROM STUDENT_FIELD_CATEGORIES
+				FROM student_field_categories
 				ORDER BY SORT_ORDER,TITLE", [], [ 'ID' ] );
 
 			// get the address and contacts custom fields, create the select lists and expand select and codeds options
@@ -305,7 +305,7 @@ if ( ! $_REQUEST['modfunc'] )
 		}
 
 		$categories_RET = DBGet( "SELECT ID,TITLE,INCLUDE
-			FROM STUDENT_FIELD_CATEGORIES
+			FROM student_field_categories
 			ORDER BY SORT_ORDER,TITLE" );
 
 		$extra['extra_header_right'] = '<table>';

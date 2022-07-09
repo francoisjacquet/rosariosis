@@ -220,14 +220,14 @@ if ( ! $_REQUEST['modfunc'] )
 		else
 		{
 			$fields_RET = DBGet( "SELECT f.ID,f.TITLE,f.TYPE,f.SELECT_OPTIONS
-				FROM custom_fields f,STUDENT_FIELD_CATEGORIES c
+				FROM custom_fields f,student_field_categories c
 				WHERE f.CATEGORY_ID=c.ID
 				ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE", [], [ 'TYPE' ] );
 		}
 
 		// Only display Categories having fields.
 		$categories_RET = DBGet( "SELECT sfc.ID,sfc.TITLE
-			FROM STUDENT_FIELD_CATEGORIES sfc
+			FROM student_field_categories sfc
 			WHERE EXISTS(SELECT 1 FROM custom_fields cf
 				WHERE cf.CATEGORY_ID=sfc.ID)
 			ORDER BY sfc.SORT_ORDER,sfc.TITLE" );

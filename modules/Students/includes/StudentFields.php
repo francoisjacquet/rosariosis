@@ -93,7 +93,7 @@ if ( isset( $_POST['tables'] )
 						$values = "'" . $_REQUEST['category_id'] . "',";
 					}
 					// New Category.
-					elseif ( $table === 'STUDENT_FIELD_CATEGORIES' )
+					elseif ( $table === 'student_field_categories' )
 					{
 						$fields = '';
 
@@ -131,7 +131,7 @@ if ( isset( $_POST['tables'] )
 
 							$_REQUEST['id'] = $id;
 						}
-						elseif ( $table === 'STUDENT_FIELD_CATEGORIES' )
+						elseif ( $table === 'student_field_categories' )
 						{
 							// Add to profile or permissions of user creating it.
 							if ( User( 'PROFILE_ID' ) )
@@ -215,7 +215,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$RET = DBGet( "SELECT ID,CATEGORY_ID,TITLE,TYPE,SELECT_OPTIONS,
 			DEFAULT_SELECTION,SORT_ORDER,REQUIRED,
 			(SELECT TITLE
-				FROM STUDENT_FIELD_CATEGORIES
+				FROM student_field_categories
 				WHERE ID=CATEGORY_ID) AS CATEGORY_TITLE
 			FROM custom_fields
 			WHERE ID='" . (int) $_REQUEST['id'] . "'" );
@@ -229,7 +229,7 @@ if ( ! $_REQUEST['modfunc'] )
 		&& $_REQUEST['id'] !== 'new' )
 	{
 		$RET = DBGet( "SELECT ID AS CATEGORY_ID,TITLE,SORT_ORDER,INCLUDE,COLUMNS
-			FROM STUDENT_FIELD_CATEGORIES
+			FROM student_field_categories
 			WHERE ID='" . (int) $_REQUEST['category_id'] . "'" );
 
 		$RET = $RET[1];
@@ -285,7 +285,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	// CATEGORIES.
 	$categories_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER
-		FROM STUDENT_FIELD_CATEGORIES
+		FROM student_field_categories
 		ORDER BY SORT_ORDER,TITLE" );
 
 	// DISPLAY THE MENU.

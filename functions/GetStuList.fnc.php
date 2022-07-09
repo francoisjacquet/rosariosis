@@ -114,7 +114,7 @@ function GetStuList( &$extra = [] )
 		}
 
 		$view_fields_RET = DBGet( "SELECT cf.ID,cf.TYPE,cf.TITLE
-			FROM custom_fields cf,STUDENT_FIELD_CATEGORIES sfc
+			FROM custom_fields cf,student_field_categories sfc
 			WHERE ((SELECT VALUE
 				FROM PROGRAM_USER_CONFIG
 				WHERE TITLE=cast(cf.ID AS TEXT)

@@ -116,7 +116,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 {
 	$tmp_menu = $menu;
 
-	$categories_RET = DBGet( "SELECT ID,TITLE FROM STUDENT_FIELD_CATEGORIES" );
+	$categories_RET = DBGet( "SELECT ID,TITLE FROM student_field_categories" );
 
 	foreach ( (array) $categories_RET as $category )
 	{
@@ -433,7 +433,7 @@ if ( $_REQUEST['modfunc'] != 'delete' )
 						&& $file === 'Students/Student.php' )
 					{
 						$categories_RET = DBGet( "SELECT ID,TITLE
-							FROM STUDENT_FIELD_CATEGORIES
+							FROM student_field_categories
 							ORDER BY SORT_ORDER,TITLE" );
 
 						foreach ( (array) $categories_RET as $category )

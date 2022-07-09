@@ -344,7 +344,7 @@ function Search( $type, $extra = null )
 			{
 				$categories_SQL = "SELECT sfc.ID,sfc.TITLE AS CATEGORY_TITLE,
 				CONCAT('CUSTOM_', cf.ID) AS COLUMN_NAME,cf.TYPE,cf.TITLE,SELECT_OPTIONS
-				FROM STUDENT_FIELD_CATEGORIES sfc,custom_fields cf
+				FROM student_field_categories sfc,custom_fields cf
 				WHERE (SELECT CAN_USE
 					FROM " . ( User( 'PROFILE_ID' ) ?
 						"PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
@@ -391,7 +391,7 @@ function Search( $type, $extra = null )
 			{
 				// Student Fields: search Username.
 				$general_info_category_title = ParseMLField( DBGetOne( "SELECT sfc.TITLE
-					FROM STUDENT_FIELD_CATEGORIES sfc
+					FROM student_field_categories sfc
 					WHERE sfc.ID=1" ) );
 
 				$i = empty( $categories_RET[1]['text'] ) ? 1 : count( $categories_RET[1]['text'] );

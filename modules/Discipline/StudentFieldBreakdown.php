@@ -260,7 +260,7 @@ if ( ! $_REQUEST['modfunc'] )
 		ORDER BY SORT_ORDER,TITLE", [], [ 'CATEGORY_ID' ] );
 
 	$categories_RET = DBGet( "SELECT ID,TITLE
-		FROM STUDENT_FIELD_CATEGORIES", [], [ 'ID' ] );
+		FROM student_field_categories", [], [ 'ID' ] );
 
 	$select = '<select name="field_id" id="field_id" onchange="ajaxPostForm(this.form,true);">';
 

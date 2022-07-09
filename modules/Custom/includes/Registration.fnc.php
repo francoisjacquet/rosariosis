@@ -484,7 +484,7 @@ function RegistrationStudentFields( $name, $categories )
 	foreach ( (array) $category_ids as $category_id )
 	{
 		$category_title = DBGetOne( "SELECT TITLE
-			FROM STUDENT_FIELD_CATEGORIES
+			FROM student_field_categories
 			WHERE ID='" . (int) $category_id . "'" );
 
 		echo '<br /><fieldset class="cellpadding-5"><legend>' . ParseMLField( $category_title ) . '</legend>';

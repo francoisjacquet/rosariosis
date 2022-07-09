@@ -553,7 +553,7 @@ else
 		if ( $_REQUEST['tab'] === 'students' )
 		{
 			$addresses_contacts_cat_title = DBGetOne( "SELECT TITLE
-				FROM STUDENT_FIELD_CATEGORIES
+				FROM student_field_categories
 				WHERE ID='3'" );
 
 			echo '<table class="cellpadding-5"><tr><td><fieldset><legend>' .

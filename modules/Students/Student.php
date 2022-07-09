@@ -53,7 +53,7 @@ else
 	else
 	{
 		$category_include = DBGet( "SELECT INCLUDE
-			FROM STUDENT_FIELD_CATEGORIES
+			FROM student_field_categories
 			WHERE ID='" . (int) $_REQUEST['category_id'] . "'" );
 
 		if ( ! empty( $category_include ) )
@@ -677,9 +677,9 @@ if (  ( UserStudentID()
 	}
 
 	//FJ General_Info only for new student
-	//$categories_RET = DBGet( "SELECT ID,TITLE,INCLUDE FROM STUDENT_FIELD_CATEGORIES ORDER BY SORT_ORDER,TITLE" );
+	//$categories_RET = DBGet( "SELECT ID,TITLE,INCLUDE FROM student_field_categories ORDER BY SORT_ORDER,TITLE" );
 	$categories_RET = DBGet( "SELECT ID,TITLE,INCLUDE
-		FROM STUDENT_FIELD_CATEGORIES
+		FROM student_field_categories
 		WHERE " . ( $_REQUEST['student_id'] !== 'new' ? 'TRUE' : "ID='1'" ) .
 		" ORDER BY SORT_ORDER,TITLE" );
 

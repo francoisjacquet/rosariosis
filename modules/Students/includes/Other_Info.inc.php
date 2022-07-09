@@ -2,7 +2,7 @@
 require_once 'ProgramFunctions/StudentsUsersInfo.fnc.php';
 
 $columns = DBGetOne( "SELECT COLUMNS
-	FROM STUDENT_FIELD_CATEGORIES
+	FROM student_field_categories
 	WHERE ID='" . (int) $_REQUEST['category_id'] . "'" );
 
 $fields_RET = DBGet( "SELECT ID,TITLE,TYPE,SELECT_OPTIONS,DEFAULT_SELECTION,REQUIRED

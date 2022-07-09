@@ -486,7 +486,7 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		$custom_fields_sql = "SELECT sfc.TITLE AS CATEGORY,cf.ID,cf.TITLE,cf.TYPE,
 				'' AS SEARCH,'' AS DISPLAY
-			FROM custom_fields cf,STUDENT_FIELD_CATEGORIES sfc
+			FROM custom_fields cf,student_field_categories sfc
 			WHERE sfc.ID=cf.CATEGORY_ID
 			AND (SELECT CAN_USE FROM " .
 			( User( 'PROFILE_ID' ) ?
@@ -514,7 +514,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 		// Student Fields: search Username.
 		$general_info_category_title = DBGetOne( "SELECT sfc.TITLE
-			FROM STUDENT_FIELD_CATEGORIES sfc
+			FROM student_field_categories sfc
 			WHERE sfc.ID=1" );
 
 		if ( ! isset( $custom_fields_RET[$general_info_category_title] ) )

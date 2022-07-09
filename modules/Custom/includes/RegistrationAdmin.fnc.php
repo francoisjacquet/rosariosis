@@ -527,7 +527,7 @@ function RegistrationAdminStudentFields( $name, $fields )
 {
 	// Categories having Fields.
 	$fields_options_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER
-		FROM STUDENT_FIELD_CATEGORIES sfc
+		FROM student_field_categories sfc
 		WHERE EXISTS(SELECT 1 FROM custom_fields
 			WHERE CATEGORY_ID=sfc.ID)
 		ORDER BY SORT_ORDER" );
