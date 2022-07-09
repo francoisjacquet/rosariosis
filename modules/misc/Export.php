@@ -603,7 +603,7 @@ else
 			}
 
 			$categories_RET = DBGet( "SELECT ID,TITLE
-				FROM ADDRESS_FIELD_CATEGORIES
+				FROM address_field_categories
 				ORDER BY SORT_ORDER,TITLE" );
 
 			$address_RET = DBGet( "SELECT TITLE,ID,TYPE,CATEGORY_ID

@@ -1466,7 +1466,7 @@ if ( ! $_REQUEST['modfunc'] )
 		{
 			$categories_RET = DBGet( "SELECT c.ID AS CATEGORY_ID,c.TITLE AS CATEGORY_TITLE,
 				c.RESIDENCE,c.MAILING,c.BUS,f.ID,f.TITLE,f.TYPE,f.SELECT_OPTIONS,f.DEFAULT_SELECTION,f.REQUIRED
-				FROM ADDRESS_FIELD_CATEGORIES c,address_fields f
+				FROM address_field_categories c,address_fields f
 				WHERE f.CATEGORY_ID=c.ID
 				ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE", [], [ 'CATEGORY_ID' ] );
 

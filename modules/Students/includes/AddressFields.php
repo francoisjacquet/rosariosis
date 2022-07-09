@@ -71,7 +71,7 @@ if ( isset( $_POST['tables'] )
 						$values = "'" . $_REQUEST['category_id'] . "',";
 					}
 					// New Category.
-					elseif ( $table === 'ADDRESS_FIELD_CATEGORIES' )
+					elseif ( $table === 'address_field_categories' )
 					{
 						$fields = '';
 
@@ -109,7 +109,7 @@ if ( isset( $_POST['tables'] )
 
 							$_REQUEST['id'] = $id;
 						}
-						elseif ( $table === 'ADDRESS_FIELD_CATEGORIES' )
+						elseif ( $table === 'address_field_categories' )
 						{
 							$_REQUEST['category_id'] = $id;
 						}
@@ -172,7 +172,7 @@ if ( ! $_REQUEST['modfunc'] )
 		$RET = DBGet( "SELECT ID,CATEGORY_ID,TITLE,TYPE,SELECT_OPTIONS,
 			DEFAULT_SELECTION,SORT_ORDER,REQUIRED,
 			(SELECT TITLE
-				FROM ADDRESS_FIELD_CATEGORIES
+				FROM address_field_categories
 				WHERE ID=CATEGORY_ID) AS CATEGORY_TITLE
 			FROM address_fields
 			WHERE ID='" . (int) $_REQUEST['id'] . "'" );
@@ -186,7 +186,7 @@ if ( ! $_REQUEST['modfunc'] )
 		&& $_REQUEST['id'] !== 'new' )
 	{
 		$RET = DBGet( "SELECT ID AS CATEGORY_ID,TITLE,RESIDENCE,MAILING,BUS,SORT_ORDER
-			FROM ADDRESS_FIELD_CATEGORIES
+			FROM address_field_categories
 			WHERE ID='" . (int) $_REQUEST['category_id'] . "'" );
 
 		$RET = $RET[1];
@@ -258,7 +258,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	// CATEGORIES.
 	$categories_RET = DBGet( "SELECT ID,TITLE,SORT_ORDER
-		FROM ADDRESS_FIELD_CATEGORIES
+		FROM address_field_categories
 		ORDER BY SORT_ORDER,TITLE" );
 
 	// DISPLAY THE MENU.

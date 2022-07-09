@@ -50,7 +50,7 @@ if ( empty( $email_column ) )
 		ORDER BY f.CATEGORY_ID, f.SORT_ORDER" );
 
 	$address_columns = DBGet( "SELECT 'a.CUSTOM_' || f.ID AS COLUMN, f.TITLE, c.TITLE AS CATEGORY
-		FROM address_fields f, ADDRESS_FIELD_CATEGORIES c
+		FROM address_fields f, address_field_categories c
 		WHERE f.TYPE='text'
 		AND c.ID=f.CATEGORY_ID
 		ORDER BY f.CATEGORY_ID, f.SORT_ORDER" );
