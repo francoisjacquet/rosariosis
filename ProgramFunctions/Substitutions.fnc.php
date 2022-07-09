@@ -132,15 +132,17 @@ function SubstitutionsTextMake( $substitutions, $text )
  *
  * @since 5.5
  *
- * @param  string $table STUDENT, STAFF, SCHOOL...
+ * @param  string $table student, staff, school...
  *
  * @return array         Custom fields array from DB.
  */
 function _substitutionsDBGetCustomFields( $table )
 {
-	$table_name = ( $table === 'STUDENT' ? 'CUSTOM' : $table ) . '_FIELDS';
+	$table = mb_strtolower( $table );
 
-	$has_categories = [ 'STUDENT', 'ADDRESS', 'PEOPLE', 'STAFF' ];
+	$table_name = ( $table === 'student' ? 'custom' : $table ) . '_fields';
+
+	$has_categories = [ 'student', 'address', 'people', 'staff' ];
 
 	if ( ! in_array( $table, $has_categories ) )
 	{
@@ -150,19 +152,19 @@ function _substitutionsDBGetCustomFields( $table )
 			ORDER BY SORT_ORDER,TITLE" );
 	}
 
-	$category_table_name = $table . '_FIELD_CATEGORIES';
+	$category_table_name = $table . '_field_categories';
 
 	$profile_category_sql = '';
 
 	if ( User( 'STAFF_ID' )
-		&& ( $table === 'STUDENT' || $table === 'STAFF' ) )
+		&& ( $table === 'student' || $table === 'staff' ) )
 	{
 		// Only get fields in categories which user profile can access.
 		$profile_category_sql = " AND (SELECT CAN_USE FROM " .
 		( User( 'PROFILE_ID' ) ?
 			"PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
 			"STAFF_EXCEPTIONS WHERE USER_ID='" . User( 'STAFF_ID' ) . "'" ) .
-		" AND MODNAME=CONCAT('" . ( $table === 'STUDENT' ? 'Students/Student.php' : 'Users/User.php' ) .
+		" AND MODNAME=CONCAT('" . ( $table === 'student' ? 'Students/Student.php' : 'Users/User.php' ) .
 		"&category_id=', f.CATEGORY_ID)
 		LIMIT 1)='Y'";
 	}
@@ -179,11 +181,11 @@ function _substitutionsDBGetCustomFields( $table )
  *
  * @since 5.5
  *
- * @example $substitutions += SubstitutionsCustomFields( 'STUDENT' );
+ * @example $substitutions += SubstitutionsCustomFields( 'student' );
  *
  * @uses _substitutionsDBGetCustomFields()
  *
- * @param array $table STUDENT, STAFF, SCHOOL...
+ * @param array $table student, staff, school...
  *
  * @return array       Substitution code as key and Field title as value.
  */
@@ -196,7 +198,7 @@ function SubstitutionsCustomFields( $table )
 	foreach ( $fields as $field )
 	{
 		// TODO instert CATEGORY as separator..., SelectInput() not ready for it yet.
-		$code = '__' . $table . '_' . $field['ID'] . '__';
+		$code = '__' . mb_strtoupper( $table ) . '_' . $field['ID'] . '__';
 
 		$custom_fields[ $code ] = ParseMLField( $field['TITLE'] );
 	}
@@ -210,11 +212,11 @@ function SubstitutionsCustomFields( $table )
  *
  * @since 5.5
  *
- * @example $substitutions += SubstitutionsCustomFieldsValues( 'STUDENT', $student );
+ * @example $substitutions += SubstitutionsCustomFieldsValues( 'student', $student );
  *
  * @uses _substitutionsDBGetCustomFields()
  *
- * @param staing $table  STUDENT, STAFF, SCHOOL...
+ * @param string $table  student, staff, school...
  * @param array  $values Custom field values from DB, for current student, user, school...
  *
  * @return array         Substitution code as key and formatted Field value as value.
@@ -241,7 +243,7 @@ function SubstitutionsCustomFieldsValues( $table, $values )
 			continue;
 		}
 
-		$code = '__' . str_replace( 'CUSTOM', $table, $column ) . '__';
+		$code = '__' . str_replace( 'CUSTOM', mb_strtoupper( $table ), $column ) . '__';
 
 		$custom_values[ $code ] = $value = $values[ $column ];
 
