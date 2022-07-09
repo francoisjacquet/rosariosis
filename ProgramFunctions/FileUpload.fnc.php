@@ -362,6 +362,8 @@ function FilesUploadUpdate( $table, $request, $path )
 		return '';
 	}
 
+	$table = mb_strtolower( $table );
+
 	$new_file = '';
 
 	foreach ( $_FILES as $input => $file )
