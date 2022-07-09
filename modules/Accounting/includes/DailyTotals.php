@@ -74,7 +74,7 @@ if ( ! empty( $_REQUEST['staff_payroll'] ) )
 		AND p.SYEAR=s.SYEAR" );
 
 	$staffpayroll_incomes = DBGetOne( "SELECT sum(f.AMOUNT) AS AMOUNT
-		FROM ACCOUNTING_SALARIES f, STAFF s
+		FROM accounting_salaries f, STAFF s
 		WHERE f.SYEAR='" . UserSyear() . "'
 		AND s.SYEAR=f.SYEAR
 		AND f.SCHOOL_ID='" . UserSchool() . "'

@@ -145,7 +145,7 @@ function _makePaymentsCommentsInput( $value, $name )
 
 	// Add Salaries dropdown to reconcile Payment.
 	$salaries_RET = DBGet( "SELECT ID,TITLE,ASSIGNED_DATE,DUE_DATE,AMOUNT
-		FROM ACCOUNTING_SALARIES sal
+		FROM accounting_salaries sal
 		WHERE STAFF_ID='" . UserStaffID() . "'
 		AND SYEAR='" . UserSyear() . "'
 		AND NOT EXISTS(SELECT 1

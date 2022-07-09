@@ -27,7 +27,7 @@ if ( ! empty( $_REQUEST['values'] )
 	{
 		if ( $id !== 'new' )
 		{
-			$sql = "UPDATE ACCOUNTING_SALARIES SET ";
+			$sql = "UPDATE accounting_salaries SET ";
 
 			foreach ( (array) $columns as $column => $value )
 			{
@@ -41,7 +41,7 @@ if ( ! empty( $_REQUEST['values'] )
 		// New: check for Title
 		elseif ( $columns['TITLE'] )
 		{
-			$sql = "INSERT INTO ACCOUNTING_SALARIES ";
+			$sql = "INSERT INTO accounting_salaries ";
 
 			$fields = 'STAFF_ID,SCHOOL_ID,SYEAR,ASSIGNED_DATE,';
 			$values = "'" . UserStaffID() . "','" . UserSchool() . "','" . UserSyear() . "','" . DBDate() . "',";
@@ -98,7 +98,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	if ( DeletePrompt( _( 'Salary' ) ) )
 	{
 		$file_attached = DBGetOne( "SELECT FILE_ATTACHED
-			FROM ACCOUNTING_SALARIES
+			FROM accounting_salaries
 			WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 		if ( ! empty( $file_attached )
@@ -108,7 +108,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 			unlink( $file_attached );
 		}
 
-		DBQuery( "DELETE FROM ACCOUNTING_SALARIES
+		DBQuery( "DELETE FROM accounting_salaries
 			WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 		// Unset modfunc & ID & redirect URL.
@@ -130,7 +130,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 
 	$salaries_RET = DBGet( "SELECT '' AS REMOVE,f.ID,f.TITLE,f.ASSIGNED_DATE,f.DUE_DATE,f.COMMENTS,
 		f.AMOUNT,f.FILE_ATTACHED
-		FROM ACCOUNTING_SALARIES f
+		FROM accounting_salaries f
 		WHERE f.STAFF_ID='" . UserStaffID() . "'
 		AND f.SYEAR='" . UserSyear() . "'
 		AND f.SCHOOL_ID='" . UserSchool() . "'

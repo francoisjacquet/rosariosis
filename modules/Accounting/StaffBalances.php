@@ -3,7 +3,7 @@ DrawHeader( ProgramTitle() );
 
 $extra['SELECT'] = ",(COALESCE(
 	(SELECT SUM(f.AMOUNT)
-		FROM ACCOUNTING_SALARIES f
+		FROM accounting_salaries f
 		WHERE f.STAFF_ID=s.STAFF_ID
 		AND f.SCHOOL_ID='" . UserSchool() . "'
 		AND f.SYEAR=s.SYEAR),0)

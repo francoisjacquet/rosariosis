@@ -368,7 +368,7 @@ class StaffWidget_staff_balance implements StaffWidget
 				WHERE p.STAFF_ID=s.STAFF_ID
 				AND p.SYEAR=s.SYEAR),0)
 			-coalesce((SELECT sum(f.AMOUNT)
-				FROM ACCOUNTING_SALARIES f
+				FROM accounting_salaries f
 				WHERE f.STAFF_ID=s.STAFF_ID
 				AND f.SYEAR=s.SYEAR),0))
 			BETWEEN '" . $_REQUEST['balance_low'] . "'

@@ -115,7 +115,7 @@ if ( ! empty( $_REQUEST['staff_payroll'] ) )
 
 	$salaries_extra['SELECT'] .= $name_col_sql . ",'' AS DEBIT,f.AMOUNT AS CREDIT,CONCAT(f.TITLE,' ',COALESCE(f.COMMENTS,'')) AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID";
 
-	$salaries_extra['FROM'] .= ',ACCOUNTING_SALARIES f';
+	$salaries_extra['FROM'] .= ',accounting_salaries f';
 
 	$salaries_extra['WHERE'] .= " AND f.STAFF_ID=s.STAFF_ID
 		AND f.SYEAR=s.SYEAR

@@ -349,7 +349,7 @@ Changes in 8.1
 - Fix Conflict Warning displayed twice in Courses.php
 - Fix PHP Notice Undefined index in miscExport.fnc.php
 - Fix SQL error when Student / Staff ID is hacked / not an integer in URL in Current.php
-- SQL ACCOUNTING_SALARIES table: Add FILE_ATTACHED column in Update.fnc.php & rosariosis.sql
+- SQL accounting_salaries table: Add FILE_ATTACHED column in Update.fnc.php & rosariosis.sql
 - Add File Attached to Salaries in Salaries.php & Accounting/functions.inc.php
 - SQL BILLING_FEES table: Add FILE_ATTACHED column in Update.fnc.php & rosariosis.sql
 - Add File Attached to Fees in StudentFees.php & Student_Billing/functions.inc.php

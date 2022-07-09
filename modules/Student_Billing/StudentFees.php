@@ -91,7 +91,7 @@ if ( $_REQUEST['modfunc'] === 'remove'
 	if ( DeletePrompt( _( 'Fee' ) ) )
 	{
 		$file_attached = DBGetOne( "SELECT FILE_ATTACHED
-			FROM ACCOUNTING_SALARIES
+			FROM accounting_salaries
 			WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 		if ( ! empty( $file_attached )

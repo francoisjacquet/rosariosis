@@ -206,7 +206,7 @@ if ( UserStaffID() && ! $_REQUEST['modfunc'] )
 	echo '<br />';
 
 	$salaries_total = DBGetOne( "SELECT SUM(f.AMOUNT) AS TOTAL
-		FROM ACCOUNTING_SALARIES f
+		FROM accounting_salaries f
 		WHERE f.STAFF_ID='" . UserStaffID() . "'
 		AND f.SYEAR='" . UserSyear() . "'
 		AND f.SCHOOL_ID='" . UserSchool() . "'" );
