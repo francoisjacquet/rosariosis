@@ -304,7 +304,7 @@ function Search( $type, $extra = null )
 			{
 				$categories_SQL = "SELECT sfc.ID,sfc.TITLE AS CATEGORY_TITLE,
 				CONCAT('CUSTOM_', cf.ID) AS COLUMN_NAME,cf.TYPE,cf.TITLE,SELECT_OPTIONS
-				FROM STAFF_FIELD_CATEGORIES sfc,STAFF_FIELDS cf
+				FROM STAFF_FIELD_CATEGORIES sfc,staff_fields cf
 				WHERE (SELECT CAN_USE
 					FROM " . ( User( 'PROFILE_ID' ) ?
 						"PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :
@@ -325,7 +325,7 @@ function Search( $type, $extra = null )
 			{
 				$categories_SQL = "SELECT '0' AS ID,'' AS CATEGORY_TITLE,
 				CONCAT('CUSTOM_', cf.ID) AS COLUMN_NAME,cf.TYPE,cf.TITLE,cf.SELECT_OPTIONS
-				FROM STAFF_FIELDS cf
+				FROM staff_fields cf
 				WHERE (SELECT CAN_USE
 					FROM " . ( User( 'PROFILE_ID' ) ?
 						"PROFILE_EXCEPTIONS WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'" :

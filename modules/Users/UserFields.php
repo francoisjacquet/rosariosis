@@ -88,7 +88,7 @@ if ( isset( $_POST['tables'] )
 					$sql = 'INSERT INTO ' . DBEscapeIdentifier( $table ) . ' ';
 
 					// New Field.
-					if ( $table === 'STAFF_FIELDS' )
+					if ( $table === 'staff_fields' )
 					{
 						if ( isset( $columns['CATEGORY_ID'] ) )
 						{
@@ -134,7 +134,7 @@ if ( isset( $_POST['tables'] )
 					{
 						$id = DBLastInsertID();
 
-						if ( $table === 'STAFF_FIELDS' )
+						if ( $table === 'staff_fields' )
 						{
 							AddDBField( 'STAFF', $id, $columns['TYPE'] );
 
@@ -222,7 +222,7 @@ if ( ! $_REQUEST['modfunc'] )
 			(SELECT TITLE
 				FROM STAFF_FIELD_CATEGORIES
 				WHERE ID=CATEGORY_ID) AS CATEGORY_TITLE
-			FROM STAFF_FIELDS
+			FROM staff_fields
 			WHERE ID='" . (int) $_REQUEST['id'] . "'" );
 
 		$RET = $RET[1];
@@ -356,7 +356,7 @@ if ( ! $_REQUEST['modfunc'] )
 		&& $categories_RET )
 	{
 		$fields_RET = DBGet( "SELECT ID,TITLE,TYPE,SORT_ORDER
-			FROM STAFF_FIELDS
+			FROM staff_fields
 			WHERE CATEGORY_ID='" . (int) $_REQUEST['category_id'] . "'
 			ORDER BY SORT_ORDER,TITLE", [ 'TYPE' => 'MakeFieldType' ] );
 

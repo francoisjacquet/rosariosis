@@ -366,10 +366,10 @@ function _update46beta()
  * Update to version 4.7
  *
  * 1. Convert "Edit Pull-Down" fields to "Auto Pull-Down":
- * ADDRESS_FIELDS, CUSTOM_FIELDS, PEOPLE_FIELDS, school_fields & STAFF_FIELDS tables
+ * ADDRESS_FIELDS, CUSTOM_FIELDS, PEOPLE_FIELDS, school_fields & staff_fields tables
  *
  * 2. Convert "Coded Pull-Down" fields to "Export Pull-Down":
- * ADDRESS_FIELDS, CUSTOM_FIELDS, PEOPLE_FIELDS, school_fields & STAFF_FIELDS tables
+ * ADDRESS_FIELDS, CUSTOM_FIELDS, PEOPLE_FIELDS, school_fields & staff_fields tables
  *
  * 3. Change Pull-Down (Auto & Export), Select Multiple from Options, Text, Long Text columns type to text:
  * ADDRESS, STUDENTS, PEOPLE, SCHOOLS & STAFF tables
@@ -388,26 +388,26 @@ function _update47beta()
 
 	/**
 	 * 1. Convert "Edit Pull-Down" fields to "Auto Pull-Down":
-	 * ADDRESS_FIELDS, CUSTOM_FIELDS, PEOPLE_FIELDS, school_fields & STAFF_FIELDS tables
+	 * ADDRESS_FIELDS, CUSTOM_FIELDS, PEOPLE_FIELDS, school_fields & staff_fields tables
 	 */
 	$sql_convert_fields = "UPDATE ADDRESS_FIELDS SET TYPE='autos' WHERE TYPE='edits';";
 	$sql_convert_fields .= "UPDATE CUSTOM_FIELDS SET TYPE='autos' WHERE TYPE='edits';";
 	$sql_convert_fields .= "UPDATE PEOPLE_FIELDS SET TYPE='autos' WHERE TYPE='edits';";
 	$sql_convert_fields .= "UPDATE school_fields SET TYPE='autos' WHERE TYPE='edits';";
-	$sql_convert_fields .= "UPDATE STAFF_FIELDS SET TYPE='autos' WHERE TYPE='edits';";
+	$sql_convert_fields .= "UPDATE staff_fields SET TYPE='autos' WHERE TYPE='edits';";
 
 	DBQuery( $sql_convert_fields );
 
 
 	/**
 	 * 2. Convert "Coded Pull-Down" fields to "Export Pull-Down":
-	 * ADDRESS_FIELDS, CUSTOM_FIELDS, PEOPLE_FIELDS, school_fields & STAFF_FIELDS tables
+	 * ADDRESS_FIELDS, CUSTOM_FIELDS, PEOPLE_FIELDS, school_fields & staff_fields tables
 	 */
 	$sql_convert_fields = "UPDATE ADDRESS_FIELDS SET TYPE='codeds' WHERE TYPE='exports';";
 	$sql_convert_fields .= "UPDATE CUSTOM_FIELDS SET TYPE='codeds' WHERE TYPE='exports';";
 	$sql_convert_fields .= "UPDATE PEOPLE_FIELDS SET TYPE='codeds' WHERE TYPE='exports';";
 	$sql_convert_fields .= "UPDATE school_fields SET TYPE='codeds' WHERE TYPE='exports';";
-	$sql_convert_fields .= "UPDATE STAFF_FIELDS SET TYPE='codeds' WHERE TYPE='exports';";
+	$sql_convert_fields .= "UPDATE staff_fields SET TYPE='codeds' WHERE TYPE='exports';";
 
 	DBQuery( $sql_convert_fields );
 
@@ -452,7 +452,7 @@ function _update47beta()
 			ALTER COLUMN " . DBEscapeIdentifier( 'CUSTOM_' . $field_column['ID'] ) . " TYPE text;";
 	}
 
-	$fields_column_RET = DBGet( "SELECT ID FROM STAFF_FIELDS WHERE TYPE IN(" . $types . ")" );
+	$fields_column_RET = DBGet( "SELECT ID FROM staff_fields WHERE TYPE IN(" . $types . ")" );
 
 	foreach ( (array) $fields_column_RET as $field_column )
 	{
@@ -1602,7 +1602,7 @@ function _update58beta5()
 /**
  * Update to version 5.9-beta
  *
- * 1. STAFF_FIELDS table:
+ * 1. staff_fields table:
  * Add Email & Phone to Staff Fields.
  * Eventually translate Field Title to Spanish or French.
  *
@@ -1627,10 +1627,10 @@ function _update59beta()
 	$return = true;
 
 	/**
-	 * 1. STAFF_FIELDS table:
+	 * 1. staff_fields table:
 	 * Add Email & Phone to Staff Fields.
 	 */
-	$staff_fields_exist = DBGetOne( "SELECT 1 FROM STAFF_FIELDS
+	$staff_fields_exist = DBGetOne( "SELECT 1 FROM staff_fields
 		WHERE ID='200000000'" );
 
 	if ( ! $staff_fields_exist )

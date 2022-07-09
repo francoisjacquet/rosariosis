@@ -189,10 +189,10 @@ if ( $_REQUEST['modfunc'] === 'update'
 		}
 
 		// FJ other fields required.
-		$required_error = $required_error || CheckRequiredCustomFields( 'STAFF_FIELDS', $_REQUEST['staff'] );
+		$required_error = $required_error || CheckRequiredCustomFields( 'staff_fields', $_REQUEST['staff'] );
 
 		// FJ textarea fields MarkDown sanitize.
-		$_REQUEST['staff'] = FilterCustomFieldsMarkdown( 'STAFF_FIELDS', 'staff' );
+		$_REQUEST['staff'] = FilterCustomFieldsMarkdown( 'staff_fields', 'staff' );
 
 		if ( basename( $_SERVER['PHP_SELF'] ) === 'index.php' )
 		{
@@ -293,7 +293,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				$sql = "UPDATE STAFF SET ";
 
 				$fields_RET = DBGet( "SELECT ID,TYPE
-					FROM STAFF_FIELDS
+					FROM staff_fields
 					ORDER BY SORT_ORDER", [], [ 'ID' ] );
 
 				$go = false;
@@ -378,7 +378,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				}
 
 				$fields_RET = DBGet( "SELECT ID,TYPE
-					FROM STAFF_FIELDS
+					FROM staff_fields
 					ORDER BY SORT_ORDER", [], [ 'ID' ] );
 
 				foreach ( (array) $_REQUEST['staff'] as $column => $value )

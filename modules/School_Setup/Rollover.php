@@ -313,7 +313,7 @@ function Rollover( $table, $mode = 'delete' )
 			}
 
 			$user_custom = '';
-			$fields_RET = DBGet( "SELECT ID FROM STAFF_FIELDS" );
+			$fields_RET = DBGet( "SELECT ID FROM staff_fields" );
 
 			foreach ( (array) $fields_RET as $field )
 			{

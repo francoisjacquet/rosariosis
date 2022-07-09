@@ -670,7 +670,7 @@ function MakeFieldType( $value, $column = '' )
  * Filter Custom (Textarea / Long text) fields' MarkDown
  * Use before inserting/updating Fields.
  *
- * @example $_REQUEST['staff'] = FilterCustomFieldsMarkdown( 'STAFF_FIELDS', 'staff' );
+ * @example $_REQUEST['staff'] = FilterCustomFieldsMarkdown( 'staff_fields', 'staff' );
  *
  * @since 6.0 Add $request_index_3 param.
  *
